@@ -1,0 +1,3648 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: content\n"
+
+msgid "Pages"
+msgstr ""
+
+msgid "add_menu_entry"
+msgstr ""
+
+msgid "all_pages"
+msgstr ""
+
+msgid "citate"
+msgstr ""
+
+msgid "citate_from"
+msgstr ""
+
+msgid "citate_page"
+msgstr ""
+
+msgid "citate_to"
+msgstr ""
+
+msgid "cont_Additional"
+msgstr ""
+
+msgid "cont_AdvancedKnowledge"
+msgstr ""
+
+msgid "cont_Attention"
+msgstr ""
+
+msgid "cont_Background"
+msgstr ""
+
+msgid "cont_Block"
+msgstr ""
+
+msgid "cont_Book"
+msgstr ""
+
+msgid "cont_Circle"
+msgstr ""
+
+msgid "cont_Citation"
+msgstr ""
+
+msgid "cont_Confirmation"
+msgstr ""
+
+msgid "cont_Example"
+msgstr ""
+
+msgid "cont_Excursus"
+msgstr ""
+
+msgid "cont_FileListItem"
+msgstr ""
+
+msgid "cont_Headline1"
+msgstr ""
+
+msgid "cont_Headline2"
+msgstr ""
+
+msgid "cont_Headline3"
+msgstr ""
+
+msgid "cont_Information"
+msgstr ""
+
+msgid "cont_Interaction"
+msgstr ""
+
+msgid "cont_List"
+msgstr ""
+
+msgid "cont_Literature"
+msgstr ""
+
+msgid "cont_Mnemonic"
+msgstr ""
+
+msgid "cont_Numbers"
+msgstr ""
+
+msgid "cont_Poly"
+msgstr ""
+
+msgid "cont_Rect"
+msgstr ""
+
+msgid "cont_Remark"
+msgstr ""
+
+msgid "cont_Separator"
+msgstr ""
+
+msgid "cont_Special"
+msgstr ""
+
+msgid "cont_StandardCenter"
+msgstr ""
+
+msgid "cont_StandardTable"
+msgstr ""
+
+msgid "cont_TableContent"
+msgstr ""
+
+msgid "cont_Verse"
+msgstr ""
+
+msgid "cont_WholePicture"
+msgstr ""
+
+msgid "cont_accented"
+msgstr ""
+
+msgid "cont_act_number"
+msgstr ""
+
+msgid "cont_activate_html"
+msgstr ""
+
+msgid "cont_activate_js"
+msgstr ""
+
+msgid "cont_activate_media"
+msgstr ""
+
+msgid "cont_activate_page"
+msgstr ""
+
+msgid "cont_activated"
+msgstr ""
+
+msgid "cont_activation"
+msgstr ""
+
+msgid "cont_active"
+msgstr ""
+
+msgid "cont_active_areas"
+msgstr ""
+
+msgid "cont_active_from"
+msgstr ""
+
+msgid "cont_active_to"
+msgstr ""
+
+msgid "cont_add_area"
+msgstr ""
+
+msgid "cont_add_cell"
+msgstr ""
+
+msgid "cont_add_elements"
+msgstr ""
+
+msgid "cont_add_file"
+msgstr ""
+
+msgid "cont_add_images"
+msgstr ""
+
+msgid "cont_add_popup"
+msgstr ""
+
+msgid "cont_add_tab"
+msgstr ""
+
+msgid "cont_add_url"
+msgstr ""
+
+msgid "cont_added_cell"
+msgstr ""
+
+msgid "cont_added_comment"
+msgstr ""
+
+msgid "cont_added_tab"
+msgstr ""
+
+msgid "cont_added_term"
+msgstr ""
+
+msgid "cont_adjust_size"
+msgstr ""
+
+msgid "cont_advanced_settings"
+msgstr ""
+
+msgid "cont_align"
+msgstr ""
+
+msgid "cont_alignment"
+msgstr ""
+
+msgid "cont_all_answers_correct"
+msgstr ""
+
+msgid "cont_all_closed"
+msgstr ""
+
+msgid "cont_all_languages"
+msgstr ""
+
+msgid "cont_all_pages"
+msgstr ""
+
+msgid "cont_all_topics"
+msgstr ""
+
+msgid "cont_all_usages"
+msgstr ""
+
+msgid "cont_alphabetic"
+msgstr ""
+
+msgid "cont_alphabetic_s"
+msgstr ""
+
+msgid "cont_always"
+msgstr ""
+
+msgid "cont_anchor"
+msgstr ""
+
+msgid "cont_annex"
+msgstr ""
+
+msgid "cont_anonymous_user_missing_perm"
+msgstr ""
+
+msgid "cont_areas_deleted"
+msgstr ""
+
+msgid "cont_assign_characteristic"
+msgstr ""
+
+msgid "cont_assign_full"
+msgstr ""
+
+msgid "cont_assign_std"
+msgstr ""
+
+msgid "cont_assign_to_parent"
+msgstr ""
+
+msgid "cont_auto_glossaries"
+msgstr ""
+
+msgid "cont_auto_last_visited"
+msgstr ""
+
+msgid "cont_auto_last_visited_info"
+msgstr ""
+
+msgid "cont_auto_suspend"
+msgstr ""
+
+msgid "cont_auto_suspend_info"
+msgstr ""
+
+msgid "cont_auto_time"
+msgstr ""
+
+msgid "cont_autoindent"
+msgstr ""
+
+msgid "cont_automatically_set_store_tries"
+msgstr ""
+
+msgid "cont_autostart"
+msgstr ""
+
+msgid "cont_back"
+msgstr ""
+
+msgid "cont_base_image"
+msgstr ""
+
+msgid "cont_bb_tip"
+msgstr ""
+
+msgid "cont_behavior"
+msgstr ""
+
+msgid "cont_biblio"
+msgstr ""
+
+msgid "cont_biblio_info"
+msgstr ""
+
+msgid "cont_blist"
+msgstr ""
+
+msgid "cont_block_format"
+msgstr ""
+
+msgid "cont_blocked_users"
+msgstr ""
+
+msgid "cont_blocked_users_mail_link"
+msgstr ""
+
+msgid "cont_bottom"
+msgstr ""
+
+msgid "cont_bullet_list"
+msgstr ""
+
+msgid "cont_cach_mode"
+msgstr ""
+
+msgid "cont_cach_mode_automatic"
+msgstr ""
+
+msgid "cont_cach_mode_automatic_info"
+msgstr ""
+
+msgid "cont_cach_mode_manual"
+msgstr ""
+
+msgid "cont_cach_mode_manual_info"
+msgstr ""
+
+msgid "cont_cant_copy_folders"
+msgstr ""
+
+msgid "cont_cant_del_full"
+msgstr ""
+
+msgid "cont_cant_del_std"
+msgstr ""
+
+msgid "cont_caption"
+msgstr ""
+
+msgid "cont_caption_style"
+msgstr ""
+
+msgid "cont_cc_emp"
+msgstr ""
+
+msgid "cont_cc_imp"
+msgstr ""
+
+msgid "cont_cc_str"
+msgstr ""
+
+msgid "cont_cc_sub"
+msgstr ""
+
+msgid "cont_cc_sup"
+msgstr ""
+
+msgid "cont_cell_properties"
+msgstr ""
+
+msgid "cont_center"
+msgstr ""
+
+msgid "cont_change_alignment"
+msgstr ""
+
+msgid "cont_change_notification_salutation"
+msgstr ""
+
+msgid "cont_change_notification_subject_lm"
+msgstr ""
+
+msgid "cont_change_object_reference"
+msgstr ""
+
+msgid "cont_change_style"
+msgstr ""
+
+msgid "cont_change_type"
+msgstr ""
+
+msgid "cont_change_width"
+msgstr ""
+
+msgid "cont_chap_and_pages"
+msgstr ""
+
+msgid "cont_chap_select_target_now"
+msgstr ""
+
+msgid "cont_chapters"
+msgstr ""
+
+msgid "cont_chapters_after_pages"
+msgstr ""
+
+msgid "cont_chapters_and_pages"
+msgstr ""
+
+msgid "cont_chapters_only"
+msgstr ""
+
+msgid "cont_char_format"
+msgstr ""
+
+msgid "cont_char_link"
+msgstr ""
+
+msgid "cont_char_media"
+msgstr ""
+
+msgid "cont_char_style_acc"
+msgstr ""
+
+msgid "cont_char_style_code"
+msgstr ""
+
+msgid "cont_char_style_com"
+msgstr ""
+
+msgid "cont_char_style_quot"
+msgstr ""
+
+msgid "cont_characteristic"
+msgstr ""
+
+msgid "cont_characteristic_table"
+msgstr ""
+
+msgid "cont_check_values"
+msgstr ""
+
+msgid "cont_check_values_info"
+msgstr ""
+
+msgid "cont_choose_characteristic"
+msgstr ""
+
+msgid "cont_choose_characteristic_section"
+msgstr ""
+
+msgid "cont_choose_characteristic_text"
+msgstr ""
+
+msgid "cont_choose_file_source"
+msgstr ""
+
+msgid "cont_choose_from_clipboard"
+msgstr ""
+
+msgid "cont_choose_from_pool"
+msgstr ""
+
+msgid "cont_choose_glo"
+msgstr ""
+
+msgid "cont_choose_lm"
+msgstr ""
+
+msgid "cont_choose_local"
+msgstr ""
+
+msgid "cont_choose_media_pool"
+msgstr ""
+
+msgid "cont_choose_mep"
+msgstr ""
+
+msgid "cont_choose_pages_or_chapters_only"
+msgstr ""
+
+msgid "cont_choose_upload_dir"
+msgstr ""
+
+msgid "cont_choose_wiki"
+msgstr ""
+
+msgid "cont_citation_selection_not_valid"
+msgstr ""
+
+msgid "cont_click_br_corner"
+msgstr ""
+
+msgid "cont_click_center"
+msgstr ""
+
+msgid "cont_click_circle"
+msgstr ""
+
+msgid "cont_click_edit"
+msgstr ""
+
+msgid "cont_click_multi_select"
+msgstr ""
+
+msgid "cont_click_next_or_save"
+msgstr ""
+
+msgid "cont_click_next_point"
+msgstr ""
+
+msgid "cont_click_starting_point"
+msgstr ""
+
+msgid "cont_click_tl_corner"
+msgstr ""
+
+msgid "cont_code_import_file"
+msgstr ""
+
+msgid "cont_code_manual_editing"
+msgstr ""
+
+msgid "cont_colspan"
+msgstr ""
+
+msgid "cont_commented_by"
+msgstr ""
+
+msgid "cont_comments"
+msgstr ""
+
+msgid "cont_comments_info"
+msgstr ""
+
+msgid "cont_confirm_delete"
+msgstr ""
+
+msgid "cont_constrain_proportions"
+msgstr ""
+
+msgid "cont_content"
+msgstr ""
+
+msgid "cont_content_popup"
+msgstr ""
+
+msgid "cont_content_popups"
+msgstr ""
+
+msgid "cont_coords"
+msgstr ""
+
+msgid "cont_copy_question_from_pool"
+msgstr ""
+
+msgid "cont_copy_question_into_page"
+msgstr ""
+
+msgid "cont_copy_to_clipboard"
+msgstr ""
+
+msgid "cont_correct_after_first"
+msgstr ""
+
+msgid "cont_correct_answer_also"
+msgstr ""
+
+msgid "cont_correct_answers_also"
+msgstr ""
+
+msgid "cont_correct_answers_shown"
+msgstr ""
+
+msgid "cont_could_not_determine_resource_size"
+msgstr ""
+
+msgid "cont_could_not_save_duplicate_pc_ids"
+msgstr ""
+
+msgid "cont_cp_question_diff_formats_info"
+msgstr ""
+
+msgid "cont_create_link"
+msgstr ""
+
+msgid "cont_create_mob"
+msgstr ""
+
+msgid "cont_credits"
+msgstr ""
+
+msgid "cont_current_chapter"
+msgstr ""
+
+msgid "cont_current_lang"
+msgstr ""
+
+msgid "cont_current_page"
+msgstr ""
+
+msgid "cont_current_style"
+msgstr ""
+
+msgid "cont_current_term"
+msgstr ""
+
+msgid "cont_current_usages"
+msgstr ""
+
+msgid "cont_current_version"
+msgstr ""
+
+msgid "cont_custom"
+msgstr ""
+
+msgid "cont_custom_menu_entries"
+msgstr ""
+
+msgid "cont_custom_size"
+msgstr ""
+
+msgid "cont_dark"
+msgstr ""
+
+msgid "cont_data_from_lms"
+msgstr ""
+
+msgid "cont_de_activate"
+msgstr ""
+
+msgid "cont_deactivate_html"
+msgstr ""
+
+msgid "cont_deactivate_js"
+msgstr ""
+
+msgid "cont_deactivate_media"
+msgstr ""
+
+msgid "cont_deactivate_page"
+msgstr ""
+
+msgid "cont_deactivated"
+msgstr ""
+
+msgid "cont_debug"
+msgstr ""
+
+msgid "cont_debug_deactivate"
+msgstr ""
+
+msgid "cont_debug_deactivate12"
+msgstr ""
+
+msgid "cont_debug_deactivated"
+msgstr ""
+
+msgid "cont_debugging"
+msgstr ""
+
+msgid "cont_decimal"
+msgstr ""
+
+msgid "cont_def_feedb_activated"
+msgstr ""
+
+msgid "cont_def_feedb_deactivated"
+msgstr ""
+
+msgid "cont_def_layout"
+msgstr ""
+
+msgid "cont_def_lesson_mode"
+msgstr ""
+
+msgid "cont_def_map_areas"
+msgstr ""
+
+msgid "cont_def_organization"
+msgstr ""
+
+msgid "cont_default"
+msgstr ""
+
+msgid "cont_definition"
+msgstr ""
+
+msgid "cont_delete_content"
+msgstr ""
+
+msgid "cont_delete_file_item_confirm"
+msgstr ""
+
+msgid "cont_delete_selected"
+msgstr ""
+
+msgid "cont_delete_style"
+msgstr ""
+
+msgid "cont_delete_track_data"
+msgstr ""
+
+msgid "cont_dependencies"
+msgstr ""
+
+msgid "cont_dir_created"
+msgstr ""
+
+msgid "cont_dir_deleted"
+msgstr ""
+
+msgid "cont_dir_file"
+msgstr ""
+
+msgid "cont_dir_renamed"
+msgstr ""
+
+msgid "cont_disable_def_feedback"
+msgstr ""
+
+msgid "cont_disable_def_feedback_info"
+msgstr ""
+
+msgid "cont_download"
+msgstr ""
+
+msgid "cont_download_title"
+msgstr ""
+
+msgid "cont_drag_and_drop_elements"
+msgstr ""
+
+msgid "cont_drag_element_click_save"
+msgstr ""
+
+msgid "cont_ed_align_center"
+msgstr ""
+
+msgid "cont_ed_align_left"
+msgstr ""
+
+msgid "cont_ed_align_left_float"
+msgstr ""
+
+msgid "cont_ed_align_right"
+msgstr ""
+
+msgid "cont_ed_align_right_float"
+msgstr ""
+
+msgid "cont_ed_atable"
+msgstr ""
+
+msgid "cont_ed_cell_left"
+msgstr ""
+
+msgid "cont_ed_cell_right"
+msgstr ""
+
+msgid "cont_ed_class"
+msgstr ""
+
+msgid "cont_ed_click_to_add_pg"
+msgstr ""
+
+msgid "cont_ed_col_left"
+msgstr ""
+
+msgid "cont_ed_col_right"
+msgstr ""
+
+msgid "cont_ed_copy"
+msgstr ""
+
+msgid "cont_ed_copy_clip"
+msgstr ""
+
+msgid "cont_ed_cut"
+msgstr ""
+
+msgid "cont_ed_delete"
+msgstr ""
+
+msgid "cont_ed_delete_cell"
+msgstr ""
+
+msgid "cont_ed_delete_col"
+msgstr ""
+
+msgid "cont_ed_delete_item"
+msgstr ""
+
+msgid "cont_ed_delete_row"
+msgstr ""
+
+msgid "cont_ed_dtable"
+msgstr ""
+
+msgid "cont_ed_edit"
+msgstr ""
+
+msgid "cont_ed_edit_data"
+msgstr ""
+
+msgid "cont_ed_edit_files"
+msgstr ""
+
+msgid "cont_ed_edit_multiple"
+msgstr ""
+
+msgid "cont_ed_edit_prop"
+msgstr ""
+
+msgid "cont_ed_enable"
+msgstr ""
+
+msgid "cont_ed_flist"
+msgstr ""
+
+msgid "cont_ed_go"
+msgstr ""
+
+msgid "cont_ed_grid_col_width"
+msgstr ""
+
+msgid "cont_ed_grid_col_width_info"
+msgstr ""
+
+msgid "cont_ed_grid_col_widths"
+msgstr ""
+
+msgid "cont_ed_insert_amdfrm"
+msgstr ""
+
+msgid "cont_ed_insert_amdpl"
+msgstr ""
+
+msgid "cont_ed_insert_blog"
+msgstr ""
+
+msgid "cont_ed_insert_cach"
+msgstr ""
+
+msgid "cont_ed_insert_dtab"
+msgstr ""
+
+msgid "cont_ed_insert_flst"
+msgstr ""
+
+msgid "cont_ed_insert_grid"
+msgstr ""
+
+msgid "cont_ed_insert_grid_info"
+msgstr ""
+
+msgid "cont_ed_insert_iim"
+msgstr ""
+
+msgid "cont_ed_insert_incl"
+msgstr ""
+
+msgid "cont_ed_insert_lay"
+msgstr ""
+
+msgid "cont_ed_insert_lhist"
+msgstr ""
+
+msgid "cont_ed_insert_list"
+msgstr ""
+
+msgid "cont_ed_insert_lpe"
+msgstr ""
+
+msgid "cont_ed_insert_map"
+msgstr ""
+
+msgid "cont_ed_insert_mcrs"
+msgstr ""
+
+msgid "cont_ed_insert_media"
+msgstr ""
+
+msgid "cont_ed_insert_par"
+msgstr ""
+
+msgid "cont_ed_insert_pcqst"
+msgstr ""
+
+msgid "cont_ed_insert_plach"
+msgstr ""
+
+msgid "cont_ed_insert_prof"
+msgstr ""
+
+msgid "cont_ed_insert_qover"
+msgstr ""
+
+msgid "cont_ed_insert_repobj"
+msgstr ""
+
+msgid "cont_ed_insert_sec"
+msgstr ""
+
+msgid "cont_ed_insert_skills"
+msgstr ""
+
+msgid "cont_ed_insert_src"
+msgstr ""
+
+msgid "cont_ed_insert_tab"
+msgstr ""
+
+msgid "cont_ed_insert_tabs"
+msgstr ""
+
+msgid "cont_ed_insert_templ"
+msgstr ""
+
+msgid "cont_ed_insert_vrfc"
+msgstr ""
+
+msgid "cont_ed_item_down"
+msgstr ""
+
+msgid "cont_ed_item_up"
+msgstr ""
+
+msgid "cont_ed_list"
+msgstr ""
+
+msgid "cont_ed_moveafter"
+msgstr ""
+
+msgid "cont_ed_movebefore"
+msgstr ""
+
+msgid "cont_ed_new_col_after"
+msgstr ""
+
+msgid "cont_ed_new_col_before"
+msgstr ""
+
+msgid "cont_ed_new_item_after"
+msgstr ""
+
+msgid "cont_ed_new_item_before"
+msgstr ""
+
+msgid "cont_ed_new_row_after"
+msgstr ""
+
+msgid "cont_ed_new_row_before"
+msgstr ""
+
+msgid "cont_ed_nr_cols"
+msgstr ""
+
+msgid "cont_ed_nr_rows"
+msgstr ""
+
+msgid "cont_ed_par"
+msgstr ""
+
+msgid "cont_ed_paste"
+msgstr ""
+
+msgid "cont_ed_paste_clip"
+msgstr ""
+
+msgid "cont_ed_pglprop"
+msgstr ""
+
+msgid "cont_ed_plachmedia"
+msgstr ""
+
+msgid "cont_ed_plachprop"
+msgstr ""
+
+msgid "cont_ed_plachquestion"
+msgstr ""
+
+msgid "cont_ed_plachtext"
+msgstr ""
+
+msgid "cont_ed_plachverification"
+msgstr ""
+
+msgid "cont_ed_row_down"
+msgstr ""
+
+msgid "cont_ed_row_up"
+msgstr ""
+
+msgid "cont_ed_select_pctext"
+msgstr ""
+
+msgid "cont_ed_split_page"
+msgstr ""
+
+msgid "cont_ed_split_page_next"
+msgstr ""
+
+msgid "cont_ed_textitem"
+msgstr ""
+
+msgid "cont_ed_width"
+msgstr ""
+
+msgid "cont_edit_base_image"
+msgstr ""
+
+msgid "cont_edit_comp"
+msgstr ""
+
+msgid "cont_edit_definition"
+msgstr ""
+
+msgid "cont_edit_file_list_properties"
+msgstr ""
+
+msgid "cont_edit_language_version"
+msgstr ""
+
+msgid "cont_edit_lrs_settings"
+msgstr ""
+
+msgid "cont_edit_marker_position"
+msgstr ""
+
+msgid "cont_edit_mob"
+msgstr ""
+
+msgid "cont_edit_mob_alias_prop"
+msgstr ""
+
+msgid "cont_edit_mode"
+msgstr ""
+
+msgid "cont_edit_multi"
+msgstr ""
+
+msgid "cont_edit_overlay_position"
+msgstr ""
+
+msgid "cont_edit_par"
+msgstr ""
+
+msgid "cont_edit_personal_data"
+msgstr ""
+
+msgid "cont_edit_popup_position"
+msgstr ""
+
+msgid "cont_edit_qover"
+msgstr ""
+
+msgid "cont_edit_shape_circle"
+msgstr ""
+
+msgid "cont_edit_shape_polygon"
+msgstr ""
+
+msgid "cont_edit_shape_rectangle"
+msgstr ""
+
+msgid "cont_edit_shape_whole_picture"
+msgstr ""
+
+msgid "cont_edit_src"
+msgstr ""
+
+msgid "cont_edit_style"
+msgstr ""
+
+msgid "cont_edit_table"
+msgstr ""
+
+msgid "cont_edit_tabs"
+msgstr ""
+
+msgid "cont_edit_term"
+msgstr ""
+
+msgid "cont_edit_title"
+msgstr ""
+
+msgid "cont_element_refers_removed_itgr"
+msgstr ""
+
+msgid "cont_empty_question"
+msgstr ""
+
+msgid "cont_enable_page_history"
+msgstr ""
+
+msgid "cont_enable_page_history_info"
+msgstr ""
+
+msgid "cont_enable_time_scheduled_page_activation"
+msgstr ""
+
+msgid "cont_enable_time_scheduled_page_activation_info"
+msgstr ""
+
+msgid "cont_end"
+msgstr ""
+
+msgid "cont_enough_answers_correct"
+msgstr ""
+
+msgid "cont_enter_a_dir_name"
+msgstr ""
+
+msgid "cont_enter_a_file"
+msgstr ""
+
+msgid "cont_error"
+msgstr ""
+
+msgid "cont_exp_id_used_multiple"
+msgstr ""
+
+msgid "cont_exp_ids_not_resp_format1"
+msgstr ""
+
+msgid "cont_exp_ids_not_resp_format2"
+msgstr ""
+
+msgid "cont_exp_ids_not_resp_format3"
+msgstr ""
+
+msgid "cont_export_all"
+msgstr ""
+
+msgid "cont_export_id"
+msgstr ""
+
+msgid "cont_file"
+msgstr ""
+
+msgid "cont_file_created"
+msgstr ""
+
+msgid "cont_file_deleted"
+msgstr ""
+
+msgid "cont_file_from_repository"
+msgstr ""
+
+msgid "cont_file_from_workspace"
+msgstr ""
+
+msgid "cont_file_renamed"
+msgstr ""
+
+msgid "cont_file_unzipped"
+msgstr ""
+
+msgid "cont_files"
+msgstr ""
+
+msgid "cont_finish_editing"
+msgstr ""
+
+msgid "cont_finish_table_editing"
+msgstr ""
+
+msgid "cont_first_open"
+msgstr ""
+
+msgid "cont_first_page"
+msgstr ""
+
+msgid "cont_first_row_style"
+msgstr ""
+
+msgid "cont_fix_tree"
+msgstr ""
+
+msgid "cont_fix_tree_confirm"
+msgstr ""
+
+msgid "cont_fn"
+msgstr ""
+
+msgid "cont_footer"
+msgstr ""
+
+msgid "cont_footnote"
+msgstr ""
+
+msgid "cont_force_all_open"
+msgstr ""
+
+msgid "cont_format"
+msgstr ""
+
+msgid "cont_format_cells"
+msgstr ""
+
+msgid "cont_fourth_edition"
+msgstr ""
+
+msgid "cont_fourth_edition_info"
+msgstr ""
+
+msgid "cont_free_pages"
+msgstr ""
+
+msgid "cont_full_is_in_dir"
+msgstr ""
+
+msgid "cont_fullscreen"
+msgstr ""
+
+msgid "cont_general_properties"
+msgstr ""
+
+msgid "cont_get_link"
+msgstr ""
+
+msgid "cont_glo_assign"
+msgstr ""
+
+msgid "cont_glo_create"
+msgstr ""
+
+msgid "cont_glo_detach"
+msgstr ""
+
+msgid "cont_glo_properties"
+msgstr ""
+
+msgid "cont_glossaries"
+msgstr ""
+
+msgid "cont_got_lock_release"
+msgstr ""
+
+msgid "cont_grid_cell"
+msgstr ""
+
+msgid "cont_grid_cell_confirm_deletion"
+msgstr ""
+
+msgid "cont_grid_nr_cells"
+msgstr ""
+
+msgid "cont_grid_t_main_side"
+msgstr ""
+
+msgid "cont_grid_t_main_side_info"
+msgstr ""
+
+msgid "cont_grid_t_manual"
+msgstr ""
+
+msgid "cont_grid_t_manual_info"
+msgstr ""
+
+msgid "cont_grid_t_three_column"
+msgstr ""
+
+msgid "cont_grid_t_three_column_info"
+msgstr ""
+
+msgid "cont_grid_t_two_by_two"
+msgstr ""
+
+msgid "cont_grid_t_two_by_two_info"
+msgstr ""
+
+msgid "cont_grid_t_two_column"
+msgstr ""
+
+msgid "cont_grid_t_two_column_info"
+msgstr ""
+
+msgid "cont_grid_width_l"
+msgstr ""
+
+msgid "cont_grid_width_l_info"
+msgstr ""
+
+msgid "cont_grid_width_m"
+msgstr ""
+
+msgid "cont_grid_width_m_info"
+msgstr ""
+
+msgid "cont_grid_width_s"
+msgstr ""
+
+msgid "cont_grid_width_s_info"
+msgstr ""
+
+msgid "cont_grid_width_xl"
+msgstr ""
+
+msgid "cont_grid_width_xl_info"
+msgstr ""
+
+msgid "cont_hacc_needs_height"
+msgstr ""
+
+msgid "cont_hacc_needs_width"
+msgstr ""
+
+msgid "cont_has_row_header"
+msgstr ""
+
+msgid "cont_header"
+msgstr ""
+
+msgid "cont_height"
+msgstr ""
+
+msgid "cont_help_no_valid_tooltip_id"
+msgstr ""
+
+msgid "cont_hide_adv"
+msgstr ""
+
+msgid "cont_hide_head_foot_print"
+msgstr ""
+
+msgid "cont_hidenavig"
+msgstr ""
+
+msgid "cont_hidenavig_info"
+msgstr ""
+
+msgid "cont_highlight_class"
+msgstr ""
+
+msgid "cont_highlight_mode"
+msgstr ""
+
+msgid "cont_hover"
+msgstr ""
+
+msgid "cont_href"
+msgstr ""
+
+msgid "cont_html_export_ids"
+msgstr ""
+
+msgid "cont_html_export_ids_info"
+msgstr ""
+
+msgid "cont_html_table"
+msgstr ""
+
+msgid "cont_id_ref"
+msgstr ""
+
+msgid "cont_ie_compatibility"
+msgstr ""
+
+msgid "cont_ie_compatibility_info"
+msgstr ""
+
+msgid "cont_ie_force_render"
+msgstr ""
+
+msgid "cont_ie_force_render_info"
+msgstr ""
+
+msgid "cont_iim_add_overlay"
+msgstr ""
+
+msgid "cont_iim_add_trigger"
+msgstr ""
+
+msgid "cont_iim_add_trigger_text"
+msgstr ""
+
+msgid "cont_iim_background_image"
+msgstr ""
+
+msgid "cont_iim_background_image_and_caption"
+msgstr ""
+
+msgid "cont_iim_edit"
+msgstr ""
+
+msgid "cont_iim_edit_trigger"
+msgstr ""
+
+msgid "cont_iim_finish_editing"
+msgstr ""
+
+msgid "cont_iim_horizontal"
+msgstr ""
+
+msgid "cont_iim_lg"
+msgstr ""
+
+msgid "cont_iim_md"
+msgstr ""
+
+msgid "cont_iim_no_overlay"
+msgstr ""
+
+msgid "cont_iim_overview"
+msgstr ""
+
+msgid "cont_iim_select_overlay"
+msgstr ""
+
+msgid "cont_iim_select_trigger"
+msgstr ""
+
+msgid "cont_iim_size"
+msgstr ""
+
+msgid "cont_iim_sm"
+msgstr ""
+
+msgid "cont_iim_tr_add_popup"
+msgstr ""
+
+msgid "cont_iim_tr_properties_info"
+msgstr ""
+
+msgid "cont_iim_trigger"
+msgstr ""
+
+msgid "cont_iim_vertical"
+msgstr ""
+
+msgid "cont_imagemap"
+msgstr ""
+
+msgid "cont_import"
+msgstr ""
+
+msgid "cont_import_id"
+msgstr ""
+
+msgid "cont_import_lang"
+msgstr ""
+
+msgid "cont_import_tracking"
+msgstr ""
+
+msgid "cont_import_trans"
+msgstr ""
+
+msgid "cont_import_validation_errors"
+msgstr ""
+
+msgid "cont_initial_attached_content"
+msgstr ""
+
+msgid "cont_insert_amd_page_list"
+msgstr ""
+
+msgid "cont_insert_as_chapter"
+msgstr ""
+
+msgid "cont_insert_as_subchapter"
+msgstr ""
+
+msgid "cont_insert_blog"
+msgstr ""
+
+msgid "cont_insert_chapter"
+msgstr ""
+
+msgid "cont_insert_chapter_from_clip"
+msgstr ""
+
+msgid "cont_insert_consultation_hours"
+msgstr ""
+
+msgid "cont_insert_file_item"
+msgstr ""
+
+msgid "cont_insert_file_list"
+msgstr ""
+
+msgid "cont_insert_list"
+msgstr ""
+
+msgid "cont_insert_login_page"
+msgstr ""
+
+msgid "cont_insert_map"
+msgstr ""
+
+msgid "cont_insert_mob"
+msgstr ""
+
+msgid "cont_insert_my_courses"
+msgstr ""
+
+msgid "cont_insert_page"
+msgstr ""
+
+msgid "cont_insert_page_from_clip"
+msgstr ""
+
+msgid "cont_insert_pagelayout"
+msgstr ""
+
+msgid "cont_insert_par"
+msgstr ""
+
+msgid "cont_insert_profile"
+msgstr ""
+
+msgid "cont_insert_resources"
+msgstr ""
+
+msgid "cont_insert_section"
+msgstr ""
+
+msgid "cont_insert_skills"
+msgstr ""
+
+msgid "cont_insert_src"
+msgstr ""
+
+msgid "cont_insert_subchapter"
+msgstr ""
+
+msgid "cont_insert_subchapter_from_clip"
+msgstr ""
+
+msgid "cont_insert_table"
+msgstr ""
+
+msgid "cont_insert_verification"
+msgstr ""
+
+msgid "cont_inst_map_areas"
+msgstr ""
+
+msgid "cont_interactions"
+msgstr ""
+
+msgid "cont_interactions_info"
+msgstr ""
+
+msgid "cont_interactions_info_12"
+msgstr ""
+
+msgid "cont_internal_link"
+msgstr ""
+
+msgid "cont_internal_links"
+msgstr ""
+
+msgid "cont_invalid_new_module"
+msgstr ""
+
+msgid "cont_is_visible"
+msgstr ""
+
+msgid "cont_item"
+msgstr ""
+
+msgid "cont_keyword"
+msgstr ""
+
+msgid "cont_language"
+msgstr ""
+
+msgid "cont_languages"
+msgstr ""
+
+msgid "cont_last_try"
+msgstr ""
+
+msgid "cont_last_update"
+msgstr ""
+
+msgid "cont_last_visited_page"
+msgstr ""
+
+msgid "cont_latest_rev"
+msgstr ""
+
+msgid "cont_layout"
+msgstr ""
+
+msgid "cont_layout_1window"
+msgstr ""
+
+msgid "cont_layout_1window_desc"
+msgstr ""
+
+msgid "cont_layout_2window"
+msgstr ""
+
+msgid "cont_layout_2window_desc"
+msgstr ""
+
+msgid "cont_layout_3window"
+msgstr ""
+
+msgid "cont_layout_3window_desc"
+msgstr ""
+
+msgid "cont_layout_fullscreen"
+msgstr ""
+
+msgid "cont_layout_fullscreen_desc"
+msgstr ""
+
+msgid "cont_layout_per_page"
+msgstr ""
+
+msgid "cont_layout_per_page_info"
+msgstr ""
+
+msgid "cont_layout_presentation"
+msgstr ""
+
+msgid "cont_layout_presentation_desc"
+msgstr ""
+
+msgid "cont_layout_template"
+msgstr ""
+
+msgid "cont_layout_toc2win"
+msgstr ""
+
+msgid "cont_layout_toc2win_desc"
+msgstr ""
+
+msgid "cont_layout_toc2windyn"
+msgstr ""
+
+msgid "cont_layout_toc2windyn_desc"
+msgstr ""
+
+msgid "cont_left"
+msgstr ""
+
+msgid "cont_left_float"
+msgstr ""
+
+msgid "cont_license"
+msgstr ""
+
+msgid "cont_license_info"
+msgstr ""
+
+msgid "cont_light"
+msgstr ""
+
+msgid "cont_link"
+msgstr ""
+
+msgid "cont_link_area"
+msgstr ""
+
+msgid "cont_link_ext"
+msgstr ""
+
+msgid "cont_link_glo_in_lm"
+msgstr ""
+
+msgid "cont_link_int"
+msgstr ""
+
+msgid "cont_link_no"
+msgstr ""
+
+msgid "cont_link_select"
+msgstr ""
+
+msgid "cont_link_to_external"
+msgstr ""
+
+msgid "cont_link_to_internal"
+msgstr ""
+
+msgid "cont_link_to_wiki"
+msgstr ""
+
+msgid "cont_link_type"
+msgstr ""
+
+msgid "cont_link_user"
+msgstr ""
+
+msgid "cont_linked_mobs"
+msgstr ""
+
+msgid "cont_links"
+msgstr ""
+
+msgid "cont_list_files"
+msgstr ""
+
+msgid "cont_list_indent"
+msgstr ""
+
+msgid "cont_list_item_style"
+msgstr ""
+
+msgid "cont_list_outdent"
+msgstr ""
+
+msgid "cont_list_properties"
+msgstr ""
+
+msgid "cont_lists"
+msgstr ""
+
+msgid "cont_lk_chapter"
+msgstr ""
+
+msgid "cont_lk_chapter_new"
+msgstr ""
+
+msgid "cont_lk_file"
+msgstr ""
+
+msgid "cont_lk_media_faq"
+msgstr ""
+
+msgid "cont_lk_media_inline"
+msgstr ""
+
+msgid "cont_lk_media_media"
+msgstr ""
+
+msgid "cont_lk_media_new"
+msgstr ""
+
+msgid "cont_lk_page"
+msgstr ""
+
+msgid "cont_lk_page_faq"
+msgstr ""
+
+msgid "cont_lk_page_new"
+msgstr ""
+
+msgid "cont_lk_term"
+msgstr ""
+
+msgid "cont_lk_term_new"
+msgstr ""
+
+msgid "cont_lm_comments_desc"
+msgstr ""
+
+msgid "cont_lm_default_layout"
+msgstr ""
+
+msgid "cont_lm_mail_permanent_link"
+msgstr ""
+
+msgid "cont_lm_menu"
+msgstr ""
+
+msgid "cont_lm_properties"
+msgstr ""
+
+msgid "cont_lm_starting_point"
+msgstr ""
+
+msgid "cont_lm_starting_point_info"
+msgstr ""
+
+msgid "cont_localfile"
+msgstr ""
+
+msgid "cont_localization"
+msgstr ""
+
+msgid "cont_localization_info"
+msgstr ""
+
+msgid "cont_location"
+msgstr ""
+
+msgid "cont_lpe_dpro_agreement_link"
+msgstr ""
+
+msgid "cont_lpe_language_selection"
+msgstr ""
+
+msgid "cont_lpe_login_form"
+msgstr ""
+
+msgid "cont_lpe_openid_connect_login"
+msgstr ""
+
+msgid "cont_lpe_openid_login_form"
+msgstr ""
+
+msgid "cont_lpe_registration_link"
+msgstr ""
+
+msgid "cont_lpe_saml_login"
+msgstr ""
+
+msgid "cont_lpe_shib_login_form"
+msgstr ""
+
+msgid "cont_lpe_user_agreement_link"
+msgstr ""
+
+msgid "cont_lrs_settings"
+msgstr ""
+
+msgid "cont_lvalue"
+msgstr ""
+
+msgid "cont_maintenance"
+msgstr ""
+
+msgid "cont_manifest"
+msgstr ""
+
+msgid "cont_manual_item_group"
+msgstr ""
+
+msgid "cont_map_file_not_generated"
+msgstr ""
+
+msgid "cont_marker"
+msgstr ""
+
+msgid "cont_master_language_only"
+msgstr ""
+
+msgid "cont_master_language_only_no_media"
+msgstr ""
+
+msgid "cont_mastery_score"
+msgstr ""
+
+msgid "cont_mastery_score_12"
+msgstr ""
+
+msgid "cont_mastery_score_12_info"
+msgstr ""
+
+msgid "cont_mastery_score_2004"
+msgstr ""
+
+msgid "cont_mastery_score_2004_info"
+msgstr ""
+
+msgid "cont_max_time_allowed"
+msgstr ""
+
+msgid "cont_media"
+msgstr ""
+
+msgid "cont_media_placeh"
+msgstr ""
+
+msgid "cont_media_placehl"
+msgstr ""
+
+msgid "cont_media_source"
+msgstr ""
+
+msgid "cont_merge_cells"
+msgstr ""
+
+msgid "cont_missing_preconditions"
+msgstr ""
+
+msgid "cont_missing_snippet"
+msgstr ""
+
+msgid "cont_mob_def_prop"
+msgstr ""
+
+msgid "cont_mob_from_media_pool"
+msgstr ""
+
+msgid "cont_mob_inst_prop"
+msgstr ""
+
+msgid "cont_mob_usages"
+msgstr ""
+
+msgid "cont_more_character_styles"
+msgstr ""
+
+msgid "cont_more_functions"
+msgstr ""
+
+msgid "cont_moved_srt_files"
+msgstr ""
+
+msgid "cont_multi_srt_files"
+msgstr ""
+
+msgid "cont_mycourses_sortorder"
+msgstr ""
+
+msgid "cont_mycourses_sortorder_alphabetical"
+msgstr ""
+
+msgid "cont_mycourses_sortorder_info"
+msgstr ""
+
+msgid "cont_mycourses_sortorder_location"
+msgstr ""
+
+msgid "cont_name"
+msgstr ""
+
+msgid "cont_never"
+msgstr ""
+
+msgid "cont_new_area"
+msgstr ""
+
+msgid "cont_new_chap"
+msgstr ""
+
+msgid "cont_new_dir"
+msgstr ""
+
+msgid "cont_new_file"
+msgstr ""
+
+msgid "cont_new_marker"
+msgstr ""
+
+msgid "cont_new_mob"
+msgstr ""
+
+msgid "cont_new_module_added"
+msgstr ""
+
+msgid "cont_new_page"
+msgstr ""
+
+msgid "cont_new_popup"
+msgstr ""
+
+msgid "cont_new_question"
+msgstr ""
+
+msgid "cont_new_tab"
+msgstr ""
+
+msgid "cont_new_term"
+msgstr ""
+
+msgid "cont_new_trigger_area"
+msgstr ""
+
+msgid "cont_next_rev"
+msgstr ""
+
+msgid "cont_nlist"
+msgstr ""
+
+msgid "cont_no_access"
+msgstr ""
+
+msgid "cont_no_block"
+msgstr ""
+
+msgid "cont_no_caption"
+msgstr ""
+
+msgid "cont_no_glossary"
+msgstr ""
+
+msgid "cont_no_manifest"
+msgstr ""
+
+msgid "cont_no_page"
+msgstr ""
+
+msgid "cont_no_page_access_unansw_q"
+msgstr ""
+
+msgid "cont_no_page_in_chapter"
+msgstr ""
+
+msgid "cont_no_parameters"
+msgstr ""
+
+msgid "cont_no_read"
+msgstr ""
+
+msgid "cont_no_subdir_in_zip"
+msgstr ""
+
+msgid "cont_no_text"
+msgstr ""
+
+msgid "cont_nomenu"
+msgstr ""
+
+msgid "cont_nomenu_info"
+msgstr ""
+
+msgid "cont_none"
+msgstr ""
+
+msgid "cont_not_saved_edit_lock_expired"
+msgstr ""
+
+msgid "cont_notification_activate_lm"
+msgstr ""
+
+msgid "cont_notification_activate_page"
+msgstr ""
+
+msgid "cont_notification_activated"
+msgstr ""
+
+msgid "cont_notification_comment_lm"
+msgstr ""
+
+msgid "cont_notification_comment_subject_lm"
+msgstr ""
+
+msgid "cont_notification_deactivate_lm"
+msgstr ""
+
+msgid "cont_notification_deactivate_page"
+msgstr ""
+
+msgid "cont_notification_deactivated"
+msgstr ""
+
+msgid "cont_notification_update_lm"
+msgstr ""
+
+msgid "cont_notify_on_blocked_users"
+msgstr ""
+
+msgid "cont_notify_on_blocked_users_info"
+msgstr ""
+
+msgid "cont_nr_col_footer"
+msgstr ""
+
+msgid "cont_nr_col_header"
+msgstr ""
+
+msgid "cont_nr_cols"
+msgstr ""
+
+msgid "cont_nr_items"
+msgstr ""
+
+msgid "cont_nr_of_tries_exceeded"
+msgstr ""
+
+msgid "cont_nr_row_footer"
+msgstr ""
+
+msgid "cont_nr_row_header"
+msgstr ""
+
+msgid "cont_nr_rows"
+msgstr ""
+
+msgid "cont_number_of_tabs"
+msgstr ""
+
+msgid "cont_number_std"
+msgstr ""
+
+msgid "cont_number_type"
+msgstr ""
+
+msgid "cont_numbered_list"
+msgstr ""
+
+msgid "cont_obj_removed"
+msgstr ""
+
+msgid "cont_objectives"
+msgstr ""
+
+msgid "cont_objectives_info"
+msgstr ""
+
+msgid "cont_online"
+msgstr ""
+
+msgid "cont_online_help_ids"
+msgstr ""
+
+msgid "cont_online_info"
+msgstr ""
+
+msgid "cont_open"
+msgstr ""
+
+msgid "cont_open_clipboard"
+msgstr ""
+
+msgid "cont_open_iframe"
+msgstr ""
+
+msgid "cont_open_iframe_info"
+msgstr ""
+
+msgid "cont_open_normal"
+msgstr ""
+
+msgid "cont_open_normal_info"
+msgstr ""
+
+msgid "cont_open_window"
+msgstr ""
+
+msgid "cont_open_window_info"
+msgstr ""
+
+msgid "cont_operation_not_allowed"
+msgstr ""
+
+msgid "cont_organization"
+msgstr ""
+
+msgid "cont_organizations"
+msgstr ""
+
+msgid "cont_orig_size"
+msgstr ""
+
+msgid "cont_other_resources"
+msgstr ""
+
+msgid "cont_out_of_focus_message"
+msgstr ""
+
+msgid "cont_out_of_focus_message_last_page"
+msgstr ""
+
+msgid "cont_ov_all_correct"
+msgstr ""
+
+msgid "cont_ov_preview"
+msgstr ""
+
+msgid "cont_ov_some_correct"
+msgstr ""
+
+msgid "cont_ov_wrong_answered"
+msgstr ""
+
+msgid "cont_overlay_image"
+msgstr ""
+
+msgid "cont_overlay_images"
+msgstr ""
+
+msgid "cont_overlays_have_been_deleted"
+msgstr ""
+
+msgid "cont_page_activation"
+msgstr ""
+
+msgid "cont_page_activation_on"
+msgstr ""
+
+msgid "cont_page_compare"
+msgstr ""
+
+msgid "cont_page_created"
+msgstr ""
+
+msgid "cont_page_currently_deactivated"
+msgstr ""
+
+msgid "cont_page_deactivated"
+msgstr ""
+
+msgid "cont_page_deactivated_elements"
+msgstr ""
+
+msgid "cont_page_header"
+msgstr ""
+
+msgid "cont_page_layout"
+msgstr ""
+
+msgid "cont_page_lock_released"
+msgstr ""
+
+msgid "cont_page_notification_activated"
+msgstr ""
+
+msgid "cont_page_template"
+msgstr ""
+
+msgid "cont_page_toc"
+msgstr ""
+
+msgid "cont_page_translation_does_not_exist"
+msgstr ""
+
+msgid "cont_page_usage"
+msgstr ""
+
+msgid "cont_pages"
+msgstr ""
+
+msgid "cont_pages_and_subchapters"
+msgstr ""
+
+msgid "cont_par_format"
+msgstr ""
+
+msgid "cont_paragraph_styles"
+msgstr ""
+
+msgid "cont_parameter"
+msgstr ""
+
+msgid "cont_parameters"
+msgstr ""
+
+msgid "cont_paste_from_clipboard"
+msgstr ""
+
+msgid "cont_paste_from_spreadsheet"
+msgstr ""
+
+msgid "cont_paste_table"
+msgstr ""
+
+msgid "cont_pc_amdpl"
+msgstr ""
+
+msgid "cont_pc_blog"
+msgstr ""
+
+msgid "cont_pc_carousel"
+msgstr ""
+
+msgid "cont_pc_code"
+msgstr ""
+
+msgid "cont_pc_deleted"
+msgstr ""
+
+msgid "cont_pc_dtab"
+msgstr ""
+
+msgid "cont_pc_flist"
+msgstr ""
+
+msgid "cont_pc_grid"
+msgstr ""
+
+msgid "cont_pc_hacc"
+msgstr ""
+
+msgid "cont_pc_iim"
+msgstr ""
+
+msgid "cont_pc_incl"
+msgstr ""
+
+msgid "cont_pc_lay"
+msgstr ""
+
+msgid "cont_pc_list"
+msgstr ""
+
+msgid "cont_pc_map"
+msgstr ""
+
+msgid "cont_pc_media"
+msgstr ""
+
+msgid "cont_pc_mob"
+msgstr ""
+
+msgid "cont_pc_modified"
+msgstr ""
+
+msgid "cont_pc_new"
+msgstr ""
+
+msgid "cont_pc_par"
+msgstr ""
+
+msgid "cont_pc_plach"
+msgstr ""
+
+msgid "cont_pc_prof"
+msgstr ""
+
+msgid "cont_pc_qover"
+msgstr ""
+
+msgid "cont_pc_qst"
+msgstr ""
+
+msgid "cont_pc_repobj"
+msgstr ""
+
+msgid "cont_pc_res"
+msgstr ""
+
+msgid "cont_pc_sec"
+msgstr ""
+
+msgid "cont_pc_skills"
+msgstr ""
+
+msgid "cont_pc_src"
+msgstr ""
+
+msgid "cont_pc_tab"
+msgstr ""
+
+msgid "cont_pc_tabs"
+msgstr ""
+
+msgid "cont_pc_vacc"
+msgstr ""
+
+msgid "cont_pc_vrfc"
+msgstr ""
+
+msgid "cont_permission_handling"
+msgstr ""
+
+msgid "cont_permission_object"
+msgstr ""
+
+msgid "cont_permission_object_desc"
+msgstr ""
+
+msgid "cont_personal_clipboard"
+msgstr ""
+
+msgid "cont_pg_title"
+msgstr ""
+
+msgid "cont_please_enter_a_term"
+msgstr ""
+
+msgid "cont_please_select"
+msgstr ""
+
+msgid "cont_please_try_again"
+msgstr ""
+
+msgid "cont_popups_have_been_deleted"
+msgstr ""
+
+msgid "cont_position"
+msgstr ""
+
+msgid "cont_prereq_type"
+msgstr ""
+
+msgid "cont_prerequisites"
+msgstr ""
+
+msgid "cont_presentation"
+msgstr ""
+
+msgid "cont_presentation_view"
+msgstr ""
+
+msgid "cont_preview"
+msgstr ""
+
+msgid "cont_previous_rev"
+msgstr ""
+
+msgid "cont_print_no_page_selected"
+msgstr ""
+
+msgid "cont_print_selection"
+msgstr ""
+
+msgid "cont_print_view"
+msgstr ""
+
+msgid "cont_print_view_pre_glo"
+msgstr ""
+
+msgid "cont_profile_mode"
+msgstr ""
+
+msgid "cont_profile_mode_inherit"
+msgstr ""
+
+msgid "cont_profile_mode_inherit_info"
+msgstr ""
+
+msgid "cont_profile_mode_manual"
+msgstr ""
+
+msgid "cont_profile_mode_manual_info"
+msgstr ""
+
+msgid "cont_profile_mode_template_inherit_info"
+msgstr ""
+
+msgid "cont_progress_icons"
+msgstr ""
+
+msgid "cont_progress_icons_info"
+msgstr ""
+
+msgid "cont_prtf_page"
+msgstr ""
+
+msgid "cont_prtt_page"
+msgstr ""
+
+msgid "cont_public_access"
+msgstr ""
+
+msgid "cont_purpose"
+msgstr ""
+
+msgid "cont_qover_list_wrong_q"
+msgstr ""
+
+msgid "cont_qover_list_wrong_q_info"
+msgstr ""
+
+msgid "cont_qover_short_message"
+msgstr ""
+
+msgid "cont_qover_short_message_info"
+msgstr ""
+
+msgid "cont_qtries"
+msgstr ""
+
+msgid "cont_qtries_info"
+msgstr ""
+
+msgid "cont_question"
+msgstr ""
+
+msgid "cont_question_page_usage"
+msgstr ""
+
+msgid "cont_question_placeh"
+msgstr ""
+
+msgid "cont_question_placehl"
+msgstr ""
+
+msgid "cont_question_stats"
+msgstr ""
+
+msgid "cont_question_type"
+msgstr ""
+
+msgid "cont_question_usage"
+msgstr ""
+
+msgid "cont_quit_text_editing"
+msgstr ""
+
+msgid "cont_rand_start"
+msgstr ""
+
+msgid "cont_really_delete_overlays"
+msgstr ""
+
+msgid "cont_really_delete_popups"
+msgstr ""
+
+msgid "cont_really_delete_triggers"
+msgstr ""
+
+msgid "cont_ref_helptext"
+msgstr ""
+
+msgid "cont_ref_images"
+msgstr ""
+
+msgid "cont_reference"
+msgstr ""
+
+msgid "cont_remove_format"
+msgstr ""
+
+msgid "cont_rename_dir"
+msgstr ""
+
+msgid "cont_replace_mob_feature"
+msgstr ""
+
+msgid "cont_replace_mob_feature_info"
+msgstr ""
+
+msgid "cont_repository_item"
+msgstr ""
+
+msgid "cont_reset_nr_of_tries"
+msgstr ""
+
+msgid "cont_resize_img"
+msgstr ""
+
+msgid "cont_resource"
+msgstr ""
+
+msgid "cont_resource_size"
+msgstr ""
+
+msgid "cont_resource_size_info"
+msgstr ""
+
+msgid "cont_resource_type"
+msgstr ""
+
+msgid "cont_resources"
+msgstr ""
+
+msgid "cont_resources_of_type"
+msgstr ""
+
+msgid "cont_restrict_forw_nav"
+msgstr ""
+
+msgid "cont_restrict_forw_nav_info"
+msgstr ""
+
+msgid "cont_revision"
+msgstr ""
+
+msgid "cont_right"
+msgstr ""
+
+msgid "cont_right_float"
+msgstr ""
+
+msgid "cont_rollback"
+msgstr ""
+
+msgid "cont_rollback_confirmation"
+msgstr ""
+
+msgid "cont_roman"
+msgstr ""
+
+msgid "cont_roman_s"
+msgstr ""
+
+msgid "cont_rowspan"
+msgstr ""
+
+msgid "cont_rte_settings"
+msgstr ""
+
+msgid "cont_rvalue"
+msgstr ""
+
+msgid "cont_save_all_titles"
+msgstr ""
+
+msgid "cont_save_positions"
+msgstr ""
+
+msgid "cont_save_positions_and_classes"
+msgstr ""
+
+msgid "cont_save_spans"
+msgstr ""
+
+msgid "cont_save_types"
+msgstr ""
+
+msgid "cont_save_widths"
+msgstr ""
+
+msgid "cont_saved_export_ids"
+msgstr ""
+
+msgid "cont_saved_interactive_image"
+msgstr ""
+
+msgid "cont_saved_map_area"
+msgstr ""
+
+msgid "cont_saved_map_data"
+msgstr ""
+
+msgid "cont_saving"
+msgstr ""
+
+msgid "cont_sc_auto_continue"
+msgstr ""
+
+msgid "cont_sc_auto_continue_info"
+msgstr ""
+
+msgid "cont_sc_auto_review_2004"
+msgstr ""
+
+msgid "cont_sc_auto_review_completed"
+msgstr ""
+
+msgid "cont_sc_auto_review_completed_and_passed"
+msgstr ""
+
+msgid "cont_sc_auto_review_completed_not_failed_or_passed"
+msgstr ""
+
+msgid "cont_sc_auto_review_completed_or_passed"
+msgstr ""
+
+msgid "cont_sc_auto_review_info_2004"
+msgstr ""
+
+msgid "cont_sc_auto_review_no"
+msgstr ""
+
+msgid "cont_sc_auto_review_passed"
+msgstr ""
+
+msgid "cont_sc_auto_review_passed_or_failed"
+msgstr ""
+
+msgid "cont_sc_id_setting"
+msgstr ""
+
+msgid "cont_sc_id_setting_2004"
+msgstr ""
+
+msgid "cont_sc_id_setting_info"
+msgstr ""
+
+msgid "cont_sc_id_setting_user_id"
+msgstr ""
+
+msgid "cont_sc_id_setting_user_id_plus_obj_id"
+msgstr ""
+
+msgid "cont_sc_id_setting_user_id_plus_ref_id"
+msgstr ""
+
+msgid "cont_sc_id_setting_user_login"
+msgstr ""
+
+msgid "cont_sc_id_setting_user_login_plus_obj_id"
+msgstr ""
+
+msgid "cont_sc_id_setting_user_login_plus_ref_id"
+msgstr ""
+
+msgid "cont_sc_less_mode_browse"
+msgstr ""
+
+msgid "cont_sc_less_mode_browse_info"
+msgstr ""
+
+msgid "cont_sc_less_mode_normal"
+msgstr ""
+
+msgid "cont_sc_less_mode_normal_info"
+msgstr ""
+
+msgid "cont_sc_max_attempt_exceed"
+msgstr ""
+
+msgid "cont_sc_name_setting"
+msgstr ""
+
+msgid "cont_sc_name_setting_2004"
+msgstr ""
+
+msgid "cont_sc_name_setting_first_lastname"
+msgstr ""
+
+msgid "cont_sc_name_setting_first_name"
+msgstr ""
+
+msgid "cont_sc_name_setting_fullname"
+msgstr ""
+
+msgid "cont_sc_name_setting_info"
+msgstr ""
+
+msgid "cont_sc_name_setting_last_firstname"
+msgstr ""
+
+msgid "cont_sc_name_setting_no_name"
+msgstr ""
+
+msgid "cont_sc_name_setting_salutation_lastname"
+msgstr ""
+
+msgid "cont_sc_new_version"
+msgstr ""
+
+msgid "cont_sc_preview"
+msgstr ""
+
+msgid "cont_sc_stat_browsed"
+msgstr ""
+
+msgid "cont_sc_stat_completed"
+msgstr ""
+
+msgid "cont_sc_stat_failed"
+msgstr ""
+
+msgid "cont_sc_stat_incomplete"
+msgstr ""
+
+msgid "cont_sc_stat_not_attempted"
+msgstr ""
+
+msgid "cont_sc_stat_passed"
+msgstr ""
+
+msgid "cont_sc_stat_running"
+msgstr ""
+
+msgid "cont_sc_store_if_previous_score_was_lower"
+msgstr ""
+
+msgid "cont_sc_title"
+msgstr ""
+
+msgid "cont_sc_usession"
+msgstr ""
+
+msgid "cont_sc_usession_info"
+msgstr ""
+
+msgid "cont_sc_version"
+msgstr ""
+
+msgid "cont_sc_version_info"
+msgstr ""
+
+msgid "cont_scheduled_activation"
+msgstr ""
+
+msgid "cont_sco_glossary"
+msgstr ""
+
+msgid "cont_score"
+msgstr ""
+
+msgid "cont_scorm_ed_properties"
+msgstr ""
+
+msgid "cont_scorm_options"
+msgstr ""
+
+msgid "cont_scorm_type"
+msgstr ""
+
+msgid "cont_screen_ids"
+msgstr ""
+
+msgid "cont_sec_protected"
+msgstr ""
+
+msgid "cont_sec_protected_text"
+msgstr ""
+
+msgid "cont_second"
+msgstr ""
+
+msgid "cont_sel_el_use_paste"
+msgstr ""
+
+msgid "cont_select"
+msgstr ""
+
+msgid "cont_select_file"
+msgstr ""
+
+msgid "cont_select_from_upload_dir"
+msgstr ""
+
+msgid "cont_select_item"
+msgstr ""
+
+msgid "cont_select_max_one_item"
+msgstr ""
+
+msgid "cont_select_media_pool"
+msgstr ""
+
+msgid "cont_select_none"
+msgstr ""
+
+msgid "cont_select_other_qpool"
+msgstr ""
+
+msgid "cont_select_par_or_section"
+msgstr ""
+
+msgid "cont_selected_items_have_been_copied"
+msgstr ""
+
+msgid "cont_selected_items_have_been_cut"
+msgstr ""
+
+msgid "cont_selected_pg_chap"
+msgstr ""
+
+msgid "cont_selected_terms"
+msgstr ""
+
+msgid "cont_selected_topic"
+msgstr ""
+
+msgid "cont_selection"
+msgstr ""
+
+msgid "cont_self_assessment"
+msgstr ""
+
+msgid "cont_sequencing"
+msgstr ""
+
+msgid "cont_sequencing_info"
+msgstr ""
+
+msgid "cont_set_alignment"
+msgstr ""
+
+msgid "cont_set_layout"
+msgstr ""
+
+msgid "cont_set_link"
+msgstr ""
+
+msgid "cont_set_manuall"
+msgstr ""
+
+msgid "cont_set_properties"
+msgstr ""
+
+msgid "cont_set_start_file"
+msgstr ""
+
+msgid "cont_set_styles"
+msgstr ""
+
+msgid "cont_set_tab_style_info"
+msgstr ""
+
+msgid "cont_settings"
+msgstr ""
+
+msgid "cont_shape"
+msgstr ""
+
+msgid "cont_shift_click_to_select"
+msgstr ""
+
+msgid "cont_short_title"
+msgstr ""
+
+msgid "cont_short_title_info"
+msgstr ""
+
+msgid "cont_short_titles"
+msgstr ""
+
+msgid "cont_show_activation_info"
+msgstr ""
+
+msgid "cont_show_activation_info_info"
+msgstr ""
+
+msgid "cont_show_adv"
+msgstr ""
+
+msgid "cont_show_content_after_focus"
+msgstr ""
+
+msgid "cont_show_fullscreen"
+msgstr ""
+
+msgid "cont_show_info"
+msgstr ""
+
+msgid "cont_show_line_numbers"
+msgstr ""
+
+msgid "cont_show_print_view"
+msgstr ""
+
+msgid "cont_size"
+msgstr ""
+
+msgid "cont_skip_chapter"
+msgstr ""
+
+msgid "cont_snippet_from_another_installation"
+msgstr ""
+
+msgid "cont_snippets_used"
+msgstr ""
+
+msgid "cont_span"
+msgstr ""
+
+msgid "cont_special_page"
+msgstr ""
+
+msgid "cont_split_cell"
+msgstr ""
+
+msgid "cont_spreadsheet_table"
+msgstr ""
+
+msgid "cont_sqst"
+msgstr ""
+
+msgid "cont_src"
+msgstr ""
+
+msgid "cont_src_other"
+msgstr ""
+
+msgid "cont_st_title"
+msgstr ""
+
+msgid "cont_standard"
+msgstr ""
+
+msgid "cont_start"
+msgstr ""
+
+msgid "cont_start_file_set_to"
+msgstr ""
+
+msgid "cont_start_value"
+msgstr ""
+
+msgid "cont_start_value_info"
+msgstr ""
+
+msgid "cont_startfile"
+msgstr ""
+
+msgid "cont_status"
+msgstr ""
+
+msgid "cont_std_is_in_dir"
+msgstr ""
+
+msgid "cont_std_view"
+msgstr ""
+
+msgid "cont_structure"
+msgstr ""
+
+msgid "cont_style"
+msgstr ""
+
+msgid "cont_subchapters"
+msgstr ""
+
+msgid "cont_submit_answers"
+msgstr ""
+
+msgid "cont_subtitle_file"
+msgstr ""
+
+msgid "cont_subtitle_files"
+msgstr ""
+
+msgid "cont_sur_block_format"
+msgstr ""
+
+msgid "cont_switch_to_media_pool"
+msgstr ""
+
+msgid "cont_syntax_help"
+msgstr ""
+
+msgid "cont_tab_add_above"
+msgstr ""
+
+msgid "cont_tab_add_below"
+msgstr ""
+
+msgid "cont_tab_cont_height"
+msgstr ""
+
+msgid "cont_tab_cont_width"
+msgstr ""
+
+msgid "cont_tab_delete"
+msgstr ""
+
+msgid "cont_tab_move_bottom"
+msgstr ""
+
+msgid "cont_tab_move_down"
+msgstr ""
+
+msgid "cont_tab_move_top"
+msgstr ""
+
+msgid "cont_tab_move_up"
+msgstr ""
+
+msgid "cont_table"
+msgstr ""
+
+msgid "cont_table_adv_settings"
+msgstr ""
+
+msgid "cont_table_border"
+msgstr ""
+
+msgid "cont_table_border_info"
+msgstr ""
+
+msgid "cont_table_cell_edit_info_1"
+msgstr ""
+
+msgid "cont_table_cell_edit_info_2"
+msgstr ""
+
+msgid "cont_table_cell_edit_info_3"
+msgstr ""
+
+msgid "cont_table_cell_properties"
+msgstr ""
+
+msgid "cont_table_cellpadding"
+msgstr ""
+
+msgid "cont_table_cellpadding_info"
+msgstr ""
+
+msgid "cont_table_edit_cells"
+msgstr ""
+
+msgid "cont_table_import_info"
+msgstr ""
+
+msgid "cont_table_properties"
+msgstr ""
+
+msgid "cont_table_style"
+msgstr ""
+
+msgid "cont_table_width"
+msgstr ""
+
+msgid "cont_tabs"
+msgstr ""
+
+msgid "cont_tabs_acc_hor"
+msgstr ""
+
+msgid "cont_tabs_acc_ver"
+msgstr ""
+
+msgid "cont_tabs_carousel"
+msgstr ""
+
+msgid "cont_tabs_confirm_deletion"
+msgstr ""
+
+msgid "cont_target"
+msgstr ""
+
+msgid "cont_target_missing"
+msgstr ""
+
+msgid "cont_target_within_source"
+msgstr ""
+
+msgid "cont_template"
+msgstr ""
+
+msgid "cont_term"
+msgstr ""
+
+msgid "cont_terms"
+msgstr ""
+
+msgid "cont_tex"
+msgstr ""
+
+msgid "cont_text_acc"
+msgstr ""
+
+msgid "cont_text_code"
+msgstr ""
+
+msgid "cont_text_com"
+msgstr ""
+
+msgid "cont_text_editing"
+msgstr ""
+
+msgid "cont_text_emp"
+msgstr ""
+
+msgid "cont_text_fn"
+msgstr ""
+
+msgid "cont_text_iln_link"
+msgstr ""
+
+msgid "cont_text_imp"
+msgstr ""
+
+msgid "cont_text_keyword"
+msgstr ""
+
+msgid "cont_text_placeh"
+msgstr ""
+
+msgid "cont_text_placehl"
+msgstr ""
+
+msgid "cont_text_quot"
+msgstr ""
+
+msgid "cont_text_str"
+msgstr ""
+
+msgid "cont_text_sub"
+msgstr ""
+
+msgid "cont_text_sup"
+msgstr ""
+
+msgid "cont_text_tex"
+msgstr ""
+
+msgid "cont_text_xln"
+msgstr ""
+
+msgid "cont_third_and_more"
+msgstr ""
+
+msgid "cont_time"
+msgstr ""
+
+msgid "cont_time_from_lms"
+msgstr ""
+
+msgid "cont_time_from_lms_info"
+msgstr ""
+
+msgid "cont_time_limit_action"
+msgstr ""
+
+msgid "cont_to_focus_beginning"
+msgstr ""
+
+msgid "cont_to_focus_return_crs"
+msgstr ""
+
+msgid "cont_toc"
+msgstr ""
+
+msgid "cont_toc_mode"
+msgstr ""
+
+msgid "cont_tool_faq"
+msgstr ""
+
+msgid "cont_tool_media"
+msgstr ""
+
+msgid "cont_top"
+msgstr ""
+
+msgid "cont_topic"
+msgstr ""
+
+msgid "cont_total_time"
+msgstr ""
+
+msgid "cont_tracking_bysco"
+msgstr ""
+
+msgid "cont_tracking_byuser"
+msgstr ""
+
+msgid "cont_tracking_data"
+msgstr ""
+
+msgid "cont_tracking_items"
+msgstr ""
+
+msgid "cont_tracking_modify"
+msgstr ""
+
+msgid "cont_trans_import_info"
+msgstr ""
+
+msgid "cont_transl_master_language_not_allowed"
+msgstr ""
+
+msgid "cont_tree_fixed"
+msgstr ""
+
+msgid "cont_tries"
+msgstr ""
+
+msgid "cont_tries_remaining"
+msgstr ""
+
+msgid "cont_tries_reset_on_visit"
+msgstr ""
+
+msgid "cont_tries_reset_on_visit_info"
+msgstr ""
+
+msgid "cont_tries_store"
+msgstr ""
+
+msgid "cont_tries_store_info"
+msgstr ""
+
+msgid "cont_trigger_area"
+msgstr ""
+
+msgid "cont_type"
+msgstr ""
+
+msgid "cont_type_not_allowed"
+msgstr ""
+
+msgid "cont_unlock_allow_continue"
+msgstr ""
+
+msgid "cont_unlocked"
+msgstr ""
+
+msgid "cont_update_amd_page_list"
+msgstr ""
+
+msgid "cont_update_blog"
+msgstr ""
+
+msgid "cont_update_consultation_hours"
+msgstr ""
+
+msgid "cont_update_login_page"
+msgstr ""
+
+msgid "cont_update_map"
+msgstr ""
+
+msgid "cont_update_my_courses"
+msgstr ""
+
+msgid "cont_update_profile"
+msgstr ""
+
+msgid "cont_update_resources"
+msgstr ""
+
+msgid "cont_update_section"
+msgstr ""
+
+msgid "cont_update_skills"
+msgstr ""
+
+msgid "cont_update_verification"
+msgstr ""
+
+msgid "cont_upload_dir"
+msgstr ""
+
+msgid "cont_upload_file"
+msgstr ""
+
+msgid "cont_upload_multi_srt_howto"
+msgstr ""
+
+msgid "cont_uploaded_file"
+msgstr ""
+
+msgid "cont_url_info"
+msgstr ""
+
+msgid "cont_usage"
+msgstr ""
+
+msgid "cont_use_same_resource_as_above"
+msgstr ""
+
+msgid "cont_user"
+msgstr ""
+
+msgid "cont_user_blocked"
+msgstr ""
+
+msgid "cont_user_blocked2"
+msgstr ""
+
+msgid "cont_user_blocked3"
+msgstr ""
+
+msgid "cont_user_search_did_not_match"
+msgstr ""
+
+msgid "cont_users_answered"
+msgstr ""
+
+msgid "cont_users_have_mob_in_clip1"
+msgstr ""
+
+msgid "cont_users_have_mob_in_clip2"
+msgstr ""
+
+msgid "cont_validate_file"
+msgstr ""
+
+msgid "cont_verification_object"
+msgstr ""
+
+msgid "cont_verification_placeh"
+msgstr ""
+
+msgid "cont_verification_placehl"
+msgstr ""
+
+msgid "cont_version"
+msgstr ""
+
+msgid "cont_versions"
+msgstr ""
+
+msgid "cont_whole_glossary"
+msgstr ""
+
+msgid "cont_width"
+msgstr ""
+
+msgid "cont_width_height_info"
+msgstr ""
+
+msgid "cont_width_px_perc"
+msgstr ""
+
+msgid "cont_width_px_perc_info"
+msgstr ""
+
+msgid "cont_wiki_link_dialog"
+msgstr ""
+
+msgid "cont_wiki_page"
+msgstr ""
+
+msgid "cont_wiki_page_link"
+msgstr ""
+
+msgid "cont_wrong_answers"
+msgstr ""
+
+msgid "cont_wrong_answers_single"
+msgstr ""
+
+msgid "cont_xml_base"
+msgstr ""
+
+msgid "cont_zip_file_invalid"
+msgstr ""
+
+msgid "content_no_edit_lock"
+msgstr ""
+
+msgid "content_page_history"
+msgstr ""
+
+msgid "content_plugin_not_activated"
+msgstr ""
+
+msgid "content_some_export_ids_multiple_times"
+msgstr ""
+
+msgid "content_until"
+msgstr ""
+
+msgid "copied_to_clipboard"
+msgstr ""
+
+msgid "dgl_pagebreak"
+msgstr ""
+
+msgid "glo_add_new_term"
+msgstr ""
+
+msgid "glo_content_settings"
+msgstr ""
+
+msgid "glo_editing_view"
+msgstr ""
+
+msgid "glo_full_definitions"
+msgstr ""
+
+msgid "glo_full_definitions_info"
+msgstr ""
+
+msgid "glo_hide_taxonomy"
+msgstr ""
+
+msgid "glo_list_usages"
+msgstr ""
+
+msgid "glo_mode_normal_info"
+msgstr ""
+
+msgid "glo_presentation_mode"
+msgstr ""
+
+msgid "glo_presentation_view"
+msgstr ""
+
+msgid "glo_quick_navigation"
+msgstr ""
+
+msgid "glo_style"
+msgstr ""
+
+msgid "glo_table_form"
+msgstr ""
+
+msgid "glo_table_form_info"
+msgstr ""
+
+msgid "glo_term_is_used_n_times"
+msgstr ""
+
+msgid "glo_term_must_belong_to_glo"
+msgstr ""
+
+msgid "glo_term_used_in"
+msgstr ""
+
+msgid "glo_text_snippet_length"
+msgstr ""
+
+msgid "glo_text_snippet_length_info"
+msgstr ""
+
+msgid "glo_usages"
+msgstr ""
+
+msgid "glo_used_in_scorm"
+msgstr ""
+
+msgid "help_assign_help_ids"
+msgstr ""
+
+msgid "htlm_import"
+msgstr ""
+
+msgid "import_sco_object"
+msgstr ""
+
+msgid "info_stop_offline_mode_sure"
+msgstr ""
+
+msgid "infobox_files_not_migrated"
+msgstr ""
+
+msgid "lm_activate_rating"
+msgstr ""
+
+msgid "lm_editing_view"
+msgstr ""
+
+msgid "lm_import"
+msgstr ""
+
+msgid "lm_menu_edit_entry"
+msgstr ""
+
+msgid "lm_menu_entry_target"
+msgstr ""
+
+msgid "lm_menu_entry_title"
+msgstr ""
+
+msgid "lm_menu_new_entry"
+msgstr ""
+
+msgid "lm_menu_select_internal_object"
+msgstr ""
+
+msgid "lm_menu_select_object_to_add"
+msgstr ""
+
+msgid "lm_no_download_files"
+msgstr ""
+
+msgid "lm_only_one_download_per_type"
+msgstr ""
+
+msgid "lm_rate_page"
+msgstr ""
+
+msgid "lm_rating"
+msgstr ""
+
+msgid "mep_folder_created"
+msgstr ""
+
+msgid "msg_entry_added"
+msgstr ""
+
+msgid "msg_entry_removed"
+msgstr ""
+
+msgid "msg_entry_updated"
+msgstr ""
+
+msgid "msg_no_page_access"
+msgstr ""
+
+msgid "msg_page_no_public_access"
+msgstr ""
+
+msgid "msg_page_not_public"
+msgstr ""
+
+msgid "offline_mode_manager"
+msgstr ""
+
+msgid "offline_mode_users"
+msgstr ""
+
+msgid "offline_mode_users_info"
+msgstr ""
+
+msgid "page_does_not_exist"
+msgstr ""
+
+msgid "par"
+msgstr ""
+
+msgid "pg"
+msgstr ""
+
+msgid "public_section"
+msgstr ""
+
+msgid "sahs_empty_objectives_are_not_allowed"
+msgstr ""
+
+msgid "sahs_insert_pg_from_clip"
+msgstr ""
+
+msgid "sahs_insert_st_from_clip"
+msgstr ""
+
+msgid "sahs_insert_st_from_clip_inside_chap"
+msgstr ""
+
+msgid "save_new"
+msgstr ""
+
+msgid "saved_media_object"
+msgstr ""
+
+msgid "scplayer_collapsetree"
+msgstr ""
+
+msgid "scplayer_continue"
+msgstr ""
+
+msgid "scplayer_debugger"
+msgstr ""
+
+msgid "scplayer_exit"
+msgstr ""
+
+msgid "scplayer_exitall"
+msgstr ""
+
+msgid "scplayer_expandtree"
+msgstr ""
+
+msgid "scplayer_hidetree"
+msgstr ""
+
+msgid "scplayer_next"
+msgstr ""
+
+msgid "scplayer_phpmysqlcheck"
+msgstr ""
+
+msgid "scplayer_previous"
+msgstr ""
+
+msgid "scplayer_showtree"
+msgstr ""
+
+msgid "scplayer_start"
+msgstr ""
+
+msgid "scplayer_suspendall"
+msgstr ""
+
+msgid "selectFooter"
+msgstr ""
+
+msgid "selectHeader"
+msgstr ""
+
+msgid "select_a_file"
+msgstr ""
+
+msgid "seq_close"
+msgstr ""
+
+msgid "seq_endsession"
+msgstr ""
+
+msgid "seq_error"
+msgstr ""
+
+msgid "seq_toc"
+msgstr ""
+
+msgid "set_public_mode"
+msgstr ""
+
+msgid "st"
+msgstr ""
+
+msgid "start_lm"
+msgstr ""
+
+msgid "text_repr"
+msgstr ""
+
+msgid "text_repr_info"
+msgstr ""

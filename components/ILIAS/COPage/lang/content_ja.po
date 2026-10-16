@@ -1,0 +1,3656 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: content\n"
+
+msgid "Pages"
+msgstr "ページ"
+
+msgid "add_menu_entry"
+msgstr "新規のエントリーを追加"
+
+msgid "all_pages"
+msgstr "ラーニングモジュール全体"
+
+msgid "citate"
+msgstr "引用"
+
+msgid "citate_from"
+msgstr "...から引用する"
+
+msgid "citate_page"
+msgstr "このページを引用"
+
+msgid "citate_to"
+msgstr "...へ引用"
+
+msgid "cont_Additional"
+msgstr "追加情報"
+
+msgid "cont_AdvancedKnowledge"
+msgstr "詳細知識"
+
+msgid "cont_Attention"
+msgstr "注意"
+
+msgid "cont_Background"
+msgstr "Background"
+
+msgid "cont_Block"
+msgstr "ブロック"
+
+msgid "cont_Book"
+msgstr "Book"
+
+msgid "cont_Circle"
+msgstr "円"
+
+msgid "cont_Citation"
+msgstr "引用"
+
+msgid "cont_Confirmation"
+msgstr "確認"
+
+msgid "cont_Example"
+msgstr "例"
+
+msgid "cont_Excursus"
+msgstr "余論"
+
+msgid "cont_FileListItem"
+msgstr "ファイル・リスト・アイテム (標準)"
+
+msgid "cont_Headline1"
+msgstr "ヘッダー行 1"
+
+msgid "cont_Headline2"
+msgstr "ヘッダー行2"
+
+msgid "cont_Headline3"
+msgstr "ヘッダー行3"
+
+msgid "cont_Information"
+msgstr "Information"
+
+msgid "cont_Interaction"
+msgstr "インタラクション"
+
+msgid "cont_List"
+msgstr "リスト"
+
+msgid "cont_Literature"
+msgstr "文献"
+
+msgid "cont_Mnemonic"
+msgstr "ニーモニック"
+
+msgid "cont_Numbers"
+msgstr "Numbers"
+
+msgid "cont_Poly"
+msgstr "多角形"
+
+msgid "cont_Rect"
+msgstr "長方形"
+
+msgid "cont_Remark"
+msgstr "備考"
+
+msgid "cont_Separator"
+msgstr "セパレータ"
+
+msgid "cont_Special"
+msgstr "スペシャル"
+
+msgid "cont_StandardCenter"
+msgstr "基準センター"
+
+msgid "cont_StandardTable"
+msgstr "標準の表"
+
+msgid "cont_TableContent"
+msgstr "表のコンテンツ"
+
+msgid "cont_Verse"
+msgstr "Verse/Stanza"
+
+msgid "cont_WholePicture"
+msgstr "図全体"
+
+msgid "cont_accented"
+msgstr "強調"
+
+msgid "cont_act_number"
+msgstr "章の計算"
+
+msgid "cont_activate_html"
+msgstr "HTMLレンダリングを起動"
+
+msgid "cont_activate_js"
+msgstr "Javascriptモードを起動"
+
+msgid "cont_activate_media"
+msgstr "メディアを起動"
+
+msgid "cont_activate_page"
+msgstr "ページをアクティブにする"
+
+msgid "cont_activated"
+msgstr "アクティブ化"
+
+msgid "cont_activation"
+msgstr "アクティベーション"
+
+msgid "cont_active"
+msgstr "メニューを有効"
+
+msgid "cont_active_areas"
+msgstr "トリガー"
+
+msgid "cont_active_from"
+msgstr "アクティブ開始"
+
+msgid "cont_active_to"
+msgstr "アクティブ終了"
+
+msgid "cont_add_area"
+msgstr "範囲を追加"
+
+msgid "cont_add_cell"
+msgstr "列を追加"
+
+msgid "cont_add_elements"
+msgstr "新規要素を<b>追加</b>するには＋印を<b>クリック</b>"
+
+msgid "cont_add_file"
+msgstr "ファイルを追加"
+
+msgid "cont_add_images"
+msgstr "画像を追加"
+
+msgid "cont_add_popup"
+msgstr "ポップアップを追加"
+
+msgid "cont_add_tab"
+msgstr "パネルを追加"
+
+msgid "cont_add_url"
+msgstr "From URL"
+
+msgid "cont_added_cell"
+msgstr "列が追加されました"
+
+msgid "cont_added_comment"
+msgstr "コメントが履歴に追加されました。"
+
+msgid "cont_added_tab"
+msgstr "パネルを追加しました。"
+
+msgid "cont_added_term"
+msgstr "用語を追加しました"
+
+msgid "cont_adjust_size"
+msgstr "サイズを調整"
+
+msgid "cont_advanced_settings"
+msgstr "詳細設定"
+
+msgid "cont_align"
+msgstr "整列"
+
+msgid "cont_alignment"
+msgstr "整列"
+
+msgid "cont_all_answers_correct"
+msgstr "正解です!"
+
+msgid "cont_all_closed"
+msgstr "全て閉じる"
+
+msgid "cont_all_languages"
+msgstr "全ての言語"
+
+msgid "cont_all_pages"
+msgstr "全てのページ"
+
+msgid "cont_all_topics"
+msgstr "全トピックス"
+
+msgid "cont_all_usages"
+msgstr "履歴を含む"
+
+msgid "cont_alphabetic"
+msgstr "アルファベット A, B, …"
+
+msgid "cont_alphabetic_s"
+msgstr "アルファベット a, b, ..."
+
+msgid "cont_always"
+msgstr "常時"
+
+msgid "cont_anchor"
+msgstr "アンカー"
+
+msgid "cont_annex"
+msgstr "補足"
+
+msgid "cont_anonymous_user_missing_perm"
+msgstr "匿名ユーザには現在このラーニングモジュールへのアクセス権がありません。"
+
+msgid "cont_areas_deleted"
+msgstr "MAP範囲は削除されました。"
+
+msgid "cont_assign_characteristic"
+msgstr "特徴の割当て"
+
+msgid "cont_assign_full"
+msgstr "全画面"
+
+msgid "cont_assign_std"
+msgstr "標準"
+
+msgid "cont_assign_to_parent"
+msgstr "親へ割り当て"
+
+msgid "cont_auto_glossaries"
+msgstr "自動リンク済みの用語集"
+
+msgid "cont_auto_last_visited"
+msgstr "前回訪問の章(SCO・アセット)をロード"
+
+msgid "cont_auto_last_visited_info"
+msgstr "学習者がラーニングモジュールへ再アクセスする際にはSCO/Assetの最終訪問を開く"
+
+msgid "cont_auto_suspend"
+msgstr "データ追跡を保護"
+
+msgid "cont_auto_suspend_info"
+msgstr "このオプションは適切なcmi.exitを送らないような不完全なSCORM2004をサポートするSCORM学習モジュール用です。ユーザが単純にブラウザを閉じてしまい正しく学習モジュールを閉じないようなユーザにも関係なく追跡データを確実に保存します。"
+
+msgid "cont_auto_time"
+msgstr "自動アニメーション待ち時間"
+
+msgid "cont_autoindent"
+msgstr "自動インデント"
+
+msgid "cont_automatically_set_store_tries"
+msgstr "オプション\"$2\"が有効になったのでオプション\"$1\"は自動的に有効になりました。"
+
+msgid "cont_autostart"
+msgstr "自動開始"
+
+msgid "cont_back"
+msgstr "戻る"
+
+msgid "cont_base_image"
+msgstr "背景イメージ"
+
+msgid "cont_bb_tip"
+msgstr "ヒント。 スタイルは選択されたテキストにすぐに適用可能です。"
+
+msgid "cont_behavior"
+msgstr "動作"
+
+msgid "cont_biblio"
+msgstr "文献目録データ"
+
+msgid "cont_biblio_info"
+msgstr "文献目録データ機能を有効にする"
+
+msgid "cont_blist"
+msgstr "中黒(・）リスト"
+
+msgid "cont_block_format"
+msgstr "セクションフォーマット"
+
+msgid "cont_blocked_users"
+msgstr "ブロックしたユーザ"
+
+msgid "cont_blocked_users_mail_link"
+msgstr "ラーニングモジュールを開くには次のリンクをクリック:"
+
+msgid "cont_bottom"
+msgstr "下"
+
+msgid "cont_bullet_list"
+msgstr "箇条書き"
+
+msgid "cont_cach_mode"
+msgstr "モード"
+
+msgid "cont_cach_mode_automatic"
+msgstr "自動"
+
+msgid "cont_cach_mode_automatic_info"
+msgstr "全ての会議時間が公表されます"
+
+msgid "cont_cach_mode_manual"
+msgstr "手動"
+
+msgid "cont_cach_mode_manual_info"
+msgstr "次のグループの会議時間のみ公表されます。"
+
+msgid "cont_cant_copy_folders"
+msgstr "フォルダはクリップボードへコピーできません。"
+
+msgid "cont_cant_del_full"
+msgstr "全画面の削除は不可能です。"
+
+msgid "cont_cant_del_std"
+msgstr "標準ビューファイルの削除は不可能です。"
+
+msgid "cont_caption"
+msgstr "見出し"
+
+msgid "cont_caption_style"
+msgstr "見出しスタイルクラス"
+
+msgid "cont_cc_emp"
+msgstr "強調"
+
+msgid "cont_cc_imp"
+msgstr "重要"
+
+msgid "cont_cc_str"
+msgstr "ストロング"
+
+msgid "cont_cc_sub"
+msgstr "下付き"
+
+msgid "cont_cc_sup"
+msgstr "上付き"
+
+msgid "cont_cell_properties"
+msgstr "表のセルのプロパティ"
+
+msgid "cont_center"
+msgstr "中央"
+
+msgid "cont_change_alignment"
+msgstr "アラインメントを変更"
+
+msgid "cont_change_notification_salutation"
+msgstr "こんにちは %s　さん,"
+
+msgid "cont_change_notification_subject_lm"
+msgstr "学習モジュール \"%1$s\" は変更されました:"
+
+msgid "cont_change_object_reference"
+msgstr "オブジェクトレファレンスを変更"
+
+msgid "cont_change_style"
+msgstr "スタイルを変更"
+
+msgid "cont_change_type"
+msgstr "タイプを変更"
+
+msgid "cont_change_width"
+msgstr "幅を変更"
+
+msgid "cont_chap_and_pages"
+msgstr "章とページ"
+
+msgid "cont_chap_select_target_now"
+msgstr "移動の章をマークしました。現在のターゲットを選択してください。"
+
+msgid "cont_chapters"
+msgstr "章"
+
+msgid "cont_chapters_after_pages"
+msgstr "ページは同じレベルの全ての副章よりも先になければならない事に注意してください。"
+
+msgid "cont_chapters_and_pages"
+msgstr "章とページ"
+
+msgid "cont_chapters_only"
+msgstr "章のみ"
+
+msgid "cont_char_format"
+msgstr "文字"
+
+msgid "cont_char_link"
+msgstr "Link"
+
+msgid "cont_char_media"
+msgstr "Media (Standard)"
+
+msgid "cont_char_style_acc"
+msgstr "強調"
+
+msgid "cont_char_style_code"
+msgstr "コード"
+
+msgid "cont_char_style_com"
+msgstr "コメント"
+
+msgid "cont_char_style_quot"
+msgstr "引用"
+
+msgid "cont_characteristic"
+msgstr "スタイルクラス"
+
+msgid "cont_characteristic_table"
+msgstr "Style Class"
+
+msgid "cont_check_values"
+msgstr "SCOの送った値をチェック"
+
+msgid "cont_check_values_info"
+msgstr "テストツールはSCOからSCORMスタンダードへ準拠する値を送るかどうかをチェックします。SCORMスタンダードは値の保存に関して非常に多くの要求があります。すべての学習モジュールがスタンダード要件を満たしているものではありません。このオプションはモジュールがスタンダードに準拠するか否かをチェックさせます。ILIASがこのモジュールで動作するかどうかの単なるチェックにこのオプションは使用してはいけません。"
+
+msgid "cont_choose_characteristic"
+msgstr "特徴を選択"
+
+msgid "cont_choose_characteristic_section"
+msgstr "セクション"
+
+msgid "cont_choose_characteristic_text"
+msgstr "テキスト要素"
+
+msgid "cont_choose_file_source"
+msgstr "Source"
+
+msgid "cont_choose_from_clipboard"
+msgstr "クリップボードから選択"
+
+msgid "cont_choose_from_pool"
+msgstr "メディア集から選択"
+
+msgid "cont_choose_glo"
+msgstr "用語集を選択"
+
+msgid "cont_choose_lm"
+msgstr "学習モジュールを選択"
+
+msgid "cont_choose_local"
+msgstr "Local directory"
+
+msgid "cont_choose_media_pool"
+msgstr "メディア集を選択"
+
+msgid "cont_choose_mep"
+msgstr "メディア集を選択"
+
+msgid "cont_choose_pages_or_chapters_only"
+msgstr "ページか章のどちらかのみ選択してください。"
+
+msgid "cont_choose_upload_dir"
+msgstr "Upload directory"
+
+msgid "cont_choose_wiki"
+msgstr "Wikiを選択"
+
+msgid "cont_citation_selection_not_valid"
+msgstr "選択は無効です"
+
+msgid "cont_click_br_corner"
+msgstr "希望範囲の右下の角をクリックしてください。"
+
+msgid "cont_click_center"
+msgstr "希望範囲の中央をクリックしてください。"
+
+msgid "cont_click_circle"
+msgstr "希望範囲の円のポイントをクリックしてください。"
+
+msgid "cont_click_edit"
+msgstr "プロパティを<b>編集</b>するには要素を<b>クリック</b>"
+
+msgid "cont_click_multi_select"
+msgstr "<b>要素を</b> 選択<b>クリック</b> または解除する。"
+
+msgid "cont_click_next_or_save"
+msgstr "多角形あるいは保存範囲の次のポイントをクリックしてください。(この多角形の開始点を再度クリックする必要はありません !)"
+
+msgid "cont_click_next_point"
+msgstr "多角形の次のポイントをクリックしてください。"
+
+msgid "cont_click_starting_point"
+msgstr "多角形の開始点をクリックしてください。"
+
+msgid "cont_click_tl_corner"
+msgstr "希望範囲の左上の角をクリックしてください。"
+
+msgid "cont_code_import_file"
+msgstr "インポート"
+
+msgid "cont_code_manual_editing"
+msgstr "手動入力"
+
+msgid "cont_colspan"
+msgstr "Col. Span"
+
+msgid "cont_commented_by"
+msgstr "コメント者"
+
+msgid "cont_comments"
+msgstr "コメントのストレージを有効にする"
+
+msgid "cont_comments_info"
+msgstr "SCORM 2004学習モジュールにはモジュール内にコメントを提供するものがあります。このオプションはそれらのコメント保存を許可します。"
+
+msgid "cont_confirm_delete"
+msgstr "本当にこのアイテムを削除しますか?"
+
+msgid "cont_constrain_proportions"
+msgstr "プロパティを含む"
+
+msgid "cont_content"
+msgstr "コンテンツ"
+
+msgid "cont_content_popup"
+msgstr "コンテンツポップアップ"
+
+msgid "cont_content_popups"
+msgstr "コンテンツポップアップ"
+
+msgid "cont_coords"
+msgstr "座標"
+
+msgid "cont_copy_question_from_pool"
+msgstr "問題集から問題をコピー"
+
+msgid "cont_copy_question_into_page"
+msgstr "ページへコピーします"
+
+msgid "cont_copy_to_clipboard"
+msgstr "クリップボードへコピー"
+
+msgid "cont_correct_after_first"
+msgstr "初回正解"
+
+msgid "cont_correct_answer_also"
+msgstr "同じく正解 :"
+
+msgid "cont_correct_answers_also"
+msgstr "同じく正解 :"
+
+msgid "cont_correct_answers_shown"
+msgstr "正解は前述の通りです。"
+
+msgid "cont_could_not_determine_resource_size"
+msgstr "ILIASはリソースサイズを自動的に決定できませんでした。"
+
+msgid "cont_could_not_save_duplicate_pc_ids"
+msgstr "ページを保存できませんでした。(PC IDの重複)"
+
+msgid "cont_cp_question_diff_formats_info"
+msgstr "フォーマットによってはコンテンツモジュールでサポートしていないものがある事に注意願います。"
+
+msgid "cont_create_link"
+msgstr "リンク作成"
+
+msgid "cont_create_mob"
+msgstr "メディアオブジェクトを作成"
+
+msgid "cont_credits"
+msgstr "単位取得"
+
+msgid "cont_current_chapter"
+msgstr "現在の章"
+
+msgid "cont_current_lang"
+msgstr "現在の言語"
+
+msgid "cont_current_page"
+msgstr "現在のページ"
+
+msgid "cont_current_style"
+msgstr "現在のスタイル"
+
+msgid "cont_current_term"
+msgstr "現在の用語"
+
+msgid "cont_current_usages"
+msgstr "現在の利用"
+
+msgid "cont_current_version"
+msgstr "現在のバージョン"
+
+msgid "cont_custom"
+msgstr "カスタム"
+
+msgid "cont_custom_menu_entries"
+msgstr "カスタムメニューエントリ"
+
+msgid "cont_custom_size"
+msgstr "カスタムサイズ"
+
+msgid "cont_dark"
+msgstr "暗く"
+
+msgid "cont_data_from_lms"
+msgstr "adlcp：datafromlms"
+
+msgid "cont_de_activate"
+msgstr "(De-)Activate"
+
+msgid "cont_deactivate_html"
+msgstr "HTMLレンダリングをオフにする"
+
+msgid "cont_deactivate_js"
+msgstr "フォームモードを起動"
+
+msgid "cont_deactivate_media"
+msgstr "メディアをオフにする"
+
+msgid "cont_deactivate_page"
+msgstr "ページのアクティブ解除"
+
+msgid "cont_deactivated"
+msgstr "アクティブ解除"
+
+msgid "cont_debug"
+msgstr "デバグメニューを表示"
+
+msgid "cont_debug_deactivate"
+msgstr "テストツールは学習モジュールのプレゼンテーションモードへ表示されます。学習モジュールのインタラクションtoILIASにより提供されるテータをベースに評価できます。テストツールを利用するにはナビゲーションツリーを切り替える必要があります。"
+
+msgid "cont_debug_deactivate12"
+msgstr "テストツールは学習モジュールのプレゼンテーションモード内に表示されます。それにより提供されるデータを基準に学習モジュールとILIASのインタラクションを評価できます。"
+
+msgid "cont_debug_deactivated"
+msgstr "テストツールはILIAS管理(管理 >> 学習リソース)内で現在グローバル的に解除されています。"
+
+msgid "cont_debugging"
+msgstr "デバグ"
+
+msgid "cont_decimal"
+msgstr "少数"
+
+msgid "cont_def_feedb_activated"
+msgstr "フィードバック文章の初期値は現在ラーニングモジュール設定でアクティブ中です。"
+
+msgid "cont_def_feedb_deactivated"
+msgstr "フィードバック文章の初期値は現在ラーニングモジュール設定でアクティブ解除中です。"
+
+msgid "cont_def_layout"
+msgstr "レイアウト初期設定"
+
+msgid "cont_def_lesson_mode"
+msgstr "レッスンモード初期設定"
+
+msgid "cont_def_map_areas"
+msgstr "リンクエリア初期設定"
+
+msgid "cont_def_organization"
+msgstr "初期設定"
+
+msgid "cont_default"
+msgstr "初期設定"
+
+msgid "cont_definition"
+msgstr "定義"
+
+msgid "cont_delete_content"
+msgstr "コンテンツを削除"
+
+#, fuzzy
+msgid "cont_delete_file_item_confirm"
+msgstr "Do you really want to delete the selected file(s)?"
+
+msgid "cont_delete_selected"
+msgstr "削除"
+
+msgid "cont_delete_style"
+msgstr "スタイル削除"
+
+msgid "cont_delete_track_data"
+msgstr "追跡データを削除"
+
+msgid "cont_dependencies"
+msgstr "依存"
+
+msgid "cont_dir_created"
+msgstr "ディレクトリが作成されました。"
+
+msgid "cont_dir_deleted"
+msgstr "ディレクトリが削除されました。"
+
+msgid "cont_dir_file"
+msgstr "ディレクトリ/ファイル"
+
+msgid "cont_dir_renamed"
+msgstr "ディレクトリは名前変更されました。"
+
+msgid "cont_disable_def_feedback"
+msgstr "質問フィードバックを無効"
+
+msgid "cont_disable_def_feedback_info"
+msgstr "無効にすると回答済み問題は学習者へ何もフィードバック表示されなくなります。問題用にカスタムフィードバップを提供する必要があります。"
+
+msgid "cont_download"
+msgstr "ダウンロード"
+
+msgid "cont_download_title"
+msgstr "ダウンロード タイトル"
+
+msgid "cont_drag_and_drop_elements"
+msgstr "<b>Drag and drop</b>でプレースフォルダのコンテンツ要素へ<b>移動</b>"
+
+msgid "cont_drag_element_click_save"
+msgstr "希望する位置に要素をドラッグアナドドロップする。その後\"保存\"する。"
+
+msgid "cont_ed_align_center"
+msgstr "整列：中央"
+
+msgid "cont_ed_align_left"
+msgstr "整列：左"
+
+msgid "cont_ed_align_left_float"
+msgstr "整列：左フロート"
+
+msgid "cont_ed_align_right"
+msgstr "整列：右"
+
+msgid "cont_ed_align_right_float"
+msgstr "整列：右フロート"
+
+msgid "cont_ed_atable"
+msgstr "詳細表"
+
+msgid "cont_ed_cell_left"
+msgstr "左へ移動"
+
+msgid "cont_ed_cell_right"
+msgstr "右へ移動"
+
+msgid "cont_ed_class"
+msgstr "スタイル"
+
+msgid "cont_ed_click_to_add_pg"
+msgstr "コンテンツを追加するにはここをクリック"
+
+msgid "cont_ed_col_left"
+msgstr "列を左へ移動"
+
+msgid "cont_ed_col_right"
+msgstr "列を右へ移動"
+
+msgid "cont_ed_copy"
+msgstr "コピー"
+
+msgid "cont_ed_copy_clip"
+msgstr "クリップボードへコピー"
+
+msgid "cont_ed_cut"
+msgstr "切り取り"
+
+msgid "cont_ed_delete"
+msgstr "削除"
+
+msgid "cont_ed_delete_cell"
+msgstr "列を削除"
+
+msgid "cont_ed_delete_col"
+msgstr "列を削除"
+
+msgid "cont_ed_delete_item"
+msgstr "アイテムを削除"
+
+msgid "cont_ed_delete_row"
+msgstr "行を削除"
+
+msgid "cont_ed_dtable"
+msgstr "表を削除"
+
+msgid "cont_ed_edit"
+msgstr "編集"
+
+msgid "cont_ed_edit_data"
+msgstr "データを編集"
+
+msgid "cont_ed_edit_files"
+msgstr "ファイルを編集"
+
+msgid "cont_ed_edit_multiple"
+msgstr "段落シーケンスを編集"
+
+msgid "cont_ed_edit_prop"
+msgstr "プロパティを編集"
+
+msgid "cont_ed_enable"
+msgstr "(未)使用要素"
+
+msgid "cont_ed_flist"
+msgstr " ファイルリスト"
+
+msgid "cont_ed_go"
+msgstr "Go"
+
+msgid "cont_ed_grid_col_width"
+msgstr "列幅"
+
+msgid "cont_ed_grid_col_width_info"
+msgstr "列幅は行と全体の画面サイズ次第で1/12 unit倍のスパンにできます。デバイスは例として提供されます。 画面サイズは具体的な動作で決定します。12/12は100%幅に等しいです。"
+
+msgid "cont_ed_grid_col_widths"
+msgstr "列幅"
+
+msgid "cont_ed_insert_amdfrm"
+msgstr "拡張メタデータを挿入"
+
+msgid "cont_ed_insert_amdpl"
+msgstr "Page Listを挿入"
+
+msgid "cont_ed_insert_blog"
+msgstr "ブログを挿入"
+
+msgid "cont_ed_insert_cach"
+msgstr "相談時間を挿入"
+
+msgid "cont_ed_insert_dtab"
+msgstr "データ表を挿入"
+
+msgid "cont_ed_insert_flst"
+msgstr "ファイルリストを挿入"
+
+msgid "cont_ed_insert_grid"
+msgstr "列レイアウトを挿入"
+
+msgid "cont_ed_insert_grid_info"
+msgstr "行当たり12 unitでグリッド上の基準にレスポンシブレイアウトを追加"
+
+msgid "cont_ed_insert_iim"
+msgstr "インタラクティブな画像を挿入"
+
+msgid "cont_ed_insert_incl"
+msgstr "スニペットコンテンツを挿入"
+
+msgid "cont_ed_insert_lay"
+msgstr "レイアウトテンプレートを挿入"
+
+msgid "cont_ed_insert_lhist"
+msgstr "学習履歴を挿入"
+
+msgid "cont_ed_insert_list"
+msgstr "詳細リストを挿入"
+
+msgid "cont_ed_insert_lpe"
+msgstr "Login Page 要素を挿入"
+
+msgid "cont_ed_insert_map"
+msgstr "地図を挿入"
+
+msgid "cont_ed_insert_mcrs"
+msgstr "My Courseを挿入"
+
+msgid "cont_ed_insert_media"
+msgstr "イメージ/メディアを挿入"
+
+msgid "cont_ed_insert_par"
+msgstr "テキストを挿入"
+
+msgid "cont_ed_insert_pcqst"
+msgstr "問題を挿入"
+
+msgid "cont_ed_insert_plach"
+msgstr "プレースフォルダを挿入"
+
+msgid "cont_ed_insert_prof"
+msgstr "Personal Dataを挿入"
+
+msgid "cont_ed_insert_qover"
+msgstr "問題概要を挿入"
+
+msgid "cont_ed_insert_repobj"
+msgstr "リソースリストを挿入"
+
+msgid "cont_ed_insert_sec"
+msgstr "セクションを挿入"
+
+msgid "cont_ed_insert_skills"
+msgstr "能力を挿入"
+
+msgid "cont_ed_insert_src"
+msgstr "コードを挿入"
+
+msgid "cont_ed_insert_tab"
+msgstr "詳細表を挿入"
+
+msgid "cont_ed_insert_tabs"
+msgstr "アコーディオンを挿入"
+
+msgid "cont_ed_insert_templ"
+msgstr "コンテンツテンプレートを挿入"
+
+msgid "cont_ed_insert_vrfc"
+msgstr "証明書を挿入"
+
+msgid "cont_ed_item_down"
+msgstr "アイテムを下へ移動"
+
+msgid "cont_ed_item_up"
+msgstr "アイテムを上へ移動"
+
+msgid "cont_ed_list"
+msgstr "詳細リスト"
+
+msgid "cont_ed_moveafter"
+msgstr "後へ移動"
+
+msgid "cont_ed_movebefore"
+msgstr "前へ移動"
+
+msgid "cont_ed_new_col_after"
+msgstr "後に新規列"
+
+msgid "cont_ed_new_col_before"
+msgstr "前に新規列"
+
+msgid "cont_ed_new_item_after"
+msgstr "後に新規アイテム"
+
+msgid "cont_ed_new_item_before"
+msgstr "前に新規アイテム"
+
+msgid "cont_ed_new_row_after"
+msgstr "後に新規行"
+
+msgid "cont_ed_new_row_before"
+msgstr "前に新規行"
+
+msgid "cont_ed_nr_cols"
+msgstr "列数"
+
+msgid "cont_ed_nr_rows"
+msgstr "行数"
+
+msgid "cont_ed_par"
+msgstr "テキスト"
+
+msgid "cont_ed_paste"
+msgstr "貼付け"
+
+msgid "cont_ed_paste_clip"
+msgstr "クリップボードから貼付け"
+
+msgid "cont_ed_pglprop"
+msgstr "ページレイアウトプロパティ"
+
+msgid "cont_ed_plachmedia"
+msgstr "プレースフォルダ・メディア"
+
+msgid "cont_ed_plachprop"
+msgstr "プレースフォルダ・プロパティ"
+
+msgid "cont_ed_plachquestion"
+msgstr "プレースフォルダ・問題"
+
+msgid "cont_ed_plachtext"
+msgstr "プレースフォルダ・テキスト"
+
+msgid "cont_ed_plachverification"
+msgstr "プレースホルダ証書"
+
+msgid "cont_ed_row_down"
+msgstr "行を下へ移動"
+
+msgid "cont_ed_row_up"
+msgstr "行を上へ移動"
+
+msgid "cont_ed_select_pctext"
+msgstr "テキスト・アイテムを選択"
+
+msgid "cont_ed_split_page"
+msgstr "次のページへ分割する"
+
+msgid "cont_ed_split_page_next"
+msgstr "次のページへ分割する"
+
+msgid "cont_ed_textitem"
+msgstr "テキストアイテム"
+
+msgid "cont_ed_width"
+msgstr "幅"
+
+msgid "cont_edit_base_image"
+msgstr "背景画像を編集"
+
+msgid "cont_edit_comp"
+msgstr "編集中"
+
+msgid "cont_edit_definition"
+msgstr "定義を編集"
+
+msgid "cont_edit_file_list_properties"
+msgstr "ファイルリストプロパティを編集"
+
+msgid "cont_edit_language_version"
+msgstr "バージョンを編集"
+
+msgid "cont_edit_lrs_settings"
+msgstr "編集設定"
+
+msgid "cont_edit_marker_position"
+msgstr "マーカー位置を編集"
+
+msgid "cont_edit_mob"
+msgstr "メディアオブジェクトを編集"
+
+msgid "cont_edit_mob_alias_prop"
+msgstr "メディアオブジェクト実体のプロパティを編集"
+
+msgid "cont_edit_mode"
+msgstr "編集モード"
+
+msgid "cont_edit_multi"
+msgstr "選択"
+
+msgid "cont_edit_overlay_position"
+msgstr "オーバーレイ位置を編集"
+
+msgid "cont_edit_par"
+msgstr "テキストを編集"
+
+msgid "cont_edit_personal_data"
+msgstr "パーソナルデータを編集"
+
+msgid "cont_edit_popup_position"
+msgstr "ポップアップ位置を編集"
+
+msgid "cont_edit_qover"
+msgstr "問題概要を編集"
+
+msgid "cont_edit_shape_circle"
+msgstr "形(円形)を編集"
+
+msgid "cont_edit_shape_polygon"
+msgstr "形(多角形)を編集"
+
+msgid "cont_edit_shape_rectangle"
+msgstr "形(長方形)を編集"
+
+msgid "cont_edit_shape_whole_picture"
+msgstr "形状(全画像)を編集"
+
+msgid "cont_edit_src"
+msgstr "ソースコードを編集"
+
+msgid "cont_edit_style"
+msgstr "スタイルを編集"
+
+msgid "cont_edit_table"
+msgstr "表を編集"
+
+msgid "cont_edit_tabs"
+msgstr "プロパティー"
+
+msgid "cont_edit_term"
+msgstr "用語を編集"
+
+msgid "cont_edit_title"
+msgstr "タイトルを変更"
+
+msgid "cont_element_refers_removed_itgr"
+msgstr "この構成要素はその間に削除されてしまったアイテムグループを参照します。"
+
+msgid "cont_empty_question"
+msgstr "問題の編集が終了していません。クリックして編集するか問題を削除してください。"
+
+msgid "cont_enable_page_history"
+msgstr "ページ履歴"
+
+msgid "cont_enable_page_history_info"
+msgstr "旧バージョンのページをストアして旧バージョンへロールバックを許可します。"
+
+msgid "cont_enable_time_scheduled_page_activation"
+msgstr "時間計画されたページの使用"
+
+msgid "cont_enable_time_scheduled_page_activation_info"
+msgstr "オンにすると使用期限(日/時)を各ページのラーニングモジュール・エディターの中で選択できます。"
+
+msgid "cont_end"
+msgstr "終了"
+
+msgid "cont_enough_answers_correct"
+msgstr "正解ですがベスト解答ではありません!"
+
+msgid "cont_enter_a_dir_name"
+msgstr "ディレクトリ名を入力してください。"
+
+msgid "cont_enter_a_file"
+msgstr "ファイルを選択してください。"
+
+msgid "cont_error"
+msgstr "エラーが発生しました。"
+
+msgid "cont_exp_id_used_multiple"
+msgstr "エクスポートIDは複数回使用されています"
+
+msgid "cont_exp_ids_not_resp_format1"
+msgstr "エクスポートIDは次の文字にのみに使用できます。"
+
+msgid "cont_exp_ids_not_resp_format2"
+msgstr "確認して入力を訂正してください。"
+
+msgid "cont_exp_ids_not_resp_format3"
+msgstr "IDは番号で開始する必要があります"
+
+msgid "cont_export_all"
+msgstr "全てエクスポート"
+
+msgid "cont_export_id"
+msgstr "エクスポートID"
+
+msgid "cont_file"
+msgstr "ファイル"
+
+msgid "cont_file_created"
+msgstr "ファイルは作成されました。"
+
+msgid "cont_file_deleted"
+msgstr "ファイルは削除されました。"
+
+msgid "cont_file_from_repository"
+msgstr "リポジトリのファイル"
+
+msgid "cont_file_from_workspace"
+msgstr "マイワークスペースからのファイル"
+
+msgid "cont_file_renamed"
+msgstr "ファイルは名前変更されました。"
+
+msgid "cont_file_unzipped"
+msgstr "ファイルはunzipされました。"
+
+msgid "cont_files"
+msgstr "ファイル"
+
+msgid "cont_finish_editing"
+msgstr "編集終了"
+
+msgid "cont_finish_table_editing"
+msgstr "データ表編集を終了"
+
+msgid "cont_first_open"
+msgstr "最初のパネルオープン"
+
+msgid "cont_first_page"
+msgstr "最初のページ"
+
+msgid "cont_first_row_style"
+msgstr "最初のRowスタイルクラス"
+
+msgid "cont_fix_tree"
+msgstr "構造を固定"
+
+msgid "cont_fix_tree_confirm"
+msgstr "このラーニングモジュールのツリー構造が壊れているような場合（例　空白アイテムがエクスプローラーのビューで発生する）にのみこのコマンドを実行してください。"
+
+msgid "cont_fn"
+msgstr "脚注"
+
+msgid "cont_footer"
+msgstr "フッター"
+
+msgid "cont_footnote"
+msgstr "Footnote"
+
+msgid "cont_force_all_open"
+msgstr "全て開いておく"
+
+msgid "cont_format"
+msgstr "形式"
+
+msgid "cont_format_cells"
+msgstr "セルをフォーマット"
+
+msgid "cont_fourth_edition"
+msgstr "SCORM 2004 4th edition"
+
+msgid "cont_fourth_edition_info"
+msgstr "SCORM 2004 4th editionは3rd editionに比較すると優れたものを提供: データはSCO間で持ち越しできます。学習モジュールにはこの機能を実際に使用するものがありますがパフォーマンスに悪影響を与えます。"
+
+msgid "cont_free_pages"
+msgstr "フリーページ"
+
+msgid "cont_full_is_in_dir"
+msgstr "削除可能です. 全画面ファイルはディレクトリの中にあります。"
+
+msgid "cont_fullscreen"
+msgstr "全画面"
+
+msgid "cont_general_properties"
+msgstr "全般プロパティ"
+
+msgid "cont_get_link"
+msgstr "リンクする"
+
+msgid "cont_glo_assign"
+msgstr "用語集を割当て"
+
+msgid "cont_glo_create"
+msgstr "用語集を作成"
+
+msgid "cont_glo_detach"
+msgstr "用語集を切り離す"
+
+msgid "cont_glo_properties"
+msgstr "用語集のプロパティ"
+
+msgid "cont_glossaries"
+msgstr "用語集"
+
+msgid "cont_got_lock_release"
+msgstr "このページは%1まで編集用にロックされています。全ての変更が完了したらページをリリースしてください。"
+
+msgid "cont_grid_cell"
+msgstr "列"
+
+msgid "cont_grid_cell_confirm_deletion"
+msgstr "列を本当に削除しますか?"
+
+msgid "cont_grid_nr_cells"
+msgstr "列の番号"
+
+msgid "cont_grid_t_main_side"
+msgstr "メインとサイドブロック"
+
+msgid "cont_grid_t_main_side_info"
+msgstr "左に広い列と右に狭い列を作成。1列モバイルビュー(small)レイアウトへ切り替える。"
+
+msgid "cont_grid_t_manual"
+msgstr "手動でページレイアウトを作成しました"
+
+msgid "cont_grid_t_manual_info"
+msgstr "列数と幅のフリーデザインを有効"
+
+msgid "cont_grid_t_three_column"
+msgstr "ツリー-列-レイアウト"
+
+msgid "cont_grid_t_three_column_info"
+msgstr "隣同士同じ幅のツリー列を作成します。モバイルビュー(small)の1-列レイアウトへ切り替えます。"
+
+msgid "cont_grid_t_two_by_two"
+msgstr "Two-time-two-box"
+
+msgid "cont_grid_t_two_by_two_info"
+msgstr "同じ幅の2列2行を作成します。モバイルビュー(small)の1-列レイアウトで特大幅画面(特大)の4列レイアウトへ切り替えます。"
+
+msgid "cont_grid_t_two_column"
+msgstr "2-列－レイアウト"
+
+msgid "cont_grid_t_two_column_info"
+msgstr "隣同士の幅広2列を作成します。モバイルビュー(small)の1-列レイアウトへ切り替えます。"
+
+msgid "cont_grid_width_l"
+msgstr "Large"
+
+msgid "cont_grid_width_l_info"
+msgstr "例 デスクトップ"
+
+msgid "cont_grid_width_m"
+msgstr "Medium"
+
+msgid "cont_grid_width_m_info"
+msgstr "例 表"
+
+msgid "cont_grid_width_s"
+msgstr "Small"
+
+msgid "cont_grid_width_s_info"
+msgstr "例 スマートフォン"
+
+msgid "cont_grid_width_xl"
+msgstr "Extra Large"
+
+msgid "cont_grid_width_xl_info"
+msgstr "例 ワイドデスクトップ"
+
+msgid "cont_hacc_needs_height"
+msgstr "水平アコーディオンのコンテンツの高さを設定してください。"
+
+msgid "cont_hacc_needs_width"
+msgstr "水平アコーディオンのコンテンツの幅を設定してください。"
+
+msgid "cont_has_row_header"
+msgstr "ヘッダー行あり"
+
+msgid "cont_header"
+msgstr "ヘッダー"
+
+msgid "cont_height"
+msgstr "高さ"
+
+msgid "cont_help_no_valid_tooltip_id"
+msgstr "入力されたtooltip IDは無効です。"
+
+msgid "cont_hide_adv"
+msgstr "詳細知識を非表示"
+
+msgid "cont_hide_head_foot_print"
+msgstr "プリントビューのカスタムヘッダーとフッターを表示しない"
+
+msgid "cont_hidenavig"
+msgstr "左側ナビゲーション・ツリーを非表示にする"
+
+msgid "cont_hidenavig_info"
+msgstr "SCORM学習モジュールにコンテンツセクション間をナビゲートする適切な機能があるかあるいはトップナビゲーションバーが表示されれば左側のナビゲーションツリーは非表示にできます。"
+
+msgid "cont_highlight_class"
+msgstr "クラスをハイライト"
+
+msgid "cont_highlight_mode"
+msgstr "ハイライトモード"
+
+msgid "cont_hover"
+msgstr "Hover"
+
+msgid "cont_href"
+msgstr "href"
+
+msgid "cont_html_export_ids"
+msgstr "HTMLエクスポートID"
+
+msgid "cont_html_export_ids_info"
+msgstr "HTMLエクスポート完了時のHTML命名に使用されるILIASラーニングモジュール用の拡張ID管理を許可します。"
+
+msgid "cont_html_table"
+msgstr "HTML表"
+
+msgid "cont_id_ref"
+msgstr "参照識別子"
+
+msgid "cont_ie_compatibility"
+msgstr "Internet Explorer 7互換モード"
+
+msgid "cont_ie_compatibility_info"
+msgstr "特に古いラーニングモジュール用として互換モードを実行するには有効です。互換モードはIEの新バージョンでは無効にする事ができます。"
+
+msgid "cont_ie_force_render"
+msgstr "Internet Explorerの再読み込みを強行"
+
+msgid "cont_ie_force_render_info"
+msgstr "ラーニングモジュールのコンテンツがフレームやiFrameの量によりIEで正しく表示されない場合のみこのオプションをオンにします。さらにオプションの'表示 'の'別窓で開く'を設定する必要があります。"
+
+msgid "cont_iim_add_overlay"
+msgstr "重ね合わせを追加"
+
+msgid "cont_iim_add_trigger"
+msgstr "トリガーを追加"
+
+msgid "cont_iim_add_trigger_text"
+msgstr "トリガを追加してください。その後で正しい画面上でサイズと位置を変更します。"
+
+msgid "cont_iim_background_image"
+msgstr "背景イメージ"
+
+msgid "cont_iim_background_image_and_caption"
+msgstr "背景イメーチとキャプション"
+
+msgid "cont_iim_edit"
+msgstr "インタラクティブイメージを編集"
+
+msgid "cont_iim_edit_trigger"
+msgstr "トリガーを追加編集"
+
+msgid "cont_iim_finish_editing"
+msgstr "インタラクティブイメージ編集を終了"
+
+msgid "cont_iim_horizontal"
+msgstr "水平"
+
+msgid "cont_iim_lg"
+msgstr "拡大"
+
+msgid "cont_iim_md"
+msgstr "中間"
+
+msgid "cont_iim_no_overlay"
+msgstr "重ね合わせなし"
+
+msgid "cont_iim_overview"
+msgstr "概要"
+
+msgid "cont_iim_select_overlay"
+msgstr "重ね合わせを選択"
+
+msgid "cont_iim_select_trigger"
+msgstr "現在のトリガを編集するには、正しい画面上でクリック"
+
+msgid "cont_iim_size"
+msgstr "サイズ"
+
+msgid "cont_iim_sm"
+msgstr "小"
+
+msgid "cont_iim_tr_add_popup"
+msgstr "コンテント-ページポップアップを追加"
+
+msgid "cont_iim_tr_properties_info"
+msgstr "トリガーは右端へ表示されます。マウスを使用して位置とサイズ変更できます。"
+
+msgid "cont_iim_trigger"
+msgstr "トリガー"
+
+msgid "cont_iim_vertical"
+msgstr "垂直"
+
+msgid "cont_imagemap"
+msgstr "イメージマップ"
+
+msgid "cont_import"
+msgstr "インポート"
+
+msgid "cont_import_id"
+msgstr "識別子"
+
+msgid "cont_import_lang"
+msgstr "ターゲット言語"
+
+msgid "cont_import_tracking"
+msgstr "追跡データをインポート"
+
+msgid "cont_import_trans"
+msgstr "翻訳をインポート"
+
+msgid "cont_import_validation_errors"
+msgstr "ラーニングモジュールの有効化中に何らかのエラーが発生しました。ラーニングモジュール素材は大丈夫と思われますが、エラーが含まれるページを編集できないような事があります。"
+
+msgid "cont_initial_attached_content"
+msgstr "初期外部コンテンツ"
+
+msgid "cont_insert_amd_page_list"
+msgstr "ページリストを挿入"
+
+msgid "cont_insert_as_chapter"
+msgstr "章として挿入"
+
+msgid "cont_insert_as_subchapter"
+msgstr "サブチャプターとして挿入"
+
+msgid "cont_insert_blog"
+msgstr "ブログ投稿を追加"
+
+msgid "cont_insert_chapter"
+msgstr "章を挿入"
+
+msgid "cont_insert_chapter_from_clip"
+msgstr "クリップボードから章を貼付け"
+
+msgid "cont_insert_consultation_hours"
+msgstr "会議時間を挿入"
+
+msgid "cont_insert_file_item"
+msgstr "ファイル アイテムを挿入"
+
+msgid "cont_insert_file_list"
+msgstr "ファイルリストを挿入"
+
+msgid "cont_insert_list"
+msgstr "詳細リストを挿入"
+
+msgid "cont_insert_login_page"
+msgstr "ログインページ要素を追加"
+
+msgid "cont_insert_map"
+msgstr "マップを挿入"
+
+msgid "cont_insert_mob"
+msgstr "メディア オブジェクトを挿入"
+
+msgid "cont_insert_my_courses"
+msgstr "マイコースを挿入"
+
+msgid "cont_insert_page"
+msgstr "ページをを挿入"
+
+msgid "cont_insert_page_from_clip"
+msgstr "クリップボードのページを貼り付ける"
+
+msgid "cont_insert_pagelayout"
+msgstr "テンプレートページを挿入"
+
+msgid "cont_insert_par"
+msgstr "テキストを挿入"
+
+msgid "cont_insert_profile"
+msgstr "パーソナルデータを追加"
+
+msgid "cont_insert_resources"
+msgstr "リソースリストを挿入"
+
+msgid "cont_insert_section"
+msgstr "セクションを挿入"
+
+msgid "cont_insert_skills"
+msgstr "能力を挿入"
+
+msgid "cont_insert_src"
+msgstr "ソースコードを挿入"
+
+msgid "cont_insert_subchapter"
+msgstr "サブチャプターを挿入"
+
+msgid "cont_insert_subchapter_from_clip"
+msgstr "クリップボードのサブチャプターを貼り付ける"
+
+msgid "cont_insert_table"
+msgstr "表を挿入"
+
+msgid "cont_insert_verification"
+msgstr "検証を追加"
+
+msgid "cont_inst_map_areas"
+msgstr "リンクエリア実体"
+
+msgid "cont_interactions"
+msgstr "インタラクション結果を保存する"
+
+msgid "cont_interactions_info"
+msgstr "通常、学習モジュール内のインタラクション結果は再読み込み・ロードなしで単純に保存されます。学習モジュールの動作が確実であれば、このオプションはパフォーマンスを改善します。"
+
+msgid "cont_interactions_info_12"
+msgstr " 学習モジュールSCORM 1.2内のインタラクション結果は単純に保存されます。このオプションはパフォーマンスを改善します。"
+
+msgid "cont_internal_link"
+msgstr "内部リンク"
+
+msgid "cont_internal_links"
+msgstr "内部リンク"
+
+msgid "cont_invalid_new_module"
+msgstr "非互換のモジュールです! imsmanifest.xmlが変更されていないか確認してください"
+
+msgid "cont_is_visible"
+msgstr "表示する"
+
+msgid "cont_item"
+msgstr "アイテム"
+
+msgid "cont_keyword"
+msgstr "Keyword"
+
+msgid "cont_language"
+msgstr "言語"
+
+msgid "cont_languages"
+msgstr "言語"
+
+msgid "cont_last_try"
+msgstr "前回アクセス"
+
+msgid "cont_last_update"
+msgstr "Last Update"
+
+msgid "cont_last_visited_page"
+msgstr "最終訪問ページ"
+
+msgid "cont_latest_rev"
+msgstr "最新版"
+
+msgid "cont_layout"
+msgstr "レイアウト"
+
+msgid "cont_layout_1window"
+msgstr "Windowを開く"
+
+msgid "cont_layout_1window_desc"
+msgstr "メインフレームのコンテンツ。FAQ、 用語集、メディア・リンクは別窓で開きます。"
+
+msgid "cont_layout_2window"
+msgstr "二個の窓"
+
+msgid "cont_layout_2window_desc"
+msgstr "左フレームのコンテンツ。 FAQ、 用語集、メディアリンクは右フレームで開きます。"
+
+msgid "cont_layout_3window"
+msgstr "3つのWindow"
+
+msgid "cont_layout_3window_desc"
+msgstr "左フレームのコンテンツ。 FAQとメディアリンクは上右側のフレームにリンクし"
+
+msgid "cont_layout_fullscreen"
+msgstr "全画面"
+
+msgid "cont_layout_fullscreen_desc"
+msgstr "メインフレームのコンテツ。 FAQ、用語集、メディア・リンクは別々の窓で開きます。ILIASメイン・メニューもナビゲーションバーもなし。"
+
+msgid "cont_layout_per_page"
+msgstr "ページ単位のレイアウト"
+
+msgid "cont_layout_per_page_info"
+msgstr "各ページに個別レイアウトの設定を許可します。  \"フレームを同期\"設定は自動的にアクティブになります。"
+
+msgid "cont_layout_presentation"
+msgstr "プレゼンテーション"
+
+msgid "cont_layout_presentation_desc"
+msgstr "メイン・フレームのコンテンツ。FAQ、 用語集、メディアリンクは別窓で開きます。 ILIASメインメニューなし。"
+
+msgid "cont_layout_template"
+msgstr "レイアウトテンプレート"
+
+msgid "cont_layout_toc2win"
+msgstr "目次"
+
+msgid "cont_layout_toc2win_desc"
+msgstr "左側に目次、右側にコンテンツ。FAQ、用語集、メディア・リンクは別窓で開きます。"
+
+msgid "cont_layout_toc2windyn"
+msgstr "ダイナミック目次"
+
+msgid "cont_layout_toc2windyn_desc"
+msgstr "左側に目次、右側フレームにコンツ。FAQ、用語集、メディア・リンクはダイナミックに下側右のフレームで開きます。"
+
+msgid "cont_left"
+msgstr "左"
+
+msgid "cont_left_float"
+msgstr "左、フローティング"
+
+msgid "cont_license"
+msgstr "ライセンス"
+
+msgid "cont_license_info"
+msgstr "ライセンス機能を有効"
+
+msgid "cont_light"
+msgstr "明るく"
+
+msgid "cont_link"
+msgstr "リンク"
+
+msgid "cont_link_area"
+msgstr "リンクエリヤ"
+
+msgid "cont_link_ext"
+msgstr "リンク(外部)"
+
+msgid "cont_link_glo_in_lm"
+msgstr "全ての用語集表現をラーニングモジュール中に今リンクしなければなりませんか。"
+
+msgid "cont_link_int"
+msgstr "リンク (内部)"
+
+msgid "cont_link_no"
+msgstr "No Link"
+
+msgid "cont_link_select"
+msgstr "内部リンク"
+
+msgid "cont_link_to_external"
+msgstr "外部Webサイトへのリンク"
+
+msgid "cont_link_to_internal"
+msgstr "ILIASリソースへのリンク"
+
+msgid "cont_link_to_wiki"
+msgstr "Wikiページへのリンク"
+
+msgid "cont_link_type"
+msgstr "リンクタイプ"
+
+msgid "cont_link_user"
+msgstr "ユーザプロファイル"
+
+msgid "cont_linked_mobs"
+msgstr "リンクしたメディア オブジェクト"
+
+msgid "cont_links"
+msgstr "リンク"
+
+msgid "cont_list_files"
+msgstr "ファイルの一覧"
+
+msgid "cont_list_indent"
+msgstr "インデントリスト"
+
+msgid "cont_list_item_style"
+msgstr "アイテムスタイルをリスト"
+
+msgid "cont_list_outdent"
+msgstr "インデント解除リスト"
+
+msgid "cont_list_properties"
+msgstr "プロパティを一覧"
+
+msgid "cont_lists"
+msgstr "リスト"
+
+msgid "cont_lk_chapter"
+msgstr "章"
+
+msgid "cont_lk_chapter_new"
+msgstr "章 (新フレーム)"
+
+msgid "cont_lk_file"
+msgstr "ファイル/ドキュメント"
+
+msgid "cont_lk_media_faq"
+msgstr "メディア (FAQフレーム)"
+
+msgid "cont_lk_media_inline"
+msgstr "メディア (インライン)"
+
+msgid "cont_lk_media_media"
+msgstr "メディア (メディアフレーム)"
+
+msgid "cont_lk_media_new"
+msgstr "メディア (新規フレーム)"
+
+msgid "cont_lk_page"
+msgstr "ページ"
+
+msgid "cont_lk_page_faq"
+msgstr "ページ(FAQフレーム)"
+
+msgid "cont_lk_page_new"
+msgstr "ページ (新規フレーム)"
+
+msgid "cont_lk_term"
+msgstr "用語集"
+
+msgid "cont_lk_term_new"
+msgstr "用語集(新フレーム)"
+
+msgid "cont_lm_comments_desc"
+msgstr "ユーザへラーニングモジュールの全ページ上のコメント共有を許可します。"
+
+msgid "cont_lm_default_layout"
+msgstr "ラーニングモジュールのレイアウト初期設定"
+
+msgid "cont_lm_mail_permanent_link"
+msgstr "ラーニングモジュールへアクセスするには次のリンクをクリック:"
+
+msgid "cont_lm_menu"
+msgstr "メニュー"
+
+msgid "cont_lm_properties"
+msgstr "ラーニングモジュール設定"
+
+msgid "cont_lm_starting_point"
+msgstr "ILIAS学習モジュールの開始位置"
+
+msgid "cont_lm_starting_point_info"
+msgstr "学習モジュールタイトルをクリックする時にページを開こうとする"
+
+msgid "cont_localfile"
+msgstr "ローカルファイル"
+
+msgid "cont_localization"
+msgstr "言語対応"
+
+msgid "cont_localization_info"
+msgstr "言語は事前定義のテキスト(例：\"前へ\"や\"次へ\")に使用されます。"
+
+msgid "cont_location"
+msgstr "ロケーション"
+
+msgid "cont_lpe_dpro_agreement_link"
+msgstr "データ保護リンクの宣言"
+
+msgid "cont_lpe_language_selection"
+msgstr "言語選択"
+
+msgid "cont_lpe_login_form"
+msgstr "Login Form"
+
+msgid "cont_lpe_openid_connect_login"
+msgstr "OpenId Connect Login"
+
+msgid "cont_lpe_openid_login_form"
+msgstr "OpenId Login Form"
+
+msgid "cont_lpe_registration_link"
+msgstr "新規登録リンク"
+
+msgid "cont_lpe_saml_login"
+msgstr "SAML Login"
+
+msgid "cont_lpe_shib_login_form"
+msgstr "Shibboleth Login Form"
+
+msgid "cont_lpe_user_agreement_link"
+msgstr "使用許諾書リンク"
+
+msgid "cont_lrs_settings"
+msgstr "設定"
+
+msgid "cont_lvalue"
+msgstr "データ要素"
+
+msgid "cont_maintenance"
+msgstr "メンテナンス"
+
+msgid "cont_manifest"
+msgstr "マニフェスト"
+
+msgid "cont_manual_item_group"
+msgstr "アイテムグループを手動作成"
+
+msgid "cont_map_file_not_generated"
+msgstr "申し訳ありませんが編集用のマップファイルを生成できません。"
+
+msgid "cont_marker"
+msgstr "マーカー"
+
+msgid "cont_master_language_only"
+msgstr "翻訳用のマスター言語"
+
+msgid "cont_master_language_only_no_media"
+msgstr "メディアなしのマスター言語"
+
+msgid "cont_mastery_score"
+msgstr "adlcp：masteryscore"
+
+msgid "cont_mastery_score_12"
+msgstr "mastery_scoreを上書き"
+
+msgid "cont_mastery_score_12_info"
+msgstr "SCOが自立的にステータスを決定できない場合は、一定レベルのmastery_scoreに点数が達するとSCOは合格と考慮します。この値は要求レベルを下げる例のようにここで上書きできます。フィールドが空の場合はSCORMマニフェスト情報が有効になります。次の値はマニュフェストファイルへ提供されます。"
+
+msgid "cont_mastery_score_2004"
+msgstr "scaled_passing_scoreを上書き"
+
+msgid "cont_mastery_score_2004_info"
+msgstr "学習モジュールの中央学習オブジェクトは点数がscaled_passing_scoreのある一定レベルに達すると合格として考慮されます。この値 - パーセント値として宣言すべき - は要求レベルを下げる例のようにここで上書きできます。フィールドが空の場合はSCORMマニフェストの情報が有効になります。次の値はマニフェストファイルへ提供されます。"
+
+msgid "cont_max_time_allowed"
+msgstr "adlcp：maxtimeallowed"
+
+msgid "cont_media"
+msgstr "Images/Media"
+
+msgid "cont_media_placeh"
+msgstr "クリックして挿入メディアを編集"
+
+msgid "cont_media_placehl"
+msgstr "メディアプレースフォルダ"
+
+msgid "cont_media_source"
+msgstr "メディアソース"
+
+msgid "cont_merge_cells"
+msgstr "セルを統合"
+
+msgid "cont_missing_preconditions"
+msgstr "章 \"%s\"へアクセスするための次の前提条件を埋める必要があります。"
+
+msgid "cont_missing_snippet"
+msgstr "断片コンテンツがありません。断片は削除されています。"
+
+msgid "cont_mob_def_prop"
+msgstr "プロパティ初期設定"
+
+msgid "cont_mob_from_media_pool"
+msgstr "メディア集から選択する"
+
+msgid "cont_mob_inst_prop"
+msgstr "実体のプロパティ"
+
+msgid "cont_mob_usages"
+msgstr "使用"
+
+msgid "cont_more_character_styles"
+msgstr "…他の文字スタイル"
+
+msgid "cont_more_functions"
+msgstr "詳細"
+
+msgid "cont_moved_srt_files"
+msgstr "サブタイトルファイルをメディアオブジェクトへ移動しました。"
+
+msgid "cont_multi_srt_files"
+msgstr "SRTファイル"
+
+msgid "cont_mycourses_sortorder"
+msgstr "既定の並び替え"
+
+msgid "cont_mycourses_sortorder_alphabetical"
+msgstr "アルファベット順"
+
+msgid "cont_mycourses_sortorder_info"
+msgstr "これは初期値です。各ユーザはポートフォリオ要素の全ての\"マイコース\"に影響を及ぼすパーソナル順を選択できます。"
+
+msgid "cont_mycourses_sortorder_location"
+msgstr "位置別"
+
+msgid "cont_name"
+msgstr "名前"
+
+msgid "cont_never"
+msgstr "未着手"
+
+msgid "cont_new_area"
+msgstr "新規リンクエリア"
+
+msgid "cont_new_chap"
+msgstr "新しい章"
+
+msgid "cont_new_dir"
+msgstr "新規ディレクトリ"
+
+msgid "cont_new_file"
+msgstr "新ファイル"
+
+msgid "cont_new_marker"
+msgstr "新しいマーカー"
+
+msgid "cont_new_mob"
+msgstr "新規メディアオブジェクト"
+
+msgid "cont_new_module_added"
+msgstr "新バージョンのモジュールを正しくアップロードしました"
+
+msgid "cont_new_page"
+msgstr "新規ページ"
+
+msgid "cont_new_popup"
+msgstr "新規ポップアップ"
+
+msgid "cont_new_question"
+msgstr "新規問題"
+
+msgid "cont_new_tab"
+msgstr "新しいパネル"
+
+msgid "cont_new_term"
+msgstr "新しい用語"
+
+msgid "cont_new_trigger_area"
+msgstr "新しいトリガーエリア"
+
+msgid "cont_next_rev"
+msgstr "次の版"
+
+msgid "cont_nlist"
+msgstr "段落番号"
+
+msgid "cont_no_access"
+msgstr "アクセスなし"
+
+msgid "cont_no_block"
+msgstr "セクション無し"
+
+msgid "cont_no_caption"
+msgstr "表題なし"
+
+msgid "cont_no_glossary"
+msgstr "用語集なし"
+
+msgid "cont_no_manifest"
+msgstr "メインディレクトリ内にimsmanifest.xml ファイルが見つかりません。"
+
+msgid "cont_no_page"
+msgstr "ページが見つかりませんでした。"
+
+msgid "cont_no_page_access_unansw_q"
+msgstr "このページアクセスするには前のページの全ての問題へ正しく解答する必要があります。"
+
+msgid "cont_no_page_in_chapter"
+msgstr "申し訳ありませんが現在この章には使用可能なコンテンツがありません。"
+
+msgid "cont_no_parameters"
+msgstr "パラメーターなし"
+
+msgid "cont_no_read"
+msgstr "読み込みアクセス権がありません"
+
+msgid "cont_no_subdir_in_zip"
+msgstr "Zipコマンドが失敗したかインポート ファイルが無効です。<br>サブフォルダ '%s'にコンテンツがありません。"
+
+msgid "cont_no_text"
+msgstr "テキストなし"
+
+msgid "cont_nomenu"
+msgstr "トップナビゲーションバーを無効にする"
+
+msgid "cont_nomenu_info"
+msgstr "SCORM学習モジュールに保留、終了、コンテンツナビゲートの適切な機能がある場合は、トップナビゲーションバーを非表示にできます。"
+
+msgid "cont_none"
+msgstr "None"
+
+msgid "cont_not_saved_edit_lock_expired"
+msgstr "申し訳ありませんがこの間に他のユーザがこのページ編集をロックしました。このメッセージを閉じてクリップボードへコンテンツをコピーできます。"
+
+msgid "cont_notification_activate_lm"
+msgstr "学習モジュールの通知を有効にする"
+
+msgid "cont_notification_activate_page"
+msgstr "ページの通知を有効にする"
+
+msgid "cont_notification_activated"
+msgstr "通知を有効化(全LM)"
+
+msgid "cont_notification_comment_lm"
+msgstr "次の学習モジュールページがコメントされました。"
+
+msgid "cont_notification_comment_subject_lm"
+msgstr "コメントが追加されました %s: %s"
+
+msgid "cont_notification_deactivate_lm"
+msgstr "学習モジュールの通知を無効化"
+
+msgid "cont_notification_deactivate_page"
+msgstr "ページの通知を無効化"
+
+msgid "cont_notification_deactivated"
+msgstr "通知は無効化されました"
+
+msgid "cont_notification_update_lm"
+msgstr "次の学習モジュールは更新されました"
+
+msgid "cont_notify_on_blocked_users"
+msgstr "ブロックしたユーザの通知"
+
+msgid "cont_notify_on_blocked_users_info"
+msgstr "ユーザが試行回数を超えてブロックされれば通知されます。"
+
+msgid "cont_nr_col_footer"
+msgstr "フッター欄"
+
+msgid "cont_nr_col_header"
+msgstr "ヘッダー欄"
+
+msgid "cont_nr_cols"
+msgstr "欄の数"
+
+msgid "cont_nr_items"
+msgstr "アイテム数"
+
+msgid "cont_nr_of_tries_exceeded"
+msgstr "解答回数上限を超えました。"
+
+msgid "cont_nr_row_footer"
+msgstr "フッター行"
+
+msgid "cont_nr_row_header"
+msgstr "ヘッダー行"
+
+msgid "cont_nr_rows"
+msgstr "行数"
+
+msgid "cont_number_of_tabs"
+msgstr "パネル数"
+
+msgid "cont_number_std"
+msgstr "標準"
+
+msgid "cont_number_type"
+msgstr "番号書式"
+
+msgid "cont_numbered_list"
+msgstr "段落番号"
+
+msgid "cont_obj_removed"
+msgstr "オブジェクトは削除されました。"
+
+msgid "cont_objectives"
+msgstr "学習目標データ保存する"
+
+msgid "cont_objectives_info"
+msgstr "この学習モジュールが確実に動作するならば、このオプションはパフォーマンスを改善します。"
+
+msgid "cont_online"
+msgstr "オンライン"
+
+msgid "cont_online_help_ids"
+msgstr "ヘルプID"
+
+msgid "cont_online_info"
+msgstr "ユーザへ表示して利用できるようにSCORM学習モジュールをオンラインに設定します。そうしないとユーザは'編集'-アクセス権のあるユーザのみしかアクセスできなくなります。"
+
+msgid "cont_open"
+msgstr "学習モジュールのプレゼンテーション"
+
+msgid "cont_open_clipboard"
+msgstr "クリップボードを開放"
+
+msgid "cont_open_iframe"
+msgstr "同一ウインドウの下にILIASメインメニューを開く"
+
+msgid "cont_open_iframe_info"
+msgstr "学習モジュールはILIASメインメニューの隣の同じwindow(iFrame)内で開始します。"
+
+msgid "cont_open_normal"
+msgstr "新しいTab内"
+
+msgid "cont_open_normal_info"
+msgstr "学習モジュールは新しいタブ内またはILIASメインメニューのない別の新しいWindow内で開始します。"
+
+msgid "cont_open_window"
+msgstr "ILIASメインメニューなしで新しいウインドウを強制的に開く"
+
+msgid "cont_open_window_info"
+msgstr "学習モジュールはILIASメインメニューなしの新しいWindow内で開始する必要があります。"
+
+msgid "cont_operation_not_allowed"
+msgstr "この操作は認められません。"
+
+msgid "cont_organization"
+msgstr "組織"
+
+msgid "cont_organizations"
+msgstr "組織"
+
+msgid "cont_orig_size"
+msgstr "オリジナルサイズ"
+
+msgid "cont_other_resources"
+msgstr "コンテンツ (他の残っているリソース)"
+
+msgid "cont_out_of_focus_message"
+msgstr "このページは現在の学習目標にもう関係ありません。"
+
+msgid "cont_out_of_focus_message_last_page"
+msgstr "これは現在の学習目標関係するコンテンツの最終ページです。"
+
+msgid "cont_ov_all_correct"
+msgstr "全問へ解答しています。"
+
+msgid "cont_ov_preview"
+msgstr "この問題概要はページエディターコンテキスト内では動作しません。代わりにSCOまたはSCORMレベルプレビューを使用します。"
+
+msgid "cont_ov_some_correct"
+msgstr "[y]問中[x] 問に解答しています。"
+
+msgid "cont_ov_wrong_answered"
+msgstr "以下の問題は未解答か解答が間違っていました。"
+
+msgid "cont_overlay_image"
+msgstr "オーバーレイ画像"
+
+msgid "cont_overlay_images"
+msgstr "オーバーレイ画像"
+
+msgid "cont_overlays_have_been_deleted"
+msgstr "オーバーレイは削除されています。"
+
+msgid "cont_page_activation"
+msgstr "ページアクティベーション"
+
+msgid "cont_page_activation_on"
+msgstr "内容は%sに有効になります。"
+
+msgid "cont_page_compare"
+msgstr "選択した版数を比較"
+
+msgid "cont_page_created"
+msgstr "ページを作成しました"
+
+msgid "cont_page_currently_deactivated"
+msgstr "申し訳ありませんが現在このページは使用できません。"
+
+msgid "cont_page_deactivated"
+msgstr "ページはアクティブ解除されています。"
+
+msgid "cont_page_deactivated_elements"
+msgstr "ページはアクティブ解除された要素を含みます。"
+
+msgid "cont_page_header"
+msgstr "ページヘッダー"
+
+msgid "cont_page_layout"
+msgstr "ページレイアウト"
+
+msgid "cont_page_lock_released"
+msgstr "編集は終了しました。ページロックは開放されました。"
+
+msgid "cont_page_notification_activated"
+msgstr "通知を有効化(Single Page)"
+
+msgid "cont_page_template"
+msgstr "ページテンプレート"
+
+msgid "cont_page_toc"
+msgstr "ページ全体概要"
+
+msgid "cont_page_translation_does_not_exist"
+msgstr "翻訳ページはまだありませんが現在のマスターページのコンテンツをコピーして作成されます。言語翻訳のページ。"
+
+msgid "cont_page_usage"
+msgstr "ページ使用"
+
+msgid "cont_pages"
+msgstr "ページ"
+
+msgid "cont_pages_and_subchapters"
+msgstr "副章とページ"
+
+msgid "cont_par_format"
+msgstr "段落"
+
+msgid "cont_paragraph_styles"
+msgstr "段落書式"
+
+msgid "cont_parameter"
+msgstr "パラメーター"
+
+msgid "cont_parameters"
+msgstr "パラメーター"
+
+msgid "cont_paste_from_clipboard"
+msgstr "クリップボードを貼り付ける"
+
+msgid "cont_paste_from_spreadsheet"
+msgstr "スプレッドシートから貼り付け"
+
+msgid "cont_paste_table"
+msgstr "表を貼り付ける"
+
+msgid "cont_pc_amdpl"
+msgstr "ページリスト"
+
+msgid "cont_pc_blog"
+msgstr "ブログ"
+
+msgid "cont_pc_carousel"
+msgstr "カルーセル"
+
+msgid "cont_pc_code"
+msgstr "コード"
+
+msgid "cont_pc_deleted"
+msgstr "コンテンツを削除"
+
+msgid "cont_pc_dtab"
+msgstr "データ表"
+
+msgid "cont_pc_flist"
+msgstr "ファイルリスト"
+
+msgid "cont_pc_grid"
+msgstr "列レイアウト"
+
+msgid "cont_pc_hacc"
+msgstr "アコーディオン (水平)"
+
+msgid "cont_pc_iim"
+msgstr "インタラクティブな画像"
+
+msgid "cont_pc_incl"
+msgstr "スニペットコンテンツ"
+
+msgid "cont_pc_lay"
+msgstr "レイアウトテンプレート"
+
+msgid "cont_pc_list"
+msgstr "詳細・リスト"
+
+msgid "cont_pc_map"
+msgstr "地図"
+
+msgid "cont_pc_media"
+msgstr "Image/Media"
+
+msgid "cont_pc_mob"
+msgstr "メディア"
+
+msgid "cont_pc_modified"
+msgstr "コンテンツを修正"
+
+msgid "cont_pc_new"
+msgstr "新コンテンツ"
+
+msgid "cont_pc_par"
+msgstr "テキスト"
+
+msgid "cont_pc_plach"
+msgstr "プレースホルダー"
+
+msgid "cont_pc_prof"
+msgstr "パーソナルデータ"
+
+msgid "cont_pc_qover"
+msgstr "問題概要"
+
+msgid "cont_pc_qst"
+msgstr "問題"
+
+msgid "cont_pc_repobj"
+msgstr "アイテムグループ"
+
+msgid "cont_pc_res"
+msgstr "リソース"
+
+msgid "cont_pc_sec"
+msgstr "セクション"
+
+msgid "cont_pc_skills"
+msgstr "能力"
+
+msgid "cont_pc_src"
+msgstr "ソースコード"
+
+msgid "cont_pc_tab"
+msgstr "詳細表"
+
+msgid "cont_pc_tabs"
+msgstr "アコーディアオン/カルーセル"
+
+msgid "cont_pc_vacc"
+msgstr "アコーディオン (垂直)"
+
+msgid "cont_pc_vrfc"
+msgstr "検証"
+
+msgid "cont_permission_handling"
+msgstr "パーミッション処理"
+
+msgid "cont_permission_object"
+msgstr "権限オブジェクト"
+
+msgid "cont_permission_object_desc"
+msgstr "セッションはアクセス権のあるオブジョクトへアクセスできるユーザへのみ表示されます。"
+
+msgid "cont_personal_clipboard"
+msgstr "パーソナルクリップボード"
+
+msgid "cont_pg_title"
+msgstr "ページタイトル"
+
+msgid "cont_please_enter_a_term"
+msgstr "用語を入力してください。"
+
+msgid "cont_please_select"
+msgstr "選択してください"
+
+msgid "cont_please_try_again"
+msgstr "もう一度やり直してください"
+
+msgid "cont_popups_have_been_deleted"
+msgstr "ポップアップは削除されました。"
+
+msgid "cont_position"
+msgstr "位置"
+
+msgid "cont_prereq_type"
+msgstr "adlcp：prerequisites.type"
+
+msgid "cont_prerequisites"
+msgstr "adlcp：prerequisites"
+
+msgid "cont_presentation"
+msgstr "プレゼンテーション"
+
+msgid "cont_presentation_view"
+msgstr "プレゼンテーション表示"
+
+msgid "cont_preview"
+msgstr "プレビュー"
+
+msgid "cont_previous_rev"
+msgstr "以前の改版"
+
+msgid "cont_print_no_page_selected"
+msgstr "最低一つページを選択してください。"
+
+msgid "cont_print_selection"
+msgstr "印刷表示の選択"
+
+msgid "cont_print_view"
+msgstr "印刷表示"
+
+msgid "cont_print_view_pre_glo"
+msgstr "印刷表示での用語集追加を防止"
+
+msgid "cont_profile_mode"
+msgstr "モード"
+
+msgid "cont_profile_mode_inherit"
+msgstr "自動"
+
+msgid "cont_profile_mode_inherit_info"
+msgstr "パブリックプロファイル設定を使用します"
+
+msgid "cont_profile_mode_manual"
+msgstr "手動"
+
+msgid "cont_profile_mode_manual_info"
+msgstr "次のデータを使用:"
+
+msgid "cont_profile_mode_template_inherit_info"
+msgstr "プロファイル設定を使用"
+
+msgid "cont_progress_icons"
+msgstr "進捗アイコン"
+
+msgid "cont_progress_icons_info"
+msgstr "プレゼンテーションモードで章ページアイコンに代わり進捗アイコンを表示。進捗情報はILIAS5.0以降でのみ保存される事に注意願います。"
+
+msgid "cont_prtf_page"
+msgstr "ポートフォリオページ"
+
+msgid "cont_prtt_page"
+msgstr "ポートフォリオテンプレトページ"
+
+msgid "cont_public_access"
+msgstr "パブリックアクセス"
+
+msgid "cont_purpose"
+msgstr "目的"
+
+msgid "cont_qover_list_wrong_q"
+msgstr "問題解答間違いの一覧"
+
+msgid "cont_qover_list_wrong_q_info"
+msgstr "間違いまたは未解答リストが表示されます。"
+
+msgid "cont_qover_short_message"
+msgstr "ステータスメッセージ"
+
+msgid "cont_qover_short_message_info"
+msgstr "この単位のY中のC問が正解ですのメッセージが表示されます。"
+
+msgid "cont_qtries"
+msgstr "問題の試行回数"
+
+msgid "cont_qtries_info"
+msgstr "新しく作成された問題の試行回数の初期値"
+
+msgid "cont_question"
+msgstr "問題"
+
+msgid "cont_question_page_usage"
+msgstr "ページ上の問題"
+
+msgid "cont_question_placeh"
+msgstr "クリックして問題を挿入"
+
+msgid "cont_question_placehl"
+msgstr "問題のプレースフォルダ"
+
+msgid "cont_question_stats"
+msgstr "統計"
+
+msgid "cont_question_type"
+msgstr "問題タイプ"
+
+#, fuzzy
+msgid "cont_question_usage"
+msgstr "Usages"
+
+msgid "cont_quit_text_editing"
+msgstr "テキスト編集を終了"
+
+msgid "cont_rand_start"
+msgstr "ランダム開始"
+
+msgid "cont_really_delete_overlays"
+msgstr "次のオーバーレイを本当に削除しますか?"
+
+msgid "cont_really_delete_popups"
+msgstr "次のポップアップを本当に削除しますか?"
+
+msgid "cont_really_delete_triggers"
+msgstr "次のトリガーを本当に削除しますか?"
+
+msgid "cont_ref_helptext"
+msgstr "(例 Http://www.server.org/myimage.jpg)"
+
+msgid "cont_ref_images"
+msgstr "イメージを参照"
+
+msgid "cont_reference"
+msgstr "参照"
+
+msgid "cont_remove_format"
+msgstr "フォーマットを削除"
+
+msgid "cont_rename_dir"
+msgstr "ディレクトリ名前変更"
+
+msgid "cont_replace_mob_feature"
+msgstr "コンテンツ内のメディア オブジェクトを差し替える"
+
+msgid "cont_replace_mob_feature_info"
+msgstr "メディア オブジェクトコンテンツ内の他のメディアインスタンスのプロパティを保持しながらメディアオブジェクト差し替えを可能にする機能を使用する。"
+
+msgid "cont_repository_item"
+msgstr "リポジトリアイテム"
+
+msgid "cont_reset_nr_of_tries"
+msgstr "試行回数をリセット"
+
+msgid "cont_resize_img"
+msgstr "イメージファイルをサイズ変更"
+
+msgid "cont_resource"
+msgstr "リソース"
+
+msgid "cont_resource_size"
+msgstr "オリジナルのリソースサイズ"
+
+msgid "cont_resource_size_info"
+msgstr "サイズ宣言がない場合コンテンツスタイルでサイズはコントロールできます。サイズ宣言もサイスを確定するルールを含むコンテンツスタイルも存在しないようなサイズの場合、イメージのみ初期サイズで表示されます。"
+
+msgid "cont_resource_type"
+msgstr "タイプ"
+
+msgid "cont_resources"
+msgstr "リソース"
+
+msgid "cont_resources_of_type"
+msgstr "タイプのリソース"
+
+msgid "cont_restrict_forw_nav"
+msgstr "進むナビゲーションを制限"
+
+msgid "cont_restrict_forw_nav_info"
+msgstr "前の問題全てへ正しく解答しない限り学習者は次のページへナビゲートできません。"
+
+msgid "cont_revision"
+msgstr "改版"
+
+msgid "cont_right"
+msgstr "右"
+
+msgid "cont_right_float"
+msgstr "右側フローティング"
+
+msgid "cont_rollback"
+msgstr "ロールバック"
+
+msgid "cont_rollback_confirmation"
+msgstr "本当にこの旧バージョンのページをリストアしますか?"
+
+msgid "cont_roman"
+msgstr "ローマ字 I, II, ..."
+
+msgid "cont_roman_s"
+msgstr "ローマ字 i, ii, ..."
+
+msgid "cont_rowspan"
+msgstr "行の長さ"
+
+msgid "cont_rte_settings"
+msgstr "RTE設定"
+
+msgid "cont_rvalue"
+msgstr "値"
+
+msgid "cont_save_all_titles"
+msgstr "タイトルを保存"
+
+msgid "cont_save_positions"
+msgstr "位置を保存"
+
+msgid "cont_save_positions_and_classes"
+msgstr "位置とスタイルクラスを保存"
+
+msgid "cont_save_spans"
+msgstr "行を保存"
+
+msgid "cont_save_types"
+msgstr "タイプを保存"
+
+msgid "cont_save_widths"
+msgstr "幅を保存"
+
+msgid "cont_saved_export_ids"
+msgstr "HTML エクスポートIDが保存されました"
+
+msgid "cont_saved_interactive_image"
+msgstr "インタラクティブ画像が作成されました"
+
+msgid "cont_saved_map_area"
+msgstr "マップエリアを保存"
+
+msgid "cont_saved_map_data"
+msgstr "マップデータを保存"
+
+msgid "cont_saving"
+msgstr "保存中..."
+
+msgid "cont_sc_auto_continue"
+msgstr "リダイレクトユーザ"
+
+msgid "cont_sc_auto_continue_info"
+msgstr "最終アクティビティ終了後にユーザは自動的に次のSCOへリダイレクトされます。この機能は全てのSCORM1.2学習モジュールでサポートされているわけではありません。"
+
+msgid "cont_sc_auto_review_2004"
+msgstr "一旦確立すると追跡ステータスをロック"
+
+msgid "cont_sc_auto_review_completed"
+msgstr "達成ステータスが完了したら追跡データを保持"
+
+msgid "cont_sc_auto_review_completed_and_passed"
+msgstr "達成ステータスが完了で通過の場合は追跡データを保持"
+
+msgid "cont_sc_auto_review_completed_not_failed_or_passed"
+msgstr "達成ステータスが未実行ではなく完了または通過の場合は調査データを保持"
+
+msgid "cont_sc_auto_review_completed_or_passed"
+msgstr "達成ステータスが完了または通過の場合は調査データを保持"
+
+msgid "cont_sc_auto_review_info_2004"
+msgstr "ユーザが章・SCOの上記追跡ステータスセットを獲得するとこのステータスはロックされます。今後の追跡データは以降の訪問においてこれらの章・SCOを記録しなくなります。学習モジュールがSCORM2004に準拠するシーケンスとナビゲーションを利用する場合は'常時'を選択します。"
+
+msgid "cont_sc_auto_review_no"
+msgstr "常時(推奨)"
+
+msgid "cont_sc_auto_review_passed"
+msgstr "達成ステータスが通過の場合は追跡データを保持"
+
+msgid "cont_sc_auto_review_passed_or_failed"
+msgstr "達成ステータスが通過または不合格の場合は追跡データを保持"
+
+msgid "cont_sc_id_setting"
+msgstr "SCORM1.2準拠のstudent_id"
+
+msgid "cont_sc_id_setting_2004"
+msgstr "SCORM 2004準拠のlearner_id"
+
+msgid "cont_sc_id_setting_info"
+msgstr "student_id (SCORM 1.2)またはlearner_id (SCORM 2004)の数字idが学習モジュールの問題の原因となるケースでは、'ILIASユーザ名'オプションを使用します。追加のRefIdまたはObjIdは外部サーバへ接続する学習モジュールに有効となる事があります。"
+
+msgid "cont_sc_id_setting_user_id"
+msgstr "ILIAS User Id (Standard)"
+
+msgid "cont_sc_id_setting_user_id_plus_obj_id"
+msgstr "学習モジュールのILIAS User IdプラスObjId"
+
+msgid "cont_sc_id_setting_user_id_plus_ref_id"
+msgstr "学習モジュールのILIAS User IdプラスRefId"
+
+msgid "cont_sc_id_setting_user_login"
+msgstr "ILIASログイン名"
+
+msgid "cont_sc_id_setting_user_login_plus_obj_id"
+msgstr "学習モジュールのILIASログイン名プラスObjId"
+
+msgid "cont_sc_id_setting_user_login_plus_ref_id"
+msgstr "学習モジュールのILIASログイン名プラスObjId"
+
+msgid "cont_sc_less_mode_browse"
+msgstr "ブラウズ"
+
+msgid "cont_sc_less_mode_browse_info"
+msgstr "SCORM モードは\"ブラウズ\"に設定されます"
+
+msgid "cont_sc_less_mode_normal"
+msgstr "学習モード"
+
+msgid "cont_sc_less_mode_normal_info"
+msgstr "SCORM モードは\"normal\"に設定されます"
+
+msgid "cont_sc_max_attempt_exceed"
+msgstr "このモジュールの最大試行回数に達しました。"
+
+msgid "cont_sc_name_setting"
+msgstr "SCORM 1.2準拠のstudent_name"
+
+msgid "cont_sc_name_setting_2004"
+msgstr "SCORM2004準拠のlearner_name"
+
+msgid "cont_sc_name_setting_first_lastname"
+msgstr "姓名"
+
+msgid "cont_sc_name_setting_first_name"
+msgstr "名"
+
+msgid "cont_sc_name_setting_fullname"
+msgstr "タイトル、姓、名"
+
+msgid "cont_sc_name_setting_info"
+msgstr "学習者の名前は複数の方法で学習モジュール内に表示することができます。学習モジュールが外部のサーバ上の場合は、名前を公表しない事に利用可能です。"
+
+msgid "cont_sc_name_setting_last_firstname"
+msgstr "姓、名"
+
+msgid "cont_sc_name_setting_no_name"
+msgstr "無記名"
+
+msgid "cont_sc_name_setting_salutation_lastname"
+msgstr "あいさつと姓"
+
+msgid "cont_sc_new_version"
+msgstr "新バージョンをアップロード"
+
+msgid "cont_sc_preview"
+msgstr "プレビュー"
+
+msgid "cont_sc_stat_browsed"
+msgstr "ブラウズした"
+
+msgid "cont_sc_stat_completed"
+msgstr "完了"
+
+msgid "cont_sc_stat_failed"
+msgstr "不合格"
+
+msgid "cont_sc_stat_incomplete"
+msgstr "未完了"
+
+msgid "cont_sc_stat_not_attempted"
+msgstr "未着手"
+
+msgid "cont_sc_stat_passed"
+msgstr "パス"
+
+msgid "cont_sc_stat_running"
+msgstr "実行中"
+
+msgid "cont_sc_store_if_previous_score_was_lower"
+msgstr "達成点数が以前の結果よりも高くなるか等しい場合に追跡データを保持"
+
+msgid "cont_sc_title"
+msgstr "タイトル"
+
+msgid "cont_sc_usession"
+msgstr "無期限セッションタイムアウト"
+
+msgid "cont_sc_usession_info"
+msgstr "セッション継続のためのILIASへの定期的リクエストが送信されます。さもなければILIASは学習モジュールの動作状態をアイドル、セッション終了、追跡データ損失としてカテゴリー化します。"
+
+msgid "cont_sc_version"
+msgstr "学習モジュールのバージョン"
+
+msgid "cont_sc_version_info"
+msgstr "バージョン番号は学習モジュール管理により自動的に提供されます。"
+
+msgid "cont_scheduled_activation"
+msgstr "スケジュール化されたアクティベーション"
+
+msgid "cont_sco_glossary"
+msgstr "ユニットの用語集"
+
+msgid "cont_score"
+msgstr "得点"
+
+msgid "cont_scorm_ed_properties"
+msgstr "ラーニングモジュールプロパティ / 用語集"
+
+msgid "cont_scorm_options"
+msgstr "SCORMオプション"
+
+msgid "cont_scorm_type"
+msgstr "adlcp：scormtype"
+
+msgid "cont_screen_ids"
+msgstr "スクリーンID"
+
+msgid "cont_sec_protected"
+msgstr "保護済"
+
+msgid "cont_sec_protected_text"
+msgstr "以降のセクションは保護されていて編集できません。"
+
+msgid "cont_second"
+msgstr "2回目"
+
+msgid "cont_sel_el_use_paste"
+msgstr "選択した要素は現在クリップボードにあります。希望するターゲットのプレースフォルダーをクリックして'ペースト’を選択してください。"
+
+msgid "cont_select"
+msgstr "選択"
+
+msgid "cont_select_file"
+msgstr "ファイルをセレクト"
+
+msgid "cont_select_from_upload_dir"
+msgstr "--アップロードディレクトリから選択 --"
+
+msgid "cont_select_item"
+msgstr "アイテムを一つは選択してください."
+
+msgid "cont_select_max_one_item"
+msgstr "アイテムを一つだけ選択してください。"
+
+msgid "cont_select_media_pool"
+msgstr "メディア集を選択"
+
+msgid "cont_select_none"
+msgstr "選択をクリヤ"
+
+msgid "cont_select_other_qpool"
+msgstr "他の問題集を選択"
+
+msgid "cont_select_par_or_section"
+msgstr "パラグラフかセクションを一つは選択してください。"
+
+msgid "cont_selected_items_have_been_copied"
+msgstr "選択したアイテムはクリップボードへコピーされました。適切なプレースフォルダをクリックしてラーニングモジュールへ貼り付けてください。"
+
+msgid "cont_selected_items_have_been_cut"
+msgstr "選択したアイテムはクリップボードへ切取られました。適切な場所をクリックしてラーニングモジュールへ貼り付けてください。"
+
+msgid "cont_selected_pg_chap"
+msgstr "選択ページ/章"
+
+msgid "cont_selected_terms"
+msgstr "選択した用語"
+
+msgid "cont_selected_topic"
+msgstr "選択したトピック"
+
+msgid "cont_selection"
+msgstr "選択"
+
+msgid "cont_self_assessment"
+msgstr "自己評価"
+
+msgid "cont_sequencing"
+msgstr "他の問題集を選択"
+
+msgid "cont_sequencing_info"
+msgstr "シーケンスとラーニングモジュールで定義されたナビゲーション行動を有効にする。"
+
+msgid "cont_set_alignment"
+msgstr "配置設定"
+
+msgid "cont_set_layout"
+msgstr "レイアウトを設定"
+
+msgid "cont_set_link"
+msgstr "リンクを編集"
+
+msgid "cont_set_manuall"
+msgstr "手動に設定"
+
+msgid "cont_set_properties"
+msgstr "プロパティを設定"
+
+msgid "cont_set_start_file"
+msgstr "開始ファイル"
+
+msgid "cont_set_styles"
+msgstr "スタイルセット"
+
+msgid "cont_set_tab_style_info"
+msgstr "スタイルを設定する表のセルのチェックボックスを使用可能にします。"
+
+msgid "cont_settings"
+msgstr "ラーニングモジュールの設定"
+
+msgid "cont_shape"
+msgstr "形"
+
+msgid "cont_shift_click_to_select"
+msgstr "要素を<b>Shift-click</b> で<b>選択</b>して選択モードへ切り替える。"
+
+msgid "cont_short_title"
+msgstr "ショートタイトル"
+
+msgid "cont_short_title_info"
+msgstr "ショートタイトルは左列ツリープレゼンテーション内で戻る/次へナビゲーション内のラベルに使用されます。"
+
+msgid "cont_short_titles"
+msgstr "ショートタイトル"
+
+msgid "cont_show_activation_info"
+msgstr "アクティブInfoを表示"
+
+msgid "cont_show_activation_info_info"
+msgstr "予定のアクティベーションになるまでページはスキップされません。ページがアクティブになると情報がユーザへ表示されます。"
+
+msgid "cont_show_adv"
+msgstr "詳細知識を表示"
+
+msgid "cont_show_content_after_focus"
+msgstr "ラーニングモジュールを続ける"
+
+msgid "cont_show_fullscreen"
+msgstr "フルスクリーンで表示"
+
+msgid "cont_show_info"
+msgstr "Infoを表示"
+
+msgid "cont_show_line_numbers"
+msgstr "行番号表示"
+
+msgid "cont_show_print_view"
+msgstr "印刷表示"
+
+msgid "cont_size"
+msgstr "サイズ (Bytes)"
+
+msgid "cont_skip_chapter"
+msgstr "この章をスキップ"
+
+msgid "cont_snippet_from_another_installation"
+msgstr "スニペットは別のインストールから来ます。"
+
+msgid "cont_snippets_used"
+msgstr "コンテンツスニペットを使用"
+
+msgid "cont_span"
+msgstr "長さ"
+
+msgid "cont_special_page"
+msgstr "スペシャルコンテンツのページ"
+
+msgid "cont_split_cell"
+msgstr "セルを分割"
+
+msgid "cont_spreadsheet_table"
+msgstr "スプレッドシート表"
+
+msgid "cont_sqst"
+msgstr "問題をサーベイ(教材割り当て済み)"
+
+msgid "cont_src"
+msgstr "ソースコード"
+
+msgid "cont_src_other"
+msgstr "その他"
+
+msgid "cont_st_title"
+msgstr "章タイトル"
+
+msgid "cont_standard"
+msgstr "標準"
+
+msgid "cont_start"
+msgstr "開始"
+
+msgid "cont_start_file_set_to"
+msgstr "開始ファイルとして%sが設定されました。"
+
+msgid "cont_start_value"
+msgstr "開始値"
+
+msgid "cont_start_value_info"
+msgstr "十進数の開始番号を入力してください。 初期設定は1です。"
+
+msgid "cont_startfile"
+msgstr "開始ファイル"
+
+msgid "cont_status"
+msgstr "ステータス"
+
+msgid "cont_std_is_in_dir"
+msgstr "削除は不可能です。標準ビューファイルがディレクトリの中にあります。"
+
+msgid "cont_std_view"
+msgstr "標準ビュー"
+
+msgid "cont_structure"
+msgstr "構造"
+
+msgid "cont_style"
+msgstr "スタイル"
+
+msgid "cont_subchapters"
+msgstr "サブチャプター"
+
+msgid "cont_submit_answers"
+msgstr "提出する"
+
+msgid "cont_subtitle_file"
+msgstr "SRT ZIPファイル"
+
+msgid "cont_subtitle_files"
+msgstr "メディアサブタイトル"
+
+msgid "cont_sur_block_format"
+msgstr "周りのセクション"
+
+msgid "cont_switch_to_media_pool"
+msgstr "他のメディア集へ切り替える"
+
+msgid "cont_syntax_help"
+msgstr "シンタックスヘルプ"
+
+msgid "cont_tab_add_above"
+msgstr "パネルの上に追加"
+
+msgid "cont_tab_add_below"
+msgstr "パネルの下に追加"
+
+msgid "cont_tab_cont_height"
+msgstr "コンテンツの高さ"
+
+msgid "cont_tab_cont_width"
+msgstr "コンテンツの幅"
+
+msgid "cont_tab_delete"
+msgstr "パネルを削除"
+
+msgid "cont_tab_move_bottom"
+msgstr "ボトムへ移動"
+
+msgid "cont_tab_move_down"
+msgstr "下へ移動"
+
+msgid "cont_tab_move_top"
+msgstr "トップへ移動"
+
+msgid "cont_tab_move_up"
+msgstr "上へ移動"
+
+msgid "cont_table"
+msgstr "表"
+
+msgid "cont_table_adv_settings"
+msgstr "詳細設定"
+
+msgid "cont_table_border"
+msgstr "枠線"
+
+msgid "cont_table_border_info"
+msgstr "コンテンツスタイル設定を有効にするには空にします。値はユニット(px)を含む必要があります。"
+
+msgid "cont_table_cell_edit_info_1"
+msgstr "表のセルをクリックして選択または選択解除"
+
+msgid "cont_table_cell_edit_info_2"
+msgstr "行または列ヘッダーをクリックして選択または準ずる行あるいは列の選択を解除"
+
+msgid "cont_table_cell_edit_info_3"
+msgstr "シフトを押しながら二番目のセルをクリックしてすべてのセルの間を選択"
+
+msgid "cont_table_cell_properties"
+msgstr "表のセル属性"
+
+msgid "cont_table_cellpadding"
+msgstr "表のセルパディング"
+
+msgid "cont_table_cellpadding_info"
+msgstr "コンテンツスタイル設定を有効にするには空にします。値はユニット(px)を含む必要があります。"
+
+msgid "cont_table_edit_cells"
+msgstr "セルを編集"
+
+msgid "cont_table_import_info"
+msgstr "セミコロンまたは各欄のTAB文字区切り表データを入力してください。各表の行は新しい行で開始します。スプレッドシートアプリケーションは、クリップボード経由で転送される際に区切り用として通常TAB文字が使用されます。入力フィールドへ直接このデータを張り付ける事は可能です。他のフォーマットはインポートされません。"
+
+msgid "cont_table_properties"
+msgstr "表のプロパティ"
+
+msgid "cont_table_style"
+msgstr "スタイル"
+
+msgid "cont_table_width"
+msgstr "表の幅"
+
+msgid "cont_tabs"
+msgstr "パネル"
+
+msgid "cont_tabs_acc_hor"
+msgstr "水平アコーディオン"
+
+msgid "cont_tabs_acc_ver"
+msgstr "垂直アコーディオン"
+
+msgid "cont_tabs_carousel"
+msgstr "カルーセル"
+
+msgid "cont_tabs_confirm_deletion"
+msgstr "本当に全てのパネルとそれらのコンテンツを削除しますか?"
+
+msgid "cont_target"
+msgstr "ターゲット"
+
+msgid "cont_target_missing"
+msgstr "ターゲット不明"
+
+msgid "cont_target_within_source"
+msgstr "ターゲットをソースオブジェクト内にすべきではありません。"
+
+msgid "cont_template"
+msgstr "テンプレート"
+
+msgid "cont_term"
+msgstr "用語"
+
+msgid "cont_terms"
+msgstr "用語"
+
+msgid "cont_tex"
+msgstr "Latexコード"
+
+msgid "cont_text_acc"
+msgstr "アクセント:"
+
+msgid "cont_text_code"
+msgstr "コード:"
+
+msgid "cont_text_com"
+msgstr "コメント:"
+
+msgid "cont_text_editing"
+msgstr "テキストを編集"
+
+msgid "cont_text_emp"
+msgstr "強調(Emphatic)テキスト:"
+
+msgid "cont_text_fn"
+msgstr "脚注:"
+
+msgid "cont_text_iln_link"
+msgstr "インターナルリンク"
+
+msgid "cont_text_imp"
+msgstr "重要:"
+
+msgid "cont_text_keyword"
+msgstr "キーワード"
+
+msgid "cont_text_placeh"
+msgstr "クリックして挿入文字を編集"
+
+msgid "cont_text_placehl"
+msgstr "テキストプレースフォルダ"
+
+msgid "cont_text_quot"
+msgstr "引用:"
+
+msgid "cont_text_str"
+msgstr "強調(Strong)テキスト:"
+
+msgid "cont_text_sub"
+msgstr "下付き"
+
+msgid "cont_text_sup"
+msgstr "上付き"
+
+msgid "cont_text_tex"
+msgstr "LaTeXコード:"
+
+msgid "cont_text_xln"
+msgstr "外部リンク:"
+
+msgid "cont_third_and_more"
+msgstr "3回以上"
+
+msgid "cont_time"
+msgstr "時間"
+
+msgid "cont_time_from_lms"
+msgstr "SCOに代えてILIASで処理時間を確定"
+
+msgid "cont_time_from_lms_info"
+msgstr "SCORM学習モジュールではよく間違った進捗時間データを返します。そのようなことを避けるために厳しいSCORM準拠による進捗時間を決定することができます。"
+
+msgid "cont_time_limit_action"
+msgstr "adlcp：timelimitaction"
+
+msgid "cont_to_focus_beginning"
+msgstr "学習目標へ関係するコンテンツへ戻る"
+
+msgid "cont_to_focus_return_crs"
+msgstr "コースへ戻る"
+
+msgid "cont_toc"
+msgstr "目次"
+
+msgid "cont_toc_mode"
+msgstr "目次アイテム"
+
+msgid "cont_tool_faq"
+msgstr "FAQ"
+
+msgid "cont_tool_media"
+msgstr "Media"
+
+msgid "cont_top"
+msgstr "トップ"
+
+msgid "cont_topic"
+msgstr "トピック"
+
+msgid "cont_total_time"
+msgstr "合計時間"
+
+msgid "cont_tracking_bysco"
+msgstr "章別"
+
+msgid "cont_tracking_byuser"
+msgstr "ユーザ別"
+
+msgid "cont_tracking_data"
+msgstr "追跡データ"
+
+msgid "cont_tracking_items"
+msgstr "追跡アイテム"
+
+msgid "cont_tracking_modify"
+msgstr "データ修正"
+
+msgid "cont_trans_import_info"
+msgstr "他のインストールの翻訳用XML/マスター言語としてこのモジュールをエクスポートするとこの2番目のインストールから翻訳済エクスポートファイルを再インポートできます。"
+
+msgid "cont_transl_master_language_not_allowed"
+msgstr "翻訳をインポートするには設定>>多言語化内に追加言語を一つは有効にする必要があります。"
+
+msgid "cont_tree_fixed"
+msgstr "ツリー構造が固定されました。"
+
+msgid "cont_tries"
+msgstr "問題の動作"
+
+msgid "cont_tries_remaining"
+msgstr "残り回数"
+
+msgid "cont_tries_reset_on_visit"
+msgstr "ページ訪問をリセット"
+
+msgid "cont_tries_reset_on_visit_info"
+msgstr "問題は毎回の学習者訪問ページを0回から開始します。学習者は毎ページ訪問ごとに問題へ解答する必要があります。"
+
+msgid "cont_tries_store"
+msgstr "解答ステータスを保存"
+
+msgid "cont_tries_store_info"
+msgstr "試行回数は累積されて保存されます。正解へ再度答える必要はありません。学習者は問題途中で止める事ができます。"
+
+msgid "cont_trigger_area"
+msgstr "トリガーエリア"
+
+msgid "cont_type"
+msgstr "タイプ"
+
+msgid "cont_type_not_allowed"
+msgstr "コンテントタイプはこの位置では許可されません"
+
+msgid "cont_unlock_allow_continue"
+msgstr "解除/継続許可"
+
+msgid "cont_unlocked"
+msgstr "未指示"
+
+msgid "cont_update_amd_page_list"
+msgstr "ページリストを編集"
+
+msgid "cont_update_blog"
+msgstr "投稿ブログを編集"
+
+msgid "cont_update_consultation_hours"
+msgstr "会議時間を編集"
+
+msgid "cont_update_login_page"
+msgstr "ログインページ要素を編集"
+
+msgid "cont_update_map"
+msgstr "マップを編集"
+
+msgid "cont_update_my_courses"
+msgstr "マイコースを編集"
+
+msgid "cont_update_profile"
+msgstr "パーソナルデータを表示"
+
+msgid "cont_update_resources"
+msgstr "リソースリストを更新"
+
+msgid "cont_update_section"
+msgstr "セクションを更新"
+
+msgid "cont_update_skills"
+msgstr "能力を編集"
+
+msgid "cont_update_verification"
+msgstr "検証を編集"
+
+msgid "cont_upload_dir"
+msgstr "アップロードディレクトリ"
+
+msgid "cont_upload_file"
+msgstr "ファイルをUpload"
+
+msgid "cont_upload_multi_srt_howto"
+msgstr "この機能により学習モジュールの全メディアオブジェクト用のzipファイル内の複数サブタイトル(srt)ファイルをアップロードできます。.zipファイルはトップレベル(サブディレクトリなし)上に全て.srtファイルが存在するようにしなければなりません。ファイル名は\"en\",\"it\",\"de\"の例のようにファイル名が\"_&lt;lang code&gt;.srt\"で終了するようにする必要があります。残りのファイル名はビデオファイル\"my_video.mp4\" -> \"my_video_en.srt\"の例のように対応する必要があります。"
+
+msgid "cont_uploaded_file"
+msgstr "既存のファイル"
+
+msgid "cont_url_info"
+msgstr "メディアのURLまたはYoutube URL"
+
+msgid "cont_usage"
+msgstr "使用"
+
+msgid "cont_use_same_resource_as_above"
+msgstr "上記と同じリソースを使用"
+
+msgid "cont_user"
+msgstr "ユーザ"
+
+msgid "cont_user_blocked"
+msgstr "ラーニングモジュール \"%s\"の失敗ユーザ"
+
+msgid "cont_user_blocked2"
+msgstr "ユーザはラーニングモジュールの問題解答に失敗しました。ユーザは招待なしにラーニングモジュールをこれ以上ナビゲートできなくなります。"
+
+msgid "cont_user_blocked3"
+msgstr "編集モードのラーニングモジュールを開いてスクリーンに入力します:"
+
+msgid "cont_user_search_did_not_match"
+msgstr "検索では一致するユーザが見つかりませんでした。"
+
+msgid "cont_users_answered"
+msgstr "解答したユーザ"
+
+msgid "cont_users_have_mob_in_clip1"
+msgstr "このメディア オブジェクトはクリップボードの中"
+
+msgid "cont_users_have_mob_in_clip2"
+msgstr "ユーザ"
+
+msgid "cont_validate_file"
+msgstr "ファイルを検証する"
+
+msgid "cont_verification_object"
+msgstr "検証"
+
+msgid "cont_verification_placeh"
+msgstr "証書を挿入するにはクリックして編集する"
+
+msgid "cont_verification_placehl"
+msgstr "証書プレースフォルダ"
+
+msgid "cont_version"
+msgstr "バージョン"
+
+msgid "cont_versions"
+msgstr "バージョン"
+
+msgid "cont_whole_glossary"
+msgstr "用語集全体"
+
+msgid "cont_width"
+msgstr "幅"
+
+msgid "cont_width_height_info"
+msgstr "表示サイズは固定サイズに設定できます。幅950 pixels高さ650 pixelはサイズ設定用の検証値です。入力値がない場合はブラウザが表示サイズを決定します。"
+
+#, fuzzy
+msgid "cont_width_px_perc"
+msgstr "Width"
+
+#, fuzzy
+msgid "cont_width_px_perc_info"
+msgstr "(e.g. px or % value)"
+
+msgid "cont_wiki_link_dialog"
+msgstr "Wiki Page (Dialog)へリンク"
+
+msgid "cont_wiki_page"
+msgstr "Wikiページ"
+
+msgid "cont_wiki_page_link"
+msgstr "Wikiページリンク"
+
+msgid "cont_wrong_answers"
+msgstr "まちがい個数"
+
+msgid "cont_wrong_answers_single"
+msgstr "選択は間違っています。"
+
+msgid "cont_xml_base"
+msgstr "xml:base"
+
+msgid "cont_zip_file_invalid"
+msgstr "ファイルは有効なインポート ファイルではありません。<br>ファイル '%s'が含まれていません。"
+
+msgid "content_no_edit_lock"
+msgstr "ページは現在別のユーザにロックされています。"
+
+msgid "content_page_history"
+msgstr "ページ履歴"
+
+msgid "content_plugin_not_activated"
+msgstr "ページlコンテンツ要素プラグインは現在使用できません。"
+
+msgid "content_some_export_ids_multiple_times"
+msgstr "エクスポートIDは既に使用されているものがあります。エクスポート中にページ欠損を招く事につながります。"
+
+msgid "content_until"
+msgstr "最短ロック解除時刻:"
+
+msgid "copied_to_clipboard"
+msgstr "オブジェクトをクリップボードへコピーしました。"
+
+msgid "dgl_pagebreak"
+msgstr "ページ区切り"
+
+msgid "glo_add_new_term"
+msgstr "新規用語を追加"
+
+msgid "glo_content_settings"
+msgstr "Content"
+
+msgid "glo_editing_view"
+msgstr "編集表示"
+
+msgid "glo_full_definitions"
+msgstr "詳細定義"
+
+msgid "glo_full_definitions_info"
+msgstr "用語と定義はメイン表示の中に全表示されます。"
+
+msgid "glo_hide_taxonomy"
+msgstr "分類基準を非表示"
+
+msgid "glo_list_usages"
+msgstr "使用状況リスト"
+
+msgid "glo_mode_normal_info"
+msgstr "この用語集内で作成される用語のみが含まれます。"
+
+msgid "glo_presentation_mode"
+msgstr "プレゼンテーションモード"
+
+msgid "glo_presentation_view"
+msgstr "プレゼンテーションビュー"
+
+msgid "glo_quick_navigation"
+msgstr "クイックナビゲーション"
+
+msgid "glo_style"
+msgstr "用語集スタイル"
+
+msgid "glo_table_form"
+msgstr "テーブルフォーム内"
+
+msgid "glo_table_form_info"
+msgstr "用語と定義は最初に2列で表示されます。用語クリックすると用語の全内容が別画面にて開きます。"
+
+msgid "glo_term_is_used_n_times"
+msgstr "用語はコンテンツモジュールのかなで %s 回使用されます。"
+
+msgid "glo_term_must_belong_to_glo"
+msgstr "アクションはこの用語集で定義されている用語でのみ実行されます。"
+
+msgid "glo_term_used_in"
+msgstr "用語は次のリソースへリンクしています"
+
+msgid "glo_text_snippet_length"
+msgstr "スニペット長の定義"
+
+msgid "glo_text_snippet_length_info"
+msgstr "概要に表示されるテキストスニペット長の定義です。"
+
+msgid "glo_usages"
+msgstr "用語集は使用中です..."
+
+msgid "glo_used_in_scorm"
+msgstr "用語集にはSCORMモジュールが使われます。削除すると用語集の参照は以降全くできなくなります。"
+
+msgid "help_assign_help_ids"
+msgstr "章・スクリーンIDの割当て"
+
+msgid "htlm_import"
+msgstr "HTMLラーニングモジュールをインポート"
+
+msgid "import_sco_object"
+msgstr "SCOをインポート"
+
+msgid "info_stop_offline_mode_sure"
+msgstr "注意:　オフラインモード中の学習達成進捗は消去されます。間違いありませんか?"
+
+#, fuzzy
+msgid "infobox_files_not_migrated"
+msgstr "The files of this learning module have not yet been migrated to the Resource Storage Service and can therefore not be edited."
+
+msgid "lm_activate_rating"
+msgstr "ページ評価を有効化"
+
+msgid "lm_editing_view"
+msgstr "ビュー編集"
+
+msgid "lm_import"
+msgstr "ILIAS Learning Moduleをインポート"
+
+msgid "lm_menu_edit_entry"
+msgstr "メニューエントリーを編集"
+
+msgid "lm_menu_entry_target"
+msgstr "ターゲット"
+
+msgid "lm_menu_entry_title"
+msgstr "タイトル"
+
+msgid "lm_menu_new_entry"
+msgstr "新しいメニューエントリーを作成"
+
+msgid "lm_menu_select_internal_object"
+msgstr "内部オブジェクト選択 >>"
+
+msgid "lm_menu_select_object_to_add"
+msgstr "メニューへ追加したいオブジェクトを選択してください"
+
+msgid "lm_no_download_files"
+msgstr "現在ダウンロード可能なファイルがありません。"
+
+msgid "lm_only_one_download_per_type"
+msgstr "パブリックアクセス可能な(XML, HTML, SCORM)タイプあたり1ファイルしか作成できない事に注意願います。"
+
+msgid "lm_rate_page"
+msgstr "ぺージレート"
+
+msgid "lm_rating"
+msgstr "ラーニングモジュールレート"
+
+msgid "mep_folder_created"
+msgstr "新規フォルダを追加しました。"
+
+msgid "msg_entry_added"
+msgstr "メニューエントリー追加"
+
+msgid "msg_entry_removed"
+msgstr "メニューエントリー削除"
+
+msgid "msg_entry_updated"
+msgstr "メニューエントリー更新"
+
+msgid "msg_no_page_access"
+msgstr "このページへのアクセス権限がありません。"
+
+msgid "msg_page_no_public_access"
+msgstr "コールしたページはパブリックエリアでは利用できません。登録済ユーザのみがこのページを表示できます。最初にログインしてこのページへアクセスしてください。"
+
+msgid "msg_page_not_public"
+msgstr "ページはパブリックではありません"
+
+msgid "offline_mode_manager"
+msgstr "オフライン利用"
+
+msgid "offline_mode_users"
+msgstr "オフラインモードのユーザ"
+
+msgid "offline_mode_users_info"
+msgstr "ユーザはオフラインモードから手動で取り出してそうした後でユーザは学習モジュールのオフラインバージョンを再度使用できます。(例) 学習モジュール付きのラップトップが盗難に遭うような例では理にかないます。"
+
+msgid "page_does_not_exist"
+msgstr "申し訳ありませんがこのページは存在しません。"
+
+msgid "par"
+msgstr "パラグラフ"
+
+msgid "pg"
+msgstr "ページ"
+
+msgid "public_section"
+msgstr "パブリックエリア"
+
+msgid "sahs_empty_objectives_are_not_allowed"
+msgstr "学習目標を入力してください。"
+
+msgid "sahs_insert_pg_from_clip"
+msgstr "ILIAS学習モジュールからページをインポート"
+
+msgid "sahs_insert_st_from_clip"
+msgstr "ILIAS学習モジュールから章をインポート"
+
+msgid "sahs_insert_st_from_clip_inside_chap"
+msgstr "ILIAS学習モジュール(章の内部)から章をインポート"
+
+msgid "save_new"
+msgstr "保存と新規"
+
+msgid "saved_media_object"
+msgstr "メディア オブジェクトが保存されました。"
+
+msgid "scplayer_collapsetree"
+msgstr "すべて畳む"
+
+msgid "scplayer_continue"
+msgstr "続ける"
+
+msgid "scplayer_debugger"
+msgstr "デバッガーを表示"
+
+msgid "scplayer_exit"
+msgstr "終了"
+
+msgid "scplayer_exitall"
+msgstr "全て終了"
+
+msgid "scplayer_expandtree"
+msgstr "全て展開"
+
+msgid "scplayer_hidetree"
+msgstr "ツリーを非表示"
+
+msgid "scplayer_next"
+msgstr "次"
+
+msgid "scplayer_phpmysqlcheck"
+msgstr "MYSQL 4.1以降とJavaScript-RTEを使ってJSON-supportを有効にする必要があります。"
+
+msgid "scplayer_previous"
+msgstr "前へ"
+
+msgid "scplayer_showtree"
+msgstr "ツリーを表示"
+
+msgid "scplayer_start"
+msgstr "スタート"
+
+msgid "scplayer_suspendall"
+msgstr "全て中断"
+
+msgid "selectFooter"
+msgstr "フッターとして選択"
+
+msgid "selectHeader"
+msgstr "ヘッダーとして選択"
+
+msgid "select_a_file"
+msgstr "ファイルを選択してください。"
+
+msgid "seq_close"
+msgstr "プレーヤーウィンドウを閉じてください。"
+
+msgid "seq_endsession"
+msgstr "現在のコースセッションは終了しました。"
+
+msgid "seq_error"
+msgstr "シーケンサーの内部エラーが発生しました。"
+
+msgid "seq_toc"
+msgstr "左側の目次から開始するコースの項目を選択してください。"
+
+msgid "set_public_mode"
+msgstr "パブリックアクセスモード"
+
+msgid "st"
+msgstr "章"
+
+msgid "start_lm"
+msgstr "学習モジュールを表示"
+
+msgid "text_repr"
+msgstr "テキスト表現"
+
+msgid "text_repr_info"
+msgstr "イメージ \"alt\"属性用として使用されます。"

@@ -1,0 +1,3735 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: content\n"
+
+msgid "Pages"
+msgstr "Sidor"
+
+msgid "add_menu_entry"
+msgstr "Lägg till menyalternativ &gt;&gt;"
+
+msgid "all_pages"
+msgstr " för hela utbildningsmodulen"
+
+msgid "citate"
+msgstr "Cite"
+
+msgid "citate_from"
+msgstr "Citing ..."
+
+msgid "citate_page"
+msgstr "Hänvisa till denna sida"
+
+msgid "citate_to"
+msgstr "Citera till ..."
+
+msgid "cont_Additional"
+msgstr "Tillägg"
+
+msgid "cont_AdvancedKnowledge"
+msgstr "Fördjupad kunskap"
+
+msgid "cont_Attention"
+msgstr "Attention"
+
+msgid "cont_Background"
+msgstr "Bakgrund"
+
+msgid "cont_Block"
+msgstr "Blockera"
+
+msgid "cont_Book"
+msgstr "Tryckning av böcker"
+
+msgid "cont_Circle"
+msgstr "Cirkel"
+
+msgid "cont_Citation"
+msgstr "Citat"
+
+msgid "cont_Confirmation"
+msgstr "Bekräftelse"
+
+msgid "cont_Example"
+msgstr "Exempel"
+
+msgid "cont_Excursus"
+msgstr "Excursus"
+
+msgid "cont_FileListItem"
+msgstr "Post i fillista (standard)"
+
+msgid "cont_Headline1"
+msgstr "Rubrik 1"
+
+msgid "cont_Headline2"
+msgstr "Rubrik 2"
+
+msgid "cont_Headline3"
+msgstr "Rubrik 3"
+
+msgid "cont_Information"
+msgstr "Information"
+
+msgid "cont_Interaction"
+msgstr "interaktion"
+
+msgid "cont_List"
+msgstr "Lista"
+
+msgid "cont_Literature"
+msgstr "Litteratur"
+
+msgid "cont_Mnemonic"
+msgstr "Merkset"
+
+msgid "cont_Numbers"
+msgstr "Nummer"
+
+msgid "cont_Poly"
+msgstr "Polygon"
+
+msgid "cont_Rect"
+msgstr "Rektangel"
+
+msgid "cont_Remark"
+msgstr "Note"
+
+msgid "cont_Separator"
+msgstr "Limiter"
+
+msgid "cont_Special"
+msgstr "Särskild"
+
+msgid "cont_StandardCenter"
+msgstr "Standardcentrerad"
+
+msgid "cont_StandardTable"
+msgstr "Standardbord"
+
+msgid "cont_TableContent"
+msgstr "Tabellens innehåll"
+
+msgid "cont_Verse"
+msgstr "Lyrik/Strophe"
+
+msgid "cont_WholePicture"
+msgstr "Fullständig bild"
+
+msgid "cont_accented"
+msgstr "Emphasized"
+
+msgid "cont_act_number"
+msgstr "Numrering av kapitel"
+
+msgid "cont_activate_html"
+msgstr "Aktivera HTML-rendering"
+
+msgid "cont_activate_js"
+msgstr "Aktivera javascript-läge"
+
+msgid "cont_activate_media"
+msgstr " Aktivera media"
+
+msgid "cont_activate_page"
+msgstr " Aktivera sida"
+
+msgid "cont_activated"
+msgstr "Aktiverad"
+
+msgid "cont_activation"
+msgstr "Aktivering"
+
+msgid "cont_active"
+msgstr " Aktivera meny"
+
+msgid "cont_active_areas"
+msgstr "Trigger"
+
+msgid "cont_active_from"
+msgstr "Aktiv från"
+
+msgid "cont_active_to"
+msgstr "Aktiv till"
+
+msgid "cont_add_area"
+msgstr "Lägg till område"
+
+msgid "cont_add_cell"
+msgstr "Lägg till kolumn"
+
+msgid "cont_add_elements"
+msgstr "<b>Klicka</b> på en <b>plussymbol</b> för att <b>lägga till</b> ett nytt element."
+
+msgid "cont_add_file"
+msgstr "Lägg till fil"
+
+msgid "cont_add_images"
+msgstr "Lägg till bild"
+
+msgid "cont_add_popup"
+msgstr "Lägg till popup-fönster"
+
+msgid "cont_add_tab"
+msgstr "Lägg till fack"
+
+msgid "cont_add_url"
+msgstr "Integrera via URL"
+
+msgid "cont_added_cell"
+msgstr "Kolumn tillagd"
+
+msgid "cont_added_comment"
+msgstr "Kommentaren registrerades under lärmodulens gång (se fliken \"Innehåll \" Historik\")."
+
+msgid "cont_added_tab"
+msgstr "Subjektet har lagts till."
+
+msgid "cont_added_term"
+msgstr "Term tillagd"
+
+msgid "cont_adjust_size"
+msgstr "Justera storlek"
+
+msgid "cont_advanced_settings"
+msgstr "Avancerade inställningar"
+
+msgid "cont_align"
+msgstr "Inriktning"
+
+msgid "cont_alignment"
+msgstr "Inriktning"
+
+msgid "cont_all_answers_correct"
+msgstr "Right!"
+
+msgid "cont_all_closed"
+msgstr "Alla stängda"
+
+msgid "cont_all_languages"
+msgstr "Alla språk"
+
+msgid "cont_all_pages"
+msgstr "Alla sidor"
+
+msgid "cont_all_topics"
+msgstr "Alla ämnen"
+
+msgid "cont_all_usages"
+msgstr "Inkludera gamla versioner"
+
+msgid "cont_alphabetic"
+msgstr " Alfabetisk A, B, ..."
+
+msgid "cont_alphabetic_s"
+msgstr " Alfabetisk a, b, ..."
+
+msgid "cont_always"
+msgstr "Alltid"
+
+msgid "cont_anchor"
+msgstr "Ankare"
+
+msgid "cont_annex"
+msgstr "Tillägg"
+
+msgid "cont_anonymous_user_missing_perm"
+msgstr "Användare som inte är inloggade har för närvarande inga rättigheter till denna utbildningsmodul."
+
+msgid "cont_areas_deleted"
+msgstr "Områden borttagna"
+
+msgid "cont_assign_characteristic"
+msgstr "Format"
+
+msgid "cont_assign_full"
+msgstr "Som fullständig vy"
+
+msgid "cont_assign_std"
+msgstr "Som standard"
+
+msgid "cont_assign_to_parent"
+msgstr "Tilldela till den överordnade noden"
+
+msgid "cont_auto_glossaries"
+msgstr "Automatiskt länkade ordlistor"
+
+msgid "cont_auto_last_visited"
+msgstr "Fortsätt med senast besökta avsnitt"
+
+msgid "cont_auto_last_visited_info"
+msgstr "Användaren visas den senast besökta SCO:n eller tillgången när SCORM-inlärningsmodulen hämtas igen."
+
+msgid "cont_auto_suspend"
+msgstr "Säkerställa hämtning av befintliga uppgifter om inlärningsstatus"
+
+msgid "cont_auto_suspend_info"
+msgstr "Detta alternativ är för SCORM-lärmoduler som stöder SCORM bristfälligt genom att inte skicka lämpliga värden för cmi.exit."
+
+msgid "cont_auto_time"
+msgstr "Väntande animation"
+
+msgid "cont_autoindent"
+msgstr "Automatisk indragning"
+
+msgid "cont_automatically_set_store_tries"
+msgstr "Alternativet \"$1\" aktiverades automatiskt eftersom läget \"$2\" var aktiverat."
+
+msgid "cont_autostart"
+msgstr "Autostart"
+
+msgid "cont_back"
+msgstr "Tillbaka"
+
+msgid "cont_base_image"
+msgstr "Utgående bild"
+
+msgid "cont_bb_tip"
+msgstr "Menyn gör det möjligt att snabbt tilldela textetiketter."
+
+msgid "cont_behavior"
+msgstr "Beteende"
+
+msgid "cont_biblio"
+msgstr "Bibliografiska uppgifter"
+
+msgid "cont_biblio_info"
+msgstr "Tab och funktionen \"Bibliografiska data\" visas."
+
+msgid "cont_blist"
+msgstr "Uppräkningslista"
+
+msgid "cont_block_format"
+msgstr "Blockera format"
+
+msgid "cont_blocked_users"
+msgstr "Förbjudna användare"
+
+msgid "cont_blocked_users_mail_link"
+msgstr "Klicka på följande länk för att öppna utbildningsmodulen."
+
+msgid "cont_bottom"
+msgstr "Botten"
+
+msgid "cont_bullet_list"
+msgstr "Onumrerad lista"
+
+msgid "cont_cach_mode"
+msgstr "Mode"
+
+msgid "cont_cach_mode_automatic"
+msgstr "Automatisk"
+
+msgid "cont_cach_mode_automatic_info"
+msgstr "Alla dina konsultationstider är publicerade."
+
+msgid "cont_cach_mode_manual"
+msgstr "Handbok"
+
+msgid "cont_cach_mode_manual_info"
+msgstr "Endast de konsultationstillfällen publiceras som ingår i en av följande konsultationsgrupper."
+
+msgid "cont_cant_copy_folders"
+msgstr "Folder kan inte kopieras till Urklipp"
+
+msgid "cont_cant_del_full"
+msgstr "Delete file for full view not possible."
+
+msgid "cont_cant_del_std"
+msgstr "Att radera filen för standardvyn är inte möjligt."
+
+msgid "cont_caption"
+msgstr "Märkning"
+
+msgid "cont_caption_style"
+msgstr "Stil för bildtext"
+
+msgid "cont_cc_emp"
+msgstr "Emphasized"
+
+msgid "cont_cc_imp"
+msgstr "Viktigt"
+
+msgid "cont_cc_str"
+msgstr "Stark"
+
+msgid "cont_cc_sub"
+msgstr "Djupgående"
+
+msgid "cont_cc_sup"
+msgstr "Höjdmarkerad"
+
+#, fuzzy
+msgid "cont_cell_properties"
+msgstr "Table Cell Properties"
+
+msgid "cont_center"
+msgstr "Centrum"
+
+#, fuzzy
+msgid "cont_change_alignment"
+msgstr "Change Alignment"
+
+msgid "cont_change_notification_salutation"
+msgstr "Hej %s,"
+
+msgid "cont_change_notification_subject_lm"
+msgstr "Inlärningsmodulen \"%1$s\" har ändrats"
+
+msgid "cont_change_object_reference"
+msgstr "Ändra objektets referens"
+
+#, fuzzy
+msgid "cont_change_style"
+msgstr "Change Style"
+
+msgid "cont_change_type"
+msgstr "Ändra typ"
+
+#, fuzzy
+msgid "cont_change_width"
+msgstr "Change Width"
+
+msgid "cont_chap_and_pages"
+msgstr "Kapitel och sidor"
+
+msgid "cont_chap_select_target_now"
+msgstr "Nu väljer du den kryssruta bakom vilken kapitlet ska flyttas."
+
+msgid "cont_chapters"
+msgstr "Kapitel"
+
+msgid "cont_chapters_after_pages"
+msgstr "Notera att inom en nivå listas alla sidor först och först därefter underkapitlen."
+
+msgid "cont_chapters_and_pages"
+msgstr "Kapitel och sidor"
+
+msgid "cont_chapters_only"
+msgstr "Endast kapitel"
+
+msgid "cont_char_format"
+msgstr "Teckenformat"
+
+#, fuzzy
+msgid "cont_char_link"
+msgstr "Link"
+
+#, fuzzy
+msgid "cont_char_media"
+msgstr "Media (Standard)"
+
+msgid "cont_char_style_acc"
+msgstr "Accentuerad"
+
+msgid "cont_char_style_code"
+msgstr "Kod"
+
+msgid "cont_char_style_com"
+msgstr "Kommentar"
+
+msgid "cont_char_style_quot"
+msgstr "Citat"
+
+msgid "cont_characteristic"
+msgstr "Format för stycke"
+
+#, fuzzy
+msgid "cont_characteristic_table"
+msgstr "Style Class"
+
+msgid "cont_check_values"
+msgstr "Kontrollera värden som skickats av SCO"
+
+msgid "cont_check_values_info"
+msgstr "Testverktyget kontrollerar standardkompatibiliteten hos de värden som skickas av SCO.<br />SCORM-standarden är mycket exakt när det gäller vilka data som ska lagras. Inte alla SCORM-lärmoduler är lika exakta i sin datautmatning som standarden faktiskt kr"
+
+msgid "cont_choose_characteristic"
+msgstr "Välj styckeformat"
+
+msgid "cont_choose_characteristic_section"
+msgstr "Block"
+
+msgid "cont_choose_characteristic_text"
+msgstr "Format för stycken"
+
+msgid "cont_choose_file_source"
+msgstr "Källa"
+
+msgid "cont_choose_from_clipboard"
+msgstr "Från Media Clipboard"
+
+msgid "cont_choose_from_pool"
+msgstr "Från mediapoolen"
+
+msgid "cont_choose_glo"
+msgstr "Vänligen välj en ordlista."
+
+msgid "cont_choose_lm"
+msgstr "Vänligen välj en utbildningsmodul."
+
+msgid "cont_choose_local"
+msgstr "Lokal katalog"
+
+msgid "cont_choose_media_pool"
+msgstr "Välj mediepool"
+
+msgid "cont_choose_mep"
+msgstr "Vänligen välj en mediekälla."
+
+msgid "cont_choose_pages_or_chapters_only"
+msgstr "Vänligen välj antingen sidor eller kapitel."
+
+msgid "cont_choose_upload_dir"
+msgstr "Ladda upp katalog"
+
+msgid "cont_choose_wiki"
+msgstr "Välj wiki"
+
+msgid "cont_citation_selection_not_valid"
+msgstr "Ditt val är inte giltigt, vänligen kontrollera dina poster."
+
+msgid "cont_click_br_corner"
+msgstr "Klicka i det nedre högra hörnet av önskat område."
+
+msgid "cont_click_center"
+msgstr "Klicka i mitten av det önskade området."
+
+msgid "cont_click_circle"
+msgstr "Klicka på en cirkelpunkt i det önskade området."
+
+msgid "cont_click_edit"
+msgstr "<b>Klicka</b> på ett <b>sidelement</b> för att <b>redigera</b> det."
+
+msgid "cont_click_multi_select"
+msgstr "<b>Klicka</b> på sidelement för att <b>markera</b> eller <b>avmarkera</b> dem."
+
+msgid "cont_click_next_or_save"
+msgstr "Klicka på nästa hörn av polygonen eller spara önskat område. (Du behöver inte längre klicka på polygonens startpunkt!)"
+
+msgid "cont_click_next_point"
+msgstr "Klicka på nästa hörn av polygonen."
+
+msgid "cont_click_starting_point"
+msgstr "Klicka på polygonens startpunkt."
+
+msgid "cont_click_tl_corner"
+msgstr "Klicka i det övre vänstra hörnet av det önskade området"
+
+#, fuzzy
+msgid "cont_code_import_file"
+msgstr "Import"
+
+#, fuzzy
+msgid "cont_code_manual_editing"
+msgstr "Manuelle Eingabe"
+
+msgid "cont_colspan"
+msgstr "Sammansatt kolumn"
+
+msgid "cont_commented_by"
+msgstr "Kommentarer från"
+
+msgid "cont_comments"
+msgstr "Tillåt kommentarer"
+
+msgid "cont_comments_info"
+msgstr "SCORM 2004 inlärningsmoduler tillåter användare att skriva kommentarer i inlärningsmodulen. Detta alternativ aktiverar inmatning och sparande av kommentarer."
+
+msgid "cont_confirm_delete"
+msgstr "Vill du verkligen ta bort det här innehållet?"
+
+msgid "cont_constrain_proportions"
+msgstr "Underhålla proportioner"
+
+msgid "cont_content"
+msgstr "Innehåll"
+
+msgid "cont_content_popup"
+msgstr "Popup-innehåll"
+
+msgid "cont_content_popups"
+msgstr "Popup-fönster med innehåll"
+
+msgid "cont_coords"
+msgstr "Koordinater"
+
+msgid "cont_copy_question_from_pool"
+msgstr "Kopiera fråga från testfrågepoolen"
+
+msgid "cont_copy_question_into_page"
+msgstr "Kopiera till sida"
+
+msgid "cont_copy_to_clipboard"
+msgstr "Kopiera till urklipp"
+
+msgid "cont_correct_after_first"
+msgstr "1. svaret är korrekt"
+
+msgid "cont_correct_answer_also"
+msgstr "Right är också"
+
+msgid "cont_correct_answers_also"
+msgstr "Right är också"
+
+msgid "cont_correct_answers_shown"
+msgstr "Riktig lösning se ovan."
+
+msgid "cont_could_not_determine_resource_size"
+msgstr "ILIAS kunde inte automatiskt fastställa dimensionerna."
+
+msgid "cont_could_not_save_duplicate_pc_ids"
+msgstr "Sorry, sidan kunde inte sparas. (Dubbla PC-ID)"
+
+msgid "cont_cp_question_diff_formats_info"
+msgstr "Observera att vissa formateringar inte stöds i innehållsmoduler."
+
+msgid "cont_create_link"
+msgstr "Skapa länk"
+
+msgid "cont_create_mob"
+msgstr "Skapa mediaobjekt"
+
+msgid "cont_credits"
+msgstr "Poäng"
+
+msgid "cont_current_chapter"
+msgstr "Aktuellt kapitel"
+
+msgid "cont_current_lang"
+msgstr "Nuvarande språk"
+
+msgid "cont_current_page"
+msgstr "Aktuell sida"
+
+msgid "cont_current_style"
+msgstr "Stil"
+
+msgid "cont_current_term"
+msgstr "Aktuell termin"
+
+msgid "cont_current_usages"
+msgstr "Aktuell användning"
+
+msgid "cont_current_version"
+msgstr "Aktuell version"
+
+msgid "cont_custom"
+msgstr "Anpassad"
+
+msgid "cont_custom_menu_entries"
+msgstr "Avancerade menyalternativ"
+
+msgid "cont_custom_size"
+msgstr "Fast storlek"
+
+msgid "cont_dark"
+msgstr "Mörk"
+
+msgid "cont_data_from_lms"
+msgstr "adlcp"
+
+msgid "cont_de_activate"
+msgstr "(Av)aktivera"
+
+msgid "cont_deactivate_html"
+msgstr "Inaktivera HTML-rendering"
+
+msgid "cont_deactivate_js"
+msgstr "Aktivera formulärläge"
+
+msgid "cont_deactivate_media"
+msgstr "Avaktivera media"
+
+msgid "cont_deactivate_page"
+msgstr "Inaktivera sida"
+
+msgid "cont_deactivated"
+msgstr "Funktionshindrad"
+
+msgid "cont_debug"
+msgstr "Tillhandahålla testverktyg"
+
+msgid "cont_debug_deactivate"
+msgstr "Ett testverktyg visas. Det tillhandahåller data i presentationsläget för SCORM-lärmodulen, som kan användas för att kontrollera hur lärmodulen interagerar med ILIAS. För att öppna testverktyget måste det vänstra navigeringsträdet visas."
+
+msgid "cont_debug_deactivate12"
+msgstr "Ett testverktyg visas. Det tillhandahåller data i presentationsläget för SCORM-lärmodulen, som kan användas för att kontrollera hur lärmodulen interagerar med ILIAS."
+
+msgid "cont_debug_deactivated"
+msgstr "Note"
+
+msgid "cont_debugging"
+msgstr "Felsökning"
+
+msgid "cont_decimal"
+msgstr "Decimal"
+
+msgid "cont_def_feedb_activated"
+msgstr "Standardåterkopplingen är för närvarande aktiverad i inställningarna för utbildningsmodulen."
+
+msgid "cont_def_feedb_deactivated"
+msgstr "Standardåterkopplingen är för närvarande avaktiverad i inställningarna för lärmodulen."
+
+msgid "cont_def_layout"
+msgstr "Standard layout"
+
+msgid "cont_def_lesson_mode"
+msgstr "Registrera bearbetningsdata"
+
+msgid "cont_def_map_areas"
+msgstr "Länkade områden (standard)"
+
+msgid "cont_def_organization"
+msgstr "Standard"
+
+msgid "cont_default"
+msgstr "Standard"
+
+msgid "cont_definition"
+msgstr "Definition"
+
+msgid "cont_delete_content"
+msgstr "Ta bort innehåll"
+
+#, fuzzy
+msgid "cont_delete_file_item_confirm"
+msgstr "Do you really want to delete the selected file(s)?"
+
+msgid "cont_delete_selected"
+msgstr "Radera"
+
+msgid "cont_delete_style"
+msgstr "Style Radera"
+
+msgid "cont_delete_track_data"
+msgstr "Radera spårningsdata"
+
+msgid "cont_dependencies"
+msgstr "Beroenden"
+
+msgid "cont_dir_created"
+msgstr "Directory har skapats."
+
+msgid "cont_dir_deleted"
+msgstr "Katalogen har tagits bort."
+
+msgid "cont_dir_file"
+msgstr "Directory/Fil"
+
+msgid "cont_dir_renamed"
+msgstr "Katalogen har bytt namn."
+
+msgid "cont_disable_def_feedback"
+msgstr "Avaktivera standardåterkoppling"
+
+msgid "cont_disable_def_feedback_info"
+msgstr "Standardåterkopplingen för en fråga visas inte efter att du har besvarat en fråga."
+
+msgid "cont_download"
+msgstr "Ladda ner"
+
+msgid "cont_download_title"
+msgstr "Ladda ner filens titel"
+
+msgid "cont_drag_and_drop_elements"
+msgstr "<b>Dra</b> ett sidelement till en platshållare med musen för att <b>flytta</b> det."
+
+msgid "cont_drag_element_click_save"
+msgstr "Flytta elementet till önskad position och klicka sedan på \"Spara\"."
+
+msgid "cont_ed_align_center"
+msgstr "Rikta in centrum"
+
+msgid "cont_ed_align_left"
+msgstr "Justera länkar"
+
+msgid "cont_ed_align_left_float"
+msgstr "Left out, text around."
+
+msgid "cont_ed_align_right"
+msgstr "Ajustera höger"
+
+msgid "cont_ed_align_right_float"
+msgstr "Rätt ut, text runt."
+
+msgid "cont_ed_atable"
+msgstr "Utökad tabell"
+
+msgid "cont_ed_cell_left"
+msgstr "Flytta till vänster"
+
+msgid "cont_ed_cell_right"
+msgstr "Flytta till höger"
+
+msgid "cont_ed_class"
+msgstr "Stil"
+
+msgid "cont_ed_click_to_add_pg"
+msgstr "Klicka här för att lägga till innehåll."
+
+msgid "cont_ed_col_left"
+msgstr "Flytta kolumnen till vänster"
+
+msgid "cont_ed_col_right"
+msgstr "Flytta kolumnen till höger"
+
+msgid "cont_ed_copy"
+msgstr "Kopia"
+
+msgid "cont_ed_copy_clip"
+msgstr "Kopiera till urklipp"
+
+msgid "cont_ed_cut"
+msgstr "Cutting out"
+
+msgid "cont_ed_delete"
+msgstr "Radera"
+
+msgid "cont_ed_delete_cell"
+msgstr "Ta bort kolumn"
+
+msgid "cont_ed_delete_col"
+msgstr "Ta bort kolumn"
+
+msgid "cont_ed_delete_item"
+msgstr "Ta bort post"
+
+msgid "cont_ed_delete_row"
+msgstr "Radera rad"
+
+msgid "cont_ed_dtable"
+msgstr "Datatabell"
+
+msgid "cont_ed_edit"
+msgstr "Redigera"
+
+msgid "cont_ed_edit_data"
+msgstr "Redigera data"
+
+msgid "cont_ed_edit_files"
+msgstr "Redigera filer"
+
+msgid "cont_ed_edit_multiple"
+msgstr "Redigera styckeordning"
+
+msgid "cont_ed_edit_prop"
+msgstr "Egenskaper"
+
+msgid "cont_ed_enable"
+msgstr "De-/Activate"
+
+msgid "cont_ed_flist"
+msgstr " Lista över filer"
+
+msgid "cont_ed_go"
+msgstr "Ok"
+
+msgid "cont_ed_grid_col_width"
+msgstr "Kolumnbredd"
+
+msgid "cont_ed_grid_col_width_info"
+msgstr "Columns kan uppta flera 1/12-enheter av en rad beroende på skärmstorleken. De nämnda enheterna är exempel. I slutändan är det skärmstorleken som avgör beteendet. 12/12 motsvarar en bredd på 100%."
+
+msgid "cont_ed_grid_col_widths"
+msgstr "Kolumnbredd"
+
+msgid "cont_ed_insert_amdfrm"
+msgstr "Infoga formulär"
+
+msgid "cont_ed_insert_amdpl"
+msgstr "Inför sidlista"
+
+msgid "cont_ed_insert_blog"
+msgstr "Lägg till blogginlägg"
+
+msgid "cont_ed_insert_cach"
+msgstr "Insätt konsultationstimmar"
+
+msgid "cont_ed_insert_dtab"
+msgstr "Inför datatabell"
+
+msgid "cont_ed_insert_flst"
+msgstr "Inför fillista"
+
+msgid "cont_ed_insert_grid"
+msgstr "Insätt kolumnlayout"
+
+msgid "cont_ed_insert_grid_info"
+msgstr "Inserterar en responsiv kolumnlayout baserad på ett rutnät med 12 enheter per rad."
+
+msgid "cont_ed_insert_iim"
+msgstr "Insätt interaktiv bild"
+
+msgid "cont_ed_insert_incl"
+msgstr "Insert innehållsmodul"
+
+#, fuzzy
+msgid "cont_ed_insert_lay"
+msgstr "Insert Layout Template"
+
+msgid "cont_ed_insert_lhist"
+msgstr "Insert inlärningshistorik"
+
+msgid "cont_ed_insert_list"
+msgstr "Inför utökad lista"
+
+msgid "cont_ed_insert_lpe"
+msgstr "Insätt element för inloggningssida"
+
+msgid "cont_ed_insert_map"
+msgstr "Infoga karta"
+
+msgid "cont_ed_insert_mcrs"
+msgstr "Insert mina kurser"
+
+msgid "cont_ed_insert_media"
+msgstr "Insert bild/audio/video"
+
+msgid "cont_ed_insert_par"
+msgstr "Inför text"
+
+msgid "cont_ed_insert_pcqst"
+msgstr "Infoga fråga"
+
+msgid "cont_ed_insert_plach"
+msgstr "Insätt platshållare"
+
+msgid "cont_ed_insert_prof"
+msgstr "Inför personuppgifter"
+
+msgid "cont_ed_insert_qover"
+msgstr "Insätt frågeöversikt"
+
+msgid "cont_ed_insert_repobj"
+msgstr "Insätt lista över material"
+
+msgid "cont_ed_insert_sec"
+msgstr "Infoga block"
+
+msgid "cont_ed_insert_skills"
+msgstr "Inför kompetenser"
+
+msgid "cont_ed_insert_src"
+msgstr "Inför programkod"
+
+msgid "cont_ed_insert_tab"
+msgstr "Insätt utökad tabell"
+
+msgid "cont_ed_insert_tabs"
+msgstr "Insert dragspel"
+
+msgid "cont_ed_insert_templ"
+msgstr "Insert innehållsmall"
+
+msgid "cont_ed_insert_vrfc"
+msgstr "Infoga certifikat"
+
+msgid "cont_ed_item_down"
+msgstr "Move entry down"
+
+msgid "cont_ed_item_up"
+msgstr "Flytta inmatningen till toppen"
+
+msgid "cont_ed_list"
+msgstr "Utökad lista"
+
+msgid "cont_ed_moveafter"
+msgstr "Flytta till"
+
+msgid "cont_ed_movebefore"
+msgstr "Skifta före"
+
+msgid "cont_ed_new_col_after"
+msgstr "Ny kolumn höger"
+
+msgid "cont_ed_new_col_before"
+msgstr "Ny kolumn vänster"
+
+msgid "cont_ed_new_item_after"
+msgstr "Ny post nedan"
+
+msgid "cont_ed_new_item_before"
+msgstr "Ny post ovan"
+
+msgid "cont_ed_new_row_after"
+msgstr "Ny rad nedan"
+
+msgid "cont_ed_new_row_before"
+msgstr "Ny rad ovan"
+
+#, fuzzy
+msgid "cont_ed_nr_cols"
+msgstr "Number of Columns"
+
+#, fuzzy
+msgid "cont_ed_nr_rows"
+msgstr "Number of Rows"
+
+msgid "cont_ed_par"
+msgstr "Text"
+
+msgid "cont_ed_paste"
+msgstr "Insert"
+
+msgid "cont_ed_paste_clip"
+msgstr "Insert från urklipp"
+
+msgid "cont_ed_pglprop"
+msgstr "Egenskaper för sidlayout"
+
+msgid "cont_ed_plachmedia"
+msgstr "platshållare bild/media"
+
+msgid "cont_ed_plachprop"
+msgstr "platshållare egenskaper"
+
+msgid "cont_ed_plachquestion"
+msgstr "platshållare fråga"
+
+msgid "cont_ed_plachtext"
+msgstr "platshållare text"
+
+msgid "cont_ed_plachverification"
+msgstr "platshållarcertifikat"
+
+msgid "cont_ed_row_down"
+msgstr "Flytta ner linjen"
+
+msgid "cont_ed_row_up"
+msgstr "Flytta linjen uppåt"
+
+msgid "cont_ed_select_pctext"
+msgstr "Välj textelement"
+
+msgid "cont_ed_split_page"
+msgstr "Split sida"
+
+msgid "cont_ed_split_page_next"
+msgstr "Flytta till nästa sida"
+
+msgid "cont_ed_textitem"
+msgstr "Testa element"
+
+msgid "cont_ed_width"
+msgstr "Bredd"
+
+msgid "cont_edit_base_image"
+msgstr "Redigera källbild"
+
+msgid "cont_edit_comp"
+msgstr "Edit-läge"
+
+msgid "cont_edit_definition"
+msgstr "Redigera definition"
+
+msgid "cont_edit_file_list_properties"
+msgstr "Redigera egenskaper för fillistorna"
+
+msgid "cont_edit_language_version"
+msgstr "Redigera version"
+
+msgid "cont_edit_lrs_settings"
+msgstr "Inställningar"
+
+msgid "cont_edit_marker_position"
+msgstr "Redigera markörens punkt"
+
+msgid "cont_edit_mob"
+msgstr "Redigera mediaobjekt"
+
+msgid "cont_edit_mob_alias_prop"
+msgstr "Redigera egenskaper för instansen av mediaobjektet"
+
+msgid "cont_edit_mode"
+msgstr "Edit-läge"
+
+msgid "cont_edit_multi"
+msgstr "Multipelt urval"
+
+msgid "cont_edit_overlay_position"
+msgstr "Ändra positionen för överlagringen"
+
+msgid "cont_edit_par"
+msgstr "Redigera text"
+
+msgid "cont_edit_personal_data"
+msgstr "Redigera personuppgifter"
+
+msgid "cont_edit_popup_position"
+msgstr "Ändra positionen för popup-fönstret"
+
+msgid "cont_edit_qover"
+msgstr "Redigera frågeöversikt"
+
+msgid "cont_edit_shape_circle"
+msgstr "Redigera konturer (cirkel)"
+
+msgid "cont_edit_shape_polygon"
+msgstr "Redigera kontur (polygon)"
+
+msgid "cont_edit_shape_rectangle"
+msgstr "Redigera kontur (rektangel)"
+
+msgid "cont_edit_shape_whole_picture"
+msgstr "Redigera outline (hela bilden)"
+
+msgid "cont_edit_src"
+msgstr "Redigera programkod"
+
+msgid "cont_edit_style"
+msgstr "Redigera stil"
+
+#, fuzzy
+msgid "cont_edit_table"
+msgstr "Edit Table"
+
+msgid "cont_edit_tabs"
+msgstr "Egenskaper"
+
+msgid "cont_edit_term"
+msgstr "Redigera term"
+
+#, fuzzy
+msgid "cont_edit_title"
+msgstr "Change Title"
+
+msgid "cont_element_refers_removed_itgr"
+msgstr "Detta innehållselement hänvisar till ett objektblock som har raderats under tiden."
+
+msgid "cont_empty_question"
+msgstr "Frågan är ännu inte klar. Vänligen avsluta den eller radera frågan."
+
+msgid "cont_enable_page_history"
+msgstr "Aktivera sidhistorik"
+
+msgid "cont_enable_page_history_info"
+msgstr "Äldre versioner av sidor sparas och kan återställas."
+
+msgid "cont_enable_time_scheduled_page_activation"
+msgstr "Tid för aktivering av sidor"
+
+msgid "cont_enable_time_scheduled_page_activation_info"
+msgstr "Med funktionen kan du ställa in aktiveringstider för enskilda sidor i lärmodulen."
+
+msgid "cont_end"
+msgstr "Slut"
+
+msgid "cont_enough_answers_correct"
+msgstr "Right, men inte den bästa möjliga lösningen!"
+
+msgid "cont_enter_a_dir_name"
+msgstr "Var god ange ett katalognamn."
+
+msgid "cont_enter_a_file"
+msgstr "Välj en fil."
+
+msgid "cont_error"
+msgstr "Sorry, ett fel har uppstått!"
+
+msgid "cont_exp_id_used_multiple"
+msgstr "Flera använda export-ID:n"
+
+msgid "cont_exp_ids_not_resp_format1"
+msgstr "Export-ID får endast innehålla följande bokstäver."
+
+msgid "cont_exp_ids_not_resp_format2"
+msgstr "Vänligen kontrollera och korrigera din post."
+
+msgid "cont_exp_ids_not_resp_format3"
+msgstr "ID får inte börja med ett nummer."
+
+msgid "cont_export_all"
+msgstr "Exportera alla"
+
+msgid "cont_export_id"
+msgstr "Export-ID"
+
+msgid "cont_file"
+msgstr "Fil"
+
+msgid "cont_file_created"
+msgstr "Filen skapades."
+
+msgid "cont_file_deleted"
+msgstr "Filerna har raderats."
+
+msgid "cont_file_from_repository"
+msgstr "Filma från tidning"
+
+msgid "cont_file_from_workspace"
+msgstr "Fil från personliga resurser"
+
+msgid "cont_file_renamed"
+msgstr "Filen har bytt namn."
+
+msgid "cont_file_unzipped"
+msgstr "Filen har packats upp."
+
+msgid "cont_files"
+msgstr "Filer"
+
+msgid "cont_finish_editing"
+msgstr "Avsluta redigering"
+
+#, fuzzy
+msgid "cont_finish_table_editing"
+msgstr "Finish Data Table Editing"
+
+msgid "cont_first_open"
+msgstr "Första facket öppet"
+
+msgid "cont_first_page"
+msgstr "Första sidan"
+
+msgid "cont_first_row_style"
+msgstr "Stil för första raden"
+
+msgid "cont_fix_tree"
+msgstr "Reparera struktur"
+
+msgid "cont_fix_tree_confirm"
+msgstr "Kör denna funktion endast om strukturen i lärmodulen är skadad, t.ex. om det finns tomma poster i kapitelstrukturen."
+
+msgid "cont_fn"
+msgstr "Fotnot"
+
+msgid "cont_footer"
+msgstr "Footer"
+
+msgid "cont_footnote"
+msgstr "Fotnot"
+
+msgid "cont_force_all_open"
+msgstr "Alla är alltid öppna"
+
+msgid "cont_format"
+msgstr "Format"
+
+#, fuzzy
+msgid "cont_format_cells"
+msgstr "Format Cells"
+
+msgid "cont_fourth_edition"
+msgstr "Senaste versionen \"SCORM 2004 4:e upplagan"
+
+msgid "cont_fourth_edition_info"
+msgstr "SCORM 2004 4th edition\" erbjuder vissa förbättringar jämfört med \"3rd edition\". Data kan utbytas över SCO-gränserna. Dessa möjligheter används dock sällan och har en negativ effekt på hastigheten och på data som skall raderas."
+
+msgid "cont_free_pages"
+msgstr "Gratis sidor"
+
+msgid "cont_full_is_in_dir"
+msgstr "Delete inte möjligt. Filen för full view finns i katalogen."
+
+msgid "cont_fullscreen"
+msgstr "Fullskärm"
+
+msgid "cont_general_properties"
+msgstr "Allmänna egenskaper"
+
+msgid "cont_get_link"
+msgstr "Välj länk"
+
+msgid "cont_glo_assign"
+msgstr "Assign ordlista"
+
+msgid "cont_glo_create"
+msgstr "Skapa ny ordlista"
+
+msgid "cont_glo_detach"
+msgstr " Avmarkera ordlista"
+
+msgid "cont_glo_properties"
+msgstr "Glossary inställningar"
+
+msgid "cont_glossaries"
+msgstr "Glossarier"
+
+msgid "cont_got_lock_release"
+msgstr "Den här sidan har låsts för din redigering fram till %1. Andra användare kan inte göra några ändringar på sidan under den här tiden. Vänligen släpp sidan igen efter redigering."
+
+msgid "cont_grid_cell"
+msgstr "Kolumn"
+
+msgid "cont_grid_cell_confirm_deletion"
+msgstr "Bör kolumnerna verkligen raderas?"
+
+msgid "cont_grid_nr_cells"
+msgstr "Antal kolumner"
+
+msgid "cont_grid_t_main_side"
+msgstr "Huvud- och sidoblock"
+
+msgid "cont_grid_t_main_side_info"
+msgstr "Layoutar en bred kolumn till vänster och en smalare kolumn till höger om den. Växlar till en enspaltig layout i mobilvyn (liten)."
+
+msgid "cont_grid_t_manual"
+msgstr "Manuellt skapad sidlayout"
+
+msgid "cont_grid_t_manual_info"
+msgstr "Möjliggör fri utformning av antal och bredd på kolumnerna."
+
+msgid "cont_grid_t_three_column"
+msgstr "Layout med tre kolumner"
+
+msgid "cont_grid_t_three_column_info"
+msgstr "Visar tre kolumner med samma bredd bredvid varandra. Växlar till en layout med en kolumn i mobilvyn (liten)."
+
+msgid "cont_grid_t_two_by_two"
+msgstr "Två gånger två boxar"
+
+msgid "cont_grid_t_two_by_two_info"
+msgstr "Visar två rader med två kolumner av samma bredd. Växlar till en enkolumnslayout i mobilvyn (liten) och till en fyrkolumnslayout på extra breda skärmar (extra stor)."
+
+msgid "cont_grid_t_two_column"
+msgstr "Layout med två kolumner"
+
+msgid "cont_grid_t_two_column_info"
+msgstr "Visar två kolumner med samma bredd bredvid varandra. Växlar till en layout med en kolumn i mobilvyn (liten)."
+
+msgid "cont_grid_width_l"
+msgstr "Large (Stor)"
+
+msgid "cont_grid_width_l_info"
+msgstr "t.ex. skrivbord"
+
+msgid "cont_grid_width_m"
+msgstr "Medel"
+
+msgid "cont_grid_width_m_info"
+msgstr "T.ex. tablett"
+
+msgid "cont_grid_width_s"
+msgstr "Small (Liten)"
+
+msgid "cont_grid_width_s_info"
+msgstr "t.ex. smartphone"
+
+msgid "cont_grid_width_xl"
+msgstr "Mycket stor (extra stor)"
+
+msgid "cont_grid_width_xl_info"
+msgstr "t.ex. Wide Desktop"
+
+msgid "cont_hacc_needs_height"
+msgstr "Var god ange en höjd för horisontella dragspel."
+
+msgid "cont_hacc_needs_width"
+msgstr "Var god ange en bredd för horisontella dragspel."
+
+#, fuzzy
+msgid "cont_has_row_header"
+msgstr "Has a Header Row"
+
+msgid "cont_header"
+msgstr "Rubrik"
+
+msgid "cont_height"
+msgstr "Höjd i pixlar"
+
+msgid "cont_help_no_valid_tooltip_id"
+msgstr "Det angivna verktygstips-ID:t är inte giltigt."
+
+msgid "cont_hide_adv"
+msgstr "Dölja djupgående kunskaper"
+
+msgid "cont_hide_head_foot_print"
+msgstr " Dölj sidhuvud och sidfot i utskriften."
+
+msgid "cont_hidenavig"
+msgstr " Dölj vänster navigationsträd"
+
+msgid "cont_hidenavig_info"
+msgstr "Det vänstra navigeringsträdet för att växla mellan flera avsnitt i lärmodulen kan döljas om SCORM-lärmodulen innehåller sin egen navigering eller om den övre navigeringsmenyn visas."
+
+msgid "cont_highlight_class"
+msgstr "Highlight klass"
+
+msgid "cont_highlight_mode"
+msgstr "Markerat läge"
+
+msgid "cont_hover"
+msgstr "Hover"
+
+msgid "cont_href"
+msgstr "href"
+
+msgid "cont_html_export_ids"
+msgstr "HTML export ID:n"
+
+msgid "cont_html_export_ids_info"
+msgstr "Gör det möjligt att administrera egna ID:n för ILIAS inlärningsmoduler. Dessa ID:n används för att namnge HTML-sidor som genereras under HTML-export."
+
+msgid "cont_html_table"
+msgstr "HTML tabell"
+
+msgid "cont_id_ref"
+msgstr "identifieraref"
+
+msgid "cont_ie_compatibility"
+msgstr "Kompatibilitetsläge för Internet Explorer 7"
+
+msgid "cont_ie_compatibility_info"
+msgstr "Reducerar visningsproblem för äldre SCORM-lärmoduler som har optimerats för Internet Explorer. Om nyare versioner av Internet Explorer har kompatibilitetsläget inaktiverat, kommer denna inställning inte att gälla. <br />"
+
+msgid "cont_ie_force_render"
+msgstr "Rendera Internet Explorer"
+
+msgid "cont_ie_force_render_info"
+msgstr "Correct display of SCORM learning module content with many frames or iFrames is achieved by re-rendering the content."
+
+#, fuzzy
+msgid "cont_iim_add_overlay"
+msgstr "Add Overlay"
+
+#, fuzzy
+msgid "cont_iim_add_trigger"
+msgstr "Add Trigger"
+
+#, fuzzy
+msgid "cont_iim_add_trigger_text"
+msgstr "Please add a trigger. Afterwards edit size and position on the right screen."
+
+#, fuzzy
+msgid "cont_iim_background_image"
+msgstr "Background Image"
+
+#, fuzzy
+msgid "cont_iim_background_image_and_caption"
+msgstr "Background Image and Caption"
+
+#, fuzzy
+msgid "cont_iim_edit"
+msgstr "Edit Interactive Image"
+
+#, fuzzy
+msgid "cont_iim_edit_trigger"
+msgstr "Edit Trigger"
+
+#, fuzzy
+msgid "cont_iim_finish_editing"
+msgstr "Finish Editing Interactive Image"
+
+#, fuzzy
+msgid "cont_iim_horizontal"
+msgstr "Horizontal"
+
+#, fuzzy
+msgid "cont_iim_lg"
+msgstr "Large"
+
+#, fuzzy
+msgid "cont_iim_md"
+msgstr "Medium"
+
+#, fuzzy
+msgid "cont_iim_no_overlay"
+msgstr "No Overlay"
+
+#, fuzzy
+msgid "cont_iim_overview"
+msgstr "Overview"
+
+#, fuzzy
+msgid "cont_iim_select_overlay"
+msgstr "Select Overlay"
+
+#, fuzzy
+msgid "cont_iim_select_trigger"
+msgstr "To edit an existing trigger, click it on the right screen."
+
+#, fuzzy
+msgid "cont_iim_size"
+msgstr "Size"
+
+#, fuzzy
+msgid "cont_iim_sm"
+msgstr "Small"
+
+#, fuzzy
+msgid "cont_iim_tr_add_popup"
+msgstr "Add Content-Popup"
+
+#, fuzzy
+msgid "cont_iim_tr_properties_info"
+msgstr "The trigger will be presented on the right side. You may alter position and size using the mouse."
+
+#, fuzzy
+msgid "cont_iim_trigger"
+msgstr "Trigger"
+
+#, fuzzy
+msgid "cont_iim_vertical"
+msgstr "Vertical"
+
+msgid "cont_imagemap"
+msgstr "Image Karta"
+
+msgid "cont_import"
+msgstr "Import"
+
+msgid "cont_import_id"
+msgstr "identifierare"
+
+msgid "cont_import_lang"
+msgstr "Målspråk"
+
+msgid "cont_import_tracking"
+msgstr "Importera loggdata"
+
+msgid "cont_import_trans"
+msgstr "Import översättning"
+
+msgid "cont_import_validation_errors"
+msgstr "Fel uppstod under valideringen av utbildningsmodulen. Displayen kan fortfarande fungera. Det är dock troligt att de felaktiga sidorna inte kan redigeras."
+
+msgid "cont_initial_attached_content"
+msgstr "Ytterligare innehåll i posten"
+
+msgid "cont_insert_amd_page_list"
+msgstr "Inför sidlista"
+
+msgid "cont_insert_as_chapter"
+msgstr "Inför som kapitel"
+
+msgid "cont_insert_as_subchapter"
+msgstr "Insätt som underkapitel"
+
+msgid "cont_insert_blog"
+msgstr "Lägg till blogginlägg"
+
+msgid "cont_insert_chapter"
+msgstr "Inför kapitel"
+
+msgid "cont_insert_chapter_from_clip"
+msgstr "Klistra in kapitel från klippbordet"
+
+msgid "cont_insert_consultation_hours"
+msgstr "Lägg till konsultationstimmar"
+
+msgid "cont_insert_file_item"
+msgstr "Inför fil"
+
+msgid "cont_insert_file_list"
+msgstr "Inför fillista"
+
+msgid "cont_insert_list"
+msgstr "Inför utökad lista"
+
+msgid "cont_insert_login_page"
+msgstr "Skapa element för inloggningssida"
+
+msgid "cont_insert_map"
+msgstr "Infoga karta"
+
+msgid "cont_insert_mob"
+msgstr "media objekt"
+
+msgid "cont_insert_my_courses"
+msgstr "Insert mina kurser"
+
+msgid "cont_insert_page"
+msgstr "Infoga sida"
+
+msgid "cont_insert_page_from_clip"
+msgstr "Klistra in sida från Urklipp"
+
+msgid "cont_insert_pagelayout"
+msgstr "Insätt sida från mall"
+
+msgid "cont_insert_par"
+msgstr "Inför text"
+
+msgid "cont_insert_profile"
+msgstr "Publicera personuppgifter"
+
+msgid "cont_insert_resources"
+msgstr "Insätt lista över material"
+
+msgid "cont_insert_section"
+msgstr "Infoga block"
+
+msgid "cont_insert_skills"
+msgstr "Infoga kompetens"
+
+msgid "cont_insert_src"
+msgstr "Inför programkod"
+
+msgid "cont_insert_subchapter"
+msgstr "Inför underkapitel"
+
+msgid "cont_insert_subchapter_from_clip"
+msgstr " Klistra in underkapitel från Urklipp"
+
+msgid "cont_insert_table"
+msgstr "Infoga tabell"
+
+msgid "cont_insert_verification"
+msgstr "Lägg till certifikat"
+
+msgid "cont_inst_map_areas"
+msgstr "Länkade områden av instansen"
+
+msgid "cont_interactions"
+msgstr "Spara resultaten av uppgifterna"
+
+msgid "cont_interactions_info"
+msgstr "Data om resultat från uppgifter (interaktioner) skrivs vanligtvis bara av lärmoduler och läses inte in. Om du är säker på att denna lärmodul gör detta, ökar detta alternativ prestandan."
+
+msgid "cont_interactions_info_12"
+msgstr "Uppgifterna om resultat från uppgifter (interaktioner) kan endast skrivas av SCORM 1.2 inlärningsmoduler och inte längre läsas in. Detta alternativ ökar prestandan."
+
+msgid "cont_internal_link"
+msgstr "intern länk"
+
+msgid "cont_internal_links"
+msgstr "Interna länkar"
+
+msgid "cont_invalid_new_module"
+msgstr "Modulen är inte kompatibel! Imsmanifest.xml måste vara identisk."
+
+msgid "cont_is_visible"
+msgstr "ärsynlig"
+
+msgid "cont_item"
+msgstr "inträde"
+
+msgid "cont_keyword"
+msgstr " nyckelord"
+
+msgid "cont_language"
+msgstr "Språk"
+
+msgid "cont_languages"
+msgstr "Språk"
+
+msgid "cont_last_try"
+msgstr "Sista försöket"
+
+msgid "cont_last_update"
+msgstr "Sista sparade"
+
+msgid "cont_last_visited_page"
+msgstr "Sista besökta sidan"
+
+msgid "cont_latest_rev"
+msgstr "Sista förändringen"
+
+msgid "cont_layout"
+msgstr "Layout"
+
+msgid "cont_layout_1window"
+msgstr "En ram"
+
+msgid "cont_layout_1window_desc"
+msgstr "Innehåll i huvudramen. FAQ, ordlista och medielänkar öppnas i nytt fönster."
+
+msgid "cont_layout_2window"
+msgstr "Två ramar"
+
+msgid "cont_layout_2window_desc"
+msgstr "Innehåll i den vänstra ramen. FAQ, ordlista och medielänkar öppnar innehållet i den högra ramen."
+
+msgid "cont_layout_3window"
+msgstr "Tre ramar"
+
+msgid "cont_layout_3window_desc"
+msgstr "Innehåll i den vänstra ramen. FAQ- och medielänkar öppnar innehåll i den övre högra ramen, ordlista länkar i den nedre högra."
+
+msgid "cont_layout_fullscreen"
+msgstr "Fullständig bild"
+
+msgid "cont_layout_fullscreen_desc"
+msgstr "Innehåll i huvudramen. FAQ, ordlista och medielänkar öppnas i ett nytt fönster. Huvudmenyn för ILIAS är avaktiverad."
+
+msgid "cont_layout_per_page"
+msgstr "Tillåt layout per sida"
+
+msgid "cont_layout_per_page_info"
+msgstr "Gör det möjligt att välja en annan layout per sida."
+
+msgid "cont_layout_presentation"
+msgstr "Presentation"
+
+msgid "cont_layout_presentation_desc"
+msgstr "Innehåll i huvudramen. FAQ, ordlista och medielänkar öppnas i ett nytt fönster. Huvudmenyn för ILIAS är avaktiverad."
+
+msgid "cont_layout_template"
+msgstr "Layout-mall"
+
+msgid "cont_layout_toc2win"
+msgstr "Oversikt vänster"
+
+msgid "cont_layout_toc2win_desc"
+msgstr "Oversikt till vänster, innehåll i den högra ramen. FAQ, ordlista och medielänkar öppnas i ett nytt fönster."
+
+msgid "cont_layout_toc2windyn"
+msgstr "Oversikt vänster, dynamisk ram"
+
+msgid "cont_layout_toc2windyn_desc"
+msgstr "Oversikt till vänster, innehåll i den högra ramen. FAQ, ordlista och medielänkar visar innehåll i en dynamisk ram längst ner till höger."
+
+msgid "cont_left"
+msgstr "Länkar"
+
+msgid "cont_left_float"
+msgstr "Länkar, text flödar runt"
+
+msgid "cont_license"
+msgstr "Licens"
+
+msgid "cont_license_info"
+msgstr "Fliken och funktionen \"Licens\" visas."
+
+msgid "cont_light"
+msgstr "Helvete"
+
+msgid "cont_link"
+msgstr "Länk"
+
+msgid "cont_link_area"
+msgstr "Länkområde"
+
+msgid "cont_link_ext"
+msgstr "Länk (extern)"
+
+msgid "cont_link_glo_in_lm"
+msgstr "Ska alla ordlistans termer nu länkas i inlärningsmodulen?"
+
+msgid "cont_link_int"
+msgstr "Länk (intern)"
+
+msgid "cont_link_no"
+msgstr "Ingen länk"
+
+msgid "cont_link_select"
+msgstr "Intern länk"
+
+msgid "cont_link_to_external"
+msgstr "Länk till en extern webbplats"
+
+msgid "cont_link_to_internal"
+msgstr "Länk inom ILIAS"
+
+msgid "cont_link_to_wiki"
+msgstr "Länk till en wiki-sida (sätt in parenteser)"
+
+msgid "cont_link_type"
+msgstr " typ av länk"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "cont_link_user"
+msgstr "Min profil"
+
+msgid "cont_linked_mobs"
+msgstr "Länkade mediaobjekt"
+
+msgid "cont_links"
+msgstr "Länkar"
+
+msgid "cont_list_files"
+msgstr "Fil katalog"
+
+msgid "cont_list_indent"
+msgstr "Indent lista"
+
+#, fuzzy
+msgid "cont_list_item_style"
+msgstr "List Item Style"
+
+msgid "cont_list_outdent"
+msgstr "Flytta ut listan"
+
+msgid "cont_list_properties"
+msgstr "Lista egenskaper"
+
+msgid "cont_lists"
+msgstr "Listor"
+
+msgid "cont_lk_chapter"
+msgstr "Kapitel"
+
+msgid "cont_lk_chapter_new"
+msgstr "Kapitel på ny flik"
+
+msgid "cont_lk_file"
+msgstr "Fil/Dokument"
+
+msgid "cont_lk_media_faq"
+msgstr "Mediaobjekt i FAQ-verktyg"
+
+msgid "cont_lk_media_inline"
+msgstr "Media objekt (inline)"
+
+msgid "cont_lk_media_media"
+msgstr "Medieobjekt i medieverktyg"
+
+msgid "cont_lk_media_new"
+msgstr "Mediaobjekt i ny flik"
+
+msgid "cont_lk_page"
+msgstr "Sida"
+
+msgid "cont_lk_page_faq"
+msgstr "Sida i FAQ-verktyg"
+
+msgid "cont_lk_page_new"
+msgstr "Sida i ny flik"
+
+msgid "cont_lk_term"
+msgstr "Glossarisk term"
+
+msgid "cont_lk_term_new"
+msgstr "Glossary term i ny flik"
+
+msgid "cont_lm_comments_desc"
+msgstr "Tillåter användare att lägga till offentliga kommentarer på alla lärmodulsidor."
+
+msgid "cont_lm_default_layout"
+msgstr "Standardlayout för utbildningsmodulen"
+
+msgid "cont_lm_mail_permanent_link"
+msgstr "Klicka på följande länk för att komma till utbildningsmodulen"
+
+msgid "cont_lm_menu"
+msgstr "Meny"
+
+msgid "cont_lm_properties"
+msgstr "Inställningar för utbildningsmoduler"
+
+msgid "cont_lm_starting_point"
+msgstr "Startsida för ILIAS utbildningsmoduler"
+
+msgid "cont_lm_starting_point_info"
+msgstr "Sida som öppnas när du klickar på lärmodulens titel."
+
+msgid "cont_localfile"
+msgstr "Lokal fil"
+
+msgid "cont_localization"
+msgstr "Språk"
+
+msgid "cont_localization_info"
+msgstr "Inställningen krävs för fördefinierade texter i modulen (t.ex. \"Framåt\" / \"Tillbaka\")."
+
+msgid "cont_location"
+msgstr "Position"
+
+#, fuzzy
+msgid "cont_lpe_dpro_agreement_link"
+msgstr "Declaration of Data Protection Link"
+
+msgid "cont_lpe_language_selection"
+msgstr "Val av språk"
+
+msgid "cont_lpe_login_form"
+msgstr "Logga in mask"
+
+msgid "cont_lpe_openid_connect_login"
+msgstr "OpenId Anslut inloggning"
+
+msgid "cont_lpe_openid_login_form"
+msgstr "OpenID inloggningsmask"
+
+msgid "cont_lpe_registration_link"
+msgstr "Länk till den nya registreringen"
+
+msgid "cont_lpe_saml_login"
+msgstr "SAML-inloggning"
+
+msgid "cont_lpe_shib_login_form"
+msgstr "Shibboleth inloggningsmask"
+
+msgid "cont_lpe_user_agreement_link"
+msgstr "Länk till användaravtalet"
+
+msgid "cont_lrs_settings"
+msgstr "Inställningar"
+
+msgid "cont_lvalue"
+msgstr "Data element"
+
+msgid "cont_maintenance"
+msgstr "Underhåll"
+
+msgid "cont_manifest"
+msgstr "Manifest"
+
+#, fuzzy
+msgid "cont_manual_item_group"
+msgstr "Manually Create Item Group"
+
+msgid "cont_map_file_not_generated"
+msgstr "Tyvärr kunde bildkartfilen inte genereras."
+
+msgid "cont_marker"
+msgstr "Markeringspunkt"
+
+msgid "cont_master_language_only"
+msgstr "Basspråk för översättning - Master"
+
+msgid "cont_master_language_only_no_media"
+msgstr "Basspråk för översättning - utan mediaobjekt"
+
+msgid "cont_mastery_score"
+msgstr "adlcp"
+
+msgid "cont_mastery_score_12"
+msgstr "mastery_score skriva över"
+
+msgid "cont_mastery_score_12_info"
+msgstr "Om en SCO inte bestämmer en status självständigt, anses en SCO vara godkänd om den uppnådda poängen har nått minst ett visst värde - mastery_score. Du kan skriva över detta värde här, t.ex. för att sänka kravnivån. Om fältet är tomt gäller specifikatione"
+
+msgid "cont_mastery_score_2004"
+msgstr "scaled_passing_score skriva över"
+
+msgid "cont_mastery_score_2004_info"
+msgstr "Centrala lärandemål i denna lärmodul anses vara godkända om den uppnådda poängen har nått minst ett visst värde - scaled_passing_score. Du kan skriva över detta procentvärde här, t.ex. för att sänka kravnivån. Om fältet är tomt gäller specifikationerna i"
+
+msgid "cont_max_time_allowed"
+msgstr "adlcp"
+
+msgid "cont_media"
+msgstr "Bilder/Audio/Video"
+
+msgid "cont_media_placeh"
+msgstr "Klicka och redigera för att infoga ett mediaobjekt"
+
+msgid "cont_media_placehl"
+msgstr "Image/Media Platshållare"
+
+msgid "cont_media_source"
+msgstr "Mediekälla"
+
+#, fuzzy
+msgid "cont_merge_cells"
+msgstr "Merge Cells"
+
+msgid "cont_missing_preconditions"
+msgstr "Du måste uppfylla följande förutsättningar för att få tillgång till kapitel \"%s\"."
+
+msgid "cont_missing_snippet"
+msgstr "Modul för innehåll som saknas"
+
+msgid "cont_mob_def_prop"
+msgstr "Standardinställningar"
+
+msgid "cont_mob_from_media_pool"
+msgstr "Välja från mediepoolen"
+
+msgid "cont_mob_inst_prop"
+msgstr "Egenskaper för instansen"
+
+msgid "cont_mob_usages"
+msgstr "Använda"
+
+msgid "cont_more_character_styles"
+msgstr "Karaktärsstilar"
+
+msgid "cont_more_functions"
+msgstr "Mer"
+
+msgid "cont_moved_srt_files"
+msgstr "Undertextfilerna har tilldelats mediaobjekten."
+
+msgid "cont_multi_srt_files"
+msgstr "SRT-filer"
+
+msgid "cont_mycourses_sortorder"
+msgstr "Standard sortering"
+
+msgid "cont_mycourses_sortorder_alphabetical"
+msgstr "Alfabetisk"
+
+msgid "cont_mycourses_sortorder_info"
+msgstr "Detta är standardinställningen. Varje användare kan välja sin egen sorteringsordning, som gäller för alla \"Mina kurser\"-objekt i alla portföljer."
+
+msgid "cont_mycourses_sortorder_location"
+msgstr "Efter plats"
+
+msgid "cont_name"
+msgstr "Namn"
+
+msgid "cont_never"
+msgstr "Nie"
+
+msgid "cont_new_area"
+msgstr "Nytt länkområde"
+
+msgid "cont_new_chap"
+msgstr "Nytt kapitel"
+
+msgid "cont_new_dir"
+msgstr "Ny katalog"
+
+msgid "cont_new_file"
+msgstr "Ladda upp ny fil"
+
+msgid "cont_new_marker"
+msgstr "Ny markör"
+
+msgid "cont_new_mob"
+msgstr "Nytt mediaobjekt"
+
+msgid "cont_new_module_added"
+msgstr "Ny modulversion har laddats upp framgångsrikt"
+
+msgid "cont_new_page"
+msgstr "Ny sida"
+
+msgid "cont_new_popup"
+msgstr "Ny pop-up"
+
+msgid "cont_new_question"
+msgstr "Ny fråga"
+
+msgid "cont_new_tab"
+msgstr "Nytt ämne"
+
+msgid "cont_new_term"
+msgstr "Ny mandatperiod"
+
+msgid "cont_new_trigger_area"
+msgstr "Ny utgivningsomgång"
+
+msgid "cont_next_rev"
+msgstr "Efterföljande förändring"
+
+msgid "cont_nlist"
+msgstr "Numrerad lista"
+
+msgid "cont_no_access"
+msgstr "Ingen åtkomst"
+
+msgid "cont_no_block"
+msgstr "Inget block"
+
+msgid "cont_no_caption"
+msgstr "Ingen legend"
+
+msgid "cont_no_glossary"
+msgstr "Ingen ordlista"
+
+msgid "cont_no_manifest"
+msgstr "Ingen fil med namnet imsmanifest.xml hittades i rotkatalogen."
+
+msgid "cont_no_page"
+msgstr "Ingen sida hittades"
+
+msgid "cont_no_page_access_unansw_q"
+msgstr "Du måste svara rätt på alla föregående frågor för att få tillgång till denna sida."
+
+msgid "cont_no_page_in_chapter"
+msgstr "Tyvärr finns det för närvarande inget aktivt innehåll i detta kapitel."
+
+msgid "cont_no_parameters"
+msgstr "Inga parametrar"
+
+msgid "cont_no_read"
+msgstr "Ingen läsbehörighet"
+
+msgid "cont_no_subdir_in_zip"
+msgstr "ZIP-kommandot kunde inte utföras eller importfilen är felaktig.<br />Den innehåller inte undermappen '%s'."
+
+msgid "cont_no_text"
+msgstr "Ingen text"
+
+msgid "cont_nomenu"
+msgstr " Dölj övre navigeringsmenyn"
+
+msgid "cont_nomenu_info"
+msgstr "Den övre navigeringsmenyn kan döljas om SCORM-lärmodulen har tillräckliga funktioner för pausning, avslutning och navigering."
+
+msgid "cont_none"
+msgstr "Ingen"
+
+msgid "cont_not_saved_edit_lock_expired"
+msgstr "Tyvärr, dina ändringar kunde inte sparas. Sidan har låsts för redigering av en annan användare under tiden. Du kan stänga dialogen och sedan kopiera innehållet till Urklipp."
+
+msgid "cont_notification_activate_lm"
+msgstr "Aktivera aviseringar för utbildningsmodulen"
+
+msgid "cont_notification_activate_page"
+msgstr "Aktivera aviseringar för sidan"
+
+msgid "cont_notification_activated"
+msgstr "Notification aktiverad (Hela utbildningsmodulen)"
+
+msgid "cont_notification_comment_lm"
+msgstr " följande sida kommenterades"
+
+msgid "cont_notification_comment_subject_lm"
+msgstr "Det fanns en kommentar på sidan %s"
+
+msgid "cont_notification_deactivate_lm"
+msgstr "Deaktivera aviseringar för utbildningsmodulen"
+
+msgid "cont_notification_deactivate_page"
+msgstr "Inaktivera aviseringar för sidan"
+
+msgid "cont_notification_deactivated"
+msgstr "Notifieringar har inaktiverats."
+
+msgid "cont_notification_update_lm"
+msgstr " följande utbildningsmodul har ändrats"
+
+msgid "cont_notify_on_blocked_users"
+msgstr "Notifiering om blockerade användare"
+
+msgid "cont_notify_on_blocked_users_info"
+msgstr "Du kommer att meddelas så snart användare blockeras eftersom de har överskridit det maximala antalet svarsförsök."
+
+msgid "cont_nr_col_footer"
+msgstr "Kolumner för fot"
+
+msgid "cont_nr_col_header"
+msgstr "Kolumner med huvud"
+
+msgid "cont_nr_cols"
+msgstr "Antal kolumner"
+
+msgid "cont_nr_items"
+msgstr "Antal poster"
+
+msgid "cont_nr_of_tries_exceeded"
+msgstr "Du har inga fler försök."
+
+msgid "cont_nr_row_footer"
+msgstr "Fotbollsspelare"
+
+msgid "cont_nr_row_header"
+msgstr "Rubriker"
+
+msgid "cont_nr_rows"
+msgstr "Antal rader"
+
+msgid "cont_number_of_tabs"
+msgstr "Antal försökspersoner"
+
+msgid "cont_number_std"
+msgstr "Standard"
+
+msgid "cont_number_type"
+msgstr "Nummer typ"
+
+msgid "cont_numbered_list"
+msgstr "Numrerad lista"
+
+msgid "cont_obj_removed"
+msgstr "Objekt borttagna"
+
+msgid "cont_objectives"
+msgstr "Spara resultat till inlärningsmål"
+
+msgid "cont_objectives_info"
+msgstr "Avaktivera endast detta alternativ om du är säker på att den här utbildningsmodulen garanterat kommer att genomföras korrekt. Detta kommer att minska lagringen av personuppgifter och öka prestandan."
+
+msgid "cont_online"
+msgstr "Online"
+
+msgid "cont_online_help_ids"
+msgstr "Skärm-ID"
+
+msgid "cont_online_info"
+msgstr "Endast om SCORM-lärmodulen är uppkopplad online kan användare komma åt lärmodulen. Om inte, är SCORM-lärmodulen endast tillgänglig för personer med rätt \"Redigera inställningar\"."
+
+msgid "cont_open"
+msgstr "Visning av utbildningsmodulen"
+
+msgid "cont_open_clipboard"
+msgstr "Öppna klippbord för media"
+
+msgid "cont_open_iframe"
+msgstr "Öppnas i samma fönster (iFrame) under ILIAS huvudmeny"
+
+#, fuzzy
+msgid "cont_open_iframe_info"
+msgstr "The learning module starts in the same window (iFrame) next to the ILIAS main menu."
+
+msgid "cont_open_normal"
+msgstr "Öppnas i en ny flik eller alternativt i ett nytt fönster utan ILIAS huvudmeny"
+
+#, fuzzy
+msgid "cont_open_normal_info"
+msgstr "The learning module starts in a new tab or alternatively in a new window without the ILIAS main menu."
+
+msgid "cont_open_window"
+msgstr "Compulsory öppnas i ett nytt fönster utan ILIAS huvudmeny"
+
+#, fuzzy
+msgid "cont_open_window_info"
+msgstr "The learning module must start in a new window without the ILIAS main menu."
+
+msgid "cont_operation_not_allowed"
+msgstr "Den här åtgärden är inte tillåten"
+
+msgid "cont_organization"
+msgstr "Organisation"
+
+msgid "cont_organizations"
+msgstr "Organisationer"
+
+msgid "cont_orig_size"
+msgstr "Ursprunglig storlek"
+
+#, fuzzy
+msgid "cont_other_resources"
+msgstr "Content (Other Remaining Resources)"
+
+msgid "cont_out_of_focus_message"
+msgstr "Den här sidan är inte längre en del av innehållet i det aktuella lärandemålet."
+
+msgid "cont_out_of_focus_message_last_page"
+msgstr "Du är på den sista sidan med innehåll för det aktuella lärandemålet."
+
+msgid "cont_ov_all_correct"
+msgstr "Du har svarat rätt på alla frågor."
+
+msgid "cont_ov_preview"
+msgstr "Frågeöversikten fungerar inte i sidredigeringssammanhang. Använd istället förhandsgranskningen på SCO- eller SCORM-nivå."
+
+msgid "cont_ov_some_correct"
+msgstr "Du har svarat rätt på [x] av [y] frågor."
+
+msgid "cont_ov_wrong_answered"
+msgstr "Följande frågor har ännu inte besvarats eller har besvarats felaktigt"
+
+msgid "cont_overlay_image"
+msgstr "Bild för överlagring"
+
+msgid "cont_overlay_images"
+msgstr "Overlay bilder"
+
+msgid "cont_overlays_have_been_deleted"
+msgstr "Overlays har tagits bort"
+
+msgid "cont_page_activation"
+msgstr "Aktivering av sida"
+
+msgid "cont_page_activation_on"
+msgstr "Innehållet aktiveras på %s."
+
+msgid "cont_page_compare"
+msgstr "Jämför utvalda förändringar"
+
+msgid "cont_page_created"
+msgstr "Sida tillagd"
+
+msgid "cont_page_currently_deactivated"
+msgstr "Den här sidan är för närvarande inaktiverad."
+
+msgid "cont_page_deactivated"
+msgstr "Sidan är inaktiverad"
+
+msgid "cont_page_deactivated_elements"
+msgstr "Sidan innehåller inaktiverade element"
+
+msgid "cont_page_header"
+msgstr "Sidans rubrik"
+
+msgid "cont_page_layout"
+msgstr "Sidans layout"
+
+msgid "cont_page_lock_released"
+msgstr "Redigeringen har slutförts. Sidan har släppts igen."
+
+msgid "cont_page_notification_activated"
+msgstr "Notifiering aktiverad (En sida)"
+
+msgid "cont_page_template"
+msgstr "Mall"
+
+msgid "cont_page_toc"
+msgstr "Översikt över sidor"
+
+msgid "cont_page_translation_does_not_exist"
+msgstr "Sidan finns ännu inte på detta språk. Den kommer nu att skapas som en kopia av standardspråket. Språk för den nya sidan"
+
+#, fuzzy
+msgid "cont_page_usage"
+msgstr "Page Usage"
+
+msgid "cont_pages"
+msgstr "Sidor"
+
+msgid "cont_pages_and_subchapters"
+msgstr "Underkapitel och sidor"
+
+msgid "cont_par_format"
+msgstr "Format för stycke"
+
+msgid "cont_paragraph_styles"
+msgstr "Format för stycken"
+
+msgid "cont_parameter"
+msgstr "Parametrar"
+
+msgid "cont_parameters"
+msgstr "Parametrar"
+
+msgid "cont_paste_from_clipboard"
+msgstr "Klistra in från Urklipp"
+
+#, fuzzy
+msgid "cont_paste_from_spreadsheet"
+msgstr "Paste From Spreadsheet"
+
+msgid "cont_paste_table"
+msgstr "Infoga tabell"
+
+msgid "cont_pc_amdpl"
+msgstr "Lista över sidor"
+
+msgid "cont_pc_blog"
+msgstr "Blogg"
+
+msgid "cont_pc_carousel"
+msgstr "karusell"
+
+msgid "cont_pc_code"
+msgstr "Kod"
+
+msgid "cont_pc_deleted"
+msgstr "Borttaget innehåll"
+
+msgid "cont_pc_dtab"
+msgstr "Datatabell"
+
+msgid "cont_pc_flist"
+msgstr " Lista över filer"
+
+msgid "cont_pc_grid"
+msgstr "Kolumnlayout"
+
+msgid "cont_pc_hacc"
+msgstr "Accordion (horisontell)"
+
+msgid "cont_pc_iim"
+msgstr "Interaktiv bild"
+
+msgid "cont_pc_incl"
+msgstr "Innehållsmodul"
+
+#, fuzzy
+msgid "cont_pc_lay"
+msgstr "Layout Template"
+
+msgid "cont_pc_list"
+msgstr "Utökad lista"
+
+msgid "cont_pc_map"
+msgstr "Karta"
+
+msgid "cont_pc_media"
+msgstr "Image/Audio/Video"
+
+msgid "cont_pc_mob"
+msgstr "media objekt"
+
+msgid "cont_pc_modified"
+msgstr "Ändrat innehåll"
+
+msgid "cont_pc_new"
+msgstr "Nytt innehåll"
+
+msgid "cont_pc_par"
+msgstr "Text"
+
+#, fuzzy
+msgid "cont_pc_plach"
+msgstr "Placeholder"
+
+msgid "cont_pc_prof"
+msgstr "Personuppgifter"
+
+msgid "cont_pc_qover"
+msgstr "Frågeformulär"
+
+msgid "cont_pc_qst"
+msgstr "Fråga"
+
+#, fuzzy
+msgid "cont_pc_repobj"
+msgstr "Item Group"
+
+msgid "cont_pc_res"
+msgstr "Resurs"
+
+msgid "cont_pc_sec"
+msgstr "Blockera"
+
+msgid "cont_pc_skills"
+msgstr "Kompetens"
+
+#, fuzzy
+msgid "cont_pc_src"
+msgstr "Source Code"
+
+msgid "cont_pc_tab"
+msgstr "Utökad tabell"
+
+#, fuzzy
+msgid "cont_pc_tabs"
+msgstr "Accordion/Carousel"
+
+msgid "cont_pc_vacc"
+msgstr "Accordion (vertikal)"
+
+msgid "cont_pc_vrfc"
+msgstr "Certifikat"
+
+#, fuzzy
+msgid "cont_permission_handling"
+msgstr "Permission Handling"
+
+msgid "cont_permission_object"
+msgstr "Objekt för auktorisation"
+
+msgid "cont_permission_object_desc"
+msgstr "Om ett behörighetsobjekt är valt visas blocket endast för användare med den valda rätten till behörighetsobjektet."
+
+msgid "cont_personal_clipboard"
+msgstr "Personligt klippbord"
+
+msgid "cont_pg_title"
+msgstr "Sidans titel"
+
+msgid "cont_please_enter_a_term"
+msgstr "Var god ange en term."
+
+msgid "cont_please_select"
+msgstr "Vänligen välj"
+
+msgid "cont_please_try_again"
+msgstr "Försök igen!"
+
+msgid "cont_popups_have_been_deleted"
+msgstr "Popups har tagits bort"
+
+msgid "cont_position"
+msgstr "Position"
+
+msgid "cont_prereq_type"
+msgstr "adlcp"
+
+msgid "cont_prerequisites"
+msgstr "adlcp"
+
+msgid "cont_presentation"
+msgstr "Presentation"
+
+msgid "cont_presentation_view"
+msgstr "Presentation vy"
+
+msgid "cont_preview"
+msgstr "Förhandsgranskning"
+
+msgid "cont_previous_rev"
+msgstr "Tidigare förändring"
+
+msgid "cont_print_no_page_selected"
+msgstr "Vänligen välj minst en sida."
+
+msgid "cont_print_selection"
+msgstr "Selektion utskriftsvy"
+
+msgid "cont_print_view"
+msgstr " Skriv ut vy"
+
+msgid "cont_print_view_pre_glo"
+msgstr "Ingen visning av bilagan med ordlista i utskriftsvyn"
+
+msgid "cont_profile_mode"
+msgstr "Mode"
+
+msgid "cont_profile_mode_inherit"
+msgstr "Automatisk"
+
+msgid "cont_profile_mode_inherit_info"
+msgstr "Använder data från din profil"
+
+msgid "cont_profile_mode_manual"
+msgstr "Handbok"
+
+msgid "cont_profile_mode_manual_info"
+msgstr "Använder följande data"
+
+msgid "cont_profile_mode_template_inherit_info"
+msgstr "Använder data från profilen"
+
+msgid "cont_progress_icons"
+msgstr "Ikoner för framsteg"
+
+msgid "cont_progress_icons_info"
+msgstr "I innehållsförteckningen visas förloppsikoner istället för kapitel- och sidikoner."
+
+msgid "cont_prtf_page"
+msgstr "Portföljsida"
+
+msgid "cont_prtt_page"
+msgstr "Portfolio mall sida"
+
+msgid "cont_public_access"
+msgstr "Allmänhetens tillgång"
+
+msgid "cont_purpose"
+msgstr "Använda"
+
+msgid "cont_qover_list_wrong_q"
+msgstr "Lista över felaktigt besvarade frågor"
+
+msgid "cont_qover_list_wrong_q_info"
+msgstr "En lista över alla frågor som ännu inte har besvarats eller som har besvarats felaktigt visas."
+
+msgid "cont_qover_short_message"
+msgstr "Frågestatus"
+
+msgid "cont_qover_short_message_info"
+msgstr "Ett meddelande \"Du har ännu inte besvarat x av y frågor eller har besvarat dem felaktigt\" visas."
+
+msgid "cont_qtries"
+msgstr "Antal försök för frågor"
+
+msgid "cont_qtries_info"
+msgstr "Förvalt värde \"Antal försök\" för nyskapade frågor."
+
+#, fuzzy
+msgid "cont_question"
+msgstr "Question"
+
+#, fuzzy
+msgid "cont_question_page_usage"
+msgstr "Questions on Pages"
+
+msgid "cont_question_placeh"
+msgstr "Klicka och redigera för att infoga en fråga"
+
+msgid "cont_question_placehl"
+msgstr "Fråga platshållare"
+
+msgid "cont_question_stats"
+msgstr "Statistik"
+
+msgid "cont_question_type"
+msgstr "Typ av fråga"
+
+#, fuzzy
+msgid "cont_question_usage"
+msgstr "Usages"
+
+msgid "cont_quit_text_editing"
+msgstr "Avsluta textredigering"
+
+msgid "cont_rand_start"
+msgstr "Random start page"
+
+msgid "cont_really_delete_overlays"
+msgstr "Vill du verkligen ta bort följande överlägg?"
+
+msgid "cont_really_delete_popups"
+msgstr "Vill du verkligen ta bort följande popup-fönster?"
+
+msgid "cont_really_delete_triggers"
+msgstr "Vill du verkligen ta bort följande triggers?"
+
+msgid "cont_ref_helptext"
+msgstr "(t.ex. http"
+
+msgid "cont_ref_images"
+msgstr "Refererade bilder"
+
+msgid "cont_reference"
+msgstr "Hänvisning"
+
+msgid "cont_remove_format"
+msgstr "Ta bort format"
+
+msgid "cont_rename_dir"
+msgstr "Namn på katalog"
+
+msgid "cont_replace_mob_feature"
+msgstr "Byt ut mediaobjekt i innehållet"
+
+msgid "cont_replace_mob_feature_info"
+msgstr "Aktiverar en funktion för att ersätta mediaobjekt men behålla inställningarna för de redan använda instanserna av objektet."
+
+msgid "cont_repository_item"
+msgstr "Objekt i tidning"
+
+msgid "cont_reset_nr_of_tries"
+msgstr "Återställ antal svarsförsök."
+
+msgid "cont_resize_img"
+msgstr "Justera bildstorlek"
+
+msgid "cont_resource"
+msgstr "Resurs"
+
+msgid "cont_resource_size"
+msgstr "Resursens ursprungliga storlek / Ingen storleksspecifikation"
+
+msgid "cont_resource_size_info"
+msgstr "Om storleksspecifikationen utelämnas kan storleken påverkas av innehållsstilen. Utan någon reglering av storleken visas endast bildfiler i sin normala storlek."
+
+msgid "cont_resource_type"
+msgstr "Typ"
+
+msgid "cont_resources"
+msgstr "Resurser"
+
+msgid "cont_resources_of_type"
+msgstr "Innehåll i typen"
+
+msgid "cont_restrict_forw_nav"
+msgstr "Reglera framåtrullning i inlärningsmodulen"
+
+msgid "cont_restrict_forw_nav_info"
+msgstr "En efterföljande sida kan endast öppnas om alla testfrågor har besvarats korrekt på den aktuella lärmodulssidan. Denna funktion kräver alternativet \"Spara svarsförsök\" i inställningen \"Svarsförsök\"."
+
+msgid "cont_revision"
+msgstr "Förändring"
+
+msgid "cont_right"
+msgstr "Höger"
+
+msgid "cont_right_float"
+msgstr "Right, texten flödar runt"
+
+msgid "cont_rollback"
+msgstr "Rollback"
+
+msgid "cont_rollback_confirmation"
+msgstr "Vill du verkligen återställa den här gamla versionen av sidan?"
+
+msgid "cont_roman"
+msgstr "Romerska I, II, ..."
+
+msgid "cont_roman_s"
+msgstr "Romanska i, ii, ..."
+
+msgid "cont_rowspan"
+msgstr "Associationsserier"
+
+msgid "cont_rte_settings"
+msgstr "RTE-inställningar"
+
+msgid "cont_rvalue"
+msgstr "Värde"
+
+msgid "cont_save_all_titles"
+msgstr "Spara titel"
+
+msgid "cont_save_positions"
+msgstr "Spara sekvens"
+
+msgid "cont_save_positions_and_classes"
+msgstr "Spara positioner och stilar"
+
+msgid "cont_save_spans"
+msgstr "Spara cellkluster"
+
+msgid "cont_save_types"
+msgstr "Spara typer"
+
+msgid "cont_save_widths"
+msgstr "Spara bredd"
+
+msgid "cont_saved_export_ids"
+msgstr "HTML export-ID:n lagrade."
+
+msgid "cont_saved_interactive_image"
+msgstr "Interaktiv bild sparad"
+
+msgid "cont_saved_map_area"
+msgstr "Länkområdet sparat."
+
+msgid "cont_saved_map_data"
+msgstr "Image Map sparad."
+
+msgid "cont_saving"
+msgstr "Spara..."
+
+msgid "cont_sc_auto_continue"
+msgstr "Framåt användare"
+
+msgid "cont_sc_auto_continue_info"
+msgstr "Automatiskt dirigeras användare till nästa SCO efter den senaste aktiviteten. Denna funktion stöds inte av alla SCORM 1.2-lärmoduler."
+
+msgid "cont_sc_auto_review_2004"
+msgstr "Spara data"
+
+msgid "cont_sc_auto_review_completed"
+msgstr "Spara inte från status 'fullständigt bearbetad"
+
+msgid "cont_sc_auto_review_completed_and_passed"
+msgstr "Spara inte från status 'fully processed' och 'passed'."
+
+msgid "cont_sc_auto_review_completed_not_failed_or_passed"
+msgstr "Spara inte från status 'fully processed' (om inte 'not passed') eller 'passed'."
+
+msgid "cont_sc_auto_review_completed_or_passed"
+msgstr "Spara inte från status 'fully processed' eller 'passed'."
+
+msgid "cont_sc_auto_review_info_2004"
+msgstr "När användare har uppnått en valbar status för ett kapitel / SCO i en redigeringssession, är denna status fast. Användare kan inte ändra status i senare redigeringssessioner. <br />I det sällsynta fallet att lärmodulen använder \"Sekvensering och navigeri"
+
+msgid "cont_sc_auto_review_no"
+msgstr "alltid (rekommenderas)"
+
+msgid "cont_sc_auto_review_passed"
+msgstr "Spara inte från status 'godkänd'"
+
+msgid "cont_sc_auto_review_passed_or_failed"
+msgstr "Spara inte från status 'godkänd' eller 'ej godkänd"
+
+msgid "cont_sc_id_setting"
+msgstr "student_id enligt SCORM 1.2 motsvarar"
+
+msgid "cont_sc_id_setting_2004"
+msgstr "learner_id enligt SCORM 2004 motsvarar"
+
+msgid "cont_sc_id_setting_info"
+msgstr "Om ett numeriskt ID för student_id (SCORM 1.2) eller learner_id (SCORM 2004) leder till problem med lärmodulen, använd alternativet \"ILIAS login name\". Tillägget \"Ref-ID\" eller \"Obj-ID\" kan vara användbart för lärmoduler som ansluter till en extern serve"
+
+msgid "cont_sc_id_setting_user_id"
+msgstr "ILIAS-UserId (standard)"
+
+msgid "cont_sc_id_setting_user_id_plus_obj_id"
+msgstr "ILIAS-UserId plus ObjId för inlärningsmodulen"
+
+msgid "cont_sc_id_setting_user_id_plus_ref_id"
+msgstr "ILIAS-UserId plus RefId för inlärningsmodulen"
+
+msgid "cont_sc_id_setting_user_login"
+msgstr "ILIAS inloggningsnamn"
+
+msgid "cont_sc_id_setting_user_login_plus_obj_id"
+msgstr "ILIAS inloggningsnamn plus ObjId för utbildningsmodulen"
+
+msgid "cont_sc_id_setting_user_login_plus_ref_id"
+msgstr "ILIAS inloggningsnamn plus RefId för utbildningsmodulen"
+
+msgid "cont_sc_less_mode_browse"
+msgstr " Endast förhandsvisning ('browse')"
+
+#, fuzzy
+msgid "cont_sc_less_mode_browse_info"
+msgstr "The SCORM mode is set to \"browse\"."
+
+msgid "cont_sc_less_mode_normal"
+msgstr "Normal användning ('normal')"
+
+#, fuzzy
+msgid "cont_sc_less_mode_normal_info"
+msgstr "The SCORM mode is set to \"normal\"."
+
+msgid "cont_sc_max_attempt_exceed"
+msgstr "Det maximala antalet försök för denna modul har uppnåtts."
+
+msgid "cont_sc_name_setting"
+msgstr "student_name enligt SCORM 1.2 motsvarar"
+
+msgid "cont_sc_name_setting_2004"
+msgstr "learner_name enligt SCORM 2004 motsvarar"
+
+msgid "cont_sc_name_setting_first_lastname"
+msgstr "Förnamn och efternamn"
+
+msgid "cont_sc_name_setting_first_name"
+msgstr "Förnamn"
+
+msgid "cont_sc_name_setting_fullname"
+msgstr "Titel, förnamn och efternamn"
+
+msgid "cont_sc_name_setting_info"
+msgstr "Den studerandes namn kan visas på olika sätt i lärmodulen. Om inlärningsmodulerna finns på en extern server kan det vara bra att inte avslöja namnet."
+
+msgid "cont_sc_name_setting_last_firstname"
+msgstr "Efternamn, förnamn"
+
+msgid "cont_sc_name_setting_no_name"
+msgstr "Inget namn"
+
+msgid "cont_sc_name_setting_salutation_lastname"
+msgstr "Förnamn och efternamn"
+
+msgid "cont_sc_new_version"
+msgstr "Ladda upp ny version"
+
+msgid "cont_sc_preview"
+msgstr "Förhandsgranskning"
+
+msgid "cont_sc_stat_browsed"
+msgstr "Besökt"
+
+msgid "cont_sc_stat_completed"
+msgstr "Fullbordad"
+
+msgid "cont_sc_stat_failed"
+msgstr "Misslyckad"
+
+msgid "cont_sc_stat_incomplete"
+msgstr "Inte komplett"
+
+msgid "cont_sc_stat_not_attempted"
+msgstr "Inte påbörjad"
+
+msgid "cont_sc_stat_passed"
+msgstr "Bekräftad"
+
+msgid "cont_sc_stat_running"
+msgstr "Aktiv"
+
+msgid "cont_sc_store_if_previous_score_was_lower"
+msgstr "Spara inte om den tidigare poängen var högre eller densamma"
+
+msgid "cont_sc_title"
+msgstr "Titel"
+
+msgid "cont_sc_usession"
+msgstr "Förhindra automatisk utloggning från ILIAS"
+
+msgid "cont_sc_usession_info"
+msgstr "Förfrågningar skickas regelbundet till ILIAS så att användaren förblir inloggad på plattformen. ILIAS skulle annars inte utvärdera redigeringen av SCORM-inlärningsmodulen som en aktivitet och avsluta ILIAS-sessionen. Som ett resultat skulle redigeringsda"
+
+msgid "cont_sc_version"
+msgstr "Version av utbildningsmodulen"
+
+msgid "cont_sc_version_info"
+msgstr "Sekvensnumret läses automatiskt från versionshanteringen av utbildningsmodulen."
+
+msgid "cont_scheduled_activation"
+msgstr "Tidaktivering"
+
+msgid "cont_sco_glossary"
+msgstr "Ordlista"
+
+msgid "cont_score"
+msgstr "Poäng"
+
+msgid "cont_scorm_ed_properties"
+msgstr "Egenskaper inlärningsmodul"
+
+msgid "cont_scorm_options"
+msgstr "Registrering av bearbetningsdata"
+
+msgid "cont_scorm_type"
+msgstr "adlcp"
+
+msgid "cont_screen_ids"
+msgstr "Skärm-ID"
+
+msgid "cont_sec_protected"
+msgstr "Skyddad"
+
+msgid "cont_sec_protected_text"
+msgstr "Följande block är skyddat och kan inte redigeras."
+
+msgid "cont_second"
+msgstr "2. svara"
+
+msgid "cont_sel_el_use_paste"
+msgstr "De valda elementen finns nu i Urklipp. Klicka nu på önskad målplatshållare och klicka på \"Klistra in\"."
+
+msgid "cont_select"
+msgstr "Välj"
+
+msgid "cont_select_file"
+msgstr "Välj fil"
+
+msgid "cont_select_from_upload_dir"
+msgstr "-- Välj från uppladdningskatalogen --."
+
+msgid "cont_select_item"
+msgstr "Välj minst ett objekt."
+
+msgid "cont_select_max_one_item"
+msgstr "Välj endast ett objekt."
+
+msgid "cont_select_media_pool"
+msgstr "Välj mediepool"
+
+msgid "cont_select_none"
+msgstr "Avmarkera"
+
+msgid "cont_select_other_qpool"
+msgstr "Välj en annan frågepool"
+
+msgid "cont_select_par_or_section"
+msgstr "Välj minst ett text- eller blockelement."
+
+msgid "cont_selected_items_have_been_copied"
+msgstr "De valda elementen har kopierats till Urklipp. Klicka nu på motsvarande platshållare för att klistra in dem i lärmodulen"
+
+msgid "cont_selected_items_have_been_cut"
+msgstr "De valda elementen har flyttats till Urklipp. Klicka nu på motsvarande platshållare för att klistra in dem i lärmodulen."
+
+msgid "cont_selected_pg_chap"
+msgstr "Valda sidor/kapitel"
+
+msgid "cont_selected_terms"
+msgstr "Utvalda termer"
+
+msgid "cont_selected_topic"
+msgstr "Valda ämnen"
+
+msgid "cont_selection"
+msgstr "Urval"
+
+msgid "cont_self_assessment"
+msgstr "Självtester"
+
+msgid "cont_sequencing"
+msgstr "Sequencing och navigering"
+
+msgid "cont_sequencing_info"
+msgstr "Aktiverar lärmodulens standardinställningar för interaktiv styrning av användarnas navigeringsalternativ inom lärmodulen beroende på händelser eller resultat. <br />Kontrollera först om din lärmodul innehåller sådana specifikationer för \"Sekvensering och"
+
+msgid "cont_set_alignment"
+msgstr "Ställ in inriktning"
+
+msgid "cont_set_layout"
+msgstr "Sätt layout"
+
+msgid "cont_set_link"
+msgstr "Ändra referens"
+
+#, fuzzy
+msgid "cont_set_manuall"
+msgstr "Set Manually"
+
+#, fuzzy
+msgid "cont_set_properties"
+msgstr "Set Properties"
+
+msgid "cont_set_start_file"
+msgstr "Sätt startfil"
+
+msgid "cont_set_styles"
+msgstr "Bestäm stilar"
+
+msgid "cont_set_tab_style_info"
+msgstr "Aktivera kryssrutorna för att formatera tabellcellerna"
+
+msgid "cont_settings"
+msgstr "Inställningar för utbildningsmoduler"
+
+msgid "cont_shape"
+msgstr "form"
+
+msgid "cont_shift_click_to_select"
+msgstr "Shift <b>+ klicka</b> för att <b>markera</b> ett sidelement och växla till markeringsläge."
+
+msgid "cont_short_title"
+msgstr "Kort titel"
+
+msgid "cont_short_title_info"
+msgstr "Korta titlar används i trädvyn till vänster och för att navigera fram och tillbaka."
+
+msgid "cont_short_titles"
+msgstr "Kort titel"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "cont_show_activation_info"
+msgstr "Note"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteterna för ILIAS 8
+msgid "cont_show_activation_info_info"
+msgstr "Fram till startdatumet hoppas sidan inte över, men en indikation på dess temporära aktivering visas."
+
+msgid "cont_show_adv"
+msgstr "Visa fördjupad kunskap"
+
+msgid "cont_show_content_after_focus"
+msgstr "Fortsätt med annat innehåll i utbildningsmodulen"
+
+msgid "cont_show_fullscreen"
+msgstr "Visa hela skärmen"
+
+msgid "cont_show_info"
+msgstr "Visa info"
+
+msgid "cont_show_line_numbers"
+msgstr "Visa radnummer"
+
+msgid "cont_show_print_view"
+msgstr " Skriv ut vy"
+
+msgid "cont_size"
+msgstr "Storlek"
+
+msgid "cont_skip_chapter"
+msgstr "Hoppa över det här kapitlet"
+
+msgid "cont_snippet_from_another_installation"
+msgstr "Innehållsmodulen kommer från en annan ILIAS-installation."
+
+msgid "cont_snippets_used"
+msgstr "Innehållsmoduler som används"
+
+msgid "cont_span"
+msgstr "Anslut celler"
+
+msgid "cont_special_page"
+msgstr "Särskild sida"
+
+#, fuzzy
+msgid "cont_split_cell"
+msgstr "Split Cell"
+
+msgid "cont_spreadsheet_table"
+msgstr "Beräkningstabell"
+
+msgid "cont_sqst"
+msgstr "Fråga i undersökning (material)"
+
+msgid "cont_src"
+msgstr "Programmeringsspråk"
+
+msgid "cont_src_other"
+msgstr "Andra"
+
+msgid "cont_st_title"
+msgstr "Kapitlets titel"
+
+msgid "cont_standard"
+msgstr "Standard"
+
+msgid "cont_start"
+msgstr "Start"
+
+msgid "cont_start_file_set_to"
+msgstr "%s har angetts som startfil."
+
+msgid "cont_start_value"
+msgstr "Startvärde"
+
+msgid "cont_start_value_info"
+msgstr " Ange ett startvärde som ett decimaltal. Standardvärdet är 1."
+
+msgid "cont_startfile"
+msgstr "Starta fil"
+
+msgid "cont_status"
+msgstr "Status"
+
+msgid "cont_std_is_in_dir"
+msgstr "Delete inte möjligt. Fil för standardvy finns i katalogen."
+
+msgid "cont_std_view"
+msgstr "Standardvy"
+
+msgid "cont_structure"
+msgstr "Struktur"
+
+msgid "cont_style"
+msgstr "Stil"
+
+msgid "cont_subchapters"
+msgstr "Underkapitel"
+
+msgid "cont_submit_answers"
+msgstr "Utvärdera"
+
+msgid "cont_subtitle_file"
+msgstr "SRT ZIP-fil"
+
+msgid "cont_subtitle_files"
+msgstr "Subtitle Media Objects"
+
+msgid "cont_sur_block_format"
+msgstr "Omgivande block"
+
+msgid "cont_switch_to_media_pool"
+msgstr "Byt till en annan mediepool"
+
+msgid "cont_syntax_help"
+msgstr "Hjälp med syntax"
+
+#, fuzzy
+msgid "cont_tab_add_above"
+msgstr "Add Panel Above"
+
+#, fuzzy
+msgid "cont_tab_add_below"
+msgstr "Add Panel Below"
+
+msgid "cont_tab_cont_height"
+msgstr "Höjd Innehåll"
+
+msgid "cont_tab_cont_width"
+msgstr "Bredd Innehåll"
+
+#, fuzzy
+msgid "cont_tab_delete"
+msgstr "Delete Panel"
+
+#, fuzzy
+msgid "cont_tab_move_bottom"
+msgstr "Move To Bottom"
+
+#, fuzzy
+msgid "cont_tab_move_down"
+msgstr "Move Downwards"
+
+#, fuzzy
+msgid "cont_tab_move_top"
+msgstr "Move To Top"
+
+#, fuzzy
+msgid "cont_tab_move_up"
+msgstr "Move Upwards"
+
+msgid "cont_table"
+msgstr "Tabell"
+
+#, fuzzy
+msgid "cont_table_adv_settings"
+msgstr "Erweiterte Einstellungen"
+
+msgid "cont_table_border"
+msgstr "Bredd bordskant"
+
+msgid "cont_table_border_info"
+msgstr "Värden måste anges inklusive enhet (t.ex. px). Om inget värde anges hämtas värdena från formatmallen."
+
+#, fuzzy
+msgid "cont_table_cell_edit_info_1"
+msgstr "Click on a table cell to select or deselect it."
+
+#, fuzzy
+msgid "cont_table_cell_edit_info_2"
+msgstr "Click on a row or column header to select or deselect the corresponding row or column."
+
+#, fuzzy
+msgid "cont_table_cell_edit_info_3"
+msgstr "Click on a second cell while holding shift to select all the cells in between."
+
+msgid "cont_table_cell_properties"
+msgstr "Egenskaper för tabellceller"
+
+msgid "cont_table_cellpadding"
+msgstr "Internt avstånd mellan tabellceller"
+
+msgid "cont_table_cellpadding_info"
+msgstr "Värden måste anges inklusive enhet (t.ex. px). Om inget värde anges hämtas värdena från formatmallen."
+
+msgid "cont_table_edit_cells"
+msgstr "Redigera celler"
+
+#, fuzzy
+msgid "cont_table_import_info"
+msgstr "Please enter the table data separated by semicolon or TAB character for each column. Start a new row for each table row. Spreadsheet applications will usually use TAB characters for separation when transfered via clipboard. It should be possible to paste this data directly into the input field. No further formattings will be imported."
+
+msgid "cont_table_properties"
+msgstr "Tabellens egenskaper"
+
+#, fuzzy
+msgid "cont_table_style"
+msgstr "Style"
+
+msgid "cont_table_width"
+msgstr "Tabellens bredd"
+
+msgid "cont_tabs"
+msgstr "Fans"
+
+msgid "cont_tabs_acc_hor"
+msgstr "Horisontellt dragspel"
+
+msgid "cont_tabs_acc_ver"
+msgstr "Vertikalt dragspel"
+
+msgid "cont_tabs_carousel"
+msgstr "karusell"
+
+msgid "cont_tabs_confirm_deletion"
+msgstr "Är du säker på att dessa ämnen och deras innehåll bör raderas?"
+
+#, fuzzy
+msgid "cont_target"
+msgstr "Target"
+
+msgid "cont_target_missing"
+msgstr "Målpunkt saknas"
+
+msgid "cont_target_within_source"
+msgstr "Målet får inte ligga inom objektet."
+
+msgid "cont_template"
+msgstr "Mall"
+
+msgid "cont_term"
+msgstr "Term"
+
+msgid "cont_terms"
+msgstr "Termer"
+
+msgid "cont_tex"
+msgstr "Latex-kod"
+
+msgid "cont_text_acc"
+msgstr "Accent"
+
+msgid "cont_text_code"
+msgstr "Programkod"
+
+msgid "cont_text_com"
+msgstr "Kommentar"
+
+msgid "cont_text_editing"
+msgstr "Redigera text"
+
+msgid "cont_text_emp"
+msgstr "Understruken text"
+
+msgid "cont_text_fn"
+msgstr "Fotnot"
+
+msgid "cont_text_iln_link"
+msgstr "Intern länk"
+
+msgid "cont_text_imp"
+msgstr "Viktigt"
+
+msgid "cont_text_keyword"
+msgstr " nyckelord"
+
+msgid "cont_text_placeh"
+msgstr "Klicka och redigera för att infoga en text"
+
+msgid "cont_text_placehl"
+msgstr "Platshållare för text"
+
+msgid "cont_text_quot"
+msgstr "Citat"
+
+msgid "cont_text_str"
+msgstr "Starkt betonad text"
+
+msgid "cont_text_sub"
+msgstr "Djupgående"
+
+msgid "cont_text_sup"
+msgstr "Höjdmarkerad"
+
+msgid "cont_text_tex"
+msgstr "LaTeX-kod"
+
+msgid "cont_text_xln"
+msgstr "Extern länk"
+
+msgid "cont_third_and_more"
+msgstr "3. eller mer"
+
+msgid "cont_time"
+msgstr "Tid"
+
+msgid "cont_time_from_lms"
+msgstr "ILIAS fastställer handläggningstider"
+
+msgid "cont_time_from_lms_info"
+msgstr "För att förhindra ofta förekommande svårigheter med tidsregistreringen av SCORM-lärmodulen kan tidsregistreringen utföras av ILIAS själv. De strikta specifikationerna i SCORM-standarden följs här."
+
+msgid "cont_time_limit_action"
+msgstr "adlcp"
+
+msgid "cont_to_focus_beginning"
+msgstr "Tillbaka till innehållet i lärandemålet"
+
+msgid "cont_to_focus_return_crs"
+msgstr "Tillbaka till kursen"
+
+msgid "cont_toc"
+msgstr "Innehåll"
+
+msgid "cont_toc_mode"
+msgstr "Innehållsförteckning"
+
+msgid "cont_tool_faq"
+msgstr "FAQ"
+
+msgid "cont_tool_media"
+msgstr "Media"
+
+msgid "cont_top"
+msgstr "Topp"
+
+msgid "cont_topic"
+msgstr "Topic"
+
+msgid "cont_total_time"
+msgstr "Total tid"
+
+msgid "cont_tracking_bysco"
+msgstr "Efter kapitel"
+
+msgid "cont_tracking_byuser"
+msgstr "Av användare"
+
+msgid "cont_tracking_data"
+msgstr "Protokolluppgifter"
+
+msgid "cont_tracking_items"
+msgstr "Innehåll i protokoll"
+
+msgid "cont_tracking_modify"
+msgstr "Ändra data"
+
+msgid "cont_trans_import_info"
+msgstr "Om du har exporterat denna modul som \"XML (basic language for translation - master)\" till en annan installation, kan du återimportera de översatta exportfilerna från denna installation här."
+
+msgid "cont_transl_master_language_not_allowed"
+msgstr "För att kunna importera en översättning måste du aktivera minst ett ytterligare språk under \"Inställningar \" Flerspråkighet\"."
+
+msgid "cont_tree_fixed"
+msgstr "Strukturen för utbildningsmodulen har korrigerats."
+
+msgid "cont_tries"
+msgstr "Responsförsök"
+
+msgid "cont_tries_remaining"
+msgstr "Återstående försök"
+
+msgid "cont_tries_reset_on_visit"
+msgstr "Reset vid uppringning av sidan"
+
+msgid "cont_tries_reset_on_visit_info"
+msgstr "Varje gång en sida med en inbäddad testfråga öppnas är det maximala antalet svarsförsök möjligt. Testfrågorna kan besvaras igen varje gång."
+
+msgid "cont_tries_store"
+msgstr "Spara svarsförsök"
+
+msgid "cont_tries_store_info"
+msgstr "Antalet försök till svar registreras och sparas. Korrekt besvarade frågor kan inte längre besvaras. När det maximala antalet försök har uppnåtts är det inte längre möjligt att göra ytterligare ett försök att svara."
+
+msgid "cont_trigger_area"
+msgstr "Range för utlösare"
+
+msgid "cont_type"
+msgstr "Typ"
+
+msgid "cont_type_not_allowed"
+msgstr "Detta element är inte tillåtet vid denna tidpunkt"
+
+msgid "cont_unlock_allow_continue"
+msgstr "Lås upp / tillåt att fortsätta"
+
+msgid "cont_unlocked"
+msgstr "Upplåst"
+
+msgid "cont_update_amd_page_list"
+msgstr "Redigera sidlista"
+
+msgid "cont_update_blog"
+msgstr "Redigera blogginlägg"
+
+msgid "cont_update_consultation_hours"
+msgstr "Redigera konsultationstimmar"
+
+msgid "cont_update_login_page"
+msgstr "Uppdatera element på inloggningssidan"
+
+msgid "cont_update_map"
+msgstr "Redigera karta"
+
+msgid "cont_update_my_courses"
+msgstr "Redigera mina kurser"
+
+msgid "cont_update_profile"
+msgstr "Redigera publicerade data"
+
+msgid "cont_update_resources"
+msgstr "Uppdatera materiallistan"
+
+msgid "cont_update_section"
+msgstr "Redigera block"
+
+msgid "cont_update_skills"
+msgstr "Redigera kompetens"
+
+msgid "cont_update_verification"
+msgstr "Redigera certifikat"
+
+msgid "cont_upload_dir"
+msgstr "Ladda upp katalog"
+
+msgid "cont_upload_file"
+msgstr "Ladda upp fil"
+
+msgid "cont_upload_multi_srt_howto"
+msgstr "Tillåter uppladdning av flera undertextfiler (.srt) i en .zip-fil för alla mediaobjekt. .zip-filen / .zip-arkivet får inte innehålla några underkataloger. Alla .srt-filer måste vara på toppnivå för att kunna identifieras. Filnamnen måste avslutas med \"_&"
+
+msgid "cont_uploaded_file"
+msgstr " Befintlig fil"
+
+msgid "cont_url_info"
+msgstr "URL för en mediefil eller Youtube-URL."
+
+msgid "cont_usage"
+msgstr "Använda"
+
+msgid "cont_use_same_resource_as_above"
+msgstr "Använd ovanstående fil"
+
+msgid "cont_user"
+msgstr "Användare"
+
+msgid "cont_user_blocked"
+msgstr "Blockerade användare utan ytterligare svarsförsök i inlärningsmodulen \"%s\"."
+
+msgid "cont_user_blocked2"
+msgstr "En användare har överskridit det maximala antalet försök att besvara en fråga i utbildningsmodulen. Denna användare kan endast komma åt ytterligare sidor om du låser upp användaren."
+
+msgid "cont_user_blocked3"
+msgstr "Öppna lärmodulen i redigeringsläge och gå till följande vy"
+
+msgid "cont_user_search_did_not_match"
+msgstr "Ingen användare hittades."
+
+msgid "cont_users_answered"
+msgstr "Svar från användare"
+
+msgid "cont_users_have_mob_in_clip1"
+msgstr "Detta mediaobjekt finns på klippbordet för"
+
+msgid "cont_users_have_mob_in_clip2"
+msgstr "Användare."
+
+msgid "cont_validate_file"
+msgstr "Validera fil"
+
+msgid "cont_verification_object"
+msgstr "Certifikat"
+
+msgid "cont_verification_placeh"
+msgstr "Klicka och redigera för att infoga ett certifikat"
+
+msgid "cont_verification_placehl"
+msgstr "Certifikat platshållare"
+
+msgid "cont_version"
+msgstr "Version"
+
+msgid "cont_versions"
+msgstr "Versioner"
+
+msgid "cont_whole_glossary"
+msgstr "Övergripande ordlista"
+
+msgid "cont_width"
+msgstr "Bredd"
+
+msgid "cont_width_height_info"
+msgstr "Storleken på displayen kan specificeras. I praktiken har en bredd på 950 pixlar och en höjd på 650 pixlar visat sig vara användbar. Om ingen specifikation görs bestämmer webbläsaren fönsterstorleken."
+
+#, fuzzy
+msgid "cont_width_px_perc"
+msgstr "Width"
+
+#, fuzzy
+msgid "cont_width_px_perc_info"
+msgstr "(e.g. px or % value)"
+
+msgid "cont_wiki_link_dialog"
+msgstr "Wiki-sida (dialog)"
+
+msgid "cont_wiki_page"
+msgstr "Wiki-sida"
+
+msgid "cont_wiki_page_link"
+msgstr "Länk till Wiki-sida"
+
+msgid "cont_wrong_answers"
+msgstr "Antal fel"
+
+msgid "cont_wrong_answers_single"
+msgstr "Felval."
+
+msgid "cont_xml_base"
+msgstr "xml"
+
+msgid "cont_zip_file_invalid"
+msgstr "Filen är inte en giltig importfil. <br />Den innehåller inte en fil '%s'."
+
+msgid "content_no_edit_lock"
+msgstr "Sidan redigeras för närvarande av en annan användare."
+
+msgid "content_page_history"
+msgstr "Framsteg på sidan"
+
+msgid "content_plugin_not_activated"
+msgstr "Insticksprogrammet för sidinnehåll är inte aktiverat för tillfället."
+
+msgid "content_some_export_ids_multiple_times"
+msgstr "Vissa export-ID:n används mer än en gång. Detta kan leda till att sidor saknas i exporten."
+
+msgid "content_until"
+msgstr "Redigering låst för andra användare tills"
+
+msgid "copied_to_clipboard"
+msgstr "Objekt som kopierats till urklipp."
+
+msgid "dgl_pagebreak"
+msgstr "Sidbrytning"
+
+msgid "glo_add_new_term"
+msgstr "Lägg till ny term"
+
+msgid "glo_content_settings"
+msgstr "Innehållets sammansättning"
+
+msgid "glo_editing_view"
+msgstr "Redigera vy"
+
+msgid "glo_full_definitions"
+msgstr "Lista"
+
+msgid "glo_full_definitions_info"
+msgstr "Alla termer och definitioner visas fullständigt under varandra."
+
+msgid "glo_hide_taxonomy"
+msgstr " Dölj taxonomi"
+
+msgid "glo_list_usages"
+msgstr "Använda"
+
+msgid "glo_mode_normal_info"
+msgstr "Gloslistan innehåller alla termer som är aktivt införda."
+
+msgid "glo_presentation_mode"
+msgstr "Visa"
+
+msgid "glo_presentation_view"
+msgstr "Presentation vy"
+
+msgid "glo_quick_navigation"
+msgstr "Snabb åtkomst"
+
+msgid "glo_style"
+msgstr "glossar stil"
+
+msgid "glo_table_form"
+msgstr "Tabell"
+
+msgid "glo_table_form_info"
+msgstr "Termer och förkortade definitioner visas i en översiktstabell. Om du klickar på en term visas den med den fullständiga definitionen."
+
+msgid "glo_term_is_used_n_times"
+msgstr "Termen används %s gånger."
+
+msgid "glo_term_must_belong_to_glo"
+msgstr "Åtgärden kan endast utföras för termer som har definierats i denna ordlista."
+
+msgid "glo_term_used_in"
+msgstr "Följande resurser hänvisar till denna term"
+
+msgid "glo_text_snippet_length"
+msgstr "Förkorta efter"
+
+msgid "glo_text_snippet_length_info"
+msgstr "Antal tecken efter vilka definitioner i översiktstabellen trunkeras."
+
+msgid "glo_usages"
+msgstr "Glossary används i..."
+
+msgid "glo_used_in_scorm"
+msgstr "Gloslistan används av SCORM-modulen. Om ordlistan raderas kan länkar till ordlistan inte längre lösas."
+
+msgid "help_assign_help_ids"
+msgstr "Tilldelning av skärm-ID:n till kapitel"
+
+msgid "htlm_import"
+msgstr "Importera HTML-lärmodul"
+
+msgid "import_sco_object"
+msgstr "Import SCO"
+
+msgid "info_stop_offline_mode_sure"
+msgstr "Attention"
+
+#, fuzzy
+msgid "infobox_files_not_migrated"
+msgstr "The files of this learning module have not yet been migrated to the Resource Storage Service and can therefore not be edited."
+
+msgid "lm_activate_rating"
+msgstr "Tillåt klassificering av sidorna"
+
+msgid "lm_editing_view"
+msgstr "Redigera vy"
+
+msgid "lm_import"
+msgstr "Import ILIAS utbildningsmodul"
+
+msgid "lm_menu_edit_entry"
+msgstr "Redigera menyalternativ"
+
+msgid "lm_menu_entry_target"
+msgstr "Mål"
+
+msgid "lm_menu_entry_title"
+msgstr "Titel"
+
+msgid "lm_menu_new_entry"
+msgstr "Skapa nytt menyalternativ"
+
+msgid "lm_menu_select_internal_object"
+msgstr "Välj internt objekt &gt;&gt;"
+
+msgid "lm_menu_select_object_to_add"
+msgstr "Klicka på det objekt du vill lägga till i menyn"
+
+msgid "lm_no_download_files"
+msgstr "Det finns för närvarande inga nedladdningsfiler tillgängliga."
+
+msgid "lm_only_one_download_per_type"
+msgstr "Endast en fil per typ (XML och HTML) får offentliggöras."
+
+msgid "lm_rate_page"
+msgstr "Utvärdera sidan"
+
+msgid "lm_rating"
+msgstr "Utvärdera utbildningsmodulen"
+
+msgid "mep_folder_created"
+msgstr "Folder har skapats."
+
+msgid "msg_entry_added"
+msgstr "Menypost sparad"
+
+msgid "msg_entry_removed"
+msgstr "Menypunkt borttagen"
+
+msgid "msg_entry_updated"
+msgstr "Menyposten uppdaterad"
+
+msgid "msg_no_page_access"
+msgstr "Du har inte behörighet att komma åt denna sida."
+
+msgid "msg_page_no_public_access"
+msgstr "Den här sidan är inte tillgänglig för allmänheten. Logga in på ILIAS först för att få tillgång till denna sida."
+
+msgid "msg_page_not_public"
+msgstr "Sidan är inte offentlig"
+
+msgid "offline_mode_manager"
+msgstr "Offline-användning"
+
+msgid "offline_mode_users"
+msgstr "Användare i offline-läge"
+
+msgid "offline_mode_users_info"
+msgstr "Användare kan manuellt tas bort från offline-läget och sedan använda lärmodulen online igen. Detta är meningsfullt om till exempel den bärbara datorn med inlärningsmodulerna har stulits."
+
+msgid "page_does_not_exist"
+msgstr "Den här sidan finns tyvärr inte (längre)."
+
+msgid "par"
+msgstr "Text"
+
+msgid "pg"
+msgstr "Sida"
+
+msgid "public_section"
+msgstr "Offentligt område"
+
+msgid "sahs_empty_objectives_are_not_allowed"
+msgstr "Ange ett inlärningsmål."
+
+msgid "sahs_insert_pg_from_clip"
+msgstr "Importera sidor från ILIAS utbildningsmodul"
+
+msgid "sahs_insert_st_from_clip"
+msgstr "Importera kapitel från ILIAS utbildningsmodul"
+
+msgid "sahs_insert_st_from_clip_inside_chap"
+msgstr "Importera kapitel från ILIAS lärmodul (inom ett kapitel)"
+
+msgid "save_new"
+msgstr "Spara och nytt stycke"
+
+msgid "saved_media_object"
+msgstr "Mediaobjekt sparat"
+
+msgid "scplayer_collapsetree"
+msgstr "Kollapsande träd"
+
+msgid "scplayer_continue"
+msgstr "Fortsättning"
+
+msgid "scplayer_debugger"
+msgstr "Visa testverktyg"
+
+msgid "scplayer_exit"
+msgstr "Stäng"
+
+msgid "scplayer_exitall"
+msgstr "Avsluta redigering"
+
+msgid "scplayer_expandtree"
+msgstr "Expandera träd"
+
+msgid "scplayer_hidetree"
+msgstr "Göm träd"
+
+msgid "scplayer_next"
+msgstr "Före"
+
+msgid "scplayer_phpmysqlcheck"
+msgstr "Du behöver JSON-stöd för att använda JavaScript RTE."
+
+msgid "scplayer_previous"
+msgstr "Tillbaka"
+
+msgid "scplayer_showtree"
+msgstr "Display träd"
+
+msgid "scplayer_start"
+msgstr "Start"
+
+msgid "scplayer_suspendall"
+msgstr "Avbryt redigering"
+
+msgid "selectFooter"
+msgstr "Välj som sidfot"
+
+msgid "selectHeader"
+msgstr "Välj som rubrik"
+
+msgid "select_a_file"
+msgstr "Välj en fil."
+
+msgid "seq_close"
+msgstr "Stäng fönstret för SCORM-inlärningsmodulen."
+
+msgid "seq_endsession"
+msgstr "Den aktuella kurssessionen har avslutats."
+
+msgid "seq_error"
+msgstr "Ett internt undantagsfel har uppstått i sekvenseraren."
+
+msgid "seq_toc"
+msgstr "Välj en lektion från översikten till vänster."
+
+msgid "set_public_mode"
+msgstr "Ställa in åtkomstläge"
+
+msgid "st"
+msgstr "Kapitel"
+
+#, fuzzy
+msgid "start_lm"
+msgstr "Launch Learning Module"
+
+msgid "text_repr"
+msgstr "Alternativ text"
+
+msgid "text_repr_info"
+msgstr "Används när grafiken inte kan visas."

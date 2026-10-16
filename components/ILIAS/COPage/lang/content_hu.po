@@ -1,0 +1,3655 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: content\n"
+
+msgid "Pages"
+msgstr "Lapok"
+
+msgid "add_menu_entry"
+msgstr "Menübejegyzés hozzáadása"
+
+msgid "all_pages"
+msgstr "a teljes tananyag"
+
+msgid "citate"
+msgstr "Idéz"
+
+msgid "citate_from"
+msgstr "Idéz honnan …"
+
+msgid "citate_page"
+msgstr "Idézi ezt a lapot"
+
+msgid "citate_to"
+msgstr "Idéz hol …"
+
+msgid "cont_Additional"
+msgstr "Egyéb információ"
+
+msgid "cont_AdvancedKnowledge"
+msgstr "Mélyebb ismeretek"
+
+msgid "cont_Attention"
+msgstr "Figyelmeztetés"
+
+msgid "cont_Background"
+msgstr "Háttér"
+
+msgid "cont_Block"
+msgstr "Blokk"
+
+msgid "cont_Book"
+msgstr "Könyv"
+
+msgid "cont_Circle"
+msgstr "Kör"
+
+msgid "cont_Citation"
+msgstr "Idézet"
+
+msgid "cont_Confirmation"
+msgstr "Megerősítés"
+
+msgid "cont_Example"
+msgstr "Példa"
+
+msgid "cont_Excursus"
+msgstr "Exkurzus"
+
+msgid "cont_FileListItem"
+msgstr "Fájllista-tétel (standard)"
+
+msgid "cont_Headline1"
+msgstr "Címsor 1"
+
+msgid "cont_Headline2"
+msgstr "Címsor 2"
+
+msgid "cont_Headline3"
+msgstr "Címsor 3"
+
+msgid "cont_Information"
+msgstr "Információ"
+
+msgid "cont_Interaction"
+msgstr "Kölcsönhatás"
+
+msgid "cont_List"
+msgstr "Lista"
+
+msgid "cont_Literature"
+msgstr "Irodalom"
+
+msgid "cont_Mnemonic"
+msgstr "Emlékezést segítő"
+
+msgid "cont_Numbers"
+msgstr "Számok"
+
+msgid "cont_Poly"
+msgstr "Sokszög"
+
+msgid "cont_Rect"
+msgstr "Téglalap"
+
+msgid "cont_Remark"
+msgstr "Megjegyzés"
+
+msgid "cont_Separator"
+msgstr "Elválasztó"
+
+msgid "cont_Special"
+msgstr "Különösen"
+
+msgid "cont_StandardCenter"
+msgstr "Szövegtörzs középre"
+
+msgid "cont_StandardTable"
+msgstr "Standard táblázat"
+
+msgid "cont_TableContent"
+msgstr "Táblázattartalom"
+
+msgid "cont_Verse"
+msgstr "Verssor/Strófa"
+
+msgid "cont_WholePicture"
+msgstr "Teljes kép"
+
+msgid "cont_accented"
+msgstr "Ékezetes"
+
+msgid "cont_act_number"
+msgstr "Fejezetszámozás"
+
+msgid "cont_activate_html"
+msgstr "HTML renderelés bekapcsolása"
+
+msgid "cont_activate_js"
+msgstr "JavaScript mód bekapcsolása"
+
+msgid "cont_activate_media"
+msgstr "Média bekapcsolása"
+
+msgid "cont_activate_page"
+msgstr "Lap aktiválása"
+
+msgid "cont_activated"
+msgstr "Aktiválva"
+
+msgid "cont_activation"
+msgstr "Aktiválás"
+
+msgid "cont_active"
+msgstr "Menü engedélyezése"
+
+msgid "cont_active_areas"
+msgstr "Triggerek"
+
+msgid "cont_active_from"
+msgstr "Aktiválás kezdete"
+
+msgid "cont_active_to"
+msgstr "Aktiválás vége"
+
+msgid "cont_add_area"
+msgstr "Terület hozzáadása"
+
+msgid "cont_add_cell"
+msgstr "Oszlop hozzáadása"
+
+msgid "cont_add_elements"
+msgstr "Egy <b>új tartalomelem hozzáadásához</b> kattintson egy + jelre."
+
+msgid "cont_add_file"
+msgstr "Fájl hozzáadása"
+
+msgid "cont_add_images"
+msgstr "Kép hozzáadása"
+
+msgid "cont_add_popup"
+msgstr "Felugró ablak hozzáadása"
+
+msgid "cont_add_tab"
+msgstr "Panel hozzáadása"
+
+msgid "cont_add_url"
+msgstr "URL megadása"
+
+msgid "cont_added_cell"
+msgstr "Az oszlopot sikeresen hozzáadta."
+
+msgid "cont_added_comment"
+msgstr "A megjegyzést felvette a tananyag előzményeibe (lásd Tartalom » Előzmények lap)."
+
+msgid "cont_added_tab"
+msgstr "Sikeresen létrehozott egy panelt."
+
+msgid "cont_added_term"
+msgstr "A fogalmat sikeresen hozzáadta."
+
+msgid "cont_adjust_size"
+msgstr "Méretre igazítás"
+
+msgid "cont_advanced_settings"
+msgstr "További beállítások"
+
+msgid "cont_align"
+msgstr "Igazítás"
+
+msgid "cont_alignment"
+msgstr "Elrendezés"
+
+msgid "cont_all_answers_correct"
+msgstr "Helyes!"
+
+msgid "cont_all_closed"
+msgstr "Összes bezárva"
+
+msgid "cont_all_languages"
+msgstr "Összes nyelv"
+
+msgid "cont_all_pages"
+msgstr "Összes lap"
+
+msgid "cont_all_topics"
+msgstr "Összes téma"
+
+msgid "cont_all_usages"
+msgstr "Korábbi verziók, amik használják"
+
+msgid "cont_alphabetic"
+msgstr "Alfabetikus A, B, …"
+
+msgid "cont_alphabetic_s"
+msgstr "Alfabetikus a, b, …"
+
+msgid "cont_always"
+msgstr "Mindig"
+
+msgid "cont_anchor"
+msgstr "Horgony"
+
+msgid "cont_annex"
+msgstr "Melléklet"
+
+msgid "cont_anonymous_user_missing_perm"
+msgstr "Az anonymous felhasználóknak jelenleg nincs jogosultsága ennek a tananyagnak az eléréséhez."
+
+msgid "cont_areas_deleted"
+msgstr "A térképterületeket sikeresen törölte."
+
+msgid "cont_assign_characteristic"
+msgstr "Formázás"
+
+msgid "cont_assign_full"
+msgstr "Ez legyen a teljes képernyős"
+
+msgid "cont_assign_std"
+msgstr "Ez legyen az alapértelmezett"
+
+msgid "cont_assign_to_parent"
+msgstr "Szülőhöz rendelés"
+
+msgid "cont_auto_glossaries"
+msgstr "Automatikusan linkelt fogalomtárak"
+
+msgid "cont_auto_last_visited"
+msgstr "Folytatás az utoljára megtekintett fejezettel"
+
+msgid "cont_auto_last_visited_info"
+msgstr "A SCORM-tananyag újbóli megnyitásakor az utoljára megtekintett szakasz jelenik meg."
+
+msgid "cont_auto_suspend"
+msgstr "Nyomkövetési adatok védelme"
+
+msgid "cont_auto_suspend_info"
+msgstr "Ez az opció olyan SCORM-tananyagokhoz van, melyek hibás módon támogatják a SCORM-ot, hibás értékeket küldve a cmi.exit részére.<br />Ez biztosítja a nyomkövetési adatok tárolását akkor is, amikor a felhasználó nem megfelelően zárja be a tananyagot (például bezárja a böngészőt)."
+
+msgid "cont_auto_time"
+msgstr "Automatikus animáció várakozási ideje"
+
+msgid "cont_autoindent"
+msgstr "Automatikus behúzás"
+
+msgid "cont_automatically_set_store_tries"
+msgstr "‘$2’ opció aktiválása automatikusan bekapcsolta a(z) ‘$1’ opciót."
+
+msgid "cont_autostart"
+msgstr "Automatikus indítás"
+
+msgid "cont_back"
+msgstr "Vissza"
+
+msgid "cont_base_image"
+msgstr "Háttérkép"
+
+msgid "cont_bb_tip"
+msgstr "Tipp: A stílusok gyorsan alkalmazhatók a kiválasztott szöveghez."
+
+msgid "cont_behavior"
+msgstr "Viselkedés"
+
+msgid "cont_biblio"
+msgstr "Bibliográfiai adat"
+
+msgid "cont_biblio_info"
+msgstr "Bibliográfiai adattulajdonság bekapcsolása"
+
+msgid "cont_blist"
+msgstr "Listajeles felsorolás"
+
+msgid "cont_block_format"
+msgstr "Kijelölés formátuma"
+
+msgid "cont_blocked_users"
+msgstr "Blokkolt felhasználók"
+
+msgid "cont_blocked_users_mail_link"
+msgstr "Kattintson az alábbi linkre a tananyag megnyitásához:"
+
+msgid "cont_bottom"
+msgstr "Alulra"
+
+msgid "cont_bullet_list"
+msgstr "Listajeles felsorolás"
+
+msgid "cont_cach_mode"
+msgstr "Mód"
+
+msgid "cont_cach_mode_automatic"
+msgstr "Automatikus"
+
+msgid "cont_cach_mode_automatic_info"
+msgstr "Az összes konzultációs időpontja közzétételre kerül."
+
+msgid "cont_cach_mode_manual"
+msgstr "Kézi"
+
+msgid "cont_cach_mode_manual_info"
+msgstr "Csak az alábbi csoportok konzultációs időpontjait teszem közzé."
+
+msgid "cont_cant_copy_folders"
+msgstr "A mappák nem másolhatók a vágólapra."
+
+msgid "cont_cant_del_full"
+msgstr "A teljes képernyős fájl nem törölhető."
+
+msgid "cont_cant_del_std"
+msgstr "A szabvány nézetű fájl nem törölhető."
+
+msgid "cont_caption"
+msgstr "Felirat"
+
+msgid "cont_caption_style"
+msgstr "Felirat stílusosztály"
+
+msgid "cont_cc_emp"
+msgstr "Dőlt"
+
+msgid "cont_cc_imp"
+msgstr "Fontos"
+
+msgid "cont_cc_str"
+msgstr "Félkövér"
+
+msgid "cont_cc_sub"
+msgstr "Alsó index"
+
+msgid "cont_cc_sup"
+msgstr "Felső index"
+
+msgid "cont_cell_properties"
+msgstr "Cellák tulajdonságai"
+
+msgid "cont_center"
+msgstr "Középre"
+
+msgid "cont_change_alignment"
+msgstr "Igazítás módosítása"
+
+msgid "cont_change_notification_salutation"
+msgstr "Tisztelt %s,"
+
+msgid "cont_change_notification_subject_lm"
+msgstr "‘%1$s’ tananyag megváltozott: %2$s"
+
+msgid "cont_change_object_reference"
+msgstr "Objektumhivatkozás cseréje"
+
+msgid "cont_change_style"
+msgstr "Stílus módosítása"
+
+msgid "cont_change_type"
+msgstr "Típus cseréje"
+
+msgid "cont_change_width"
+msgstr "Szélesség módosítása"
+
+msgid "cont_chap_and_pages"
+msgstr "Fejezetek és lapok"
+
+msgid "cont_chap_select_target_now"
+msgstr "A fejezet áthelyezésre bejelölt. Most jelölje ki, hogy mi után kerüljön beszúrásra!"
+
+msgid "cont_chapters"
+msgstr "Fejezetek"
+
+msgid "cont_chapters_after_pages"
+msgstr "Ne felejtse el, hogy a lapoknak ugyanazon szint minden alfejezetét meg kell előzniük."
+
+msgid "cont_chapters_and_pages"
+msgstr "Fejezetek és lapok"
+
+msgid "cont_chapters_only"
+msgstr "Csak fejezetek"
+
+msgid "cont_char_format"
+msgstr "Karakter"
+
+msgid "cont_char_link"
+msgstr "Link"
+
+msgid "cont_char_media"
+msgstr "Média (Standard)"
+
+msgid "cont_char_style_acc"
+msgstr "Kiemelt"
+
+msgid "cont_char_style_code"
+msgstr "Kód"
+
+msgid "cont_char_style_com"
+msgstr "Megjegyzés"
+
+msgid "cont_char_style_quot"
+msgstr "Idézet"
+
+msgid "cont_characteristic"
+msgstr "Stílusosztály"
+
+msgid "cont_characteristic_table"
+msgstr "Stílusosztály"
+
+msgid "cont_check_values"
+msgstr "SCO-ból küldött értékek ellenőrzése"
+
+msgid "cont_check_values_info"
+msgstr "A Teszteszköz ellenőrzi, hogy a SCO-k a SCORM-szabványoknak megfelelő adatokat küld-e.<br />A SCORM-szabvány nagyon pontosan előírja az értékek mentését. Nem minden tananyag felel meg ezeknek az elvárásoknak. Ezen opcióval ellenőrizhető, hogy a tananyag ezen szabványnak megfelel-e vagy sem. Ne kapcsolja be, ha csak arra kíváncsi, hogy az ILIAS képes-e a tananyagot futtatni."
+
+msgid "cont_choose_characteristic"
+msgstr "Válasszon jellemzőt"
+
+msgid "cont_choose_characteristic_section"
+msgstr "Részek"
+
+msgid "cont_choose_characteristic_text"
+msgstr "Szövegelemek"
+
+msgid "cont_choose_file_source"
+msgstr "Forrás"
+
+msgid "cont_choose_from_clipboard"
+msgstr "Válasszon a vágólapról"
+
+msgid "cont_choose_from_pool"
+msgstr "Választás médiagyűjteményből"
+
+msgid "cont_choose_glo"
+msgstr "Fogalomtár választása"
+
+msgid "cont_choose_lm"
+msgstr "Tananyag választása"
+
+msgid "cont_choose_local"
+msgstr "Helyi mappa"
+
+msgid "cont_choose_media_pool"
+msgstr "Gyűjtemény kiválasztása"
+
+msgid "cont_choose_mep"
+msgstr "Médiagyűjtemény választása"
+
+msgid "cont_choose_pages_or_chapters_only"
+msgstr "Vagy csak lapokat vagy csak fejezeteket válasszon!"
+
+msgid "cont_choose_upload_dir"
+msgstr "Feltöltési mappa"
+
+msgid "cont_choose_wiki"
+msgstr "Válasszon Wiki-t"
+
+msgid "cont_citation_selection_not_valid"
+msgstr "A választása nem érvényes"
+
+msgid "cont_click_br_corner"
+msgstr "Kattintson a kívánt terület jobb alsó sarkára."
+
+msgid "cont_click_center"
+msgstr "Kattintson a kívánt terület középpontjára."
+
+msgid "cont_click_circle"
+msgstr "Kattintson a kívánt területet határoló körvonal egy pontjára."
+
+msgid "cont_click_edit"
+msgstr "<b>Módosításhoz</b> kattintson a kívánt tartalomelemre."
+
+msgid "cont_click_multi_select"
+msgstr "<b>Kijelöléshez</b> kattintson a kívánt tartalomelemre."
+
+msgid "cont_click_next_or_save"
+msgstr "Kattintson a sokszög következő pontjára, vagy mentse a területet. (Nem szükséges újra a sokszög kezdőpontjára kattintani.)"
+
+msgid "cont_click_next_point"
+msgstr "Kattintson a sokszög következő pontjára."
+
+msgid "cont_click_starting_point"
+msgstr "Kattintson a sokszög kezdőpontjára."
+
+msgid "cont_click_tl_corner"
+msgstr "Kattintson a kívánt terület bal felső sarkába."
+
+msgid "cont_code_import_file"
+msgstr "Importálás"
+
+msgid "cont_code_manual_editing"
+msgstr "Kézi bevitel"
+
+msgid "cont_colspan"
+msgstr "Col. Span"
+
+msgid "cont_commented_by"
+msgstr "A hozzászólást írta"
+
+msgid "cont_comments"
+msgstr "Megjegyzések tárolása"
+
+msgid "cont_comments_info"
+msgstr "Néhány SCROM 2004 tananyag lehetővé teszik tananyagon belül a megjegyzések tárolását. A megjegyzések ezen mentési lehetőségét tudja evvel engedélyezni."
+
+msgid "cont_confirm_delete"
+msgstr "Biztos, hogy törli ez(eke)t az objektumo(ka)t?"
+
+msgid "cont_constrain_proportions"
+msgstr "Méretarány megtartása"
+
+msgid "cont_content"
+msgstr "Tartalom"
+
+msgid "cont_content_popup"
+msgstr "Felugró ablak"
+
+msgid "cont_content_popups"
+msgstr "Felugró ablakok"
+
+msgid "cont_coords"
+msgstr "Koordináták"
+
+msgid "cont_copy_question_from_pool"
+msgstr "Kérdés másolása gyűjteményből"
+
+msgid "cont_copy_question_into_page"
+msgstr "Másolás lapra"
+
+msgid "cont_copy_to_clipboard"
+msgstr "Vágólapra másolás"
+
+msgid "cont_correct_after_first"
+msgstr "Elsőre helyes válasz"
+
+msgid "cont_correct_answer_also"
+msgstr "Szintén helyes:"
+
+msgid "cont_correct_answers_also"
+msgstr "Szintén helyesek:"
+
+msgid "cont_correct_answers_shown"
+msgstr "A helyes válaszok fent láthatók."
+
+msgid "cont_could_not_determine_resource_size"
+msgstr "Az ILIAS nem tudja automatikusan meghatározni a forrás méretét."
+
+msgid "cont_could_not_save_duplicate_pc_ids"
+msgstr "Az oldal nem menthető (duplikált PC ID-k)."
+
+msgid "cont_cp_question_diff_formats_info"
+msgstr "Vegye figyelembe, hogy néhány formázás nem támogatott a tartalmakban."
+
+msgid "cont_create_link"
+msgstr "Link létrehozása"
+
+msgid "cont_create_mob"
+msgstr "Médiaobjektum létrehozása"
+
+msgid "cont_credits"
+msgstr "Kreditek"
+
+msgid "cont_current_chapter"
+msgstr "Jelenlegi fejezet"
+
+msgid "cont_current_lang"
+msgstr "Jelenlegi nyelv"
+
+msgid "cont_current_page"
+msgstr "Jelenlegi lap"
+
+msgid "cont_current_style"
+msgstr "Jelenlegi stílus"
+
+msgid "cont_current_term"
+msgstr "Jelenlegi terminus"
+
+msgid "cont_current_usages"
+msgstr "Pillanatnyi felhasználások"
+
+msgid "cont_current_version"
+msgstr "Rögzített méret"
+
+msgid "cont_custom"
+msgstr "Testre szabott"
+
+msgid "cont_custom_menu_entries"
+msgstr "Testre szabott menübejegyzések"
+
+msgid "cont_custom_size"
+msgstr "Egyéni méret"
+
+msgid "cont_dark"
+msgstr "Sötét"
+
+msgid "cont_data_from_lms"
+msgstr "adlcp:datafromlms"
+
+msgid "cont_de_activate"
+msgstr "(Be/ki)kapcsolás"
+
+msgid "cont_deactivate_html"
+msgstr "HTML renderelés letiltása"
+
+msgid "cont_deactivate_js"
+msgstr "Űrlapmód bekapcsolása"
+
+msgid "cont_deactivate_media"
+msgstr "Média letiltása"
+
+msgid "cont_deactivate_page"
+msgstr "Lap kikapcsolása"
+
+msgid "cont_deactivated"
+msgstr "Kikapcsolva"
+
+msgid "cont_debug"
+msgstr "Teszteszköz engedélyezése"
+
+msgid "cont_debug_deactivate"
+msgstr "A Teszteszköz a tananyag megjelenítésekor válik láthatóvá, a tananyag és az ILIAS interakciója alapján létrejövő adatokat vizsgálja. A Teszteszköz használatához a Navigációs-fát ki kell kapcsolni."
+
+msgid "cont_debug_deactivate12"
+msgstr "A Teszteszköz a tananyag megjelenítési módjában fog megjelenni. Az általa szolgáltatott adatok alapján értékelhető a tananyag és az ILIAS interakciója."
+
+msgid "cont_debug_deactivated"
+msgstr "A Teszteszköz használatát központilag letiltották (Rendszerbeállítások » Tananyagok menüpont alatt módosítható)."
+
+msgid "cont_debugging"
+msgstr "Nyomkövetés"
+
+msgid "cont_decimal"
+msgstr "Decimális"
+
+msgid "cont_def_feedb_activated"
+msgstr "Az alapértelmezett visszajelzés-szövegek be vannak kapcsolva a tananyag beállításiban."
+
+msgid "cont_def_feedb_deactivated"
+msgstr "Az alapértelmezett visszajelzés-szövegek ki vannak kapcsolva a tananyag beállításiban."
+
+msgid "cont_def_layout"
+msgstr "Alapértelmezett elrendezés"
+
+msgid "cont_def_lesson_mode"
+msgstr "Nyomkövetési adatok rögzítése"
+
+msgid "cont_def_map_areas"
+msgstr "Alapértelmezett linkterületek"
+
+msgid "cont_def_organization"
+msgstr "alapértelmezett"
+
+msgid "cont_default"
+msgstr "Alapértelmezett"
+
+msgid "cont_definition"
+msgstr "Meghatározás"
+
+msgid "cont_delete_content"
+msgstr "Tartalom törlése"
+
+#, fuzzy
+msgid "cont_delete_file_item_confirm"
+msgstr "Do you really want to delete the selected file(s)?"
+
+msgid "cont_delete_selected"
+msgstr "Törlés"
+
+msgid "cont_delete_style"
+msgstr "Stílus törlése"
+
+msgid "cont_delete_track_data"
+msgstr "Nyomkövetési adatok törlése"
+
+msgid "cont_dependencies"
+msgstr "Függőségek"
+
+msgid "cont_dir_created"
+msgstr "Sikeresen létrehozott egy mappát."
+
+msgid "cont_dir_deleted"
+msgstr "A mappát sikeresen törölte."
+
+msgid "cont_dir_file"
+msgstr "Mappa / fájl"
+
+msgid "cont_dir_renamed"
+msgstr "A mappát sikeresen átnevezte."
+
+msgid "cont_disable_def_feedback"
+msgstr "Alapértelmezett kérdés-visszajelzés tiltása"
+
+msgid "cont_disable_def_feedback_info"
+msgstr "A kérdés általános visszajelzése nem jelenik meg a kérdés megválaszolás után."
+
+msgid "cont_download"
+msgstr "Letöltés"
+
+msgid "cont_download_title"
+msgstr "Letöltési cím"
+
+msgid "cont_drag_and_drop_elements"
+msgstr "<b>Tartalomelem mozgatásához</b> fogja meg egérrel, majd vigye egy + jelre."
+
+msgid "cont_drag_element_click_save"
+msgstr "Fogja és vigye az elemet a kívánt pozícióba, majd kattintson a ‘Mentés’ gombra."
+
+msgid "cont_ed_align_center"
+msgstr "Igazítás: középre"
+
+msgid "cont_ed_align_left"
+msgstr "Igazítás: balra"
+
+msgid "cont_ed_align_left_float"
+msgstr "Igazítás: körbefuttatás jobbról"
+
+msgid "cont_ed_align_right"
+msgstr "Igazítás: jobbra"
+
+msgid "cont_ed_align_right_float"
+msgstr "Igazítás: körbefuttatás balról"
+
+msgid "cont_ed_atable"
+msgstr "Fejlettebb táblázat"
+
+msgid "cont_ed_cell_left"
+msgstr "Balra mozgatás"
+
+msgid "cont_ed_cell_right"
+msgstr "Jobbra mozgatás"
+
+msgid "cont_ed_class"
+msgstr "Stílus"
+
+msgid "cont_ed_click_to_add_pg"
+msgstr "Tartalom hozzáadásához kattintson ide."
+
+msgid "cont_ed_col_left"
+msgstr "Oszlop balra mozgatása"
+
+msgid "cont_ed_col_right"
+msgstr "Oszlop jobbra mozgatása"
+
+msgid "cont_ed_copy"
+msgstr "Másolás"
+
+msgid "cont_ed_copy_clip"
+msgstr "Másolás vágólapra"
+
+msgid "cont_ed_cut"
+msgstr "Kivágás"
+
+msgid "cont_ed_delete"
+msgstr "Törlés"
+
+msgid "cont_ed_delete_cell"
+msgstr "Oszlop törlése"
+
+msgid "cont_ed_delete_col"
+msgstr "Oszlop törlése"
+
+msgid "cont_ed_delete_item"
+msgstr "Elem törlése"
+
+msgid "cont_ed_delete_row"
+msgstr "Sor törlése"
+
+msgid "cont_ed_dtable"
+msgstr "Táblázat"
+
+msgid "cont_ed_edit"
+msgstr "Szerkesztés"
+
+msgid "cont_ed_edit_data"
+msgstr "Adatok módosítása"
+
+msgid "cont_ed_edit_files"
+msgstr "Fájlok módosítása"
+
+msgid "cont_ed_edit_multiple"
+msgstr "Bekezdéssorozat módosítása"
+
+msgid "cont_ed_edit_prop"
+msgstr "Tulajdonságok módosítása"
+
+msgid "cont_ed_enable"
+msgstr "(In)aktiválás"
+
+msgid "cont_ed_flist"
+msgstr "Fájllista"
+
+msgid "cont_ed_go"
+msgstr "OK"
+
+msgid "cont_ed_grid_col_width"
+msgstr "Oszlopszélesség"
+
+msgid "cont_ed_grid_col_width_info"
+msgstr "Az oszlopszélesség - a képernyő méretétől függően - a sor 1/12-ed részének többszöröse. Eszközöket adunk meg példának, a képernyő mérete határozza meg a konkrét viselkedést. 12/12 a 100%-os szélesség."
+
+msgid "cont_ed_grid_col_widths"
+msgstr "Oszlopszélességek"
+
+msgid "cont_ed_insert_amdfrm"
+msgstr "Fejlett metaadat beszúrása"
+
+msgid "cont_ed_insert_amdpl"
+msgstr "Oldallista beszúrása"
+
+msgid "cont_ed_insert_blog"
+msgstr "Blog beszúrása"
+
+msgid "cont_ed_insert_cach"
+msgstr "Konzultációs időpontok beszúrása"
+
+msgid "cont_ed_insert_dtab"
+msgstr "Táblázat beszúrása"
+
+msgid "cont_ed_insert_flst"
+msgstr "Fájllista beszúrása"
+
+msgid "cont_ed_insert_grid"
+msgstr "Oszlopos elrendezés beszúrása"
+
+msgid "cont_ed_insert_grid_info"
+msgstr "Soronként 12 egységre osztott reszponzív oszlopos elrendezés hozzáadása."
+
+msgid "cont_ed_insert_iim"
+msgstr "Interaktív kép beszúrása"
+
+msgid "cont_ed_insert_incl"
+msgstr "Tartalom-építőelem beszúrása"
+
+msgid "cont_ed_insert_lay"
+msgstr "Elrendezéssablon beszúrása"
+
+msgid "cont_ed_insert_lhist"
+msgstr "Tanulási történelem beszúrása"
+
+msgid "cont_ed_insert_list"
+msgstr "Fejlettebb felsorolás beszúrása"
+
+msgid "cont_ed_insert_lpe"
+msgstr "Bejelentkezési lap elemének beszúrása"
+
+msgid "cont_ed_insert_map"
+msgstr "Térkép beszúrása"
+
+msgid "cont_ed_insert_mcrs"
+msgstr "Kurzusaim beszúrása"
+
+msgid "cont_ed_insert_media"
+msgstr "Kép/média beszúrása"
+
+msgid "cont_ed_insert_par"
+msgstr "Szöveg beszúrása"
+
+msgid "cont_ed_insert_pcqst"
+msgstr "Kérdés beszúrása"
+
+msgid "cont_ed_insert_plach"
+msgstr "Helyőrző beszúrása"
+
+msgid "cont_ed_insert_prof"
+msgstr "Személyes adatok beszúrása"
+
+msgid "cont_ed_insert_qover"
+msgstr "Kérdésáttekintés beszúrása"
+
+msgid "cont_ed_insert_repobj"
+msgstr "Forráslista beszúrása"
+
+msgid "cont_ed_insert_sec"
+msgstr "Bekezdés beszúrása"
+
+msgid "cont_ed_insert_skills"
+msgstr "Kompetenciák beszúrása"
+
+msgid "cont_ed_insert_src"
+msgstr "Forráskód beszúrása"
+
+msgid "cont_ed_insert_tab"
+msgstr "Fejlettebb táblázat beszúrása"
+
+msgid "cont_ed_insert_tabs"
+msgstr "Harmonika beszúrása"
+
+msgid "cont_ed_insert_templ"
+msgstr "Tartalomsablon beillesztése"
+
+msgid "cont_ed_insert_vrfc"
+msgstr "Tanúsítvány beszúrása"
+
+msgid "cont_ed_item_down"
+msgstr "Elem mozgatása lefelé"
+
+msgid "cont_ed_item_up"
+msgstr "Elem mozgatása felfelé"
+
+msgid "cont_ed_list"
+msgstr "Fejlettebb felsorolás"
+
+msgid "cont_ed_moveafter"
+msgstr "Mozgatás utána"
+
+msgid "cont_ed_movebefore"
+msgstr "Mozgatás elé"
+
+msgid "cont_ed_new_col_after"
+msgstr "Új oszlop utána"
+
+msgid "cont_ed_new_col_before"
+msgstr "Új oszlop elé"
+
+msgid "cont_ed_new_item_after"
+msgstr "Új elem utána"
+
+msgid "cont_ed_new_item_before"
+msgstr "Új elem elé"
+
+msgid "cont_ed_new_row_after"
+msgstr "Új sor utána"
+
+msgid "cont_ed_new_row_before"
+msgstr "Új sor elé"
+
+msgid "cont_ed_nr_cols"
+msgstr "Oszlopok száma"
+
+msgid "cont_ed_nr_rows"
+msgstr "Sorok száma"
+
+msgid "cont_ed_par"
+msgstr "Szöveg"
+
+msgid "cont_ed_paste"
+msgstr "Beillesztés"
+
+msgid "cont_ed_paste_clip"
+msgstr "Beillesztés vágólapról"
+
+msgid "cont_ed_pglprop"
+msgstr "Lapelrendezés tulajdonságai"
+
+msgid "cont_ed_plachmedia"
+msgstr "Kép-/médiahelyőrző"
+
+msgid "cont_ed_plachprop"
+msgstr "Helyőrző-tulajdonságok"
+
+msgid "cont_ed_plachquestion"
+msgstr "Kérdéshelyőrző"
+
+msgid "cont_ed_plachtext"
+msgstr "Szöveghelyőrző"
+
+msgid "cont_ed_plachverification"
+msgstr "Tanúsítványhelyőrző"
+
+msgid "cont_ed_row_down"
+msgstr "Sor lefelé mozgatása"
+
+msgid "cont_ed_row_up"
+msgstr "Sor felfelé mozgatása"
+
+msgid "cont_ed_select_pctext"
+msgstr "Szövegtétel kiválasztása"
+
+msgid "cont_ed_split_page"
+msgstr "Új lapra tördelés"
+
+msgid "cont_ed_split_page_next"
+msgstr "Következő lapra tördelés"
+
+msgid "cont_ed_textitem"
+msgstr "Szövegtétel"
+
+msgid "cont_ed_width"
+msgstr "szélesség"
+
+msgid "cont_edit_base_image"
+msgstr "Háttérkép módosítása"
+
+msgid "cont_edit_comp"
+msgstr "Szerkesztés"
+
+msgid "cont_edit_definition"
+msgstr "Meghatározás módosítása"
+
+msgid "cont_edit_file_list_properties"
+msgstr "Fájllista-tulajdonságok módosítása"
+
+msgid "cont_edit_language_version"
+msgstr "Verzió módosítása"
+
+msgid "cont_edit_lrs_settings"
+msgstr "Beállítások módosítása"
+
+msgid "cont_edit_marker_position"
+msgstr "Jelölő helyének módosítása"
+
+msgid "cont_edit_mob"
+msgstr "Médiaobjektum módosítása"
+
+msgid "cont_edit_mob_alias_prop"
+msgstr "Médiaobjektum-példány tulajdonságainak módosítása"
+
+msgid "cont_edit_mode"
+msgstr "Szerkesztőmód"
+
+msgid "cont_edit_multi"
+msgstr "Kiválasztása"
+
+msgid "cont_edit_overlay_position"
+msgstr "Fedés helyének módosítása"
+
+msgid "cont_edit_par"
+msgstr "Szöveg módosítása"
+
+msgid "cont_edit_personal_data"
+msgstr "Személyes adatok módosítása"
+
+msgid "cont_edit_popup_position"
+msgstr "Felugró ablak helyének módosítása"
+
+msgid "cont_edit_qover"
+msgstr "Kérdésáttekintés módosítása"
+
+msgid "cont_edit_shape_circle"
+msgstr "Alakzat (kör) módosítása"
+
+msgid "cont_edit_shape_polygon"
+msgstr "Alakzat (sokszög) módosítása"
+
+msgid "cont_edit_shape_rectangle"
+msgstr "Alakzat (téglalap) módosítása"
+
+msgid "cont_edit_shape_whole_picture"
+msgstr "Alakzat módosítása (teljes kép)"
+
+msgid "cont_edit_src"
+msgstr "Forráskód módosítása"
+
+msgid "cont_edit_style"
+msgstr "Stílus módosítása"
+
+msgid "cont_edit_table"
+msgstr "Táblázat módosítása"
+
+msgid "cont_edit_tabs"
+msgstr "Tulajdonságok"
+
+msgid "cont_edit_term"
+msgstr "Fogalom módosítása"
+
+msgid "cont_edit_title"
+msgstr "Cím módosítása"
+
+msgid "cont_element_refers_removed_itgr"
+msgstr "Ez a tartalomelem olyan objektumcsoportra hivatkozik, amelyet időközben eltávolítottak."
+
+msgid "cont_empty_question"
+msgstr "A kérdésszerkesztés nem fejeződött be. Kattintson a kérdésre és szerkessze azt, vagy törölje."
+
+msgid "cont_enable_page_history"
+msgstr "Lapelőzmények"
+
+msgid "cont_enable_page_history_info"
+msgstr "A lapok régebbi verzióinak tárolása és az azokra visszagörgetés lehetősége."
+
+msgid "cont_enable_time_scheduled_page_activation"
+msgstr "Lapaktiválás ütemezése"
+
+msgid "cont_enable_time_scheduled_page_activation_info"
+msgstr "Aktiválási időszak (dátum/időpont) állítható a lapokhoz a tananyagszerkesztőben."
+
+msgid "cont_end"
+msgstr "Záró időpont"
+
+msgid "cont_enough_answers_correct"
+msgstr "Helyes, de nem a legjobb megoldás!"
+
+msgid "cont_enter_a_dir_name"
+msgstr "Adjon meg egy mappanevet!"
+
+msgid "cont_enter_a_file"
+msgstr "Válasszon egy fájlt!"
+
+msgid "cont_error"
+msgstr "Sajnáljuk, hiba lépett fel"
+
+msgid "cont_exp_id_used_multiple"
+msgstr "Az export-ID többször van használva"
+
+msgid "cont_exp_ids_not_resp_format1"
+msgstr "Export-ID-k az alábbi karaktereket használhatják"
+
+msgid "cont_exp_ids_not_resp_format2"
+msgstr "Ellenőrizze és javítsa az inputját!"
+
+msgid "cont_exp_ids_not_resp_format3"
+msgstr "Az ID nem kezdődhet számmal."
+
+msgid "cont_export_all"
+msgstr "Összes exportálása"
+
+msgid "cont_export_id"
+msgstr "Export-ID"
+
+msgid "cont_file"
+msgstr "Fájl"
+
+msgid "cont_file_created"
+msgstr "A fájl létrejött."
+
+msgid "cont_file_deleted"
+msgstr "A fájlt törölték."
+
+msgid "cont_file_from_repository"
+msgstr "Fájl a Tartalomtárból"
+
+msgid "cont_file_from_workspace"
+msgstr "Fájl a Személyes Erőforrásokből"
+
+msgid "cont_file_renamed"
+msgstr "A fájl neve megváltozott."
+
+msgid "cont_file_unzipped"
+msgstr "A fájlt sikeresen kicsomagolta."
+
+msgid "cont_files"
+msgstr "Fájlok"
+
+msgid "cont_finish_editing"
+msgstr "Szerkesztés befejezése"
+
+msgid "cont_finish_table_editing"
+msgstr "Adattábla szerkesztésének befejezése"
+
+msgid "cont_first_open"
+msgstr "Első panel kinyitva"
+
+msgid "cont_first_page"
+msgstr "Első oldal"
+
+msgid "cont_first_row_style"
+msgstr "Első sor stílusosztálya"
+
+msgid "cont_fix_tree"
+msgstr "Struktúrajavítás"
+
+msgid "cont_fix_tree_confirm"
+msgstr "Csak akkor hajtsa végre ezt az utasítást, ha ennek a tananyagnak a faszerkezete hibás, például ha üres elemek jelennek meg a böngészőnézetben."
+
+msgid "cont_fn"
+msgstr "Lábjegyzet"
+
+msgid "cont_footer"
+msgstr "Lábléc"
+
+msgid "cont_footnote"
+msgstr "Lábjegyzet"
+
+msgid "cont_force_all_open"
+msgstr "Összes kinyitásának kényszerítése"
+
+msgid "cont_format"
+msgstr "Formátum"
+
+msgid "cont_format_cells"
+msgstr "Cellák formázása"
+
+msgid "cont_fourth_edition"
+msgstr "SCORM 2004 4th edition"
+
+msgid "cont_fourth_edition_info"
+msgstr "SCORM 2004 4th edition néhány előnnyel bír a 3rd edition-hoz képest: adat lehet átvinni SCO-k között. Ezek a lehetőségeket azonban csak ritkán használjuk, és negatív hatással vannak a sebességre."
+
+msgid "cont_free_pages"
+msgstr "Szabad lapok"
+
+msgid "cont_full_is_in_dir"
+msgstr "A törlés nem lehetséges. Teljes képernyős fájl van a mappában."
+
+msgid "cont_fullscreen"
+msgstr "Teljes képernyő"
+
+msgid "cont_general_properties"
+msgstr "Általános tulajdonságok"
+
+msgid "cont_get_link"
+msgstr "→ célobjektum kiválasztása"
+
+msgid "cont_glo_assign"
+msgstr "Fogalomtárhoz rendelés"
+
+msgid "cont_glo_create"
+msgstr "Fogalomtár létrehozása"
+
+msgid "cont_glo_detach"
+msgstr "Fogalomtár leválasztása"
+
+msgid "cont_glo_properties"
+msgstr "Fogalomtár tulajdonságai"
+
+msgid "cont_glossaries"
+msgstr "Fogalomtárak"
+
+msgid "cont_got_lock_release"
+msgstr "Ezt a lapot a megnyitotta szerkesztésre, evvel zárolta is. A ‘Szerkesztés befejezése’ gomb megnyomásával a zárolást feloldhatja manuálisan, vagy azt automatikusan feloldjuk ekkor: %1."
+
+msgid "cont_grid_cell"
+msgstr "Oszlop"
+
+msgid "cont_grid_cell_confirm_deletion"
+msgstr "Biztos, hogy törli a kiválasztott oszlopo(ka)t?"
+
+msgid "cont_grid_nr_cells"
+msgstr "Oszlopok száma"
+
+msgid "cont_grid_t_main_side"
+msgstr "Fő- és oldalblokk"
+
+msgid "cont_grid_t_main_side_info"
+msgstr "Egy széles oszlop a bal oldalon és egy keskenyebb oszlop a jobb oldalon jön létre, ami egyoszlopos elrendezése módosul mobil nézetben (kicsi)."
+
+msgid "cont_grid_t_manual"
+msgstr "Kézzel készített oldalelrendezés"
+
+msgid "cont_grid_t_manual_info"
+msgstr "Lehetővé teszi az oszlopok számának és szélességének szabad megtervezését."
+
+msgid "cont_grid_t_three_column"
+msgstr "Háromoszlopos elrendezés"
+
+msgid "cont_grid_t_three_column_info"
+msgstr "Három ugyanolyan széles oszlop jön létre egymás mellett, ami egyoszlopos elrendezésre módosul mobil nézetben (kicsi)."
+
+msgid "cont_grid_t_two_by_two"
+msgstr "Kétszer kettő doboz"
+
+msgid "cont_grid_t_two_by_two_info"
+msgstr "Két sor jön létre két azonos szélességű oszloppal, ami egyoszlopos elrendezésre módosul mobil nézetben (kicsi) és négyoszlopos elrendezésre extra széles képernyőkön (extra nagy)."
+
+msgid "cont_grid_t_two_column"
+msgstr "Kétoszlopos elrendezés"
+
+msgid "cont_grid_t_two_column_info"
+msgstr "Kettő ugyanolyan széles oszlop jön létre egymás mellett, ami egyoszlopos elrendezésre módosul mobil nézetben (kicsi)."
+
+msgid "cont_grid_width_l"
+msgstr "Nagy"
+
+msgid "cont_grid_width_l_info"
+msgstr "Például asztali monitor"
+
+msgid "cont_grid_width_m"
+msgstr "Közepes"
+
+msgid "cont_grid_width_m_info"
+msgstr "Például táblagép"
+
+msgid "cont_grid_width_s"
+msgstr "Kicsi"
+
+msgid "cont_grid_width_s_info"
+msgstr "Például mobil"
+
+msgid "cont_grid_width_xl"
+msgstr "Extra nagy"
+
+msgid "cont_grid_width_xl_info"
+msgstr "Például széles asztali monitor"
+
+msgid "cont_hacc_needs_height"
+msgstr "Kérjük, állítsa be a vízszintes harmonika tartalommagasságát."
+
+msgid "cont_hacc_needs_width"
+msgstr "Kérjük, állítsa be a függőleges harmonika tartalommagasságát."
+
+msgid "cont_has_row_header"
+msgstr "Van fejléce"
+
+msgid "cont_header"
+msgstr "Fejléc"
+
+msgid "cont_height"
+msgstr "Magasság pixelben"
+
+msgid "cont_help_no_valid_tooltip_id"
+msgstr "A megadott tooltip_id nem érvényes."
+
+msgid "cont_hide_adv"
+msgstr "Mélyebb ismeretek elrejtése"
+
+msgid "cont_hide_head_foot_print"
+msgstr "Az egyéni fejléc és lábléc elrejtése nyomtatási nézetben"
+
+msgid "cont_hidenavig"
+msgstr "Navigációs fa elrejtése"
+
+msgid "cont_hidenavig_info"
+msgstr "A baloldali Navigációs fa elrejthető, ha a SCORM-tananyag elegendő funkcionalitással bír a tartalom szakaszai közötti navigálásához vagy a felső Navigációs sáv látszódik."
+
+msgid "cont_highlight_class"
+msgstr "Kiemelt osztály"
+
+msgid "cont_highlight_mode"
+msgstr "Kiemelési mód"
+
+msgid "cont_hover"
+msgstr "Kiemelés"
+
+msgid "cont_href"
+msgstr "href"
+
+msgid "cont_html_export_ids"
+msgstr "HTML export-ID-k"
+
+msgid "cont_html_export_ids_info"
+msgstr "Extra-ID-k fenntartása ILIAS tananyagokhoz, amelyek HTML-fájlok elnevezéséhez vannak használva HTML-export készítésekor."
+
+msgid "cont_html_table"
+msgstr "HTML-táblázat"
+
+msgid "cont_id_ref"
+msgstr "identifierref"
+
+msgid "cont_ie_compatibility"
+msgstr "Internet Explorer 7 kompatibilitási mód"
+
+msgid "cont_ie_compatibility_info"
+msgstr "Internet Explorer-re optimalizált SCORM-tananyagok megjelenítési problémáinak számát csökkenti. Ez nem túl hatékony, ha az Internet Explorer újabb verzióiban ki van kapcsolva a kompatibilitási mód."
+
+msgid "cont_ie_force_render"
+msgstr "Internet Explorer újrarenderelés kikényszerítése"
+
+msgid "cont_ie_force_render_info"
+msgstr "A sok kerettel (frame és iframe) rendelkező tananyagok tartalma az újabb renderelés után már helyesen fog megjelenni."
+
+msgid "cont_iim_add_overlay"
+msgstr "Átfedés hozzáadása"
+
+msgid "cont_iim_add_trigger"
+msgstr "Trigger hozzáadása"
+
+msgid "cont_iim_add_trigger_text"
+msgstr "Adjon hozzá egy triggert, aminek a méretét és helyét a jobb oldalon tudja majd módosítani."
+
+msgid "cont_iim_background_image"
+msgstr "Háttérkép"
+
+msgid "cont_iim_background_image_and_caption"
+msgstr "Háttérkép és felirat"
+
+msgid "cont_iim_edit"
+msgstr "Interaktív kép módosítása"
+
+msgid "cont_iim_edit_trigger"
+msgstr "Trigger módosítása"
+
+msgid "cont_iim_finish_editing"
+msgstr "Interaktív kép módosításának befejezése"
+
+msgid "cont_iim_horizontal"
+msgstr "Vízszintes"
+
+msgid "cont_iim_lg"
+msgstr "Nagy"
+
+msgid "cont_iim_md"
+msgstr "Közepes"
+
+msgid "cont_iim_no_overlay"
+msgstr "Nincs átfedés"
+
+msgid "cont_iim_overview"
+msgstr "Áttekintés"
+
+msgid "cont_iim_select_overlay"
+msgstr "Átfedés kiválasztása"
+
+msgid "cont_iim_select_trigger"
+msgstr "A meglévő trigger módosításához kattintson rá a jobb oldalon."
+
+msgid "cont_iim_size"
+msgstr "Méret"
+
+msgid "cont_iim_sm"
+msgstr "Kicsi"
+
+msgid "cont_iim_tr_add_popup"
+msgstr "Felugró tartalom létrehozása"
+
+msgid "cont_iim_tr_properties_info"
+msgstr "A trigger a jobb oldalon jelenik meg, helyét és méretét egérrel tudja megváltoztatni."
+
+msgid "cont_iim_trigger"
+msgstr "Trigger"
+
+msgid "cont_iim_vertical"
+msgstr "Függőleges"
+
+msgid "cont_imagemap"
+msgstr "Képtérkép"
+
+msgid "cont_import"
+msgstr "Importálás"
+
+msgid "cont_import_id"
+msgstr "azonosító"
+
+msgid "cont_import_lang"
+msgstr "Célnyelv"
+
+msgid "cont_import_tracking"
+msgstr "Nyomkövetési adatok importja"
+
+msgid "cont_import_trans"
+msgstr "Fordítás importálása"
+
+msgid "cont_import_validation_errors"
+msgstr "Néhány hiba lépett fel a tananyag érvényesítése során. A tananyag megjelenése lehet hogy megfelelő, de előfordulhat, hogy nem tudja szerkeszteni a hibákat tartalmazó lapokat."
+
+msgid "cont_initial_attached_content"
+msgstr "Induláskori kiegészítőtartalom"
+
+msgid "cont_insert_amd_page_list"
+msgstr "Oldallista beszúrása"
+
+msgid "cont_insert_as_chapter"
+msgstr "Fejezetként beszúrás"
+
+msgid "cont_insert_as_subchapter"
+msgstr "Alfejezetként beszúrás"
+
+msgid "cont_insert_blog"
+msgstr "Blogbejegyzés hozzáadása"
+
+msgid "cont_insert_chapter"
+msgstr "Fejezet beszúrása"
+
+msgid "cont_insert_chapter_from_clip"
+msgstr "Fejezet beillesztése a vágólapról"
+
+msgid "cont_insert_consultation_hours"
+msgstr "Konzultációs időpontok beszúrása"
+
+msgid "cont_insert_file_item"
+msgstr "Fájlelem beszúrása"
+
+msgid "cont_insert_file_list"
+msgstr "Fájllista beszúrása"
+
+msgid "cont_insert_list"
+msgstr "Fejlettebb felsorolás beszúrása"
+
+msgid "cont_insert_login_page"
+msgstr "Bejelentkezési lap elemének létrehozása"
+
+msgid "cont_insert_map"
+msgstr "Térkép beszúrása"
+
+msgid "cont_insert_mob"
+msgstr "Médiaobjektum beszúrása"
+
+msgid "cont_insert_my_courses"
+msgstr "Kurzusaim beszúrása"
+
+msgid "cont_insert_page"
+msgstr "Lap beszúrása"
+
+msgid "cont_insert_page_from_clip"
+msgstr "Lap beillesztése a vágólapról"
+
+msgid "cont_insert_pagelayout"
+msgstr "Oldal beszúrása sablonból"
+
+msgid "cont_insert_par"
+msgstr "Szöveg beszúrása"
+
+msgid "cont_insert_profile"
+msgstr "Személyes adatok közzététele"
+
+msgid "cont_insert_resources"
+msgstr "Forráslista beszúrása"
+
+msgid "cont_insert_section"
+msgstr "Bekezdés beszúrása"
+
+msgid "cont_insert_skills"
+msgstr "Kompetencia beszúrása"
+
+msgid "cont_insert_src"
+msgstr "Forráskód beszúrása"
+
+msgid "cont_insert_subchapter"
+msgstr "Alfejezet beszúrása"
+
+msgid "cont_insert_subchapter_from_clip"
+msgstr "Alfejezet beillesztése a vágólapról"
+
+msgid "cont_insert_table"
+msgstr "Táblázat beszúrása"
+
+msgid "cont_insert_verification"
+msgstr "Tanúsítvány létrehozása"
+
+msgid "cont_inst_map_areas"
+msgstr "Példány linkterületek"
+
+msgid "cont_interactions"
+msgstr "Interakció-eredmények tárolása"
+
+msgid "cont_interactions_info"
+msgstr "A tananyagban lévő interakciók szokásos eredményeit egyszerű módon tároljuk, újraolvasás, újratöltés nélkül. Ez növeli a teljesítményt, de csak akkor kapcsolja be, ha ismeri a tananyag működési mechanizmusát."
+
+msgid "cont_interactions_info_12"
+msgstr "SCORM 1.2 tananyagban az interakciók eredményeit egyszerűen tároljuk. Ez a beállítás növeli a teljesítményt."
+
+msgid "cont_internal_link"
+msgstr "belső link"
+
+msgid "cont_internal_links"
+msgstr "Belső linkek"
+
+msgid "cont_invalid_new_module"
+msgstr "Inkompatibilis tananyag! Bizonyosodjon meg arról, hogy nem változott meg az imsmanifest.xml!"
+
+msgid "cont_is_visible"
+msgstr "látható"
+
+msgid "cont_item"
+msgstr "Elem"
+
+msgid "cont_keyword"
+msgstr "Kulcsszó"
+
+msgid "cont_language"
+msgstr "Nyelv"
+
+msgid "cont_languages"
+msgstr "Nyelvek"
+
+msgid "cont_last_try"
+msgstr "Utolsó próbálkozás"
+
+msgid "cont_last_update"
+msgstr "Utolsó módosítás"
+
+msgid "cont_last_visited_page"
+msgstr "Utoljára látogatott oldal"
+
+msgid "cont_latest_rev"
+msgstr "Legfrissebb átdolgozás"
+
+msgid "cont_layout"
+msgstr "Elrendezés"
+
+msgid "cont_layout_1window"
+msgstr "Egy ablak"
+
+msgid "cont_layout_1window_desc"
+msgstr "A tartalom a főkeretben jelenik meg. A GYIK-, fogalomtár- és médiahivatkozások külön ablakban nyílnak meg."
+
+msgid "cont_layout_2window"
+msgstr "Két ablak"
+
+msgid "cont_layout_2window_desc"
+msgstr "A tartalom a bal keretben jelenik meg. A GYIK-, a fogalomtár- és a médiahivatkozások a jobb keretben nyílnak meg."
+
+msgid "cont_layout_3window"
+msgstr "Három ablak"
+
+msgid "cont_layout_3window_desc"
+msgstr "A tartalom a bal keretben jelenik meg. A GYIK- és a médiahivatkozások a jobb felső keretben, a fogalomtár-hivatkozások a jobb alsó keretben nyílnak meg."
+
+msgid "cont_layout_fullscreen"
+msgstr "Teljes képernyő"
+
+msgid "cont_layout_fullscreen_desc"
+msgstr "A tartalom a főkeretben jelenik meg. A GYIK- és a médiahivatkozások külön ablakban nyílnak meg. Nincs ILIAS-főmenü és navigációs rész."
+
+msgid "cont_layout_per_page"
+msgstr "Elrendezés laponként"
+
+msgid "cont_layout_per_page_info"
+msgstr "Az egyes lapokhoz engedélyezett egyedi elrendezés beállítása. Ez automatikusan kikapcsolja a ‘Keretek szinkronizálása’ beállítást."
+
+msgid "cont_layout_presentation"
+msgstr "Prezentáció"
+
+msgid "cont_layout_presentation_desc"
+msgstr "A tartalom a főkeretben jelenik meg. A GYIK-, a fogalomtár- és a médiahivatkozások külön ablakban nyílnak meg. Nincs ILIAS-főmenü."
+
+msgid "cont_layout_template"
+msgstr "Elrendezéssablon"
+
+msgid "cont_layout_toc2win"
+msgstr "Tartalomjegyzék"
+
+msgid "cont_layout_toc2win_desc"
+msgstr "A tartalomjegyzék a bal, a tartalom a jobb oldali keretben jelenik meg. A GYIK-, a fogalomtár- és a médiahivatkozások külön ablakban nyílnak meg."
+
+msgid "cont_layout_toc2windyn"
+msgstr "Dinamikus tartalomjegyzék"
+
+msgid "cont_layout_toc2windyn_desc"
+msgstr "A tartalomjegyzék a bal, a tartalom a jobb oldali keretben jelenik meg. A GYIK-, a fogalomtár- és a médiahivatkozások dinamikusan nyílnak meg a jobb alsó kertben."
+
+msgid "cont_left"
+msgstr "Balra"
+
+msgid "cont_left_float"
+msgstr "Balra, körbefuttatás"
+
+msgid "cont_license"
+msgstr "Licensz"
+
+msgid "cont_license_info"
+msgstr "Licenszelés bekapcsolása"
+
+msgid "cont_light"
+msgstr "Világos"
+
+msgid "cont_link"
+msgstr "Link"
+
+msgid "cont_link_area"
+msgstr "Linkterület"
+
+msgid "cont_link_ext"
+msgstr "Külső link"
+
+msgid "cont_link_glo_in_lm"
+msgstr "A fogalomtár összes fogalmát linkké alakítsuk a tananyagban?"
+
+msgid "cont_link_int"
+msgstr "Belső link"
+
+msgid "cont_link_no"
+msgstr "Nincs link"
+
+msgid "cont_link_select"
+msgstr "belső link"
+
+msgid "cont_link_to_external"
+msgstr "Link külső weboldalra"
+
+msgid "cont_link_to_internal"
+msgstr "Link ILIAS-forrásra"
+
+msgid "cont_link_to_wiki"
+msgstr "Link wikilapra (zárójelek beszúrása)"
+
+msgid "cont_link_type"
+msgstr "Hivatkozástípus"
+
+msgid "cont_link_user"
+msgstr "Felhasználói profil"
+
+msgid "cont_linked_mobs"
+msgstr "Hivatkozott médiaobjektumok"
+
+msgid "cont_links"
+msgstr "Linkek"
+
+msgid "cont_list_files"
+msgstr "Fájlok felsorolása"
+
+msgid "cont_list_indent"
+msgstr "Behúzáscsökkentett felsorolás"
+
+msgid "cont_list_item_style"
+msgstr "Felsoroláselem stílusa"
+
+msgid "cont_list_outdent"
+msgstr "Behúzott felsorolás"
+
+msgid "cont_list_properties"
+msgstr "Felsorolástulajdonságok"
+
+msgid "cont_lists"
+msgstr "Felsorolások"
+
+msgid "cont_lk_chapter"
+msgstr "Fejezet"
+
+msgid "cont_lk_chapter_new"
+msgstr "Fejezet új lapon"
+
+msgid "cont_lk_file"
+msgstr "Fájl/dokumentum"
+
+msgid "cont_lk_media_faq"
+msgstr "Média GYIK-keretben"
+
+msgid "cont_lk_media_inline"
+msgstr "Média (sorban)"
+
+msgid "cont_lk_media_media"
+msgstr "Média médiakeretben"
+
+msgid "cont_lk_media_new"
+msgstr "Média új lapon"
+
+msgid "cont_lk_page"
+msgstr "Lap"
+
+msgid "cont_lk_page_faq"
+msgstr "Lap GYIK-keretben"
+
+msgid "cont_lk_page_new"
+msgstr "Lap új keretben"
+
+msgid "cont_lk_term"
+msgstr "Fogalomtár fogalma"
+
+msgid "cont_lk_term_new"
+msgstr "Fogalomtár fogalma új keretben"
+
+msgid "cont_lm_comments_desc"
+msgstr "A felhasználóknak a tananyag minden lapján engedélyezett megjegyzések megosztása."
+
+msgid "cont_lm_default_layout"
+msgstr "Alapértelmezett elrendezés a tananyagokhoz"
+
+msgid "cont_lm_mail_permanent_link"
+msgstr "Kattintson a következő linkre a tananyag eléréséhez:"
+
+msgid "cont_lm_menu"
+msgstr "Menü"
+
+msgid "cont_lm_properties"
+msgstr "Tananyag beállításai"
+
+msgid "cont_lm_starting_point"
+msgstr "ILIAS tananyag kezdőpontja"
+
+msgid "cont_lm_starting_point_info"
+msgstr "A tananyag címére kattintáskor megnyíló oldal."
+
+msgid "cont_localfile"
+msgstr "Helyi fájl"
+
+msgid "cont_localization"
+msgstr "Lokalizáció"
+
+msgid "cont_localization_info"
+msgstr "A nyelv előre definiált szövegeket használ, például ‘Előző’, ‘Következő’."
+
+msgid "cont_location"
+msgstr "Elhelyezkedés"
+
+msgid "cont_lpe_dpro_agreement_link"
+msgstr "Az Adatvédelmi nyilatkozatra mutató link"
+
+msgid "cont_lpe_language_selection"
+msgstr "Nyelvválasztás"
+
+msgid "cont_lpe_login_form"
+msgstr "Bejelentkezési űrlap"
+
+msgid "cont_lpe_openid_connect_login"
+msgstr "OpenID-felhasználónév"
+
+msgid "cont_lpe_openid_login_form"
+msgstr "OpenID bejelentkezési űrlap"
+
+msgid "cont_lpe_registration_link"
+msgstr "Új regisztráció linkje"
+
+msgid "cont_lpe_saml_login"
+msgstr "SAML-bejelentkezés"
+
+msgid "cont_lpe_shib_login_form"
+msgstr "Shibboleth bejelentkezési űrlap"
+
+msgid "cont_lpe_user_agreement_link"
+msgstr "Szolgáltatási feltételek linkje"
+
+msgid "cont_lrs_settings"
+msgstr "Beállítások"
+
+msgid "cont_lvalue"
+msgstr "Adatelem"
+
+msgid "cont_maintenance"
+msgstr "Karbantartás"
+
+msgid "cont_manifest"
+msgstr "Manifest"
+
+msgid "cont_manual_item_group"
+msgstr "Manuálisan létrehozott elemcsoport"
+
+msgid "cont_map_file_not_generated"
+msgstr "Sajnos nem lehet térképfájlt generálni a szerkesztéshez."
+
+msgid "cont_marker"
+msgstr "Jelölő"
+
+msgid "cont_master_language_only"
+msgstr "Fordításhoz főnyelv"
+
+msgid "cont_master_language_only_no_media"
+msgstr "Főnyelv média nélkül"
+
+msgid "cont_mastery_score"
+msgstr "adlcp:masteryscore"
+
+msgid "cont_mastery_score_12"
+msgstr "mastery_score felülírása"
+
+msgid "cont_mastery_score_12_info"
+msgstr "Ha egy SCO nem automatikusan határoz meg egy állapotot, egy SCO teljesítettként kerül figyelembe vételre, ha a pontszám egy bizonyos szintet elér - ez a mastery_score. Ezt az értéket lehet itt felülírni, például csökkenteni így az elvárt szintet. Amennyiben ez a mező üres, a SCORM manifest-ben lévő információ a valid. Az alábbi következő értékek szerepelnek a manifest-fájlban:"
+
+msgid "cont_mastery_score_2004"
+msgstr "scaled_passing_score felülírása"
+
+msgid "cont_mastery_score_2004_info"
+msgstr "Ennek a tananyagnak a központi tanulási céljai teljesítettként kerül figyelembe vételre, ha a pontszám egy bizonyos szintet elér - ez a scaled_passing_score. Ezt az értéket - ami százalékérték - lehet itt felülírni, például csökkenteni így az elvárt szintet. Amennyiben ez a mező üres, a SCORM manifest-ben lévő információ a valid. Az alábbi következő értékek szerepelnek a manifest-fájlban:"
+
+msgid "cont_max_time_allowed"
+msgstr "adlcp:maxtimeallowed"
+
+msgid "cont_media"
+msgstr "Képek/Média"
+
+msgid "cont_media_placeh"
+msgstr "Kattintson és szerkesszen média beszúrásához"
+
+msgid "cont_media_placehl"
+msgstr "Kép-/médiahelyőrző"
+
+msgid "cont_media_source"
+msgstr "Médiaforrás"
+
+msgid "cont_merge_cells"
+msgstr "Cellák egyesítése"
+
+msgid "cont_missing_preconditions"
+msgstr "‘%s’ fejezet eléréséhez az alábbi előfeltételeket teljesítenie kell."
+
+msgid "cont_missing_snippet"
+msgstr "Hiányzó tartalom-építőelem. Ezt az építőelemet törölték."
+
+msgid "cont_mob_def_prop"
+msgstr "Alapértelmezett tulajdonságok"
+
+msgid "cont_mob_from_media_pool"
+msgstr "Választás a médiagyűjteményből"
+
+msgid "cont_mob_inst_prop"
+msgstr "Példánytulajdonságok"
+
+msgid "cont_mob_usages"
+msgstr "Felhasználás"
+
+msgid "cont_more_character_styles"
+msgstr "…további karakterstílusok"
+
+msgid "cont_more_functions"
+msgstr "Továbbiak"
+
+msgid "cont_moved_srt_files"
+msgstr "Feliratfájlokat sikeresen hozzárendelte a médiaobjektumokhoz."
+
+msgid "cont_multi_srt_files"
+msgstr "Feliratfájlok"
+
+msgid "cont_mycourses_sortorder"
+msgstr "Alapértelmezett rendezés"
+
+msgid "cont_mycourses_sortorder_alphabetical"
+msgstr "Alfabetikus"
+
+msgid "cont_mycourses_sortorder_info"
+msgstr "Ez az alapértelmezett beállítás. Az összes felhasználó egyéni rendezést választhat, ami bármelyik portfólió összes ‘Kurzusaim’ elemeire vonatkozik."
+
+msgid "cont_mycourses_sortorder_location"
+msgstr "Hely szerint"
+
+msgid "cont_name"
+msgstr "Név"
+
+msgid "cont_never"
+msgstr "Soha"
+
+msgid "cont_new_area"
+msgstr "Új linkterület"
+
+msgid "cont_new_chap"
+msgstr "Új fejezet"
+
+msgid "cont_new_dir"
+msgstr "Új mappa"
+
+msgid "cont_new_file"
+msgstr "Új fájl"
+
+msgid "cont_new_marker"
+msgstr "Új jelző"
+
+msgid "cont_new_mob"
+msgstr "Új médiaobjektum"
+
+msgid "cont_new_module_added"
+msgstr "A tananyag új verzióját sikeresen feltöltötte."
+
+msgid "cont_new_page"
+msgstr "Új lap"
+
+msgid "cont_new_popup"
+msgstr "Új felugró ablak"
+
+msgid "cont_new_question"
+msgstr "Új kérdés"
+
+msgid "cont_new_tab"
+msgstr "Új panel"
+
+msgid "cont_new_term"
+msgstr "Új fogalom"
+
+msgid "cont_new_trigger_area"
+msgstr "Új triggerterület"
+
+msgid "cont_next_rev"
+msgstr "Következő átdolgozás"
+
+msgid "cont_nlist"
+msgstr "Számozott felsorolás"
+
+msgid "cont_no_access"
+msgstr "Nincs hozzáférés"
+
+msgid "cont_no_block"
+msgstr "Nincs fejezet"
+
+msgid "cont_no_caption"
+msgstr "Nincs felirat"
+
+msgid "cont_no_glossary"
+msgstr "Nincs hozzárendelt fogalomtár"
+
+msgid "cont_no_manifest"
+msgstr "Nem található imsmanifest.xml fájl a főmappában."
+
+msgid "cont_no_page"
+msgstr "A lap nem létezik."
+
+msgid "cont_no_page_access_unansw_q"
+msgstr "Az oldal megtekintéséhez az összes korábbi oldal kérdéseit hibátlanul meg kell válaszolnia."
+
+msgid "cont_no_page_in_chapter"
+msgstr "Elnézést, jelenleg nincs aktív tartalom ebben a fejezetben."
+
+msgid "cont_no_parameters"
+msgstr "Nincsenek paraméterek"
+
+msgid "cont_no_read"
+msgstr "Nincs olvasási jogosultsága"
+
+msgid "cont_no_subdir_in_zip"
+msgstr "ZIP parancs végrehajtása sikertelen, vagy érvénytelen az importfájl.<br/>Nem tartalmaz almappát ‘%s’."
+
+msgid "cont_no_text"
+msgstr "Nincs szöveg"
+
+msgid "cont_nomenu"
+msgstr "Felső navigációs sáv elrejtése"
+
+msgid "cont_nomenu_info"
+msgstr "A felső Navigációs sáv elrejthető, ha a SCORM-tananyag elegendő funkcionalitást tartalmaz a felfüggesztéséhez, a befejezéséhez és a tartalomban navigálásához."
+
+msgid "cont_none"
+msgstr "Semmi"
+
+msgid "cont_not_saved_edit_lock_expired"
+msgstr "Sajnáljuk, módosításait nem sikerült menteni, mert időközben egy másik felhasználó szerkesztésre zárolta ezt az oldalt. Az üzenet bezárása után a tartalmat vágólapra másolhatja."
+
+msgid "cont_notification_activate_lm"
+msgstr "Értesítés bekapcsolása a tananyagra"
+
+msgid "cont_notification_activate_page"
+msgstr "Értesítés bekapcsolása az oldalra"
+
+msgid "cont_notification_activated"
+msgstr "Értesítés aktiválva (teljes tananyagra)"
+
+msgid "cont_notification_comment_lm"
+msgstr "ezúton tájékoztatjuk, hogy a következő tananyagoldalhoz írtak hozzászólást"
+
+msgid "cont_notification_comment_subject_lm"
+msgstr "Egy új hozzászólás jött létre %s: %s"
+
+msgid "cont_notification_deactivate_lm"
+msgstr "Értesítés kikapcsolása a tananyagra"
+
+msgid "cont_notification_deactivate_page"
+msgstr "Értesítés kikapcsolása az oldalra"
+
+msgid "cont_notification_deactivated"
+msgstr "Értesítés kikapcsolva"
+
+msgid "cont_notification_update_lm"
+msgstr "ezúton tájékoztatjuk, hogy a következő tananyag frissült"
+
+msgid "cont_notify_on_blocked_users"
+msgstr "Blokkolt felhasználókról értesítés"
+
+msgid "cont_notify_on_blocked_users_info"
+msgstr "Értesítést kap, amikor egy felhasználót blokkolunk, mert elhasználta a tananyagban az összes válaszadási lehetőségét."
+
+msgid "cont_nr_col_footer"
+msgstr "Láblécoszlopok"
+
+msgid "cont_nr_col_header"
+msgstr "Fejlécoszlopok"
+
+msgid "cont_nr_cols"
+msgstr "Oszlopok száma"
+
+msgid "cont_nr_items"
+msgstr "Elemek száma"
+
+msgid "cont_nr_of_tries_exceeded"
+msgstr "Nincs több próbálkozási lehetősége."
+
+msgid "cont_nr_row_footer"
+msgstr "Láblécsorok"
+
+msgid "cont_nr_row_header"
+msgstr "Fejlécsorok"
+
+msgid "cont_nr_rows"
+msgstr "Sorok száma"
+
+msgid "cont_number_of_tabs"
+msgstr "Panelek száma"
+
+msgid "cont_number_std"
+msgstr "Standard"
+
+msgid "cont_number_type"
+msgstr "Számtípus"
+
+msgid "cont_numbered_list"
+msgstr "Számozott felsorolás"
+
+msgid "cont_obj_removed"
+msgstr "Az objektum eltávolítva."
+
+msgid "cont_objectives"
+msgstr "Tanulási célokra vonatkozó adatok tárolása"
+
+msgid "cont_objectives_info"
+msgstr "Ez növeli a teljesítményt, de csak akkor kapcsolja be, ha a tananyag hibátlanul fut."
+
+msgid "cont_online"
+msgstr "Online"
+
+msgid "cont_online_help_ids"
+msgstr "Screen-ID-k"
+
+msgid "cont_online_info"
+msgstr "Állítsa online-ra a SCORM-tananyagot, hogy látható és elérhető legyen a felhasználók számára. Offline állapotban csak a szerkesztési jogosultsággal rendelkezők érhetik el."
+
+msgid "cont_open"
+msgstr "Tananyag megjelenítése"
+
+msgid "cont_open_clipboard"
+msgstr "Vágólap megnyitása"
+
+msgid "cont_open_iframe"
+msgstr "iFrame-ben"
+
+msgid "cont_open_iframe_info"
+msgstr "A tananyag ugyanabban az ablakban nyílik meg (iFrame) az ILIAS főmenü mellett."
+
+msgid "cont_open_normal"
+msgstr "Új lapon vagy pedig új ablakban nyíljon meg, ILIAS főmenü nélkül"
+
+msgid "cont_open_normal_info"
+msgstr "A tananyag új lapon vagy pedig új ablakban nyílik meg az ILIAS főmenü nélkül."
+
+msgid "cont_open_window"
+msgstr "Új ablakban nyíljon meg, ILIAS-főmenü nélkül"
+
+msgid "cont_open_window_info"
+msgstr "A tananyag mindenképpen új ablakban nyílik meg az ILIAS főmenü nélkül."
+
+msgid "cont_operation_not_allowed"
+msgstr "Nem engedélyezett ez a művelet."
+
+msgid "cont_organization"
+msgstr "Szervezet"
+
+msgid "cont_organizations"
+msgstr "Szervezetek"
+
+msgid "cont_orig_size"
+msgstr "Eredeti méret"
+
+msgid "cont_other_resources"
+msgstr "Tartalom (egyéb források)"
+
+msgid "cont_out_of_focus_message"
+msgstr "Ez az oldal többé nincs összefüggésben a jelenlegi tanulási céljával."
+
+msgid "cont_out_of_focus_message_last_page"
+msgstr "Jelenleg ez a tanulási céljaihoz kapcsolódó tartalom utolsó oldala."
+
+msgid "cont_ov_all_correct"
+msgstr "Helyesen válaszolt minden kérdésre."
+
+msgid "cont_ov_preview"
+msgstr "A kérdésáttekintés nem működik az ILIAS-lapszerkesztőben. Használja inkább az SCO- vagy a SCORM-szint előnézet."
+
+msgid "cont_ov_some_correct"
+msgstr "Helyesen válaszolt meg [x] kérdést a(z) [y] kérdésből."
+
+msgid "cont_ov_wrong_answered"
+msgstr "Az alábbi kérdéseket még nem vagy hibásan válaszolta meg."
+
+msgid "cont_overlay_image"
+msgstr "Fedőkép"
+
+msgid "cont_overlay_images"
+msgstr "Fedőképek"
+
+msgid "cont_overlays_have_been_deleted"
+msgstr "A fedéseket sikeresen törölte."
+
+msgid "cont_page_activation"
+msgstr "Lapaktiválás"
+
+msgid "cont_page_activation_on"
+msgstr "A tartalom ekkor aktiválódik: %s."
+
+msgid "cont_page_compare"
+msgstr "Kiválasztott átdolgozások összehasonlítása"
+
+msgid "cont_page_created"
+msgstr "Az oldal létrehozva"
+
+msgid "cont_page_currently_deactivated"
+msgstr "Ez a lap jelenleg nincs aktiválva."
+
+msgid "cont_page_deactivated"
+msgstr "Lap deaktiválva."
+
+msgid "cont_page_deactivated_elements"
+msgstr "A lap deaktivált elemeket tartalmaz."
+
+msgid "cont_page_header"
+msgstr "Lap fejléce"
+
+msgid "cont_page_layout"
+msgstr "Lapelrendezés"
+
+msgid "cont_page_lock_released"
+msgstr "Szerkesztése véget ért. Az oldal zárolását sikeresen feloldotta."
+
+msgid "cont_page_notification_activated"
+msgstr "Értesítés bekapcsolva (egy oldalra)"
+
+msgid "cont_page_template"
+msgstr "Oldalsablon"
+
+msgid "cont_page_toc"
+msgstr "Lapáttekintés"
+
+msgid "cont_page_translation_does_not_exist"
+msgstr "A fordítási oldal még nem létezik és a főnyelvi oldal tartalmának másolásával fog létrejönni."
+
+msgid "cont_page_usage"
+msgstr "Lapfelhasználás"
+
+msgid "cont_pages"
+msgstr "Lapok"
+
+msgid "cont_pages_and_subchapters"
+msgstr "Alfejezetek és lapok"
+
+msgid "cont_par_format"
+msgstr "Bekezdés"
+
+msgid "cont_paragraph_styles"
+msgstr "Bekezdésstílus"
+
+msgid "cont_parameter"
+msgstr "Paraméter"
+
+msgid "cont_parameters"
+msgstr "paraméterek"
+
+msgid "cont_paste_from_clipboard"
+msgstr "Beillesztés vágólapról"
+
+msgid "cont_paste_from_spreadsheet"
+msgstr "Beillesztés a táblázatból"
+
+msgid "cont_paste_table"
+msgstr "Táblázat beszúrása"
+
+msgid "cont_pc_amdpl"
+msgstr "Oldallista"
+
+msgid "cont_pc_blog"
+msgstr "Blog"
+
+msgid "cont_pc_carousel"
+msgstr "Körhinta (Carousel)"
+
+msgid "cont_pc_code"
+msgstr "Kód"
+
+msgid "cont_pc_deleted"
+msgstr "Törölt tartalom"
+
+msgid "cont_pc_dtab"
+msgstr "Táblázat"
+
+msgid "cont_pc_flist"
+msgstr "Fájllista"
+
+msgid "cont_pc_grid"
+msgstr "Oszlopos elrendezés"
+
+msgid "cont_pc_hacc"
+msgstr "Harmonika (vízszintes)"
+
+msgid "cont_pc_iim"
+msgstr "Interaktív kép"
+
+msgid "cont_pc_incl"
+msgstr "Tartalom-építőelem"
+
+msgid "cont_pc_lay"
+msgstr "Kinézetsablon"
+
+msgid "cont_pc_list"
+msgstr "Fejlettebb felsorolás"
+
+msgid "cont_pc_map"
+msgstr "Térkép"
+
+msgid "cont_pc_media"
+msgstr "Kép/Média"
+
+msgid "cont_pc_mob"
+msgstr "Média"
+
+msgid "cont_pc_modified"
+msgstr "Módosított tartalom"
+
+msgid "cont_pc_new"
+msgstr "Új tartalom"
+
+msgid "cont_pc_par"
+msgstr "Szöveg"
+
+msgid "cont_pc_plach"
+msgstr "Helyőrző"
+
+msgid "cont_pc_prof"
+msgstr "Személyes adatok"
+
+msgid "cont_pc_qover"
+msgstr "Kérdésáttekintés"
+
+msgid "cont_pc_qst"
+msgstr "Kérdés"
+
+msgid "cont_pc_repobj"
+msgstr "Elemcsoport"
+
+msgid "cont_pc_res"
+msgstr "Forrás"
+
+msgid "cont_pc_sec"
+msgstr "Szekció"
+
+msgid "cont_pc_skills"
+msgstr "Kompetencia"
+
+msgid "cont_pc_src"
+msgstr "Forráskód"
+
+msgid "cont_pc_tab"
+msgstr "Fejlettebb táblázat"
+
+msgid "cont_pc_tabs"
+msgstr "Harmonika/körhinta"
+
+msgid "cont_pc_vacc"
+msgstr "Harmonika (függőleges)"
+
+msgid "cont_pc_vrfc"
+msgstr "Tanúsítvány"
+
+msgid "cont_permission_handling"
+msgstr "Jogosultság kezelése"
+
+msgid "cont_permission_object"
+msgstr "Jogosultságobjektum"
+
+msgid "cont_permission_object_desc"
+msgstr "A fejezet csak megfelelő jogosultsággal rendelkező felhasználók számára érhető el."
+
+msgid "cont_personal_clipboard"
+msgstr "Személyes vágólap"
+
+msgid "cont_pg_title"
+msgstr "Lapcím"
+
+msgid "cont_please_enter_a_term"
+msgstr "Írjon be egy fogalmat!"
+
+msgid "cont_please_select"
+msgstr "válasszon"
+
+msgid "cont_please_try_again"
+msgstr "Próbálja ismét!"
+
+msgid "cont_popups_have_been_deleted"
+msgstr "A felugró ablakokat sikeresen törölte."
+
+msgid "cont_position"
+msgstr "Pozíció"
+
+msgid "cont_prereq_type"
+msgstr "adlcp:prerequisites.type"
+
+msgid "cont_prerequisites"
+msgstr "adlcp:prerequisites"
+
+msgid "cont_presentation"
+msgstr "Megjelenítés"
+
+msgid "cont_presentation_view"
+msgstr "Előnézet"
+
+msgid "cont_preview"
+msgstr "Előnézet"
+
+msgid "cont_previous_rev"
+msgstr "Korábbi átdolgozás"
+
+msgid "cont_print_no_page_selected"
+msgstr "Legalább egy lapot válasszon!"
+
+msgid "cont_print_selection"
+msgstr "Nyomtatási nézet kiválasztás"
+
+msgid "cont_print_view"
+msgstr "Nyomtatási nézet"
+
+msgid "cont_print_view_pre_glo"
+msgstr "Szótár mellőzése nyomtatási nézetben"
+
+msgid "cont_profile_mode"
+msgstr "Mód"
+
+msgid "cont_profile_mode_inherit"
+msgstr "Automatikus"
+
+msgid "cont_profile_mode_inherit_info"
+msgstr "Használja a publikus profil beállításokat"
+
+msgid "cont_profile_mode_manual"
+msgstr "Manuális"
+
+msgid "cont_profile_mode_manual_info"
+msgstr "Használja az alábbi adatokat:"
+
+msgid "cont_profile_mode_template_inherit_info"
+msgstr "Profilbeállítások használata"
+
+msgid "cont_progress_icons"
+msgstr "Haladási ikonok"
+
+msgid "cont_progress_icons_info"
+msgstr "A tanulási haladás ikonjai látszódjanak a fejezetek oldalikonjai helyett."
+
+msgid "cont_prtf_page"
+msgstr "Portfólióoldal"
+
+msgid "cont_prtt_page"
+msgstr "Portfólió-sablonoldal"
+
+msgid "cont_public_access"
+msgstr "Nyilvános hozzáférés"
+
+msgid "cont_purpose"
+msgstr "Cél"
+
+msgid "cont_qover_list_wrong_q"
+msgstr "Hibásan megválaszolt kérdések listája"
+
+msgid "cont_qover_list_wrong_q_info"
+msgstr "A hibásan vagy meg nem válaszolt kérdések megjelennek."
+
+msgid "cont_qover_short_message"
+msgstr "Állapotüzenet"
+
+msgid "cont_qover_short_message_info"
+msgstr "‘Ön helyesen válaszolta meg ennek a résznek X kérdését az Y-ból.’ üzenet jelenik majd meg."
+
+msgid "cont_qtries"
+msgstr "Próbálkozások száma a kérdésekhez"
+
+msgid "cont_qtries_info"
+msgstr "Újonnan létrehozott kérdések esetén a próbálkozások számának alapértelmezett értéke."
+
+msgid "cont_question"
+msgstr "Kérdés"
+
+msgid "cont_question_page_usage"
+msgstr "Kérdések az lapokon"
+
+msgid "cont_question_placeh"
+msgstr "Kattintson és szerkesszen kérdés beszúrásához"
+
+msgid "cont_question_placehl"
+msgstr "Kérdéshelyőrző"
+
+msgid "cont_question_stats"
+msgstr "Statisztikák"
+
+msgid "cont_question_type"
+msgstr "Kérdéstípus"
+
+msgid "cont_question_usage"
+msgstr "Felhasználások"
+
+msgid "cont_quit_text_editing"
+msgstr "Szövegszerkesztés befejezése"
+
+msgid "cont_rand_start"
+msgstr "Véletlenszerű kezdet"
+
+msgid "cont_really_delete_overlays"
+msgstr "Biztos, hogy törli az alábbi fedéseket?"
+
+msgid "cont_really_delete_popups"
+msgstr "Biztos, hogy törli az alábbi felugró ablakokat?"
+
+msgid "cont_really_delete_triggers"
+msgstr "Biztos, hogy törli az alábbi triggereket?"
+
+msgid "cont_ref_helptext"
+msgstr "(például http://www.server.org/myimage.jpg)"
+
+msgid "cont_ref_images"
+msgstr "Hivatkozott képek"
+
+msgid "cont_reference"
+msgstr "Hivatkozás"
+
+msgid "cont_remove_format"
+msgstr "Formátum eltávolítása"
+
+msgid "cont_rename_dir"
+msgstr "Mappa átnevezése"
+
+msgid "cont_replace_mob_feature"
+msgstr "Médiaobjektum cseréje a tartalomban"
+
+msgid "cont_replace_mob_feature_info"
+msgstr "Ez az opció lehetővé teszi médiaobjektum cseréjét úgy, hogy a médiapéldány minden más tulajdonsága érintetlenül megmarad a tartalomban."
+
+msgid "cont_repository_item"
+msgstr "Tartalomtárban levő elem"
+
+msgid "cont_reset_nr_of_tries"
+msgstr "Próbálkozások számának alapértelmezettre állítása"
+
+msgid "cont_resize_img"
+msgstr "Képfájl átméretezése"
+
+msgid "cont_resource"
+msgstr "Forrás"
+
+msgid "cont_resource_size"
+msgstr "Eredeti forrásméret / Nincs méretmeghatározás"
+
+msgid "cont_resource_size_info"
+msgstr "A méret megadása nélkül a tartalomstílus határozhatja meg a méretet. Ha nem adja meg a méretet és a tartalomstílus sem tartalmaz szabályt a méret meghatározására, akkor a képet eredeti méretében jelenítjük meg."
+
+msgid "cont_resource_type"
+msgstr "Típus"
+
+msgid "cont_resources"
+msgstr "Források"
+
+msgid "cont_resources_of_type"
+msgstr "Típus forrásai"
+
+msgid "cont_restrict_forw_nav"
+msgstr "Továbbhaladás tiltása"
+
+msgid "cont_restrict_forw_nav_info"
+msgstr "A tanulók nem léphetnek a következő oldalra, amíg az előtte lévő kérdéseket hibátlanul meg nem válaszolták."
+
+msgid "cont_revision"
+msgstr "Átdolgozás"
+
+msgid "cont_right"
+msgstr "Jobbra"
+
+msgid "cont_right_float"
+msgstr "Jobbra, körbefuttatás"
+
+msgid "cont_rollback"
+msgstr "Visszagörgetés"
+
+msgid "cont_rollback_confirmation"
+msgstr "Biztos, hogy visszaállítja ennek a lapnak a régi változatát?"
+
+msgid "cont_roman"
+msgstr "Római I, II, …"
+
+msgid "cont_roman_s"
+msgstr "Római i, ii, …"
+
+msgid "cont_rowspan"
+msgstr "Összevont sorok"
+
+msgid "cont_rte_settings"
+msgstr "RTE beállítások"
+
+msgid "cont_rvalue"
+msgstr "Érték"
+
+msgid "cont_save_all_titles"
+msgstr "Címek mentése"
+
+msgid "cont_save_positions"
+msgstr "Pozíciók mentése"
+
+msgid "cont_save_positions_and_classes"
+msgstr "Pozíciók és stílusosztályok mentése"
+
+msgid "cont_save_spans"
+msgstr "Cellaösszevonások mentése"
+
+msgid "cont_save_types"
+msgstr "Típusok mentése"
+
+msgid "cont_save_widths"
+msgstr "Szélesség mentése"
+
+msgid "cont_saved_export_ids"
+msgstr "A HTML export-ID-k mentette."
+
+msgid "cont_saved_interactive_image"
+msgstr "Létrehozott interaktív kép"
+
+msgid "cont_saved_map_area"
+msgstr "A térképterületet sikeresen mentette."
+
+msgid "cont_saved_map_data"
+msgstr "A térképadatokat sikeresen mentette."
+
+msgid "cont_saving"
+msgstr "Mentés…"
+
+msgid "cont_sc_auto_continue"
+msgstr "Felhasználók átirányítása"
+
+msgid "cont_sc_auto_continue_info"
+msgstr "A felhasználókat az utolsó aktivitásuk befejeztével automatikusan át fogjuk irányítani a következő SCO-ra. Ezt a funkciót nem az összes SCROM 1.2-es tananyag támogatja."
+
+msgid "cont_sc_auto_review_2004"
+msgstr "Adatrögzítés befejezése"
+
+msgid "cont_sc_auto_review_completed"
+msgstr "ha a korábbi állapot befejezte"
+
+msgid "cont_sc_auto_review_completed_and_passed"
+msgstr "ha a korábbi állapot befejezte és sikeresen teljesítette"
+
+msgid "cont_sc_auto_review_completed_not_failed_or_passed"
+msgstr "ha a korábbi állapot befejezte vagy sikeresen teljesítette, de nem nem teljesítette"
+
+msgid "cont_sc_auto_review_completed_or_passed"
+msgstr "ha a korábbi állapot befejezte vagy sikeresen teljesítette"
+
+msgid "cont_sc_auto_review_info_2004"
+msgstr "A felhasználó nyomkövetési állapotát zároljuk egy fejezetnél/SCO-nál, amikor a fentebbiek közül a kiválasztottra vált. Későbbi látogatások során az állapot már nem módosul.<br />Válassza a ‘soha (megfelel a SCORM specifikációnak)’ beállítást, ha a tananyag használja a SCORM 2004 szerinti ‘Szekvenálás & Navigáció’-t."
+
+msgid "cont_sc_auto_review_no"
+msgstr "soha (megfelel a SCORM specifikációnak)"
+
+msgid "cont_sc_auto_review_passed"
+msgstr "nyomkövetési adatok megtartása, ha korábbi állapot sikeresen teljesítette"
+
+msgid "cont_sc_auto_review_passed_or_failed"
+msgstr "nyomkövetési adatok megtartása, ha korábbi állapot sikeresen teljesítette vagy nem teljesítette"
+
+msgid "cont_sc_id_setting"
+msgstr "student_id a SCORM 1.2 alapján"
+
+msgid "cont_sc_id_setting_2004"
+msgstr "learner_id a SCORM 2004 alapján"
+
+msgid "cont_sc_id_setting_info"
+msgstr "Amennyiben student_id (SCORM 1.2) vagy a learner_id (SCORM 2004) számértéke problémát okoz a tananyagban, használja az ‘ILIAS felhasználónév’ lehetőséget. A további RefId vagy ObjId külső szerverhez kapcsolódó tananyagnál lehet hasznos."
+
+msgid "cont_sc_id_setting_user_id"
+msgstr "ILIAS user_id (standard)"
+
+msgid "cont_sc_id_setting_user_id_plus_obj_id"
+msgstr "ILIAS user_id plusz a tananyag obj_id-je"
+
+msgid "cont_sc_id_setting_user_id_plus_ref_id"
+msgstr "ILIAS user_id plusz a tananyag ref_id-je"
+
+msgid "cont_sc_id_setting_user_login"
+msgstr "ILIAS Bejelentkezési név"
+
+msgid "cont_sc_id_setting_user_login_plus_obj_id"
+msgstr "LIAS Bejelentkezési név plusz a tananyag obj_id-je"
+
+msgid "cont_sc_id_setting_user_login_plus_ref_id"
+msgstr "ILIAS Bejelentkezési név plusz a tananyag ref_id-je"
+
+msgid "cont_sc_less_mode_browse"
+msgstr "Előnézeti mód"
+
+msgid "cont_sc_less_mode_browse_info"
+msgstr "A SCORM mód ‘böngészés’ értéket vesz fel."
+
+msgid "cont_sc_less_mode_normal"
+msgstr "Tanulási mód"
+
+msgid "cont_sc_less_mode_normal_info"
+msgstr "A SCORM mód ‘normál’ értéket vesz fel."
+
+msgid "cont_sc_max_attempt_exceed"
+msgstr "A próbálkozások száma elérte a tananyaghoz rendelt maximálisat."
+
+msgid "cont_sc_name_setting"
+msgstr "student_name a SCORM 1.2 alapján"
+
+msgid "cont_sc_name_setting_2004"
+msgstr "learner_name a SCORM 2004 alapján"
+
+msgid "cont_sc_name_setting_first_lastname"
+msgstr "Családnév és utónév"
+
+msgid "cont_sc_name_setting_first_name"
+msgstr "Családnév"
+
+msgid "cont_sc_name_setting_fullname"
+msgstr "Titulus, utónév és családnév"
+
+msgid "cont_sc_name_setting_info"
+msgstr "A tananyagban a tanuló nevét sokféleképpen megjeleníthetjük. Amikor a tananyag külső szerveren van, célszerű a hallgató nevét nem nyilvánossá tenni."
+
+msgid "cont_sc_name_setting_last_firstname"
+msgstr "Utónév, családnév"
+
+msgid "cont_sc_name_setting_no_name"
+msgstr "nincs név"
+
+msgid "cont_sc_name_setting_salutation_lastname"
+msgstr "Megszólítás és utónév"
+
+msgid "cont_sc_new_version"
+msgstr "Új verzió feltöltése"
+
+msgid "cont_sc_preview"
+msgstr "Előnézet"
+
+msgid "cont_sc_stat_browsed"
+msgstr "Megtekintett"
+
+msgid "cont_sc_stat_completed"
+msgstr "Teljesítve"
+
+msgid "cont_sc_stat_failed"
+msgstr "Nem teljesítette"
+
+msgid "cont_sc_stat_incomplete"
+msgstr "Befejezetlen"
+
+msgid "cont_sc_stat_not_attempted"
+msgstr "Nem próbált"
+
+msgid "cont_sc_stat_passed"
+msgstr "Sikeresen teljesítette"
+
+msgid "cont_sc_stat_running"
+msgstr "Futó (aktív)"
+
+msgid "cont_sc_store_if_previous_score_was_lower"
+msgstr "ha a korábbi próbálkozásból elért pontszám ugyanakkora vagy nagyobb"
+
+msgid "cont_sc_title"
+msgstr "cím"
+
+msgid "cont_sc_usession"
+msgstr "Automatikus kijelentkeztetés megakadályozása"
+
+msgid "cont_sc_usession_info"
+msgstr "Tanulási modulok szerkesztése közben az ILIAS-ból való kijelentkezés zavaró lehet, és a tanulási adatok elvesztéséhez vezethet. A SCORM RTE rendszeresen küld kéréseket az ILIAS-nak az automatikus kijelentkezések megakadályozása érdekében. A SCORM 2004 tanulási adatainak elvesztésének elkerülése érdekében kérjük, aktiválja a ‘SCORM 2004: Adattárolás munkamenet nélkül’ opciót is. A SCORM 1.2 esetében ez az opció állandóan engedélyezve van. Ezt az opciót a tanulási modulok rendszerszintű adminisztrációjában találja."
+
+msgid "cont_sc_version"
+msgstr "Tananyag verziója"
+
+msgid "cont_sc_version_info"
+msgstr "A tananyag verziókezelője határozza meg automatikusan a verziószámot."
+
+msgid "cont_scheduled_activation"
+msgstr "Ütemezett aktiválás"
+
+msgid "cont_sco_glossary"
+msgstr "Fogalomtáregység"
+
+msgid "cont_score"
+msgstr "Pont"
+
+msgid "cont_scorm_ed_properties"
+msgstr "Tananyag tulajdonságai"
+
+msgid "cont_scorm_options"
+msgstr "SCORM opciók"
+
+msgid "cont_scorm_type"
+msgstr "adlcp:scormtype"
+
+msgid "cont_screen_ids"
+msgstr "Screen-ID-k"
+
+msgid "cont_sec_protected"
+msgstr "Védett"
+
+msgid "cont_sec_protected_text"
+msgstr "Az alábbi fejezett védett, nem szerkeszthető."
+
+msgid "cont_second"
+msgstr "Másodszorra"
+
+msgid "cont_sel_el_use_paste"
+msgstr "A kiválasztott elemek a vágólapra kerültek. Kattintson a kívánt helyőrzőre, majd válassza a ‘Beillesztés’-t."
+
+msgid "cont_select"
+msgstr "Kiválasztás"
+
+msgid "cont_select_file"
+msgstr "Fájl választása"
+
+msgid "cont_select_from_upload_dir"
+msgstr "-- Válasszon a feltöltési mappából --"
+
+msgid "cont_select_item"
+msgstr "Legalább egy elemet válasszon ki!"
+
+msgid "cont_select_max_one_item"
+msgstr "Csak egy elemet válasszon!"
+
+msgid "cont_select_media_pool"
+msgstr "Médiagyűjtemény kiválasztása"
+
+msgid "cont_select_none"
+msgstr "Kijelölés törlése"
+
+msgid "cont_select_other_qpool"
+msgstr "Másik gyűjtemény választása"
+
+msgid "cont_select_par_or_section"
+msgstr "Legalább egy bekezdést vagy fejezetet válasszon!"
+
+msgid "cont_selected_items_have_been_copied"
+msgstr "A kijelölt elemeket a vágólapra másolta. Kattintson a cél helyőrzőjére, hogy elé vagy mögé beillessze őket a tananyagba."
+
+msgid "cont_selected_items_have_been_cut"
+msgstr "A kijelölt elemeket a vágólapra kivágta. Kattintson a cél helyőrzőjére, hogy elé vagy mögé beillessze őket a tananyagba."
+
+msgid "cont_selected_pg_chap"
+msgstr "Kiválasztott lapok/fejezetek"
+
+msgid "cont_selected_terms"
+msgstr "Kiválasztott fogalmak"
+
+msgid "cont_selected_topic"
+msgstr "Kiválasztott téma"
+
+msgid "cont_selection"
+msgstr "Válassz"
+
+msgid "cont_self_assessment"
+msgstr "Önértékelés"
+
+msgid "cont_sequencing"
+msgstr "Sorrend és navigáció"
+
+msgid "cont_sequencing_info"
+msgstr "A tananyagban definiált szekvencia és navigálás engedélyezése: a tartalommal végzett interakciók eredményeiből határozzuk meg a navigálási lehetőségeket. Mivel ez ritka, kérjük, ellenőrizze, hogy a tananyag tényleg rendelkezik ezekkel a szekvenciálási és navigálási adatokkal."
+
+msgid "cont_set_alignment"
+msgstr "Elrendezés beállítása"
+
+msgid "cont_set_layout"
+msgstr "Elrendezés beállítása"
+
+msgid "cont_set_link"
+msgstr "Link módosítása"
+
+msgid "cont_set_manuall"
+msgstr "Kezi beállítás"
+
+msgid "cont_set_properties"
+msgstr "Tulajdonságok beállítása"
+
+msgid "cont_set_start_file"
+msgstr "Indítófájl beállítása"
+
+msgid "cont_set_styles"
+msgstr "Stílus beállítása"
+
+msgid "cont_set_tab_style_info"
+msgstr "Táblázatcellákban levő jelölőnégyzetek aktiválása stílusbeállításhoz."
+
+msgid "cont_settings"
+msgstr "Tananyag beállításai"
+
+msgid "cont_shape"
+msgstr "Alakzat"
+
+msgid "cont_shift_click_to_select"
+msgstr "<b>SHIFT-kattints</b> egy helyőrzőre annak <b>kijelölés</b>éhez és a kijelölési mód megváltoztatásához."
+
+msgid "cont_short_title"
+msgstr "Rövid cím"
+
+msgid "cont_short_title_info"
+msgstr "A rövid címek a bal oldalon lévő faszerkezetben és az előző/következő navigációnál jelennek meg."
+
+msgid "cont_short_titles"
+msgstr "Rövid címek"
+
+msgid "cont_show_activation_info"
+msgstr "Aktiválási információ megjelenítése"
+
+msgid "cont_show_activation_info_info"
+msgstr "Az aktív időszakon előtt nem a lap tartalmát jelenítjük meg, hanem azt információt, hogy a lap mikortól lesz aktív."
+
+msgid "cont_show_adv"
+msgstr "Mélyebb ismeretek megjelenítése"
+
+msgid "cont_show_content_after_focus"
+msgstr "Tovább a tananyaghoz"
+
+msgid "cont_show_fullscreen"
+msgstr "Teljes képernyő"
+
+msgid "cont_show_info"
+msgstr "Információ megjelenítése"
+
+msgid "cont_show_line_numbers"
+msgstr "Sorok számozása"
+
+msgid "cont_show_print_view"
+msgstr "Nyomtatási nézet"
+
+msgid "cont_size"
+msgstr "Méret (bájt)"
+
+msgid "cont_skip_chapter"
+msgstr "Ezen fejezet átugrása"
+
+msgid "cont_snippet_from_another_installation"
+msgstr "Építőelem másik telepítésből jött."
+
+msgid "cont_snippets_used"
+msgstr "Felhasznált tartalom-építőelemek"
+
+msgid "cont_span"
+msgstr "Span"
+
+msgid "cont_special_page"
+msgstr "Speciális tartalomlap"
+
+msgid "cont_split_cell"
+msgstr "Cellák felosztása"
+
+msgid "cont_spreadsheet_table"
+msgstr "Munkafüzet-táblázat"
+
+msgid "cont_sqst"
+msgstr "Kérdőívkérdés (segédanyag)"
+
+msgid "cont_src"
+msgstr "Forráskód"
+
+msgid "cont_src_other"
+msgstr "egyéb"
+
+msgid "cont_st_title"
+msgstr "Fejezetcím"
+
+msgid "cont_standard"
+msgstr "Szövegtörzs"
+
+msgid "cont_start"
+msgstr "Kezdő időpont"
+
+msgid "cont_start_file_set_to"
+msgstr "%s fájlt kezdőfájlnak sikeren beállította."
+
+msgid "cont_start_value"
+msgstr "Kezdőérték"
+
+msgid "cont_start_value_info"
+msgstr "Kezdőérték megadása decimális számmal. Alapértelmezett: 1."
+
+msgid "cont_startfile"
+msgstr "Indítófájl"
+
+msgid "cont_status"
+msgstr "Állapot"
+
+msgid "cont_std_is_in_dir"
+msgstr "Nem törölhető, mert alapértelmezett megjelenésű fájl van a mappában."
+
+msgid "cont_std_view"
+msgstr "Alapértelmezett megjelenés"
+
+msgid "cont_structure"
+msgstr "struktúra"
+
+msgid "cont_style"
+msgstr "Stílus"
+
+msgid "cont_subchapters"
+msgstr "Alfejezetek"
+
+msgid "cont_submit_answers"
+msgstr "Mehet"
+
+msgid "cont_subtitle_file"
+msgstr "Felirat ZIP-fájl"
+
+msgid "cont_subtitle_files"
+msgstr "Médiafeliratok"
+
+msgid "cont_sur_block_format"
+msgstr "Körülölelő fejezet"
+
+msgid "cont_switch_to_media_pool"
+msgstr "Váltás mások médiagyűjteményre"
+
+msgid "cont_syntax_help"
+msgstr "Szintaktikai segítség"
+
+msgid "cont_tab_add_above"
+msgstr "Panel hozzáadás fölé"
+
+msgid "cont_tab_add_below"
+msgstr "Panel hozzáadás alá"
+
+msgid "cont_tab_cont_height"
+msgstr "Tartalommagasság"
+
+msgid "cont_tab_cont_width"
+msgstr "Tartalomszélesség"
+
+msgid "cont_tab_delete"
+msgstr "Panel törlése"
+
+msgid "cont_tab_move_bottom"
+msgstr "Mozgatás alulra"
+
+msgid "cont_tab_move_down"
+msgstr "Mozgatás lefelé"
+
+msgid "cont_tab_move_top"
+msgstr "Mozgatás felülre"
+
+msgid "cont_tab_move_up"
+msgstr "Mozgatás felfelé"
+
+msgid "cont_table"
+msgstr "Táblázat"
+
+msgid "cont_table_adv_settings"
+msgstr "További beállítások"
+
+msgid "cont_table_border"
+msgstr "Táblázatszegély"
+
+msgid "cont_table_border_info"
+msgstr "A tartalomstílus beállításainak érvényre juttatásához hagyja üresen. Az értékeknél a mértékegységet is adja meg (például px)."
+
+msgid "cont_table_cell_edit_info_1"
+msgstr "A cella kijelöléséhez, illetve a kijelölés eltávolításához kattintson a cellára."
+
+msgid "cont_table_cell_edit_info_2"
+msgstr "Egy sor, illetve a fejléc oszlop kijelöléséhez, illetve a kijelölés eltávolításához kattintson megfelelő sorra, illetve a fejléc oszlopra."
+
+msgid "cont_table_cell_edit_info_3"
+msgstr "A SHIFT nyomvatartása mellett kattintson a második cellára a tartomány kijelöléséhez."
+
+msgid "cont_table_cell_properties"
+msgstr "Táblázatcella tulajdonságai"
+
+msgid "cont_table_cellpadding"
+msgstr "Táblázatcellák margója"
+
+msgid "cont_table_cellpadding_info"
+msgstr "A tartalomstílus beállításainak érvényre juttatásához hagyja üresen. Az értékeknél a mértékegységet is adja meg (például px)."
+
+msgid "cont_table_edit_cells"
+msgstr "Cellák módosítása"
+
+msgid "cont_table_import_info"
+msgstr "Kérjük, adja meg a táblázat adatait pontosvesszővel vagy TAB karakterrel elválasztva oszloponként. Kezdjen új sort minden táblázatsorhoz. A táblázatkezelő alkalmazások általában TAB karaktereket használnak az elválasztáshoz, ha vágólapon keresztül viszi át az adatokat. Az adatokat közvetlenül a beviteli mezőbe illesztésének működnie kellene. A program nem importál egyéb formázásokat."
+
+msgid "cont_table_properties"
+msgstr "Táblázat tulajdonságai"
+
+msgid "cont_table_style"
+msgstr "Stílus"
+
+msgid "cont_table_width"
+msgstr "Táblázatszélesség"
+
+msgid "cont_tabs"
+msgstr "Panelek"
+
+msgid "cont_tabs_acc_hor"
+msgstr "Vízszintes harmonika"
+
+msgid "cont_tabs_acc_ver"
+msgstr "Függőleges harmonika"
+
+msgid "cont_tabs_carousel"
+msgstr "Körhinta (Carousel)"
+
+msgid "cont_tabs_confirm_deletion"
+msgstr "Biztos, hogy törli az összes lapot és azok tartalmát?"
+
+msgid "cont_target"
+msgstr "Cél"
+
+msgid "cont_target_missing"
+msgstr "A cél hiányzik"
+
+msgid "cont_target_within_source"
+msgstr "A célútvonal nem lehet a forrásobjektumon belül."
+
+msgid "cont_template"
+msgstr "Sablon"
+
+msgid "cont_term"
+msgstr "Fogalom"
+
+msgid "cont_terms"
+msgstr "Fogalmak"
+
+msgid "cont_tex"
+msgstr "Latex kód"
+
+msgid "cont_text_acc"
+msgstr "Kiemelt:"
+
+msgid "cont_text_code"
+msgstr "Kód:"
+
+msgid "cont_text_com"
+msgstr "Megjegyzés:"
+
+msgid "cont_text_editing"
+msgstr "Szöveg szerkesztése"
+
+msgid "cont_text_emp"
+msgstr "Hangsúlyos szöveg:"
+
+msgid "cont_text_fn"
+msgstr "Lábjegyzet:"
+
+msgid "cont_text_iln_link"
+msgstr "Belső link"
+
+msgid "cont_text_imp"
+msgstr "Fontos:"
+
+msgid "cont_text_keyword"
+msgstr "Kulcsszó"
+
+msgid "cont_text_placeh"
+msgstr "Kattintson és szerkesszen szöveg beszúrásához"
+
+msgid "cont_text_placehl"
+msgstr "Szöveghelyőrző"
+
+msgid "cont_text_quot"
+msgstr "Idézet"
+
+msgid "cont_text_str"
+msgstr "Félkövér szöveg"
+
+msgid "cont_text_sub"
+msgstr "Alsó index"
+
+msgid "cont_text_sup"
+msgstr "Felső index"
+
+msgid "cont_text_tex"
+msgstr "LaTeX-kód"
+
+msgid "cont_text_xln"
+msgstr "Külső link"
+
+msgid "cont_third_and_more"
+msgstr "Harmadszorra vagy később"
+
+msgid "cont_time"
+msgstr "Idő"
+
+msgid "cont_time_from_lms"
+msgstr "Feldolgozási idő meghatározása ILIAS szerint"
+
+msgid "cont_time_from_lms_info"
+msgstr "A SCORM-tananyag gyakran hibás adatokat ad vissza a feldolgozási idővel kapcsolatban. Ennek elkerülés érdekében - a szigorú SCORM-szabványokat betartva - az ILIAS állapítja meg a feldolgozási időt."
+
+msgid "cont_time_limit_action"
+msgstr "adlcp:timelimitaction"
+
+msgid "cont_to_focus_beginning"
+msgstr "Vissza a tanulási célhoz kapcsolódó tartalomhoz"
+
+msgid "cont_to_focus_return_crs"
+msgstr "Vissza a kurzushoz"
+
+msgid "cont_toc"
+msgstr "Tartalomjegyzék"
+
+msgid "cont_toc_mode"
+msgstr "Tartalom"
+
+msgid "cont_tool_faq"
+msgstr "GyIK"
+
+msgid "cont_tool_media"
+msgstr "Média"
+
+msgid "cont_top"
+msgstr "Felülre"
+
+msgid "cont_topic"
+msgstr "Téma"
+
+msgid "cont_total_time"
+msgstr "Teljes idő"
+
+msgid "cont_tracking_bysco"
+msgstr "Fejezet szerint"
+
+msgid "cont_tracking_byuser"
+msgstr "Felhasználó szerint"
+
+msgid "cont_tracking_data"
+msgstr "Nyomkövetési adatok"
+
+msgid "cont_tracking_items"
+msgstr "Nyomkövetési tételek"
+
+msgid "cont_tracking_modify"
+msgstr "Adatmódosítás"
+
+msgid "cont_trans_import_info"
+msgstr "Ha ezt a modult ‘XML/Fordításhoz főnyelv’-ként exportálta egy másik telepítésbe, akkor most újra importálhatja a lefordított exportfájlokat innen a második telepítésből."
+
+msgid "cont_transl_master_language_not_allowed"
+msgstr "Fordítás importáláshoz legalább egy további nyelvet aktiválnia kell a Beállítások » Többnyelvűség alatt."
+
+msgid "cont_tree_fixed"
+msgstr "A szerkezetet javította."
+
+msgid "cont_tries"
+msgstr "Válasz állapotának tárolása, próbálkozások számolása"
+
+msgid "cont_tries_remaining"
+msgstr "Fennmaradó próbálkozások száma"
+
+msgid "cont_tries_reset_on_visit"
+msgstr "Oldal megnyitásakor állítsuk alaphelyzetbe"
+
+msgid "cont_tries_reset_on_visit_info"
+msgstr "A kérdések 0 próbálkozásszámról indulnak minden oldalmegnyitáskor. A tanulónak minden oldalmegnyitáskor meg kell válaszolniuk a kérdéseket."
+
+msgid "cont_tries_store"
+msgstr "Válaszok állapotát tároljuk"
+
+msgid "cont_tries_store_info"
+msgstr "A próbálkozások számát összeadva tároljuk. A helyesen megválaszolt kérdéseket nem válaszolhatja meg újra. A tanuló kifogyhat a próbálkozások számából."
+
+msgid "cont_trigger_area"
+msgstr "Triggerterület"
+
+msgid "cont_type"
+msgstr "Típus"
+
+msgid "cont_type_not_allowed"
+msgstr "Tartalom típus nem lehet ezen helyen."
+
+msgid "cont_unlock_allow_continue"
+msgstr "Feloldás / Folytatás engedélyezése"
+
+msgid "cont_unlocked"
+msgstr "Feloldva"
+
+msgid "cont_update_amd_page_list"
+msgstr "Oldallista módosítása"
+
+msgid "cont_update_blog"
+msgstr "Blogbejegyzés módosítása"
+
+msgid "cont_update_consultation_hours"
+msgstr "Konzultációs időpontok módosítása"
+
+msgid "cont_update_login_page"
+msgstr "Bejelentkezési űrlap elemének módosítása"
+
+msgid "cont_update_map"
+msgstr "Térkép módosítása"
+
+msgid "cont_update_my_courses"
+msgstr "Kurzusaim szerkesztés"
+
+msgid "cont_update_profile"
+msgstr "Személyes adatok módosítása"
+
+msgid "cont_update_resources"
+msgstr "Forráslista módosítása"
+
+msgid "cont_update_section"
+msgstr "Bekezdés módosítása"
+
+msgid "cont_update_skills"
+msgstr "Kompetencia módosítása"
+
+msgid "cont_update_verification"
+msgstr "Tanúsítvány módosítása"
+
+msgid "cont_upload_dir"
+msgstr "Feltöltési mappa"
+
+msgid "cont_upload_file"
+msgstr "Fájl feltöltése"
+
+msgid "cont_upload_multi_srt_howto"
+msgstr "Ennek a funkciónak a használatával lehetősége van a tananyag médiaobjektumaihoz többnyelvű feliratok (VTT-fájlok) feltöltésére ZIP-fájlban. A .zip fájl ne tartalmazzon mappát, egyik .vtt fájl se legyen mappában. Az összes VTT-fájl vége legyen ‘_&lt;nyelvi kód&gt;.vtt’, ahol a nyelvi kód például hu, en, de. A fájlnév eleje célszerű hogy a videófájl nevéhez illeszkedjen, például ‘video.mp4’ ➜ ‘video_hu.vtt’."
+
+msgid "cont_uploaded_file"
+msgstr "Létező fájl."
+
+msgid "cont_url_info"
+msgstr "Médiafájl vagy Youtube URL."
+
+msgid "cont_usage"
+msgstr "Felhasználás"
+
+msgid "cont_use_same_resource_as_above"
+msgstr "Használja ugyanazt a forrást, mint fent"
+
+msgid "cont_user"
+msgstr "Felhasználó"
+
+msgid "cont_user_blocked"
+msgstr "‘%s’ felhasználó elhasználta a tananyagban az összes válaszadási lehetőségét."
+
+msgid "cont_user_blocked2"
+msgstr "Egy felhasználó elhasználta a tananyagban az összes válaszadási lehetőségét. Az Ön beavatkozás nélkül ez a felhasználó nem tud tovább haladni a tananyagban."
+
+msgid "cont_user_blocked3"
+msgstr "Nyissa meg a tananyagot szerkesztési módban és menjen ide:"
+
+msgid "cont_user_search_did_not_match"
+msgstr "Keresése nem illeszkedik egy felhasználóra sem."
+
+msgid "cont_users_answered"
+msgstr "Választ adó felhasználók"
+
+msgid "cont_users_have_mob_in_clip1"
+msgstr "Ez a médiaobjektum a vágólapján van:"
+
+msgid "cont_users_have_mob_in_clip2"
+msgstr "felhasználó(k)."
+
+msgid "cont_validate_file"
+msgstr "Fájl érvényesítése"
+
+msgid "cont_verification_object"
+msgstr "Tanúsítvány"
+
+msgid "cont_verification_placeh"
+msgstr "Kattints és szerkessz a tanúsítvány beszúrásához"
+
+msgid "cont_verification_placehl"
+msgstr "Tanúsítvány-helyőrző"
+
+msgid "cont_version"
+msgstr "verzió"
+
+msgid "cont_versions"
+msgstr "Verziók"
+
+msgid "cont_whole_glossary"
+msgstr "Teljes fogalomtár"
+
+msgid "cont_width"
+msgstr "Szélesség (pixel)"
+
+msgid "cont_width_height_info"
+msgstr "A megjelenítés fix méretűre állítható. Bevált érték a 950 pixel szélesség és a 650 pixel magasság. Amennyiben nem ad meg értéket, a böngésző megpróbálja meghatározni a megjelenítés méretét."
+
+#, fuzzy
+msgid "cont_width_px_perc"
+msgstr "Width"
+
+#, fuzzy
+msgid "cont_width_px_perc_info"
+msgstr "(e.g. px or % value)"
+
+msgid "cont_wiki_link_dialog"
+msgstr "Wikilap (párbeszédablakos)"
+
+msgid "cont_wiki_page"
+msgstr "Wiki oldal"
+
+msgid "cont_wiki_page_link"
+msgstr "Wikilap link"
+
+msgid "cont_wrong_answers"
+msgstr "Hibás válaszok"
+
+msgid "cont_wrong_answers_single"
+msgstr "Hibás válasz."
+
+msgid "cont_xml_base"
+msgstr "xml:base"
+
+msgid "cont_zip_file_invalid"
+msgstr "A fájl nem érvényes importfájl.<br/>Nem tartalmaz fájlt ‘%s’."
+
+msgid "content_no_edit_lock"
+msgstr "Másik felhasználó jelenleg zárolja az oldalt."
+
+msgid "content_page_history"
+msgstr "Lapelőzmények"
+
+msgid "content_plugin_not_activated"
+msgstr "Az oldal tartalmi elem bővítmény jelenleg nem aktív."
+
+msgid "content_some_export_ids_multiple_times"
+msgstr "Néhány export-ID többször van felhasználva. Ez lapok elveszését fogja okozni az export során."
+
+msgid "content_until"
+msgstr "Zárolás fenntartása legalább az alábbi időpontig:"
+
+msgid "copied_to_clipboard"
+msgstr "Másolt objektum(ok) vágólapra tétele."
+
+msgid "dgl_pagebreak"
+msgstr "Laptörés"
+
+msgid "glo_add_new_term"
+msgstr "Új fogalom létrehozása"
+
+msgid "glo_content_settings"
+msgstr "Tartalom"
+
+msgid "glo_editing_view"
+msgstr "Szerkesztési nézet"
+
+msgid "glo_full_definitions"
+msgstr "Teljes meghatározások"
+
+msgid "glo_full_definitions_info"
+msgstr "Fogalmak és meghatározásaik teljes egészében megjelennek a főnézetben."
+
+msgid "glo_hide_taxonomy"
+msgstr "Taxonómia elrejtése"
+
+msgid "glo_list_usages"
+msgstr "Előfordulások listája"
+
+msgid "glo_mode_normal_info"
+msgstr "Az ebben a fogalomtárban létrehozott összes fogalmat fogja tartalmazni."
+
+msgid "glo_presentation_mode"
+msgstr "Megjelenítés módja"
+
+msgid "glo_presentation_view"
+msgstr "Megjelenítési nézet"
+
+msgid "glo_quick_navigation"
+msgstr "Gyors navigáció"
+
+msgid "glo_style"
+msgstr "Fogalomtárstílus"
+
+msgid "glo_table_form"
+msgstr "Táblázatos formában"
+
+msgid "glo_table_form_info"
+msgstr "A fogalmak és meghatározásaik először kétoszlopos áttekintésben jelennek meg. Egy fogalomra kattintva új ablakban nyílik meg annak teljes tartalma."
+
+msgid "glo_term_is_used_n_times"
+msgstr "A fogalom %s helyen fordul elő a tananyagokban."
+
+msgid "glo_term_must_belong_to_glo"
+msgstr "A művelet csak ebben a fogalomtárban lévő fogalmakon végezhető el."
+
+msgid "glo_term_used_in"
+msgstr "Az alábbi források hivatkoznak arra a fogalomra"
+
+msgid "glo_text_snippet_length"
+msgstr "Meghatározások hossza"
+
+msgid "glo_text_snippet_length_info"
+msgstr "A meghatározás áttekintésben megjelenő szövegrészének hossza."
+
+msgid "glo_usages"
+msgstr "Fogalomtárat használó(k)"
+
+msgid "glo_used_in_scorm"
+msgstr "A fogalomtárat használja a SCORM-tananyag. Ha törli, a fogalomtárra hivatkozások nem oldhatók majd fel."
+
+msgid "help_assign_help_ids"
+msgstr "Fejezet/Screen-ID-k hozzárendelés"
+
+msgid "htlm_import"
+msgstr "HTML-tananyag importálása"
+
+msgid "import_sco_object"
+msgstr "SCO importálása"
+
+msgid "info_stop_offline_mode_sure"
+msgstr "Megjegyzés: A tanulási haladás adatai offline módban elvesznek. Biztos, hogy ezt szeretné?"
+
+#, fuzzy
+msgid "infobox_files_not_migrated"
+msgstr "The files of this learning module have not yet been migrated to the Resource Storage Service and can therefore not be edited."
+
+msgid "lm_activate_rating"
+msgstr "Oldalak értékelhetőségének bekapcsolása"
+
+msgid "lm_editing_view"
+msgstr "Szerkesztőnézet"
+
+msgid "lm_import"
+msgstr "ILIAS-tananyag importálása"
+
+msgid "lm_menu_edit_entry"
+msgstr "Menübejegyzés módosítása"
+
+msgid "lm_menu_entry_target"
+msgstr "Cél"
+
+msgid "lm_menu_entry_title"
+msgstr "Cím"
+
+msgid "lm_menu_new_entry"
+msgstr "Új menübejegyzés létrehozása"
+
+msgid "lm_menu_select_internal_object"
+msgstr "Belső objektum kiválasztása >>"
+
+msgid "lm_menu_select_object_to_add"
+msgstr "Válassza ki az objektumot, amelyet fel szeretne venni a menübe!"
+
+msgid "lm_no_download_files"
+msgstr "Jelenleg nem áll rendelkezésre letölthető fájl."
+
+msgid "lm_only_one_download_per_type"
+msgstr "Típusonként (XML, HTML) csak egy fájlt tehet nyilvánosan elérhetővé."
+
+msgid "lm_rate_page"
+msgstr "Oldal értékelése"
+
+msgid "lm_rating"
+msgstr "Tananyag értékelése"
+
+msgid "mep_folder_created"
+msgstr "Új mappát hozott létre"
+
+msgid "msg_entry_added"
+msgstr "A menübejegyzést sikeresen mentette."
+
+msgid "msg_entry_removed"
+msgstr "A menübejegyzést sikeresen eltávolította."
+
+msgid "msg_entry_updated"
+msgstr "A menübejegyzést sikeresen frissítette."
+
+msgid "msg_no_page_access"
+msgstr "Nincs jogosultsága az oldal eléréséhez."
+
+msgid "msg_page_no_public_access"
+msgstr "Az Ön által keresett lap nem érhető el a nyilvános területen. Csak regisztrált felhasználók láthatják. Jelentkezzen be a lap megtekintéséhez."
+
+msgid "msg_page_not_public"
+msgstr "A lap nem nyilvános"
+
+msgid "offline_mode_manager"
+msgstr "Offline használat"
+
+msgid "offline_mode_users"
+msgstr "Offline módban lévő felhasználók"
+
+msgid "offline_mode_users_info"
+msgstr "Felhasználókat manuálisan kivehet az offline módból, így ők újra a tananyag online változatát használhatják. Ennek például akkor van értelme, ha az offline tananyagot tartalmazó laptopját elhagyja a felhasználó."
+
+msgid "page_does_not_exist"
+msgstr "Ez a lap nem létezik."
+
+msgid "par"
+msgstr "Bekezdés"
+
+msgid "pg"
+msgstr "Lap"
+
+msgid "public_section"
+msgstr "Nyilvános terület"
+
+msgid "sahs_empty_objectives_are_not_allowed"
+msgstr "Adjon meg tanulási célt!"
+
+msgid "sahs_insert_pg_from_clip"
+msgstr "Oldalak importálása ILIAS-tananyagból"
+
+msgid "sahs_insert_st_from_clip"
+msgstr "Fejezetek importálása ILIAS-tananyagból"
+
+msgid "sahs_insert_st_from_clip_inside_chap"
+msgstr "Fejezetek importálása ILIAS-tananyagból (fejezeten belül)"
+
+msgid "save_new"
+msgstr "Mentés és új"
+
+msgid "saved_media_object"
+msgstr "A médiaobjektumot sikeresen mentette."
+
+msgid "scplayer_collapsetree"
+msgstr "Összes becsukása"
+
+msgid "scplayer_continue"
+msgstr "Folytatás"
+
+msgid "scplayer_debugger"
+msgstr "Teszteszköz megjelenítése"
+
+msgid "scplayer_exit"
+msgstr "Bezárás"
+
+msgid "scplayer_exitall"
+msgstr "Összes bezárása"
+
+msgid "scplayer_expandtree"
+msgstr "Összes kinyitása"
+
+msgid "scplayer_hidetree"
+msgstr "Tartalomjegyzék elrejtése"
+
+msgid "scplayer_next"
+msgstr "Következő"
+
+msgid "scplayer_phpmysqlcheck"
+msgstr "JavaScript-RTE használatához JSON-támogatás engedélyezése szükséges."
+
+msgid "scplayer_previous"
+msgstr "Előző"
+
+msgid "scplayer_showtree"
+msgstr "Tartalomjegyzék megjelenítése"
+
+msgid "scplayer_start"
+msgstr "Indítás"
+
+msgid "scplayer_suspendall"
+msgstr "Összes felfüggesztése"
+
+msgid "selectFooter"
+msgstr "Beállítás láblécként"
+
+msgid "selectHeader"
+msgstr "Beállítás fejlécként"
+
+msgid "select_a_file"
+msgstr "Válasszon ki egy fájlt."
+
+msgid "seq_close"
+msgstr "Kérjük, zárja be a SCORM-tananyag ablakát."
+
+msgid "seq_endsession"
+msgstr "Jelenlegi tanulási folyamata véget ért."
+
+msgid "seq_error"
+msgstr "Belső hiba fordult elő a sorrendezőben."
+
+msgid "seq_toc"
+msgstr "Kérjük, válasszon a bal oldali tartalomjegyzékből."
+
+msgid "set_public_mode"
+msgstr "Nyilvános elérési mód beállítása"
+
+msgid "st"
+msgstr "Fejezet"
+
+msgid "start_lm"
+msgstr "Tananyag indítása"
+
+msgid "text_repr"
+msgstr "Kép szöveges leírása"
+
+msgid "text_repr_info"
+msgstr "A kép ‘alt’ attribútumához használva."
