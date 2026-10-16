@@ -1098,7 +1098,7 @@ class ilObjectGUI implements ImplementsCreationCallback
                 return isset($data['didactic_templates'])
                     ? $this->parseDidacticTemplateVar($data['didactic_templates'], $type)
                     : 0;
-            } catch (InvalidArgumentException $e) {
+            } catch (InvalidArgumentException|TypeError $e) {
             }
         }
 
