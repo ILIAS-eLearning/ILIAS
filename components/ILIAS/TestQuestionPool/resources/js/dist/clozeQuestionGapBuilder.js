@@ -1157,7 +1157,9 @@ const ClozeQuestionGapBuilder = (function () {
   };
 
   pub.paintGaps = function () {
-    const last_position = $(window).scrollTop();
+    const scroll_container = document.querySelector('main.il-layout-page-content')
+      || document.scrollingElement;
+    const last_position = scroll_container.scrollTop;
     $('.interactive').remove();
     let c = 0;
     ClozeSettings.gaps_php.forEach((obj, counter) => {
@@ -1193,7 +1195,7 @@ const ClozeQuestionGapBuilder = (function () {
     if (typeof (tinyMCE) !== 'undefined') {
       ilTinyMceInitCallbackRegistry.addCallback(pro.bindTextareaHandlerTiny);
     }
-    $(window).scrollTop(last_position);
+    scroll_container.scrollTop = last_position;
   };
 
   pub.showHidePointsFieldForGaps = function (gap, show) {
