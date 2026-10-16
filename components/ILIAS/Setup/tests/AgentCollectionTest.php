@@ -514,4 +514,26 @@ class AgentCollectionTest extends TestCase
             "c4" => $c4
         ], $agentCollection->getAgents());
     }
+
+    public function testWithOnlyAgentKeepsTheAgentUnderItsKey(): void
+    {
+        $refinery = new Refinery($this->createStub(DataFactory::class), $this->createStub(\ilLanguage::class));
+        $database = $this->createStub(Setup\Agent::class);
+        $language = $this->createStub(Setup\Agent::class);
+        $collection = new Setup\AgentCollection($refinery, ['database' => $database, 'language' => $language]);
+
+        $only = $collection->withOnlyAgent('database');
+
+        $this->assertSame(['database' => $database], $only->getAgents());
+        $this->assertSame(['database' => $database, 'language' => $language], $collection->getAgents());
+    }
+
+    public function testWithOnlyAgentRejectsAnUnknownKey(): void
+    {
+        $refinery = new Refinery($this->createStub(DataFactory::class), $this->createStub(\ilLanguage::class));
+        $collection = new Setup\AgentCollection($refinery, []);
+
+        $this->expectException(\InvalidArgumentException::class);
+        $collection->withOnlyAgent('database');
+    }
 }
