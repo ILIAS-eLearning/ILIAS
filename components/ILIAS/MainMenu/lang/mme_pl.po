@@ -1,0 +1,325 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: mme\n"
+
+msgid "add_languages"
+msgstr "Add Language"
+
+msgid "additional_langs"
+msgstr "Additional Languages"
+
+msgid "button_save"
+msgstr "Save"
+
+msgid "component_not_active"
+msgstr "Component is not activated."
+
+#, fuzzy
+msgid "confirm_move"
+msgstr "Would you like to move this item to Top Items?"
+
+#, fuzzy
+msgid "deactived_by_configuration"
+msgstr "Deactivated by configuration"
+
+#, fuzzy
+msgid "edit_sub_tems"
+msgstr "Edit Entries"
+
+#, fuzzy
+msgid "err_uri_not_valid"
+msgstr "Please provide a valid URL"
+
+msgid "field_external"
+msgstr "External Link"
+
+msgid "field_external_info"
+msgstr "Link will be opnened in a separate Window."
+
+msgid "field_ref_id"
+msgstr "ILIAS Reference-ID"
+
+msgid "field_ref_id_info"
+msgstr "The Reference-ID of the desired ILIAS-Object from the Repository, you find the Reference-ID in the URL of a object (...?ref_id=123)"
+
+msgid "field_url"
+msgstr "URL"
+
+msgid "field_url_info"
+msgstr "Link to the desired website, lead by http(s)://"
+
+#, fuzzy
+msgid "flush"
+msgstr "Remove Lost Items"
+
+msgid "item_must_be_always_active"
+msgstr "Item must be active."
+
+#, fuzzy
+msgid "item_updated"
+msgstr "Item stored"
+
+msgid "main"
+msgstr "Main Menu"
+
+msgid "mm_translation_lang"
+msgstr "Language"
+
+msgid "mm_translation_trans"
+msgstr "Translation"
+
+#, fuzzy
+msgid "mme_lost_items"
+msgstr "Nowhere assigned"
+
+#, fuzzy
+msgid "move_to_item"
+msgstr "Move to Items"
+
+#, fuzzy
+msgid "move_to_top_item"
+msgstr "Move to Top Items"
+
+msgid "msg_languages_added"
+msgstr "Added languages"
+
+#, fuzzy
+msgid "msg_moved"
+msgstr "Item successfully moved"
+
+#, fuzzy
+msgid "msg_not_changed"
+msgstr "The following entries could not be changed: %s"
+
+#, fuzzy
+msgid "msg_not_moved"
+msgstr "Item could not be moved, please select a valid parent."
+
+#, fuzzy
+msgid "msg_ref_id_not_callable"
+msgstr "This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported."
+
+#, fuzzy
+msgid "msg_restore_confirm"
+msgstr "All Custom Items and Translations will be deleted, all Standard items will be reset to factory default. All customization will be lost."
+
+#, fuzzy
+msgid "msg_restored"
+msgstr "Main Menu completely reset"
+
+msgid "msg_subitem_deleted"
+msgstr "Item deleted."
+
+#, fuzzy
+msgid "msg_subitem_flushed"
+msgstr "Lost Items removed."
+
+#, fuzzy
+msgid "msg_success"
+msgstr "Successfully stored"
+
+msgid "msg_topitem_deleted"
+msgstr "Item deleted."
+
+#, fuzzy
+msgid "msg_translations_deleted"
+msgstr "Translations deleted"
+
+msgid "msg_translations_saved"
+msgstr "Translations saved"
+
+#, fuzzy
+msgid "restore"
+msgstr "Reset Main Menu"
+
+#, fuzzy
+msgid "select_parent"
+msgstr "Select Parent"
+
+msgid "sub_actions"
+msgstr "Actions"
+
+msgid "sub_active"
+msgstr "Active"
+
+msgid "sub_active_byline"
+msgstr "Activate this Item for all users."
+
+#, fuzzy
+msgid "sub_global_roles"
+msgstr "Global Roles"
+
+#, fuzzy
+msgid "sub_icon"
+msgstr "Icon"
+
+#, fuzzy
+msgid "sub_icon_byline"
+msgstr "Upload a custom icon for this Item. Please note that the SVG-Icons will be inverted."
+
+msgid "sub_parent"
+msgstr "Top Item"
+
+msgid "sub_position"
+msgstr "Position"
+
+msgid "sub_provider"
+msgstr "Provider"
+
+#, fuzzy
+msgid "sub_role_based_visibility"
+msgstr "Visibility for roles"
+
+#, fuzzy
+msgid "sub_role_based_visibility_byline"
+msgstr "Choose global roles which can see this item. If not activated, the item is always shown."
+
+msgid "sub_status"
+msgstr "Status"
+
+msgid "sub_title"
+msgstr "Title"
+
+msgid "sub_title_default"
+msgstr "Title (Default Language)"
+
+msgid "sub_title_default_byline"
+msgstr "Other Translations can be added with the Translation Action after."
+
+msgid "sub_type"
+msgstr "Type"
+
+msgid "sub_type_byline"
+msgstr "Specific type for the Item additional configuration may be needed."
+
+#, fuzzy
+msgid "subitem"
+msgstr "Subitem"
+
+msgid "subitem_add"
+msgstr "Add Item"
+
+msgid "subitem_confirm_delete"
+msgstr "Do you really want to delete the following Item?"
+
+msgid "subitem_delete"
+msgstr "Delete"
+
+msgid "subitem_edit"
+msgstr "Edit"
+
+msgid "subitem_translate"
+msgstr "Translate"
+
+msgid "subtab_subitems"
+msgstr "Items"
+
+msgid "subtab_topitems"
+msgstr "Top Items"
+
+msgid "tab_back"
+msgstr "Back"
+
+msgid "table_show_inactive"
+msgstr "Show inactive"
+
+msgid "topitem_actions"
+msgstr "Actions"
+
+msgid "topitem_active"
+msgstr "Active"
+
+msgid "topitem_active_byline"
+msgstr "Activate this Top Item for all users."
+
+msgid "topitem_add"
+msgstr "Add Top Item"
+
+msgid "topitem_confirm_delete"
+msgstr "Do you really want to delete the following Item?"
+
+msgid "topitem_delete"
+msgstr "Delete"
+
+msgid "topitem_edit"
+msgstr "Edit"
+
+#, fuzzy
+msgid "topitem_icon"
+msgstr "Icon"
+
+#, fuzzy
+msgid "topitem_icon_byline"
+msgstr "Upload a custom icon for this Item. Please note that the SVG-Icons will be inverted."
+
+msgid "topitem_position"
+msgstr "Position"
+
+msgid "topitem_provider"
+msgstr "Provider"
+
+msgid "topitem_subentries"
+msgstr "Items"
+
+msgid "topitem_title"
+msgstr "Title"
+
+msgid "topitem_title_default"
+msgstr "Title (Default Language)"
+
+msgid "topitem_title_default_byline"
+msgstr "Other Translations can be added with the Translation Action after."
+
+msgid "topitem_translate"
+msgstr "Translate"
+
+msgid "topitem_type"
+msgstr "Type"
+
+msgid "topitem_type_byline"
+msgstr "Top Items can be links directly or can contain Items."
+
+msgid "topitem_type_link"
+msgstr "Link"
+
+msgid "topitem_type_parent"
+msgstr "Top Item"
+
+msgid "type_complex"
+msgstr "Complex"
+
+msgid "type_link"
+msgstr "Link"
+
+msgid "type_link_list"
+msgstr "Link List"
+
+#, fuzzy
+msgid "type_lost"
+msgstr "Lost"
+
+msgid "type_repository_link"
+msgstr "Repository-Link"
+
+msgid "type_separator"
+msgstr "Separator"
+
+#, fuzzy
+msgid "type_separator_info"
+msgstr "The title of this item will be displayed in a grey banner. If you do not enter any title, a simple line will be shown."
+
+msgid "type_top_link_item"
+msgstr "Link"
+
+msgid "type_top_parent_item"
+msgstr "Container"
+
+#, fuzzy
+msgid "unable_to_render"
+msgstr "Unable to show '%s' in '%s'."

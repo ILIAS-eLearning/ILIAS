@@ -1,0 +1,291 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: mme\n"
+
+msgid "add_languages"
+msgstr ""
+
+msgid "additional_langs"
+msgstr ""
+
+msgid "button_save"
+msgstr ""
+
+msgid "component_not_active"
+msgstr ""
+
+msgid "confirm_move"
+msgstr ""
+
+msgid "deactived_by_configuration"
+msgstr ""
+
+msgid "edit_sub_tems"
+msgstr ""
+
+msgid "err_uri_not_valid"
+msgstr ""
+
+msgid "field_external"
+msgstr ""
+
+msgid "field_external_info"
+msgstr ""
+
+msgid "field_ref_id"
+msgstr ""
+
+msgid "field_ref_id_info"
+msgstr ""
+
+msgid "field_url"
+msgstr ""
+
+msgid "field_url_info"
+msgstr ""
+
+msgid "flush"
+msgstr ""
+
+msgid "item_must_be_always_active"
+msgstr ""
+
+msgid "item_updated"
+msgstr ""
+
+msgid "main"
+msgstr ""
+
+msgid "mm_translation_lang"
+msgstr ""
+
+msgid "mm_translation_trans"
+msgstr ""
+
+msgid "mme_lost_items"
+msgstr ""
+
+msgid "move_to_item"
+msgstr ""
+
+msgid "move_to_top_item"
+msgstr ""
+
+msgid "msg_languages_added"
+msgstr ""
+
+msgid "msg_moved"
+msgstr ""
+
+msgid "msg_not_changed"
+msgstr ""
+
+msgid "msg_not_moved"
+msgstr ""
+
+msgid "msg_ref_id_not_callable"
+msgstr ""
+
+msgid "msg_restore_confirm"
+msgstr ""
+
+msgid "msg_restored"
+msgstr ""
+
+msgid "msg_subitem_deleted"
+msgstr ""
+
+msgid "msg_subitem_flushed"
+msgstr ""
+
+msgid "msg_success"
+msgstr ""
+
+msgid "msg_topitem_deleted"
+msgstr ""
+
+msgid "msg_translations_deleted"
+msgstr ""
+
+msgid "msg_translations_saved"
+msgstr ""
+
+msgid "restore"
+msgstr ""
+
+msgid "select_parent"
+msgstr ""
+
+msgid "sub_actions"
+msgstr ""
+
+msgid "sub_active"
+msgstr ""
+
+msgid "sub_active_byline"
+msgstr ""
+
+msgid "sub_global_roles"
+msgstr ""
+
+msgid "sub_icon"
+msgstr ""
+
+msgid "sub_icon_byline"
+msgstr ""
+
+msgid "sub_parent"
+msgstr ""
+
+msgid "sub_position"
+msgstr ""
+
+msgid "sub_provider"
+msgstr ""
+
+msgid "sub_role_based_visibility"
+msgstr ""
+
+msgid "sub_role_based_visibility_byline"
+msgstr ""
+
+msgid "sub_status"
+msgstr ""
+
+msgid "sub_title"
+msgstr ""
+
+msgid "sub_title_default"
+msgstr ""
+
+msgid "sub_title_default_byline"
+msgstr ""
+
+msgid "sub_type"
+msgstr ""
+
+msgid "sub_type_byline"
+msgstr ""
+
+msgid "subitem"
+msgstr ""
+
+msgid "subitem_add"
+msgstr ""
+
+msgid "subitem_confirm_delete"
+msgstr ""
+
+msgid "subitem_delete"
+msgstr ""
+
+msgid "subitem_edit"
+msgstr ""
+
+msgid "subitem_translate"
+msgstr ""
+
+msgid "subtab_subitems"
+msgstr ""
+
+msgid "subtab_topitems"
+msgstr ""
+
+msgid "tab_back"
+msgstr ""
+
+msgid "table_show_inactive"
+msgstr ""
+
+msgid "topitem_actions"
+msgstr ""
+
+msgid "topitem_active"
+msgstr ""
+
+msgid "topitem_active_byline"
+msgstr ""
+
+msgid "topitem_add"
+msgstr ""
+
+msgid "topitem_confirm_delete"
+msgstr ""
+
+msgid "topitem_delete"
+msgstr ""
+
+msgid "topitem_edit"
+msgstr ""
+
+msgid "topitem_icon"
+msgstr ""
+
+msgid "topitem_icon_byline"
+msgstr ""
+
+msgid "topitem_position"
+msgstr ""
+
+msgid "topitem_provider"
+msgstr ""
+
+msgid "topitem_subentries"
+msgstr ""
+
+msgid "topitem_title"
+msgstr ""
+
+msgid "topitem_title_default"
+msgstr ""
+
+msgid "topitem_title_default_byline"
+msgstr ""
+
+msgid "topitem_translate"
+msgstr ""
+
+msgid "topitem_type"
+msgstr ""
+
+msgid "topitem_type_byline"
+msgstr ""
+
+msgid "topitem_type_link"
+msgstr ""
+
+msgid "topitem_type_parent"
+msgstr ""
+
+msgid "type_complex"
+msgstr ""
+
+msgid "type_link"
+msgstr ""
+
+msgid "type_link_list"
+msgstr ""
+
+msgid "type_lost"
+msgstr ""
+
+msgid "type_repository_link"
+msgstr ""
+
+msgid "type_separator"
+msgstr ""
+
+msgid "type_separator_info"
+msgstr ""
+
+msgid "type_top_link_item"
+msgstr ""
+
+msgid "type_top_parent_item"
+msgstr ""
+
+msgid "unable_to_render"
+msgstr ""
