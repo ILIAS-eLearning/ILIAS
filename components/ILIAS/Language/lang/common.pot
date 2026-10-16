@@ -1,0 +1,7806 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: common\n"
+
+msgid "HH"
+msgstr ""
+
+msgid "absolute_path"
+msgstr ""
+
+msgid "accept_usr_agreement_btn"
+msgstr ""
+
+msgid "access"
+msgstr ""
+
+msgid "accessFree"
+msgstr ""
+
+msgid "accessRestrict"
+msgstr ""
+
+msgid "access_expired"
+msgstr ""
+
+msgid "access_free_granted"
+msgstr ""
+
+msgid "access_from"
+msgstr ""
+
+msgid "access_public"
+msgstr ""
+
+msgid "access_restricted"
+msgstr ""
+
+msgid "access_scope"
+msgstr ""
+
+msgid "access_unlimited"
+msgstr ""
+
+msgid "access_until"
+msgstr ""
+
+msgid "access_users"
+msgstr ""
+
+msgid "accesscount_registered_users"
+msgstr ""
+
+msgid "accessibility_control_concept"
+msgstr ""
+
+msgid "account"
+msgstr ""
+
+msgid "account_expires_body"
+msgstr ""
+
+msgid "account_expires_subject"
+msgstr ""
+
+msgid "action"
+msgstr ""
+
+msgid "action_aborted"
+msgstr ""
+
+msgid "actions"
+msgstr ""
+
+msgid "actions_for"
+msgstr ""
+
+msgid "activate"
+msgstr ""
+
+msgid "activate_https"
+msgstr ""
+
+msgid "activate_tracking"
+msgstr ""
+
+msgid "activation"
+msgstr ""
+
+msgid "active"
+msgstr ""
+
+msgid "add"
+msgstr ""
+
+msgid "add_condition"
+msgstr ""
+
+msgid "add_entry"
+msgstr ""
+
+msgid "add_member"
+msgstr ""
+
+msgid "add_member_role"
+msgstr ""
+
+msgid "add_new_user_defined_field"
+msgstr ""
+
+msgid "add_note"
+msgstr ""
+
+msgid "add_parameter"
+msgstr ""
+
+msgid "add_remove_edit_entries_of_main_menu"
+msgstr ""
+
+msgid "add_role"
+msgstr ""
+
+msgid "add_translation"
+msgstr ""
+
+msgid "add_user"
+msgstr ""
+
+msgid "add_user_defined_field"
+msgstr ""
+
+msgid "added_new_condition"
+msgstr ""
+
+msgid "additional_info"
+msgstr ""
+
+msgid "address"
+msgstr ""
+
+msgid "admin_force_noti"
+msgstr ""
+
+msgid "administrate_users"
+msgstr ""
+
+msgid "administrate_users_headline"
+msgstr ""
+
+msgid "administration"
+msgstr ""
+
+msgid "administrator"
+msgstr ""
+
+msgid "adopt"
+msgstr ""
+
+msgid "advanced_editing_allow_html_tags"
+msgstr ""
+
+msgid "advanced_editing_assessment_settings"
+msgstr ""
+
+msgid "advanced_editing_frm_post_settings"
+msgstr ""
+
+msgid "advanced_editing_rep_page_editing"
+msgstr ""
+
+msgid "advanced_editing_rep_page_editing_desc"
+msgstr ""
+
+msgid "advanced_editing_required_tags"
+msgstr ""
+
+msgid "advanced_editing_survey_settings"
+msgstr ""
+
+msgid "adve_assessment_settings"
+msgstr ""
+
+msgid "adve_frm_post_settings"
+msgstr ""
+
+msgid "adve_general_settings"
+msgstr ""
+
+msgid "adve_survey_settings"
+msgstr ""
+
+msgid "agree_date"
+msgstr ""
+
+msgid "all"
+msgstr ""
+
+msgid "all_global_roles"
+msgstr ""
+
+msgid "all_local_roles"
+msgstr ""
+
+msgid "all_objects"
+msgstr ""
+
+msgid "all_roles"
+msgstr ""
+
+msgid "all_topics"
+msgstr ""
+
+msgid "all_users"
+msgstr ""
+
+msgid "allow_assign_users"
+msgstr ""
+
+msgid "allow_override_alert"
+msgstr ""
+
+msgid "allow_register"
+msgstr ""
+
+msgid "allow_user_toggle_noti"
+msgstr ""
+
+msgid "already_delivered_files"
+msgstr ""
+
+msgid "and"
+msgstr ""
+
+msgid "angry"
+msgstr ""
+
+msgid "anonymous"
+msgstr ""
+
+msgid "answers"
+msgstr ""
+
+msgid "any_language"
+msgstr ""
+
+msgid "apache_auth"
+msgstr ""
+
+msgid "application_completed"
+msgstr ""
+
+msgid "application_date"
+msgstr ""
+
+msgid "applications"
+msgstr ""
+
+msgid "apply"
+msgstr ""
+
+msgid "apply_filter"
+msgstr ""
+
+msgid "appointment"
+msgstr ""
+
+msgid "approve_date"
+msgstr ""
+
+msgid "approve_recipient"
+msgstr ""
+
+msgid "archive"
+msgstr ""
+
+msgid "archive_broken"
+msgstr ""
+
+msgid "are_you_sure"
+msgstr ""
+
+msgid "assf_allowed_questiontypes"
+msgstr ""
+
+msgid "assf_allowed_questiontypes_desc"
+msgstr ""
+
+msgid "assf_questiontypes"
+msgstr ""
+
+msgid "assign"
+msgstr ""
+
+msgid "assign_global_role"
+msgstr ""
+
+msgid "assign_local_role"
+msgstr ""
+
+msgid "assigned_members"
+msgstr ""
+
+msgid "assigned_roles"
+msgstr ""
+
+msgid "associated_user"
+msgstr ""
+
+msgid "astounded"
+msgstr ""
+
+msgid "at_least_one_style"
+msgstr ""
+
+msgid "attachment"
+msgstr ""
+
+msgid "attachments"
+msgstr ""
+
+msgid "attempts"
+msgstr ""
+
+msgid "auth_active_roles"
+msgstr ""
+
+msgid "auth_allow_local"
+msgstr ""
+
+msgid "auth_configure"
+msgstr ""
+
+msgid "auth_create_users"
+msgstr ""
+
+msgid "auth_default"
+msgstr ""
+
+msgid "auth_default_mode_changed_to"
+msgstr ""
+
+msgid "auth_ecs"
+msgstr ""
+
+msgid "auth_ldap"
+msgstr ""
+
+msgid "auth_ldap_enable"
+msgstr ""
+
+msgid "auth_ldap_migration"
+msgstr ""
+
+msgid "auth_ldap_migration_info"
+msgstr ""
+
+msgid "auth_local"
+msgstr ""
+
+msgid "auth_login_instructions"
+msgstr ""
+
+msgid "auth_mode"
+msgstr ""
+
+msgid "auth_mode_not_changed"
+msgstr ""
+
+msgid "auth_mode_roles_changed"
+msgstr ""
+
+msgid "auth_new_account_mail_desc"
+msgstr ""
+
+msgid "auth_per_default"
+msgstr ""
+
+msgid "auth_remark_non_local_auth"
+msgstr ""
+
+msgid "auth_role_auth_mode"
+msgstr ""
+
+msgid "auth_saml"
+msgstr ""
+
+msgid "auth_script"
+msgstr ""
+
+msgid "auth_select"
+msgstr ""
+
+msgid "auth_selection"
+msgstr ""
+
+msgid "auth_settings"
+msgstr ""
+
+msgid "auth_shib"
+msgstr ""
+
+msgid "auth_shib_instructions"
+msgstr ""
+
+msgid "auth_shib_not_configured"
+msgstr ""
+
+msgid "auth_shibboleth"
+msgstr ""
+
+msgid "auth_soap"
+msgstr ""
+
+msgid "auth_soap_allow_local_desc"
+msgstr ""
+
+msgid "auth_soap_auth"
+msgstr ""
+
+msgid "auth_soap_auth_desc"
+msgstr ""
+
+msgid "auth_soap_create_users_desc"
+msgstr ""
+
+msgid "auth_soap_namespace"
+msgstr ""
+
+msgid "auth_soap_namespace_desc"
+msgstr ""
+
+msgid "auth_soap_port_desc"
+msgstr ""
+
+msgid "auth_soap_server_desc"
+msgstr ""
+
+msgid "auth_soap_settings_saved"
+msgstr ""
+
+msgid "auth_soap_uri_desc"
+msgstr ""
+
+msgid "auth_soap_use_dotnet"
+msgstr ""
+
+msgid "auth_soap_use_https"
+msgstr ""
+
+msgid "auth_soap_user_default_role_desc"
+msgstr ""
+
+msgid "auth_user_default_role"
+msgstr ""
+
+msgid "authenticate_ilias"
+msgstr ""
+
+msgid "authentication_settings"
+msgstr ""
+
+msgid "author"
+msgstr ""
+
+msgid "authoring_mode"
+msgstr ""
+
+msgid "authors"
+msgstr ""
+
+msgid "autocomplete_more"
+msgstr ""
+
+msgid "available"
+msgstr ""
+
+msgid "awra"
+msgstr ""
+
+msgid "back"
+msgstr ""
+
+msgid "back_to_course"
+msgstr ""
+
+msgid "back_to_crs_content"
+msgstr ""
+
+msgid "back_to_fold_content"
+msgstr ""
+
+msgid "back_to_grp_content"
+msgstr ""
+
+msgid "backto_lua"
+msgstr ""
+
+msgid "basedn"
+msgstr ""
+
+msgid "basic_settings"
+msgstr ""
+
+msgid "before"
+msgstr ""
+
+msgid "behind"
+msgstr ""
+
+msgid "bib_data"
+msgstr ""
+
+msgid "bibl_add"
+msgstr ""
+
+msgid "birthday"
+msgstr ""
+
+msgid "bkm_import"
+msgstr ""
+
+msgid "bkm_import_ok"
+msgstr ""
+
+msgid "bkm_sendmail"
+msgstr ""
+
+msgid "block"
+msgstr ""
+
+msgid "bm"
+msgstr ""
+
+msgid "bm_add_to_ilias"
+msgstr ""
+
+msgid "bmf"
+msgstr ""
+
+msgid "bold"
+msgstr ""
+
+msgid "bold_action"
+msgstr ""
+
+msgid "bookings"
+msgstr ""
+
+msgid "bookmark_added"
+msgstr ""
+
+msgid "bookmark_folder_new"
+msgstr ""
+
+msgid "bookmark_new"
+msgstr ""
+
+msgid "bookmark_target"
+msgstr ""
+
+msgid "bookmarks"
+msgstr ""
+
+msgid "bookmarks_of"
+msgstr ""
+
+msgid "breadcrumb_navigation"
+msgstr ""
+
+msgid "breadcrumbs_aria_label"
+msgstr ""
+
+msgid "briefcase"
+msgstr ""
+
+msgid "btn_add"
+msgstr ""
+
+msgid "btn_back"
+msgstr ""
+
+msgid "btn_next"
+msgstr ""
+
+msgid "btn_previous"
+msgstr ""
+
+msgid "btn_remove_system"
+msgstr ""
+
+msgid "btn_undelete"
+msgstr ""
+
+msgid "buddy_allow_to_contact_me_no"
+msgstr ""
+
+msgid "buddy_allow_to_contact_me_yes"
+msgstr ""
+
+msgid "building_export_file"
+msgstr ""
+
+msgid "bulletlist_action"
+msgstr ""
+
+msgid "by"
+msgstr ""
+
+msgid "bytes"
+msgstr ""
+
+msgid "cal_from"
+msgstr ""
+
+msgid "cal_until"
+msgstr ""
+
+msgid "calendar"
+msgstr ""
+
+msgid "cancel"
+msgstr ""
+
+msgid "cancel_file_upload"
+msgstr ""
+
+msgid "cannot_find_xml"
+msgstr ""
+
+msgid "cannot_uninstall_language_in_use"
+msgstr ""
+
+msgid "cannot_uninstall_systemlanguage"
+msgstr ""
+
+msgid "cannot_unzip_file"
+msgstr ""
+
+msgid "cant_deactivate_if_users_assigned"
+msgstr ""
+
+msgid "cat"
+msgstr ""
+
+msgid "cat_add"
+msgstr ""
+
+msgid "cat_added"
+msgstr ""
+
+msgid "cat_copy_threads_info"
+msgstr ""
+
+msgid "cat_edit"
+msgstr ""
+
+msgid "cat_new"
+msgstr ""
+
+msgid "cat_wizard_page"
+msgstr ""
+
+msgid "categories"
+msgstr ""
+
+msgid "categories_imported"
+msgstr ""
+
+msgid "catr"
+msgstr ""
+
+msgid "catr_add"
+msgstr ""
+
+msgid "catr_edit_info"
+msgstr ""
+
+msgid "catr_new"
+msgstr ""
+
+msgid "catr_settings"
+msgstr ""
+
+msgid "certificate"
+msgstr ""
+
+msgid "certificate_file_already_exists_error"
+msgstr ""
+
+msgid "certificate_file_input_output_error"
+msgstr ""
+
+msgid "certificate_file_not_found_error"
+msgstr ""
+
+msgid "certificate_persistent_option"
+msgstr ""
+
+msgid "certificate_selection"
+msgstr ""
+
+msgid "certificate_workspace_option"
+msgstr ""
+
+msgid "certificates"
+msgstr ""
+
+msgid "change"
+msgstr ""
+
+msgid "change_assignment"
+msgstr ""
+
+msgid "change_header_title"
+msgstr ""
+
+msgid "change_owner"
+msgstr ""
+
+msgid "change_sort_direction"
+msgstr ""
+
+msgid "changeable"
+msgstr ""
+
+msgid "changed_to"
+msgstr ""
+
+msgid "changing_loginname_not_possible_info"
+msgstr ""
+
+msgid "chapter"
+msgstr ""
+
+msgid "characters"
+msgstr ""
+
+msgid "chat_enter_public_room"
+msgstr ""
+
+msgid "chat_enter_public_room_tooltip"
+msgstr ""
+
+msgid "chat_users_active"
+msgstr ""
+
+msgid "check"
+msgstr ""
+
+msgid "check_all"
+msgstr ""
+
+msgid "check_langfile"
+msgstr ""
+
+msgid "check_languages"
+msgstr ""
+
+msgid "check_link"
+msgstr ""
+
+msgid "check_link_desc"
+msgstr ""
+
+msgid "check_user_accounts"
+msgstr ""
+
+msgid "check_user_accounts_desc"
+msgstr ""
+
+msgid "check_web_resources"
+msgstr ""
+
+msgid "check_web_resources_desc"
+msgstr ""
+
+msgid "checked"
+msgstr ""
+
+msgid "checked_files"
+msgstr ""
+
+msgid "chg_ilias_and_webfolder_password"
+msgstr ""
+
+msgid "chg_ilias_password"
+msgstr ""
+
+msgid "chg_password"
+msgstr ""
+
+msgid "choose_language"
+msgstr ""
+
+msgid "choose_only_one_language"
+msgstr ""
+
+msgid "chown_warning"
+msgstr ""
+
+msgid "chta_edit_permission"
+msgstr ""
+
+msgid "chta_read"
+msgstr ""
+
+msgid "chta_visible"
+msgstr ""
+
+msgid "chta_write"
+msgstr ""
+
+msgid "chtr_copy"
+msgstr ""
+
+msgid "chtr_import"
+msgstr ""
+
+msgid "city"
+msgstr ""
+
+msgid "cleaned_file"
+msgstr ""
+
+msgid "cleaning_failed"
+msgstr ""
+
+msgid "clear"
+msgstr ""
+
+msgid "clear_clipboard"
+msgstr ""
+
+msgid "client"
+msgstr ""
+
+msgid "client_id"
+msgstr ""
+
+msgid "client_ip"
+msgstr ""
+
+msgid "clientlist_available_clients"
+msgstr ""
+
+msgid "clientlist_clientlist"
+msgstr ""
+
+msgid "clientlist_installation_name"
+msgstr ""
+
+msgid "clientlist_login"
+msgstr ""
+
+msgid "clientlist_login_page"
+msgstr ""
+
+msgid "clientlist_public_access"
+msgstr ""
+
+msgid "clientlist_start_page"
+msgstr ""
+
+msgid "clipboard"
+msgstr ""
+
+msgid "close"
+msgstr ""
+
+msgid "cmix"
+msgstr ""
+
+msgid "cnt_new"
+msgstr ""
+
+msgid "collapse"
+msgstr ""
+
+msgid "collapse_all"
+msgstr ""
+
+msgid "collapse_content"
+msgstr ""
+
+msgid "collapsed"
+msgstr ""
+
+msgid "column_selection"
+msgstr ""
+
+msgid "columns"
+msgstr ""
+
+msgid "comma_separated"
+msgstr ""
+
+msgid "comment"
+msgstr ""
+
+msgid "comments"
+msgstr ""
+
+msgid "compose"
+msgstr ""
+
+msgid "concurrent_uploads"
+msgstr ""
+
+msgid "concurrent_uploads_info"
+msgstr ""
+
+msgid "cond_ref_handling"
+msgstr ""
+
+msgid "cond_ref_shared"
+msgstr ""
+
+msgid "cond_ref_unique"
+msgstr ""
+
+msgid "condition"
+msgstr ""
+
+msgid "condition_accredited_or_passed"
+msgstr ""
+
+msgid "condition_already_assigned"
+msgstr ""
+
+msgid "condition_circle_created"
+msgstr ""
+
+msgid "condition_deleted"
+msgstr ""
+
+msgid "condition_finished"
+msgstr ""
+
+msgid "condition_not_finished"
+msgstr ""
+
+msgid "condition_passed"
+msgstr ""
+
+msgid "condition_select_object"
+msgstr ""
+
+msgid "conditions_updated"
+msgstr ""
+
+msgid "configuration"
+msgstr ""
+
+msgid "confirm"
+msgstr ""
+
+msgid "confirm_delete_parameter"
+msgstr ""
+
+msgid "confirmation"
+msgstr ""
+
+msgid "conflict_handling"
+msgstr ""
+
+msgid "cont_iim_content_popups_info"
+msgstr ""
+
+msgid "cont_iim_create_info"
+msgstr ""
+
+msgid "cont_iim_overlay_info"
+msgstr ""
+
+msgid "contact"
+msgstr ""
+
+msgid "contact_data"
+msgstr ""
+
+msgid "contact_sysadmin"
+msgstr ""
+
+msgid "container"
+msgstr ""
+
+msgid "container_no_items"
+msgstr ""
+
+msgid "content"
+msgstr ""
+
+msgid "content_frame"
+msgstr ""
+
+msgid "content_styles"
+msgstr ""
+
+msgid "context"
+msgstr ""
+
+msgid "continue"
+msgstr ""
+
+msgid "continue_work"
+msgstr ""
+
+msgid "contra"
+msgstr ""
+
+msgid "copa"
+msgstr ""
+
+msgid "copy"
+msgstr ""
+
+msgid "copyChapter"
+msgstr ""
+
+msgid "copyPage"
+msgstr ""
+
+msgid "copy_all"
+msgstr ""
+
+msgid "copy_n_of_suffix"
+msgstr ""
+
+msgid "copy_of"
+msgstr ""
+
+msgid "copy_of_suffix"
+msgstr ""
+
+msgid "copy_perma_link"
+msgstr ""
+
+msgid "copy_selected_items"
+msgstr ""
+
+msgid "count"
+msgstr ""
+
+msgid "counter_novelty"
+msgstr ""
+
+msgid "counter_status"
+msgstr ""
+
+msgid "country"
+msgstr ""
+
+msgid "country_free_text"
+msgstr ""
+
+msgid "country_selection"
+msgstr ""
+
+msgid "course"
+msgstr ""
+
+msgid "courses"
+msgstr ""
+
+msgid "create"
+msgstr ""
+
+msgid "create_date"
+msgstr ""
+
+msgid "create_export_file"
+msgstr ""
+
+msgid "create_stylesheet"
+msgstr ""
+
+msgid "created"
+msgstr ""
+
+msgid "cron_forum_notification"
+msgstr ""
+
+msgid "cron_forum_notification_crob_desc"
+msgstr ""
+
+msgid "cron_forum_notification_disabled"
+msgstr ""
+
+msgid "cron_jobs"
+msgstr ""
+
+msgid "cron_lucene_index"
+msgstr ""
+
+msgid "cron_lucene_index_info"
+msgstr ""
+
+msgid "cron_mail_notification"
+msgstr ""
+
+msgid "cron_mail_notification_cron"
+msgstr ""
+
+msgid "cron_mail_notification_desc"
+msgstr ""
+
+msgid "cron_mail_notification_message"
+msgstr ""
+
+msgid "cron_mail_notification_message_info"
+msgstr ""
+
+msgid "cron_mail_notification_never"
+msgstr ""
+
+msgid "cron_users_without_login_del_create_date_thr"
+msgstr ""
+
+msgid "cron_users_without_login_del_create_date_thr_info"
+msgstr ""
+
+msgid "cron_users_without_login_del_role_whitelist"
+msgstr ""
+
+msgid "cron_users_without_login_del_role_whitelist_info"
+msgstr ""
+
+msgid "cronjob_last_start"
+msgstr ""
+
+msgid "cronjob_last_start_unknown"
+msgstr ""
+
+msgid "crs"
+msgstr ""
+
+msgid "crs_activation_start_invalid"
+msgstr ""
+
+msgid "crs_add"
+msgstr ""
+
+msgid "crs_added"
+msgstr ""
+
+msgid "crs_archives"
+msgstr ""
+
+msgid "crs_cancel_waiting_list"
+msgstr ""
+
+msgid "crs_copy_threads_info"
+msgstr ""
+
+msgid "crs_edit"
+msgstr ""
+
+msgid "crs_list_reg"
+msgstr ""
+
+msgid "crs_list_reg_end"
+msgstr ""
+
+msgid "crs_list_reg_limit_full"
+msgstr ""
+
+msgid "crs_list_reg_limit_places"
+msgstr ""
+
+msgid "crs_list_reg_noreg"
+msgstr ""
+
+msgid "crs_list_reg_period"
+msgstr ""
+
+msgid "crs_list_reg_start"
+msgstr ""
+
+msgid "crs_member_not_passed"
+msgstr ""
+
+msgid "crs_member_passed"
+msgstr ""
+
+msgid "crs_members_gallery"
+msgstr ""
+
+msgid "crs_new"
+msgstr ""
+
+msgid "crs_removed_from_waiting_list"
+msgstr ""
+
+msgid "crs_status_blocked"
+msgstr ""
+
+msgid "crs_status_pending"
+msgstr ""
+
+msgid "crs_subscribers_assigned"
+msgstr ""
+
+msgid "crs_title"
+msgstr ""
+
+msgid "crs_unsubscribe"
+msgstr ""
+
+msgid "crs_wizard_page"
+msgstr ""
+
+msgid "crsr"
+msgstr ""
+
+msgid "crsr_add"
+msgstr ""
+
+msgid "crsr_edit_info"
+msgstr ""
+
+msgid "crsr_new"
+msgstr ""
+
+msgid "crsr_settings"
+msgstr ""
+
+msgid "csv_export"
+msgstr ""
+
+msgid "current_ip"
+msgstr ""
+
+msgid "current_ip_alert"
+msgstr ""
+
+msgid "current_password"
+msgstr ""
+
+msgid "current_user_avatar"
+msgstr ""
+
+msgid "currently_used_disk_space"
+msgstr ""
+
+msgid "customize_page"
+msgstr ""
+
+msgid "cut"
+msgstr ""
+
+msgid "cutPage"
+msgstr ""
+
+msgid "daily"
+msgstr ""
+
+msgid "database"
+msgstr ""
+
+msgid "database_version"
+msgstr ""
+
+msgid "dataset"
+msgstr ""
+
+msgid "date"
+msgstr ""
+
+msgid "date_time"
+msgstr ""
+
+msgid "dateplaner"
+msgstr ""
+
+msgid "day"
+msgstr ""
+
+msgid "days"
+msgstr ""
+
+msgid "db_host"
+msgstr ""
+
+msgid "db_name"
+msgstr ""
+
+msgid "db_need_update"
+msgstr ""
+
+msgid "db_pass"
+msgstr ""
+
+msgid "db_type"
+msgstr ""
+
+msgid "db_user"
+msgstr ""
+
+msgid "db_version"
+msgstr ""
+
+msgid "dd_mm_yyyy"
+msgstr ""
+
+msgid "deactivate"
+msgstr ""
+
+msgid "decrease_attempts"
+msgstr ""
+
+msgid "def_repository_view"
+msgstr ""
+
+msgid "default"
+msgstr ""
+
+msgid "default_auth_mode"
+msgstr ""
+
+msgid "default_auth_mode_info"
+msgstr ""
+
+msgid "default_language"
+msgstr ""
+
+msgid "default_perm_settings"
+msgstr ""
+
+msgid "default_role"
+msgstr ""
+
+msgid "default_roles"
+msgstr ""
+
+msgid "default_skin"
+msgstr ""
+
+msgid "default_skin_style"
+msgstr ""
+
+msgid "default_style"
+msgstr ""
+
+msgid "defaults"
+msgstr ""
+
+msgid "delete"
+msgstr ""
+
+msgid "delete_existing_file"
+msgstr ""
+
+msgid "delete_inactivated_user_accounts"
+msgstr ""
+
+msgid "delete_inactivated_user_accounts_desc"
+msgstr ""
+
+msgid "delete_inactivated_user_accounts_include_roles"
+msgstr ""
+
+msgid "delete_inactivated_user_accounts_include_roles_desc"
+msgstr ""
+
+msgid "delete_inactivated_user_accounts_period"
+msgstr ""
+
+msgid "delete_inactivated_user_accounts_period_desc"
+msgstr ""
+
+msgid "delete_inactive_user_accounts"
+msgstr ""
+
+msgid "delete_inactive_user_accounts_desc"
+msgstr ""
+
+msgid "delete_inactive_user_accounts_include_roles"
+msgstr ""
+
+msgid "delete_inactive_user_accounts_include_roles_desc"
+msgstr ""
+
+msgid "delete_inactive_user_accounts_period"
+msgstr ""
+
+msgid "delete_inactive_user_accounts_period_desc"
+msgstr ""
+
+msgid "delete_parameter"
+msgstr ""
+
+msgid "delete_selected_items"
+msgstr ""
+
+msgid "deleted"
+msgstr ""
+
+msgid "deleted_user"
+msgstr ""
+
+msgid "deleted_users"
+msgstr ""
+
+msgid "deletion_notification"
+msgstr ""
+
+msgid "deliver"
+msgstr ""
+
+msgid "deny_usr_agreement"
+msgstr ""
+
+msgid "deny_usr_agreement_btn"
+msgstr ""
+
+msgid "department"
+msgstr ""
+
+msgid "desc"
+msgstr ""
+
+msgid "description"
+msgstr ""
+
+msgid "desired_password"
+msgstr ""
+
+msgid "details"
+msgstr ""
+
+msgid "didactic_template"
+msgstr ""
+
+msgid "disable"
+msgstr ""
+
+msgid "disable_check"
+msgstr ""
+
+msgid "disable_ext_lang_maint"
+msgstr ""
+
+msgid "disable_hide_user_toggle"
+msgstr ""
+
+msgid "disabled"
+msgstr ""
+
+msgid "disclose"
+msgstr ""
+
+msgid "dislike"
+msgstr ""
+
+msgid "domain"
+msgstr ""
+
+msgid "down"
+msgstr ""
+
+msgid "download"
+msgstr ""
+
+msgid "download_all_returned_files"
+msgstr ""
+
+msgid "download_link"
+msgstr ""
+
+msgid "download_multiple_objects"
+msgstr ""
+
+msgid "download_selected_items"
+msgstr ""
+
+msgid "downloading_settings"
+msgstr ""
+
+msgid "dpro_accept_usr_agreement"
+msgstr ""
+
+msgid "dpro_accept_usr_agreement_intro"
+msgstr ""
+
+msgid "dpro_agreed_on"
+msgstr ""
+
+msgid "dpro_force_accept_usr_agreement"
+msgstr ""
+
+msgid "dpro_no_agreement_description"
+msgstr ""
+
+msgid "dpro_refuse_acceptance"
+msgstr ""
+
+msgid "dpro_usr_agreement"
+msgstr ""
+
+msgid "dpro_usr_agreement_footer_intro"
+msgstr ""
+
+msgid "dpro_withdraw_consent_description"
+msgstr ""
+
+msgid "dpro_withdraw_consent_description_external"
+msgstr ""
+
+msgid "dpro_withdraw_consent_description_internal"
+msgstr ""
+
+msgid "dpro_withdraw_consent_header"
+msgstr ""
+
+msgid "dpro_withdraw_consent_info"
+msgstr ""
+
+msgid "dpro_withdraw_consent_info_external"
+msgstr ""
+
+msgid "drafts"
+msgstr ""
+
+msgid "drag_file_here"
+msgstr ""
+
+msgid "drag_files_here"
+msgstr ""
+
+msgid "drag_handle"
+msgstr ""
+
+msgid "drop_files_on_repo_obj_info"
+msgstr ""
+
+msgid "edit"
+msgstr ""
+
+msgid "edit_assignments"
+msgstr ""
+
+msgid "edit_cat_settings"
+msgstr ""
+
+msgid "edit_content"
+msgstr ""
+
+msgid "edit_grouping"
+msgstr ""
+
+msgid "edit_metadata"
+msgstr ""
+
+msgid "edit_operations"
+msgstr ""
+
+msgid "edit_page"
+msgstr ""
+
+msgid "edit_page_content"
+msgstr ""
+
+msgid "edit_page_meta"
+msgstr ""
+
+msgid "edit_properties"
+msgstr ""
+
+msgid "edit_stylesheet"
+msgstr ""
+
+msgid "edited_on"
+msgstr ""
+
+msgid "editor"
+msgstr ""
+
+msgid "email"
+msgstr ""
+
+msgid "email_not_valid"
+msgstr ""
+
+msgid "enable"
+msgstr ""
+
+msgid "enable_anonymous_fora"
+msgstr ""
+
+msgid "enable_anonymous_fora_desc"
+msgstr ""
+
+msgid "enable_calendar"
+msgstr ""
+
+msgid "enable_comments_export"
+msgstr ""
+
+msgid "enable_course_group_notifications"
+msgstr ""
+
+msgid "enable_course_group_notifications_desc"
+msgstr ""
+
+msgid "enable_custom_icons"
+msgstr ""
+
+msgid "enable_custom_icons_info"
+msgstr ""
+
+msgid "enable_dnd_upload"
+msgstr ""
+
+msgid "enable_dnd_upload_info"
+msgstr ""
+
+msgid "enable_download_folder"
+msgstr ""
+
+msgid "enable_download_folder_info"
+msgstr ""
+
+msgid "enable_export_scorm_desc"
+msgstr ""
+
+msgid "enable_fora_statistics"
+msgstr ""
+
+msgid "enable_fora_statistics_desc"
+msgstr ""
+
+msgid "enable_hide_user_toggle"
+msgstr ""
+
+msgid "enable_multi_download"
+msgstr ""
+
+msgid "enable_multi_download_info"
+msgstr ""
+
+msgid "enable_password_assistance"
+msgstr ""
+
+msgid "enable_preview"
+msgstr ""
+
+msgid "enable_preview_info"
+msgstr ""
+
+msgid "enable_repository_dnd_upload"
+msgstr ""
+
+msgid "enable_repository_dnd_upload_info"
+msgstr ""
+
+msgid "enable_sahs_protocol_data"
+msgstr ""
+
+msgid "enable_sahs_protocol_data_desc"
+msgstr ""
+
+msgid "enable_search_engine"
+msgstr ""
+
+msgid "enable_trash"
+msgstr ""
+
+msgid "enable_trash_info"
+msgstr ""
+
+msgid "enable_webdav"
+msgstr ""
+
+msgid "enable_webdav_info"
+msgstr ""
+
+msgid "enabled"
+msgstr ""
+
+msgid "enlarge"
+msgstr ""
+
+msgid "enter_in_mb_desc"
+msgstr ""
+
+msgid "enter_new_name"
+msgstr ""
+
+msgid "entered_notification"
+msgstr ""
+
+msgid "entry_status"
+msgstr ""
+
+msgid "err_1_param"
+msgstr ""
+
+msgid "err_2_param"
+msgstr ""
+
+msgid "err_auth_apache_failed"
+msgstr ""
+
+msgid "err_auth_ldap_no_ilias_user"
+msgstr ""
+
+msgid "err_auth_mode_inactive"
+msgstr ""
+
+msgid "err_auth_soap_no_ilias_user"
+msgstr ""
+
+msgid "err_check_input"
+msgstr ""
+
+msgid "err_count_param"
+msgstr ""
+
+msgid "err_disabled"
+msgstr ""
+
+msgid "err_double_entries"
+msgstr ""
+
+msgid "err_in_line"
+msgstr ""
+
+msgid "err_inactive"
+msgstr ""
+
+msgid "err_inactive_login_attempts"
+msgstr ""
+
+msgid "err_invalid_port"
+msgstr ""
+
+msgid "err_no_cookies"
+msgstr ""
+
+msgid "err_no_langfile_found"
+msgstr ""
+
+msgid "err_no_param"
+msgstr ""
+
+msgid "err_over_3_param"
+msgstr ""
+
+msgid "err_role_not_assignable"
+msgstr ""
+
+msgid "err_session_expired"
+msgstr ""
+
+msgid "err_valid_login_account_creation_disabled"
+msgstr ""
+
+msgid "err_wrong_header"
+msgstr ""
+
+msgid "err_wrong_login"
+msgstr ""
+
+msgid "err_wrong_password"
+msgstr ""
+
+msgid "error"
+msgstr ""
+
+msgid "error_empty_file_or_folder"
+msgstr ""
+
+msgid "error_extraction_failed"
+msgstr ""
+
+msgid "error_parser"
+msgstr ""
+
+msgid "error_upload_was_zero_bytes"
+msgstr ""
+
+msgid "etal_talks"
+msgstr ""
+
+msgid "event_ass_materials_prop"
+msgstr ""
+
+msgid "event_assign_files"
+msgstr ""
+
+msgid "exc"
+msgstr ""
+
+msgid "exc_add"
+msgstr ""
+
+msgid "exc_added"
+msgstr ""
+
+msgid "exc_date_not_valid"
+msgstr ""
+
+msgid "exc_deassign_members"
+msgstr ""
+
+msgid "exc_download_files"
+msgstr ""
+
+msgid "exc_edit"
+msgstr ""
+
+msgid "exc_edit_exercise"
+msgstr ""
+
+msgid "exc_edit_until"
+msgstr ""
+
+msgid "exc_exercise_sent"
+msgstr ""
+
+msgid "exc_files"
+msgstr ""
+
+msgid "exc_files_returned"
+msgstr ""
+
+msgid "exc_instruction"
+msgstr ""
+
+msgid "exc_last_submission"
+msgstr ""
+
+msgid "exc_member_of_crs_grp"
+msgstr ""
+
+msgid "exc_members_already_assigned"
+msgstr ""
+
+msgid "exc_members_assigned"
+msgstr ""
+
+msgid "exc_members_comments_saved"
+msgstr ""
+
+msgid "exc_new"
+msgstr ""
+
+msgid "exc_next_deadline"
+msgstr ""
+
+msgid "exc_obj"
+msgstr ""
+
+msgid "exc_save_changes"
+msgstr ""
+
+msgid "exc_schedule"
+msgstr ""
+
+msgid "exc_select_one_file"
+msgstr ""
+
+msgid "exc_sent"
+msgstr ""
+
+msgid "exc_sent_at"
+msgstr ""
+
+msgid "exc_status"
+msgstr ""
+
+msgid "exc_status_saved"
+msgstr ""
+
+msgid "exc_submission"
+msgstr ""
+
+msgid "exc_time_over_short"
+msgstr ""
+
+msgid "exc_time_to_send"
+msgstr ""
+
+msgid "exc_upload_error"
+msgstr ""
+
+msgid "excs"
+msgstr ""
+
+msgid "execute"
+msgstr ""
+
+msgid "exercise_time_over"
+msgstr ""
+
+msgid "expand"
+msgstr ""
+
+msgid "expand_all"
+msgstr ""
+
+msgid "expand_content"
+msgstr ""
+
+msgid "expanded"
+msgstr ""
+
+msgid "export"
+msgstr ""
+
+msgid "export_format"
+msgstr ""
+
+msgid "export_html"
+msgstr ""
+
+msgid "ext_cat_settings"
+msgstr ""
+
+msgid "ext_link"
+msgstr ""
+
+msgid "extracting"
+msgstr ""
+
+msgid "eyeclosed"
+msgstr ""
+
+msgid "eyeopened"
+msgstr ""
+
+msgid "failure_message"
+msgstr ""
+
+msgid "fax"
+msgstr ""
+
+msgid "feed"
+msgstr ""
+
+msgid "feedback"
+msgstr ""
+
+msgid "field_name"
+msgstr ""
+
+msgid "field_type"
+msgstr ""
+
+msgid "file"
+msgstr ""
+
+msgid "file_add"
+msgstr ""
+
+msgid "file_add_and_metadata"
+msgstr ""
+
+msgid "file_added"
+msgstr ""
+
+msgid "file_allowed_suffixes"
+msgstr ""
+
+msgid "file_confirm_delete_all_versions"
+msgstr ""
+
+msgid "file_confirm_delete_versions"
+msgstr ""
+
+msgid "file_created"
+msgstr ""
+
+msgid "file_edit"
+msgstr ""
+
+msgid "file_info"
+msgstr ""
+
+msgid "file_is_infected"
+msgstr ""
+
+msgid "file_no_valid_file_type"
+msgstr ""
+
+msgid "file_not_found"
+msgstr ""
+
+msgid "file_not_found_sec"
+msgstr ""
+
+msgid "file_not_valid"
+msgstr ""
+
+msgid "file_notice"
+msgstr ""
+
+msgid "file_objects"
+msgstr ""
+
+msgid "file_rollback"
+msgstr ""
+
+msgid "file_rollback_done"
+msgstr ""
+
+msgid "file_rollback_select_exact_one"
+msgstr ""
+
+msgid "file_some_invalid_file_types_removed"
+msgstr ""
+
+msgid "file_suffix_repl"
+msgstr ""
+
+msgid "file_suffix_repl_info"
+msgstr ""
+
+msgid "file_system_clean_temp_dir_cron"
+msgstr ""
+
+msgid "file_system_clean_temp_dir_cron_info"
+msgstr ""
+
+msgid "file_updated"
+msgstr ""
+
+msgid "file_upload_pending"
+msgstr ""
+
+msgid "file_valid"
+msgstr ""
+
+msgid "file_version"
+msgstr ""
+
+msgid "file_version_create"
+msgstr ""
+
+msgid "file_version_intermediate_version"
+msgstr ""
+
+msgid "file_version_new_version"
+msgstr ""
+
+msgid "file_version_published_version"
+msgstr ""
+
+msgid "file_version_replace"
+msgstr ""
+
+msgid "file_version_rollback"
+msgstr ""
+
+msgid "file_versions_deleted"
+msgstr ""
+
+msgid "filename"
+msgstr ""
+
+msgid "filename_extension_missing"
+msgstr ""
+
+msgid "filename_hidden_backup_file"
+msgstr ""
+
+msgid "filename_hidden_unix_file"
+msgstr ""
+
+msgid "filename_interoperability"
+msgstr ""
+
+msgid "filename_special_characters"
+msgstr ""
+
+msgid "filename_special_filename"
+msgstr ""
+
+msgid "filename_visibility"
+msgstr ""
+
+msgid "filename_windows_empty_extension"
+msgstr ""
+
+msgid "filename_windows_special_characters"
+msgstr ""
+
+msgid "filename_windows_webdav_issue"
+msgstr ""
+
+msgid "files"
+msgstr ""
+
+msgid "filesize"
+msgstr ""
+
+msgid "filetype"
+msgstr ""
+
+msgid "fill_out_all_required_fields"
+msgstr ""
+
+msgid "filter"
+msgstr ""
+
+msgid "filter_users_with_access"
+msgstr ""
+
+msgid "filter_users_with_disk_usage"
+msgstr ""
+
+msgid "filter_users_without_access"
+msgstr ""
+
+msgid "filter_users_without_disk_usage"
+msgstr ""
+
+msgid "first"
+msgstr ""
+
+msgid "firstname"
+msgstr ""
+
+msgid "flatview"
+msgstr ""
+
+msgid "fold"
+msgstr ""
+
+msgid "fold_add"
+msgstr ""
+
+msgid "fold_added"
+msgstr ""
+
+msgid "fold_copy_threads_info"
+msgstr ""
+
+msgid "fold_edit"
+msgstr ""
+
+msgid "fold_new"
+msgstr ""
+
+msgid "fold_wizard_page"
+msgstr ""
+
+msgid "folder"
+msgstr ""
+
+msgid "folders"
+msgstr ""
+
+msgid "follow_link_to_read_mails"
+msgstr ""
+
+msgid "forgot_password"
+msgstr ""
+
+msgid "forgot_username"
+msgstr ""
+
+msgid "form_input_not_valid"
+msgstr ""
+
+msgid "forum"
+msgstr ""
+
+msgid "forum_direct_notification"
+msgstr ""
+
+msgid "forum_notify_me"
+msgstr ""
+
+msgid "forum_post_replied"
+msgstr ""
+
+msgid "forums"
+msgstr ""
+
+msgid "forums_anonymized"
+msgstr ""
+
+msgid "forums_anonymous"
+msgstr ""
+
+msgid "forums_articles"
+msgstr ""
+
+msgid "forums_closed"
+msgstr ""
+
+msgid "forums_disable_forum_notification"
+msgstr ""
+
+msgid "forums_enable_forum_notification"
+msgstr ""
+
+msgid "forums_forum_notification_enabled"
+msgstr ""
+
+msgid "forums_last_post"
+msgstr ""
+
+msgid "forums_last_posting_asc"
+msgstr ""
+
+msgid "forums_last_posting_dsc"
+msgstr ""
+
+msgid "forums_notification_settings"
+msgstr ""
+
+msgid "forums_rating_asc"
+msgstr ""
+
+msgid "forums_rating_dsc"
+msgstr ""
+
+msgid "forums_thread_sorting_asc"
+msgstr ""
+
+msgid "forums_thread_sorting_dsc"
+msgstr ""
+
+msgid "forums_threads"
+msgstr ""
+
+msgid "forums_use_alias"
+msgstr ""
+
+msgid "forums_your_name"
+msgstr ""
+
+msgid "frm"
+msgstr ""
+
+msgid "frm_add"
+msgstr ""
+
+msgid "frm_added"
+msgstr ""
+
+msgid "frm_edit"
+msgstr ""
+
+msgid "frm_import"
+msgstr ""
+
+msgid "frm_latest_postings"
+msgstr ""
+
+msgid "frm_new"
+msgstr ""
+
+msgid "frm_no_threads"
+msgstr ""
+
+msgid "from"
+msgstr ""
+
+msgid "fullname"
+msgstr ""
+
+msgid "functions"
+msgstr ""
+
+msgid "further_informations"
+msgstr ""
+
+msgid "gdf_add"
+msgstr ""
+
+msgid "gdf_new"
+msgstr ""
+
+msgid "gender"
+msgstr ""
+
+msgid "gender_f"
+msgstr ""
+
+msgid "gender_m"
+msgstr ""
+
+msgid "gender_n"
+msgstr ""
+
+msgid "general"
+msgstr ""
+
+msgid "general_settings"
+msgstr ""
+
+msgid "generate"
+msgstr ""
+
+msgid "ghostscript_not_configured"
+msgstr ""
+
+msgid "glo"
+msgstr ""
+
+msgid "glo_add"
+msgstr ""
+
+msgid "glo_added"
+msgstr ""
+
+msgid "glo_import"
+msgstr ""
+
+msgid "glo_mode"
+msgstr ""
+
+msgid "glo_mode_desc"
+msgstr ""
+
+msgid "glo_mode_normal"
+msgstr ""
+
+msgid "glo_new"
+msgstr ""
+
+msgid "global"
+msgstr ""
+
+msgid "global_default"
+msgstr ""
+
+msgid "global_fixed"
+msgstr ""
+
+msgid "global_role_assignment"
+msgstr ""
+
+msgid "global_settings"
+msgstr ""
+
+msgid "global_user"
+msgstr ""
+
+msgid "glossaries"
+msgstr ""
+
+msgid "glossary"
+msgstr ""
+
+msgid "go"
+msgstr ""
+
+msgid "grade"
+msgstr ""
+
+msgid "group"
+msgstr ""
+
+msgid "group_members"
+msgstr ""
+
+msgid "group_name"
+msgstr ""
+
+msgid "group_new_registrations"
+msgstr ""
+
+msgid "group_password_registration_msg"
+msgstr ""
+
+msgid "group_registration"
+msgstr ""
+
+msgid "group_registration_mode"
+msgstr ""
+
+msgid "group_registration_time"
+msgstr ""
+
+msgid "group_req_direct"
+msgstr ""
+
+msgid "group_req_registration_msg"
+msgstr ""
+
+msgid "group_status"
+msgstr ""
+
+msgid "groupings"
+msgstr ""
+
+msgid "groupings_assigned_obj_crs"
+msgstr ""
+
+msgid "groupings_assigned_obj_grp"
+msgstr ""
+
+msgid "groupings_source"
+msgstr ""
+
+msgid "groups"
+msgstr ""
+
+msgid "grp"
+msgstr ""
+
+msgid "grp_add"
+msgstr ""
+
+msgid "grp_added"
+msgstr ""
+
+msgid "grp_btn_unsubscribe"
+msgstr ""
+
+msgid "grp_cancel_waiting_list"
+msgstr ""
+
+msgid "grp_copy_threads_info"
+msgstr ""
+
+msgid "grp_deleted_export_files"
+msgstr ""
+
+msgid "grp_dismiss_member"
+msgstr ""
+
+msgid "grp_dismiss_myself"
+msgstr ""
+
+msgid "grp_edit"
+msgstr ""
+
+msgid "grp_err_administrator_required"
+msgstr ""
+
+msgid "grp_header_edit_members"
+msgstr ""
+
+msgid "grp_list_members"
+msgstr ""
+
+msgid "grp_list_reg"
+msgstr ""
+
+msgid "grp_list_reg_end"
+msgstr ""
+
+msgid "grp_list_reg_limit_full"
+msgstr ""
+
+msgid "grp_list_reg_limit_places"
+msgstr ""
+
+msgid "grp_list_reg_noreg"
+msgstr ""
+
+msgid "grp_list_reg_period"
+msgstr ""
+
+msgid "grp_list_reg_start"
+msgstr ""
+
+msgid "grp_list_users"
+msgstr ""
+
+msgid "grp_mem_change_status"
+msgstr ""
+
+msgid "grp_mem_send_mail"
+msgstr ""
+
+msgid "grp_members_gallery"
+msgstr ""
+
+msgid "grp_msg_applicants_assigned"
+msgstr ""
+
+msgid "grp_msg_member_assigned"
+msgstr ""
+
+msgid "grp_msg_membership_annulled"
+msgstr ""
+
+msgid "grp_new"
+msgstr ""
+
+msgid "grp_registration"
+msgstr ""
+
+msgid "grp_registration_completed"
+msgstr ""
+
+msgid "grp_removed_from_waiting_list"
+msgstr ""
+
+msgid "grp_select_one_file"
+msgstr ""
+
+msgid "grp_wizard_page"
+msgstr ""
+
+msgid "grpr"
+msgstr ""
+
+msgid "grpr_add"
+msgstr ""
+
+msgid "grpr_edit"
+msgstr ""
+
+msgid "grpr_edit_info"
+msgstr ""
+
+msgid "grpr_new"
+msgstr ""
+
+msgid "grpr_settings"
+msgstr ""
+
+msgid "header_action"
+msgstr ""
+
+msgid "header_searchable"
+msgstr ""
+
+msgid "header_title"
+msgstr ""
+
+msgid "header_visible_registration"
+msgstr ""
+
+msgid "header_zip"
+msgstr ""
+
+msgid "height"
+msgstr ""
+
+msgid "help"
+msgstr ""
+
+msgid "hide"
+msgstr ""
+
+msgid "hide_all_details"
+msgstr ""
+
+msgid "hide_details"
+msgstr ""
+
+msgid "hide_filter"
+msgstr ""
+
+msgid "hide_own_online_status"
+msgstr ""
+
+msgid "hide_visible_sections"
+msgstr ""
+
+msgid "hint"
+msgstr ""
+
+msgid "history"
+msgstr ""
+
+msgid "hobby"
+msgstr ""
+
+msgid "home"
+msgstr ""
+
+msgid "host"
+msgstr ""
+
+msgid "hour"
+msgstr ""
+
+msgid "hours"
+msgstr ""
+
+msgid "htlm"
+msgstr ""
+
+msgid "htlm_add"
+msgstr ""
+
+msgid "htlm_new"
+msgstr ""
+
+msgid "http"
+msgstr ""
+
+msgid "http_not_possible"
+msgstr ""
+
+msgid "http_path"
+msgstr ""
+
+msgid "https_not_possible"
+msgstr ""
+
+msgid "i2passwd"
+msgstr ""
+
+msgid "iass_import"
+msgstr ""
+
+msgid "iass_new"
+msgstr ""
+
+msgid "icon"
+msgstr ""
+
+msgid "icon_settings"
+msgstr ""
+
+msgid "id"
+msgstr ""
+
+msgid "identifier"
+msgstr ""
+
+msgid "if_no_title_then_filename"
+msgstr ""
+
+msgid "ignore_on_conflict"
+msgstr ""
+
+msgid "ignore_required_fields"
+msgstr ""
+
+msgid "ignore_required_fields_info"
+msgstr ""
+
+msgid "il_astpl_loc_initial"
+msgstr ""
+
+msgid "il_astpl_loc_qualified"
+msgstr ""
+
+msgid "il_blog_contributor"
+msgstr ""
+
+msgid "il_blog_editor"
+msgstr ""
+
+msgid "il_chat_moderator"
+msgstr ""
+
+msgid "il_crs_admin"
+msgstr ""
+
+msgid "il_crs_member"
+msgstr ""
+
+msgid "il_crs_non_member"
+msgstr ""
+
+msgid "il_crs_tutor"
+msgstr ""
+
+msgid "il_frm_moderator"
+msgstr ""
+
+msgid "il_grp_admin"
+msgstr ""
+
+msgid "il_grp_member"
+msgstr ""
+
+msgid "il_grp_status_closed"
+msgstr ""
+
+msgid "il_grp_status_open"
+msgstr ""
+
+msgid "il_iass_member"
+msgstr ""
+
+msgid "il_lso_admin"
+msgstr ""
+
+msgid "il_lso_member"
+msgstr ""
+
+msgid "il_lti_instructor"
+msgstr ""
+
+msgid "il_lti_learner"
+msgstr ""
+
+msgid "il_lti_user"
+msgstr ""
+
+msgid "il_orgu_employee"
+msgstr ""
+
+msgid "il_orgu_superior"
+msgstr ""
+
+msgid "ilias_version"
+msgstr ""
+
+msgid "image"
+msgstr ""
+
+msgid "import"
+msgstr ""
+
+msgid "import_cat_localrol"
+msgstr ""
+
+msgid "import_cat_table"
+msgstr ""
+
+msgid "import_categories"
+msgstr ""
+
+msgid "import_failure_log"
+msgstr ""
+
+msgid "import_file"
+msgstr ""
+
+msgid "import_file_not_valid_here"
+msgstr ""
+
+msgid "import_finished"
+msgstr ""
+
+msgid "import_lm"
+msgstr ""
+
+msgid "import_qpl"
+msgstr ""
+
+msgid "import_questions_into_qpl"
+msgstr ""
+
+msgid "import_sahs"
+msgstr ""
+
+msgid "import_sahs_info"
+msgstr ""
+
+msgid "import_sahs_new"
+msgstr ""
+
+msgid "import_svy"
+msgstr ""
+
+msgid "import_tst"
+msgstr ""
+
+msgid "import_users"
+msgstr ""
+
+msgid "import_warning_log"
+msgstr ""
+
+msgid "important"
+msgstr ""
+
+msgid "imported"
+msgstr ""
+
+msgid "imprint"
+msgstr ""
+
+msgid "in"
+msgstr ""
+
+msgid "in_use"
+msgstr ""
+
+msgid "in_use_by"
+msgstr ""
+
+msgid "inactive"
+msgstr ""
+
+msgid "inbox"
+msgstr ""
+
+msgid "include_local"
+msgstr ""
+
+msgid "info"
+msgstr ""
+
+msgid "info_access_and_status_info"
+msgstr ""
+
+msgid "info_access_permissions"
+msgstr ""
+
+msgid "info_activate_sure"
+msgstr ""
+
+msgid "info_assign_sure"
+msgstr ""
+
+msgid "info_assigned"
+msgstr ""
+
+msgid "info_available_roles"
+msgstr ""
+
+msgid "info_change_user_view"
+msgstr ""
+
+msgid "info_deactivate_sure"
+msgstr ""
+
+msgid "info_delete_sure"
+msgstr ""
+
+msgid "info_delete_warning_no_trash"
+msgstr ""
+
+msgid "info_deleted"
+msgstr ""
+
+msgid "info_err_user_not_exist"
+msgstr ""
+
+msgid "info_from_role"
+msgstr ""
+
+msgid "info_is_member"
+msgstr ""
+
+msgid "info_is_not_member"
+msgstr ""
+
+msgid "info_message"
+msgstr ""
+
+msgid "info_not_assigned"
+msgstr ""
+
+msgid "info_owner_of_object"
+msgstr ""
+
+msgid "info_permission_origin"
+msgstr ""
+
+msgid "info_permission_source"
+msgstr ""
+
+msgid "info_remark_interrupted"
+msgstr ""
+
+msgid "info_remove_sure"
+msgstr ""
+
+msgid "info_short"
+msgstr ""
+
+msgid "info_status_info"
+msgstr ""
+
+msgid "info_view_of_user"
+msgstr ""
+
+msgid "inform_user_mail"
+msgstr ""
+
+msgid "inline_file_extensions"
+msgstr ""
+
+msgid "inline_file_extensions_info"
+msgstr ""
+
+msgid "insert"
+msgstr ""
+
+msgid "insert_object_here"
+msgstr ""
+
+msgid "inst_id"
+msgstr ""
+
+msgid "inst_info"
+msgstr ""
+
+msgid "inst_name"
+msgstr ""
+
+msgid "install"
+msgstr ""
+
+msgid "install_local"
+msgstr ""
+
+msgid "installation_status"
+msgstr ""
+
+msgid "installed"
+msgstr ""
+
+msgid "installed_local"
+msgstr ""
+
+msgid "instant_messengers"
+msgstr ""
+
+msgid "institution"
+msgstr ""
+
+msgid "internal_local_roles_only"
+msgstr ""
+
+msgid "invalid_visible_required_options_selected"
+msgstr ""
+
+msgid "invisible_block"
+msgstr ""
+
+msgid "invisible_block_mess"
+msgstr ""
+
+msgid "ip_address"
+msgstr ""
+
+msgid "is_already_your"
+msgstr ""
+
+msgid "italic_action"
+msgstr ""
+
+msgid "item"
+msgstr ""
+
+msgid "itgr_add"
+msgstr ""
+
+msgid "itgr_new"
+msgstr ""
+
+msgid "java_server"
+msgstr ""
+
+msgid "java_server_host"
+msgstr ""
+
+#. Needs to be adapted to new content of German lang file.
+msgid "java_server_info"
+msgstr ""
+
+msgid "java_server_port"
+msgstr ""
+
+msgid "java_server_readme"
+msgstr ""
+
+msgid "join"
+msgstr ""
+
+msgid "join_session"
+msgstr ""
+
+msgid "kb"
+msgstr ""
+
+msgid "keywords"
+msgstr ""
+
+msgid "label_search_options"
+msgstr ""
+
+msgid "lang_dateformat"
+msgstr ""
+
+msgid "lang_path"
+msgstr ""
+
+msgid "lang_refresh_confirm"
+msgstr ""
+
+msgid "lang_refresh_confirm_info"
+msgstr ""
+
+msgid "lang_refresh_confirm_selected"
+msgstr ""
+
+msgid "lang_sep_decimal"
+msgstr ""
+
+msgid "lang_sep_thousand"
+msgstr ""
+
+msgid "lang_size_bytes"
+msgstr ""
+
+msgid "lang_size_gb"
+msgstr ""
+
+msgid "lang_size_kb"
+msgstr ""
+
+msgid "lang_size_mb"
+msgstr ""
+
+msgid "lang_timeformat"
+msgstr ""
+
+msgid "lang_timeformat_no_sec"
+msgstr ""
+
+msgid "lang_uninstall_changes"
+msgstr ""
+
+msgid "lang_uninstall_changes_confirm"
+msgstr ""
+
+msgid "lang_uninstall_confirm"
+msgstr ""
+
+msgid "langfile_found"
+msgstr ""
+
+msgid "language"
+msgstr ""
+
+msgid "language_not_installed"
+msgstr ""
+
+msgid "languages"
+msgstr ""
+
+msgid "languages_already_installed"
+msgstr ""
+
+msgid "languages_already_uninstalled"
+msgstr ""
+
+msgid "languages_updated"
+msgstr ""
+
+msgid "last_access"
+msgstr ""
+
+msgid "last_change"
+msgstr ""
+
+msgid "last_edited_on"
+msgstr ""
+
+msgid "last_login"
+msgstr ""
+
+msgid "last_refresh"
+msgstr ""
+
+msgid "last_reminder"
+msgstr ""
+
+msgid "last_update"
+msgstr ""
+
+msgid "last_visited"
+msgstr ""
+
+msgid "lastname"
+msgstr ""
+
+msgid "latex_edit_info"
+msgstr ""
+
+msgid "laugh"
+msgstr ""
+
+msgid "launch"
+msgstr ""
+
+msgid "ldap"
+msgstr ""
+
+msgid "ldap_basedn"
+msgstr ""
+
+msgid "ldap_configure"
+msgstr ""
+
+msgid "ldap_port"
+msgstr ""
+
+msgid "ldap_read"
+msgstr ""
+
+msgid "ldap_server"
+msgstr ""
+
+msgid "ldap_tls"
+msgstr ""
+
+msgid "ldap_version"
+msgstr ""
+
+msgid "learning module"
+msgstr ""
+
+msgid "learning_progress"
+msgstr ""
+
+msgid "leave_waiting_list"
+msgstr ""
+
+msgid "legend"
+msgstr ""
+
+msgid "level"
+msgstr ""
+
+msgid "link"
+msgstr ""
+
+msgid "link_action"
+msgstr ""
+
+msgid "link_all"
+msgstr ""
+
+msgid "link_check"
+msgstr ""
+
+msgid "link_check_message_b"
+msgstr ""
+
+msgid "link_check_message_disabled"
+msgstr ""
+
+msgid "link_check_message_enabled"
+msgstr ""
+
+msgid "link_check_subject"
+msgstr ""
+
+msgid "link_checker_refreshed"
+msgstr ""
+
+msgid "link_selected_items"
+msgstr ""
+
+msgid "links_add_param"
+msgstr ""
+
+msgid "links_dyn_parameter"
+msgstr ""
+
+msgid "links_dynamic"
+msgstr ""
+
+msgid "links_dynamic_info"
+msgstr ""
+
+msgid "links_existing_params"
+msgstr ""
+
+msgid "links_name"
+msgstr ""
+
+msgid "links_no_name_given"
+msgstr ""
+
+msgid "links_no_value_given"
+msgstr ""
+
+msgid "links_parameter_deleted"
+msgstr ""
+
+msgid "links_select_one"
+msgstr ""
+
+msgid "links_session_id"
+msgstr ""
+
+msgid "links_user_id"
+msgstr ""
+
+msgid "links_user_name"
+msgstr ""
+
+msgid "links_value"
+msgstr ""
+
+msgid "list"
+msgstr ""
+
+msgid "list_of_questions"
+msgstr ""
+
+msgid "list_view"
+msgstr ""
+
+msgid "listaction_learning_progress_settings"
+msgstr ""
+
+msgid "lm"
+msgstr ""
+
+msgid "lm_add"
+msgstr ""
+
+msgid "lm_added"
+msgstr ""
+
+msgid "lm_new"
+msgstr ""
+
+msgid "lm_type_scorm"
+msgstr ""
+
+msgid "lm_type_scorm2004"
+msgstr ""
+
+msgid "lm_type_scorm2004_info"
+msgstr ""
+
+msgid "lm_type_scorm_info"
+msgstr ""
+
+msgid "lng"
+msgstr ""
+
+msgid "lngf"
+msgstr ""
+
+msgid "lo"
+msgstr ""
+
+msgid "loaded_preview_renderers"
+msgstr ""
+
+msgid "local"
+msgstr ""
+
+msgid "local_language_file"
+msgstr ""
+
+msgid "local_language_files"
+msgstr ""
+
+msgid "local_languages_already_installed"
+msgstr ""
+
+msgid "local_role_assignment"
+msgstr ""
+
+msgid "location"
+msgstr ""
+
+msgid "locator"
+msgstr ""
+
+msgid "log_in"
+msgstr ""
+
+msgid "log_out"
+msgstr ""
+
+msgid "logic_or"
+msgstr ""
+
+msgid "login"
+msgstr ""
+
+msgid "login_as"
+msgstr ""
+
+msgid "login_data"
+msgstr ""
+
+msgid "login_exists"
+msgstr ""
+
+msgid "login_invalid"
+msgstr ""
+
+msgid "login_to_ilias"
+msgstr ""
+
+msgid "login_to_ilias_via_login_form"
+msgstr ""
+
+msgid "login_to_ilias_via_saml"
+msgstr ""
+
+msgid "login_to_ilias_via_shibboleth"
+msgstr ""
+
+msgid "loginname_already_exists"
+msgstr ""
+
+msgid "loginname_settings"
+msgstr ""
+
+msgid "logout"
+msgstr ""
+
+msgid "logout_text"
+msgstr ""
+
+msgid "logs"
+msgstr ""
+
+msgid "love"
+msgstr ""
+
+msgid "lres"
+msgstr ""
+
+msgid "lso_add"
+msgstr ""
+
+msgid "lso_admin_form_byline"
+msgstr ""
+
+msgid "lso_admin_form_title"
+msgstr ""
+
+msgid "lso_admin_interval_byline"
+msgstr ""
+
+msgid "lso_admin_interval_label"
+msgstr ""
+
+msgid "lso_copy_threads_info"
+msgstr ""
+
+msgid "lso_edit"
+msgstr ""
+
+msgid "lso_import"
+msgstr ""
+
+msgid "lso_new"
+msgstr ""
+
+msgid "lso_wizard_page"
+msgstr ""
+
+msgid "lti"
+msgstr ""
+
+msgid "lti_add"
+msgstr ""
+
+msgid "lti_new"
+msgstr ""
+
+msgid "lti_outcome_info"
+msgstr ""
+
+msgid "mail"
+msgstr ""
+
+msgid "mail_addressbook"
+msgstr ""
+
+msgid "mail_at_the_ilias_installation"
+msgstr ""
+
+msgid "mail_attachment"
+msgstr ""
+
+msgid "mail_b_inbox"
+msgstr ""
+
+msgid "mail_c_trash"
+msgstr ""
+
+msgid "mail_cron_scheduled_mails"
+msgstr ""
+
+msgid "mail_cron_scheduled_mails_desc"
+msgstr ""
+
+msgid "mail_d_drafts"
+msgstr ""
+
+msgid "mail_delete_error"
+msgstr ""
+
+msgid "mail_e_outbox"
+msgstr ""
+
+msgid "mail_e_sent"
+msgstr ""
+
+msgid "mail_edit_permission"
+msgstr ""
+
+msgid "mail_f_sent"
+msgstr ""
+
+msgid "mail_folders"
+msgstr ""
+
+msgid "mail_import_file"
+msgstr ""
+
+msgid "mail_mails_of"
+msgstr ""
+
+msgid "mail_maxsize_attach"
+msgstr ""
+
+msgid "mail_member"
+msgstr ""
+
+msgid "mail_members"
+msgstr ""
+
+msgid "mail_message_scheduled"
+msgstr ""
+
+msgid "mail_message_scheduled_info"
+msgstr ""
+
+msgid "mail_not_sent"
+msgstr ""
+
+msgid "mail_schedule_error_no_datetime"
+msgstr ""
+
+msgid "mail_schedule_error_past_datetime"
+msgstr ""
+
+msgid "mail_schedule_scheduled_datetime"
+msgstr ""
+
+msgid "mail_scheduled"
+msgstr ""
+
+msgid "mail_scheduled_edit_compose_info"
+msgstr ""
+
+msgid "mail_scheduled_edit_moved_info"
+msgstr ""
+
+msgid "mail_search_no"
+msgstr ""
+
+msgid "mail_select_one"
+msgstr ""
+
+msgid "mail_send_error"
+msgstr ""
+
+msgid "mail_sent"
+msgstr ""
+
+msgid "mail_settings"
+msgstr ""
+
+msgid "mail_to_global_roles_not_allowed"
+msgstr ""
+
+msgid "mail_z_local"
+msgstr ""
+
+msgid "mails"
+msgstr ""
+
+msgid "mails_at_the_ilias_installation"
+msgstr ""
+
+msgid "mails_pl"
+msgstr ""
+
+msgid "main_menu"
+msgstr ""
+
+msgid "mainbar_aria_label"
+msgstr ""
+
+msgid "mainbar_more_label"
+msgstr ""
+
+msgid "manage_members"
+msgstr ""
+
+msgid "matriculation"
+msgstr ""
+
+msgid "max_previews_per_object"
+msgstr ""
+
+msgid "max_previews_per_object_info"
+msgstr ""
+
+msgid "mcst"
+msgstr ""
+
+msgid "mcst_add"
+msgstr ""
+
+msgid "mcst_new"
+msgstr ""
+
+msgid "mem_add_to_wl"
+msgstr ""
+
+msgid "mem_alert_no_places"
+msgstr ""
+
+msgid "mem_cron_min_members"
+msgstr ""
+
+msgid "mem_cron_min_members_info"
+msgstr ""
+
+msgid "mem_end"
+msgstr ""
+
+msgid "mem_free_places"
+msgstr ""
+
+msgid "mem_max_users"
+msgstr ""
+
+msgid "mem_min_users"
+msgstr ""
+
+msgid "mem_participants"
+msgstr ""
+
+msgid "mem_reg_expired"
+msgstr ""
+
+msgid "mem_reg_not_started"
+msgstr ""
+
+msgid "mem_reg_period"
+msgstr ""
+
+msgid "mem_reg_type"
+msgstr ""
+
+msgid "mem_start"
+msgstr ""
+
+msgid "mem_unlimited"
+msgstr ""
+
+msgid "mem_view_activate"
+msgstr ""
+
+msgid "mem_view_close"
+msgstr ""
+
+msgid "mem_view_long"
+msgstr ""
+
+msgid "mem_waiting_list"
+msgstr ""
+
+msgid "mem_waiting_list_position"
+msgstr ""
+
+msgid "member"
+msgstr ""
+
+msgid "member_status"
+msgstr ""
+
+msgid "members"
+msgstr ""
+
+msgid "membership_leave"
+msgstr ""
+
+msgid "mep"
+msgstr ""
+
+msgid "mep_add"
+msgstr ""
+
+msgid "mep_edit"
+msgstr ""
+
+msgid "mep_new"
+msgstr ""
+
+msgid "mep_not_insert_already_exist"
+msgstr ""
+
+msgid "message"
+msgstr ""
+
+msgid "message_content"
+msgstr ""
+
+msgid "message_no_delivered_files"
+msgstr ""
+
+msgid "meta_data"
+msgstr ""
+
+msgid "metabar_aria_label"
+msgstr ""
+
+msgid "mgs_objects_linked_to_the_following_folders_p"
+msgstr ""
+
+msgid "mgs_objects_linked_to_the_following_folders_s"
+msgstr ""
+
+msgid "migrate"
+msgstr ""
+
+msgid "minimize"
+msgstr ""
+
+msgid "minute"
+msgstr ""
+
+msgid "minutes"
+msgstr ""
+
+msgid "missing"
+msgstr ""
+
+msgid "missing_perm"
+msgstr ""
+
+msgid "missing_precondition"
+msgstr ""
+
+msgid "mm_achievements"
+msgstr ""
+
+msgid "mm_administration"
+msgstr ""
+
+msgid "mm_badges"
+msgstr ""
+
+msgid "mm_calendar"
+msgstr ""
+
+msgid "mm_certificates"
+msgstr ""
+
+msgid "mm_comments"
+msgstr ""
+
+msgid "mm_communication"
+msgstr ""
+
+msgid "mm_contacts"
+msgstr ""
+
+msgid "mm_dashboard"
+msgstr ""
+
+msgid "mm_enrolments"
+msgstr ""
+
+msgid "mm_favorites"
+msgstr ""
+
+msgid "mm_learning_history"
+msgstr ""
+
+msgid "mm_learning_progress"
+msgstr ""
+
+msgid "mm_mail"
+msgstr ""
+
+msgid "mm_news"
+msgstr ""
+
+msgid "mm_notes"
+msgstr ""
+
+msgid "mm_organisation"
+msgstr ""
+
+msgid "mm_personal_and_shared_r"
+msgstr ""
+
+msgid "mm_personal_workspace"
+msgstr ""
+
+msgid "mm_portfolio"
+msgstr ""
+
+msgid "mm_private_chats"
+msgstr ""
+
+msgid "mm_repo_tree_view"
+msgstr ""
+
+msgid "mm_repo_tree_view_act"
+msgstr ""
+
+msgid "mm_repo_tree_view_deact"
+msgstr ""
+
+msgid "mm_repository"
+msgstr ""
+
+msgid "mm_skills"
+msgstr ""
+
+msgid "mm_staff_list"
+msgstr ""
+
+msgid "mm_tags"
+msgstr ""
+
+msgid "mm_task_derived_tasks"
+msgstr ""
+
+msgid "mme_lost_item_reason"
+msgstr ""
+
+msgid "mme_lost_item_title"
+msgstr ""
+
+msgid "mob"
+msgstr ""
+
+msgid "moderators"
+msgstr ""
+
+msgid "module"
+msgstr ""
+
+msgid "modules"
+msgstr ""
+
+msgid "month"
+msgstr ""
+
+msgid "month_01_long"
+msgstr ""
+
+msgid "month_01_short"
+msgstr ""
+
+msgid "month_02_long"
+msgstr ""
+
+msgid "month_02_short"
+msgstr ""
+
+msgid "month_03_long"
+msgstr ""
+
+msgid "month_03_short"
+msgstr ""
+
+msgid "month_04_long"
+msgstr ""
+
+msgid "month_04_short"
+msgstr ""
+
+msgid "month_05_long"
+msgstr ""
+
+msgid "month_05_short"
+msgstr ""
+
+msgid "month_06_long"
+msgstr ""
+
+msgid "month_06_short"
+msgstr ""
+
+msgid "month_07_long"
+msgstr ""
+
+msgid "month_07_short"
+msgstr ""
+
+msgid "month_08_long"
+msgstr ""
+
+msgid "month_08_short"
+msgstr ""
+
+msgid "month_09_long"
+msgstr ""
+
+msgid "month_09_short"
+msgstr ""
+
+msgid "month_10_long"
+msgstr ""
+
+msgid "month_10_short"
+msgstr ""
+
+msgid "month_11_long"
+msgstr ""
+
+msgid "month_11_short"
+msgstr ""
+
+msgid "month_12_long"
+msgstr ""
+
+msgid "month_12_short"
+msgstr ""
+
+msgid "monthly"
+msgstr ""
+
+msgid "months"
+msgstr ""
+
+msgid "mount_webfolder"
+msgstr ""
+
+msgid "move"
+msgstr ""
+
+msgid "moveChapter"
+msgstr ""
+
+msgid "movePage"
+msgstr ""
+
+msgid "move_selected_items"
+msgstr ""
+
+msgid "msg_bt_download_started"
+msgstr ""
+
+msgid "msg_cancel"
+msgstr ""
+
+msgid "msg_clear_clipboard"
+msgstr ""
+
+msgid "msg_cloned"
+msgstr ""
+
+msgid "msg_copy_clipboard"
+msgstr ""
+
+msgid "msg_copy_clipboard_container"
+msgstr ""
+
+msgid "msg_copy_clipboard_source"
+msgstr ""
+
+msgid "msg_cut_clipboard"
+msgstr ""
+
+msgid "msg_cut_copied"
+msgstr ""
+
+msgid "msg_deleted_export_files"
+msgstr ""
+
+msgid "msg_deleted_role"
+msgstr ""
+
+msgid "msg_deleted_roles_rolts"
+msgstr ""
+
+msgid "msg_failed"
+msgstr ""
+
+msgid "msg_form_save_error"
+msgstr ""
+
+msgid "msg_info_blacklisted"
+msgstr ""
+
+msgid "msg_input_char_limit_max"
+msgstr ""
+
+msgid "msg_input_char_limit_min"
+msgstr ""
+
+msgid "msg_input_does_not_match_regexp"
+msgstr ""
+
+msgid "msg_input_is_required"
+msgstr ""
+
+msgid "msg_invalid_value_css_rect_input"
+msgstr ""
+
+msgid "msg_is_last_role"
+msgstr ""
+
+msgid "msg_last_role_for_registration"
+msgstr ""
+
+msgid "msg_link_clipboard_p"
+msgstr ""
+
+msgid "msg_link_clipboard_s"
+msgstr ""
+
+msgid "msg_linked"
+msgstr ""
+
+msgid "msg_may_not_contain"
+msgstr ""
+
+msgid "msg_min_one_role"
+msgstr ""
+
+msgid "msg_multi_language_selected"
+msgstr ""
+
+msgid "msg_no_default_language"
+msgstr ""
+
+msgid "msg_no_delete_yourself"
+msgstr ""
+
+msgid "msg_no_file"
+msgstr ""
+
+msgid "msg_no_files_selected"
+msgstr ""
+
+msgid "msg_no_language_selected"
+msgstr ""
+
+msgid "msg_no_perm_assign_role_to_user"
+msgstr ""
+
+msgid "msg_no_perm_assign_user_to_role"
+msgstr ""
+
+msgid "msg_no_perm_copy"
+msgstr ""
+
+msgid "msg_no_perm_create_rolt"
+msgstr ""
+
+msgid "msg_no_perm_cut"
+msgstr ""
+
+msgid "msg_no_perm_delete"
+msgstr ""
+
+msgid "msg_no_perm_link"
+msgstr ""
+
+msgid "msg_no_perm_modify_rolt"
+msgstr ""
+
+msgid "msg_no_perm_modify_user"
+msgstr ""
+
+msgid "msg_no_perm_paste"
+msgstr ""
+
+msgid "msg_no_perm_paste_object_in_folder"
+msgstr ""
+
+msgid "msg_no_perm_perm"
+msgstr ""
+
+msgid "msg_no_perm_read"
+msgstr ""
+
+msgid "msg_no_perm_read_item"
+msgstr ""
+
+msgid "msg_no_perm_read_lm"
+msgstr ""
+
+msgid "msg_no_perm_view_roles_of_user"
+msgstr ""
+
+msgid "msg_no_perm_write"
+msgstr ""
+
+msgid "msg_no_search_result"
+msgstr ""
+
+msgid "msg_no_search_string"
+msgstr ""
+
+msgid "msg_no_title"
+msgstr ""
+
+msgid "msg_not_available_for_anon"
+msgstr ""
+
+msgid "msg_not_in_itself"
+msgstr ""
+
+msgid "msg_obj_already_deleted"
+msgstr ""
+
+msgid "msg_obj_created"
+msgstr ""
+
+msgid "msg_obj_exists"
+msgstr ""
+
+msgid "msg_obj_exists_in_folder"
+msgstr ""
+
+msgid "msg_obj_may_not_contain_objects_of_type"
+msgstr ""
+
+msgid "msg_obj_modified"
+msgstr ""
+
+msgid "msg_obj_no_download"
+msgstr ""
+
+msgid "msg_obj_no_link"
+msgstr ""
+
+msgid "msg_obj_perm_download"
+msgstr ""
+
+msgid "msg_paste_object_not_in_itself"
+msgstr ""
+
+msgid "msg_perm_adopted_from1"
+msgstr ""
+
+msgid "msg_perm_adopted_from2"
+msgstr ""
+
+msgid "msg_perm_adopted_from_itself"
+msgstr ""
+
+msgid "msg_removed"
+msgstr ""
+
+msgid "msg_role_reserved_prefix"
+msgstr ""
+
+msgid "msg_roleassignment_changed"
+msgstr ""
+
+msgid "msg_sysrole_not_deletable"
+msgstr ""
+
+msgid "msg_sysrole_not_editable"
+msgstr ""
+
+msgid "msg_to_many_files"
+msgstr ""
+
+msgid "msg_trash_empty"
+msgstr ""
+
+msgid "msg_undeleted"
+msgstr ""
+
+msgid "msg_unit_is_required"
+msgstr ""
+
+msgid "msg_unknown_value"
+msgstr ""
+
+msgid "msg_user_last_role1"
+msgstr ""
+
+msgid "msg_user_last_role2"
+msgstr ""
+
+msgid "msg_userassignment_changed"
+msgstr ""
+
+msgid "msg_wrong_filetypes"
+msgstr ""
+
+msgid "msg_wrong_format"
+msgstr ""
+
+msgid "my_bms"
+msgstr ""
+
+msgid "my_certificates"
+msgstr ""
+
+msgid "my_contacts"
+msgstr ""
+
+msgid "my_courses"
+msgstr ""
+
+msgid "my_courses_groups"
+msgstr ""
+
+msgid "my_staff"
+msgstr ""
+
+msgid "name"
+msgstr ""
+
+msgid "nc_contact_requests_headline"
+msgstr ""
+
+msgid "nc_contact_requests_number_p"
+msgstr ""
+
+msgid "nc_contact_requests_number_s"
+msgstr ""
+
+msgid "nc_contact_requests_prop_time"
+msgstr ""
+
+msgid "never"
+msgstr ""
+
+msgid "new"
+msgstr ""
+
+msgid "new_language"
+msgstr ""
+
+msgid "new_pass_equals_old_pass"
+msgstr ""
+
+msgid "newline"
+msgstr ""
+
+msgid "news"
+msgstr ""
+
+msgid "next"
+msgstr ""
+
+msgid "no"
+msgstr ""
+
+msgid "no_access_item"
+msgstr ""
+
+msgid "no_access_item_public"
+msgstr ""
+
+msgid "no_accessibility_control_concept_description"
+msgstr ""
+
+msgid "no_checkbox"
+msgstr ""
+
+msgid "no_condition_selected"
+msgstr ""
+
+msgid "no_date"
+msgstr ""
+
+msgid "no_gallery_users_available"
+msgstr ""
+
+msgid "no_global_role_left"
+msgstr ""
+
+msgid "no_import_file_found"
+msgstr ""
+
+msgid "no_items"
+msgstr ""
+
+msgid "no_limit"
+msgstr ""
+
+msgid "no_mkisofs_configured"
+msgstr ""
+
+msgid "no_parent_access"
+msgstr ""
+
+msgid "no_permission"
+msgstr ""
+
+msgid "no_roles_user_can_be_assigned_to"
+msgstr ""
+
+msgid "no_start_file"
+msgstr ""
+
+msgid "no_title"
+msgstr ""
+
+msgid "no_users_selected"
+msgstr ""
+
+msgid "no_xml_file_found_in_zip"
+msgstr ""
+
+msgid "noc"
+msgstr ""
+
+msgid "non_internal_local_roles_only"
+msgstr ""
+
+msgid "none"
+msgstr ""
+
+msgid "normal"
+msgstr ""
+
+msgid "not_available"
+msgstr ""
+
+msgid "not_implemented_yet"
+msgstr ""
+
+msgid "not_installed"
+msgstr ""
+
+msgid "not_logged_in"
+msgstr ""
+
+msgid "note"
+msgstr ""
+
+msgid "notes"
+msgstr ""
+
+msgid "notes_and_comments"
+msgstr ""
+
+msgid "notice"
+msgstr ""
+
+msgid "notifications"
+msgstr ""
+
+msgid "nr_following_sessions"
+msgstr ""
+
+msgid "num_of_selected_files"
+msgstr ""
+
+msgid "num_users"
+msgstr ""
+
+msgid "numberedlist_action"
+msgstr ""
+
+msgid "obj"
+msgstr ""
+
+msgid "obj_accs"
+msgstr ""
+
+msgid "obj_accs_desc"
+msgstr ""
+
+msgid "obj_adm"
+msgstr ""
+
+msgid "obj_adm_desc"
+msgstr ""
+
+msgid "obj_adma"
+msgstr ""
+
+msgid "obj_adma_desc"
+msgstr ""
+
+msgid "obj_adn"
+msgstr ""
+
+msgid "obj_adve"
+msgstr ""
+
+msgid "obj_adve_desc"
+msgstr ""
+
+msgid "obj_ass"
+msgstr ""
+
+msgid "obj_assf"
+msgstr ""
+
+msgid "obj_assf_desc"
+msgstr ""
+
+msgid "obj_auth"
+msgstr ""
+
+msgid "obj_auth_desc"
+msgstr ""
+
+msgid "obj_awra"
+msgstr ""
+
+msgid "obj_awra_desc"
+msgstr ""
+
+msgid "obj_bdga"
+msgstr ""
+
+msgid "obj_bdga_desc"
+msgstr ""
+
+msgid "obj_bgtk"
+msgstr ""
+
+msgid "obj_bibl"
+msgstr ""
+
+msgid "obj_bibs"
+msgstr ""
+
+msgid "obj_bibs_desc"
+msgstr ""
+
+msgid "obj_blog"
+msgstr ""
+
+msgid "obj_blog_duplicate"
+msgstr ""
+
+msgid "obj_bnmk"
+msgstr ""
+
+msgid "obj_bnmk_desc"
+msgstr ""
+
+msgid "obj_book"
+msgstr ""
+
+msgid "obj_cadm"
+msgstr ""
+
+msgid "obj_cadm_desc"
+msgstr ""
+
+msgid "obj_cals"
+msgstr ""
+
+msgid "obj_cals_desc"
+msgstr ""
+
+msgid "obj_cat"
+msgstr ""
+
+msgid "obj_cat_duplicate"
+msgstr ""
+
+msgid "obj_catr"
+msgstr ""
+
+msgid "obj_cert"
+msgstr ""
+
+msgid "obj_cert_desc"
+msgstr ""
+
+msgid "obj_chap"
+msgstr ""
+
+msgid "obj_chta"
+msgstr ""
+
+msgid "obj_chtr"
+msgstr ""
+
+msgid "obj_chtr_duplicate"
+msgstr ""
+
+msgid "obj_cmis"
+msgstr ""
+
+msgid "obj_cmis_desc"
+msgstr ""
+
+msgid "obj_cmix"
+msgstr ""
+
+msgid "obj_cmps"
+msgstr ""
+
+msgid "obj_cmps_desc"
+msgstr ""
+
+msgid "obj_coms"
+msgstr ""
+
+msgid "obj_coms_desc"
+msgstr ""
+
+msgid "obj_copa"
+msgstr ""
+
+msgid "obj_cpad"
+msgstr ""
+
+msgid "obj_cpad#_desc"
+msgstr ""
+
+msgid "obj_cpad_desc"
+msgstr ""
+
+msgid "obj_cron"
+msgstr ""
+
+msgid "obj_cron_desc"
+msgstr ""
+
+msgid "obj_crs"
+msgstr ""
+
+msgid "obj_crs_duplicate"
+msgstr ""
+
+msgid "obj_crsr"
+msgstr ""
+
+msgid "obj_crss"
+msgstr ""
+
+msgid "obj_crss_desc"
+msgstr ""
+
+msgid "obj_crsv"
+msgstr ""
+
+msgid "obj_dbk"
+msgstr ""
+
+msgid "obj_dcl"
+msgstr ""
+
+msgid "obj_dcl_duplicate"
+msgstr ""
+
+msgid "obj_dpro"
+msgstr ""
+
+msgid "obj_dpro_desc"
+msgstr ""
+
+msgid "obj_dshs"
+msgstr ""
+
+msgid "obj_dshs_desc"
+msgstr ""
+
+msgid "obj_ecss"
+msgstr ""
+
+msgid "obj_ecss_desc"
+msgstr ""
+
+msgid "obj_etal"
+msgstr ""
+
+msgid "obj_exc"
+msgstr ""
+
+msgid "obj_exc_duplicate"
+msgstr ""
+
+msgid "obj_excv"
+msgstr ""
+
+msgid "obj_facs"
+msgstr ""
+
+msgid "obj_facs_desc"
+msgstr ""
+
+msgid "obj_file"
+msgstr ""
+
+msgid "obj_file_duplicate"
+msgstr ""
+
+msgid "obj_file_inline"
+msgstr ""
+
+msgid "obj_fils"
+msgstr ""
+
+msgid "obj_fils_desc"
+msgstr ""
+
+msgid "obj_fold"
+msgstr ""
+
+msgid "obj_fold_duplicate"
+msgstr ""
+
+msgid "obj_frm"
+msgstr ""
+
+msgid "obj_frm_duplicate"
+msgstr ""
+
+msgid "obj_frma"
+msgstr ""
+
+msgid "obj_frma_desc"
+msgstr ""
+
+msgid "obj_glo"
+msgstr ""
+
+msgid "obj_glo_duplicate"
+msgstr ""
+
+msgid "obj_grp"
+msgstr ""
+
+msgid "obj_grp_duplicate"
+msgstr ""
+
+msgid "obj_grpr"
+msgstr ""
+
+msgid "obj_grps"
+msgstr ""
+
+msgid "obj_grps_desc"
+msgstr ""
+
+msgid "obj_gsfo"
+msgstr ""
+
+msgid "obj_gsfo_desc"
+msgstr ""
+
+msgid "obj_hlps"
+msgstr ""
+
+msgid "obj_hlps_desc"
+msgstr ""
+
+msgid "obj_htlm"
+msgstr ""
+
+msgid "obj_htlm_duplicate"
+msgstr ""
+
+msgid "obj_iass"
+msgstr ""
+
+msgid "obj_iass_duplicate"
+msgstr ""
+
+msgid "obj_iass_select"
+msgstr ""
+
+msgid "obj_itgr"
+msgstr ""
+
+msgid "obj_ldap_desc"
+msgstr ""
+
+msgid "obj_lhts"
+msgstr ""
+
+msgid "obj_lhts_desc"
+msgstr ""
+
+msgid "obj_lm"
+msgstr ""
+
+msgid "obj_lm_duplicate"
+msgstr ""
+
+msgid "obj_lng"
+msgstr ""
+
+msgid "obj_lngf"
+msgstr ""
+
+msgid "obj_lngf_desc"
+msgstr ""
+
+msgid "obj_logs"
+msgstr ""
+
+msgid "obj_logs_desc"
+msgstr ""
+
+msgid "obj_lrss"
+msgstr ""
+
+msgid "obj_lrss_desc"
+msgstr ""
+
+msgid "obj_lso"
+msgstr ""
+
+msgid "obj_lso_duplicate"
+msgstr ""
+
+msgid "obj_lsos"
+msgstr ""
+
+msgid "obj_lsos_desc"
+msgstr ""
+
+msgid "obj_lti"
+msgstr ""
+
+msgid "obj_ltis"
+msgstr ""
+
+msgid "obj_ltis_desc"
+msgstr ""
+
+msgid "obj_mail"
+msgstr ""
+
+msgid "obj_mail_desc"
+msgstr ""
+
+msgid "obj_mailr"
+msgstr ""
+
+msgid "obj_mailu"
+msgstr ""
+
+msgid "obj_maps"
+msgstr ""
+
+msgid "obj_mcst"
+msgstr ""
+
+msgid "obj_mcst_duplicate"
+msgstr ""
+
+msgid "obj_mcts"
+msgstr ""
+
+msgid "obj_mcts_desc"
+msgstr ""
+
+msgid "obj_mep"
+msgstr ""
+
+msgid "obj_mep_duplicate"
+msgstr ""
+
+msgid "obj_mme"
+msgstr ""
+
+msgid "obj_mob"
+msgstr ""
+
+msgid "obj_mobs"
+msgstr ""
+
+msgid "obj_mobs_desc"
+msgstr ""
+
+msgid "obj_not_found"
+msgstr ""
+
+msgid "obj_nota"
+msgstr ""
+
+msgid "obj_nota_desc"
+msgstr ""
+
+msgid "obj_nots"
+msgstr ""
+
+msgid "obj_nots_desc"
+msgstr ""
+
+msgid "obj_nwss"
+msgstr ""
+
+msgid "obj_nwss_desc"
+msgstr ""
+
+msgid "obj_objf"
+msgstr ""
+
+msgid "obj_orgu"
+msgstr ""
+
+msgid "obj_orgu_description"
+msgstr ""
+
+msgid "obj_page"
+msgstr ""
+
+msgid "obj_peac"
+msgstr ""
+
+msgid "obj_peadl"
+msgstr ""
+
+msgid "obj_peadt"
+msgstr ""
+
+msgid "obj_pecd"
+msgstr ""
+
+msgid "obj_pech"
+msgstr ""
+
+msgid "obj_pecl"
+msgstr ""
+
+msgid "obj_peclp"
+msgstr ""
+
+msgid "obj_pecom"
+msgstr ""
+
+msgid "obj_pecrs"
+msgstr ""
+
+msgid "obj_pecrt"
+msgstr ""
+
+msgid "obj_pecs"
+msgstr ""
+
+msgid "obj_pedt"
+msgstr ""
+
+msgid "obj_pefl"
+msgstr ""
+
+msgid "obj_peim"
+msgstr ""
+
+msgid "obj_pelh"
+msgstr ""
+
+msgid "obj_pemed"
+msgstr ""
+
+msgid "obj_pemp"
+msgstr ""
+
+msgid "obj_pepd"
+msgstr ""
+
+msgid "obj_pepe"
+msgstr ""
+
+msgid "obj_pepl"
+msgstr ""
+
+msgid "obj_peplh"
+msgstr ""
+
+msgid "obj_pequ"
+msgstr ""
+
+msgid "obj_perl"
+msgstr ""
+
+msgid "obj_pesc"
+msgstr ""
+
+msgid "obj_petmp"
+msgstr ""
+
+msgid "obj_peusr"
+msgstr ""
+
+msgid "obj_pg"
+msgstr ""
+
+msgid "obj_poll"
+msgstr ""
+
+msgid "obj_poll_dupliate:"
+msgstr ""
+
+msgid "obj_poll_duplicate"
+msgstr ""
+
+msgid "obj_prg"
+msgstr ""
+
+msgid "obj_prg_duplicate"
+msgstr ""
+
+msgid "obj_prg_select"
+msgstr ""
+
+msgid "obj_prgr"
+msgstr ""
+
+msgid "obj_prgrs"
+msgstr ""
+
+msgid "obj_prgs"
+msgstr ""
+
+msgid "obj_prgs_desc"
+msgstr ""
+
+msgid "obj_prss"
+msgstr ""
+
+msgid "obj_prss_desc"
+msgstr ""
+
+msgid "obj_prtf"
+msgstr ""
+
+msgid "obj_prtt"
+msgstr ""
+
+msgid "obj_prtt_duplicate"
+msgstr ""
+
+msgid "obj_ps"
+msgstr ""
+
+msgid "obj_ps_desc"
+msgstr ""
+
+msgid "obj_qpl"
+msgstr ""
+
+msgid "obj_qpl_duplicate"
+msgstr ""
+
+msgid "obj_qpl_select"
+msgstr ""
+
+msgid "obj_rcat"
+msgstr ""
+
+msgid "obj_rcrs"
+msgstr ""
+
+msgid "obj_recf"
+msgstr ""
+
+msgid "obj_recf_desc"
+msgstr ""
+
+msgid "obj_rep"
+msgstr ""
+
+msgid "obj_reps"
+msgstr ""
+
+msgid "obj_reps_desc"
+msgstr ""
+
+msgid "obj_rfil"
+msgstr ""
+
+msgid "obj_rglo"
+msgstr ""
+
+msgid "obj_rgrp"
+msgstr ""
+
+msgid "obj_rlm"
+msgstr ""
+
+msgid "obj_role"
+msgstr ""
+
+msgid "obj_rolf"
+msgstr ""
+
+msgid "obj_rolf_desc"
+msgstr ""
+
+msgid "obj_rolf_local"
+msgstr ""
+
+msgid "obj_rolf_local_desc"
+msgstr ""
+
+msgid "obj_rolt"
+msgstr ""
+
+msgid "obj_root"
+msgstr ""
+
+msgid "obj_rtst"
+msgstr ""
+
+msgid "obj_rwik"
+msgstr ""
+
+msgid "obj_sahs"
+msgstr ""
+
+msgid "obj_sahs_duplicate"
+msgstr ""
+
+msgid "obj_sco"
+msgstr ""
+
+msgid "obj_scov"
+msgstr ""
+
+msgid "obj_seas"
+msgstr ""
+
+msgid "obj_seas_desc"
+msgstr ""
+
+msgid "obj_serv"
+msgstr ""
+
+msgid "obj_serv_desc"
+msgstr ""
+
+msgid "obj_sess"
+msgstr ""
+
+msgid "obj_sess_duplicate"
+msgstr ""
+
+msgid "obj_skmg"
+msgstr ""
+
+msgid "obj_skmg_desc"
+msgstr ""
+
+msgid "obj_spl"
+msgstr ""
+
+msgid "obj_st"
+msgstr ""
+
+msgid "obj_stus"
+msgstr ""
+
+msgid "obj_stus_desc"
+msgstr ""
+
+msgid "obj_sty"
+msgstr ""
+
+msgid "obj_stys"
+msgstr ""
+
+msgid "obj_stys_desc"
+msgstr ""
+
+msgid "obj_svy"
+msgstr ""
+
+msgid "obj_svy_duplicate"
+msgstr ""
+
+msgid "obj_svyf"
+msgstr ""
+
+msgid "obj_svyf_desc"
+msgstr ""
+
+msgid "obj_sysc"
+msgstr ""
+
+msgid "obj_sysc_desc"
+msgstr ""
+
+msgid "obj_tags"
+msgstr ""
+
+msgid "obj_tags_desc"
+msgstr ""
+
+msgid "obj_tala"
+msgstr ""
+
+msgid "obj_tala_desc"
+msgstr ""
+
+msgid "obj_tals"
+msgstr ""
+
+msgid "obj_talt"
+msgstr ""
+
+msgid "obj_task"
+msgstr ""
+
+msgid "obj_tax"
+msgstr ""
+
+msgid "obj_taxf"
+msgstr ""
+
+msgid "obj_tool_setting_calendar"
+msgstr ""
+
+msgid "obj_tool_setting_calendar_active"
+msgstr ""
+
+msgid "obj_tool_setting_calendar_active_info"
+msgstr ""
+
+msgid "obj_tool_setting_calendar_info"
+msgstr ""
+
+msgid "obj_tool_setting_custom_metadata"
+msgstr ""
+
+msgid "obj_tool_setting_custom_metadata_info"
+msgstr ""
+
+msgid "obj_tool_setting_news"
+msgstr ""
+
+msgid "obj_tool_setting_news_info"
+msgstr ""
+
+msgid "obj_tos"
+msgstr ""
+
+msgid "obj_tos_desc"
+msgstr ""
+
+msgid "obj_trac"
+msgstr ""
+
+msgid "obj_trac_desc"
+msgstr ""
+
+msgid "obj_tst"
+msgstr ""
+
+msgid "obj_tst_duplicate"
+msgstr ""
+
+msgid "obj_tstv"
+msgstr ""
+
+msgid "obj_type"
+msgstr ""
+
+msgid "obj_user"
+msgstr ""
+
+msgid "obj_usr"
+msgstr ""
+
+msgid "obj_usrf"
+msgstr ""
+
+msgid "obj_usrf_desc"
+msgstr ""
+
+msgid "obj_wbdv"
+msgstr ""
+
+msgid "obj_wbdv_desc"
+msgstr ""
+
+msgid "obj_wbrs"
+msgstr ""
+
+msgid "obj_wbrs_desc"
+msgstr ""
+
+msgid "obj_webr"
+msgstr ""
+
+msgid "obj_webr_duplicate"
+msgstr ""
+
+msgid "obj_wfld"
+msgstr ""
+
+msgid "obj_wiki"
+msgstr ""
+
+msgid "obj_wiki_duplicate"
+msgstr ""
+
+msgid "obj_wiks"
+msgstr ""
+
+msgid "obj_wiks_desc"
+msgstr ""
+
+msgid "object"
+msgstr ""
+
+msgid "object_added"
+msgstr ""
+
+msgid "object_copy_in_progress"
+msgstr ""
+
+msgid "object_duplicated"
+msgstr ""
+
+msgid "object_id"
+msgstr ""
+
+msgid "object_imported"
+msgstr ""
+
+msgid "object_list"
+msgstr ""
+
+msgid "objects"
+msgstr ""
+
+msgid "objf"
+msgstr ""
+
+msgid "objs_bibl"
+msgstr ""
+
+msgid "objs_blog"
+msgstr ""
+
+msgid "objs_book"
+msgstr ""
+
+msgid "objs_cat"
+msgstr ""
+
+msgid "objs_catr"
+msgstr ""
+
+msgid "objs_chtr"
+msgstr ""
+
+msgid "objs_cmix"
+msgstr ""
+
+msgid "objs_copa"
+msgstr ""
+
+msgid "objs_crs"
+msgstr ""
+
+msgid "objs_crsr"
+msgstr ""
+
+msgid "objs_dcl"
+msgstr ""
+
+msgid "objs_etal"
+msgstr ""
+
+msgid "objs_exc"
+msgstr ""
+
+msgid "objs_file"
+msgstr ""
+
+msgid "objs_fold"
+msgstr ""
+
+msgid "objs_frm"
+msgstr ""
+
+msgid "objs_glo"
+msgstr ""
+
+msgid "objs_grp"
+msgstr ""
+
+msgid "objs_grpr"
+msgstr ""
+
+msgid "objs_htlm"
+msgstr ""
+
+msgid "objs_iass"
+msgstr ""
+
+msgid "objs_itgr"
+msgstr ""
+
+msgid "objs_lm"
+msgstr ""
+
+msgid "objs_lres"
+msgstr ""
+
+msgid "objs_lso"
+msgstr ""
+
+msgid "objs_lti"
+msgstr ""
+
+msgid "objs_mail"
+msgstr ""
+
+msgid "objs_mcst"
+msgstr ""
+
+msgid "objs_mep"
+msgstr ""
+
+msgid "objs_orgu"
+msgstr ""
+
+msgid "objs_poll"
+msgstr ""
+
+msgid "objs_prg"
+msgstr ""
+
+msgid "objs_prgr"
+msgstr ""
+
+msgid "objs_prtf"
+msgstr ""
+
+msgid "objs_prtt"
+msgstr ""
+
+msgid "objs_qpl"
+msgstr ""
+
+msgid "objs_qst"
+msgstr ""
+
+msgid "objs_rcat"
+msgstr ""
+
+msgid "objs_rcrs"
+msgstr ""
+
+msgid "objs_rfil"
+msgstr ""
+
+msgid "objs_rglo"
+msgstr ""
+
+msgid "objs_rgrp"
+msgstr ""
+
+msgid "objs_rlm"
+msgstr ""
+
+msgid "objs_role"
+msgstr ""
+
+msgid "objs_rolf"
+msgstr ""
+
+msgid "objs_rtst"
+msgstr ""
+
+msgid "objs_rwik"
+msgstr ""
+
+msgid "objs_sahs"
+msgstr ""
+
+msgid "objs_sess"
+msgstr ""
+
+msgid "objs_skee"
+msgstr ""
+
+msgid "objs_spl"
+msgstr ""
+
+msgid "objs_st"
+msgstr ""
+
+msgid "objs_svy"
+msgstr ""
+
+msgid "objs_tala"
+msgstr ""
+
+msgid "objs_talt"
+msgstr ""
+
+msgid "objs_tst"
+msgstr ""
+
+msgid "objs_webr"
+msgstr ""
+
+msgid "objs_wiki"
+msgstr ""
+
+msgid "of"
+msgstr ""
+
+msgid "offline"
+msgstr ""
+
+msgid "offline_mode"
+msgstr ""
+
+msgid "ok"
+msgstr ""
+
+msgid "old"
+msgstr ""
+
+msgid "omit"
+msgstr ""
+
+msgid "omit_all"
+msgstr ""
+
+msgid "on_waiting_list"
+msgstr ""
+
+msgid "online"
+msgstr ""
+
+msgid "online_time"
+msgstr ""
+
+msgid "only_active"
+msgstr ""
+
+msgid "only_inactive"
+msgstr ""
+
+msgid "open"
+msgstr ""
+
+msgid "operation"
+msgstr ""
+
+msgid "optimize"
+msgstr ""
+
+msgid "option"
+msgstr ""
+
+msgid "optional_filter_hint"
+msgstr ""
+
+msgid "optional_filters"
+msgstr ""
+
+msgid "options"
+msgstr ""
+
+msgid "order_by"
+msgstr ""
+
+msgid "order_by_date"
+msgstr ""
+
+msgid "org_op_access_enrolments"
+msgstr ""
+
+msgid "org_op_manage_members"
+msgstr ""
+
+msgid "org_op_read_learning_progress"
+msgstr ""
+
+msgid "org_permission_settings"
+msgstr ""
+
+msgid "org_units"
+msgstr ""
+
+msgid "organization"
+msgstr ""
+
+msgid "other"
+msgstr ""
+
+msgid "overview"
+msgstr ""
+
+msgid "overwrite"
+msgstr ""
+
+msgid "owner"
+msgstr ""
+
+msgid "owner_updated"
+msgstr ""
+
+msgid "page"
+msgstr ""
+
+msgid "page_count"
+msgstr ""
+
+msgid "page_layout"
+msgstr ""
+
+msgid "page_layouts"
+msgstr ""
+
+msgid "pagination_label_x_of_y"
+msgstr ""
+
+msgid "parameter"
+msgstr ""
+
+msgid "parse"
+msgstr ""
+
+msgid "participate"
+msgstr ""
+
+msgid "passed"
+msgstr ""
+
+msgid "passwd"
+msgstr ""
+
+msgid "passwd_generation"
+msgstr ""
+
+msgid "passwd_invalid"
+msgstr ""
+
+msgid "passwd_not_match"
+msgstr ""
+
+msgid "passwd_wrong"
+msgstr ""
+
+msgid "password"
+msgstr ""
+
+msgid "password_allow_chars"
+msgstr ""
+
+msgid "password_assistance_info"
+msgstr ""
+
+msgid "password_change_on_first_login_demand"
+msgstr ""
+
+msgid "password_contains_invalid_chars"
+msgstr ""
+
+msgid "password_contains_parts_of_login_err"
+msgstr ""
+
+msgid "password_empty"
+msgstr ""
+
+msgid "password_expired"
+msgstr ""
+
+msgid "password_multiple_errors"
+msgstr ""
+
+msgid "password_must_chars_and_numbers"
+msgstr ""
+
+msgid "password_must_contain_lcase_chars"
+msgstr ""
+
+msgid "password_must_contain_ucase_chars"
+msgstr ""
+
+msgid "password_must_special_chars"
+msgstr ""
+
+msgid "password_to_long"
+msgstr ""
+
+msgid "password_to_short"
+msgstr ""
+
+msgid "paste"
+msgstr ""
+
+msgid "pasteChapter"
+msgstr ""
+
+msgid "pastePage"
+msgstr ""
+
+msgid "paste_clipboard_items"
+msgstr ""
+
+msgid "path"
+msgstr ""
+
+msgid "path_not_set"
+msgstr ""
+
+msgid "path_to_convert"
+msgstr ""
+
+msgid "path_to_htmldoc"
+msgstr ""
+
+msgid "path_to_java"
+msgstr ""
+
+msgid "path_to_unzip"
+msgstr ""
+
+msgid "path_to_zip"
+msgstr ""
+
+msgid "pathes"
+msgstr ""
+
+msgid "pd_items_news"
+msgstr ""
+
+msgid "pdf_export"
+msgstr ""
+
+msgid "perm_settings"
+msgstr ""
+
+msgid "perma_link"
+msgstr ""
+
+msgid "perma_link_copied"
+msgstr ""
+
+msgid "permission"
+msgstr ""
+
+msgid "permission_denied"
+msgstr ""
+
+msgid "permission_settings"
+msgstr ""
+
+msgid "person_title"
+msgstr ""
+
+msgid "personal_data"
+msgstr ""
+
+msgid "personal_picture"
+msgstr ""
+
+msgid "personal_profile"
+msgstr ""
+
+msgid "personal_resources"
+msgstr ""
+
+msgid "personal_settings"
+msgstr ""
+
+msgid "personalise_date_time"
+msgstr ""
+
+msgid "persons"
+msgstr ""
+
+msgid "pg_add"
+msgstr ""
+
+msgid "pg_new"
+msgstr ""
+
+msgid "phone"
+msgstr ""
+
+msgid "phone_home"
+msgstr ""
+
+msgid "phone_mobile"
+msgstr ""
+
+msgid "phone_office"
+msgstr ""
+
+msgid "phrase"
+msgstr ""
+
+msgid "please_choose"
+msgstr ""
+
+msgid "please_enter_target"
+msgstr ""
+
+msgid "please_enter_title"
+msgstr ""
+
+msgid "please_select"
+msgstr ""
+
+msgid "please_select_a_delivered_file_to_delete"
+msgstr ""
+
+msgid "please_select_a_delivered_file_to_download"
+msgstr ""
+
+msgid "please_wait"
+msgstr ""
+
+msgid "port"
+msgstr ""
+
+msgid "portfolio"
+msgstr ""
+
+msgid "pos_bottom"
+msgstr ""
+
+msgid "pos_left"
+msgstr ""
+
+msgid "pos_right"
+msgstr ""
+
+msgid "pos_top"
+msgstr ""
+
+msgid "position"
+msgstr ""
+
+msgid "position_permission_settings"
+msgstr ""
+
+msgid "precondition"
+msgstr ""
+
+msgid "precondition_not_accessible"
+msgstr ""
+
+msgid "precondition_required_itemlist"
+msgstr ""
+
+msgid "precondition_toggle"
+msgstr ""
+
+msgid "preconditions"
+msgstr ""
+
+msgid "preconditions_obligatory_hint"
+msgstr ""
+
+msgid "preconditions_optional_hint"
+msgstr ""
+
+msgid "predefined_template"
+msgstr ""
+
+msgid "preferences"
+msgstr ""
+
+msgid "presentation_table_more"
+msgstr ""
+
+msgid "presenter"
+msgstr ""
+
+msgid "preview"
+msgstr ""
+
+msgid "preview_create"
+msgstr ""
+
+msgid "preview_delete"
+msgstr ""
+
+msgid "preview_image_size"
+msgstr ""
+
+msgid "preview_learner_info"
+msgstr ""
+
+msgid "preview_loading"
+msgstr ""
+
+msgid "preview_none"
+msgstr ""
+
+msgid "preview_not_possible"
+msgstr ""
+
+msgid "preview_renderers"
+msgstr ""
+
+msgid "preview_settings"
+msgstr ""
+
+msgid "preview_show"
+msgstr ""
+
+msgid "preview_status_creating"
+msgstr ""
+
+msgid "preview_status_deleting"
+msgstr ""
+
+msgid "preview_status_failed"
+msgstr ""
+
+msgid "preview_status_missing"
+msgstr ""
+
+msgid "preview_status_pending"
+msgstr ""
+
+msgid "previous"
+msgstr ""
+
+msgid "prg_copy_threads_info"
+msgstr ""
+
+msgid "prg_wizard_page"
+msgstr ""
+
+msgid "prgr_add"
+msgstr ""
+
+msgid "prgr_edit_info"
+msgstr ""
+
+msgid "prgr_new"
+msgstr ""
+
+msgid "prgr_settings"
+msgstr ""
+
+msgid "print"
+msgstr ""
+
+msgid "print_view"
+msgstr ""
+
+msgid "private_notes"
+msgstr ""
+
+msgid "pro"
+msgstr ""
+
+msgid "proceed"
+msgstr ""
+
+msgid "profile"
+msgstr ""
+
+msgid "profile_changed"
+msgstr ""
+
+msgid "profile_incomplete"
+msgstr ""
+
+msgid "profile_of"
+msgstr ""
+
+msgid "properties"
+msgstr ""
+
+msgid "proxy"
+msgstr ""
+
+msgid "proxy_connectable"
+msgstr ""
+
+msgid "proxy_host"
+msgstr ""
+
+msgid "proxy_host_info"
+msgstr ""
+
+msgid "proxy_not_connectable"
+msgstr ""
+
+msgid "proxy_port"
+msgstr ""
+
+msgid "proxy_port_info"
+msgstr ""
+
+msgid "proxy_port_numeric"
+msgstr ""
+
+msgid "proxy_socket_error"
+msgstr ""
+
+msgid "proxy_status"
+msgstr ""
+
+msgid "proxy_status_info"
+msgstr ""
+
+msgid "ps_export_scorm"
+msgstr ""
+
+msgid "ps_password_lowercase_chars_num"
+msgstr ""
+
+msgid "ps_password_lowercase_chars_num_info"
+msgstr ""
+
+msgid "ps_password_must_not_contain_loginame"
+msgstr ""
+
+msgid "ps_password_must_not_contain_loginame_info"
+msgstr ""
+
+msgid "ps_password_uppercase_chars_num"
+msgstr ""
+
+msgid "ps_password_uppercase_chars_num_info"
+msgstr ""
+
+msgid "pub_section"
+msgstr ""
+
+msgid "pub_section_info"
+msgstr ""
+
+msgid "public"
+msgstr ""
+
+msgid "public_notes"
+msgstr ""
+
+msgid "public_profile"
+msgstr ""
+
+msgid "public_room"
+msgstr ""
+
+msgid "purpose"
+msgstr ""
+
+msgid "qpl"
+msgstr ""
+
+msgid "qpl_add"
+msgstr ""
+
+msgid "qpl_new"
+msgstr ""
+
+msgid "query_data"
+msgstr ""
+
+msgid "question"
+msgstr ""
+
+msgid "question_message"
+msgstr ""
+
+msgid "quit"
+msgstr ""
+
+msgid "quote"
+msgstr ""
+
+msgid "read"
+msgstr ""
+
+msgid "readcount_anonymous_users"
+msgstr ""
+
+msgid "readcount_users"
+msgstr ""
+
+msgid "recipient"
+msgstr ""
+
+msgid "reference_deleted"
+msgstr ""
+
+msgid "reference_of"
+msgstr ""
+
+msgid "referral_comment"
+msgstr ""
+
+msgid "refresh"
+msgstr ""
+
+msgid "refresh_languages"
+msgstr ""
+
+msgid "refuse"
+msgstr ""
+
+msgid "reg_account_confirmation_successful"
+msgstr ""
+
+msgid "reg_delete_expired_pending_registrations"
+msgstr ""
+
+msgid "reg_delete_expired_pending_registrations_desc"
+msgstr ""
+
+msgid "reg_goto_parent_membership_info"
+msgstr ""
+
+msgid "reg_mail_body_2_confirmation"
+msgstr ""
+
+msgid "reg_mail_body_3_confirmation"
+msgstr ""
+
+msgid "reg_mail_body_forgot_password_info"
+msgstr ""
+
+msgid "reg_mail_body_salutation"
+msgstr ""
+
+msgid "reg_mail_body_text1"
+msgstr ""
+
+msgid "reg_mail_body_text2"
+msgstr ""
+
+msgid "reg_mail_body_text3"
+msgstr ""
+
+msgid "reg_mail_subject"
+msgstr ""
+
+msgid "reg_mail_subject_confirmation"
+msgstr ""
+
+msgid "reg_passwd_via_mail"
+msgstr ""
+
+msgid "register"
+msgstr ""
+
+msgid "register_notification"
+msgstr ""
+
+msgid "registered_since"
+msgstr ""
+
+msgid "registered_user"
+msgstr ""
+
+msgid "registered_users"
+msgstr ""
+
+msgid "registration"
+msgstr ""
+
+msgid "related_to"
+msgstr ""
+
+msgid "remove"
+msgstr ""
+
+msgid "remove_entries"
+msgstr ""
+
+msgid "remove_translation"
+msgstr ""
+
+msgid "rename"
+msgstr ""
+
+msgid "rename_file"
+msgstr ""
+
+msgid "renderer_supported_file_types"
+msgstr ""
+
+msgid "renderer_supported_repo_types"
+msgstr ""
+
+msgid "renderer_type_builtin"
+msgstr ""
+
+msgid "rep_main_page"
+msgstr ""
+
+msgid "rep_main_page_logo_alt"
+msgstr ""
+
+msgid "repeat_scan"
+msgstr ""
+
+msgid "repeat_scan_failed"
+msgstr ""
+
+msgid "repeat_scan_succeded"
+msgstr ""
+
+msgid "replace_file"
+msgstr ""
+
+msgid "reply"
+msgstr ""
+
+msgid "report_accessibility_issue"
+msgstr ""
+
+msgid "report_accessibility_link"
+msgstr ""
+
+msgid "report_accessibility_link_mailto"
+msgstr ""
+
+msgid "repository"
+msgstr ""
+
+msgid "repository_admin"
+msgstr ""
+
+msgid "repository_admin_desc"
+msgstr ""
+
+msgid "require_email"
+msgstr ""
+
+msgid "require_gender"
+msgstr ""
+
+msgid "require_hobby"
+msgstr ""
+
+msgid "require_matriculation"
+msgstr ""
+
+msgid "require_referral_comment"
+msgstr ""
+
+msgid "required_field"
+msgstr ""
+
+msgid "res_links"
+msgstr ""
+
+msgid "res_links_short"
+msgstr ""
+
+msgid "reset"
+msgstr ""
+
+msgid "reset_filter"
+msgstr ""
+
+msgid "resources"
+msgstr ""
+
+msgid "right"
+msgstr ""
+
+msgid "rights"
+msgstr ""
+
+msgid "role"
+msgstr ""
+
+msgid "role_add_user"
+msgstr ""
+
+msgid "role_added"
+msgstr ""
+
+msgid "role_assignment"
+msgstr ""
+
+msgid "role_assignment_updated"
+msgstr ""
+
+msgid "role_edit"
+msgstr ""
+
+msgid "role_mailto"
+msgstr ""
+
+msgid "role_new"
+msgstr ""
+
+msgid "role_new_search"
+msgstr ""
+
+msgid "role_no_roles_selected"
+msgstr ""
+
+msgid "role_protect_permissions"
+msgstr ""
+
+msgid "role_protect_permissions_desc"
+msgstr ""
+
+msgid "role_select_one_item"
+msgstr ""
+
+msgid "role_sure_delete_desk_items"
+msgstr ""
+
+msgid "role_templates_only"
+msgstr ""
+
+msgid "roles"
+msgstr ""
+
+msgid "roles_of_import_global"
+msgstr ""
+
+msgid "roles_of_import_local"
+msgstr ""
+
+msgid "rolf"
+msgstr ""
+
+msgid "rolf_added"
+msgstr ""
+
+msgid "rolf_create_role"
+msgstr ""
+
+msgid "rolf_create_rolt"
+msgstr ""
+
+msgid "rolf_delete"
+msgstr ""
+
+msgid "rolf_edit_permission"
+msgstr ""
+
+msgid "rolf_edit_userassignment"
+msgstr ""
+
+msgid "rolf_read"
+msgstr ""
+
+msgid "rolf_visible"
+msgstr ""
+
+msgid "rolf_write"
+msgstr ""
+
+msgid "rolt"
+msgstr ""
+
+msgid "rolt_added"
+msgstr ""
+
+msgid "rolt_edit"
+msgstr ""
+
+msgid "rolt_new"
+msgstr ""
+
+msgid "row"
+msgstr ""
+
+msgid "rows"
+msgstr ""
+
+msgid "rpc_pdf_font"
+msgstr ""
+
+msgid "rpc_pdf_font_info"
+msgstr ""
+
+msgid "rpc_pdf_generation"
+msgstr ""
+
+msgid "sad"
+msgstr ""
+
+msgid "sahs"
+msgstr ""
+
+msgid "sahs_added"
+msgstr ""
+
+msgid "sahs_export_file"
+msgstr ""
+
+msgid "sahs_export_file_info"
+msgstr ""
+
+msgid "sahs_insert_chap_from_clip"
+msgstr ""
+
+msgid "sahs_insert_page_from_clip"
+msgstr ""
+
+msgid "sahs_insert_sco_from_clip"
+msgstr ""
+
+msgid "sahs_new"
+msgstr ""
+
+msgid "salutation"
+msgstr ""
+
+msgid "salutation_f"
+msgstr ""
+
+msgid "salutation_m"
+msgstr ""
+
+msgid "salutation_n"
+msgstr ""
+
+msgid "saml_log_in"
+msgstr ""
+
+msgid "saml_login_form_info_txt"
+msgstr ""
+
+msgid "saml_login_form_txt"
+msgstr ""
+
+msgid "save"
+msgstr ""
+
+msgid "save_and_back"
+msgstr ""
+
+msgid "save_message"
+msgstr ""
+
+msgid "save_params_for_cron"
+msgstr ""
+
+msgid "save_refresh"
+msgstr ""
+
+msgid "save_return"
+msgstr ""
+
+msgid "save_settings"
+msgstr ""
+
+msgid "save_user_related_data"
+msgstr ""
+
+msgid "saved_successfully"
+msgstr ""
+
+msgid "saving"
+msgstr ""
+
+msgid "scope"
+msgstr ""
+
+msgid "scorm_create_export_file_html"
+msgstr ""
+
+msgid "scorm_create_export_file_pdf"
+msgstr ""
+
+msgid "scorm_create_export_file_scrom12"
+msgstr ""
+
+msgid "scorm_create_export_file_scrom2004"
+msgstr ""
+
+msgid "scorm_create_export_file_scrom2004_4th"
+msgstr ""
+
+msgid "scorm_login_as_learner_id"
+msgstr ""
+
+msgid "scorm_login_as_learner_id_info"
+msgstr ""
+
+msgid "scorm_lp_auto_activate"
+msgstr ""
+
+msgid "scorm_lp_auto_activate_info"
+msgstr ""
+
+msgid "scorm_new"
+msgstr ""
+
+msgid "scorm_without_session"
+msgstr ""
+
+msgid "scorm_without_session_info"
+msgstr ""
+
+msgid "search"
+msgstr ""
+
+msgid "search_active"
+msgstr ""
+
+msgid "search_at_current_position"
+msgstr ""
+
+msgid "search_engine"
+msgstr ""
+
+msgid "search_for"
+msgstr ""
+
+msgid "search_globally"
+msgstr ""
+
+msgid "search_in"
+msgstr ""
+
+msgid "search_inactive"
+msgstr ""
+
+msgid "search_new"
+msgstr ""
+
+msgid "search_result"
+msgstr ""
+
+msgid "search_results"
+msgstr ""
+
+msgid "search_user"
+msgstr ""
+
+msgid "search_users"
+msgstr ""
+
+msgid "seas_max_hits"
+msgstr ""
+
+msgid "seas_max_hits_info"
+msgstr ""
+
+msgid "seas_settings"
+msgstr ""
+
+msgid "second"
+msgstr ""
+
+msgid "second_email"
+msgstr ""
+
+msgid "seconds"
+msgstr ""
+
+msgid "sel_country"
+msgstr ""
+
+msgid "select"
+msgstr ""
+
+msgid "select_all"
+msgstr ""
+
+msgid "select_at_least_one_object"
+msgstr ""
+
+msgid "select_file"
+msgstr ""
+
+msgid "select_file_from_computer"
+msgstr ""
+
+msgid "select_files_from_computer"
+msgstr ""
+
+msgid "select_max_one_item"
+msgstr ""
+
+msgid "select_object_to_link"
+msgstr ""
+
+msgid "select_one"
+msgstr ""
+
+msgid "select_question_pool_info"
+msgstr ""
+
+msgid "select_questionpool"
+msgstr ""
+
+msgid "selected"
+msgstr ""
+
+msgid "selected_files"
+msgstr ""
+
+msgid "selected_items"
+msgstr ""
+
+msgid "selected_items_back"
+msgstr ""
+
+msgid "selected_languages_updated"
+msgstr ""
+
+msgid "send"
+msgstr ""
+
+msgid "send_mail"
+msgstr ""
+
+msgid "sender"
+msgstr ""
+
+msgid "sent"
+msgstr ""
+
+msgid "sequence"
+msgstr ""
+
+msgid "sequences"
+msgstr ""
+
+msgid "server"
+msgstr ""
+
+msgid "server_data"
+msgstr ""
+
+msgid "server_disabled"
+msgstr ""
+
+msgid "server_software"
+msgstr ""
+
+msgid "sess"
+msgstr ""
+
+msgid "sess_fixed_duration"
+msgstr ""
+
+msgid "session_config"
+msgstr ""
+
+msgid "session_config_maintenance_disabled"
+msgstr ""
+
+msgid "session_mail_subject_deletion"
+msgstr ""
+
+msgid "session_mail_subject_entered"
+msgstr ""
+
+msgid "session_mail_subject_registered"
+msgstr ""
+
+msgid "session_reminder"
+msgstr ""
+
+msgid "session_reminder_alert"
+msgstr ""
+
+msgid "session_reminder_default_lead_time_info"
+msgstr ""
+
+msgid "session_reminder_input"
+msgstr ""
+
+msgid "session_reminder_lead_time"
+msgstr ""
+
+msgid "session_reminder_lead_time_info"
+msgstr ""
+
+msgid "session_reminder_session_duration"
+msgstr ""
+
+msgid "set"
+msgstr ""
+
+msgid "setSystemLanguage"
+msgstr ""
+
+msgid "setUserLanguage"
+msgstr ""
+
+msgid "set_offline"
+msgstr ""
+
+msgid "set_online"
+msgstr ""
+
+msgid "set_skin_does_not_exist"
+msgstr ""
+
+msgid "set_style_does_not_exist"
+msgstr ""
+
+msgid "settings"
+msgstr ""
+
+msgid "settings_for_all_members"
+msgstr ""
+
+msgid "settings_per_users"
+msgstr ""
+
+msgid "settings_presentation_header"
+msgstr ""
+
+msgid "settings_saved"
+msgstr ""
+
+msgid "shib"
+msgstr ""
+
+msgid "shib_active"
+msgstr ""
+
+msgid "shib_city"
+msgstr ""
+
+msgid "shib_country"
+msgstr ""
+
+msgid "shib_data_conv"
+msgstr ""
+
+msgid "shib_data_conv_warning"
+msgstr ""
+
+msgid "shib_department"
+msgstr ""
+
+msgid "shib_email"
+msgstr ""
+
+msgid "shib_federation_name"
+msgstr ""
+
+msgid "shib_firstname"
+msgstr ""
+
+msgid "shib_gender"
+msgstr ""
+
+msgid "shib_general_login_instructions"
+msgstr ""
+
+msgid "shib_general_wayf_login_instructions"
+msgstr ""
+
+msgid "shib_idp_list"
+msgstr ""
+
+msgid "shib_institution"
+msgstr ""
+
+msgid "shib_invalid_home_organization"
+msgstr ""
+
+msgid "shib_language"
+msgstr ""
+
+msgid "shib_lastname"
+msgstr ""
+
+msgid "shib_login"
+msgstr ""
+
+msgid "shib_login_button"
+msgstr ""
+
+msgid "shib_login_embedded_wayf"
+msgstr ""
+
+msgid "shib_login_embedded_wayf_description"
+msgstr ""
+
+msgid "shib_login_external_wayf"
+msgstr ""
+
+msgid "shib_login_internal_wayf"
+msgstr ""
+
+msgid "shib_login_type"
+msgstr ""
+
+msgid "shib_matriculation"
+msgstr ""
+
+msgid "shib_member_of"
+msgstr ""
+
+msgid "shib_phone_home"
+msgstr ""
+
+msgid "shib_phone_mobile"
+msgstr ""
+
+msgid "shib_phone_office"
+msgstr ""
+
+msgid "shib_select_home_organization"
+msgstr ""
+
+msgid "shib_settings_saved"
+msgstr ""
+
+msgid "shib_street"
+msgstr ""
+
+msgid "shib_title"
+msgstr ""
+
+msgid "shib_update"
+msgstr ""
+
+msgid "shib_user_default_role"
+msgstr ""
+
+msgid "shib_zipcode"
+msgstr ""
+
+msgid "short_inst_name"
+msgstr ""
+
+msgid "short_inst_name_info"
+msgstr ""
+
+msgid "show"
+msgstr ""
+
+msgid "show_all_details"
+msgstr ""
+
+msgid "show_content"
+msgstr ""
+
+msgid "show_details"
+msgstr ""
+
+msgid "show_filter"
+msgstr ""
+
+msgid "show_hidden_sections"
+msgstr ""
+
+msgid "show_less"
+msgstr ""
+
+msgid "show_list"
+msgstr ""
+
+msgid "show_members"
+msgstr ""
+
+msgid "show_more"
+msgstr ""
+
+msgid "show_preview"
+msgstr ""
+
+msgid "show_users_online"
+msgstr ""
+
+msgid "show_who_is_online"
+msgstr ""
+
+msgid "side_frame"
+msgstr ""
+
+msgid "signature"
+msgstr ""
+
+msgid "size"
+msgstr ""
+
+msgid "skills"
+msgstr ""
+
+msgid "skin_style"
+msgstr ""
+
+msgid "smtp"
+msgstr ""
+
+msgid "soap_connect_timeout"
+msgstr ""
+
+msgid "soap_connect_timeout_info"
+msgstr ""
+
+msgid "soap_user_administration"
+msgstr ""
+
+msgid "soap_user_administration_desc"
+msgstr ""
+
+msgid "soap_wsdl_path"
+msgstr ""
+
+msgid "soap_wsdl_path_info"
+msgstr ""
+
+msgid "sort"
+msgstr ""
+
+msgid "sort_ascending"
+msgstr ""
+
+msgid "sort_ascending_long"
+msgstr ""
+
+msgid "sort_by_this_column"
+msgstr ""
+
+msgid "sort_descending"
+msgstr ""
+
+msgid "sort_descending_long"
+msgstr ""
+
+msgid "sort_inherit_prefix"
+msgstr ""
+
+msgid "sorting_asc"
+msgstr ""
+
+msgid "sorting_creation_header"
+msgstr ""
+
+msgid "sorting_creation_info"
+msgstr ""
+
+msgid "sorting_desc"
+msgstr ""
+
+msgid "sorting_direction"
+msgstr ""
+
+msgid "sorting_header"
+msgstr ""
+
+msgid "sorting_info_inherit"
+msgstr ""
+
+msgid "sorting_info_manual"
+msgstr ""
+
+msgid "sorting_info_title"
+msgstr ""
+
+msgid "sorting_manual_header"
+msgstr ""
+
+msgid "sorting_save"
+msgstr ""
+
+msgid "sorting_title_header"
+msgstr ""
+
+msgid "spacer"
+msgstr ""
+
+msgid "spl"
+msgstr ""
+
+msgid "spl_add"
+msgstr ""
+
+msgid "spl_import"
+msgstr ""
+
+msgid "spl_new"
+msgstr ""
+
+msgid "ssl"
+msgstr ""
+
+msgid "standard_fields"
+msgstr ""
+
+msgid "startpage"
+msgstr ""
+
+msgid "stat_selected"
+msgstr ""
+
+msgid "statistic"
+msgstr ""
+
+msgid "statistics"
+msgstr ""
+
+msgid "status"
+msgstr ""
+
+msgid "status_no_permission"
+msgstr ""
+
+msgid "step"
+msgstr ""
+
+msgid "street"
+msgstr ""
+
+msgid "structure"
+msgstr ""
+
+msgid "sty"
+msgstr ""
+
+msgid "sub_request_deleted"
+msgstr ""
+
+msgid "sub_request_saved"
+msgstr ""
+
+msgid "subject"
+msgstr ""
+
+msgid "submit"
+msgstr ""
+
+msgid "subobjects"
+msgstr ""
+
+msgid "subscription"
+msgstr ""
+
+msgid "subtabs"
+msgstr ""
+
+msgid "success_message"
+msgstr ""
+
+msgid "summary"
+msgstr ""
+
+msgid "sure_delete_selected_users"
+msgstr ""
+
+msgid "survey_defaults"
+msgstr ""
+
+msgid "survey_unlimited_invitation"
+msgstr ""
+
+msgid "svy"
+msgstr ""
+
+msgid "svy_add"
+msgstr ""
+
+msgid "svy_finished"
+msgstr ""
+
+msgid "svy_new"
+msgstr ""
+
+msgid "svy_not_finished"
+msgstr ""
+
+msgid "svy_not_started"
+msgstr ""
+
+msgid "svy_run"
+msgstr ""
+
+msgid "svy_warning_survey_not_complete"
+msgstr ""
+
+msgid "switch_language"
+msgstr ""
+
+msgid "system"
+msgstr ""
+
+msgid "system_check"
+msgstr ""
+
+msgid "system_information"
+msgstr ""
+
+msgid "system_language"
+msgstr ""
+
+msgid "system_styles"
+msgstr ""
+
+msgid "systemcheck_cron"
+msgstr ""
+
+msgid "systemcheck_cronform"
+msgstr ""
+
+msgid "table_mail_import"
+msgstr ""
+
+msgid "tabs"
+msgstr ""
+
+msgid "tagging_my_tags"
+msgstr ""
+
+msgid "tags"
+msgstr ""
+
+msgid "take_over_structure"
+msgstr ""
+
+msgid "take_over_structure_info"
+msgstr ""
+
+msgid "tals_etal"
+msgstr ""
+
+msgid "talt_etal"
+msgstr ""
+
+msgid "target"
+msgstr ""
+
+msgid "tax"
+msgstr ""
+
+msgid "tax_add"
+msgstr ""
+
+msgid "tax_new"
+msgstr ""
+
+msgid "term"
+msgstr ""
+
+msgid "test"
+msgstr ""
+
+msgid "tests"
+msgstr ""
+
+msgid "textbox"
+msgstr ""
+
+msgid "thread"
+msgstr ""
+
+msgid "thumbnail"
+msgstr ""
+
+msgid "tile_view"
+msgstr ""
+
+msgid "time"
+msgstr ""
+
+msgid "time_limit"
+msgstr ""
+
+msgid "time_limit_add_time_limit_for_selected"
+msgstr ""
+
+msgid "time_limit_from"
+msgstr ""
+
+msgid "time_limit_message"
+msgstr ""
+
+msgid "time_limit_no_users_selected"
+msgstr ""
+
+msgid "time_limit_not_valid"
+msgstr ""
+
+msgid "time_limit_reached"
+msgstr ""
+
+msgid "time_limit_unlimited"
+msgstr ""
+
+msgid "time_limit_until"
+msgstr ""
+
+msgid "title"
+msgstr ""
+
+msgid "title_required"
+msgstr ""
+
+msgid "to"
+msgstr ""
+
+msgid "to_client_list"
+msgstr ""
+
+msgid "today"
+msgstr ""
+
+msgid "toggleGlobalDefault"
+msgstr ""
+
+msgid "toggleGlobalFixed"
+msgstr ""
+
+msgid "toggle_dropdown"
+msgstr ""
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_off"
+msgstr ""
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_on"
+msgstr ""
+
+msgid "tomorrow"
+msgstr ""
+
+msgid "toolbar_more_actions"
+msgstr ""
+
+msgid "tools"
+msgstr ""
+
+msgid "top_of_page"
+msgstr ""
+
+msgid "tos_accept_usr_agreement"
+msgstr ""
+
+msgid "tos_accept_usr_agreement_intro"
+msgstr ""
+
+msgid "tos_force_accept_usr_agreement"
+msgstr ""
+
+msgid "tos_no_agreement_description"
+msgstr ""
+
+msgid "tos_refuse_acceptance"
+msgstr ""
+
+msgid "tos_usr_agreement"
+msgstr ""
+
+msgid "tos_usr_agreement_footer_intro"
+msgstr ""
+
+msgid "tos_withdraw_consent_description"
+msgstr ""
+
+msgid "tos_withdraw_consent_description_external"
+msgstr ""
+
+msgid "tos_withdraw_consent_description_internal"
+msgstr ""
+
+msgid "tos_withdraw_consent_header"
+msgstr ""
+
+msgid "tos_withdraw_consent_info"
+msgstr ""
+
+msgid "tos_withdraw_consent_info_external"
+msgstr ""
+
+msgid "total"
+msgstr ""
+
+msgid "tracking_settings"
+msgstr ""
+
+msgid "translation"
+msgstr ""
+
+msgid "trash"
+msgstr ""
+
+msgid "tree"
+msgstr ""
+
+msgid "tree_frame"
+msgstr ""
+
+msgid "treeview"
+msgstr ""
+
+msgid "tst"
+msgstr ""
+
+msgid "tst_add"
+msgstr ""
+
+msgid "tst_edit_questions"
+msgstr ""
+
+msgid "tst_history_read"
+msgstr ""
+
+msgid "tst_new"
+msgstr ""
+
+msgid "tst_results"
+msgstr ""
+
+msgid "tst_run"
+msgstr ""
+
+msgid "tst_user_not_invited"
+msgstr ""
+
+msgid "tst_warning_test_not_complete"
+msgstr ""
+
+msgid "tutors"
+msgstr ""
+
+msgid "txt_registered"
+msgstr ""
+
+msgid "txt_registered_passw_gen"
+msgstr ""
+
+msgid "txt_submitted"
+msgstr ""
+
+msgid "typ"
+msgstr ""
+
+msgid "type"
+msgstr ""
+
+msgid "udf_added_field"
+msgstr ""
+
+msgid "udf_delete_sure"
+msgstr ""
+
+msgid "udf_duplicate_entries"
+msgstr ""
+
+msgid "udf_field_deleted"
+msgstr ""
+
+msgid "udf_name_already_exists"
+msgstr ""
+
+msgid "udf_required_requires_visib_reg"
+msgstr ""
+
+msgid "udf_type_date"
+msgstr ""
+
+msgid "udf_type_datetime"
+msgstr ""
+
+msgid "udf_type_select"
+msgstr ""
+
+msgid "udf_type_text"
+msgstr ""
+
+msgid "udf_type_textarea"
+msgstr ""
+
+msgid "udf_update_select_field"
+msgstr ""
+
+msgid "udf_update_text_field"
+msgstr ""
+
+msgid "udf_update_wysiwyg_field"
+msgstr ""
+
+msgid "uid"
+msgstr ""
+
+msgid "ums_create_new_account"
+msgstr ""
+
+msgid "ums_explanation"
+msgstr ""
+
+msgid "ums_explanation_2"
+msgstr ""
+
+msgid "ums_explanation_3"
+msgstr ""
+
+msgid "ums_explanation_4"
+msgstr ""
+
+msgid "unambiguousness"
+msgstr ""
+
+msgid "uncheck_all"
+msgstr ""
+
+msgid "unchecked"
+msgstr ""
+
+msgid "uninstall"
+msgstr ""
+
+msgid "uninstalled"
+msgstr ""
+
+msgid "unknown"
+msgstr ""
+
+msgid "unparticipate"
+msgstr ""
+
+msgid "unread"
+msgstr ""
+
+msgid "unzip"
+msgstr ""
+
+msgid "up"
+msgstr ""
+
+msgid "update"
+msgstr ""
+
+msgid "update_applied"
+msgstr ""
+
+msgid "update_language"
+msgstr ""
+
+msgid "update_on_conflict"
+msgstr ""
+
+msgid "update_orgunits"
+msgstr ""
+
+msgid "update_orgunits_desc"
+msgstr ""
+
+msgid "upload"
+msgstr ""
+
+msgid "upload_error_file_not_found"
+msgstr ""
+
+msgid "upload_ok"
+msgstr ""
+
+msgid "upload_pending"
+msgstr ""
+
+msgid "upload_settings"
+msgstr ""
+
+msgid "upload_svg_rejection_message"
+msgstr ""
+
+msgid "upload_svg_rejection_message_base64"
+msgstr ""
+
+msgid "upload_svg_rejection_message_elements"
+msgstr ""
+
+msgid "upload_svg_rejection_message_foreign_object"
+msgstr ""
+
+msgid "upload_svg_rejection_message_script"
+msgstr ""
+
+msgid "uploaded_and_checked"
+msgstr ""
+
+msgid "uploading"
+msgstr ""
+
+msgid "uri"
+msgstr ""
+
+msgid "url"
+msgstr ""
+
+msgid "url_not_found"
+msgstr ""
+
+msgid "use_customized_instructions"
+msgstr ""
+
+msgid "use_default_instructions"
+msgstr ""
+
+msgid "user"
+msgstr ""
+
+msgid "user_activated"
+msgstr ""
+
+msgid "user_added"
+msgstr ""
+
+msgid "user_assignment"
+msgstr ""
+
+msgid "user_avatar"
+msgstr ""
+
+msgid "user_avatar_of"
+msgstr ""
+
+msgid "user_cant_receive_mail"
+msgstr ""
+
+msgid "user_comment"
+msgstr ""
+
+msgid "user_deactivated"
+msgstr ""
+
+msgid "user_defined_fields"
+msgstr ""
+
+msgid "user_defined_list"
+msgstr ""
+
+msgid "user_deleted"
+msgstr ""
+
+msgid "user_detail"
+msgstr ""
+
+msgid "user_ext_account"
+msgstr ""
+
+msgid "user_ext_account_desc"
+msgstr ""
+
+msgid "user_image"
+msgstr ""
+
+msgid "user_import_failed"
+msgstr ""
+
+msgid "user_imported"
+msgstr ""
+
+msgid "user_imported_with_warnings"
+msgstr ""
+
+msgid "user_language"
+msgstr ""
+
+msgid "user_never_logged_in"
+msgstr ""
+
+msgid "user_never_logged_in_info"
+msgstr ""
+
+msgid "user_never_logged_in_info_threshold_err_num"
+msgstr ""
+
+msgid "user_new_account_mail"
+msgstr ""
+
+msgid "user_new_account_mail_desc"
+msgstr ""
+
+msgid "user_not_found"
+msgstr ""
+
+msgid "user_not_found_to_delete"
+msgstr ""
+
+msgid "user_not_known"
+msgstr ""
+
+msgid "user_profile_other"
+msgstr ""
+
+msgid "user_send_new_account_mail"
+msgstr ""
+
+msgid "user_status"
+msgstr ""
+
+msgid "user_toggle_noti"
+msgstr ""
+
+msgid "userfolder_export_csv"
+msgstr ""
+
+msgid "userfolder_export_excel_x86"
+msgstr ""
+
+msgid "userfolder_export_file"
+msgstr ""
+
+msgid "userfolder_export_file_size"
+msgstr ""
+
+msgid "userfolder_export_files"
+msgstr ""
+
+msgid "userfolder_export_xml"
+msgstr ""
+
+msgid "username"
+msgstr ""
+
+msgid "username_assistance"
+msgstr ""
+
+msgid "users"
+msgstr ""
+
+msgid "users_not_imported"
+msgstr ""
+
+msgid "users_online"
+msgstr ""
+
+msgid "usr"
+msgstr ""
+
+msgid "usr_account_inactive"
+msgstr ""
+
+msgid "usr_active_only"
+msgstr ""
+
+msgid "usr_add"
+msgstr ""
+
+msgid "usr_edit"
+msgstr ""
+
+msgid "usr_field_change_components_listening"
+msgstr ""
+
+msgid "usr_filter_coursemember"
+msgstr ""
+
+msgid "usr_filter_groupmember"
+msgstr ""
+
+msgid "usr_filter_lastlogin"
+msgstr ""
+
+msgid "usr_filter_role"
+msgstr ""
+
+msgid "usr_inactive_only"
+msgstr ""
+
+msgid "usr_limited_access_only"
+msgstr ""
+
+msgid "usr_name_undisclosed"
+msgstr ""
+
+msgid "usr_new"
+msgstr ""
+
+msgid "usr_settings_changeable_lua"
+msgstr ""
+
+msgid "usr_settings_explanation_profile"
+msgstr ""
+
+msgid "usr_settings_header_profile"
+msgstr ""
+
+msgid "usr_settings_saved"
+msgstr ""
+
+msgid "usr_settings_visib_lua"
+msgstr ""
+
+msgid "usr_skin_style"
+msgstr ""
+
+msgid "usr_without_courses"
+msgstr ""
+
+msgid "usrf"
+msgstr ""
+
+msgid "usrf_profile_link"
+msgstr ""
+
+msgid "usrimport_action_ignored"
+msgstr ""
+
+msgid "usrimport_action_replaced"
+msgstr ""
+
+msgid "usrimport_cant_delete"
+msgstr ""
+
+msgid "usrimport_cant_insert"
+msgstr ""
+
+msgid "usrimport_cant_update"
+msgstr ""
+
+msgid "usrimport_conflict_handling_info"
+msgstr ""
+
+msgid "usrimport_form_not_evaluabe"
+msgstr ""
+
+msgid "usrimport_global_role_for_action_required"
+msgstr ""
+
+msgid "usrimport_ignore_role"
+msgstr ""
+
+msgid "usrimport_login_is_not_unique"
+msgstr ""
+
+msgid "usrimport_no_insert_ext_account_exists"
+msgstr ""
+
+msgid "usrimport_no_update_ext_account_exists"
+msgstr ""
+
+msgid "usrimport_with_specified_role_not_permitted"
+msgstr ""
+
+msgid "usrimport_wrong_file_count"
+msgstr ""
+
+msgid "usrimport_xml_anonymous_or_root_not_allowed"
+msgstr ""
+
+msgid "usrimport_xml_attribute_missing"
+msgstr ""
+
+msgid "usrimport_xml_attribute_value_illegal"
+msgstr ""
+
+msgid "usrimport_xml_attribute_value_inapplicable"
+msgstr ""
+
+msgid "usrimport_xml_element_content_illegal"
+msgstr ""
+
+msgid "usrimport_xml_element_for_action_required"
+msgstr ""
+
+msgid "usrimport_xml_element_inapplicable"
+msgstr ""
+
+msgid "valid"
+msgstr ""
+
+msgid "validate"
+msgstr ""
+
+msgid "value"
+msgstr ""
+
+msgid "vcard"
+msgstr ""
+
+msgid "vcard_download"
+msgstr ""
+
+msgid "verification_failed"
+msgstr ""
+
+msgid "verification_failure_log"
+msgstr ""
+
+msgid "verification_warning_log"
+msgstr ""
+
+msgid "version"
+msgstr ""
+
+msgid "versions"
+msgstr ""
+
+msgid "view"
+msgstr ""
+
+msgid "view_content"
+msgstr ""
+
+msgid "view_learning_progress"
+msgstr ""
+
+msgid "view_learning_progress_rec"
+msgstr ""
+
+msgid "visible"
+msgstr ""
+
+msgid "visible_registration"
+msgstr ""
+
+msgid "visitor"
+msgstr ""
+
+msgid "visitors"
+msgstr ""
+
+msgid "visits"
+msgstr ""
+
+msgid "web_resources"
+msgstr ""
+
+msgid "webdav"
+msgstr ""
+
+msgid "webdav_add_instructions_btn_label"
+msgstr ""
+
+msgid "webdav_chosen_language_already_used"
+msgstr ""
+
+msgid "webdav_doc_delete"
+msgstr ""
+
+msgid "webdav_docs_mount_instructions"
+msgstr ""
+
+msgid "webdav_duplicate_detected_title"
+msgstr ""
+
+msgid "webdav_forbidden_chars_title"
+msgstr ""
+
+msgid "webdav_form_document"
+msgstr ""
+
+msgid "webdav_form_document_info"
+msgstr ""
+
+msgid "webdav_form_document_title"
+msgstr ""
+
+msgid "webdav_form_document_title_info"
+msgstr ""
+
+msgid "webdav_form_edit_doc_head"
+msgstr ""
+
+msgid "webdav_form_new_doc_head"
+msgstr ""
+
+msgid "webdav_general_settings"
+msgstr ""
+
+msgid "webdav_missing_lang"
+msgstr ""
+
+msgid "webdav_mount_instructions"
+msgstr ""
+
+msgid "webdav_problem_free_container"
+msgstr ""
+
+msgid "webdav_problem_info_duplicate"
+msgstr ""
+
+msgid "webdav_pwd_instruction"
+msgstr ""
+
+msgid "webdav_pwd_instruction_success"
+msgstr ""
+
+msgid "webdav_sure_delete_documents_s"
+msgstr ""
+
+msgid "webdav_tbl_docs_head_title"
+msgstr ""
+
+msgid "webdav_tbl_docs_title"
+msgstr ""
+
+msgid "webdav_upload_instructions"
+msgstr ""
+
+msgid "webfolder_dir_info"
+msgstr ""
+
+msgid "webfolder_index_of"
+msgstr ""
+
+msgid "webfolder_instructions"
+msgstr ""
+
+msgid "webfolder_instructions_info"
+msgstr ""
+
+msgid "webfolder_instructions_text"
+msgstr ""
+
+msgid "webfolder_instructions_titletext"
+msgstr ""
+
+msgid "webfolder_mount_dir_with"
+msgstr ""
+
+msgid "webr"
+msgstr ""
+
+msgid "webr_active"
+msgstr ""
+
+msgid "webr_add"
+msgstr ""
+
+msgid "webr_deleted_items"
+msgstr ""
+
+msgid "webr_edit"
+msgstr ""
+
+msgid "webr_sure_delete_items"
+msgstr ""
+
+msgid "webservices"
+msgstr ""
+
+msgid "week"
+msgstr ""
+
+msgid "weekly"
+msgstr ""
+
+msgid "weeks"
+msgstr ""
+
+msgid "welcome"
+msgstr ""
+
+msgid "width"
+msgstr ""
+
+msgid "wiki"
+msgstr ""
+
+msgid "wiki_add"
+msgstr ""
+
+msgid "wiki_new"
+msgstr ""
+
+msgid "with"
+msgstr ""
+
+msgid "withdraw_consent"
+msgstr ""
+
+msgid "withdraw_consent_info_internal"
+msgstr ""
+
+msgid "withdraw_usr_agreement"
+msgstr ""
+
+msgid "withdrawal_complete"
+msgstr ""
+
+msgid "withdrawal_complete_deleted"
+msgstr ""
+
+msgid "withdrawal_complete_redirect"
+msgstr ""
+
+msgid "withdrawal_mail_info"
+msgstr ""
+
+msgid "withdrawal_mail_subject"
+msgstr ""
+
+msgid "withdrawal_mail_text"
+msgstr ""
+
+msgid "withdrawal_sure_account"
+msgstr ""
+
+msgid "withdrawal_sure_account_deletion"
+msgstr ""
+
+msgid "withdrawal_sure_account_deletion_no_consent_yet"
+msgstr ""
+
+msgid "withdrawal_sure_account_no_consent_yet"
+msgstr ""
+
+msgid "wizard_search_list"
+msgstr ""
+
+msgid "wizard_title_info"
+msgstr ""
+
+msgid "write"
+msgstr ""
+
+msgid "year"
+msgstr ""
+
+msgid "yearly"
+msgstr ""
+
+msgid "years"
+msgstr ""
+
+msgid "yes"
+msgstr ""
+
+msgid "yesterday"
+msgstr ""
+
+msgid "zip"
+msgstr ""
+
+msgid "zip_structure_error"
+msgstr ""
+
+msgid "zip_test_failed"
+msgstr ""
+
+msgid "zipcode"
+msgstr ""

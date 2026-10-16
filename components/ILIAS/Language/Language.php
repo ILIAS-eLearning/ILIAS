@@ -222,5 +222,9 @@ class Language implements Component\Component
             $this,
             'lng'
         );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'common'
+        );
     }
 }

@@ -1,0 +1,8589 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sk\n"
+"Language-Team: Slovak\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: common\n"
+
+msgid "HH"
+msgstr "HH:MM"
+
+msgid "absolute_path"
+msgstr "Absolutní cesta"
+
+#, fuzzy
+msgid "accept_usr_agreement_btn"
+msgstr "Accept"
+
+msgid "access"
+msgstr "Přístup"
+
+msgid "accessFree"
+msgstr "Odstranit omezený přístup"
+
+msgid "accessRestrict"
+msgstr "Nastavit omezený přístup"
+
+msgid "access_expired"
+msgstr "vypršel"
+
+msgid "access_free_granted"
+msgstr "Nastavit neomezený přístup vybraných uživatelů"
+
+msgid "access_from"
+msgstr "Přístup (z)"
+
+msgid "access_public"
+msgstr "Veřejný"
+
+msgid "access_restricted"
+msgstr "Nastavit omezený přístup vybraných uživatelů"
+
+msgid "access_scope"
+msgstr "Přístup"
+
+msgid "access_unlimited"
+msgstr "Neomezený"
+
+msgid "access_until"
+msgstr "Přístup (do)"
+
+msgid "access_users"
+msgstr "Zaznamenaný v uživatelích"
+
+msgid "accesscount_registered_users"
+msgstr "Číst podle počtu odlišných uživatelů ILIAS"
+
+#, fuzzy
+msgid "accessibility_control_concept"
+msgstr "Accessibility Control Concept"
+
+#, fuzzy
+msgid "account"
+msgstr "My Account"
+
+msgid "account_expires_body"
+msgstr "Váš účet je časově omezen, vyprší:"
+
+msgid "account_expires_subject"
+msgstr "[ILIAS] Váš účet vypršel"
+
+msgid "action"
+msgstr "Akce"
+
+msgid "action_aborted"
+msgstr "Akce přerušena"
+
+msgid "actions"
+msgstr "Akce"
+
+#, fuzzy
+msgid "actions_for"
+msgstr "Actions for %s"
+
+msgid "activate"
+msgstr "Nastavit aktivní"
+
+msgid "activate_https"
+msgstr "HTTPS zajištěné ILIASem<br>(Platba, Login)"
+
+msgid "activate_tracking"
+msgstr "Aktivace"
+
+msgid "activation"
+msgstr "Upravit časování"
+
+msgid "active"
+msgstr "Aktivní"
+
+msgid "add"
+msgstr "Přidat"
+
+msgid "add_condition"
+msgstr "Vytvořit novou asociaci"
+
+#, fuzzy
+msgid "add_entry"
+msgstr "Add/Edit entry"
+
+msgid "add_member"
+msgstr "Přidat člena"
+
+#, fuzzy
+msgid "add_member_role"
+msgstr "Add Member Role"
+
+msgid "add_new_user_defined_field"
+msgstr "Přidat nová uživatelsky definovaná pole"
+
+msgid "add_note"
+msgstr "Přidat poznámku"
+
+msgid "add_parameter"
+msgstr "Nový parametr"
+
+#, fuzzy
+msgid "add_remove_edit_entries_of_main_menu"
+msgstr "Add, remove or edit entries of the main menu"
+
+#, fuzzy
+msgid "add_role"
+msgstr "Add Role"
+
+msgid "add_translation"
+msgstr "Přidat překlad"
+
+msgid "add_user"
+msgstr "Přidat lokálního uživatele"
+
+msgid "add_user_defined_field"
+msgstr "Přidat nové pole"
+
+msgid "added_new_condition"
+msgstr "Nová podmínka vytvořena."
+
+msgid "additional_info"
+msgstr "Doplňková podmínka"
+
+msgid "address"
+msgstr "Adresa"
+
+msgid "admin_force_noti"
+msgstr "Oznamování aktivní"
+
+msgid "administrate_users"
+msgstr "Správa lokálního uživatele"
+
+#, fuzzy
+msgid "administrate_users_headline"
+msgstr "Local ILIAS Accounts of this Category"
+
+msgid "administration"
+msgstr "Správa"
+
+msgid "administrator"
+msgstr "Správce"
+
+msgid "adopt"
+msgstr "Převzít"
+
+msgid "advanced_editing_allow_html_tags"
+msgstr "Povolit vybrané HTML tagy pro editaci textu"
+
+msgid "advanced_editing_assessment_settings"
+msgstr "HTML tagy pro testy a hodnocení ILIAS povoleny"
+
+msgid "advanced_editing_frm_post_settings"
+msgstr "Nastavení pošty fóra"
+
+msgid "advanced_editing_rep_page_editing"
+msgstr "Zapnout editaci obsahu v úložišti"
+
+msgid "advanced_editing_rep_page_editing_desc"
+msgstr "Tato funkce umožňuje přídávat text/media do kategorií, kurzů, skupin a složek stránek. Pokud je deaktivována, existující obsah bude skrytý."
+
+msgid "advanced_editing_required_tags"
+msgstr "Vyžadovány jsou následující HTML tagy: %s"
+
+msgid "advanced_editing_survey_settings"
+msgstr "Povolené HTML tagy pro nástroje ankety ILIAS"
+
+msgid "adve_assessment_settings"
+msgstr "Nastavení testu a hodnocení"
+
+msgid "adve_frm_post_settings"
+msgstr "Zasílání fóra"
+
+msgid "adve_general_settings"
+msgstr "Obecná nastavení"
+
+msgid "adve_survey_settings"
+msgstr "Nastavení ankety"
+
+msgid "agree_date"
+msgstr "Shoda na"
+
+#, fuzzy
+msgid "all"
+msgstr "All"
+
+msgid "all_global_roles"
+msgstr "Globální role"
+
+msgid "all_local_roles"
+msgstr "Lokální role (všechny)"
+
+msgid "all_objects"
+msgstr "Všechny objekty"
+
+msgid "all_roles"
+msgstr "Všechny role"
+
+msgid "all_topics"
+msgstr "Všechna témata"
+
+msgid "all_users"
+msgstr "Všichni uživatelé"
+
+msgid "allow_assign_users"
+msgstr "Umožnit přiřazení uživatele pro lokální správce."
+
+msgid "allow_override_alert"
+msgstr "Pravidla pro .htaccess nejsou interpretována korektně."
+
+msgid "allow_register"
+msgstr "K dispozici v registračním formuláři pro nové uživatele"
+
+#, fuzzy
+msgid "allow_user_toggle_noti"
+msgstr "Member is allowed to deactivate notification"
+
+msgid "already_delivered_files"
+msgstr "Předložené soubory"
+
+msgid "and"
+msgstr "a"
+
+#, fuzzy
+msgid "angry"
+msgstr "Angry"
+
+msgid "anonymous"
+msgstr "Anonymní"
+
+msgid "answers"
+msgstr "Odpovědi"
+
+msgid "any_language"
+msgstr "Libovolný jazyk"
+
+#, fuzzy
+msgid "apache_auth"
+msgstr "Apache Authentication"
+
+msgid "application_completed"
+msgstr "Přihláška dokončena"
+
+msgid "application_date"
+msgstr "Datum přihlášky"
+
+msgid "applications"
+msgstr "Přihlášky"
+
+msgid "apply"
+msgstr "Přihlásit"
+
+msgid "apply_filter"
+msgstr "Zapojit filtr"
+
+msgid "appointment"
+msgstr "Schůzka"
+
+msgid "approve_date"
+msgstr "Potvrzeno na"
+
+msgid "approve_recipient"
+msgstr "Login ID potvrzeného účastníka"
+
+msgid "archive"
+msgstr "Archív"
+
+msgid "archive_broken"
+msgstr "Archív je pravděpodobně poškozen, nebo prázdný."
+
+msgid "are_you_sure"
+msgstr "Jste si jistý(á)?"
+
+msgid "assf_allowed_questiontypes"
+msgstr "Dosažitelné typy otázek"
+
+msgid "assf_allowed_questiontypes_desc"
+msgstr "Všechny vybrané typy otázek budou v této instalaci ILIAS k dispozici. Pokud nechcete umožnit tvorbu jistého typu otázky v této instalaci, musíte odstranit výběr v příslušném zaškrtávacím poli."
+
+msgid "assf_questiontypes"
+msgstr "Nastavení otázek"
+
+msgid "assign"
+msgstr "Přiřadit"
+
+msgid "assign_global_role"
+msgstr "Přiřadit ke globální roli"
+
+msgid "assign_local_role"
+msgstr "Přidělit k lokální roli"
+
+msgid "assigned_members"
+msgstr "Přiřazení členové"
+
+msgid "assigned_roles"
+msgstr "Přidělené role"
+
+msgid "associated_user"
+msgstr "Sdružený uživatel"
+
+#, fuzzy
+msgid "astounded"
+msgstr "Astounded"
+
+msgid "at_least_one_style"
+msgstr "Alespoň jeden styl musí zůstat aktivován."
+
+msgid "attachment"
+msgstr "Příloha"
+
+msgid "attachments"
+msgstr "Přílohy"
+
+msgid "attempts"
+msgstr "Pokusy"
+
+msgid "auth_active_roles"
+msgstr "Aktivované globální role pro registrované"
+
+msgid "auth_allow_local"
+msgstr "Povolit lokální autentizaci"
+
+msgid "auth_configure"
+msgstr "konfigurace..."
+
+msgid "auth_create_users"
+msgstr "Vytvořit neexistující uživatele automaticky"
+
+msgid "auth_default"
+msgstr "Výchozí nastavení"
+
+msgid "auth_default_mode_changed_to"
+msgstr "Výchozí mód autentizace změněn na"
+
+msgid "auth_ecs"
+msgstr "ECS"
+
+msgid "auth_ldap"
+msgstr "LDAP"
+
+msgid "auth_ldap_enable"
+msgstr "Zapnout podporu LDAP serveru"
+
+msgid "auth_ldap_migration"
+msgstr "Migrace účtu"
+
+msgid "auth_ldap_migration_info"
+msgstr "Aktivace této volby dává novým uživatelům možnost stěhovat jejich existující účty ILIAS do autentizace LDAP."
+
+msgid "auth_local"
+msgstr "Databáze ILIAS"
+
+msgid "auth_login_instructions"
+msgstr "Instrukce zobrazeny v přihlašovacím okně"
+
+msgid "auth_mode"
+msgstr "Mód autentizace"
+
+msgid "auth_mode_not_changed"
+msgstr "(Nezměněno)"
+
+msgid "auth_mode_roles_changed"
+msgstr "Mód autentizace změněn pro tuto roli"
+
+msgid "auth_new_account_mail_desc"
+msgstr "Zaslat uživateli e-mail o nové účtu, když je uživatel generován automaticky. Heslo bude generováno jen tehdy, když je také aktivováno \"Povolit lokální autentizaci\"."
+
+msgid "auth_per_default"
+msgstr "Podle vychozího nastavení"
+
+msgid "auth_remark_non_local_auth"
+msgstr "Když vybrán jiný autentizační mód než základní, nelze kdykoliv příště změnit uživatelské jméno a heslo a volba nové registrace je vypnuta."
+
+msgid "auth_role_auth_mode"
+msgstr "Mód autentizace"
+
+#, fuzzy
+msgid "auth_saml"
+msgstr "SAML"
+
+msgid "auth_script"
+msgstr "Zákaznický"
+
+msgid "auth_select"
+msgstr "Vybrat autentizační mód"
+
+msgid "auth_selection"
+msgstr "Volby přihlášení"
+
+msgid "auth_settings"
+msgstr "Nastavení autentizace"
+
+msgid "auth_shib"
+msgstr "Shibboleth"
+
+msgid "auth_shib_instructions"
+msgstr "Zajistěte přečtení instrukcí README jak zkonfigurovat podporu Shibboleth pro ILIAS."
+
+msgid "auth_shib_not_configured"
+msgstr "Shibboleth není doposud zkonfigurován"
+
+msgid "auth_shibboleth"
+msgstr "Shibboleth"
+
+msgid "auth_soap"
+msgstr "SOAP"
+
+msgid "auth_soap_allow_local_desc"
+msgstr "Toto umožní uživatelům SOAP autentizaci s jejich lokálními jmény a hesly ILIAS."
+
+msgid "auth_soap_auth"
+msgstr "Konfigurovat autentizaci SOAP"
+
+msgid "auth_soap_auth_desc"
+msgstr "Tato nastavení se týkají pouze SOAP autentizace uživatelů, nikoli rozhraní ILIAS-SOAP."
+
+msgid "auth_soap_create_users_desc"
+msgstr "Vytváří účet uživatele ILIAS automaticky pro uživatele, kteří prošli úspěšně autentizací SOAP, bez vlastnictví předchozího účtu v ILIAS"
+
+msgid "auth_soap_namespace"
+msgstr "Název místa"
+
+msgid "auth_soap_namespace_desc"
+msgstr "Jak je definováno ve WSDL. Musí být specifikováno, pokud je použit styl .NET SOAP"
+
+msgid "auth_soap_port_desc"
+msgstr "Např. 8080, když úplné URI serveru SOAP je http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_server_desc"
+msgstr "Např. auth.yourserver.com, když úplné URI serveru SOAP je http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_settings_saved"
+msgstr "Nastavení autentizace SOAP uloženo"
+
+msgid "auth_soap_uri_desc"
+msgstr "Lokální URI, např. dir/server.php když úplné URI serveru SOAP je http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_use_dotnet"
+msgstr "Použít styl .NET SOAP"
+
+msgid "auth_soap_use_https"
+msgstr "Použít HTTPS"
+
+msgid "auth_soap_user_default_role_desc"
+msgstr "Tato role je přiřazena automaticky vytvořeným uživatelům SOAP."
+
+msgid "auth_user_default_role"
+msgstr "Výchozí role"
+
+msgid "authenticate_ilias"
+msgstr "Login do ILIAS"
+
+msgid "authentication_settings"
+msgstr "Autentizace"
+
+msgid "author"
+msgstr "Autor"
+
+msgid "authoring_mode"
+msgstr "Mód tvorby"
+
+msgid "authors"
+msgstr "Autoři"
+
+#, fuzzy
+msgid "autocomplete_more"
+msgstr "more"
+
+msgid "available"
+msgstr "Dostupné"
+
+#, fuzzy
+msgid "awra"
+msgstr "Who is online?"
+
+msgid "back"
+msgstr "Zpět"
+
+#, fuzzy
+msgid "back_to_course"
+msgstr "Back to Course"
+
+msgid "back_to_crs_content"
+msgstr "Zpět na obsah kurzu"
+
+msgid "back_to_fold_content"
+msgstr "Zpět na obsah složky"
+
+msgid "back_to_grp_content"
+msgstr "Zpět na obsah skupiny"
+
+msgid "backto_lua"
+msgstr "Zpět k lokální správě uživatelů"
+
+msgid "basedn"
+msgstr "BaseDN"
+
+msgid "basic_settings"
+msgstr "Základní nastavení"
+
+msgid "before"
+msgstr "před"
+
+#, fuzzy
+msgid "behind"
+msgstr "Behind"
+
+msgid "bib_data"
+msgstr "Bibliografické údaje"
+
+#, fuzzy
+msgid "bibl_add"
+msgstr "Add Bibliography"
+
+msgid "birthday"
+msgstr "Narozeniny"
+
+msgid "bkm_import"
+msgstr "Import záložek"
+
+msgid "bkm_import_ok"
+msgstr "Importováno úspěšně %d záložek and %d složek se záložkami"
+
+msgid "bkm_sendmail"
+msgstr "Zaslat jako odkaz"
+
+msgid "block"
+msgstr "Zablokovat"
+
+msgid "bm"
+msgstr "Záložka"
+
+msgid "bm_add_to_ilias"
+msgstr "Záložky ILIAS"
+
+msgid "bmf"
+msgstr "Složka záložek"
+
+msgid "bold"
+msgstr "Tučný"
+
+#, fuzzy
+msgid "bold_action"
+msgstr "Insert Bold - Click to insert bold text."
+
+msgid "bookings"
+msgstr "Rezervace"
+
+msgid "bookmark_added"
+msgstr "Záložka byla vytvořena."
+
+msgid "bookmark_folder_new"
+msgstr "Nová složka záložek"
+
+msgid "bookmark_new"
+msgstr "Nová záložka"
+
+msgid "bookmark_target"
+msgstr "Cíl"
+
+msgid "bookmarks"
+msgstr "Záložky"
+
+msgid "bookmarks_of"
+msgstr "Záložky pro"
+
+msgid "breadcrumb_navigation"
+msgstr "Drobečková navigace"
+
+#, fuzzy
+msgid "breadcrumbs_aria_label"
+msgstr "Breadcrumbs"
+
+#, fuzzy
+msgid "briefcase"
+msgstr "Background Tasks"
+
+msgid "btn_add"
+msgstr "Přidat"
+
+msgid "btn_back"
+msgstr "Zpět"
+
+msgid "btn_next"
+msgstr "Dále"
+
+msgid "btn_previous"
+msgstr "Zpět"
+
+msgid "btn_remove_system"
+msgstr "Odstranit ze systému"
+
+msgid "btn_undelete"
+msgstr "Obnovit"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_no"
+msgstr "Doesn`t Receive Contact Requests"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_yes"
+msgstr "Receives Contact Requests"
+
+#, fuzzy
+msgid "building_export_file"
+msgstr "Building Export File..."
+
+#, fuzzy
+msgid "bulletlist_action"
+msgstr "Insert Bulletpoint-List - Click to insert a bulletpoint-list."
+
+msgid "by"
+msgstr "Podle"
+
+msgid "bytes"
+msgstr "Bajtů"
+
+msgid "cal_from"
+msgstr "Od:"
+
+msgid "cal_until"
+msgstr "Do:"
+
+msgid "calendar"
+msgstr "Kalendář"
+
+msgid "cancel"
+msgstr "Zpět"
+
+#, fuzzy
+msgid "cancel_file_upload"
+msgstr "Do you really want to cancel all pending uploads?"
+
+msgid "cannot_find_xml"
+msgstr "Nelze nalézt žádný XML soubor."
+
+msgid "cannot_uninstall_language_in_use"
+msgstr "Nemůžete odinstalovat aktuálně používaný jazyk!"
+
+msgid "cannot_uninstall_systemlanguage"
+msgstr "Nemůžete odinstalovat systémový jazyk!"
+
+msgid "cannot_unzip_file"
+msgstr "Soubor nelze rozbalit."
+
+msgid "cant_deactivate_if_users_assigned"
+msgstr "Nemůžete deaktivovat styl, dokud jsou k němu připojeni uživatelé."
+
+msgid "cat"
+msgstr "Kategorie"
+
+msgid "cat_add"
+msgstr "Přidat kategorii"
+
+msgid "cat_added"
+msgstr "Kategorie přidána"
+
+#, fuzzy
+msgid "cat_copy_threads_info"
+msgstr "Please decide which category items should be copied, linked or even omitted."
+
+msgid "cat_edit"
+msgstr "Upravit kategorii"
+
+msgid "cat_new"
+msgstr "Nová kategorie"
+
+msgid "cat_wizard_page"
+msgstr "Kopírovat kategorii (Krok 2/2)"
+
+msgid "categories"
+msgstr "Kategorie"
+
+msgid "categories_imported"
+msgstr "Import kategorie proveden"
+
+msgid "catr"
+msgstr "Odkazy kategorie"
+
+#, fuzzy
+msgid "catr_add"
+msgstr "Add Category Link"
+
+msgid "catr_edit_info"
+msgstr "Vyberte prosím jednu kategorii, pro vytvoření nového odkazu."
+
+msgid "catr_new"
+msgstr "Vytvořit nový odkaz kategorie"
+
+#, fuzzy
+msgid "catr_settings"
+msgstr "Category Link Settings"
+
+msgid "certificate"
+msgstr "Certifikát"
+
+#, fuzzy
+msgid "certificate_file_already_exists_error"
+msgstr "The certificate file already exists in the file system."
+
+#, fuzzy
+msgid "certificate_file_input_output_error"
+msgstr "The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator."
+
+#, fuzzy
+msgid "certificate_file_not_found_error"
+msgstr "The certificate file doesn't exist in the file system anymore. Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden."
+
+#, fuzzy
+msgid "certificate_persistent_option"
+msgstr "Certificates of Achievements"
+
+#, fuzzy
+msgid "certificate_selection"
+msgstr "Origin of Certificates"
+
+#, fuzzy
+msgid "certificate_workspace_option"
+msgstr "Certificates of Personal Resources"
+
+#, fuzzy
+msgid "certificates"
+msgstr "Certificates"
+
+msgid "change"
+msgstr "Změnit"
+
+msgid "change_assignment"
+msgstr "Změnit přiřazení"
+
+msgid "change_header_title"
+msgstr "Upravit název hlavičky"
+
+msgid "change_owner"
+msgstr "Změnit vlastníka"
+
+msgid "change_sort_direction"
+msgstr "Změnit směr řazení"
+
+msgid "changeable"
+msgstr "Změnitelné"
+
+msgid "changed_to"
+msgstr "změněno na"
+
+msgid "changing_loginname_not_possible_info"
+msgstr "Své přihlašovací jméno jste naposledy změnil %s. Další změna může být provedena  %s."
+
+msgid "chapter"
+msgstr "Kapitola"
+
+msgid "characters"
+msgstr "znaky"
+
+msgid "chat_enter_public_room"
+msgstr "Veřejná diskuze"
+
+msgid "chat_enter_public_room_tooltip"
+msgstr "Vložit veřejnou diskuzi."
+
+#, fuzzy
+msgid "chat_users_active"
+msgstr "Active users"
+
+msgid "check"
+msgstr "Zkontrolovat"
+
+msgid "check_all"
+msgstr "Zkontrolovat vše"
+
+msgid "check_langfile"
+msgstr "Prosím zkontrolujte jazykový soubor"
+
+msgid "check_languages"
+msgstr "Zkontrolovat jazyky"
+
+msgid "check_link"
+msgstr "Zkontrolovat připojení"
+
+msgid "check_link_desc"
+msgstr "Když je zapnuto, všechny externí spoje v ILIAS výukových modulech budou ověřeny, zda jsou aktivní."
+
+msgid "check_user_accounts"
+msgstr "Zkontrolovat účet uživatele"
+
+msgid "check_user_accounts_desc"
+msgstr "Pokud je démon cron aktivován a tato volba je zapnuta, všichni uživatelé, jejichž účty vypršely, budou informování e-mailem."
+
+msgid "check_web_resources"
+msgstr "Zkontrolovat webové odkazy"
+
+msgid "check_web_resources_desc"
+msgstr "Pokud je zapnuto, všechny webové odkazy budou překontrolovány, jestli jsou aktivní."
+
+msgid "checked"
+msgstr "Vybráno"
+
+msgid "checked_files"
+msgstr "Importovatelné zdroje"
+
+msgid "chg_ilias_and_webfolder_password"
+msgstr "Změnit hesla ILIAS a Webové složky"
+
+msgid "chg_ilias_password"
+msgstr "Změnit hesla ILIAS"
+
+msgid "chg_password"
+msgstr "Změnit heslo"
+
+msgid "choose_language"
+msgstr "Vyberte svůj jazyk"
+
+msgid "choose_only_one_language"
+msgstr "Vyberte prosím pouze jeden jazyk"
+
+msgid "chown_warning"
+msgstr "Pozor, po změně vlastníka můžete ztratit oprávnění přístupu k tomuto objektu."
+
+#, fuzzy
+msgid "chta_edit_permission"
+msgstr "Change Permission Settings"
+
+#, fuzzy
+msgid "chta_read"
+msgstr "Read access to Chatroom Administration"
+
+#, fuzzy
+msgid "chta_visible"
+msgstr "Chatroom Administration is visible"
+
+#, fuzzy
+msgid "chta_write"
+msgstr "Edit Chatroom Administration"
+
+#, fuzzy
+msgid "chtr_copy"
+msgstr "Copy Chatroom"
+
+#, fuzzy
+msgid "chtr_import"
+msgstr "Import Chatroom"
+
+msgid "city"
+msgstr "Město, okres"
+
+msgid "cleaned_file"
+msgstr "Soubor byl vyčištěn."
+
+msgid "cleaning_failed"
+msgstr "Čištění selhalo."
+
+msgid "clear"
+msgstr "Vyčistit"
+
+msgid "clear_clipboard"
+msgstr "Vyprázdnit schránku"
+
+msgid "client"
+msgstr "Klient"
+
+msgid "client_id"
+msgstr "ID klienta"
+
+msgid "client_ip"
+msgstr "IP klienta"
+
+#, fuzzy
+msgid "clientlist_available_clients"
+msgstr "Available Clients"
+
+#, fuzzy
+msgid "clientlist_clientlist"
+msgstr "Client List"
+
+#, fuzzy
+msgid "clientlist_installation_name"
+msgstr "Installation Name"
+
+#, fuzzy
+msgid "clientlist_login"
+msgstr "Login"
+
+#, fuzzy
+msgid "clientlist_login_page"
+msgstr "Login page"
+
+#, fuzzy
+msgid "clientlist_public_access"
+msgstr "Public Access"
+
+#, fuzzy
+msgid "clientlist_start_page"
+msgstr "Start page"
+
+msgid "clipboard"
+msgstr "Schránka"
+
+msgid "close"
+msgstr "Zavřít"
+
+#, fuzzy
+msgid "cmix"
+msgstr "Object xAPI/cmi5"
+
+msgid "cnt_new"
+msgstr "(%s nový)"
+
+msgid "collapse"
+msgstr "Sklapnout"
+
+msgid "collapse_all"
+msgstr "Sklapnout vše"
+
+#, fuzzy
+msgid "collapse_content"
+msgstr "Collapse Content"
+
+msgid "collapsed"
+msgstr "Sklapnuto"
+
+#, fuzzy
+msgid "column_selection"
+msgstr "Column Selection"
+
+msgid "columns"
+msgstr "Sloupce"
+
+msgid "comma_separated"
+msgstr "Čárkami oddělený"
+
+msgid "comment"
+msgstr "Komentář"
+
+#, fuzzy
+msgid "comments"
+msgstr "Comments"
+
+msgid "compose"
+msgstr "Vytvořit"
+
+#, fuzzy
+msgid "concurrent_uploads"
+msgstr "Number of concurrent uploads"
+
+#, fuzzy
+msgid "concurrent_uploads_info"
+msgstr "Defines the number of files that can be uploaded per upload process at the same time."
+
+msgid "cond_ref_handling"
+msgstr "Nastavení připojení"
+
+msgid "cond_ref_shared"
+msgstr "Sdílené předpoklady pro všechna připojení"
+
+msgid "cond_ref_unique"
+msgstr "Unikátní přepoklady pro připojení"
+
+msgid "condition"
+msgstr "Podmínka"
+
+#, fuzzy
+msgid "condition_accredited_or_passed"
+msgstr "Accredited or Passed"
+
+msgid "condition_already_assigned"
+msgstr "Objekt již přiřazen."
+
+msgid "condition_circle_created"
+msgstr "Tato asociace není možná, dokud objekt bude ve vzájemné závislosti."
+
+msgid "condition_deleted"
+msgstr "Podmínka smazána."
+
+msgid "condition_finished"
+msgstr "Ukončil(a)"
+
+msgid "condition_not_finished"
+msgstr "Zahájil(a)"
+
+msgid "condition_passed"
+msgstr "Uspěl(a)"
+
+msgid "condition_select_object"
+msgstr "Vyberte prosím jeden objekt."
+
+msgid "conditions_updated"
+msgstr "Podmínky uloženy"
+
+#, fuzzy
+msgid "configuration"
+msgstr "Configuration"
+
+msgid "confirm"
+msgstr "Potvrdit"
+
+msgid "confirm_delete_parameter"
+msgstr "Skutečně chcete smazat tento parametr?"
+
+msgid "confirmation"
+msgstr "Potvrzení"
+
+msgid "conflict_handling"
+msgstr "Obsluha konfliktu"
+
+#, fuzzy
+msgid "cont_iim_content_popups_info"
+msgstr "Content popups appear, when the user clicks on interactive parts of the base image. On this screen you only define the popups. Their content can be edited on the main page editing screen."
+
+#, fuzzy
+msgid "cont_iim_create_info"
+msgstr "Please upload the main underlying picuture for the interactive image."
+
+#, fuzzy
+msgid "cont_iim_overlay_info"
+msgstr "Overlay images are used to alter (e.g. highlight) parts of the base image when the mouse hovers over them. After uploading the images, you can select them in the \"Triggers\" tab."
+
+msgid "contact"
+msgstr "Kontakt"
+
+msgid "contact_data"
+msgstr "Kontaktní informace"
+
+#, fuzzy
+msgid "contact_sysadmin"
+msgstr "Contact System Administration"
+
+msgid "container"
+msgstr "Kontejner"
+
+msgid "container_no_items"
+msgstr "Žádné dosažitelné materiály"
+
+msgid "content"
+msgstr "Náplň"
+
+msgid "content_frame"
+msgstr "Rám obsahu"
+
+msgid "content_styles"
+msgstr "Styly obsahu"
+
+msgid "context"
+msgstr "Kontext"
+
+#, fuzzy
+msgid "continue"
+msgstr "continue"
+
+msgid "continue_work"
+msgstr "Pokračovat"
+
+msgid "contra"
+msgstr "Proti"
+
+#, fuzzy
+msgid "copa"
+msgstr "Content Page"
+
+msgid "copy"
+msgstr "Kopírovat"
+
+msgid "copyChapter"
+msgstr "Kopírovat"
+
+msgid "copyPage"
+msgstr "Kopírovat"
+
+msgid "copy_all"
+msgstr "Kopírovat vše"
+
+msgid "copy_n_of_suffix"
+msgstr "- Kopírovat (%1$s)"
+
+msgid "copy_of"
+msgstr "Kopie"
+
+msgid "copy_of_suffix"
+msgstr "- Kopírovat"
+
+#, fuzzy
+msgid "copy_perma_link"
+msgstr "Copy link to clipboard"
+
+msgid "copy_selected_items"
+msgstr "Kopírovat"
+
+msgid "count"
+msgstr "Spočítat"
+
+#, fuzzy
+msgid "counter_novelty"
+msgstr "News"
+
+#, fuzzy
+msgid "counter_status"
+msgstr "Status"
+
+msgid "country"
+msgstr "Stát"
+
+msgid "country_free_text"
+msgstr "Stát (vstup volného textu)"
+
+msgid "country_selection"
+msgstr "Stát (výběr rozbalovacího menu)"
+
+msgid "course"
+msgstr "Kurz"
+
+msgid "courses"
+msgstr "Kurzy"
+
+msgid "create"
+msgstr "Vytvořit"
+
+msgid "create_date"
+msgstr "Vytvořeno"
+
+msgid "create_export_file"
+msgstr "Vytvořit exportní soubor"
+
+msgid "create_stylesheet"
+msgstr "Vytvořit styl"
+
+msgid "created"
+msgstr "Vytvořit datum"
+
+msgid "cron_forum_notification"
+msgstr "Odeslat oznámení fóra"
+
+#, fuzzy
+msgid "cron_forum_notification_crob_desc"
+msgstr "If enabled, all users who have enabled forum notifications will get a daily mail about all new posts but no immediate notification for each submitted posting."
+
+#, fuzzy
+msgid "cron_forum_notification_disabled"
+msgstr "Can't be disabled when the Cron Job is active."
+
+msgid "cron_jobs"
+msgstr "Práce cronu"
+
+msgid "cron_lucene_index"
+msgstr "Aktualizovat vyhledávač Lucene"
+
+msgid "cron_lucene_index_info"
+msgstr "Pokud je zapnuto, vyhledávač Lucene bude aktualizován. Konfigurujte prosím Lucene server ve 'Správa -> Hledat'"
+
+msgid "cron_mail_notification"
+msgstr "Odeslat oznámení pošty"
+
+msgid "cron_mail_notification_cron"
+msgstr "řádně přes práci cron"
+
+msgid "cron_mail_notification_desc"
+msgstr "Je-li zapnuto, všichni uživatelé, kteří chtějí být informováni o nové poště, obdrží oznámení externí poštou"
+
+#, fuzzy
+msgid "cron_mail_notification_message"
+msgstr "Send Mail Notifications with Mail-Message"
+
+#, fuzzy
+msgid "cron_mail_notification_message_info"
+msgstr "If enabled, all users will get notifications with complete mail message by external mail."
+
+msgid "cron_mail_notification_never"
+msgstr "nikdy"
+
+#, fuzzy
+msgid "cron_users_without_login_del_create_date_thr"
+msgstr "Thresholt"
+
+#, fuzzy
+msgid "cron_users_without_login_del_create_date_thr_info"
+msgstr "All user accounts created before the defined threshold will be taken into consideration."
+
+#, fuzzy
+msgid "cron_users_without_login_del_role_whitelist"
+msgstr "Included Roles"
+
+#, fuzzy
+msgid "cron_users_without_login_del_role_whitelist_info"
+msgstr "The deletion will only processed for users assigned to at least one of the selected roles"
+
+msgid "cronjob_last_start"
+msgstr "Poslední spuštění Cron Job"
+
+msgid "cronjob_last_start_unknown"
+msgstr "Neurčitý"
+
+msgid "crs"
+msgstr "Kurz"
+
+msgid "crs_activation_start_invalid"
+msgstr "Čas startu a ukončení není platný."
+
+msgid "crs_add"
+msgstr "Přidat kurz"
+
+msgid "crs_added"
+msgstr "Kurz přidán"
+
+msgid "crs_archives"
+msgstr "Archívy"
+
+msgid "crs_cancel_waiting_list"
+msgstr "Skutečně se chcete vymazat ze seznamu čekatelů kurzu \"%s\"?"
+
+#, fuzzy
+msgid "crs_copy_threads_info"
+msgstr "Please decide which course materials should be copied, linked or even omitted."
+
+msgid "crs_edit"
+msgstr "Upravit kurz"
+
+#, fuzzy
+msgid "crs_list_reg"
+msgstr "Registration"
+
+#, fuzzy
+msgid "crs_list_reg_end"
+msgstr "Registration End"
+
+#, fuzzy
+msgid "crs_list_reg_limit_full"
+msgstr "No places left"
+
+#, fuzzy
+msgid "crs_list_reg_limit_places"
+msgstr "Free places"
+
+#, fuzzy
+msgid "crs_list_reg_noreg"
+msgstr "No Registration Possible"
+
+#, fuzzy
+msgid "crs_list_reg_period"
+msgstr "Registration Period"
+
+#, fuzzy
+msgid "crs_list_reg_start"
+msgstr "Registration Begin"
+
+msgid "crs_member_not_passed"
+msgstr "Neprošel"
+
+msgid "crs_member_passed"
+msgstr "Prošel"
+
+msgid "crs_members_gallery"
+msgstr "Galerie příslušníků kurzu"
+
+msgid "crs_new"
+msgstr "Nový kurz"
+
+msgid "crs_removed_from_waiting_list"
+msgstr "Byl(a) jste odstraněn(a) ze seznamu čekatelů kurzu \"%s\"."
+
+msgid "crs_status_blocked"
+msgstr "[Přístup zamítnut]"
+
+msgid "crs_status_pending"
+msgstr "[Čekání na registraci]"
+
+msgid "crs_subscribers_assigned"
+msgstr "Zařazení noví uživatelé"
+
+msgid "crs_title"
+msgstr "Název kurzu"
+
+msgid "crs_unsubscribe"
+msgstr "Odhlásit se"
+
+msgid "crs_wizard_page"
+msgstr "Kopírovat kurz (Krok 2/2)"
+
+msgid "crsr"
+msgstr "Odkazy kurzu"
+
+#, fuzzy
+msgid "crsr_add"
+msgstr "Add Course Link"
+
+msgid "crsr_edit_info"
+msgstr "Vyberte prosím jeden kurz pro vytvoření nového odkazu."
+
+msgid "crsr_new"
+msgstr "Vytvořit nový odkaz kurzu"
+
+#, fuzzy
+msgid "crsr_settings"
+msgstr "Course Link Settings"
+
+msgid "csv_export"
+msgstr "CSV-Export"
+
+msgid "current_ip"
+msgstr "Současná IP:"
+
+msgid "current_ip_alert"
+msgstr "Poznámka: pokud vložíte chybnou IP adresu, nebudete již nikdy schopen vstoupit do systému s tímto profilem."
+
+msgid "current_password"
+msgstr "Staré heslo"
+
+#, fuzzy
+msgid "current_user_avatar"
+msgstr "Your User Avatar"
+
+msgid "currently_used_disk_space"
+msgstr "Aktuálně použitý prostor disku"
+
+#, fuzzy
+msgid "customize_page"
+msgstr "Customize Page"
+
+msgid "cut"
+msgstr "Vyjmout"
+
+msgid "cutPage"
+msgstr "Vyjmout"
+
+msgid "daily"
+msgstr "denně"
+
+msgid "database"
+msgstr "Databáze"
+
+msgid "database_version"
+msgstr "Současná verze databáze"
+
+msgid "dataset"
+msgstr "Položka"
+
+msgid "date"
+msgstr "datum"
+
+#, fuzzy
+msgid "date_time"
+msgstr "Date and Time"
+
+msgid "dateplaner"
+msgstr "Kalendář"
+
+msgid "day"
+msgstr "Den"
+
+msgid "days"
+msgstr "Dny"
+
+msgid "db_host"
+msgstr "Hostitel databáze"
+
+msgid "db_name"
+msgstr "Název databáze"
+
+msgid "db_need_update"
+msgstr "Databáze vyžaduje aktualizaci!"
+
+msgid "db_pass"
+msgstr "Heslo k databázi"
+
+msgid "db_type"
+msgstr "Typ databáze"
+
+msgid "db_user"
+msgstr "Uživatel databáze"
+
+msgid "db_version"
+msgstr "Verze databáze"
+
+#, fuzzy
+msgid "dd_mm_yyyy"
+msgstr "DD.MM.YYYY"
+
+msgid "deactivate"
+msgstr "Nastavit neaktivní"
+
+msgid "decrease_attempts"
+msgstr "Pokusy - 1"
+
+msgid "def_repository_view"
+msgstr "Zobrazit výchozí úložiště"
+
+msgid "default"
+msgstr "Výchozí"
+
+msgid "default_auth_mode"
+msgstr "Výchozí metoda autentizace"
+
+msgid "default_auth_mode_info"
+msgstr "Vyberte prosím metodu autentizace, která bude přednastavena ve stránce přihlášení."
+
+msgid "default_language"
+msgstr "Výchozí jazyk"
+
+msgid "default_perm_settings"
+msgstr "Výchozí oprávnění"
+
+msgid "default_role"
+msgstr "Výchozí role"
+
+msgid "default_roles"
+msgstr "Výchozí role"
+
+msgid "default_skin"
+msgstr "Výchozí vzhled"
+
+msgid "default_skin_style"
+msgstr "Výchozí vzhled/styl"
+
+msgid "default_style"
+msgstr "Výchozí styl"
+
+msgid "defaults"
+msgstr "Výchozí"
+
+msgid "delete"
+msgstr "Smazat"
+
+msgid "delete_existing_file"
+msgstr "Smazat existující soubor"
+
+#, fuzzy
+msgid "delete_inactivated_user_accounts"
+msgstr "Delete inactivated user accounts"
+
+#, fuzzy
+msgid "delete_inactivated_user_accounts_desc"
+msgstr "If enabled, user accounts will be deleted depending on the date of inactivation."
+
+#, fuzzy
+msgid "delete_inactivated_user_accounts_include_roles"
+msgstr "Included roles"
+
+#, fuzzy
+msgid "delete_inactivated_user_accounts_include_roles_desc"
+msgstr "Defines the roles that will participate in the deletion."
+
+#, fuzzy
+msgid "delete_inactivated_user_accounts_period"
+msgstr "Days past since the inactivation"
+
+#, fuzzy
+msgid "delete_inactivated_user_accounts_period_desc"
+msgstr "Deletion will be executed if this period of time has past since the inactivation."
+
+msgid "delete_inactive_user_accounts"
+msgstr "Smazat uživatelské účty"
+
+msgid "delete_inactive_user_accounts_desc"
+msgstr "Pokud je zapnuto, uživatelské účty mohou být smazány v závislosti na datu posledního přihlášení."
+
+msgid "delete_inactive_user_accounts_include_roles"
+msgstr "Včetně rolí"
+
+msgid "delete_inactive_user_accounts_include_roles_desc"
+msgstr "Definuje role, které budou se podílet na smazání."
+
+msgid "delete_inactive_user_accounts_period"
+msgstr "Dny uplynulé od posledního přihlášení"
+
+msgid "delete_inactive_user_accounts_period_desc"
+msgstr "Smazání bude provedeno, pokud uplyne toto období od posledního přihlášení."
+
+msgid "delete_parameter"
+msgstr "Smazat parametr"
+
+msgid "delete_selected_items"
+msgstr "Smazat"
+
+msgid "deleted"
+msgstr "Smazáno"
+
+msgid "deleted_user"
+msgstr "Uživatel byl vymazán"
+
+msgid "deleted_users"
+msgstr "Vymazaní uživatelé"
+
+#, fuzzy
+msgid "deletion_notification"
+msgstr "\"%s\" has canceled the attendance of session \"%s\"."
+
+msgid "deliver"
+msgstr "Odevzdat cvičení"
+
+#, fuzzy
+msgid "deny_usr_agreement"
+msgstr "Do Not Accept Terms of Service?"
+
+#, fuzzy
+msgid "deny_usr_agreement_btn"
+msgstr "Do Not Accept"
+
+msgid "department"
+msgstr "Katedra"
+
+msgid "desc"
+msgstr "Popis"
+
+msgid "description"
+msgstr "Popis"
+
+msgid "desired_password"
+msgstr "Nové heslo"
+
+msgid "details"
+msgstr "Detaily"
+
+#, fuzzy
+msgid "didactic_template"
+msgstr "Didactic Template"
+
+msgid "disable"
+msgstr "vypnuto"
+
+msgid "disable_check"
+msgstr "Zrušit kontrolu"
+
+msgid "disable_ext_lang_maint"
+msgstr "Vypnout rozšířenou údržbu"
+
+msgid "disable_hide_user_toggle"
+msgstr "Člen je oprávněn deaktivovat"
+
+msgid "disabled"
+msgstr "Vypnuto"
+
+#, fuzzy
+msgid "disclose"
+msgstr "Disclose"
+
+#, fuzzy
+msgid "dislike"
+msgstr "Dislike"
+
+msgid "domain"
+msgstr "Doména"
+
+msgid "down"
+msgstr "Dolů"
+
+msgid "download"
+msgstr "Stáhnout"
+
+msgid "download_all_returned_files"
+msgstr "Stáhnout všechny vrácené soubory"
+
+#, fuzzy
+msgid "download_link"
+msgstr "Download Link"
+
+#, fuzzy
+msgid "download_multiple_objects"
+msgstr "Download Multiple Objects"
+
+#, fuzzy
+msgid "download_selected_items"
+msgstr "Download"
+
+msgid "downloading_settings"
+msgstr "Nastavení stahování"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement"
+msgstr "Accept Declaration of Data Protection?"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement_intro"
+msgstr "There is a new Declaration of Data Protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page."
+
+#, fuzzy
+msgid "dpro_agreed_on"
+msgstr "DoDP agreed to on"
+
+#, fuzzy
+msgid "dpro_force_accept_usr_agreement"
+msgstr "You must accept the Declaration of Data Protection!"
+
+#, fuzzy
+msgid "dpro_no_agreement_description"
+msgstr "There is currently no Declaration of Data Protection document available for this installation. Please contact the <a href=\"%1$s\">system administrator</a>."
+
+#, fuzzy
+msgid "dpro_refuse_acceptance"
+msgstr "Refuse to Accept the Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_usr_agreement"
+msgstr "Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_usr_agreement_footer_intro"
+msgstr "You have declared your consent to this Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description"
+msgstr "Withdraw your consent to our Declaration of Data Protection here."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description_external"
+msgstr "Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description_internal"
+msgstr "Please log in again to complete the process of withdrawing your consent to the Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_header"
+msgstr "Withdraw to Consent of Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_withdraw_consent_info"
+msgstr "Withdraw your consent to our Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_info_external"
+msgstr "Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Declaration of Data Protection."
+
+msgid "drafts"
+msgstr "Návrhy"
+
+#, fuzzy
+msgid "drag_file_here"
+msgstr "Drag-and-drop your file here"
+
+#, fuzzy
+msgid "drag_files_here"
+msgstr "Drag-and-drop your files here"
+
+#, fuzzy
+msgid "drag_handle"
+msgstr "Draggable element"
+
+#, fuzzy
+msgid "drop_files_on_repo_obj_info"
+msgstr "Drop the files here to upload them into this object."
+
+msgid "edit"
+msgstr "Upravit"
+
+#, fuzzy
+msgid "edit_assignments"
+msgstr "Edit Assignments"
+
+msgid "edit_cat_settings"
+msgstr "Rozšířené nastavení kategorií"
+
+msgid "edit_content"
+msgstr "Upravit obsah"
+
+msgid "edit_grouping"
+msgstr "Upravit omezení členů"
+
+#, fuzzy
+msgid "edit_metadata"
+msgstr "Edit Metadata"
+
+msgid "edit_operations"
+msgstr "Upravit operace"
+
+msgid "edit_page"
+msgstr "Upravit stránku"
+
+msgid "edit_page_content"
+msgstr "Upravit obsah stránky"
+
+#, fuzzy
+msgid "edit_page_meta"
+msgstr "Edit Page Metadata"
+
+msgid "edit_properties"
+msgstr "Upravit vlastnosti"
+
+msgid "edit_stylesheet"
+msgstr "Upravit styl"
+
+#, fuzzy
+msgid "edited_on"
+msgstr "Edited on"
+
+msgid "editor"
+msgstr "Upravil"
+
+msgid "email"
+msgstr "E-mail"
+
+msgid "email_not_valid"
+msgstr "Zadaná e-mailová adresa je neplatná!"
+
+msgid "enable"
+msgstr "Zapnout"
+
+#, fuzzy
+msgid "enable_anonymous_fora"
+msgstr "Allow posting with pseudonym"
+
+#, fuzzy
+msgid "enable_anonymous_fora_desc"
+msgstr "If this option is disabled, the feature \"Posting with pseudonym\" is not available in forums anymore."
+
+msgid "enable_calendar"
+msgstr "Zapnout kalendář"
+
+#, fuzzy
+msgid "enable_comments_export"
+msgstr "Enable Comments Export"
+
+#, fuzzy
+msgid "enable_course_group_notifications"
+msgstr "Daily Mail for Groups and Course News"
+
+#, fuzzy
+msgid "enable_course_group_notifications_desc"
+msgstr "If enabled, Participants can subscribe to a daily summary of news."
+
+msgid "enable_custom_icons"
+msgstr "Zapnout uživatelské ikony"
+
+msgid "enable_custom_icons_info"
+msgstr "Umožňuje definovat uživatelské ikony pro jednotlivé kategorie, kurzy a skupiny. Sekce vlastností kategorií, kurzů a skupin poskytnou obrázek v dialogu stahování."
+
+#, fuzzy
+msgid "enable_dnd_upload"
+msgstr "Enable drag-and-drop upload"
+
+#, fuzzy
+msgid "enable_dnd_upload_info"
+msgstr "Files can be uploaded with drag-and-drop from the local computer if enabled."
+
+msgid "enable_download_folder"
+msgstr "Povolit stahování složky"
+
+msgid "enable_download_folder_info"
+msgstr "Umožňuje stáhnout složku včetně jejího obsahu jako zip soubor."
+
+#, fuzzy
+msgid "enable_export_scorm_desc"
+msgstr "allow Export of User Data of SCORM-Learning Modules"
+
+msgid "enable_fora_statistics"
+msgstr "Zapnout statistiky fóra"
+
+msgid "enable_fora_statistics_desc"
+msgstr "Je-li vypnuto, nikdo není schopen do statistik fóra vstoupit."
+
+msgid "enable_hide_user_toggle"
+msgstr "Člen není oprávněn k deaktivaci"
+
+#, fuzzy
+msgid "enable_multi_download"
+msgstr "«Download multiple objects» enabled"
+
+#, fuzzy
+msgid "enable_multi_download_info"
+msgstr "Enables that multiple folders/files can be selected to download them as zip archive."
+
+msgid "enable_password_assistance"
+msgstr "Zapnout asistenci hesla"
+
+#, fuzzy
+msgid "enable_preview"
+msgstr "Enable Preview"
+
+#, fuzzy
+msgid "enable_preview_info"
+msgstr "Enable this option to display preview images on supported file types."
+
+#, fuzzy
+msgid "enable_repository_dnd_upload"
+msgstr "Enable in Repository"
+
+#, fuzzy
+msgid "enable_repository_dnd_upload_info"
+msgstr "Enables that files can be dragged from the computer directly onto an object in the repository to start uploading the files into this object."
+
+#, fuzzy
+msgid "enable_sahs_protocol_data"
+msgstr "Activate Protocol Data"
+
+#, fuzzy
+msgid "enable_sahs_protocol_data_desc"
+msgstr "Show Protocol Data (SCORM/AICC)"
+
+msgid "enable_search_engine"
+msgstr "Otevřít veřejnou plochu pro vyhledávací nástroj na Internetu (např. Google)."
+
+msgid "enable_trash"
+msgstr "Zapnout koš"
+
+msgid "enable_trash_info"
+msgstr "Je-li zapnuto, smazané objekty jsou přesunuty do koše a mohou být později obnoveny. Při deaktivaci této volby jsou smazané objekty nevratně smazány ze systému!"
+
+msgid "enable_webdav"
+msgstr "Zapnout přístup WebDAV"
+
+msgid "enable_webdav_info"
+msgstr "Umožňuje WebDAV klientům vstupovat do úložiště jako do webové složky. Uživatelé mohou otevírat složky použitím příkazu \"otevřít jako webovou složku\" v úložišti, nebo vstoupením na následující adresu ve  WebDAV klientovi: <a href=\"%1$s\" folder=\"%1$s\">%1$s</a>"
+
+msgid "enabled"
+msgstr "Zapnuto"
+
+#, fuzzy
+msgid "enlarge"
+msgstr "Enlarge"
+
+msgid "enter_in_mb_desc"
+msgstr "Vložit hodnotu v MB."
+
+#, fuzzy
+msgid "enter_new_name"
+msgstr "Please enter a name"
+
+#, fuzzy
+msgid "entered_notification"
+msgstr "\"%s\" has joined the session \"%s\"."
+
+#, fuzzy
+msgid "entry_status"
+msgstr "Entry status"
+
+msgid "err_1_param"
+msgstr "Pouze 1 parametr!"
+
+msgid "err_2_param"
+msgstr "Pouze 2 parametry!"
+
+#, fuzzy
+msgid "err_auth_apache_failed"
+msgstr "The authentication has failed. Maybe you have no valid user certificate or your smartcard is not inserted."
+
+msgid "err_auth_ldap_no_ilias_user"
+msgstr "Přihlášení selhalo. Autentizace LDAP úspěšná, avšak neodpovídá jméno uživatele ILIAS. Kontaktujte prosím svého systémového administrátora."
+
+msgid "err_auth_mode_inactive"
+msgstr "Vaše metoda autentizace je deaktivována."
+
+msgid "err_auth_soap_no_ilias_user"
+msgstr "Přihlášení selhalo. Autentizace SOAP úspěšná, avšak neodpovídá jméno uživatele ILIAS. Kontaktujte prosím svého systémového administrátora."
+
+msgid "err_check_input"
+msgstr "Nastavení nelze uložit. Zkontrolujte prosím svůj vstup."
+
+msgid "err_count_param"
+msgstr "Důvod: Chybný počet parametrů"
+
+#, fuzzy
+msgid "err_disabled"
+msgstr "Account creation via Shibboleth has been disabled. Please contact the system administrator for further information."
+
+#, fuzzy
+msgid "err_double_entries"
+msgstr "Reason: Duplicate Entries"
+
+msgid "err_in_line"
+msgstr "Chyba na řádce"
+
+msgid "err_inactive"
+msgstr "Tento účet nebyl aktivován. Kontaktujte prosím svého systémového administrátora."
+
+#, fuzzy
+msgid "err_inactive_login_attempts"
+msgstr "Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account. "
+
+msgid "err_invalid_port"
+msgstr "Chybné číslo portu"
+
+msgid "err_no_cookies"
+msgstr "Zapněte prosím Cookies ve svém prohlížeči"
+
+msgid "err_no_langfile_found"
+msgstr "Jazykový soubor nebyl nalezen!"
+
+msgid "err_no_param"
+msgstr "Žádný parametr!"
+
+msgid "err_over_3_param"
+msgstr "Více než 3 parametry!"
+
+msgid "err_role_not_assignable"
+msgstr "Nemůžete přiřadit uživatele do této role v tomto umístění"
+
+msgid "err_session_expired"
+msgstr "Vaše lekce vypršela!"
+
+#, fuzzy
+msgid "err_valid_login_account_creation_disabled"
+msgstr "Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator."
+
+msgid "err_wrong_header"
+msgstr "Důvod: Chybná hlavička."
+
+msgid "err_wrong_login"
+msgstr "Chybné přihlášení"
+
+msgid "err_wrong_password"
+msgstr "Chybné heslo"
+
+msgid "error"
+msgstr "Chyba"
+
+#, fuzzy
+msgid "error_empty_file_or_folder"
+msgstr "The file size is 0 bytes or it is a folder."
+
+#, fuzzy
+msgid "error_extraction_failed"
+msgstr "The extraction of the archive and its directories failed. Probably because you don't have the rights to create folders or categories within this object."
+
+msgid "error_parser"
+msgstr "Chyba startu parseru."
+
+#, fuzzy
+msgid "error_upload_was_zero_bytes"
+msgstr "The upload failed as this is a folder, the file size is 0 bytes or the file was renamed meanwhile."
+
+msgid "etal_talks"
+msgstr "Talks"
+
+msgid "event_ass_materials_prop"
+msgstr "Materiály sezení"
+
+msgid "event_assign_files"
+msgstr "Přiřazení souboru"
+
+msgid "exc"
+msgstr "Cvičení"
+
+msgid "exc_add"
+msgstr "Přidat cvičení"
+
+msgid "exc_added"
+msgstr "Cvičení přidáno"
+
+msgid "exc_date_not_valid"
+msgstr "Datum je neplatné"
+
+msgid "exc_deassign_members"
+msgstr "Odstranit účastníky"
+
+msgid "exc_download_files"
+msgstr "Stažené soubory"
+
+msgid "exc_edit"
+msgstr "Nové cvičení přidáno"
+
+msgid "exc_edit_exercise"
+msgstr "Upravit cvičení"
+
+msgid "exc_edit_until"
+msgstr "Upravit do"
+
+msgid "exc_exercise_sent"
+msgstr "Cvičení posláno"
+
+msgid "exc_files"
+msgstr "Soubory"
+
+msgid "exc_files_returned"
+msgstr "Odevzdané soubory"
+
+msgid "exc_instruction"
+msgstr "Pracovní pokyny"
+
+msgid "exc_last_submission"
+msgstr "Poslední zadání"
+
+#, fuzzy
+msgid "exc_member_of_crs_grp"
+msgstr "Member in Course/Group"
+
+msgid "exc_members_already_assigned"
+msgstr "Tito uživatelé jsou již přiřazeni k tomuto cvičení"
+
+msgid "exc_members_assigned"
+msgstr "Členové přiřazeni"
+
+msgid "exc_members_comments_saved"
+msgstr "Komentář cvičení pro vybrané uživatele byl uložen"
+
+msgid "exc_new"
+msgstr "Nové cvičení"
+
+#, fuzzy
+msgid "exc_next_deadline"
+msgstr "Next Deadline"
+
+msgid "exc_obj"
+msgstr "Cvičení"
+
+msgid "exc_save_changes"
+msgstr "Uložit"
+
+msgid "exc_schedule"
+msgstr "Časový plán"
+
+msgid "exc_select_one_file"
+msgstr "Vyberte prosím přesně jeden soubor."
+
+msgid "exc_sent"
+msgstr "Toto cvičení bylo zasláno vybraným uživatelům"
+
+msgid "exc_sent_at"
+msgstr "Zasláno <br />%s"
+
+msgid "exc_status"
+msgstr "Stav"
+
+msgid "exc_status_saved"
+msgstr "Cvičení aktualizováno"
+
+msgid "exc_submission"
+msgstr "Zadání"
+
+msgid "exc_time_over_short"
+msgstr "čas vypršel"
+
+msgid "exc_time_to_send"
+msgstr "Zbývající pracovní čas"
+
+msgid "exc_upload_error"
+msgstr "Chyba při odesílání souboru"
+
+msgid "excs"
+msgstr "Cvičení"
+
+msgid "execute"
+msgstr "Vykonat"
+
+msgid "exercise_time_over"
+msgstr "Překročil(a) jste konečný termín pro zpracování tohoto cvičení. Dále už nemůžete soubory odevzdávat."
+
+msgid "expand"
+msgstr "Rozšířit"
+
+msgid "expand_all"
+msgstr "Rozšířit vše"
+
+#, fuzzy
+msgid "expand_content"
+msgstr "Expand Content"
+
+msgid "expanded"
+msgstr "Rozšířené"
+
+msgid "export"
+msgstr "Exportovat"
+
+msgid "export_format"
+msgstr "Formát exportu"
+
+msgid "export_html"
+msgstr "Exportovat jako HTML soubor"
+
+msgid "ext_cat_settings"
+msgstr "Upravit rozšířené nastavení kategorie"
+
+msgid "ext_link"
+msgstr "Odkaz"
+
+#, fuzzy
+msgid "extracting"
+msgstr "Extracting..."
+
+#, fuzzy
+msgid "eyeclosed"
+msgstr "Eye Closed - Click to hide the input's contents"
+
+#, fuzzy
+msgid "eyeopened"
+msgstr "Eye Open - Click to reveal the input's contents"
+
+msgid "failure_message"
+msgstr "Chybová zpráva"
+
+msgid "fax"
+msgstr "Fax"
+
+msgid "feed"
+msgstr "Webový zdroj zpráv"
+
+msgid "feedback"
+msgstr "Odezva"
+
+msgid "field_name"
+msgstr "Název pole"
+
+msgid "field_type"
+msgstr "Typ pole"
+
+msgid "file"
+msgstr "Soubor"
+
+msgid "file_add"
+msgstr "Odeslat soubor"
+
+msgid "file_add_and_metadata"
+msgstr "Odeslat a upravit Metadata"
+
+msgid "file_added"
+msgstr "Soubor uložen"
+
+msgid "file_allowed_suffixes"
+msgstr "Přípustné typy souborů:"
+
+#, fuzzy
+msgid "file_confirm_delete_all_versions"
+msgstr "You selected all file versions. This will delete the whole file object. Do you want to continue?"
+
+#, fuzzy
+msgid "file_confirm_delete_versions"
+msgstr "Are you sure to delete the following file versions?"
+
+msgid "file_created"
+msgstr "Nový soubor byl přidán."
+
+msgid "file_edit"
+msgstr "Upravit soubor"
+
+msgid "file_info"
+msgstr "Informace o souboru"
+
+msgid "file_is_infected"
+msgstr "Soubor infikován virem.The file is infected by a virus."
+
+#, fuzzy
+msgid "file_no_valid_file_type"
+msgstr "This file type is not allowed."
+
+msgid "file_not_found"
+msgstr "Soubor nenalezen"
+
+#, fuzzy
+msgid "file_not_found_sec"
+msgstr "This file cannot be found in ILIAS or has been blocked due to security reasons."
+
+msgid "file_not_valid"
+msgstr "Soubor není platný!"
+
+msgid "file_notice"
+msgstr "Dbejte prosím na limit velikosti souborů"
+
+#, fuzzy
+msgid "file_objects"
+msgstr "File Objects"
+
+#, fuzzy
+msgid "file_rollback"
+msgstr "Make this the current version"
+
+#, fuzzy
+msgid "file_rollback_done"
+msgstr "File version %s is now the current version."
+
+#, fuzzy
+msgid "file_rollback_select_exact_one"
+msgstr "Only one file version can be selected to make it the current version."
+
+#, fuzzy
+msgid "file_some_invalid_file_types_removed"
+msgstr "Some file types are not allowed and have been removed."
+
+msgid "file_suffix_repl"
+msgstr "Změnit příponu odesílaného souboru"
+
+msgid "file_suffix_repl_info"
+msgstr "Soubory s těmito příponami (odděleno čárkou) budou přejmenovány s příponou \".sec\" když budou uloženy do webového prostoru. To je výchozí nastavení pro přípony:"
+
+#, fuzzy
+msgid "file_system_clean_temp_dir_cron"
+msgstr "Clean temp directory"
+
+#, fuzzy
+msgid "file_system_clean_temp_dir_cron_info"
+msgstr "This job cleans the ILIAS temp-directory of files, which are older than 10 days. This counteracts the accumulation of unused files and therefore prevents an increased use of disk space by the temp directory."
+
+msgid "file_updated"
+msgstr "Soubor byl aktualizován."
+
+#, fuzzy
+msgid "file_upload_pending"
+msgstr "Pending file"
+
+msgid "file_valid"
+msgstr "Soubor je v pořádku!"
+
+msgid "file_version"
+msgstr "Verze poskytnutá v souboru"
+
+#, fuzzy
+msgid "file_version_create"
+msgstr "Initial version"
+
+#, fuzzy
+msgid "file_version_intermediate_version"
+msgstr "Intermediate Version"
+
+#, fuzzy
+msgid "file_version_new_version"
+msgstr "New version"
+
+#, fuzzy
+msgid "file_version_published_version"
+msgstr "Published Version"
+
+#, fuzzy
+msgid "file_version_replace"
+msgstr "All versions replaced"
+
+#, fuzzy
+msgid "file_version_rollback"
+msgstr "Rollback to version %s from %s"
+
+#, fuzzy
+msgid "file_versions_deleted"
+msgstr "The selected file versions were successfully deleted."
+
+msgid "filename"
+msgstr "Název souboru"
+
+msgid "filename_extension_missing"
+msgstr "Schází přípona souboru"
+
+msgid "filename_hidden_backup_file"
+msgstr "Skrytý záložní soubor"
+
+msgid "filename_hidden_unix_file"
+msgstr "Skrytý unixový soubor"
+
+msgid "filename_interoperability"
+msgstr "Interoperabilita"
+
+msgid "filename_special_characters"
+msgstr "Díky znaku / není tento objekt ve webové složce viditelný."
+
+msgid "filename_special_filename"
+msgstr "Objekty s . a .. nejsou ve webové složce viditelné."
+
+msgid "filename_visibility"
+msgstr "Viditelnost"
+
+msgid "filename_windows_empty_extension"
+msgstr "Díky znaku . na konci jména není tetno objekt viditelný ve webových složkách ve Windows."
+
+msgid "filename_windows_special_characters"
+msgstr "Díky některému ze znaku \\/:*?\"<>| není tento objekt viditelný ve webových složkách ve Windows."
+
+msgid "filename_windows_webdav_issue"
+msgstr "Díky znaku # není tento objekt ve webové složce ve Windows viditelný"
+
+msgid "files"
+msgstr "Soubory"
+
+msgid "filesize"
+msgstr "Velkost souboru"
+
+msgid "filetype"
+msgstr "Typ souboru"
+
+msgid "fill_out_all_required_fields"
+msgstr "Vyplňte prosím všechny požadované položky"
+
+msgid "filter"
+msgstr "Filtr:"
+
+msgid "filter_users_with_access"
+msgstr "Pouze uživatelé s přístupem"
+
+msgid "filter_users_with_disk_usage"
+msgstr "Pouze uživatelé s použitým diskovým prostorem"
+
+msgid "filter_users_without_access"
+msgstr "Pouze uživatelé s přístupem"
+
+msgid "filter_users_without_disk_usage"
+msgstr "Pouze uživatelé bez použitého diskového prostoru"
+
+#, fuzzy
+msgid "first"
+msgstr "First"
+
+msgid "firstname"
+msgstr "Jméno"
+
+msgid "flatview"
+msgstr "Plošné zobrazení"
+
+msgid "fold"
+msgstr "Složka"
+
+msgid "fold_add"
+msgstr "Přidat složku"
+
+msgid "fold_added"
+msgstr "Složka přidána"
+
+#, fuzzy
+msgid "fold_copy_threads_info"
+msgstr "Please decide which materials should be copied, linked or even omitted."
+
+msgid "fold_edit"
+msgstr "Upravit složku"
+
+msgid "fold_new"
+msgstr "Nová složka"
+
+#, fuzzy
+msgid "fold_wizard_page"
+msgstr "Copy Folder (Step 2/2)"
+
+msgid "folder"
+msgstr "Složka"
+
+msgid "folders"
+msgstr "Složky"
+
+#, fuzzy
+msgid "follow_link_to_read_mails"
+msgstr "click the following link to read these mails:"
+
+msgid "forgot_password"
+msgstr "Zapomenuté heslo?"
+
+msgid "forgot_username"
+msgstr "Zapomenuté uživatelské jméno?"
+
+msgid "form_input_not_valid"
+msgstr "Některá data jsou neúplná, nebo neplatná. Zkontrolujte prosím vstupní formulář."
+
+msgid "forum"
+msgstr "Fórum"
+
+msgid "forum_direct_notification"
+msgstr "Přímé oznámení"
+
+msgid "forum_notify_me"
+msgstr "Upozorni mne, když přišla odpověď."
+
+msgid "forum_post_replied"
+msgstr "Na Váš vstup na fóru bylo odpovězeno."
+
+msgid "forums"
+msgstr "Fóra"
+
+msgid "forums_anonymized"
+msgstr "Fórum anonymizováno"
+
+msgid "forums_anonymous"
+msgstr "anonymní"
+
+msgid "forums_articles"
+msgstr "Články"
+
+#, fuzzy
+msgid "forums_closed"
+msgstr "closed"
+
+msgid "forums_disable_forum_notification"
+msgstr "Vypnout oznámování pro toto fórum"
+
+msgid "forums_enable_forum_notification"
+msgstr "Zapnout oznamování pro toto fórum"
+
+msgid "forums_forum_notification_enabled"
+msgstr "Budete uvědomován(a) o nových zprávách v tomto fóru"
+
+msgid "forums_last_post"
+msgstr "Poslední článek"
+
+#, fuzzy
+msgid "forums_last_posting_asc"
+msgstr "Last Post Ascending"
+
+#, fuzzy
+msgid "forums_last_posting_dsc"
+msgstr "Last Post Descending"
+
+msgid "forums_notification_settings"
+msgstr "Forums Notification Setting"
+
+#, fuzzy
+msgid "forums_rating_asc"
+msgstr "Rating Ascending"
+
+#, fuzzy
+msgid "forums_rating_dsc"
+msgstr "Rating Descending"
+
+#, fuzzy
+msgid "forums_thread_sorting_asc"
+msgstr "Thread Title A→Z"
+
+#, fuzzy
+msgid "forums_thread_sorting_dsc"
+msgstr "Thread Title Z→A"
+
+msgid "forums_threads"
+msgstr "Témata"
+
+msgid "forums_use_alias"
+msgstr "Můžete pro své odesílání zpráv použít tento alias. Pokud necháte toto pole prázdné, Vaše odesílání zpráv bude označeno jako anonymní."
+
+msgid "forums_your_name"
+msgstr "Vaše jméno"
+
+msgid "frm"
+msgstr "Fórum"
+
+msgid "frm_add"
+msgstr "Přidat fórum"
+
+msgid "frm_added"
+msgstr "Fórum přidáno"
+
+msgid "frm_edit"
+msgstr "Upravit fórum"
+
+#, fuzzy
+msgid "frm_import"
+msgstr "Import Forum"
+
+msgid "frm_latest_postings"
+msgstr "Poslední články"
+
+msgid "frm_new"
+msgstr "Nové fórum"
+
+#, fuzzy
+msgid "frm_no_threads"
+msgstr "There are no threads available at the moment."
+
+msgid "from"
+msgstr "Od"
+
+msgid "fullname"
+msgstr "Celé jméno"
+
+msgid "functions"
+msgstr "Funkce"
+
+msgid "further_informations"
+msgstr "Další informace"
+
+msgid "gdf_add"
+msgstr "Přidat definici"
+
+msgid "gdf_new"
+msgstr "Nová definice"
+
+msgid "gender"
+msgstr "Pohlaví"
+
+msgid "gender_f"
+msgstr "ženské"
+
+msgid "gender_m"
+msgstr "mužské"
+
+#, fuzzy
+msgid "gender_n"
+msgstr "No salutation desired"
+
+#, fuzzy
+msgid "general"
+msgstr "General"
+
+msgid "general_settings"
+msgstr "Obecná nastavení"
+
+msgid "generate"
+msgstr "Generovat"
+
+#, fuzzy
+msgid "ghostscript_not_configured"
+msgstr "Ghostscript is not configured. Please open the <a href=\"cli/setup.php?cmd=mastersettings\" target=\"_blank\">Setup</a> to configure it."
+
+msgid "glo"
+msgstr "Glosář"
+
+msgid "glo_add"
+msgstr "Přidat glosář"
+
+msgid "glo_added"
+msgstr "Glosář přidán"
+
+#, fuzzy
+msgid "glo_import"
+msgstr "Import Glossary"
+
+msgid "glo_mode"
+msgstr "Mód"
+
+msgid "glo_mode_desc"
+msgstr "Virtuální glosář pracuje jako běžný glosář. Obsahuje navíc termíny ze všech glosářů umístěných na stejné úrovni úložiště jako virtuální glosář, respektive všech glosářů umístěných na nižší úrovni úložiště."
+
+msgid "glo_mode_normal"
+msgstr "normální"
+
+msgid "glo_new"
+msgstr "Nový glosář"
+
+msgid "global"
+msgstr "Globální"
+
+msgid "global_default"
+msgstr "Globální výchozí"
+
+msgid "global_fixed"
+msgstr "Globální zapsáno"
+
+#, fuzzy
+msgid "global_role_assignment"
+msgstr "Globale Rollenzuweisung"
+
+msgid "global_settings"
+msgstr "Globální nastavení"
+
+msgid "global_user"
+msgstr "Globální uživatelé"
+
+msgid "glossaries"
+msgstr "Glosáře"
+
+msgid "glossary"
+msgstr "Glosář"
+
+msgid "go"
+msgstr "Spustit"
+
+#, fuzzy
+msgid "grade"
+msgstr "Grade"
+
+msgid "group"
+msgstr "Skupina"
+
+msgid "group_members"
+msgstr "Členové skupiny"
+
+msgid "group_name"
+msgstr "Název skupiny"
+
+msgid "group_new_registrations"
+msgstr "Požadavky přihlášení"
+
+msgid "group_password_registration_msg"
+msgstr "Když znáte heslo skupiny, můžete se připojit k této skupině. Neznáte-li heslo, kontaktujte svého administrátora skupiny."
+
+msgid "group_registration"
+msgstr "Registrace"
+
+msgid "group_registration_mode"
+msgstr "Registrační mód"
+
+msgid "group_registration_time"
+msgstr "Registrační období"
+
+msgid "group_req_direct"
+msgstr "Přímé přihlášení"
+
+msgid "group_req_registration_msg"
+msgstr "Můžete požádat o členství v této skupině. Obdržíte zprávu, zda administrátor skupiny Váš požadavek přijal, nebo zamítl."
+
+msgid "group_status"
+msgstr "Skupina je"
+
+msgid "groupings"
+msgstr "Omezení členství"
+
+msgid "groupings_assigned_obj_crs"
+msgstr "Přidělené kurzy"
+
+msgid "groupings_assigned_obj_grp"
+msgstr "Přidělené skupiny"
+
+#, fuzzy
+msgid "groupings_source"
+msgstr "Source"
+
+msgid "groups"
+msgstr "Skupiny"
+
+msgid "grp"
+msgstr "Skupina"
+
+msgid "grp_add"
+msgstr "Přidat skupinu"
+
+msgid "grp_added"
+msgstr "Skupina přidána"
+
+msgid "grp_btn_unsubscribe"
+msgstr "Odhlásit ze skupiny"
+
+msgid "grp_cancel_waiting_list"
+msgstr "Skutečně se chcete vymazat ze seznamu čekatelů skupiny \"%s\"?"
+
+msgid "grp_copy_threads_info"
+msgstr "Rozhodněte prosím, které materiály mají být kopírovány, připojeny, nebo dokonce zamítnuty."
+
+msgid "grp_deleted_export_files"
+msgstr "Vybrané soubory smazané."
+
+msgid "grp_dismiss_member"
+msgstr "Určitě chcete vyloučit následující členy ze skupiny?"
+
+msgid "grp_dismiss_myself"
+msgstr "Určitě se chcete vyloučit ze skupiny?"
+
+msgid "grp_edit"
+msgstr "Upravit skupinu"
+
+msgid "grp_err_administrator_required"
+msgstr "Uživatel nemůže být odstraněn. Alespoň jeden administrátor je vyžadován pro každou skupinu!"
+
+msgid "grp_header_edit_members"
+msgstr "Upravit členy"
+
+#, fuzzy
+msgid "grp_list_members"
+msgstr "List members"
+
+#, fuzzy
+msgid "grp_list_reg"
+msgstr "Registration"
+
+#, fuzzy
+msgid "grp_list_reg_end"
+msgstr "Registration End"
+
+#, fuzzy
+msgid "grp_list_reg_limit_full"
+msgstr "No places left"
+
+#, fuzzy
+msgid "grp_list_reg_limit_places"
+msgstr "Free places"
+
+#, fuzzy
+msgid "grp_list_reg_noreg"
+msgstr "No Registration Possible"
+
+#, fuzzy
+msgid "grp_list_reg_period"
+msgstr "Registration Period"
+
+#, fuzzy
+msgid "grp_list_reg_start"
+msgstr "Registration Begin"
+
+msgid "grp_list_users"
+msgstr "Seznam uživatelů"
+
+msgid "grp_mem_change_status"
+msgstr "Změnit statut člena"
+
+msgid "grp_mem_send_mail"
+msgstr "Poslat členovi zprávu"
+
+msgid "grp_members_gallery"
+msgstr "Galerie členů skupiny"
+
+msgid "grp_msg_applicants_assigned"
+msgstr "Žadatel zařazen jako člen skupiny"
+
+msgid "grp_msg_member_assigned"
+msgstr "Uživatel zařazen jako člen skupiny"
+
+msgid "grp_msg_membership_annulled"
+msgstr "Členství zrušeno"
+
+msgid "grp_new"
+msgstr "Nová skupina"
+
+msgid "grp_registration"
+msgstr "Připojit ke skupině"
+
+msgid "grp_registration_completed"
+msgstr "Registrace ukončena"
+
+msgid "grp_removed_from_waiting_list"
+msgstr "Byl(a) jste odstraněn(a) ze seznamu čekatelů \"%s\"."
+
+msgid "grp_select_one_file"
+msgstr "Vložte prosím jeden soubor"
+
+msgid "grp_wizard_page"
+msgstr "Kopírovat skupinu (krok 2/2)"
+
+#, fuzzy
+msgid "grpr"
+msgstr "Group Reference"
+
+#, fuzzy
+msgid "grpr_add"
+msgstr "Add Group Link"
+
+#, fuzzy
+msgid "grpr_edit"
+msgstr "Edit Group Reference"
+
+#, fuzzy
+msgid "grpr_edit_info"
+msgstr "Please choose one group, for creating a new reference."
+
+#, fuzzy
+msgid "grpr_new"
+msgstr "Create Group Reference"
+
+#, fuzzy
+msgid "grpr_settings"
+msgstr "Group Link Settings"
+
+#, fuzzy
+msgid "header_action"
+msgstr "Insert Heading - Click to insert a heading."
+
+msgid "header_searchable"
+msgstr "Prohledané"
+
+msgid "header_title"
+msgstr "Název hlavičky"
+
+msgid "header_visible_registration"
+msgstr "Viditelné v registraci"
+
+msgid "header_zip"
+msgstr "Odeslat archív zip"
+
+msgid "height"
+msgstr "Výška"
+
+msgid "help"
+msgstr "Nápověda"
+
+msgid "hide"
+msgstr "Skrýt"
+
+#, fuzzy
+msgid "hide_all_details"
+msgstr "Hide all details"
+
+msgid "hide_details"
+msgstr "Skrýt podrobnosti"
+
+msgid "hide_filter"
+msgstr "Skrýt filtr"
+
+msgid "hide_own_online_status"
+msgstr "Skrýt můj status online"
+
+#, fuzzy
+msgid "hide_visible_sections"
+msgstr "Hide More Information &raquo;"
+
+msgid "hint"
+msgstr "Pokyn"
+
+msgid "history"
+msgstr "Historie"
+
+msgid "hobby"
+msgstr "Zájmy/Koníčky"
+
+msgid "home"
+msgstr "Veřejná plocha"
+
+msgid "host"
+msgstr "Host"
+
+msgid "hour"
+msgstr "Hodin"
+
+msgid "hours"
+msgstr "Hodin(y)"
+
+msgid "htlm"
+msgstr "Výukový modul HTML"
+
+msgid "htlm_add"
+msgstr "Přidat výukový modul HTML"
+
+msgid "htlm_new"
+msgstr "Nový výukový modul HTML"
+
+msgid "http"
+msgstr "HTTP"
+
+msgid "http_not_possible"
+msgstr "Tento server nepodporuje požadavky HTTP."
+
+msgid "http_path"
+msgstr "HTTP cesta"
+
+msgid "https_not_possible"
+msgstr "Tento server nepodporuje HTTPS spojení."
+
+msgid "i2passwd"
+msgstr "Heslo ILIAS 2"
+
+#, fuzzy
+msgid "iass_import"
+msgstr "Import Individual Assessment"
+
+#, fuzzy
+msgid "iass_new"
+msgstr "Create Individual Assessment"
+
+msgid "icon"
+msgstr "Ikona"
+
+msgid "icon_settings"
+msgstr "Nastavení ikony"
+
+msgid "id"
+msgstr "ID"
+
+msgid "identifier"
+msgstr "identifikátor"
+
+msgid "if_no_title_then_filename"
+msgstr "Ponechat prázdné k zobrazení názvu souboru"
+
+msgid "ignore_on_conflict"
+msgstr "Ignorovat při konfliktu"
+
+#, fuzzy
+msgid "ignore_required_fields"
+msgstr "Ignore required fields"
+
+#, fuzzy
+msgid "ignore_required_fields_info"
+msgstr "If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login."
+
+#, fuzzy
+msgid "il_astpl_loc_initial"
+msgstr "Initial Test"
+
+#, fuzzy
+msgid "il_astpl_loc_qualified"
+msgstr "Qualifying Test"
+
+#, fuzzy
+msgid "il_blog_contributor"
+msgstr "Blog Contributor"
+
+#, fuzzy
+msgid "il_blog_editor"
+msgstr "Blog-Editor"
+
+msgid "il_chat_moderator"
+msgstr "Moderátor besedy"
+
+msgid "il_crs_admin"
+msgstr "Správce kurzu"
+
+msgid "il_crs_member"
+msgstr "Příslušník kurzu"
+
+msgid "il_crs_non_member"
+msgstr "Ne-příslušník kurzu"
+
+msgid "il_crs_tutor"
+msgstr "Učitel"
+
+msgid "il_frm_moderator"
+msgstr "Moderátor"
+
+msgid "il_grp_admin"
+msgstr "Správce skupiny"
+
+msgid "il_grp_member"
+msgstr "Člen skupiny"
+
+msgid "il_grp_status_closed"
+msgstr "Skupina uzavřena"
+
+msgid "il_grp_status_open"
+msgstr "Skupina otevřena"
+
+#, fuzzy
+msgid "il_iass_member"
+msgstr "Participant"
+
+#, fuzzy
+msgid "il_lso_admin"
+msgstr "Learning Sequence Admin"
+
+#, fuzzy
+msgid "il_lso_member"
+msgstr "Learning Sequence Member"
+
+#, fuzzy
+msgid "il_lti_instructor"
+msgstr "LTI Instructor"
+
+#, fuzzy
+msgid "il_lti_learner"
+msgstr "LTI Learner"
+
+#, fuzzy
+msgid "il_lti_user"
+msgstr "LTI User"
+
+#, fuzzy
+msgid "il_orgu_employee"
+msgstr "Employee"
+
+#, fuzzy
+msgid "il_orgu_superior"
+msgstr "Superior"
+
+msgid "ilias_version"
+msgstr "Verze ILIASu"
+
+msgid "image"
+msgstr "Obrázek"
+
+msgid "import"
+msgstr "Importovat"
+
+msgid "import_cat_localrol"
+msgstr "Vytvořit lokální roli pro každou novou kategorii"
+
+msgid "import_cat_table"
+msgstr "Následující tabulka je smysluplná pouze tehdy, je-li zaškrtávací pole zaškrtnuto."
+
+msgid "import_categories"
+msgstr "Importovat kategorii"
+
+msgid "import_failure_log"
+msgstr "Záznam chyby importu"
+
+msgid "import_file"
+msgstr "Import souboru"
+
+msgid "import_file_not_valid_here"
+msgstr "Importovaný soubor není platný."
+
+msgid "import_finished"
+msgstr "Počet imporotvaných zpráv."
+
+msgid "import_lm"
+msgstr "Importovat výukový modul ILIAS"
+
+msgid "import_qpl"
+msgstr "Importovat zásobník otázek testu"
+
+msgid "import_questions_into_qpl"
+msgstr "Importovat otázky do zásobníku otázek"
+
+msgid "import_sahs"
+msgstr "Importovat balíček SCORM/AICC"
+
+#, fuzzy
+msgid "import_sahs_info"
+msgstr "To correct typos or images, use the option to replace individual files via the file directory. Upload a SCORM export from your authoring tool here and not an ILIAS export file. Make sure that your authoring tool has retained the IDs in the manifest file. Attention: Even popular authoring tools cannot do this. SCORM learning modules of certain authoring tools discard learner data obtained if you change the number of answer options of questions or insert new questions. Check in a test installation whether learning statuses that have already been achieved are possible when learning modules that have already been started are called up again."
+
+#, fuzzy
+msgid "import_sahs_new"
+msgstr "Import New Version of SCORM Package"
+
+msgid "import_svy"
+msgstr "Importovat anketu"
+
+msgid "import_tst"
+msgstr "Importovat test"
+
+msgid "import_users"
+msgstr "Importovat uživatele"
+
+msgid "import_warning_log"
+msgstr "Importovat záznam varování"
+
+msgid "important"
+msgstr "Důležité"
+
+msgid "imported"
+msgstr "importováno"
+
+#, fuzzy
+msgid "imprint"
+msgstr "Imprint"
+
+msgid "in"
+msgstr "v"
+
+msgid "in_use"
+msgstr "Uživatelský jazyk"
+
+msgid "in_use_by"
+msgstr "Používáno"
+
+msgid "inactive"
+msgstr "Neaktivní"
+
+msgid "inbox"
+msgstr "Doručená pošta"
+
+msgid "include_local"
+msgstr "zařadit lokální jazykový soubor během aktualizace jazyka"
+
+msgid "info"
+msgstr "Informace"
+
+msgid "info_access_and_status_info"
+msgstr "Informace o přístupu a statusu"
+
+msgid "info_access_permissions"
+msgstr "Oprávnění k přístupu"
+
+msgid "info_activate_sure"
+msgstr "Určitě chcete následující uživatele odsouhlasit  jako aktivní uživatele?"
+
+msgid "info_assign_sure"
+msgstr "Určitě chcete přiřadit následující uživatele?"
+
+msgid "info_assigned"
+msgstr "přiřazen"
+
+msgid "info_available_roles"
+msgstr "Dostupné role"
+
+msgid "info_change_user_view"
+msgstr "Změnit zobrazení uživatele"
+
+msgid "info_deactivate_sure"
+msgstr "Určitě chcete následující uživatele zakázat  jako aktivní uživatele?"
+
+msgid "info_delete_sure"
+msgstr "Určitě chcete vymazat následující položky?"
+
+msgid "info_delete_warning_no_trash"
+msgstr "(VAROVÁNÍ: Vybrané objekty budou nenávratně odstraněny ze systému a nebude je možné nijak obnovit!)"
+
+msgid "info_deleted"
+msgstr "Objekty odstraněny"
+
+msgid "info_err_user_not_exist"
+msgstr "Uživatel s tímto ID neexistuje"
+
+msgid "info_from_role"
+msgstr "Poskytnuto rolí/vlastnictvím"
+
+msgid "info_is_member"
+msgstr "Uživatel je členem"
+
+msgid "info_is_not_member"
+msgstr "Uživatel není členem"
+
+msgid "info_message"
+msgstr "Zpráva informace"
+
+msgid "info_not_assigned"
+msgstr "není přiřazen"
+
+msgid "info_owner_of_object"
+msgstr "Vlastník objektu"
+
+msgid "info_permission_origin"
+msgstr "Původní pozice"
+
+msgid "info_permission_source"
+msgstr "Účinný od*"
+
+msgid "info_remark_interrupted"
+msgstr "Role je na této pozici přerušena. Výchozí nastavení oprávnění role je ve skutečnosti umístěno na této pozici."
+
+#, fuzzy
+msgid "info_remove_sure"
+msgstr "Are you sure that you want to remove the following item(s)?"
+
+msgid "info_short"
+msgstr "Info"
+
+msgid "info_status_info"
+msgstr "Informace o statusu"
+
+msgid "info_view_of_user"
+msgstr "Uživatel"
+
+msgid "inform_user_mail"
+msgstr "Poslat uživateli zprávu o změnách e-mailem."
+
+msgid "inline_file_extensions"
+msgstr "Soubory připojené k webu"
+
+msgid "inline_file_extensions_info"
+msgstr "Soubory s touto příponou jsou zobrazeny v okně prohlížeče.<br/>Například: <b>gif jpg mp3 pdf png</b><br/> Všechny ostatní soubory jsou nabízeny ke stažení."
+
+msgid "insert"
+msgstr "Vložit"
+
+msgid "insert_object_here"
+msgstr "Vložte objekt zde"
+
+msgid "inst_id"
+msgstr "ID Instalace"
+
+msgid "inst_info"
+msgstr "Info o instalaci"
+
+msgid "inst_name"
+msgstr "Název instalace"
+
+msgid "install"
+msgstr "Instalovat"
+
+msgid "install_local"
+msgstr "Instalovat s lokálním souborem"
+
+#, fuzzy
+msgid "installation_status"
+msgstr "Installation Status"
+
+msgid "installed"
+msgstr "Nainstalován"
+
+msgid "installed_local"
+msgstr "Nainstalován s lokálním souborem"
+
+msgid "instant_messengers"
+msgstr "Online komunikátor"
+
+msgid "institution"
+msgstr "Instituce"
+
+msgid "internal_local_roles_only"
+msgstr "Lokální role (jen autogenerováno)"
+
+msgid "invalid_visible_required_options_selected"
+msgstr "Nastavení sady všech polí, které mají být viditelné také při registraci."
+
+msgid "invisible_block"
+msgstr "Neviditelný blok"
+
+msgid "invisible_block_mess"
+msgstr "Nemáte oprávnění zobrazit tento blok."
+
+msgid "ip_address"
+msgstr "IP Adresa"
+
+msgid "is_already_your"
+msgstr "je již váš"
+
+#, fuzzy
+msgid "italic_action"
+msgstr "Insert Italic - Click to insert italic text."
+
+msgid "item"
+msgstr "Položka"
+
+#, fuzzy
+msgid "itgr_add"
+msgstr "Add Item Group"
+
+#, fuzzy
+msgid "itgr_new"
+msgstr "New Item Group"
+
+msgid "java_server"
+msgstr "Java-Server"
+
+msgid "java_server_host"
+msgstr "Host"
+
+#. Needs to be adapted to new content of German lang file.
+msgid "java_server_info"
+msgstr "Je-li aktivován, pak je možné vyhledávat v PDF, HTML souborech a výukových modulech HTML"
+
+msgid "java_server_port"
+msgstr "Port"
+
+msgid "java_server_readme"
+msgstr "Informace nastavení"
+
+msgid "join"
+msgstr "Přihlásit"
+
+msgid "join_session"
+msgstr "Připojit"
+
+msgid "kb"
+msgstr "KByte"
+
+msgid "keywords"
+msgstr "Klíčová slova"
+
+#, fuzzy
+msgid "label_search_options"
+msgstr "Search Area"
+
+msgid "lang_dateformat"
+msgstr "d.m.Y"
+
+msgid "lang_path"
+msgstr "Cesta k jazykům"
+
+msgid "lang_refresh_confirm"
+msgstr "Skutečně chcete obnovit všechny jazyky?"
+
+msgid "lang_refresh_confirm_info"
+msgstr "Rozšířená údržba jazyku je v současné době aktivována. Aktualizace dat jazyků uloží všechny data jazyků z jazykových souborů do databáze ILIAS. Lokální změny (v databázi) mohou být přepsány, pokud nebyly dříve exportovány. To nemá vliv na žádný soubor \"*.lang.local\" v adresáři úprav."
+
+msgid "lang_refresh_confirm_selected"
+msgstr "Do you really want to refresh the selected languages"
+
+msgid "lang_sep_decimal"
+msgstr ","
+
+msgid "lang_sep_thousand"
+msgstr "&nbsp;"
+
+msgid "lang_size_bytes"
+msgstr "bajtů"
+
+msgid "lang_size_gb"
+msgstr "GB"
+
+msgid "lang_size_kb"
+msgstr "KB"
+
+msgid "lang_size_mb"
+msgstr "MB"
+
+# i=?
+msgid "lang_timeformat"
+msgstr "H:m:s"
+
+# i=?
+msgid "lang_timeformat_no_sec"
+msgstr "H:m"
+
+#, fuzzy
+msgid "lang_uninstall_changes"
+msgstr "Uninstall Local Changes"
+
+#, fuzzy
+msgid "lang_uninstall_changes_confirm"
+msgstr "Do you really want to clear all local changes of the selected languages and reset them to the default of the current ILIAS version?"
+
+#, fuzzy
+msgid "lang_uninstall_confirm"
+msgstr "Do you really want to uninstall the selected languages?"
+
+msgid "langfile_found"
+msgstr "Jazykový soubor nalezen"
+
+msgid "language"
+msgstr "Jazyk"
+
+msgid "language_not_installed"
+msgstr "není instalován. Nejprve prosím tento jazyk nainstalujte."
+
+msgid "languages"
+msgstr "Jazyky"
+
+msgid "languages_already_installed"
+msgstr "Vybraný jazyk je již nainstanován"
+
+msgid "languages_already_uninstalled"
+msgstr "Vybraný jazyk je již odinstanován"
+
+msgid "languages_updated"
+msgstr "Všechny instalované jazyky byly aktualizovány"
+
+msgid "last_access"
+msgstr "Poslední přístup:"
+
+msgid "last_change"
+msgstr "Poslední změna"
+
+msgid "last_edited_on"
+msgstr "Naposledy upraven na"
+
+msgid "last_login"
+msgstr "Poslední přihlášení"
+
+msgid "last_refresh"
+msgstr "Poslední obnovení"
+
+msgid "last_reminder"
+msgstr "Poslední připomenutí"
+
+msgid "last_update"
+msgstr "Poslední aktualizace"
+
+msgid "last_visited"
+msgstr "Navštíveno naposledy"
+
+msgid "lastname"
+msgstr "Příjmení"
+
+#, fuzzy
+msgid "latex_edit_info"
+msgstr "You can enter LaTeX code in the delimiters <code>[tex]</code> and <code>[/tex]</code>."
+
+#, fuzzy
+msgid "laugh"
+msgstr "Laugh"
+
+msgid "launch"
+msgstr "Spustit"
+
+msgid "ldap"
+msgstr "LDAP"
+
+msgid "ldap_basedn"
+msgstr "LDAP BaseDN"
+
+msgid "ldap_configure"
+msgstr "Konfigurovat autentizaci LDAP"
+
+msgid "ldap_port"
+msgstr "LDAP Port"
+
+msgid "ldap_read"
+msgstr "Právo číst nastavení LDAP"
+
+msgid "ldap_server"
+msgstr "URL serveru LDAP"
+
+msgid "ldap_tls"
+msgstr "Použít TLS LDAP"
+
+msgid "ldap_version"
+msgstr "Verze protokolu LDAP"
+
+msgid "learning module"
+msgstr "Learning Module"
+
+msgid "learning_progress"
+msgstr "Postup výuky"
+
+msgid "leave_waiting_list"
+msgstr "Opustit seznam čekajících"
+
+msgid "legend"
+msgstr "Legenda"
+
+msgid "level"
+msgstr "Úroveň"
+
+msgid "link"
+msgstr "Odkaz"
+
+#, fuzzy
+msgid "link_action"
+msgstr "Insert Link - Click to insert a link."
+
+msgid "link_all"
+msgstr "Připojit vše"
+
+msgid "link_check"
+msgstr "Prověřit odkazy"
+
+msgid "link_check_message_b"
+msgstr "Pokud je zapnuto, budete informován(a) o neplatných odkazech e-mailem."
+
+msgid "link_check_message_disabled"
+msgstr "Zprávy vypnuty"
+
+msgid "link_check_message_enabled"
+msgstr "Zprávy zapnuty"
+
+msgid "link_check_subject"
+msgstr "Prověřit odkaz [ILIAS 3]"
+
+msgid "link_checker_refreshed"
+msgstr "Zobrazení obnoveno"
+
+msgid "link_selected_items"
+msgstr "Připojit vybrané položky"
+
+msgid "links_add_param"
+msgstr "Přidat parametr:"
+
+msgid "links_dyn_parameter"
+msgstr "Dynamické parametry"
+
+msgid "links_dynamic"
+msgstr "Parametry dynamického připojení webu"
+
+msgid "links_dynamic_info"
+msgstr "Je-li zapnuto, je možné doplnit dynamické parametry k webovému spojení. Např. ID, nebo jméno uživatele ILIAS."
+
+msgid "links_existing_params"
+msgstr "Existující parametry:"
+
+msgid "links_name"
+msgstr "Název parametru"
+
+msgid "links_no_name_given"
+msgstr "Vyberte prosím název parametru."
+
+msgid "links_no_value_given"
+msgstr "Vyberte prosím hodnotu parametru."
+
+msgid "links_parameter_deleted"
+msgstr "Parametr smazán."
+
+msgid "links_select_one"
+msgstr "- Vyberte -"
+
+msgid "links_session_id"
+msgstr "ID relace ILIAS"
+
+msgid "links_user_id"
+msgstr "ID uživatele ILIAS"
+
+msgid "links_user_name"
+msgstr "Uživatelské jméno ILIAS"
+
+msgid "links_value"
+msgstr "Hodnota parametru"
+
+msgid "list"
+msgstr "Seznam"
+
+msgid "list_of_questions"
+msgstr "Seznam otázek"
+
+#, fuzzy
+msgid "list_view"
+msgstr "List View"
+
+#, fuzzy
+msgid "listaction_learning_progress_settings"
+msgstr "Learning Progress Settings"
+
+msgid "lm"
+msgstr "Výukový modul ILIAS"
+
+msgid "lm_add"
+msgstr "Přidat výukový modul ILIAS"
+
+msgid "lm_added"
+msgstr "Výukový modul ILIAS přidán"
+
+msgid "lm_new"
+msgstr "Nový výukový modul ILIAS"
+
+msgid "lm_type_scorm"
+msgstr "SCORM 1.2 (Java-RTE)"
+
+msgid "lm_type_scorm2004"
+msgstr "SCORM 2004"
+
+#, fuzzy
+msgid "lm_type_scorm2004_info"
+msgstr "These are newer versions of SCORM with significantly enhanced functionality. The learning module is launched in an iFrame."
+
+#, fuzzy
+msgid "lm_type_scorm_info"
+msgstr "This is the most widely used version of SCORM. The learning module is launched in a frame."
+
+msgid "lng"
+msgstr "Jazyk"
+
+msgid "lngf"
+msgstr "Jazyky"
+
+msgid "lo"
+msgstr "Výukový objekt"
+
+#, fuzzy
+msgid "loaded_preview_renderers"
+msgstr "Loaded Preview Renderers"
+
+msgid "local"
+msgstr "Lokální"
+
+msgid "local_language_file"
+msgstr "lokální jazykový soubor"
+
+msgid "local_language_files"
+msgstr "lokální jazykové soubory"
+
+msgid "local_languages_already_installed"
+msgstr "Vybrané lokální jazykové soubory jsou již nainstalovány."
+
+#, fuzzy
+msgid "local_role_assignment"
+msgstr "Lokale Rollenzuweisung"
+
+msgid "location"
+msgstr "Poloha"
+
+msgid "locator"
+msgstr "Umístění:"
+
+msgid "log_in"
+msgstr "Přihlásit"
+
+#, fuzzy
+msgid "log_out"
+msgstr "Logout"
+
+msgid "logic_or"
+msgstr "nebo"
+
+msgid "login"
+msgstr "Přihlašovací jméno"
+
+msgid "login_as"
+msgstr "Přihlášen jako"
+
+msgid "login_data"
+msgstr "Přihlašovací údaje"
+
+msgid "login_exists"
+msgstr "Uživatel s takovým přihlašovacím jménem již existuje! Vyberte prosím jiné jméno."
+
+msgid "login_invalid"
+msgstr "Zvolený login není platný! Povoleny jsou pouze následující znaky (nejméně 3 znaky): A-Z a-z 0-9 _.-+*@!$%~"
+
+msgid "login_to_ilias"
+msgstr "Přihlášení do systému ILIAS"
+
+#, fuzzy
+msgid "login_to_ilias_via_login_form"
+msgstr "Login to ILIAS"
+
+#, fuzzy
+msgid "login_to_ilias_via_saml"
+msgstr "Login to ILIAS via SAML Authentification"
+
+msgid "login_to_ilias_via_shibboleth"
+msgstr "Přihlášení do ILIAS přes"
+
+msgid "loginname_already_exists"
+msgstr "Toto přihlašovací jméno již existuje."
+
+msgid "loginname_settings"
+msgstr "Loginname-Settings"
+
+msgid "logout"
+msgstr "Odhlásit"
+
+msgid "logout_text"
+msgstr "Odhlásil(a) jste se ze systému ILIAS. Vaše lekce byla ukončena."
+
+msgid "logs"
+msgstr "Data záznamu"
+
+#, fuzzy
+msgid "love"
+msgstr "Love"
+
+msgid "lres"
+msgstr "Výukové materiály"
+
+#, fuzzy
+msgid "lso_add"
+msgstr "Add Learning Sequence"
+
+#, fuzzy
+msgid "lso_admin_form_byline"
+msgstr "General Settings for Learning Sequences"
+
+#, fuzzy
+msgid "lso_admin_form_title"
+msgstr "Settings"
+
+#, fuzzy
+msgid "lso_admin_interval_byline"
+msgstr "Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!"
+
+#, fuzzy
+msgid "lso_admin_interval_label"
+msgstr "Learning Progress Polling Interval (seconds)"
+
+#, fuzzy
+msgid "lso_copy_threads_info"
+msgstr "Please decide which elements of the Learning Sequence should be copied, linked or omitted."
+
+#, fuzzy
+msgid "lso_edit"
+msgstr "Edit Learning Sequence"
+
+#, fuzzy
+msgid "lso_import"
+msgstr "Import Learning Sequence"
+
+#, fuzzy
+msgid "lso_new"
+msgstr "New Learning Sequence"
+
+#, fuzzy
+msgid "lso_wizard_page"
+msgstr "Copy Learning Sequence (Step 2/2)"
+
+#, fuzzy
+msgid "lti"
+msgstr "LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_add"
+msgstr "Add LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_new"
+msgstr "New LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_outcome_info"
+msgstr "Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI Tool Consumer."
+
+msgid "mail"
+msgstr "Pošta"
+
+msgid "mail_addressbook"
+msgstr "Adresář"
+
+#, fuzzy
+msgid "mail_at_the_ilias_installation"
+msgstr "You received %1$s new mail at the ILIAS-Installation %2$s"
+
+msgid "mail_attachment"
+msgstr "Připojení pošty"
+
+msgid "mail_b_inbox"
+msgstr "Doručená pošta"
+
+msgid "mail_c_trash"
+msgstr "Koš"
+
+#, fuzzy
+msgid "mail_cron_scheduled_mails"
+msgstr "Send scheduled mails."
+
+#, fuzzy
+msgid "mail_cron_scheduled_mails_desc"
+msgstr "Sends scheduled user mails according to their defined delivery times"
+
+msgid "mail_d_drafts"
+msgstr "Koncepty"
+
+msgid "mail_delete_error"
+msgstr "Chyba při mazání"
+
+#, fuzzy
+msgid "mail_e_outbox"
+msgstr "Outbox"
+
+msgid "mail_e_sent"
+msgstr "Odeslaná pošta"
+
+msgid "mail_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+#, fuzzy
+msgid "mail_f_sent"
+msgstr "Sent"
+
+msgid "mail_folders"
+msgstr "Poštovní složky"
+
+msgid "mail_import_file"
+msgstr "Exportovat soubor"
+
+msgid "mail_mails_of"
+msgstr "Pošta"
+
+msgid "mail_maxsize_attach"
+msgstr "Max.velikost přílohy"
+
+#, fuzzy
+msgid "mail_member"
+msgstr "Mail to Member"
+
+msgid "mail_members"
+msgstr "E-mail členům"
+
+#, fuzzy
+msgid "mail_message_scheduled"
+msgstr "Scheduled mail"
+
+#, fuzzy
+msgid "mail_message_scheduled_info"
+msgstr "Mails remain in the outbox until the scheduled sending time."
+
+msgid "mail_not_sent"
+msgstr "Zpráva nebyla odeslána!"
+
+#, fuzzy
+msgid "mail_schedule_error_no_datetime"
+msgstr "To schedule a mail, a delivery date and time must be specified."
+
+#, fuzzy
+msgid "mail_schedule_error_past_datetime"
+msgstr "You cannot schedule emails in the past."
+
+#, fuzzy
+msgid "mail_schedule_scheduled_datetime"
+msgstr "Scheduled Send Time"
+
+#, fuzzy
+msgid "mail_scheduled"
+msgstr "Mail stored in outbox for later delivery."
+
+#, fuzzy
+msgid "mail_scheduled_edit_compose_info"
+msgstr "You are editing a scheduled mail. Sending is paused until you schedule the mail again."
+
+#, fuzzy
+msgid "mail_scheduled_edit_moved_info"
+msgstr "This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox."
+
+msgid "mail_search_no"
+msgstr "Žádné položky nenalezeny"
+
+msgid "mail_select_one"
+msgstr "Musíte vybrat jednu zprávu"
+
+msgid "mail_send_error"
+msgstr "Chyba při odesílání zprávy"
+
+msgid "mail_sent"
+msgstr "Zpráva odeslána!"
+
+msgid "mail_settings"
+msgstr "Nastavení pošty"
+
+msgid "mail_to_global_roles_not_allowed"
+msgstr "Není povoleno posíla emaily globálním rolím"
+
+msgid "mail_z_local"
+msgstr "Uživatelské složky"
+
+msgid "mails"
+msgstr "Pošta"
+
+#, fuzzy
+msgid "mails_at_the_ilias_installation"
+msgstr "You received %1$s new mails at the ILIAS-Installation %2$s"
+
+msgid "mails_pl"
+msgstr "Pošta"
+
+msgid "main_menu"
+msgstr "Hlavní menu"
+
+#, fuzzy
+msgid "mainbar_aria_label"
+msgstr "Mainbar"
+
+#, fuzzy
+msgid "mainbar_more_label"
+msgstr "More"
+
+#, fuzzy
+msgid "manage_members"
+msgstr "Manage Members"
+
+msgid "matriculation"
+msgstr "Imatrikulační číslo"
+
+#, fuzzy
+msgid "max_previews_per_object"
+msgstr "Number of preview images per file"
+
+#, fuzzy
+msgid "max_previews_per_object_info"
+msgstr "Defines the maximum number of preview images that are created per file."
+
+msgid "mcst"
+msgstr "MediaCast"
+
+msgid "mcst_add"
+msgstr "Přidat MediaCast"
+
+msgid "mcst_new"
+msgstr "Nový MediaCast"
+
+msgid "mem_add_to_wl"
+msgstr "Přidat do seznamu čekatelů"
+
+msgid "mem_alert_no_places"
+msgstr "Zde není žádné volné místo."
+
+#, fuzzy
+msgid "mem_cron_min_members"
+msgstr "Course/Group: Minimum Members Check"
+
+#, fuzzy
+msgid "mem_cron_min_members_info"
+msgstr "The administrators will be notified if the minimum number is not met."
+
+msgid "mem_end"
+msgstr "Konec registrace:"
+
+msgid "mem_free_places"
+msgstr "Volná místa:"
+
+msgid "mem_max_users"
+msgstr "Maximum uživatelů:"
+
+#, fuzzy
+msgid "mem_min_users"
+msgstr "Minimum of Users"
+
+msgid "mem_participants"
+msgstr "Účastníci"
+
+msgid "mem_reg_expired"
+msgstr "Čas registrace uplynul."
+
+msgid "mem_reg_not_started"
+msgstr "Registrace dosud nezačala"
+
+msgid "mem_reg_period"
+msgstr "Období registrace"
+
+msgid "mem_reg_type"
+msgstr "Typ registrace"
+
+msgid "mem_start"
+msgstr "Registrace začíná:"
+
+msgid "mem_unlimited"
+msgstr "Neomezeno"
+
+msgid "mem_view_activate"
+msgstr "Activate Members View"
+
+msgid "mem_view_close"
+msgstr "Zavřít zobrazení členů"
+
+msgid "mem_view_long"
+msgstr "Zobrazení členů"
+
+msgid "mem_waiting_list"
+msgstr "Uživatelé na seznamu čekatelů:"
+
+msgid "mem_waiting_list_position"
+msgstr "Vaše umístění na seznamu čekatelů:"
+
+msgid "member"
+msgstr "Člen"
+
+msgid "member_status"
+msgstr "Status člena:"
+
+msgid "members"
+msgstr "Členové"
+
+msgid "membership_leave"
+msgstr "Opustit"
+
+msgid "mep"
+msgstr "Mediální zásobník"
+
+msgid "mep_add"
+msgstr "Přidat zásobník multimédií"
+
+msgid "mep_edit"
+msgstr "Upravit vlastnosti zásobníku multimédií"
+
+msgid "mep_new"
+msgstr "Nová zásobník multimédií"
+
+msgid "mep_not_insert_already_exist"
+msgstr "Následující položky nebyly vloženy, protože v zásobníku multimédií již existují:"
+
+msgid "message"
+msgstr "Zpráva"
+
+msgid "message_content"
+msgstr "Obsah zprávy"
+
+msgid "message_no_delivered_files"
+msgstr "Nebyly Vám zaslány žádné soubory!"
+
+msgid "meta_data"
+msgstr "Metadata"
+
+#, fuzzy
+msgid "metabar_aria_label"
+msgstr "Metabar"
+
+#, fuzzy
+msgid "mgs_objects_linked_to_the_following_folders_p"
+msgstr "The objects were linked to the following folder(s): %s"
+
+#, fuzzy
+msgid "mgs_objects_linked_to_the_following_folders_s"
+msgstr "The object was linked to the following folder(s): %s"
+
+msgid "migrate"
+msgstr "Migrovat"
+
+#, fuzzy
+msgid "minimize"
+msgstr "Minimize"
+
+msgid "minute"
+msgstr "Minuta"
+
+msgid "minutes"
+msgstr "Minuty"
+
+msgid "missing"
+msgstr "Chybí"
+
+msgid "missing_perm"
+msgstr "Chybé oprávnění"
+
+msgid "missing_precondition"
+msgstr "Chybí předpoklady"
+
+#, fuzzy
+msgid "mm_achievements"
+msgstr "Achievements"
+
+#, fuzzy
+msgid "mm_administration"
+msgstr "Administration"
+
+#, fuzzy
+msgid "mm_badges"
+msgstr "Badges"
+
+#, fuzzy
+msgid "mm_calendar"
+msgstr "Calendar"
+
+#, fuzzy
+msgid "mm_certificates"
+msgstr "Certificates"
+
+#, fuzzy
+msgid "mm_comments"
+msgstr "Comments"
+
+#, fuzzy
+msgid "mm_communication"
+msgstr "Communication"
+
+#, fuzzy
+msgid "mm_contacts"
+msgstr "Contacts"
+
+#, fuzzy
+msgid "mm_dashboard"
+msgstr "Dashboard"
+
+#, fuzzy
+msgid "mm_enrolments"
+msgstr "Enrolments"
+
+#, fuzzy
+msgid "mm_favorites"
+msgstr "Favourites"
+
+#, fuzzy
+msgid "mm_learning_history"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "mm_learning_progress"
+msgstr "Learning Progress"
+
+#, fuzzy
+msgid "mm_mail"
+msgstr "Mail"
+
+#, fuzzy
+msgid "mm_news"
+msgstr "News"
+
+#, fuzzy
+msgid "mm_notes"
+msgstr "Notes"
+
+#, fuzzy
+msgid "mm_organisation"
+msgstr "Organisation"
+
+#, fuzzy
+msgid "mm_personal_and_shared_r"
+msgstr "Personal and Shared Resources"
+
+#, fuzzy
+msgid "mm_personal_workspace"
+msgstr "Personal Workspace"
+
+#, fuzzy
+msgid "mm_portfolio"
+msgstr "Portfolio"
+
+#, fuzzy
+msgid "mm_private_chats"
+msgstr "Private Chats"
+
+#, fuzzy
+msgid "mm_repo_tree_view"
+msgstr "Tree View"
+
+#, fuzzy
+msgid "mm_repo_tree_view_act"
+msgstr "Activate Tree"
+
+#, fuzzy
+msgid "mm_repo_tree_view_deact"
+msgstr "Deactivate Tree"
+
+#, fuzzy
+msgid "mm_repository"
+msgstr "Repository"
+
+#, fuzzy
+msgid "mm_skills"
+msgstr "Competences"
+
+#, fuzzy
+msgid "mm_staff_list"
+msgstr "Staff List"
+
+#, fuzzy
+msgid "mm_tags"
+msgstr "Tags"
+
+#, fuzzy
+msgid "mm_task_derived_tasks"
+msgstr "Tasks"
+
+#, fuzzy
+msgid "mme_lost_item_reason"
+msgstr "Item is no longer provided."
+
+#, fuzzy
+msgid "mme_lost_item_title"
+msgstr "No assignment"
+
+msgid "mob"
+msgstr "Mediální objekt"
+
+msgid "moderators"
+msgstr "Moderátoři"
+
+msgid "module"
+msgstr "modul"
+
+msgid "modules"
+msgstr "Moduly"
+
+msgid "month"
+msgstr "Měsíc"
+
+msgid "month_01_long"
+msgstr "Leden"
+
+msgid "month_01_short"
+msgstr "I."
+
+msgid "month_02_long"
+msgstr "Únor"
+
+msgid "month_02_short"
+msgstr "II."
+
+msgid "month_03_long"
+msgstr "Březen"
+
+msgid "month_03_short"
+msgstr "III."
+
+msgid "month_04_long"
+msgstr "Duben"
+
+msgid "month_04_short"
+msgstr "IV."
+
+msgid "month_05_long"
+msgstr "Květen"
+
+msgid "month_05_short"
+msgstr "V."
+
+msgid "month_06_long"
+msgstr "Červen"
+
+msgid "month_06_short"
+msgstr "VI."
+
+msgid "month_07_long"
+msgstr "Červenec"
+
+msgid "month_07_short"
+msgstr "VII."
+
+msgid "month_08_long"
+msgstr "Srpen"
+
+msgid "month_08_short"
+msgstr "VIII."
+
+msgid "month_09_long"
+msgstr "Září"
+
+msgid "month_09_short"
+msgstr "IX."
+
+msgid "month_10_long"
+msgstr "Říjen"
+
+msgid "month_10_short"
+msgstr "X."
+
+msgid "month_11_long"
+msgstr "Listopad"
+
+msgid "month_11_short"
+msgstr "XI."
+
+msgid "month_12_long"
+msgstr "Prosinec"
+
+msgid "month_12_short"
+msgstr "XII."
+
+msgid "monthly"
+msgstr "měsíčně"
+
+msgid "months"
+msgstr "Měsíce"
+
+msgid "mount_webfolder"
+msgstr "Otevřít jako webovou složku"
+
+msgid "move"
+msgstr "Přesunout"
+
+msgid "moveChapter"
+msgstr "Přesunout"
+
+msgid "movePage"
+msgstr "Přesunout"
+
+msgid "move_selected_items"
+msgstr "Přesunout vybrané položky"
+
+#, fuzzy
+msgid "msg_bt_download_started"
+msgstr "ILIAS is generating a ZIP archive of all available files. You can download them from the Notification Center (bell icon) on top right."
+
+msgid "msg_cancel"
+msgstr "Akce zrušena"
+
+msgid "msg_clear_clipboard"
+msgstr "Schránka vyčištěna"
+
+msgid "msg_cloned"
+msgstr "Vybrané objekty byly zkopírovány"
+
+msgid "msg_copy_clipboard"
+msgstr "Vybrané objekty byly uloženy do schránky (Akce: kopírovat)"
+
+#, fuzzy
+msgid "msg_copy_clipboard_container"
+msgstr "Now, please select the desired location, where the selected objects should be pasted into and click the button \"Continue\"."
+
+msgid "msg_copy_clipboard_source"
+msgstr "Now, please select the desired course, whose content should be copied and click the button \"Next\""
+
+msgid "msg_cut_clipboard"
+msgstr "Vybrané objekty byly vyjmuty a uloženy do schránky (Akce: vystřihnout)"
+
+msgid "msg_cut_copied"
+msgstr "Vybrané objekty byly přesunuty"
+
+msgid "msg_deleted_export_files"
+msgstr "Exportní soubor(y) smazán(y)"
+
+msgid "msg_deleted_role"
+msgstr "Role smazána"
+
+msgid "msg_deleted_roles_rolts"
+msgstr "Role a šablony rolí byly smazány"
+
+msgid "msg_failed"
+msgstr "Lituji, akce selhala"
+
+msgid "msg_form_save_error"
+msgstr "Data formuláře nelze uložit. Zkontrolujte prosím všechna vstupní pole na jakékoli chybové hlášení."
+
+#, fuzzy
+msgid "msg_info_blacklisted"
+msgstr "The files cannot be uploaded due to security reasons."
+
+#, fuzzy
+msgid "msg_input_char_limit_max"
+msgstr "You have entered more characters than allowed."
+
+#, fuzzy
+msgid "msg_input_char_limit_min"
+msgstr "You have to enter the minimum of characters specified."
+
+msgid "msg_input_does_not_match_regexp"
+msgstr "Poskytněte prosím platnou hodnotu."
+
+msgid "msg_input_is_required"
+msgstr "Tento vstup je vyžadován. Vložte prosím hodnotu."
+
+#, fuzzy
+msgid "msg_invalid_value_css_rect_input"
+msgstr "The entered value is incorrect, do not use any plus or minus symbols in combination with the entered integer. Please check your input."
+
+msgid "msg_is_last_role"
+msgstr "Následujícím uživatelům jste odebral(a) jejich poslední globální role"
+
+msgid "msg_last_role_for_registration"
+msgstr "Alespoň jedna role musí být pro nové uživatele dosažitelná v registračním formuláři."
+
+#, fuzzy
+msgid "msg_link_clipboard_p"
+msgstr "Now, please select the desired location, where the selected objects should be linked to and click the button Paste."
+
+#, fuzzy
+msgid "msg_link_clipboard_s"
+msgstr "Now, please select the desired location, where the selected object should be linked to and click the button Paste."
+
+msgid "msg_linked"
+msgstr "Odkazy na vybrané objekty byly vytvořeny."
+
+msgid "msg_may_not_contain"
+msgstr "Tento objekt nemůže obsahovat objekty typu:"
+
+msgid "msg_min_one_role"
+msgstr "Každý uživatel musí mít alespoň jednu globální roli!"
+
+msgid "msg_multi_language_selected"
+msgstr "Byl vybrán stejný jazyk pro různé překlady!"
+
+msgid "msg_no_default_language"
+msgstr "Nebyl vybrán výchozí jazyk! Musíte vybrat jeden překlad jako výchozí."
+
+msgid "msg_no_delete_yourself"
+msgstr "Nemůžete smazat svůj vlastní účet."
+
+msgid "msg_no_file"
+msgstr "Nevybral jste soubor"
+
+#, fuzzy
+msgid "msg_no_files_selected"
+msgstr "No files selected"
+
+msgid "msg_no_language_selected"
+msgstr "Nebyl vybrán jazyk pro překlad. Musíte definovat jazyk pro každý překlad."
+
+msgid "msg_no_perm_assign_role_to_user"
+msgstr "Nemáte oprávnění změnit přidělení role uživateli"
+
+msgid "msg_no_perm_assign_user_to_role"
+msgstr "Nemáte oprávnění změnit zařazení uživatele"
+
+msgid "msg_no_perm_copy"
+msgstr "Nemáte oprávnění vytvářet kopie následujících objektů:"
+
+msgid "msg_no_perm_create_rolt"
+msgstr "Nemáte oprávnění přidávat šablony rolí"
+
+msgid "msg_no_perm_cut"
+msgstr "Nemáte oprávnění odstranit následující objekty:"
+
+msgid "msg_no_perm_delete"
+msgstr "Nemáte oprávnění smazat následující objekty:"
+
+msgid "msg_no_perm_link"
+msgstr "Nemáte oprávnění vytvořit odkaz na následující objekty:"
+
+msgid "msg_no_perm_modify_rolt"
+msgstr "Nemáte oprávnění modifikovat šablony rolí"
+
+msgid "msg_no_perm_modify_user"
+msgstr "Nemáte oprávnění modifikovat data uživatele"
+
+msgid "msg_no_perm_paste"
+msgstr "Nemáte oprávnění vložit následující objekty:"
+
+msgid "msg_no_perm_paste_object_in_folder"
+msgstr "Nemáte oprávnění vkládat objekt %s do složky %s."
+
+msgid "msg_no_perm_perm"
+msgstr "Nemáte oprávnění měnit nastavení přístupových práv"
+
+msgid "msg_no_perm_read"
+msgstr "Nemáte oprávnění přístupu k této položce."
+
+msgid "msg_no_perm_read_item"
+msgstr "Nemáte oprávnění přístupu k položce."
+
+msgid "msg_no_perm_read_lm"
+msgstr "Nemáte oprávnění číst tento výukový modul."
+
+#, fuzzy
+msgid "msg_no_perm_view_roles_of_user"
+msgstr "You have no permission to view the role assignment of this user"
+
+msgid "msg_no_perm_write"
+msgstr "Nemáte oprávnění k zápisu"
+
+msgid "msg_no_search_result"
+msgstr "Žádné položky nenalezeny"
+
+msgid "msg_no_search_string"
+msgstr "Zadejte prosím dotaz"
+
+msgid "msg_no_title"
+msgstr "Vložte prosím název."
+
+msgid "msg_not_available_for_anon"
+msgstr "Vybraná stránka je přístupná pouze registrovaným uživatelům"
+
+msgid "msg_not_in_itself"
+msgstr "Není možné vložit objekt do sebe samého."
+
+#, fuzzy
+msgid "msg_obj_already_deleted"
+msgstr "The object has already been deleted."
+
+msgid "msg_obj_created"
+msgstr "Objekt byl vytvořen."
+
+msgid "msg_obj_exists"
+msgstr "Tento objekt již existuje v této složce"
+
+msgid "msg_obj_exists_in_folder"
+msgstr "Objekt %s ve složce %s již existuje."
+
+msgid "msg_obj_may_not_contain_objects_of_type"
+msgstr "Objekt %s nemůže obsahovat objekty typu: %s."
+
+msgid "msg_obj_modified"
+msgstr "Změny byly uloženy."
+
+#, fuzzy
+msgid "msg_obj_no_download"
+msgstr "cannot be downloaded."
+
+msgid "msg_obj_no_link"
+msgstr "nemůže být připojen"
+
+#, fuzzy
+msgid "msg_obj_perm_download"
+msgstr "You do not have sufficient rights to download the following objects:"
+
+msgid "msg_paste_object_not_in_itself"
+msgstr "Není možné vložit objekt %s sám do sebe."
+
+msgid "msg_perm_adopted_from1"
+msgstr "Nastavení oprávnění převzato z"
+
+msgid "msg_perm_adopted_from2"
+msgstr "(Nastavení byla uložena!)"
+
+msgid "msg_perm_adopted_from_itself"
+msgstr "Není možné převzít nastavení přístupových práv z aktuální role/šablony role samotné."
+
+msgid "msg_removed"
+msgstr "Objekt(y) byly vymazány ze systému."
+
+msgid "msg_role_reserved_prefix"
+msgstr "Prefix 'il_' je rezervován pro automaticky generované role. Vyberte prosím jiný název."
+
+msgid "msg_roleassignment_changed"
+msgstr "Přiřazení rolí bylo změněno"
+
+msgid "msg_sysrole_not_deletable"
+msgstr "Tato systémová role nemůže být smazána."
+
+msgid "msg_sysrole_not_editable"
+msgstr "Toto nastavení oprávnění systémové role nelze měnit. Systémová role garantuje všem přiřazeným uživatelům neomezený přístup ke všem objektům a funkcím."
+
+#, fuzzy
+msgid "msg_to_many_files"
+msgstr "Too many files selected, allowed amount of files:"
+
+msgid "msg_trash_empty"
+msgstr "Žádné smazané objekty nejsou k dispozici."
+
+msgid "msg_undeleted"
+msgstr "Objekty obnoveny."
+
+msgid "msg_unit_is_required"
+msgstr "Tento vstup v vyžaduje jednotky. Vložte prosím správnou hodnotu."
+
+#, fuzzy
+msgid "msg_unknown_value"
+msgstr "An unknown value has been passed."
+
+msgid "msg_user_last_role1"
+msgstr "Následující uživatelé mají přiřazenu pouze tuto roli:"
+
+msgid "msg_user_last_role2"
+msgstr "Smažte prosím tyto uživatele, nebo jim přiřaďte jinou roli, aby bylo možné tuto roli smazat."
+
+msgid "msg_userassignment_changed"
+msgstr "Přiřazení uživatelů bylo změněno"
+
+#, fuzzy
+msgid "msg_wrong_filetypes"
+msgstr "Allowed Files-Types:"
+
+msgid "msg_wrong_format"
+msgstr "Vámi vložená hodnota má neplatný formát."
+
+msgid "my_bms"
+msgstr "Záložky"
+
+#, fuzzy
+msgid "my_certificates"
+msgstr "My Certificates"
+
+#, fuzzy
+msgid "my_contacts"
+msgstr "My Contact"
+
+msgid "my_courses"
+msgstr "Moje kurzy"
+
+#, fuzzy
+msgid "my_courses_groups"
+msgstr "My Courses & Groups"
+
+#, fuzzy
+msgid "my_staff"
+msgstr "Staff"
+
+msgid "name"
+msgstr "Jméno"
+
+#, fuzzy
+msgid "nc_contact_requests_headline"
+msgstr "Contact Requests"
+
+#, fuzzy
+msgid "nc_contact_requests_number_p"
+msgstr "You have %s Contact Requests."
+
+#, fuzzy
+msgid "nc_contact_requests_number_s"
+msgstr "You have %s Contact Request."
+
+#, fuzzy
+msgid "nc_contact_requests_prop_time"
+msgstr "Time"
+
+msgid "never"
+msgstr "nikdy"
+
+msgid "new"
+msgstr "Nový"
+
+msgid "new_language"
+msgstr "Nový jazyk"
+
+msgid "new_pass_equals_old_pass"
+msgstr "Toto nové heslo je stejné jako staré."
+
+msgid "newline"
+msgstr "Nové spojení"
+
+msgid "news"
+msgstr "Zprávy"
+
+msgid "next"
+msgstr "Další"
+
+msgid "no"
+msgstr "Ne"
+
+msgid "no_access_item"
+msgstr "Nemáte žádné oprávnění k přístupu k této položce."
+
+msgid "no_access_item_public"
+msgstr "K přístupu k této položce musíte být přihlášen(a) a musíte mít příslušné oprávnění."
+
+#, fuzzy
+msgid "no_accessibility_control_concept_description"
+msgstr "There is currently no Accessibility Control Concept provided with this installation. Please contact the <a href=\"%1$s\">Accessibility Point of Contact</a>."
+
+msgid "no_checkbox"
+msgstr "Vyberte prosím alespoň jednu položku."
+
+msgid "no_condition_selected"
+msgstr "Vyberte prosím jeden předpoklad."
+
+msgid "no_date"
+msgstr "Žádné datum"
+
+#, fuzzy
+msgid "no_gallery_users_available"
+msgstr "There are currently no users in the gallery."
+
+msgid "no_global_role_left"
+msgstr "Každý uživatel má být přiřazen k jedné roli."
+
+msgid "no_import_file_found"
+msgstr "Žádný soubor k importu nenalezen"
+
+msgid "no_items"
+msgstr "Žádná položka"
+
+msgid "no_limit"
+msgstr "Neomezený"
+
+msgid "no_mkisofs_configured"
+msgstr "Ke spuštění exportu ISO musíte zkonfigurovat mkisofs utility v setupu ILIAS"
+
+msgid "no_parent_access"
+msgstr "Není přístup k nadřazenému objektu!"
+
+msgid "no_permission"
+msgstr "Nemáte požadované oprávnění."
+
+msgid "no_roles_user_can_be_assigned_to"
+msgstr "Nemáte globální roli k přiřazování uživatelů. Proto nemůžete přidávat uživatele."
+
+msgid "no_start_file"
+msgstr "Žádný startovací soubor."
+
+msgid "no_title"
+msgstr "Žádný název"
+
+msgid "no_users_selected"
+msgstr "Vyberte prosím jednoho uživatele."
+
+msgid "no_xml_file_found_in_zip"
+msgstr "XML soubor v souboru ZIP nenalezen!"
+
+#, fuzzy
+msgid "noc"
+msgstr "Notification Center"
+
+msgid "non_internal_local_roles_only"
+msgstr "Lokální role (je uživatelsky definované)"
+
+msgid "none"
+msgstr "Normální"
+
+msgid "normal"
+msgstr "Normální"
+
+msgid "not_available"
+msgstr "Není dostupný"
+
+msgid "not_implemented_yet"
+msgstr "Není dosud implementováno"
+
+msgid "not_installed"
+msgstr "Není nainstalován"
+
+msgid "not_logged_in"
+msgstr "Nejste přihlášen(a)"
+
+msgid "note"
+msgstr "Poznámka"
+
+msgid "notes"
+msgstr "Poznámky"
+
+msgid "notes_and_comments"
+msgstr "Poznámky a komentáře"
+
+#, fuzzy
+msgid "notice"
+msgstr "Notice"
+
+msgid "notifications"
+msgstr "Upozornění"
+
+#, fuzzy
+msgid "nr_following_sessions"
+msgstr "%1d following session(s)..."
+
+#, fuzzy
+msgid "num_of_selected_files"
+msgstr "%s file(s) selected"
+
+msgid "num_users"
+msgstr "Počet uživatelů"
+
+#, fuzzy
+msgid "numberedlist_action"
+msgstr "Insert Numbered List - Click to insert a numbered list."
+
+msgid "obj"
+msgstr "Objekt"
+
+msgid "obj_accs"
+msgstr "Dostupnost"
+
+msgid "obj_accs_desc"
+msgstr "Nastavení rysů dostupnosti."
+
+msgid "obj_adm"
+msgstr "Správa systému"
+
+msgid "obj_adm_desc"
+msgstr "Hlavní složka systémových nastavení obsahující všechny panely pro správu vaší instalace ILIASu."
+
+#, fuzzy
+msgid "obj_adma"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "obj_adma_desc"
+msgstr "Important settings for the whole installation"
+
+#, fuzzy
+msgid "obj_adn"
+msgstr "Administrative Notifications"
+
+msgid "obj_adve"
+msgstr "Rozšířená editace"
+
+msgid "obj_adve_desc"
+msgstr "Nastavení administrace pro pokročilou editaci jako na JavaSkriptu založených Rich Text editorech, LaTeXu apod."
+
+#, fuzzy
+msgid "obj_ass"
+msgstr "Asset"
+
+msgid "obj_assf"
+msgstr "Test a hodnocení"
+
+msgid "obj_assf_desc"
+msgstr "Nastavení záznamu testu a hodnocení"
+
+msgid "obj_auth"
+msgstr "Autentizace a registrace"
+
+msgid "obj_auth_desc"
+msgstr "Zde nastavte Váš mód autentizace (lokální, LDAP, ...) a nastavení registrace nového účtu."
+
+#, fuzzy
+msgid "obj_awra"
+msgstr "‘Who is online?’-Tool"
+
+#, fuzzy
+msgid "obj_awra_desc"
+msgstr "Manage ‘Who is online?’-Tool"
+
+#, fuzzy
+msgid "obj_bdga"
+msgstr "Badges"
+
+#, fuzzy
+msgid "obj_bdga_desc"
+msgstr "Administrate types, image templates and activity badges"
+
+#, fuzzy
+msgid "obj_bgtk"
+msgstr "Background Task"
+
+#, fuzzy
+msgid "obj_bibl"
+msgstr "Bibliography"
+
+#, fuzzy
+msgid "obj_bibs"
+msgstr "Bibliography"
+
+#, fuzzy
+msgid "obj_bibs_desc"
+msgstr "Bibliography Administration"
+
+#, fuzzy
+msgid "obj_blog"
+msgstr "Blog"
+
+#, fuzzy
+msgid "obj_blog_duplicate"
+msgstr "Copy Blog"
+
+#, fuzzy
+msgid "obj_bnmk"
+msgstr "Benchmarking"
+
+#, fuzzy
+msgid "obj_bnmk_desc"
+msgstr "Recording and display of database query durations"
+
+msgid "obj_book"
+msgstr "Zásobník objednávek"
+
+#, fuzzy
+msgid "obj_cadm"
+msgstr "Contacts"
+
+#, fuzzy
+msgid "obj_cadm_desc"
+msgstr "Contacts Administration"
+
+msgid "obj_cals"
+msgstr "Kalendář"
+
+msgid "obj_cals_desc"
+msgstr "Obecná nastavení kalendáře."
+
+msgid "obj_cat"
+msgstr "Kategorie"
+
+msgid "obj_cat_duplicate"
+msgstr "Kopírovat kategorii"
+
+msgid "obj_catr"
+msgstr "Odkazy kategorie"
+
+msgid "obj_cert"
+msgstr "Certifikáty"
+
+msgid "obj_cert_desc"
+msgstr "Nastavení certifikátů"
+
+msgid "obj_chap"
+msgstr "Kapitola"
+
+#, fuzzy
+msgid "obj_chta"
+msgstr "Chatrooms"
+
+#, fuzzy
+msgid "obj_chtr"
+msgstr "Chatroom"
+
+#, fuzzy
+msgid "obj_chtr_duplicate"
+msgstr "Copy Chat Room"
+
+#, fuzzy
+msgid "obj_cmis"
+msgstr "xAPI/cmi5"
+
+#, fuzzy
+msgid "obj_cmis_desc"
+msgstr "Learning Record Store Types Configuration"
+
+#, fuzzy
+msgid "obj_cmix"
+msgstr "xAPI/cmi5"
+
+msgid "obj_cmps"
+msgstr "Moduly, služby a pluginy"
+
+msgid "obj_cmps_desc"
+msgstr "Obecná nastavení pro moduly, služby a pluginy."
+
+#, fuzzy
+msgid "obj_coms"
+msgstr "Comments"
+
+#, fuzzy
+msgid "obj_coms_desc"
+msgstr "Comments settings"
+
+#, fuzzy
+msgid "obj_copa"
+msgstr "Content Page"
+
+#, fuzzy
+msgid "obj_cpad"
+msgstr "Content Pages"
+
+#, fuzzy
+msgid "obj_cpad#_desc"
+msgstr "Content Page Administration"
+
+#, fuzzy
+msgid "obj_cpad_desc"
+msgstr "Content Page Administration"
+
+#, fuzzy
+msgid "obj_cron"
+msgstr "Cron Jobs"
+
+#, fuzzy
+msgid "obj_cron_desc"
+msgstr "List of all Cron Jobs"
+
+msgid "obj_crs"
+msgstr "Kurz"
+
+msgid "obj_crs_duplicate"
+msgstr "Kopírovat kurz"
+
+msgid "obj_crsr"
+msgstr "Odkazy kurzu"
+
+#, fuzzy
+msgid "obj_crss"
+msgstr "Course"
+
+#, fuzzy
+msgid "obj_crss_desc"
+msgstr "General settings for Courses"
+
+#, fuzzy
+msgid "obj_crsv"
+msgstr "Course Certificate"
+
+msgid "obj_dbk"
+msgstr "Digitální kniha"
+
+#, fuzzy
+msgid "obj_dcl"
+msgstr "Data Collection"
+
+#, fuzzy
+msgid "obj_dcl_duplicate"
+msgstr "Copy Data Collection"
+
+#, fuzzy
+msgid "obj_dpro"
+msgstr "Declaration of Data Protection"
+
+#, fuzzy
+msgid "obj_dpro_desc"
+msgstr "Declaration of Data Protection Settings"
+
+#, fuzzy
+msgid "obj_dshs"
+msgstr "Dashboard"
+
+#, fuzzy
+msgid "obj_dshs_desc"
+msgstr "Dashboard settings"
+
+#, fuzzy
+msgid "obj_ecss"
+msgstr "ECS"
+
+#, fuzzy
+msgid "obj_ecss_desc"
+msgstr "General ECS Settings"
+
+msgid "obj_etal"
+msgstr "Employee Talk"
+
+msgid "obj_exc"
+msgstr "Cvičení"
+
+#, fuzzy
+msgid "obj_exc_duplicate"
+msgstr "Copy Exercise"
+
+#, fuzzy
+msgid "obj_excv"
+msgstr "Exercise Certificate"
+
+msgid "obj_facs"
+msgstr "Přístup souboru"
+
+msgid "obj_facs_desc"
+msgstr "Configure access to file objects."
+
+msgid "obj_file"
+msgstr "Soubor"
+
+#, fuzzy
+msgid "obj_file_duplicate"
+msgstr "Duplicate File"
+
+msgid "obj_file_inline"
+msgstr "Soubory výukového modulu"
+
+#, fuzzy
+msgid "obj_fils"
+msgstr "File Services"
+
+#, fuzzy
+msgid "obj_fils_desc"
+msgstr "Configuration of File Service Settings."
+
+msgid "obj_fold"
+msgstr "Složka"
+
+#, fuzzy
+msgid "obj_fold_duplicate"
+msgstr "Copy Folder"
+
+msgid "obj_frm"
+msgstr "Fórum"
+
+msgid "obj_frm_duplicate"
+msgstr "Kopírovat fórum"
+
+#, fuzzy
+msgid "obj_frma"
+msgstr "Forum"
+
+#, fuzzy
+msgid "obj_frma_desc"
+msgstr "Global Forum Settings"
+
+msgid "obj_glo"
+msgstr "Glosář"
+
+#, fuzzy
+msgid "obj_glo_duplicate"
+msgstr "Copy Glossary"
+
+msgid "obj_grp"
+msgstr "Skupina"
+
+msgid "obj_grp_duplicate"
+msgstr "Kopírovat skupinu"
+
+#, fuzzy
+msgid "obj_grpr"
+msgstr "Group Reference"
+
+#, fuzzy
+msgid "obj_grps"
+msgstr "Group"
+
+#, fuzzy
+msgid "obj_grps_desc"
+msgstr "General settings for Groups"
+
+#, fuzzy
+msgid "obj_gsfo"
+msgstr "Footer"
+
+#, fuzzy
+msgid "obj_gsfo_desc"
+msgstr "Administrate Footer Layout and Content"
+
+#, fuzzy
+msgid "obj_hlps"
+msgstr "Help System"
+
+#, fuzzy
+msgid "obj_hlps_desc"
+msgstr "Settings for the online help"
+
+msgid "obj_htlm"
+msgstr "Výukový modul HTML"
+
+#, fuzzy
+msgid "obj_htlm_duplicate"
+msgstr "Copy HTML Learning Module"
+
+#, fuzzy
+msgid "obj_iass"
+msgstr "Individual Assessment"
+
+#, fuzzy
+msgid "obj_iass_duplicate"
+msgstr "Copy Individual Assessment"
+
+#, fuzzy
+msgid "obj_iass_select"
+msgstr "-- Please select one individual assessment --"
+
+#, fuzzy
+msgid "obj_itgr"
+msgstr "Item Group"
+
+msgid "obj_ldap_desc"
+msgstr "Zde zkonfigurujte globální nastavení LDAP."
+
+#, fuzzy
+msgid "obj_lhts"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "obj_lhts_desc"
+msgstr "Learning history settings"
+
+msgid "obj_lm"
+msgstr "Výukový modul ILIAS"
+
+#, fuzzy
+msgid "obj_lm_duplicate"
+msgstr "Copy Learning Module"
+
+msgid "obj_lng"
+msgstr "Jazyk"
+
+msgid "obj_lngf"
+msgstr "Jazyky"
+
+msgid "obj_lngf_desc"
+msgstr "Zde nastavte Vaše systémové jazyky."
+
+#, fuzzy
+msgid "obj_logs"
+msgstr "Logging"
+
+#, fuzzy
+msgid "obj_logs_desc"
+msgstr "General Logging Settings"
+
+msgid "obj_lrss"
+msgstr "Zdroje výuky"
+
+msgid "obj_lrss_desc"
+msgstr "Konfigurovat všechny typy výukových modulů."
+
+#, fuzzy
+msgid "obj_lso"
+msgstr "Learning Sequence"
+
+#, fuzzy
+msgid "obj_lso_duplicate"
+msgstr "Copy Learning Sequence"
+
+#, fuzzy
+msgid "obj_lsos"
+msgstr "Learning Sequences"
+
+#, fuzzy
+msgid "obj_lsos_desc"
+msgstr "General settings for Learning Sequences"
+
+#, fuzzy
+msgid "obj_lti"
+msgstr "LTI Consumer"
+
+#, fuzzy
+msgid "obj_ltis"
+msgstr "LTI"
+
+#, fuzzy
+msgid "obj_ltis_desc"
+msgstr "Learning Tools Interoperability"
+
+msgid "obj_mail"
+msgstr "Pošta"
+
+msgid "obj_mail_desc"
+msgstr "Zde zkonfigurujte globální nastavení pošty."
+
+#, fuzzy
+msgid "obj_mailr"
+msgstr "Read Mail"
+
+#, fuzzy
+msgid "obj_mailu"
+msgstr "Unread Mail"
+
+#, fuzzy
+msgid "obj_maps"
+msgstr "Maps"
+
+msgid "obj_mcst"
+msgstr "MediaCast"
+
+#, fuzzy
+msgid "obj_mcst_duplicate"
+msgstr "Copy Mediacast"
+
+msgid "obj_mcts"
+msgstr "Mediacast"
+
+msgid "obj_mcts_desc"
+msgstr "Obecná nastavení pro mediacast."
+
+msgid "obj_mep"
+msgstr "Zásobník multimédií"
+
+#, fuzzy
+msgid "obj_mep_duplicate"
+msgstr "Copy Media Pool"
+
+#, fuzzy
+msgid "obj_mme"
+msgstr "Main Menu"
+
+msgid "obj_mob"
+msgstr "Multimediální objekt"
+
+msgid "obj_mobs"
+msgstr "Mediální objekty/zásobníky"
+
+msgid "obj_mobs_desc"
+msgstr "Nastavení objektů médií a zásobníků médií."
+
+msgid "obj_not_found"
+msgstr "Objekt nenalezen"
+
+#, fuzzy
+msgid "obj_nota"
+msgstr "Notifications"
+
+#, fuzzy
+msgid "obj_nota_desc"
+msgstr "Notification Administration"
+
+#, fuzzy
+msgid "obj_nots"
+msgstr "Notes"
+
+#, fuzzy
+msgid "obj_nots_desc"
+msgstr "Notes settings"
+
+msgid "obj_nwss"
+msgstr "Nastavení zpráv a webového zásobníku"
+
+msgid "obj_nwss_desc"
+msgstr "Nastavení pro interní nebo externí zprávy a webový zásobník."
+
+msgid "obj_objf"
+msgstr "Definice objektů"
+
+#, fuzzy
+msgid "obj_orgu"
+msgstr "Organisational Unit"
+
+#, fuzzy
+msgid "obj_orgu_description"
+msgstr "Creating and editing organisational structure"
+
+msgid "obj_page"
+msgstr "Strana"
+
+#, fuzzy
+msgid "obj_peac"
+msgstr "Accordion"
+
+#, fuzzy
+msgid "obj_peadl"
+msgstr "Advanced List"
+
+#, fuzzy
+msgid "obj_peadt"
+msgstr "Advanced Table"
+
+#, fuzzy
+msgid "obj_pecd"
+msgstr "Code"
+
+#, fuzzy
+msgid "obj_pech"
+msgstr "Consultation Hour"
+
+#, fuzzy
+msgid "obj_pecl"
+msgstr "Column Layout"
+
+#, fuzzy
+msgid "obj_peclp"
+msgstr "Clipboard"
+
+#, fuzzy
+msgid "obj_pecom"
+msgstr "Competences"
+
+#, fuzzy
+msgid "obj_pecrs"
+msgstr "Course"
+
+#, fuzzy
+msgid "obj_pecrt"
+msgstr "Certificate"
+
+#, fuzzy
+msgid "obj_pecs"
+msgstr "Content Snippet"
+
+#, fuzzy
+msgid "obj_pedt"
+msgstr "Data Table"
+
+#, fuzzy
+msgid "obj_pefl"
+msgstr "File List"
+
+#, fuzzy
+msgid "obj_peim"
+msgstr "interactive Media"
+
+#, fuzzy
+msgid "obj_pelh"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "obj_pemed"
+msgstr "Image/Audio/Video"
+
+#, fuzzy
+msgid "obj_pemp"
+msgstr "Map"
+
+#, fuzzy
+msgid "obj_pepd"
+msgstr "Personal Data"
+
+#, fuzzy
+msgid "obj_pepe"
+msgstr "Plugin Element"
+
+#, fuzzy
+msgid "obj_pepl"
+msgstr "Page List"
+
+#, fuzzy
+msgid "obj_peplh"
+msgstr "Placeholder"
+
+#, fuzzy
+msgid "obj_pequ"
+msgstr "Questions"
+
+#, fuzzy
+msgid "obj_perl"
+msgstr "Ressource List"
+
+#, fuzzy
+msgid "obj_pesc"
+msgstr "Section"
+
+#, fuzzy
+msgid "obj_petmp"
+msgstr "Page Template"
+
+#, fuzzy
+msgid "obj_peusr"
+msgstr "User"
+
+msgid "obj_pg"
+msgstr "Stránka"
+
+#, fuzzy
+msgid "obj_poll"
+msgstr "Poll"
+
+#, fuzzy
+msgid "obj_poll_dupliate:"
+msgstr "Copy Poll"
+
+#, fuzzy
+msgid "obj_poll_duplicate"
+msgstr "Copy Poll"
+
+#, fuzzy
+msgid "obj_prg"
+msgstr "Study Programme"
+
+#, fuzzy
+msgid "obj_prg_duplicate"
+msgstr "Copy Study Programme"
+
+#, fuzzy
+msgid "obj_prg_select"
+msgstr "-- Please select one Study Programme --"
+
+#, fuzzy
+msgid "obj_prgr"
+msgstr "Link to Study Programme"
+
+#, fuzzy
+msgid "obj_prgrs"
+msgstr "Links to Study Programmes"
+
+#, fuzzy
+msgid "obj_prgs"
+msgstr "Study Programmes"
+
+#, fuzzy
+msgid "obj_prgs_desc"
+msgstr "Study Programme Administration"
+
+#, fuzzy
+msgid "obj_prss"
+msgstr "Personal Resources"
+
+#, fuzzy
+msgid "obj_prss_desc"
+msgstr "Personal resources settings"
+
+#, fuzzy
+msgid "obj_prtf"
+msgstr "Portfolio "
+
+#, fuzzy
+msgid "obj_prtt"
+msgstr "Portfolio Template"
+
+#, fuzzy
+msgid "obj_prtt_duplicate"
+msgstr "Copy Portfolio Template"
+
+msgid "obj_ps"
+msgstr "Soukromí a bezpečnost"
+
+msgid "obj_ps_desc"
+msgstr "Konfigurovat globální nastavení soukromí a bezpečnosti zde."
+
+msgid "obj_qpl"
+msgstr "Zásobník otázek"
+
+msgid "obj_qpl_duplicate"
+msgstr "Kopírovat test se zásobníkem otázek"
+
+msgid "obj_qpl_select"
+msgstr "-- Vyberte prosím jeden test se zásobníkem otázek --"
+
+#, fuzzy
+msgid "obj_rcat"
+msgstr "ECS Category "
+
+msgid "obj_rcrs"
+msgstr "Odkazy kurzu"
+
+msgid "obj_recf"
+msgstr "Obnovené objekty"
+
+msgid "obj_recf_desc"
+msgstr "Obsahuje obnovené objekty z kontroly systému."
+
+#, fuzzy
+msgid "obj_rep"
+msgstr "Repository"
+
+#, fuzzy
+msgid "obj_reps"
+msgstr "Repository"
+
+#, fuzzy
+msgid "obj_reps_desc"
+msgstr "General settings for the Repository"
+
+#, fuzzy
+msgid "obj_rfil"
+msgstr "ECS File"
+
+#, fuzzy
+msgid "obj_rglo"
+msgstr "ECS Glossary"
+
+#, fuzzy
+msgid "obj_rgrp"
+msgstr "ECS Group"
+
+#, fuzzy
+msgid "obj_rlm"
+msgstr "ECS Learning Module"
+
+msgid "obj_role"
+msgstr "Role"
+
+msgid "obj_rolf"
+msgstr "Role"
+
+msgid "obj_rolf_desc"
+msgstr "Zde nastavte své role."
+
+msgid "obj_rolf_local"
+msgstr "Lokální role"
+
+msgid "obj_rolf_local_desc"
+msgstr "Obsahuje lokální role objektu čís."
+
+msgid "obj_rolt"
+msgstr "Šablona role"
+
+msgid "obj_root"
+msgstr "Kořenový uzel ILIAS"
+
+#, fuzzy
+msgid "obj_rtst"
+msgstr "ECS Test"
+
+#, fuzzy
+msgid "obj_rwik"
+msgstr "ECS Wiki"
+
+msgid "obj_sahs"
+msgstr "Výukový modul SCORM/AICC"
+
+#, fuzzy
+msgid "obj_sahs_duplicate"
+msgstr "Copy Learning Module"
+
+msgid "obj_sco"
+msgstr "SCO"
+
+#, fuzzy
+msgid "obj_scov"
+msgstr "SCORM Certificate"
+
+msgid "obj_seas"
+msgstr "Hledat"
+
+msgid "obj_seas_desc"
+msgstr "Zde nastavte parametry hledání."
+
+#, fuzzy
+msgid "obj_serv"
+msgstr "Server"
+
+#, fuzzy
+msgid "obj_serv_desc"
+msgstr "Settings of the sever"
+
+msgid "obj_sess"
+msgstr "Lekce"
+
+msgid "obj_sess_duplicate"
+msgstr "Kopírovat lekci"
+
+#, fuzzy
+msgid "obj_skmg"
+msgstr "Skill Management"
+
+#, fuzzy
+msgid "obj_skmg_desc"
+msgstr "Manage skills and skill categories."
+
+msgid "obj_spl"
+msgstr "Zásobník otázek ankety"
+
+msgid "obj_st"
+msgstr "Kapitola"
+
+#, fuzzy
+msgid "obj_stus"
+msgstr "Shortlinks"
+
+#, fuzzy
+msgid "obj_stus_desc"
+msgstr "Global Shortlinks Settings"
+
+msgid "obj_sty"
+msgstr "Styl"
+
+msgid "obj_stys"
+msgstr "Styl a uspořádání"
+
+msgid "obj_stys_desc"
+msgstr "Zde nastavte styl a uspořádání systému"
+
+msgid "obj_svy"
+msgstr "Anketa"
+
+msgid "obj_svy_duplicate"
+msgstr "Kopírovat anketu"
+
+msgid "obj_svyf"
+msgstr "Anketa"
+
+msgid "obj_svyf_desc"
+msgstr "Nastavení platformy pro nástroje ankety"
+
+#, fuzzy
+msgid "obj_sysc"
+msgstr "System Check"
+
+#, fuzzy
+msgid "obj_sysc_desc"
+msgstr "System Check and Repair Tools"
+
+msgid "obj_tags"
+msgstr "Značkování"
+
+msgid "obj_tags_desc"
+msgstr "Nastavení pro tagging."
+
+msgid "obj_tala"
+msgstr "Talk Templates"
+
+msgid "obj_tala_desc"
+msgstr "Talk Templates"
+
+msgid "obj_tals"
+msgstr "Employee Talk Series"
+
+msgid "obj_talt"
+msgstr "Talk Template"
+
+#, fuzzy
+msgid "obj_task"
+msgstr "Task"
+
+msgid "obj_tax"
+msgstr "Taxonomie"
+
+msgid "obj_taxf"
+msgstr "Taxonomie"
+
+#, fuzzy
+msgid "obj_tool_setting_calendar"
+msgstr "Show Calendar"
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_active"
+msgstr "Calendar"
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_active_info"
+msgstr "A calendar is available."
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_info"
+msgstr "The \"Calendar\" block will be displayed inside the \"Content\" tab."
+
+#, fuzzy
+msgid "obj_tool_setting_custom_metadata"
+msgstr "Custom Metadata"
+
+#, fuzzy
+msgid "obj_tool_setting_custom_metadata_info"
+msgstr "If activated metadata can be configured."
+
+#, fuzzy
+msgid "obj_tool_setting_news"
+msgstr "Show News"
+
+#, fuzzy
+msgid "obj_tool_setting_news_info"
+msgstr "The \"News\" block will be displayed inside the \"Content\" tab."
+
+#, fuzzy
+msgid "obj_tos"
+msgstr "Terms of Service"
+
+#, fuzzy
+msgid "obj_tos_desc"
+msgstr "Terms of Service Settings"
+
+msgid "obj_trac"
+msgstr "Postup výuky a sledování"
+
+msgid "obj_trac_desc"
+msgstr "Přístup uživatele k údajům sledování"
+
+msgid "obj_tst"
+msgstr "Test"
+
+msgid "obj_tst_duplicate"
+msgstr "Kopírovat test"
+
+#, fuzzy
+msgid "obj_tstv"
+msgstr "Test Certificate"
+
+msgid "obj_type"
+msgstr "Typ objektu"
+
+msgid "obj_user"
+msgstr "Uživatel"
+
+msgid "obj_usr"
+msgstr "Uživatel"
+
+msgid "obj_usrf"
+msgstr "Uživatelské účty"
+
+msgid "obj_usrf_desc"
+msgstr "Zde nastavte uživatelské účty."
+
+#, fuzzy
+msgid "obj_wbdv"
+msgstr "WebDAV"
+
+#, fuzzy
+msgid "obj_wbdv_desc"
+msgstr "Configuration of WebDAV Settings."
+
+#, fuzzy
+msgid "obj_wbrs"
+msgstr "Weblink"
+
+#, fuzzy
+msgid "obj_wbrs_desc"
+msgstr "General settings for Web Links"
+
+msgid "obj_webr"
+msgstr "Webové zdroje"
+
+msgid "obj_webr_duplicate"
+msgstr "Kopírovat webový zásobník"
+
+#, fuzzy
+msgid "obj_wfld"
+msgstr "Folder"
+
+msgid "obj_wiki"
+msgstr "Wiki"
+
+#, fuzzy
+msgid "obj_wiki_duplicate"
+msgstr "Copy Wiki"
+
+#, fuzzy
+msgid "obj_wiks"
+msgstr "Wiki"
+
+#, fuzzy
+msgid "obj_wiks_desc"
+msgstr "Global Wiki Settings"
+
+msgid "object"
+msgstr "Objekt"
+
+msgid "object_added"
+msgstr "Objekt přidán"
+
+msgid "object_copy_in_progress"
+msgstr "Kopírování spuštěno."
+
+msgid "object_duplicated"
+msgstr "Objekt duplikován"
+
+msgid "object_id"
+msgstr "Id Objektu"
+
+msgid "object_imported"
+msgstr "Objekt importován"
+
+#, fuzzy
+msgid "object_list"
+msgstr "List of Objects"
+
+msgid "objects"
+msgstr "Objekty"
+
+msgid "objf"
+msgstr "Definování objektů"
+
+#, fuzzy
+msgid "objs_bibl"
+msgstr "Bibliographies"
+
+#, fuzzy
+msgid "objs_blog"
+msgstr "Blogs"
+
+msgid "objs_book"
+msgstr "Zásobník objednávek"
+
+msgid "objs_cat"
+msgstr "Kategorie"
+
+msgid "objs_catr"
+msgstr "Odkazy kategorie"
+
+#, fuzzy
+msgid "objs_chtr"
+msgstr "Chats"
+
+#, fuzzy
+msgid "objs_cmix"
+msgstr "Objects xAPI/cmi5"
+
+#, fuzzy
+msgid "objs_copa"
+msgstr "Content Pages"
+
+msgid "objs_crs"
+msgstr "Kurzy"
+
+msgid "objs_crsr"
+msgstr "Odkazy kurzu"
+
+#, fuzzy
+msgid "objs_dcl"
+msgstr "Data Collections"
+
+msgid "objs_etal"
+msgstr "Employee Talks"
+
+msgid "objs_exc"
+msgstr "Cvičení"
+
+msgid "objs_file"
+msgstr "Soubory"
+
+msgid "objs_fold"
+msgstr "Složky"
+
+msgid "objs_frm"
+msgstr "Fóra"
+
+msgid "objs_glo"
+msgstr "Glosáře"
+
+msgid "objs_grp"
+msgstr "Skupiny"
+
+#, fuzzy
+msgid "objs_grpr"
+msgstr "Group References"
+
+msgid "objs_htlm"
+msgstr "Výukové moduly HTML"
+
+#, fuzzy
+msgid "objs_iass"
+msgstr "Individual Assessments"
+
+#, fuzzy
+msgid "objs_itgr"
+msgstr "Item Groups"
+
+msgid "objs_lm"
+msgstr "Výukové moduly ILIAS"
+
+msgid "objs_lres"
+msgstr "Výukové materiály"
+
+#, fuzzy
+msgid "objs_lso"
+msgstr "Learning Sequences"
+
+#, fuzzy
+msgid "objs_lti"
+msgstr "LTI Consumers"
+
+msgid "objs_mail"
+msgstr "Pošta"
+
+msgid "objs_mcst"
+msgstr "MediaCasty"
+
+msgid "objs_mep"
+msgstr "Zásobníky multimédií"
+
+#, fuzzy
+msgid "objs_orgu"
+msgstr "Organisational Unit"
+
+#, fuzzy
+msgid "objs_poll"
+msgstr "Polls"
+
+#, fuzzy
+msgid "objs_prg"
+msgstr "Study Programmes"
+
+#, fuzzy
+msgid "objs_prgr"
+msgstr "Links to Study Programmes"
+
+#, fuzzy
+msgid "objs_prtf"
+msgstr "Portfolios"
+
+#, fuzzy
+msgid "objs_prtt"
+msgstr "Portfolio Templates"
+
+msgid "objs_qpl"
+msgstr "Zásobníky otázek testů"
+
+msgid "objs_qst"
+msgstr "Otázky"
+
+#, fuzzy
+msgid "objs_rcat"
+msgstr "ECS Categories"
+
+msgid "objs_rcrs"
+msgstr "Odkazy kurzu"
+
+#, fuzzy
+msgid "objs_rfil"
+msgstr "ECS Files"
+
+#, fuzzy
+msgid "objs_rglo"
+msgstr "ECS Glossaries"
+
+#, fuzzy
+msgid "objs_rgrp"
+msgstr "ECS Groups"
+
+#, fuzzy
+msgid "objs_rlm"
+msgstr "ECS Learning Modules"
+
+msgid "objs_role"
+msgstr "Role"
+
+#, fuzzy
+msgid "objs_rolf"
+msgstr "Role Folders"
+
+#, fuzzy
+msgid "objs_rtst"
+msgstr "ECS Tests"
+
+#, fuzzy
+msgid "objs_rwik"
+msgstr "ECS Wikis"
+
+msgid "objs_sahs"
+msgstr "Výukové moduly SCORM/AICC"
+
+msgid "objs_sess"
+msgstr "Lekce"
+
+#, fuzzy
+msgid "objs_skee"
+msgstr "Competence Trees"
+
+msgid "objs_spl"
+msgstr "Zásobníky otázek (ankety)"
+
+msgid "objs_st"
+msgstr "Kapitoly"
+
+msgid "objs_svy"
+msgstr "Ankety"
+
+msgid "objs_tala"
+msgstr "Talk Templates"
+
+msgid "objs_talt"
+msgstr "Talk Templates"
+
+msgid "objs_tst"
+msgstr "Testy"
+
+msgid "objs_webr"
+msgstr "Webové zdroje"
+
+msgid "objs_wiki"
+msgstr "Objekty Wiki"
+
+msgid "of"
+msgstr "&nbsp;"
+
+msgid "offline"
+msgstr "nepřipojeno"
+
+#, fuzzy
+msgid "offline_mode"
+msgstr "Offline-Mode"
+
+msgid "ok"
+msgstr "OK"
+
+msgid "old"
+msgstr "Starý"
+
+msgid "omit"
+msgstr "Vyloučit"
+
+msgid "omit_all"
+msgstr "Vyloučit všechny"
+
+msgid "on_waiting_list"
+msgstr "Jste na seznamu čekatelů"
+
+msgid "online"
+msgstr "Online"
+
+msgid "online_time"
+msgstr "Čas připojení (DD:HH:MM:SS)"
+
+#, fuzzy
+msgid "only_active"
+msgstr "Only Active"
+
+#, fuzzy
+msgid "only_inactive"
+msgstr "Only Inactive"
+
+#, fuzzy
+msgid "open"
+msgstr "Open"
+
+msgid "operation"
+msgstr "Operace"
+
+msgid "optimize"
+msgstr "Optimalizovat"
+
+msgid "option"
+msgstr "Volba"
+
+msgid "optional_filter_hint"
+msgstr "Aktivujte prosím jeden z volitelných fitrů."
+
+msgid "optional_filters"
+msgstr "Volitelné filtry"
+
+msgid "options"
+msgstr "Nastavení"
+
+msgid "order_by"
+msgstr "Seřadit podle"
+
+msgid "order_by_date"
+msgstr "Seřadit podle data"
+
+#, fuzzy
+msgid "org_op_access_enrolments"
+msgstr "View Enrolment-Status"
+
+#, fuzzy
+msgid "org_op_manage_members"
+msgstr "Manage Subordinate Members"
+
+#, fuzzy
+msgid "org_op_read_learning_progress"
+msgstr "View Learning Progress of Subordinate Users"
+
+#, fuzzy
+msgid "org_permission_settings"
+msgstr "Permissions of Positions in Organisational Units"
+
+#, fuzzy
+msgid "org_units"
+msgstr "Organisational Units"
+
+msgid "organization"
+msgstr "Provider"
+
+msgid "other"
+msgstr "Jiný"
+
+msgid "overview"
+msgstr "Přehled"
+
+msgid "overwrite"
+msgstr "Přepsat"
+
+msgid "owner"
+msgstr "Vlastník"
+
+msgid "owner_updated"
+msgstr "Vlastník aktualizován."
+
+msgid "page"
+msgstr "Stránka"
+
+#, fuzzy
+msgid "page_count"
+msgstr "Page Count"
+
+msgid "page_layout"
+msgstr "Rozvržení stránky"
+
+msgid "page_layouts"
+msgstr "Rozvržení stránek"
+
+#, fuzzy
+msgid "pagination_label_x_of_y"
+msgstr "Page %1$d of %2$d"
+
+msgid "parameter"
+msgstr "Parametr"
+
+msgid "parse"
+msgstr "Analyzovat syntaxi"
+
+#, fuzzy
+msgid "participate"
+msgstr "Subscribe"
+
+msgid "passed"
+msgstr "Vykonáno"
+
+msgid "passwd"
+msgstr "Heslo"
+
+msgid "passwd_generation"
+msgstr "Generování hesla"
+
+msgid "passwd_invalid"
+msgstr "Nové heslo je neplatné! Povoleny jsou pouze následující znaky (minimálně 6 znaků): A-Z a-z 0-9 _.-+*@!$%~"
+
+msgid "passwd_not_match"
+msgstr "Vaše zadání hesla se neshodují. Zadejte prosím Vaše nové heslo znovu."
+
+msgid "passwd_wrong"
+msgstr "Zadané heslo je chybné!"
+
+msgid "password"
+msgstr "Heslo"
+
+#, fuzzy
+msgid "password_allow_chars"
+msgstr "Allowed chars: %s"
+
+msgid "password_assistance_info"
+msgstr "Pokud je asistent hesla zapnutý, je v přihlašovací stránce ILIAS zbrazen řádek s textem \"Zapomenuté heslo?\". Uživatel může použít tento odkaz k získání nového hesla přes svůj uživatelský účet, bez nutnosti asistence správce systému."
+
+msgid "password_change_on_first_login_demand"
+msgstr "Vaše původní heslo musí být změněno před započetím užívání služeb ILIAS."
+
+#, fuzzy
+msgid "password_contains_invalid_chars"
+msgstr "The password contains invalid characters"
+
+#, fuzzy
+msgid "password_contains_parts_of_login_err"
+msgstr "The chosen password contains your username. Please insert a new password."
+
+msgid "password_empty"
+msgstr "Heslo nesmí být prázdné."
+
+msgid "password_expired"
+msgstr "Patnost Vašeho hesla vypršela a musí být změněno, protože jeho poslední změna proběhla před %s dny."
+
+#, fuzzy
+msgid "password_multiple_errors"
+msgstr "Multiple criterias are not satisfied:"
+
+msgid "password_must_chars_and_numbers"
+msgstr "Heslo musí obsahovat písmena a číslice."
+
+#, fuzzy
+msgid "password_must_contain_lcase_chars"
+msgstr "The password must contain at least %s lower case letters."
+
+#, fuzzy
+msgid "password_must_contain_ucase_chars"
+msgstr "The password must contain at least %s capital letters."
+
+msgid "password_must_special_chars"
+msgstr "Heslo musí obsahovat zvláštní znaky."
+
+msgid "password_to_long"
+msgstr "Heslo musí být dlouhé nejvíce %s znaků."
+
+msgid "password_to_short"
+msgstr "Heslo musí být dlouhé nejméně %s znaků."
+
+msgid "paste"
+msgstr "Vložit"
+
+msgid "pasteChapter"
+msgstr "Vložit"
+
+msgid "pastePage"
+msgstr "Vložit"
+
+msgid "paste_clipboard_items"
+msgstr "Vložit položku ze schránky"
+
+msgid "path"
+msgstr "Cesta"
+
+msgid "path_not_set"
+msgstr "Cesta nebyla nastavena"
+
+msgid "path_to_convert"
+msgstr "Cesta k programu Convert"
+
+msgid "path_to_htmldoc"
+msgstr "Cesta k programu HTMLdoc"
+
+msgid "path_to_java"
+msgstr "Cesta k programu Java"
+
+msgid "path_to_unzip"
+msgstr "Cesta k programu Unzip"
+
+msgid "path_to_zip"
+msgstr "Cesta k programu Zip"
+
+msgid "pathes"
+msgstr "Cesty"
+
+msgid "pd_items_news"
+msgstr "Zahrnout zprávy odobních položek"
+
+msgid "pdf_export"
+msgstr "Export do PDF"
+
+msgid "perm_settings"
+msgstr "Přístupová práva"
+
+msgid "perma_link"
+msgstr "Pernamentní odkaz"
+
+#, fuzzy
+msgid "perma_link_copied"
+msgstr "Link to this page has been copied to the clipboard."
+
+msgid "permission"
+msgstr "Oprávnění"
+
+msgid "permission_denied"
+msgstr "Přístup odepřen"
+
+msgid "permission_settings"
+msgstr "Nastavení oprávnění objektu"
+
+msgid "person_title"
+msgstr "Tituly"
+
+msgid "personal_data"
+msgstr "Osobní údaje"
+
+msgid "personal_picture"
+msgstr "Osobní obrázek"
+
+msgid "personal_profile"
+msgstr "Osobní profil"
+
+#, fuzzy
+msgid "personal_resources"
+msgstr "Personal Resources"
+
+#, fuzzy
+msgid "personal_settings"
+msgstr "Personal Settings"
+
+#, fuzzy
+msgid "personalise_date_time"
+msgstr "Personalise Date and Time Settings"
+
+msgid "persons"
+msgstr "Osoby"
+
+msgid "pg_add"
+msgstr "Přidat stránku"
+
+msgid "pg_new"
+msgstr "Nová stránka"
+
+msgid "phone"
+msgstr "Telefon"
+
+msgid "phone_home"
+msgstr "Telefon, domů"
+
+msgid "phone_mobile"
+msgstr "Mobilní telefon"
+
+msgid "phone_office"
+msgstr "Telefon, kancelář"
+
+msgid "phrase"
+msgstr "Fráze"
+
+msgid "please_choose"
+msgstr "-- Vybrat --"
+
+msgid "please_enter_target"
+msgstr "Zadejte prosím cíl"
+
+msgid "please_enter_title"
+msgstr "Zadejte prosím název"
+
+msgid "please_select"
+msgstr "--Vyberte prosím --"
+
+msgid "please_select_a_delivered_file_to_delete"
+msgstr "Musíte vybrat alespoň jeden doručený soubor ke smazání!"
+
+msgid "please_select_a_delivered_file_to_download"
+msgstr "Musíte vybrat alespoň jeden doručený soubor ke stažení!"
+
+msgid "please_wait"
+msgstr "Čekejte prosím..."
+
+msgid "port"
+msgstr "Port"
+
+#, fuzzy
+msgid "portfolio"
+msgstr "Portfolio"
+
+msgid "pos_bottom"
+msgstr "Dolů"
+
+msgid "pos_left"
+msgstr "Levý"
+
+msgid "pos_right"
+msgstr "Vpravo"
+
+msgid "pos_top"
+msgstr "Nahoře"
+
+msgid "position"
+msgstr "Pracoviště"
+
+#, fuzzy
+msgid "position_permission_settings"
+msgstr "Orgunit-Specific Permissions"
+
+msgid "precondition"
+msgstr "Předpoklad"
+
+msgid "precondition_not_accessible"
+msgstr "Nemáte odpovídající oprávnění ke zobrazení předpokladů této položky."
+
+#, fuzzy
+msgid "precondition_required_itemlist"
+msgstr "Required Precondition"
+
+#, fuzzy
+msgid "precondition_toggle"
+msgstr "Preconditions that need to be fulfilled to access this object"
+
+msgid "preconditions"
+msgstr "Přepoklady"
+
+#, fuzzy
+msgid "preconditions_obligatory_hint"
+msgstr "Please edit the following preconditions"
+
+#, fuzzy
+msgid "preconditions_optional_hint"
+msgstr "Please edit one of the following preconditions"
+
+msgid "predefined_template"
+msgstr "Předdefinovaná šablona role"
+
+msgid "preferences"
+msgstr "User-defined Preferences"
+
+#, fuzzy
+msgid "presentation_table_more"
+msgstr "more"
+
+#, fuzzy
+msgid "presenter"
+msgstr "Presenter"
+
+#, fuzzy
+msgid "preview"
+msgstr "Preview"
+
+#, fuzzy
+msgid "preview_create"
+msgstr "Create Preview"
+
+#, fuzzy
+msgid "preview_delete"
+msgstr "Delete Preview"
+
+#, fuzzy
+msgid "preview_image_size"
+msgstr "Size of Preview Images"
+
+msgid "preview_learner_info"
+msgstr "Je-li zapnuto, administrátoři kurzů a skupin mají možnost zobrazit formulář obsahu příslušným uživatelům."
+
+#, fuzzy
+msgid "preview_loading"
+msgstr "Loading Preview..."
+
+#, fuzzy
+msgid "preview_none"
+msgstr "Preview (not created yet)"
+
+#, fuzzy
+msgid "preview_not_possible"
+msgstr "Creation of Previews is currently not possible, please read the documentation in %s."
+
+#, fuzzy
+msgid "preview_renderers"
+msgstr "Preview Renderers"
+
+#, fuzzy
+msgid "preview_settings"
+msgstr "File Preview"
+
+#, fuzzy
+msgid "preview_show"
+msgstr "Show Preview"
+
+#, fuzzy
+msgid "preview_status_creating"
+msgstr "The preview gets created. This may take some time..."
+
+#, fuzzy
+msgid "preview_status_deleting"
+msgstr "The preview gets deleted..."
+
+#, fuzzy
+msgid "preview_status_failed"
+msgstr "Failed to create the preview."
+
+#, fuzzy
+msgid "preview_status_missing"
+msgstr "No preview exists for this file."
+
+#, fuzzy
+msgid "preview_status_pending"
+msgstr "The preview has not been created yet. Please try again later."
+
+msgid "previous"
+msgstr "Předchozí"
+
+#, fuzzy
+msgid "prg_copy_threads_info"
+msgstr "Please decide which Study Program elements should be copied, linked or even omitted."
+
+#, fuzzy
+msgid "prg_wizard_page"
+msgstr "Copy Study Program (Step 2/2)"
+
+#, fuzzy
+msgid "prgr_add"
+msgstr "Add Study Programme Link"
+
+#, fuzzy
+msgid "prgr_edit_info"
+msgstr "Please choose one Study Programme for creating a new link."
+
+#, fuzzy
+msgid "prgr_new"
+msgstr "Create Study Programme Link"
+
+#, fuzzy
+msgid "prgr_settings"
+msgstr "Settings of Study Programme Link"
+
+msgid "print"
+msgstr "Tisk"
+
+msgid "print_view"
+msgstr "Náhled tisku"
+
+msgid "private_notes"
+msgstr "Osobní poznámky"
+
+msgid "pro"
+msgstr "Pro"
+
+msgid "proceed"
+msgstr "Postoupit"
+
+msgid "profile"
+msgstr "Profil"
+
+msgid "profile_changed"
+msgstr "Váš profil byl změněn"
+
+msgid "profile_incomplete"
+msgstr "Váš profil je nekompletní. Vyplňte prosím všechna požadovaná data."
+
+msgid "profile_of"
+msgstr "Profil pro"
+
+msgid "properties"
+msgstr "Vlastnosti"
+
+msgid "proxy"
+msgstr "Proxy"
+
+msgid "proxy_connectable"
+msgstr "Spojení zajištěno."
+
+msgid "proxy_host"
+msgstr "Hostitel"
+
+msgid "proxy_host_info"
+msgstr "Vložte prosím hostitele."
+
+msgid "proxy_not_connectable"
+msgstr "ILIAS nemůže vybudovat spojení přes definované proxy."
+
+msgid "proxy_port"
+msgstr "Port"
+
+msgid "proxy_port_info"
+msgstr "Vložte prosím port mezi 0 a 65535, např.8080."
+
+msgid "proxy_port_numeric"
+msgstr "Vložený port musí mít numerickou hodnotu mezi 0 a 65535"
+
+#, fuzzy
+msgid "proxy_socket_error"
+msgstr "Socket Error: %s"
+
+msgid "proxy_status"
+msgstr "Proxy"
+
+msgid "proxy_status_info"
+msgstr "Pro použití proxy v ILIAS (např. pro zásobník webových zpráv, nebo pro kontrolu webových odkazů) aktivujte prosím zaškrtávací pole výše."
+
+#, fuzzy
+msgid "ps_export_scorm"
+msgstr "SCORM Tracking Data"
+
+#, fuzzy
+msgid "ps_password_lowercase_chars_num"
+msgstr "Lower Case Letters"
+
+#, fuzzy
+msgid "ps_password_lowercase_chars_num_info"
+msgstr "Please insert the number of lower case letters a password must contain. Enter 0 to disable this requirement."
+
+#, fuzzy
+msgid "ps_password_must_not_contain_loginame"
+msgstr "Prevent Username in Password"
+
+#, fuzzy
+msgid "ps_password_must_not_contain_loginame_info"
+msgstr "If activated, a password must not contain the username."
+
+#, fuzzy
+msgid "ps_password_uppercase_chars_num"
+msgstr "Capital Letters"
+
+#, fuzzy
+msgid "ps_password_uppercase_chars_num_info"
+msgstr "Please insert the number of capital letters a password must contain. Enter 0 to disable this requirement."
+
+msgid "pub_section"
+msgstr "Veřejná sekce"
+
+msgid "pub_section_info"
+msgstr "Je-li zapnuto, části systému (tzn. úložiště, uživatelské profily) mohou být dosažitelné z internetu bez autentizace. Oprávnění role \"Anonymní\" bude řídit přístup do úložiště zdrojů."
+
+msgid "public"
+msgstr "veřejný"
+
+msgid "public_notes"
+msgstr "Veřejné poznámky"
+
+msgid "public_profile"
+msgstr "Zveřejnit profil"
+
+#, fuzzy
+msgid "public_room"
+msgstr "Public room"
+
+msgid "purpose"
+msgstr "Účel"
+
+msgid "qpl"
+msgstr "Zásobník otázek testu"
+
+msgid "qpl_add"
+msgstr "Přidat zásobník otázek testu"
+
+msgid "qpl_new"
+msgstr "Nový zásobník otázek testu"
+
+msgid "query_data"
+msgstr "Data dotazu"
+
+msgid "question"
+msgstr "Otázka"
+
+msgid "question_message"
+msgstr "Otázka"
+
+msgid "quit"
+msgstr "Ukončit"
+
+msgid "quote"
+msgstr "Citace"
+
+msgid "read"
+msgstr "Číst"
+
+msgid "readcount_anonymous_users"
+msgstr "Počet anonymních přístupů čtení"
+
+msgid "readcount_users"
+msgstr "Počet neanonymních přístupů čtení"
+
+msgid "recipient"
+msgstr "Příjemce"
+
+msgid "reference_deleted"
+msgstr "Místo určení není dostupné"
+
+msgid "reference_of"
+msgstr "Odkaz od:"
+
+msgid "referral_comment"
+msgstr "Jsk jste se dozvěděl(a) o ILIASu?"
+
+msgid "refresh"
+msgstr "Aktualizovat"
+
+msgid "refresh_languages"
+msgstr "Aktualizovat jazyky"
+
+msgid "refuse"
+msgstr "Zamítnout"
+
+msgid "reg_account_confirmation_successful"
+msgstr "Váš uživatelský účet byl aktivován."
+
+#, fuzzy
+msgid "reg_delete_expired_pending_registrations"
+msgstr "Delete Expired Pending Registrations"
+
+#, fuzzy
+msgid "reg_delete_expired_pending_registrations_desc"
+msgstr "Deletes all ILIAS accounts that have not been confirmed after a registration with e-mail confirmation."
+
+#, fuzzy
+msgid "reg_goto_parent_membership_info"
+msgstr "Only members can access the target object."
+
+msgid "reg_mail_body_2_confirmation"
+msgstr "Tento odkaz bude správný jen do %s, pak to budete muset zkusit znovu od začátku."
+
+msgid "reg_mail_body_3_confirmation"
+msgstr "If this email means nothing to you, then it is possible that somebody else has entered your email address either deliberately or accidentally, so please ignore this email"
+
+msgid "reg_mail_body_forgot_password_info"
+msgstr "Pro získání svého hesla použijte prosím funkci « Zapomenuté heslo? » na přihlašovací obrazovce. Tak zašlete požadavek na získání nového hesla pro tento účet."
+
+msgid "reg_mail_body_salutation"
+msgstr "Nazdar"
+
+msgid "reg_mail_body_text1"
+msgstr "Vítejte v e-learningu ILIAS!"
+
+msgid "reg_mail_body_text2"
+msgstr "K přístupu do ILIAS použijte následující údaje:"
+
+msgid "reg_mail_body_text3"
+msgstr "Další osobní informace:"
+
+msgid "reg_mail_subject"
+msgstr "E-learning ILIAS - Vaše přístupové údaje"
+
+msgid "reg_mail_subject_confirmation"
+msgstr "Your Confirmationlink"
+
+msgid "reg_passwd_via_mail"
+msgstr "Vaše heslo bude zasláno na Vaši e-mail adresu uvedenou níže."
+
+msgid "register"
+msgstr "Zaregistrovat"
+
+#, fuzzy
+msgid "register_notification"
+msgstr "\"%s\" has applied for session \"%s\"."
+
+msgid "registered_since"
+msgstr "Zaregistrován(a) od"
+
+msgid "registered_user"
+msgstr "registovaný uživatel"
+
+msgid "registered_users"
+msgstr "registovaných uživatelů"
+
+msgid "registration"
+msgstr "Registrace nového účtu"
+
+msgid "related_to"
+msgstr "Příslušné k:"
+
+msgid "remove"
+msgstr "Odstranit"
+
+#, fuzzy
+msgid "remove_entries"
+msgstr "Remove Entries"
+
+msgid "remove_translation"
+msgstr "Odstranit překlad"
+
+msgid "rename"
+msgstr "Přejmenovat"
+
+msgid "rename_file"
+msgstr "Přejmenovat soubor"
+
+#, fuzzy
+msgid "renderer_supported_file_types"
+msgstr "Supported File Types"
+
+#, fuzzy
+msgid "renderer_supported_repo_types"
+msgstr "Supported ILIAS Objects"
+
+#, fuzzy
+msgid "renderer_type_builtin"
+msgstr "Built-in"
+
+#, fuzzy
+msgid "rep_main_page"
+msgstr "Main Page"
+
+#, fuzzy
+msgid "rep_main_page_logo_alt"
+msgstr "Logo ILIAS - to the start page"
+
+msgid "repeat_scan"
+msgstr "Opakování vyhledání virů..."
+
+msgid "repeat_scan_failed"
+msgstr "Opakování vyhledání selhalo."
+
+msgid "repeat_scan_succeded"
+msgstr "Opakování skenování skončilo úspěšně."
+
+msgid "replace_file"
+msgstr "Nahradit soubor"
+
+msgid "reply"
+msgstr "Odpovědět"
+
+#, fuzzy
+msgid "report_accessibility_issue"
+msgstr "Report Accessibility Issue"
+
+#, fuzzy
+msgid "report_accessibility_link"
+msgstr "Reported Link:"
+
+#, fuzzy
+msgid "report_accessibility_link_mailto"
+msgstr "Reported%20Link:"
+
+msgid "repository"
+msgstr "Úložiště"
+
+msgid "repository_admin"
+msgstr "Koš úložiště a oprávnění"
+
+msgid "repository_admin_desc"
+msgstr "Nastavit oprávnění pro položky úložiště, obnovení, nebo odstranění objektů ze systémového koše"
+
+msgid "require_email"
+msgstr "Vyžadován e-mail"
+
+msgid "require_gender"
+msgstr "Vyžadováno pohlaví"
+
+msgid "require_hobby"
+msgstr "Vyžadováno hoby"
+
+msgid "require_matriculation"
+msgstr "Vyžadováno imatrikulační číslo"
+
+msgid "require_referral_comment"
+msgstr "Vyžadován referenční komentář"
+
+msgid "required_field"
+msgstr "Vyžadováno"
+
+msgid "res_links"
+msgstr "Připojení úložiště"
+
+msgid "res_links_short"
+msgstr "Odkazy"
+
+msgid "reset"
+msgstr "Resetovat"
+
+msgid "reset_filter"
+msgstr "Reset filtru"
+
+msgid "resources"
+msgstr "Zdroje"
+
+msgid "right"
+msgstr "Právo"
+
+msgid "rights"
+msgstr "Práva"
+
+msgid "role"
+msgstr "Role"
+
+msgid "role_add_user"
+msgstr "Přidal roli uživatele"
+
+msgid "role_added"
+msgstr "Role přidána"
+
+msgid "role_assignment"
+msgstr "Přiřazení rolí položek pracovní plochy"
+
+msgid "role_assignment_updated"
+msgstr "Přiřazení role bylo aktualizováno."
+
+msgid "role_edit"
+msgstr "Upravit roli"
+
+msgid "role_mailto"
+msgstr "Pošta všem přiřazeným uživatelům"
+
+msgid "role_new"
+msgstr "Nová role"
+
+msgid "role_new_search"
+msgstr "Nové hledání"
+
+msgid "role_no_roles_selected"
+msgstr "Vyberte prosím roli"
+
+msgid "role_protect_permissions"
+msgstr "Zabezpečení oprávnění"
+
+msgid "role_protect_permissions_desc"
+msgstr "Oprávnění objektu nelze dále změnit operací systému. Pouze administrátor, nebo vyšší úroveň může toto oprávnění změnit."
+
+msgid "role_select_one_item"
+msgstr "Vyberte prosím jeden objekt."
+
+msgid "role_sure_delete_desk_items"
+msgstr "Určitě chcete smazat následující přiřazení?"
+
+msgid "role_templates_only"
+msgstr "Pouze šablony rolí"
+
+msgid "roles"
+msgstr "Role"
+
+msgid "roles_of_import_global"
+msgstr "Globální role importovaného souboru"
+
+msgid "roles_of_import_local"
+msgstr "Lokální role importovaného souboru"
+
+msgid "rolf"
+msgstr "Složka rolí"
+
+msgid "rolf_added"
+msgstr "Složka rolí přidána"
+
+msgid "rolf_create_role"
+msgstr "Vytvořit novou definici role"
+
+msgid "rolf_create_rolt"
+msgstr "Vytvořit novou šablonu definice role"
+
+msgid "rolf_delete"
+msgstr "Smazat roli/definici role"
+
+msgid "rolf_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "rolf_edit_userassignment"
+msgstr "Změnit přiřazení role uživatele"
+
+msgid "rolf_read"
+msgstr "Přístup číst k roli/šabloně role"
+
+msgid "rolf_visible"
+msgstr "Role/šablona role je viditelná"
+
+msgid "rolf_write"
+msgstr "Upravit výchozí nastavení oprávnění role/šablona role"
+
+msgid "rolt"
+msgstr "Šablona role"
+
+msgid "rolt_added"
+msgstr "Šablona role přidána"
+
+msgid "rolt_edit"
+msgstr "Upravit šablonu role"
+
+msgid "rolt_new"
+msgstr "Nová šablona role"
+
+msgid "row"
+msgstr "Řádek"
+
+msgid "rows"
+msgstr "Řádky"
+
+#, fuzzy
+msgid "rpc_pdf_font"
+msgstr "Fonts"
+
+#, fuzzy
+msgid "rpc_pdf_font_info"
+msgstr "Additional fonts for the generation of PDF files. Other fonts than \"Helvetica\" and \"unifont\" must be installed on the ILIAS server."
+
+#, fuzzy
+msgid "rpc_pdf_generation"
+msgstr "PDF-Generation"
+
+#, fuzzy
+msgid "sad"
+msgstr "Sad"
+
+msgid "sahs"
+msgstr "Výukový modul SCORM/AICC"
+
+msgid "sahs_added"
+msgstr "Výukový modul SCORM/AICC přidán"
+
+#, fuzzy
+msgid "sahs_export_file"
+msgstr "ILIAS exported SCORM archive file"
+
+#, fuzzy
+msgid "sahs_export_file_info"
+msgstr "Use this option for a ZIP file that was exported directly from ILIAS. The file typically has titles such as 1675257903__4105__sahs_132295.zip."
+
+msgid "sahs_insert_chap_from_clip"
+msgstr "Vložit kapitoly ze schránky"
+
+msgid "sahs_insert_page_from_clip"
+msgstr "Vložit stránky ze schránky"
+
+msgid "sahs_insert_sco_from_clip"
+msgstr "Vložit SCO ze schránky"
+
+#, fuzzy
+msgid "sahs_new"
+msgstr "Create New Learning Module"
+
+msgid "salutation"
+msgstr "Oslovení"
+
+msgid "salutation_f"
+msgstr "paní/slečna"
+
+msgid "salutation_m"
+msgstr "pan"
+
+#, fuzzy
+msgid "salutation_n"
+msgstr "No salutation desired"
+
+#, fuzzy
+msgid "saml_log_in"
+msgstr "Direct login"
+
+#, fuzzy
+msgid "saml_login_form_info_txt"
+msgstr "You can log in using the “Direct Login” button without having to enter your username or password."
+
+#, fuzzy
+msgid "saml_login_form_txt"
+msgstr "Login to ILIAS via SAML"
+
+msgid "save"
+msgstr "Uložit"
+
+msgid "save_and_back"
+msgstr "Uložit a zpět"
+
+msgid "save_message"
+msgstr "Uložit zprávu"
+
+msgid "save_params_for_cron"
+msgstr "Uložit parametr pro Cronjob"
+
+msgid "save_refresh"
+msgstr "Uložit a obnovit"
+
+msgid "save_return"
+msgstr "Uložit a návrat"
+
+msgid "save_settings"
+msgstr "Uložit nastavení"
+
+msgid "save_user_related_data"
+msgstr "Uložit přístupová data uživatele"
+
+msgid "saved_successfully"
+msgstr "Úspěšně uloženo"
+
+#, fuzzy
+msgid "saving"
+msgstr "Saving..."
+
+#, fuzzy
+msgid "scope"
+msgstr "Scope"
+
+msgid "scorm_create_export_file_html"
+msgstr "Vytvořit exportní soubor (HTML)"
+
+msgid "scorm_create_export_file_pdf"
+msgstr "Vytvořit exportní soubor (PDF)"
+
+msgid "scorm_create_export_file_scrom12"
+msgstr "Vytvořit exportní soubor (SCORM 1.2)"
+
+msgid "scorm_create_export_file_scrom2004"
+msgstr "Create Export File (SCORM 2004)"
+
+msgid "scorm_create_export_file_scrom2004_4th"
+msgstr "Vytvořit exportní soubor (SCORM 2004, 4.Edice)"
+
+#, fuzzy
+msgid "scorm_login_as_learner_id"
+msgstr "SCORM 2004: set ILIAS User Name as cmi.learner_id"
+
+#, fuzzy
+msgid "scorm_login_as_learner_id_info"
+msgstr "If enabled, the User Name instead of the User ID is set for cmi.learner_id."
+
+#, fuzzy
+msgid "scorm_lp_auto_activate"
+msgstr "default settings for learning progress"
+
+#, fuzzy
+msgid "scorm_lp_auto_activate_info"
+msgstr "If learning progress is activated in general, the settings for new SCORM learning modules are set to 'Collection of SCORM Items' and all SCOs are selected for learning progress determination. Adjustments are still possible for every SCORM learning module."
+
+msgid "scorm_new"
+msgstr "New SCORM/IACC Learning Module"
+
+#, fuzzy
+msgid "scorm_without_session"
+msgstr "SCORM 2004: enable storing data without session"
+
+#, fuzzy
+msgid "scorm_without_session_info"
+msgstr "This ensures the storage of SCORM learning data even if ILIAS session expired"
+
+msgid "search"
+msgstr "Vyhledat"
+
+msgid "search_active"
+msgstr "Zahrnout aktivní uživatele"
+
+#, fuzzy
+msgid "search_at_current_position"
+msgstr "At Current Position"
+
+msgid "search_engine"
+msgstr "Vyhledávací nástroje"
+
+msgid "search_for"
+msgstr "Vyhledat"
+
+#, fuzzy
+msgid "search_globally"
+msgstr "Globally"
+
+msgid "search_in"
+msgstr "Vyhledávat v"
+
+msgid "search_inactive"
+msgstr "Zahrnout neaktivní uživatele"
+
+msgid "search_new"
+msgstr "Nové hledání"
+
+msgid "search_result"
+msgstr "Výsledek hledání"
+
+msgid "search_results"
+msgstr "Výsledky hledání"
+
+msgid "search_user"
+msgstr "Hledat uživatele"
+
+#, fuzzy
+msgid "search_users"
+msgstr "Look Up Users"
+
+msgid "seas_max_hits"
+msgstr "Max. počet nálezů"
+
+msgid "seas_max_hits_info"
+msgstr "Vložte prosím počet výsledků hledání."
+
+msgid "seas_settings"
+msgstr "Nastavení hledání"
+
+msgid "second"
+msgstr "Druhý"
+
+#, fuzzy
+msgid "second_email"
+msgstr "Second Email"
+
+msgid "seconds"
+msgstr "sekund"
+
+msgid "sel_country"
+msgstr "Země"
+
+msgid "select"
+msgstr "Vybrat"
+
+msgid "select_all"
+msgstr "Vybrat vše"
+
+msgid "select_at_least_one_object"
+msgstr "Vyberte prosím alespoň jeden objekt."
+
+msgid "select_file"
+msgstr "Vybrat soubor"
+
+#, fuzzy
+msgid "select_file_from_computer"
+msgstr "Select File"
+
+#, fuzzy
+msgid "select_files_from_computer"
+msgstr "Select the files from your computer"
+
+msgid "select_max_one_item"
+msgstr "Vyberte prosím pouze jednu položku"
+
+msgid "select_object_to_link"
+msgstr "Vyberte prosím objekt, který chcete připojit"
+
+msgid "select_one"
+msgstr "Vyberte prosím jednu."
+
+#, fuzzy
+msgid "select_question_pool_info"
+msgstr "As long as the import file contains questions, these questions will be imported to the selected questionpool as well."
+
+msgid "select_questionpool"
+msgstr "Zásobník otázek pro test"
+
+msgid "selected"
+msgstr "Vybrané"
+
+#, fuzzy
+msgid "selected_files"
+msgstr "Selected files"
+
+msgid "selected_items"
+msgstr "Osobní položky"
+
+msgid "selected_items_back"
+msgstr "Zpět k osobním položkám"
+
+msgid "selected_languages_updated"
+msgstr "Vybrané jazyky byly aktualizovány (pokud jsou nainstalovány):"
+
+msgid "send"
+msgstr "Odeslat"
+
+msgid "send_mail"
+msgstr "Odeslat e-mail"
+
+msgid "sender"
+msgstr "Odesilatel"
+
+msgid "sent"
+msgstr "Odeslané"
+
+msgid "sequence"
+msgstr "Sekvence"
+
+msgid "sequences"
+msgstr "Sekvence"
+
+msgid "server"
+msgstr "Server"
+
+msgid "server_data"
+msgstr "Data serveru"
+
+#, fuzzy
+msgid "server_disabled"
+msgstr "The Chat is Disabled"
+
+msgid "server_software"
+msgstr "Software serveru"
+
+msgid "sess"
+msgstr "Sezení"
+
+msgid "sess_fixed_duration"
+msgstr "Pevná doba sezení"
+
+msgid "session_config"
+msgstr "Nastavení sezení"
+
+msgid "session_config_maintenance_disabled"
+msgstr "Údržba klientem nepovolena"
+
+#, fuzzy
+msgid "session_mail_subject_deletion"
+msgstr "Deregistration of user \"%s\" from session \"%s\""
+
+#, fuzzy
+msgid "session_mail_subject_entered"
+msgstr "Joining of user \"%s\" in session \"%s\""
+
+#, fuzzy
+msgid "session_mail_subject_registered"
+msgstr "Registration of user \"%s\" for session \"%s\""
+
+msgid "session_reminder"
+msgstr "Upozornění sezení"
+
+#, fuzzy
+msgid "session_reminder_alert"
+msgstr "Your session expires in %1$s at %2$s!\\n\\nChoose OK to continue your session.\\nIf you click Cancel you will not be reminded during the current browser session anymore.\\n\\nInstallation: %3$s."
+
+#, fuzzy
+msgid "session_reminder_default_lead_time_info"
+msgstr "Please specify how many minutes before the expiration of a session a reminder should be shown.<br / >The function is deactivated when the value is '%s'. The recommended value is %s.<br / >The current length of a session is %s."
+
+#, fuzzy
+msgid "session_reminder_input"
+msgstr "Session Reminder (in Minutes)"
+
+msgid "session_reminder_lead_time"
+msgstr "Doba trvání"
+
+msgid "session_reminder_lead_time_info"
+msgstr "Určete prosím, kolik sekund před vypršením doby sezení chcete být upozorněn(a) zobrazením výstrahy. Aktuální hodnota pro uživatele sezení je %s."
+
+msgid "session_reminder_session_duration"
+msgstr "(Trvání lekce: %s)."
+
+msgid "set"
+msgstr "Nastavit"
+
+msgid "setSystemLanguage"
+msgstr "Nastavit systémový jazyk"
+
+msgid "setUserLanguage"
+msgstr "Nastavit uživatelský jazyk"
+
+msgid "set_offline"
+msgstr "Nastavit Offline"
+
+msgid "set_online"
+msgstr "Nastavit Online"
+
+#, fuzzy
+msgid "set_skin_does_not_exist"
+msgstr "Your selected skin does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:"
+
+#, fuzzy
+msgid "set_style_does_not_exist"
+msgstr "Your selected system style does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:"
+
+msgid "settings"
+msgstr "Nastavení"
+
+msgid "settings_for_all_members"
+msgstr "Globální nastavení pro všechny členy kurzu/skupiny"
+
+msgid "settings_per_users"
+msgstr "Nastavení členů kurzu/skupiny"
+
+#, fuzzy
+msgid "settings_presentation_header"
+msgstr "Presentation"
+
+msgid "settings_saved"
+msgstr "Nastavení uloženo"
+
+msgid "shib"
+msgstr "Shibboleth"
+
+msgid "shib_active"
+msgstr "Zapnout podporu Shibboleth"
+
+msgid "shib_city"
+msgstr "Atributy města"
+
+msgid "shib_country"
+msgstr "Atributy země"
+
+msgid "shib_data_conv"
+msgstr "Absolutní cesta k manipulačnímu API dat"
+
+msgid "shib_data_conv_warning"
+msgstr "Soubor manipulačního API dat, který jste specifikoval(a) není čitelný"
+
+msgid "shib_department"
+msgstr "Atributy katedry"
+
+msgid "shib_email"
+msgstr "Atributy e-mailové adresy"
+
+msgid "shib_federation_name"
+msgstr "Název federace Shibboleth"
+
+msgid "shib_firstname"
+msgstr "Atributy jména"
+
+msgid "shib_gender"
+msgstr "Atributy pohlaví (musí být 'm' nebo 'f')"
+
+msgid "shib_general_login_instructions"
+msgstr "K přihlášení pomocí %s, klepněte prosím na tlačítko přihlášení a vyberte Vaši organizaci na následující stránce.<br>Máte-li nějaké otázky k tomuto přihlášení, obraťte se na"
+
+msgid "shib_general_wayf_login_instructions"
+msgstr "V případě, že nejste zahrnut(a) v dané organizaci a potřebujete přístup ke kurzu na tomto serveru, obraťte se prosím na"
+
+msgid "shib_idp_list"
+msgstr "Poskytnout uživatelům seznam poskytovatelů identity k volbě při přihlášení do systému ILIAS.<br>Na každém řádku musí být čárkou oddělený pár pro <strong>ID poskytovatele IdP</strong> (viz soubor metadat  Shibboleth) a <strong>Název IdP</strong> tak, jak má být zobrazen v rozbalovacím seznamu.<br>Jako 3. volitelný parametr můžete přidat <strong>umístění iniciátor lekce Shibboleth</strong>, který musí být použit v případě instalace Vašeho ILIAS, jako součásti multifederálního nastavení."
+
+msgid "shib_institution"
+msgstr "Atributy instituce"
+
+msgid "shib_invalid_home_organization"
+msgstr "Zvolte prosím platnou organizaci!"
+
+msgid "shib_language"
+msgstr "Atributy jazyka"
+
+msgid "shib_lastname"
+msgstr "Atributy příjmení"
+
+msgid "shib_login"
+msgstr "Unikátní atributy Shibboleth"
+
+msgid "shib_login_button"
+msgstr "Cesta k tlačítku přihlášení Shibboleth"
+
+msgid "shib_login_embedded_wayf"
+msgstr "Uživatelské nastavení přihlašovací plochy"
+
+msgid "shib_login_embedded_wayf_description"
+msgstr "Je-li vybrána tato volba, můžete poskytovat jakýkoli kód HTML v instrukcích pro přihlášení v textové ploše níže. To může například být použití vlastního JavaScriptu služby WAYF/Discovery Service, nebo vytvoření vlastního designu přihlašovací plochy."
+
+msgid "shib_login_external_wayf"
+msgstr "Použít externí služby WAYF"
+
+msgid "shib_login_internal_wayf"
+msgstr "Použít služby ILIAS WAYF"
+
+msgid "shib_login_type"
+msgstr "Výběr organizace"
+
+#, fuzzy
+msgid "shib_matriculation"
+msgstr "Attribute for Matriculation Number"
+
+msgid "shib_member_of"
+msgstr "Jsem členem ..."
+
+msgid "shib_phone_home"
+msgstr "Atributy pro číslo telefonu domů"
+
+msgid "shib_phone_mobile"
+msgstr "Atributy pro telefonní číslo mobilu"
+
+msgid "shib_phone_office"
+msgstr "Atributy pro telefonní číslo do kanceláře"
+
+msgid "shib_select_home_organization"
+msgstr "Pro autentizaci přes %s, vyberte prosím Vaši organizaci z rozbalovacího seznamu."
+
+msgid "shib_settings_saved"
+msgstr "Nastavení Shibboleth bylo uloženo"
+
+msgid "shib_street"
+msgstr "Atributy ulice"
+
+msgid "shib_title"
+msgstr "Atribute titulu"
+
+msgid "shib_update"
+msgstr "Aktualizovat pole pro přihlášení"
+
+msgid "shib_user_default_role"
+msgstr "Výchozí role přidělená uživatelům Shibboleth"
+
+msgid "shib_zipcode"
+msgstr "Atributy pro směrovací číslo"
+
+msgid "short_inst_name"
+msgstr "Zkrácený název"
+
+msgid "short_inst_name_info"
+msgstr "Tento název bude zobrazen v horní liště vyhledávače. Pokud nebude vložena žádná hodnota, bude použito 'ILIAS'."
+
+msgid "show"
+msgstr "Zobrazit"
+
+#, fuzzy
+msgid "show_all_details"
+msgstr "Show all details"
+
+#, fuzzy
+msgid "show_content"
+msgstr "Show Content"
+
+msgid "show_details"
+msgstr "zobrazit podrobnosti"
+
+msgid "show_filter"
+msgstr "Zobrazit filtr"
+
+#, fuzzy
+msgid "show_hidden_sections"
+msgstr "Show More Information &raquo;"
+
+#, fuzzy
+msgid "show_less"
+msgstr "Show less"
+
+msgid "show_list"
+msgstr "Zobrazit seznam"
+
+msgid "show_members"
+msgstr "Zobrazit členy"
+
+#, fuzzy
+msgid "show_more"
+msgstr "Show More"
+
+#, fuzzy
+msgid "show_preview"
+msgstr "Show Preview"
+
+msgid "show_users_online"
+msgstr "Zobrazit uživatele online"
+
+#, fuzzy
+msgid "show_who_is_online"
+msgstr "Show who is online"
+
+msgid "side_frame"
+msgstr "Boční rám"
+
+msgid "signature"
+msgstr "Automatický podpis"
+
+msgid "size"
+msgstr "Velikost"
+
+#, fuzzy
+msgid "skills"
+msgstr "Skills"
+
+msgid "skin_style"
+msgstr "Vychozí vzhled/styl"
+
+msgid "smtp"
+msgstr "SMTP"
+
+#, fuzzy
+msgid "soap_connect_timeout"
+msgstr "Connection Timeout"
+
+#, fuzzy
+msgid "soap_connect_timeout_info"
+msgstr "The maximum time in seconds until a connect attempt to the SOAP-Webservice is interrupted."
+
+msgid "soap_user_administration"
+msgstr "Externí administrace uživatelů (SOAP)"
+
+msgid "soap_user_administration_desc"
+msgstr "Je-li zapnuto, všechny účty uživatelů mohou být administrovány externím klientem SOAP."
+
+msgid "soap_wsdl_path"
+msgstr "WSDL Path"
+
+msgid "soap_wsdl_path_info"
+msgstr "Vložte prosím cestu k ilias wsdl souboru, který by měl být použit pro webové služby. Pokud toto pole necháte prázdné, pak bude použita výchozí cesta: %s"
+
+#, fuzzy
+msgid "sort"
+msgstr "Sort"
+
+#, fuzzy
+msgid "sort_ascending"
+msgstr "Sort Ascending"
+
+#, fuzzy
+msgid "sort_ascending_long"
+msgstr "Change Sort Direction to Ascending"
+
+msgid "sort_by_this_column"
+msgstr "Setřídit podle tohoto sloupce"
+
+#, fuzzy
+msgid "sort_descending"
+msgstr "Sort Descending"
+
+#, fuzzy
+msgid "sort_descending_long"
+msgstr "Change Sort Direction to Descending"
+
+msgid "sort_inherit_prefix"
+msgstr "Výchozí"
+
+#, fuzzy
+msgid "sorting_asc"
+msgstr "Ascending"
+
+#, fuzzy
+msgid "sorting_creation_header"
+msgstr "By Creation Date"
+
+#, fuzzy
+msgid "sorting_creation_info"
+msgstr "Content items are arranged automatically by their creation date."
+
+#, fuzzy
+msgid "sorting_desc"
+msgstr "Descendent"
+
+#, fuzzy
+msgid "sorting_direction"
+msgstr "Sorting Direction"
+
+msgid "sorting_header"
+msgstr "Obsah položek seřazený"
+
+msgid "sorting_info_inherit"
+msgstr "Mód řazení je převzat z předchozího kurzu."
+
+msgid "sorting_info_manual"
+msgstr "Tento mód umožňuje řadit položky manuálně."
+
+msgid "sorting_info_title"
+msgstr "Zvolte tento mód k automatickému řazení položek dle názvu."
+
+msgid "sorting_manual_header"
+msgstr "Seřadit manuálně"
+
+msgid "sorting_save"
+msgstr "Uložit seřazené"
+
+msgid "sorting_title_header"
+msgstr "Seřadit podle názvu"
+
+msgid "spacer"
+msgstr "Mezerník"
+
+msgid "spl"
+msgstr "Zásobník otázek ankety"
+
+msgid "spl_add"
+msgstr "Přidat zásobník otázek ankety"
+
+#, fuzzy
+msgid "spl_import"
+msgstr "Import Question Pool Survey"
+
+msgid "spl_new"
+msgstr "Nový zásobník otázek"
+
+msgid "ssl"
+msgstr "SSL (HTTPS)"
+
+msgid "standard_fields"
+msgstr "Standardní pole"
+
+msgid "startpage"
+msgstr "Úvodní stránka"
+
+msgid "stat_selected"
+msgstr "Vybráno"
+
+msgid "statistic"
+msgstr "Statistika"
+
+msgid "statistics"
+msgstr "Statistiky"
+
+msgid "status"
+msgstr "Stav"
+
+msgid "status_no_permission"
+msgstr "Není uděleno oprávnění"
+
+msgid "step"
+msgstr "Krok"
+
+msgid "street"
+msgstr "Bydliště: Ulice a číslo domu"
+
+msgid "structure"
+msgstr "Struktura"
+
+msgid "sty"
+msgstr "Styl"
+
+msgid "sub_request_deleted"
+msgstr "Smazat požadavek členství"
+
+msgid "sub_request_saved"
+msgstr "Uložený požadavek členství"
+
+msgid "subject"
+msgstr "Předmět"
+
+msgid "submit"
+msgstr "Odeslat"
+
+msgid "subobjects"
+msgstr "Podřízené objekty"
+
+msgid "subscription"
+msgstr "Přihlášení"
+
+msgid "subtabs"
+msgstr "SubTabs"
+
+msgid "success_message"
+msgstr "Úspěšné hlášení"
+
+msgid "summary"
+msgstr "Přehled"
+
+msgid "sure_delete_selected_users"
+msgstr "Určitě chcete  smazat vybrané uživatele?"
+
+msgid "survey_defaults"
+msgstr "Výchozí nastavení ankety"
+
+msgid "survey_unlimited_invitation"
+msgstr "Neomezené pozvání"
+
+msgid "svy"
+msgstr "Anketa"
+
+msgid "svy_add"
+msgstr "Přidat anketu"
+
+msgid "svy_finished"
+msgstr "ukončeno"
+
+msgid "svy_new"
+msgstr "Nová anketa"
+
+msgid "svy_not_finished"
+msgstr "neukončeno"
+
+msgid "svy_not_started"
+msgstr "nezapočato"
+
+msgid "svy_run"
+msgstr "Spustit"
+
+msgid "svy_warning_survey_not_complete"
+msgstr "Anketa není ukončena!"
+
+#, fuzzy
+msgid "switch_language"
+msgstr "Switch Language"
+
+msgid "system"
+msgstr "Systém"
+
+msgid "system_check"
+msgstr "Kontrola systému"
+
+msgid "system_information"
+msgstr "Systémové informace"
+
+msgid "system_language"
+msgstr "Systémový jazyk"
+
+msgid "system_styles"
+msgstr "Styly systému"
+
+msgid "systemcheck_cron"
+msgstr "Průběh kontroly systému v Cronjob"
+
+msgid "systemcheck_cronform"
+msgstr "Aktivace systémové kontroly v Cronjob"
+
+msgid "table_mail_import"
+msgstr "Import pošty"
+
+msgid "tabs"
+msgstr "Tabulky"
+
+msgid "tagging_my_tags"
+msgstr "Mé značky"
+
+#, fuzzy
+msgid "tags"
+msgstr "Tags"
+
+msgid "take_over_structure"
+msgstr "Převzít strukturu"
+
+msgid "take_over_structure_info"
+msgstr "Je-li aktivováno, adresáře v zip souboru budou mapovány do kategorií, nebo jsou-li použity ve skupinách, či kurzech do složek."
+
+msgid "tals_etal"
+msgstr "Talk"
+
+msgid "talt_etal"
+msgstr "Talk"
+
+msgid "target"
+msgstr "Cíl"
+
+msgid "tax"
+msgstr "Taxonomie"
+
+msgid "tax_add"
+msgstr "Přidat taxonomii"
+
+msgid "tax_new"
+msgstr "Nová taxonomie"
+
+msgid "term"
+msgstr "Pojem"
+
+msgid "test"
+msgstr "Test"
+
+msgid "tests"
+msgstr "Testy"
+
+msgid "textbox"
+msgstr "Textové pole"
+
+msgid "thread"
+msgstr "Vlákno"
+
+msgid "thumbnail"
+msgstr "Miniatura"
+
+#, fuzzy
+msgid "tile_view"
+msgstr "Tile View"
+
+msgid "time"
+msgstr "Čas"
+
+msgid "time_limit"
+msgstr "Přístup"
+
+msgid "time_limit_add_time_limit_for_selected"
+msgstr "Vložte prosím časový limit pro vybrané uživatele."
+
+msgid "time_limit_from"
+msgstr "Od (časový limit)"
+
+msgid "time_limit_message"
+msgstr "Zpráva (časový limit)"
+
+msgid "time_limit_no_users_selected"
+msgstr "Vyberte prosím uživatele."
+
+msgid "time_limit_not_valid"
+msgstr "Perioda není platná."
+
+msgid "time_limit_reached"
+msgstr "Vaše perioda přístupu vypršela."
+
+msgid "time_limit_unlimited"
+msgstr "Neomezeno (časový limit)"
+
+msgid "time_limit_until"
+msgstr "Do (časový limit)"
+
+msgid "title"
+msgstr "Název"
+
+msgid "title_required"
+msgstr "Please insert a title"
+
+msgid "to"
+msgstr "Komu"
+
+msgid "to_client_list"
+msgstr "Výběr klienta"
+
+msgid "today"
+msgstr "Dnes"
+
+msgid "toggleGlobalDefault"
+msgstr "Zapnout standardní globální styl"
+
+msgid "toggleGlobalFixed"
+msgstr "Zapnout jednotný globální styl"
+
+#, fuzzy
+msgid "toggle_dropdown"
+msgstr "Toggle Dropdown"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_off"
+msgstr "OFF"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_on"
+msgstr "ON"
+
+msgid "tomorrow"
+msgstr "Zítra"
+
+#, fuzzy
+msgid "toolbar_more_actions"
+msgstr "More Actions"
+
+#, fuzzy
+msgid "tools"
+msgstr "Tools"
+
+#, fuzzy
+msgid "top_of_page"
+msgstr "Top of page"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement"
+msgstr "Accept Terms of Service?"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement_intro"
+msgstr "There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page."
+
+#, fuzzy
+msgid "tos_force_accept_usr_agreement"
+msgstr "You must accept the Terms of Service!"
+
+#, fuzzy
+msgid "tos_no_agreement_description"
+msgstr "There is currently no Terms of Service document available for this installation. Please contact the <a href=\"%1$s\">system administrator</a>."
+
+#, fuzzy
+msgid "tos_refuse_acceptance"
+msgstr "Refuse to Accept Terms of Service"
+
+#, fuzzy
+msgid "tos_usr_agreement"
+msgstr "Terms of Service"
+
+#, fuzzy
+msgid "tos_usr_agreement_footer_intro"
+msgstr "You have declared your consent to these terms of service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description"
+msgstr "Withdraw your consent to our Terms of Service here."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description_external"
+msgstr "Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description_internal"
+msgstr "Please log in again to complete the process of withdrawing your consent to the Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_header"
+msgstr "Withdraw Terms of Service Consent"
+
+#, fuzzy
+msgid "tos_withdraw_consent_info"
+msgstr "Withdraw your consent to our Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_info_external"
+msgstr "Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Terms of Service."
+
+msgid "total"
+msgstr "Celkem"
+
+msgid "tracking_settings"
+msgstr "Nastavení sledování"
+
+msgid "translation"
+msgstr "Překlad"
+
+msgid "trash"
+msgstr "Koš"
+
+msgid "tree"
+msgstr "Strom"
+
+msgid "tree_frame"
+msgstr "Rám stromu"
+
+msgid "treeview"
+msgstr "Náhled stromu"
+
+msgid "tst"
+msgstr "Test"
+
+msgid "tst_add"
+msgstr "Přidat test"
+
+#, fuzzy
+msgid "tst_edit_questions"
+msgstr "Edit Questions"
+
+#, fuzzy
+msgid "tst_history_read"
+msgstr "View History"
+
+msgid "tst_new"
+msgstr "Nový test"
+
+#, fuzzy
+msgid "tst_results"
+msgstr "Test Results"
+
+msgid "tst_run"
+msgstr "Spustit"
+
+msgid "tst_user_not_invited"
+msgstr "Nejste pozván(a) k této zkoušce."
+
+msgid "tst_warning_test_not_complete"
+msgstr "Test není kompletní!"
+
+msgid "tutors"
+msgstr "Lektoři"
+
+msgid "txt_registered"
+msgstr "Úspěšně jste se zaregistroval(a) do systému ILIAS. Klepněte prosím na tlačítko níže pro přihlášení do systému ILIAS s Vaším novým uživatelským účtem."
+
+msgid "txt_registered_passw_gen"
+msgstr "Úspěšně jste se zaregistroval(a) do systému ILIAS. Měl(a) by jste obratem obdržet e-mail, obsahující Vaše vygenerované heslo."
+
+msgid "txt_submitted"
+msgstr "Úspěšně jste se odeslal(a) přihlášku do ILIAS. Vaše přihláška bude překontrolována systémovými administrátory, a účet by měl být aktivován do 48 hodin. Dokud Váš účet nebude aktivován, nelze se přihlásit."
+
+msgid "typ"
+msgstr "Definice typů objektů"
+
+msgid "type"
+msgstr "Typ"
+
+msgid "udf_added_field"
+msgstr "Nové pole přidáno."
+
+msgid "udf_delete_sure"
+msgstr "Skutečně chcete smazat toto pole a všechna přiřazená uživatelská data?"
+
+msgid "udf_duplicate_entries"
+msgstr "Tato hodnota musí být unikátní."
+
+msgid "udf_field_deleted"
+msgstr "Pole smazáno."
+
+msgid "udf_name_already_exists"
+msgstr "Toto pole již existuje. Zvolte prosím jiný název."
+
+msgid "udf_required_requires_visib_reg"
+msgstr "Je-li pole nastaveno na \"požadováno\", pak to musí ibýt nastaveno na \"viditelné při registraci\""
+
+msgid "udf_type_date"
+msgstr "Datové pole"
+
+msgid "udf_type_datetime"
+msgstr "Datum a čas"
+
+msgid "udf_type_select"
+msgstr "Vybrat pole (pevné hodnoty)"
+
+msgid "udf_type_text"
+msgstr "Textové pole (volené hodnoty)"
+
+msgid "udf_type_textarea"
+msgstr "Textová plocha (WYSIWYG)"
+
+msgid "udf_update_select_field"
+msgstr "Upravit vybrané pole"
+
+msgid "udf_update_text_field"
+msgstr "Upravit textové pole"
+
+msgid "udf_update_wysiwyg_field"
+msgstr "Upravit textové pole (WYSIWYG)"
+
+msgid "uid"
+msgstr "UID"
+
+msgid "ums_create_new_account"
+msgstr "Vytvořit nový účet"
+
+msgid "ums_explanation"
+msgstr "Váš externí účet systém ILIAS nenalezl.  Avšak ILIAS nalezl účet s vaší adresou e-mailu. Pokud je toto Váš účet, přihlašte se prosím s Vaším heslem ILIAS."
+
+msgid "ums_explanation_2"
+msgstr "Pokud to není Váš účet, stiskněte prosím 'Vytvořit nový účet'."
+
+msgid "ums_explanation_3"
+msgstr "Váš externí účet systém ILIAS nenalezl. Avšak ILIAS nalezl více účtů s Vaší adresou e-mailu. Pokud některý z nich je Vaším účtem, přihlaste se prosím s Vaším heslem ILIAS."
+
+msgid "ums_explanation_4"
+msgstr "Pokud žádný z těchto účtů není Váš, stiskněte prosím 'Vytvořit nový účet'."
+
+msgid "unambiguousness"
+msgstr "Nedvojznačnost"
+
+msgid "uncheck_all"
+msgstr "Odstranit výběr"
+
+msgid "unchecked"
+msgstr "Nevybráno"
+
+msgid "uninstall"
+msgstr "Odinstalovat"
+
+msgid "uninstalled"
+msgstr "Odinstalován."
+
+msgid "unknown"
+msgstr "NEZNÁMÝ"
+
+#, fuzzy
+msgid "unparticipate"
+msgstr "Unsubscribe"
+
+msgid "unread"
+msgstr "nepřečtených"
+
+msgid "unzip"
+msgstr "Unzip"
+
+msgid "up"
+msgstr "Nahoru"
+
+msgid "update"
+msgstr "Upravit"
+
+msgid "update_applied"
+msgstr "Aktualizace provedena"
+
+msgid "update_language"
+msgstr "Aktualizovat jazyk"
+
+msgid "update_on_conflict"
+msgstr "Aktualizovat při konfliktu"
+
+#, fuzzy
+msgid "update_orgunits"
+msgstr "Update assigned organisational units"
+
+#, fuzzy
+msgid "update_orgunits_desc"
+msgstr "If enabled, the field 'Organisational Units' will be updated for all user accounts."
+
+msgid "upload"
+msgstr "Odeslat"
+
+msgid "upload_error_file_not_found"
+msgstr "Chyba odeslání: Soubor nenalezen."
+
+#, fuzzy
+msgid "upload_ok"
+msgstr "The upload was successful"
+
+#, fuzzy
+msgid "upload_pending"
+msgstr "Pending"
+
+#, fuzzy
+msgid "upload_settings"
+msgstr "Uploading Settings"
+
+#, fuzzy
+msgid "upload_svg_rejection_message"
+msgstr "An uploaded SVG file contains possibily malicious code and cannot be processed."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_base64"
+msgstr "The file contains base64 encoded content."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_elements"
+msgstr "The file contains elements or attributes which are not allowed or known."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_foreign_object"
+msgstr "The file contains foreign objects."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_script"
+msgstr "The file contains script-Elements."
+
+msgid "uploaded_and_checked"
+msgstr "Soubor byl odeslán a zkontrolován, můžete nyní můžete spustit jeho import."
+
+#, fuzzy
+msgid "uploading"
+msgstr "Uploading..."
+
+msgid "uri"
+msgstr "URI"
+
+msgid "url"
+msgstr "URL"
+
+msgid "url_not_found"
+msgstr "Soubor nenalezen"
+
+msgid "use_customized_instructions"
+msgstr "Použít uživatelské instrukce:"
+
+msgid "use_default_instructions"
+msgstr "Použít výchozí instrukce."
+
+msgid "user"
+msgstr "Uživatel"
+
+msgid "user_activated"
+msgstr "Uživatel byl schválen"
+
+msgid "user_added"
+msgstr "Uživatel přidán"
+
+msgid "user_assignment"
+msgstr "Přiřazení uživatelů"
+
+#, fuzzy
+msgid "user_avatar"
+msgstr "User Avatar"
+
+#, fuzzy
+msgid "user_avatar_of"
+msgstr "User Avatar of"
+
+msgid "user_cant_receive_mail"
+msgstr "uživateli není povoleno použít systém pošty"
+
+msgid "user_comment"
+msgstr "Komentář uživatele"
+
+msgid "user_deactivated"
+msgstr "Uživatel nebyl schválen"
+
+msgid "user_defined_fields"
+msgstr "Uživatelem definovaná pole"
+
+msgid "user_defined_list"
+msgstr "Přehled uživatelem definovaných polí"
+
+msgid "user_deleted"
+msgstr "Uživatel odstraněn"
+
+msgid "user_detail"
+msgstr "Podrobné údaje"
+
+msgid "user_ext_account"
+msgstr "Externí účet"
+
+msgid "user_ext_account_desc"
+msgstr "Účet použitý pro externí autentizaci. (Autentizace SOAP nebo LDAP)"
+
+msgid "user_image"
+msgstr "Obrázek uživatele"
+
+msgid "user_import_failed"
+msgstr "Import uživatele selhal."
+
+msgid "user_imported"
+msgstr "Import uživatele ukončen."
+
+msgid "user_imported_with_warnings"
+msgstr "Import uživatele ukončen s výstrahou."
+
+msgid "user_language"
+msgstr "Uživatelský jazyk"
+
+#, fuzzy
+msgid "user_never_logged_in"
+msgstr "Delete user accounts without login"
+
+#, fuzzy
+msgid "user_never_logged_in_info"
+msgstr "All user accounts without login at all be deleted."
+
+#, fuzzy
+msgid "user_never_logged_in_info_threshold_err_num"
+msgstr "Only positive non decimal numbers are accepted."
+
+msgid "user_new_account_mail"
+msgstr "Oznámení nového účtu"
+
+msgid "user_new_account_mail_desc"
+msgstr "Toto oznámení může být zasláno, když uživatel ILIAS je vytvořen jinak, než autoregistrací."
+
+#, fuzzy
+msgid "user_not_found"
+msgstr "User not found"
+
+#, fuzzy
+msgid "user_not_found_to_delete"
+msgstr "A user could not be found to delete."
+
+msgid "user_not_known"
+msgstr "Vložte prosím platné jméno uživatele."
+
+msgid "user_profile_other"
+msgstr "Další informace"
+
+msgid "user_send_new_account_mail"
+msgstr "Odeslat e-mail o novém účtu"
+
+msgid "user_status"
+msgstr "Status uživatele"
+
+msgid "user_toggle_noti"
+msgstr "Příslušník nemůže daktivovat upozornění."
+
+msgid "userfolder_export_csv"
+msgstr "Hodnoty oddělené desetinnou čárkou"
+
+msgid "userfolder_export_excel_x86"
+msgstr "Microsoft Excel"
+
+msgid "userfolder_export_file"
+msgstr "Soubor"
+
+msgid "userfolder_export_file_size"
+msgstr "Velikost souboru"
+
+msgid "userfolder_export_files"
+msgstr "Soubory"
+
+msgid "userfolder_export_xml"
+msgstr "XML"
+
+msgid "username"
+msgstr "Uživatelské jméno"
+
+#, fuzzy
+msgid "username_assistance"
+msgstr "Username Assistance"
+
+msgid "users"
+msgstr "Uživatelé"
+
+msgid "users_not_imported"
+msgstr "Následující uživatelé neexistují, jejich zprávy nelze importovat"
+
+msgid "users_online"
+msgstr "Aktivní uživatelé"
+
+msgid "usr"
+msgstr "Uživatel"
+
+#, fuzzy
+msgid "usr_account_inactive"
+msgstr "Inactive Account"
+
+msgid "usr_active_only"
+msgstr "Pouze aktivní uživatelé"
+
+msgid "usr_add"
+msgstr "Přidat uživatele"
+
+msgid "usr_edit"
+msgstr "Upravit údaje uživatele"
+
+#, fuzzy
+msgid "usr_field_change_components_listening"
+msgstr "There is at least one component which is interested in the changed configuration. Would you like to confirm the changes with the consequences the component(s) announced below?"
+
+msgid "usr_filter_coursemember"
+msgstr "Člen kurzu"
+
+msgid "usr_filter_groupmember"
+msgstr "Člen skupiny"
+
+msgid "usr_filter_lastlogin"
+msgstr "Poslední přihlášení uživatele"
+
+msgid "usr_filter_role"
+msgstr "Přiřazená role"
+
+msgid "usr_inactive_only"
+msgstr "Pouze neaktivní uživatelé"
+
+msgid "usr_limited_access_only"
+msgstr "Pouze uživatelé s omezeným přístupem"
+
+#, fuzzy
+msgid "usr_name_undisclosed"
+msgstr "Undisclosed"
+
+msgid "usr_new"
+msgstr "Přidat uživatele"
+
+msgid "usr_settings_changeable_lua"
+msgstr "Změnitelné ve správě lokálního uživatele"
+
+msgid "usr_settings_explanation_profile"
+msgstr "Vyberte 'Viditelné' ke zobrazení polí v registračním formuláři a osobní uživatelský profil na osobní pracovní ploše. Vyberte 'Změnitelné' k povolení uživatelům změnit hodnoty osobního profilu. Povšimněte si prosím, že do viditelných polí lze vždy vstupovat v registračním formuláři. Požadovaná pole jsou vyžadovány v registračním formuláři a osobním uživatelském profilu. Všechna data mohou být změněna v uživatelské administraci nezávisle na jejich nastavení."
+
+msgid "usr_settings_header_profile"
+msgstr "Nastavení profilu uživatele"
+
+msgid "usr_settings_saved"
+msgstr "Globální uživatelské nastavení úspěšně uloženo!"
+
+msgid "usr_settings_visib_lua"
+msgstr "Viditelné ve správě lokálního uživatele"
+
+msgid "usr_skin_style"
+msgstr "Vzhled/styl"
+
+msgid "usr_without_courses"
+msgstr "Uživatelé bez přiřazených kurzů"
+
+msgid "usrf"
+msgstr "Složka uživatele"
+
+msgid "usrf_profile_link"
+msgstr "Odkaz na profil uživatele"
+
+msgid "usrimport_action_ignored"
+msgstr "Akce %1$s ignorována."
+
+msgid "usrimport_action_replaced"
+msgstr "Akce %1$s podle %2$s přemístěna."
+
+msgid "usrimport_cant_delete"
+msgstr "Nelze vykonat akci \"Smazat\". V databázi nenalezen žádný uživatel."
+
+msgid "usrimport_cant_insert"
+msgstr "Nelze vykonat akci \"Vložit\". Uživatel je již v databázi."
+
+msgid "usrimport_cant_update"
+msgstr "Nelze vykonat akci \"Aktualizovat\".  V databázi nenalezen žádný uživatel."
+
+msgid "usrimport_conflict_handling_info"
+msgstr "Když je vybráno \"Ignorovat při konfliktu\", ILIAS ignoruje akci, pokud ji nelze vykonat (např. akce \"Vložit\" není vykonána, pokud uživatel již existuje v databázi se stejným login.)\\nKdyž je vybráno \"Aktualizovat při konfliktu\", ILIAS aktualizuje databázi když akce nemůže být vykonána. (např. akce \"Vložit\" je zaměněna akcí \"Aktualizovat\", když uživatel se stejným login již v databázi existuje)."
+
+#, fuzzy
+msgid "usrimport_form_not_evaluabe"
+msgstr "The form data couldn't be read."
+
+msgid "usrimport_global_role_for_action_required"
+msgstr "Nejméně jedna globální role musí být pro akci\"%1$s\"  specifikována."
+
+msgid "usrimport_ignore_role"
+msgstr "Ignorovat roli"
+
+msgid "usrimport_login_is_not_unique"
+msgstr "Login není unikátní."
+
+msgid "usrimport_no_insert_ext_account_exists"
+msgstr "Nelze vykonat akci \"Vložit\". Externí účet již existuje."
+
+msgid "usrimport_no_update_ext_account_exists"
+msgstr "Nelze vykonat akci \"Aktualizovat\". Externí účet již existuje."
+
+msgid "usrimport_with_specified_role_not_permitted"
+msgstr "Import se specifikovanou rolí není povolen."
+
+#, fuzzy
+msgid "usrimport_wrong_file_count"
+msgstr "Too many files in import-folder. Please try again."
+
+#, fuzzy
+msgid "usrimport_xml_anonymous_or_root_not_allowed"
+msgstr "Neither the system-account nor the anonymous account can be changed through the import."
+
+msgid "usrimport_xml_attribute_missing"
+msgstr "Atribut \"%2$s\" v prvku \"%1$s\" chybí."
+
+msgid "usrimport_xml_attribute_value_illegal"
+msgstr "Hodnota \"%3$s\" atributu \"%2$s\" v prvku \"%1$s\" není povolena."
+
+msgid "usrimport_xml_attribute_value_inapplicable"
+msgstr "Hodnota \"%3$s\" atributu \"%2$s\" iv prvku \"%1$s\" není použitelná pro akci \"%4$s\"."
+
+msgid "usrimport_xml_element_content_illegal"
+msgstr "Obsah \"%2$s\" prvku \"%1$s\" není povolen."
+
+msgid "usrimport_xml_element_for_action_required"
+msgstr "Prvek \"%1$s\" musí být specifikován pro akci \"%2$s\"."
+
+msgid "usrimport_xml_element_inapplicable"
+msgstr "Prvek \"%1$s\" není použitelný pro akci \"%2$s\"."
+
+msgid "valid"
+msgstr "Platný"
+
+msgid "validate"
+msgstr "Schválit"
+
+msgid "value"
+msgstr "Hodnota"
+
+msgid "vcard"
+msgstr "Navštívenka"
+
+msgid "vcard_download"
+msgstr "Stáhnout navštívenku"
+
+msgid "verification_failed"
+msgstr "Verifikace selhala"
+
+msgid "verification_failure_log"
+msgstr "Záznam selhání verifikace"
+
+msgid "verification_warning_log"
+msgstr "Záznam verifikace varování"
+
+msgid "version"
+msgstr "Verze"
+
+msgid "versions"
+msgstr "Verze"
+
+msgid "view"
+msgstr "Zobrazit"
+
+msgid "view_content"
+msgstr "Zobrazit obsah"
+
+#, fuzzy
+msgid "view_learning_progress"
+msgstr "View Learning Progress"
+
+#, fuzzy
+msgid "view_learning_progress_rec"
+msgstr "View Learning Progress of Unit incl. Subunits"
+
+msgid "visible"
+msgstr "Viditelné"
+
+msgid "visible_registration"
+msgstr "Viditelné při registraci"
+
+msgid "visitor"
+msgstr "Návštěvník"
+
+msgid "visitors"
+msgstr "Návštěvníci"
+
+msgid "visits"
+msgstr "Návštěvy"
+
+msgid "web_resources"
+msgstr "Webové zdroje"
+
+msgid "webdav"
+msgstr "WebDAV"
+
+#, fuzzy
+msgid "webdav_add_instructions_btn_label"
+msgstr "Add Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_chosen_language_already_used"
+msgstr "There already is another document associated with the chosen language"
+
+#, fuzzy
+msgid "webdav_doc_delete"
+msgstr "Delete WebDav Mount Instructions"
+
+#, fuzzy
+msgid "webdav_docs_mount_instructions"
+msgstr "Mount Instructions Documents"
+
+#, fuzzy
+msgid "webdav_duplicate_detected_title"
+msgstr "Following objects could not be displayed, because an object with the same Title is already being shown:"
+
+#, fuzzy
+msgid "webdav_forbidden_chars_title"
+msgstr "Following files cannot be displayed, because they contain one or more forbidden characters (\\<>/:*?\"|#):"
+
+#, fuzzy
+msgid "webdav_form_document"
+msgstr "Instructions Document"
+
+#, fuzzy
+msgid "webdav_form_document_info"
+msgstr "Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information"
+
+#, fuzzy
+msgid "webdav_form_document_title"
+msgstr "Title"
+
+#, fuzzy
+msgid "webdav_form_document_title_info"
+msgstr "This title will be dislayed as the title of the modal when the Mount Instructions are opened"
+
+#, fuzzy
+msgid "webdav_form_edit_doc_head"
+msgstr "Edit Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_form_new_doc_head"
+msgstr "Create new Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_general_settings"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "webdav_missing_lang"
+msgstr "There is no english version of the WebDAV Mount Instructions"
+
+#, fuzzy
+msgid "webdav_mount_instructions"
+msgstr "Mount Instructions"
+
+#, fuzzy
+msgid "webdav_problem_free_container"
+msgstr "There are no objects that cause problems in this container."
+
+#, fuzzy
+msgid "webdav_problem_info_duplicate"
+msgstr "There is a file with the same title as the info file."
+
+#, fuzzy
+msgid "webdav_pwd_instruction"
+msgstr "We suggest to create a local password for opening the repository as webfolder.<br />This password is only required for the webfolder functionalities."
+
+#, fuzzy
+msgid "webdav_pwd_instruction_success"
+msgstr "A new local password has been created. You can now open the repository as webfolder."
+
+#, fuzzy
+msgid "webdav_sure_delete_documents_s"
+msgstr "Are you sure you want to delete the Mount Instructions with the following title:"
+
+#, fuzzy
+msgid "webdav_tbl_docs_head_title"
+msgstr "Dokument title"
+
+#, fuzzy
+msgid "webdav_tbl_docs_title"
+msgstr "List of uploaded WebDAV Mount Instructions"
+
+#, fuzzy
+msgid "webdav_upload_instructions"
+msgstr "Upload Instructions"
+
+msgid "webfolder_dir_info"
+msgstr "Váš prohlížeč nemůže otevřít webovou složku. Prostudujte si <a href=\"%1$s\">Instrukce k otevření webových složek</a>."
+
+msgid "webfolder_index_of"
+msgstr "Index %1$s"
+
+msgid "webfolder_instructions"
+msgstr "Instrukce webové složky"
+
+msgid "webfolder_instructions_info"
+msgstr "Instrukce webových složek, které nelze otevřít přímo, jsou zobrazeny v prohlížeči. Můžete použít HTML kód, a tyto rezervovaná místa: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[WINDOWS]</b>...<b>[/WINDOWS]</b>, <b>[MAC]</b>...<b>[/MAC]</b>, <b>[LINUX]</b>...<b>[/LINUX]</b>. Smažte pole pro získání výchozích instrukcí."
+
+msgid "webfolder_instructions_text"
+msgstr "<p>K otevření <b>[WEBFOLDER_TITLE]</b> jako webové složky, postupujte podle následujících instrukcí:</p>[WINDOWS]<h3>Instrukce pro Windows Vista</h3><ol><li>Stiskněte kombinaci kláves Windows+E k otevření Windows Exploreru.</li><li>Klepněte na 'Přidat místo v síti' v nástrojové liště. Otevře se průvodce 'Přidat místo v síti'.</li><li>Klepněte na odkaz 'Připojit k webové síti'.</li><li>Vyberte volbu 'Vybrat jiné místo v síti', a vyberte 'Další'.<li>Do pole 'Adresa v síti nebo Internetu' vložte<br/><b>[WEBFOLDER_URI]</b><br/>pak vyberte 'Další'.</li><li>Vložte svůj login a heslo, a vyberte 'OK'.</li>Opakujte tento krok dokud neobdržíte další dialogové okno.</li><li>Vložte název pro webovou složku a vyberte 'Další'.<li>Vložte svůj login a heslo, pak vyberte 'OK'.</li>Tento krok opakujte, dokud neobdržíte další dialogové okno.</li><li>Vyberte 'Ukončit'.</li><li>nyní můžete vstupovat do této webové složky ze startovacího menu 'Počítač'.</li></ol><h3>Instrukce pro Windows XP s Internet Explorerem 6</h3><ol><li>Spusťte Internet Explorer 6</li><li>Vyberte v menu 'Soubor' &gt; Otevřít...'</li><li>V poli 'Otevřít' vložte následující adresu:<br/><b>[WEBFOLDER_URI]</b></li><li>Zaškrtněte volbu 'Otevřít jako webovou složku', pak vyberte 'OK'.</li><li>Vložte svůj login a heslo, a vyberte 'OK'.</li></ol><h3>Instrukce pro Windows XP bez Internet Exploreru 6</h3><ol><li>Poklepejte (Double-click) na ikonu 'Místa v síti' na pracovní ploše.</li><li>Klepněte na 'Přidat místo v síti' z menu 'Práce se sítí' na levé straně okna.</li><li>Otevře se průvodce 'Přidat místo v síti', vyberte 'Další'.</li><li>Vyberte volbu 'Vybrat jiné místo v síti', a vyberte 'Další'.<li>V poli 'Adresa v síti nebo Internetu' vložte<br/><b>[WEBFOLDER_URI]</b><br/>pak vyberte 'Další'.</li><li>Vložte svůj login a heslo, a vyberte 'OK'.</li></ol>[/WINDOWS][MAC]<h3>Instrukce pro Mac OS X</h3><ol><li>Otevřete vyhledávač</li><li>Vyberte menu 'Jít &gt; připojit k serveru...'</li><li>Do pole adresa vložte tuto adresu:<br/><b>[WEBFOLDER_URI]</b>, a vyberte 'Připojit'.</li><li>Vložte svůj login a heslo, a vyberte 'OK'.</li></ol>[/MAC][LINUX]<h3>Instrukce pro Linux s Konquerorem</h3><ol><li>Spusťte prohlížeč Konqueror</li><li>Do pole adresa vložte tuto adresu:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>Stiskněte klávesu Enter.</li><li>Vložte svůj login a heslo, a vyberte 'OK'.</li></ol><h3>Instrukce pro Linux s Nautilusem</h3><ol><li>Spusťte prohlížeč Nautilus</li><li>Do pole adresa vložte tuto adresu:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>Stiskněte klávesu Enter.</li><li>Vložte svůj login a heslo, a vyberte 'OK'.</li></ol>[/LINUX]<p>Pokud otevření jako webové složky nepracuje, kontaktujte prosím <a href=\"mailto:[ADMIN_MAIL]\">[ADMIN_MAIL]</a>.</p>"
+
+msgid "webfolder_instructions_titletext"
+msgstr "Otevřít jako webovou složku"
+
+msgid "webfolder_mount_dir_with"
+msgstr "Otevřít tuto stránku jako webovou složku v prohlížeči <a href=\"%1$s\">Internet Explorer</a>, <a href=\"%2$s\">Konqueror</a>, <a href=\"%3$s\">Nautilus</a>, <a href=\"%4$s\">jiný prohlížeč</a>."
+
+msgid "webr"
+msgstr "Webový zdroj"
+
+msgid "webr_active"
+msgstr "Aktivní"
+
+msgid "webr_add"
+msgstr "Přidat webový zdroj"
+
+msgid "webr_deleted_items"
+msgstr "Smazané webové zdroje"
+
+msgid "webr_edit"
+msgstr "Upravit webový zdroj"
+
+msgid "webr_sure_delete_items"
+msgstr "Skutečně chcete smazat následující webový zdroj?"
+
+msgid "webservices"
+msgstr "Webové služby"
+
+msgid "week"
+msgstr "Týden"
+
+msgid "weekly"
+msgstr "týdně"
+
+msgid "weeks"
+msgstr "Týdny"
+
+msgid "welcome"
+msgstr "Vítejte"
+
+msgid "width"
+msgstr "Šířka"
+
+msgid "wiki"
+msgstr "Wiki"
+
+msgid "wiki_add"
+msgstr "Přidat Wiki"
+
+msgid "wiki_new"
+msgstr "Nové Wiki"
+
+msgid "with"
+msgstr "s"
+
+#, fuzzy
+msgid "withdraw_consent"
+msgstr "Withdraw Consent"
+
+#, fuzzy
+msgid "withdraw_consent_info_internal"
+msgstr "If you click on ‘Withdraw Consent’, your account will be deleted."
+
+#, fuzzy
+msgid "withdraw_usr_agreement"
+msgstr "Withdraw Consent"
+
+#, fuzzy
+msgid "withdrawal_complete"
+msgstr "Withdrawal of consent complete."
+
+#, fuzzy
+msgid "withdrawal_complete_deleted"
+msgstr "Withdrawal of consent complete, account deleted."
+
+#, fuzzy
+msgid "withdrawal_complete_redirect"
+msgstr "Withdrawal of consent complete. To have your account deleted, please contact your organisation."
+
+#, fuzzy
+msgid "withdrawal_mail_info"
+msgstr "The following email will be sent to an administrator after confirming the withdrawal of your consent:[BR][BR]"
+
+#, fuzzy
+msgid "withdrawal_mail_subject"
+msgstr "Withdrawal of Consent to Terms of Service"
+
+#, fuzzy
+msgid "withdrawal_mail_text"
+msgstr "Dear Sir/Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installation’s Terms of Service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Yours faithfully[BR]%1$s"
+
+#, fuzzy
+msgid "withdrawal_sure_account"
+msgstr "Are you sure you want to confirm the withdrawal of your consent?"
+
+#, fuzzy
+msgid "withdrawal_sure_account_deletion"
+msgstr "Are you sure you want to confirm the withdrawal of your consent? This will result in your user account being irrevocably deleted."
+
+#, fuzzy
+msgid "withdrawal_sure_account_deletion_no_consent_yet"
+msgstr "Are you sure that you do not want to accept the Terms of Service? This will result in your user account being irrevocably deleted."
+
+#, fuzzy
+msgid "withdrawal_sure_account_no_consent_yet"
+msgstr "Are you sure that you do not want to accept the Terms of Service?"
+
+msgid "wizard_search_list"
+msgstr "Vaše hledání nalezlo následující položky. Vyberte prosím jednu z nich."
+
+msgid "wizard_title_info"
+msgstr "Vložte prosím název objektu, který chcete duplikovat."
+
+msgid "write"
+msgstr "Zápis"
+
+msgid "year"
+msgstr "Rok"
+
+#, fuzzy
+msgid "yearly"
+msgstr "yearly"
+
+msgid "years"
+msgstr "Roky"
+
+msgid "yes"
+msgstr "Ano"
+
+msgid "yesterday"
+msgstr "Včera"
+
+msgid "zip"
+msgstr "Poštovní kód"
+
+msgid "zip_structure_error"
+msgstr "Archív obsahuje stejné názvy souborů. Odeslání přerušeno."
+
+msgid "zip_test_failed"
+msgstr "Zip-Test failed. Please contact you ILIAS administrator"
+
+msgid "zipcode"
+msgstr "Poštovní směrovací číslo"

@@ -1,0 +1,7819 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: common\n"
+
+msgid "HH"
+msgstr "ÓÓ:PP"
+
+msgid "absolute_path"
+msgstr "Abszolút elérési út"
+
+msgid "accept_usr_agreement_btn"
+msgstr "Elfogadás"
+
+msgid "access"
+msgstr "Hozzáférés"
+
+msgid "accessFree"
+msgstr "‘Érvényes eddig’ dátum eltávolítása"
+
+msgid "accessRestrict"
+msgstr "‘Érvényes eddig’ dátum beállítása"
+
+msgid "access_expired"
+msgstr "lejárt"
+
+msgid "access_free_granted"
+msgstr "A kiválasztott felhasználó(k)nak korlátlan hozzáférés beállítása"
+
+msgid "access_from"
+msgstr "Hozzáférés (honnan)"
+
+msgid "access_public"
+msgstr "Nyilvános"
+
+msgid "access_restricted"
+msgstr "A kiválasztott felhasználó(k)nak korlátozott hozzáférés beállítása"
+
+msgid "access_scope"
+msgstr "Hozzáférés"
+
+msgid "access_unlimited"
+msgstr "korlátlan"
+
+msgid "access_until"
+msgstr "Érvényes eddig"
+
+msgid "access_users"
+msgstr "Bejelentkezett felhasználók"
+
+msgid "accesscount_registered_users"
+msgstr "Olvasta … (különböző ILIAS-felhasználók száma)"
+
+msgid "accessibility_control_concept"
+msgstr "Hozzáférhetőség"
+
+msgid "account"
+msgstr "Fiókom"
+
+msgid "account_expires_body"
+msgstr "%s helyen % ILIAS-fiókja hozzáférése korlátozott, lejárati dátuma: %s. Lejárt után ILIAS-fiókjával nem tud bejelentkezni. Személyes dokumentumait, tanúsítványait még időben töltse le."
+
+msgid "account_expires_subject"
+msgstr "Hozzáférése hamarosan lejár"
+
+msgid "action"
+msgstr "Művelet"
+
+msgid "action_aborted"
+msgstr "Művelet megszakítva."
+
+msgid "actions"
+msgstr "Műveletek"
+
+msgid "actions_for"
+msgstr "%s művelete"
+
+msgid "activate"
+msgstr "Aktiválás"
+
+msgid "activate_https"
+msgstr "HTTPS-t az ILIAS kezeli<br/>(bejelentkezés)"
+
+msgid "activate_tracking"
+msgstr "Aktiválás"
+
+msgid "activation"
+msgstr "Időzítés beállítása"
+
+msgid "active"
+msgstr "Aktív"
+
+msgid "add"
+msgstr "Hozzáadás"
+
+msgid "add_condition"
+msgstr "Feltétel hozzáadása"
+
+msgid "add_entry"
+msgstr "Bejegyzés létrehozása/módosítása"
+
+msgid "add_member"
+msgstr "Tag hozzáadása"
+
+msgid "add_member_role"
+msgstr "Tagszerepkör hozzáadása"
+
+msgid "add_new_user_defined_field"
+msgstr "Új felhasználói mező létrehozása"
+
+msgid "add_note"
+msgstr "Jegyzet hozzáadása"
+
+msgid "add_parameter"
+msgstr "Új paraméter"
+
+msgid "add_remove_edit_entries_of_main_menu"
+msgstr "A Főmenü elemeinek hozzáadása, eltávolítása, illetve módosítása"
+
+msgid "add_role"
+msgstr "Szerepkör hozzáadása"
+
+msgid "add_translation"
+msgstr "Fordítás hozzáadása"
+
+msgid "add_user"
+msgstr "Helyi felhasználó létrehozása"
+
+msgid "add_user_defined_field"
+msgstr "Új mező létrehozása"
+
+msgid "added_new_condition"
+msgstr "Sikeresen létrehozott egy új előfeltételt."
+
+msgid "additional_info"
+msgstr "További információk"
+
+msgid "address"
+msgstr "Cím"
+
+msgid "admin_force_noti"
+msgstr "Az értesítés aktív"
+
+msgid "administrate_users"
+msgstr "Helyi ILIAS-fiókok kezelése"
+
+msgid "administrate_users_headline"
+msgstr "A kategória helyi ILIAS-fiókokjai"
+
+msgid "administration"
+msgstr "Rendszerbeállítások"
+
+msgid "administrator"
+msgstr "Vezető"
+
+msgid "adopt"
+msgstr "Felvesz"
+
+msgid "advanced_editing_allow_html_tags"
+msgstr "A kiválasztott HTML-címkék engedélyezése a szövegszerkesztőben"
+
+msgid "advanced_editing_assessment_settings"
+msgstr "Teszt- és értékelés-szerkesztő beállításai"
+
+msgid "advanced_editing_frm_post_settings"
+msgstr "Fórumhozzászólás-szerkesztő beállításai"
+
+msgid "advanced_editing_rep_page_editing"
+msgstr "Tartalomszerkesztés engedélyezése a Tartalomtárban"
+
+msgid "advanced_editing_rep_page_editing_desc"
+msgstr "Ez a tulajdonság lehetővé teszi szöveg és média felvételét kategória-, kurzus-, csoport- és mappalapokhoz. Ha nincs bekapcsolva, a meglévő tartalom rejtve marad."
+
+msgid "advanced_editing_required_tags"
+msgstr "Az alábbi HTML-címkék kötelezőek: %s"
+
+msgid "advanced_editing_survey_settings"
+msgstr "Kérdőívszerkesztő beállításai"
+
+msgid "adve_assessment_settings"
+msgstr "Teszt- és kiértékelés"
+
+msgid "adve_frm_post_settings"
+msgstr "Fórumhozzászólások"
+
+msgid "adve_general_settings"
+msgstr "Általános beállítások"
+
+msgid "adve_survey_settings"
+msgstr "Kérdőív"
+
+msgid "agree_date"
+msgstr "Elfogadva ekkor:"
+
+msgid "all"
+msgstr "Összes"
+
+msgid "all_global_roles"
+msgstr "Globális szerepkörök"
+
+msgid "all_local_roles"
+msgstr "Helyi szerepkörök (összes)"
+
+msgid "all_objects"
+msgstr "Összes objektum"
+
+msgid "all_roles"
+msgstr "Összes szerepkör"
+
+msgid "all_topics"
+msgstr "Összes téma"
+
+msgid "all_users"
+msgstr "Összes felhasználó"
+
+msgid "allow_assign_users"
+msgstr "A helyi rendszergazdák felhasználókat adhatnak ehhez a csoporthoz."
+
+msgid "allow_override_alert"
+msgstr ".htaccess szabályok nem értelmezhetőek."
+
+msgid "allow_register"
+msgstr "Új felhasználók számára elérhető a regisztrációs űrlapon."
+
+msgid "allow_user_toggle_noti"
+msgstr "Tag kikapcsolhat értesítést"
+
+msgid "already_delivered_files"
+msgstr "Elküldött fájlok"
+
+msgid "and"
+msgstr "és"
+
+msgid "angry"
+msgstr "Mérges"
+
+msgid "anonymous"
+msgstr "Anonymous"
+
+msgid "answers"
+msgstr "Válasz"
+
+msgid "any_language"
+msgstr "Bármelyik nyelv"
+
+msgid "apache_auth"
+msgstr "Apache hitelesítés"
+
+msgid "application_completed"
+msgstr "Az alkalmazás teljes"
+
+msgid "application_date"
+msgstr "Alkalmazás dátuma"
+
+msgid "applications"
+msgstr "Alkalmazások"
+
+msgid "apply"
+msgstr "Alkalmaz"
+
+msgid "apply_filter"
+msgstr "Szűrés"
+
+msgid "appointment"
+msgstr "Esemény"
+
+msgid "approve_date"
+msgstr "Jóváhagyva"
+
+msgid "approve_recipient"
+msgstr "Jóváhagyó bejelentkezési azonosítója"
+
+msgid "archive"
+msgstr "Archívum"
+
+msgid "archive_broken"
+msgstr "Az archívum fájl hibás vagy üres."
+
+msgid "are_you_sure"
+msgstr "Biztos?"
+
+msgid "assf_allowed_questiontypes"
+msgstr "Elérhető kérdéstípusok"
+
+msgid "assf_allowed_questiontypes_desc"
+msgstr "A bejelölt kérdéstípusok lesznek elérhetők az ILIAS-ban. Ha egy bizonyos kérdéstípust nem szeretne engedélyezni ezen a kliensen, akkor távolítsa el a megfelelő jelölőnégyzet pipáját."
+
+msgid "assf_questiontypes"
+msgstr "Kérdésbeállítások"
+
+msgid "assign"
+msgstr "Hozzárendelés"
+
+msgid "assign_global_role"
+msgstr "Hozzárendelés globális szerepkörhöz"
+
+msgid "assign_local_role"
+msgstr "Hozzárendelés helyi szerepkörhöz"
+
+msgid "assigned_members"
+msgstr "Hozzárendelt tagok"
+
+msgid "assigned_roles"
+msgstr "Hozzárendelt szerepkörök"
+
+msgid "associated_user"
+msgstr "tag felhasználó"
+
+msgid "astounded"
+msgstr "Meghökken"
+
+msgid "at_least_one_style"
+msgstr "Legalább egy stílusnak aktívnak kell maradnia."
+
+msgid "attachment"
+msgstr "Melléklet"
+
+msgid "attachments"
+msgstr "Mellékletek"
+
+msgid "attempts"
+msgstr "Próbálkozások"
+
+msgid "auth_active_roles"
+msgstr "Globális szerepkörök elérhetők a regisztrációs űrlapon"
+
+msgid "auth_allow_local"
+msgstr "Helyi hitelesítés engedélyezése"
+
+msgid "auth_configure"
+msgstr "konfigurálás…"
+
+msgid "auth_create_users"
+msgstr "Nemlétező felhasználók automatikus létrehozása"
+
+msgid "auth_default"
+msgstr "Alapértelmezett beállítás"
+
+msgid "auth_default_mode_changed_to"
+msgstr "Az alapértelmezett hitelesítési mód a következőre változott:"
+
+msgid "auth_ecs"
+msgstr "ECS"
+
+msgid "auth_ldap"
+msgstr "LDAP"
+
+msgid "auth_ldap_enable"
+msgstr "LDAP-támogatás engedélyezése"
+
+msgid "auth_ldap_migration"
+msgstr "Felhasználói fiók migrációja"
+
+msgid "auth_ldap_migration_info"
+msgstr "Lehetővé teszi az új felhasználóknak, hogy átalakíthassák a már meglévő ILIAS-fiókjukat LDAP-hitelesítésűre."
+
+msgid "auth_local"
+msgstr "ILIAS-adatbázis"
+
+msgid "auth_login_instructions"
+msgstr "A bejelentkező képernyőn megjelenítendő utasítások"
+
+msgid "auth_mode"
+msgstr "Hitelesítési mód"
+
+msgid "auth_mode_not_changed"
+msgstr "(Semmi nem változott)"
+
+msgid "auth_mode_roles_changed"
+msgstr "Megváltozott a hitelesítési mód ehhez a szerepkörhöz."
+
+msgid "auth_new_account_mail_desc"
+msgstr "Új felhasználónak levél küldése, ha a felhasználó automatikusan jött létre. Jelszó csak akkor generálódik, ha a ‘helyi hitelesítés engedélyezve’ is aktív."
+
+msgid "auth_per_default"
+msgstr "Alapértelmezettként"
+
+msgid "auth_remark_non_local_auth"
+msgstr "‘ILIAS-hitelesítés’-től (ami az ILIAS adatbázist használja) eltérő mód választása avval jár, hogy a felhasználók nem tudják módosítani felhasználónevüket, illetve jelszavukat a regisztráció után."
+
+msgid "auth_role_auth_mode"
+msgstr "Hitelesítési mód"
+
+msgid "auth_saml"
+msgstr "SAML"
+
+msgid "auth_script"
+msgstr "Egyéni"
+
+msgid "auth_select"
+msgstr "Hitelesítési mód kiválasztása"
+
+msgid "auth_selection"
+msgstr "Bejelentkezés"
+
+msgid "auth_settings"
+msgstr "Hitelesítési beállítások"
+
+msgid "auth_shib"
+msgstr "Shibboleth"
+
+msgid "auth_shib_instructions"
+msgstr "Olvassa el a README-t a Shibboleth-támogatás konfigurálásához."
+
+msgid "auth_shib_not_configured"
+msgstr "Shibboleth még nincs konfigurálva."
+
+msgid "auth_shibboleth"
+msgstr "Shibboleth"
+
+msgid "auth_soap"
+msgstr "SOAP"
+
+msgid "auth_soap_allow_local_desc"
+msgstr "Lehetővé teszi a SOAP felhasználóknak a helyi ILIAS-uk felhasználónevével és jelszavával való hitelesítést."
+
+msgid "auth_soap_auth"
+msgstr "SOAP hitelesítés konfigurálása"
+
+msgid "auth_soap_auth_desc"
+msgstr "Ez a beállítás csak a SOAP-alapú felhasználói hitelesítéssel foglalkozik, az ILIAS SOAP interfésszel nem."
+
+msgid "auth_soap_create_users_desc"
+msgstr "ILIAS-fiók automatikus létrehozása azon felhasználóknak, akiket sikeresen hitelesítettek SOAP-on keresztül anélkül, hogy lenne ILIAS-fiókjuk."
+
+msgid "auth_soap_namespace"
+msgstr "Névtér"
+
+msgid "auth_soap_namespace_desc"
+msgstr "Ahogy a WSDL-ben került meghatározásra. Ha .NET SOAP stílust használ, meg kell adnia."
+
+msgid "auth_soap_port_desc"
+msgstr "Például 8080, ha a teljes SOAP szerver URI http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_server_desc"
+msgstr "Például auth.yourserver.com, ha a teljes SOAP szerver URI http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_settings_saved"
+msgstr "SOAP hitelesítési beállítások mentése sikerült."
+
+msgid "auth_soap_uri_desc"
+msgstr "Helyi URI, például dir/server.php, ha a teljes SOAP szerver URI http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_use_dotnet"
+msgstr ".NET SOAP stílus használata"
+
+msgid "auth_soap_use_https"
+msgstr "Használjon HTTPS-t"
+
+msgid "auth_soap_user_default_role_desc"
+msgstr "Ezt a szerepkört rendeljük hozzá az automatikusan létrejött SOAP felhasználókhoz."
+
+msgid "auth_user_default_role"
+msgstr "Alapértelmezett szerepkör"
+
+msgid "authenticate_ilias"
+msgstr "ILIAS natív bejelentkezés"
+
+msgid "authentication_settings"
+msgstr "Hitelesítés"
+
+msgid "author"
+msgstr "Szerző"
+
+msgid "authoring_mode"
+msgstr "Szerzői mód"
+
+msgid "authors"
+msgstr "Szerzők"
+
+msgid "autocomplete_more"
+msgstr "továbbiak"
+
+msgid "available"
+msgstr "Elérhető"
+
+msgid "awra"
+msgstr "Ki van online?"
+
+msgid "back"
+msgstr "Vissza"
+
+msgid "back_to_course"
+msgstr "Vissza a kurzushoz"
+
+msgid "back_to_crs_content"
+msgstr "Vissza a kurzustartalomhoz"
+
+msgid "back_to_fold_content"
+msgstr "Vissza a mappatartalomhoz"
+
+msgid "back_to_grp_content"
+msgstr "Vissza a csoporttartalomhoz"
+
+msgid "backto_lua"
+msgstr "Vissza a helyi ILIAS-fiókok kezeléséhez"
+
+msgid "basedn"
+msgstr "BaseDN <br />Például <i>ou=userek, dc=pelda, dc=hu</i>"
+
+msgid "basic_settings"
+msgstr "Alapbeállítások"
+
+msgid "before"
+msgstr "Előtte"
+
+msgid "behind"
+msgstr "Mögötte"
+
+msgid "bib_data"
+msgstr "Bibliográfiai adatok"
+
+msgid "bibl_add"
+msgstr "Bibliográfia hozzáadása"
+
+msgid "birthday"
+msgstr "Születési idő"
+
+msgid "bkm_import"
+msgstr "Könyvjelzők importálása"
+
+msgid "bkm_import_ok"
+msgstr "%d könyvjelző és %d könyvjelzőmappa sikeresen importálva."
+
+msgid "bkm_sendmail"
+msgstr "Küldés mellékletként"
+
+msgid "block"
+msgstr "Blokk"
+
+msgid "bm"
+msgstr "Könyvjelző"
+
+msgid "bm_add_to_ilias"
+msgstr "Hozzáadás ILIAS-könyvjelzőkhöz"
+
+msgid "bmf"
+msgstr "Könyvjelzőmappa"
+
+msgid "bold"
+msgstr "Félkövér"
+
+msgid "bold_action"
+msgstr "Félkövér beillesztése - Kattintson félkövér szöveg beillesztéséhez."
+
+msgid "bookings"
+msgstr "Foglalások"
+
+msgid "bookmark_added"
+msgstr "Sikeresen létrehozott egy könyvjelzőt."
+
+msgid "bookmark_folder_new"
+msgstr "Új könyvjelzőmappa"
+
+msgid "bookmark_new"
+msgstr "Új könyvjelző"
+
+msgid "bookmark_target"
+msgstr "Cél"
+
+msgid "bookmarks"
+msgstr "Könyvjelzők"
+
+msgid "bookmarks_of"
+msgstr "Könyvjelzők tőle:"
+
+msgid "breadcrumb_navigation"
+msgstr "Navigációs útvonal"
+
+msgid "breadcrumbs_aria_label"
+msgstr "Morzsák"
+
+msgid "briefcase"
+msgstr "Háttérfolyamatok"
+
+msgid "btn_add"
+msgstr "Hozzáadás"
+
+msgid "btn_back"
+msgstr "Vissza"
+
+msgid "btn_next"
+msgstr "Folytatás"
+
+msgid "btn_previous"
+msgstr "Vissza"
+
+msgid "btn_remove_system"
+msgstr "Eltávolítás a rendszerből"
+
+msgid "btn_undelete"
+msgstr "Törlés visszavonása"
+
+msgid "buddy_allow_to_contact_me_no"
+msgstr "Ismerősnek jelöléseket nem fogad"
+
+msgid "buddy_allow_to_contact_me_yes"
+msgstr "Ismerősnek jelöléseket fogad"
+
+msgid "building_export_file"
+msgstr "Exportfájl létrehozása…"
+
+msgid "bulletlist_action"
+msgstr "Listajeles felsorolás beillesztése - Kattintson listajeles felsorolás beillesztésehez."
+
+msgid "by"
+msgstr "Létrehozta"
+
+msgid "bytes"
+msgstr "Bájt"
+
+msgid "cal_from"
+msgstr "Mettől:"
+
+msgid "cal_until"
+msgstr "Meddig:"
+
+msgid "calendar"
+msgstr "Naptár"
+
+msgid "cancel"
+msgstr "Mégsem"
+
+msgid "cancel_file_upload"
+msgstr "Biztos, hogy megszakítja a feltöltéseket?"
+
+msgid "cannot_find_xml"
+msgstr "Nem található XML fájl."
+
+msgid "cannot_uninstall_language_in_use"
+msgstr "Nem távolíthatja el a jelenleg használt nyelvet."
+
+msgid "cannot_uninstall_systemlanguage"
+msgstr "Nem távolíthatja el a rendszernyelvet."
+
+msgid "cannot_unzip_file"
+msgstr "Nem lehet kicsomagolni a fájlt."
+
+msgid "cant_deactivate_if_users_assigned"
+msgstr "Nem tudja kikapcsolni a stílust, amíg felhasználó van hozzárendelve."
+
+msgid "cat"
+msgstr "Kategória"
+
+msgid "cat_add"
+msgstr "Kategória létrehozása"
+
+msgid "cat_added"
+msgstr "Sikeresen létrehozott egy kategóriát."
+
+msgid "cat_copy_threads_info"
+msgstr "Döntse el, mely kategóriaelemeket kell másolni, csatolni vagy kihagyni!"
+
+msgid "cat_edit"
+msgstr "Kategória beállításai"
+
+msgid "cat_new"
+msgstr "Új kategória"
+
+msgid "cat_wizard_page"
+msgstr "Kategória másolása (2/2. lépés)"
+
+msgid "categories"
+msgstr "Kategóriák"
+
+msgid "categories_imported"
+msgstr "A kategória importja befejeződött."
+
+msgid "catr"
+msgstr "Kategórialink"
+
+msgid "catr_add"
+msgstr "Kategórialink hozzáadása"
+
+msgid "catr_edit_info"
+msgstr "Válasszon egy kategóriát új link létrehozásához!"
+
+msgid "catr_new"
+msgstr "Kategórialink létrehozása"
+
+msgid "catr_settings"
+msgstr "Kategórialink beállításai"
+
+msgid "certificate"
+msgstr "Tanúsítvány"
+
+msgid "certificate_file_already_exists_error"
+msgstr "A tanúsítványfájl már létezik a rendszerben."
+
+msgid "certificate_file_input_output_error"
+msgstr "A tanúsítványfájl létezik a rendszerben, de nem törölhető. Keresse meg a hibával az üzemeltetőt."
+
+msgid "certificate_file_not_found_error"
+msgstr "A tanúsítványfájl már nem található a rendszerben."
+
+msgid "certificate_persistent_option"
+msgstr "Megszerzett tanúsítványok"
+
+msgid "certificate_selection"
+msgstr "Tanúsítványok forrása"
+
+msgid "certificate_workspace_option"
+msgstr "Személyes erőforrások tanúsítványai"
+
+msgid "certificates"
+msgstr "Tanúsítványok"
+
+msgid "change"
+msgstr "Változtatás"
+
+msgid "change_assignment"
+msgstr "Hozzárendelés változtatása"
+
+msgid "change_header_title"
+msgstr "Fejléccím módosítása"
+
+msgid "change_owner"
+msgstr "Tulajdonos cseréje"
+
+msgid "change_sort_direction"
+msgstr "Rendezési irány változtatása"
+
+msgid "changeable"
+msgstr "Módosítható a ‘Felhasználói adatok’ alatt"
+
+msgid "changed_to"
+msgstr "módosult erre"
+
+msgid "changing_loginname_not_possible_info"
+msgstr "Ön legutóbb %s-kor cserélte a felhasználónevét. Legközelebb %s-kor cserélheti."
+
+msgid "chapter"
+msgstr "Fejezet"
+
+msgid "characters"
+msgstr "karakter"
+
+msgid "chat_enter_public_room"
+msgstr "Nyilvános csevegőszoba"
+
+msgid "chat_enter_public_room_tooltip"
+msgstr "Belépés nyilvános csevegőszobába"
+
+msgid "chat_users_active"
+msgstr "Aktív felhasználók"
+
+msgid "check"
+msgstr "Ellenőrzés"
+
+msgid "check_all"
+msgstr "Összes kijelölése"
+
+msgid "check_langfile"
+msgstr "Ellenőrizze nyelvi fájlját!"
+
+msgid "check_languages"
+msgstr "Összes nyelv ellenőrzése"
+
+msgid "check_link"
+msgstr "ILIAS-tananyagban lévő weblinkek ellenőrzése"
+
+msgid "check_link_desc"
+msgstr "Az ILIAS-tananyagokban lévő aktív külső linkeket ellenőrizzük."
+
+msgid "check_user_accounts"
+msgstr "ILIAS-fiókok ellenőrzése"
+
+msgid "check_user_accounts_desc"
+msgstr "Az összes lejárt bejelentkezésű felhasználó e-mailben értesítést kap. Ezen kívül azokat a felhasználókat is töröljük, akik regisztrációjuk után nem erősítették meg ILIAS-fiókjuk használati szándékát."
+
+msgid "check_web_resources"
+msgstr "Weblinkek ellenőrzése"
+
+msgid "check_web_resources_desc"
+msgstr "Az összes aktív weblinket ellenőrizzük."
+
+msgid "checked"
+msgstr "Bejelölve"
+
+msgid "checked_files"
+msgstr "Importálható fájlok"
+
+msgid "chg_ilias_and_webfolder_password"
+msgstr "Webmappa jelszavának cseréje"
+
+msgid "chg_ilias_password"
+msgstr "ILIAS-jelszó cseréje"
+
+msgid "chg_password"
+msgstr "Jelszócsere"
+
+msgid "choose_language"
+msgstr "Válasszon nyelvet"
+
+msgid "choose_only_one_language"
+msgstr "Csak egy nyelvet válasszon!"
+
+msgid "chown_warning"
+msgstr "Figyelem: A tulajdonos cseréjével elveszítheti hozzáférési jogosultságát ehhez az objektumhoz!"
+
+msgid "chta_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Csevegés jogosultsági beállításait"
+
+msgid "chta_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Csevegés beállításaihoz"
+
+msgid "chta_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Csevegés menüpontot"
+
+msgid "chta_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Csevegés beállításait"
+
+msgid "chtr_copy"
+msgstr "Csevegőszoba másolása"
+
+msgid "chtr_import"
+msgstr "Csevegőszoba importálása"
+
+msgid "city"
+msgstr "Város"
+
+msgid "cleaned_file"
+msgstr "A fájlt sikerült vírusmentesíteni."
+
+msgid "cleaning_failed"
+msgstr "A vírus nem távolítható el a fájlból."
+
+msgid "clear"
+msgstr "Törlés"
+
+msgid "clear_clipboard"
+msgstr "Vágólap ürítése"
+
+msgid "client"
+msgstr "Kliens"
+
+msgid "client_id"
+msgstr "Kliensazonosító"
+
+msgid "client_ip"
+msgstr "Kliens IP"
+
+msgid "clientlist_available_clients"
+msgstr "Elérhető kliensek"
+
+msgid "clientlist_clientlist"
+msgstr "Klienslista"
+
+msgid "clientlist_installation_name"
+msgstr "Telepítés neve"
+
+msgid "clientlist_login"
+msgstr "Bejelentkezés"
+
+msgid "clientlist_login_page"
+msgstr "Bejelentkezési oldal"
+
+msgid "clientlist_public_access"
+msgstr "Nyilvános elérés"
+
+msgid "clientlist_start_page"
+msgstr "Kezdőoldal"
+
+msgid "clipboard"
+msgstr "Vágólap"
+
+msgid "close"
+msgstr "Bezárás"
+
+msgid "cmix"
+msgstr "xAPI/cmi5 objektum"
+
+msgid "cnt_new"
+msgstr "(%s új)"
+
+msgid "collapse"
+msgstr "Fa bezárása"
+
+msgid "collapse_all"
+msgstr "Összes bezárása"
+
+msgid "collapse_content"
+msgstr "Tartalom összecsukása"
+
+msgid "collapsed"
+msgstr "Összezárt"
+
+msgid "column_selection"
+msgstr "Oszlop kijelölése"
+
+msgid "columns"
+msgstr "Oszlopok"
+
+msgid "comma_separated"
+msgstr "Vesszővel elválasztva"
+
+msgid "comment"
+msgstr "Megjegyzés"
+
+msgid "comments"
+msgstr "Hozzászólások"
+
+msgid "compose"
+msgstr "Levélírás"
+
+msgid "concurrent_uploads"
+msgstr "Egyidejű feltöltések száma"
+
+msgid "concurrent_uploads_info"
+msgstr "Megszabja, hogy feltöltési folyamatonként egyidejűleg hány fájl tölthető fel."
+
+msgid "cond_ref_handling"
+msgstr "Linkbeállítások"
+
+msgid "cond_ref_shared"
+msgstr "Megosztott előfeltételek minden linkhez"
+
+msgid "cond_ref_unique"
+msgstr "Egyedi előfeltételek a linkekhez"
+
+msgid "condition"
+msgstr "Feltétel"
+
+msgid "condition_accredited_or_passed"
+msgstr "Akkreditált vagy elfogadott"
+
+msgid "condition_already_assigned"
+msgstr "Az objektum már hozzárendelt."
+
+msgid "condition_circle_created"
+msgstr "Ez a kapcsolat nem lehetséges, mert az objektumok között kölcsönös függőség van."
+
+msgid "condition_deleted"
+msgstr "A feltételt sikeresen törölte."
+
+msgid "condition_finished"
+msgstr "Befejezett"
+
+msgid "condition_not_finished"
+msgstr "Nem befejezett"
+
+msgid "condition_passed"
+msgstr "Sikeres"
+
+msgid "condition_select_object"
+msgstr "Válasszon egy objektumot!"
+
+msgid "conditions_updated"
+msgstr "A feltételeket sikeresen mentette."
+
+msgid "configuration"
+msgstr "Beállítások"
+
+msgid "confirm"
+msgstr "Megerősítés"
+
+msgid "confirm_delete_parameter"
+msgstr "Biztos, hogy törli a paramétereket?"
+
+msgid "confirmation"
+msgstr "Megerősítés"
+
+msgid "conflict_handling"
+msgstr "Konfliktuskezelés"
+
+msgid "cont_iim_content_popups_info"
+msgstr "A felugró ablak akkor jelenik meg, amikor a felhasználó a háttérkép interaktív részeire kattint. Ezen a képernyőn hozhatja létre az előugró ablakokat, tartalmukat a fő lap szerkesztésekor módosíthatja."
+
+msgid "cont_iim_create_info"
+msgstr "Töltse fel a háttérképet az interaktív képhez."
+
+msgid "cont_iim_overlay_info"
+msgstr "A fedőkép változtatja (például kiemeli) a háttérkép egy részét amikor az egér föléje kerül. A képet feltöltés után a ‘Triggerek’ lapon választhatja ki."
+
+msgid "contact"
+msgstr "Kapcsolat"
+
+msgid "contact_data"
+msgstr "Elérhetőségek"
+
+msgid "contact_sysadmin"
+msgstr "Kapcsolat"
+
+msgid "container"
+msgstr "Tároló"
+
+msgid "container_no_items"
+msgstr "Nincs elérhető objektum"
+
+msgid "content"
+msgstr "Tartalom"
+
+msgid "content_frame"
+msgstr "Tartalomkeret"
+
+msgid "content_styles"
+msgstr "Tartalomstílusok"
+
+msgid "context"
+msgstr "Kontextus"
+
+msgid "continue"
+msgstr "Folytatás"
+
+msgid "continue_work"
+msgstr "Folytatás"
+
+msgid "contra"
+msgstr "Negatívum"
+
+msgid "copa"
+msgstr "Tartalomlap"
+
+msgid "copy"
+msgstr "Másolás"
+
+msgid "copyChapter"
+msgstr "Másolás"
+
+msgid "copyPage"
+msgstr "Másolás"
+
+msgid "copy_all"
+msgstr "Összeset másol"
+
+msgid "copy_n_of_suffix"
+msgstr "- másolata (%1$s)"
+
+msgid "copy_of"
+msgstr "Másolandó:"
+
+msgid "copy_of_suffix"
+msgstr "- másolata"
+
+msgid "copy_perma_link"
+msgstr "Link másolása a vágólapra"
+
+msgid "copy_selected_items"
+msgstr "Másolás"
+
+msgid "count"
+msgstr "Darabszám"
+
+msgid "counter_novelty"
+msgstr "Hírek"
+
+msgid "counter_status"
+msgstr "Állapot"
+
+msgid "country"
+msgstr "Ország"
+
+msgid "country_free_text"
+msgstr "Ország (szabadszöveges mező)"
+
+msgid "country_selection"
+msgstr "Ország (legördülő lista)"
+
+msgid "course"
+msgstr "Kurzus"
+
+msgid "courses"
+msgstr "Kurzusok"
+
+msgid "create"
+msgstr "Létrehozás"
+
+msgid "create_date"
+msgstr "Létrehozva"
+
+msgid "create_export_file"
+msgstr "Exportfájl létrehozása"
+
+msgid "create_stylesheet"
+msgstr "Stílus létrehozása"
+
+msgid "created"
+msgstr "Létrehozva"
+
+msgid "cron_forum_notification"
+msgstr "Fórumértesítések küldése ütemezett feladattal"
+
+msgid "cron_forum_notification_crob_desc"
+msgstr "Az összes olyan felhasználó, aki a fórumértesítéseket engedélyezte bizonyos fórumokról, illetve témákról, a több, egymástól független azonnali e-mail értesítések helyett napi összesítő e-mail értesítést kap az új és a módosított hozzászólásokról."
+
+msgid "cron_forum_notification_disabled"
+msgstr "Addig nem kapcsolható ki, amíg az ütemezett feladat aktív."
+
+msgid "cron_jobs"
+msgstr "Ütemezett feladatok"
+
+msgid "cron_lucene_index"
+msgstr "Lucene keresési index aktualizálása"
+
+msgid "cron_lucene_index_info"
+msgstr "A Lucene keresési indexet frissítjük. A Lucene szervert a Rendszerbeállítások » Keresés menüpont alatt tudja konfigurálni."
+
+msgid "cron_mail_notification"
+msgstr "E-mail értesítések küldése"
+
+msgid "cron_mail_notification_cron"
+msgstr "szabályosan ütemezett feladatonként"
+
+msgid "cron_mail_notification_desc"
+msgstr "Minden felhasználónak külső e-mail értesítést küldünk az ILIAS-fiókjában lévő leveleiről. Az bekapcsolás előtt kapcsolja ki a ‘Külső levelek küldésének globális megakadályozása’ beállítást."
+
+msgid "cron_mail_notification_message"
+msgstr "Emlékeztető levél küldése e-mail üzenetben"
+
+msgid "cron_mail_notification_message_info"
+msgstr "A felhasználók külső e-mail címére küldjük el az értesítő üzeneteket."
+
+msgid "cron_mail_notification_never"
+msgstr "soha"
+
+msgid "cron_users_without_login_del_create_date_thr"
+msgstr "Küszöbérték"
+
+msgid "cron_users_without_login_del_create_date_thr_info"
+msgstr "A megadott dátum előtt létrehozott összes felhasználói fiókot megfontolás tárgyává tesszük."
+
+msgid "cron_users_without_login_del_role_whitelist"
+msgstr "Tartalmazza a szerepkört"
+
+msgid "cron_users_without_login_del_role_whitelist_info"
+msgstr "A kiválasztott szerepkörökből legalább eggyel bíró, inaktív fiókokat töröljük. Ki nem választott szereppel rendelkező fiókok nem módosulnak."
+
+msgid "cronjob_last_start"
+msgstr "Ütemezett feladat legutóbbi indulása"
+
+msgid "cronjob_last_start_unknown"
+msgstr "Nem megállapítható"
+
+msgid "crs"
+msgstr "Kurzus"
+
+msgid "crs_activation_start_invalid"
+msgstr "Nem érvényes a kezdő és a záró dátum."
+
+msgid "crs_add"
+msgstr "Kurzus létrehozása"
+
+msgid "crs_added"
+msgstr "Sikeresen létrehozott egy kurzust"
+
+msgid "crs_archives"
+msgstr "Archívumok"
+
+msgid "crs_cancel_waiting_list"
+msgstr "Biztos, hogy leveszi magát a(z) ‘%s’ kurzus várólistájáról?"
+
+msgid "crs_copy_threads_info"
+msgstr "Döntse el, mely kurzusanyagok lesznek másolva, csatolva vagy kihagyva."
+
+msgid "crs_edit"
+msgstr "Kurzus módosítása"
+
+msgid "crs_list_reg"
+msgstr "Regisztráció"
+
+msgid "crs_list_reg_end"
+msgstr "Regisztráció vége"
+
+msgid "crs_list_reg_limit_full"
+msgstr "Nincs szabad hely"
+
+msgid "crs_list_reg_limit_places"
+msgstr "Szabad helyek száma"
+
+msgid "crs_list_reg_noreg"
+msgstr "Nem lehetséges regisztráció"
+
+msgid "crs_list_reg_period"
+msgstr "Regisztrációs időszak"
+
+msgid "crs_list_reg_start"
+msgstr "Regisztráció kezdete"
+
+msgid "crs_member_not_passed"
+msgstr "Nem teljesítette"
+
+msgid "crs_member_passed"
+msgstr "Sikeresen teljesítette"
+
+msgid "crs_members_gallery"
+msgstr "Kurzustagok képtára"
+
+msgid "crs_new"
+msgstr "Új kurzus"
+
+msgid "crs_removed_from_waiting_list"
+msgstr "Lekerült a(z) ‘%s’ kurzus várólistájáról."
+
+msgid "crs_status_blocked"
+msgstr "[Hozzáférés megtagadva]"
+
+msgid "crs_status_pending"
+msgstr "[Regisztrációra vár]"
+
+msgid "crs_subscribers_assigned"
+msgstr "Új felhasználó(k) hozzárendelve."
+
+msgid "crs_title"
+msgstr "Kurzuscím"
+
+msgid "crs_unsubscribe"
+msgstr "Lejelentkezés a kurzusról"
+
+msgid "crs_wizard_page"
+msgstr "Kurzus másolása (2/2. lépés)"
+
+msgid "crsr"
+msgstr "Kurzuslink"
+
+msgid "crsr_add"
+msgstr "Kurzuslink hozzáadása"
+
+msgid "crsr_edit_info"
+msgstr "Válasszon egy kurzust a link létrehozásához."
+
+msgid "crsr_new"
+msgstr "Kurzuslink létrehozása"
+
+msgid "crsr_settings"
+msgstr "Kurzuslink beállításai"
+
+msgid "csv_export"
+msgstr "Exportálás vesszővel tagolt (.csv) fájlba"
+
+msgid "current_ip"
+msgstr "Jelenlegi IP:"
+
+msgid "current_ip_alert"
+msgstr "Figyelmeztetés: Ha rossz IP-t ad meg, a továbbiakban ezzel a profillal nem fog tudni kapcsolódni a rendszerhez."
+
+msgid "current_password"
+msgstr "Jelenlegi jelszó"
+
+msgid "current_user_avatar"
+msgstr "Profilképem"
+
+msgid "currently_used_disk_space"
+msgstr "Jelenleg használt tárhely"
+
+msgid "customize_page"
+msgstr "Lap személyre szabása"
+
+msgid "cut"
+msgstr "Kivágás"
+
+msgid "cutPage"
+msgstr "Kivágás"
+
+msgid "daily"
+msgstr "napi"
+
+msgid "database"
+msgstr "Adatbázis"
+
+msgid "database_version"
+msgstr "Jelenlegi adatbázis-verzió"
+
+msgid "dataset"
+msgstr "Elem"
+
+msgid "date"
+msgstr "Dátum"
+
+msgid "date_time"
+msgstr "Dátum és idő"
+
+msgid "dateplaner"
+msgstr "Naptár"
+
+msgid "day"
+msgstr "Nap"
+
+msgid "days"
+msgstr "Nap"
+
+msgid "db_host"
+msgstr "Adatbázis-kiszolgáló"
+
+msgid "db_name"
+msgstr "Adatbázisnév"
+
+msgid "db_need_update"
+msgstr "Az adatbázist frissíteni kell!"
+
+msgid "db_pass"
+msgstr "Adatbázis-jelszó"
+
+msgid "db_type"
+msgstr "Adatbázis-típus"
+
+msgid "db_user"
+msgstr "Adatbázis-felhasználó"
+
+msgid "db_version"
+msgstr "Adatbázis-verzió"
+
+msgid "dd_mm_yyyy"
+msgstr "NN.HH.ÉÉÉÉ"
+
+msgid "deactivate"
+msgstr "Inaktiválás"
+
+msgid "decrease_attempts"
+msgstr "Próbálkozások - 1"
+
+msgid "def_repository_view"
+msgstr "Tartalomtár alapértelmezett nézete"
+
+msgid "default"
+msgstr "Alapértelmezett"
+
+msgid "default_auth_mode"
+msgstr "Alapértelmezett azonosítási módszer"
+
+msgid "default_auth_mode_info"
+msgstr "Válassza ki a bejelentkező képernyőn előre kiválasztott bejelentkezési módot."
+
+msgid "default_language"
+msgstr "Alapértelmezett nyelv"
+
+msgid "default_perm_settings"
+msgstr "Alapértelmezett jogosultságok"
+
+msgid "default_role"
+msgstr "Alapértelmezett szerepkör"
+
+msgid "default_roles"
+msgstr "Alapértelmezett szerepkörök"
+
+msgid "default_skin"
+msgstr "Alapértelmezett skin"
+
+msgid "default_skin_style"
+msgstr "Alapértelmezett skin / stílus"
+
+msgid "default_style"
+msgstr "Alapértelmezett stílus"
+
+msgid "defaults"
+msgstr "Alapértelmezett értékek"
+
+msgid "delete"
+msgstr "Törlés"
+
+msgid "delete_existing_file"
+msgstr "Meglévő fájl törlése"
+
+msgid "delete_inactivated_user_accounts"
+msgstr "Inaktivált ILIAS-fiókok törlése"
+
+msgid "delete_inactivated_user_accounts_desc"
+msgstr "Az inaktiválásuk dátumától függően törlünk ILIAS-fiókokat."
+
+msgid "delete_inactivated_user_accounts_include_roles"
+msgstr "Figyelembe vett szerepkörök"
+
+msgid "delete_inactivated_user_accounts_include_roles_desc"
+msgstr "A kiválasztott szerepkörökből legalább eggyel bíró, inaktív fiókokat töröljük. Ki nem választott szereppel rendelkező fiókok nem módosulnak."
+
+msgid "delete_inactivated_user_accounts_period"
+msgstr "Inaktiválás óta eltelt napok száma"
+
+msgid "delete_inactivated_user_accounts_period_desc"
+msgstr "A fiókokat akkor töröljük, ha ennyi nap már eltelt az inaktiválás óta."
+
+msgid "delete_inactive_user_accounts"
+msgstr "Régóta be nem jelentkezett ILIAS-fiókok törlése"
+
+msgid "delete_inactive_user_accounts_desc"
+msgstr "A legutóbbi bejelentkezési dátumától függően törlünk ILIAS-fiókokat."
+
+msgid "delete_inactive_user_accounts_include_roles"
+msgstr "Figyelembe vett szerepkörök"
+
+msgid "delete_inactive_user_accounts_include_roles_desc"
+msgstr "A kiválasztott szerepkörökből legalább eggyel bíró, inaktív fiókokat töröljük. Ki nem választott szereppel rendelkező fiókok nem módosulnak."
+
+msgid "delete_inactive_user_accounts_period"
+msgstr "A legutóbbi bejelentkezés óta eltelt idő"
+
+msgid "delete_inactive_user_accounts_period_desc"
+msgstr "A megadott napszám óta be nem jelentkezett összes ILIAS-fiókot töröljük."
+
+msgid "delete_parameter"
+msgstr "Paraméter törlése"
+
+msgid "delete_selected_items"
+msgstr "Törlés"
+
+msgid "deleted"
+msgstr "Törölt"
+
+msgid "deleted_user"
+msgstr "Törölt felhasználó"
+
+msgid "deleted_users"
+msgstr "Törölt felhasználók"
+
+msgid "deletion_notification"
+msgstr "ezúton értesítjük, hogy ‘%s’ lemondta részvételi szándékát ‘%s’ eseményről."
+
+msgid "deliver"
+msgstr "Küldés"
+
+msgid "deny_usr_agreement"
+msgstr "Biztos, hogy nem fogadja el a Szolgáltatási feltételeket?"
+
+msgid "deny_usr_agreement_btn"
+msgstr "Elutasítás"
+
+msgid "department"
+msgstr "Tagozat / Szak / Évfolyam"
+
+msgid "desc"
+msgstr "Leírás"
+
+msgid "description"
+msgstr "Leírás"
+
+msgid "desired_password"
+msgstr "Új jelszó"
+
+msgid "details"
+msgstr "Részletek"
+
+msgid "didactic_template"
+msgstr "Didaktikai sablon"
+
+msgid "disable"
+msgstr "Tiltás"
+
+msgid "disable_check"
+msgstr "Tiltás ellenőrzése"
+
+msgid "disable_ext_lang_maint"
+msgstr "Haladó nyelvi karbantartó kikapcsolása"
+
+msgid "disable_hide_user_toggle"
+msgstr "A tagnak nem engedélyezett az értesítés letiltása"
+
+msgid "disabled"
+msgstr "Ki van kapcsolva"
+
+msgid "disclose"
+msgstr "Felfedés"
+
+msgid "dislike"
+msgstr "Nem kedvel"
+
+msgid "domain"
+msgstr "Tartomány"
+
+msgid "down"
+msgstr "Le"
+
+msgid "download"
+msgstr "Letöltés"
+
+msgid "download_all_returned_files"
+msgstr "Összes beküldés letöltése"
+
+msgid "download_link"
+msgstr "Letöltési link"
+
+msgid "download_multiple_objects"
+msgstr "Több objektum letöltése"
+
+msgid "download_selected_items"
+msgstr "Letöltés"
+
+msgid "downloading_settings"
+msgstr "Letöltési beállítások"
+
+msgid "dpro_accept_usr_agreement"
+msgstr "Elfogadja az Adatvédelmi Nyilatkozatot?"
+
+msgid "dpro_accept_usr_agreement_intro"
+msgstr "Az Adatvédelmi Nyilatkozat módosult. El kell fogadnia az ILIAS további használata előtt. Olvassa el figyelmesen, és fogadja vagy utasítsa el az oldal alján lévő gomb használatával."
+
+msgid "dpro_agreed_on"
+msgstr "Elfogadva ekkor:"
+
+msgid "dpro_force_accept_usr_agreement"
+msgstr "El kell fogadnia az Adatvédelmi Nyilatkozatot!"
+
+msgid "dpro_no_agreement_description"
+msgstr "Jelenleg nem érhető el Adatvédelmi Nyilatkozat. Kérem, keresse az <a href=\"%1$s\">üzemeltetőt</a>."
+
+msgid "dpro_refuse_acceptance"
+msgstr "Az Adatvédelmi Nyilatkozat elutasítása"
+
+msgid "dpro_usr_agreement"
+msgstr "Adatvédelem"
+
+msgid "dpro_usr_agreement_footer_intro"
+msgstr "Elfogadta az Adatvédelmi Nyilatkozatban foglaltakat"
+
+msgid "dpro_withdraw_consent_description"
+msgstr "Vonja vissza itt az Adatvédelmi Nyilatkozatban foglaltak elfogadását"
+
+msgid "dpro_withdraw_consent_description_external"
+msgstr "Kérem, térjen vissza az ILIAS-telepítésbe és jelentkezzen be újra, hogy befejezze az Adatvédelmi Nyilatkozat elfogadásának visszavonási folyamatát."
+
+msgid "dpro_withdraw_consent_description_internal"
+msgstr "Jelentkezzen be újra, hogy befejezze az Adatvédelmi Nyilatkozat elfogadásának visszavonási folyamatát."
+
+msgid "dpro_withdraw_consent_header"
+msgstr "Az Adatvédelmi Nyilatkozat elfogadásának visszavonása"
+
+msgid "dpro_withdraw_consent_info"
+msgstr "Az Adatvédelmi Nyilatkozat elfogadásának visszavonása"
+
+msgid "dpro_withdraw_consent_info_external"
+msgstr "Kérem, tájékoztassa a hitelesítő rendszer üzemeltetőjét az Adatvédelmi Nyilatkozat elfogadásának visszavonási szándékáról."
+
+msgid "drafts"
+msgstr "Piszkozatok"
+
+msgid "drag_file_here"
+msgstr "Ide fogd-és-vidd a fájlt"
+
+msgid "drag_files_here"
+msgstr "Ide fogd-és-vidd a fájlokat"
+
+msgid "drag_handle"
+msgstr "Mozgatható elem"
+
+msgid "drop_files_on_repo_obj_info"
+msgstr "Ide fogd-és-vidd a fájlokat a feltöltéshez"
+
+msgid "edit"
+msgstr "Módosítás"
+
+msgid "edit_assignments"
+msgstr "Feladatok módosítása"
+
+msgid "edit_cat_settings"
+msgstr "Fejlettebb kategória-beállítások"
+
+msgid "edit_content"
+msgstr "Tartalom módosítása"
+
+msgid "edit_grouping"
+msgstr "Tagság korlátozásának beállításai"
+
+msgid "edit_metadata"
+msgstr "Metaadat módosítása"
+
+msgid "edit_operations"
+msgstr "Műveletek módosítása"
+
+msgid "edit_page"
+msgstr "Lap szerkesztése"
+
+msgid "edit_page_content"
+msgstr "Laptartalom módosítása"
+
+msgid "edit_page_meta"
+msgstr "Oldal metaadatának módosítása"
+
+msgid "edit_properties"
+msgstr "Tulajdonságok módosítása"
+
+msgid "edit_stylesheet"
+msgstr "Stílus módosítása"
+
+msgid "edited_on"
+msgstr "Szerkesztve"
+
+msgid "editor"
+msgstr "Szerkesztő"
+
+msgid "email"
+msgstr "E-mail cím"
+
+msgid "email_not_valid"
+msgstr "A megadott e-mail cím hibás."
+
+msgid "enable"
+msgstr "Engedélyezés"
+
+msgid "enable_anonymous_fora"
+msgstr "Hozzászólás álnéven engedélyezve"
+
+msgid "enable_anonymous_fora_desc"
+msgstr "Ha ez a beállítás le van tiltva, a ‘Hozzászólás álnéven’ nem lesz elérhető a továbbiakban a fórumokban."
+
+msgid "enable_calendar"
+msgstr "Naptár engedélyezése"
+
+msgid "enable_comments_export"
+msgstr "Hozzászólások exportálása"
+
+msgid "enable_course_group_notifications"
+msgstr "Napi e-mail csoport- és kurzushírekhez"
+
+msgid "enable_course_group_notifications_desc"
+msgstr "A tagok feliratkozhatnak napi összesítő hírekre."
+
+msgid "enable_custom_icons"
+msgstr "Ikonbeállítások engedélyezése"
+
+msgid "enable_custom_icons_info"
+msgstr "Ikonok definiálásának engedélyezése egyszerű tárolóobjektumokhoz és tartalomlap objektumhoz. Ezen objektumok Beállítások lapján lehetőség nyílik ikonkép feltöltéséhez."
+
+msgid "enable_dnd_upload"
+msgstr "‘Fogd-és-vidd’ feltöltés engedélyezése"
+
+msgid "enable_dnd_upload_info"
+msgstr "Fájlok ‘fogd-és-vidd’ módon feltölthetőek a számítógépről."
+
+msgid "enable_download_folder"
+msgstr "Mappa letöltésének engedélyezése"
+
+msgid "enable_download_folder_info"
+msgstr "A mappa ‘Műveletek’ legördülő menüjében a ‘Letöltés’ bekapcsolása."
+
+msgid "enable_export_scorm_desc"
+msgstr "Személyes adat megjelenítése a protokolladatban (SCORM)"
+
+msgid "enable_fora_statistics"
+msgstr "Statisztika engedélyezése a fórumban"
+
+msgid "enable_fora_statistics_desc"
+msgstr "Ha nem engedélyezett, senki nem éri el a fórumstatisztikát."
+
+msgid "enable_hide_user_toggle"
+msgstr "A tagnak nem engedélyezett az értesítés letiltása"
+
+msgid "enable_multi_download"
+msgstr "‘Több objektum letöltése’ engedélyezése"
+
+msgid "enable_multi_download_info"
+msgstr "Több mappa/fájl zip-archívumként történő letöltésének engedélyezése."
+
+msgid "enable_password_assistance"
+msgstr "Jelszósegédlet engedélyezése"
+
+msgid "enable_preview"
+msgstr "Előnézet engedélyezése"
+
+msgid "enable_preview_info"
+msgstr "Engedélyezi, hogy támogatott fájltípusoknak legyen előnézete."
+
+msgid "enable_repository_dnd_upload"
+msgstr "Engedélyezés a Tartalomtárban"
+
+msgid "enable_repository_dnd_upload_info"
+msgstr "Engedélyezi, hogy fájlok ‘fogd-és-vidd’ módon feltölthetőek legyenek a számítógépről közvetlenül a Tartalomtár objektumába."
+
+msgid "enable_sahs_protocol_data"
+msgstr "Protokolladatok bekapcsolása"
+
+msgid "enable_sahs_protocol_data_desc"
+msgstr "Protokolladatok megjelenítése (SCORM)"
+
+msgid "enable_search_engine"
+msgstr "Nyilvános terület internetes keresőmotoroknak (például Google).<br/>Az Apache modul ‘mod_rewrite’ szükséges hozzá. Ügyeljen arra, hogy megfelelő jogosultságai legyenek a .htaccess konfigurációk használatához."
+
+msgid "enable_trash"
+msgstr "Lomtár bekapcsolása"
+
+msgid "enable_trash_info"
+msgstr "A törölt objektumok a lomtárba kerülnek, és később visszaállíthatók. Ha nem engedélyezett, a törölt objektumok visszavonhatatlanul törlődnek a rendszerből."
+
+msgid "enable_webdav"
+msgstr "WebDAV elérés engedélyezése"
+
+msgid "enable_webdav_info"
+msgstr "A WebDAV klienseknek engedély a Tartalomtár webmappaként való eléréséhez. A felhasználók a webmappákat a ‘megnyitás webmappaként’ paranccsal nyithatják meg a Tartalomtárban, vagy a következő címen belépve egy WebDAV kliensben: <a href=\"%1$s\" folder=\"%1$s\">%1$s</a>"
+
+msgid "enabled"
+msgstr "Engedélyezve"
+
+msgid "enlarge"
+msgstr "Nagyítás"
+
+msgid "enter_in_mb_desc"
+msgstr "Adjon meg egy értéket MB-ban."
+
+msgid "enter_new_name"
+msgstr "Adjon meg egy nevet"
+
+msgid "entered_notification"
+msgstr "‘%s’ csatlakozott ‘%s’ eseményhez."
+
+msgid "entry_status"
+msgstr "Bejegyzés állapota"
+
+msgid "err_1_param"
+msgstr "Csak 1 paramétert!"
+
+msgid "err_2_param"
+msgstr "Csak 2 paramétert!"
+
+msgid "err_auth_apache_failed"
+msgstr "Bejelentkezés sikertelen. Lehetséges, hogy Önnek nem érvényes a felhasználói tanúsítványa, vagy smartcardját nem helyezte be."
+
+msgid "err_auth_ldap_no_ilias_user"
+msgstr "Bejelentkezés sikertelen. Az LDAP-azonosítás sikerült, de nem létezik megfelelő ILIAS-felhasználó. Vegye fel a kapcsolatot egy rendszergazdával!"
+
+msgid "err_auth_mode_inactive"
+msgstr "Az Ön hitelesítési módszere ki van kapcsolva."
+
+msgid "err_auth_soap_no_ilias_user"
+msgstr "Bejelentkezés sikertelen. A SOAP-hitelesítés sikeres, de nincs megfelelő ILIAS-felhasználó. Vegye fel a kapcsolatot egy rendszergazdával!"
+
+msgid "err_check_input"
+msgstr "Beállítások nem menthetők. Ellenőrizze a bemeneti értékeket."
+
+msgid "err_count_param"
+msgstr "Ok: hibás paraméterszám"
+
+msgid "err_disabled"
+msgstr "A Shibboleth keresztüli fióklétrehozás ki van kapcsolva. További információkért keresse a rendszer üzemeltetőjét."
+
+msgid "err_double_entries"
+msgstr "Ok: Duplikált bejegyzés"
+
+msgid "err_in_line"
+msgstr "Hiba a sorban."
+
+msgid "err_inactive"
+msgstr "Ezt az ILIAS-fiókot még nem aktiválták. Vegye fel a kapcsolatot egy rendszergazdával!"
+
+msgid "err_inactive_login_attempts"
+msgstr "Felhasználói fiókját túl sok sikertelen bejelentkezési kísérlet miatt letiltottuk. Kattintson a láblécben lévő ‘Kapcsolat’ lehetőségre, hogy az üzemeltetőt megkérje ILIAS-fiókjának újraaktiválására."
+
+msgid "err_invalid_port"
+msgstr "Érvénytelen port!"
+
+msgid "err_no_cookies"
+msgstr "Engedélyezze böngészőjében a sütiket munkamenetéhez!"
+
+msgid "err_no_langfile_found"
+msgstr "Nem található nyelvi fájl."
+
+msgid "err_no_param"
+msgstr "Nincs paraméter."
+
+msgid "err_over_3_param"
+msgstr "Több, mint 3 paraméter szükséges."
+
+msgid "err_role_not_assignable"
+msgstr "A felhasználók nem rendelhetők hozzá ehhez a szerepkörhöz ezen a területen."
+
+msgid "err_session_expired"
+msgstr "Munkamenete lejárt."
+
+msgid "err_valid_login_account_creation_disabled"
+msgstr "A hitelesítés sikerült, de az új felhasználói fiók létrehozásának lehetősége ki van kapcsolva. Kérjük, keresse fel az üzemeltetőket."
+
+msgid "err_wrong_header"
+msgstr "Ok: hibás fejléc."
+
+msgid "err_wrong_login"
+msgstr "Hibás felhasználónév vagy jelszó."
+
+msgid "err_wrong_password"
+msgstr "Hibás jelszó"
+
+msgid "error"
+msgstr "Hiba"
+
+msgid "error_empty_file_or_folder"
+msgstr "A fájl valójában mappa vagy a mérete 0 byte."
+
+msgid "error_extraction_failed"
+msgstr "Az archívum fájl (és mappa) kicsomagolása sikertelen. Valószínűleg nincs jogosultsága mappát vagy kategóriákat létrehozni az objektum alá."
+
+msgid "error_parser"
+msgstr "Hiba történt a szintaktikai elemző indulásakor."
+
+msgid "error_upload_was_zero_bytes"
+msgstr "A feltöltés sikertelen, mert a fájl valójában mappa, vagy mérete 0 byte, vagy mérete meghaladja a feltölthet maximumot, vagy átnevezték."
+
+msgid "etal_talks"
+msgstr "Megbeszélés"
+
+msgid "event_ass_materials_prop"
+msgstr "Esemény segédanyagai"
+
+msgid "event_assign_files"
+msgstr "Fájlhozzárendelés"
+
+msgid "exc"
+msgstr "Beadandó feladat"
+
+msgid "exc_add"
+msgstr "Beadandó feladat létrehozása"
+
+msgid "exc_added"
+msgstr "Sikeresen létrehozott egy beadandó feladatot."
+
+msgid "exc_date_not_valid"
+msgstr "A dátum nem érvényes"
+
+msgid "exc_deassign_members"
+msgstr "Résztvevő(k) törlése"
+
+msgid "exc_download_files"
+msgstr "Fájl(ok) letöltése"
+
+msgid "exc_edit"
+msgstr "Sikeresen létrehozott egy új beadandó feladatot."
+
+msgid "exc_edit_exercise"
+msgstr "Beadandó feladat módosítása"
+
+msgid "exc_edit_until"
+msgstr "Beadási határidő"
+
+msgid "exc_exercise_sent"
+msgstr "Küldés időpontja"
+
+msgid "exc_files"
+msgstr "Fájlok"
+
+msgid "exc_files_returned"
+msgstr "Beküldött fájl(ok)"
+
+msgid "exc_instruction"
+msgstr "Feladatleírás"
+
+msgid "exc_last_submission"
+msgstr "Utolsó megoldás"
+
+msgid "exc_member_of_crs_grp"
+msgstr "Kurzus/Csoport tagja"
+
+msgid "exc_members_already_assigned"
+msgstr "Ezek a felhasználók már hozzá vannak rendelve ezen beadandó feladathoz."
+
+msgid "exc_members_assigned"
+msgstr "Tagokat sikeresen hozzárendelte."
+
+msgid "exc_members_comments_saved"
+msgstr "A kiválasztott felhasználók számára a beadandó feladathoz tartozó megjegyzést sikeresen mentette."
+
+msgid "exc_new"
+msgstr "Új beadandó feladat"
+
+msgid "exc_next_deadline"
+msgstr "Következő határidő"
+
+msgid "exc_obj"
+msgstr "Beadandó feladat"
+
+msgid "exc_save_changes"
+msgstr "Mentés"
+
+msgid "exc_schedule"
+msgstr "Ütemezés"
+
+msgid "exc_select_one_file"
+msgstr "Pontosan egy fájlt válasszon!"
+
+msgid "exc_sent"
+msgstr "A feladatot elküldtük a kiválasztott felhasználóknak."
+
+msgid "exc_sent_at"
+msgstr "Utoljára elküldve:<br/>%s"
+
+msgid "exc_status"
+msgstr "Állapot"
+
+msgid "exc_status_saved"
+msgstr "Sikeres módosítás."
+
+msgid "exc_submission"
+msgstr "Küldés"
+
+msgid "exc_time_over_short"
+msgstr "Lejárt az idő."
+
+msgid "exc_time_to_send"
+msgstr "Hátralévő munkaidő"
+
+msgid "exc_upload_error"
+msgstr "Fájlfeltöltési hiba"
+
+msgid "excs"
+msgstr "Beadandó feladatok"
+
+msgid "execute"
+msgstr "Mehet"
+
+msgid "exercise_time_over"
+msgstr "Lejárt a beadandó feladat megoldási ideje. Nem küldhet már be megoldást."
+
+msgid "expand"
+msgstr "Kibontás"
+
+msgid "expand_all"
+msgstr "Tartalomjegyzék kibontása"
+
+msgid "expand_content"
+msgstr "Tartalom kitejesztése"
+
+msgid "expanded"
+msgstr "Kibontva"
+
+msgid "export"
+msgstr "Export"
+
+msgid "export_format"
+msgstr "Export formátum"
+
+msgid "export_html"
+msgstr "Exportálás HTML-fájlként"
+
+msgid "ext_cat_settings"
+msgstr "Fejlettebb kategória-beállítások módosítása"
+
+msgid "ext_link"
+msgstr "Link"
+
+msgid "extracting"
+msgstr "Kicsomagolás…"
+
+msgid "eyeclosed"
+msgstr "Szem bezárása - Kattintson a bemenet tartalmának elrejtéséhez"
+
+msgid "eyeopened"
+msgstr "Szem megnyitása - Kattintson a bemenet tartalmának megjelenítéséhez"
+
+msgid "failure_message"
+msgstr "Hibaüzenet"
+
+msgid "fax"
+msgstr "Fax"
+
+msgid "feed"
+msgstr "Webhírforrás"
+
+msgid "feedback"
+msgstr "Visszajelzés"
+
+msgid "field_name"
+msgstr "Mezőnév"
+
+msgid "field_type"
+msgstr "Mezőtípus"
+
+msgid "file"
+msgstr "Fájl"
+
+msgid "file_add"
+msgstr "Fájl feltöltése"
+
+msgid "file_add_and_metadata"
+msgstr "Fájl feltöltése és metaadatok módosítása"
+
+msgid "file_added"
+msgstr "Fájl feltöltve."
+
+msgid "file_allowed_suffixes"
+msgstr "Engedélyezett fájltípusok:"
+
+msgid "file_confirm_delete_all_versions"
+msgstr "Az összes fájlverziót kiválasztotta, ezzel az egész fájlt törli. Biztos, hogy törli az egész fájlt?"
+
+msgid "file_confirm_delete_versions"
+msgstr "Biztos, hogy törli az alábbi fájl verziókat?"
+
+msgid "file_created"
+msgstr "A fájl elkészült."
+
+msgid "file_edit"
+msgstr "Fájlinformációk módosítása"
+
+msgid "file_info"
+msgstr "Fájlinformációk"
+
+msgid "file_is_infected"
+msgstr "A fájl vírussal fertőzött."
+
+msgid "file_no_valid_file_type"
+msgstr "Ez a fájltípus nem engedélyezett."
+
+msgid "file_not_found"
+msgstr "A fájl nem található"
+
+msgid "file_not_found_sec"
+msgstr "Ez a fájl nem található vagy biztonsági okok miatt letitottuk a hozzáférést."
+
+msgid "file_not_valid"
+msgstr "A fájl nem érvényes."
+
+msgid "file_notice"
+msgstr "Maximális feltölthető méret:"
+
+msgid "file_objects"
+msgstr "Fájlobjektumok"
+
+msgid "file_rollback"
+msgstr "Ezen verzió közzététele"
+
+msgid "file_rollback_done"
+msgstr "%s. fájlverzió lett a közzétett."
+
+msgid "file_rollback_select_exact_one"
+msgstr "Csak egy verziót választhat, hogy az legyen közzétett."
+
+msgid "file_some_invalid_file_types_removed"
+msgstr "Néhány fájltípus nem engedélyezett és ezért eltávolítottuk."
+
+msgid "file_suffix_repl"
+msgstr "Fájlfeltöltés a kiterjesztés változtatásával"
+
+msgid "file_suffix_repl_info"
+msgstr "Adjon meg fájlokat kiterjesztésükkel (vesszővel elválasztva), amelyeket, hogy ne legyenek futtatható fájlok, ‘.sec’ kiterjesztésűre kell átnevezni a webhelyre feltöltéskor. A kiterjesztés változtatása alapértelmezetten az alábbi kiterjesztésekre történik meg:"
+
+msgid "file_system_clean_temp_dir_cron"
+msgstr "Ideiglenes könyvtár tisztítása"
+
+msgid "file_system_clean_temp_dir_cron_info"
+msgstr "A 10 napnál régebbi ideiglenes fájlok törlése, ami megakadályozza a felesleges tárhely-foglalást."
+
+msgid "file_updated"
+msgstr "A fájl módosult."
+
+msgid "file_upload_pending"
+msgstr "Függőben levő fájl"
+
+msgid "file_valid"
+msgstr "A fájl érvényes."
+
+msgid "file_version"
+msgstr "Verziókövetés elérhető."
+
+msgid "file_version_create"
+msgstr "Első verzió"
+
+msgid "file_version_intermediate_version"
+msgstr "Köztes verzió"
+
+msgid "file_version_new_version"
+msgstr "Új verzió"
+
+msgid "file_version_published_version"
+msgstr "Közzétett verzió"
+
+msgid "file_version_replace"
+msgstr "Összes verziót lecserélte"
+
+msgid "file_version_rollback"
+msgstr "Visszaállította %s. verziót %s"
+
+msgid "file_versions_deleted"
+msgstr "A kiválasztott fájlverziókat sikeresen törölte."
+
+msgid "filename"
+msgstr "Fájlnév"
+
+msgid "filename_extension_missing"
+msgstr "Hiányzik a fájlnévkiterjesztés"
+
+msgid "filename_hidden_backup_file"
+msgstr "Rejtett backup fájl"
+
+msgid "filename_hidden_unix_file"
+msgstr "Rejtett Unix fájl"
+
+msgid "filename_interoperability"
+msgstr "Együttműködés"
+
+msgid "filename_special_characters"
+msgstr "A / karakter miatt ez az objektum nem látható a webmappákban"
+
+msgid "filename_special_filename"
+msgstr "A . és .. nevű objektumok nem láthatók a webmappákban"
+
+msgid "filename_visibility"
+msgstr "Láthatóság"
+
+msgid "filename_windows_empty_extension"
+msgstr "Mivel a név végén . karakter található, ez az objektum nem látható a Windows webmappákban"
+
+msgid "filename_windows_special_characters"
+msgstr "A \\/:*?'<>| karakterek valamelyike miatt ez az objektum nem látható a Windows webmappákban"
+
+msgid "filename_windows_webdav_issue"
+msgstr "A # karakter miatt ez az objektum nem látható a Windows webmappákban"
+
+msgid "files"
+msgstr "Fájlok"
+
+msgid "filesize"
+msgstr "Fájlméret"
+
+msgid "filetype"
+msgstr "Fájltípus"
+
+msgid "fill_out_all_required_fields"
+msgstr "Kötelezően kitöltendő mezők"
+
+msgid "filter"
+msgstr "Szűrő"
+
+msgid "filter_users_with_access"
+msgstr "Csak a hozzáféréssel rendelkező felhasználók"
+
+msgid "filter_users_with_disk_usage"
+msgstr "Csak azon felhasználók, akik használnak tárhelyet"
+
+msgid "filter_users_without_access"
+msgstr "Csak a hozzáféréssel nem rendelkező felhasználók"
+
+msgid "filter_users_without_disk_usage"
+msgstr "Csak azon felhasználók, akik nem használnak tárhelyet"
+
+msgid "first"
+msgstr "Első"
+
+msgid "firstname"
+msgstr "Családnév"
+
+msgid "flatview"
+msgstr "Oldalsáv elrejtése"
+
+msgid "fold"
+msgstr "Mappa"
+
+msgid "fold_add"
+msgstr "Mappa létrehozása"
+
+msgid "fold_added"
+msgstr "Sikeresen létrehozott egy mappát."
+
+msgid "fold_copy_threads_info"
+msgstr "Kérem, válassza ki a másolandó, linkelendő vagy kihagyandó tanulási segédanyagokat."
+
+msgid "fold_edit"
+msgstr "Mappa módosítása"
+
+msgid "fold_new"
+msgstr "Új mappa"
+
+msgid "fold_wizard_page"
+msgstr "Mappa másolása (2/2 lépés)"
+
+msgid "folder"
+msgstr "Mappa"
+
+msgid "folders"
+msgstr "Mappák"
+
+msgid "follow_link_to_read_mails"
+msgstr "kattintson az alábbi linkre a levelet olvasásához:"
+
+msgid "forgot_password"
+msgstr "Elfelejtette jelszavát?"
+
+msgid "forgot_username"
+msgstr "Elfelejtette felhasználónevét?"
+
+msgid "form_input_not_valid"
+msgstr "Néhány információ hiányzik vagy nem megfelelő. Javítsa az adatokat!"
+
+msgid "forum"
+msgstr "Fórum"
+
+msgid "forum_direct_notification"
+msgstr "Értesítés"
+
+msgid "forum_notify_me"
+msgstr "Értesítést kérek ehhez a hozzászólásra érkező válaszokról. Ebben a témában, illetve fórumban született bármely hozzászólásról értesítés a jobb felső sarokban lévő Műveletek menüben kapcsolható be."
+
+msgid "forum_post_replied"
+msgstr "Fórumhozzászólását megválaszolták."
+
+msgid "forums"
+msgstr "Fórumok"
+
+msgid "forums_anonymized"
+msgstr "Anonimizált fórum"
+
+msgid "forums_anonymous"
+msgstr "anonym"
+
+msgid "forums_articles"
+msgstr "Hozzászólások"
+
+msgid "forums_closed"
+msgstr "lezárt"
+
+msgid "forums_disable_forum_notification"
+msgstr "Értesítés lemondása ehhez a fórumhoz"
+
+msgid "forums_enable_forum_notification"
+msgstr "Értesítés kérése ehhez a fórumhoz"
+
+msgid "forums_forum_notification_enabled"
+msgstr "Értesítést fog kapni, ha új hozzászólás keletkezik ebben a fórumban."
+
+msgid "forums_last_post"
+msgstr "Utolsó hozzászólás"
+
+msgid "forums_last_posting_asc"
+msgstr "Utolsó bejegyzés ↑"
+
+msgid "forums_last_posting_dsc"
+msgstr "Utolsó bejegyzés ↓"
+
+msgid "forums_notification_settings"
+msgstr "Fórumértesítések beállításai"
+
+msgid "forums_rating_asc"
+msgstr "Értékelés ↑"
+
+msgid "forums_rating_dsc"
+msgstr "Értékelés ↓"
+
+msgid "forums_thread_sorting_asc"
+msgstr "Téma címe A→Z"
+
+msgid "forums_thread_sorting_dsc"
+msgstr "Téma címe Z→A"
+
+msgid "forums_threads"
+msgstr "Témák"
+
+msgid "forums_use_alias"
+msgstr "Használhat álnevet a hozzászóláshoz. Ha üresen hagyja ezt a mezőt, a hozzászólás írója ‘%s’ lesz."
+
+msgid "forums_your_name"
+msgstr "Az Ön neve"
+
+msgid "frm"
+msgstr "Fórum"
+
+msgid "frm_add"
+msgstr "Fórum létrehozása"
+
+msgid "frm_added"
+msgstr "Sikeresen létrehozott egy fórumot."
+
+msgid "frm_edit"
+msgstr "Fórum módosítása"
+
+msgid "frm_import"
+msgstr "Fórum importálása"
+
+msgid "frm_latest_postings"
+msgstr "Legújabb hozzászólások"
+
+msgid "frm_new"
+msgstr "Új fórum"
+
+msgid "frm_no_threads"
+msgstr "Jelenleg egy téma sem található"
+
+msgid "from"
+msgstr "Ettől"
+
+msgid "fullname"
+msgstr "Teljes név"
+
+msgid "functions"
+msgstr "Funkciók"
+
+msgid "further_informations"
+msgstr "További információk"
+
+msgid "gdf_add"
+msgstr "Meghatározás létrehozása"
+
+msgid "gdf_new"
+msgstr "Új meghatározás"
+
+msgid "gender"
+msgstr "Megszólítás"
+
+msgid "gender_f"
+msgstr "Nő"
+
+msgid "gender_m"
+msgstr "Férfi"
+
+msgid "gender_n"
+msgstr "Nincs megszólítás"
+
+msgid "general"
+msgstr "Általános"
+
+msgid "general_settings"
+msgstr "Általános beállítások"
+
+msgid "generate"
+msgstr "Generálás"
+
+msgid "ghostscript_not_configured"
+msgstr "GhostScript nincs konfigurálva. Nyissa meg a <a href=\"setup/setup.php?cmd=mastersettings\" target=\"_blank\">Setup</a>-ot a konfiguráláshoz."
+
+msgid "glo"
+msgstr "Fogalomtár"
+
+msgid "glo_add"
+msgstr "Fogalomtár létrehozása"
+
+msgid "glo_added"
+msgstr "Sikeresen létrehozott egy fogalomtárat."
+
+msgid "glo_import"
+msgstr "Fogalomtár importálása"
+
+msgid "glo_mode"
+msgstr "Mód"
+
+msgid "glo_mode_desc"
+msgstr "A virtuális fogalomtár úgy működik, mint a normál fogalomtár. A főbb különbség az, hogy a virtuális tartalmazza a Tartalomtárban vele azonos szinten, illetve a pozíciójától lejjebb elhelyezkedő fogalomtárak fogalmait is."
+
+msgid "glo_mode_normal"
+msgstr "Általános forgalomtár"
+
+msgid "glo_new"
+msgstr "Új fogalomtár"
+
+msgid "global"
+msgstr "Globális"
+
+msgid "global_default"
+msgstr "Globális alapértelmezett"
+
+msgid "global_fixed"
+msgstr "Globálisan meghatározott"
+
+msgid "global_role_assignment"
+msgstr "Globális szerepkör hozzárendelése"
+
+msgid "global_settings"
+msgstr "Globális beállítások"
+
+msgid "global_user"
+msgstr "Globális felhasználók"
+
+msgid "glossaries"
+msgstr "Fogalomtárak"
+
+msgid "glossary"
+msgstr "Fogalomtár"
+
+msgid "go"
+msgstr "Menj"
+
+msgid "grade"
+msgstr "Értékelés"
+
+msgid "group"
+msgstr "Csoport"
+
+msgid "group_members"
+msgstr "Csoporttagok"
+
+msgid "group_name"
+msgstr "Csoportnév"
+
+msgid "group_new_registrations"
+msgstr "Csatlakozási kérések"
+
+msgid "group_password_registration_msg"
+msgstr "Ha ismeri a csoportjelszót, csatlakozhat ehhez a csoporthoz. Ha nem ismeri a jelszót, vegye fel a kapcsolatot a csoportvezetővel."
+
+msgid "group_registration"
+msgstr "Regisztráció"
+
+msgid "group_registration_mode"
+msgstr "Regisztráció módja"
+
+msgid "group_registration_time"
+msgstr "Regisztrációs időszak"
+
+msgid "group_req_direct"
+msgstr "Csatlakozás közvetlenül"
+
+msgid "group_req_registration_msg"
+msgstr "Csoporttagságot kell kérni ehhez a csoporthoz. Üzenetben fog értesülni arról, ha egy csoportvezető elfogadta vagy visszautasította az Ön kérését."
+
+msgid "group_status"
+msgstr "A csoportállapot"
+
+msgid "groupings"
+msgstr "Tagságkorlátozások"
+
+msgid "groupings_assigned_obj_crs"
+msgstr "Hozzárendelt kurzusok"
+
+msgid "groupings_assigned_obj_grp"
+msgstr "Hozzárendelt csoportok"
+
+msgid "groupings_source"
+msgstr "Forrás"
+
+msgid "groups"
+msgstr "Csoportok"
+
+msgid "grp"
+msgstr "Csoport"
+
+msgid "grp_add"
+msgstr "Csoport létrehozása"
+
+msgid "grp_added"
+msgstr "Sikeresen létrehozott egy csoportot."
+
+msgid "grp_btn_unsubscribe"
+msgstr "Kilépés a csoportból"
+
+msgid "grp_cancel_waiting_list"
+msgstr "Biztos, hogy leveszi magát a(z) ‘%s’ csoport várólistájáról?"
+
+msgid "grp_copy_threads_info"
+msgstr "Döntse el, mely segédanyagok lesznek másolva, csatolva vagy kihagyva."
+
+msgid "grp_deleted_export_files"
+msgstr "Kiválasztott fájl(oka)t sikeresen törölte."
+
+msgid "grp_dismiss_member"
+msgstr "Biztos, hogy eltávolítja a csoportból alábbi tagokat?"
+
+msgid "grp_dismiss_myself"
+msgstr "Biztos, hogy leiratkozik a csoportból?"
+
+msgid "grp_edit"
+msgstr "Csoport módosítása"
+
+msgid "grp_err_administrator_required"
+msgstr "A tag nem távolítható el, mert minden csoportnak legalább egy vezetője kell,hogy legyen."
+
+msgid "grp_header_edit_members"
+msgstr "Tagok módosítása"
+
+msgid "grp_list_members"
+msgstr "Tagok felsorolása"
+
+msgid "grp_list_reg"
+msgstr "Regisztráció"
+
+msgid "grp_list_reg_end"
+msgstr "Regisztráció vége"
+
+msgid "grp_list_reg_limit_full"
+msgstr "Nincs szabad hely"
+
+msgid "grp_list_reg_limit_places"
+msgstr "Szabad helyek száma"
+
+msgid "grp_list_reg_noreg"
+msgstr "Regisztráció nem lehetséges"
+
+msgid "grp_list_reg_period"
+msgstr "Regisztrációs időszak"
+
+msgid "grp_list_reg_start"
+msgstr "Regisztráció kezdete"
+
+msgid "grp_list_users"
+msgstr "Felhasználók felsorolása"
+
+msgid "grp_mem_change_status"
+msgstr "Tagok állapotának változtatása"
+
+msgid "grp_mem_send_mail"
+msgstr "Levél küldése résztvevőknek"
+
+msgid "grp_members_gallery"
+msgstr "Csoporttagok képtára"
+
+msgid "grp_msg_applicants_assigned"
+msgstr "A jelentkező(k) csoporttagként felvétele."
+
+msgid "grp_msg_member_assigned"
+msgstr "A felhasználó(k) csoporttagként felvétele."
+
+msgid "grp_msg_membership_annulled"
+msgstr "Tagságát töröltük."
+
+msgid "grp_new"
+msgstr "Új csoport"
+
+msgid "grp_registration"
+msgstr "Csatlakozás csoporthoz"
+
+msgid "grp_registration_completed"
+msgstr "Csatlakozott a csoporthoz."
+
+msgid "grp_removed_from_waiting_list"
+msgstr "Lekerült a(z) ‘%s’ csoport várólistájáról."
+
+msgid "grp_select_one_file"
+msgstr "Válasszon egy fájlt!"
+
+msgid "grp_wizard_page"
+msgstr "Csoport másolása (2/2. lépés)"
+
+msgid "grpr"
+msgstr "Csoportlink"
+
+msgid "grpr_add"
+msgstr "Csoportlink hozzáadása"
+
+msgid "grpr_edit"
+msgstr "Csoportlink módosítása"
+
+msgid "grpr_edit_info"
+msgstr "Válasszon egy csoportot egy új link létrehozásához."
+
+msgid "grpr_new"
+msgstr "Csoportlink létrehozása"
+
+msgid "grpr_settings"
+msgstr "Csoportlink beállításai"
+
+msgid "header_action"
+msgstr "Címsor beillesztése - Kattintson címsor beillesztéséhez."
+
+msgid "header_searchable"
+msgstr "Kereshető"
+
+msgid "header_title"
+msgstr "Fejléccím"
+
+msgid "header_visible_registration"
+msgstr "Látható a ‘Regisztráció’ alatt"
+
+msgid "header_zip"
+msgstr "Több fájl feltöltése ZIP formátumban"
+
+msgid "height"
+msgstr "Magasság"
+
+msgid "help"
+msgstr "Súgó"
+
+msgid "hide"
+msgstr "Elrejtés"
+
+msgid "hide_all_details"
+msgstr "Összes részlet elrejtése"
+
+msgid "hide_details"
+msgstr "Részletek elrejtése"
+
+msgid "hide_filter"
+msgstr "Szűrő elrejtése"
+
+msgid "hide_own_online_status"
+msgstr "Online állapotom elrejtése"
+
+msgid "hide_visible_sections"
+msgstr "További információk elrejtése &raquo;"
+
+msgid "hint"
+msgstr "Útmutatás"
+
+msgid "history"
+msgstr "Előzmények"
+
+msgid "hobby"
+msgstr "Érdeklődési körök/Hobbik"
+
+msgid "home"
+msgstr "Nyilvános terület"
+
+msgid "host"
+msgstr "Kiszolgáló"
+
+msgid "hour"
+msgstr "Óra"
+
+msgid "hours"
+msgstr "óra"
+
+msgid "htlm"
+msgstr "HTML-tananyag"
+
+msgid "htlm_add"
+msgstr "HTML-tananyag létrehozása"
+
+msgid "htlm_new"
+msgstr "Új HTML-tananyag"
+
+msgid "http"
+msgstr "HTTP"
+
+msgid "http_not_possible"
+msgstr "Ez a szerver nem támogatja a http-kéréseket."
+
+msgid "http_path"
+msgstr "http-cím"
+
+msgid "https_not_possible"
+msgstr "Ez a szerver nem támogatja a HTTPS-kapcsolódásokat."
+
+msgid "i2passwd"
+msgstr "ILIAS 2 jelszó"
+
+msgid "iass_import"
+msgstr "Személyes értékelés importálása"
+
+msgid "iass_new"
+msgstr "Személyes értékelés létrehozása"
+
+msgid "icon"
+msgstr "Ikon"
+
+msgid "icon_settings"
+msgstr "Egyéni ikonok"
+
+msgid "id"
+msgstr "azonosító (ID)"
+
+msgid "identifier"
+msgstr "azonosító"
+
+msgid "if_no_title_then_filename"
+msgstr "Hagyja üresen, ha címként a fájl nevét szeretné megjeleníteni."
+
+msgid "ignore_on_conflict"
+msgstr "A beszúrási/frissítési művelet szigorúan betartása"
+
+msgid "ignore_required_fields"
+msgstr "Kötelező mezők figyelmen kívül hagyása"
+
+msgid "ignore_required_fields_info"
+msgstr "Ezt a űrlapot az összes kötelező mező kitöltése nélkül elküldheti. A felhasználóknak a következő bejelentkezésükkor kell megadniuk a személyes adataikban hiányzó információkat."
+
+msgid "il_astpl_loc_initial"
+msgstr "Belépő teszt"
+
+msgid "il_astpl_loc_qualified"
+msgstr "Záró teszt"
+
+msgid "il_blog_contributor"
+msgstr "Blogszerző"
+
+msgid "il_blog_editor"
+msgstr "Blogszerkesztő"
+
+msgid "il_chat_moderator"
+msgstr "Csevegésmoderátor"
+
+msgid "il_crs_admin"
+msgstr "Kurzusvezető"
+
+msgid "il_crs_member"
+msgstr "Kurzustag"
+
+msgid "il_crs_non_member"
+msgstr "Nem kurzustag"
+
+msgid "il_crs_tutor"
+msgstr "Kurzustutor"
+
+msgid "il_frm_moderator"
+msgstr "Fórummoderátor"
+
+msgid "il_grp_admin"
+msgstr "Csoportvezető"
+
+msgid "il_grp_member"
+msgstr "Csoporttag"
+
+msgid "il_grp_status_closed"
+msgstr "Zárt csoport"
+
+msgid "il_grp_status_open"
+msgstr "Nyílt csoport"
+
+msgid "il_iass_member"
+msgstr "Résztvevő"
+
+msgid "il_lso_admin"
+msgstr "Tanulás sor vezetője"
+
+msgid "il_lso_member"
+msgstr "Tanulási sor tagja"
+
+msgid "il_lti_instructor"
+msgstr "LTI-Instruktor"
+
+msgid "il_lti_learner"
+msgstr "LTI-Tanuló"
+
+msgid "il_lti_user"
+msgstr "LTI-Felhasználó"
+
+msgid "il_orgu_employee"
+msgstr "Beosztott"
+
+msgid "il_orgu_superior"
+msgstr "Felettes"
+
+msgid "ilias_version"
+msgstr "ILIAS-verzió"
+
+msgid "image"
+msgstr "Kép"
+
+msgid "import"
+msgstr "Import"
+
+msgid "import_cat_localrol"
+msgstr "Helyi szerepkör létrehozása minden új kategóriához"
+
+msgid "import_cat_table"
+msgstr "Az alábbi táblázat csak akkor nyújt érdemleges adatokat, ha a jelölőnégyzet be van jelölve."
+
+msgid "import_categories"
+msgstr "Kategóriák importja"
+
+msgid "import_failure_log"
+msgstr "Hibanapló importálása"
+
+msgid "import_file"
+msgstr "Importfájl"
+
+msgid "import_file_not_valid_here"
+msgstr "Az importfájl érvénytelen, vagy a benne lévő objektumtípus nem importálható ide."
+
+msgid "import_finished"
+msgstr "Importált üzenetek száma."
+
+msgid "import_lm"
+msgstr "ILIAS-tananyag importja"
+
+msgid "import_qpl"
+msgstr "Tesztkérdésgyűjtemény importálása"
+
+msgid "import_questions_into_qpl"
+msgstr "Kérdés(ek) importálása kérdésgyűjteménybe"
+
+msgid "import_sahs"
+msgstr "SCORM-csomag importálása"
+
+msgid "import_sahs_info"
+msgstr "Az elírások vagy képek kijavításához használja az egyes fájlok cseréjét a fájlkönyvtáron keresztül. Töltsön fel ide egy SCORM-export fált, ami megőrizte az azonosítókat a manifest fájlban. Figyelem: Erre még a népszerű SCORM előállító alkalmazások sem mind képesek. Egyes szerzői eszközök SCORM tanulási moduljai eldobját a már meglévő tanulói adatokat, ha módosítja a kérdések válaszlehetőségeinek számát, vagy új kérdéseket szúr be. Egy teszttelepítés során ellenőrizze, hogy nem veszik-e el a már elért tanulási állapot, amikor a már elindított tananyagokat ismét megnyitja."
+
+msgid "import_sahs_new"
+msgstr "SCORM csomag új verziójának importálása"
+
+msgid "import_svy"
+msgstr "Kérdőív importálása"
+
+msgid "import_tst"
+msgstr "Teszt importálása"
+
+msgid "import_users"
+msgstr "Felhasználók importálása"
+
+msgid "import_warning_log"
+msgstr "Figyelmeztetési napló importálása"
+
+msgid "important"
+msgstr "Fontos"
+
+msgid "imported"
+msgstr "Importálva"
+
+msgid "imprint"
+msgstr "Impresszum"
+
+# miben
+msgid "in"
+msgstr "ebben:"
+
+msgid "in_use"
+msgstr "Felhasználó nyelve"
+
+msgid "in_use_by"
+msgstr "Használja"
+
+msgid "inactive"
+msgstr "Inaktív"
+
+msgid "inbox"
+msgstr "Beérkező posta"
+
+msgid "include_local"
+msgstr "foglalja magában az egyéni nyelvi fájlt a nyelv frissítésénél"
+
+msgid "info"
+msgstr "Információ"
+
+msgid "info_access_and_status_info"
+msgstr "Elérési és állapotinformáció"
+
+msgid "info_access_permissions"
+msgstr "Elérési jogosultságok"
+
+msgid "info_activate_sure"
+msgstr "Biztos, hogy aktiválja az alábbi felhasználó(ka)t?"
+
+msgid "info_assign_sure"
+msgstr "Biztos, hogy hozzárendeli az alábbi felhasználó(ka)t?"
+
+msgid "info_assigned"
+msgstr "hozzárendelve"
+
+msgid "info_available_roles"
+msgstr "Rendelkezésre álló szerepkörök"
+
+msgid "info_change_user_view"
+msgstr "Felhasználó cseréje"
+
+msgid "info_deactivate_sure"
+msgstr "Biztos, hogy nem hagyja jóvá, hogy az alábbi felhasználó(k) aktív felhasználó(k) legyenek?"
+
+msgid "info_delete_sure"
+msgstr "Biztos, hogy törli az alábbi elem(ek)et?"
+
+msgid "info_delete_warning_no_trash"
+msgstr "(FIGYELMEZTETÉS: A kiválasztott objektumok visszavonhatatlanul töröljük a rendszerből, így azokat később már nem lehet visszaállítani."
+
+msgid "info_deleted"
+msgstr "Az objektumo(ka)t sikeresen törölte."
+
+msgid "info_err_user_not_exist"
+msgstr "Ezzel a felhasználónévvel vagy user_id-vel nincs felhasználó."
+
+msgid "info_from_role"
+msgstr "Szerepkörtagságon / tulajdonjogon keresztül biztosított"
+
+msgid "info_is_member"
+msgstr "A felhasználó tag"
+
+msgid "info_is_not_member"
+msgstr "A felhasználó nem tag"
+
+msgid "info_message"
+msgstr "Információs üzenet"
+
+msgid "info_not_assigned"
+msgstr "nincs összerendelve"
+
+msgid "info_owner_of_object"
+msgstr "Tulajdonos"
+
+msgid "info_permission_origin"
+msgstr "Származási helye"
+
+msgid "info_permission_source"
+msgstr "Innentől lép érvénybe*"
+
+msgid "info_remark_interrupted"
+msgstr "A szerepkör itt helyivé válik. A szerepkör érvényben lévő alapértelmezett jogosultságait ezen a helyen definiálták."
+
+msgid "info_remove_sure"
+msgstr "Biztos, hogy eltávolítja az alábbi elem(ek)et?"
+
+msgid "info_short"
+msgstr "Információ"
+
+msgid "info_status_info"
+msgstr "Felhasználó jogosultságai"
+
+msgid "info_view_of_user"
+msgstr "Felhasználói menü"
+
+msgid "inform_user_mail"
+msgstr "Felhasználó értesítése a módosításról"
+
+msgid "inline_file_extensions"
+msgstr "Böngészőben megjelenítendő fájlok"
+
+msgid "inline_file_extensions_info"
+msgstr "Az ezekkel a kiterjesztésekkel rendelkező fájlok böngészőablakban jelennek meg.<br/>Például: <b>gif jpg mp3 pdf png</b><br/>Minden további fájlt letöltésre ajánlunk fel."
+
+msgid "insert"
+msgstr "Beszúrás"
+
+msgid "insert_object_here"
+msgstr "Beillesztés erre a helyre"
+
+msgid "inst_id"
+msgstr "Telepítési azonosító (ID)"
+
+msgid "inst_info"
+msgstr "Telepítési információ"
+
+msgid "inst_name"
+msgstr "Telepítési név"
+
+msgid "install"
+msgstr "Telepítés"
+
+msgid "install_local"
+msgstr "Telepítés egyéni nyelvi fájllal"
+
+msgid "installation_status"
+msgstr "Telepítési állapot"
+
+msgid "installed"
+msgstr "Telepítve"
+
+msgid "installed_local"
+msgstr "Egyéni nyelvi fájllal telepítve"
+
+msgid "instant_messengers"
+msgstr "Azonnali üzenetküldő alkalmazások"
+
+msgid "institution"
+msgstr "Intézmény"
+
+msgid "internal_local_roles_only"
+msgstr "Helyi szerepkörök (csak automatikusan létrejöttek)"
+
+msgid "invalid_visible_required_options_selected"
+msgstr "Minden kitöltendő mezőt láthatóvá kell tenni a ‘Regisztráció’ alatt is."
+
+msgid "invisible_block"
+msgstr "Nem látható blokk"
+
+msgid "invisible_block_mess"
+msgstr "Nincs jogosultsága ennek a blokknak a megtekintésére."
+
+msgid "ip_address"
+msgstr "IP-cím"
+
+msgid "is_already_your"
+msgstr "már az Ön"
+
+msgid "italic_action"
+msgstr "Dőlt beillesztése - Kattintson dőlt szöveg beillesztéséhez."
+
+msgid "item"
+msgstr "Elem"
+
+msgid "itgr_add"
+msgstr "Objektumcsoport létrehozása"
+
+msgid "itgr_new"
+msgstr "Új objektumcsoport"
+
+#, fuzzy
+msgid "java_server"
+msgstr "PDF Configuration"
+
+msgid "java_server_host"
+msgstr "Kiszolgáló"
+
+#. Needs to be adapted to new content of German lang file.
+msgid "java_server_info"
+msgstr "Keresés PDF-fájok, HTML-fájlok és HTML-tananyagok tartalmában is."
+
+msgid "java_server_port"
+msgstr "Port"
+
+msgid "java_server_readme"
+msgstr "Setup információk"
+
+msgid "join"
+msgstr "Csatlakozás"
+
+msgid "join_session"
+msgstr "Feljelentkezés"
+
+msgid "kb"
+msgstr "kByte"
+
+msgid "keywords"
+msgstr "Kulcsszavak"
+
+msgid "label_search_options"
+msgstr "Keresési terület"
+
+msgid "lang_dateformat"
+msgstr "Y-m-d"
+
+msgid "lang_path"
+msgstr "Nyelv elérési útja"
+
+msgid "lang_refresh_confirm"
+msgstr "Biztos, hogy frissíti az összes nyelvet?"
+
+msgid "lang_refresh_confirm_info"
+msgstr "ILIAS nyelvi változói módosultak. Egy nyelv frissítésekor a standard nyelvi fájl és az esetleges egyéni nyelvi fájl értékeit töltjük be az adatbázisba. A standard nyelvi fájl nem írja felül módosításait. Az egyéni nyelvi fájl értékeivel felülírjuk azokat a módosításait, amelyek régebbiek, mint a fájl utolsó mentésének dátuma."
+
+msgid "lang_refresh_confirm_selected"
+msgstr "Biztos, hogy frissíti a kiválasztott nyelveket?"
+
+msgid "lang_sep_decimal"
+msgstr ","
+
+msgid "lang_sep_thousand"
+msgstr "&nbsp;"
+
+msgid "lang_size_bytes"
+msgstr "bájt"
+
+msgid "lang_size_gb"
+msgstr "GB"
+
+msgid "lang_size_kb"
+msgstr "KB"
+
+msgid "lang_size_mb"
+msgstr "MB"
+
+msgid "lang_timeformat"
+msgstr "H:i:s"
+
+msgid "lang_timeformat_no_sec"
+msgstr "H:i"
+
+msgid "lang_uninstall_changes"
+msgstr "Helyi módosítások eltávolítása"
+
+msgid "lang_uninstall_changes_confirm"
+msgstr "Biztos, hogy törli a kiválasztott nyelvek helyi módosításait és visszaállítja a jelenlegi ILIAS-verzió alapértelmezett értékeit?"
+
+msgid "lang_uninstall_confirm"
+msgstr "Biztos, hogy eltávolítja a kiválasztott nyelveket?"
+
+msgid "langfile_found"
+msgstr "Fellelt nyelvi fájl"
+
+msgid "language"
+msgstr "Nyelv"
+
+msgid "language_not_installed"
+msgstr "nincs telepítve. Először telepítse a nyelvet"
+
+msgid "languages"
+msgstr "Nyelvek"
+
+msgid "languages_already_installed"
+msgstr "A kiválasztott nyelv(ek)et már korábban telepítették."
+
+msgid "languages_already_uninstalled"
+msgstr "A kiválasztott nyelv(ek)et sikeresen eltávolította."
+
+msgid "languages_updated"
+msgstr "Az összes telepített nyelvet sikeresen frissítette."
+
+msgid "last_access"
+msgstr "Utolsó hozzáférés"
+
+msgid "last_change"
+msgstr "Utolsó módosítás"
+
+msgid "last_edited_on"
+msgstr "Utolsó módosítás:"
+
+msgid "last_login"
+msgstr "Utolsó bejelentkezés"
+
+msgid "last_refresh"
+msgstr "Utolsó frissítés"
+
+msgid "last_reminder"
+msgstr "Utolsó emlékeztető"
+
+msgid "last_update"
+msgstr "Módosítva"
+
+msgid "last_visited"
+msgstr "Utolsó megtekintéseim"
+
+msgid "lastname"
+msgstr "Utónév"
+
+msgid "latex_edit_info"
+msgstr "LaTeX kódot <code>[tex]</code> és <code>[/tex]</code> közé tehet."
+
+msgid "laugh"
+msgstr "Nevet"
+
+msgid "launch"
+msgstr "Indítás"
+
+msgid "ldap"
+msgstr "LDAP"
+
+msgid "ldap_basedn"
+msgstr "LDAP BaseDN"
+
+msgid "ldap_configure"
+msgstr "LDAP-hitelesítés konfigurálása"
+
+msgid "ldap_port"
+msgstr "LDAP-port"
+
+msgid "ldap_read"
+msgstr "Olvasási elérés az LDAP beállításokhoz"
+
+msgid "ldap_server"
+msgstr "LDAP-kiszolgáló URL-je"
+
+msgid "ldap_tls"
+msgstr "TLS-titkosítás használata"
+
+msgid "ldap_version"
+msgstr "LDAP-verzió"
+
+msgid "learning module"
+msgstr "Tananyag"
+
+msgid "learning_progress"
+msgstr "Tanulási haladás"
+
+msgid "leave_waiting_list"
+msgstr "Várólista elhagyása"
+
+msgid "legend"
+msgstr "Jelmagyarázat"
+
+msgid "level"
+msgstr "Szint"
+
+msgid "link"
+msgstr "Linkelés"
+
+msgid "link_action"
+msgstr "Link beillesztése - Kattintson link beillesztéséhez"
+
+msgid "link_all"
+msgstr "Összeset linkel"
+
+msgid "link_check"
+msgstr "ILIAS-tananyagban lévő weblinkek ellenőrzése"
+
+msgid "link_check_message_b"
+msgstr "Levélben kap értesítést az érvénytelen linkekről."
+
+msgid "link_check_message_disabled"
+msgstr "Üzenetek tiltva"
+
+msgid "link_check_message_enabled"
+msgstr "Üzenetek engedélyezve"
+
+msgid "link_check_subject"
+msgstr "[ILIAS] Weblink-ellenőrzés"
+
+msgid "link_checker_refreshed"
+msgstr "Frissített nézet"
+
+msgid "link_selected_items"
+msgstr "Linkelés"
+
+msgid "links_add_param"
+msgstr "Paraméter hozzáadása:"
+
+msgid "links_dyn_parameter"
+msgstr "Dinamikus paraméterek"
+
+msgid "links_dynamic"
+msgstr "Dinamikus weblink paraméterek"
+
+msgid "links_dynamic_info"
+msgstr "Dinamikus paraméterek fűzhetők a weblinkekhez.<br/> Például ILIAS felhasználói azonosító vagy felhasználónév."
+
+msgid "links_existing_params"
+msgstr "Létező paraméterek:"
+
+msgid "links_name"
+msgstr "Paraméter neve"
+
+msgid "links_no_name_given"
+msgstr "Válasszon paraméternevet!"
+
+msgid "links_no_value_given"
+msgstr "Válasszon paraméterértéket!"
+
+msgid "links_parameter_deleted"
+msgstr "A paramétert sikeresen törölte."
+
+msgid "links_select_one"
+msgstr "- Válasszon egyet -"
+
+msgid "links_session_id"
+msgstr "ILIAS-munkamenet azonosító"
+
+msgid "links_user_id"
+msgstr "ILIAS felhasználói azonosító"
+
+msgid "links_user_name"
+msgstr "ILIAS-felhasználónév"
+
+msgid "links_value"
+msgstr "Paraméterérték"
+
+msgid "list"
+msgstr "Lista"
+
+msgid "list_of_questions"
+msgstr "Kérdések listája"
+
+msgid "list_view"
+msgstr "Lista nézet"
+
+msgid "listaction_learning_progress_settings"
+msgstr "Tanulási haladás"
+
+msgid "lm"
+msgstr "Tananyag"
+
+msgid "lm_add"
+msgstr "ILIAS-tananyag létrehozása"
+
+msgid "lm_added"
+msgstr "Sikeresen létrehozott egy ILIAS-tananyagot."
+
+msgid "lm_new"
+msgstr "Új ILIAS-tananyag"
+
+msgid "lm_type_scorm"
+msgstr "SCORM 1.2"
+
+msgid "lm_type_scorm2004"
+msgstr "SCORM 2004 3rd/4th Edition"
+
+msgid "lm_type_scorm2004_info"
+msgstr "Ezek a SCORM újabb verziói jelentősen továbbfejlesztett funkcionalitásokkal. A tananyag iFrame keretben indul el."
+
+msgid "lm_type_scorm_info"
+msgstr "Ez a SCORM legszélesebb körben használt verziója. A tananyag keretben indul el."
+
+msgid "lng"
+msgstr "Nyelv"
+
+msgid "lngf"
+msgstr "Nyelvek"
+
+msgid "lo"
+msgstr "Tananyagobjektum"
+
+msgid "loaded_preview_renderers"
+msgstr "Előnézetkészítők betöltve"
+
+msgid "local"
+msgstr "Helyi"
+
+msgid "local_language_file"
+msgstr "egyéni nyelvi fájl"
+
+msgid "local_language_files"
+msgstr "egyéni nyelvi fájlok"
+
+msgid "local_languages_already_installed"
+msgstr "A kiválasztott egyéni nyelvi fájlok már telepítve vannak."
+
+msgid "local_role_assignment"
+msgstr "Helyi szerep-hozzárendelés"
+
+msgid "location"
+msgstr "Hely"
+
+msgid "locator"
+msgstr "Hely:"
+
+msgid "log_in"
+msgstr "Bejelentkezés"
+
+msgid "log_out"
+msgstr "Kijelentkezés"
+
+msgid "logic_or"
+msgstr "vagy"
+
+msgid "login"
+msgstr "Felhasználónév"
+
+msgid "login_as"
+msgstr "Bejelentkezett, mint:"
+
+msgid "login_data"
+msgstr "Bejelentkezési adatok"
+
+msgid "login_exists"
+msgstr "Már van ilyen felhasználónév. Válasszon másikat!"
+
+msgid "login_invalid"
+msgstr "A választott felhasználónév nem érvényes! Csak a következő karakterek használhatók (minimum 3 karakter): A-Z a-z 0-9 _.+*@!$%~"
+
+msgid "login_to_ilias"
+msgstr "Bejelentkezés az ILIAS-ba"
+
+msgid "login_to_ilias_via_login_form"
+msgstr "Bejelentkezés az ILIAS-ba"
+
+msgid "login_to_ilias_via_saml"
+msgstr "Bejelentkezés az ILIAS-ba SAML hitelesítésen keresztül"
+
+msgid "login_to_ilias_via_shibboleth"
+msgstr "ILIAS-ba bejelentkezés ezen keresztül:"
+
+msgid "loginname_already_exists"
+msgstr "Már van ilyen felhasználónév."
+
+msgid "loginname_settings"
+msgstr "Felhasználónév beállításai"
+
+msgid "logout"
+msgstr "Kijelentkezés"
+
+msgid "logout_text"
+msgstr "Kijelentkezett az ILIAS-ból. Munkamenete lezárult."
+
+msgid "logs"
+msgstr "Naplófájladatok"
+
+msgid "love"
+msgstr "Szeret"
+
+msgid "lres"
+msgstr "Tananyagok"
+
+msgid "lso_add"
+msgstr "Tanulási sor létrehozása"
+
+msgid "lso_admin_form_byline"
+msgstr "Tanulási sorok általános beállításai"
+
+msgid "lso_admin_form_title"
+msgstr "Beállítások"
+
+msgid "lso_admin_interval_byline"
+msgstr "A tanulás előrehaladásának lekérdezése x másodpercekben. Legyen óvatos! Az alacsony érték növeli a szerverlekérdezések gyakoriságát, ami hatással lehet a rendszer teljesítményére. Válassza a lehető legnagyobb értéket!"
+
+msgid "lso_admin_interval_label"
+msgstr "Tanulási folyamatok lekérdezési időköze (másodpercekben)"
+
+msgid "lso_copy_threads_info"
+msgstr "Válassza ki, a tanulási sor mely elemeit kívánja másolni, linkelni, illetve kihagyni."
+
+msgid "lso_edit"
+msgstr "Tanulási sor módosítása"
+
+msgid "lso_import"
+msgstr "Tanulási sor importálása"
+
+msgid "lso_new"
+msgstr "Új tanulási sor"
+
+msgid "lso_wizard_page"
+msgstr "Tanulási sor másolása (2/2 lépés)"
+
+#, fuzzy
+msgid "lti"
+msgstr "LTI-Fogyasztó"
+
+#, fuzzy
+msgid "lti_add"
+msgstr "Add LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_new"
+msgstr "New LTI Tool (Consumer)"
+
+msgid "lti_outcome_info"
+msgstr "LTI-felhasználó tanulási haladási állapotának megküldése LTI-eszközfogyasztó / LTI-Platform részére.."
+
+msgid "mail"
+msgstr "Levelek"
+
+msgid "mail_addressbook"
+msgstr "Címtár"
+
+msgid "mail_at_the_ilias_installation"
+msgstr "%1$s új levelet kapott a(z) %2$s ILIAS-ban."
+
+msgid "mail_attachment"
+msgstr "E-mail melléklet"
+
+msgid "mail_b_inbox"
+msgstr "Beérkező levelek"
+
+msgid "mail_c_trash"
+msgstr "Kuka"
+
+msgid "mail_cron_scheduled_mails"
+msgstr "Ütemezett levelek küldése."
+
+msgid "mail_cron_scheduled_mails_desc"
+msgstr "Ütemezett felhasználói levelek küldése a megadott kézbesítési időnek megfelelően"
+
+msgid "mail_d_drafts"
+msgstr "Piszkozatok"
+
+msgid "mail_delete_error"
+msgstr "Törlés közben hiba lépett fel"
+
+msgid "mail_e_outbox"
+msgstr "Kimenő"
+
+msgid "mail_e_sent"
+msgstr "Elküldött levelek"
+
+msgid "mail_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Levelezés jogosultsági beállításait"
+
+msgid "mail_f_sent"
+msgstr "Elküldött"
+
+msgid "mail_folders"
+msgstr "E-mail mappák"
+
+msgid "mail_import_file"
+msgstr "Fájl importálása"
+
+msgid "mail_mails_of"
+msgstr "Levél"
+
+msgid "mail_maxsize_attach"
+msgstr "Mellékletek maximális összmérete"
+
+msgid "mail_member"
+msgstr "E-mail a tagoknak"
+
+msgid "mail_members"
+msgstr "Levél küldése tagoknak"
+
+msgid "mail_message_scheduled"
+msgstr "Ütemezett levél"
+
+msgid "mail_message_scheduled_info"
+msgstr "A levelek a kimenő mappában maradnak a megadott küldési időpontig."
+
+msgid "mail_not_sent"
+msgstr "A levelet nem küldte el!"
+
+msgid "mail_schedule_error_no_datetime"
+msgstr "A kézbesítés ütemezéséhez meg kell adni a kézbesítés dátumát és időpontját."
+
+msgid "mail_schedule_error_past_datetime"
+msgstr "Nem ütemezhetsz leveleket a múltba."
+
+msgid "mail_schedule_scheduled_datetime"
+msgstr "Ütemezett küldési idő"
+
+msgid "mail_scheduled"
+msgstr "A leveleket a kimenő mappában tároljuk későbbi kézbesítés céljából."
+
+#, fuzzy
+msgid "mail_scheduled_edit_compose_info"
+msgstr "You are editing a scheduled mail. Sending is paused until you schedule the mail again."
+
+#, fuzzy
+msgid "mail_scheduled_edit_moved_info"
+msgstr "This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox."
+
+msgid "mail_search_no"
+msgstr "Egy bejegyzés sem felel meg a keresési feltételnek."
+
+msgid "mail_select_one"
+msgstr "Legalább egy levelet ki kell választania!"
+
+msgid "mail_send_error"
+msgstr "Hiba lépett fel az e-mail küldése közben"
+
+msgid "mail_sent"
+msgstr "Az e-mailt elküldtük."
+
+msgid "mail_settings"
+msgstr "Levelezési beállítások"
+
+msgid "mail_to_global_roles_not_allowed"
+msgstr "%1$s (nem engedélyezett levél küldése a globális szerepköröknek)"
+
+msgid "mail_z_local"
+msgstr "Saját mappák"
+
+msgid "mails"
+msgstr "Levelek"
+
+msgid "mails_at_the_ilias_installation"
+msgstr "%1$s új levelet kapott a(z) %2$s ILIAS-ban."
+
+msgid "mails_pl"
+msgstr "levél/levelek"
+
+msgid "main_menu"
+msgstr "Főmenü"
+
+msgid "mainbar_aria_label"
+msgstr "Főmenü"
+
+msgid "mainbar_more_label"
+msgstr "Több"
+
+msgid "manage_members"
+msgstr "Tagok kezelése"
+
+msgid "matriculation"
+msgstr "Nyilvántartási szám"
+
+msgid "max_previews_per_object"
+msgstr "Előnézeti képek száma fájlonként"
+
+msgid "max_previews_per_object_info"
+msgstr "Megadja, hogy maximum hány előnézeti kép készüljön fájlonként."
+
+msgid "mcst"
+msgstr "Médiasugárzás"
+
+msgid "mcst_add"
+msgstr "Médiasugárzás létrehozása"
+
+msgid "mcst_new"
+msgstr "Új médiasugárzás"
+
+msgid "mem_add_to_wl"
+msgstr "Hozzáadás a várólistához"
+
+msgid "mem_alert_no_places"
+msgstr "Nincs több szabad hely."
+
+msgid "mem_cron_min_members"
+msgstr "Kurzus/Csoport: Minimális taglétszám ellenőrzése"
+
+msgid "mem_cron_min_members_info"
+msgstr "A rendszergazdák értesítést kapnak, ha a minimális taglétszám nem jön össze."
+
+msgid "mem_end"
+msgstr "Regisztráció vége:"
+
+msgid "mem_free_places"
+msgstr "Szabad helyek száma"
+
+msgid "mem_max_users"
+msgstr "Felhasználók maximális száma:"
+
+msgid "mem_min_users"
+msgstr "Felhasználók minimális száma"
+
+msgid "mem_participants"
+msgstr "Résztvevők"
+
+msgid "mem_reg_expired"
+msgstr "A regisztrációs idő lejárt."
+
+msgid "mem_reg_not_started"
+msgstr "A regisztráció még nem kezdődött el."
+
+msgid "mem_reg_period"
+msgstr "Regisztrációs időszak"
+
+msgid "mem_reg_type"
+msgstr "Regisztráció típusa"
+
+msgid "mem_start"
+msgstr "Regisztráció kezdete:"
+
+msgid "mem_unlimited"
+msgstr "Korlátlan"
+
+msgid "mem_view_activate"
+msgstr "Tagnézet"
+
+msgid "mem_view_close"
+msgstr "Tagnézet bezárása"
+
+msgid "mem_view_long"
+msgstr "Tagnézet"
+
+msgid "mem_waiting_list"
+msgstr "Felhasználók a várólistán:"
+
+msgid "mem_waiting_list_position"
+msgstr "Az Ön helye a várólistán:"
+
+msgid "member"
+msgstr "Tag"
+
+msgid "member_status"
+msgstr "Tagsági állapot"
+
+msgid "members"
+msgstr "Tagok"
+
+msgid "membership_leave"
+msgstr "Elhagyás"
+
+msgid "mep"
+msgstr "Médiagyűjtemény"
+
+msgid "mep_add"
+msgstr "Médiagyűjtemény létrehozása"
+
+msgid "mep_edit"
+msgstr "Médiagyűjtemény tulajdonságainak módosítása"
+
+msgid "mep_new"
+msgstr "Új médiagyűjtemény"
+
+msgid "mep_not_insert_already_exist"
+msgstr "Az alábbi elemek beillesztése sikertelen, mert már benne vannak a médiagyűjteményben:"
+
+msgid "message"
+msgstr "Üzenet"
+
+msgid "message_content"
+msgstr "Üzenetszöveg"
+
+msgid "message_no_delivered_files"
+msgstr "Nem küldött be még fájlt."
+
+msgid "meta_data"
+msgstr "Metaadatok"
+
+msgid "metabar_aria_label"
+msgstr "Metamenü"
+
+msgid "mgs_objects_linked_to_the_following_folders_p"
+msgstr "Az objektumokat a következő mappába/mappákba sikeresen linkelte."
+
+msgid "mgs_objects_linked_to_the_following_folders_s"
+msgstr "Az objektumot a következő mappába/mappákba sikeresen linkelte."
+
+msgid "migrate"
+msgstr "Migráció"
+
+msgid "minimize"
+msgstr "Minimalizálás"
+
+msgid "minute"
+msgstr "perc"
+
+msgid "minutes"
+msgstr "perc"
+
+msgid "missing"
+msgstr "Hiányzik"
+
+msgid "missing_perm"
+msgstr "Jogosultsághiány"
+
+msgid "missing_precondition"
+msgstr "Hiányzó előfeltétel"
+
+msgid "mm_achievements"
+msgstr "Teljesítmények"
+
+msgid "mm_administration"
+msgstr "Rendszerbeállítások"
+
+msgid "mm_badges"
+msgstr "Érdemérmek"
+
+msgid "mm_calendar"
+msgstr "Naptár"
+
+msgid "mm_certificates"
+msgstr "Tanúsítványok"
+
+msgid "mm_comments"
+msgstr "Nyilvános megjegyzések"
+
+msgid "mm_communication"
+msgstr "Kommunikáció"
+
+msgid "mm_contacts"
+msgstr "Kapcsolatok"
+
+msgid "mm_dashboard"
+msgstr "Műszerfal"
+
+msgid "mm_enrolments"
+msgstr "Kurzustagságok"
+
+msgid "mm_favorites"
+msgstr "Kedvenceim"
+
+msgid "mm_learning_history"
+msgstr "Tanulási történelem"
+
+msgid "mm_learning_progress"
+msgstr "Tanulási haladás"
+
+msgid "mm_mail"
+msgstr "Levelek"
+
+msgid "mm_news"
+msgstr "Hírek"
+
+msgid "mm_notes"
+msgstr "Jegyzetek"
+
+msgid "mm_organisation"
+msgstr "Szervezeti egység"
+
+msgid "mm_personal_and_shared_r"
+msgstr "Személyes és megosztott erőforrások"
+
+msgid "mm_personal_workspace"
+msgstr "Személyes munkaterület"
+
+msgid "mm_portfolio"
+msgstr "Portfólió"
+
+msgid "mm_private_chats"
+msgstr "Privát csevegések"
+
+msgid "mm_repo_tree_view"
+msgstr "Fa nézet"
+
+msgid "mm_repo_tree_view_act"
+msgstr "Fa bekapcsolása"
+
+msgid "mm_repo_tree_view_deact"
+msgstr "Fa kikapcsolása"
+
+msgid "mm_repository"
+msgstr "Tartalomtár"
+
+msgid "mm_skills"
+msgstr "Kompetenciák"
+
+msgid "mm_staff_list"
+msgstr "Személyzeti lista"
+
+msgid "mm_tags"
+msgstr "Címkék"
+
+msgid "mm_task_derived_tasks"
+msgstr "Feladatok"
+
+msgid "mme_lost_item_reason"
+msgstr "Nincs többé ilyen eleme."
+
+msgid "mme_lost_item_title"
+msgstr "Nincs hozzárendelve"
+
+msgid "mob"
+msgstr "Médiaobjektum"
+
+msgid "moderators"
+msgstr "Moderátorok"
+
+msgid "module"
+msgstr "modul"
+
+msgid "modules"
+msgstr "Modulok"
+
+msgid "month"
+msgstr "Hónap"
+
+msgid "month_01_long"
+msgstr "Január"
+
+msgid "month_01_short"
+msgstr "Jan."
+
+msgid "month_02_long"
+msgstr "Február"
+
+msgid "month_02_short"
+msgstr "Febr."
+
+msgid "month_03_long"
+msgstr "Március"
+
+msgid "month_03_short"
+msgstr "Márc."
+
+msgid "month_04_long"
+msgstr "Április"
+
+msgid "month_04_short"
+msgstr "Ápr."
+
+msgid "month_05_long"
+msgstr "Május"
+
+msgid "month_05_short"
+msgstr "Máj."
+
+msgid "month_06_long"
+msgstr "Június"
+
+msgid "month_06_short"
+msgstr "Jún."
+
+msgid "month_07_long"
+msgstr "Július"
+
+msgid "month_07_short"
+msgstr "Júl."
+
+msgid "month_08_long"
+msgstr "Augusztus"
+
+msgid "month_08_short"
+msgstr "Aug."
+
+msgid "month_09_long"
+msgstr "Szeptember"
+
+msgid "month_09_short"
+msgstr "Szept."
+
+msgid "month_10_long"
+msgstr "Október"
+
+msgid "month_10_short"
+msgstr "Okt."
+
+msgid "month_11_long"
+msgstr "November"
+
+msgid "month_11_short"
+msgstr "Nov."
+
+msgid "month_12_long"
+msgstr "December"
+
+msgid "month_12_short"
+msgstr "Dec."
+
+msgid "monthly"
+msgstr "havi"
+
+msgid "months"
+msgstr "Hónap"
+
+msgid "mount_webfolder"
+msgstr "Megnyitás webmappaként"
+
+msgid "move"
+msgstr "Áthelyezés"
+
+msgid "moveChapter"
+msgstr "Áthelyezés"
+
+msgid "movePage"
+msgstr "Áthelyezés"
+
+msgid "move_selected_items"
+msgstr "Áthelyezés"
+
+msgid "msg_bt_download_started"
+msgstr "Az ILIAS az összes elérhető fájlból archívumot készít. Ezeket az archívumokat az Éresítési Központból (felső sorban lévő harang ikon) töltheti le."
+
+msgid "msg_cancel"
+msgstr "Tevékenység megszakítva."
+
+msgid "msg_clear_clipboard"
+msgstr "A vágólap üres."
+
+msgid "msg_cloned"
+msgstr "Kiválasztott objektum(ok) lemásolva"
+
+msgid "msg_copy_clipboard"
+msgstr "Most válassza ki, hová szeretné beilleszteni a kiválasztott objektumokat, majd kattintson a ‘Beillesztés’ gombra."
+
+msgid "msg_copy_clipboard_container"
+msgstr "Most válassza ki, hová szeretné beilleszteni a kiválasztott objektumokat, majd kattintson a ‘Folytatás’ gombra."
+
+msgid "msg_copy_clipboard_source"
+msgstr "Most válassza ki azt a kurzust vagy csoportot, amelynek tartalmát másolni szeretné, majd kattintson a ‘Folytatás’ gombra."
+
+msgid "msg_cut_clipboard"
+msgstr "Most válassza ki, hová szeretné beilleszteni a kiválasztott objektumokat, majd kattintson a ‘Beillesztés’ gombra."
+
+msgid "msg_cut_copied"
+msgstr "A kiválasztott objektum(ok) sikeresen áthelyezte."
+
+msgid "msg_deleted_export_files"
+msgstr "Az exportfájlokat sikeresen törölte"
+
+msgid "msg_deleted_role"
+msgstr "A szerepkört sikeresen törölte"
+
+msgid "msg_deleted_roles_rolts"
+msgstr "A szerepköröket és szerepkörmintákat sikeresen törölte"
+
+msgid "msg_failed"
+msgstr "A tevékenység meghiúsult"
+
+msgid "msg_form_save_error"
+msgstr "Az űrlapadatok nem menthetők. Nézze meg az inputmezők hibaüzeneteit!"
+
+msgid "msg_info_blacklisted"
+msgstr "A fájlok nem tölthetőek fel biztonsági okok miatt."
+
+msgid "msg_input_char_limit_max"
+msgstr "A megengedettnél több karakter adott meg."
+
+msgid "msg_input_char_limit_min"
+msgstr "A megengedettnél kevesebb karakter adott meg."
+
+msgid "msg_input_does_not_match_regexp"
+msgstr "Érvényes értéket adjon meg!"
+
+msgid "msg_input_is_required"
+msgstr "Kötelező megadni ezt az adatot. Adjon meg egy értéket!"
+
+msgid "msg_invalid_value_css_rect_input"
+msgstr "A megadott érték érvénytelen. Ne használjon plusz vagy mínusz jelet. Ellenőrizze az értéket."
+
+msgid "msg_is_last_role"
+msgstr "Eltávolította az utolsó szerepkört az alábbi felhasználókról"
+
+msgid "msg_last_role_for_registration"
+msgstr "Legalább egy elérhető szerepnek kell lennie a regisztrációs űrlapon az új felhasználók számára. Jelenleg ez az egyetlen elérhető szerepkör."
+
+msgid "msg_link_clipboard_p"
+msgstr "Válassza ki a helyet, ahová a kiválasztott objektumokat linkelni szeretné, majd kattintson a ‘Beillesztés’ gombra."
+
+msgid "msg_link_clipboard_s"
+msgstr "Válassza ki a helyet, ahová a kiválasztott objektumot linkelni szeretné, majd kattintson a ‘Beillesztés’ gombra."
+
+msgid "msg_linked"
+msgstr "Sikeresen belinkelte a választott objektumo(ka)t."
+
+msgid "msg_may_not_contain"
+msgstr "Ez az objektum feltehetőleg nem tartalmazhatja a következő objektumtípusokat:"
+
+msgid "msg_min_one_role"
+msgstr "Minden felhasználónak legalább egy aktív globális szerepe kell legyen."
+
+msgid "msg_multi_language_selected"
+msgstr "Ugyanazt a nyelvet választotta egy másik fordításhoz."
+
+msgid "msg_no_default_language"
+msgstr "Nincs alapértelmezett nyelv. Egy fordítási nyelvet alapértelmezettnek meg kell jelölnie."
+
+msgid "msg_no_delete_yourself"
+msgstr "Nem törölheti a saját ILIAS-fiókját."
+
+msgid "msg_no_file"
+msgstr "Nem választott fájlt."
+
+msgid "msg_no_files_selected"
+msgstr "Egy fájlt sem választott ki"
+
+msgid "msg_no_language_selected"
+msgstr "Nincs fordítási nyelv meghatározva. Minden fordításhoz meg kell adnia egy nyelvet."
+
+msgid "msg_no_perm_assign_role_to_user"
+msgstr "Nincs jogosultsága a felhasználói szerep-összerendelés módosításához."
+
+msgid "msg_no_perm_assign_user_to_role"
+msgstr "Nincs jogosultsága a felhasználói hozzárendelések módosításához."
+
+msgid "msg_no_perm_copy"
+msgstr "Nem jogosult az alábbi objektum(ok) másolására:"
+
+msgid "msg_no_perm_create_rolt"
+msgstr "Nincs jogosultsága szerepkörminták létrehozására."
+
+msgid "msg_no_perm_cut"
+msgstr "Nincs jogosultsága kivágni az alábbi objektumo(ka)t:"
+
+msgid "msg_no_perm_delete"
+msgstr "Nincs jogosultsága törölni az alábbi objektumo(ka)t:"
+
+msgid "msg_no_perm_link"
+msgstr "Nincs jogosultsága linket létrehozni az alábbi objektum(ok)ból:"
+
+msgid "msg_no_perm_modify_rolt"
+msgstr "Nincs jogosultsága szerepkörmintákat módosítani."
+
+msgid "msg_no_perm_modify_user"
+msgstr "Nincs jogosultsága felhasználói adatokat módosítani."
+
+msgid "msg_no_perm_paste"
+msgstr "Nincs jogosultsága beilleszteni az alábbi objektumo(ka)t:"
+
+msgid "msg_no_perm_paste_object_in_folder"
+msgstr "Nincs jogosultsága a(z) %s objektumot beilleszteni a(z) %s mappába."
+
+msgid "msg_no_perm_perm"
+msgstr "Nincs jogosultsága módosítani a jogosultsági beállításokat."
+
+msgid "msg_no_perm_read"
+msgstr "Nincs jogosultsága ezekhez az elemekhez."
+
+msgid "msg_no_perm_read_item"
+msgstr "Nincs jogosultsága elérni."
+
+msgid "msg_no_perm_read_lm"
+msgstr "Nincs olvasási jogosultsága ehhez a tananyaghoz."
+
+msgid "msg_no_perm_view_roles_of_user"
+msgstr "Nincs jogosultsága megtekinteni a felhasználó szerepköreit"
+
+msgid "msg_no_perm_write"
+msgstr "Nincs jogosultsága módosítani a beállításokat."
+
+msgid "msg_no_search_result"
+msgstr "Egy bejegyzés sem található"
+
+msgid "msg_no_search_string"
+msgstr "Adjon meg egy keresési kifejezést."
+
+msgid "msg_no_title"
+msgstr "Adjon meg egy címet."
+
+msgid "msg_not_available_for_anon"
+msgstr "A kiválasztott oldal csak bejelentkezett felhasználók számára érhető el."
+
+msgid "msg_not_in_itself"
+msgstr "Objektumot nem lehet saját magába beilleszteni."
+
+msgid "msg_obj_already_deleted"
+msgstr "Az objektumot már törölték."
+
+msgid "msg_obj_created"
+msgstr "Sikeresen létrehozott egy objektumot."
+
+msgid "msg_obj_exists"
+msgstr "Ez az objektum már létezik ebben a mappában."
+
+msgid "msg_obj_exists_in_folder"
+msgstr "A(z) %s objektum már benne van a(z) %s mappában."
+
+msgid "msg_obj_may_not_contain_objects_of_type"
+msgstr "A(z) %s objektum nem tartalmazhat ilyen típusú objektumokat: %s."
+
+msgid "msg_obj_modified"
+msgstr "Módosításokat sikeresen mentette."
+
+msgid "msg_obj_no_download"
+msgstr "nem letölthető."
+
+msgid "msg_obj_no_link"
+msgstr "Technika okok miatt tároló objektumok (kategória, kurzus, csoport, illetve mappa) linkelése nem lehetséges. Linkelni tudja az abban lévő objektumokat vagy hozzon létre kategória-, kurzus-, illetve csoportlinket."
+
+msgid "msg_obj_perm_download"
+msgstr "Nincs jogosultsága az alábbi objektumok letöltéséhez:"
+
+msgid "msg_paste_object_not_in_itself"
+msgstr "Nem lehet beilleszteni a(z) ‘%s’ objektumot saját magába."
+
+msgid "msg_perm_adopted_from1"
+msgstr "A jogosultsági beállítások elődje"
+
+msgid "msg_perm_adopted_from2"
+msgstr "(Beállításokat sikeresen mentettük!)"
+
+msgid "msg_perm_adopted_from_itself"
+msgstr "Nem alkalmazhat jogosultsági beállításokat magából a jelenlegi szerepből/szerepkörmintából."
+
+msgid "msg_removed"
+msgstr "Az objektumo(ka)t sikeresen eltávolította a rendszerből."
+
+msgid "msg_role_reserved_prefix"
+msgstr "Az ‘il_’ prefix az automatikusan generált szerepkörökhöz van fenntartva. Válasszon másik megnevezést."
+
+msgid "msg_roleassignment_changed"
+msgstr "Szerep-összerendelést sikeresen módosította"
+
+msgid "msg_sysrole_not_deletable"
+msgstr "A rendszerszerepkört nem lehet törölni"
+
+msgid "msg_sysrole_not_editable"
+msgstr "A rendszerszerepkör jogosultsági beállításai valószínűleg nem módosíthatók. Ez a szerepkör korlátlan hozzáférést biztosít a hozzárendelt felhasználók számára minden objektumhoz és funkcióhoz."
+
+msgid "msg_to_many_files"
+msgstr "Túl sok fájl választott ki, többet, mint"
+
+msgid "msg_trash_empty"
+msgstr "Nincs törölt objektum"
+
+msgid "msg_undeleted"
+msgstr "Objektum(ok) törlése visszavonva."
+
+msgid "msg_unit_is_required"
+msgstr "Ez az bemenet egy mértékegységet vár. Odaillő értéket adjon meg!"
+
+msgid "msg_unknown_value"
+msgstr "Ismeretlen érték került átadásra."
+
+msgid "msg_user_last_role1"
+msgstr "Ehhez a szerepkörhöz csak az alábbi felhasználók vannak hozzárendelve:"
+
+msgid "msg_user_last_role2"
+msgstr "Törölje a felhasználókat vagy rendelje őket másik szerepkörhöz, hogy törölhető legyen ez a szerep!"
+
+msgid "msg_userassignment_changed"
+msgstr "A felhasználó-hozzárendelés megváltozott"
+
+msgid "msg_wrong_filetypes"
+msgstr "Engedélyezett fájltípusok:"
+
+msgid "msg_wrong_format"
+msgstr "A megadott érték nem érvényes formátumú."
+
+msgid "my_bms"
+msgstr "Webcímek"
+
+msgid "my_certificates"
+msgstr "Tanúsítványaim"
+
+msgid "my_contacts"
+msgstr "Ismerőseim"
+
+msgid "my_courses"
+msgstr "Kurzusaim"
+
+msgid "my_courses_groups"
+msgstr "Kurzusaim és csoportjaim"
+
+msgid "my_staff"
+msgstr "Munkatárs"
+
+msgid "name"
+msgstr "Név"
+
+msgid "nc_contact_requests_headline"
+msgstr "Kapcsolatfelvételi kérés"
+
+msgid "nc_contact_requests_number_p"
+msgstr "%s kapcsolatfelvételi kérése van."
+
+msgid "nc_contact_requests_number_s"
+msgstr "%s kapcsolatfelvételi kérése van."
+
+msgid "nc_contact_requests_prop_time"
+msgstr "Időpont"
+
+msgid "never"
+msgstr "soha"
+
+msgid "new"
+msgstr "Új"
+
+msgid "new_language"
+msgstr "Új nyelv"
+
+msgid "new_pass_equals_old_pass"
+msgstr "Az új jelszó megegyezik a régivel, használjon attól eltérőt."
+
+msgid "newline"
+msgstr "Új sor"
+
+msgid "news"
+msgstr "Hírek"
+
+msgid "next"
+msgstr "Következő"
+
+msgid "no"
+msgstr "Nem"
+
+msgid "no_access_item"
+msgstr "Nincs jogosultsága ezeknek az elemeknek az eléréséhez."
+
+msgid "no_access_item_public"
+msgstr "Ennek az elemnek az eléréséhez be kell jelentkeznie, és megfelelő jogosultsággal kell rendelkeznie."
+
+msgid "no_accessibility_control_concept_description"
+msgstr "Jelenleg nincs Hozzáférhetőségi dokumentuma ennek a telepítésnek. Kérem, további információkért lépjen kapcsolatba az <a href=\"%1$s\">üzemeltetőkkel</a>."
+
+msgid "no_checkbox"
+msgstr "Semmit sem választott ki."
+
+msgid "no_condition_selected"
+msgstr "Válasszon ki egy előfeltételt."
+
+msgid "no_date"
+msgstr "Nincs dátum"
+
+msgid "no_gallery_users_available"
+msgstr "Jelenleg egy felhasználó sincs a képtárban."
+
+msgid "no_global_role_left"
+msgstr "Minden felhasználónak legalább egy szerepe kell, hogy legyen."
+
+msgid "no_import_file_found"
+msgstr "Nem található importfájl."
+
+msgid "no_items"
+msgstr "Ez az objektum üres, egy elemet sem tartalmaz."
+
+msgid "no_limit"
+msgstr "Nincs korlát"
+
+msgid "no_mkisofs_configured"
+msgstr "Konfigurálnia kell az mkisofs utility-t az ILIAS-setupban az ISO-export futtatásához"
+
+msgid "no_parent_access"
+msgstr "Nincs hozzáférés felettes objektumhoz."
+
+msgid "no_permission"
+msgstr "Nincs meg a megfelelő jogosultsága."
+
+msgid "no_roles_user_can_be_assigned_to"
+msgstr "Nincsenek globális szerepkörök, amelyekhez hozzá lehetne rendelni a felhasználót. Így Ön nem vehet fel felhasználókat."
+
+msgid "no_start_file"
+msgstr "Nincs kezdőfájl."
+
+msgid "no_title"
+msgstr "Nincs cím"
+
+msgid "no_users_selected"
+msgstr "Egy felhasználót válasszon ki!"
+
+msgid "no_xml_file_found_in_zip"
+msgstr "Nem található XML fájl ZIP-fájlban:"
+
+msgid "noc"
+msgstr "Értesítési Központ"
+
+msgid "non_internal_local_roles_only"
+msgstr "Helyi szerepkörök (csak felhasználó által létrehozottak)"
+
+msgid "none"
+msgstr "Nincs"
+
+msgid "normal"
+msgstr "Normál"
+
+msgid "not_available"
+msgstr "Nem elérhető"
+
+msgid "not_implemented_yet"
+msgstr "Még nem megvalósított"
+
+msgid "not_installed"
+msgstr "Nincs telepítve"
+
+msgid "not_logged_in"
+msgstr "Nincs bejelentkezve"
+
+msgid "note"
+msgstr "Jegyzet"
+
+msgid "notes"
+msgstr "Privát jegyzetek"
+
+msgid "notes_and_comments"
+msgstr "Feljegyzések"
+
+msgid "notice"
+msgstr "Jegyzet"
+
+msgid "notifications"
+msgstr "Értesítések"
+
+msgid "nr_following_sessions"
+msgstr "%1d alábbi munkamenet(ek)…"
+
+msgid "num_of_selected_files"
+msgstr "%s fájlt választott ki"
+
+msgid "num_users"
+msgstr "Felhasználók száma"
+
+msgid "numberedlist_action"
+msgstr "Számozott lista beillesztése - Kattintson számozott lista beillesztéséhez."
+
+msgid "obj"
+msgstr "Objektum"
+
+msgid "obj_accs"
+msgstr "Könnyű kezelés"
+
+msgid "obj_accs_desc"
+msgstr "Könnyű kezelés beállításai"
+
+msgid "obj_adm"
+msgstr "Rendszerbeállítások"
+
+msgid "obj_adm_desc"
+msgstr "Itt talál mindent az ILIAS rendszerbeállításainak kezeléséhez."
+
+msgid "obj_adma"
+msgstr "Általános beállítások"
+
+msgid "obj_adma_desc"
+msgstr "Az egész telepítés fontos beállításai"
+
+msgid "obj_adn"
+msgstr "Rendszerértesítések"
+
+msgid "obj_adve"
+msgstr "Szerkesztés"
+
+msgid "obj_adve_desc"
+msgstr "Rendszergazdai beállítások az ILIAS-lapszerkesztőhöz és a TinyMCE szerkesztőhöz"
+
+msgid "obj_ass"
+msgstr "Asset"
+
+msgid "obj_assf"
+msgstr "Teszt és értékelés"
+
+msgid "obj_assf_desc"
+msgstr "Teszt és értékelés globális beállításai"
+
+msgid "obj_auth"
+msgstr "Hitelesítés és regisztráció"
+
+msgid "obj_auth_desc"
+msgstr "Hitelesítési mód konfigurálása (helyi, LDAP, …) és új ILIAS-fiók regisztrációs beállításai"
+
+msgid "obj_awra"
+msgstr "‘Ki van online?’-eszköz"
+
+msgid "obj_awra_desc"
+msgstr "‘Ki van online?’-eszköz kezelése"
+
+msgid "obj_bdga"
+msgstr "Érdemérmek"
+
+msgid "obj_bdga_desc"
+msgstr "Érdemérem-típusok, sablonképek és aktivitások kezelése"
+
+msgid "obj_bgtk"
+msgstr "Háttérfolyamat"
+
+msgid "obj_bibl"
+msgstr "Bibliográfia"
+
+msgid "obj_bibs"
+msgstr "Bibliográfia"
+
+msgid "obj_bibs_desc"
+msgstr "Bibliográfia rendszerbeállításai"
+
+msgid "obj_blog"
+msgstr "Blog"
+
+msgid "obj_blog_duplicate"
+msgstr "Blog másolása"
+
+msgid "obj_bnmk"
+msgstr "Teljesítménymérés"
+
+msgid "obj_bnmk_desc"
+msgstr "Az adatbázis-lekérdezések időtartamának rögzítése és megjelenítése"
+
+msgid "obj_book"
+msgstr "Foglalásgyűjtemény"
+
+msgid "obj_cadm"
+msgstr "Kapcsolatok"
+
+msgid "obj_cadm_desc"
+msgstr "Kapcsolatok kezelése"
+
+msgid "obj_cals"
+msgstr "Naptár"
+
+msgid "obj_cals_desc"
+msgstr "Általános naptárbeállítások"
+
+msgid "obj_cat"
+msgstr "Kategória"
+
+msgid "obj_cat_duplicate"
+msgstr "Kategória másolása"
+
+msgid "obj_catr"
+msgstr "Kategórialink"
+
+msgid "obj_cert"
+msgstr "Tanúsítvány"
+
+msgid "obj_cert_desc"
+msgstr "Beállítások a tanúsítványokhoz"
+
+msgid "obj_chap"
+msgstr "Fejezet"
+
+msgid "obj_chta"
+msgstr "Csevegőszoba"
+
+msgid "obj_chtr"
+msgstr "Csevegőszoba"
+
+msgid "obj_chtr_duplicate"
+msgstr "Csevegőszoba másolása"
+
+msgid "obj_cmis"
+msgstr "LRS"
+
+msgid "obj_cmis_desc"
+msgstr "A tanulásibejegyzés-tárolók típusainak beállítása"
+
+msgid "obj_cmix"
+msgstr "xAPI/cmi5"
+
+msgid "obj_cmps"
+msgstr "Bővítmények"
+
+msgid "obj_cmps_desc"
+msgstr "Bővítmények általános beállításai"
+
+msgid "obj_coms"
+msgstr "Hozzászólások"
+
+msgid "obj_coms_desc"
+msgstr "Hozzászólások beállításai"
+
+msgid "obj_copa"
+msgstr "Tartalomlap"
+
+msgid "obj_cpad"
+msgstr "Tartalomlapok"
+
+msgid "obj_cpad#_desc"
+msgstr "Tartalomlap kezelése"
+
+msgid "obj_cpad_desc"
+msgstr "Tartalomlap kezelése"
+
+msgid "obj_cron"
+msgstr "Ütemezett feladatok"
+
+msgid "obj_cron_desc"
+msgstr "Az összes ütemezett feladat listája"
+
+msgid "obj_crs"
+msgstr "Kurzus"
+
+msgid "obj_crs_duplicate"
+msgstr "Kurzus másolása"
+
+msgid "obj_crsr"
+msgstr "Kurzuslink"
+
+msgid "obj_crss"
+msgstr "Kurzus"
+
+msgid "obj_crss_desc"
+msgstr "Kurzus általános beállításai"
+
+msgid "obj_crsv"
+msgstr "Kurzus-tanúsítvány"
+
+msgid "obj_dbk"
+msgstr "Digitális könyvtári könyv"
+
+msgid "obj_dcl"
+msgstr "Adatgyűjtés"
+
+msgid "obj_dcl_duplicate"
+msgstr "Adatgyűjtés másolása"
+
+msgid "obj_dpro"
+msgstr "Adatvédelemi Nyilatkozat"
+
+msgid "obj_dpro_desc"
+msgstr "Adatvédelmi Nyilatkozat beállításai"
+
+msgid "obj_dshs"
+msgstr "Műszerfal"
+
+msgid "obj_dshs_desc"
+msgstr "Műszerfal beállításai"
+
+msgid "obj_ecss"
+msgstr "ECS"
+
+msgid "obj_ecss_desc"
+msgstr "Általános ECS beállítások"
+
+msgid "obj_etal"
+msgstr "Beosztotti megbeszélés"
+
+msgid "obj_exc"
+msgstr "Beadandó feladat"
+
+msgid "obj_exc_duplicate"
+msgstr "Feladat másolása"
+
+msgid "obj_excv"
+msgstr "Beadandó feladat tanúsítványa"
+
+msgid "obj_facs"
+msgstr "Fájlok"
+
+msgid "obj_facs_desc"
+msgstr "Fájlok és fájlkezelési beállítások"
+
+msgid "obj_file"
+msgstr "Fájl"
+
+msgid "obj_file_duplicate"
+msgstr "Fájl duplikálása"
+
+# Inline file
+msgid "obj_file_inline"
+msgstr "Tananyagfájl"
+
+msgid "obj_fils"
+msgstr "Fájlszolgáltatás"
+
+msgid "obj_fils_desc"
+msgstr "A Fájlszolgáltatás beállításai."
+
+msgid "obj_fold"
+msgstr "Mappa"
+
+msgid "obj_fold_duplicate"
+msgstr "Mappa másolása"
+
+msgid "obj_frm"
+msgstr "Fórum"
+
+msgid "obj_frm_duplicate"
+msgstr "Fórum másolása"
+
+msgid "obj_frma"
+msgstr "Fórum"
+
+msgid "obj_frma_desc"
+msgstr "Globális fórumbeállítások"
+
+msgid "obj_glo"
+msgstr "Fogalomtár"
+
+msgid "obj_glo_duplicate"
+msgstr "Fogalomtár másolása"
+
+msgid "obj_grp"
+msgstr "Csoport"
+
+msgid "obj_grp_duplicate"
+msgstr "Csoport másolása"
+
+msgid "obj_grpr"
+msgstr "Csoportlink"
+
+msgid "obj_grps"
+msgstr "Csoport"
+
+msgid "obj_grps_desc"
+msgstr "Csoport általános beállításai"
+
+msgid "obj_gsfo"
+msgstr "Lábléc"
+
+msgid "obj_gsfo_desc"
+msgstr "Lábléc és tartalma rendszerbeállításai"
+
+msgid "obj_hlps"
+msgstr "Súgórendszer"
+
+msgid "obj_hlps_desc"
+msgstr "Beállítások az online súgóhoz"
+
+msgid "obj_htlm"
+msgstr "HTML-tananyag"
+
+msgid "obj_htlm_duplicate"
+msgstr "HTML tananyag másolása"
+
+msgid "obj_iass"
+msgstr "Személyes értékelés"
+
+msgid "obj_iass_duplicate"
+msgstr "Személyes értékelés másolása"
+
+msgid "obj_iass_select"
+msgstr "-- Válasszon egy személyes értékelést --"
+
+msgid "obj_itgr"
+msgstr "Objektumcsoport"
+
+msgid "obj_ldap_desc"
+msgstr "Itt módosíthatja a globális LDAP-beállításokat."
+
+msgid "obj_lhts"
+msgstr "Tanulási történelem"
+
+msgid "obj_lhts_desc"
+msgstr "Tanulási történelem beállításai"
+
+msgid "obj_lm"
+msgstr "ILIAS-tananyag"
+
+msgid "obj_lm_duplicate"
+msgstr "Tananyag másolása"
+
+msgid "obj_lng"
+msgstr "Nyelv"
+
+msgid "obj_lngf"
+msgstr "Nyelvek"
+
+msgid "obj_lngf_desc"
+msgstr "Nyelvek kezelése"
+
+msgid "obj_logs"
+msgstr "Naplózás"
+
+msgid "obj_logs_desc"
+msgstr "Általános Naplózási beállítások"
+
+msgid "obj_lrss"
+msgstr "Tananyagok"
+
+msgid "obj_lrss_desc"
+msgstr "Összes tananyagtípus konfigurálása"
+
+msgid "obj_lso"
+msgstr "Tanulási sor"
+
+msgid "obj_lso_duplicate"
+msgstr "Tanulási sor másolása"
+
+msgid "obj_lsos"
+msgstr "Tanulási sorok"
+
+msgid "obj_lsos_desc"
+msgstr "Tanulási sorok általános beállításai"
+
+msgid "obj_lti"
+msgstr "LTI-Fogyasztó"
+
+msgid "obj_ltis"
+msgstr "LTI"
+
+msgid "obj_ltis_desc"
+msgstr "Tanulási eszközök átjárhatósága (Learning Tools Interoperability)"
+
+msgid "obj_mail"
+msgstr "Levelezés"
+
+msgid "obj_mail_desc"
+msgstr "Levelezés globális beállításai"
+
+msgid "obj_mailr"
+msgstr "Olvasott"
+
+msgid "obj_mailu"
+msgstr "Olvasatlan"
+
+msgid "obj_maps"
+msgstr "Térképek"
+
+msgid "obj_mcst"
+msgstr "Médiasugárzás"
+
+msgid "obj_mcst_duplicate"
+msgstr "Médiagyűjtemény másolása"
+
+msgid "obj_mcts"
+msgstr "Médiasugárzás"
+
+msgid "obj_mcts_desc"
+msgstr "Általános beállítások médiasugárzáshoz"
+
+msgid "obj_mep"
+msgstr "Médiagyűjtemény"
+
+msgid "obj_mep_duplicate"
+msgstr "Médiagyűjtemény másolása"
+
+msgid "obj_mme"
+msgstr "Főmenü"
+
+msgid "obj_mob"
+msgstr "Multimédiaobjektum"
+
+msgid "obj_mobs"
+msgstr "Médiaobjektumok és -gyűjtemények"
+
+msgid "obj_mobs_desc"
+msgstr "Beállítások médiaobjektumokhoz és médiagyűjteményekhez"
+
+msgid "obj_not_found"
+msgstr "Nem található objektum."
+
+msgid "obj_nota"
+msgstr "Értesítések"
+
+msgid "obj_nota_desc"
+msgstr "Rendszerértesítések"
+
+msgid "obj_nots"
+msgstr "Jegyzetek"
+
+msgid "obj_nots_desc"
+msgstr "Jegyzetek beállításai"
+
+msgid "obj_nwss"
+msgstr "Hírek és webhírforrások"
+
+msgid "obj_nwss_desc"
+msgstr "Beállítások belső hírekhez és külső hírforrásokhoz"
+
+msgid "obj_objf"
+msgstr "Objektumdefiníciók"
+
+msgid "obj_orgu"
+msgstr "Szervezeti egység"
+
+msgid "obj_orgu_description"
+msgstr "Szervezeti felépítés létrehozása és módosítása"
+
+msgid "obj_page"
+msgstr "Lap"
+
+msgid "obj_peac"
+msgstr "Harmonika"
+
+msgid "obj_peadl"
+msgstr "Fejlett felsorolás"
+
+msgid "obj_peadt"
+msgstr "Fejlett táblázat"
+
+msgid "obj_pecd"
+msgstr "Kód"
+
+msgid "obj_pech"
+msgstr "Fogadóórák"
+
+msgid "obj_pecl"
+msgstr "Oszlopos elrendezés"
+
+msgid "obj_peclp"
+msgstr "Vágólap"
+
+msgid "obj_pecom"
+msgstr "Kompetenciák"
+
+msgid "obj_pecrs"
+msgstr "Kurzus"
+
+msgid "obj_pecrt"
+msgstr "Tanúsítvány"
+
+msgid "obj_pecs"
+msgstr "Tartalom-építőelem"
+
+msgid "obj_pedt"
+msgstr "Adattábla"
+
+msgid "obj_pefl"
+msgstr "Fájllista"
+
+msgid "obj_peim"
+msgstr "Interaktív média"
+
+msgid "obj_pelh"
+msgstr "Tanulási történelem"
+
+msgid "obj_pemed"
+msgstr "Kép/Hang/Videó"
+
+msgid "obj_pemp"
+msgstr "Térkép"
+
+msgid "obj_pepd"
+msgstr "Személyes adat"
+
+msgid "obj_pepe"
+msgstr "Bővítményelem"
+
+msgid "obj_pepl"
+msgstr "Oldallista"
+
+msgid "obj_peplh"
+msgstr "Helyőrzők"
+
+msgid "obj_pequ"
+msgstr "Kérdések"
+
+msgid "obj_perl"
+msgstr "Erőforráslista"
+
+msgid "obj_pesc"
+msgstr "Fejezet"
+
+msgid "obj_petmp"
+msgstr "Oldalsablon"
+
+msgid "obj_peusr"
+msgstr "Felhasználó"
+
+msgid "obj_pg"
+msgstr "Lap"
+
+msgid "obj_poll"
+msgstr "Szavazás"
+
+msgid "obj_poll_dupliate:"
+msgstr "Szavazások másolása"
+
+msgid "obj_poll_duplicate"
+msgstr "Szavazás másolása"
+
+msgid "obj_prg"
+msgstr "Képzési program"
+
+msgid "obj_prg_duplicate"
+msgstr "Képzési program másolása"
+
+msgid "obj_prg_select"
+msgstr "-- Válasszon egy Képzési programot --"
+
+msgid "obj_prgr"
+msgstr "Képzésiprogram-link"
+
+msgid "obj_prgrs"
+msgstr "Képzésiprogram-linkek"
+
+msgid "obj_prgs"
+msgstr "Képzési programok"
+
+msgid "obj_prgs_desc"
+msgstr "Képzési program kezelése"
+
+msgid "obj_prss"
+msgstr "Személyes erőforrások kezelése"
+
+msgid "obj_prss_desc"
+msgstr "Személyes erőforrások beállításai"
+
+msgid "obj_prtf"
+msgstr "Portfólió"
+
+msgid "obj_prtt"
+msgstr "Portfólió sablon"
+
+msgid "obj_prtt_duplicate"
+msgstr "Portfólió sablon másolása"
+
+msgid "obj_ps"
+msgstr "Adatvédelem és biztonság"
+
+msgid "obj_ps_desc"
+msgstr "Adatvédelem és biztonság globális konfigurálása"
+
+msgid "obj_qpl"
+msgstr "Tesztkérdésgyűjtemény"
+
+msgid "obj_qpl_duplicate"
+msgstr "Tesztkérdésgyűjtemény másolása"
+
+msgid "obj_qpl_select"
+msgstr "-- Válasszon egy tesztkérdésgyűjteményt --"
+
+msgid "obj_rcat"
+msgstr "ECS kategória"
+
+msgid "obj_rcrs"
+msgstr "ECS-kurzus"
+
+msgid "obj_recf"
+msgstr "Helyreállított objektumok"
+
+msgid "obj_recf_desc"
+msgstr "Rendszerellenőrzés során helyreállított objektumok"
+
+msgid "obj_rep"
+msgstr "Tartalomtár"
+
+msgid "obj_reps"
+msgstr "Tartalomtár"
+
+msgid "obj_reps_desc"
+msgstr "Tartalomtár általános beállításai"
+
+msgid "obj_rfil"
+msgstr "ECS fájl"
+
+msgid "obj_rglo"
+msgstr "ECS fogalomtár"
+
+msgid "obj_rgrp"
+msgstr "ECS csoport"
+
+msgid "obj_rlm"
+msgstr "ECS tananyag"
+
+msgid "obj_role"
+msgstr "Szerepkör"
+
+msgid "obj_rolf"
+msgstr "Szerepkörök"
+
+msgid "obj_rolf_desc"
+msgstr "Szerepkörök kezelése"
+
+msgid "obj_rolf_local"
+msgstr "Helyi szerepkörök"
+
+msgid "obj_rolf_local_desc"
+msgstr "Objektum helyi szerepeit tartalmazza."
+
+msgid "obj_rolt"
+msgstr "Szerepkörminta"
+
+msgid "obj_root"
+msgstr "Tartalomtár - kezdőlap"
+
+msgid "obj_rtst"
+msgstr "ECS teszt"
+
+msgid "obj_rwik"
+msgstr "ECS wiki"
+
+msgid "obj_sahs"
+msgstr "SCORM-tananyag"
+
+msgid "obj_sahs_duplicate"
+msgstr "Tananyag másolása"
+
+msgid "obj_sco"
+msgstr "SCO"
+
+msgid "obj_scov"
+msgstr "SCORM Tanúsítvány"
+
+msgid "obj_seas"
+msgstr "Keresés"
+
+msgid "obj_seas_desc"
+msgstr "Keresési beállítások kezelése"
+
+msgid "obj_serv"
+msgstr "Szerver"
+
+msgid "obj_serv_desc"
+msgstr "A szerver állapota, beállításai és PDF beállítások"
+
+msgid "obj_sess"
+msgstr "Esemény"
+
+msgid "obj_sess_duplicate"
+msgstr "Esemény másolása"
+
+msgid "obj_skmg"
+msgstr "Kompetenciamenedzsment"
+
+msgid "obj_skmg_desc"
+msgstr "Kompetenciák és kompetenciakategóriák kezelése"
+
+msgid "obj_spl"
+msgstr "Kérdőívkérdés-gyűjtemény"
+
+msgid "obj_st"
+msgstr "Fejezet"
+
+msgid "obj_stus"
+msgstr "Gyorslink"
+
+msgid "obj_stus_desc"
+msgstr "Gyorslink globális beállításai"
+
+msgid "obj_sty"
+msgstr "Tartalomstílus"
+
+msgid "obj_stys"
+msgstr "Stílus és elrendezés"
+
+msgid "obj_stys_desc"
+msgstr "Stílusok és elrendezések rendszerbeállításainak kezelése"
+
+msgid "obj_svy"
+msgstr "Kérdőív"
+
+msgid "obj_svy_duplicate"
+msgstr "Kérdőív másolása"
+
+msgid "obj_svyf"
+msgstr "Kérdőív"
+
+msgid "obj_svyf_desc"
+msgstr "Kérdőív rendszerbeállításai"
+
+msgid "obj_sysc"
+msgstr "Rendszerellenőrzés"
+
+msgid "obj_sysc_desc"
+msgstr "Rendszerellenőrző és -javító eszközök"
+
+msgid "obj_tags"
+msgstr "Címkézés"
+
+msgid "obj_tags_desc"
+msgstr "Címkézési tulajdonság beállításai"
+
+msgid "obj_tala"
+msgstr "Megbeszélési sablonok"
+
+msgid "obj_tala_desc"
+msgstr "Megbeszélési sablonok"
+
+msgid "obj_tals"
+msgstr "Beosztotti megbeszéléssorozat"
+
+msgid "obj_talt"
+msgstr "Megbeszélési sablon"
+
+msgid "obj_task"
+msgstr "Feladat"
+
+msgid "obj_tax"
+msgstr "Taxonómia"
+
+msgid "obj_taxf"
+msgstr "Taxonómiák"
+
+msgid "obj_tool_setting_calendar"
+msgstr "Naptár megjelenítése"
+
+msgid "obj_tool_setting_calendar_active"
+msgstr "Naptár"
+
+msgid "obj_tool_setting_calendar_active_info"
+msgstr "A naptár elérhető."
+
+msgid "obj_tool_setting_calendar_info"
+msgstr "A ‘Naptár’ blokk megjelenik a ‘Tartalom’ lapon."
+
+msgid "obj_tool_setting_custom_metadata"
+msgstr "Egyéni metaadat"
+
+msgid "obj_tool_setting_custom_metadata_info"
+msgstr "A ‘Metaadat’ lapon egyéni metaadatok hozhatók létre."
+
+msgid "obj_tool_setting_news"
+msgstr "Hírek megjelenítése"
+
+msgid "obj_tool_setting_news_info"
+msgstr "A ‘Hír’ blokk megjelenik a ‘Tartalom’ lapon."
+
+msgid "obj_tos"
+msgstr "Szolgáltatási feltételek"
+
+msgid "obj_tos_desc"
+msgstr "Szolgáltatási feltételek beállításai"
+
+msgid "obj_trac"
+msgstr "Statisztikák és tanulási haladás"
+
+msgid "obj_trac_desc"
+msgstr "Statisztikák és tanulási haladás beállításai és áttekintése"
+
+msgid "obj_tst"
+msgstr "Teszt"
+
+msgid "obj_tst_duplicate"
+msgstr "Teszt másolása"
+
+msgid "obj_tstv"
+msgstr "Teszt tanúsítványa"
+
+msgid "obj_type"
+msgstr "Objektumtípus"
+
+msgid "obj_user"
+msgstr "Felhasználó"
+
+msgid "obj_usr"
+msgstr "Felhasználó"
+
+msgid "obj_usrf"
+msgstr "ILIAS-fiókok"
+
+msgid "obj_usrf_desc"
+msgstr "ILIAS-fiókok kezelése"
+
+msgid "obj_wbdv"
+msgstr "WebDAV"
+
+msgid "obj_wbdv_desc"
+msgstr "A WebDAV beállításai."
+
+msgid "obj_wbrs"
+msgstr "Weblinkek"
+
+msgid "obj_wbrs_desc"
+msgstr "Weblinkek általános beállításai"
+
+msgid "obj_webr"
+msgstr "Weblink"
+
+msgid "obj_webr_duplicate"
+msgstr "Weblink-gyűjtemény másolása"
+
+msgid "obj_wfld"
+msgstr "Mappa"
+
+msgid "obj_wiki"
+msgstr "Wiki"
+
+msgid "obj_wiki_duplicate"
+msgstr "Wiki másolása"
+
+msgid "obj_wiks"
+msgstr "Wiki"
+
+msgid "obj_wiks_desc"
+msgstr "Wiki globális beállításai"
+
+msgid "object"
+msgstr "Objektum"
+
+msgid "object_added"
+msgstr "Az objektumot sikeresen hozzáadta."
+
+msgid "object_copy_in_progress"
+msgstr "Másolás megkezdve."
+
+msgid "object_duplicated"
+msgstr "Az objektumot sikeresen lemásolta."
+
+msgid "object_id"
+msgstr "Objektum-ID"
+
+msgid "object_imported"
+msgstr "Az objektumot sikeresen importálta."
+
+msgid "object_list"
+msgstr "Objetumok felsorolása"
+
+msgid "objects"
+msgstr "Objektumok"
+
+msgid "objf"
+msgstr "Objektumdefiníciók"
+
+msgid "objs_bibl"
+msgstr "Bibliográfiák"
+
+msgid "objs_blog"
+msgstr "Blogok"
+
+msgid "objs_book"
+msgstr "Foglalásgyűjtemények"
+
+msgid "objs_cat"
+msgstr "Kategóriák"
+
+msgid "objs_catr"
+msgstr "Kategórialink"
+
+msgid "objs_chtr"
+msgstr "Csevegőszoba"
+
+msgid "objs_cmix"
+msgstr "xAPI/cmi5-objektum"
+
+msgid "objs_copa"
+msgstr "Tartalomlapok"
+
+msgid "objs_crs"
+msgstr "Kurzusok"
+
+msgid "objs_crsr"
+msgstr "Kurzuslink"
+
+msgid "objs_dcl"
+msgstr "Adatgyűjtések"
+
+msgid "objs_etal"
+msgstr "Munkavállói megbeszélések"
+
+msgid "objs_exc"
+msgstr "Beadandó feladatok"
+
+msgid "objs_file"
+msgstr "Fájlok"
+
+msgid "objs_fold"
+msgstr "Mappák"
+
+msgid "objs_frm"
+msgstr "Fórumok"
+
+msgid "objs_glo"
+msgstr "Fogalomtárak"
+
+msgid "objs_grp"
+msgstr "Csoportok"
+
+msgid "objs_grpr"
+msgstr "Csoportlinkek"
+
+msgid "objs_htlm"
+msgstr "HTML-tananyagok"
+
+msgid "objs_iass"
+msgstr "Személyes értékelések"
+
+msgid "objs_itgr"
+msgstr "Objektumcsoportok"
+
+msgid "objs_lm"
+msgstr "ILIAS-tananyagok"
+
+msgid "objs_lres"
+msgstr "Tananyagok"
+
+msgid "objs_lso"
+msgstr "Tanulási sorok"
+
+msgid "objs_lti"
+msgstr "LTI-Fogyasztók"
+
+msgid "objs_mail"
+msgstr "Levelek"
+
+msgid "objs_mcst"
+msgstr "Médiasugárzások"
+
+msgid "objs_mep"
+msgstr "Médiagyűjtemény"
+
+msgid "objs_orgu"
+msgstr "Szervezeti egységek"
+
+msgid "objs_poll"
+msgstr "Szavazások"
+
+msgid "objs_prg"
+msgstr "Képzési programok"
+
+msgid "objs_prgr"
+msgstr "Képzésiprogram-link"
+
+msgid "objs_prtf"
+msgstr "Portfóliók"
+
+msgid "objs_prtt"
+msgstr "Portfólió sablonok"
+
+msgid "objs_qpl"
+msgstr "Tesztkérdésgyűjtemény"
+
+msgid "objs_qst"
+msgstr "Kérdések"
+
+msgid "objs_rcat"
+msgstr "ECS kategória"
+
+msgid "objs_rcrs"
+msgstr "ECS-kurzusok"
+
+msgid "objs_rfil"
+msgstr "ECS fájlok"
+
+msgid "objs_rglo"
+msgstr "ECS fogalomtárak"
+
+msgid "objs_rgrp"
+msgstr "ECS csoportok"
+
+msgid "objs_rlm"
+msgstr "ECS tananyagok"
+
+msgid "objs_role"
+msgstr "Szerepkörök"
+
+msgid "objs_rolf"
+msgstr "Szerepkörmappák"
+
+msgid "objs_rtst"
+msgstr "ECS tesztek"
+
+msgid "objs_rwik"
+msgstr "ECS wikik"
+
+msgid "objs_sahs"
+msgstr "SCORM-tananyagok"
+
+msgid "objs_sess"
+msgstr "Események"
+
+msgid "objs_skee"
+msgstr "Kompetencia-fák"
+
+msgid "objs_spl"
+msgstr "Kérdőívkérdés-gyűjtemény"
+
+msgid "objs_st"
+msgstr "Fejezetek"
+
+msgid "objs_svy"
+msgstr "Kérdőívek"
+
+msgid "objs_tala"
+msgstr "Megbeszéléssablonok"
+
+msgid "objs_talt"
+msgstr "Megbeszéléssablonok"
+
+msgid "objs_tst"
+msgstr "Tesztek"
+
+msgid "objs_webr"
+msgstr "Weblinkek"
+
+msgid "objs_wiki"
+msgstr "Wikik"
+
+msgid "of"
+msgstr "összesen:"
+
+msgid "offline"
+msgstr "offline"
+
+msgid "offline_mode"
+msgstr "Offline használat"
+
+msgid "ok"
+msgstr "Rendben"
+
+msgid "old"
+msgstr "Régi"
+
+msgid "omit"
+msgstr "Kihagy"
+
+msgid "omit_all"
+msgstr "Összeset kihagy"
+
+msgid "on_waiting_list"
+msgstr "Ön várólistán van"
+
+msgid "online"
+msgstr "Online"
+
+msgid "online_time"
+msgstr "Online töltött idő (NN:ÓÓ:PP:MM)"
+
+msgid "only_active"
+msgstr "Csak aktív"
+
+msgid "only_inactive"
+msgstr "Csak inaktív"
+
+msgid "open"
+msgstr "Kinyitni"
+
+msgid "operation"
+msgstr "Művelet"
+
+msgid "optimize"
+msgstr "Optimalizálás"
+
+msgid "option"
+msgstr "Beállítás"
+
+msgid "optional_filter_hint"
+msgstr "Kapcsolja be valamelyik választható szűrőt."
+
+msgid "optional_filters"
+msgstr "Választható szűrők"
+
+msgid "options"
+msgstr "Beállítások"
+
+msgid "order_by"
+msgstr "Sorrend:"
+
+msgid "order_by_date"
+msgstr "Dátum alapján"
+
+msgid "org_op_access_enrolments"
+msgstr "Kurzustagság-állapot megjelenítése"
+
+msgid "org_op_manage_members"
+msgstr "Alárendelt tagok kezelése"
+
+msgid "org_op_read_learning_progress"
+msgstr "Alárendelt felhasználók tanulási haladásának megjelenítése"
+
+msgid "org_permission_settings"
+msgstr "Szervezeti egység pozícióinak jogosultságai"
+
+msgid "org_units"
+msgstr "Szervezeti egységek"
+
+msgid "organization"
+msgstr "Szolgáltató"
+
+msgid "other"
+msgstr "További adatok"
+
+msgid "overview"
+msgstr "Áttekintés"
+
+msgid "overwrite"
+msgstr "Felülírás"
+
+msgid "owner"
+msgstr "Tulajdonos"
+
+msgid "owner_updated"
+msgstr "A tulajdonost sikeresen módosította."
+
+msgid "page"
+msgstr "Lap"
+
+msgid "page_count"
+msgstr "Oldalszám"
+
+msgid "page_layout"
+msgstr "Lapelrendezés"
+
+msgid "page_layouts"
+msgstr "Lapelrendezések"
+
+msgid "pagination_label_x_of_y"
+msgstr "%1$d / %2$d oldal"
+
+msgid "parameter"
+msgstr "Paraméter"
+
+msgid "parse"
+msgstr "Szövegszerkezet elemzés"
+
+msgid "participate"
+msgstr "Feliratkozás"
+
+msgid "passed"
+msgstr "Sikeresen teljesítette"
+
+msgid "passwd"
+msgstr "Jelszó"
+
+msgid "passwd_generation"
+msgstr "Jelszógenerálás"
+
+msgid "passwd_invalid"
+msgstr "Az új jelszó nem megfelelő. Csak a következő karakterek használhatók (min. 6 karakter): A-Z a-z 0-9 _.-+?#*@!$%~"
+
+msgid "passwd_not_match"
+msgstr "A begépelt nem illeszkedik az új jelszóra. Adja meg ismét az új jelszót!"
+
+msgid "passwd_wrong"
+msgstr "A megadott jelszó hibás."
+
+msgid "password"
+msgstr "Jelszó"
+
+msgid "password_allow_chars"
+msgstr "Engedélyezett karakter: %s"
+
+msgid "password_assistance_info"
+msgstr "Az ‘Elfelejtette jelszavát?’ szövegű link jelenik meg az ILIAS bejelentkező képernyőjén. A felhasználók a link segítségével új jelszót adhatnak meg ILIAS-fiókjukhoz rendszergazdai segítség igénybevétele nélkül."
+
+msgid "password_change_on_first_login_demand"
+msgstr "Kezdeti jelszavát meg kell változtatnia mielőtt megkezdi az ILIAS használatát!"
+
+msgid "password_contains_invalid_chars"
+msgstr "A jelszó érvénytelen karaktereket tartalmaz"
+
+msgid "password_contains_parts_of_login_err"
+msgstr "A jelszó tartalmazza a felhasználóneved. Másik jelszót adj meg."
+
+msgid "password_empty"
+msgstr "A jelszó nem lehet üres!"
+
+msgid "password_expired"
+msgstr "Jelszava lejárt, meg kell, hogy változtassa, mert az utolsó módosítás %s nappal ezelőtt történt."
+
+msgid "password_multiple_errors"
+msgstr "A többszörös kritériumok nem teljesülnek:"
+
+msgid "password_must_chars_and_numbers"
+msgstr "A jelszó tartalmazzon karaktereket és számokat."
+
+msgid "password_must_contain_lcase_chars"
+msgstr "A jelszónak legalább %s kisbetűt kell tartalmaznia."
+
+msgid "password_must_contain_ucase_chars"
+msgstr "A jelszónak legalább %s nagybetűt kell tartalmaznia."
+
+msgid "password_must_special_chars"
+msgstr "A jelszó tartalmazzon speciális karaktereket."
+
+msgid "password_to_long"
+msgstr "A jelszó legfeljebb %s karakter hosszú lehet."
+
+msgid "password_to_short"
+msgstr "A jelszó legalább %s karakter hosszú legyen."
+
+msgid "paste"
+msgstr "Beillesztés"
+
+msgid "pasteChapter"
+msgstr "Beillesztés"
+
+msgid "pastePage"
+msgstr "Beillesztés"
+
+msgid "paste_clipboard_items"
+msgstr "Beillesztés"
+
+msgid "path"
+msgstr "Elérési útvonal"
+
+msgid "path_not_set"
+msgstr "Az útvonal nincs beállítva."
+
+msgid "path_to_convert"
+msgstr "Útvonal konvertáláshoz"
+
+msgid "path_to_htmldoc"
+msgstr "Útvonal HTML-dokumentumhoz"
+
+msgid "path_to_java"
+msgstr "Útvonal Java-hoz"
+
+msgid "path_to_unzip"
+msgstr "Útvonal UnZIP-hez"
+
+msgid "path_to_zip"
+msgstr "Útvonal ZIP-hez"
+
+msgid "pathes"
+msgstr "Útvonalak"
+
+msgid "pd_items_news"
+msgstr "Személyes objektumok híreit beleértve"
+
+msgid "pdf_export"
+msgstr "PDF-export"
+
+msgid "perm_settings"
+msgstr "Jogosultságok"
+
+msgid "perma_link"
+msgstr "Állandó link"
+
+msgid "perma_link_copied"
+msgstr "Az erre az oldalra mutató linket a vágólapra másolta"
+
+msgid "permission"
+msgstr "Jogosultság"
+
+msgid "permission_denied"
+msgstr "Hozzáférés elutasítva."
+
+msgid "permission_settings"
+msgstr "Jogosultságok beállítása"
+
+msgid "person_title"
+msgstr "Név előtag"
+
+msgid "personal_data"
+msgstr "Személyes adatok"
+
+msgid "personal_picture"
+msgstr "Fénykép"
+
+msgid "personal_profile"
+msgstr "Profil és adatvédelem"
+
+msgid "personal_resources"
+msgstr "Személyes erőforrások"
+
+msgid "personal_settings"
+msgstr "Beállítások"
+
+msgid "personalise_date_time"
+msgstr "Dátum és idő beállításainak személyre szabása"
+
+msgid "persons"
+msgstr "Személyek"
+
+msgid "pg_add"
+msgstr "Lap létrehozása"
+
+msgid "pg_new"
+msgstr "Új lap"
+
+msgid "phone"
+msgstr "Telefon"
+
+msgid "phone_home"
+msgstr "Telefon - otthoni"
+
+msgid "phone_mobile"
+msgstr "Telefon - mobil"
+
+msgid "phone_office"
+msgstr "Telefon - munkahelyi"
+
+msgid "phrase"
+msgstr "Választípus"
+
+msgid "please_choose"
+msgstr "--- Válasszon ---"
+
+msgid "please_enter_target"
+msgstr "Adjon meg célt."
+
+msgid "please_enter_title"
+msgstr "Adjon meg címet."
+
+msgid "please_select"
+msgstr "-- Válasszon --"
+
+msgid "please_select_a_delivered_file_to_delete"
+msgstr "Legalább egy átadott fájlt ki kell választani a törléshez."
+
+msgid "please_select_a_delivered_file_to_download"
+msgstr "Legalább egy átadott fájlt ki kell választania a letöltéshez."
+
+msgid "please_wait"
+msgstr "Kérem, várjon…"
+
+msgid "port"
+msgstr "Port"
+
+msgid "portfolio"
+msgstr "Portfólió"
+
+msgid "pos_bottom"
+msgstr "Alulra"
+
+msgid "pos_left"
+msgstr "Balra"
+
+msgid "pos_right"
+msgstr "Jobbra"
+
+msgid "pos_top"
+msgstr "Fel"
+
+msgid "position"
+msgstr "Pozíció"
+
+msgid "position_permission_settings"
+msgstr "Szervezeti egység alapú jogosultságok"
+
+msgid "precondition"
+msgstr "Előfeltétel"
+
+msgid "precondition_not_accessible"
+msgstr "Nem rendelkezik megfelelő jogosultsággal ezen elemek előfeltételeinek megtekintéséhez."
+
+msgid "precondition_required_itemlist"
+msgstr "Kötelező előfeltétel"
+
+msgid "precondition_toggle"
+msgstr "Ennek az objektumnak az eléréséhez teljesítendő előfeltételek"
+
+msgid "preconditions"
+msgstr "Előfeltételek"
+
+msgid "preconditions_obligatory_hint"
+msgstr "Teljesítenie kell az alábbi előfeltételeket"
+
+msgid "preconditions_optional_hint"
+msgstr "Az alábbi előfeltételekből <b>%s</b> darabot kell teljesítenie"
+
+msgid "predefined_template"
+msgstr "Előre definiált szerepsablon"
+
+msgid "preferences"
+msgstr "Beállítások"
+
+msgid "presentation_table_more"
+msgstr "Több megjelenítése"
+
+#, fuzzy
+msgid "presenter"
+msgstr "Presenter"
+
+msgid "preview"
+msgstr "Előnézet"
+
+msgid "preview_create"
+msgstr "Előnézet létrehozása"
+
+msgid "preview_delete"
+msgstr "Előnézet törlése"
+
+msgid "preview_image_size"
+msgstr "Előnézeti képek mérete"
+
+msgid "preview_learner_info"
+msgstr "A kurzus- és csoportvezető a tagok nézetből is megtekintheti a tartalmat."
+
+msgid "preview_loading"
+msgstr "Előnézet betöltése…"
+
+msgid "preview_none"
+msgstr "Előnézet (még nem készült el)"
+
+msgid "preview_not_possible"
+msgstr "Előképek előállítása jelenleg nem lehetséges, kérem, olvassa el a dokumentációt: %s."
+
+msgid "preview_renderers"
+msgstr "Előképrenderelők"
+
+msgid "preview_settings"
+msgstr "Fájlelőnézet"
+
+msgid "preview_show"
+msgstr "Előnézet megjelenítése"
+
+msgid "preview_status_creating"
+msgstr "Készül az előnézet. Ez egy kis időt igénybe vehet…"
+
+msgid "preview_status_deleting"
+msgstr "Előnézet törlése…"
+
+msgid "preview_status_failed"
+msgstr "Előnézet készítése sikertelen."
+
+msgid "preview_status_missing"
+msgstr "Nincs előnézet ehhez a fájlhoz."
+
+msgid "preview_status_pending"
+msgstr "Az előnézet még nem készült el. Próbálja később."
+
+msgid "previous"
+msgstr "Előző"
+
+msgid "prg_copy_threads_info"
+msgstr "Válassza ki a Képzési program mely elemit másolja, linkeli vagy hagyja figyelmen kívül."
+
+msgid "prg_wizard_page"
+msgstr "Képzési program másolása (2/2 lépés)"
+
+msgid "prgr_add"
+msgstr "Képzési program link hozzáadása"
+
+msgid "prgr_edit_info"
+msgstr "Kérem, válasszon egy képzési programot az új link elkészítéséhez."
+
+msgid "prgr_new"
+msgstr "Képzési programra mutató link létrehozása"
+
+msgid "prgr_settings"
+msgstr "Képzési program link beállításai"
+
+msgid "print"
+msgstr "Nyomtatás"
+
+msgid "print_view"
+msgstr "Nyomtatási nézet"
+
+msgid "private_notes"
+msgstr "Privát jegyzeteim"
+
+msgid "pro"
+msgstr "Pozitívum"
+
+msgid "proceed"
+msgstr "Folytatás"
+
+msgid "profile"
+msgstr "Adatok"
+
+msgid "profile_changed"
+msgstr "Adatai módosultak"
+
+msgid "profile_incomplete"
+msgstr "Adatai hiányosak. Adjon meg minden kötelező adatot."
+
+msgid "profile_of"
+msgstr "Adatai:"
+
+msgid "properties"
+msgstr "Tulajdonságok"
+
+msgid "proxy"
+msgstr "Proxy-Server"
+
+msgid "proxy_connectable"
+msgstr "A kapcsolat létrejött."
+
+msgid "proxy_host"
+msgstr "Kiszolgáló"
+
+msgid "proxy_host_info"
+msgstr "Adjon meg egy kiszolgálót."
+
+msgid "proxy_not_connectable"
+msgstr "Az ILIAS nem tud kapcsolatot létrehozni az adott proxy-hoz."
+
+msgid "proxy_port"
+msgstr "Port"
+
+msgid "proxy_port_info"
+msgstr "Adjon meg egy portot 0 és 65535 között, például 8080."
+
+msgid "proxy_port_numeric"
+msgstr "A portnak 0 és 65535 közötti számértéknek kell lennie."
+
+msgid "proxy_socket_error"
+msgstr "Socket hiba: %s"
+
+msgid "proxy_status"
+msgstr "Proxy"
+
+msgid "proxy_status_info"
+msgstr "Proxy használatához az ILIAS-ban (például webhírforráshoz vagy weblinkek ellenőrzéséhez) kapcsolja be a fenti jelölőnégyzetet."
+
+msgid "ps_export_scorm"
+msgstr "Személyes adat a protokolladatban"
+
+msgid "ps_password_lowercase_chars_num"
+msgstr "Kisbetűk"
+
+msgid "ps_password_lowercase_chars_num_info"
+msgstr "Adja meg, a jelszónak hány kisbetűt kell tartalmaznia. 0 esetén nincs ilyen elvárás."
+
+msgid "ps_password_must_not_contain_loginame"
+msgstr "Felhasználónév megakadályozás a jelszóban"
+
+msgid "ps_password_must_not_contain_loginame_info"
+msgstr "A jelszó nem tartalmazhatja a felhasználónevet."
+
+msgid "ps_password_uppercase_chars_num"
+msgstr "Nagybetűk"
+
+msgid "ps_password_uppercase_chars_num_info"
+msgstr "Adja meg, a jelszónak hány nagybetűt kell tartalmaznia. 0 esetén nincs ilyen elvárás."
+
+msgid "pub_section"
+msgstr "Nyilvános terület"
+
+msgid "pub_section_info"
+msgstr "A rendszer részei (például Tartalomtár, magánterület, felhasználói profilok) bejelentkezés nélkül elérhetőek az internetről. Az ‘Anonymous’ szerepkör jogosultságai határozzák meg a Tartalomtár objektumainak elérhetőségét."
+
+msgid "public"
+msgstr "nyilvános"
+
+msgid "public_notes"
+msgstr "Nyilvános jegyzetek"
+
+msgid "public_profile"
+msgstr "Profil"
+
+msgid "public_room"
+msgstr "Nyilvános csevegőszoba"
+
+msgid "purpose"
+msgstr "Cél"
+
+msgid "qpl"
+msgstr "Tesztkérdésgyűjtemény"
+
+msgid "qpl_add"
+msgstr "Tesztkérdésgyűjtemény létrehozása"
+
+msgid "qpl_new"
+msgstr "Új tesztkérdésgyűjtemény"
+
+msgid "query_data"
+msgstr "Adatok lekérdezése"
+
+msgid "question"
+msgstr "Kérdés"
+
+msgid "question_message"
+msgstr "Kérdés"
+
+msgid "quit"
+msgstr "Kilépés"
+
+msgid "quote"
+msgstr "Idézet"
+
+msgid "read"
+msgstr "Olvasási hozzáférés"
+
+msgid "readcount_anonymous_users"
+msgstr "Ennyiszer tekintette meg bejelentkezés nélküli felhasználó"
+
+msgid "readcount_users"
+msgstr "Ennyiszer tekintette meg bejelentkezett felhasználó"
+
+msgid "recipient"
+msgstr "Címzett"
+
+msgid "reference_deleted"
+msgstr "A végcél nem érhető el"
+
+msgid "reference_of"
+msgstr "Hivatkozása:"
+
+msgid "referral_comment"
+msgstr "Honnan szerzett tudomást az ILIAS-ról"
+
+msgid "refresh"
+msgstr "Frissítés"
+
+msgid "refresh_languages"
+msgstr "Összes nyelv frissítése"
+
+msgid "refuse"
+msgstr "Visszautasítás"
+
+msgid "reg_account_confirmation_successful"
+msgstr "ILIAS-fiókját aktiválták."
+
+msgid "reg_delete_expired_pending_registrations"
+msgstr "Lejárt, függőben lévő regisztrációk törlése"
+
+msgid "reg_delete_expired_pending_registrations_desc"
+msgstr "Törli az összes olyan ILIAS fiókot, amelyet e-mailben történő visszaigazolással történő regisztráció után nem erősítettek meg."
+
+msgid "reg_goto_parent_membership_info"
+msgstr "Csak tagok érhetik el a célobjektumot."
+
+msgid "reg_mail_body_2_confirmation"
+msgstr "A link csak eddig működik: %s, után az elejéről kell kezdenie a regisztrációs folyamatot."
+
+msgid "reg_mail_body_3_confirmation"
+msgstr "Ha ez a levél nem jelent Önnek semmit, lehet hogy valaki más is belépett az Ön postafiókjába szándékosan vagy véletlenül. Kérjük, tekintse semmisnek ezt a levelet!"
+
+msgid "reg_mail_body_forgot_password_info"
+msgstr "Ehhez az ILIAS-fiókhoz új jelszó kéréséhez használja a bejelentkező képernyőn található ‘Elfelejtette jelszavát?’ linket."
+
+msgid "reg_mail_body_salutation"
+msgstr "Tisztelt"
+
+msgid "reg_mail_body_text1"
+msgstr "üdvözöljük ILIAS e-learning rendszerünkben!"
+
+msgid "reg_mail_body_text2"
+msgstr "Az ILIAS-t az alábbi adatokkal érheti el:"
+
+msgid "reg_mail_body_text3"
+msgstr "További felhasználói adatai:"
+
+msgid "reg_mail_subject"
+msgstr "Bejelentkezési adatai"
+
+msgid "reg_mail_subject_confirmation"
+msgstr "Visszaigazoló link"
+
+msgid "reg_passwd_via_mail"
+msgstr "Jelszavát e-mail címére fogjuk elküldeni."
+
+msgid "register"
+msgstr "Regisztráció"
+
+msgid "register_notification"
+msgstr "ezúton értesítjük, hogy ‘%s’ jelezte részvételi szándékát ‘%s’ eseményre."
+
+msgid "registered_since"
+msgstr "Regisztráció kezdete"
+
+msgid "registered_user"
+msgstr "regisztrált felhasználó"
+
+msgid "registered_users"
+msgstr "regisztrált felhasználó"
+
+msgid "registration"
+msgstr "Regisztráció"
+
+msgid "related_to"
+msgstr "Kapcsolódik ehhez:"
+
+msgid "remove"
+msgstr "Eltávolítás"
+
+msgid "remove_entries"
+msgstr "Bejegyzések eltávolítása"
+
+msgid "remove_translation"
+msgstr "Fordítás eltávolítása"
+
+msgid "rename"
+msgstr "Átnevezés"
+
+msgid "rename_file"
+msgstr "Fájl átnevezése"
+
+msgid "renderer_supported_file_types"
+msgstr "Támogatott fájltípusok"
+
+msgid "renderer_supported_repo_types"
+msgstr "Támogatott Tartalomtár-típusok"
+
+msgid "renderer_type_builtin"
+msgstr "Beépített"
+
+msgid "rep_main_page"
+msgstr "Kezdőlap"
+
+msgid "rep_main_page_logo_alt"
+msgstr "ILIAS logó - a kezdőoldalra"
+
+msgid "repeat_scan"
+msgstr "Víruskeresés ismétlése…"
+
+msgid "repeat_scan_failed"
+msgstr "Ismételt keresés sikertelen."
+
+msgid "repeat_scan_succeded"
+msgstr "Ismételt keresés sikerült."
+
+msgid "replace_file"
+msgstr "Fájl cseréje"
+
+msgid "reply"
+msgstr "Válasz"
+
+msgid "report_accessibility_issue"
+msgstr "Hozzáférési probléma jelzése"
+
+msgid "report_accessibility_link"
+msgstr "Bejelentett link:"
+
+msgid "report_accessibility_link_mailto"
+msgstr "Bejelentett%20link:"
+
+msgid "repository"
+msgstr "Tartalomtár"
+
+msgid "repository_admin"
+msgstr "Tartalomtár-lomtár"
+
+msgid "repository_admin_desc"
+msgstr "Tartalomtár objektumaira jogosultságok beállítása, objektumok visszaállítása vagy eltávolítása a rendszer lomtárából"
+
+msgid "require_email"
+msgstr "E-mail kötelező"
+
+msgid "require_gender"
+msgstr "Nem kötelező"
+
+msgid "require_hobby"
+msgstr "Hobbi kötelező"
+
+msgid "require_matriculation"
+msgstr "Törzskönyvi szám kötelező"
+
+msgid "require_referral_comment"
+msgstr "Hivatkozó megjegyzés kötelező"
+
+msgid "required_field"
+msgstr "Kötelező"
+
+msgid "res_links"
+msgstr "Tartalomtár linkek"
+
+msgid "res_links_short"
+msgstr "Linkek"
+
+msgid "reset"
+msgstr "Alaphelyzetbe állítás"
+
+msgid "reset_filter"
+msgstr "Szűrő törlése"
+
+msgid "resources"
+msgstr "Források"
+
+msgid "right"
+msgstr "Jog"
+
+msgid "rights"
+msgstr "Jogok"
+
+msgid "role"
+msgstr "Szerepkör"
+
+msgid "role_add_user"
+msgstr "Felhasználó(k) szerepkörhöz adása"
+
+msgid "role_added"
+msgstr "Sikeresen létrehozott egy szerepkört."
+
+msgid "role_assignment"
+msgstr "Szerep-összerendelés"
+
+msgid "role_assignment_updated"
+msgstr "A szerep-összerendelést sikeresen frissítette."
+
+msgid "role_edit"
+msgstr "Szerepkör módosítása"
+
+msgid "role_mailto"
+msgstr "Levél minden hozzárendelt felhasználónak"
+
+msgid "role_new"
+msgstr "Új szerepkör"
+
+msgid "role_new_search"
+msgstr "Új keresés"
+
+msgid "role_no_roles_selected"
+msgstr "Válasszon ki egy szerepkört!"
+
+msgid "role_protect_permissions"
+msgstr "Jogosultságok megvédése"
+
+msgid "role_protect_permissions_desc"
+msgstr "Az objektum jogosultsági beállításai rendszerművelettel már nem módosíthatók evvel a szereppel. A rendszergazdák magasabb szinten továbbra is módosíthatják a jogosultságokat."
+
+msgid "role_select_one_item"
+msgstr "Egy objektumot válasszon!"
+
+msgid "role_sure_delete_desk_items"
+msgstr "Biztos, hogy törli az alábbi munkaasztal-linkeket?"
+
+msgid "role_templates_only"
+msgstr "Csak szerepkörminták"
+
+msgid "roles"
+msgstr "Szerepkörök"
+
+msgid "roles_of_import_global"
+msgstr "Importfájl globális szerepei"
+
+msgid "roles_of_import_local"
+msgstr "Importfájl helyi szerepei"
+
+msgid "rolf"
+msgstr "Szerepkörök"
+
+msgid "rolf_added"
+msgstr "Sikeresen létrehozott egy szerepkörmappát."
+
+msgid "rolf_create_role"
+msgstr "Új szerepkör létrehozása"
+
+msgid "rolf_create_rolt"
+msgstr "Új szerepkörminta létrehozása"
+
+msgid "rolf_delete"
+msgstr "Szerepkörök / szerepkörminták törlése"
+
+msgid "rolf_edit_permission"
+msgstr "Jogosultsági beállítások változtatása"
+
+msgid "rolf_edit_userassignment"
+msgstr "Szerepkör és felhasználó összerendelésének változtatása"
+
+msgid "rolf_read"
+msgstr "Olvasási elérés szerepkörökhöz / szerepkörmintákhoz"
+
+msgid "rolf_visible"
+msgstr "Szerepkörök / szerepkörminták láthatók"
+
+msgid "rolf_write"
+msgstr "Szerepkörök / szerepkörminták alapértelmezett jogosultsági beállításainak módosítása"
+
+msgid "rolt"
+msgstr "Szerepkörminta"
+
+msgid "rolt_added"
+msgstr "Sikeresen létrehozott egy szerepkörmintát."
+
+msgid "rolt_edit"
+msgstr "Szerepkörminta módosítása"
+
+msgid "rolt_new"
+msgstr "Új szerepkörminta"
+
+msgid "row"
+msgstr "sor"
+
+msgid "rows"
+msgstr "Sorok"
+
+msgid "rpc_pdf_font"
+msgstr "Betűtípusok"
+
+msgid "rpc_pdf_font_info"
+msgstr "További betűtípusok PDF fájlok létrehozásához. A ‘Helvetica’ és az ‘unifont’ betűtípusoktól eltérőket telepíteni kell az ILIAS szerverre."
+
+msgid "rpc_pdf_generation"
+msgstr "Betűtípusok PDF létrehozásához"
+
+msgid "sad"
+msgstr "Szomorú"
+
+msgid "sahs"
+msgstr "SCORM-tananyag"
+
+msgid "sahs_added"
+msgstr "Sikeresen létrehozott egy SCORM-tananyagot."
+
+msgid "sahs_export_file"
+msgstr "ILIAS XML export fájl (.zip)"
+
+msgid "sahs_export_file_info"
+msgstr "Ezt a beállítást olyan ZIP-fájl esetén használja, amelyet közvetlenül az ILIAS-ból exportáltak. A fájl általában hasonló nevű: 1675257903__4105__sahs_132295.zip."
+
+msgid "sahs_insert_chap_from_clip"
+msgstr "Fejezetek beillesztése vágólapról"
+
+msgid "sahs_insert_page_from_clip"
+msgstr "Lapok beillesztése vágólapról"
+
+msgid "sahs_insert_sco_from_clip"
+msgstr "SCO-k beillesztése vágólapról"
+
+msgid "sahs_new"
+msgstr "Új tananyag létrehozása"
+
+msgid "salutation"
+msgstr "Megszólítás"
+
+msgid "salutation_f"
+msgstr "Asszony"
+
+msgid "salutation_m"
+msgstr "Úr"
+
+msgid "salutation_n"
+msgstr "Nincs megszólítás"
+
+msgid "saml_log_in"
+msgstr "Közvetlen bejelentkezés"
+
+msgid "saml_login_form_info_txt"
+msgstr "A ‘Közvetlen bejelentkezés’ gomb használatával felhasználónév és jelszó megadás nélkül jelentkezhet be."
+
+msgid "saml_login_form_txt"
+msgstr "Bejelentkezés az ILIAS-ba SAML-en keresztül"
+
+msgid "save"
+msgstr "Mentés"
+
+msgid "save_and_back"
+msgstr "Mentés és vissza"
+
+msgid "save_message"
+msgstr "Mentés piszkozatként"
+
+msgid "save_params_for_cron"
+msgstr "Paraméterek mentése az ütemezett feladathoz"
+
+msgid "save_refresh"
+msgstr "Mentés és frissítés"
+
+msgid "save_return"
+msgstr "Mentés és vissza"
+
+msgid "save_settings"
+msgstr "Beállítások mentése"
+
+msgid "save_user_related_data"
+msgstr "Felhasználó hozzáféréssel kapcsolatos adatainak mentése"
+
+msgid "saved_successfully"
+msgstr "Módosításait sikeresen mentette."
+
+msgid "saving"
+msgstr "Mentés…"
+
+msgid "scope"
+msgstr "Hatókör"
+
+msgid "scorm_create_export_file_html"
+msgstr "Exportfájl létrehozása (HTML)"
+
+msgid "scorm_create_export_file_pdf"
+msgstr "Exportfájl létrehozása (PDF)"
+
+msgid "scorm_create_export_file_scrom12"
+msgstr "Exportfájl létrehozása (SCORM 1.2)"
+
+msgid "scorm_create_export_file_scrom2004"
+msgstr "Exportfájl létrehozása (SCORM 2004 3rd Edition)"
+
+msgid "scorm_create_export_file_scrom2004_4th"
+msgstr "Exportfájl létrehozása (SCORM 2004 4th Edition)"
+
+msgid "scorm_login_as_learner_id"
+msgstr "SCORM 2004: ILIAS felhasználónév legyen a cmi.learner_id"
+
+msgid "scorm_login_as_learner_id_info"
+msgstr "User_id helyett a felhasználónév lesz a cmi.learner_id."
+
+msgid "scorm_lp_auto_activate"
+msgstr "Tanulási haladás alapértelmezett beállítása"
+
+msgid "scorm_lp_auto_activate_info"
+msgstr "A tanulási haladás alapértelmezetten beállítása SCORM-tananyaghoz az, hogy az új SCORM-tananyag hozzáadása esetén annak tanulási haladási beállítása ‘Kiválasztott SCORM-elemek’ lesz oly módon, hogy az összes SCO-elem bekerül a tanulási haladás meghatározói közé. Ez a beállítás SCORM-tananyagonként módosítható."
+
+msgid "scorm_new"
+msgstr "SCORM-tananyag létrehozása (szerzői mód)"
+
+msgid "scorm_without_session"
+msgstr "SCORM 2004: munkamenet nélkül lehetséges az adattárolás"
+
+msgid "scorm_without_session_info"
+msgstr "Az ILIAS munkamenet lejárta után is biztosítva van az SCORM 2004 tanulási adatok tárolása. SCORM 1.2 esetén a munkamenet nélküli tárolás mindig biztosított."
+
+msgid "search"
+msgstr "Keresés"
+
+msgid "search_active"
+msgstr "Beleértve az aktív felhasználókat"
+
+msgid "search_at_current_position"
+msgstr "A jelenlegi helyen"
+
+msgid "search_engine"
+msgstr "Keresőbarát URL-ek"
+
+msgid "search_for"
+msgstr "Keresendő"
+
+msgid "search_globally"
+msgstr "Összes tartalom"
+
+msgid "search_in"
+msgstr "Keresés helye"
+
+msgid "search_inactive"
+msgstr "Beleértve az inaktív felhasználókat"
+
+msgid "search_new"
+msgstr "Új keresés"
+
+msgid "search_result"
+msgstr "Keresési találat"
+
+msgid "search_results"
+msgstr "Keresési találatok"
+
+msgid "search_user"
+msgstr "Felhasználó keresése"
+
+msgid "search_users"
+msgstr "Felhasználók keresése"
+
+msgid "seas_max_hits"
+msgstr "Találatok maximális száma"
+
+msgid "seas_max_hits_info"
+msgstr "Adja meg, maximum hány találatot szeretne kapni."
+
+msgid "seas_settings"
+msgstr "Keresési beállítások"
+
+msgid "second"
+msgstr "másodperc"
+
+msgid "second_email"
+msgstr "Másodlagos e-mail cím"
+
+msgid "seconds"
+msgstr "másodperc"
+
+msgid "sel_country"
+msgstr "Ország"
+
+msgid "select"
+msgstr "Kiválasztás"
+
+msgid "select_all"
+msgstr "Összes kijelölése"
+
+msgid "select_at_least_one_object"
+msgstr "Legalább egy objektumot jelöljön ki!"
+
+msgid "select_file"
+msgstr "Fájl kiválasztása"
+
+msgid "select_file_from_computer"
+msgstr "Válassza ki a fájlt a számítógépéről"
+
+msgid "select_files_from_computer"
+msgstr "Válassza ki a fájlokat a számítógépéről"
+
+msgid "select_max_one_item"
+msgstr "Kérem, csak egy elemet válasszon ki"
+
+msgid "select_object_to_link"
+msgstr "Kérem, válassza ki a linkelni kívánt objektumot."
+
+msgid "select_one"
+msgstr "Kérem, válasszon egyet."
+
+msgid "select_question_pool_info"
+msgstr "Amennyiben az importálandó fájl kérdéseket tartalmaz, azokat a kiválasztott kérdésgyűjteménybe fogjuk importálni."
+
+msgid "select_questionpool"
+msgstr "Kérdések beszúrása ide:"
+
+msgid "selected"
+msgstr "Kijelölve."
+
+msgid "selected_files"
+msgstr "Kiválasztott fájlok"
+
+msgid "selected_items"
+msgstr "Kiválasztott objektumok"
+
+msgid "selected_items_back"
+msgstr "Vissza"
+
+msgid "selected_languages_updated"
+msgstr "A következő nyelveket sikeresen frissítette:"
+
+msgid "send"
+msgstr "Mehet"
+
+msgid "send_mail"
+msgstr "Levél küldése"
+
+msgid "sender"
+msgstr "Feladó"
+
+msgid "sent"
+msgstr "Elküldve"
+
+msgid "sequence"
+msgstr "Sorrend"
+
+msgid "sequences"
+msgstr "Sorrendek"
+
+msgid "server"
+msgstr "Szerver"
+
+msgid "server_data"
+msgstr "Szerveradatok"
+
+msgid "server_disabled"
+msgstr "A csevegés inaktív"
+
+msgid "server_software"
+msgstr "Szerverszoftver"
+
+msgid "sess"
+msgstr "Esemény"
+
+msgid "sess_fixed_duration"
+msgstr "Rögzített munkamenet időtartam"
+
+msgid "session_config"
+msgstr "Munkamenet beállítások"
+
+msgid "session_config_maintenance_disabled"
+msgstr "A kliens nem változtathatja meg a beállításokat"
+
+msgid "session_mail_subject_deletion"
+msgstr "‘%s’ lejelentkezett ‘%s’ eseményről"
+
+msgid "session_mail_subject_entered"
+msgstr "‘%s’ csatlakozott ‘%s’ eseményhez"
+
+msgid "session_mail_subject_registered"
+msgstr "‘%s’ jelentkezett ‘%s’ eseményre"
+
+msgid "session_reminder"
+msgstr "Munkamenet-emlékeztető"
+
+msgid "session_reminder_alert"
+msgstr "Munkamenete lejár %1$s múlva, %2$s-kor. Kattintson az OK gombra, ha folytatni szeretné munkamenetét! Amennyiben a Mégsem gombra kattint, nem kap több emlékeztetőt jelenlegi munkamenete alatt. Üdvözlettel: %3$s."
+
+msgid "session_reminder_default_lead_time_info"
+msgstr "Meghatározza, hogy hány perccel a munkamenet lejárta előtt jelenjen meg emlékeztető a felhasználónak.<br / >Kikapcsolt állapot értéke: ‘%s’. Az ajánlott érték: %s.<br / >Jelenleg a munkamenet hossza: %s."
+
+msgid "session_reminder_input"
+msgstr "Munkamenet-emlékeztető (percben)"
+
+msgid "session_reminder_lead_time"
+msgstr "Rendelkezésre álló idő"
+
+msgid "session_reminder_lead_time_info"
+msgstr "Adja meg percben a munkamenet-emlékeztetőhöz a rendelkezésre álló időt. Az emlékeztető egy figyelmeztetést jelenít meg megadott idővel a munkamenet lejárta előtt. A javasolt érték 5 (perc).<br/>A felhasználói munkamenet jelenlegi hossza %s."
+
+msgid "session_reminder_session_duration"
+msgstr "(Munkamenet időtartama: %s)."
+
+msgid "set"
+msgstr "Beállítás"
+
+msgid "setSystemLanguage"
+msgstr "Beállítás rendszernyelvnek"
+
+msgid "setUserLanguage"
+msgstr "Beállítás saját felhasználói nyelvemnek"
+
+msgid "set_offline"
+msgstr "Offline-ra állítás"
+
+msgid "set_online"
+msgstr "Online-ra állítás"
+
+msgid "set_skin_does_not_exist"
+msgstr "A Ön által kiválasztott skin már nem létezik. Személyes beállításai alatt választhat másikat vagy keresse fel a rendszergazdát. Jelenlegi választása:"
+
+msgid "set_style_does_not_exist"
+msgstr "A Ön által kiválasztott rendszerstílus már nem létezik. Személyes beállításai alatt választhat másikat vagy keresse fel a rendszergazdát. Jelenlegi választása:"
+
+msgid "settings"
+msgstr "Beállítások"
+
+msgid "settings_for_all_members"
+msgstr "A tagokat automatikusan értesítjük"
+
+msgid "settings_per_users"
+msgstr "Tagokat automatikusan értesítjük. Az összes tag saját magának kikapcsolhatja az értesítést."
+
+msgid "settings_presentation_header"
+msgstr "Megjelenítés"
+
+msgid "settings_saved"
+msgstr "A beállításokat sikeresen mentette."
+
+msgid "shib"
+msgstr "Shibboleth"
+
+msgid "shib_active"
+msgstr "Shibboleth-támogatás engedélyezése"
+
+msgid "shib_city"
+msgstr "Város attribútum"
+
+msgid "shib_country"
+msgstr "Ország attribútum"
+
+msgid "shib_data_conv"
+msgstr "Abszolút elérési útvonal az adatmanipulációs API-hoz"
+
+msgid "shib_data_conv_warning"
+msgstr "Az Ön által megadott adatmanipulációs API fájl nem olvasható."
+
+msgid "shib_department"
+msgstr "Osztály attribútuma"
+
+msgid "shib_email"
+msgstr "E-mail cím attribútuma"
+
+msgid "shib_federation_name"
+msgstr "Az Ön Shibboleth-szövetségének neve"
+
+msgid "shib_firstname"
+msgstr "Családnév attribútuma"
+
+msgid "shib_gender"
+msgstr "Nem attribútuma (‘n’, ‘m’ vagy ‘f’ kell, hogy legyen)"
+
+msgid "shib_general_login_instructions"
+msgstr "%s keresztüli bejelentkezéshez kattintson a bejelentkezési gombra és válassza ki szervezetét a következő lapon.<br/>Ha ezzel kapcsolatban kérdése van, keresse:"
+
+msgid "shib_general_wayf_login_instructions"
+msgstr "Abban az esetben, ha nem csatlakozott a megadott szervezetekhez, és hozzá szeretne férni a szerver egy kurzusához, vegye fel a kapcsolatot:"
+
+msgid "shib_idp_list"
+msgstr "Az azonosító-szolgáltatók felsorolása, amelyből a felhasználók az ILIAS bejelentkezési lapon választhatnak.<br/>Az egyes sorokban vesszővel elválasztva a következő párnak kell szerepelnie: <strong>szolgáltató-azonosító IdP-je</strong> (lásd Shibboleth metaadatfájl) és <strong>IdP neve</strong>, mivel ezeket egy legördülő listában kell megjeleníteni.<br/>Opcionálisan megadható egy harmadik paraméter is, a <strong>Shibboleth-munkamenet kezdeményező</strong>, amelyet abban az esetben kell használni, ha az Ön ILIAS-installációja többszörös szövetség része."
+
+msgid "shib_institution"
+msgstr "Intézmény attribútuma"
+
+msgid "shib_invalid_home_organization"
+msgstr "Valós szervezetet válasszon!"
+
+msgid "shib_language"
+msgstr "Nyelv attribútuma"
+
+msgid "shib_lastname"
+msgstr "Utónév attribútuma"
+
+msgid "shib_login"
+msgstr "Egyedi Shibboleth-attribútum"
+
+msgid "shib_login_button"
+msgstr "Elérési útvonal egy Shibboleth bejelentkezési gomb képéhez, amely a felhasználókat a Shibboleth konfigurációban megadott WAYF-hez irányítja át."
+
+msgid "shib_login_embedded_wayf"
+msgstr "Testre szabott bejelentkezési terület tervezése"
+
+msgid "shib_login_embedded_wayf_description"
+msgstr "Ha ezt a lehetőséget választja, bármilyen HTML-kódot használhat alább, a bejelentkezési utasítások szövegterületén. Használható beágyazott és saját JavaScript WAYF/Discovery Service, vagy létrehozhatja a bejelentkezési terület testre szabott tervét."
+
+msgid "shib_login_external_wayf"
+msgstr "Külső WAYF szolgáltatás használata"
+
+msgid "shib_login_internal_wayf"
+msgstr "ILIAS WAYF szolgáltatás használata"
+
+msgid "shib_login_type"
+msgstr "Szervezet kiválasztása"
+
+msgid "shib_matriculation"
+msgstr "Attribútum a beiratkozási számhoz"
+
+msgid "shib_member_of"
+msgstr "Tagja vagyok:"
+
+msgid "shib_phone_home"
+msgstr "Otthoni telefonszám attribútuma"
+
+msgid "shib_phone_mobile"
+msgstr "Mobil telefonszám attribútuma"
+
+msgid "shib_phone_office"
+msgstr "Irodai telefonszám attribútuma"
+
+msgid "shib_select_home_organization"
+msgstr "%s-n keresztüli hitelesítéshez válassza ki szervezetét a legördülő listából!"
+
+msgid "shib_settings_saved"
+msgstr "A Shibboleth-beállításokat sikeresen mentett"
+
+msgid "shib_street"
+msgstr "Utca attribútuma"
+
+msgid "shib_title"
+msgstr "Cím attribútuma"
+
+msgid "shib_update"
+msgstr "A mező módosítása a bejelentkezés alapján"
+
+msgid "shib_user_default_role"
+msgstr "Shibboleth-felhasználókhoz rendelt alapértelmezett szerepkör"
+
+msgid "shib_zipcode"
+msgstr "Irányítószám attribútuma"
+
+msgid "short_inst_name"
+msgstr "Rövid cím"
+
+msgid "short_inst_name_info"
+msgstr "Ez a cím fog megjelenni a böngésző fejléccím csíkjában. Ha nincs megadott érték, az ‘ILIAS’ kerül felhasználásra."
+
+msgid "show"
+msgstr "Megjelenítés"
+
+msgid "show_all_details"
+msgstr "Összes részlet megjelenítése"
+
+msgid "show_content"
+msgstr "Tartalom megjelenítése"
+
+msgid "show_details"
+msgstr "Részletek megjelenítése"
+
+msgid "show_filter"
+msgstr "Szűrő megjelenítése"
+
+msgid "show_hidden_sections"
+msgstr "További információk megjelenítése &raquo;"
+
+#, fuzzy
+msgid "show_less"
+msgstr "Show less"
+
+msgid "show_list"
+msgstr "Lista megjelenítése"
+
+msgid "show_members"
+msgstr "Tagok megjelenítése"
+
+msgid "show_more"
+msgstr "Több…"
+
+msgid "show_preview"
+msgstr "Előnézet megjelenítése"
+
+msgid "show_users_online"
+msgstr "Bejelentkezett felhasználók megjelenítése"
+
+msgid "show_who_is_online"
+msgstr "Online felhasználók megjelenítése"
+
+msgid "side_frame"
+msgstr "Oldalkeret"
+
+msgid "signature"
+msgstr "Aláírás"
+
+msgid "size"
+msgstr "Méret"
+
+msgid "skills"
+msgstr "Kompetenciáim"
+
+msgid "skin_style"
+msgstr "Alapértelmezett felület/stílus"
+
+msgid "smtp"
+msgstr "SMTP"
+
+msgid "soap_connect_timeout"
+msgstr "Kapcsolat megszakadása időtúllépés miatt"
+
+msgid "soap_connect_timeout_info"
+msgstr "Maximális idő másodpercben, amíg a kapcsolódási kísérletet a SOAP-Webszolgáltatáshoz nem szakítjuk meg."
+
+msgid "soap_user_administration"
+msgstr "Kezelés SOAP-on keresztül"
+
+msgid "soap_user_administration_desc"
+msgstr "Az ILIAS kezelhető SOAP-on keresztül."
+
+msgid "soap_wsdl_path"
+msgstr "WSDL útvonal"
+
+msgid "soap_wsdl_path_info"
+msgstr "Adja meg a webszolgáltatásokhoz használandó ILIAS WSDL fájl útját. Ha üresen hagyja ezt a mezőt, az alábbi útvonal lesz alapértelmezett: %s"
+
+msgid "sort"
+msgstr "Rendezés"
+
+msgid "sort_ascending"
+msgstr "Rendezés növekvő sorrendben"
+
+msgid "sort_ascending_long"
+msgstr "Rendezés irányának módosítása növekvőre"
+
+msgid "sort_by_this_column"
+msgstr "Rendezés erre az oszlopra"
+
+msgid "sort_descending"
+msgstr "Rendezés csökkenő sorrendben"
+
+msgid "sort_descending_long"
+msgstr "Rendezés irányának módosítása csökkenőre"
+
+msgid "sort_inherit_prefix"
+msgstr "Alapértelmezett"
+
+msgid "sorting_asc"
+msgstr "Növekvő"
+
+msgid "sorting_creation_header"
+msgstr "Létrehozás ideje szerinti"
+
+msgid "sorting_creation_info"
+msgstr "Az ebben a tárolóban lévő objektumokat a létrehozásuk ideje szerint rendezzük."
+
+msgid "sorting_desc"
+msgstr "Csökkenő"
+
+msgid "sorting_direction"
+msgstr "Rendezés iránya"
+
+msgid "sorting_header"
+msgstr "Tartalom rendezési beállítása"
+
+msgid "sorting_info_inherit"
+msgstr "A rendezés típusát a szülő kurzustárolótól/csoporttárolótól vesszük át."
+
+msgid "sorting_info_manual"
+msgstr "Az ebben a tárolóban lévő objektumok sorrendjének kézi beállítása a Tartalom » Rendezés alatt módosítható. Továbbá kérjük, adja meg az új objektumok alapértelmezett rendezési szempontját."
+
+msgid "sorting_info_title"
+msgstr "Az objektumokat a címük szerint rendezzük."
+
+msgid "sorting_manual_header"
+msgstr "Kézi"
+
+msgid "sorting_save"
+msgstr "Sorrend mentése"
+
+msgid "sorting_title_header"
+msgstr "Cím szerinti"
+
+msgid "spacer"
+msgstr "Térközállító"
+
+msgid "spl"
+msgstr "Kérdőívkérdés-gyűjtemény"
+
+msgid "spl_add"
+msgstr "Kérdőívkérdés-gyűjtemény létrehozása"
+
+msgid "spl_import"
+msgstr "Kérdőívkérdés-gyűjtemény importálása"
+
+msgid "spl_new"
+msgstr "Új kérdőívkérdés-gyűjtemény"
+
+msgid "ssl"
+msgstr "SSL (HTTPS)"
+
+msgid "standard_fields"
+msgstr "Standard mezők"
+
+msgid "startpage"
+msgstr "ILIAS – Bejelentkezés"
+
+msgid "stat_selected"
+msgstr "Kiválasztott"
+
+msgid "statistic"
+msgstr "Statisztika"
+
+msgid "statistics"
+msgstr "Statisztikák"
+
+msgid "status"
+msgstr "Állapot"
+
+msgid "status_no_permission"
+msgstr "Nincs hozzá jogosultsága"
+
+msgid "step"
+msgstr "Lépés"
+
+msgid "street"
+msgstr "Lakcím (utca, házszám)"
+
+msgid "structure"
+msgstr "Struktúra"
+
+msgid "sty"
+msgstr "Stílus"
+
+msgid "sub_request_deleted"
+msgstr "Törölt tagsági kérelem"
+
+msgid "sub_request_saved"
+msgstr "Mentett tagsági kérelem"
+
+msgid "subject"
+msgstr "Tárgy"
+
+msgid "submit"
+msgstr "Mehet"
+
+msgid "subobjects"
+msgstr "Alobjektum"
+
+msgid "subscription"
+msgstr "Felvétel"
+
+msgid "subtabs"
+msgstr "Allapok"
+
+msgid "success_message"
+msgstr "Sikeres üzenet"
+
+msgid "summary"
+msgstr "Összefoglalás"
+
+msgid "sure_delete_selected_users"
+msgstr "Biztos, hogy törli a kiválasztott felhasználó(ka)t?"
+
+msgid "survey_defaults"
+msgstr "Alapértelmezett beállítások kérdőívekhez"
+
+msgid "survey_unlimited_invitation"
+msgstr "Mindenki meghívása"
+
+msgid "svy"
+msgstr "Kérdőív"
+
+msgid "svy_add"
+msgstr "Kérdőív létrehozása"
+
+msgid "svy_finished"
+msgstr "Befejezte a kérdőív kitöltését."
+
+msgid "svy_new"
+msgstr "Új kérdőív"
+
+msgid "svy_not_finished"
+msgstr "Elkedzte, de még nem fejezte be a kérdőív kitöltését."
+
+msgid "svy_not_started"
+msgstr "Még nem vett részt ennek a kérdőívnek a kitöltésében."
+
+msgid "svy_run"
+msgstr "Indítás"
+
+msgid "svy_warning_survey_not_complete"
+msgstr "A kérdőívet még nem fejezte be."
+
+msgid "switch_language"
+msgstr "Nyelv módosítása"
+
+msgid "system"
+msgstr "Rendszer"
+
+msgid "system_check"
+msgstr "Rendszerellenőrzés"
+
+msgid "system_information"
+msgstr "Rendszerinformációk"
+
+msgid "system_language"
+msgstr "Rendszernyelv"
+
+msgid "system_styles"
+msgstr "Rendszerstílusok"
+
+msgid "systemcheck_cron"
+msgstr "Rendszerellenőrzés az ütemezett feladatban"
+
+msgid "systemcheck_cronform"
+msgstr "Rendszerellenőrzés bekapcsolása az ütemezett feladatban"
+
+msgid "table_mail_import"
+msgstr "Levél importálása"
+
+msgid "tabs"
+msgstr "Tabok"
+
+msgid "tagging_my_tags"
+msgstr "Saját címkéim"
+
+msgid "tags"
+msgstr "Címkék"
+
+msgid "take_over_structure"
+msgstr "Struktúra adaptálása"
+
+msgid "take_over_structure_info"
+msgstr "A ZIP-fájlban levő mappák csoportokban és kurzusokban mappaként, különben kategóriaként jönnek létre."
+
+msgid "tals_etal"
+msgstr "Talk"
+
+msgid "talt_etal"
+msgstr "Talk"
+
+msgid "target"
+msgstr "Cél"
+
+msgid "tax"
+msgstr "Taxonómia"
+
+msgid "tax_add"
+msgstr "Taxonómia létrehozása"
+
+msgid "tax_new"
+msgstr "Új taxonómia"
+
+msgid "term"
+msgstr "Fogalom"
+
+msgid "test"
+msgstr "Teszt"
+
+msgid "tests"
+msgstr "Tesztek"
+
+msgid "textbox"
+msgstr "Szövegdoboz"
+
+msgid "thread"
+msgstr "Téma"
+
+msgid "thumbnail"
+msgstr "Bélyegkép"
+
+msgid "tile_view"
+msgstr "Csempenézet"
+
+msgid "time"
+msgstr "Idő"
+
+msgid "time_limit"
+msgstr "Hozzáférés"
+
+msgid "time_limit_add_time_limit_for_selected"
+msgstr "Adjon meg egy időszakot a kiválasztott felhasználó(k)hoz"
+
+msgid "time_limit_from"
+msgstr "Mettől (időkorlát)"
+
+msgid "time_limit_message"
+msgstr "Üzenet (időkorlát)"
+
+msgid "time_limit_no_users_selected"
+msgstr "Válasszon ki egy felhasználót!"
+
+msgid "time_limit_not_valid"
+msgstr "Az időszak érvénytelen."
+
+msgid "time_limit_reached"
+msgstr "ILIAS-fiókja nem aktív."
+
+msgid "time_limit_unlimited"
+msgstr "Korlátlan (időkorlát)"
+
+msgid "time_limit_until"
+msgstr "Meddig (időkorlát)"
+
+msgid "title"
+msgstr "Cím"
+
+msgid "title_required"
+msgstr "Adjon címet!"
+
+msgid "to"
+msgstr ".."
+
+msgid "to_client_list"
+msgstr "Kliensek kiválasztása"
+
+msgid "today"
+msgstr "Ma"
+
+msgid "toggleGlobalDefault"
+msgstr "Globálisan alapértelmezett átkapcsolása"
+
+msgid "toggleGlobalFixed"
+msgstr "Globálisan meghatározott átkapcsolása"
+
+msgid "toggle_dropdown"
+msgstr "Legördülő váltása"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_off"
+msgstr "KI"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_on"
+msgstr "BE"
+
+msgid "tomorrow"
+msgstr "Holnap"
+
+msgid "toolbar_more_actions"
+msgstr "További műveletek"
+
+msgid "tools"
+msgstr "Eszközök"
+
+msgid "top_of_page"
+msgstr "Oldal tetejére"
+
+msgid "tos_accept_usr_agreement"
+msgstr "Elfogadja a Szolgáltatási feltételeket?"
+
+msgid "tos_accept_usr_agreement_intro"
+msgstr "Ezek az új Szolgáltatási feltételek, amit az ILIAS további használatához el kell fogadnia. Olvassa el figyelmesen a dokumentumot, és az oldal alján fogadja vagy utasítsa el."
+
+msgid "tos_force_accept_usr_agreement"
+msgstr "El kell fogadnia a Szolgáltatási feltételeket!"
+
+msgid "tos_no_agreement_description"
+msgstr "Jelenleg nem érhető el Szolgáltatási feltételek. Kérem, keresse az <a href=\"%1$s\">üzemeltetőt</a>."
+
+msgid "tos_refuse_acceptance"
+msgstr "A Szolgáltatási feltételek elutasítása"
+
+msgid "tos_usr_agreement"
+msgstr "Szolgáltatási feltételek"
+
+msgid "tos_usr_agreement_footer_intro"
+msgstr "Ön kinyilakoztatta, hogy beleegyezik a jelen Szolgáltatási feltételekbe."
+
+msgid "tos_withdraw_consent_description"
+msgstr "A Szerződési feltételekhez hozzájárulás visszavonása"
+
+msgid "tos_withdraw_consent_description_external"
+msgstr "Kérem, jelentkezzen be újra az ILIAS-telepítésbe, hogy befejezze a Szolgáltatási feltételekhez való hozzájárulásának visszavonását."
+
+msgid "tos_withdraw_consent_description_internal"
+msgstr "Kérem, jelentkezzen be újra, hogy befejezze a Szolgáltatási feltételekhez való hozzájárulásának visszavonását."
+
+msgid "tos_withdraw_consent_header"
+msgstr "A Szerződési feltételekhez hozzájárulás visszavonása"
+
+msgid "tos_withdraw_consent_info"
+msgstr "A Szerződési feltételekhez hozzájárulás visszavonása"
+
+msgid "tos_withdraw_consent_info_external"
+msgstr "Kérem, tájékoztassa a hitelesítő rendszer üzemeltetőjét, hogy visszavonta hozzájárulását a Szolgátatási feltételekhez."
+
+msgid "total"
+msgstr "Összesen"
+
+msgid "tracking_settings"
+msgstr "Beállítások"
+
+msgid "translation"
+msgstr "Fordítás"
+
+msgid "trash"
+msgstr "Lomtár"
+
+msgid "tree"
+msgstr "Fa"
+
+msgid "tree_frame"
+msgstr "Mappakeret"
+
+msgid "treeview"
+msgstr "Oldalsáv megjelenítése"
+
+msgid "tst"
+msgstr "Teszt"
+
+msgid "tst_add"
+msgstr "Teszt létrehozása"
+
+msgid "tst_edit_questions"
+msgstr "Kérdések módosítása"
+
+msgid "tst_history_read"
+msgstr "Előzmények megtekintése"
+
+msgid "tst_new"
+msgstr "Új teszt"
+
+msgid "tst_results"
+msgstr "Teszteredmények"
+
+msgid "tst_run"
+msgstr "Indítás"
+
+msgid "tst_user_not_invited"
+msgstr "Nem vehet részt ebben a tesztben."
+
+msgid "tst_warning_test_not_complete"
+msgstr "A teszt még nincs kész."
+
+msgid "tutors"
+msgstr "Tutorok"
+
+msgid "txt_registered"
+msgstr "Sikeresen regisztrált az ILIAS-ba. Bejelentkezhez kattintson a lenti gombra."
+
+msgid "txt_registered_passw_gen"
+msgstr "Sikeresen regisztrált az ILIAS-ba. Hamarosan kap egy e-mailt a generált jelszavával."
+
+msgid "txt_submitted"
+msgstr "Regisztrációkérését sikeresen elküldte az ILIAS-ba. Regisztrációkérését áttekintjük és hamarosan visszajelzünk. A regisztrációja aktiválásáig nem tudni bejelentkezni."
+
+msgid "typ"
+msgstr "Objektumtípus meghatározása"
+
+msgid "type"
+msgstr "Típus"
+
+msgid "udf_added_field"
+msgstr "Sikeresen létrehozott egy új mezőt."
+
+msgid "udf_delete_sure"
+msgstr "Biztos, hogy törli ezt a mezőt és minden hozzárendelt felhasználói adatot?"
+
+msgid "udf_duplicate_entries"
+msgstr "Az értékeknek egyedieknek kell lenniük."
+
+msgid "udf_field_deleted"
+msgstr "Törölt mező"
+
+msgid "udf_name_already_exists"
+msgstr "Ez a mezőnév már létezik. Válasszon egy másik nevet!"
+
+msgid "udf_required_requires_visib_reg"
+msgstr "Ha a mező ‘kötelező’, akkor a ‘Látható a Regisztráció alatt’ opciót is be kell állítani"
+
+msgid "udf_type_date"
+msgstr "Dátum"
+
+msgid "udf_type_datetime"
+msgstr "Dátum és idő"
+
+msgid "udf_type_select"
+msgstr "Kiválasztólista (egyválasztásos)"
+
+msgid "udf_type_text"
+msgstr "Szövegmező (egysoros)"
+
+msgid "udf_type_textarea"
+msgstr "Szövegterület (WYSIWYG)"
+
+msgid "udf_update_select_field"
+msgstr "Kiválasztódoboz módosítása"
+
+msgid "udf_update_text_field"
+msgstr "Szövegmező módosítása"
+
+msgid "udf_update_wysiwyg_field"
+msgstr "Szövegterület (WYSIWYG) mező módosítása"
+
+msgid "uid"
+msgstr "Felhasználói azonosító (UID)"
+
+msgid "ums_create_new_account"
+msgstr "Új ILIAS-fiók létrehozása"
+
+msgid "ums_explanation"
+msgstr "Külső bejelentkezésével nem tud csatlakozni ILIAS-fiókhoz. Az ILIAS emellett talált az Ön e-mail címével egy ILIAS-fiókot. Ha ez az Öné, jelentkezzen be ILIAS-jelszavával."
+
+msgid "ums_explanation_2"
+msgstr "Ha ez nem az Ön ILIAS-fiókja, válassza az ‘Új ILIAS-fiók létrehozása’ műveletet!"
+
+msgid "ums_explanation_3"
+msgstr "Külső bejelentkezésével nem tud csatlakozni ILIAS-fiókhoz. Az ILIAS emellett több ILIAS-fiókot talált az Ön e-mail címével. Ha ezek közül valamelyik az Öné, jelentkezzen be ILIAS-jelszavával."
+
+msgid "ums_explanation_4"
+msgstr "Ha egyik sem az Ön ILIAS-fiókja, válassza az ‘Új ILIAS-fiók létrehozása’ műveletet!"
+
+msgid "unambiguousness"
+msgstr "Egyedi jellemző"
+
+msgid "uncheck_all"
+msgstr "Összes kijelölés megszüntetése"
+
+msgid "unchecked"
+msgstr "Nem bejelölve"
+
+msgid "uninstall"
+msgstr "Eltávolítás"
+
+msgid "uninstalled"
+msgstr "eltávolítva."
+
+msgid "unknown"
+msgstr "ISMERETLEN"
+
+msgid "unparticipate"
+msgstr "Leiratkozás"
+
+msgid "unread"
+msgstr "olvasatlan"
+
+msgid "unzip"
+msgstr "Unzip"
+
+msgid "up"
+msgstr "Fel"
+
+msgid "update"
+msgstr "Módosítás"
+
+msgid "update_applied"
+msgstr "Frissítés alkalmazva"
+
+msgid "update_language"
+msgstr "Nyelv frissítése"
+
+msgid "update_on_conflict"
+msgstr "A beszúrási/frissítési művelet automatikusan észlelése"
+
+msgid "update_orgunits"
+msgstr "Hozzárendelt szervezeti egységek frissítése"
+
+msgid "update_orgunits_desc"
+msgstr "A ‘Szervezeti egység’ mező az összes ILIAS-fiókban módosul."
+
+msgid "upload"
+msgstr "Feltöltés"
+
+msgid "upload_error_file_not_found"
+msgstr "Feltöltési hiba: a fájl nem található."
+
+msgid "upload_ok"
+msgstr "A feltöltés sikerült"
+
+msgid "upload_pending"
+msgstr "Folyamatban"
+
+msgid "upload_settings"
+msgstr "Fájlok feltöltési beállításai"
+
+msgid "upload_svg_rejection_message"
+msgstr "Az SVG-fájl vélhetően rosszindulatú kódot tartalmaz, ezért nem dolgoztuk fel."
+
+msgid "upload_svg_rejection_message_base64"
+msgstr "A fájl base64 kódolású részeket tartalmaz."
+
+msgid "upload_svg_rejection_message_elements"
+msgstr "A fájl nem engedélyezettek vagy ismeretlen elemeket, attribútumokat tartalmaz."
+
+msgid "upload_svg_rejection_message_foreign_object"
+msgstr "A fájl idegen objektumkat tartalmaz."
+
+msgid "upload_svg_rejection_message_script"
+msgstr "A fájl script-elemeket tartalmaz."
+
+msgid "uploaded_and_checked"
+msgstr "A fájlt feltöltötte és sikeresen ellenőriztük. Elkezdheti importálását."
+
+msgid "uploading"
+msgstr "Feltöltés…"
+
+msgid "uri"
+msgstr "URI"
+
+msgid "url"
+msgstr "URL"
+
+msgid "url_not_found"
+msgstr "A fájl nem található."
+
+msgid "use_customized_instructions"
+msgstr "Egyéni utasítások használata:"
+
+msgid "use_default_instructions"
+msgstr "Alapértelmezett utasítások használata."
+
+msgid "user"
+msgstr "Felhasználó"
+
+msgid "user_activated"
+msgstr "A felhasználót sikeresen jóváhagyta"
+
+msgid "user_added"
+msgstr "Sikeresen létrehozott egy felhasználót."
+
+msgid "user_assignment"
+msgstr "Felhasználó-hozzárendelés"
+
+msgid "user_avatar"
+msgstr "Profilkép"
+
+msgid "user_avatar_of"
+msgstr "Profilkép -"
+
+msgid "user_cant_receive_mail"
+msgstr "%1$s – a felhasználónak nem engedélyezett a levelezőrendszer használata."
+
+msgid "user_comment"
+msgstr "Felhasználói megjegyzés"
+
+msgid "user_deactivated"
+msgstr "Felhasználót kikapcsolta"
+
+msgid "user_defined_fields"
+msgstr "Felhasználó-definiált mezők"
+
+msgid "user_defined_list"
+msgstr "Felhasználó-definiált adatmezők"
+
+msgid "user_deleted"
+msgstr "Felhasználót sikeresen törölte."
+
+msgid "user_detail"
+msgstr "Adatok részletezése"
+
+msgid "user_ext_account"
+msgstr "Külső belépési jogosultság"
+
+msgid "user_ext_account_desc"
+msgstr "Belépési jogosultság külső hitelesítéshez (CAS-, SOAP- vagy LDAP-hitelesítéshez)"
+
+msgid "user_image"
+msgstr "Felhasználói kép"
+
+msgid "user_import_failed"
+msgstr "Felhasználó importálás sikertelen."
+
+msgid "user_imported"
+msgstr "Felhasználó importálás befejeződött."
+
+msgid "user_imported_with_warnings"
+msgstr "Felhasználó importálás befejeződött figyelmeztetésekkel."
+
+msgid "user_language"
+msgstr "Felhasználói nyelv"
+
+msgid "user_never_logged_in"
+msgstr "Bejelentkezés nélküli fiókok törlése"
+
+msgid "user_never_logged_in_info"
+msgstr "Az összes bejelentkezés nélküli felhasználói fiókot töröljük."
+
+msgid "user_never_logged_in_info_threshold_err_num"
+msgstr "Csak pozitív egész számot fogadunk el."
+
+msgid "user_new_account_mail"
+msgstr "Új felhasználónak levél"
+
+msgid "user_new_account_mail_desc"
+msgstr "Ezt az e-mailt küldjök ki az új, saját magukat, illetve a ‘Felhasználó értesítése a módosításról’ beállítással regisztrált felhasználóknak."
+
+msgid "user_not_found"
+msgstr "A felhasználó nem található"
+
+msgid "user_not_found_to_delete"
+msgstr "A törlendő felhasználó nem található."
+
+msgid "user_not_known"
+msgstr "Érvényes felhasználónevet adjon meg!"
+
+msgid "user_profile_other"
+msgstr "További információ"
+
+msgid "user_send_new_account_mail"
+msgstr "Új felhasználónak levél küldése"
+
+msgid "user_status"
+msgstr "Felhasználó állapota"
+
+msgid "user_toggle_noti"
+msgstr "Tag nem tilthatja le az értesítést"
+
+msgid "userfolder_export_csv"
+msgstr "Vesszővel tagolt szöveg (CSV)"
+
+msgid "userfolder_export_excel_x86"
+msgstr "Microsoft Excel (XLS)"
+
+msgid "userfolder_export_file"
+msgstr "Fájl"
+
+msgid "userfolder_export_file_size"
+msgstr "Fájlméret"
+
+msgid "userfolder_export_files"
+msgstr "Fájlok"
+
+msgid "userfolder_export_xml"
+msgstr "XML"
+
+msgid "username"
+msgstr "Felhasználónév"
+
+msgid "username_assistance"
+msgstr "Felhasználónév segédlet"
+
+msgid "users"
+msgstr "Felhasználók"
+
+msgid "users_not_imported"
+msgstr "Az alábbi felhasználók nem léteznek, üzeneteik nem importálhatók"
+
+msgid "users_online"
+msgstr "Aktív felhasználók"
+
+msgid "usr"
+msgstr "Felhasználó"
+
+msgid "usr_account_inactive"
+msgstr "Interaktív számla"
+
+msgid "usr_active_only"
+msgstr "Csak aktív felhasználók"
+
+msgid "usr_add"
+msgstr "Felhasználó létrehozása"
+
+msgid "usr_edit"
+msgstr "Felhasználó módosítása"
+
+msgid "usr_field_change_components_listening"
+msgstr "Van legalább egy komponens, amelyikre hatással van a konfiguráció módosítása. Biztos, hogy jóváhagyja a módosításokat az alábbi komponenseknél annak következményeivel?"
+
+msgid "usr_filter_coursemember"
+msgstr "Kurzus tagja"
+
+msgid "usr_filter_groupmember"
+msgstr "Csoport tagja"
+
+msgid "usr_filter_lastlogin"
+msgstr "Felhasználó utolsó bejelentkezése"
+
+msgid "usr_filter_role"
+msgstr "Hozzárendelt szerepkör"
+
+msgid "usr_inactive_only"
+msgstr "Csak inaktív felhasználók"
+
+msgid "usr_limited_access_only"
+msgstr "Csak korlátozott hozzáféréssel rendelkező felhasználók"
+
+msgid "usr_name_undisclosed"
+msgstr "Nem publikus"
+
+msgid "usr_new"
+msgstr "Új felhasználó"
+
+msgid "usr_settings_changeable_lua"
+msgstr "Módosítható a ‘Helyi ILIAS-fiókok kezelése’ alatt"
+
+msgid "usr_settings_explanation_profile"
+msgstr "A ‘Látható’ jelölőnégyzet kipipálása a Regisztrációs lapon és a Felhasználói adatok oldalon teszi láthatóvá a mezőket.<br />A ‘Módosítható’ jelölőnégyzet kipipálása a felhasználónak engedélyezi az adatmódosítást. Ne felejtse el, hogy a látható mezőket kitölthetik a regisztrációs lapon.<br />A ‘Kötelező’ jelölőnégyzettel kipipált adatot a regisztrációs űrlapon és a felhasználói adatok űrlapon kötelező kitölteni. Ezektől a beállításoktól függetlenül a Rendszerbeállítások » ILIAS-fiókok menü alatt az összes adat módosítható."
+
+msgid "usr_settings_header_profile"
+msgstr "Standard felhasználói adatmezők"
+
+msgid "usr_settings_saved"
+msgstr "A globális felhasználói beállítások mentése sikerült."
+
+msgid "usr_settings_visib_lua"
+msgstr "Látható a ‘Helyi ILIAS-fiókok kezelése’ alatt"
+
+msgid "usr_skin_style"
+msgstr "Skin / Stílus"
+
+msgid "usr_without_courses"
+msgstr "Hozzárendelt kurzus nélküli felhasználók"
+
+msgid "usrf"
+msgstr "ILIAS-fiókok"
+
+msgid "usrf_profile_link"
+msgstr "Link a személyes adatokhoz"
+
+msgid "usrimport_action_ignored"
+msgstr "%1$ művelet figyelmen kívül hagyva."
+
+msgid "usrimport_action_replaced"
+msgstr "%1$ művelet cserélve erre: %2$."
+
+msgid "usrimport_cant_delete"
+msgstr "Nem hajtható végre a ‘Törlés’. Nincs ilyen felhasználó az adatbázisban."
+
+msgid "usrimport_cant_insert"
+msgstr "Nem hajtható végre a ‘Beszúrás’. Már van ilyen felhasználó az adatbázisban."
+
+msgid "usrimport_cant_update"
+msgstr "Nem hajtható végre a ‘Frissítés’. Nincs ilyen felhasználó az adatbázisban."
+
+msgid "usrimport_conflict_handling_info"
+msgstr "Ha az ‘A beszúrási/frissítési művelet szigorúan betartása’ van kiválasztva, az ILIAS elutasítja a tevékenységet, ha nem hajtható végre (például a ‘Beszúrás’ tevékenység nem hajtódik végre, ha már van felhasználó a megadott felhasználónévvel az adatbázisban). Ha a ‘A beszúrási/frissítési művelet automatikusan észlelése’ van kiválasztva, az ILIAS frissíti az adatbázist, ha nem hajtható végre egy tevékenység (például a ‘Beszúrás’ tevékenységet lecseréli a ‘Frissítés’-sel és fordítva, ha ugyanazon a felhasználónéven létezik már felhasználó a rendszerben)."
+
+msgid "usrimport_form_not_evaluabe"
+msgstr "Az űrlapadat nem olvasható be."
+
+msgid "usrimport_global_role_for_action_required"
+msgstr "Legalább egy globális szerepkört meg kell határozni a ‘%1$s’ tevékenységhez."
+
+msgid "usrimport_ignore_role"
+msgstr "Szerepkör mellőzése"
+
+msgid "usrimport_login_is_not_unique"
+msgstr "Nem egyedi a felhasználónév."
+
+msgid "usrimport_no_insert_ext_account_exists"
+msgstr "Nem hajtható végre a ‘Beszúrás’ művelet. A külső felhasználói fiók már létezik."
+
+msgid "usrimport_no_update_ext_account_exists"
+msgstr "Nem hajtható végre a ‘Frissítés’ művelet. A külső felhasználói fiók már létezik."
+
+msgid "usrimport_with_specified_role_not_permitted"
+msgstr "Az import a megadott szereppel nem engedélyezett."
+
+msgid "usrimport_wrong_file_count"
+msgstr "Túl sok a fájl az importálandó mappában. Próbálja újra."
+
+msgid "usrimport_xml_anonymous_or_root_not_allowed"
+msgstr "Sem a rendszer-, sem anonymous fiók nem módosítható importálással."
+
+msgid "usrimport_xml_attribute_missing"
+msgstr "Hiányzik a ‘%2$s’ tulajdonság a ‘%1$s’ elemből."
+
+msgid "usrimport_xml_attribute_value_illegal"
+msgstr "Nem érvényes a ‘%2$s’ tulajdonság ‘%3$s’ értéke a ‘%1$s’ elemben."
+
+msgid "usrimport_xml_attribute_value_inapplicable"
+msgstr "‘%2$s’ attribútum ‘%3$s’ értéke ‘%1$s’ elemben nem használható ‘%4$s’ tevékenységhez."
+
+msgid "usrimport_xml_element_content_illegal"
+msgstr "‘%1$s’ elem ‘%2$s’ tartalma érvénytelen."
+
+msgid "usrimport_xml_element_for_action_required"
+msgstr "‘%1$s’ elemet specifikálni kell ‘%2$s’ tevékenységhez."
+
+msgid "usrimport_xml_element_inapplicable"
+msgstr "‘%1$s’ elem nem alkalmazható ‘%2$s’ tevékenységhez."
+
+msgid "valid"
+msgstr "Érvényes"
+
+msgid "validate"
+msgstr "Érvényesítés"
+
+msgid "value"
+msgstr "Érték"
+
+msgid "vcard"
+msgstr "Névjegykártya"
+
+msgid "vcard_download"
+msgstr "Névjegykártya letöltése"
+
+msgid "verification_failed"
+msgstr "Ellenőrzés sikertelen."
+
+msgid "verification_failure_log"
+msgstr "Ellenőrzési hibanapló"
+
+msgid "verification_warning_log"
+msgstr "Ellenőrzés figyelmeztető naplója"
+
+msgid "version"
+msgstr "Verzió"
+
+msgid "versions"
+msgstr "Verziók"
+
+msgid "view"
+msgstr "Megjelenítés"
+
+msgid "view_content"
+msgstr "Tartalom nézet"
+
+msgid "view_learning_progress"
+msgstr "Tanulási haladás megjelenítése"
+
+msgid "view_learning_progress_rec"
+msgstr "Egység és alegységei Tanulási haladásának megjelenítése"
+
+msgid "visible"
+msgstr "Látható"
+
+msgid "visible_registration"
+msgstr "Látható a ‘Regisztráció’ alatt"
+
+msgid "visitor"
+msgstr "Látogató"
+
+msgid "visitors"
+msgstr "látogató"
+
+msgid "visits"
+msgstr "Látogatások"
+
+msgid "web_resources"
+msgstr "Weblinkek"
+
+msgid "webdav"
+msgstr "WebDAV"
+
+msgid "webdav_add_instructions_btn_label"
+msgstr "WebDAV csatolási útmutató hozzáadása"
+
+msgid "webdav_chosen_language_already_used"
+msgstr "A kiválasztott nyelven már létezik ilyen útmutató."
+
+msgid "webdav_doc_delete"
+msgstr "WebDav csatolási útmutató törlése"
+
+msgid "webdav_docs_mount_instructions"
+msgstr "A WebDAV csatolási útmutató dokumentumok"
+
+msgid "webdav_duplicate_detected_title"
+msgstr "Az következő objektumok nem jeleníthetőek meg, mert egy megjelenítettel azonos a címe:"
+
+msgid "webdav_forbidden_chars_title"
+msgstr "A következő fájl nem jeleníthető meg, mert tiltott karaktereket tartalmaz (\\<>/:*?\"|#):"
+
+msgid "webdav_form_document"
+msgstr "Útmutató dokumentum"
+
+msgid "webdav_form_document_info"
+msgstr "Töltsön fel egy szöveges vagy HTML-fájlt. A feltöltés után a fájlt elemezzük és feldolgozzuk. További információkért"
+
+msgid "webdav_form_document_title"
+msgstr "Cím"
+
+msgid "webdav_form_document_title_info"
+msgstr "Ez lesz az ablak címe, amikor a WebDAV csatolási útmutatót megnyitják"
+
+msgid "webdav_form_edit_doc_head"
+msgstr "WebDAV csatolási útmutató módosítása"
+
+msgid "webdav_form_new_doc_head"
+msgstr "Új WebDAV csatolási útmutató hozzáadása"
+
+msgid "webdav_general_settings"
+msgstr "Általános beállítások"
+
+msgid "webdav_missing_lang"
+msgstr "Nincs angol nyelvű verziója a WebDAV csatolási útmutatójának"
+
+msgid "webdav_mount_instructions"
+msgstr "WebDAV csatolási útmutató"
+
+msgid "webdav_problem_free_container"
+msgstr "Egy hibát okozó objektum sincs a tárolóban."
+
+msgid "webdav_problem_info_duplicate"
+msgstr "Létezik egy, az információs fájllal egyező nevű fájl."
+
+msgid "webdav_pwd_instruction"
+msgstr "Javasolt egy helyi jelszó létrehozása a Tartalomtár webmappaként történő megnyitásához.<br/>Ez a jelszó csak a webmappafunkciókhoz szükséges."
+
+msgid "webdav_pwd_instruction_success"
+msgstr "Új helyi jelszó jött létre. Most már webmappaként nyithatja meg a Tartalomtárt."
+
+msgid "webdav_sure_delete_documents_s"
+msgstr "Biztos, hogy törli a következő című WebDAV csatolási útmutatót:"
+
+msgid "webdav_tbl_docs_head_title"
+msgstr "Dokumentum címe"
+
+msgid "webdav_tbl_docs_title"
+msgstr "A feltöltött WebDAV csatolási útmutatók"
+
+msgid "webdav_upload_instructions"
+msgstr "Útmutató feltöltése"
+
+msgid "webfolder_dir_info"
+msgstr "Böngészője nem tud webmappákat megnyitni. Olvassa el az <a href=\"%1$s\">útmutatót a webmappák megnyitásához</a>."
+
+msgid "webfolder_index_of"
+msgstr "%1$s indexe"
+
+msgid "webfolder_instructions"
+msgstr "Leírás webmappa használatához"
+
+msgid "webfolder_instructions_info"
+msgstr "Azokban a böngészőkben, amelyek nem tudnak webmappákat közvetlenül megnyitni, a webmappa-utasítások láthatók. HTML-kódot és az alábbi dzsókerelemeket használhatja: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[WINDOWS]</b>…<b>[/WINDOWS]</b>, <b>[MAC]</b>…<b>[/MAC]</b>, <b>[LINUX]</b>…<b>[/LINUX]</b>. Törölje ki a mezőt, hogy megkapja az alapértelmezett utasításokat!"
+
+msgid "webfolder_instructions_text"
+msgstr "[WINDOWS] <h3>Utasítások Windows rendszerrel történő csatlakozáshoz</h3> <ol> <li>Nyissa meg a Fájlkezelőt (például Windows + E billentyűkombináció).</li> <li>Válassza a ‘Hálózati meghajtó csatlakoztatása’ opciót.</li> <li>Adja a meg hálózati csatlakoztatandó mappának az következőt (másolja majd illessze be az URL-t):<br /><br /> <b>[WEBFOLDER_URI]</b><br /><br /></li> <li>Kattintson a ‘Befejezés’ gombra.</li> <li>Amennyiben szükséges, adja meg felhasználónevét és jelszavát.</li> <li>Ezután a hálózati meghajtót a többi meghajtók között megtalálja.</li> </ol> <br /> Felhasználóneve és jelszava ugyanaz, mint amivel az ILIAS-ba be tud jelentkezni. Jelszavát a személyes beállításai alatt tudja megváltoztatni.[/WINDOWS][MAC] <h3>Utasítások Mac OS X rendszerrel történő csatlakozáshoz</h3> <ol> <li>Nyissa meg a Keresőt (Finder).</li> <li>Válassza a ‘Menj &gt; Kapcsolódás Szerverhez…’ menüt.<br/>Erre a ‘Kapcsolódás szerverhez’ dialógusablak nyílik meg.</li> <li>Szerver URL-nek a következő URL-t adja meg:<br/><b>[WEBFOLDER_URI]</b><br/> és válassza a ’Kapcsolódás’-t.</li> <li>Adja meg felhasználónevét és jelszavát, majd nyomja meg az ‘OK’ gombot.</li> </ol> <br /> Felhasználóneve és jelszava ugyanaz, mint amivel az ILIAS-ba be tud jelentkezni. Jelszavát a ‘Munkaasztal’ ‘Beállítások’ menüben alatt tudja megváltoztatni.[/MAC][LINUX] <h3>Utasítások Linux rendszerhez Konquerorral történő csatlakozáshoz</h3> <ol> <li>Indítsa el a Konqueror böngészőt.</li> <li>Szerver URL-nek a következő URL-t adja meg:<br /> <b>[WEBFOLDER_URI_KONQUEROR]</b><br/>majd nyomja meg az Enter billentyűt.</li> <li>Adja meg felhasználónevét és jelszavát, majd nyomja meg az ‘OK’ gombot.</li> </ol> <h3>Utasítások Linux rendszerhez Nautilus-szal történő csatlakozáshoz</h3> <ol> <li>Indítsa el a Nautilus böngészőt.</li> <li>Szerver URL-nek a következő URL-t adja meg:<br /> <b>[WEBFOLDER_URI_NAUTILUS]</b><br/>majd nyomja meg az Enter billentyűt..</li> <li>Adja meg felhasználónevét és jelszavát, majd nyomja meg az ‘OK’ gombot.</li> </ol> <br /> Felhasználóneve és jelszava ugyanaz, mint amivel az ILIAS-ba be tud jelentkezni. Jelszavát a ‘Munkaasztal’ ‘Beállítások’ menüben alatt tudja megváltoztatni.[/LINUX] <h3>Tippek &amp; támogatás</h3> <ul> <li>Ezeket a lépéséket <b>csak egyszer</b> szükséges végrehajtani. Később is elérheti ezt a kapcsolatot.</li> </ul> <ul> <li>Almappához csatlakozhat, de a mappától felfelé már nem tud lépni.</li> </ul> <ul> <li>Ha nem sikerül elérnie a hálózati meghajtót, vegye fel a kapcsolatot egy rendszergazdával.</li> </ul>"
+
+msgid "webfolder_instructions_titletext"
+msgstr "Megnyitás webmappaként"
+
+msgid "webfolder_mount_dir_with"
+msgstr "Nyissa meg webmappaként ezt a lapot <a href=\"%1$s\">Internet Explorerrel</a>, <a href=\"%2$s\">Konquerorral</a>, <a href=\"%3$s\">Nautilusszal</a>, <a href=\"%4$s\">más böngészővel</a>."
+
+msgid "webr"
+msgstr "Weblink"
+
+msgid "webr_active"
+msgstr "Aktív"
+
+msgid "webr_add"
+msgstr "Weblink létrehozása"
+
+msgid "webr_deleted_items"
+msgstr "Törölt weblink(ek)."
+
+msgid "webr_edit"
+msgstr "Weblink módosítása"
+
+msgid "webr_sure_delete_items"
+msgstr "Biztos, hogy törli az alábbi weblink(ek)et?"
+
+msgid "webservices"
+msgstr "Webszolgáltatások"
+
+msgid "week"
+msgstr "Hét"
+
+msgid "weekly"
+msgstr "heti"
+
+msgid "weeks"
+msgstr "Hét"
+
+msgid "welcome"
+msgstr "Üdvözöljük"
+
+msgid "width"
+msgstr "Szélesség"
+
+msgid "wiki"
+msgstr "Wiki"
+
+msgid "wiki_add"
+msgstr "Wiki létrehozása"
+
+msgid "wiki_new"
+msgstr "Új wiki"
+
+msgid "with"
+msgstr "ezzel:"
+
+msgid "withdraw_consent"
+msgstr "Elfogadások visszavonása"
+
+msgid "withdraw_consent_info_internal"
+msgstr "Jóváhagyása esetén az ILIAS-fiókját töröljük."
+
+msgid "withdraw_usr_agreement"
+msgstr "Visszavonás"
+
+msgid "withdrawal_complete"
+msgstr "Sikeresen visszavonta a Szolgáltatási feltételek elfogadását."
+
+msgid "withdrawal_complete_deleted"
+msgstr "Sikeresen visszavonta a Szolgáltatási feltételek elfogadását, ILIAS-fókját eltávolítottuk."
+
+msgid "withdrawal_complete_redirect"
+msgstr "Sikeresen visszavonta a Szolgáltatási feltételek elfogadását. ILIAS-fiókja eltávolításához keresse fel szervezetét."
+
+msgid "withdrawal_mail_info"
+msgstr "A visszavonás jóváhagyása után a következő e-mail küldjük el az üzemeltőknek:[BR][BR]"
+
+msgid "withdrawal_mail_subject"
+msgstr "Szolgáltatási feltételek elfogadásának visszavonása"
+
+msgid "withdrawal_mail_text"
+msgstr "Tisztelt Üzemeltető,[BR][BR]ezúton visszavonom a Szolgáltatási feltételek elfogadását. Kérem, módosítsa/törölje fiókomat.[BR][BR]Név: %1$s[BR]Felhasználónév: %2$s[BR]Külső fiók: %3$s[BR][BR]Üdvözlettel[BR]%1$s"
+
+msgid "withdrawal_sure_account"
+msgstr "Biztos, hogy visszavonja a Szolgáltatási feltételek elfogadását?"
+
+msgid "withdrawal_sure_account_deletion"
+msgstr "Biztos, hogy visszavonja a Szolgáltatási feltételek elfogadását? ILIAS-fiókáját végérvényesen töröljük."
+
+msgid "withdrawal_sure_account_deletion_no_consent_yet"
+msgstr "Biztos, hogy nem fogadja el a Szolgáltatási feltételeket? Ebben az esetben az ILIAS-fiójkját véglegesen töröljük."
+
+msgid "withdrawal_sure_account_no_consent_yet"
+msgstr "Biztos, hogy nem fogadja el a Szolgáltatási feltételeket?"
+
+msgid "wizard_search_list"
+msgstr "Keresése az alábbi találatokat eredményezte. Válasszon egyet közülük."
+
+msgid "wizard_title_info"
+msgstr "Keresse meg a duplikálandó objektumot. Adja meg az objektum teljes címét vagy csak a cím egy részét, majd kattintson a ‘Folytatás’ gombra a találatok megjelenítéséhez."
+
+msgid "write"
+msgstr "Írás"
+
+msgid "year"
+msgstr "Év"
+
+msgid "yearly"
+msgstr "évente"
+
+msgid "years"
+msgstr "Év"
+
+msgid "yes"
+msgstr "Igen"
+
+msgid "yesterday"
+msgstr "Tegnap"
+
+msgid "zip"
+msgstr "Irányítószám / Postafiók"
+
+msgid "zip_structure_error"
+msgstr "Az archívum fájl azonos nevű fájlokat tartalmaz. A feltöltés megszakadt."
+
+msgid "zip_test_failed"
+msgstr "ZIP tesztelése sikertelen. Lépjen kapcsolatba egy rendszergazdával."
+
+msgid "zipcode"
+msgstr "Irányítószám / Postafiók"

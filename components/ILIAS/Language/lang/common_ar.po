@@ -1,0 +1,8447 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ar\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=6; plural=(n == 0) ? 0 : ((n == 1) ? 1 : ((n == 2) ? 2 : ((n % 100 >= 3 && n % 100 <= 10) ? 3 : ((n % 100 >= 11 && n % 100 <= 99) ? 4 : 5))));\n"
+"X-Domain: common\n"
+
+msgid "HH"
+msgstr "HH:MM"
+
+msgid "absolute_path"
+msgstr "مسار النظام"
+
+#, fuzzy
+msgid "accept_usr_agreement_btn"
+msgstr "Accept"
+
+msgid "access"
+msgstr "وصول"
+
+msgid "accessFree"
+msgstr "ازالة الوصول المحدود"
+
+msgid "accessRestrict"
+msgstr "وضع الوصول المحدود"
+
+msgid "access_expired"
+msgstr "منتهي"
+
+msgid "access_free_granted"
+msgstr "تعيين المستخدمين المختارين للوصول غير المحدود"
+
+msgid "access_from"
+msgstr "الوصول- من"
+
+msgid "access_public"
+msgstr "عام"
+
+msgid "access_restricted"
+msgstr "تعيين المستخدمين المختارين للوصول المحدود"
+
+msgid "access_scope"
+msgstr "وصول"
+
+msgid "access_unlimited"
+msgstr "غير محدود"
+
+msgid "access_until"
+msgstr "الوصول- حتى"
+
+msgid "access_users"
+msgstr "دخول المستخدمين"
+
+msgid "accesscount_registered_users"
+msgstr "المتميزين ILIAS قراءة بواسطة عدد من مستخدمي"
+
+#, fuzzy
+msgid "accessibility_control_concept"
+msgstr "Accessibility Control Concept"
+
+#, fuzzy
+msgid "account"
+msgstr "My Account"
+
+msgid "account_expires_body"
+msgstr "حسابك محدود وستنتهي صلاحيته في"
+
+msgid "account_expires_subject"
+msgstr "انتهت صلاحية حسابك"
+
+msgid "action"
+msgstr "وظيفة"
+
+msgid "action_aborted"
+msgstr "Action aborted"
+
+msgid "actions"
+msgstr "وظائف"
+
+#, fuzzy
+msgid "actions_for"
+msgstr "Actions for %s"
+
+msgid "activate"
+msgstr "وضعية فعال"
+
+msgid "activate_https"
+msgstr "ILIAS المعالجة بواسطة HTTPS<br>(الدفع, الدخول)"
+
+msgid "activate_tracking"
+msgstr "تفعيل"
+
+msgid "activation"
+msgstr "تعديل الوقت"
+
+msgid "active"
+msgstr "فعال"
+
+msgid "add"
+msgstr "اضافة"
+
+msgid "add_condition"
+msgstr "انشاء رابطة جديدة"
+
+msgid "add_entry"
+msgstr "Add/Edit entry"
+
+msgid "add_member"
+msgstr "اضافة عضو"
+
+#, fuzzy
+msgid "add_member_role"
+msgstr "Add Member Role"
+
+msgid "add_new_user_defined_field"
+msgstr "اضافة حقل مخصص جديد"
+
+msgid "add_note"
+msgstr "اضافة ملاحظة"
+
+msgid "add_parameter"
+msgstr "مدخل جديد"
+
+#, fuzzy
+msgid "add_remove_edit_entries_of_main_menu"
+msgstr "Add, remove or edit entries of the main menu"
+
+#, fuzzy
+msgid "add_role"
+msgstr "Add Role"
+
+msgid "add_translation"
+msgstr "اضافة ترجمة"
+
+msgid "add_user"
+msgstr "اضافة وظيفة محلية"
+
+msgid "add_user_defined_field"
+msgstr "اضافة حقل جديد"
+
+msgid "added_new_condition"
+msgstr "انشاء شرط جديد"
+
+msgid "additional_info"
+msgstr "معلومات اضافية"
+
+msgid "address"
+msgstr "عنوان"
+
+msgid "admin_force_noti"
+msgstr "الاشعار مفعل"
+
+msgid "administrate_users"
+msgstr "Local User Administration"
+
+#, fuzzy
+msgid "administrate_users_headline"
+msgstr "Local ILIAS Accounts of this Category"
+
+msgid "administration"
+msgstr "ادارة"
+
+msgid "administrator"
+msgstr "مدير"
+
+msgid "adopt"
+msgstr "Adopt"
+
+msgid "advanced_editing_allow_html_tags"
+msgstr "لتعديل النص HTML السماح بعلامات المختارة"
+
+msgid "advanced_editing_assessment_settings"
+msgstr "Allowed HTML Tags for the ILIAS Test & Assessment tool"
+
+msgid "advanced_editing_frm_post_settings"
+msgstr "اعدادات المشاركة في المنتدى"
+
+msgid "advanced_editing_rep_page_editing"
+msgstr "تفعيل تعديل المحتوى في المكتبة"
+
+msgid "advanced_editing_rep_page_editing_desc"
+msgstr "This feature allows to add text/media to category, course, group and folder pages. If deactivated, existing content will be hidden."
+
+msgid "advanced_editing_required_tags"
+msgstr "The following HTML tags are required: %s"
+
+msgid "advanced_editing_survey_settings"
+msgstr "Allowed HTML Tags for the ILIAS survey tool"
+
+msgid "adve_assessment_settings"
+msgstr "اعدادات الاختبار والتقييم"
+
+msgid "adve_frm_post_settings"
+msgstr "مشاركات المنتدى"
+
+msgid "adve_general_settings"
+msgstr "الاعدادات العامة"
+
+msgid "adve_survey_settings"
+msgstr "ملخص المسح"
+
+msgid "agree_date"
+msgstr "الموافقة على"
+
+#, fuzzy
+msgid "all"
+msgstr "All"
+
+msgid "all_global_roles"
+msgstr "وظائف عامة"
+
+msgid "all_local_roles"
+msgstr "Local roles (all)"
+
+msgid "all_objects"
+msgstr "كل العناصر"
+
+msgid "all_roles"
+msgstr "كل القوانين"
+
+msgid "all_topics"
+msgstr "كافة الموضوعات"
+
+msgid "all_users"
+msgstr "كل المستخدمين"
+
+msgid "allow_assign_users"
+msgstr "Allow user assignment for local administrators."
+
+msgid "allow_override_alert"
+msgstr "بالشكل الصحيح .htaccess لم يتم تفسير قواعد"
+
+msgid "allow_register"
+msgstr "Available in registration form for new users"
+
+msgid "allow_user_toggle_noti"
+msgstr "يسمح للعضو بعدم تفعيل الاشعار"
+
+msgid "already_delivered_files"
+msgstr "الملفات المقدمة"
+
+msgid "and"
+msgstr "و"
+
+#, fuzzy
+msgid "angry"
+msgstr "Angry"
+
+msgid "anonymous"
+msgstr "مجهول"
+
+msgid "answers"
+msgstr "اجوبة"
+
+msgid "any_language"
+msgstr "اي لغة"
+
+msgid "apache_auth"
+msgstr "Apache Authentication"
+
+msgid "application_completed"
+msgstr "الطلب مكتمل"
+
+msgid "application_date"
+msgstr "تاريخ الطلب"
+
+msgid "applications"
+msgstr "طلبات"
+
+msgid "apply"
+msgstr "تطبيق"
+
+msgid "apply_filter"
+msgstr "تطبيق تصفية"
+
+msgid "appointment"
+msgstr "موعد"
+
+msgid "approve_date"
+msgstr "الموافقة على"
+
+msgid "approve_recipient"
+msgstr "Login ID of Approver"
+
+msgid "archive"
+msgstr "الارشيف"
+
+msgid "archive_broken"
+msgstr "Archive seems to be broken or empty."
+
+msgid "are_you_sure"
+msgstr "Are you sure?"
+
+msgid "assf_allowed_questiontypes"
+msgstr "انواع الاسئلة الموجودة"
+
+msgid "assf_allowed_questiontypes_desc"
+msgstr "واذا كنت لا تريد السماح بانشاء نوع سؤال معين في هذا الاصدار، عليك اذن ازالة التعيين في صندوق الفحص المختصILIAS ستكون جميع انواع الاسئلة التي تم فحصها موجودة في اصدار"
+
+msgid "assf_questiontypes"
+msgstr "اعدادات السؤال"
+
+msgid "assign"
+msgstr "تعيين"
+
+msgid "assign_global_role"
+msgstr "Assign to Global Role"
+
+msgid "assign_local_role"
+msgstr "Assign to Local Role"
+
+msgid "assigned_members"
+msgstr "Assigned Members"
+
+msgid "assigned_roles"
+msgstr "القوانين التي تم تعيينها"
+
+msgid "associated_user"
+msgstr "associated User"
+
+#, fuzzy
+msgid "astounded"
+msgstr "Astounded"
+
+msgid "at_least_one_style"
+msgstr "At least one style must remain activated."
+
+msgid "attachment"
+msgstr "Attachment"
+
+msgid "attachments"
+msgstr "الملحقات"
+
+msgid "attempts"
+msgstr "محاولات"
+
+msgid "auth_active_roles"
+msgstr "الوظائف العامة موجودة في قائمة التسجيل"
+
+msgid "auth_allow_local"
+msgstr "السماح بالمصادقة المحلية"
+
+msgid "auth_configure"
+msgstr "تكوين..."
+
+msgid "auth_create_users"
+msgstr "انشاء مستخدمين غير موجودين تلقائيا"
+
+msgid "auth_default"
+msgstr "الاعدادات الافتراضية"
+
+msgid "auth_default_mode_changed_to"
+msgstr "Default authentication mode changed to"
+
+msgid "auth_ecs"
+msgstr "ECS"
+
+msgid "auth_ldap"
+msgstr "LDAP"
+
+msgid "auth_ldap_enable"
+msgstr "LDAP تفعيل دعم"
+
+msgid "auth_ldap_migration"
+msgstr "انتقال الحساب"
+
+msgid "auth_ldap_migration_info"
+msgstr "LDAP الى مصادقة ILIAS قم بتفعيل هذا الخيار لمنح المسخدمين الجدد امكانية تحويل تواجدهم في حسابات"
+
+msgid "auth_local"
+msgstr "ILIAS قاعدة بيانات"
+
+msgid "auth_login_instructions"
+msgstr "تم عرض التعليمات على صفحة الدخول"
+
+msgid "auth_mode"
+msgstr "طريقة المصادقة"
+
+msgid "auth_mode_not_changed"
+msgstr "(لم يتغير شيء)"
+
+msgid "auth_mode_roles_changed"
+msgstr "Changed authentication mode for this Role"
+
+msgid "auth_new_account_mail_desc"
+msgstr "Send new account e-mail to user, if user is generated automatically. A password will only be generated, if \"Allow Local Authentication\" is also activated."
+
+msgid "auth_per_default"
+msgstr "لكل برنامج افتراضي"
+
+msgid "auth_remark_non_local_auth"
+msgstr "  لن يكون عليك تغيير اسم الدخول وكلمة المرور بعد الان ILIAS عند اختيار اسلوب مصادقة اخر غير قاعدة بيانات"
+
+msgid "auth_role_auth_mode"
+msgstr "طريقة المصادقة"
+
+#, fuzzy
+msgid "auth_saml"
+msgstr "SAML"
+
+msgid "auth_script"
+msgstr "مخصص"
+
+msgid "auth_select"
+msgstr "اختر طريقة المصادقة"
+
+msgid "auth_selection"
+msgstr "خيارات الدخول"
+
+msgid "auth_settings"
+msgstr "اعدادات المصادقة"
+
+msgid "auth_shib"
+msgstr "Shibboleth"
+
+msgid "auth_shib_instructions"
+msgstr "Be sure to read the README for instructions on how to configure Shibboleth support for ILIAS."
+
+msgid "auth_shib_not_configured"
+msgstr "بعد Shibboleth لم يتم انشاء"
+
+msgid "auth_shibboleth"
+msgstr "Shibboleth"
+
+msgid "auth_soap"
+msgstr "SOAP"
+
+msgid "auth_soap_allow_local_desc"
+msgstr "This allows SOAP users to authenticate with their local ILIAS username and a local password."
+
+msgid "auth_soap_auth"
+msgstr "SOAP انشاء مصادقة"
+
+msgid "auth_soap_auth_desc"
+msgstr "This settings deal only with SOAP based user authentication, not with the ILIAS SOAP interface."
+
+msgid "auth_soap_create_users_desc"
+msgstr "Creates automatically an ILIAS user account, for users that successfully authenticated against SOAP, without having an ILIAS account yet."
+
+msgid "auth_soap_namespace"
+msgstr "Namespace"
+
+msgid "auth_soap_namespace_desc"
+msgstr "As defined in WSDL. Must be specified, if .NET SOAP style is used."
+
+msgid "auth_soap_port_desc"
+msgstr "E.g. 8080 if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_server_desc"
+msgstr "E.g. auth.yourserver.com if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_settings_saved"
+msgstr "SOAP تم حفظ اعدادات مصادقة"
+
+msgid "auth_soap_uri_desc"
+msgstr "Local URI, e.g. dir/server.php if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_use_dotnet"
+msgstr "Use .NET SOAP Style"
+
+msgid "auth_soap_use_https"
+msgstr "HTTPS استخدم"
+
+msgid "auth_soap_user_default_role_desc"
+msgstr "SOAP تم تعيين هذه الوظيفة اليا لمستخدمي"
+
+msgid "auth_user_default_role"
+msgstr "وظيفة افتراضية"
+
+msgid "authenticate_ilias"
+msgstr "ILIAS المصادقة الاصلية ل"
+
+msgid "authentication_settings"
+msgstr "المصادقة"
+
+msgid "author"
+msgstr "Author"
+
+msgid "authoring_mode"
+msgstr "Authoring Mode"
+
+msgid "authors"
+msgstr "مؤلفون"
+
+#, fuzzy
+msgid "autocomplete_more"
+msgstr "more"
+
+msgid "available"
+msgstr "موجود"
+
+#, fuzzy
+msgid "awra"
+msgstr "Who is online?"
+
+msgid "back"
+msgstr "رجوع"
+
+#, fuzzy
+msgid "back_to_course"
+msgstr "Back to Course"
+
+msgid "back_to_crs_content"
+msgstr "العودة الى محتوى الدورة"
+
+msgid "back_to_fold_content"
+msgstr "الرجوع الى محتوى المجلد"
+
+msgid "back_to_grp_content"
+msgstr "الرجوع الى محتوى المجموعة"
+
+msgid "backto_lua"
+msgstr "Back to Local User Administration"
+
+msgid "basedn"
+msgstr "BaseDN"
+
+msgid "basic_settings"
+msgstr "الاعدادات الاساسية"
+
+msgid "before"
+msgstr "before"
+
+msgid "behind"
+msgstr "Behind"
+
+msgid "bib_data"
+msgstr "Bibliographical Data"
+
+#, fuzzy
+msgid "bibl_add"
+msgstr "Add Bibliography"
+
+msgid "birthday"
+msgstr "تاريخ الميلاد"
+
+msgid "bkm_import"
+msgstr "استيراد مراجع"
+
+msgid "bkm_import_ok"
+msgstr "Successfully imported %d bookmarks and %d bookmark folders."
+
+msgid "bkm_sendmail"
+msgstr "ارسال كملحق"
+
+msgid "block"
+msgstr "كتلة"
+
+msgid "bm"
+msgstr "Bookmark"
+
+msgid "bm_add_to_ilias"
+msgstr "ILIAS مراجع"
+
+msgid "bmf"
+msgstr "Bookmark Folder"
+
+msgid "bold"
+msgstr "Bold"
+
+#, fuzzy
+msgid "bold_action"
+msgstr "Insert Bold - Click to insert bold text."
+
+msgid "bookings"
+msgstr "Bookings"
+
+msgid "bookmark_added"
+msgstr "تم انشاء علامة"
+
+msgid "bookmark_folder_new"
+msgstr "مجلد مرجع جديد"
+
+msgid "bookmark_new"
+msgstr "مرجع جديد"
+
+msgid "bookmark_target"
+msgstr "هدف"
+
+msgid "bookmarks"
+msgstr "المفضلات"
+
+msgid "bookmarks_of"
+msgstr "Bookmarks of"
+
+msgid "breadcrumb_navigation"
+msgstr "التنقل التفصيلي"
+
+#, fuzzy
+msgid "breadcrumbs_aria_label"
+msgstr "Breadcrumbs"
+
+#, fuzzy
+msgid "briefcase"
+msgstr "Background Tasks"
+
+msgid "btn_add"
+msgstr "اضافة"
+
+msgid "btn_back"
+msgstr "رجوع"
+
+msgid "btn_next"
+msgstr "مواصلة"
+
+msgid "btn_previous"
+msgstr "رجوع"
+
+msgid "btn_remove_system"
+msgstr "ازالة من النظام"
+
+msgid "btn_undelete"
+msgstr "استعادة"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_no"
+msgstr "Doesn`t Receive Contact Requests"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_yes"
+msgstr "Receives Contact Requests"
+
+#, fuzzy
+msgid "building_export_file"
+msgstr "Building Export File..."
+
+#, fuzzy
+msgid "bulletlist_action"
+msgstr "Insert Bulletpoint-List - Click to insert a bulletpoint-list."
+
+msgid "by"
+msgstr "By"
+
+msgid "bytes"
+msgstr "Bytes"
+
+msgid "cal_from"
+msgstr "من"
+
+msgid "cal_until"
+msgstr "Until:"
+
+msgid "calendar"
+msgstr "التقويم"
+
+msgid "cancel"
+msgstr "تراجع"
+
+#, fuzzy
+msgid "cancel_file_upload"
+msgstr "Do you really want to cancel all pending uploads?"
+
+msgid "cannot_find_xml"
+msgstr "Cannot find any XML-file."
+
+msgid "cannot_uninstall_language_in_use"
+msgstr "انت لا تستطيع حذف اللغة المستخدمة حاليا"
+
+msgid "cannot_uninstall_systemlanguage"
+msgstr "لا تستطيع عدم ادراج لغة النظام"
+
+msgid "cannot_unzip_file"
+msgstr "Cannot unpack file."
+
+msgid "cant_deactivate_if_users_assigned"
+msgstr "لا يمكنك تعطيل تصميم ما اذا كان ما يزال مستخدمين يستخدمونه"
+
+msgid "cat"
+msgstr "Category"
+
+msgid "cat_add"
+msgstr "اضافة فئة"
+
+msgid "cat_added"
+msgstr "فئة مضافة"
+
+#, fuzzy
+msgid "cat_copy_threads_info"
+msgstr "Please decide which category items should be copied, linked or even omitted."
+
+msgid "cat_edit"
+msgstr "تعديل الفئة"
+
+msgid "cat_new"
+msgstr "فئة جديدة"
+
+msgid "cat_wizard_page"
+msgstr "Copy Category (Step 2/2)"
+
+msgid "categories"
+msgstr "Categories"
+
+msgid "categories_imported"
+msgstr "Category import complete."
+
+msgid "catr"
+msgstr "Category Reference"
+
+#, fuzzy
+msgid "catr_add"
+msgstr "Add Category Link"
+
+msgid "catr_edit_info"
+msgstr "الرجاء اختيار فئة واحدة لانشاء مرجع جديد"
+
+msgid "catr_new"
+msgstr "انشاء مرجع فئة جديد"
+
+#, fuzzy
+msgid "catr_settings"
+msgstr "Category Link Settings"
+
+msgid "certificate"
+msgstr "شهادة"
+
+#, fuzzy
+msgid "certificate_file_already_exists_error"
+msgstr "The certificate file already exists in the file system."
+
+#, fuzzy
+msgid "certificate_file_input_output_error"
+msgstr "The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator."
+
+#, fuzzy
+msgid "certificate_file_not_found_error"
+msgstr "The certificate file doesn't exist in the file system anymore. Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden."
+
+#, fuzzy
+msgid "certificate_persistent_option"
+msgstr "Certificates of Achievements"
+
+#, fuzzy
+msgid "certificate_selection"
+msgstr "Origin of Certificates"
+
+#, fuzzy
+msgid "certificate_workspace_option"
+msgstr "Certificates of Personal Resources"
+
+#, fuzzy
+msgid "certificates"
+msgstr "Certificates"
+
+msgid "change"
+msgstr "تغيير"
+
+msgid "change_assignment"
+msgstr "تغيير التعيين"
+
+msgid "change_header_title"
+msgstr "تعديل عنوان الترويسة"
+
+msgid "change_owner"
+msgstr "تغيير المالك"
+
+msgid "change_sort_direction"
+msgstr "تغيير اتجاه الفرز"
+
+msgid "changeable"
+msgstr "قابل للتغير"
+
+msgid "changed_to"
+msgstr "changed to"
+
+msgid "changing_loginname_not_possible_info"
+msgstr "%s يمكن اجراء التغيير التالي في %s لقد قمت بتغيير اسم الدخول مؤخرا في"
+
+msgid "chapter"
+msgstr "فصل"
+
+msgid "characters"
+msgstr "characters"
+
+msgid "chat_enter_public_room"
+msgstr "دردشة عامة"
+
+msgid "chat_enter_public_room_tooltip"
+msgstr "Enter public chat."
+
+msgid "chat_users_active"
+msgstr "مستخدمون فعالون"
+
+msgid "check"
+msgstr "Check"
+
+msgid "check_all"
+msgstr "Check all"
+
+msgid "check_langfile"
+msgstr "الرجاء فحص ملف اللغة الخاص بك"
+
+msgid "check_languages"
+msgstr "فحص جميع اللغات"
+
+msgid "check_link"
+msgstr "فحص الرابط"
+
+msgid "check_link_desc"
+msgstr "فعالة ILIAS عند التفعيل، سيتم التحقق فيما اذا كانت جميع الوصلات الخارجية في الوحدة التعليمية"
+
+msgid "check_user_accounts"
+msgstr "Check user accounts"
+
+msgid "check_user_accounts_desc"
+msgstr "عند تفعيل المهام المجدولة وتفعيل هذا الخيار، سيتم اعلام جميع المستخدمين الذين انتهى حسابهم بواسطة رسالة الكترونية. بالاضافة الى انه سيتم حذف جميع المستخدمين الذين لم يقوموا بتأكيد حساباتهم بعد التسجيل بواسطة رسالة الكترونية"
+
+msgid "check_web_resources"
+msgstr "Check Weblinks"
+
+msgid "check_web_resources_desc"
+msgstr "If enabled all Weblinks will be checked if they are active."
+
+msgid "checked"
+msgstr "Checked"
+
+msgid "checked_files"
+msgstr "Importable files"
+
+msgid "chg_ilias_and_webfolder_password"
+msgstr "Change ILIAS and Webfolder Password"
+
+msgid "chg_ilias_password"
+msgstr "Change ILIAS Password"
+
+msgid "chg_password"
+msgstr "تغيير كلمة المرور"
+
+msgid "choose_language"
+msgstr "اختر لغتك"
+
+msgid "choose_only_one_language"
+msgstr "الرجاء اختيار لغة واحدة"
+
+msgid "chown_warning"
+msgstr "انتبه، فيمكن ان تفقد صلاحيات الوصول الى هذا العنصر بعد تغيير المالك"
+
+msgid "chta_edit_permission"
+msgstr "Change Permission Settings"
+
+msgid "chta_read"
+msgstr "Read access to Chatroom Administration"
+
+msgid "chta_visible"
+msgstr "Chatroom Administration is visible"
+
+msgid "chta_write"
+msgstr "Edit Chatroom Administration"
+
+msgid "chtr_copy"
+msgstr "Copy Chatroom"
+
+#, fuzzy
+msgid "chtr_import"
+msgstr "Import Chatroom"
+
+msgid "city"
+msgstr "المدينة، الدولة"
+
+msgid "cleaned_file"
+msgstr "تم تنظيف الملف"
+
+msgid "cleaning_failed"
+msgstr "Cleaning failed."
+
+msgid "clear"
+msgstr "Clear"
+
+msgid "clear_clipboard"
+msgstr "مسح الحافظة"
+
+msgid "client"
+msgstr "Client"
+
+msgid "client_id"
+msgstr "هوية العميل"
+
+msgid "client_ip"
+msgstr "Client IP"
+
+#, fuzzy
+msgid "clientlist_available_clients"
+msgstr "Available Clients"
+
+#, fuzzy
+msgid "clientlist_clientlist"
+msgstr "Client List"
+
+#, fuzzy
+msgid "clientlist_installation_name"
+msgstr "Installation Name"
+
+#, fuzzy
+msgid "clientlist_login"
+msgstr "Login"
+
+#, fuzzy
+msgid "clientlist_login_page"
+msgstr "Login page"
+
+#, fuzzy
+msgid "clientlist_public_access"
+msgstr "Public Access"
+
+#, fuzzy
+msgid "clientlist_start_page"
+msgstr "Start page"
+
+msgid "clipboard"
+msgstr "الحافظة"
+
+msgid "close"
+msgstr "اغلاق"
+
+#, fuzzy
+msgid "cmix"
+msgstr "Object xAPI/cmi5"
+
+msgid "cnt_new"
+msgstr "(%s جديد)"
+
+msgid "collapse"
+msgstr "انهيار"
+
+msgid "collapse_all"
+msgstr "Collapse All"
+
+#, fuzzy
+msgid "collapse_content"
+msgstr "Collapse Content"
+
+msgid "collapsed"
+msgstr "Collapsed"
+
+#, fuzzy
+msgid "column_selection"
+msgstr "Column Selection"
+
+msgid "columns"
+msgstr "اعمدة"
+
+msgid "comma_separated"
+msgstr "باستخدام الفاصلة"
+
+msgid "comment"
+msgstr "تعليق"
+
+#, fuzzy
+msgid "comments"
+msgstr "Comments"
+
+msgid "compose"
+msgstr "انشاء"
+
+#, fuzzy
+msgid "concurrent_uploads"
+msgstr "Number of concurrent uploads"
+
+#, fuzzy
+msgid "concurrent_uploads_info"
+msgstr "Defines the number of files that can be uploaded per upload process at the same time."
+
+msgid "cond_ref_handling"
+msgstr "اعدادات الوصلة"
+
+msgid "cond_ref_shared"
+msgstr "مشاركة الشروط المسبقة لجميع الوصلات"
+
+msgid "cond_ref_unique"
+msgstr "Unique Preconditions for Links"
+
+msgid "condition"
+msgstr "شرط"
+
+#, fuzzy
+msgid "condition_accredited_or_passed"
+msgstr "Accredited or Passed"
+
+msgid "condition_already_assigned"
+msgstr "تم تعيين عنصر"
+
+msgid "condition_circle_created"
+msgstr "This association is not possible, since the objects would interdepend."
+
+msgid "condition_deleted"
+msgstr "Condition deleted."
+
+msgid "condition_finished"
+msgstr "تم"
+
+msgid "condition_not_finished"
+msgstr "غير منهية"
+
+msgid "condition_passed"
+msgstr "تم المرور"
+
+msgid "condition_select_object"
+msgstr "الرجاء اختيار عنصر واحد"
+
+msgid "conditions_updated"
+msgstr "Conditions saved"
+
+#, fuzzy
+msgid "configuration"
+msgstr "Configuration"
+
+msgid "confirm"
+msgstr "تأكيد"
+
+msgid "confirm_delete_parameter"
+msgstr "هل ترغب حقا في حذف المدخل؟"
+
+msgid "confirmation"
+msgstr "Confirmation"
+
+msgid "conflict_handling"
+msgstr "Conflict handling"
+
+msgid "cont_iim_content_popups_info"
+msgstr "Content popups appear, when the user clicks on interactive parts of the base image. On this screen you only define the popups. Their content can be edited on the main page editing screen."
+
+msgid "cont_iim_create_info"
+msgstr "Please upload the main underlying picuture for the interactive image."
+
+msgid "cont_iim_overlay_info"
+msgstr "Overlay images are used to alter (e.g. highlight) parts of the base image when the mouse hovers over them. After uploading the images, you can select them in the \"Triggers\" tab."
+
+msgid "contact"
+msgstr "جهة إتصال"
+
+msgid "contact_data"
+msgstr "معلومات جهة الإتصال"
+
+msgid "contact_sysadmin"
+msgstr "إتصل بمسؤول الموقع"
+
+msgid "container"
+msgstr "Container"
+
+msgid "container_no_items"
+msgstr "لا يوجد مواد"
+
+msgid "content"
+msgstr "محتوى"
+
+msgid "content_frame"
+msgstr "Content Frame"
+
+msgid "content_styles"
+msgstr "اساليب المحتوى"
+
+msgid "context"
+msgstr "السياق"
+
+msgid "continue"
+msgstr "continue"
+
+msgid "continue_work"
+msgstr "متابعة"
+
+msgid "contra"
+msgstr "مضاد"
+
+#, fuzzy
+msgid "copa"
+msgstr "Content Page"
+
+msgid "copy"
+msgstr "نسخ"
+
+msgid "copyChapter"
+msgstr "نسخ"
+
+msgid "copyPage"
+msgstr "نسخ"
+
+msgid "copy_all"
+msgstr "نسخ الجميع"
+
+msgid "copy_n_of_suffix"
+msgstr "- Copy (%1$s)"
+
+msgid "copy_of"
+msgstr "نسخ ل"
+
+msgid "copy_of_suffix"
+msgstr "- نسخ"
+
+#, fuzzy
+msgid "copy_perma_link"
+msgstr "Copy link to clipboard"
+
+msgid "copy_selected_items"
+msgstr "نسخ"
+
+msgid "count"
+msgstr "Count"
+
+#, fuzzy
+msgid "counter_novelty"
+msgstr "News"
+
+#, fuzzy
+msgid "counter_status"
+msgstr "Status"
+
+msgid "country"
+msgstr "الدولة"
+
+msgid "country_free_text"
+msgstr "الدولة- نص ادخال حر"
+
+msgid "country_selection"
+msgstr "الدولة-يجب الاختيار"
+
+msgid "course"
+msgstr "مساق"
+
+msgid "courses"
+msgstr "المساقات"
+
+msgid "create"
+msgstr "انشاء"
+
+msgid "create_date"
+msgstr "تم انشاؤها على"
+
+msgid "create_export_file"
+msgstr "انشاء ملف تصدير"
+
+msgid "create_stylesheet"
+msgstr "انشاء اسلوب"
+
+msgid "created"
+msgstr "تاريخ الانشاء"
+
+msgid "cron_forum_notification"
+msgstr "ارسال اشعارات المنتدى"
+
+#, fuzzy
+msgid "cron_forum_notification_crob_desc"
+msgstr "If enabled, all users who have enabled forum notifications will get a daily mail about all new posts but no immediate notification for each submitted posting."
+
+#, fuzzy
+msgid "cron_forum_notification_disabled"
+msgstr "Can't be disabled when the Cron Job is active."
+
+msgid "cron_jobs"
+msgstr "المهام المجدولة"
+
+msgid "cron_lucene_index"
+msgstr "Update Lucene search index"
+
+msgid "cron_lucene_index_info"
+msgstr "If enabled, the lucene search index will be updated. Please configure the lucene server at 'Administration -> Search'."
+
+msgid "cron_mail_notification"
+msgstr "ارسال اشعارات البريد"
+
+msgid "cron_mail_notification_cron"
+msgstr "بانتظام لكل مهمة مجدولة"
+
+msgid "cron_mail_notification_desc"
+msgstr "If enabled, all users, who want to be informed about new mail, will get notifications by external mail."
+
+msgid "cron_mail_notification_message"
+msgstr "ارسال اشعارات البريد بواسطة رالة الكترونية"
+
+msgid "cron_mail_notification_message_info"
+msgstr "If enabled, all users will get notifications with complete mail message by external mail."
+
+msgid "cron_mail_notification_never"
+msgstr "مطلقا"
+
+#, fuzzy
+msgid "cron_users_without_login_del_create_date_thr"
+msgstr "Thresholt"
+
+#, fuzzy
+msgid "cron_users_without_login_del_create_date_thr_info"
+msgstr "All user accounts created before the defined threshold will be taken into consideration."
+
+#, fuzzy
+msgid "cron_users_without_login_del_role_whitelist"
+msgstr "Included Roles"
+
+#, fuzzy
+msgid "cron_users_without_login_del_role_whitelist_info"
+msgstr "The deletion will only processed for users assigned to at least one of the selected roles"
+
+msgid "cronjob_last_start"
+msgstr "Last Start of the Cron Job"
+
+msgid "cronjob_last_start_unknown"
+msgstr "Indeterminate"
+
+msgid "crs"
+msgstr "دورة"
+
+msgid "crs_activation_start_invalid"
+msgstr "وقت البداية والنهاية غير صحيحان"
+
+msgid "crs_add"
+msgstr "اضافة دورة"
+
+msgid "crs_added"
+msgstr "دورة مضافة"
+
+msgid "crs_archives"
+msgstr "الارشيف"
+
+msgid "crs_cancel_waiting_list"
+msgstr "Do you really want to remove yourself from the waiting list of course \"%s\"?"
+
+#, fuzzy
+msgid "crs_copy_threads_info"
+msgstr "Please decide which course materials should be copied, linked or even omitted."
+
+msgid "crs_edit"
+msgstr "تعديل دورة"
+
+#, fuzzy
+msgid "crs_list_reg"
+msgstr "Registration"
+
+msgid "crs_list_reg_end"
+msgstr "Registration End"
+
+msgid "crs_list_reg_limit_full"
+msgstr "No places left"
+
+msgid "crs_list_reg_limit_places"
+msgstr "Free places"
+
+msgid "crs_list_reg_noreg"
+msgstr "No Registration Possible"
+
+msgid "crs_list_reg_period"
+msgstr "Registration Period"
+
+msgid "crs_list_reg_start"
+msgstr "Registration Begin"
+
+msgid "crs_member_not_passed"
+msgstr "لم يتم المرور"
+
+msgid "crs_member_passed"
+msgstr "تم المرور"
+
+msgid "crs_members_gallery"
+msgstr "Course Members Gallery"
+
+msgid "crs_new"
+msgstr "دورة جديدة"
+
+msgid "crs_removed_from_waiting_list"
+msgstr "\"%s\" لقد تم فصلك من لائحة الانتظار لدورة"
+
+msgid "crs_status_blocked"
+msgstr "[تم رفض الوصول]"
+
+msgid "crs_status_pending"
+msgstr "[انتظار التسجيل]"
+
+msgid "crs_subscribers_assigned"
+msgstr "Assigned new user(s)"
+
+msgid "crs_title"
+msgstr "عنوان المساق"
+
+msgid "crs_unsubscribe"
+msgstr "الغاء الاشتراك"
+
+msgid "crs_wizard_page"
+msgstr "Copy Course (Step 2/2)"
+
+msgid "crsr"
+msgstr "Course Reference"
+
+#, fuzzy
+msgid "crsr_add"
+msgstr "Add Course Link"
+
+msgid "crsr_edit_info"
+msgstr "الرجاء اختيار دورة واحدة لانشاء مرجع جديد"
+
+msgid "crsr_new"
+msgstr "انشاء مرجع دورة جديد"
+
+#, fuzzy
+msgid "crsr_settings"
+msgstr "Course Link Settings"
+
+msgid "csv_export"
+msgstr "CSV-Export"
+
+msgid "current_ip"
+msgstr "Current IP:"
+
+msgid "current_ip_alert"
+msgstr "خاطئ لن تتمكن من الوصول الى النظام بهذا الملف الشخصي بعد الان ip ملاحظة: اذا قمت بإدخال"
+
+msgid "current_password"
+msgstr "كلمة المرور الحالية"
+
+#, fuzzy
+msgid "current_user_avatar"
+msgstr "Your User Avatar"
+
+msgid "currently_used_disk_space"
+msgstr "Currently used disk space"
+
+#, fuzzy
+msgid "customize_page"
+msgstr "Customize Page"
+
+msgid "cut"
+msgstr "قص"
+
+msgid "cutPage"
+msgstr "قص"
+
+msgid "daily"
+msgstr "daily"
+
+msgid "database"
+msgstr "Database"
+
+msgid "database_version"
+msgstr "Current Database Version"
+
+msgid "dataset"
+msgstr "عنصر"
+
+msgid "date"
+msgstr "التاريخ"
+
+#, fuzzy
+msgid "date_time"
+msgstr "Date and Time"
+
+msgid "dateplaner"
+msgstr "التقويم"
+
+msgid "day"
+msgstr "يوم"
+
+msgid "days"
+msgstr "ايام"
+
+msgid "db_host"
+msgstr "Database Host"
+
+msgid "db_name"
+msgstr "Database Name"
+
+msgid "db_need_update"
+msgstr "Database needs an update!"
+
+msgid "db_pass"
+msgstr "Database Password"
+
+msgid "db_type"
+msgstr "نوع قاعدة البيانات"
+
+msgid "db_user"
+msgstr "مستخدم قاعدة البيانات"
+
+msgid "db_version"
+msgstr "اصدار قاعدة البيانات"
+
+msgid "dd_mm_yyyy"
+msgstr "DD.MM.YYYY"
+
+msgid "deactivate"
+msgstr "وضعية غير فعال"
+
+msgid "decrease_attempts"
+msgstr "محاولات- 1"
+
+msgid "def_repository_view"
+msgstr "معاينة المكتبة الافتراضية"
+
+msgid "default"
+msgstr "افتراضي"
+
+msgid "default_auth_mode"
+msgstr "اسلوب المصادقة الافتراضي"
+
+msgid "default_auth_mode_info"
+msgstr "الرجاء اختيار اسلوب المصادقة الافتراضي الذي تم اختياره في صفحة الدخول"
+
+msgid "default_language"
+msgstr "اللغة الافتراضية"
+
+msgid "default_perm_settings"
+msgstr "Default Permissions"
+
+msgid "default_role"
+msgstr "Default Role"
+
+msgid "default_roles"
+msgstr "الوظائف الافتراضية"
+
+msgid "default_skin"
+msgstr "Default Skin"
+
+msgid "default_skin_style"
+msgstr "التصميم والاسلوب الافتراضي"
+
+msgid "default_style"
+msgstr "Default Style"
+
+msgid "defaults"
+msgstr "البرامج الافتراضية"
+
+msgid "delete"
+msgstr "حذف"
+
+msgid "delete_existing_file"
+msgstr "حذف الملف الموجود"
+
+msgid "delete_inactivated_user_accounts"
+msgstr "Delete inactivated user accounts"
+
+msgid "delete_inactivated_user_accounts_desc"
+msgstr "If enabled, user accounts will be deleted depending on the date of inactivation."
+
+msgid "delete_inactivated_user_accounts_include_roles"
+msgstr "Included roles"
+
+msgid "delete_inactivated_user_accounts_include_roles_desc"
+msgstr "Defines the roles that will participate in the deletion."
+
+msgid "delete_inactivated_user_accounts_period"
+msgstr "Days past since the inactivation"
+
+msgid "delete_inactivated_user_accounts_period_desc"
+msgstr "Deletion will be executed if this period of time has past since the inactivation."
+
+msgid "delete_inactive_user_accounts"
+msgstr "Delete user accounts"
+
+msgid "delete_inactive_user_accounts_desc"
+msgstr "عند التفعيل، سيتم حذف حسابات المستخدم استنادا الى تاريخ اخر دخول"
+
+msgid "delete_inactive_user_accounts_include_roles"
+msgstr "Included roles"
+
+msgid "delete_inactive_user_accounts_include_roles_desc"
+msgstr "Defines the roles that will participate in the deletion."
+
+msgid "delete_inactive_user_accounts_period"
+msgstr "الايام التي مضت على اخر دخول"
+
+msgid "delete_inactive_user_accounts_period_desc"
+msgstr "Deletion will be executed if this period of time has past since the last login."
+
+msgid "delete_parameter"
+msgstr "حذف مدخل"
+
+msgid "delete_selected_items"
+msgstr "حذف"
+
+msgid "deleted"
+msgstr "Deleted"
+
+msgid "deleted_user"
+msgstr "تم حذف المستخدم"
+
+msgid "deleted_users"
+msgstr "المستخدمون المحذوفون"
+
+#, fuzzy
+msgid "deletion_notification"
+msgstr "\"%s\" has canceled the attendance of session \"%s\"."
+
+msgid "deliver"
+msgstr "Deliver"
+
+#, fuzzy
+msgid "deny_usr_agreement"
+msgstr "Do Not Accept Terms of Service?"
+
+#, fuzzy
+msgid "deny_usr_agreement_btn"
+msgstr "Do Not Accept"
+
+msgid "department"
+msgstr "الدائرة"
+
+msgid "desc"
+msgstr "الشرح"
+
+msgid "description"
+msgstr "شرح"
+
+msgid "desired_password"
+msgstr "كلمة المرور المرغوبة"
+
+msgid "details"
+msgstr "تفاصيل"
+
+#, fuzzy
+msgid "didactic_template"
+msgstr "Didactic Template"
+
+msgid "disable"
+msgstr "disable"
+
+msgid "disable_check"
+msgstr "Disable check"
+
+msgid "disable_ext_lang_maint"
+msgstr "تعطيل  الصيانة الموسعة"
+
+msgid "disable_hide_user_toggle"
+msgstr "يسمح للعضو بأن يقوم بعدم التفعيل"
+
+msgid "disabled"
+msgstr "عدم تمكين"
+
+#, fuzzy
+msgid "disclose"
+msgstr "Disclose"
+
+#, fuzzy
+msgid "dislike"
+msgstr "Dislike"
+
+msgid "domain"
+msgstr "Domain"
+
+msgid "down"
+msgstr "Down"
+
+msgid "download"
+msgstr "تحميل"
+
+msgid "download_all_returned_files"
+msgstr "Download all returned files"
+
+#, fuzzy
+msgid "download_link"
+msgstr "Download Link"
+
+#, fuzzy
+msgid "download_multiple_objects"
+msgstr "Download Multiple Objects"
+
+#, fuzzy
+msgid "download_selected_items"
+msgstr "Download"
+
+msgid "downloading_settings"
+msgstr "Downloading Settings"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement"
+msgstr "Accept Declaration of Data Protection?"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement_intro"
+msgstr "There is a new Declaration of Data Protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page."
+
+#, fuzzy
+msgid "dpro_agreed_on"
+msgstr "DoDP agreed to on"
+
+#, fuzzy
+msgid "dpro_force_accept_usr_agreement"
+msgstr "You must accept the Declaration of Data Protection!"
+
+#, fuzzy
+msgid "dpro_no_agreement_description"
+msgstr "There is currently no Declaration of Data Protection document available for this installation. Please contact the <a href=\"%1$s\">system administrator</a>."
+
+#, fuzzy
+msgid "dpro_refuse_acceptance"
+msgstr "Refuse to Accept the Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_usr_agreement"
+msgstr "Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_usr_agreement_footer_intro"
+msgstr "You have declared your consent to this Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description"
+msgstr "Withdraw your consent to our Declaration of Data Protection here."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description_external"
+msgstr "Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description_internal"
+msgstr "Please log in again to complete the process of withdrawing your consent to the Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_header"
+msgstr "Withdraw to Consent of Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_withdraw_consent_info"
+msgstr "Withdraw your consent to our Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_info_external"
+msgstr "Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Declaration of Data Protection."
+
+msgid "drafts"
+msgstr "Drafts"
+
+#, fuzzy
+msgid "drag_file_here"
+msgstr "Drag-and-drop your file here"
+
+#, fuzzy
+msgid "drag_files_here"
+msgstr "Drag-and-drop your files here"
+
+#, fuzzy
+msgid "drag_handle"
+msgstr "Draggable element"
+
+#, fuzzy
+msgid "drop_files_on_repo_obj_info"
+msgstr "Drop the files here to upload them into this object."
+
+msgid "edit"
+msgstr "تعديل"
+
+msgid "edit_assignments"
+msgstr "Edit Assignments"
+
+msgid "edit_cat_settings"
+msgstr "Advanced Category Settings"
+
+msgid "edit_content"
+msgstr "تعديل محتوى"
+
+msgid "edit_grouping"
+msgstr "تعديل حدود العضوية"
+
+#, fuzzy
+msgid "edit_metadata"
+msgstr "Edit Metadata"
+
+msgid "edit_operations"
+msgstr "تعديل العمليات"
+
+msgid "edit_page"
+msgstr "تعديل الصفحة"
+
+msgid "edit_page_content"
+msgstr "تعديل محتوى الصفحة"
+
+#, fuzzy
+msgid "edit_page_meta"
+msgstr "Edit Page Metadata"
+
+msgid "edit_properties"
+msgstr "تعديل الخصائص"
+
+msgid "edit_stylesheet"
+msgstr "تعديل التصميم"
+
+#, fuzzy
+msgid "edited_on"
+msgstr "Edited on"
+
+msgid "editor"
+msgstr "محرر"
+
+msgid "email"
+msgstr "البريد الالكتروني"
+
+msgid "email_not_valid"
+msgstr "The e-mail address you entered is not valid!"
+
+msgid "enable"
+msgstr "تمكين"
+
+msgid "enable_anonymous_fora"
+msgstr "السماح بالارسال تحت اسم مستعار"
+
+msgid "enable_anonymous_fora_desc"
+msgstr "اذا تم تعطيل هذا الخيار، لن تكون ميزة الارسال مع اسم مستعار موجودة في المنتديات بعد الان"
+
+msgid "enable_calendar"
+msgstr "تفعيل التقويم"
+
+#, fuzzy
+msgid "enable_comments_export"
+msgstr "Enable Comments Export"
+
+msgid "enable_course_group_notifications"
+msgstr "Daily Mail for Groups and Course News"
+
+msgid "enable_course_group_notifications_desc"
+msgstr "If enabled, Participants can subscribe to a daily summary of news."
+
+msgid "enable_custom_icons"
+msgstr "تمكين الايقونات المخصصة"
+
+msgid "enable_custom_icons_info"
+msgstr "يسمح هذا بتعريف الايقونات المخصصة للفئات والدورات والمجموعات المنفردة. ستزود خصائص قسم الفئات والدورات والمجموعات بصورة تحميل حوار"
+
+#, fuzzy
+msgid "enable_dnd_upload"
+msgstr "Enable drag-and-drop upload"
+
+#, fuzzy
+msgid "enable_dnd_upload_info"
+msgstr "Files can be uploaded with drag-and-drop from the local computer if enabled."
+
+msgid "enable_download_folder"
+msgstr "Enable Downloading Folders"
+
+msgid "enable_download_folder_info"
+msgstr "Allows to download a folder including sub structures as a zip file."
+
+#, fuzzy
+msgid "enable_export_scorm_desc"
+msgstr "allow Export of User Data of SCORM-Learning Modules"
+
+msgid "enable_fora_statistics"
+msgstr "تمكين الاحصائيات في المنتدى"
+
+msgid "enable_fora_statistics_desc"
+msgstr "عند التعطيل، لا يمكن لاحد الوصول الى احصائيات المنتدى"
+
+msgid "enable_hide_user_toggle"
+msgstr "لا يسمح للعضو بأن يقوم بعدم التفعيل"
+
+#, fuzzy
+msgid "enable_multi_download"
+msgstr "«Download multiple objects» enabled"
+
+#, fuzzy
+msgid "enable_multi_download_info"
+msgstr "Enables that multiple folders/files can be selected to download them as zip archive."
+
+msgid "enable_password_assistance"
+msgstr "تمكين كلمة المرور المساعدة"
+
+#, fuzzy
+msgid "enable_preview"
+msgstr "Enable Preview"
+
+#, fuzzy
+msgid "enable_preview_info"
+msgstr "Enable this option to display preview images on supported file types."
+
+#, fuzzy
+msgid "enable_repository_dnd_upload"
+msgstr "Enable in Repository"
+
+#, fuzzy
+msgid "enable_repository_dnd_upload_info"
+msgstr "Enables that files can be dragged from the computer directly onto an object in the repository to start uploading the files into this object."
+
+msgid "enable_sahs_protocol_data"
+msgstr "Activate Protocol Data"
+
+msgid "enable_sahs_protocol_data_desc"
+msgstr "Show Protocol Data (SCORM/AICC)"
+
+msgid "enable_search_engine"
+msgstr "Open Public Area for Internet Search Engines (e.g Google).<br />The Apache module \"mod_rewrite\" is required for this extension. Please take care that you have appropiate permissions to use .htaccess configurations."
+
+msgid "enable_trash"
+msgstr "تمكين المهملات"
+
+msgid "enable_trash_info"
+msgstr "عند التفعيل، سيتم نقل العناصر المحذوفة الى سلة المهملات ويمكن استعادتها لاحقا. وعند عدم تفعيل هذا الخيار سيتم ازالة العناصر المحذوفة من النظام دون عودة"
+
+msgid "enable_webdav"
+msgstr "Enable WebDAV access"
+
+msgid "enable_webdav_info"
+msgstr "Allows WebDAV clients to access the repository as a webfolder. Users can open webfolders using the \"open as webfolder\" action in the repository, or by entering the following address in a WebDAV client: <a href=\"%1$s\" folder=\"%1$s\">%1$s</a>"
+
+msgid "enabled"
+msgstr "تمكين"
+
+#, fuzzy
+msgid "enlarge"
+msgstr "Enlarge"
+
+msgid "enter_in_mb_desc"
+msgstr "Enter a value in MB."
+
+#, fuzzy
+msgid "enter_new_name"
+msgstr "Please enter a name"
+
+#, fuzzy
+msgid "entered_notification"
+msgstr "\"%s\" has joined the session \"%s\"."
+
+#, fuzzy
+msgid "entry_status"
+msgstr "Entry status"
+
+msgid "err_1_param"
+msgstr "مدخل واحد فقط"
+
+msgid "err_2_param"
+msgstr "مدخلان فقط"
+
+msgid "err_auth_apache_failed"
+msgstr "The authentication has failed. Maybe you have no valid user certificate or your smartcard is not inserted."
+
+msgid "err_auth_ldap_no_ilias_user"
+msgstr "Login failed. LDAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator."
+
+msgid "err_auth_mode_inactive"
+msgstr "تم تعطيل اسلوب المصادقة الخاص بك"
+
+msgid "err_auth_soap_no_ilias_user"
+msgstr "Login failed. SOAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator."
+
+msgid "err_check_input"
+msgstr "من الممكن ان لا يتم حفظ الاعدادات. الرجاء فحص مشاركتك"
+
+msgid "err_count_param"
+msgstr "السبب: احصاء مدخل خاطئ"
+
+#, fuzzy
+msgid "err_disabled"
+msgstr "Account creation via Shibboleth has been disabled. Please contact the system administrator for further information."
+
+#, fuzzy
+msgid "err_double_entries"
+msgstr "Reason: Duplicate Entries"
+
+msgid "err_in_line"
+msgstr "Error in line"
+
+msgid "err_inactive"
+msgstr "تم تفعيل هذا الحساب. الرجاء الاتصال بمدير النظام من اجل الدخول"
+
+#, fuzzy
+msgid "err_inactive_login_attempts"
+msgstr "Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account. "
+
+msgid "err_invalid_port"
+msgstr "Invalid port number"
+
+msgid "err_no_cookies"
+msgstr "الرجاء تفعيل كوكيز الجلسة في متصفحك"
+
+msgid "err_no_langfile_found"
+msgstr "لم يتم ايجاد ملف لغة"
+
+msgid "err_no_param"
+msgstr "لا يوجد اي مدخل"
+
+msgid "err_over_3_param"
+msgstr "اكثر من ثلاثة مدخلات"
+
+msgid "err_role_not_assignable"
+msgstr "لا يمكنك تعيين مستخدمين لهذه الوظيفة في هذا المكان"
+
+msgid "err_session_expired"
+msgstr "انتهت صلاحية جلستك"
+
+#, fuzzy
+msgid "err_valid_login_account_creation_disabled"
+msgstr "Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator."
+
+msgid "err_wrong_header"
+msgstr "السبب: عنوان رأسي خاطئ"
+
+msgid "err_wrong_login"
+msgstr "اسم دخول او كلمة مرور خاطئة"
+
+msgid "err_wrong_password"
+msgstr "كلمة مرور خاطئة"
+
+msgid "error"
+msgstr "Error"
+
+#, fuzzy
+msgid "error_empty_file_or_folder"
+msgstr "The file size is 0 bytes or it is a folder."
+
+#, fuzzy
+msgid "error_extraction_failed"
+msgstr "The extraction of the archive and its directories failed. Probably because you don't have the rights to create folders or categories within this object."
+
+msgid "error_parser"
+msgstr "Error starting the parser."
+
+#, fuzzy
+msgid "error_upload_was_zero_bytes"
+msgstr "The upload failed as this is a folder, the file size is 0 bytes or the file was renamed meanwhile."
+
+msgid "etal_talks"
+msgstr "Talks"
+
+msgid "event_ass_materials_prop"
+msgstr "مواد الجلسة"
+
+msgid "event_assign_files"
+msgstr "تعيين ملف"
+
+msgid "exc"
+msgstr "تدريب"
+
+msgid "exc_add"
+msgstr "اضافة تدريب"
+
+msgid "exc_added"
+msgstr "تدريب مضاف"
+
+msgid "exc_date_not_valid"
+msgstr "The date is not valid"
+
+msgid "exc_deassign_members"
+msgstr "ازالة المشارك\\ين"
+
+msgid "exc_download_files"
+msgstr "Download Files"
+
+msgid "exc_edit"
+msgstr "تم انشاء تدريب جديد"
+
+msgid "exc_edit_exercise"
+msgstr "تعديل تدريب"
+
+msgid "exc_edit_until"
+msgstr "تعديل حتى"
+
+msgid "exc_exercise_sent"
+msgstr "تم ارسال التدريب"
+
+msgid "exc_files"
+msgstr "الملفات"
+
+msgid "exc_files_returned"
+msgstr "الملفات المقدمة"
+
+msgid "exc_instruction"
+msgstr "تعليمات العمل"
+
+msgid "exc_last_submission"
+msgstr "Last Submission"
+
+#, fuzzy
+msgid "exc_member_of_crs_grp"
+msgstr "Member in Course/Group"
+
+msgid "exc_members_already_assigned"
+msgstr "لقد التحق هؤلاء المستخدمين لهذا التدريب"
+
+msgid "exc_members_assigned"
+msgstr "الاعضاء المعينين"
+
+msgid "exc_members_comments_saved"
+msgstr "The exercise comments for the selected user have been saved"
+
+msgid "exc_new"
+msgstr "تدريب جديد"
+
+msgid "exc_next_deadline"
+msgstr "Next Deadline"
+
+msgid "exc_obj"
+msgstr "تدريب"
+
+msgid "exc_save_changes"
+msgstr "حفظ"
+
+msgid "exc_schedule"
+msgstr "جدول"
+
+msgid "exc_select_one_file"
+msgstr "الرجاء اختيار ملف واحد محدد"
+
+msgid "exc_sent"
+msgstr "تم ارسال التدريب للمستخدمين المختارين"
+
+msgid "exc_sent_at"
+msgstr " <br />%s ارسلت في"
+
+msgid "exc_status"
+msgstr "Status"
+
+msgid "exc_status_saved"
+msgstr "تم تحديث التدريب"
+
+msgid "exc_submission"
+msgstr "Submission"
+
+msgid "exc_time_over_short"
+msgstr "انتهى الوقت المحدد"
+
+msgid "exc_time_to_send"
+msgstr "وقت العمل المتبقي"
+
+msgid "exc_upload_error"
+msgstr "Error uploading file"
+
+msgid "excs"
+msgstr "تدريبات"
+
+msgid "execute"
+msgstr "تنفيذ"
+
+msgid "exercise_time_over"
+msgstr "لقد انتهى الوقت المخصص لاكمال التدريب. لا يمكن تقديم ملفات بعد الان"
+
+msgid "expand"
+msgstr "توسع"
+
+msgid "expand_all"
+msgstr "توسيع الكل"
+
+#, fuzzy
+msgid "expand_content"
+msgstr "Expand Content"
+
+msgid "expanded"
+msgstr "موسعة"
+
+msgid "export"
+msgstr "تصدير"
+
+msgid "export_format"
+msgstr "صيغة التصدير"
+
+msgid "export_html"
+msgstr "HTML تصدير كملف"
+
+msgid "ext_cat_settings"
+msgstr "تعديل اعدادات الفئة المتقدمة"
+
+msgid "ext_link"
+msgstr "وصلة"
+
+#, fuzzy
+msgid "extracting"
+msgstr "Extracting..."
+
+#, fuzzy
+msgid "eyeclosed"
+msgstr "Eye Closed - Click to hide the input's contents"
+
+#, fuzzy
+msgid "eyeopened"
+msgstr "Eye Open - Click to reveal the input's contents"
+
+msgid "failure_message"
+msgstr "رسالة فشل المهمة"
+
+msgid "fax"
+msgstr "الفاكس"
+
+msgid "feed"
+msgstr "نشرة موقع"
+
+msgid "feedback"
+msgstr "اراء"
+
+msgid "field_name"
+msgstr "اسم الحقل"
+
+msgid "field_type"
+msgstr "نوع الحقل"
+
+msgid "file"
+msgstr "ملف"
+
+msgid "file_add"
+msgstr "تحميل ملف"
+
+msgid "file_add_and_metadata"
+msgstr "تحميل ملف وتعديل البيانات الوصفية"
+
+msgid "file_added"
+msgstr "File uploaded"
+
+msgid "file_allowed_suffixes"
+msgstr "الملفات المسموح بها:"
+
+#, fuzzy
+msgid "file_confirm_delete_all_versions"
+msgstr "You selected all file versions. This will delete the whole file object. Do you want to continue?"
+
+#, fuzzy
+msgid "file_confirm_delete_versions"
+msgstr "Are you sure to delete the following file versions?"
+
+msgid "file_created"
+msgstr "تم اضافة ملف"
+
+msgid "file_edit"
+msgstr "تعديل ملف وتحميل اصدار جديد"
+
+msgid "file_info"
+msgstr "معلومات الملف"
+
+msgid "file_is_infected"
+msgstr "The file is infected by a virus."
+
+#, fuzzy
+msgid "file_no_valid_file_type"
+msgstr "This file type is not allowed."
+
+msgid "file_not_found"
+msgstr "File Not Found"
+
+#, fuzzy
+msgid "file_not_found_sec"
+msgstr "This file cannot be found in ILIAS or has been blocked due to security reasons."
+
+msgid "file_not_valid"
+msgstr "File not valid!"
+
+msgid "file_notice"
+msgstr "الرجاء ملاحظة الحد الاقصى لحجم الملف"
+
+#, fuzzy
+msgid "file_objects"
+msgstr "File Objects"
+
+#, fuzzy
+msgid "file_rollback"
+msgstr "Make this the current version"
+
+#, fuzzy
+msgid "file_rollback_done"
+msgstr "File version %s is now the current version."
+
+#, fuzzy
+msgid "file_rollback_select_exact_one"
+msgstr "Only one file version can be selected to make it the current version."
+
+#, fuzzy
+msgid "file_some_invalid_file_types_removed"
+msgstr "Some file types are not allowed and have been removed."
+
+msgid "file_suffix_repl"
+msgstr "استبدال اللاحقة عند تحميل ملف"
+
+msgid "file_suffix_repl_info"
+msgstr " عند تحميلها الى الموقع. ويحدث ذلك لللواحق في كل برنامج افتراضي \".sec\" الملفات التي تنتهي بهذه اللواحق-المفصولة باستخدام فاصلة- يجب ان تعاد تسميتها باستخدام لاحقة"
+
+#, fuzzy
+msgid "file_system_clean_temp_dir_cron"
+msgstr "Clean temp directory"
+
+#, fuzzy
+msgid "file_system_clean_temp_dir_cron_info"
+msgstr "This job cleans the ILIAS temp-directory of files, which are older than 10 days. This counteracts the accumulation of unused files and therefore prevents an increased use of disk space by the temp directory."
+
+msgid "file_updated"
+msgstr "تم تحديث الملف"
+
+msgid "file_upload_pending"
+msgstr "Pending file"
+
+msgid "file_valid"
+msgstr "File is valid!"
+
+msgid "file_version"
+msgstr "النسخة مزودة في ملف"
+
+#, fuzzy
+msgid "file_version_create"
+msgstr "Initial version"
+
+#, fuzzy
+msgid "file_version_intermediate_version"
+msgstr "Intermediate Version"
+
+#, fuzzy
+msgid "file_version_new_version"
+msgstr "New version"
+
+#, fuzzy
+msgid "file_version_published_version"
+msgstr "Published Version"
+
+#, fuzzy
+msgid "file_version_replace"
+msgstr "All versions replaced"
+
+#, fuzzy
+msgid "file_version_rollback"
+msgstr "Rollback to version %s from %s"
+
+#, fuzzy
+msgid "file_versions_deleted"
+msgstr "The selected file versions were successfully deleted."
+
+msgid "filename"
+msgstr "اسم الملف"
+
+msgid "filename_extension_missing"
+msgstr "وصلة اسم الملف مفقودة"
+
+msgid "filename_hidden_backup_file"
+msgstr "الملف الاحتياطي المخفي"
+
+msgid "filename_hidden_unix_file"
+msgstr "Hidden Unix file"
+
+msgid "filename_interoperability"
+msgstr "Interoperability"
+
+msgid "filename_special_characters"
+msgstr "بسبب الرمز \\ هذا العنصر غير موجود في مجلدات النظام"
+
+msgid "filename_special_filename"
+msgstr "العناصر تحت اسم . و.. غير موجودة في مجلدات النظام"
+
+msgid "filename_visibility"
+msgstr "التواجد"
+
+msgid "filename_windows_empty_extension"
+msgstr "بسبب الرمز . في نهاية الاسم هذا العنصر غير موجود في مجلدات النظام"
+
+msgid "filename_windows_special_characters"
+msgstr "بسبب واحدة من هذه الرموز \\ / : * ؟ < > | هذا العنصر غير موجود في مجلدات النظام"
+
+msgid "filename_windows_webdav_issue"
+msgstr "بسبب الرمز # هذا العنصر غير موجود في مجلدات النظام"
+
+msgid "files"
+msgstr "الملفات"
+
+msgid "filesize"
+msgstr "حجم الملف"
+
+msgid "filetype"
+msgstr "File Type"
+
+msgid "fill_out_all_required_fields"
+msgstr "الرجاء تعبئة كافة الحقول المطلوبة"
+
+msgid "filter"
+msgstr "تصفية"
+
+msgid "filter_users_with_access"
+msgstr "المستخدمين الذين يستطيعون الوصول فقط"
+
+msgid "filter_users_with_disk_usage"
+msgstr "Only users with disk space used"
+
+msgid "filter_users_without_access"
+msgstr "Only users without access"
+
+msgid "filter_users_without_disk_usage"
+msgstr "Only users with no disk space used"
+
+msgid "first"
+msgstr "First"
+
+msgid "firstname"
+msgstr "الاسم الاول"
+
+msgid "flatview"
+msgstr "اخفاء الشريط الجانبي"
+
+msgid "fold"
+msgstr "مجلد"
+
+msgid "fold_add"
+msgstr "اضافة مجلد"
+
+msgid "fold_added"
+msgstr "مجلد مضاف"
+
+#, fuzzy
+msgid "fold_copy_threads_info"
+msgstr "Please decide which materials should be copied, linked or even omitted."
+
+msgid "fold_edit"
+msgstr "تعديل مجلد"
+
+msgid "fold_new"
+msgstr "مجلد جديد"
+
+#, fuzzy
+msgid "fold_wizard_page"
+msgstr "Copy Folder (Step 2/2)"
+
+msgid "folder"
+msgstr "مجلد"
+
+msgid "folders"
+msgstr "مجلدات"
+
+msgid "follow_link_to_read_mails"
+msgstr "click the following link to read these mails:"
+
+msgid "forgot_password"
+msgstr "هل نسيت كلمة المرور؟"
+
+msgid "forgot_username"
+msgstr "هل نسيت اسم المستخدم؟"
+
+msgid "form_input_not_valid"
+msgstr "بعض البيانات غير مكتملة او غير صحيحة، الرجاء تصحيح معلومات الادخال"
+
+msgid "forum"
+msgstr "منتدى"
+
+msgid "forum_direct_notification"
+msgstr "Direct Notification"
+
+msgid "forum_notify_me"
+msgstr "ارسل لي اشعار عند وجود رد"
+
+msgid "forum_post_replied"
+msgstr "تم الرد على ما ادرجته في المنتدى"
+
+msgid "forums"
+msgstr "منتديات"
+
+msgid "forums_anonymized"
+msgstr "منتدى مجهول المصدر"
+
+msgid "forums_anonymous"
+msgstr "anonym"
+
+msgid "forums_articles"
+msgstr "مقالات"
+
+#, fuzzy
+msgid "forums_closed"
+msgstr "closed"
+
+msgid "forums_disable_forum_notification"
+msgstr "Disable Notification for this Forum"
+
+msgid "forums_enable_forum_notification"
+msgstr "تمكين الاعلام عن هذا المنتدى"
+
+msgid "forums_forum_notification_enabled"
+msgstr "You will be notified about new messages in this forum."
+
+msgid "forums_last_post"
+msgstr "المقالة الاخير"
+
+#, fuzzy
+msgid "forums_last_posting_asc"
+msgstr "Last Post Ascending"
+
+#, fuzzy
+msgid "forums_last_posting_dsc"
+msgstr "Last Post Descending"
+
+msgid "forums_notification_settings"
+msgstr "اعدادات اشعارات المنتديات"
+
+#, fuzzy
+msgid "forums_rating_asc"
+msgstr "Rating Ascending"
+
+#, fuzzy
+msgid "forums_rating_dsc"
+msgstr "Rating Descending"
+
+#, fuzzy
+msgid "forums_thread_sorting_asc"
+msgstr "Thread Title A→Z"
+
+#, fuzzy
+msgid "forums_thread_sorting_dsc"
+msgstr "Thread Title Z→A"
+
+msgid "forums_threads"
+msgstr "الموضوعات"
+
+msgid "forums_use_alias"
+msgstr "You may use a pseudonym for your posting. If you leave this field blank, your posting will be marked as written by 'anonym'."
+
+msgid "forums_your_name"
+msgstr "اسمك"
+
+msgid "frm"
+msgstr "منتدى"
+
+msgid "frm_add"
+msgstr "اضافة منتدى"
+
+msgid "frm_added"
+msgstr "منتدى مضاف"
+
+msgid "frm_edit"
+msgstr "تعديل منتدى"
+
+#, fuzzy
+msgid "frm_import"
+msgstr "Import Forum"
+
+msgid "frm_latest_postings"
+msgstr "المقالات الاخيرة"
+
+msgid "frm_new"
+msgstr "منتدى جديد"
+
+#, fuzzy
+msgid "frm_no_threads"
+msgstr "There are no threads available at the moment."
+
+msgid "from"
+msgstr "من"
+
+msgid "fullname"
+msgstr "الاسم الكامل"
+
+msgid "functions"
+msgstr "وظائف"
+
+msgid "further_informations"
+msgstr "معلومات اخرى"
+
+msgid "gdf_add"
+msgstr "اضافة تعريف"
+
+msgid "gdf_new"
+msgstr "تعريف جديد"
+
+msgid "gender"
+msgstr "الجنس"
+
+msgid "gender_f"
+msgstr "انثى"
+
+msgid "gender_m"
+msgstr "ذكر"
+
+#, fuzzy
+msgid "gender_n"
+msgstr "No salutation desired"
+
+#, fuzzy
+msgid "general"
+msgstr "General"
+
+msgid "general_settings"
+msgstr "الاعدادات العامة"
+
+msgid "generate"
+msgstr "انشاء"
+
+#, fuzzy
+msgid "ghostscript_not_configured"
+msgstr "Ghostscript is not configured. Please open the <a href=\"cli/setup.php?cmd=mastersettings\" target=\"_blank\">Setup</a> to configure it."
+
+msgid "glo"
+msgstr "قائمة مصطلحات"
+
+msgid "glo_add"
+msgstr "اضافة قائمة مصطلحات"
+
+msgid "glo_added"
+msgstr "قائمة مصطلحات مضافة"
+
+msgid "glo_import"
+msgstr "Import Glossary"
+
+msgid "glo_mode"
+msgstr "اسلوب"
+
+msgid "glo_mode_desc"
+msgstr "تعمل قائمة المصطلحات الفعلية كقائمة مصطلحات عادية. بالاضافة الى انها تحتوي على العناصر الموجودة في جميع قوائم المصطلحات الموجودة في نفس المستوى في المكتبة، تماما كقائمة المصطلحات الفعلية (مستوى) على التوالي مع جميع قوائم المصطلحات الموجودة في المكتبة في وضع قائمة المصطلحات الفعلية- شجرة فرعية"
+
+msgid "glo_mode_normal"
+msgstr "طبيعي"
+
+msgid "glo_new"
+msgstr "قائمة مصطللحات جديدة"
+
+msgid "global"
+msgstr "عام"
+
+msgid "global_default"
+msgstr "برنامج افتراضي عام"
+
+msgid "global_fixed"
+msgstr "عامة ومثبتة"
+
+#, fuzzy
+msgid "global_role_assignment"
+msgstr "Globale Rollenzuweisung"
+
+msgid "global_settings"
+msgstr "الاعدادات العامة"
+
+msgid "global_user"
+msgstr "مستخدمون عامون"
+
+msgid "glossaries"
+msgstr "قوائم مصطلحات"
+
+msgid "glossary"
+msgstr "قائمة مصطلحات"
+
+msgid "go"
+msgstr "اذهب"
+
+#, fuzzy
+msgid "grade"
+msgstr "Grade"
+
+msgid "group"
+msgstr "مجموعة"
+
+msgid "group_members"
+msgstr "اعضاء المجموعة"
+
+msgid "group_name"
+msgstr "اسم المجموعة"
+
+msgid "group_new_registrations"
+msgstr "Join Requests"
+
+msgid "group_password_registration_msg"
+msgstr "If you know the group password, you can join this group. Please contact a group administrator, if you don't know the password."
+
+msgid "group_registration"
+msgstr "التسجيل"
+
+msgid "group_registration_mode"
+msgstr "اجراء التسجيل"
+
+msgid "group_registration_time"
+msgstr "فترة التسجيل"
+
+msgid "group_req_direct"
+msgstr "إلتحاق بشكل مباشر"
+
+msgid "group_req_registration_msg"
+msgstr "You can request membership for this group. You will receive a message when a group administrator has accepted or declined your request."
+
+msgid "group_status"
+msgstr "المجموعة هي"
+
+msgid "groupings"
+msgstr "حدود العضوية"
+
+msgid "groupings_assigned_obj_crs"
+msgstr "الدورات التي تم تعيينها"
+
+msgid "groupings_assigned_obj_grp"
+msgstr "المجموعات التي تم تعيينها"
+
+#, fuzzy
+msgid "groupings_source"
+msgstr "Source"
+
+msgid "groups"
+msgstr "مجموعات"
+
+msgid "grp"
+msgstr "مجموعة"
+
+msgid "grp_add"
+msgstr "اضافة مجموعة"
+
+msgid "grp_added"
+msgstr "مجموعة مضافة"
+
+msgid "grp_btn_unsubscribe"
+msgstr "إلغاء العضوية في المجموعة"
+
+msgid "grp_cancel_waiting_list"
+msgstr "Do you really want to remove yourself from the waiting list of group \"%s\"?"
+
+msgid "grp_copy_threads_info"
+msgstr "الرجاء ان تقرر اي المواد التي يجب نسخها او ربطها او حذفها"
+
+msgid "grp_deleted_export_files"
+msgstr "Deleted selected files."
+
+msgid "grp_dismiss_member"
+msgstr "Are you sure you want to dismiss the following member(s) from the group?"
+
+msgid "grp_dismiss_myself"
+msgstr "Are you sure you want to leave the group?"
+
+msgid "grp_edit"
+msgstr "تعديل مجموعة"
+
+msgid "grp_err_administrator_required"
+msgstr "لا يمكن ازالة العضو حتى يتم طلب مدير واحد على الاقل لكل مجموعة"
+
+msgid "grp_header_edit_members"
+msgstr "تعديل الاعضاء"
+
+#, fuzzy
+msgid "grp_list_members"
+msgstr "List members"
+
+#, fuzzy
+msgid "grp_list_reg"
+msgstr "Registration"
+
+msgid "grp_list_reg_end"
+msgstr "Registration End"
+
+msgid "grp_list_reg_limit_full"
+msgstr "No places left"
+
+msgid "grp_list_reg_limit_places"
+msgstr "Free places"
+
+msgid "grp_list_reg_noreg"
+msgstr "No Registration Possible"
+
+msgid "grp_list_reg_period"
+msgstr "Registration Period"
+
+msgid "grp_list_reg_start"
+msgstr "Registration Begin"
+
+msgid "grp_list_users"
+msgstr "قائمة المستخدمين"
+
+msgid "grp_mem_change_status"
+msgstr "Change Participant Status"
+
+msgid "grp_mem_send_mail"
+msgstr "ارسل رسالة للمشاركين"
+
+msgid "grp_members_gallery"
+msgstr "معرض اعضاء المجموعة"
+
+msgid "grp_msg_applicants_assigned"
+msgstr "Applicant(s) assigned as group member(s)"
+
+msgid "grp_msg_member_assigned"
+msgstr "User(s) assigned as group member(s)"
+
+msgid "grp_msg_membership_annulled"
+msgstr "Cancelled membership."
+
+msgid "grp_new"
+msgstr "مجموعة جديدة"
+
+msgid "grp_registration"
+msgstr "الإلتحاق بالمجموعة"
+
+msgid "grp_registration_completed"
+msgstr "لقد إلتحقت بالمجموعة"
+
+msgid "grp_removed_from_waiting_list"
+msgstr " \"%s\" لقد تم فصلك من لائحة الانتظار لمجموعة"
+
+msgid "grp_select_one_file"
+msgstr "الرجاء اختيار ملف واحد"
+
+msgid "grp_wizard_page"
+msgstr "Copy Group (Step 2/2)"
+
+#, fuzzy
+msgid "grpr"
+msgstr "Group Reference"
+
+#, fuzzy
+msgid "grpr_add"
+msgstr "Add Group Link"
+
+#, fuzzy
+msgid "grpr_edit"
+msgstr "Edit Group Reference"
+
+#, fuzzy
+msgid "grpr_edit_info"
+msgstr "Please choose one group, for creating a new reference."
+
+#, fuzzy
+msgid "grpr_new"
+msgstr "Create Group Reference"
+
+#, fuzzy
+msgid "grpr_settings"
+msgstr "Group Link Settings"
+
+#, fuzzy
+msgid "header_action"
+msgstr "Insert Heading - Click to insert a heading."
+
+msgid "header_searchable"
+msgstr "قابل للبحث"
+
+msgid "header_title"
+msgstr "عنوان الترويسة"
+
+msgid "header_visible_registration"
+msgstr " موجود في التسجيل"
+
+msgid "header_zip"
+msgstr "Upload Multiple Files as Zip-Archive"
+
+msgid "height"
+msgstr "ارتفاع"
+
+msgid "help"
+msgstr "مساعدة"
+
+msgid "hide"
+msgstr "اخفاء"
+
+#, fuzzy
+msgid "hide_all_details"
+msgstr "Hide all details"
+
+msgid "hide_details"
+msgstr "اخفاء التفاصيل"
+
+msgid "hide_filter"
+msgstr "اخفاء تصفية"
+
+msgid "hide_own_online_status"
+msgstr "اخفاء حالة الظهور"
+
+#, fuzzy
+msgid "hide_visible_sections"
+msgstr "Hide More Information &raquo;"
+
+msgid "hint"
+msgstr "مساعدة"
+
+msgid "history"
+msgstr "تاريخ"
+
+msgid "hobby"
+msgstr "الاهتمامات\\الهوايات"
+
+msgid "home"
+msgstr "مساحة عامة"
+
+msgid "host"
+msgstr "مضيف"
+
+msgid "hour"
+msgstr "ساعة"
+
+msgid "hours"
+msgstr "ساعة\\ات"
+
+msgid "htlm"
+msgstr "HTML الوحدة التعليمية"
+
+msgid "htlm_add"
+msgstr "HTML اضافة الوحدة التعليمية"
+
+msgid "htlm_new"
+msgstr "تعليمية جديدة HTML وحدة"
+
+msgid "http"
+msgstr "HTTP"
+
+msgid "http_not_possible"
+msgstr "http الخادم لا يوفر دعم لطلبات"
+
+msgid "http_path"
+msgstr "Http مسار"
+
+msgid "https_not_possible"
+msgstr "HTTPS الخادم لا يوفر دعم لروابط"
+
+msgid "i2passwd"
+msgstr "ILIAS 2 password"
+
+#, fuzzy
+msgid "iass_import"
+msgstr "Import Individual Assessment"
+
+#, fuzzy
+msgid "iass_new"
+msgstr "Create Individual Assessment"
+
+msgid "icon"
+msgstr "ايقونة"
+
+msgid "icon_settings"
+msgstr "اعدادات الايقونة"
+
+msgid "id"
+msgstr "هوية"
+
+msgid "identifier"
+msgstr "المعرف"
+
+msgid "if_no_title_then_filename"
+msgstr "Leave blank to use file name as title."
+
+msgid "ignore_on_conflict"
+msgstr "Ignore on conflict"
+
+msgid "ignore_required_fields"
+msgstr "Ignore required fields"
+
+msgid "ignore_required_fields_info"
+msgstr "If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login."
+
+#, fuzzy
+msgid "il_astpl_loc_initial"
+msgstr "Initial Test"
+
+#, fuzzy
+msgid "il_astpl_loc_qualified"
+msgstr "Qualifying Test"
+
+msgid "il_blog_contributor"
+msgstr "Blog Contributor"
+
+#, fuzzy
+msgid "il_blog_editor"
+msgstr "Blog-Editor"
+
+msgid "il_chat_moderator"
+msgstr "مشرف الدردشة"
+
+msgid "il_crs_admin"
+msgstr "مدير الدورة"
+
+msgid "il_crs_member"
+msgstr "عضو دورة"
+
+msgid "il_crs_non_member"
+msgstr "ليس عضو دورة"
+
+msgid "il_crs_tutor"
+msgstr "مدرس دورة"
+
+msgid "il_frm_moderator"
+msgstr "مشرف منتدى"
+
+msgid "il_grp_admin"
+msgstr "مدير مجموعة"
+
+msgid "il_grp_member"
+msgstr "عضو مجموعة"
+
+msgid "il_grp_status_closed"
+msgstr "المجموعة مغلقة"
+
+msgid "il_grp_status_open"
+msgstr "المجموعة مفتوحة"
+
+#, fuzzy
+msgid "il_iass_member"
+msgstr "Participant"
+
+#, fuzzy
+msgid "il_lso_admin"
+msgstr "Learning Sequence Admin"
+
+#, fuzzy
+msgid "il_lso_member"
+msgstr "Learning Sequence Member"
+
+#, fuzzy
+msgid "il_lti_instructor"
+msgstr "LTI Instructor"
+
+#, fuzzy
+msgid "il_lti_learner"
+msgstr "LTI Learner"
+
+#, fuzzy
+msgid "il_lti_user"
+msgstr "LTI User"
+
+#, fuzzy
+msgid "il_orgu_employee"
+msgstr "Employee"
+
+#, fuzzy
+msgid "il_orgu_superior"
+msgstr "Superior"
+
+msgid "ilias_version"
+msgstr "الإصدار"
+
+msgid "image"
+msgstr "صورة"
+
+msgid "import"
+msgstr "استيراد"
+
+msgid "import_cat_localrol"
+msgstr "انشاء وظيفة محلية لكل فئة جديدة"
+
+msgid "import_cat_table"
+msgstr "The following table is only meaningful if the checkbox is set"
+
+msgid "import_categories"
+msgstr "Import Categories"
+
+msgid "import_failure_log"
+msgstr "Import failure log"
+
+msgid "import_file"
+msgstr "استيراد ملف"
+
+msgid "import_file_not_valid_here"
+msgstr "The import file is not valid."
+
+msgid "import_finished"
+msgstr "عدد الرسائل المستوردة"
+
+msgid "import_lm"
+msgstr "Import ILIAS Learning module"
+
+msgid "import_qpl"
+msgstr "Import Question Pool Test"
+
+msgid "import_questions_into_qpl"
+msgstr "Import question(s) into question pool"
+
+msgid "import_sahs"
+msgstr "Import SCORM/AICC Package"
+
+#, fuzzy
+msgid "import_sahs_info"
+msgstr "To correct typos or images, use the option to replace individual files via the file directory. Upload a SCORM export from your authoring tool here and not an ILIAS export file. Make sure that your authoring tool has retained the IDs in the manifest file. Attention: Even popular authoring tools cannot do this. SCORM learning modules of certain authoring tools discard learner data obtained if you change the number of answer options of questions or insert new questions. Check in a test installation whether learning statuses that have already been achieved are possible when learning modules that have already been started are called up again."
+
+#, fuzzy
+msgid "import_sahs_new"
+msgstr "Import New Version of SCORM Package"
+
+msgid "import_svy"
+msgstr "Import Survey"
+
+msgid "import_tst"
+msgstr "Import Test"
+
+msgid "import_users"
+msgstr "استيراد مستخدمين"
+
+msgid "import_warning_log"
+msgstr "Import warning log"
+
+msgid "important"
+msgstr "هام"
+
+msgid "imported"
+msgstr "imported"
+
+msgid "imprint"
+msgstr "Imprint"
+
+msgid "in"
+msgstr "in"
+
+msgid "in_use"
+msgstr "لغة المستخدم"
+
+msgid "in_use_by"
+msgstr "In use by"
+
+msgid "inactive"
+msgstr "غير فعال"
+
+msgid "inbox"
+msgstr "الوارد"
+
+msgid "include_local"
+msgstr "include local language file when updating language"
+
+msgid "info"
+msgstr "معلومات"
+
+msgid "info_access_and_status_info"
+msgstr "وصول- ومركز معلومات"
+
+msgid "info_access_permissions"
+msgstr "صلاحيات الوصول"
+
+msgid "info_activate_sure"
+msgstr "Are you sure that you want to approve the following user(s) as active user(s)?"
+
+msgid "info_assign_sure"
+msgstr "Are you sure you want to assign the following user(s)?"
+
+msgid "info_assigned"
+msgstr "تم تعيينه"
+
+msgid "info_available_roles"
+msgstr "وظائف موجودة"
+
+msgid "info_change_user_view"
+msgstr "تغيير مستخدم"
+
+msgid "info_deactivate_sure"
+msgstr "Are you sure that you want to disapprove the following user(s) as active user(s)?"
+
+msgid "info_delete_sure"
+msgstr "هل انت متأكد من انك تريد حذف العناصر التالية؟"
+
+msgid "info_delete_warning_no_trash"
+msgstr "(تحذير: سيتم ازالة العناصر المختارة من النظام بلا عودة ومن الممكن ان لا يتم استعادتها مرة اخرى!)"
+
+msgid "info_deleted"
+msgstr "العناصر المحذوفة"
+
+msgid "info_err_user_not_exist"
+msgstr "User with that login name or user_id does not exists"
+
+msgid "info_from_role"
+msgstr "تم منحه بواسطة وظيفة\\ ملكية"
+
+msgid "info_is_member"
+msgstr "يعتبر المستخدم عضو"
+
+msgid "info_is_not_member"
+msgstr "لا يعتبر المستخدم عضو"
+
+msgid "info_message"
+msgstr "رسالة معلومات"
+
+msgid "info_not_assigned"
+msgstr "غير معين"
+
+msgid "info_owner_of_object"
+msgstr "مالك العناصر"
+
+msgid "info_permission_origin"
+msgstr "وضعية اساسية"
+
+msgid "info_permission_source"
+msgstr "فعال من*"
+
+msgid "info_remark_interrupted"
+msgstr "تم تعطيل وظيفة في هذه الوضعية. ونتيجة لذلك سيتم وضع اعدادات صلاحية الوظيفة الافتراضية في تلك الوضعية"
+
+#, fuzzy
+msgid "info_remove_sure"
+msgstr "Are you sure that you want to remove the following item(s)?"
+
+msgid "info_short"
+msgstr "معلومات"
+
+msgid "info_status_info"
+msgstr "صلاحيات المستخدم"
+
+msgid "info_view_of_user"
+msgstr "مستخدم"
+
+msgid "inform_user_mail"
+msgstr "ارسال رسالة الكترونية لعرض التغييرات للمستخدم"
+
+msgid "inline_file_extensions"
+msgstr "Web-enabled files"
+
+msgid "inline_file_extensions_info"
+msgstr "Files with these extensions are displayed in the browser window.<br/>For example: <b>gif jpg mp3 pdf png</b><br/> All other files are offered for downloading."
+
+msgid "insert"
+msgstr "Insert"
+
+msgid "insert_object_here"
+msgstr "ادراج عنصر هنا"
+
+msgid "inst_id"
+msgstr "هوية التثبيت"
+
+msgid "inst_info"
+msgstr "Installation Info"
+
+msgid "inst_name"
+msgstr "اسم التثبيت"
+
+msgid "install"
+msgstr "تثبيت"
+
+msgid "install_local"
+msgstr "تثبيت و محلي"
+
+#, fuzzy
+msgid "installation_status"
+msgstr "Installation Status"
+
+msgid "installed"
+msgstr "مثبتة"
+
+msgid "installed_local"
+msgstr "مثبتة ومحلي"
+
+msgid "instant_messengers"
+msgstr "المراسلون الفوريون"
+
+msgid "institution"
+msgstr "المؤسسة"
+
+msgid "internal_local_roles_only"
+msgstr "Local roles (only autogenerated)"
+
+msgid "invalid_visible_required_options_selected"
+msgstr "كافة الحقول الموجودة في وضع مطلوب يجب ان تكون موجودة في التسجيل ايضا"
+
+msgid "invisible_block"
+msgstr "كتلة غير موجودة"
+
+msgid "invisible_block_mess"
+msgstr "انت لا تملك الصلاحية لمعاينة هذه الكتلة"
+
+msgid "ip_address"
+msgstr "IP عنوان"
+
+msgid "is_already_your"
+msgstr "is already your"
+
+#, fuzzy
+msgid "italic_action"
+msgstr "Insert Italic - Click to insert italic text."
+
+msgid "item"
+msgstr "Item"
+
+msgid "itgr_add"
+msgstr "Add Item Group"
+
+msgid "itgr_new"
+msgstr "New Item Group"
+
+msgid "java_server"
+msgstr "Java-خادم"
+
+msgid "java_server_host"
+msgstr "مضيف"
+
+#. Needs to be adapted to new content of German lang file.
+msgid "java_server_info"
+msgstr "   HTML وفي الوحدات التعليمية PDF, HTMLعند التفعيل سيكون بالامكان البحث في ملفات"
+
+msgid "java_server_port"
+msgstr "منفذ"
+
+msgid "java_server_readme"
+msgstr "معلومات الاعداد"
+
+msgid "join"
+msgstr "إلتحاق"
+
+msgid "join_session"
+msgstr "Join"
+
+msgid "kb"
+msgstr "كيلو بايت"
+
+msgid "keywords"
+msgstr "كلمات مفتاحية"
+
+#, fuzzy
+msgid "label_search_options"
+msgstr "Search Area"
+
+msgid "lang_dateformat"
+msgstr "Y-m-d"
+
+msgid "lang_path"
+msgstr "مسار اللغة"
+
+msgid "lang_refresh_confirm"
+msgstr "هل تريد حقا تحديث كافة اللغات؟"
+
+msgid "lang_refresh_confirm_info"
+msgstr "Extended language maintenance is currently activated. Refreshing the languages will read the global language files of ILIAS and probably the local language files from the Customizing directory to the database. Global language files will not affect your manual changes. A local langage file will overwrite all manual changes that are older than the saving date of the local language file."
+
+msgid "lang_refresh_confirm_selected"
+msgstr "هل تريد حقا تحديث كافة اللغات المختارة؟"
+
+msgid "lang_sep_decimal"
+msgstr "."
+
+msgid "lang_sep_thousand"
+msgstr ","
+
+msgid "lang_size_bytes"
+msgstr "bytes"
+
+msgid "lang_size_gb"
+msgstr "GB"
+
+msgid "lang_size_kb"
+msgstr "KB"
+
+msgid "lang_size_mb"
+msgstr "MB"
+
+msgid "lang_timeformat"
+msgstr "H:i:s"
+
+msgid "lang_timeformat_no_sec"
+msgstr "H:i"
+
+#, fuzzy
+msgid "lang_uninstall_changes"
+msgstr "Uninstall Local Changes"
+
+#, fuzzy
+msgid "lang_uninstall_changes_confirm"
+msgstr "Do you really want to clear all local changes of the selected languages and reset them to the default of the current ILIAS version?"
+
+#, fuzzy
+msgid "lang_uninstall_confirm"
+msgstr "Do you really want to uninstall the selected languages?"
+
+msgid "langfile_found"
+msgstr "ملف اللغة موجود"
+
+msgid "language"
+msgstr "اللغة"
+
+msgid "language_not_installed"
+msgstr "is not installed. Please install that language first"
+
+msgid "languages"
+msgstr "اللغات"
+
+msgid "languages_already_installed"
+msgstr "اللغة\\اللغات المختارة مدرجة حاليا"
+
+msgid "languages_already_uninstalled"
+msgstr "اللغة\\اللغات المختارة غير مدرجة حاليا"
+
+msgid "languages_updated"
+msgstr "تم تحديث جميع اللغات المحملة"
+
+msgid "last_access"
+msgstr "اخر وصول"
+
+msgid "last_change"
+msgstr "اخر تغيير"
+
+msgid "last_edited_on"
+msgstr "اخر تعديل في"
+
+msgid "last_login"
+msgstr "اخر دخول"
+
+msgid "last_refresh"
+msgstr "اخر تحديث"
+
+msgid "last_reminder"
+msgstr "Last reminder"
+
+msgid "last_update"
+msgstr "اخر تحديث"
+
+msgid "last_visited"
+msgstr "آخر زيارة"
+
+msgid "lastname"
+msgstr "الاسم الاخير"
+
+#, fuzzy
+msgid "latex_edit_info"
+msgstr "You can enter LaTeX code in the delimiters <code>[tex]</code> and <code>[/tex]</code>."
+
+#, fuzzy
+msgid "laugh"
+msgstr "Laugh"
+
+msgid "launch"
+msgstr "Launch"
+
+msgid "ldap"
+msgstr "LDAP"
+
+msgid "ldap_basedn"
+msgstr "LDAP BaseDN"
+
+msgid "ldap_configure"
+msgstr "LDAP انشاء مصادقة"
+
+msgid "ldap_port"
+msgstr "LDAP Port"
+
+msgid "ldap_read"
+msgstr "LDAP امكانية القراءة من اعدادات"
+
+msgid "ldap_server"
+msgstr "LDAP Server URL"
+
+msgid "ldap_tls"
+msgstr "LDAP TLS استخدم"
+
+msgid "ldap_version"
+msgstr "LDAP اصدار"
+
+msgid "learning module"
+msgstr "Learning Module"
+
+msgid "learning_progress"
+msgstr "حالة التدريب"
+
+msgid "leave_waiting_list"
+msgstr "Leave Waiting List"
+
+msgid "legend"
+msgstr "Legend"
+
+msgid "level"
+msgstr "Level"
+
+msgid "link"
+msgstr "وصلة"
+
+#, fuzzy
+msgid "link_action"
+msgstr "Insert Link - Click to insert a link."
+
+msgid "link_all"
+msgstr "Link all"
+
+msgid "link_check"
+msgstr "فحص الرابط"
+
+msgid "link_check_message_b"
+msgstr "If enabled, you will be informed about invalid links by mail."
+
+msgid "link_check_message_disabled"
+msgstr "تعطيل الرسائل"
+
+msgid "link_check_message_enabled"
+msgstr "تفعيل الرسائل"
+
+msgid "link_check_subject"
+msgstr "فحص رابط"
+
+msgid "link_checker_refreshed"
+msgstr "معاينة التحديث"
+
+msgid "link_selected_items"
+msgstr "وصلة"
+
+msgid "links_add_param"
+msgstr "اضافة علامة"
+
+msgid "links_dyn_parameter"
+msgstr "مدخلات فعالة"
+
+msgid "links_dynamic"
+msgstr "معلمات رابط متحرك"
+
+msgid "links_dynamic_info"
+msgstr "If enabled, it is possible to append dynamic parameters to Weblinks.<br /> E.g. the ILIAS user id or the username."
+
+msgid "links_existing_params"
+msgstr "مدخلات موجودة"
+
+msgid "links_name"
+msgstr "اسم المدخل"
+
+msgid "links_no_name_given"
+msgstr "الرجاء اختيار اسم علامة"
+
+msgid "links_no_value_given"
+msgstr "الرجاء اختيار قيمة علامة"
+
+msgid "links_parameter_deleted"
+msgstr "تم حذف المدخل"
+
+msgid "links_select_one"
+msgstr "- اختر واحدة -"
+
+msgid "links_session_id"
+msgstr "ILIAS هوية جلسة"
+
+msgid "links_user_id"
+msgstr "ILIAS هوية مستخدم"
+
+msgid "links_user_name"
+msgstr "ILIAS اسم مستخدم"
+
+msgid "links_value"
+msgstr "قيمة المدخل"
+
+msgid "list"
+msgstr "List"
+
+msgid "list_of_questions"
+msgstr "قائمة الاسئلة"
+
+#, fuzzy
+msgid "list_view"
+msgstr "List View"
+
+#, fuzzy
+msgid "listaction_learning_progress_settings"
+msgstr "Learning Progress Settings"
+
+msgid "lm"
+msgstr "ILIAS الوحدة التعليمية"
+
+msgid "lm_add"
+msgstr "ILIAS اضافة الوحدة التعليمية"
+
+msgid "lm_added"
+msgstr "ILIAS اضافة الوحدة التعليمية"
+
+msgid "lm_new"
+msgstr " تعليمية جديدة ILIAS وحدة"
+
+msgid "lm_type_scorm"
+msgstr "SCORM 1.2 (Java-RTE)"
+
+msgid "lm_type_scorm2004"
+msgstr "SCORM 2004 3rd Edition (JavaScript-RTE)"
+
+#, fuzzy
+msgid "lm_type_scorm2004_info"
+msgstr "These are newer versions of SCORM with significantly enhanced functionality. The learning module is launched in an iFrame."
+
+#, fuzzy
+msgid "lm_type_scorm_info"
+msgstr "This is the most widely used version of SCORM. The learning module is launched in a frame."
+
+msgid "lng"
+msgstr "اللغة"
+
+msgid "lngf"
+msgstr "اللغات"
+
+msgid "lo"
+msgstr "Learning Object"
+
+#, fuzzy
+msgid "loaded_preview_renderers"
+msgstr "Loaded Preview Renderers"
+
+msgid "local"
+msgstr "Local"
+
+msgid "local_language_file"
+msgstr "ملف اللغة المحلي"
+
+msgid "local_language_files"
+msgstr "ملفات اللغة المحلية"
+
+msgid "local_languages_already_installed"
+msgstr "ملف\\ات اللغة المختارة مدرجة حاليا"
+
+#, fuzzy
+msgid "local_role_assignment"
+msgstr "Lokale Rollenzuweisung"
+
+msgid "location"
+msgstr "الموقع"
+
+msgid "locator"
+msgstr "موقع:"
+
+msgid "log_in"
+msgstr "الدخول"
+
+#, fuzzy
+msgid "log_out"
+msgstr "Logout"
+
+msgid "logic_or"
+msgstr "or"
+
+msgid "login"
+msgstr "اسم المستخدم"
+
+msgid "login_as"
+msgstr "تم الدخول باسم"
+
+msgid "login_data"
+msgstr "بيانات الدخول"
+
+msgid "login_exists"
+msgstr "هناك مستخدم يحمل اسم الدخول هذا. الرجء اختيار اسم اخر"
+
+msgid "login_invalid"
+msgstr "The chosen login is invalid! Only the following characters are allowed (minimum 3 characters): A-Z a-z 0-9 _.-+*@!$%~"
+
+msgid "login_to_ilias"
+msgstr "الدخول إلى النظام"
+
+#, fuzzy
+msgid "login_to_ilias_via_login_form"
+msgstr "Login to ILIAS"
+
+#, fuzzy
+msgid "login_to_ilias_via_saml"
+msgstr "Login to ILIAS via SAML Authentification"
+
+msgid "login_to_ilias_via_shibboleth"
+msgstr "بواسطة ILIAS الدخول الى"
+
+msgid "loginname_already_exists"
+msgstr "اسم الدخول هذا موجود"
+
+msgid "loginname_settings"
+msgstr "اعدادات اسم الدخول"
+
+msgid "logout"
+msgstr "خروج"
+
+msgid "logout_text"
+msgstr "لقد خرجت من النظام التعليمي و بالتالي تم إغلاق الجلسة"
+
+msgid "logs"
+msgstr "تسجيل البيانات"
+
+#, fuzzy
+msgid "love"
+msgstr "Love"
+
+msgid "lres"
+msgstr "المصادر التعليمية"
+
+#, fuzzy
+msgid "lso_add"
+msgstr "Add Learning Sequence"
+
+#, fuzzy
+msgid "lso_admin_form_byline"
+msgstr "General Settings for Learning Sequences"
+
+#, fuzzy
+msgid "lso_admin_form_title"
+msgstr "Settings"
+
+#, fuzzy
+msgid "lso_admin_interval_byline"
+msgstr "Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!"
+
+#, fuzzy
+msgid "lso_admin_interval_label"
+msgstr "Learning Progress Polling Interval (seconds)"
+
+#, fuzzy
+msgid "lso_copy_threads_info"
+msgstr "Please decide which elements of the Learning Sequence should be copied, linked or omitted."
+
+#, fuzzy
+msgid "lso_edit"
+msgstr "Edit Learning Sequence"
+
+#, fuzzy
+msgid "lso_import"
+msgstr "Import Learning Sequence"
+
+#, fuzzy
+msgid "lso_new"
+msgstr "New Learning Sequence"
+
+#, fuzzy
+msgid "lso_wizard_page"
+msgstr "Copy Learning Sequence (Step 2/2)"
+
+#, fuzzy
+msgid "lti"
+msgstr "LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_add"
+msgstr "Add LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_new"
+msgstr "New LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_outcome_info"
+msgstr "Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI Tool Consumer."
+
+msgid "mail"
+msgstr "البريد"
+
+msgid "mail_addressbook"
+msgstr "جهات الإتصال"
+
+msgid "mail_at_the_ilias_installation"
+msgstr "You received %1$s new mail at the ILIAS-Installation %2$s"
+
+msgid "mail_attachment"
+msgstr "ملحق البريد"
+
+msgid "mail_b_inbox"
+msgstr "الوارد"
+
+msgid "mail_c_trash"
+msgstr "المهملات"
+
+#, fuzzy
+msgid "mail_cron_scheduled_mails"
+msgstr "Send scheduled mails."
+
+#, fuzzy
+msgid "mail_cron_scheduled_mails_desc"
+msgstr "Sends scheduled user mails according to their defined delivery times"
+
+msgid "mail_d_drafts"
+msgstr "المسودات"
+
+msgid "mail_delete_error"
+msgstr "Error while deleting"
+
+#, fuzzy
+msgid "mail_e_outbox"
+msgstr "Outbox"
+
+msgid "mail_e_sent"
+msgstr "المرسلة"
+
+msgid "mail_edit_permission"
+msgstr "تغيير اعدادات الصلاحية"
+
+#, fuzzy
+msgid "mail_f_sent"
+msgstr "Sent"
+
+msgid "mail_folders"
+msgstr "مجلدات البريد"
+
+msgid "mail_import_file"
+msgstr "ملف تصدير"
+
+msgid "mail_mails_of"
+msgstr "رسالة الكترونية"
+
+msgid "mail_maxsize_attach"
+msgstr "الحجم الاقصى للملحق"
+
+msgid "mail_member"
+msgstr "Mail to Member"
+
+msgid "mail_members"
+msgstr "ارسال الى الاعضاء"
+
+#, fuzzy
+msgid "mail_message_scheduled"
+msgstr "Scheduled mail"
+
+#, fuzzy
+msgid "mail_message_scheduled_info"
+msgstr "Mails remain in the outbox until the scheduled sending time."
+
+msgid "mail_not_sent"
+msgstr "لم يتم ارسال الرسالة"
+
+#, fuzzy
+msgid "mail_schedule_error_no_datetime"
+msgstr "To schedule a mail, a delivery date and time must be specified."
+
+#, fuzzy
+msgid "mail_schedule_error_past_datetime"
+msgstr "You cannot schedule emails in the past."
+
+#, fuzzy
+msgid "mail_schedule_scheduled_datetime"
+msgstr "Scheduled Send Time"
+
+#, fuzzy
+msgid "mail_scheduled"
+msgstr "Mail stored in outbox for later delivery."
+
+#, fuzzy
+msgid "mail_scheduled_edit_compose_info"
+msgstr "You are editing a scheduled mail. Sending is paused until you schedule the mail again."
+
+#, fuzzy
+msgid "mail_scheduled_edit_moved_info"
+msgstr "This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox."
+
+msgid "mail_search_no"
+msgstr "لم يتم العثور على اية مدخلات"
+
+msgid "mail_select_one"
+msgstr "عليك اختيار رسالة الكترونية واحدة"
+
+msgid "mail_send_error"
+msgstr "Error sending mail"
+
+msgid "mail_sent"
+msgstr "تم ارسال الرسالة"
+
+msgid "mail_settings"
+msgstr "اعدادات البريد"
+
+msgid "mail_to_global_roles_not_allowed"
+msgstr "It is not allowed to send emails to global roles"
+
+msgid "mail_z_local"
+msgstr "مجلدات المستخدم"
+
+msgid "mails"
+msgstr "الرسائل"
+
+msgid "mails_at_the_ilias_installation"
+msgstr "You received %1$s new mails at the ILIAS-Installation %2$s"
+
+msgid "mails_pl"
+msgstr "البريد"
+
+msgid "main_menu"
+msgstr "Main Menu"
+
+#, fuzzy
+msgid "mainbar_aria_label"
+msgstr "Mainbar"
+
+#, fuzzy
+msgid "mainbar_more_label"
+msgstr "More"
+
+#, fuzzy
+msgid "manage_members"
+msgstr "Manage Members"
+
+msgid "matriculation"
+msgstr "رقم القبول في الجامعة"
+
+#, fuzzy
+msgid "max_previews_per_object"
+msgstr "Number of preview images per file"
+
+#, fuzzy
+msgid "max_previews_per_object_info"
+msgstr "Defines the maximum number of preview images that are created per file."
+
+msgid "mcst"
+msgstr "بث الوسائط"
+
+msgid "mcst_add"
+msgstr "اضافة بث وسائط"
+
+msgid "mcst_new"
+msgstr "بث وسائط جديدة"
+
+msgid "mem_add_to_wl"
+msgstr "اضافة الى لائحة الانتظار"
+
+msgid "mem_alert_no_places"
+msgstr "لا يوجد اماكن شاغرة"
+
+#, fuzzy
+msgid "mem_cron_min_members"
+msgstr "Course/Group: Minimum Members Check"
+
+#, fuzzy
+msgid "mem_cron_min_members_info"
+msgstr "The administrators will be notified if the minimum number is not met."
+
+msgid "mem_end"
+msgstr "نعاية التسجيل:"
+
+msgid "mem_free_places"
+msgstr "اماكن حرة"
+
+msgid "mem_max_users"
+msgstr "الحد الاقصى من المستخدمين"
+
+#, fuzzy
+msgid "mem_min_users"
+msgstr "Minimum of Users"
+
+msgid "mem_participants"
+msgstr "المتلقون"
+
+msgid "mem_reg_expired"
+msgstr "انتهى وقت التسجيل"
+
+msgid "mem_reg_not_started"
+msgstr "لم يبدأ التسجيل"
+
+msgid "mem_reg_period"
+msgstr "مدة التسجيل"
+
+msgid "mem_reg_type"
+msgstr "نوع التسجيل"
+
+msgid "mem_start"
+msgstr "بداية التسجيل:"
+
+msgid "mem_unlimited"
+msgstr "غير محدد"
+
+msgid "mem_view_activate"
+msgstr "عرض معاينة العضو"
+
+msgid "mem_view_close"
+msgstr "Close Member View"
+
+msgid "mem_view_long"
+msgstr "معاينة العضو"
+
+msgid "mem_waiting_list"
+msgstr "المستخدمون على لائحة الانتظار"
+
+msgid "mem_waiting_list_position"
+msgstr "وضعيتك في لائحة الانتظار"
+
+msgid "member"
+msgstr "عضو"
+
+msgid "member_status"
+msgstr "حالة العضو"
+
+msgid "members"
+msgstr "الاعضاء"
+
+msgid "membership_leave"
+msgstr "Leave"
+
+msgid "mep"
+msgstr "مجموعة وسائط"
+
+msgid "mep_add"
+msgstr "اضافة مجموعة وسائط"
+
+msgid "mep_edit"
+msgstr "تعديل خصائص مجموعة الوسائط"
+
+msgid "mep_new"
+msgstr "مجموعة وسائط جديدة"
+
+msgid "mep_not_insert_already_exist"
+msgstr "The following items have not been inserted because they are already in the media pool:"
+
+msgid "message"
+msgstr "رسالة"
+
+msgid "message_content"
+msgstr "محتوى الرسالة"
+
+msgid "message_no_delivered_files"
+msgstr "انت لم تقم بتقديم اية ملفات"
+
+msgid "meta_data"
+msgstr "بيانات وصفية"
+
+#, fuzzy
+msgid "metabar_aria_label"
+msgstr "Metabar"
+
+#, fuzzy
+msgid "mgs_objects_linked_to_the_following_folders_p"
+msgstr "The objects were linked to the following folder(s): %s"
+
+#, fuzzy
+msgid "mgs_objects_linked_to_the_following_folders_s"
+msgstr "The object was linked to the following folder(s): %s"
+
+msgid "migrate"
+msgstr "تنقل"
+
+#, fuzzy
+msgid "minimize"
+msgstr "Minimize"
+
+msgid "minute"
+msgstr "دقيقة"
+
+msgid "minutes"
+msgstr "دقيقة\\ دقائق"
+
+msgid "missing"
+msgstr "غير موجود"
+
+msgid "missing_perm"
+msgstr "فقدان الصلاحية"
+
+msgid "missing_precondition"
+msgstr "فقدان الشروط المسبقة"
+
+#, fuzzy
+msgid "mm_achievements"
+msgstr "Achievements"
+
+#, fuzzy
+msgid "mm_administration"
+msgstr "Administration"
+
+#, fuzzy
+msgid "mm_badges"
+msgstr "Badges"
+
+#, fuzzy
+msgid "mm_calendar"
+msgstr "Calendar"
+
+#, fuzzy
+msgid "mm_certificates"
+msgstr "Certificates"
+
+#, fuzzy
+msgid "mm_comments"
+msgstr "Comments"
+
+#, fuzzy
+msgid "mm_communication"
+msgstr "Communication"
+
+#, fuzzy
+msgid "mm_contacts"
+msgstr "Contacts"
+
+#, fuzzy
+msgid "mm_dashboard"
+msgstr "Dashboard"
+
+#, fuzzy
+msgid "mm_enrolments"
+msgstr "Enrolments"
+
+#, fuzzy
+msgid "mm_favorites"
+msgstr "Favourites"
+
+#, fuzzy
+msgid "mm_learning_history"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "mm_learning_progress"
+msgstr "Learning Progress"
+
+#, fuzzy
+msgid "mm_mail"
+msgstr "Mail"
+
+#, fuzzy
+msgid "mm_news"
+msgstr "News"
+
+#, fuzzy
+msgid "mm_notes"
+msgstr "Notes"
+
+#, fuzzy
+msgid "mm_organisation"
+msgstr "Organisation"
+
+#, fuzzy
+msgid "mm_personal_and_shared_r"
+msgstr "Personal and Shared Resources"
+
+#, fuzzy
+msgid "mm_personal_workspace"
+msgstr "Personal Workspace"
+
+#, fuzzy
+msgid "mm_portfolio"
+msgstr "Portfolio"
+
+#, fuzzy
+msgid "mm_private_chats"
+msgstr "Private Chats"
+
+#, fuzzy
+msgid "mm_repo_tree_view"
+msgstr "Tree View"
+
+#, fuzzy
+msgid "mm_repo_tree_view_act"
+msgstr "Activate Tree"
+
+#, fuzzy
+msgid "mm_repo_tree_view_deact"
+msgstr "Deactivate Tree"
+
+#, fuzzy
+msgid "mm_repository"
+msgstr "Repository"
+
+#, fuzzy
+msgid "mm_skills"
+msgstr "Competences"
+
+#, fuzzy
+msgid "mm_staff_list"
+msgstr "Staff List"
+
+#, fuzzy
+msgid "mm_tags"
+msgstr "Tags"
+
+#, fuzzy
+msgid "mm_task_derived_tasks"
+msgstr "Tasks"
+
+#, fuzzy
+msgid "mme_lost_item_reason"
+msgstr "Item is no longer provided."
+
+#, fuzzy
+msgid "mme_lost_item_title"
+msgstr "No assignment"
+
+msgid "mob"
+msgstr "عنصر وسائط"
+
+msgid "moderators"
+msgstr "Moderators"
+
+msgid "module"
+msgstr "وحدة"
+
+msgid "modules"
+msgstr "وحدات"
+
+msgid "month"
+msgstr "شهر"
+
+msgid "month_01_long"
+msgstr "كانون الثاني"
+
+msgid "month_01_short"
+msgstr "Jan"
+
+msgid "month_02_long"
+msgstr "شباط"
+
+msgid "month_02_short"
+msgstr "شباط"
+
+msgid "month_03_long"
+msgstr "اذار"
+
+msgid "month_03_short"
+msgstr "اذار"
+
+msgid "month_04_long"
+msgstr "نيسان"
+
+msgid "month_04_short"
+msgstr "نيسان"
+
+msgid "month_05_long"
+msgstr "ايار"
+
+msgid "month_05_short"
+msgstr "ايار"
+
+msgid "month_06_long"
+msgstr "حزيران"
+
+msgid "month_06_short"
+msgstr "Jun"
+
+msgid "month_07_long"
+msgstr "تموز"
+
+msgid "month_07_short"
+msgstr "تموز"
+
+msgid "month_08_long"
+msgstr "آب"
+
+msgid "month_08_short"
+msgstr "آب"
+
+msgid "month_09_long"
+msgstr "ايلول"
+
+msgid "month_09_short"
+msgstr "ايلول"
+
+msgid "month_10_long"
+msgstr "تشرين الاول"
+
+msgid "month_10_short"
+msgstr "تشرين الاول"
+
+msgid "month_11_long"
+msgstr "تشرين الثاني"
+
+msgid "month_11_short"
+msgstr "تشرين الثاني"
+
+msgid "month_12_long"
+msgstr "كانون الاول"
+
+msgid "month_12_short"
+msgstr "Dec"
+
+msgid "monthly"
+msgstr "شهريا"
+
+msgid "months"
+msgstr "اشهر"
+
+msgid "mount_webfolder"
+msgstr "Open as webfolder"
+
+msgid "move"
+msgstr "تقل"
+
+msgid "moveChapter"
+msgstr "نقل"
+
+msgid "movePage"
+msgstr "نقل"
+
+msgid "move_selected_items"
+msgstr "نقل"
+
+#, fuzzy
+msgid "msg_bt_download_started"
+msgstr "ILIAS is generating a ZIP archive of all available files. You can download them from the Notification Center (bell icon) on top right."
+
+msgid "msg_cancel"
+msgstr "Action cancelled"
+
+msgid "msg_clear_clipboard"
+msgstr "Clipboard cleared"
+
+msgid "msg_cloned"
+msgstr "العنصر\\العناصر المختارة منسوخة"
+
+msgid "msg_copy_clipboard"
+msgstr "الرجاء الان اختيار الموقع المرغوب لنسخ العناصر المختارة ثم النقر على زر نسخ"
+
+#, fuzzy
+msgid "msg_copy_clipboard_container"
+msgstr "Now, please select the desired location, where the selected objects should be pasted into and click the button \"Continue\"."
+
+msgid "msg_copy_clipboard_source"
+msgstr "الان، الرجاء اختيار الدورة المرغوبة التي يجب نسخ محتواها ثم انقر على زر لاحق"
+
+msgid "msg_cut_clipboard"
+msgstr "الان، الرجاء اختيار الموقع المرغوب، حيث يجب لصق العناصر المختارة فيه ومن ثم الضغط على زر لصق"
+
+msgid "msg_cut_copied"
+msgstr "العنصر\\العناصر المختارة منقولة"
+
+msgid "msg_deleted_export_files"
+msgstr "تم حذف ملف\\ات التصدير"
+
+msgid "msg_deleted_role"
+msgstr "تم حذف الوظيفة"
+
+msgid "msg_deleted_roles_rolts"
+msgstr "تم حذف نماذج الوظائف والوظيفة"
+
+msgid "msg_failed"
+msgstr "Sorry, action failed"
+
+msgid "msg_form_save_error"
+msgstr "The form data could not be saved. Please check the input fields for any error messages."
+
+#, fuzzy
+msgid "msg_info_blacklisted"
+msgstr "The files cannot be uploaded due to security reasons."
+
+#, fuzzy
+msgid "msg_input_char_limit_max"
+msgstr "You have entered more characters than allowed."
+
+#, fuzzy
+msgid "msg_input_char_limit_min"
+msgstr "You have to enter the minimum of characters specified."
+
+msgid "msg_input_does_not_match_regexp"
+msgstr "الرجاء التزويد بقيمة مسموحة"
+
+msgid "msg_input_is_required"
+msgstr "هذا المدخل مطلوب، الرجاء ادخال قيمة معينة"
+
+#, fuzzy
+msgid "msg_invalid_value_css_rect_input"
+msgstr "The entered value is incorrect, do not use any plus or minus symbols in combination with the entered integer. Please check your input."
+
+msgid "msg_is_last_role"
+msgstr "لقد قمت بإزالة الوظيفة العامة الاخيرة من المستخدمين التاليين"
+
+msgid "msg_last_role_for_registration"
+msgstr "يجب ان يوجد على الاقل وظيفة واحدة في نموذج التسجيل للمستخدمين الجدد. وتكون الوظيفة الوحيدة الموجودة حاليا"
+
+#, fuzzy
+msgid "msg_link_clipboard_p"
+msgstr "Now, please select the desired location, where the selected objects should be linked to and click the button Paste."
+
+#, fuzzy
+msgid "msg_link_clipboard_s"
+msgstr "Now, please select the desired location, where the selected object should be linked to and click the button Paste."
+
+msgid "msg_linked"
+msgstr "العنصر\\العناصر المختارة مرتبطة بروابط"
+
+msgid "msg_may_not_contain"
+msgstr "This object may not contain objects of type:"
+
+msgid "msg_min_one_role"
+msgstr "Each user must have at least one global role!"
+
+msgid "msg_multi_language_selected"
+msgstr "لقد قمت باختيار اللغة ذاتها لترجمات مختلفة"
+
+msgid "msg_no_default_language"
+msgstr "لم يتم تخصيص لغة افتراضية! عليك تعريف ترجمة لتكون ترجمة افتراضية"
+
+msgid "msg_no_delete_yourself"
+msgstr "انت لا تستطيع حذف حسابك الشخصي"
+
+msgid "msg_no_file"
+msgstr "انت لم تقم باختيار ملف"
+
+#, fuzzy
+msgid "msg_no_files_selected"
+msgstr "No files selected"
+
+msgid "msg_no_language_selected"
+msgstr "لم يتم تخصيص لغة ترجمة! عليك تعريف لغة لكل ترجمة"
+
+msgid "msg_no_perm_assign_role_to_user"
+msgstr "انت لا تملك الصلاحية لتغيير تعيين وظيفة المستخدم"
+
+msgid "msg_no_perm_assign_user_to_role"
+msgstr "انت لا تملك الصلاحية لتغيير تعيين المستخدم"
+
+msgid "msg_no_perm_copy"
+msgstr "انت لا تملك الصلاحية بانشاء نسخة من العناصر التالية"
+
+msgid "msg_no_perm_create_rolt"
+msgstr "انت لا تملك الصلاحية لاضافة نموذج وظيفة"
+
+msgid "msg_no_perm_cut"
+msgstr "انت لا تملك الصلاحية لقص العنصر\\العناصر التالية"
+
+msgid "msg_no_perm_delete"
+msgstr "انت لا تملك الصلاحية لحذف العنصر\\العناصر التالية"
+
+msgid "msg_no_perm_link"
+msgstr "انت لا تملك الصلاحية لانشاء وصلة من العنصر\\العناصر التالية"
+
+msgid "msg_no_perm_modify_rolt"
+msgstr "انت لا تملك الصلاحية لتعديل نماذج الوظيفة"
+
+msgid "msg_no_perm_modify_user"
+msgstr "انت لا تملك الصلاحية لتقوم بتعديل بيانات المستخدم"
+
+msgid "msg_no_perm_paste"
+msgstr "انت لا تملك الصلاحية للصق العنصر\\العناصر التالية"
+
+msgid "msg_no_perm_paste_object_in_folder"
+msgstr "%s في المجلد %s  انت لا تملك الصلاحية للصق العنصر"
+
+msgid "msg_no_perm_perm"
+msgstr "انت لا تملك الصلاحية لتعديل اعدادات الصلاحية"
+
+msgid "msg_no_perm_read"
+msgstr "انت لا تملك الصلاحية للوصول الى هذا العنصر"
+
+msgid "msg_no_perm_read_item"
+msgstr "انت لا تملك الصلاحية للوصول الى العنصر"
+
+msgid "msg_no_perm_read_lm"
+msgstr "انت لا تملك الصلاحية لقراءة الوحدة التعليمية هذه"
+
+#, fuzzy
+msgid "msg_no_perm_view_roles_of_user"
+msgstr "You have no permission to view the role assignment of this user"
+
+msgid "msg_no_perm_write"
+msgstr "انت لا تملك الصلاحية للكتابة"
+
+msgid "msg_no_search_result"
+msgstr "لم يتم ايجاد مدخلات"
+
+msgid "msg_no_search_string"
+msgstr "الرجاء ادخال تساؤلك"
+
+msgid "msg_no_title"
+msgstr "الرجاء ادخال عنوان"
+
+msgid "msg_not_available_for_anon"
+msgstr "The page you have chosen is only accessible for registered users"
+
+msgid "msg_not_in_itself"
+msgstr "It's not possible to paste the object in itself"
+
+#, fuzzy
+msgid "msg_obj_already_deleted"
+msgstr "The object has already been deleted."
+
+msgid "msg_obj_created"
+msgstr "تم انشاء عنصر"
+
+msgid "msg_obj_exists"
+msgstr "This object already exists in this folder"
+
+msgid "msg_obj_exists_in_folder"
+msgstr "The object %s already exists in the folder %s."
+
+msgid "msg_obj_may_not_contain_objects_of_type"
+msgstr "The object %s may not contain objects of type: %s."
+
+msgid "msg_obj_modified"
+msgstr "تم حفظ التغييرات"
+
+#, fuzzy
+msgid "msg_obj_no_download"
+msgstr "cannot be downloaded."
+
+msgid "msg_obj_no_link"
+msgstr "are not allowed to be linked"
+
+#, fuzzy
+msgid "msg_obj_perm_download"
+msgstr "You do not have sufficient rights to download the following objects:"
+
+msgid "msg_paste_object_not_in_itself"
+msgstr "It's not possible to paste the object %s in itself."
+
+msgid "msg_perm_adopted_from1"
+msgstr "تم اعتماد اعدادات الصلاحيات من"
+
+msgid "msg_perm_adopted_from2"
+msgstr "(تم حفظ الاعدادات)"
+
+msgid "msg_perm_adopted_from_itself"
+msgstr "انت لا تستطيع اعتماد اعدادات الصلاحية لنماذج الوظيفة\\الوظائف بحد ذاتها"
+
+msgid "msg_removed"
+msgstr "العناصر المحذوفة من النظام"
+
+msgid "msg_role_reserved_prefix"
+msgstr "تم حفظ البادئة \"il\" من اجل وظائف محدثة تلقائيا. الرجاء اختيار اسم اخر"
+
+msgid "msg_roleassignment_changed"
+msgstr "تم تغيير تعين وظيفة"
+
+msgid "msg_sysrole_not_deletable"
+msgstr "لا يمكن حذف وظيفة النظام"
+
+msgid "msg_sysrole_not_editable"
+msgstr "من الممكن ان لا يتم تغيير اعدادات الصلاحية لوظيفة النظام. يمنح النظام المستخدمين المعينين امكانية وصول غير محدودة لجميع العناصر والوظائف"
+
+#, fuzzy
+msgid "msg_to_many_files"
+msgstr "Too many files selected, allowed amount of files:"
+
+msgid "msg_trash_empty"
+msgstr "لا يوجد عناصر محذوفة"
+
+msgid "msg_undeleted"
+msgstr "العناصر المستردة"
+
+msgid "msg_unit_is_required"
+msgstr "تتطلب هذه المشاركة وحدة. الرجاء ادخال القيمة الصحيحة"
+
+#, fuzzy
+msgid "msg_unknown_value"
+msgstr "An unknown value has been passed."
+
+msgid "msg_user_last_role1"
+msgstr "تم تعيين المستخدمين التاليين لهذه الوظيفة فقط"
+
+msgid "msg_user_last_role2"
+msgstr "الرجاء حذف المستخدمين او تعيينهم لوظيفة اخرى حتى يتم حذف هذه الوظيفة"
+
+msgid "msg_userassignment_changed"
+msgstr "تغيير تعيين المستخدم"
+
+#, fuzzy
+msgid "msg_wrong_filetypes"
+msgstr "Allowed Files-Types:"
+
+msgid "msg_wrong_format"
+msgstr "القيمة التي قمت بادخالها غير صحيحة"
+
+msgid "my_bms"
+msgstr "المراجع"
+
+#, fuzzy
+msgid "my_certificates"
+msgstr "My Certificates"
+
+#, fuzzy
+msgid "my_contacts"
+msgstr "My Contact"
+
+msgid "my_courses"
+msgstr "دوراتي"
+
+msgid "my_courses_groups"
+msgstr "مساقاتي ومجموعاتي"
+
+#, fuzzy
+msgid "my_staff"
+msgstr "Staff"
+
+msgid "name"
+msgstr "الاسم"
+
+#, fuzzy
+msgid "nc_contact_requests_headline"
+msgstr "Contact Requests"
+
+#, fuzzy
+msgid "nc_contact_requests_number_p"
+msgstr "You have %s Contact Requests."
+
+#, fuzzy
+msgid "nc_contact_requests_number_s"
+msgstr "You have %s Contact Request."
+
+#, fuzzy
+msgid "nc_contact_requests_prop_time"
+msgstr "Time"
+
+msgid "never"
+msgstr "مطلقا"
+
+msgid "new"
+msgstr "جديد"
+
+msgid "new_language"
+msgstr "لغة جديدة"
+
+msgid "new_pass_equals_old_pass"
+msgstr "The new password equals the old one."
+
+msgid "newline"
+msgstr "سطر جديد"
+
+msgid "news"
+msgstr "أخبار"
+
+msgid "next"
+msgstr "التالي"
+
+msgid "no"
+msgstr "لا"
+
+msgid "no_access_item"
+msgstr "انت لا تملك الصلاحية للوصول الى هذا العنصر"
+
+msgid "no_access_item_public"
+msgstr "To access this item you need to be logged in and to have appropriate permissons."
+
+#, fuzzy
+msgid "no_accessibility_control_concept_description"
+msgstr "There is currently no Accessibility Control Concept provided with this installation. Please contact the <a href=\"%1$s\">Accessibility Point of Contact</a>."
+
+msgid "no_checkbox"
+msgstr "الرجاء اختيار عنصر واحد على الاقل"
+
+msgid "no_condition_selected"
+msgstr "الرجاء اختيار شرط مسبق واحد"
+
+msgid "no_date"
+msgstr "لا يوجد تاريخ"
+
+#, fuzzy
+msgid "no_gallery_users_available"
+msgstr "There are currently no users in the gallery."
+
+msgid "no_global_role_left"
+msgstr "يجب على كل مستخدم ان يكون متعين لوظيفة"
+
+msgid "no_import_file_found"
+msgstr "No import file found"
+
+msgid "no_items"
+msgstr "لا يوجد اية عناصر"
+
+msgid "no_limit"
+msgstr "غير محدد"
+
+msgid "no_mkisofs_configured"
+msgstr "You have to configure mkisofs utility in ILIAS setup to run ISO export"
+
+msgid "no_parent_access"
+msgstr "لا يمكن الوصول الى عنصر تابع"
+
+msgid "no_permission"
+msgstr "انت لا تملك الصلاحية اللازمة"
+
+msgid "no_roles_user_can_be_assigned_to"
+msgstr "لا يوجد وظائف عامة يمكن ان يقوم بها المستخدم. وبالتالي فأنت غير مصرح بإضافة مستخدمين."
+
+msgid "no_start_file"
+msgstr "لا يوجد ملف بداية"
+
+msgid "no_title"
+msgstr "لا يوجد عنوان"
+
+msgid "no_users_selected"
+msgstr "الرجاء اختيار مستخدم واحد"
+
+msgid "no_xml_file_found_in_zip"
+msgstr "XML file within zip file not found:"
+
+#, fuzzy
+msgid "noc"
+msgstr "Notification Center"
+
+msgid "non_internal_local_roles_only"
+msgstr "Local roles (only userdefined)"
+
+msgid "none"
+msgstr "لا شيء"
+
+msgid "normal"
+msgstr "طبيعي"
+
+msgid "not_available"
+msgstr "غير موجودة"
+
+msgid "not_implemented_yet"
+msgstr "لم يتم تنفيذها بعد"
+
+msgid "not_installed"
+msgstr "غير مدرجة"
+
+msgid "not_logged_in"
+msgstr "لم يم تسجيل دخولك"
+
+msgid "note"
+msgstr "ملاحظة"
+
+msgid "notes"
+msgstr "ملاحظات"
+
+msgid "notes_and_comments"
+msgstr "ملاحظات و تعليقات"
+
+msgid "notice"
+msgstr "Notice"
+
+msgid "notifications"
+msgstr "اشعارات"
+
+msgid "nr_following_sessions"
+msgstr "%1d الجلسة التالية..."
+
+#, fuzzy
+msgid "num_of_selected_files"
+msgstr "%s file(s) selected"
+
+msgid "num_users"
+msgstr "عدد المستخدمين"
+
+#, fuzzy
+msgid "numberedlist_action"
+msgstr "Insert Numbered List - Click to insert a numbered list."
+
+msgid "obj"
+msgstr "عنصر"
+
+msgid "obj_accs"
+msgstr "امكانية الوصول"
+
+msgid "obj_accs_desc"
+msgstr "اعدادات خصائص الوصول"
+
+msgid "obj_adm"
+msgstr "ادارة"
+
+msgid "obj_adm_desc"
+msgstr "إعداداد النظام الرئيسية لإدارة النظام التعليمي"
+
+#, fuzzy
+msgid "obj_adma"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "obj_adma_desc"
+msgstr "Important settings for the whole installation"
+
+#, fuzzy
+msgid "obj_adn"
+msgstr "Administrative Notifications"
+
+msgid "obj_adve"
+msgstr "تعديل متقدم"
+
+msgid "obj_adve_desc"
+msgstr "Administration settings for advanced editing like JavaScript based Rich Text Editors, LaTeX support etc.."
+
+msgid "obj_ass"
+msgstr "Asset"
+
+msgid "obj_assf"
+msgstr "الاختبار والتقييم"
+
+msgid "obj_assf_desc"
+msgstr "اعدادات البرنامج للاختبار والتقييم"
+
+msgid "obj_auth"
+msgstr "المصادقة والتسجيل"
+
+msgid "obj_auth_desc"
+msgstr "(محلي, LDAP, ...) قم بتأكيد طريقة المصادقة الخاص بك واعدادات تسجيل حساب جديد هنا"
+
+#, fuzzy
+msgid "obj_awra"
+msgstr "‘Who is online?’-Tool"
+
+#, fuzzy
+msgid "obj_awra_desc"
+msgstr "Manage ‘Who is online?’-Tool"
+
+#, fuzzy
+msgid "obj_bdga"
+msgstr "Badges"
+
+#, fuzzy
+msgid "obj_bdga_desc"
+msgstr "Administrate types, image templates and activity badges"
+
+#, fuzzy
+msgid "obj_bgtk"
+msgstr "Background Task"
+
+#, fuzzy
+msgid "obj_bibl"
+msgstr "Bibliography"
+
+#, fuzzy
+msgid "obj_bibs"
+msgstr "Bibliography"
+
+#, fuzzy
+msgid "obj_bibs_desc"
+msgstr "Bibliography Administration"
+
+msgid "obj_blog"
+msgstr "Blog"
+
+msgid "obj_blog_duplicate"
+msgstr "Copy Blog"
+
+#, fuzzy
+msgid "obj_bnmk"
+msgstr "Benchmarking"
+
+#, fuzzy
+msgid "obj_bnmk_desc"
+msgstr "Recording and display of database query durations"
+
+msgid "obj_book"
+msgstr "مجموعة الحجز"
+
+#, fuzzy
+msgid "obj_cadm"
+msgstr "Contacts"
+
+#, fuzzy
+msgid "obj_cadm_desc"
+msgstr "Contacts Administration"
+
+msgid "obj_cals"
+msgstr "التقويم"
+
+msgid "obj_cals_desc"
+msgstr "اعدادات التقويم العامة"
+
+msgid "obj_cat"
+msgstr "فئة"
+
+msgid "obj_cat_duplicate"
+msgstr "نسخ فئة"
+
+msgid "obj_catr"
+msgstr "مرجع الفئة"
+
+msgid "obj_cert"
+msgstr "شهادات"
+
+msgid "obj_cert_desc"
+msgstr "اعدادات الشهادات"
+
+msgid "obj_chap"
+msgstr "فصل"
+
+msgid "obj_chta"
+msgstr "Chatrooms"
+
+msgid "obj_chtr"
+msgstr "Chatroom"
+
+#, fuzzy
+msgid "obj_chtr_duplicate"
+msgstr "Copy Chat Room"
+
+#, fuzzy
+msgid "obj_cmis"
+msgstr "xAPI/cmi5"
+
+#, fuzzy
+msgid "obj_cmis_desc"
+msgstr "Learning Record Store Types Configuration"
+
+#, fuzzy
+msgid "obj_cmix"
+msgstr "xAPI/cmi5"
+
+msgid "obj_cmps"
+msgstr "الوحدات والخدمات والاضافات"
+
+msgid "obj_cmps_desc"
+msgstr "الاعدادات العامة لوحدات وخدمات واضافات المكتبة"
+
+#, fuzzy
+msgid "obj_coms"
+msgstr "Comments"
+
+#, fuzzy
+msgid "obj_coms_desc"
+msgstr "Comments settings"
+
+#, fuzzy
+msgid "obj_copa"
+msgstr "Content Page"
+
+#, fuzzy
+msgid "obj_cpad"
+msgstr "Content Pages"
+
+#, fuzzy
+msgid "obj_cpad#_desc"
+msgstr "Content Page Administration"
+
+#, fuzzy
+msgid "obj_cpad_desc"
+msgstr "Content Page Administration"
+
+#, fuzzy
+msgid "obj_cron"
+msgstr "Cron Jobs"
+
+#, fuzzy
+msgid "obj_cron_desc"
+msgstr "List of all Cron Jobs"
+
+msgid "obj_crs"
+msgstr "دورة"
+
+msgid "obj_crs_duplicate"
+msgstr "نسخ دورة"
+
+msgid "obj_crsr"
+msgstr "مرجع الدورة"
+
+#, fuzzy
+msgid "obj_crss"
+msgstr "Course"
+
+#, fuzzy
+msgid "obj_crss_desc"
+msgstr "General settings for Courses"
+
+#, fuzzy
+msgid "obj_crsv"
+msgstr "Course Certificate"
+
+msgid "obj_dbk"
+msgstr "Digilib حجز"
+
+msgid "obj_dcl"
+msgstr "Data Collection"
+
+msgid "obj_dcl_duplicate"
+msgstr "Copy Data Collection"
+
+#, fuzzy
+msgid "obj_dpro"
+msgstr "Declaration of Data Protection"
+
+#, fuzzy
+msgid "obj_dpro_desc"
+msgstr "Declaration of Data Protection Settings"
+
+#, fuzzy
+msgid "obj_dshs"
+msgstr "Dashboard"
+
+#, fuzzy
+msgid "obj_dshs_desc"
+msgstr "Dashboard settings"
+
+msgid "obj_ecss"
+msgstr "ECS"
+
+msgid "obj_ecss_desc"
+msgstr "General ECS Settings"
+
+msgid "obj_etal"
+msgstr "Employee Talk"
+
+msgid "obj_exc"
+msgstr "تدريب"
+
+#, fuzzy
+msgid "obj_exc_duplicate"
+msgstr "Copy Exercise"
+
+msgid "obj_excv"
+msgstr "Exercise Certificate"
+
+msgid "obj_facs"
+msgstr "الملفات والمجلدات"
+
+msgid "obj_facs_desc"
+msgstr "Configure access to file and folder objects."
+
+msgid "obj_file"
+msgstr "ملف"
+
+#, fuzzy
+msgid "obj_file_duplicate"
+msgstr "Duplicate File"
+
+msgid "obj_file_inline"
+msgstr "ملف الوحدات التعليمية"
+
+#, fuzzy
+msgid "obj_fils"
+msgstr "File Services"
+
+#, fuzzy
+msgid "obj_fils_desc"
+msgstr "Configuration of File Service Settings."
+
+msgid "obj_fold"
+msgstr "مجلد"
+
+#, fuzzy
+msgid "obj_fold_duplicate"
+msgstr "Copy Folder"
+
+msgid "obj_frm"
+msgstr "منتدى"
+
+msgid "obj_frm_duplicate"
+msgstr "نسخ منتدى"
+
+#, fuzzy
+msgid "obj_frma"
+msgstr "Forum"
+
+#, fuzzy
+msgid "obj_frma_desc"
+msgstr "Global Forum Settings"
+
+msgid "obj_glo"
+msgstr "قائمة مصطلحات"
+
+msgid "obj_glo_duplicate"
+msgstr "Copy Glossary"
+
+msgid "obj_grp"
+msgstr "مجموعة"
+
+msgid "obj_grp_duplicate"
+msgstr "نسخ مجموعة"
+
+#, fuzzy
+msgid "obj_grpr"
+msgstr "Group Reference"
+
+#, fuzzy
+msgid "obj_grps"
+msgstr "Group"
+
+#, fuzzy
+msgid "obj_grps_desc"
+msgstr "General settings for Groups"
+
+#, fuzzy
+msgid "obj_gsfo"
+msgstr "Footer"
+
+#, fuzzy
+msgid "obj_gsfo_desc"
+msgstr "Administrate Footer Layout and Content"
+
+msgid "obj_hlps"
+msgstr "Help System"
+
+msgid "obj_hlps_desc"
+msgstr "Settings for the online help"
+
+msgid "obj_htlm"
+msgstr "Learning Module HTML"
+
+msgid "obj_htlm_duplicate"
+msgstr "Copy HTML Learning Module"
+
+#, fuzzy
+msgid "obj_iass"
+msgstr "Individual Assessment"
+
+#, fuzzy
+msgid "obj_iass_duplicate"
+msgstr "Copy Individual Assessment"
+
+#, fuzzy
+msgid "obj_iass_select"
+msgstr "-- Please select one individual assessment --"
+
+msgid "obj_itgr"
+msgstr "Item Group"
+
+msgid "obj_ldap_desc"
+msgstr "Configure global LDAP Settings here."
+
+#, fuzzy
+msgid "obj_lhts"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "obj_lhts_desc"
+msgstr "Learning history settings"
+
+msgid "obj_lm"
+msgstr "وحدة تعليمية - ILIAS"
+
+msgid "obj_lm_duplicate"
+msgstr "Copy Learning Module"
+
+msgid "obj_lng"
+msgstr "اللغة"
+
+msgid "obj_lngf"
+msgstr "اللغات"
+
+msgid "obj_lngf_desc"
+msgstr "ادارة لغات النظام هنا"
+
+#, fuzzy
+msgid "obj_logs"
+msgstr "Logging"
+
+#, fuzzy
+msgid "obj_logs_desc"
+msgstr "General Logging Settings"
+
+msgid "obj_lrss"
+msgstr "المصادر التعليمية"
+
+msgid "obj_lrss_desc"
+msgstr "Configure all types of learning modules."
+
+#, fuzzy
+msgid "obj_lso"
+msgstr "Learning Sequence"
+
+#, fuzzy
+msgid "obj_lso_duplicate"
+msgstr "Copy Learning Sequence"
+
+#, fuzzy
+msgid "obj_lsos"
+msgstr "Learning Sequences"
+
+#, fuzzy
+msgid "obj_lsos_desc"
+msgstr "General settings for Learning Sequences"
+
+#, fuzzy
+msgid "obj_lti"
+msgstr "LTI Consumer"
+
+#, fuzzy
+msgid "obj_ltis"
+msgstr "LTI"
+
+#, fuzzy
+msgid "obj_ltis_desc"
+msgstr "Learning Tools Interoperability"
+
+msgid "obj_mail"
+msgstr "البريد"
+
+msgid "obj_mail_desc"
+msgstr "تمكين اعدادات البريد الالكتروني العام من هنا"
+
+#, fuzzy
+msgid "obj_mailr"
+msgstr "Read Mail"
+
+#, fuzzy
+msgid "obj_mailu"
+msgstr "Unread Mail"
+
+#, fuzzy
+msgid "obj_maps"
+msgstr "Maps"
+
+msgid "obj_mcst"
+msgstr "بث الوسائط"
+
+msgid "obj_mcst_duplicate"
+msgstr "Copy Mediacast"
+
+msgid "obj_mcts"
+msgstr "بث الوسائط"
+
+msgid "obj_mcts_desc"
+msgstr "الاعدادات العامة لبث الوسائط"
+
+msgid "obj_mep"
+msgstr "مجموعة وسائط"
+
+msgid "obj_mep_duplicate"
+msgstr "Copy Media Pool"
+
+#, fuzzy
+msgid "obj_mme"
+msgstr "Main Menu"
+
+msgid "obj_mob"
+msgstr "عنصر وسائط"
+
+msgid "obj_mobs"
+msgstr "عناصر\\مجموعات الوسائط"
+
+msgid "obj_mobs_desc"
+msgstr "اعدادات عناصر و مجموعات الوسائط"
+
+msgid "obj_not_found"
+msgstr "لم يتم ايجاد العنصر"
+
+#, fuzzy
+msgid "obj_nota"
+msgstr "Notifications"
+
+#, fuzzy
+msgid "obj_nota_desc"
+msgstr "Notification Administration"
+
+#, fuzzy
+msgid "obj_nots"
+msgstr "Notes"
+
+#, fuzzy
+msgid "obj_nots_desc"
+msgstr "Notes settings"
+
+msgid "obj_nwss"
+msgstr "الاخبار ونشرات المواقع"
+
+msgid "obj_nwss_desc"
+msgstr "اعدادات الاخبار الداخلية ونشرات المواقع الخارجية"
+
+msgid "obj_objf"
+msgstr "تعريفات العنصر"
+
+#, fuzzy
+msgid "obj_orgu"
+msgstr "Organisational Unit"
+
+#, fuzzy
+msgid "obj_orgu_description"
+msgstr "Creating and editing organisational structure"
+
+msgid "obj_page"
+msgstr "Page"
+
+#, fuzzy
+msgid "obj_peac"
+msgstr "Accordion"
+
+#, fuzzy
+msgid "obj_peadl"
+msgstr "Advanced List"
+
+#, fuzzy
+msgid "obj_peadt"
+msgstr "Advanced Table"
+
+#, fuzzy
+msgid "obj_pecd"
+msgstr "Code"
+
+#, fuzzy
+msgid "obj_pech"
+msgstr "Consultation Hour"
+
+#, fuzzy
+msgid "obj_pecl"
+msgstr "Column Layout"
+
+#, fuzzy
+msgid "obj_peclp"
+msgstr "Clipboard"
+
+#, fuzzy
+msgid "obj_pecom"
+msgstr "Competences"
+
+#, fuzzy
+msgid "obj_pecrs"
+msgstr "Course"
+
+#, fuzzy
+msgid "obj_pecrt"
+msgstr "Certificate"
+
+#, fuzzy
+msgid "obj_pecs"
+msgstr "Content Snippet"
+
+#, fuzzy
+msgid "obj_pedt"
+msgstr "Data Table"
+
+#, fuzzy
+msgid "obj_pefl"
+msgstr "File List"
+
+#, fuzzy
+msgid "obj_peim"
+msgstr "interactive Media"
+
+#, fuzzy
+msgid "obj_pelh"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "obj_pemed"
+msgstr "Image/Audio/Video"
+
+#, fuzzy
+msgid "obj_pemp"
+msgstr "Map"
+
+#, fuzzy
+msgid "obj_pepd"
+msgstr "Personal Data"
+
+#, fuzzy
+msgid "obj_pepe"
+msgstr "Plugin Element"
+
+#, fuzzy
+msgid "obj_pepl"
+msgstr "Page List"
+
+#, fuzzy
+msgid "obj_peplh"
+msgstr "Placeholder"
+
+#, fuzzy
+msgid "obj_pequ"
+msgstr "Questions"
+
+#, fuzzy
+msgid "obj_perl"
+msgstr "Ressource List"
+
+#, fuzzy
+msgid "obj_pesc"
+msgstr "Section"
+
+#, fuzzy
+msgid "obj_petmp"
+msgstr "Page Template"
+
+#, fuzzy
+msgid "obj_peusr"
+msgstr "User"
+
+msgid "obj_pg"
+msgstr "صفحة"
+
+msgid "obj_poll"
+msgstr "Poll"
+
+msgid "obj_poll_dupliate:"
+msgstr "Copy Poll"
+
+msgid "obj_poll_duplicate"
+msgstr "Copy Poll"
+
+#, fuzzy
+msgid "obj_prg"
+msgstr "Study Programme"
+
+#, fuzzy
+msgid "obj_prg_duplicate"
+msgstr "Copy Study Programme"
+
+#, fuzzy
+msgid "obj_prg_select"
+msgstr "-- Please select one Study Programme --"
+
+#, fuzzy
+msgid "obj_prgr"
+msgstr "Link to Study Programme"
+
+#, fuzzy
+msgid "obj_prgrs"
+msgstr "Links to Study Programmes"
+
+#, fuzzy
+msgid "obj_prgs"
+msgstr "Study Programmes"
+
+#, fuzzy
+msgid "obj_prgs_desc"
+msgstr "Study Programme Administration"
+
+#, fuzzy
+msgid "obj_prss"
+msgstr "Personal Resources"
+
+#, fuzzy
+msgid "obj_prss_desc"
+msgstr "Personal resources settings"
+
+msgid "obj_prtf"
+msgstr "محفظة"
+
+#, fuzzy
+msgid "obj_prtt"
+msgstr "Portfolio Template"
+
+#, fuzzy
+msgid "obj_prtt_duplicate"
+msgstr "Copy Portfolio Template"
+
+msgid "obj_ps"
+msgstr "الخصوصية والحماية"
+
+msgid "obj_ps_desc"
+msgstr "تكوين اعدادات الخصوصية والحماية من هنا"
+
+msgid "obj_qpl"
+msgstr "اختبار مجموعة اسئلة"
+
+msgid "obj_qpl_duplicate"
+msgstr "نسخ اختبار مجموعة اسئلة"
+
+msgid "obj_qpl_select"
+msgstr "-- الرجاء اختيار اختبار مجموعة اسئلة --"
+
+msgid "obj_rcat"
+msgstr "ECS Category"
+
+msgid "obj_rcrs"
+msgstr "Course-Link"
+
+msgid "obj_recf"
+msgstr "العناصر المستعادة"
+
+msgid "obj_recf_desc"
+msgstr "Contains restored Objects from System Check."
+
+#, fuzzy
+msgid "obj_rep"
+msgstr "Repository"
+
+#, fuzzy
+msgid "obj_reps"
+msgstr "Repository"
+
+#, fuzzy
+msgid "obj_reps_desc"
+msgstr "General settings for the Repository"
+
+msgid "obj_rfil"
+msgstr "ECS File"
+
+msgid "obj_rglo"
+msgstr "ECS Glossary"
+
+msgid "obj_rgrp"
+msgstr "ECS Group"
+
+msgid "obj_rlm"
+msgstr "ECS Learning Module"
+
+msgid "obj_role"
+msgstr "وظيفة"
+
+msgid "obj_rolf"
+msgstr "وظائف"
+
+msgid "obj_rolf_desc"
+msgstr "Manage your roles here."
+
+msgid "obj_rolf_local"
+msgstr "الوظائف العامة"
+
+msgid "obj_rolf_local_desc"
+msgstr "تشمل الوظائف العامة لرقم العنصر"
+
+msgid "obj_rolt"
+msgstr "نموذج وظيفة"
+
+msgid "obj_root"
+msgstr "ILIAS root node"
+
+msgid "obj_rtst"
+msgstr "ECS Test"
+
+msgid "obj_rwik"
+msgstr "ECS Wiki"
+
+msgid "obj_sahs"
+msgstr "وحدة تعليمية"
+
+msgid "obj_sahs_duplicate"
+msgstr "Copy Learning Module"
+
+msgid "obj_sco"
+msgstr "SCO"
+
+#, fuzzy
+msgid "obj_scov"
+msgstr "SCORM Certificate"
+
+msgid "obj_seas"
+msgstr "بحث"
+
+msgid "obj_seas_desc"
+msgstr "ادارة اعدادات البحث من هنا"
+
+#, fuzzy
+msgid "obj_serv"
+msgstr "Server"
+
+#, fuzzy
+msgid "obj_serv_desc"
+msgstr "Settings of the sever"
+
+msgid "obj_sess"
+msgstr "جلسة"
+
+msgid "obj_sess_duplicate"
+msgstr "نسخ جلسة"
+
+msgid "obj_skmg"
+msgstr "Skill Management"
+
+msgid "obj_skmg_desc"
+msgstr "Manage skills and skill categories."
+
+msgid "obj_spl"
+msgstr "مسح مجموعة اسئلة"
+
+msgid "obj_st"
+msgstr "فصل"
+
+#, fuzzy
+msgid "obj_stus"
+msgstr "Shortlinks"
+
+#, fuzzy
+msgid "obj_stus_desc"
+msgstr "Global Shortlinks Settings"
+
+msgid "obj_sty"
+msgstr "اسلوب"
+
+msgid "obj_stys"
+msgstr "الاسلوب والتصميم"
+
+msgid "obj_stys_desc"
+msgstr "ادارة اعدادات الشكل والتصميم هنا"
+
+msgid "obj_svy"
+msgstr "مسح"
+
+msgid "obj_svy_duplicate"
+msgstr "نسخ مسح"
+
+msgid "obj_svyf"
+msgstr "مسح"
+
+msgid "obj_svyf_desc"
+msgstr "اعدادات البرنامج لأداة المسح"
+
+#, fuzzy
+msgid "obj_sysc"
+msgstr "System Check"
+
+#, fuzzy
+msgid "obj_sysc_desc"
+msgstr "System Check and Repair Tools"
+
+msgid "obj_tags"
+msgstr "علامات"
+
+msgid "obj_tags_desc"
+msgstr "ميزة اعدادات العلامات"
+
+msgid "obj_tala"
+msgstr "Talk Templates"
+
+msgid "obj_tala_desc"
+msgstr "Talk Templates"
+
+msgid "obj_tals"
+msgstr "Employee Talk Series"
+
+msgid "obj_talt"
+msgstr "Talk Template"
+
+#, fuzzy
+msgid "obj_task"
+msgstr "Task"
+
+msgid "obj_tax"
+msgstr "تصنيف"
+
+msgid "obj_taxf"
+msgstr "تصنيفات"
+
+msgid "obj_tool_setting_calendar"
+msgstr "Show Calendar"
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_active"
+msgstr "Calendar"
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_active_info"
+msgstr "A calendar is available."
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_info"
+msgstr "The \"Calendar\" block will be displayed inside the \"Content\" tab."
+
+#, fuzzy
+msgid "obj_tool_setting_custom_metadata"
+msgstr "Custom Metadata"
+
+#, fuzzy
+msgid "obj_tool_setting_custom_metadata_info"
+msgstr "If activated metadata can be configured."
+
+msgid "obj_tool_setting_news"
+msgstr "Show News"
+
+#, fuzzy
+msgid "obj_tool_setting_news_info"
+msgstr "The \"News\" block will be displayed inside the \"Content\" tab."
+
+#, fuzzy
+msgid "obj_tos"
+msgstr "Terms of Service"
+
+#, fuzzy
+msgid "obj_tos_desc"
+msgstr "Terms of Service Settings"
+
+msgid "obj_trac"
+msgstr "المتابعة والتقدم التعليمي"
+
+msgid "obj_trac_desc"
+msgstr "بيانات متابعة وصول المستخدم"
+
+msgid "obj_tst"
+msgstr "اختبار"
+
+msgid "obj_tst_duplicate"
+msgstr "نسخ اختبار"
+
+msgid "obj_tstv"
+msgstr "Test Certificate"
+
+msgid "obj_type"
+msgstr "نوع العنصر"
+
+msgid "obj_user"
+msgstr "مستخدم"
+
+msgid "obj_usr"
+msgstr "المستخدم"
+
+msgid "obj_usrf"
+msgstr "حسابات المستخدمين"
+
+msgid "obj_usrf_desc"
+msgstr "اداراة حسابات المستخدمين من هنا"
+
+#, fuzzy
+msgid "obj_wbdv"
+msgstr "WebDAV"
+
+#, fuzzy
+msgid "obj_wbdv_desc"
+msgstr "Configuration of WebDAV Settings."
+
+#, fuzzy
+msgid "obj_wbrs"
+msgstr "Weblink"
+
+#, fuzzy
+msgid "obj_wbrs_desc"
+msgstr "General settings for Web Links"
+
+msgid "obj_webr"
+msgstr "رابط"
+
+msgid "obj_webr_duplicate"
+msgstr "نسخ قائمة روابط"
+
+msgid "obj_wfld"
+msgstr "Folder"
+
+msgid "obj_wiki"
+msgstr "ويكي"
+
+msgid "obj_wiki_duplicate"
+msgstr "Copy Wiki"
+
+#, fuzzy
+msgid "obj_wiks"
+msgstr "Wiki"
+
+#, fuzzy
+msgid "obj_wiks_desc"
+msgstr "Global Wiki Settings"
+
+msgid "object"
+msgstr "عنصر"
+
+msgid "object_added"
+msgstr "عنصر مضاف"
+
+msgid "object_copy_in_progress"
+msgstr "بدأ النسخ"
+
+msgid "object_duplicated"
+msgstr "تم نسخ عنصر"
+
+msgid "object_id"
+msgstr "هوية العنصر"
+
+msgid "object_imported"
+msgstr "تم استيراد العنصر"
+
+#, fuzzy
+msgid "object_list"
+msgstr "List of Objects"
+
+msgid "objects"
+msgstr "عناصر"
+
+msgid "objf"
+msgstr "تعريفات العنصر"
+
+#, fuzzy
+msgid "objs_bibl"
+msgstr "Bibliographies"
+
+msgid "objs_blog"
+msgstr "Blogs"
+
+msgid "objs_book"
+msgstr "ادوات الحجز"
+
+msgid "objs_cat"
+msgstr "فئات"
+
+msgid "objs_catr"
+msgstr "Category References"
+
+msgid "objs_chtr"
+msgstr "Chats"
+
+#, fuzzy
+msgid "objs_cmix"
+msgstr "Objects xAPI/cmi5"
+
+#, fuzzy
+msgid "objs_copa"
+msgstr "Content Pages"
+
+msgid "objs_crs"
+msgstr "دورات"
+
+msgid "objs_crsr"
+msgstr "Course References"
+
+msgid "objs_dcl"
+msgstr "Data Collections"
+
+msgid "objs_etal"
+msgstr "Employee Talks"
+
+msgid "objs_exc"
+msgstr "تدريبات"
+
+msgid "objs_file"
+msgstr "ملفات"
+
+msgid "objs_fold"
+msgstr "مجلدات"
+
+msgid "objs_frm"
+msgstr "منتديات"
+
+msgid "objs_glo"
+msgstr "مصطلحات"
+
+msgid "objs_grp"
+msgstr "مجموعات"
+
+#, fuzzy
+msgid "objs_grpr"
+msgstr "Group References"
+
+msgid "objs_htlm"
+msgstr "HTML الوحدة التعليمية"
+
+#, fuzzy
+msgid "objs_iass"
+msgstr "Individual Assessments"
+
+msgid "objs_itgr"
+msgstr "Item Groups"
+
+msgid "objs_lm"
+msgstr "ILIAS الوحدات التعليمية"
+
+msgid "objs_lres"
+msgstr "مصادر تعليمية"
+
+#, fuzzy
+msgid "objs_lso"
+msgstr "Learning Sequences"
+
+#, fuzzy
+msgid "objs_lti"
+msgstr "LTI Consumers"
+
+msgid "objs_mail"
+msgstr "البريد"
+
+msgid "objs_mcst"
+msgstr "بث الوسائط"
+
+msgid "objs_mep"
+msgstr "مجموعة الوسائط"
+
+#, fuzzy
+msgid "objs_orgu"
+msgstr "Organisational Unit"
+
+msgid "objs_poll"
+msgstr "Polls"
+
+#, fuzzy
+msgid "objs_prg"
+msgstr "Study Programmes"
+
+#, fuzzy
+msgid "objs_prgr"
+msgstr "Links to Study Programmes"
+
+#, fuzzy
+msgid "objs_prtf"
+msgstr "Portfolios"
+
+#, fuzzy
+msgid "objs_prtt"
+msgstr "Portfolio Templates"
+
+msgid "objs_qpl"
+msgstr "اختبار مجموعة الاسئلة"
+
+msgid "objs_qst"
+msgstr "اسئلة"
+
+msgid "objs_rcat"
+msgstr "ECS Categories"
+
+msgid "objs_rcrs"
+msgstr "Course-Links"
+
+msgid "objs_rfil"
+msgstr "ECS Files"
+
+msgid "objs_rglo"
+msgstr "ECS Glossaries"
+
+msgid "objs_rgrp"
+msgstr "ECS Groups"
+
+msgid "objs_rlm"
+msgstr "ECS Learning Modules"
+
+msgid "objs_role"
+msgstr "وظائف"
+
+#, fuzzy
+msgid "objs_rolf"
+msgstr "Role Folders"
+
+msgid "objs_rtst"
+msgstr "ECS Tests"
+
+msgid "objs_rwik"
+msgstr "ECS Wikis"
+
+msgid "objs_sahs"
+msgstr "الوحدات التعليمية"
+
+msgid "objs_sess"
+msgstr "جلسات"
+
+#, fuzzy
+msgid "objs_skee"
+msgstr "Competence Trees"
+
+msgid "objs_spl"
+msgstr "مسح مجموعة الاسئلة"
+
+msgid "objs_st"
+msgstr "Chapters"
+
+msgid "objs_svy"
+msgstr "مسوحات"
+
+msgid "objs_tala"
+msgstr "Talk Templates"
+
+msgid "objs_talt"
+msgstr "Talk Templates"
+
+msgid "objs_tst"
+msgstr "اختبارات"
+
+msgid "objs_webr"
+msgstr "وصلات الويب"
+
+msgid "objs_wiki"
+msgstr "Wikis"
+
+msgid "of"
+msgstr "ل"
+
+msgid "offline"
+msgstr "الظهور دون اتصال"
+
+#, fuzzy
+msgid "offline_mode"
+msgstr "Offline-Mode"
+
+msgid "ok"
+msgstr "موافق"
+
+msgid "old"
+msgstr "قديم"
+
+msgid "omit"
+msgstr "استبعاد"
+
+msgid "omit_all"
+msgstr "استبعاد الجميع"
+
+msgid "on_waiting_list"
+msgstr "انت على لائحة الانتظار"
+
+msgid "online"
+msgstr "متواجد"
+
+msgid "online_time"
+msgstr " (DD:HH:MM:SS) وقت التواجد"
+
+#, fuzzy
+msgid "only_active"
+msgstr "Only Active"
+
+#, fuzzy
+msgid "only_inactive"
+msgstr "Only Inactive"
+
+#, fuzzy
+msgid "open"
+msgstr "Open"
+
+msgid "operation"
+msgstr "عملية"
+
+msgid "optimize"
+msgstr "Optimize"
+
+msgid "option"
+msgstr "Option"
+
+msgid "optional_filter_hint"
+msgstr "الرجاء تفعيل واحدة من التصفيات الاختيارية"
+
+msgid "optional_filters"
+msgstr "خيارات التصفية"
+
+msgid "options"
+msgstr "خيارات"
+
+msgid "order_by"
+msgstr "ترتيب حسب"
+
+msgid "order_by_date"
+msgstr "Order by Date"
+
+#, fuzzy
+msgid "org_op_access_enrolments"
+msgstr "View Enrolment-Status"
+
+#, fuzzy
+msgid "org_op_manage_members"
+msgstr "Manage Subordinate Members"
+
+#, fuzzy
+msgid "org_op_read_learning_progress"
+msgstr "View Learning Progress of Subordinate Users"
+
+#, fuzzy
+msgid "org_permission_settings"
+msgstr "Permissions of Positions in Organisational Units"
+
+#, fuzzy
+msgid "org_units"
+msgstr "Organisational Units"
+
+msgid "organization"
+msgstr "مزود"
+
+msgid "other"
+msgstr "اخر"
+
+msgid "overview"
+msgstr "لمحة عامة"
+
+msgid "overwrite"
+msgstr "Overwrite"
+
+msgid "owner"
+msgstr "المالك"
+
+msgid "owner_updated"
+msgstr "Owner updated."
+
+msgid "page"
+msgstr "صفحة"
+
+#, fuzzy
+msgid "page_count"
+msgstr "Page Count"
+
+msgid "page_layout"
+msgstr "اطار الصفحة"
+
+msgid "page_layouts"
+msgstr "حدود الصفحة"
+
+#, fuzzy
+msgid "pagination_label_x_of_y"
+msgstr "Page %1$d of %2$d"
+
+msgid "parameter"
+msgstr "مدخل"
+
+msgid "parse"
+msgstr "تحليل"
+
+#, fuzzy
+msgid "participate"
+msgstr "Subscribe"
+
+msgid "passed"
+msgstr "تم المرور"
+
+msgid "passwd"
+msgstr "كلمة المرور"
+
+msgid "passwd_generation"
+msgstr "انشاء كلمة المرور"
+
+msgid "passwd_invalid"
+msgstr "The new password is invalid! Only the following characters are allowed (minimum 6 characters): A-Z a-z 0-9 _.-+?#*@!$%~"
+
+msgid "passwd_not_match"
+msgstr "مدخلات كلمة المرور التي ادخلتها لا تصلح الرجاء اعادة ادخال كلمة مرور جديدة"
+
+msgid "passwd_wrong"
+msgstr "كلمة المرور التي قمت بادخالها خاطئة"
+
+msgid "password"
+msgstr "كلمة المرور"
+
+msgid "password_allow_chars"
+msgstr "الحروف المسموح باستخدامها: %s"
+
+msgid "password_assistance_info"
+msgstr "اذا تم تفعيل كلمة المرور المساعدة، سيتم عرض وصلة بالنص \"هل نسيت كلمة المرور؟\" على صفحة الدخول الرئيسية. يستطيع المستخدمون من خلال هذه الوصلة تعيين كلمة مرور جديدة لحساباتهم دون الحاجة الى طلب المساعدة من مدير النظام"
+
+msgid "password_change_on_first_login_demand"
+msgstr "ILIAS عليك تغيير كلمة المرور الابتدائية قبل البدأ باستخدام خدمات"
+
+msgid "password_contains_invalid_chars"
+msgstr "The password contains invalid characters"
+
+#, fuzzy
+msgid "password_contains_parts_of_login_err"
+msgstr "The chosen password contains your username. Please insert a new password."
+
+msgid "password_empty"
+msgstr "لا يجب ان تكون كلمة المرور فارغة"
+
+msgid "password_expired"
+msgstr "يوما %s انتهت صلاحية كلمة المرور الخاصة بك وعليك تغييرها لان اخر تغيير كان قبل"
+
+msgid "password_multiple_errors"
+msgstr "Multiple criterias are not satisfied:"
+
+msgid "password_must_chars_and_numbers"
+msgstr "The password must contain characters and numbers."
+
+#, fuzzy
+msgid "password_must_contain_lcase_chars"
+msgstr "The password must contain at least %s lower case letters."
+
+#, fuzzy
+msgid "password_must_contain_ucase_chars"
+msgstr "The password must contain at least %s capital letters."
+
+msgid "password_must_special_chars"
+msgstr "يجب ان تحتوي كلمة المرور على رموز خاصة"
+
+msgid "password_to_long"
+msgstr "رمز على الاكثر %s يجب ان يكون حجم كلمة المرور"
+
+msgid "password_to_short"
+msgstr "رمز على الاقل %s يجب ان يكون حجم كلمة المرور"
+
+msgid "paste"
+msgstr "لصق"
+
+msgid "pasteChapter"
+msgstr "لصق"
+
+msgid "pastePage"
+msgstr "لصق"
+
+msgid "paste_clipboard_items"
+msgstr "لصق"
+
+msgid "path"
+msgstr "المسار"
+
+msgid "path_not_set"
+msgstr "لم يتم تحديد المسار"
+
+msgid "path_to_convert"
+msgstr " Convert مسار"
+
+msgid "path_to_htmldoc"
+msgstr "HTMLdoc مسار"
+
+msgid "path_to_java"
+msgstr "Java مسار"
+
+msgid "path_to_unzip"
+msgstr "Unzip مسار"
+
+msgid "path_to_zip"
+msgstr "Zip مسار"
+
+msgid "pathes"
+msgstr "مسارات"
+
+msgid "pd_items_news"
+msgstr "Include News of Personal Items"
+
+msgid "pdf_export"
+msgstr "PDF تصدير"
+
+msgid "perm_settings"
+msgstr "صلاحيات"
+
+msgid "perma_link"
+msgstr "وصلة دائمة"
+
+#, fuzzy
+msgid "perma_link_copied"
+msgstr "Link to this page has been copied to the clipboard."
+
+msgid "permission"
+msgstr "صلاحية"
+
+msgid "permission_denied"
+msgstr "تم رفض الصلاحية"
+
+msgid "permission_settings"
+msgstr "اعدادات صلاحية العنصر"
+
+msgid "person_title"
+msgstr "العنوان"
+
+msgid "personal_data"
+msgstr "معلومات شخصية"
+
+msgid "personal_picture"
+msgstr "الصورة الشخصية"
+
+msgid "personal_profile"
+msgstr "الملف الشخصي"
+
+#, fuzzy
+msgid "personal_resources"
+msgstr "Personal Resources"
+
+msgid "personal_settings"
+msgstr "إعدادات شخصية"
+
+#, fuzzy
+msgid "personalise_date_time"
+msgstr "Personalise Date and Time Settings"
+
+msgid "persons"
+msgstr "اشخاص"
+
+msgid "pg_add"
+msgstr "اضافة صفحة"
+
+msgid "pg_new"
+msgstr "صفحة جديدة"
+
+msgid "phone"
+msgstr "الهاتف"
+
+msgid "phone_home"
+msgstr "هاتف المنزل"
+
+msgid "phone_mobile"
+msgstr "الهاتف الجوال"
+
+msgid "phone_office"
+msgstr "هاتف المكتب"
+
+msgid "phrase"
+msgstr "عبارة"
+
+msgid "please_choose"
+msgstr "-- اختر --"
+
+msgid "please_enter_target"
+msgstr "الرجاء ادخال هدف"
+
+msgid "please_enter_title"
+msgstr "الرجاء ادخال عنوان"
+
+msgid "please_select"
+msgstr "-- الرجاء اختيار --"
+
+msgid "please_select_a_delivered_file_to_delete"
+msgstr "عليك اختيار ملف مستلم واحد على الاقل حتى تحذفه"
+
+msgid "please_select_a_delivered_file_to_download"
+msgstr "عليك اختيار ملف مستلم واحد على الاقل لتنزيله"
+
+msgid "please_wait"
+msgstr "الرجاء الانتظار..."
+
+msgid "port"
+msgstr "منفذ"
+
+msgid "portfolio"
+msgstr "محفظة"
+
+msgid "pos_bottom"
+msgstr "اسفل"
+
+msgid "pos_left"
+msgstr "يسار"
+
+msgid "pos_right"
+msgstr "يمين"
+
+msgid "pos_top"
+msgstr "اعلى"
+
+msgid "position"
+msgstr "وضعية"
+
+#, fuzzy
+msgid "position_permission_settings"
+msgstr "Orgunit-Specific Permissions"
+
+msgid "precondition"
+msgstr "شرط مسبق"
+
+msgid "precondition_not_accessible"
+msgstr "انت لا تملك الصلاحية الكاملة لمعاينة الشروط المسبقة لهذا العنصر"
+
+msgid "precondition_required_itemlist"
+msgstr "Required Precondition"
+
+msgid "precondition_toggle"
+msgstr "Preconditions that need to be fulfilled to access this object"
+
+msgid "preconditions"
+msgstr "شروط مسبقة"
+
+msgid "preconditions_obligatory_hint"
+msgstr "Please edit the following preconditions"
+
+msgid "preconditions_optional_hint"
+msgstr "Please edit one of the following preconditions"
+
+msgid "predefined_template"
+msgstr "Predefined role template"
+
+msgid "preferences"
+msgstr "مفضلات"
+
+#, fuzzy
+msgid "presentation_table_more"
+msgstr "more"
+
+#, fuzzy
+msgid "presenter"
+msgstr "Presenter"
+
+#, fuzzy
+msgid "preview"
+msgstr "Preview"
+
+#, fuzzy
+msgid "preview_create"
+msgstr "Create Preview"
+
+#, fuzzy
+msgid "preview_delete"
+msgstr "Delete Preview"
+
+#, fuzzy
+msgid "preview_image_size"
+msgstr "Size of Preview Images"
+
+msgid "preview_learner_info"
+msgstr "عند التفعيل، سيكون لدى مدراء الدورة والمجموعة امكانية معاينة المحتوى من وجهة نظر المتعلم"
+
+#, fuzzy
+msgid "preview_loading"
+msgstr "Loading Preview..."
+
+#, fuzzy
+msgid "preview_none"
+msgstr "Preview (not created yet)"
+
+#, fuzzy
+msgid "preview_not_possible"
+msgstr "Creation of Previews is currently not possible, please read the documentation in %s."
+
+#, fuzzy
+msgid "preview_renderers"
+msgstr "Preview Renderers"
+
+#, fuzzy
+msgid "preview_settings"
+msgstr "File Preview"
+
+#, fuzzy
+msgid "preview_show"
+msgstr "Show Preview"
+
+#, fuzzy
+msgid "preview_status_creating"
+msgstr "The preview gets created. This may take some time..."
+
+#, fuzzy
+msgid "preview_status_deleting"
+msgstr "The preview gets deleted..."
+
+#, fuzzy
+msgid "preview_status_failed"
+msgstr "Failed to create the preview."
+
+#, fuzzy
+msgid "preview_status_missing"
+msgstr "No preview exists for this file."
+
+#, fuzzy
+msgid "preview_status_pending"
+msgstr "The preview has not been created yet. Please try again later."
+
+msgid "previous"
+msgstr "السابق"
+
+#, fuzzy
+msgid "prg_copy_threads_info"
+msgstr "Please decide which Study Program elements should be copied, linked or even omitted."
+
+#, fuzzy
+msgid "prg_wizard_page"
+msgstr "Copy Study Program (Step 2/2)"
+
+#, fuzzy
+msgid "prgr_add"
+msgstr "Add Study Programme Link"
+
+#, fuzzy
+msgid "prgr_edit_info"
+msgstr "Please choose one Study Programme for creating a new link."
+
+#, fuzzy
+msgid "prgr_new"
+msgstr "Create Study Programme Link"
+
+#, fuzzy
+msgid "prgr_settings"
+msgstr "Settings of Study Programme Link"
+
+msgid "print"
+msgstr "طباعة"
+
+msgid "print_view"
+msgstr "معاينة الطباعة"
+
+msgid "private_notes"
+msgstr "الملاحظات الخاصة"
+
+msgid "pro"
+msgstr "مؤيد"
+
+msgid "proceed"
+msgstr "تقدم"
+
+msgid "profile"
+msgstr "ملف شخصي"
+
+msgid "profile_changed"
+msgstr "بوابة التعليم الالكتروني- تم تغيير ملفك الشخصي"
+
+msgid "profile_incomplete"
+msgstr "ملفك الشخصي غير مكتمل. الرجاء تعبئة البيانات المطلوبة"
+
+msgid "profile_of"
+msgstr "الملف الخاص ب"
+
+msgid "properties"
+msgstr "خصائص"
+
+msgid "proxy"
+msgstr "وسيط"
+
+msgid "proxy_connectable"
+msgstr "Connection established."
+
+msgid "proxy_host"
+msgstr "مضيف"
+
+msgid "proxy_host_info"
+msgstr "الرجاء ادخال مضيف"
+
+msgid "proxy_not_connectable"
+msgstr "من بناء اتصال مع الوسيط المعرف ILIAS لم يتمكن"
+
+msgid "proxy_port"
+msgstr "منفذ"
+
+msgid "proxy_port_info"
+msgstr "الرجاء ادخال منفذ بين 0 و 65535، مثلا 8080"
+
+msgid "proxy_port_numeric"
+msgstr "The entered port has to be a numeric value between 0 and 65535"
+
+#, fuzzy
+msgid "proxy_socket_error"
+msgstr "Socket Error: %s"
+
+msgid "proxy_status"
+msgstr "وسيط"
+
+msgid "proxy_status_info"
+msgstr "To use a proxy in ILIAS (e.g. for web feeds or to check weblinks) please activate the checkbox above."
+
+#, fuzzy
+msgid "ps_export_scorm"
+msgstr "SCORM Tracking Data"
+
+#, fuzzy
+msgid "ps_password_lowercase_chars_num"
+msgstr "Lower Case Letters"
+
+#, fuzzy
+msgid "ps_password_lowercase_chars_num_info"
+msgstr "Please insert the number of lower case letters a password must contain. Enter 0 to disable this requirement."
+
+#, fuzzy
+msgid "ps_password_must_not_contain_loginame"
+msgstr "Prevent Username in Password"
+
+#, fuzzy
+msgid "ps_password_must_not_contain_loginame_info"
+msgstr "If activated, a password must not contain the username."
+
+#, fuzzy
+msgid "ps_password_uppercase_chars_num"
+msgstr "Capital Letters"
+
+#, fuzzy
+msgid "ps_password_uppercase_chars_num_info"
+msgstr "Please insert the number of capital letters a password must contain. Enter 0 to disable this requirement."
+
+msgid "pub_section"
+msgstr "منطقة عامة"
+
+msgid "pub_section_info"
+msgstr "If enabled, parts of the system (e.g. repository, user profiles) can be made available to the internet without authentification. The permissions of the \"Anonymous\" role will control the access to repository resources."
+
+msgid "public"
+msgstr "عام"
+
+msgid "public_notes"
+msgstr "ملاحظات عامة"
+
+msgid "public_profile"
+msgstr "الملف العام"
+
+msgid "public_room"
+msgstr "Public room"
+
+msgid "purpose"
+msgstr "الهدف"
+
+msgid "qpl"
+msgstr "اختبار مجموعة اسئلة"
+
+msgid "qpl_add"
+msgstr "اضافة اختبار مجموعة اسئلة"
+
+msgid "qpl_new"
+msgstr "اختبار مجموعة اسئلة جديد"
+
+msgid "query_data"
+msgstr "استعلام عن البيانات"
+
+msgid "question"
+msgstr "سؤال"
+
+msgid "question_message"
+msgstr "سؤال"
+
+msgid "quit"
+msgstr "ايقاف"
+
+msgid "quote"
+msgstr "اقتباس"
+
+msgid "read"
+msgstr "قراءة"
+
+msgid "readcount_anonymous_users"
+msgstr "عدد عمليات الوصول للقراءة مجهولة المصدر"
+
+msgid "readcount_users"
+msgstr "عدد عمليات وصول للقراءة غير المجهولة"
+
+msgid "recipient"
+msgstr "متلقي"
+
+msgid "reference_deleted"
+msgstr "Destination not available"
+
+msgid "reference_of"
+msgstr "مرجع ل:"
+
+msgid "referral_comment"
+msgstr "؟ILIAS كيف سمعت عن"
+
+msgid "refresh"
+msgstr "تحديث"
+
+msgid "refresh_languages"
+msgstr "تحديث كل اللغات"
+
+msgid "refuse"
+msgstr "رفض"
+
+msgid "reg_account_confirmation_successful"
+msgstr "تم تفعيل حسابك"
+
+#, fuzzy
+msgid "reg_delete_expired_pending_registrations"
+msgstr "Delete Expired Pending Registrations"
+
+#, fuzzy
+msgid "reg_delete_expired_pending_registrations_desc"
+msgstr "Deletes all ILIAS accounts that have not been confirmed after a registration with e-mail confirmation."
+
+msgid "reg_goto_parent_membership_info"
+msgstr "Only members can access the target object."
+
+msgid "reg_mail_body_2_confirmation"
+msgstr "The link will only be good for %s, after that you will have to try again from the beginning."
+
+msgid "reg_mail_body_3_confirmation"
+msgstr "اذا لم تكن تعنيك هذه الرسالة الالكترونية بشيء، فمن المحتمل انه قام احد غيرك بدخول عنوانك البريدي ان كان مقصودا او عن طريق الصدفة، لذلك قم بتجاهل هذه الرسالة الالكترونية"
+
+msgid "reg_mail_body_forgot_password_info"
+msgstr "To get your password, please use the function « Forgot password? » at the login screen to request a new password for this account."
+
+msgid "reg_mail_body_salutation"
+msgstr "مرحبا"
+
+msgid "reg_mail_body_text1"
+msgstr "أهلا بك إلى بوابة التعليم الإلكتروني"
+
+msgid "reg_mail_body_text2"
+msgstr "لإستخدام البوابة الإلكترونية إستخدم البيانات التالية:"
+
+msgid "reg_mail_body_text3"
+msgstr "معلومات شخصية اخرى"
+
+msgid "reg_mail_subject"
+msgstr "بوابة التعليم الالكتروني- بينات وصولك"
+
+msgid "reg_mail_subject_confirmation"
+msgstr "بوابة التعليم الالكتروني- وصلة التأكيد الخاصة بك"
+
+msgid "reg_passwd_via_mail"
+msgstr "سيتم ارسال كلمة المرور الخاصة بك الى عنوان البريد الالكتروني المعطى في الاسفل"
+
+msgid "register"
+msgstr "تسجيل"
+
+#, fuzzy
+msgid "register_notification"
+msgstr "\"%s\" has applied for session \"%s\"."
+
+msgid "registered_since"
+msgstr "مسجل منذ"
+
+msgid "registered_user"
+msgstr "المستخدم المسجل"
+
+msgid "registered_users"
+msgstr "المستخدمون المسجلون"
+
+msgid "registration"
+msgstr "تسجيل حساب جديد"
+
+msgid "related_to"
+msgstr "يعود الى"
+
+msgid "remove"
+msgstr "ازالة"
+
+msgid "remove_entries"
+msgstr "Remove Entries"
+
+msgid "remove_translation"
+msgstr "ازالة الترجمة"
+
+msgid "rename"
+msgstr "اعادة تسمية"
+
+msgid "rename_file"
+msgstr "اعادة تسمية الملف"
+
+#, fuzzy
+msgid "renderer_supported_file_types"
+msgstr "Supported File Types"
+
+#, fuzzy
+msgid "renderer_supported_repo_types"
+msgstr "Supported ILIAS Objects"
+
+#, fuzzy
+msgid "renderer_type_builtin"
+msgstr "Built-in"
+
+msgid "rep_main_page"
+msgstr "Main Page"
+
+#, fuzzy
+msgid "rep_main_page_logo_alt"
+msgstr "Logo ILIAS - to the start page"
+
+msgid "repeat_scan"
+msgstr "اعادة تفحص الفايروسات"
+
+msgid "repeat_scan_failed"
+msgstr "فشل اعادة التفحص"
+
+msgid "repeat_scan_succeded"
+msgstr "نجاح اعادة التفحص"
+
+msgid "replace_file"
+msgstr "استبدال الملف"
+
+msgid "reply"
+msgstr "رد"
+
+#, fuzzy
+msgid "report_accessibility_issue"
+msgstr "Report Accessibility Issue"
+
+#, fuzzy
+msgid "report_accessibility_link"
+msgstr "Reported Link:"
+
+#, fuzzy
+msgid "report_accessibility_link_mailto"
+msgstr "Reported%20Link:"
+
+msgid "repository"
+msgstr "المكتبة"
+
+msgid "repository_admin"
+msgstr "مهملات وصلاحيات المكتبة"
+
+msgid "repository_admin_desc"
+msgstr "تعيين الصلاحيات لعناصر المكتبة، استعادة او ازالة العناصر من مهملات النظام"
+
+msgid "require_email"
+msgstr "طلب رسالة الكترونية"
+
+msgid "require_gender"
+msgstr "يطلب ادراج الجنس"
+
+msgid "require_hobby"
+msgstr "يطلب ادراج الهواية"
+
+msgid "require_matriculation"
+msgstr "يطلب ادراج رقم القبول الجامعي"
+
+msgid "require_referral_comment"
+msgstr "يطلب ادراج تعليق احالة"
+
+msgid "required_field"
+msgstr "مطلوب"
+
+msgid "res_links"
+msgstr "وصلات المكتبة"
+
+msgid "res_links_short"
+msgstr "Links"
+
+msgid "reset"
+msgstr "اعادة تعيين"
+
+msgid "reset_filter"
+msgstr "اعادة تعيين تصفية"
+
+msgid "resources"
+msgstr "مصادر"
+
+msgid "right"
+msgstr "حق"
+
+msgid "rights"
+msgstr "حقوق"
+
+msgid "role"
+msgstr "وظيفة"
+
+msgid "role_add_user"
+msgstr "اضافة مستخدم\\مستخدمين الى الوظيفة"
+
+msgid "role_added"
+msgstr "وظيفة مضافة"
+
+msgid "role_assignment"
+msgstr "تعيينة وظيفة"
+
+msgid "role_assignment_updated"
+msgstr "تم تحديث تعيين الوظيفة"
+
+msgid "role_edit"
+msgstr "تعديل وظيفة"
+
+msgid "role_mailto"
+msgstr "ارسال الى جميع المستخدمين المعينين"
+
+msgid "role_new"
+msgstr "وظيفة جديدة"
+
+msgid "role_new_search"
+msgstr "بحث جديد"
+
+msgid "role_no_roles_selected"
+msgstr "الرجاء اختيار وظيفة"
+
+msgid "role_protect_permissions"
+msgstr "حماية الصلاحيات"
+
+msgid "role_protect_permissions_desc"
+msgstr "لا يمكن تغيير صلاحيات العنصر بواسطة عمليات النظام بعد الان. بالاضافة الى ان المدير ذا الدرجات العالية هو فقط من يستطيع تغيير الصلاحيات"
+
+msgid "role_select_one_item"
+msgstr "الرجاء اختيار عنصر واحد"
+
+msgid "role_sure_delete_desk_items"
+msgstr "Are you sure you want to delete the following assignments?"
+
+msgid "role_templates_only"
+msgstr "نماذج الوظيفة فقط"
+
+msgid "roles"
+msgstr "وظائف"
+
+msgid "roles_of_import_global"
+msgstr "الوظائف العامة لملف الاستيراد"
+
+msgid "roles_of_import_local"
+msgstr "Local roles of import file"
+
+msgid "rolf"
+msgstr "وظائف"
+
+msgid "rolf_added"
+msgstr "مجلد وظيفة مضاف"
+
+msgid "rolf_create_role"
+msgstr "انشاء تعريف وظيفة جديد"
+
+msgid "rolf_create_rolt"
+msgstr "Create new Role definition template"
+
+msgid "rolf_delete"
+msgstr "Delete Roles/Role templates"
+
+msgid "rolf_edit_permission"
+msgstr "تغيير اعدادات الصلاحية"
+
+msgid "rolf_edit_userassignment"
+msgstr "Change user assignment of Roles"
+
+msgid "rolf_read"
+msgstr "امكانية القراءة من نماذج الوظيفة\\الوظائف"
+
+msgid "rolf_visible"
+msgstr "نماذج الوظيف\\الوظائف موجودة"
+
+msgid "rolf_write"
+msgstr "تعديل اعدادات الصلاحية الافتراضية لنماذج الوظيفة\\الوظائف"
+
+msgid "rolt"
+msgstr "نموذج الوظيفة"
+
+msgid "rolt_added"
+msgstr "نموذج وظيفة مضاف"
+
+msgid "rolt_edit"
+msgstr "تعديل نموذج وظيفة"
+
+msgid "rolt_new"
+msgstr "نموذج وظيفة جديد"
+
+msgid "row"
+msgstr "صف"
+
+msgid "rows"
+msgstr "صفوف"
+
+#, fuzzy
+msgid "rpc_pdf_font"
+msgstr "Fonts"
+
+#, fuzzy
+msgid "rpc_pdf_font_info"
+msgstr "Additional fonts for the generation of PDF files. Other fonts than \"Helvetica\" and \"unifont\" must be installed on the ILIAS server."
+
+#, fuzzy
+msgid "rpc_pdf_generation"
+msgstr "PDF-Generation"
+
+#, fuzzy
+msgid "sad"
+msgstr "Sad"
+
+msgid "sahs"
+msgstr "وحدة تعليمية"
+
+msgid "sahs_added"
+msgstr "SCORM/AICC تم اضافة الوحدة التعليمية"
+
+#, fuzzy
+msgid "sahs_export_file"
+msgstr "ILIAS exported SCORM archive file"
+
+#, fuzzy
+msgid "sahs_export_file_info"
+msgstr "Use this option for a ZIP file that was exported directly from ILIAS. The file typically has titles such as 1675257903__4105__sahs_132295.zip."
+
+msgid "sahs_insert_chap_from_clip"
+msgstr "لصق الفصول من الحافظة"
+
+msgid "sahs_insert_page_from_clip"
+msgstr "لصق الصفحات من الحافظة"
+
+msgid "sahs_insert_sco_from_clip"
+msgstr "من الحافظة SCOs الصق"
+
+#, fuzzy
+msgid "sahs_new"
+msgstr "Create New Learning Module"
+
+msgid "salutation"
+msgstr "تحية"
+
+msgid "salutation_f"
+msgstr "Ms./Mrs."
+
+msgid "salutation_m"
+msgstr "السيد"
+
+#, fuzzy
+msgid "salutation_n"
+msgstr "No salutation desired"
+
+#, fuzzy
+msgid "saml_log_in"
+msgstr "Direct login"
+
+#, fuzzy
+msgid "saml_login_form_info_txt"
+msgstr "You can log in using the “Direct Login” button without having to enter your username or password."
+
+#, fuzzy
+msgid "saml_login_form_txt"
+msgstr "Login to ILIAS via SAML"
+
+msgid "save"
+msgstr "حفظ"
+
+msgid "save_and_back"
+msgstr "حفظ ورجوع"
+
+msgid "save_message"
+msgstr "حفظ الرسالة"
+
+msgid "save_params_for_cron"
+msgstr "حفظ المدخل للمهام المجدولة"
+
+msgid "save_refresh"
+msgstr "حفظ وتحديث"
+
+msgid "save_return"
+msgstr "حفظ واعادة"
+
+msgid "save_settings"
+msgstr "حفظ الاعدادات"
+
+msgid "save_user_related_data"
+msgstr "حفظ بيانات المستخدم ذات العلاقة"
+
+msgid "saved_successfully"
+msgstr "تم الحفظ بنجاح"
+
+msgid "saving"
+msgstr "Saving..."
+
+#, fuzzy
+msgid "scope"
+msgstr "Scope"
+
+msgid "scorm_create_export_file_html"
+msgstr "(HTML) انشاء ملف تصدير"
+
+msgid "scorm_create_export_file_pdf"
+msgstr "(PDF) انشاء ملف تصدير"
+
+msgid "scorm_create_export_file_scrom12"
+msgstr "(SCORM 1.2) انشاء ملف تصدير"
+
+msgid "scorm_create_export_file_scrom2004"
+msgstr "(SCORM 2004 3rd Edition) انشاء ملف تصدير"
+
+msgid "scorm_create_export_file_scrom2004_4th"
+msgstr "(SCORM 2004 4th Edition) انشاء ملف تصدير"
+
+#, fuzzy
+msgid "scorm_login_as_learner_id"
+msgstr "SCORM 2004: set ILIAS User Name as cmi.learner_id"
+
+#, fuzzy
+msgid "scorm_login_as_learner_id_info"
+msgstr "If enabled, the User Name instead of the User ID is set for cmi.learner_id."
+
+#, fuzzy
+msgid "scorm_lp_auto_activate"
+msgstr "default settings for learning progress"
+
+#, fuzzy
+msgid "scorm_lp_auto_activate_info"
+msgstr "If learning progress is activated in general, the settings for new SCORM learning modules are set to 'Collection of SCORM Items' and all SCOs are selected for learning progress determination. Adjustments are still possible for every SCORM learning module."
+
+msgid "scorm_new"
+msgstr "Create SCORM Learning Module (Authoring Mode)"
+
+#, fuzzy
+msgid "scorm_without_session"
+msgstr "SCORM 2004: enable storing data without session"
+
+#, fuzzy
+msgid "scorm_without_session_info"
+msgstr "This ensures the storage of SCORM learning data even if ILIAS session expired"
+
+msgid "search"
+msgstr "بحث"
+
+msgid "search_active"
+msgstr "يشمل المستخدمين الفعالين"
+
+msgid "search_at_current_position"
+msgstr "At Current Position"
+
+msgid "search_engine"
+msgstr "محركات البحث"
+
+msgid "search_for"
+msgstr "بحث عن"
+
+msgid "search_globally"
+msgstr "Globally"
+
+msgid "search_in"
+msgstr "البحث في"
+
+msgid "search_inactive"
+msgstr "يشمل المستخدمين غير الفعالين"
+
+msgid "search_new"
+msgstr "بحث جديد"
+
+msgid "search_result"
+msgstr "نتيجة البحث"
+
+msgid "search_results"
+msgstr "البحث عن نتائج"
+
+msgid "search_user"
+msgstr "مستخدم البحث"
+
+#, fuzzy
+msgid "search_users"
+msgstr "Look Up Users"
+
+msgid "seas_max_hits"
+msgstr "الحد الاقصى للمشاهدات"
+
+msgid "seas_max_hits_info"
+msgstr "الرجاء ادخال رقم للحد الاقصى لعدد نتائج البحث"
+
+msgid "seas_settings"
+msgstr "اعدادات البحث"
+
+msgid "second"
+msgstr "ثانية"
+
+#, fuzzy
+msgid "second_email"
+msgstr "Second Email"
+
+msgid "seconds"
+msgstr "ثانية\\ثواني"
+
+msgid "sel_country"
+msgstr "الدولة"
+
+msgid "select"
+msgstr "اختيار"
+
+msgid "select_all"
+msgstr "اختيار الكل"
+
+msgid "select_at_least_one_object"
+msgstr "الرجاء اختيار عنصر واحد على الاقل"
+
+msgid "select_file"
+msgstr "اختر ملف"
+
+#, fuzzy
+msgid "select_file_from_computer"
+msgstr "Select File"
+
+#, fuzzy
+msgid "select_files_from_computer"
+msgstr "Select the files from your computer"
+
+msgid "select_max_one_item"
+msgstr "الرجاء اختيار عنصر واحد فقط"
+
+msgid "select_object_to_link"
+msgstr "الرجاء اختيار العنصر الذي تريد ربطه"
+
+msgid "select_one"
+msgstr "الرجاء اختيار واحدة"
+
+#, fuzzy
+msgid "select_question_pool_info"
+msgstr "As long as the import file contains questions, these questions will be imported to the selected questionpool as well."
+
+msgid "select_questionpool"
+msgstr "Insert questions into"
+
+msgid "selected"
+msgstr "محددة"
+
+#, fuzzy
+msgid "selected_files"
+msgstr "Selected files"
+
+msgid "selected_items"
+msgstr "العناصر الشخصية"
+
+msgid "selected_items_back"
+msgstr "عودة الى العناصر الشخصية"
+
+msgid "selected_languages_updated"
+msgstr "تم تحديث اللغات المختارة- اذا تم ادراجها"
+
+msgid "send"
+msgstr "ارسال"
+
+msgid "send_mail"
+msgstr "ارسال رسالة الكترونية"
+
+msgid "sender"
+msgstr "المرسل"
+
+msgid "sent"
+msgstr "مرسلة"
+
+msgid "sequence"
+msgstr "تسلسل"
+
+msgid "sequences"
+msgstr "تسلسلات"
+
+msgid "server"
+msgstr "خادم"
+
+msgid "server_data"
+msgstr "خادم البيانات"
+
+msgid "server_disabled"
+msgstr "The Chat is Disabled"
+
+msgid "server_software"
+msgstr "خادم البرمجيات"
+
+msgid "sess"
+msgstr "جلسة"
+
+msgid "sess_fixed_duration"
+msgstr "فترة ثبات الجلسة"
+
+msgid "session_config"
+msgstr "اعدادات الجلسة"
+
+msgid "session_config_maintenance_disabled"
+msgstr "Maintenance by client not allowed"
+
+#, fuzzy
+msgid "session_mail_subject_deletion"
+msgstr "Deregistration of user \"%s\" from session \"%s\""
+
+#, fuzzy
+msgid "session_mail_subject_entered"
+msgstr "Joining of user \"%s\" in session \"%s\""
+
+#, fuzzy
+msgid "session_mail_subject_registered"
+msgstr "Registration of user \"%s\" for session \"%s\""
+
+msgid "session_reminder"
+msgstr "تذكير- الجلسة"
+
+msgid "session_reminder_alert"
+msgstr "تنتهي صلاحية جلستك في%s (الوقت الحالي: %s) . الرجاء اختيار موافق لاكمال جلستك"
+
+#, fuzzy
+msgid "session_reminder_default_lead_time_info"
+msgstr "Please specify how many minutes before the expiration of a session a reminder should be shown.<br / >The function is deactivated when the value is '%s'. The recommended value is %s.<br / >The current length of a session is %s."
+
+#, fuzzy
+msgid "session_reminder_input"
+msgstr "Session Reminder (in Minutes)"
+
+msgid "session_reminder_lead_time"
+msgstr "وقت الاداء"
+
+msgid "session_reminder_lead_time_info"
+msgstr "Please specify the leadtime for the session reminder in minutes. The reminder displays a warning when only this time span is left before the session expires. Recommended value is 5 (minutes)<br / >The current length of a user session is %s."
+
+msgid "session_reminder_session_duration"
+msgstr "(فترة الجلسة: %s)."
+
+msgid "set"
+msgstr "تعيين"
+
+msgid "setSystemLanguage"
+msgstr "تحديد لغة النظام"
+
+msgid "setUserLanguage"
+msgstr "تحديد لغة المستخدم"
+
+msgid "set_offline"
+msgstr "تعيين وضعية عدم اتصال"
+
+msgid "set_online"
+msgstr "تعيين وضعية اتصال"
+
+#, fuzzy
+msgid "set_skin_does_not_exist"
+msgstr "Your selected skin does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:"
+
+#, fuzzy
+msgid "set_style_does_not_exist"
+msgstr "Your selected system style does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:"
+
+msgid "settings"
+msgstr "الاعدادات"
+
+msgid "settings_for_all_members"
+msgstr "الاعدادات العامة لجميع اعضاء الدورة\\ المجموعة"
+
+msgid "settings_per_users"
+msgstr "الاعدادات لكل عضو دورة\\مجموعة"
+
+#, fuzzy
+msgid "settings_presentation_header"
+msgstr "Presentation"
+
+msgid "settings_saved"
+msgstr "حفظ الاعدادات"
+
+msgid "shib"
+msgstr "Shibboleth"
+
+msgid "shib_active"
+msgstr "Shibboleth تفعيل دعم"
+
+msgid "shib_city"
+msgstr "وصف المدينة"
+
+msgid "shib_country"
+msgstr "وصف الدولة"
+
+msgid "shib_data_conv"
+msgstr "API المسار المطلق لمعالجة بيانات"
+
+msgid "shib_data_conv_warning"
+msgstr "The data manipulation API file you specified cannot be read"
+
+msgid "shib_department"
+msgstr "وصف الدائرة"
+
+msgid "shib_email"
+msgstr "وصف هعنوان البريد الالكتروني"
+
+msgid "shib_federation_name"
+msgstr "Shibboleth اسم حسابك في"
+
+msgid "shib_firstname"
+msgstr "وصف الاسم الاول"
+
+msgid "shib_gender"
+msgstr "وصف الجنس- ذكر او انثى"
+
+msgid "shib_general_login_instructions"
+msgstr "To log in via %s, please click on the login button and choose your organization of the following page.<br>If you have questions concerning this, please ask the"
+
+msgid "shib_general_wayf_login_instructions"
+msgstr "In case you are not associated with the given organizations and you need access to a course on this server, please contact the"
+
+msgid "shib_idp_list"
+msgstr "Provide a list of Identity Providers to let the user choose from on the ILIAS login page.<br>On each line there must be a comma-separated tuple for <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as it shall be displayed in the drow-down list.<br>As an optional third parameter you can add the <strong>location of a Shibboleth session initiator</strong> that shall be used in case your ILIAS installation is part of a multi federation setup."
+
+msgid "shib_institution"
+msgstr "وصف المؤسسة"
+
+msgid "shib_invalid_home_organization"
+msgstr "الرجاء اختيار تنظيم مسموح به"
+
+msgid "shib_language"
+msgstr "وصف اللغة"
+
+msgid "shib_lastname"
+msgstr "وصف الاسم الاخير"
+
+msgid "shib_login"
+msgstr "Shibboleth وصف مميز ل"
+
+msgid "shib_login_button"
+msgstr "Path to the image of a Shibboleth login button that is used to redirect users to the WAYF specified in the Shibboleth configuration"
+
+msgid "shib_login_embedded_wayf"
+msgstr "تصميم مساحة الدخول المخصصة"
+
+msgid "shib_login_embedded_wayf_description"
+msgstr "If this option is chosen, you can provide any HTML code in the login instructions text area below. This can for example be used to embed an own JavaScript WAYF/Discovery Service or create a custom-tailored design of the login area."
+
+msgid "shib_login_external_wayf"
+msgstr "الخارجية WAYF استخدم خدمة"
+
+msgid "shib_login_internal_wayf"
+msgstr "ILIAS WAYF استخدم خدمة"
+
+msgid "shib_login_type"
+msgstr "خيار التنظيم"
+
+msgid "shib_matriculation"
+msgstr "Attribute for Matriculation Number"
+
+msgid "shib_member_of"
+msgstr "انا عضو في..."
+
+msgid "shib_phone_home"
+msgstr "وصف هاتف المنزل"
+
+msgid "shib_phone_mobile"
+msgstr "وصف رقم الهاتف الجوال"
+
+msgid "shib_phone_office"
+msgstr "وصف رقم هاتف المكتب"
+
+msgid "shib_select_home_organization"
+msgstr "For authentication via %s, please select your organization from the drop down list."
+
+msgid "shib_settings_saved"
+msgstr "Shibboleth تم حفظ اعدادات"
+
+msgid "shib_street"
+msgstr "وصف الشارع"
+
+msgid "shib_title"
+msgstr "وصف العنوان"
+
+msgid "shib_update"
+msgstr "تحديث هذا الحقل عن الدخول"
+
+msgid "shib_user_default_role"
+msgstr "Shibboleth تم تعيين الوظيف الافتراضية لمستخدمي"
+
+msgid "shib_zipcode"
+msgstr "zipcode وصف"
+
+msgid "short_inst_name"
+msgstr "عنوان قصير"
+
+msgid "short_inst_name_info"
+msgstr "This title will appear in the browser header title bar. If no value is entered, 'ILIAS' is used."
+
+msgid "show"
+msgstr "عرض"
+
+#, fuzzy
+msgid "show_all_details"
+msgstr "Show all details"
+
+#, fuzzy
+msgid "show_content"
+msgstr "Show Content"
+
+msgid "show_details"
+msgstr "Show Details"
+
+msgid "show_filter"
+msgstr "عرض تصفية"
+
+#, fuzzy
+msgid "show_hidden_sections"
+msgstr "Show More Information &raquo;"
+
+#, fuzzy
+msgid "show_less"
+msgstr "Show less"
+
+msgid "show_list"
+msgstr "Show List"
+
+msgid "show_members"
+msgstr "Display Members"
+
+#, fuzzy
+msgid "show_more"
+msgstr "Show More"
+
+#, fuzzy
+msgid "show_preview"
+msgstr "Show Preview"
+
+msgid "show_users_online"
+msgstr "اظهار المستخدمين الفعالين"
+
+#, fuzzy
+msgid "show_who_is_online"
+msgstr "Show who is online"
+
+msgid "side_frame"
+msgstr "Side Frame"
+
+msgid "signature"
+msgstr "التوقيع"
+
+msgid "size"
+msgstr "حجم"
+
+msgid "skills"
+msgstr "Skills"
+
+msgid "skin_style"
+msgstr "النمط\\ الشكل الافتراضي"
+
+msgid "smtp"
+msgstr "SMTP"
+
+msgid "soap_connect_timeout"
+msgstr "Connection Timeout"
+
+msgid "soap_connect_timeout_info"
+msgstr "The maximum time in seconds until a connect attempt to the SOAP-Webservice is interrupted."
+
+msgid "soap_user_administration"
+msgstr "Administration via SOAP"
+
+msgid "soap_user_administration_desc"
+msgstr "If enabled, ILIAS can be administrated via SOAP."
+
+msgid "soap_wsdl_path"
+msgstr "WSDL Path"
+
+msgid "soap_wsdl_path_info"
+msgstr "Please enter the path to the ilias wsdl file which should be used for the webservice. If you leave this field blank, the following path will be used per default:%s"
+
+#, fuzzy
+msgid "sort"
+msgstr "Sort"
+
+#, fuzzy
+msgid "sort_ascending"
+msgstr "Sort Ascending"
+
+#, fuzzy
+msgid "sort_ascending_long"
+msgstr "Change Sort Direction to Ascending"
+
+msgid "sort_by_this_column"
+msgstr "فرز بواسطة هذا العمود"
+
+#, fuzzy
+msgid "sort_descending"
+msgstr "Sort Descending"
+
+#, fuzzy
+msgid "sort_descending_long"
+msgstr "Change Sort Direction to Descending"
+
+msgid "sort_inherit_prefix"
+msgstr "Default"
+
+#, fuzzy
+msgid "sorting_asc"
+msgstr "Ascending"
+
+#, fuzzy
+msgid "sorting_creation_header"
+msgstr "By Creation Date"
+
+#, fuzzy
+msgid "sorting_creation_info"
+msgstr "Content items are arranged automatically by their creation date."
+
+#, fuzzy
+msgid "sorting_desc"
+msgstr "Descendent"
+
+#, fuzzy
+msgid "sorting_direction"
+msgstr "Sorting Direction"
+
+msgid "sorting_header"
+msgstr "فرز العناصر حسب المحتوى"
+
+msgid "sorting_info_inherit"
+msgstr "تم تحديث اسلوب الفرز من الدورة الاصل"
+
+msgid "sorting_info_manual"
+msgstr "تمنحك هذه الطريقة امكانية فرز العناصر يدويا"
+
+msgid "sorting_info_title"
+msgstr "اختر هذه الطريقة لفرز العناصر تلقائيا حسب العنوان"
+
+msgid "sorting_manual_header"
+msgstr "فرز يدوي"
+
+msgid "sorting_save"
+msgstr "حفظ الفرز"
+
+msgid "sorting_title_header"
+msgstr "فرز حسب العنوان"
+
+msgid "spacer"
+msgstr "Spacer"
+
+msgid "spl"
+msgstr "مسح مجموعة اسئلة"
+
+msgid "spl_add"
+msgstr "اضافة مسح مجموعة اسئلة"
+
+msgid "spl_import"
+msgstr "Import Question Pool Survey"
+
+msgid "spl_new"
+msgstr "مسح مجموعة اسئلة جديد"
+
+msgid "ssl"
+msgstr "SSL (HTTPS)"
+
+msgid "standard_fields"
+msgstr "الحقول المعتادة"
+
+msgid "startpage"
+msgstr "صفحة دخول النظام التعليمي"
+
+msgid "stat_selected"
+msgstr "مختارة"
+
+msgid "statistic"
+msgstr "Statistic"
+
+msgid "statistics"
+msgstr "Statistics"
+
+msgid "status"
+msgstr "الحالة"
+
+msgid "status_no_permission"
+msgstr "لم يتم منح اي صلاحية"
+
+msgid "step"
+msgstr "Step"
+
+msgid "street"
+msgstr "الشارع"
+
+msgid "structure"
+msgstr "Structure"
+
+msgid "sty"
+msgstr "الاسلوب"
+
+msgid "sub_request_deleted"
+msgstr "Deleted membership request"
+
+msgid "sub_request_saved"
+msgstr "طلب حفظ العضوية"
+
+msgid "subject"
+msgstr "الموضوع"
+
+msgid "submit"
+msgstr "موافق"
+
+msgid "subobjects"
+msgstr "عناصر فرعية"
+
+msgid "subscription"
+msgstr "اشتراك"
+
+msgid "subtabs"
+msgstr "SubTabs"
+
+msgid "success_message"
+msgstr "رسالة النجاح"
+
+msgid "summary"
+msgstr "ملخص"
+
+msgid "sure_delete_selected_users"
+msgstr "Are you sure you want to delete the selected user(s)"
+
+msgid "survey_defaults"
+msgstr "الاعدادات الافتراضية للمسوحات"
+
+msgid "survey_unlimited_invitation"
+msgstr "دعوة غير محدودة"
+
+msgid "svy"
+msgstr "مسح"
+
+msgid "svy_add"
+msgstr "اضافة مسح"
+
+msgid "svy_finished"
+msgstr "لقد اكملت المسح"
+
+msgid "svy_new"
+msgstr "مسح جديد"
+
+msgid "svy_not_finished"
+msgstr "لم يتم اكمال المسح بعد"
+
+msgid "svy_not_started"
+msgstr "انت لم تأخذ دورا في هذا المسح"
+
+msgid "svy_run"
+msgstr "تشغيل"
+
+msgid "svy_warning_survey_not_complete"
+msgstr "المسح غير مكتمل"
+
+#, fuzzy
+msgid "switch_language"
+msgstr "Switch Language"
+
+msgid "system"
+msgstr "نظام"
+
+msgid "system_check"
+msgstr "فحص النظام"
+
+msgid "system_information"
+msgstr "معلومات النظام"
+
+msgid "system_language"
+msgstr "لغة النظام>br />"
+
+msgid "system_styles"
+msgstr "تصاميم النظام"
+
+msgid "systemcheck_cron"
+msgstr "تم التحقق من نظام العملية في المهام المجدولة"
+
+msgid "systemcheck_cronform"
+msgstr "Activation of System Check in Cronjob"
+
+msgid "table_mail_import"
+msgstr "استيراد البريد"
+
+msgid "tabs"
+msgstr "علامات"
+
+msgid "tagging_my_tags"
+msgstr "علاماتي"
+
+#, fuzzy
+msgid "tags"
+msgstr "Tags"
+
+msgid "take_over_structure"
+msgstr "Adopt Structure"
+
+msgid "take_over_structure_info"
+msgstr "للفئات او المستخدمة في المجموعات والدورات الى المجلدات zip عند التفعيل، سيتم تخطيط الدلائل الموجودة في ملف"
+
+msgid "tals_etal"
+msgstr "Talk"
+
+msgid "talt_etal"
+msgstr "Talk"
+
+msgid "target"
+msgstr "هدف"
+
+msgid "tax"
+msgstr "تصنيف"
+
+msgid "tax_add"
+msgstr "اضافة تصنيف"
+
+msgid "tax_new"
+msgstr "تصنيف جديد"
+
+msgid "term"
+msgstr "مصطلح"
+
+msgid "test"
+msgstr "اختبار"
+
+msgid "tests"
+msgstr "اختبارات"
+
+msgid "textbox"
+msgstr "صندوق نص"
+
+msgid "thread"
+msgstr "صفحة"
+
+msgid "thumbnail"
+msgstr "صورة مصغرة"
+
+#, fuzzy
+msgid "tile_view"
+msgstr "Tile View"
+
+msgid "time"
+msgstr "الوقت"
+
+msgid "time_limit"
+msgstr "وصول"
+
+msgid "time_limit_add_time_limit_for_selected"
+msgstr "الرجاء ادخال الفترة الزمنية للمستخدمين المختارين"
+
+msgid "time_limit_from"
+msgstr "من حد الوقت"
+
+msgid "time_limit_message"
+msgstr "الرسالة- حد الوقت"
+
+msgid "time_limit_no_users_selected"
+msgstr "الرجاء اختيار مستخدم"
+
+msgid "time_limit_not_valid"
+msgstr "الفترة غير صحيحة"
+
+msgid "time_limit_reached"
+msgstr "انتهت مدة وصولك"
+
+msgid "time_limit_unlimited"
+msgstr "Unlimited (time limit)"
+
+msgid "time_limit_until"
+msgstr "Until (time limit)"
+
+msgid "title"
+msgstr "العنوان"
+
+msgid "title_required"
+msgstr "الرجاء ادخال عنوان"
+
+msgid "to"
+msgstr "الى"
+
+msgid "to_client_list"
+msgstr "Client Selection"
+
+msgid "today"
+msgstr "اليوم"
+
+msgid "toggleGlobalDefault"
+msgstr "تبديل الافتراض العام"
+
+msgid "toggleGlobalFixed"
+msgstr "تبديل التثبيت العام"
+
+#, fuzzy
+msgid "toggle_dropdown"
+msgstr "Toggle Dropdown"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_off"
+msgstr "OFF"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_on"
+msgstr "ON"
+
+msgid "tomorrow"
+msgstr "Tomorrow"
+
+#, fuzzy
+msgid "toolbar_more_actions"
+msgstr "More Actions"
+
+#, fuzzy
+msgid "tools"
+msgstr "Tools"
+
+msgid "top_of_page"
+msgstr "Top of page"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement"
+msgstr "Accept Terms of Service?"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement_intro"
+msgstr "There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page."
+
+#, fuzzy
+msgid "tos_force_accept_usr_agreement"
+msgstr "You must accept the Terms of Service!"
+
+#, fuzzy
+msgid "tos_no_agreement_description"
+msgstr "There is currently no Terms of Service document available for this installation. Please contact the <a href=\"%1$s\">system administrator</a>."
+
+#, fuzzy
+msgid "tos_refuse_acceptance"
+msgstr "Refuse to Accept Terms of Service"
+
+#, fuzzy
+msgid "tos_usr_agreement"
+msgstr "Terms of Service"
+
+#, fuzzy
+msgid "tos_usr_agreement_footer_intro"
+msgstr "You have declared your consent to these terms of service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description"
+msgstr "Withdraw your consent to our Terms of Service here."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description_external"
+msgstr "Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description_internal"
+msgstr "Please log in again to complete the process of withdrawing your consent to the Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_header"
+msgstr "Withdraw Terms of Service Consent"
+
+#, fuzzy
+msgid "tos_withdraw_consent_info"
+msgstr "Withdraw your consent to our Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_info_external"
+msgstr "Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Terms of Service."
+
+msgid "total"
+msgstr "Total"
+
+msgid "tracking_settings"
+msgstr "اعدادات المتابعة"
+
+msgid "translation"
+msgstr "الترجمة"
+
+msgid "trash"
+msgstr "Trash"
+
+msgid "tree"
+msgstr "Tree"
+
+msgid "tree_frame"
+msgstr "اطار الشجرة"
+
+msgid "treeview"
+msgstr "عرض الشريط الجانبي"
+
+msgid "tst"
+msgstr "اختبار"
+
+msgid "tst_add"
+msgstr "اضافة اختبار"
+
+msgid "tst_edit_questions"
+msgstr "Edit Questions"
+
+#, fuzzy
+msgid "tst_history_read"
+msgstr "View History"
+
+msgid "tst_new"
+msgstr "اختبار جديد"
+
+#, fuzzy
+msgid "tst_results"
+msgstr "Test Results"
+
+msgid "tst_run"
+msgstr "تشغيل"
+
+msgid "tst_user_not_invited"
+msgstr "لا يتوقع ان تقدم هذا الاختبار"
+
+msgid "tst_warning_test_not_complete"
+msgstr "الاختبار غير مكتمل"
+
+msgid "tutors"
+msgstr "Tutors"
+
+msgid "txt_registered"
+msgstr "You successfully registered to ILIAS. Please click on the button below to login to ILIAS with your user account."
+
+msgid "txt_registered_passw_gen"
+msgstr "You successfully registered to ILIAS. You should receive an e-Mail including your generated password shortly."
+
+msgid "txt_submitted"
+msgstr "You successfully submitted an account request to ILIAS. Your account request will be reviewed by the system administrators, and should be activated within 48 hours. You will not be able to log in until your account is activated."
+
+msgid "typ"
+msgstr "تعريف نوع العنصر"
+
+msgid "type"
+msgstr "النوع"
+
+msgid "udf_added_field"
+msgstr "حقل جديد مضاف"
+
+msgid "udf_delete_sure"
+msgstr "Are you sure you want to delete this field and all assigned user data ?"
+
+msgid "udf_duplicate_entries"
+msgstr "يجب ان تكون القيم مميزة"
+
+msgid "udf_field_deleted"
+msgstr "Deleted field."
+
+msgid "udf_name_already_exists"
+msgstr "اسم هذا الحقل موجود. الرجاء اختيار اسم مختلف"
+
+msgid "udf_required_requires_visib_reg"
+msgstr "عندما يكون الحقل في وضع \"مطلوب\" فيجب ان يكون موجود في التسجيل"
+
+msgid "udf_type_date"
+msgstr "التاريخ"
+
+msgid "udf_type_datetime"
+msgstr "التاريخ والوقت"
+
+msgid "udf_type_select"
+msgstr "Selection List (Drop-Down)"
+
+msgid "udf_type_text"
+msgstr "حق النص- سطر واحد"
+
+msgid "udf_type_textarea"
+msgstr " (WYSIWYG) مساحة النص"
+
+msgid "udf_update_select_field"
+msgstr "تعديل صندوق البحث"
+
+msgid "udf_update_text_field"
+msgstr "تعديل حقل نص"
+
+msgid "udf_update_wysiwyg_field"
+msgstr "Edit Text Area (WYSIWYG) Field"
+
+msgid "uid"
+msgstr "UID"
+
+msgid "ums_create_new_account"
+msgstr "انشاء حساب جديد"
+
+msgid "ums_explanation"
+msgstr "Your external account could not be mapped to an ILIAS account. But ILIAS has found an account with your e-mail address. If this is your account, please login with your ILIAS password."
+
+msgid "ums_explanation_2"
+msgstr "اذا لم يكن هذا هو حسابك الرجاء اختر انشاء حساب جديد"
+
+msgid "ums_explanation_3"
+msgstr "Your external account could not be mapped to an ILIAS account. But ILIAS has found multiple accounts with your e-mail address. If one of those is your account, please login with your ILIAS password."
+
+msgid "ums_explanation_4"
+msgstr "اذا لم تكن احدها هو حسابك الرجاء اختر انشاء حساب جديد"
+
+msgid "unambiguousness"
+msgstr "Distinguishing mark"
+
+msgid "uncheck_all"
+msgstr "Uncheck all"
+
+msgid "unchecked"
+msgstr "Unchecked"
+
+msgid "uninstall"
+msgstr "عدم تثبيت"
+
+msgid "uninstalled"
+msgstr "uninstalled."
+
+msgid "unknown"
+msgstr "UNKNOWN"
+
+#, fuzzy
+msgid "unparticipate"
+msgstr "Unsubscribe"
+
+msgid "unread"
+msgstr "غير المقروءة"
+
+msgid "unzip"
+msgstr "Unzip"
+
+msgid "up"
+msgstr "Up"
+
+msgid "update"
+msgstr "تعديل"
+
+msgid "update_applied"
+msgstr "Update Applied"
+
+msgid "update_language"
+msgstr "Update Language"
+
+msgid "update_on_conflict"
+msgstr "Update on conflict"
+
+#, fuzzy
+msgid "update_orgunits"
+msgstr "Update assigned organisational units"
+
+#, fuzzy
+msgid "update_orgunits_desc"
+msgstr "If enabled, the field 'Organisational Units' will be updated for all user accounts."
+
+msgid "upload"
+msgstr "تحميل"
+
+msgid "upload_error_file_not_found"
+msgstr "Upload error: File not found."
+
+#, fuzzy
+msgid "upload_ok"
+msgstr "The upload was successful"
+
+#, fuzzy
+msgid "upload_pending"
+msgstr "Pending"
+
+#, fuzzy
+msgid "upload_settings"
+msgstr "Uploading Settings"
+
+#, fuzzy
+msgid "upload_svg_rejection_message"
+msgstr "An uploaded SVG file contains possibily malicious code and cannot be processed."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_base64"
+msgstr "The file contains base64 encoded content."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_elements"
+msgstr "The file contains elements or attributes which are not allowed or known."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_foreign_object"
+msgstr "The file contains foreign objects."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_script"
+msgstr "The file contains script-Elements."
+
+msgid "uploaded_and_checked"
+msgstr "The file has been uploaded and checked, you can now start to import it."
+
+#, fuzzy
+msgid "uploading"
+msgstr "Uploading..."
+
+msgid "uri"
+msgstr "URI"
+
+msgid "url"
+msgstr "URL"
+
+msgid "url_not_found"
+msgstr "File Not Found"
+
+msgid "use_customized_instructions"
+msgstr "استخدم التعليميات المخصصة"
+
+msgid "use_default_instructions"
+msgstr "استخدم التعليمات الافتراضية"
+
+msgid "user"
+msgstr "مستخدم"
+
+msgid "user_activated"
+msgstr "تم الموافقة على المستخدم"
+
+msgid "user_added"
+msgstr "اضافة مستخدم"
+
+msgid "user_assignment"
+msgstr "تعيين المستخدم"
+
+#, fuzzy
+msgid "user_avatar"
+msgstr "User Avatar"
+
+#, fuzzy
+msgid "user_avatar_of"
+msgstr "User Avatar of"
+
+msgid "user_cant_receive_mail"
+msgstr "لا يسمح للمستخدم باستخدام نظام البريد"
+
+msgid "user_comment"
+msgstr "تعليق المستخدم"
+
+msgid "user_deactivated"
+msgstr "لم تتم الموافقة على المستخدم"
+
+msgid "user_defined_fields"
+msgstr "الحقول المخصصة"
+
+msgid "user_defined_list"
+msgstr "حقول ملف المستخدم الشخصي المخصصة"
+
+msgid "user_deleted"
+msgstr "تم حذف المستخدم"
+
+msgid "user_detail"
+msgstr "Detail Data"
+
+msgid "user_ext_account"
+msgstr "الحساب الخارجي"
+
+msgid "user_ext_account_desc"
+msgstr "Account used for external authentication. SOAP or LDAP authentication)"
+
+msgid "user_image"
+msgstr "صورة المستخدم"
+
+msgid "user_import_failed"
+msgstr "فشل استيراد المستخدم"
+
+msgid "user_imported"
+msgstr "استيراد المستخدم مكتمل"
+
+msgid "user_imported_with_warnings"
+msgstr "استيراد المستخدم مكتمل مع تحذيرات"
+
+msgid "user_language"
+msgstr "لغة المستخدم"
+
+#, fuzzy
+msgid "user_never_logged_in"
+msgstr "Delete user accounts without login"
+
+#, fuzzy
+msgid "user_never_logged_in_info"
+msgstr "All user accounts without login at all be deleted."
+
+#, fuzzy
+msgid "user_never_logged_in_info_threshold_err_num"
+msgstr "Only positive non decimal numbers are accepted."
+
+msgid "user_new_account_mail"
+msgstr "حساب بريد الكتروني جديد"
+
+msgid "user_new_account_mail_desc"
+msgstr "اشعار بريد الكتروني لمستخدمين جدد"
+
+msgid "user_not_found"
+msgstr "المستخدم غير موجود"
+
+#, fuzzy
+msgid "user_not_found_to_delete"
+msgstr "A user could not be found to delete."
+
+msgid "user_not_known"
+msgstr "الرجاء ادخال اسم مستخدم مسموح"
+
+msgid "user_profile_other"
+msgstr "معلومات اخرى"
+
+msgid "user_send_new_account_mail"
+msgstr "ارسال رسالة الكترونية بالحساب الجديد"
+
+msgid "user_status"
+msgstr "حالة المستخدم"
+
+msgid "user_toggle_noti"
+msgstr "لا يسمح للعضو بعدم تفعيل الاشعار"
+
+msgid "userfolder_export_csv"
+msgstr "قيم مفصولة بفاصلة"
+
+msgid "userfolder_export_excel_x86"
+msgstr "Microsoft Excel"
+
+msgid "userfolder_export_file"
+msgstr "ملف"
+
+msgid "userfolder_export_file_size"
+msgstr "حجم الملف"
+
+msgid "userfolder_export_files"
+msgstr "الملفات"
+
+msgid "userfolder_export_xml"
+msgstr "XML"
+
+msgid "username"
+msgstr "اسم المستخدم"
+
+#, fuzzy
+msgid "username_assistance"
+msgstr "Username Assistance"
+
+msgid "users"
+msgstr "مستخدمون"
+
+msgid "users_not_imported"
+msgstr "المستخدمون التاليون غير موجودين لذلك لن يتم استيراد رسائلهم"
+
+msgid "users_online"
+msgstr "مستخدمون موجودون حاليا"
+
+msgid "usr"
+msgstr "مستخدم"
+
+msgid "usr_account_inactive"
+msgstr "حساب غير مفعل"
+
+msgid "usr_active_only"
+msgstr "المستخدمون النشطون فقط"
+
+msgid "usr_add"
+msgstr "اضافة مستخدم"
+
+msgid "usr_edit"
+msgstr "تعديل مستخدم"
+
+#, fuzzy
+msgid "usr_field_change_components_listening"
+msgstr "There is at least one component which is interested in the changed configuration. Would you like to confirm the changes with the consequences the component(s) announced below?"
+
+msgid "usr_filter_coursemember"
+msgstr "عضو الدورة"
+
+msgid "usr_filter_groupmember"
+msgstr "عضو المجموعة"
+
+msgid "usr_filter_lastlogin"
+msgstr "اخر دخول للمستخدم"
+
+msgid "usr_filter_role"
+msgstr "Assigned role"
+
+msgid "usr_inactive_only"
+msgstr "المستخدمون غير الفعالين فقط"
+
+msgid "usr_limited_access_only"
+msgstr "المستخدمون ذوي الوصول المحدود"
+
+#, fuzzy
+msgid "usr_name_undisclosed"
+msgstr "Undisclosed"
+
+msgid "usr_new"
+msgstr "مستخدم جديد"
+
+msgid "usr_settings_changeable_lua"
+msgstr "قابل للتغير في ادارة المستخدم المحلية"
+
+msgid "usr_settings_explanation_profile"
+msgstr "فحص \"موجود\" لعرض الحقول الموجودة في نموذج التسجيل وفي ملف المستخدم الشخصي على سطح المكتب الشخصي. فحص \"قابل للتغيير\" للسماح للمستخدم بالتغيير في الملف الشخصي. الرجاء ملاحظة ان الحقول الموجودة يمكن ان تكون مدخلة دائما الى نموذج التسجيل. الحقول المطلوبة هي مطلوبة في نموذج التسجيل وفي ملف المستخدم الشخصي. يمكن تغيير كافة البيانات في ادارة المستخدم دون الاعتماد على هذه الاعدادات"
+
+msgid "usr_settings_header_profile"
+msgstr "حقول ملف المستخدم الشخصي المعتاد"
+
+msgid "usr_settings_saved"
+msgstr "تم حفظ اعدادات المستخدم العامة بنجاح"
+
+msgid "usr_settings_visib_lua"
+msgstr "موجود في ادارة المستخدم المحلية"
+
+msgid "usr_skin_style"
+msgstr "Skin / Style"
+
+msgid "usr_without_courses"
+msgstr "المستخدمون الذين لم يلتحقوا بأية دورة"
+
+msgid "usrf"
+msgstr "حسابات المستخدم"
+
+msgid "usrf_profile_link"
+msgstr "Link to user profile"
+
+msgid "usrimport_action_ignored"
+msgstr "Ignored action %1$s."
+
+msgid "usrimport_action_replaced"
+msgstr "Replaced action %1$s by %2$s."
+
+msgid "usrimport_cant_delete"
+msgstr "Can't perform \"Delete\" action. No such user in database."
+
+msgid "usrimport_cant_insert"
+msgstr "Can't perform \"Insert\" action. User is already in database."
+
+msgid "usrimport_cant_update"
+msgstr "Can't perform \"Update\" action. No such user in database."
+
+msgid "usrimport_conflict_handling_info"
+msgstr "When \"Ignore on conflict\" is selected, ILIAS ignores an action, if it can not be performed (e. g. an \"Insert\" action is not done, if there is already a user with the same login in the database.)\\nWhen \"Update on conflict\" is selected, ILIAS updates the database if an action can not be performed. (e. g. an \"Insert\" action is replaced by an \"Update\" action, if a user with the same login exists in the database)."
+
+#, fuzzy
+msgid "usrimport_form_not_evaluabe"
+msgstr "The form data couldn't be read."
+
+msgid "usrimport_global_role_for_action_required"
+msgstr "At least one global role must be specified for \"%1$s\" action."
+
+msgid "usrimport_ignore_role"
+msgstr "اهمال وظيفة"
+
+msgid "usrimport_login_is_not_unique"
+msgstr "Login is not unique."
+
+msgid "usrimport_no_insert_ext_account_exists"
+msgstr "Can't perform \"Insert\" action. External account already exists."
+
+msgid "usrimport_no_update_ext_account_exists"
+msgstr "Can't perform \"Update\" action. External account already exists."
+
+msgid "usrimport_with_specified_role_not_permitted"
+msgstr "Import with specified role not permitted."
+
+#, fuzzy
+msgid "usrimport_wrong_file_count"
+msgstr "Too many files in import-folder. Please try again."
+
+#, fuzzy
+msgid "usrimport_xml_anonymous_or_root_not_allowed"
+msgstr "Neither the system-account nor the anonymous account can be changed through the import."
+
+msgid "usrimport_xml_attribute_missing"
+msgstr "Attribute \"%2$s\" in element \"%1$s\" is missing."
+
+msgid "usrimport_xml_attribute_value_illegal"
+msgstr "Value \"%3$s\" of attribute \"%2$s\" in element \"%1$s\" is illegal."
+
+msgid "usrimport_xml_attribute_value_inapplicable"
+msgstr "Value \"%3$s\" of attribute \"%2$s\" in element \"%1$s\" is inapplicable for \"%4$s\" action."
+
+msgid "usrimport_xml_element_content_illegal"
+msgstr "Content \"%2$s\" of element \"%1$s\" is illegal."
+
+msgid "usrimport_xml_element_for_action_required"
+msgstr "Element \"%1$s\" must be specified for \"%2$s\" action."
+
+msgid "usrimport_xml_element_inapplicable"
+msgstr "Element \"%1$s\" is inapplicable for \"%2$s\" action."
+
+msgid "valid"
+msgstr "صحيح"
+
+msgid "validate"
+msgstr "صحة"
+
+msgid "value"
+msgstr "قيمة"
+
+msgid "vcard"
+msgstr "بطاقة الزيارة"
+
+msgid "vcard_download"
+msgstr "تحميل بطاقة الزيارة"
+
+msgid "verification_failed"
+msgstr "Verification failed"
+
+msgid "verification_failure_log"
+msgstr "Verification failure log"
+
+msgid "verification_warning_log"
+msgstr "Verification warning log"
+
+msgid "version"
+msgstr "اصدار"
+
+msgid "versions"
+msgstr "نسخات"
+
+msgid "view"
+msgstr "معاينة"
+
+msgid "view_content"
+msgstr "معاينة المحتوى"
+
+#, fuzzy
+msgid "view_learning_progress"
+msgstr "View Learning Progress"
+
+#, fuzzy
+msgid "view_learning_progress_rec"
+msgstr "View Learning Progress of Unit incl. Subunits"
+
+msgid "visible"
+msgstr "موجود"
+
+msgid "visible_registration"
+msgstr "موجود في التسجيل"
+
+msgid "visitor"
+msgstr "زائر"
+
+msgid "visitors"
+msgstr "زوار"
+
+msgid "visits"
+msgstr "زيارات"
+
+msgid "web_resources"
+msgstr "روابط"
+
+msgid "webdav"
+msgstr "WebDAV"
+
+#, fuzzy
+msgid "webdav_add_instructions_btn_label"
+msgstr "Add Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_chosen_language_already_used"
+msgstr "There already is another document associated with the chosen language"
+
+#, fuzzy
+msgid "webdav_doc_delete"
+msgstr "Delete WebDav Mount Instructions"
+
+#, fuzzy
+msgid "webdav_docs_mount_instructions"
+msgstr "Mount Instructions Documents"
+
+#, fuzzy
+msgid "webdav_duplicate_detected_title"
+msgstr "Following objects could not be displayed, because an object with the same Title is already being shown:"
+
+#, fuzzy
+msgid "webdav_forbidden_chars_title"
+msgstr "Following files cannot be displayed, because they contain one or more forbidden characters (\\<>/:*?\"|#):"
+
+#, fuzzy
+msgid "webdav_form_document"
+msgstr "Instructions Document"
+
+#, fuzzy
+msgid "webdav_form_document_info"
+msgstr "Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information"
+
+#, fuzzy
+msgid "webdav_form_document_title"
+msgstr "Title"
+
+#, fuzzy
+msgid "webdav_form_document_title_info"
+msgstr "This title will be dislayed as the title of the modal when the Mount Instructions are opened"
+
+#, fuzzy
+msgid "webdav_form_edit_doc_head"
+msgstr "Edit Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_form_new_doc_head"
+msgstr "Create new Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_general_settings"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "webdav_missing_lang"
+msgstr "There is no english version of the WebDAV Mount Instructions"
+
+#, fuzzy
+msgid "webdav_mount_instructions"
+msgstr "Mount Instructions"
+
+#, fuzzy
+msgid "webdav_problem_free_container"
+msgstr "There are no objects that cause problems in this container."
+
+#, fuzzy
+msgid "webdav_problem_info_duplicate"
+msgstr "There is a file with the same title as the info file."
+
+msgid "webdav_pwd_instruction"
+msgstr "We suggest to create a local password for opening the repository as webfolder.<br />This password is only required for the webfolder functionalities."
+
+msgid "webdav_pwd_instruction_success"
+msgstr "A new local password has been created. You can now open the repository as webfolder."
+
+#, fuzzy
+msgid "webdav_sure_delete_documents_s"
+msgstr "Are you sure you want to delete the Mount Instructions with the following title:"
+
+#, fuzzy
+msgid "webdav_tbl_docs_head_title"
+msgstr "Dokument title"
+
+#, fuzzy
+msgid "webdav_tbl_docs_title"
+msgstr "List of uploaded WebDAV Mount Instructions"
+
+#, fuzzy
+msgid "webdav_upload_instructions"
+msgstr "Upload Instructions"
+
+msgid "webfolder_dir_info"
+msgstr "You got here, because your browser can't open webfolders. Read the <a href=\"%1$s\">instructions for opening webfolders</a>."
+
+msgid "webfolder_index_of"
+msgstr "Index of %1$s"
+
+msgid "webfolder_instructions"
+msgstr "تعليمات مجلد الموقع"
+
+msgid "webfolder_instructions_info"
+msgstr "The webfolder instructions are shown on browsers, which can not open a webfolder directly. You can use HTML code, and the following placeholders: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[WINDOWS]</b>...<b>[/WINDOWS]</b>, <b>[MAC]</b>...<b>[/MAC]</b>, <b>[LINUX]</b>...<b>[/LINUX]</b>. Clear the field to get the default instructions."
+
+msgid "webfolder_instructions_text"
+msgstr "<p>Follow the instructions below, to open <b>[WEBFOLDER_TITLE]</b> as a webfolder:</p>[WINDOWS]<h3>Instructions for Windows Vista</h3><ol><li>Press the key combination Windows+E to open Windows Explorer.</li><li>Click on 'Add Network Place' in the toolbar.<br/>The 'Add a Network Place' wizard will open.</li><li>Click at the link 'Connect to a website'.</li><li>Select the 'Choose Another Network Location' option, and select 'Next'.<li>In the 'Internet or Network Address' field enter<br/><b>[WEBFOLDER_URI]</b><br/>then select 'Next'.</li><li>Enter your login and password, and select 'OK'.<br/>Repeat this step until you get to the next dialog window.</li><li>Enter a name for the webfolder, then select 'Next'.<li>Enter your login and password, and select 'OK'.<br/>Repeat this step until you get to the next dialog window.</li><li>Select 'Finish'.</li><li>You can now access the webfolder from the start menu 'Computer'.</li></ol><h3>Instructions for Windows XP</h3><ol><li>Press the key combination Windows+E to open Windows Explorer.</li><li>Choose the menu 'Extras &gt; Add Network Place...'.<br/>The 'Add a Network Place' wizard will open.</li><li>Click at the link 'Connect to a website ...'.<br/>The assistant window will open.</li><li>Select 'Next'.</li><li>Select the 'Choose Another Network Location' option, and select 'Next'.<li>In the 'Internet or Network Address' field enter<br/><b>[WEBFOLDER_URI]</b><br/>then select 'Next'.</li><li>Enter your login and password, and select 'OK'.<li>Enter a name for the webfolder, then select 'Next'.<li>Enter your login and password, and select 'OK'.</li><li>Select 'Finish'.</li><li>This will open the webfolder. You can later access the webfolder from the start menu 'Network places' again.</li></ol>[/WINDOWS][MAC]<h3>Instructions for Mac OS X</h3><ol><li>Open the Finder</li><li>Choose the menu 'Go &gt; Connect to Server...'<br/>The 'Connect to Server' dialog will open.</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI]</b><br/>and select 'Connect'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/MAC][LINUX]<h3>Instructions for Linux with Konqueror</h3><ol><li>Start the Konqueror browser</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>Press the Enter key.</li><li>Enter your login and password, and select 'OK'.</li></ol><h3>Instructions for Linux with Nautilus</h3><ol><li>Start the Nautilus browser</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>Press the Enter key.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/LINUX]<p>If opening the webfolder does not work, please contact <a href=\"mailto:[ADMIN_MAIL]\">[ADMIN_MAIL]</a>.</p>"
+
+msgid "webfolder_instructions_titletext"
+msgstr "Open as webfolder"
+
+msgid "webfolder_mount_dir_with"
+msgstr "Open this page as a Webfolder with <a href=\"%1$s\">Internet Explorer 6</a>, <a href=\"%2$s\">Konqueror</a>, <a href=\"%3$s\">Nautilus</a>, <a href=\"%4$s\">other Browser</a>."
+
+msgid "webr"
+msgstr "رابط"
+
+msgid "webr_active"
+msgstr "فعال"
+
+msgid "webr_add"
+msgstr "اضافة رابط"
+
+msgid "webr_deleted_items"
+msgstr "Deleted Weblink(s)."
+
+msgid "webr_edit"
+msgstr "تعديل رابط"
+
+msgid "webr_sure_delete_items"
+msgstr "Do you really want to delete the following Weblink(s)?"
+
+msgid "webservices"
+msgstr "خدمات الموقع"
+
+msgid "week"
+msgstr "الاسبوع"
+
+msgid "weekly"
+msgstr "اسبوعيا"
+
+msgid "weeks"
+msgstr "اسابيع"
+
+msgid "welcome"
+msgstr "مرحبا بك"
+
+msgid "width"
+msgstr "العرض"
+
+msgid "wiki"
+msgstr "Wiki"
+
+msgid "wiki_add"
+msgstr "Wiki اضافة"
+
+msgid "wiki_new"
+msgstr "جديدة Wiki"
+
+msgid "with"
+msgstr "مع"
+
+#, fuzzy
+msgid "withdraw_consent"
+msgstr "Withdraw Consent"
+
+#, fuzzy
+msgid "withdraw_consent_info_internal"
+msgstr "If you click on ‘Withdraw Consent’, your account will be deleted."
+
+#, fuzzy
+msgid "withdraw_usr_agreement"
+msgstr "Withdraw Consent"
+
+#, fuzzy
+msgid "withdrawal_complete"
+msgstr "Withdrawal of consent complete."
+
+#, fuzzy
+msgid "withdrawal_complete_deleted"
+msgstr "Withdrawal of consent complete, account deleted."
+
+#, fuzzy
+msgid "withdrawal_complete_redirect"
+msgstr "Withdrawal of consent complete. To have your account deleted, please contact your organisation."
+
+#, fuzzy
+msgid "withdrawal_mail_info"
+msgstr "The following email will be sent to an administrator after confirming the withdrawal of your consent:[BR][BR]"
+
+#, fuzzy
+msgid "withdrawal_mail_subject"
+msgstr "Withdrawal of Consent to Terms of Service"
+
+#, fuzzy
+msgid "withdrawal_mail_text"
+msgstr "Dear Sir/Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installation’s Terms of Service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Yours faithfully[BR]%1$s"
+
+#, fuzzy
+msgid "withdrawal_sure_account"
+msgstr "Are you sure you want to confirm the withdrawal of your consent?"
+
+#, fuzzy
+msgid "withdrawal_sure_account_deletion"
+msgstr "Are you sure you want to confirm the withdrawal of your consent? This will result in your user account being irrevocably deleted."
+
+#, fuzzy
+msgid "withdrawal_sure_account_deletion_no_consent_yet"
+msgstr "Are you sure that you do not want to accept the Terms of Service? This will result in your user account being irrevocably deleted."
+
+#, fuzzy
+msgid "withdrawal_sure_account_no_consent_yet"
+msgstr "Are you sure that you do not want to accept the Terms of Service?"
+
+msgid "wizard_search_list"
+msgstr "اعطى بحثك النتائج التالية. الرجاء اختيار واحد منها"
+
+msgid "wizard_title_info"
+msgstr "الرجاء ادخال عنوان العنصر الذي ترغب في تكريره"
+
+msgid "write"
+msgstr "كتابة"
+
+msgid "year"
+msgstr "سنة"
+
+msgid "yearly"
+msgstr "yearly"
+
+msgid "years"
+msgstr "سنوات"
+
+msgid "yes"
+msgstr "نعم"
+
+msgid "yesterday"
+msgstr "امس"
+
+msgid "zip"
+msgstr "Zip رمز"
+
+msgid "zip_structure_error"
+msgstr "Archive contains same filenames. Upload aborted."
+
+msgid "zip_test_failed"
+msgstr " ILIAS الرجاء الاتصال بمدير Zip-اخفق اختبار"
+
+msgid "zipcode"
+msgstr "الرمز البريدي"

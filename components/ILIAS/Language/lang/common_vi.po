@@ -1,0 +1,9201 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: vi\n"
+"Language-Team: Vietnamese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: common\n"
+
+#, fuzzy
+msgid "HH"
+msgstr "HH:MM"
+
+msgid "absolute_path"
+msgstr "Đường dẫn tuyệt đối"
+
+#, fuzzy
+msgid "accept_usr_agreement_btn"
+msgstr "Accept"
+
+msgid "access"
+msgstr "Truy cập"
+
+#, fuzzy
+msgid "accessFree"
+msgstr "Remove limited Access"
+
+#, fuzzy
+msgid "accessRestrict"
+msgstr "Set limited Access"
+
+#, fuzzy
+msgid "access_expired"
+msgstr "expired"
+
+#, fuzzy
+msgid "access_free_granted"
+msgstr "Set the selected user(s) to unlimited access"
+
+#, fuzzy
+msgid "access_from"
+msgstr "Access (from)"
+
+#, fuzzy
+msgid "access_public"
+msgstr "Public"
+
+#, fuzzy
+msgid "access_restricted"
+msgstr "Set the selected user(s) to limited access"
+
+#, fuzzy
+msgid "access_scope"
+msgstr "Access"
+
+#, fuzzy
+msgid "access_unlimited"
+msgstr "unlimited"
+
+#, fuzzy
+msgid "access_until"
+msgstr "Access until"
+
+#, fuzzy
+msgid "access_users"
+msgstr "Logged in Users"
+
+#, fuzzy
+msgid "accesscount_registered_users"
+msgstr "Read by number of distinct ILIAS users"
+
+#, fuzzy
+msgid "accessibility_control_concept"
+msgstr "Accessibility Control Concept"
+
+#, fuzzy
+msgid "account"
+msgstr "My Account"
+
+msgid "account_expires_body"
+msgstr "Tài khoản của bạn bị giới hạn, sẽ hết hạn vào:"
+
+msgid "account_expires_subject"
+msgstr "[ILIAS] Tài khoản của bạn hết hạn"
+
+msgid "action"
+msgstr "Thao tác"
+
+msgid "action_aborted"
+msgstr "Thao tác đã hủy bỏ"
+
+msgid "actions"
+msgstr "Thao tác"
+
+#, fuzzy
+msgid "actions_for"
+msgstr "Actions for %s"
+
+#, fuzzy
+msgid "activate"
+msgstr "Set Active"
+
+msgid "activate_https"
+msgstr "Kiểm soát HTTPS bằng ILIAS<br>(Hệ thống thanh toán, Đăng nhập)"
+
+# 19 Apr 2006 content changed
+msgid "activate_tracking"
+msgstr "Kích hoạt theo dõi"
+
+msgid "activation"
+msgstr "Kích hoạt"
+
+msgid "active"
+msgstr "Đang hoạt động"
+
+msgid "add"
+msgstr "Thêm"
+
+msgid "add_condition"
+msgstr "Tạo điều kiện mới"
+
+#, fuzzy
+msgid "add_entry"
+msgstr "Add/Edit entry"
+
+msgid "add_member"
+msgstr "Thêm thành viên"
+
+#, fuzzy
+msgid "add_member_role"
+msgstr "Add Member Role"
+
+#, fuzzy
+msgid "add_new_user_defined_field"
+msgstr "Add New User-defined Field"
+
+msgid "add_note"
+msgstr "Thêm ghi chép"
+
+#, fuzzy
+msgid "add_parameter"
+msgstr "New Parameter"
+
+#, fuzzy
+msgid "add_remove_edit_entries_of_main_menu"
+msgstr "Add, remove or edit entries of the main menu"
+
+#, fuzzy
+msgid "add_role"
+msgstr "Add Role"
+
+msgid "add_translation"
+msgstr "Thêm bản dịch"
+
+msgid "add_user"
+msgstr "Thêm người sử dụng nội bộ"
+
+#, fuzzy
+msgid "add_user_defined_field"
+msgstr "Add New Field"
+
+msgid "added_new_condition"
+msgstr "Đã tạo điều kiện mới."
+
+#, fuzzy
+msgid "additional_info"
+msgstr "Additional Information"
+
+#, fuzzy
+msgid "address"
+msgstr "Address"
+
+#, fuzzy
+msgid "admin_force_noti"
+msgstr "Notification active"
+
+msgid "administrate_users"
+msgstr "Quản trị người sử dụng nội bộ"
+
+#, fuzzy
+msgid "administrate_users_headline"
+msgstr "Local ILIAS Accounts of this Category"
+
+msgid "administration"
+msgstr "Quản trị"
+
+msgid "administrator"
+msgstr "Người quản trị"
+
+msgid "adopt"
+msgstr "Thừa hưởng"
+
+#, fuzzy
+msgid "advanced_editing_allow_html_tags"
+msgstr "Allow the selected HTML tags for text editing"
+
+#, fuzzy
+msgid "advanced_editing_assessment_settings"
+msgstr "Allowed HTML Tags for the ILIAS Test&Assessment tool"
+
+#, fuzzy
+msgid "advanced_editing_frm_post_settings"
+msgstr "Forum Post Settings"
+
+#, fuzzy
+msgid "advanced_editing_rep_page_editing"
+msgstr "Enable Content Editing in Repository"
+
+#, fuzzy
+msgid "advanced_editing_rep_page_editing_desc"
+msgstr "This feature allows to add text/media to category, course, group and folder pages."
+
+#, fuzzy
+msgid "advanced_editing_required_tags"
+msgstr "The following HTML tags are required: %s"
+
+#, fuzzy
+msgid "advanced_editing_survey_settings"
+msgstr "Allowed HTML Tags for the ILIAS survey tool"
+
+#, fuzzy
+msgid "adve_assessment_settings"
+msgstr "Test & Assessment Settings"
+
+#, fuzzy
+msgid "adve_frm_post_settings"
+msgstr "Forum Posts"
+
+#, fuzzy
+msgid "adve_general_settings"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "adve_survey_settings"
+msgstr "Survey Settings"
+
+msgid "agree_date"
+msgstr "Đồng ý từ"
+
+#, fuzzy
+msgid "all"
+msgstr "All"
+
+msgid "all_global_roles"
+msgstr "Vai trò toàn cục"
+
+msgid "all_local_roles"
+msgstr "Vai trò nội bộ (tất cả)"
+
+msgid "all_objects"
+msgstr "Tất cả đối tượng"
+
+msgid "all_roles"
+msgstr "Tất cả vai trò"
+
+#, fuzzy
+msgid "all_topics"
+msgstr "All Topics"
+
+msgid "all_users"
+msgstr "Tất cả người sử dụng"
+
+msgid "allow_assign_users"
+msgstr "Cho phép người sử dụng đăng ký làm quản trị nội bộ."
+
+#, fuzzy
+msgid "allow_override_alert"
+msgstr "Rules for .htaccess are not interpreted correctly."
+
+msgid "allow_register"
+msgstr "Có thể sử dụng trong mẫu đơn đăng ký người sử dụng mới"
+
+#, fuzzy
+msgid "allow_user_toggle_noti"
+msgstr "Member is allowed to deactivate notification"
+
+msgid "already_delivered_files"
+msgstr "Các file đã nộp"
+
+msgid "and"
+msgstr "và"
+
+#, fuzzy
+msgid "angry"
+msgstr "Angry"
+
+#, fuzzy
+msgid "anonymous"
+msgstr "Anonymous"
+
+msgid "answers"
+msgstr "Trả lời"
+
+msgid "any_language"
+msgstr "Tất cả ngôn ngữ"
+
+#, fuzzy
+msgid "apache_auth"
+msgstr "Apache Authentication"
+
+msgid "application_completed"
+msgstr "Đơn đã hoàn thành"
+
+msgid "application_date"
+msgstr "Ngày nộp đơn"
+
+#, fuzzy
+msgid "applications"
+msgstr "Applications"
+
+msgid "apply"
+msgstr "Áp dụng"
+
+msgid "apply_filter"
+msgstr "Áp dụng bộ lọc"
+
+msgid "appointment"
+msgstr "Bổ nhiệm"
+
+msgid "approve_date"
+msgstr "Được phê chuẩn vào ngày"
+
+msgid "approve_recipient"
+msgstr "Tên đăng nhập của người phê chuẩn"
+
+msgid "archive"
+msgstr "File nén"
+
+#, fuzzy
+msgid "archive_broken"
+msgstr "Archive seems to be broken or empty."
+
+msgid "are_you_sure"
+msgstr "Bạn có chắc chắn không?"
+
+#, fuzzy
+msgid "assf_allowed_questiontypes"
+msgstr "Available Question Types"
+
+#, fuzzy
+msgid "assf_allowed_questiontypes_desc"
+msgstr "All the checked question types will be available in this ILIAS installation. If you don't want to allow the creation of a certain question type in this installation, you must remove the selection in the associated check box."
+
+#, fuzzy
+msgid "assf_questiontypes"
+msgstr "Question Settings"
+
+msgid "assign"
+msgstr "Chỉ định"
+
+msgid "assign_global_role"
+msgstr "Chỉ định vai trò toàn cục"
+
+msgid "assign_local_role"
+msgstr "Chỉ định vai trò nội bộ"
+
+#, fuzzy
+msgid "assigned_members"
+msgstr "Assigned Members"
+
+msgid "assigned_roles"
+msgstr "Các vai trò đã chỉ định"
+
+msgid "associated_user"
+msgstr "người sử dụng cộng tác"
+
+#, fuzzy
+msgid "astounded"
+msgstr "Astounded"
+
+msgid "at_least_one_style"
+msgstr "Ít nhất một stye phải đang hoạt động."
+
+msgid "attachment"
+msgstr "Đính kèm"
+
+msgid "attachments"
+msgstr "Đính kèm"
+
+#, fuzzy
+msgid "attempts"
+msgstr "Attempts"
+
+msgid "auth_active_roles"
+msgstr "Kích hoạt vai trò toàn cục để đăng ký"
+
+#, fuzzy
+msgid "auth_allow_local"
+msgstr "Allow Local Authentication"
+
+msgid "auth_configure"
+msgstr "cấu hình..."
+
+#, fuzzy
+msgid "auth_create_users"
+msgstr "Create non-existing users automatically"
+
+msgid "auth_default"
+msgstr "Thiết lập mặc định"
+
+msgid "auth_default_mode_changed_to"
+msgstr "Phương thức xác thực mặc định thay đổi thành"
+
+#, fuzzy
+msgid "auth_ecs"
+msgstr "ECS"
+
+msgid "auth_ldap"
+msgstr "LDAP"
+
+msgid "auth_ldap_enable"
+msgstr "Cho phép hỗ trợ LDAP"
+
+#, fuzzy
+msgid "auth_ldap_migration"
+msgstr "Account Migration"
+
+#, fuzzy
+msgid "auth_ldap_migration_info"
+msgstr "Activate this option to give new users the possibility to migrate their existing ILIAS accounts to LDAP authentication."
+
+msgid "auth_local"
+msgstr "Cơ sở dữ liệu ILIAS"
+
+#, fuzzy
+msgid "auth_login_instructions"
+msgstr "Instructions shown on login page"
+
+msgid "auth_mode"
+msgstr "Chế độ xác thực"
+
+msgid "auth_mode_not_changed"
+msgstr "(Không có gì thay đổi)"
+
+#, fuzzy
+msgid "auth_mode_roles_changed"
+msgstr "Changed authentication mode for this Role"
+
+#, fuzzy
+msgid "auth_new_account_mail_desc"
+msgstr "Send new account mail to user, if user is generated automatically. A password will only be generated, if \"Allow Local Authentication\" is also activated."
+
+#, fuzzy
+msgid "auth_per_default"
+msgstr "Per Default"
+
+msgid "auth_remark_non_local_auth"
+msgstr "Khi chọn một phương thức xác thực khác phương thức mặc định, tên đăng nhập của người sử dụng và mật khẩu không thể thay đổi và tùy chọn đăng ký mới người sử dụng bị khóa."
+
+msgid "auth_role_auth_mode"
+msgstr "Phương thức xác thực"
+
+#, fuzzy
+msgid "auth_saml"
+msgstr "SAML"
+
+msgid "auth_script"
+msgstr "Theo ý khách hàng"
+
+msgid "auth_select"
+msgstr "Chọn chế độ xác thực"
+
+#, fuzzy
+msgid "auth_selection"
+msgstr "Login to"
+
+#, fuzzy
+msgid "auth_settings"
+msgstr "Authentication Settings"
+
+msgid "auth_shib"
+msgstr "Shibboleth"
+
+#, fuzzy
+msgid "auth_shib_instructions"
+msgstr "Be sure to read the README for instructions on how to configure Shibboleth support for ILIAS."
+
+msgid "auth_shib_not_configured"
+msgstr "Chưa cấu hình Shibboleth"
+
+msgid "auth_shibboleth"
+msgstr "Shibboleth"
+
+#, fuzzy
+msgid "auth_soap"
+msgstr "SOAP"
+
+#, fuzzy
+msgid "auth_soap_allow_local_desc"
+msgstr "This allows SOAP users to authenticate with their local ILIAS username and a local password."
+
+#, fuzzy
+msgid "auth_soap_auth"
+msgstr "Configure SOAP Authentication"
+
+#, fuzzy
+msgid "auth_soap_auth_desc"
+msgstr "This settings deal only with SOAP based user authentication, not with the ILIAS SOAP interface."
+
+#, fuzzy
+msgid "auth_soap_create_users_desc"
+msgstr "Creates automatically an ILIAS user account, for users that successfully authenticated against SOAP, without having an ILIAS account yet."
+
+#, fuzzy
+msgid "auth_soap_namespace"
+msgstr "Namespace"
+
+#, fuzzy
+msgid "auth_soap_namespace_desc"
+msgstr "As defined in WSDL. Must be specified, if .NET SOAP style is used."
+
+#, fuzzy
+msgid "auth_soap_port_desc"
+msgstr "E.g. 8080 if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php"
+
+#, fuzzy
+msgid "auth_soap_server_desc"
+msgstr "E.g. auth.yourserver.com if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php"
+
+#, fuzzy
+msgid "auth_soap_settings_saved"
+msgstr "SOAP authentication settings saved"
+
+#, fuzzy
+msgid "auth_soap_uri_desc"
+msgstr "Local URI, e.g. dir/server.php if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php"
+
+#, fuzzy
+msgid "auth_soap_use_dotnet"
+msgstr "Use .NET SOAP Style"
+
+#, fuzzy
+msgid "auth_soap_use_https"
+msgstr "Use HTTPS"
+
+#, fuzzy
+msgid "auth_soap_user_default_role_desc"
+msgstr "This role is assigned to automatically created SOAP users."
+
+#, fuzzy
+msgid "auth_user_default_role"
+msgstr "Default Role"
+
+#, fuzzy
+msgid "authenticate_ilias"
+msgstr "Login to ILIAS"
+
+#, fuzzy
+msgid "authentication_settings"
+msgstr "Authentication"
+
+msgid "author"
+msgstr "Tác giả"
+
+#, fuzzy
+msgid "authoring_mode"
+msgstr "Authoring Mode"
+
+msgid "authors"
+msgstr "Các tác giả"
+
+#, fuzzy
+msgid "autocomplete_more"
+msgstr "more"
+
+msgid "available"
+msgstr "Sử dụng được"
+
+#, fuzzy
+msgid "awra"
+msgstr "Who is online?"
+
+msgid "back"
+msgstr "Quay lại"
+
+#, fuzzy
+msgid "back_to_course"
+msgstr "Back to Course"
+
+#, fuzzy
+msgid "back_to_crs_content"
+msgstr "Back to Course Content"
+
+#, fuzzy
+msgid "back_to_fold_content"
+msgstr "Back to Folder Content"
+
+#, fuzzy
+msgid "back_to_grp_content"
+msgstr "Back to Group Content"
+
+#, fuzzy
+msgid "backto_lua"
+msgstr "Back to Local User Administration"
+
+msgid "basedn"
+msgstr "BaseDN"
+
+msgid "basic_settings"
+msgstr "Thiết lập cơ bản"
+
+#, fuzzy
+msgid "before"
+msgstr "before"
+
+#, fuzzy
+msgid "behind"
+msgstr "Behind"
+
+msgid "bib_data"
+msgstr "Dữ liệu thư viện"
+
+#, fuzzy
+msgid "bibl_add"
+msgstr "Add Bibliography"
+
+#, fuzzy
+msgid "birthday"
+msgstr "Birthday"
+
+msgid "bkm_import"
+msgstr "Nhập đánh dấu"
+
+msgid "bkm_import_ok"
+msgstr "Nhập thành công %d đánh dấu và %d thư mục đánh dấu."
+
+msgid "bkm_sendmail"
+msgstr "Gửi như là đính kèm"
+
+#, fuzzy
+msgid "block"
+msgstr "Block"
+
+msgid "bm"
+msgstr "Đánh dấu"
+
+#, fuzzy
+msgid "bm_add_to_ilias"
+msgstr "Add to ILIAS Bookmarks"
+
+msgid "bmf"
+msgstr "Thư mục đánh dấu"
+
+#, fuzzy
+msgid "bold"
+msgstr "Bold"
+
+#, fuzzy
+msgid "bold_action"
+msgstr "Insert Bold - Click to insert bold text."
+
+#, fuzzy
+msgid "bookings"
+msgstr "Bookings"
+
+#, fuzzy
+msgid "bookmark_added"
+msgstr "The Bookmark has been created."
+
+msgid "bookmark_folder_new"
+msgstr "Tạo thư mục đánh dấu mới"
+
+msgid "bookmark_new"
+msgstr "Tạo đánh dấu mới"
+
+msgid "bookmark_target"
+msgstr "Mục tiêu"
+
+msgid "bookmarks"
+msgstr "Đánh dấu"
+
+msgid "bookmarks_of"
+msgstr "Đánh dấu của"
+
+#, fuzzy
+msgid "breadcrumb_navigation"
+msgstr "Breadcrumb Navigation"
+
+#, fuzzy
+msgid "breadcrumbs_aria_label"
+msgstr "Breadcrumbs"
+
+#, fuzzy
+msgid "briefcase"
+msgstr "Background Tasks"
+
+#, fuzzy
+msgid "btn_add"
+msgstr "Add"
+
+#, fuzzy
+msgid "btn_back"
+msgstr "Back"
+
+#, fuzzy
+msgid "btn_next"
+msgstr "Continue"
+
+#, fuzzy
+msgid "btn_previous"
+msgstr "Back"
+
+msgid "btn_remove_system"
+msgstr "Xóa khỏi hệ thống"
+
+msgid "btn_undelete"
+msgstr "Hủy việc xóa"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_no"
+msgstr "Doesn`t Receive Contact Requests"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_yes"
+msgstr "Receives Contact Requests"
+
+#, fuzzy
+msgid "building_export_file"
+msgstr "Building Export File..."
+
+#, fuzzy
+msgid "bulletlist_action"
+msgstr "Insert Bulletpoint-List - Click to insert a bulletpoint-list."
+
+msgid "by"
+msgstr "Do"
+
+msgid "bytes"
+msgstr "Bytes"
+
+#, fuzzy
+msgid "cal_from"
+msgstr "From:"
+
+#, fuzzy
+msgid "cal_until"
+msgstr "Until:"
+
+msgid "calendar"
+msgstr "Lịch"
+
+msgid "cancel"
+msgstr "Huỷ bỏ"
+
+#, fuzzy
+msgid "cancel_file_upload"
+msgstr "Do you really want to cancel all pending uploads?"
+
+msgid "cannot_find_xml"
+msgstr "Không tìm thấy file-XML nào."
+
+msgid "cannot_uninstall_language_in_use"
+msgstr "Bạn không thể tháo ngôn ngữ đang được sử dụng!"
+
+msgid "cannot_uninstall_systemlanguage"
+msgstr "Bạn không thể tháo ngôn ngữ hệ thống!"
+
+msgid "cannot_unzip_file"
+msgstr "Không thể giải nén file."
+
+msgid "cant_deactivate_if_users_assigned"
+msgstr "Bạn không thể khử kich hoạt một giao diện nếu vẫn còn những người sử dụng được chỉ định cho giao diện đó."
+
+msgid "cat"
+msgstr "Chuyên mục"
+
+msgid "cat_add"
+msgstr "Thêm chuyên mục"
+
+msgid "cat_added"
+msgstr "Đã thêm chuyên mục"
+
+#, fuzzy
+msgid "cat_copy_threads_info"
+msgstr "Please decide which category items should be copied, linked or even omitted."
+
+msgid "cat_edit"
+msgstr "Sửa chuyên mục"
+
+msgid "cat_new"
+msgstr "Chuyên mục mới"
+
+#, fuzzy
+msgid "cat_wizard_page"
+msgstr "Copy Category (Step 2/2)"
+
+msgid "categories"
+msgstr "Chuyên mục"
+
+msgid "categories_imported"
+msgstr "Hoàn thành nhập chuyên mục."
+
+#, fuzzy
+msgid "catr"
+msgstr "Category Reference"
+
+#, fuzzy
+msgid "catr_add"
+msgstr "Add Category Link"
+
+#, fuzzy
+msgid "catr_edit_info"
+msgstr "Please choose one category, for creating a new reference."
+
+#, fuzzy
+msgid "catr_new"
+msgstr "Create new Category Reference"
+
+#, fuzzy
+msgid "catr_settings"
+msgstr "Category Link Settings"
+
+#, fuzzy
+msgid "certificate"
+msgstr "Certificate"
+
+#, fuzzy
+msgid "certificate_file_already_exists_error"
+msgstr "The certificate file already exists in the file system."
+
+#, fuzzy
+msgid "certificate_file_input_output_error"
+msgstr "The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator."
+
+#, fuzzy
+msgid "certificate_file_not_found_error"
+msgstr "The certificate file doesn't exist in the file system anymore. Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden."
+
+#, fuzzy
+msgid "certificate_persistent_option"
+msgstr "Certificates of Achievements"
+
+#, fuzzy
+msgid "certificate_selection"
+msgstr "Origin of Certificates"
+
+#, fuzzy
+msgid "certificate_workspace_option"
+msgstr "Certificates of Personal Resources"
+
+#, fuzzy
+msgid "certificates"
+msgstr "Certificates"
+
+msgid "change"
+msgstr "Thay đổi"
+
+msgid "change_assignment"
+msgstr "Thay đổi nhiệm vụ"
+
+msgid "change_header_title"
+msgstr "Sửa tiêu đề"
+
+msgid "change_owner"
+msgstr "Thay đổi chủ nhân"
+
+msgid "change_sort_direction"
+msgstr "Thay đổi cách sắp xếp"
+
+msgid "changeable"
+msgstr "Thay đổi được"
+
+msgid "changed_to"
+msgstr "thay đổi thành"
+
+#, fuzzy
+msgid "changing_loginname_not_possible_info"
+msgstr "You changed your login name at last at %s. The next change can be performed at %s."
+
+msgid "chapter"
+msgstr "Chương"
+
+#, fuzzy
+msgid "characters"
+msgstr "characters"
+
+#, fuzzy
+msgid "chat_enter_public_room"
+msgstr "Public Chat"
+
+#, fuzzy
+msgid "chat_enter_public_room_tooltip"
+msgstr "Enter public chat."
+
+#, fuzzy
+msgid "chat_users_active"
+msgstr "Active users"
+
+msgid "check"
+msgstr "Đánh dấu"
+
+msgid "check_all"
+msgstr "Chọn hết"
+
+msgid "check_langfile"
+msgstr "Hãy đánh dấu ngôn ngữ của bạn"
+
+msgid "check_languages"
+msgstr "Kiểm tra ngôn ngữ"
+
+msgid "check_link"
+msgstr "Kiểm tra liên kết"
+
+msgid "check_link_desc"
+msgstr "Nếu cho phép tất cả các liên kết ngoại vi trong các học phần ILIAS sẽ được kiểm tra xem có hoạt động không."
+
+msgid "check_user_accounts"
+msgstr "Kiểm tra tài khoản người sử dụng"
+
+msgid "check_user_accounts_desc"
+msgstr "Nếu cron jobs được kích hoạt và tùy chọn này được cho phép, tất cả người sử dụng hết hạn tài khoản sẽ được thông báo bằng email."
+
+msgid "check_web_resources"
+msgstr "Kiểm tra các tài nguyên web"
+
+msgid "check_web_resources_desc"
+msgstr "Nếu cho phép tất cả các tài nguyên web sẽ được kiểm tra xem có hoạt động không."
+
+#, fuzzy
+msgid "checked"
+msgstr "Checked"
+
+msgid "checked_files"
+msgstr "Các file có thể nhập được"
+
+#, fuzzy
+msgid "chg_ilias_and_webfolder_password"
+msgstr "Change ILIAS and Webfolder Password"
+
+#, fuzzy
+msgid "chg_ilias_password"
+msgstr "Change ILIAS Password"
+
+msgid "chg_password"
+msgstr "Đổi mật khẩu"
+
+msgid "choose_language"
+msgstr "Chọn ngôn ngữ"
+
+msgid "choose_only_one_language"
+msgstr "Hãy chọn một ngôn ngữ duy nhất"
+
+msgid "chown_warning"
+msgstr "Chú ý, bạn có thể mất một số quyền hạn truy cập với đối tượng này sau khi thay đổi chủ nhân."
+
+#, fuzzy
+msgid "chta_edit_permission"
+msgstr "Change Permission Settings"
+
+#, fuzzy
+msgid "chta_read"
+msgstr "Read access to Chatroom Administration"
+
+#, fuzzy
+msgid "chta_visible"
+msgstr "Chatroom Administration is visible"
+
+#, fuzzy
+msgid "chta_write"
+msgstr "Edit Chatroom Administration"
+
+#, fuzzy
+msgid "chtr_copy"
+msgstr "Copy Chatroom"
+
+#, fuzzy
+msgid "chtr_import"
+msgstr "Import Chatroom"
+
+msgid "city"
+msgstr "Thành phố (Tỉnh)"
+
+msgid "cleaned_file"
+msgstr "Đã diệt virus trên file."
+
+msgid "cleaning_failed"
+msgstr "Không diệt được virus."
+
+msgid "clear"
+msgstr "Xóa bộ nhớ đệm"
+
+msgid "clear_clipboard"
+msgstr "Xóa bộ nhớ đệm"
+
+msgid "client"
+msgstr "Máy trạm"
+
+msgid "client_id"
+msgstr "Tên máy trạm"
+
+msgid "client_ip"
+msgstr "Địa chỉ IP máy trạm"
+
+#, fuzzy
+msgid "clientlist_available_clients"
+msgstr "Available Clients"
+
+#, fuzzy
+msgid "clientlist_clientlist"
+msgstr "Client List"
+
+#, fuzzy
+msgid "clientlist_installation_name"
+msgstr "Installation Name"
+
+#, fuzzy
+msgid "clientlist_login"
+msgstr "Login"
+
+#, fuzzy
+msgid "clientlist_login_page"
+msgstr "Login page"
+
+#, fuzzy
+msgid "clientlist_public_access"
+msgstr "Public Access"
+
+#, fuzzy
+msgid "clientlist_start_page"
+msgstr "Start page"
+
+msgid "clipboard"
+msgstr "Bộ nhớ đệm"
+
+msgid "close"
+msgstr "Đóng"
+
+#, fuzzy
+msgid "cmix"
+msgstr "Object xAPI/cmi5"
+
+#, fuzzy
+msgid "cnt_new"
+msgstr "(%s New)"
+
+#, fuzzy
+msgid "collapse"
+msgstr "Collapse"
+
+#, fuzzy
+msgid "collapse_all"
+msgstr "Collapse All"
+
+#, fuzzy
+msgid "collapse_content"
+msgstr "Collapse Content"
+
+#, fuzzy
+msgid "collapsed"
+msgstr "Collapsed"
+
+#, fuzzy
+msgid "column_selection"
+msgstr "Column Selection"
+
+#, fuzzy
+msgid "columns"
+msgstr "Columns"
+
+msgid "comma_separated"
+msgstr "Phân tách bằng dấu phẩy"
+
+msgid "comment"
+msgstr "chú thích"
+
+#, fuzzy
+msgid "comments"
+msgstr "Comments"
+
+msgid "compose"
+msgstr "Soạn thư mới"
+
+#, fuzzy
+msgid "concurrent_uploads"
+msgstr "Number of concurrent uploads"
+
+#, fuzzy
+msgid "concurrent_uploads_info"
+msgstr "Defines the number of files that can be uploaded per upload process at the same time."
+
+#, fuzzy
+msgid "cond_ref_handling"
+msgstr "Link Settings"
+
+#, fuzzy
+msgid "cond_ref_shared"
+msgstr "Shared Preconditions for all Links"
+
+#, fuzzy
+msgid "cond_ref_unique"
+msgstr "Unique Preconditions for Links"
+
+msgid "condition"
+msgstr "Điều kiện"
+
+#, fuzzy
+msgid "condition_accredited_or_passed"
+msgstr "Accredited or Passed"
+
+msgid "condition_already_assigned"
+msgstr "Đối tượng đã được chỉ định."
+
+msgid "condition_circle_created"
+msgstr "Điều kiện này là không thể, vì các đối tượng phụ thuộc vòng tròn."
+
+msgid "condition_deleted"
+msgstr "Đã xóa điều kiện."
+
+msgid "condition_finished"
+msgstr "Đã kết thúc"
+
+msgid "condition_not_finished"
+msgstr "Chưa kết thúc"
+
+msgid "condition_passed"
+msgstr "Đạt"
+
+msgid "condition_select_object"
+msgstr "Hãy chọn một đối tượng."
+
+msgid "conditions_updated"
+msgstr "Đã ghi điều kiện"
+
+#, fuzzy
+msgid "configuration"
+msgstr "Configuration"
+
+msgid "confirm"
+msgstr "Xác nhận"
+
+#, fuzzy
+msgid "confirm_delete_parameter"
+msgstr "Do you really want to delete the parameter?"
+
+msgid "confirmation"
+msgstr "Xác nhận"
+
+msgid "conflict_handling"
+msgstr "Xử lý xung đột"
+
+#, fuzzy
+msgid "cont_iim_content_popups_info"
+msgstr "Content popups appear, when the user clicks on interactive parts of the base image. On this screen you only define the popups. Their content can be edited on the main page editing screen."
+
+#, fuzzy
+msgid "cont_iim_create_info"
+msgstr "Please upload the main underlying picuture for the interactive image."
+
+#, fuzzy
+msgid "cont_iim_overlay_info"
+msgstr "Overlay images are used to alter (e.g. highlight) parts of the base image when the mouse hovers over them. After uploading the images, you can select them in the \"Triggers\" tab."
+
+#, fuzzy
+msgid "contact"
+msgstr "Contact"
+
+msgid "contact_data"
+msgstr "Thông tin liên hệ"
+
+#, fuzzy
+msgid "contact_sysadmin"
+msgstr "Contact System Administration"
+
+msgid "container"
+msgstr "Chứa"
+
+#, fuzzy
+msgid "container_no_items"
+msgstr "No Materials Available"
+
+msgid "content"
+msgstr "Nội dung"
+
+#, fuzzy
+msgid "content_frame"
+msgstr "Content Frame"
+
+msgid "content_styles"
+msgstr "Nội dung giao diện"
+
+msgid "context"
+msgstr "Vị trí"
+
+#, fuzzy
+msgid "continue"
+msgstr "continue"
+
+msgid "continue_work"
+msgstr "Tiếp tục"
+
+msgid "contra"
+msgstr "Contra///"
+
+#, fuzzy
+msgid "copa"
+msgstr "Content Page"
+
+msgid "copy"
+msgstr "Sao chép"
+
+msgid "copyChapter"
+msgstr "Sao chép"
+
+msgid "copyPage"
+msgstr "Sao chép"
+
+#, fuzzy
+msgid "copy_all"
+msgstr "Copy all"
+
+#, fuzzy
+msgid "copy_n_of_suffix"
+msgstr "- Copy (%1$s)"
+
+msgid "copy_of"
+msgstr "Sao chép của"
+
+#, fuzzy
+msgid "copy_of_suffix"
+msgstr "- Copy"
+
+#, fuzzy
+msgid "copy_perma_link"
+msgstr "Copy link to clipboard"
+
+#, fuzzy
+msgid "copy_selected_items"
+msgstr "Copy"
+
+msgid "count"
+msgstr "Đếm"
+
+#, fuzzy
+msgid "counter_novelty"
+msgstr "News"
+
+#, fuzzy
+msgid "counter_status"
+msgstr "Status"
+
+msgid "country"
+msgstr "Quốc gia"
+
+#, fuzzy
+msgid "country_free_text"
+msgstr "Country (Free Text Input"
+
+#, fuzzy
+msgid "country_selection"
+msgstr "Country (Drop Down Selection)"
+
+msgid "course"
+msgstr "Khóa học"
+
+msgid "courses"
+msgstr "Khóa học"
+
+msgid "create"
+msgstr "Tạo"
+
+msgid "create_date"
+msgstr "Tạo vào thời điểm"
+
+msgid "create_export_file"
+msgstr "Tạo file xuất ra"
+
+msgid "create_stylesheet"
+msgstr "Tạo giao diện"
+
+msgid "created"
+msgstr "Ngày tạo"
+
+msgid "cron_forum_notification"
+msgstr "Gửi thông báo diễn đàn"
+
+#, fuzzy
+msgid "cron_forum_notification_crob_desc"
+msgstr "If enabled, all users who have enabled forum notifications will get a daily mail about all new posts but no immediate notification for each submitted posting."
+
+#, fuzzy
+msgid "cron_forum_notification_disabled"
+msgstr "Can't be disabled when the Cron Job is active."
+
+msgid "cron_jobs"
+msgstr "Cron jobs"
+
+msgid "cron_lucene_index"
+msgstr "Cập nhật chỉ mục tìm kiếm Lucene"
+
+msgid "cron_lucene_index_info"
+msgstr "Nếu cho phép, chỉ mục tìm kiếm lucene sẽ được cập nhật. Hãy cấu hình máy chủ lucene ở 'Quản trị -> Tìm kiếm'."
+
+#, fuzzy
+msgid "cron_mail_notification"
+msgstr "Send Mail Notifications"
+
+#, fuzzy
+msgid "cron_mail_notification_cron"
+msgstr "regularly per cron job"
+
+#, fuzzy
+msgid "cron_mail_notification_desc"
+msgstr "If enabled, all users, who want to be informed about new mail, will get notifications by external mail."
+
+#, fuzzy
+msgid "cron_mail_notification_message"
+msgstr "Send Mail Notifications with Mail-Message"
+
+#, fuzzy
+msgid "cron_mail_notification_message_info"
+msgstr "If enabled, all users will get notifications with complete mail message by external mail."
+
+#, fuzzy
+msgid "cron_mail_notification_never"
+msgstr "never"
+
+#, fuzzy
+msgid "cron_users_without_login_del_create_date_thr"
+msgstr "Thresholt"
+
+#, fuzzy
+msgid "cron_users_without_login_del_create_date_thr_info"
+msgstr "All user accounts created before the defined threshold will be taken into consideration."
+
+#, fuzzy
+msgid "cron_users_without_login_del_role_whitelist"
+msgstr "Included Roles"
+
+#, fuzzy
+msgid "cron_users_without_login_del_role_whitelist_info"
+msgstr "The deletion will only processed for users assigned to at least one of the selected roles"
+
+#, fuzzy
+msgid "cronjob_last_start"
+msgstr "Last Start of the Cron Job"
+
+#, fuzzy
+msgid "cronjob_last_start_unknown"
+msgstr "Indeterminate"
+
+msgid "crs"
+msgstr "Khóa học"
+
+#, fuzzy
+msgid "crs_activation_start_invalid"
+msgstr "The start and the end time is not valid."
+
+msgid "crs_add"
+msgstr "Thêm khóa học"
+
+msgid "crs_added"
+msgstr "Đã thêm khóa học"
+
+msgid "crs_archives"
+msgstr "File nén"
+
+#, fuzzy
+msgid "crs_cancel_waiting_list"
+msgstr "Do you really want to remove yourself from the waiting list of course \"%s\"?"
+
+#, fuzzy
+msgid "crs_copy_threads_info"
+msgstr "Please decide which course materials should be copied, linked or even omitted."
+
+msgid "crs_edit"
+msgstr "Sửa khóa học"
+
+#, fuzzy
+msgid "crs_list_reg"
+msgstr "Registration"
+
+#, fuzzy
+msgid "crs_list_reg_end"
+msgstr "Registration End"
+
+#, fuzzy
+msgid "crs_list_reg_limit_full"
+msgstr "No places left"
+
+#, fuzzy
+msgid "crs_list_reg_limit_places"
+msgstr "Free places"
+
+#, fuzzy
+msgid "crs_list_reg_noreg"
+msgstr "No Registration Possible"
+
+#, fuzzy
+msgid "crs_list_reg_period"
+msgstr "Registration Period"
+
+#, fuzzy
+msgid "crs_list_reg_start"
+msgstr "Registration Begin"
+
+msgid "crs_member_not_passed"
+msgstr "Không đạt"
+
+msgid "crs_member_passed"
+msgstr "Đạt"
+
+#, fuzzy
+msgid "crs_members_gallery"
+msgstr "Course Members Gallery"
+
+msgid "crs_new"
+msgstr "Khóa học mới"
+
+#, fuzzy
+msgid "crs_removed_from_waiting_list"
+msgstr "You have been detached from the waiting list of course \"%s\"."
+
+msgid "crs_status_blocked"
+msgstr "[Từ chối truy cập]"
+
+msgid "crs_status_pending"
+msgstr "[Đang chờ đăng ký]"
+
+msgid "crs_subscribers_assigned"
+msgstr "Đã chỉ định (những) người sử dụng mới"
+
+#, fuzzy
+msgid "crs_title"
+msgstr "Course Title"
+
+#, fuzzy
+msgid "crs_unsubscribe"
+msgstr "Unsubscribe"
+
+#, fuzzy
+msgid "crs_wizard_page"
+msgstr "Copy Course (Step 2/2)"
+
+#, fuzzy
+msgid "crsr"
+msgstr "Course Reference"
+
+#, fuzzy
+msgid "crsr_add"
+msgstr "Add Course Link"
+
+#, fuzzy
+msgid "crsr_edit_info"
+msgstr "Please choose one course, for creating a new reference."
+
+#, fuzzy
+msgid "crsr_new"
+msgstr "Create new Course Reference"
+
+#, fuzzy
+msgid "crsr_settings"
+msgstr "Course Link Settings"
+
+#, fuzzy
+msgid "csv_export"
+msgstr "CSV-Export"
+
+msgid "current_ip"
+msgstr "Địa chỉ IP hiện thời:"
+
+msgid "current_ip_alert"
+msgstr "Thông báo: nếu bạn nhập vào địa chỉ IP sai bạn sẽ không thể truy cập hệ thống với hồ sơ này."
+
+msgid "current_password"
+msgstr "Mật khẩu hiện thời"
+
+#, fuzzy
+msgid "current_user_avatar"
+msgstr "Your User Avatar"
+
+#, fuzzy
+msgid "currently_used_disk_space"
+msgstr "Currently used disk space"
+
+#, fuzzy
+msgid "customize_page"
+msgstr "Customize Page"
+
+msgid "cut"
+msgstr "Cắt"
+
+msgid "cutPage"
+msgstr "Cắt"
+
+msgid "daily"
+msgstr "hàng ngày"
+
+msgid "database"
+msgstr "Cơ sở dữ liệu"
+
+msgid "database_version"
+msgstr "Phiên bản cơ sở dữ liệu hiện thời"
+
+msgid "dataset"
+msgstr "Mục"
+
+msgid "date"
+msgstr "Ngày"
+
+#, fuzzy
+msgid "date_time"
+msgstr "Date and Time"
+
+msgid "dateplaner"
+msgstr "Lịch"
+
+msgid "day"
+msgstr "Ngày"
+
+msgid "days"
+msgstr "Ngày"
+
+msgid "db_host"
+msgstr "Máy chủ cơ sở dữ liệu"
+
+msgid "db_name"
+msgstr "Tên cơ sở dữ liệu"
+
+msgid "db_need_update"
+msgstr "Cơ sở dữ liệu cần cập nhật!"
+
+msgid "db_pass"
+msgstr "Mật khẩu cơ sở dữ liệu"
+
+msgid "db_type"
+msgstr "Kiểu cơ sở dữ liệu"
+
+msgid "db_user"
+msgstr "Người sử dụng cơ sở dữ liệu"
+
+msgid "db_version"
+msgstr "Phiên bản cơ sở dữ liệu"
+
+#, fuzzy
+msgid "dd_mm_yyyy"
+msgstr "DD.MM.YYYY"
+
+#, fuzzy
+msgid "deactivate"
+msgstr "Set Inactive"
+
+#, fuzzy
+msgid "decrease_attempts"
+msgstr "Attempts - 1 "
+
+msgid "def_repository_view"
+msgstr "Cách xem kho kiến thức mặc định"
+
+msgid "default"
+msgstr "Mặc định"
+
+#, fuzzy
+msgid "default_auth_mode"
+msgstr "Default Authentication Method"
+
+#, fuzzy
+msgid "default_auth_mode_info"
+msgstr "Please choose the authentication method that is preselected on the login page."
+
+msgid "default_language"
+msgstr "Ngôn ngữ mặc định"
+
+msgid "default_perm_settings"
+msgstr "Quyền hạn mặc định"
+
+msgid "default_role"
+msgstr "Vai trò mặc định"
+
+msgid "default_roles"
+msgstr "(Những) vai trò mặc định"
+
+msgid "default_skin"
+msgstr "Skin mặc định"
+
+msgid "default_skin_style"
+msgstr "Skin / giao diện mặc định"
+
+msgid "default_style"
+msgstr "Style mặc định"
+
+#, fuzzy
+msgid "defaults"
+msgstr "Defaults"
+
+msgid "delete"
+msgstr "Xóa"
+
+#, fuzzy
+msgid "delete_existing_file"
+msgstr "Delete Existing File"
+
+#, fuzzy
+msgid "delete_inactivated_user_accounts"
+msgstr "Delete inactivated user accounts"
+
+#, fuzzy
+msgid "delete_inactivated_user_accounts_desc"
+msgstr "If enabled, user accounts will be deleted depending on the date of inactivation."
+
+#, fuzzy
+msgid "delete_inactivated_user_accounts_include_roles"
+msgstr "Included roles"
+
+#, fuzzy
+msgid "delete_inactivated_user_accounts_include_roles_desc"
+msgstr "Defines the roles that will participate in the deletion."
+
+#, fuzzy
+msgid "delete_inactivated_user_accounts_period"
+msgstr "Days past since the inactivation"
+
+#, fuzzy
+msgid "delete_inactivated_user_accounts_period_desc"
+msgstr "Deletion will be executed if this period of time has past since the inactivation."
+
+#, fuzzy
+msgid "delete_inactive_user_accounts"
+msgstr "Delete user accounts"
+
+#, fuzzy
+msgid "delete_inactive_user_accounts_desc"
+msgstr "If enabled, user accounts will be deleted depending on the date of the last login."
+
+#, fuzzy
+msgid "delete_inactive_user_accounts_include_roles"
+msgstr "Included roles"
+
+#, fuzzy
+msgid "delete_inactive_user_accounts_include_roles_desc"
+msgstr "Defines the roles that will participate in the deletion."
+
+#, fuzzy
+msgid "delete_inactive_user_accounts_period"
+msgstr "Days past since the last login"
+
+#, fuzzy
+msgid "delete_inactive_user_accounts_period_desc"
+msgstr "Deletion will be executed if this period of time has past since the last login."
+
+#, fuzzy
+msgid "delete_parameter"
+msgstr "Delete Parameter"
+
+msgid "delete_selected_items"
+msgstr "Xóa các mục đã chọn"
+
+msgid "deleted"
+msgstr "Đã xóa"
+
+msgid "deleted_user"
+msgstr "Đã xóa người sử dụng"
+
+#, fuzzy
+msgid "deleted_users"
+msgstr "Deleted users"
+
+#, fuzzy
+msgid "deletion_notification"
+msgstr "\"%s\" has canceled the attendance of session \"%s\"."
+
+msgid "deliver"
+msgstr "Nộp bài tập"
+
+#, fuzzy
+msgid "deny_usr_agreement"
+msgstr "Do Not Accept Terms of Service?"
+
+#, fuzzy
+msgid "deny_usr_agreement_btn"
+msgstr "Do Not Accept"
+
+msgid "department"
+msgstr "Phòng (Khoa)"
+
+msgid "desc"
+msgstr "Mô tả"
+
+msgid "description"
+msgstr "Mô tả"
+
+msgid "desired_password"
+msgstr "Mật khẩu mới"
+
+msgid "details"
+msgstr "Chi tiết"
+
+#, fuzzy
+msgid "didactic_template"
+msgstr "Didactic Template"
+
+msgid "disable"
+msgstr "khóa"
+
+msgid "disable_check"
+msgstr "Không kiểm tra"
+
+#, fuzzy
+msgid "disable_ext_lang_maint"
+msgstr "Disable Extended Maintenance"
+
+#, fuzzy
+msgid "disable_hide_user_toggle"
+msgstr "Member is allowed to deactivate"
+
+msgid "disabled"
+msgstr "Khóa"
+
+#, fuzzy
+msgid "disclose"
+msgstr "Disclose"
+
+#, fuzzy
+msgid "dislike"
+msgstr "Dislike"
+
+msgid "domain"
+msgstr "Tên miền"
+
+msgid "down"
+msgstr "Xuống"
+
+msgid "download"
+msgstr "Tải xuống"
+
+msgid "download_all_returned_files"
+msgstr "Tải xuống tất cả file trả về"
+
+#, fuzzy
+msgid "download_link"
+msgstr "Download Link"
+
+#, fuzzy
+msgid "download_multiple_objects"
+msgstr "Download Multiple Objects"
+
+#, fuzzy
+msgid "download_selected_items"
+msgstr "Download"
+
+#, fuzzy
+msgid "downloading_settings"
+msgstr "Downloading Settings"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement"
+msgstr "Accept Declaration of Data Protection?"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement_intro"
+msgstr "There is a new Declaration of Data Protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page."
+
+#, fuzzy
+msgid "dpro_agreed_on"
+msgstr "DoDP agreed to on"
+
+#, fuzzy
+msgid "dpro_force_accept_usr_agreement"
+msgstr "You must accept the Declaration of Data Protection!"
+
+#, fuzzy
+msgid "dpro_no_agreement_description"
+msgstr "There is currently no Declaration of Data Protection document available for this installation. Please contact the <a href=\"%1$s\">system administrator</a>."
+
+#, fuzzy
+msgid "dpro_refuse_acceptance"
+msgstr "Refuse to Accept the Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_usr_agreement"
+msgstr "Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_usr_agreement_footer_intro"
+msgstr "You have declared your consent to this Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description"
+msgstr "Withdraw your consent to our Declaration of Data Protection here."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description_external"
+msgstr "Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description_internal"
+msgstr "Please log in again to complete the process of withdrawing your consent to the Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_header"
+msgstr "Withdraw to Consent of Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_withdraw_consent_info"
+msgstr "Withdraw your consent to our Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_info_external"
+msgstr "Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Declaration of Data Protection."
+
+msgid "drafts"
+msgstr "Bản thảo"
+
+#, fuzzy
+msgid "drag_file_here"
+msgstr "Drag-and-drop your file here"
+
+#, fuzzy
+msgid "drag_files_here"
+msgstr "Drag-and-drop your files here"
+
+#, fuzzy
+msgid "drag_handle"
+msgstr "Draggable element"
+
+#, fuzzy
+msgid "drop_files_on_repo_obj_info"
+msgstr "Drop the files here to upload them into this object."
+
+msgid "edit"
+msgstr "Sửa"
+
+#, fuzzy
+msgid "edit_assignments"
+msgstr "Edit Assignments"
+
+#, fuzzy
+msgid "edit_cat_settings"
+msgstr "Advanced Category Settings"
+
+msgid "edit_content"
+msgstr "Sửa nội dung"
+
+#, fuzzy
+msgid "edit_grouping"
+msgstr "Edit Membership Limitation"
+
+#, fuzzy
+msgid "edit_metadata"
+msgstr "Edit Metadata"
+
+msgid "edit_operations"
+msgstr "Sửa thao tác"
+
+#, fuzzy
+msgid "edit_page"
+msgstr "Edit Page"
+
+#, fuzzy
+msgid "edit_page_content"
+msgstr "Edit Page Content"
+
+#, fuzzy
+msgid "edit_page_meta"
+msgstr "Edit Page Metadata"
+
+msgid "edit_properties"
+msgstr "Sửa thuộc tính"
+
+msgid "edit_stylesheet"
+msgstr "Sửa giao diện"
+
+#, fuzzy
+msgid "edited_on"
+msgstr "Edited on"
+
+msgid "editor"
+msgstr "Người soạn thảo"
+
+msgid "email"
+msgstr "Email"
+
+msgid "email_not_valid"
+msgstr "Địa chỉ email bạn nhập không hợp lệ!"
+
+msgid "enable"
+msgstr "Cho phép"
+
+#, fuzzy
+msgid "enable_anonymous_fora"
+msgstr "Allow posting with pseudonym"
+
+#, fuzzy
+msgid "enable_anonymous_fora_desc"
+msgstr "If this option is disabled, the feature \"Posting with pseudonym\" is not available in forums anymore."
+
+msgid "enable_calendar"
+msgstr "Cho phép sử dụng lịch"
+
+#, fuzzy
+msgid "enable_comments_export"
+msgstr "Enable Comments Export"
+
+#, fuzzy
+msgid "enable_course_group_notifications"
+msgstr "Daily Mail for Groups and Course News"
+
+#, fuzzy
+msgid "enable_course_group_notifications_desc"
+msgstr "If enabled, Participants can subscribe to a daily summary of news."
+
+msgid "enable_custom_icons"
+msgstr "Cho phép biểu tượng tùy chọn"
+
+msgid "enable_custom_icons_info"
+msgstr "Điều này cho phép định nghĩa các biểu tượng tùy chọn cho một chuyên mục riêng lẻ, khóa học hoặc nhóm. Phần thuộc tính của chuyên mục, khóa học và nhóm sẽ cung cấp một hộp thoại tải lên ảnh."
+
+#, fuzzy
+msgid "enable_dnd_upload"
+msgstr "Enable drag-and-drop upload"
+
+#, fuzzy
+msgid "enable_dnd_upload_info"
+msgstr "Files can be uploaded with drag-and-drop from the local computer if enabled."
+
+#, fuzzy
+msgid "enable_download_folder"
+msgstr "Enable Downloading Folders"
+
+#, fuzzy
+msgid "enable_download_folder_info"
+msgstr "Allows to download a folder including sub structures as a zip file."
+
+#, fuzzy
+msgid "enable_export_scorm_desc"
+msgstr "allow Export of User Data of SCORM-Learning Modules"
+
+#, fuzzy
+msgid "enable_fora_statistics"
+msgstr "Enable Statistics in Forum"
+
+#, fuzzy
+msgid "enable_fora_statistics_desc"
+msgstr "If disabled, nobody is able to access the forum statistics."
+
+#, fuzzy
+msgid "enable_hide_user_toggle"
+msgstr "Member is not allowed to deactivate"
+
+#, fuzzy
+msgid "enable_multi_download"
+msgstr "«Download multiple objects» enabled"
+
+#, fuzzy
+msgid "enable_multi_download_info"
+msgstr "Enables that multiple folders/files can be selected to download them as zip archive."
+
+msgid "enable_password_assistance"
+msgstr "Cho phép trợ giúp mật khẩu và tên đăng nhập"
+
+#, fuzzy
+msgid "enable_preview"
+msgstr "Enable Preview"
+
+#, fuzzy
+msgid "enable_preview_info"
+msgstr "Enable this option to display preview images on supported file types."
+
+#, fuzzy
+msgid "enable_repository_dnd_upload"
+msgstr "Enable in Repository"
+
+#, fuzzy
+msgid "enable_repository_dnd_upload_info"
+msgstr "Enables that files can be dragged from the computer directly onto an object in the repository to start uploading the files into this object."
+
+#, fuzzy
+msgid "enable_sahs_protocol_data"
+msgstr "Activate Protocol Data"
+
+#, fuzzy
+msgid "enable_sahs_protocol_data_desc"
+msgstr "Show Protocol Data (SCORM/AICC)"
+
+#, fuzzy
+msgid "enable_search_engine"
+msgstr "Open Public Area for Internet Search Engines (e.g Google)."
+
+#, fuzzy
+msgid "enable_trash"
+msgstr "Enable Trash"
+
+#, fuzzy
+msgid "enable_trash_info"
+msgstr "If enabled, deleted Objects are moved into Trash and may be recovered later. When deactivating this option deleted Objects are removed irreversibly from the System!"
+
+#, fuzzy
+msgid "enable_webdav"
+msgstr "Enable WebDAV access"
+
+#, fuzzy
+msgid "enable_webdav_info"
+msgstr "Allows WebDAV clients to access the repository as a webfolder. Users can open webfolders using the \"open as webfolder\" action in the repository, or by entering the following address in a WebDAV client: <a href=\"%1$s\" folder=\"%1$s\">%1$s</a>"
+
+msgid "enabled"
+msgstr "Cho phép"
+
+#, fuzzy
+msgid "enlarge"
+msgstr "Enlarge"
+
+#, fuzzy
+msgid "enter_in_mb_desc"
+msgstr "Enter a value in MB."
+
+#, fuzzy
+msgid "enter_new_name"
+msgstr "Please enter a name"
+
+#, fuzzy
+msgid "entered_notification"
+msgstr "\"%s\" has joined the session \"%s\"."
+
+#, fuzzy
+msgid "entry_status"
+msgstr "Entry status"
+
+msgid "err_1_param"
+msgstr "Chỉ 1 tham biến!"
+
+msgid "err_2_param"
+msgstr "Chỉ 2 tham biến!"
+
+#, fuzzy
+msgid "err_auth_apache_failed"
+msgstr "The authentication has failed. Maybe you have no valid user certificate or your smartcard is not inserted."
+
+#, fuzzy
+msgid "err_auth_ldap_no_ilias_user"
+msgstr "Login failed. LDAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator."
+
+#, fuzzy
+msgid "err_auth_mode_inactive"
+msgstr "Your authentication method is deactivated."
+
+#, fuzzy
+msgid "err_auth_soap_no_ilias_user"
+msgstr "Login failed. SOAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator."
+
+#, fuzzy
+msgid "err_check_input"
+msgstr "The settings could not be saved. Please check your input."
+
+msgid "err_count_param"
+msgstr "Lý do: Số tham biến sai"
+
+#, fuzzy
+msgid "err_disabled"
+msgstr "Account creation via Shibboleth has been disabled. Please contact the system administrator for further information."
+
+#, fuzzy
+msgid "err_double_entries"
+msgstr "Reason: Duplicate Entries"
+
+msgid "err_in_line"
+msgstr "Lỗi trong dòng"
+
+msgid "err_inactive"
+msgstr "Tài khoản này chưa kích hoạt. Hãy liên hệ với người quản trị hệ thống để truy cập."
+
+#, fuzzy
+msgid "err_inactive_login_attempts"
+msgstr "Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account. "
+
+msgid "err_invalid_port"
+msgstr "Số cổng không hợp lệ"
+
+msgid "err_no_cookies"
+msgstr "Hãy cho phép cookies trong trình duyệt của bạn!"
+
+msgid "err_no_langfile_found"
+msgstr "Không tìm thấy file ngôn ngữ nào!"
+
+msgid "err_no_param"
+msgstr "Không có tham biến!"
+
+msgid "err_over_3_param"
+msgstr "Nhiều hơn 3 tham biến!"
+
+msgid "err_role_not_assignable"
+msgstr "Bạn không thể chỉ định những người sử dụng vào vai trò này tại vị trí này"
+
+msgid "err_session_expired"
+msgstr "Phiên làm việc của bạn đã hết hạn!"
+
+#, fuzzy
+msgid "err_valid_login_account_creation_disabled"
+msgstr "Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator."
+
+msgid "err_wrong_header"
+msgstr "Lý do: Tiêu đề sai."
+
+# 22 May 2006 content changed
+msgid "err_wrong_login"
+msgstr "Đăng nhập sai"
+
+msgid "err_wrong_password"
+msgstr "Sai mật khẩu"
+
+msgid "error"
+msgstr "Lỗi"
+
+#, fuzzy
+msgid "error_empty_file_or_folder"
+msgstr "The file size is 0 bytes or it is a folder."
+
+#, fuzzy
+msgid "error_extraction_failed"
+msgstr "The extraction of the archive and its directories failed. Probably because you don't have the rights to create folders or categories within this object."
+
+msgid "error_parser"
+msgstr "Lỗi khởi động bộ phân tích."
+
+#, fuzzy
+msgid "error_upload_was_zero_bytes"
+msgstr "The upload failed as this is a folder, the file size is 0 bytes or the file was renamed meanwhile."
+
+msgid "etal_talks"
+msgstr "Talks"
+
+#, fuzzy
+msgid "event_ass_materials_prop"
+msgstr "Session Materials"
+
+#, fuzzy
+msgid "event_assign_files"
+msgstr "File Assignment"
+
+msgid "exc"
+msgstr "Bài tập"
+
+msgid "exc_add"
+msgstr "Thêm bài tập"
+
+msgid "exc_added"
+msgstr "Đã thêm bài tập"
+
+msgid "exc_date_not_valid"
+msgstr "Ngày không hợp lệ"
+
+msgid "exc_deassign_members"
+msgstr "Xóa (các) thành viên"
+
+#, fuzzy
+msgid "exc_download_files"
+msgstr "Download Files"
+
+msgid "exc_edit"
+msgstr "Đã tạo bài tập mới"
+
+msgid "exc_edit_exercise"
+msgstr "Sửa bài tập"
+
+msgid "exc_edit_until"
+msgstr "Sửa đến khi"
+
+#, fuzzy
+msgid "exc_exercise_sent"
+msgstr "Exercise Sent"
+
+msgid "exc_files"
+msgstr "File"
+
+msgid "exc_files_returned"
+msgstr "Các file nộp lại"
+
+msgid "exc_instruction"
+msgstr "Hướng dẫn làm việc"
+
+#, fuzzy
+msgid "exc_last_submission"
+msgstr "Last Submission"
+
+#, fuzzy
+msgid "exc_member_of_crs_grp"
+msgstr "Member in Course/Group"
+
+msgid "exc_members_already_assigned"
+msgstr "Những người sử dụng này đã được chỉ định vào bài tập này"
+
+msgid "exc_members_assigned"
+msgstr "Các thành viên được chỉ định"
+
+#, fuzzy
+msgid "exc_members_comments_saved"
+msgstr "The exercise comments for the selected user have been saved"
+
+msgid "exc_new"
+msgstr "Bài tập mới"
+
+#, fuzzy
+msgid "exc_next_deadline"
+msgstr "Next Deadline"
+
+msgid "exc_obj"
+msgstr "Bài tập"
+
+msgid "exc_save_changes"
+msgstr "Ghi"
+
+#, fuzzy
+msgid "exc_schedule"
+msgstr "Schedule"
+
+msgid "exc_select_one_file"
+msgstr "Hãy chọn chính xác một file."
+
+msgid "exc_sent"
+msgstr "Bài tập đã được gửi đến những người sử dụng đã chọn"
+
+#, fuzzy
+msgid "exc_sent_at"
+msgstr "Sent at <br />%s"
+
+#, fuzzy
+msgid "exc_status"
+msgstr "Status"
+
+msgid "exc_status_saved"
+msgstr "Bài tập đã cập nhật"
+
+#, fuzzy
+msgid "exc_submission"
+msgstr "Submission"
+
+#, fuzzy
+msgid "exc_time_over_short"
+msgstr "Time is over."
+
+#, fuzzy
+msgid "exc_time_to_send"
+msgstr "Remaining Working Time"
+
+msgid "exc_upload_error"
+msgstr "Lỗi khi tải lên file"
+
+msgid "excs"
+msgstr "Bài tập"
+
+msgid "execute"
+msgstr "Thực hiện"
+
+msgid "exercise_time_over"
+msgstr "Bạn đã hết giờ làm việc với bài tập. Bạn không thể nộp các file nữa!"
+
+#, fuzzy
+msgid "expand"
+msgstr "Expand"
+
+#, fuzzy
+msgid "expand_all"
+msgstr "Expand All"
+
+#, fuzzy
+msgid "expand_content"
+msgstr "Expand Content"
+
+#, fuzzy
+msgid "expanded"
+msgstr "Expanded"
+
+msgid "export"
+msgstr "Xuất ra"
+
+#, fuzzy
+msgid "export_format"
+msgstr "Export format"
+
+msgid "export_html"
+msgstr "xuất ra dạng HTML"
+
+#, fuzzy
+msgid "ext_cat_settings"
+msgstr "Edit Advanced Category Settings"
+
+#, fuzzy
+msgid "ext_link"
+msgstr "Link"
+
+#, fuzzy
+msgid "extracting"
+msgstr "Extracting..."
+
+#, fuzzy
+msgid "eyeclosed"
+msgstr "Eye Closed - Click to hide the input's contents"
+
+#, fuzzy
+msgid "eyeopened"
+msgstr "Eye Open - Click to reveal the input's contents"
+
+#, fuzzy
+msgid "failure_message"
+msgstr "Failure Message"
+
+msgid "fax"
+msgstr "Fax"
+
+#, fuzzy
+msgid "feed"
+msgstr "News Feed"
+
+msgid "feedback"
+msgstr "Phản hồi"
+
+#, fuzzy
+msgid "field_name"
+msgstr "Field Name"
+
+#, fuzzy
+msgid "field_type"
+msgstr "Field Type"
+
+msgid "file"
+msgstr "File"
+
+msgid "file_add"
+msgstr "Tải lên file"
+
+#, fuzzy
+msgid "file_add_and_metadata"
+msgstr "Upload File and Edit Metadata"
+
+msgid "file_added"
+msgstr "Đã tải lên file"
+
+#, fuzzy
+msgid "file_allowed_suffixes"
+msgstr "Allowed file types:"
+
+#, fuzzy
+msgid "file_confirm_delete_all_versions"
+msgstr "You selected all file versions. This will delete the whole file object. Do you want to continue?"
+
+#, fuzzy
+msgid "file_confirm_delete_versions"
+msgstr "Are you sure to delete the following file versions?"
+
+#, fuzzy
+msgid "file_created"
+msgstr "A new file has been added."
+
+msgid "file_edit"
+msgstr "Sửa file"
+
+msgid "file_info"
+msgstr "Thông tin file"
+
+msgid "file_is_infected"
+msgstr "File này bị nhiễm virus."
+
+#, fuzzy
+msgid "file_no_valid_file_type"
+msgstr "This file type is not allowed."
+
+msgid "file_not_found"
+msgstr "Không tìm thấy file"
+
+#, fuzzy
+msgid "file_not_found_sec"
+msgstr "This file cannot be found in ILIAS or has been blocked due to security reasons."
+
+msgid "file_not_valid"
+msgstr "File không hợp lệ!"
+
+msgid "file_notice"
+msgstr "Hãy chú ý kích thước lớn nhất của file là"
+
+#, fuzzy
+msgid "file_objects"
+msgstr "File Objects"
+
+#, fuzzy
+msgid "file_rollback"
+msgstr "Make this the current version"
+
+#, fuzzy
+msgid "file_rollback_done"
+msgstr "File version %s is now the current version."
+
+#, fuzzy
+msgid "file_rollback_select_exact_one"
+msgstr "Only one file version can be selected to make it the current version."
+
+#, fuzzy
+msgid "file_some_invalid_file_types_removed"
+msgstr "Some file types are not allowed and have been removed."
+
+#, fuzzy
+msgid "file_suffix_repl"
+msgstr "File Upload Suffix Replacement"
+
+#, fuzzy
+msgid "file_suffix_repl_info"
+msgstr "Files ending with these suffixes (separated by comma) will be renamed with a suffix \".sec\" if uploaded into the webspace. This is done per default for the suffixes:"
+
+#, fuzzy
+msgid "file_system_clean_temp_dir_cron"
+msgstr "Clean temp directory"
+
+#, fuzzy
+msgid "file_system_clean_temp_dir_cron_info"
+msgstr "This job cleans the ILIAS temp-directory of files, which are older than 10 days. This counteracts the accumulation of unused files and therefore prevents an increased use of disk space by the temp directory."
+
+#, fuzzy
+msgid "file_updated"
+msgstr "File has been updated."
+
+#, fuzzy
+msgid "file_upload_pending"
+msgstr "Pending file"
+
+msgid "file_valid"
+msgstr "File hợp lệ!"
+
+msgid "file_version"
+msgstr "Các phiên bản được cung cấp của File"
+
+#, fuzzy
+msgid "file_version_create"
+msgstr "Initial version"
+
+#, fuzzy
+msgid "file_version_intermediate_version"
+msgstr "Intermediate Version"
+
+#, fuzzy
+msgid "file_version_new_version"
+msgstr "New version"
+
+#, fuzzy
+msgid "file_version_published_version"
+msgstr "Published Version"
+
+#, fuzzy
+msgid "file_version_replace"
+msgstr "All versions replaced"
+
+#, fuzzy
+msgid "file_version_rollback"
+msgstr "Rollback to version %s from %s"
+
+#, fuzzy
+msgid "file_versions_deleted"
+msgstr "The selected file versions were successfully deleted."
+
+msgid "filename"
+msgstr "Tên file"
+
+#, fuzzy
+msgid "filename_extension_missing"
+msgstr "Filename extension missing"
+
+#, fuzzy
+msgid "filename_hidden_backup_file"
+msgstr "Hidden backup file"
+
+#, fuzzy
+msgid "filename_hidden_unix_file"
+msgstr "Hidden Unix file"
+
+#, fuzzy
+msgid "filename_interoperability"
+msgstr "Interoperability"
+
+#, fuzzy
+msgid "filename_special_characters"
+msgstr "/ is not allowed in filenames"
+
+#, fuzzy
+msgid "filename_special_filename"
+msgstr ". and .. are reserved filenames"
+
+#, fuzzy
+msgid "filename_visibility"
+msgstr "Visibility"
+
+#, fuzzy
+msgid "filename_windows_empty_extension"
+msgstr ". at the end of a filename is not allowed on Windows"
+
+#, fuzzy
+msgid "filename_windows_special_characters"
+msgstr "\\/:*?\"<>| are not allowed in Windows filenames"
+
+#, fuzzy
+msgid "filename_windows_webdav_issue"
+msgstr "# is not supported in Windows webfolders"
+
+msgid "files"
+msgstr "File"
+
+#, fuzzy
+msgid "filesize"
+msgstr "File Size"
+
+#, fuzzy
+msgid "filetype"
+msgstr "File Type"
+
+msgid "fill_out_all_required_fields"
+msgstr "Hãy điền đủ các trường bắt buộc"
+
+msgid "filter"
+msgstr "Lọc:"
+
+#, fuzzy
+msgid "filter_users_with_access"
+msgstr "Only users with access"
+
+#, fuzzy
+msgid "filter_users_with_disk_usage"
+msgstr "Only users with disk space used"
+
+#, fuzzy
+msgid "filter_users_without_access"
+msgstr "Only users without access"
+
+#, fuzzy
+msgid "filter_users_without_disk_usage"
+msgstr "Only users with no disk space used"
+
+#, fuzzy
+msgid "first"
+msgstr "First"
+
+msgid "firstname"
+msgstr "Họ"
+
+msgid "flatview"
+msgstr "Xem kiểu phẳng"
+
+msgid "fold"
+msgstr "Thư mục"
+
+msgid "fold_add"
+msgstr "Thêm thư mục"
+
+msgid "fold_added"
+msgstr "Đã thêm thư mục"
+
+#, fuzzy
+msgid "fold_copy_threads_info"
+msgstr "Please decide which materials should be copied, linked or even omitted."
+
+msgid "fold_edit"
+msgstr "Sửa thư mục"
+
+msgid "fold_new"
+msgstr "Thư mục mới"
+
+#, fuzzy
+msgid "fold_wizard_page"
+msgstr "Copy Folder (Step 2/2)"
+
+msgid "folder"
+msgstr "Thư mục"
+
+msgid "folders"
+msgstr "Thư mục"
+
+#, fuzzy
+msgid "follow_link_to_read_mails"
+msgstr "click the following link to read these mails:"
+
+msgid "forgot_password"
+msgstr "Quên mật khẩu?"
+
+msgid "forgot_username"
+msgstr "Quên tên đăng nhập?"
+
+#, fuzzy
+msgid "form_input_not_valid"
+msgstr "Some data is incomplete or not valid. Please correct the form input."
+
+msgid "forum"
+msgstr "Diễn đàn"
+
+#, fuzzy
+msgid "forum_direct_notification"
+msgstr "Dir. Notification"
+
+msgid "forum_notify_me"
+msgstr "Thông báo cho tôi khi có bài trả lời"
+
+msgid "forum_post_replied"
+msgstr "bài của bạn trên diễn đàn có trả lời."
+
+msgid "forums"
+msgstr "Diễn đàn"
+
+#, fuzzy
+msgid "forums_anonymized"
+msgstr "Forum anonymized"
+
+#, fuzzy
+msgid "forums_anonymous"
+msgstr "anonym"
+
+msgid "forums_articles"
+msgstr "Bài"
+
+#, fuzzy
+msgid "forums_closed"
+msgstr "closed"
+
+#, fuzzy
+msgid "forums_disable_forum_notification"
+msgstr "Disable notification for this forum"
+
+#, fuzzy
+msgid "forums_enable_forum_notification"
+msgstr "Enable notification for this forum"
+
+#, fuzzy
+msgid "forums_forum_notification_enabled"
+msgstr "You will be notified about new messages in this forum."
+
+msgid "forums_last_post"
+msgstr "Bài gần nhất"
+
+#, fuzzy
+msgid "forums_last_posting_asc"
+msgstr "Last Post Ascending"
+
+#, fuzzy
+msgid "forums_last_posting_dsc"
+msgstr "Last Post Descending"
+
+#, fuzzy
+msgid "forums_notification_settings"
+msgstr "Forums Notification Setting"
+
+#, fuzzy
+msgid "forums_rating_asc"
+msgstr "Rating Ascending"
+
+#, fuzzy
+msgid "forums_rating_dsc"
+msgstr "Rating Descending"
+
+#, fuzzy
+msgid "forums_thread_sorting_asc"
+msgstr "Thread Title A→Z"
+
+#, fuzzy
+msgid "forums_thread_sorting_dsc"
+msgstr "Thread Title Z→A"
+
+msgid "forums_threads"
+msgstr "Chủ đề"
+
+#, fuzzy
+msgid "forums_use_alias"
+msgstr "You may use this alias for your posting. If you leave this field blank, your posting will be marked as anonymous"
+
+#, fuzzy
+msgid "forums_your_name"
+msgstr "Your Name"
+
+msgid "frm"
+msgstr "Diễn đàn"
+
+msgid "frm_add"
+msgstr "Thêm diễn đàn"
+
+msgid "frm_added"
+msgstr "Đã thêm diễn đàn"
+
+msgid "frm_edit"
+msgstr "Sửa diễn đàn"
+
+#, fuzzy
+msgid "frm_import"
+msgstr "Import Forum"
+
+#, fuzzy
+msgid "frm_latest_postings"
+msgstr "Latest Articles"
+
+msgid "frm_new"
+msgstr "Diễn đàn mới"
+
+#, fuzzy
+msgid "frm_no_threads"
+msgstr "There are no threads available at the moment."
+
+msgid "from"
+msgstr "Từ"
+
+msgid "fullname"
+msgstr "Tên đầy đủ"
+
+msgid "functions"
+msgstr "Các chức năng"
+
+#, fuzzy
+msgid "further_informations"
+msgstr "Further Informations"
+
+msgid "gdf_add"
+msgstr "Thêm định nghĩa"
+
+msgid "gdf_new"
+msgstr "Định nghĩa mới"
+
+msgid "gender"
+msgstr "Giới tính"
+
+msgid "gender_f"
+msgstr "Nữ"
+
+msgid "gender_m"
+msgstr "Nam"
+
+#, fuzzy
+msgid "gender_n"
+msgstr "No salutation desired"
+
+#, fuzzy
+msgid "general"
+msgstr "General"
+
+msgid "general_settings"
+msgstr "Thiết lập chung"
+
+msgid "generate"
+msgstr "Sinh"
+
+#, fuzzy
+msgid "ghostscript_not_configured"
+msgstr "Ghostscript is not configured. Please open the <a href=\"cli/setup.php?cmd=mastersettings\" target=\"_blank\">Setup</a> to configure it."
+
+msgid "glo"
+msgstr "Bảng chú giải"
+
+msgid "glo_add"
+msgstr "Thêm bảng chú giải"
+
+msgid "glo_added"
+msgstr "Đã thêm bảng chú giải"
+
+#, fuzzy
+msgid "glo_import"
+msgstr "Import Glossary"
+
+msgid "glo_mode"
+msgstr "Chế độ"
+
+msgid "glo_mode_desc"
+msgstr "Một bảng chú giải ảo làm việc giống như bảng chú giải thường, bổ sung thêm các thuật ngữ từ tất cả các bảng chú giải cùng mức trong kho kiến thức lần lượt theo thứ tự trên xuống kể từ vị trí của bảng chú giải ảo (cây con)."
+
+msgid "glo_mode_normal"
+msgstr "bình thường"
+
+msgid "glo_new"
+msgstr "Bảng chú giải mới"
+
+msgid "global"
+msgstr "Toàn cục"
+
+msgid "global_default"
+msgstr "Mặc định toàn cục"
+
+msgid "global_fixed"
+msgstr "Cố định toàn cục"
+
+#, fuzzy
+msgid "global_role_assignment"
+msgstr "Globale Rollenzuweisung"
+
+msgid "global_settings"
+msgstr "Thiết lập toàn cục"
+
+msgid "global_user"
+msgstr "Người sử dụng toàn cục"
+
+msgid "glossaries"
+msgstr "Bảng chú giải"
+
+msgid "glossary"
+msgstr "Bảng chú giải"
+
+#, fuzzy
+msgid "go"
+msgstr "Go"
+
+#, fuzzy
+msgid "grade"
+msgstr "Grade"
+
+#, fuzzy
+msgid "group"
+msgstr "Group"
+
+msgid "group_members"
+msgstr "Thành viên nhóm"
+
+msgid "group_name"
+msgstr "Tên nhóm"
+
+msgid "group_new_registrations"
+msgstr "Đăng ký mới"
+
+msgid "group_password_registration_msg"
+msgstr "Để gia nhập nhóm này bạn phải nhập mật khẩu được cung cấp bởi quản trị của nhóm này.<br />Bạn sẽ được tự động chỉ định vào nhóm nếu mật khẩu đúng."
+
+msgid "group_registration"
+msgstr "Đăng ký"
+
+msgid "group_registration_mode"
+msgstr "Phương thức đăng ký"
+
+msgid "group_registration_time"
+msgstr "Kỳ hạn đăng ký"
+
+msgid "group_req_direct"
+msgstr "Gia nhập trực tiếp"
+
+msgid "group_req_registration_msg"
+msgstr "Để gia nhập nhóm này bạn phải đăng ký. Quản trị nhóm sẽ chỉ định bạn vào nhóm. Hãy nhập vào tiêu đề cho biết lý do trong đơn.<br />Bạn sẽ nhận được thư khi bạn được chỉ định vào nhóm."
+
+msgid "group_status"
+msgstr "Nhóm là"
+
+#, fuzzy
+msgid "groupings"
+msgstr "Membership Limitations"
+
+#, fuzzy
+msgid "groupings_assigned_obj_crs"
+msgstr "Assigned Courses"
+
+#, fuzzy
+msgid "groupings_assigned_obj_grp"
+msgstr "Assigned Groups"
+
+#, fuzzy
+msgid "groupings_source"
+msgstr "Source"
+
+msgid "groups"
+msgstr "Nhóm"
+
+msgid "grp"
+msgstr "Nhóm"
+
+msgid "grp_add"
+msgstr "Thêm nhóm"
+
+msgid "grp_added"
+msgstr "Đã thêm nhóm"
+
+#, fuzzy
+msgid "grp_btn_unsubscribe"
+msgstr "Unsubscribe From Group"
+
+#, fuzzy
+msgid "grp_cancel_waiting_list"
+msgstr "Do you really want to remove yourself from the waiting list of group \"%s\"? "
+
+#, fuzzy
+msgid "grp_copy_threads_info"
+msgstr "Please decide which materials should be copied, linked or even omitted."
+
+msgid "grp_deleted_export_files"
+msgstr "Đã xóa những file đã chọn."
+
+msgid "grp_dismiss_member"
+msgstr "Bạn có chắc bạn muốn gạt bỏ những thành viên sau ra khỏi nhóm?"
+
+msgid "grp_dismiss_myself"
+msgstr "Bạn có chắc bạn muốn gạt bỏ chính bạn ra khỏi nhóm?"
+
+msgid "grp_edit"
+msgstr "Sửa nhóm"
+
+msgid "grp_err_administrator_required"
+msgstr "Không thể bỏ thành viên, cần ít nhất một quản trị cho nhóm!"
+
+msgid "grp_header_edit_members"
+msgstr "Sửa các thành viên"
+
+#, fuzzy
+msgid "grp_list_members"
+msgstr "List members"
+
+#, fuzzy
+msgid "grp_list_reg"
+msgstr "Registration"
+
+#, fuzzy
+msgid "grp_list_reg_end"
+msgstr "Registration End"
+
+#, fuzzy
+msgid "grp_list_reg_limit_full"
+msgstr "No places left"
+
+#, fuzzy
+msgid "grp_list_reg_limit_places"
+msgstr "Free places"
+
+#, fuzzy
+msgid "grp_list_reg_noreg"
+msgstr "No Registration Possible"
+
+#, fuzzy
+msgid "grp_list_reg_period"
+msgstr "Registration Period"
+
+#, fuzzy
+msgid "grp_list_reg_start"
+msgstr "Registration Begin"
+
+msgid "grp_list_users"
+msgstr "List những người sử dụng"
+
+msgid "grp_mem_change_status"
+msgstr "Thay đổi trạng thái thành viên"
+
+msgid "grp_mem_send_mail"
+msgstr "Gửi thư cho thành viên"
+
+#, fuzzy
+msgid "grp_members_gallery"
+msgstr "Group Members Gallery"
+
+msgid "grp_msg_applicants_assigned"
+msgstr "Người nộp đơn đã được chỉ định là thành viên nhóm"
+
+msgid "grp_msg_member_assigned"
+msgstr "Người sử dụng đã được chỉ định là thành viên nhóm"
+
+msgid "grp_msg_membership_annulled"
+msgstr "Hủy bỏ quyền thành viên"
+
+msgid "grp_new"
+msgstr "Nhóm mới"
+
+msgid "grp_registration"
+msgstr "Gia nhập nhóm"
+
+msgid "grp_registration_completed"
+msgstr "Đã hoàn thành đăng ký"
+
+#, fuzzy
+msgid "grp_removed_from_waiting_list"
+msgstr "You have been detached from the waiting list of group \"%s\"."
+
+msgid "grp_select_one_file"
+msgstr "Hãy chọn một file."
+
+#, fuzzy
+msgid "grp_wizard_page"
+msgstr "Copy Group (Step 2/2)"
+
+#, fuzzy
+msgid "grpr"
+msgstr "Group Reference"
+
+#, fuzzy
+msgid "grpr_add"
+msgstr "Add Group Link"
+
+#, fuzzy
+msgid "grpr_edit"
+msgstr "Edit Group Reference"
+
+#, fuzzy
+msgid "grpr_edit_info"
+msgstr "Please choose one group, for creating a new reference."
+
+#, fuzzy
+msgid "grpr_new"
+msgstr "Create Group Reference"
+
+#, fuzzy
+msgid "grpr_settings"
+msgstr "Group Link Settings"
+
+#, fuzzy
+msgid "header_action"
+msgstr "Insert Heading - Click to insert a heading."
+
+#, fuzzy
+msgid "header_searchable"
+msgstr "Searchable"
+
+msgid "header_title"
+msgstr "Tiêu đề trên cùng"
+
+#, fuzzy
+msgid "header_visible_registration"
+msgstr "Visible in Registration"
+
+#, fuzzy
+msgid "header_zip"
+msgstr "Upload Zip-Archive"
+
+#, fuzzy
+msgid "height"
+msgstr "Height"
+
+msgid "help"
+msgstr "Trợ giúp"
+
+msgid "hide"
+msgstr "ẩn"
+
+#, fuzzy
+msgid "hide_all_details"
+msgstr "Hide all details"
+
+msgid "hide_details"
+msgstr "ẩn chi tiết"
+
+#, fuzzy
+msgid "hide_filter"
+msgstr "Hide Filter"
+
+#, fuzzy
+msgid "hide_own_online_status"
+msgstr "Hide My Online Status"
+
+#, fuzzy
+msgid "hide_visible_sections"
+msgstr "Hide More Information &raquo;"
+
+#, fuzzy
+msgid "hint"
+msgstr "Hint"
+
+msgid "history"
+msgstr "Lịch sử"
+
+msgid "hobby"
+msgstr "Sở thích"
+
+msgid "home"
+msgstr "Trang chính Elearning"
+
+msgid "host"
+msgstr "Host"
+
+#, fuzzy
+msgid "hour"
+msgstr "Hour"
+
+#, fuzzy
+msgid "hours"
+msgstr "hour(s)"
+
+msgid "htlm"
+msgstr "Học phần HTML"
+
+msgid "htlm_add"
+msgstr "Thêm học phần HTML"
+
+msgid "htlm_new"
+msgstr "Học phần HTML mới"
+
+msgid "http"
+msgstr "HTTP"
+
+msgid "http_not_possible"
+msgstr "Máy chủ này không hỗ trợ các yêu cầu HTTP."
+
+msgid "http_path"
+msgstr "Đường dẫn Http"
+
+msgid "https_not_possible"
+msgstr "Máy chủ này không hỗ trợ các kết nối HTTPS."
+
+msgid "i2passwd"
+msgstr "Mật khẩu ILIAS 2"
+
+#, fuzzy
+msgid "iass_import"
+msgstr "Import Individual Assessment"
+
+#, fuzzy
+msgid "iass_new"
+msgstr "Create Individual Assessment"
+
+#, fuzzy
+msgid "icon"
+msgstr "Icon"
+
+msgid "icon_settings"
+msgstr "Thiết lập biểu tượng"
+
+msgid "id"
+msgstr "ID"
+
+msgid "identifier"
+msgstr "định danh"
+
+msgid "if_no_title_then_filename"
+msgstr "Để trống để hiển thị tên file"
+
+msgid "ignore_on_conflict"
+msgstr "Bỏ qua nếu xung đột"
+
+#, fuzzy
+msgid "ignore_required_fields"
+msgstr "Ignore required fields"
+
+#, fuzzy
+msgid "ignore_required_fields_info"
+msgstr "If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login."
+
+#, fuzzy
+msgid "il_astpl_loc_initial"
+msgstr "Initial Test"
+
+#, fuzzy
+msgid "il_astpl_loc_qualified"
+msgstr "Qualifying Test"
+
+#, fuzzy
+msgid "il_blog_contributor"
+msgstr "Blog Contributor"
+
+#, fuzzy
+msgid "il_blog_editor"
+msgstr "Blog-Editor"
+
+msgid "il_chat_moderator"
+msgstr "Người điều hành chat"
+
+msgid "il_crs_admin"
+msgstr "Quản trị khóa học"
+
+msgid "il_crs_member"
+msgstr "Thành viên khóa học"
+
+#, fuzzy
+msgid "il_crs_non_member"
+msgstr "Course non-member"
+
+msgid "il_crs_tutor"
+msgstr "Trợ giáo khóa học"
+
+msgid "il_frm_moderator"
+msgstr "Người điều hành diễn đàn"
+
+msgid "il_grp_admin"
+msgstr "Quản trị nhóm"
+
+msgid "il_grp_member"
+msgstr "Thành viên nhóm"
+
+#, fuzzy
+msgid "il_grp_status_closed"
+msgstr "Group closed"
+
+#, fuzzy
+msgid "il_grp_status_open"
+msgstr "Group open"
+
+#, fuzzy
+msgid "il_iass_member"
+msgstr "Participant"
+
+#, fuzzy
+msgid "il_lso_admin"
+msgstr "Learning Sequence Admin"
+
+#, fuzzy
+msgid "il_lso_member"
+msgstr "Learning Sequence Member"
+
+#, fuzzy
+msgid "il_lti_instructor"
+msgstr "LTI Instructor"
+
+#, fuzzy
+msgid "il_lti_learner"
+msgstr "LTI Learner"
+
+#, fuzzy
+msgid "il_lti_user"
+msgstr "LTI User"
+
+#, fuzzy
+msgid "il_orgu_employee"
+msgstr "Employee"
+
+#, fuzzy
+msgid "il_orgu_superior"
+msgstr "Superior"
+
+msgid "ilias_version"
+msgstr "Phiên bản ILIAS"
+
+msgid "image"
+msgstr "Ảnh"
+
+msgid "import"
+msgstr "Nhập"
+
+msgid "import_cat_localrol"
+msgstr "Tạo vai trò nội bộ cho mọi chuyên mục mới"
+
+msgid "import_cat_table"
+msgstr "Bảng sau chỉ có nghĩa nếu hộp đánh dấu được thiết lập"
+
+msgid "import_categories"
+msgstr "Nhập chuyên mục"
+
+msgid "import_failure_log"
+msgstr "Nhật ký nhập thất bại"
+
+msgid "import_file"
+msgstr "Nhập file"
+
+msgid "import_file_not_valid_here"
+msgstr "File nhập không hợp lệ."
+
+msgid "import_finished"
+msgstr "Số thư đã nhập."
+
+msgid "import_lm"
+msgstr "Nhập học phần ILIAS"
+
+msgid "import_qpl"
+msgstr "Nhập thư viện câu hỏi kiểm tra"
+
+msgid "import_questions_into_qpl"
+msgstr "Nhập câu hỏi vào thư viện câu hỏi"
+
+msgid "import_sahs"
+msgstr "Nhập SCORM/gói AICC"
+
+#, fuzzy
+msgid "import_sahs_info"
+msgstr "To correct typos or images, use the option to replace individual files via the file directory. Upload a SCORM export from your authoring tool here and not an ILIAS export file. Make sure that your authoring tool has retained the IDs in the manifest file. Attention: Even popular authoring tools cannot do this. SCORM learning modules of certain authoring tools discard learner data obtained if you change the number of answer options of questions or insert new questions. Check in a test installation whether learning statuses that have already been achieved are possible when learning modules that have already been started are called up again."
+
+#, fuzzy
+msgid "import_sahs_new"
+msgstr "Import New Version of SCORM Package"
+
+msgid "import_svy"
+msgstr "Nhập khảo sát"
+
+msgid "import_tst"
+msgstr "Nhập bài kiểm tra"
+
+msgid "import_users"
+msgstr "Nhập người sử dụng"
+
+msgid "import_warning_log"
+msgstr "Nhập cảnh báo"
+
+msgid "important"
+msgstr "Quan trọng"
+
+msgid "imported"
+msgstr "đã nhập"
+
+#, fuzzy
+msgid "imprint"
+msgstr "Imprint"
+
+msgid "in"
+msgstr "trong"
+
+msgid "in_use"
+msgstr "Ngôn ngữ đang sử dụng"
+
+#, fuzzy
+msgid "in_use_by"
+msgstr "In use by"
+
+msgid "inactive"
+msgstr "Không hoạt động"
+
+msgid "inbox"
+msgstr "Hộp thư đến"
+
+msgid "include_local"
+msgstr "bao gồm cả nội bộ"
+
+msgid "info"
+msgstr "Thông tin"
+
+msgid "info_access_and_status_info"
+msgstr "Thông tin truy cập và trạng thái"
+
+msgid "info_access_permissions"
+msgstr "Quyền truy cập"
+
+#, fuzzy
+msgid "info_activate_sure"
+msgstr "Are you sure that you want to approve the following user(s) as active user(s)?"
+
+msgid "info_assign_sure"
+msgstr "Bạn có chắc bạn muốn chỉ định những người sử dụng sau?"
+
+msgid "info_assigned"
+msgstr "đã chỉ định"
+
+msgid "info_available_roles"
+msgstr "Các vai trò sẵn có"
+
+msgid "info_change_user_view"
+msgstr "Thay đổi người sử dụng để xem"
+
+#, fuzzy
+msgid "info_deactivate_sure"
+msgstr "Are you sure that you want to disapprove the following user(s) as active user(s)?"
+
+msgid "info_delete_sure"
+msgstr "Bạn có chắc chắn muốn xóa (các) đối tượng sau không?"
+
+#, fuzzy
+msgid "info_delete_warning_no_trash"
+msgstr "(WARNING: Selected Objects will be removed irreversibly from System and may not be recovered anymore!)"
+
+msgid "info_deleted"
+msgstr "Đã xóa (các) đối tượng"
+
+msgid "info_err_user_not_exist"
+msgstr "Người sử dụng có tên đăng nhập như thế không tồn tại"
+
+msgid "info_from_role"
+msgstr "Cho bởi vai trò"
+
+msgid "info_is_member"
+msgstr "Người sử dụng không phải là thành viên"
+
+msgid "info_is_not_member"
+msgstr "Người sử dụng không phải là thành viên"
+
+#, fuzzy
+msgid "info_message"
+msgstr "Information Message"
+
+msgid "info_not_assigned"
+msgstr "chưa được chỉ định"
+
+msgid "info_owner_of_object"
+msgstr "Chủ nhân của đối tượng"
+
+msgid "info_permission_origin"
+msgstr "Vị trí gốc"
+
+msgid "info_permission_source"
+msgstr "Có hiệu lực từ*"
+
+msgid "info_remark_interrupted"
+msgstr "Vai trò bị ngắt tại vị trí này. Thiết lập quyền hạn mặc định có hiệu lực tại vị trí đó."
+
+#, fuzzy
+msgid "info_remove_sure"
+msgstr "Are you sure that you want to remove the following item(s)?"
+
+msgid "info_short"
+msgstr "Thông tin"
+
+msgid "info_status_info"
+msgstr "Thông tin trạng thái"
+
+msgid "info_view_of_user"
+msgstr "Xem người sử dụng"
+
+msgid "inform_user_mail"
+msgstr "Gửi email báo cho người sử dụng biết về các thay đổi"
+
+#, fuzzy
+msgid "inline_file_extensions"
+msgstr "Web-enabled files"
+
+#, fuzzy
+msgid "inline_file_extensions_info"
+msgstr "Files with these extensions are displayed in the browser window.<br/>For example: <b>gif jpg mp3 pdf png</b><br/> All other files are offered for downloading."
+
+msgid "insert"
+msgstr "Thêm"
+
+msgid "insert_object_here"
+msgstr "Chèn đối tượng ở đây"
+
+msgid "inst_id"
+msgstr "Định danh bản cài đặt"
+
+msgid "inst_info"
+msgstr "Thông tin bản cài đặt"
+
+msgid "inst_name"
+msgstr "Tên bản cài đặt"
+
+msgid "install"
+msgstr "Cài đặt"
+
+msgid "install_local"
+msgstr "Cài đặt nội bộ"
+
+#, fuzzy
+msgid "installation_status"
+msgstr "Installation Status"
+
+msgid "installed"
+msgstr "Đã cài đặt"
+
+msgid "installed_local"
+msgstr "Đã cài đặt với nội bộ"
+
+#, fuzzy
+msgid "instant_messengers"
+msgstr "Instant Messengers"
+
+msgid "institution"
+msgstr "Trường (Viện)"
+
+msgid "internal_local_roles_only"
+msgstr "Vai trò nội bộ (chỉ sinh tự động)"
+
+#, fuzzy
+msgid "invalid_visible_required_options_selected"
+msgstr "All fields set to required has to be set to visible in registration, too."
+
+#, fuzzy
+msgid "invisible_block"
+msgstr "Invisible Block"
+
+#, fuzzy
+msgid "invisible_block_mess"
+msgstr "You do not have the permission to view this block."
+
+msgid "ip_address"
+msgstr "Địa chỉ IP"
+
+msgid "is_already_your"
+msgstr "đã là của bạn"
+
+#, fuzzy
+msgid "italic_action"
+msgstr "Insert Italic - Click to insert italic text."
+
+msgid "item"
+msgstr "Mục"
+
+#, fuzzy
+msgid "itgr_add"
+msgstr "Add Item Group"
+
+#, fuzzy
+msgid "itgr_new"
+msgstr "New Item Group"
+
+#, fuzzy
+msgid "java_server"
+msgstr "Java-Server"
+
+#, fuzzy
+msgid "java_server_host"
+msgstr "Host"
+
+#. Needs to be adapted to new content of German lang file.
+#, fuzzy
+msgid "java_server_info"
+msgstr "If activated, it is possible to search in PDF, HTML files and HTML-Learning modules"
+
+#, fuzzy
+msgid "java_server_port"
+msgstr "Port"
+
+#, fuzzy
+msgid "java_server_readme"
+msgstr "Setup informations"
+
+msgid "join"
+msgstr "Gia nhập"
+
+#, fuzzy
+msgid "join_session"
+msgstr "Join"
+
+msgid "kb"
+msgstr "KByte"
+
+msgid "keywords"
+msgstr "Từ khóa"
+
+#, fuzzy
+msgid "label_search_options"
+msgstr "Search Area"
+
+msgid "lang_dateformat"
+msgstr "d-m-Y"
+
+msgid "lang_path"
+msgstr "Đường dẫn ngôn ngữ"
+
+#, fuzzy
+msgid "lang_refresh_confirm"
+msgstr "Do you really want to refresh all languages?"
+
+#, fuzzy
+msgid "lang_refresh_confirm_info"
+msgstr "Extended language maintenance is currently activated. Refreshing the languages loads all language data from the ILIAS language files into the database. Local changes (in the database) may be overwritten, if not exported before. This does not affect any \"*.lang.local\" files in the Customizing directory."
+
+#, fuzzy
+msgid "lang_refresh_confirm_selected"
+msgstr "Do you really want to refresh the selected languages"
+
+msgid "lang_sep_decimal"
+msgstr "."
+
+msgid "lang_sep_thousand"
+msgstr ","
+
+#, fuzzy
+msgid "lang_size_bytes"
+msgstr "bytes"
+
+#, fuzzy
+msgid "lang_size_gb"
+msgstr "GB"
+
+#, fuzzy
+msgid "lang_size_kb"
+msgstr "KB"
+
+#, fuzzy
+msgid "lang_size_mb"
+msgstr "MB"
+
+msgid "lang_timeformat"
+msgstr "H:i:s"
+
+#, fuzzy
+msgid "lang_timeformat_no_sec"
+msgstr "H:i"
+
+#, fuzzy
+msgid "lang_uninstall_changes"
+msgstr "Uninstall Local Changes"
+
+#, fuzzy
+msgid "lang_uninstall_changes_confirm"
+msgstr "Do you really want to clear all local changes of the selected languages and reset them to the default of the current ILIAS version?"
+
+#, fuzzy
+msgid "lang_uninstall_confirm"
+msgstr "Do you really want to uninstall the selected languages?"
+
+msgid "langfile_found"
+msgstr "Tìm thấy file ngôn ngữ"
+
+msgid "language"
+msgstr "Ngôn ngữ"
+
+msgid "language_not_installed"
+msgstr "chưa được cài đặt. Hãy cài đặt ngôn ngữ đó trước"
+
+msgid "languages"
+msgstr "Ngôn ngữ"
+
+msgid "languages_already_installed"
+msgstr "Những ngôn ngữ đã chọn đã được cài đặt"
+
+msgid "languages_already_uninstalled"
+msgstr "Những ngôn ngữ đã chọn đã được gỡ cài đặt"
+
+msgid "languages_updated"
+msgstr "Những ngôn ngữ đã cài đặt đã được cập nhật"
+
+msgid "last_access"
+msgstr "Lần truy cập gần nhất:"
+
+msgid "last_change"
+msgstr "Lần thay đổi gần nhất"
+
+msgid "last_edited_on"
+msgstr "Lần sửa gần nhất là"
+
+#, fuzzy
+msgid "last_login"
+msgstr "Last login"
+
+#, fuzzy
+msgid "last_refresh"
+msgstr "Last Refresh"
+
+#, fuzzy
+msgid "last_reminder"
+msgstr "Last reminder"
+
+msgid "last_update"
+msgstr "Lần cập nhật gần nhất"
+
+#, fuzzy
+msgid "last_visited"
+msgstr "Last Visited"
+
+msgid "lastname"
+msgstr "Tên"
+
+#, fuzzy
+msgid "latex_edit_info"
+msgstr "You can enter LaTeX code in the delimiters <code>[tex]</code> and <code>[/tex]</code>."
+
+#, fuzzy
+msgid "laugh"
+msgstr "Laugh"
+
+msgid "launch"
+msgstr "Bắt đầu"
+
+msgid "ldap"
+msgstr "LDAP"
+
+msgid "ldap_basedn"
+msgstr "LDAP BaseDN"
+
+msgid "ldap_configure"
+msgstr "Cấu hình xác thực LDAP"
+
+msgid "ldap_port"
+msgstr "Cổng LDAP"
+
+msgid "ldap_read"
+msgstr "Đọc thiết lập LDAP"
+
+msgid "ldap_server"
+msgstr "Địa chỉ máy chủ LDAP"
+
+msgid "ldap_tls"
+msgstr "Sử dụng LDAP TLS"
+
+msgid "ldap_version"
+msgstr "Phiên bản giao thức LDAP"
+
+msgid "learning module"
+msgstr "Học phần"
+
+msgid "learning_progress"
+msgstr "Tiến trình học tập"
+
+#, fuzzy
+msgid "leave_waiting_list"
+msgstr "Leave Waiting List"
+
+#, fuzzy
+msgid "legend"
+msgstr "Legend"
+
+msgid "level"
+msgstr "Cấp độ"
+
+msgid "link"
+msgstr "Liên kết"
+
+#, fuzzy
+msgid "link_action"
+msgstr "Insert Link - Click to insert a link."
+
+#, fuzzy
+msgid "link_all"
+msgstr "Link all"
+
+msgid "link_check"
+msgstr "Kiểm tra liên kết"
+
+msgid "link_check_message_b"
+msgstr "Nếu được cho phép, bạn sẽ được thông báo về các liên kết hợp lệ qua email."
+
+msgid "link_check_message_disabled"
+msgstr "Khóa thư"
+
+msgid "link_check_message_enabled"
+msgstr "Mở khóa thư"
+
+msgid "link_check_subject"
+msgstr "[ILIAS] Kiểm tra liên kết"
+
+msgid "link_checker_refreshed"
+msgstr "Đã cập nhật khung nhìn"
+
+msgid "link_selected_items"
+msgstr "Liên kết các mục đã chọn"
+
+msgid "links_add_param"
+msgstr "Thêm tham số:"
+
+msgid "links_dyn_parameter"
+msgstr "Các tham số động"
+
+msgid "links_dynamic"
+msgstr "Các tham số động liên kết web"
+
+msgid "links_dynamic_info"
+msgstr "Nếu bật, sẽ có thể thêm các tham số động vào liên kết web. Chẳng hạn định danh hay tên người sử dụng ILIAS"
+
+msgid "links_existing_params"
+msgstr "Các tham số đã có:"
+
+msgid "links_name"
+msgstr "Tên tham số"
+
+msgid "links_no_name_given"
+msgstr "Hãy chọn tên tham số."
+
+msgid "links_no_value_given"
+msgstr "Hãy chọn giá trị tham số."
+
+msgid "links_parameter_deleted"
+msgstr "Đã xóa tham số."
+
+msgid "links_select_one"
+msgstr "- Chọn một -"
+
+msgid "links_session_id"
+msgstr "Định danh phiên làm việc ILIAS"
+
+msgid "links_user_id"
+msgstr "Định danh người sử dụng ILIAS"
+
+msgid "links_user_name"
+msgstr "Tên người sử dụng ILIAS"
+
+msgid "links_value"
+msgstr "Giá trị tham số"
+
+#, fuzzy
+msgid "list"
+msgstr "List"
+
+msgid "list_of_questions"
+msgstr "Danh sách câu hỏi"
+
+#, fuzzy
+msgid "list_view"
+msgstr "List View"
+
+#, fuzzy
+msgid "listaction_learning_progress_settings"
+msgstr "Learning Progress Settings"
+
+msgid "lm"
+msgstr "Học phần ILIAS"
+
+msgid "lm_add"
+msgstr "Thêm học phần ILIAS"
+
+msgid "lm_added"
+msgstr "Đã thêm học phần ILIAS"
+
+msgid "lm_new"
+msgstr "Học phần ILIAS mới"
+
+msgid "lm_type_scorm"
+msgstr "SCORM"
+
+#, fuzzy
+msgid "lm_type_scorm2004"
+msgstr "SCORM 2004"
+
+#, fuzzy
+msgid "lm_type_scorm2004_info"
+msgstr "These are newer versions of SCORM with significantly enhanced functionality. The learning module is launched in an iFrame."
+
+#, fuzzy
+msgid "lm_type_scorm_info"
+msgstr "This is the most widely used version of SCORM. The learning module is launched in a frame."
+
+msgid "lng"
+msgstr "Ngôn ngữ"
+
+msgid "lngf"
+msgstr "Ngôn ngữ"
+
+msgid "lo"
+msgstr "Đối tượng kiến thức"
+
+#, fuzzy
+msgid "loaded_preview_renderers"
+msgstr "Loaded Preview Renderers"
+
+msgid "local"
+msgstr "Địa phương"
+
+msgid "local_language_file"
+msgstr "ngôn ngữ nội bộ"
+
+msgid "local_language_files"
+msgstr "các ngôn ngữ nội bộ"
+
+msgid "local_languages_already_installed"
+msgstr "Đã cài đặt (các) ngôn ngữ nội bộ"
+
+#, fuzzy
+msgid "local_role_assignment"
+msgstr "Lokale Rollenzuweisung"
+
+#, fuzzy
+msgid "location"
+msgstr "Location"
+
+msgid "locator"
+msgstr "Vị trí:"
+
+msgid "log_in"
+msgstr "Đăng nhập"
+
+#, fuzzy
+msgid "log_out"
+msgstr "Logout"
+
+msgid "logic_or"
+msgstr "hoặc"
+
+msgid "login"
+msgstr "Đăng nhập"
+
+msgid "login_as"
+msgstr "Chúc một ngày tốt lành,"
+
+msgid "login_data"
+msgstr "Thông tin đăng nhập"
+
+msgid "login_exists"
+msgstr "Có người sử dụng đã đăng ký với tên đăng nhập này! Hãy chọn tên khác."
+
+msgid "login_invalid"
+msgstr "Tên đăng nhập không hợp lệ! Chỉ các ký tự sau là được phép (tối thiểu 4 ký tự): A-Z a-z 0-9 _.-+*@!$%~"
+
+msgid "login_to_ilias"
+msgstr "Đăng nhập hệ thống"
+
+#, fuzzy
+msgid "login_to_ilias_via_login_form"
+msgstr "Login to ILIAS"
+
+#, fuzzy
+msgid "login_to_ilias_via_saml"
+msgstr "Login to ILIAS via SAML Authentification"
+
+msgid "login_to_ilias_via_shibboleth"
+msgstr "Đăng nhập vào ILIAS qua Shibboleth"
+
+#, fuzzy
+msgid "loginname_already_exists"
+msgstr "This login name already exists."
+
+#, fuzzy
+msgid "loginname_settings"
+msgstr "Loginname-Settings"
+
+msgid "logout"
+msgstr "Đăng xuất"
+
+msgid "logout_text"
+msgstr "Bạn đã đăng xuất khỏi ILIAS. Phiên làm việc đã đóng."
+
+msgid "logs"
+msgstr "Dữ liệu nhật ký"
+
+#, fuzzy
+msgid "love"
+msgstr "Love"
+
+msgid "lres"
+msgstr "Tài nguyên kiến thức"
+
+#, fuzzy
+msgid "lso_add"
+msgstr "Add Learning Sequence"
+
+#, fuzzy
+msgid "lso_admin_form_byline"
+msgstr "General Settings for Learning Sequences"
+
+#, fuzzy
+msgid "lso_admin_form_title"
+msgstr "Settings"
+
+#, fuzzy
+msgid "lso_admin_interval_byline"
+msgstr "Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!"
+
+#, fuzzy
+msgid "lso_admin_interval_label"
+msgstr "Learning Progress Polling Interval (seconds)"
+
+#, fuzzy
+msgid "lso_copy_threads_info"
+msgstr "Please decide which elements of the Learning Sequence should be copied, linked or omitted."
+
+#, fuzzy
+msgid "lso_edit"
+msgstr "Edit Learning Sequence"
+
+#, fuzzy
+msgid "lso_import"
+msgstr "Import Learning Sequence"
+
+#, fuzzy
+msgid "lso_new"
+msgstr "New Learning Sequence"
+
+#, fuzzy
+msgid "lso_wizard_page"
+msgstr "Copy Learning Sequence (Step 2/2)"
+
+#, fuzzy
+msgid "lti"
+msgstr "LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_add"
+msgstr "Add LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_new"
+msgstr "New LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_outcome_info"
+msgstr "Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI Tool Consumer."
+
+msgid "mail"
+msgstr "Thư"
+
+msgid "mail_addressbook"
+msgstr "Sổ địa chỉ"
+
+#, fuzzy
+msgid "mail_at_the_ilias_installation"
+msgstr "You received %1$s new mail at the ILIAS-Installation %2$s"
+
+#, fuzzy
+msgid "mail_attachment"
+msgstr "Mail attachment"
+
+msgid "mail_b_inbox"
+msgstr "Hộp thư đến"
+
+msgid "mail_c_trash"
+msgstr "Thùng rác"
+
+#, fuzzy
+msgid "mail_cron_scheduled_mails"
+msgstr "Send scheduled mails."
+
+#, fuzzy
+msgid "mail_cron_scheduled_mails_desc"
+msgstr "Sends scheduled user mails according to their defined delivery times"
+
+msgid "mail_d_drafts"
+msgstr "Bản thảo"
+
+msgid "mail_delete_error"
+msgstr "Lỗi khi đang xóa"
+
+#, fuzzy
+msgid "mail_e_outbox"
+msgstr "Outbox"
+
+msgid "mail_e_sent"
+msgstr "Đã gửi"
+
+msgid "mail_edit_permission"
+msgstr "Thay đổi thiết lập quyền hạn"
+
+#, fuzzy
+msgid "mail_f_sent"
+msgstr "Sent"
+
+msgid "mail_folders"
+msgstr "Thư mục thư"
+
+msgid "mail_import_file"
+msgstr "Nhập từ file"
+
+msgid "mail_mails_of"
+msgstr "Thư"
+
+msgid "mail_maxsize_attach"
+msgstr "Kích thước đính kèm tối đa"
+
+#, fuzzy
+msgid "mail_member"
+msgstr "Mail to Member"
+
+msgid "mail_members"
+msgstr "Gửi thư cho các thành viên"
+
+#, fuzzy
+msgid "mail_message_scheduled"
+msgstr "Scheduled mail"
+
+#, fuzzy
+msgid "mail_message_scheduled_info"
+msgstr "Mails remain in the outbox until the scheduled sending time."
+
+msgid "mail_not_sent"
+msgstr "Thư chưa gửi!"
+
+#, fuzzy
+msgid "mail_schedule_error_no_datetime"
+msgstr "To schedule a mail, a delivery date and time must be specified."
+
+#, fuzzy
+msgid "mail_schedule_error_past_datetime"
+msgstr "You cannot schedule emails in the past."
+
+#, fuzzy
+msgid "mail_schedule_scheduled_datetime"
+msgstr "Scheduled Send Time"
+
+#, fuzzy
+msgid "mail_scheduled"
+msgstr "Mail stored in outbox for later delivery."
+
+#, fuzzy
+msgid "mail_scheduled_edit_compose_info"
+msgstr "You are editing a scheduled mail. Sending is paused until you schedule the mail again."
+
+#, fuzzy
+msgid "mail_scheduled_edit_moved_info"
+msgstr "This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox."
+
+msgid "mail_search_no"
+msgstr "Không có mục nào"
+
+msgid "mail_select_one"
+msgstr "Bạn phải chọn một thư"
+
+msgid "mail_send_error"
+msgstr "Lỗi gửi thư"
+
+msgid "mail_sent"
+msgstr "Thư đã gửi!"
+
+#, fuzzy
+msgid "mail_settings"
+msgstr "Mail Settings"
+
+#, fuzzy
+msgid "mail_to_global_roles_not_allowed"
+msgstr "It is not allowed to send emails to global roles"
+
+msgid "mail_z_local"
+msgstr "Thư mục riêng"
+
+msgid "mails"
+msgstr "Thư"
+
+#, fuzzy
+msgid "mails_at_the_ilias_installation"
+msgstr "You received %1$s new mails at the ILIAS-Installation %2$s"
+
+#, fuzzy
+msgid "mails_pl"
+msgstr "Mail(s)"
+
+#, fuzzy
+msgid "main_menu"
+msgstr "Main Menu"
+
+#, fuzzy
+msgid "mainbar_aria_label"
+msgstr "Mainbar"
+
+#, fuzzy
+msgid "mainbar_more_label"
+msgstr "More"
+
+#, fuzzy
+msgid "manage_members"
+msgstr "Manage Members"
+
+msgid "matriculation"
+msgstr "Số trúng tuyển"
+
+#, fuzzy
+msgid "max_previews_per_object"
+msgstr "Number of preview images per file"
+
+#, fuzzy
+msgid "max_previews_per_object_info"
+msgstr "Defines the maximum number of preview images that are created per file."
+
+#, fuzzy
+msgid "mcst"
+msgstr "MediaCast"
+
+#, fuzzy
+msgid "mcst_add"
+msgstr "Add MediaCast"
+
+#, fuzzy
+msgid "mcst_new"
+msgstr "New MediaCast"
+
+#, fuzzy
+msgid "mem_add_to_wl"
+msgstr "Add to Waiting List"
+
+#, fuzzy
+msgid "mem_alert_no_places"
+msgstr "There are no free places available."
+
+#, fuzzy
+msgid "mem_cron_min_members"
+msgstr "Course/Group: Minimum Members Check"
+
+#, fuzzy
+msgid "mem_cron_min_members_info"
+msgstr "The administrators will be notified if the minimum number is not met."
+
+#, fuzzy
+msgid "mem_end"
+msgstr "Registration End:"
+
+#, fuzzy
+msgid "mem_free_places"
+msgstr "Free Places:"
+
+#, fuzzy
+msgid "mem_max_users"
+msgstr "Maximum of Users:"
+
+#, fuzzy
+msgid "mem_min_users"
+msgstr "Minimum of Users"
+
+#, fuzzy
+msgid "mem_participants"
+msgstr "Participants"
+
+#, fuzzy
+msgid "mem_reg_expired"
+msgstr "The registration time is expired."
+
+#, fuzzy
+msgid "mem_reg_not_started"
+msgstr "The registration has not started"
+
+#, fuzzy
+msgid "mem_reg_period"
+msgstr "Registration Period"
+
+#, fuzzy
+msgid "mem_reg_type"
+msgstr "Registration Type"
+
+#, fuzzy
+msgid "mem_start"
+msgstr "Registration Start:"
+
+#, fuzzy
+msgid "mem_unlimited"
+msgstr "Unlimited"
+
+#, fuzzy
+msgid "mem_view_activate"
+msgstr "Activate Members View"
+
+#, fuzzy
+msgid "mem_view_close"
+msgstr "Close Member View"
+
+#, fuzzy
+msgid "mem_view_long"
+msgstr "Member View"
+
+#, fuzzy
+msgid "mem_waiting_list"
+msgstr "Users on Waiting List:"
+
+#, fuzzy
+msgid "mem_waiting_list_position"
+msgstr "Your Position on the Waiting List:"
+
+msgid "member"
+msgstr "Thành viên"
+
+msgid "member_status"
+msgstr "Trạng thái thành viên:"
+
+msgid "members"
+msgstr "Thành viên"
+
+#, fuzzy
+msgid "membership_leave"
+msgstr "Leave"
+
+msgid "mep"
+msgstr "Thư viện phương tiện"
+
+msgid "mep_add"
+msgstr "Thêm thư viện phương tiện"
+
+msgid "mep_edit"
+msgstr "Sửa thuộc tính thư viện phương tiện"
+
+msgid "mep_new"
+msgstr "Thư viện phương tiện mới"
+
+msgid "mep_not_insert_already_exist"
+msgstr "Các mục sau không chèn được vì đã ở trong thư viện:"
+
+msgid "message"
+msgstr "Nội dung"
+
+msgid "message_content"
+msgstr "Nội dung thư"
+
+msgid "message_no_delivered_files"
+msgstr "Bạn chưa nộp file nào!"
+
+msgid "meta_data"
+msgstr "Siêu dữ liệu"
+
+#, fuzzy
+msgid "metabar_aria_label"
+msgstr "Metabar"
+
+#, fuzzy
+msgid "mgs_objects_linked_to_the_following_folders_p"
+msgstr "The objects were linked to the following folder(s): %s"
+
+#, fuzzy
+msgid "mgs_objects_linked_to_the_following_folders_s"
+msgstr "The object was linked to the following folder(s): %s"
+
+msgid "migrate"
+msgstr "Chuyển (nâng cấp)"
+
+#, fuzzy
+msgid "minimize"
+msgstr "Minimize"
+
+#, fuzzy
+msgid "minute"
+msgstr "Minute"
+
+msgid "minutes"
+msgstr "Phút"
+
+msgid "missing"
+msgstr "Thiếu"
+
+#, fuzzy
+msgid "missing_perm"
+msgstr "Missing Permission"
+
+#, fuzzy
+msgid "missing_precondition"
+msgstr "Missing Precondition"
+
+#, fuzzy
+msgid "mm_achievements"
+msgstr "Achievements"
+
+#, fuzzy
+msgid "mm_administration"
+msgstr "Administration"
+
+#, fuzzy
+msgid "mm_badges"
+msgstr "Badges"
+
+#, fuzzy
+msgid "mm_calendar"
+msgstr "Calendar"
+
+#, fuzzy
+msgid "mm_certificates"
+msgstr "Certificates"
+
+#, fuzzy
+msgid "mm_comments"
+msgstr "Comments"
+
+#, fuzzy
+msgid "mm_communication"
+msgstr "Communication"
+
+#, fuzzy
+msgid "mm_contacts"
+msgstr "Contacts"
+
+#, fuzzy
+msgid "mm_dashboard"
+msgstr "Dashboard"
+
+#, fuzzy
+msgid "mm_enrolments"
+msgstr "Enrolments"
+
+#, fuzzy
+msgid "mm_favorites"
+msgstr "Favourites"
+
+#, fuzzy
+msgid "mm_learning_history"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "mm_learning_progress"
+msgstr "Learning Progress"
+
+#, fuzzy
+msgid "mm_mail"
+msgstr "Mail"
+
+#, fuzzy
+msgid "mm_news"
+msgstr "News"
+
+#, fuzzy
+msgid "mm_notes"
+msgstr "Notes"
+
+#, fuzzy
+msgid "mm_organisation"
+msgstr "Organisation"
+
+#, fuzzy
+msgid "mm_personal_and_shared_r"
+msgstr "Personal and Shared Resources"
+
+#, fuzzy
+msgid "mm_personal_workspace"
+msgstr "Personal Workspace"
+
+#, fuzzy
+msgid "mm_portfolio"
+msgstr "Portfolio"
+
+#, fuzzy
+msgid "mm_private_chats"
+msgstr "Private Chats"
+
+#, fuzzy
+msgid "mm_repo_tree_view"
+msgstr "Tree View"
+
+#, fuzzy
+msgid "mm_repo_tree_view_act"
+msgstr "Activate Tree"
+
+#, fuzzy
+msgid "mm_repo_tree_view_deact"
+msgstr "Deactivate Tree"
+
+#, fuzzy
+msgid "mm_repository"
+msgstr "Repository"
+
+#, fuzzy
+msgid "mm_skills"
+msgstr "Competences"
+
+#, fuzzy
+msgid "mm_staff_list"
+msgstr "Staff List"
+
+#, fuzzy
+msgid "mm_tags"
+msgstr "Tags"
+
+#, fuzzy
+msgid "mm_task_derived_tasks"
+msgstr "Tasks"
+
+#, fuzzy
+msgid "mme_lost_item_reason"
+msgstr "Item is no longer provided."
+
+#, fuzzy
+msgid "mme_lost_item_title"
+msgstr "No assignment"
+
+msgid "mob"
+msgstr "Đối tượng phương tiện truyền thông"
+
+#, fuzzy
+msgid "moderators"
+msgstr "Moderators"
+
+msgid "module"
+msgstr "học phần"
+
+msgid "modules"
+msgstr "Học phần"
+
+msgid "month"
+msgstr "Tháng"
+
+msgid "month_01_long"
+msgstr "Tháng Một"
+
+msgid "month_01_short"
+msgstr "T1"
+
+msgid "month_02_long"
+msgstr "Tháng Hai"
+
+msgid "month_02_short"
+msgstr "T2"
+
+msgid "month_03_long"
+msgstr "Tháng Ba"
+
+msgid "month_03_short"
+msgstr "T3"
+
+msgid "month_04_long"
+msgstr "Tháng Tư"
+
+msgid "month_04_short"
+msgstr "T4"
+
+msgid "month_05_long"
+msgstr "Tháng Năm"
+
+msgid "month_05_short"
+msgstr "T5"
+
+msgid "month_06_long"
+msgstr "Tháng Sáu"
+
+msgid "month_06_short"
+msgstr "T6"
+
+msgid "month_07_long"
+msgstr "Tháng Bảy"
+
+msgid "month_07_short"
+msgstr "T7"
+
+msgid "month_08_long"
+msgstr "Tháng Tám"
+
+msgid "month_08_short"
+msgstr "T8"
+
+msgid "month_09_long"
+msgstr "Tháng Chín"
+
+msgid "month_09_short"
+msgstr "T9"
+
+msgid "month_10_long"
+msgstr "Tháng Mười"
+
+msgid "month_10_short"
+msgstr "T10"
+
+msgid "month_11_long"
+msgstr "Tháng Mười Một"
+
+msgid "month_11_short"
+msgstr "T11"
+
+msgid "month_12_long"
+msgstr "Tháng Mười Hai"
+
+msgid "month_12_short"
+msgstr "T12"
+
+msgid "monthly"
+msgstr "hàng tháng"
+
+#, fuzzy
+msgid "months"
+msgstr "Months"
+
+#, fuzzy
+msgid "mount_webfolder"
+msgstr "Open as webfolder"
+
+msgid "move"
+msgstr "Di chuyển"
+
+msgid "moveChapter"
+msgstr "Di chuyển chương"
+
+msgid "movePage"
+msgstr "Di chuyển trang"
+
+msgid "move_selected_items"
+msgstr "Di chuyển các mục đã chọn"
+
+#, fuzzy
+msgid "msg_bt_download_started"
+msgstr "ILIAS is generating a ZIP archive of all available files. You can download them from the Notification Center (bell icon) on top right."
+
+msgid "msg_cancel"
+msgstr "Đã hủy bỏ thao tác"
+
+msgid "msg_clear_clipboard"
+msgstr "Đã xóa sạch bộ nhớ đệm"
+
+msgid "msg_cloned"
+msgstr "Đã sao chép (các) đối tượng được chọn"
+
+msgid "msg_copy_clipboard"
+msgstr "Đã sao chép (các) đối tượng được chọn vào bộ nhớ đệm (Thao tác: sao chép)"
+
+#, fuzzy
+msgid "msg_copy_clipboard_container"
+msgstr "Now, please select the desired location, where the selected objects should be pasted into and click the button \"Continue\"."
+
+#, fuzzy
+msgid "msg_copy_clipboard_source"
+msgstr "Now, please select the desired course, whose content should be copied and click the button \"Next\"."
+
+msgid "msg_cut_clipboard"
+msgstr "Đã sao chép (các) đối tượng được chọn vào bộ nhớ đệm (Thao tác: cắt)"
+
+msgid "msg_cut_copied"
+msgstr "Đã di chuyển (các) đối tượng được chọn."
+
+#, fuzzy
+msgid "msg_deleted_export_files"
+msgstr "Export file(s) deleted"
+
+msgid "msg_deleted_role"
+msgstr "Đã xóa vai trò"
+
+msgid "msg_deleted_roles_rolts"
+msgstr "Đã xóa các vai trò và vai trò mẫu"
+
+msgid "msg_failed"
+msgstr "Xin lỗi, không thực hiện được thao tác"
+
+#, fuzzy
+msgid "msg_form_save_error"
+msgstr "The form data could not be saved. Please check the input fields for any error messages."
+
+#, fuzzy
+msgid "msg_info_blacklisted"
+msgstr "The files cannot be uploaded due to security reasons."
+
+#, fuzzy
+msgid "msg_input_char_limit_max"
+msgstr "You have entered more characters than allowed."
+
+#, fuzzy
+msgid "msg_input_char_limit_min"
+msgstr "You have to enter the minimum of characters specified."
+
+#, fuzzy
+msgid "msg_input_does_not_match_regexp"
+msgstr "Please provide a valid value."
+
+#, fuzzy
+msgid "msg_input_is_required"
+msgstr "This input is required. Please enter a value."
+
+#, fuzzy
+msgid "msg_invalid_value_css_rect_input"
+msgstr "The entered value is incorrect, do not use any plus or minus symbols in combination with the entered integer. Please check your input."
+
+msgid "msg_is_last_role"
+msgstr "Bạn đã xóa vai trò chung cuối cùng từ những người sử dụng sau"
+
+msgid "msg_last_role_for_registration"
+msgstr "Phải có ít nhất một vai trò trong mẫu đơn đăng ký người sử dụng mới. Vai trò này hiện đang là vai trò duy nhất."
+
+#, fuzzy
+msgid "msg_link_clipboard_p"
+msgstr "Now, please select the desired location, where the selected objects should be linked to and click the button Paste."
+
+#, fuzzy
+msgid "msg_link_clipboard_s"
+msgstr "Now, please select the desired location, where the selected object should be linked to and click the button Paste."
+
+msgid "msg_linked"
+msgstr "Những đối tượng đã chọn đã liên kết."
+
+msgid "msg_may_not_contain"
+msgstr "Đối tượng này không thể chứa đối tượng thuộc kiểu:"
+
+msgid "msg_min_one_role"
+msgstr "Mỗi người sử dụng phải có ít nhất một vai trò toàn cục!"
+
+msgid "msg_multi_language_selected"
+msgstr "Bạn đã chọn ngôn ngữ giống nhau cho các bản dịch khác nhau!"
+
+msgid "msg_no_default_language"
+msgstr "Chưa xác định ngôn ngữ mặc định! Bạn phải định nghĩa một bản dịch mặc định."
+
+msgid "msg_no_delete_yourself"
+msgstr "Bạn không thể xóa tài khoản người sử dụng của chính bạn."
+
+msgid "msg_no_file"
+msgstr "Bạn chưa chọn file"
+
+#, fuzzy
+msgid "msg_no_files_selected"
+msgstr "No files selected"
+
+msgid "msg_no_language_selected"
+msgstr "Chưa xác định ngôn ngữ dịch! Bạn phải định nghĩa ngôn ngữ cho mỗi bản dịch"
+
+msgid "msg_no_perm_assign_role_to_user"
+msgstr "Bạn không có quyền thay đổi vai trò chỉ định của người sử dụng"
+
+msgid "msg_no_perm_assign_user_to_role"
+msgstr "Bạn không có quyền thay đổi vai trò chỉ định của người sử dụng"
+
+msgid "msg_no_perm_copy"
+msgstr "Bạn không có quyền tạo bản sao của các đối tượng sau:"
+
+msgid "msg_no_perm_create_rolt"
+msgstr "Bạn không có quyền thêm vai trò mẫu"
+
+msgid "msg_no_perm_cut"
+msgstr "Bạn không có quyền cắt những đối tượng sau:"
+
+msgid "msg_no_perm_delete"
+msgstr "Bạn không có quyền xóa những đối tượng sau:"
+
+msgid "msg_no_perm_link"
+msgstr "Bạn không có quyền tạo liên kết từ những đối tượng sau:"
+
+msgid "msg_no_perm_modify_rolt"
+msgstr "Bạn không có quyền sửa vai trò mẫu"
+
+msgid "msg_no_perm_modify_user"
+msgstr "Bạn không có quyền sửa dữ liệu người sử dụng"
+
+msgid "msg_no_perm_paste"
+msgstr "Bạn không có quyền dán những đối tượng sau:"
+
+#, fuzzy
+msgid "msg_no_perm_paste_object_in_folder"
+msgstr "You have no permission to paste the object %s in the folder %s."
+
+msgid "msg_no_perm_perm"
+msgstr "Bạn không có quyền sửa thiết lập quyền hạn"
+
+msgid "msg_no_perm_read"
+msgstr "Bạn không có quyền truy cập mục này."
+
+msgid "msg_no_perm_read_item"
+msgstr "You have no permission to access this object."
+
+msgid "msg_no_perm_read_lm"
+msgstr "Bạn không có quyền đọc học phần này."
+
+#, fuzzy
+msgid "msg_no_perm_view_roles_of_user"
+msgstr "You have no permission to view the role assignment of this user"
+
+msgid "msg_no_perm_write"
+msgstr "Bạn không có quyền viết"
+
+msgid "msg_no_search_result"
+msgstr "Không có mục nào"
+
+msgid "msg_no_search_string"
+msgstr "Hãy nhập vào truy vấn của bạn"
+
+msgid "msg_no_title"
+msgstr "Hãy nhập vào tiêu đề."
+
+msgid "msg_not_available_for_anon"
+msgstr "Trang bạn chọn chỉ được truy cập bởi những người sử dụng đã đăng ký"
+
+msgid "msg_not_in_itself"
+msgstr "Không thể dán đối tượng vào chính nó"
+
+#, fuzzy
+msgid "msg_obj_already_deleted"
+msgstr "The object has already been deleted."
+
+msgid "msg_obj_created"
+msgstr "Đã tạo đối tượng."
+
+msgid "msg_obj_exists"
+msgstr "Đối tượng đã tồn tại trong thư mục này"
+
+#, fuzzy
+msgid "msg_obj_exists_in_folder"
+msgstr "The object %s already exists in the folder %s."
+
+#, fuzzy
+msgid "msg_obj_may_not_contain_objects_of_type"
+msgstr "The object %s may not contain objects of type: %s."
+
+msgid "msg_obj_modified"
+msgstr "Đã ghi các thay đổi."
+
+#, fuzzy
+msgid "msg_obj_no_download"
+msgstr "cannot be downloaded."
+
+msgid "msg_obj_no_link"
+msgstr "không được phép liên kết"
+
+#, fuzzy
+msgid "msg_obj_perm_download"
+msgstr "You do not have sufficient rights to download the following objects:"
+
+#, fuzzy
+msgid "msg_paste_object_not_in_itself"
+msgstr "It's not possible to paste the object %s in itself."
+
+msgid "msg_perm_adopted_from1"
+msgstr "Thiết lập quyền hạn thừa kế từ"
+
+msgid "msg_perm_adopted_from2"
+msgstr "(Thiết lập đã ghi!)"
+
+msgid "msg_perm_adopted_from_itself"
+msgstr "Bạn không thể nhận thiết lập quyền hạn từ vai trò/vai trò mẫu hiện thời."
+
+msgid "msg_removed"
+msgstr "Đã xóa (các) đối tượng khỏi hệ thống."
+
+msgid "msg_role_reserved_prefix"
+msgstr "Tiền tố 'il_' dành riêng cho các vai trò sinh tự động. Hãy chọn tên khác"
+
+msgid "msg_roleassignment_changed"
+msgstr "Chỉ định vai trò đã thay đổi"
+
+msgid "msg_sysrole_not_deletable"
+msgstr "Vai trò hệ thống không thể xóa được"
+
+msgid "msg_sysrole_not_editable"
+msgstr "Thiết lập quyền hạn của vai trò hệ thống không thể thay đổi. Vai trò hệ thống cho phép tất cả người sử dụng được chỉ định truy cập không giới hạn vào tất cả đối tượng & chức năng."
+
+#, fuzzy
+msgid "msg_to_many_files"
+msgstr "Too many files selected, allowed amount of files:"
+
+msgid "msg_trash_empty"
+msgstr "Không có các đối tượng đã xóa"
+
+msgid "msg_undeleted"
+msgstr "Các đối tượng đã được lấy lại."
+
+#, fuzzy
+msgid "msg_unit_is_required"
+msgstr "This input requires a unit. Please enter a correct value."
+
+#, fuzzy
+msgid "msg_unknown_value"
+msgstr "An unknown value has been passed."
+
+msgid "msg_user_last_role1"
+msgstr "Những người sử dụng sau chỉ được chỉ định vào vai trò này:"
+
+msgid "msg_user_last_role2"
+msgstr "Hãy xóa những người sử dụng hoặc chỉ định họ vào vai trò khác để xóa vai trò này."
+
+msgid "msg_userassignment_changed"
+msgstr "Chỉ định người sử dụng đã thay đổi"
+
+#, fuzzy
+msgid "msg_wrong_filetypes"
+msgstr "Allowed Files-Types:"
+
+#, fuzzy
+msgid "msg_wrong_format"
+msgstr "The value you entered is not a valid format."
+
+msgid "my_bms"
+msgstr "Đánh dấu của tôi"
+
+#, fuzzy
+msgid "my_certificates"
+msgstr "My Certificates"
+
+#, fuzzy
+msgid "my_contacts"
+msgstr "My Contact"
+
+#, fuzzy
+msgid "my_courses"
+msgstr "My Courses"
+
+#, fuzzy
+msgid "my_courses_groups"
+msgstr "My Courses & Groups"
+
+#, fuzzy
+msgid "my_staff"
+msgstr "Staff"
+
+msgid "name"
+msgstr "Tên"
+
+#, fuzzy
+msgid "nc_contact_requests_headline"
+msgstr "Contact Requests"
+
+#, fuzzy
+msgid "nc_contact_requests_number_p"
+msgstr "You have %s Contact Requests."
+
+#, fuzzy
+msgid "nc_contact_requests_number_s"
+msgstr "You have %s Contact Request."
+
+#, fuzzy
+msgid "nc_contact_requests_prop_time"
+msgstr "Time"
+
+msgid "never"
+msgstr "không bao giờ"
+
+msgid "new"
+msgstr "Mới"
+
+msgid "new_language"
+msgstr "Ngôn ngữ mới"
+
+#, fuzzy
+msgid "new_pass_equals_old_pass"
+msgstr "The new password equals the old one."
+
+#, fuzzy
+msgid "newline"
+msgstr "Newline"
+
+msgid "news"
+msgstr "Tin tức"
+
+msgid "next"
+msgstr "Tiếp"
+
+msgid "no"
+msgstr "Không"
+
+msgid "no_access_item"
+msgstr "Bạn không có quyền truy cập khoản mục này."
+
+msgid "no_access_item_public"
+msgstr "Khoản mục này không thể truy cập trong khu vực công khai."
+
+#, fuzzy
+msgid "no_accessibility_control_concept_description"
+msgstr "There is currently no Accessibility Control Concept provided with this installation. Please contact the <a href=\"%1$s\">Accessibility Point of Contact</a>."
+
+msgid "no_checkbox"
+msgstr "Không có hộp nào được đánh dấu"
+
+msgid "no_condition_selected"
+msgstr "Hãy chọn một điều kiện tiên quyết."
+
+msgid "no_date"
+msgstr "Không có cuộc hẹn nào"
+
+#, fuzzy
+msgid "no_gallery_users_available"
+msgstr "There are currently no users in the gallery."
+
+msgid "no_global_role_left"
+msgstr "Mỗi người sử dụng phải được chỉ định vào một vai trò."
+
+msgid "no_import_file_found"
+msgstr "Không tìm thấy nhập nào"
+
+#, fuzzy
+msgid "no_items"
+msgstr "No Items"
+
+msgid "no_limit"
+msgstr "Không giới hạn"
+
+#, fuzzy
+msgid "no_mkisofs_configured"
+msgstr "You have to configure mkisofs utility in ILIAS setup to run ISO export"
+
+msgid "no_parent_access"
+msgstr "Không truy cập được đối tượng cấp cao hơn!"
+
+msgid "no_permission"
+msgstr "Bạn không có đủ quyền hạn cần thiết."
+
+msgid "no_roles_user_can_be_assigned_to"
+msgstr "Không có vai trò toàn cục nào mà người sử dụng có thể được chỉ định vào. Do đó bạn không được phép thêm những người sử dụng."
+
+#, fuzzy
+msgid "no_start_file"
+msgstr "No Start File."
+
+msgid "no_title"
+msgstr "Không có tiêu đề"
+
+msgid "no_users_selected"
+msgstr "Hãy chọn một người sử dụng."
+
+msgid "no_xml_file_found_in_zip"
+msgstr "File XML trong file nén không tìm thấy:"
+
+#, fuzzy
+msgid "noc"
+msgstr "Notification Center"
+
+msgid "non_internal_local_roles_only"
+msgstr "Vai trò nội bộ (chỉ do người sử dụng định nghĩa)"
+
+msgid "none"
+msgstr "Không"
+
+msgid "normal"
+msgstr "Bình thường"
+
+#, fuzzy
+msgid "not_available"
+msgstr "Not Available"
+
+msgid "not_implemented_yet"
+msgstr "Chưa thực hiện"
+
+msgid "not_installed"
+msgstr "Chưa cài đặt"
+
+msgid "not_logged_in"
+msgstr "Bạn chưa đăng nhập"
+
+msgid "note"
+msgstr "Lưu ý"
+
+msgid "notes"
+msgstr "Ghi chép"
+
+#, fuzzy
+msgid "notes_and_comments"
+msgstr "Notes and Comments"
+
+#, fuzzy
+msgid "notice"
+msgstr "Notice"
+
+#, fuzzy
+msgid "notifications"
+msgstr "Notifications"
+
+#, fuzzy
+msgid "nr_following_sessions"
+msgstr "%1d following session(s)..."
+
+#, fuzzy
+msgid "num_of_selected_files"
+msgstr "%s file(s) selected"
+
+msgid "num_users"
+msgstr "Số người sử dụng"
+
+#, fuzzy
+msgid "numberedlist_action"
+msgstr "Insert Numbered List - Click to insert a numbered list."
+
+msgid "obj"
+msgstr "Đối tượng"
+
+#, fuzzy
+msgid "obj_accs"
+msgstr "Accessibility"
+
+#, fuzzy
+msgid "obj_accs_desc"
+msgstr "Settings for accessibility features."
+
+msgid "obj_adm"
+msgstr "Quản trị"
+
+msgid "obj_adm_desc"
+msgstr "Thiết lập hệ thống chính chứa tất cả thứ để quản trị bản cài đặt ILIAS."
+
+#, fuzzy
+msgid "obj_adma"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "obj_adma_desc"
+msgstr "Important settings for the whole installation"
+
+#, fuzzy
+msgid "obj_adn"
+msgstr "Administrative Notifications"
+
+#, fuzzy
+msgid "obj_adve"
+msgstr "Advanced Editing"
+
+#, fuzzy
+msgid "obj_adve_desc"
+msgstr "Administration settings for advanced editing like JavaScript based Rich Text Editors, LaTeX support etc.."
+
+#, fuzzy
+msgid "obj_ass"
+msgstr "Asset"
+
+msgid "obj_assf"
+msgstr "Kiểm tra&Đánh giá"
+
+msgid "obj_assf_desc"
+msgstr "Thiết lập nhật ký Kiểm tra&Đánh giá."
+
+msgid "obj_auth"
+msgstr "Xác thực"
+
+msgid "obj_auth_desc"
+msgstr "Cấu hình chế độ xác thực (nội bộ, LDAP, ...)"
+
+#, fuzzy
+msgid "obj_awra"
+msgstr "‘Who is online?’-Tool"
+
+#, fuzzy
+msgid "obj_awra_desc"
+msgstr "Manage ‘Who is online?’-Tool"
+
+#, fuzzy
+msgid "obj_bdga"
+msgstr "Badges"
+
+#, fuzzy
+msgid "obj_bdga_desc"
+msgstr "Administrate types, image templates and activity badges"
+
+#, fuzzy
+msgid "obj_bgtk"
+msgstr "Background Task"
+
+#, fuzzy
+msgid "obj_bibl"
+msgstr "Bibliography"
+
+#, fuzzy
+msgid "obj_bibs"
+msgstr "Bibliography"
+
+#, fuzzy
+msgid "obj_bibs_desc"
+msgstr "Bibliography Administration"
+
+#, fuzzy
+msgid "obj_blog"
+msgstr "Blog"
+
+#, fuzzy
+msgid "obj_blog_duplicate"
+msgstr "Copy Blog"
+
+#, fuzzy
+msgid "obj_bnmk"
+msgstr "Benchmarking"
+
+#, fuzzy
+msgid "obj_bnmk_desc"
+msgstr "Recording and display of database query durations"
+
+#, fuzzy
+msgid "obj_book"
+msgstr "Booking Pool"
+
+#, fuzzy
+msgid "obj_cadm"
+msgstr "Contacts"
+
+#, fuzzy
+msgid "obj_cadm_desc"
+msgstr "Contacts Administration"
+
+#, fuzzy
+msgid "obj_cals"
+msgstr "Calendar"
+
+#, fuzzy
+msgid "obj_cals_desc"
+msgstr "General Calendar settings."
+
+msgid "obj_cat"
+msgstr "Chuyên mục"
+
+#, fuzzy
+msgid "obj_cat_duplicate"
+msgstr "Copy Category"
+
+#, fuzzy
+msgid "obj_catr"
+msgstr "Category Reference"
+
+#, fuzzy
+msgid "obj_cert"
+msgstr "Certificates"
+
+#, fuzzy
+msgid "obj_cert_desc"
+msgstr "Settings for certificates"
+
+#, fuzzy
+msgid "obj_chap"
+msgstr "Chapter"
+
+#, fuzzy
+msgid "obj_chta"
+msgstr "Chatrooms"
+
+#, fuzzy
+msgid "obj_chtr"
+msgstr "Chatroom"
+
+#, fuzzy
+msgid "obj_chtr_duplicate"
+msgstr "Copy Chat Room"
+
+#, fuzzy
+msgid "obj_cmis"
+msgstr "xAPI/cmi5"
+
+#, fuzzy
+msgid "obj_cmis_desc"
+msgstr "Learning Record Store Types Configuration"
+
+#, fuzzy
+msgid "obj_cmix"
+msgstr "xAPI/cmi5"
+
+#, fuzzy
+msgid "obj_cmps"
+msgstr "Modules, Services and Plugins"
+
+#, fuzzy
+msgid "obj_cmps_desc"
+msgstr "General settings for Repository Modules, Services and Plugins."
+
+#, fuzzy
+msgid "obj_coms"
+msgstr "Comments"
+
+#, fuzzy
+msgid "obj_coms_desc"
+msgstr "Comments settings"
+
+#, fuzzy
+msgid "obj_copa"
+msgstr "Content Page"
+
+#, fuzzy
+msgid "obj_cpad"
+msgstr "Content Pages"
+
+#, fuzzy
+msgid "obj_cpad#_desc"
+msgstr "Content Page Administration"
+
+#, fuzzy
+msgid "obj_cpad_desc"
+msgstr "Content Page Administration"
+
+#, fuzzy
+msgid "obj_cron"
+msgstr "Cron Jobs"
+
+#, fuzzy
+msgid "obj_cron_desc"
+msgstr "List of all Cron Jobs"
+
+msgid "obj_crs"
+msgstr "Khóa học"
+
+#, fuzzy
+msgid "obj_crs_duplicate"
+msgstr "Copy Course"
+
+#, fuzzy
+msgid "obj_crsr"
+msgstr "Course Reference"
+
+#, fuzzy
+msgid "obj_crss"
+msgstr "Course"
+
+#, fuzzy
+msgid "obj_crss_desc"
+msgstr "General settings for Courses"
+
+#, fuzzy
+msgid "obj_crsv"
+msgstr "Course Certificate"
+
+msgid "obj_dbk"
+msgstr "Digilib Book"
+
+#, fuzzy
+msgid "obj_dcl"
+msgstr "Data Collection"
+
+#, fuzzy
+msgid "obj_dcl_duplicate"
+msgstr "Copy Data Collection"
+
+#, fuzzy
+msgid "obj_dpro"
+msgstr "Declaration of Data Protection"
+
+#, fuzzy
+msgid "obj_dpro_desc"
+msgstr "Declaration of Data Protection Settings"
+
+#, fuzzy
+msgid "obj_dshs"
+msgstr "Dashboard"
+
+#, fuzzy
+msgid "obj_dshs_desc"
+msgstr "Dashboard settings"
+
+#, fuzzy
+msgid "obj_ecss"
+msgstr "ECS"
+
+#, fuzzy
+msgid "obj_ecss_desc"
+msgstr "General ECS Settings"
+
+msgid "obj_etal"
+msgstr "Employee Talk"
+
+msgid "obj_exc"
+msgstr "Bài tập"
+
+#, fuzzy
+msgid "obj_exc_duplicate"
+msgstr "Copy Exercise"
+
+#, fuzzy
+msgid "obj_excv"
+msgstr "Exercise Certificate"
+
+#, fuzzy
+msgid "obj_facs"
+msgstr "File Access"
+
+#, fuzzy
+msgid "obj_facs_desc"
+msgstr "Configure access to file objects."
+
+msgid "obj_file"
+msgstr "File"
+
+#, fuzzy
+msgid "obj_file_duplicate"
+msgstr "Duplicate File"
+
+#, fuzzy
+msgid "obj_file_inline"
+msgstr "Inline File"
+
+#, fuzzy
+msgid "obj_fils"
+msgstr "File Services"
+
+#, fuzzy
+msgid "obj_fils_desc"
+msgstr "Configuration of File Service Settings."
+
+msgid "obj_fold"
+msgstr "Thư mục"
+
+#, fuzzy
+msgid "obj_fold_duplicate"
+msgstr "Copy Folder"
+
+msgid "obj_frm"
+msgstr "Diễn đàn"
+
+#, fuzzy
+msgid "obj_frm_duplicate"
+msgstr "Copy Forum"
+
+#, fuzzy
+msgid "obj_frma"
+msgstr "Forum"
+
+#, fuzzy
+msgid "obj_frma_desc"
+msgstr "Global Forum Settings"
+
+msgid "obj_glo"
+msgstr "Bảng chú giải"
+
+#, fuzzy
+msgid "obj_glo_duplicate"
+msgstr "Copy Glossary"
+
+msgid "obj_grp"
+msgstr "Nhóm"
+
+#, fuzzy
+msgid "obj_grp_duplicate"
+msgstr "Copy Group"
+
+#, fuzzy
+msgid "obj_grpr"
+msgstr "Group Reference"
+
+#, fuzzy
+msgid "obj_grps"
+msgstr "Group"
+
+#, fuzzy
+msgid "obj_grps_desc"
+msgstr "General settings for Groups"
+
+#, fuzzy
+msgid "obj_gsfo"
+msgstr "Footer"
+
+#, fuzzy
+msgid "obj_gsfo_desc"
+msgstr "Administrate Footer Layout and Content"
+
+#, fuzzy
+msgid "obj_hlps"
+msgstr "Help System"
+
+#, fuzzy
+msgid "obj_hlps_desc"
+msgstr "Settings for the online help"
+
+msgid "obj_htlm"
+msgstr "Học phần HTML"
+
+#, fuzzy
+msgid "obj_htlm_duplicate"
+msgstr "Copy HTML Learning Module"
+
+#, fuzzy
+msgid "obj_iass"
+msgstr "Individual Assessment"
+
+#, fuzzy
+msgid "obj_iass_duplicate"
+msgstr "Copy Individual Assessment"
+
+#, fuzzy
+msgid "obj_iass_select"
+msgstr "-- Please select one individual assessment --"
+
+#, fuzzy
+msgid "obj_itgr"
+msgstr "Item Group"
+
+msgid "obj_ldap_desc"
+msgstr "Cấu hình các thiết lập LDAP toàn cục ở đây."
+
+#, fuzzy
+msgid "obj_lhts"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "obj_lhts_desc"
+msgstr "Learning history settings"
+
+msgid "obj_lm"
+msgstr "Học phần ILIAS"
+
+#, fuzzy
+msgid "obj_lm_duplicate"
+msgstr "Copy Learning Module"
+
+msgid "obj_lng"
+msgstr "Ngôn ngữ"
+
+msgid "obj_lngf"
+msgstr "Ngôn ngữ"
+
+msgid "obj_lngf_desc"
+msgstr "Quản lý các ngôn ngữ trong hệ thống."
+
+#, fuzzy
+msgid "obj_logs"
+msgstr "Logging"
+
+#, fuzzy
+msgid "obj_logs_desc"
+msgstr "General Logging Settings"
+
+#, fuzzy
+msgid "obj_lrss"
+msgstr "Learning Resources"
+
+#, fuzzy
+msgid "obj_lrss_desc"
+msgstr "Configure all types of learning modules."
+
+#, fuzzy
+msgid "obj_lso"
+msgstr "Learning Sequence"
+
+#, fuzzy
+msgid "obj_lso_duplicate"
+msgstr "Copy Learning Sequence"
+
+#, fuzzy
+msgid "obj_lsos"
+msgstr "Learning Sequences"
+
+#, fuzzy
+msgid "obj_lsos_desc"
+msgstr "General settings for Learning Sequences"
+
+#, fuzzy
+msgid "obj_lti"
+msgstr "LTI Consumer"
+
+#, fuzzy
+msgid "obj_ltis"
+msgstr "LTI"
+
+#, fuzzy
+msgid "obj_ltis_desc"
+msgstr "Learning Tools Interoperability"
+
+msgid "obj_mail"
+msgstr "Thiết lập thư"
+
+msgid "obj_mail_desc"
+msgstr "Cấu hình thiết lập thư toàn cục."
+
+#, fuzzy
+msgid "obj_mailr"
+msgstr "Read Mail"
+
+#, fuzzy
+msgid "obj_mailu"
+msgstr "Unread Mail"
+
+#, fuzzy
+msgid "obj_maps"
+msgstr "Maps"
+
+#, fuzzy
+msgid "obj_mcst"
+msgstr "MediaCast"
+
+#, fuzzy
+msgid "obj_mcst_duplicate"
+msgstr "Copy Mediacast"
+
+#, fuzzy
+msgid "obj_mcts"
+msgstr "Mediacast"
+
+#, fuzzy
+msgid "obj_mcts_desc"
+msgstr "General settings for mediacast."
+
+msgid "obj_mep"
+msgstr "Thư viện phương tiện"
+
+#, fuzzy
+msgid "obj_mep_duplicate"
+msgstr "Copy Media Pool"
+
+#, fuzzy
+msgid "obj_mme"
+msgstr "Main Menu"
+
+msgid "obj_mob"
+msgstr "Đối tượng phương tiện"
+
+#, fuzzy
+msgid "obj_mobs"
+msgstr "Media Objects/Pools"
+
+#, fuzzy
+msgid "obj_mobs_desc"
+msgstr "Settings for media objects and media pools."
+
+msgid "obj_not_found"
+msgstr "Không có đối tượng nào"
+
+#, fuzzy
+msgid "obj_nota"
+msgstr "Notifications"
+
+#, fuzzy
+msgid "obj_nota_desc"
+msgstr "Notification Administration"
+
+#, fuzzy
+msgid "obj_nots"
+msgstr "Notes"
+
+#, fuzzy
+msgid "obj_nots_desc"
+msgstr "Notes settings"
+
+#, fuzzy
+msgid "obj_nwss"
+msgstr "News and Web Feeds Settings"
+
+#, fuzzy
+msgid "obj_nwss_desc"
+msgstr "Settings for internal news and external web feeds."
+
+msgid "obj_objf"
+msgstr "Định nghĩa đối tượng"
+
+#, fuzzy
+msgid "obj_orgu"
+msgstr "Organisational Unit"
+
+#, fuzzy
+msgid "obj_orgu_description"
+msgstr "Creating and editing organisational structure"
+
+#, fuzzy
+msgid "obj_page"
+msgstr "Page"
+
+#, fuzzy
+msgid "obj_peac"
+msgstr "Accordion"
+
+#, fuzzy
+msgid "obj_peadl"
+msgstr "Advanced List"
+
+#, fuzzy
+msgid "obj_peadt"
+msgstr "Advanced Table"
+
+#, fuzzy
+msgid "obj_pecd"
+msgstr "Code"
+
+#, fuzzy
+msgid "obj_pech"
+msgstr "Consultation Hour"
+
+#, fuzzy
+msgid "obj_pecl"
+msgstr "Column Layout"
+
+#, fuzzy
+msgid "obj_peclp"
+msgstr "Clipboard"
+
+#, fuzzy
+msgid "obj_pecom"
+msgstr "Competences"
+
+#, fuzzy
+msgid "obj_pecrs"
+msgstr "Course"
+
+#, fuzzy
+msgid "obj_pecrt"
+msgstr "Certificate"
+
+#, fuzzy
+msgid "obj_pecs"
+msgstr "Content Snippet"
+
+#, fuzzy
+msgid "obj_pedt"
+msgstr "Data Table"
+
+#, fuzzy
+msgid "obj_pefl"
+msgstr "File List"
+
+#, fuzzy
+msgid "obj_peim"
+msgstr "interactive Media"
+
+#, fuzzy
+msgid "obj_pelh"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "obj_pemed"
+msgstr "Image/Audio/Video"
+
+#, fuzzy
+msgid "obj_pemp"
+msgstr "Map"
+
+#, fuzzy
+msgid "obj_pepd"
+msgstr "Personal Data"
+
+#, fuzzy
+msgid "obj_pepe"
+msgstr "Plugin Element"
+
+#, fuzzy
+msgid "obj_pepl"
+msgstr "Page List"
+
+#, fuzzy
+msgid "obj_peplh"
+msgstr "Placeholder"
+
+#, fuzzy
+msgid "obj_pequ"
+msgstr "Questions"
+
+#, fuzzy
+msgid "obj_perl"
+msgstr "Ressource List"
+
+#, fuzzy
+msgid "obj_pesc"
+msgstr "Section"
+
+#, fuzzy
+msgid "obj_petmp"
+msgstr "Page Template"
+
+#, fuzzy
+msgid "obj_peusr"
+msgstr "User"
+
+msgid "obj_pg"
+msgstr "Trang"
+
+#, fuzzy
+msgid "obj_poll"
+msgstr "Poll"
+
+#, fuzzy
+msgid "obj_poll_dupliate:"
+msgstr "Copy Poll"
+
+#, fuzzy
+msgid "obj_poll_duplicate"
+msgstr "Copy Poll"
+
+#, fuzzy
+msgid "obj_prg"
+msgstr "Study Programme"
+
+#, fuzzy
+msgid "obj_prg_duplicate"
+msgstr "Copy Study Programme"
+
+#, fuzzy
+msgid "obj_prg_select"
+msgstr "-- Please select one Study Programme --"
+
+#, fuzzy
+msgid "obj_prgr"
+msgstr "Link to Study Programme"
+
+#, fuzzy
+msgid "obj_prgrs"
+msgstr "Links to Study Programmes"
+
+#, fuzzy
+msgid "obj_prgs"
+msgstr "Study Programmes"
+
+#, fuzzy
+msgid "obj_prgs_desc"
+msgstr "Study Programme Administration"
+
+#, fuzzy
+msgid "obj_prss"
+msgstr "Personal Resources"
+
+#, fuzzy
+msgid "obj_prss_desc"
+msgstr "Personal resources settings"
+
+#, fuzzy
+msgid "obj_prtf"
+msgstr "Portfolio "
+
+#, fuzzy
+msgid "obj_prtt"
+msgstr "Portfolio Template"
+
+#, fuzzy
+msgid "obj_prtt_duplicate"
+msgstr "Copy Portfolio Template"
+
+#, fuzzy
+msgid "obj_ps"
+msgstr "Privacy and Security"
+
+#, fuzzy
+msgid "obj_ps_desc"
+msgstr "Configure global privacy and security settings here."
+
+msgid "obj_qpl"
+msgstr "Thư viện câu hỏi kiểm tra"
+
+#, fuzzy
+msgid "obj_qpl_duplicate"
+msgstr "Copy Question Pool Test"
+
+#, fuzzy
+msgid "obj_qpl_select"
+msgstr "-- Please select one Question Pool Test --"
+
+#, fuzzy
+msgid "obj_rcat"
+msgstr "ECS Category "
+
+#, fuzzy
+msgid "obj_rcrs"
+msgstr "Course-Link"
+
+msgid "obj_recf"
+msgstr "Các đối tượng đã phục hồi"
+
+msgid "obj_recf_desc"
+msgstr "Chứa các đối tượng đã phục hồi từ Kiểm tra hệ thống."
+
+#, fuzzy
+msgid "obj_rep"
+msgstr "Repository"
+
+#, fuzzy
+msgid "obj_reps"
+msgstr "Repository"
+
+#, fuzzy
+msgid "obj_reps_desc"
+msgstr "General settings for the Repository"
+
+#, fuzzy
+msgid "obj_rfil"
+msgstr "ECS File"
+
+#, fuzzy
+msgid "obj_rglo"
+msgstr "ECS Glossary"
+
+#, fuzzy
+msgid "obj_rgrp"
+msgstr "ECS Group"
+
+#, fuzzy
+msgid "obj_rlm"
+msgstr "ECS Learning Module"
+
+msgid "obj_role"
+msgstr "Vai trò"
+
+msgid "obj_rolf"
+msgstr "Vai trò"
+
+msgid "obj_rolf_desc"
+msgstr "Quản lý các vai trò."
+
+msgid "obj_rolf_local"
+msgstr "Vai trò nội bộ"
+
+msgid "obj_rolf_local_desc"
+msgstr "Chứa các vai trò nội bộ của đối tượng số&nbsp"
+
+msgid "obj_rolt"
+msgstr "Vai trò mẫu"
+
+msgid "obj_root"
+msgstr "Nút gốc ILIAS"
+
+#, fuzzy
+msgid "obj_rtst"
+msgstr "ECS Test"
+
+#, fuzzy
+msgid "obj_rwik"
+msgstr "ECS Wiki"
+
+msgid "obj_sahs"
+msgstr "Học phần SCORM/AICC"
+
+#, fuzzy
+msgid "obj_sahs_duplicate"
+msgstr "Copy Learning Module"
+
+#, fuzzy
+msgid "obj_sco"
+msgstr "SCO"
+
+#, fuzzy
+msgid "obj_scov"
+msgstr "SCORM Certificate"
+
+msgid "obj_seas"
+msgstr "Tìm kiếm"
+
+msgid "obj_seas_desc"
+msgstr "Quản lý thiết lập tìm kiếm ở đây."
+
+#, fuzzy
+msgid "obj_serv"
+msgstr "Server"
+
+#, fuzzy
+msgid "obj_serv_desc"
+msgstr "Settings of the sever"
+
+#, fuzzy
+msgid "obj_sess"
+msgstr "Session"
+
+#, fuzzy
+msgid "obj_sess_duplicate"
+msgstr "Copy Session"
+
+#, fuzzy
+msgid "obj_skmg"
+msgstr "Skill Management"
+
+#, fuzzy
+msgid "obj_skmg_desc"
+msgstr "Manage skills and skill categories."
+
+msgid "obj_spl"
+msgstr "Thư viện câu hỏi khảo sát"
+
+msgid "obj_st"
+msgstr "Chương"
+
+#, fuzzy
+msgid "obj_stus"
+msgstr "Shortlinks"
+
+#, fuzzy
+msgid "obj_stus_desc"
+msgstr "Global Shortlinks Settings"
+
+#, fuzzy
+msgid "obj_sty"
+msgstr "Style"
+
+msgid "obj_stys"
+msgstr "Thiết lập giao diện"
+
+msgid "obj_stys_desc"
+msgstr "Quản lý skin hệ thống và thiết lập giao diện"
+
+msgid "obj_svy"
+msgstr "Khảo sát"
+
+#, fuzzy
+msgid "obj_svy_duplicate"
+msgstr "Copy Survey"
+
+#, fuzzy
+msgid "obj_svyf"
+msgstr "Survey"
+
+#, fuzzy
+msgid "obj_svyf_desc"
+msgstr "Platform settings for the Survey Tool"
+
+#, fuzzy
+msgid "obj_sysc"
+msgstr "System Check"
+
+#, fuzzy
+msgid "obj_sysc_desc"
+msgstr "System Check and Repair Tools"
+
+#, fuzzy
+msgid "obj_tags"
+msgstr "Tagging"
+
+#, fuzzy
+msgid "obj_tags_desc"
+msgstr "Settings for tagging feature."
+
+msgid "obj_tala"
+msgstr "Talk Templates"
+
+msgid "obj_tala_desc"
+msgstr "Talk Templates"
+
+msgid "obj_tals"
+msgstr "Employee Talk Series"
+
+msgid "obj_talt"
+msgstr "Talk Template"
+
+#, fuzzy
+msgid "obj_task"
+msgstr "Task"
+
+msgid "obj_tax"
+msgstr "Phân loại"
+
+msgid "obj_taxf"
+msgstr "Phân loại"
+
+#, fuzzy
+msgid "obj_tool_setting_calendar"
+msgstr "Show Calendar"
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_active"
+msgstr "Calendar"
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_active_info"
+msgstr "A calendar is available."
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_info"
+msgstr "The \"Calendar\" block will be displayed inside the \"Content\" tab."
+
+#, fuzzy
+msgid "obj_tool_setting_custom_metadata"
+msgstr "Custom Metadata"
+
+#, fuzzy
+msgid "obj_tool_setting_custom_metadata_info"
+msgstr "If activated metadata can be configured."
+
+#, fuzzy
+msgid "obj_tool_setting_news"
+msgstr "Show News"
+
+#, fuzzy
+msgid "obj_tool_setting_news_info"
+msgstr "The \"News\" block will be displayed inside the \"Content\" tab."
+
+#, fuzzy
+msgid "obj_tos"
+msgstr "Terms of Service"
+
+#, fuzzy
+msgid "obj_tos_desc"
+msgstr "Terms of Service Settings"
+
+msgid "obj_trac"
+msgstr "Theo dõi người sử dụng"
+
+msgid "obj_trac_desc"
+msgstr "Theo dõi thông tin truy cập của người sử dụng"
+
+msgid "obj_tst"
+msgstr "Bài kiểm tra"
+
+#, fuzzy
+msgid "obj_tst_duplicate"
+msgstr "Copy Test"
+
+#, fuzzy
+msgid "obj_tstv"
+msgstr "Test Certificate"
+
+msgid "obj_type"
+msgstr "Kiểu đối tượng"
+
+#, fuzzy
+msgid "obj_user"
+msgstr "User"
+
+msgid "obj_usr"
+msgstr "Người sử dụng"
+
+msgid "obj_usrf"
+msgstr "Tài khoản người sử dụng"
+
+msgid "obj_usrf_desc"
+msgstr "Quản lý tài khoản người sử dụng ở đây."
+
+#, fuzzy
+msgid "obj_wbdv"
+msgstr "WebDAV"
+
+#, fuzzy
+msgid "obj_wbdv_desc"
+msgstr "Configuration of WebDAV Settings."
+
+#, fuzzy
+msgid "obj_wbrs"
+msgstr "Weblink"
+
+#, fuzzy
+msgid "obj_wbrs_desc"
+msgstr "General settings for Web Links"
+
+msgid "obj_webr"
+msgstr "Tài nguyên web"
+
+#, fuzzy
+msgid "obj_webr_duplicate"
+msgstr "Copy Web Resource "
+
+#, fuzzy
+msgid "obj_wfld"
+msgstr "Folder"
+
+#, fuzzy
+msgid "obj_wiki"
+msgstr "Wiki"
+
+#, fuzzy
+msgid "obj_wiki_duplicate"
+msgstr "Copy Wiki"
+
+#, fuzzy
+msgid "obj_wiks"
+msgstr "Wiki"
+
+#, fuzzy
+msgid "obj_wiks_desc"
+msgstr "Global Wiki Settings"
+
+msgid "object"
+msgstr "Đối tượng"
+
+msgid "object_added"
+msgstr "Đã thêm đối tượng"
+
+#, fuzzy
+msgid "object_copy_in_progress"
+msgstr "Started Copying."
+
+msgid "object_duplicated"
+msgstr "Đã nhân đôi đối tượng"
+
+#, fuzzy
+msgid "object_id"
+msgstr "Object-Id"
+
+msgid "object_imported"
+msgstr "Đã nhập đối tượng"
+
+#, fuzzy
+msgid "object_list"
+msgstr "List of Objects"
+
+msgid "objects"
+msgstr "Đối tượng"
+
+msgid "objf"
+msgstr "Định nghĩa đối tượng"
+
+#, fuzzy
+msgid "objs_bibl"
+msgstr "Bibliographies"
+
+#, fuzzy
+msgid "objs_blog"
+msgstr "Blogs"
+
+#, fuzzy
+msgid "objs_book"
+msgstr "Booking Pools"
+
+msgid "objs_cat"
+msgstr "Chuyên mục"
+
+#, fuzzy
+msgid "objs_catr"
+msgstr "Category References"
+
+#, fuzzy
+msgid "objs_chtr"
+msgstr "Chats"
+
+#, fuzzy
+msgid "objs_cmix"
+msgstr "Objects xAPI/cmi5"
+
+#, fuzzy
+msgid "objs_copa"
+msgstr "Content Pages"
+
+msgid "objs_crs"
+msgstr "Khóa học"
+
+#, fuzzy
+msgid "objs_crsr"
+msgstr "Course References"
+
+#, fuzzy
+msgid "objs_dcl"
+msgstr "Data Collections"
+
+msgid "objs_etal"
+msgstr "Employee Talks"
+
+msgid "objs_exc"
+msgstr "Bài tập"
+
+msgid "objs_file"
+msgstr "File"
+
+msgid "objs_fold"
+msgstr "Thư mục"
+
+msgid "objs_frm"
+msgstr "Diễn đàn"
+
+msgid "objs_glo"
+msgstr "Bảng chú giải"
+
+msgid "objs_grp"
+msgstr "Nhóm"
+
+#, fuzzy
+msgid "objs_grpr"
+msgstr "Group References"
+
+msgid "objs_htlm"
+msgstr "Học phần HTML"
+
+#, fuzzy
+msgid "objs_iass"
+msgstr "Individual Assessments"
+
+#, fuzzy
+msgid "objs_itgr"
+msgstr "Item Groups"
+
+msgid "objs_lm"
+msgstr "Học phần ILIAS"
+
+#, fuzzy
+msgid "objs_lres"
+msgstr "Learning Resources"
+
+#, fuzzy
+msgid "objs_lso"
+msgstr "Learning Sequences"
+
+#, fuzzy
+msgid "objs_lti"
+msgstr "LTI Consumers"
+
+#, fuzzy
+msgid "objs_mail"
+msgstr "Mail"
+
+#, fuzzy
+msgid "objs_mcst"
+msgstr "MediaCasts"
+
+msgid "objs_mep"
+msgstr "Thư viện phương tiện"
+
+#, fuzzy
+msgid "objs_orgu"
+msgstr "Organisational Unit"
+
+#, fuzzy
+msgid "objs_poll"
+msgstr "Polls"
+
+#, fuzzy
+msgid "objs_prg"
+msgstr "Study Programmes"
+
+#, fuzzy
+msgid "objs_prgr"
+msgstr "Links to Study Programmes"
+
+#, fuzzy
+msgid "objs_prtf"
+msgstr "Portfolios"
+
+#, fuzzy
+msgid "objs_prtt"
+msgstr "Portfolio Templates"
+
+msgid "objs_qpl"
+msgstr "Thư viện câu hỏi kiểm tra"
+
+#, fuzzy
+msgid "objs_qst"
+msgstr "Questions"
+
+#, fuzzy
+msgid "objs_rcat"
+msgstr "ECS Categories"
+
+#, fuzzy
+msgid "objs_rcrs"
+msgstr "Course-Links"
+
+#, fuzzy
+msgid "objs_rfil"
+msgstr "ECS Files"
+
+#, fuzzy
+msgid "objs_rglo"
+msgstr "ECS Glossaries"
+
+#, fuzzy
+msgid "objs_rgrp"
+msgstr "ECS Groups"
+
+#, fuzzy
+msgid "objs_rlm"
+msgstr "ECS Learning Modules"
+
+msgid "objs_role"
+msgstr "Vai trò"
+
+#, fuzzy
+msgid "objs_rolf"
+msgstr "Role Folders"
+
+#, fuzzy
+msgid "objs_rtst"
+msgstr "ECS Tests"
+
+#, fuzzy
+msgid "objs_rwik"
+msgstr "ECS Wikis"
+
+msgid "objs_sahs"
+msgstr "Học phần SCORM/AICC"
+
+#, fuzzy
+msgid "objs_sess"
+msgstr "Sessions"
+
+#, fuzzy
+msgid "objs_skee"
+msgstr "Competence Trees"
+
+msgid "objs_spl"
+msgstr "Thư viện câu hỏi khảo sát"
+
+msgid "objs_st"
+msgstr "Chương"
+
+msgid "objs_svy"
+msgstr "Khảo sát"
+
+msgid "objs_tala"
+msgstr "Talk Templates"
+
+msgid "objs_talt"
+msgstr "Talk Templates"
+
+msgid "objs_tst"
+msgstr "Bài kiểm tra"
+
+msgid "objs_webr"
+msgstr "Tài nguyên web"
+
+#, fuzzy
+msgid "objs_wiki"
+msgstr "Wikis"
+
+msgid "of"
+msgstr "trong"
+
+msgid "offline"
+msgstr "offline"
+
+#, fuzzy
+msgid "offline_mode"
+msgstr "Offline-Mode"
+
+msgid "ok"
+msgstr "OK"
+
+msgid "old"
+msgstr "Cũ"
+
+#, fuzzy
+msgid "omit"
+msgstr "Omit"
+
+#, fuzzy
+msgid "omit_all"
+msgstr "Omit all"
+
+#, fuzzy
+msgid "on_waiting_list"
+msgstr "You are on the waiting list"
+
+msgid "online"
+msgstr "Online"
+
+#, fuzzy
+msgid "online_time"
+msgstr "Time online (DD:HH:MM:SS)"
+
+#, fuzzy
+msgid "only_active"
+msgstr "Only Active"
+
+#, fuzzy
+msgid "only_inactive"
+msgstr "Only Inactive"
+
+#, fuzzy
+msgid "open"
+msgstr "Open"
+
+msgid "operation"
+msgstr "Thao tác"
+
+msgid "optimize"
+msgstr "Lạc quan"
+
+#, fuzzy
+msgid "option"
+msgstr "Option"
+
+#, fuzzy
+msgid "optional_filter_hint"
+msgstr "Please activate one of the optional filters."
+
+#, fuzzy
+msgid "optional_filters"
+msgstr "Optional Filters"
+
+msgid "options"
+msgstr "Tùy chọn"
+
+msgid "order_by"
+msgstr "Sắp xếp theo"
+
+#, fuzzy
+msgid "order_by_date"
+msgstr "Order by Date"
+
+#, fuzzy
+msgid "org_op_access_enrolments"
+msgstr "View Enrolment-Status"
+
+#, fuzzy
+msgid "org_op_manage_members"
+msgstr "Manage Subordinate Members"
+
+#, fuzzy
+msgid "org_op_read_learning_progress"
+msgstr "View Learning Progress of Subordinate Users"
+
+#, fuzzy
+msgid "org_permission_settings"
+msgstr "Permissions of Positions in Organisational Units"
+
+#, fuzzy
+msgid "org_units"
+msgstr "Organisational Units"
+
+#, fuzzy
+msgid "organization"
+msgstr "Provider"
+
+msgid "other"
+msgstr "Khác"
+
+msgid "overview"
+msgstr "Tổng quan"
+
+msgid "overwrite"
+msgstr "Ghi đè"
+
+msgid "owner"
+msgstr "Chủ nhân"
+
+msgid "owner_updated"
+msgstr "Đã cập nhật chủ nhân."
+
+msgid "page"
+msgstr "Trang"
+
+#, fuzzy
+msgid "page_count"
+msgstr "Page Count"
+
+#, fuzzy
+msgid "page_layout"
+msgstr "Page Layout"
+
+#, fuzzy
+msgid "page_layouts"
+msgstr "Page Layouts"
+
+#, fuzzy
+msgid "pagination_label_x_of_y"
+msgstr "Page %1$d of %2$d"
+
+msgid "parameter"
+msgstr "Tham số"
+
+msgid "parse"
+msgstr "Dịch"
+
+#, fuzzy
+msgid "participate"
+msgstr "Subscribe"
+
+msgid "passed"
+msgstr "Đạt"
+
+msgid "passwd"
+msgstr "Mật khẩu"
+
+#, fuzzy
+msgid "passwd_generation"
+msgstr "Password Generation"
+
+msgid "passwd_invalid"
+msgstr "Mật khẩu mới không hợp lệ! Chỉ các ký tự sau là được phép (ít nhất 6 ký tự): A-Z a-z 0-9 _.-+*@!$%~"
+
+msgid "passwd_not_match"
+msgstr "Mật khẩu mới không trùng khớp! Hãy nhập lại mật khẩu mới."
+
+msgid "passwd_wrong"
+msgstr "Mật khẩu nhập sai!"
+
+msgid "password"
+msgstr "Mật khẩu"
+
+#, fuzzy
+msgid "password_allow_chars"
+msgstr "Allowed chars: %s"
+
+msgid "password_assistance_info"
+msgstr "Nếu trợ giúp mật khẩu được cho phép, những liên kết \"Quên mật khẩu?\" và \"Quên tên đăng nhập?\" sẽ hiện trên trang đăng nhập của ILIAS. Người sử dụng có thể sử dụng những liên kết này để lấy mật khẩu mới cho tài khoản của họ cũng như là tên đăng nhập, mà không cần trợ giúp từ quản trị hệ thống."
+
+#, fuzzy
+msgid "password_change_on_first_login_demand"
+msgstr "Your initial password have to be changed before you can start using ILIAS services"
+
+#, fuzzy
+msgid "password_contains_invalid_chars"
+msgstr "The password contains invalid characters"
+
+#, fuzzy
+msgid "password_contains_parts_of_login_err"
+msgstr "The chosen password contains your username. Please insert a new password."
+
+#, fuzzy
+msgid "password_empty"
+msgstr "The password must not be empty."
+
+#, fuzzy
+msgid "password_expired"
+msgstr "Your password is expired and have to be changed, because the last change was %s day(s) ago."
+
+#, fuzzy
+msgid "password_multiple_errors"
+msgstr "Multiple criterias are not satisfied:"
+
+#, fuzzy
+msgid "password_must_chars_and_numbers"
+msgstr "The password must contain characters and numbers."
+
+#, fuzzy
+msgid "password_must_contain_lcase_chars"
+msgstr "The password must contain at least %s lower case letters."
+
+#, fuzzy
+msgid "password_must_contain_ucase_chars"
+msgstr "The password must contain at least %s capital letters."
+
+#, fuzzy
+msgid "password_must_special_chars"
+msgstr "The password must contain special characters."
+
+#, fuzzy
+msgid "password_to_long"
+msgstr "The password must have at most a size of %s characters."
+
+#, fuzzy
+msgid "password_to_short"
+msgstr "The password must have at least a size of %s characters."
+
+msgid "paste"
+msgstr "Dán"
+
+msgid "pasteChapter"
+msgstr "Dán chương"
+
+msgid "pastePage"
+msgstr "Dán trang"
+
+msgid "paste_clipboard_items"
+msgstr "Dán mục từ bộ nhớ đệm"
+
+msgid "path"
+msgstr "Đường dẫn"
+
+msgid "path_not_set"
+msgstr "Chưa đặt đường dẫn"
+
+msgid "path_to_convert"
+msgstr "Đường dẫn chuyển đổi"
+
+msgid "path_to_htmldoc"
+msgstr "Đường dẫn đến HTMLdoc"
+
+msgid "path_to_java"
+msgstr "Đường dẫn Java"
+
+msgid "path_to_unzip"
+msgstr "Đường dẫn giải nén"
+
+msgid "path_to_zip"
+msgstr "Đường dẫn nén"
+
+msgid "pathes"
+msgstr "Đường dẫn"
+
+#, fuzzy
+msgid "pd_items_news"
+msgstr "Include News of Personal Items"
+
+#, fuzzy
+msgid "pdf_export"
+msgstr "PDF Export"
+
+msgid "perm_settings"
+msgstr "Quyền hạn"
+
+#, fuzzy
+msgid "perma_link"
+msgstr "Permanent Link"
+
+#, fuzzy
+msgid "perma_link_copied"
+msgstr "Link to this page has been copied to the clipboard."
+
+msgid "permission"
+msgstr "Quyền hạn"
+
+msgid "permission_denied"
+msgstr "Từ chối vì lý do quyền hạn"
+
+msgid "permission_settings"
+msgstr "Thiết lập quyền hạn"
+
+msgid "person_title"
+msgstr "Tiêu đề"
+
+msgid "personal_data"
+msgstr "Thông tin cá nhân"
+
+msgid "personal_picture"
+msgstr "Ảnh"
+
+msgid "personal_profile"
+msgstr "Hồ sơ"
+
+#, fuzzy
+msgid "personal_resources"
+msgstr "Personal Resources"
+
+#, fuzzy
+msgid "personal_settings"
+msgstr "Personal Settings"
+
+#, fuzzy
+msgid "personalise_date_time"
+msgstr "Personalise Date and Time Settings"
+
+msgid "persons"
+msgstr "Người"
+
+msgid "pg_add"
+msgstr "Thêm trang"
+
+msgid "pg_new"
+msgstr "Trang mới"
+
+msgid "phone"
+msgstr "Điện thoại"
+
+msgid "phone_home"
+msgstr "Điện thoại (nhà riêng)"
+
+msgid "phone_mobile"
+msgstr "Điện thoại (di động)"
+
+msgid "phone_office"
+msgstr "Điện thoại (cơ quan)"
+
+msgid "phrase"
+msgstr "Cụm từ"
+
+msgid "please_choose"
+msgstr "--- Hãy chọn ---"
+
+msgid "please_enter_target"
+msgstr "Hãy nhập vào mục tiêu"
+
+msgid "please_enter_title"
+msgstr "Hãy nhập vào tiêu đề"
+
+#, fuzzy
+msgid "please_select"
+msgstr "-- Please Select --"
+
+msgid "please_select_a_delivered_file_to_delete"
+msgstr "Bạn phải chọn ít nhất một file đã nộp để xóa nó!"
+
+msgid "please_select_a_delivered_file_to_download"
+msgstr "Bạn phải chọn ít nhất một file đã nộp để tải xuống!"
+
+#, fuzzy
+msgid "please_wait"
+msgstr "Please wait..."
+
+msgid "port"
+msgstr "Cổng"
+
+#, fuzzy
+msgid "portfolio"
+msgstr "Portfolio"
+
+#, fuzzy
+msgid "pos_bottom"
+msgstr "Bottom"
+
+#, fuzzy
+msgid "pos_left"
+msgstr "Left"
+
+#, fuzzy
+msgid "pos_right"
+msgstr "Right"
+
+#, fuzzy
+msgid "pos_top"
+msgstr "Top"
+
+msgid "position"
+msgstr "Vị trí"
+
+#, fuzzy
+msgid "position_permission_settings"
+msgstr "Orgunit-Specific Permissions"
+
+#, fuzzy
+msgid "precondition"
+msgstr "Precondition"
+
+#, fuzzy
+msgid "precondition_not_accessible"
+msgstr "You do not have sufficient permission to view the precondition(s) of this item."
+
+#, fuzzy
+msgid "precondition_required_itemlist"
+msgstr "Required Precondition"
+
+#, fuzzy
+msgid "precondition_toggle"
+msgstr "Preconditions that need to be fulfilled to access this object"
+
+msgid "preconditions"
+msgstr "Điều kiện tiên quyết"
+
+#, fuzzy
+msgid "preconditions_obligatory_hint"
+msgstr "Please edit the following preconditions"
+
+#, fuzzy
+msgid "preconditions_optional_hint"
+msgstr "Please edit one of the following preconditions"
+
+msgid "predefined_template"
+msgstr "Vai trò mẫu định nghĩa trước"
+
+#, fuzzy
+msgid "preferences"
+msgstr "User-defined Preferences"
+
+#, fuzzy
+msgid "presentation_table_more"
+msgstr "more"
+
+#, fuzzy
+msgid "presenter"
+msgstr "Presenter"
+
+#, fuzzy
+msgid "preview"
+msgstr "Preview"
+
+#, fuzzy
+msgid "preview_create"
+msgstr "Create Preview"
+
+#, fuzzy
+msgid "preview_delete"
+msgstr "Delete Preview"
+
+#, fuzzy
+msgid "preview_image_size"
+msgstr "Size of Preview Images"
+
+#, fuzzy
+msgid "preview_learner_info"
+msgstr "If enabled, Course and Group administrators have the possibility to view the content form the perspective of a learner."
+
+#, fuzzy
+msgid "preview_loading"
+msgstr "Loading Preview..."
+
+#, fuzzy
+msgid "preview_none"
+msgstr "Preview (not created yet)"
+
+#, fuzzy
+msgid "preview_not_possible"
+msgstr "Creation of Previews is currently not possible, please read the documentation in %s."
+
+#, fuzzy
+msgid "preview_renderers"
+msgstr "Preview Renderers"
+
+#, fuzzy
+msgid "preview_settings"
+msgstr "File Preview"
+
+#, fuzzy
+msgid "preview_show"
+msgstr "Show Preview"
+
+#, fuzzy
+msgid "preview_status_creating"
+msgstr "The preview gets created. This may take some time..."
+
+#, fuzzy
+msgid "preview_status_deleting"
+msgstr "The preview gets deleted..."
+
+#, fuzzy
+msgid "preview_status_failed"
+msgstr "Failed to create the preview."
+
+#, fuzzy
+msgid "preview_status_missing"
+msgstr "No preview exists for this file."
+
+#, fuzzy
+msgid "preview_status_pending"
+msgstr "The preview has not been created yet. Please try again later."
+
+msgid "previous"
+msgstr "Trước"
+
+#, fuzzy
+msgid "prg_copy_threads_info"
+msgstr "Please decide which Study Program elements should be copied, linked or even omitted."
+
+#, fuzzy
+msgid "prg_wizard_page"
+msgstr "Copy Study Program (Step 2/2)"
+
+#, fuzzy
+msgid "prgr_add"
+msgstr "Add Study Programme Link"
+
+#, fuzzy
+msgid "prgr_edit_info"
+msgstr "Please choose one Study Programme for creating a new link."
+
+#, fuzzy
+msgid "prgr_new"
+msgstr "Create Study Programme Link"
+
+#, fuzzy
+msgid "prgr_settings"
+msgstr "Settings of Study Programme Link"
+
+msgid "print"
+msgstr "In"
+
+#, fuzzy
+msgid "print_view"
+msgstr "Print View"
+
+msgid "private_notes"
+msgstr "Ghi chép cá nhân"
+
+msgid "pro"
+msgstr "Pro///"
+
+#, fuzzy
+msgid "proceed"
+msgstr "Proceed"
+
+msgid "profile"
+msgstr "Hồ sơ"
+
+msgid "profile_changed"
+msgstr "Hồ sơ của bạn đã thay đổi"
+
+#, fuzzy
+msgid "profile_incomplete"
+msgstr "Your profile is incomplete. Please fill in all required data."
+
+msgid "profile_of"
+msgstr "Hồ sơ cá nhân của"
+
+msgid "properties"
+msgstr "Thuộc tính"
+
+#, fuzzy
+msgid "proxy"
+msgstr "Proxy"
+
+#, fuzzy
+msgid "proxy_connectable"
+msgstr "Connection established."
+
+#, fuzzy
+msgid "proxy_host"
+msgstr "Host"
+
+#, fuzzy
+msgid "proxy_host_info"
+msgstr "Please enter a host."
+
+#, fuzzy
+msgid "proxy_not_connectable"
+msgstr "ILIAS could not build a connection to the defined proxy."
+
+#, fuzzy
+msgid "proxy_port"
+msgstr "Port"
+
+#, fuzzy
+msgid "proxy_port_info"
+msgstr "Please enter a port between 0 and 65535, e.g.8080."
+
+#, fuzzy
+msgid "proxy_port_numeric"
+msgstr "The entered port has to be a numeric value between 0 and 65535"
+
+#, fuzzy
+msgid "proxy_socket_error"
+msgstr "Socket Error: %s"
+
+#, fuzzy
+msgid "proxy_status"
+msgstr "Proxy"
+
+#, fuzzy
+msgid "proxy_status_info"
+msgstr "To use a proxy in ILIAS (e.g. for web feeds or to check weblinks) please activate the checkbox above."
+
+#, fuzzy
+msgid "ps_export_scorm"
+msgstr "SCORM Tracking Data"
+
+#, fuzzy
+msgid "ps_password_lowercase_chars_num"
+msgstr "Lower Case Letters"
+
+#, fuzzy
+msgid "ps_password_lowercase_chars_num_info"
+msgstr "Please insert the number of lower case letters a password must contain. Enter 0 to disable this requirement."
+
+#, fuzzy
+msgid "ps_password_must_not_contain_loginame"
+msgstr "Prevent Username in Password"
+
+#, fuzzy
+msgid "ps_password_must_not_contain_loginame_info"
+msgstr "If activated, a password must not contain the username."
+
+#, fuzzy
+msgid "ps_password_uppercase_chars_num"
+msgstr "Capital Letters"
+
+#, fuzzy
+msgid "ps_password_uppercase_chars_num_info"
+msgstr "Please insert the number of capital letters a password must contain. Enter 0 to disable this requirement."
+
+msgid "pub_section"
+msgstr "Khu vực công khai"
+
+#, fuzzy
+msgid "pub_section_info"
+msgstr "If enabled, parts of the system (e.g. repository, user profiles) can be made available to the internet without authentification. The permissions of the \"Anonymous\" role will control the access to repository resources."
+
+msgid "public"
+msgstr "công khai"
+
+msgid "public_notes"
+msgstr "Lưu ý công khai"
+
+msgid "public_profile"
+msgstr "Công khai hồ sơ"
+
+#, fuzzy
+msgid "public_room"
+msgstr "Public room"
+
+msgid "purpose"
+msgstr "Mục đích"
+
+msgid "qpl"
+msgstr "Thư viện câu hỏi kiểm tra"
+
+msgid "qpl_add"
+msgstr "Thêm thư viện câu hỏi kiểm tra"
+
+msgid "qpl_new"
+msgstr "Thư viện câu hỏi kiểm tra mới"
+
+msgid "query_data"
+msgstr "Truy vấn thông tin"
+
+msgid "question"
+msgstr "Câu hỏi"
+
+#, fuzzy
+msgid "question_message"
+msgstr "Question"
+
+msgid "quit"
+msgstr "Thoát"
+
+msgid "quote"
+msgstr "Trích dẫn"
+
+msgid "read"
+msgstr "Đọc"
+
+#, fuzzy
+msgid "readcount_anonymous_users"
+msgstr "Number of anonymous read accesses"
+
+#, fuzzy
+msgid "readcount_users"
+msgstr "Number of non-anonymous read accesses"
+
+msgid "recipient"
+msgstr "Người nhận"
+
+#, fuzzy
+msgid "reference_deleted"
+msgstr "Destination not available"
+
+#, fuzzy
+msgid "reference_of"
+msgstr "Reference of:"
+
+msgid "referral_comment"
+msgstr "Thông tin được giới thiệu về ILIAS?"
+
+msgid "refresh"
+msgstr "Cập nhật"
+
+msgid "refresh_languages"
+msgstr "Cập nhật ngôn ngữ"
+
+msgid "refuse"
+msgstr "Từ chối"
+
+#, fuzzy
+msgid "reg_account_confirmation_successful"
+msgstr "Your user account has been activated."
+
+#, fuzzy
+msgid "reg_delete_expired_pending_registrations"
+msgstr "Delete Expired Pending Registrations"
+
+#, fuzzy
+msgid "reg_delete_expired_pending_registrations_desc"
+msgstr "Deletes all ILIAS accounts that have not been confirmed after a registration with e-mail confirmation."
+
+#, fuzzy
+msgid "reg_goto_parent_membership_info"
+msgstr "Only members can access the target object."
+
+#, fuzzy
+msgid "reg_mail_body_2_confirmation"
+msgstr "The link will only be good for %s, after that you will have to try again from the beginning."
+
+#, fuzzy
+msgid "reg_mail_body_3_confirmation"
+msgstr "If this email means nothing to you, then it is possible that somebody else has entered your email address either deliberately or accidentally, so please ignore this email"
+
+#, fuzzy
+msgid "reg_mail_body_forgot_password_info"
+msgstr "To get your password, please use the function « Forgot password? » at the login screen to request a new password for this account."
+
+msgid "reg_mail_body_salutation"
+msgstr "Xin chào"
+
+msgid "reg_mail_body_text1"
+msgstr "Chào mừng đến với ILIAS eLearning Đại học Sư phạm Hà Nội!"
+
+msgid "reg_mail_body_text2"
+msgstr "Để truy cập ILIAS hãy sử dụng các thông tin sau:"
+
+msgid "reg_mail_body_text3"
+msgstr "Thông tin cá nhân bổ sung:"
+
+msgid "reg_mail_subject"
+msgstr "Thông tin truy cập của bạn"
+
+#, fuzzy
+msgid "reg_mail_subject_confirmation"
+msgstr "Your Confirmationlink"
+
+msgid "reg_passwd_via_mail"
+msgstr "mật khẩu của bạn sẽ được gửi tới hòm thư của bạn ở phía dưới."
+
+msgid "register"
+msgstr "Đăng ký"
+
+#, fuzzy
+msgid "register_notification"
+msgstr "\"%s\" has applied for session \"%s\"."
+
+msgid "registered_since"
+msgstr "Đã đăng ký từ"
+
+msgid "registered_user"
+msgstr "người sử dụng đã đăng ký"
+
+msgid "registered_users"
+msgstr "người sử dụng đã đăng ký"
+
+msgid "registration"
+msgstr "Đăng ký tài khoản mới"
+
+msgid "related_to"
+msgstr "Quan hệ với"
+
+msgid "remove"
+msgstr "Xóa"
+
+#, fuzzy
+msgid "remove_entries"
+msgstr "Remove Entries"
+
+msgid "remove_translation"
+msgstr "Xóa bản dịch"
+
+msgid "rename"
+msgstr "Đổi tên"
+
+msgid "rename_file"
+msgstr "Đổi tên file"
+
+#, fuzzy
+msgid "renderer_supported_file_types"
+msgstr "Supported File Types"
+
+#, fuzzy
+msgid "renderer_supported_repo_types"
+msgstr "Supported ILIAS Objects"
+
+#, fuzzy
+msgid "renderer_type_builtin"
+msgstr "Built-in"
+
+#, fuzzy
+msgid "rep_main_page"
+msgstr "Main Page"
+
+#, fuzzy
+msgid "rep_main_page_logo_alt"
+msgstr "Logo ILIAS - to the start page"
+
+msgid "repeat_scan"
+msgstr "Lặp lại quét..."
+
+msgid "repeat_scan_failed"
+msgstr "Không lặp lại quét được."
+
+msgid "repeat_scan_succeded"
+msgstr "Quét lặp lại thành công."
+
+msgid "replace_file"
+msgstr "Thay thế file"
+
+msgid "reply"
+msgstr "Trả lời"
+
+#, fuzzy
+msgid "report_accessibility_issue"
+msgstr "Report Accessibility Issue"
+
+#, fuzzy
+msgid "report_accessibility_link"
+msgstr "Reported Link:"
+
+#, fuzzy
+msgid "report_accessibility_link_mailto"
+msgstr "Reported%20Link:"
+
+msgid "repository"
+msgstr "Kho kiến thức"
+
+msgid "repository_admin"
+msgstr "Kho kiến thức, Thùng rác và Quyền hạn"
+
+msgid "repository_admin_desc"
+msgstr "Thiết lập quyền hạn cho các mục trong kho kiến thức, phục hồi hoặc xóa các đối tượng trong thùng rác hệ thống"
+
+msgid "require_email"
+msgstr "Yêu cầu email"
+
+msgid "require_gender"
+msgstr "Yêu cầu giới tính"
+
+msgid "require_hobby"
+msgstr "Yêu cầu sở thích"
+
+msgid "require_matriculation"
+msgstr "Yêu cầu số trúng tuyển"
+
+msgid "require_referral_comment"
+msgstr "Yêu cầu thông tin giới thiệu"
+
+msgid "required_field"
+msgstr "Thông tin bắt buộc phải điền"
+
+#, fuzzy
+msgid "res_links"
+msgstr "Repository Links"
+
+#, fuzzy
+msgid "res_links_short"
+msgstr "Links"
+
+msgid "reset"
+msgstr "Reset"
+
+#, fuzzy
+msgid "reset_filter"
+msgstr "Reset filter"
+
+msgid "resources"
+msgstr "Tài nguyên"
+
+msgid "right"
+msgstr "Quyền"
+
+msgid "rights"
+msgstr "Quyền"
+
+msgid "role"
+msgstr "Vai trò"
+
+msgid "role_add_user"
+msgstr "Thêm người sử dụng vào vai trò"
+
+msgid "role_added"
+msgstr "Đã thêm vai trò"
+
+msgid "role_assignment"
+msgstr "Chỉ định vai trò"
+
+msgid "role_assignment_updated"
+msgstr "Chỉ định vai trò đã cập nhật."
+
+msgid "role_edit"
+msgstr "Sửa vai trò"
+
+#, fuzzy
+msgid "role_mailto"
+msgstr "Mail to all assigned Users"
+
+msgid "role_new"
+msgstr "Vai trò mới"
+
+msgid "role_new_search"
+msgstr "Tìm kiếm mới"
+
+msgid "role_no_roles_selected"
+msgstr "Hãy chọn một vai trò"
+
+msgid "role_protect_permissions"
+msgstr "Bảo vệ quyền hạn của vai trò"
+
+#, fuzzy
+msgid "role_protect_permissions_desc"
+msgstr "The object permissions cannot be changed by systems operations anymore. Furthermore only administrator of higher levels may change the permissions."
+
+msgid "role_select_one_item"
+msgstr "Hãy chọn một đối tượng."
+
+msgid "role_sure_delete_desk_items"
+msgstr "Bạn có chắc chắn muốn xóa (các) chỉ định sau không?"
+
+msgid "role_templates_only"
+msgstr "Chỉ các vai trò mẫu"
+
+msgid "roles"
+msgstr "Vai trò"
+
+msgid "roles_of_import_global"
+msgstr "Vai trò toàn cục của file nhập"
+
+msgid "roles_of_import_local"
+msgstr "Vai trò nội bộ của file nhập"
+
+msgid "rolf"
+msgstr "Vai trò"
+
+msgid "rolf_added"
+msgstr "Đã thêm thư mục vai trò"
+
+msgid "rolf_create_role"
+msgstr "Tạo định nghĩa vai trò mới"
+
+msgid "rolf_create_rolt"
+msgstr "Tạo định nghĩa vai trò mẫu mới"
+
+msgid "rolf_delete"
+msgstr "Xóa vai trò/vai trò mẫu"
+
+msgid "rolf_edit_permission"
+msgstr "Thay đổi thiết lập quyền hạn"
+
+msgid "rolf_edit_userassignment"
+msgstr "Thay đổi chỉ định vai trò của người sử dụng"
+
+msgid "rolf_read"
+msgstr "Đọc vai trò/vai trò mẫu"
+
+msgid "rolf_visible"
+msgstr "Nhìn thấy vai trò/vai trò mẫu"
+
+msgid "rolf_write"
+msgstr "Sửa thiết lập mặc định của vai trò/vai trò mẫu"
+
+msgid "rolt"
+msgstr "Vai trò mẫu"
+
+msgid "rolt_added"
+msgstr "Đã thêm vai trò mẫu"
+
+msgid "rolt_edit"
+msgstr "Sửa vai trò mẫu"
+
+msgid "rolt_new"
+msgstr "Vai trò mẫu mới"
+
+#, fuzzy
+msgid "row"
+msgstr "Row"
+
+#, fuzzy
+msgid "rows"
+msgstr "Rows"
+
+#, fuzzy
+msgid "rpc_pdf_font"
+msgstr "Fonts"
+
+#, fuzzy
+msgid "rpc_pdf_font_info"
+msgstr "Additional fonts for the generation of PDF files. Other fonts than \"Helvetica\" and \"unifont\" must be installed on the ILIAS server."
+
+#, fuzzy
+msgid "rpc_pdf_generation"
+msgstr "PDF-Generation"
+
+#, fuzzy
+msgid "sad"
+msgstr "Sad"
+
+msgid "sahs"
+msgstr "Học phần SCORM/AICC"
+
+msgid "sahs_added"
+msgstr "Đã thêm học phần SCORM/AICC"
+
+#, fuzzy
+msgid "sahs_export_file"
+msgstr "ILIAS exported SCORM archive file"
+
+#, fuzzy
+msgid "sahs_export_file_info"
+msgstr "Use this option for a ZIP file that was exported directly from ILIAS. The file typically has titles such as 1675257903__4105__sahs_132295.zip."
+
+#, fuzzy
+msgid "sahs_insert_chap_from_clip"
+msgstr "Paste Chapters from Clipboard"
+
+#, fuzzy
+msgid "sahs_insert_page_from_clip"
+msgstr "Paste Pages from Clipboard"
+
+#, fuzzy
+msgid "sahs_insert_sco_from_clip"
+msgstr "Paste SCOs from Clipboard"
+
+#, fuzzy
+msgid "sahs_new"
+msgstr "Create New Learning Module"
+
+msgid "salutation"
+msgstr "Lời chào"
+
+msgid "salutation_f"
+msgstr "Cô./Bà."
+
+msgid "salutation_m"
+msgstr "Ông."
+
+#, fuzzy
+msgid "salutation_n"
+msgstr "No salutation desired"
+
+#, fuzzy
+msgid "saml_log_in"
+msgstr "Direct login"
+
+#, fuzzy
+msgid "saml_login_form_info_txt"
+msgstr "You can log in using the “Direct Login” button without having to enter your username or password."
+
+#, fuzzy
+msgid "saml_login_form_txt"
+msgstr "Login to ILIAS via SAML"
+
+msgid "save"
+msgstr "Ghi"
+
+msgid "save_and_back"
+msgstr "Ghi và quay lại"
+
+msgid "save_message"
+msgstr "Ghi thư"
+
+#, fuzzy
+msgid "save_params_for_cron"
+msgstr "Save Parameter for Cronjob"
+
+msgid "save_refresh"
+msgstr "Ghi và cập nhật lại"
+
+msgid "save_return"
+msgstr "Ghi và quay lại"
+
+msgid "save_settings"
+msgstr "Ghi các thiết lập"
+
+msgid "save_user_related_data"
+msgstr "Ghi các thông tin liên quan truy cập của người sử dụng"
+
+msgid "saved_successfully"
+msgstr "Ghi thành công"
+
+#, fuzzy
+msgid "saving"
+msgstr "Saving..."
+
+#, fuzzy
+msgid "scope"
+msgstr "Scope"
+
+#, fuzzy
+msgid "scorm_create_export_file_html"
+msgstr "Create Export File (HTML)"
+
+#, fuzzy
+msgid "scorm_create_export_file_pdf"
+msgstr "Create Export File (PDF)"
+
+#, fuzzy
+msgid "scorm_create_export_file_scrom12"
+msgstr "Create Export File (SCORM 1.2)"
+
+#, fuzzy
+msgid "scorm_create_export_file_scrom2004"
+msgstr "Create Export File (SCORM 2004)"
+
+#, fuzzy
+msgid "scorm_create_export_file_scrom2004_4th"
+msgstr "Create Export File (SCORM 2004 4th Edition)"
+
+#, fuzzy
+msgid "scorm_login_as_learner_id"
+msgstr "SCORM 2004: set ILIAS User Name as cmi.learner_id"
+
+#, fuzzy
+msgid "scorm_login_as_learner_id_info"
+msgstr "If enabled, the User Name instead of the User ID is set for cmi.learner_id."
+
+#, fuzzy
+msgid "scorm_lp_auto_activate"
+msgstr "default settings for learning progress"
+
+#, fuzzy
+msgid "scorm_lp_auto_activate_info"
+msgstr "If learning progress is activated in general, the settings for new SCORM learning modules are set to 'Collection of SCORM Items' and all SCOs are selected for learning progress determination. Adjustments are still possible for every SCORM learning module."
+
+#, fuzzy
+msgid "scorm_new"
+msgstr "New SCORM/IACC Learning Module"
+
+#, fuzzy
+msgid "scorm_without_session"
+msgstr "SCORM 2004: enable storing data without session"
+
+#, fuzzy
+msgid "scorm_without_session_info"
+msgstr "This ensures the storage of SCORM learning data even if ILIAS session expired"
+
+msgid "search"
+msgstr "Tìm kiếm"
+
+msgid "search_active"
+msgstr "Bao gồm những người sử dụng đang hoạt động"
+
+#, fuzzy
+msgid "search_at_current_position"
+msgstr "At Current Position"
+
+#, fuzzy
+msgid "search_engine"
+msgstr "Search Engines"
+
+msgid "search_for"
+msgstr "Tìm để có"
+
+#, fuzzy
+msgid "search_globally"
+msgstr "Globally"
+
+msgid "search_in"
+msgstr "Tìm kiếm trong"
+
+msgid "search_inactive"
+msgstr "Bao gồm cả những người sử dụng không hoạt động"
+
+msgid "search_new"
+msgstr "Tìm kiếm mới"
+
+msgid "search_result"
+msgstr "Kết quả tìm kiếm"
+
+#, fuzzy
+msgid "search_results"
+msgstr "Search results"
+
+msgid "search_user"
+msgstr "Tìm kiếm người sử dụng"
+
+#, fuzzy
+msgid "search_users"
+msgstr "Look Up Users"
+
+msgid "seas_max_hits"
+msgstr "Số kết quả tối đa"
+
+msgid "seas_max_hits_info"
+msgstr "Hãy nhập số tối đa kết quả tìm kiếm."
+
+msgid "seas_settings"
+msgstr "Thiết lập tìm kiếm"
+
+#, fuzzy
+msgid "second"
+msgstr "Second"
+
+#, fuzzy
+msgid "second_email"
+msgstr "Second Email"
+
+msgid "seconds"
+msgstr "Giây"
+
+#, fuzzy
+msgid "sel_country"
+msgstr "Country"
+
+msgid "select"
+msgstr "Chọn"
+
+msgid "select_all"
+msgstr "Chọn tất cả"
+
+#, fuzzy
+msgid "select_at_least_one_object"
+msgstr "Please choose at least one object."
+
+msgid "select_file"
+msgstr "Chọn file"
+
+#, fuzzy
+msgid "select_file_from_computer"
+msgstr "Select File"
+
+#, fuzzy
+msgid "select_files_from_computer"
+msgstr "Select the files from your computer"
+
+msgid "select_max_one_item"
+msgstr "Hãy chọn chỉ một mục"
+
+msgid "select_object_to_link"
+msgstr "Hãy chọn đối tượng bạn muốn liên kết"
+
+#, fuzzy
+msgid "select_one"
+msgstr "Please select one."
+
+#, fuzzy
+msgid "select_question_pool_info"
+msgstr "As long as the import file contains questions, these questions will be imported to the selected questionpool as well."
+
+msgid "select_questionpool"
+msgstr "Thư viện câu hỏi kiểm tra"
+
+msgid "selected"
+msgstr "đã chọn"
+
+#, fuzzy
+msgid "selected_files"
+msgstr "Selected files"
+
+msgid "selected_items"
+msgstr "Khoản mục cá nhân"
+
+#, fuzzy
+msgid "selected_items_back"
+msgstr "Back to Personal Items"
+
+#, fuzzy
+msgid "selected_languages_updated"
+msgstr "The selected languages have been updated (if installed):"
+
+msgid "send"
+msgstr "Gửi"
+
+#, fuzzy
+msgid "send_mail"
+msgstr "Send e-mail"
+
+msgid "sender"
+msgstr "Người gửi"
+
+msgid "sent"
+msgstr "Đã gửi"
+
+msgid "sequence"
+msgstr "Trình tự"
+
+msgid "sequences"
+msgstr "Trình tự"
+
+msgid "server"
+msgstr "Máy chủ"
+
+msgid "server_data"
+msgstr "Dữ liệu máy chủ"
+
+#, fuzzy
+msgid "server_disabled"
+msgstr "The Chat is Disabled"
+
+msgid "server_software"
+msgstr "Phần mềm máy chủ"
+
+#, fuzzy
+msgid "sess"
+msgstr "Session"
+
+#, fuzzy
+msgid "sess_fixed_duration"
+msgstr "Fixed Session Duration"
+
+#, fuzzy
+msgid "session_config"
+msgstr "Session Settings"
+
+#, fuzzy
+msgid "session_config_maintenance_disabled"
+msgstr "Maintenance by client not allowed"
+
+#, fuzzy
+msgid "session_mail_subject_deletion"
+msgstr "Deregistration of user \"%s\" from session \"%s\""
+
+#, fuzzy
+msgid "session_mail_subject_entered"
+msgstr "Joining of user \"%s\" in session \"%s\""
+
+#, fuzzy
+msgid "session_mail_subject_registered"
+msgstr "Registration of user \"%s\" for session \"%s\""
+
+#, fuzzy
+msgid "session_reminder"
+msgstr "Session-Reminder"
+
+#, fuzzy
+msgid "session_reminder_alert"
+msgstr "Your session expires in %1$s at %2$s!\\n\\nChoose OK to continue your session.\\nIf you click Cancel you will not be reminded during the current browser session anymore.\\n\\nInstallation: %3$s."
+
+#, fuzzy
+msgid "session_reminder_default_lead_time_info"
+msgstr "Please specify how many minutes before the expiration of a session a reminder should be shown.<br / >The function is deactivated when the value is '%s'. The recommended value is %s.<br / >The current length of a session is %s."
+
+#, fuzzy
+msgid "session_reminder_input"
+msgstr "Session Reminder (in Minutes)"
+
+#, fuzzy
+msgid "session_reminder_lead_time"
+msgstr "Leadtime"
+
+#, fuzzy
+msgid "session_reminder_lead_time_info"
+msgstr "Please specify, how much seconds before the session expires you want the session reminder to display a warning. The current value for a user session is %s."
+
+#, fuzzy
+msgid "session_reminder_session_duration"
+msgstr "(Session Duration: %s)."
+
+msgid "set"
+msgstr "Đặt"
+
+msgid "setSystemLanguage"
+msgstr "Ngôn ngữ hệ thống"
+
+msgid "setUserLanguage"
+msgstr "Ngôn ngữ người sử dụng"
+
+msgid "set_offline"
+msgstr "Đặt Offline"
+
+msgid "set_online"
+msgstr "Đặt Online"
+
+#, fuzzy
+msgid "set_skin_does_not_exist"
+msgstr "Your selected skin does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:"
+
+#, fuzzy
+msgid "set_style_does_not_exist"
+msgstr "Your selected system style does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:"
+
+msgid "settings"
+msgstr "Thiết lập"
+
+#, fuzzy
+msgid "settings_for_all_members"
+msgstr "Global Setting for all Course/Group Members"
+
+#, fuzzy
+msgid "settings_per_users"
+msgstr "Settings per Course/Group Members"
+
+#, fuzzy
+msgid "settings_presentation_header"
+msgstr "Presentation"
+
+msgid "settings_saved"
+msgstr "Đã ghi thiết lập"
+
+msgid "shib"
+msgstr "Shibboleth"
+
+msgid "shib_active"
+msgstr "Cho phép hỗ trợ Shibboleth"
+
+msgid "shib_city"
+msgstr "Thuộc tính thành phố"
+
+msgid "shib_country"
+msgstr "Quốc gia"
+
+msgid "shib_data_conv"
+msgstr "Đường dẫn tuyệt đối tới API thao tác dữ liệu"
+
+msgid "shib_data_conv_warning"
+msgstr "File API thao tác dữ liệu bạn chọn không đọc được"
+
+msgid "shib_department"
+msgstr "Phòng (khoa)"
+
+msgid "shib_email"
+msgstr "Địa chỉ email"
+
+#, fuzzy
+msgid "shib_federation_name"
+msgstr "Name of your Shibboleth federation"
+
+msgid "shib_firstname"
+msgstr "Họ"
+
+msgid "shib_gender"
+msgstr "Giới tính (phải là 'm' hoặc 'f')"
+
+#, fuzzy
+msgid "shib_general_login_instructions"
+msgstr "To log in via %s, please click on the login button and choose your organization of the following page.<br>If you have questions concerning this, please ask the"
+
+#, fuzzy
+msgid "shib_general_wayf_login_instructions"
+msgstr "In case you are not associated with the given organizations and you need access to a course on this server, please contact the"
+
+#, fuzzy
+msgid "shib_idp_list"
+msgstr "Provide a list of Identity Providers to let the user choose from on the ILIAS login page.<br>On each line there must be a comma-separated tuple for <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as it shall be displayed in the drow-down list.<br>As an optional third parameter you can add the <strong>location of a Shibboleth session initiator</strong> that shall be used in case your ILIAS installation is part of a multi federation setup."
+
+msgid "shib_institution"
+msgstr "Trường (viện)"
+
+#, fuzzy
+msgid "shib_invalid_home_organization"
+msgstr "Please choose a valid organization!"
+
+msgid "shib_language"
+msgstr "Ngôn ngữ"
+
+msgid "shib_lastname"
+msgstr "Tên"
+
+msgid "shib_login"
+msgstr "Đăng nhập Shibboleth"
+
+msgid "shib_login_button"
+msgstr "Đường dẫn tới nút đăng nhập Shibboleth"
+
+#, fuzzy
+msgid "shib_login_embedded_wayf"
+msgstr "Design custom login area"
+
+#, fuzzy
+msgid "shib_login_embedded_wayf_description"
+msgstr "If this option is chosen, you can provide any HTML code in the login instructions text area below. This can for example be used to embed an own JavaScript WAYF/Discovery Service or create a custom-tailored design of the login area."
+
+#, fuzzy
+msgid "shib_login_external_wayf"
+msgstr "Use external WAYF service"
+
+#, fuzzy
+msgid "shib_login_internal_wayf"
+msgstr "Use ILIAS WAYF service"
+
+#, fuzzy
+msgid "shib_login_type"
+msgstr "Organization selection"
+
+#, fuzzy
+msgid "shib_matriculation"
+msgstr "Attribute for Matriculation Number"
+
+#, fuzzy
+msgid "shib_member_of"
+msgstr "I'm a member of ..."
+
+msgid "shib_phone_home"
+msgstr "Số điện thoại (nhà riêng)"
+
+msgid "shib_phone_mobile"
+msgstr "Số điện thoại (di động)"
+
+msgid "shib_phone_office"
+msgstr "Số điện thoại (cơ quan)"
+
+#, fuzzy
+msgid "shib_select_home_organization"
+msgstr "For authentication via %s, please select your organization from the drop down list."
+
+msgid "shib_settings_saved"
+msgstr "Đã ghi thiết lập Shibboleth"
+
+msgid "shib_street"
+msgstr "Phố"
+
+msgid "shib_title"
+msgstr "Tiêu đề"
+
+msgid "shib_update"
+msgstr "Cập nhật thông tin này khi đăng nhập"
+
+msgid "shib_user_default_role"
+msgstr "Vai trò mặc định chỉ định cho người sử dụng Shibboleth"
+
+msgid "shib_zipcode"
+msgstr "Mã bưu điện"
+
+#, fuzzy
+msgid "short_inst_name"
+msgstr "Short Title"
+
+#, fuzzy
+msgid "short_inst_name_info"
+msgstr "This title will appear in the browser header title bar. If no value is entered, 'ILIAS' is used."
+
+msgid "show"
+msgstr "Hiện"
+
+#, fuzzy
+msgid "show_all_details"
+msgstr "Show all details"
+
+#, fuzzy
+msgid "show_content"
+msgstr "Show Content"
+
+msgid "show_details"
+msgstr "xem chi tiết"
+
+#, fuzzy
+msgid "show_filter"
+msgstr "Show Filter"
+
+#, fuzzy
+msgid "show_hidden_sections"
+msgstr "Show More Information &raquo;"
+
+#, fuzzy
+msgid "show_less"
+msgstr "Show less"
+
+msgid "show_list"
+msgstr "Xem danh sách"
+
+msgid "show_members"
+msgstr "Hiển thị các thành viên"
+
+#, fuzzy
+msgid "show_more"
+msgstr "Show More"
+
+#, fuzzy
+msgid "show_preview"
+msgstr "Show Preview"
+
+msgid "show_users_online"
+msgstr "Hiện trạng thái online"
+
+#, fuzzy
+msgid "show_who_is_online"
+msgstr "Show who is online"
+
+#, fuzzy
+msgid "side_frame"
+msgstr "Side Frame"
+
+msgid "signature"
+msgstr "Chữ ký"
+
+msgid "size"
+msgstr "Kích thước"
+
+#, fuzzy
+msgid "skills"
+msgstr "Skills"
+
+msgid "skin_style"
+msgstr "Giao diện / kiểu dáng mặc định"
+
+msgid "smtp"
+msgstr "SMTP"
+
+#, fuzzy
+msgid "soap_connect_timeout"
+msgstr "Connection Timeout"
+
+#, fuzzy
+msgid "soap_connect_timeout_info"
+msgstr "The maximum time in seconds until a connect attempt to the SOAP-Webservice is interrupted."
+
+msgid "soap_user_administration"
+msgstr "Quản trị người sử dụng từ bên ngoài (SOAP)"
+
+msgid "soap_user_administration_desc"
+msgstr "Nếu được cho phép, tất cả tài khoản người sử dụng có thể được quản trị bởi một SOAP-Client bên ngoài."
+
+#, fuzzy
+msgid "soap_wsdl_path"
+msgstr "WSDL Path"
+
+#, fuzzy
+msgid "soap_wsdl_path_info"
+msgstr "Please enter the path to the ilias wsdl file which should be used for the webservice. If you leave this field blank, the following path will be used per default:%s"
+
+#, fuzzy
+msgid "sort"
+msgstr "Sort"
+
+#, fuzzy
+msgid "sort_ascending"
+msgstr "Sort Ascending"
+
+#, fuzzy
+msgid "sort_ascending_long"
+msgstr "Change Sort Direction to Ascending"
+
+msgid "sort_by_this_column"
+msgstr "Sắp xếp theo cột này"
+
+#, fuzzy
+msgid "sort_descending"
+msgstr "Sort Descending"
+
+#, fuzzy
+msgid "sort_descending_long"
+msgstr "Change Sort Direction to Descending"
+
+#, fuzzy
+msgid "sort_inherit_prefix"
+msgstr "Default"
+
+#, fuzzy
+msgid "sorting_asc"
+msgstr "Ascending"
+
+#, fuzzy
+msgid "sorting_creation_header"
+msgstr "By Creation Date"
+
+#, fuzzy
+msgid "sorting_creation_info"
+msgstr "Content items are arranged automatically by their creation date."
+
+#, fuzzy
+msgid "sorting_desc"
+msgstr "Descendent"
+
+#, fuzzy
+msgid "sorting_direction"
+msgstr "Sorting Direction"
+
+#, fuzzy
+msgid "sorting_header"
+msgstr "Content Item Sorting"
+
+#, fuzzy
+msgid "sorting_info_inherit"
+msgstr "The sorting mode is adpated from a parent course."
+
+#, fuzzy
+msgid "sorting_info_manual"
+msgstr "This mode offers you the possibility to sort items manually."
+
+#, fuzzy
+msgid "sorting_info_title"
+msgstr "Choose this mode to sort items automatically by title."
+
+#, fuzzy
+msgid "sorting_manual_header"
+msgstr "Sort Manually"
+
+#, fuzzy
+msgid "sorting_save"
+msgstr "Save Sorting"
+
+#, fuzzy
+msgid "sorting_title_header"
+msgstr "Sort by Title"
+
+msgid "spacer"
+msgstr "Spacer///"
+
+msgid "spl"
+msgstr "Thư viện câu hỏi khảo sát"
+
+msgid "spl_add"
+msgstr "Thêm thư viện câu hỏi khảo sát"
+
+#, fuzzy
+msgid "spl_import"
+msgstr "Import Question Pool Survey"
+
+msgid "spl_new"
+msgstr "Thư viện câu hỏi khảo sát mới"
+
+msgid "ssl"
+msgstr "SSL (HTTPS)"
+
+#, fuzzy
+msgid "standard_fields"
+msgstr "Standard Fields"
+
+msgid "startpage"
+msgstr "Trang bắt đầu"
+
+#, fuzzy
+msgid "stat_selected"
+msgstr "Selected"
+
+msgid "statistic"
+msgstr "Thống kê"
+
+#, fuzzy
+msgid "statistics"
+msgstr "Statistics"
+
+msgid "status"
+msgstr "Trạng thái"
+
+#, fuzzy
+msgid "status_no_permission"
+msgstr "No permission granted"
+
+msgid "step"
+msgstr "Bước"
+
+msgid "street"
+msgstr "Phố"
+
+msgid "structure"
+msgstr "Cấu trúc"
+
+msgid "sty"
+msgstr "Style"
+
+#, fuzzy
+msgid "sub_request_deleted"
+msgstr "Deleted membership request"
+
+#, fuzzy
+msgid "sub_request_saved"
+msgstr "Saved membership request"
+
+msgid "subject"
+msgstr "Tiêu đề"
+
+msgid "submit"
+msgstr "Đệ trình"
+
+msgid "subobjects"
+msgstr "Đối tượng con"
+
+msgid "subscription"
+msgstr "Đăng ký"
+
+#, fuzzy
+msgid "subtabs"
+msgstr "SubTabs"
+
+#, fuzzy
+msgid "success_message"
+msgstr "Success Message"
+
+msgid "summary"
+msgstr "Tóm tắt"
+
+msgid "sure_delete_selected_users"
+msgstr "Bạn có chắc bạn muốn xóa những) người sử dụng đã chọn?"
+
+#, fuzzy
+msgid "survey_defaults"
+msgstr "Default Settings for Surveys"
+
+#, fuzzy
+msgid "survey_unlimited_invitation"
+msgstr "Unlimited Invitation"
+
+msgid "svy"
+msgstr "Khảo sát"
+
+msgid "svy_add"
+msgstr "Thêm khảo sát"
+
+msgid "svy_finished"
+msgstr "đã hoàn thành"
+
+msgid "svy_new"
+msgstr "Khảo sát mới"
+
+msgid "svy_not_finished"
+msgstr "chưa hoàn thành"
+
+msgid "svy_not_started"
+msgstr "chưa bắt đầu"
+
+msgid "svy_run"
+msgstr "Chạy"
+
+msgid "svy_warning_survey_not_complete"
+msgstr "Chưa hoàn thành khảo sát!"
+
+#, fuzzy
+msgid "switch_language"
+msgstr "Switch Language"
+
+msgid "system"
+msgstr "Hệ thống"
+
+msgid "system_check"
+msgstr "Kiểm tra hệ thống"
+
+msgid "system_information"
+msgstr "Thông tin hệ thống"
+
+msgid "system_language"
+msgstr "Ngôn ngữ hệ thống"
+
+msgid "system_styles"
+msgstr "Styles hệ thống"
+
+#, fuzzy
+msgid "systemcheck_cron"
+msgstr "Process System Check in Cronjob"
+
+#, fuzzy
+msgid "systemcheck_cronform"
+msgstr "Activation of System Check in Cronjob"
+
+msgid "table_mail_import"
+msgstr "Nhập thư"
+
+#, fuzzy
+msgid "tabs"
+msgstr "Tabs"
+
+#, fuzzy
+msgid "tagging_my_tags"
+msgstr "My Tags"
+
+#, fuzzy
+msgid "tags"
+msgstr "Tags"
+
+#, fuzzy
+msgid "take_over_structure"
+msgstr "Adopt Structure"
+
+#, fuzzy
+msgid "take_over_structure_info"
+msgstr "If activated, directories in the zip file will be mapped to categories or, if used in groups or courses, to folders."
+
+msgid "tals_etal"
+msgstr "Talk"
+
+msgid "talt_etal"
+msgstr "Talk"
+
+msgid "target"
+msgstr "Mục tiêu"
+
+msgid "tax"
+msgstr "Thuế"
+
+msgid "tax_add"
+msgstr "Thêm phân loại"
+
+msgid "tax_new"
+msgstr "Phân loại mới"
+
+msgid "term"
+msgstr "Thuật ngữ"
+
+msgid "test"
+msgstr "Bài kiểm tra"
+
+msgid "tests"
+msgstr "Bài kiểm tra"
+
+#, fuzzy
+msgid "textbox"
+msgstr "Textbox"
+
+#, fuzzy
+msgid "thread"
+msgstr "Thread"
+
+msgid "thumbnail"
+msgstr "Thu nhỏ"
+
+#, fuzzy
+msgid "tile_view"
+msgstr "Tile View"
+
+msgid "time"
+msgstr "Thời gian"
+
+msgid "time_limit"
+msgstr "Truy cập"
+
+msgid "time_limit_add_time_limit_for_selected"
+msgstr "Hãy nhập vào thời gian giới hạn cho những người sử dụng đã chọn."
+
+msgid "time_limit_from"
+msgstr "Từ (giới hạn thời gian)"
+
+msgid "time_limit_message"
+msgstr "Thông điệp (giới hạn thời gian)"
+
+msgid "time_limit_no_users_selected"
+msgstr "Hãy chọn một người sử dụng."
+
+msgid "time_limit_not_valid"
+msgstr "Thời gian giới hạn không hợp lệ."
+
+msgid "time_limit_reached"
+msgstr "Thời gian truy cập của bạn đã hết hạn."
+
+msgid "time_limit_unlimited"
+msgstr "Không giới hạn (giới hạn thời gian)"
+
+msgid "time_limit_until"
+msgstr "Đến (giới hạn thời gian)"
+
+msgid "title"
+msgstr "Tiêu đề"
+
+#, fuzzy
+msgid "title_required"
+msgstr "Please insert a title"
+
+msgid "to"
+msgstr "Tới"
+
+msgid "to_client_list"
+msgstr "Tới lựa chọn máy trạm"
+
+msgid "today"
+msgstr "Hôm nay"
+
+msgid "toggleGlobalDefault"
+msgstr "Thay đổi mặc định toàn cục"
+
+msgid "toggleGlobalFixed"
+msgstr "Thay đổi cố định toàn cục"
+
+#, fuzzy
+msgid "toggle_dropdown"
+msgstr "Toggle Dropdown"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_off"
+msgstr "OFF"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_on"
+msgstr "ON"
+
+#, fuzzy
+msgid "tomorrow"
+msgstr "Tomorrow"
+
+#, fuzzy
+msgid "toolbar_more_actions"
+msgstr "More Actions"
+
+#, fuzzy
+msgid "tools"
+msgstr "Tools"
+
+#, fuzzy
+msgid "top_of_page"
+msgstr "Top of page"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement"
+msgstr "Accept Terms of Service?"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement_intro"
+msgstr "There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page."
+
+#, fuzzy
+msgid "tos_force_accept_usr_agreement"
+msgstr "You must accept the Terms of Service!"
+
+#, fuzzy
+msgid "tos_no_agreement_description"
+msgstr "There is currently no Terms of Service document available for this installation. Please contact the <a href=\"%1$s\">system administrator</a>."
+
+#, fuzzy
+msgid "tos_refuse_acceptance"
+msgstr "Refuse to Accept Terms of Service"
+
+#, fuzzy
+msgid "tos_usr_agreement"
+msgstr "Terms of Service"
+
+#, fuzzy
+msgid "tos_usr_agreement_footer_intro"
+msgstr "You have declared your consent to these terms of service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description"
+msgstr "Withdraw your consent to our Terms of Service here."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description_external"
+msgstr "Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description_internal"
+msgstr "Please log in again to complete the process of withdrawing your consent to the Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_header"
+msgstr "Withdraw Terms of Service Consent"
+
+#, fuzzy
+msgid "tos_withdraw_consent_info"
+msgstr "Withdraw your consent to our Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_info_external"
+msgstr "Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Terms of Service."
+
+msgid "total"
+msgstr "Tổng"
+
+msgid "tracking_settings"
+msgstr "Thiết lập theo dõi"
+
+msgid "translation"
+msgstr "Bản dịch"
+
+msgid "trash"
+msgstr "Thùng rác"
+
+#, fuzzy
+msgid "tree"
+msgstr "Tree"
+
+#, fuzzy
+msgid "tree_frame"
+msgstr "Tree Frame"
+
+msgid "treeview"
+msgstr "Xem kiểu cây"
+
+msgid "tst"
+msgstr "Bài kiểm tra"
+
+msgid "tst_add"
+msgstr "Thêm bài kiểm tra"
+
+#, fuzzy
+msgid "tst_edit_questions"
+msgstr "Edit Questions"
+
+#, fuzzy
+msgid "tst_history_read"
+msgstr "View History"
+
+msgid "tst_new"
+msgstr "Bài kiểm tra mới"
+
+#, fuzzy
+msgid "tst_results"
+msgstr "Test Results"
+
+msgid "tst_run"
+msgstr "Chạy"
+
+msgid "tst_user_not_invited"
+msgstr "Bạn không được mời làm bài này."
+
+msgid "tst_warning_test_not_complete"
+msgstr "Chưa hoàn thành bài kiểm tra !"
+
+#, fuzzy
+msgid "tutors"
+msgstr "Tutors"
+
+msgid "txt_registered"
+msgstr "Bạn đã đăng ký thành công. Hãy kích chuột vào nút phía dưới để đăng nhập với tài khoản người sử dụng của bạn."
+
+#, fuzzy
+msgid "txt_registered_passw_gen"
+msgstr "You successfully registered to ILIAS. You should receive an e-Mail including your generated password shortly."
+
+msgid "txt_submitted"
+msgstr "Bạn đã đệ trình thành công một yêu cầu tài khoản. Yêu cầu tài khoản của bạn sẽ được xem xét bởi những quản trị hệ thống, và sẽ được hoạt động trong vòng 48 giờ. Bạn sẽ có thể đăng nhập sau khi tài khoản được kích hoạt."
+
+msgid "typ"
+msgstr "Định nghĩa kiểu đối tượng"
+
+msgid "type"
+msgstr "Kiểu"
+
+#, fuzzy
+msgid "udf_added_field"
+msgstr "Added new field."
+
+#, fuzzy
+msgid "udf_delete_sure"
+msgstr "Are you sure you want to delete this field and all assigned user data ?"
+
+#, fuzzy
+msgid "udf_duplicate_entries"
+msgstr "The values have to be unique."
+
+#, fuzzy
+msgid "udf_field_deleted"
+msgstr "Deleted field."
+
+#, fuzzy
+msgid "udf_name_already_exists"
+msgstr "This field name already exists. Please choose a different name."
+
+#, fuzzy
+msgid "udf_required_requires_visib_reg"
+msgstr "When field is set to \"required\", it must be set to \"visible in registration\""
+
+#, fuzzy
+msgid "udf_type_date"
+msgstr "Date Field"
+
+#, fuzzy
+msgid "udf_type_datetime"
+msgstr "Date and Time"
+
+#, fuzzy
+msgid "udf_type_select"
+msgstr "Select Box (fixed values)"
+
+#, fuzzy
+msgid "udf_type_text"
+msgstr "Text Field (optional values)"
+
+#, fuzzy
+msgid "udf_type_textarea"
+msgstr "Text Area (WYSIWYG)"
+
+#, fuzzy
+msgid "udf_update_select_field"
+msgstr "Edit Select Box"
+
+#, fuzzy
+msgid "udf_update_text_field"
+msgstr "Edit Text Field"
+
+#, fuzzy
+msgid "udf_update_wysiwyg_field"
+msgstr "Edit Text Area (WYSIWYG) Field"
+
+msgid "uid"
+msgstr "UID"
+
+#, fuzzy
+msgid "ums_create_new_account"
+msgstr "Create New Account"
+
+#, fuzzy
+msgid "ums_explanation"
+msgstr "Your external account could not be mapped to an ILIAS account. But ILIAS has found an account with your e-mail address. If this is your account, please login with your ILIAS password."
+
+#, fuzzy
+msgid "ums_explanation_2"
+msgstr "If this is not your account, please hit 'Create New Account'."
+
+#, fuzzy
+msgid "ums_explanation_3"
+msgstr "Your external account could not be mapped to an ILIAS account. But ILIAS has found multiple accounts with your e-mail address. If one of those is your account, please login with your ILIAS password."
+
+#, fuzzy
+msgid "ums_explanation_4"
+msgstr "If none of them is your account, please hit 'Create New Account'."
+
+msgid "unambiguousness"
+msgstr "Thông tin cần nắm"
+
+msgid "uncheck_all"
+msgstr "Bỏ chọn hết"
+
+#, fuzzy
+msgid "unchecked"
+msgstr "Unchecked"
+
+msgid "uninstall"
+msgstr "Gỡ cài đặt"
+
+msgid "uninstalled"
+msgstr "đã gỡ cài đặt."
+
+msgid "unknown"
+msgstr "KHÔNG BIẾT"
+
+#, fuzzy
+msgid "unparticipate"
+msgstr "Unsubscribe"
+
+msgid "unread"
+msgstr "chưa đọc"
+
+msgid "unzip"
+msgstr "Giải nén"
+
+msgid "up"
+msgstr "Lên"
+
+msgid "update"
+msgstr "Sửa"
+
+msgid "update_applied"
+msgstr "Đã áp dụng cập nhật"
+
+msgid "update_language"
+msgstr "Cập nhật ngôn ngữ"
+
+msgid "update_on_conflict"
+msgstr "Cập nhật nếu xung đột"
+
+#, fuzzy
+msgid "update_orgunits"
+msgstr "Update assigned organisational units"
+
+#, fuzzy
+msgid "update_orgunits_desc"
+msgstr "If enabled, the field 'Organisational Units' will be updated for all user accounts."
+
+msgid "upload"
+msgstr "Tải lên"
+
+msgid "upload_error_file_not_found"
+msgstr "Lỗi tải lên: Không tìm thấy file."
+
+#, fuzzy
+msgid "upload_ok"
+msgstr "The upload was successful"
+
+#, fuzzy
+msgid "upload_pending"
+msgstr "Pending"
+
+#, fuzzy
+msgid "upload_settings"
+msgstr "Uploading Settings"
+
+#, fuzzy
+msgid "upload_svg_rejection_message"
+msgstr "An uploaded SVG file contains possibily malicious code and cannot be processed."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_base64"
+msgstr "The file contains base64 encoded content."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_elements"
+msgstr "The file contains elements or attributes which are not allowed or known."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_foreign_object"
+msgstr "The file contains foreign objects."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_script"
+msgstr "The file contains script-Elements."
+
+msgid "uploaded_and_checked"
+msgstr "File đã tải lên và được kiểm tra, bạn có thể bắt đầu nhập nó."
+
+#, fuzzy
+msgid "uploading"
+msgstr "Uploading..."
+
+#, fuzzy
+msgid "uri"
+msgstr "URI"
+
+msgid "url"
+msgstr "URL"
+
+msgid "url_not_found"
+msgstr "Không tìm thấy file"
+
+#, fuzzy
+msgid "use_customized_instructions"
+msgstr "Use customized instructions:"
+
+#, fuzzy
+msgid "use_default_instructions"
+msgstr "Use default instructions."
+
+msgid "user"
+msgstr "Người sử dụng"
+
+#, fuzzy
+msgid "user_activated"
+msgstr "User has been approved"
+
+msgid "user_added"
+msgstr "Đã thêm người sử dụng"
+
+msgid "user_assignment"
+msgstr "Chỉ định người sử dụng"
+
+#, fuzzy
+msgid "user_avatar"
+msgstr "User Avatar"
+
+#, fuzzy
+msgid "user_avatar_of"
+msgstr "User Avatar of"
+
+msgid "user_cant_receive_mail"
+msgstr "Người sử dụng không được phép sử dụng hệ thống thư"
+
+msgid "user_comment"
+msgstr "Chú thích của người sử dụng"
+
+#, fuzzy
+msgid "user_deactivated"
+msgstr "User has been disapproved"
+
+#, fuzzy
+msgid "user_defined_fields"
+msgstr "User-defined Fields"
+
+#, fuzzy
+msgid "user_defined_list"
+msgstr "Overview User-defined Fields"
+
+msgid "user_deleted"
+msgstr "Đã xóa người sử dụng"
+
+msgid "user_detail"
+msgstr "Dữ liệu chi tiết"
+
+#, fuzzy
+msgid "user_ext_account"
+msgstr "External Account"
+
+#, fuzzy
+msgid "user_ext_account_desc"
+msgstr "Account used for external authentication. (SOAP authentication)"
+
+#, fuzzy
+msgid "user_image"
+msgstr "User Image"
+
+msgid "user_import_failed"
+msgstr "Nhập người sử dụng thất bại."
+
+msgid "user_imported"
+msgstr "Hoàn thành nhập người sử dụng."
+
+msgid "user_imported_with_warnings"
+msgstr "Hoàn thành nhập người sử dụng (có cảnh báo)."
+
+msgid "user_language"
+msgstr "Ngôn ngữ người sử dụng"
+
+#, fuzzy
+msgid "user_never_logged_in"
+msgstr "Delete user accounts without login"
+
+#, fuzzy
+msgid "user_never_logged_in_info"
+msgstr "All user accounts without login at all be deleted."
+
+#, fuzzy
+msgid "user_never_logged_in_info_threshold_err_num"
+msgstr "Only positive non decimal numbers are accepted."
+
+#, fuzzy
+msgid "user_new_account_mail"
+msgstr "New Account Mail"
+
+#, fuzzy
+msgid "user_new_account_mail_desc"
+msgstr "This mail can be sent when an ILIAS user is created by other means then self-registration."
+
+#, fuzzy
+msgid "user_not_found"
+msgstr "User not found"
+
+#, fuzzy
+msgid "user_not_found_to_delete"
+msgstr "A user could not be found to delete."
+
+msgid "user_not_known"
+msgstr "Hãy thêm một tên người sử dụng hợp lệ."
+
+msgid "user_profile_other"
+msgstr "Thông tin khác"
+
+#, fuzzy
+msgid "user_send_new_account_mail"
+msgstr "Send new account mail"
+
+#, fuzzy
+msgid "user_status"
+msgstr "User Status"
+
+#, fuzzy
+msgid "user_toggle_noti"
+msgstr "Member is not allowed to deactivate notification"
+
+msgid "userfolder_export_csv"
+msgstr "Giá trị phân tách bởi dấu phẩy"
+
+# 23 Mar 2006 content changed
+msgid "userfolder_export_excel_x86"
+msgstr "Microsoft Excel"
+
+msgid "userfolder_export_file"
+msgstr "File"
+
+msgid "userfolder_export_file_size"
+msgstr "Kích thước file"
+
+msgid "userfolder_export_files"
+msgstr "Các file xuất ra"
+
+msgid "userfolder_export_xml"
+msgstr "XML"
+
+msgid "username"
+msgstr "Tên đăng nhập"
+
+#, fuzzy
+msgid "username_assistance"
+msgstr "Username Assistance"
+
+msgid "users"
+msgstr "Người sử dụng"
+
+msgid "users_not_imported"
+msgstr "Những người sử dụng sau không tồn tại, thư của họ không thể nhập được"
+
+msgid "users_online"
+msgstr "Người sử dụng online"
+
+msgid "usr"
+msgstr "Người sử dụng"
+
+#, fuzzy
+msgid "usr_account_inactive"
+msgstr "Inactive Account"
+
+msgid "usr_active_only"
+msgstr "Chỉ người sử dụng hoạt động"
+
+msgid "usr_add"
+msgstr "Thêm người sử dụng"
+
+msgid "usr_edit"
+msgstr "Sửa người sử dụng"
+
+#, fuzzy
+msgid "usr_field_change_components_listening"
+msgstr "There is at least one component which is interested in the changed configuration. Would you like to confirm the changes with the consequences the component(s) announced below?"
+
+#, fuzzy
+msgid "usr_filter_coursemember"
+msgstr "Member of course"
+
+#, fuzzy
+msgid "usr_filter_groupmember"
+msgstr "Member of group"
+
+#, fuzzy
+msgid "usr_filter_lastlogin"
+msgstr "Last login of user"
+
+#, fuzzy
+msgid "usr_filter_role"
+msgstr "Assigned role"
+
+msgid "usr_inactive_only"
+msgstr "Chỉ người sử dụng không hoạt động"
+
+#, fuzzy
+msgid "usr_limited_access_only"
+msgstr "Users with limited access only"
+
+#, fuzzy
+msgid "usr_name_undisclosed"
+msgstr "Undisclosed"
+
+msgid "usr_new"
+msgstr "Người sử dụng mới"
+
+#, fuzzy
+msgid "usr_settings_changeable_lua"
+msgstr "Changeable in Local User Administration"
+
+msgid "usr_settings_explanation_profile"
+msgstr "Đánh dấu vào những hộp chọn đế khóa / ẩn các thiết lập hồ sơ cá nhân trên bàn làm việc cho tất cả những người sử dụng. Tất cả thiết lập khóa / ẩn chỉ sửa được trên Quản trị / Tài khoản người sử dụng."
+
+msgid "usr_settings_header_profile"
+msgstr "Thiết lập hồ sơ cá nhân người sử dụng"
+
+msgid "usr_settings_saved"
+msgstr "Ghi thành công thiết lập người sử dụng toàn cục!"
+
+#, fuzzy
+msgid "usr_settings_visib_lua"
+msgstr "Visible in Local User Administration"
+
+msgid "usr_skin_style"
+msgstr "Skin / giao diện"
+
+#, fuzzy
+msgid "usr_without_courses"
+msgstr "Users without courses assigned"
+
+msgid "usrf"
+msgstr "Tài khoản người sử dụng"
+
+#, fuzzy
+msgid "usrf_profile_link"
+msgstr "Link to user profile"
+
+msgid "usrimport_action_ignored"
+msgstr "Bỏ qua thao tác %1$s.???"
+
+msgid "usrimport_action_replaced"
+msgstr "Thay thế thao tác %1$s bằng %2$s.???"
+
+msgid "usrimport_cant_delete"
+msgstr "Không thực hiện được thao tác \"XÓA\". Không có người sử dụng nào trong cơ sở dữ liệu."
+
+msgid "usrimport_cant_insert"
+msgstr "Không thực hiện được thao tác \"THÊM\". Người sử dụng đang tồn tại trong cơ sở dữ liệu."
+
+msgid "usrimport_cant_update"
+msgstr "Không thực hiện được thao tác \"CẬP NHẬT\". Không có người sử dụng nào trong cơ sở dữ liệu."
+
+msgid "usrimport_conflict_handling_info"
+msgstr "Nếu chọn \"Bỏ qua nếu xung đột\", ILIAS bỏ qua thao tác, nếu không thực hiện được (ví dụ thao tác \"Thêm\" sẽ không hoàn thành được, nếu đã có người sử dụng trùng tên đăng nhập trong cơ sở dữ liệu.)\\nNếu chọn \"Cập nhật nếu xung đột\", ILIAS sẽ cập nhật cơ sở dữ liệu nếu một thao tác không thực hiện được. (ví dụ một thao tác \"Thêm\" sẽ được thay thế bằng thao tác \"Cập nhật\", nếu một người sử dụng trùng tên đăng nhập đã tồn tại trong cơ sở dữ liệu)."
+
+#, fuzzy
+msgid "usrimport_form_not_evaluabe"
+msgstr "The form data couldn't be read."
+
+msgid "usrimport_global_role_for_action_required"
+msgstr "Ít nhất một vai trò toàn cục phải được xác định cho thao tác \"%1$s\"."
+
+msgid "usrimport_ignore_role"
+msgstr "Bỏ qua vai trò"
+
+msgid "usrimport_login_is_not_unique"
+msgstr "Tên đăng nhập không duy nhất."
+
+#, fuzzy
+msgid "usrimport_no_insert_ext_account_exists"
+msgstr "Can't perform \"Insert\" action. External account already exists."
+
+#, fuzzy
+msgid "usrimport_no_update_ext_account_exists"
+msgstr "Can't perform \"Update\" action. External account already exists."
+
+msgid "usrimport_with_specified_role_not_permitted"
+msgstr "Không được phép nhập với vai trò xác định."
+
+#, fuzzy
+msgid "usrimport_wrong_file_count"
+msgstr "Too many files in import-folder. Please try again."
+
+#, fuzzy
+msgid "usrimport_xml_anonymous_or_root_not_allowed"
+msgstr "Neither the system-account nor the anonymous account can be changed through the import."
+
+msgid "usrimport_xml_attribute_missing"
+msgstr "Thuộc tính \"%2$s\" trong yếu tố \"%1$s\" bị thiếu."
+
+msgid "usrimport_xml_attribute_value_illegal"
+msgstr "Giá trị \"%3$s\" của thuộc tính \"%2$s\" trong yếu tố \"%1$s\" là trái luật."
+
+msgid "usrimport_xml_attribute_value_inapplicable"
+msgstr "Giá trị \"%3$s\" của thuộc tính \"%2$s\" trong yếu tố \"%1$s\" không thích hợp cho thao tác \"%4$s\"."
+
+msgid "usrimport_xml_element_content_illegal"
+msgstr "Nội dung \"%2$s\" của yếu tố \"%1$s\" là trái luật."
+
+msgid "usrimport_xml_element_for_action_required"
+msgstr "Yếu tố \"%1$s\" phải được xác định cho thao tác \"%2$s\"."
+
+msgid "usrimport_xml_element_inapplicable"
+msgstr "Yếu tố \"%1$s\" không thích hợp cho thao tác \"%2$s\"."
+
+msgid "valid"
+msgstr "Hợp lệ"
+
+msgid "validate"
+msgstr "Thẩm định"
+
+msgid "value"
+msgstr "Giá trị"
+
+msgid "vcard"
+msgstr "Danh thiếp"
+
+msgid "vcard_download"
+msgstr "Tải xuống danh thiếp"
+
+msgid "verification_failed"
+msgstr "Thẩm tra thất bại"
+
+msgid "verification_failure_log"
+msgstr "Nhật ký thẩm tra thất bại"
+
+msgid "verification_warning_log"
+msgstr "Nhật ký cảnh báo thẩm tra"
+
+msgid "version"
+msgstr "Phiên bản"
+
+msgid "versions"
+msgstr "Phiên bản"
+
+msgid "view"
+msgstr "Xem"
+
+msgid "view_content"
+msgstr "Xem nội dung"
+
+#, fuzzy
+msgid "view_learning_progress"
+msgstr "View Learning Progress"
+
+#, fuzzy
+msgid "view_learning_progress_rec"
+msgstr "View Learning Progress of Unit incl. Subunits"
+
+msgid "visible"
+msgstr "Nhìn thấy"
+
+#, fuzzy
+msgid "visible_registration"
+msgstr "Visible in Registration"
+
+msgid "visitor"
+msgstr "Khách"
+
+msgid "visitors"
+msgstr "Khách"
+
+msgid "visits"
+msgstr "Xem"
+
+msgid "web_resources"
+msgstr "Tài nguyên web"
+
+#, fuzzy
+msgid "webdav"
+msgstr "WebDAV"
+
+#, fuzzy
+msgid "webdav_add_instructions_btn_label"
+msgstr "Add Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_chosen_language_already_used"
+msgstr "There already is another document associated with the chosen language"
+
+#, fuzzy
+msgid "webdav_doc_delete"
+msgstr "Delete WebDav Mount Instructions"
+
+#, fuzzy
+msgid "webdav_docs_mount_instructions"
+msgstr "Mount Instructions Documents"
+
+#, fuzzy
+msgid "webdav_duplicate_detected_title"
+msgstr "Following objects could not be displayed, because an object with the same Title is already being shown:"
+
+#, fuzzy
+msgid "webdav_forbidden_chars_title"
+msgstr "Following files cannot be displayed, because they contain one or more forbidden characters (\\<>/:*?\"|#):"
+
+#, fuzzy
+msgid "webdav_form_document"
+msgstr "Instructions Document"
+
+#, fuzzy
+msgid "webdav_form_document_info"
+msgstr "Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information"
+
+#, fuzzy
+msgid "webdav_form_document_title"
+msgstr "Title"
+
+#, fuzzy
+msgid "webdav_form_document_title_info"
+msgstr "This title will be dislayed as the title of the modal when the Mount Instructions are opened"
+
+#, fuzzy
+msgid "webdav_form_edit_doc_head"
+msgstr "Edit Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_form_new_doc_head"
+msgstr "Create new Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_general_settings"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "webdav_missing_lang"
+msgstr "There is no english version of the WebDAV Mount Instructions"
+
+#, fuzzy
+msgid "webdav_mount_instructions"
+msgstr "Mount Instructions"
+
+#, fuzzy
+msgid "webdav_problem_free_container"
+msgstr "There are no objects that cause problems in this container."
+
+#, fuzzy
+msgid "webdav_problem_info_duplicate"
+msgstr "There is a file with the same title as the info file."
+
+#, fuzzy
+msgid "webdav_pwd_instruction"
+msgstr "We suggest to create a local password for opening the repository as webfolder.<br />This password is only required for the webfolder functionalities."
+
+#, fuzzy
+msgid "webdav_pwd_instruction_success"
+msgstr "A new local password has been created. You can now open the repository as webfolder."
+
+#, fuzzy
+msgid "webdav_sure_delete_documents_s"
+msgstr "Are you sure you want to delete the Mount Instructions with the following title:"
+
+#, fuzzy
+msgid "webdav_tbl_docs_head_title"
+msgstr "Dokument title"
+
+#, fuzzy
+msgid "webdav_tbl_docs_title"
+msgstr "List of uploaded WebDAV Mount Instructions"
+
+#, fuzzy
+msgid "webdav_upload_instructions"
+msgstr "Upload Instructions"
+
+#, fuzzy
+msgid "webfolder_dir_info"
+msgstr "You got here, because your browser can't open webfolders. Read the <a href=\"%1$s\">instructions for opening webfolders</a>."
+
+#, fuzzy
+msgid "webfolder_index_of"
+msgstr "Index of %1$s"
+
+#, fuzzy
+msgid "webfolder_instructions"
+msgstr "Webfolder instructions"
+
+#, fuzzy
+msgid "webfolder_instructions_info"
+msgstr "The webfolder instructions are shown on browsers, which can not open a webfolder directly. You can use HTML code, and the following placeholders: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[WINDOWS]</b>...<b>[/WINDOWS]</b>, <b>[MAC]</b>...<b>[/MAC]</b>, <b>[LINUX]</b>...<b>[/LINUX]</b>. Clear the field to get the default instructions."
+
+#, fuzzy
+msgid "webfolder_instructions_text"
+msgstr "<p>Follow the instructions below, to open <b>[WEBFOLDER_TITLE]</b> as a webfolder:</p>[WINDOWS]<h3>Instructions for Windows XP with Internet Explorer</h3><ol><li>Start Internet Explorer</li><li>Choose the menu 'File &gt; Open...'</li><li>In the 'Open' field enter the following address:<br/><b>[WEBFOLDER_URI]</b></li><li>Select the 'Open as web-folder' option, then select 'OK'.</li><li>Enter your login and password, and select 'OK'.</li></ol><h3>Instructions for Windows XP without Internet Explorer</h3><ol><li>Double-click the 'My Network Places' icon on the Desktop.</li><li>Click on 'Add Network Place' from the 'Network Tasks' menu on the left side of the window.</li><li>The 'Add a Network Place' wizard will open, select 'Next'.</li><li>Select the 'Choose Another Network Location' option, and select 'Next'.<li>In the 'Internet or Network Address' field enter<br/><b>[WEBFOLDER_URI]</b><br/>then select 'Next'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/WINDOWS][MAC]<h3>Instructions for Mac OS X</h3><ol><li>Open the Finder</li><li>Choose the menu 'Go &gt; Connect to server...'</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI]</b>, and select 'Connect'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/MAC][LINUX]<h3>Instructions for Linux with Konqueror</h3><ol><li>Start the Konqueror browser</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>Press the Enter key.</li><li>Enter your login and password, and select 'OK'.</li></ol><h3>Instructions for Linux with Nautilus</h3><ol><li>Start the Nautilus browser</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>Press the Enter key.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/LINUX]<p>If opening the webfolder does not work, please contact <a href=\\\"mailto:[ADMIN_MAIL]\\\">[ADMIN_MAIL]</a>.</p>"
+
+#, fuzzy
+msgid "webfolder_instructions_titletext"
+msgstr "Open as webfolder"
+
+#, fuzzy
+msgid "webfolder_mount_dir_with"
+msgstr "Open this page as a Webfolder with <a href=\"%1$s\">Internet Explorer</a>, <a href=\"%2$s\">Konqueror</a>, <a href=\"%3$s\">other Browser</a>."
+
+msgid "webr"
+msgstr "Tài nguyên web"
+
+msgid "webr_active"
+msgstr "Hoạt động"
+
+msgid "webr_add"
+msgstr "Thêm tài nguyên web"
+
+msgid "webr_deleted_items"
+msgstr "Đã xóa (các) tài nguyên web."
+
+msgid "webr_edit"
+msgstr "Sửa tài nguyên web"
+
+msgid "webr_sure_delete_items"
+msgstr "Bạn có chắc muốn xóa (các) tài nguyên web sau?"
+
+msgid "webservices"
+msgstr "Dịch vụ web"
+
+msgid "week"
+msgstr "Tuần"
+
+msgid "weekly"
+msgstr "hàng tuần"
+
+msgid "weeks"
+msgstr "Tuần"
+
+msgid "welcome"
+msgstr "Chào mừng"
+
+#, fuzzy
+msgid "width"
+msgstr "Width"
+
+#, fuzzy
+msgid "wiki"
+msgstr "Wiki"
+
+#, fuzzy
+msgid "wiki_add"
+msgstr "Add Wiki"
+
+#, fuzzy
+msgid "wiki_new"
+msgstr "New Wiki"
+
+msgid "with"
+msgstr "với"
+
+#, fuzzy
+msgid "withdraw_consent"
+msgstr "Withdraw Consent"
+
+#, fuzzy
+msgid "withdraw_consent_info_internal"
+msgstr "If you click on ‘Withdraw Consent’, your account will be deleted."
+
+#, fuzzy
+msgid "withdraw_usr_agreement"
+msgstr "Withdraw Consent"
+
+#, fuzzy
+msgid "withdrawal_complete"
+msgstr "Withdrawal of consent complete."
+
+#, fuzzy
+msgid "withdrawal_complete_deleted"
+msgstr "Withdrawal of consent complete, account deleted."
+
+#, fuzzy
+msgid "withdrawal_complete_redirect"
+msgstr "Withdrawal of consent complete. To have your account deleted, please contact your organisation."
+
+#, fuzzy
+msgid "withdrawal_mail_info"
+msgstr "The following email will be sent to an administrator after confirming the withdrawal of your consent:[BR][BR]"
+
+#, fuzzy
+msgid "withdrawal_mail_subject"
+msgstr "Withdrawal of Consent to Terms of Service"
+
+#, fuzzy
+msgid "withdrawal_mail_text"
+msgstr "Dear Sir/Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installation’s Terms of Service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Yours faithfully[BR]%1$s"
+
+#, fuzzy
+msgid "withdrawal_sure_account"
+msgstr "Are you sure you want to confirm the withdrawal of your consent?"
+
+#, fuzzy
+msgid "withdrawal_sure_account_deletion"
+msgstr "Are you sure you want to confirm the withdrawal of your consent? This will result in your user account being irrevocably deleted."
+
+#, fuzzy
+msgid "withdrawal_sure_account_deletion_no_consent_yet"
+msgstr "Are you sure that you do not want to accept the Terms of Service? This will result in your user account being irrevocably deleted."
+
+#, fuzzy
+msgid "withdrawal_sure_account_no_consent_yet"
+msgstr "Are you sure that you do not want to accept the Terms of Service?"
+
+#, fuzzy
+msgid "wizard_search_list"
+msgstr "Your search produced the following hits. Please select one of them"
+
+#, fuzzy
+msgid "wizard_title_info"
+msgstr "Please enter the title of the object you want to duplicate."
+
+msgid "write"
+msgstr "Viết"
+
+#, fuzzy
+msgid "year"
+msgstr "Year"
+
+#, fuzzy
+msgid "yearly"
+msgstr "yearly"
+
+#, fuzzy
+msgid "years"
+msgstr "Years"
+
+msgid "yes"
+msgstr "Có"
+
+#, fuzzy
+msgid "yesterday"
+msgstr "Yesterday"
+
+msgid "zip"
+msgstr "Mã bưu điện"
+
+#, fuzzy
+msgid "zip_structure_error"
+msgstr "Archive contains same filenames. Upload aborted."
+
+#, fuzzy
+msgid "zip_test_failed"
+msgstr "Zip-Test failed. Please contact you ILIAS administrator."
+
+msgid "zipcode"
+msgstr "Mã bưu điện"

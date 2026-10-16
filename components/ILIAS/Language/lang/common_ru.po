@@ -1,0 +1,8340 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ru\n"
+"Language-Team: Russian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: common\n"
+
+msgid "HH"
+msgstr "HH:MM"
+
+msgid "absolute_path"
+msgstr "Полный путь"
+
+#, fuzzy
+msgid "accept_usr_agreement_btn"
+msgstr "Accept"
+
+msgid "access"
+msgstr "Доступ"
+
+msgid "accessFree"
+msgstr "Remove limited Access"
+
+msgid "accessRestrict"
+msgstr "Set limited Access"
+
+msgid "access_expired"
+msgstr "expired"
+
+msgid "access_free_granted"
+msgstr "Set the selected user(s) to unlimited access"
+
+msgid "access_from"
+msgstr "Access (from)"
+
+msgid "access_public"
+msgstr "Public"
+
+msgid "access_restricted"
+msgstr "Set the selected user(s) to limited access"
+
+msgid "access_scope"
+msgstr "Access"
+
+msgid "access_unlimited"
+msgstr "unlimited"
+
+msgid "access_until"
+msgstr "Access until"
+
+msgid "access_users"
+msgstr "Logged in Users"
+
+msgid "accesscount_registered_users"
+msgstr "Прочитано уникальными пользователями ILIAS"
+
+#, fuzzy
+msgid "accessibility_control_concept"
+msgstr "Accessibility Control Concept"
+
+#, fuzzy
+msgid "account"
+msgstr "My Account"
+
+msgid "account_expires_body"
+msgstr "Ваш доступ ограничен, он заканчивается:"
+
+msgid "account_expires_subject"
+msgstr "[ILIAS] Ваш доступ закончился"
+
+msgid "action"
+msgstr "Действие"
+
+msgid "action_aborted"
+msgstr "Действие отменено"
+
+msgid "actions"
+msgstr "Действия"
+
+#, fuzzy
+msgid "actions_for"
+msgstr "Actions for %s"
+
+msgid "activate"
+msgstr "Set Active"
+
+msgid "activate_https"
+msgstr "HTTPS handling by ILIAS<br>(Payment, Login)"
+
+msgid "activate_tracking"
+msgstr "Активирование мониторинга"
+
+msgid "activation"
+msgstr "Активация"
+
+msgid "active"
+msgstr "Активен"
+
+msgid "add"
+msgstr "Добавить"
+
+msgid "add_condition"
+msgstr "Создать новую Ассоциацию"
+
+msgid "add_entry"
+msgstr "Add/Edit entry"
+
+msgid "add_member"
+msgstr "Добавить Участника"
+
+#, fuzzy
+msgid "add_member_role"
+msgstr "Add Member Role"
+
+msgid "add_new_user_defined_field"
+msgstr "Add New User-defined Field"
+
+msgid "add_note"
+msgstr "Добавить заметку"
+
+msgid "add_parameter"
+msgstr "New Parameter"
+
+#, fuzzy
+msgid "add_remove_edit_entries_of_main_menu"
+msgstr "Add, remove or edit entries of the main menu"
+
+#, fuzzy
+msgid "add_role"
+msgstr "Add Role"
+
+msgid "add_translation"
+msgstr "Добавить Перевод"
+
+msgid "add_user"
+msgstr "Добавить локального пользователя"
+
+msgid "add_user_defined_field"
+msgstr "Add New Field"
+
+msgid "added_new_condition"
+msgstr "Создать новые условия."
+
+msgid "additional_info"
+msgstr "Дополнительная информация"
+
+msgid "address"
+msgstr "Адрес"
+
+msgid "admin_force_noti"
+msgstr "Notification active"
+
+msgid "administrate_users"
+msgstr "Администрирование локальных пользователей"
+
+#, fuzzy
+msgid "administrate_users_headline"
+msgstr "Local ILIAS Accounts of this Category"
+
+msgid "administration"
+msgstr "Администрирование"
+
+msgid "administrator"
+msgstr "Администратор"
+
+msgid "adopt"
+msgstr "принять"
+
+msgid "advanced_editing_allow_html_tags"
+msgstr "Allow the selected HTML tags for text editing"
+
+msgid "advanced_editing_assessment_settings"
+msgstr "Allowed HTML Tags for the ILIAS Test&Assessment tool"
+
+msgid "advanced_editing_frm_post_settings"
+msgstr "Forum Post Settings"
+
+msgid "advanced_editing_rep_page_editing"
+msgstr "Enable Content Editing in Repository"
+
+msgid "advanced_editing_rep_page_editing_desc"
+msgstr "This feature allows to add text/media to category, course, group and folder pages."
+
+msgid "advanced_editing_required_tags"
+msgstr "The following HTML tags are required: %s"
+
+msgid "advanced_editing_survey_settings"
+msgstr "Allowed HTML Tags for the ILIAS survey tool"
+
+msgid "adve_assessment_settings"
+msgstr "Настройки тестов и упражнений"
+
+msgid "adve_frm_post_settings"
+msgstr "Forum Posts"
+
+msgid "adve_general_settings"
+msgstr "General Settings"
+
+msgid "adve_survey_settings"
+msgstr "Survey Settings"
+
+msgid "agree_date"
+msgstr "Agreed on"
+
+#, fuzzy
+msgid "all"
+msgstr "All"
+
+msgid "all_global_roles"
+msgstr "Глобальные статусы"
+
+msgid "all_local_roles"
+msgstr "Локальные роли (все)"
+
+msgid "all_objects"
+msgstr "Мои объекты"
+
+msgid "all_roles"
+msgstr "Все статусы"
+
+msgid "all_topics"
+msgstr "Все темы"
+
+msgid "all_users"
+msgstr "Все пользователи"
+
+msgid "allow_assign_users"
+msgstr "Разрешить назначение пользователей локальным администраторам."
+
+msgid "allow_override_alert"
+msgstr "Rules for .htaccess are not interpreted correctly."
+
+msgid "allow_register"
+msgstr "Доступно в регистрационной форме для новых пользователей"
+
+msgid "allow_user_toggle_noti"
+msgstr "Member is allowed to deactivate notification"
+
+msgid "already_delivered_files"
+msgstr "Уже переданные файлы"
+
+msgid "and"
+msgstr "и"
+
+#, fuzzy
+msgid "angry"
+msgstr "Angry"
+
+msgid "anonymous"
+msgstr "Anonymous"
+
+msgid "answers"
+msgstr "Ответы"
+
+msgid "any_language"
+msgstr "Любой язык"
+
+msgid "apache_auth"
+msgstr "Apache Authentication"
+
+msgid "application_completed"
+msgstr "Приложение закончено"
+
+msgid "application_date"
+msgstr "Данные приложения"
+
+msgid "applications"
+msgstr "Applications"
+
+msgid "apply"
+msgstr "Применить"
+
+msgid "apply_filter"
+msgstr "Применить фильтр"
+
+msgid "appointment"
+msgstr "Встреча (Appointment)"
+
+msgid "approve_date"
+msgstr "Принятый вкл (Approved On)"
+
+msgid "approve_recipient"
+msgstr "Логин ID принятия"
+
+msgid "archive"
+msgstr "Архив"
+
+msgid "archive_broken"
+msgstr "Archive seems to be broken or empty."
+
+msgid "are_you_sure"
+msgstr "Вы уверены?"
+
+msgid "assf_allowed_questiontypes"
+msgstr "Доступные типы вопросов"
+
+msgid "assf_allowed_questiontypes_desc"
+msgstr "All the checked question types will be available in this ILIAS installation. If you don't want to allow the creation of a certain question type in this installation, you must remove the selection in the associated check box."
+
+msgid "assf_questiontypes"
+msgstr "Настройки тестов"
+
+msgid "assign"
+msgstr "Назначение"
+
+msgid "assign_global_role"
+msgstr "Назначить глобальный статус"
+
+msgid "assign_local_role"
+msgstr "Назначить локальную роль"
+
+msgid "assigned_members"
+msgstr "Assigned Members"
+
+msgid "assigned_roles"
+msgstr "Назначенные статусы"
+
+msgid "associated_user"
+msgstr "associated User"
+
+#, fuzzy
+msgid "astounded"
+msgstr "Astounded"
+
+msgid "at_least_one_style"
+msgstr "Хотя бы один стиль должен оставаться активным."
+
+msgid "attachment"
+msgstr "Присоединение"
+
+msgid "attachments"
+msgstr "Присоединения"
+
+msgid "attempts"
+msgstr "Attempts"
+
+msgid "auth_active_roles"
+msgstr "Global roles available on registration form"
+
+msgid "auth_allow_local"
+msgstr "Allow Local Authentication"
+
+msgid "auth_configure"
+msgstr "конфигурировать..."
+
+msgid "auth_create_users"
+msgstr "Create non-existing users automatically"
+
+msgid "auth_default"
+msgstr "Настройки по умолчанию"
+
+msgid "auth_default_mode_changed_to"
+msgstr "Default authentication mode changed to"
+
+msgid "auth_ecs"
+msgstr "ECS"
+
+msgid "auth_ldap"
+msgstr "LDAP"
+
+msgid "auth_ldap_enable"
+msgstr "Enable LDAP support"
+
+msgid "auth_ldap_migration"
+msgstr "Account Migration"
+
+msgid "auth_ldap_migration_info"
+msgstr "Activate this option to give new users the possibility to migrate their existing ILIAS accounts to LDAP authentication."
+
+msgid "auth_local"
+msgstr "ILIAS База данных"
+
+msgid "auth_login_instructions"
+msgstr "Instructions shown on login page"
+
+msgid "auth_mode"
+msgstr "Модель доступа"
+
+msgid "auth_mode_not_changed"
+msgstr "(Ничего не изменено)"
+
+msgid "auth_mode_roles_changed"
+msgstr "Changed authentication mode for this Role"
+
+msgid "auth_new_account_mail_desc"
+msgstr "Send new account mail to user, if user is generated automatically. A password will only be generated, if \"Allow Local Authentication\" is also activated."
+
+msgid "auth_per_default"
+msgstr "Per Default"
+
+msgid "auth_remark_non_local_auth"
+msgstr "В случае выбора другой модели доступа, отличной от модели по умолчанию, недоступно изменение логинов пользователей и паролей, и отключена регистрация нового пользователя."
+
+msgid "auth_role_auth_mode"
+msgstr "Authentication mode"
+
+#, fuzzy
+msgid "auth_saml"
+msgstr "SAML"
+
+msgid "auth_script"
+msgstr "Пользователь"
+
+msgid "auth_select"
+msgstr "Выбор модели доступа"
+
+msgid "auth_selection"
+msgstr "Login to"
+
+msgid "auth_settings"
+msgstr "Authentication Settings"
+
+msgid "auth_shib"
+msgstr "Shibboleth"
+
+msgid "auth_shib_instructions"
+msgstr "Be sure to read the README for instructions on how to configure Shibboleth support for ILIAS."
+
+msgid "auth_shib_not_configured"
+msgstr "Shibboleth is not configured yet"
+
+msgid "auth_shibboleth"
+msgstr "Shibboleth"
+
+msgid "auth_soap"
+msgstr "SOAP"
+
+msgid "auth_soap_allow_local_desc"
+msgstr "This allows SOAP users to authenticate with their local ILIAS username and a local password."
+
+msgid "auth_soap_auth"
+msgstr "Configure SOAP Authentication"
+
+msgid "auth_soap_auth_desc"
+msgstr "This settings deal only with SOAP based user authentication, not with the ILIAS SOAP interface."
+
+msgid "auth_soap_create_users_desc"
+msgstr "Creates automatically an ILIAS user account, for users that successfully authenticated against SOAP, without having an ILIAS account yet."
+
+msgid "auth_soap_namespace"
+msgstr "Namespace"
+
+msgid "auth_soap_namespace_desc"
+msgstr "As defined in WSDL. Must be specified, if .NET SOAP style is used."
+
+msgid "auth_soap_port_desc"
+msgstr "E.g. 8080 if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_server_desc"
+msgstr "E.g. auth.yourserver.com if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_settings_saved"
+msgstr "SOAP authentication settings saved"
+
+msgid "auth_soap_uri_desc"
+msgstr "Local URI, e.g. dir/server.php if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_use_dotnet"
+msgstr "Use .NET SOAP Style"
+
+msgid "auth_soap_use_https"
+msgstr "Use HTTPS"
+
+msgid "auth_soap_user_default_role_desc"
+msgstr "This role is assigned to automatically created SOAP users."
+
+msgid "auth_user_default_role"
+msgstr "Default Role"
+
+msgid "authenticate_ilias"
+msgstr "Login to ILIAS"
+
+msgid "authentication_settings"
+msgstr "Authentication"
+
+msgid "author"
+msgstr "Автор"
+
+msgid "authoring_mode"
+msgstr "Authoring Mode"
+
+msgid "authors"
+msgstr "Авторы"
+
+#, fuzzy
+msgid "autocomplete_more"
+msgstr "more"
+
+msgid "available"
+msgstr "доступно"
+
+#, fuzzy
+msgid "awra"
+msgstr "Who is online?"
+
+msgid "back"
+msgstr "Назад"
+
+#, fuzzy
+msgid "back_to_course"
+msgstr "Back to Course"
+
+msgid "back_to_crs_content"
+msgstr "Back to Course Content"
+
+msgid "back_to_fold_content"
+msgstr "Back to Folder Content"
+
+msgid "back_to_grp_content"
+msgstr "Back to Group Content"
+
+msgid "backto_lua"
+msgstr "Back to Local User Administration"
+
+msgid "basedn"
+msgstr "BaseDN"
+
+msgid "basic_settings"
+msgstr "Основные настройки"
+
+msgid "before"
+msgstr "before"
+
+msgid "behind"
+msgstr "Behind"
+
+msgid "bib_data"
+msgstr "Библиографические данные"
+
+#, fuzzy
+msgid "bibl_add"
+msgstr "Add Bibliography"
+
+msgid "birthday"
+msgstr "День рождения"
+
+msgid "bkm_import"
+msgstr "Импортировать закладки"
+
+msgid "bkm_import_ok"
+msgstr "Successfully imported %d bookmarks and %d bookmark folders."
+
+msgid "bkm_sendmail"
+msgstr "Send as attachment"
+
+msgid "block"
+msgstr "Блок"
+
+msgid "bm"
+msgstr "Закладки"
+
+msgid "bm_add_to_ilias"
+msgstr "Закладки ILIAS"
+
+msgid "bmf"
+msgstr "Каталог Закладок"
+
+msgid "bold"
+msgstr "Bold"
+
+#, fuzzy
+msgid "bold_action"
+msgstr "Insert Bold - Click to insert bold text."
+
+msgid "bookings"
+msgstr "Bookings"
+
+msgid "bookmark_added"
+msgstr "The Bookmark has been created."
+
+msgid "bookmark_folder_new"
+msgstr "Новый каталог закладок"
+
+msgid "bookmark_new"
+msgstr "Новая закладка"
+
+msgid "bookmark_target"
+msgstr "Объект"
+
+msgid "bookmarks"
+msgstr "Закладки"
+
+msgid "bookmarks_of"
+msgstr "Закладки"
+
+msgid "breadcrumb_navigation"
+msgstr "Путь навигации"
+
+#, fuzzy
+msgid "breadcrumbs_aria_label"
+msgstr "Breadcrumbs"
+
+#, fuzzy
+msgid "briefcase"
+msgstr "Background Tasks"
+
+msgid "btn_add"
+msgstr "Add"
+
+msgid "btn_back"
+msgstr "Назад"
+
+msgid "btn_next"
+msgstr "Продолжить"
+
+msgid "btn_previous"
+msgstr "Back"
+
+msgid "btn_remove_system"
+msgstr "Переместить из Системы"
+
+msgid "btn_undelete"
+msgstr "Восстановить"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_no"
+msgstr "Doesn`t Receive Contact Requests"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_yes"
+msgstr "Receives Contact Requests"
+
+#, fuzzy
+msgid "building_export_file"
+msgstr "Building Export File..."
+
+#, fuzzy
+msgid "bulletlist_action"
+msgstr "Insert Bulletpoint-List - Click to insert a bulletpoint-list."
+
+#, fuzzy
+msgid "by"
+msgstr "By"
+
+msgid "bytes"
+msgstr "Байт"
+
+msgid "cal_from"
+msgstr "From:"
+
+msgid "cal_until"
+msgstr "Until:"
+
+msgid "calendar"
+msgstr "Календарь"
+
+msgid "cancel"
+msgstr "Отмена"
+
+msgid "cancel_file_upload"
+msgstr "Do you really want to cancel all pending uploads?"
+
+msgid "cannot_find_xml"
+msgstr "Не найден XML-file."
+
+msgid "cannot_uninstall_language_in_use"
+msgstr "Вы не можете удалить язык, который используется!"
+
+msgid "cannot_uninstall_systemlanguage"
+msgstr "Вы не можете удалить системный язык!"
+
+msgid "cannot_unzip_file"
+msgstr "Не могу распаковать файл."
+
+msgid "cant_deactivate_if_users_assigned"
+msgstr "Вы не можете деактивировать стиль, он назначен нескольким пользователям."
+
+msgid "cat"
+msgstr "Категории"
+
+msgid "cat_add"
+msgstr "Добавить категорию"
+
+msgid "cat_added"
+msgstr "Категория добавлена"
+
+msgid "cat_copy_threads_info"
+msgstr "Please decide which category items should be copied, linked or even omitted."
+
+msgid "cat_edit"
+msgstr "Редактировать категорию"
+
+msgid "cat_new"
+msgstr "Новая категория"
+
+msgid "cat_wizard_page"
+msgstr "Copy Category (Step 2/2)"
+
+msgid "categories"
+msgstr "Категории"
+
+msgid "categories_imported"
+msgstr "Импорт категории завершен."
+
+msgid "catr"
+msgstr "Category Reference"
+
+#, fuzzy
+msgid "catr_add"
+msgstr "Add Category Link"
+
+msgid "catr_edit_info"
+msgstr "Please choose one category, for creating a new reference."
+
+msgid "catr_new"
+msgstr "Create new Category Reference"
+
+#, fuzzy
+msgid "catr_settings"
+msgstr "Category Link Settings"
+
+msgid "certificate"
+msgstr "Certificate"
+
+#, fuzzy
+msgid "certificate_file_already_exists_error"
+msgstr "The certificate file already exists in the file system."
+
+#, fuzzy
+msgid "certificate_file_input_output_error"
+msgstr "The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator."
+
+#, fuzzy
+msgid "certificate_file_not_found_error"
+msgstr "The certificate file doesn't exist in the file system anymore. Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden."
+
+#, fuzzy
+msgid "certificate_persistent_option"
+msgstr "Certificates of Achievements"
+
+#, fuzzy
+msgid "certificate_selection"
+msgstr "Origin of Certificates"
+
+#, fuzzy
+msgid "certificate_workspace_option"
+msgstr "Certificates of Personal Resources"
+
+#, fuzzy
+msgid "certificates"
+msgstr "Certificates"
+
+msgid "change"
+msgstr "Изменить"
+
+msgid "change_assignment"
+msgstr "Изменить задания"
+
+msgid "change_header_title"
+msgstr "Редактировать заголовок издания"
+
+msgid "change_owner"
+msgstr "Сменить владельца"
+
+msgid "change_sort_direction"
+msgstr "Изменить направление сортировки"
+
+msgid "changeable"
+msgstr "Changeable"
+
+msgid "changed_to"
+msgstr "изменен на"
+
+msgid "changing_loginname_not_possible_info"
+msgstr "You changed your login name at last at %s. The next change can be performed at %s."
+
+msgid "chapter"
+msgstr "Глава"
+
+msgid "characters"
+msgstr "characters"
+
+msgid "chat_enter_public_room"
+msgstr "Public Chat"
+
+msgid "chat_enter_public_room_tooltip"
+msgstr "Enter public chat."
+
+msgid "chat_users_active"
+msgstr "Active users"
+
+msgid "check"
+msgstr "Проверить"
+
+msgid "check_all"
+msgstr "Выделить все"
+
+msgid "check_langfile"
+msgstr "Пожалуйста, проверьте ваш файл языка"
+
+msgid "check_languages"
+msgstr "Проверить языки"
+
+msgid "check_link"
+msgstr "Проверка ссылок"
+
+msgid "check_link_desc"
+msgstr "Если внедрены внешние ссылки в Обучающих модулях ILIAS, их можно проверить на активность."
+
+msgid "check_user_accounts"
+msgstr "Проверить учетные записи пользователей"
+
+msgid "check_user_accounts_desc"
+msgstr "Если задачи cron активированы, то можно использовать эту опцию, тогда все пользователи, учетные записи, которых заканчиваются, будут информированы об этом по почте."
+
+msgid "check_web_resources"
+msgstr "Проверить Веб-ресурсы"
+
+msgid "check_web_resources_desc"
+msgstr "можно проверить внедренные веб-ресурсы на активность."
+
+msgid "checked"
+msgstr "Checked"
+
+msgid "checked_files"
+msgstr "Импортированные файлы"
+
+msgid "chg_ilias_and_webfolder_password"
+msgstr "Change ILIAS and Webfolder Password"
+
+msgid "chg_ilias_password"
+msgstr "Change ILIAS Password"
+
+msgid "chg_password"
+msgstr "Изменить пароль"
+
+msgid "choose_language"
+msgstr "Выберите ваш язык"
+
+msgid "choose_only_one_language"
+msgstr "Пожалуйста, выберите только один язык"
+
+msgid "chown_warning"
+msgstr "Внимание, вы можете потерять доступ к этому объекту после смены владельца."
+
+msgid "chta_edit_permission"
+msgstr "Change Permission Settings"
+
+msgid "chta_read"
+msgstr "Read access to Chatroom Administration"
+
+msgid "chta_visible"
+msgstr "Chatroom Administration is visible"
+
+msgid "chta_write"
+msgstr "Edit Chatroom Administration"
+
+msgid "chtr_copy"
+msgstr "Copy Chatroom"
+
+#, fuzzy
+msgid "chtr_import"
+msgstr "Import Chatroom"
+
+msgid "city"
+msgstr "Город, штат"
+
+msgid "cleaned_file"
+msgstr "файл очищен."
+
+msgid "cleaning_failed"
+msgstr "Очистка неудачна."
+
+msgid "clear"
+msgstr "Очистить"
+
+msgid "clear_clipboard"
+msgstr "Очистить буфер обмена"
+
+msgid "client"
+msgstr "Клиент"
+
+msgid "client_id"
+msgstr "Клиент ID"
+
+msgid "client_ip"
+msgstr "Клиент IP"
+
+#, fuzzy
+msgid "clientlist_available_clients"
+msgstr "Available Clients"
+
+#, fuzzy
+msgid "clientlist_clientlist"
+msgstr "Client List"
+
+#, fuzzy
+msgid "clientlist_installation_name"
+msgstr "Installation Name"
+
+#, fuzzy
+msgid "clientlist_login"
+msgstr "Login"
+
+#, fuzzy
+msgid "clientlist_login_page"
+msgstr "Login page"
+
+#, fuzzy
+msgid "clientlist_public_access"
+msgstr "Public Access"
+
+#, fuzzy
+msgid "clientlist_start_page"
+msgstr "Start page"
+
+msgid "clipboard"
+msgstr "Буфер обмена"
+
+msgid "close"
+msgstr "Закрыть"
+
+#, fuzzy
+msgid "cmix"
+msgstr "Object xAPI/cmi5"
+
+msgid "cnt_new"
+msgstr "(Новых %s)"
+
+msgid "collapse"
+msgstr "Развернуть"
+
+msgid "collapse_all"
+msgstr "Collapse All"
+
+#, fuzzy
+msgid "collapse_content"
+msgstr "Collapse Content"
+
+msgid "collapsed"
+msgstr "Collapsed"
+
+#, fuzzy
+msgid "column_selection"
+msgstr "Column Selection"
+
+msgid "columns"
+msgstr "Столбцы"
+
+msgid "comma_separated"
+msgstr "Кавычки разделены"
+
+msgid "comment"
+msgstr "Комментарий"
+
+#, fuzzy
+msgid "comments"
+msgstr "Comments"
+
+msgid "compose"
+msgstr "Написать"
+
+msgid "concurrent_uploads"
+msgstr "Number of concurrent uploads"
+
+msgid "concurrent_uploads_info"
+msgstr "Defines the number of files that can be uploaded per upload process at the same time."
+
+msgid "cond_ref_handling"
+msgstr "Link Settings"
+
+msgid "cond_ref_shared"
+msgstr "Shared Preconditions for all Links"
+
+msgid "cond_ref_unique"
+msgstr "Unique Preconditions for Links"
+
+msgid "condition"
+msgstr "Состояние"
+
+#, fuzzy
+msgid "condition_accredited_or_passed"
+msgstr "Accredited or Passed"
+
+msgid "condition_already_assigned"
+msgstr "Объект уже назначен."
+
+msgid "condition_circle_created"
+msgstr "Это назначение невозможно, объекты взаимозависимы."
+
+msgid "condition_deleted"
+msgstr "Условие удалено."
+
+msgid "condition_finished"
+msgstr "Закончен"
+
+msgid "condition_not_finished"
+msgstr "Не закончен"
+
+msgid "condition_passed"
+msgstr "Сдан"
+
+msgid "condition_select_object"
+msgstr "Пожалуйста, выберите один объект."
+
+msgid "conditions_updated"
+msgstr "Условия сохранены"
+
+#, fuzzy
+msgid "configuration"
+msgstr "Configuration"
+
+msgid "confirm"
+msgstr "Подтвердить"
+
+msgid "confirm_delete_parameter"
+msgstr "Do you really want to delete the parameter?"
+
+msgid "confirmation"
+msgstr "Подтверждение"
+
+msgid "conflict_handling"
+msgstr "Конфликт управления"
+
+msgid "cont_iim_content_popups_info"
+msgstr "Content popups appear, when the user clicks on interactive parts of the background image. On this screen you only define the popups. Their content can be edited on the editing screen of the page."
+
+msgid "cont_iim_create_info"
+msgstr "Please upload the main underlying picuture for the interactive image."
+
+msgid "cont_iim_overlay_info"
+msgstr "Overlay images are used to alter (e.g. highlight) parts of the base image when the mouse hovers over them. After uploading the images, you can select them in the \"Triggers\" tab."
+
+msgid "contact"
+msgstr "Contact"
+
+msgid "contact_data"
+msgstr "Контактная информация"
+
+msgid "contact_sysadmin"
+msgstr "Связаться с администрацией"
+
+msgid "container"
+msgstr "Контейнер"
+
+msgid "container_no_items"
+msgstr "No Materials Available"
+
+msgid "content"
+msgstr "Содержимое"
+
+msgid "content_frame"
+msgstr "Content Frame"
+
+msgid "content_styles"
+msgstr "Содержимое стилей"
+
+msgid "context"
+msgstr "Контекст"
+
+msgid "continue"
+msgstr "continue"
+
+msgid "continue_work"
+msgstr "Продолжение"
+
+msgid "contra"
+msgstr "Против"
+
+#, fuzzy
+msgid "copa"
+msgstr "Content Page"
+
+msgid "copy"
+msgstr "Копировать"
+
+msgid "copyChapter"
+msgstr "Копировать"
+
+msgid "copyPage"
+msgstr "Копировать Страницу"
+
+msgid "copy_all"
+msgstr "Копировать всё"
+
+msgid "copy_n_of_suffix"
+msgstr "- Copy (%1$s)"
+
+msgid "copy_of"
+msgstr "Копировать из"
+
+msgid "copy_of_suffix"
+msgstr "- Copy"
+
+#, fuzzy
+msgid "copy_perma_link"
+msgstr "Copy link to clipboard"
+
+msgid "copy_selected_items"
+msgstr "Копировать"
+
+msgid "count"
+msgstr "Итог"
+
+#, fuzzy
+msgid "counter_novelty"
+msgstr "News"
+
+#, fuzzy
+msgid "counter_status"
+msgstr "Status"
+
+msgid "country"
+msgstr "Страна"
+
+msgid "country_free_text"
+msgstr "Country (Free Text Input"
+
+msgid "country_selection"
+msgstr "Country (Drop Down Selection)"
+
+msgid "course"
+msgstr "Курсы"
+
+msgid "courses"
+msgstr "Курсы"
+
+msgid "create"
+msgstr "Создать"
+
+msgid "create_date"
+msgstr "Дата создания"
+
+msgid "create_export_file"
+msgstr "Create export file"
+
+msgid "create_stylesheet"
+msgstr "Создать стиль"
+
+msgid "created"
+msgstr "Дата создания"
+
+msgid "cron_forum_notification"
+msgstr "Send forum notifications"
+
+msgid "cron_forum_notification_crob_desc"
+msgstr "If enabled, all users who have enabled forum notifications will get a daily mail about all new posts but no immediate notification for each submitted posting."
+
+#, fuzzy
+msgid "cron_forum_notification_disabled"
+msgstr "Can't be disabled when the Cron Job is active."
+
+msgid "cron_jobs"
+msgstr "Задачи крона"
+
+msgid "cron_lucene_index"
+msgstr "Update Lucene search index"
+
+msgid "cron_lucene_index_info"
+msgstr "If enabled, the lucene search index will be updated. Please configure the lucene server at 'Administration -> Search'."
+
+msgid "cron_mail_notification"
+msgstr "Send Mail Notifications"
+
+msgid "cron_mail_notification_cron"
+msgstr "regularly per cron job"
+
+msgid "cron_mail_notification_desc"
+msgstr "If enabled, all users, who want to be informed about new mail, will get notifications by external mail."
+
+msgid "cron_mail_notification_message"
+msgstr "Send Mail Notifications with Mail-Message"
+
+msgid "cron_mail_notification_message_info"
+msgstr "If enabled, all users will get notifications with complete mail message by external mail."
+
+msgid "cron_mail_notification_never"
+msgstr "never"
+
+#, fuzzy
+msgid "cron_users_without_login_del_create_date_thr"
+msgstr "Thresholt"
+
+#, fuzzy
+msgid "cron_users_without_login_del_create_date_thr_info"
+msgstr "All user accounts created before the defined threshold will be taken into consideration."
+
+#, fuzzy
+msgid "cron_users_without_login_del_role_whitelist"
+msgstr "Included Roles"
+
+#, fuzzy
+msgid "cron_users_without_login_del_role_whitelist_info"
+msgstr "The deletion will only processed for users assigned to at least one of the selected roles"
+
+msgid "cronjob_last_start"
+msgstr "Last Start of the Cron Job"
+
+msgid "cronjob_last_start_unknown"
+msgstr "Indeterminate"
+
+msgid "crs"
+msgstr "Курс"
+
+msgid "crs_activation_start_invalid"
+msgstr "The start and the end time is not valid."
+
+msgid "crs_add"
+msgstr "Добавить курс"
+
+msgid "crs_added"
+msgstr "Курсы добавлены"
+
+msgid "crs_archives"
+msgstr "Архивы"
+
+msgid "crs_cancel_waiting_list"
+msgstr "Do you really want to remove yourself from the waiting list of course \"%s\"?"
+
+msgid "crs_copy_threads_info"
+msgstr "Please decide which course materials should be copied, linked or even omitted."
+
+msgid "crs_edit"
+msgstr "Редактировать курс"
+
+#, fuzzy
+msgid "crs_list_reg"
+msgstr "Registration"
+
+msgid "crs_list_reg_end"
+msgstr "Registration End"
+
+msgid "crs_list_reg_limit_full"
+msgstr "No places left"
+
+msgid "crs_list_reg_limit_places"
+msgstr "Free places"
+
+msgid "crs_list_reg_noreg"
+msgstr "Регистрация невозможна"
+
+msgid "crs_list_reg_period"
+msgstr "Период регистрации"
+
+msgid "crs_list_reg_start"
+msgstr "Registration Begin"
+
+msgid "crs_member_not_passed"
+msgstr "Не сдан"
+
+msgid "crs_member_passed"
+msgstr "Сдан"
+
+msgid "crs_members_gallery"
+msgstr "Галерея участников курса"
+
+msgid "crs_new"
+msgstr "Новый курс"
+
+msgid "crs_removed_from_waiting_list"
+msgstr "You have been detached from the waiting list of course \"%s\"."
+
+msgid "crs_status_blocked"
+msgstr "[Доступ отказан]"
+
+msgid "crs_status_pending"
+msgstr "[Ожидание регистрации]"
+
+msgid "crs_subscribers_assigned"
+msgstr "Назначен(ы) новый(ые) пользователь(и)"
+
+msgid "crs_title"
+msgstr "Course Title"
+
+msgid "crs_unsubscribe"
+msgstr "Отписаться"
+
+msgid "crs_wizard_page"
+msgstr "Копировать курс (шаг 2/2)"
+
+msgid "crsr"
+msgstr "Course Reference"
+
+#, fuzzy
+msgid "crsr_add"
+msgstr "Add Course Link"
+
+msgid "crsr_edit_info"
+msgstr "Please choose one course, for creating a new reference."
+
+msgid "crsr_new"
+msgstr "Create new Course Reference"
+
+#, fuzzy
+msgid "crsr_settings"
+msgstr "Course Link Settings"
+
+msgid "csv_export"
+msgstr "CSV-Export"
+
+msgid "current_ip"
+msgstr "Текущий IP:"
+
+msgid "current_ip_alert"
+msgstr "Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore."
+
+msgid "current_password"
+msgstr "Текущий пароль"
+
+#, fuzzy
+msgid "current_user_avatar"
+msgstr "Your User Avatar"
+
+msgid "currently_used_disk_space"
+msgstr "Currently used disk space"
+
+#, fuzzy
+msgid "customize_page"
+msgstr "Customize Page"
+
+msgid "cut"
+msgstr "Вырезать"
+
+msgid "cutPage"
+msgstr "Вырезать"
+
+msgid "daily"
+msgstr "ежедневно"
+
+msgid "database"
+msgstr "База данных"
+
+msgid "database_version"
+msgstr "Текущая версия базы данных"
+
+msgid "dataset"
+msgstr "Пункт"
+
+msgid "date"
+msgstr "Дата"
+
+#, fuzzy
+msgid "date_time"
+msgstr "Date and Time"
+
+msgid "dateplaner"
+msgstr "Календарь"
+
+msgid "day"
+msgstr "День"
+
+msgid "days"
+msgstr "Дни"
+
+msgid "db_host"
+msgstr "Хост базы данных"
+
+msgid "db_name"
+msgstr "Имя базы данных"
+
+msgid "db_need_update"
+msgstr "Базе данных требуется обновление!"
+
+msgid "db_pass"
+msgstr "Пароль базы данных"
+
+msgid "db_type"
+msgstr "Тип базы данных"
+
+msgid "db_user"
+msgstr "Пользователь базы данных"
+
+msgid "db_version"
+msgstr "Версия базы данных"
+
+msgid "dd_mm_yyyy"
+msgstr "DD.MM.YYYY"
+
+msgid "deactivate"
+msgstr "Set Inactive"
+
+msgid "decrease_attempts"
+msgstr "Число попыток -1"
+
+msgid "def_repository_view"
+msgstr "Вит репозитория по умолчанию"
+
+msgid "default"
+msgstr "Другой"
+
+msgid "default_auth_mode"
+msgstr "Default Authentication Method"
+
+msgid "default_auth_mode_info"
+msgstr "Please choose the authentication method that is preselected on the login page."
+
+msgid "default_language"
+msgstr "Другой язык"
+
+msgid "default_perm_settings"
+msgstr "Другие разрешения"
+
+msgid "default_role"
+msgstr "Другой статус"
+
+msgid "default_roles"
+msgstr "Другие статусы"
+
+msgid "default_skin"
+msgstr "Другая оболочка"
+
+msgid "default_skin_style"
+msgstr "Другая оболочка/Стиль"
+
+msgid "default_style"
+msgstr "Другой стиль"
+
+msgid "defaults"
+msgstr "Defaults"
+
+msgid "delete"
+msgstr "Удалить"
+
+msgid "delete_existing_file"
+msgstr "Delete Existing File"
+
+msgid "delete_inactivated_user_accounts"
+msgstr "Delete inactivated user accounts"
+
+msgid "delete_inactivated_user_accounts_desc"
+msgstr "If enabled, user accounts will be deleted depending on the date of inactivation."
+
+msgid "delete_inactivated_user_accounts_include_roles"
+msgstr "Included roles"
+
+msgid "delete_inactivated_user_accounts_include_roles_desc"
+msgstr "Defines the roles that will participate in the deletion."
+
+msgid "delete_inactivated_user_accounts_period"
+msgstr "Days past since the inactivation"
+
+msgid "delete_inactivated_user_accounts_period_desc"
+msgstr "Deletion will be executed if this period of time has past since the inactivation."
+
+msgid "delete_inactive_user_accounts"
+msgstr "Delete user accounts"
+
+msgid "delete_inactive_user_accounts_desc"
+msgstr "If enabled, user accounts will be deleted depending on the date of the last login."
+
+msgid "delete_inactive_user_accounts_include_roles"
+msgstr "Included roles"
+
+msgid "delete_inactive_user_accounts_include_roles_desc"
+msgstr "Defines the roles that will participate in the deletion."
+
+msgid "delete_inactive_user_accounts_period"
+msgstr "Days past since the last login"
+
+msgid "delete_inactive_user_accounts_period_desc"
+msgstr "Deletion will be executed if this period of time has past since the last login."
+
+msgid "delete_parameter"
+msgstr "Delete Parameter"
+
+msgid "delete_selected_items"
+msgstr "Удалить"
+
+msgid "deleted"
+msgstr "Удалено"
+
+msgid "deleted_user"
+msgstr "Пользователь был удален"
+
+msgid "deleted_users"
+msgstr "Deleted users"
+
+#, fuzzy
+msgid "deletion_notification"
+msgstr "\"%s\" has canceled the attendance of session \"%s\"."
+
+msgid "deliver"
+msgstr "Доставлено упражнение"
+
+#, fuzzy
+msgid "deny_usr_agreement"
+msgstr "Do Not Accept Terms of Service?"
+
+#, fuzzy
+msgid "deny_usr_agreement_btn"
+msgstr "Do Not Accept"
+
+msgid "department"
+msgstr "Отдел"
+
+msgid "desc"
+msgstr "Описание"
+
+msgid "description"
+msgstr "Описание"
+
+msgid "desired_password"
+msgstr "Новый пароль"
+
+msgid "details"
+msgstr "Детали"
+
+#, fuzzy
+msgid "didactic_template"
+msgstr "Didactic Template"
+
+msgid "disable"
+msgstr "Выключить"
+
+msgid "disable_check"
+msgstr "Проверка выключена"
+
+msgid "disable_ext_lang_maint"
+msgstr "Отключить расширенную поддержку"
+
+msgid "disable_hide_user_toggle"
+msgstr "Member is allowed to deactivate"
+
+msgid "disabled"
+msgstr "Выключено"
+
+#, fuzzy
+msgid "disclose"
+msgstr "Disclose"
+
+#, fuzzy
+msgid "dislike"
+msgstr "Dislike"
+
+msgid "domain"
+msgstr "Домен"
+
+msgid "down"
+msgstr "Вниз"
+
+msgid "download"
+msgstr "Загрузить"
+
+msgid "download_all_returned_files"
+msgstr "Загрузить все полученные файлы"
+
+msgid "download_link"
+msgstr "Download Link"
+
+msgid "download_multiple_objects"
+msgstr "Download Multiple Objects"
+
+msgid "download_selected_items"
+msgstr "Download"
+
+msgid "downloading_settings"
+msgstr "Downloading Settings"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement"
+msgstr "Accept Declaration of Data Protection?"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement_intro"
+msgstr "There is a new Declaration of Data Protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page."
+
+#, fuzzy
+msgid "dpro_agreed_on"
+msgstr "DoDP agreed to on"
+
+#, fuzzy
+msgid "dpro_force_accept_usr_agreement"
+msgstr "You must accept the Declaration of Data Protection!"
+
+#, fuzzy
+msgid "dpro_no_agreement_description"
+msgstr "There is currently no Declaration of Data Protection document available for this installation. Please contact the <a href=\"%1$s\">system administrator</a>."
+
+#, fuzzy
+msgid "dpro_refuse_acceptance"
+msgstr "Refuse to Accept the Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_usr_agreement"
+msgstr "Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_usr_agreement_footer_intro"
+msgstr "You have declared your consent to this Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description"
+msgstr "Withdraw your consent to our Declaration of Data Protection here."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description_external"
+msgstr "Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description_internal"
+msgstr "Please log in again to complete the process of withdrawing your consent to the Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_header"
+msgstr "Withdraw to Consent of Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_withdraw_consent_info"
+msgstr "Withdraw your consent to our Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_info_external"
+msgstr "Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Declaration of Data Protection."
+
+msgid "drafts"
+msgstr "Чертеж"
+
+#, fuzzy
+msgid "drag_file_here"
+msgstr "Drag-and-drop your file here"
+
+msgid "drag_files_here"
+msgstr "Перетащите сюда файлы"
+
+#, fuzzy
+msgid "drag_handle"
+msgstr "Draggable element"
+
+msgid "drop_files_on_repo_obj_info"
+msgstr "Drop the files here to upload them into this object."
+
+msgid "edit"
+msgstr "Редактировать"
+
+msgid "edit_assignments"
+msgstr "Редактировать задания"
+
+msgid "edit_cat_settings"
+msgstr "Advanced Category Settings"
+
+msgid "edit_content"
+msgstr "Изменить"
+
+msgid "edit_grouping"
+msgstr "Edit Membership Limitation"
+
+#, fuzzy
+msgid "edit_metadata"
+msgstr "Edit Metadata"
+
+msgid "edit_operations"
+msgstr "Редактировать операции"
+
+msgid "edit_page"
+msgstr "Редактировать страницу"
+
+msgid "edit_page_content"
+msgstr "Edit Page Content"
+
+#, fuzzy
+msgid "edit_page_meta"
+msgstr "Edit Page Metadata"
+
+msgid "edit_properties"
+msgstr "Редактировать"
+
+msgid "edit_stylesheet"
+msgstr "Редактировать стиль"
+
+msgid "edited_on"
+msgstr "Edited on"
+
+msgid "editor"
+msgstr "Редактор"
+
+msgid "email"
+msgstr "Email"
+
+msgid "email_not_valid"
+msgstr "Введенный вами email-адрес неправильный!"
+
+msgid "enable"
+msgstr "Включить"
+
+msgid "enable_anonymous_fora"
+msgstr "Allow posting with pseudonym"
+
+msgid "enable_anonymous_fora_desc"
+msgstr "If this option is disabled, the feature \"Posting with pseudonym\" is not available in forums anymore."
+
+msgid "enable_calendar"
+msgstr "Enable Calendar"
+
+#, fuzzy
+msgid "enable_comments_export"
+msgstr "Enable Comments Export"
+
+msgid "enable_course_group_notifications"
+msgstr "Daily Mail for Groups and Course News"
+
+msgid "enable_course_group_notifications_desc"
+msgstr "If enabled, Participants can subscribe to a daily summary of news."
+
+msgid "enable_custom_icons"
+msgstr "Enable custom icons"
+
+msgid "enable_custom_icons_info"
+msgstr "This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog."
+
+msgid "enable_dnd_upload"
+msgstr "Enable drag-and-drop upload"
+
+msgid "enable_dnd_upload_info"
+msgstr "Files can be uploaded with drag-and-drop from the local computer if enabled."
+
+msgid "enable_download_folder"
+msgstr "Enable Downloading Folders"
+
+msgid "enable_download_folder_info"
+msgstr "Allows to download a folder including sub structures as a zip file."
+
+#, fuzzy
+msgid "enable_export_scorm_desc"
+msgstr "allow Export of User Data of SCORM-Learning Modules"
+
+msgid "enable_fora_statistics"
+msgstr "Enable Statistics in Forum"
+
+msgid "enable_fora_statistics_desc"
+msgstr "If disabled, nobody is able to access the forum statistics."
+
+msgid "enable_hide_user_toggle"
+msgstr "Member is not allowed to deactivate"
+
+msgid "enable_multi_download"
+msgstr "«Download multiple objects» enabled"
+
+msgid "enable_multi_download_info"
+msgstr "Enables that multiple folders/files can be selected to download them as zip archive."
+
+msgid "enable_password_assistance"
+msgstr "Включить ассистент паролей"
+
+msgid "enable_preview"
+msgstr "Enable Preview"
+
+msgid "enable_preview_info"
+msgstr "Enable this option to display preview images on supported file types."
+
+msgid "enable_repository_dnd_upload"
+msgstr "Enable in Repository"
+
+msgid "enable_repository_dnd_upload_info"
+msgstr "Enables that files can be dragged from the computer directly onto an object in the repository to start uploading the files into this object."
+
+msgid "enable_sahs_protocol_data"
+msgstr "Activate Protocol Data"
+
+msgid "enable_sahs_protocol_data_desc"
+msgstr "Show Protocol Data (SCORM/AICC)"
+
+msgid "enable_search_engine"
+msgstr "Сделать публичный раздел доступным для поисковых машин (например Google)."
+
+msgid "enable_trash"
+msgstr "Включить корзину"
+
+msgid "enable_trash_info"
+msgstr "If enabled, deleted Objects are moved into Trash and may be recovered later. When deactivating this option deleted Objects are removed irreversibly from the System!"
+
+msgid "enable_webdav"
+msgstr "Enable WebDAV access"
+
+msgid "enable_webdav_info"
+msgstr "Allows WebDAV clients to access the repository as a webfolder. Users can open webfolders using the \"open as webfolder\" action in the repository, or by entering the following address in a WebDAV client: <a href=\"%1$s\" folder=\"%1$s\">%1$s</a>"
+
+msgid "enabled"
+msgstr "Включено"
+
+#, fuzzy
+msgid "enlarge"
+msgstr "Enlarge"
+
+msgid "enter_in_mb_desc"
+msgstr "Enter a value in MB."
+
+#, fuzzy
+msgid "enter_new_name"
+msgstr "Please enter a name"
+
+#, fuzzy
+msgid "entered_notification"
+msgstr "\"%s\" has joined the session \"%s\"."
+
+#, fuzzy
+msgid "entry_status"
+msgstr "Entry status"
+
+msgid "err_1_param"
+msgstr "Только 1 параметр!"
+
+msgid "err_2_param"
+msgstr "Только 2 параметра!"
+
+msgid "err_auth_apache_failed"
+msgstr "The authentication has failed. Maybe you have no valid user certificate or your smartcard is not inserted."
+
+msgid "err_auth_ldap_no_ilias_user"
+msgstr "Login failed. LDAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator."
+
+msgid "err_auth_mode_inactive"
+msgstr "Your authentication method is deactivated."
+
+msgid "err_auth_soap_no_ilias_user"
+msgstr "Login failed. SOAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator."
+
+msgid "err_check_input"
+msgstr "The settings could not be saved. Please check your input."
+
+msgid "err_count_param"
+msgstr "Причина: Ошибка подсчета параметров"
+
+#, fuzzy
+msgid "err_disabled"
+msgstr "Account creation via Shibboleth has been disabled. Please contact the system administrator for further information."
+
+#, fuzzy
+msgid "err_double_entries"
+msgstr "Reason: Duplicate Entries"
+
+msgid "err_in_line"
+msgstr "Ошибка в линии"
+
+msgid "err_inactive"
+msgstr "Эта учетная запись неактивена. Пожалуйста, свяжитесь с системным администратором."
+
+#, fuzzy
+msgid "err_inactive_login_attempts"
+msgstr "Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account. "
+
+msgid "err_invalid_port"
+msgstr "Ошибочный номер порта"
+
+msgid "err_no_cookies"
+msgstr "Please enable session cookies in your browser!"
+
+msgid "err_no_langfile_found"
+msgstr "файл языков не найден!"
+
+msgid "err_no_param"
+msgstr "Нет параметра!"
+
+msgid "err_over_3_param"
+msgstr "Более чем 3 параметра!"
+
+msgid "err_role_not_assignable"
+msgstr "Отсюда вы не можете назначить пользователей на этот статус"
+
+msgid "err_session_expired"
+msgstr "Ваша сессия закончилась!"
+
+#, fuzzy
+msgid "err_valid_login_account_creation_disabled"
+msgstr "Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator."
+
+msgid "err_wrong_header"
+msgstr "Причина: Ошибочный заголовок."
+
+msgid "err_wrong_login"
+msgstr "Ошибочный логин"
+
+msgid "err_wrong_password"
+msgstr "Ошибочный пароль"
+
+msgid "error"
+msgstr "Ошибка"
+
+msgid "error_empty_file_or_folder"
+msgstr "The file size is 0 bytes or it is a folder."
+
+msgid "error_extraction_failed"
+msgstr "The extraction of the archive and its directories failed. Probably because you don't have the rights to create folders or categories within this object."
+
+msgid "error_parser"
+msgstr "Ошибка запуска анализатора."
+
+msgid "error_upload_was_zero_bytes"
+msgstr "The upload failed as this is a folder, the file size is 0 bytes or the file was renamed meanwhile."
+
+msgid "etal_talks"
+msgstr "Talks"
+
+msgid "event_ass_materials_prop"
+msgstr "Session Materials"
+
+msgid "event_assign_files"
+msgstr "File Assignment"
+
+msgid "exc"
+msgstr "Упражнение"
+
+msgid "exc_add"
+msgstr "Добавить упражнение"
+
+msgid "exc_added"
+msgstr "Упражнение добавлено"
+
+msgid "exc_date_not_valid"
+msgstr "Данные неправильны"
+
+msgid "exc_deassign_members"
+msgstr "Удалить участника(ов)"
+
+msgid "exc_download_files"
+msgstr "Скачать файлы"
+
+msgid "exc_edit"
+msgstr "Новое упражнение создано"
+
+msgid "exc_edit_exercise"
+msgstr "Редактировать Упражнение"
+
+msgid "exc_edit_until"
+msgstr "Править до"
+
+msgid "exc_exercise_sent"
+msgstr "Уведомление"
+
+msgid "exc_files"
+msgstr "Файлы"
+
+msgid "exc_files_returned"
+msgstr "Отправленные файлы"
+
+msgid "exc_instruction"
+msgstr "Инструкции"
+
+msgid "exc_last_submission"
+msgstr "Последняя отправка"
+
+#, fuzzy
+msgid "exc_member_of_crs_grp"
+msgstr "Member in Course/Group"
+
+msgid "exc_members_already_assigned"
+msgstr "Эти пользователи уже выбраны на упражнение"
+
+msgid "exc_members_assigned"
+msgstr "Участники выбраны"
+
+msgid "exc_members_comments_saved"
+msgstr "The exercise comments for the selected user have been saved"
+
+msgid "exc_new"
+msgstr "Новое упражнение"
+
+msgid "exc_next_deadline"
+msgstr "Next Deadline"
+
+msgid "exc_obj"
+msgstr "Упражнения"
+
+msgid "exc_save_changes"
+msgstr "Сохранить"
+
+msgid "exc_schedule"
+msgstr "План"
+
+msgid "exc_select_one_file"
+msgstr "Пожалуйста, выберите только один файл."
+
+msgid "exc_sent"
+msgstr "Упражнение было послано выбранным пользователям"
+
+msgid "exc_sent_at"
+msgstr "Отправлено <br />%s"
+
+msgid "exc_status"
+msgstr "Status"
+
+msgid "exc_status_saved"
+msgstr "Упражнение обновлено"
+
+msgid "exc_submission"
+msgstr "Решения"
+
+msgid "exc_time_over_short"
+msgstr "Время вышло."
+
+msgid "exc_time_to_send"
+msgstr "Оставшееся время"
+
+msgid "exc_upload_error"
+msgstr "Ошибка пересылки файла"
+
+msgid "excs"
+msgstr "Упражнения"
+
+msgid "execute"
+msgstr "Выполнить"
+
+msgid "exercise_time_over"
+msgstr "Время пересылки файлов упражнения вышло. Вы не можете больше передавать файлы!"
+
+msgid "expand"
+msgstr "Развернуть"
+
+msgid "expand_all"
+msgstr "Expand All"
+
+#, fuzzy
+msgid "expand_content"
+msgstr "Expand Content"
+
+msgid "expanded"
+msgstr "Expanded"
+
+msgid "export"
+msgstr "Экспорт"
+
+msgid "export_format"
+msgstr "Export format"
+
+msgid "export_html"
+msgstr "экспортировать как HTML файл"
+
+msgid "ext_cat_settings"
+msgstr "Edit Advanced Category Settings"
+
+msgid "ext_link"
+msgstr "Link"
+
+msgid "extracting"
+msgstr "Extracting..."
+
+#, fuzzy
+msgid "eyeclosed"
+msgstr "Eye Closed - Click to hide the input's contents"
+
+#, fuzzy
+msgid "eyeopened"
+msgstr "Eye Open - Click to reveal the input's contents"
+
+msgid "failure_message"
+msgstr "Сообщение об ошибке"
+
+msgid "fax"
+msgstr "Факс"
+
+msgid "feed"
+msgstr "News Feed"
+
+msgid "feedback"
+msgstr "Рецензия"
+
+msgid "field_name"
+msgstr "Field Name"
+
+msgid "field_type"
+msgstr "Field Type"
+
+msgid "file"
+msgstr "Файл"
+
+msgid "file_add"
+msgstr "Загрузить файл"
+
+msgid "file_add_and_metadata"
+msgstr "Отправить файл и редактировать метаданные"
+
+msgid "file_added"
+msgstr "файл отослан"
+
+msgid "file_allowed_suffixes"
+msgstr "Разрешенные типы файлов:"
+
+msgid "file_confirm_delete_all_versions"
+msgstr "You selected all file versions. This will delete the whole file object. Do you want to continue?"
+
+msgid "file_confirm_delete_versions"
+msgstr "Are you sure to delete the following file versions?"
+
+msgid "file_created"
+msgstr "Был добавлен новый файл."
+
+msgid "file_edit"
+msgstr "Редактировать файл"
+
+msgid "file_info"
+msgstr "File Information"
+
+msgid "file_is_infected"
+msgstr "файл инфицирован вирусом."
+
+#, fuzzy
+msgid "file_no_valid_file_type"
+msgstr "This file type is not allowed."
+
+msgid "file_not_found"
+msgstr "файл не найден"
+
+#, fuzzy
+msgid "file_not_found_sec"
+msgstr "This file cannot be found in ILIAS or has been blocked due to security reasons."
+
+msgid "file_not_valid"
+msgstr "файл недействующий!"
+
+msgid "file_notice"
+msgstr "Максимальный размер загружаемого файла:"
+
+#, fuzzy
+msgid "file_objects"
+msgstr "File Objects"
+
+msgid "file_rollback"
+msgstr "Make this the current version"
+
+msgid "file_rollback_done"
+msgstr "File version %s is now the current version."
+
+msgid "file_rollback_select_exact_one"
+msgstr "Only one file version can be selected to make it the current version."
+
+#, fuzzy
+msgid "file_some_invalid_file_types_removed"
+msgstr "Some file types are not allowed and have been removed."
+
+msgid "file_suffix_repl"
+msgstr "File Upload Suffix Replacement"
+
+msgid "file_suffix_repl_info"
+msgstr "Files ending with these suffixes (separated by comma) will be renamed with a suffix \".sec\" if uploaded into the webspace. This is done per default for the suffixes:"
+
+#, fuzzy
+msgid "file_system_clean_temp_dir_cron"
+msgstr "Clean temp directory"
+
+#, fuzzy
+msgid "file_system_clean_temp_dir_cron_info"
+msgstr "This job cleans the ILIAS temp-directory of files, which are older than 10 days. This counteracts the accumulation of unused files and therefore prevents an increased use of disk space by the temp directory."
+
+msgid "file_updated"
+msgstr "File has been updated."
+
+msgid "file_upload_pending"
+msgstr "Pending file"
+
+msgid "file_valid"
+msgstr "файл действующий!"
+
+msgid "file_version"
+msgstr "Версия предусмотренная в файле"
+
+msgid "file_version_create"
+msgstr "Initial version"
+
+#, fuzzy
+msgid "file_version_intermediate_version"
+msgstr "Intermediate Version"
+
+msgid "file_version_new_version"
+msgstr "New version"
+
+#, fuzzy
+msgid "file_version_published_version"
+msgstr "Published Version"
+
+msgid "file_version_replace"
+msgstr "All versions replaced"
+
+#, fuzzy
+msgid "file_version_rollback"
+msgstr "Rollback to version %s from %s"
+
+msgid "file_versions_deleted"
+msgstr "The selected file versions were successfully deleted."
+
+msgid "filename"
+msgstr "Имя файла"
+
+msgid "filename_extension_missing"
+msgstr "Filename extension missing"
+
+msgid "filename_hidden_backup_file"
+msgstr "Hidden backup file"
+
+msgid "filename_hidden_unix_file"
+msgstr "Hidden Unix file"
+
+msgid "filename_interoperability"
+msgstr "Interoperability"
+
+msgid "filename_special_characters"
+msgstr "/ is not allowed in filenames"
+
+msgid "filename_special_filename"
+msgstr ". and .. are reserved filenames"
+
+msgid "filename_visibility"
+msgstr "Visibility"
+
+msgid "filename_windows_empty_extension"
+msgstr ". at the end of a filename is not allowed on Windows"
+
+msgid "filename_windows_special_characters"
+msgstr "\\/:*?\"<>| are not allowed in Windows filenames"
+
+msgid "filename_windows_webdav_issue"
+msgstr "# is not supported in Windows webfolders"
+
+msgid "files"
+msgstr "файлы"
+
+msgid "filesize"
+msgstr "File Size"
+
+msgid "filetype"
+msgstr "File Type"
+
+msgid "fill_out_all_required_fields"
+msgstr "Пожалуйста, заполните все обязательные поля"
+
+msgid "filter"
+msgstr "Фильтр"
+
+msgid "filter_users_with_access"
+msgstr "Only users with access"
+
+msgid "filter_users_with_disk_usage"
+msgstr "Only users with disk space used"
+
+msgid "filter_users_without_access"
+msgstr "Only users without access"
+
+msgid "filter_users_without_disk_usage"
+msgstr "Only users with no disk space used"
+
+msgid "first"
+msgstr "First"
+
+msgid "firstname"
+msgstr "Имя"
+
+msgid "flatview"
+msgstr "Плоский вид"
+
+msgid "fold"
+msgstr "Каталог"
+
+msgid "fold_add"
+msgstr "Добавить каталог"
+
+msgid "fold_added"
+msgstr "Каталог добавлен"
+
+#, fuzzy
+msgid "fold_copy_threads_info"
+msgstr "Please decide which materials should be copied, linked or even omitted."
+
+msgid "fold_edit"
+msgstr "Редактировать Каталог"
+
+msgid "fold_new"
+msgstr "Новый каталог"
+
+#, fuzzy
+msgid "fold_wizard_page"
+msgstr "Copy Folder (Step 2/2)"
+
+msgid "folder"
+msgstr "Каталог"
+
+msgid "folders"
+msgstr "Каталоги"
+
+msgid "follow_link_to_read_mails"
+msgstr "click the following link to read these mails:"
+
+msgid "forgot_password"
+msgstr "Забыли пароль?"
+
+msgid "forgot_username"
+msgstr "Забыли имя пользователя?"
+
+msgid "form_input_not_valid"
+msgstr "Some data is incomplete or not valid. Please correct the form input."
+
+msgid "forum"
+msgstr "Форумы"
+
+msgid "forum_direct_notification"
+msgstr "Dir. Notification"
+
+msgid "forum_notify_me"
+msgstr "Уведомить меня, когда будет ответ"
+
+msgid "forum_post_replied"
+msgstr "На Вашу запись в форуме добавлен ответ."
+
+msgid "forums"
+msgstr "Форумы"
+
+msgid "forums_anonymized"
+msgstr "Forum anonymized"
+
+msgid "forums_anonymous"
+msgstr "anonym"
+
+msgid "forums_articles"
+msgstr "Статьи"
+
+#, fuzzy
+msgid "forums_closed"
+msgstr "closed"
+
+msgid "forums_disable_forum_notification"
+msgstr "Отключить уведомления для этого форума"
+
+msgid "forums_enable_forum_notification"
+msgstr "Включить уведомления для этого форума"
+
+msgid "forums_forum_notification_enabled"
+msgstr "You will be notified about new messages in this forum."
+
+msgid "forums_last_post"
+msgstr "Последняя статья"
+
+#, fuzzy
+msgid "forums_last_posting_asc"
+msgstr "Last Post Ascending"
+
+#, fuzzy
+msgid "forums_last_posting_dsc"
+msgstr "Last Post Descending"
+
+msgid "forums_notification_settings"
+msgstr "Forums Notification Setting"
+
+#, fuzzy
+msgid "forums_rating_asc"
+msgstr "Rating Ascending"
+
+#, fuzzy
+msgid "forums_rating_dsc"
+msgstr "Rating Descending"
+
+#, fuzzy
+msgid "forums_thread_sorting_asc"
+msgstr "Thread Title A→Z"
+
+#, fuzzy
+msgid "forums_thread_sorting_dsc"
+msgstr "Thread Title Z→A"
+
+msgid "forums_threads"
+msgstr "Темы"
+
+msgid "forums_use_alias"
+msgstr "You may use this alias for your posting. If you leave this field blank, your posting will be marked as anonymous"
+
+msgid "forums_your_name"
+msgstr "Your Name"
+
+msgid "frm"
+msgstr "Форум"
+
+msgid "frm_add"
+msgstr "Добавить Форум"
+
+msgid "frm_added"
+msgstr "Форум добавлен"
+
+msgid "frm_edit"
+msgstr "Редактировать форум"
+
+msgid "frm_import"
+msgstr "Import Forum"
+
+msgid "frm_latest_postings"
+msgstr "Последние статьи"
+
+msgid "frm_new"
+msgstr "Новый Форум"
+
+#, fuzzy
+msgid "frm_no_threads"
+msgstr "There are no threads available at the moment."
+
+msgid "from"
+msgstr "От"
+
+msgid "fullname"
+msgstr "Полное имя"
+
+msgid "functions"
+msgstr "Функции"
+
+msgid "further_informations"
+msgstr "Further Informations"
+
+msgid "gdf_add"
+msgstr "Добавить Определение"
+
+msgid "gdf_new"
+msgstr "Новое Определение"
+
+msgid "gender"
+msgstr "Пол"
+
+msgid "gender_f"
+msgstr "Женский"
+
+msgid "gender_m"
+msgstr "Мужской"
+
+#, fuzzy
+msgid "gender_n"
+msgstr "No salutation desired"
+
+#, fuzzy
+msgid "general"
+msgstr "General"
+
+msgid "general_settings"
+msgstr "Основные параметры"
+
+msgid "generate"
+msgstr "Генерировать"
+
+msgid "ghostscript_not_configured"
+msgstr "Ghostscript is not configured. Please open the <a href=\"cli/setup.php?cmd=mastersettings\" target=\"_blank\">Setup</a> to configure it."
+
+msgid "glo"
+msgstr "Словарь"
+
+msgid "glo_add"
+msgstr "Добавить Словарь"
+
+msgid "glo_added"
+msgstr "Словарь добавлен"
+
+msgid "glo_import"
+msgstr "Import Glossary"
+
+msgid "glo_mode"
+msgstr "Mode"
+
+msgid "glo_mode_desc"
+msgstr "A virtual glossary works like a normal glossary. Additionally it contains the terms from all glossaries that are located on the same level in the repository like the virtual glossary (level) respectively from all glossaries that are located downwards in the repository from the position of the virtual glossary (subtree)."
+
+msgid "glo_mode_normal"
+msgstr "normal"
+
+msgid "glo_new"
+msgstr "Новый Словарь"
+
+msgid "global"
+msgstr "Общий"
+
+msgid "global_default"
+msgstr "Общий по умолчанию"
+
+msgid "global_fixed"
+msgstr "Общий Фиксированный"
+
+#, fuzzy
+msgid "global_role_assignment"
+msgstr "Globale Rollenzuweisung"
+
+msgid "global_settings"
+msgstr "Общие параметры"
+
+msgid "global_user"
+msgstr "Глобальные пользователи"
+
+msgid "glossaries"
+msgstr "Словари"
+
+msgid "glossary"
+msgstr "Словарь"
+
+msgid "go"
+msgstr "Go"
+
+#, fuzzy
+msgid "grade"
+msgstr "Grade"
+
+msgid "group"
+msgstr "Группы"
+
+msgid "group_members"
+msgstr "Участники группы"
+
+msgid "group_name"
+msgstr "Имя Группы"
+
+msgid "group_new_registrations"
+msgstr "Новая регистрация"
+
+msgid "group_password_registration_msg"
+msgstr "Для присоединения к этой группе, Вы должны ввести пароль, выданный Вам администратором этой группы.<br />При правильном пароле Вы будете автоматически приписаны к группе."
+
+msgid "group_registration"
+msgstr "Registration"
+
+msgid "group_registration_mode"
+msgstr "Модель регистрации"
+
+msgid "group_registration_time"
+msgstr "Registration period"
+
+msgid "group_req_direct"
+msgstr "Join directly"
+
+msgid "group_req_registration_msg"
+msgstr "Для присоединения к этой группе Вы должны зарегистрироваться. Администратор группы допишет Вас в группу. Пожалуйста, сообщите администратору смысл Вашей просьбы.<br />Когда будете присоединены к группе, вы получите сообщение."
+
+msgid "group_status"
+msgstr "Группа -"
+
+msgid "groupings"
+msgstr "Ограничения участия в курсе"
+
+msgid "groupings_assigned_obj_crs"
+msgstr "Assigned Courses"
+
+msgid "groupings_assigned_obj_grp"
+msgstr "Assigned Groups"
+
+#, fuzzy
+msgid "groupings_source"
+msgstr "Source"
+
+msgid "groups"
+msgstr "Группы"
+
+msgid "grp"
+msgstr "Группа"
+
+msgid "grp_add"
+msgstr "Добавить Группу"
+
+msgid "grp_added"
+msgstr "Группа добавлена"
+
+msgid "grp_btn_unsubscribe"
+msgstr "Выйти из группы"
+
+msgid "grp_cancel_waiting_list"
+msgstr "Do you really want to remove yourself from the waiting list of group \"%s\"?"
+
+msgid "grp_copy_threads_info"
+msgstr "Please decide which materials should be copied, linked or even omitted."
+
+msgid "grp_deleted_export_files"
+msgstr "Deleted selected files."
+
+msgid "grp_dismiss_member"
+msgstr "Вы уверены, что хотите исключить следующих участников группы?"
+
+msgid "grp_dismiss_myself"
+msgstr "Вы уверены, что хотите исключить себя из группы?"
+
+msgid "grp_edit"
+msgstr "Редактировать Группу"
+
+msgid "grp_err_administrator_required"
+msgstr "Участник не может быть удален - в группе должен быть хотя бы один администратор!"
+
+msgid "grp_header_edit_members"
+msgstr "Редактировать участников"
+
+#, fuzzy
+msgid "grp_list_members"
+msgstr "List members"
+
+#, fuzzy
+msgid "grp_list_reg"
+msgstr "Registration"
+
+msgid "grp_list_reg_end"
+msgstr "Registration End"
+
+msgid "grp_list_reg_limit_full"
+msgstr "No places left"
+
+msgid "grp_list_reg_limit_places"
+msgstr "Free places"
+
+msgid "grp_list_reg_noreg"
+msgstr "No Registration Possible"
+
+msgid "grp_list_reg_period"
+msgstr "Registration Period"
+
+msgid "grp_list_reg_start"
+msgstr "Registration Begin"
+
+msgid "grp_list_users"
+msgstr "Список пользователей"
+
+msgid "grp_mem_change_status"
+msgstr "Изменить статус участника"
+
+msgid "grp_mem_send_mail"
+msgstr "Послать участнику сообщение"
+
+msgid "grp_members_gallery"
+msgstr "Галерея участников"
+
+msgid "grp_msg_applicants_assigned"
+msgstr "Претендент(ы) добавлен(ы) как участник(и) группы"
+
+msgid "grp_msg_member_assigned"
+msgstr "Пользователь(и) добавлен(ы) как участник(и) группы"
+
+msgid "grp_msg_membership_annulled"
+msgstr "Участие аннулировано"
+
+msgid "grp_new"
+msgstr "Новая Группа"
+
+msgid "grp_registration"
+msgstr "Join group"
+
+msgid "grp_registration_completed"
+msgstr "Регистрация завершена"
+
+msgid "grp_removed_from_waiting_list"
+msgstr "You have been detached from the waiting list of group \"%s\"."
+
+msgid "grp_select_one_file"
+msgstr "Please select one file."
+
+msgid "grp_wizard_page"
+msgstr "Copy Group (Step 2/2)"
+
+#, fuzzy
+msgid "grpr"
+msgstr "Group Reference"
+
+#, fuzzy
+msgid "grpr_add"
+msgstr "Add Group Link"
+
+#, fuzzy
+msgid "grpr_edit"
+msgstr "Edit Group Reference"
+
+#, fuzzy
+msgid "grpr_edit_info"
+msgstr "Please choose one group, for creating a new reference."
+
+#, fuzzy
+msgid "grpr_new"
+msgstr "Create Group Reference"
+
+#, fuzzy
+msgid "grpr_settings"
+msgstr "Group Link Settings"
+
+#, fuzzy
+msgid "header_action"
+msgstr "Insert Heading - Click to insert a heading."
+
+msgid "header_searchable"
+msgstr "Searchable"
+
+msgid "header_title"
+msgstr "Текст заголовка"
+
+msgid "header_visible_registration"
+msgstr "Visible in Registration"
+
+msgid "header_zip"
+msgstr "Отправить несколько файлов, как Zip-архив"
+
+msgid "height"
+msgstr "Высота"
+
+msgid "help"
+msgstr "Помощь"
+
+msgid "hide"
+msgstr "Скрыть"
+
+msgid "hide_all_details"
+msgstr "Hide all details"
+
+msgid "hide_details"
+msgstr "Скрыть детали"
+
+msgid "hide_filter"
+msgstr "Скрыть фильтр"
+
+msgid "hide_own_online_status"
+msgstr "Скрывать мой Online статус"
+
+#, fuzzy
+msgid "hide_visible_sections"
+msgstr "Hide More Information &raquo;"
+
+msgid "hint"
+msgstr "Hint"
+
+msgid "history"
+msgstr "История"
+
+msgid "hobby"
+msgstr "Интересы/Хобби"
+
+msgid "home"
+msgstr "Public Area"
+
+msgid "host"
+msgstr "Хост"
+
+msgid "hour"
+msgstr "Hour"
+
+msgid "hours"
+msgstr "Часа(ов)"
+
+msgid "htlm"
+msgstr "Обучающий модуль HTML"
+
+msgid "htlm_add"
+msgstr "Добавить HTML Обучающий модуль"
+
+msgid "htlm_new"
+msgstr "Новый HTML Обучающий модуль"
+
+msgid "http"
+msgstr "HTTP"
+
+msgid "http_not_possible"
+msgstr "Этот сервер не поддерживает http запросы."
+
+msgid "http_path"
+msgstr "Http путь"
+
+msgid "https_not_possible"
+msgstr "Этот сервер не поддерживает HTTPS соединения."
+
+msgid "i2passwd"
+msgstr "ILIAS 2 password"
+
+#, fuzzy
+msgid "iass_import"
+msgstr "Import Individual Assessment"
+
+#, fuzzy
+msgid "iass_new"
+msgstr "Create Individual Assessment"
+
+msgid "icon"
+msgstr "Пиктограмма"
+
+msgid "icon_settings"
+msgstr "Icon Settings"
+
+msgid "id"
+msgstr "Идентификатор"
+
+msgid "identifier"
+msgstr "идентификатор"
+
+msgid "if_no_title_then_filename"
+msgstr "Оставить пустым имя файла"
+
+msgid "ignore_on_conflict"
+msgstr "Игнорировать конфликт"
+
+msgid "ignore_required_fields"
+msgstr "Ignore required fields"
+
+msgid "ignore_required_fields_info"
+msgstr "If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login."
+
+#, fuzzy
+msgid "il_astpl_loc_initial"
+msgstr "Initial Test"
+
+#, fuzzy
+msgid "il_astpl_loc_qualified"
+msgstr "Qualifying Test"
+
+msgid "il_blog_contributor"
+msgstr "Автор блога"
+
+#, fuzzy
+msgid "il_blog_editor"
+msgstr "Blog-Editor"
+
+msgid "il_chat_moderator"
+msgstr "Chat moderator"
+
+msgid "il_crs_admin"
+msgstr "Администратор курса"
+
+msgid "il_crs_member"
+msgstr "Участник курса"
+
+msgid "il_crs_non_member"
+msgstr "Course non-member"
+
+msgid "il_crs_tutor"
+msgstr "Тьютор курса"
+
+msgid "il_frm_moderator"
+msgstr "Модератор форума"
+
+msgid "il_grp_admin"
+msgstr "Group administrator"
+
+msgid "il_grp_member"
+msgstr "Group member"
+
+msgid "il_grp_status_closed"
+msgstr "Group closed"
+
+msgid "il_grp_status_open"
+msgstr "Group open"
+
+#, fuzzy
+msgid "il_iass_member"
+msgstr "Participant"
+
+#, fuzzy
+msgid "il_lso_admin"
+msgstr "Learning Sequence Admin"
+
+#, fuzzy
+msgid "il_lso_member"
+msgstr "Learning Sequence Member"
+
+#, fuzzy
+msgid "il_lti_instructor"
+msgstr "LTI Instructor"
+
+#, fuzzy
+msgid "il_lti_learner"
+msgstr "LTI Learner"
+
+#, fuzzy
+msgid "il_lti_user"
+msgstr "LTI User"
+
+#, fuzzy
+msgid "il_orgu_employee"
+msgstr "Employee"
+
+#, fuzzy
+msgid "il_orgu_superior"
+msgstr "Superior"
+
+msgid "ilias_version"
+msgstr "Версия ILIAS"
+
+msgid "image"
+msgstr "Изображение"
+
+msgid "import"
+msgstr "Импорт"
+
+msgid "import_cat_localrol"
+msgstr "Create local role for every new category"
+
+msgid "import_cat_table"
+msgstr "The following table is only meaningful if the checkbox is set"
+
+msgid "import_categories"
+msgstr "Импортировать Категории"
+
+msgid "import_failure_log"
+msgstr "Импортировать журнал ошибок"
+
+msgid "import_file"
+msgstr "Импортировать файл"
+
+msgid "import_file_not_valid_here"
+msgstr "Импорт файла недействителен."
+
+msgid "import_finished"
+msgstr "Количество импортированных сообщений."
+
+msgid "import_lm"
+msgstr "Импортировать обучающий модуль ILIAS"
+
+msgid "import_qpl"
+msgstr "Импортировать пул вопросов теста"
+
+msgid "import_questions_into_qpl"
+msgstr "Import question(s) into question pool"
+
+msgid "import_sahs"
+msgstr "Импортировать SCORM/AICC Комплекс"
+
+#, fuzzy
+msgid "import_sahs_info"
+msgstr "To correct typos or images, use the option to replace individual files via the file directory. Upload a SCORM export from your authoring tool here and not an ILIAS export file. Make sure that your authoring tool has retained the IDs in the manifest file. Attention: Even popular authoring tools cannot do this. SCORM learning modules of certain authoring tools discard learner data obtained if you change the number of answer options of questions or insert new questions. Check in a test installation whether learning statuses that have already been achieved are possible when learning modules that have already been started are called up again."
+
+#, fuzzy
+msgid "import_sahs_new"
+msgstr "Import New Version of SCORM Package"
+
+msgid "import_svy"
+msgstr "Импортировать опрос"
+
+msgid "import_tst"
+msgstr "Импортировать тест"
+
+msgid "import_users"
+msgstr "Импортировать пользователей"
+
+msgid "import_warning_log"
+msgstr "Импортировать журнал предупреждений"
+
+msgid "important"
+msgstr "Важно"
+
+msgid "imported"
+msgstr "импортировано"
+
+msgid "imprint"
+msgstr "Imprint"
+
+msgid "in"
+msgstr "в"
+
+msgid "in_use"
+msgstr "язык пользователя"
+
+msgid "in_use_by"
+msgstr "In use by"
+
+msgid "inactive"
+msgstr "Неактивно"
+
+msgid "inbox"
+msgstr "Входящие"
+
+msgid "include_local"
+msgstr "include local"
+
+msgid "info"
+msgstr "Информация"
+
+msgid "info_access_and_status_info"
+msgstr "Информация о доступе и статусе"
+
+msgid "info_access_permissions"
+msgstr "Права доступа"
+
+msgid "info_activate_sure"
+msgstr "Are you sure that you want to approve the following user(s) as active user(s)?"
+
+msgid "info_assign_sure"
+msgstr "Вы уверены, что хотите назначить следующего(их) пользователя(ей)?"
+
+msgid "info_assigned"
+msgstr "Задано"
+
+msgid "info_available_roles"
+msgstr "Доступные роли"
+
+msgid "info_change_user_view"
+msgstr "Сменить пользователя"
+
+msgid "info_deactivate_sure"
+msgstr "Are you sure that you want to disapprove the following user(s) as active user(s)?"
+
+msgid "info_delete_sure"
+msgstr "Вы уверены, что хотите удалить следующий(ие) объект(ы)?"
+
+msgid "info_delete_warning_no_trash"
+msgstr "(WARNING: Selected Objects will be removed irreversibly from System and may not be recovered anymore!)"
+
+msgid "info_deleted"
+msgstr "Объект(ы) удален(ы)"
+
+msgid "info_err_user_not_exist"
+msgstr "User with that login name or user_id does not exists"
+
+msgid "info_from_role"
+msgstr "Разрешено ролям/владельцу"
+
+msgid "info_is_member"
+msgstr "Пользователь является участником"
+
+msgid "info_is_not_member"
+msgstr "User is not a member"
+
+msgid "info_message"
+msgstr "Информационное сообщение"
+
+msgid "info_not_assigned"
+msgstr "Не задано"
+
+msgid "info_owner_of_object"
+msgstr "Владелец"
+
+msgid "info_permission_origin"
+msgstr "Исходное состояние"
+
+msgid "info_permission_source"
+msgstr "Переопределяется*"
+
+msgid "info_remark_interrupted"
+msgstr "Роль переопределяется в данном месте. Настройки прав роли по умолчанию находятся по влиянием параметров в данном месте."
+
+#, fuzzy
+msgid "info_remove_sure"
+msgstr "Are you sure that you want to remove the following item(s)?"
+
+msgid "info_short"
+msgstr "Информация"
+
+msgid "info_status_info"
+msgstr "Права пользователя"
+
+msgid "info_view_of_user"
+msgstr "Пользователь"
+
+msgid "inform_user_mail"
+msgstr "Послать сообщение пользователю об изменениях"
+
+msgid "inline_file_extensions"
+msgstr "Web-enabled files"
+
+msgid "inline_file_extensions_info"
+msgstr "Files with these extensions are displayed in the browser window.<br/>For example: <b>gif jpg mp3 pdf png</b><br/> All other files are offered for downloading."
+
+msgid "insert"
+msgstr "Вставить"
+
+msgid "insert_object_here"
+msgstr "Вставить объект здесь"
+
+msgid "inst_id"
+msgstr "ID Установки"
+
+msgid "inst_info"
+msgstr "Info Установки"
+
+msgid "inst_name"
+msgstr "Имя Установки"
+
+msgid "install"
+msgstr "Установить"
+
+msgid "install_local"
+msgstr "Установить из локального"
+
+#, fuzzy
+msgid "installation_status"
+msgstr "Installation Status"
+
+msgid "installed"
+msgstr "установлен"
+
+msgid "installed_local"
+msgstr "Installed With Local"
+
+msgid "instant_messengers"
+msgstr "Службы сообщений"
+
+msgid "institution"
+msgstr "Учреждение"
+
+msgid "internal_local_roles_only"
+msgstr "Местные Роли (только автогенерация)"
+
+msgid "invalid_visible_required_options_selected"
+msgstr "All fields set to required has to be set to visible in registration, too."
+
+msgid "invisible_block"
+msgstr "Invisible Block"
+
+msgid "invisible_block_mess"
+msgstr "You do not have the permission to view this block."
+
+msgid "ip_address"
+msgstr "IP адрес"
+
+msgid "is_already_your"
+msgstr "уже ваша"
+
+#, fuzzy
+msgid "italic_action"
+msgstr "Insert Italic - Click to insert italic text."
+
+msgid "item"
+msgstr "Пункт"
+
+msgid "itgr_add"
+msgstr "Добавить группу элементов"
+
+msgid "itgr_new"
+msgstr "Новая группа элементов"
+
+msgid "java_server"
+msgstr "Java-Server"
+
+msgid "java_server_host"
+msgstr "Адрес сервера"
+
+#. Needs to be adapted to new content of German lang file.
+msgid "java_server_info"
+msgstr "Если активировано, то появляется возможность производить поиск по PDF, HTML файлам и обучающим модулям HTML."
+
+msgid "java_server_port"
+msgstr "Порт"
+
+msgid "java_server_readme"
+msgstr "Информация об установке"
+
+msgid "join"
+msgstr "Присоединиться"
+
+msgid "join_session"
+msgstr "Join"
+
+msgid "kb"
+msgstr "КБайт"
+
+msgid "keywords"
+msgstr "Ключевое слово"
+
+#, fuzzy
+msgid "label_search_options"
+msgstr "Search Area"
+
+msgid "lang_dateformat"
+msgstr "Y-m-d"
+
+msgid "lang_path"
+msgstr "Путь к lang-файлу"
+
+msgid "lang_refresh_confirm"
+msgstr "Do you really want to refresh all languages?"
+
+msgid "lang_refresh_confirm_info"
+msgstr "На данный момент расширенная языковая поддержка активирована. Обновления языков приведёт к считыванию глобальных языковых файлов ILIAS и возможно локальных языковых файлов из директории Customizing в базу данных. Глобальные языковые файлы не затронут ваших ручных изменений. Локальный языковой файл заменит все ручные изменения которые старше чем дата сохранения языкового файла."
+
+msgid "lang_refresh_confirm_selected"
+msgstr "Do you really want to refresh the selected languages"
+
+msgid "lang_sep_decimal"
+msgstr "."
+
+msgid "lang_sep_thousand"
+msgstr ","
+
+msgid "lang_size_bytes"
+msgstr "bytes"
+
+msgid "lang_size_gb"
+msgstr "GB"
+
+msgid "lang_size_kb"
+msgstr "Кб"
+
+msgid "lang_size_mb"
+msgstr "MB"
+
+msgid "lang_timeformat"
+msgstr "H:i:s"
+
+msgid "lang_timeformat_no_sec"
+msgstr "H:i"
+
+#, fuzzy
+msgid "lang_uninstall_changes"
+msgstr "Uninstall Local Changes"
+
+#, fuzzy
+msgid "lang_uninstall_changes_confirm"
+msgstr "Do you really want to clear all local changes of the selected languages and reset them to the default of the current ILIAS version?"
+
+#, fuzzy
+msgid "lang_uninstall_confirm"
+msgstr "Do you really want to uninstall the selected languages?"
+
+msgid "langfile_found"
+msgstr "файл языка не найден"
+
+msgid "language"
+msgstr "Язык"
+
+msgid "language_not_installed"
+msgstr "не установлен. Пожалуйста, сначала установите язык"
+
+msgid "languages"
+msgstr "Языки"
+
+msgid "languages_already_installed"
+msgstr "Выбранный(ые) язык(и) уже установлен(ы)"
+
+msgid "languages_already_uninstalled"
+msgstr "Выбранный(ые) язык(и) уже удален(ы)"
+
+msgid "languages_updated"
+msgstr "Обновление прошло успешно"
+
+msgid "last_access"
+msgstr "Был последний раз"
+
+msgid "last_change"
+msgstr "Последнее изменение"
+
+msgid "last_edited_on"
+msgstr "Последнее изменение"
+
+msgid "last_login"
+msgstr "Last login"
+
+msgid "last_refresh"
+msgstr "Последнее обновление"
+
+msgid "last_reminder"
+msgstr "Last reminder"
+
+msgid "last_update"
+msgstr "Последнее обновление"
+
+msgid "last_visited"
+msgstr "Последние посещенные"
+
+msgid "lastname"
+msgstr "Фамилия"
+
+#, fuzzy
+msgid "latex_edit_info"
+msgstr "You can enter LaTeX code in the delimiters <code>[tex]</code> and <code>[/tex]</code>."
+
+#, fuzzy
+msgid "laugh"
+msgstr "Laugh"
+
+msgid "launch"
+msgstr "Выпущено"
+
+msgid "ldap"
+msgstr "LDAP"
+
+msgid "ldap_basedn"
+msgstr "LDAP BaseDN"
+
+msgid "ldap_configure"
+msgstr "Конфигурация LDAP Аутонификации"
+
+msgid "ldap_port"
+msgstr "LDAP Порт"
+
+msgid "ldap_read"
+msgstr "Доступ для чтения на LDAP параметры"
+
+msgid "ldap_server"
+msgstr "LDAP URL Сервера"
+
+msgid "ldap_tls"
+msgstr "Использовать LDAP TLS"
+
+msgid "ldap_version"
+msgstr "LDAP протокол версии"
+
+msgid "learning module"
+msgstr "Обучающий модуль"
+
+msgid "learning_progress"
+msgstr "Прогресс обучения"
+
+msgid "leave_waiting_list"
+msgstr "Leave Waiting List"
+
+msgid "legend"
+msgstr "Легенда"
+
+msgid "level"
+msgstr "Уровень"
+
+msgid "link"
+msgstr "Связь"
+
+#, fuzzy
+msgid "link_action"
+msgstr "Insert Link - Click to insert a link."
+
+msgid "link_all"
+msgstr "Связать всё"
+
+msgid "link_check"
+msgstr "Проверка связи"
+
+msgid "link_check_message_b"
+msgstr "Если возможно, вы будете предупреждены о неработающих ссылках по почте."
+
+msgid "link_check_message_disabled"
+msgstr "Сообщения выключены"
+
+msgid "link_check_message_enabled"
+msgstr "Сообщения включены"
+
+msgid "link_check_subject"
+msgstr "[ILIAS] Проверка ссылки"
+
+msgid "link_checker_refreshed"
+msgstr "Вид обновлен"
+
+msgid "link_selected_items"
+msgstr "Создать ссылку"
+
+msgid "links_add_param"
+msgstr "Add parameter:"
+
+msgid "links_dyn_parameter"
+msgstr "Dynamic parameters"
+
+msgid "links_dynamic"
+msgstr "Dynamic Web Links parameters"
+
+msgid "links_dynamic_info"
+msgstr "If enabled, it is possible to append dynamic parameters to Web Links. E.g. the ILIAS user id or the username."
+
+msgid "links_existing_params"
+msgstr "Existing parameters:"
+
+msgid "links_name"
+msgstr "Parameter name"
+
+msgid "links_no_name_given"
+msgstr "Please choose a parameter name."
+
+msgid "links_no_value_given"
+msgstr "Please choose a parameter value."
+
+msgid "links_parameter_deleted"
+msgstr "Parameter deleted."
+
+msgid "links_select_one"
+msgstr "- Select one -"
+
+msgid "links_session_id"
+msgstr "ILIAS session id"
+
+msgid "links_user_id"
+msgstr "ILIAS user id"
+
+msgid "links_user_name"
+msgstr "ILIAS username"
+
+msgid "links_value"
+msgstr "Parameter value"
+
+msgid "list"
+msgstr "List"
+
+msgid "list_of_questions"
+msgstr "Список вопросов"
+
+#, fuzzy
+msgid "list_view"
+msgstr "List View"
+
+#, fuzzy
+msgid "listaction_learning_progress_settings"
+msgstr "Learning Progress Settings"
+
+msgid "lm"
+msgstr "Обучающий модуль ILIAS"
+
+msgid "lm_add"
+msgstr "Добавить обучающий модуль ILIAS"
+
+msgid "lm_added"
+msgstr "Обучающий модуль ILIAS добавлен"
+
+msgid "lm_new"
+msgstr "Новый обучающий модуль ILIAS"
+
+msgid "lm_type_scorm"
+msgstr "SCORM"
+
+msgid "lm_type_scorm2004"
+msgstr "SCORM 2004"
+
+#, fuzzy
+msgid "lm_type_scorm2004_info"
+msgstr "These are newer versions of SCORM with significantly enhanced functionality. The learning module is launched in an iFrame."
+
+#, fuzzy
+msgid "lm_type_scorm_info"
+msgstr "This is the most widely used version of SCORM. The learning module is launched in a frame."
+
+msgid "lng"
+msgstr "Язык"
+
+msgid "lngf"
+msgstr "Языки"
+
+msgid "lo"
+msgstr "Объекты обучения"
+
+msgid "loaded_preview_renderers"
+msgstr "Loaded Preview Renderers"
+
+msgid "local"
+msgstr "Местный"
+
+msgid "local_language_file"
+msgstr "local language file"
+
+msgid "local_language_files"
+msgstr "local language files"
+
+msgid "local_languages_already_installed"
+msgstr "Selected local language file(s) are already installed"
+
+#, fuzzy
+msgid "local_role_assignment"
+msgstr "Lokale Rollenzuweisung"
+
+msgid "location"
+msgstr "Местоположение"
+
+msgid "locator"
+msgstr "Путь:"
+
+msgid "log_in"
+msgstr "Войти"
+
+#, fuzzy
+msgid "log_out"
+msgstr "Logout"
+
+msgid "logic_or"
+msgstr "или"
+
+msgid "login"
+msgstr "Логин"
+
+msgid "login_as"
+msgstr "Здравствуйте,"
+
+msgid "login_data"
+msgstr "Регистрационные данные"
+
+msgid "login_exists"
+msgstr "Пользователь с таким именем уже существует! Пожалуйста, выберите другой логин."
+
+msgid "login_invalid"
+msgstr "Выбранный логин некорректен! Логин может содержать только следующие символы (не меньше 4): A-Z a-z 0-9 _.-+*@!$%~"
+
+msgid "login_to_ilias"
+msgstr "Войти в ILIAS"
+
+#, fuzzy
+msgid "login_to_ilias_via_login_form"
+msgstr "Login to ILIAS"
+
+#, fuzzy
+msgid "login_to_ilias_via_saml"
+msgstr "Login to ILIAS via SAML Authentification"
+
+msgid "login_to_ilias_via_shibboleth"
+msgstr "Login to ILIAS via Shibboleth"
+
+msgid "loginname_already_exists"
+msgstr "This login name already exists."
+
+msgid "loginname_settings"
+msgstr "Loginname-Settings"
+
+msgid "logout"
+msgstr "Выход"
+
+msgid "logout_text"
+msgstr "Вы вышли из ILIAS. Ваша сессия закрыта."
+
+msgid "logs"
+msgstr "Журналы"
+
+#, fuzzy
+msgid "love"
+msgstr "Love"
+
+msgid "lres"
+msgstr "Образовательные ресурсы"
+
+#, fuzzy
+msgid "lso_add"
+msgstr "Add Learning Sequence"
+
+#, fuzzy
+msgid "lso_admin_form_byline"
+msgstr "General Settings for Learning Sequences"
+
+#, fuzzy
+msgid "lso_admin_form_title"
+msgstr "Settings"
+
+#, fuzzy
+msgid "lso_admin_interval_byline"
+msgstr "Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!"
+
+#, fuzzy
+msgid "lso_admin_interval_label"
+msgstr "Learning Progress Polling Interval (seconds)"
+
+#, fuzzy
+msgid "lso_copy_threads_info"
+msgstr "Please decide which elements of the Learning Sequence should be copied, linked or omitted."
+
+#, fuzzy
+msgid "lso_edit"
+msgstr "Edit Learning Sequence"
+
+#, fuzzy
+msgid "lso_import"
+msgstr "Import Learning Sequence"
+
+#, fuzzy
+msgid "lso_new"
+msgstr "New Learning Sequence"
+
+#, fuzzy
+msgid "lso_wizard_page"
+msgstr "Copy Learning Sequence (Step 2/2)"
+
+#, fuzzy
+msgid "lti"
+msgstr "LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_add"
+msgstr "Add LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_new"
+msgstr "New LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_outcome_info"
+msgstr "Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI Tool Consumer."
+
+msgid "mail"
+msgstr "Почта"
+
+msgid "mail_addressbook"
+msgstr "Адресная книга"
+
+msgid "mail_at_the_ilias_installation"
+msgstr "You received %1$s new mail at the ILIAS-Installation %2$s"
+
+msgid "mail_attachment"
+msgstr "Mail attachment"
+
+msgid "mail_b_inbox"
+msgstr "Входящие"
+
+msgid "mail_c_trash"
+msgstr "Корзина"
+
+#, fuzzy
+msgid "mail_cron_scheduled_mails"
+msgstr "Send scheduled mails."
+
+#, fuzzy
+msgid "mail_cron_scheduled_mails_desc"
+msgstr "Sends scheduled user mails according to their defined delivery times"
+
+msgid "mail_d_drafts"
+msgstr "Черновики"
+
+msgid "mail_delete_error"
+msgstr "Ошибка удаления"
+
+#, fuzzy
+msgid "mail_e_outbox"
+msgstr "Outbox"
+
+msgid "mail_e_sent"
+msgstr "Отправить"
+
+msgid "mail_edit_permission"
+msgstr "Может изменять параметры доступа"
+
+#, fuzzy
+msgid "mail_f_sent"
+msgstr "Sent"
+
+msgid "mail_folders"
+msgstr "Каталоги Почты"
+
+msgid "mail_import_file"
+msgstr "Экспортировать файл"
+
+msgid "mail_mails_of"
+msgstr "Почта"
+
+msgid "mail_maxsize_attach"
+msgstr "Макс.размер прикрепления"
+
+msgid "mail_member"
+msgstr "Mail to Member"
+
+msgid "mail_members"
+msgstr "Отправить сообщение участникам"
+
+#, fuzzy
+msgid "mail_message_scheduled"
+msgstr "Scheduled mail"
+
+#, fuzzy
+msgid "mail_message_scheduled_info"
+msgstr "Mails remain in the outbox until the scheduled sending time."
+
+msgid "mail_not_sent"
+msgstr "Почта не отослана!"
+
+#, fuzzy
+msgid "mail_schedule_error_no_datetime"
+msgstr "To schedule a mail, a delivery date and time must be specified."
+
+#, fuzzy
+msgid "mail_schedule_error_past_datetime"
+msgstr "You cannot schedule emails in the past."
+
+#, fuzzy
+msgid "mail_schedule_scheduled_datetime"
+msgstr "Scheduled Send Time"
+
+#, fuzzy
+msgid "mail_scheduled"
+msgstr "Mail stored in outbox for later delivery."
+
+#, fuzzy
+msgid "mail_scheduled_edit_compose_info"
+msgstr "You are editing a scheduled mail. Sending is paused until you schedule the mail again."
+
+#, fuzzy
+msgid "mail_scheduled_edit_moved_info"
+msgstr "This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox."
+
+msgid "mail_search_no"
+msgstr "Вхождений не найдено"
+
+msgid "mail_select_one"
+msgstr "Вы должны выбрать одну почту"
+
+msgid "mail_send_error"
+msgstr "Ошибка отсылки писем"
+
+msgid "mail_sent"
+msgstr "Письма отосланы!"
+
+msgid "mail_settings"
+msgstr "Настройки почты"
+
+msgid "mail_to_global_roles_not_allowed"
+msgstr "It is not allowed to send emails to global roles"
+
+msgid "mail_z_local"
+msgstr "Каталоги пользователя"
+
+msgid "mails"
+msgstr "Почта"
+
+msgid "mails_at_the_ilias_installation"
+msgstr "You received %1$s new mails at the ILIAS-Installation %2$s"
+
+msgid "mails_pl"
+msgstr "Письмо(а)"
+
+msgid "main_menu"
+msgstr "Main Menu"
+
+#, fuzzy
+msgid "mainbar_aria_label"
+msgstr "Mainbar"
+
+#, fuzzy
+msgid "mainbar_more_label"
+msgstr "More"
+
+#, fuzzy
+msgid "manage_members"
+msgstr "Manage Members"
+
+msgid "matriculation"
+msgstr "Индивидуальный номер"
+
+msgid "max_previews_per_object"
+msgstr "Number of preview images per file"
+
+msgid "max_previews_per_object_info"
+msgstr "Defines the maximum number of preview images that are created per file."
+
+msgid "mcst"
+msgstr "Трансляции"
+
+msgid "mcst_add"
+msgstr "Добавить трансляциию"
+
+msgid "mcst_new"
+msgstr "Новая трансляция"
+
+msgid "mem_add_to_wl"
+msgstr "Add to Waiting List"
+
+msgid "mem_alert_no_places"
+msgstr "There are no free places available."
+
+#, fuzzy
+msgid "mem_cron_min_members"
+msgstr "Course/Group: Minimum Members Check"
+
+#, fuzzy
+msgid "mem_cron_min_members_info"
+msgstr "The administrators will be notified if the minimum number is not met."
+
+msgid "mem_end"
+msgstr "Registration End:"
+
+msgid "mem_free_places"
+msgstr "Free Places:"
+
+msgid "mem_max_users"
+msgstr "Maximum of Users:"
+
+#, fuzzy
+msgid "mem_min_users"
+msgstr "Minimum of Users"
+
+msgid "mem_participants"
+msgstr "Участники"
+
+msgid "mem_reg_expired"
+msgstr "The registration time is expired."
+
+msgid "mem_reg_not_started"
+msgstr "The registration has not started"
+
+msgid "mem_reg_period"
+msgstr "Registration Period"
+
+msgid "mem_reg_type"
+msgstr "Registration Type"
+
+msgid "mem_start"
+msgstr "Registration Start:"
+
+msgid "mem_unlimited"
+msgstr "Неограничено"
+
+msgid "mem_view_activate"
+msgstr "Вид от лица подписчика"
+
+msgid "mem_view_close"
+msgstr "Close Member View"
+
+msgid "mem_view_long"
+msgstr "Member View"
+
+msgid "mem_waiting_list"
+msgstr "Users on Waiting List:"
+
+msgid "mem_waiting_list_position"
+msgstr "Your Position on the Waiting List:"
+
+msgid "member"
+msgstr "Участник"
+
+msgid "member_status"
+msgstr "Member Status"
+
+msgid "members"
+msgstr "Участники"
+
+msgid "membership_leave"
+msgstr "Leave"
+
+msgid "mep"
+msgstr "Media набор"
+
+msgid "mep_add"
+msgstr "Добавить хранилище мультимедиа"
+
+msgid "mep_edit"
+msgstr "Изменить свойства хранилища мультимедиа"
+
+msgid "mep_new"
+msgstr "Новое хранилище мультимедиа"
+
+msgid "mep_not_insert_already_exist"
+msgstr "Следующие части не были добавлены, так они уже есть в хранилище мультимедиа:"
+
+msgid "message"
+msgstr "Сообщение"
+
+msgid "message_content"
+msgstr "Тело сообщения"
+
+msgid "message_no_delivered_files"
+msgstr "Вы не отправляли никаких файлов."
+
+msgid "meta_data"
+msgstr "Метаданные"
+
+#, fuzzy
+msgid "metabar_aria_label"
+msgstr "Metabar"
+
+#, fuzzy
+msgid "mgs_objects_linked_to_the_following_folders_p"
+msgstr "The objects were linked to the following folder(s): %s"
+
+#, fuzzy
+msgid "mgs_objects_linked_to_the_following_folders_s"
+msgstr "The object was linked to the following folder(s): %s"
+
+msgid "migrate"
+msgstr "Перегруппировать"
+
+#, fuzzy
+msgid "minimize"
+msgstr "Minimize"
+
+msgid "minute"
+msgstr "Минута"
+
+msgid "minutes"
+msgstr "Минут"
+
+msgid "missing"
+msgstr "отсутствует"
+
+msgid "missing_perm"
+msgstr "Missing Permission"
+
+msgid "missing_precondition"
+msgstr "Missing Precondition"
+
+#, fuzzy
+msgid "mm_achievements"
+msgstr "Achievements"
+
+#, fuzzy
+msgid "mm_administration"
+msgstr "Administration"
+
+#, fuzzy
+msgid "mm_badges"
+msgstr "Badges"
+
+#, fuzzy
+msgid "mm_calendar"
+msgstr "Calendar"
+
+#, fuzzy
+msgid "mm_certificates"
+msgstr "Certificates"
+
+#, fuzzy
+msgid "mm_comments"
+msgstr "Comments"
+
+#, fuzzy
+msgid "mm_communication"
+msgstr "Communication"
+
+#, fuzzy
+msgid "mm_contacts"
+msgstr "Contacts"
+
+#, fuzzy
+msgid "mm_dashboard"
+msgstr "Dashboard"
+
+#, fuzzy
+msgid "mm_enrolments"
+msgstr "Enrolments"
+
+#, fuzzy
+msgid "mm_favorites"
+msgstr "Favourites"
+
+#, fuzzy
+msgid "mm_learning_history"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "mm_learning_progress"
+msgstr "Learning Progress"
+
+#, fuzzy
+msgid "mm_mail"
+msgstr "Mail"
+
+#, fuzzy
+msgid "mm_news"
+msgstr "News"
+
+#, fuzzy
+msgid "mm_notes"
+msgstr "Notes"
+
+#, fuzzy
+msgid "mm_organisation"
+msgstr "Organisation"
+
+#, fuzzy
+msgid "mm_personal_and_shared_r"
+msgstr "Personal and Shared Resources"
+
+#, fuzzy
+msgid "mm_personal_workspace"
+msgstr "Personal Workspace"
+
+#, fuzzy
+msgid "mm_portfolio"
+msgstr "Portfolio"
+
+#, fuzzy
+msgid "mm_private_chats"
+msgstr "Private Chats"
+
+#, fuzzy
+msgid "mm_repo_tree_view"
+msgstr "Tree View"
+
+#, fuzzy
+msgid "mm_repo_tree_view_act"
+msgstr "Activate Tree"
+
+#, fuzzy
+msgid "mm_repo_tree_view_deact"
+msgstr "Deactivate Tree"
+
+#, fuzzy
+msgid "mm_repository"
+msgstr "Repository"
+
+#, fuzzy
+msgid "mm_skills"
+msgstr "Competences"
+
+#, fuzzy
+msgid "mm_staff_list"
+msgstr "Staff List"
+
+#, fuzzy
+msgid "mm_tags"
+msgstr "Tags"
+
+#, fuzzy
+msgid "mm_task_derived_tasks"
+msgstr "Tasks"
+
+#, fuzzy
+msgid "mme_lost_item_reason"
+msgstr "Item is no longer provided."
+
+#, fuzzy
+msgid "mme_lost_item_title"
+msgstr "No assignment"
+
+msgid "mob"
+msgstr "Медиа объект"
+
+msgid "moderators"
+msgstr "Moderators"
+
+msgid "module"
+msgstr "модуль"
+
+msgid "modules"
+msgstr "Модули"
+
+msgid "month"
+msgstr "Месяц"
+
+msgid "month_01_long"
+msgstr "Январь"
+
+msgid "month_01_short"
+msgstr "Янв"
+
+msgid "month_02_long"
+msgstr "Февраль"
+
+msgid "month_02_short"
+msgstr "Фев"
+
+msgid "month_03_long"
+msgstr "Март"
+
+msgid "month_03_short"
+msgstr "Мар"
+
+msgid "month_04_long"
+msgstr "Апрель"
+
+msgid "month_04_short"
+msgstr "Апр"
+
+msgid "month_05_long"
+msgstr "Май"
+
+msgid "month_05_short"
+msgstr "Май"
+
+msgid "month_06_long"
+msgstr "Июн"
+
+msgid "month_06_short"
+msgstr "Июнь"
+
+msgid "month_07_long"
+msgstr "Июль"
+
+msgid "month_07_short"
+msgstr "Июл"
+
+msgid "month_08_long"
+msgstr "Август"
+
+msgid "month_08_short"
+msgstr "Авг"
+
+msgid "month_09_long"
+msgstr "Сентябрь"
+
+msgid "month_09_short"
+msgstr "Сен"
+
+msgid "month_10_long"
+msgstr "Октябрь"
+
+msgid "month_10_short"
+msgstr "Окт"
+
+msgid "month_11_long"
+msgstr "Ноябрь"
+
+msgid "month_11_short"
+msgstr "Ноя"
+
+msgid "month_12_long"
+msgstr "Декабрь"
+
+msgid "month_12_short"
+msgstr "Дек"
+
+msgid "monthly"
+msgstr "ежемесячно"
+
+msgid "months"
+msgstr "Месяц(ы)"
+
+msgid "mount_webfolder"
+msgstr "Open as webfolder"
+
+msgid "move"
+msgstr "Переместить"
+
+msgid "moveChapter"
+msgstr "Переместить Главу"
+
+msgid "movePage"
+msgstr "Переместить Страницу"
+
+msgid "move_selected_items"
+msgstr "Переместить"
+
+#, fuzzy
+msgid "msg_bt_download_started"
+msgstr "ILIAS is generating a ZIP archive of all available files. You can download them from the Notification Center (bell icon) on top right."
+
+msgid "msg_cancel"
+msgstr "Действие прервано"
+
+msgid "msg_clear_clipboard"
+msgstr "Буфер обмена очищен"
+
+msgid "msg_cloned"
+msgstr "Выделенный(е) объект(ы) скопирован(ы)"
+
+msgid "msg_copy_clipboard"
+msgstr "Выделенный(е) объект(ы) сохранен(ы) в буфере обмена (Действие: копировать)"
+
+#, fuzzy
+msgid "msg_copy_clipboard_container"
+msgstr "Now, please select the desired location, where the selected objects should be pasted into and click the button \"Continue\"."
+
+msgid "msg_copy_clipboard_source"
+msgstr "Выберите курс содержимое которого должно быть скопировано и нажмите \"Далее\"."
+
+msgid "msg_cut_clipboard"
+msgstr "Выделенный(е) объект(ы) сохранен(ы) в буфере обмена (Действие: вырезать)"
+
+msgid "msg_cut_copied"
+msgstr "Выделенный(е) объект(ы) перемещен(ы)."
+
+msgid "msg_deleted_export_files"
+msgstr "Export file(s) deleted"
+
+msgid "msg_deleted_role"
+msgstr "Роль удалена"
+
+msgid "msg_deleted_roles_rolts"
+msgstr "Роли и Временные шаблоны Ролей удалены"
+
+msgid "msg_failed"
+msgstr "К сожалению, действие выполнено с ошибкой"
+
+msgid "msg_form_save_error"
+msgstr "The form data could not be saved. Please check the input fields for any error messages."
+
+#, fuzzy
+msgid "msg_info_blacklisted"
+msgstr "The files cannot be uploaded due to security reasons."
+
+#, fuzzy
+msgid "msg_input_char_limit_max"
+msgstr "You have entered more characters than allowed."
+
+#, fuzzy
+msgid "msg_input_char_limit_min"
+msgstr "You have to enter the minimum of characters specified."
+
+msgid "msg_input_does_not_match_regexp"
+msgstr "Please provide a valid value."
+
+msgid "msg_input_is_required"
+msgstr "This input is required. Please enter a value."
+
+#, fuzzy
+msgid "msg_invalid_value_css_rect_input"
+msgstr "The entered value is incorrect, do not use any plus or minus symbols in combination with the entered integer. Please check your input."
+
+msgid "msg_is_last_role"
+msgstr "Вы переместили последнюю глобальную роль со следующих пользователей"
+
+msgid "msg_last_role_for_registration"
+msgstr "At least one role must be available in the registration form for new users. This role is currently the only one available."
+
+#, fuzzy
+msgid "msg_link_clipboard_p"
+msgstr "Now, please select the desired location, where the selected objects should be linked to and click the button Paste."
+
+#, fuzzy
+msgid "msg_link_clipboard_s"
+msgstr "Now, please select the desired location, where the selected object should be linked to and click the button Paste."
+
+msgid "msg_linked"
+msgstr "Выделенный(е) объект(ы) связан(ы)."
+
+msgid "msg_may_not_contain"
+msgstr "Объект не может содержать объекты типов:"
+
+msgid "msg_min_one_role"
+msgstr "Каждый пользователь должен иметь хотя бы одну глобальную роль!"
+
+msgid "msg_multi_language_selected"
+msgstr "Вы выбрали один и тот же язык для различных переводов!"
+
+msgid "msg_no_default_language"
+msgstr "Другой язык не указан!  Вы должны определить хотя бы один перевод как 'другой'."
+
+msgid "msg_no_delete_yourself"
+msgstr "Вы не можете удалить свои собственные учетные записи."
+
+msgid "msg_no_file"
+msgstr "Вы не выбрали файл"
+
+#, fuzzy
+msgid "msg_no_files_selected"
+msgstr "No files selected"
+
+msgid "msg_no_language_selected"
+msgstr "Языки перевода не указаны! Вы должны определить язык для каждого перевода"
+
+msgid "msg_no_perm_assign_role_to_user"
+msgstr "У вас нет прав для изменения ролей пользователей"
+
+msgid "msg_no_perm_assign_user_to_role"
+msgstr "You have no permission to change the user assignment"
+
+msgid "msg_no_perm_copy"
+msgstr "У вас нет прав для копирования следующих объектов:"
+
+msgid "msg_no_perm_create_rolt"
+msgstr "У вас нет прав добавления ролей в шаблоны"
+
+msgid "msg_no_perm_cut"
+msgstr "У вас нет прав вырезать следующие объекты:"
+
+msgid "msg_no_perm_delete"
+msgstr "У вас нет прав удалить следующие объекты:"
+
+msgid "msg_no_perm_link"
+msgstr "У вас нет прав создания связи со следующими объектами:"
+
+msgid "msg_no_perm_modify_rolt"
+msgstr "У вас нет прав изменения шаблонов ролей"
+
+msgid "msg_no_perm_modify_user"
+msgstr "У вас нет прав изменения данных пользователя"
+
+msgid "msg_no_perm_paste"
+msgstr "У вас нет прав вставить следующие объекты:"
+
+msgid "msg_no_perm_paste_object_in_folder"
+msgstr "You have no permission to paste the object %s in the folder %s."
+
+msgid "msg_no_perm_perm"
+msgstr "У вас нет прав редактирования установки прав"
+
+msgid "msg_no_perm_read"
+msgstr "У вас нет права доступа к этому пункту."
+
+msgid "msg_no_perm_read_item"
+msgstr "You have no permission to access  this object."
+
+msgid "msg_no_perm_read_lm"
+msgstr "У вас нет права доступа для чтения этого обучающего модуля."
+
+#, fuzzy
+msgid "msg_no_perm_view_roles_of_user"
+msgstr "You have no permission to view the role assignment of this user"
+
+msgid "msg_no_perm_write"
+msgstr "У вас нет права записи"
+
+msgid "msg_no_search_result"
+msgstr "Совпадений не найдено"
+
+msgid "msg_no_search_string"
+msgstr "Пожалуйста, введите ваш запрос"
+
+msgid "msg_no_title"
+msgstr "Пожалуйста, введите название."
+
+msgid "msg_not_available_for_anon"
+msgstr "Выбранная вами страница доступна только для зарегистрированных пользователей"
+
+msgid "msg_not_in_itself"
+msgstr "Невозможно вставить объект сам в себя"
+
+msgid "msg_obj_already_deleted"
+msgstr "The object has already been deleted."
+
+msgid "msg_obj_created"
+msgstr "Объект создан."
+
+msgid "msg_obj_exists"
+msgstr "Объект уже существует в этом каталоге"
+
+msgid "msg_obj_exists_in_folder"
+msgstr "The object %s already exists in the folder %s."
+
+msgid "msg_obj_may_not_contain_objects_of_type"
+msgstr "The object %s may not contain objects of type: %s."
+
+msgid "msg_obj_modified"
+msgstr "Изменения сохранены."
+
+msgid "msg_obj_no_download"
+msgstr "cannot be downloaded."
+
+msgid "msg_obj_no_link"
+msgstr "не разрешены к присоединению"
+
+msgid "msg_obj_perm_download"
+msgstr "You do not have sufficient rights to download the following objects:"
+
+msgid "msg_paste_object_not_in_itself"
+msgstr "It's not possible to paste the object %s in itself."
+
+msgid "msg_perm_adopted_from1"
+msgstr "Установки доступа наследованы из"
+
+msgid "msg_perm_adopted_from2"
+msgstr "(Установки уже сохранены!)"
+
+msgid "msg_perm_adopted_from_itself"
+msgstr "Вы не можете наследовать установки доступа выбранных роли/ролей шаблона сами в себя."
+
+msgid "msg_removed"
+msgstr "Объект(ы) перемещен(ы) из системы."
+
+msgid "msg_role_reserved_prefix"
+msgstr "Префикс 'il_' зарезервирован для автоматической генерации ролей. Пожалуйста, выберите другое имя"
+
+msgid "msg_roleassignment_changed"
+msgstr "Ролевое задание изменено"
+
+msgid "msg_sysrole_not_deletable"
+msgstr "Системная роль не может быть удалена"
+
+msgid "msg_sysrole_not_editable"
+msgstr "Установки доступа системной роли не могут быть изменены. Системная роль гарантирует всем выбранным пользователям неограниченный доступ ко всем объектам и функциям."
+
+#, fuzzy
+msgid "msg_to_many_files"
+msgstr "Too many files selected, allowed amount of files:"
+
+msgid "msg_trash_empty"
+msgstr "Нет объектов для удаления"
+
+msgid "msg_undeleted"
+msgstr "Объект(ы) восстановлен(ы)."
+
+msgid "msg_unit_is_required"
+msgstr "This input requires a unit. Please enter a correct value."
+
+#, fuzzy
+msgid "msg_unknown_value"
+msgstr "An unknown value has been passed."
+
+msgid "msg_user_last_role1"
+msgstr "Следующим пользователям может быть выбрана только одна роль:"
+
+msgid "msg_user_last_role2"
+msgstr "Пожалуйста, удалите пользователей или назначьте другую роль только после удаления этой роли."
+
+msgid "msg_userassignment_changed"
+msgstr "Назначение пользователя изменены"
+
+#, fuzzy
+msgid "msg_wrong_filetypes"
+msgstr "Allowed Files-Types:"
+
+msgid "msg_wrong_format"
+msgstr "The value you entered is not a valid format."
+
+msgid "my_bms"
+msgstr "Закладки"
+
+#, fuzzy
+msgid "my_certificates"
+msgstr "My Certificates"
+
+#, fuzzy
+msgid "my_contacts"
+msgstr "My Contact"
+
+msgid "my_courses"
+msgstr "Мои курсы"
+
+msgid "my_courses_groups"
+msgstr "Мои курсы и группы"
+
+#, fuzzy
+msgid "my_staff"
+msgstr "Staff"
+
+msgid "name"
+msgstr "Имя"
+
+#, fuzzy
+msgid "nc_contact_requests_headline"
+msgstr "Contact Requests"
+
+#, fuzzy
+msgid "nc_contact_requests_number_p"
+msgstr "You have %s Contact Requests."
+
+#, fuzzy
+msgid "nc_contact_requests_number_s"
+msgstr "You have %s Contact Request."
+
+#, fuzzy
+msgid "nc_contact_requests_prop_time"
+msgstr "Time"
+
+msgid "never"
+msgstr "никогда"
+
+msgid "new"
+msgstr "Новый"
+
+msgid "new_language"
+msgstr "Новый Язык"
+
+msgid "new_pass_equals_old_pass"
+msgstr "The new password equals the old one."
+
+msgid "newline"
+msgstr "Newline"
+
+msgid "news"
+msgstr "Новости"
+
+msgid "next"
+msgstr "Далее"
+
+msgid "no"
+msgstr "Нет"
+
+msgid "no_access_item"
+msgstr "У вас нет прав для доступа к этому пункту."
+
+msgid "no_access_item_public"
+msgstr "Этот пункт не доступен в общей секции."
+
+#, fuzzy
+msgid "no_accessibility_control_concept_description"
+msgstr "There is currently no Accessibility Control Concept provided with this installation. Please contact the <a href=\"%1$s\">Accessibility Point of Contact</a>."
+
+msgid "no_checkbox"
+msgstr "Нет отмеченных полей выбора!"
+
+msgid "no_condition_selected"
+msgstr "Please select one precondition."
+
+msgid "no_date"
+msgstr "Нет данных"
+
+#, fuzzy
+msgid "no_gallery_users_available"
+msgstr "There are currently no users in the gallery."
+
+msgid "no_global_role_left"
+msgstr "Каждому пользователю может быть назначена только одна роль."
+
+msgid "no_import_file_found"
+msgstr "файл импорта не найден"
+
+msgid "no_items"
+msgstr "Элементы отсутствуют"
+
+msgid "no_limit"
+msgstr "Не ограничено"
+
+msgid "no_mkisofs_configured"
+msgstr "You have to configure mkisofs utility in ILIAS setup to run ISO export"
+
+msgid "no_parent_access"
+msgstr "No access to a superordinated object!"
+
+msgid "no_permission"
+msgstr "You do not have the necessary permission."
+
+msgid "no_roles_user_can_be_assigned_to"
+msgstr "Нет глобальных ролей, которые может назначать пользователь. Поэтому вы не можете назначить дополнительных пользователей."
+
+msgid "no_start_file"
+msgstr "No Start File."
+
+msgid "no_title"
+msgstr "Нет заглавия"
+
+msgid "no_users_selected"
+msgstr "Пожалуйста, выберите одного пользователя."
+
+msgid "no_xml_file_found_in_zip"
+msgstr "файл XML file внутри zip файла не найден:"
+
+#, fuzzy
+msgid "noc"
+msgstr "Notification Center"
+
+msgid "non_internal_local_roles_only"
+msgstr "Локальные роли (только заданные пользователем)"
+
+msgid "none"
+msgstr "Нет"
+
+msgid "normal"
+msgstr "Нормальный"
+
+msgid "not_available"
+msgstr "Not Available"
+
+msgid "not_implemented_yet"
+msgstr "До сих пор не внедрен"
+
+msgid "not_installed"
+msgstr "не установлен"
+
+msgid "not_logged_in"
+msgstr "Вы не вошли в систему"
+
+msgid "note"
+msgstr "Заметка"
+
+msgid "notes"
+msgstr "Заметки"
+
+msgid "notes_and_comments"
+msgstr "Заметки и комментарии"
+
+msgid "notice"
+msgstr "Notice"
+
+msgid "notifications"
+msgstr "Уведомления"
+
+msgid "nr_following_sessions"
+msgstr "%1d following session(s)..."
+
+msgid "num_of_selected_files"
+msgstr "%s файл(ов) выбрано"
+
+msgid "num_users"
+msgstr "Количество пользователей"
+
+#, fuzzy
+msgid "numberedlist_action"
+msgstr "Insert Numbered List - Click to insert a numbered list."
+
+msgid "obj"
+msgstr "Объект"
+
+msgid "obj_accs"
+msgstr "Доступность"
+
+msgid "obj_accs_desc"
+msgstr "Настройки возможностей доступности."
+
+msgid "obj_adm"
+msgstr "Администрирование"
+
+msgid "obj_adm_desc"
+msgstr "Каталог главных системных настроек содержит все панели необходимые для администрирования установленного ILIAS."
+
+#, fuzzy
+msgid "obj_adma"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "obj_adma_desc"
+msgstr "Important settings for the whole installation"
+
+#, fuzzy
+msgid "obj_adn"
+msgstr "Administrative Notifications"
+
+msgid "obj_adve"
+msgstr "Редактор"
+
+msgid "obj_adve_desc"
+msgstr "Настройки администрирования редактора страниц ILIAS и TinyMCE."
+
+msgid "obj_ass"
+msgstr "Asset"
+
+msgid "obj_assf"
+msgstr "Тесты и упражнения"
+
+msgid "obj_assf_desc"
+msgstr "Настройки журнала тестов и упражнений."
+
+msgid "obj_auth"
+msgstr "Аутентификация и регистрация"
+
+msgid "obj_auth_desc"
+msgstr "Конфигурирование вашей модели доступа (локальная, LDAP, ...) и настройки регистрации нового аккаунта."
+
+#, fuzzy
+msgid "obj_awra"
+msgstr "‘Who is online?’-Tool"
+
+#, fuzzy
+msgid "obj_awra_desc"
+msgstr "Manage ‘Who is online?’-Tool"
+
+#, fuzzy
+msgid "obj_bdga"
+msgstr "Badges"
+
+#, fuzzy
+msgid "obj_bdga_desc"
+msgstr "Administrate types, image templates and activity badges"
+
+#, fuzzy
+msgid "obj_bgtk"
+msgstr "Background Task"
+
+msgid "obj_bibl"
+msgstr "Библиография"
+
+#, fuzzy
+msgid "obj_bibs"
+msgstr "Bibliography"
+
+#, fuzzy
+msgid "obj_bibs_desc"
+msgstr "Bibliography Administration"
+
+msgid "obj_blog"
+msgstr "Блог"
+
+msgid "obj_blog_duplicate"
+msgstr "Копировать блог"
+
+#, fuzzy
+msgid "obj_bnmk"
+msgstr "Benchmarking"
+
+#, fuzzy
+msgid "obj_bnmk_desc"
+msgstr "Recording and display of database query durations"
+
+msgid "obj_book"
+msgstr "Хранилище литературы"
+
+#, fuzzy
+msgid "obj_cadm"
+msgstr "Contacts"
+
+#, fuzzy
+msgid "obj_cadm_desc"
+msgstr "Contacts Administration"
+
+msgid "obj_cals"
+msgstr "Календарь"
+
+msgid "obj_cals_desc"
+msgstr "General Calendar settings."
+
+msgid "obj_cat"
+msgstr "Категория"
+
+msgid "obj_cat_duplicate"
+msgstr "Copy Category"
+
+msgid "obj_catr"
+msgstr "Ссылка на категорию"
+
+msgid "obj_cert"
+msgstr "Сертификаты"
+
+msgid "obj_cert_desc"
+msgstr "Настройки сертификата"
+
+msgid "obj_chap"
+msgstr "Chapter"
+
+msgid "obj_chta"
+msgstr "Чаты"
+
+msgid "obj_chtr"
+msgstr "Чат"
+
+#, fuzzy
+msgid "obj_chtr_duplicate"
+msgstr "Copy Chat Room"
+
+#, fuzzy
+msgid "obj_cmis"
+msgstr "xAPI/cmi5"
+
+#, fuzzy
+msgid "obj_cmis_desc"
+msgstr "Learning Record Store Types Configuration"
+
+#, fuzzy
+msgid "obj_cmix"
+msgstr "xAPI/cmi5"
+
+msgid "obj_cmps"
+msgstr "Плагины"
+
+msgid "obj_cmps_desc"
+msgstr "Основные настройки для плагинов репозитория"
+
+#, fuzzy
+msgid "obj_coms"
+msgstr "Comments"
+
+#, fuzzy
+msgid "obj_coms_desc"
+msgstr "Comments settings"
+
+#, fuzzy
+msgid "obj_copa"
+msgstr "Content Page"
+
+#, fuzzy
+msgid "obj_cpad"
+msgstr "Content Pages"
+
+#, fuzzy
+msgid "obj_cpad#_desc"
+msgstr "Content Page Administration"
+
+#, fuzzy
+msgid "obj_cpad_desc"
+msgstr "Content Page Administration"
+
+#, fuzzy
+msgid "obj_cron"
+msgstr "Cron Jobs"
+
+#, fuzzy
+msgid "obj_cron_desc"
+msgstr "List of all Cron Jobs"
+
+msgid "obj_crs"
+msgstr "Курс"
+
+msgid "obj_crs_duplicate"
+msgstr "Копировать курс"
+
+msgid "obj_crsr"
+msgstr "Ссылка на курс"
+
+msgid "obj_crss"
+msgstr "Курсы"
+
+msgid "obj_crss_desc"
+msgstr "General settings for Courses"
+
+msgid "obj_crsv"
+msgstr "Course Certificate"
+
+msgid "obj_dbk"
+msgstr "Цифровая Книга (Digilib Book)"
+
+msgid "obj_dcl"
+msgstr "Хранилище данных"
+
+msgid "obj_dcl_duplicate"
+msgstr "Copy Data Collection"
+
+#, fuzzy
+msgid "obj_dpro"
+msgstr "Declaration of Data Protection"
+
+#, fuzzy
+msgid "obj_dpro_desc"
+msgstr "Declaration of Data Protection Settings"
+
+#, fuzzy
+msgid "obj_dshs"
+msgstr "Dashboard"
+
+#, fuzzy
+msgid "obj_dshs_desc"
+msgstr "Dashboard settings"
+
+msgid "obj_ecss"
+msgstr "ECS"
+
+msgid "obj_ecss_desc"
+msgstr "General ECS Settings"
+
+msgid "obj_etal"
+msgstr "Employee Talk"
+
+msgid "obj_exc"
+msgstr "Упражнение"
+
+#, fuzzy
+msgid "obj_exc_duplicate"
+msgstr "Copy Exercise"
+
+msgid "obj_excv"
+msgstr "Сертификат упражнения"
+
+msgid "obj_facs"
+msgstr "Доступ к файлам"
+
+msgid "obj_facs_desc"
+msgstr "Configure access to file objects."
+
+msgid "obj_file"
+msgstr "Файл"
+
+#, fuzzy
+msgid "obj_file_duplicate"
+msgstr "Duplicate File"
+
+msgid "obj_file_inline"
+msgstr "Inline File"
+
+#, fuzzy
+msgid "obj_fils"
+msgstr "File Services"
+
+#, fuzzy
+msgid "obj_fils_desc"
+msgstr "Configuration of File Service Settings."
+
+msgid "obj_fold"
+msgstr "Каталог"
+
+#, fuzzy
+msgid "obj_fold_duplicate"
+msgstr "Copy Folder"
+
+msgid "obj_frm"
+msgstr "Форум"
+
+msgid "obj_frm_duplicate"
+msgstr "Copy Forum"
+
+msgid "obj_frma"
+msgstr "Форумы"
+
+msgid "obj_frma_desc"
+msgstr "Global Forum Settings"
+
+msgid "obj_glo"
+msgstr "Словарь"
+
+msgid "obj_glo_duplicate"
+msgstr "Copy Glossary"
+
+msgid "obj_grp"
+msgstr "Группа"
+
+msgid "obj_grp_duplicate"
+msgstr "Copy Group"
+
+#, fuzzy
+msgid "obj_grpr"
+msgstr "Group Reference"
+
+msgid "obj_grps"
+msgstr "Группы"
+
+msgid "obj_grps_desc"
+msgstr "General settings for Groups"
+
+#, fuzzy
+msgid "obj_gsfo"
+msgstr "Footer"
+
+#, fuzzy
+msgid "obj_gsfo_desc"
+msgstr "Administrate Footer Layout and Content"
+
+msgid "obj_hlps"
+msgstr "Система помощи"
+
+msgid "obj_hlps_desc"
+msgstr "Настройки для справки онлайн"
+
+msgid "obj_htlm"
+msgstr "Обучающий модуль HTML"
+
+msgid "obj_htlm_duplicate"
+msgstr "Copy HTML Learning Module"
+
+#, fuzzy
+msgid "obj_iass"
+msgstr "Individual Assessment"
+
+#, fuzzy
+msgid "obj_iass_duplicate"
+msgstr "Copy Individual Assessment"
+
+#, fuzzy
+msgid "obj_iass_select"
+msgstr "-- Please select one individual assessment --"
+
+msgid "obj_itgr"
+msgstr "Группа элементов"
+
+msgid "obj_ldap_desc"
+msgstr "Здесь можно сконфигурировать глобальные установки LDAP."
+
+#, fuzzy
+msgid "obj_lhts"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "obj_lhts_desc"
+msgstr "Learning history settings"
+
+msgid "obj_lm"
+msgstr "Обучающий модуль ILIAS"
+
+msgid "obj_lm_duplicate"
+msgstr "Copy Learning Module"
+
+msgid "obj_lng"
+msgstr "Язык"
+
+msgid "obj_lngf"
+msgstr "Языки"
+
+msgid "obj_lngf_desc"
+msgstr "Отсюда можно управлять системой языков."
+
+#, fuzzy
+msgid "obj_logs"
+msgstr "Logging"
+
+#, fuzzy
+msgid "obj_logs_desc"
+msgstr "General Logging Settings"
+
+msgid "obj_lrss"
+msgstr "Образовательные ресурсы"
+
+msgid "obj_lrss_desc"
+msgstr "Configure all types of learning modules."
+
+#, fuzzy
+msgid "obj_lso"
+msgstr "Learning Sequence"
+
+#, fuzzy
+msgid "obj_lso_duplicate"
+msgstr "Copy Learning Sequence"
+
+#, fuzzy
+msgid "obj_lsos"
+msgstr "Learning Sequences"
+
+#, fuzzy
+msgid "obj_lsos_desc"
+msgstr "General settings for Learning Sequences"
+
+#, fuzzy
+msgid "obj_lti"
+msgstr "LTI Consumer"
+
+#, fuzzy
+msgid "obj_ltis"
+msgstr "LTI"
+
+#, fuzzy
+msgid "obj_ltis_desc"
+msgstr "Learning Tools Interoperability"
+
+msgid "obj_mail"
+msgstr "Почта"
+
+msgid "obj_mail_desc"
+msgstr "Сконфигурируете здесь общие установки почты."
+
+#, fuzzy
+msgid "obj_mailr"
+msgstr "Read Mail"
+
+#, fuzzy
+msgid "obj_mailu"
+msgstr "Unread Mail"
+
+#, fuzzy
+msgid "obj_maps"
+msgstr "Maps"
+
+msgid "obj_mcst"
+msgstr "Трансляции"
+
+msgid "obj_mcst_duplicate"
+msgstr "Копировать трансляциию"
+
+msgid "obj_mcts"
+msgstr "Трансляции"
+
+msgid "obj_mcts_desc"
+msgstr "Общие настройки трансляций."
+
+msgid "obj_mep"
+msgstr "Хранилище мультимедиа"
+
+msgid "obj_mep_duplicate"
+msgstr "Copy Media Pool"
+
+#, fuzzy
+msgid "obj_mme"
+msgstr "Main Menu"
+
+msgid "obj_mob"
+msgstr "Медиа объект (Media Object)"
+
+msgid "obj_mobs"
+msgstr "Объекты мультимедиа"
+
+msgid "obj_mobs_desc"
+msgstr "Settings for media objects and media pools."
+
+msgid "obj_not_found"
+msgstr "Объект не найден"
+
+#, fuzzy
+msgid "obj_nota"
+msgstr "Notifications"
+
+#, fuzzy
+msgid "obj_nota_desc"
+msgstr "Notification Administration"
+
+#, fuzzy
+msgid "obj_nots"
+msgstr "Notes"
+
+#, fuzzy
+msgid "obj_nots_desc"
+msgstr "Notes settings"
+
+msgid "obj_nwss"
+msgstr "Настройки новостей и новостных лент"
+
+msgid "obj_nwss_desc"
+msgstr "Settings for internal news and external web feeds."
+
+msgid "obj_objf"
+msgstr "Определения объекта"
+
+msgid "obj_orgu"
+msgstr "Организационный блок"
+
+#, fuzzy
+msgid "obj_orgu_description"
+msgstr "Creating and editing organisational structure"
+
+msgid "obj_page"
+msgstr "Page"
+
+#, fuzzy
+msgid "obj_peac"
+msgstr "Accordion"
+
+#, fuzzy
+msgid "obj_peadl"
+msgstr "Advanced List"
+
+#, fuzzy
+msgid "obj_peadt"
+msgstr "Advanced Table"
+
+#, fuzzy
+msgid "obj_pecd"
+msgstr "Code"
+
+#, fuzzy
+msgid "obj_pech"
+msgstr "Consultation Hour"
+
+#, fuzzy
+msgid "obj_pecl"
+msgstr "Column Layout"
+
+#, fuzzy
+msgid "obj_peclp"
+msgstr "Clipboard"
+
+#, fuzzy
+msgid "obj_pecom"
+msgstr "Competences"
+
+#, fuzzy
+msgid "obj_pecrs"
+msgstr "Course"
+
+#, fuzzy
+msgid "obj_pecrt"
+msgstr "Certificate"
+
+#, fuzzy
+msgid "obj_pecs"
+msgstr "Content Snippet"
+
+#, fuzzy
+msgid "obj_pedt"
+msgstr "Data Table"
+
+#, fuzzy
+msgid "obj_pefl"
+msgstr "File List"
+
+#, fuzzy
+msgid "obj_peim"
+msgstr "interactive Media"
+
+#, fuzzy
+msgid "obj_pelh"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "obj_pemed"
+msgstr "Image/Audio/Video"
+
+#, fuzzy
+msgid "obj_pemp"
+msgstr "Map"
+
+#, fuzzy
+msgid "obj_pepd"
+msgstr "Personal Data"
+
+#, fuzzy
+msgid "obj_pepe"
+msgstr "Plugin Element"
+
+#, fuzzy
+msgid "obj_pepl"
+msgstr "Page List"
+
+#, fuzzy
+msgid "obj_peplh"
+msgstr "Placeholder"
+
+#, fuzzy
+msgid "obj_pequ"
+msgstr "Questions"
+
+#, fuzzy
+msgid "obj_perl"
+msgstr "Ressource List"
+
+#, fuzzy
+msgid "obj_pesc"
+msgstr "Section"
+
+#, fuzzy
+msgid "obj_petmp"
+msgstr "Page Template"
+
+#, fuzzy
+msgid "obj_peusr"
+msgstr "User"
+
+msgid "obj_pg"
+msgstr "Страница"
+
+msgid "obj_poll"
+msgstr "Голосование"
+
+msgid "obj_poll_dupliate:"
+msgstr "Copy Poll"
+
+msgid "obj_poll_duplicate"
+msgstr "Copy Poll"
+
+#, fuzzy
+msgid "obj_prg"
+msgstr "Study Programme"
+
+#, fuzzy
+msgid "obj_prg_duplicate"
+msgstr "Copy Study Programme"
+
+#, fuzzy
+msgid "obj_prg_select"
+msgstr "-- Please select one Study Programme --"
+
+#, fuzzy
+msgid "obj_prgr"
+msgstr "Link to Study Programme"
+
+#, fuzzy
+msgid "obj_prgrs"
+msgstr "Links to Study Programmes"
+
+#, fuzzy
+msgid "obj_prgs"
+msgstr "Study Programmes"
+
+#, fuzzy
+msgid "obj_prgs_desc"
+msgstr "Study Programme Administration"
+
+#, fuzzy
+msgid "obj_prss"
+msgstr "Personal Resources"
+
+#, fuzzy
+msgid "obj_prss_desc"
+msgstr "Personal resources settings"
+
+msgid "obj_prtf"
+msgstr "Портфолио"
+
+msgid "obj_prtt"
+msgstr "Portfolio Template"
+
+msgid "obj_prtt_duplicate"
+msgstr "Copy Portfolio Template"
+
+msgid "obj_ps"
+msgstr "Конфиденциальность и безопасность"
+
+msgid "obj_ps_desc"
+msgstr "Configure global privacy and security settings here."
+
+msgid "obj_qpl"
+msgstr "Пул вопросов теста"
+
+msgid "obj_qpl_duplicate"
+msgstr "Copy Question Pool Test"
+
+msgid "obj_qpl_select"
+msgstr "-- Please select one Question Pool Test --"
+
+msgid "obj_rcat"
+msgstr "ECS Category"
+
+msgid "obj_rcrs"
+msgstr "Course-Link"
+
+msgid "obj_recf"
+msgstr "Восстановленные объекты"
+
+msgid "obj_recf_desc"
+msgstr "Содержимое восстановленных объектов проверено системой."
+
+#, fuzzy
+msgid "obj_rep"
+msgstr "Repository"
+
+msgid "obj_reps"
+msgstr "Репозиторий"
+
+msgid "obj_reps_desc"
+msgstr "General settings for the Repository"
+
+msgid "obj_rfil"
+msgstr "ECS File"
+
+msgid "obj_rglo"
+msgstr "ECS Glossary"
+
+msgid "obj_rgrp"
+msgstr "ECS Group"
+
+msgid "obj_rlm"
+msgstr "ECS Learning Module"
+
+msgid "obj_role"
+msgstr "Роль"
+
+msgid "obj_rolf"
+msgstr "Роли"
+
+msgid "obj_rolf_desc"
+msgstr "Отсюда можно управлять ролями."
+
+msgid "obj_rolf_local"
+msgstr "Местные Роли"
+
+msgid "obj_rolf_local_desc"
+msgstr "В содержимом местных ролей нет объектов."
+
+msgid "obj_rolt"
+msgstr "Шаблон Роли"
+
+msgid "obj_root"
+msgstr "Репозиторий - Главная"
+
+msgid "obj_rtst"
+msgstr "ECS Test"
+
+msgid "obj_rwik"
+msgstr "ECS вики"
+
+msgid "obj_sahs"
+msgstr "Обучающий модуль SCORM/AICC"
+
+msgid "obj_sahs_duplicate"
+msgstr "Copy Learning Module"
+
+msgid "obj_sco"
+msgstr "SCO"
+
+msgid "obj_scov"
+msgstr "SCORM Certificate"
+
+msgid "obj_seas"
+msgstr "Поиск"
+
+msgid "obj_seas_desc"
+msgstr "Manage the search settings here."
+
+#, fuzzy
+msgid "obj_serv"
+msgstr "Server"
+
+#, fuzzy
+msgid "obj_serv_desc"
+msgstr "Settings of the sever"
+
+msgid "obj_sess"
+msgstr "Сессия"
+
+msgid "obj_sess_duplicate"
+msgstr "Copy Session"
+
+msgid "obj_skmg"
+msgstr "Управление компетенциями"
+
+msgid "obj_skmg_desc"
+msgstr "Manage skills and skill categories."
+
+msgid "obj_spl"
+msgstr "Пул вопросов для опроса"
+
+msgid "obj_st"
+msgstr "Глава"
+
+#, fuzzy
+msgid "obj_stus"
+msgstr "Shortlinks"
+
+#, fuzzy
+msgid "obj_stus_desc"
+msgstr "Global Shortlinks Settings"
+
+msgid "obj_sty"
+msgstr "Style"
+
+msgid "obj_stys"
+msgstr "Внешний вид"
+
+msgid "obj_stys_desc"
+msgstr "Здесь можно задать оболочку системы и параметры стиля"
+
+msgid "obj_svy"
+msgstr "Опрос"
+
+msgid "obj_svy_duplicate"
+msgstr "Copy Survey"
+
+msgid "obj_svyf"
+msgstr "Опросы"
+
+msgid "obj_svyf_desc"
+msgstr "Platform settings for the Survey Tool"
+
+msgid "obj_sysc"
+msgstr "System Check"
+
+msgid "obj_sysc_desc"
+msgstr "System Check and Repair Tools"
+
+msgid "obj_tags"
+msgstr "Ключевые слова"
+
+msgid "obj_tags_desc"
+msgstr "Настройки ключевых слов."
+
+msgid "obj_tala"
+msgstr "Talk Templates"
+
+msgid "obj_tala_desc"
+msgstr "Talk Templates"
+
+msgid "obj_tals"
+msgstr "Employee Talk Series"
+
+msgid "obj_talt"
+msgstr "Talk Template"
+
+#, fuzzy
+msgid "obj_task"
+msgstr "Task"
+
+msgid "obj_tax"
+msgstr "Систематика"
+
+msgid "obj_taxf"
+msgstr "Систематики"
+
+msgid "obj_tool_setting_calendar"
+msgstr "Показать календать"
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_active"
+msgstr "Calendar"
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_active_info"
+msgstr "A calendar is available."
+
+msgid "obj_tool_setting_calendar_info"
+msgstr "The \"Calendar\" block will be displayed inside the \"Content\" tab."
+
+#, fuzzy
+msgid "obj_tool_setting_custom_metadata"
+msgstr "Custom Metadata"
+
+#, fuzzy
+msgid "obj_tool_setting_custom_metadata_info"
+msgstr "If activated metadata can be configured."
+
+msgid "obj_tool_setting_news"
+msgstr "Show News"
+
+msgid "obj_tool_setting_news_info"
+msgstr "The \"News\" block will be displayed inside the \"Content\" tab."
+
+msgid "obj_tos"
+msgstr "Правила сервиса"
+
+msgid "obj_tos_desc"
+msgstr "Terms of Service Settings"
+
+msgid "obj_trac"
+msgstr "Мониторинг"
+
+msgid "obj_trac_desc"
+msgstr "Данные мониторинга доступа пользователя"
+
+msgid "obj_tst"
+msgstr "Тест"
+
+msgid "obj_tst_duplicate"
+msgstr "Копировать тест"
+
+msgid "obj_tstv"
+msgstr "Test Certificate"
+
+msgid "obj_type"
+msgstr "Тип объекта"
+
+msgid "obj_user"
+msgstr "Пользователь"
+
+msgid "obj_usr"
+msgstr "Пользователь"
+
+msgid "obj_usrf"
+msgstr "Учетные записи"
+
+msgid "obj_usrf_desc"
+msgstr "Управление учетными записями пользователя здесь."
+
+#, fuzzy
+msgid "obj_wbdv"
+msgstr "WebDAV"
+
+#, fuzzy
+msgid "obj_wbdv_desc"
+msgstr "Configuration of WebDAV Settings."
+
+msgid "obj_wbrs"
+msgstr "Ссылки"
+
+msgid "obj_wbrs_desc"
+msgstr "General settings for Web Links"
+
+msgid "obj_webr"
+msgstr "Web ссылки"
+
+msgid "obj_webr_duplicate"
+msgstr "Копировать список ссылок"
+
+msgid "obj_wfld"
+msgstr "Folder"
+
+msgid "obj_wiki"
+msgstr "Вики"
+
+msgid "obj_wiki_duplicate"
+msgstr "Копировать вики"
+
+msgid "obj_wiks"
+msgstr "Вики"
+
+msgid "obj_wiks_desc"
+msgstr "Глобальные настройки вики"
+
+msgid "object"
+msgstr "Объект"
+
+msgid "object_added"
+msgstr "Объект добавлен"
+
+msgid "object_copy_in_progress"
+msgstr "Started Copying."
+
+msgid "object_duplicated"
+msgstr "Object duplicated"
+
+msgid "object_id"
+msgstr "Object-Id"
+
+msgid "object_imported"
+msgstr "Object imported"
+
+#, fuzzy
+msgid "object_list"
+msgstr "List of Objects"
+
+msgid "objects"
+msgstr "Объекты"
+
+msgid "objf"
+msgstr "Определения объекта"
+
+msgid "objs_bibl"
+msgstr "Библиографии"
+
+msgid "objs_blog"
+msgstr "Блоги"
+
+msgid "objs_book"
+msgstr "Журналы учёта"
+
+msgid "objs_cat"
+msgstr "Категории"
+
+msgid "objs_catr"
+msgstr "Category References"
+
+msgid "objs_chtr"
+msgstr "Чаты"
+
+#, fuzzy
+msgid "objs_cmix"
+msgstr "Objects xAPI/cmi5"
+
+#, fuzzy
+msgid "objs_copa"
+msgstr "Content Pages"
+
+msgid "objs_crs"
+msgstr "Курсы"
+
+msgid "objs_crsr"
+msgstr "Course References"
+
+msgid "objs_dcl"
+msgstr "Data Collections"
+
+msgid "objs_etal"
+msgstr "Employee Talks"
+
+msgid "objs_exc"
+msgstr "Упражнения"
+
+msgid "objs_file"
+msgstr "Файлы"
+
+msgid "objs_fold"
+msgstr "Каталоги"
+
+msgid "objs_frm"
+msgstr "Форумы"
+
+msgid "objs_glo"
+msgstr "Словари"
+
+msgid "objs_grp"
+msgstr "Группы"
+
+#, fuzzy
+msgid "objs_grpr"
+msgstr "Group References"
+
+msgid "objs_htlm"
+msgstr "Обучающие модули HTML"
+
+#, fuzzy
+msgid "objs_iass"
+msgstr "Individual Assessments"
+
+msgid "objs_itgr"
+msgstr "Группы элементов"
+
+msgid "objs_lm"
+msgstr "Обучающие модули ILIAS"
+
+msgid "objs_lres"
+msgstr "Обучающие ресурсы"
+
+#, fuzzy
+msgid "objs_lso"
+msgstr "Learning Sequences"
+
+#, fuzzy
+msgid "objs_lti"
+msgstr "LTI Consumers"
+
+msgid "objs_mail"
+msgstr "Mail"
+
+msgid "objs_mcst"
+msgstr "Трансляции"
+
+msgid "objs_mep"
+msgstr "Хранилища мультимедиа"
+
+msgid "objs_orgu"
+msgstr "Организационный блок"
+
+msgid "objs_poll"
+msgstr "Polls"
+
+#, fuzzy
+msgid "objs_prg"
+msgstr "Study Programmes"
+
+#, fuzzy
+msgid "objs_prgr"
+msgstr "Links to Study Programmes"
+
+#, fuzzy
+msgid "objs_prtf"
+msgstr "Portfolios"
+
+msgid "objs_prtt"
+msgstr "Шаблоны протфолио"
+
+msgid "objs_qpl"
+msgstr "Пулы вопросов теста"
+
+msgid "objs_qst"
+msgstr "Вопросы"
+
+msgid "objs_rcat"
+msgstr "ECS Categories"
+
+msgid "objs_rcrs"
+msgstr "Course-Links"
+
+msgid "objs_rfil"
+msgstr "ECS Files"
+
+msgid "objs_rglo"
+msgstr "ECS Glossaries"
+
+msgid "objs_rgrp"
+msgstr "ECS Groups"
+
+msgid "objs_rlm"
+msgstr "ECS Learning Modules"
+
+msgid "objs_role"
+msgstr "Роли"
+
+#, fuzzy
+msgid "objs_rolf"
+msgstr "Role Folders"
+
+msgid "objs_rtst"
+msgstr "ECS Tests"
+
+msgid "objs_rwik"
+msgstr "ECS вики"
+
+msgid "objs_sahs"
+msgstr "Обучающие модули SCORM/AICC"
+
+msgid "objs_sess"
+msgstr "Сессии"
+
+#, fuzzy
+msgid "objs_skee"
+msgstr "Competence Trees"
+
+msgid "objs_spl"
+msgstr "Наборы вопросов для опроса (Question Pools Survey)"
+
+msgid "objs_st"
+msgstr "Главы"
+
+msgid "objs_svy"
+msgstr "Определения"
+
+msgid "objs_tala"
+msgstr "Talk Templates"
+
+msgid "objs_talt"
+msgstr "Talk Templates"
+
+msgid "objs_tst"
+msgstr "Тесты"
+
+msgid "objs_webr"
+msgstr "Веб ресурсы"
+
+msgid "objs_wiki"
+msgstr "Вики"
+
+msgid "of"
+msgstr "из"
+
+msgid "offline"
+msgstr "Неактивен"
+
+msgid "offline_mode"
+msgstr "Offline-Mode"
+
+msgid "ok"
+msgstr "ОК"
+
+msgid "old"
+msgstr "Старый"
+
+msgid "omit"
+msgstr "Пропустить"
+
+msgid "omit_all"
+msgstr "Пропустить всё"
+
+msgid "on_waiting_list"
+msgstr "You are on the waiting list"
+
+msgid "online"
+msgstr "Online"
+
+msgid "online_time"
+msgstr "Время в сети (DD:HH:MM:SS)"
+
+#, fuzzy
+msgid "only_active"
+msgstr "Only Active"
+
+#, fuzzy
+msgid "only_inactive"
+msgstr "Only Inactive"
+
+#, fuzzy
+msgid "open"
+msgstr "Open"
+
+msgid "operation"
+msgstr "Операция"
+
+msgid "optimize"
+msgstr "Оптимизация"
+
+msgid "option"
+msgstr "Вариант"
+
+msgid "optional_filter_hint"
+msgstr "Пожалуйста активируйте один из настраиваемых фильтров."
+
+msgid "optional_filters"
+msgstr "Настраиваемые фильтры"
+
+msgid "options"
+msgstr "Опции"
+
+msgid "order_by"
+msgstr "Порядок по"
+
+msgid "order_by_date"
+msgstr "Сортировать по времени"
+
+#, fuzzy
+msgid "org_op_access_enrolments"
+msgstr "View Enrolment-Status"
+
+#, fuzzy
+msgid "org_op_manage_members"
+msgstr "Manage Subordinate Members"
+
+#, fuzzy
+msgid "org_op_read_learning_progress"
+msgstr "View Learning Progress of Subordinate Users"
+
+#, fuzzy
+msgid "org_permission_settings"
+msgstr "Permissions of Positions in Organisational Units"
+
+#, fuzzy
+msgid "org_units"
+msgstr "Organisational Units"
+
+msgid "organization"
+msgstr "Provider"
+
+msgid "other"
+msgstr "Разное"
+
+msgid "overview"
+msgstr "Обзор"
+
+msgid "overwrite"
+msgstr "Overwrite"
+
+msgid "owner"
+msgstr "Владелец"
+
+msgid "owner_updated"
+msgstr "Owner updated."
+
+msgid "page"
+msgstr "Страница"
+
+#, fuzzy
+msgid "page_count"
+msgstr "Page Count"
+
+msgid "page_layout"
+msgstr "Page Layout"
+
+msgid "page_layouts"
+msgstr "Page Layouts"
+
+#, fuzzy
+msgid "pagination_label_x_of_y"
+msgstr "Page %1$d of %2$d"
+
+msgid "parameter"
+msgstr "Параметр"
+
+msgid "parse"
+msgstr "Фраза"
+
+#, fuzzy
+msgid "participate"
+msgstr "Subscribe"
+
+msgid "passed"
+msgstr "Сдан"
+
+msgid "passwd"
+msgstr "Пароль"
+
+msgid "passwd_generation"
+msgstr "Генерация паролей"
+
+msgid "passwd_invalid"
+msgstr "Новый пароль ошибочен! Разрешены только следующие символы (более 6 символов): A-Z a-z 0-9 _.-+*@!$%~"
+
+msgid "passwd_not_match"
+msgstr "Пароль и повтор пароля не совпадают! Пожалуйста, повторите ваш новый пароль."
+
+msgid "passwd_wrong"
+msgstr "Введенный вами пароль ошибочен!"
+
+msgid "password"
+msgstr "Пароль"
+
+msgid "password_allow_chars"
+msgstr "Разрешенные символы: %s"
+
+msgid "password_assistance_info"
+msgstr "Если ассистент паролей включён, то на странице входа ILIAS появляется текст \"Забыли пароль?\". Пользователи могут использовать эту ссылку для задания нового пароля для своего аккаунта, без вмешательства администратора."
+
+msgid "password_change_on_first_login_demand"
+msgstr "Your initial password have to be changed before you can start using ILIAS services"
+
+msgid "password_contains_invalid_chars"
+msgstr "The password contains invalid characters"
+
+msgid "password_contains_parts_of_login_err"
+msgstr "The chosen password contains your username. Please insert a new password."
+
+msgid "password_empty"
+msgstr "The password must not be empty."
+
+msgid "password_expired"
+msgstr "Your password is expired and have to be changed, because the last change was %s day(s) ago."
+
+msgid "password_multiple_errors"
+msgstr "Multiple criterias are not satisfied:"
+
+msgid "password_must_chars_and_numbers"
+msgstr "The password must contain characters and numbers."
+
+msgid "password_must_contain_lcase_chars"
+msgstr "The password must contain at least %s lower case letters."
+
+msgid "password_must_contain_ucase_chars"
+msgstr "The password must contain at least %s capital letters."
+
+msgid "password_must_special_chars"
+msgstr "The password must contain special characters."
+
+msgid "password_to_long"
+msgstr "The password must have at most a size of %s characters."
+
+msgid "password_to_short"
+msgstr "The password must have at least a size of %s characters."
+
+msgid "paste"
+msgstr "Вставить"
+
+msgid "pasteChapter"
+msgstr "Вставить Главу"
+
+msgid "pastePage"
+msgstr "Вставить Страницу"
+
+msgid "paste_clipboard_items"
+msgstr "Вставить из буфера обмена"
+
+msgid "path"
+msgstr "Путь"
+
+msgid "path_not_set"
+msgstr "Путь неустановлен"
+
+msgid "path_to_convert"
+msgstr "Путь к конвертеру"
+
+msgid "path_to_htmldoc"
+msgstr "Путь к HTMLdoc"
+
+msgid "path_to_java"
+msgstr "Путь к Java"
+
+msgid "path_to_unzip"
+msgstr "Путь к Unzip"
+
+msgid "path_to_zip"
+msgstr "Путь к Zip"
+
+msgid "pathes"
+msgstr "Пути"
+
+msgid "pd_items_news"
+msgstr "Include News of Personal Items"
+
+msgid "pdf_export"
+msgstr "Экспорт в PDF"
+
+msgid "perm_settings"
+msgstr "Параметры доступа"
+
+msgid "perma_link"
+msgstr "Постоянная ссылка"
+
+#, fuzzy
+msgid "perma_link_copied"
+msgstr "Link to this page has been copied to the clipboard."
+
+msgid "permission"
+msgstr "Разрешение"
+
+msgid "permission_denied"
+msgstr "Разрешение не дано"
+
+msgid "permission_settings"
+msgstr "Параметры доступа"
+
+msgid "person_title"
+msgstr "Название"
+
+msgid "personal_data"
+msgstr "Личная информация"
+
+msgid "personal_picture"
+msgstr "Фото"
+
+msgid "personal_profile"
+msgstr "Персональные данные и профиль"
+
+#, fuzzy
+msgid "personal_resources"
+msgstr "Personal Resources"
+
+msgid "personal_settings"
+msgstr "Настройки"
+
+#, fuzzy
+msgid "personalise_date_time"
+msgstr "Personalise Date and Time Settings"
+
+msgid "persons"
+msgstr "Персоны"
+
+msgid "pg_add"
+msgstr "добавить страницу"
+
+msgid "pg_new"
+msgstr "Новая страница"
+
+msgid "phone"
+msgstr "Телефон"
+
+msgid "phone_home"
+msgstr "Телефон, Домашний"
+
+msgid "phone_mobile"
+msgstr "Телефон, Мобильный"
+
+msgid "phone_office"
+msgstr "Телефон, Рабочий"
+
+msgid "phrase"
+msgstr "Фраза"
+
+msgid "please_choose"
+msgstr "-- Выбрать --"
+
+msgid "please_enter_target"
+msgstr "Пожалуйста, введите предмет"
+
+msgid "please_enter_title"
+msgstr "Пожалуйста, задайте заголовок"
+
+msgid "please_select"
+msgstr "-- Пожалуйста выберите --"
+
+msgid "please_select_a_delivered_file_to_delete"
+msgstr "Выберите хоть один переданный файл для его удаления!"
+
+msgid "please_select_a_delivered_file_to_download"
+msgstr "Выберите хоть один переданный файл для его закачки!"
+
+msgid "please_wait"
+msgstr "Please wait..."
+
+msgid "port"
+msgstr "Порт"
+
+msgid "portfolio"
+msgstr "Портфолио"
+
+msgid "pos_bottom"
+msgstr "Bottom"
+
+msgid "pos_left"
+msgstr "Left"
+
+msgid "pos_right"
+msgstr "Right"
+
+msgid "pos_top"
+msgstr "Top"
+
+msgid "position"
+msgstr "Должность"
+
+#, fuzzy
+msgid "position_permission_settings"
+msgstr "Orgunit-Specific Permissions"
+
+msgid "precondition"
+msgstr "Precondition"
+
+msgid "precondition_not_accessible"
+msgstr "You do not have sufficient permission to view the precondition(s) of this item."
+
+msgid "precondition_required_itemlist"
+msgstr "Required Precondition"
+
+msgid "precondition_toggle"
+msgstr "Preconditions that need to be fulfilled to access this object"
+
+msgid "preconditions"
+msgstr "Условия"
+
+msgid "preconditions_obligatory_hint"
+msgstr "Please edit the following preconditions"
+
+msgid "preconditions_optional_hint"
+msgstr "Please edit one of the following preconditions"
+
+msgid "predefined_template"
+msgstr "Predefined role template"
+
+msgid "preferences"
+msgstr "User-defined Preferences"
+
+#, fuzzy
+msgid "presentation_table_more"
+msgstr "more"
+
+#, fuzzy
+msgid "presenter"
+msgstr "Presenter"
+
+msgid "preview"
+msgstr "Preview"
+
+msgid "preview_create"
+msgstr "Create Preview"
+
+msgid "preview_delete"
+msgstr "Delete Preview"
+
+#, fuzzy
+msgid "preview_image_size"
+msgstr "Size of Preview Images"
+
+msgid "preview_learner_info"
+msgstr "If enabled, Course and Group administrators have the possibility to view the content form the perspective of a learner."
+
+msgid "preview_loading"
+msgstr "Loading Preview..."
+
+msgid "preview_none"
+msgstr "Preview (not created yet)"
+
+#, fuzzy
+msgid "preview_not_possible"
+msgstr "Creation of Previews is currently not possible, please read the documentation in %s."
+
+#, fuzzy
+msgid "preview_renderers"
+msgstr "Preview Renderers"
+
+msgid "preview_settings"
+msgstr "File Preview"
+
+msgid "preview_show"
+msgstr "Show Preview"
+
+msgid "preview_status_creating"
+msgstr "The preview gets created. This may take some time..."
+
+msgid "preview_status_deleting"
+msgstr "The preview gets deleted..."
+
+msgid "preview_status_failed"
+msgstr "Failed to create the preview."
+
+msgid "preview_status_missing"
+msgstr "No preview exists for this file."
+
+msgid "preview_status_pending"
+msgstr "The preview has not been created yet. Please try again later."
+
+msgid "previous"
+msgstr "Назад"
+
+#, fuzzy
+msgid "prg_copy_threads_info"
+msgstr "Please decide which Study Program elements should be copied, linked or even omitted."
+
+#, fuzzy
+msgid "prg_wizard_page"
+msgstr "Copy Study Program (Step 2/2)"
+
+#, fuzzy
+msgid "prgr_add"
+msgstr "Add Study Programme Link"
+
+#, fuzzy
+msgid "prgr_edit_info"
+msgstr "Please choose one Study Programme for creating a new link."
+
+#, fuzzy
+msgid "prgr_new"
+msgstr "Create Study Programme Link"
+
+#, fuzzy
+msgid "prgr_settings"
+msgstr "Settings of Study Programme Link"
+
+msgid "print"
+msgstr "Печать"
+
+msgid "print_view"
+msgstr "Предварительный просмотр"
+
+msgid "private_notes"
+msgstr "Личные Заметки"
+
+msgid "pro"
+msgstr "За"
+
+msgid "proceed"
+msgstr "Proceed"
+
+msgid "profile"
+msgstr "Профиль"
+
+msgid "profile_changed"
+msgstr "Ваш профиль был изменен"
+
+msgid "profile_incomplete"
+msgstr "Your profile is incomplete. Please fill in all required data."
+
+msgid "profile_of"
+msgstr "Профиль"
+
+msgid "properties"
+msgstr "свойства"
+
+msgid "proxy"
+msgstr "Proxy"
+
+msgid "proxy_connectable"
+msgstr "Connection established."
+
+msgid "proxy_host"
+msgstr "Сервер прокси"
+
+msgid "proxy_host_info"
+msgstr "Пожалуйста, введите адрес сервера."
+
+msgid "proxy_not_connectable"
+msgstr "ILIAS could not build a connection to the defined proxy."
+
+msgid "proxy_port"
+msgstr "Порт"
+
+msgid "proxy_port_info"
+msgstr "Пожалуйста введите порт от 0 до 65535, например 8080."
+
+msgid "proxy_port_numeric"
+msgstr "The entered port has to be a numeric value between 0 and 65535"
+
+#, fuzzy
+msgid "proxy_socket_error"
+msgstr "Socket Error: %s"
+
+msgid "proxy_status"
+msgstr "Прокси"
+
+msgid "proxy_status_info"
+msgstr "Чтобы использовать прокси-сервер в ILIAS(например для веб-лент или для проверки ссылок на внешние ресурсы) пожалуйста установите данный флажок."
+
+#, fuzzy
+msgid "ps_export_scorm"
+msgstr "SCORM Tracking Data"
+
+msgid "ps_password_lowercase_chars_num"
+msgstr "Lower Case Letters"
+
+msgid "ps_password_lowercase_chars_num_info"
+msgstr "Please insert the number of lower case letters a password must contain. Enter 0 to disable this requirement."
+
+msgid "ps_password_must_not_contain_loginame"
+msgstr "Prevent Username in Password"
+
+msgid "ps_password_must_not_contain_loginame_info"
+msgstr "If activated, a password must not contain the username."
+
+msgid "ps_password_uppercase_chars_num"
+msgstr "Capital Letters"
+
+msgid "ps_password_uppercase_chars_num_info"
+msgstr "Please insert the number of capital letters a password must contain. Enter 0 to disable this requirement."
+
+msgid "pub_section"
+msgstr "Публичный раздел"
+
+msgid "pub_section_info"
+msgstr "If enabled, parts of the system (e.g. repository, user profiles) can be made available to the internet without authentification. The permissions of the \"Anonymous\" role will control the access to repository resources."
+
+msgid "public"
+msgstr "общий"
+
+msgid "public_notes"
+msgstr "Public Notes"
+
+msgid "public_profile"
+msgstr "Публичный профиль"
+
+msgid "public_room"
+msgstr "Public room"
+
+msgid "purpose"
+msgstr "Цель"
+
+msgid "qpl"
+msgstr "Пул вопросов теста"
+
+msgid "qpl_add"
+msgstr "Добавить пул вопросов теста"
+
+msgid "qpl_new"
+msgstr "Новый пул вопросов теста"
+
+msgid "query_data"
+msgstr "Данные запроса"
+
+msgid "question"
+msgstr "Вопрос"
+
+msgid "question_message"
+msgstr "Вопрос"
+
+msgid "quit"
+msgstr "Выход"
+
+msgid "quote"
+msgstr "Цитата"
+
+msgid "read"
+msgstr "Прочитать"
+
+msgid "readcount_anonymous_users"
+msgstr "Number of anonymous read accesses"
+
+msgid "readcount_users"
+msgstr "Количество не анонимных просмотров"
+
+msgid "recipient"
+msgstr "Получатель"
+
+msgid "reference_deleted"
+msgstr "Destination not available"
+
+msgid "reference_of"
+msgstr "Reference of:"
+
+msgid "referral_comment"
+msgstr "Как вы узнали о ILIAS?"
+
+msgid "refresh"
+msgstr "Обновить"
+
+msgid "refresh_languages"
+msgstr "Обновить языки"
+
+msgid "refuse"
+msgstr "Мусор (Refuse)"
+
+msgid "reg_account_confirmation_successful"
+msgstr "Your user account has been activated."
+
+#, fuzzy
+msgid "reg_delete_expired_pending_registrations"
+msgstr "Delete Expired Pending Registrations"
+
+#, fuzzy
+msgid "reg_delete_expired_pending_registrations_desc"
+msgstr "Deletes all ILIAS accounts that have not been confirmed after a registration with e-mail confirmation."
+
+msgid "reg_goto_parent_membership_info"
+msgstr "Only members can access the target object."
+
+msgid "reg_mail_body_2_confirmation"
+msgstr "The link will only be good for %s, after that you will have to try again from the beginning."
+
+msgid "reg_mail_body_3_confirmation"
+msgstr "If this email means nothing to you, then it is possible that somebody else has entered your email address either deliberately or accidentally, so please ignore this email"
+
+msgid "reg_mail_body_forgot_password_info"
+msgstr "To get your password, please use the function « Forgot password? » at the login screen to request a new password for this account."
+
+msgid "reg_mail_body_salutation"
+msgstr "Привет"
+
+msgid "reg_mail_body_text1"
+msgstr "Добро пожаловать в ILIAS eLearning!"
+
+msgid "reg_mail_body_text2"
+msgstr "ILIAS использует доступ к следующим данным:"
+
+msgid "reg_mail_body_text3"
+msgstr "Дополнительная персональная информация:"
+
+msgid "reg_mail_subject"
+msgstr "Ваши данные доступа"
+
+msgid "reg_mail_subject_confirmation"
+msgstr "Your Confirmationlink"
+
+msgid "reg_passwd_via_mail"
+msgstr "Ваш пароль будет послан по е-майл адресу приведенному ниже."
+
+msgid "register"
+msgstr "Регистрация"
+
+#, fuzzy
+msgid "register_notification"
+msgstr "\"%s\" has applied for session \"%s\"."
+
+msgid "registered_since"
+msgstr "Зарегистрирован с"
+
+msgid "registered_user"
+msgstr "зарегистрирован Пользователь"
+
+msgid "registered_users"
+msgstr "зарегистрированы Пользователи"
+
+msgid "registration"
+msgstr "Регистрация новой учетной записи"
+
+msgid "related_to"
+msgstr "Related to"
+
+msgid "remove"
+msgstr "Удалить"
+
+msgid "remove_entries"
+msgstr "Очистить"
+
+msgid "remove_translation"
+msgstr "Переместить перевод"
+
+msgid "rename"
+msgstr "Переименовать"
+
+msgid "rename_file"
+msgstr "Переименовать файл"
+
+msgid "renderer_supported_file_types"
+msgstr "Supported File Types"
+
+msgid "renderer_supported_repo_types"
+msgstr "Supported ILIAS Objects"
+
+msgid "renderer_type_builtin"
+msgstr "Built-in"
+
+msgid "rep_main_page"
+msgstr "Главная"
+
+#, fuzzy
+msgid "rep_main_page_logo_alt"
+msgstr "Logo ILIAS - to the start page"
+
+msgid "repeat_scan"
+msgstr "Повторить сканирование вирусов..."
+
+msgid "repeat_scan_failed"
+msgstr "Ошибка повтора сканирования."
+
+msgid "repeat_scan_succeded"
+msgstr "Повтор сканирования успешен."
+
+msgid "replace_file"
+msgstr "Заменить файл"
+
+msgid "reply"
+msgstr "Ответ"
+
+#, fuzzy
+msgid "report_accessibility_issue"
+msgstr "Report Accessibility Issue"
+
+#, fuzzy
+msgid "report_accessibility_link"
+msgstr "Reported Link:"
+
+#, fuzzy
+msgid "report_accessibility_link_mailto"
+msgstr "Reported%20Link:"
+
+msgid "repository"
+msgstr "Репозиторий"
+
+msgid "repository_admin"
+msgstr "Репозиторий, корзина и права доступа"
+
+msgid "repository_admin_desc"
+msgstr "Set permissions for repository items, restore or remove objects from system trash"
+
+msgid "require_email"
+msgstr "Требуется е-майл"
+
+msgid "require_gender"
+msgstr "Требуется пол"
+
+msgid "require_hobby"
+msgstr "Требуется хобби"
+
+msgid "require_matriculation"
+msgstr "Требуется шифр"
+
+msgid "require_referral_comment"
+msgstr "Требуется справочное пояснение"
+
+msgid "required_field"
+msgstr "Обязательно"
+
+msgid "res_links"
+msgstr "Repository Links"
+
+msgid "res_links_short"
+msgstr "Links"
+
+msgid "reset"
+msgstr "Сбросить"
+
+msgid "reset_filter"
+msgstr "Сбросить фильтр"
+
+msgid "resources"
+msgstr "Ресурсы"
+
+msgid "right"
+msgstr "Право"
+
+msgid "rights"
+msgstr "Права"
+
+msgid "role"
+msgstr "Роль"
+
+msgid "role_add_user"
+msgstr "Добавить пользователя(ей) на Роль"
+
+msgid "role_added"
+msgstr "Роль добавлена"
+
+msgid "role_assignment"
+msgstr "Присвоить роль"
+
+msgid "role_assignment_updated"
+msgstr "Присваивание роли (Role assignment) было обновлено."
+
+msgid "role_edit"
+msgstr "Редактировать Роль"
+
+msgid "role_mailto"
+msgstr "Mail to all assigned Users"
+
+msgid "role_new"
+msgstr "Новая роль"
+
+msgid "role_new_search"
+msgstr "Новый поиск"
+
+msgid "role_no_roles_selected"
+msgstr "Пожалуйста, выберите роль"
+
+msgid "role_protect_permissions"
+msgstr "Protect permissions"
+
+msgid "role_protect_permissions_desc"
+msgstr "The object permissions cannot be changed by systems operations anymore. Furthermore only administrator of higher levels may change the permissions."
+
+msgid "role_select_one_item"
+msgstr "Пожалуйста, выберите один объект."
+
+msgid "role_sure_delete_desk_items"
+msgstr "Вы уверены, что хотите удалить следующие присвоения (assignments)?"
+
+msgid "role_templates_only"
+msgstr "Только для Шаблонов ролей"
+
+msgid "roles"
+msgstr "Роли"
+
+msgid "roles_of_import_global"
+msgstr "Общие роли файла импорта"
+
+msgid "roles_of_import_local"
+msgstr "Местные роли файла импорта"
+
+msgid "rolf"
+msgstr "Роль"
+
+msgid "rolf_added"
+msgstr "Каталог Роли добавлен"
+
+msgid "rolf_create_role"
+msgstr "Создать новое Определение роли"
+
+msgid "rolf_create_rolt"
+msgstr "Создать новый Шаблон определения роли"
+
+msgid "rolf_delete"
+msgstr "Удалить Шаблон/Шаблоны Ролей"
+
+msgid "rolf_edit_permission"
+msgstr "Изменить параметры доступа"
+
+msgid "rolf_edit_userassignment"
+msgstr "Изменить пользовательские назначения (user assignment) ролей"
+
+msgid "rolf_read"
+msgstr "Доступ для чтения Шаблона/Шаблонов Ролей"
+
+msgid "rolf_visible"
+msgstr "Шаблон/Шаблоны Ролей видимы"
+
+msgid "rolf_write"
+msgstr "Редактировать значения по умолчанию для установок разрешения Шаблонов Роли/Ролей"
+
+msgid "rolt"
+msgstr "Шаблон Роли"
+
+msgid "rolt_added"
+msgstr "Шаблон Роли добавлен"
+
+msgid "rolt_edit"
+msgstr "Редактировать Шаблон Роли"
+
+msgid "rolt_new"
+msgstr "Новый Шаблон Роли"
+
+msgid "row"
+msgstr "Row"
+
+msgid "rows"
+msgstr "Строки"
+
+msgid "rpc_pdf_font"
+msgstr "Fonts"
+
+msgid "rpc_pdf_font_info"
+msgstr "Additional fonts for the generation of PDF files. Other fonts than \"Helvetica\" and \"unifont\" must be installed on the ILIAS server."
+
+msgid "rpc_pdf_generation"
+msgstr "PDF-Generation"
+
+#, fuzzy
+msgid "sad"
+msgstr "Sad"
+
+msgid "sahs"
+msgstr "Обучающий модуль SCORM/AICC"
+
+msgid "sahs_added"
+msgstr "SCORM/AICC Обучающий модуль добавлен"
+
+#, fuzzy
+msgid "sahs_export_file"
+msgstr "ILIAS exported SCORM archive file"
+
+#, fuzzy
+msgid "sahs_export_file_info"
+msgstr "Use this option for a ZIP file that was exported directly from ILIAS. The file typically has titles such as 1675257903__4105__sahs_132295.zip."
+
+msgid "sahs_insert_chap_from_clip"
+msgstr "Paste Chapters from Clipboard"
+
+msgid "sahs_insert_page_from_clip"
+msgstr "Paste Pages from Clipboard"
+
+msgid "sahs_insert_sco_from_clip"
+msgstr "Paste SCOs from Clipboard"
+
+#, fuzzy
+msgid "sahs_new"
+msgstr "Create New Learning Module"
+
+msgid "salutation"
+msgstr "Приветствие"
+
+msgid "salutation_f"
+msgstr "Госпожа/Мадемуазель"
+
+msgid "salutation_m"
+msgstr "Господин"
+
+#, fuzzy
+msgid "salutation_n"
+msgstr "No salutation desired"
+
+#, fuzzy
+msgid "saml_log_in"
+msgstr "Direct login"
+
+#, fuzzy
+msgid "saml_login_form_info_txt"
+msgstr "You can log in using the “Direct Login” button without having to enter your username or password."
+
+#, fuzzy
+msgid "saml_login_form_txt"
+msgstr "Login to ILIAS via SAML"
+
+msgid "save"
+msgstr "Сохранить"
+
+msgid "save_and_back"
+msgstr "Сохранить и вернуться"
+
+msgid "save_message"
+msgstr "Сохранить сообщение"
+
+msgid "save_params_for_cron"
+msgstr "Save Parameter for Cronjob"
+
+msgid "save_refresh"
+msgstr "Сохранить и обновить"
+
+msgid "save_return"
+msgstr "Сохранить и вернуться"
+
+msgid "save_settings"
+msgstr "Сохранить параметры"
+
+msgid "save_user_related_data"
+msgstr "Сохранить пользователей, связанных данными доступа (Save user related access data)"
+
+msgid "saved_successfully"
+msgstr "Сохранено успешно"
+
+msgid "saving"
+msgstr "Saving..."
+
+#, fuzzy
+msgid "scope"
+msgstr "Scope"
+
+msgid "scorm_create_export_file_html"
+msgstr "Create Export File (HTML)"
+
+msgid "scorm_create_export_file_pdf"
+msgstr "Create Export File (PDF)"
+
+msgid "scorm_create_export_file_scrom12"
+msgstr "Create Export File (SCORM 1.2)"
+
+msgid "scorm_create_export_file_scrom2004"
+msgstr "Create Export File (SCORM 2004)"
+
+msgid "scorm_create_export_file_scrom2004_4th"
+msgstr "Create Export File (SCORM 2004 4th Edition)"
+
+msgid "scorm_login_as_learner_id"
+msgstr "SCORM 2004: set ILIAS User Name as cmi.learner_id"
+
+msgid "scorm_login_as_learner_id_info"
+msgstr "If enabled, the User Name instead of the User ID is set for cmi.learner_id."
+
+#, fuzzy
+msgid "scorm_lp_auto_activate"
+msgstr "default settings for learning progress"
+
+#, fuzzy
+msgid "scorm_lp_auto_activate_info"
+msgstr "If learning progress is activated in general, the settings for new SCORM learning modules are set to 'Collection of SCORM Items' and all SCOs are selected for learning progress determination. Adjustments are still possible for every SCORM learning module."
+
+msgid "scorm_new"
+msgstr "New SCORM/IACC Learning Module"
+
+msgid "scorm_without_session"
+msgstr "SCORM 2004: enable storing data without session"
+
+msgid "scorm_without_session_info"
+msgstr "This ensures the storage of SCORM learning data even if ILIAS session expired"
+
+msgid "search"
+msgstr "Поиск"
+
+msgid "search_active"
+msgstr "Включить активных пользователей"
+
+msgid "search_at_current_position"
+msgstr "At Current Position"
+
+msgid "search_engine"
+msgstr "Поисковые машины"
+
+msgid "search_for"
+msgstr "Поиск"
+
+msgid "search_globally"
+msgstr "Globally"
+
+msgid "search_in"
+msgstr "Поиск в"
+
+msgid "search_inactive"
+msgstr "Включая неактивных пользователей"
+
+msgid "search_new"
+msgstr "Новый поиск"
+
+msgid "search_result"
+msgstr "Поиск результата"
+
+msgid "search_results"
+msgstr "Search results"
+
+msgid "search_user"
+msgstr "Поиск пользователя"
+
+#, fuzzy
+msgid "search_users"
+msgstr "Look Up Users"
+
+msgid "seas_max_hits"
+msgstr "Количество результатов"
+
+msgid "seas_max_hits_info"
+msgstr "Please enter a number for the maximum number of search results."
+
+msgid "seas_settings"
+msgstr "Настройки поиска"
+
+msgid "second"
+msgstr "Second"
+
+#, fuzzy
+msgid "second_email"
+msgstr "Second Email"
+
+msgid "seconds"
+msgstr "Секунда(ы)"
+
+msgid "sel_country"
+msgstr "Country"
+
+msgid "select"
+msgstr "Выбор"
+
+msgid "select_all"
+msgstr "Выбрать всё"
+
+msgid "select_at_least_one_object"
+msgstr "Please choose at least one object."
+
+msgid "select_file"
+msgstr "Выбрать файл"
+
+#, fuzzy
+msgid "select_file_from_computer"
+msgstr "Select File"
+
+msgid "select_files_from_computer"
+msgstr "Выберете файлы на вашем компьютере"
+
+msgid "select_max_one_item"
+msgstr "Пожалуйста, выберите только один пункт"
+
+msgid "select_object_to_link"
+msgstr "Пожалуйста, выберите только один связываемый объект"
+
+msgid "select_one"
+msgstr "Please select one."
+
+#, fuzzy
+msgid "select_question_pool_info"
+msgstr "As long as the import file contains questions, these questions will be imported to the selected questionpool as well."
+
+msgid "select_questionpool"
+msgstr "Пул вопросов теста"
+
+msgid "selected"
+msgstr "Выбрано"
+
+msgid "selected_files"
+msgstr "Selected files"
+
+msgid "selected_items"
+msgstr "Личные предметы"
+
+msgid "selected_items_back"
+msgstr "Вернуться к персональным элементам"
+
+msgid "selected_languages_updated"
+msgstr "The selected languages have been updated (if installed):"
+
+msgid "send"
+msgstr "Применить"
+
+msgid "send_mail"
+msgstr "Отправить e-mail"
+
+msgid "sender"
+msgstr "Отправитель"
+
+msgid "sent"
+msgstr "Послать"
+
+msgid "sequence"
+msgstr "Последовательность"
+
+msgid "sequences"
+msgstr "Последовательности"
+
+msgid "server"
+msgstr "Сервер"
+
+msgid "server_data"
+msgstr "Данные сервера"
+
+msgid "server_disabled"
+msgstr "The Chat is Disabled"
+
+msgid "server_software"
+msgstr "ПО сервера"
+
+msgid "sess"
+msgstr "Session"
+
+msgid "sess_fixed_duration"
+msgstr "Фиксированная продолжительность сеанса"
+
+msgid "session_config"
+msgstr "Настройки сеанса"
+
+msgid "session_config_maintenance_disabled"
+msgstr "Maintenance by client not allowed"
+
+#, fuzzy
+msgid "session_mail_subject_deletion"
+msgstr "Deregistration of user \"%s\" from session \"%s\""
+
+#, fuzzy
+msgid "session_mail_subject_entered"
+msgstr "Joining of user \"%s\" in session \"%s\""
+
+#, fuzzy
+msgid "session_mail_subject_registered"
+msgstr "Registration of user \"%s\" for session \"%s\""
+
+msgid "session_reminder"
+msgstr "Session-Reminder"
+
+msgid "session_reminder_alert"
+msgstr "Your session expires in %1$s at %2$s!\\n\\nChoose OK to continue your session.\\nIf you click Cancel you will not be reminded during the current browser session anymore.\\n\\nInstallation: %3$s."
+
+#, fuzzy
+msgid "session_reminder_default_lead_time_info"
+msgstr "Please specify how many minutes before the expiration of a session a reminder should be shown.<br / >The function is deactivated when the value is '%s'. The recommended value is %s.<br / >The current length of a session is %s."
+
+#, fuzzy
+msgid "session_reminder_input"
+msgstr "Session Reminder (in Minutes)"
+
+msgid "session_reminder_lead_time"
+msgstr "Leadtime"
+
+msgid "session_reminder_lead_time_info"
+msgstr "Please specify, how much seconds before the session expires you want the session reminder to display a warning. The current value for a user session is %s."
+
+msgid "session_reminder_session_duration"
+msgstr "(Продолжительность сеанса: %s)."
+
+msgid "set"
+msgstr "Установить"
+
+msgid "setSystemLanguage"
+msgstr "Язык системы"
+
+msgid "setUserLanguage"
+msgstr "Язык пользователя"
+
+msgid "set_offline"
+msgstr "Установить Онлайн"
+
+msgid "set_online"
+msgstr "Установить Оффлайн"
+
+#, fuzzy
+msgid "set_skin_does_not_exist"
+msgstr "Your selected skin does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:"
+
+#, fuzzy
+msgid "set_style_does_not_exist"
+msgstr "Your selected system style does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:"
+
+msgid "settings"
+msgstr "Настройки"
+
+msgid "settings_for_all_members"
+msgstr "Global Setting for all Course/Group Members"
+
+msgid "settings_per_users"
+msgstr "Settings per Course/Group Members"
+
+#, fuzzy
+msgid "settings_presentation_header"
+msgstr "Presentation"
+
+msgid "settings_saved"
+msgstr "Saved settings"
+
+msgid "shib"
+msgstr "Shibboleth"
+
+msgid "shib_active"
+msgstr "Enable Shibboleth support"
+
+msgid "shib_city"
+msgstr "Attribute for city"
+
+msgid "shib_country"
+msgstr "Attribute for country"
+
+msgid "shib_data_conv"
+msgstr "Absolute path to data manipulation API"
+
+msgid "shib_data_conv_warning"
+msgstr "The data manipulation API file you specified cannot be read"
+
+msgid "shib_department"
+msgstr "Attribute for department"
+
+msgid "shib_email"
+msgstr "Attribute for email address"
+
+msgid "shib_federation_name"
+msgstr "Name of your Shibboleth federation"
+
+msgid "shib_firstname"
+msgstr "Attribute for firstname"
+
+msgid "shib_gender"
+msgstr "Attribute for gender (must be 'm' or 'f')"
+
+msgid "shib_general_login_instructions"
+msgstr "To log in via %s, please click on the login button and choose your organization of the following page.<br>If you have questions concerning this, please ask the"
+
+msgid "shib_general_wayf_login_instructions"
+msgstr "In case you are not associated with the given organizations and you need access to a course on this server, please contact the"
+
+msgid "shib_idp_list"
+msgstr "Provide a list of Identity Providers to let the user choose from on the ILIAS login page.<br>On each line there must be a comma-separated tuple for <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as it shall be displayed in the drow-down list.<br>As an optional third parameter you can add the <strong>location of a Shibboleth session initiator</strong> that shall be used in case your ILIAS installation is part of a multi federation setup."
+
+msgid "shib_institution"
+msgstr "Attribute for institution"
+
+msgid "shib_invalid_home_organization"
+msgstr "Please choose a valid organization!"
+
+msgid "shib_language"
+msgstr "Attribute for language"
+
+msgid "shib_lastname"
+msgstr "Attribute for lastname"
+
+msgid "shib_login"
+msgstr "Unique Shibboleth attribute"
+
+msgid "shib_login_button"
+msgstr "Path to Shibboleth login button"
+
+msgid "shib_login_embedded_wayf"
+msgstr "Design custom login area"
+
+msgid "shib_login_embedded_wayf_description"
+msgstr "If this option is chosen, you can provide any HTML code in the login instructions text area below. This can for example be used to embed an own JavaScript WAYF/Discovery Service or create a custom-tailored design of the login area."
+
+msgid "shib_login_external_wayf"
+msgstr "Use external WAYF service"
+
+msgid "shib_login_internal_wayf"
+msgstr "Use ILIAS WAYF service"
+
+msgid "shib_login_type"
+msgstr "Organization selection"
+
+msgid "shib_matriculation"
+msgstr "Attribute for Matriculation Number"
+
+msgid "shib_member_of"
+msgstr "I'm a member of ..."
+
+msgid "shib_phone_home"
+msgstr "Attribute for home phone number"
+
+msgid "shib_phone_mobile"
+msgstr "Attribute for mobile phone number"
+
+msgid "shib_phone_office"
+msgstr "Attribute for office phone number"
+
+msgid "shib_select_home_organization"
+msgstr "For authentication via %s, please select your organization from the drop down list."
+
+msgid "shib_settings_saved"
+msgstr "The Shibboleth settings were saved"
+
+msgid "shib_street"
+msgstr "Attribute for street"
+
+msgid "shib_title"
+msgstr "Attribute for title"
+
+msgid "shib_update"
+msgstr "Update this field on login"
+
+msgid "shib_user_default_role"
+msgstr "Default role assigned to Shibboleth users"
+
+msgid "shib_zipcode"
+msgstr "Attribute for zipcode"
+
+msgid "short_inst_name"
+msgstr "Заголовок окна"
+
+msgid "short_inst_name_info"
+msgstr "Этот текст появляется в заголовке окна/вкладки браузера. Если ничего не введено, выводится 'ILIAS'."
+
+msgid "show"
+msgstr "Показать"
+
+msgid "show_all_details"
+msgstr "Show all details"
+
+#, fuzzy
+msgid "show_content"
+msgstr "Show Content"
+
+msgid "show_details"
+msgstr "Показать Детали"
+
+msgid "show_filter"
+msgstr "Показать фильтр"
+
+#, fuzzy
+msgid "show_hidden_sections"
+msgstr "Show More Information &raquo;"
+
+#, fuzzy
+msgid "show_less"
+msgstr "Show less"
+
+msgid "show_list"
+msgstr "Показать Список"
+
+msgid "show_members"
+msgstr "Просмотреть участников"
+
+#, fuzzy
+msgid "show_more"
+msgstr "Show More"
+
+#, fuzzy
+msgid "show_preview"
+msgstr "Show Preview"
+
+msgid "show_users_online"
+msgstr "Показать пользователей в онлайне"
+
+#, fuzzy
+msgid "show_who_is_online"
+msgstr "Show who is online"
+
+msgid "side_frame"
+msgstr "Side Frame"
+
+msgid "signature"
+msgstr "Подпись"
+
+msgid "size"
+msgstr "Размер"
+
+msgid "skills"
+msgstr "Skills"
+
+msgid "skin_style"
+msgstr "По умолчанию оболочка/стиль"
+
+msgid "smtp"
+msgstr "SMTP"
+
+msgid "soap_connect_timeout"
+msgstr "Таймаут соединения"
+
+msgid "soap_connect_timeout_info"
+msgstr "Максимальная продолжительность в секундах после попытки соединения к Веб-сервису SOAP после которой соединения разрывается."
+
+msgid "soap_user_administration"
+msgstr "Внешнее пользовательское администрирование (SOAP)"
+
+msgid "soap_user_administration_desc"
+msgstr "Если включено, все учетные записи пользователей могут администрироваться внешним SOAP-Клиентом."
+
+msgid "soap_wsdl_path"
+msgstr "Путь к WSDL"
+
+msgid "soap_wsdl_path_info"
+msgstr "Пожалуйста, введите путь к файлу wsdl, который используется Веб-сервисом. Если оставить это поле пустым, то по умолчанию будет использован следующий путь :%s"
+
+#, fuzzy
+msgid "sort"
+msgstr "Sort"
+
+#, fuzzy
+msgid "sort_ascending"
+msgstr "Sort Ascending"
+
+#, fuzzy
+msgid "sort_ascending_long"
+msgstr "Change Sort Direction to Ascending"
+
+msgid "sort_by_this_column"
+msgstr "Сортировать по этому столбцу"
+
+#, fuzzy
+msgid "sort_descending"
+msgstr "Sort Descending"
+
+#, fuzzy
+msgid "sort_descending_long"
+msgstr "Change Sort Direction to Descending"
+
+msgid "sort_inherit_prefix"
+msgstr "Default"
+
+#, fuzzy
+msgid "sorting_asc"
+msgstr "Ascending"
+
+#, fuzzy
+msgid "sorting_creation_header"
+msgstr "By Creation Date"
+
+#, fuzzy
+msgid "sorting_creation_info"
+msgstr "Content items are arranged automatically by their creation date."
+
+#, fuzzy
+msgid "sorting_desc"
+msgstr "Descendent"
+
+#, fuzzy
+msgid "sorting_direction"
+msgstr "Sorting Direction"
+
+msgid "sorting_header"
+msgstr "Content Item Sorting"
+
+msgid "sorting_info_inherit"
+msgstr "The sorting mode is adpated from a parent course."
+
+msgid "sorting_info_manual"
+msgstr "This mode offers you the possibility to sort items manually."
+
+msgid "sorting_info_title"
+msgstr "Choose this mode to sort items automatically by title."
+
+msgid "sorting_manual_header"
+msgstr "Sort Manually"
+
+msgid "sorting_save"
+msgstr "Save Sorting"
+
+msgid "sorting_title_header"
+msgstr "Sort by Title"
+
+msgid "spacer"
+msgstr "Spacer"
+
+msgid "spl"
+msgstr "Набор определений теста (Question Pool Survey)"
+
+msgid "spl_add"
+msgstr "Добавить вопрос для сборника вопросов опроса"
+
+msgid "spl_import"
+msgstr "Import Question Pool Survey"
+
+msgid "spl_new"
+msgstr "Новый вопрос для (question pool for survey)"
+
+msgid "ssl"
+msgstr "SSL (HTTPS)"
+
+msgid "standard_fields"
+msgstr "Standard Fields"
+
+msgid "startpage"
+msgstr "Стартовая страница"
+
+msgid "stat_selected"
+msgstr "Selected"
+
+msgid "statistic"
+msgstr "Статистика"
+
+msgid "statistics"
+msgstr "Статистика"
+
+msgid "status"
+msgstr "Статус"
+
+msgid "status_no_permission"
+msgstr "Отсутствуют права"
+
+msgid "step"
+msgstr "Шаг"
+
+msgid "street"
+msgstr "Улица"
+
+msgid "structure"
+msgstr "Структура"
+
+msgid "sty"
+msgstr "Стили"
+
+msgid "sub_request_deleted"
+msgstr "Deleted membership request"
+
+msgid "sub_request_saved"
+msgstr "Saved membership request"
+
+msgid "subject"
+msgstr "Тема"
+
+msgid "submit"
+msgstr "Подтвердить"
+
+msgid "subobjects"
+msgstr "Подобъекты"
+
+msgid "subscription"
+msgstr "Подписка"
+
+msgid "subtabs"
+msgstr "SubTabs"
+
+msgid "success_message"
+msgstr "Сообщение о успешном выполнении"
+
+msgid "summary"
+msgstr "Общее"
+
+msgid "sure_delete_selected_users"
+msgstr "Вы уверены, что хотите удалить выбранных пользователей"
+
+msgid "survey_defaults"
+msgstr "Default Settings for Surveys"
+
+msgid "survey_unlimited_invitation"
+msgstr "Unlimited Invitation"
+
+msgid "svy"
+msgstr "опрос"
+
+msgid "svy_add"
+msgstr "Добавить опрос"
+
+msgid "svy_finished"
+msgstr "Вы закончили опрос"
+
+msgid "svy_new"
+msgstr "Новый опрос"
+
+msgid "svy_not_finished"
+msgstr "not finished"
+
+msgid "svy_not_started"
+msgstr "Вы не принимаете участия в этом опросе"
+
+msgid "svy_run"
+msgstr "Run"
+
+msgid "svy_warning_survey_not_complete"
+msgstr "The survey is not finished!"
+
+#, fuzzy
+msgid "switch_language"
+msgstr "Switch Language"
+
+msgid "system"
+msgstr "Система"
+
+msgid "system_check"
+msgstr "Проверка системы"
+
+msgid "system_information"
+msgstr "Информация системы"
+
+msgid "system_language"
+msgstr "язык системы"
+
+msgid "system_styles"
+msgstr "System Styles"
+
+msgid "systemcheck_cron"
+msgstr "Process System Check in Cronjob"
+
+msgid "systemcheck_cronform"
+msgstr "Activation of System Check in Cronjob"
+
+msgid "table_mail_import"
+msgstr "Импорт почты"
+
+msgid "tabs"
+msgstr "Tabs"
+
+msgid "tagging_my_tags"
+msgstr "Мои ключевые слова"
+
+#, fuzzy
+msgid "tags"
+msgstr "Tags"
+
+msgid "take_over_structure"
+msgstr "Адаптировать структуру"
+
+msgid "take_over_structure_info"
+msgstr "Если включено, то директории архива будут отображены в категории или в каталоги если используется в группах или курсах."
+
+msgid "tals_etal"
+msgstr "Talk"
+
+msgid "talt_etal"
+msgstr "Talk"
+
+msgid "target"
+msgstr "Ссылка"
+
+msgid "tax"
+msgstr "Таксономия"
+
+msgid "tax_add"
+msgstr "Добавить Таксономию"
+
+msgid "tax_new"
+msgstr "Новая Таксономия"
+
+msgid "term"
+msgstr "термин"
+
+msgid "test"
+msgstr "Тест"
+
+msgid "tests"
+msgstr "Тесты"
+
+msgid "textbox"
+msgstr "Textbox"
+
+msgid "thread"
+msgstr "Thread"
+
+msgid "thumbnail"
+msgstr "Thumbnail"
+
+#, fuzzy
+msgid "tile_view"
+msgstr "Tile View"
+
+msgid "time"
+msgstr "Время"
+
+msgid "time_limit"
+msgstr "Доступ"
+
+msgid "time_limit_add_time_limit_for_selected"
+msgstr "Пожалуйста, введите период времени для выбранных пользователей."
+
+msgid "time_limit_from"
+msgstr "From (time limit)"
+
+msgid "time_limit_message"
+msgstr "Message (time limit)"
+
+msgid "time_limit_no_users_selected"
+msgstr "Пожалуйста, выберите пользователя."
+
+msgid "time_limit_not_valid"
+msgstr "Период неправильный."
+
+msgid "time_limit_reached"
+msgstr "Ваш период доступа закончился."
+
+msgid "time_limit_unlimited"
+msgstr "Unlimited (time limit)"
+
+msgid "time_limit_until"
+msgstr "Until (time limit)"
+
+msgid "title"
+msgstr "Заголовок"
+
+msgid "title_required"
+msgstr "Please insert a title"
+
+msgid "to"
+msgstr "К"
+
+msgid "to_client_list"
+msgstr "Выбрать клиента"
+
+msgid "today"
+msgstr "Сегодня"
+
+msgid "toggleGlobalDefault"
+msgstr "Переключить Глобальные Default"
+
+msgid "toggleGlobalFixed"
+msgstr "Переключить Глобальные Fixed"
+
+#, fuzzy
+msgid "toggle_dropdown"
+msgstr "Toggle Dropdown"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_off"
+msgstr "OFF"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_on"
+msgstr "ON"
+
+msgid "tomorrow"
+msgstr "Tomorrow"
+
+#, fuzzy
+msgid "toolbar_more_actions"
+msgstr "More Actions"
+
+#, fuzzy
+msgid "tools"
+msgstr "Tools"
+
+msgid "top_of_page"
+msgstr "В начало страницы"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement"
+msgstr "Accept Terms of Service?"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement_intro"
+msgstr "There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page."
+
+#, fuzzy
+msgid "tos_force_accept_usr_agreement"
+msgstr "You must accept the Terms of Service!"
+
+#, fuzzy
+msgid "tos_no_agreement_description"
+msgstr "There is currently no Terms of Service document available for this installation. Please contact the <a href=\"%1$s\">system administrator</a>."
+
+#, fuzzy
+msgid "tos_refuse_acceptance"
+msgstr "Refuse to Accept Terms of Service"
+
+#, fuzzy
+msgid "tos_usr_agreement"
+msgstr "Terms of Service"
+
+#, fuzzy
+msgid "tos_usr_agreement_footer_intro"
+msgstr "You have declared your consent to these terms of service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description"
+msgstr "Withdraw your consent to our Terms of Service here."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description_external"
+msgstr "Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description_internal"
+msgstr "Please log in again to complete the process of withdrawing your consent to the Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_header"
+msgstr "Withdraw Terms of Service Consent"
+
+#, fuzzy
+msgid "tos_withdraw_consent_info"
+msgstr "Withdraw your consent to our Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_info_external"
+msgstr "Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Terms of Service."
+
+msgid "total"
+msgstr "Итого"
+
+msgid "tracking_settings"
+msgstr "Параметры мониторинга"
+
+msgid "translation"
+msgstr "Перевод"
+
+msgid "trash"
+msgstr "Корзина"
+
+msgid "tree"
+msgstr "Tree"
+
+msgid "tree_frame"
+msgstr "Tree Frame"
+
+msgid "treeview"
+msgstr "Показать боковую панель"
+
+msgid "tst"
+msgstr "Тест"
+
+msgid "tst_add"
+msgstr "Добавить тест"
+
+msgid "tst_edit_questions"
+msgstr "Изменить вопросы"
+
+#, fuzzy
+msgid "tst_history_read"
+msgstr "View History"
+
+msgid "tst_new"
+msgstr "Новый тест"
+
+#, fuzzy
+msgid "tst_results"
+msgstr "Test Results"
+
+msgid "tst_run"
+msgstr "Run"
+
+msgid "tst_user_not_invited"
+msgstr "You are not supposed to take this exam."
+
+msgid "tst_warning_test_not_complete"
+msgstr "The test is not complete!"
+
+msgid "tutors"
+msgstr "Преподаватели"
+
+msgid "txt_registered"
+msgstr "Вы успешно зарегистрировали ILIAS. Пожалуйста, нажмите на кнопку ниже для входа в ILIAS с вашими данными пользователя."
+
+msgid "txt_registered_passw_gen"
+msgstr "You successfully registered to ILIAS. You should receive an e-Mail including your generated password shortly."
+
+msgid "txt_submitted"
+msgstr "Вы успешно подтвердили запрос учетной записи в ILIAS. Ваш запрос учетной записи будет просмотрен системным администратором, и будет активирован через 48 часов. Вы не сможете войти в систему пока неактивен учетной записи пользователя."
+
+msgid "typ"
+msgstr "Определение Типа объекта"
+
+msgid "type"
+msgstr "Тип"
+
+msgid "udf_added_field"
+msgstr "Added new field."
+
+msgid "udf_delete_sure"
+msgstr "Are you sure you want to delete this field and all assigned user data ?"
+
+msgid "udf_duplicate_entries"
+msgstr "The values have to be unique."
+
+msgid "udf_field_deleted"
+msgstr "Deleted field."
+
+msgid "udf_name_already_exists"
+msgstr "This field name already exists. Please choose a different name."
+
+msgid "udf_required_requires_visib_reg"
+msgstr "When field is set to \"required\", it must be set to \"visible in registration\""
+
+msgid "udf_type_date"
+msgstr "Date Field"
+
+msgid "udf_type_datetime"
+msgstr "Date and Time"
+
+msgid "udf_type_select"
+msgstr "Select Box (fixed values)"
+
+msgid "udf_type_text"
+msgstr "Text Field (optional values)"
+
+msgid "udf_type_textarea"
+msgstr "Text Area (WYSIWYG)"
+
+msgid "udf_update_select_field"
+msgstr "Edit Select Box"
+
+msgid "udf_update_text_field"
+msgstr "Edit Text Field"
+
+msgid "udf_update_wysiwyg_field"
+msgstr "Edit Text Area (WYSIWYG) Field"
+
+msgid "uid"
+msgstr "UID"
+
+msgid "ums_create_new_account"
+msgstr "Create New Account"
+
+msgid "ums_explanation"
+msgstr "Your external account could not be mapped to an ILIAS account. But ILIAS has found an account with your e-mail address. If this is your account, please login with your ILIAS password."
+
+msgid "ums_explanation_2"
+msgstr "If this is not your account, please hit 'Create New Account'."
+
+msgid "ums_explanation_3"
+msgstr "Your external account could not be mapped to an ILIAS account. But ILIAS has found multiple accounts with your e-mail address. If one of those is your account, please login with your ILIAS password."
+
+msgid "ums_explanation_4"
+msgstr "If none of them is your account, please hit 'Create New Account'."
+
+msgid "unambiguousness"
+msgstr "Unambiguousness"
+
+msgid "uncheck_all"
+msgstr "Снять все"
+
+msgid "unchecked"
+msgstr "Unchecked"
+
+msgid "uninstall"
+msgstr "Удалить"
+
+msgid "uninstalled"
+msgstr "удален."
+
+msgid "unknown"
+msgstr "НЕИЗВЕСТЕН"
+
+#, fuzzy
+msgid "unparticipate"
+msgstr "Unsubscribe"
+
+msgid "unread"
+msgstr "Непрочтенных"
+
+msgid "unzip"
+msgstr "Unzip"
+
+msgid "up"
+msgstr "Вверх"
+
+msgid "update"
+msgstr "Редактировать"
+
+msgid "update_applied"
+msgstr "Обновить Приложения"
+
+msgid "update_language"
+msgstr "Обновить Язык"
+
+msgid "update_on_conflict"
+msgstr "Убрать конфликт"
+
+#, fuzzy
+msgid "update_orgunits"
+msgstr "Update assigned organisational units"
+
+#, fuzzy
+msgid "update_orgunits_desc"
+msgstr "If enabled, the field 'Organisational Units' will be updated for all user accounts."
+
+msgid "upload"
+msgstr "Загрузить"
+
+msgid "upload_error_file_not_found"
+msgstr "Ошибка закачки: файл не найден."
+
+#, fuzzy
+msgid "upload_ok"
+msgstr "The upload was successful"
+
+msgid "upload_pending"
+msgstr "Pending"
+
+msgid "upload_settings"
+msgstr "Uploading Settings"
+
+#, fuzzy
+msgid "upload_svg_rejection_message"
+msgstr "An uploaded SVG file contains possibily malicious code and cannot be processed."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_base64"
+msgstr "The file contains base64 encoded content."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_elements"
+msgstr "The file contains elements or attributes which are not allowed or known."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_foreign_object"
+msgstr "The file contains foreign objects."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_script"
+msgstr "The file contains script-Elements."
+
+msgid "uploaded_and_checked"
+msgstr "Файл был загружен и проверен, вы можете начать его импортировать."
+
+msgid "uploading"
+msgstr "Uploading..."
+
+msgid "uri"
+msgstr "URI"
+
+msgid "url"
+msgstr "URL"
+
+msgid "url_not_found"
+msgstr "файл не найден"
+
+msgid "use_customized_instructions"
+msgstr "Use customized instructions:"
+
+msgid "use_default_instructions"
+msgstr "Use default instructions."
+
+msgid "user"
+msgstr "Пользователь"
+
+msgid "user_activated"
+msgstr "User has been approved"
+
+msgid "user_added"
+msgstr "Пользователь добавлен"
+
+msgid "user_assignment"
+msgstr "Соглашения пользователя"
+
+#, fuzzy
+msgid "user_avatar"
+msgstr "User Avatar"
+
+#, fuzzy
+msgid "user_avatar_of"
+msgstr "User Avatar of"
+
+msgid "user_cant_receive_mail"
+msgstr "пользователю неразрешено работать с почтовой системой"
+
+msgid "user_comment"
+msgstr "Комментарии пользователя"
+
+msgid "user_deactivated"
+msgstr "User has been disapproved"
+
+msgid "user_defined_fields"
+msgstr "User-defined Fields"
+
+msgid "user_defined_list"
+msgstr "Overview User-defined Fields"
+
+msgid "user_deleted"
+msgstr "Пользователь удален"
+
+msgid "user_detail"
+msgstr "Данные (детальнее)"
+
+msgid "user_ext_account"
+msgstr "External Account"
+
+msgid "user_ext_account_desc"
+msgstr "Account used for external authentication. (SOAP authentication)"
+
+msgid "user_image"
+msgstr "User Image"
+
+msgid "user_import_failed"
+msgstr "Импорт пользователя неудачен."
+
+msgid "user_imported"
+msgstr "Импорт пользователя полностью завершен."
+
+msgid "user_imported_with_warnings"
+msgstr "Импорт пользователя завершен с ошибками."
+
+msgid "user_language"
+msgstr "Язык пользователя"
+
+#, fuzzy
+msgid "user_never_logged_in"
+msgstr "Delete user accounts without login"
+
+#, fuzzy
+msgid "user_never_logged_in_info"
+msgstr "All user accounts without login at all be deleted."
+
+#, fuzzy
+msgid "user_never_logged_in_info_threshold_err_num"
+msgstr "Only positive non decimal numbers are accepted."
+
+msgid "user_new_account_mail"
+msgstr "New Account Mail"
+
+msgid "user_new_account_mail_desc"
+msgstr "This mail can be sent when an ILIAS user is created by other means then self-registration."
+
+msgid "user_not_found"
+msgstr "User not found"
+
+#, fuzzy
+msgid "user_not_found_to_delete"
+msgstr "A user could not be found to delete."
+
+msgid "user_not_known"
+msgstr "Please insert a valid username."
+
+msgid "user_profile_other"
+msgstr "Дополнительно"
+
+msgid "user_send_new_account_mail"
+msgstr "Send new account mail"
+
+msgid "user_status"
+msgstr "User Status"
+
+msgid "user_toggle_noti"
+msgstr "Member is not allowed to deactivate notification"
+
+msgid "userfolder_export_csv"
+msgstr "Comma Separated Values"
+
+msgid "userfolder_export_excel_x86"
+msgstr "Microsoft Excel"
+
+msgid "userfolder_export_file"
+msgstr "File"
+
+msgid "userfolder_export_file_size"
+msgstr "File size"
+
+msgid "userfolder_export_files"
+msgstr "Files"
+
+msgid "userfolder_export_xml"
+msgstr "XML"
+
+msgid "username"
+msgstr "Имя пользователя"
+
+#, fuzzy
+msgid "username_assistance"
+msgstr "Username Assistance"
+
+msgid "users"
+msgstr "Пользователи"
+
+msgid "users_not_imported"
+msgstr "Следующие пользователи не существуют, их сообщения не могут быть импортированы"
+
+msgid "users_online"
+msgstr "Пользователи онлайн"
+
+msgid "usr"
+msgstr "Пользователь"
+
+msgid "usr_account_inactive"
+msgstr "Inactive Account"
+
+msgid "usr_active_only"
+msgstr "Active Users only"
+
+msgid "usr_add"
+msgstr "Добавить пользователя"
+
+msgid "usr_edit"
+msgstr "Редактирование пользователя"
+
+#, fuzzy
+msgid "usr_field_change_components_listening"
+msgstr "There is at least one component which is interested in the changed configuration. Would you like to confirm the changes with the consequences the component(s) announced below?"
+
+msgid "usr_filter_coursemember"
+msgstr "Member of course"
+
+msgid "usr_filter_groupmember"
+msgstr "Member of group"
+
+msgid "usr_filter_lastlogin"
+msgstr "Last login of user"
+
+msgid "usr_filter_role"
+msgstr "Assigned role"
+
+msgid "usr_inactive_only"
+msgstr "Inactive Users only"
+
+msgid "usr_limited_access_only"
+msgstr "Users with limited access only"
+
+#, fuzzy
+msgid "usr_name_undisclosed"
+msgstr "Undisclosed"
+
+msgid "usr_new"
+msgstr "Новый пользователь"
+
+msgid "usr_settings_changeable_lua"
+msgstr "Changeable in Local User Administration"
+
+msgid "usr_settings_explanation_profile"
+msgstr "Если вы хотите отключить/скрыть личные параметры профиля всех пользователей на их рабочем месте, то выберите соответствующие пункты. Все выключенные/скрытые параметры сможет редактировать только пользователь, со статусом доступа администратор."
+
+msgid "usr_settings_header_profile"
+msgstr "Параметры профиля пользователя"
+
+msgid "usr_settings_saved"
+msgstr "Глобальные установки пользователя сохранены успешно!"
+
+msgid "usr_settings_visib_lua"
+msgstr "Visible in Local User Administration"
+
+msgid "usr_skin_style"
+msgstr "Оболочка/Стиль"
+
+msgid "usr_without_courses"
+msgstr "Users without courses assigned"
+
+msgid "usrf"
+msgstr "Учетные записи"
+
+msgid "usrf_profile_link"
+msgstr "Link to user profile"
+
+msgid "usrimport_action_ignored"
+msgstr "Игнорировано действие %1$s."
+
+msgid "usrimport_action_replaced"
+msgstr "Заменено действие %1$s действием %2$s."
+
+msgid "usrimport_cant_delete"
+msgstr "Не могу выполнить действие \"Удалить\". Пользователь не найден в базе данных."
+
+msgid "usrimport_cant_insert"
+msgstr "Не могу выполнить действие \"Вставить\". Пользователь уже есть в базе данных."
+
+msgid "usrimport_cant_update"
+msgstr "Не могу выполнить действие \"Обновить\". Пользователь не найден в базе данных."
+
+msgid "usrimport_conflict_handling_info"
+msgstr "Когда выбран \"Игнорировать конфликты\", ILIAS не обращает внимания на те действия, которые нельзя выполнить (н. р. действие \"Вставить\" не будет выполнено, если пользователь с таким логином уже есть в базе данных.)."
+
+#, fuzzy
+msgid "usrimport_form_not_evaluabe"
+msgstr "The form data couldn't be read."
+
+msgid "usrimport_global_role_for_action_required"
+msgstr "Хоть одна глобальная роль должна быть определена для действия \"%1$s\"."
+
+msgid "usrimport_ignore_role"
+msgstr "Игнорировать роль"
+
+msgid "usrimport_login_is_not_unique"
+msgstr "Логин повторяется."
+
+msgid "usrimport_no_insert_ext_account_exists"
+msgstr "Can't perform \"Insert\" action. External account already exists."
+
+msgid "usrimport_no_update_ext_account_exists"
+msgstr "Can't perform \"Update\" action. External account already exists."
+
+msgid "usrimport_with_specified_role_not_permitted"
+msgstr "Импорт с определением роли не разрешен."
+
+#, fuzzy
+msgid "usrimport_wrong_file_count"
+msgstr "Too many files in import-folder. Please try again."
+
+#, fuzzy
+msgid "usrimport_xml_anonymous_or_root_not_allowed"
+msgstr "Neither the system-account nor the anonymous account can be changed through the import."
+
+msgid "usrimport_xml_attribute_missing"
+msgstr "Атрибут \"%2$s\" в элементе \"%1$s\" пропущен."
+
+msgid "usrimport_xml_attribute_value_illegal"
+msgstr "Значение \"%3$s\" атрибута \"%2$s\" в элементе \"%1$s\" некорректно."
+
+msgid "usrimport_xml_attribute_value_inapplicable"
+msgstr "Значение \"%3$s\" атрибута \"%2$s\" в элементе \"%1$s\" неприменимо для действия \"%4$s\"."
+
+msgid "usrimport_xml_element_content_illegal"
+msgstr "Содержимое \"%2$s\" элемента \"%1$s\" некорректно."
+
+msgid "usrimport_xml_element_for_action_required"
+msgstr "Элемент \"%1$s\" должен быть для действия \"%2$s\" должен быть определен."
+
+msgid "usrimport_xml_element_inapplicable"
+msgstr "Элемент \"%1$s\" неприменим для действия \"%2$s\"."
+
+msgid "valid"
+msgstr "Верный"
+
+msgid "validate"
+msgstr "Подтвердить"
+
+msgid "value"
+msgstr "Значение"
+
+msgid "vcard"
+msgstr "Карта визитов"
+
+msgid "vcard_download"
+msgstr "Скачать VCard"
+
+msgid "verification_failed"
+msgstr "Проверка неудачна"
+
+msgid "verification_failure_log"
+msgstr "Проверка журнала ошибок"
+
+msgid "verification_warning_log"
+msgstr "Проверка журнала предупреждений"
+
+msgid "version"
+msgstr "Версия"
+
+msgid "versions"
+msgstr "Версии"
+
+msgid "view"
+msgstr "Обзор"
+
+msgid "view_content"
+msgstr "Список"
+
+#, fuzzy
+msgid "view_learning_progress"
+msgstr "View Learning Progress"
+
+#, fuzzy
+msgid "view_learning_progress_rec"
+msgstr "View Learning Progress of Unit incl. Subunits"
+
+msgid "visible"
+msgstr "Просмотреть"
+
+msgid "visible_registration"
+msgstr "Visible in Registration"
+
+msgid "visitor"
+msgstr "Visitor"
+
+msgid "visitors"
+msgstr "Visitors"
+
+msgid "visits"
+msgstr "Посещения"
+
+msgid "web_resources"
+msgstr "Веб-ресурсы"
+
+msgid "webdav"
+msgstr "WebDAV"
+
+#, fuzzy
+msgid "webdav_add_instructions_btn_label"
+msgstr "Add Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_chosen_language_already_used"
+msgstr "There already is another document associated with the chosen language"
+
+#, fuzzy
+msgid "webdav_doc_delete"
+msgstr "Delete WebDav Mount Instructions"
+
+#, fuzzy
+msgid "webdav_docs_mount_instructions"
+msgstr "Mount Instructions Documents"
+
+#, fuzzy
+msgid "webdav_duplicate_detected_title"
+msgstr "Following objects could not be displayed, because an object with the same Title is already being shown:"
+
+#, fuzzy
+msgid "webdav_forbidden_chars_title"
+msgstr "Following files cannot be displayed, because they contain one or more forbidden characters (\\<>/:*?\"|#):"
+
+#, fuzzy
+msgid "webdav_form_document"
+msgstr "Instructions Document"
+
+#, fuzzy
+msgid "webdav_form_document_info"
+msgstr "Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information"
+
+#, fuzzy
+msgid "webdav_form_document_title"
+msgstr "Title"
+
+#, fuzzy
+msgid "webdav_form_document_title_info"
+msgstr "This title will be dislayed as the title of the modal when the Mount Instructions are opened"
+
+#, fuzzy
+msgid "webdav_form_edit_doc_head"
+msgstr "Edit Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_form_new_doc_head"
+msgstr "Create new Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_general_settings"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "webdav_missing_lang"
+msgstr "There is no english version of the WebDAV Mount Instructions"
+
+#, fuzzy
+msgid "webdav_mount_instructions"
+msgstr "Mount Instructions"
+
+#, fuzzy
+msgid "webdav_problem_free_container"
+msgstr "There are no objects that cause problems in this container."
+
+#, fuzzy
+msgid "webdav_problem_info_duplicate"
+msgstr "There is a file with the same title as the info file."
+
+msgid "webdav_pwd_instruction"
+msgstr "We suggest to create a local password for opening the repository as webfolder.<br />This password is only required for the webfolder functionalities."
+
+msgid "webdav_pwd_instruction_success"
+msgstr "A new local password has been created. You can now open the repository as webfolder."
+
+#, fuzzy
+msgid "webdav_sure_delete_documents_s"
+msgstr "Are you sure you want to delete the Mount Instructions with the following title:"
+
+#, fuzzy
+msgid "webdav_tbl_docs_head_title"
+msgstr "Dokument title"
+
+#, fuzzy
+msgid "webdav_tbl_docs_title"
+msgstr "List of uploaded WebDAV Mount Instructions"
+
+#, fuzzy
+msgid "webdav_upload_instructions"
+msgstr "Upload Instructions"
+
+msgid "webfolder_dir_info"
+msgstr "You got here, because your browser can't open webfolders. Read the <a href=\"%1$s\">instructions for opening webfolders</a>."
+
+msgid "webfolder_index_of"
+msgstr "Index of %1$s"
+
+msgid "webfolder_instructions"
+msgstr "Webfolder instructions"
+
+msgid "webfolder_instructions_info"
+msgstr "The webfolder instructions are shown on browsers, which can not open a webfolder directly. You can use HTML code, and the following placeholders: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[WINDOWS]</b>...<b>[/WINDOWS]</b>, <b>[MAC]</b>...<b>[/MAC]</b>, <b>[LINUX]</b>...<b>[/LINUX]</b>. Clear the field to get the default instructions."
+
+msgid "webfolder_instructions_text"
+msgstr "<p>Follow the instructions below, to open <b>[WEBFOLDER_TITLE]</b> as a webfolder:</p>[WINDOWS]<h3>Instructions for Windows XP with Internet Explorer</h3><ol><li>Start Internet Explorer</li><li>Choose the menu 'File &gt; Open...'</li><li>In the 'Open' field enter the following address:<br/><b>[WEBFOLDER_URI]</b></li><li>Select the 'Open as web-folder' option, then select 'OK'.</li><li>Enter your login and password, and select 'OK'.</li></ol><h3>Instructions for Windows XP without Internet Explorer</h3><ol><li>Double-click the 'My Network Places' icon on the Desktop.</li><li>Click on 'Add Network Place' from the 'Network Tasks' menu on the left side of the window.</li><li>The 'Add a Network Place' wizard will open, select 'Next'.</li><li>Select the 'Choose Another Network Location' option, and select 'Next'.<li>In the 'Internet or Network Address' field enter<br/><b>[WEBFOLDER_URI]</b><br/>then select 'Next'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/WINDOWS][MAC]<h3>Instructions for Mac OS X</h3><ol><li>Open the Finder</li><li>Choose the menu 'Go &gt; Connect to server...'</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI]</b>, and select 'Connect'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/MAC][LINUX]<h3>Instructions for Linux with Konqueror</h3><ol><li>Start the Konqueror browser</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>Press the Enter key.</li><li>Enter your login and password, and select 'OK'.</li></ol><h3>Instructions for Linux with Nautilus</h3><ol><li>Start the Nautilus browser</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>Press the Enter key.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/LINUX]<p>If opening the webfolder does not work, please contact <a href=\"mailto:[ADMIN_MAIL]\">[ADMIN_MAIL]</a>.</p>"
+
+msgid "webfolder_instructions_titletext"
+msgstr "Open as webfolder"
+
+msgid "webfolder_mount_dir_with"
+msgstr "Open this page as a Webfolder with <a href=\"%1$s\">Internet Explorer</a>, <a href=\"%2$s\">Konqueror</a>, <a href=\"%3$s\">other Browser</a>."
+
+msgid "webr"
+msgstr "Веб-ресурс"
+
+msgid "webr_active"
+msgstr "Действие"
+
+msgid "webr_add"
+msgstr "Добавить web ссылку"
+
+msgid "webr_deleted_items"
+msgstr "Веб-ресурс(ы) удалены."
+
+msgid "webr_edit"
+msgstr "Редактировать Веб-ресурс"
+
+msgid "webr_sure_delete_items"
+msgstr "Вы действительно хотите удалить следующие Веб-ресурс(ы)?"
+
+msgid "webservices"
+msgstr "Веб-сервисы"
+
+msgid "week"
+msgstr "Неделя"
+
+msgid "weekly"
+msgstr "еженедельно"
+
+msgid "weeks"
+msgstr "Недели"
+
+msgid "welcome"
+msgstr "Добро пожаловать"
+
+msgid "width"
+msgstr "Ширина"
+
+msgid "wiki"
+msgstr "Вики"
+
+msgid "wiki_add"
+msgstr "Добавить вики"
+
+msgid "wiki_new"
+msgstr "Создать вики"
+
+msgid "with"
+msgstr "с"
+
+#, fuzzy
+msgid "withdraw_consent"
+msgstr "Withdraw Consent"
+
+#, fuzzy
+msgid "withdraw_consent_info_internal"
+msgstr "If you click on ‘Withdraw Consent’, your account will be deleted."
+
+#, fuzzy
+msgid "withdraw_usr_agreement"
+msgstr "Withdraw Consent"
+
+#, fuzzy
+msgid "withdrawal_complete"
+msgstr "Withdrawal of consent complete."
+
+#, fuzzy
+msgid "withdrawal_complete_deleted"
+msgstr "Withdrawal of consent complete, account deleted."
+
+#, fuzzy
+msgid "withdrawal_complete_redirect"
+msgstr "Withdrawal of consent complete. To have your account deleted, please contact your organisation."
+
+#, fuzzy
+msgid "withdrawal_mail_info"
+msgstr "The following email will be sent to an administrator after confirming the withdrawal of your consent:[BR][BR]"
+
+#, fuzzy
+msgid "withdrawal_mail_subject"
+msgstr "Withdrawal of Consent to Terms of Service"
+
+#, fuzzy
+msgid "withdrawal_mail_text"
+msgstr "Dear Sir/Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installation’s Terms of Service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Yours faithfully[BR]%1$s"
+
+#, fuzzy
+msgid "withdrawal_sure_account"
+msgstr "Are you sure you want to confirm the withdrawal of your consent?"
+
+#, fuzzy
+msgid "withdrawal_sure_account_deletion"
+msgstr "Are you sure you want to confirm the withdrawal of your consent? This will result in your user account being irrevocably deleted."
+
+#, fuzzy
+msgid "withdrawal_sure_account_deletion_no_consent_yet"
+msgstr "Are you sure that you do not want to accept the Terms of Service? This will result in your user account being irrevocably deleted."
+
+#, fuzzy
+msgid "withdrawal_sure_account_no_consent_yet"
+msgstr "Are you sure that you do not want to accept the Terms of Service?"
+
+msgid "wizard_search_list"
+msgstr "Your search produced the following hits. Please select one of them"
+
+msgid "wizard_title_info"
+msgstr "Пожалуйста, введите заголовок объекта который вы хотите скопировать."
+
+msgid "write"
+msgstr "Написать"
+
+msgid "year"
+msgstr "Year"
+
+msgid "yearly"
+msgstr "yearly"
+
+msgid "years"
+msgstr "Years"
+
+msgid "yes"
+msgstr "Да"
+
+msgid "yesterday"
+msgstr "Вчера"
+
+msgid "zip"
+msgstr "Zip Код / Индекс"
+
+msgid "zip_structure_error"
+msgstr "Archive contains same filenames. Upload aborted."
+
+msgid "zip_test_failed"
+msgstr "Zip-Test failed. Please contact you ILIAS administrator."
+
+msgid "zipcode"
+msgstr "Почтовый индекс"

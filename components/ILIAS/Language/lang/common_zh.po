@@ -1,0 +1,8439 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: common\n"
+
+msgid "HH"
+msgstr "HH:MM"
+
+msgid "absolute_path"
+msgstr "绝对路径"
+
+#, fuzzy
+msgid "accept_usr_agreement_btn"
+msgstr "Accept"
+
+msgid "access"
+msgstr "访问"
+
+msgid "accessFree"
+msgstr "解除访问限制"
+
+msgid "accessRestrict"
+msgstr "设置访问限制"
+
+msgid "access_expired"
+msgstr "过期"
+
+msgid "access_free_granted"
+msgstr "设置所选用户权限为无限制访问"
+
+msgid "access_from"
+msgstr "访问(从)"
+
+msgid "access_public"
+msgstr "公共"
+
+msgid "access_restricted"
+msgstr "设置所选用户权限为限制访问"
+
+msgid "access_scope"
+msgstr "访问"
+
+msgid "access_unlimited"
+msgstr "无限制"
+
+msgid "access_until"
+msgstr "Access until"
+
+msgid "access_users"
+msgstr "已登录用户"
+
+msgid "accesscount_registered_users"
+msgstr "读取不重复的ILIAS用户数目"
+
+#, fuzzy
+msgid "accessibility_control_concept"
+msgstr "Accessibility Control Concept"
+
+#, fuzzy
+msgid "account"
+msgstr "My Account"
+
+msgid "account_expires_body"
+msgstr "您的账号被限制，到期时间为："
+
+msgid "account_expires_subject"
+msgstr "[ILIAS] 您的账号过期了"
+
+msgid "action"
+msgstr "动作"
+
+msgid "action_aborted"
+msgstr "执行已中止"
+
+msgid "actions"
+msgstr "执行"
+
+#, fuzzy
+msgid "actions_for"
+msgstr "Actions for %s"
+
+msgid "activate"
+msgstr "设置活动"
+
+msgid "activate_https"
+msgstr "激活HTTPS (支付,登录)"
+
+msgid "activate_tracking"
+msgstr "激活跟踪"
+
+msgid "activation"
+msgstr "激活"
+
+msgid "active"
+msgstr "激活"
+
+msgid "add"
+msgstr "增加"
+
+msgid "add_condition"
+msgstr "创建新的关系"
+
+msgid "add_entry"
+msgstr "添加/编辑条目"
+
+msgid "add_member"
+msgstr "增加成员"
+
+#, fuzzy
+msgid "add_member_role"
+msgstr "Add Member Role"
+
+msgid "add_new_user_defined_field"
+msgstr "添加新的用户定义字段"
+
+msgid "add_note"
+msgstr "添加笔记"
+
+msgid "add_parameter"
+msgstr "新参数"
+
+#, fuzzy
+msgid "add_remove_edit_entries_of_main_menu"
+msgstr "Add, remove or edit entries of the main menu"
+
+#, fuzzy
+msgid "add_role"
+msgstr "Add Role"
+
+msgid "add_translation"
+msgstr "增加翻译"
+
+msgid "add_user"
+msgstr "添加本地用户"
+
+msgid "add_user_defined_field"
+msgstr "添加新字段"
+
+msgid "added_new_condition"
+msgstr "创建了新条件"
+
+msgid "additional_info"
+msgstr "附加信息"
+
+msgid "address"
+msgstr "地址"
+
+msgid "admin_force_noti"
+msgstr "通知激活"
+
+msgid "administrate_users"
+msgstr "本地用户管理"
+
+#, fuzzy
+msgid "administrate_users_headline"
+msgstr "Local ILIAS Accounts of this Category"
+
+msgid "administration"
+msgstr "管理"
+
+msgid "administrator"
+msgstr "管理员"
+
+msgid "adopt"
+msgstr "采用"
+
+msgid "advanced_editing_allow_html_tags"
+msgstr "允许为文本编辑选定HTML标签"
+
+msgid "advanced_editing_assessment_settings"
+msgstr "允许为ILIAS测试&评估工具使用HTML标签"
+
+msgid "advanced_editing_frm_post_settings"
+msgstr "论坛发贴设置"
+
+msgid "advanced_editing_rep_page_editing"
+msgstr "在知识库中启用内容编辑"
+
+msgid "advanced_editing_rep_page_editing_desc"
+msgstr "这个特性允许添加文本/媒体到类别、课程、用户组和文件夹页面。"
+
+msgid "advanced_editing_required_tags"
+msgstr "下面的HTML标签是必选的：%s"
+
+msgid "advanced_editing_survey_settings"
+msgstr "允许ILIAS调查工具使用HTML标签"
+
+msgid "adve_assessment_settings"
+msgstr "测试&评估设置"
+
+msgid "adve_frm_post_settings"
+msgstr "论坛帖子"
+
+msgid "adve_general_settings"
+msgstr "常规设置"
+
+msgid "adve_survey_settings"
+msgstr "调查设置"
+
+msgid "agree_date"
+msgstr "同意"
+
+#, fuzzy
+msgid "all"
+msgstr "All"
+
+msgid "all_global_roles"
+msgstr "全球角色"
+
+msgid "all_local_roles"
+msgstr "本地角色（所有）"
+
+msgid "all_objects"
+msgstr "所有对象"
+
+msgid "all_roles"
+msgstr "所有角色"
+
+msgid "all_topics"
+msgstr "所有主题"
+
+msgid "all_users"
+msgstr "所有用户"
+
+msgid "allow_assign_users"
+msgstr "允许用户分配为本地管理员。"
+
+msgid "allow_override_alert"
+msgstr ".htaccess文件中的规则没有被正确解释。"
+
+msgid "allow_register"
+msgstr "可从新用户注册表中得到"
+
+msgid "allow_user_toggle_noti"
+msgstr "允许成员停用通知"
+
+msgid "already_delivered_files"
+msgstr "已交付的文件"
+
+msgid "and"
+msgstr "及"
+
+#, fuzzy
+msgid "angry"
+msgstr "Angry"
+
+msgid "anonymous"
+msgstr "Anonymous匿名的"
+
+msgid "answers"
+msgstr "答案"
+
+msgid "any_language"
+msgstr "任何语言"
+
+msgid "apache_auth"
+msgstr "Apache身份验证"
+
+msgid "application_completed"
+msgstr "申请已完成"
+
+msgid "application_date"
+msgstr "申请日期"
+
+msgid "applications"
+msgstr "申请"
+
+msgid "apply"
+msgstr "Apply申请"
+
+msgid "apply_filter"
+msgstr "应用过滤器"
+
+msgid "appointment"
+msgstr "任命"
+
+msgid "approve_date"
+msgstr "批准"
+
+msgid "approve_recipient"
+msgstr "审批人的登录ID"
+
+msgid "archive"
+msgstr "存档"
+
+msgid "archive_broken"
+msgstr "归档似乎不完整或是空的。"
+
+msgid "are_you_sure"
+msgstr "您确定吗？"
+
+msgid "assf_allowed_questiontypes"
+msgstr "可用的问题类型"
+
+msgid "assf_allowed_questiontypes_desc"
+msgstr "在这次ILIAS安装中，所有已勾选的题目类型都将可用。如果您不允许在这些安装中创建某些题目类型，您必需移除相关复选框中的选项。"
+
+msgid "assf_questiontypes"
+msgstr "题目设置"
+
+msgid "assign"
+msgstr "指定"
+
+msgid "assign_global_role"
+msgstr "分配给全局角色"
+
+msgid "assign_local_role"
+msgstr "分配给本地角色"
+
+msgid "assigned_members"
+msgstr "已分配成员"
+
+msgid "assigned_roles"
+msgstr "已分配角色"
+
+msgid "associated_user"
+msgstr "相关的用户"
+
+#, fuzzy
+msgid "astounded"
+msgstr "Astounded"
+
+msgid "at_least_one_style"
+msgstr "至少一个风格必须保持激活状态"
+
+msgid "attachment"
+msgstr "附件"
+
+msgid "attachments"
+msgstr "附件"
+
+msgid "attempts"
+msgstr "尝试"
+
+msgid "auth_active_roles"
+msgstr "注册就激活全局角色"
+
+msgid "auth_allow_local"
+msgstr "允许本地身份验证"
+
+msgid "auth_configure"
+msgstr "配置……"
+
+msgid "auth_create_users"
+msgstr "自动创建不存在的用户"
+
+msgid "auth_default"
+msgstr "默认设置"
+
+msgid "auth_default_mode_changed_to"
+msgstr "默认的身份验证模式更改为"
+
+msgid "auth_ecs"
+msgstr "ECS"
+
+msgid "auth_ldap"
+msgstr "LDAP"
+
+msgid "auth_ldap_enable"
+msgstr "启用LDAP支持"
+
+msgid "auth_ldap_migration"
+msgstr "账号迁移"
+
+msgid "auth_ldap_migration_info"
+msgstr "激活此选项让新用户有可能去迁移他们已存在的ILIAS账号为LDAP认证。"
+
+msgid "auth_local"
+msgstr "ILIAS数据库"
+
+msgid "auth_login_instructions"
+msgstr "登录页面上显示说明"
+
+msgid "auth_mode"
+msgstr "认证模式"
+
+msgid "auth_mode_not_changed"
+msgstr "没有任何变化"
+
+msgid "auth_mode_roles_changed"
+msgstr "为这个角色改变了身份验证模式"
+
+msgid "auth_new_account_mail_desc"
+msgstr "如果用户已经自动生成了，发送新账号邮件给用户。如果“允许本地身份验证”也被激活，才会生成一个密码。"
+
+msgid "auth_per_default"
+msgstr "Per Default"
+
+msgid "auth_remark_non_local_auth"
+msgstr "当选择其它身份验证模式时，除了默认模式的用户登录和密码不能被改变以外，新的注册选项也被禁止。"
+
+msgid "auth_role_auth_mode"
+msgstr "身份认证模式"
+
+#, fuzzy
+msgid "auth_saml"
+msgstr "SAML"
+
+msgid "auth_script"
+msgstr "Custom习惯"
+
+msgid "auth_select"
+msgstr "选择身份验证模式"
+
+msgid "auth_selection"
+msgstr "登录到"
+
+msgid "auth_settings"
+msgstr "身份验证设置"
+
+msgid "auth_shib"
+msgstr "Shibboleth"
+
+msgid "auth_shib_instructions"
+msgstr "请务必阅读README文档所示的怎样为ILIAS配置Shibboleth支持。"
+
+msgid "auth_shib_not_configured"
+msgstr "Shibboleth尚未配置"
+
+msgid "auth_shibboleth"
+msgstr "Shibboleth"
+
+msgid "auth_soap"
+msgstr "SOAP"
+
+msgid "auth_soap_allow_local_desc"
+msgstr "这允许SOAP用户以他们本地ILIAS用户名和本地密码来验证"
+
+msgid "auth_soap_auth"
+msgstr "配置SOAP身份验证"
+
+msgid "auth_soap_auth_desc"
+msgstr "这个设置只处理基于SOAP用户的验证，而不是ILIAS SOAP接口。"
+
+msgid "auth_soap_create_users_desc"
+msgstr "自动创建一个ILIAS用户账号，为用户成功针对SOAP进行身份验证，无需ILIAS账号。"
+
+msgid "auth_soap_namespace"
+msgstr "命名空间"
+
+msgid "auth_soap_namespace_desc"
+msgstr "在WSDL中被定义。如果使用了.NET SOAP风格，则必需被指定。"
+
+msgid "auth_soap_port_desc"
+msgstr "例如，8080端口，完整的SOAP服务器URI是 http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_server_desc"
+msgstr "例如，auth.yourserver.com主机名，完整的SOAP服务器URI是 http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_settings_saved"
+msgstr "SOAP 身份验证设置已保存"
+
+msgid "auth_soap_uri_desc"
+msgstr "本地URI，例如，dir/server.php，则完整的SOAP服务器URI是 http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_use_dotnet"
+msgstr "使用.NET SOAP 风格"
+
+msgid "auth_soap_use_https"
+msgstr "使用HTTPS"
+
+msgid "auth_soap_user_default_role_desc"
+msgstr "这个角色被分配给自动创建的SOAP用户。"
+
+msgid "auth_user_default_role"
+msgstr "默认角色"
+
+msgid "authenticate_ilias"
+msgstr "登录ILIAS"
+
+msgid "authentication_settings"
+msgstr "身份验证"
+
+msgid "author"
+msgstr "作者"
+
+msgid "authoring_mode"
+msgstr "创作模式"
+
+msgid "authors"
+msgstr "作者"
+
+#, fuzzy
+msgid "autocomplete_more"
+msgstr "more"
+
+msgid "available"
+msgstr "有效的"
+
+#, fuzzy
+msgid "awra"
+msgstr "Who is online?"
+
+msgid "back"
+msgstr "返回"
+
+#, fuzzy
+msgid "back_to_course"
+msgstr "Back to Course"
+
+msgid "back_to_crs_content"
+msgstr "回到课程内容"
+
+msgid "back_to_fold_content"
+msgstr "回到文件夹内容"
+
+msgid "back_to_grp_content"
+msgstr "回组内容"
+
+msgid "backto_lua"
+msgstr "返回本地用户管理"
+
+msgid "basedn"
+msgstr "基本域名"
+
+msgid "basic_settings"
+msgstr "基本设置"
+
+msgid "before"
+msgstr "之前"
+
+msgid "behind"
+msgstr "背后"
+
+msgid "bib_data"
+msgstr "书目数据"
+
+#, fuzzy
+msgid "bibl_add"
+msgstr "Add Bibliography"
+
+msgid "birthday"
+msgstr "生日"
+
+msgid "bkm_import"
+msgstr "导入书签"
+
+msgid "bkm_import_ok"
+msgstr "成功导入书签 %d 和书签文件夹 %d 。"
+
+msgid "bkm_sendmail"
+msgstr "作为附件发送"
+
+msgid "block"
+msgstr "Block阻止"
+
+msgid "bm"
+msgstr "书签"
+
+msgid "bm_add_to_ilias"
+msgstr "添加到ILIAS书签"
+
+msgid "bmf"
+msgstr "书签夹"
+
+msgid "bold"
+msgstr "加粗"
+
+#, fuzzy
+msgid "bold_action"
+msgstr "Insert Bold - Click to insert bold text."
+
+msgid "bookings"
+msgstr "Bookings"
+
+msgid "bookmark_added"
+msgstr "已创建的书签"
+
+msgid "bookmark_folder_new"
+msgstr "新书签夹"
+
+msgid "bookmark_new"
+msgstr "新书签"
+
+msgid "bookmark_target"
+msgstr "目标"
+
+msgid "bookmarks"
+msgstr "书签"
+
+msgid "bookmarks_of"
+msgstr "的书签"
+
+msgid "breadcrumb_navigation"
+msgstr "碎屑导航(Breadcrumb Navigation)"
+
+#, fuzzy
+msgid "breadcrumbs_aria_label"
+msgstr "Breadcrumbs"
+
+#, fuzzy
+msgid "briefcase"
+msgstr "Background Tasks"
+
+msgid "btn_add"
+msgstr "添加"
+
+msgid "btn_back"
+msgstr "返回"
+
+msgid "btn_next"
+msgstr "继续"
+
+msgid "btn_previous"
+msgstr "返回"
+
+msgid "btn_remove_system"
+msgstr "从系统中删除"
+
+msgid "btn_undelete"
+msgstr "恢复删除"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_no"
+msgstr "Doesn`t Receive Contact Requests"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_yes"
+msgstr "Receives Contact Requests"
+
+#, fuzzy
+msgid "building_export_file"
+msgstr "Building Export File..."
+
+#, fuzzy
+msgid "bulletlist_action"
+msgstr "Insert Bulletpoint-List - Click to insert a bulletpoint-list."
+
+msgid "by"
+msgstr "由"
+
+msgid "bytes"
+msgstr "Bytes"
+
+msgid "cal_from"
+msgstr "来自："
+
+msgid "cal_until"
+msgstr "直到："
+
+msgid "calendar"
+msgstr "日历"
+
+msgid "cancel"
+msgstr "撤销"
+
+#, fuzzy
+msgid "cancel_file_upload"
+msgstr "Do you really want to cancel all pending uploads?"
+
+msgid "cannot_find_xml"
+msgstr "没发现任何XML文件。"
+
+msgid "cannot_uninstall_language_in_use"
+msgstr "您不可能卸载当前正使用的语言！"
+
+msgid "cannot_uninstall_systemlanguage"
+msgstr "您不能卸载系统语言！"
+
+msgid "cannot_unzip_file"
+msgstr "不能解压文件。"
+
+msgid "cant_deactivate_if_users_assigned"
+msgstr "如果仍有用户被分配到这个样式，您就不能信用它。"
+
+msgid "cat"
+msgstr "类目"
+
+msgid "cat_add"
+msgstr "增加类目"
+
+msgid "cat_added"
+msgstr "类目已增加"
+
+#, fuzzy
+msgid "cat_copy_threads_info"
+msgstr "Please decide which category items should be copied, linked or even omitted."
+
+msgid "cat_edit"
+msgstr "编辑类目"
+
+msgid "cat_new"
+msgstr "新类目"
+
+msgid "cat_wizard_page"
+msgstr "复制类目 (步骤2/2)"
+
+msgid "categories"
+msgstr "类目"
+
+msgid "categories_imported"
+msgstr "类目导入完成"
+
+msgid "catr"
+msgstr "类目参考"
+
+#, fuzzy
+msgid "catr_add"
+msgstr "Add Category Link"
+
+msgid "catr_edit_info"
+msgstr "为创建一个新的参考，请选择一个类目。"
+
+msgid "catr_new"
+msgstr "创建新的类目参考"
+
+#, fuzzy
+msgid "catr_settings"
+msgstr "Category Link Settings"
+
+msgid "certificate"
+msgstr "证书"
+
+#, fuzzy
+msgid "certificate_file_already_exists_error"
+msgstr "The certificate file already exists in the file system."
+
+#, fuzzy
+msgid "certificate_file_input_output_error"
+msgstr "The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator."
+
+#, fuzzy
+msgid "certificate_file_not_found_error"
+msgstr "The certificate file doesn't exist in the file system anymore. Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden."
+
+#, fuzzy
+msgid "certificate_persistent_option"
+msgstr "Certificates of Achievements"
+
+#, fuzzy
+msgid "certificate_selection"
+msgstr "Origin of Certificates"
+
+#, fuzzy
+msgid "certificate_workspace_option"
+msgstr "Certificates of Personal Resources"
+
+#, fuzzy
+msgid "certificates"
+msgstr "Certificates"
+
+msgid "change"
+msgstr "更改"
+
+msgid "change_assignment"
+msgstr "更改任务"
+
+msgid "change_header_title"
+msgstr "编辑标题"
+
+msgid "change_owner"
+msgstr "更改所有者"
+
+msgid "change_sort_direction"
+msgstr "更改分类方向"
+
+msgid "changeable"
+msgstr "可变"
+
+msgid "changed_to"
+msgstr "已更改为"
+
+msgid "changing_loginname_not_possible_info"
+msgstr "您最后一次在 %s 更改了您的登录名。下一次允许更改的时间是在 %s。"
+
+msgid "chapter"
+msgstr "章"
+
+msgid "characters"
+msgstr "字符"
+
+msgid "chat_enter_public_room"
+msgstr "公共聊天"
+
+msgid "chat_enter_public_room_tooltip"
+msgstr "进入公共聊天"
+
+msgid "chat_users_active"
+msgstr "活跃用户"
+
+msgid "check"
+msgstr "检查"
+
+msgid "check_all"
+msgstr "全部检查"
+
+msgid "check_langfile"
+msgstr "请检查语言文件"
+
+msgid "check_languages"
+msgstr "检查语言"
+
+msgid "check_link"
+msgstr "链接检测"
+
+msgid "check_link_desc"
+msgstr "如果启用，ILIAS学习模块中所有外部链接都将被检查，如果它们已激活。"
+
+msgid "check_user_accounts"
+msgstr "检查用户帐号"
+
+msgid "check_user_accounts_desc"
+msgstr "如果cron作业被激活而且这个选项被启用，所有用户账号到期将通过电子邮件告知。"
+
+msgid "check_web_resources"
+msgstr "检查web资源"
+
+msgid "check_web_resources_desc"
+msgstr "如果启用，所有web资源将被检查，如果他们被激活的话。"
+
+msgid "checked"
+msgstr "选中的"
+
+msgid "checked_files"
+msgstr "可导入文件"
+
+msgid "chg_ilias_and_webfolder_password"
+msgstr "改变ILIAS 和Web文件夹密码"
+
+msgid "chg_ilias_password"
+msgstr "改变ILIAS密码"
+
+msgid "chg_password"
+msgstr "更改口令"
+
+msgid "choose_language"
+msgstr "选择语言"
+
+msgid "choose_only_one_language"
+msgstr "请只选择一种语言"
+
+msgid "chown_warning"
+msgstr "注意,您可能在改变所有者之后失去这个对象的访问权限。"
+
+msgid "chta_edit_permission"
+msgstr "改变权限设置"
+
+msgid "chta_read"
+msgstr "聊天室管理读访问权限"
+
+msgid "chta_visible"
+msgstr "聊天室管理是可见的"
+
+msgid "chta_write"
+msgstr "编辑聊天室管理"
+
+msgid "chtr_copy"
+msgstr "复制聊天室"
+
+#, fuzzy
+msgid "chtr_import"
+msgstr "Import Chatroom"
+
+msgid "city"
+msgstr "城市"
+
+msgid "cleaned_file"
+msgstr "F文件已被清除"
+
+msgid "cleaning_failed"
+msgstr "清除失败"
+
+msgid "clear"
+msgstr "清除"
+
+msgid "clear_clipboard"
+msgstr "清空剪贴板"
+
+msgid "client"
+msgstr "客户端"
+
+msgid "client_id"
+msgstr "客户端ID"
+
+msgid "client_ip"
+msgstr "客户端IP地址"
+
+#, fuzzy
+msgid "clientlist_available_clients"
+msgstr "Available Clients"
+
+#, fuzzy
+msgid "clientlist_clientlist"
+msgstr "Client List"
+
+#, fuzzy
+msgid "clientlist_installation_name"
+msgstr "Installation Name"
+
+#, fuzzy
+msgid "clientlist_login"
+msgstr "Login"
+
+#, fuzzy
+msgid "clientlist_login_page"
+msgstr "Login page"
+
+#, fuzzy
+msgid "clientlist_public_access"
+msgstr "Public Access"
+
+#, fuzzy
+msgid "clientlist_start_page"
+msgstr "Start page"
+
+msgid "clipboard"
+msgstr "剪贴板"
+
+msgid "close"
+msgstr "关闭"
+
+#, fuzzy
+msgid "cmix"
+msgstr "Object xAPI/cmi5"
+
+msgid "cnt_new"
+msgstr "(%s New)"
+
+msgid "collapse"
+msgstr "Collapse"
+
+msgid "collapse_all"
+msgstr "Collapse All"
+
+#, fuzzy
+msgid "collapse_content"
+msgstr "Collapse Content"
+
+msgid "collapsed"
+msgstr "Collapsed"
+
+#, fuzzy
+msgid "column_selection"
+msgstr "Column Selection"
+
+msgid "columns"
+msgstr "列"
+
+msgid "comma_separated"
+msgstr "逗号分隔"
+
+msgid "comment"
+msgstr "注解"
+
+#, fuzzy
+msgid "comments"
+msgstr "Comments"
+
+msgid "compose"
+msgstr "写邮件"
+
+#, fuzzy
+msgid "concurrent_uploads"
+msgstr "Number of concurrent uploads"
+
+#, fuzzy
+msgid "concurrent_uploads_info"
+msgstr "Defines the number of files that can be uploaded per upload process at the same time."
+
+msgid "cond_ref_handling"
+msgstr "链接设置"
+
+msgid "cond_ref_shared"
+msgstr "共享所有链接的前提条件"
+
+msgid "cond_ref_unique"
+msgstr "链接的唯一性前提条件"
+
+msgid "condition"
+msgstr "条件"
+
+#, fuzzy
+msgid "condition_accredited_or_passed"
+msgstr "Accredited or Passed"
+
+msgid "condition_already_assigned"
+msgstr "对象已分配"
+
+msgid "condition_circle_created"
+msgstr "因为对象相互依赖，连接不可能"
+
+msgid "condition_deleted"
+msgstr "条件已删除"
+
+msgid "condition_finished"
+msgstr "已完成"
+
+msgid "condition_not_finished"
+msgstr "没有完成"
+
+msgid "condition_passed"
+msgstr "已通过"
+
+msgid "condition_select_object"
+msgstr "请选择一个对象"
+
+msgid "conditions_updated"
+msgstr "条件已保存"
+
+#, fuzzy
+msgid "configuration"
+msgstr "Configuration"
+
+msgid "confirm"
+msgstr "确认"
+
+msgid "confirm_delete_parameter"
+msgstr "您真的要删除这个参数吗？"
+
+msgid "confirmation"
+msgstr "确认"
+
+msgid "conflict_handling"
+msgstr "冲突处理"
+
+msgid "cont_iim_content_popups_info"
+msgstr "当用户点击基础图像的交互部分时，内容弹窗出现。在此屏幕上您只能定义弹出窗口。它们的内容可以在主页编辑屏幕中编辑。"
+
+msgid "cont_iim_create_info"
+msgstr "请为交互图像上传主要的相关图片。"
+
+msgid "cont_iim_overlay_info"
+msgstr "当鼠标悬停在它们之上时，叠加图像已用于基础图像的警报(例如,高亮显示)部分。上传这些图像之后，您可以在“触发器”选项卡中选择它们。"
+
+msgid "contact"
+msgstr "联系"
+
+msgid "contact_data"
+msgstr "联系信息"
+
+msgid "contact_sysadmin"
+msgstr "联系系统管理"
+
+msgid "container"
+msgstr "容器"
+
+msgid "container_no_items"
+msgstr "没有可用的材料"
+
+msgid "content"
+msgstr "内容"
+
+msgid "content_frame"
+msgstr "内容框架"
+
+msgid "content_styles"
+msgstr "内容风格"
+
+msgid "context"
+msgstr "上下文"
+
+msgid "continue"
+msgstr "继续"
+
+msgid "continue_work"
+msgstr "继续"
+
+msgid "contra"
+msgstr "Contra"
+
+#, fuzzy
+msgid "copa"
+msgstr "Content Page"
+
+msgid "copy"
+msgstr "复制"
+
+msgid "copyChapter"
+msgstr "复制"
+
+msgid "copyPage"
+msgstr "复制页面"
+
+msgid "copy_all"
+msgstr "复制所有"
+
+msgid "copy_n_of_suffix"
+msgstr "- Copy (%1$s)"
+
+msgid "copy_of"
+msgstr "的副本"
+
+msgid "copy_of_suffix"
+msgstr "- Copy"
+
+#, fuzzy
+msgid "copy_perma_link"
+msgstr "Copy link to clipboard"
+
+msgid "copy_selected_items"
+msgstr "Copy"
+
+msgid "count"
+msgstr "数目"
+
+#, fuzzy
+msgid "counter_novelty"
+msgstr "News"
+
+#, fuzzy
+msgid "counter_status"
+msgstr "Status"
+
+msgid "country"
+msgstr "国家"
+
+msgid "country_free_text"
+msgstr "国家(自由文本输入)"
+
+msgid "country_selection"
+msgstr "国家(下拉选择)"
+
+msgid "course"
+msgstr "课程"
+
+msgid "courses"
+msgstr "课程"
+
+msgid "create"
+msgstr "创建"
+
+msgid "create_date"
+msgstr "创建日期"
+
+msgid "create_export_file"
+msgstr "创建导出文件"
+
+msgid "create_stylesheet"
+msgstr "创建风格"
+
+msgid "created"
+msgstr "创建日期"
+
+msgid "cron_forum_notification"
+msgstr "发送论坛通知"
+
+#, fuzzy
+msgid "cron_forum_notification_crob_desc"
+msgstr "If enabled, all users who have enabled forum notifications will get a daily mail about all new posts but no immediate notification for each submitted posting."
+
+#, fuzzy
+msgid "cron_forum_notification_disabled"
+msgstr "Can't be disabled when the Cron Job is active."
+
+msgid "cron_jobs"
+msgstr "定时(Cron)作业"
+
+msgid "cron_lucene_index"
+msgstr "更新Lucene搜索索引"
+
+msgid "cron_lucene_index_info"
+msgstr "如果启用，lucene搜索索引将被更新。请在“管理->搜索”中配置lucene服务器。"
+
+msgid "cron_mail_notification"
+msgstr "发送邮件通知"
+
+msgid "cron_mail_notification_cron"
+msgstr "regularly per cron job"
+
+msgid "cron_mail_notification_desc"
+msgstr "如果启用，所有的用户，谁想要了解相关新邮件，将通过外部邮件获得通知。"
+
+msgid "cron_mail_notification_message"
+msgstr "以邮件消息的形式发送邮件通知"
+
+msgid "cron_mail_notification_message_info"
+msgstr "如果启用，所有用户将通过外部邮件获得完成的邮件消息通知。"
+
+msgid "cron_mail_notification_never"
+msgstr "永不"
+
+#, fuzzy
+msgid "cron_users_without_login_del_create_date_thr"
+msgstr "Thresholt"
+
+#, fuzzy
+msgid "cron_users_without_login_del_create_date_thr_info"
+msgstr "All user accounts created before the defined threshold will be taken into consideration."
+
+#, fuzzy
+msgid "cron_users_without_login_del_role_whitelist"
+msgstr "Included Roles"
+
+#, fuzzy
+msgid "cron_users_without_login_del_role_whitelist_info"
+msgstr "The deletion will only processed for users assigned to at least one of the selected roles"
+
+msgid "cronjob_last_start"
+msgstr "最近开始的Cron定时任务"
+
+msgid "cronjob_last_start_unknown"
+msgstr "不确定的"
+
+msgid "crs"
+msgstr "课程"
+
+msgid "crs_activation_start_invalid"
+msgstr "开始和结束时间无效"
+
+msgid "crs_add"
+msgstr "增加课程"
+
+msgid "crs_added"
+msgstr "已增加课程"
+
+msgid "crs_archives"
+msgstr "档案"
+
+msgid "crs_cancel_waiting_list"
+msgstr "您确认想从课程 %s 的等待列表中移除自己吗？"
+
+#, fuzzy
+msgid "crs_copy_threads_info"
+msgstr "Please decide which course materials should be copied, linked or even omitted."
+
+msgid "crs_edit"
+msgstr "编辑课程"
+
+#, fuzzy
+msgid "crs_list_reg"
+msgstr "Registration"
+
+msgid "crs_list_reg_end"
+msgstr "注册结束"
+
+msgid "crs_list_reg_limit_full"
+msgstr "No places left"
+
+msgid "crs_list_reg_limit_places"
+msgstr "Free places"
+
+msgid "crs_list_reg_noreg"
+msgstr "没有注册的可能"
+
+msgid "crs_list_reg_period"
+msgstr "注册期限"
+
+msgid "crs_list_reg_start"
+msgstr "注册开始"
+
+msgid "crs_member_not_passed"
+msgstr "没通过"
+
+msgid "crs_member_passed"
+msgstr "通过"
+
+msgid "crs_members_gallery"
+msgstr "Course Members Gallery"
+
+msgid "crs_new"
+msgstr "新课程"
+
+msgid "crs_removed_from_waiting_list"
+msgstr "您已经从课程 \"%s\"的等待列表中脱离。"
+
+msgid "crs_status_blocked"
+msgstr "[访问被拒绝]"
+
+msgid "crs_status_pending"
+msgstr "[等待注册]"
+
+msgid "crs_subscribers_assigned"
+msgstr "已分配的新用户"
+
+msgid "crs_title"
+msgstr "课程标题"
+
+msgid "crs_unsubscribe"
+msgstr "退订"
+
+msgid "crs_wizard_page"
+msgstr "复制课程(步骤 2/2)"
+
+msgid "crsr"
+msgstr "课程参考"
+
+#, fuzzy
+msgid "crsr_add"
+msgstr "Add Course Link"
+
+msgid "crsr_edit_info"
+msgstr "为创建一个新参考，请选择一个课程。"
+
+msgid "crsr_new"
+msgstr "创建新课程参考"
+
+#, fuzzy
+msgid "crsr_settings"
+msgstr "Course Link Settings"
+
+msgid "csv_export"
+msgstr "CSV-导出"
+
+msgid "current_ip"
+msgstr "当前IP:"
+
+msgid "current_ip_alert"
+msgstr "注意：如果您输入一个错误IP，您将不能再以这个profile访问系统。"
+
+msgid "current_password"
+msgstr "当前口令"
+
+#, fuzzy
+msgid "current_user_avatar"
+msgstr "Your User Avatar"
+
+msgid "currently_used_disk_space"
+msgstr "当前已使用的磁盘空间"
+
+#, fuzzy
+msgid "customize_page"
+msgstr "Customize Page"
+
+msgid "cut"
+msgstr "剪切"
+
+msgid "cutPage"
+msgstr "剪切"
+
+msgid "daily"
+msgstr "daily"
+
+msgid "database"
+msgstr "数据库"
+
+msgid "database_version"
+msgstr "当前数据库版本"
+
+msgid "dataset"
+msgstr "数据集合"
+
+msgid "date"
+msgstr "日期"
+
+#, fuzzy
+msgid "date_time"
+msgstr "Date and Time"
+
+msgid "dateplaner"
+msgstr "日期计划"
+
+msgid "day"
+msgstr "天"
+
+msgid "days"
+msgstr "天"
+
+msgid "db_host"
+msgstr "数据库主机"
+
+msgid "db_name"
+msgstr "数据库名称"
+
+msgid "db_need_update"
+msgstr "数据库需要更新！"
+
+msgid "db_pass"
+msgstr "数据库口令"
+
+msgid "db_type"
+msgstr "数据库类型"
+
+msgid "db_user"
+msgstr "数据库用户"
+
+msgid "db_version"
+msgstr "数据库版本"
+
+msgid "dd_mm_yyyy"
+msgstr "DD.MM.YYYY"
+
+msgid "deactivate"
+msgstr "Set Inactive"
+
+msgid "decrease_attempts"
+msgstr "尝试 - 1"
+
+msgid "def_repository_view"
+msgstr "默认知识库视图"
+
+msgid "default"
+msgstr "默认"
+
+msgid "default_auth_mode"
+msgstr "默认身份验证方法"
+
+msgid "default_auth_mode_info"
+msgstr "请选择在登录页面已预选好的身份验证方法"
+
+msgid "default_language"
+msgstr "默认语言"
+
+msgid "default_perm_settings"
+msgstr "默认许可"
+
+msgid "default_role"
+msgstr "默认角色"
+
+msgid "default_roles"
+msgstr "默认角色"
+
+msgid "default_skin"
+msgstr "默认外观"
+
+msgid "default_skin_style"
+msgstr "默认皮肤/风格"
+
+msgid "default_style"
+msgstr "默认风格"
+
+msgid "defaults"
+msgstr "默认"
+
+msgid "delete"
+msgstr "删除"
+
+msgid "delete_existing_file"
+msgstr "删除存在的文件"
+
+msgid "delete_inactivated_user_accounts"
+msgstr "删除不活跃的用户账号"
+
+msgid "delete_inactivated_user_accounts_desc"
+msgstr "如果启用，用户账号将被删除，这取决于不活跃的日期。"
+
+msgid "delete_inactivated_user_accounts_include_roles"
+msgstr "已包括的角色"
+
+msgid "delete_inactivated_user_accounts_include_roles_desc"
+msgstr "定义将参与删除的角色。"
+
+msgid "delete_inactivated_user_accounts_period"
+msgstr "自从不活跃以来的天数。"
+
+msgid "delete_inactivated_user_accounts_period_desc"
+msgstr "如果已过了不活跃以来的时间段，删除将会被执行。"
+
+msgid "delete_inactive_user_accounts"
+msgstr "删除用户账号"
+
+msgid "delete_inactive_user_accounts_desc"
+msgstr "如果启用，用户账号将根据最后登录的日期来删除。"
+
+msgid "delete_inactive_user_accounts_include_roles"
+msgstr "已包括的角色"
+
+msgid "delete_inactive_user_accounts_include_roles_desc"
+msgstr "定义将参与删除的角色。"
+
+msgid "delete_inactive_user_accounts_period"
+msgstr "自从上次登录以来的天数"
+
+msgid "delete_inactive_user_accounts_period_desc"
+msgstr "如果这个自从上次登录以来的时间片段已经过去，删除动作将被执行。"
+
+msgid "delete_parameter"
+msgstr "删除参数"
+
+msgid "delete_selected_items"
+msgstr "删除选定的项目"
+
+msgid "deleted"
+msgstr "已删除"
+
+msgid "deleted_user"
+msgstr "该用户已被删除"
+
+msgid "deleted_users"
+msgstr "已删除用户"
+
+#, fuzzy
+msgid "deletion_notification"
+msgstr "\"%s\" has canceled the attendance of session \"%s\"."
+
+msgid "deliver"
+msgstr "Deliver exercise"
+
+#, fuzzy
+msgid "deny_usr_agreement"
+msgstr "Do Not Accept Terms of Service?"
+
+#, fuzzy
+msgid "deny_usr_agreement_btn"
+msgstr "Do Not Accept"
+
+msgid "department"
+msgstr "系"
+
+msgid "desc"
+msgstr "描述"
+
+msgid "description"
+msgstr "描述"
+
+msgid "desired_password"
+msgstr "期望的口令"
+
+msgid "details"
+msgstr "详细资料"
+
+#, fuzzy
+msgid "didactic_template"
+msgstr "Didactic Template"
+
+msgid "disable"
+msgstr "关闭"
+
+msgid "disable_check"
+msgstr "禁止检查"
+
+msgid "disable_ext_lang_maint"
+msgstr "禁用扩展维护"
+
+msgid "disable_hide_user_toggle"
+msgstr "成员允许停用"
+
+msgid "disabled"
+msgstr "禁止"
+
+#, fuzzy
+msgid "disclose"
+msgstr "Disclose"
+
+#, fuzzy
+msgid "dislike"
+msgstr "Dislike"
+
+msgid "domain"
+msgstr "Domain"
+
+msgid "down"
+msgstr "向下"
+
+msgid "download"
+msgstr "下载"
+
+msgid "download_all_returned_files"
+msgstr "下载所有文件返回"
+
+#, fuzzy
+msgid "download_link"
+msgstr "Download Link"
+
+#, fuzzy
+msgid "download_multiple_objects"
+msgstr "Download Multiple Objects"
+
+#, fuzzy
+msgid "download_selected_items"
+msgstr "Download"
+
+msgid "downloading_settings"
+msgstr "下载设置"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement"
+msgstr "Accept Declaration of Data Protection?"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement_intro"
+msgstr "There is a new Declaration of Data Protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page."
+
+#, fuzzy
+msgid "dpro_agreed_on"
+msgstr "DoDP agreed to on"
+
+#, fuzzy
+msgid "dpro_force_accept_usr_agreement"
+msgstr "You must accept the Declaration of Data Protection!"
+
+#, fuzzy
+msgid "dpro_no_agreement_description"
+msgstr "There is currently no Declaration of Data Protection document available for this installation. Please contact the <a href=\"%1$s\">system administrator</a>."
+
+#, fuzzy
+msgid "dpro_refuse_acceptance"
+msgstr "Refuse to Accept the Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_usr_agreement"
+msgstr "Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_usr_agreement_footer_intro"
+msgstr "You have declared your consent to this Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description"
+msgstr "Withdraw your consent to our Declaration of Data Protection here."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description_external"
+msgstr "Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description_internal"
+msgstr "Please log in again to complete the process of withdrawing your consent to the Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_header"
+msgstr "Withdraw to Consent of Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_withdraw_consent_info"
+msgstr "Withdraw your consent to our Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_info_external"
+msgstr "Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Declaration of Data Protection."
+
+msgid "drafts"
+msgstr "草稿"
+
+#, fuzzy
+msgid "drag_file_here"
+msgstr "Drag-and-drop your file here"
+
+#, fuzzy
+msgid "drag_files_here"
+msgstr "Drag-and-drop your files here"
+
+#, fuzzy
+msgid "drag_handle"
+msgstr "Draggable element"
+
+#, fuzzy
+msgid "drop_files_on_repo_obj_info"
+msgstr "Drop the files here to upload them into this object."
+
+msgid "edit"
+msgstr "编辑"
+
+msgid "edit_assignments"
+msgstr "编辑分配"
+
+msgid "edit_cat_settings"
+msgstr "高级类目设置"
+
+msgid "edit_content"
+msgstr "编辑内容"
+
+msgid "edit_grouping"
+msgstr "编辑成员限制"
+
+#, fuzzy
+msgid "edit_metadata"
+msgstr "Edit Metadata"
+
+msgid "edit_operations"
+msgstr "安排"
+
+msgid "edit_page"
+msgstr "编辑页面"
+
+msgid "edit_page_content"
+msgstr "编辑页面内容"
+
+#, fuzzy
+msgid "edit_page_meta"
+msgstr "Edit Page Metadata"
+
+msgid "edit_properties"
+msgstr "编辑属性"
+
+msgid "edit_stylesheet"
+msgstr "编辑风格"
+
+msgid "edited_on"
+msgstr "编辑在"
+
+msgid "editor"
+msgstr "编辑器"
+
+msgid "email"
+msgstr "电子邮件"
+
+msgid "email_not_valid"
+msgstr "您输入的电子邮件地址无效！"
+
+msgid "enable"
+msgstr "启用"
+
+msgid "enable_anonymous_fora"
+msgstr "允许用化名发贴"
+
+msgid "enable_anonymous_fora_desc"
+msgstr "如果这个选项被禁用，则“用化名发贴”特性将不能再在论坛中使用了。"
+
+msgid "enable_calendar"
+msgstr "启用日历"
+
+#, fuzzy
+msgid "enable_comments_export"
+msgstr "Enable Comments Export"
+
+msgid "enable_course_group_notifications"
+msgstr "组和课程新闻的每日邮件"
+
+msgid "enable_course_group_notifications_desc"
+msgstr "如果启用，参与者能订阅每日新闻摘要。"
+
+msgid "enable_custom_icons"
+msgstr "启用自定义图标"
+
+msgid "enable_custom_icons_info"
+msgstr "允许为单独的类目、课程和组定义自定义图标。这个类目、课程和组的属性部分将提供一个图像上传对话框。"
+
+#, fuzzy
+msgid "enable_dnd_upload"
+msgstr "Enable drag-and-drop upload"
+
+#, fuzzy
+msgid "enable_dnd_upload_info"
+msgstr "Files can be uploaded with drag-and-drop from the local computer if enabled."
+
+msgid "enable_download_folder"
+msgstr "启用下载文件夹"
+
+msgid "enable_download_folder_info"
+msgstr "允许以压缩成zip文件的形式下载一个文件夹，包括其下的子文件夹。"
+
+#, fuzzy
+msgid "enable_export_scorm_desc"
+msgstr "allow Export of User Data of SCORM-Learning Modules"
+
+msgid "enable_fora_statistics"
+msgstr "在论坛中启用统计"
+
+msgid "enable_fora_statistics_desc"
+msgstr "如果禁用，任何人都不能访问论坛统计。"
+
+msgid "enable_hide_user_toggle"
+msgstr "成员不允许停用"
+
+#, fuzzy
+msgid "enable_multi_download"
+msgstr "«Download multiple objects» enabled"
+
+#, fuzzy
+msgid "enable_multi_download_info"
+msgstr "Enables that multiple folders/files can be selected to download them as zip archive."
+
+msgid "enable_password_assistance"
+msgstr "启用密码帮助"
+
+#, fuzzy
+msgid "enable_preview"
+msgstr "Enable Preview"
+
+#, fuzzy
+msgid "enable_preview_info"
+msgstr "Enable this option to display preview images on supported file types."
+
+#, fuzzy
+msgid "enable_repository_dnd_upload"
+msgstr "Enable in Repository"
+
+#, fuzzy
+msgid "enable_repository_dnd_upload_info"
+msgstr "Enables that files can be dragged from the computer directly onto an object in the repository to start uploading the files into this object."
+
+msgid "enable_sahs_protocol_data"
+msgstr "激活协议数据"
+
+msgid "enable_sahs_protocol_data_desc"
+msgstr "显示协议数据(SCORM/AICC)"
+
+msgid "enable_search_engine"
+msgstr "为互联网搜索引擎(例如Google)打开公共区域。"
+
+msgid "enable_trash"
+msgstr "启用垃圾桶"
+
+msgid "enable_trash_info"
+msgstr "如果启用，已删除对象被移到垃圾桶中，之后还可以恢复它们。当关闭这个选项时，对象从系统中被删除，且不可恢复！"
+
+msgid "enable_webdav"
+msgstr "启用WebDAV访问"
+
+msgid "enable_webdav_info"
+msgstr "允许WebDAV客户端以web文件夹的形式访问知识库。用户可以使用“以web文件夹形式打开”动作去打开知识库中的web文件夹，或者在WebDAV客户端中进入下面的地址：<a href=\"%1$s\" folder=\"%1$s\">%1$s</a>"
+
+msgid "enabled"
+msgstr "已启用"
+
+#, fuzzy
+msgid "enlarge"
+msgstr "Enlarge"
+
+msgid "enter_in_mb_desc"
+msgstr "输入一个值，单位MB."
+
+#, fuzzy
+msgid "enter_new_name"
+msgstr "Please enter a name"
+
+#, fuzzy
+msgid "entered_notification"
+msgstr "\"%s\" has joined the session \"%s\"."
+
+#, fuzzy
+msgid "entry_status"
+msgstr "Entry status"
+
+msgid "err_1_param"
+msgstr "只一个参数！"
+
+msgid "err_2_param"
+msgstr "只两个参数！"
+
+msgid "err_auth_apache_failed"
+msgstr "身份验证已失败。也许您没有有效的用户证书或您的智能卡还没有插入。"
+
+msgid "err_auth_ldap_no_ilias_user"
+msgstr "登录失败！LDAP身份验证成功，但不存在相应的ILIAS用户。请联系您的系统管理员。"
+
+msgid "err_auth_mode_inactive"
+msgstr "您的身份验证方法已失效。"
+
+msgid "err_auth_soap_no_ilias_user"
+msgstr "登录失败。SOAP身份验证成功，但不存在相应的ILIAS用户。请联系您的系统管理员。"
+
+msgid "err_check_input"
+msgstr "设置不能被保存。请检查您输入的内容"
+
+msgid "err_count_param"
+msgstr "原因错误计算参数！"
+
+#, fuzzy
+msgid "err_disabled"
+msgstr "Account creation via Shibboleth has been disabled. Please contact the system administrator for further information."
+
+#, fuzzy
+msgid "err_double_entries"
+msgstr "Reason: Duplicate Entries"
+
+msgid "err_in_line"
+msgstr "行内出错"
+
+msgid "err_inactive"
+msgstr "这个账号没有激活。请联系系统管理员。"
+
+#, fuzzy
+msgid "err_inactive_login_attempts"
+msgstr "Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account. "
+
+msgid "err_invalid_port"
+msgstr "无效的端口号"
+
+msgid "err_no_cookies"
+msgstr "请在您的浏览器中启用会话cookies！"
+
+msgid "err_no_langfile_found"
+msgstr "未找到语言文件！"
+
+msgid "err_no_param"
+msgstr "无参数！"
+
+msgid "err_over_3_param"
+msgstr "多于三个参数！"
+
+msgid "err_role_not_assignable"
+msgstr "您不能在此处将用户设置为此角色"
+
+msgid "err_session_expired"
+msgstr "您的对话已过期！"
+
+#, fuzzy
+msgid "err_valid_login_account_creation_disabled"
+msgstr "Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator."
+
+msgid "err_wrong_header"
+msgstr "原因错误文件头！"
+
+msgid "err_wrong_login"
+msgstr "错误登录。"
+
+msgid "err_wrong_password"
+msgstr "密码错误"
+
+msgid "error"
+msgstr "错误"
+
+#, fuzzy
+msgid "error_empty_file_or_folder"
+msgstr "The file size is 0 bytes or it is a folder."
+
+#, fuzzy
+msgid "error_extraction_failed"
+msgstr "The extraction of the archive and its directories failed. Probably because you don't have the rights to create folders or categories within this object."
+
+msgid "error_parser"
+msgstr "误差开始解析器"
+
+#, fuzzy
+msgid "error_upload_was_zero_bytes"
+msgstr "The upload failed as this is a folder, the file size is 0 bytes or the file was renamed meanwhile."
+
+msgid "etal_talks"
+msgstr "Talks"
+
+msgid "event_ass_materials_prop"
+msgstr "会话材料"
+
+msgid "event_assign_files"
+msgstr "文件分配"
+
+msgid "exc"
+msgstr "练习"
+
+msgid "exc_add"
+msgstr "增加练习"
+
+msgid "exc_added"
+msgstr "练习已增加"
+
+msgid "exc_date_not_valid"
+msgstr "日期无效"
+
+msgid "exc_deassign_members"
+msgstr "删除用户"
+
+msgid "exc_download_files"
+msgstr "下载文件"
+
+msgid "exc_edit"
+msgstr "已创建新练习"
+
+msgid "exc_edit_exercise"
+msgstr "编辑练习"
+
+msgid "exc_edit_until"
+msgstr "编辑到"
+
+msgid "exc_exercise_sent"
+msgstr "练习已发送"
+
+msgid "exc_files"
+msgstr "文件"
+
+msgid "exc_files_returned"
+msgstr "收回的文件"
+
+msgid "exc_instruction"
+msgstr "工作指导"
+
+msgid "exc_last_submission"
+msgstr "最后提交"
+
+#, fuzzy
+msgid "exc_member_of_crs_grp"
+msgstr "Member in Course/Group"
+
+msgid "exc_members_already_assigned"
+msgstr "这些成员已被指定做这个练习"
+
+msgid "exc_members_assigned"
+msgstr "已指定成员"
+
+msgid "exc_members_comments_saved"
+msgstr "所选用户的练习评论已经保存"
+
+msgid "exc_new"
+msgstr "新练习"
+
+msgid "exc_next_deadline"
+msgstr "下一个截止日期"
+
+msgid "exc_obj"
+msgstr "练习"
+
+msgid "exc_save_changes"
+msgstr "保存"
+
+msgid "exc_schedule"
+msgstr "时间表"
+
+msgid "exc_select_one_file"
+msgstr "请确定选择一个文件。"
+
+msgid "exc_sent"
+msgstr "练习已发送给选定的用户"
+
+msgid "exc_sent_at"
+msgstr "已经发送 <br />%s"
+
+msgid "exc_status"
+msgstr "状态"
+
+msgid "exc_status_saved"
+msgstr "练习已更新"
+
+msgid "exc_submission"
+msgstr "提交"
+
+msgid "exc_time_over_short"
+msgstr "时间到。"
+
+msgid "exc_time_to_send"
+msgstr "剩余的工作时间"
+
+msgid "exc_upload_error"
+msgstr "上传文件出错"
+
+msgid "excs"
+msgstr "练习"
+
+msgid "execute"
+msgstr "执行"
+
+msgid "exercise_time_over"
+msgstr "您已经到达练习结束时间。您不能再交付文件！"
+
+msgid "expand"
+msgstr "展开"
+
+msgid "expand_all"
+msgstr "全部展开"
+
+#, fuzzy
+msgid "expand_content"
+msgstr "Expand Content"
+
+msgid "expanded"
+msgstr "已展开"
+
+msgid "export"
+msgstr "导出"
+
+msgid "export_format"
+msgstr "导出格式"
+
+msgid "export_html"
+msgstr "导出为html文件"
+
+msgid "ext_cat_settings"
+msgstr "编辑高级类目设置"
+
+msgid "ext_link"
+msgstr "链接："
+
+#, fuzzy
+msgid "extracting"
+msgstr "Extracting..."
+
+#, fuzzy
+msgid "eyeclosed"
+msgstr "Eye Closed - Click to hide the input's contents"
+
+#, fuzzy
+msgid "eyeopened"
+msgstr "Eye Open - Click to reveal the input's contents"
+
+msgid "failure_message"
+msgstr "失败信息"
+
+msgid "fax"
+msgstr "传真"
+
+msgid "feed"
+msgstr "News Feed"
+
+msgid "feedback"
+msgstr "反馈"
+
+msgid "field_name"
+msgstr "字段名"
+
+msgid "field_type"
+msgstr "字段类型"
+
+msgid "file"
+msgstr "文件"
+
+msgid "file_add"
+msgstr "上载文件"
+
+msgid "file_add_and_metadata"
+msgstr "上传文件和编辑元数据"
+
+msgid "file_added"
+msgstr "文件已上载"
+
+msgid "file_allowed_suffixes"
+msgstr "允许文件类型："
+
+#, fuzzy
+msgid "file_confirm_delete_all_versions"
+msgstr "You selected all file versions. This will delete the whole file object. Do you want to continue?"
+
+#, fuzzy
+msgid "file_confirm_delete_versions"
+msgstr "Are you sure to delete the following file versions?"
+
+msgid "file_created"
+msgstr "一个新文件已经添加。"
+
+msgid "file_edit"
+msgstr "编辑文件"
+
+msgid "file_info"
+msgstr "文件信息"
+
+msgid "file_is_infected"
+msgstr "这个文件感染了病毒。"
+
+#, fuzzy
+msgid "file_no_valid_file_type"
+msgstr "This file type is not allowed."
+
+msgid "file_not_found"
+msgstr "未找到文件！"
+
+#, fuzzy
+msgid "file_not_found_sec"
+msgstr "This file cannot be found in ILIAS or has been blocked due to security reasons."
+
+msgid "file_not_valid"
+msgstr "文件无效！"
+
+msgid "file_notice"
+msgstr "Please take care of the filesizelimit of"
+
+#, fuzzy
+msgid "file_objects"
+msgstr "File Objects"
+
+#, fuzzy
+msgid "file_rollback"
+msgstr "Make this the current version"
+
+#, fuzzy
+msgid "file_rollback_done"
+msgstr "File version %s is now the current version."
+
+#, fuzzy
+msgid "file_rollback_select_exact_one"
+msgstr "Only one file version can be selected to make it the current version."
+
+#, fuzzy
+msgid "file_some_invalid_file_types_removed"
+msgstr "Some file types are not allowed and have been removed."
+
+msgid "file_suffix_repl"
+msgstr "文件上传后缀替换"
+
+msgid "file_suffix_repl_info"
+msgstr "如果已经上传到web空间，文件尾部这些后缀(用逗号分隔)将被重新命名为“.sec”后缀"
+
+#, fuzzy
+msgid "file_system_clean_temp_dir_cron"
+msgstr "Clean temp directory"
+
+#, fuzzy
+msgid "file_system_clean_temp_dir_cron_info"
+msgstr "This job cleans the ILIAS temp-directory of files, which are older than 10 days. This counteracts the accumulation of unused files and therefore prevents an increased use of disk space by the temp directory."
+
+msgid "file_updated"
+msgstr "文件已经更新。"
+
+msgid "file_upload_pending"
+msgstr "待处理文件"
+
+msgid "file_valid"
+msgstr "文件有效！"
+
+msgid "file_version"
+msgstr "文件中提供的版本"
+
+#, fuzzy
+msgid "file_version_create"
+msgstr "Initial version"
+
+#, fuzzy
+msgid "file_version_intermediate_version"
+msgstr "Intermediate Version"
+
+#, fuzzy
+msgid "file_version_new_version"
+msgstr "New version"
+
+#, fuzzy
+msgid "file_version_published_version"
+msgstr "Published Version"
+
+#, fuzzy
+msgid "file_version_replace"
+msgstr "All versions replaced"
+
+#, fuzzy
+msgid "file_version_rollback"
+msgstr "Rollback to version %s from %s"
+
+#, fuzzy
+msgid "file_versions_deleted"
+msgstr "The selected file versions were successfully deleted."
+
+msgid "filename"
+msgstr "文件名"
+
+msgid "filename_extension_missing"
+msgstr "文件扩展名缺失"
+
+msgid "filename_hidden_backup_file"
+msgstr "隐藏备份文件"
+
+msgid "filename_hidden_unix_file"
+msgstr "隐藏Unix文件"
+
+msgid "filename_interoperability"
+msgstr "交互性"
+
+msgid "filename_special_characters"
+msgstr "文件名中不允许有/"
+
+msgid "filename_special_filename"
+msgstr ". 和 .. 是保留文件名"
+
+msgid "filename_visibility"
+msgstr "可见的"
+
+msgid "filename_windows_empty_extension"
+msgstr "在Windows系统中，文件名的末尾不允许是句点(.)。"
+
+msgid "filename_windows_special_characters"
+msgstr "\\/:*?\"<>| 这些字符不允许出现在Windows系统的文件名中"
+
+msgid "filename_windows_webdav_issue"
+msgstr "# 在Windows系统中，web文件夹不被支持"
+
+msgid "files"
+msgstr "文件"
+
+msgid "filesize"
+msgstr "File Size文件大小"
+
+msgid "filetype"
+msgstr "File Type文件类型"
+
+msgid "fill_out_all_required_fields"
+msgstr "请填充全部要求的域"
+
+msgid "filter"
+msgstr "筛选:"
+
+msgid "filter_users_with_access"
+msgstr "Only users with access"
+
+msgid "filter_users_with_disk_usage"
+msgstr "Only users with disk space used"
+
+msgid "filter_users_without_access"
+msgstr "Only users without access"
+
+msgid "filter_users_without_disk_usage"
+msgstr "Only users with no disk space used"
+
+msgid "first"
+msgstr "首先"
+
+msgid "firstname"
+msgstr "名"
+
+msgid "flatview"
+msgstr "平视图"
+
+msgid "fold"
+msgstr "文件夹"
+
+msgid "fold_add"
+msgstr "增加文件夹"
+
+msgid "fold_added"
+msgstr "文件夹已增加"
+
+#, fuzzy
+msgid "fold_copy_threads_info"
+msgstr "Please decide which materials should be copied, linked or even omitted."
+
+msgid "fold_edit"
+msgstr "编辑文件夹"
+
+msgid "fold_new"
+msgstr "新文件夹"
+
+#, fuzzy
+msgid "fold_wizard_page"
+msgstr "Copy Folder (Step 2/2)"
+
+msgid "folder"
+msgstr "文件夹"
+
+msgid "folders"
+msgstr "文件夹"
+
+msgid "follow_link_to_read_mails"
+msgstr "点击以下链接阅读这些邮件："
+
+msgid "forgot_password"
+msgstr "忘记了密码？"
+
+msgid "forgot_username"
+msgstr "忘记了用户名？"
+
+msgid "form_input_not_valid"
+msgstr "有些数据没有完成或无效。请以正确的格式输入。"
+
+msgid "forum"
+msgstr "论坛"
+
+msgid "forum_direct_notification"
+msgstr "Dir. 通知"
+
+msgid "forum_notify_me"
+msgstr "张贴答复时通知我"
+
+msgid "forum_post_replied"
+msgstr "论坛中您的贴子已有人回答。"
+
+msgid "forums"
+msgstr "论坛"
+
+msgid "forums_anonymized"
+msgstr "Forum anonymized"
+
+msgid "forums_anonymous"
+msgstr "匿名"
+
+msgid "forums_articles"
+msgstr "文章"
+
+#, fuzzy
+msgid "forums_closed"
+msgstr "closed"
+
+msgid "forums_disable_forum_notification"
+msgstr "禁用论坛通知"
+
+msgid "forums_enable_forum_notification"
+msgstr "启用论坛通知"
+
+msgid "forums_forum_notification_enabled"
+msgstr "此论坛的新信息将会通知到您。"
+
+msgid "forums_last_post"
+msgstr "最后一篇文章"
+
+#, fuzzy
+msgid "forums_last_posting_asc"
+msgstr "Last Post Ascending"
+
+#, fuzzy
+msgid "forums_last_posting_dsc"
+msgstr "Last Post Descending"
+
+msgid "forums_notification_settings"
+msgstr "论坛通知"
+
+#, fuzzy
+msgid "forums_rating_asc"
+msgstr "Rating Ascending"
+
+#, fuzzy
+msgid "forums_rating_dsc"
+msgstr "Rating Descending"
+
+#, fuzzy
+msgid "forums_thread_sorting_asc"
+msgstr "Thread Title A→Z"
+
+#, fuzzy
+msgid "forums_thread_sorting_dsc"
+msgstr "Thread Title Z→A"
+
+msgid "forums_threads"
+msgstr "主题"
+
+msgid "forums_use_alias"
+msgstr "您可以为您的贴子使用这个别名。如果这个字段留空，您的贴子将被标记为匿名的。"
+
+msgid "forums_your_name"
+msgstr "您的名字"
+
+msgid "frm"
+msgstr "论坛"
+
+msgid "frm_add"
+msgstr "增加论坛"
+
+msgid "frm_added"
+msgstr "论坛已增加"
+
+msgid "frm_edit"
+msgstr "编辑论坛"
+
+#, fuzzy
+msgid "frm_import"
+msgstr "Import Forum"
+
+msgid "frm_latest_postings"
+msgstr "最新文章"
+
+msgid "frm_new"
+msgstr "新论坛"
+
+#, fuzzy
+msgid "frm_no_threads"
+msgstr "There are no threads available at the moment."
+
+msgid "from"
+msgstr "从"
+
+msgid "fullname"
+msgstr "名字"
+
+msgid "functions"
+msgstr "功能"
+
+msgid "further_informations"
+msgstr "Further Informations"
+
+msgid "gdf_add"
+msgstr "增加定义"
+
+msgid "gdf_new"
+msgstr "新定义"
+
+msgid "gender"
+msgstr "性别"
+
+msgid "gender_f"
+msgstr "女"
+
+msgid "gender_m"
+msgstr "男"
+
+#, fuzzy
+msgid "gender_n"
+msgstr "No salutation desired"
+
+#, fuzzy
+msgid "general"
+msgstr "General"
+
+msgid "general_settings"
+msgstr "一般设置"
+
+msgid "generate"
+msgstr "生成"
+
+#, fuzzy
+msgid "ghostscript_not_configured"
+msgstr "Ghostscript is not configured. Please open the <a href=\"cli/setup.php?cmd=mastersettings\" target=\"_blank\">Setup</a> to configure it."
+
+msgid "glo"
+msgstr "词汇表"
+
+msgid "glo_add"
+msgstr "增加词汇表"
+
+msgid "glo_added"
+msgstr "词汇表已增加"
+
+msgid "glo_import"
+msgstr "导入词汇表"
+
+msgid "glo_mode"
+msgstr "模式"
+
+msgid "glo_mode_desc"
+msgstr "A virtual glossary works like a normal glossary.Additionally it contains the terms from all glossaries that are located on the same level in the repository like the virtual glossary (level) respectively from all glossaries that are located downwards in the repository from the position of the virtual glossary (subtree)."
+
+msgid "glo_mode_normal"
+msgstr "标准(normal)"
+
+msgid "glo_new"
+msgstr "新词汇表"
+
+msgid "global"
+msgstr "全局"
+
+msgid "global_default"
+msgstr "全局默认值"
+
+msgid "global_fixed"
+msgstr "Global Fixed"
+
+#, fuzzy
+msgid "global_role_assignment"
+msgstr "Globale Rollenzuweisung"
+
+msgid "global_settings"
+msgstr "全局设置"
+
+msgid "global_user"
+msgstr "全局用户"
+
+msgid "glossaries"
+msgstr "术语表"
+
+msgid "glossary"
+msgstr "词汇表"
+
+msgid "go"
+msgstr "Go"
+
+#, fuzzy
+msgid "grade"
+msgstr "Grade"
+
+msgid "group"
+msgstr "组"
+
+msgid "group_members"
+msgstr "组成员"
+
+msgid "group_name"
+msgstr "组名称"
+
+msgid "group_new_registrations"
+msgstr "新注册"
+
+msgid "group_password_registration_msg"
+msgstr "加入此组您必须输入此组管理员提供口令。<br>如果口令正确，您将自动被指派到此组。"
+
+msgid "group_registration"
+msgstr "注册"
+
+msgid "group_registration_mode"
+msgstr "注册模式"
+
+msgid "group_registration_time"
+msgstr "注册期限"
+
+msgid "group_req_direct"
+msgstr "直接加入"
+
+msgid "group_req_registration_msg"
+msgstr "加入此组您必须注册。组管理员将分配您加入此组。请填写标题说明申请的原因。 <br>当您被分配到此组后，您将收到通知消息。"
+
+msgid "group_status"
+msgstr "组状态"
+
+msgid "groupings"
+msgstr "成员限制"
+
+msgid "groupings_assigned_obj_crs"
+msgstr "已分配课程"
+
+msgid "groupings_assigned_obj_grp"
+msgstr "已分配组"
+
+#, fuzzy
+msgid "groupings_source"
+msgstr "Source"
+
+msgid "groups"
+msgstr "组"
+
+msgid "grp"
+msgstr "组"
+
+msgid "grp_add"
+msgstr "增加组"
+
+msgid "grp_added"
+msgstr "已增加组"
+
+msgid "grp_btn_unsubscribe"
+msgstr "从组中退订"
+
+msgid "grp_cancel_waiting_list"
+msgstr "您真的想从组“%s”的等待名单中移除自己吗？"
+
+msgid "grp_copy_threads_info"
+msgstr "请决定哪些材料应该被复制、链接或甚至省略。"
+
+msgid "grp_deleted_export_files"
+msgstr "选定的文件已删除。"
+
+msgid "grp_dismiss_member"
+msgstr "您确定要从组中撤消下述成员吗？"
+
+msgid "grp_dismiss_myself"
+msgstr "您肯定要从组中撤消您自己吗？"
+
+msgid "grp_edit"
+msgstr "编辑组"
+
+msgid "grp_err_administrator_required"
+msgstr "不能删除成员，每个组至少要有一个管理员！"
+
+msgid "grp_header_edit_members"
+msgstr "编辑成员"
+
+#, fuzzy
+msgid "grp_list_members"
+msgstr "List members"
+
+#, fuzzy
+msgid "grp_list_reg"
+msgstr "Registration"
+
+msgid "grp_list_reg_end"
+msgstr "注册结束"
+
+msgid "grp_list_reg_limit_full"
+msgstr "No places left"
+
+msgid "grp_list_reg_limit_places"
+msgstr "Free places"
+
+msgid "grp_list_reg_noreg"
+msgstr "没有注册的可能"
+
+msgid "grp_list_reg_period"
+msgstr "注册期限"
+
+msgid "grp_list_reg_start"
+msgstr "注册开始"
+
+msgid "grp_list_users"
+msgstr "用户列表"
+
+msgid "grp_mem_change_status"
+msgstr "更改组状态"
+
+msgid "grp_mem_send_mail"
+msgstr "给成员发消息组成员画廊"
+
+msgid "grp_members_gallery"
+msgstr "组成员相册"
+
+msgid "grp_msg_applicants_assigned"
+msgstr "申请人被指定为组成员"
+
+msgid "grp_msg_member_assigned"
+msgstr "用户已被指定为组成员"
+
+msgid "grp_msg_membership_annulled"
+msgstr "成员资格已取消"
+
+msgid "grp_new"
+msgstr "新组"
+
+msgid "grp_registration"
+msgstr "加入组"
+
+msgid "grp_registration_completed"
+msgstr "注册成功"
+
+msgid "grp_removed_from_waiting_list"
+msgstr "您已经脱离了组“%s”的等待名单。"
+
+msgid "grp_select_one_file"
+msgstr "请选择一个文件。"
+
+msgid "grp_wizard_page"
+msgstr "复制组 (步骤 2/2)"
+
+#, fuzzy
+msgid "grpr"
+msgstr "Group Reference"
+
+#, fuzzy
+msgid "grpr_add"
+msgstr "Add Group Link"
+
+#, fuzzy
+msgid "grpr_edit"
+msgstr "Edit Group Reference"
+
+#, fuzzy
+msgid "grpr_edit_info"
+msgstr "Please choose one group, for creating a new reference."
+
+#, fuzzy
+msgid "grpr_new"
+msgstr "Create Group Reference"
+
+#, fuzzy
+msgid "grpr_settings"
+msgstr "Group Link Settings"
+
+#, fuzzy
+msgid "header_action"
+msgstr "Insert Heading - Click to insert a heading."
+
+msgid "header_searchable"
+msgstr "可搜索"
+
+msgid "header_title"
+msgstr "标题头"
+
+msgid "header_visible_registration"
+msgstr "注册可见"
+
+msgid "header_zip"
+msgstr "上传zip归档"
+
+msgid "height"
+msgstr "高度"
+
+msgid "help"
+msgstr "帮助"
+
+msgid "hide"
+msgstr "隐藏"
+
+#, fuzzy
+msgid "hide_all_details"
+msgstr "Hide all details"
+
+msgid "hide_details"
+msgstr "隐藏详情"
+
+msgid "hide_filter"
+msgstr "隐藏过滤器"
+
+msgid "hide_own_online_status"
+msgstr "隐身"
+
+#, fuzzy
+msgid "hide_visible_sections"
+msgstr "Hide More Information &raquo;"
+
+msgid "hint"
+msgstr "提示"
+
+msgid "history"
+msgstr "历史"
+
+msgid "hobby"
+msgstr "兴趣/业余爱好"
+
+msgid "home"
+msgstr "首页"
+
+msgid "host"
+msgstr "主机"
+
+msgid "hour"
+msgstr "小时"
+
+msgid "hours"
+msgstr "小时"
+
+msgid "htlm"
+msgstr "HTML学习模块"
+
+msgid "htlm_add"
+msgstr "添加HTML学习模块"
+
+msgid "htlm_new"
+msgstr "新的HTML学习模块"
+
+msgid "http"
+msgstr "HTTP"
+
+msgid "http_not_possible"
+msgstr "这个服务器不支持http请求。"
+
+msgid "http_path"
+msgstr "Http路径"
+
+msgid "https_not_possible"
+msgstr "这个服务器不支持HTTPS链接。"
+
+msgid "i2passwd"
+msgstr "ILIAS 2 密码"
+
+#, fuzzy
+msgid "iass_import"
+msgstr "Import Individual Assessment"
+
+#, fuzzy
+msgid "iass_new"
+msgstr "Create Individual Assessment"
+
+msgid "icon"
+msgstr "图标"
+
+msgid "icon_settings"
+msgstr "图标设置"
+
+msgid "id"
+msgstr "身份"
+
+msgid "identifier"
+msgstr " 标识符"
+
+msgid "if_no_title_then_filename"
+msgstr "留空显示文件名"
+
+msgid "ignore_on_conflict"
+msgstr "忽略冲突"
+
+msgid "ignore_required_fields"
+msgstr "忽略所需字段"
+
+msgid "ignore_required_fields_info"
+msgstr "如果激活，强制性字段在提交这个表单之后不再验证了(如果可能的话)。关心的用户在下次登录之后必需完成他们的个人资料(profile)。"
+
+#, fuzzy
+msgid "il_astpl_loc_initial"
+msgstr "Initial Test"
+
+#, fuzzy
+msgid "il_astpl_loc_qualified"
+msgstr "Qualifying Test"
+
+msgid "il_blog_contributor"
+msgstr "博客贡献者"
+
+#, fuzzy
+msgid "il_blog_editor"
+msgstr "Blog-Editor"
+
+msgid "il_chat_moderator"
+msgstr "聊天版主"
+
+msgid "il_crs_admin"
+msgstr "管理员"
+
+msgid "il_crs_member"
+msgstr "成员"
+
+msgid "il_crs_non_member"
+msgstr "课程非会员"
+
+msgid "il_crs_tutor"
+msgstr "导师"
+
+msgid "il_frm_moderator"
+msgstr "版主"
+
+msgid "il_grp_admin"
+msgstr "管理员"
+
+msgid "il_grp_member"
+msgstr "成员"
+
+msgid "il_grp_status_closed"
+msgstr "组已关闭"
+
+msgid "il_grp_status_open"
+msgstr "打开组"
+
+#, fuzzy
+msgid "il_iass_member"
+msgstr "Participant"
+
+#, fuzzy
+msgid "il_lso_admin"
+msgstr "Learning Sequence Admin"
+
+#, fuzzy
+msgid "il_lso_member"
+msgstr "Learning Sequence Member"
+
+#, fuzzy
+msgid "il_lti_instructor"
+msgstr "LTI Instructor"
+
+#, fuzzy
+msgid "il_lti_learner"
+msgstr "LTI Learner"
+
+#, fuzzy
+msgid "il_lti_user"
+msgstr "LTI User"
+
+#, fuzzy
+msgid "il_orgu_employee"
+msgstr "Employee"
+
+#, fuzzy
+msgid "il_orgu_superior"
+msgstr "Superior"
+
+msgid "ilias_version"
+msgstr "ILIAS版本"
+
+msgid "image"
+msgstr "图象"
+
+msgid "import"
+msgstr "导入"
+
+msgid "import_cat_localrol"
+msgstr "为每个新类目创建本地角色"
+
+msgid "import_cat_table"
+msgstr "如果设置了复选框，下面的表才有意义。"
+
+msgid "import_categories"
+msgstr "导入类目"
+
+msgid "import_failure_log"
+msgstr "导入失败日志"
+
+msgid "import_file"
+msgstr "导入文件"
+
+msgid "import_file_not_valid_here"
+msgstr "导入文件无效。"
+
+msgid "import_finished"
+msgstr "已导入的消息数。"
+
+msgid "import_lm"
+msgstr "导入学习模块"
+
+msgid "import_qpl"
+msgstr "导入题目池测试"
+
+msgid "import_questions_into_qpl"
+msgstr "导入题目到题目池"
+
+msgid "import_sahs"
+msgstr "导入SCORM/AICC 包"
+
+#, fuzzy
+msgid "import_sahs_info"
+msgstr "To correct typos or images, use the option to replace individual files via the file directory. Upload a SCORM export from your authoring tool here and not an ILIAS export file. Make sure that your authoring tool has retained the IDs in the manifest file. Attention: Even popular authoring tools cannot do this. SCORM learning modules of certain authoring tools discard learner data obtained if you change the number of answer options of questions or insert new questions. Check in a test installation whether learning statuses that have already been achieved are possible when learning modules that have already been started are called up again."
+
+#, fuzzy
+msgid "import_sahs_new"
+msgstr "Import New Version of SCORM Package"
+
+msgid "import_svy"
+msgstr "导入调查"
+
+msgid "import_tst"
+msgstr "导入测试"
+
+msgid "import_users"
+msgstr "导入用户"
+
+msgid "import_warning_log"
+msgstr "导入警告日志"
+
+msgid "important"
+msgstr "重要"
+
+msgid "imported"
+msgstr "已导入"
+
+msgid "imprint"
+msgstr "版本说明(imprint)"
+
+msgid "in"
+msgstr "于"
+
+msgid "in_use"
+msgstr "用户语言"
+
+msgid "in_use_by"
+msgstr "In use by"
+
+msgid "inactive"
+msgstr "未激活"
+
+msgid "inbox"
+msgstr "收件箱"
+
+msgid "include_local"
+msgstr "包括本地"
+
+msgid "info"
+msgstr "信息"
+
+msgid "info_access_and_status_info"
+msgstr "访问和状态信息"
+
+msgid "info_access_permissions"
+msgstr "访问权限"
+
+msgid "info_activate_sure"
+msgstr "您真的要批准以下用户为活跃用户吗？"
+
+msgid "info_assign_sure"
+msgstr "您真的要分配下列用户吗？"
+
+msgid "info_assigned"
+msgstr "已分配"
+
+msgid "info_available_roles"
+msgstr "可用角色"
+
+msgid "info_change_user_view"
+msgstr "改变用户视图"
+
+msgid "info_deactivate_sure"
+msgstr "您真的要取消以下用户的活跃状态吗？"
+
+msgid "info_delete_sure"
+msgstr "您真的要删除下列用户吗？"
+
+msgid "info_delete_warning_no_trash"
+msgstr "警告：选定对象将从系统中移除，且不可恢复，无法逆转！"
+
+msgid "info_deleted"
+msgstr "对象已删除"
+
+msgid "info_err_user_not_exist"
+msgstr "用户使用的user_id不存在"
+
+msgid "info_from_role"
+msgstr "Given by Role"
+
+msgid "info_is_member"
+msgstr "用户是成员"
+
+msgid "info_is_not_member"
+msgstr "用户不是成员"
+
+msgid "info_message"
+msgstr "信息消息"
+
+msgid "info_not_assigned"
+msgstr "未分配"
+
+msgid "info_owner_of_object"
+msgstr "对象的所有者"
+
+msgid "info_permission_origin"
+msgstr "原始位置"
+
+msgid "info_permission_source"
+msgstr "effective from"
+
+msgid "info_remark_interrupted"
+msgstr "角色在这里被中止。这个角色的默认权限设置实际上都在这个位置。"
+
+#, fuzzy
+msgid "info_remove_sure"
+msgstr "Are you sure that you want to remove the following item(s)?"
+
+#, fuzzy
+msgid "info_short"
+msgstr "Info"
+
+msgid "info_status_info"
+msgstr "状态信息"
+
+msgid "info_view_of_user"
+msgstr "用户视图"
+
+msgid "inform_user_mail"
+msgstr "发邮件通知用户更改。"
+
+msgid "inline_file_extensions"
+msgstr "Web-enabled 文件"
+
+msgid "inline_file_extensions_info"
+msgstr "带有这些扩展名的文件都显示在浏览器窗口。<br/>例如：<b>gif jpg mp3 pdf png</b<br/>所有其它文件都提供下载。"
+
+msgid "insert"
+msgstr "插入"
+
+msgid "insert_object_here"
+msgstr "在这里插入对象"
+
+msgid "inst_id"
+msgstr "安装身份"
+
+msgid "inst_info"
+msgstr "安装信息"
+
+msgid "inst_name"
+msgstr "安装名称"
+
+msgid "install"
+msgstr "安装"
+
+msgid "install_local"
+msgstr "本地安装"
+
+#, fuzzy
+msgid "installation_status"
+msgstr "Installation Status"
+
+msgid "installed"
+msgstr "已安装"
+
+msgid "installed_local"
+msgstr "已完成的本地安装"
+
+msgid "instant_messengers"
+msgstr "即时消息"
+
+msgid "institution"
+msgstr "安装"
+
+msgid "internal_local_roles_only"
+msgstr "本地角色 (仅自动生成的)"
+
+msgid "invalid_visible_required_options_selected"
+msgstr "所有字段设置为必填，在注册时也必需被设置为可见。"
+
+msgid "invisible_block"
+msgstr "隐形块"
+
+msgid "invisible_block_mess"
+msgstr "您没有权限浏览这个块。"
+
+msgid "ip_address"
+msgstr "IP地址"
+
+msgid "is_already_your"
+msgstr "已是您的"
+
+#, fuzzy
+msgid "italic_action"
+msgstr "Insert Italic - Click to insert italic text."
+
+msgid "item"
+msgstr "条目"
+
+msgid "itgr_add"
+msgstr "添加项目(item)组"
+
+msgid "itgr_new"
+msgstr "新项目(item)组"
+
+msgid "java_server"
+msgstr "Java-服务器"
+
+msgid "java_server_host"
+msgstr "主机"
+
+#. Needs to be adapted to new content of German lang file.
+msgid "java_server_info"
+msgstr "如果激活，它可以搜索PDF、HTML文件和HTML学习模块"
+
+msgid "java_server_port"
+msgstr "端口"
+
+msgid "java_server_readme"
+msgstr "设置"
+
+msgid "join"
+msgstr "join"
+
+msgid "join_session"
+msgstr "加入"
+
+msgid "kb"
+msgstr "K字节"
+
+msgid "keywords"
+msgstr "关键字"
+
+#, fuzzy
+msgid "label_search_options"
+msgstr "Search Area"
+
+msgid "lang_dateformat"
+msgstr "Y-m-d"
+
+msgid "lang_path"
+msgstr "语言路径"
+
+msgid "lang_refresh_confirm"
+msgstr "您真的要刷新所有语言吗？"
+
+msgid "lang_refresh_confirm_info"
+msgstr "扩展语言维护当前处于激活状态。刷新语言从ILIAS语言文件装载所有语言数据到数据库中。如果之前没有事先导出，则本地改变(在数据库中)可能被覆盖。这并不影响自定义目录中的任何“*.lang.local”文件。"
+
+msgid "lang_refresh_confirm_selected"
+msgstr "您真的要刷新选定的语言吗？"
+
+msgid "lang_sep_decimal"
+msgstr "."
+
+msgid "lang_sep_thousand"
+msgstr "，"
+
+msgid "lang_size_bytes"
+msgstr "bytes"
+
+msgid "lang_size_gb"
+msgstr "GB"
+
+msgid "lang_size_kb"
+msgstr "KB"
+
+msgid "lang_size_mb"
+msgstr "MB"
+
+msgid "lang_timeformat"
+msgstr "小时分秒"
+
+msgid "lang_timeformat_no_sec"
+msgstr "H:i"
+
+#, fuzzy
+msgid "lang_uninstall_changes"
+msgstr "Uninstall Local Changes"
+
+#, fuzzy
+msgid "lang_uninstall_changes_confirm"
+msgstr "Do you really want to clear all local changes of the selected languages and reset them to the default of the current ILIAS version?"
+
+#, fuzzy
+msgid "lang_uninstall_confirm"
+msgstr "Do you really want to uninstall the selected languages?"
+
+msgid "langfile_found"
+msgstr "找到语言文件"
+
+msgid "language"
+msgstr "语言"
+
+msgid "language_not_installed"
+msgstr "未安装。请先安装"
+
+msgid "languages"
+msgstr "语言"
+
+msgid "languages_already_installed"
+msgstr "选择的语言未安装"
+
+msgid "languages_already_uninstalled"
+msgstr "选择的语言已卸载"
+
+msgid "languages_updated"
+msgstr "所有已安装的语言已更新"
+
+msgid "last_access"
+msgstr "最后访问："
+
+msgid "last_change"
+msgstr "最后更改"
+
+msgid "last_edited_on"
+msgstr "最后编辑"
+
+msgid "last_login"
+msgstr "最后登录"
+
+msgid "last_refresh"
+msgstr "最后刷新"
+
+msgid "last_reminder"
+msgstr "最后提醒"
+
+msgid "last_update"
+msgstr "最后更新"
+
+msgid "last_visited"
+msgstr "最后已访问的"
+
+msgid "lastname"
+msgstr "姓"
+
+#, fuzzy
+msgid "latex_edit_info"
+msgstr "You can enter LaTeX code in the delimiters <code>[tex]</code> and <code>[/tex]</code>."
+
+#, fuzzy
+msgid "laugh"
+msgstr "Laugh"
+
+msgid "launch"
+msgstr "推出"
+
+msgid "ldap"
+msgstr "LDAP"
+
+msgid "ldap_basedn"
+msgstr "LDAP BaseDN"
+
+msgid "ldap_configure"
+msgstr "配置 LDAP 身份验证"
+
+msgid "ldap_port"
+msgstr "LDAP 端口"
+
+msgid "ldap_read"
+msgstr "LDAP设置为读访问"
+
+msgid "ldap_server"
+msgstr "LDAP 服务器 URL"
+
+msgid "ldap_tls"
+msgstr "使用 LDAP TLS"
+
+msgid "ldap_version"
+msgstr "LDAP 协议版本"
+
+msgid "learning module"
+msgstr "学习模块"
+
+msgid "learning_progress"
+msgstr "学习内容"
+
+msgid "leave_waiting_list"
+msgstr "离开等待名单"
+
+msgid "legend"
+msgstr "传奇"
+
+msgid "level"
+msgstr "水平"
+
+msgid "link"
+msgstr "链接"
+
+#, fuzzy
+msgid "link_action"
+msgstr "Insert Link - Click to insert a link."
+
+msgid "link_all"
+msgstr "链接所有"
+
+msgid "link_check"
+msgstr "链接检测"
+
+msgid "link_check_message_b"
+msgstr "如果启用，您将通过邮件获得相关无效链接的信息。"
+
+msgid "link_check_message_disabled"
+msgstr "禁用消息"
+
+msgid "link_check_message_enabled"
+msgstr "启用消息"
+
+msgid "link_check_subject"
+msgstr "[ILIAS] 链接检查"
+
+msgid "link_checker_refreshed"
+msgstr "视图已刷新"
+
+msgid "link_selected_items"
+msgstr "链接所选项"
+
+msgid "links_add_param"
+msgstr "添加参数："
+
+msgid "links_dyn_parameter"
+msgstr "动态参数"
+
+msgid "links_dynamic"
+msgstr "动态Web链接参数"
+
+msgid "links_dynamic_info"
+msgstr "如果启用，可能附加动态参数到Web链接。例如，ILIAS用户id或用户名。"
+
+msgid "links_existing_params"
+msgstr "现有的参数："
+
+msgid "links_name"
+msgstr "参数名"
+
+msgid "links_no_name_given"
+msgstr "请选择一个参数名称。"
+
+msgid "links_no_value_given"
+msgstr "请选择一个参数值。"
+
+msgid "links_parameter_deleted"
+msgstr "参数被删除。"
+
+msgid "links_select_one"
+msgstr "- 选择一个 -"
+
+msgid "links_session_id"
+msgstr "ILIAS 会话 id"
+
+msgid "links_user_id"
+msgstr "ILIAS 用户id"
+
+msgid "links_user_name"
+msgstr "ILIAS 用户名"
+
+msgid "links_value"
+msgstr "参数值"
+
+msgid "list"
+msgstr "列表"
+
+msgid "list_of_questions"
+msgstr "问题列表"
+
+#, fuzzy
+msgid "list_view"
+msgstr "List View"
+
+#, fuzzy
+msgid "listaction_learning_progress_settings"
+msgstr "Learning Progress Settings"
+
+msgid "lm"
+msgstr "学习模块"
+
+msgid "lm_add"
+msgstr "增加学习模块"
+
+msgid "lm_added"
+msgstr "学习模块已增加"
+
+msgid "lm_new"
+msgstr "新学习模块"
+
+msgid "lm_type_scorm"
+msgstr "SCORM"
+
+msgid "lm_type_scorm2004"
+msgstr "SCORM 2004"
+
+#, fuzzy
+msgid "lm_type_scorm2004_info"
+msgstr "These are newer versions of SCORM with significantly enhanced functionality. The learning module is launched in an iFrame."
+
+#, fuzzy
+msgid "lm_type_scorm_info"
+msgstr "This is the most widely used version of SCORM. The learning module is launched in a frame."
+
+msgid "lng"
+msgstr "语言"
+
+msgid "lngf"
+msgstr "语言文件夹"
+
+msgid "lo"
+msgstr "学习对象"
+
+#, fuzzy
+msgid "loaded_preview_renderers"
+msgstr "Loaded Preview Renderers"
+
+msgid "local"
+msgstr "本地"
+
+msgid "local_language_file"
+msgstr "本地语言文件"
+
+msgid "local_language_files"
+msgstr "本地语言文件"
+
+msgid "local_languages_already_installed"
+msgstr "选定的本地语言文件已经安装"
+
+#, fuzzy
+msgid "local_role_assignment"
+msgstr "Lokale Rollenzuweisung"
+
+msgid "location"
+msgstr "本地"
+
+msgid "locator"
+msgstr "地点"
+
+msgid "log_in"
+msgstr "登录账号"
+
+#, fuzzy
+msgid "log_out"
+msgstr "Logout"
+
+msgid "logic_or"
+msgstr "或"
+
+msgid "login"
+msgstr "登录"
+
+msgid "login_as"
+msgstr "已登录为"
+
+msgid "login_data"
+msgstr "登录数据"
+
+msgid "login_exists"
+msgstr "已有用户使用此登录名！请选择其它名字。"
+
+msgid "login_invalid"
+msgstr "选定的登录无效！仅允许以下字符(最少4个字符)：A-Z a-z 0-9 _.-+*@!$%~"
+
+msgid "login_to_ilias"
+msgstr "登录到ILIAS"
+
+#, fuzzy
+msgid "login_to_ilias_via_login_form"
+msgstr "Login to ILIAS"
+
+#, fuzzy
+msgid "login_to_ilias_via_saml"
+msgstr "Login to ILIAS via SAML Authentification"
+
+msgid "login_to_ilias_via_shibboleth"
+msgstr "通过Shibboleth登录到 ILIAS"
+
+msgid "loginname_already_exists"
+msgstr "此登录名已存在。"
+
+msgid "loginname_settings"
+msgstr "登录名设置"
+
+msgid "logout"
+msgstr "退出"
+
+msgid "logout_text"
+msgstr "您已退出ILIAS系统。您的会话已关闭。"
+
+msgid "logs"
+msgstr "日志数据"
+
+#, fuzzy
+msgid "love"
+msgstr "Love"
+
+msgid "lres"
+msgstr "学习资源"
+
+#, fuzzy
+msgid "lso_add"
+msgstr "Add Learning Sequence"
+
+#, fuzzy
+msgid "lso_admin_form_byline"
+msgstr "General Settings for Learning Sequences"
+
+#, fuzzy
+msgid "lso_admin_form_title"
+msgstr "Settings"
+
+#, fuzzy
+msgid "lso_admin_interval_byline"
+msgstr "Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!"
+
+#, fuzzy
+msgid "lso_admin_interval_label"
+msgstr "Learning Progress Polling Interval (seconds)"
+
+#, fuzzy
+msgid "lso_copy_threads_info"
+msgstr "Please decide which elements of the Learning Sequence should be copied, linked or omitted."
+
+#, fuzzy
+msgid "lso_edit"
+msgstr "Edit Learning Sequence"
+
+#, fuzzy
+msgid "lso_import"
+msgstr "Import Learning Sequence"
+
+#, fuzzy
+msgid "lso_new"
+msgstr "New Learning Sequence"
+
+#, fuzzy
+msgid "lso_wizard_page"
+msgstr "Copy Learning Sequence (Step 2/2)"
+
+#, fuzzy
+msgid "lti"
+msgstr "LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_add"
+msgstr "Add LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_new"
+msgstr "New LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_outcome_info"
+msgstr "Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI Tool Consumer."
+
+msgid "mail"
+msgstr "邮件"
+
+msgid "mail_addressbook"
+msgstr "地址簿"
+
+msgid "mail_at_the_ilias_installation"
+msgstr "您在ILIAS安装过程中已收到 %1$s 封新邮件"
+
+msgid "mail_attachment"
+msgstr "邮件附件"
+
+msgid "mail_b_inbox"
+msgstr "收件箱"
+
+msgid "mail_c_trash"
+msgstr "垃圾箱"
+
+#, fuzzy
+msgid "mail_cron_scheduled_mails"
+msgstr "Send scheduled mails."
+
+#, fuzzy
+msgid "mail_cron_scheduled_mails_desc"
+msgstr "Sends scheduled user mails according to their defined delivery times"
+
+msgid "mail_d_drafts"
+msgstr "草稿"
+
+msgid "mail_delete_error"
+msgstr "删除时出错"
+
+#, fuzzy
+msgid "mail_e_outbox"
+msgstr "Outbox"
+
+msgid "mail_e_sent"
+msgstr "发送"
+
+msgid "mail_edit_permission"
+msgstr "更改语言设置"
+
+#, fuzzy
+msgid "mail_f_sent"
+msgstr "Sent"
+
+msgid "mail_folders"
+msgstr "邮件夹"
+
+msgid "mail_import_file"
+msgstr "ILIAS 2 导出文件"
+
+msgid "mail_mails_of"
+msgstr "邮件"
+
+msgid "mail_maxsize_attach"
+msgstr "附件最大字节数"
+
+msgid "mail_member"
+msgstr "发送邮件给成员"
+
+msgid "mail_members"
+msgstr "发邮件给成员"
+
+#, fuzzy
+msgid "mail_message_scheduled"
+msgstr "Scheduled mail"
+
+#, fuzzy
+msgid "mail_message_scheduled_info"
+msgstr "Mails remain in the outbox until the scheduled sending time."
+
+msgid "mail_not_sent"
+msgstr "邮件未被发送！"
+
+#, fuzzy
+msgid "mail_schedule_error_no_datetime"
+msgstr "To schedule a mail, a delivery date and time must be specified."
+
+#, fuzzy
+msgid "mail_schedule_error_past_datetime"
+msgstr "You cannot schedule emails in the past."
+
+#, fuzzy
+msgid "mail_schedule_scheduled_datetime"
+msgstr "Scheduled Send Time"
+
+#, fuzzy
+msgid "mail_scheduled"
+msgstr "Mail stored in outbox for later delivery."
+
+#, fuzzy
+msgid "mail_scheduled_edit_compose_info"
+msgstr "You are editing a scheduled mail. Sending is paused until you schedule the mail again."
+
+#, fuzzy
+msgid "mail_scheduled_edit_moved_info"
+msgstr "This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox."
+
+msgid "mail_search_no"
+msgstr "未找到条目"
+
+msgid "mail_select_one"
+msgstr "您必须选择一个邮件"
+
+msgid "mail_send_error"
+msgstr "发送邮件出错"
+
+msgid "mail_sent"
+msgstr "邮件已发送！"
+
+msgid "mail_settings"
+msgstr "邮件设置"
+
+msgid "mail_to_global_roles_not_allowed"
+msgstr "不允许发送电子邮件给全局角色"
+
+msgid "mail_z_local"
+msgstr "用户文件夹"
+
+msgid "mails"
+msgstr "邮件"
+
+msgid "mails_at_the_ilias_installation"
+msgstr "您在ILIAS安装过程中已收到 %1$s 封新邮件"
+
+msgid "mails_pl"
+msgstr "邮件"
+
+msgid "main_menu"
+msgstr "主菜单"
+
+#, fuzzy
+msgid "mainbar_aria_label"
+msgstr "Mainbar"
+
+#, fuzzy
+msgid "mainbar_more_label"
+msgstr "More"
+
+#, fuzzy
+msgid "manage_members"
+msgstr "Manage Members"
+
+msgid "matriculation"
+msgstr "预科编号(Matriculation number)"
+
+#, fuzzy
+msgid "max_previews_per_object"
+msgstr "Number of preview images per file"
+
+#, fuzzy
+msgid "max_previews_per_object_info"
+msgstr "Defines the maximum number of preview images that are created per file."
+
+msgid "mcst"
+msgstr "MediaCast"
+
+msgid "mcst_add"
+msgstr "添加 MediaCast"
+
+msgid "mcst_new"
+msgstr "新的 Mediacast"
+
+msgid "mem_add_to_wl"
+msgstr "添加到等候名单"
+
+msgid "mem_alert_no_places"
+msgstr "没有剩余空位"
+
+#, fuzzy
+msgid "mem_cron_min_members"
+msgstr "Course/Group: Minimum Members Check"
+
+#, fuzzy
+msgid "mem_cron_min_members_info"
+msgstr "The administrators will be notified if the minimum number is not met."
+
+msgid "mem_end"
+msgstr "注册结束："
+
+msgid "mem_free_places"
+msgstr "Free Places:"
+
+msgid "mem_max_users"
+msgstr "最大用户数："
+
+#, fuzzy
+msgid "mem_min_users"
+msgstr "Minimum of Users"
+
+msgid "mem_participants"
+msgstr "参与者"
+
+msgid "mem_reg_expired"
+msgstr "注册时间已过期。"
+
+msgid "mem_reg_not_started"
+msgstr "注册还没有开始"
+
+msgid "mem_reg_period"
+msgstr "注册期限"
+
+msgid "mem_reg_type"
+msgstr "注册类型"
+
+msgid "mem_start"
+msgstr "注册开始："
+
+msgid "mem_unlimited"
+msgstr "没有限制"
+
+msgid "mem_view_activate"
+msgstr "查看活动成员"
+
+msgid "mem_view_close"
+msgstr "关闭成员视图"
+
+msgid "mem_view_long"
+msgstr "成员视图"
+
+msgid "mem_waiting_list"
+msgstr "用户在等待名单中："
+
+msgid "mem_waiting_list_position"
+msgstr "您在等候名单上位置："
+
+msgid "member"
+msgstr "成员"
+
+msgid "member_status"
+msgstr "成员状态："
+
+msgid "members"
+msgstr "成员"
+
+msgid "membership_leave"
+msgstr "离开"
+
+msgid "mep"
+msgstr "媒体池"
+
+msgid "mep_add"
+msgstr "添加媒体池"
+
+msgid "mep_edit"
+msgstr "编辑媒体池属性"
+
+msgid "mep_new"
+msgstr "新媒体池"
+
+msgid "mep_not_insert_already_exist"
+msgstr "下面的条目没有被插入，因为它们已经在媒体池中："
+
+msgid "message"
+msgstr "消息"
+
+msgid "message_content"
+msgstr "消息内容"
+
+msgid "message_no_delivered_files"
+msgstr "您没有发表文件!"
+
+msgid "meta_data"
+msgstr "元数据"
+
+#, fuzzy
+msgid "metabar_aria_label"
+msgstr "Metabar"
+
+#, fuzzy
+msgid "mgs_objects_linked_to_the_following_folders_p"
+msgstr "The objects were linked to the following folder(s): %s"
+
+#, fuzzy
+msgid "mgs_objects_linked_to_the_following_folders_s"
+msgstr "The object was linked to the following folder(s): %s"
+
+msgid "migrate"
+msgstr "移植"
+
+#, fuzzy
+msgid "minimize"
+msgstr "Minimize"
+
+msgid "minute"
+msgstr "分钟"
+
+msgid "minutes"
+msgstr "分钟"
+
+msgid "missing"
+msgstr "缺失"
+
+msgid "missing_perm"
+msgstr "缺失权限"
+
+msgid "missing_precondition"
+msgstr "缺失前提条件"
+
+#, fuzzy
+msgid "mm_achievements"
+msgstr "Achievements"
+
+#, fuzzy
+msgid "mm_administration"
+msgstr "Administration"
+
+#, fuzzy
+msgid "mm_badges"
+msgstr "Badges"
+
+#, fuzzy
+msgid "mm_calendar"
+msgstr "Calendar"
+
+#, fuzzy
+msgid "mm_certificates"
+msgstr "Certificates"
+
+#, fuzzy
+msgid "mm_comments"
+msgstr "Comments"
+
+#, fuzzy
+msgid "mm_communication"
+msgstr "Communication"
+
+#, fuzzy
+msgid "mm_contacts"
+msgstr "Contacts"
+
+#, fuzzy
+msgid "mm_dashboard"
+msgstr "Dashboard"
+
+#, fuzzy
+msgid "mm_enrolments"
+msgstr "Enrolments"
+
+msgid "mm_favorites"
+msgstr "收藏夹"
+
+#, fuzzy
+msgid "mm_learning_history"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "mm_learning_progress"
+msgstr "Learning Progress"
+
+#, fuzzy
+msgid "mm_mail"
+msgstr "Mail"
+
+#, fuzzy
+msgid "mm_news"
+msgstr "News"
+
+#, fuzzy
+msgid "mm_notes"
+msgstr "Notes"
+
+#, fuzzy
+msgid "mm_organisation"
+msgstr "Organisation"
+
+#, fuzzy
+msgid "mm_personal_and_shared_r"
+msgstr "Personal and Shared Resources"
+
+#, fuzzy
+msgid "mm_personal_workspace"
+msgstr "Personal Workspace"
+
+#, fuzzy
+msgid "mm_portfolio"
+msgstr "Portfolio"
+
+#, fuzzy
+msgid "mm_private_chats"
+msgstr "Private Chats"
+
+msgid "mm_repo_tree_view"
+msgstr "树形视图"
+
+msgid "mm_repo_tree_view_act"
+msgstr "激活树形视图"
+
+msgid "mm_repo_tree_view_deact"
+msgstr "停用树形视图"
+
+msgid "mm_repository"
+msgstr "存储库"
+
+#, fuzzy
+msgid "mm_skills"
+msgstr "Competences"
+
+#, fuzzy
+msgid "mm_staff_list"
+msgstr "Staff List"
+
+#, fuzzy
+msgid "mm_tags"
+msgstr "Tags"
+
+#, fuzzy
+msgid "mm_task_derived_tasks"
+msgstr "Tasks"
+
+#, fuzzy
+msgid "mme_lost_item_reason"
+msgstr "Item is no longer provided."
+
+#, fuzzy
+msgid "mme_lost_item_title"
+msgstr "No assignment"
+
+msgid "mob"
+msgstr "媒体对象"
+
+msgid "moderators"
+msgstr "版主"
+
+msgid "module"
+msgstr "模块"
+
+msgid "modules"
+msgstr "模块"
+
+msgid "month"
+msgstr "月"
+
+msgid "month_01_long"
+msgstr "一月"
+
+msgid "month_01_short"
+msgstr "1月"
+
+msgid "month_02_long"
+msgstr "二月"
+
+msgid "month_02_short"
+msgstr "2月"
+
+msgid "month_03_long"
+msgstr "三月"
+
+msgid "month_03_short"
+msgstr "3月"
+
+msgid "month_04_long"
+msgstr "四月"
+
+msgid "month_04_short"
+msgstr "4月"
+
+msgid "month_05_long"
+msgstr "五月"
+
+msgid "month_05_short"
+msgstr "5月"
+
+msgid "month_06_long"
+msgstr "六月"
+
+msgid "month_06_short"
+msgstr "6月"
+
+msgid "month_07_long"
+msgstr "七月"
+
+msgid "month_07_short"
+msgstr "7月"
+
+msgid "month_08_long"
+msgstr "八月"
+
+msgid "month_08_short"
+msgstr "8月"
+
+msgid "month_09_long"
+msgstr "九月"
+
+msgid "month_09_short"
+msgstr "9月"
+
+msgid "month_10_long"
+msgstr "十月"
+
+msgid "month_10_short"
+msgstr "10月"
+
+msgid "month_11_long"
+msgstr "十一月"
+
+msgid "month_11_short"
+msgstr "11月"
+
+msgid "month_12_long"
+msgstr "十二月"
+
+msgid "month_12_short"
+msgstr "12月"
+
+msgid "monthly"
+msgstr "月份"
+
+msgid "months"
+msgstr "月"
+
+msgid "mount_webfolder"
+msgstr "以web文件夹形式打开"
+
+msgid "move"
+msgstr "移动"
+
+msgid "moveChapter"
+msgstr "移动"
+
+msgid "movePage"
+msgstr "移动"
+
+msgid "move_selected_items"
+msgstr "移动选定的项目"
+
+#, fuzzy
+msgid "msg_bt_download_started"
+msgstr "ILIAS is generating a ZIP archive of all available files. You can download them from the Notification Center (bell icon) on top right."
+
+msgid "msg_cancel"
+msgstr "操作已取消"
+
+msgid "msg_clear_clipboard"
+msgstr "剪贴板已清除"
+
+msgid "msg_cloned"
+msgstr "已拷贝选择的对象"
+
+msgid "msg_copy_clipboard"
+msgstr "选择的对象已存于剪贴板（操作贝）"
+
+#, fuzzy
+msgid "msg_copy_clipboard_container"
+msgstr "Now, please select the desired location, where the selected objects should be pasted into and click the button \"Continue\"."
+
+msgid "msg_copy_clipboard_source"
+msgstr "现在，请选择所需课程，课程内容将被复制，然后点击“下一步”按钮。"
+
+msgid "msg_cut_clipboard"
+msgstr "选择的对象已存于剪贴板（操作剪切）"
+
+msgid "msg_cut_copied"
+msgstr "选择的对象已移动"
+
+msgid "msg_deleted_export_files"
+msgstr "导出文件"
+
+msgid "msg_deleted_role"
+msgstr "角色已删除"
+
+msgid "msg_deleted_roles_rolts"
+msgstr "角色模板已删除"
+
+msgid "msg_failed"
+msgstr "对不起，操作失败"
+
+msgid "msg_form_save_error"
+msgstr "表单数据不能保存。请检查输入字段的错误信息。"
+
+#, fuzzy
+msgid "msg_info_blacklisted"
+msgstr "The files cannot be uploaded due to security reasons."
+
+#, fuzzy
+msgid "msg_input_char_limit_max"
+msgstr "You have entered more characters than allowed."
+
+#, fuzzy
+msgid "msg_input_char_limit_min"
+msgstr "You have to enter the minimum of characters specified."
+
+msgid "msg_input_does_not_match_regexp"
+msgstr "请提供一个有效值。"
+
+msgid "msg_input_is_required"
+msgstr "这个必填项。请输入一个值。"
+
+#, fuzzy
+msgid "msg_invalid_value_css_rect_input"
+msgstr "The entered value is incorrect, do not use any plus or minus symbols in combination with the entered integer. Please check your input."
+
+msgid "msg_is_last_role"
+msgstr "您取消了下列用户的全局角色"
+
+msgid "msg_last_role_for_registration"
+msgstr "在新用户注册表单中至少要有一个可用角色。这个角色是当前唯一可用的。"
+
+#, fuzzy
+msgid "msg_link_clipboard_p"
+msgstr "Now, please select the desired location, where the selected objects should be linked to and click the button Paste."
+
+#, fuzzy
+msgid "msg_link_clipboard_s"
+msgstr "Now, please select the desired location, where the selected object should be linked to and click the button Paste."
+
+msgid "msg_linked"
+msgstr "选择的对象已链接"
+
+msgid "msg_may_not_contain"
+msgstr "此对象可能不包含对象类型"
+
+msgid "msg_min_one_role"
+msgstr "每个用户必须具有至少一个全局角色！"
+
+msgid "msg_multi_language_selected"
+msgstr "您为不同的翻译选择了相同的语言！"
+
+msgid "msg_no_default_language"
+msgstr "未指定缺省语言！您必须定义一个语言为缺省语言。"
+
+msgid "msg_no_delete_yourself"
+msgstr "您不能删除您自己的用户账号。"
+
+msgid "msg_no_file"
+msgstr "您没有选择一个文件"
+
+#, fuzzy
+msgid "msg_no_files_selected"
+msgstr "No files selected"
+
+msgid "msg_no_language_selected"
+msgstr "未指定翻译语言！您必须为每一翻译定义一种语言"
+
+msgid "msg_no_perm_assign_role_to_user"
+msgstr "您没有更改用户角色分配的许可"
+
+msgid "msg_no_perm_assign_user_to_role"
+msgstr "您没有权限改变用户任务(assignment)"
+
+msgid "msg_no_perm_copy"
+msgstr "您无权限拷贝下列对象"
+
+msgid "msg_no_perm_create_rolt"
+msgstr "您无权限增加角色模板"
+
+msgid "msg_no_perm_cut"
+msgstr "您无权限剪切下列对象"
+
+msgid "msg_no_perm_delete"
+msgstr "您无权限删除下列对象"
+
+msgid "msg_no_perm_link"
+msgstr "您无权限从下列对象创建链接"
+
+msgid "msg_no_perm_modify_rolt"
+msgstr "您无权限修改角色模板"
+
+msgid "msg_no_perm_modify_user"
+msgstr "您无权限修改用户日期　"
+
+msgid "msg_no_perm_paste"
+msgstr "您无权限粘贴下列对象"
+
+msgid "msg_no_perm_paste_object_in_folder"
+msgstr "您没有权限粘贴对象 %s 到文件夹 %s。"
+
+msgid "msg_no_perm_perm"
+msgstr "您无权限编辑权限设置"
+
+msgid "msg_no_perm_read"
+msgstr "您没有权限访问这个项目。"
+
+msgid "msg_no_perm_read_item"
+msgstr "您没有权限访问条目。"
+
+msgid "msg_no_perm_read_lm"
+msgstr "您没有权限读取这个学习模块。"
+
+#, fuzzy
+msgid "msg_no_perm_view_roles_of_user"
+msgstr "You have no permission to view the role assignment of this user"
+
+msgid "msg_no_perm_write"
+msgstr "您无写权限"
+
+msgid "msg_no_search_result"
+msgstr "未找到条目"
+
+msgid "msg_no_search_string"
+msgstr "请输入您的问题"
+
+msgid "msg_no_title"
+msgstr "请输入一个标题"
+
+msgid "msg_not_available_for_anon"
+msgstr "您选择的页只能为注册的用户访问"
+
+msgid "msg_not_in_itself"
+msgstr "对象不可以自身粘贴"
+
+#, fuzzy
+msgid "msg_obj_already_deleted"
+msgstr "The object has already been deleted."
+
+msgid "msg_obj_created"
+msgstr "已创建对象。"
+
+msgid "msg_obj_exists"
+msgstr "此对象已存在于文件夹中"
+
+msgid "msg_obj_exists_in_folder"
+msgstr "对象 %s 已经存在于文件夹 %s中。"
+
+msgid "msg_obj_may_not_contain_objects_of_type"
+msgstr "对象类型 %s 可能不包含这个类型的对象：%s"
+
+msgid "msg_obj_modified"
+msgstr "已保存修改。"
+
+#, fuzzy
+msgid "msg_obj_no_download"
+msgstr "cannot be downloaded."
+
+msgid "msg_obj_no_link"
+msgstr "不允许被连接"
+
+#, fuzzy
+msgid "msg_obj_perm_download"
+msgstr "You do not have sufficient rights to download the following objects:"
+
+msgid "msg_paste_object_not_in_itself"
+msgstr "对象 %s 不可能粘贴自己。"
+
+msgid "msg_perm_adopted_from1"
+msgstr "权限设置取纳于"
+
+msgid "msg_perm_adopted_from2"
+msgstr "（已保存设置！）"
+
+msgid "msg_perm_adopted_from_itself"
+msgstr "您不能从当前角色或角色模板本身取得权限。"
+
+msgid "msg_removed"
+msgstr "已从系统删除对象。"
+
+msgid "msg_role_reserved_prefix"
+msgstr "前缀“il_”保留为自生成角色。请选择其它名称"
+
+msgid "msg_roleassignment_changed"
+msgstr "已更改角色分配"
+
+msgid "msg_sysrole_not_deletable"
+msgstr "不能删除系统角色"
+
+msgid "msg_sysrole_not_editable"
+msgstr "系统角色设置可能已更改。系统角色赋予所有指定用户无限制地访问全部对象和功能。"
+
+#, fuzzy
+msgid "msg_to_many_files"
+msgstr "Too many files selected, allowed amount of files:"
+
+msgid "msg_trash_empty"
+msgstr "无删除的对象"
+
+msgid "msg_undeleted"
+msgstr "已恢复删除的对象。"
+
+msgid "msg_unit_is_required"
+msgstr "这个输入要求有一个单位。请输入一个正确的值。"
+
+#, fuzzy
+msgid "msg_unknown_value"
+msgstr "An unknown value has been passed."
+
+msgid "msg_user_last_role1"
+msgstr "下列用户只被指派此角色"
+
+msgid "msg_user_last_role2"
+msgstr "为删除此角色请删除用户或指派其为其它角色。"
+
+msgid "msg_userassignment_changed"
+msgstr "已更改用户分派"
+
+#, fuzzy
+msgid "msg_wrong_filetypes"
+msgstr "Allowed Files-Types:"
+
+msgid "msg_wrong_format"
+msgstr "您输入的值不是一个有效的格式。"
+
+msgid "my_bms"
+msgstr "我的书签"
+
+#, fuzzy
+msgid "my_certificates"
+msgstr "My Certificates"
+
+#, fuzzy
+msgid "my_contacts"
+msgstr "My Contact"
+
+msgid "my_courses"
+msgstr "我的课程"
+
+msgid "my_courses_groups"
+msgstr "我的课程和组"
+
+#, fuzzy
+msgid "my_staff"
+msgstr "Staff"
+
+msgid "name"
+msgstr "名字"
+
+#, fuzzy
+msgid "nc_contact_requests_headline"
+msgstr "Contact Requests"
+
+#, fuzzy
+msgid "nc_contact_requests_number_p"
+msgstr "You have %s Contact Requests."
+
+#, fuzzy
+msgid "nc_contact_requests_number_s"
+msgstr "You have %s Contact Request."
+
+#, fuzzy
+msgid "nc_contact_requests_prop_time"
+msgstr "Time"
+
+msgid "never"
+msgstr "永不"
+
+msgid "new"
+msgstr "新的"
+
+msgid "new_language"
+msgstr "新语言"
+
+msgid "new_pass_equals_old_pass"
+msgstr "新密码和旧密码相同。"
+
+msgid "newline"
+msgstr "换行"
+
+msgid "news"
+msgstr "新闻"
+
+msgid "next"
+msgstr "下一个"
+
+msgid "no"
+msgstr "否"
+
+msgid "no_access_item"
+msgstr "您没有权限访问这个项目。"
+
+msgid "no_access_item_public"
+msgstr "这个项目不能在公共地方被访问"
+
+#, fuzzy
+msgid "no_accessibility_control_concept_description"
+msgstr "There is currently no Accessibility Control Concept provided with this installation. Please contact the <a href=\"%1$s\">Accessibility Point of Contact</a>."
+
+msgid "no_checkbox"
+msgstr "未选中复选框"
+
+msgid "no_condition_selected"
+msgstr "请选择一个先决条件。"
+
+msgid "no_date"
+msgstr "无日期"
+
+#, fuzzy
+msgid "no_gallery_users_available"
+msgstr "There are currently no users in the gallery."
+
+msgid "no_global_role_left"
+msgstr "每个用户必须分配到一个角色。"
+
+msgid "no_import_file_found"
+msgstr "没有找到导入文件"
+
+msgid "no_items"
+msgstr "没有条目"
+
+msgid "no_limit"
+msgstr "没有限制"
+
+msgid "no_mkisofs_configured"
+msgstr "您必需在ILIAS设置里去配置mkisofs实用程序，用于运行ISO导出。"
+
+msgid "no_parent_access"
+msgstr "No access to a superordinated object!"
+
+msgid "no_permission"
+msgstr "您没有必要的权限。"
+
+msgid "no_roles_user_can_be_assigned_to"
+msgstr "没有全局角色可以分配给用户。因此不允许您添加用户。"
+
+msgid "no_start_file"
+msgstr "没有启动文件"
+
+msgid "no_title"
+msgstr "无标题"
+
+msgid "no_users_selected"
+msgstr "请选择一个用户。"
+
+msgid "no_xml_file_found_in_zip"
+msgstr "在zip压缩文件中没有发现XML文件："
+
+#, fuzzy
+msgid "noc"
+msgstr "Notification Center"
+
+msgid "non_internal_local_roles_only"
+msgstr "本地角色(仅用户定义的)"
+
+msgid "none"
+msgstr "无"
+
+msgid "normal"
+msgstr "正常"
+
+msgid "not_available"
+msgstr "没有可用的"
+
+msgid "not_implemented_yet"
+msgstr "尚未实现"
+
+msgid "not_installed"
+msgstr "未安装"
+
+msgid "not_logged_in"
+msgstr "您未登录"
+
+msgid "note"
+msgstr "笔记"
+
+msgid "notes"
+msgstr "笔记与评论"
+
+msgid "notes_and_comments"
+msgstr "笔记与评论"
+
+msgid "notice"
+msgstr "通知"
+
+msgid "notifications"
+msgstr "通知"
+
+msgid "nr_following_sessions"
+msgstr "%1d 以下会话..."
+
+#, fuzzy
+msgid "num_of_selected_files"
+msgstr "%s file(s) selected"
+
+msgid "num_users"
+msgstr "用户数"
+
+#, fuzzy
+msgid "numberedlist_action"
+msgstr "Insert Numbered List - Click to insert a numbered list."
+
+msgid "obj"
+msgstr "对象"
+
+msgid "obj_accs"
+msgstr "可访问性"
+
+msgid "obj_accs_desc"
+msgstr "设置可访问特性。"
+
+msgid "obj_adm"
+msgstr "系统设置"
+
+msgid "obj_adm_desc"
+msgstr "主系统设置文件夹包含管理安装ILIAS的全部控制面板。"
+
+#, fuzzy
+msgid "obj_adma"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "obj_adma_desc"
+msgstr "Important settings for the whole installation"
+
+#, fuzzy
+msgid "obj_adn"
+msgstr "Administrative Notifications"
+
+msgid "obj_adve"
+msgstr "高级编辑"
+
+msgid "obj_adve_desc"
+msgstr "高级编辑的管理设置，比如基于JavaScript的富文本编辑器、LaTeX支持等等……"
+
+msgid "obj_ass"
+msgstr "资产"
+
+msgid "obj_assf"
+msgstr "测试与评估"
+
+msgid "obj_assf_desc"
+msgstr "测试与评估日志设置"
+
+msgid "obj_auth"
+msgstr "身份验证"
+
+msgid "obj_auth_desc"
+msgstr "配置您的身份验证模式(本地、LDAP……)"
+
+#, fuzzy
+msgid "obj_awra"
+msgstr "‘Who is online?’-Tool"
+
+#, fuzzy
+msgid "obj_awra_desc"
+msgstr "Manage ‘Who is online?’-Tool"
+
+#, fuzzy
+msgid "obj_bdga"
+msgstr "Badges"
+
+#, fuzzy
+msgid "obj_bdga_desc"
+msgstr "Administrate types, image templates and activity badges"
+
+#, fuzzy
+msgid "obj_bgtk"
+msgstr "Background Task"
+
+#, fuzzy
+msgid "obj_bibl"
+msgstr "Bibliography"
+
+#, fuzzy
+msgid "obj_bibs"
+msgstr "Bibliography"
+
+#, fuzzy
+msgid "obj_bibs_desc"
+msgstr "Bibliography Administration"
+
+msgid "obj_blog"
+msgstr "博客"
+
+msgid "obj_blog_duplicate"
+msgstr "复制博客"
+
+#, fuzzy
+msgid "obj_bnmk"
+msgstr "Benchmarking"
+
+#, fuzzy
+msgid "obj_bnmk_desc"
+msgstr "Recording and display of database query durations"
+
+msgid "obj_book"
+msgstr "预订池"
+
+#, fuzzy
+msgid "obj_cadm"
+msgstr "Contacts"
+
+#, fuzzy
+msgid "obj_cadm_desc"
+msgstr "Contacts Administration"
+
+msgid "obj_cals"
+msgstr "日历"
+
+msgid "obj_cals_desc"
+msgstr "常规日历设置"
+
+msgid "obj_cat"
+msgstr "类目"
+
+msgid "obj_cat_duplicate"
+msgstr "复制类目"
+
+msgid "obj_catr"
+msgstr "类目参考"
+
+msgid "obj_cert"
+msgstr "证书"
+
+msgid "obj_cert_desc"
+msgstr "设置证书"
+
+msgid "obj_chap"
+msgstr "章节"
+
+msgid "obj_chta"
+msgstr "聊天室"
+
+msgid "obj_chtr"
+msgstr "聊天室"
+
+#, fuzzy
+msgid "obj_chtr_duplicate"
+msgstr "Copy Chat Room"
+
+#, fuzzy
+msgid "obj_cmis"
+msgstr "xAPI/cmi5"
+
+#, fuzzy
+msgid "obj_cmis_desc"
+msgstr "Learning Record Store Types Configuration"
+
+#, fuzzy
+msgid "obj_cmix"
+msgstr "xAPI/cmi5"
+
+msgid "obj_cmps"
+msgstr "模块,服务和插件"
+
+msgid "obj_cmps_desc"
+msgstr "知识库模块、服务和插件的常规设置。"
+
+#, fuzzy
+msgid "obj_coms"
+msgstr "Comments"
+
+#, fuzzy
+msgid "obj_coms_desc"
+msgstr "Comments settings"
+
+#, fuzzy
+msgid "obj_copa"
+msgstr "Content Page"
+
+#, fuzzy
+msgid "obj_cpad"
+msgstr "Content Pages"
+
+#, fuzzy
+msgid "obj_cpad#_desc"
+msgstr "Content Page Administration"
+
+#, fuzzy
+msgid "obj_cpad_desc"
+msgstr "Content Page Administration"
+
+#, fuzzy
+msgid "obj_cron"
+msgstr "Cron Jobs"
+
+#, fuzzy
+msgid "obj_cron_desc"
+msgstr "List of all Cron Jobs"
+
+msgid "obj_crs"
+msgstr "课程"
+
+msgid "obj_crs_duplicate"
+msgstr "复制课程"
+
+msgid "obj_crsr"
+msgstr "课程参考"
+
+#, fuzzy
+msgid "obj_crss"
+msgstr "Course"
+
+#, fuzzy
+msgid "obj_crss_desc"
+msgstr "General settings for Courses"
+
+#, fuzzy
+msgid "obj_crsv"
+msgstr "Course Certificate"
+
+msgid "obj_dbk"
+msgstr "数字图书"
+
+msgid "obj_dcl"
+msgstr "数据采集"
+
+msgid "obj_dcl_duplicate"
+msgstr "复制数据集"
+
+#, fuzzy
+msgid "obj_dpro"
+msgstr "Declaration of Data Protection"
+
+#, fuzzy
+msgid "obj_dpro_desc"
+msgstr "Declaration of Data Protection Settings"
+
+#, fuzzy
+msgid "obj_dshs"
+msgstr "Dashboard"
+
+#, fuzzy
+msgid "obj_dshs_desc"
+msgstr "Dashboard settings"
+
+msgid "obj_ecss"
+msgstr "ECS"
+
+msgid "obj_ecss_desc"
+msgstr "常规ECS设置"
+
+msgid "obj_etal"
+msgstr "Employee Talk"
+
+msgid "obj_exc"
+msgstr "练习"
+
+#, fuzzy
+msgid "obj_exc_duplicate"
+msgstr "Copy Exercise"
+
+msgid "obj_excv"
+msgstr "练习证书"
+
+msgid "obj_facs"
+msgstr "文件访问"
+
+msgid "obj_facs_desc"
+msgstr "为文件对象配置访问权限。"
+
+msgid "obj_file"
+msgstr "文件"
+
+#, fuzzy
+msgid "obj_file_duplicate"
+msgstr "Duplicate File"
+
+msgid "obj_file_inline"
+msgstr "学习模块文件"
+
+#, fuzzy
+msgid "obj_fils"
+msgstr "File Services"
+
+#, fuzzy
+msgid "obj_fils_desc"
+msgstr "Configuration of File Service Settings."
+
+msgid "obj_fold"
+msgstr "文件夹"
+
+#, fuzzy
+msgid "obj_fold_duplicate"
+msgstr "Copy Folder"
+
+msgid "obj_frm"
+msgstr "论坛"
+
+msgid "obj_frm_duplicate"
+msgstr "复制论坛"
+
+#, fuzzy
+msgid "obj_frma"
+msgstr "Forum"
+
+#, fuzzy
+msgid "obj_frma_desc"
+msgstr "Global Forum Settings"
+
+msgid "obj_glo"
+msgstr "术语表"
+
+msgid "obj_glo_duplicate"
+msgstr "复制词汇表"
+
+msgid "obj_grp"
+msgstr "组"
+
+msgid "obj_grp_duplicate"
+msgstr "复制组"
+
+#, fuzzy
+msgid "obj_grpr"
+msgstr "Group Reference"
+
+#, fuzzy
+msgid "obj_grps"
+msgstr "Group"
+
+#, fuzzy
+msgid "obj_grps_desc"
+msgstr "General settings for Groups"
+
+#, fuzzy
+msgid "obj_gsfo"
+msgstr "Footer"
+
+#, fuzzy
+msgid "obj_gsfo_desc"
+msgstr "Administrate Footer Layout and Content"
+
+msgid "obj_hlps"
+msgstr "帮助系统"
+
+msgid "obj_hlps_desc"
+msgstr "在线帮助设置"
+
+msgid "obj_htlm"
+msgstr "HTML学习模块"
+
+msgid "obj_htlm_duplicate"
+msgstr "复制HTML学习模块"
+
+#, fuzzy
+msgid "obj_iass"
+msgstr "Individual Assessment"
+
+#, fuzzy
+msgid "obj_iass_duplicate"
+msgstr "Copy Individual Assessment"
+
+#, fuzzy
+msgid "obj_iass_select"
+msgstr "-- Please select one individual assessment --"
+
+msgid "obj_itgr"
+msgstr "项目(Item)组"
+
+msgid "obj_ldap_desc"
+msgstr "在此配置LDAP"
+
+#, fuzzy
+msgid "obj_lhts"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "obj_lhts_desc"
+msgstr "Learning history settings"
+
+msgid "obj_lm"
+msgstr "学习模块"
+
+msgid "obj_lm_duplicate"
+msgstr "复制学习模块"
+
+msgid "obj_lng"
+msgstr "语言"
+
+msgid "obj_lngf"
+msgstr "语言"
+
+msgid "obj_lngf_desc"
+msgstr "在此管理系统语言"
+
+#, fuzzy
+msgid "obj_logs"
+msgstr "Logging"
+
+#, fuzzy
+msgid "obj_logs_desc"
+msgstr "General Logging Settings"
+
+msgid "obj_lrss"
+msgstr "学习资源"
+
+msgid "obj_lrss_desc"
+msgstr "配置所有类型的学习模块。"
+
+#, fuzzy
+msgid "obj_lso"
+msgstr "Learning Sequence"
+
+#, fuzzy
+msgid "obj_lso_duplicate"
+msgstr "Copy Learning Sequence"
+
+#, fuzzy
+msgid "obj_lsos"
+msgstr "Learning Sequences"
+
+#, fuzzy
+msgid "obj_lsos_desc"
+msgstr "General settings for Learning Sequences"
+
+#, fuzzy
+msgid "obj_lti"
+msgstr "LTI Consumer"
+
+#, fuzzy
+msgid "obj_ltis"
+msgstr "LTI"
+
+#, fuzzy
+msgid "obj_ltis_desc"
+msgstr "Learning Tools Interoperability"
+
+msgid "obj_mail"
+msgstr "邮件设置"
+
+msgid "obj_mail_desc"
+msgstr "在此配置全局邮件设置"
+
+#, fuzzy
+msgid "obj_mailr"
+msgstr "Read Mail"
+
+#, fuzzy
+msgid "obj_mailu"
+msgstr "Unread Mail"
+
+#, fuzzy
+msgid "obj_maps"
+msgstr "Maps"
+
+msgid "obj_mcst"
+msgstr "MediaCast"
+
+msgid "obj_mcst_duplicate"
+msgstr "复制媒体广播"
+
+msgid "obj_mcts"
+msgstr "Mediacast"
+
+msgid "obj_mcts_desc"
+msgstr "mediacast 常规设置"
+
+msgid "obj_mep"
+msgstr "媒体池"
+
+msgid "obj_mep_duplicate"
+msgstr "复制媒体池"
+
+#, fuzzy
+msgid "obj_mme"
+msgstr "Main Menu"
+
+msgid "obj_mob"
+msgstr "多媒体对象"
+
+msgid "obj_mobs"
+msgstr "媒体对象/池"
+
+msgid "obj_mobs_desc"
+msgstr "媒体对象和媒体池设置。"
+
+msgid "obj_not_found"
+msgstr "未找到对象"
+
+#, fuzzy
+msgid "obj_nota"
+msgstr "Notifications"
+
+#, fuzzy
+msgid "obj_nota_desc"
+msgstr "Notification Administration"
+
+#, fuzzy
+msgid "obj_nots"
+msgstr "Notes"
+
+#, fuzzy
+msgid "obj_nots_desc"
+msgstr "Notes settings"
+
+msgid "obj_nwss"
+msgstr "新闻和Web Feeds设置"
+
+msgid "obj_nwss_desc"
+msgstr "内部新闻和外部web Feeds设置。"
+
+msgid "obj_objf"
+msgstr "对象定义"
+
+#, fuzzy
+msgid "obj_orgu"
+msgstr "Organisational Unit"
+
+#, fuzzy
+msgid "obj_orgu_description"
+msgstr "Creating and editing organisational structure"
+
+msgid "obj_page"
+msgstr "页面"
+
+#, fuzzy
+msgid "obj_peac"
+msgstr "Accordion"
+
+#, fuzzy
+msgid "obj_peadl"
+msgstr "Advanced List"
+
+#, fuzzy
+msgid "obj_peadt"
+msgstr "Advanced Table"
+
+#, fuzzy
+msgid "obj_pecd"
+msgstr "Code"
+
+#, fuzzy
+msgid "obj_pech"
+msgstr "Consultation Hour"
+
+#, fuzzy
+msgid "obj_pecl"
+msgstr "Column Layout"
+
+#, fuzzy
+msgid "obj_peclp"
+msgstr "Clipboard"
+
+#, fuzzy
+msgid "obj_pecom"
+msgstr "Competences"
+
+#, fuzzy
+msgid "obj_pecrs"
+msgstr "Course"
+
+#, fuzzy
+msgid "obj_pecrt"
+msgstr "Certificate"
+
+#, fuzzy
+msgid "obj_pecs"
+msgstr "Content Snippet"
+
+#, fuzzy
+msgid "obj_pedt"
+msgstr "Data Table"
+
+#, fuzzy
+msgid "obj_pefl"
+msgstr "File List"
+
+#, fuzzy
+msgid "obj_peim"
+msgstr "interactive Media"
+
+#, fuzzy
+msgid "obj_pelh"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "obj_pemed"
+msgstr "Image/Audio/Video"
+
+#, fuzzy
+msgid "obj_pemp"
+msgstr "Map"
+
+#, fuzzy
+msgid "obj_pepd"
+msgstr "Personal Data"
+
+#, fuzzy
+msgid "obj_pepe"
+msgstr "Plugin Element"
+
+#, fuzzy
+msgid "obj_pepl"
+msgstr "Page List"
+
+#, fuzzy
+msgid "obj_peplh"
+msgstr "Placeholder"
+
+#, fuzzy
+msgid "obj_pequ"
+msgstr "Questions"
+
+#, fuzzy
+msgid "obj_perl"
+msgstr "Ressource List"
+
+#, fuzzy
+msgid "obj_pesc"
+msgstr "Section"
+
+#, fuzzy
+msgid "obj_petmp"
+msgstr "Page Template"
+
+#, fuzzy
+msgid "obj_peusr"
+msgstr "User"
+
+msgid "obj_pg"
+msgstr "页"
+
+msgid "obj_poll"
+msgstr "投票"
+
+msgid "obj_poll_dupliate:"
+msgstr "复制投票"
+
+msgid "obj_poll_duplicate"
+msgstr "复制投票"
+
+#, fuzzy
+msgid "obj_prg"
+msgstr "Study Programme"
+
+#, fuzzy
+msgid "obj_prg_duplicate"
+msgstr "Copy Study Programme"
+
+#, fuzzy
+msgid "obj_prg_select"
+msgstr "-- Please select one Study Programme --"
+
+#, fuzzy
+msgid "obj_prgr"
+msgstr "Link to Study Programme"
+
+#, fuzzy
+msgid "obj_prgrs"
+msgstr "Links to Study Programmes"
+
+#, fuzzy
+msgid "obj_prgs"
+msgstr "Study Programmes"
+
+#, fuzzy
+msgid "obj_prgs_desc"
+msgstr "Study Programme Administration"
+
+#, fuzzy
+msgid "obj_prss"
+msgstr "Personal Resources"
+
+#, fuzzy
+msgid "obj_prss_desc"
+msgstr "Personal resources settings"
+
+msgid "obj_prtf"
+msgstr "组合"
+
+#, fuzzy
+msgid "obj_prtt"
+msgstr "Portfolio Template"
+
+#, fuzzy
+msgid "obj_prtt_duplicate"
+msgstr "Copy Portfolio Template"
+
+msgid "obj_ps"
+msgstr "隐私与安全"
+
+msgid "obj_ps_desc"
+msgstr "在这里配置全局隐私和安全设置。"
+
+msgid "obj_qpl"
+msgstr "题目池"
+
+msgid "obj_qpl_duplicate"
+msgstr "复制题目池测试"
+
+msgid "obj_qpl_select"
+msgstr "-- 请选择一个题目池测试 --"
+
+msgid "obj_rcat"
+msgstr "ECS 类目"
+
+msgid "obj_rcrs"
+msgstr "课程链接"
+
+msgid "obj_recf"
+msgstr "恢复对象"
+
+msgid "obj_recf_desc"
+msgstr "包含来自系统检测的已恢复对象。"
+
+msgid "obj_rep"
+msgstr "存储库"
+
+msgid "obj_reps"
+msgstr "存储库"
+
+#, fuzzy
+msgid "obj_reps_desc"
+msgstr "General settings for the Repository"
+
+msgid "obj_rfil"
+msgstr "ECS 文件"
+
+msgid "obj_rglo"
+msgstr "ECS 词汇表"
+
+msgid "obj_rgrp"
+msgstr "ECS 组"
+
+msgid "obj_rlm"
+msgstr "ECS 学习模块"
+
+msgid "obj_role"
+msgstr "角色"
+
+msgid "obj_rolf"
+msgstr "角色"
+
+msgid "obj_rolf_desc"
+msgstr "在此管理角色"
+
+msgid "obj_rolf_local"
+msgstr "局部角色"
+
+msgid "obj_rolf_local_desc"
+msgstr "所包含的局部角色的对象为"
+
+msgid "obj_rolt"
+msgstr "角色模板"
+
+msgid "obj_root"
+msgstr "根目录"
+
+msgid "obj_rtst"
+msgstr "ECS 测试"
+
+msgid "obj_rwik"
+msgstr "ECS Wiki"
+
+msgid "obj_sahs"
+msgstr "SCORM/AICC 学习模块"
+
+msgid "obj_sahs_duplicate"
+msgstr "复制学习模块"
+
+msgid "obj_sco"
+msgstr "SCO"
+
+#, fuzzy
+msgid "obj_scov"
+msgstr "SCORM Certificate"
+
+msgid "obj_seas"
+msgstr "搜索"
+
+msgid "obj_seas_desc"
+msgstr "在这里管理搜索设置。"
+
+#, fuzzy
+msgid "obj_serv"
+msgstr "Server"
+
+#, fuzzy
+msgid "obj_serv_desc"
+msgstr "Settings of the sever"
+
+msgid "obj_sess"
+msgstr "会话"
+
+msgid "obj_sess_duplicate"
+msgstr "复制会话"
+
+msgid "obj_skmg"
+msgstr "技能管理"
+
+msgid "obj_skmg_desc"
+msgstr "管理技能和技能类目。"
+
+msgid "obj_spl"
+msgstr "题目池(调查)"
+
+msgid "obj_st"
+msgstr "章"
+
+#, fuzzy
+msgid "obj_stus"
+msgstr "Shortlinks"
+
+#, fuzzy
+msgid "obj_stus_desc"
+msgstr "Global Shortlinks Settings"
+
+msgid "obj_sty"
+msgstr "风格"
+
+msgid "obj_stys"
+msgstr "风格设置"
+
+msgid "obj_stys_desc"
+msgstr "在这里管理系统皮肤和风格设置"
+
+msgid "obj_svy"
+msgstr "调查"
+
+msgid "obj_svy_duplicate"
+msgstr "复制调查"
+
+msgid "obj_svyf"
+msgstr "调查"
+
+msgid "obj_svyf_desc"
+msgstr "调查工具的平台设置"
+
+#, fuzzy
+msgid "obj_sysc"
+msgstr "System Check"
+
+#, fuzzy
+msgid "obj_sysc_desc"
+msgstr "System Check and Repair Tools"
+
+msgid "obj_tags"
+msgstr "标签："
+
+msgid "obj_tags_desc"
+msgstr "设定标签特性。"
+
+msgid "obj_tala"
+msgstr "Talk Templates"
+
+msgid "obj_tala_desc"
+msgstr "Talk Templates"
+
+msgid "obj_tals"
+msgstr "Employee Talk Series"
+
+msgid "obj_talt"
+msgstr "Talk Template"
+
+#, fuzzy
+msgid "obj_task"
+msgstr "Task"
+
+msgid "obj_tax"
+msgstr "分类"
+
+msgid "obj_taxf"
+msgstr "分类学。"
+
+msgid "obj_tool_setting_calendar"
+msgstr "显示日历"
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_active"
+msgstr "Calendar"
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_active_info"
+msgstr "A calendar is available."
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_info"
+msgstr "The \"Calendar\" block will be displayed inside the \"Content\" tab."
+
+#, fuzzy
+msgid "obj_tool_setting_custom_metadata"
+msgstr "Custom Metadata"
+
+#, fuzzy
+msgid "obj_tool_setting_custom_metadata_info"
+msgstr "If activated metadata can be configured."
+
+msgid "obj_tool_setting_news"
+msgstr "显示新闻"
+
+#, fuzzy
+msgid "obj_tool_setting_news_info"
+msgstr "The \"News\" block will be displayed inside the \"Content\" tab."
+
+#, fuzzy
+msgid "obj_tos"
+msgstr "Terms of Service"
+
+#, fuzzy
+msgid "obj_tos_desc"
+msgstr "Terms of Service Settings"
+
+msgid "obj_trac"
+msgstr "用户跟踪"
+
+msgid "obj_trac_desc"
+msgstr "用户访问跟踪数据"
+
+msgid "obj_tst"
+msgstr "测试"
+
+msgid "obj_tst_duplicate"
+msgstr "复制测试"
+
+msgid "obj_tstv"
+msgstr "测试证书"
+
+msgid "obj_type"
+msgstr "对象类型定义"
+
+msgid "obj_user"
+msgstr "用户"
+
+msgid "obj_usr"
+msgstr "用户"
+
+msgid "obj_usrf"
+msgstr "用户账号"
+
+msgid "obj_usrf_desc"
+msgstr "在此管理用户账号"
+
+#, fuzzy
+msgid "obj_wbdv"
+msgstr "WebDAV"
+
+#, fuzzy
+msgid "obj_wbdv_desc"
+msgstr "Configuration of WebDAV Settings."
+
+#, fuzzy
+msgid "obj_wbrs"
+msgstr "Weblink"
+
+#, fuzzy
+msgid "obj_wbrs_desc"
+msgstr "General settings for Web Links"
+
+msgid "obj_webr"
+msgstr "Web资源"
+
+msgid "obj_webr_duplicate"
+msgstr "复制Web资源"
+
+msgid "obj_wfld"
+msgstr "文件夹"
+
+msgid "obj_wiki"
+msgstr "维基百科"
+
+msgid "obj_wiki_duplicate"
+msgstr "复制Wiki"
+
+#, fuzzy
+msgid "obj_wiks"
+msgstr "Wiki"
+
+#, fuzzy
+msgid "obj_wiks_desc"
+msgstr "Global Wiki Settings"
+
+msgid "object"
+msgstr "对象"
+
+msgid "object_added"
+msgstr "增加的对象"
+
+msgid "object_copy_in_progress"
+msgstr "开始复制"
+
+msgid "object_duplicated"
+msgstr "对象复制"
+
+msgid "object_id"
+msgstr "对象ID"
+
+msgid "object_imported"
+msgstr "已导入对象"
+
+#, fuzzy
+msgid "object_list"
+msgstr "List of Objects"
+
+msgid "objects"
+msgstr "对象"
+
+msgid "objf"
+msgstr "对象定义"
+
+#, fuzzy
+msgid "objs_bibl"
+msgstr "Bibliographies"
+
+msgid "objs_blog"
+msgstr "博客"
+
+msgid "objs_book"
+msgstr "预订池"
+
+msgid "objs_cat"
+msgstr "目录"
+
+msgid "objs_catr"
+msgstr "类目参考"
+
+msgid "objs_chtr"
+msgstr "聊天"
+
+#, fuzzy
+msgid "objs_cmix"
+msgstr "Objects xAPI/cmi5"
+
+#, fuzzy
+msgid "objs_copa"
+msgstr "Content Pages"
+
+msgid "objs_crs"
+msgstr "课程；"
+
+msgid "objs_crsr"
+msgstr "课程参考"
+
+msgid "objs_dcl"
+msgstr "数据采集"
+
+msgid "objs_etal"
+msgstr "Employee Talks"
+
+msgid "objs_exc"
+msgstr "练习"
+
+msgid "objs_file"
+msgstr "文件"
+
+msgid "objs_fold"
+msgstr "文件夹"
+
+msgid "objs_frm"
+msgstr "论坛"
+
+msgid "objs_glo"
+msgstr "字典"
+
+msgid "objs_grp"
+msgstr "组"
+
+#, fuzzy
+msgid "objs_grpr"
+msgstr "Group References"
+
+msgid "objs_htlm"
+msgstr "HTML 学习模块"
+
+#, fuzzy
+msgid "objs_iass"
+msgstr "Individual Assessments"
+
+msgid "objs_itgr"
+msgstr "项目(Item)组"
+
+msgid "objs_lm"
+msgstr "学习模块"
+
+msgid "objs_lres"
+msgstr "学习资源"
+
+#, fuzzy
+msgid "objs_lso"
+msgstr "Learning Sequences"
+
+#, fuzzy
+msgid "objs_lti"
+msgstr "LTI Consumers"
+
+msgid "objs_mail"
+msgstr "邮件"
+
+msgid "objs_mcst"
+msgstr "媒介画面"
+
+msgid "objs_mep"
+msgstr "媒介工具"
+
+#, fuzzy
+msgid "objs_orgu"
+msgstr "Organisational Unit"
+
+msgid "objs_poll"
+msgstr "投票"
+
+#, fuzzy
+msgid "objs_prg"
+msgstr "Study Programmes"
+
+#, fuzzy
+msgid "objs_prgr"
+msgstr "Links to Study Programmes"
+
+#, fuzzy
+msgid "objs_prtf"
+msgstr "Portfolios"
+
+#, fuzzy
+msgid "objs_prtt"
+msgstr "Portfolio Templates"
+
+msgid "objs_qpl"
+msgstr "题目池"
+
+msgid "objs_qst"
+msgstr "题目"
+
+msgid "objs_rcat"
+msgstr "ECS 类目"
+
+msgid "objs_rcrs"
+msgstr "课程链接"
+
+msgid "objs_rfil"
+msgstr "ECS 文件"
+
+msgid "objs_rglo"
+msgstr "ECS 词汇表"
+
+msgid "objs_rgrp"
+msgstr "ECS 组"
+
+msgid "objs_rlm"
+msgstr "ECS 学习模块"
+
+msgid "objs_role"
+msgstr "角色"
+
+#, fuzzy
+msgid "objs_rolf"
+msgstr "Role Folders"
+
+msgid "objs_rtst"
+msgstr "ECS 测试"
+
+msgid "objs_rwik"
+msgstr "ECS Wikis"
+
+msgid "objs_sahs"
+msgstr "SCORM/AICC 学习模块"
+
+msgid "objs_sess"
+msgstr "会话"
+
+#, fuzzy
+msgid "objs_skee"
+msgstr "Competence Trees"
+
+msgid "objs_spl"
+msgstr "题目池 (调查)"
+
+msgid "objs_st"
+msgstr "章节"
+
+msgid "objs_svy"
+msgstr "问卷调查"
+
+msgid "objs_tala"
+msgstr "Talk Templates"
+
+msgid "objs_talt"
+msgstr "Talk Templates"
+
+msgid "objs_tst"
+msgstr "测试"
+
+msgid "objs_webr"
+msgstr "网络资源"
+
+msgid "objs_wiki"
+msgstr "Wikis"
+
+msgid "of"
+msgstr "的"
+
+msgid "offline"
+msgstr "离线"
+
+#, fuzzy
+msgid "offline_mode"
+msgstr "Offline-Mode"
+
+msgid "ok"
+msgstr "是"
+
+msgid "old"
+msgstr "过去的"
+
+msgid "omit"
+msgstr "忽略"
+
+msgid "omit_all"
+msgstr "忽略所有"
+
+msgid "on_waiting_list"
+msgstr "您在等候名单上"
+
+msgid "online"
+msgstr "在线"
+
+msgid "online_time"
+msgstr "在线时间(DD:HH:MM:SS)"
+
+#, fuzzy
+msgid "only_active"
+msgstr "Only Active"
+
+#, fuzzy
+msgid "only_inactive"
+msgstr "Only Inactive"
+
+#, fuzzy
+msgid "open"
+msgstr "Open"
+
+msgid "operation"
+msgstr "操作"
+
+msgid "optimize"
+msgstr "优化"
+
+msgid "option"
+msgstr "选项"
+
+msgid "optional_filter_hint"
+msgstr "请激活一个可选的过滤器"
+
+msgid "optional_filters"
+msgstr "过选过滤器"
+
+msgid "options"
+msgstr "选项"
+
+msgid "order_by"
+msgstr "排序"
+
+msgid "order_by_date"
+msgstr "按日期排序"
+
+#, fuzzy
+msgid "org_op_access_enrolments"
+msgstr "View Enrolment-Status"
+
+#, fuzzy
+msgid "org_op_manage_members"
+msgstr "Manage Subordinate Members"
+
+#, fuzzy
+msgid "org_op_read_learning_progress"
+msgstr "View Learning Progress of Subordinate Users"
+
+#, fuzzy
+msgid "org_permission_settings"
+msgstr "Permissions of Positions in Organisational Units"
+
+#, fuzzy
+msgid "org_units"
+msgstr "Organisational Units"
+
+msgid "organization"
+msgstr "提供者"
+
+msgid "other"
+msgstr "其它"
+
+msgid "overview"
+msgstr "概观"
+
+msgid "overwrite"
+msgstr "重写"
+
+msgid "owner"
+msgstr "拥有者"
+
+msgid "owner_updated"
+msgstr "拥有者已更新。"
+
+msgid "page"
+msgstr "页"
+
+#, fuzzy
+msgid "page_count"
+msgstr "Page Count"
+
+msgid "page_layout"
+msgstr "页面布局"
+
+msgid "page_layouts"
+msgstr "页面布局"
+
+#, fuzzy
+msgid "pagination_label_x_of_y"
+msgstr "Page %1$d of %2$d"
+
+msgid "parameter"
+msgstr "参数"
+
+msgid "parse"
+msgstr "语法分析"
+
+#, fuzzy
+msgid "participate"
+msgstr "Subscribe"
+
+msgid "passed"
+msgstr "已通过"
+
+msgid "passwd"
+msgstr "密码"
+
+msgid "passwd_generation"
+msgstr "密码生成"
+
+msgid "passwd_invalid"
+msgstr "新密码无效！请换一个密码。"
+
+msgid "passwd_not_match"
+msgstr "新密码登录不匹配！请重新输入新密码。"
+
+msgid "passwd_wrong"
+msgstr "您输入的密码不正确！"
+
+msgid "password"
+msgstr "密码"
+
+msgid "password_allow_chars"
+msgstr "允许的字符：%s"
+
+msgid "password_assistance_info"
+msgstr "如果启用了密码辅助，一个“忘记了密码？”的链接会显示在ILIAS的登录页面上。用户可以使用这个链接分配一个新的密码到他们的账号，这不需要系统管理的帮助。"
+
+msgid "password_change_on_first_login_demand"
+msgstr "在开始使用ILIAS服务之前，必需修改您的初始密码。"
+
+msgid "password_contains_invalid_chars"
+msgstr "密码包含无效字符"
+
+#, fuzzy
+msgid "password_contains_parts_of_login_err"
+msgstr "The chosen password contains your username. Please insert a new password."
+
+msgid "password_empty"
+msgstr "密码不能为空。"
+
+msgid "password_expired"
+msgstr "您的密码已经过期了，必须要修改，因为最近一次修改已经是 %s 天之前了。"
+
+msgid "password_multiple_errors"
+msgstr "多个标准都不满意"
+
+msgid "password_must_chars_and_numbers"
+msgstr "密码必需包含字母和数字。"
+
+#, fuzzy
+msgid "password_must_contain_lcase_chars"
+msgstr "The password must contain at least %s lower case letters."
+
+#, fuzzy
+msgid "password_must_contain_ucase_chars"
+msgstr "The password must contain at least %s capital letters."
+
+msgid "password_must_special_chars"
+msgstr "密码必需包含指定字符。"
+
+msgid "password_to_long"
+msgstr "密码必需在 %s 个字符以内。"
+
+msgid "password_to_short"
+msgstr "密码必需至少在 %s 个字符以上。"
+
+msgid "paste"
+msgstr "粘贴"
+
+msgid "pasteChapter"
+msgstr "粘贴"
+
+msgid "pastePage"
+msgstr "粘贴"
+
+msgid "paste_clipboard_items"
+msgstr "从剪贴板粘贴项目"
+
+msgid "path"
+msgstr "路径"
+
+msgid "path_not_set"
+msgstr "未设定路径"
+
+msgid "path_to_convert"
+msgstr "到转换器的路径"
+
+msgid "path_to_htmldoc"
+msgstr "到HTMLdoc的路径"
+
+msgid "path_to_java"
+msgstr "到Java的路径"
+
+msgid "path_to_unzip"
+msgstr "到Unzip的路径"
+
+msgid "path_to_zip"
+msgstr "到Zip的路径"
+
+msgid "pathes"
+msgstr "路径"
+
+msgid "pd_items_news"
+msgstr "包括新闻和个人条目"
+
+msgid "pdf_export"
+msgstr "导出"
+
+msgid "perm_settings"
+msgstr "权限"
+
+msgid "perma_link"
+msgstr "永久链接"
+
+#, fuzzy
+msgid "perma_link_copied"
+msgstr "Link to this page has been copied to the clipboard."
+
+msgid "permission"
+msgstr "权限"
+
+msgid "permission_denied"
+msgstr "权限被拒绝"
+
+msgid "permission_settings"
+msgstr "许可设置"
+
+msgid "person_title"
+msgstr "头衔"
+
+msgid "personal_data"
+msgstr "个人信息"
+
+msgid "personal_picture"
+msgstr "个人图片"
+
+msgid "personal_profile"
+msgstr "个人档案"
+
+#, fuzzy
+msgid "personal_resources"
+msgstr "Personal Resources"
+
+msgid "personal_settings"
+msgstr "个人设置"
+
+#, fuzzy
+msgid "personalise_date_time"
+msgstr "Personalise Date and Time Settings"
+
+msgid "persons"
+msgstr "个人"
+
+msgid "pg_add"
+msgstr "增加页"
+
+msgid "pg_new"
+msgstr "新页"
+
+msgid "phone"
+msgstr "电话"
+
+msgid "phone_home"
+msgstr "电话（宅）"
+
+msgid "phone_mobile"
+msgstr "电话（手机）"
+
+msgid "phone_office"
+msgstr "电话（办公室）"
+
+msgid "phrase"
+msgstr "句子"
+
+msgid "please_choose"
+msgstr "-- 选择 --"
+
+msgid "please_enter_target"
+msgstr "请输入一个目标"
+
+msgid "please_enter_title"
+msgstr "请输入一个标题请选择"
+
+msgid "please_select"
+msgstr "-- 请选择 --"
+
+msgid "please_select_a_delivered_file_to_delete"
+msgstr "您必需至少选择一个已发送的文件去删除！"
+
+msgid "please_select_a_delivered_file_to_download"
+msgstr "您必需至少选择一个已发送的文件去下载！"
+
+msgid "please_wait"
+msgstr "请稍等…"
+
+msgid "port"
+msgstr "端口"
+
+msgid "portfolio"
+msgstr "组合"
+
+msgid "pos_bottom"
+msgstr "底部"
+
+msgid "pos_left"
+msgstr "左边；"
+
+msgid "pos_right"
+msgstr "右边"
+
+msgid "pos_top"
+msgstr "顶部"
+
+msgid "position"
+msgstr "位置"
+
+#, fuzzy
+msgid "position_permission_settings"
+msgstr "Orgunit-Specific Permissions"
+
+msgid "precondition"
+msgstr "前提条件"
+
+msgid "precondition_not_accessible"
+msgstr "您没有足够的权限查看这个项目的前提条件。"
+
+msgid "precondition_required_itemlist"
+msgstr "要求的先决条件"
+
+msgid "precondition_toggle"
+msgstr "访问这个对象所需要满足的先决条件"
+
+msgid "preconditions"
+msgstr "前提条件"
+
+msgid "preconditions_obligatory_hint"
+msgstr "请编辑以下先决条件"
+
+msgid "preconditions_optional_hint"
+msgstr "请编辑以下先决条件之一"
+
+msgid "predefined_template"
+msgstr "预定义的角色模板"
+
+msgid "preferences"
+msgstr "用户定义偏好"
+
+#, fuzzy
+msgid "presentation_table_more"
+msgstr "more"
+
+#, fuzzy
+msgid "presenter"
+msgstr "Presenter"
+
+#, fuzzy
+msgid "preview"
+msgstr "Preview"
+
+#, fuzzy
+msgid "preview_create"
+msgstr "Create Preview"
+
+#, fuzzy
+msgid "preview_delete"
+msgstr "Delete Preview"
+
+#, fuzzy
+msgid "preview_image_size"
+msgstr "Size of Preview Images"
+
+msgid "preview_learner_info"
+msgstr "如果启用，课程和组管理员有可能从一个学习者的角度去查看内容。"
+
+#, fuzzy
+msgid "preview_loading"
+msgstr "Loading Preview..."
+
+#, fuzzy
+msgid "preview_none"
+msgstr "Preview (not created yet)"
+
+#, fuzzy
+msgid "preview_not_possible"
+msgstr "Creation of Previews is currently not possible, please read the documentation in %s."
+
+#, fuzzy
+msgid "preview_renderers"
+msgstr "Preview Renderers"
+
+#, fuzzy
+msgid "preview_settings"
+msgstr "File Preview"
+
+#, fuzzy
+msgid "preview_show"
+msgstr "Show Preview"
+
+#, fuzzy
+msgid "preview_status_creating"
+msgstr "The preview gets created. This may take some time..."
+
+#, fuzzy
+msgid "preview_status_deleting"
+msgstr "The preview gets deleted..."
+
+#, fuzzy
+msgid "preview_status_failed"
+msgstr "Failed to create the preview."
+
+#, fuzzy
+msgid "preview_status_missing"
+msgstr "No preview exists for this file."
+
+#, fuzzy
+msgid "preview_status_pending"
+msgstr "The preview has not been created yet. Please try again later."
+
+msgid "previous"
+msgstr "前一个"
+
+#, fuzzy
+msgid "prg_copy_threads_info"
+msgstr "Please decide which Study Program elements should be copied, linked or even omitted."
+
+#, fuzzy
+msgid "prg_wizard_page"
+msgstr "Copy Study Program (Step 2/2)"
+
+#, fuzzy
+msgid "prgr_add"
+msgstr "Add Study Programme Link"
+
+#, fuzzy
+msgid "prgr_edit_info"
+msgstr "Please choose one Study Programme for creating a new link."
+
+#, fuzzy
+msgid "prgr_new"
+msgstr "Create Study Programme Link"
+
+#, fuzzy
+msgid "prgr_settings"
+msgstr "Settings of Study Programme Link"
+
+msgid "print"
+msgstr "打印"
+
+msgid "print_view"
+msgstr "打印视图"
+
+msgid "private_notes"
+msgstr "个人备注"
+
+msgid "pro"
+msgstr "Pro"
+
+msgid "proceed"
+msgstr "Proceed"
+
+msgid "profile"
+msgstr "个人资料(profile)"
+
+msgid "profile_changed"
+msgstr "您的档案已更改"
+
+msgid "profile_incomplete"
+msgstr "您的个人资料不完整。请填写所有必填数据。"
+
+msgid "profile_of"
+msgstr "简历"
+
+msgid "properties"
+msgstr "属性"
+
+msgid "proxy"
+msgstr "代理"
+
+msgid "proxy_connectable"
+msgstr "连接已建立。"
+
+msgid "proxy_host"
+msgstr "主机"
+
+msgid "proxy_host_info"
+msgstr "请输入一个主机"
+
+msgid "proxy_not_connectable"
+msgstr "ILIAS不能建立到已定义的代理的连接。"
+
+msgid "proxy_port"
+msgstr "端口"
+
+msgid "proxy_port_info"
+msgstr "请输入一个端口值，0-65535之间。"
+
+msgid "proxy_port_numeric"
+msgstr "输入的端口号必须是一个0-65535之间的数值"
+
+#, fuzzy
+msgid "proxy_socket_error"
+msgstr "Socket Error: %s"
+
+msgid "proxy_status"
+msgstr "代理"
+
+msgid "proxy_status_info"
+msgstr "在ILIAS中使用一个代理(例如，为web feeds或去检查web链接)，请激活上面的复选框。"
+
+#, fuzzy
+msgid "ps_export_scorm"
+msgstr "SCORM Tracking Data"
+
+#, fuzzy
+msgid "ps_password_lowercase_chars_num"
+msgstr "Lower Case Letters"
+
+#, fuzzy
+msgid "ps_password_lowercase_chars_num_info"
+msgstr "Please insert the number of lower case letters a password must contain. Enter 0 to disable this requirement."
+
+#, fuzzy
+msgid "ps_password_must_not_contain_loginame"
+msgstr "Prevent Username in Password"
+
+#, fuzzy
+msgid "ps_password_must_not_contain_loginame_info"
+msgstr "If activated, a password must not contain the username."
+
+#, fuzzy
+msgid "ps_password_uppercase_chars_num"
+msgstr "Capital Letters"
+
+#, fuzzy
+msgid "ps_password_uppercase_chars_num_info"
+msgstr "Please insert the number of capital letters a password must contain. Enter 0 to disable this requirement."
+
+msgid "pub_section"
+msgstr "公共部分"
+
+msgid "pub_section_info"
+msgstr "如果启用，系统的某些部分(例如，知识库、用户资料)可以公开到互联网上，而不需要身份验证。“匿名者”角色的权限将控制到知识库资源的访问。"
+
+msgid "public"
+msgstr "public公共的"
+
+msgid "public_notes"
+msgstr "公开笔记"
+
+msgid "public_profile"
+msgstr "公共档案"
+
+msgid "public_room"
+msgstr "公共房间"
+
+msgid "purpose"
+msgstr "宗旨(purpose)"
+
+msgid "qpl"
+msgstr "题目池"
+
+msgid "qpl_add"
+msgstr "增加题目池"
+
+msgid "qpl_new"
+msgstr "新题目池"
+
+msgid "query_data"
+msgstr "查询数据"
+
+msgid "question"
+msgstr "题目"
+
+msgid "question_message"
+msgstr "题目"
+
+msgid "quit"
+msgstr "离开"
+
+msgid "quote"
+msgstr "引用"
+
+msgid "read"
+msgstr "读"
+
+msgid "readcount_anonymous_users"
+msgstr "匿名读访问的数量"
+
+msgid "readcount_users"
+msgstr "非匿名读访问的数量"
+
+msgid "recipient"
+msgstr "收件人"
+
+msgid "reference_deleted"
+msgstr "目标不可用"
+
+msgid "reference_of"
+msgstr "参考："
+
+msgid "referral_comment"
+msgstr "您是如何了解到ILIAS的?"
+
+msgid "refresh"
+msgstr "更新"
+
+msgid "refresh_languages"
+msgstr "更新语言"
+
+msgid "refuse"
+msgstr "拒绝"
+
+msgid "reg_account_confirmation_successful"
+msgstr "您的账号已经激活。"
+
+#, fuzzy
+msgid "reg_delete_expired_pending_registrations"
+msgstr "Delete Expired Pending Registrations"
+
+#, fuzzy
+msgid "reg_delete_expired_pending_registrations_desc"
+msgstr "Deletes all ILIAS accounts that have not been confirmed after a registration with e-mail confirmation."
+
+msgid "reg_goto_parent_membership_info"
+msgstr "仅成员能访问目标对象。"
+
+msgid "reg_mail_body_2_confirmation"
+msgstr "The link will only be good for %s, after that you will have to try again from the beginning."
+
+msgid "reg_mail_body_3_confirmation"
+msgstr "如果这封邮件对您毫无意义，它有可能是其他人有意或无意的输入了您的电子邮件地址，因此请忽略此邮件。"
+
+msgid "reg_mail_body_forgot_password_info"
+msgstr "取得您的密码，请使用登录屏幕上的“忘记了密码？”功能为这个账号请求一个新密码。"
+
+msgid "reg_mail_body_salutation"
+msgstr "Hello"
+
+msgid "reg_mail_body_text1"
+msgstr "欢迎来到ILIAS学习！"
+
+msgid "reg_mail_body_text2"
+msgstr "使用以下数据访问ILIAS："
+
+msgid "reg_mail_body_text3"
+msgstr "更多的个人信息："
+
+msgid "reg_mail_subject"
+msgstr "您的访问数据"
+
+msgid "reg_mail_subject_confirmation"
+msgstr "您的确认链接"
+
+msgid "reg_passwd_via_mail"
+msgstr "您的密码将会发送到下面您的电子邮箱地址中。"
+
+msgid "register"
+msgstr "注册"
+
+#, fuzzy
+msgid "register_notification"
+msgstr "\"%s\" has applied for session \"%s\"."
+
+msgid "registered_since"
+msgstr "注册于"
+
+msgid "registered_user"
+msgstr "已注册用户"
+
+msgid "registered_users"
+msgstr "已注册用户"
+
+msgid "registration"
+msgstr "新账号注册"
+
+msgid "related_to"
+msgstr "关联到"
+
+msgid "remove"
+msgstr "移除"
+
+msgid "remove_entries"
+msgstr "删除条目"
+
+msgid "remove_translation"
+msgstr "移除翻译"
+
+msgid "rename"
+msgstr "重新命名"
+
+msgid "rename_file"
+msgstr "重命名文件"
+
+#, fuzzy
+msgid "renderer_supported_file_types"
+msgstr "Supported File Types"
+
+#, fuzzy
+msgid "renderer_supported_repo_types"
+msgstr "Supported ILIAS Objects"
+
+#, fuzzy
+msgid "renderer_type_builtin"
+msgstr "Built-in"
+
+msgid "rep_main_page"
+msgstr "主页"
+
+#, fuzzy
+msgid "rep_main_page_logo_alt"
+msgstr "Logo ILIAS - to the start page"
+
+msgid "repeat_scan"
+msgstr "重复病毒扫描。"
+
+msgid "repeat_scan_failed"
+msgstr "重复扫描失败。"
+
+msgid "repeat_scan_succeded"
+msgstr "重复扫描成功。"
+
+msgid "replace_file"
+msgstr "替换文件"
+
+msgid "reply"
+msgstr "回复"
+
+#, fuzzy
+msgid "report_accessibility_issue"
+msgstr "Report Accessibility Issue"
+
+#, fuzzy
+msgid "report_accessibility_link"
+msgstr "Reported Link:"
+
+#, fuzzy
+msgid "report_accessibility_link_mailto"
+msgstr "Reported%20Link:"
+
+msgid "repository"
+msgstr "知识库"
+
+msgid "repository_admin"
+msgstr "知识库、垃圾桶和权限"
+
+msgid "repository_admin_desc"
+msgstr "为知识库条目设置权限，从系统垃圾桶中恢复或移除对象"
+
+msgid "require_email"
+msgstr "Require email"
+
+msgid "require_gender"
+msgstr "Require gender"
+
+msgid "require_hobby"
+msgstr "Require hobby"
+
+msgid "require_matriculation"
+msgstr "Require matriculation number"
+
+msgid "require_referral_comment"
+msgstr "Require referral comment"
+
+msgid "required_field"
+msgstr "必填项"
+
+msgid "res_links"
+msgstr "Repository Links知识库链接"
+
+msgid "res_links_short"
+msgstr "Links链接"
+
+msgid "reset"
+msgstr "重置"
+
+msgid "reset_filter"
+msgstr "重置过滤器"
+
+msgid "resources"
+msgstr "资源"
+
+msgid "right"
+msgstr "权限"
+
+msgid "rights"
+msgstr "权限"
+
+msgid "role"
+msgstr "角色"
+
+msgid "role_add_user"
+msgstr "添加用户到角色"
+
+msgid "role_added"
+msgstr "已增加角色"
+
+msgid "role_assignment"
+msgstr "角色指派"
+
+msgid "role_assignment_updated"
+msgstr "角色分配已经更新。"
+
+msgid "role_edit"
+msgstr "编辑角色"
+
+msgid "role_mailto"
+msgstr "发邮件给所有已分配用户"
+
+msgid "role_new"
+msgstr "新角色"
+
+msgid "role_new_search"
+msgstr "新搜索"
+
+msgid "role_no_roles_selected"
+msgstr "请选择一个角色"
+
+msgid "role_protect_permissions"
+msgstr "保护权限"
+
+msgid "role_protect_permissions_desc"
+msgstr "这个对象权限再也不能由系统操作来改变了。此外只有具有更高级别的系统管理员能改变这个权限。"
+
+msgid "role_select_one_item"
+msgstr "请选择一个对象。"
+
+msgid "role_sure_delete_desk_items"
+msgstr "您确信要删除以下以分配的(角色)吗？"
+
+msgid "role_templates_only"
+msgstr "仅角色模板"
+
+msgid "roles"
+msgstr "角色"
+
+msgid "roles_of_import_global"
+msgstr "导入文件的全局角色"
+
+msgid "roles_of_import_local"
+msgstr "导入文件的本地角色"
+
+msgid "rolf"
+msgstr "角色文件夹"
+
+msgid "rolf_added"
+msgstr "已增加角色文件夹"
+
+msgid "rolf_create_role"
+msgstr "创建新角色定义"
+
+msgid "rolf_create_rolt"
+msgstr "创建新角色定义模板"
+
+msgid "rolf_delete"
+msgstr "删除角色模板"
+
+msgid "rolf_edit_permission"
+msgstr "更改许可设置"
+
+msgid "rolf_edit_userassignment"
+msgstr "更改角色的用户分配"
+
+msgid "rolf_read"
+msgstr "角色模板设为读访问"
+
+msgid "rolf_visible"
+msgstr "角色模板可视"
+
+msgid "rolf_write"
+msgstr "编辑角色模板"
+
+msgid "rolt"
+msgstr "角色模板"
+
+msgid "rolt_added"
+msgstr "已增加角色模板"
+
+msgid "rolt_edit"
+msgstr "编辑角色模板"
+
+msgid "rolt_new"
+msgstr "新角色模板"
+
+msgid "row"
+msgstr "Row"
+
+msgid "rows"
+msgstr "Rows."
+
+#, fuzzy
+msgid "rpc_pdf_font"
+msgstr "Fonts"
+
+#, fuzzy
+msgid "rpc_pdf_font_info"
+msgstr "Additional fonts for the generation of PDF files. Other fonts than \"Helvetica\" and \"unifont\" must be installed on the ILIAS server."
+
+#, fuzzy
+msgid "rpc_pdf_generation"
+msgstr "PDF-Generation"
+
+#, fuzzy
+msgid "sad"
+msgstr "Sad"
+
+msgid "sahs"
+msgstr "SCORM/AICC 学习模块"
+
+msgid "sahs_added"
+msgstr "SCORM/AICC 学习模块已添加"
+
+#, fuzzy
+msgid "sahs_export_file"
+msgstr "ILIAS exported SCORM archive file"
+
+#, fuzzy
+msgid "sahs_export_file_info"
+msgstr "Use this option for a ZIP file that was exported directly from ILIAS. The file typically has titles such as 1675257903__4105__sahs_132295.zip."
+
+msgid "sahs_insert_chap_from_clip"
+msgstr "从剪贴板粘贴章节"
+
+msgid "sahs_insert_page_from_clip"
+msgstr "从剪贴板粘贴页面"
+
+msgid "sahs_insert_sco_from_clip"
+msgstr "从剪贴板粘贴SCOs"
+
+#, fuzzy
+msgid "sahs_new"
+msgstr "Create New Learning Module"
+
+msgid "salutation"
+msgstr "问候"
+
+msgid "salutation_f"
+msgstr "先生/女士"
+
+msgid "salutation_m"
+msgstr "先生"
+
+#, fuzzy
+msgid "salutation_n"
+msgstr "No salutation desired"
+
+#, fuzzy
+msgid "saml_log_in"
+msgstr "Direct login"
+
+#, fuzzy
+msgid "saml_login_form_info_txt"
+msgstr "You can log in using the “Direct Login” button without having to enter your username or password."
+
+#, fuzzy
+msgid "saml_login_form_txt"
+msgstr "Login to ILIAS via SAML"
+
+msgid "save"
+msgstr "保存"
+
+msgid "save_and_back"
+msgstr "保存并返回"
+
+msgid "save_message"
+msgstr "保存消息"
+
+msgid "save_params_for_cron"
+msgstr "为cron定时作业保存参数"
+
+msgid "save_refresh"
+msgstr "保存并更新"
+
+msgid "save_return"
+msgstr "保存并返回"
+
+msgid "save_settings"
+msgstr "保存设置"
+
+msgid "save_user_related_data"
+msgstr "保存用户相关访问数据"
+
+msgid "saved_successfully"
+msgstr "成功保存"
+
+msgid "saving"
+msgstr "保存..."
+
+#, fuzzy
+msgid "scope"
+msgstr "Scope"
+
+msgid "scorm_create_export_file_html"
+msgstr "创建导出文件(HTML)"
+
+msgid "scorm_create_export_file_pdf"
+msgstr "创建导出文件(PDF)"
+
+msgid "scorm_create_export_file_scrom12"
+msgstr "创建导出文件(SCORM 1.2)"
+
+msgid "scorm_create_export_file_scrom2004"
+msgstr "创建导出文件(SCORM 2004)"
+
+msgid "scorm_create_export_file_scrom2004_4th"
+msgstr "创建导出文件(SCORM 2004 第4版)"
+
+#, fuzzy
+msgid "scorm_login_as_learner_id"
+msgstr "SCORM 2004: set ILIAS User Name as cmi.learner_id"
+
+#, fuzzy
+msgid "scorm_login_as_learner_id_info"
+msgstr "If enabled, the User Name instead of the User ID is set for cmi.learner_id."
+
+#, fuzzy
+msgid "scorm_lp_auto_activate"
+msgstr "default settings for learning progress"
+
+#, fuzzy
+msgid "scorm_lp_auto_activate_info"
+msgstr "If learning progress is activated in general, the settings for new SCORM learning modules are set to 'Collection of SCORM Items' and all SCOs are selected for learning progress determination. Adjustments are still possible for every SCORM learning module."
+
+msgid "scorm_new"
+msgstr "新 SCORM/IACC 学习模块"
+
+#, fuzzy
+msgid "scorm_without_session"
+msgstr "SCORM 2004: enable storing data without session"
+
+#, fuzzy
+msgid "scorm_without_session_info"
+msgstr "This ensures the storage of SCORM learning data even if ILIAS session expired"
+
+msgid "search"
+msgstr "搜索"
+
+msgid "search_active"
+msgstr "包括活跃用户"
+
+msgid "search_at_current_position"
+msgstr "在当前的位置"
+
+msgid "search_engine"
+msgstr "搜索引擎"
+
+msgid "search_for"
+msgstr "搜索方式"
+
+msgid "search_globally"
+msgstr "全局范围内"
+
+msgid "search_in"
+msgstr "搜索于"
+
+msgid "search_inactive"
+msgstr "包括不活跃的用户"
+
+msgid "search_new"
+msgstr "新搜索"
+
+msgid "search_result"
+msgstr "搜索结果"
+
+msgid "search_results"
+msgstr "搜索结果"
+
+msgid "search_user"
+msgstr "搜索用户"
+
+#, fuzzy
+msgid "search_users"
+msgstr "Look Up Users"
+
+msgid "seas_max_hits"
+msgstr "最大点击数"
+
+msgid "seas_max_hits_info"
+msgstr "请输入搜索结果的最大数目。"
+
+msgid "seas_settings"
+msgstr "搜索设置"
+
+msgid "second"
+msgstr "Second"
+
+#, fuzzy
+msgid "second_email"
+msgstr "Second Email"
+
+msgid "seconds"
+msgstr "Seconds"
+
+msgid "sel_country"
+msgstr "国家"
+
+msgid "select"
+msgstr "选择"
+
+msgid "select_all"
+msgstr "全部选择"
+
+msgid "select_at_least_one_object"
+msgstr "请选择至少一个对象。"
+
+msgid "select_file"
+msgstr "选择文件"
+
+#, fuzzy
+msgid "select_file_from_computer"
+msgstr "Select File"
+
+#, fuzzy
+msgid "select_files_from_computer"
+msgstr "Select the files from your computer"
+
+msgid "select_max_one_item"
+msgstr "请只选择一项"
+
+msgid "select_object_to_link"
+msgstr "请选择您想链接的对象"
+
+msgid "select_one"
+msgstr "请选择一个。"
+
+#, fuzzy
+msgid "select_question_pool_info"
+msgstr "As long as the import file contains questions, these questions will be imported to the selected questionpool as well."
+
+msgid "select_questionpool"
+msgstr "测试的题目池"
+
+msgid "selected"
+msgstr "已选"
+
+#, fuzzy
+msgid "selected_files"
+msgstr "Selected files"
+
+msgid "selected_items"
+msgstr "个人项目"
+
+msgid "selected_items_back"
+msgstr "返回个人项目"
+
+msgid "selected_languages_updated"
+msgstr "选定的语言已被更新(如果已安装)："
+
+msgid "send"
+msgstr "发送"
+
+msgid "send_mail"
+msgstr "发送电子邮件"
+
+msgid "sender"
+msgstr "发送人"
+
+msgid "sent"
+msgstr "已发送"
+
+msgid "sequence"
+msgstr "顺序"
+
+msgid "sequences"
+msgstr "顺序"
+
+msgid "server"
+msgstr "服务器"
+
+msgid "server_data"
+msgstr "服务器数据"
+
+msgid "server_disabled"
+msgstr "聊天已禁止"
+
+msgid "server_software"
+msgstr "服务器软件"
+
+msgid "sess"
+msgstr "会话"
+
+msgid "sess_fixed_duration"
+msgstr "固定会话持续的时间"
+
+msgid "session_config"
+msgstr "会话设置"
+
+msgid "session_config_maintenance_disabled"
+msgstr "不允许客户端维护"
+
+#, fuzzy
+msgid "session_mail_subject_deletion"
+msgstr "Deregistration of user \"%s\" from session \"%s\""
+
+#, fuzzy
+msgid "session_mail_subject_entered"
+msgstr "Joining of user \"%s\" in session \"%s\""
+
+#, fuzzy
+msgid "session_mail_subject_registered"
+msgstr "Registration of user \"%s\" for session \"%s\""
+
+msgid "session_reminder"
+msgstr "会话提醒"
+
+msgid "session_reminder_alert"
+msgstr "您在 %1$s 的会话在 %2$s 过期！\\n\\n选择OK继续您的会话。\\n如果您点击放弃，在当前浏览器会话期间将再也不会提醒您。\\n\\n安装：%3$s"
+
+#, fuzzy
+msgid "session_reminder_default_lead_time_info"
+msgstr "Please specify how many minutes before the expiration of a session a reminder should be shown.<br / >The function is deactivated when the value is '%s'. The recommended value is %s.<br / >The current length of a session is %s."
+
+#, fuzzy
+msgid "session_reminder_input"
+msgstr "Session Reminder (in Minutes)"
+
+msgid "session_reminder_lead_time"
+msgstr "Leadtime"
+
+msgid "session_reminder_lead_time_info"
+msgstr "请指定，您想要会话过期之前多少秒显示一个会话将要到期的警告。一个用户会话的当前值是 %s。"
+
+msgid "session_reminder_session_duration"
+msgstr "(会话持续时间: %s)。"
+
+msgid "set"
+msgstr "设定"
+
+msgid "setSystemLanguage"
+msgstr "设定系统语言"
+
+msgid "setUserLanguage"
+msgstr "设定用户语言"
+
+msgid "set_offline"
+msgstr "设定离线"
+
+msgid "set_online"
+msgstr "设定在线"
+
+#, fuzzy
+msgid "set_skin_does_not_exist"
+msgstr "Your selected skin does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:"
+
+#, fuzzy
+msgid "set_style_does_not_exist"
+msgstr "Your selected system style does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:"
+
+msgid "settings"
+msgstr "设置"
+
+msgid "settings_for_all_members"
+msgstr "所有课程/组成员的全局设置"
+
+msgid "settings_per_users"
+msgstr "每个课程/组成员的设置"
+
+#, fuzzy
+msgid "settings_presentation_header"
+msgstr "Presentation"
+
+msgid "settings_saved"
+msgstr "保存设置"
+
+msgid "shib"
+msgstr "Shibboleth口令"
+
+msgid "shib_active"
+msgstr "启用Shibboleth 支持"
+
+msgid "shib_city"
+msgstr "城市属性"
+
+msgid "shib_country"
+msgstr "国家的属性"
+
+msgid "shib_data_conv"
+msgstr "到数据操作API的绝对路径"
+
+msgid "shib_data_conv_warning"
+msgstr "您指定的数据操作API文件无法读取"
+
+msgid "shib_department"
+msgstr "部门属性"
+
+msgid "shib_email"
+msgstr "电子邮件地址属性"
+
+msgid "shib_federation_name"
+msgstr "您的 Shibboleth 联合名字"
+
+msgid "shib_firstname"
+msgstr "名字属性"
+
+msgid "shib_gender"
+msgstr "性别属性 (必需是 'm' 或 'f')"
+
+msgid "shib_general_login_instructions"
+msgstr "通过 %s 登录，请点击登录按钮并在以下页面选择您的组织。<br>如果您有什么问题，请询问"
+
+msgid "shib_general_wayf_login_instructions"
+msgstr "在这里您如果不是关联到给定的组织，并且您需要访问这个服务器上的一个课程，请联系"
+
+msgid "shib_idp_list"
+msgstr "提供一个身份提供者清单让用户从ILIAS登录页面选择。每行必需是一个逗号分隔开的<strong>IdP的提供者ID</strong>(请看Shibboleth元数据文件)和<strong>IdP的名字</strong>，它将被显示在下拉列表中。<br>作为第三方可选参数，您能添加<strong>一个Shibboleth会话发起者的位置</strong>，这将被应用在您的ILIAS安装是一个多方联合设置的一部分的案例中。"
+
+msgid "shib_institution"
+msgstr "机构属性"
+
+msgid "shib_invalid_home_organization"
+msgstr "请选择一个有效的组织!"
+
+msgid "shib_language"
+msgstr "语言属性"
+
+msgid "shib_lastname"
+msgstr "姓氏属性"
+
+msgid "shib_login"
+msgstr "唯一性 Shibboleth 属性"
+
+msgid "shib_login_button"
+msgstr "Shibboleth 登录按钮路径"
+
+msgid "shib_login_embedded_wayf"
+msgstr "设计自定义登录区"
+
+msgid "shib_login_embedded_wayf_description"
+msgstr "如果选择了这个选项，您能在登录说明文本区域下面提供任意的HTML代码。这可以用于例如内嵌一个自己JavaScript WAYF/发现服务或创建一个量身定制的登录区域。"
+
+msgid "shib_login_external_wayf"
+msgstr "使用外部 WAYF 服务"
+
+msgid "shib_login_internal_wayf"
+msgstr "使用 ILIAS WAYF 服务"
+
+msgid "shib_login_type"
+msgstr "组织选择"
+
+msgid "shib_matriculation"
+msgstr "预科(Matriculation)号属性"
+
+msgid "shib_member_of"
+msgstr "我是这里的成员："
+
+msgid "shib_phone_home"
+msgstr "家庭电话号码属性"
+
+msgid "shib_phone_mobile"
+msgstr "手机号码属性"
+
+msgid "shib_phone_office"
+msgstr "办公室电话属性"
+
+msgid "shib_select_home_organization"
+msgstr "通过 %s 身份验证，请下拉列表中选择您的组织。"
+
+msgid "shib_settings_saved"
+msgstr "Shibboleth 设置已保存"
+
+msgid "shib_street"
+msgstr "街道属性"
+
+msgid "shib_title"
+msgstr "头衔(title)属性"
+
+msgid "shib_update"
+msgstr "登录时更新这个字段"
+
+msgid "shib_user_default_role"
+msgstr "默认角色被分配到 Shibboleth 用户"
+
+msgid "shib_zipcode"
+msgstr "邮政编码属性"
+
+msgid "short_inst_name"
+msgstr "短标题"
+
+msgid "short_inst_name_info"
+msgstr "这个标题将显示在浏览器的标题栏的前头。如果没有输入任何值，将使用“ILIAS”。"
+
+msgid "show"
+msgstr "显示"
+
+#, fuzzy
+msgid "show_all_details"
+msgstr "Show all details"
+
+#, fuzzy
+msgid "show_content"
+msgstr "Show Content"
+
+msgid "show_details"
+msgstr "显示详细情况"
+
+msgid "show_filter"
+msgstr "显示过滤器"
+
+#, fuzzy
+msgid "show_hidden_sections"
+msgstr "Show More Information &raquo;"
+
+#, fuzzy
+msgid "show_less"
+msgstr "Show less"
+
+msgid "show_list"
+msgstr "显示列表"
+
+msgid "show_members"
+msgstr "显示成员"
+
+#, fuzzy
+msgid "show_more"
+msgstr "Show More"
+
+#, fuzzy
+msgid "show_preview"
+msgstr "Show Preview"
+
+msgid "show_users_online"
+msgstr "显示用户在线"
+
+#, fuzzy
+msgid "show_who_is_online"
+msgstr "Show who is online"
+
+msgid "side_frame"
+msgstr "边框(side frame)"
+
+msgid "signature"
+msgstr "签名"
+
+msgid "size"
+msgstr "Size"
+
+msgid "skills"
+msgstr "技能"
+
+msgid "skin_style"
+msgstr "默认皮肤/风格"
+
+msgid "smtp"
+msgstr "SMTP"
+
+msgid "soap_connect_timeout"
+msgstr "连接超时"
+
+msgid "soap_connect_timeout_info"
+msgstr "以秒为单位的最大时间，直到一个到SOAP webservice的连接尝试被打断。"
+
+msgid "soap_user_administration"
+msgstr "外部用户管理(SOAP)"
+
+msgid "soap_user_administration_desc"
+msgstr "如果启用，所有用户账号都能由一个外部SOAP客户端管理。"
+
+msgid "soap_wsdl_path"
+msgstr "WSDL路径"
+
+msgid "soap_wsdl_path_info"
+msgstr "请输入ilias的wsdl文件路径，它将使用在webservice中。如果您将这个字段留空，将使用以下路径做为默认值：%s"
+
+#, fuzzy
+msgid "sort"
+msgstr "Sort"
+
+#, fuzzy
+msgid "sort_ascending"
+msgstr "Sort Ascending"
+
+#, fuzzy
+msgid "sort_ascending_long"
+msgstr "Change Sort Direction to Ascending"
+
+msgid "sort_by_this_column"
+msgstr "根据此列分类"
+
+#, fuzzy
+msgid "sort_descending"
+msgstr "Sort Descending"
+
+#, fuzzy
+msgid "sort_descending_long"
+msgstr "Change Sort Direction to Descending"
+
+msgid "sort_inherit_prefix"
+msgstr "默认"
+
+#, fuzzy
+msgid "sorting_asc"
+msgstr "Ascending"
+
+#, fuzzy
+msgid "sorting_creation_header"
+msgstr "By Creation Date"
+
+#, fuzzy
+msgid "sorting_creation_info"
+msgstr "Content items are arranged automatically by their creation date."
+
+#, fuzzy
+msgid "sorting_desc"
+msgstr "Descendent"
+
+#, fuzzy
+msgid "sorting_direction"
+msgstr "Sorting Direction"
+
+msgid "sorting_header"
+msgstr "内容项排序"
+
+msgid "sorting_info_inherit"
+msgstr "来自一个父课程的排序模式已适用。"
+
+msgid "sorting_info_manual"
+msgstr "这个模式为您提供手动排序的可能性。"
+
+msgid "sorting_info_title"
+msgstr "选择这个模式自动按标题排序。"
+
+msgid "sorting_manual_header"
+msgstr "手动排序"
+
+msgid "sorting_save"
+msgstr "保存排序"
+
+msgid "sorting_title_header"
+msgstr "按标题排序"
+
+msgid "spacer"
+msgstr "间隔"
+
+msgid "spl"
+msgstr "题目池(Survey)"
+
+msgid "spl_add"
+msgstr "添加题目池"
+
+msgid "spl_import"
+msgstr "导入题目池调查"
+
+msgid "spl_new"
+msgstr "新题目池"
+
+msgid "ssl"
+msgstr "SSL (HTTPS)"
+
+msgid "standard_fields"
+msgstr "标准字段"
+
+msgid "startpage"
+msgstr "开始页"
+
+msgid "stat_selected"
+msgstr "选定"
+
+msgid "statistic"
+msgstr "统计"
+
+msgid "statistics"
+msgstr "统计"
+
+msgid "status"
+msgstr "状态"
+
+msgid "status_no_permission"
+msgstr "没有授予权限"
+
+msgid "step"
+msgstr "步"
+
+msgid "street"
+msgstr "街"
+
+msgid "structure"
+msgstr "结构"
+
+msgid "sty"
+msgstr "Style风格"
+
+msgid "sub_request_deleted"
+msgstr "会员请求已删除"
+
+msgid "sub_request_saved"
+msgstr "Saved membership request会员请求已保存"
+
+msgid "subject"
+msgstr "题目"
+
+msgid "submit"
+msgstr "提交"
+
+msgid "subobjects"
+msgstr "子对象"
+
+msgid "subscription"
+msgstr "订阅"
+
+msgid "subtabs"
+msgstr "子标签"
+
+msgid "success_message"
+msgstr "成功消息"
+
+msgid "summary"
+msgstr "摘要"
+
+msgid "sure_delete_selected_users"
+msgstr "您确定要删除选中的用户"
+
+msgid "survey_defaults"
+msgstr "调查的默认设置"
+
+msgid "survey_unlimited_invitation"
+msgstr "不限制邀请"
+
+msgid "svy"
+msgstr "调查"
+
+msgid "svy_add"
+msgstr "添加调查"
+
+msgid "svy_finished"
+msgstr "已完成"
+
+msgid "svy_new"
+msgstr "新调查"
+
+msgid "svy_not_finished"
+msgstr "没有完成"
+
+msgid "svy_not_started"
+msgstr "未启动"
+
+msgid "svy_run"
+msgstr "运行"
+
+msgid "svy_warning_survey_not_complete"
+msgstr "这项调查没有完成！"
+
+#, fuzzy
+msgid "switch_language"
+msgstr "Switch Language"
+
+msgid "system"
+msgstr "系统"
+
+msgid "system_check"
+msgstr "系统检查"
+
+msgid "system_information"
+msgstr "系统信息"
+
+msgid "system_language"
+msgstr "系统语言"
+
+msgid "system_styles"
+msgstr "系统风格"
+
+msgid "systemcheck_cron"
+msgstr "在定时任务中进行系统检查"
+
+msgid "systemcheck_cronform"
+msgstr "定时任务中系统检查的活跃状态"
+
+msgid "table_mail_import"
+msgstr "从 ILIAS 2 中导入邮件"
+
+msgid "tabs"
+msgstr "标签"
+
+msgid "tagging_my_tags"
+msgstr "我的标签"
+
+#, fuzzy
+msgid "tags"
+msgstr "Tags"
+
+msgid "take_over_structure"
+msgstr "适配结构"
+
+msgid "take_over_structure_info"
+msgstr "如果激活，zip压缩文件中的目录将被映射为类目，或者如果用于组或课程，将映射为文件夹。"
+
+msgid "tals_etal"
+msgstr "Talk"
+
+msgid "talt_etal"
+msgstr "Talk"
+
+msgid "target"
+msgstr "目标"
+
+msgid "tax"
+msgstr "分类"
+
+msgid "tax_add"
+msgstr "添加分类"
+
+msgid "tax_new"
+msgstr "新分类"
+
+msgid "term"
+msgstr "术语"
+
+msgid "test"
+msgstr "考试"
+
+msgid "tests"
+msgstr "测试"
+
+msgid "textbox"
+msgstr "文本框"
+
+msgid "thread"
+msgstr "线程"
+
+msgid "thumbnail"
+msgstr "缩略图"
+
+#, fuzzy
+msgid "tile_view"
+msgstr "Tile View"
+
+msgid "time"
+msgstr "时间"
+
+msgid "time_limit"
+msgstr "访问"
+
+msgid "time_limit_add_time_limit_for_selected"
+msgstr "请为选定的用户输入一个时间周期。"
+
+msgid "time_limit_from"
+msgstr "来自(time limit)"
+
+msgid "time_limit_message"
+msgstr "消息 (time limit)"
+
+msgid "time_limit_no_users_selected"
+msgstr "请选择一个用户。"
+
+msgid "time_limit_not_valid"
+msgstr "这个时期是无效的。"
+
+msgid "time_limit_reached"
+msgstr "您的访问周期已经过期了。"
+
+msgid "time_limit_unlimited"
+msgstr "无限制 (time limit)"
+
+msgid "time_limit_until"
+msgstr "直到 (time limit)"
+
+msgid "title"
+msgstr "标题"
+
+msgid "title_required"
+msgstr "插入一个标题"
+
+msgid "to"
+msgstr "到"
+
+msgid "to_client_list"
+msgstr "到客户选择"
+
+msgid "today"
+msgstr "今日"
+
+msgid "toggleGlobalDefault"
+msgstr "切换全局默认值"
+
+msgid "toggleGlobalFixed"
+msgstr "切换全局固定值"
+
+#, fuzzy
+msgid "toggle_dropdown"
+msgstr "Toggle Dropdown"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_off"
+msgstr "OFF"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_on"
+msgstr "ON"
+
+msgid "tomorrow"
+msgstr "明天"
+
+#, fuzzy
+msgid "toolbar_more_actions"
+msgstr "More Actions"
+
+msgid "tools"
+msgstr "工具"
+
+msgid "top_of_page"
+msgstr "页面顶部"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement"
+msgstr "Accept Terms of Service?"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement_intro"
+msgstr "There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page."
+
+#, fuzzy
+msgid "tos_force_accept_usr_agreement"
+msgstr "You must accept the Terms of Service!"
+
+#, fuzzy
+msgid "tos_no_agreement_description"
+msgstr "There is currently no Terms of Service document available for this installation. Please contact the <a href=\"%1$s\">system administrator</a>."
+
+#, fuzzy
+msgid "tos_refuse_acceptance"
+msgstr "Refuse to Accept Terms of Service"
+
+#, fuzzy
+msgid "tos_usr_agreement"
+msgstr "Terms of Service"
+
+#, fuzzy
+msgid "tos_usr_agreement_footer_intro"
+msgstr "You have declared your consent to these terms of service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description"
+msgstr "Withdraw your consent to our Terms of Service here."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description_external"
+msgstr "Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description_internal"
+msgstr "Please log in again to complete the process of withdrawing your consent to the Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_header"
+msgstr "Withdraw Terms of Service Consent"
+
+#, fuzzy
+msgid "tos_withdraw_consent_info"
+msgstr "Withdraw your consent to our Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_info_external"
+msgstr "Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Terms of Service."
+
+msgid "total"
+msgstr "总计"
+
+msgid "tracking_settings"
+msgstr "跟踪设置"
+
+msgid "translation"
+msgstr "翻译"
+
+msgid "trash"
+msgstr "拉圾箱"
+
+msgid "tree"
+msgstr "树"
+
+msgid "tree_frame"
+msgstr "树框架"
+
+msgid "treeview"
+msgstr "树形视图"
+
+msgid "tst"
+msgstr "测试"
+
+msgid "tst_add"
+msgstr "增加测试"
+
+msgid "tst_edit_questions"
+msgstr "编辑题目"
+
+#, fuzzy
+msgid "tst_history_read"
+msgstr "View History"
+
+msgid "tst_new"
+msgstr "新测试"
+
+#, fuzzy
+msgid "tst_results"
+msgstr "Test Results"
+
+msgid "tst_run"
+msgstr "运行"
+
+msgid "tst_user_not_invited"
+msgstr "您不应该参加这个考试。"
+
+msgid "tst_warning_test_not_complete"
+msgstr "此测试未完成！"
+
+msgid "tutors"
+msgstr "导师"
+
+msgid "txt_registered"
+msgstr "您已成功登录到ILIAS。请用您的用户账号按下面按钮登录到ILIAS。"
+
+msgid "txt_registered_passw_gen"
+msgstr "您已成功注册到ILIAS。不久您将接收到一封包含了您的已生成的密码的电子邮件。"
+
+msgid "txt_submitted"
+msgstr "您成功提交了一个账号请求到ILIAS。您的账号请求将由系统管理员接收，并将在48小时以内激活。在您的账号被激活之前将不能登录。"
+
+msgid "typ"
+msgstr "对象类型定义"
+
+msgid "type"
+msgstr "类型"
+
+msgid "udf_added_field"
+msgstr "添加新字段"
+
+msgid "udf_delete_sure"
+msgstr "您真的要删除这个字段，以及所有已分配的用户数据吗？"
+
+msgid "udf_duplicate_entries"
+msgstr "这个值必须是唯一的。"
+
+msgid "udf_field_deleted"
+msgstr "已删除字段。"
+
+msgid "udf_name_already_exists"
+msgstr "这个字段名称已经存在。请选择一个不同的名称"
+
+msgid "udf_required_requires_visib_reg"
+msgstr "当字段设置为“必填”时，它必需被设置为“注册中可见”。"
+
+msgid "udf_type_date"
+msgstr "日期字段"
+
+msgid "udf_type_datetime"
+msgstr "日期和时间"
+
+msgid "udf_type_select"
+msgstr "选择框 (特定值)"
+
+msgid "udf_type_text"
+msgstr "文本字段(可选值)"
+
+msgid "udf_type_textarea"
+msgstr "文本区域 (所见即所得)："
+
+msgid "udf_update_select_field"
+msgstr "编辑选择框"
+
+msgid "udf_update_text_field"
+msgstr "编辑文本字段"
+
+msgid "udf_update_wysiwyg_field"
+msgstr "编辑文本区域(所见即所得)字段"
+
+msgid "uid"
+msgstr "UID"
+
+msgid "ums_create_new_account"
+msgstr "创建新账号"
+
+msgid "ums_explanation"
+msgstr "您的外部账号不能被映射到一个ILIAS账号。但ILIAS通过您的电子邮件地址找到一个账号。如果这是您的账号，请用您的ILIAS密码登录。"
+
+msgid "ums_explanation_2"
+msgstr "如果这不是您的账号，请点击“创建新账号”。"
+
+msgid "ums_explanation_3"
+msgstr "您的外部账号不能映射到一个ILIAS账号。但ILIAS通过您的电子邮件地址找到多个账号。如果其中有您的账号，请用您的ILIAS密码登录。"
+
+msgid "ums_explanation_4"
+msgstr "如果它们都不是您的账号，请点击“创建新账号”。"
+
+msgid "unambiguousness"
+msgstr "Unambiguousness(清晰性)"
+
+msgid "uncheck_all"
+msgstr "全部取消"
+
+msgid "unchecked"
+msgstr "已取消"
+
+msgid "uninstall"
+msgstr "卸载"
+
+msgid "uninstalled"
+msgstr "已卸载"
+
+msgid "unknown"
+msgstr "不知"
+
+#, fuzzy
+msgid "unparticipate"
+msgstr "Unsubscribe"
+
+msgid "unread"
+msgstr "未读"
+
+msgid "unzip"
+msgstr "Unzip"
+
+msgid "up"
+msgstr "向上"
+
+msgid "update"
+msgstr "编辑"
+
+msgid "update_applied"
+msgstr "更新已生效"
+
+msgid "update_language"
+msgstr "更新语言"
+
+msgid "update_on_conflict"
+msgstr "更新冲突"
+
+#, fuzzy
+msgid "update_orgunits"
+msgstr "Update assigned organisational units"
+
+#, fuzzy
+msgid "update_orgunits_desc"
+msgstr "If enabled, the field 'Organisational Units' will be updated for all user accounts."
+
+msgid "upload"
+msgstr "上载"
+
+msgid "upload_error_file_not_found"
+msgstr "上传错误：文件未找到。"
+
+#, fuzzy
+msgid "upload_ok"
+msgstr "The upload was successful"
+
+#, fuzzy
+msgid "upload_pending"
+msgstr "Pending"
+
+#, fuzzy
+msgid "upload_settings"
+msgstr "Uploading Settings"
+
+#, fuzzy
+msgid "upload_svg_rejection_message"
+msgstr "An uploaded SVG file contains possibily malicious code and cannot be processed."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_base64"
+msgstr "The file contains base64 encoded content."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_elements"
+msgstr "The file contains elements or attributes which are not allowed or known."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_foreign_object"
+msgstr "The file contains foreign objects."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_script"
+msgstr "The file contains script-Elements."
+
+msgid "uploaded_and_checked"
+msgstr "文件已经上传并经过检查，您现在可以导入它。"
+
+#, fuzzy
+msgid "uploading"
+msgstr "Uploading..."
+
+msgid "uri"
+msgstr "URI"
+
+msgid "url"
+msgstr "URL"
+
+msgid "url_not_found"
+msgstr "文件未找到"
+
+msgid "use_customized_instructions"
+msgstr "使用自定义指令："
+
+msgid "use_default_instructions"
+msgstr "使用默认的指令。"
+
+msgid "user"
+msgstr "用户"
+
+msgid "user_activated"
+msgstr "用户已经批准"
+
+msgid "user_added"
+msgstr "用户已增加"
+
+msgid "user_assignment"
+msgstr "用户指派"
+
+#, fuzzy
+msgid "user_avatar"
+msgstr "User Avatar"
+
+#, fuzzy
+msgid "user_avatar_of"
+msgstr "User Avatar of"
+
+msgid "user_cant_receive_mail"
+msgstr "用户不允许使用电子邮件系统"
+
+msgid "user_comment"
+msgstr "用户注释"
+
+msgid "user_deactivated"
+msgstr "用户未被批准"
+
+msgid "user_defined_fields"
+msgstr "用户定义字段"
+
+msgid "user_defined_list"
+msgstr "用户定义字段概况"
+
+msgid "user_deleted"
+msgstr "用户已删除"
+
+msgid "user_detail"
+msgstr "详细数据"
+
+msgid "user_ext_account"
+msgstr "外部账号"
+
+msgid "user_ext_account_desc"
+msgstr "账号用于外部身份验证。 (SOAP 身份验证)"
+
+msgid "user_image"
+msgstr "用户图像"
+
+msgid "user_import_failed"
+msgstr "用户导入失败。"
+
+msgid "user_imported"
+msgstr "用户导入完成。"
+
+msgid "user_imported_with_warnings"
+msgstr "用户导入完成，有警告信息。"
+
+msgid "user_language"
+msgstr "用户语言"
+
+#, fuzzy
+msgid "user_never_logged_in"
+msgstr "Delete user accounts without login"
+
+#, fuzzy
+msgid "user_never_logged_in_info"
+msgstr "All user accounts without login at all be deleted."
+
+#, fuzzy
+msgid "user_never_logged_in_info_threshold_err_num"
+msgstr "Only positive non decimal numbers are accepted."
+
+msgid "user_new_account_mail"
+msgstr "新账号邮件"
+
+msgid "user_new_account_mail_desc"
+msgstr "当一个ILIAS用户通过其它方式自注册创建时，这封邮件被发送。"
+
+msgid "user_not_found"
+msgstr "用户没有找到"
+
+#, fuzzy
+msgid "user_not_found_to_delete"
+msgstr "A user could not be found to delete."
+
+msgid "user_not_known"
+msgstr "请插入一个有效的用户名。"
+
+msgid "user_profile_other"
+msgstr "其他信息"
+
+msgid "user_send_new_account_mail"
+msgstr "发送新帐号邮件"
+
+msgid "user_status"
+msgstr "用户状态"
+
+msgid "user_toggle_noti"
+msgstr "成员不允许停用通知"
+
+msgid "userfolder_export_csv"
+msgstr "以逗号分隔的值"
+
+msgid "userfolder_export_excel_x86"
+msgstr "Microsoft Excel"
+
+msgid "userfolder_export_file"
+msgstr "文件"
+
+msgid "userfolder_export_file_size"
+msgstr "文件大小"
+
+msgid "userfolder_export_files"
+msgstr "文件"
+
+msgid "userfolder_export_xml"
+msgstr "XML"
+
+msgid "username"
+msgstr "用户名"
+
+#, fuzzy
+msgid "username_assistance"
+msgstr "Username Assistance"
+
+msgid "users"
+msgstr "用户"
+
+msgid "users_not_imported"
+msgstr "以下用户不存在，他们的信息不能导入"
+
+msgid "users_online"
+msgstr "用户在线"
+
+msgid "usr"
+msgstr "用户"
+
+msgid "usr_account_inactive"
+msgstr "非活跃账号"
+
+msgid "usr_active_only"
+msgstr "仅活跃用户"
+
+msgid "usr_add"
+msgstr "增加用户"
+
+msgid "usr_edit"
+msgstr "编辑用户"
+
+#, fuzzy
+msgid "usr_field_change_components_listening"
+msgstr "There is at least one component which is interested in the changed configuration. Would you like to confirm the changes with the consequences the component(s) announced below?"
+
+msgid "usr_filter_coursemember"
+msgstr "课程的成员"
+
+msgid "usr_filter_groupmember"
+msgstr "组成员"
+
+msgid "usr_filter_lastlogin"
+msgstr "最后登录的用户"
+
+msgid "usr_filter_role"
+msgstr "已分配角色"
+
+msgid "usr_inactive_only"
+msgstr "仅不活跃用户"
+
+msgid "usr_limited_access_only"
+msgstr "仅限制访问用户"
+
+#, fuzzy
+msgid "usr_name_undisclosed"
+msgstr "Undisclosed"
+
+msgid "usr_new"
+msgstr "新用户"
+
+msgid "usr_settings_changeable_lua"
+msgstr "本地用户管理可更改"
+
+msgid "usr_settings_explanation_profile"
+msgstr "检查提供的复选框去为个人桌面上，个人资料(profile)标签中的所有用户禁止或隐藏个人资料设置。所有已禁止或隐藏的个人资料设置仅能在系统管理树/用户账号 里能编辑。"
+
+msgid "usr_settings_header_profile"
+msgstr "用户资料(profile)设置"
+
+msgid "usr_settings_saved"
+msgstr "全局用户设置保存成功!"
+
+msgid "usr_settings_visib_lua"
+msgstr "本地用户管理可见"
+
+msgid "usr_skin_style"
+msgstr "皮肤/风格"
+
+msgid "usr_without_courses"
+msgstr "用户没有分配课程"
+
+msgid "usrf"
+msgstr "用户文件夹"
+
+msgid "usrf_profile_link"
+msgstr "链接到用户资料(profile)"
+
+msgid "usrimport_action_ignored"
+msgstr "已忽略行为 %1$s。"
+
+msgid "usrimport_action_replaced"
+msgstr "已由 %2$s 替换行为 %1$s。"
+
+msgid "usrimport_cant_delete"
+msgstr "不能执行“删除”行为。数据库中没有这样的用户。"
+
+msgid "usrimport_cant_insert"
+msgstr "不能执行“插入”行为。用户已经存在于数据库中。"
+
+msgid "usrimport_cant_update"
+msgstr "不能执行“更新”行为。数据库中没有这样的用户。。"
+
+msgid "usrimport_conflict_handling_info"
+msgstr "当“忽略冲突”被选中时，如果一个行为不能被执行(例如，如果数据库中已经存在一个相同的用户，则一个“插入”行为不能完成)，ILIAS会忽略它。\\n当“更新冲突”被选中，如果一个行为不能被执行(例如，如果数据库中存在一个相同的用户登录，则一个“插入”行为被一个“更新”行为所替代)，ILIAS将更新数据库。"
+
+#, fuzzy
+msgid "usrimport_form_not_evaluabe"
+msgstr "The form data couldn't be read."
+
+msgid "usrimport_global_role_for_action_required"
+msgstr "至少要为“%1$s”动作指定至少一个全局角色。"
+
+msgid "usrimport_ignore_role"
+msgstr "忽略角色"
+
+msgid "usrimport_login_is_not_unique"
+msgstr "登录不是唯一的。"
+
+msgid "usrimport_no_insert_ext_account_exists"
+msgstr "不能执行“插入”行为。外部账号已经存在。"
+
+msgid "usrimport_no_update_ext_account_exists"
+msgstr "不能执行“更新”行为。外部账号已经存在。"
+
+msgid "usrimport_with_specified_role_not_permitted"
+msgstr "不允许导入指定的角色"
+
+#, fuzzy
+msgid "usrimport_wrong_file_count"
+msgstr "Too many files in import-folder. Please try again."
+
+#, fuzzy
+msgid "usrimport_xml_anonymous_or_root_not_allowed"
+msgstr "Neither the system-account nor the anonymous account can be changed through the import."
+
+msgid "usrimport_xml_attribute_missing"
+msgstr "元素“%1$s”中缺失“%2$s属性。"
+
+msgid "usrimport_xml_attribute_value_illegal"
+msgstr "元素“%1$s”中的属性“%2$s”的值“%3$s”是非法的。"
+
+msgid "usrimport_xml_attribute_value_inapplicable"
+msgstr "元素“%1$s”中的属性“%2$s”的值“%3$s”无法应用到“%4$s”行为中。"
+
+msgid "usrimport_xml_element_content_illegal"
+msgstr "元素“%1$s”的内容“%2$s”是非法的。"
+
+msgid "usrimport_xml_element_for_action_required"
+msgstr "元素“%1$s”必须被指定给“%2$s”行为。"
+
+msgid "usrimport_xml_element_inapplicable"
+msgstr "元素 \"%1$s\" 无法应用到 \"%2$s\"行为。"
+
+msgid "valid"
+msgstr "有效的"
+
+msgid "validate"
+msgstr "验证"
+
+msgid "value"
+msgstr "值"
+
+msgid "vcard"
+msgstr "名片"
+
+msgid "vcard_download"
+msgstr "下载名片"
+
+msgid "verification_failed"
+msgstr "验证失败"
+
+msgid "verification_failure_log"
+msgstr "验证失败日志"
+
+msgid "verification_warning_log"
+msgstr "验证警告日志"
+
+msgid "version"
+msgstr "版本"
+
+msgid "versions"
+msgstr "版本"
+
+msgid "view"
+msgstr "视图"
+
+msgid "view_content"
+msgstr "视图内容"
+
+#, fuzzy
+msgid "view_learning_progress"
+msgstr "View Learning Progress"
+
+#, fuzzy
+msgid "view_learning_progress_rec"
+msgstr "View Learning Progress of Unit incl. Subunits"
+
+msgid "visible"
+msgstr "可见"
+
+msgid "visible_registration"
+msgstr "注册中可见"
+
+msgid "visitor"
+msgstr "访问者"
+
+msgid "visitors"
+msgstr "访问者"
+
+msgid "visits"
+msgstr "访问"
+
+msgid "web_resources"
+msgstr "网络资源"
+
+msgid "webdav"
+msgstr "WebDAV"
+
+#, fuzzy
+msgid "webdav_add_instructions_btn_label"
+msgstr "Add Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_chosen_language_already_used"
+msgstr "There already is another document associated with the chosen language"
+
+#, fuzzy
+msgid "webdav_doc_delete"
+msgstr "Delete WebDav Mount Instructions"
+
+#, fuzzy
+msgid "webdav_docs_mount_instructions"
+msgstr "Mount Instructions Documents"
+
+#, fuzzy
+msgid "webdav_duplicate_detected_title"
+msgstr "Following objects could not be displayed, because an object with the same Title is already being shown:"
+
+#, fuzzy
+msgid "webdav_forbidden_chars_title"
+msgstr "Following files cannot be displayed, because they contain one or more forbidden characters (\\<>/:*?\"|#):"
+
+#, fuzzy
+msgid "webdav_form_document"
+msgstr "Instructions Document"
+
+#, fuzzy
+msgid "webdav_form_document_info"
+msgstr "Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information"
+
+#, fuzzy
+msgid "webdav_form_document_title"
+msgstr "Title"
+
+#, fuzzy
+msgid "webdav_form_document_title_info"
+msgstr "This title will be dislayed as the title of the modal when the Mount Instructions are opened"
+
+#, fuzzy
+msgid "webdav_form_edit_doc_head"
+msgstr "Edit Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_form_new_doc_head"
+msgstr "Create new Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_general_settings"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "webdav_missing_lang"
+msgstr "There is no english version of the WebDAV Mount Instructions"
+
+#, fuzzy
+msgid "webdav_mount_instructions"
+msgstr "Mount Instructions"
+
+#, fuzzy
+msgid "webdav_problem_free_container"
+msgstr "There are no objects that cause problems in this container."
+
+#, fuzzy
+msgid "webdav_problem_info_duplicate"
+msgstr "There is a file with the same title as the info file."
+
+msgid "webdav_pwd_instruction"
+msgstr "我们建议为以web文件夹形式打开的知识库创建一个本地密码。<br/>这个密码仅在这个web文件夹功能中使用。"
+
+msgid "webdav_pwd_instruction_success"
+msgstr "一个新的本地密码已创建。您现在能以web文件夹的形式打开知识库了。"
+
+#, fuzzy
+msgid "webdav_sure_delete_documents_s"
+msgstr "Are you sure you want to delete the Mount Instructions with the following title:"
+
+#, fuzzy
+msgid "webdav_tbl_docs_head_title"
+msgstr "Dokument title"
+
+#, fuzzy
+msgid "webdav_tbl_docs_title"
+msgstr "List of uploaded WebDAV Mount Instructions"
+
+#, fuzzy
+msgid "webdav_upload_instructions"
+msgstr "Upload Instructions"
+
+msgid "webfolder_dir_info"
+msgstr "您到了这里，是因为您的浏览器不能打开web文件夹。请读<a href=\"%1$s\">打开web文件夹指导</a>。"
+
+msgid "webfolder_index_of"
+msgstr "%1$s 的索引"
+
+msgid "webfolder_instructions"
+msgstr "Web文件夹指导"
+
+msgid "webfolder_instructions_info"
+msgstr "web文件夹指导显示在浏览器上，不能直接打开一个web文件夹。您可以使用HTML代码，以及下面的点位符：<b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[WINDOWS]</b>...<b>[/WINDOWS]</b>, <b>[MAC]</b>...<b>[/MAC]</b>, <b>[LINUX]</b>...<b>[/LINUX]</b>.清除字段取得默认指导。"
+
+msgid "webfolder_instructions_text"
+msgstr "<p>按照下面的指导，打开<b>[WEBFOLDER_TITLE]</b>作为web文件夹:</p>[WINDOWS]<h3>Windows XP和IE指导</h3><ol><li>启动IE</li><li>选择菜单 '文件 &gt; 打开...'</li><li>在“打开”字段中输入以下地址：<br/><b>[WEBFOLDER_URI]</b></li><li>选择“以web文件夹形式打开”选项，然后选择“OK”。</li><li>输入您登录的密码，并选择“OK”。</li></ol><h3>Windows XP，无IE的指导</h3><ol><li>双击桌面上的“我的网络位置”图标。</li><li>从窗口左边的“网络任务”菜单点击“添加网络位置”。</li><li>“添加一个网络位置”安装精灵将打开，选择“下一步”</li><li>选择“选择其它网络位置”选项，并选择“下一步”。</li><li>在“互联网或网络地址”字段中输入<br/><b>[WEBFOLDER_URI]</b><br/>然后选择“下一步”。</li><li>输入您的登录名和密码，然后选择“OK”。</li></ol>[/WINDOWS][MAC]<h3>Mac OS X 说明</h3><ol><li>打开搜索器</li><li>选择菜单“去 &gt; 连接到服务器……”</li><li>在这个地址字段中输入以下地址：<br/><b>[WEBFOLDER_URI]</b>, 并选择“连接”。</li><li>输入您的登录名和密码，然后选择“OK”。</li></ol>[/MAC][LINUX]<h3>Linux及Konqueror浏览器说明</h3><ol><li>启动Konqueror浏览器</li><li>在地址字段里输入以下地址：<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>请输入这个关键字。</li><li>输入您的登录名和密码，然后选择“OK”。</li></ol><h3>Linux和Nautilus说明</h3><ol><li>启动Nautilus浏览器</li><li>在地址字段中输入以下地址：<br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>按回车键。</li><li>输入您的登录名和密码，然后选择“OK”。</li></ol>[/LINUX]<p>如果打开web文件夹不能正常工作，请联系<a href=\\\"mailto:[ADMIN_MAIL]\\\">[ADMIN_MAIL]</a>。"
+
+msgid "webfolder_instructions_titletext"
+msgstr "以web文件夹形式打开"
+
+msgid "webfolder_mount_dir_with"
+msgstr "在<a href=\"%1$s\">Internet Explorer</a>，<a href=\"%2$s\">Konqueror</a>，<a href=\"%3$s\">other Browser</a>中以一个web文件夹形式打开这个页面，"
+
+msgid "webr"
+msgstr "web网络资源"
+
+msgid "webr_active"
+msgstr "激活"
+
+msgid "webr_add"
+msgstr "添加web资源"
+
+msgid "webr_deleted_items"
+msgstr "删除Web资源"
+
+msgid "webr_edit"
+msgstr "编辑web资源"
+
+msgid "webr_sure_delete_items"
+msgstr "您真的要删除以下Web资源?"
+
+msgid "webservices"
+msgstr "Webservices"
+
+msgid "week"
+msgstr "星期"
+
+msgid "weekly"
+msgstr "weekly"
+
+msgid "weeks"
+msgstr "Weeks星期"
+
+msgid "welcome"
+msgstr "欢迎"
+
+msgid "width"
+msgstr "宽度"
+
+msgid "wiki"
+msgstr "Wiki"
+
+msgid "wiki_add"
+msgstr "添加Wiki"
+
+msgid "wiki_new"
+msgstr "新维基"
+
+msgid "with"
+msgstr "同"
+
+#, fuzzy
+msgid "withdraw_consent"
+msgstr "Withdraw Consent"
+
+#, fuzzy
+msgid "withdraw_consent_info_internal"
+msgstr "If you click on ‘Withdraw Consent’, your account will be deleted."
+
+#, fuzzy
+msgid "withdraw_usr_agreement"
+msgstr "Withdraw Consent"
+
+#, fuzzy
+msgid "withdrawal_complete"
+msgstr "Withdrawal of consent complete."
+
+#, fuzzy
+msgid "withdrawal_complete_deleted"
+msgstr "Withdrawal of consent complete, account deleted."
+
+#, fuzzy
+msgid "withdrawal_complete_redirect"
+msgstr "Withdrawal of consent complete. To have your account deleted, please contact your organisation."
+
+#, fuzzy
+msgid "withdrawal_mail_info"
+msgstr "The following email will be sent to an administrator after confirming the withdrawal of your consent:[BR][BR]"
+
+#, fuzzy
+msgid "withdrawal_mail_subject"
+msgstr "Withdrawal of Consent to Terms of Service"
+
+#, fuzzy
+msgid "withdrawal_mail_text"
+msgstr "Dear Sir/Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installation’s Terms of Service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Yours faithfully[BR]%1$s"
+
+#, fuzzy
+msgid "withdrawal_sure_account"
+msgstr "Are you sure you want to confirm the withdrawal of your consent?"
+
+#, fuzzy
+msgid "withdrawal_sure_account_deletion"
+msgstr "Are you sure you want to confirm the withdrawal of your consent? This will result in your user account being irrevocably deleted."
+
+#, fuzzy
+msgid "withdrawal_sure_account_deletion_no_consent_yet"
+msgstr "Are you sure that you do not want to accept the Terms of Service? This will result in your user account being irrevocably deleted."
+
+#, fuzzy
+msgid "withdrawal_sure_account_no_consent_yet"
+msgstr "Are you sure that you do not want to accept the Terms of Service?"
+
+msgid "wizard_search_list"
+msgstr "您搜索到了以下相关内容。请选择其中之一。"
+
+msgid "wizard_title_info"
+msgstr "请输入您想要复制的对象的标题。"
+
+msgid "write"
+msgstr "白色"
+
+msgid "year"
+msgstr "Year年"
+
+msgid "yearly"
+msgstr "每年"
+
+msgid "years"
+msgstr "Years年"
+
+msgid "yes"
+msgstr "是"
+
+msgid "yesterday"
+msgstr "昨天"
+
+msgid "zip"
+msgstr "邮政编码"
+
+msgid "zip_structure_error"
+msgstr "归档文件包含相同的文件名。已放弃上传。"
+
+msgid "zip_test_failed"
+msgstr "zip压缩测试失败。请联系您的ILIAS管理员。"
+
+msgid "zipcode"
+msgstr "邮政编码"
