@@ -1,0 +1,2805 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: rbac\n"
+
+msgid "accs_edit_permission"
+msgstr ""
+
+msgid "accs_read"
+msgstr ""
+
+msgid "accs_visible"
+msgstr ""
+
+msgid "accs_write"
+msgstr ""
+
+msgid "activate_wiki_protection"
+msgstr ""
+
+msgid "active_preconditions"
+msgstr ""
+
+msgid "add_consultation_hours"
+msgstr ""
+
+msgid "add_consume_provider"
+msgstr ""
+
+msgid "add_pages"
+msgstr ""
+
+msgid "add_reply"
+msgstr ""
+
+msgid "add_thread"
+msgstr ""
+
+msgid "adm_edit_permission"
+msgstr ""
+
+msgid "adm_read"
+msgstr ""
+
+msgid "adm_visible"
+msgstr ""
+
+msgid "adm_write"
+msgstr ""
+
+msgid "adn_edit_permission"
+msgstr ""
+
+msgid "adn_read"
+msgstr ""
+
+msgid "adn_visible"
+msgstr ""
+
+msgid "adn_write"
+msgstr ""
+
+msgid "adopt_perm_from_template"
+msgstr ""
+
+msgid "adve_edit_permission"
+msgstr ""
+
+msgid "adve_read"
+msgstr ""
+
+msgid "adve_visible"
+msgstr ""
+
+msgid "adve_write"
+msgstr ""
+
+msgid "amend_grading"
+msgstr ""
+
+msgid "assf_edit_permission"
+msgstr ""
+
+msgid "assf_read"
+msgstr ""
+
+msgid "assf_visible"
+msgstr ""
+
+msgid "assf_write"
+msgstr ""
+
+msgid "auth_edit_permission"
+msgstr ""
+
+msgid "auth_read"
+msgstr ""
+
+msgid "auth_visible"
+msgstr ""
+
+msgid "auth_write"
+msgstr ""
+
+msgid "awra_edit_permission"
+msgstr ""
+
+msgid "awra_read"
+msgstr ""
+
+msgid "awra_visible"
+msgstr ""
+
+msgid "awra_write"
+msgstr ""
+
+msgid "bdga_edit_permission"
+msgstr ""
+
+msgid "bdga_read"
+msgstr ""
+
+msgid "bdga_visible"
+msgstr ""
+
+msgid "bdga_write"
+msgstr ""
+
+msgid "bibl_copy"
+msgstr ""
+
+msgid "bibl_delete"
+msgstr ""
+
+msgid "bibl_edit_permission"
+msgstr ""
+
+msgid "bibl_read"
+msgstr ""
+
+msgid "bibl_visible"
+msgstr ""
+
+msgid "bibl_write"
+msgstr ""
+
+msgid "bibs_copy"
+msgstr ""
+
+msgid "bibs_delete"
+msgstr ""
+
+msgid "bibs_edit_permission"
+msgstr ""
+
+msgid "bibs_read"
+msgstr ""
+
+msgid "bibs_visible"
+msgstr ""
+
+msgid "bibs_write"
+msgstr ""
+
+msgid "blga_edit_permission"
+msgstr ""
+
+msgid "blga_read"
+msgstr ""
+
+msgid "blga_visible"
+msgstr ""
+
+msgid "blga_write"
+msgstr ""
+
+msgid "blog_contribute"
+msgstr ""
+
+msgid "blog_copy"
+msgstr ""
+
+msgid "blog_delete"
+msgstr ""
+
+msgid "blog_edit_permission"
+msgstr ""
+
+msgid "blog_read"
+msgstr ""
+
+msgid "blog_redact"
+msgstr ""
+
+msgid "blog_visible"
+msgstr ""
+
+msgid "blog_write"
+msgstr ""
+
+msgid "book_copy"
+msgstr ""
+
+msgid "book_delete"
+msgstr ""
+
+msgid "book_edit_permission"
+msgstr ""
+
+msgid "book_manage_all_reservations"
+msgstr ""
+
+msgid "book_manage_own_reservations"
+msgstr ""
+
+msgid "book_read"
+msgstr ""
+
+msgid "book_visible"
+msgstr ""
+
+msgid "book_write"
+msgstr ""
+
+msgid "cadm_edit_permission"
+msgstr ""
+
+msgid "cadm_read"
+msgstr ""
+
+msgid "cadm_visible"
+msgstr ""
+
+msgid "cadm_write"
+msgstr ""
+
+msgid "cals_add_consultation_hours"
+msgstr ""
+
+msgid "cals_edit_event"
+msgstr ""
+
+msgid "cals_edit_permission"
+msgstr ""
+
+msgid "cals_read"
+msgstr ""
+
+msgid "cals_visible"
+msgstr ""
+
+msgid "cals_write"
+msgstr ""
+
+msgid "cat_administrate_users"
+msgstr ""
+
+msgid "cat_cat_administrate_users"
+msgstr ""
+
+msgid "cat_copy"
+msgstr ""
+
+msgid "cat_delete"
+msgstr ""
+
+msgid "cat_edit_permission"
+msgstr ""
+
+msgid "cat_read"
+msgstr ""
+
+msgid "cat_read_users"
+msgstr ""
+
+msgid "cat_visible"
+msgstr ""
+
+msgid "cat_write"
+msgstr ""
+
+msgid "catr_copy"
+msgstr ""
+
+msgid "catr_delete"
+msgstr ""
+
+msgid "catr_edit_permission"
+msgstr ""
+
+msgid "catr_visible"
+msgstr ""
+
+msgid "catr_write"
+msgstr ""
+
+msgid "cert_edit_permission"
+msgstr ""
+
+msgid "cert_read"
+msgstr ""
+
+msgid "cert_visible"
+msgstr ""
+
+msgid "cert_write"
+msgstr ""
+
+msgid "change_existing_object_type_desc"
+msgstr ""
+
+msgid "change_existing_objects"
+msgstr ""
+
+msgid "change_existing_objects_desc"
+msgstr ""
+
+msgid "change_existing_prefix"
+msgstr ""
+
+msgid "change_existing_prefix_single"
+msgstr ""
+
+msgid "change_existing_suffix"
+msgstr ""
+
+msgid "change_existing_suffix_single"
+msgstr ""
+
+msgid "change_presentation"
+msgstr ""
+
+msgid "chtr_delete"
+msgstr ""
+
+msgid "chtr_edit_permission"
+msgstr ""
+
+msgid "chtr_moderate"
+msgstr ""
+
+msgid "chtr_read"
+msgstr ""
+
+msgid "chtr_visible"
+msgstr ""
+
+msgid "chtr_write"
+msgstr ""
+
+msgid "cmis_edit_permission"
+msgstr ""
+
+msgid "cmis_read"
+msgstr ""
+
+msgid "cmis_visible"
+msgstr ""
+
+msgid "cmis_write"
+msgstr ""
+
+msgid "cmix_copy"
+msgstr ""
+
+msgid "cmix_delete"
+msgstr ""
+
+msgid "cmix_edit_learning_progress"
+msgstr ""
+
+msgid "cmix_edit_permission"
+msgstr ""
+
+msgid "cmix_read"
+msgstr ""
+
+msgid "cmix_read_learning_progress"
+msgstr ""
+
+msgid "cmix_read_outcomes"
+msgstr ""
+
+msgid "cmix_visible"
+msgstr ""
+
+msgid "cmix_write"
+msgstr ""
+
+msgid "cmps_edit_permission"
+msgstr ""
+
+msgid "cmps_read"
+msgstr ""
+
+msgid "cmps_visible"
+msgstr ""
+
+msgid "cmps_write"
+msgstr ""
+
+msgid "coms_edit_permissions"
+msgstr ""
+
+msgid "coms_read"
+msgstr ""
+
+msgid "coms_visible"
+msgstr ""
+
+msgid "coms_write"
+msgstr ""
+
+msgid "condition_failed"
+msgstr ""
+
+msgid "condition_learning_progress"
+msgstr ""
+
+msgid "condition_result_range_percentage"
+msgstr ""
+
+msgid "contribute"
+msgstr ""
+
+msgid "copa_copy"
+msgstr ""
+
+msgid "copa_delete"
+msgstr ""
+
+msgid "copa_edit_learning_progress"
+msgstr ""
+
+msgid "copa_edit_permission"
+msgstr ""
+
+msgid "copa_read"
+msgstr ""
+
+msgid "copa_read_learning_progress"
+msgstr ""
+
+msgid "copa_visible"
+msgstr ""
+
+msgid "copa_write"
+msgstr ""
+
+msgid "cpad_edit_permissions"
+msgstr ""
+
+msgid "cpad_read"
+msgstr ""
+
+msgid "cpad_visible"
+msgstr ""
+
+msgid "cpad_write"
+msgstr ""
+
+msgid "crs_copy"
+msgstr ""
+
+msgid "crs_delete"
+msgstr ""
+
+msgid "crs_edit_event"
+msgstr ""
+
+msgid "crs_edit_learning_progress"
+msgstr ""
+
+msgid "crs_edit_permission"
+msgstr ""
+
+msgid "crs_grade"
+msgstr ""
+
+msgid "crs_join"
+msgstr ""
+
+msgid "crs_leave"
+msgstr ""
+
+msgid "crs_manage_members"
+msgstr ""
+
+msgid "crs_news_add_news"
+msgstr ""
+
+msgid "crs_read"
+msgstr ""
+
+msgid "crs_read_learning_progress"
+msgstr ""
+
+msgid "crs_visible"
+msgstr ""
+
+msgid "crs_write"
+msgstr ""
+
+msgid "crsr_copy"
+msgstr ""
+
+msgid "crsr_delete"
+msgstr ""
+
+msgid "crsr_edit_learning_progress"
+msgstr ""
+
+msgid "crsr_edit_permission"
+msgstr ""
+
+msgid "crsr_read_learning_progress"
+msgstr ""
+
+msgid "crsr_visible"
+msgstr ""
+
+msgid "crsr_write"
+msgstr ""
+
+msgid "crss_edit_permission"
+msgstr ""
+
+msgid "crss_read"
+msgstr ""
+
+msgid "crss_visible"
+msgstr ""
+
+msgid "crss_write"
+msgstr ""
+
+msgid "dcl_add_entry"
+msgstr ""
+
+msgid "dcl_copy"
+msgstr ""
+
+msgid "dcl_delete"
+msgstr ""
+
+msgid "dcl_edit_content"
+msgstr ""
+
+msgid "dcl_edit_permission"
+msgstr ""
+
+msgid "dcl_read"
+msgstr ""
+
+msgid "dcl_visible"
+msgstr ""
+
+msgid "dcl_write"
+msgstr ""
+
+msgid "delete_files"
+msgstr ""
+
+msgid "delete_folders"
+msgstr ""
+
+msgid "delete_wiki_pages"
+msgstr ""
+
+msgid "dpro_edit_permission"
+msgstr ""
+
+msgid "dpro_read"
+msgstr ""
+
+msgid "dpro_visible"
+msgstr ""
+
+msgid "dpro_write"
+msgstr ""
+
+msgid "dshs_change_presentation"
+msgstr ""
+
+msgid "dshs_edit_permission"
+msgstr ""
+
+msgid "dshs_read"
+msgstr ""
+
+msgid "dshs_visible"
+msgstr ""
+
+msgid "dshs_write"
+msgstr ""
+
+msgid "ecss_edit_permission"
+msgstr ""
+
+msgid "ecss_read"
+msgstr ""
+
+msgid "ecss_visible"
+msgstr ""
+
+msgid "ecss_write"
+msgstr ""
+
+msgid "edit_event"
+msgstr ""
+
+msgid "edit_file"
+msgstr ""
+
+msgid "edit_in_online_editor"
+msgstr ""
+
+msgid "edit_learning_progress"
+msgstr ""
+
+msgid "edit_members"
+msgstr ""
+
+msgid "edit_permission"
+msgstr ""
+
+msgid "edit_roleassignment"
+msgstr ""
+
+msgid "edit_submissions_grades"
+msgstr ""
+
+msgid "edit_userassignment"
+msgstr ""
+
+msgid "edit_wiki_navigation"
+msgstr ""
+
+msgid "exc_copy"
+msgstr ""
+
+msgid "exc_delete"
+msgstr ""
+
+msgid "exc_edit_learning_progress"
+msgstr ""
+
+msgid "exc_edit_permission"
+msgstr ""
+
+msgid "exc_edit_submissions_grades"
+msgstr ""
+
+msgid "exc_read"
+msgstr ""
+
+msgid "exc_read_learning_progress"
+msgstr ""
+
+msgid "exc_visible"
+msgstr ""
+
+msgid "exc_write"
+msgstr ""
+
+msgid "excs_edit_permission"
+msgstr ""
+
+msgid "excs_read"
+msgstr ""
+
+msgid "excs_visible"
+msgstr ""
+
+msgid "excs_write"
+msgstr ""
+
+msgid "export_member_data"
+msgstr ""
+
+msgid "facs_edit_permission"
+msgstr ""
+
+msgid "facs_read"
+msgstr ""
+
+msgid "facs_upload_blacklisted_files"
+msgstr ""
+
+msgid "facs_visible"
+msgstr ""
+
+msgid "facs_write"
+msgstr ""
+
+msgid "feed_copy"
+msgstr ""
+
+msgid "feed_delete"
+msgstr ""
+
+msgid "feed_edit_permission"
+msgstr ""
+
+msgid "feed_read"
+msgstr ""
+
+msgid "feed_write"
+msgstr ""
+
+msgid "file_copy"
+msgstr ""
+
+msgid "file_delete"
+msgstr ""
+
+msgid "file_edit_file"
+msgstr ""
+
+msgid "file_edit_learning_progress"
+msgstr ""
+
+msgid "file_edit_permission"
+msgstr ""
+
+msgid "file_file_view_content"
+msgstr ""
+
+msgid "file_file_view_content_short"
+msgstr ""
+
+msgid "file_read"
+msgstr ""
+
+msgid "file_read_learning_progress"
+msgstr ""
+
+msgid "file_visible"
+msgstr ""
+
+msgid "file_write"
+msgstr ""
+
+msgid "files_visible"
+msgstr ""
+
+msgid "fils_edit_permissions"
+msgstr ""
+
+msgid "fils_read"
+msgstr ""
+
+msgid "fils_visible"
+msgstr ""
+
+msgid "fils_write"
+msgstr ""
+
+msgid "filter_all_roles"
+msgstr ""
+
+msgid "filter_global_roles"
+msgstr ""
+
+msgid "filter_local_roles"
+msgstr ""
+
+msgid "filter_local_roles_object"
+msgstr ""
+
+msgid "filter_roles_local_policy"
+msgstr ""
+
+msgid "fld_create_poll"
+msgstr ""
+
+msgid "fold_copy"
+msgstr ""
+
+msgid "fold_delete"
+msgstr ""
+
+msgid "fold_edit_learning_progress"
+msgstr ""
+
+msgid "fold_edit_permission"
+msgstr ""
+
+msgid "fold_read"
+msgstr ""
+
+msgid "fold_read_learning_progress"
+msgstr ""
+
+msgid "fold_visible"
+msgstr ""
+
+msgid "fold_write"
+msgstr ""
+
+msgid "folders_create"
+msgstr ""
+
+msgid "folders_visible"
+msgstr ""
+
+msgid "frm_add_reply"
+msgstr ""
+
+msgid "frm_add_thread"
+msgstr ""
+
+msgid "frm_copy"
+msgstr ""
+
+msgid "frm_delete"
+msgstr ""
+
+msgid "frm_edit_learning_progress"
+msgstr ""
+
+msgid "frm_edit_permission"
+msgstr ""
+
+msgid "frm_moderate_frm"
+msgstr ""
+
+msgid "frm_read"
+msgstr ""
+
+msgid "frm_read_learning_progress"
+msgstr ""
+
+msgid "frm_visible"
+msgstr ""
+
+msgid "frm_write"
+msgstr ""
+
+msgid "frma_edit_permission"
+msgstr ""
+
+msgid "frma_read"
+msgstr ""
+
+msgid "frma_visible"
+msgstr ""
+
+msgid "frma_write"
+msgstr ""
+
+msgid "glo_copy"
+msgstr ""
+
+msgid "glo_delete"
+msgstr ""
+
+msgid "glo_edit_content"
+msgstr ""
+
+msgid "glo_edit_permission"
+msgstr ""
+
+msgid "glo_read"
+msgstr ""
+
+msgid "glo_visible"
+msgstr ""
+
+msgid "glo_write"
+msgstr ""
+
+msgid "grp_copy"
+msgstr ""
+
+msgid "grp_delete"
+msgstr ""
+
+msgid "grp_edit_event"
+msgstr ""
+
+msgid "grp_edit_learning_progress"
+msgstr ""
+
+msgid "grp_edit_permission"
+msgstr ""
+
+msgid "grp_grade"
+msgstr ""
+
+msgid "grp_join"
+msgstr ""
+
+msgid "grp_leave"
+msgstr ""
+
+msgid "grp_manage_members"
+msgstr ""
+
+msgid "grp_news_add_news"
+msgstr ""
+
+msgid "grp_read"
+msgstr ""
+
+msgid "grp_read_learning_progress"
+msgstr ""
+
+msgid "grp_visible"
+msgstr ""
+
+msgid "grp_write"
+msgstr ""
+
+msgid "grpr_copy"
+msgstr ""
+
+msgid "grpr_delete"
+msgstr ""
+
+msgid "grpr_edit_permission"
+msgstr ""
+
+msgid "grpr_visible"
+msgstr ""
+
+msgid "grpr_write"
+msgstr ""
+
+msgid "grps_edit_permission"
+msgstr ""
+
+msgid "grps_read"
+msgstr ""
+
+msgid "grps_visible"
+msgstr ""
+
+msgid "grps_write"
+msgstr ""
+
+msgid "hlps_edit_permission"
+msgstr ""
+
+msgid "hlps_read"
+msgstr ""
+
+msgid "hlps_visible"
+msgstr ""
+
+msgid "hlps_write"
+msgstr ""
+
+msgid "htlm_copy"
+msgstr ""
+
+msgid "htlm_delete"
+msgstr ""
+
+msgid "htlm_edit_learning_progress"
+msgstr ""
+
+msgid "htlm_edit_permission"
+msgstr ""
+
+msgid "htlm_read"
+msgstr ""
+
+msgid "htlm_read_learning_progress"
+msgstr ""
+
+msgid "htlm_visible"
+msgstr ""
+
+msgid "htlm_write"
+msgstr ""
+
+msgid "iass_amend_grading"
+msgstr ""
+
+msgid "iass_copy"
+msgstr ""
+
+msgid "iass_delete"
+msgstr ""
+
+msgid "iass_edit_learning_progress"
+msgstr ""
+
+msgid "iass_edit_members"
+msgstr ""
+
+msgid "iass_edit_permission"
+msgstr ""
+
+msgid "iass_read"
+msgstr ""
+
+msgid "iass_read_learning_progress"
+msgstr ""
+
+msgid "iass_visible"
+msgstr ""
+
+msgid "iass_write"
+msgstr ""
+
+msgid "il_lti_global_role"
+msgstr ""
+
+msgid "il_sess_participant"
+msgstr ""
+
+msgid "il_sess_status_closed"
+msgstr ""
+
+msgid "ilias_id"
+msgstr ""
+
+msgid "impr_edit_permission"
+msgstr ""
+
+msgid "impr_read"
+msgstr ""
+
+msgid "impr_visible"
+msgstr ""
+
+msgid "impr_write"
+msgstr ""
+
+msgid "info_user_view_changed"
+msgstr ""
+
+msgid "internal_mail"
+msgstr ""
+
+msgid "invite"
+msgstr ""
+
+msgid "itgr_copy"
+msgstr ""
+
+msgid "itgr_delete"
+msgstr ""
+
+msgid "itgr_edit_permission"
+msgstr ""
+
+msgid "itgr_read"
+msgstr ""
+
+msgid "itgr_visible"
+msgstr ""
+
+msgid "itgr_write"
+msgstr ""
+
+msgid "leave"
+msgstr ""
+
+msgid "lhts_edit_permissions"
+msgstr ""
+
+msgid "lhts_read"
+msgstr ""
+
+msgid "lhts_visible"
+msgstr ""
+
+msgid "lhts_write"
+msgstr ""
+
+msgid "lm_copy"
+msgstr ""
+
+msgid "lm_delete"
+msgstr ""
+
+msgid "lm_edit_learning_progress"
+msgstr ""
+
+msgid "lm_edit_permission"
+msgstr ""
+
+msgid "lm_read"
+msgstr ""
+
+msgid "lm_read_learning_progress"
+msgstr ""
+
+msgid "lm_visible"
+msgstr ""
+
+msgid "lm_write"
+msgstr ""
+
+msgid "lngf_edit_permission"
+msgstr ""
+
+msgid "lngf_read"
+msgstr ""
+
+msgid "lngf_visible"
+msgstr ""
+
+msgid "lngf_write"
+msgstr ""
+
+msgid "logs_edit_permission"
+msgstr ""
+
+msgid "logs_read"
+msgstr ""
+
+msgid "logs_visible"
+msgstr ""
+
+msgid "logs_write"
+msgstr ""
+
+msgid "lp_other_users"
+msgstr ""
+
+msgid "lrss_edit_permission"
+msgstr ""
+
+msgid "lrss_read"
+msgstr ""
+
+msgid "lrss_visible"
+msgstr ""
+
+msgid "lrss_write"
+msgstr ""
+
+msgid "lso_copy"
+msgstr ""
+
+msgid "lso_delete"
+msgstr ""
+
+msgid "lso_edit_learning_progress"
+msgstr ""
+
+msgid "lso_edit_permission"
+msgstr ""
+
+msgid "lso_lp_other_users"
+msgstr ""
+
+msgid "lso_manage_members"
+msgstr ""
+
+msgid "lso_participate"
+msgstr ""
+
+msgid "lso_read"
+msgstr ""
+
+msgid "lso_read_learning_progress"
+msgstr ""
+
+msgid "lso_unparticipate"
+msgstr ""
+
+msgid "lso_visible"
+msgstr ""
+
+msgid "lso_write"
+msgstr ""
+
+msgid "lsos_edit_permission"
+msgstr ""
+
+msgid "lsos_read"
+msgstr ""
+
+msgid "lsos_visible"
+msgstr ""
+
+msgid "lsos_write"
+msgstr ""
+
+msgid "lti_copy"
+msgstr ""
+
+msgid "lti_delete"
+msgstr ""
+
+msgid "lti_edit_learning_progress"
+msgstr ""
+
+msgid "lti_edit_permission"
+msgstr ""
+
+msgid "lti_read"
+msgstr ""
+
+msgid "lti_read_learning_progress"
+msgstr ""
+
+msgid "lti_read_outcomes"
+msgstr ""
+
+msgid "lti_visible"
+msgstr ""
+
+msgid "lti_write"
+msgstr ""
+
+msgid "ltis_add_consume_provider"
+msgstr ""
+
+msgid "ltis_edit_permission"
+msgstr ""
+
+msgid "ltis_read"
+msgstr ""
+
+msgid "ltis_release_objects"
+msgstr ""
+
+msgid "ltis_visible"
+msgstr ""
+
+msgid "ltis_write"
+msgstr ""
+
+msgid "mail_internal_mail"
+msgstr ""
+
+msgid "mail_mail_to_global_roles"
+msgstr ""
+
+msgid "mail_read"
+msgstr ""
+
+msgid "mail_smtp_mail"
+msgstr ""
+
+msgid "mail_to_global_roles"
+msgstr ""
+
+msgid "mail_visible"
+msgstr ""
+
+msgid "mail_write"
+msgstr ""
+
+msgid "manage_all_reservations"
+msgstr ""
+
+msgid "manage_comp"
+msgstr ""
+
+msgid "manage_comp_temp"
+msgstr ""
+
+msgid "manage_materials"
+msgstr ""
+
+msgid "manage_own_reservations"
+msgstr ""
+
+msgid "manage_profiles"
+msgstr ""
+
+msgid "mcst_copy"
+msgstr ""
+
+msgid "mcst_delete"
+msgstr ""
+
+msgid "mcst_edit_learning_progress"
+msgstr ""
+
+msgid "mcst_edit_permission"
+msgstr ""
+
+msgid "mcst_read"
+msgstr ""
+
+msgid "mcst_read_learning_progress"
+msgstr ""
+
+msgid "mcst_visible"
+msgstr ""
+
+msgid "mcst_write"
+msgstr ""
+
+msgid "mcts_edit_permission"
+msgstr ""
+
+msgid "mcts_read"
+msgstr ""
+
+msgid "mcts_visible"
+msgstr ""
+
+msgid "mcts_write"
+msgstr ""
+
+msgid "mds_edit_permission"
+msgstr ""
+
+msgid "mds_read"
+msgstr ""
+
+msgid "mds_visible"
+msgstr ""
+
+msgid "mds_write"
+msgstr ""
+
+msgid "mep_copy"
+msgstr ""
+
+msgid "mep_delete"
+msgstr ""
+
+msgid "mep_edit_permission"
+msgstr ""
+
+msgid "mep_read"
+msgstr ""
+
+msgid "mep_visible"
+msgstr ""
+
+msgid "mep_write"
+msgstr ""
+
+msgid "mme_edit_permission"
+msgstr ""
+
+msgid "mme_read"
+msgstr ""
+
+msgid "mme_visible"
+msgstr ""
+
+msgid "mme_write"
+msgstr ""
+
+msgid "mobs_edit_permission"
+msgstr ""
+
+msgid "mobs_read"
+msgstr ""
+
+msgid "mobs_visible"
+msgstr ""
+
+msgid "mobs_write"
+msgstr ""
+
+msgid "moderate"
+msgstr ""
+
+msgid "moderate_frm"
+msgstr ""
+
+msgid "msg_anonymous_cannot_be_assigned"
+msgstr ""
+
+msgid "msg_no_roles_of_type"
+msgstr ""
+
+msgid "news_add_news"
+msgstr ""
+
+msgid "no_corresponding_roles"
+msgstr ""
+
+msgid "nots_edit_permission"
+msgstr ""
+
+msgid "nots_read"
+msgstr ""
+
+msgid "nots_visible"
+msgstr ""
+
+msgid "nots_write"
+msgstr ""
+
+msgid "nwss_edit_permission"
+msgstr ""
+
+msgid "nwss_read"
+msgstr ""
+
+msgid "nwss_visible"
+msgstr ""
+
+msgid "nwss_write"
+msgstr ""
+
+msgid "obj_skee"
+msgstr ""
+
+msgid "org_op_access_results"
+msgstr ""
+
+msgid "org_op_edit_submissions_grades"
+msgstr ""
+
+msgid "org_op_manage_participants"
+msgstr ""
+
+msgid "org_op_score_participants"
+msgstr ""
+
+msgid "org_op_view_certificates"
+msgstr ""
+
+msgid "org_op_view_competences"
+msgstr ""
+
+msgid "org_op_write_learning_progress"
+msgstr ""
+
+msgid "orgu_cat_administrate_users"
+msgstr ""
+
+msgid "orgu_copy"
+msgstr ""
+
+msgid "orgu_delete"
+msgstr ""
+
+msgid "orgu_edit_permission"
+msgstr ""
+
+msgid "orgu_read"
+msgstr ""
+
+msgid "orgu_read_users"
+msgstr ""
+
+msgid "orgu_view_learning_progress"
+msgstr ""
+
+msgid "orgu_view_learning_progress_rec"
+msgstr ""
+
+msgid "orgu_visible"
+msgstr ""
+
+msgid "orgu_write"
+msgstr ""
+
+msgid "otpl_edit_permission"
+msgstr ""
+
+msgid "otpl_read"
+msgstr ""
+
+msgid "otpl_visible"
+msgstr ""
+
+msgid "otpl_write"
+msgstr ""
+
+msgid "perm_class_create"
+msgstr ""
+
+msgid "perm_class_create_desc"
+msgstr ""
+
+msgid "perm_class_object"
+msgstr ""
+
+msgid "perm_class_object_desc"
+msgstr ""
+
+msgid "perm_global_role"
+msgstr ""
+
+msgid "perm_local_role"
+msgstr ""
+
+msgid "perm_local_role_desc"
+msgstr ""
+
+msgid "perm_protected_global_role"
+msgstr ""
+
+msgid "perm_protected_local_role"
+msgstr ""
+
+msgid "perm_role_path_info_created"
+msgstr ""
+
+msgid "perm_role_path_info_inheritance"
+msgstr ""
+
+msgid "perm_use_local_policy"
+msgstr ""
+
+msgid "perm_use_local_policy_desc"
+msgstr ""
+
+msgid "poll_copy"
+msgstr ""
+
+msgid "poll_delete"
+msgstr ""
+
+msgid "poll_edit_permission"
+msgstr ""
+
+msgid "poll_read"
+msgstr ""
+
+msgid "poll_visible"
+msgstr ""
+
+msgid "poll_write"
+msgstr ""
+
+msgid "positions_override_operations"
+msgstr ""
+
+msgid "precondition_not_obligatory_alt"
+msgstr ""
+
+msgid "precondition_num_obligatory"
+msgstr ""
+
+msgid "precondition_num_optional_info"
+msgstr ""
+
+msgid "precondition_number_of_required_materials_bigger_preconditions_number"
+msgstr ""
+
+msgid "precondition_number_of_required_materials_lower_compulsory_items"
+msgstr ""
+
+msgid "precondition_number_of_required_materials_lower_than_one"
+msgstr ""
+
+msgid "precondition_obligatory"
+msgstr ""
+
+msgid "precondition_obligatory_alt"
+msgstr ""
+
+msgid "precondition_obligatory_info"
+msgstr ""
+
+msgid "precondition_obligatory_settings"
+msgstr ""
+
+msgid "precondition_operator_range_err_min_max"
+msgstr ""
+
+msgid "precondition_operator_range_max"
+msgstr ""
+
+msgid "precondition_operator_range_min"
+msgstr ""
+
+msgid "prfa_edit_permission"
+msgstr ""
+
+msgid "prfa_read"
+msgstr ""
+
+msgid "prfa_visible"
+msgstr ""
+
+msgid "prfa_write"
+msgstr ""
+
+msgid "prg_copy"
+msgstr ""
+
+msgid "prg_delete"
+msgstr ""
+
+msgid "prg_edit_permission"
+msgstr ""
+
+msgid "prg_manage_members"
+msgstr ""
+
+msgid "prg_read"
+msgstr ""
+
+msgid "prg_visible"
+msgstr ""
+
+msgid "prg_write"
+msgstr ""
+
+msgid "prgr_copy"
+msgstr ""
+
+msgid "prgr_delete"
+msgstr ""
+
+msgid "prgr_edit_permission"
+msgstr ""
+
+msgid "prgr_visible"
+msgstr ""
+
+msgid "prgr_write"
+msgstr ""
+
+msgid "prgs_edit_permission"
+msgstr ""
+
+msgid "prgs_read"
+msgstr ""
+
+msgid "prgs_visible"
+msgstr ""
+
+msgid "prgs_write"
+msgstr ""
+
+msgid "prss_edit_permission"
+msgstr ""
+
+msgid "prss_read"
+msgstr ""
+
+msgid "prss_visible"
+msgstr ""
+
+msgid "prss_write"
+msgstr ""
+
+msgid "prtt_copy"
+msgstr ""
+
+msgid "prtt_delete"
+msgstr ""
+
+msgid "prtt_edit_permission"
+msgstr ""
+
+msgid "prtt_read"
+msgstr ""
+
+msgid "prtt_visible"
+msgstr ""
+
+msgid "prtt_write"
+msgstr ""
+
+msgid "ps_edit_permission"
+msgstr ""
+
+msgid "ps_export_member_data"
+msgstr ""
+
+msgid "ps_read"
+msgstr ""
+
+msgid "ps_visible"
+msgstr ""
+
+msgid "ps_write"
+msgstr ""
+
+msgid "push_desktop_items"
+msgstr ""
+
+msgid "qpl_copy"
+msgstr ""
+
+msgid "qpl_delete"
+msgstr ""
+
+msgid "qpl_edit_permission"
+msgstr ""
+
+msgid "qpl_read"
+msgstr ""
+
+msgid "qpl_visible"
+msgstr ""
+
+msgid "qpl_write"
+msgstr ""
+
+msgid "rbac_add_new_local_role"
+msgstr ""
+
+msgid "rbac_add_recommended_content"
+msgstr ""
+
+msgid "rbac_add_recommended_content_info"
+msgstr ""
+
+msgid "rbac_admin_permissions"
+msgstr ""
+
+msgid "rbac_auto_global"
+msgstr ""
+
+msgid "rbac_auto_local"
+msgstr ""
+
+msgid "rbac_auto_rolt"
+msgstr ""
+
+msgid "rbac_back_to_overview"
+msgstr ""
+
+msgid "rbac_cant_import_role_wrong_type"
+msgstr ""
+
+msgid "rbac_change_existing_confirm_tbl"
+msgstr ""
+
+msgid "rbac_change_existing_objects_desc_new_role"
+msgstr ""
+
+msgid "rbac_changes"
+msgstr ""
+
+msgid "rbac_choose_copy_targets"
+msgstr ""
+
+msgid "rbac_condition_delete_sure"
+msgstr ""
+
+msgid "rbac_context_global"
+msgstr ""
+
+msgid "rbac_copy_behaviour"
+msgstr ""
+
+msgid "rbac_copy_behaviour_info"
+msgstr ""
+
+msgid "rbac_copy_finished"
+msgstr ""
+
+msgid "rbac_copy_multi_targets"
+msgstr ""
+
+msgid "rbac_copy_no_targets"
+msgstr ""
+
+msgid "rbac_copy_role"
+msgstr ""
+
+msgid "rbac_copy_role_add_perm"
+msgstr ""
+
+msgid "rbac_copy_role_copy"
+msgstr ""
+
+msgid "rbac_copy_role_remove_perm"
+msgstr ""
+
+msgid "rbac_create_bibl"
+msgstr ""
+
+msgid "rbac_create_blog"
+msgstr ""
+
+msgid "rbac_create_book"
+msgstr ""
+
+msgid "rbac_create_cat"
+msgstr ""
+
+msgid "rbac_create_catr"
+msgstr ""
+
+msgid "rbac_create_chtr"
+msgstr ""
+
+msgid "rbac_create_cmix"
+msgstr ""
+
+msgid "rbac_create_copa"
+msgstr ""
+
+msgid "rbac_create_crs"
+msgstr ""
+
+msgid "rbac_create_crsr"
+msgstr ""
+
+msgid "rbac_create_dcl"
+msgstr ""
+
+msgid "rbac_create_exc"
+msgstr ""
+
+msgid "rbac_create_file"
+msgstr ""
+
+msgid "rbac_create_fold"
+msgstr ""
+
+msgid "rbac_create_frm"
+msgstr ""
+
+msgid "rbac_create_glo"
+msgstr ""
+
+msgid "rbac_create_grp"
+msgstr ""
+
+msgid "rbac_create_grpr"
+msgstr ""
+
+msgid "rbac_create_htlm"
+msgstr ""
+
+msgid "rbac_create_iass"
+msgstr ""
+
+msgid "rbac_create_itgr"
+msgstr ""
+
+msgid "rbac_create_lm"
+msgstr ""
+
+msgid "rbac_create_lso"
+msgstr ""
+
+msgid "rbac_create_lti"
+msgstr ""
+
+msgid "rbac_create_mcst"
+msgstr ""
+
+msgid "rbac_create_mep"
+msgstr ""
+
+msgid "rbac_create_orgu"
+msgstr ""
+
+msgid "rbac_create_poll"
+msgstr ""
+
+msgid "rbac_create_prg"
+msgstr ""
+
+msgid "rbac_create_prgr"
+msgstr ""
+
+msgid "rbac_create_prtt"
+msgstr ""
+
+msgid "rbac_create_qpl"
+msgstr ""
+
+msgid "rbac_create_rcrs"
+msgstr ""
+
+msgid "rbac_create_role"
+msgstr ""
+
+msgid "rbac_create_rolt"
+msgstr ""
+
+msgid "rbac_create_sahs"
+msgstr ""
+
+msgid "rbac_create_sess"
+msgstr ""
+
+msgid "rbac_create_skee"
+msgstr ""
+
+msgid "rbac_create_spl"
+msgstr ""
+
+msgid "rbac_create_svy"
+msgstr ""
+
+msgid "rbac_create_tst"
+msgstr ""
+
+msgid "rbac_create_usr"
+msgstr ""
+
+msgid "rbac_create_webr"
+msgstr ""
+
+msgid "rbac_create_wiki"
+msgstr ""
+
+msgid "rbac_delete_local_policies"
+msgstr ""
+
+msgid "rbac_delete_local_policies_info"
+msgstr ""
+
+msgid "rbac_delete_role"
+msgstr ""
+
+msgid "rbac_edit_condition"
+msgstr ""
+
+msgid "rbac_form_copy_roles_adjust_button"
+msgstr ""
+
+msgid "rbac_form_copy_roles_adjust_type"
+msgstr ""
+
+msgid "rbac_form_copy_roles_adjust_type_add"
+msgstr ""
+
+msgid "rbac_form_copy_roles_adjust_type_add_info"
+msgstr ""
+
+msgid "rbac_form_copy_roles_adjust_type_clone"
+msgstr ""
+
+msgid "rbac_form_copy_roles_adjust_type_clone_info"
+msgstr ""
+
+msgid "rbac_form_copy_roles_adjust_type_remove"
+msgstr ""
+
+msgid "rbac_form_copy_roles_adjust_type_remove_info"
+msgstr ""
+
+msgid "rbac_form_copy_roles_ce_add_no"
+msgstr ""
+
+msgid "rbac_form_copy_roles_ce_add_no_info"
+msgstr ""
+
+msgid "rbac_form_copy_roles_ce_add_yes"
+msgstr ""
+
+msgid "rbac_form_copy_roles_ce_add_yes_info"
+msgstr ""
+
+msgid "rbac_form_copy_roles_ce_clone_no"
+msgstr ""
+
+msgid "rbac_form_copy_roles_ce_clone_no_info"
+msgstr ""
+
+msgid "rbac_form_copy_roles_ce_clone_yes"
+msgstr ""
+
+msgid "rbac_form_copy_roles_ce_clone_yes_info"
+msgstr ""
+
+msgid "rbac_form_copy_roles_ce_remove_no"
+msgstr ""
+
+msgid "rbac_form_copy_roles_ce_remove_no_info"
+msgstr ""
+
+msgid "rbac_form_copy_roles_ce_remove_yes"
+msgstr ""
+
+msgid "rbac_form_copy_roles_ce_remove_yes_info"
+msgstr ""
+
+msgid "rbac_global_rolt"
+msgstr ""
+
+msgid "rbac_import_role"
+msgstr ""
+
+msgid "rbac_info_only_position_access"
+msgstr ""
+
+msgid "rbac_keep_local_policies"
+msgstr ""
+
+msgid "rbac_keep_local_policies_info"
+msgstr ""
+
+msgid "rbac_local_policies"
+msgstr ""
+
+msgid "rbac_local_policy"
+msgstr ""
+
+msgid "rbac_log"
+msgstr ""
+
+msgid "rbac_log_change_owner"
+msgstr ""
+
+msgid "rbac_log_changed_owner"
+msgstr ""
+
+msgid "rbac_log_copy_object"
+msgstr ""
+
+msgid "rbac_log_create_object"
+msgstr ""
+
+msgid "rbac_log_edit_permissions"
+msgstr ""
+
+msgid "rbac_log_edit_template"
+msgstr ""
+
+msgid "rbac_log_edit_template_existing"
+msgstr ""
+
+msgid "rbac_log_inheritance_add"
+msgstr ""
+
+msgid "rbac_log_inheritance_rmv"
+msgstr ""
+
+msgid "rbac_log_link_object"
+msgstr ""
+
+msgid "rbac_log_move_object"
+msgstr ""
+
+msgid "rbac_log_operation_add"
+msgstr ""
+
+msgid "rbac_log_operation_rmv"
+msgstr ""
+
+msgid "rbac_log_source_object"
+msgstr ""
+
+msgid "rbac_msg_user_already_assigned"
+msgstr ""
+
+msgid "rbac_not_change_existing_objects"
+msgstr ""
+
+msgid "rbac_permissions"
+msgstr ""
+
+msgid "rbac_precondition_condition"
+msgstr ""
+
+msgid "rbac_precondition_hide"
+msgstr ""
+
+msgid "rbac_precondition_hide_info"
+msgstr ""
+
+msgid "rbac_precondition_minimum_optional"
+msgstr ""
+
+msgid "rbac_precondition_mode"
+msgstr ""
+
+msgid "rbac_precondition_mode_all"
+msgstr ""
+
+msgid "rbac_precondition_mode_all_info"
+msgstr ""
+
+msgid "rbac_precondition_mode_subset"
+msgstr ""
+
+msgid "rbac_precondition_mode_subset_info"
+msgstr ""
+
+msgid "rbac_precondition_save_obligatory"
+msgstr ""
+
+msgid "rbac_precondition_source"
+msgstr ""
+
+msgid "rbac_precondition_target"
+msgstr ""
+
+msgid "rbac_repository_permissions"
+msgstr ""
+
+msgid "rbac_role_delete_qst"
+msgstr ""
+
+msgid "rbac_role_delete_self"
+msgstr ""
+
+msgid "rbac_role_exists_alert"
+msgstr ""
+
+msgid "rbac_role_imported"
+msgstr ""
+
+msgid "rbac_role_rights_copy"
+msgstr ""
+
+msgid "rbac_role_rights_copy_change_existing"
+msgstr ""
+
+msgid "rbac_role_rights_copy_empty"
+msgstr ""
+
+msgid "rbac_role_selection"
+msgstr ""
+
+msgid "rbac_role_title"
+msgstr ""
+
+msgid "rbac_select_copy_targets"
+msgstr ""
+
+msgid "rbac_select_roles"
+msgstr ""
+
+msgid "rbac_ud_global"
+msgstr ""
+
+msgid "rbac_ud_local"
+msgstr ""
+
+msgid "rbac_ud_rolt"
+msgstr ""
+
+msgid "rbac_unprotected_delete_local_policies_info"
+msgstr ""
+
+msgid "rbac_unprotected_keep_local_policies_info"
+msgstr ""
+
+msgid "rbac_view_content"
+msgstr ""
+
+msgid "rcat_delete"
+msgstr ""
+
+msgid "rcat_edit_permission"
+msgstr ""
+
+msgid "rcat_read"
+msgstr ""
+
+msgid "rcat_visible"
+msgstr ""
+
+msgid "rcat_write"
+msgstr ""
+
+msgid "rcrs_delete"
+msgstr ""
+
+msgid "rcrs_edit_permission"
+msgstr ""
+
+msgid "rcrs_read"
+msgstr ""
+
+msgid "rcrs_visible"
+msgstr ""
+
+msgid "rcrs_write"
+msgstr ""
+
+msgid "read_all_accounts"
+msgstr ""
+
+msgid "read_comp"
+msgstr ""
+
+msgid "read_learning_progress"
+msgstr ""
+
+msgid "read_outcomes"
+msgstr ""
+
+msgid "read_profiles"
+msgstr ""
+
+msgid "read_results"
+msgstr ""
+
+msgid "read_users"
+msgstr ""
+
+msgid "recf_edit_permission"
+msgstr ""
+
+msgid "recf_read"
+msgstr ""
+
+msgid "recf_visible"
+msgstr ""
+
+msgid "recf_write"
+msgstr ""
+
+msgid "redact"
+msgstr ""
+
+msgid "release_objects"
+msgstr ""
+
+msgid "reps_edit_permission"
+msgstr ""
+
+msgid "reps_read"
+msgstr ""
+
+msgid "reps_visible"
+msgstr ""
+
+msgid "reps_write"
+msgstr ""
+
+msgid "rfil_delete"
+msgstr ""
+
+msgid "rfil_edit_permission"
+msgstr ""
+
+msgid "rfil_read"
+msgstr ""
+
+msgid "rfil_visible"
+msgstr ""
+
+msgid "rfil_write"
+msgstr ""
+
+msgid "rglo_delete"
+msgstr ""
+
+msgid "rglo_edit_permission"
+msgstr ""
+
+msgid "rglo_read"
+msgstr ""
+
+msgid "rglo_visible"
+msgstr ""
+
+msgid "rglo_write"
+msgstr ""
+
+msgid "rgrp_delete"
+msgstr ""
+
+msgid "rgrp_edit_permission"
+msgstr ""
+
+msgid "rgrp_read"
+msgstr ""
+
+msgid "rgrp_visible"
+msgstr ""
+
+msgid "rgrp_write"
+msgstr ""
+
+msgid "rlm_delete"
+msgstr ""
+
+msgid "rlm_edit_permission"
+msgstr ""
+
+msgid "rlm_read"
+msgstr ""
+
+msgid "rlm_visible"
+msgstr ""
+
+msgid "rlm_write"
+msgstr ""
+
+msgid "role_block_role"
+msgstr ""
+
+msgid "role_block_role_desc"
+msgstr ""
+
+msgid "role_blocked"
+msgstr ""
+
+msgid "role_confirm_block_role"
+msgstr ""
+
+msgid "role_confirm_block_role_header"
+msgstr ""
+
+msgid "role_confirm_block_role_info"
+msgstr ""
+
+msgid "role_confirm_unblock_role_info"
+msgstr ""
+
+msgid "role_unblocked"
+msgstr ""
+
+msgid "root_edit_permission"
+msgstr ""
+
+msgid "root_read"
+msgstr ""
+
+msgid "root_visible"
+msgstr ""
+
+msgid "root_write"
+msgstr ""
+
+msgid "rtst_delete"
+msgstr ""
+
+msgid "rtst_edit_permission"
+msgstr ""
+
+msgid "rtst_read"
+msgstr ""
+
+msgid "rtst_visible"
+msgstr ""
+
+msgid "rtst_write"
+msgstr ""
+
+msgid "rwik_delete"
+msgstr ""
+
+msgid "rwik_edit_permission"
+msgstr ""
+
+msgid "rwik_read"
+msgstr ""
+
+msgid "rwik_visible"
+msgstr ""
+
+msgid "rwik_write"
+msgstr ""
+
+msgid "sahs_copy"
+msgstr ""
+
+msgid "sahs_delete"
+msgstr ""
+
+msgid "sahs_edit_learning_progress"
+msgstr ""
+
+msgid "sahs_edit_permission"
+msgstr ""
+
+msgid "sahs_read"
+msgstr ""
+
+msgid "sahs_read_learning_progress"
+msgstr ""
+
+msgid "sahs_visible"
+msgstr ""
+
+msgid "sahs_write"
+msgstr ""
+
+msgid "seas_edit_permission"
+msgstr ""
+
+msgid "seas_read"
+msgstr ""
+
+msgid "seas_search"
+msgstr ""
+
+msgid "seas_visible"
+msgstr ""
+
+msgid "seas_write"
+msgstr ""
+
+msgid "sess_copy"
+msgstr ""
+
+msgid "sess_delete"
+msgstr ""
+
+msgid "sess_edit_event"
+msgstr ""
+
+msgid "sess_edit_learning_progress"
+msgstr ""
+
+msgid "sess_edit_metadata"
+msgstr ""
+
+msgid "sess_edit_permission"
+msgstr ""
+
+msgid "sess_manage_materials"
+msgstr ""
+
+msgid "sess_manage_members"
+msgstr ""
+
+msgid "sess_read"
+msgstr ""
+
+msgid "sess_read_learning_progress"
+msgstr ""
+
+msgid "sess_visible"
+msgstr ""
+
+msgid "sess_write"
+msgstr ""
+
+msgid "skee_copy"
+msgstr ""
+
+msgid "skee_delete"
+msgstr ""
+
+msgid "skee_edit_permission"
+msgstr ""
+
+msgid "skee_manage_comp"
+msgstr ""
+
+msgid "skee_manage_comp_temp"
+msgstr ""
+
+msgid "skee_manage_profiles"
+msgstr ""
+
+msgid "skee_read"
+msgstr ""
+
+msgid "skee_read_comp"
+msgstr ""
+
+msgid "skee_read_profiles"
+msgstr ""
+
+msgid "skee_visible"
+msgstr ""
+
+msgid "skee_write"
+msgstr ""
+
+msgid "skmg_edit_permission"
+msgstr ""
+
+msgid "skmg_read"
+msgstr ""
+
+msgid "skmg_visible"
+msgstr ""
+
+msgid "skmg_write"
+msgstr ""
+
+msgid "smtp_mail"
+msgstr ""
+
+msgid "spl_copy"
+msgstr ""
+
+msgid "spl_delete"
+msgstr ""
+
+msgid "spl_edit_permission"
+msgstr ""
+
+msgid "spl_read"
+msgstr ""
+
+msgid "spl_visible"
+msgstr ""
+
+msgid "spl_write"
+msgstr ""
+
+msgid "statistics_read"
+msgstr ""
+
+msgid "stus_edit_permission"
+msgstr ""
+
+msgid "stus_read"
+msgstr ""
+
+msgid "stus_write"
+msgstr ""
+
+msgid "sty_write_content"
+msgstr ""
+
+msgid "sty_write_page_layout"
+msgstr ""
+
+msgid "sty_write_system"
+msgstr ""
+
+msgid "stys_edit_permission"
+msgstr ""
+
+msgid "stys_read"
+msgstr ""
+
+msgid "stys_sty_write_content"
+msgstr ""
+
+msgid "stys_sty_write_custom"
+msgstr ""
+
+msgid "stys_sty_write_page_layout"
+msgstr ""
+
+msgid "stys_sty_write_system"
+msgstr ""
+
+msgid "stys_visible"
+msgstr ""
+
+msgid "svy_copy"
+msgstr ""
+
+msgid "svy_delete"
+msgstr ""
+
+msgid "svy_edit_learning_progress"
+msgstr ""
+
+msgid "svy_edit_permission"
+msgstr ""
+
+msgid "svy_invite"
+msgstr ""
+
+msgid "svy_read"
+msgstr ""
+
+msgid "svy_read_learning_progress"
+msgstr ""
+
+msgid "svy_read_results"
+msgstr ""
+
+msgid "svy_visible"
+msgstr ""
+
+msgid "svy_write"
+msgstr ""
+
+msgid "svyf_edit_permission"
+msgstr ""
+
+msgid "svyf_read"
+msgstr ""
+
+msgid "svyf_visible"
+msgstr ""
+
+msgid "svyf_write"
+msgstr ""
+
+msgid "sysc_edit_permission"
+msgstr ""
+
+msgid "sysc_read"
+msgstr ""
+
+msgid "sysc_visible"
+msgstr ""
+
+msgid "sysc_write"
+msgstr ""
+
+msgid "tags_edit_permission"
+msgstr ""
+
+msgid "tags_read"
+msgstr ""
+
+msgid "tags_visible"
+msgstr ""
+
+msgid "tags_write"
+msgstr ""
+
+msgid "tala_edit_permission"
+msgstr ""
+
+msgid "tala_read"
+msgstr ""
+
+msgid "tala_visible"
+msgstr ""
+
+msgid "tala_write"
+msgstr ""
+
+msgid "taxs_edit_permission"
+msgstr ""
+
+msgid "taxs_read"
+msgstr ""
+
+msgid "taxs_visible"
+msgstr ""
+
+msgid "taxs_write"
+msgstr ""
+
+msgid "tos_edit_permission"
+msgstr ""
+
+msgid "tos_read"
+msgstr ""
+
+msgid "tos_visible"
+msgstr ""
+
+msgid "tos_write"
+msgstr ""
+
+msgid "trac_delete"
+msgstr ""
+
+msgid "trac_edit_permission"
+msgstr ""
+
+msgid "trac_lp_other_users"
+msgstr ""
+
+msgid "trac_read"
+msgstr ""
+
+msgid "trac_visible"
+msgstr ""
+
+msgid "trac_write"
+msgstr ""
+
+msgid "tst_copy"
+msgstr ""
+
+msgid "tst_delete"
+msgstr ""
+
+msgid "tst_edit_learning_progress"
+msgstr ""
+
+msgid "tst_edit_permission"
+msgstr ""
+
+msgid "tst_read"
+msgstr ""
+
+msgid "tst_read_learning_progress"
+msgstr ""
+
+msgid "tst_tst_history_read"
+msgstr ""
+
+msgid "tst_tst_results"
+msgstr ""
+
+msgid "tst_visible"
+msgstr ""
+
+msgid "tst_write"
+msgstr ""
+
+msgid "upload_blacklisted_files"
+msgstr ""
+
+msgid "usrf_delete"
+msgstr ""
+
+msgid "usrf_edit_permission"
+msgstr ""
+
+msgid "usrf_edit_roleassignment"
+msgstr ""
+
+msgid "usrf_push_desktop_items"
+msgstr ""
+
+msgid "usrf_read"
+msgstr ""
+
+msgid "usrf_read_all_accounts"
+msgstr ""
+
+msgid "usrf_read_users"
+msgstr ""
+
+msgid "usrf_visible"
+msgstr ""
+
+msgid "usrf_write"
+msgstr ""
+
+msgid "wbdv_edit_permission"
+msgstr ""
+
+msgid "wbdv_read"
+msgstr ""
+
+msgid "wbdv_visible"
+msgstr ""
+
+msgid "wbdv_write"
+msgstr ""
+
+msgid "wbrs_edit_permission"
+msgstr ""
+
+msgid "wbrs_read"
+msgstr ""
+
+msgid "wbrs_visible"
+msgstr ""
+
+msgid "wbrs_write"
+msgstr ""
+
+msgid "webr_copy"
+msgstr ""
+
+msgid "webr_delete"
+msgstr ""
+
+msgid "webr_edit_permission"
+msgstr ""
+
+msgid "webr_read"
+msgstr ""
+
+msgid "webr_visible"
+msgstr ""
+
+msgid "webr_write"
+msgstr ""
+
+msgid "wiki_activate_wiki_protection"
+msgstr ""
+
+msgid "wiki_add_pages"
+msgstr ""
+
+msgid "wiki_copy"
+msgstr ""
+
+msgid "wiki_delete"
+msgstr ""
+
+msgid "wiki_delete_wiki_pages"
+msgstr ""
+
+msgid "wiki_edit_content"
+msgstr ""
+
+msgid "wiki_edit_page_meta"
+msgstr ""
+
+msgid "wiki_edit_permission"
+msgstr ""
+
+msgid "wiki_edit_wiki_navigation"
+msgstr ""
+
+msgid "wiki_html_export"
+msgstr ""
+
+msgid "wiki_read"
+msgstr ""
+
+msgid "wiki_statistics_read"
+msgstr ""
+
+msgid "wiki_visible"
+msgstr ""
+
+msgid "wiki_wiki_html_export"
+msgstr ""
+
+msgid "wiki_write"
+msgstr ""
+
+msgid "wiks_edit_permission"
+msgstr ""
+
+msgid "wiks_read"
+msgstr ""
+
+msgid "wiks_visible"
+msgstr ""
+
+msgid "wiks_write"
+msgstr ""
+
+msgid "write"
+msgstr ""

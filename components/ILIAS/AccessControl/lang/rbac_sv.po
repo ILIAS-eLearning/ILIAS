@@ -1,0 +1,2874 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: rbac\n"
+
+msgid "accs_edit_permission"
+msgstr "Ändra rättighetsinställningar för tillgänglighetsinställningar"
+
+msgid "accs_read"
+msgstr "Settings Tillgänglighet i Administration kan läsas"
+
+msgid "accs_visible"
+msgstr "Accessibility-inställningar i Administration är synliga"
+
+msgid "accs_write"
+msgstr "Settings Tillgänglighet i Administration kan redigeras"
+
+msgid "activate_wiki_protection"
+msgstr " Aktivera skrivskydd"
+
+msgid "active_preconditions"
+msgstr "Definierade förutsättningar"
+
+msgid "add_consultation_hours"
+msgstr "Skapa möten för konsultation"
+
+msgid "add_consume_provider"
+msgstr "Lägg till dina egna inställningar för LTI-leverantörer"
+
+#, fuzzy
+msgid "add_pages"
+msgstr "Add Pages"
+
+msgid "add_reply"
+msgstr "Skapa svar"
+
+msgid "add_thread"
+msgstr "Skapa ämne"
+
+msgid "adm_edit_permission"
+msgstr "Ändra rättighetsinställningar för de allmänna inställningarna för administrationen"
+
+msgid "adm_read"
+msgstr "Generella inställningar för administrationen kan läsas"
+
+msgid "adm_visible"
+msgstr "Generella inställningar är synliga"
+
+msgid "adm_write"
+msgstr "Generella inställningar i Administration kan redigeras"
+
+msgid "adn_edit_permission"
+msgstr "Ändra rättighetsinställningar för administration av meddelanden"
+
+msgid "adn_read"
+msgstr "Läs tillgång till administration för tillkännagivanden"
+
+msgid "adn_visible"
+msgstr "Administrationen för tillkännagivanden är synlig."
+
+msgid "adn_write"
+msgstr "Skapa och hantera tillkännagivanden"
+
+msgid "adopt_perm_from_template"
+msgstr "Inställningar för kopieringsrätt"
+
+msgid "adve_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "adve_read"
+msgstr "Åtkomst till redigeringsinställningarna"
+
+msgid "adve_visible"
+msgstr "Redaktörens inställningar är synliga"
+
+msgid "adve_write"
+msgstr "Redigera inställningar för redigeraren"
+
+msgid "amend_grading"
+msgstr "Ändra slutgiltigt betyg"
+
+msgid "assf_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "assf_read"
+msgstr "Tillgång till testet och administration av bedömningen"
+
+msgid "assf_visible"
+msgstr "Test- och utvärderingsadministration är synlig"
+
+msgid "assf_write"
+msgstr "Bearbetning av testet och administration av bedömningen"
+
+msgid "auth_edit_permission"
+msgstr "Ändra rättighetsinställningar för administrationen"
+
+msgid "auth_read"
+msgstr "Läsa åtkomst till administration för autentisering / ny inloggning"
+
+msgid "auth_visible"
+msgstr "Administration för autentisering / ny inloggning är synlig"
+
+msgid "auth_write"
+msgstr "Redigera inställningar för autentisering / ny inloggning"
+
+msgid "awra_edit_permission"
+msgstr "Ändra rättighetsinställningar för hantering av visningen \"Vem är online?\""
+
+msgid "awra_read"
+msgstr "Läs tillgång till hantering av \"Vem är online?\"-displayen"
+
+msgid "awra_visible"
+msgstr "Hanteringen av \"Vem är online?\"-displayen är synlig"
+
+msgid "awra_write"
+msgstr "Write access till hantering av displayen \"Vem är online?\""
+
+msgid "bdga_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "bdga_read"
+msgstr "Läs Badgehantering"
+
+msgid "bdga_visible"
+msgstr "Badge-hanteringen är synlig"
+
+msgid "bdga_write"
+msgstr "Redigera hantering av badges"
+
+msgid "bibl_copy"
+msgstr "Kopiera litteraturlista"
+
+msgid "bibl_delete"
+msgstr "Radera litteraturlista"
+
+msgid "bibl_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "bibl_read"
+msgstr "Läs litteraturlistan"
+
+msgid "bibl_visible"
+msgstr "Litteraturlistan är synlig"
+
+msgid "bibl_write"
+msgstr "Redigera litteraturlistan"
+
+msgid "bibs_copy"
+msgstr "Kopiera litteraturlistor"
+
+msgid "bibs_delete"
+msgstr "Ta bort post från biblioteket"
+
+msgid "bibs_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "bibs_read"
+msgstr "Läs Litteratur Lista Administration"
+
+msgid "bibs_visible"
+msgstr "Litteraturlistans administration är synlig"
+
+msgid "bibs_write"
+msgstr "Redigera inställningar och bibliotek"
+
+msgid "blga_edit_permission"
+msgstr "Ändra rättighetsinställningar i Administration"
+
+msgid "blga_read"
+msgstr "Läs tillgång till bloggadministration"
+
+msgid "blga_visible"
+msgstr "Bloggadministration är synlig"
+
+msgid "blga_write"
+msgstr "Redigera inställningar i bloggadministrationen"
+
+msgid "blog_contribute"
+msgstr "User kan lägga till bidrag"
+
+msgid "blog_copy"
+msgstr "Copy blogg"
+
+msgid "blog_delete"
+msgstr "Radera blogg"
+
+msgid "blog_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "blog_read"
+msgstr "Läs blogg"
+
+msgid "blog_redact"
+msgstr "Användaren kan också redigera bidrag från andra bidragsgivare"
+
+msgid "blog_visible"
+msgstr "Bloggen är synlig"
+
+msgid "blog_write"
+msgstr "Redigera blogg"
+
+msgid "book_copy"
+msgstr "Kopiera bokningspool"
+
+msgid "book_delete"
+msgstr "Radera eller flytta bokningspool"
+
+msgid "book_edit_permission"
+msgstr "Ändra rättighetsinställningar för bokning av pool"
+
+#, fuzzy
+msgid "book_manage_all_reservations"
+msgstr "User can manage all reservations"
+
+#, fuzzy
+msgid "book_manage_own_reservations"
+msgstr "User can manage own reservations"
+
+msgid "book_read"
+msgstr "Genomföra bokningar i bokningspoolen"
+
+msgid "book_visible"
+msgstr "Bokningspoolen är synlig"
+
+msgid "book_write"
+msgstr "Skapa bokningsobjekt och redigera inställningar för bokningspoolen"
+
+msgid "cadm_edit_permission"
+msgstr "Ändra administrationens rättighetsinställningar för användarkontakter"
+
+msgid "cadm_read"
+msgstr "Läs administration för användarkontakter"
+
+msgid "cadm_visible"
+msgstr "Administration för användarkontakter är synlig"
+
+msgid "cadm_write"
+msgstr "Redigera administration för användarkontakter"
+
+msgid "cals_add_consultation_hours"
+msgstr "Användaren kan skapa och redigera konsultationstider i kalendern"
+
+msgid "cals_edit_event"
+msgstr "Skapa och hantera offentliga kalendrar och möten i ILIAS"
+
+msgid "cals_edit_permission"
+msgstr "Ändra administrationens inställning av rättigheter"
+
+msgid "cals_read"
+msgstr "Läsa åtkomst till inställningar för kalenderadministration"
+
+msgid "cals_visible"
+msgstr "Kalenderadministration är synlig"
+
+msgid "cals_write"
+msgstr "Redigera inställningar för kalenderadministration"
+
+msgid "cat_administrate_users"
+msgstr "Hantera lokala inloggningskonton"
+
+msgid "cat_cat_administrate_users"
+msgstr "Lokala inloggningskonton kan skapas och hanteras"
+
+msgid "cat_copy"
+msgstr "Kopieringskategori"
+
+msgid "cat_delete"
+msgstr "Ta bort eller flytta kategori"
+
+msgid "cat_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "cat_read"
+msgstr "Sidans innehåll i kategorin kan läsas"
+
+msgid "cat_read_users"
+msgstr "Lokala inloggningskonton i denna kategori kan visas"
+
+msgid "cat_visible"
+msgstr "Kategorin är synlig"
+
+msgid "cat_write"
+msgstr "Redigera inställningar för kategorier och hantera innehåll"
+
+msgid "catr_copy"
+msgstr "Kopiera länkar till kategorier"
+
+msgid "catr_delete"
+msgstr "Flytta eller ta bort kategorilänkar"
+
+msgid "catr_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "catr_visible"
+msgstr "Kategorilänkar är synliga och kan användas"
+
+msgid "catr_write"
+msgstr "Redigera inställningar för kategorilänk"
+
+msgid "cert_edit_permission"
+msgstr "Ändra rättighetsinställningar i Administration"
+
+msgid "cert_read"
+msgstr "Läsbehörighet till certifikatadministrationen"
+
+msgid "cert_visible"
+msgstr "Certifikathanteringen är synlig"
+
+msgid "cert_write"
+msgstr "Redigera inställningar för certifikathantering"
+
+msgid "change_existing_object_type_desc"
+msgstr "Om aktiverat, ändras även rättigheterna för redan existerande objekt av denna typ. I annat fall gäller ändringen av rättigheter endast för objekt som skapas i framtiden."
+
+msgid "change_existing_objects"
+msgstr "Ändra befintliga objekt"
+
+msgid "change_existing_objects_desc"
+msgstr "Om den är aktiverad överförs de ändrade rättighetsinställningarna för denna roll också till alla befintliga objekt. För att endast justera rättigheterna för enskilda objekttyper, klicka på respektive kryssruta på höger sida."
+
+msgid "change_existing_prefix"
+msgstr "Redan tillgänglig"
+
+#, fuzzy
+msgid "change_existing_prefix_single"
+msgstr "Change"
+
+msgid "change_existing_suffix"
+msgstr "förändring"
+
+msgid "change_existing_suffix_single"
+msgstr "Anpassa"
+
+msgid "change_presentation"
+msgstr "Ändra presentation"
+
+msgid "chtr_delete"
+msgstr "Radera eller flytta Chat"
+
+msgid "chtr_edit_permission"
+msgstr "Ändra rättighetsinställningar för chattrum"
+
+msgid "chtr_moderate"
+msgstr "Moderat diskussion i chattrum"
+
+msgid "chtr_read"
+msgstr "Delta i diskussionen i chattrummet"
+
+msgid "chtr_visible"
+msgstr "Chatroom är synligt"
+
+msgid "chtr_write"
+msgstr "Redigera inställningar för chattrum och blockera användare"
+
+#, fuzzy
+msgid "cmis_edit_permission"
+msgstr "User can change permission settings of xAPI/cmi5 administration."
+
+msgid "cmis_read"
+msgstr "Läs tillgång till administration för xAPI/cmi5"
+
+msgid "cmis_visible"
+msgstr "Administrationen för xAPI/cmi5 är synlig."
+
+msgid "cmis_write"
+msgstr "Ändra inställningar i Administration för xAPI/cmi5"
+
+msgid "cmix_copy"
+msgstr "Användaren kan kopiera xAPI/cmi5-objekt"
+
+msgid "cmix_delete"
+msgstr "User kan flytta eller ta bort xAPI/cmi5-objekt"
+
+msgid "cmix_edit_learning_progress"
+msgstr "Användaren kan redigera inställningarna för inlärningsframsteg"
+
+msgid "cmix_edit_permission"
+msgstr "Användaren kan ändra behörighetsinställningar"
+
+msgid "cmix_read"
+msgstr "Användaren kan se xAPI/cmi5-objekt"
+
+msgid "cmix_read_learning_progress"
+msgstr "Användaren kan se andra användares inlärningsframsteg"
+
+msgid "cmix_read_outcomes"
+msgstr "Användaren kan se andra användares erfarenheter och ranking"
+
+msgid "cmix_visible"
+msgstr "xAPI/cmi5 objektet är synligt"
+
+msgid "cmix_write"
+msgstr "Användaren kan redigera inställningarna för xAPI/cmi5-objektet"
+
+msgid "cmps_edit_permission"
+msgstr "Ändra inställning till rättigheter"
+
+msgid "cmps_read"
+msgstr "Läsa åtkomst till administration för plugins, moduler och tjänster"
+
+msgid "cmps_visible"
+msgstr "Administration för plugins, moduler och tjänster är synlig"
+
+msgid "cmps_write"
+msgstr "Redigera inställningar för plugins, moduler och tjänster"
+
+msgid "coms_edit_permissions"
+msgstr "Ändra inställningar för administrationsrättigheter för kommentarer"
+
+msgid "coms_read"
+msgstr "Läs tillgång till administration för kommentarer"
+
+msgid "coms_visible"
+msgstr "Administrationen för kommentarer är synlig."
+
+msgid "coms_write"
+msgstr "Ändra inställningar i administrationen för kommentarer"
+
+msgid "condition_failed"
+msgstr "Misslyckad"
+
+msgid "condition_learning_progress"
+msgstr " Enligt framsteg i inlärningen"
+
+#, fuzzy
+msgid "condition_result_range_percentage"
+msgstr "Result Range"
+
+msgid "contribute"
+msgstr "Skapa inlägg"
+
+msgid "copa_copy"
+msgstr "Kopiera innehållssida"
+
+msgid "copa_delete"
+msgstr "Ta bort innehållssida"
+
+msgid "copa_edit_learning_progress"
+msgstr "Användaren kan redigera inställningar för inlärningsframsteg"
+
+msgid "copa_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "copa_read"
+msgstr "Läs innehållssidan"
+
+msgid "copa_read_learning_progress"
+msgstr "Användaren kan se andra användares inlärningsframsteg"
+
+msgid "copa_visible"
+msgstr "Innehållssidan är synlig"
+
+msgid "copa_write"
+msgstr "Redigera innehållssida"
+
+msgid "cpad_edit_permissions"
+msgstr "Ändra rättighetsinställningar för administrationen av innehållssidor"
+
+msgid "cpad_read"
+msgstr "Läsa åtkomst till administration för innehållssidor"
+
+msgid "cpad_visible"
+msgstr "Administration för innehållssidor är synlig."
+
+msgid "cpad_write"
+msgstr "Ändra inställningar i Administration för innehållssidor"
+
+msgid "crs_copy"
+msgstr "Kopiera kurs"
+
+msgid "crs_delete"
+msgstr "Radera eller flytta kurs"
+
+msgid "crs_edit_event"
+msgstr "Redigera kalenderbokningar"
+
+msgid "crs_edit_learning_progress"
+msgstr "Användaren kan redigera inställningar för inlärningsframsteg"
+
+msgid "crs_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "crs_grade"
+msgstr "Rate kursmedlemmar"
+
+msgid "crs_join"
+msgstr "Delta i kursen"
+
+msgid "crs_leave"
+msgstr "Avbryt medlemskap i kursen"
+
+msgid "crs_manage_members"
+msgstr "Hantera medlemmar i en kurs"
+
+msgid "crs_news_add_news"
+msgstr "Create news och redigera dina egna nyheter"
+
+msgid "crs_read"
+msgstr "Läs kurs"
+
+msgid "crs_read_learning_progress"
+msgstr "Användaren kan se andra användares inlärningsframsteg"
+
+msgid "crs_visible"
+msgstr "Kursen är synlig"
+
+msgid "crs_write"
+msgstr "Redigera kurs"
+
+msgid "crsr_copy"
+msgstr "Kopiera kurslänkar"
+
+msgid "crsr_delete"
+msgstr "Flytta eller ta bort kurslänkar"
+
+msgid "crsr_edit_learning_progress"
+msgstr "Användaren kan redigera inställningar för inlärningsframsteg"
+
+msgid "crsr_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "crsr_read_learning_progress"
+msgstr "Användaren kan se andra användares inlärningsframsteg"
+
+msgid "crsr_visible"
+msgstr "Kurslänkar är synliga och kan användas"
+
+msgid "crsr_write"
+msgstr "Redigera inställningar för kurslänk"
+
+msgid "crss_edit_permission"
+msgstr "Ändra rättighetsinställningar för kursadministration"
+
+msgid "crss_read"
+msgstr "Läs tillgång till kursadministration"
+
+msgid "crss_visible"
+msgstr "Kursadministrationen är synlig"
+
+msgid "crss_write"
+msgstr "Redigera inställningar i Kursadministration"
+
+msgid "dcl_add_entry"
+msgstr "Lägg till post"
+
+msgid "dcl_copy"
+msgstr "Kopiering av datainsamling"
+
+msgid "dcl_delete"
+msgstr "Ta bort datainsamling"
+
+msgid "dcl_edit_content"
+msgstr "Redigera poster"
+
+msgid "dcl_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "dcl_read"
+msgstr "Läs datainsamling"
+
+msgid "dcl_visible"
+msgstr "Datainsamlingen är synlig"
+
+msgid "dcl_write"
+msgstr "Redigera datainsamling"
+
+msgid "delete_files"
+msgstr "Radera filer"
+
+msgid "delete_folders"
+msgstr "Ta bort mapp"
+
+msgid "delete_wiki_pages"
+msgstr "Ta bort sida"
+
+#, fuzzy
+msgid "dpro_edit_permission"
+msgstr "User can change permission settings in the Declaration of Data Protected administration"
+
+#, fuzzy
+msgid "dpro_read"
+msgstr "User has read access to the Declaration of Data Protection administration"
+
+#, fuzzy
+msgid "dpro_visible"
+msgstr "Declaration of Data Protection administration is visible"
+
+#, fuzzy
+msgid "dpro_write"
+msgstr "Edit settings in the Declaration of Data Protection"
+
+msgid "dshs_change_presentation"
+msgstr "Ändra utseendet på instrumentpanelen"
+
+msgid "dshs_edit_permission"
+msgstr "Ändra rättighetsinställningar i administrationen av instrumentpanelen"
+
+msgid "dshs_read"
+msgstr "Läsa åtkomst till administration av instrumentpanelen"
+
+msgid "dshs_visible"
+msgstr "Administrationen av instrumentpanelen är synlig"
+
+msgid "dshs_write"
+msgstr "Redigera inställningar för instrumentpanelen"
+
+msgid "ecss_edit_permission"
+msgstr "Ändra rättighetsinställningen för ECS-administrationen"
+
+msgid "ecss_read"
+msgstr "Läsa åtkomst till inställningar för ECS-administrationen"
+
+msgid "ecss_visible"
+msgstr "ECS-administrationen är synlig"
+
+msgid "ecss_write"
+msgstr "Redigera inställningar för ECS-administration"
+
+msgid "edit_event"
+msgstr "Redigera kalender"
+
+#, fuzzy
+msgid "edit_file"
+msgstr "Edit File"
+
+msgid "edit_in_online_editor"
+msgstr "Redigera i online-redaktör"
+
+msgid "edit_learning_progress"
+msgstr "Redigera inställningar för inlärningsframsteg"
+
+msgid "edit_members"
+msgstr "Redigera deltagare"
+
+msgid "edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "edit_roleassignment"
+msgstr "Redigera rolltilldelning"
+
+msgid "edit_submissions_grades"
+msgstr "Redigera avgifter och betyg"
+
+msgid "edit_userassignment"
+msgstr "Ändra användartilldelning"
+
+msgid "edit_wiki_navigation"
+msgstr "Redigera navigering"
+
+msgid "exc_copy"
+msgstr "Kopieringsövning"
+
+msgid "exc_delete"
+msgstr "Radera eller flytta övning"
+
+msgid "exc_edit_learning_progress"
+msgstr "Användaren kan redigera inställningar för inlärningsframsteg"
+
+msgid "exc_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "exc_edit_submissions_grades"
+msgstr "Användaren kan redigera inlämningar och betyg"
+
+msgid "exc_read"
+msgstr "Delta i träning"
+
+msgid "exc_read_learning_progress"
+msgstr "Användaren kan se andra användares inlärningsframsteg"
+
+msgid "exc_visible"
+msgstr "Träning är synligt"
+
+msgid "exc_write"
+msgstr "Redigera träningsinställningar och uppgifter"
+
+msgid "excs_edit_permission"
+msgstr "Ändra rättighetsinställningar för träningsadministration"
+
+msgid "excs_read"
+msgstr "Läs åtkomst till träningsadministration"
+
+msgid "excs_visible"
+msgstr "Övningsadministration är synlig"
+
+msgid "excs_write"
+msgstr "Redigera inställningar i Exercise Administration"
+
+msgid "export_member_data"
+msgstr "Export av medlemsdata"
+
+msgid "facs_edit_permission"
+msgstr "Ändra rättighetsinställningen för administrationen"
+
+msgid "facs_read"
+msgstr "Läsa åtkomst till administration för filer och mappar"
+
+msgid "facs_upload_blacklisted_files"
+msgstr "Ladda upp filer med indexerade tillägg"
+
+msgid "facs_visible"
+msgstr "Administration för filer och mappar är synlig"
+
+msgid "facs_write"
+msgstr "Redigera inställningar för filer och mappar"
+
+msgid "feed_copy"
+msgstr "Kopiera Webfeed"
+
+msgid "feed_delete"
+msgstr "Radera Webfeed"
+
+msgid "feed_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "feed_read"
+msgstr "Läs innehållet i webbflödet"
+
+msgid "feed_write"
+msgstr "Redigera inställningar för webbflöde"
+
+msgid "file_copy"
+msgstr "Kopiera fil"
+
+msgid "file_delete"
+msgstr "Flytta eller radera fil"
+
+#, fuzzy
+msgid "file_edit_file"
+msgstr "Allow to edit the file in an external editor, if available"
+
+msgid "file_edit_learning_progress"
+msgstr "Användaren kan redigera inställningar för inlärningsframsteg"
+
+msgid "file_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+#, fuzzy
+msgid "file_file_view_content"
+msgstr "File content presented in browser (if WOPI is active)"
+
+#, fuzzy
+msgid "file_file_view_content_short"
+msgstr "Show Content"
+
+msgid "file_read"
+msgstr "Ladda ner fil"
+
+msgid "file_read_learning_progress"
+msgstr "Användaren kan se andra användares inlärningsframsteg"
+
+msgid "file_visible"
+msgstr "Filen är synlig"
+
+msgid "file_write"
+msgstr "Ändra inställningar för filen och ladda upp ny version"
+
+msgid "files_visible"
+msgstr "Filer synliga"
+
+msgid "fils_edit_permissions"
+msgstr "Ändra rättighetsinställningar för administrationen av filtjänster"
+
+msgid "fils_read"
+msgstr "Läsa tillgång till administration för filtjänster"
+
+msgid "fils_visible"
+msgstr "Administration av filtjänster är synlig."
+
+msgid "fils_write"
+msgstr "Redigera konfigurationen av filtjänsterna"
+
+msgid "filter_all_roles"
+msgstr "Visa alla roller i det aktuella sammanhanget"
+
+msgid "filter_global_roles"
+msgstr "Visa endast globala roller"
+
+msgid "filter_local_roles"
+msgstr "Visa endast lokala roller i det aktuella sammanhanget"
+
+msgid "filter_local_roles_object"
+msgstr "Visa endast lokala roller på denna position"
+
+msgid "filter_roles_local_policy"
+msgstr "Visa endast roller med lokal åtkomstreglering vid denna position"
+
+msgid "fld_create_poll"
+msgstr "Skapa omröstning"
+
+msgid "fold_copy"
+msgstr "Kopiera mapp"
+
+msgid "fold_delete"
+msgstr "Radera eller flytta mapp"
+
+msgid "fold_edit_learning_progress"
+msgstr "Användaren kan redigera inställningar för inlärningsframsteg"
+
+msgid "fold_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "fold_read"
+msgstr "Läsa åtkomst till mappar"
+
+msgid "fold_read_learning_progress"
+msgstr "Användaren kan se andra användares inlärningsframsteg"
+
+msgid "fold_visible"
+msgstr "Foldern är synlig"
+
+msgid "fold_write"
+msgstr "Redigera mapp"
+
+msgid "folders_create"
+msgstr " Skapa mapp"
+
+msgid "folders_visible"
+msgstr "Folder synlig"
+
+msgid "frm_add_reply"
+msgstr "Användare kan svara på foruminlägg"
+
+msgid "frm_add_thread"
+msgstr "Skapa forumämne"
+
+msgid "frm_copy"
+msgstr "Kopia Forum"
+
+msgid "frm_delete"
+msgstr "Radera eller flytta forum"
+
+#, fuzzy
+msgid "frm_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "frm_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "frm_moderate_frm"
+msgstr "Radera och censurera inlägg i forumet"
+
+msgid "frm_read"
+msgstr "Läsa forum och inlägg"
+
+#, fuzzy
+msgid "frm_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "frm_visible"
+msgstr "Forum är synligt"
+
+# Modifierad som en del av jämställdhetsintegreringen för ILIAS 8
+msgid "frm_write"
+msgstr "Redigera foruminställningar och hantera moderering"
+
+msgid "frma_edit_permission"
+msgstr "Ändra rättighetsinställningar för administration"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "frma_read"
+msgstr "Reading access to global settings for forums"
+
+# Modifierad som en del av jämställdhetsintegreringen för ILIAS 8
+msgid "frma_visible"
+msgstr "Globala inställningar för forum är synliga"
+
+# Modifierad som en del av jämställdhetsintegreringen för ILIAS 8
+msgid "frma_write"
+msgstr "Globala inställningar för forum kan redigeras"
+
+msgid "glo_copy"
+msgstr "Kopiera ordlista"
+
+msgid "glo_delete"
+msgstr "Ta bort eller flytta ordlista"
+
+msgid "glo_edit_content"
+msgstr "Användaren kan redigera innehåll"
+
+msgid "glo_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "glo_read"
+msgstr "Läs innehåll i ordlista"
+
+msgid "glo_visible"
+msgstr "Glossary är synlig"
+
+msgid "glo_write"
+msgstr "Redigera ordlistans innehåll och inställningar"
+
+msgid "grp_copy"
+msgstr "Kopiera grupp"
+
+msgid "grp_delete"
+msgstr "Ta bort eller flytta grupp"
+
+msgid "grp_edit_event"
+msgstr "Redigera kalenderbokningar"
+
+msgid "grp_edit_learning_progress"
+msgstr "Användaren kan redigera inställningar för inlärningsframsteg"
+
+msgid "grp_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "grp_grade"
+msgstr "Rate gruppmedlemmar"
+
+msgid "grp_join"
+msgstr "Användare kan gå med i grupp"
+
+msgid "grp_leave"
+msgstr "User kan avsluta gruppmedlemskap"
+
+msgid "grp_manage_members"
+msgstr "Hantera medlemmar i en grupp"
+
+msgid "grp_news_add_news"
+msgstr "Create news och redigera dina egna nyheter"
+
+msgid "grp_read"
+msgstr "Läs tillgång till gruppen"
+
+msgid "grp_read_learning_progress"
+msgstr "Användaren kan se andra användares inlärningsframsteg"
+
+msgid "grp_visible"
+msgstr "Gruppen är synlig"
+
+msgid "grp_write"
+msgstr "Redigera gruppinställningar och innehåll"
+
+msgid "grpr_copy"
+msgstr "Kopiera grupplänkar"
+
+msgid "grpr_delete"
+msgstr "Flytta eller ta bort grupplänkar"
+
+msgid "grpr_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "grpr_visible"
+msgstr "Grupplänkar är synliga och kan användas"
+
+msgid "grpr_write"
+msgstr "Redigera inställningar för grupplänk"
+
+msgid "grps_edit_permission"
+msgstr "Ändra rättighetsinställningar för gruppadministration"
+
+msgid "grps_read"
+msgstr "Läsa åtkomst till gruppadministration"
+
+msgid "grps_visible"
+msgstr "Gruppadministration är synlig"
+
+msgid "grps_write"
+msgstr "Redigera inställningar i gruppadministration"
+
+msgid "hlps_edit_permission"
+msgstr "Ändra rättighetsinställningar för administrationen.av online-hjälpen"
+
+msgid "hlps_read"
+msgstr "Läs åtkomst till administrationen av onlinehjälpen"
+
+msgid "hlps_visible"
+msgstr "Administrationen av onlinehjälpen är synlig."
+
+msgid "hlps_write"
+msgstr "Redigera inställningar för onlinehjälp och ladda upp ny version"
+
+msgid "htlm_copy"
+msgstr "Kopiera HTML utbildningsmodul"
+
+msgid "htlm_delete"
+msgstr "Radera HTML utbildningsmodul"
+
+msgid "htlm_edit_learning_progress"
+msgstr "Användaren kan redigera inställningar för inlärningsframsteg"
+
+msgid "htlm_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "htlm_read"
+msgstr "Läs HTML utbildningsmodul"
+
+msgid "htlm_read_learning_progress"
+msgstr "Användaren kan se andra användares inlärningsframsteg"
+
+msgid "htlm_visible"
+msgstr "HTML utbildningsmodul är synlig"
+
+msgid "htlm_write"
+msgstr "Edit HTML Utbildningsmodul"
+
+msgid "iass_amend_grading"
+msgstr "Ändring Slutförd bedömning av individuell bedömning"
+
+msgid "iass_copy"
+msgstr "Kopiera individuell utvärdering"
+
+msgid "iass_delete"
+msgstr "Radera individuell rating"
+
+msgid "iass_edit_learning_progress"
+msgstr "Edit Learning Progress i individuell bedömning"
+
+msgid "iass_edit_members"
+msgstr "Redigera deltagare i en individuell bedömning"
+
+msgid "iass_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "iass_read"
+msgstr "Läs tillgång till individuell bedömning"
+
+msgid "iass_read_learning_progress"
+msgstr "Visa framsteg i lärandet i den individuella utvärderingen"
+
+msgid "iass_visible"
+msgstr "Individuell utvärdering är synlig"
+
+msgid "iass_write"
+msgstr "Redigera individuella inställningar för betyg"
+
+msgid "il_lti_global_role"
+msgstr "LTI Användare"
+
+msgid "il_sess_participant"
+msgstr "Deltagare i sessionen"
+
+msgid "il_sess_status_closed"
+msgstr "Sluten session med icke-deltagare"
+
+msgid "ilias_id"
+msgstr "ILIAS ID"
+
+#, fuzzy
+msgid "impr_edit_permission"
+msgstr "User can change permission settings of Legal Notice administration"
+
+#, fuzzy
+msgid "impr_read"
+msgstr "User can read in Legal Notice administration"
+
+#, fuzzy
+msgid "impr_visible"
+msgstr "Administration of Legal Notice is visible"
+
+#, fuzzy
+msgid "impr_write"
+msgstr "User can edit content and settings of Legal Notice"
+
+msgid "info_user_view_changed"
+msgstr "Användarvy ändrad"
+
+msgid "internal_mail"
+msgstr "Internt postsystem"
+
+msgid "invite"
+msgstr "Inbjudan till undersökning"
+
+msgid "itgr_copy"
+msgstr "Kopiera objektblock"
+
+msgid "itgr_delete"
+msgstr "Ta bort eller flytta objektblock"
+
+msgid "itgr_edit_permission"
+msgstr "Ändra rättighetsinställningarna för objektblocket"
+
+msgid "itgr_read"
+msgstr "Läsa åtkomst till objektblock"
+
+msgid "itgr_visible"
+msgstr "Objektblocket är synligt"
+
+msgid "itgr_write"
+msgstr "Redigera innehåll och inställningar för ett objektblock"
+
+msgid "leave"
+msgstr "Avbryt medlemskap"
+
+msgid "lhts_edit_permissions"
+msgstr "Ändra inställningar för administrationsrättigheter för inlärningshistorik"
+
+msgid "lhts_read"
+msgstr "Läs tillgång till administration för inlärningshistoria"
+
+msgid "lhts_visible"
+msgstr "Administration för lärande historia är synlig."
+
+msgid "lhts_write"
+msgstr "Ändra inställningar i Administration för lärhistorik"
+
+msgid "lm_copy"
+msgstr "Kopiera ILIAS utbildningsmodul"
+
+msgid "lm_delete"
+msgstr "Radera ILIAS utbildningsmodul"
+
+msgid "lm_edit_learning_progress"
+msgstr "Användaren kan redigera inställningar för inlärningsframsteg"
+
+msgid "lm_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "lm_read"
+msgstr "Läs ILIAS utbildningsmodul"
+
+msgid "lm_read_learning_progress"
+msgstr "Användaren kan se andra användares inlärningsframsteg"
+
+msgid "lm_visible"
+msgstr "ILIAS utbildningsmodul är synlig"
+
+msgid "lm_write"
+msgstr "Redigera ILIAS utbildningsmodul"
+
+msgid "lngf_edit_permission"
+msgstr "Ändra rättighetsinställningarna för administrationen"
+
+msgid "lngf_read"
+msgstr "Läsning tillgång till språkhantering"
+
+msgid "lngf_visible"
+msgstr "Språkhantering är synlig"
+
+msgid "lngf_write"
+msgstr "Språkinställningar kan redigeras och avancerad språkhantering kan användas"
+
+msgid "logs_edit_permission"
+msgstr "Ändra inställningen för loggningsrättigheter"
+
+msgid "logs_read"
+msgstr "Läsa åtkomst till loggningsinställningar"
+
+msgid "logs_visible"
+msgstr "Protokolladministrationen är synlig"
+
+msgid "logs_write"
+msgstr "Redigera administrationsinställningar för loggning"
+
+msgid "lp_other_users"
+msgstr "Se andra användares framsteg i lärandet"
+
+msgid "lrss_edit_permission"
+msgstr "Ändra rättighetsinställningarna för administrationen"
+
+msgid "lrss_read"
+msgstr "Läsning tillgång till lärande administration av resurser"
+
+msgid "lrss_visible"
+msgstr "Administrationen av lärresurser är synlig"
+
+msgid "lrss_write"
+msgstr "Redigera inställningar för lärresurser i Administration"
+
+msgid "lso_copy"
+msgstr "Kopiera inlärningssekvens"
+
+msgid "lso_delete"
+msgstr "Radera inlärningssekvens"
+
+msgid "lso_edit_learning_progress"
+msgstr "Redigera inställningar för inlärningsframsteg"
+
+msgid "lso_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "lso_lp_other_users"
+msgstr "Användaren kan se andra användares inlärningsframsteg"
+
+msgid "lso_manage_members"
+msgstr "Redigera medlemmar"
+
+msgid "lso_participate"
+msgstr "Anmäla sig till utbildningssekvensen"
+
+msgid "lso_read"
+msgstr "Läsa tillgång till inlärningssekvensen"
+
+msgid "lso_read_learning_progress"
+msgstr "Användaren kan se andra användares inlärningsframsteg"
+
+msgid "lso_unparticipate"
+msgstr "Logga ut från inlärningssekvensen"
+
+msgid "lso_visible"
+msgstr "Lärsekvens synlig"
+
+msgid "lso_write"
+msgstr "Redigera inlärningssekvens"
+
+#, fuzzy
+msgid "lsos_edit_permission"
+msgstr "User can change permission settings of Learning Sequences administration."
+
+msgid "lsos_read"
+msgstr "Läs tillgång till administration för inlärningssekvenser"
+
+msgid "lsos_visible"
+msgstr "Administrationen för utbildningssekvenser är synlig."
+
+msgid "lsos_write"
+msgstr "Ändra inställningar i Administration för inlärningssekvenser"
+
+msgid "lti_copy"
+msgstr "Användare kan kopiera LTI-konsumenter"
+
+msgid "lti_delete"
+msgstr "Användaren kan flytta eller ta bort LTI-konsumenten"
+
+msgid "lti_edit_learning_progress"
+msgstr "Användaren kan redigera inställningarna för inlärningsframsteg"
+
+msgid "lti_edit_permission"
+msgstr "Användaren kan ändra behörighetsinställningar"
+
+msgid "lti_read"
+msgstr "Användaren kan se LTI-konsumenter"
+
+msgid "lti_read_learning_progress"
+msgstr "Användaren kan se andra användares inlärningsframsteg"
+
+msgid "lti_read_outcomes"
+msgstr "Användaren kan se andra användares erfarenheter och ranking"
+
+msgid "lti_visible"
+msgstr "LTI konsumenten är synlig"
+
+msgid "lti_write"
+msgstr "Användaren kan redigera inställningarna för LTI-konsumenten"
+
+msgid "ltis_add_consume_provider"
+msgstr "Användaren kan lägga till egna leverantörsinställningar för LTI-konsument"
+
+msgid "ltis_edit_permission"
+msgstr "Ändra rättighetsinställningar för LTI-administration"
+
+msgid "ltis_read"
+msgstr "Läs tillgång till LTI-administration"
+
+msgid "ltis_release_objects"
+msgstr "User kan släppa objekt för LTI Konsument"
+
+msgid "ltis_visible"
+msgstr "LTI administration är synlig"
+
+msgid "ltis_write"
+msgstr "Redigera inställningar i LTI-administrationen"
+
+msgid "mail_internal_mail"
+msgstr "Användare får använda det interna e-postsystemet (ILIAS)"
+
+msgid "mail_mail_to_global_roles"
+msgstr "User får skicka e-post till globala roller."
+
+msgid "mail_read"
+msgstr "Läs tillgång till postadministration"
+
+msgid "mail_smtp_mail"
+msgstr "Användaren kan skicka e-post via SMTP till externa adresser"
+
+msgid "mail_to_global_roles"
+msgstr "Globala e-postmeddelanden"
+
+msgid "mail_visible"
+msgstr "Mailadministrationen är synlig"
+
+msgid "mail_write"
+msgstr "Redigera inställningar i Mail Administration"
+
+#, fuzzy
+msgid "manage_all_reservations"
+msgstr "Manage All Reservations"
+
+msgid "manage_comp"
+msgstr "Redigera kompetenser"
+
+msgid "manage_comp_temp"
+msgstr "Redigera kompetensmallar"
+
+msgid "manage_materials"
+msgstr "Hantera material"
+
+#, fuzzy
+msgid "manage_own_reservations"
+msgstr "Manage Own Reservations"
+
+msgid "manage_profiles"
+msgstr "Redigera kompetensprofiler"
+
+msgid "mcst_copy"
+msgstr "Kopiera Mediacast"
+
+msgid "mcst_delete"
+msgstr "Radera eller flytta mediacast"
+
+msgid "mcst_edit_learning_progress"
+msgstr "Redigera inställningar för inlärningsframsteg"
+
+msgid "mcst_edit_permission"
+msgstr "Ändra inställning till rättigheter"
+
+msgid "mcst_read"
+msgstr "Läs Mediacast"
+
+msgid "mcst_read_learning_progress"
+msgstr "Användaren kan se andra användares inlärningsframsteg"
+
+msgid "mcst_visible"
+msgstr "Mediacast är synligt"
+
+msgid "mcst_write"
+msgstr "Redigera innehåll och inställningar för mediacast"
+
+msgid "mcts_edit_permission"
+msgstr "Ändra rättighetsinställning i Mediacast administration"
+
+msgid "mcts_read"
+msgstr "Läs tillgång till Mediacast administration"
+
+msgid "mcts_visible"
+msgstr "Mediacast-administration är synlig"
+
+msgid "mcts_write"
+msgstr "Ändra inställningar i Mediacast administration"
+
+msgid "mds_edit_permission"
+msgstr "Ändra rättighetsinställningar i metadataadministration"
+
+msgid "mds_read"
+msgstr "Läsa tillgång till administration av metadata"
+
+msgid "mds_visible"
+msgstr " Administration av metadata är synlig"
+
+msgid "mds_write"
+msgstr "Redigera inställningar i metadataadministrationen"
+
+msgid "mep_copy"
+msgstr "Kopiera media pool"
+
+msgid "mep_delete"
+msgstr "Radera eller flytta mediepool"
+
+msgid "mep_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "mep_read"
+msgstr "Läsbehörighet till innehållet i mediapoolen"
+
+msgid "mep_visible"
+msgstr "Mediepoolen är synlig"
+
+msgid "mep_write"
+msgstr "Redigera innehåll och inställningar för mediapoolen"
+
+msgid "mme_edit_permission"
+msgstr "Ändra rättighetsinställningen för administrationen av huvudmenyn"
+
+msgid "mme_read"
+msgstr "Läs tillgång till administration av huvudmenyn"
+
+msgid "mme_visible"
+msgstr "Administrationen av huvudmenyn är synlig"
+
+msgid "mme_write"
+msgstr "Ändra inställningar för administration av huvudmenyn"
+
+msgid "mobs_edit_permission"
+msgstr "Ändra rättighetsinställningar i administrationen för mediaobjekt och pooler"
+
+msgid "mobs_read"
+msgstr "Läsa tillgång till administration för mediaobjekt och pooler"
+
+msgid "mobs_visible"
+msgstr "Administration för mediaobjekt och pooler är synlig"
+
+msgid "mobs_write"
+msgstr "Redigera inställningar för mediaobjekt och pooler"
+
+msgid "moderate"
+msgstr "Måttlig"
+
+msgid "moderate_frm"
+msgstr "Måttlig"
+
+#, fuzzy
+msgid "msg_anonymous_cannot_be_assigned"
+msgstr "Anonymous cannot be assigned to a role."
+
+msgid "msg_no_roles_of_type"
+msgstr "Inga rullar närvarande med den valda filterinställningen"
+
+msgid "news_add_news"
+msgstr "Skapa nyheter"
+
+#, fuzzy
+msgid "no_corresponding_roles"
+msgstr "No corresponding roles could be found."
+
+#, fuzzy
+msgid "nots_edit_permission"
+msgstr "User can change permission settings of Notes administration."
+
+msgid "nots_read"
+msgstr "Läs tillgång till administration för anteckningar"
+
+msgid "nots_visible"
+msgstr "Administrationen för noter är synlig."
+
+msgid "nots_write"
+msgstr "Ändra inställningar i Administration för anteckningar"
+
+msgid "nwss_edit_permission"
+msgstr "Ändra rättighetsinställningar i nyhets- och webbflödesadministrationen"
+
+msgid "nwss_read"
+msgstr "Läsa tillgång till nyheter och webbflöden administration"
+
+msgid "nwss_visible"
+msgstr "Administration av nyheter och webbflöden är synlig"
+
+msgid "nwss_write"
+msgstr "Ändra inställningar i administrationen för nyheter och webbflöden"
+
+msgid "obj_skee"
+msgstr "Kompetens träd"
+
+msgid "org_op_access_results"
+msgstr "Tillgång till resultat från underordnade användare"
+
+msgid "org_op_edit_submissions_grades"
+msgstr "Redigera inlägg från andra användare"
+
+msgid "org_op_manage_participants"
+msgstr "Hantera underordnade deltagare"
+
+msgid "org_op_score_participants"
+msgstr "Utvärdera underordnade deltagare"
+
+msgid "org_op_view_certificates"
+msgstr "Visa certifikat för underordnade användare"
+
+msgid "org_op_view_competences"
+msgstr "Se kompetenser för underordnade användare"
+
+msgid "org_op_write_learning_progress"
+msgstr "Ställa in inlärningsförlopp för underordnade användare"
+
+msgid "orgu_cat_administrate_users"
+msgstr "Lokala inloggningskonton kan skapas och hanteras"
+
+msgid "orgu_copy"
+msgstr "Kopiera organisatorisk enhet"
+
+msgid "orgu_delete"
+msgstr "Ta bort eller flytta organisatorisk enhet"
+
+msgid "orgu_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "orgu_read"
+msgstr "Läs åtkomst till organisatorisk enhet"
+
+msgid "orgu_read_users"
+msgstr "Lokala inloggningskonton för denna organisatoriska enhet kan visas"
+
+msgid "orgu_view_learning_progress"
+msgstr "Visa framsteg i inlärningen"
+
+msgid "orgu_view_learning_progress_rec"
+msgstr "Se lärandets framsteg rekursivt"
+
+msgid "orgu_visible"
+msgstr "Organisatorisk enhet är synlig."
+
+msgid "orgu_write"
+msgstr "Redigera inställningar för organisationsenheten"
+
+msgid "otpl_edit_permission"
+msgstr "Ändra rättighetsinställningar i administrationen av de didaktiska mallarna"
+
+msgid "otpl_read"
+msgstr "Läsbehörighet för administration av de didaktiska mallarna"
+
+msgid "otpl_visible"
+msgstr "Administrationen av de didaktiska mallarna är synlig"
+
+msgid "otpl_write"
+msgstr "Redigera inställningar för didaktiska mallar"
+
+msgid "perm_class_create"
+msgstr "Skapa nya objekt"
+
+msgid "perm_class_create_desc"
+msgstr "Här anger du vilka objekt som får skapas under detta objekt."
+
+msgid "perm_class_object"
+msgstr "Drift"
+
+msgid "perm_class_object_desc"
+msgstr "Detta listar de rättigheter för operationer som är tillgängliga för den aktuella objekttypen."
+
+msgid "perm_global_role"
+msgstr "Global roll"
+
+msgid "perm_local_role"
+msgstr "Lokal roll"
+
+msgid "perm_local_role_desc"
+msgstr "Den här rollen definieras lokalt för det här objektet och motsvarar redan en lokal tillträdesbestämmelse"
+
+msgid "perm_protected_global_role"
+msgstr "Skyddad global roll"
+
+msgid "perm_protected_local_role"
+msgstr "Skyddad lokal roll"
+
+msgid "perm_role_path_info_created"
+msgstr "skapad i %1$s \"%2$s\""
+
+msgid "perm_role_path_info_inheritance"
+msgstr "använder lokal åtkomstkontroll från %1$s \"%2$s\""
+
+msgid "perm_use_local_policy"
+msgstr "Använd lokal åtkomstkontroll"
+
+msgid "perm_use_local_policy_desc"
+msgstr "Om lokal åtkomstkontroll är aktiverad kan andra rättighetsspecifikationer definieras här."
+
+msgid "poll_copy"
+msgstr "Kopiera omröstning"
+
+msgid "poll_delete"
+msgstr "Radera röst"
+
+msgid "poll_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "poll_read"
+msgstr "Läs omröstning"
+
+msgid "poll_visible"
+msgstr "Röstning är synlig"
+
+msgid "poll_write"
+msgstr "Redigera omröstning"
+
+msgid "positions_override_operations"
+msgstr "Överskriv globala inställningar"
+
+msgid "precondition_not_obligatory_alt"
+msgstr "Förutsättningen är valfri"
+
+msgid "precondition_num_obligatory"
+msgstr "Antal material som krävs"
+
+msgid "precondition_num_optional_info"
+msgstr "Ange det minsta antal material som krävs för att uppfylla förutsättningen."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_bigger_preconditions_number"
+msgstr "The number of required materials must be less than the total number of preconditions."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_lower_compulsory_items"
+msgstr "The number of required materials must be greater than the number of compulsory preconditions."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_lower_than_one"
+msgstr "The number of required materials must be at least 1."
+
+msgid "precondition_obligatory"
+msgstr "Åtagande"
+
+msgid "precondition_obligatory_alt"
+msgstr "Förutsättningen måste vara uppfylld"
+
+msgid "precondition_obligatory_info"
+msgstr "Obligatoriska villkor måste uppfyllas för att få tillträde."
+
+msgid "precondition_obligatory_settings"
+msgstr "Inställningar för förhandsvillkor"
+
+#, fuzzy
+msgid "precondition_operator_range_err_min_max"
+msgstr "The minimum value must be less than the maximum value."
+
+#, fuzzy
+msgid "precondition_operator_range_max"
+msgstr "Maximum Percentage"
+
+#, fuzzy
+msgid "precondition_operator_range_min"
+msgstr "Minimum Percentage"
+
+msgid "prfa_edit_permission"
+msgstr "Ändra rättighetsinställningar i portföljadministration"
+
+msgid "prfa_read"
+msgstr "Läs åtkomst till portföljadministration"
+
+msgid "prfa_visible"
+msgstr "Portföljadministrationen är synlig"
+
+msgid "prfa_write"
+msgstr "Redigera inställningar i portföljadministrationen"
+
+msgid "prg_copy"
+msgstr "Användaren kan kopiera studieprogrammet"
+
+msgid "prg_delete"
+msgstr "Radera studieprogram"
+
+msgid "prg_edit_permission"
+msgstr "Redigera inställningar för rättigheter"
+
+msgid "prg_manage_members"
+msgstr "Redigera uppgifter för ett studieprogram"
+
+msgid "prg_read"
+msgstr "Sidinnehållet i studieprogrammet kan läsas"
+
+msgid "prg_visible"
+msgstr "Studieprogrammet är synligt"
+
+msgid "prg_write"
+msgstr "User kan redigera inställningar"
+
+msgid "prgr_copy"
+msgstr "Kopiera länkar till studieprogram"
+
+msgid "prgr_delete"
+msgstr "Flytta eller ta bort länkar till studieprogram"
+
+msgid "prgr_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "prgr_visible"
+msgstr "Länkar till studieprogram är synliga och kan användas"
+
+msgid "prgr_write"
+msgstr "Ändra inställningar för länkar till studieprogram"
+
+msgid "prgs_edit_permission"
+msgstr "Ändra rättighetsinställningar i studieprogramadministrationen"
+
+msgid "prgs_read"
+msgstr "Läs tillgång till administration av studieprogram"
+
+msgid "prgs_visible"
+msgstr "Studieprogramadministration är synlig"
+
+msgid "prgs_write"
+msgstr "Redigera inställningar i Studieprogramadministration"
+
+#, fuzzy
+msgid "prss_edit_permission"
+msgstr "User can change permission settings of Personal Resources administration."
+
+msgid "prss_read"
+msgstr "Läs tillgång till administration för personliga resurser"
+
+msgid "prss_visible"
+msgstr "Administrationen för personliga resurser är synlig."
+
+msgid "prss_write"
+msgstr "Ändra inställningar i Administration för personliga resurser"
+
+msgid "prtt_copy"
+msgstr "Mall för portfölj med kopior"
+
+msgid "prtt_delete"
+msgstr "Ta bort eller flytta portföljmall"
+
+msgid "prtt_edit_permission"
+msgstr "Ändra rättighetsinställningar för portföljmall"
+
+msgid "prtt_read"
+msgstr "Läs portföljmall"
+
+msgid "prtt_visible"
+msgstr "Portfoliomallen är synlig"
+
+msgid "prtt_write"
+msgstr "Skapa portföljmallar och redigera inställningar för portföljmallar"
+
+msgid "ps_edit_permission"
+msgstr "Ändra rättighetsinställningar för sekretess- och säkerhetsinställningar"
+
+msgid "ps_export_member_data"
+msgstr "Tillåt export av medlemsdata i grupper och kurser"
+
+msgid "ps_read"
+msgstr "Läs åtkomst till sekretess- och säkerhetsinställningar"
+
+msgid "ps_visible"
+msgstr "Dataskydd och säkerhetsinställningar är synliga"
+
+msgid "ps_write"
+msgstr "Tillåt redigering av sekretess- och säkerhetsinställningar"
+
+msgid "push_desktop_items"
+msgstr "rekommendera innehåll"
+
+msgid "qpl_copy"
+msgstr "Kopiera frågepoolen"
+
+msgid "qpl_delete"
+msgstr "Radera eller flytta frågepool"
+
+msgid "qpl_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "qpl_read"
+msgstr "Frågor i poolen kan ses och antas för tester"
+
+msgid "qpl_visible"
+msgstr "Frågepoolen är synlig"
+
+msgid "qpl_write"
+msgstr "Redigera frågor och inställningar för frågepoolen"
+
+msgid "rbac_add_new_local_role"
+msgstr "Skapa ny lokal roll"
+
+msgid "rbac_add_recommended_content"
+msgstr "Rekommenderat innehåll"
+
+msgid "rbac_add_recommended_content_info"
+msgstr "Tilldelar det aktuella objektet '%1' som rekommenderat innehåll till alla användare av rollen."
+
+msgid "rbac_admin_permissions"
+msgstr "Administrativa rättigheter"
+
+msgid "rbac_auto_global"
+msgstr "Automatiskt genererad global roll"
+
+msgid "rbac_auto_local"
+msgstr "Automatiskt genererad lokal roll"
+
+msgid "rbac_auto_rolt"
+msgstr "Automatiskt genererad rollmall"
+
+msgid "rbac_back_to_overview"
+msgstr "Tillbaka till rollöversikten"
+
+msgid "rbac_cant_import_role_wrong_type"
+msgstr "Att lägga till en roll från objekt $s till ett objekt $s är inte möjligt."
+
+msgid "rbac_change_existing_confirm_tbl"
+msgstr "Inställningar för att ändra befintliga objekt"
+
+msgid "rbac_change_existing_objects_desc_new_role"
+msgstr "Rättsinställningarna från denna roll överförs till ALLA befintliga objekt."
+
+msgid "rbac_changes"
+msgstr "Förändringar"
+
+msgid "rbac_choose_copy_targets"
+msgstr "Ange ett sökord för att hitta de roller till vilka rättigheter ska överföras."
+
+msgid "rbac_condition_delete_sure"
+msgstr "Vill du verkligen ta bort följande förutsättningar?"
+
+msgid "rbac_context_global"
+msgstr "Global"
+
+msgid "rbac_copy_behaviour"
+msgstr "Inställningar för kopiering av rättigheter"
+
+#, fuzzy
+msgid "rbac_copy_behaviour_info"
+msgstr "Transfer Permissions from: %s to: %s"
+
+msgid "rbac_copy_finished"
+msgstr "Rättigheterna har överförts till de valda rollerna."
+
+#, fuzzy
+msgid "rbac_copy_multi_targets"
+msgstr "%s, %s and %s further Roles selected%s"
+
+#, fuzzy
+msgid "rbac_copy_no_targets"
+msgstr "At least one Role must be selected as Target"
+
+msgid "rbac_copy_role"
+msgstr "Kopiera roll"
+
+msgid "rbac_copy_role_add_perm"
+msgstr "Lägg till rättigheter"
+
+msgid "rbac_copy_role_copy"
+msgstr "Kopieringsrätt"
+
+msgid "rbac_copy_role_remove_perm"
+msgstr "Ta bort rättigheter"
+
+msgid "rbac_create_bibl"
+msgstr "Skapa litteraturlista"
+
+msgid "rbac_create_blog"
+msgstr "Skapa blogg"
+
+msgid "rbac_create_book"
+msgstr "Skapa bokningspool"
+
+msgid "rbac_create_cat"
+msgstr "Skapa kategorier"
+
+msgid "rbac_create_catr"
+msgstr "Skapa kategorilänk"
+
+msgid "rbac_create_chtr"
+msgstr "Chatroom skapa"
+
+msgid "rbac_create_cmix"
+msgstr "Skapa xAPI/cmi5-objekt"
+
+msgid "rbac_create_copa"
+msgstr "Skapa innehållssida"
+
+msgid "rbac_create_crs"
+msgstr "Skapa kurs"
+
+msgid "rbac_create_crsr"
+msgstr "Skapa kurslänk"
+
+msgid "rbac_create_dcl"
+msgstr "Skapa datainsamling"
+
+msgid "rbac_create_exc"
+msgstr "Skapa träning"
+
+msgid "rbac_create_file"
+msgstr "Ladda upp fil"
+
+msgid "rbac_create_fold"
+msgstr " Skapa mapp"
+
+msgid "rbac_create_frm"
+msgstr "Skapa Forum"
+
+msgid "rbac_create_glo"
+msgstr "Skapa ordlista"
+
+msgid "rbac_create_grp"
+msgstr "Skapa grupp"
+
+msgid "rbac_create_grpr"
+msgstr "Skapa grupplänk"
+
+msgid "rbac_create_htlm"
+msgstr "Skapa HTML utbildningsmodul"
+
+msgid "rbac_create_iass"
+msgstr "Skapa individuell utvärdering"
+
+msgid "rbac_create_itgr"
+msgstr "Skapa objektblock"
+
+msgid "rbac_create_lm"
+msgstr "Skapa utbildningsmodul för ILIAS"
+
+msgid "rbac_create_lso"
+msgstr "Skapa en inlärningssekvens"
+
+msgid "rbac_create_lti"
+msgstr "Skapa LTI-konsumenter"
+
+msgid "rbac_create_mcst"
+msgstr "Skapa Mediacast"
+
+msgid "rbac_create_mep"
+msgstr "Skapa en mediapool"
+
+msgid "rbac_create_orgu"
+msgstr "Skapa organisatoriska enheter"
+
+msgid "rbac_create_poll"
+msgstr "Skapa omröstning"
+
+msgid "rbac_create_prg"
+msgstr "Skapa studieprogram"
+
+msgid "rbac_create_prgr"
+msgstr "Skapa länk till studieprogram"
+
+msgid "rbac_create_prtt"
+msgstr "Skapa mall för portfölj"
+
+msgid "rbac_create_qpl"
+msgstr "Skapa frågebank för tester"
+
+msgid "rbac_create_rcrs"
+msgstr "Skapa ECS-kurs"
+
+msgid "rbac_create_role"
+msgstr "Skapa roll"
+
+msgid "rbac_create_rolt"
+msgstr "Skapa rollmall"
+
+msgid "rbac_create_sahs"
+msgstr "Skapa utbildningsmodul för SCORM"
+
+msgid "rbac_create_sess"
+msgstr "Skapa session"
+
+#, fuzzy
+msgid "rbac_create_skee"
+msgstr "Create Competence Tree"
+
+msgid "rbac_create_spl"
+msgstr "Skapa frågepool för undersökningar"
+
+msgid "rbac_create_svy"
+msgstr "Skapa undersökning"
+
+msgid "rbac_create_tst"
+msgstr "Skapa test"
+
+msgid "rbac_create_usr"
+msgstr "Skapa användare"
+
+msgid "rbac_create_webr"
+msgstr "Skapa webblänk"
+
+msgid "rbac_create_wiki"
+msgstr "Skapa wiki"
+
+msgid "rbac_delete_local_policies"
+msgstr "Åsidosätta lokala åtkomstregler"
+
+msgid "rbac_delete_local_policies_info"
+msgstr "Välj denna inställning för att ta bort alla befintliga lokala åtkomstbestämmelser (t.ex. i kurser och grupper). Alla rättigheter skrivs om och därefter aktiveras rättighetsskyddet."
+
+msgid "rbac_delete_role"
+msgstr "Ta bort roll"
+
+msgid "rbac_edit_condition"
+msgstr "Redigera förhandsvillkor"
+
+msgid "rbac_form_copy_roles_adjust_button"
+msgstr "Orättvisa rättigheter"
+
+msgid "rbac_form_copy_roles_adjust_type"
+msgstr "Typ av justering av rättigheter"
+
+msgid "rbac_form_copy_roles_adjust_type_add"
+msgstr "Lägg till rättigheter"
+
+msgid "rbac_form_copy_roles_adjust_type_add_info"
+msgstr " Lägger till MARKERADE rättigheter för den valda globala rollmallen till den lokala rättighetsmallen."
+
+msgid "rbac_form_copy_roles_adjust_type_clone"
+msgstr "Kopieringsrätt"
+
+msgid "rbac_form_copy_roles_adjust_type_clone_info"
+msgstr "Alla behörigheter för den valda globala rollmallen skriver över alla lokala behörighetsinställningar."
+
+msgid "rbac_form_copy_roles_adjust_type_remove"
+msgstr "Ta bort rättigheter"
+
+msgid "rbac_form_copy_roles_adjust_type_remove_info"
+msgstr "Removerar de MARKERADE rättigheterna för den valda globala rollmallen från de lokala rättighetsmallarna."
+
+msgid "rbac_form_copy_roles_ce_add_no"
+msgstr "Justera INTE befintliga objekt"
+
+msgid "rbac_form_copy_roles_ce_add_no_info"
+msgstr "Befintliga lokala rättighetsspecifikationer kompletteras i enlighet med detta, rättigheterna för de befintliga objekten justeras inte."
+
+msgid "rbac_form_copy_roles_ce_add_yes"
+msgstr "Lägg endast till valda rättigheter till befintliga objekt"
+
+msgid "rbac_form_copy_roles_ce_add_yes_info"
+msgstr "Befintliga lokala rättighetsinställningar och rättighetsinställningarna för befintliga objekt kompletteras i enlighet med detta."
+
+msgid "rbac_form_copy_roles_ce_clone_no"
+msgstr "Justera INTE befintliga objekt"
+
+msgid "rbac_form_copy_roles_ce_clone_no_info"
+msgstr "Befintliga standardvärden för lokala rättigheter skrivs över, de befintliga objekten justeras inte i sina rättigheter."
+
+msgid "rbac_form_copy_roles_ce_clone_yes"
+msgstr "Ändra befintliga objekt"
+
+msgid "rbac_form_copy_roles_ce_clone_yes_info"
+msgstr "Överskriv befintliga standardvärden för lokala rättigheter i enlighet med detta och tillämpa IN WHOLE med alla markerade och omarkerade standardvärden som tillämpas på befintliga objekt."
+
+msgid "rbac_form_copy_roles_ce_remove_no"
+msgstr "Justera INTE befintliga objekt"
+
+msgid "rbac_form_copy_roles_ce_remove_no_info"
+msgstr " Markerade behörigheter tas bort från befintliga lokala behörigheter, de befintliga objekten justeras inte i sina behörigheter."
+
+msgid "rbac_form_copy_roles_ce_remove_yes"
+msgstr "Reducera befintliga objekt endast med utvalda rättigheter"
+
+msgid "rbac_form_copy_roles_ce_remove_yes_info"
+msgstr "Befintliga lokala rättighetsinställningar och rättighetsinställningarna för befintliga objekt reduceras i enlighet med detta."
+
+msgid "rbac_global_rolt"
+msgstr "Global rollmall"
+
+msgid "rbac_import_role"
+msgstr "Import roll"
+
+msgid "rbac_info_only_position_access"
+msgstr "Du visas bara de medlemmar som du har tillgång till baserat på dina medlemskap i organisatoriska enheter."
+
+msgid "rbac_keep_local_policies"
+msgstr "Behåll lokala tillträdesregler"
+
+msgid "rbac_keep_local_policies_info"
+msgstr "Om den aktiveras behålls alla lokala åtkomstregler. Rättigheterna för alla andra objekt justeras och skyddas sedan."
+
+msgid "rbac_local_policies"
+msgstr "Lokala tillträdesbestämmelser"
+
+msgid "rbac_local_policy"
+msgstr "Lokal tillträdesreglering"
+
+msgid "rbac_log"
+msgstr "Logg"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "rbac_log_change_owner"
+msgstr "Ändrat ägande"
+
+# Modifierad som en del av jämställdhetsintegreringen för ILIAS 8
+msgid "rbac_log_changed_owner"
+msgstr "Objektet ägs nu"
+
+msgid "rbac_log_copy_object"
+msgstr "Kopiera objekt"
+
+msgid "rbac_log_create_object"
+msgstr "Skapa objekt"
+
+msgid "rbac_log_edit_permissions"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "rbac_log_edit_template"
+msgstr "Redigera rollmallar"
+
+msgid "rbac_log_edit_template_existing"
+msgstr "Applicera rollmallar på objekt"
+
+msgid "rbac_log_inheritance_add"
+msgstr "Avbrutet arv för \"%s\""
+
+msgid "rbac_log_inheritance_rmv"
+msgstr "Restore Arv för \"%s\""
+
+msgid "rbac_log_link_object"
+msgstr "Länk objekt"
+
+msgid "rbac_log_move_object"
+msgstr "Flytta objekt"
+
+msgid "rbac_log_operation_add"
+msgstr "Höger tillagd för \"%s"
+
+msgid "rbac_log_operation_rmv"
+msgstr "Höger borttagen för \"%s"
+
+msgid "rbac_log_source_object"
+msgstr "Källa objekt"
+
+msgid "rbac_msg_user_already_assigned"
+msgstr "De valda användarna har redan tilldelats den här rollen."
+
+msgid "rbac_not_change_existing_objects"
+msgstr "Justera INTE befintliga objekt"
+
+msgid "rbac_permissions"
+msgstr "Rättigheter"
+
+#, fuzzy
+msgid "rbac_precondition_condition"
+msgstr "Access requires having this status"
+
+msgid "rbac_precondition_hide"
+msgstr " Dölj objekt"
+
+msgid "rbac_precondition_hide_info"
+msgstr "Detta objekt visas inte för användare förrän de definierade förutsättningarna är uppfyllda."
+
+msgid "rbac_precondition_minimum_optional"
+msgstr "Minst två förhandsvillkor måste vara frivilliga."
+
+msgid "rbac_precondition_mode"
+msgstr "Mode"
+
+msgid "rbac_precondition_mode_all"
+msgstr "Alla förutsättningar"
+
+msgid "rbac_precondition_mode_all_info"
+msgstr "Alla definierade förutsättningar måste vara uppfyllda för åtkomst."
+
+msgid "rbac_precondition_mode_subset"
+msgstr "Delmängd av förhandsvillkor"
+
+msgid "rbac_precondition_mode_subset_info"
+msgstr "En delmängd av de definierade förhandsvillkoren måste uppfyllas för åtkomst. Vissa förutsättningar kan fortfarande vara obligatoriska."
+
+msgid "rbac_precondition_save_obligatory"
+msgstr "Rädda engagerad"
+
+msgid "rbac_precondition_source"
+msgstr "Förkonditionering genom"
+
+msgid "rbac_precondition_target"
+msgstr "Villkor för tillgång till"
+
+msgid "rbac_repository_permissions"
+msgstr "Rättigheter för tidskrifter"
+
+msgid "rbac_role_delete_qst"
+msgstr "Är du säker på att du vill ta bort den här rollen. Alla rättigheter som beviljas av rollen återkallas då oåterkalleligt."
+
+msgid "rbac_role_delete_self"
+msgstr "<strong>Uppmärksamhet"
+
+msgid "rbac_role_exists_alert"
+msgstr "Det finns redan en roll med samma namn. Vänligen välj ett annat rollnamn."
+
+msgid "rbac_role_imported"
+msgstr "Rollen importerades framgångsrikt."
+
+msgid "rbac_role_rights_copy"
+msgstr "Kopieringsrätt"
+
+msgid "rbac_role_rights_copy_change_existing"
+msgstr "Ändra befintliga objekt"
+
+msgid "rbac_role_rights_copy_empty"
+msgstr "Ingen"
+
+msgid "rbac_role_selection"
+msgstr "Typ av rullning"
+
+msgid "rbac_role_title"
+msgstr "Roll titel"
+
+msgid "rbac_select_copy_targets"
+msgstr "Vänligen välj de roller till vilka rättigheterna ska överföras."
+
+msgid "rbac_select_roles"
+msgstr "Role Selection"
+
+msgid "rbac_ud_global"
+msgstr "Självskapad global roll"
+
+msgid "rbac_ud_local"
+msgstr "Skapa lokal roll själv"
+
+msgid "rbac_ud_rolt"
+msgstr "Självskapad rollmall"
+
+msgid "rbac_unprotected_delete_local_policies_info"
+msgstr "Om aktiverat skrivs alla lokala åtkomstregler över och rättigheterna i kurser och grupper återinitialiseras."
+
+msgid "rbac_unprotected_keep_local_policies_info"
+msgstr " Välj denna inställning för att behålla alla befintliga lokala åtkomstregler."
+
+#, fuzzy
+msgid "rbac_view_content"
+msgstr "View Content"
+
+msgid "rcat_delete"
+msgstr "Ta bort kategorin ECS"
+
+msgid "rcat_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "rcat_read"
+msgstr "Läs tillgång till ECS kategori"
+
+msgid "rcat_visible"
+msgstr "ECS-kategorin är synlig"
+
+msgid "rcat_write"
+msgstr "Redigera ECS-kategori"
+
+msgid "rcrs_delete"
+msgstr "Radera ECS-kurs"
+
+msgid "rcrs_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "rcrs_read"
+msgstr "Läs tillgång till ECS-kurs"
+
+msgid "rcrs_visible"
+msgstr "ECS-kursen är synlig"
+
+msgid "rcrs_write"
+msgstr "Redigera ECS-kurs"
+
+#, fuzzy
+msgid "read_all_accounts"
+msgstr "Read All Accounts"
+
+msgid "read_comp"
+msgstr "Läsa tillgång till kompetenser och kompetensmallar"
+
+msgid "read_learning_progress"
+msgstr "Se andra användares framsteg i lärandet"
+
+msgid "read_outcomes"
+msgstr "Visa andra användares erfarenheter av lärande"
+
+msgid "read_profiles"
+msgstr "Läsa tillgång till kompetensprofiler"
+
+msgid "read_results"
+msgstr "Enkätresultat"
+
+msgid "read_users"
+msgstr "Visa lokala inloggningskonton"
+
+msgid "recf_edit_permission"
+msgstr "Ändra rättighetsinställningar i hanteringen av återställda objekt"
+
+msgid "recf_read"
+msgstr "Läsa åtkomst till återställda objekt"
+
+msgid "recf_visible"
+msgstr "Hanteringen av återställda objekt är synlig"
+
+msgid "recf_write"
+msgstr "Återställ objekt"
+
+msgid "redact"
+msgstr "Redigering"
+
+msgid "release_objects"
+msgstr "Frigör objekt"
+
+msgid "reps_edit_permission"
+msgstr "Ändra rättighetsinställningar för tidskriftshantering"
+
+msgid "reps_read"
+msgstr "Läsning tillgång till tidskriftshantering"
+
+msgid "reps_visible"
+msgstr "Magasinhantering är synlig"
+
+msgid "reps_write"
+msgstr "Ändra inställningar i tidskriftshanteringen"
+
+msgid "rfil_delete"
+msgstr "Ta bort kategorin ECS"
+
+msgid "rfil_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "rfil_read"
+msgstr "Läs tillgång till ECS kategori"
+
+msgid "rfil_visible"
+msgstr "ECS-kategorin är synlig"
+
+msgid "rfil_write"
+msgstr "Redigera ECS-kategori"
+
+msgid "rglo_delete"
+msgstr "Radera ECS Ordlista"
+
+msgid "rglo_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "rglo_read"
+msgstr "Läsa tillgång till ECS ordlista"
+
+msgid "rglo_visible"
+msgstr "ECS ordlista är synlig"
+
+msgid "rglo_write"
+msgstr "Redigera ECS Ordlista"
+
+msgid "rgrp_delete"
+msgstr "Radera ECS-gruppen"
+
+msgid "rgrp_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "rgrp_read"
+msgstr "Läs tillgång till ECS-gruppen"
+
+msgid "rgrp_visible"
+msgstr "ECS-gruppen är synlig"
+
+msgid "rgrp_write"
+msgstr "Redigera ECS-gruppen"
+
+msgid "rlm_delete"
+msgstr "Radera ECS utbildningsmodul"
+
+msgid "rlm_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "rlm_read"
+msgstr "Läs tillgång till ECS utbildningsmodul"
+
+msgid "rlm_visible"
+msgstr "ECS utbildningsmodul är synlig"
+
+msgid "rlm_write"
+msgstr "Redigera ECS utbildningsmodul"
+
+msgid "role_block_role"
+msgstr "Lås roll"
+
+msgid "role_block_role_desc"
+msgstr "Alla rättigheter för detta objekt och dess underobjekt tas bort."
+
+#, fuzzy
+msgid "role_blocked"
+msgstr ": <i>Role will be blocked</i>"
+
+msgid "role_confirm_block_role"
+msgstr "Spara rollstatus"
+
+msgid "role_confirm_block_role_header"
+msgstr "Vill du verkligen ändra status för de valda rollerna?"
+
+msgid "role_confirm_block_role_info"
+msgstr "För åtgärden \"Lås roll\" utförs följande åtgärder"
+
+msgid "role_confirm_unblock_role_info"
+msgstr "Lås upp för åtgärden \"Lås roll"
+
+#, fuzzy
+msgid "role_unblocked"
+msgstr ": <i>Role will be unblocked</i>"
+
+msgid "root_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "root_read"
+msgstr "Läsartillgång till ILIAS-systemet"
+
+msgid "root_visible"
+msgstr "ILIAS-systemet är synligt"
+
+msgid "root_write"
+msgstr "Redigera data för systemnoden"
+
+msgid "rtst_delete"
+msgstr "Radera ECS-test"
+
+msgid "rtst_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "rtst_read"
+msgstr "Läs tillgång till ECS-testet"
+
+msgid "rtst_visible"
+msgstr "ECS-testet är synligt"
+
+msgid "rtst_write"
+msgstr "Redigera ECS-test"
+
+msgid "rwik_delete"
+msgstr "Radera ECS Wiki"
+
+msgid "rwik_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "rwik_read"
+msgstr "Läs åtkomst till ECS Wiki"
+
+msgid "rwik_visible"
+msgstr "ECS Wiki är synlig"
+
+msgid "rwik_write"
+msgstr "Redigera ECS Wiki"
+
+msgid "sahs_copy"
+msgstr "Användare kan kopiera SCORM-inlärningsmodul"
+
+msgid "sahs_delete"
+msgstr "Ta bort eller flytta SCORM utbildningsmodul"
+
+msgid "sahs_edit_learning_progress"
+msgstr "Användaren kan redigera inställningar för inlärningsframsteg"
+
+msgid "sahs_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "sahs_read"
+msgstr "Läs SCORM utbildningsmodul"
+
+msgid "sahs_read_learning_progress"
+msgstr "Användaren kan se andra användares inlärningsframsteg"
+
+msgid "sahs_visible"
+msgstr "Utbildningsmodulen SCORM är synlig"
+
+msgid "sahs_write"
+msgstr "Redigera innehåll och inställningar för SCORM-lärmodulen"
+
+msgid "seas_edit_permission"
+msgstr "Ändra rättighetsinställningarna för sökadministrationen"
+
+msgid "seas_read"
+msgstr "Läs tillgång till administration av sökningen"
+
+msgid "seas_search"
+msgstr "Tillåt användning av sökningen"
+
+msgid "seas_visible"
+msgstr "Administrationen av sökningen är synlig"
+
+msgid "seas_write"
+msgstr "Redigera inställningar i administrationen av sökningen"
+
+msgid "sess_copy"
+msgstr "Kopiera session"
+
+msgid "sess_delete"
+msgstr "Avsluta session"
+
+msgid "sess_edit_event"
+msgstr "Redigera kalenderbokningar"
+
+msgid "sess_edit_learning_progress"
+msgstr "Användaren kan redigera inställningar för inlärningsframsteg"
+
+msgid "sess_edit_metadata"
+msgstr "Redigera metadata"
+
+msgid "sess_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "sess_manage_materials"
+msgstr "Hantera materialtilldelningar"
+
+msgid "sess_manage_members"
+msgstr "Hantera deltagare i en session"
+
+msgid "sess_read"
+msgstr "Läs tillgång till sessioner"
+
+msgid "sess_read_learning_progress"
+msgstr "Användaren kan se andra användares inlärningsframsteg"
+
+msgid "sess_visible"
+msgstr "Sessionerna är synliga"
+
+msgid "sess_write"
+msgstr "Redigera sessioner"
+
+#, fuzzy
+msgid "skee_copy"
+msgstr "User can copy Competence Tree (currently not available)"
+
+#, fuzzy
+msgid "skee_delete"
+msgstr "User can delete Competence Tree"
+
+#, fuzzy
+msgid "skee_edit_permission"
+msgstr "User can change permission settings of Competence Tree administration"
+
+#, fuzzy
+msgid "skee_manage_comp"
+msgstr "User can edit Competences in Competence Tree"
+
+#, fuzzy
+msgid "skee_manage_comp_temp"
+msgstr "User can edit Competence Templates in Competence Tree"
+
+#, fuzzy
+msgid "skee_manage_profiles"
+msgstr "User can edit Competence Profiles in Competence Tree"
+
+#, fuzzy
+msgid "skee_read"
+msgstr "User has read access to administration of Competence Tree"
+
+#, fuzzy
+msgid "skee_read_comp"
+msgstr "User has read access to Competences and Competence Templates in Competence Tree"
+
+#, fuzzy
+msgid "skee_read_profiles"
+msgstr "User has read access to Competence Profiles in Competence Tree"
+
+#, fuzzy
+msgid "skee_visible"
+msgstr "Competence Tree is visible"
+
+#, fuzzy
+msgid "skee_write"
+msgstr "User can edit settings of Competence Tree"
+
+msgid "skmg_edit_permission"
+msgstr "Ändra rättighetsinställningar för administration av kompetenshantering"
+
+msgid "skmg_read"
+msgstr "Läsning tillgång till kompetenshantering"
+
+msgid "skmg_visible"
+msgstr "Kompetenshantering är synlig"
+
+msgid "skmg_write"
+msgstr "Edit kompetenshantering"
+
+msgid "smtp_mail"
+msgstr "SMTP e-post"
+
+msgid "spl_copy"
+msgstr "Kopiera frågepool för undersökningar"
+
+msgid "spl_delete"
+msgstr "Radera eller flytta frågepool"
+
+msgid "spl_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "spl_read"
+msgstr "Frågor i poolen kan ses och antas för undersökningen"
+
+msgid "spl_visible"
+msgstr "Frågepoolen är synlig"
+
+msgid "spl_write"
+msgstr "Redigera frågor och inställningar för frågepoolen"
+
+msgid "statistics_read"
+msgstr "Visa statistik"
+
+#, fuzzy
+msgid "stus_edit_permission"
+msgstr "User can change permission settings in Shortlink administration"
+
+#, fuzzy
+msgid "stus_read"
+msgstr "User can see the Shortlink Administration"
+
+#, fuzzy
+msgid "stus_write"
+msgstr "User can edit Shortlinks"
+
+msgid "sty_write_content"
+msgstr "Redigera Innehållsstilar"
+
+msgid "sty_write_page_layout"
+msgstr "Redigera sidlayouter"
+
+msgid "sty_write_system"
+msgstr "Redigera systemets stilar"
+
+msgid "stys_edit_permission"
+msgstr "Ändra rättighetsinställningar i layoutadministration"
+
+msgid "stys_read"
+msgstr "Läs tillgång till layoutadministration"
+
+msgid "stys_sty_write_content"
+msgstr "Redigera Innehållsstilar"
+
+msgid "stys_sty_write_custom"
+msgstr "Redigera Innehållsstilar"
+
+msgid "stys_sty_write_page_layout"
+msgstr "Redigera sidlayouter"
+
+msgid "stys_sty_write_system"
+msgstr "Redigera systemets stilar"
+
+msgid "stys_visible"
+msgstr "Layout administration är synlig"
+
+msgid "svy_copy"
+msgstr "Kopiundersökning"
+
+msgid "svy_delete"
+msgstr "Radera eller flytta undersökning"
+
+msgid "svy_edit_learning_progress"
+msgstr "Användaren kan redigera inställningar för inlärningsframsteg"
+
+msgid "svy_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "svy_invite"
+msgstr "Inbjuda andra att delta i en undersökning"
+
+msgid "svy_read"
+msgstr "Delta i undersökningen"
+
+msgid "svy_read_learning_progress"
+msgstr "Användaren kan se andra användares inlärningsframsteg"
+
+msgid "svy_read_results"
+msgstr "Användaren har tillgång till alla undersökningsresultat"
+
+msgid "svy_visible"
+msgstr "Undersökningen är synlig"
+
+msgid "svy_write"
+msgstr "Skapa undersökning och redigera inställningar"
+
+msgid "svyf_edit_permission"
+msgstr "Ändra rättighetsinställning i enkätadministration"
+
+msgid "svyf_read"
+msgstr "Läs tillgång till administration av undersökningar"
+
+msgid "svyf_visible"
+msgstr "Survey administration är synlig"
+
+msgid "svyf_write"
+msgstr "Redigera inställningar i enkätadministrationen"
+
+msgid "sysc_edit_permission"
+msgstr "Ändra rättighetsinställningar för systemkontroll"
+
+msgid "sysc_read"
+msgstr "Ändra rättighetsinställningarna för systemkontrollen."
+
+msgid "sysc_visible"
+msgstr "Läsa åtkomst till systemkontrollen"
+
+msgid "sysc_write"
+msgstr "Användaren får utföra systemkontroll."
+
+msgid "tags_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "tags_read"
+msgstr "Läs åtkomst till taggningsinställningarna"
+
+msgid "tags_visible"
+msgstr "Taggningsinställningar är synliga"
+
+msgid "tags_write"
+msgstr "Redigera inställningar för taggning"
+
+msgid "tala_edit_permission"
+msgstr "Ändra rättighetsinställningar i samtalsmallens administration"
+
+msgid "tala_read"
+msgstr "Läs tillgång till administration av samtalsmallar"
+
+msgid "tala_visible"
+msgstr "Konversation mall administration är synlig"
+
+msgid "tala_write"
+msgstr "Skapa och redigera samtalsmallar"
+
+msgid "taxs_edit_permission"
+msgstr "Ändra rättighetsinställningar för taxonomiadministration"
+
+msgid "taxs_read"
+msgstr "Läs åtkomst till taxonomiadministration"
+
+msgid "taxs_visible"
+msgstr "Taxonomiadministrationen är synlig"
+
+msgid "taxs_write"
+msgstr "Redigera inställningar i taxonomiadministration"
+
+msgid "tos_edit_permission"
+msgstr "Ändra rättighetsinställningar för administration av användaravtal"
+
+msgid "tos_read"
+msgstr "Läs tillgång till användning avtal förvaltning"
+
+msgid "tos_visible"
+msgstr "Hanteringen av användningsavtal är synlig"
+
+msgid "tos_write"
+msgstr "Redigera inställningar i Hantering av användaravtal"
+
+msgid "trac_delete"
+msgstr "Radera spårningsdata"
+
+msgid "trac_edit_permission"
+msgstr "Ändra rättighetsinställningar i åtkomststatistik och hantering av inlärningsframsteg"
+
+msgid "trac_lp_other_users"
+msgstr "Se andra användares framsteg i lärandet"
+
+msgid "trac_read"
+msgstr "Läs åtkomst till statistik och hantering av inlärningsframsteg"
+
+msgid "trac_visible"
+msgstr "Statistik över åtkomst och hantering av inlärningsframsteg är synlig"
+
+msgid "trac_write"
+msgstr "Ändra inställningar för åtkomststatistik och hantering av inlärningsresultat"
+
+msgid "tst_copy"
+msgstr "Kopiera test"
+
+msgid "tst_delete"
+msgstr "Radera eller flytta test"
+
+msgid "tst_edit_learning_progress"
+msgstr "Användaren kan redigera inställningar för inlärningsframsteg"
+
+msgid "tst_edit_permission"
+msgstr "Redigera inställningar för rättigheter"
+
+msgid "tst_read"
+msgstr "Ta ett test"
+
+msgid "tst_read_learning_progress"
+msgstr "Användaren kan se andra användares inlärningsframsteg"
+
+#, fuzzy
+msgid "tst_tst_history_read"
+msgstr "View History"
+
+msgid "tst_tst_results"
+msgstr "Tillgång till testresultat"
+
+msgid "tst_visible"
+msgstr "Testet är synligt"
+
+msgid "tst_write"
+msgstr "Montera test och redigera inställningar"
+
+msgid "upload_blacklisted_files"
+msgstr "Bypass svart lista"
+
+msgid "usrf_delete"
+msgstr "Ta bort inloggningskonton"
+
+msgid "usrf_edit_permission"
+msgstr "Ändra rättighetsinställningar för hantering av inloggningskonton"
+
+msgid "usrf_edit_roleassignment"
+msgstr "Ändra rolltilldelning för inloggningskonton"
+
+msgid "usrf_push_desktop_items"
+msgstr "Tillåt ILIAS-objekt att skickas till andra användare som rekommenderat innehåll."
+
+msgid "usrf_read"
+msgstr "Läs åtkomst till hantering av inloggningskonton"
+
+#, fuzzy
+msgid "usrf_read_all_accounts"
+msgstr "User can list all accounts in User administration"
+
+msgid "usrf_read_users"
+msgstr "Läsa åtkomst till inloggningskonton för lokala administratörer"
+
+msgid "usrf_visible"
+msgstr "Registreringskontohanteringen är synlig"
+
+msgid "usrf_write"
+msgstr "Redigera inställningar i Hantering av inloggningskonton"
+
+#, fuzzy
+msgid "wbdv_edit_permission"
+msgstr "User can change permission settings of WebDAV administration."
+
+msgid "wbdv_read"
+msgstr "Läs tillgång till administration för WebDAV"
+
+msgid "wbdv_visible"
+msgstr "Administrationen för WebDAV är synlig."
+
+msgid "wbdv_write"
+msgstr "Ändra inställningar i Administration för WebDAV"
+
+msgid "wbrs_edit_permission"
+msgstr "Ändra rättighetsinställningar för hantering av webblänkar"
+
+msgid "wbrs_read"
+msgstr "Läs tillgång till hantering av webblänkar"
+
+msgid "wbrs_visible"
+msgstr "Webblänkhantering är synlig"
+
+msgid "wbrs_write"
+msgstr "Redigera inställningar i webblänkhantering"
+
+msgid "webr_copy"
+msgstr "Kopiera Webblänk insamling"
+
+msgid "webr_delete"
+msgstr "Radera Webblänksamling"
+
+msgid "webr_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "webr_read"
+msgstr "Ring upp webblänkar"
+
+msgid "webr_visible"
+msgstr "Webblänkar är synliga"
+
+msgid "webr_write"
+msgstr "Redigera inställningar för webblänk"
+
+msgid "wiki_activate_wiki_protection"
+msgstr "Aktivera skrivskydd för enskilda wiki-sidor"
+
+#, fuzzy
+msgid "wiki_add_pages"
+msgstr "User can create wiki pages"
+
+msgid "wiki_copy"
+msgstr "Kopiera Wiki"
+
+msgid "wiki_delete"
+msgstr "Ta bort eller flytta wiki"
+
+msgid "wiki_delete_wiki_pages"
+msgstr "Ta bort wiki-sidor"
+
+msgid "wiki_edit_content"
+msgstr "Skapa och redigera Wiki-sidor"
+
+msgid "wiki_edit_page_meta"
+msgstr "Redigera wiki-sidans metadata"
+
+msgid "wiki_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "wiki_edit_wiki_navigation"
+msgstr "Redigera Wiki-navigering"
+
+msgid "wiki_html_export"
+msgstr "HTML-export"
+
+msgid "wiki_read"
+msgstr "Läs wiki-innehåll"
+
+msgid "wiki_statistics_read"
+msgstr "Visa statistik"
+
+msgid "wiki_visible"
+msgstr "Wiki är synlig"
+
+msgid "wiki_wiki_html_export"
+msgstr "Exportera wiki till HTML"
+
+msgid "wiki_write"
+msgstr "Redigera wiki-inställningar"
+
+msgid "wiks_edit_permission"
+msgstr "Ändra rättighetsinställningar för wiki-administrationen"
+
+msgid "wiks_read"
+msgstr "Läsbehörighet till wiki-administration"
+
+msgid "wiks_visible"
+msgstr "Wiki-administrationen är synlig"
+
+msgid "wiks_write"
+msgstr "Redigera inställningar i wikiadministrationen"
+
+msgid "write"
+msgstr "Redigera inställningar"

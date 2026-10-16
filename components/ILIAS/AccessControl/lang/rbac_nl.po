@@ -1,0 +1,3120 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: rbac\n"
+
+msgid "accs_edit_permission"
+msgstr "Wijzigen van rechteninstellingen"
+
+msgid "accs_read"
+msgstr "Leestoegang tot toegangsinstellingen"
+
+msgid "accs_visible"
+msgstr "Toegankelijkheidsinstellingen zijn zichtbaar"
+
+msgid "accs_write"
+msgstr "Wijzigen toegangsinstellingen"
+
+#, fuzzy
+msgid "activate_wiki_protection"
+msgstr "Set Read-Only"
+
+msgid "active_preconditions"
+msgstr "Voorwaarden"
+
+msgid "add_consultation_hours"
+msgstr "Toevoegen spreekuren aan agenda"
+
+#, fuzzy
+msgid "add_consume_provider"
+msgstr "Add Own LTI Provider Settings"
+
+#, fuzzy
+msgid "add_pages"
+msgstr "Add Pages"
+
+msgid "add_reply"
+msgstr "Add Reply"
+
+msgid "add_thread"
+msgstr "Voeg draadje toe"
+
+msgid "adm_edit_permission"
+msgstr "Wijzigen instellingen van de rechten"
+
+msgid "adm_read"
+msgstr "Leesrechten Systeeminstellingen"
+
+msgid "adm_visible"
+msgstr "Systeem-instellingen zijn zichtbaar"
+
+msgid "adm_write"
+msgstr "Wijzigen standaard systeem-instellingen"
+
+#, fuzzy
+msgid "adn_edit_permission"
+msgstr "User can change permissions of Administrative Notifications' administration."
+
+#, fuzzy
+msgid "adn_read"
+msgstr "User has read access to administration of Administrative Notifications."
+
+#, fuzzy
+msgid "adn_visible"
+msgstr "Administration of Administrative Notifications is visible."
+
+#, fuzzy
+msgid "adn_write"
+msgstr "User can add and edit Administrative Notifications."
+
+msgid "adopt_perm_from_template"
+msgstr "Kopiëren instellingen van de rechten"
+
+msgid "adve_edit_permission"
+msgstr "Veranderen instellingen van de rechten"
+
+msgid "adve_read"
+msgstr "Geavanceerde wijzigenings-beheer benaderen"
+
+msgid "adve_visible"
+msgstr "Geavanceerde beheer instellingen zijn zichtbaar"
+
+msgid "adve_write"
+msgstr "Geavanceerde beheer instellingen"
+
+#, fuzzy
+msgid "amend_grading"
+msgstr "Amend finalized grading"
+
+msgid "assf_edit_permission"
+msgstr "Veranderen instellingen van de rechten"
+
+msgid "assf_read"
+msgstr "Toets- en Beoordelingsbeheer benaderen"
+
+msgid "assf_visible"
+msgstr "Toets- en Beoordelingsbeheer is zichtbaar"
+
+msgid "assf_write"
+msgstr "Toets- en Beoordelingsbeheer wijzigen"
+
+msgid "auth_edit_permission"
+msgstr "Wijzigen instellingen van de rechten"
+
+msgid "auth_read"
+msgstr "Authenticatie-instellingen benaderen"
+
+msgid "auth_visible"
+msgstr "Authenticatie instellingen zijn zichtbaar"
+
+msgid "auth_write"
+msgstr "Wijzigen authenticatie instellingen"
+
+#, fuzzy
+msgid "awra_edit_permission"
+msgstr "User can change permission settings in ‘Who is online?’ administration"
+
+#, fuzzy
+msgid "awra_read"
+msgstr "User has read access to ‘Who is online?’ administration"
+
+#, fuzzy
+msgid "awra_visible"
+msgstr "‘Who is online?’ administration is visible"
+
+#, fuzzy
+msgid "awra_write"
+msgstr "Edit settings in ‘Who is online?’ administration"
+
+#, fuzzy
+msgid "bdga_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "bdga_read"
+msgstr "User can read badge administration content"
+
+#, fuzzy
+msgid "bdga_visible"
+msgstr "Badge administration is visible"
+
+#, fuzzy
+msgid "bdga_write"
+msgstr "User can edit badge administration settings"
+
+msgid "bibl_copy"
+msgstr "Gebruiker mag boekenlijst kopiëren"
+
+msgid "bibl_delete"
+msgstr "Gebruiker mag boekenlijst verplaatsen of verwijderen"
+
+msgid "bibl_edit_permission"
+msgstr "Gebruiker mag rechteninstellingen wijzigen"
+
+msgid "bibl_read"
+msgstr "Gebruiker mag inhoud van boekenlijst lezen"
+
+msgid "bibl_visible"
+msgstr "Boekenlijst is zichtbaar"
+
+msgid "bibl_write"
+msgstr "Gebruiker mag boekenlijstinstellingen aanpassen"
+
+msgid "bibs_copy"
+msgstr "Gebruiker kan boekenlijst verwijderen"
+
+msgid "bibs_delete"
+msgstr "Gebruiker kan boekenlijst entries verwijderen"
+
+msgid "bibs_edit_permission"
+msgstr "Gebruiker kan rechteninstellingen wijzigen"
+
+msgid "bibs_read"
+msgstr "Gebruiker kan inhoud van boekenlijst lezen"
+
+msgid "bibs_visible"
+msgstr "Boekenlijstbeheer is zichtbaar"
+
+msgid "bibs_write"
+msgstr "Gebruiker kan inhoud van boekenlijst wijzigen"
+
+msgid "blga_edit_permission"
+msgstr "Wijzigen van rechteninstellingen"
+
+msgid "blga_read"
+msgstr "Leestoegang tot blog instellingen"
+
+msgid "blga_visible"
+msgstr "Blogbeheer is zichtbaar"
+
+msgid "blga_write"
+msgstr "Blog beheer"
+
+msgid "blog_contribute"
+msgstr "User can contribute"
+
+msgid "blog_copy"
+msgstr "User can copy blog"
+
+msgid "blog_delete"
+msgstr "User can move or delete blog"
+
+msgid "blog_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "blog_read"
+msgstr "User can read blog content"
+
+#, fuzzy
+msgid "blog_redact"
+msgstr "User can edit all postings"
+
+msgid "blog_visible"
+msgstr "Blog is visible"
+
+msgid "blog_write"
+msgstr "User can edit blog settings"
+
+#, fuzzy
+msgid "book_copy"
+msgstr "User can copy booking pool"
+
+msgid "book_delete"
+msgstr "Gebruiker mag boekingscategorie verplaatsen of verwijderen"
+
+msgid "book_edit_permission"
+msgstr "Verander permissie instellingen"
+
+#, fuzzy
+msgid "book_manage_all_reservations"
+msgstr "User can manage all reservations"
+
+#, fuzzy
+msgid "book_manage_own_reservations"
+msgstr "User can manage own reservations"
+
+msgid "book_read"
+msgstr "Leestoegang tot boekingscategorie"
+
+msgid "book_visible"
+msgstr "boekingscategorie is zichtbaar"
+
+msgid "book_write"
+msgstr "Wijzigen boekingscategorie"
+
+#, fuzzy
+msgid "cadm_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "cadm_read"
+msgstr "User has read access to user connection administration"
+
+#, fuzzy
+msgid "cadm_visible"
+msgstr "User connection administration is visible"
+
+#, fuzzy
+msgid "cadm_write"
+msgstr "User has write access to user connection administration"
+
+msgid "cals_add_consultation_hours"
+msgstr "Toevoegen spreekuren aan agenda"
+
+msgid "cals_edit_event"
+msgstr "Publieke agenda beheren"
+
+msgid "cals_edit_permission"
+msgstr "Rechten instellingen wijzigen"
+
+msgid "cals_read"
+msgstr "Leestoegang voor de agenda-instellingen"
+
+msgid "cals_visible"
+msgstr "Agenda-instellingen zijn zichtbaar"
+
+msgid "cals_write"
+msgstr "Agenda-afspraken wijzigen"
+
+msgid "cat_administrate_users"
+msgstr "Beheer lokale gebruikers account"
+
+msgid "cat_cat_administrate_users"
+msgstr "Lokale gebruikers beheren"
+
+msgid "cat_copy"
+msgstr "Kopieër Categorie"
+
+msgid "cat_delete"
+msgstr "Verwijder categorie"
+
+msgid "cat_edit_permission"
+msgstr "Wijzig instellingen van de rechten"
+
+msgid "cat_read"
+msgstr "Leestoegang categorie"
+
+msgid "cat_read_users"
+msgstr "Leesrechten op lokale gebruikers"
+
+msgid "cat_visible"
+msgstr "Categorie is zichtbaar"
+
+msgid "cat_write"
+msgstr "Wijzig categorie"
+
+msgid "catr_copy"
+msgstr "Kopieer categorie referentie"
+
+msgid "catr_delete"
+msgstr "Verwijder Categorie Referentie"
+
+msgid "catr_edit_permission"
+msgstr "Permissie instellingen wijzigen"
+
+msgid "catr_visible"
+msgstr "Categorie Referentie is zichtbaar"
+
+msgid "catr_write"
+msgstr "Wijzigen Categorie referentie"
+
+msgid "cert_edit_permission"
+msgstr "Wijzigen van rechteninstellingen"
+
+msgid "cert_read"
+msgstr "Leestoegang tot certificaat instellingen"
+
+msgid "cert_visible"
+msgstr "Certificaatinstellingen zijn zichtbaar"
+
+msgid "cert_write"
+msgstr "Wijzigen toegangsinstellingen"
+
+msgid "change_existing_object_type_desc"
+msgstr "Also change permissions of already existing objects of that type"
+
+msgid "change_existing_objects"
+msgstr "Bestaande objecten wijzigen"
+
+msgid "change_existing_objects_desc"
+msgstr "De toestemmingsinstellingen van deze rol zullen toegevoegd worden aan ALLE bestaande objecten. Als je toestemmingen slechts voor specifieke objecttypes wilt ruilen gelieve dan met de rechtermuisknop te klikken op de checkboxes van het aangewezen objecttype."
+
+msgid "change_existing_prefix"
+msgstr "Verander bestaande"
+
+msgid "change_existing_prefix_single"
+msgstr "Verander"
+
+msgid "change_existing_suffix"
+msgstr "&nbsp;"
+
+msgid "change_existing_suffix_single"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "change_presentation"
+msgstr "Change Presentation"
+
+msgid "chtr_delete"
+msgstr "User can move or delete course"
+
+msgid "chtr_edit_permission"
+msgstr "Change Permission Settings"
+
+msgid "chtr_moderate"
+msgstr "Moderate Chatroom"
+
+msgid "chtr_read"
+msgstr "Read access to Chatroom"
+
+msgid "chtr_visible"
+msgstr "Chatroom is visible"
+
+msgid "chtr_write"
+msgstr "Edit Chatroom"
+
+#, fuzzy
+msgid "cmis_edit_permission"
+msgstr "User can change permission settings of xAPI/cmi5 administration."
+
+#, fuzzy
+msgid "cmis_read"
+msgstr "User has read access to xAPI/cmi5 administration."
+
+#, fuzzy
+msgid "cmis_visible"
+msgstr "Administration of xAPI/cmi5 is visible."
+
+#, fuzzy
+msgid "cmis_write"
+msgstr "User can edit settings of xAPI/cmi5 administration."
+
+#, fuzzy
+msgid "cmix_copy"
+msgstr "User can copy xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_delete"
+msgstr "User can move or delete xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "cmix_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "cmix_read"
+msgstr "User can see xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "cmix_read_outcomes"
+msgstr "User can see learning experiences and ranking of other users"
+
+#, fuzzy
+msgid "cmix_visible"
+msgstr "xAPI/cmi5 Object is visible"
+
+#, fuzzy
+msgid "cmix_write"
+msgstr "User can edit settings of xAPI/cmi5 Object"
+
+msgid "cmps_edit_permission"
+msgstr "Rechten instellingen wijzigen"
+
+msgid "cmps_read"
+msgstr "Leestoegang tot component instellingen"
+
+msgid "cmps_visible"
+msgstr "Componentie instellingen zijn zichtbaar"
+
+msgid "cmps_write"
+msgstr "Wijzigen component instellingen"
+
+#, fuzzy
+msgid "coms_edit_permissions"
+msgstr "User can change permission settings of administration of Comments."
+
+#, fuzzy
+msgid "coms_read"
+msgstr "User has read access to administration of Comments."
+
+#, fuzzy
+msgid "coms_visible"
+msgstr "Administration of Comments is visible."
+
+#, fuzzy
+msgid "coms_write"
+msgstr "User can edit settings of administration of Comments."
+
+msgid "condition_failed"
+msgstr "Mislukt"
+
+msgid "condition_learning_progress"
+msgstr "Afleiden van leer voortgang"
+
+#, fuzzy
+msgid "condition_result_range_percentage"
+msgstr "Result Range"
+
+msgid "contribute"
+msgstr "Contribute"
+
+#, fuzzy
+msgid "copa_copy"
+msgstr "Copy Content Page"
+
+#, fuzzy
+msgid "copa_delete"
+msgstr "User can move or delete Content Page"
+
+#, fuzzy
+msgid "copa_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "copa_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "copa_read"
+msgstr "User can read Content Page"
+
+#, fuzzy
+msgid "copa_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "copa_visible"
+msgstr "Content Page is visible"
+
+#, fuzzy
+msgid "copa_write"
+msgstr "User can edit Content Page"
+
+#, fuzzy
+msgid "cpad_edit_permissions"
+msgstr "User can change permission settings of administration of Content Pages."
+
+#, fuzzy
+msgid "cpad_read"
+msgstr "User has read access to administration of Content Pages."
+
+#, fuzzy
+msgid "cpad_visible"
+msgstr "Administration of Content Pages is visible."
+
+#, fuzzy
+msgid "cpad_write"
+msgstr "User can edit settings of administration of Content Pages."
+
+msgid "crs_copy"
+msgstr "Kopieër Cursus"
+
+msgid "crs_delete"
+msgstr "Cursus verwijderen"
+
+msgid "crs_edit_event"
+msgstr "Agenda-afspraken wijzigen"
+
+msgid "crs_edit_learning_progress"
+msgstr "Voortgang aanpassen"
+
+msgid "crs_edit_permission"
+msgstr "Wijzig instellingen van de rechten"
+
+#, fuzzy
+msgid "crs_grade"
+msgstr "Grade Members of Course"
+
+msgid "crs_join"
+msgstr "Abonneren op cursus"
+
+msgid "crs_leave"
+msgstr "Abonnement op cursus beëindigen"
+
+#, fuzzy
+msgid "crs_manage_members"
+msgstr "Manage Members of Course"
+
+#, fuzzy
+msgid "crs_news_add_news"
+msgstr "Add and edit own news entries in course"
+
+msgid "crs_read"
+msgstr "Leestoegang op cursus"
+
+msgid "crs_read_learning_progress"
+msgstr "Gebruiker kan leervoortgang van andere gebruikers zien"
+
+msgid "crs_visible"
+msgstr "Cursus is zichtbaar"
+
+msgid "crs_write"
+msgstr "Cursus wijzigen"
+
+msgid "crsr_copy"
+msgstr "Kopieer cursus refentie"
+
+msgid "crsr_delete"
+msgstr "Verwijder Cursus referentie"
+
+#, fuzzy
+msgid "crsr_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "crsr_edit_permission"
+msgstr "Permissie instellingen wijzigen"
+
+#, fuzzy
+msgid "crsr_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "crsr_visible"
+msgstr "Cursus referentie is zichtbaar"
+
+msgid "crsr_write"
+msgstr "Wijzigen cursus referentie"
+
+msgid "crss_edit_permission"
+msgstr "Gebruiker kan rechteninstellingen wijzigen in cursusbeheer"
+
+msgid "crss_read"
+msgstr "Gebruiker heeft leestoegang tot cursusbeheer"
+
+msgid "crss_visible"
+msgstr "Cursusbeheer is zichtbaar"
+
+msgid "crss_write"
+msgstr "Wijzigen instellingen in cursusbeheer"
+
+msgid "dcl_add_entry"
+msgstr "Gebruiker kan onderdelen toevoegen/wijzigen"
+
+msgid "dcl_copy"
+msgstr "User can copy data collection"
+
+msgid "dcl_delete"
+msgstr "User can move or delete data collection"
+
+#, fuzzy
+msgid "dcl_edit_content"
+msgstr "Edit entries"
+
+msgid "dcl_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "dcl_read"
+msgstr "Read access to Data Collection"
+
+msgid "dcl_visible"
+msgstr "Data Collection is visible"
+
+msgid "dcl_write"
+msgstr "User can edit settings and content of data collection"
+
+msgid "delete_files"
+msgstr "Verwijder bestanden"
+
+msgid "delete_folders"
+msgstr "Verwijderen mappen"
+
+#, fuzzy
+msgid "delete_wiki_pages"
+msgstr "Delete Pages"
+
+#, fuzzy
+msgid "dpro_edit_permission"
+msgstr "User can change permission settings in the Declaration of Data Protected administration"
+
+#, fuzzy
+msgid "dpro_read"
+msgstr "User has read access to the Declaration of Data Protection administration"
+
+#, fuzzy
+msgid "dpro_visible"
+msgstr "Declaration of Data Protection administration is visible"
+
+#, fuzzy
+msgid "dpro_write"
+msgstr "Edit settings in the Declaration of Data Protection"
+
+#, fuzzy
+msgid "dshs_change_presentation"
+msgstr "Change presentation of dashboard view"
+
+#, fuzzy
+msgid "dshs_edit_permission"
+msgstr "User can change permission settings of Dashboard administration"
+
+#, fuzzy
+msgid "dshs_read"
+msgstr "User has read access to Dashboard administration"
+
+#, fuzzy
+msgid "dshs_visible"
+msgstr "Dashboard administration is visible"
+
+#, fuzzy
+msgid "dshs_write"
+msgstr "Edit settings of Dashboard administration"
+
+msgid "ecss_edit_permission"
+msgstr "Gebruiker mag rechten van EVS beheer wijzigen"
+
+msgid "ecss_read"
+msgstr "Gebruiker mag algemene ECS instellingen lezen"
+
+msgid "ecss_visible"
+msgstr "ECS instellingen zijn zichtbaar"
+
+msgid "ecss_write"
+msgstr "Gebruiker mag ECS instellingen wijzigen"
+
+msgid "edit_event"
+msgstr "Agenda wijzigen"
+
+#, fuzzy
+msgid "edit_file"
+msgstr "Edit File"
+
+#, fuzzy
+msgid "edit_in_online_editor"
+msgstr "Open in online editor"
+
+msgid "edit_learning_progress"
+msgstr "Voortgang aanpassen"
+
+#, fuzzy
+msgid "edit_members"
+msgstr "Manage members"
+
+msgid "edit_permission"
+msgstr "Verander rechten"
+
+msgid "edit_roleassignment"
+msgstr "Wijzigen roltaak"
+
+#, fuzzy
+msgid "edit_submissions_grades"
+msgstr "Edit Submissions and Grades"
+
+msgid "edit_userassignment"
+msgstr "Wijzigen gebruikerstoewijzing"
+
+#, fuzzy
+msgid "edit_wiki_navigation"
+msgstr "Edit Navigation"
+
+msgid "exc_copy"
+msgstr "Kopieër oefening"
+
+msgid "exc_delete"
+msgstr "Verwijder oefening"
+
+msgid "exc_edit_learning_progress"
+msgstr "Voortgang aanpassen"
+
+msgid "exc_edit_permission"
+msgstr "Wijzig instellingen van de rechten"
+
+#, fuzzy
+msgid "exc_edit_submissions_grades"
+msgstr "User can edit submissions and grades"
+
+msgid "exc_read"
+msgstr "Oefening benaderen"
+
+msgid "exc_read_learning_progress"
+msgstr "Gebruiker kan leervoortgang van andere gebruikers zien"
+
+msgid "exc_visible"
+msgstr "Oefening is zichtbaar"
+
+msgid "exc_write"
+msgstr "Wijzigen oefening"
+
+msgid "excs_edit_permission"
+msgstr "Gebruiker kan instellingen van toegangsrechten van oefeningbeheer wijzigen"
+
+msgid "excs_read"
+msgstr "Gebruiker heeft leestoegang tot oefeningbeheer"
+
+msgid "excs_visible"
+msgstr "Oefeningbeheer is zichtbaar"
+
+msgid "excs_write"
+msgstr "Wijzig instellingen van oefeningbeheer"
+
+msgid "export_member_data"
+msgstr "Toegang tot gebruikersgegevens"
+
+msgid "facs_edit_permission"
+msgstr "Rechten instellingen wijzigen"
+
+msgid "facs_read"
+msgstr "Leestoegang tot bestand en map instellingen"
+
+#, fuzzy
+msgid "facs_upload_blacklisted_files"
+msgstr "Upload indexed file types despite blacklist"
+
+msgid "facs_visible"
+msgstr "Bestand en map instellingen zijn zichtbaar"
+
+msgid "facs_write"
+msgstr "Wijzigen bestanden en mappen instellingen"
+
+#, fuzzy
+msgid "feed_copy"
+msgstr "User can copy webfeed"
+
+msgid "feed_delete"
+msgstr "Verwijder web feed"
+
+msgid "feed_edit_permission"
+msgstr "Verander instellingen van de rechten"
+
+msgid "feed_read"
+msgstr "Leesrechten voor Web Feed"
+
+msgid "feed_write"
+msgstr "Wijzig Web Feed"
+
+msgid "file_copy"
+msgstr "Kopieër Bestand"
+
+msgid "file_delete"
+msgstr "Verwijder bestand"
+
+#, fuzzy
+msgid "file_edit_file"
+msgstr "Allow to edit the file in an external editor, if available"
+
+#, fuzzy
+msgid "file_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "file_edit_permission"
+msgstr "Wijzig instellingen van de rechten"
+
+#, fuzzy
+msgid "file_file_view_content"
+msgstr "File content presented in browser (if WOPI is active)"
+
+#, fuzzy
+msgid "file_file_view_content_short"
+msgstr "Show Content"
+
+msgid "file_read"
+msgstr "Download bestand"
+
+#, fuzzy
+msgid "file_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "file_visible"
+msgstr "Bestand is zichtbaar"
+
+msgid "file_write"
+msgstr "Wijzig bestand"
+
+msgid "files_visible"
+msgstr "Bestanden zichtbaar"
+
+#, fuzzy
+msgid "fils_edit_permissions"
+msgstr "User can change permission settings of File Services administration."
+
+#, fuzzy
+msgid "fils_read"
+msgstr "User has read access to File Services administration."
+
+#, fuzzy
+msgid "fils_visible"
+msgstr "Administration of File Services is visible."
+
+#, fuzzy
+msgid "fils_write"
+msgstr "User can edit and configure File Services."
+
+msgid "filter_all_roles"
+msgstr "Alle rollen van de huidige context tonen"
+
+msgid "filter_global_roles"
+msgstr "Alleen globale rollen tonen"
+
+msgid "filter_local_roles"
+msgstr "Alleen lokale rollen van de huidige context tonen"
+
+msgid "filter_local_roles_object"
+msgstr "Alleen lokale rollen vanaf deze positie tonen"
+
+msgid "filter_roles_local_policy"
+msgstr "Alleen rollen met een lokaal beleid op deze plaats tonen"
+
+msgid "fld_create_poll"
+msgstr "Create Poll"
+
+msgid "fold_copy"
+msgstr "Kopieër Map"
+
+msgid "fold_delete"
+msgstr "Verwijder Ma"
+
+msgid "fold_edit_learning_progress"
+msgstr "Voortgang aanpassen"
+
+msgid "fold_edit_permission"
+msgstr "Wijzig instellingen van de rechten"
+
+msgid "fold_read"
+msgstr "Leesrechten op Map"
+
+msgid "fold_read_learning_progress"
+msgstr "Gebruiker kan leervoortgang van andere gebruikers zien"
+
+msgid "fold_visible"
+msgstr "Map is zichtbaar"
+
+msgid "fold_write"
+msgstr "Wijzig Map"
+
+msgid "folders_create"
+msgstr "Aanmaken mappen"
+
+msgid "folders_visible"
+msgstr "Mappen zichtbaar"
+
+msgid "frm_add_reply"
+msgstr "Gebruikers kunnen reageren op een bericht"
+
+msgid "frm_add_thread"
+msgstr "Add new topi"
+
+msgid "frm_copy"
+msgstr "Kopieër Forum"
+
+msgid "frm_delete"
+msgstr "Verwijder forum"
+
+#, fuzzy
+msgid "frm_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "frm_edit_permission"
+msgstr "Wijzig instellingen van de rechten"
+
+msgid "frm_moderate_frm"
+msgstr "Delete a post, censorship"
+
+msgid "frm_read"
+msgstr "Leesrecht op forum"
+
+#, fuzzy
+msgid "frm_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "frm_visible"
+msgstr "Forum is zichtbaar"
+
+msgid "frm_write"
+msgstr "Forum wijzigen"
+
+msgid "frma_edit_permission"
+msgstr "Verander rechten instellingen"
+
+msgid "frma_read"
+msgstr "Leestoegang tot forumbeheer"
+
+msgid "frma_visible"
+msgstr "Forum beheer is zichtbaar"
+
+msgid "frma_write"
+msgstr "Schrijf toegang tot forum beheer"
+
+msgid "glo_copy"
+msgstr "Kopieër Woordenlijst"
+
+msgid "glo_delete"
+msgstr "Verwijder woordenlijst"
+
+msgid "glo_edit_content"
+msgstr "Gebruiker kan inhoud wijzigen"
+
+msgid "glo_edit_permission"
+msgstr "Wijzig instellingen van de rechten"
+
+msgid "glo_read"
+msgstr "Leesrecht op woordenlijst"
+
+msgid "glo_visible"
+msgstr "Woordenlijst is zichtbaar"
+
+msgid "glo_write"
+msgstr "Wijzigen woordenlijst"
+
+msgid "grp_copy"
+msgstr "Kopieër Groep"
+
+msgid "grp_delete"
+msgstr "Verwijder groep"
+
+msgid "grp_edit_event"
+msgstr "Agenda-afspraken wijzigen"
+
+msgid "grp_edit_learning_progress"
+msgstr "Voortgang aanpassen"
+
+msgid "grp_edit_permission"
+msgstr "Wijzig instellingen van de rechten"
+
+#, fuzzy
+msgid "grp_grade"
+msgstr "Grade Members of Group"
+
+msgid "grp_join"
+msgstr "Gebruiker mag deelnemen aan groep"
+
+msgid "grp_leave"
+msgstr "Gebruiker mag groep verlaten"
+
+#, fuzzy
+msgid "grp_manage_members"
+msgstr "Manage Members of Group"
+
+#, fuzzy
+msgid "grp_news_add_news"
+msgstr "Add and edit own news entries in group"
+
+msgid "grp_read"
+msgstr "Leesrechten op groep"
+
+msgid "grp_read_learning_progress"
+msgstr "Gebruiker kan leervoortgang van andere gebruikers zien"
+
+msgid "grp_visible"
+msgstr "Groep is zichtbaar"
+
+msgid "grp_write"
+msgstr "Groep wijzigen"
+
+#, fuzzy
+msgid "grpr_copy"
+msgstr "User can copy group reference"
+
+#, fuzzy
+msgid "grpr_delete"
+msgstr "User can move or delete group reference"
+
+#, fuzzy
+msgid "grpr_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "grpr_visible"
+msgstr "Group reference is visible"
+
+#, fuzzy
+msgid "grpr_write"
+msgstr "User can edit settings of group reference"
+
+msgid "grps_edit_permission"
+msgstr "Gebruiker kan rechteninstellingen wijzigen in groepsbeheer"
+
+msgid "grps_read"
+msgstr "Gebruiker heeft leestoegang tot groepsbeheer"
+
+msgid "grps_visible"
+msgstr "Groepsbeheer is zichtbaar"
+
+msgid "grps_write"
+msgstr "Wijzigen instellingen in groepsbeheer"
+
+msgid "hlps_edit_permission"
+msgstr "Gebruiker mag rechten van helpsysteembeheer wijzigen"
+
+msgid "hlps_read"
+msgstr "Gebruiker heeft leestoegang tot het beheer van het help systeem"
+
+msgid "hlps_visible"
+msgstr "Help Systeem beheer is zichtbaar"
+
+msgid "hlps_write"
+msgstr "Gebruiker mag instellingen van Help Systeem wijzigen en nieuwe versies uploaden"
+
+msgid "htlm_copy"
+msgstr "Kopieër HTML Leermodule"
+
+msgid "htlm_delete"
+msgstr "Verwijder HTML lesmodule"
+
+msgid "htlm_edit_learning_progress"
+msgstr "Voortgang aanpassen"
+
+msgid "htlm_edit_permission"
+msgstr "Wijzig instellingen van de rechten"
+
+msgid "htlm_read"
+msgstr "Lezen HTML lesmodule"
+
+msgid "htlm_read_learning_progress"
+msgstr "Gebruiker kan leervoortgang van andere gebruikers zien"
+
+msgid "htlm_visible"
+msgstr "HTML lesmodule is zichtbaar"
+
+msgid "htlm_write"
+msgstr "Wijzig HTML lesmodule"
+
+#, fuzzy
+msgid "iass_amend_grading"
+msgstr "Amend gradings in an Individual Assessment"
+
+#, fuzzy
+msgid "iass_copy"
+msgstr "Copy a Individual Assessment"
+
+#, fuzzy
+msgid "iass_delete"
+msgstr "Delete a Individual Assessment"
+
+#, fuzzy
+msgid "iass_edit_learning_progress"
+msgstr "Edit learning progress information of a Individual Assessment"
+
+#, fuzzy
+msgid "iass_edit_members"
+msgstr "Edit members of a Individual Assessment"
+
+#, fuzzy
+msgid "iass_edit_permission"
+msgstr "Edit permissions of a Individual Assessment"
+
+#, fuzzy
+msgid "iass_read"
+msgstr "Read content of a Individual Assessment"
+
+#, fuzzy
+msgid "iass_read_learning_progress"
+msgstr "View learning progress information of a Individual Assessment"
+
+#, fuzzy
+msgid "iass_visible"
+msgstr "Individual Assessment is visible"
+
+#, fuzzy
+msgid "iass_write"
+msgstr "Edit a Individual Assessment"
+
+#, fuzzy
+msgid "il_lti_global_role"
+msgstr "LTI User"
+
+#, fuzzy
+msgid "il_sess_participant"
+msgstr "Session Participant"
+
+#, fuzzy
+msgid "il_sess_status_closed"
+msgstr "Non-Participant Closed Session"
+
+#, fuzzy
+msgid "ilias_id"
+msgstr "ILIAS-ID"
+
+#, fuzzy
+msgid "impr_edit_permission"
+msgstr "User can change permission settings of Legal Notice administration"
+
+#, fuzzy
+msgid "impr_read"
+msgstr "User can read in Legal Notice administration"
+
+#, fuzzy
+msgid "impr_visible"
+msgstr "Administration of Legal Notice is visible"
+
+#, fuzzy
+msgid "impr_write"
+msgstr "User can edit content and settings of Legal Notice"
+
+msgid "info_user_view_changed"
+msgstr "Gebruikersoverzicht gewijzigd"
+
+msgid "internal_mail"
+msgstr "Interne E-mail"
+
+msgid "invite"
+msgstr "Uitnodigen voor enquête."
+
+msgid "itgr_copy"
+msgstr "User can copy item group"
+
+msgid "itgr_delete"
+msgstr "User can move or delete item group"
+
+msgid "itgr_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "itgr_read"
+msgstr "User can read item group"
+
+msgid "itgr_visible"
+msgstr "Item group is visible"
+
+msgid "itgr_write"
+msgstr "User can edit content and settings of item group"
+
+msgid "leave"
+msgstr "verlaat"
+
+#, fuzzy
+msgid "lhts_edit_permissions"
+msgstr "User can change permission settings of Learning History administration."
+
+#, fuzzy
+msgid "lhts_read"
+msgstr "User has read access to Learning History administration."
+
+#, fuzzy
+msgid "lhts_visible"
+msgstr "Administration of Learning History is visible."
+
+#, fuzzy
+msgid "lhts_write"
+msgstr "User can edit settings of Learning History administration."
+
+msgid "lm_copy"
+msgstr "Kopieër ILIAS leermodule"
+
+msgid "lm_delete"
+msgstr "Verwijderen Lesmodule"
+
+msgid "lm_edit_learning_progress"
+msgstr "Voortgang aanpassen"
+
+msgid "lm_edit_permission"
+msgstr "Wijzig instellingen van de rechten"
+
+msgid "lm_read"
+msgstr "Leesrechten op lesmodule"
+
+msgid "lm_read_learning_progress"
+msgstr "Gebruiker kan leervoortgang van andere gebruikers zien"
+
+msgid "lm_visible"
+msgstr "Lesmodule is zichtbaar"
+
+msgid "lm_write"
+msgstr "Wijzigen Lesmodule"
+
+msgid "lngf_edit_permission"
+msgstr "Wijzigen Rechten-instellingen"
+
+msgid "lngf_read"
+msgstr "Leestoegang taalinstellingen"
+
+msgid "lngf_visible"
+msgstr "Taalinstellingen zijn zichtbaar"
+
+msgid "lngf_write"
+msgstr "Benodigd schrijftoegang voor uitgebreid taalbeheer"
+
+#, fuzzy
+msgid "logs_edit_permission"
+msgstr "User can edit permission settings of Logging administration"
+
+#, fuzzy
+msgid "logs_read"
+msgstr "User can read general Logging settings"
+
+#, fuzzy
+msgid "logs_visible"
+msgstr "Logging settings are visible"
+
+#, fuzzy
+msgid "logs_write"
+msgstr "User can edit Logging settings"
+
+msgid "lp_other_users"
+msgstr "Tonen overzicht voortgangsoverzicht van anders gebruikers"
+
+msgid "lrss_edit_permission"
+msgstr "Wijzigen van rechteninstellingen"
+
+msgid "lrss_read"
+msgstr "Leestoegang tot instellingen leermiddelen"
+
+msgid "lrss_visible"
+msgstr "Instellingen leer hulpmiddelen zijn zichtbaar"
+
+msgid "lrss_write"
+msgstr "Wijzigen instellingen hulpmiddelen"
+
+#, fuzzy
+msgid "lso_copy"
+msgstr "User can copy Learning Sequence"
+
+#, fuzzy
+msgid "lso_delete"
+msgstr "User can delete Learning Sequence"
+
+#, fuzzy
+msgid "lso_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "lso_edit_permission"
+msgstr "User can change permission settings of Learning Sequence"
+
+#, fuzzy
+msgid "lso_lp_other_users"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "lso_manage_members"
+msgstr "Manage members of Learning Sequence"
+
+#, fuzzy
+msgid "lso_participate"
+msgstr "User can subscribe to a Learning Sequence"
+
+#, fuzzy
+msgid "lso_read"
+msgstr "Users can access the Learning Sequence"
+
+#, fuzzy
+msgid "lso_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "lso_unparticipate"
+msgstr "User can unsubscribe from a Learning Sequence"
+
+#, fuzzy
+msgid "lso_visible"
+msgstr "Learning Sequence is visible"
+
+#, fuzzy
+msgid "lso_write"
+msgstr "User can edit settings of Learning Sequence"
+
+#, fuzzy
+msgid "lsos_edit_permission"
+msgstr "User can change permission settings of Learning Sequences administration."
+
+#, fuzzy
+msgid "lsos_read"
+msgstr "User has read access to Learning Sequences administration."
+
+#, fuzzy
+msgid "lsos_visible"
+msgstr "Administration of Learning Sequences is visible."
+
+#, fuzzy
+msgid "lsos_write"
+msgstr "User can edit settings of Learning Sequences administration."
+
+#, fuzzy
+msgid "lti_copy"
+msgstr "User can copy LTI consumer"
+
+#, fuzzy
+msgid "lti_delete"
+msgstr "User can move or delete LTI consumer"
+
+#, fuzzy
+msgid "lti_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "lti_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "lti_read"
+msgstr "User can see LTI consumer"
+
+#, fuzzy
+msgid "lti_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "lti_read_outcomes"
+msgstr "User can see learning experiences and ranking of other users"
+
+#, fuzzy
+msgid "lti_visible"
+msgstr "LTI consumer is visible"
+
+#, fuzzy
+msgid "lti_write"
+msgstr "User can edit settings of LTI consumer"
+
+#, fuzzy
+msgid "ltis_add_consume_provider"
+msgstr "User can add own provider settings for LTI consumer"
+
+#, fuzzy
+msgid "ltis_edit_permission"
+msgstr "User can change permission settings in LTI administration"
+
+#, fuzzy
+msgid "ltis_read"
+msgstr "User has read access to LTI administration "
+
+#, fuzzy
+msgid "ltis_release_objects"
+msgstr "User can release Objects for LTI Consumer"
+
+#, fuzzy
+msgid "ltis_visible"
+msgstr "LTI administration is visible"
+
+#, fuzzy
+msgid "ltis_write"
+msgstr "User can edit settings in LTI administration"
+
+msgid "mail_internal_mail"
+msgstr "Gebruiker kan interne e-mail gebruiken (ILIAS)"
+
+msgid "mail_mail_to_global_roles"
+msgstr "Gebruiker mag emails versturen naar de globale rollen"
+
+msgid "mail_read"
+msgstr "Leestoegang op Mailinstellingen"
+
+msgid "mail_smtp_mail"
+msgstr "Gebruiker mag mail via SMTP verzenden"
+
+msgid "mail_to_global_roles"
+msgstr "E-mail aan Globale Rollen"
+
+msgid "mail_visible"
+msgstr "Mailinstellingen zijn zichtbaar"
+
+msgid "mail_write"
+msgstr "Wijzigen Mailinstellingen"
+
+#, fuzzy
+msgid "manage_all_reservations"
+msgstr "Manage All Reservations"
+
+#, fuzzy
+msgid "manage_comp"
+msgstr "User can edit Competences"
+
+#, fuzzy
+msgid "manage_comp_temp"
+msgstr "User can edit Competence Templates"
+
+#, fuzzy
+msgid "manage_materials"
+msgstr "Manage Materials"
+
+#, fuzzy
+msgid "manage_own_reservations"
+msgstr "Manage Own Reservations"
+
+#, fuzzy
+msgid "manage_profiles"
+msgstr "User can edit Competence Profiles"
+
+msgid "mcst_copy"
+msgstr "kopieër MediaCast"
+
+msgid "mcst_delete"
+msgstr "Verwijder Mediacast"
+
+#, fuzzy
+msgid "mcst_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "mcst_edit_permission"
+msgstr "Verander instellingen van de rechten"
+
+msgid "mcst_read"
+msgstr "Leesrechten voor MediaCast"
+
+#, fuzzy
+msgid "mcst_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "mcst_visible"
+msgstr "MediaCast is zichtbaar"
+
+msgid "mcst_write"
+msgstr "Wijzig MediaCast"
+
+msgid "mcts_edit_permission"
+msgstr "Rechten instellingen wijzigen"
+
+msgid "mcts_read"
+msgstr "Leestoegang voor mediacast instellingen"
+
+msgid "mcts_visible"
+msgstr "Mediacast instellingen zijn zichtbaar"
+
+msgid "mcts_write"
+msgstr "Wijzigen mediacast instellingen"
+
+msgid "mds_edit_permission"
+msgstr "Rechten instellingen wijzigen"
+
+msgid "mds_read"
+msgstr "Leestoegang voor Metadata instellingen"
+
+msgid "mds_visible"
+msgstr "Metadata instellingen zijn zichtbaar"
+
+msgid "mds_write"
+msgstr "Wijzigen Metadata instellingen"
+
+#, fuzzy
+msgid "mep_copy"
+msgstr "User can copy media pool"
+
+msgid "mep_delete"
+msgstr "Verwijderen mediapool"
+
+msgid "mep_edit_permission"
+msgstr "Wijzig instellingen van de rechten"
+
+msgid "mep_read"
+msgstr "Lezen inhoud mediapool"
+
+msgid "mep_visible"
+msgstr "mediapool is zichtbaar"
+
+msgid "mep_write"
+msgstr "Wijzig inhoud mediapool"
+
+#, fuzzy
+msgid "mme_edit_permission"
+msgstr "User can change permission settings of Main Menu administration"
+
+#, fuzzy
+msgid "mme_read"
+msgstr "User has read access to administration of Main Menu"
+
+#, fuzzy
+msgid "mme_visible"
+msgstr "Administration of Main Menu is visible"
+
+#, fuzzy
+msgid "mme_write"
+msgstr "User can edit settings of Main Menu administration"
+
+msgid "mobs_edit_permission"
+msgstr "Wijzigen van rechteninstellingen"
+
+msgid "mobs_read"
+msgstr "Leestoegang tot instellingen van Media Objects/Pools"
+
+msgid "mobs_visible"
+msgstr "Instellingen Media Objects/Pools zijn zichtbaar"
+
+msgid "mobs_write"
+msgstr "Wijzigen van Instellingen Media Objects/Pools"
+
+msgid "moderate"
+msgstr "Moderate"
+
+msgid "moderate_frm"
+msgstr "Modereer"
+
+#, fuzzy
+msgid "msg_anonymous_cannot_be_assigned"
+msgstr "Anonymous cannot be assigned to a role."
+
+msgid "msg_no_roles_of_type"
+msgstr "Geen rol met geselecteerde filterinstelling beschikbaar"
+
+#, fuzzy
+msgid "news_add_news"
+msgstr "Add News"
+
+#, fuzzy
+msgid "no_corresponding_roles"
+msgstr "No corresponding roles could be found."
+
+#, fuzzy
+msgid "nots_edit_permission"
+msgstr "User can change permission settings of Notes administration."
+
+#, fuzzy
+msgid "nots_read"
+msgstr "User has read access to Notes administration."
+
+#, fuzzy
+msgid "nots_visible"
+msgstr "Administration of Notes is visible."
+
+#, fuzzy
+msgid "nots_write"
+msgstr "User can edit settings of Notes administration."
+
+msgid "nwss_edit_permission"
+msgstr "Veranderen instellingen van de rechten"
+
+msgid "nwss_read"
+msgstr "Leesrechten instellingen voor Nieuws en Web feeds"
+
+msgid "nwss_visible"
+msgstr "Nieuw en Web Feed instellingen zijn zichtbaar."
+
+msgid "nwss_write"
+msgstr "Wijzigen Nieuws en Web feed instellingen"
+
+#, fuzzy
+msgid "obj_skee"
+msgstr "Competence Tree"
+
+#, fuzzy
+msgid "org_op_access_results"
+msgstr "Access Results of Subordinated Users"
+
+#, fuzzy
+msgid "org_op_edit_submissions_grades"
+msgstr "Edit submissions of other users"
+
+#, fuzzy
+msgid "org_op_manage_participants"
+msgstr "Manage Subordinated Participants"
+
+#, fuzzy
+msgid "org_op_score_participants"
+msgstr "Score Subordinated Participants"
+
+#, fuzzy
+msgid "org_op_view_certificates"
+msgstr "View certificates of subordinated users"
+
+#, fuzzy
+msgid "org_op_view_competences"
+msgstr "View competences of subordinated users"
+
+#, fuzzy
+msgid "org_op_write_learning_progress"
+msgstr "Set learning Progress of Subordinate Users"
+
+msgid "orgu_cat_administrate_users"
+msgstr "Gebruiker kan lokale gebruikersaccounts aanmaken en beheren in deze Organisatorische Eenheid"
+
+#, fuzzy
+msgid "orgu_copy"
+msgstr "Copy Organisational Unit"
+
+msgid "orgu_delete"
+msgstr "Gebruiker kan Organisatorische Eenheid verplaatsen of verwijderen"
+
+msgid "orgu_edit_permission"
+msgstr "Gebruiker kan instellingen van rechten wijzigen"
+
+msgid "orgu_read"
+msgstr "Gebruiker heeft leestoegang tot Organisatorische Eenheid"
+
+msgid "orgu_read_users"
+msgstr "Gebruiker kan lokale gebruikersaccounts die in deze Organisatorische Eenheid zijn aangemaakt, lezen"
+
+msgid "orgu_view_learning_progress"
+msgstr "Toon leervoortgang"
+
+#, fuzzy
+msgid "orgu_view_learning_progress_rec"
+msgstr "View Learning Progress of Unit incl. Subunits"
+
+msgid "orgu_visible"
+msgstr "Organisatorische Eenheid is zichtbaar"
+
+msgid "orgu_write"
+msgstr "Gebruiker kan instellingen van Organisatorische Eenheid wijzigen"
+
+msgid "otpl_edit_permission"
+msgstr "Wijzigen van rechteninstellingen"
+
+msgid "otpl_read"
+msgstr "Leestoegang tot objectsjabloon instellingen"
+
+msgid "otpl_visible"
+msgstr "Object Sjablooninstellingen zijn zichtbaar"
+
+msgid "otpl_write"
+msgstr "Wijzigen Objectsjabloon instellingen"
+
+msgid "perm_class_create"
+msgstr "Aanmaken van nieuwe objecten"
+
+msgid "perm_class_create_desc"
+msgstr "Bepaal welke objecttypes onder het huidige doel tot stand kunnen worden gebracht."
+
+msgid "perm_class_object"
+msgstr "Speciale verrichting"
+
+msgid "perm_class_object_desc"
+msgstr "Objectspecifieke verrichtingen, slechts beschikbaar voor bepaalde objecten types."
+
+msgid "perm_global_role"
+msgstr "Globale rol"
+
+msgid "perm_local_role"
+msgstr "Lokale rol"
+
+msgid "perm_local_role_desc"
+msgstr "Deze rol wordt plaatselijk bepaald bij het huidige doel en beantwoordt aan een lokaal beleid"
+
+msgid "perm_protected_global_role"
+msgstr "Bescherm globale rol"
+
+msgid "perm_protected_local_role"
+msgstr "Bescherm lokale rol"
+
+msgid "perm_role_path_info_created"
+msgstr "Gecreëerd  in %1$s \"%2$s\""
+
+msgid "perm_role_path_info_inheritance"
+msgstr "gebruik makend van het lokale beleid %1$s \"%2$s\""
+
+msgid "perm_use_local_policy"
+msgstr "Gebruik lokaal beleid"
+
+msgid "perm_use_local_policy_desc"
+msgstr "Als het lokale beleid wordt ingeschakeld, kun je verschillende standaardtoestemmingsinstellingen voor het huidige voorwerp bepalen."
+
+msgid "poll_copy"
+msgstr "User can copy poll"
+
+msgid "poll_delete"
+msgstr "User can move or delete poll"
+
+msgid "poll_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "poll_read"
+msgstr "User can participate at poll"
+
+msgid "poll_visible"
+msgstr "Poll is visible"
+
+msgid "poll_write"
+msgstr "User can edit poll settings and content"
+
+#, fuzzy
+msgid "positions_override_operations"
+msgstr "Override global Settings"
+
+msgid "precondition_not_obligatory_alt"
+msgstr "Voorwaarde is optioneel"
+
+msgid "precondition_num_obligatory"
+msgstr "Aantal verplichte delen"
+
+msgid "precondition_num_optional_info"
+msgstr "Minimaal aantal verplichte onderdelen voor deze voorwaarde."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_bigger_preconditions_number"
+msgstr "The number of required materials must be less than the total number of preconditions."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_lower_compulsory_items"
+msgstr "The number of required materials must be greater than the number of compulsory preconditions."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_lower_than_one"
+msgstr "The number of required materials must be at least 1."
+
+msgid "precondition_obligatory"
+msgstr "Verplicht"
+
+msgid "precondition_obligatory_alt"
+msgstr "Voorwaarde waaraan voldaan moet worden"
+
+msgid "precondition_obligatory_info"
+msgstr "Aaan verplichte voorwaarden moeten worden voldaan om toegang te krijgen."
+
+msgid "precondition_obligatory_settings"
+msgstr "Voorwaarde instellingen"
+
+#, fuzzy
+msgid "precondition_operator_range_err_min_max"
+msgstr "The minimum value must be less than the maximum value."
+
+#, fuzzy
+msgid "precondition_operator_range_max"
+msgstr "Maximum Percentage"
+
+#, fuzzy
+msgid "precondition_operator_range_min"
+msgstr "Minimum Percentage"
+
+msgid "prfa_edit_permission"
+msgstr "Wijzigen van rechteninstellingen"
+
+msgid "prfa_read"
+msgstr "Leestoegang tot Portfolio Beheer"
+
+msgid "prfa_visible"
+msgstr "Portfolio beheer is zichtbaar"
+
+msgid "prfa_write"
+msgstr "Portfolio Beheer"
+
+#, fuzzy
+msgid "prg_copy"
+msgstr "User can copy Study Programme"
+
+#, fuzzy
+msgid "prg_delete"
+msgstr "User can delete Study Programme"
+
+#, fuzzy
+msgid "prg_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "prg_manage_members"
+msgstr "Manage members of Study Programme"
+
+#, fuzzy
+msgid "prg_read"
+msgstr "User has read access to Study Programme"
+
+#, fuzzy
+msgid "prg_visible"
+msgstr "Study Programme is visible"
+
+#, fuzzy
+msgid "prg_write"
+msgstr "User can edit settings of Study Programme"
+
+#, fuzzy
+msgid "prgr_copy"
+msgstr "User can copy links to study programmes."
+
+#, fuzzy
+msgid "prgr_delete"
+msgstr "User can move or delete links to study programmes."
+
+#, fuzzy
+msgid "prgr_edit_permission"
+msgstr "User can change permission settings."
+
+#, fuzzy
+msgid "prgr_visible"
+msgstr "Links to study programmes are visible and can be used"
+
+#, fuzzy
+msgid "prgr_write"
+msgstr "User can edit settings of links to study programmes."
+
+#, fuzzy
+msgid "prgs_edit_permission"
+msgstr "Change permission settings in Study Programme administration"
+
+#, fuzzy
+msgid "prgs_read"
+msgstr "User has read access to Study Programme administration"
+
+#, fuzzy
+msgid "prgs_visible"
+msgstr "Study Programme administration is visible"
+
+#, fuzzy
+msgid "prgs_write"
+msgstr "Edit settings in Study Programme administration"
+
+#, fuzzy
+msgid "prss_edit_permission"
+msgstr "User can change permission settings of Personal Resources administration."
+
+#, fuzzy
+msgid "prss_read"
+msgstr "User has read access to Personal Resources administration."
+
+#, fuzzy
+msgid "prss_visible"
+msgstr "Administration of Personal Resources is visible."
+
+#, fuzzy
+msgid "prss_write"
+msgstr "User can edit settings of Personal Resources administration."
+
+msgid "prtt_copy"
+msgstr "Gebruiker kan portfolio sjabloon kopiëren"
+
+msgid "prtt_delete"
+msgstr "Gebruiker kan portfolio sjabloon verplaatsen of verwijderen"
+
+msgid "prtt_edit_permission"
+msgstr "Gebruiker kan rechteninstelligen van portfolio sjabloon wijzigen"
+
+msgid "prtt_read"
+msgstr "Gebruiker heeft leestoegang tot portfolio sjabloon"
+
+msgid "prtt_visible"
+msgstr "Portfolio Sjabloon is zichtbaar"
+
+msgid "prtt_write"
+msgstr "Gebruiker kan instellingen en inhoud van portfolio sjabloon wijzingen"
+
+msgid "ps_edit_permission"
+msgstr "Verander instellingen van de rechten"
+
+msgid "ps_export_member_data"
+msgstr "De gebruiker kan de gegevens van de deelnemer exporteren."
+
+msgid "ps_read"
+msgstr "Leestoegang tot Privacy-/veiligheidsinstellingen"
+
+msgid "ps_visible"
+msgstr "Privacy-/veiligheidsinstellingen zijn zichtbaar."
+
+msgid "ps_write"
+msgstr "Wijzigen Privacy/Veiligheid"
+
+#, fuzzy
+msgid "push_desktop_items"
+msgstr "Recommend Content"
+
+msgid "qpl_copy"
+msgstr "Kopieer Toetsvragenpool"
+
+msgid "qpl_delete"
+msgstr "Vraag verwijderen uit vragenpool"
+
+msgid "qpl_edit_permission"
+msgstr "Wijzig instellingen van de rechten"
+
+msgid "qpl_read"
+msgstr "Leesrechten op vragenpool"
+
+msgid "qpl_visible"
+msgstr "vragenpool is zichtbaar"
+
+msgid "qpl_write"
+msgstr "Wijzigen vragenpool"
+
+msgid "rbac_add_new_local_role"
+msgstr "Voeg nieuw lokale rol toe"
+
+#, fuzzy
+msgid "rbac_add_recommended_content"
+msgstr "Recommended Content"
+
+#, fuzzy
+msgid "rbac_add_recommended_content_info"
+msgstr "Adds the current object '%1' for all members of the role as recommended content."
+
+msgid "rbac_admin_permissions"
+msgstr "Beheer rechten"
+
+msgid "rbac_auto_global"
+msgstr "Auto gegenereerde globale rol"
+
+msgid "rbac_auto_local"
+msgstr "Auto gegenereerde lokale rol"
+
+msgid "rbac_auto_rolt"
+msgstr "Auto gegenereerde rol sjabloon"
+
+msgid "rbac_back_to_overview"
+msgstr "Terug naar rollenlijst"
+
+#, fuzzy
+msgid "rbac_cant_import_role_wrong_type"
+msgstr "Can't import a role from item %s into item %s."
+
+msgid "rbac_change_existing_confirm_tbl"
+msgstr "Instellingen voor \"Wijzig bestaande objecten\""
+
+msgid "rbac_change_existing_objects_desc_new_role"
+msgstr "De permissie instellingen van deze rol worden toegepast op ALLE bestaande objecten."
+
+msgid "rbac_changes"
+msgstr "Veranderingen"
+
+msgid "rbac_choose_copy_targets"
+msgstr "Voer zoekargumenten in om de bestemmingsrol te vinden."
+
+msgid "rbac_condition_delete_sure"
+msgstr "Weet je zeker dat je de volgende voorwaarden wilt verwijderen?"
+
+msgid "rbac_context_global"
+msgstr "Globaal"
+
+msgid "rbac_copy_behaviour"
+msgstr "Role Copy Settings"
+
+#, fuzzy
+msgid "rbac_copy_behaviour_info"
+msgstr "Transfer Permissions from: %s to: %s"
+
+msgid "rbac_copy_finished"
+msgstr "Finished copying."
+
+#, fuzzy
+msgid "rbac_copy_multi_targets"
+msgstr "%s, %s and %s further Roles selected%s"
+
+#, fuzzy
+msgid "rbac_copy_no_targets"
+msgstr "At least one Role must be selected as Target"
+
+msgid "rbac_copy_role"
+msgstr "Copy Role"
+
+msgid "rbac_copy_role_add_perm"
+msgstr "Toevoegen rechten"
+
+msgid "rbac_copy_role_copy"
+msgstr "Kopieer rechten"
+
+msgid "rbac_copy_role_remove_perm"
+msgstr "Verwijdere rechten"
+
+msgid "rbac_create_bibl"
+msgstr "Aanmaken Boekenlijst"
+
+msgid "rbac_create_blog"
+msgstr "Aanmaken Blog"
+
+msgid "rbac_create_book"
+msgstr "Aanmaken boekingscategorie"
+
+msgid "rbac_create_cat"
+msgstr "Gebruiker mag categorieën aanmaken"
+
+msgid "rbac_create_catr"
+msgstr "Aanmaken Categorie referentie"
+
+msgid "rbac_create_chtr"
+msgstr "Aanmaken Chatroom"
+
+#, fuzzy
+msgid "rbac_create_cmix"
+msgstr "Create xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "rbac_create_copa"
+msgstr "Create Content Page"
+
+msgid "rbac_create_crs"
+msgstr "Aanmaken Cursus"
+
+msgid "rbac_create_crsr"
+msgstr "Aanmaken Course Referentie"
+
+msgid "rbac_create_dcl"
+msgstr "Aanmaken Data Collection"
+
+msgid "rbac_create_exc"
+msgstr "Aanmaken Oefening"
+
+msgid "rbac_create_file"
+msgstr "Upload bestand"
+
+msgid "rbac_create_fold"
+msgstr "Aanmaken map"
+
+msgid "rbac_create_frm"
+msgstr "Aanmaken Forum"
+
+msgid "rbac_create_glo"
+msgstr "Aanmaken Woordenlijst"
+
+msgid "rbac_create_grp"
+msgstr "Aanmaken Groep"
+
+#, fuzzy
+msgid "rbac_create_grpr"
+msgstr "Create Group Reference"
+
+msgid "rbac_create_htlm"
+msgstr "Aanmaken HTML Learning Module"
+
+#, fuzzy
+msgid "rbac_create_iass"
+msgstr "Create Individual Assessment"
+
+msgid "rbac_create_itgr"
+msgstr "Aanmaken Item Group"
+
+msgid "rbac_create_lm"
+msgstr "Aanmaken ILIAS Learning Module"
+
+#, fuzzy
+msgid "rbac_create_lso"
+msgstr "Create Learning Sequence"
+
+#, fuzzy
+msgid "rbac_create_lti"
+msgstr "Create LTI Consumer"
+
+msgid "rbac_create_mcst"
+msgstr "Aanmaken Mediacast"
+
+msgid "rbac_create_mep"
+msgstr "Aanmaken mediapool"
+
+msgid "rbac_create_orgu"
+msgstr "Aanmaken van Organisatorische Eenheden"
+
+msgid "rbac_create_poll"
+msgstr "Aanmaken Poll"
+
+#, fuzzy
+msgid "rbac_create_prg"
+msgstr "Create Study Programme"
+
+#, fuzzy
+msgid "rbac_create_prgr"
+msgstr "Create link to study programme"
+
+msgid "rbac_create_prtt"
+msgstr "Aanmaken Portfolio Sjabloon"
+
+msgid "rbac_create_qpl"
+msgstr "Aanmaken vragenpool (Toets)"
+
+msgid "rbac_create_rcrs"
+msgstr "Creëer Cursus - link"
+
+msgid "rbac_create_role"
+msgstr "Aanaken nieuwe rol"
+
+msgid "rbac_create_rolt"
+msgstr "Aanmaken nieuwe rolsjablonen"
+
+msgid "rbac_create_sahs"
+msgstr "Aanmaken SCORM/AICC Learning Module"
+
+msgid "rbac_create_sess"
+msgstr "Aanmaken Sessie"
+
+#, fuzzy
+msgid "rbac_create_skee"
+msgstr "Create Competence Tree"
+
+msgid "rbac_create_spl"
+msgstr "Aanmaken vragenpool (Enquête)"
+
+msgid "rbac_create_svy"
+msgstr "Aanmaken Enquête"
+
+msgid "rbac_create_tst"
+msgstr "Aanmaken Toets"
+
+msgid "rbac_create_usr"
+msgstr "Gebruiker mag andere gebruikers aanmaken"
+
+msgid "rbac_create_webr"
+msgstr "Aanmaken Weblink"
+
+msgid "rbac_create_wiki"
+msgstr "Aanmaken Wiki"
+
+msgid "rbac_delete_local_policies"
+msgstr "Verwijder Lokaal beleid"
+
+msgid "rbac_delete_local_policies_info"
+msgstr "Als ingeschakeld wordt het lokale beleid verwijderd. Object permissies wordt herschreven en beschermd."
+
+msgid "rbac_delete_role"
+msgstr "Verwijder rol"
+
+msgid "rbac_edit_condition"
+msgstr "Wijzigen voorwaarden"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_button"
+msgstr "Rechte anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type"
+msgstr "Typ der Rechteanpassung"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_add"
+msgstr "Rechte hinzufügen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_add_info"
+msgstr "Fügt MARKIERTE Rechte der ausgewählten globalen Rollenvorlage zu den lokalen Rechtevorgabe hinzu."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_clone"
+msgstr "Rechte kopieren"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_clone_info"
+msgstr "Alle Rechte der ausgewählten globalen Rollenvorlage überschreiben alle lokalen Rechtevorgaben."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_remove"
+msgstr "Rechte entfernen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_remove_info"
+msgstr "Entfernt die MARKIERTEN Rechte der ausgewählten globalen Rollenvorlage aus den lokalen Rechtevorgaben."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_no_info"
+msgstr "Vorhandene lokale Rechtevorgaben entsprechend ergänzt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_yes"
+msgstr "Vorhandene Objekte nur um ausgewählte Rechte ergänzen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_yes_info"
+msgstr "Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend ergänzt."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_no_info"
+msgstr "Vorhandene lokale Rechtevorgaben werden überschrieben, die vorhandenen Objekte werden nicht in ihren Rechten angepasst."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_yes"
+msgstr "Vorhandene Objekte ändern"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_yes_info"
+msgstr "Vorhandene lokale Rechtevorgaben entsprechend überschreiben und IN GÄNZE mit allen gecheckten und ungecheckten Vorgaben auf vorhandene Objekte angewendet."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_no_info"
+msgstr "Markierte Rechte werden aus vorhandenen lokalen Rechtevorgaben entfernt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_yes"
+msgstr "Vorhandene Objekte nur um ausgewählte Rechte reduzieren"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_yes_info"
+msgstr "Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend reduziert."
+
+msgid "rbac_global_rolt"
+msgstr "Globale Rolsjabloon"
+
+msgid "rbac_import_role"
+msgstr "Importeren Rol"
+
+#, fuzzy
+msgid "rbac_info_only_position_access"
+msgstr "You are presented only with those members with a Position within your organisational unit. Members with other organisational Positions are not shown to you but may reside in this coures without being shown to you."
+
+msgid "rbac_keep_local_policies"
+msgstr "Lokaal beleid behouden"
+
+msgid "rbac_keep_local_policies_info"
+msgstr "Kies deze modus om lokaal beleid te behouden. De object permissies zullen aangepast worden aan dit beleid en naderhand worden beschermd."
+
+msgid "rbac_local_policies"
+msgstr "Lokaal beleid"
+
+msgid "rbac_local_policy"
+msgstr "Lokaal beleid"
+
+msgid "rbac_log"
+msgstr "Logboek"
+
+msgid "rbac_log_change_owner"
+msgstr "Verander eigenaar van object"
+
+msgid "rbac_log_changed_owner"
+msgstr "Verander eigenaar naar"
+
+msgid "rbac_log_copy_object"
+msgstr "Kopieer object"
+
+msgid "rbac_log_create_object"
+msgstr "Creëer Object"
+
+msgid "rbac_log_edit_permissions"
+msgstr "Permissies wijzigen"
+
+msgid "rbac_log_edit_template"
+msgstr "Rol sjabloon wijzigen"
+
+msgid "rbac_log_edit_template_existing"
+msgstr "Gebruik rol-sjabloon voor alle bestaande objecten"
+
+msgid "rbac_log_inheritance_add"
+msgstr "Vererving gestopt voor\"%s\""
+
+#, fuzzy
+msgid "rbac_log_inheritance_rmv"
+msgstr "Allowed Inheritance for \"%s\""
+
+msgid "rbac_log_link_object"
+msgstr "Object linken"
+
+msgid "rbac_log_move_object"
+msgstr "Object verplaatsen"
+
+msgid "rbac_log_operation_add"
+msgstr "Toegevoegde actie aan \"%s\""
+
+#, fuzzy
+msgid "rbac_log_operation_rmv"
+msgstr "Removed Operation for \"%s\""
+
+msgid "rbac_log_source_object"
+msgstr "Bron object"
+
+msgid "rbac_msg_user_already_assigned"
+msgstr "Deze rol is al toegekend aan de gekozen gebruikers."
+
+msgid "rbac_not_change_existing_objects"
+msgstr "Do NOT change existing objects"
+
+#, fuzzy
+msgid "rbac_permissions"
+msgstr "Permissions"
+
+#, fuzzy
+msgid "rbac_precondition_condition"
+msgstr "Access requires having this status"
+
+msgid "rbac_precondition_hide"
+msgstr "Verberg objecten"
+
+msgid "rbac_precondition_hide_info"
+msgstr "Deze optie laat toe om die objecten te verbergen waarvan de randvoorwaarden niet zijn vervuld. Dit leidt ertoe dat alle niet toegankelijke inhoud onzichtbaar is."
+
+msgid "rbac_precondition_minimum_optional"
+msgstr "Tenminste twee voorwaarden moeten optioneel blijven."
+
+msgid "rbac_precondition_mode"
+msgstr "Modus"
+
+msgid "rbac_precondition_mode_all"
+msgstr "Alle voorwaarden"
+
+msgid "rbac_precondition_mode_all_info"
+msgstr "Aan alle voorwaarden moet worden voldaan om toegang te krijgen."
+
+msgid "rbac_precondition_mode_subset"
+msgstr "Subset voorwaarden"
+
+msgid "rbac_precondition_mode_subset_info"
+msgstr "Aan een aantal voorwaarden moet worden voldaan om toegang te krijgen. Sommige voorwaarden zijn mogelijk verplicht."
+
+msgid "rbac_precondition_save_obligatory"
+msgstr "Save Obligatory"
+
+msgid "rbac_precondition_source"
+msgstr "Voorwaarde Trigger"
+
+msgid "rbac_precondition_target"
+msgstr "Condition limits access to"
+
+msgid "rbac_repository_permissions"
+msgstr "Studiecentrum permissies"
+
+msgid "rbac_role_delete_qst"
+msgstr "Ben je zeker dat je de volgende rol wilt verwijderen<br />Alle permissies 'granted by this role' zullen permanent verwijderd worden."
+
+msgid "rbac_role_delete_self"
+msgstr "<strong>Opgelet:</strong> Deze rol is aan je toegewezen. Als je doorgaat met deze verwijder-actie, verlies je mogelijk toegang tot een of meer ILIAS objecten."
+
+msgid "rbac_role_exists_alert"
+msgstr "Een rol met gelijke naam bestaat al in deze context. Kies een andere naam."
+
+msgid "rbac_role_imported"
+msgstr "The role has been imported."
+
+msgid "rbac_role_rights_copy"
+msgstr "Kopieer permissies"
+
+msgid "rbac_role_rights_copy_change_existing"
+msgstr "Verander bestaande objecten"
+
+msgid "rbac_role_rights_copy_empty"
+msgstr "Niets"
+
+msgid "rbac_role_selection"
+msgstr "Type rol"
+
+msgid "rbac_role_title"
+msgstr "Titel van rol"
+
+msgid "rbac_select_copy_targets"
+msgstr "Please select the target roles"
+
+msgid "rbac_select_roles"
+msgstr "Role Selection"
+
+msgid "rbac_ud_global"
+msgstr "Gebruikers-gedefinieerde globale rol"
+
+msgid "rbac_ud_local"
+msgstr "Gebruikers-gedefinieerde lokale rol"
+
+msgid "rbac_ud_rolt"
+msgstr "Gebruikers-gedefinieerd rolsjabloon"
+
+msgid "rbac_unprotected_delete_local_policies_info"
+msgstr "Als ingeschakeld wordt het lokale beleid verwijderd. Permissies in cursussen en groepen worden opnieuw geïnitialiseerd."
+
+msgid "rbac_unprotected_keep_local_policies_info"
+msgstr "Kies deze modus om al het lokale beleid te behouden."
+
+#, fuzzy
+msgid "rbac_view_content"
+msgstr "View Content"
+
+msgid "rcat_delete"
+msgstr "User can move or delete ECS Category"
+
+msgid "rcat_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "rcat_read"
+msgstr "User can use ECS Category"
+
+msgid "rcat_visible"
+msgstr "ECS Category is visible"
+
+msgid "rcat_write"
+msgstr "User can edit settings of ECS Category"
+
+msgid "rcrs_delete"
+msgstr "Verwijder Cursus link"
+
+msgid "rcrs_edit_permission"
+msgstr "Permissie instellingen wijzigen"
+
+msgid "rcrs_read"
+msgstr "Lees toegang tot Cursus Link"
+
+msgid "rcrs_visible"
+msgstr "Cursus link is zichtbaar"
+
+msgid "rcrs_write"
+msgstr "Wijzigen Cursus link"
+
+#, fuzzy
+msgid "read_all_accounts"
+msgstr "Read All Accounts"
+
+#, fuzzy
+msgid "read_comp"
+msgstr "User has read access to Competences and Competence Templates"
+
+msgid "read_learning_progress"
+msgstr "Toon leervoortgang van andere gebruiker"
+
+#, fuzzy
+msgid "read_outcomes"
+msgstr "View learning experiences of other users"
+
+#, fuzzy
+msgid "read_profiles"
+msgstr "User has read access to Competence Profiles"
+
+#, fuzzy
+msgid "read_results"
+msgstr "Survey Results"
+
+msgid "read_users"
+msgstr "Leestoegang voor lokale gebruikers accounts"
+
+msgid "recf_edit_permission"
+msgstr "Rechten instellingen wijzigen"
+
+msgid "recf_read"
+msgstr "Leestoegang voor Herstelde Objecten"
+
+msgid "recf_visible"
+msgstr "Herstelde objecten zijn zichtbaar"
+
+msgid "recf_write"
+msgstr "Wijzigen Herstelde Objecten"
+
+#, fuzzy
+msgid "redact"
+msgstr "Redact"
+
+#, fuzzy
+msgid "release_objects"
+msgstr "Release Objects"
+
+msgid "reps_edit_permission"
+msgstr "Gebruiker kan rechteninstellingen wijzigen in studiecentrumbeheer"
+
+msgid "reps_read"
+msgstr "Gebruiker heeft leestoegang tot studiecentrumbeheer"
+
+msgid "reps_visible"
+msgstr "Studiecentrumbeheer is zichtbaar"
+
+msgid "reps_write"
+msgstr "Wijzigen instellingen in studiecentrumbeheer"
+
+msgid "rfil_delete"
+msgstr "User can move or delete ECS File"
+
+msgid "rfil_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "rfil_read"
+msgstr "User can use ECS File"
+
+msgid "rfil_visible"
+msgstr "ECS File is visible"
+
+msgid "rfil_write"
+msgstr "User can edit settings of ECS File"
+
+msgid "rglo_delete"
+msgstr "User can move or delete ECS Glossary"
+
+msgid "rglo_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "rglo_read"
+msgstr "User can use ECS Glossary"
+
+msgid "rglo_visible"
+msgstr "ECS Glossary is visible"
+
+msgid "rglo_write"
+msgstr "User can edit settings of ECS Glossary"
+
+msgid "rgrp_delete"
+msgstr "User can move or delete ECS Group"
+
+msgid "rgrp_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "rgrp_read"
+msgstr "User can use ECS Group"
+
+msgid "rgrp_visible"
+msgstr "ECS Groep is zichtbaar"
+
+msgid "rgrp_write"
+msgstr "User can edit settings of ECS Group"
+
+msgid "rlm_delete"
+msgstr "User can move or delete ECS Learning Module"
+
+msgid "rlm_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "rlm_read"
+msgstr "User can use ECS Learning Module"
+
+msgid "rlm_visible"
+msgstr "ECS Learning Module is visible"
+
+msgid "rlm_write"
+msgstr "User can edit settings of ECS Learning Module"
+
+msgid "role_block_role"
+msgstr "Rol blokkeren"
+
+msgid "role_block_role_desc"
+msgstr "De toegang tot deze en alle onderliggende objecten zal worden ingetrokken."
+
+#, fuzzy
+msgid "role_blocked"
+msgstr ": <i>Role will be blocked</i>"
+
+#, fuzzy
+msgid "role_confirm_block_role"
+msgstr "Save Role Status"
+
+msgid "role_confirm_block_role_header"
+msgstr "Wil je werkelijk de gekozen rollen blokkeren?"
+
+msgid "role_confirm_block_role_info"
+msgstr "De volgende operaties zullen worden uitgevoerd:<br /><br />- de rolpermissies van deze en alle onderliggende objecten wordt geblokkeerd.<br />- de nieuwe permissie instellingen worden beschermd."
+
+#, fuzzy
+msgid "role_confirm_unblock_role_info"
+msgstr "The following steps will be performed for the action \"Unblock Role\":<br /><br />- the local policy will be deleted."
+
+#, fuzzy
+msgid "role_unblocked"
+msgstr ": <i>Role will be unblocked</i>"
+
+msgid "root_edit_permission"
+msgstr "Wijzig instellingen van de rechten"
+
+msgid "root_read"
+msgstr "Leesrechten op het ILIAS-systeem"
+
+msgid "root_visible"
+msgstr "Het ILIAS-systeem is zichtbaar"
+
+msgid "root_write"
+msgstr "Wijzigen metadata van de systeemroot-node"
+
+msgid "rtst_delete"
+msgstr "User can move or delete ECS test"
+
+msgid "rtst_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "rtst_read"
+msgstr "User can use ECS test"
+
+msgid "rtst_visible"
+msgstr "ECS test is visible"
+
+msgid "rtst_write"
+msgstr "User can edit settings of ECS test"
+
+msgid "rwik_delete"
+msgstr "User can move or delete ECS Wiki"
+
+msgid "rwik_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "rwik_read"
+msgstr "User can use ECS Wiki"
+
+msgid "rwik_visible"
+msgstr "ECS Wiki is visible"
+
+msgid "rwik_write"
+msgstr "User can edit settings of ECS Wiki"
+
+msgid "sahs_copy"
+msgstr "User can copy SCORM/AICC learning module"
+
+msgid "sahs_delete"
+msgstr "Verwijder SCORM/AICC lesmodul"
+
+msgid "sahs_edit_learning_progress"
+msgstr "Voortgang aanpassen"
+
+msgid "sahs_edit_permission"
+msgstr "Wijzig instellingen van de rechten"
+
+msgid "sahs_read"
+msgstr "Leesrechten op SCORM/AICC lesmodule"
+
+msgid "sahs_read_learning_progress"
+msgstr "Gebruiker kan leervoortgang van andere gebruikers zien"
+
+msgid "sahs_visible"
+msgstr "SCORM/AICC lesmodule is zichtbaar"
+
+msgid "sahs_write"
+msgstr "Wijzig SCORM/AICC lesmodule"
+
+msgid "seas_edit_permission"
+msgstr "Veranderen instellingen van de rechten"
+
+msgid "seas_read"
+msgstr "Lees zoekinstellingen"
+
+msgid "seas_search"
+msgstr "Toelaten van zoekfunctie"
+
+msgid "seas_visible"
+msgstr "Zoekinstellingen zijn zichtbaar"
+
+msgid "seas_write"
+msgstr "Zoekinstellingen aanpassen"
+
+msgid "sess_copy"
+msgstr "Kopieer Sessie"
+
+msgid "sess_delete"
+msgstr "Verwijder Sessie"
+
+msgid "sess_edit_event"
+msgstr "Agenda-afspraken wijzigen"
+
+#, fuzzy
+msgid "sess_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "sess_edit_metadata"
+msgstr "Edit Metadata"
+
+msgid "sess_edit_permission"
+msgstr "Permissie instellingen wijzigen"
+
+#, fuzzy
+msgid "sess_manage_materials"
+msgstr "Manage Session Materials"
+
+#, fuzzy
+msgid "sess_manage_members"
+msgstr "Manage Participants of a Session"
+
+msgid "sess_read"
+msgstr "Lees toegang voor Sessies"
+
+msgid "sess_read_learning_progress"
+msgstr "Gebruiker kan leervoortgang van andere gebruikers zien"
+
+msgid "sess_visible"
+msgstr "Sessies zijn zichtbaar"
+
+msgid "sess_write"
+msgstr "Wijzigen Sessies"
+
+#, fuzzy
+msgid "skee_copy"
+msgstr "User can copy Competence Tree (currently not available)"
+
+#, fuzzy
+msgid "skee_delete"
+msgstr "User can delete Competence Tree"
+
+#, fuzzy
+msgid "skee_edit_permission"
+msgstr "User can change permission settings of Competence Tree administration"
+
+#, fuzzy
+msgid "skee_manage_comp"
+msgstr "User can edit Competences in Competence Tree"
+
+#, fuzzy
+msgid "skee_manage_comp_temp"
+msgstr "User can edit Competence Templates in Competence Tree"
+
+#, fuzzy
+msgid "skee_manage_profiles"
+msgstr "User can edit Competence Profiles in Competence Tree"
+
+#, fuzzy
+msgid "skee_read"
+msgstr "User has read access to administration of Competence Tree"
+
+#, fuzzy
+msgid "skee_read_comp"
+msgstr "User has read access to Competences and Competence Templates in Competence Tree"
+
+#, fuzzy
+msgid "skee_read_profiles"
+msgstr "User has read access to Competence Profiles in Competence Tree"
+
+#, fuzzy
+msgid "skee_visible"
+msgstr "Competence Tree is visible"
+
+#, fuzzy
+msgid "skee_write"
+msgstr "User can edit settings of Competence Tree"
+
+msgid "skmg_edit_permission"
+msgstr "Wijzigen van rechteninstellingen"
+
+msgid "skmg_read"
+msgstr "Leestoegang tot Competentie Beheer"
+
+msgid "skmg_visible"
+msgstr "Competentiebeheer is zichtbaar"
+
+msgid "skmg_write"
+msgstr "Competentiebeheer"
+
+msgid "smtp_mail"
+msgstr "E-mail versturen"
+
+msgid "spl_copy"
+msgstr "Kopieer enquête-vragenpool"
+
+msgid "spl_delete"
+msgstr "Vraag verwijderen uit vragenpool"
+
+msgid "spl_edit_permission"
+msgstr "Wijzig instellingen van de rechten"
+
+msgid "spl_read"
+msgstr "Leesrechten op vragenpool"
+
+msgid "spl_visible"
+msgstr "vragenpool is zichtbaar"
+
+msgid "spl_write"
+msgstr "vragenpool wijzigen"
+
+msgid "statistics_read"
+msgstr "Toon statistieken"
+
+#, fuzzy
+msgid "stus_edit_permission"
+msgstr "User can change permission settings in Shortlink administration"
+
+#, fuzzy
+msgid "stus_read"
+msgstr "User can see the Shortlink Administration"
+
+#, fuzzy
+msgid "stus_write"
+msgstr "User can edit Shortlinks"
+
+#, fuzzy
+msgid "sty_write_content"
+msgstr "Edit Content Styles"
+
+#, fuzzy
+msgid "sty_write_page_layout"
+msgstr "Edit Page Layouts"
+
+#, fuzzy
+msgid "sty_write_system"
+msgstr "Edit System Styles"
+
+msgid "stys_edit_permission"
+msgstr "Veranderen instellingen van de rechten"
+
+msgid "stys_read"
+msgstr "leesrechten voor stijlinstellingen"
+
+#, fuzzy
+msgid "stys_sty_write_content"
+msgstr "Edit Content Styles"
+
+#, fuzzy
+msgid "stys_sty_write_custom"
+msgstr "Edit Content Styles"
+
+#, fuzzy
+msgid "stys_sty_write_page_layout"
+msgstr "Edit Page Layouts"
+
+#, fuzzy
+msgid "stys_sty_write_system"
+msgstr "Edit System Styles"
+
+msgid "stys_visible"
+msgstr "Stijlinstellingen zijn zichtbaar"
+
+msgid "svy_copy"
+msgstr "Kopieër Enquête"
+
+msgid "svy_delete"
+msgstr "Verwijder enquête"
+
+#, fuzzy
+msgid "svy_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "svy_edit_permission"
+msgstr "Wijzig instellingen van de rechten"
+
+msgid "svy_invite"
+msgstr "Nodig gebruikers uit voor een enquête"
+
+msgid "svy_read"
+msgstr "Leesrechten op enquête"
+
+#, fuzzy
+msgid "svy_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "svy_read_results"
+msgstr "User has access to survey results of others"
+
+msgid "svy_visible"
+msgstr "Enquête is zichtbaar"
+
+msgid "svy_write"
+msgstr "Wijzig enquête"
+
+msgid "svyf_edit_permission"
+msgstr "Rechten instellingen wijzigen"
+
+msgid "svyf_read"
+msgstr "Leestoegang voor Enquête instellingen"
+
+msgid "svyf_visible"
+msgstr "Enquête instellingen zijn zichtbaar"
+
+msgid "svyf_write"
+msgstr "Wijzigen Enquête instellingen"
+
+msgid "sysc_edit_permission"
+msgstr "Gebruiker mag rechten van systeemcontrole wijzigen."
+
+msgid "sysc_read"
+msgstr "Gebruiker heeft leestoegang tot systeemcontrole."
+
+msgid "sysc_visible"
+msgstr "Systeemcontrole is zichtbaar."
+
+msgid "sysc_write"
+msgstr "Gebruiker mag systeemcontrole uitvoeren."
+
+msgid "tags_edit_permission"
+msgstr "Wijzigen van rechteninstellingen"
+
+msgid "tags_read"
+msgstr "Leestoegang tot labelinstellingen"
+
+msgid "tags_visible"
+msgstr "Labelinstellingen  zijn zichtbaar"
+
+msgid "tags_write"
+msgstr "Labelinstellingen"
+
+#, fuzzy
+msgid "tala_edit_permission"
+msgstr "User can change permission settings in Talk Templates administration"
+
+#, fuzzy
+msgid "tala_read"
+msgstr "User has read access to Talk Templates administration"
+
+#, fuzzy
+msgid "tala_visible"
+msgstr "Talk Templates administration is visible"
+
+#, fuzzy
+msgid "tala_write"
+msgstr "User can create and edit Talk Templates"
+
+msgid "taxs_edit_permission"
+msgstr "Gebruiker kan instellingen van toegangsrechten van taxonomiebeheer wijzigen"
+
+msgid "taxs_read"
+msgstr "Gebruiker heeft leestoegang tot taxonomiebeheer"
+
+msgid "taxs_visible"
+msgstr "Taxonomie beheer is zichtbaar"
+
+msgid "taxs_write"
+msgstr "Wijzigen instellingen in taxonomiebeheer"
+
+msgid "tos_edit_permission"
+msgstr "Gebruiker kan rechteninstellingen wijzigen in beheer gebruikersvoorwaarden"
+
+msgid "tos_read"
+msgstr "Gebruiker heeft leestoegang tot beheer gebruikersvoorwaarden"
+
+msgid "tos_visible"
+msgstr "Beheer gebruikeersvoorwaarden is zichtbaar"
+
+msgid "tos_write"
+msgstr "Wijzigen instellingen in beheer gebruikersvoorwaarden"
+
+msgid "trac_delete"
+msgstr "Verwijder trackinggegevens"
+
+msgid "trac_edit_permission"
+msgstr "Wijzigen instellingen van de rechten"
+
+msgid "trac_lp_other_users"
+msgstr "Tonen overzicht voortgangsoverzicht van anders gebruikers"
+
+msgid "trac_read"
+msgstr "Lezen trackinggegevens#"
+
+msgid "trac_visible"
+msgstr "Gebruikertracking is zichtbaar"
+
+msgid "trac_write"
+msgstr "Wijzigen instellingen voor statistiek en voortgangsbeheer"
+
+msgid "tst_copy"
+msgstr "Kopieër toets"
+
+msgid "tst_delete"
+msgstr "Verwijderen toets"
+
+msgid "tst_edit_learning_progress"
+msgstr "Voortgang aanpassen"
+
+msgid "tst_edit_permission"
+msgstr "Wijzig instellingen van de rechten"
+
+msgid "tst_read"
+msgstr "Leesrechten op toets"
+
+msgid "tst_read_learning_progress"
+msgstr "Gebruiker kan leervoortgang van andere gebruikers zien"
+
+#, fuzzy
+msgid "tst_tst_history_read"
+msgstr "View History"
+
+#, fuzzy
+msgid "tst_tst_results"
+msgstr "User has access to test results"
+
+msgid "tst_visible"
+msgstr "De toets is zichtbaar"
+
+msgid "tst_write"
+msgstr "Toets wijzigen"
+
+#, fuzzy
+msgid "upload_blacklisted_files"
+msgstr "Bypass blacklist"
+
+msgid "usrf_delete"
+msgstr "Verwijderen gebruiker"
+
+msgid "usrf_edit_permission"
+msgstr "Wijzigen toegang tot gebruikers"
+
+msgid "usrf_edit_roleassignment"
+msgstr "Wijzigen rol-toewijzing van gebruikers"
+
+msgid "usrf_push_desktop_items"
+msgstr "Laat toe om items op het persoonlijk scherm te plaatsen"
+
+msgid "usrf_read"
+msgstr "Leesrechten tot gebruikers"
+
+#, fuzzy
+msgid "usrf_read_all_accounts"
+msgstr "User can list all accounts in User administration"
+
+msgid "usrf_read_users"
+msgstr "Roltoewijzing voor lokale beheerders"
+
+msgid "usrf_visible"
+msgstr "Gebruikers zijn zichtbaar"
+
+msgid "usrf_write"
+msgstr "Wijzigen gebruiker"
+
+#, fuzzy
+msgid "wbdv_edit_permission"
+msgstr "User can change permission settings of WebDAV administration."
+
+#, fuzzy
+msgid "wbdv_read"
+msgstr "User has read access to WebDAV administration."
+
+#, fuzzy
+msgid "wbdv_visible"
+msgstr "Administration of WebDAV is visible."
+
+#, fuzzy
+msgid "wbdv_write"
+msgstr "User can edit settings of WebDAV administration."
+
+msgid "wbrs_edit_permission"
+msgstr "Gebruiker kan rechteninstellingen wijzigen in weblink beheer"
+
+msgid "wbrs_read"
+msgstr "Gebruiker heeft leestoegang tot weblink beheer"
+
+msgid "wbrs_visible"
+msgstr "Weblink beheer is zichtbaar"
+
+msgid "wbrs_write"
+msgstr "Wijzigen instellingen in weblink beheer"
+
+msgid "webr_copy"
+msgstr "Website kopiëren"
+
+msgid "webr_delete"
+msgstr "Website verwijderen"
+
+msgid "webr_edit_permission"
+msgstr " Verander instellingen van de rechten"
+
+msgid "webr_read"
+msgstr "Leesrechten voor web hulpmiddel"
+
+msgid "webr_visible"
+msgstr "Website is zichtbaar"
+
+msgid "webr_write"
+msgstr "Website aanpassen"
+
+#, fuzzy
+msgid "wiki_activate_wiki_protection"
+msgstr "Set Wiki Pages to Read-Only"
+
+#, fuzzy
+msgid "wiki_add_pages"
+msgstr "User can create wiki pages"
+
+msgid "wiki_copy"
+msgstr "Copy Wiki"
+
+msgid "wiki_delete"
+msgstr "Delete Wiki"
+
+#, fuzzy
+msgid "wiki_delete_wiki_pages"
+msgstr "Delete Wiki Pages"
+
+msgid "wiki_edit_content"
+msgstr "Edit Wiki Pages"
+
+#, fuzzy
+msgid "wiki_edit_page_meta"
+msgstr "Edit Wiki Page Metadata"
+
+msgid "wiki_edit_permission"
+msgstr "Change permission settings"
+
+#, fuzzy
+msgid "wiki_edit_wiki_navigation"
+msgstr "Edit Wiki Navigation"
+
+#, fuzzy
+msgid "wiki_html_export"
+msgstr "Export HTML"
+
+msgid "wiki_read"
+msgstr "Read Wiki"
+
+msgid "wiki_statistics_read"
+msgstr "Toon statistieken"
+
+msgid "wiki_visible"
+msgstr "Wiki is visible"
+
+#, fuzzy
+msgid "wiki_wiki_html_export"
+msgstr "Export Wiki as HTML"
+
+msgid "wiki_write"
+msgstr "Change Wiki Settings, Grade Learners"
+
+msgid "wiks_edit_permission"
+msgstr "Gebruiker kan rechteninstellingen wijzigen in wiki beheer"
+
+msgid "wiks_read"
+msgstr "Gebruiker heeft leestoegang tot wiki-beheer"
+
+msgid "wiks_visible"
+msgstr "Wiki beheer is zichtbaar"
+
+msgid "wiks_write"
+msgstr "Wijzigen instellingen in wiki beheer"
+
+msgid "write"
+msgstr "Instellingen wijzigen"
