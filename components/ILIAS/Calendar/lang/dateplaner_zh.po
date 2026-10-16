@@ -1,0 +1,1475 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: dateplaner\n"
+
+msgid "Fr_long"
+msgstr "星期五"
+
+msgid "Fr_short"
+msgstr "周五"
+
+msgid "Mo_long"
+msgstr "星期一"
+
+msgid "Mo_short"
+msgstr "周一"
+
+msgid "Sa_long"
+msgstr "星期六"
+
+msgid "Sa_short"
+msgstr "周六"
+
+msgid "Su_long"
+msgstr "星期天"
+
+msgid "Su_short"
+msgstr "周日"
+
+msgid "Text"
+msgstr "文本"
+
+msgid "Th_long"
+msgstr "星期四"
+
+msgid "Th_short"
+msgstr "周四"
+
+msgid "Tu_long"
+msgstr "星期二"
+
+msgid "Tu_short"
+msgstr "周二"
+
+msgid "We_long"
+msgstr "星期三"
+
+msgid "We_short"
+msgstr "周三"
+
+msgid "add_appointment"
+msgstr "添加预约"
+
+msgid "app_consultation_hours"
+msgstr "咨询时间"
+
+msgid "app_day"
+msgstr "天视图"
+
+msgid "app_month"
+msgstr "月视图"
+
+msgid "app_week"
+msgstr "周视图"
+
+#, fuzzy
+msgid "back_to_crs"
+msgstr "Go to Course"
+
+#, fuzzy
+msgid "back_to_grp"
+msgstr "Go to Group"
+
+#, fuzzy
+msgid "back_to_pd"
+msgstr "Back to Personal Desktop"
+
+#, fuzzy
+msgid "btn_ical"
+msgstr "iCal"
+
+msgid "c_date"
+msgstr "创建日期"
+
+msgid "cal_add_appointment"
+msgstr "创建预约"
+
+msgid "cal_add_calendar"
+msgstr "添加日历"
+
+msgid "cal_add_category"
+msgstr "创建新日历"
+
+msgid "cal_add_milestone"
+msgstr "添加里程碑"
+
+msgid "cal_adm_notification_info"
+msgstr "选择这个选项，给课程/组参与者发送有关预约更改的可选的邮件通知。"
+
+msgid "cal_adm_notification_user_info"
+msgstr "选择这个选项，发送可选的邮件通知给已选的用户。"
+
+#, fuzzy
+msgid "cal_agenda"
+msgstr "Agenda"
+
+msgid "cal_all_day"
+msgstr "All Day"
+
+#, fuzzy
+msgid "cal_app_info"
+msgstr "Appointment Information"
+
+#, fuzzy
+msgid "cal_app_other_materials_num"
+msgstr "View other materials"
+
+#, fuzzy
+msgid "cal_appointment_notifications"
+msgstr "Notification"
+
+msgid "cal_appointments"
+msgstr "预约"
+
+msgid "cal_apps"
+msgstr "预约数量"
+
+msgid "cal_assigned_appointments"
+msgstr "已指派的预约"
+
+msgid "cal_back_to_cal"
+msgstr "返回到日历"
+
+msgid "cal_back_to_list"
+msgstr "返回到列表"
+
+msgid "cal_back_to_search"
+msgstr "返回到搜索"
+
+#, fuzzy
+msgid "cal_batch_file_downloads"
+msgstr "Batch file downloads in Calendar"
+
+#, fuzzy
+msgid "cal_batch_file_downloads_info"
+msgstr "Activate button to download all files related to the current calendar/appointment view."
+
+#, fuzzy
+msgid "cal_belongs_to"
+msgstr "Belongs to Calendar"
+
+msgid "cal_book_free"
+msgstr "可用的"
+
+msgid "cal_booked_out"
+msgstr "预订完了"
+
+msgid "cal_booking_cancellation_body"
+msgstr "您的预约 %s 已被取消了。"
+
+msgid "cal_booking_cancellation_subject"
+msgstr "预约 \"%s\" 已经被取消了"
+
+msgid "cal_booking_cancellation_user"
+msgstr "这量个发给用户的原始邮件的副本："
+
+msgid "cal_booking_confirmation_body"
+msgstr "您的预约 %s 已经预订了。"
+
+msgid "cal_booking_confirmation_link"
+msgstr "链接到预约："
+
+msgid "cal_booking_confirmation_subject"
+msgstr "预约 \"%s\" 已被预订。"
+
+msgid "cal_booking_confirmation_user"
+msgstr "这是一个发送给用户的原始邮件的副本："
+
+msgid "cal_booking_confirmed"
+msgstr "预约已经预订成功。"
+
+#, fuzzy
+msgid "cal_booking_failed_info"
+msgstr "This appointment is booked out. Please choose another appointment."
+
+#, fuzzy
+msgid "cal_booking_manager_confirmation_body"
+msgstr "%s has booked an appointment with %s."
+
+#, fuzzy
+msgid "cal_booking_owner_confirmation_body"
+msgstr "%s has booked an appointment with you."
+
+msgid "cal_cache"
+msgstr "日历缓存"
+
+msgid "cal_cache_disabled"
+msgstr "禁用"
+
+msgid "cal_cache_enabled"
+msgstr "启用"
+
+msgid "cal_cache_info"
+msgstr "如果激活，个人桌面和知识库中的日历预约仅每x分钟计算一次。"
+
+msgid "cal_cache_settings"
+msgstr "缓存"
+
+msgid "cal_cal_deleted"
+msgstr "日历已经被删除的"
+
+msgid "cal_cal_details"
+msgstr "日历详情"
+
+#, fuzzy
+msgid "cal_cal_shared_with"
+msgstr "Users calendar is shared with"
+
+msgid "cal_cal_sync_success"
+msgstr "已成功同步日历"
+
+msgid "cal_cal_synchronize"
+msgstr "同步日历"
+
+msgid "cal_cal_type"
+msgstr "日历类型"
+
+msgid "cal_calendar_color"
+msgstr "颜色"
+
+#, fuzzy
+msgid "cal_calendar_download"
+msgstr "Calendar Download"
+
+msgid "cal_calendar_name"
+msgstr "头衔"
+
+#, fuzzy
+msgid "cal_calendar_subscription_modal_title"
+msgstr "Calendar Subscription"
+
+msgid "cal_cancel_booking"
+msgstr "取消预订"
+
+msgid "cal_cancel_booking_confirmed"
+msgstr "预订已成功取消。"
+
+msgid "cal_cancel_booking_info"
+msgstr "请确认取消这个预订"
+
+msgid "cal_category_selection"
+msgstr "日历选择"
+
+msgid "cal_cg_notification"
+msgstr "课程/组通知"
+
+msgid "cal_cg_registration_info"
+msgstr "让用户有可能注册到课程和组预约。"
+
+msgid "cal_cg_registrations"
+msgstr "课程/组预约登记"
+
+#, fuzzy
+msgid "cal_ch_add_grp"
+msgstr "Create new Consultation Hour Group"
+
+msgid "cal_ch_add_sequence"
+msgstr "添加咨询时间序列"
+
+#, fuzzy
+msgid "cal_ch_app_bookings"
+msgstr "Bookings"
+
+#, fuzzy
+msgid "cal_ch_app_grp"
+msgstr "Consultation Hour Groups"
+
+#, fuzzy
+msgid "cal_ch_app_list"
+msgstr "Consultation Hour Appointments"
+
+#, fuzzy
+msgid "cal_ch_assign_participants"
+msgstr "Assign Users"
+
+#, fuzzy
+msgid "cal_ch_assigned_apps"
+msgstr "Number of Appointments"
+
+msgid "cal_ch_book"
+msgstr "预订预约"
+
+msgid "cal_ch_booking"
+msgstr "Ressource预订"
+
+#, fuzzy
+msgid "cal_ch_booking_col_comments"
+msgstr "Comments"
+
+#, fuzzy
+msgid "cal_ch_booking_comment"
+msgstr "Comment:"
+
+#, fuzzy
+msgid "cal_ch_booking_link"
+msgstr "Link to Consultation Hours:"
+
+#, fuzzy
+msgid "cal_ch_booking_message_tbl"
+msgstr "Comment"
+
+#, fuzzy
+msgid "cal_ch_booking_num_available"
+msgstr "Available Slots"
+
+#, fuzzy
+msgid "cal_ch_booking_num_free_short"
+msgstr "%s free"
+
+#, fuzzy
+msgid "cal_ch_booking_other_participants"
+msgstr "Other Participants:"
+
+msgid "cal_ch_booking_owner"
+msgstr "所有者"
+
+#, fuzzy
+msgid "cal_ch_booking_participants"
+msgstr "Participants"
+
+#, fuzzy
+msgid "cal_ch_booking_reminder_body"
+msgstr "your appointment with \"%s\" starts soon."
+
+#, fuzzy
+msgid "cal_ch_booking_reminder_subject"
+msgstr "Reminder for \"%s\""
+
+#, fuzzy
+msgid "cal_ch_booking_start"
+msgstr "Start"
+
+#, fuzzy
+msgid "cal_ch_booking_your_comment"
+msgstr "Your comment:"
+
+msgid "cal_ch_bookings"
+msgstr "参与者"
+
+#, fuzzy
+msgid "cal_ch_bookings_tbl"
+msgstr "Booked Appointments"
+
+msgid "cal_ch_cancel_booking"
+msgstr "取消预订"
+
+#, fuzzy
+msgid "cal_ch_cancel_booking_info"
+msgstr "\"Cancel Booking\" sends notification mails to the users. If you do not want to notify the users, choose the option \"Delete Booking\"."
+
+#, fuzzy
+msgid "cal_ch_cancel_booking_sure"
+msgstr "Do you really want to cancel the following bookings?"
+
+#, fuzzy
+msgid "cal_ch_canceled_bookings"
+msgstr "The selected bookings have been deleted."
+
+msgid "cal_ch_ch"
+msgstr "咨询时间"
+
+#, fuzzy
+msgid "cal_ch_cron_reminder"
+msgstr "Send Consultation Hour Reminder"
+
+#, fuzzy
+msgid "cal_ch_cron_reminder_days"
+msgstr "Number of Days"
+
+#, fuzzy
+msgid "cal_ch_cron_reminder_info"
+msgstr "If enabled, notification mails about upcoming consultation hour events will be send."
+
+#, fuzzy
+msgid "cal_ch_current_booking_comment"
+msgstr "Comment"
+
+msgid "cal_ch_current_bookings"
+msgstr "当前预订"
+
+msgid "cal_ch_deadline"
+msgstr "最新注册"
+
+msgid "cal_ch_deadline_info"
+msgstr "请定义一个直到注册被阻止的数字，以小时为单位。"
+
+#, fuzzy
+msgid "cal_ch_delete_app_booking_info"
+msgstr "The following appointments have existing bookings. If you delete these appointments, the users will not be notified."
+
+#, fuzzy
+msgid "cal_ch_delete_booking"
+msgstr "Delete Booking"
+
+#, fuzzy
+msgid "cal_ch_delete_booking_info"
+msgstr "\"Delete Booking\" will not notify users by email. If you want to notify users, please choose the action \"Cancele Booking\"."
+
+#, fuzzy
+msgid "cal_ch_delete_booking_sure"
+msgstr "Do you really want to delete the following bookings?"
+
+#, fuzzy
+msgid "cal_ch_deleted_bookings"
+msgstr "The selected bookings have been canceled."
+
+msgid "cal_ch_duration"
+msgstr "持续"
+
+#, fuzzy
+msgid "cal_ch_export_apps"
+msgstr "Booked Appointments"
+
+#, fuzzy
+msgid "cal_ch_field_ch"
+msgstr "Consultation Hour Appointments"
+
+msgid "cal_ch_form"
+msgstr "启用咨询时间"
+
+msgid "cal_ch_form_header"
+msgstr "咨询时间"
+
+msgid "cal_ch_form_info"
+msgstr "这个选项启用日历中的个人咨询时间管理。"
+
+#, fuzzy
+msgid "cal_ch_free_of_available"
+msgstr "%s of %s"
+
+#, fuzzy
+msgid "cal_ch_grp_add_tbl"
+msgstr "Create new Consultation Hour Group"
+
+#, fuzzy
+msgid "cal_ch_grp_delete_sure"
+msgstr "Do you really want to delete the following consultation hour groups?"
+
+#, fuzzy
+msgid "cal_ch_grp_header"
+msgstr "Consultation Hour Group"
+
+#, fuzzy
+msgid "cal_ch_grp_multiple"
+msgstr "Bookings per User"
+
+#, fuzzy
+msgid "cal_ch_grp_multiple_info"
+msgstr "You can define the maximum number of bookings per user."
+
+#, fuzzy
+msgid "cal_ch_grp_no_assignment"
+msgstr "-- Not Assigned --"
+
+#, fuzzy
+msgid "cal_ch_grp_selection"
+msgstr "Assignment to Consultation Hour Groups"
+
+#, fuzzy
+msgid "cal_ch_grp_update_tbl"
+msgstr "Edit Consultation Hour Group"
+
+#, fuzzy
+msgid "cal_ch_grps"
+msgstr "Consultation Hour Groups"
+
+msgid "cal_ch_manager"
+msgstr "咨询时间管理器"
+
+msgid "cal_ch_manager_info"
+msgstr "登录的用户将会管理您的咨询时间"
+
+#, fuzzy
+msgid "cal_ch_max_books"
+msgstr "Bookings per User"
+
+#, fuzzy
+msgid "cal_ch_minutes"
+msgstr "Duration (min)"
+
+msgid "cal_ch_multi_edit_sequence"
+msgstr "编辑多个预约"
+
+msgid "cal_ch_num_appointments"
+msgstr "预约数量"
+
+msgid "cal_ch_num_appointments_info"
+msgstr "请定义连续预约的数量。"
+
+msgid "cal_ch_num_bookings"
+msgstr "每个预约的预订"
+
+msgid "cal_ch_personal_book"
+msgstr "个人预订"
+
+msgid "cal_ch_personal_ch"
+msgstr "个人咨询时间"
+
+#, fuzzy
+msgid "cal_ch_reject_booking"
+msgstr "Cancel Booking"
+
+#, fuzzy
+msgid "cal_ch_send_mail"
+msgstr "Send Mail"
+
+msgid "cal_ch_target_object"
+msgstr "知识库对象"
+
+msgid "cal_ch_target_object_info"
+msgstr "限定预约到给定的知识库对象。"
+
+msgid "cal_ch_unknown_repository_object"
+msgstr "给定的知识库对象引用ID是无效的。"
+
+msgid "cal_ch_unknown_user"
+msgstr "给定的登录不匹配任何用户。"
+
+#, fuzzy
+msgid "cal_ch_user_assignment_failed_info"
+msgstr "The following users could not be assigned to appointments, since the maximum number of bookings is exceeded."
+
+#, fuzzy
+msgid "cal_ch_vm_period_all"
+msgstr "All"
+
+#, fuzzy
+msgid "cal_ch_vm_period_past"
+msgstr "Past"
+
+#, fuzzy
+msgid "cal_ch_vm_period_upcoming"
+msgstr "Upcoming"
+
+#, fuzzy
+msgid "cal_ch_vm_status_all"
+msgstr "All"
+
+#, fuzzy
+msgid "cal_ch_vm_status_booked"
+msgstr "Booked Slots"
+
+#, fuzzy
+msgid "cal_ch_vm_status_open"
+msgstr "Open Slots"
+
+#, fuzzy
+msgid "cal_change_calendar_view"
+msgstr "Change Calendar View"
+
+msgid "cal_change_responsible_users"
+msgstr "改变负责的用户"
+
+msgid "cal_changed_events_header"
+msgstr "已改变预约"
+
+msgid "cal_confirm_booking"
+msgstr "确认预订"
+
+msgid "cal_confirm_booking_info"
+msgstr "请确认这个预约的预订。"
+
+msgid "cal_confirm_reg_info"
+msgstr "请确认这个预约登记。"
+
+msgid "cal_confirm_unreg_info"
+msgstr "请确认取消这个登记"
+
+msgid "cal_consultation_hours_for"
+msgstr "咨询时间为"
+
+#, fuzzy
+msgid "cal_consultation_hours_for_user"
+msgstr "Consultation Hours for %1"
+
+#, fuzzy
+msgid "cal_contained_in"
+msgstr "Contained in"
+
+msgid "cal_create"
+msgstr "创建"
+
+msgid "cal_created_appointment"
+msgstr "创建新任命"
+
+msgid "cal_created_milestone"
+msgstr "已添加的里程碑。"
+
+msgid "cal_created_milestone_resp_q"
+msgstr "已添加里程碑。请选择负责满足这个里程碑的用户。"
+
+#, fuzzy
+msgid "cal_cronjob_remote_description"
+msgstr "If activated, appointments of the calendar type \"Web calendar\" are automatically synchronised after the specified time interval."
+
+#, fuzzy
+msgid "cal_cronjob_remote_title"
+msgstr "External Calendar Synchronisation"
+
+#, fuzzy
+msgid "cal_crs_info"
+msgstr "Course Information"
+
+msgid "cal_crs_new_notification_body"
+msgstr "一个新预约已经创建在课程 \"%s\" 中。"
+
+msgid "cal_crs_new_notification_sub"
+msgstr "课程 \"%s\" 中的新预约"
+
+msgid "cal_crs_notification_body"
+msgstr "课程 \"%s\" 中的一个预约已经被更改。"
+
+msgid "cal_crs_notification_sub"
+msgstr "课程 \"%s\" 中更改的预约"
+
+#, fuzzy
+msgid "cal_crs_timing_end"
+msgstr "Suggested End"
+
+#, fuzzy
+msgid "cal_crs_timing_start"
+msgstr "Suggested Start"
+
+msgid "cal_daily"
+msgstr "日报"
+
+#, fuzzy
+msgid "cal_date_and_time"
+msgstr "Date and Time"
+
+msgid "cal_date_booked"
+msgstr "已预订"
+
+msgid "cal_date_format_info"
+msgstr "请为输入的日期选择一种格式"
+
+#, fuzzy
+msgid "cal_date_time_title"
+msgstr "Date and Time"
+
+msgid "cal_day_end"
+msgstr "Day End"
+
+msgid "cal_day_of_month"
+msgstr "Day of the month"
+
+msgid "cal_day_overview"
+msgstr "Day Overview"
+
+msgid "cal_day_s"
+msgstr "Day(s)"
+
+msgid "cal_day_selection"
+msgstr "Select Day"
+
+msgid "cal_day_start"
+msgstr "Day Start"
+
+msgid "cal_day_week_view"
+msgstr "Day/Week View Settings天/周视图设置"
+
+msgid "cal_deadline"
+msgstr "死线"
+
+msgid "cal_def_date_format"
+msgstr "默认日期输入格式"
+
+msgid "cal_def_date_format_info"
+msgstr "请为输入的日期选择一种格式"
+
+#, fuzzy
+msgid "cal_def_day_end"
+msgstr "Default Day End"
+
+#, fuzzy
+msgid "cal_def_day_start"
+msgstr "Default Day Start"
+
+#, fuzzy
+msgid "cal_def_show_weeks"
+msgstr "Default Show Weeks"
+
+msgid "cal_def_time_format"
+msgstr "默认时间格式"
+
+msgid "cal_def_time_format_info"
+msgstr "请为选择一个时间展示格式。"
+
+msgid "cal_def_timezone"
+msgstr "默认时区"
+
+msgid "cal_def_timezone_info"
+msgstr "请为预约的展示选择一个默认时区。"
+
+#, fuzzy
+msgid "cal_def_view"
+msgstr "Default Calendar View"
+
+msgid "cal_def_week_start"
+msgstr "周启始"
+
+msgid "cal_default_calendar"
+msgstr "个人预约"
+
+#, fuzzy
+msgid "cal_default_settings"
+msgstr "Default settings"
+
+msgid "cal_del_app_sure"
+msgstr "您真的要删除选定的预约吗?"
+
+msgid "cal_del_cal_sure"
+msgstr "您真的要删除选择的日历吗？"
+
+msgid "cal_delete_app_sure"
+msgstr "您真的要删除选择的预约吗？"
+
+#, fuzzy
+msgid "cal_delete_booking_info"
+msgstr "Please confirm the deletion of this booking"
+
+#, fuzzy
+msgid "cal_delete_cal"
+msgstr "Delete Calendar"
+
+#, fuzzy
+msgid "cal_delete_recurrence_rule"
+msgstr "Delete Series of Appoinments"
+
+msgid "cal_delete_recurrences"
+msgstr "Delete all recurrences"
+
+msgid "cal_delete_single"
+msgstr "仅删除这个预约"
+
+msgid "cal_deleted_app"
+msgstr "选择的预约已删除。"
+
+msgid "cal_details"
+msgstr "预约详情"
+
+#, fuzzy
+msgid "cal_down_no_files"
+msgstr "Nothing to download, the events listed do not contain files."
+
+#, fuzzy
+msgid "cal_download_all_files"
+msgstr "Download all Files"
+
+#, fuzzy
+msgid "cal_download_files"
+msgstr "Download Files"
+
+#, fuzzy
+msgid "cal_download_files_started"
+msgstr "Download of calendar files has started."
+
+msgid "cal_dstart_dend_warn"
+msgstr "请检查您的输入。一天的开始应在这天结束之前。"
+
+msgid "cal_duration"
+msgstr "Duration持续"
+
+#, fuzzy
+msgid "cal_duration_end"
+msgstr "End"
+
+#, fuzzy
+msgid "cal_duration_start"
+msgstr "Start"
+
+msgid "cal_edit_appointment"
+msgstr "编辑预约。"
+
+msgid "cal_edit_category"
+msgstr "编辑日历"
+
+msgid "cal_edit_milestone"
+msgstr "编辑里程碑"
+
+#, fuzzy
+msgid "cal_edit_recurrences"
+msgstr "Edit all Appointments"
+
+#, fuzzy
+msgid "cal_edit_single"
+msgstr "Edit this Appointment"
+
+#, fuzzy
+msgid "cal_edit_single_or_all_info"
+msgstr "Do you want to edit only this appointment or all in its series?"
+
+msgid "cal_enable_group_milestones"
+msgstr "启用里程碑"
+
+msgid "cal_enable_group_milestones_desc"
+msgstr "这个选项在日历中启用里程碑计划。"
+
+msgid "cal_err_invalid_notification_rcps"
+msgstr "这个收件人通知名单是无效的。请仅选择ILIAS用户账号名或有效的电子邮件地址。"
+
+msgid "cal_every"
+msgstr "每个："
+
+#, fuzzy
+msgid "cal_exc_deadline"
+msgstr "Deadline"
+
+#, fuzzy
+msgid "cal_exc_info"
+msgstr "Assignment Information"
+
+#, fuzzy
+msgid "cal_exc_inst_files"
+msgstr "Instruction Files"
+
+#, fuzzy
+msgid "cal_exc_open"
+msgstr "Open Assignment"
+
+#, fuzzy
+msgid "cal_exc_peer_review_deadline"
+msgstr "Feedback Deadline"
+
+#, fuzzy
+msgid "cal_export_timezone"
+msgstr "Timezone for Calendar Export"
+
+#, fuzzy
+msgid "cal_export_timezone_tz"
+msgstr "Use ILIAS-Timezone"
+
+#, fuzzy
+msgid "cal_export_timezone_utc"
+msgstr "Use Timezone UTC (compatible with MS Outlook)"
+
+msgid "cal_fifth"
+msgstr "第五"
+
+msgid "cal_first"
+msgstr "第一"
+
+msgid "cal_fourth"
+msgstr "第四"
+
+msgid "cal_fullday"
+msgstr "整天"
+
+msgid "cal_fullday_title"
+msgstr "没有指定时间"
+
+msgid "cal_global_settings"
+msgstr "全局设置"
+
+#, fuzzy
+msgid "cal_grp_curr_crs"
+msgstr "Current Course"
+
+#, fuzzy
+msgid "cal_grp_curr_crs_cons"
+msgstr "Consultation Hours"
+
+#, fuzzy
+msgid "cal_grp_curr_grp"
+msgstr "Current Group"
+
+#, fuzzy
+msgid "cal_grp_info"
+msgstr "Group Information"
+
+msgid "cal_grp_new_notification_body"
+msgstr "一个新预约已经创建在组 \"%s\" 中。"
+
+msgid "cal_grp_new_notification_sub"
+msgstr "组 \"%s\" 中的新预约"
+
+msgid "cal_grp_notification_body"
+msgstr "组 \"%s\" 中的一个预约已经被更改。"
+
+msgid "cal_grp_notification_sub"
+msgstr "组 \"%s\" 中更改的预约"
+
+#, fuzzy
+msgid "cal_grp_others"
+msgstr "Others"
+
+#, fuzzy
+msgid "cal_grp_personal"
+msgstr "Personal"
+
+msgid "cal_ical_infoscreen"
+msgstr "订阅"
+
+#, fuzzy
+msgid "cal_ical_url"
+msgstr "iCal-URL"
+
+#, fuzzy
+msgid "cal_ical_url_google"
+msgstr "iCal-URL for Google Calendar"
+
+msgid "cal_import_appointments"
+msgstr "导入预约"
+
+msgid "cal_import_file"
+msgstr "导入文件"
+
+msgid "cal_import_file_info"
+msgstr "选择包含您的日历预约的文件。"
+
+msgid "cal_import_tbl"
+msgstr "导入预约"
+
+msgid "cal_imported_success"
+msgstr "导入的 %1$s 预约。"
+
+msgid "cal_in"
+msgstr "in"
+
+msgid "cal_last"
+msgstr "Last"
+
+#, fuzzy
+msgid "cal_list"
+msgstr "List"
+
+msgid "cal_mail_notification_body"
+msgstr "您已被邀请到一个预约中。"
+
+msgid "cal_mail_notification_subject"
+msgstr "预约邀请：\"%s\""
+
+msgid "cal_manage"
+msgstr "管理"
+
+#, fuzzy
+msgid "cal_materials"
+msgstr "Materials"
+
+msgid "cal_milestone_settings"
+msgstr "里程碑"
+
+msgid "cal_month_overview"
+msgstr "Month Overview月概况"
+
+msgid "cal_month_s"
+msgstr "Month(s)月份"
+
+msgid "cal_month_selection"
+msgstr "选择月份"
+
+msgid "cal_monthly"
+msgstr "Monthly"
+
+#, fuzzy
+msgid "cal_monthly_by_date"
+msgstr "Monthly by Date"
+
+#, fuzzy
+msgid "cal_monthly_by_day"
+msgstr "Monthly by Day"
+
+msgid "cal_ms_details"
+msgstr "里程碑细节"
+
+msgid "cal_ms_users_responsible"
+msgstr "用户负责"
+
+msgid "cal_new_app"
+msgstr "新预约"
+
+msgid "cal_new_ms"
+msgstr "新里程碑"
+
+msgid "cal_no_ending"
+msgstr "无结束日期"
+
+#, fuzzy
+msgid "cal_no_events_block"
+msgstr "Es sind keine Termine für Sie vorhanden."
+
+#, fuzzy
+msgid "cal_no_events_info"
+msgstr "No events found for the selected time period."
+
+msgid "cal_no_recurrence"
+msgstr "No Recurrence"
+
+msgid "cal_notification"
+msgstr "邮件通知"
+
+msgid "cal_notification_crsgrp"
+msgstr "课程/组参与者的通知"
+
+msgid "cal_notification_info"
+msgstr "如果启用，所有课程/组参与者将会收到有关这个预约的通知。"
+
+msgid "cal_notification_users"
+msgstr "选定用户的通知"
+
+msgid "cal_on"
+msgstr "On:"
+
+msgid "cal_on_the"
+msgstr "On the:"
+
+#, fuzzy
+msgid "cal_open_calendar"
+msgstr "Open Calendar"
+
+#, fuzzy
+msgid "cal_origin"
+msgstr "Origin"
+
+#, fuzzy
+msgid "cal_owner"
+msgstr "Owner"
+
+#, fuzzy
+msgid "cal_period"
+msgstr "Period"
+
+msgid "cal_rec_err_limit"
+msgstr "请输入一个有效的预约数。"
+
+#, fuzzy
+msgid "cal_recurrence_confirm_deletion"
+msgstr "Please decide wether you want to delete single appointments or the complete series of appointments."
+
+#, fuzzy
+msgid "cal_recurrence_count"
+msgstr "Number of Appointments"
+
+#, fuzzy
+msgid "cal_recurrence_day_interval"
+msgstr "Every x Day(s)"
+
+#, fuzzy
+msgid "cal_recurrence_end_date"
+msgstr "End Date"
+
+#, fuzzy
+msgid "cal_recurrence_end_date_info"
+msgstr "Last possible date for an appointment."
+
+#, fuzzy
+msgid "cal_recurrence_month_interval"
+msgstr "Every x Month(s)"
+
+#, fuzzy
+msgid "cal_recurrence_until"
+msgstr "Recurrence End"
+
+#, fuzzy
+msgid "cal_recurrence_until_count"
+msgstr "Fixed Number of Appointments"
+
+#, fuzzy
+msgid "cal_recurrence_until_end_date"
+msgstr "Repeat Until End Date"
+
+#, fuzzy
+msgid "cal_recurrence_week_interval"
+msgstr "Every x Week(s)"
+
+#, fuzzy
+msgid "cal_recurrence_year_interval"
+msgstr "Every x Year(s)"
+
+msgid "cal_recurrences"
+msgstr "Recurrences"
+
+msgid "cal_reg_register"
+msgstr "注册"
+
+msgid "cal_reg_registered"
+msgstr "您已经注册。"
+
+msgid "cal_reg_registered_users"
+msgstr "已登记用户"
+
+msgid "cal_reg_unregister"
+msgstr "未注册"
+
+msgid "cal_reg_unregistered"
+msgstr "您已经注销"
+
+msgid "cal_registrations"
+msgstr "预约登记"
+
+msgid "cal_remote_url"
+msgstr "URL"
+
+msgid "cal_repeat_until"
+msgstr "重复，直到"
+
+#, fuzzy
+msgid "cal_repo_obj"
+msgstr "Repository Objects"
+
+msgid "cal_responsible"
+msgstr "Responsible负责的"
+
+msgid "cal_save_responsible_users"
+msgstr "保存负责的用户"
+
+msgid "cal_search"
+msgstr "搜索项"
+
+msgid "cal_search_info_share"
+msgstr "请输入共享日历所需的用户/角色的名字。"
+
+msgid "cal_second"
+msgstr "第二"
+
+msgid "cal_server_tz"
+msgstr "服务器时区"
+
+#, fuzzy
+msgid "cal_sess_info"
+msgstr "Session Information"
+
+#, fuzzy
+msgid "cal_setting_global_crs_act"
+msgstr "Activation in Courses"
+
+#, fuzzy
+msgid "cal_setting_global_crs_act_info"
+msgstr "If selected, the calendar is active in courses by default. In any case the calendar activation can be enabled/disabled in the course settings."
+
+msgid "cal_setting_global_crs_vis"
+msgstr "显示在课程中"
+
+msgid "cal_setting_global_crs_vis_info"
+msgstr "如果启用，日历以默认形式显示在课程中。在任何情况下，日历展现都可以在课程设置中启用/禁用。"
+
+#, fuzzy
+msgid "cal_setting_global_grp_act"
+msgstr "Activation in Groups"
+
+#, fuzzy
+msgid "cal_setting_global_grp_act_info"
+msgstr "If selected, the calendar is active in groups by default. In any case the calendar activation can be enabled/disabled in the group settings."
+
+msgid "cal_setting_global_grp_vis"
+msgstr "显示在组中"
+
+msgid "cal_setting_global_grp_vis_info"
+msgstr "如果启用，日历以默认形式显示在组中。在任何情况下，日历展现都可以在组设置中启用/禁用。"
+
+msgid "cal_setting_global_vis_repos"
+msgstr "知识库日历"
+
+msgid "cal_share"
+msgstr "共享日历"
+
+msgid "cal_share_accept"
+msgstr "接受邀请"
+
+msgid "cal_share_cal"
+msgstr "共享日历"
+
+#, fuzzy
+msgid "cal_share_cal_editable"
+msgstr "Share Calendar (Read and Write)"
+
+msgid "cal_share_decline"
+msgstr "辞谢邀请"
+
+msgid "cal_share_search_header"
+msgstr "共享日历"
+
+msgid "cal_share_search_role_header"
+msgstr "角色选择"
+
+msgid "cal_share_search_usr_header"
+msgstr "用户选择"
+
+#, fuzzy
+msgid "cal_shared_access_read_only"
+msgstr "Read-only"
+
+#, fuzzy
+msgid "cal_shared_access_read_write"
+msgstr "Read and Write"
+
+#, fuzzy
+msgid "cal_shared_access_table_col"
+msgstr "Access"
+
+msgid "cal_shared_calendars"
+msgstr "已共享日历(邀请)"
+
+msgid "cal_shared_header"
+msgstr "已共享日历"
+
+msgid "cal_shared_selected_usr"
+msgstr "日历已共享给选定用户/角色。"
+
+#, fuzzy
+msgid "cal_show_weeks"
+msgstr "Show Weeks"
+
+#, fuzzy
+msgid "cal_show_weeks_info"
+msgstr "Activates weeks column in calendar side block. Users can deactivate the column in their settings."
+
+msgid "cal_start"
+msgstr "开始"
+
+#, fuzzy
+msgid "cal_subscription"
+msgstr "Subscription"
+
+msgid "cal_subscription_header"
+msgstr "日历地址"
+
+msgid "cal_subscription_info"
+msgstr "请从其它应用中使用以下地址去访问您的日历。您能复制并粘贴它到任何支持ical格式的日历产品中"
+
+msgid "cal_subscription_url"
+msgstr "日历URL"
+
+msgid "cal_sync_cache"
+msgstr "日历缓存"
+
+msgid "cal_sync_cache_info"
+msgstr "如果激活，新的/修改过的日历预约仅每 x 分钟计算一次。"
+
+msgid "cal_sync_disabled"
+msgstr "禁用"
+
+msgid "cal_sync_enabled"
+msgstr "启用"
+
+msgid "cal_table_categories"
+msgstr "日历选择"
+
+msgid "cal_task_completion"
+msgstr "任务完成"
+
+msgid "cal_third"
+msgstr "第三"
+
+msgid "cal_time_format_info"
+msgstr "请选择一个时间展示格式。"
+
+msgid "cal_timezone_info"
+msgstr "请选择您所在时区中离您最近的城市。"
+
+msgid "cal_type_crs"
+msgstr "课程日历"
+
+#, fuzzy
+msgid "cal_type_exc"
+msgstr "Exercise Calendar"
+
+msgid "cal_type_grp"
+msgstr "组日历"
+
+msgid "cal_type_info"
+msgstr " 请选择一个日历类型。“公共日历”是所有ILIAS用户都可见的。"
+
+msgid "cal_type_local"
+msgstr "本地日历"
+
+msgid "cal_type_personal"
+msgstr "私人日历"
+
+msgid "cal_type_remote"
+msgstr "网络日历"
+
+msgid "cal_type_rl"
+msgstr "日历位置"
+
+msgid "cal_type_sess"
+msgstr "会话日历"
+
+msgid "cal_type_system"
+msgstr "公共日历"
+
+#, fuzzy
+msgid "cal_type_tals"
+msgstr "Talks"
+
+msgid "cal_unshare_cal"
+msgstr "停止共享"
+
+msgid "cal_unshared_selected_usr"
+msgstr "已停止向选定的用户共享日历。"
+
+msgid "cal_upcoming_events_header"
+msgstr "近期事件"
+
+msgid "cal_user_date_format"
+msgstr "日期输入格式"
+
+msgid "cal_user_notification"
+msgstr "用户通知"
+
+msgid "cal_user_notification_info"
+msgstr "将通过电子邮件发送有关这个预约的通知给选定的用户。请输入ILIAS用户名或电子邮件地址。"
+
+msgid "cal_user_settings"
+msgstr "日历设置"
+
+msgid "cal_user_time_format"
+msgstr "时间格式"
+
+msgid "cal_user_timezone"
+msgstr "时区"
+
+#, fuzzy
+msgid "cal_usr_info"
+msgstr "Appointment Information"
+
+#, fuzzy
+msgid "cal_usr_show_weeks"
+msgstr "Show Week Column"
+
+#, fuzzy
+msgid "cal_usr_show_weeks_info"
+msgstr "Activates weeks column in calendar side block."
+
+msgid "cal_webcal_sync"
+msgstr "外部日历同步"
+
+msgid "cal_webcal_sync_info"
+msgstr "每x分钟自动同步外部日历。"
+
+msgid "cal_week_abbrev"
+msgstr "W"
+
+msgid "cal_week_month_view"
+msgstr "周/月视图设置"
+
+msgid "cal_week_overview"
+msgstr "周概况"
+
+msgid "cal_week_s"
+msgstr "星期"
+
+msgid "cal_week_selection"
+msgstr "选择星期"
+
+msgid "cal_week_start"
+msgstr "每周从星期几开始"
+
+msgid "cal_weekday"
+msgstr "Weekday"
+
+msgid "cal_weekly"
+msgstr "Weekly"
+
+msgid "cal_where"
+msgstr "位置"
+
+msgid "cal_year_s"
+msgstr "年"
+
+msgid "cal_yearly"
+msgstr "Yearly"
+
+#, fuzzy
+msgid "cal_yearly_by_date"
+msgstr "Yearly by Date"
+
+#, fuzzy
+msgid "cal_yearly_by_day"
+msgstr "Yearly by Day"
+
+#, fuzzy
+msgid "consultation_hours_block_title"
+msgstr "Consultation Hours"
+
+msgid "crs_cal_activation_end"
+msgstr "课程结束"
+
+msgid "crs_cal_activation_start"
+msgstr "课程开始"
+
+#, fuzzy
+msgid "crs_cal_end"
+msgstr "Course ends"
+
+msgid "crs_cal_reg_end"
+msgstr "注册结束"
+
+msgid "crs_cal_reg_start"
+msgstr "注册开始"
+
+#, fuzzy
+msgid "crs_cal_start"
+msgstr "Course starts"
+
+msgid "date_format"
+msgstr "m/d/Y H:i/ /月/天/4位年份 小时(24小时制):分钟"
+
+msgid "end_date"
+msgstr "End of Date"
+
+msgid "err_end_before_start"
+msgstr "结束之前预约必须没有开始。"
+
+msgid "err_missing_title"
+msgstr "请输入一个预约标题。"
+
+msgid "free"
+msgstr "免费"
+
+#, fuzzy
+msgid "grp_cal_end"
+msgstr "Group ends"
+
+msgid "grp_cal_reg_end"
+msgstr "注册结束"
+
+msgid "grp_cal_reg_start"
+msgstr "注册开始"
+
+#, fuzzy
+msgid "grp_cal_start"
+msgstr "Group starts"
+
+msgid "ical_export"
+msgstr "iCal 导出"
+
+msgid "keep"
+msgstr "保持"
+
+msgid "keyword"
+msgstr "关键字"
+
+msgid "more"
+msgstr "更多"
+
+msgid "r_14"
+msgstr "每14天"
+
+msgid "r_4_weeks"
+msgstr "每4周"
+
+#, fuzzy
+msgid "remote_pass_info"
+msgstr "Please enter your account data if the access to the webcalendar ist protected."
+
+msgid "to"
+msgstr "to"
+
+msgid "today"
+msgstr "今天"
+
+msgid "week"
+msgstr "星期"
+
+msgid "wk_short"
+msgstr "周"
+
+msgid "year"
+msgstr "年，"

@@ -1,0 +1,1315 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: dateplaner\n"
+
+msgid "Fr_long"
+msgstr "金曜日"
+
+msgid "Fr_short"
+msgstr "金"
+
+msgid "Mo_long"
+msgstr "月曜日"
+
+msgid "Mo_short"
+msgstr "月"
+
+msgid "Sa_long"
+msgstr "土曜日"
+
+msgid "Sa_short"
+msgstr "土"
+
+msgid "Su_long"
+msgstr "日曜日"
+
+msgid "Su_short"
+msgstr "日"
+
+msgid "Text"
+msgstr "テキスト"
+
+msgid "Th_long"
+msgstr "木曜日"
+
+msgid "Th_short"
+msgstr "木"
+
+msgid "Tu_long"
+msgstr "火曜日"
+
+msgid "Tu_short"
+msgstr "火"
+
+msgid "We_long"
+msgstr "水曜日"
+
+msgid "We_short"
+msgstr "水"
+
+msgid "add_appointment"
+msgstr "予定を追加"
+
+msgid "app_consultation_hours"
+msgstr "会議時間"
+
+msgid "app_day"
+msgstr "1日表示"
+
+msgid "app_month"
+msgstr "月表示"
+
+msgid "app_week"
+msgstr "週表示"
+
+msgid "back_to_crs"
+msgstr "コースへ戻る"
+
+msgid "back_to_grp"
+msgstr "グループへ進む"
+
+msgid "back_to_pd"
+msgstr "Personal Desktopへ戻る"
+
+msgid "btn_ical"
+msgstr "iCal"
+
+msgid "c_date"
+msgstr "イベントを作成"
+
+msgid "cal_add_appointment"
+msgstr "予定を作成"
+
+msgid "cal_add_calendar"
+msgstr "カレンダ追加"
+
+msgid "cal_add_category"
+msgstr "新規カレンダーを作成"
+
+msgid "cal_add_milestone"
+msgstr "マイルストーンを追加"
+
+msgid "cal_adm_notification_info"
+msgstr "選択するとコースとグループ受講者へ予定変更に関するメール通知を行います。"
+
+msgid "cal_adm_notification_user_info"
+msgstr "選択したユーザへオプションのメール通知を送るにはこのオプションを選択。"
+
+msgid "cal_agenda"
+msgstr "予定表"
+
+msgid "cal_all_day"
+msgstr "終日"
+
+msgid "cal_app_info"
+msgstr "アポイントインフォメーション"
+
+msgid "cal_app_other_materials_num"
+msgstr "他の教材を表示"
+
+msgid "cal_appointment_notifications"
+msgstr "通知"
+
+msgid "cal_appointments"
+msgstr "予定(複数)"
+
+msgid "cal_apps"
+msgstr "予定数"
+
+msgid "cal_assigned_appointments"
+msgstr "予定が割当られました"
+
+msgid "cal_back_to_cal"
+msgstr "カレンダーへ戻る"
+
+msgid "cal_back_to_list"
+msgstr "リストへ戻る"
+
+msgid "cal_back_to_search"
+msgstr "検索へ戻る"
+
+msgid "cal_batch_file_downloads"
+msgstr "カレンダーへバッチファイルをダウンロード"
+
+msgid "cal_batch_file_downloads_info"
+msgstr "現在のカレンダー/アポイント表示へ関連するすべてのファイルをダウンロードするボタンをアクティブにする。"
+
+msgid "cal_belongs_to"
+msgstr "カレンダーに属する"
+
+msgid "cal_book_free"
+msgstr "利用可"
+
+msgid "cal_booked_out"
+msgstr "満席"
+
+msgid "cal_booking_cancellation_body"
+msgstr "%sの予定はキャンセルされました。"
+
+msgid "cal_booking_cancellation_subject"
+msgstr "予定\"%s\"はキャンセルされました。"
+
+msgid "cal_booking_cancellation_user"
+msgstr "ユーザへのオリジナルメールのコピーです。"
+
+msgid "cal_booking_confirmation_body"
+msgstr " %sの予定は予約されました。"
+
+msgid "cal_booking_confirmation_link"
+msgstr "予定へのリンク"
+
+msgid "cal_booking_confirmation_subject"
+msgstr "予定 \"%s\" が予約されました"
+
+msgid "cal_booking_confirmation_user"
+msgstr "ユーザへのオリジナルメールのコピーです。"
+
+msgid "cal_booking_confirmed"
+msgstr "予定を正しく予約しました。"
+
+msgid "cal_booking_failed_info"
+msgstr "この予約は満席です。他の予約を選択してください。"
+
+msgid "cal_booking_manager_confirmation_body"
+msgstr "%sは%sとの予約をしました"
+
+msgid "cal_booking_owner_confirmation_body"
+msgstr "%sがあなたとの予約をしました。"
+
+msgid "cal_cache"
+msgstr "カレンダー キャッシュ"
+
+msgid "cal_cache_disabled"
+msgstr "無効"
+
+msgid "cal_cache_enabled"
+msgstr "設定"
+
+msgid "cal_cache_info"
+msgstr "設定するとパーソナルデスクトップ上のカレンダー予定とリポジトリがx-分ごとに計算されます。"
+
+msgid "cal_cache_settings"
+msgstr "Cache"
+
+msgid "cal_cal_deleted"
+msgstr "カレンダーは削除されました"
+
+msgid "cal_cal_details"
+msgstr "カレンダー詳細"
+
+msgid "cal_cal_shared_with"
+msgstr "ユーザカレンダーは共有されます"
+
+msgid "cal_cal_sync_success"
+msgstr "カレンダ同期が完了しました"
+
+msgid "cal_cal_synchronize"
+msgstr "カレンダを同期"
+
+msgid "cal_cal_type"
+msgstr "カレンダータイプ"
+
+msgid "cal_calendar_color"
+msgstr "カラー"
+
+msgid "cal_calendar_download"
+msgstr "カレンダーファイル"
+
+msgid "cal_calendar_name"
+msgstr "カレンダー名"
+
+msgid "cal_calendar_subscription_modal_title"
+msgstr "カレンダー申込み"
+
+msgid "cal_cancel_booking"
+msgstr "予約をキャンセルします"
+
+msgid "cal_cancel_booking_confirmed"
+msgstr "予約キャンセルが確認されました。"
+
+msgid "cal_cancel_booking_info"
+msgstr "この予約のキャンセルを確認してください。"
+
+msgid "cal_category_selection"
+msgstr "カレンダー選択"
+
+msgid "cal_cg_notification"
+msgstr "コース・グループ通知"
+
+msgid "cal_cg_registration_info"
+msgstr "コースとグループ予定のユーザ登録が可能になります。"
+
+msgid "cal_cg_registrations"
+msgstr "コースとグループ予定用登録"
+
+msgid "cal_ch_add_grp"
+msgstr "新しい会議時間グループを作成"
+
+msgid "cal_ch_add_sequence"
+msgstr "会議時間の追加"
+
+msgid "cal_ch_app_bookings"
+msgstr "予約"
+
+msgid "cal_ch_app_grp"
+msgstr "会議時間グループ"
+
+msgid "cal_ch_app_list"
+msgstr "会議時間予約"
+
+msgid "cal_ch_assign_participants"
+msgstr "ユーザを割り当て"
+
+msgid "cal_ch_assigned_apps"
+msgstr "予約数"
+
+msgid "cal_ch_book"
+msgstr "予定を予約します"
+
+msgid "cal_ch_booking"
+msgstr "予約のリソース"
+
+msgid "cal_ch_booking_col_comments"
+msgstr "コメント"
+
+msgid "cal_ch_booking_comment"
+msgstr "コメント"
+
+msgid "cal_ch_booking_link"
+msgstr "相談時間へリンク:"
+
+msgid "cal_ch_booking_message_tbl"
+msgstr "コメント"
+
+msgid "cal_ch_booking_num_available"
+msgstr "利用可能なスロット"
+
+msgid "cal_ch_booking_num_free_short"
+msgstr "%フリー"
+
+msgid "cal_ch_booking_other_participants"
+msgstr "他の参加者:"
+
+msgid "cal_ch_booking_owner"
+msgstr "オーナー"
+
+msgid "cal_ch_booking_participants"
+msgstr "'%s’とのご予約のお時間が間もなく始まります。"
+
+msgid "cal_ch_booking_reminder_body"
+msgstr "%sの予約まもなく開始します。"
+
+msgid "cal_ch_booking_reminder_subject"
+msgstr "%sの注意喚起"
+
+msgid "cal_ch_booking_start"
+msgstr "開始"
+
+msgid "cal_ch_booking_your_comment"
+msgstr "あなたのコメント:"
+
+msgid "cal_ch_bookings"
+msgstr "参加者"
+
+msgid "cal_ch_bookings_tbl"
+msgstr "予約済み日程"
+
+msgid "cal_ch_cancel_booking"
+msgstr "予約をキャンセルします"
+
+msgid "cal_ch_cancel_booking_info"
+msgstr "予約キャンセルするとユーザへメール通知を送ります。ユーザ通知をしたくない場合は\"予約削除\"オプションを選択します。"
+
+msgid "cal_ch_cancel_booking_sure"
+msgstr "本当に次の予約をキャンセルしますか?"
+
+msgid "cal_ch_canceled_bookings"
+msgstr "選択された予約は削除されました。"
+
+msgid "cal_ch_ch"
+msgstr "会議時間"
+
+msgid "cal_ch_cron_reminder"
+msgstr "会議時間注意喚起を送信"
+
+msgid "cal_ch_cron_reminder_days"
+msgstr "日数"
+
+msgid "cal_ch_cron_reminder_info"
+msgstr "有効にすると予定されている会議時間イベントに関するメール通知が送信されます。"
+
+msgid "cal_ch_current_booking_comment"
+msgstr "コメント"
+
+msgid "cal_ch_current_bookings"
+msgstr "現在の予約"
+
+msgid "cal_ch_deadline"
+msgstr "最終登録"
+
+msgid "cal_ch_deadline_info"
+msgstr "登録がブロックされるまでの時間を設定してください。"
+
+msgid "cal_ch_delete_app_booking_info"
+msgstr "次の予定は既存の予定に存在します。これらの予定を削除するにはユーザへ通知されません。"
+
+msgid "cal_ch_delete_booking"
+msgstr "予約を削除"
+
+msgid "cal_ch_delete_booking_info"
+msgstr "予約削除はユーザへメール通知されません。ユーザへ通知したい場合は\"予約キャンセル\"アクションを選択してください。"
+
+msgid "cal_ch_delete_booking_sure"
+msgstr "本当に次の予約を削除しますか?"
+
+msgid "cal_ch_deleted_bookings"
+msgstr "選択された予約はキャンセルされました。"
+
+msgid "cal_ch_duration"
+msgstr "各所要時間"
+
+msgid "cal_ch_export_apps"
+msgstr "予約済みの日程"
+
+msgid "cal_ch_field_ch"
+msgstr "会議時間日程"
+
+msgid "cal_ch_form"
+msgstr "会議時間をオンにする"
+
+msgid "cal_ch_form_header"
+msgstr "会議時間"
+
+msgid "cal_ch_form_info"
+msgstr "オンにするとパーソナル会議時間がカレンダーで管理されます。"
+
+msgid "cal_ch_free_of_available"
+msgstr "%s of %s"
+
+msgid "cal_ch_grp_add_tbl"
+msgstr "新規会議時間グループを作成"
+
+msgid "cal_ch_grp_delete_sure"
+msgstr "本当に次の会議時間グループを削除しますか?"
+
+msgid "cal_ch_grp_header"
+msgstr "会議時間グループ"
+
+msgid "cal_ch_grp_multiple"
+msgstr "ユーザ当たりの予約"
+
+msgid "cal_ch_grp_multiple_info"
+msgstr "ユーザごとの最大予約数を定義できます。"
+
+msgid "cal_ch_grp_no_assignment"
+msgstr "-- 割り当てがありません --"
+
+msgid "cal_ch_grp_selection"
+msgstr "会議時間グループの割り当て"
+
+msgid "cal_ch_grp_update_tbl"
+msgstr "会議時間グループを編集"
+
+msgid "cal_ch_grps"
+msgstr "会議時間グループ"
+
+msgid "cal_ch_manager"
+msgstr "会議時間管理者"
+
+msgid "cal_ch_manager_info"
+msgstr "会議時間を管理するユーザのログインです。"
+
+msgid "cal_ch_max_books"
+msgstr "ユーザ当たりの予約"
+
+msgid "cal_ch_minutes"
+msgstr "所要時間(分)"
+
+msgid "cal_ch_multi_edit_sequence"
+msgstr "複数の予定を編集します"
+
+msgid "cal_ch_num_appointments"
+msgstr "予定回数"
+
+msgid "cal_ch_num_appointments_info"
+msgstr "繰返し予定数を設定してください。"
+
+msgid "cal_ch_num_bookings"
+msgstr "予定に対する予約"
+
+msgid "cal_ch_personal_book"
+msgstr "パーソナル予約"
+
+msgid "cal_ch_personal_ch"
+msgstr "パーソナル会議時間"
+
+msgid "cal_ch_reject_booking"
+msgstr "予約をキャンセル"
+
+msgid "cal_ch_send_mail"
+msgstr "メールを送る"
+
+msgid "cal_ch_target_object"
+msgstr "リポジトリオブジェクト"
+
+msgid "cal_ch_target_object_info"
+msgstr "会議時間はコース／グループコンテンツの右の方のブロック内へ表示されます。特定のコースまたはブループへ会議時間を表示制限するには、申し立てのオブジェクトのRef-IＤを入力してください。複数のRef-IDを入力するにはコンマで区切ります。それとは関係なく会議時間はe-ポートフォリオ内へ表示されます。"
+
+msgid "cal_ch_unknown_repository_object"
+msgstr "そのオブジェクトref-idは有効ではありません。"
+
+msgid "cal_ch_unknown_user"
+msgstr "そのログインユーザはいません"
+
+msgid "cal_ch_user_assignment_failed_info"
+msgstr "最大予約数を超えているため次のユーザを日程へ割り当てできませんでした。"
+
+msgid "cal_ch_vm_period_all"
+msgstr "全て"
+
+msgid "cal_ch_vm_period_past"
+msgstr "過去"
+
+msgid "cal_ch_vm_period_upcoming"
+msgstr "今後"
+
+msgid "cal_ch_vm_status_all"
+msgstr "全て"
+
+msgid "cal_ch_vm_status_booked"
+msgstr "予約済みスロット"
+
+msgid "cal_ch_vm_status_open"
+msgstr "オープンスロット"
+
+msgid "cal_change_calendar_view"
+msgstr "カレンダー表示変更"
+
+msgid "cal_change_responsible_users"
+msgstr "管理下ユーザの変更"
+
+msgid "cal_changed_events_header"
+msgstr "新規および変更済予定"
+
+msgid "cal_confirm_booking"
+msgstr "予約を確認します"
+
+msgid "cal_confirm_booking_info"
+msgstr "この予定の予約を確認してください。"
+
+msgid "cal_confirm_reg_info"
+msgstr "予定の登録を確認してください。"
+
+msgid "cal_confirm_unreg_info"
+msgstr "登録のキャンセルを確認してください。"
+
+msgid "cal_consultation_hours_for"
+msgstr "会議時間"
+
+msgid "cal_consultation_hours_for_user"
+msgstr "%1の会議時間"
+
+msgid "cal_contained_in"
+msgstr "包含"
+
+msgid "cal_create"
+msgstr "作成"
+
+msgid "cal_created_appointment"
+msgstr "新規予定を作成しました。"
+
+msgid "cal_created_milestone"
+msgstr "マイルストーンを追加しました。"
+
+msgid "cal_created_milestone_resp_q"
+msgstr "マイルストーンを追加しました。マイルストーンに一致する責任あるユーザを選択してください。"
+
+msgid "cal_cronjob_remote_description"
+msgstr "有効にすると、カレンダータイプ\"Webカレンダー\"の予定は、一定の間隔のあとで自動的に同期されます。"
+
+msgid "cal_cronjob_remote_title"
+msgstr "外部カレンダー同期"
+
+msgid "cal_crs_info"
+msgstr "コース情報"
+
+msgid "cal_crs_new_notification_body"
+msgstr "コース\"%s\"へ新しい予定が作成されました。"
+
+msgid "cal_crs_new_notification_sub"
+msgstr "コース\"%s\"の新しい予定"
+
+msgid "cal_crs_notification_body"
+msgstr "コース\"%s\"の予定が変更されました。"
+
+msgid "cal_crs_notification_sub"
+msgstr "コース\"%s\"の予定を変更しました"
+
+msgid "cal_crs_timing_end"
+msgstr "Suggested End"
+
+msgid "cal_crs_timing_start"
+msgstr "Suggested Start"
+
+msgid "cal_daily"
+msgstr "毎日"
+
+msgid "cal_date_and_time"
+msgstr "日時"
+
+msgid "cal_date_booked"
+msgstr "予約済み"
+
+msgid "cal_date_format_info"
+msgstr "日付入力形式を選択してください。"
+
+#, fuzzy
+msgid "cal_date_time_title"
+msgstr "Date and Time"
+
+msgid "cal_day_end"
+msgstr "一日の終わり時間"
+
+msgid "cal_day_of_month"
+msgstr "月の特定の日"
+
+msgid "cal_day_overview"
+msgstr "一日の概要"
+
+msgid "cal_day_s"
+msgstr "日"
+
+msgid "cal_day_selection"
+msgstr "日を選択"
+
+msgid "cal_day_start"
+msgstr "開始日"
+
+msgid "cal_day_week_view"
+msgstr "日・週間表示設定"
+
+msgid "cal_deadline"
+msgstr "期限"
+
+msgid "cal_def_date_format"
+msgstr "日付入力形式初期値"
+
+msgid "cal_def_date_format_info"
+msgstr "日付入力形式を選択してください。"
+
+msgid "cal_def_day_end"
+msgstr "終了日初期値"
+
+msgid "cal_def_day_start"
+msgstr "開始日初期値"
+
+msgid "cal_def_show_weeks"
+msgstr "週表示初期値"
+
+msgid "cal_def_time_format"
+msgstr "時間形式初期設定"
+
+msgid "cal_def_time_format_info"
+msgstr "時間入力形式を選択してださい。"
+
+msgid "cal_def_timezone"
+msgstr "タイムゾーン初期設定"
+
+msgid "cal_def_timezone_info"
+msgstr "予定時間で使用するタイムゾーン初期設定値を選択してください。"
+
+msgid "cal_def_view"
+msgstr "既定のカレンダー表示"
+
+msgid "cal_def_week_start"
+msgstr "週開始"
+
+msgid "cal_default_calendar"
+msgstr "パーソナル予定"
+
+msgid "cal_default_settings"
+msgstr "既定値"
+
+msgid "cal_del_app_sure"
+msgstr "本当に選択した予定を削除しますか?"
+
+msgid "cal_del_cal_sure"
+msgstr "本当に選択したカレンダーを削除しますか?"
+
+msgid "cal_delete_app_sure"
+msgstr "以下の予約を本当に削除しますか？"
+
+msgid "cal_delete_booking_info"
+msgstr "この予約の削除を確認してください"
+
+msgid "cal_delete_cal"
+msgstr "カレンダーを削除"
+
+msgid "cal_delete_recurrence_rule"
+msgstr "繰返しの予定を削除"
+
+msgid "cal_delete_recurrences"
+msgstr " すべての繰り返しを削除します。"
+
+msgid "cal_delete_single"
+msgstr "この予定のみを削除します"
+
+msgid "cal_deleted_app"
+msgstr "選択の予定は削除されました。"
+
+msgid "cal_details"
+msgstr "予定詳細　"
+
+msgid "cal_down_no_files"
+msgstr "何もダウンロードしないでリストのイベントにはファイルがありません。"
+
+msgid "cal_download_all_files"
+msgstr "全てのファイルをダウンロード"
+
+msgid "cal_download_files"
+msgstr "ファイルをダウンロード"
+
+msgid "cal_download_files_started"
+msgstr "カレンダーファイルのダウンロードを開始しました。"
+
+msgid "cal_dstart_dend_warn"
+msgstr "入力確認してください。開始日は終了日の前になる必要があります。"
+
+msgid "cal_duration"
+msgstr "所要時間"
+
+msgid "cal_duration_end"
+msgstr "End"
+
+msgid "cal_duration_start"
+msgstr "Start"
+
+msgid "cal_edit_appointment"
+msgstr "予定を編集"
+
+msgid "cal_edit_category"
+msgstr "カレンダーを編集"
+
+msgid "cal_edit_milestone"
+msgstr "マイルストーンを編集"
+
+msgid "cal_edit_recurrences"
+msgstr "日程を編集"
+
+msgid "cal_edit_single"
+msgstr "この日程を編集"
+
+msgid "cal_edit_single_or_all_info"
+msgstr "この予定のみを編集しますかそれとも一連のもの全てですか。"
+
+msgid "cal_enable_group_milestones"
+msgstr "マイルストーンを利用する"
+
+msgid "cal_enable_group_milestones_desc"
+msgstr "カレンダー上でマイルストーン計画が利用可能になります。"
+
+msgid "cal_err_invalid_notification_rcps"
+msgstr "通知受信者リストが無効です。ILIASユーザアカウント名もしくは有効なメールアドレスのどちらかを選択してください。"
+
+msgid "cal_every"
+msgstr "間隔:"
+
+msgid "cal_exc_deadline"
+msgstr "期限"
+
+msgid "cal_exc_info"
+msgstr "割当て情報"
+
+msgid "cal_exc_inst_files"
+msgstr "報告書式(指示ファイル)"
+
+msgid "cal_exc_open"
+msgstr "割当てを開く"
+
+msgid "cal_exc_peer_review_deadline"
+msgstr "フィードバック期限"
+
+msgid "cal_export_timezone"
+msgstr "カレンダーエクスポート用のタイムゾーン"
+
+msgid "cal_export_timezone_tz"
+msgstr "ILIASタイムゾーンを使用"
+
+msgid "cal_export_timezone_utc"
+msgstr "UTC タイムゾーン(MS Outlook互換)を使用"
+
+msgid "cal_fifth"
+msgstr "第5"
+
+msgid "cal_first"
+msgstr "第1"
+
+msgid "cal_fourth"
+msgstr "第4"
+
+msgid "cal_fullday"
+msgstr "日付/時間"
+
+msgid "cal_fullday_title"
+msgstr "終日イベント"
+
+msgid "cal_global_settings"
+msgstr "グローバル設定"
+
+msgid "cal_grp_curr_crs"
+msgstr "現在のコース"
+
+msgid "cal_grp_curr_crs_cons"
+msgstr "会議時間"
+
+msgid "cal_grp_curr_grp"
+msgstr "現在のグループ"
+
+msgid "cal_grp_info"
+msgstr "グループ情報"
+
+msgid "cal_grp_new_notification_body"
+msgstr "グループ\"%s\"へ新しい予定が作成されました。"
+
+msgid "cal_grp_new_notification_sub"
+msgstr "グループ\"%s\"の新しい予定"
+
+msgid "cal_grp_notification_body"
+msgstr "グループ\"%s\"の予定が変更されました。"
+
+msgid "cal_grp_notification_sub"
+msgstr "グループ \"%s\"の予定を変更しました"
+
+msgid "cal_grp_others"
+msgstr "その他"
+
+msgid "cal_grp_personal"
+msgstr "パーソナル"
+
+msgid "cal_ical_infoscreen"
+msgstr "購読"
+
+msgid "cal_ical_url"
+msgstr "iCal-URL"
+
+msgid "cal_ical_url_google"
+msgstr "グーグルカレンダ―用のiCAL-URL"
+
+msgid "cal_import_appointments"
+msgstr "アポイントをインポート"
+
+msgid "cal_import_file"
+msgstr "ファイルをインポート"
+
+msgid "cal_import_file_info"
+msgstr "カレンダアポイントの入ったファイルを選択します。"
+
+msgid "cal_import_tbl"
+msgstr "アポイントをインポート"
+
+msgid "cal_imported_success"
+msgstr "アポイント%1$sをインポートしました。"
+
+msgid "cal_in"
+msgstr "該当月"
+
+msgid "cal_last"
+msgstr "最後"
+
+msgid "cal_list"
+msgstr "リスト"
+
+msgid "cal_mail_notification_body"
+msgstr "アポイントへ招待されています。"
+
+msgid "cal_mail_notification_subject"
+msgstr "アポイント招待:　\"%\"さん"
+
+msgid "cal_manage"
+msgstr "管理"
+
+msgid "cal_materials"
+msgstr "教材"
+
+msgid "cal_milestone_settings"
+msgstr "マイルストーン"
+
+msgid "cal_month_overview"
+msgstr "月間概要"
+
+msgid "cal_month_s"
+msgstr "ヶ月"
+
+msgid "cal_month_selection"
+msgstr "月を選択"
+
+msgid "cal_monthly"
+msgstr "毎月"
+
+msgid "cal_monthly_by_date"
+msgstr "日付ごとの月次"
+
+msgid "cal_monthly_by_day"
+msgstr "毎月日ごと"
+
+msgid "cal_ms_details"
+msgstr "マイルスト－ン詳細"
+
+msgid "cal_ms_users_responsible"
+msgstr "ユーザ責任"
+
+msgid "cal_new_app"
+msgstr "新規予定"
+
+msgid "cal_new_ms"
+msgstr "新規マイルストーン"
+
+msgid "cal_no_ending"
+msgstr "終了日なし"
+
+msgid "cal_no_events_block"
+msgstr "利用できる日がありません。"
+
+msgid "cal_no_events_info"
+msgstr "選択の期間内にはイベントが何もありません。"
+
+msgid "cal_no_recurrence"
+msgstr "なし"
+
+msgid "cal_notification"
+msgstr "メール通知"
+
+msgid "cal_notification_crsgrp"
+msgstr "コース・グループ参加者への通知"
+
+msgid "cal_notification_info"
+msgstr "ONにすると全てのコースとグループ受講者へメールでこの予定を通知します。"
+
+msgid "cal_notification_users"
+msgstr "選択したユーザへの通知"
+
+msgid "cal_on"
+msgstr "曜日:"
+
+msgid "cal_on_the"
+msgstr "暦日:"
+
+msgid "cal_open_calendar"
+msgstr "カレンダーを開く"
+
+msgid "cal_origin"
+msgstr "起点"
+
+msgid "cal_owner"
+msgstr "オーナー"
+
+msgid "cal_period"
+msgstr "期間"
+
+msgid "cal_rec_err_limit"
+msgstr "正しい予定の番号を入力してください。"
+
+msgid "cal_recurrence_confirm_deletion"
+msgstr "繰返しの予定を削除するか繰返しの予定を完了するか決定してください。"
+
+msgid "cal_recurrence_count"
+msgstr "予約件数"
+
+msgid "cal_recurrence_day_interval"
+msgstr "x 日間隔"
+
+msgid "cal_recurrence_end_date"
+msgstr "最終日"
+
+msgid "cal_recurrence_end_date_info"
+msgstr "予約の最終可能日"
+
+msgid "cal_recurrence_month_interval"
+msgstr "x 月間隔"
+
+msgid "cal_recurrence_until"
+msgstr "再発終了"
+
+msgid "cal_recurrence_until_count"
+msgstr "固定された予約の数"
+
+msgid "cal_recurrence_until_end_date"
+msgstr "終了日まで繰り返す"
+
+msgid "cal_recurrence_week_interval"
+msgstr "x 週間隔"
+
+msgid "cal_recurrence_year_interval"
+msgstr "x 年間隔"
+
+msgid "cal_recurrences"
+msgstr "繰返し"
+
+msgid "cal_reg_register"
+msgstr "登録"
+
+msgid "cal_reg_registered"
+msgstr "登録を完了しました。"
+
+msgid "cal_reg_registered_users"
+msgstr "登録済ユーザ"
+
+msgid "cal_reg_unregister"
+msgstr "登録解除"
+
+msgid "cal_reg_unregistered"
+msgstr "登録を解除しました。"
+
+msgid "cal_registrations"
+msgstr "予定登録"
+
+msgid "cal_remote_url"
+msgstr "URL"
+
+msgid "cal_repeat_until"
+msgstr "繰返し期限"
+
+msgid "cal_repo_obj"
+msgstr "リポジトリオブジェクト"
+
+msgid "cal_responsible"
+msgstr "責任性"
+
+msgid "cal_save_responsible_users"
+msgstr "責任ユーザを保存"
+
+msgid "cal_search"
+msgstr "用語を検索"
+
+msgid "cal_search_info_share"
+msgstr "カレンダーを共有するための希望するユーザと役割名を入力してください。"
+
+msgid "cal_second"
+msgstr "第2"
+
+msgid "cal_server_tz"
+msgstr "サーバーのタイムゾーン"
+
+msgid "cal_sess_info"
+msgstr "セッション情報"
+
+msgid "cal_setting_global_crs_act"
+msgstr "コースのアクティベーション"
+
+msgid "cal_setting_global_crs_act_info"
+msgstr "有効にすると既定でカレンダーはコースにアクティブ化されます。どのような場合もカレンダーアクティベーションはコース設定内で有効/無効にする事ができます。"
+
+msgid "cal_setting_global_crs_vis"
+msgstr "コース内に表示"
+
+msgid "cal_setting_global_crs_vis_info"
+msgstr "有効にすると初期設定によりカレンダはコース内に表示されます。いかなる場合もカレンダ表示はグループ設定内でON/OFFできます。"
+
+msgid "cal_setting_global_grp_act"
+msgstr "グループのアクティベーション"
+
+msgid "cal_setting_global_grp_act_info"
+msgstr "有効にするとカレンダーは既定でグループ内にアクティブ化されます。どのよな場合もカレンダーアクティベーションはグループ設定内で有効/無効化する事ができます。"
+
+msgid "cal_setting_global_grp_vis"
+msgstr "グループ内に表示"
+
+msgid "cal_setting_global_grp_vis_info"
+msgstr "有効にすると初期設定によりカレンダはグループ内に表示されます。いかなる場合もカレンダ表示はグループ設定内でON/OFFできます。"
+
+msgid "cal_setting_global_vis_repos"
+msgstr "リポジトリカレンダ"
+
+msgid "cal_share"
+msgstr "カレンダーを共有"
+
+msgid "cal_share_accept"
+msgstr "招待に応じる"
+
+msgid "cal_share_cal"
+msgstr "カレンダーを共有 (Read-only)"
+
+msgid "cal_share_cal_editable"
+msgstr "カレンダを共有(Read and Write)"
+
+msgid "cal_share_decline"
+msgstr "招待を辞退"
+
+msgid "cal_share_search_header"
+msgstr "カレンダーを共有"
+
+msgid "cal_share_search_role_header"
+msgstr "役割選択"
+
+msgid "cal_share_search_usr_header"
+msgstr "ユーザ選択"
+
+msgid "cal_shared_access_read_only"
+msgstr "Read-only"
+
+msgid "cal_shared_access_read_write"
+msgstr "Read and Write"
+
+msgid "cal_shared_access_table_col"
+msgstr "アクセス"
+
+msgid "cal_shared_calendars"
+msgstr "共有カレンダー(招待)"
+
+msgid "cal_shared_header"
+msgstr "共有カレンダー"
+
+msgid "cal_shared_selected_usr"
+msgstr "カレンダーは選択のユーザと役割で共有されています。"
+
+msgid "cal_show_weeks"
+msgstr "週を表示"
+
+msgid "cal_show_weeks_info"
+msgstr "カレンダーサイドブロックの週列をアクティブにします。ユーザは設定の列をアクティブ解除できます。"
+
+msgid "cal_start"
+msgstr "開始"
+
+msgid "cal_subscription"
+msgstr "申込み"
+
+msgid "cal_subscription_header"
+msgstr "カレンダーアドレス"
+
+msgid "cal_subscription_info"
+msgstr "他のアプリケーションからカレンダーへアクセスするには次のアドレスを使ってください。icalファイル形式をサポートするカレンダー製品へコピ－と貼付けができます。"
+
+msgid "cal_subscription_url"
+msgstr "カレンダー URL:"
+
+msgid "cal_sync_cache"
+msgstr "カレンダーキャッシュ"
+
+msgid "cal_sync_cache_info"
+msgstr "設定すると 新規/修正 カレンダー予定がx分毎に計算されます。"
+
+msgid "cal_sync_disabled"
+msgstr "無効"
+
+msgid "cal_sync_enabled"
+msgstr "設定"
+
+msgid "cal_table_categories"
+msgstr "カレンダー選択"
+
+msgid "cal_task_completion"
+msgstr "タスク進捗率"
+
+msgid "cal_third"
+msgstr "第3"
+
+msgid "cal_time_format_info"
+msgstr "時間入力形式を選んでください。"
+
+msgid "cal_timezone_info"
+msgstr "タイムゾーン内で一番近い都市を選んでください。"
+
+msgid "cal_type_crs"
+msgstr "コース カレンダー"
+
+msgid "cal_type_exc"
+msgstr "演習カレンダ"
+
+msgid "cal_type_grp"
+msgstr "グループ カレンダー"
+
+msgid "cal_type_info"
+msgstr "カレンダーのタイプを1つ選択してください。 \"パブリックカレンダー\"はすべてのILIASユーザに対して表示されます。"
+
+msgid "cal_type_local"
+msgstr "ローカルカレンダ"
+
+msgid "cal_type_personal"
+msgstr "プライベートカレンダー"
+
+msgid "cal_type_remote"
+msgstr "Webカレンダ"
+
+msgid "cal_type_rl"
+msgstr "カレンダロケーション"
+
+msgid "cal_type_sess"
+msgstr "セッション カレンダー"
+
+msgid "cal_type_system"
+msgstr "パブリックカレンダー"
+
+msgid "cal_type_tals"
+msgstr "トーク"
+
+msgid "cal_unshare_cal"
+msgstr "共有を停止"
+
+msgid "cal_unshared_selected_usr"
+msgstr "選択ユーザのカレンダーの共有を停止しました。"
+
+msgid "cal_upcoming_events_header"
+msgstr " 今後のイベント"
+
+msgid "cal_user_date_format"
+msgstr "日付入力形式"
+
+msgid "cal_user_notification"
+msgstr "ユーザ通知"
+
+msgid "cal_user_notification_info"
+msgstr "選択されたユーザはメールによるアポイント通知はされません。ILIASユーザ名もしくはメールアドレスを入力してください。"
+
+msgid "cal_user_settings"
+msgstr "カレンダー設定"
+
+msgid "cal_user_time_format"
+msgstr "時間形式"
+
+msgid "cal_user_timezone"
+msgstr "ILIASタイムゾーン"
+
+msgid "cal_usr_info"
+msgstr "アポイント情報"
+
+msgid "cal_usr_show_weeks"
+msgstr "週の列を表示"
+
+msgid "cal_usr_show_weeks_info"
+msgstr "カレンダーサイドブロックの週列を有効にする。"
+
+msgid "cal_webcal_sync"
+msgstr "外部カレンダ同期"
+
+msgid "cal_webcal_sync_info"
+msgstr "x分間隔で外部カレンダーと自動同期します。"
+
+msgid "cal_week_abbrev"
+msgstr "W"
+
+msgid "cal_week_month_view"
+msgstr "週・月間表示設定"
+
+msgid "cal_week_overview"
+msgstr "週間概要"
+
+msgid "cal_week_s"
+msgstr "週"
+
+msgid "cal_week_selection"
+msgstr "週を選択"
+
+msgid "cal_week_start"
+msgstr "週の開始曜日"
+
+msgid "cal_weekday"
+msgstr "週日"
+
+msgid "cal_weekly"
+msgstr "毎週"
+
+msgid "cal_where"
+msgstr "ロケーション"
+
+msgid "cal_year_s"
+msgstr "年"
+
+msgid "cal_yearly"
+msgstr "年間"
+
+msgid "cal_yearly_by_date"
+msgstr "日付ごとの年間"
+
+msgid "cal_yearly_by_day"
+msgstr "毎年 日ごと"
+
+msgid "consultation_hours_block_title"
+msgstr "相談時間"
+
+msgid "crs_cal_activation_end"
+msgstr "コースの終了"
+
+msgid "crs_cal_activation_start"
+msgstr "コースの開始"
+
+msgid "crs_cal_end"
+msgstr "コース終了"
+
+msgid "crs_cal_reg_end"
+msgstr "登録の終了"
+
+msgid "crs_cal_reg_start"
+msgstr "登録の開始"
+
+msgid "crs_cal_start"
+msgstr "コース開始"
+
+msgid "date_format"
+msgstr "m/d/Y H:i"
+
+msgid "end_date"
+msgstr "終了日"
+
+msgid "err_end_before_start"
+msgstr "予定を終了前に開始してはなりません。"
+
+msgid "err_missing_title"
+msgstr "予定タイトルを入力してください。"
+
+msgid "free"
+msgstr "フリー"
+
+msgid "grp_cal_end"
+msgstr "グループ終了"
+
+msgid "grp_cal_reg_end"
+msgstr "登録終了日時"
+
+msgid "grp_cal_reg_start"
+msgstr "登録開始"
+
+msgid "grp_cal_start"
+msgstr "グループ開始"
+
+msgid "ical_export"
+msgstr "iCal エクスポート"
+
+msgid "keep"
+msgstr "キープ"
+
+msgid "keyword"
+msgstr "キーワード"
+
+msgid "more"
+msgstr "さらに"
+
+msgid "r_14"
+msgstr "14日ごと"
+
+msgid "r_4_weeks"
+msgstr "4週ごと"
+
+msgid "remote_pass_info"
+msgstr "webカレンダへのアクセスが保護されている場合はアカウント情報を入力してください。"
+
+msgid "to"
+msgstr "to"
+
+msgid "today"
+msgstr "今日"
+
+msgid "week"
+msgstr "週"
+
+msgid "wk_short"
+msgstr "週"
+
+msgid "year"
+msgstr "年"
