@@ -1,0 +1,477 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: scormdebug\n"
+
+msgid "API-call"
+msgstr "API-volání"
+
+msgid "Commit"
+msgstr "Uložit data"
+
+msgid "GetDiagnostic"
+msgstr "umožňuje LMS (!) definovat další diagnostické informace"
+
+msgid "GetErrorString"
+msgstr "Načíst textový popis aktuálního chybového stavu"
+
+msgid "GetLastError"
+msgstr "Požádat o kód chyby aktuálního chybového stavu"
+
+msgid "GetValue"
+msgstr "Získat data"
+
+msgid "Initialize"
+msgstr "Spustit API komunikaci"
+
+msgid "SCO-name"
+msgstr "Název SCO"
+
+msgid "SCO-title"
+msgstr "Titulek SCO"
+
+msgid "SetValue"
+msgstr "zaslaná data"
+
+msgid "Terminate"
+msgstr "Uložit data a ukončit komunikaci API"
+
+msgid "adl.nav.request"
+msgstr "Požadavek na navigaci, který má být zpracován ihned po ukončení ()"
+
+msgid "adl.nav.request_valid.choice"
+msgstr "Používá ho SCO k určení, zda bude následovat požadavek na volbu navigace pro konkrétní aktivitu."
+
+msgid "adl.nav.request_valid.continue"
+msgstr "Používá ho SCO k určení, zda bude následovat požadavek na pokračování v navigaci."
+
+msgid "adl.nav.request_valid.previous"
+msgstr "Používá ho SCO k určení, zda bude následovat požadavek na předchozí navigaci."
+
+msgid "all_API-calls_shown"
+msgstr "Všechna API-volání jsou právě zobrazena."
+
+msgid "cmi._version"
+msgstr "Představuje verzi datového modelu"
+
+msgid "cmi.comments_from_learner._children"
+msgstr "Seznam podporovaných prvků datového modelu"
+
+msgid "cmi.comments_from_learner._count"
+msgstr "Aktuální počet komentářů studentů"
+
+msgid "cmi.comments_from_learner.n.comment"
+msgstr "Textový vstup"
+
+msgid "cmi.comments_from_learner.n.location"
+msgstr "Bod v SCO, na který se poznámka vztahuje"
+
+msgid "cmi.comments_from_learner.n.timestamp"
+msgstr "Bod v čase, ve kterém byl komentář vytvořen nebo naposledy změněn"
+
+msgid "cmi.comments_from_lms._children"
+msgstr "Seznam podporovaných prvků datového modelu"
+
+msgid "cmi.comments_from_lms._count"
+msgstr "Aktuální počet komentářů z LMS"
+
+msgid "cmi.comments_from_lms.n.comment"
+msgstr "Komentáře nebo anotace spojené s SCO"
+
+msgid "cmi.comments_from_lms.n.location"
+msgstr "Bod v SCO, na který se poznámka vztahuje"
+
+msgid "cmi.comments_from_lms.n.timestamp"
+msgstr "Bod v čase, ve kterém byl komentář vytvořen nebo naposledy změněn"
+
+msgid "cmi.completion_status"
+msgstr "Označuje, zda student dokončil SCO"
+
+msgid "cmi.completion_threshold"
+msgstr "Používá se k určení, zda má být SCO považováno za dokončené"
+
+msgid "cmi.credit"
+msgstr "Označuje, zda bude student dostane zápočet za výsledky v SCO"
+
+msgid "cmi.entry"
+msgstr "Prověřuje, zda student již dříve vstoupil do SCO"
+
+msgid "cmi.exit"
+msgstr "Označuje, jak nebo proč student odešel ze SCO"
+
+msgid "cmi.interactions._children"
+msgstr "Seznam podporovaných prvků datového modelu"
+
+msgid "cmi.interactions._count"
+msgstr "Aktuální počet interakcí uložených LMS"
+
+msgid "cmi.interactions.n.correct_responses._count"
+msgstr "Aktuální počet správných odpovědí uložených LMS pro tuto interakci"
+
+msgid "cmi.interactions.n.correct_responses.n.pattern"
+msgstr "Jeden správný vzor odpovědi pro interakci"
+
+msgid "cmi.interactions.n.description"
+msgstr "Stručný informativní popis interakce"
+
+msgid "cmi.interactions.n.id"
+msgstr "Jedinečné označení interakce"
+
+msgid "cmi.interactions.n.latency"
+msgstr "Čas, který uplynul mezi okamžikem, kdy byla interakce zpřístupněna studentovi k odpovědi a první odpovědí"
+
+msgid "cmi.interactions.n.learner_response"
+msgstr "Data generovaná v okamžiku, kdy student reaguje na interakci"
+
+msgid "cmi.interactions.n.objectives._count"
+msgstr "Aktuální počet cílů (tj. objektivních identifikátorů) uložených LMS pro tuto interakci"
+
+msgid "cmi.interactions.n.objectives.n.id"
+msgstr "Označení cílů související s interakcí"
+
+msgid "cmi.interactions.n.result"
+msgstr "Posouzení správnosti odpovědi studenta"
+
+msgid "cmi.interactions.n.timestamp"
+msgstr "Bod v čase, kdy byla interakce poprvé zpřístupněna studentovi k interakci a odpovědi"
+
+msgid "cmi.interactions.n.type"
+msgstr "Jaký typ interakce je zaznamenán"
+
+msgid "cmi.interactions.n.weighting"
+msgstr "Váha přiřazená interakci vzhledem k jiným interakcím"
+
+msgid "cmi.launch_data"
+msgstr "Data poskytovaná SCO po spuštění, inicializována z prvku manifestu dataFromLMS"
+
+msgid "cmi.learner_id"
+msgstr "Identifikuje studenta, jehož jménem byl SCO spuštěn"
+
+msgid "cmi.learner_name"
+msgstr "Jméno poskytnuté studentovi LMS"
+
+msgid "cmi.learner_preference._children"
+msgstr "Seznam podporovaných prvků datového modelu"
+
+msgid "cmi.learner_preference.audio_captioning"
+msgstr "Určuje, zda se zobrazí text titulků odpovídající zvukovému záznamu"
+
+msgid "cmi.learner_preference.audio_level"
+msgstr "Určuje zamýšlenou změnu ve vnímané úrovni zvuku"
+
+msgid "cmi.learner_preference.delivery_speed"
+msgstr "Studentem upřednostňovaná relativní rychlost poskytování obsahu"
+
+msgid "cmi.learner_preference.language"
+msgstr "Preferovaný jazyk studenta pro SCO s možností několika jazyků"
+
+msgid "cmi.location"
+msgstr "Aktuální umístění studenta ve SCO"
+
+msgid "cmi.max_time_allowed"
+msgstr "Celková doba, po kterou je student oprávněn používat SCO"
+
+msgid "cmi.mode"
+msgstr "Identifikuje jeden ze tří možných režimů, ve kterých může být SCO prezentován studentovi"
+
+msgid "cmi.objectives._children"
+msgstr "Seznam podporovaných prvků datového modelu"
+
+msgid "cmi.objectives._count"
+msgstr "Aktuální počet interakcí ukládaných LMS"
+
+msgid "cmi.objectives.n.completion_status"
+msgstr "Označuje, zda student dokončil související cíl"
+
+msgid "cmi.objectives.n.description"
+msgstr "Poskytuje stručný informativní popis cíle"
+
+msgid "cmi.objectives.n.id"
+msgstr "Jedinečné označení cíle"
+
+msgid "cmi.objectives.n.progress_measure"
+msgstr "Měření pokroku, kterého student dosáhl při dosahování cíle"
+
+msgid "cmi.objectives.n.score._children"
+msgstr "Seznam podporovaných prvků datového modelu"
+
+msgid "cmi.objectives.n.score.max"
+msgstr "Maximální hodnota cíle v rozsahu hrubého hodnocení"
+
+msgid "cmi.objectives.n.score.min"
+msgstr "Minimální hodnota cíle v rozsahu hrubého hodnocení"
+
+msgid "cmi.objectives.n.score.raw"
+msgstr "Číslo, které odráží výsledek studenta ve vztahu k cíli a vzhledem k rozsahu vymezenému hodnotami min a max"
+
+msgid "cmi.objectives.n.score.scaled"
+msgstr "Číslo, které odráží výkonnost studenta ve vztahu cíli"
+
+msgid "cmi.objectives.n.success_status"
+msgstr "Označuje, zda student dosáhl cíle"
+
+msgid "cmi.progress_measure"
+msgstr "Měření pokroku, kterého student dosáhl při dosahování SCO"
+
+msgid "cmi.scaled_passing_score"
+msgstr "Hodnotící stupnice výsledků potřebných k dosažení SCO"
+
+msgid "cmi.score._children"
+msgstr "Seznam podporovaných prvků datového modelu"
+
+msgid "cmi.score.max"
+msgstr "Maximální hodnota v rozsahu hrubého hodnocení"
+
+msgid "cmi.score.min"
+msgstr "Minimální hodnota v rozsahu hrubého hodnocení"
+
+msgid "cmi.score.raw"
+msgstr "Číslo, které odráží výsledek studenta ve vztahu k cíli a vzhledem k rozsahu vymezenému hodnotami min a max"
+
+msgid "cmi.score.scaled"
+msgstr "Číslo, které odráží výsledek studenta"
+
+msgid "cmi.session_time"
+msgstr "Množství času, které student strávil v aktuální výukové relaci pro tento SCO"
+
+msgid "cmi.success_status"
+msgstr "Označuje, zda student dosáhl SCO"
+
+msgid "cmi.suspend_data"
+msgstr "Poskytuje prostor pro ukládání a zpětné dohledání dat mezi relacemi studenta"
+
+msgid "cmi.time_limit_action"
+msgstr "Označuje, co by měl SCO dělat při překročení hodnoty maximálního povoleného času cmi.max_time_allowed"
+
+msgid "cmi.total_time"
+msgstr "Součet časů všech relací studenta nashromážděných v aktuálním pokusu studenta"
+
+msgid "completion_status_by_progress_measure"
+msgstr "Protože zde je hodnota cmi.completion_threshold, hodnota pro cmi.completion_status je ověřována LMS! To je prováděno porovnáním hodnoty  pro cmi.completion_threshold s hodnotou pro cmi.progress_measure. Hodnota pro cmi.completion_status je aktuálně:"
+
+msgid "debugwindow_action"
+msgstr "Akce"
+
+msgid "debugwindow_cancel"
+msgstr "Zrušit"
+
+msgid "debugwindow_comment"
+msgstr "komentář"
+
+msgid "debugwindow_comment_enter"
+msgstr "Napište prosím svůj komentář"
+
+msgid "debugwindow_console"
+msgstr "Konzola"
+
+msgid "debugwindow_date"
+msgstr "Datum"
+
+msgid "debugwindow_delete"
+msgstr "Smazat"
+
+msgid "debugwindow_delete_logfile"
+msgstr "Smazat logovací soubor"
+
+msgid "debugwindow_download"
+msgstr "Stáhnout"
+
+msgid "debugwindow_filename"
+msgstr "Název souboru"
+
+msgid "debugwindow_logs"
+msgstr "Protokoly"
+
+msgid "debugwindow_open"
+msgstr "Otevřít"
+
+msgid "debugwindow_start_recording"
+msgstr "Začít nahrávání"
+
+msgid "debugwindow_stop_recording"
+msgstr "Ukončení nahrávání"
+
+msgid "debugwindow_submission_failed"
+msgstr "Nepodařilo se odeslat"
+
+msgid "debugwindow_submit"
+msgstr "Odeslat"
+
+msgid "description_for"
+msgstr "popis pro"
+
+msgid "error0"
+msgstr "Bez chyby"
+
+msgid "error101"
+msgstr "Všeobecná výjimka"
+
+msgid "error102"
+msgstr "Obecná chyba spuštění"
+
+msgid "error103"
+msgstr "Již inicializováno"
+
+msgid "error104"
+msgstr "Instance obsahu ukončena"
+
+msgid "error111"
+msgstr "Obecná chyba ukončení"
+
+msgid "error112"
+msgstr "Ukončení před spuštěním"
+
+msgid "error113"
+msgstr "Ukončení po ukončení"
+
+msgid "error122"
+msgstr "Načíst data před spuštěním"
+
+msgid "error123"
+msgstr "Načíst data po ukončení"
+
+msgid "error132"
+msgstr "Uložit data před spuštěním"
+
+msgid "error133"
+msgstr "Uložit data po ukončení"
+
+msgid "error142"
+msgstr "Spácháno před inicializací"
+
+msgid "error143"
+msgstr "Spácháno po ukončení"
+
+msgid "error201"
+msgstr "Obecná chyba argumentu"
+
+msgid "error301"
+msgstr "Obecná chyba načtení"
+
+msgid "error351"
+msgstr "Obecná chyba nastavení"
+
+msgid "error391"
+msgstr "Obecná chyba předložení"
+
+msgid "error401"
+msgstr "Nedefinovaný prvek datového modelu"
+
+msgid "error402"
+msgstr "Neimplementovaný prvek datového modelu"
+
+msgid "error403"
+msgstr "Není inicializovaná hodnota prvku datového modelu"
+
+msgid "error404"
+msgstr "Prvek datového modelu je jen ke čtení"
+
+msgid "error405"
+msgstr "Prvek datového modelu je jen pro zápis"
+
+msgid "error406"
+msgstr "Nesouhlasí typ prvku datového modelu"
+
+msgid "error407"
+msgstr "Hodnota prvku datového modelu je mimo rozsah"
+
+msgid "error408"
+msgstr "Závislosti datového modelu nejsou stanovené"
+
+msgid "generated"
+msgstr "vytvořený"
+
+msgid "i_fuchsia"
+msgstr "tmavě červená: pravděpodobně selhání ILIAS"
+
+msgid "i_gray"
+msgstr "šedá: chyba opravena ILIAS"
+
+msgid "i_green"
+msgstr "zeleně: ok"
+
+msgid "i_orange"
+msgstr "oranžově: prosím pozor!"
+
+msgid "i_red"
+msgstr "červeně: chyba!"
+
+msgid "id_learning_module"
+msgstr "ID výukového modulu"
+
+msgid "log_for"
+msgstr "Log pro výukový modul"
+
+msgid "milliseconds"
+msgstr "millisekundy"
+
+msgid "missing_API-calls"
+msgstr "Chybí tato volání API:"
+
+msgid "no_missing_API-calls"
+msgstr "Chybějící volání API nebylo rozpoznáno."
+
+msgid "nr_session"
+msgstr "číslo lekce"
+
+msgid "only_important_API-Calls_shown"
+msgstr "Aktuálně jsou zobrazeny jen důležitá volání API."
+
+msgid "return_value"
+msgstr "vrátit hodnotu"
+
+msgid "scormdebug_disable_cache"
+msgstr "vypnout keš prohlížeče SCORM 2004"
+
+msgid "scormdebug_disable_cache_info"
+msgstr "Tím se zabrání ukládání souborů javascript SCORM 2004 do mezipaměti prohlížeče. Použijte tuto funkci včas před uvolněním novou verzí!"
+
+msgid "scormdebug_global_activate"
+msgstr "Povolit testovací nástroj SCORM 2004"
+
+msgid "scormdebug_global_activate_info"
+msgstr "Je-li zapnuto, může být testovací nástroj SCORM 2004 aktivován pro požadované výukové moduly. Pokud je zakázáno, testovací nástroj je deaktivován pro všechny výukové moduly."
+
+msgid "sent_values_not_checked"
+msgstr "vybraná vlastnost: hodnoty odeslané SCO nejsou plně kontrolovány"
+
+msgid "show_all_API-calls"
+msgstr "Zobrazit všechna volání API!"
+
+msgid "show_only_important_API-calls"
+msgstr "Zobrazit jen důležitá volání API!"
+
+msgid "started"
+msgstr "spuštěno"
+
+msgid "strange_API-Call"
+msgstr "neznámé volání API"
+
+msgid "strange_error"
+msgstr "neznámá chyba"
+
+msgid "success_status_by_score_scaled"
+msgstr "Protože zde je hodnota pro cmi.scaled_passing_score, hodnota pro cmi.success_status je ověřována LMS! To je prováděno porovnáváním hodnoty pro cmi.scaled_passing_score s hodnotou pro cmi.score.scaled. Hodnota pro cmi.success_status je aktuálně:"
+
+msgid "summary_csv"
+msgstr "Souhrnně je generováno jako CSV-soubor pro import například v Excelu"
+
+msgid "summary_download"
+msgstr "Můžete klepnout na 'Logs' a stáhnout to pokud tento nástroj spustíte znovu."
+
+msgid "summary_for_SCO_with_test"
+msgstr "Souhrnně pro SCO s testem"
+
+msgid "summary_for_SCO_without_test"
+msgstr "Souhrnně pro SCO bez testu"
+
+msgid "undefined_color"
+msgstr "neurčená barva"
+
+msgid "unknown"
+msgstr "neznámý"

@@ -1,0 +1,477 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: scormdebug\n"
+
+msgid "API-call"
+msgstr "Appel d’API"
+
+msgid "Commit"
+msgstr "Stocker données"
+
+msgid "GetDiagnostic"
+msgstr "Autorise le LMS (!) a définir des informations de diagnostic supplémentaires"
+
+msgid "GetErrorString"
+msgstr "Récupérer une description textuelle de l’état d’erreur actuel"
+
+msgid "GetLastError"
+msgstr "Demande le code d’erreur de l’état d’erreur actuel"
+
+msgid "GetValue"
+msgstr "prendre données"
+
+msgid "Initialize"
+msgstr "Initialiser la communication API"
+
+msgid "SCO-name"
+msgstr "SCO-nom"
+
+msgid "SCO-title"
+msgstr "SCO-titre"
+
+msgid "SetValue"
+msgstr "Envoyer les données"
+
+msgid "Terminate"
+msgstr "Stocker les données et terminer la communication API"
+
+msgid "adl.nav.request"
+msgstr "La demande de navigation doit être traitée immédiatement après Terminer()"
+
+msgid "adl.nav.request_valid.choice"
+msgstr "Utilisée par un SCO pour déterminer si une demande de navigation Choix pour une activité particulière sera réussie."
+
+msgid "adl.nav.request_valid.continue"
+msgstr "Utilisée par un SCO pour déterminer si une de demande de navigation Continuer sera réussie."
+
+msgid "adl.nav.request_valid.previous"
+msgstr "Utilisée par un SCO pour déterminer si une de demande de navigation Précédent sera réussie."
+
+msgid "all_API-calls_shown"
+msgstr "Tous les appels d’API sont actuellement montrés."
+
+msgid "cmi._version"
+msgstr "Représente la version du modèle de données"
+
+msgid "cmi.comments_from_learner._children"
+msgstr "Liste des éléments de modèle de données supportés"
+
+msgid "cmi.comments_from_learner._count"
+msgstr "Nombre actuel de commentaires d’apprenants"
+
+msgid "cmi.comments_from_learner.n.comment"
+msgstr "Entrée textuelle"
+
+msgid "cmi.comments_from_learner.n.location"
+msgstr "Point dans le SCO pour lequel le commentaire s’applique"
+
+msgid "cmi.comments_from_learner.n.timestamp"
+msgstr "Moment auquel le commentaire a été créé ou modifié le plus récemment"
+
+msgid "cmi.comments_from_lms._children"
+msgstr "Liste des éléments de modèle de données supportés"
+
+msgid "cmi.comments_from_lms._count"
+msgstr "Nombre actuel de commentaires du LSM"
+
+msgid "cmi.comments_from_lms.n.comment"
+msgstr "Commentaires ou annotations associés avec un SCO"
+
+msgid "cmi.comments_from_lms.n.location"
+msgstr "Point dans le SCO pour lequel le commentaire s’applique"
+
+msgid "cmi.comments_from_lms.n.timestamp"
+msgstr "Moment auquel le commentaire a été créé ou modifié le plus récemment"
+
+msgid "cmi.completion_status"
+msgstr "Indique si l’apprenant a complété le SCO"
+
+msgid "cmi.completion_threshold"
+msgstr "Utilisé pour déterminer si le SCO doit être considéré comme étant complet"
+
+msgid "cmi.credit"
+msgstr "Indique si l’apprenant sera crédité pour les performances dans le SCO"
+
+msgid "cmi.entry"
+msgstr "Affirme si l’apprenant a accédé au SCO auparavant"
+
+msgid "cmi.exit"
+msgstr "Indique comment ou pourquoi l’apprenant a quitté le SCO"
+
+msgid "cmi.interactions._children"
+msgstr "Liste des éléments de modèle de données supportés"
+
+msgid "cmi.interactions._count"
+msgstr "Nombre actuel d'interactions en train d’être stockées par le LMS"
+
+msgid "cmi.interactions.n.correct_responses._count"
+msgstr "Nombre actuel de réponses correctes en train d’être stockées par le LMS pour cette interaction"
+
+msgid "cmi.interactions.n.correct_responses.n.pattern"
+msgstr "Un modèle de réponse correcte pour l’interaction"
+
+msgid "cmi.interactions.n.description"
+msgstr "Brève description informative de l’interaction"
+
+msgid "cmi.interactions.n.id"
+msgstr "Vignette unique pour l’interaction"
+
+msgid "cmi.interactions.n.latency"
+msgstr "Temps écoulé entre le moment où l’interaction a été rendue disponible pour que l’apprenant puisse répondre et le temps de la première réponse"
+
+msgid "cmi.interactions.n.learner_response"
+msgstr "Données générées lorsqu’un apprenant répond à une interaction"
+
+msgid "cmi.interactions.n.objectives._count"
+msgstr "Nombre actuel d’objectifs (identificateurs d’objectif) en train d’être stockés par le LMS pour cette interaction"
+
+msgid "cmi.interactions.n.objectives.n.id"
+msgstr "Vignette pour les objectifs associés à l’interaction"
+
+msgid "cmi.interactions.n.result"
+msgstr "Évaluation de l’exactitude de la réponse de l’apprenant"
+
+msgid "cmi.interactions.n.timestamp"
+msgstr "Moment auquel l’interaction a été rendue disponible à l’apprenant pour la première fois pour l’interaction avec l’apprenant et la réponse"
+
+msgid "cmi.interactions.n.type"
+msgstr "Quel type d’interaction est enregistrée"
+
+msgid "cmi.interactions.n.weighting"
+msgstr "Poids donné à l’interaction par rapport à d’autres interactions"
+
+msgid "cmi.launch_data"
+msgstr "Données fournies à un SCO après le lancement, séquence de programme initialisée depuis l’élément du manifeste dataFromLMS"
+
+msgid "cmi.learner_id"
+msgstr "Identifie l’apprenant au nom duquel le SCO a été lancé"
+
+msgid "cmi.learner_name"
+msgstr "Nom fourni pour l’apprenant par le LSM"
+
+msgid "cmi.learner_preference._children"
+msgstr "Liste des éléments de modèle de données supportés"
+
+msgid "cmi.learner_preference.audio_captioning"
+msgstr "Spécifie si un texte de légende correspondant à l’audio est affiché"
+
+msgid "cmi.learner_preference.audio_level"
+msgstr "Spécifie une modification prévue dans le niveau audio perçu"
+
+msgid "cmi.learner_preference.delivery_speed"
+msgstr "La vitesse relative de livraison de contenu préférée par l’apprenant"
+
+msgid "cmi.learner_preference.language"
+msgstr "La langue préférée par l’apprenant multilingue pour les SCO"
+
+msgid "cmi.location"
+msgstr "L’emplacement actuel de l’apprenant dans le SCO"
+
+msgid "cmi.max_time_allowed"
+msgstr "Temps accumulé donné à l’apprenant pour utiliser un SCO"
+
+msgid "cmi.mode"
+msgstr "Identifie un des trois modes possibles dans lequel le SCO peut être présenté à l’apprenant"
+
+msgid "cmi.objectives._children"
+msgstr "Liste des éléments de modèle de données supportés"
+
+msgid "cmi.objectives._count"
+msgstr "Nombre actuel d’objectifs en train d’être stockés par le LMS"
+
+msgid "cmi.objectives.n.completion_status"
+msgstr "Indique si l’apprenant a complété l’objectif associé"
+
+msgid "cmi.objectives.n.description"
+msgstr "Fournit une brève description informative de l’objectif"
+
+msgid "cmi.objectives.n.id"
+msgstr "Vignette unique pour l’objectif"
+
+msgid "cmi.objectives.n.progress_measure"
+msgstr "Mesure de la progression que l’apprenant a fait afin de compléter l’objectif"
+
+msgid "cmi.objectives.n.score._children"
+msgstr "Liste des éléments de modèle de données supportés"
+
+msgid "cmi.objectives.n.score.max"
+msgstr "Valeur maximum pour l’objectif dans la plage de la note brute"
+
+msgid "cmi.objectives.n.score.min"
+msgstr "Valeur minimum pour l’objectif dans la plage de la note brute"
+
+msgid "cmi.objectives.n.score.raw"
+msgstr "Nombre qui reflète les performances de l’apprenant pour l’objectif, par rapport à la plage délimitée par les valeurs min et max"
+
+msgid "cmi.objectives.n.score.scaled"
+msgstr "Nombre qui reflète les performances de l’apprenant pour l’objectif"
+
+msgid "cmi.objectives.n.success_status"
+msgstr "Indique si l’apprenant a maîtrisé l’objectif"
+
+msgid "cmi.progress_measure"
+msgstr "Mesure de la progression que l’apprenant a fait afin de compléter le SCO"
+
+msgid "cmi.scaled_passing_score"
+msgstr "Note de passage échelonnée nécessaire pour maîtriser le SCO"
+
+msgid "cmi.score._children"
+msgstr "Liste des éléments de modèle de données supportés"
+
+msgid "cmi.score.max"
+msgstr "Valeur maximum dans la plage pour la note brute"
+
+msgid "cmi.score.min"
+msgstr "Valeur minimum dans la plage pour la note brute"
+
+msgid "cmi.score.raw"
+msgstr "Nombre qui reflète les performances de l’apprenant par rapport à la plage délimitée par les valeurs min et max"
+
+msgid "cmi.score.scaled"
+msgstr "Nombre qui reflète les performances de l’apprenant"
+
+msgid "cmi.session_time"
+msgstr "Temps que l’apprenant a passé dans la session d’apprentissage actuelle pour ce SCO"
+
+msgid "cmi.success_status"
+msgstr "Indique si l’apprenant a maîtrisé le SCO"
+
+msgid "cmi.suspend_data"
+msgstr "Fournit de l’espace pour stocker et récupérer les données entre les sessions d’apprentissage"
+
+msgid "cmi.time_limit_action"
+msgstr "Indique ce que le SCO doit faire lorsque cmi.max_time_allowed est dépassé"
+
+msgid "cmi.total_time"
+msgstr "Somme des temps de session de l’apprenant accumulés dans la tentative actuelle de l’apprenant"
+
+msgid "completion_status_by_progress_measure"
+msgstr "Car il y a une valeur pour cmi.completion_threshold, la valeur pour cmi.completion_status est évaluée par le LMS! Cette évaluation se fait en comparant la valeur pour cmi.completion_threshold avec la valeur pour cmi.progress_measure. La valeur pour cmi.completion_status est actuellement:"
+
+msgid "debugwindow_action"
+msgstr "Action"
+
+msgid "debugwindow_cancel"
+msgstr "Annuler"
+
+msgid "debugwindow_comment"
+msgstr "Commenter"
+
+msgid "debugwindow_comment_enter"
+msgstr "Veuillez entrer votre commentaire"
+
+msgid "debugwindow_console"
+msgstr "Console"
+
+msgid "debugwindow_date"
+msgstr "Date"
+
+msgid "debugwindow_delete"
+msgstr "Supprimer"
+
+msgid "debugwindow_delete_logfile"
+msgstr "Supprimer l’historique"
+
+msgid "debugwindow_download"
+msgstr "Télécharger"
+
+msgid "debugwindow_filename"
+msgstr "Nom de fichier"
+
+msgid "debugwindow_logs"
+msgstr "Journaux"
+
+msgid "debugwindow_open"
+msgstr "Ouvrir"
+
+msgid "debugwindow_start_recording"
+msgstr "Commencer l’enregistrement"
+
+msgid "debugwindow_stop_recording"
+msgstr "Arrêter l’enregistrement"
+
+msgid "debugwindow_submission_failed"
+msgstr "Soumission échouée"
+
+msgid "debugwindow_submit"
+msgstr "Soumettre"
+
+msgid "description_for"
+msgstr "description pour"
+
+msgid "error0"
+msgstr "Aucune erreur"
+
+msgid "error101"
+msgstr "General Exeption"
+
+msgid "error102"
+msgstr "Erreur d’initialisation générale"
+
+msgid "error103"
+msgstr "Déjà initialisée"
+
+msgid "error104"
+msgstr "Instance de contenu terminée"
+
+msgid "error111"
+msgstr "Échec général de fin"
+
+msgid "error112"
+msgstr "Fin avant initialisation"
+
+msgid "error113"
+msgstr "Fin après initialisation"
+
+msgid "error122"
+msgstr "Récupérer les données avant l'initialisation"
+
+msgid "error123"
+msgstr "Récupérer les données après la fin"
+
+msgid "error132"
+msgstr "Stocker les données avant l'initialisation"
+
+msgid "error133"
+msgstr "Stocker les données après la fin"
+
+msgid "error142"
+msgstr "Envoyer avant l'initialisation"
+
+msgid "error143"
+msgstr "Envoyer après la fin"
+
+msgid "error201"
+msgstr "Erreur générale d’argumentation"
+
+msgid "error301"
+msgstr "Erreur générale d’obtention"
+
+msgid "error351"
+msgstr "Erreur générale de réglage"
+
+msgid "error391"
+msgstr "Erreur générale d’envoi"
+
+msgid "error401"
+msgstr "Élément de modèle de données non défini"
+
+msgid "error402"
+msgstr "Élément de modèle de données non implanté"
+
+msgid "error403"
+msgstr "Valeur d’élément de modèle de données non initialisée"
+
+msgid "error404"
+msgstr "Élément de modèle de données en lecture seule"
+
+msgid "error405"
+msgstr "Élément de modèle de données en écriture seule"
+
+msgid "error406"
+msgstr "Non correspondance des types d’élément de modèle de données"
+
+msgid "error407"
+msgstr "Valeur d’élément de modèle de données en dehors de la plage"
+
+msgid "error408"
+msgstr "Dépendance du modèle de données non établie"
+
+msgid "generated"
+msgstr "générée"
+
+msgid "i_fuchsia"
+msgstr "fuchsia: likely a failure by ILIAS"
+
+msgid "i_gray"
+msgstr "gris: erreur corrigée par ILIAS"
+
+msgid "i_green"
+msgstr "vert: ok"
+
+msgid "i_orange"
+msgstr "orange: attention s'il vous plait!"
+
+msgid "i_red"
+msgstr "red: failure!"
+
+msgid "id_learning_module"
+msgstr "ID du module d’apprentissage"
+
+msgid "log_for"
+msgstr "Journal pour le module d’apprentissage"
+
+msgid "milliseconds"
+msgstr "millisecondes"
+
+msgid "missing_API-calls"
+msgstr "Ces appels d’API sont manquants:"
+
+msgid "no_missing_API-calls"
+msgstr "Les appels d’API manquants n’ont pas été reconnus."
+
+msgid "nr_session"
+msgstr "Nombre de sessions"
+
+msgid "only_important_API-Calls_shown"
+msgstr "Seuls les appel d’API importants sont actuellement affichés."
+
+msgid "return_value"
+msgstr "Valeur de retour"
+
+msgid "scormdebug_disable_cache"
+msgstr "Désactiver le Cache-Navigateur SCORM 2004"
+
+msgid "scormdebug_disable_cache_info"
+msgstr "Prévient le stockage des fichiers Javascript SCORM 2004 dans le cache du navigateur."
+
+msgid "scormdebug_global_activate"
+msgstr "Activer le Débuggeur SCORM 2004"
+
+msgid "scormdebug_global_activate_info"
+msgstr "Lorsque cette option est cochée, le débuggeur SCORM 2004 peut être activé module par module."
+
+msgid "sent_values_not_checked"
+msgstr "Propriété sélectionnée: les valeurs envoyées par le SCO ne sont pas entièrement contrôlées"
+
+msgid "show_all_API-calls"
+msgstr "Montrer tous les appels d’API!"
+
+msgid "show_only_important_API-calls"
+msgstr "Montrer uniquement les appels d’API importants!"
+
+msgid "started"
+msgstr "commencé"
+
+msgid "strange_API-Call"
+msgstr "Appel d’API étrange"
+
+msgid "strange_error"
+msgstr "Erreur étrange"
+
+msgid "success_status_by_score_scaled"
+msgstr "Car il y a une valeur pour cmi.scaled_passing_score, la valeur pour cmi.success_status est évaluée par le LMS! Cette évaluation se fait en comparant la valeur pour cmi.scaled_passing_score avec la valeur pour cmi.score.scaled. La valeur pour cmi.success_status est actuellement:"
+
+msgid "summary_csv"
+msgstr "Le résumé est généré sous forme de fichier CSV pour importer dans Excel par exemple"
+
+msgid "summary_download"
+msgstr "You can klick to 'Logs' and download it when you start this tool again."
+
+msgid "summary_for_SCO_with_test"
+msgstr "Résumé pour un SCO avec un test"
+
+msgid "summary_for_SCO_without_test"
+msgstr "Résumé pour un SCO sans test"
+
+msgid "undefined_color"
+msgstr "Couleur non définie"
+
+msgid "unknown"
+msgstr "inconnu"

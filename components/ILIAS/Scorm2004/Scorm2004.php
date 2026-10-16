@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+
 class Scorm2004 implements Component\Component
 {
     public function init(
@@ -98,5 +101,9 @@ class Scorm2004 implements Component\Component
                 return "components/ILIAS/Scorm2004/templates/default/session_timeout.html";
             }
         };
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'scormdebug'
+        );
     }
 }
