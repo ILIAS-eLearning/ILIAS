@@ -57,8 +57,8 @@ final class MigratedLanguageFilePaths
      *
      * In a fully initialised request the CLIENT_DATA_DIR constant wins. Elsewhere (CLI Setup, objectives
      * without a Setup environment) it is composed like ilInitialisation does from ilias.ini.php:
-     * `[clients] datadir` . '/' . `[clients] default`; never guessed from the data directory contents, which
-     * holds further entries (e.g. "logs").
+     * `[clients] datadir` . '/' . CLIENT_ID (if defined, else `[clients] default`); never guessed from the data
+     * directory contents, which holds further entries (e.g. "logs").
      *
      * A client directory that does not exist yet (fresh installation) yields `null`: the next `setup update`
      * creates the overlay then, instead of pre-creating a directory the installer may want to create itself.
@@ -86,9 +86,11 @@ final class MigratedLanguageFilePaths
             $data_dir = rtrim($ilias_absolute_path, '/') . '/' . $data_dir;
         }
 
+        $client_id = defined('CLIENT_ID') ? (string) CLIENT_ID : ($ini['clients']['default'] ?? null);
+
         return self::fromDataDirAndClientId(
             is_string($data_dir) ? $data_dir : null,
-            is_string($ini['clients']['default'] ?? null) ? $ini['clients']['default'] : null
+            is_string($client_id) ? $client_id : null
         );
     }
 
