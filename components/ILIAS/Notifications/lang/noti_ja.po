@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: noti\n"
+
+msgid "noti_activate_notification"
+msgstr "通知を有効化"
+
+msgid "noti_deactivate_notification"
+msgstr "通知を解除"
+
+msgid "noti_notification_activated"
+msgstr "通知を有効にしました"
+
+msgid "noti_notification_deactivated"
+msgstr "通知を解除しました"

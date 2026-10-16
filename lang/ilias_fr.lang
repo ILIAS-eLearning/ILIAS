@@ -4200,10 +4200,6 @@ common#:#zip#:#Code Postal
 common#:#zip_structure_error#:#L'archive ZIP contient des noms de fichiers identiques. Le dépôt est abandonné.
 common#:#zip_test_failed#:#Le test ZIP a échoué. Veuillez contacter votre administrateur ILIAS.
 common#:#zipcode#:#Code postal
-noti#:#noti_activate_notification#:#Activate Notification
-noti#:#noti_deactivate_notification#:#Deactivate Notification
-noti#:#noti_notification_activated#:#Notification Activated
-noti#:#noti_notification_deactivated#:#Notification Deactivated
 sahs#:#cont_insert_after_chap#:#Ajouter des objets après le chapitre
 sahs#:#cont_insert_into_chap#:#Ajouter des objets dans le chapitre
 sahs#:#sahs_activate_expert_mode#:#Activer le Séquencement en Mode Expert

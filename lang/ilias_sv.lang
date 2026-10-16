@@ -4213,10 +4213,6 @@ common#:#zip#:#PLZ
 common#:#zip_structure_error#:#Arkivet innehåller samma filnamn. Uppladdning avbruten
 common#:#zip_test_failed#:#ZIP-testet har misslyckats. Vänligen kontakta din ILIAS-administratör.
 common#:#zipcode#:#Postnummer
-noti#:#noti_activate_notification#:# Aktivera avisering
-noti#:#noti_deactivate_notification#:#Avaktivera avisering
-noti#:#noti_notification_activated#:#Notifieringar är aktiverade
-noti#:#noti_notification_deactivated#:#Notifieringar är inaktiverade
 sahs#:#cont_insert_after_chap#:#Insätt element efter ett kapitel.
 sahs#:#cont_insert_into_chap#:#Insert elements inom ett kapitel.
 sahs#:#sahs_activate_expert_mode#:#Aktivera expertläget Sequencing

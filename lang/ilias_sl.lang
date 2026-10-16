@@ -4213,10 +4213,6 @@ common#:#zip#:#Poštna številka
 common#:#zip_structure_error#:#Arhiv vsebuje enaka imena datotek. Nalaganje je prekinjeno
 common#:#zip_test_failed#:#Test ZIP ni bil uspešen. Obrnite se na svojega administratorja ILIAS.
 common#:#zipcode#:#Poštna številka
-noti#:#noti_activate_notification#:#Aktiviraj obveščanje
-noti#:#noti_deactivate_notification#:#Onemogoči obveščanje
-noti#:#noti_notification_activated#:#Obveščanje je aktivirano
-noti#:#noti_notification_deactivated#:#Obveščanje je onemogočeno
 sahs#:#cont_insert_after_chap#:#Vstavi elemente za poglavje.
 sahs#:#cont_insert_into_chap#:#Vstavite elemente znotraj poglavja.
 sahs#:#sahs_activate_expert_mode#:#Aktiviraj strokovni način zaporedja

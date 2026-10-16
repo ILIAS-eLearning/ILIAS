@@ -4218,10 +4218,6 @@ common#:#zip#:#郵便番号
 common#:#zip_structure_error#:#アーカイブに同一 ファイル名が含まれます。アップロードは中止されました。
 common#:#zip_test_failed#:#郵便番号テストに失敗しました。ILIAS 管理者へ連絡してください。
 common#:#zipcode#:#郵便番号
-noti#:#noti_activate_notification#:#通知を有効化
-noti#:#noti_deactivate_notification#:#通知を解除
-noti#:#noti_notification_activated#:#通知を有効にしました
-noti#:#noti_notification_deactivated#:#通知を解除しました
 sahs#:#cont_insert_after_chap#:#章の後にアイテムを挿入
 sahs#:#cont_insert_into_chap#:#章内にアイテムを挿入
 sahs#:#sahs_add#:#SCORM学習モジュールを作成

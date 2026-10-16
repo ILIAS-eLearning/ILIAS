@@ -4213,10 +4213,6 @@ common#:#zip#:#Poštanski broj
 common#:#zip_structure_error#:#Arhiva sadrži ista imena datoteka. Učitavanje prekinuto.
 common#:#zip_test_failed#:#Zip-test nije uspio. Molimo kontaktirajte svog ILIAS administratora.
 common#:#zipcode#:#Poštanski broj
-noti#:#noti_activate_notification#:#Aktiviraj obavijest
-noti#:#noti_deactivate_notification#:#Deaktiviraj obavijest
-noti#:#noti_notification_activated#:#Obavijest aktivirana
-noti#:#noti_notification_deactivated#:#Obavijest deaktivirana
 sahs#:#cont_insert_after_chap#:#Umetni stavke iza poglavlja
 sahs#:#cont_insert_into_chap#:#Umetni stavke u poglavlje
 sahs#:#sahs_activate_expert_mode#:#Aktiviraj ekspertni način sekvenciranja
