@@ -68,14 +68,11 @@ final class StreamDeliveryIsolationTest extends TestCase
 
     private function validToken(bool $isolated = true): string
     {
-        return $this->data_signer->getSignedStreamToken(
-            Streams::ofResource(fopen($this->file, 'rb')),
-            basename($this->file),
-            Disposition::INLINE,
-            0,
-            null,
-            $isolated
-        );
+        $stream = Streams::ofResource(fopen($this->file, 'rb'));
+
+        return $isolated
+            ? $this->data_signer->getSignedStreamToken($stream, basename($this->file), Disposition::INLINE, 0)
+            : $this->data_signer->getSignedStreamTokenWithoutIsolation($stream, basename($this->file), Disposition::INLINE, 0);
     }
 
     private function http(string $request_host): HttpServices

@@ -30,15 +30,30 @@ interface SrcBuilder
 {
     /**
      * @param string|null $filename
-     * @param bool $isolated false delivers from the ILIAS domain instead of the content domain of User Content Isolation
      * @throw \RuntimeException if signing is not possible or failed, but was requested with $signed = true
      */
     public function getRevisionURL(
         Revision $revision,
         bool $signed = true,
         float $valid_for_at_least_minutes = 60.0,
-        ?string $filename = null,
-        bool $isolated = true
+        ?string $filename = null
+    ): string;
+
+    /**
+     * Signed URL delivered from the ILIAS domain instead of the content domain of
+     * User Content Isolation.
+     *
+     * @deprecated We do not want content outside of the User Content Isolation; this only exists
+     *             until the remaining consumers (e.g. SCORM) run on the content domain and
+     *             will be removed with ILIAS 13.
+     * @internal Only for {@see \ILIAS\ResourceStorage\Consumer\ContainerURIConsumer::withoutIsolation()},
+     *           which is the one way for consumers to deliver without isolation.
+     * @throw \RuntimeException if signing is not possible or failed
+     */
+    public function getRevisionURLWithoutIsolation(
+        Revision $revision,
+        float $valid_for_at_least_minutes = 60.0,
+        ?string $filename = null
     ): string;
 
     /**
