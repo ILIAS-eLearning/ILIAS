@@ -62,6 +62,8 @@ final class MigratedTranslations
      */
     private static ?array $shipped_templates = null;
 
+    private static ?string $client_data_dir = null;
+
     /**
      * Per "<module>|<lang>", `null` for a module not migrated for the language.
      *
@@ -115,6 +117,19 @@ final class MigratedTranslations
         return $directory !== null
             && MigratedLanguageFilePaths::isValidLanguageKey($lang_key)
             && is_file($directory . '/' . $module . '_' . $lang_key . '.po');
+    }
+
+    /**
+     * CLIENT_DATA_DIR, before it is defined (Setup, CLI) MigratedLanguageFilePaths::resolveClientDataDir();
+     * a found directory is kept until reset(), a missing one is looked for again.
+     */
+    public static function clientDataDir(): ?string
+    {
+        if (defined('CLIENT_DATA_DIR')) {
+            return (string) CLIENT_DATA_DIR;
+        }
+
+        return self::$client_data_dir ??= MigratedLanguageFilePaths::resolveClientDataDir(self::iliasDirectory());
     }
 
     /**
@@ -270,6 +285,7 @@ final class MigratedTranslations
         self::$build_keys = [];
         self::$states = [];
         self::$shipped_templates = null;
+        self::$client_data_dir = null;
     }
 
     /**
