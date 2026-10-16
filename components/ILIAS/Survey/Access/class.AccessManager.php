@@ -119,6 +119,16 @@ class AccessManager
         return $this->access->checkAccessOfUser($this->user_id, "write", "", $this->ref_id);
     }
 
+    public function canReadAllResults(): bool
+    {
+        return $this->access->checkAccessOfUser(
+            $this->user_id,
+            "read_results",
+            "",
+            $this->ref_id
+        );
+    }
+
     /**
      * Can access evaluation
      */
