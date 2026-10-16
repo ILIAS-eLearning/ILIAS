@@ -1,0 +1,1044 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: prg\n"
+
+msgid "access_ctr_by_orgu_position"
+msgstr ""
+
+msgid "active_only"
+msgstr ""
+
+msgid "add_automembership_source"
+msgstr ""
+
+msgid "add_category"
+msgstr ""
+
+msgid "assignment_date"
+msgstr ""
+
+msgid "assignments"
+msgstr ""
+
+msgid "auto_add_success"
+msgstr ""
+
+msgid "auto_membership_description"
+msgstr ""
+
+msgid "auto_membership_src_type"
+msgstr ""
+
+msgid "auto_membership_title"
+msgstr ""
+
+msgid "auto_memberships"
+msgstr ""
+
+msgid "category"
+msgstr ""
+
+msgid "cert_relevance"
+msgstr ""
+
+msgid "completion_date"
+msgstr ""
+
+msgid "confirm_to_remove_selected_assignments"
+msgstr ""
+
+msgid "cont_ed_insert_prgactionnote"
+msgstr ""
+
+msgid "cont_ed_insert_prgstatusinfo"
+msgstr ""
+
+msgid "content_automation"
+msgstr ""
+
+msgid "content_automation_title"
+msgstr ""
+
+msgid "could_not_add_users_no_permissons"
+msgstr ""
+
+msgid "crs_affiliation_to_prg"
+msgstr ""
+
+msgid "deadline"
+msgstr ""
+
+msgid "deadline_information"
+msgstr ""
+
+msgid "deadline_updated"
+msgstr ""
+
+msgid "edit_participants"
+msgstr ""
+
+msgid "error_updating_deadline"
+msgstr ""
+
+msgid "error_updating_expire_date"
+msgstr ""
+
+msgid "export_memberships"
+msgstr ""
+
+msgid "foreign_assignment"
+msgstr ""
+
+msgid "form_msg_file_wrong_file_type"
+msgstr ""
+
+msgid "header_remove_certificate"
+msgstr ""
+
+msgid "header_update_certificate"
+msgstr ""
+
+msgid "header_update_current_plan"
+msgstr ""
+
+msgid "inactive_only"
+msgstr ""
+
+msgid "info_to_re_assign_mail_body"
+msgstr ""
+
+msgid "info_to_re_assign_mail_subject"
+msgstr ""
+
+msgid "invalidated"
+msgstr ""
+
+msgid "label_crs"
+msgstr ""
+
+msgid "label_grp"
+msgstr ""
+
+msgid "label_role"
+msgstr ""
+
+msgid "last_edited"
+msgstr ""
+
+msgid "last_edited_by"
+msgstr ""
+
+msgid "mail_assignments"
+msgstr ""
+
+msgid "mails_foreign_assignment_failed"
+msgstr ""
+
+msgid "manage_assignments"
+msgstr ""
+
+msgid "membership_source_id"
+msgstr ""
+
+msgid "membership_source_id_byline_objid"
+msgstr ""
+
+msgid "membership_source_id_byline_refid"
+msgstr ""
+
+msgid "membership_source_type"
+msgstr ""
+
+msgid "modal_automembership_title"
+msgstr ""
+
+msgid "modal_categories_title"
+msgstr ""
+
+msgid "modal_member_auto_select_title"
+msgstr ""
+
+msgid "msg_acknowledge_courses"
+msgstr ""
+
+msgid "msg_change_deadline_date"
+msgstr ""
+
+msgid "msg_change_deadline_date_failed"
+msgstr ""
+
+msgid "msg_change_expire_date"
+msgstr ""
+
+msgid "msg_change_expire_date_failed"
+msgstr ""
+
+msgid "msg_fill_required"
+msgstr ""
+
+msgid "msg_impossible_target_status"
+msgstr ""
+
+msgid "msg_mark_accredited"
+msgstr ""
+
+msgid "msg_mark_accredited_failed"
+msgstr ""
+
+msgid "msg_mark_not_relevant"
+msgstr ""
+
+msgid "msg_mark_not_relevant_failed"
+msgstr ""
+
+msgid "msg_mark_relevant"
+msgstr ""
+
+msgid "msg_mark_relevant_failed"
+msgstr ""
+
+msgid "msg_points_must_be_positive"
+msgstr ""
+
+msgid "msg_unmark_accredited"
+msgstr ""
+
+msgid "msg_unmark_accredited_failed"
+msgstr ""
+
+msgid "msg_update_certificate"
+msgstr ""
+
+msgid "msg_update_certificate_failed"
+msgstr ""
+
+msgid "msg_update_from_settings"
+msgstr ""
+
+msgid "msg_update_from_settings_failed"
+msgstr ""
+
+msgid "msg_update_individual_plan"
+msgstr ""
+
+msgid "msg_update_individual_plan_failed"
+msgstr ""
+
+msgid "no_permission_to_update_certificate"
+msgstr ""
+
+msgid "no_srctype_or_id"
+msgstr ""
+
+msgid "not_a_valid_cat_id"
+msgstr ""
+
+msgid "obj_prg_select"
+msgstr ""
+
+msgid "optgrp_label_restart"
+msgstr ""
+
+msgid "optgrp_label_validity"
+msgstr ""
+
+msgid "orgu"
+msgstr ""
+
+msgid "pc_prg_action_note_label"
+msgstr ""
+
+msgid "pc_prg_statusinfo_label"
+msgstr ""
+
+msgid "pc_prgactionnote_complete_content"
+msgstr ""
+
+msgid "pc_prgactionnote_complete_content_with_deadline"
+msgstr ""
+
+msgid "pc_prgactionnote_headline"
+msgstr ""
+
+msgid "pc_prgactionnote_no_actions_required"
+msgstr ""
+
+msgid "pc_prgstatus_edit_qualification"
+msgstr ""
+
+msgid "pc_prgstatus_expiration_date"
+msgstr ""
+
+msgid "pc_prgstatus_qualification_headline"
+msgstr ""
+
+msgid "pc_prgstatus_status_no_qualification"
+msgstr ""
+
+msgid "pc_prgstatus_status_valid_qualification"
+msgstr ""
+
+msgid "pc_prgstatus_text_no_qualification"
+msgstr ""
+
+msgid "pc_prgstatus_unlimited_validation"
+msgstr ""
+
+msgid "percentage"
+msgstr ""
+
+msgid "prg_access_by_orgu"
+msgstr ""
+
+msgid "prg_access_by_orgu_byline"
+msgstr ""
+
+msgid "prg_acknowledge_all_completed_courses"
+msgstr ""
+
+msgid "prg_acknowledge_completed_courses"
+msgstr ""
+
+msgid "prg_add"
+msgstr ""
+
+msgid "prg_added_course_ref_successful"
+msgstr ""
+
+msgid "prg_added_member"
+msgstr ""
+
+msgid "prg_added_members"
+msgstr ""
+
+msgid "prg_additional_settings"
+msgstr ""
+
+msgid "prg_assessment"
+msgstr ""
+
+msgid "prg_assign_date"
+msgstr ""
+
+msgid "prg_assigned_by"
+msgstr ""
+
+msgid "prg_async_create"
+msgstr ""
+
+msgid "prg_async_settings"
+msgstr ""
+
+msgid "prg_auto_member_select_crs"
+msgstr ""
+
+msgid "prg_auto_member_select_grp"
+msgstr ""
+
+msgid "prg_auto_member_select_role"
+msgstr ""
+
+msgid "prg_autoassignment"
+msgstr ""
+
+msgid "prg_availability_action_not_allowed"
+msgstr ""
+
+msgid "prg_belongs_to"
+msgstr ""
+
+msgid "prg_can_not_manage_in_repo"
+msgstr ""
+
+msgid "prg_cancel"
+msgstr ""
+
+msgid "prg_cancel_acknowledge_completed_courses"
+msgstr ""
+
+msgid "prg_cancel_tree_order"
+msgstr ""
+
+msgid "prg_change_deadline"
+msgstr ""
+
+msgid "prg_change_expire_date"
+msgstr ""
+
+msgid "prg_changed_by"
+msgstr ""
+
+msgid "prg_completion_by"
+msgstr ""
+
+msgid "prg_completion_date"
+msgstr ""
+
+msgid "prg_confirm_delete"
+msgstr ""
+
+msgid "prg_copy_threads_info"
+msgstr ""
+
+msgid "prg_create_new_leaf"
+msgstr ""
+
+msgid "prg_create_new_node"
+msgstr ""
+
+msgid "prg_cron_job_configuration"
+msgstr ""
+
+msgid "prg_custom_plan"
+msgstr ""
+
+msgid "prg_cut_action_not_allowed"
+msgstr ""
+
+msgid "prg_dash_label_finish_until"
+msgstr ""
+
+msgid "prg_dash_label_gain"
+msgstr ""
+
+msgid "prg_dash_label_minimum"
+msgstr ""
+
+msgid "prg_dash_label_restart_from"
+msgstr ""
+
+msgid "prg_dash_label_status"
+msgstr ""
+
+msgid "prg_dash_label_unreachable"
+msgstr ""
+
+msgid "prg_dash_label_valid"
+msgstr ""
+
+msgid "prg_deadline"
+msgstr ""
+
+msgid "prg_deadline_date"
+msgstr ""
+
+msgid "prg_deadline_date_desc"
+msgstr ""
+
+msgid "prg_deadline_date_label"
+msgstr ""
+
+msgid "prg_deadline_period"
+msgstr ""
+
+msgid "prg_deadline_period_desc"
+msgstr ""
+
+msgid "prg_deadline_period_label"
+msgstr ""
+
+msgid "prg_deadline_settings"
+msgstr ""
+
+msgid "prg_delete_confirmation"
+msgstr ""
+
+msgid "prg_delete_failure"
+msgstr ""
+
+msgid "prg_delete_nothing_selected"
+msgstr ""
+
+msgid "prg_delete_single_confirmation"
+msgstr ""
+
+msgid "prg_delete_single_success"
+msgstr ""
+
+msgid "prg_delete_success"
+msgstr ""
+
+msgid "prg_deleted_safely"
+msgstr ""
+
+msgid "prg_description"
+msgstr ""
+
+msgid "prg_edit"
+msgstr ""
+
+msgid "prg_expiry_date"
+msgstr ""
+
+msgid "prg_formatted_period"
+msgstr ""
+
+msgid "prg_import_action_not_allowed"
+msgstr ""
+
+msgid "prg_invalidate_expired_progresses_desc"
+msgstr ""
+
+msgid "prg_invalidate_expired_progresses_title"
+msgstr ""
+
+msgid "prg_link"
+msgstr ""
+
+msgid "prg_mail_context_info"
+msgstr ""
+
+msgid "prg_mail_context_title"
+msgstr ""
+
+msgid "prg_mail_permanent_link"
+msgstr ""
+
+msgid "prg_manage"
+msgstr ""
+
+msgid "prg_manage_members"
+msgstr ""
+
+msgid "prg_manage_members_short"
+msgstr ""
+
+msgid "prg_manual_status"
+msgstr ""
+
+msgid "prg_mark_accredited"
+msgstr ""
+
+msgid "prg_mark_accredited_multi_success"
+msgstr ""
+
+msgid "prg_mark_accredited_success"
+msgstr ""
+
+msgid "prg_mark_not_relevant_multi_success"
+msgstr ""
+
+msgid "prg_mark_relevant"
+msgstr ""
+
+msgid "prg_mark_relevant_multi_success"
+msgstr ""
+
+msgid "prg_more_objects_without_read_permission"
+msgstr ""
+
+msgid "prg_multi_change_deadline"
+msgstr ""
+
+msgid "prg_multi_change_expire_date"
+msgstr ""
+
+msgid "prg_multi_mail_user"
+msgstr ""
+
+msgid "prg_multi_mark_accredited"
+msgstr ""
+
+msgid "prg_multi_mark_relevant"
+msgstr ""
+
+msgid "prg_multi_remove_certificate"
+msgstr ""
+
+msgid "prg_multi_remove_user"
+msgstr ""
+
+msgid "prg_multi_unmark_accredited"
+msgstr ""
+
+msgid "prg_multi_unmark_relevant"
+msgstr ""
+
+msgid "prg_multi_update_certificate"
+msgstr ""
+
+msgid "prg_multi_update_from_current_plan"
+msgstr ""
+
+msgid "prg_new"
+msgstr ""
+
+msgid "prg_no_deadline"
+msgstr ""
+
+msgid "prg_no_members_not_active"
+msgstr ""
+
+msgid "prg_no_permission_to_remove_certificate"
+msgstr ""
+
+msgid "prg_no_restart"
+msgstr ""
+
+msgid "prg_no_user_selected"
+msgstr ""
+
+msgid "prg_no_validity_qualification"
+msgstr ""
+
+msgid "prg_not_allowed_node_to_delete"
+msgstr ""
+
+msgid "prg_not_valid"
+msgstr ""
+
+msgid "prg_open_node"
+msgstr ""
+
+msgid "prg_orgus"
+msgstr ""
+
+msgid "prg_please_select_a_course_for_creating_a_leaf"
+msgstr ""
+
+msgid "prg_points"
+msgstr ""
+
+msgid "prg_points_byline"
+msgstr ""
+
+msgid "prg_points_current"
+msgstr ""
+
+msgid "prg_points_reachable"
+msgstr ""
+
+msgid "prg_points_required"
+msgstr ""
+
+msgid "prg_possible"
+msgstr ""
+
+msgid "prg_prg_type"
+msgstr ""
+
+msgid "prg_processing_ends_no_success"
+msgstr ""
+
+msgid "prg_processing_ends_no_success_info"
+msgstr ""
+
+msgid "prg_profile_not_public"
+msgstr ""
+
+msgid "prg_progress_info"
+msgstr ""
+
+msgid "prg_progress_status"
+msgstr ""
+
+msgid "prg_progress_status_with_child_sp"
+msgstr ""
+
+msgid "prg_quali_not_valid"
+msgstr ""
+
+msgid "prg_quali_still_valid"
+msgstr ""
+
+msgid "prg_remove_certificate"
+msgstr ""
+
+msgid "prg_remove_user"
+msgstr ""
+
+msgid "prg_remove_user_success"
+msgstr ""
+
+msgid "prg_remove_users_not_possible"
+msgstr ""
+
+msgid "prg_remove_users_partial_success"
+msgstr ""
+
+msgid "prg_remove_users_success"
+msgstr ""
+
+msgid "prg_restart_assignments_temporal_progress_desc"
+msgstr ""
+
+msgid "prg_restart_assignments_temporal_progress_title"
+msgstr ""
+
+msgid "prg_save_tree_order"
+msgstr ""
+
+msgid "prg_saved_order_successful"
+msgstr ""
+
+msgid "prg_show_individual_plan"
+msgstr ""
+
+msgid "prg_show_programmes"
+msgstr ""
+
+msgid "prg_show_programmes_on_pd_always"
+msgstr ""
+
+msgid "prg_show_programmes_on_pd_only_read"
+msgstr ""
+
+msgid "prg_some_users_may_not_be_accredited"
+msgstr ""
+
+msgid "prg_some_users_may_not_be_marked_not_relevant"
+msgstr ""
+
+msgid "prg_some_users_may_not_be_marked_relevant"
+msgstr ""
+
+msgid "prg_some_users_may_not_be_unmarked_accredited"
+msgstr ""
+
+msgid "prg_status"
+msgstr ""
+
+msgid "prg_status_1"
+msgstr ""
+
+msgid "prg_status_2"
+msgstr ""
+
+msgid "prg_status_3"
+msgstr ""
+
+msgid "prg_status_4"
+msgstr ""
+
+msgid "prg_status_5"
+msgstr ""
+
+msgid "prg_status_accredited"
+msgstr ""
+
+msgid "prg_status_active"
+msgstr ""
+
+msgid "prg_status_byline"
+msgstr ""
+
+msgid "prg_status_completed"
+msgstr ""
+
+msgid "prg_status_draft"
+msgstr ""
+
+msgid "prg_status_failed"
+msgstr ""
+
+msgid "prg_status_hide_irrelevant"
+msgstr ""
+
+msgid "prg_status_in_progress"
+msgstr ""
+
+msgid "prg_status_not_relevant"
+msgstr ""
+
+msgid "prg_status_outdated"
+msgstr ""
+
+msgid "prg_still_valid"
+msgstr ""
+
+msgid "prg_subtype_add"
+msgstr ""
+
+msgid "prg_subtypes"
+msgstr ""
+
+msgid "prg_successfully_removed_certificate"
+msgstr ""
+
+msgid "prg_title"
+msgstr ""
+
+msgid "prg_type"
+msgstr ""
+
+msgid "prg_type_add"
+msgstr ""
+
+msgid "prg_type_assign_amd_sets"
+msgstr ""
+
+msgid "prg_type_available_amd_sets"
+msgstr ""
+
+msgid "prg_type_byline"
+msgstr ""
+
+msgid "prg_type_custom_icon"
+msgstr ""
+
+msgid "prg_type_custom_icon_info"
+msgstr ""
+
+msgid "prg_type_edit"
+msgstr ""
+
+msgid "prg_type_msg_deleted"
+msgstr ""
+
+msgid "prg_type_msg_error_custom_icon"
+msgstr ""
+
+msgid "prg_type_msg_missing_title"
+msgstr ""
+
+msgid "prg_type_msg_missing_title_default_language"
+msgstr ""
+
+msgid "prg_type_msg_unable_delete"
+msgstr ""
+
+msgid "prg_unmark_accredited"
+msgstr ""
+
+msgid "prg_unmark_accredited_multi_success"
+msgstr ""
+
+msgid "prg_unmark_accredited_success"
+msgstr ""
+
+msgid "prg_unmark_relevant"
+msgstr ""
+
+msgid "prg_update_certificate"
+msgstr ""
+
+msgid "prg_update_from_current_plan"
+msgstr ""
+
+msgid "prg_update_from_current_plan_not_possible"
+msgstr ""
+
+msgid "prg_update_from_current_plan_partitial_success"
+msgstr ""
+
+msgid "prg_update_from_current_plan_success"
+msgstr ""
+
+msgid "prg_update_from_plan_successful"
+msgstr ""
+
+msgid "prg_update_progress_description"
+msgstr ""
+
+msgid "prg_update_progress_title"
+msgstr ""
+
+msgid "prg_update_successful"
+msgstr ""
+
+msgid "prg_user_not_restarted_desc"
+msgstr ""
+
+msgid "prg_user_not_restarted_time_input"
+msgstr ""
+
+msgid "prg_user_not_restarted_time_input_info"
+msgstr ""
+
+msgid "prg_user_not_restarted_title"
+msgstr ""
+
+msgid "prg_user_risky_to_fail_desc"
+msgstr ""
+
+msgid "prg_user_risky_to_fail_title"
+msgstr ""
+
+msgid "prg_validity"
+msgstr ""
+
+msgid "prg_validity_of_qualification"
+msgstr ""
+
+msgid "prg_validity_of_qualification_limit"
+msgstr ""
+
+msgid "prg_validity_of_qualification_restart"
+msgstr ""
+
+msgid "prg_view"
+msgstr ""
+
+msgid "prgr_may_not_create_circular_reference"
+msgstr ""
+
+msgid "re_assigned_mail_body"
+msgstr ""
+
+msgid "re_assigned_mail_subject"
+msgstr ""
+
+msgid "restart_information"
+msgstr ""
+
+msgid "restart_period"
+msgstr ""
+
+msgid "restart_period_desc"
+msgstr ""
+
+msgid "restart_period_info"
+msgstr ""
+
+msgid "restart_period_label"
+msgstr ""
+
+msgid "restart_recheck_desc"
+msgstr ""
+
+msgid "restart_recheck_label"
+msgstr ""
+
+msgid "restarted"
+msgstr ""
+
+msgid "risky_to_fail_mail_body"
+msgstr ""
+
+msgid "risky_to_fail_mail_subject"
+msgstr ""
+
+msgid "rol"
+msgstr ""
+
+msgid "select_crs"
+msgstr ""
+
+msgid "select_grp"
+msgstr ""
+
+msgid "select_org"
+msgstr ""
+
+msgid "select_role"
+msgstr ""
+
+msgid "send_info_to_re_assign_mail"
+msgstr ""
+
+msgid "send_info_to_re_assign_mail_info"
+msgstr ""
+
+msgid "send_re_assigned_mail"
+msgstr ""
+
+msgid "send_re_assigned_mail_info"
+msgstr ""
+
+msgid "send_risky_to_fail_mail"
+msgstr ""
+
+msgid "send_risky_to_fail_mail_info"
+msgstr ""
+
+msgid "sp_certificate_completion_date"
+msgstr ""
+
+msgid "sp_certificate_description"
+msgstr ""
+
+msgid "sp_certificate_points"
+msgstr ""
+
+msgid "sp_certificate_progress_expires_at"
+msgstr ""
+
+msgid "sp_certificate_title"
+msgstr ""
+
+msgid "sp_certificate_type"
+msgstr ""
+
+msgid "status_changed"
+msgstr ""
+
+msgid "status_changed_due_to_deadline"
+msgstr ""
+
+msgid "status_transition_not_allowed"
+msgstr ""
+
+msgid "status_unchanged"
+msgstr ""
+
+msgid "study_programme_icon"
+msgstr ""
+
+msgid "update_deadline"
+msgstr ""
+
+msgid "update_expire_date"
+msgstr ""
+
+msgid "updated_from_settings"
+msgstr ""
+
+msgid "usr_active"
+msgstr ""
+
+msgid "validity_qualification_date"
+msgstr ""
+
+msgid "validity_qualification_date_desc"
+msgstr ""
+
+msgid "validity_qualification_period"
+msgstr ""
+
+msgid "validity_qualification_period_desc"
+msgstr ""
+
+msgid "validity_updated"
+msgstr ""
+
+msgid "vq_date"
+msgstr ""
+
+msgid "vq_date_info"
+msgstr ""
+
+msgid "vq_date_label"
+msgstr ""
+
+msgid "vq_information"
+msgstr ""
+
+msgid "vq_period_info"
+msgstr ""
+
+msgid "vq_period_label"
+msgstr ""
+
+msgid "warning"
+msgstr ""
+
+msgid "will_not_modify_deadline_on_successful_progress"
+msgstr ""
+
+msgid "will_not_modify_irrelevant_progress"
+msgstr ""
+
+msgid "will_not_modify_relevant_progress"
+msgstr ""
+
+msgid "will_not_modify_validity_on_non_successful_progress"
+msgstr ""
+
+msgid "will_not_set_top_progress_to_irrelevant"
+msgstr ""
+
+msgid "will_not_update_cert_for_unsuccessful_progress"
+msgstr ""

@@ -1,0 +1,1092 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: prg\n"
+
+msgid "access_ctr_by_orgu_position"
+msgstr "Autorisationer baserade på positioner i organisatoriska enheter"
+
+msgid "active_only"
+msgstr "Endast aktiv"
+
+msgid "add_automembership_source"
+msgstr "Lägg till automatik"
+
+msgid "add_category"
+msgstr "Lägg till kategori"
+
+msgid "assignment_date"
+msgstr "Datum för tillträde"
+
+msgid "assignments"
+msgstr "Uppgifter"
+
+msgid "auto_add_success"
+msgstr "Automatism framgångsrikt tillagd."
+
+msgid "auto_membership_description"
+msgstr "Regler verkställs endast om ett kriterium uppfylls efter att regeln har aktiverats. Inga uppdrag tas bort om ett annat aktivt kriterium uppfylls vid den tidpunkten."
+
+msgid "auto_membership_src_type"
+msgstr "Typ"
+
+msgid "auto_membership_title"
+msgstr "Källor för automatisk tilldelning"
+
+msgid "auto_memberships"
+msgstr "Automatisk tilldelning"
+
+msgid "category"
+msgstr "Kategori"
+
+#, fuzzy
+msgid "cert_relevance"
+msgstr "Certificate"
+
+msgid "completion_date"
+msgstr "Datum för stängning"
+
+msgid "confirm_to_remove_selected_assignments"
+msgstr "Verkligen ta bort användartilldelning(ar)?"
+
+#, fuzzy
+msgid "cont_ed_insert_prgactionnote"
+msgstr "Insert Study Programme Action Note"
+
+#, fuzzy
+msgid "cont_ed_insert_prgstatusinfo"
+msgstr "Insert Study Programme Status Information"
+
+msgid "content_automation"
+msgstr "Automatisering av innehåll"
+
+msgid "content_automation_title"
+msgstr " Lägg till/ta bort kurser i dessa kategorier automatiskt"
+
+msgid "could_not_add_users_no_permissons"
+msgstr "Kunde inte lägga till %d användare på grund av bristande behörighet."
+
+# 31 03 2023 ny variabel
+msgid "crs_affiliation_to_prg"
+msgstr "Affiliation to study programmes"
+
+#, fuzzy
+msgid "deadline"
+msgstr "Deadline"
+
+msgid "deadline_information"
+msgstr "Information om behandlingsperioden"
+
+msgid "deadline_updated"
+msgstr "Datum för uppdatering"
+
+msgid "edit_participants"
+msgstr "Redigera uppdrag"
+
+msgid "error_updating_deadline"
+msgstr "Ett fel uppstod under uppdateringen av 'Deadline'."
+
+msgid "error_updating_expire_date"
+msgstr "Ett fel uppstod vid uppdatering av 'Expiration Qualification'."
+
+#, fuzzy
+msgid "export_memberships"
+msgstr "Export Assignments"
+
+#, fuzzy
+msgid "foreign_assignment"
+msgstr "not top node"
+
+msgid "form_msg_file_wrong_file_type"
+msgstr "Fel filtyp."
+
+#, fuzzy
+msgid "header_remove_certificate"
+msgstr "Do you really want to remove the certificate for the selected Users?"
+
+#, fuzzy
+msgid "header_update_certificate"
+msgstr "Do you really want to update the certificate?"
+
+msgid "header_update_current_plan"
+msgstr "Vill du verkligen återställa de individuella inställningarna för de valda tilldelningarna?"
+
+msgid "inactive_only"
+msgstr "endast inaktiv"
+
+msgid "info_to_re_assign_mail_body"
+msgstr "%s %s,<br/><br/>giltigheten för din kvalifikation vid studieprogrammet '%s' kommer snart att löpa ut. Vänligen registrera dig på nytt."
+
+msgid "info_to_re_assign_mail_subject"
+msgstr "Påminnelse om att delta igen i studieprogrammet"
+
+msgid "invalidated"
+msgstr "Validitet"
+
+msgid "label_crs"
+msgstr "Kursens namn"
+
+msgid "label_grp"
+msgstr "Gruppens namn"
+
+msgid "label_role"
+msgstr "Rollens namn"
+
+msgid "last_edited"
+msgstr "Last redigerad"
+
+msgid "last_edited_by"
+msgstr "Last redigerad av"
+
+msgid "mail_assignments"
+msgstr "Mail till tilldelade användare"
+
+#, fuzzy
+msgid "mails_foreign_assignment_failed"
+msgstr "Selected assignments are not in current context. Mails should be sent from Study Programme's top node."
+
+msgid "manage_assignments"
+msgstr "Hantera uppdrag"
+
+msgid "membership_source_id"
+msgstr "Id"
+
+msgid "membership_source_id_byline_objid"
+msgstr "Var god använd <b>objektets id</b>"
+
+msgid "membership_source_id_byline_refid"
+msgstr "Vänligen använd <b>referens-ID</b>"
+
+msgid "membership_source_type"
+msgstr "Källa"
+
+msgid "modal_automembership_title"
+msgstr "Lägg till automatik"
+
+msgid "modal_categories_title"
+msgstr "Kategori som ska övervakas"
+
+msgid "modal_member_auto_select_title"
+msgstr "Välj källa för automatisk tilldelning"
+
+#, fuzzy
+msgid "msg_acknowledge_courses"
+msgstr "Completed Courses have been acknowledged."
+
+msgid "msg_change_deadline_date"
+msgstr "Datum justerat för %s användare."
+
+msgid "msg_change_deadline_date_failed"
+msgstr "Datum ej justerat för"
+
+msgid "msg_change_expire_date"
+msgstr "Förfallodatum justerat för %s användare."
+
+msgid "msg_change_expire_date_failed"
+msgstr "Processen inte anpassad för"
+
+msgid "msg_fill_required"
+msgstr "Vänligen fyll i alla obligatoriska fält."
+
+msgid "msg_impossible_target_status"
+msgstr "Invalid status"
+
+msgid "msg_mark_accredited"
+msgstr "%s användare har ackrediterats."
+
+msgid "msg_mark_accredited_failed"
+msgstr "Inte markerad som ackrediterad"
+
+msgid "msg_mark_not_relevant"
+msgstr "%s Användare markerad som ej relevant."
+
+msgid "msg_mark_not_relevant_failed"
+msgstr "Markeras inte som irrelevant"
+
+msgid "msg_mark_relevant"
+msgstr "%s användare markerade som relevanta."
+
+msgid "msg_mark_relevant_failed"
+msgstr "Markeras inte som relevant"
+
+msgid "msg_points_must_be_positive"
+msgstr "Endast positiva poäng är tillåtna."
+
+msgid "msg_unmark_accredited"
+msgstr "%s Användare markerad som ej ackrediterad."
+
+msgid "msg_unmark_accredited_failed"
+msgstr "Remove ackreditering lyckades inte på"
+
+#, fuzzy
+msgid "msg_update_certificate"
+msgstr "%s Certificate updated."
+
+#, fuzzy
+msgid "msg_update_certificate_failed"
+msgstr "Certificate(s) not updated:"
+
+msgid "msg_update_from_settings"
+msgstr "%s Användaren uppdaterad från inställningarna."
+
+msgid "msg_update_from_settings_failed"
+msgstr "Uppdateringen lyckades inte"
+
+msgid "msg_update_individual_plan"
+msgstr "Framgångsrikt uppdaterad (%s)"
+
+msgid "msg_update_individual_plan_failed"
+msgstr "Fel vid uppdatering"
+
+#, fuzzy
+msgid "no_permission_to_update_certificate"
+msgstr "You have no permission to update certificates."
+
+msgid "no_srctype_or_id"
+msgstr "Id och Type får inte vara tomma."
+
+msgid "not_a_valid_cat_id"
+msgstr "%s motsvarar inte någon kategori."
+
+# 31 03 2023 ny variabel
+msgid "obj_prg_select"
+msgstr "-- Välj studieprogram --"
+
+msgid "optgrp_label_restart"
+msgstr "Återupptagande"
+
+msgid "optgrp_label_validity"
+msgstr "Avlopp"
+
+msgid "orgu"
+msgstr "Organisatorisk enhet"
+
+#, fuzzy
+msgid "pc_prg_action_note_label"
+msgstr "Required Actions Study Programme"
+
+#, fuzzy
+msgid "pc_prg_statusinfo_label"
+msgstr "Statusinformation Study Programme"
+
+#, fuzzy
+msgid "pc_prgactionnote_complete_content"
+msgstr "Please complete the content."
+
+#, fuzzy
+msgid "pc_prgactionnote_complete_content_with_deadline"
+msgstr "Please complete the content until"
+
+#, fuzzy
+msgid "pc_prgactionnote_headline"
+msgstr "Required actions"
+
+#, fuzzy
+msgid "pc_prgactionnote_no_actions_required"
+msgstr "No actions required."
+
+#, fuzzy
+msgid "pc_prgstatus_edit_qualification"
+msgstr "Re-processing required from"
+
+#, fuzzy
+msgid "pc_prgstatus_expiration_date"
+msgstr "Expiry date"
+
+#, fuzzy
+msgid "pc_prgstatus_qualification_headline"
+msgstr "Status of your qualification"
+
+#, fuzzy
+msgid "pc_prgstatus_status_no_qualification"
+msgstr "No qualification"
+
+#, fuzzy
+msgid "pc_prgstatus_status_valid_qualification"
+msgstr "Valid"
+
+#, fuzzy
+msgid "pc_prgstatus_text_no_qualification"
+msgstr "Your qualification is not valid"
+
+#, fuzzy
+msgid "pc_prgstatus_unlimited_validation"
+msgstr "Unlimited validity"
+
+msgid "percentage"
+msgstr "%"
+
+msgid "prg_access_by_orgu"
+msgstr "Tillgång till föreskrifter enligt organisatoriska enheter"
+
+msgid "prg_access_by_orgu_byline"
+msgstr "Om aktiverat kan ytterligare tillträdesregler tilldelas via positioner i organisatoriska enheter."
+
+#, fuzzy
+msgid "prg_acknowledge_all_completed_courses"
+msgstr "Acknowledge All Completed Courses"
+
+msgid "prg_acknowledge_completed_courses"
+msgstr "Erkänna godkända kurser"
+
+msgid "prg_add"
+msgstr "Skapa studieprogram"
+
+msgid "prg_added_course_ref_successful"
+msgstr "Ny kurslänk har lagts till framgångsrikt."
+
+msgid "prg_added_member"
+msgstr "Den nya medlemmen har lagts till framgångsrikt."
+
+msgid "prg_added_members"
+msgstr "De nya medlemmarna har lagts till framgångsrikt."
+
+msgid "prg_additional_settings"
+msgstr "Ytterligare funktioner"
+
+msgid "prg_assessment"
+msgstr "Utvärdering av studieprogram"
+
+msgid "prg_assign_date"
+msgstr "Tillägg på"
+
+msgid "prg_assigned_by"
+msgstr "Tillagd av"
+
+msgid "prg_async_create"
+msgstr "Lägg till nytt element."
+
+msgid "prg_async_settings"
+msgstr "Inställningar"
+
+msgid "prg_auto_member_select_crs"
+msgstr "Kurser"
+
+msgid "prg_auto_member_select_grp"
+msgstr "Grupper"
+
+msgid "prg_auto_member_select_role"
+msgstr "Rolls"
+
+msgid "prg_autoassignment"
+msgstr "(automatisk)"
+
+#, fuzzy
+msgid "prg_availability_action_not_allowed"
+msgstr "Cannot set Availability Period on Study Programmes."
+
+msgid "prg_belongs_to"
+msgstr "Höra till"
+
+msgid "prg_can_not_manage_in_repo"
+msgstr "Du får inte administrera detta studieprogram eftersom medlemmar redan är tilldelade det."
+
+msgid "prg_cancel"
+msgstr "Avbryt"
+
+#, fuzzy
+msgid "prg_cancel_acknowledge_completed_courses"
+msgstr "Don't acknowledge any Courses"
+
+msgid "prg_cancel_tree_order"
+msgstr "Bortse från beställningen av trädet."
+
+msgid "prg_change_deadline"
+msgstr "Justera brytdatum"
+
+msgid "prg_change_expire_date"
+msgstr "Anpassa kvalificeringsprocessen"
+
+msgid "prg_changed_by"
+msgstr "Ändrad av"
+
+msgid "prg_completion_by"
+msgstr "Kompletterad av"
+
+msgid "prg_completion_date"
+msgstr "Datum för stängning"
+
+msgid "prg_confirm_delete"
+msgstr "Radera"
+
+# 31 03 2023 ny variabel
+msgid "prg_copy_threads_info"
+msgstr "Bedöm vilka delar av studieprogrammet som ska kopieras, länkas eller utelämnas."
+
+msgid "prg_create_new_leaf"
+msgstr "Lägg till ny kurslänk."
+
+msgid "prg_create_new_node"
+msgstr "Lägg till nytt studieprogram"
+
+msgid "prg_cron_job_configuration"
+msgstr "Automatiska e-postmeddelanden"
+
+msgid "prg_custom_plan"
+msgstr "Individuell plan"
+
+#, fuzzy
+msgid "prg_cut_action_not_allowed"
+msgstr "Cannot move Study Programmes"
+
+msgid "prg_dash_label_finish_until"
+msgstr "Att göras av"
+
+msgid "prg_dash_label_gain"
+msgstr "Aktuell status"
+
+msgid "prg_dash_label_minimum"
+msgstr "Minsta mål"
+
+msgid "prg_dash_label_restart_from"
+msgstr "Ny start från"
+
+msgid "prg_dash_label_status"
+msgstr "Status"
+
+msgid "prg_dash_label_unreachable"
+msgstr "- Målet kan inte uppnås"
+
+msgid "prg_dash_label_valid"
+msgstr "Validitet"
+
+msgid "prg_deadline"
+msgstr "Datum"
+
+msgid "prg_deadline_date"
+msgstr "Bearbetningsperioden avslutas på ett fastställt brytdatum"
+
+msgid "prg_deadline_date_desc"
+msgstr "Programmet måste slutföras inom en viss tidsfrist."
+
+msgid "prg_deadline_date_label"
+msgstr "Redigera tills"
+
+msgid "prg_deadline_period"
+msgstr "Redigeringsperioden avslutas individuellt"
+
+msgid "prg_deadline_period_desc"
+msgstr "Programmet måste slutföras inom den angivna tidsperioden (i dagar)."
+
+msgid "prg_deadline_period_label"
+msgstr "Dagar efter tilldelning"
+
+msgid "prg_deadline_settings"
+msgstr "Redigera period"
+
+msgid "prg_delete_confirmation"
+msgstr "Vill du verkligen ta bort de markerade posterna?"
+
+msgid "prg_delete_failure"
+msgstr "Raderingen misslyckades."
+
+msgid "prg_delete_nothing_selected"
+msgstr "Inga poster valdes."
+
+msgid "prg_delete_single_confirmation"
+msgstr "Vill du verkligen ta bort den markerade posten?"
+
+msgid "prg_delete_single_success"
+msgstr "Entry har tagits bort framgångsrikt."
+
+msgid "prg_delete_success"
+msgstr "Poster har raderats framgångsrikt."
+
+msgid "prg_deleted_safely"
+msgstr "Node har tagits bort på ett säkert sätt."
+
+msgid "prg_description"
+msgstr "Beskrivning"
+
+msgid "prg_edit"
+msgstr "Redigera studieprogram"
+
+msgid "prg_expiry_date"
+msgstr "Kvalificering av förfaranden"
+
+msgid "prg_formatted_period"
+msgstr "%d dagar"
+
+#, fuzzy
+msgid "prg_import_action_not_allowed"
+msgstr "Cannot import into Study Programmes."
+
+msgid "prg_invalidate_expired_progresses_desc"
+msgstr "Sätter 'Validity' till 'Invalid' när utgångsdatum har uppnåtts."
+
+msgid "prg_invalidate_expired_progresses_title"
+msgstr "Tidsbegränsad giltighet för studieprogram"
+
+msgid "prg_link"
+msgstr "Länk"
+
+msgid "prg_mail_context_info"
+msgstr "For the participant emails on the member and learning progress views of a study programme."
+
+msgid "prg_mail_context_title"
+msgstr "Studieprogram"
+
+msgid "prg_mail_permanent_link"
+msgstr "Välj följande länk för att komma åt innehållet i studieprogrammet"
+
+msgid "prg_manage"
+msgstr "Hantering"
+
+msgid "prg_manage_members"
+msgstr "Redigera uppgifter för ett studieprogram"
+
+msgid "prg_manage_members_short"
+msgstr "Hantera uppdrag"
+
+msgid "prg_manual_status"
+msgstr "Manuell status"
+
+msgid "prg_mark_accredited"
+msgstr "ackredit"
+
+msgid "prg_mark_accredited_multi_success"
+msgstr "Urvalda användare ackrediterade."
+
+msgid "prg_mark_accredited_success"
+msgstr "Programmet har ackrediterats framgångsrikt för användaren."
+
+msgid "prg_mark_not_relevant_multi_success"
+msgstr "Urvalda användare markerade som ej relevanta."
+
+msgid "prg_mark_relevant"
+msgstr "Markera som relevant"
+
+msgid "prg_mark_relevant_multi_success"
+msgstr "Urvalda användare markerade som relevanta."
+
+msgid "prg_more_objects_without_read_permission"
+msgstr "Studieprogrammet innehåller andra element som du inte får visa på grund av bristande rättigheter."
+
+msgid "prg_multi_change_deadline"
+msgstr "Justera brytdatum"
+
+msgid "prg_multi_change_expire_date"
+msgstr "Anpassa kvalificeringsprocessen"
+
+msgid "prg_multi_mail_user"
+msgstr "Skicka e-post"
+
+msgid "prg_multi_mark_accredited"
+msgstr "Kredit"
+
+msgid "prg_multi_mark_relevant"
+msgstr "Markera som relevant"
+
+#, fuzzy
+msgid "prg_multi_remove_certificate"
+msgstr "Remove Certificate"
+
+msgid "prg_multi_remove_user"
+msgstr "Ta bort användare"
+
+msgid "prg_multi_unmark_accredited"
+msgstr "Ta bort ackreditering"
+
+msgid "prg_multi_unmark_relevant"
+msgstr "Markera som irrelevant"
+
+#, fuzzy
+msgid "prg_multi_update_certificate"
+msgstr "Update Certificate"
+
+msgid "prg_multi_update_from_current_plan"
+msgstr "Uppdatera från den aktuella planen"
+
+msgid "prg_new"
+msgstr "Skapa ett nytt studieprogram"
+
+msgid "prg_no_deadline"
+msgstr "Ingen behandlingsperiod"
+
+msgid "prg_no_members_not_active"
+msgstr "Eftersom studieprogrammet inte är aktivt kan inga nya medlemmar läggas till."
+
+#, fuzzy
+msgid "prg_no_permission_to_remove_certificate"
+msgstr "You do not have permission to remove certificates"
+
+msgid "prg_no_restart"
+msgstr "Inget automatiskt återinsättande (när kvalifikationen löper ut)"
+
+msgid "prg_no_user_selected"
+msgstr "Ingen användare har valts."
+
+msgid "prg_no_validity_qualification"
+msgstr "Ingen kvalificeringsprocedur"
+
+msgid "prg_not_allowed_node_to_delete"
+msgstr "Du får inte ta bort detta studieprogram."
+
+msgid "prg_not_valid"
+msgstr "ogiltig"
+
+msgid "prg_open_node"
+msgstr "Byt till studieprogram."
+
+msgid "prg_orgus"
+msgstr "Organisatorisk(a) enhet(er)"
+
+msgid "prg_please_select_a_course_for_creating_a_leaf"
+msgstr "Välj en kurslänk."
+
+msgid "prg_points"
+msgstr "Poäng"
+
+msgid "prg_points_byline"
+msgstr "Användarna får ett visst antal poäng när de framgångsrikt slutför detta program och måste uppnå detta antal poäng i efterföljande program."
+
+msgid "prg_points_current"
+msgstr "Aktuella punkter"
+
+msgid "prg_points_reachable"
+msgstr "Achievable poäng"
+
+msgid "prg_points_required"
+msgstr "Nödvändiga punkter"
+
+msgid "prg_possible"
+msgstr "Möjligt"
+
+msgid "prg_prg_type"
+msgstr "Typ av studieprogram"
+
+msgid "prg_processing_ends_no_success"
+msgstr "Dagar före slutet av bearbetningsperioden"
+
+msgid "prg_processing_ends_no_success_info"
+msgstr "Dagar före slutet av bearbetningsperioden"
+
+msgid "prg_profile_not_public"
+msgstr "Användarens profil är inte offentlig."
+
+msgid "prg_progress_info"
+msgstr "Du har %1$d poäng. Du har klarat studieprogrammet med %2$d poäng."
+
+msgid "prg_progress_status"
+msgstr " %1$d från %2$d punkter"
+
+msgid "prg_progress_status_with_child_sp"
+msgstr " %1$d från möjliga %2$d poäng"
+
+msgid "prg_quali_not_valid"
+msgstr "Qualifikation ogiltig"
+
+msgid "prg_quali_still_valid"
+msgstr "Kvalificering giltig"
+
+#, fuzzy
+msgid "prg_remove_certificate"
+msgstr "Remove Certificate"
+
+msgid "prg_remove_user"
+msgstr "Ta bort uppdrag"
+
+msgid "prg_remove_user_success"
+msgstr "Uppdraget har tagits bort."
+
+msgid "prg_remove_users_not_possible"
+msgstr "Utvalda användare kan inte tas bort."
+
+msgid "prg_remove_users_partial_success"
+msgstr "Allokeringar (delvis) borttagna."
+
+msgid "prg_remove_users_success"
+msgstr "Urvalda användare har tagits bort."
+
+msgid "prg_restart_assignments_temporal_progress_desc"
+msgstr "Boka om deltagare på studieprogram när repetitionsperioden börjar."
+
+msgid "prg_restart_assignments_temporal_progress_title"
+msgstr "Automatisk återinträde till studieprogram"
+
+msgid "prg_save_tree_order"
+msgstr "Rädda ordningen på trädet"
+
+msgid "prg_saved_order_successful"
+msgstr "Trädets order har räddats framgångsrikt."
+
+msgid "prg_show_individual_plan"
+msgstr "Visa individuell plan"
+
+msgid "prg_show_programmes"
+msgstr "Display"
+
+msgid "prg_show_programmes_on_pd_always"
+msgstr "Studieprogram är alltid synliga på instrumentpanelen."
+
+msgid "prg_show_programmes_on_pd_only_read"
+msgstr "Studieprogram är endast synliga på Dashboard när läsbehörighet är tillgänglig."
+
+msgid "prg_some_users_may_not_be_accredited"
+msgstr "Urvalda användare har delvis ackrediterats."
+
+msgid "prg_some_users_may_not_be_marked_not_relevant"
+msgstr "Progress of selected users var delvis markerad som ej relevant."
+
+msgid "prg_some_users_may_not_be_marked_relevant"
+msgstr "Progress av utvalda användare markerades delvis som relevant."
+
+msgid "prg_some_users_may_not_be_unmarked_accredited"
+msgstr "Ackrediteringen av utvalda användare har delvis tagits bort."
+
+msgid "prg_status"
+msgstr "Status"
+
+msgid "prg_status_1"
+msgstr "Pågår"
+
+msgid "prg_status_2"
+msgstr "Fullbordad"
+
+msgid "prg_status_3"
+msgstr "Ackrediterad"
+
+msgid "prg_status_4"
+msgstr "Inte relevant"
+
+msgid "prg_status_5"
+msgstr "Misslyckad"
+
+msgid "prg_status_accredited"
+msgstr "Ackrediterad"
+
+msgid "prg_status_active"
+msgstr "Aktiv"
+
+msgid "prg_status_byline"
+msgstr "Använd status för att kontrollera om detta program är tillgängligt för användare."
+
+msgid "prg_status_completed"
+msgstr "Fullbordad"
+
+msgid "prg_status_draft"
+msgstr "Draft"
+
+msgid "prg_status_failed"
+msgstr "Misslyckad"
+
+msgid "prg_status_hide_irrelevant"
+msgstr "Dölj irrelevant"
+
+msgid "prg_status_in_progress"
+msgstr "Pågår"
+
+msgid "prg_status_not_relevant"
+msgstr "Inte relevant"
+
+msgid "prg_status_outdated"
+msgstr "Utgången"
+
+msgid "prg_still_valid"
+msgstr " giltig"
+
+msgid "prg_subtype_add"
+msgstr "Lägg till ny typ"
+
+msgid "prg_subtypes"
+msgstr "Typer"
+
+#, fuzzy
+msgid "prg_successfully_removed_certificate"
+msgstr "Successfully removed certificate of selected Users"
+
+msgid "prg_title"
+msgstr "Titel"
+
+msgid "prg_type"
+msgstr "Typ av studieprogram"
+
+msgid "prg_type_add"
+msgstr "Lägg till programtyp"
+
+msgid "prg_type_assign_amd_sets"
+msgstr "Tilldela utökad metadatauppsättning"
+
+msgid "prg_type_available_amd_sets"
+msgstr "Tillgängliga anpassade metadatauppsättningar"
+
+msgid "prg_type_byline"
+msgstr "Ställ in en typ för att använda specifika anpassade metadatauppsättningar eller symboler."
+
+msgid "prg_type_custom_icon"
+msgstr "Individuell ikon"
+
+msgid "prg_type_custom_icon_info"
+msgstr "Info för enskild ikon"
+
+msgid "prg_type_edit"
+msgstr "Redigera typ"
+
+msgid "prg_type_msg_deleted"
+msgstr "Typ borttagen."
+
+msgid "prg_type_msg_error_custom_icon"
+msgstr "Ett fel uppstod när den individuella ikonen sparades."
+
+msgid "prg_type_msg_missing_title"
+msgstr "Titeln får inte vara tom."
+
+msgid "prg_type_msg_missing_title_default_language"
+msgstr "Ett standardspråk och en titel för standardspråket måste anges."
+
+msgid "prg_type_msg_unable_delete"
+msgstr "Kan inte ta bort typ eftersom den används i följande studieprogram"
+
+msgid "prg_unmark_accredited"
+msgstr "Ta bort ackreditering"
+
+msgid "prg_unmark_accredited_multi_success"
+msgstr "Urvalda användare markerade som ej ackrediterade"
+
+msgid "prg_unmark_accredited_success"
+msgstr "Akkrediteringen har framgångsrikt tagits bort."
+
+msgid "prg_unmark_relevant"
+msgstr "Markera som irrelevant"
+
+#, fuzzy
+msgid "prg_update_certificate"
+msgstr "Update Certificate"
+
+msgid "prg_update_from_current_plan"
+msgstr "Uppdatera från den aktuella planen"
+
+msgid "prg_update_from_current_plan_not_possible"
+msgstr "Uppdatering från den nuvarande planen är inte möjlig."
+
+msgid "prg_update_from_current_plan_partitial_success"
+msgstr "Uppdatering från nuvarande plan delvis slutförd."
+
+msgid "prg_update_from_current_plan_success"
+msgstr "Uppdatering från nuvarande plan är framgångsrik."
+
+msgid "prg_update_from_plan_successful"
+msgstr "Uppdateringen från den nuvarande planen lyckades."
+
+msgid "prg_update_progress_description"
+msgstr "Sätter status från \"pågår\" till \"misslyckad\" när slutet av bearbetningsperioden har nåtts."
+
+msgid "prg_update_progress_title"
+msgstr "Tidsbegränsade behandlingsperioder för studieprogram"
+
+msgid "prg_update_successful"
+msgstr "Ändringar framgångsrikt sparade!"
+
+msgid "prg_user_not_restarted_desc"
+msgstr "Skickar ett varningsmejl till användare när en kvalifikation på ett studieprogram löper ut och de ännu inte har startat om programmet."
+
+msgid "prg_user_not_restarted_time_input"
+msgstr "Dagar före utgång"
+
+msgid "prg_user_not_restarted_time_input_info"
+msgstr "Dagar före utgången av kvalifikationens giltighetstid"
+
+msgid "prg_user_not_restarted_title"
+msgstr "Skicka Warningmail om kvalifikation som löper ut"
+
+msgid "prg_user_risky_to_fail_desc"
+msgstr "Sänder ett varningsmeddelande till användare om de riskerar att misslyckas med ett studieprogram på grund av att behandlingstiden har löpt ut."
+
+msgid "prg_user_risky_to_fail_title"
+msgstr "Sänd varningsmeddelande om eventuellt fel"
+
+msgid "prg_validity"
+msgstr "Kvalificering av validitet"
+
+msgid "prg_validity_of_qualification"
+msgstr "Giltigheten av en uppnådd kvalifikation"
+
+msgid "prg_validity_of_qualification_limit"
+msgstr "Giltighetens utgång"
+
+msgid "prg_validity_of_qualification_restart"
+msgstr "Återupptagande"
+
+msgid "prg_view"
+msgstr "Display"
+
+msgid "prgr_may_not_create_circular_reference"
+msgstr "Att länka detta program hit är inte möjligt eftersom det program som det innehåller är skyddat."
+
+msgid "re_assigned_mail_body"
+msgstr "%s %s,<br/><br/>Du har blivit omplacerad till studieprogrammet '%s' som deltagare."
+
+msgid "re_assigned_mail_subject"
+msgstr "Förnya deltagandet i studieprogrammet"
+
+msgid "restart_information"
+msgstr "Återupptagande (i dagar) före utgången av kvalifikationen"
+
+msgid "restart_period"
+msgstr "Automatisk återinsättning innan kvalifikationen löpt ut"
+
+msgid "restart_period_desc"
+msgstr "Återupptagande (i dagar) före utgången av kvalifikationen"
+
+msgid "restart_period_info"
+msgstr "Automatiskt återupptagande innan kvalifikationen löper ut i dagar"
+
+msgid "restart_period_label"
+msgstr "Dagar före kvalifikationens slut"
+
+#, fuzzy
+msgid "restart_recheck_desc"
+msgstr "For assignments made via an automatism, the system rechecks whether criteria for the assignment still exist."
+
+#, fuzzy
+msgid "restart_recheck_label"
+msgstr "Check prerequisites again"
+
+#, fuzzy
+msgid "restarted"
+msgstr "restarted"
+
+msgid "risky_to_fail_mail_body"
+msgstr "%s %s,<br/><br/>tidsfristen för att slutföra studieprogrammet '%s' kommer snart att uppnås."
+
+msgid "risky_to_fail_mail_subject"
+msgstr "Påminnelse om att tidsfristen för studieprogrammet snart kommer att löpa ut."
+
+msgid "rol"
+msgstr "Roll"
+
+msgid "select_crs"
+msgstr "Sök efter kurser"
+
+msgid "select_grp"
+msgstr "Sökning efter grupper"
+
+msgid "select_org"
+msgstr "Sökning efter organisatorisk enhet"
+
+msgid "select_role"
+msgstr "Sökning efter roller"
+
+msgid "send_info_to_re_assign_mail"
+msgstr "E-post före utgången av giltighetstiden"
+
+msgid "send_info_to_re_assign_mail_info"
+msgstr "Sänd ett e-postmeddelande när nuvarande kvalifikation blir ogiltig"
+
+msgid "send_re_assigned_mail"
+msgstr "E-post för automat. Återupptagande"
+
+msgid "send_re_assigned_mail_info"
+msgstr "Skicka ett e-postmeddelande när du omplaceras till studieprogrammet."
+
+msgid "send_risky_to_fail_mail"
+msgstr "E-post med risk för icke-kvalificering"
+
+msgid "send_risky_to_fail_mail_info"
+msgstr "Skicka ett e-postmeddelande om kvalifikationen ännu inte har uppnåtts och bearbetningsperioden avslutas"
+
+msgid "sp_certificate_completion_date"
+msgstr "Datum för stängning"
+
+msgid "sp_certificate_description"
+msgstr "Beskrivning av programmet"
+
+msgid "sp_certificate_points"
+msgstr "Antal intjänade poäng"
+
+msgid "sp_certificate_progress_expires_at"
+msgstr "Utgångsdatum för kvalifikationen"
+
+msgid "sp_certificate_title"
+msgstr "Titel på programmet"
+
+msgid "sp_certificate_type"
+msgstr "Typ av program"
+
+msgid "status_changed"
+msgstr "Status uppdaterad"
+
+msgid "status_changed_due_to_deadline"
+msgstr "Status justerades på grund av bearbetningsperioden."
+
+msgid "status_transition_not_allowed"
+msgstr "Ny status ej tillämplig"
+
+msgid "status_unchanged"
+msgstr "Status oförändrad"
+
+#, fuzzy
+msgid "study_programme_icon"
+msgstr "Page Editor Study Programme Icon"
+
+msgid "update_deadline"
+msgstr "Datumet har uppdaterats."
+
+msgid "update_expire_date"
+msgstr "Procedure Qualification har uppdaterats framgångsrikt."
+
+msgid "updated_from_settings"
+msgstr "Uppdaterad från inställningar"
+
+msgid "usr_active"
+msgstr "Användare"
+
+msgid "validity_qualification_date"
+msgstr "Upphörande av kvalifikationen på ett viktigt datum"
+
+msgid "validity_qualification_date_desc"
+msgstr "Datum då kvalifikationen upphör att gälla"
+
+msgid "validity_qualification_period"
+msgstr "Process för kvalificering - individuell"
+
+msgid "validity_qualification_period_desc"
+msgstr "Kvalifikationen är giltig under en period (i dagar) efter framgångsrikt deltagande"
+
+msgid "validity_updated"
+msgstr "Validering uppdaterad"
+
+msgid "vq_date"
+msgstr "Utgångsdatum"
+
+msgid "vq_date_info"
+msgstr "Upphörande av kvalifikationen på ett viktigt datum"
+
+msgid "vq_date_label"
+msgstr "Utgångsdatum"
+
+msgid "vq_information"
+msgstr "Giltigheten av en uppnådd kvalifikation"
+
+msgid "vq_period_info"
+msgstr "Kvalificeringen är endast giltig under ett begränsat antal dagar"
+
+msgid "vq_period_label"
+msgstr "Dagar efter framgångsrikt deltagande"
+
+msgid "warning"
+msgstr "Varning!"
+
+msgid "will_not_modify_deadline_on_successful_progress"
+msgstr "ingen förändring, eftersom redan avslutad eller ackrediterad"
+
+msgid "will_not_modify_irrelevant_progress"
+msgstr "ingen förändring, eftersom irrelevant"
+
+msgid "will_not_modify_relevant_progress"
+msgstr "redan relevant"
+
+msgid "will_not_modify_validity_on_non_successful_progress"
+msgstr "Giltigheten kan endast ändras om den har slutförts eller ackrediterats"
+
+msgid "will_not_set_top_progress_to_irrelevant"
+msgstr "Superior tilldelning kan inte vara irrelevant."
+
+#, fuzzy
+msgid "will_not_update_cert_for_unsuccessful_progress"
+msgstr "No certificate for unsuccessful programme"
