@@ -34,8 +34,8 @@ session, or container state. It must not be used as the runtime language service
   [`tools/language-identifier-enum/`](tools/language-identifier-enum/README.md) (`--check` in CI), so a removed
   identifier fails at the call site instead of showing `-identifier-`.
 - With a `LanguageIdentifier` the identifier is read from exactly its module - no `loadLanguageModule()` beforehand, no
-  dependency on which module was loaded last (no collision of identifiers that exist in several modules). A migrated
-  module is looked up directly in its build and overlay; of a module that is not migrated the values for the current
+  dependency on which module was loaded last (no collision of identifiers that exist in several modules). A shipped
+  module is looked up directly in its build and overlay; of a plugin module the values for the current
   language are read (cache of `lng_modules`, else `lng_modules`) and kept for the request, for the default language its
   entry is read from `lng_data`. No side effect on string calls: the module is not loaded, so the order "the module
   loaded last wins" stays as it is. Without a text in the current language the one of the default language is served,
@@ -73,9 +73,10 @@ and `LanguageFileDirectoryManager` aggregates all of them, contributed by other 
 `LanguageInstallationManager` both depend on this manager rather than hardcoding paths.
 
 ## Translations Maintained in PO Files
-A module can be shipped by its component as gettext files instead of lines in
-`lang/ilias_<lang>.lang`. Currently this applies to the modules `tos`
-(`TermsOfService`) and `poll` (`Poll`). For such a module the shipped `.po` is
+A module is shipped by its component as gettext files instead of lines in
+`lang/ilias_<lang>.lang`. All modules of the global files are migrated:
+`lang/ilias_<lang>.lang` only holds the header, the database serves plugin
+modules only. For such a module the shipped `.po` is
 the only source of its shipped values: its lines are removed from
 `lang/ilias_<lang>.lang` when it is migrated (`--remove-from-lang`, see
 [Migrating a Module](#migrating-a-module)); a rollback restores them from git
@@ -153,16 +154,21 @@ for running requests.
 * Only Setup builds. The web server never writes into `artifacts/`.
 
 ### Runtime
-`ilLanguage` serves a migrated module only through native gettext
+`ilLanguage` serves a module shipped by a component only through native gettext
 (`MigratedTranslations`, `NativeGettext`): the build with the overlay of the
-local changes on top, never from the database, and only for installed
-languages (a language that is not installed falls back to `lng_modules` like a
-module that is not migrated).
+local changes on top, never from the database - also in Setup and CLI, where
+the client data directory of the overlay is taken from `ilias.ini.php` until
+`CLIENT_DATA_DIR` is defined. A module counts as shipped if the build lists it
+or a component ships its `lang/<module>.pot`; this needs no component graph.
+Only other modules (plugins) are read from `lng_data`/`lng_modules`.
 
-* Requirements: the PHP extension `gettext` for CLI and web server, and the
-  same C library for both (glibc with `C.utf8`; musl ignores `LOCPATH`). The
-  build checks this in the CLI process only. If native gettext is not available
-  at runtime, the texts of migrated modules are shown as `-identifier-`, the
+* Without a build, for a language the build lacks, or for a language that is
+  not installed a shipped module has no texts (`-identifier-`); a missing
+  build or a shipped `.po` that is not built is reported.
+* Requirements: the PHP extension `gettext` and the locale `C.utf8` are
+  mandatory for CLI and web server, with the same C library for both (glibc;
+  musl ignores `LOCPATH`). The build checks this in the CLI process only.
+  Without them every text of a shipped module is shown as `-identifier-`; the
   problem is logged and shown in the language administration. With a
   thread-safe PHP (ZTS) the locale applies to every thread of the process.
 * Behaviour change: an identifier that the migrated module loaded last does not
@@ -327,6 +333,11 @@ S = the new shipped value.
 Values from the customizing file always stay local. A key removed from the
 shipped `.po` is removed unless it carries a real local change.
 
+* `setup install`/`update` first run the build (`ShippedLanguageFilesCompiledObjective`
+  is a precondition of installing and updating the languages), so the Setup
+  serves the shipped modules from a current build. They therefore need the PHP
+  extension `gettext` and a writable `artifacts/language/` (including
+  `build.lock`), like `setup build`.
 * A language with an invalid language file (e.g. a shipped `.po` that cannot be
   parsed) is skipped and reported; the run goes on.
 * **`setup update` aborts with `LanguageDataNotSavedException`** if a module
@@ -369,8 +380,13 @@ files, it never writes data back.
   graph and the build) and `php cli/setup.php update`. Local changes of plural
   forms other than the default form are lost, values merged into the `.po` must
   be added to the `.lang` files.
-* Per language: remove its shipped `.po` and run `php cli/setup.php build`.
-  The overlay is kept unchanged and reconciled again once the `.po` is back.
+* Per language: not by removing its shipped `.po` - the module then shows
+  `-identifier-` for that language, never its database rows; revert the module
+  instead.
+* Shipped modules never fall back to the database: `ilLanguage` reads
+  `lng_data`/`lng_modules` only for modules that are not shipped (see
+  [Runtime](#runtime)). A fallback for a module or language without build needs
+  a code change of `ilLanguage::migratedKeysOf()`.
 * `artifacts/language/` can be deleted and rebuilt with
   `php cli/setup.php build`; until then migrated modules show `-identifier-`.
 

@@ -124,8 +124,8 @@ php components/ILIAS/Language/tools/po-migration/convert_module_to_po.php --remo
   language and key. Only a value of another language that the cleaning would
   leave empty is treated like a missing one: the reference value and
   `#, fuzzy` (it stays empty if the reference value is empty).
-* No `.mo` file and nothing in the database: run `php cli/setup.php build`
-  afterwards.
+* Until `php cli/setup.php build` the module shows `-identifier-`, never the
+  database: run the build afterwards.
 
 ### Checks
 
