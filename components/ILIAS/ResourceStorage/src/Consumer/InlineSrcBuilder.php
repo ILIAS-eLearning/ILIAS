@@ -65,6 +65,17 @@ class InlineSrcBuilder implements SrcBuilder
         return '';
     }
 
+    /**
+     * @deprecated see {@see SrcBuilder::getRevisionURLWithoutIsolation()}
+     */
+    public function getRevisionURLWithoutIsolation(
+        Revision $revision,
+        float $valid_for_at_least_minutes = 60.0,
+        ?string $filename = null
+    ): string {
+        throw new \RuntimeException('InlineSrcBuilder does not support signed URLs');
+    }
+
     public function getFlavourURLs(
         Flavour $flavour,
         bool $signed = true

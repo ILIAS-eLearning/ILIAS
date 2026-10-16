@@ -135,10 +135,6 @@ final class StreamDelivery extends BaseDelivery
     {
         $r = $this->http->response();
 
-        if (!$this->isRequestHostAllowed()) {
-            $this->notFound($r);
-        }
-
         // check if $token has a sub-request, such as .../index.html
         $parts = explode(self::SUBREQUEST_SEPARATOR, $token);
         $sub_request = null;
@@ -148,6 +144,13 @@ final class StreamDelivery extends BaseDelivery
         }
 
         $payload = $this->data_signer->verifyStreamToken($token);
+
+        // a token signed for the ILIAS domain is served there only, all others only on the content domain
+        $isolated = !$payload instanceof ShortFilePayload || $payload->isIsolated();
+        $host_allowed = $isolated ? $this->isRequestHostAllowed() : !$this->isRequestOnContentHost();
+        if (!$host_allowed) {
+            $this->notFound($r);
+        }
 
         switch (true) {
             case $payload instanceof FilePayload:
@@ -175,7 +178,8 @@ final class StreamDelivery extends BaseDelivery
                 $uri,
                 $mime_type,
                 $file_name,
-                $disposition
+                $disposition,
+                $isolated
             );
 
             $this->http->saveResponse(
@@ -212,7 +216,8 @@ final class StreamDelivery extends BaseDelivery
                 $file_inside_zip_uri,
                 $mime_type,
                 basename($sub_request),
-                Disposition::INLINE // subrequests are always inline per default, browsers may change this to download
+                Disposition::INLINE, // subrequests are always inline per default, browsers may change this to download
+                $isolated
             );
 
 

@@ -33,7 +33,8 @@ class ShortFilePayload extends StructuredPayload
 
     public function __construct(
         private string $uri,
-        private string $file_name
+        private string $file_name,
+        private bool $isolated = true
     ) {
         $modification_time = @filemtime($uri);
         // try to shorten uri
@@ -42,11 +43,17 @@ class ShortFilePayload extends StructuredPayload
             $uri = substr($uri, strlen($base));
         }
 
-        parent::__construct([
+        $data = [
             'p' => $uri,
             'n' => $file_name,
             'mt' => $modification_time,
-        ]);
+        ];
+        // only tokens leaving the content domain carry the flag, so all others stay as short as before
+        if (!$isolated) {
+            $data['ni'] = 1;
+        }
+
+        parent::__construct($data);
     }
 
     public static function fromArray(array $raw_payload): self
@@ -54,7 +61,7 @@ class ShortFilePayload extends StructuredPayload
         return new self(
             $raw_payload['p'],
             $raw_payload['n'],
-            $raw_payload['mt'] ?? false
+            empty($raw_payload['ni'])
         );
     }
 
@@ -89,5 +96,14 @@ class ShortFilePayload extends StructuredPayload
     public function getUserId(): int
     {
         return $this->user_id;
+    }
+
+    /**
+     * Whether the file is delivered from the content domain when User Content
+     * Isolation is active (the default), or from the ILIAS domain.
+     */
+    public function isIsolated(): bool
+    {
+        return $this->isolated;
     }
 }
