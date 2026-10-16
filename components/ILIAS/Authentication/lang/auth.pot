@@ -1,0 +1,432 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: auth\n"
+
+msgid "auth_account_code"
+msgstr ""
+
+msgid "auth_account_code_info"
+msgstr ""
+
+msgid "auth_account_code_title"
+msgstr ""
+
+msgid "auth_account_code_used"
+msgstr ""
+
+msgid "auth_account_migration"
+msgstr ""
+
+msgid "auth_account_migration_keep"
+msgstr ""
+
+msgid "auth_account_migration_name"
+msgstr ""
+
+msgid "auth_account_migration_new"
+msgstr ""
+
+msgid "auth_activation_code_success"
+msgstr ""
+
+msgid "auth_allow_local_info"
+msgstr ""
+
+msgid "auth_auth_settings"
+msgstr ""
+
+msgid "auth_cron_destroy_expired_sessions"
+msgstr ""
+
+msgid "auth_cron_destroy_expired_sessions_desc"
+msgstr ""
+
+msgid "auth_err_expired"
+msgstr ""
+
+msgid "auth_err_invalid_user_account"
+msgstr ""
+
+msgid "auth_err_ldap_exception"
+msgstr ""
+
+msgid "auth_info_add"
+msgstr ""
+
+msgid "auth_info_migrate"
+msgstr ""
+
+msgid "auth_ldap_server_ds"
+msgstr ""
+
+msgid "auth_login_editor"
+msgstr ""
+
+msgid "auth_odic_scope_info"
+msgstr ""
+
+msgid "auth_odic_scope_tab_info"
+msgstr ""
+
+msgid "auth_oidc"
+msgstr ""
+
+msgid "auth_oidc_configured_scopes"
+msgstr ""
+
+msgid "auth_oidc_discover_scopes"
+msgstr ""
+
+msgid "auth_oidc_discover_scopes_info"
+msgstr ""
+
+msgid "auth_oidc_failed"
+msgstr ""
+
+msgid "auth_oidc_here"
+msgstr ""
+
+msgid "auth_oidc_login_element_info"
+msgstr ""
+
+msgid "auth_oidc_mapping_table"
+msgstr ""
+
+msgid "auth_oidc_profile"
+msgstr ""
+
+msgid "auth_oidc_role_info"
+msgstr ""
+
+msgid "auth_oidc_role_mapping_table"
+msgstr ""
+
+msgid "auth_oidc_roles"
+msgstr ""
+
+msgid "auth_oidc_saved_values"
+msgstr ""
+
+msgid "auth_oidc_scopes"
+msgstr ""
+
+msgid "auth_oidc_settings"
+msgstr ""
+
+msgid "auth_oidc_settings_activation"
+msgstr ""
+
+msgid "auth_oidc_settings_additional_scopes"
+msgstr ""
+
+msgid "auth_oidc_settings_additional_scopes_info"
+msgstr ""
+
+msgid "auth_oidc_settings_client_id"
+msgstr ""
+
+msgid "auth_oidc_settings_custom_session_duration"
+msgstr ""
+
+msgid "auth_oidc_settings_custom_session_duration_option"
+msgstr ""
+
+msgid "auth_oidc_settings_custom_session_duration_type"
+msgstr ""
+
+msgid "auth_oidc_settings_default_role"
+msgstr ""
+
+msgid "auth_oidc_settings_default_role_info"
+msgstr ""
+
+msgid "auth_oidc_settings_default_scopes"
+msgstr ""
+
+msgid "auth_oidc_settings_discovery_error"
+msgstr ""
+
+msgid "auth_oidc_settings_discovery_url"
+msgstr ""
+
+msgid "auth_oidc_settings_img"
+msgstr ""
+
+msgid "auth_oidc_settings_img_file_info"
+msgstr ""
+
+msgid "auth_oidc_settings_invalid_scopes"
+msgstr ""
+
+msgid "auth_oidc_settings_le"
+msgstr ""
+
+msgid "auth_oidc_settings_login_option_default"
+msgstr ""
+
+msgid "auth_oidc_settings_login_option_default_info"
+msgstr ""
+
+msgid "auth_oidc_settings_login_option_enforce"
+msgstr ""
+
+msgid "auth_oidc_settings_login_option_enforce_info"
+msgstr ""
+
+msgid "auth_oidc_settings_login_options"
+msgstr ""
+
+msgid "auth_oidc_settings_logout_scope"
+msgstr ""
+
+msgid "auth_oidc_settings_logout_scope_global"
+msgstr ""
+
+msgid "auth_oidc_settings_logout_scope_global_info"
+msgstr ""
+
+msgid "auth_oidc_settings_logout_scope_local"
+msgstr ""
+
+msgid "auth_oidc_settings_logout_scope_local_info"
+msgstr ""
+
+msgid "auth_oidc_settings_provider"
+msgstr ""
+
+msgid "auth_oidc_settings_secret"
+msgstr ""
+
+msgid "auth_oidc_settings_section_user_sync"
+msgstr ""
+
+msgid "auth_oidc_settings_session_duration"
+msgstr ""
+
+msgid "auth_oidc_settings_title"
+msgstr ""
+
+msgid "auth_oidc_settings_txt"
+msgstr ""
+
+msgid "auth_oidc_settings_txt_val_info"
+msgstr ""
+
+msgid "auth_oidc_settings_user_attr"
+msgstr ""
+
+msgid "auth_oidc_settings_user_sync"
+msgstr ""
+
+msgid "auth_oidc_settings_user_sync_info"
+msgstr ""
+
+msgid "auth_oidc_settings_validate_scope_custom"
+msgstr ""
+
+msgid "auth_oidc_settings_validate_scope_default"
+msgstr ""
+
+msgid "auth_oidc_settings_validate_scope_none"
+msgstr ""
+
+msgid "auth_oidc_settings_validate_scopes"
+msgstr ""
+
+msgid "auth_oidc_update_field_info"
+msgstr ""
+
+msgid "auth_oidc_update_role_info"
+msgstr ""
+
+msgid "auth_oidconnect"
+msgstr ""
+
+msgid "auth_page_type_auth"
+msgstr ""
+
+msgid "auth_required_password"
+msgstr ""
+
+msgid "auth_required_username"
+msgstr ""
+
+msgid "auth_saml_add_idp_btn"
+msgstr ""
+
+msgid "auth_saml_add_idp_md_error"
+msgstr ""
+
+msgid "auth_saml_add_idp_md_info"
+msgstr ""
+
+msgid "auth_saml_add_idp_md_label"
+msgstr ""
+
+msgid "auth_saml_configure"
+msgstr ""
+
+msgid "auth_saml_configure_idp"
+msgstr ""
+
+msgid "auth_saml_deleted_idp"
+msgstr ""
+
+msgid "auth_saml_enable"
+msgstr ""
+
+msgid "auth_saml_err_sqlite_driver"
+msgstr ""
+
+msgid "auth_saml_idp"
+msgstr ""
+
+msgid "auth_saml_idp_deactivated_auth_failed"
+msgstr ""
+
+msgid "auth_saml_idp_selection_table_desc"
+msgstr ""
+
+msgid "auth_saml_idp_selection_table_title"
+msgstr ""
+
+msgid "auth_saml_idp_settings"
+msgstr ""
+
+msgid "auth_saml_idps"
+msgstr ""
+
+msgid "auth_saml_idps_info"
+msgstr ""
+
+msgid "auth_saml_login_form"
+msgstr ""
+
+msgid "auth_saml_login_form_info"
+msgstr ""
+
+msgid "auth_saml_migration"
+msgstr ""
+
+msgid "auth_saml_migration_info"
+msgstr ""
+
+msgid "auth_saml_role_select"
+msgstr ""
+
+msgid "auth_saml_sure_delete_idp"
+msgstr ""
+
+msgid "auth_saml_sync"
+msgstr ""
+
+msgid "auth_saml_sync_info"
+msgstr ""
+
+msgid "auth_saml_uid_claim"
+msgstr ""
+
+msgid "auth_saml_uid_claim_info"
+msgstr ""
+
+msgid "auth_saml_unknow_idp"
+msgstr ""
+
+msgid "auth_saml_update_field_info"
+msgstr ""
+
+msgid "auth_saml_user_mapping"
+msgstr ""
+
+msgid "auth_saml_username_claim"
+msgstr ""
+
+msgid "auth_saml_username_claim_info"
+msgstr ""
+
+msgid "auth_sync"
+msgstr ""
+
+msgid "destination_after_logout"
+msgstr ""
+
+msgid "destination_external_ressource"
+msgstr ""
+
+msgid "destination_external_ressource_url"
+msgstr ""
+
+msgid "destination_internal_ressource"
+msgstr ""
+
+msgid "destination_internal_ressource_ref_id"
+msgstr ""
+
+msgid "destination_login_screen"
+msgstr ""
+
+msgid "destination_login_screen_info"
+msgstr ""
+
+msgid "destination_logout_screen"
+msgstr ""
+
+msgid "err_auth_ldap_failed"
+msgstr ""
+
+msgid "err_auth_saml_failed"
+msgstr ""
+
+msgid "err_auth_saml_no_ilias_user"
+msgstr ""
+
+msgid "language_does_not_exist"
+msgstr ""
+
+msgid "login_page"
+msgstr ""
+
+msgid "login_pages"
+msgstr ""
+
+msgid "logout_behaviour"
+msgstr ""
+
+msgid "logout_behaviour_invalid_ref_id"
+msgstr ""
+
+msgid "logout_behaviour_invalid_url"
+msgstr ""
+
+msgid "logout_behaviour_ref_id_no_access"
+msgstr ""
+
+msgid "logout_behaviour_ref_id_valid_status_changed"
+msgstr ""
+
+msgid "logout_behaviour_settings"
+msgstr ""
+
+msgid "logout_editor"
+msgstr ""
+
+msgid "logout_page"
+msgstr ""
+
+msgid "logout_pages"
+msgstr ""
+
+msgid "lti_consumer_inactive"
+msgstr ""
+
+msgid "page_design_activate"
+msgstr ""
+
+msgid "page_design_deactivate"
+msgstr ""
+
+msgid "saml_tab_head_idp"
+msgstr ""

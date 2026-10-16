@@ -1,0 +1,435 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: auth\n"
+
+msgid "auth_account_code"
+msgstr "Kód"
+
+msgid "auth_account_code_info"
+msgstr "ILIAS-fiókja újraaktiválásához használhat ILIAS-fiókkódot."
+
+msgid "auth_account_code_title"
+msgstr "ILIAS-fiókkód"
+
+msgid "auth_account_code_used"
+msgstr "ILIAS-fiókját újra aktiváltuk. Biztonsági okokból jelentkezzen be újra."
+
+msgid "auth_account_migration"
+msgstr "Új ILIAS-fiók"
+
+msgid "auth_account_migration_keep"
+msgstr "Felhasználói fiókok migrálása"
+
+msgid "auth_account_migration_name"
+msgstr "Migrálás"
+
+msgid "auth_account_migration_new"
+msgstr "Új ILIAS-fiók létrehozása"
+
+msgid "auth_activation_code_success"
+msgstr "Fiókját újra aktív, bejelentkezhet az ILIAS-ba."
+
+msgid "auth_allow_local_info"
+msgstr "Az ILIAS adatbázisú helyi hitelesítés (helyi felhasználónév/jelszó párossal) még lehetséges azoknak az fiókoknak, melyek hitelesítési módja SAML."
+
+msgid "auth_auth_settings"
+msgstr "Beállítások"
+
+msgid "auth_cron_destroy_expired_sessions"
+msgstr "Lejárt munkamenetek törlése"
+
+msgid "auth_cron_destroy_expired_sessions_desc"
+msgstr "Ez az ütemezett feladat törli a lejárt munkameneteket."
+
+msgid "auth_err_expired"
+msgstr "Munkamenete inaktivitás miatt lejárt."
+
+msgid "auth_err_invalid_user_account"
+msgstr "Sikertelen bejelentkezés. Kérjük, ellenőrizze, hogy helyesen adta-e meg felhasználónevét és jelszavát. Ha a probléma továbbra is fennáll, fiókja inaktív lehet, vagy lejárt. Ebben az esetben kérjük, vegye fel a kapcsolatot az ILIAS platform technikai támogatásával a képernyő alján található linken keresztül."
+
+msgid "auth_err_ldap_exception"
+msgstr "Hitelesítés belső (LDAP) hitelesítési hiba miatt sikertelen."
+
+msgid "auth_info_add"
+msgstr "Válassza ezt a lehetőséget, ha még nem regisztrált az ILIAS-ba. Új ILIAS-fiók jön létre."
+
+msgid "auth_info_migrate"
+msgstr "Ha van már ILIAS-fiókja, adja meg felhasználónevét és jelszavát személyes adatai migrálásához (levelek, teszteredmények, …)."
+
+msgid "auth_ldap_server_ds"
+msgstr "LDAP szerver"
+
+msgid "auth_login_editor"
+msgstr "Bejelentkezési képernyő szerkesztő"
+
+msgid "auth_odic_scope_info"
+msgstr "Ebben a maszkban a szabványos jogcímek javaslatként jelennek meg a profiladatok hozzárendelésére a %s konfigurált OpenID Connect hatókörei alapján. Ezt a javaslatot hatékony profiladat-hozzárendelésként fogadhatja el, ha rákattint a ‘%s’ elemre, vagy módosíthatja a szövegmezőket."
+
+msgid "auth_odic_scope_tab_info"
+msgstr "Ebben a maszkban OpenID Connect jogcímeket rendelhet az ILIAS profiladatokhoz. Ehhez adja meg az adott profil dátumának megfelelő szövegmezőkbe azt a hatókört, ahonnan az információkat át kell venni a sikeres hitelesítés után. Aktiválja a megfelelő jelölőnégyzetet, ha az adatokat egy meglévő ILIAS felhasználói fiókba is át kell vinni. Megtekintheti a %s szabványos követelések listáját."
+
+msgid "auth_oidc"
+msgstr "OpenID-kapcsolat"
+
+msgid "auth_oidc_configured_scopes"
+msgstr "Hatókör alapú leképezés előkitöltése"
+
+msgid "auth_oidc_discover_scopes"
+msgstr "Automatikus hatókörfelderítés végrehajtása"
+
+msgid "auth_oidc_discover_scopes_info"
+msgstr "Megtörtént az automatikus hatókör felderítése. A hatókörök az alábbi űrlap ‘További hatókörök’ mezőjébe kerülnek. Kérjük, határozza meg a releváns hatóköröket, majd mentse el az űrlapot."
+
+msgid "auth_oidc_failed"
+msgstr "Az OpenID-kapcsolaton keresztüli bejelenkezés sikertelen"
+
+msgid "auth_oidc_here"
+msgstr "itt"
+
+msgid "auth_oidc_login_element_info"
+msgstr "Bejelentkezés az ILIAS-ba OpenID hitelesítéssel"
+
+msgid "auth_oidc_mapping_table"
+msgstr "ILIAS felhasználói adatok és OpenID-attribútumok összerendelése"
+
+msgid "auth_oidc_profile"
+msgstr "Profiladatok hozzárendelése"
+
+msgid "auth_oidc_role_info"
+msgstr "OpenID csatlakozási attribútum::Érték (például: \"szabályok::alkalmazottak\")."
+
+msgid "auth_oidc_role_mapping_table"
+msgstr "ILIAS-szerepkörök és OpenID-attribútumok összerendelése."
+
+msgid "auth_oidc_roles"
+msgstr "Szerepkör hozzárendelése"
+
+msgid "auth_oidc_saved_values"
+msgstr "Hatékony attribútumleképezés"
+
+msgid "auth_oidc_scopes"
+msgstr "Hatókörök"
+
+msgid "auth_oidc_settings"
+msgstr "Szerver beállításai"
+
+msgid "auth_oidc_settings_activation"
+msgstr "OpenID bekapcsolása"
+
+msgid "auth_oidc_settings_additional_scopes"
+msgstr "További hatókörök"
+
+msgid "auth_oidc_settings_additional_scopes_info"
+msgstr "Standard hatókörök: cím, e-mail cím, telefonszám, profil"
+
+msgid "auth_oidc_settings_client_id"
+msgstr "Kliens-ID"
+
+msgid "auth_oidc_settings_custom_session_duration"
+msgstr "Munkamenet időtartama"
+
+msgid "auth_oidc_settings_custom_session_duration_option"
+msgstr "Saját munkamenet időtartama"
+
+msgid "auth_oidc_settings_custom_session_duration_type"
+msgstr "A munkamenet időtartamának beállításai"
+
+msgid "auth_oidc_settings_default_role"
+msgstr "Szerepkör hozzárendelése"
+
+msgid "auth_oidc_settings_default_role_info"
+msgstr "Kérem, válasszon ki egy globális szerepkört az új ILIAS-fiókhoz"
+
+msgid "auth_oidc_settings_default_scopes"
+msgstr "Alapértelmezett hatókör"
+
+msgid "auth_oidc_settings_discovery_error"
+msgstr "Felderítési URL lekérése sikertelen: %s"
+
+msgid "auth_oidc_settings_discovery_url"
+msgstr "A szolgáltató Felderítési URL-je"
+
+msgid "auth_oidc_settings_img"
+msgstr "Kép"
+
+msgid "auth_oidc_settings_img_file_info"
+msgstr "Töltsön fel egy képet, ami a bejelentkezési oldalon fog megjelenni. A szöveget automatikusan hozzáfűzzük a bejelentkezési szkripthez."
+
+msgid "auth_oidc_settings_invalid_scopes"
+msgstr "Az következő értékek nem valós hatókörök: %s"
+
+msgid "auth_oidc_settings_le"
+msgstr "Bejelentkezési oldal"
+
+msgid "auth_oidc_settings_login_option_default"
+msgstr "Bejelentkezési kényszerítés nélkül"
+
+msgid "auth_oidc_settings_login_option_default_info"
+msgstr "A hitelesítés az OpenID-szerveren nem szükséges a hitelesítés, amikor már létezik egy érvényes munkamenet."
+
+msgid "auth_oidc_settings_login_option_enforce"
+msgstr "Bejelentkezési kikényszerítése"
+
+msgid "auth_oidc_settings_login_option_enforce_info"
+msgstr "A hitelesítés az OpenID-szerveren minden esetben szükséges - még akkor is, ha már létezik egy érvényes munkamenet."
+
+msgid "auth_oidc_settings_login_options"
+msgstr "Bejelentkezési lehetőségek"
+
+msgid "auth_oidc_settings_logout_scope"
+msgstr "Viselkedés kijelentkezéskor"
+
+msgid "auth_oidc_settings_logout_scope_global"
+msgstr "Globális kijelentkezés"
+
+msgid "auth_oidc_settings_logout_scope_global_info"
+msgstr "Ebben az esetben az OpenID-munkamenet és az ILIAS-munkamenet lezárul."
+
+msgid "auth_oidc_settings_logout_scope_local"
+msgstr "Kijelentkezés csak az ILIAS-ból"
+
+msgid "auth_oidc_settings_logout_scope_local_info"
+msgstr "Ebben az esetben csak az ILIAS munkamenet zárul le."
+
+msgid "auth_oidc_settings_provider"
+msgstr "Szolgáltató-URL"
+
+msgid "auth_oidc_settings_secret"
+msgstr "Klienskulcs"
+
+msgid "auth_oidc_settings_section_user_sync"
+msgstr "Felhasználói szinkronizálási beállítások"
+
+msgid "auth_oidc_settings_session_duration"
+msgstr "Időtartam"
+
+msgid "auth_oidc_settings_title"
+msgstr "OpenID hitelesítés beállításai"
+
+msgid "auth_oidc_settings_txt"
+msgstr "Szöveg"
+
+msgid "auth_oidc_settings_txt_val_info"
+msgstr "Írja be a bejelentkezési oldalon megjelenítendő szöveget. A szöveget automatikusan hozzáfűzzük az OpenID bejelentkezési szkripthez."
+
+msgid "auth_oidc_settings_user_attr"
+msgstr "Felhasználónév attribútumneve"
+
+msgid "auth_oidc_settings_user_sync"
+msgstr "Automatikus szinkronizálás"
+
+msgid "auth_oidc_settings_user_sync_info"
+msgstr "Azoknak a felhasználóknak, akik sikeresen hitelesítették magukat az OpenID-szerveren, létrehozunk egy ILIAS-fiókot, ha az még nem létezik."
+
+msgid "auth_oidc_settings_validate_scope_custom"
+msgstr "Egyéni OpenID Csatlakozási Discovery url használata"
+
+msgid "auth_oidc_settings_validate_scope_default"
+msgstr "Use [PROVIDER_URL]/.well-known/openid-configuration"
+
+msgid "auth_oidc_settings_validate_scope_none"
+msgstr "Do not validate Scopes on saving"
+
+msgid "auth_oidc_settings_validate_scopes"
+msgstr "Validate Scopes upon saving"
+
+msgid "auth_oidc_update_field_info"
+msgstr "Automatikus frissítés"
+
+msgid "auth_oidc_update_role_info"
+msgstr "Csak az első bejelentkezéskor (automatikus szinkronizálás) alkalmazzuk"
+
+msgid "auth_oidconnect"
+msgstr "OpenID"
+
+msgid "auth_page_type_auth"
+msgstr "Bejelentkezési oldal"
+
+msgid "auth_required_password"
+msgstr "Adjon meg egy jelszót"
+
+msgid "auth_required_username"
+msgstr "Adjon meg egy felhasználónevet"
+
+msgid "auth_saml_add_idp_btn"
+msgstr "Új azonosításszolgáltató hozzáadása"
+
+msgid "auth_saml_add_idp_md_error"
+msgstr "A megadott érték nem valós XML dokumentum. Ellenőrizze, hogy valós XML valós azonosítószolgálgatót tartalmazzon."
+
+msgid "auth_saml_add_idp_md_info"
+msgstr "Adja meg az azonosítószolgáltató metaadatát XML formátumban."
+
+msgid "auth_saml_add_idp_md_label"
+msgstr "Azonosításszolgáltató SAML Metaadat"
+
+msgid "auth_saml_configure"
+msgstr "SAML hitelesítés konfigurálása"
+
+msgid "auth_saml_configure_idp"
+msgstr "SAML IDP konfigurálása: %s"
+
+msgid "auth_saml_deleted_idp"
+msgstr "Az azonosításszolgáltatót sikeresen törölte."
+
+msgid "auth_saml_enable"
+msgstr "SAML támogatása bekapcsolása"
+
+msgid "auth_saml_err_sqlite_driver"
+msgstr "Az SAML hitelesítéshez szükséges az PHP-SQLite. Telepítse az SQLite csomagot, majd próbálja újra."
+
+msgid "auth_saml_idp"
+msgstr "IDP"
+
+msgid "auth_saml_idp_deactivated_auth_failed"
+msgstr "A hitelesítés sikertelen, az azonosítószolgáltatót deaktivált."
+
+msgid "auth_saml_idp_selection_table_desc"
+msgstr "Válassza ki azt az azonosítószolgáltatót, amellyel be kíván jelentkezni."
+
+msgid "auth_saml_idp_selection_table_title"
+msgstr "Azonosításszolgáltató kiválasztása"
+
+msgid "auth_saml_idp_settings"
+msgstr "IDP beállítások"
+
+msgid "auth_saml_idps"
+msgstr "SAML IDP lista"
+
+msgid "auth_saml_idps_info"
+msgstr "Ellenőrizze és módosítsa a SimpleSAMLphp konfigurációt itt ‘<strong>%s</strong>’ és itt ‘<strong>%s</strong>’ (külső adatmappa). Ne felejtse el privát kulcsának és tanúsítványának útvonalát hozzáadni az authsources.php fájlban. További információkért elolvashatja a leírást: %s.<br />Szövetségi Metaadat URL: %s"
+
+msgid "auth_saml_login_form"
+msgstr "Gomb a bejelentkezési oldalon"
+
+msgid "auth_saml_login_form_info"
+msgstr "Ha be van kapcsolva és van legalább egy aktív IDP, egy gomb jelenik meg a bejelentkezési oldalon. Egy kattintás erre gombra egy SAML kérést inicializál."
+
+msgid "auth_saml_migration"
+msgstr "Felhasználói fiókok migrálása:"
+
+msgid "auth_saml_migration_info"
+msgstr "Ennek az opciónak a bekapcsolásával az új felhasználók lehetőséget kapnak, hogy a már létező ILIAS-fiókjukat SAML hitelesítéssé migrálhassák."
+
+msgid "auth_saml_role_select"
+msgstr "Szerepkör:"
+
+msgid "auth_saml_sure_delete_idp"
+msgstr "Biztos, hogy törli a kiválasztott azonosításszolgáltatót? A művelet nem vonható vissza. Az érintett ILIAS-fiókokat átállítjuk alapértelmezett hitelesítési módra."
+
+msgid "auth_saml_sync"
+msgstr "Felhasználók szinkronizációja"
+
+msgid "auth_saml_sync_info"
+msgstr "Sikeres hitelesítés után automatikusan létrehozzuk az új ILIAS-fiókot, illetve módosítjuk a már meglévőt a felhasználói profil leképezési szabályainak alapján."
+
+msgid "auth_saml_uid_claim"
+msgstr "Felhasználói fiók egyezéséhez egyedi attribútum"
+
+msgid "auth_saml_uid_claim_info"
+msgstr "Ez meghatározza azt az ILIAS attribútumot, ami eldönti, hogy egy beérkező hitelesítési kérés megegyezik-e már létező ILIAS-fiókkal."
+
+msgid "auth_saml_unknow_idp"
+msgstr "Ilyen azonosításszolgáltatót nem létezik."
+
+msgid "auth_saml_update_field_info"
+msgstr "Automatikus frissítés"
+
+msgid "auth_saml_user_mapping"
+msgstr "Felhasználói profil leképezése"
+
+msgid "auth_saml_username_claim"
+msgstr "Felhasználónév attribútuma"
+
+msgid "auth_saml_username_claim_info"
+msgstr "Ez meghatározza azt az ILIAS attribútumot, ami alapján generáljuk az ILIAS-ban megjelenő a felhasználónevet."
+
+msgid "auth_sync"
+msgstr "Felhasználó szinkronizációja"
+
+msgid "destination_after_logout"
+msgstr "Kijelentkezés utáni cél"
+
+msgid "destination_external_ressource"
+msgstr "Külső erőforrás megjelenítése"
+
+msgid "destination_external_ressource_url"
+msgstr "Külső URL"
+
+msgid "destination_internal_ressource"
+msgstr "Belső erőforrás megjelenítése"
+
+msgid "destination_internal_ressource_ref_id"
+msgstr "Belsőhivatkozás-azonosító (ref_id)"
+
+msgid "destination_login_screen"
+msgstr "Bejelentkezési képernyő megjelenítése"
+
+msgid "destination_login_screen_info"
+msgstr "Ellenőrizze, hogy például egy SSO nem jelentkezteti rögtön vissza."
+
+msgid "destination_logout_screen"
+msgstr "Kijelentkezési képernyő megjelenítése"
+
+msgid "err_auth_ldap_failed"
+msgstr "A hitelesítés sikertelen. Kérem, keresse az ILIAS-üzemeltetőt."
+
+msgid "err_auth_saml_failed"
+msgstr "Hitelesítés sikertelen. Vegye fel a kapcsolatot a rendszergazdával."
+
+msgid "err_auth_saml_no_ilias_user"
+msgstr "Hitelesítés sikertelen. Vegye fel a kapcsolatot a rendszergazdával."
+
+msgid "language_does_not_exist"
+msgstr "A kiválasztott nyelv nem létezik."
+
+msgid "login_page"
+msgstr "Bejelentkezési oldal nyelve."
+
+msgid "login_pages"
+msgstr "Bejelentkezési oldalak"
+
+msgid "logout_behaviour"
+msgstr "Kijelentkezési viselkedés"
+
+msgid "logout_behaviour_invalid_ref_id"
+msgstr "Győződjön meg arról, hogy a belső erőforrás_id (ref_id) létezik és nincs a lomtárban"
+
+msgid "logout_behaviour_invalid_url"
+msgstr "A megadott külső erőforrás nem érvényes URL."
+
+msgid "logout_behaviour_ref_id_no_access"
+msgstr "Ellenőrizzem hogy az ‘Anonymous’ felhasználó hozzáfér a megadott erőforráshoz."
+
+msgid "logout_behaviour_ref_id_valid_status_changed"
+msgstr "A megadott erőforrás már nem érvényes. Amennyiben az erőforrást törölték vagy az ‘Anonymous’ hozzáférését megvonták, adjon meg egy új, érvényes belső erőforrást. Érvényes beállítás hiányában, a felhasználót a kijelentkezési képernőre irányítjuk."
+
+msgid "logout_behaviour_settings"
+msgstr "Kijelentkezési viselkedés beállításai"
+
+msgid "logout_editor"
+msgstr "Kijelentkezési oldal szerkesztése"
+
+msgid "logout_page"
+msgstr "Kijelentkezési oldal nyelve"
+
+msgid "logout_pages"
+msgstr "Kijelentkezési oldalak"
+
+msgid "lti_consumer_inactive"
+msgstr "LTI-eszközfogyasztó ki van kapcsolva."
+
+msgid "page_design_activate"
+msgstr "Bekapcsolás"
+
+msgid "page_design_deactivate"
+msgstr "Kikapcsolás"
+
+msgid "saml_tab_head_idp"
+msgstr "IDP"
