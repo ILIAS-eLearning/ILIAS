@@ -1,0 +1,4063 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: content\n"
+
+msgid "Pages"
+msgstr "页"
+
+msgid "add_menu_entry"
+msgstr "添加菜单项 >>"
+
+msgid "all_pages"
+msgstr "全部学习模块"
+
+msgid "citate"
+msgstr "Citate"
+
+msgid "citate_from"
+msgstr "Citate From ..."
+
+msgid "citate_page"
+msgstr "Citate this Page"
+
+msgid "citate_to"
+msgstr "Citate To ..."
+
+msgid "cont_Additional"
+msgstr "附加的"
+
+msgid "cont_AdvancedKnowledge"
+msgstr "进阶知识"
+
+#, fuzzy
+msgid "cont_Attention"
+msgstr "Attention"
+
+#, fuzzy
+msgid "cont_Background"
+msgstr "Background"
+
+msgid "cont_Block"
+msgstr "块"
+
+#, fuzzy
+msgid "cont_Book"
+msgstr "Book"
+
+msgid "cont_Circle"
+msgstr "圈子"
+
+msgid "cont_Citation"
+msgstr "引用"
+
+#, fuzzy
+msgid "cont_Confirmation"
+msgstr "Confirmation"
+
+msgid "cont_Example"
+msgstr "例子"
+
+msgid "cont_Excursus"
+msgstr "附记"
+
+msgid "cont_FileListItem"
+msgstr "文件列表项(标准)"
+
+msgid "cont_Headline1"
+msgstr "标题　１"
+
+msgid "cont_Headline2"
+msgstr "标题　２"
+
+msgid "cont_Headline3"
+msgstr "标题　３"
+
+#, fuzzy
+msgid "cont_Information"
+msgstr "Information"
+
+#, fuzzy
+msgid "cont_Interaction"
+msgstr "Interaction"
+
+msgid "cont_List"
+msgstr "列表"
+
+#, fuzzy
+msgid "cont_Literature"
+msgstr "Literature"
+
+msgid "cont_Mnemonic"
+msgstr "助记符"
+
+#, fuzzy
+msgid "cont_Numbers"
+msgstr "Numbers"
+
+msgid "cont_Poly"
+msgstr " 多边形"
+
+msgid "cont_Rect"
+msgstr "长方形"
+
+msgid "cont_Remark"
+msgstr "注释"
+
+#, fuzzy
+msgid "cont_Separator"
+msgstr "Separator"
+
+msgid "cont_Special"
+msgstr "Special"
+
+#, fuzzy
+msgid "cont_StandardCenter"
+msgstr "Standard Center"
+
+msgid "cont_StandardTable"
+msgstr "标准表"
+
+msgid "cont_TableContent"
+msgstr "表格内容"
+
+#, fuzzy
+msgid "cont_Verse"
+msgstr "Verse/Stanza"
+
+msgid "cont_WholePicture"
+msgstr "整张图片"
+
+msgid "cont_accented"
+msgstr "重音"
+
+msgid "cont_act_number"
+msgstr "章节编号"
+
+msgid "cont_activate_html"
+msgstr "激活 HTML 渲染"
+
+msgid "cont_activate_js"
+msgstr "激活 Javascript 模式"
+
+msgid "cont_activate_media"
+msgstr "激活媒体"
+
+msgid "cont_activate_page"
+msgstr "激活页面"
+
+msgid "cont_activated"
+msgstr "已激活"
+
+msgid "cont_activation"
+msgstr "激活"
+
+msgid "cont_active"
+msgstr "启用菜单"
+
+msgid "cont_active_areas"
+msgstr "触发器"
+
+#, fuzzy
+msgid "cont_active_from"
+msgstr "Activation Start"
+
+#, fuzzy
+msgid "cont_active_to"
+msgstr "Activation End"
+
+msgid "cont_add_area"
+msgstr "增加区域"
+
+#, fuzzy
+msgid "cont_add_cell"
+msgstr "Add Column"
+
+msgid "cont_add_elements"
+msgstr "点击点位符去添加新元素。"
+
+msgid "cont_add_file"
+msgstr "添加文件"
+
+msgid "cont_add_images"
+msgstr "添加图片"
+
+msgid "cont_add_popup"
+msgstr "添加弹出菜单"
+
+msgid "cont_add_tab"
+msgstr "添加选项卡"
+
+#, fuzzy
+msgid "cont_add_url"
+msgstr "Enter URL"
+
+#, fuzzy
+msgid "cont_added_cell"
+msgstr "Column added"
+
+msgid "cont_added_comment"
+msgstr "评论已经被添加到历史。"
+
+msgid "cont_added_tab"
+msgstr "选项卡已创建"
+
+msgid "cont_added_term"
+msgstr "术语已增加"
+
+msgid "cont_adjust_size"
+msgstr "调整大小"
+
+#, fuzzy
+msgid "cont_advanced_settings"
+msgstr "Advanced Settings"
+
+msgid "cont_align"
+msgstr "对准"
+
+msgid "cont_alignment"
+msgstr "对齐"
+
+msgid "cont_all_answers_correct"
+msgstr "所有的答案正确"
+
+msgid "cont_all_closed"
+msgstr "已全部关闭"
+
+#, fuzzy
+msgid "cont_all_languages"
+msgstr "All Languages"
+
+msgid "cont_all_pages"
+msgstr "所有页面"
+
+msgid "cont_all_topics"
+msgstr "所有主题"
+
+msgid "cont_all_usages"
+msgstr "包括的历史"
+
+msgid "cont_alphabetic"
+msgstr "拼音 A, B, ..."
+
+msgid "cont_alphabetic_s"
+msgstr "拼音 a, b, ..."
+
+msgid "cont_always"
+msgstr "总是"
+
+msgid "cont_anchor"
+msgstr "锚点"
+
+msgid "cont_annex"
+msgstr "附件"
+
+msgid "cont_anonymous_user_missing_perm"
+msgstr "匿名用户当前没有权限访问这个学习模块。"
+
+msgid "cont_areas_deleted"
+msgstr "映射区域已删除。"
+
+msgid "cont_assign_characteristic"
+msgstr "Assign Characteristic"
+
+msgid "cont_assign_full"
+msgstr "指定全屏"
+
+msgid "cont_assign_std"
+msgstr "指定标准"
+
+#, fuzzy
+msgid "cont_assign_to_parent"
+msgstr "Assign to Parent"
+
+#, fuzzy
+msgid "cont_auto_glossaries"
+msgstr "Auto-Linked Glossaries"
+
+msgid "cont_auto_last_visited"
+msgstr "加载最后访问的章(SCO/Asset)"
+
+msgid "cont_auto_last_visited_info"
+msgstr "当学习者重新进入学习模块时，打开上次访问的SCO/Asset。"
+
+#, fuzzy
+msgid "cont_auto_suspend"
+msgstr "Ensure getting tracking data from previous attempts"
+
+#, fuzzy
+msgid "cont_auto_suspend_info"
+msgstr "This option is for SCORM learning modules, which support SCORM 2004 in an inadequate way by not sending proper values for cmi.exit."
+
+#, fuzzy
+msgid "cont_auto_time"
+msgstr "Auto Animation Waiting Time"
+
+msgid "cont_autoindent"
+msgstr "自动缩进"
+
+#, fuzzy
+msgid "cont_automatically_set_store_tries"
+msgstr "Option \"$1\" has been activated automatically, because option \"$2\" has been enabled."
+
+msgid "cont_autostart"
+msgstr "自动启动"
+
+msgid "cont_back"
+msgstr "返回"
+
+msgid "cont_base_image"
+msgstr "基础图像"
+
+msgid "cont_bb_tip"
+msgstr "提示：风格能快速应用到选定的文本。"
+
+msgid "cont_behavior"
+msgstr "行为"
+
+#, fuzzy
+msgid "cont_biblio"
+msgstr "Bibliographical Data"
+
+#, fuzzy
+msgid "cont_biblio_info"
+msgstr "Enables the bibliographical data feature"
+
+msgid "cont_blist"
+msgstr "Bullet 列表"
+
+#, fuzzy
+msgid "cont_block_format"
+msgstr "Section Format"
+
+#, fuzzy
+msgid "cont_blocked_users"
+msgstr "Blocked Users"
+
+#, fuzzy
+msgid "cont_blocked_users_mail_link"
+msgstr "Click on the following link to open the learning module:"
+
+msgid "cont_bottom"
+msgstr "底部"
+
+msgid "cont_bullet_list"
+msgstr "Bullet 列表"
+
+#, fuzzy
+msgid "cont_cach_mode"
+msgstr "Mode"
+
+#, fuzzy
+msgid "cont_cach_mode_automatic"
+msgstr "Automatic"
+
+#, fuzzy
+msgid "cont_cach_mode_automatic_info"
+msgstr "All your consultation hours will be published."
+
+#, fuzzy
+msgid "cont_cach_mode_manual"
+msgstr "Manual"
+
+#, fuzzy
+msgid "cont_cach_mode_manual_info"
+msgstr "Only the consultation hours of the following groups will be published."
+
+msgid "cont_cant_copy_folders"
+msgstr "文件夹不能被复制到剪贴板。"
+
+msgid "cont_cant_del_full"
+msgstr "不能删除全屏幕文件。"
+
+msgid "cont_cant_del_std"
+msgstr "不能删除标准视图文件。"
+
+msgid "cont_caption"
+msgstr "标题"
+
+#, fuzzy
+msgid "cont_caption_style"
+msgstr "Caption Style Class"
+
+msgid "cont_cc_emp"
+msgstr "着重"
+
+msgid "cont_cc_imp"
+msgstr "重要"
+
+msgid "cont_cc_str"
+msgstr "粗体"
+
+#, fuzzy
+msgid "cont_cc_sub"
+msgstr "Subscript"
+
+#, fuzzy
+msgid "cont_cc_sup"
+msgstr "Superscript"
+
+#, fuzzy
+msgid "cont_cell_properties"
+msgstr "Table Cell Properties"
+
+msgid "cont_center"
+msgstr "中心"
+
+#, fuzzy
+msgid "cont_change_alignment"
+msgstr "Change Alignment"
+
+#, fuzzy
+msgid "cont_change_notification_salutation"
+msgstr "Hello %s,"
+
+#, fuzzy
+msgid "cont_change_notification_subject_lm"
+msgstr "Learning Module \"%1$s\" has been changed: %2$s"
+
+msgid "cont_change_object_reference"
+msgstr "改变对象引用"
+
+#, fuzzy
+msgid "cont_change_style"
+msgstr "Change Style"
+
+msgid "cont_change_type"
+msgstr "更改类型"
+
+#, fuzzy
+msgid "cont_change_width"
+msgstr "Change Width"
+
+msgid "cont_chap_and_pages"
+msgstr "章与页"
+
+msgid "cont_chap_select_target_now"
+msgstr "章已标记为移出。现在选择目标。"
+
+msgid "cont_chapters"
+msgstr "章"
+
+msgid "cont_chapters_after_pages"
+msgstr "请注意，页面必须优先于同级的所有子章节。"
+
+msgid "cont_chapters_and_pages"
+msgstr "章节和页面"
+
+msgid "cont_chapters_only"
+msgstr "仅章节"
+
+msgid "cont_char_format"
+msgstr "字符"
+
+#, fuzzy
+msgid "cont_char_link"
+msgstr "Link"
+
+#, fuzzy
+msgid "cont_char_media"
+msgstr "Media (Standard)"
+
+msgid "cont_char_style_acc"
+msgstr "被强调的"
+
+msgid "cont_char_style_code"
+msgstr "代码"
+
+msgid "cont_char_style_com"
+msgstr "评论"
+
+msgid "cont_char_style_quot"
+msgstr "配额"
+
+msgid "cont_characteristic"
+msgstr "特性"
+
+#, fuzzy
+msgid "cont_characteristic_table"
+msgstr "Style Class"
+
+msgid "cont_check_values"
+msgstr "检查通过SCO发送的值"
+
+#, fuzzy
+msgid "cont_check_values_info"
+msgstr "The Test Tool will check whether the values sent from the SCOs adhere to the SCORM standard. <br /> The SCORM Standard is very demanding concerning the saving of values. Not all learning modules meet the requirements of the standard. This Options allows checking if the module adheres to the Standard or not. Do not check this option if you just want to check if ILIAS can run this module or not."
+
+msgid "cont_choose_characteristic"
+msgstr "选择特征"
+
+msgid "cont_choose_characteristic_section"
+msgstr "Sections(部分)"
+
+msgid "cont_choose_characteristic_text"
+msgstr "文本元素"
+
+#, fuzzy
+msgid "cont_choose_file_source"
+msgstr "Source"
+
+#, fuzzy
+msgid "cont_choose_from_clipboard"
+msgstr "Choose from Clipboard"
+
+#, fuzzy
+msgid "cont_choose_from_pool"
+msgstr "Select from Media Pool"
+
+#, fuzzy
+msgid "cont_choose_glo"
+msgstr "Choose Glossary"
+
+#, fuzzy
+msgid "cont_choose_lm"
+msgstr "Choose Learning Module"
+
+#, fuzzy
+msgid "cont_choose_local"
+msgstr "Local directory"
+
+#, fuzzy
+msgid "cont_choose_media_pool"
+msgstr "Select Pool"
+
+#, fuzzy
+msgid "cont_choose_mep"
+msgstr "Choose Media Pool"
+
+msgid "cont_choose_pages_or_chapters_only"
+msgstr "请选择页面或者章节。"
+
+#, fuzzy
+msgid "cont_choose_upload_dir"
+msgstr "Upload directory"
+
+#, fuzzy
+msgid "cont_choose_wiki"
+msgstr "Choose Wiki"
+
+msgid "cont_citation_selection_not_valid"
+msgstr "您的选择无效"
+
+msgid "cont_click_br_corner"
+msgstr "请点击目标区域右下角。"
+
+msgid "cont_click_center"
+msgstr "请点击目标区域中心。"
+
+msgid "cont_click_circle"
+msgstr "请点击目标区域圆周上一点。"
+
+#, fuzzy
+msgid "cont_click_edit"
+msgstr "<b>Click</b> on elements to <b>edit</b> its properties."
+
+#, fuzzy
+msgid "cont_click_multi_select"
+msgstr "<b>Click</b> on elements to <b>select</b> or deselect them."
+
+msgid "cont_click_next_or_save"
+msgstr "请点击多边形的下一点或保存此区域。（不必再次点击此多边形的起始点！）"
+
+msgid "cont_click_next_point"
+msgstr "请点击此多边形的下一点。"
+
+msgid "cont_click_starting_point"
+msgstr "请点击此多边形的起始点。"
+
+msgid "cont_click_tl_corner"
+msgstr "请点击目标区域的左上角。"
+
+#, fuzzy
+msgid "cont_code_import_file"
+msgstr "Import"
+
+#, fuzzy
+msgid "cont_code_manual_editing"
+msgstr "Manuelle Eingabe"
+
+msgid "cont_colspan"
+msgstr "Col. Span"
+
+#, fuzzy
+msgid "cont_commented_by"
+msgstr "Commented by"
+
+msgid "cont_comments"
+msgstr "启用评论存储"
+
+#, fuzzy
+msgid "cont_comments_info"
+msgstr "Some SCORM 2004 learning modules allow users providing comments within the module. This option allows saving those comments."
+
+msgid "cont_confirm_delete"
+msgstr "确认删除？"
+
+msgid "cont_constrain_proportions"
+msgstr "约束比例"
+
+msgid "cont_content"
+msgstr "内容"
+
+msgid "cont_content_popup"
+msgstr "内容弹出窗口"
+
+msgid "cont_content_popups"
+msgstr "内容弹出窗口"
+
+msgid "cont_coords"
+msgstr "坐标"
+
+msgid "cont_copy_question_from_pool"
+msgstr "从池从复制题目"
+
+msgid "cont_copy_question_into_page"
+msgstr "复制到页面"
+
+msgid "cont_copy_to_clipboard"
+msgstr "复制到剪贴板"
+
+msgid "cont_correct_after_first"
+msgstr "第一次尝试正确"
+
+msgid "cont_correct_answer_also"
+msgstr "同样正确的是："
+
+msgid "cont_correct_answers_also"
+msgstr "同样正确的是："
+
+msgid "cont_correct_answers_shown"
+msgstr "正确的答案已显示在上面。"
+
+msgid "cont_could_not_determine_resource_size"
+msgstr "ILIAS不能自动确定资源大小。"
+
+#, fuzzy
+msgid "cont_could_not_save_duplicate_pc_ids"
+msgstr "Page could not be saved (duplicate PC IDs)."
+
+msgid "cont_cp_question_diff_formats_info"
+msgstr "请注意，在内容模块中，有些格式不被支持。"
+
+msgid "cont_create_link"
+msgstr "创建链接"
+
+msgid "cont_create_mob"
+msgstr "创建媒体对象"
+
+msgid "cont_credits"
+msgstr "信用"
+
+msgid "cont_current_chapter"
+msgstr "当前章"
+
+#, fuzzy
+msgid "cont_current_lang"
+msgstr "Current Language"
+
+msgid "cont_current_page"
+msgstr "当前页"
+
+msgid "cont_current_style"
+msgstr "当前风格"
+
+msgid "cont_current_term"
+msgstr "当前学期(Current Term)"
+
+msgid "cont_current_usages"
+msgstr "当前用法"
+
+msgid "cont_current_version"
+msgstr "当前版本"
+
+msgid "cont_custom"
+msgstr "自定义"
+
+msgid "cont_custom_menu_entries"
+msgstr "定制菜单条目"
+
+msgid "cont_custom_size"
+msgstr "自定义大小"
+
+msgid "cont_dark"
+msgstr "黑暗"
+
+msgid "cont_data_from_lms"
+msgstr "adlcp来自于学习管理系统的数据"
+
+msgid "cont_de_activate"
+msgstr "激活/关闭"
+
+msgid "cont_deactivate_html"
+msgstr "关闭 HTML 渲染"
+
+msgid "cont_deactivate_js"
+msgstr "激活表单模式"
+
+msgid "cont_deactivate_media"
+msgstr "关闭媒体"
+
+msgid "cont_deactivate_page"
+msgstr "关闭页面"
+
+msgid "cont_deactivated"
+msgstr "已关闭"
+
+msgid "cont_debug"
+msgstr "显示调试菜单"
+
+msgid "cont_debug_deactivate"
+msgstr "提示:测试工具可对所有学习模块禁用。"
+
+#, fuzzy
+msgid "cont_debug_deactivate12"
+msgstr "A Test Tool will be displayed in the presentation mode of the learning module. Based on the data provided by it the interaction of the learning module and ILIAS can be evaluated."
+
+msgid "cont_debug_deactivated"
+msgstr "提示：测试工具已对所有学习模块禁用。"
+
+msgid "cont_debugging"
+msgstr "调试"
+
+msgid "cont_decimal"
+msgstr "十进制"
+
+#, fuzzy
+msgid "cont_def_feedb_activated"
+msgstr "Default feedback texts are currently activated in the learning module settings."
+
+#, fuzzy
+msgid "cont_def_feedb_deactivated"
+msgstr "Default feedback texts are currently deactivated in the learning module settings."
+
+msgid "cont_def_layout"
+msgstr "默认布局"
+
+msgid "cont_def_lesson_mode"
+msgstr "默认课程模式"
+
+msgid "cont_def_map_areas"
+msgstr "默认链接区域"
+
+msgid "cont_def_organization"
+msgstr "默认组织"
+
+msgid "cont_default"
+msgstr "默认"
+
+msgid "cont_definition"
+msgstr "定义"
+
+#, fuzzy
+msgid "cont_delete_content"
+msgstr "Delete Content"
+
+#, fuzzy
+msgid "cont_delete_file_item_confirm"
+msgstr "Do you really want to delete the selected file(s)?"
+
+msgid "cont_delete_selected"
+msgstr "删除"
+
+msgid "cont_delete_style"
+msgstr "删除样式"
+
+msgid "cont_delete_track_data"
+msgstr "删除跟踪数据"
+
+msgid "cont_dependencies"
+msgstr "依赖关系"
+
+msgid "cont_dir_created"
+msgstr "目录已创建"
+
+msgid "cont_dir_deleted"
+msgstr "目录已被删除。"
+
+msgid "cont_dir_file"
+msgstr "目录/文件"
+
+msgid "cont_dir_renamed"
+msgstr "目录已被重新命名"
+
+#, fuzzy
+msgid "cont_disable_def_feedback"
+msgstr "Disable Default Question Feedback"
+
+#, fuzzy
+msgid "cont_disable_def_feedback_info"
+msgstr "If disabled, answered questions will not show any feedback for the learner. You need to provide custom feedbacks for your questions."
+
+#, fuzzy
+msgid "cont_download"
+msgstr "Download"
+
+msgid "cont_download_title"
+msgstr "已下载的标题"
+
+msgid "cont_drag_and_drop_elements"
+msgstr "在占位符上拖放内容元素去移动元素。"
+
+msgid "cont_drag_element_click_save"
+msgstr "拖放元素到期望的位置。然后点击保存。"
+
+msgid "cont_ed_align_center"
+msgstr "中间对齐："
+
+msgid "cont_ed_align_left"
+msgstr "左对齐："
+
+msgid "cont_ed_align_left_float"
+msgstr "对齐：左浮动"
+
+msgid "cont_ed_align_right"
+msgstr "右对齐："
+
+msgid "cont_ed_align_right_float"
+msgstr "对齐：右浮动"
+
+msgid "cont_ed_atable"
+msgstr "高级表"
+
+#, fuzzy
+msgid "cont_ed_cell_left"
+msgstr "Move Left"
+
+#, fuzzy
+msgid "cont_ed_cell_right"
+msgstr "Move Right"
+
+msgid "cont_ed_class"
+msgstr "风格"
+
+#, fuzzy
+msgid "cont_ed_click_to_add_pg"
+msgstr "Click here to add content."
+
+msgid "cont_ed_col_left"
+msgstr "左移列"
+
+msgid "cont_ed_col_right"
+msgstr "右移列"
+
+msgid "cont_ed_copy"
+msgstr "复制"
+
+msgid "cont_ed_copy_clip"
+msgstr "复制到剪贴板"
+
+msgid "cont_ed_cut"
+msgstr "剪切"
+
+msgid "cont_ed_delete"
+msgstr "删除"
+
+#, fuzzy
+msgid "cont_ed_delete_cell"
+msgstr "Delete Column"
+
+msgid "cont_ed_delete_col"
+msgstr "删除列"
+
+msgid "cont_ed_delete_item"
+msgstr "删除项目"
+
+msgid "cont_ed_delete_row"
+msgstr "删除行"
+
+msgid "cont_ed_dtable"
+msgstr "数据表"
+
+msgid "cont_ed_edit"
+msgstr "编辑"
+
+msgid "cont_ed_edit_data"
+msgstr "编辑数据"
+
+msgid "cont_ed_edit_files"
+msgstr "编辑文件"
+
+msgid "cont_ed_edit_multiple"
+msgstr "编辑段落顺序"
+
+msgid "cont_ed_edit_prop"
+msgstr "编辑属性"
+
+msgid "cont_ed_enable"
+msgstr "激活/关闭元素"
+
+msgid "cont_ed_flist"
+msgstr " 文件清单"
+
+msgid "cont_ed_go"
+msgstr "Go"
+
+#, fuzzy
+msgid "cont_ed_grid_col_width"
+msgstr "Column Width"
+
+#, fuzzy
+msgid "cont_ed_grid_col_width_info"
+msgstr "Column width can span multiple 1/12 units of the row and depend on the overall screen size. Devices are given as examples. Their screen size determines the concrete behaviour. 12/12 equals to 100% width."
+
+#, fuzzy
+msgid "cont_ed_grid_col_widths"
+msgstr "Column Widths"
+
+#, fuzzy
+msgid "cont_ed_insert_amdfrm"
+msgstr "Insert Advanced Metadata"
+
+#, fuzzy
+msgid "cont_ed_insert_amdpl"
+msgstr "Insert Page List"
+
+msgid "cont_ed_insert_blog"
+msgstr "插入博客"
+
+#, fuzzy
+msgid "cont_ed_insert_cach"
+msgstr "Insert Consultation Hours"
+
+#, fuzzy
+msgid "cont_ed_insert_dtab"
+msgstr "Insert Data Table"
+
+#, fuzzy
+msgid "cont_ed_insert_flst"
+msgstr "Insert File List"
+
+#, fuzzy
+msgid "cont_ed_insert_grid"
+msgstr "Insert Column Layout"
+
+#, fuzzy
+msgid "cont_ed_insert_grid_info"
+msgstr "Adds a responsive column layout based on a grid with 12 units per row."
+
+msgid "cont_ed_insert_iim"
+msgstr "插入交互图像"
+
+msgid "cont_ed_insert_incl"
+msgstr "插入的内容片段"
+
+#, fuzzy
+msgid "cont_ed_insert_lay"
+msgstr "Insert Layout Template"
+
+#, fuzzy
+msgid "cont_ed_insert_lhist"
+msgstr "Insert Learning History"
+
+msgid "cont_ed_insert_list"
+msgstr "插入列表"
+
+#, fuzzy
+msgid "cont_ed_insert_lpe"
+msgstr "Insert Login Page Element"
+
+msgid "cont_ed_insert_map"
+msgstr "插入地图"
+
+#, fuzzy
+msgid "cont_ed_insert_mcrs"
+msgstr "Insert My Courses"
+
+msgid "cont_ed_insert_media"
+msgstr "插入媒体"
+
+msgid "cont_ed_insert_par"
+msgstr "播放段落"
+
+msgid "cont_ed_insert_pcqst"
+msgstr "插入题目"
+
+msgid "cont_ed_insert_plach"
+msgstr "插入占位符"
+
+#, fuzzy
+msgid "cont_ed_insert_prof"
+msgstr "Insert Personal Data"
+
+msgid "cont_ed_insert_qover"
+msgstr "插入题目概况"
+
+msgid "cont_ed_insert_repobj"
+msgstr "插入资源列表"
+
+#, fuzzy
+msgid "cont_ed_insert_sec"
+msgstr "Insert Section"
+
+msgid "cont_ed_insert_skills"
+msgstr "插入技能"
+
+#, fuzzy
+msgid "cont_ed_insert_src"
+msgstr "Insert Code"
+
+#, fuzzy
+msgid "cont_ed_insert_tab"
+msgstr "Insert Advanced Table"
+
+msgid "cont_ed_insert_tabs"
+msgstr "插入制表符(Tabs)"
+
+#, fuzzy
+msgid "cont_ed_insert_templ"
+msgstr "Insert Content Template"
+
+#, fuzzy
+msgid "cont_ed_insert_vrfc"
+msgstr "Insert Certificate"
+
+msgid "cont_ed_item_down"
+msgstr "下移项目"
+
+msgid "cont_ed_item_up"
+msgstr "上移项目"
+
+msgid "cont_ed_list"
+msgstr " 高级列表"
+
+msgid "cont_ed_moveafter"
+msgstr "后移"
+
+msgid "cont_ed_movebefore"
+msgstr "前移"
+
+msgid "cont_ed_new_col_after"
+msgstr "新列后"
+
+msgid "cont_ed_new_col_before"
+msgstr "新列前"
+
+msgid "cont_ed_new_item_after"
+msgstr "新项目后"
+
+msgid "cont_ed_new_item_before"
+msgstr "新项目之前"
+
+msgid "cont_ed_new_row_after"
+msgstr "新行后"
+
+msgid "cont_ed_new_row_before"
+msgstr "新行之前"
+
+#, fuzzy
+msgid "cont_ed_nr_cols"
+msgstr "Number of Columns"
+
+#, fuzzy
+msgid "cont_ed_nr_rows"
+msgstr "Number of Rows"
+
+msgid "cont_ed_par"
+msgstr "文本"
+
+msgid "cont_ed_paste"
+msgstr "粘贴"
+
+msgid "cont_ed_paste_clip"
+msgstr "从剪贴板粘贴"
+
+msgid "cont_ed_pglprop"
+msgstr "页面布局属性"
+
+msgid "cont_ed_plachmedia"
+msgstr "占位符媒体"
+
+msgid "cont_ed_plachprop"
+msgstr "占位符属性"
+
+msgid "cont_ed_plachquestion"
+msgstr "占位符题目"
+
+msgid "cont_ed_plachtext"
+msgstr "占位符文本"
+
+#, fuzzy
+msgid "cont_ed_plachverification"
+msgstr "Placeholder Certificate"
+
+msgid "cont_ed_row_down"
+msgstr "行下移"
+
+msgid "cont_ed_row_up"
+msgstr "行上移"
+
+msgid "cont_ed_select_pctext"
+msgstr "选择文本项"
+
+msgid "cont_ed_split_page"
+msgstr "分页"
+
+msgid "cont_ed_split_page_next"
+msgstr "分到下一个页面"
+
+msgid "cont_ed_textitem"
+msgstr " 文本项"
+
+msgid "cont_ed_width"
+msgstr "宽度"
+
+msgid "cont_edit_base_image"
+msgstr "编辑基础镜像"
+
+#, fuzzy
+msgid "cont_edit_comp"
+msgstr "Editing"
+
+#, fuzzy
+msgid "cont_edit_definition"
+msgstr "Edit Definition"
+
+msgid "cont_edit_file_list_properties"
+msgstr "编辑文件列表属性"
+
+#, fuzzy
+msgid "cont_edit_language_version"
+msgstr "Edit Version"
+
+msgid "cont_edit_lrs_settings"
+msgstr "编辑设置"
+
+msgid "cont_edit_marker_position"
+msgstr "编辑标记位置"
+
+msgid "cont_edit_mob"
+msgstr "编辑媒体对象"
+
+msgid "cont_edit_mob_alias_prop"
+msgstr "编辑媒体对象即时属性"
+
+msgid "cont_edit_mode"
+msgstr "编辑模式"
+
+#, fuzzy
+msgid "cont_edit_multi"
+msgstr "Selection"
+
+msgid "cont_edit_overlay_position"
+msgstr "编辑叠加位置"
+
+msgid "cont_edit_par"
+msgstr "编辑段落"
+
+msgid "cont_edit_personal_data"
+msgstr "编辑个人数据"
+
+msgid "cont_edit_popup_position"
+msgstr "编辑弹出位置"
+
+msgid "cont_edit_qover"
+msgstr "编辑问题概述"
+
+msgid "cont_edit_shape_circle"
+msgstr "编辑形状(圆圈)"
+
+msgid "cont_edit_shape_polygon"
+msgstr "编辑形状(多边形)"
+
+msgid "cont_edit_shape_rectangle"
+msgstr "编辑形状(矩形)"
+
+msgid "cont_edit_shape_whole_picture"
+msgstr "编辑形状"
+
+msgid "cont_edit_src"
+msgstr "编辑源代码"
+
+msgid "cont_edit_style"
+msgstr "编辑风格"
+
+#, fuzzy
+msgid "cont_edit_table"
+msgstr "Edit Table"
+
+msgid "cont_edit_tabs"
+msgstr "属性"
+
+msgid "cont_edit_term"
+msgstr "编辑术语"
+
+#, fuzzy
+msgid "cont_edit_title"
+msgstr "Change Title"
+
+msgid "cont_element_refers_removed_itgr"
+msgstr "这个内容元素指向一个在此期间已被移除的项目(item)组。"
+
+msgid "cont_empty_question"
+msgstr "题目尚未编辑完成。请点击编辑或删除题目。"
+
+msgid "cont_enable_page_history"
+msgstr "页面历史"
+
+msgid "cont_enable_page_history_info"
+msgstr "储存更老版本的页面并允许回溯到更老版本。"
+
+msgid "cont_enable_time_scheduled_page_activation"
+msgstr "Time Scheduled Page Activation"
+
+msgid "cont_enable_time_scheduled_page_activation_info"
+msgstr "如果启用，在每个页面的学习模块编辑器中，一个活跃时间段(日期/时间)可以被选择。"
+
+msgid "cont_end"
+msgstr "结束"
+
+#, fuzzy
+msgid "cont_enough_answers_correct"
+msgstr "Correct, but not the best solution!"
+
+msgid "cont_enter_a_dir_name"
+msgstr "请输入目录名称"
+
+msgid "cont_enter_a_file"
+msgstr "请选择一个文件。"
+
+#, fuzzy
+msgid "cont_error"
+msgstr "An Error Occured"
+
+msgid "cont_exp_id_used_multiple"
+msgstr "导出ID已使用多次"
+
+msgid "cont_exp_ids_not_resp_format1"
+msgstr "导出ID可能仅使用以下字符"
+
+msgid "cont_exp_ids_not_resp_format2"
+msgstr "请检查并更正您输入的内容。"
+
+msgid "cont_exp_ids_not_resp_format3"
+msgstr "ID不能以数字打开。"
+
+msgid "cont_export_all"
+msgstr "导出所有"
+
+msgid "cont_export_id"
+msgstr "导出ID"
+
+msgid "cont_file"
+msgstr "文件"
+
+msgid "cont_file_created"
+msgstr "文件已创建"
+
+msgid "cont_file_deleted"
+msgstr "文件已被删除"
+
+msgid "cont_file_from_repository"
+msgstr "来自知识库的文件"
+
+msgid "cont_file_from_workspace"
+msgstr "来自我的工作工间的文件"
+
+msgid "cont_file_renamed"
+msgstr "文件已被重新命名"
+
+msgid "cont_file_unzipped"
+msgstr "文件已解压"
+
+msgid "cont_files"
+msgstr "文件"
+
+#, fuzzy
+msgid "cont_finish_editing"
+msgstr "Finish Editing"
+
+#, fuzzy
+msgid "cont_finish_table_editing"
+msgstr "Finish Data Table Editing"
+
+msgid "cont_first_open"
+msgstr "首先打开的"
+
+#, fuzzy
+msgid "cont_first_page"
+msgstr "First Page"
+
+msgid "cont_first_row_style"
+msgstr "第一行的风格"
+
+msgid "cont_fix_tree"
+msgstr "修复结构"
+
+msgid "cont_fix_tree_confirm"
+msgstr "请仅在这个学习模块的树形结构被损坏时再执行这个命令，例如，如果空白项发生在这个explorer视图中。"
+
+msgid "cont_fn"
+msgstr "脚注"
+
+msgid "cont_footer"
+msgstr "页脚"
+
+#, fuzzy
+msgid "cont_footnote"
+msgstr "Footnote"
+
+msgid "cont_force_all_open"
+msgstr "强制打开所有"
+
+msgid "cont_format"
+msgstr "格式；"
+
+#, fuzzy
+msgid "cont_format_cells"
+msgstr "Format Cells"
+
+#, fuzzy
+msgid "cont_fourth_edition"
+msgstr "SCORM 2004 4th edition"
+
+#, fuzzy
+msgid "cont_fourth_edition_info"
+msgstr "SCORM 2004 4th edition offers some advantages compared to the 3rd edition. Further data over SCO boundaries can be exchanged for example. These options are however rarely used and have a negative effect on the speed."
+
+msgid "cont_free_pages"
+msgstr "免费页"
+
+msgid "cont_full_is_in_dir"
+msgstr "不可能删除，全屏幕文件在目录中。"
+
+msgid "cont_fullscreen"
+msgstr "全屏"
+
+msgid "cont_general_properties"
+msgstr "一般属性"
+
+msgid "cont_get_link"
+msgstr "获取链接"
+
+msgid "cont_glo_assign"
+msgstr "指定词汇表"
+
+msgid "cont_glo_create"
+msgstr "创建词汇表"
+
+msgid "cont_glo_detach"
+msgstr "分离词汇表"
+
+msgid "cont_glo_properties"
+msgstr "词汇表属性"
+
+#, fuzzy
+msgid "cont_glossaries"
+msgstr "Glossaries"
+
+#, fuzzy
+msgid "cont_got_lock_release"
+msgstr "This page has been locked for your editing until %1. Please release the page after you have done all your changes."
+
+#, fuzzy
+msgid "cont_grid_cell"
+msgstr "Column"
+
+#, fuzzy
+msgid "cont_grid_cell_confirm_deletion"
+msgstr "Do you really want to delete the column(s)?"
+
+#, fuzzy
+msgid "cont_grid_nr_cells"
+msgstr "Number of Columns"
+
+#, fuzzy
+msgid "cont_grid_t_main_side"
+msgstr "Haupt- und Seitenblock"
+
+#, fuzzy
+msgid "cont_grid_t_main_side_info"
+msgstr "Legt einen breite Spalte links und eine schmalere Spalte rechts daneben an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout."
+
+#, fuzzy
+msgid "cont_grid_t_manual"
+msgstr "Manuell erstelltes Seitenlayout"
+
+#, fuzzy
+msgid "cont_grid_t_manual_info"
+msgstr "Ermöglicht die freie Gestaltung von Spaltenanzahl und -breiten."
+
+#, fuzzy
+msgid "cont_grid_t_three_column"
+msgstr "Drei-Spalten-Layout"
+
+#, fuzzy
+msgid "cont_grid_t_three_column_info"
+msgstr "Legt drei gleich breite Spalten nebeneinander an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout."
+
+#, fuzzy
+msgid "cont_grid_t_two_by_two"
+msgstr "Zwei-mal-zwei-Box"
+
+#, fuzzy
+msgid "cont_grid_t_two_by_two_info"
+msgstr "Legt zwei Zeilen mit zwei gleich breiten Spalten an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout und auf extrabreiten Bildschirmen (extra large) in ein Vier-Spalten-Layout."
+
+#, fuzzy
+msgid "cont_grid_t_two_column"
+msgstr "Zwei-Spalten-Layout"
+
+#, fuzzy
+msgid "cont_grid_t_two_column_info"
+msgstr "Legt zwei gleich breite Spalten nebeneinander an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout."
+
+#, fuzzy
+msgid "cont_grid_width_l"
+msgstr "Large"
+
+#, fuzzy
+msgid "cont_grid_width_l_info"
+msgstr "E.g. desktop"
+
+#, fuzzy
+msgid "cont_grid_width_m"
+msgstr "Medium"
+
+#, fuzzy
+msgid "cont_grid_width_m_info"
+msgstr "E.g. tablet"
+
+#, fuzzy
+msgid "cont_grid_width_s"
+msgstr "Small"
+
+#, fuzzy
+msgid "cont_grid_width_s_info"
+msgstr "E.g. smartphone"
+
+#, fuzzy
+msgid "cont_grid_width_xl"
+msgstr "Extra Large"
+
+#, fuzzy
+msgid "cont_grid_width_xl_info"
+msgstr "E.g. wide desktop"
+
+#, fuzzy
+msgid "cont_hacc_needs_height"
+msgstr "Please set a content height for horizontal accordions."
+
+#, fuzzy
+msgid "cont_hacc_needs_width"
+msgstr "Please set a content width for horizontal accordions."
+
+#, fuzzy
+msgid "cont_has_row_header"
+msgstr "Has a Header Row"
+
+msgid "cont_header"
+msgstr "Header"
+
+msgid "cont_height"
+msgstr "高"
+
+#, fuzzy
+msgid "cont_help_no_valid_tooltip_id"
+msgstr "The tooltip ID you have entered was not valid."
+
+msgid "cont_hide_adv"
+msgstr "隐藏进阶知识"
+
+#, fuzzy
+msgid "cont_hide_head_foot_print"
+msgstr "Hide custom header and footer in print view"
+
+msgid "cont_hidenavig"
+msgstr "隐藏左边导航树"
+
+#, fuzzy
+msgid "cont_hidenavig_info"
+msgstr "The left navigation tree can be hidden, if the SCORM Learning module contains sufficient functionality to navigate the content or the top navigation bar is displayed."
+
+msgid "cont_highlight_class"
+msgstr "Highlight Class"
+
+msgid "cont_highlight_mode"
+msgstr "高亮模式"
+
+msgid "cont_hover"
+msgstr "悬停"
+
+msgid "cont_href"
+msgstr "href"
+
+msgid "cont_html_export_ids"
+msgstr "HTML 导出ID"
+
+msgid "cont_html_export_ids_info"
+msgstr "当 HTML 导出完成时，允许为ILIAS学习模块维护额外的ID，用于命名 HTML 文件。"
+
+msgid "cont_html_table"
+msgstr "HTML Table"
+
+msgid "cont_id_ref"
+msgstr "identifierref"
+
+#, fuzzy
+msgid "cont_ie_compatibility"
+msgstr "Internet Explorer 7 compatibility mode"
+
+#, fuzzy
+msgid "cont_ie_compatibility_info"
+msgstr "Especially for older learning modules it can be helpful to activate the compatibility mode. Please note that the compatibility mode can be disabled in newer versions of Internet Explorer."
+
+#, fuzzy
+msgid "cont_ie_force_render"
+msgstr "Force Internet Explorer to render again"
+
+#, fuzzy
+msgid "cont_ie_force_render_info"
+msgstr "Enable this option only if content of the learning module is not displayed correctly with Internet Explorer due to many frames or iframes. Additionally you have to set the option 'Display' to 'in new window'."
+
+#, fuzzy
+msgid "cont_iim_add_overlay"
+msgstr "Add Overlay"
+
+#, fuzzy
+msgid "cont_iim_add_trigger"
+msgstr "Add Trigger"
+
+#, fuzzy
+msgid "cont_iim_add_trigger_text"
+msgstr "Please add a trigger. Afterwards edit size and position on the right screen."
+
+#, fuzzy
+msgid "cont_iim_background_image"
+msgstr "Background Image"
+
+#, fuzzy
+msgid "cont_iim_background_image_and_caption"
+msgstr "Background Image and Caption"
+
+#, fuzzy
+msgid "cont_iim_edit"
+msgstr "Edit Interactive Image"
+
+#, fuzzy
+msgid "cont_iim_edit_trigger"
+msgstr "Edit Trigger"
+
+#, fuzzy
+msgid "cont_iim_finish_editing"
+msgstr "Finish Editing Interactive Image"
+
+#, fuzzy
+msgid "cont_iim_horizontal"
+msgstr "Horizontal"
+
+#, fuzzy
+msgid "cont_iim_lg"
+msgstr "Large"
+
+#, fuzzy
+msgid "cont_iim_md"
+msgstr "Medium"
+
+#, fuzzy
+msgid "cont_iim_no_overlay"
+msgstr "No Overlay"
+
+#, fuzzy
+msgid "cont_iim_overview"
+msgstr "Overview"
+
+#, fuzzy
+msgid "cont_iim_select_overlay"
+msgstr "Select Overlay"
+
+#, fuzzy
+msgid "cont_iim_select_trigger"
+msgstr "To edit an existing trigger, click it on the right screen."
+
+#, fuzzy
+msgid "cont_iim_size"
+msgstr "Size"
+
+#, fuzzy
+msgid "cont_iim_sm"
+msgstr "Small"
+
+#, fuzzy
+msgid "cont_iim_tr_add_popup"
+msgstr "Add Content-Popup"
+
+#, fuzzy
+msgid "cont_iim_tr_properties_info"
+msgstr "The trigger will be presented on the right side. You may alter position and size using the mouse."
+
+#, fuzzy
+msgid "cont_iim_trigger"
+msgstr "Trigger"
+
+#, fuzzy
+msgid "cont_iim_vertical"
+msgstr "Vertical"
+
+msgid "cont_imagemap"
+msgstr "图象映像"
+
+#, fuzzy
+msgid "cont_import"
+msgstr "Import"
+
+msgid "cont_import_id"
+msgstr "标识"
+
+#, fuzzy
+msgid "cont_import_lang"
+msgstr "Target Language"
+
+msgid "cont_import_tracking"
+msgstr "导入跟踪数据"
+
+#, fuzzy
+msgid "cont_import_trans"
+msgstr "Import Translation"
+
+msgid "cont_import_validation_errors"
+msgstr "学习模块校验时发生了一些错误。学习模块的展现可是好的，但它可能包含错误，使得您不能编辑页面。"
+
+msgid "cont_initial_attached_content"
+msgstr "初始额外的内容"
+
+#, fuzzy
+msgid "cont_insert_amd_page_list"
+msgstr "Insert Page List"
+
+msgid "cont_insert_as_chapter"
+msgstr "作为章插入"
+
+msgid "cont_insert_as_subchapter"
+msgstr "作为子章节插入"
+
+msgid "cont_insert_blog"
+msgstr "添加博客"
+
+msgid "cont_insert_chapter"
+msgstr "插入章"
+
+msgid "cont_insert_chapter_from_clip"
+msgstr "从剪贴板插入章"
+
+#, fuzzy
+msgid "cont_insert_consultation_hours"
+msgstr "Insert Consultation Hours"
+
+msgid "cont_insert_file_item"
+msgstr "插入文件项"
+
+msgid "cont_insert_file_list"
+msgstr "插入文件列表"
+
+msgid "cont_insert_list"
+msgstr "插入列表"
+
+msgid "cont_insert_login_page"
+msgstr "添加登录页元素"
+
+msgid "cont_insert_map"
+msgstr "插入地图"
+
+msgid "cont_insert_mob"
+msgstr "插入媒体对象"
+
+#, fuzzy
+msgid "cont_insert_my_courses"
+msgstr "Insert My Courses"
+
+msgid "cont_insert_page"
+msgstr "插入页面"
+
+msgid "cont_insert_page_from_clip"
+msgstr "从剪贴板粘贴页"
+
+#, fuzzy
+msgid "cont_insert_pagelayout"
+msgstr "Insert Template Page"
+
+msgid "cont_insert_par"
+msgstr "插入段落"
+
+msgid "cont_insert_profile"
+msgstr "添加个人数据"
+
+msgid "cont_insert_resources"
+msgstr "插入资源列表"
+
+msgid "cont_insert_section"
+msgstr "插入段落"
+
+msgid "cont_insert_skills"
+msgstr "插入技能"
+
+msgid "cont_insert_src"
+msgstr "插入源代码"
+
+msgid "cont_insert_subchapter"
+msgstr "插入子章节"
+
+msgid "cont_insert_subchapter_from_clip"
+msgstr "从剪贴板粘贴子章节"
+
+msgid "cont_insert_table"
+msgstr "插入表格"
+
+msgid "cont_insert_verification"
+msgstr "添加验证"
+
+msgid "cont_inst_map_areas"
+msgstr "实例链接区域"
+
+msgid "cont_interactions"
+msgstr "启用交互结果的存储"
+
+#, fuzzy
+msgid "cont_interactions_info"
+msgstr "Typically results from interactions in learning modules are simply stored without being read / loaded again. If you ensured this is how your learning module operates, this option will improve performance."
+
+#, fuzzy
+msgid "cont_interactions_info_12"
+msgstr "Results from interactions in SCORM 1.2 learning modules are simply stored. This option will improve performance."
+
+msgid "cont_internal_link"
+msgstr "内部链接"
+
+msgid "cont_internal_links"
+msgstr "内部链接"
+
+msgid "cont_invalid_new_module"
+msgstr "不兼容模块！请确保imsmanifest。xml没被改变。"
+
+msgid "cont_is_visible"
+msgstr "可见"
+
+msgid "cont_item"
+msgstr "项"
+
+#, fuzzy
+msgid "cont_keyword"
+msgstr "Keyword"
+
+#, fuzzy
+msgid "cont_language"
+msgstr "Language"
+
+#, fuzzy
+msgid "cont_languages"
+msgstr "Languages"
+
+#, fuzzy
+msgid "cont_last_try"
+msgstr "Last Try"
+
+#, fuzzy
+msgid "cont_last_update"
+msgstr "Last Update"
+
+#, fuzzy
+msgid "cont_last_visited_page"
+msgstr "Last Visited Page"
+
+msgid "cont_latest_rev"
+msgstr "最新修订版"
+
+msgid "cont_layout"
+msgstr "布局"
+
+msgid "cont_layout_1window"
+msgstr "一窗口"
+
+msgid "cont_layout_1window_desc"
+msgstr "内容在主框架中。FAQ、词汇表和媒体链接在单独的窗口中打开。"
+
+msgid "cont_layout_2window"
+msgstr "两窗口"
+
+msgid "cont_layout_2window_desc"
+msgstr "内容在左边框架中。FAQ、词汇表和媒体链接在右框架中打开。"
+
+msgid "cont_layout_3window"
+msgstr "三窗口"
+
+msgid "cont_layout_3window_desc"
+msgstr "内容在左边框架中。FAQ和媒体链接在右上方框架中打开，词汇表链接在右下方框架中。"
+
+msgid "cont_layout_fullscreen"
+msgstr "全屏"
+
+msgid "cont_layout_fullscreen_desc"
+msgstr "内容在主框架中。FAQ、词汇表和媒体链接在单独的窗口中打开，没有ILIAS主菜单和导航条。"
+
+msgid "cont_layout_per_page"
+msgstr "每页布局"
+
+msgid "cont_layout_per_page_info"
+msgstr "允许为每个页面设置单独的总局。这也会自动激活“同步框架”设置。"
+
+msgid "cont_layout_presentation"
+msgstr "Presentation"
+
+msgid "cont_layout_presentation_desc"
+msgstr "内容在主框架中。FAQ、词汇表和媒体链接在单独的窗口中打开。没有ILIAS主菜单。"
+
+msgid "cont_layout_template"
+msgstr "布局模板"
+
+msgid "cont_layout_toc2win"
+msgstr "目录"
+
+msgid "cont_layout_toc2win_desc"
+msgstr "目录在左边、内容在右边的框架中。FAQ、词汇表和媒体链接在单独的窗口中打开。"
+
+msgid "cont_layout_toc2windyn"
+msgstr "动态目录"
+
+msgid "cont_layout_toc2windyn_desc"
+msgstr "目录在左边、内容在右边的框架中。FAQ、词汇表和媒体链接在右下方动态的打开一个框架。"
+
+msgid "cont_left"
+msgstr "左边"
+
+msgid "cont_left_float"
+msgstr "左边，浮动"
+
+#, fuzzy
+msgid "cont_license"
+msgstr "License"
+
+#, fuzzy
+msgid "cont_license_info"
+msgstr "Enables the license feature"
+
+msgid "cont_light"
+msgstr "亮"
+
+msgid "cont_link"
+msgstr "链接"
+
+msgid "cont_link_area"
+msgstr "链接区域"
+
+msgid "cont_link_ext"
+msgstr "链接（外部）"
+
+#, fuzzy
+msgid "cont_link_glo_in_lm"
+msgstr "Should all glossary terms be linked in the learning module now?"
+
+msgid "cont_link_int"
+msgstr "链接（内部）"
+
+msgid "cont_link_no"
+msgstr "没有链接"
+
+msgid "cont_link_select"
+msgstr "内部链接"
+
+msgid "cont_link_to_external"
+msgstr "链接到外部网站"
+
+msgid "cont_link_to_internal"
+msgstr "链接到ILIAS资源"
+
+msgid "cont_link_to_wiki"
+msgstr "链接到Wiki页面"
+
+msgid "cont_link_type"
+msgstr "链接类型"
+
+#, fuzzy
+msgid "cont_link_user"
+msgstr "User Profile"
+
+msgid "cont_linked_mobs"
+msgstr "已链接的媒体对象"
+
+msgid "cont_links"
+msgstr "链接"
+
+msgid "cont_list_files"
+msgstr "文件列表"
+
+msgid "cont_list_indent"
+msgstr "缩进列表"
+
+#, fuzzy
+msgid "cont_list_item_style"
+msgstr "List Item Style"
+
+msgid "cont_list_outdent"
+msgstr "突进列表"
+
+msgid "cont_list_properties"
+msgstr "列表属性"
+
+msgid "cont_lists"
+msgstr "列表"
+
+msgid "cont_lk_chapter"
+msgstr "章"
+
+msgid "cont_lk_chapter_new"
+msgstr "章（新框架）"
+
+msgid "cont_lk_file"
+msgstr "文件/文档"
+
+msgid "cont_lk_media_faq"
+msgstr "媒体（FAQ框架）"
+
+msgid "cont_lk_media_inline"
+msgstr "媒体（行内）"
+
+msgid "cont_lk_media_media"
+msgstr "媒体（媒体框架）"
+
+msgid "cont_lk_media_new"
+msgstr "媒体（新框架）"
+
+msgid "cont_lk_page"
+msgstr "页"
+
+msgid "cont_lk_page_faq"
+msgstr "页（FAQ框架）"
+
+msgid "cont_lk_page_new"
+msgstr "页（新框架）"
+
+msgid "cont_lk_term"
+msgstr "术语表中的术语"
+
+msgid "cont_lk_term_new"
+msgstr "术语表中的术语（新框架）"
+
+msgid "cont_lm_comments_desc"
+msgstr "允许用户在每个学习模块页面上共享评论"
+
+msgid "cont_lm_default_layout"
+msgstr "学习模块的默认布局"
+
+#, fuzzy
+msgid "cont_lm_mail_permanent_link"
+msgstr "Click on the following link to access the learning module:"
+
+msgid "cont_lm_menu"
+msgstr "菜单"
+
+msgid "cont_lm_properties"
+msgstr "学习模块属性"
+
+#, fuzzy
+msgid "cont_lm_starting_point"
+msgstr "Starting Point for ILIAS Learning Modules"
+
+#, fuzzy
+msgid "cont_lm_starting_point_info"
+msgstr "Page being opened when clicking a learning modules title."
+
+msgid "cont_localfile"
+msgstr "本地文件"
+
+msgid "cont_localization"
+msgstr "本地化"
+
+msgid "cont_localization_info"
+msgstr "用于预定义文本的语言，例如，“Previous”和“Next”。"
+
+msgid "cont_location"
+msgstr "位置"
+
+#, fuzzy
+msgid "cont_lpe_dpro_agreement_link"
+msgstr "Declaration of Data Protection Link"
+
+#, fuzzy
+msgid "cont_lpe_language_selection"
+msgstr "Language Selection"
+
+#, fuzzy
+msgid "cont_lpe_login_form"
+msgstr "Login Form"
+
+#, fuzzy
+msgid "cont_lpe_openid_connect_login"
+msgstr "OpenId Connect Login"
+
+#, fuzzy
+msgid "cont_lpe_openid_login_form"
+msgstr "OpenId Login Form"
+
+#, fuzzy
+msgid "cont_lpe_registration_link"
+msgstr "New Registration Link"
+
+#, fuzzy
+msgid "cont_lpe_saml_login"
+msgstr "SAML Login"
+
+#, fuzzy
+msgid "cont_lpe_shib_login_form"
+msgstr "Shibboleth Login Form"
+
+#, fuzzy
+msgid "cont_lpe_user_agreement_link"
+msgstr "User Agreement Link"
+
+msgid "cont_lrs_settings"
+msgstr "设置"
+
+msgid "cont_lvalue"
+msgstr "数据元素"
+
+msgid "cont_maintenance"
+msgstr "维护"
+
+msgid "cont_manifest"
+msgstr "声明"
+
+#, fuzzy
+msgid "cont_manual_item_group"
+msgstr "Manually Create Item Group"
+
+msgid "cont_map_file_not_generated"
+msgstr "对不起。不能生成地图文件并编辑它。"
+
+msgid "cont_marker"
+msgstr "标记"
+
+#, fuzzy
+msgid "cont_master_language_only"
+msgstr "Master Language for Translation"
+
+#, fuzzy
+msgid "cont_master_language_only_no_media"
+msgstr "Master Language without Media"
+
+msgid "cont_mastery_score"
+msgstr "adlcp：技能分数"
+
+#, fuzzy
+msgid "cont_mastery_score_12"
+msgstr "overwrite mastery_score"
+
+#, fuzzy
+msgid "cont_mastery_score_12_info"
+msgstr "If a SCO does not autonomously determines a status, a SCO is considered passed if the score reached at least a certain level - the mastery_score. This value can be overwritten here e.g. to reduce the requirement level. If the field is empty, the information in the SCORM manifest are valid. The following values are provided in the manifest-file:"
+
+#, fuzzy
+msgid "cont_mastery_score_2004"
+msgstr "overwrite scaled_passing_score"
+
+#, fuzzy
+msgid "cont_mastery_score_2004_info"
+msgstr "Central learning objectives of this learning module are considered as passed if the score reached at least a certain level - the scaled_passing_score. This value - to be stated as a percentage value - can be overwritten here e.g. to reduce the requirement level. If the field is empty, the information in the SCORM manifest are valid. The following values are provided in the manifest-file:"
+
+msgid "cont_max_time_allowed"
+msgstr "adlcp：允许的最长时间"
+
+#, fuzzy
+msgid "cont_media"
+msgstr "Images/Media"
+
+msgid "cont_media_placeh"
+msgstr "点击和编辑插入媒体"
+
+msgid "cont_media_placehl"
+msgstr "媒体占位符"
+
+msgid "cont_media_source"
+msgstr "媒体源"
+
+#, fuzzy
+msgid "cont_merge_cells"
+msgstr "Merge Cells"
+
+msgid "cont_missing_preconditions"
+msgstr "访问章节\"%s\"您需要满足以下先决条件。"
+
+msgid "cont_missing_snippet"
+msgstr "缺失内容片段。此片段已被删除。"
+
+msgid "cont_mob_def_prop"
+msgstr "默认属性"
+
+msgid "cont_mob_from_media_pool"
+msgstr "从媒体池中选择"
+
+msgid "cont_mob_inst_prop"
+msgstr "即时属性"
+
+msgid "cont_mob_usages"
+msgstr "用法"
+
+msgid "cont_more_character_styles"
+msgstr "...更多字符样式"
+
+msgid "cont_more_functions"
+msgstr "更多"
+
+#, fuzzy
+msgid "cont_moved_srt_files"
+msgstr "Moved subtitles files to media objects."
+
+#, fuzzy
+msgid "cont_multi_srt_files"
+msgstr "SRT Files"
+
+#, fuzzy
+msgid "cont_mycourses_sortorder"
+msgstr "Default Sorting"
+
+#, fuzzy
+msgid "cont_mycourses_sortorder_alphabetical"
+msgstr "Alphabetical"
+
+#, fuzzy
+msgid "cont_mycourses_sortorder_info"
+msgstr "This is a default setting. Every user can choose a personal order which affects all \"My Courses\"-elements of any portfolio."
+
+#, fuzzy
+msgid "cont_mycourses_sortorder_location"
+msgstr "By Location"
+
+msgid "cont_name"
+msgstr "名字"
+
+msgid "cont_never"
+msgstr "从不"
+
+msgid "cont_new_area"
+msgstr "新链接区域"
+
+msgid "cont_new_chap"
+msgstr "新章"
+
+msgid "cont_new_dir"
+msgstr "新目录"
+
+msgid "cont_new_file"
+msgstr "新文件"
+
+msgid "cont_new_marker"
+msgstr "新标记"
+
+msgid "cont_new_mob"
+msgstr "新媒体对象"
+
+msgid "cont_new_module_added"
+msgstr "新版本的模块上传成功"
+
+msgid "cont_new_page"
+msgstr "新页面"
+
+msgid "cont_new_popup"
+msgstr "新弹出窗口"
+
+msgid "cont_new_question"
+msgstr "新题目"
+
+msgid "cont_new_tab"
+msgstr "新选项卡"
+
+msgid "cont_new_term"
+msgstr "新术语"
+
+msgid "cont_new_trigger_area"
+msgstr "新的触发器区域"
+
+msgid "cont_next_rev"
+msgstr "下一修订版"
+
+msgid "cont_nlist"
+msgstr "已编号列表"
+
+msgid "cont_no_access"
+msgstr "没有访问"
+
+#, fuzzy
+msgid "cont_no_block"
+msgstr "No Section"
+
+msgid "cont_no_caption"
+msgstr "No Caption(无字幕)"
+
+msgid "cont_no_glossary"
+msgstr "无词汇表"
+
+msgid "cont_no_manifest"
+msgstr "主目录中没有imsmanifest.xml文件。"
+
+msgid "cont_no_page"
+msgstr "未找到页"
+
+#, fuzzy
+msgid "cont_no_page_access_unansw_q"
+msgstr "You need to answer all questions of previous pages correctly to gain access to this page."
+
+msgid "cont_no_page_in_chapter"
+msgstr "对不起，目前在本章节中还有未激活的内容。"
+
+msgid "cont_no_parameters"
+msgstr "没有参数"
+
+#, fuzzy
+msgid "cont_no_read"
+msgstr "No read permission"
+
+msgid "cont_no_subdir_in_zip"
+msgstr "Zip命令失败或导入无效。<br>它没有包含子文件夹'%s'。"
+
+msgid "cont_no_text"
+msgstr "没有正文。"
+
+msgid "cont_nomenu"
+msgstr "禁用顶部导航条"
+
+#, fuzzy
+msgid "cont_nomenu_info"
+msgstr "The Top Navigation Bar can be hidden, if the SCORM Learning module contains sufficient functionality to suspend, finish and navigate the content."
+
+msgid "cont_none"
+msgstr "无"
+
+#, fuzzy
+msgid "cont_not_saved_edit_lock_expired"
+msgstr "Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard."
+
+#, fuzzy
+msgid "cont_notification_activate_lm"
+msgstr "Activate Notification for Learning Module"
+
+#, fuzzy
+msgid "cont_notification_activate_page"
+msgstr "Activate Notification for Page"
+
+#, fuzzy
+msgid "cont_notification_activated"
+msgstr "Notification Activated (Whole LM)"
+
+#, fuzzy
+msgid "cont_notification_comment_lm"
+msgstr "the following Learning Module Page has been commented"
+
+#, fuzzy
+msgid "cont_notification_comment_subject_lm"
+msgstr "A comment was added to %s: %s"
+
+#, fuzzy
+msgid "cont_notification_deactivate_lm"
+msgstr "Deactivate Notification for Learning Module"
+
+#, fuzzy
+msgid "cont_notification_deactivate_page"
+msgstr "Deactivate Notification for Page"
+
+#, fuzzy
+msgid "cont_notification_deactivated"
+msgstr "Notification Deactivated"
+
+#, fuzzy
+msgid "cont_notification_update_lm"
+msgstr "the following Learning Module has been updated"
+
+#, fuzzy
+msgid "cont_notify_on_blocked_users"
+msgstr "Notifications on Blocked Users"
+
+#, fuzzy
+msgid "cont_notify_on_blocked_users_info"
+msgstr "You will be notified if users are blocked when they run out of tries."
+
+msgid "cont_nr_col_footer"
+msgstr "页脚列"
+
+msgid "cont_nr_col_header"
+msgstr "页眉列"
+
+msgid "cont_nr_cols"
+msgstr "列数"
+
+msgid "cont_nr_items"
+msgstr "项数"
+
+msgid "cont_nr_of_tries_exceeded"
+msgstr "超出重试次数"
+
+msgid "cont_nr_row_footer"
+msgstr "页脚行"
+
+msgid "cont_nr_row_header"
+msgstr "页眉行"
+
+msgid "cont_nr_rows"
+msgstr "行数"
+
+msgid "cont_number_of_tabs"
+msgstr "选项卡数目"
+
+msgid "cont_number_std"
+msgstr "标准"
+
+msgid "cont_number_type"
+msgstr "数字类型"
+
+msgid "cont_numbered_list"
+msgstr "编号的列表"
+
+msgid "cont_obj_removed"
+msgstr "对象已删除。"
+
+msgid "cont_objectives"
+msgstr "启用有关学习目标数据的存储"
+
+#, fuzzy
+msgid "cont_objectives_info"
+msgstr "If you ensured that this learning module runs properly, this option improves performance."
+
+msgid "cont_online"
+msgstr "在线"
+
+msgid "cont_online_help_ids"
+msgstr "帮助IDs"
+
+#, fuzzy
+msgid "cont_online_info"
+msgstr "Set the SCORM learning module online to make it visible and available for users. If not, only users with 'Edit'-permission will have access to it."
+
+msgid "cont_open"
+msgstr "D显示"
+
+#, fuzzy
+msgid "cont_open_clipboard"
+msgstr "Open Clipboard"
+
+#, fuzzy
+msgid "cont_open_iframe"
+msgstr "Opens in the same window, the ILIAS main menue is displayed"
+
+#, fuzzy
+msgid "cont_open_iframe_info"
+msgstr "The learning module starts in the same window (iFrame) next to the ILIAS main menu."
+
+msgid "cont_open_normal"
+msgstr "in tab / new window with link"
+
+#, fuzzy
+msgid "cont_open_normal_info"
+msgstr "The learning module starts in a new tab or alternatively in a new window without the ILIAS main menu."
+
+#, fuzzy
+msgid "cont_open_window"
+msgstr "Definitely opens in a new window, without ILIAS main menue"
+
+#, fuzzy
+msgid "cont_open_window_info"
+msgstr "The learning module must start in a new window without the ILIAS main menu."
+
+msgid "cont_operation_not_allowed"
+msgstr "这个操作是不允许的。"
+
+msgid "cont_organization"
+msgstr "组织"
+
+msgid "cont_organizations"
+msgstr "组织"
+
+msgid "cont_orig_size"
+msgstr "原始大小"
+
+#, fuzzy
+msgid "cont_other_resources"
+msgstr "Content (Other Remaining Resources)"
+
+#, fuzzy
+msgid "cont_out_of_focus_message"
+msgstr "This page is not related to your current learning objective anymore."
+
+#, fuzzy
+msgid "cont_out_of_focus_message_last_page"
+msgstr "This is the last page of the content related to your current learning objective."
+
+msgid "cont_ov_all_correct"
+msgstr "您正确的回答了所有题目。"
+
+#, fuzzy
+msgid "cont_ov_preview"
+msgstr "The question overview does not work in the page editor context. Use the SCO or SCORM level preview instead."
+
+msgid "cont_ov_some_correct"
+msgstr "您正确的答出了题目[y]的答案[x]。"
+
+msgid "cont_ov_wrong_answered"
+msgstr "以下题目没有回答或回答错误。"
+
+msgid "cont_overlay_image"
+msgstr "叠加图像"
+
+msgid "cont_overlay_images"
+msgstr "叠加图像"
+
+msgid "cont_overlays_have_been_deleted"
+msgstr "覆盖内容已被删除"
+
+msgid "cont_page_activation"
+msgstr "页面激活"
+
+msgid "cont_page_activation_on"
+msgstr "内容将在 %s 被激活。"
+
+msgid "cont_page_compare"
+msgstr "比较选定的修正版"
+
+#, fuzzy
+msgid "cont_page_created"
+msgstr "Page created"
+
+msgid "cont_page_currently_deactivated"
+msgstr "对不起，该页面当前已停用。"
+
+msgid "cont_page_deactivated"
+msgstr "页面已停用。"
+
+msgid "cont_page_deactivated_elements"
+msgstr "页面包含已停用元素。"
+
+msgid "cont_page_header"
+msgstr "页眉"
+
+msgid "cont_page_layout"
+msgstr "页面布局"
+
+#, fuzzy
+msgid "cont_page_lock_released"
+msgstr "Editing finished. Page lock has been released."
+
+#, fuzzy
+msgid "cont_page_notification_activated"
+msgstr "Notification Activated (Single Page)"
+
+#, fuzzy
+msgid "cont_page_template"
+msgstr "Page Template"
+
+msgid "cont_page_toc"
+msgstr "页面概览"
+
+#, fuzzy
+msgid "cont_page_translation_does_not_exist"
+msgstr "The translation page does not exist yet and will be created"
+
+#, fuzzy
+msgid "cont_page_usage"
+msgstr "Page Usage"
+
+msgid "cont_pages"
+msgstr "页"
+
+msgid "cont_pages_and_subchapters"
+msgstr "子章节和页面"
+
+msgid "cont_par_format"
+msgstr "段落"
+
+msgid "cont_paragraph_styles"
+msgstr "段落样式"
+
+msgid "cont_parameter"
+msgstr "参数"
+
+msgid "cont_parameters"
+msgstr "参数"
+
+msgid "cont_paste_from_clipboard"
+msgstr "从剪贴板粘贴"
+
+#, fuzzy
+msgid "cont_paste_from_spreadsheet"
+msgstr "Paste From Spreadsheet"
+
+msgid "cont_paste_table"
+msgstr "粘贴表"
+
+#, fuzzy
+msgid "cont_pc_amdpl"
+msgstr "Page List"
+
+msgid "cont_pc_blog"
+msgstr "博客"
+
+#, fuzzy
+msgid "cont_pc_carousel"
+msgstr "Carousel"
+
+msgid "cont_pc_code"
+msgstr "代码"
+
+msgid "cont_pc_deleted"
+msgstr "已删除内容"
+
+msgid "cont_pc_dtab"
+msgstr "数据表"
+
+msgid "cont_pc_flist"
+msgstr "文件清单"
+
+#, fuzzy
+msgid "cont_pc_grid"
+msgstr "Column Layout"
+
+msgid "cont_pc_hacc"
+msgstr "折叠 (水平)"
+
+msgid "cont_pc_iim"
+msgstr "交互图像"
+
+msgid "cont_pc_incl"
+msgstr "内容片断"
+
+#, fuzzy
+msgid "cont_pc_lay"
+msgstr "Layout Template"
+
+msgid "cont_pc_list"
+msgstr "高级列表"
+
+msgid "cont_pc_map"
+msgstr "地图"
+
+#, fuzzy
+msgid "cont_pc_media"
+msgstr "Image/Media"
+
+msgid "cont_pc_mob"
+msgstr "媒体"
+
+msgid "cont_pc_modified"
+msgstr "已修改内容"
+
+msgid "cont_pc_new"
+msgstr "新内容"
+
+msgid "cont_pc_par"
+msgstr "文本"
+
+#, fuzzy
+msgid "cont_pc_plach"
+msgstr "Placeholder"
+
+msgid "cont_pc_prof"
+msgstr "个人数据"
+
+msgid "cont_pc_qover"
+msgstr "题目概况"
+
+msgid "cont_pc_qst"
+msgstr "题目"
+
+#, fuzzy
+msgid "cont_pc_repobj"
+msgstr "Item Group"
+
+msgid "cont_pc_res"
+msgstr "资源"
+
+msgid "cont_pc_sec"
+msgstr "段落"
+
+msgid "cont_pc_skills"
+msgstr "技能"
+
+#, fuzzy
+msgid "cont_pc_src"
+msgstr "Source Code"
+
+msgid "cont_pc_tab"
+msgstr "高级表"
+
+#, fuzzy
+msgid "cont_pc_tabs"
+msgstr "Accordion/Carousel"
+
+msgid "cont_pc_vacc"
+msgstr "折叠 (垂直)"
+
+msgid "cont_pc_vrfc"
+msgstr "验证"
+
+#, fuzzy
+msgid "cont_permission_handling"
+msgstr "Permission Handling"
+
+#, fuzzy
+msgid "cont_permission_object"
+msgstr "Permission Object"
+
+#, fuzzy
+msgid "cont_permission_object_desc"
+msgstr "The section will only be presented for users that have the given permission on the permission object."
+
+msgid "cont_personal_clipboard"
+msgstr "个人剪贴板"
+
+msgid "cont_pg_title"
+msgstr "页标题"
+
+msgid "cont_please_enter_a_term"
+msgstr "请输入一个项(term)"
+
+msgid "cont_please_select"
+msgstr "请选择"
+
+msgid "cont_please_try_again"
+msgstr "请重试"
+
+msgid "cont_popups_have_been_deleted"
+msgstr "弹出窗口已被删除"
+
+msgid "cont_position"
+msgstr "位置"
+
+msgid "cont_prereq_type"
+msgstr "adlcp先决条件。类型"
+
+msgid "cont_prerequisites"
+msgstr "adlcp先决条件"
+
+msgid "cont_presentation"
+msgstr "展现"
+
+msgid "cont_presentation_view"
+msgstr "展示视图"
+
+msgid "cont_preview"
+msgstr "预览"
+
+msgid "cont_previous_rev"
+msgstr "前一个修订版本"
+
+msgid "cont_print_no_page_selected"
+msgstr "请至少选择一个页面。"
+
+msgid "cont_print_selection"
+msgstr "打印视图选择"
+
+msgid "cont_print_view"
+msgstr "打印视图"
+
+msgid "cont_print_view_pre_glo"
+msgstr "避免词汇表附录出现在打印视图中"
+
+msgid "cont_profile_mode"
+msgstr "模式"
+
+msgid "cont_profile_mode_inherit"
+msgstr "自动"
+
+msgid "cont_profile_mode_inherit_info"
+msgstr "使用您的公共资料(profile)设置"
+
+msgid "cont_profile_mode_manual"
+msgstr "手动"
+
+msgid "cont_profile_mode_manual_info"
+msgstr "使用以下数据"
+
+#, fuzzy
+msgid "cont_profile_mode_template_inherit_info"
+msgstr "Use the profile settings"
+
+#, fuzzy
+msgid "cont_progress_icons"
+msgstr "Progress Icons"
+
+#, fuzzy
+msgid "cont_progress_icons_info"
+msgstr "Show progress icons instead of chapter page icons in presentation mode. Please note that progress information is stored only with ILIAS 4.5 and higher."
+
+#, fuzzy
+msgid "cont_prtf_page"
+msgstr "Portfolio Page"
+
+#, fuzzy
+msgid "cont_prtt_page"
+msgstr "Portfolio Tempalte Page"
+
+msgid "cont_public_access"
+msgstr "公共访问"
+
+msgid "cont_purpose"
+msgstr "用途"
+
+msgid "cont_qover_list_wrong_q"
+msgstr "答错的题目列表"
+
+msgid "cont_qover_list_wrong_q_info"
+msgstr "答错的或没回答的题目列表将会显示出来。"
+
+msgid "cont_qover_short_message"
+msgstr "状态消息"
+
+msgid "cont_qover_short_message_info"
+msgstr "一条消息“您已正确答出了这个单元的题目Y的答案C”将会显示出来。"
+
+msgid "cont_qtries"
+msgstr "题目的尝试次数"
+
+#, fuzzy
+msgid "cont_qtries_info"
+msgstr "Default value for number of tries for newly created questions."
+
+#, fuzzy
+msgid "cont_question"
+msgstr "Question"
+
+#, fuzzy
+msgid "cont_question_page_usage"
+msgstr "Questions on Pages"
+
+msgid "cont_question_placeh"
+msgstr "点击和编辑插入题目"
+
+msgid "cont_question_placehl"
+msgstr "题目占位符"
+
+#, fuzzy
+msgid "cont_question_stats"
+msgstr "Statistic"
+
+msgid "cont_question_type"
+msgstr "题目类型"
+
+#, fuzzy
+msgid "cont_question_usage"
+msgstr "Usages"
+
+#, fuzzy
+msgid "cont_quit_text_editing"
+msgstr "Finish Text Editing"
+
+#, fuzzy
+msgid "cont_rand_start"
+msgstr "Random Start"
+
+msgid "cont_really_delete_overlays"
+msgstr "您真的要删除以下覆盖的内容吗?"
+
+msgid "cont_really_delete_popups"
+msgstr "您真的要删除下面的弹出窗口?"
+
+msgid "cont_really_delete_triggers"
+msgstr "您真的要删除以下触发器"
+
+msgid "cont_ref_helptext"
+msgstr "例如， http://www.server.org/myimage.jpg)"
+
+msgid "cont_ref_images"
+msgstr "引用的图片"
+
+msgid "cont_reference"
+msgstr "参考"
+
+msgid "cont_remove_format"
+msgstr "移除格式"
+
+msgid "cont_rename_dir"
+msgstr "重命名目录"
+
+msgid "cont_replace_mob_feature"
+msgstr "替换内容中的媒体对象"
+
+msgid "cont_replace_mob_feature_info"
+msgstr "激活一个特性，允许去替换一个媒体对象，同时保持内容中一个媒体实例的其它属性。"
+
+msgid "cont_repository_item"
+msgstr "知识库条目"
+
+#, fuzzy
+msgid "cont_reset_nr_of_tries"
+msgstr "Reset Number of Tries"
+
+msgid "cont_resize_img"
+msgstr "调整图像文件大小"
+
+msgid "cont_resource"
+msgstr "资源"
+
+msgid "cont_resource_size"
+msgstr "资源大小"
+
+#, fuzzy
+msgid "cont_resource_size_info"
+msgstr "Without size declaration the size can be controlled by the content style. If neither a size is declared nor the content style contains a rule that determines the size, only images will be displayed in their default size."
+
+msgid "cont_resource_type"
+msgstr "类型"
+
+msgid "cont_resources"
+msgstr "资源"
+
+msgid "cont_resources_of_type"
+msgstr "资源类型"
+
+#, fuzzy
+msgid "cont_restrict_forw_nav"
+msgstr "Restrict Forward Navigation"
+
+#, fuzzy
+msgid "cont_restrict_forw_nav_info"
+msgstr "Learners cannot navigate to subsequent pages unless they answered all previous questions correctly."
+
+msgid "cont_revision"
+msgstr "修订版"
+
+msgid "cont_right"
+msgstr "右边"
+
+msgid "cont_right_float"
+msgstr "右边，浮动"
+
+msgid "cont_rollback"
+msgstr "回滚"
+
+msgid "cont_rollback_confirmation"
+msgstr "您真的要恢复这个页面的旧版本吗？"
+
+msgid "cont_roman"
+msgstr "罗马数字 I, II, ..."
+
+msgid "cont_roman_s"
+msgstr "罗马数字 i, ii, ..."
+
+msgid "cont_rowspan"
+msgstr "行跨距(Row Span)"
+
+msgid "cont_rte_settings"
+msgstr "运行时环境设置"
+
+msgid "cont_rvalue"
+msgstr "值"
+
+msgid "cont_save_all_titles"
+msgstr "保存标题"
+
+msgid "cont_save_positions"
+msgstr "保存位置"
+
+msgid "cont_save_positions_and_classes"
+msgstr "保存位置和样式类"
+
+msgid "cont_save_spans"
+msgstr "保存Spans"
+
+msgid "cont_save_types"
+msgstr "保存类型"
+
+msgid "cont_save_widths"
+msgstr "保存宽度"
+
+msgid "cont_saved_export_ids"
+msgstr "HTML 导出ID已保存。"
+
+msgid "cont_saved_interactive_image"
+msgstr "已创建交互图像"
+
+msgid "cont_saved_map_area"
+msgstr "已存映射区域"
+
+msgid "cont_saved_map_data"
+msgstr "已存映射日期"
+
+msgid "cont_saving"
+msgstr "保存……"
+
+msgid "cont_sc_auto_continue"
+msgstr "自动继续"
+
+#, fuzzy
+msgid "cont_sc_auto_continue_info"
+msgstr "After finishing their last activity users will be automatically redirected to the next SCO. This function is not supported by all SCORM 1.2 Learning Modules."
+
+#, fuzzy
+msgid "cont_sc_auto_review_2004"
+msgstr "Automatic Review Mode"
+
+#, fuzzy
+msgid "cont_sc_auto_review_completed"
+msgstr "if completed"
+
+#, fuzzy
+msgid "cont_sc_auto_review_completed_and_passed"
+msgstr "if completed and passed"
+
+#, fuzzy
+msgid "cont_sc_auto_review_completed_not_failed_or_passed"
+msgstr "if completed or passed, but not failed (recommended for Automatic Review Mode)"
+
+#, fuzzy
+msgid "cont_sc_auto_review_completed_or_passed"
+msgstr "if completed or passed"
+
+#, fuzzy
+msgid "cont_sc_auto_review_info_2004"
+msgstr "If the automatic review mode is enabled, then the tracking data for a chapter (SCO) of the learning module are not stored when one of these options apply. In the rare case however, that the learning module makes use of Sequencing & Navigation according to SCORM 2004, this option should not be enabled."
+
+#, fuzzy
+msgid "cont_sc_auto_review_no"
+msgstr "disabled"
+
+#, fuzzy
+msgid "cont_sc_auto_review_passed"
+msgstr "if passed"
+
+#, fuzzy
+msgid "cont_sc_auto_review_passed_or_failed"
+msgstr "if passed or failed"
+
+#, fuzzy
+msgid "cont_sc_id_setting"
+msgstr "student_id according to SCORM 1.2"
+
+#, fuzzy
+msgid "cont_sc_id_setting_2004"
+msgstr "learner_id according to SCORM 2004"
+
+#, fuzzy
+msgid "cont_sc_id_setting_info"
+msgstr "In the case that a numeric id for student_id (SCORM 1.2) or learner_id (SCORM 2004) causes problems for the learning module, use the option 'ILIAS user name'. The addition RefId or ObjId may be useful for learning modules that connect to an external server."
+
+#, fuzzy
+msgid "cont_sc_id_setting_user_id"
+msgstr "ILIAS User Id (Standard)"
+
+#, fuzzy
+msgid "cont_sc_id_setting_user_id_plus_obj_id"
+msgstr "ILIAS User Id plus ObjId of the Learning Module"
+
+#, fuzzy
+msgid "cont_sc_id_setting_user_id_plus_ref_id"
+msgstr "ILIAS User Id plus RefId of the Learning Module"
+
+#, fuzzy
+msgid "cont_sc_id_setting_user_login"
+msgstr "ILIAS Login Name"
+
+#, fuzzy
+msgid "cont_sc_id_setting_user_login_plus_obj_id"
+msgstr "ILIAS Login Name plus ObjId of the Learning Module"
+
+#, fuzzy
+msgid "cont_sc_id_setting_user_login_plus_ref_id"
+msgstr "ILIAS Login Name plus RefId of the Learning Module"
+
+msgid "cont_sc_less_mode_browse"
+msgstr "浏览"
+
+#, fuzzy
+msgid "cont_sc_less_mode_browse_info"
+msgstr "The SCORM mode is set to \"browse\"."
+
+msgid "cont_sc_less_mode_normal"
+msgstr "正常"
+
+#, fuzzy
+msgid "cont_sc_less_mode_normal_info"
+msgstr "The SCORM mode is set to \"normal\"."
+
+msgid "cont_sc_max_attempt_exceed"
+msgstr "已达到这个模块的最大尝试次数。"
+
+#, fuzzy
+msgid "cont_sc_name_setting"
+msgstr "student_name according to SCORM 1.2"
+
+#, fuzzy
+msgid "cont_sc_name_setting_2004"
+msgstr "learner_name according to SCORM 2004"
+
+#, fuzzy
+msgid "cont_sc_name_setting_first_lastname"
+msgstr "First name and Last name"
+
+#, fuzzy
+msgid "cont_sc_name_setting_first_name"
+msgstr "First name"
+
+#, fuzzy
+msgid "cont_sc_name_setting_fullname"
+msgstr "Title, First name and Last name"
+
+#, fuzzy
+msgid "cont_sc_name_setting_info"
+msgstr "The name of the learner can be displayed in the learning module in several ways. In the case that the learning modules are on an external server, it may be useful not to disclose the name."
+
+#, fuzzy
+msgid "cont_sc_name_setting_last_firstname"
+msgstr "Last name, First name"
+
+#, fuzzy
+msgid "cont_sc_name_setting_no_name"
+msgstr "no name"
+
+#, fuzzy
+msgid "cont_sc_name_setting_salutation_lastname"
+msgstr "Salutation and Last name"
+
+msgid "cont_sc_new_version"
+msgstr "上传新版本"
+
+msgid "cont_sc_preview"
+msgstr "预览"
+
+msgid "cont_sc_stat_browsed"
+msgstr "已浏览"
+
+msgid "cont_sc_stat_completed"
+msgstr "完成"
+
+msgid "cont_sc_stat_failed"
+msgstr "失败"
+
+msgid "cont_sc_stat_incomplete"
+msgstr "残缺的"
+
+msgid "cont_sc_stat_not_attempted"
+msgstr "尚未尝试的"
+
+msgid "cont_sc_stat_passed"
+msgstr "已通过"
+
+msgid "cont_sc_stat_running"
+msgstr "运行"
+
+#, fuzzy
+msgid "cont_sc_store_if_previous_score_was_lower"
+msgstr "keep tracking data if achieved score in previous attempt was higher or equal"
+
+msgid "cont_sc_title"
+msgstr "标题"
+
+msgid "cont_sc_usession"
+msgstr "无限制会话超时"
+
+msgid "cont_sc_usession_info"
+msgstr "这个设置激活定期请求到服务器保持会话活性。"
+
+msgid "cont_sc_version"
+msgstr "版本"
+
+#, fuzzy
+msgid "cont_sc_version_info"
+msgstr "The version management will automatically insert the correct version number."
+
+msgid "cont_scheduled_activation"
+msgstr "已计划激活"
+
+msgid "cont_sco_glossary"
+msgstr "单元词汇表"
+
+msgid "cont_score"
+msgstr "得分"
+
+msgid "cont_scorm_ed_properties"
+msgstr "学习模块属性/词汇表"
+
+msgid "cont_scorm_options"
+msgstr "SCORM 选项"
+
+msgid "cont_scorm_type"
+msgstr "adlcp：scorm类型"
+
+msgid "cont_screen_ids"
+msgstr "屏幕IDs"
+
+#, fuzzy
+msgid "cont_sec_protected"
+msgstr "Protected"
+
+#, fuzzy
+msgid "cont_sec_protected_text"
+msgstr "The following section is protected and can not be edited."
+
+msgid "cont_second"
+msgstr "第二"
+
+#, fuzzy
+msgid "cont_sel_el_use_paste"
+msgstr "Selected elements are now in the clipboard. Please click the desired target placeholder and select ‘Paste’."
+
+msgid "cont_select"
+msgstr "选择"
+
+msgid "cont_select_file"
+msgstr "选择文件"
+
+msgid "cont_select_from_upload_dir"
+msgstr "-- 从上传目录中选择 --"
+
+msgid "cont_select_item"
+msgstr "至少选择一项"
+
+msgid "cont_select_max_one_item"
+msgstr "请只选择一项"
+
+msgid "cont_select_media_pool"
+msgstr "选择媒体池"
+
+#, fuzzy
+msgid "cont_select_none"
+msgstr "Clear Selection"
+
+msgid "cont_select_other_qpool"
+msgstr "选择其他池"
+
+msgid "cont_select_par_or_section"
+msgstr "请至少选择一个段落或部分"
+
+msgid "cont_selected_items_have_been_copied"
+msgstr "选定项已复制到剪贴板。点击适当的占位符去粘贴它们到学习模块中。"
+
+msgid "cont_selected_items_have_been_cut"
+msgstr "选定项已经剪切到剪贴板。点击适当的占位符去粘贴它们到学习模块中。"
+
+msgid "cont_selected_pg_chap"
+msgstr "选定的页/章节"
+
+msgid "cont_selected_terms"
+msgstr "已选术语"
+
+msgid "cont_selected_topic"
+msgstr "已选择主题"
+
+msgid "cont_selection"
+msgstr "选择"
+
+#, fuzzy
+msgid "cont_self_assessment"
+msgstr "Self Assessment"
+
+msgid "cont_sequencing"
+msgstr "启用通过学习模块的序列 & 导航根据去设置"
+
+msgid "cont_sequencing_info"
+msgstr "通过学习模块，为定义启用序列和导航行为。"
+
+msgid "cont_set_alignment"
+msgstr "设置对齐"
+
+msgid "cont_set_layout"
+msgstr "设置布局"
+
+msgid "cont_set_link"
+msgstr "设置链接"
+
+#, fuzzy
+msgid "cont_set_manuall"
+msgstr "Set Manually"
+
+#, fuzzy
+msgid "cont_set_properties"
+msgstr "Set Properties"
+
+msgid "cont_set_start_file"
+msgstr "设置开始文件"
+
+msgid "cont_set_styles"
+msgstr "设置样式"
+
+msgid "cont_set_tab_style_info"
+msgstr "在表格单元中激活复选框去设置样式。"
+
+#, fuzzy
+msgid "cont_settings"
+msgstr "Settings for learning modules"
+
+msgid "cont_shape"
+msgstr "形状"
+
+#, fuzzy
+msgid "cont_shift_click_to_select"
+msgstr "<b>Shift-click</b> on an element to <b>select</b> it and switch to selection mode."
+
+#, fuzzy
+msgid "cont_short_title"
+msgstr "Short Title"
+
+#, fuzzy
+msgid "cont_short_title_info"
+msgstr "Short titles are used in the left-hand tree presentation and for labels in the previous/next navigation."
+
+#, fuzzy
+msgid "cont_short_titles"
+msgstr "Short Titles"
+
+msgid "cont_show_activation_info"
+msgstr "显示活跃信息"
+
+msgid "cont_show_activation_info_info"
+msgstr "如果预定激活时间还没达到，页面将不会被跳过。当页面将被激活时，信息会显示给用户。"
+
+msgid "cont_show_adv"
+msgstr "显示进阶知识"
+
+#, fuzzy
+msgid "cont_show_content_after_focus"
+msgstr "Continue with the Learning Module"
+
+#, fuzzy
+msgid "cont_show_fullscreen"
+msgstr "Show Fullscreen"
+
+msgid "cont_show_info"
+msgstr "显示信息"
+
+msgid "cont_show_line_numbers"
+msgstr "显示行号"
+
+msgid "cont_show_print_view"
+msgstr "显示打印视图"
+
+msgid "cont_size"
+msgstr "大小（字节）"
+
+msgid "cont_skip_chapter"
+msgstr "跳过这一章"
+
+#, fuzzy
+msgid "cont_snippet_from_another_installation"
+msgstr "Snippet comes from another installation."
+
+msgid "cont_snippets_used"
+msgstr "使用内容片段"
+
+msgid "cont_span"
+msgstr "Span"
+
+msgid "cont_special_page"
+msgstr "指定内容页"
+
+#, fuzzy
+msgid "cont_split_cell"
+msgstr "Split Cell"
+
+msgid "cont_spreadsheet_table"
+msgstr "电子表格"
+
+#, fuzzy
+msgid "cont_sqst"
+msgstr "Survey Question (Assigned Material)"
+
+msgid "cont_src"
+msgstr "源代码"
+
+msgid "cont_src_other"
+msgstr "其他"
+
+msgid "cont_st_title"
+msgstr "章标题"
+
+msgid "cont_standard"
+msgstr "标准"
+
+msgid "cont_start"
+msgstr "开始"
+
+#, fuzzy
+msgid "cont_start_file_set_to"
+msgstr "%s has been set as start file."
+
+msgid "cont_start_value"
+msgstr "开始值"
+
+msgid "cont_start_value_info"
+msgstr "输入十进制数字的开始值。默认值为1。"
+
+msgid "cont_startfile"
+msgstr "开始文件"
+
+msgid "cont_status"
+msgstr "状态"
+
+msgid "cont_std_is_in_dir"
+msgstr "标准视图文件在目录中，不可能删除。"
+
+msgid "cont_std_view"
+msgstr "标准视图"
+
+msgid "cont_structure"
+msgstr "结构"
+
+msgid "cont_style"
+msgstr "样式"
+
+msgid "cont_subchapters"
+msgstr "子章节"
+
+msgid "cont_submit_answers"
+msgstr "提交答案"
+
+#, fuzzy
+msgid "cont_subtitle_file"
+msgstr "SRT ZIP File"
+
+#, fuzzy
+msgid "cont_subtitle_files"
+msgstr "Media Subtitles"
+
+#, fuzzy
+msgid "cont_sur_block_format"
+msgstr "Surrounding Section"
+
+msgid "cont_switch_to_media_pool"
+msgstr "切换到其他媒体池"
+
+msgid "cont_syntax_help"
+msgstr "语法帮助"
+
+#, fuzzy
+msgid "cont_tab_add_above"
+msgstr "Add Panel Above"
+
+#, fuzzy
+msgid "cont_tab_add_below"
+msgstr "Add Panel Below"
+
+msgid "cont_tab_cont_height"
+msgstr "内容高度"
+
+msgid "cont_tab_cont_width"
+msgstr "内容宽度"
+
+#, fuzzy
+msgid "cont_tab_delete"
+msgstr "Delete Panel"
+
+#, fuzzy
+msgid "cont_tab_move_bottom"
+msgstr "Move To Bottom"
+
+#, fuzzy
+msgid "cont_tab_move_down"
+msgstr "Move Downwards"
+
+#, fuzzy
+msgid "cont_tab_move_top"
+msgstr "Move To Top"
+
+#, fuzzy
+msgid "cont_tab_move_up"
+msgstr "Move Upwards"
+
+msgid "cont_table"
+msgstr "表格"
+
+#, fuzzy
+msgid "cont_table_adv_settings"
+msgstr "Erweiterte Einstellungen"
+
+msgid "cont_table_border"
+msgstr "表格边界"
+
+#, fuzzy
+msgid "cont_table_border_info"
+msgstr "Keep this empty to make content style settings effective. Values must include unit (like px)."
+
+#, fuzzy
+msgid "cont_table_cell_edit_info_1"
+msgstr "Click on a table cell to select or deselect it."
+
+#, fuzzy
+msgid "cont_table_cell_edit_info_2"
+msgstr "Click on a row or column header to select or deselect the corresponding row or column."
+
+#, fuzzy
+msgid "cont_table_cell_edit_info_3"
+msgstr "Click on a second cell while holding shift to select all the cells in between."
+
+msgid "cont_table_cell_properties"
+msgstr "表格单元属性"
+
+msgid "cont_table_cellpadding"
+msgstr "表格单元填料"
+
+#, fuzzy
+msgid "cont_table_cellpadding_info"
+msgstr "Keep this empty to make content style settings effective. Values must include unit (like px)."
+
+#, fuzzy
+msgid "cont_table_edit_cells"
+msgstr "Edit Cells"
+
+#, fuzzy
+msgid "cont_table_import_info"
+msgstr "Please enter the table data separated by semicolon or TAB character for each column. Start a new row for each table row. Spreadsheet applications will usually use TAB characters for separation when transfered via clipboard. It should be possible to paste this data directly into the input field. No further formattings will be imported."
+
+msgid "cont_table_properties"
+msgstr "表格属性"
+
+#, fuzzy
+msgid "cont_table_style"
+msgstr "Style"
+
+msgid "cont_table_width"
+msgstr "表格宽度"
+
+msgid "cont_tabs"
+msgstr "Tabs选项卡"
+
+msgid "cont_tabs_acc_hor"
+msgstr "水平折叠"
+
+msgid "cont_tabs_acc_ver"
+msgstr "垂直折叠"
+
+#, fuzzy
+msgid "cont_tabs_carousel"
+msgstr "Carousel"
+
+msgid "cont_tabs_confirm_deletion"
+msgstr "您确定所有选项卡和它们的内容都应该删除？"
+
+#, fuzzy
+msgid "cont_target"
+msgstr "Target"
+
+msgid "cont_target_missing"
+msgstr "目标缺失"
+
+msgid "cont_target_within_source"
+msgstr "目标不必在源对象中。"
+
+#, fuzzy
+msgid "cont_template"
+msgstr "Template"
+
+msgid "cont_term"
+msgstr "术语"
+
+msgid "cont_terms"
+msgstr "术语"
+
+msgid "cont_tex"
+msgstr "Latex 代码"
+
+msgid "cont_text_acc"
+msgstr "口音："
+
+msgid "cont_text_code"
+msgstr "代码："
+
+msgid "cont_text_com"
+msgstr "评论："
+
+#, fuzzy
+msgid "cont_text_editing"
+msgstr "Edit Text"
+
+msgid "cont_text_emp"
+msgstr "语气加强的文本："
+
+msgid "cont_text_fn"
+msgstr "脚注："
+
+#, fuzzy
+msgid "cont_text_iln_link"
+msgstr "Internal Link"
+
+msgid "cont_text_imp"
+msgstr "重要："
+
+msgid "cont_text_keyword"
+msgstr "关键字"
+
+msgid "cont_text_placeh"
+msgstr "点击和编辑插入文本"
+
+msgid "cont_text_placehl"
+msgstr "文本占位符"
+
+msgid "cont_text_quot"
+msgstr "引文："
+
+msgid "cont_text_str"
+msgstr "加粗文本(strong text)："
+
+#, fuzzy
+msgid "cont_text_sub"
+msgstr "Subscript"
+
+#, fuzzy
+msgid "cont_text_sup"
+msgstr "Superscript"
+
+msgid "cont_text_tex"
+msgstr "LaTeX 代码："
+
+msgid "cont_text_xln"
+msgstr "外部链接："
+
+msgid "cont_third_and_more"
+msgstr "第三个或更多"
+
+msgid "cont_time"
+msgstr "时间"
+
+msgid "cont_time_from_lms"
+msgstr "通过ILIAS替代SCO来确定进程时间"
+
+msgid "cont_time_from_lms_info"
+msgstr "严格(根据SCORM标准)检查通过学习模块到ILIAS发送的值。"
+
+msgid "cont_time_limit_action"
+msgstr "adlcp：时间限制操作"
+
+#, fuzzy
+msgid "cont_to_focus_beginning"
+msgstr "Back to Content related to the Learning Objective"
+
+#, fuzzy
+msgid "cont_to_focus_return_crs"
+msgstr "Back to Course"
+
+msgid "cont_toc"
+msgstr "目录"
+
+msgid "cont_toc_mode"
+msgstr "TOC 模式"
+
+#, fuzzy
+msgid "cont_tool_faq"
+msgstr "FAQ"
+
+#, fuzzy
+msgid "cont_tool_media"
+msgstr "Media"
+
+msgid "cont_top"
+msgstr "向上"
+
+msgid "cont_topic"
+msgstr "主题"
+
+msgid "cont_total_time"
+msgstr "总时间"
+
+msgid "cont_tracking_bysco"
+msgstr "由章节"
+
+msgid "cont_tracking_byuser"
+msgstr "由用户"
+
+msgid "cont_tracking_data"
+msgstr "跟踪数据"
+
+msgid "cont_tracking_items"
+msgstr "跟踪项"
+
+#, fuzzy
+msgid "cont_tracking_modify"
+msgstr "modify data"
+
+#, fuzzy
+msgid "cont_trans_import_info"
+msgstr "If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here."
+
+#, fuzzy
+msgid "cont_transl_master_language_not_allowed"
+msgstr "To import a translation you need to activate at least one additional language under \"Settings\" > \"Multilingualism\"."
+
+msgid "cont_tree_fixed"
+msgstr "树结构已得到修复。"
+
+#, fuzzy
+msgid "cont_tries"
+msgstr "Question Behaviour"
+
+msgid "cont_tries_remaining"
+msgstr "剩余的尝试次数"
+
+#, fuzzy
+msgid "cont_tries_reset_on_visit"
+msgstr "Reset on Page Visit"
+
+#, fuzzy
+msgid "cont_tries_reset_on_visit_info"
+msgstr "Questions start with 0 number of tries each time a learner visits a page. Learner has to answer questions on every page visit."
+
+#, fuzzy
+msgid "cont_tries_store"
+msgstr "Store Answer Status"
+
+#, fuzzy
+msgid "cont_tries_store_info"
+msgstr "Number of tries are accumulated and stored. Correctly answered questions must not be answered again. Learners may run out of tries for questions."
+
+msgid "cont_trigger_area"
+msgstr "触发器区域"
+
+msgid "cont_type"
+msgstr "类型"
+
+#, fuzzy
+msgid "cont_type_not_allowed"
+msgstr "Content type not allowed at this position"
+
+#, fuzzy
+msgid "cont_unlock_allow_continue"
+msgstr "Unlock / Allow to Continue"
+
+#, fuzzy
+msgid "cont_unlocked"
+msgstr "Unlocked"
+
+#, fuzzy
+msgid "cont_update_amd_page_list"
+msgstr "Edit Page List"
+
+msgid "cont_update_blog"
+msgstr "编辑博客"
+
+#, fuzzy
+msgid "cont_update_consultation_hours"
+msgstr "Edit Consultation Hours"
+
+msgid "cont_update_login_page"
+msgstr "编辑登录页面元素"
+
+msgid "cont_update_map"
+msgstr "编辑地图"
+
+#, fuzzy
+msgid "cont_update_my_courses"
+msgstr "Edit My Courses"
+
+msgid "cont_update_profile"
+msgstr "编辑个人数据"
+
+msgid "cont_update_resources"
+msgstr "更新资源列表"
+
+msgid "cont_update_section"
+msgstr "更新段落"
+
+msgid "cont_update_skills"
+msgstr "编辑技能"
+
+msgid "cont_update_verification"
+msgstr "编辑验证"
+
+msgid "cont_upload_dir"
+msgstr "上传目录"
+
+#, fuzzy
+msgid "cont_upload_file"
+msgstr "Upload File"
+
+#, fuzzy
+msgid "cont_upload_multi_srt_howto"
+msgstr "This feature allows you to upload multiple subtitle (srt) files in a zip file for all media objects of the learning module. Your .zip file should contain all .srt files on the top level (no subdirectories). The file names should end with \"_&lt;lang code&gt;.srt\" where lang code is e.g. \"en\", \"it\", \"de\". The rest of the filename should correspond to the name of the video file, e.g. \"my_video.mp4\" -> \"my_video_en.srt\"."
+
+msgid "cont_uploaded_file"
+msgstr "已存在文件"
+
+#, fuzzy
+msgid "cont_url_info"
+msgstr "URL of a media file or Youtube URL."
+
+msgid "cont_usage"
+msgstr "用法"
+
+msgid "cont_use_same_resource_as_above"
+msgstr "使用相同的资源"
+
+#, fuzzy
+msgid "cont_user"
+msgstr "User"
+
+#, fuzzy
+msgid "cont_user_blocked"
+msgstr "User out of tries in learning module \"%s\"."
+
+#, fuzzy
+msgid "cont_user_blocked2"
+msgstr "A user has run out of tries for answering a question in the learning module. The user will not be able to navigate further through the learning module without your intervention."
+
+#, fuzzy
+msgid "cont_user_blocked3"
+msgstr "Open the learning module in edit mode and enter the screen:"
+
+#, fuzzy
+msgid "cont_user_search_did_not_match"
+msgstr "Your search did not match any users."
+
+msgid "cont_users_answered"
+msgstr "用户已回答"
+
+msgid "cont_users_have_mob_in_clip1"
+msgstr "This media object is in the clipboard of"
+
+msgid "cont_users_have_mob_in_clip2"
+msgstr "用户"
+
+msgid "cont_validate_file"
+msgstr "验证文件"
+
+msgid "cont_verification_object"
+msgstr "验证"
+
+#, fuzzy
+msgid "cont_verification_placeh"
+msgstr "Click and edit to insert certificate"
+
+#, fuzzy
+msgid "cont_verification_placehl"
+msgstr "Certificate Placeholder"
+
+msgid "cont_version"
+msgstr "版本"
+
+msgid "cont_versions"
+msgstr "版本"
+
+msgid "cont_whole_glossary"
+msgstr "整个词汇表"
+
+msgid "cont_width"
+msgstr "宽度"
+
+#, fuzzy
+msgid "cont_width_height_info"
+msgstr "The size of the display can be set at a fixed size. 950 pixels for Width and 650 pixels for Height are proven values for setting the size. If no entry is made the browser will determine the size of the display."
+
+#, fuzzy
+msgid "cont_width_px_perc"
+msgstr "Width"
+
+#, fuzzy
+msgid "cont_width_px_perc_info"
+msgstr "(e.g. px or % value)"
+
+#, fuzzy
+msgid "cont_wiki_link_dialog"
+msgstr "Link to Wiki Page (Dialog)"
+
+#, fuzzy
+msgid "cont_wiki_page"
+msgstr "Wiki Page"
+
+msgid "cont_wiki_page_link"
+msgstr "Wiki页面链接"
+
+msgid "cont_wrong_answers"
+msgstr "错误的答案"
+
+msgid "cont_wrong_answers_single"
+msgstr "错误的选择。"
+
+msgid "cont_xml_base"
+msgstr "xml库"
+
+msgid "cont_zip_file_invalid"
+msgstr "文件不是一个有效的导入文件。<br>它没有包含一个'%s'文件。"
+
+#, fuzzy
+msgid "content_no_edit_lock"
+msgstr "The page is currently locked by another user."
+
+msgid "content_page_history"
+msgstr "页面历史"
+
+#, fuzzy
+msgid "content_plugin_not_activated"
+msgstr "The page content element plugin is currently not activated."
+
+msgid "content_some_export_ids_multiple_times"
+msgstr "有些导出ID已使用多次。这将导致导出时缺失页面。"
+
+#, fuzzy
+msgid "content_until"
+msgstr "At least locked until: "
+
+msgid "copied_to_clipboard"
+msgstr "已复制对象到剪贴板。"
+
+msgid "dgl_pagebreak"
+msgstr "分页"
+
+msgid "glo_add_new_term"
+msgstr "添加新术语"
+
+#, fuzzy
+msgid "glo_content_settings"
+msgstr "Content"
+
+msgid "glo_editing_view"
+msgstr "编辑视图"
+
+msgid "glo_full_definitions"
+msgstr "完整的定义"
+
+msgid "glo_full_definitions_info"
+msgstr "术语和定义完整的显示在主视图中。"
+
+#, fuzzy
+msgid "glo_hide_taxonomy"
+msgstr "Hide Taxonomy"
+
+msgid "glo_list_usages"
+msgstr "列表用法"
+
+#, fuzzy
+msgid "glo_mode_normal_info"
+msgstr "Only terms created within this glossar will be included."
+
+msgid "glo_presentation_mode"
+msgstr "展示模式"
+
+msgid "glo_presentation_view"
+msgstr "展示视图"
+
+msgid "glo_quick_navigation"
+msgstr "快速导航"
+
+msgid "glo_style"
+msgstr "词汇表样式"
+
+msgid "glo_table_form"
+msgstr "In Table Form"
+
+msgid "glo_table_form_info"
+msgstr "术语和定义首先显示在一个两列的概览中。点击术语在一个单独的屏幕中打开一个术语的完整内容。"
+
+msgid "glo_term_is_used_n_times"
+msgstr "在内容模块中，这个术语被使用了 %s 次。"
+
+msgid "glo_term_must_belong_to_glo"
+msgstr "该动作仅能在术语(term)中被执行，它定义在这个词汇表中。"
+
+msgid "glo_term_used_in"
+msgstr "下面的参考资料链接到些项"
+
+msgid "glo_text_snippet_length"
+msgstr "定义片段长度"
+
+msgid "glo_text_snippet_length_info"
+msgstr "定义的文本片段的长度显示在概览中。"
+
+msgid "glo_usages"
+msgstr "词汇表已用于……"
+
+msgid "glo_used_in_scorm"
+msgstr "此词汇表已经由SCORM模块使用。如果已删除，引用的词汇表将无法被解析。"
+
+msgid "help_assign_help_ids"
+msgstr "章/屏幕ID分配"
+
+msgid "htlm_import"
+msgstr "导入 HTML 学习模块"
+
+msgid "import_sco_object"
+msgstr "导入 SCO"
+
+#, fuzzy
+msgid "info_stop_offline_mode_sure"
+msgstr "Note: The learning progress achieved in offline mode are lost. Are you sure?"
+
+#, fuzzy
+msgid "infobox_files_not_migrated"
+msgstr "The files of this learning module have not yet been migrated to the Resource Storage Service and can therefore not be edited."
+
+#, fuzzy
+msgid "lm_activate_rating"
+msgstr "Activate Rating For Pages"
+
+#, fuzzy
+msgid "lm_editing_view"
+msgstr "Editing View"
+
+#, fuzzy
+msgid "lm_import"
+msgstr "Import ILIAS Learning Module"
+
+msgid "lm_menu_edit_entry"
+msgstr "编辑菜单项"
+
+msgid "lm_menu_entry_target"
+msgstr "目标"
+
+msgid "lm_menu_entry_title"
+msgstr "头衔"
+
+msgid "lm_menu_new_entry"
+msgstr "创建一个新菜单项"
+
+msgid "lm_menu_select_internal_object"
+msgstr "选择内部对象>>"
+
+msgid "lm_menu_select_object_to_add"
+msgstr "请选择您想添加到菜单上的对象"
+
+#, fuzzy
+msgid "lm_no_download_files"
+msgstr "There are currently no files for download available."
+
+#, fuzzy
+msgid "lm_only_one_download_per_type"
+msgstr "Please note that you can only make one file per type (XML, HTML, SCORM) public accessible."
+
+#, fuzzy
+msgid "lm_rate_page"
+msgstr "Rate page"
+
+#, fuzzy
+msgid "lm_rating"
+msgstr "Rate Learning Module"
+
+msgid "mep_folder_created"
+msgstr "添加新文件夹。"
+
+msgid "msg_entry_added"
+msgstr "菜单项已添加"
+
+msgid "msg_entry_removed"
+msgstr "菜单项已删除"
+
+msgid "msg_entry_updated"
+msgstr "菜单项已更新"
+
+#, fuzzy
+msgid "msg_no_page_access"
+msgstr "You do not have the permission to access this page."
+
+msgid "msg_page_no_public_access"
+msgstr "您调用的页面在公共段落不可用。只有已注册用户能查看此页面。请首先登录才能访问此页面。"
+
+msgid "msg_page_not_public"
+msgstr "页面不是公开的"
+
+#, fuzzy
+msgid "offline_mode_manager"
+msgstr "Offline use"
+
+#, fuzzy
+msgid "offline_mode_users"
+msgstr "Users in offline mode"
+
+#, fuzzy
+msgid "offline_mode_users_info"
+msgstr "Users can be manually taken from the Off-line Mode and after doing so these users can again use the online-version of the learning module. This makes sense if e.g. the laptop with the learning modules was stolen."
+
+msgid "page_does_not_exist"
+msgstr "我们很抱歉，这个页面不存在。"
+
+msgid "par"
+msgstr "段落"
+
+msgid "pg"
+msgstr "页源于"
+
+msgid "public_section"
+msgstr "公共段落"
+
+msgid "sahs_empty_objectives_are_not_allowed"
+msgstr "请输入一个学习目标。"
+
+#, fuzzy
+msgid "sahs_insert_pg_from_clip"
+msgstr "Import Pages from ILIAS Learning Module"
+
+#, fuzzy
+msgid "sahs_insert_st_from_clip"
+msgstr "Import Chapters from ILIAS Learning Module"
+
+#, fuzzy
+msgid "sahs_insert_st_from_clip_inside_chap"
+msgstr "Import Chapters from ILIAS Learning Module (inside chapter)"
+
+#, fuzzy
+msgid "save_new"
+msgstr "Save and New"
+
+msgid "saved_media_object"
+msgstr "媒体对象已保存"
+
+msgid "scplayer_collapsetree"
+msgstr "全部折叠"
+
+msgid "scplayer_continue"
+msgstr "继续"
+
+msgid "scplayer_debugger"
+msgstr "显示调试器"
+
+msgid "scplayer_exit"
+msgstr "Exit"
+
+msgid "scplayer_exitall"
+msgstr "Exit All"
+
+msgid "scplayer_expandtree"
+msgstr "展开所有"
+
+msgid "scplayer_hidetree"
+msgstr "隐藏树"
+
+msgid "scplayer_next"
+msgstr "Next"
+
+msgid "scplayer_phpmysqlcheck"
+msgstr "您需要MYSQL 4.1或更高版本，并启用JSON支持去使用JavaScript-RTE"
+
+msgid "scplayer_previous"
+msgstr "P前一个"
+
+msgid "scplayer_showtree"
+msgstr "展示树"
+
+msgid "scplayer_start"
+msgstr "开始"
+
+msgid "scplayer_suspendall"
+msgstr "全部挂起"
+
+msgid "selectFooter"
+msgstr "Select As Footer"
+
+msgid "selectHeader"
+msgstr "Select As Header"
+
+msgid "select_a_file"
+msgstr "请选择一个文件"
+
+msgid "seq_close"
+msgstr "请关闭播放器窗口。"
+
+msgid "seq_endsession"
+msgstr "当前课程会话已截止。"
+
+msgid "seq_error"
+msgstr "序列器发生了一个内部错误。"
+
+msgid "seq_toc"
+msgstr "从左边内容表中选择一个活动去开始课程。"
+
+msgid "set_public_mode"
+msgstr "设置公共访问方式"
+
+msgid "st"
+msgstr "章标题"
+
+#, fuzzy
+msgid "start_lm"
+msgstr "Launch Learning Module"
+
+msgid "text_repr"
+msgstr "文本表示"
+
+msgid "text_repr_info"
+msgstr "用于图像“alt”属性。"

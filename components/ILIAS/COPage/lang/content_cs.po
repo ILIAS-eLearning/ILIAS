@@ -1,0 +1,3825 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: content\n"
+
+msgid "Pages"
+msgstr "Stránky"
+
+msgid "add_menu_entry"
+msgstr "Přidat položku menu >>"
+
+msgid "all_pages"
+msgstr "Celý výukový modul"
+
+msgid "citate"
+msgstr "Citát"
+
+msgid "citate_from"
+msgstr "Citát z ..."
+
+msgid "citate_page"
+msgstr "Citát této stránky"
+
+msgid "citate_to"
+msgstr "Citovat ..."
+
+msgid "cont_Additional"
+msgstr "Dodatek"
+
+msgid "cont_AdvancedKnowledge"
+msgstr "Další znalosti"
+
+#, fuzzy
+msgid "cont_Attention"
+msgstr "Attention"
+
+#, fuzzy
+msgid "cont_Background"
+msgstr "Background"
+
+msgid "cont_Block"
+msgstr "Blok"
+
+#, fuzzy
+msgid "cont_Book"
+msgstr "Book"
+
+msgid "cont_Circle"
+msgstr "Kruh"
+
+msgid "cont_Citation"
+msgstr "Citace"
+
+#, fuzzy
+msgid "cont_Confirmation"
+msgstr "Confirmation"
+
+msgid "cont_Example"
+msgstr "Příklad"
+
+msgid "cont_Excursus"
+msgstr "Odbočení od tématu"
+
+msgid "cont_FileListItem"
+msgstr "Položka seznamu souborů (Standardní)"
+
+msgid "cont_Headline1"
+msgstr "Nadpis 1"
+
+msgid "cont_Headline2"
+msgstr "Nadpis 2"
+
+msgid "cont_Headline3"
+msgstr "Nadpis 3"
+
+#, fuzzy
+msgid "cont_Information"
+msgstr "Information"
+
+#, fuzzy
+msgid "cont_Interaction"
+msgstr "Interaction"
+
+msgid "cont_List"
+msgstr "Seznam"
+
+#, fuzzy
+msgid "cont_Literature"
+msgstr "Literature"
+
+msgid "cont_Mnemonic"
+msgstr "K zapamatování"
+
+#, fuzzy
+msgid "cont_Numbers"
+msgstr "Numbers"
+
+msgid "cont_Poly"
+msgstr "Mnohoúhelník"
+
+msgid "cont_Rect"
+msgstr "Obdélník"
+
+msgid "cont_Remark"
+msgstr "Poznámka"
+
+#, fuzzy
+msgid "cont_Separator"
+msgstr "Separator"
+
+msgid "cont_Special"
+msgstr "Zvláštní"
+
+#, fuzzy
+msgid "cont_StandardCenter"
+msgstr "Standard Center"
+
+msgid "cont_StandardTable"
+msgstr "Standardní Tabulka"
+
+msgid "cont_TableContent"
+msgstr "Obsah tabulky"
+
+#, fuzzy
+msgid "cont_Verse"
+msgstr "Verse/Stanza"
+
+msgid "cont_WholePicture"
+msgstr "Celý obrázek"
+
+msgid "cont_accented"
+msgstr "Zdůrazněný"
+
+msgid "cont_act_number"
+msgstr "Číslování kapitol"
+
+msgid "cont_activate_html"
+msgstr "Aktivovat renderování HTML"
+
+msgid "cont_activate_js"
+msgstr "Aktivovat mód Javascript"
+
+msgid "cont_activate_media"
+msgstr "Aktivovat Media"
+
+msgid "cont_activate_page"
+msgstr "Aktivovat stránku"
+
+msgid "cont_activated"
+msgstr "Aktivováno"
+
+msgid "cont_activation"
+msgstr "Aktivace"
+
+msgid "cont_active"
+msgstr "Aktivovat menu"
+
+msgid "cont_active_areas"
+msgstr "Spouštěče"
+
+msgid "cont_active_from"
+msgstr "Začátek aktivace"
+
+msgid "cont_active_to"
+msgstr "Konec aktivace"
+
+msgid "cont_add_area"
+msgstr "Přidat plochu"
+
+msgid "cont_add_cell"
+msgstr "Přidat sloupec"
+
+msgid "cont_add_elements"
+msgstr "Klepněte na rezervované místo k přidání nových prvků."
+
+msgid "cont_add_file"
+msgstr "Přidat soubor"
+
+msgid "cont_add_images"
+msgstr "Přidat obrázky"
+
+msgid "cont_add_popup"
+msgstr "Přidat roletové menu"
+
+msgid "cont_add_tab"
+msgstr "Přidat tabulku"
+
+#, fuzzy
+msgid "cont_add_url"
+msgstr "Enter URL"
+
+msgid "cont_added_cell"
+msgstr "Přidaný sloupec"
+
+msgid "cont_added_comment"
+msgstr "Komentář byl přidán do historie."
+
+msgid "cont_added_tab"
+msgstr "Tabulka vytvořena."
+
+msgid "cont_added_term"
+msgstr "Pojem přidán"
+
+msgid "cont_adjust_size"
+msgstr "Nastavit rozměr"
+
+#, fuzzy
+msgid "cont_advanced_settings"
+msgstr "Advanced Settings"
+
+msgid "cont_align"
+msgstr "Zarovnání"
+
+msgid "cont_alignment"
+msgstr "Zarovnání"
+
+msgid "cont_all_answers_correct"
+msgstr "Správně!"
+
+msgid "cont_all_closed"
+msgstr "Vše zavřeno"
+
+msgid "cont_all_languages"
+msgstr "Všechny jazyky"
+
+msgid "cont_all_pages"
+msgstr "Všechny stránky"
+
+msgid "cont_all_topics"
+msgstr "Všechna témata"
+
+msgid "cont_all_usages"
+msgstr "Včetně historie"
+
+msgid "cont_alphabetic"
+msgstr "Abecedně A, B, ..."
+
+msgid "cont_alphabetic_s"
+msgstr "Abecedně a, b, ..."
+
+msgid "cont_always"
+msgstr "Vždy"
+
+msgid "cont_anchor"
+msgstr "Kotva"
+
+msgid "cont_annex"
+msgstr "Příloha"
+
+msgid "cont_anonymous_user_missing_perm"
+msgstr "Anonymní uživatelé aktuálně nemají žádné oprávnění k přístupu k tomuto výukovému modulu."
+
+msgid "cont_areas_deleted"
+msgstr "Plochy obrázků smazány."
+
+msgid "cont_assign_characteristic"
+msgstr "Přiřadit charakteristiku"
+
+msgid "cont_assign_full"
+msgstr "Přiřadit celou obrazovku"
+
+msgid "cont_assign_std"
+msgstr "Přiřadit standardní"
+
+msgid "cont_assign_to_parent"
+msgstr "Přiřadit nadřazenému"
+
+msgid "cont_auto_glossaries"
+msgstr "Automaticky připojené glosáře"
+
+msgid "cont_auto_last_visited"
+msgstr "Otevřít naposledy navštívenou kapitolu"
+
+msgid "cont_auto_last_visited_info"
+msgstr "Otevírá naposledy navštívené SCO/Aktiva, když student znovu vstupuje k výukovému modulu."
+
+msgid "cont_auto_suspend"
+msgstr "Zajistit sběr trasovacích údajů z předchozích poukusů"
+
+msgid "cont_auto_suspend_info"
+msgstr "Tato volba je pro výukové moduly SCORM, jejichž podpora SCORM 2004 v neodpovídajícím způsobu zasílání řádných hodnot pro cmi.exit."
+
+msgid "cont_auto_time"
+msgstr "Čekání na automatickou animaci"
+
+msgid "cont_autoindent"
+msgstr "Auto odsazení"
+
+msgid "cont_automatically_set_store_tries"
+msgstr "Možnost „$1“ byla aktivována automaticky, protože byla povolena možnost „$2“."
+
+msgid "cont_autostart"
+msgstr "Autostart"
+
+msgid "cont_back"
+msgstr "Zpět"
+
+msgid "cont_base_image"
+msgstr "Pozadí obrázku"
+
+msgid "cont_bb_tip"
+msgstr "Tip: Styly mohou být aplikovány rychle na vybraný text."
+
+msgid "cont_behavior"
+msgstr "Způsob práce"
+
+msgid "cont_biblio"
+msgstr "Bibliografické údaje"
+
+msgid "cont_biblio_info"
+msgstr "Aktivuje funkci bibliografických údajů"
+
+msgid "cont_blist"
+msgstr "Puntíkovaný seznam"
+
+#, fuzzy
+msgid "cont_block_format"
+msgstr "Section Format"
+
+msgid "cont_blocked_users"
+msgstr "Blokovaní uživatelé"
+
+msgid "cont_blocked_users_mail_link"
+msgstr "Kliknutím na následující odkaz otevřete výukový modul:"
+
+msgid "cont_bottom"
+msgstr "Dolů"
+
+msgid "cont_bullet_list"
+msgstr "Puntíkovaný seznam"
+
+msgid "cont_cach_mode"
+msgstr "Režim"
+
+msgid "cont_cach_mode_automatic"
+msgstr "Automaticky"
+
+msgid "cont_cach_mode_automatic_info"
+msgstr "Všechny konzultační hodiny budou zveřejněny."
+
+msgid "cont_cach_mode_manual"
+msgstr "Manuálně"
+
+msgid "cont_cach_mode_manual_info"
+msgstr "Jen konzultační hodiny následujících skupin budou zveřejněny."
+
+msgid "cont_cant_copy_folders"
+msgstr "Složky nemohou být kopírovány do schránky."
+
+msgid "cont_cant_del_full"
+msgstr "Není možné smazat celoobrazovkový soubor."
+
+msgid "cont_cant_del_std"
+msgstr "Není možné smazat soubor se standardním náhledem."
+
+msgid "cont_caption"
+msgstr "Titulek"
+
+#, fuzzy
+msgid "cont_caption_style"
+msgstr "Caption Style Class"
+
+msgid "cont_cc_emp"
+msgstr "Výrazné"
+
+msgid "cont_cc_imp"
+msgstr "Důležité"
+
+msgid "cont_cc_str"
+msgstr "Tučné"
+
+msgid "cont_cc_sub"
+msgstr "Subscript"
+
+msgid "cont_cc_sup"
+msgstr "Superscript"
+
+#, fuzzy
+msgid "cont_cell_properties"
+msgstr "Table Cell Properties"
+
+msgid "cont_center"
+msgstr "Vystředit"
+
+#, fuzzy
+msgid "cont_change_alignment"
+msgstr "Change Alignment"
+
+#, fuzzy
+msgid "cont_change_notification_salutation"
+msgstr "Hello %s,"
+
+#, fuzzy
+msgid "cont_change_notification_subject_lm"
+msgstr "Learning Module \"%1$s\" has been changed: %2$s"
+
+msgid "cont_change_object_reference"
+msgstr "Změnit odkaz objektu"
+
+#, fuzzy
+msgid "cont_change_style"
+msgstr "Change Style"
+
+msgid "cont_change_type"
+msgstr "Změnit typ"
+
+#, fuzzy
+msgid "cont_change_width"
+msgstr "Change Width"
+
+msgid "cont_chap_and_pages"
+msgstr "Kapitoly a stránky"
+
+msgid "cont_chap_select_target_now"
+msgstr "Kapitola označena k přesunu. Nyní vyberte cíl."
+
+msgid "cont_chapters"
+msgstr "Kapitoly"
+
+msgid "cont_chapters_after_pages"
+msgstr "Povšimněte si prosím, že těmto stránkám musí předcházet všechny podkapitoly stejné úrovně."
+
+msgid "cont_chapters_and_pages"
+msgstr "Kapitoly a stránky"
+
+msgid "cont_chapters_only"
+msgstr "Pouze kapitoly"
+
+msgid "cont_char_format"
+msgstr "Písmo"
+
+#, fuzzy
+msgid "cont_char_link"
+msgstr "Link"
+
+#, fuzzy
+msgid "cont_char_media"
+msgstr "Media (Standard)"
+
+msgid "cont_char_style_acc"
+msgstr "Zvýrazněný"
+
+msgid "cont_char_style_code"
+msgstr "Kód"
+
+msgid "cont_char_style_com"
+msgstr "Komentář"
+
+msgid "cont_char_style_quot"
+msgstr "Citát"
+
+msgid "cont_characteristic"
+msgstr "Třída stylu"
+
+#, fuzzy
+msgid "cont_characteristic_table"
+msgstr "Style Class"
+
+msgid "cont_check_values"
+msgstr "Zkontrolovat hodnotu"
+
+msgid "cont_check_values_info"
+msgstr "Testovací nástroj zkontroluje, zda hodnoty odeslané ze SCO odpovídají standardu SCORM. <br /> Standard SCORM je velmi náročný na ukládání hodnot. Ne všechny výukové moduly splňují požadavky standardu. Tato možnost povoluje kontrolu, zda modul odpovídá standardu nebo ne. Nezaškrtávejte tuto možnost, pokud chcete zkontrolovat, zda systém ILIAS může spustit tento modul nebo ne."
+
+msgid "cont_choose_characteristic"
+msgstr "Výběr charakteristiky"
+
+msgid "cont_choose_characteristic_section"
+msgstr "Části"
+
+msgid "cont_choose_characteristic_text"
+msgstr "Textové prvky"
+
+msgid "cont_choose_file_source"
+msgstr "Zdroj"
+
+#, fuzzy
+msgid "cont_choose_from_clipboard"
+msgstr "Choose from Clipboard"
+
+#, fuzzy
+msgid "cont_choose_from_pool"
+msgstr "Select from Media Pool"
+
+msgid "cont_choose_glo"
+msgstr "Vybrat glosář"
+
+msgid "cont_choose_lm"
+msgstr "Vybrat výukový modul"
+
+msgid "cont_choose_local"
+msgstr "Místní adresář"
+
+#, fuzzy
+msgid "cont_choose_media_pool"
+msgstr "Select Pool"
+
+msgid "cont_choose_mep"
+msgstr "Vybrat zásobník médií"
+
+msgid "cont_choose_pages_or_chapters_only"
+msgstr "Vyberte prosím stránky nebo pouze kapitoly."
+
+msgid "cont_choose_upload_dir"
+msgstr "Nahrát adresář"
+
+msgid "cont_choose_wiki"
+msgstr "Vybrat Wiki"
+
+msgid "cont_citation_selection_not_valid"
+msgstr "Váš výběr je neplatný"
+
+msgid "cont_click_br_corner"
+msgstr "Klepněte prosím na pravý dolní roh požadované plochy."
+
+msgid "cont_click_center"
+msgstr "Klepněte prosím na střed požadované plochy."
+
+msgid "cont_click_circle"
+msgstr "Klepněte prosím na kruhový bod požadované plochy."
+
+#, fuzzy
+msgid "cont_click_edit"
+msgstr "<b>Click</b> on elements to <b>edit</b> its properties."
+
+#, fuzzy
+msgid "cont_click_multi_select"
+msgstr "<b>Click</b> on elements to <b>select</b> or deselect them."
+
+msgid "cont_click_next_or_save"
+msgstr "Klepněte prosím na další bod mnohoúhelníku, nebo požadované plochy.. (Není nutné klepat na počáteční bod tohoto mnohoúhelníku!)"
+
+msgid "cont_click_next_point"
+msgstr "Klepněte prosím na další bod mnohoúhelníku."
+
+msgid "cont_click_starting_point"
+msgstr "Klepněte prosím na počáteční bod mnohoúhelníku..."
+
+msgid "cont_click_tl_corner"
+msgstr "Klepněte prosím na levý horní roh požadované plochy.."
+
+#, fuzzy
+msgid "cont_code_import_file"
+msgstr "Import"
+
+#, fuzzy
+msgid "cont_code_manual_editing"
+msgstr "Manuelle Eingabe"
+
+msgid "cont_colspan"
+msgstr "Rozteč sloupců"
+
+#, fuzzy
+msgid "cont_commented_by"
+msgstr "Commented by"
+
+msgid "cont_comments"
+msgstr "Zapnout uchovávání komentářů"
+
+msgid "cont_comments_info"
+msgstr "Některé výukové moduly SCORM 2004 umožňují uživatelům poskytovat komentáře v rámci modulu. Tato možnost umožňuje ukládání těchto komentářů."
+
+msgid "cont_confirm_delete"
+msgstr "Skutečně smazat?"
+
+msgid "cont_constrain_proportions"
+msgstr "Omezení proporcí"
+
+msgid "cont_content"
+msgstr "Obsah"
+
+msgid "cont_content_popup"
+msgstr "Roletové menu obsahu"
+
+msgid "cont_content_popups"
+msgstr "Roletová menu obsahu"
+
+msgid "cont_coords"
+msgstr "Souřadnice"
+
+msgid "cont_copy_question_from_pool"
+msgstr "Kopírovat otázku ze zásobníku"
+
+msgid "cont_copy_question_into_page"
+msgstr "Kopírovat do stránky"
+
+msgid "cont_copy_to_clipboard"
+msgstr "Zkopírovat do schránky"
+
+msgid "cont_correct_after_first"
+msgstr "Nejprve zkuste opravit"
+
+msgid "cont_correct_answer_also"
+msgstr "Také správně je:"
+
+msgid "cont_correct_answers_also"
+msgstr "Také správně jsou:"
+
+msgid "cont_correct_answers_shown"
+msgstr "Správné řešení viz výše."
+
+msgid "cont_could_not_determine_resource_size"
+msgstr "ILIAS nemůže automaticky určit velikost zdroje."
+
+#, fuzzy
+msgid "cont_could_not_save_duplicate_pc_ids"
+msgstr "Page could not be saved (duplicate PC IDs)."
+
+msgid "cont_cp_question_diff_formats_info"
+msgstr "Povšimněte si prosím, že některá formátování nejsou podporovány v obsahových modulech."
+
+msgid "cont_create_link"
+msgstr "Vytvořit odkaz"
+
+msgid "cont_create_mob"
+msgstr "Vytvořit mediální objekt"
+
+msgid "cont_credits"
+msgstr "Kredity"
+
+msgid "cont_current_chapter"
+msgstr "Aktuální kapitola"
+
+msgid "cont_current_lang"
+msgstr "Aktuální jazyk"
+
+msgid "cont_current_page"
+msgstr "Aktuální stránka"
+
+msgid "cont_current_style"
+msgstr "Aktuální styl"
+
+msgid "cont_current_term"
+msgstr "Aktuální termín"
+
+msgid "cont_current_usages"
+msgstr "Aktuální použití"
+
+msgid "cont_current_version"
+msgstr "Aktuální verze"
+
+msgid "cont_custom"
+msgstr "Volitelné"
+
+msgid "cont_custom_menu_entries"
+msgstr "Běžné položky menu"
+
+msgid "cont_custom_size"
+msgstr "Volitelná šířka"
+
+msgid "cont_dark"
+msgstr "Tmavý"
+
+msgid "cont_data_from_lms"
+msgstr "adlcp:datafromlms"
+
+msgid "cont_de_activate"
+msgstr "De-/Aktivovat"
+
+msgid "cont_deactivate_html"
+msgstr "Deaktivovat rendering HTML"
+
+msgid "cont_deactivate_js"
+msgstr "Aktivovat formulářový mód"
+
+msgid "cont_deactivate_media"
+msgstr "Deaktivovat Media"
+
+msgid "cont_deactivate_page"
+msgstr "Deaktivovat stránku"
+
+msgid "cont_deactivated"
+msgstr "Deaktivováno"
+
+msgid "cont_debug"
+msgstr "Zobrazit nabídku pro ladění"
+
+msgid "cont_debug_deactivate"
+msgstr "Rada: Tento nástroj testu může být vypnut pro všechny výukové moduly."
+
+msgid "cont_debug_deactivate12"
+msgstr "Testovací nástroj se zobrazí v režimu prezentace výukového modulu. Na základě jím poskytnutých dat lze vyhodnotit interakci výukového modulu a systému ILIAS."
+
+msgid "cont_debug_deactivated"
+msgstr "Rada: Tento nástroj testu je vypnut pro všechny výukové moduly."
+
+msgid "cont_debugging"
+msgstr "Ladění"
+
+msgid "cont_decimal"
+msgstr "Desetinné číslo"
+
+msgid "cont_def_feedb_activated"
+msgstr "Výchozí texty zpětné vazby jsou nyní aktivovány v nastavení výukového modulu."
+
+msgid "cont_def_feedb_deactivated"
+msgstr "Výchozí texty zpětné vazby jsou nyní deaktivovány v nastavení výukového modulu."
+
+msgid "cont_def_layout"
+msgstr "Výchozí rozložení"
+
+msgid "cont_def_lesson_mode"
+msgstr "Výchozí mód lekce"
+
+msgid "cont_def_map_areas"
+msgstr "Výchozí plochy odkazů"
+
+msgid "cont_def_organization"
+msgstr "výchozí"
+
+msgid "cont_default"
+msgstr "Výchozí"
+
+msgid "cont_definition"
+msgstr "Definice"
+
+#, fuzzy
+msgid "cont_delete_content"
+msgstr "Delete Content"
+
+#, fuzzy
+msgid "cont_delete_file_item_confirm"
+msgstr "Do you really want to delete the selected file(s)?"
+
+msgid "cont_delete_selected"
+msgstr "Smazat"
+
+msgid "cont_delete_style"
+msgstr "Smazat styl"
+
+msgid "cont_delete_track_data"
+msgstr "Smazat data sledování"
+
+msgid "cont_dependencies"
+msgstr "Závislosti"
+
+msgid "cont_dir_created"
+msgstr "Adresář byl vytvořen."
+
+msgid "cont_dir_deleted"
+msgstr "Adresář byl vytvořen."
+
+msgid "cont_dir_file"
+msgstr "Adresář/soubor"
+
+msgid "cont_dir_renamed"
+msgstr "Adresář byl přejmenován."
+
+msgid "cont_disable_def_feedback"
+msgstr "Vypnout výchozí ohlas otázky"
+
+msgid "cont_disable_def_feedback_info"
+msgstr "Je-li vypnuto, odpovědi otázek nebudou zobrazovat studentovi žádný ohlas. Budete muset poskytovat uživatelské ohlasy pro každou otázku."
+
+msgid "cont_download"
+msgstr "Stáhnout"
+
+msgid "cont_download_title"
+msgstr "Název ke stažení"
+
+msgid "cont_drag_and_drop_elements"
+msgstr "Pro přesun prvků obsahu je uchopte a přesuňte na určené místo."
+
+msgid "cont_drag_element_click_save"
+msgstr "Uchop a pušť tento prvek na možadované místo. Pak klepněte na \"Uložit\"."
+
+msgid "cont_ed_align_center"
+msgstr "Zarovnat: střed"
+
+msgid "cont_ed_align_left"
+msgstr "Zarovnat: vlevo"
+
+msgid "cont_ed_align_left_float"
+msgstr "Zarovnat: obtékání vlevo"
+
+msgid "cont_ed_align_right"
+msgstr "Zarovnat: vpravo"
+
+msgid "cont_ed_align_right_float"
+msgstr "Zarovnat: obtékání vpravo"
+
+msgid "cont_ed_atable"
+msgstr "Rozšířená tabulka"
+
+msgid "cont_ed_cell_left"
+msgstr "Přesunout doleva"
+
+msgid "cont_ed_cell_right"
+msgstr "Přesunout doprava"
+
+msgid "cont_ed_class"
+msgstr "Styl"
+
+msgid "cont_ed_click_to_add_pg"
+msgstr "Pokud chcete přidat obsah, klikněte sem."
+
+msgid "cont_ed_col_left"
+msgstr "Přesunout sloupec vlevo"
+
+msgid "cont_ed_col_right"
+msgstr "Přesunout sloupec vpravo"
+
+msgid "cont_ed_copy"
+msgstr "Kopírovat"
+
+msgid "cont_ed_copy_clip"
+msgstr "Kopírovat do schránky"
+
+msgid "cont_ed_cut"
+msgstr "Vystřihnout"
+
+msgid "cont_ed_delete"
+msgstr "Smazat"
+
+msgid "cont_ed_delete_cell"
+msgstr "Smazat sloupec"
+
+msgid "cont_ed_delete_col"
+msgstr "Smazat sloupec"
+
+msgid "cont_ed_delete_item"
+msgstr "Smazat položku"
+
+msgid "cont_ed_delete_row"
+msgstr "Smazat řádek"
+
+msgid "cont_ed_dtable"
+msgstr "Tabulka dat"
+
+msgid "cont_ed_edit"
+msgstr "Upravit"
+
+msgid "cont_ed_edit_data"
+msgstr "Upravit údaje"
+
+msgid "cont_ed_edit_files"
+msgstr "Upravit soubory"
+
+msgid "cont_ed_edit_multiple"
+msgstr "Upravit pořadí odstavců"
+
+msgid "cont_ed_edit_prop"
+msgstr "Upravit vlastnosti"
+
+msgid "cont_ed_enable"
+msgstr "De-/Aktivovat prvky"
+
+msgid "cont_ed_flist"
+msgstr "Seznam souborů"
+
+msgid "cont_ed_go"
+msgstr "OK"
+
+msgid "cont_ed_grid_col_width"
+msgstr "Šířka sloupce"
+
+msgid "cont_ed_grid_col_width_info"
+msgstr "Šířka sloupce může pokrývat více 1/12 jednotek řádku a závisí na celkové velikosti obrazovky. Zařízení jsou uvedena jako příklady. Velikost jejich obrazovky určuje konkrétní chování. 12/12 odpovídá šířce 100 %."
+
+msgid "cont_ed_grid_col_widths"
+msgstr "Šířky sloupců"
+
+#, fuzzy
+msgid "cont_ed_insert_amdfrm"
+msgstr "Insert Advanced Metadata"
+
+#, fuzzy
+msgid "cont_ed_insert_amdpl"
+msgstr "Insert Page List"
+
+msgid "cont_ed_insert_blog"
+msgstr "Vložit blog"
+
+#, fuzzy
+msgid "cont_ed_insert_cach"
+msgstr "Insert Consultation Hours"
+
+#, fuzzy
+msgid "cont_ed_insert_dtab"
+msgstr "Insert Data Table"
+
+#, fuzzy
+msgid "cont_ed_insert_flst"
+msgstr "Insert File List"
+
+msgid "cont_ed_insert_grid"
+msgstr "Vložit rozložení sloupce"
+
+msgid "cont_ed_insert_grid_info"
+msgstr "Přidá odpovídající rozložení sloupců založené na mřížce s 12 jednotkami na řádek."
+
+msgid "cont_ed_insert_iim"
+msgstr "Vložit interaktivní obrázek"
+
+msgid "cont_ed_insert_incl"
+msgstr "Vložit obsah útržků"
+
+#, fuzzy
+msgid "cont_ed_insert_lay"
+msgstr "Insert Layout Template"
+
+#, fuzzy
+msgid "cont_ed_insert_lhist"
+msgstr "Insert Learning History"
+
+msgid "cont_ed_insert_list"
+msgstr "Vložit seznam"
+
+#, fuzzy
+msgid "cont_ed_insert_lpe"
+msgstr "Insert Login Page Element"
+
+msgid "cont_ed_insert_map"
+msgstr "Vložit mapu"
+
+#, fuzzy
+msgid "cont_ed_insert_mcrs"
+msgstr "Insert My Courses"
+
+msgid "cont_ed_insert_media"
+msgstr "Vložit média"
+
+msgid "cont_ed_insert_par"
+msgstr "Vložit text"
+
+msgid "cont_ed_insert_pcqst"
+msgstr "Vložit otázku"
+
+msgid "cont_ed_insert_plach"
+msgstr "Vložit rezervované místo"
+
+#, fuzzy
+msgid "cont_ed_insert_prof"
+msgstr "Insert Personal Data"
+
+msgid "cont_ed_insert_qover"
+msgstr "Vložit přehled otázek"
+
+msgid "cont_ed_insert_repobj"
+msgstr "Vložit seznam zdrojů"
+
+#, fuzzy
+msgid "cont_ed_insert_sec"
+msgstr "Insert Section"
+
+msgid "cont_ed_insert_skills"
+msgstr "Vložit kvalifikace"
+
+#, fuzzy
+msgid "cont_ed_insert_src"
+msgstr "Insert Code"
+
+#, fuzzy
+msgid "cont_ed_insert_tab"
+msgstr "Insert Advanced Table"
+
+msgid "cont_ed_insert_tabs"
+msgstr "Vložit tabulku"
+
+msgid "cont_ed_insert_templ"
+msgstr "Vložit šablonu obsahu"
+
+#, fuzzy
+msgid "cont_ed_insert_vrfc"
+msgstr "Insert Certificate"
+
+msgid "cont_ed_item_down"
+msgstr "Přesunout položku dolů"
+
+msgid "cont_ed_item_up"
+msgstr "Přesunout položku nahoru"
+
+msgid "cont_ed_list"
+msgstr "Rozšířený seznam"
+
+msgid "cont_ed_moveafter"
+msgstr "Přesunout za"
+
+msgid "cont_ed_movebefore"
+msgstr "Přesunout před"
+
+msgid "cont_ed_new_col_after"
+msgstr "Nový sloupec za"
+
+msgid "cont_ed_new_col_before"
+msgstr "Nový sloupec před"
+
+msgid "cont_ed_new_item_after"
+msgstr "Nová položka za"
+
+msgid "cont_ed_new_item_before"
+msgstr "Nová položka před"
+
+msgid "cont_ed_new_row_after"
+msgstr "Nový řádek za"
+
+msgid "cont_ed_new_row_before"
+msgstr "Nový řádek před"
+
+#, fuzzy
+msgid "cont_ed_nr_cols"
+msgstr "Number of Columns"
+
+#, fuzzy
+msgid "cont_ed_nr_rows"
+msgstr "Number of Rows"
+
+msgid "cont_ed_par"
+msgstr "Text"
+
+msgid "cont_ed_paste"
+msgstr "Vložit"
+
+msgid "cont_ed_paste_clip"
+msgstr "Vložit ze schránky"
+
+msgid "cont_ed_pglprop"
+msgstr "Vlastnosti rozložení stránky"
+
+msgid "cont_ed_plachmedia"
+msgstr "Rezervované místo pro Média"
+
+msgid "cont_ed_plachprop"
+msgstr "Vlastnosti rezervovaného místa"
+
+msgid "cont_ed_plachquestion"
+msgstr "Rezervované místo pro otázky"
+
+msgid "cont_ed_plachtext"
+msgstr "Rezervované místo pro Text"
+
+msgid "cont_ed_plachverification"
+msgstr "Rezervované místo pro certifikát"
+
+msgid "cont_ed_row_down"
+msgstr "Přesun řádku dolů"
+
+msgid "cont_ed_row_up"
+msgstr "Přesun řádku nahoru"
+
+msgid "cont_ed_select_pctext"
+msgstr "Vybrat textový prvek"
+
+msgid "cont_ed_split_page"
+msgstr "Rozdělit na novou stránku"
+
+msgid "cont_ed_split_page_next"
+msgstr "Rozdělit na další stránku"
+
+msgid "cont_ed_textitem"
+msgstr "Textová položka"
+
+msgid "cont_ed_width"
+msgstr "Šířka"
+
+msgid "cont_edit_base_image"
+msgstr "Upravit pozadí obrázku"
+
+#, fuzzy
+msgid "cont_edit_comp"
+msgstr "Editing"
+
+msgid "cont_edit_definition"
+msgstr "Upravit definici"
+
+msgid "cont_edit_file_list_properties"
+msgstr "Upravit vlastnosti seznamu souborů"
+
+msgid "cont_edit_language_version"
+msgstr "Upravit verzi"
+
+msgid "cont_edit_lrs_settings"
+msgstr "Upravit nastavení"
+
+msgid "cont_edit_marker_position"
+msgstr "Upravit polohu značky"
+
+msgid "cont_edit_mob"
+msgstr "Upravit mediální objekt"
+
+msgid "cont_edit_mob_alias_prop"
+msgstr "Upravit vlastnosti instance mediálního objektu"
+
+msgid "cont_edit_mode"
+msgstr "Upravit mód"
+
+#, fuzzy
+msgid "cont_edit_multi"
+msgstr "Selection"
+
+msgid "cont_edit_overlay_position"
+msgstr "Upravit polohu překrytí"
+
+msgid "cont_edit_par"
+msgstr "Upravit odstavec"
+
+msgid "cont_edit_personal_data"
+msgstr "Upravit osobní údaje"
+
+msgid "cont_edit_popup_position"
+msgstr "Upravit polohu roletového menu"
+
+msgid "cont_edit_qover"
+msgstr "Upravit přehled otázek"
+
+msgid "cont_edit_shape_circle"
+msgstr "Upravit tvar (Kruh)"
+
+msgid "cont_edit_shape_polygon"
+msgstr "Upravit tvar (Polygon)"
+
+msgid "cont_edit_shape_rectangle"
+msgstr "Upravit tvar (Obdélník)"
+
+msgid "cont_edit_shape_whole_picture"
+msgstr "Upravit tvar (Celý obrázek)"
+
+msgid "cont_edit_src"
+msgstr "Upravit zdrojový kód"
+
+msgid "cont_edit_style"
+msgstr "Upravit styl"
+
+#, fuzzy
+msgid "cont_edit_table"
+msgstr "Edit Table"
+
+msgid "cont_edit_tabs"
+msgstr "Vlastnosti"
+
+msgid "cont_edit_term"
+msgstr "Upravit pojem"
+
+#, fuzzy
+msgid "cont_edit_title"
+msgstr "Change Title"
+
+msgid "cont_element_refers_removed_itgr"
+msgstr "Tento prvek obsahu odkazuje na položku skupiny, které byly mezitím odstraněny."
+
+msgid "cont_empty_question"
+msgstr "Otázka dosud není dokončena. Klepněte a upravte prosím, anebo smažte tuto otázku."
+
+msgid "cont_enable_page_history"
+msgstr "Historie stránky"
+
+msgid "cont_enable_page_history_info"
+msgstr "Ukládá staré verze stránek a umožňuje rolovat zpět po starších verzích."
+
+msgid "cont_enable_time_scheduled_page_activation"
+msgstr "Plánovaný čas aktivace stránky"
+
+msgid "cont_enable_time_scheduled_page_activation_info"
+msgstr "Je-li zapnuto, perioda aktivace (datum/čas) může být vybrán v editoru výukového modulu pro každou stránku."
+
+msgid "cont_end"
+msgstr "Konec"
+
+msgid "cont_enough_answers_correct"
+msgstr "Správně, ale není to nejlepší řešení!"
+
+msgid "cont_enter_a_dir_name"
+msgstr "Vložte prosím název adresáře."
+
+msgid "cont_enter_a_file"
+msgstr "Vložte prosím soubor"
+
+msgid "cont_error"
+msgstr "Došlo k chybě"
+
+msgid "cont_exp_id_used_multiple"
+msgstr "Export ID použit vícekrát"
+
+msgid "cont_exp_ids_not_resp_format1"
+msgstr "Export ID může použít jen nasledující znaky"
+
+msgid "cont_exp_ids_not_resp_format2"
+msgstr "Zkontrolujte prosím a opravte váš vstup"
+
+msgid "cont_exp_ids_not_resp_format3"
+msgstr "Toto ID nesmí začínat číslicí."
+
+msgid "cont_export_all"
+msgstr "Exportovat všechno"
+
+msgid "cont_export_id"
+msgstr "Exportovat ID"
+
+msgid "cont_file"
+msgstr "Soubor"
+
+msgid "cont_file_created"
+msgstr "Soubor byl vytvořen."
+
+msgid "cont_file_deleted"
+msgstr "Soubor byl smazán."
+
+msgid "cont_file_from_repository"
+msgstr "Soubor z úložiště"
+
+msgid "cont_file_from_workspace"
+msgstr "Soubor z mého pracovního prostoru"
+
+msgid "cont_file_renamed"
+msgstr "Soubor byl přejmenován."
+
+msgid "cont_file_unzipped"
+msgstr "Soubor byl rozbalen."
+
+msgid "cont_files"
+msgstr "Soubory"
+
+msgid "cont_finish_editing"
+msgstr "Dokončit úpravy"
+
+#, fuzzy
+msgid "cont_finish_table_editing"
+msgstr "Finish Data Table Editing"
+
+msgid "cont_first_open"
+msgstr "Nejprve otevřený"
+
+msgid "cont_first_page"
+msgstr "První stránka"
+
+msgid "cont_first_row_style"
+msgstr "Styl prvního řádku"
+
+msgid "cont_fix_tree"
+msgstr "Pevná struktura"
+
+msgid "cont_fix_tree_confirm"
+msgstr "Tento příkaz proveďte prosím jen tehdy, když stromová struktura tohoto výukového modulu je narušena, např. pokud se ve zobrazení prohlížeče vyskytnou prázdné položky."
+
+msgid "cont_fn"
+msgstr "Poznámka pod čarou"
+
+msgid "cont_footer"
+msgstr "Zápatí"
+
+#, fuzzy
+msgid "cont_footnote"
+msgstr "Footnote"
+
+msgid "cont_force_all_open"
+msgstr "Donutit vše otevřít"
+
+msgid "cont_format"
+msgstr "Formát"
+
+#, fuzzy
+msgid "cont_format_cells"
+msgstr "Format Cells"
+
+msgid "cont_fourth_edition"
+msgstr "SCORM 2004 4. vydání"
+
+msgid "cont_fourth_edition_info"
+msgstr "SCORM 2004 4. vydání nabízí oproti 3. vydání některé výhody. Například lze vyměnit další data přes hranice SCO. Tyto možnosti se však používají jen zřídka a mají negativní vliv na rychlost."
+
+msgid "cont_free_pages"
+msgstr "Volné stránky"
+
+msgid "cont_full_is_in_dir"
+msgstr "Smazání není možné.  Celoobrazovkový soubor je v adresáři."
+
+msgid "cont_fullscreen"
+msgstr "Celá obrazovka"
+
+msgid "cont_general_properties"
+msgstr "Obecné vlastnosti"
+
+msgid "cont_get_link"
+msgstr "Zvolit odkaz"
+
+msgid "cont_glo_assign"
+msgstr "Přiřadit Glosář"
+
+msgid "cont_glo_create"
+msgstr "Vytvořit Glosář"
+
+msgid "cont_glo_detach"
+msgstr "Odpojit Glosář"
+
+msgid "cont_glo_properties"
+msgstr "Vlastnosti glosáře"
+
+msgid "cont_glossaries"
+msgstr "Glosáře"
+
+msgid "cont_got_lock_release"
+msgstr "Tato stránka byla uzamčena pro úpravy do %1. Po provedení všech změn uvolněte stránku."
+
+msgid "cont_grid_cell"
+msgstr "Sloupec"
+
+msgid "cont_grid_cell_confirm_deletion"
+msgstr "Opravdu chcete smazat tento sloupec (sloupce)?"
+
+msgid "cont_grid_nr_cells"
+msgstr "Počet sloupců"
+
+#, fuzzy
+msgid "cont_grid_t_main_side"
+msgstr "Haupt- und Seitenblock"
+
+#, fuzzy
+msgid "cont_grid_t_main_side_info"
+msgstr "Legt einen breite Spalte links und eine schmalere Spalte rechts daneben an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout."
+
+#, fuzzy
+msgid "cont_grid_t_manual"
+msgstr "Manuell erstelltes Seitenlayout"
+
+#, fuzzy
+msgid "cont_grid_t_manual_info"
+msgstr "Ermöglicht die freie Gestaltung von Spaltenanzahl und -breiten."
+
+#, fuzzy
+msgid "cont_grid_t_three_column"
+msgstr "Drei-Spalten-Layout"
+
+#, fuzzy
+msgid "cont_grid_t_three_column_info"
+msgstr "Legt drei gleich breite Spalten nebeneinander an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout."
+
+#, fuzzy
+msgid "cont_grid_t_two_by_two"
+msgstr "Zwei-mal-zwei-Box"
+
+#, fuzzy
+msgid "cont_grid_t_two_by_two_info"
+msgstr "Legt zwei Zeilen mit zwei gleich breiten Spalten an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout und auf extrabreiten Bildschirmen (extra large) in ein Vier-Spalten-Layout."
+
+#, fuzzy
+msgid "cont_grid_t_two_column"
+msgstr "Zwei-Spalten-Layout"
+
+#, fuzzy
+msgid "cont_grid_t_two_column_info"
+msgstr "Legt zwei gleich breite Spalten nebeneinander an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout."
+
+msgid "cont_grid_width_l"
+msgstr "Velký"
+
+msgid "cont_grid_width_l_info"
+msgstr "Např. stolní počítač"
+
+msgid "cont_grid_width_m"
+msgstr "Střední"
+
+msgid "cont_grid_width_m_info"
+msgstr "Např. tablet"
+
+msgid "cont_grid_width_s"
+msgstr "Malý"
+
+msgid "cont_grid_width_s_info"
+msgstr "Např. smartphone"
+
+msgid "cont_grid_width_xl"
+msgstr "Extra velký"
+
+msgid "cont_grid_width_xl_info"
+msgstr "Např. široká obrazovka"
+
+#, fuzzy
+msgid "cont_hacc_needs_height"
+msgstr "Please set a content height for horizontal accordions."
+
+#, fuzzy
+msgid "cont_hacc_needs_width"
+msgstr "Please set a content width for horizontal accordions."
+
+#, fuzzy
+msgid "cont_has_row_header"
+msgstr "Has a Header Row"
+
+msgid "cont_header"
+msgstr "Záhlaví"
+
+msgid "cont_height"
+msgstr "Výška"
+
+msgid "cont_help_no_valid_tooltip_id"
+msgstr "ID nápovědné bubliny, které jste zadali, nebylo platné."
+
+msgid "cont_hide_adv"
+msgstr "Skrýt další znalosti"
+
+msgid "cont_hide_head_foot_print"
+msgstr "Skrýt uživatelské hlavičky a zápatí v náhledu tisku"
+
+msgid "cont_hidenavig"
+msgstr "Skrýt navigační strom po levé straně"
+
+msgid "cont_hidenavig_info"
+msgstr "Navigační strom vlevo lze skrýt, pokud výukový modul SCORM obsahuje dostatečnou funkci pro navigaci v obsahu nebo je zobrazena horní navigační lišta."
+
+msgid "cont_highlight_class"
+msgstr "Zvýraznit třídu"
+
+msgid "cont_highlight_mode"
+msgstr "Zvýraznit mód"
+
+msgid "cont_hover"
+msgstr "Porozmýšlet"
+
+msgid "cont_href"
+msgstr "hypertextový odkaz"
+
+msgid "cont_html_export_ids"
+msgstr "Exportovat ID HTML"
+
+msgid "cont_html_export_ids_info"
+msgstr "Umožňuje udržovat extra ID pro výukové moduly ILIAS, které jsou použity pro názvy HTML souborů v průběhu provádění exportu HTML."
+
+msgid "cont_html_table"
+msgstr "Tabulka HTML"
+
+msgid "cont_id_ref"
+msgstr "odkaz na identifikátor"
+
+msgid "cont_ie_compatibility"
+msgstr "Internet Explorer 7 compatibility mode"
+
+msgid "cont_ie_compatibility_info"
+msgstr "Zejména u starších výukových modulů může být užitečné aktivovat režim kompatibility. Povšimněte si, že v novějších verzích aplikace Internet Explorer lze vypnout režim kompatibility."
+
+msgid "cont_ie_force_render"
+msgstr "Vynutit opětovné zobrazení aplikace Internet Explorer"
+
+msgid "cont_ie_force_render_info"
+msgstr "Tuto možnost povolte pouze v případě, že se obsah výukového modulu nezobrazí v aplikaci Internet Explorer správně kvůli mnoha rámům nebo iframe. Dále musíte nastavit možnost „Zobrazit“ na „v novém okně“."
+
+#, fuzzy
+msgid "cont_iim_add_overlay"
+msgstr "Add Overlay"
+
+#, fuzzy
+msgid "cont_iim_add_trigger"
+msgstr "Add Trigger"
+
+#, fuzzy
+msgid "cont_iim_add_trigger_text"
+msgstr "Please add a trigger. Afterwards edit size and position on the right screen."
+
+#, fuzzy
+msgid "cont_iim_background_image"
+msgstr "Background Image"
+
+#, fuzzy
+msgid "cont_iim_background_image_and_caption"
+msgstr "Background Image and Caption"
+
+#, fuzzy
+msgid "cont_iim_edit"
+msgstr "Edit Interactive Image"
+
+#, fuzzy
+msgid "cont_iim_edit_trigger"
+msgstr "Edit Trigger"
+
+#, fuzzy
+msgid "cont_iim_finish_editing"
+msgstr "Finish Editing Interactive Image"
+
+#, fuzzy
+msgid "cont_iim_horizontal"
+msgstr "Horizontal"
+
+#, fuzzy
+msgid "cont_iim_lg"
+msgstr "Large"
+
+#, fuzzy
+msgid "cont_iim_md"
+msgstr "Medium"
+
+#, fuzzy
+msgid "cont_iim_no_overlay"
+msgstr "No Overlay"
+
+#, fuzzy
+msgid "cont_iim_overview"
+msgstr "Overview"
+
+#, fuzzy
+msgid "cont_iim_select_overlay"
+msgstr "Select Overlay"
+
+#, fuzzy
+msgid "cont_iim_select_trigger"
+msgstr "To edit an existing trigger, click it on the right screen."
+
+#, fuzzy
+msgid "cont_iim_size"
+msgstr "Size"
+
+#, fuzzy
+msgid "cont_iim_sm"
+msgstr "Small"
+
+#, fuzzy
+msgid "cont_iim_tr_add_popup"
+msgstr "Add Content-Popup"
+
+#, fuzzy
+msgid "cont_iim_tr_properties_info"
+msgstr "The trigger will be presented on the right side. You may alter position and size using the mouse."
+
+#, fuzzy
+msgid "cont_iim_trigger"
+msgstr "Trigger"
+
+#, fuzzy
+msgid "cont_iim_vertical"
+msgstr "Vertical"
+
+msgid "cont_imagemap"
+msgstr "Mapa obrázku"
+
+msgid "cont_import"
+msgstr "Import"
+
+msgid "cont_import_id"
+msgstr "identifikátor"
+
+msgid "cont_import_lang"
+msgstr "Cílový jazyk"
+
+msgid "cont_import_tracking"
+msgstr "Importovat trasovací údaje"
+
+msgid "cont_import_trans"
+msgstr "Importovat překlad"
+
+msgid "cont_import_validation_errors"
+msgstr "V průběhu validace výukového modulu se vyskytly nějaké chyby. Prezentace výukového modulu může být OK, ale je možné, že nebudete schopen editovat stránky, které chyby obsahují."
+
+msgid "cont_initial_attached_content"
+msgstr "Počáteční zvláštní obsah"
+
+msgid "cont_insert_amd_page_list"
+msgstr "Insert Page List"
+
+msgid "cont_insert_as_chapter"
+msgstr "Vložit jako kapitolu"
+
+msgid "cont_insert_as_subchapter"
+msgstr "Vložit jako podkapitolu"
+
+msgid "cont_insert_blog"
+msgstr "Přidat blogový příspěvek"
+
+msgid "cont_insert_chapter"
+msgstr "Vložit kapitolu"
+
+msgid "cont_insert_chapter_from_clip"
+msgstr "Vložit kapitoly ze schránky"
+
+msgid "cont_insert_consultation_hours"
+msgstr "Vložit konzultační hodiny"
+
+msgid "cont_insert_file_item"
+msgstr "Vložit soubor položek"
+
+msgid "cont_insert_file_list"
+msgstr "Vložit seznam souborů"
+
+msgid "cont_insert_list"
+msgstr "Vložit seznam"
+
+msgid "cont_insert_login_page"
+msgstr "Přidat prvek přihlašovací stránky"
+
+msgid "cont_insert_map"
+msgstr "Vložit mapu"
+
+msgid "cont_insert_mob"
+msgstr "Vložit mediální objekt"
+
+msgid "cont_insert_my_courses"
+msgstr "Vložit moje kurzy"
+
+msgid "cont_insert_page"
+msgstr "Vložit stránku"
+
+msgid "cont_insert_page_from_clip"
+msgstr "Vložit stránky se schránky"
+
+#, fuzzy
+msgid "cont_insert_pagelayout"
+msgstr "Insert Template Page"
+
+msgid "cont_insert_par"
+msgstr "Vložit text"
+
+msgid "cont_insert_profile"
+msgstr "Přidat osobní údaje"
+
+msgid "cont_insert_resources"
+msgstr "Vložit seznam zdrojů"
+
+msgid "cont_insert_section"
+msgstr "Vložit oddíl"
+
+msgid "cont_insert_skills"
+msgstr "Vložit kvalifikace"
+
+msgid "cont_insert_src"
+msgstr "Vložit zdrojový kód"
+
+msgid "cont_insert_subchapter"
+msgstr "Vložit podkapitolu"
+
+msgid "cont_insert_subchapter_from_clip"
+msgstr "Vložit podkapitoly ze schránky"
+
+msgid "cont_insert_table"
+msgstr "Vložit tabulku"
+
+msgid "cont_insert_verification"
+msgstr "Přidat certifikát"
+
+msgid "cont_inst_map_areas"
+msgstr "Plochy odkazů instance"
+
+msgid "cont_interactions"
+msgstr "zapnout ukládání výsledků interakcí"
+
+msgid "cont_interactions_info"
+msgstr "Typicky jsou výsledky interakcí ve výukových modulech jednoduše ukládány, aniž by byly znovu načítány / nahrávány. Pokud jste se ujistili, že takto funguje výukový modul, tato možnost zlepší výkon."
+
+msgid "cont_interactions_info_12"
+msgstr "Výsledky interakcí ve výukových modulech SCORM 1.2 jsou jednoduše ukládány. Tato možnost zlepší výkon."
+
+msgid "cont_internal_link"
+msgstr "interní odkaz"
+
+msgid "cont_internal_links"
+msgstr "Interní odkazy"
+
+msgid "cont_invalid_new_module"
+msgstr "Nekompatibilní modul! Ujistěte se prosím, zda imsmanifest.xml nebyl změněn."
+
+msgid "cont_is_visible"
+msgstr "je viditelný"
+
+msgid "cont_item"
+msgstr "Položka"
+
+#, fuzzy
+msgid "cont_keyword"
+msgstr "Keyword"
+
+msgid "cont_language"
+msgstr "Jazyk"
+
+msgid "cont_languages"
+msgstr "Jazyky"
+
+msgid "cont_last_try"
+msgstr "Poslední pokus"
+
+#, fuzzy
+msgid "cont_last_update"
+msgstr "Last Update"
+
+msgid "cont_last_visited_page"
+msgstr "Naposledy navštívená stránka"
+
+msgid "cont_latest_rev"
+msgstr "Poslední revize"
+
+msgid "cont_layout"
+msgstr "Rozvržení"
+
+msgid "cont_layout_1window"
+msgstr "Jedno okno"
+
+msgid "cont_layout_1window_desc"
+msgstr "Obsah levém rámu. Časté otázky, glosář a odkazy médií otevřít ve zvláštním okně."
+
+msgid "cont_layout_2window"
+msgstr "Dvě okna"
+
+msgid "cont_layout_2window_desc"
+msgstr "Obsah levém rámu. Časté otázky, glosář a odkazy médií otevřít v pravém rámu."
+
+msgid "cont_layout_3window"
+msgstr "Tři okna"
+
+msgid "cont_layout_3window_desc"
+msgstr "Obsah v levém rámu. Časté otázky a odkazy médií otevřené v pravém horním rámu, odkazy glosáře v pravém spodním rámu."
+
+msgid "cont_layout_fullscreen"
+msgstr "Celá obrazovka"
+
+msgid "cont_layout_fullscreen_desc"
+msgstr "Obsah v hlavním rámu. Časté otázky, glosář a odkazy medií otevřít ve zvláštním okně. Žádné hlavní menu ILIAS a žádná navigační lišta."
+
+msgid "cont_layout_per_page"
+msgstr "Rozvržení stránky"
+
+msgid "cont_layout_per_page_info"
+msgstr "Umožňuje nastavit individuální rozvržení pro každou stránku. To automaticky také aktivuje nastavení \"Synchronizace rámů\"."
+
+msgid "cont_layout_presentation"
+msgstr "Prezentace"
+
+msgid "cont_layout_presentation_desc"
+msgstr "Obsah v hlavním rámu. Časté otázky, glosář a odkazy medií otevřít ve zvláštním okně. Žádné hlavní menu ILIAS."
+
+msgid "cont_layout_template"
+msgstr "Rozvržení šablony"
+
+msgid "cont_layout_toc2win"
+msgstr "Tabulka s obsahem"
+
+msgid "cont_layout_toc2win_desc"
+msgstr "Tabulka s obsahem vlevo, obsah vlastní stránky v pravém rámu. FAQ, glosář a odkazovaná média budou otevírány v samostatném okně."
+
+msgid "cont_layout_toc2windyn"
+msgstr "Dynamická tabulka s obsahem"
+
+msgid "cont_layout_toc2windyn_desc"
+msgstr "Tabulka s obsahem vlevo, obsah vlastní stránky v pravém rámu. FAQ, glosář a odkazovaná média budou otevírány dynamicky v rámu vpravo dole."
+
+msgid "cont_left"
+msgstr "Levý"
+
+msgid "cont_left_float"
+msgstr "Levý, plovoucí"
+
+msgid "cont_license"
+msgstr "License"
+
+msgid "cont_license_info"
+msgstr "Enables the license feature"
+
+msgid "cont_light"
+msgstr "Světlý"
+
+msgid "cont_link"
+msgstr "Odkaz"
+
+msgid "cont_link_area"
+msgstr "Připojená plocha"
+
+msgid "cont_link_ext"
+msgstr "Odkaz (externí)"
+
+msgid "cont_link_glo_in_lm"
+msgstr "Mají být nyní připojeny všechny termíny glosáře k tomuto výukovému modulu?"
+
+msgid "cont_link_int"
+msgstr "Odkaz (interní)"
+
+msgid "cont_link_no"
+msgstr "Žádný odkaz"
+
+msgid "cont_link_select"
+msgstr "Interní odkaz"
+
+msgid "cont_link_to_external"
+msgstr "Odkaz na externí webovou stránku"
+
+msgid "cont_link_to_internal"
+msgstr "Odkaz na zdroj ILIAS"
+
+msgid "cont_link_to_wiki"
+msgstr "Odkaz na Wiki stránku"
+
+msgid "cont_link_type"
+msgstr "Typ odkazu"
+
+#, fuzzy
+msgid "cont_link_user"
+msgstr "User Profile"
+
+msgid "cont_linked_mobs"
+msgstr "Připojené mediální objekty"
+
+msgid "cont_links"
+msgstr "Odkazy"
+
+msgid "cont_list_files"
+msgstr "Seznam souborů"
+
+msgid "cont_list_indent"
+msgstr "Odsadit seznam"
+
+#, fuzzy
+msgid "cont_list_item_style"
+msgstr "List Item Style"
+
+msgid "cont_list_outdent"
+msgstr "Rozpojit seznam"
+
+msgid "cont_list_properties"
+msgstr "Vlastnosti seznamu"
+
+msgid "cont_lists"
+msgstr "Seznamy"
+
+msgid "cont_lk_chapter"
+msgstr "Kapitola"
+
+msgid "cont_lk_chapter_new"
+msgstr "Kapitola (nový rám)"
+
+msgid "cont_lk_file"
+msgstr "Soubor/Dokument"
+
+msgid "cont_lk_media_faq"
+msgstr "Média (FAQ rám)"
+
+msgid "cont_lk_media_inline"
+msgstr "Média (inline)"
+
+msgid "cont_lk_media_media"
+msgstr "Média (mediální rám)"
+
+msgid "cont_lk_media_new"
+msgstr "Média (nový rám)"
+
+msgid "cont_lk_page"
+msgstr "Stránka"
+
+msgid "cont_lk_page_faq"
+msgstr "Stránka (FAQ rám)"
+
+msgid "cont_lk_page_new"
+msgstr "Stránka (nový rám)"
+
+msgid "cont_lk_term"
+msgstr "Termín z glosáře"
+
+msgid "cont_lk_term_new"
+msgstr "Termín z glosáře (nový rám)"
+
+msgid "cont_lm_comments_desc"
+msgstr "Umožnit uživatelům sdílet komentáře na každé stránce výukového modulu."
+
+msgid "cont_lm_default_layout"
+msgstr "Výchozí rozvržení výukového modulu"
+
+msgid "cont_lm_mail_permanent_link"
+msgstr "Click on the following link to access the learning module:"
+
+msgid "cont_lm_menu"
+msgstr "Nabídka"
+
+msgid "cont_lm_properties"
+msgstr "Vlastnosti výukového modulu"
+
+msgid "cont_lm_starting_point"
+msgstr "Výchozí bod pro výukové moduly ILIAS"
+
+msgid "cont_lm_starting_point_info"
+msgstr "Stránka se otevře při kliknutí na nadpis výukových modulů."
+
+msgid "cont_localfile"
+msgstr "Místní soubor"
+
+msgid "cont_localization"
+msgstr "Lokalizace"
+
+msgid "cont_localization_info"
+msgstr "Jazyk použitý pro předdefinované texty, např. \"Předchozí\" a \"Další\"."
+
+msgid "cont_location"
+msgstr "Umístění"
+
+#, fuzzy
+msgid "cont_lpe_dpro_agreement_link"
+msgstr "Declaration of Data Protection Link"
+
+msgid "cont_lpe_language_selection"
+msgstr "Výběr jazyka"
+
+msgid "cont_lpe_login_form"
+msgstr "Přihlašovací formulář"
+
+msgid "cont_lpe_openid_connect_login"
+msgstr "Přihlášení OpenId Connect"
+
+msgid "cont_lpe_openid_login_form"
+msgstr "Přihlašovací formulář OpenId"
+
+msgid "cont_lpe_registration_link"
+msgstr "Nový registrační odkaz"
+
+#, fuzzy
+msgid "cont_lpe_saml_login"
+msgstr "SAML Login"
+
+msgid "cont_lpe_shib_login_form"
+msgstr "Přihlašovací formulář Shibboleth"
+
+msgid "cont_lpe_user_agreement_link"
+msgstr "Odkaz na uživatelskou smlouvu"
+
+msgid "cont_lrs_settings"
+msgstr "Nastavení"
+
+msgid "cont_lvalue"
+msgstr "Datový prvek"
+
+msgid "cont_maintenance"
+msgstr "Údržba"
+
+msgid "cont_manifest"
+msgstr "Prohlášení"
+
+#, fuzzy
+msgid "cont_manual_item_group"
+msgstr "Manually Create Item Group"
+
+msgid "cont_map_file_not_generated"
+msgstr "Lituji. Nelze vytvořit mapový soubor pro editaci."
+
+msgid "cont_marker"
+msgstr "Značka"
+
+msgid "cont_master_language_only"
+msgstr "Hlavní jazyk pro překlad"
+
+msgid "cont_master_language_only_no_media"
+msgstr "Hlavní jazyk bez médií"
+
+msgid "cont_mastery_score"
+msgstr "adlcp:masteryscore"
+
+msgid "cont_mastery_score_12"
+msgstr "přepsat mastery_score"
+
+msgid "cont_mastery_score_12_info"
+msgstr "Pokud SCO neurčuje stav nezávisle, je SCO považováno za úspěšně absolvované, pokud skóre dosáhlo alespoň určité úrovně - mastery_score. Tuto hodnotu zde lze přepsat např. pro snížení úrovně požadavku. Pokud je pole prázdné, informace v manifestu SCORM jsou platné. V souboru manifestu jsou uvedeny následující hodnoty:"
+
+msgid "cont_mastery_score_2004"
+msgstr "přepsat scaled_passing_score"
+
+msgid "cont_mastery_score_2004_info"
+msgstr "Centrální cíle učení tohoto výukového modulu jsou považovány za úspěšně absolvované, pokud skóre dosáhlo alespoň určité úrovně - scaled_passing_score. Tuto hodnotu - musí být uvedena jako procentuální hodnota - zde lze přepsat např. pro snížení úrovně požadavku. Pokud je pole prázdné, informace v manifestu SCORM jsou platné. V souboru manifestu jsou uvedeny následující hodnoty:"
+
+msgid "cont_max_time_allowed"
+msgstr "adlcp:maxtimeallowed"
+
+#, fuzzy
+msgid "cont_media"
+msgstr "Images/Media"
+
+msgid "cont_media_placeh"
+msgstr "Klepnou a upravit k vložení média"
+
+msgid "cont_media_placehl"
+msgstr "Rezervované místo média"
+
+msgid "cont_media_source"
+msgstr "Zdroj média"
+
+#, fuzzy
+msgid "cont_merge_cells"
+msgstr "Merge Cells"
+
+msgid "cont_missing_preconditions"
+msgstr "Musíte naplnit následující předpoklady k přístupu do kapitoly \"%s\"."
+
+msgid "cont_missing_snippet"
+msgstr "Chybí úryvek obsahu. Úryvek byl smazán."
+
+msgid "cont_mob_def_prop"
+msgstr "Výchozí vlastnosti"
+
+msgid "cont_mob_from_media_pool"
+msgstr "Vyberte ze zásobníku médií"
+
+msgid "cont_mob_inst_prop"
+msgstr "Vlastnosti instance"
+
+msgid "cont_mob_usages"
+msgstr "Použití"
+
+msgid "cont_more_character_styles"
+msgstr "...více znakových stylů"
+
+msgid "cont_more_functions"
+msgstr "Další"
+
+msgid "cont_moved_srt_files"
+msgstr "Soubory titulků byly přesunuty do objektů médií."
+
+msgid "cont_multi_srt_files"
+msgstr "Soubory SRT"
+
+msgid "cont_mycourses_sortorder"
+msgstr "Výchozí třídění"
+
+msgid "cont_mycourses_sortorder_alphabetical"
+msgstr "Abecední"
+
+msgid "cont_mycourses_sortorder_info"
+msgstr "Toto je výchozí nastavení. Každý uživatel si může vybrat osobní pořadí, které ovlivní všechny prvky „Moje kurzy“ jakéhokoli portfolia."
+
+msgid "cont_mycourses_sortorder_location"
+msgstr "Podle umístění"
+
+msgid "cont_name"
+msgstr "Název"
+
+msgid "cont_never"
+msgstr "Nikdy"
+
+msgid "cont_new_area"
+msgstr "Nové připojení plochy"
+
+msgid "cont_new_chap"
+msgstr "Nová kapitola"
+
+msgid "cont_new_dir"
+msgstr "Nový adresář"
+
+msgid "cont_new_file"
+msgstr "Nový soubor"
+
+msgid "cont_new_marker"
+msgstr "Nová značka"
+
+msgid "cont_new_mob"
+msgstr "Nový mediální objekt"
+
+msgid "cont_new_module_added"
+msgstr "Nová verze modulu byla úspěšně uložena."
+
+msgid "cont_new_page"
+msgstr "Nová stránka"
+
+msgid "cont_new_popup"
+msgstr "Nové rozbalovací menu"
+
+msgid "cont_new_question"
+msgstr "Nová otázka"
+
+msgid "cont_new_tab"
+msgstr "Nová tabulka"
+
+msgid "cont_new_term"
+msgstr "Nový pojem"
+
+msgid "cont_new_trigger_area"
+msgstr "Nová spouštěcí plocha"
+
+msgid "cont_next_rev"
+msgstr "Následující revize"
+
+msgid "cont_nlist"
+msgstr "Číslovaný seznam"
+
+msgid "cont_no_access"
+msgstr "Není dostupný"
+
+#, fuzzy
+msgid "cont_no_block"
+msgstr "No Section"
+
+msgid "cont_no_caption"
+msgstr "Žádká hlavička"
+
+msgid "cont_no_glossary"
+msgstr "Žádný glosář"
+
+msgid "cont_no_manifest"
+msgstr "Žádný soubor imsmanifest.xml v hlavním adresáři nenalezen."
+
+msgid "cont_no_page"
+msgstr "Žádná stránka nebyla nalezena."
+
+msgid "cont_no_page_access_unansw_q"
+msgstr "Abyste získali přístup na tuto stránku, musíte správně odpovědět na všechny otázky z předchozích stránek."
+
+msgid "cont_no_page_in_chapter"
+msgstr "Lituji, avšak obsah této kapitoly dosud nebyl aktivován."
+
+msgid "cont_no_parameters"
+msgstr "Žádné parametry"
+
+#, fuzzy
+msgid "cont_no_read"
+msgstr "No read permission"
+
+msgid "cont_no_subdir_in_zip"
+msgstr "Příkaz Zip selhal, nebo neplatný importovaný soubor.<br>Neobsahuje podadresář '%s'."
+
+msgid "cont_no_text"
+msgstr "Žádný text"
+
+msgid "cont_nomenu"
+msgstr "Vypnout horní navigační lištu"
+
+msgid "cont_nomenu_info"
+msgstr "Horní navigační lištu lze skrýt, pokud výukový modul SCORM obsahuje dostatečnou funkci pro pozastavení, dokončení a navigaci v obsahu."
+
+msgid "cont_none"
+msgstr "Nic"
+
+msgid "cont_not_saved_edit_lock_expired"
+msgstr "Je nám líto, ale mezitím jiný uživatel získal zámek úprav pro tuto stránku. Můžete tuto zprávu zavřít a obsah zkopírovat do schránky."
+
+#, fuzzy
+msgid "cont_notification_activate_lm"
+msgstr "Activate Notification for Learning Module"
+
+#, fuzzy
+msgid "cont_notification_activate_page"
+msgstr "Activate Notification for Page"
+
+#, fuzzy
+msgid "cont_notification_activated"
+msgstr "Notification Activated (Whole LM)"
+
+#, fuzzy
+msgid "cont_notification_comment_lm"
+msgstr "the following Learning Module Page has been commented"
+
+#, fuzzy
+msgid "cont_notification_comment_subject_lm"
+msgstr "A comment was added to %s: %s"
+
+#, fuzzy
+msgid "cont_notification_deactivate_lm"
+msgstr "Deactivate Notification for Learning Module"
+
+#, fuzzy
+msgid "cont_notification_deactivate_page"
+msgstr "Deactivate Notification for Page"
+
+#, fuzzy
+msgid "cont_notification_deactivated"
+msgstr "Notification Deactivated"
+
+#, fuzzy
+msgid "cont_notification_update_lm"
+msgstr "the following Learning Module has been updated"
+
+msgid "cont_notify_on_blocked_users"
+msgstr "Oznámení o blokovaných uživatelích"
+
+msgid "cont_notify_on_blocked_users_info"
+msgstr "Budete upozorněni, pokud budou uživatelé zablokováni, když vyčerpají pokusy."
+
+msgid "cont_nr_col_footer"
+msgstr "Sloupce zápatí"
+
+msgid "cont_nr_col_header"
+msgstr "Sloupce hlavičky"
+
+msgid "cont_nr_cols"
+msgstr "Počet sloupců"
+
+msgid "cont_nr_items"
+msgstr "Počet položek"
+
+msgid "cont_nr_of_tries_exceeded"
+msgstr "Počet pokusů překročen."
+
+msgid "cont_nr_row_footer"
+msgstr "Řádky zápatí"
+
+msgid "cont_nr_row_header"
+msgstr "Řádky hlavičky"
+
+msgid "cont_nr_rows"
+msgstr "Počet řádků"
+
+msgid "cont_number_of_tabs"
+msgstr "Počet tabulek"
+
+msgid "cont_number_std"
+msgstr "Standardní"
+
+msgid "cont_number_type"
+msgstr "Typ čísla"
+
+msgid "cont_numbered_list"
+msgstr "Číslovaný seznam"
+
+msgid "cont_obj_removed"
+msgstr "Objekt odstraněn."
+
+msgid "cont_objectives"
+msgstr "zapnout ukládání dat týkajících se cílů výuky"
+
+msgid "cont_objectives_info"
+msgstr "Tato možnost zlepšuje výkon, pokud jste se ujistili, že tento výukový modul běží správně."
+
+msgid "cont_online"
+msgstr "Online"
+
+msgid "cont_online_help_ids"
+msgstr "ID obrazovky"
+
+msgid "cont_online_info"
+msgstr "Nastavte výukový modul SCORM online tak, aby byl viditelný a dostupný pro uživatele. Pokud ne, budou k němu mít přístup pouze uživatelé s oprávněním „Upravit“."
+
+msgid "cont_open"
+msgstr "Zobrazit"
+
+#, fuzzy
+msgid "cont_open_clipboard"
+msgstr "Open Clipboard"
+
+msgid "cont_open_iframe"
+msgstr "Otevře se ve stejném okně, zobrazí se hlavní menu ILIAS"
+
+#, fuzzy
+msgid "cont_open_iframe_info"
+msgstr "The learning module starts in the same window (iFrame) next to the ILIAS main menu."
+
+msgid "cont_open_normal"
+msgstr "v tabulce / novém okně s odkazem"
+
+#, fuzzy
+msgid "cont_open_normal_info"
+msgstr "The learning module starts in a new tab or alternatively in a new window without the ILIAS main menu."
+
+msgid "cont_open_window"
+msgstr "Rozhodně se otevře v novém okně, bez hlavního menu ILIAS"
+
+#, fuzzy
+msgid "cont_open_window_info"
+msgstr "The learning module must start in a new window without the ILIAS main menu."
+
+msgid "cont_operation_not_allowed"
+msgstr "Tato operace není povolena."
+
+msgid "cont_organization"
+msgstr "Organizace"
+
+msgid "cont_organizations"
+msgstr "Organizace"
+
+msgid "cont_orig_size"
+msgstr "Původní velikost"
+
+#, fuzzy
+msgid "cont_other_resources"
+msgstr "Content (Other Remaining Resources)"
+
+msgid "cont_out_of_focus_message"
+msgstr "Tato stránka již nesouvisí s vaším aktuálním cílem učení."
+
+msgid "cont_out_of_focus_message_last_page"
+msgstr "Toto je poslední stránka obsahu, který souvisí s vaším aktuálním cílem učení."
+
+msgid "cont_ov_all_correct"
+msgstr "Všechny otázky máte zodpovězeny správně."
+
+msgid "cont_ov_preview"
+msgstr "Přehled otázek nefunguje v kontextu editoru stránek. Místo toho použijte náhled úrovně SCO nebo SCORM."
+
+msgid "cont_ov_some_correct"
+msgstr "Máte správně zodpovězeno [x] z [y] otázek."
+
+msgid "cont_ov_wrong_answered"
+msgstr "Následující otázky nebyly zodpovězeny, nebo byly zopovězeny chybně"
+
+msgid "cont_overlay_image"
+msgstr "Překryvný obrázek"
+
+msgid "cont_overlay_images"
+msgstr "Překryvné obrázky"
+
+msgid "cont_overlays_have_been_deleted"
+msgstr "Překryvy byly smazány"
+
+msgid "cont_page_activation"
+msgstr "Aktivace stránky"
+
+msgid "cont_page_activation_on"
+msgstr "Obsah bude aktivován %s."
+
+msgid "cont_page_compare"
+msgstr "Porovnat vybrané revize"
+
+#, fuzzy
+msgid "cont_page_created"
+msgstr "Page created"
+
+msgid "cont_page_currently_deactivated"
+msgstr "Lituji, avšak tato stránka je nyní deaktivována."
+
+msgid "cont_page_deactivated"
+msgstr "Stránka je deaktivována."
+
+msgid "cont_page_deactivated_elements"
+msgstr "Stránka obsahuje deaktivované prvky."
+
+msgid "cont_page_header"
+msgstr "Hlavička stránky"
+
+msgid "cont_page_layout"
+msgstr "Rozložení stránky"
+
+msgid "cont_page_lock_released"
+msgstr "Úprava dokončena. Zámek stránky byl uvolněn."
+
+#, fuzzy
+msgid "cont_page_notification_activated"
+msgstr "Notification Activated (Single Page)"
+
+#, fuzzy
+msgid "cont_page_template"
+msgstr "Page Template"
+
+msgid "cont_page_toc"
+msgstr "Souhrn stránek"
+
+msgid "cont_page_translation_does_not_exist"
+msgstr "Překlad stránky doposud neexistuje a bude vytvořen."
+
+#, fuzzy
+msgid "cont_page_usage"
+msgstr "Page Usage"
+
+msgid "cont_pages"
+msgstr "Stránky"
+
+msgid "cont_pages_and_subchapters"
+msgstr "Podkapitoly a stránky"
+
+msgid "cont_par_format"
+msgstr "Odstavec"
+
+msgid "cont_paragraph_styles"
+msgstr "Styly odstavce"
+
+msgid "cont_parameter"
+msgstr "Parametr"
+
+msgid "cont_parameters"
+msgstr "parametry"
+
+msgid "cont_paste_from_clipboard"
+msgstr "Vložit ze schránky"
+
+#, fuzzy
+msgid "cont_paste_from_spreadsheet"
+msgstr "Paste From Spreadsheet"
+
+msgid "cont_paste_table"
+msgstr "Vložit tabulku"
+
+msgid "cont_pc_amdpl"
+msgstr "Seznam stránek"
+
+msgid "cont_pc_blog"
+msgstr "Blog"
+
+msgid "cont_pc_carousel"
+msgstr "Karusel"
+
+msgid "cont_pc_code"
+msgstr "Kód"
+
+msgid "cont_pc_deleted"
+msgstr "Obsah smazán"
+
+msgid "cont_pc_dtab"
+msgstr "Datová tabulka"
+
+msgid "cont_pc_flist"
+msgstr "Seznam souborů"
+
+msgid "cont_pc_grid"
+msgstr "Rozložení sloupce"
+
+msgid "cont_pc_hacc"
+msgstr "Skládání (Horizontálně)"
+
+msgid "cont_pc_iim"
+msgstr "Interaktivní obrázek"
+
+msgid "cont_pc_incl"
+msgstr "Úryvek obsahu"
+
+#, fuzzy
+msgid "cont_pc_lay"
+msgstr "Layout Template"
+
+msgid "cont_pc_list"
+msgstr "Rozšířený seznam"
+
+msgid "cont_pc_map"
+msgstr "Mapa"
+
+#, fuzzy
+msgid "cont_pc_media"
+msgstr "Image/Media"
+
+msgid "cont_pc_mob"
+msgstr "Média"
+
+msgid "cont_pc_modified"
+msgstr "Obsah modifikován"
+
+msgid "cont_pc_new"
+msgstr "Nový obsah"
+
+msgid "cont_pc_par"
+msgstr "Text"
+
+#, fuzzy
+msgid "cont_pc_plach"
+msgstr "Placeholder"
+
+msgid "cont_pc_prof"
+msgstr "Osobní údaje"
+
+msgid "cont_pc_qover"
+msgstr "Souhrn otázek"
+
+msgid "cont_pc_qst"
+msgstr "Otázka"
+
+#, fuzzy
+msgid "cont_pc_repobj"
+msgstr "Item Group"
+
+msgid "cont_pc_res"
+msgstr "Zdroj"
+
+msgid "cont_pc_sec"
+msgstr "Sekce"
+
+msgid "cont_pc_skills"
+msgstr "Kvalifikace"
+
+#, fuzzy
+msgid "cont_pc_src"
+msgstr "Source Code"
+
+msgid "cont_pc_tab"
+msgstr "Rozšířená tabulka"
+
+#, fuzzy
+msgid "cont_pc_tabs"
+msgstr "Accordion/Carousel"
+
+msgid "cont_pc_vacc"
+msgstr "Skládání (Vertikálně)"
+
+msgid "cont_pc_vrfc"
+msgstr "Certifikát"
+
+#, fuzzy
+msgid "cont_permission_handling"
+msgstr "Permission Handling"
+
+msgid "cont_permission_object"
+msgstr "Objekt oprávnění"
+
+msgid "cont_permission_object_desc"
+msgstr "Tato část bude zobrazena pouze pro uživatele, kteří mají dané oprávnění k objektu oprávnění."
+
+msgid "cont_personal_clipboard"
+msgstr "Osobní schránka"
+
+msgid "cont_pg_title"
+msgstr "Název stránky"
+
+msgid "cont_please_enter_a_term"
+msgstr "Vložte prosím termín."
+
+msgid "cont_please_select"
+msgstr "vyberte prosím"
+
+msgid "cont_please_try_again"
+msgstr "Zkuste prosím znovu!"
+
+msgid "cont_popups_have_been_deleted"
+msgstr "Rozbalovací seznam byl smazán."
+
+msgid "cont_position"
+msgstr "Poloha"
+
+msgid "cont_prereq_type"
+msgstr "adlcp:prerequisites.type"
+
+msgid "cont_prerequisites"
+msgstr "adlcp:prerequisites"
+
+msgid "cont_presentation"
+msgstr "Prezentace"
+
+msgid "cont_presentation_view"
+msgstr "Zobrazení prezentace"
+
+msgid "cont_preview"
+msgstr "Náhled"
+
+msgid "cont_previous_rev"
+msgstr "Předchozí revize"
+
+msgid "cont_print_no_page_selected"
+msgstr "Vyberte prosím alespoň jednu stránku."
+
+msgid "cont_print_selection"
+msgstr "Výběr náhledu tisku"
+
+msgid "cont_print_view"
+msgstr "Tisk"
+
+msgid "cont_print_view_pre_glo"
+msgstr "Zamezit přílohy glosáře v náhledu tisku"
+
+msgid "cont_profile_mode"
+msgstr "Mód"
+
+msgid "cont_profile_mode_inherit"
+msgstr "Automaticky"
+
+msgid "cont_profile_mode_inherit_info"
+msgstr "Použijte Vaše nastavení profilu"
+
+msgid "cont_profile_mode_manual"
+msgstr "Manuálně"
+
+msgid "cont_profile_mode_manual_info"
+msgstr "Použijte následující údaje:"
+
+msgid "cont_profile_mode_template_inherit_info"
+msgstr "Použijte nastavení profilu"
+
+msgid "cont_progress_icons"
+msgstr "Ikony postupu"
+
+msgid "cont_progress_icons_info"
+msgstr "V režimu prezentace zobrazte ikony postupu místo ikon stránek kapitoly. Povšimněte si, že informace o postupu se ukládají pouze v systému ILIAS 4.5 a vyšším."
+
+msgid "cont_prtf_page"
+msgstr "Stránka portfolia"
+
+msgid "cont_prtt_page"
+msgstr "Stránka šablony portfolia"
+
+msgid "cont_public_access"
+msgstr "Veřejný přístup"
+
+msgid "cont_purpose"
+msgstr "Účel"
+
+msgid "cont_qover_list_wrong_q"
+msgstr "Seznam chybně zodpovězených otázek"
+
+msgid "cont_qover_list_wrong_q_info"
+msgstr "Zobrazí se seznam chybných, či nezodpovězených otázek."
+
+msgid "cont_qover_short_message"
+msgstr "Zpráva statusu"
+
+msgid "cont_qover_short_message_info"
+msgstr "Zobrazí se hlášení \"Máte správně zodpovězeno C z Y otázek této jednotky.\"."
+
+msgid "cont_qtries"
+msgstr "Počet pokusů otázky"
+
+msgid "cont_qtries_info"
+msgstr "Výchozí hodnota pro počet pokusů pro nově vytvořené otázky."
+
+#, fuzzy
+msgid "cont_question"
+msgstr "Question"
+
+#, fuzzy
+msgid "cont_question_page_usage"
+msgstr "Questions on Pages"
+
+msgid "cont_question_placeh"
+msgstr "Klepnou a upravit k vložení otázky"
+
+msgid "cont_question_placehl"
+msgstr "Rezervované místo otázky"
+
+msgid "cont_question_stats"
+msgstr "Statistický"
+
+msgid "cont_question_type"
+msgstr "Typ otázky"
+
+#, fuzzy
+msgid "cont_question_usage"
+msgstr "Usages"
+
+#, fuzzy
+msgid "cont_quit_text_editing"
+msgstr "Finish Text Editing"
+
+msgid "cont_rand_start"
+msgstr "Náhodné spuštění"
+
+msgid "cont_really_delete_overlays"
+msgstr "Skutečně chcete smazat následující překryvy?"
+
+msgid "cont_really_delete_popups"
+msgstr "Skutečně chcete smazat následující rozbalovací menu?"
+
+msgid "cont_really_delete_triggers"
+msgstr "Skutečně chcete smazat následující spouštěče?"
+
+msgid "cont_ref_helptext"
+msgstr "(např. http://www.server.org/obrazek.jpg)"
+
+msgid "cont_ref_images"
+msgstr "Odkazované obrázky"
+
+msgid "cont_reference"
+msgstr "Křížový odkaz"
+
+msgid "cont_remove_format"
+msgstr "Odstranit formát"
+
+msgid "cont_rename_dir"
+msgstr "Přejmenovat adresář"
+
+msgid "cont_replace_mob_feature"
+msgstr "Přemístit objekty médií v obsahu"
+
+msgid "cont_replace_mob_feature_info"
+msgstr "Aktivuje funkce, které umožňují přemístit mediální objekt při zachování jiných vlastností mediální instance v obsahu."
+
+msgid "cont_repository_item"
+msgstr "Položka úložiště"
+
+msgid "cont_reset_nr_of_tries"
+msgstr "Znovu nastavit počet pokusů"
+
+msgid "cont_resize_img"
+msgstr "Změnit velikost souboru obrázku"
+
+msgid "cont_resource"
+msgstr "Zdroj"
+
+msgid "cont_resource_size"
+msgstr "Velikost původního zdroje"
+
+msgid "cont_resource_size_info"
+msgstr "Without size declaration the size can be controlled by the content style. Pokud není deklarována velikost, ani styl obsahu neobsahuje pravidlo, které určuje velikost, pouze obrázky se zobrazí ve výchozí velikosti."
+
+msgid "cont_resource_type"
+msgstr "typ"
+
+msgid "cont_resources"
+msgstr "Zdroje"
+
+msgid "cont_resources_of_type"
+msgstr "Typ zdroje"
+
+msgid "cont_restrict_forw_nav"
+msgstr "Omezit navigaci vpřed"
+
+msgid "cont_restrict_forw_nav_info"
+msgstr "Žáci nemohou přejít na následující stránky, pokud správně neodpoví na všechny předchozí otázky."
+
+msgid "cont_revision"
+msgstr "Revize"
+
+msgid "cont_right"
+msgstr "Pravý"
+
+msgid "cont_right_float"
+msgstr "Pravý, plovoucí"
+
+msgid "cont_rollback"
+msgstr "Vrátit zpět"
+
+msgid "cont_rollback_confirmation"
+msgstr "Skutečně chcete obnovit tuto starou verzi této stránky?"
+
+msgid "cont_roman"
+msgstr "Římské I, II, ..."
+
+msgid "cont_roman_s"
+msgstr "Římské i, ii, ..."
+
+msgid "cont_rowspan"
+msgstr "Rozteč řádku"
+
+msgid "cont_rte_settings"
+msgstr "Nastavení RTE"
+
+msgid "cont_rvalue"
+msgstr "Hodnota"
+
+msgid "cont_save_all_titles"
+msgstr "Uložit názvy"
+
+msgid "cont_save_positions"
+msgstr "Uložit pozici"
+
+msgid "cont_save_positions_and_classes"
+msgstr "Uložit třídy pozice a stylu"
+
+msgid "cont_save_spans"
+msgstr "Uložit rozteče"
+
+msgid "cont_save_types"
+msgstr "Uložit typy"
+
+msgid "cont_save_widths"
+msgstr "Uložit šířku"
+
+msgid "cont_saved_export_ids"
+msgstr "HTML Export ID uložen"
+
+msgid "cont_saved_interactive_image"
+msgstr "Interaktivní obrázek vytvořen"
+
+msgid "cont_saved_map_area"
+msgstr "Uložená mapová plocha"
+
+msgid "cont_saved_map_data"
+msgstr "Uložená mapová data"
+
+msgid "cont_saving"
+msgstr "Ukládám..."
+
+msgid "cont_sc_auto_continue"
+msgstr "Auto-pokračování"
+
+msgid "cont_sc_auto_continue_info"
+msgstr "Po dokončení poslední aktivity budou uživatelé automaticky přesměrováni na další SCO. Tato funkce není podporována všemi výukovými moduly SCORM 1.2."
+
+msgid "cont_sc_auto_review_2004"
+msgstr "Mód automatického přezkoušení"
+
+msgid "cont_sc_auto_review_completed"
+msgstr "když je dokončený"
+
+msgid "cont_sc_auto_review_completed_and_passed"
+msgstr "když je dokončený a prošel"
+
+msgid "cont_sc_auto_review_completed_not_failed_or_passed"
+msgstr "když je dokončený či prošel, ale uspěl (doporučeno pro Mód automatického přezkoušení)"
+
+msgid "cont_sc_auto_review_completed_or_passed"
+msgstr "když je dokončený či prošel"
+
+msgid "cont_sc_auto_review_info_2004"
+msgstr "Pokud je zapnut Mód automatického přezkoušení, pak trasovací data pro kapitolu (SCO) výukového modulu nejsou ulokládány, pokud není zapnuta některá z těchto voleb. Avšak v některých případech tyto výukové moduly používají Sekvencování & Navigaci SCORM 2004, tato volba by by neměla být zapnuta."
+
+msgid "cont_sc_auto_review_no"
+msgstr "vypnuto"
+
+msgid "cont_sc_auto_review_passed"
+msgstr "když prošel"
+
+msgid "cont_sc_auto_review_passed_or_failed"
+msgstr "když prošel nebo neuspěl"
+
+msgid "cont_sc_id_setting"
+msgstr "student_id podle SCORM 1.2"
+
+msgid "cont_sc_id_setting_2004"
+msgstr "learner_id podle SCORM 2004"
+
+msgid "cont_sc_id_setting_info"
+msgstr "V případě, že numerické id pro student_id (SCORM 1.2) nebo learner_id (SCORM 2004) způsobí problémy pro výukový modul, použijte možnost „Uživatelské jméno ILIAS“. Přidání RefId nebo ObjId může být užitečné pro výukové moduly, které se připojují k externímu serveru."
+
+msgid "cont_sc_id_setting_user_id"
+msgstr "Id uživatele ILIAS (standardní)"
+
+msgid "cont_sc_id_setting_user_id_plus_obj_id"
+msgstr "Id uživatele ILIAS plus ObjId výukového modulu"
+
+msgid "cont_sc_id_setting_user_id_plus_ref_id"
+msgstr "Id uživatele ILIAS plus RefId výukového modulu"
+
+msgid "cont_sc_id_setting_user_login"
+msgstr "Přihlašovací jméno ILIAS"
+
+msgid "cont_sc_id_setting_user_login_plus_obj_id"
+msgstr "Přihlašovací jméno ILIAS plus ObjId výukového modulu"
+
+msgid "cont_sc_id_setting_user_login_plus_ref_id"
+msgstr "Přihlašovací jméno ILIAS plus RefId výukového modulu"
+
+msgid "cont_sc_less_mode_browse"
+msgstr "Hledat"
+
+#, fuzzy
+msgid "cont_sc_less_mode_browse_info"
+msgstr "The SCORM mode is set to \"browse\"."
+
+msgid "cont_sc_less_mode_normal"
+msgstr "Normální"
+
+#, fuzzy
+msgid "cont_sc_less_mode_normal_info"
+msgstr "The SCORM mode is set to \"normal\"."
+
+msgid "cont_sc_max_attempt_exceed"
+msgstr "Max. počet pokusů v tomuto modulu byl dosažen."
+
+msgid "cont_sc_name_setting"
+msgstr "student_name podle SCORM 1.2"
+
+msgid "cont_sc_name_setting_2004"
+msgstr "learner_name podle SCORM 2004"
+
+msgid "cont_sc_name_setting_first_lastname"
+msgstr "Křestní jméno a příjmení"
+
+msgid "cont_sc_name_setting_first_name"
+msgstr "Křestní jméno"
+
+msgid "cont_sc_name_setting_fullname"
+msgstr "Titul, křestní jméno a příjmení"
+
+msgid "cont_sc_name_setting_info"
+msgstr "Jméno žáka lze ve výukovém modulu zobrazit několika způsoby. V případě, že jsou výukové moduly na externím serveru, může být užitečné neuvést jméno."
+
+msgid "cont_sc_name_setting_last_firstname"
+msgstr "Příjmení, křestní jméno"
+
+msgid "cont_sc_name_setting_no_name"
+msgstr "beze jména"
+
+msgid "cont_sc_name_setting_salutation_lastname"
+msgstr "Pozdrav a příjmení"
+
+msgid "cont_sc_new_version"
+msgstr "Uložit novou verzi"
+
+msgid "cont_sc_preview"
+msgstr "Náhled"
+
+msgid "cont_sc_stat_browsed"
+msgstr "Prohlédnut"
+
+msgid "cont_sc_stat_completed"
+msgstr "Kompletní"
+
+msgid "cont_sc_stat_failed"
+msgstr "Selhal"
+
+msgid "cont_sc_stat_incomplete"
+msgstr "Nekompletní"
+
+msgid "cont_sc_stat_not_attempted"
+msgstr "Nenavštíven"
+
+msgid "cont_sc_stat_passed"
+msgstr "Prošel"
+
+msgid "cont_sc_stat_running"
+msgstr "Běžící"
+
+msgid "cont_sc_store_if_previous_score_was_lower"
+msgstr "uchovat data sledování, pokud bylo skóre dosažené v předchozím pokusu vyšší nebo rovno"
+
+msgid "cont_sc_title"
+msgstr "název"
+
+msgid "cont_sc_usession"
+msgstr "Neomezený čas sezení"
+
+msgid "cont_sc_usession_info"
+msgstr "Toto nastavení aktivuje periodické požadavky na server k udržení sezení v chodu."
+
+msgid "cont_sc_version"
+msgstr "Verze"
+
+msgid "cont_sc_version_info"
+msgstr "Správa verzí automaticky vloží správné číslo verze."
+
+msgid "cont_scheduled_activation"
+msgstr "Plánovaná aktivace"
+
+msgid "cont_sco_glossary"
+msgstr "Jednotka Glosáře"
+
+msgid "cont_score"
+msgstr "Výsledek"
+
+msgid "cont_scorm_ed_properties"
+msgstr "Vlastnosti výukového modulu / Glosář"
+
+msgid "cont_scorm_options"
+msgstr "Volby SCORM"
+
+msgid "cont_scorm_type"
+msgstr "adlcp:scormtype"
+
+msgid "cont_screen_ids"
+msgstr "ID obrazovky"
+
+#, fuzzy
+msgid "cont_sec_protected"
+msgstr "Protected"
+
+#, fuzzy
+msgid "cont_sec_protected_text"
+msgstr "The following section is protected and can not be edited."
+
+msgid "cont_second"
+msgstr "Druhý"
+
+#, fuzzy
+msgid "cont_sel_el_use_paste"
+msgstr "Selected elements are now in the clipboard. Please click the desired target placeholder and select ‘Paste’."
+
+msgid "cont_select"
+msgstr "Vybrat"
+
+msgid "cont_select_file"
+msgstr "Vybrat soubor"
+
+msgid "cont_select_from_upload_dir"
+msgstr "-- Vyber z adresáře pro odeslání --"
+
+msgid "cont_select_item"
+msgstr "Vyberte alespoň jednu položku."
+
+msgid "cont_select_max_one_item"
+msgstr "Vyberte prosím pouze jednu položku"
+
+msgid "cont_select_media_pool"
+msgstr "Vyberte zásobník otázek"
+
+#, fuzzy
+msgid "cont_select_none"
+msgstr "Clear Selection"
+
+msgid "cont_select_other_qpool"
+msgstr "Vybrat jiný zásobník"
+
+msgid "cont_select_par_or_section"
+msgstr "Vyberte prosím alespoň jeden odstavec nebo část"
+
+msgid "cont_selected_items_have_been_copied"
+msgstr "Vybrané položky byly zkopírovány do schránky. Klepněte na příslušné umístění k jejich vložení do výukového modulu."
+
+msgid "cont_selected_items_have_been_cut"
+msgstr "Vybrané položky byly vystřiženy do schránky. Klepněte na příslušné umístění k jejich vložení do výukového modulu."
+
+msgid "cont_selected_pg_chap"
+msgstr "Vybrané stránky/kapitoly"
+
+msgid "cont_selected_terms"
+msgstr "Vybrané termíny"
+
+msgid "cont_selected_topic"
+msgstr "Vybraná témata"
+
+msgid "cont_selection"
+msgstr "Výběr"
+
+msgid "cont_self_assessment"
+msgstr "Vlastní posouzení"
+
+msgid "cont_sequencing"
+msgstr "zapnout sekvencování a navigaci podle nastavení výukového modulu"
+
+msgid "cont_sequencing_info"
+msgstr "Zapnout sekvenční a navigační funkce definované výukovým modulem."
+
+msgid "cont_set_alignment"
+msgstr "Nastavit zarovnání"
+
+msgid "cont_set_layout"
+msgstr "Nastavit rozvržení"
+
+msgid "cont_set_link"
+msgstr "Upravit odkaz"
+
+#, fuzzy
+msgid "cont_set_manuall"
+msgstr "Set Manually"
+
+#, fuzzy
+msgid "cont_set_properties"
+msgstr "Set Properties"
+
+msgid "cont_set_start_file"
+msgstr "Nastavit startovací soubor"
+
+msgid "cont_set_styles"
+msgstr "Nastavit styly"
+
+msgid "cont_set_tab_style_info"
+msgstr "K nastavení stylu aktivujte zaškrtávací pole v buňkách tabulky."
+
+msgid "cont_settings"
+msgstr "Nastavení pro výukové moduly"
+
+msgid "cont_shape"
+msgstr "Tvar"
+
+#, fuzzy
+msgid "cont_shift_click_to_select"
+msgstr "<b>Shift-click</b> on an element to <b>select</b> it and switch to selection mode."
+
+msgid "cont_short_title"
+msgstr "Krátký titulek"
+
+msgid "cont_short_title_info"
+msgstr "Krátké titulky se používají v levé stromové prezentaci a pro štítky při navigaci předchozí/další."
+
+msgid "cont_short_titles"
+msgstr "Krátké titulky"
+
+msgid "cont_show_activation_info"
+msgstr "Zobrazit aktivační info"
+
+msgid "cont_show_activation_info_info"
+msgstr "Když plánovaná aktivace dosud není dosažena, tato stránka nebude přeskočena. Informace kdy stránka bude aktivována bude zobrazena uživateli."
+
+msgid "cont_show_adv"
+msgstr "Zobrazit další znalosti"
+
+msgid "cont_show_content_after_focus"
+msgstr "Pokračovat ve výukovém modulu"
+
+#, fuzzy
+msgid "cont_show_fullscreen"
+msgstr "Show Fullscreen"
+
+msgid "cont_show_info"
+msgstr "Zobrazit Info"
+
+msgid "cont_show_line_numbers"
+msgstr "Zobrazit čísla řádků"
+
+msgid "cont_show_print_view"
+msgstr "Zobrazit náhled tisku"
+
+msgid "cont_size"
+msgstr "Velikost (Bajty)"
+
+msgid "cont_skip_chapter"
+msgstr "Přeskočit tuto kapitolu"
+
+msgid "cont_snippet_from_another_installation"
+msgstr "Úryvek pochází z jiné instalace."
+
+msgid "cont_snippets_used"
+msgstr "Použité útržky obsahu"
+
+msgid "cont_span"
+msgstr "Rozteč"
+
+msgid "cont_special_page"
+msgstr "Stránka zvláštního obsahu"
+
+#, fuzzy
+msgid "cont_split_cell"
+msgstr "Split Cell"
+
+msgid "cont_spreadsheet_table"
+msgstr "Kalkulační tabulka"
+
+msgid "cont_sqst"
+msgstr "Otázka průzkumu (přiřazený materiál)"
+
+msgid "cont_src"
+msgstr "Zdrojový kód"
+
+msgid "cont_src_other"
+msgstr "jiný"
+
+msgid "cont_st_title"
+msgstr "Název kapitoly"
+
+msgid "cont_standard"
+msgstr "Standardní"
+
+msgid "cont_start"
+msgstr "Spustit"
+
+msgid "cont_start_file_set_to"
+msgstr "%s byl nastaven jako startovací soubor."
+
+msgid "cont_start_value"
+msgstr "Výchozí hodnota"
+
+msgid "cont_start_value_info"
+msgstr "Vložit počáteční hodnotu jako desetinné číslo. Výchozí je 1."
+
+msgid "cont_startfile"
+msgstr "Startovací soubor"
+
+msgid "cont_status"
+msgstr "Status"
+
+msgid "cont_std_is_in_dir"
+msgstr "Odstranění není možné. Adresář obsahuje soubor standardního zobrazení."
+
+msgid "cont_std_view"
+msgstr "Standardní zobrazení"
+
+msgid "cont_structure"
+msgstr "struktura"
+
+msgid "cont_style"
+msgstr "Styl"
+
+msgid "cont_subchapters"
+msgstr "Podkapitoly"
+
+msgid "cont_submit_answers"
+msgstr "Odevzdat odpovědi"
+
+msgid "cont_subtitle_file"
+msgstr "Soubor SRT ZIP"
+
+msgid "cont_subtitle_files"
+msgstr "Titulky médií"
+
+#, fuzzy
+msgid "cont_sur_block_format"
+msgstr "Surrounding Section"
+
+msgid "cont_switch_to_media_pool"
+msgstr "Přepnout na jiný zásobník Médií"
+
+msgid "cont_syntax_help"
+msgstr "Nápověda syntaxe"
+
+#, fuzzy
+msgid "cont_tab_add_above"
+msgstr "Add Panel Above"
+
+#, fuzzy
+msgid "cont_tab_add_below"
+msgstr "Add Panel Below"
+
+msgid "cont_tab_cont_height"
+msgstr "Výška obsahu"
+
+msgid "cont_tab_cont_width"
+msgstr "Šířka obsahu"
+
+#, fuzzy
+msgid "cont_tab_delete"
+msgstr "Delete Panel"
+
+#, fuzzy
+msgid "cont_tab_move_bottom"
+msgstr "Move To Bottom"
+
+#, fuzzy
+msgid "cont_tab_move_down"
+msgstr "Move Downwards"
+
+#, fuzzy
+msgid "cont_tab_move_top"
+msgstr "Move To Top"
+
+#, fuzzy
+msgid "cont_tab_move_up"
+msgstr "Move Upwards"
+
+msgid "cont_table"
+msgstr "Tabulka"
+
+#, fuzzy
+msgid "cont_table_adv_settings"
+msgstr "Erweiterte Einstellungen"
+
+msgid "cont_table_border"
+msgstr "Orámování tabulky"
+
+msgid "cont_table_border_info"
+msgstr "Ponechejte to prázdné, aby bylo nastavení stylů obsahu efektivní. Hodnoty musí obsahovat jednotku (jako px)."
+
+#, fuzzy
+msgid "cont_table_cell_edit_info_1"
+msgstr "Click on a table cell to select or deselect it."
+
+#, fuzzy
+msgid "cont_table_cell_edit_info_2"
+msgstr "Click on a row or column header to select or deselect the corresponding row or column."
+
+#, fuzzy
+msgid "cont_table_cell_edit_info_3"
+msgstr "Click on a second cell while holding shift to select all the cells in between."
+
+msgid "cont_table_cell_properties"
+msgstr "Vlastnosti buňky tabulky"
+
+msgid "cont_table_cellpadding"
+msgstr "Vzdálenost okraje k obsahu buněk"
+
+msgid "cont_table_cellpadding_info"
+msgstr "Ponechejte to prázdné, aby bylo nastavení stylů obsahu efektivní. Hodnoty musí obsahovat jednotku (jako px)."
+
+#, fuzzy
+msgid "cont_table_edit_cells"
+msgstr "Edit Cells"
+
+#, fuzzy
+msgid "cont_table_import_info"
+msgstr "Please enter the table data separated by semicolon or TAB character for each column. Start a new row for each table row. Spreadsheet applications will usually use TAB characters for separation when transfered via clipboard. It should be possible to paste this data directly into the input field. No further formattings will be imported."
+
+msgid "cont_table_properties"
+msgstr "Vlastnosti tabulky"
+
+#, fuzzy
+msgid "cont_table_style"
+msgstr "Style"
+
+msgid "cont_table_width"
+msgstr "Šířka tabulky"
+
+msgid "cont_tabs"
+msgstr "Tabulky"
+
+msgid "cont_tabs_acc_hor"
+msgstr "Horizontální skladba"
+
+msgid "cont_tabs_acc_ver"
+msgstr "Vertikální rozložení"
+
+msgid "cont_tabs_carousel"
+msgstr "Karusel"
+
+msgid "cont_tabs_confirm_deletion"
+msgstr "Určitě mají být smazány tyto tabulky a jejich obsah?"
+
+#, fuzzy
+msgid "cont_target"
+msgstr "Target"
+
+msgid "cont_target_missing"
+msgstr "Cíl chybí"
+
+msgid "cont_target_within_source"
+msgstr "Cíl nesmí být obsažen ve zdrojovém objektu."
+
+msgid "cont_template"
+msgstr "Šablona"
+
+msgid "cont_term"
+msgstr "Pojem"
+
+msgid "cont_terms"
+msgstr "Pojmy"
+
+msgid "cont_tex"
+msgstr "Kód LaTeX"
+
+msgid "cont_text_acc"
+msgstr "Akcent:"
+
+msgid "cont_text_code"
+msgstr "Kód:"
+
+msgid "cont_text_com"
+msgstr "Komentář:"
+
+#, fuzzy
+msgid "cont_text_editing"
+msgstr "Edit Text"
+
+msgid "cont_text_emp"
+msgstr "Zvýrazněný text:"
+
+msgid "cont_text_fn"
+msgstr "Poznámka pod čarou:"
+
+#, fuzzy
+msgid "cont_text_iln_link"
+msgstr "Internal Link"
+
+msgid "cont_text_imp"
+msgstr "Důležité:"
+
+msgid "cont_text_keyword"
+msgstr "Heslo"
+
+msgid "cont_text_placeh"
+msgstr "Klepnou a upravit k vložení textu"
+
+msgid "cont_text_placehl"
+msgstr "Rezervované místo textu"
+
+msgid "cont_text_quot"
+msgstr "Citát:"
+
+msgid "cont_text_str"
+msgstr "Tučný text:"
+
+msgid "cont_text_sub"
+msgstr "Subscript"
+
+msgid "cont_text_sup"
+msgstr "Superscript"
+
+msgid "cont_text_tex"
+msgstr "LaTeX kód:"
+
+msgid "cont_text_xln"
+msgstr "Externí odkaz:"
+
+msgid "cont_third_and_more"
+msgstr "Třetí a další"
+
+msgid "cont_time"
+msgstr "Čas"
+
+msgid "cont_time_from_lms"
+msgstr "určuje čas zpracování ILIASem namísto SCO"
+
+msgid "cont_time_from_lms_info"
+msgstr "Striktní (v souladu se SCORM standardy) kontrola hodnot zaslaných výukovým modulem do ILIAS."
+
+msgid "cont_time_limit_action"
+msgstr "adlcp:timelimitaction"
+
+msgid "cont_to_focus_beginning"
+msgstr "Zpět na obsah související s cílem učení"
+
+msgid "cont_to_focus_return_crs"
+msgstr "Zpět na kurz"
+
+msgid "cont_toc"
+msgstr "Tabulka obsahu"
+
+msgid "cont_toc_mode"
+msgstr "Položky tabulky obsahu"
+
+#, fuzzy
+msgid "cont_tool_faq"
+msgstr "FAQ"
+
+#, fuzzy
+msgid "cont_tool_media"
+msgstr "Media"
+
+msgid "cont_top"
+msgstr "Nahoru"
+
+msgid "cont_topic"
+msgstr "Téma"
+
+msgid "cont_total_time"
+msgstr "Celkový čas"
+
+msgid "cont_tracking_bysco"
+msgstr "Podle kapitol"
+
+msgid "cont_tracking_byuser"
+msgstr "Podle uživatelů"
+
+msgid "cont_tracking_data"
+msgstr "Data sledování"
+
+msgid "cont_tracking_items"
+msgstr "Položky sledování"
+
+msgid "cont_tracking_modify"
+msgstr "upravit data"
+
+msgid "cont_trans_import_info"
+msgstr "Pokud jste exportovali tento modul jako XML/hlavní jazyk pro překlad do jiné instalace, můžete nyní znovu importovat přeložené exportované soubory z této druhé instalace zde."
+
+msgid "cont_transl_master_language_not_allowed"
+msgstr "Pokud chcete importovat překlad, musíte aktivovat alespoň jeden další jazyk v části „Nastavení“ > „Vícejazyčnost“."
+
+msgid "cont_tree_fixed"
+msgstr "Stromová struktura byla fixována"
+
+msgid "cont_tries"
+msgstr "Chování otázky"
+
+msgid "cont_tries_remaining"
+msgstr "Zbývající pokusy"
+
+msgid "cont_tries_reset_on_visit"
+msgstr "Obnovit při návštěvě stránky"
+
+msgid "cont_tries_reset_on_visit_info"
+msgstr "Otázky začínají 0 počtem pokusů pokaždé, když žák navštíví stránku. Žák musí odpovědět na otázky při každé návštěvě stránky."
+
+msgid "cont_tries_store"
+msgstr "Uložit stav odpovědi"
+
+msgid "cont_tries_store_info"
+msgstr "Počet pokusů se sčítá a ukládá. Na správně zodpovězené otázky se nesmí znovu odpovídat. Žákům mohou dojít pokusy o otázky."
+
+msgid "cont_trigger_area"
+msgstr "Oblast spouštěče"
+
+msgid "cont_type"
+msgstr "Typ"
+
+msgid "cont_type_not_allowed"
+msgstr "Typ obsahu není v této pozici povolen"
+
+msgid "cont_unlock_allow_continue"
+msgstr "Odemknout / Povolit pokračování"
+
+msgid "cont_unlocked"
+msgstr "Odemčeno"
+
+msgid "cont_update_amd_page_list"
+msgstr "Upravit seznam stránek"
+
+msgid "cont_update_blog"
+msgstr "Upravit Blog"
+
+msgid "cont_update_consultation_hours"
+msgstr "Upravit konzultační hodiny"
+
+msgid "cont_update_login_page"
+msgstr "Upravit prvek přihlašovací stránky"
+
+msgid "cont_update_map"
+msgstr "Upravit mapu"
+
+msgid "cont_update_my_courses"
+msgstr "Upravit moje kurzy"
+
+msgid "cont_update_profile"
+msgstr "Upravit osobní údaje"
+
+msgid "cont_update_resources"
+msgstr "Aktualizovat seznam zdrojů"
+
+msgid "cont_update_section"
+msgstr "Aktualizovat oddíl"
+
+msgid "cont_update_skills"
+msgstr "Upravit kvalifikaci"
+
+msgid "cont_update_verification"
+msgstr "Upravit certifikát"
+
+msgid "cont_upload_dir"
+msgstr "Uložit adresář"
+
+#, fuzzy
+msgid "cont_upload_file"
+msgstr "Upload File"
+
+msgid "cont_upload_multi_srt_howto"
+msgstr "Tato funkce vám umožňuje nahrát více souborů s titulky (srt) do zip souboru pro všechny mediální objekty výukového modulu. Váš soubor .zip musí obsahovat všechny soubory .srt na nejvyšší úrovni (žádné podadresáře). Názvy souborů by měly končit tímto řetězcem „_&lt;lang code&gt;.srt“, kde je kód jazyka např. „en“, „it“, „de“. Zbytek názvu souboru musí odpovídat názvu video souboru, např. „my_video.mp4“ -> „my_video_en.srt“."
+
+msgid "cont_uploaded_file"
+msgstr "Existující soubor"
+
+#, fuzzy
+msgid "cont_url_info"
+msgstr "URL of a media file or Youtube URL."
+
+msgid "cont_usage"
+msgstr "Použití"
+
+msgid "cont_use_same_resource_as_above"
+msgstr "Použít stejný zdroj jako dříve"
+
+msgid "cont_user"
+msgstr "Uživatel"
+
+msgid "cont_user_blocked"
+msgstr "Uživateli došly pokusy ve výukovém modulu „%s“."
+
+msgid "cont_user_blocked2"
+msgstr "Uživatel vyčerpal pokusy o zodpovězení otázky ve výukovém modulu. Uživatel se bez vašeho zásahu nebude moci dále pohybovat ve výukovém modulu."
+
+msgid "cont_user_blocked3"
+msgstr "Otevřete výukový modul v režimu úprav a přejděte na obrazovku:"
+
+msgid "cont_user_search_did_not_match"
+msgstr "Vaše vyhledávání neodpovídá žádným uživatelům."
+
+msgid "cont_users_answered"
+msgstr "Odpověděli uživatelé"
+
+msgid "cont_users_have_mob_in_clip1"
+msgstr "Tento mediální objekt je ve schránce"
+
+msgid "cont_users_have_mob_in_clip2"
+msgstr "uživatelů."
+
+msgid "cont_validate_file"
+msgstr "Ověřit soubor"
+
+msgid "cont_verification_object"
+msgstr "Certifikát"
+
+msgid "cont_verification_placeh"
+msgstr "Klikněte a upravte pro vložení certifikátu"
+
+msgid "cont_verification_placehl"
+msgstr "Rezervované místo pro certifikát"
+
+msgid "cont_version"
+msgstr "verze"
+
+msgid "cont_versions"
+msgstr "Verze"
+
+msgid "cont_whole_glossary"
+msgstr "Celý glosář"
+
+msgid "cont_width"
+msgstr "Šířka"
+
+msgid "cont_width_height_info"
+msgstr "Velikost zobrazení lze nastavit na pevnou velikost. Pro nastavení velikosti jsou vyzkoušené hodnoty 950 pixelů pro šířku a 650 pixelů pro výšku. Pokud není zadán žádný vstup, prohlížeč určí velikost zobrazení."
+
+#, fuzzy
+msgid "cont_width_px_perc"
+msgstr "Width"
+
+#, fuzzy
+msgid "cont_width_px_perc_info"
+msgstr "(e.g. px or % value)"
+
+msgid "cont_wiki_link_dialog"
+msgstr "Odkaz na stránku Wiki (dialogové okno)"
+
+msgid "cont_wiki_page"
+msgstr "Stránka Wiki"
+
+msgid "cont_wiki_page_link"
+msgstr "Odkaz na stránku Wiki"
+
+msgid "cont_wrong_answers"
+msgstr "Chybné odpovědi"
+
+msgid "cont_wrong_answers_single"
+msgstr "Nesprávná volba"
+
+msgid "cont_xml_base"
+msgstr "xml:base"
+
+msgid "cont_zip_file_invalid"
+msgstr "Soubor není platný importovaný soubor.<br>Neobsahuje soubor '%s'."
+
+msgid "content_no_edit_lock"
+msgstr "Tato stránka je aktuálně uzamčena jiným uživatelem."
+
+msgid "content_page_history"
+msgstr "Historie stránky"
+
+msgid "content_plugin_not_activated"
+msgstr "Plugin prvku obsahu stránky není aktuálně aktivován."
+
+msgid "content_some_export_ids_multiple_times"
+msgstr "Některé exportní ID jsou požity vícekrát. To povede ke chybějícím tránkám při exportu."
+
+msgid "content_until"
+msgstr "Uzamčeno nejméně od:"
+
+msgid "copied_to_clipboard"
+msgstr "Objekty zkopírovány do schránky."
+
+msgid "dgl_pagebreak"
+msgstr "Rozdělení stránky"
+
+msgid "glo_add_new_term"
+msgstr "Vložit nový termín"
+
+msgid "glo_content_settings"
+msgstr "Obsah"
+
+msgid "glo_editing_view"
+msgstr "Editační náhled"
+
+msgid "glo_full_definitions"
+msgstr "Úplná definice"
+
+msgid "glo_full_definitions_info"
+msgstr "Termíny a definice jsou plně zobrazeny ve hlavním okně."
+
+msgid "glo_hide_taxonomy"
+msgstr "Skrýt taxonomii"
+
+msgid "glo_list_usages"
+msgstr "Seznam použití"
+
+msgid "glo_mode_normal_info"
+msgstr "Budou zahrnuty pouze výrazy vytvořené v tomto glosáři."
+
+msgid "glo_presentation_mode"
+msgstr "Mód prezentace"
+
+msgid "glo_presentation_view"
+msgstr "Zobrazení prezentace"
+
+msgid "glo_quick_navigation"
+msgstr "Rychlá navigace"
+
+msgid "glo_style"
+msgstr "Styl glosáře"
+
+msgid "glo_table_form"
+msgstr "V tabulkovém formuláři"
+
+msgid "glo_table_form_info"
+msgstr "Termíny a definice jsou nejprve zobrazeny ve dvou sloupcovém přehledu. Klepnutím na termín se otevře úplný obsah daného termínu v separátním okně."
+
+msgid "glo_term_is_used_n_times"
+msgstr "Daný termín je použit %s krát v modulech obsahu."
+
+msgid "glo_term_must_belong_to_glo"
+msgstr "Tato akce může být vykonána jen u termínů, které jsou definovány v tomto glosáři."
+
+msgid "glo_term_used_in"
+msgstr "Následující zdroje připojené k tomuto termínu"
+
+msgid "glo_text_snippet_length"
+msgstr "Definice délky úryvku"
+
+msgid "glo_text_snippet_length_info"
+msgstr "Délka útržku textu definice, která je v náhledu zobrazena."
+
+msgid "glo_usages"
+msgstr "Glosář je použit ve ..."
+
+msgid "glo_used_in_scorm"
+msgstr "Daný glosář je používán SCORM modulem. Bude-li smazán, pak odkazy na tento glosář nebude možné dále vysvětlovat."
+
+msgid "help_assign_help_ids"
+msgstr "Přiřazení kapitoly/IDs obrazovky"
+
+msgid "htlm_import"
+msgstr "Import výukového modulu HTML"
+
+msgid "import_sco_object"
+msgstr "Import SCO"
+
+msgid "info_stop_offline_mode_sure"
+msgstr "Poznámka: Je ztracen postup učení dosažený v režimu offline. Jsi si jisti?"
+
+#, fuzzy
+msgid "infobox_files_not_migrated"
+msgstr "The files of this learning module have not yet been migrated to the Resource Storage Service and can therefore not be edited."
+
+msgid "lm_activate_rating"
+msgstr "Aktivovat hodnocení pro stránky"
+
+#, fuzzy
+msgid "lm_editing_view"
+msgstr "Editing View"
+
+#, fuzzy
+msgid "lm_import"
+msgstr "Import ILIAS Learning Module"
+
+msgid "lm_menu_edit_entry"
+msgstr "Upravit položky menu"
+
+msgid "lm_menu_entry_target"
+msgstr "Cíl"
+
+msgid "lm_menu_entry_title"
+msgstr "Název"
+
+msgid "lm_menu_new_entry"
+msgstr "Vytvořit novou položku menu"
+
+msgid "lm_menu_select_internal_object"
+msgstr "Vyberte interní objekt >>"
+
+msgid "lm_menu_select_object_to_add"
+msgstr "Vyberte prosím objekt, který chcete přidat do tohoto menu"
+
+msgid "lm_no_download_files"
+msgstr "V současné době nejsou k dispozici žádné soubory ke stažení."
+
+msgid "lm_only_one_download_per_type"
+msgstr "Vezměte prosím na vědomí, že můžete zpřístupnit pouze jeden soubor na jeden typ (XML, HTML, SCORM)."
+
+msgid "lm_rate_page"
+msgstr "Hodnotit stránku"
+
+msgid "lm_rating"
+msgstr "Hodnotit výukový modul"
+
+msgid "mep_folder_created"
+msgstr "Přidána nová složka."
+
+msgid "msg_entry_added"
+msgstr "Položka menu přidána"
+
+msgid "msg_entry_removed"
+msgstr "Položka menu odstraněna"
+
+msgid "msg_entry_updated"
+msgstr "Položka menu aktualizována"
+
+#, fuzzy
+msgid "msg_no_page_access"
+msgstr "You do not have the permission to access this page."
+
+msgid "msg_page_no_public_access"
+msgstr "Stránka Vámi odkazovaná není veřejně dostupná. Tuto stránku mohou zobrazit jen registrovaní uživatelé. Nejprve se prosím přihlaste k přístupu na tuto stránku."
+
+msgid "msg_page_not_public"
+msgstr "Stránka není veřejná"
+
+msgid "offline_mode_manager"
+msgstr "Použití offline"
+
+msgid "offline_mode_users"
+msgstr "Uživatelé v offline režimu"
+
+msgid "offline_mode_users_info"
+msgstr "Uživatelé mohou být manuálně odebráni z režimu offline a tito uživatelé pak mohou znovu použít online verzi výukového modulu. To má smysl, např. pokud byl odcizen notebook s výukovými moduly."
+
+msgid "page_does_not_exist"
+msgstr "Je nám líto, ale tato stránka neexistuje."
+
+msgid "par"
+msgstr "Odstavec"
+
+msgid "pg"
+msgstr "Stránka"
+
+msgid "public_section"
+msgstr "Veřejná plocha"
+
+msgid "sahs_empty_objectives_are_not_allowed"
+msgstr "Vložte prosím cíl výuky."
+
+msgid "sahs_insert_pg_from_clip"
+msgstr "Importovat stránky z výukového modulu ILIAS"
+
+msgid "sahs_insert_st_from_clip"
+msgstr "Importovat kapitoly z výukového modulu ILIAS"
+
+msgid "sahs_insert_st_from_clip_inside_chap"
+msgstr "Importovat kapitoly z výukového modulu ILIAS (v kapitole)"
+
+msgid "save_new"
+msgstr "Uložit s nové"
+
+msgid "saved_media_object"
+msgstr "Uložené mediální objekty."
+
+msgid "scplayer_collapsetree"
+msgstr "Sklapnout všechno"
+
+msgid "scplayer_continue"
+msgstr "Pokračovat"
+
+msgid "scplayer_debugger"
+msgstr "Zobrazit ladění"
+
+msgid "scplayer_exit"
+msgstr "Opustit"
+
+msgid "scplayer_exitall"
+msgstr "Opustit vše"
+
+msgid "scplayer_expandtree"
+msgstr "Rozšířit vše"
+
+msgid "scplayer_hidetree"
+msgstr "Skrýt strom"
+
+msgid "scplayer_next"
+msgstr "Další"
+
+msgid "scplayer_phpmysqlcheck"
+msgstr "Potřebujete MYSQL 4.1 nebo vyšší a zapnutou podporu JSON k použití JavaScript-RTE"
+
+msgid "scplayer_previous"
+msgstr "Předchozí"
+
+msgid "scplayer_showtree"
+msgstr "Zobrazit strom"
+
+msgid "scplayer_start"
+msgstr "Spustit"
+
+msgid "scplayer_suspendall"
+msgstr "Přerušit vše"
+
+msgid "selectFooter"
+msgstr "Vybrat jako zápatí"
+
+msgid "selectHeader"
+msgstr "Vybrat jako záhlaví"
+
+msgid "select_a_file"
+msgstr "Vyberte prosím soubor."
+
+msgid "seq_close"
+msgstr "Uzavřete prosím okno přehrávače."
+
+msgid "seq_endsession"
+msgstr "Aktuální lekce kurzu je ukončena."
+
+msgid "seq_error"
+msgstr "V interním řadiči se vyskytla chyba."
+
+msgid "seq_toc"
+msgstr "Z tabulky obsahu vlevo vyberte aktivitu k započetí kurzu."
+
+msgid "set_public_mode"
+msgstr "Nastavit mód veřejného přístupu"
+
+msgid "st"
+msgstr "Kapitola"
+
+#, fuzzy
+msgid "start_lm"
+msgstr "Launch Learning Module"
+
+msgid "text_repr"
+msgstr "Reprezentace textu"
+
+msgid "text_repr_info"
+msgstr "Pro obrázek použit \"alt\" atribut."

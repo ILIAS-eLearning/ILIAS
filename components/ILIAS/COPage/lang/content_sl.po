@@ -1,0 +1,3785 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: content\n"
+
+msgid "Pages"
+msgstr "Strani"
+
+msgid "add_menu_entry"
+msgstr "Dodaj vnos v meni >>"
+
+msgid "all_pages"
+msgstr "za celoten učni modul"
+
+msgid "citate"
+msgstr "Citiraj"
+
+msgid "citate_from"
+msgstr "Citiraj od ..."
+
+msgid "citate_page"
+msgstr "Citiraj to stran"
+
+msgid "citate_to"
+msgstr "Citiraj do …"
+
+msgid "cont_Additional"
+msgstr "Dodatek"
+
+msgid "cont_AdvancedKnowledge"
+msgstr "Napredno znanje"
+
+msgid "cont_Attention"
+msgstr "Pozor"
+
+msgid "cont_Background"
+msgstr "Ozadje"
+
+msgid "cont_Block"
+msgstr "Blok"
+
+#, fuzzy
+msgid "cont_Book"
+msgstr "Book"
+
+msgid "cont_Circle"
+msgstr "Krog"
+
+msgid "cont_Citation"
+msgstr "Citat"
+
+msgid "cont_Confirmation"
+msgstr "Potrditev"
+
+msgid "cont_Example"
+msgstr "Primer"
+
+msgid "cont_Excursus"
+msgstr "Ekskurz"
+
+msgid "cont_FileListItem"
+msgstr "Vnos na seznamu datotek (privzeto)"
+
+msgid "cont_Headline1"
+msgstr "Naslov 1"
+
+msgid "cont_Headline2"
+msgstr "Naslov 2"
+
+msgid "cont_Headline3"
+msgstr "Naslov 3"
+
+msgid "cont_Information"
+msgstr "Informacija"
+
+msgid "cont_Interaction"
+msgstr "Interakcija"
+
+msgid "cont_List"
+msgstr "Seznam"
+
+msgid "cont_Literature"
+msgstr "Literatura"
+
+msgid "cont_Mnemonic"
+msgstr "Opomba"
+
+#, fuzzy
+msgid "cont_Numbers"
+msgstr "Numbers"
+
+msgid "cont_Poly"
+msgstr "Poligon"
+
+msgid "cont_Rect"
+msgstr "Pravokotnik"
+
+msgid "cont_Remark"
+msgstr "Opomba"
+
+msgid "cont_Separator"
+msgstr "Omejevalnik"
+
+msgid "cont_Special"
+msgstr "Posebno"
+
+msgid "cont_StandardCenter"
+msgstr "Privzeto centrirano"
+
+msgid "cont_StandardTable"
+msgstr "Privzeta tabela"
+
+msgid "cont_TableContent"
+msgstr "Vsebina tabele"
+
+#, fuzzy
+msgid "cont_Verse"
+msgstr "Verse/Stanza"
+
+msgid "cont_WholePicture"
+msgstr "Celotna slika"
+
+msgid "cont_accented"
+msgstr "Poudarjeno"
+
+msgid "cont_act_number"
+msgstr "Številčenje poglavij"
+
+msgid "cont_activate_html"
+msgstr "Aktiviraj prikazovanje HTML"
+
+msgid "cont_activate_js"
+msgstr "Aktiviraj način Javascript"
+
+msgid "cont_activate_media"
+msgstr "Aktiviraj medije"
+
+msgid "cont_activate_page"
+msgstr "Aktiviraj stran"
+
+msgid "cont_activated"
+msgstr "Aktivirano"
+
+msgid "cont_activation"
+msgstr "Aktiviranje"
+
+msgid "cont_active"
+msgstr "Aktiviraj meni"
+
+msgid "cont_active_areas"
+msgstr "Sprožilci"
+
+msgid "cont_active_from"
+msgstr "Aktivno od"
+
+msgid "cont_active_to"
+msgstr "Aktivno do"
+
+msgid "cont_add_area"
+msgstr "Dodaj področje"
+
+msgid "cont_add_cell"
+msgstr "Dodaj stolpec"
+
+msgid "cont_add_elements"
+msgstr "Kliknite na rezervirano mesto, da dodate nov element."
+
+msgid "cont_add_file"
+msgstr "Dodaj datoteko"
+
+msgid "cont_add_images"
+msgstr "Dodaj sliko"
+
+msgid "cont_add_popup"
+msgstr "Dodaj pojavno okno"
+
+msgid "cont_add_tab"
+msgstr "Dodaj predal"
+
+#, fuzzy
+msgid "cont_add_url"
+msgstr "From URL"
+
+msgid "cont_added_cell"
+msgstr "Stolpec je dodan"
+
+msgid "cont_added_comment"
+msgstr "Komentar je bil dodan v potek"
+
+msgid "cont_added_tab"
+msgstr "Objekt je bil dodan."
+
+msgid "cont_added_term"
+msgstr "Pojem je dodan"
+
+msgid "cont_adjust_size"
+msgstr "Prilagodi velikost"
+
+#, fuzzy
+msgid "cont_advanced_settings"
+msgstr "Advanced Settings"
+
+msgid "cont_align"
+msgstr "Poravnava"
+
+msgid "cont_alignment"
+msgstr "Poravnava"
+
+msgid "cont_all_answers_correct"
+msgstr "Pravilno!"
+
+msgid "cont_all_closed"
+msgstr "Vsi zaprti"
+
+msgid "cont_all_languages"
+msgstr "Vsi jeziki"
+
+msgid "cont_all_pages"
+msgstr "Vse strani"
+
+msgid "cont_all_topics"
+msgstr "Vse teme"
+
+msgid "cont_all_usages"
+msgstr "Vključi staro različico"
+
+msgid "cont_alphabetic"
+msgstr "Po abecedi A, B, ..."
+
+msgid "cont_alphabetic_s"
+msgstr "Po abecedi a, b, ..."
+
+msgid "cont_always"
+msgstr "Vedno"
+
+msgid "cont_anchor"
+msgstr "Sidro"
+
+msgid "cont_annex"
+msgstr "Priloga"
+
+msgid "cont_anonymous_user_missing_perm"
+msgstr "Neprijavljeni uporabniki trenutno nimajo pravice za dostop do tega učnega modula."
+
+msgid "cont_areas_deleted"
+msgstr "Področja so izbrisana"
+
+msgid "cont_assign_characteristic"
+msgstr "Oblikuj"
+
+msgid "cont_assign_full"
+msgstr "Kot celozaslonski pogled"
+
+msgid "cont_assign_std"
+msgstr "Kot privzeti pogled"
+
+msgid "cont_assign_to_parent"
+msgstr "Dodeli nadrejenemu vozlu"
+
+msgid "cont_auto_glossaries"
+msgstr "Samodejno povezani glosarji"
+
+msgid "cont_auto_last_visited"
+msgstr "Nadaljujte z nazadnje obiskanim odstavkom"
+
+msgid "cont_auto_last_visited_info"
+msgstr "Ko uporabnik ponovno odpre učni modul SCORM, se mu prikaže nazadnje obiskan SCO ali sredstvo."
+
+msgid "cont_auto_suspend"
+msgstr "Zagotovi dostopnost obstoječih podatkov o učnem stanju"
+
+msgid "cont_auto_suspend_info"
+msgstr "Ta možnost je za učne module SCORM, ki na nezadosten način podpirajo SCORM 2004, ker ne pošiljajo nobenih ustreznih vrednosti za cmi.exit."
+
+msgid "cont_auto_time"
+msgstr "Čas čakanja animacije"
+
+msgid "cont_autoindent"
+msgstr "Samodejna objava"
+
+msgid "cont_automatically_set_store_tries"
+msgstr "Možnost \"$1\" je bila samodejno aktivirana, ker je bil aktiviran način \"$2\"."
+
+msgid "cont_autostart"
+msgstr "Samodejni zagon"
+
+msgid "cont_back"
+msgstr "Nazaj"
+
+msgid "cont_base_image"
+msgstr "Izhodiščna slika"
+
+msgid "cont_bb_tip"
+msgstr "Meni dovoljuje hitro dodelitev označevanja besedil."
+
+msgid "cont_behavior"
+msgstr "Vedenje"
+
+msgid "cont_biblio"
+msgstr "Bibliografski podatki"
+
+msgid "cont_biblio_info"
+msgstr "Zavihek in funkcija \"Bibliografski podatki\" bosta prikazana."
+
+msgid "cont_blist"
+msgstr "Naštevalni seznam"
+
+#, fuzzy
+msgid "cont_block_format"
+msgstr "Section Format"
+
+msgid "cont_blocked_users"
+msgstr "Zaklenjeni uporabniki"
+
+msgid "cont_blocked_users_mail_link"
+msgstr "Kliknite na naslednjo povezavo, da odprete učni modul."
+
+msgid "cont_bottom"
+msgstr "Spodaj"
+
+msgid "cont_bullet_list"
+msgstr "Neoštevilčen seznam"
+
+msgid "cont_cach_mode"
+msgstr "Način"
+
+msgid "cont_cach_mode_automatic"
+msgstr "Samodejno"
+
+msgid "cont_cach_mode_automatic_info"
+msgstr "Vsi vaši termini govorilnih ur bodo objavljeni."
+
+msgid "cont_cach_mode_manual"
+msgstr "Ročno"
+
+msgid "cont_cach_mode_manual_info"
+msgstr "Objavljeni bodo samo tisti termini govorilnih ur, ki jih vsebuje ena od naslednjih skupin govorilnih ur."
+
+msgid "cont_cant_copy_folders"
+msgstr "Map ni mogoče kopirati v odložišče."
+
+msgid "cont_cant_del_full"
+msgstr "Brisanje datoteke v celozaslonskem pogledu ni mogoče."
+
+msgid "cont_cant_del_std"
+msgstr "Brisanje datoteke v privzetem pogledu ni mogoče."
+
+msgid "cont_caption"
+msgstr "Podpis slike"
+
+#, fuzzy
+msgid "cont_caption_style"
+msgstr "Caption Style Class"
+
+msgid "cont_cc_emp"
+msgstr "Poudarjeno"
+
+msgid "cont_cc_imp"
+msgstr "Pomembno"
+
+msgid "cont_cc_str"
+msgstr "Močno"
+
+msgid "cont_cc_sub"
+msgstr "Podpisano"
+
+msgid "cont_cc_sup"
+msgstr "Nadpisano"
+
+#, fuzzy
+msgid "cont_cell_properties"
+msgstr "Table Cell Properties"
+
+msgid "cont_center"
+msgstr "Sredinski"
+
+#, fuzzy
+msgid "cont_change_alignment"
+msgstr "Change Alignment"
+
+msgid "cont_change_notification_salutation"
+msgstr "Hello %s,"
+
+msgid "cont_change_notification_subject_lm"
+msgstr "Learning Module \"%1$s\" has been changed"
+
+msgid "cont_change_object_reference"
+msgstr "Spremeni referenco objekta"
+
+#, fuzzy
+msgid "cont_change_style"
+msgstr "Change Style"
+
+msgid "cont_change_type"
+msgstr "Spremeni tip"
+
+#, fuzzy
+msgid "cont_change_width"
+msgstr "Change Width"
+
+msgid "cont_chap_and_pages"
+msgstr "Poglavja in strani"
+
+msgid "cont_chap_select_target_now"
+msgstr "Izberite potrditveno polje, za katero želite premakniti poglavje."
+
+msgid "cont_chapters"
+msgstr "Poglavje"
+
+msgid "cont_chapters_after_pages"
+msgstr "Upoštevajte, da so znotraj ravni najprej navedene vse strani in šele nato podpoglavja."
+
+msgid "cont_chapters_and_pages"
+msgstr "Poglavja in strani"
+
+msgid "cont_chapters_only"
+msgstr "Samo poglavja"
+
+msgid "cont_char_format"
+msgstr "Oblika znakov"
+
+#, fuzzy
+msgid "cont_char_link"
+msgstr "Link"
+
+#, fuzzy
+msgid "cont_char_media"
+msgstr "Media (Standard)"
+
+msgid "cont_char_style_acc"
+msgstr "Poudarjeno"
+
+msgid "cont_char_style_code"
+msgstr "Koda"
+
+msgid "cont_char_style_com"
+msgstr "Komentar"
+
+msgid "cont_char_style_quot"
+msgstr "Citat"
+
+msgid "cont_characteristic"
+msgstr "Oblika poglavja"
+
+#, fuzzy
+msgid "cont_characteristic_table"
+msgstr "Style Class"
+
+msgid "cont_check_values"
+msgstr "Preveri vrednosti, ki jih pošlje SCO"
+
+msgid "cont_check_values_info"
+msgstr "Testno orodje preveri, ali so vrednosti, ki jih pošlje SCO, skladne s standardom.<br/>Standard SCORM je zelo zahteven glede shranjevanih podatkov. Vsi učni moduli SCORM niso tako natančni pri izhodu podatkov, kot to zahteva standard. Zato lahko onemogočite preverjanje vrednosti, če želite na primer samo preveriti, ali lahko ILIAS zažene ta učni modul, ne pa tudi, ali ta ustreza standardu SCORM.<br />"
+
+msgid "cont_choose_characteristic"
+msgstr "Izberi obliko odstavka"
+
+msgid "cont_choose_characteristic_section"
+msgstr "Bloki"
+
+msgid "cont_choose_characteristic_text"
+msgstr "Oblike odstavkov"
+
+msgid "cont_choose_file_source"
+msgstr "Vir"
+
+#, fuzzy
+msgid "cont_choose_from_clipboard"
+msgstr "Choose from Clipboard"
+
+#, fuzzy
+msgid "cont_choose_from_pool"
+msgstr "Select from Media Pool"
+
+msgid "cont_choose_glo"
+msgstr "Izberite glosar."
+
+msgid "cont_choose_lm"
+msgstr "Izberite učni modul."
+
+msgid "cont_choose_local"
+msgstr "Lokalni seznam"
+
+#, fuzzy
+msgid "cont_choose_media_pool"
+msgstr "Select Pool"
+
+msgid "cont_choose_mep"
+msgstr "Izberite medijski vir."
+
+msgid "cont_choose_pages_or_chapters_only"
+msgstr "Izberite strani ali poglavje."
+
+msgid "cont_choose_upload_dir"
+msgstr "Seznam za nalaganje"
+
+msgid "cont_choose_wiki"
+msgstr "Izberi Wiki"
+
+msgid "cont_citation_selection_not_valid"
+msgstr "Vaša izbira ni veljavna, preverite vnose."
+
+msgid "cont_click_br_corner"
+msgstr "Kliknite v spodnji desni kot želenega področja."
+
+msgid "cont_click_center"
+msgstr "Kliknite v sredino želenega področja."
+
+msgid "cont_click_circle"
+msgstr "Kliknite na točko kroga želenega področja."
+
+#, fuzzy
+msgid "cont_click_edit"
+msgstr "<b>Click</b> on elements to <b>edit</b> its properties."
+
+#, fuzzy
+msgid "cont_click_multi_select"
+msgstr "<b>Click</b> on elements to <b>select</b> or deselect them."
+
+msgid "cont_click_next_or_save"
+msgstr "Kliknite na naslednjo točko poligona ali shranite želeno področje. (Ni vam treba znova klikniti na izhodiščno točko poligona!)"
+
+msgid "cont_click_next_point"
+msgstr "Kliknite na naslednji kot poligona."
+
+msgid "cont_click_starting_point"
+msgstr "Kliknite na izhodiščno točko poligona."
+
+msgid "cont_click_tl_corner"
+msgstr "Kliknite v zgornji levi kot želenega področja."
+
+#, fuzzy
+msgid "cont_code_import_file"
+msgstr "Import"
+
+#, fuzzy
+msgid "cont_code_manual_editing"
+msgstr "Manuelle Eingabe"
+
+msgid "cont_colspan"
+msgstr "Spojitev stolpcev"
+
+msgid "cont_commented_by"
+msgstr "Commented by"
+
+msgid "cont_comments"
+msgstr "Dovoli komentarje"
+
+msgid "cont_comments_info"
+msgstr "Učni moduli SCORM 2004 uporabnikom omogočajo komentiranje znotraj učnega modula. Ta možnost omogoči vnos in shranjevanje komentarjev (comments)."
+
+msgid "cont_confirm_delete"
+msgstr "Ali res želite izbrisati te vsebine?"
+
+msgid "cont_constrain_proportions"
+msgstr "Prejmi razmerja"
+
+msgid "cont_content"
+msgstr "Vsebina"
+
+msgid "cont_content_popup"
+msgstr "Pojavno okno z vsebino"
+
+msgid "cont_content_popups"
+msgstr "Pojavna okna z vsebino"
+
+msgid "cont_coords"
+msgstr "Koordinate"
+
+msgid "cont_copy_question_from_pool"
+msgstr "Kopiraj vprašanje iz skupine testnih vprašanj"
+
+msgid "cont_copy_question_into_page"
+msgstr "Kopiraj na stran"
+
+msgid "cont_copy_to_clipboard"
+msgstr "Kopiraj v odložišče"
+
+msgid "cont_correct_after_first"
+msgstr "Prvi odgovor je pravilen"
+
+msgid "cont_correct_answer_also"
+msgstr "Pravilno je tudi:"
+
+msgid "cont_correct_answers_also"
+msgstr "Pravilni so tudi:"
+
+msgid "cont_correct_answers_shown"
+msgstr "Pravilno rešitev glej zgoraj."
+
+msgid "cont_could_not_determine_resource_size"
+msgstr "ILIAS ni mogel samodejno izpeljati meritev."
+
+#, fuzzy
+msgid "cont_could_not_save_duplicate_pc_ids"
+msgstr "Page could not be saved (duplicate PC IDs)."
+
+msgid "cont_cp_question_diff_formats_info"
+msgstr "Upoštevajte, da vsebinski moduli ne podpirajo nekaterih oblikovanj."
+
+msgid "cont_create_link"
+msgstr "Ustvari povezavo"
+
+msgid "cont_create_mob"
+msgstr "Ustvari medijski objekt"
+
+msgid "cont_credits"
+msgstr "Točke"
+
+msgid "cont_current_chapter"
+msgstr "Aktualno poglavje"
+
+msgid "cont_current_lang"
+msgstr "Aktualni jezik"
+
+msgid "cont_current_page"
+msgstr "Aktualna stran"
+
+msgid "cont_current_style"
+msgstr "Slog"
+
+msgid "cont_current_term"
+msgstr "Aktualni pojem"
+
+msgid "cont_current_usages"
+msgstr "Aktualna uporaba"
+
+msgid "cont_current_version"
+msgstr "Aktualna različica"
+
+msgid "cont_custom"
+msgstr "Prilagojeno"
+
+msgid "cont_custom_menu_entries"
+msgstr "Napredni vnosi v meniju"
+
+msgid "cont_custom_size"
+msgstr "Fiksna velikost"
+
+msgid "cont_dark"
+msgstr "Temno"
+
+msgid "cont_data_from_lms"
+msgstr "adlcp"
+
+msgid "cont_de_activate"
+msgstr "O(ne)mogoči"
+
+msgid "cont_deactivate_html"
+msgstr "Onemogoči prikazovanje HTML"
+
+msgid "cont_deactivate_js"
+msgstr "Aktiviraj način obrazca"
+
+msgid "cont_deactivate_media"
+msgstr "Onemogoči medije"
+
+msgid "cont_deactivate_page"
+msgstr "Onemogoči stran"
+
+msgid "cont_deactivated"
+msgstr "Onemogočeno"
+
+msgid "cont_debug"
+msgstr "Pripravi testno orodje"
+
+msgid "cont_debug_deactivate"
+msgstr "Prikazano bo testno orodje. V predstavitvenem načinu učnega modula SCORM zagotavlja podatke, na podlagi katerih je mogoče preveriti interakcijo učnega modula z ILIAS-om. Za dostop do testnega orodja mora biti prikazano levo navigacijsko drevo."
+
+msgid "cont_debug_deactivate12"
+msgstr "Prikazano bo testno orodje. V predstavitvenem načinu učnega modula SCORM zagotavlja podatke, na podlagi katerih je mogoče preveriti interakcijo učnega modula z ILIAS-om."
+
+msgid "cont_debug_deactivated"
+msgstr "Nasvet: Testno orodje za preverjanje skladnosti učnega modula s SCORM je globalno onemogočeno za vse učne module."
+
+msgid "cont_debugging"
+msgstr "Odpravljanje napak"
+
+msgid "cont_decimal"
+msgstr "Decimalno število"
+
+msgid "cont_def_feedb_activated"
+msgstr "Privzete povratne informacije so trenutno aktivirane v nastavitvah učnega modula."
+
+msgid "cont_def_feedb_deactivated"
+msgstr "Privzete povratne informacije so trenutno onemogočene v nastavitvah učnega modula."
+
+msgid "cont_def_layout"
+msgstr "Privzeta postavitev"
+
+msgid "cont_def_lesson_mode"
+msgstr "Beleži podatke o urejanju"
+
+msgid "cont_def_map_areas"
+msgstr "Povezana področja (privzeto)"
+
+msgid "cont_def_organization"
+msgstr "Privzeto"
+
+msgid "cont_default"
+msgstr "Privzeto"
+
+msgid "cont_definition"
+msgstr "Definicija"
+
+#, fuzzy
+msgid "cont_delete_content"
+msgstr "Delete Content"
+
+#, fuzzy
+msgid "cont_delete_file_item_confirm"
+msgstr "Do you really want to delete the selected file(s)?"
+
+msgid "cont_delete_selected"
+msgstr "Izbriši"
+
+msgid "cont_delete_style"
+msgstr "Izbriši slog"
+
+msgid "cont_delete_track_data"
+msgstr "Izbriši podatke o sledenju"
+
+msgid "cont_dependencies"
+msgstr "Odvisnosti"
+
+msgid "cont_dir_created"
+msgstr "Seznam je bil ustvarjen."
+
+msgid "cont_dir_deleted"
+msgstr "Seznam je bil izbrisan."
+
+msgid "cont_dir_file"
+msgstr "Seznam/datoteka"
+
+msgid "cont_dir_renamed"
+msgstr "Seznam je bil preimenovan."
+
+msgid "cont_disable_def_feedback"
+msgstr "Onemogoči privzete povratne informacije"
+
+msgid "cont_disable_def_feedback_info"
+msgstr "Onemogoči privzete povratne informacije po odgovorjenih vprašanjih."
+
+msgid "cont_download"
+msgstr "Prenos"
+
+msgid "cont_download_title"
+msgstr "Ime datoteke za prenos"
+
+msgid "cont_drag_and_drop_elements"
+msgstr "Za premikanje vsebinskih elementov jih z miško povlecite na rezervirana mesta."
+
+msgid "cont_drag_element_click_save"
+msgstr "Premaknite element na želen položaj in nato kliknite \"Shrani\"."
+
+msgid "cont_ed_align_center"
+msgstr "Poravnaj sredinsko"
+
+msgid "cont_ed_align_left"
+msgstr "Poravnaj levo"
+
+msgid "cont_ed_align_left_float"
+msgstr "Poravnava levo, besedilo zvezno"
+
+msgid "cont_ed_align_right"
+msgstr "Poravnaj desno"
+
+msgid "cont_ed_align_right_float"
+msgstr "Poravnava desno, besedilo zvezno"
+
+msgid "cont_ed_atable"
+msgstr "Napredna tabela"
+
+msgid "cont_ed_cell_left"
+msgstr "Premakni levo"
+
+msgid "cont_ed_cell_right"
+msgstr "Premakni desno"
+
+msgid "cont_ed_class"
+msgstr "Slog"
+
+msgid "cont_ed_click_to_add_pg"
+msgstr "Kliknite tukaj za dodajanje vsebine."
+
+msgid "cont_ed_col_left"
+msgstr "Premakni stolpec v levo"
+
+msgid "cont_ed_col_right"
+msgstr "Premakni stolpec v desno"
+
+msgid "cont_ed_copy"
+msgstr "Kopiraj"
+
+msgid "cont_ed_copy_clip"
+msgstr "Kopiraj v odložišče"
+
+msgid "cont_ed_cut"
+msgstr "Izreži"
+
+msgid "cont_ed_delete"
+msgstr "Izbriši"
+
+msgid "cont_ed_delete_cell"
+msgstr "Izbriši stolpec"
+
+msgid "cont_ed_delete_col"
+msgstr "Izbriši stolpec"
+
+msgid "cont_ed_delete_item"
+msgstr "Izbriši vnos"
+
+msgid "cont_ed_delete_row"
+msgstr "Izbriši vrstico"
+
+msgid "cont_ed_dtable"
+msgstr "Podatkovna tabela"
+
+msgid "cont_ed_edit"
+msgstr "Uredi"
+
+msgid "cont_ed_edit_data"
+msgstr "Uredi podatke"
+
+msgid "cont_ed_edit_files"
+msgstr "Uredi datoteke"
+
+msgid "cont_ed_edit_multiple"
+msgstr "Uredi zaporedje odstavkov"
+
+msgid "cont_ed_edit_prop"
+msgstr "Lastnosti"
+
+msgid "cont_ed_enable"
+msgstr "O(ne)mogoči"
+
+msgid "cont_ed_flist"
+msgstr "Seznam datotek"
+
+msgid "cont_ed_go"
+msgstr "Ok"
+
+msgid "cont_ed_grid_col_width"
+msgstr "Širina stolpca"
+
+msgid "cont_ed_grid_col_width_info"
+msgstr "Stolpci lahko zavzamejo več 1/12 enot vrstice, odvisno od velikosti zaslona. Navedene naprave so primeri. Na koncu velikost zaslona določa obnašanje. 12/12 ustreza 100% širine."
+
+msgid "cont_ed_grid_col_widths"
+msgstr "Širina stolpcev"
+
+#, fuzzy
+msgid "cont_ed_insert_amdfrm"
+msgstr "Insert Advanced Metadata"
+
+#, fuzzy
+msgid "cont_ed_insert_amdpl"
+msgstr "Insert Page List"
+
+msgid "cont_ed_insert_blog"
+msgstr "Dodaj objavo v blogu"
+
+#, fuzzy
+msgid "cont_ed_insert_cach"
+msgstr "Insert Consultation Hours"
+
+#, fuzzy
+msgid "cont_ed_insert_dtab"
+msgstr "Insert Data Table"
+
+#, fuzzy
+msgid "cont_ed_insert_flst"
+msgstr "Insert File List"
+
+msgid "cont_ed_insert_grid"
+msgstr "Vstavi postavitev stolpcev"
+
+msgid "cont_ed_insert_grid_info"
+msgstr "Doda odzivno postavitev stolpcev na podlagi mreže z 12 enotami na vrstico."
+
+msgid "cont_ed_insert_iim"
+msgstr "Vstavi interaktivno sliko"
+
+msgid "cont_ed_insert_incl"
+msgstr "Vstavi sestavni del vsebine"
+
+#, fuzzy
+msgid "cont_ed_insert_lay"
+msgstr "Insert Layout Template"
+
+#, fuzzy
+msgid "cont_ed_insert_lhist"
+msgstr "Insert Learning History"
+
+msgid "cont_ed_insert_list"
+msgstr "Vstavi napredni seznam"
+
+#, fuzzy
+msgid "cont_ed_insert_lpe"
+msgstr "Insert Login Page Element"
+
+msgid "cont_ed_insert_map"
+msgstr "Vstavi zemljevid"
+
+#, fuzzy
+msgid "cont_ed_insert_mcrs"
+msgstr "Insert My Courses"
+
+msgid "cont_ed_insert_media"
+msgstr "Vstavi sliko/zvok/video"
+
+msgid "cont_ed_insert_par"
+msgstr "Vstavi besedilo"
+
+msgid "cont_ed_insert_pcqst"
+msgstr "Vstavi vprašanje"
+
+msgid "cont_ed_insert_plach"
+msgstr "Vstavi rezervirano mesto"
+
+#, fuzzy
+msgid "cont_ed_insert_prof"
+msgstr "Insert Personal Data"
+
+msgid "cont_ed_insert_qover"
+msgstr "Vstavi pregled vprašanj"
+
+msgid "cont_ed_insert_repobj"
+msgstr "Vstavi seznam gradiv"
+
+#, fuzzy
+msgid "cont_ed_insert_sec"
+msgstr "Insert Section"
+
+msgid "cont_ed_insert_skills"
+msgstr "Vstavi kompetence"
+
+#, fuzzy
+msgid "cont_ed_insert_src"
+msgstr "Insert Code"
+
+#, fuzzy
+msgid "cont_ed_insert_tab"
+msgstr "Insert Advanced Table"
+
+msgid "cont_ed_insert_tabs"
+msgstr "Vstavi harmoniko"
+
+msgid "cont_ed_insert_templ"
+msgstr "Vstavi predlogo vsebine"
+
+#, fuzzy
+msgid "cont_ed_insert_vrfc"
+msgstr "Insert Certificate"
+
+msgid "cont_ed_item_down"
+msgstr "Premakni vnos navzdol"
+
+msgid "cont_ed_item_up"
+msgstr "Premakni vnos navzgor"
+
+msgid "cont_ed_list"
+msgstr "Napredni seznam"
+
+msgid "cont_ed_moveafter"
+msgstr "Premakni za"
+
+msgid "cont_ed_movebefore"
+msgstr "Premakni pred"
+
+msgid "cont_ed_new_col_after"
+msgstr "Nov stolpec desno"
+
+msgid "cont_ed_new_col_before"
+msgstr "Nov stolpec levo"
+
+msgid "cont_ed_new_item_after"
+msgstr "Nov vnos spodaj"
+
+msgid "cont_ed_new_item_before"
+msgstr "Nov vnos zgodaj"
+
+msgid "cont_ed_new_row_after"
+msgstr "Nova vrstica spodaj"
+
+msgid "cont_ed_new_row_before"
+msgstr "Nova vrstica zgoraj"
+
+#, fuzzy
+msgid "cont_ed_nr_cols"
+msgstr "Number of Columns"
+
+#, fuzzy
+msgid "cont_ed_nr_rows"
+msgstr "Number of Rows"
+
+msgid "cont_ed_par"
+msgstr "Besedilo"
+
+msgid "cont_ed_paste"
+msgstr "Vstavi"
+
+msgid "cont_ed_paste_clip"
+msgstr "Vstavi iz odložišča"
+
+msgid "cont_ed_pglprop"
+msgstr "Lastnosti postavitve strani"
+
+msgid "cont_ed_plachmedia"
+msgstr "Rezervirano mesto slika/mediji"
+
+msgid "cont_ed_plachprop"
+msgstr "Lastnosti rezerviranih mest"
+
+msgid "cont_ed_plachquestion"
+msgstr "Rezervirano mesto vprašanje"
+
+msgid "cont_ed_plachtext"
+msgstr "Rezervirano mesto besedilo"
+
+msgid "cont_ed_plachverification"
+msgstr "Rezervirano mesto certifikat"
+
+msgid "cont_ed_row_down"
+msgstr "Premakni vrstico navzdol"
+
+msgid "cont_ed_row_up"
+msgstr "Premakni vrstico navzgor"
+
+msgid "cont_ed_select_pctext"
+msgstr "Izberi besedilni element"
+
+msgid "cont_ed_split_page"
+msgstr "Razdeli stran"
+
+msgid "cont_ed_split_page_next"
+msgstr "Premakni na naslednjo stran"
+
+msgid "cont_ed_textitem"
+msgstr "Testni element"
+
+msgid "cont_ed_width"
+msgstr "Širina"
+
+msgid "cont_edit_base_image"
+msgstr "Uredi izhodiščno sliko"
+
+#, fuzzy
+msgid "cont_edit_comp"
+msgstr "Editing"
+
+msgid "cont_edit_definition"
+msgstr "Uredi definicijo"
+
+msgid "cont_edit_file_list_properties"
+msgstr "Uredi lastnosti seznamov datotek"
+
+msgid "cont_edit_language_version"
+msgstr "Uredi različico"
+
+msgid "cont_edit_lrs_settings"
+msgstr "Nastavitve"
+
+msgid "cont_edit_marker_position"
+msgstr "Uredi točko za označevanje"
+
+msgid "cont_edit_mob"
+msgstr "Uredi medijski objekt"
+
+msgid "cont_edit_mob_alias_prop"
+msgstr "Uredi lastnosti pristojne enote medijskega objekta"
+
+msgid "cont_edit_mode"
+msgstr "Način urejanja"
+
+#, fuzzy
+msgid "cont_edit_multi"
+msgstr "Selection"
+
+msgid "cont_edit_overlay_position"
+msgstr "Uredi položaj prekrivanja"
+
+msgid "cont_edit_par"
+msgstr "Uredi besedilo"
+
+msgid "cont_edit_personal_data"
+msgstr "Uredi osebne podatke"
+
+msgid "cont_edit_popup_position"
+msgstr "Uredi položaj pojavnega okna"
+
+msgid "cont_edit_qover"
+msgstr "Uredi pregled vprašanj"
+
+msgid "cont_edit_shape_circle"
+msgstr "Uredi obris (krog)"
+
+msgid "cont_edit_shape_polygon"
+msgstr "Uredi obris (poligon)"
+
+msgid "cont_edit_shape_rectangle"
+msgstr "Uredi obris (pravokotnik)"
+
+msgid "cont_edit_shape_whole_picture"
+msgstr "Uredi obris (celotna slika)"
+
+msgid "cont_edit_src"
+msgstr "Uredi programsko kodo"
+
+msgid "cont_edit_style"
+msgstr "Uredi slog"
+
+#, fuzzy
+msgid "cont_edit_table"
+msgstr "Edit Table"
+
+msgid "cont_edit_tabs"
+msgstr "Lastnosti"
+
+msgid "cont_edit_term"
+msgstr "Uredi pojem"
+
+#, fuzzy
+msgid "cont_edit_title"
+msgstr "Change Title"
+
+msgid "cont_element_refers_removed_itgr"
+msgstr "Ta vsebinski element se nanaša na blok objektov, ki so bili medtem odstranjeni."
+
+msgid "cont_empty_question"
+msgstr "Vprašanje še ni dokončano. Vprašanje uredite ali ga izbrišite."
+
+msgid "cont_enable_page_history"
+msgstr "Aktiviraj potek strani"
+
+msgid "cont_enable_page_history_info"
+msgstr "Starejše različice strani bodo shranjene in jih boste lahko ponastavili."
+
+msgid "cont_enable_time_scheduled_page_activation"
+msgstr "Časovno določeno aktiviranje strani"
+
+msgid "cont_enable_time_scheduled_page_activation_info"
+msgstr "Funkcija omogoča nastavitev časov za aktiviranje posameznih strani učnega modula."
+
+msgid "cont_end"
+msgstr "Konec"
+
+msgid "cont_enough_answers_correct"
+msgstr "Pravilno, vendar ni najboljša možna rešitev!"
+
+msgid "cont_enter_a_dir_name"
+msgstr "Vnesite ime seznama."
+
+msgid "cont_enter_a_file"
+msgstr "Izberite datoteko."
+
+msgid "cont_error"
+msgstr "Prišlo je do napake"
+
+msgid "cont_exp_id_used_multiple"
+msgstr "Večkrat uporabljeni ID-ji izvoza"
+
+msgid "cont_exp_ids_not_resp_format1"
+msgstr "ID-ji izvoza lahko uporabljajo samo naslednje črke"
+
+msgid "cont_exp_ids_not_resp_format2"
+msgstr "Preverite in popravite svoj vnos."
+
+msgid "cont_exp_ids_not_resp_format3"
+msgstr "ID se ne sme začeti s številko."
+
+msgid "cont_export_all"
+msgstr "Izvozi vse"
+
+msgid "cont_export_id"
+msgstr "ID izvoza"
+
+msgid "cont_file"
+msgstr "Datoteka"
+
+msgid "cont_file_created"
+msgstr "Datoteka je bila ustvarjena."
+
+msgid "cont_file_deleted"
+msgstr "Datoteke so bile izbrisane."
+
+msgid "cont_file_from_repository"
+msgstr "Datoteka iz magazina"
+
+msgid "cont_file_from_workspace"
+msgstr "Datoteka iz osebnih virov"
+
+msgid "cont_file_renamed"
+msgstr "Datoteka je bila preimenovana."
+
+msgid "cont_file_unzipped"
+msgstr "Datoteka je razširjena."
+
+msgid "cont_files"
+msgstr "Datoteke"
+
+msgid "cont_finish_editing"
+msgstr "Zaključi urejanje"
+
+#, fuzzy
+msgid "cont_finish_table_editing"
+msgstr "Finish Data Table Editing"
+
+msgid "cont_first_open"
+msgstr "Prvi predal je odprt"
+
+msgid "cont_first_page"
+msgstr "Prva stran"
+
+msgid "cont_first_row_style"
+msgstr "Slog prve vrstice"
+
+msgid "cont_fix_tree"
+msgstr "Popravi strukturo"
+
+msgid "cont_fix_tree_confirm"
+msgstr "To funkcijo uporabljajte le, če je struktura učnega modula poškodovana, npr. če se v strukturi poglavij prikažejo prazni vnosi."
+
+msgid "cont_fn"
+msgstr "Opomba pod črto"
+
+msgid "cont_footer"
+msgstr "Noga"
+
+#, fuzzy
+msgid "cont_footnote"
+msgstr "Footnote"
+
+msgid "cont_force_all_open"
+msgstr "Vsi vedno odprti"
+
+msgid "cont_format"
+msgstr "Format"
+
+#, fuzzy
+msgid "cont_format_cells"
+msgstr "Format Cells"
+
+msgid "cont_fourth_edition"
+msgstr "Najnovejša različica 'SCORM 2004 4th edition'"
+
+msgid "cont_fourth_edition_info"
+msgstr "'SCORM 2004 4th edition' v primerjavi z različico '3rd edition' ponuja nekaj nadgradenj. Mogoča je izmenjava podatkov preko meja SCO. Vendar pa se ta možnost uporablja zelo redko, saj negativno vpliva na hitrost."
+
+msgid "cont_free_pages"
+msgstr "Proste strani"
+
+msgid "cont_full_is_in_dir"
+msgstr "Brisanje ni mogoče. Datoteka za celozaslonski pogled se nahaja na seznamu."
+
+msgid "cont_fullscreen"
+msgstr "Celozaslonski način"
+
+msgid "cont_general_properties"
+msgstr "Splošne lastnosti"
+
+msgid "cont_get_link"
+msgstr "izberi povezavo"
+
+msgid "cont_glo_assign"
+msgstr "Dodeli glosar"
+
+msgid "cont_glo_create"
+msgstr "Ustvari nov glosar"
+
+msgid "cont_glo_detach"
+msgstr "Odstrani dodelitev glosarja"
+
+msgid "cont_glo_properties"
+msgstr "Nastavitve glosarja"
+
+msgid "cont_glossaries"
+msgstr "Glosarji"
+
+msgid "cont_got_lock_release"
+msgstr "Ta stran je bila zaklenjena za vaše urejanje do %1. Drugi uporabniki v tem času ne bodo mogli izvajati sprememb strani. Po urejanju stran ponovno odobrite."
+
+msgid "cont_grid_cell"
+msgstr "Stolpec"
+
+msgid "cont_grid_cell_confirm_deletion"
+msgstr "Ali res želite izbrisati stolpce?"
+
+msgid "cont_grid_nr_cells"
+msgstr "Število stolpcev"
+
+msgid "cont_grid_t_main_side"
+msgstr "Main and side block"
+
+msgid "cont_grid_t_main_side_info"
+msgstr "Creates a wide column on the left and a narrower column on the right. Switches to a one-column layout in Mobile View (small)."
+
+msgid "cont_grid_t_manual"
+msgstr "Manually created page layout"
+
+msgid "cont_grid_t_manual_info"
+msgstr "Enables the free design of the number and width of columns."
+
+msgid "cont_grid_t_three_column"
+msgstr "Three-column-Layout"
+
+msgid "cont_grid_t_three_column_info"
+msgstr "Creates three columns of equal width next to each other. Switches to a one-column layout in Mobile View (small)."
+
+msgid "cont_grid_t_two_by_two"
+msgstr "Two-time-two-box"
+
+msgid "cont_grid_t_two_by_two_info"
+msgstr "Creates two rows with two columns of equal width. Switches to a one-column layout in mobile view (small) and to a four-column layout on extra-wide screens (extra large)."
+
+msgid "cont_grid_t_two_column"
+msgstr "Two-column-layout"
+
+msgid "cont_grid_t_two_column_info"
+msgstr "Creates two equally wide columns next to each other. Switches to a one-column layout in Mobile View (small)."
+
+msgid "cont_grid_width_l"
+msgstr "Velik (large)"
+
+msgid "cont_grid_width_l_info"
+msgstr "npr. namizje"
+
+msgid "cont_grid_width_m"
+msgstr "Srednji"
+
+msgid "cont_grid_width_m_info"
+msgstr "npr. tablica"
+
+msgid "cont_grid_width_s"
+msgstr "Majhen (small)"
+
+msgid "cont_grid_width_s_info"
+msgstr "npr. pametni telefon"
+
+msgid "cont_grid_width_xl"
+msgstr "Zelo velik (extra large)"
+
+msgid "cont_grid_width_xl_info"
+msgstr "npr. široko namizje"
+
+#, fuzzy
+msgid "cont_hacc_needs_height"
+msgstr "Please set a content height for horizontal accordions."
+
+#, fuzzy
+msgid "cont_hacc_needs_width"
+msgstr "Please set a content width for horizontal accordions."
+
+#, fuzzy
+msgid "cont_has_row_header"
+msgstr "Has a Header Row"
+
+msgid "cont_header"
+msgstr "Glava"
+
+msgid "cont_height"
+msgstr "Višina v pikslih"
+
+msgid "cont_help_no_valid_tooltip_id"
+msgstr "Vnesen ID opisa orodja ni veljaven."
+
+msgid "cont_hide_adv"
+msgstr "Skrij napredno znanje"
+
+msgid "cont_hide_head_foot_print"
+msgstr "Pri tiskanju skrij glavo in nogo."
+
+msgid "cont_hidenavig"
+msgstr "Skrij levo navigacijsko drevo"
+
+msgid "cont_hidenavig_info"
+msgstr "Levo navigacijsko drevo za prehajanje med več odstavki učnega modula je mogoče skriti, če učni modul SCORM vsebuje lastno navigacijo ali je prikazana zgornja navigacijska vrstica."
+
+msgid "cont_highlight_class"
+msgstr "Poudari razred"
+
+msgid "cont_highlight_mode"
+msgstr "Način poudarjeno"
+
+msgid "cont_hover"
+msgstr "Hover"
+
+msgid "cont_href"
+msgstr "href"
+
+msgid "cont_html_export_ids"
+msgstr "ID-ji izvoza HTML"
+
+msgid "cont_html_export_ids_info"
+msgstr "Omogoča upravljanje lastnih ID-jev za učne module ILIAS. Ti ID-ji se uporabljajo za poimenovanje strani HTML, ki so ustvarjene ob izvozu HTML."
+
+msgid "cont_html_table"
+msgstr "Tabela HTML"
+
+msgid "cont_id_ref"
+msgstr "identifierref"
+
+msgid "cont_ie_compatibility"
+msgstr "Način združljivosti za Internet Explorer 7"
+
+msgid "cont_ie_compatibility_info"
+msgstr "Zmanjša težave s prikazom starejših učnih modulov SCORM, ki so optimizirani za Internet Explorer. Če je v novejših različicah Internet Explorerja onemogočen način združljivosti, ta nastavitev ne bo aktivna. <br />"
+
+msgid "cont_ie_force_render"
+msgstr "Internet Explorer naj se znova naloži"
+
+msgid "cont_ie_force_render_info"
+msgstr "Pravilen prikaz vsebin učnega modula SCORM z veliko okvirji ali i-okvirji bo dosežen s ponovnim nalaganjem vsebine."
+
+#, fuzzy
+msgid "cont_iim_add_overlay"
+msgstr "Add Overlay"
+
+#, fuzzy
+msgid "cont_iim_add_trigger"
+msgstr "Add Trigger"
+
+#, fuzzy
+msgid "cont_iim_add_trigger_text"
+msgstr "Please add a trigger. Afterwards edit size and position on the right screen."
+
+#, fuzzy
+msgid "cont_iim_background_image"
+msgstr "Background Image"
+
+#, fuzzy
+msgid "cont_iim_background_image_and_caption"
+msgstr "Background Image and Caption"
+
+#, fuzzy
+msgid "cont_iim_edit"
+msgstr "Edit Interactive Image"
+
+#, fuzzy
+msgid "cont_iim_edit_trigger"
+msgstr "Edit Trigger"
+
+#, fuzzy
+msgid "cont_iim_finish_editing"
+msgstr "Finish Editing Interactive Image"
+
+#, fuzzy
+msgid "cont_iim_horizontal"
+msgstr "Horizontal"
+
+#, fuzzy
+msgid "cont_iim_lg"
+msgstr "Large"
+
+#, fuzzy
+msgid "cont_iim_md"
+msgstr "Medium"
+
+#, fuzzy
+msgid "cont_iim_no_overlay"
+msgstr "No Overlay"
+
+#, fuzzy
+msgid "cont_iim_overview"
+msgstr "Overview"
+
+#, fuzzy
+msgid "cont_iim_select_overlay"
+msgstr "Select Overlay"
+
+#, fuzzy
+msgid "cont_iim_select_trigger"
+msgstr "To edit an existing trigger, click it on the right screen."
+
+#, fuzzy
+msgid "cont_iim_size"
+msgstr "Size"
+
+#, fuzzy
+msgid "cont_iim_sm"
+msgstr "Small"
+
+#, fuzzy
+msgid "cont_iim_tr_add_popup"
+msgstr "Add Content-Popup"
+
+#, fuzzy
+msgid "cont_iim_tr_properties_info"
+msgstr "The trigger will be presented on the right side. You may alter position and size using the mouse."
+
+#, fuzzy
+msgid "cont_iim_trigger"
+msgstr "Trigger"
+
+#, fuzzy
+msgid "cont_iim_vertical"
+msgstr "Vertical"
+
+msgid "cont_imagemap"
+msgstr "Mapa s slikami"
+
+msgid "cont_import"
+msgstr "Uvoz"
+
+msgid "cont_import_id"
+msgstr "identifikator"
+
+msgid "cont_import_lang"
+msgstr "Ciljni jezik"
+
+msgid "cont_import_tracking"
+msgstr "Uvozi podatke protokla"
+
+msgid "cont_import_trans"
+msgstr "Uvozi prevod"
+
+msgid "cont_import_validation_errors"
+msgstr "Med preverjanjem učnega modula je prišlo do napak. Prikaz lahko kljub temu deluje. Vendar strani z napakami verjetno ne bodo urejene."
+
+msgid "cont_initial_attached_content"
+msgstr "Dodatne začetne vsebine"
+
+msgid "cont_insert_amd_page_list"
+msgstr "Vstavi seznam strani"
+
+msgid "cont_insert_as_chapter"
+msgstr "Vstavi kot poglavje"
+
+msgid "cont_insert_as_subchapter"
+msgstr "Vstavi kot podpoglavje"
+
+msgid "cont_insert_blog"
+msgstr "Dodaj objavo v blogu"
+
+msgid "cont_insert_chapter"
+msgstr "Vstavi poglavje"
+
+msgid "cont_insert_chapter_from_clip"
+msgstr "Vstavi poglavje iz odložišča"
+
+msgid "cont_insert_consultation_hours"
+msgstr "Vstavi govorilne ure"
+
+msgid "cont_insert_file_item"
+msgstr "Vstavi datoteko"
+
+msgid "cont_insert_file_list"
+msgstr "Vstavi seznam datotek"
+
+msgid "cont_insert_list"
+msgstr "Vstavi napredni seznam"
+
+msgid "cont_insert_login_page"
+msgstr "Ustvari element strani za prijavo"
+
+msgid "cont_insert_map"
+msgstr "Vstavi zemljevid"
+
+msgid "cont_insert_mob"
+msgstr "Medijski objekt"
+
+msgid "cont_insert_my_courses"
+msgstr "Vstavi moje tečaje"
+
+msgid "cont_insert_page"
+msgstr "Vstavi stran"
+
+msgid "cont_insert_page_from_clip"
+msgstr "Vstavi stran iz odložišča"
+
+msgid "cont_insert_pagelayout"
+msgstr "Insert Template Page"
+
+msgid "cont_insert_par"
+msgstr "Vstavi besedilo"
+
+msgid "cont_insert_profile"
+msgstr "Objavi osebne podatke"
+
+msgid "cont_insert_resources"
+msgstr "Vstavi seznam gradiv"
+
+msgid "cont_insert_section"
+msgstr "Vstavi blok"
+
+msgid "cont_insert_skills"
+msgstr "Vstavi kompetenco"
+
+msgid "cont_insert_src"
+msgstr "Vstavi programsko kodo"
+
+msgid "cont_insert_subchapter"
+msgstr "Vstavi podpoglavje"
+
+msgid "cont_insert_subchapter_from_clip"
+msgstr "Vstavi podpoglavje iz odložišča"
+
+msgid "cont_insert_table"
+msgstr "Vstavi tabelo"
+
+msgid "cont_insert_verification"
+msgstr "Dodaj certifikat"
+
+msgid "cont_inst_map_areas"
+msgstr "Povezana področja pristojne enote"
+
+msgid "cont_interactions"
+msgstr "Shrani rezultate nalog"
+
+msgid "cont_interactions_info"
+msgstr "Učni moduli podatke o rezultatih iz nalog (interactions) običajno samo zapišejo in jih več ne preberejo. Če ste prepričani, da ta učni modul deluje tako, bo ta možnost izboljšala učinkovitost."
+
+msgid "cont_interactions_info_12"
+msgstr "Učni moduli SCORM 1.2 lahko podatke o rezultatih iz nalog (interactions) samo zapišejo in jih več ne preberejo. Ta možnost izboljša učinkovitost."
+
+msgid "cont_internal_link"
+msgstr "notranja povezava"
+
+msgid "cont_internal_links"
+msgstr "Notranje povezave"
+
+msgid "cont_invalid_new_module"
+msgstr "Nezdružljiv modul! Imsmanifest.xml mora biti identičen."
+
+msgid "cont_is_visible"
+msgstr "neviden"
+
+msgid "cont_item"
+msgstr "Vnos"
+
+#, fuzzy
+msgid "cont_keyword"
+msgstr "Keyword"
+
+msgid "cont_language"
+msgstr "Jezik"
+
+msgid "cont_languages"
+msgstr "Jeziki"
+
+msgid "cont_last_try"
+msgstr "Zadnji poskus"
+
+#, fuzzy
+msgid "cont_last_update"
+msgstr "Last Update"
+
+msgid "cont_last_visited_page"
+msgstr "Nazadnje obiskana stran"
+
+msgid "cont_latest_rev"
+msgstr "Zadnja sprememba"
+
+msgid "cont_layout"
+msgstr "Layout"
+
+msgid "cont_layout_1window"
+msgstr "Eno okno"
+
+msgid "cont_layout_1window_desc"
+msgstr "Vsebine v glavnem oknu. Povezave do pogostih vprašanj, glosarja in medijev se odprejo v novem oknu."
+
+msgid "cont_layout_2window"
+msgstr "Dve okni"
+
+msgid "cont_layout_2window_desc"
+msgstr "Vsebine v levem oknu. Povezave do pogostih vprašanj, glosarja in medijev se odprejo v desnem oknu."
+
+msgid "cont_layout_3window"
+msgstr "Tri okna"
+
+msgid "cont_layout_3window_desc"
+msgstr "Vsebine v levem oknu. V zgornjem desnem polju se odprejo povezave do pogostih vprašanj in medijev, v spodnjem desnem pa povezave do glosarjev."
+
+msgid "cont_layout_fullscreen"
+msgstr "Celozaslonski način"
+
+msgid "cont_layout_fullscreen_desc"
+msgstr "Vsebine v glavnem oknu. Povezave do pogostih vprašanj, glosarja in medijev se odprejo v novem oknu. Glavni meni ILIAS je onemogočen."
+
+msgid "cont_layout_per_page"
+msgstr "Dovoli postavitev na stran"
+
+msgid "cont_layout_per_page_info"
+msgstr "Dovoljuje izbiro drugačne postavitve za vsako stran."
+
+msgid "cont_layout_presentation"
+msgstr "Predstavitev"
+
+msgid "cont_layout_presentation_desc"
+msgstr "Vsebine v glavnem oknu. Povezave do pogostih vprašanj, glosarja in medijev se odprejo v novem oknu. Glavni meni ILIAS je onemogočen."
+
+msgid "cont_layout_template"
+msgstr "Predloga postavitve"
+
+msgid "cont_layout_toc2win"
+msgstr "Pregled levo"
+
+msgid "cont_layout_toc2win_desc"
+msgstr "Pregled levo, vsebine v desnem okvirju Povezave do pogostih vprašanj, glosarja in medijev se odprejo v novem oknu."
+
+msgid "cont_layout_toc2windyn"
+msgstr "Pregled levo, dinamični okvir"
+
+msgid "cont_layout_toc2windyn_desc"
+msgstr "Pregled levo, vsebine v desnem okvirju Povezave do pogostih vprašanj, glosarja in medijev se odprejo v dinamičnem oknu spodaj desno."
+
+msgid "cont_left"
+msgstr "Levo"
+
+msgid "cont_left_float"
+msgstr "Levo, besedilo zvezno"
+
+msgid "cont_license"
+msgstr "Licenca"
+
+msgid "cont_license_info"
+msgstr "Prikazana bosta zavihek in funkcija \"Licenca\"."
+
+msgid "cont_light"
+msgstr "Svetlo"
+
+msgid "cont_link"
+msgstr "Povezava"
+
+msgid "cont_link_area"
+msgstr "Področje povezave"
+
+msgid "cont_link_ext"
+msgstr "Povezava (zunanja)"
+
+msgid "cont_link_glo_in_lm"
+msgstr "Ali želite zdaj povezati vse pojme glosarja v učnem modulu?"
+
+msgid "cont_link_int"
+msgstr "Povezava (notranja)"
+
+msgid "cont_link_no"
+msgstr "Ni povezave"
+
+msgid "cont_link_select"
+msgstr "Notranja povezava"
+
+msgid "cont_link_to_external"
+msgstr "Povezava do zunanje spletne strani"
+
+msgid "cont_link_to_internal"
+msgstr "Povezava znotraj ILIAS-a"
+
+msgid "cont_link_to_wiki"
+msgstr "Povezava do strani Wiki (vstavite oklepaje)"
+
+msgid "cont_link_type"
+msgstr "Tip povezave"
+
+#, fuzzy
+msgid "cont_link_user"
+msgstr "User Profile"
+
+msgid "cont_linked_mobs"
+msgstr "Povezani medijski objekti"
+
+msgid "cont_links"
+msgstr "Levo"
+
+msgid "cont_list_files"
+msgstr "Seznam datotek"
+
+msgid "cont_list_indent"
+msgstr "Zamakni seznam desno"
+
+#, fuzzy
+msgid "cont_list_item_style"
+msgstr "List Item Style"
+
+msgid "cont_list_outdent"
+msgstr "Zamakni seznam levo"
+
+msgid "cont_list_properties"
+msgstr "Lastnosti seznamov"
+
+msgid "cont_lists"
+msgstr "Seznami"
+
+msgid "cont_lk_chapter"
+msgstr "Poglavje"
+
+msgid "cont_lk_chapter_new"
+msgstr "Poglavje (nov okvir)"
+
+msgid "cont_lk_file"
+msgstr "Datoteka/dokument"
+
+msgid "cont_lk_media_faq"
+msgstr "Medijski objekt (okvir za pogosto zastavljena vprašanja)"
+
+msgid "cont_lk_media_inline"
+msgstr "Medijski objekt (v vrstici)"
+
+msgid "cont_lk_media_media"
+msgstr "Medijski objekt (medijski okvir)"
+
+msgid "cont_lk_media_new"
+msgstr "Medijski objekt (nov okvir)"
+
+msgid "cont_lk_page"
+msgstr "Stran"
+
+msgid "cont_lk_page_faq"
+msgstr "Stran (okvir za pogosto zastavljena vprašanja)"
+
+msgid "cont_lk_page_new"
+msgstr "Stran (nov okvir)"
+
+msgid "cont_lk_term"
+msgstr "Pojem iz glosarja"
+
+msgid "cont_lk_term_new"
+msgstr "Pojem iz glosarja (nov okvir)"
+
+msgid "cont_lm_comments_desc"
+msgstr "Dovoli uporabnikom, da dodajajo javne komentarje na vseh straneh učnega modula."
+
+msgid "cont_lm_default_layout"
+msgstr "Privzeta postavitev učnega modula"
+
+msgid "cont_lm_mail_permanent_link"
+msgstr "Za dostop do učnega modula kliknite na naslednjo povezavo:"
+
+msgid "cont_lm_menu"
+msgstr "Meni"
+
+msgid "cont_lm_properties"
+msgstr "Nastavitve učnega modula"
+
+msgid "cont_lm_starting_point"
+msgstr "Začetna stran za učne module ILIAS"
+
+msgid "cont_lm_starting_point_info"
+msgstr "Stran, ki se odpre s klikom na naslov učnega modula."
+
+msgid "cont_localfile"
+msgstr "Lokalna datoteka"
+
+msgid "cont_localization"
+msgstr "Jezik"
+
+msgid "cont_localization_info"
+msgstr "Nastavitev je potrebna za prednastavljena besedila v modulu (npr. \"Naprej\" / \"Nazaj\")."
+
+msgid "cont_location"
+msgstr "Položaj"
+
+#, fuzzy
+msgid "cont_lpe_dpro_agreement_link"
+msgstr "Declaration of Data Protection Link"
+
+msgid "cont_lpe_language_selection"
+msgstr "Izbira jezika"
+
+msgid "cont_lpe_login_form"
+msgstr "Prijavna maska"
+
+msgid "cont_lpe_openid_connect_login"
+msgstr "Prijava za povezavo OpenId"
+
+msgid "cont_lpe_openid_login_form"
+msgstr "Prijavna maska za OpenId"
+
+msgid "cont_lpe_registration_link"
+msgstr "Povezava za novo prijavo"
+
+msgid "cont_lpe_saml_login"
+msgstr "SAML Login"
+
+msgid "cont_lpe_shib_login_form"
+msgstr "Prijavna maska za Shibboleth"
+
+msgid "cont_lpe_user_agreement_link"
+msgstr "Povezava do uporabniške pogodbe"
+
+msgid "cont_lrs_settings"
+msgstr "Nastavitve"
+
+msgid "cont_lvalue"
+msgstr "Podatkovni element"
+
+msgid "cont_maintenance"
+msgstr "Vzdrževanje"
+
+msgid "cont_manifest"
+msgstr "Manifest"
+
+#, fuzzy
+msgid "cont_manual_item_group"
+msgstr "Manually Create Item Group"
+
+msgid "cont_map_file_not_generated"
+msgstr "Datoteke s slikovnim zemljevidom žal ni bilo mogoče generirati."
+
+msgid "cont_marker"
+msgstr "Točka za označevanje"
+
+msgid "cont_master_language_only"
+msgstr "Glavni jezik za prevajanje - master"
+
+msgid "cont_master_language_only_no_media"
+msgstr "Glavni jezik za prevajanje - brez medijskih objektov"
+
+msgid "cont_mastery_score"
+msgstr "adlcp"
+
+msgid "cont_mastery_score_12"
+msgstr "prepiši mastery_score"
+
+msgid "cont_mastery_score_12_info"
+msgstr "Če SCO statusa ne določi sam, se šteje, da je SCO opravljen, če je doseženo število točk doseglo določeno vrednost - mastery_score. To vrednost lahko tukaj prepišete, da npr. zmanjšate raven zahtevnosti. Če je polje prazno, veljajo podatki v manifestu SCORM. Tukaj so predvidene naslednje vrednosti:"
+
+msgid "cont_mastery_score_2004"
+msgstr "prepiši scaled_passing_score"
+
+msgid "cont_mastery_score_2004_info"
+msgstr "Osrednji učni cilji tega učnega modula veljajo kot opravljeni, če je doseženo število točk doseglo določeno vrednost – scaled_passing_score. To vrednost, ki je navedena v odstotkih, lahko tukaj prepišete, da npr. zmanjšate raven zahtevnosti. Če je polje prazno, veljajo podatki v manifestu SCORM. Tukaj so predvidene naslednje vrednosti:"
+
+msgid "cont_max_time_allowed"
+msgstr "adlcp"
+
+#, fuzzy
+msgid "cont_media"
+msgstr "Images/Media"
+
+msgid "cont_media_placeh"
+msgstr "Kliknite in uredite, da vstavite medijski objekt"
+
+msgid "cont_media_placehl"
+msgstr "Rezervirano mesto za slike/medije"
+
+msgid "cont_media_source"
+msgstr "Medijski vir"
+
+#, fuzzy
+msgid "cont_merge_cells"
+msgstr "Merge Cells"
+
+msgid "cont_missing_preconditions"
+msgstr "Za dostop do poglavja \"% s\" morate izpolnjevati naslednje predpogoje."
+
+msgid "cont_missing_snippet"
+msgstr "Manjkajoči sestavni del vsebine: Sestavni del vsebine je bil izbrisan."
+
+msgid "cont_mob_def_prop"
+msgstr "Privzete nastavitve"
+
+msgid "cont_mob_from_media_pool"
+msgstr "Izberi iz skupine medijev"
+
+msgid "cont_mob_inst_prop"
+msgstr "Lastnosti pristojne enote"
+
+msgid "cont_mob_usages"
+msgstr "Uporaba"
+
+msgid "cont_more_character_styles"
+msgstr "Slogi znakov"
+
+msgid "cont_more_functions"
+msgstr "Nadaljnje"
+
+msgid "cont_moved_srt_files"
+msgstr "Datoteke s podnapisi so bile dodeljene medijskim objektom."
+
+msgid "cont_multi_srt_files"
+msgstr "Datoteke SRT"
+
+msgid "cont_mycourses_sortorder"
+msgstr "Privzeta razvrstitev"
+
+msgid "cont_mycourses_sortorder_alphabetical"
+msgstr "Po abecedi"
+
+msgid "cont_mycourses_sortorder_info"
+msgstr "To je privzeta nastavitev. Vsak uporabnik lahko izbere lastno razvrstitev, ki velja za vse elemente \"Moji tečaji\" v vseh portfeljih."
+
+msgid "cont_mycourses_sortorder_location"
+msgstr "Po lokaciji"
+
+msgid "cont_name"
+msgstr "Ime"
+
+msgid "cont_never"
+msgstr "Nikoli"
+
+msgid "cont_new_area"
+msgstr "Novo področje povezave"
+
+msgid "cont_new_chap"
+msgstr "Novo poglavje"
+
+msgid "cont_new_dir"
+msgstr "Nov seznam"
+
+msgid "cont_new_file"
+msgstr "Naloži novo datoteko"
+
+msgid "cont_new_marker"
+msgstr "Nova točka za označevanje"
+
+msgid "cont_new_mob"
+msgstr "Nov medijski objekt"
+
+msgid "cont_new_module_added"
+msgstr "Nova različice modula je uspešno naložena"
+
+msgid "cont_new_page"
+msgstr "Nova stran"
+
+msgid "cont_new_popup"
+msgstr "Novo pojavno okno"
+
+msgid "cont_new_question"
+msgstr "Novo vprašanje"
+
+msgid "cont_new_tab"
+msgstr "Nov predal"
+
+msgid "cont_new_term"
+msgstr "Nov pojem"
+
+msgid "cont_new_trigger_area"
+msgstr "Novo področje sprožilca"
+
+msgid "cont_next_rev"
+msgstr "Naslednja sprememba"
+
+msgid "cont_nlist"
+msgstr "Oštevilčen seznam"
+
+msgid "cont_no_access"
+msgstr "Ni dostopa"
+
+#, fuzzy
+msgid "cont_no_block"
+msgstr "No Section"
+
+msgid "cont_no_caption"
+msgstr "Ni legende"
+
+msgid "cont_no_glossary"
+msgstr "Ni glosarja"
+
+msgid "cont_no_manifest"
+msgstr "V glavnem seznamu ni bilo mogoče najti nobene datoteke z imenom imsmanifest.xml."
+
+msgid "cont_no_page"
+msgstr "Nobena stran ni najdena"
+
+msgid "cont_no_page_access_unansw_q"
+msgstr "Za dostop do te strani morate pravilno odgovoriti na vsa dosedanja vprašanja."
+
+msgid "cont_no_page_in_chapter"
+msgstr "Žal v tem poglavju trenutno ni nobene aktivirane vsebine."
+
+msgid "cont_no_parameters"
+msgstr "Ni parametrov"
+
+msgid "cont_no_read"
+msgstr "No read permission"
+
+msgid "cont_no_subdir_in_zip"
+msgstr "Ukaza ZIP ni bilo mogoče izvesti ali pa so v datoteki za uvoz napake.<br>Ne vsebuje podmape '% s'."
+
+msgid "cont_no_text"
+msgstr "Ni besedila"
+
+msgid "cont_nomenu"
+msgstr "Skrij zgornji navigacijski meni"
+
+msgid "cont_nomenu_info"
+msgstr "Zgornji navigacijski meni lahko skrijete, če učni modul SCORM vsebuje dovolj funkcij za prekinitev, zaključek in navigacijo."
+
+msgid "cont_none"
+msgstr "Ne obstaja"
+
+msgid "cont_not_saved_edit_lock_expired"
+msgstr "Oprostite, vaših sprememb ni bilo mogoče shraniti. Medtem je drug uporabnik zaklenil to stran za urejanje. Ta dialog lahko zaprete in nato vsebino kopirate v odložišče."
+
+msgid "cont_notification_activate_lm"
+msgstr "Activate Notification for Learning Module"
+
+msgid "cont_notification_activate_page"
+msgstr "Activate Notification for Page"
+
+msgid "cont_notification_activated"
+msgstr "Notification Activated (Whole LM)"
+
+msgid "cont_notification_comment_lm"
+msgstr "the following Learning Module Page has been commented"
+
+msgid "cont_notification_comment_subject_lm"
+msgstr "A comment was added to %s"
+
+msgid "cont_notification_deactivate_lm"
+msgstr "Deactivate Notification for Learning Module"
+
+msgid "cont_notification_deactivate_page"
+msgstr "Deactivate Notification for Page"
+
+msgid "cont_notification_deactivated"
+msgstr "Notification Deactivated"
+
+msgid "cont_notification_update_lm"
+msgstr "the following Learning Module has been updated"
+
+msgid "cont_notify_on_blocked_users"
+msgstr "Obveščanje o zaklenjenih uporabnikih"
+
+msgid "cont_notify_on_blocked_users_info"
+msgstr "Obveščeni boste takoj, ko bodo uporabniki zaklenjeni, ker so prekoračili maksimalno število poskusov odgovora."
+
+msgid "cont_nr_col_footer"
+msgstr "Noga (stolpci)"
+
+msgid "cont_nr_col_header"
+msgstr "Glava (stolpci)"
+
+msgid "cont_nr_cols"
+msgstr "Število stolpcev"
+
+msgid "cont_nr_items"
+msgstr "Število vnosov"
+
+msgid "cont_nr_of_tries_exceeded"
+msgstr "Nimate več poskusov."
+
+msgid "cont_nr_row_footer"
+msgstr "Noga (vrstice)"
+
+msgid "cont_nr_row_header"
+msgstr "Glava (vrstice)"
+
+msgid "cont_nr_rows"
+msgstr "Število vrstic"
+
+msgid "cont_number_of_tabs"
+msgstr "Število predalov"
+
+msgid "cont_number_std"
+msgstr "Standard"
+
+msgid "cont_number_type"
+msgstr "Tip številk"
+
+msgid "cont_numbered_list"
+msgstr "Oštevilčen seznam"
+
+msgid "cont_obj_removed"
+msgstr "Objekti so odstranjeni"
+
+msgid "cont_objectives"
+msgstr "Shrani rezultate za učne cilje"
+
+msgid "cont_objectives_info"
+msgstr "Samo če ste prepričani, da je zagotovljen pravilen potek tega učnega modula, lahko v izogib uporabniških podatkov in za izboljšanje učinkovitosti onemogočite to shranjevanje."
+
+msgid "cont_online"
+msgstr "Online"
+
+msgid "cont_online_help_ids"
+msgstr "ID-ji zaslona"
+
+msgid "cont_online_info"
+msgstr "Samo če je učni modul SCORM na spletu, imajo uporabniki dostop do učnega modula. Če ne, je učni modul SCORM na voljo samo osebam s pravicami za urejanje."
+
+msgid "cont_open"
+msgstr "Prikaz učnega modula"
+
+#, fuzzy
+msgid "cont_open_clipboard"
+msgstr "Open Clipboard"
+
+msgid "cont_open_iframe"
+msgstr "Odpre se v istem oknu (iOkno) pod glavnim menijem ILIAS"
+
+#, fuzzy
+msgid "cont_open_iframe_info"
+msgstr "The learning module starts in the same window (iFrame) next to the ILIAS main menu."
+
+msgid "cont_open_normal"
+msgstr "Odpre se v novem zavihku ali v novem oknu brez glavnega menija ILIAS"
+
+#, fuzzy
+msgid "cont_open_normal_info"
+msgstr "The learning module starts in a new tab or alternatively in a new window without the ILIAS main menu."
+
+msgid "cont_open_window"
+msgstr "Odpre se prisilno v novem oknu brez glavnega menija ILIAS"
+
+#, fuzzy
+msgid "cont_open_window_info"
+msgstr "The learning module must start in a new window without the ILIAS main menu."
+
+msgid "cont_operation_not_allowed"
+msgstr "To dejanje ni dovoljeno"
+
+msgid "cont_organization"
+msgstr "Organizacija"
+
+msgid "cont_organizations"
+msgstr "Organizacije"
+
+msgid "cont_orig_size"
+msgstr "Originalna velikost"
+
+#, fuzzy
+msgid "cont_other_resources"
+msgstr "Content (Other Remaining Resources)"
+
+msgid "cont_out_of_focus_message"
+msgstr "Ta stran ni več del vsebin aktualnega učnega cilja."
+
+msgid "cont_out_of_focus_message_last_page"
+msgstr "Nahajate se na zadnji strani vsebin za aktualni učni cilj."
+
+msgid "cont_ov_all_correct"
+msgstr "Pravilno ste odgovorili na vsa vprašanja."
+
+msgid "cont_ov_preview"
+msgstr "Pregled vprašanj ne deluje v kontekstu urejevalnika strani. Namesto tega uporabite predogled na ravni SCO ali SCORM."
+
+msgid "cont_ov_some_correct"
+msgstr "Pravilno ste odgovorili na [x] od [y] vprašanj."
+
+msgid "cont_ov_wrong_answered"
+msgstr "Na naslednja vprašanja še ni odgovorov ali so odgovori napačni"
+
+msgid "cont_overlay_image"
+msgstr "Slika za prekrivanje"
+
+msgid "cont_overlay_images"
+msgstr "Prekrivne slike"
+
+msgid "cont_overlays_have_been_deleted"
+msgstr "Prekrivanja so bila izbrisana"
+
+msgid "cont_page_activation"
+msgstr "Omogočenje strani"
+
+msgid "cont_page_activation_on"
+msgstr "Vsebina bo aktivirana dne %s."
+
+msgid "cont_page_compare"
+msgstr "Primerjaj izbrane spremembe"
+
+msgid "cont_page_created"
+msgstr "Page created"
+
+msgid "cont_page_currently_deactivated"
+msgstr "Ta stran je trenutno onemogočena."
+
+msgid "cont_page_deactivated"
+msgstr "Stran je onemogočena"
+
+msgid "cont_page_deactivated_elements"
+msgstr "Stran vsebuje onemogočene elemente."
+
+msgid "cont_page_header"
+msgstr "Naslov strani"
+
+msgid "cont_page_layout"
+msgstr "Postavitev strani"
+
+msgid "cont_page_lock_released"
+msgstr "Urejanje je bilo zaključeno. Stran je bila ponovno odobrena."
+
+msgid "cont_page_notification_activated"
+msgstr "Notification Activated (Single Page)"
+
+msgid "cont_page_template"
+msgstr "Page Template"
+
+msgid "cont_page_toc"
+msgstr "Pregled strani"
+
+msgid "cont_page_translation_does_not_exist"
+msgstr "V tem jeziku stran še ne obstaja. Zdaj bo ustvarjena kot kopija privzetega jezika. Jezik nove strani"
+
+#, fuzzy
+msgid "cont_page_usage"
+msgstr "Page Usage"
+
+msgid "cont_pages"
+msgstr "Strani"
+
+msgid "cont_pages_and_subchapters"
+msgstr "Podpoglavja in strani"
+
+msgid "cont_par_format"
+msgstr "Oblika poglavja"
+
+msgid "cont_paragraph_styles"
+msgstr "Oblike odstavkov"
+
+msgid "cont_parameter"
+msgstr "Parameter"
+
+msgid "cont_parameters"
+msgstr "Parameter"
+
+msgid "cont_paste_from_clipboard"
+msgstr "Vstavi iz odložišča"
+
+#, fuzzy
+msgid "cont_paste_from_spreadsheet"
+msgstr "Paste From Spreadsheet"
+
+msgid "cont_paste_table"
+msgstr "Vstavi tabelo"
+
+msgid "cont_pc_amdpl"
+msgstr "Seznam strani"
+
+msgid "cont_pc_blog"
+msgstr "Blog"
+
+msgid "cont_pc_carousel"
+msgstr "Vrtiljak"
+
+msgid "cont_pc_code"
+msgstr "Koda"
+
+msgid "cont_pc_deleted"
+msgstr "Izbrisane vsebine"
+
+msgid "cont_pc_dtab"
+msgstr "Podatkovna tabela"
+
+msgid "cont_pc_flist"
+msgstr "Seznam datotek"
+
+msgid "cont_pc_grid"
+msgstr "Postavitev stolpca"
+
+msgid "cont_pc_hacc"
+msgstr "Harmonika (horizontalna)"
+
+msgid "cont_pc_iim"
+msgstr "Interaktivna slika"
+
+msgid "cont_pc_incl"
+msgstr "Sestavni del vsebine"
+
+#, fuzzy
+msgid "cont_pc_lay"
+msgstr "Layout Template"
+
+msgid "cont_pc_list"
+msgstr "Napredni seznam"
+
+msgid "cont_pc_map"
+msgstr "Zemljevid"
+
+#, fuzzy
+msgid "cont_pc_media"
+msgstr "Image/Media"
+
+msgid "cont_pc_mob"
+msgstr "Medijski objekt"
+
+msgid "cont_pc_modified"
+msgstr "Spremenjene vsebine"
+
+msgid "cont_pc_new"
+msgstr "Nove vsebine"
+
+msgid "cont_pc_par"
+msgstr "Besedilo"
+
+#, fuzzy
+msgid "cont_pc_plach"
+msgstr "Placeholder"
+
+msgid "cont_pc_prof"
+msgstr "Osebni podatki"
+
+msgid "cont_pc_qover"
+msgstr "Pregled vprašanj"
+
+msgid "cont_pc_qst"
+msgstr "Vprašanje"
+
+#, fuzzy
+msgid "cont_pc_repobj"
+msgstr "Item Group"
+
+msgid "cont_pc_res"
+msgstr "Vir"
+
+msgid "cont_pc_sec"
+msgstr "Blok"
+
+msgid "cont_pc_skills"
+msgstr "Kompetenca"
+
+#, fuzzy
+msgid "cont_pc_src"
+msgstr "Source Code"
+
+msgid "cont_pc_tab"
+msgstr "Napredna tabela"
+
+#, fuzzy
+msgid "cont_pc_tabs"
+msgstr "Accordion/Carousel"
+
+msgid "cont_pc_vacc"
+msgstr "Harmonika (navpična)"
+
+msgid "cont_pc_vrfc"
+msgstr "Certifikat"
+
+#, fuzzy
+msgid "cont_permission_handling"
+msgstr "Permission Handling"
+
+msgid "cont_permission_object"
+msgstr "Objekt s pravicami"
+
+msgid "cont_permission_object_desc"
+msgstr "Če je izbran objekt, za katerega so potrebne pravice, bo blok prikazan samo tistim uporabnikom, ki imajo izbrano pravico za ta objekt."
+
+msgid "cont_personal_clipboard"
+msgstr "Osebno odložišče"
+
+msgid "cont_pg_title"
+msgstr "Naslov strani"
+
+msgid "cont_please_enter_a_term"
+msgstr "Vnesite izraz."
+
+msgid "cont_please_select"
+msgstr "Izberite"
+
+msgid "cont_please_try_again"
+msgstr "Poskusite ponovno!"
+
+msgid "cont_popups_have_been_deleted"
+msgstr "Pojavna okna so bila izbrisana"
+
+msgid "cont_position"
+msgstr "Položaj"
+
+msgid "cont_prereq_type"
+msgstr "adlcp"
+
+msgid "cont_prerequisites"
+msgstr "adlcp"
+
+msgid "cont_presentation"
+msgstr "Prikaz"
+
+msgid "cont_presentation_view"
+msgstr "Pogled predstavitve"
+
+msgid "cont_preview"
+msgstr "Predogled"
+
+msgid "cont_previous_rev"
+msgstr "Prejšnja sprememba"
+
+msgid "cont_print_no_page_selected"
+msgstr "Izberite vsaj eno stran."
+
+msgid "cont_print_selection"
+msgstr "Izbira pogleda za tiskanje"
+
+msgid "cont_print_view"
+msgstr "Pogled tiskanja"
+
+msgid "cont_print_view_pre_glo"
+msgstr "V pogledu za tiskanje ne bo prikazana priloga glosarja"
+
+msgid "cont_profile_mode"
+msgstr "Način"
+
+msgid "cont_profile_mode_inherit"
+msgstr "Samodejno"
+
+msgid "cont_profile_mode_inherit_info"
+msgstr "Uporabi podatke vašega profila"
+
+msgid "cont_profile_mode_manual"
+msgstr "Ročno"
+
+msgid "cont_profile_mode_manual_info"
+msgstr "Uporabi naslednje podatke:"
+
+msgid "cont_profile_mode_template_inherit_info"
+msgstr "Uporabi podatke profila"
+
+msgid "cont_progress_icons"
+msgstr "Ikone napredka"
+
+msgid "cont_progress_icons_info"
+msgstr "V kazalu vsebine prikaže ikone napredka namesto ikon poglavij in strani Informacije o napredku se shranjujejo v različici ILIAS 5.0 in novejših."
+
+msgid "cont_prtf_page"
+msgstr "Stran portfelja"
+
+msgid "cont_prtt_page"
+msgstr "Stran predloge portfelja"
+
+msgid "cont_public_access"
+msgstr "Javni dostop"
+
+msgid "cont_purpose"
+msgstr "Uporaba"
+
+msgid "cont_qover_list_wrong_q"
+msgstr "Seznam napačno odgovorjenih vprašanj"
+
+msgid "cont_qover_list_wrong_q_info"
+msgstr "Prikazal se bo seznam vseh še neodgovorjenih ali napačno odgovorjenih vprašanj."
+
+msgid "cont_qover_short_message"
+msgstr "Status vprašanj"
+
+msgid "cont_qover_short_message_info"
+msgstr "Prikazalo se bo sporočilo \"Na x od y vprašanj še niste odgovorili ali pa so odgovori napačni\"."
+
+msgid "cont_qtries"
+msgstr "Število poskusov za vprašanja"
+
+msgid "cont_qtries_info"
+msgstr "Privzeta vrednost za \"Število poskusov\" za novo ustvarjena vprašanja."
+
+#, fuzzy
+msgid "cont_question"
+msgstr "Question"
+
+#, fuzzy
+msgid "cont_question_page_usage"
+msgstr "Questions on Pages"
+
+msgid "cont_question_placeh"
+msgstr "Kliknite in uredite, da vstavite vprašanje"
+
+msgid "cont_question_placehl"
+msgstr "Rezervirano mesto za vprašanja"
+
+msgid "cont_question_stats"
+msgstr "Statistika"
+
+msgid "cont_question_type"
+msgstr "Tip vprašanja"
+
+#, fuzzy
+msgid "cont_question_usage"
+msgstr "Usages"
+
+#, fuzzy
+msgid "cont_quit_text_editing"
+msgstr "Finish Text Editing"
+
+msgid "cont_rand_start"
+msgstr "Naključna začetna stran"
+
+msgid "cont_really_delete_overlays"
+msgstr "Ali res želite izbrisati naslednja prekrivanja?"
+
+msgid "cont_really_delete_popups"
+msgstr "Ali res želite izbrisati naslednja pojavna okna?"
+
+msgid "cont_really_delete_triggers"
+msgstr "Ali res želite izbrisati naslednje sprožilce?"
+
+msgid "cont_ref_helptext"
+msgstr "(npr. http://www.ilias.de/logo.jpg)"
+
+msgid "cont_ref_images"
+msgstr "Referenčne slike"
+
+msgid "cont_reference"
+msgstr "Referenca"
+
+msgid "cont_remove_format"
+msgstr "Odstrani oblike"
+
+msgid "cont_rename_dir"
+msgstr "Preimenuj seznam"
+
+msgid "cont_replace_mob_feature"
+msgstr "Zamenjaj medijske objekte v vsebini"
+
+msgid "cont_replace_mob_feature_info"
+msgstr "Aktivira funkcijo za zamenjavo medijskega objekta, medtem ko se nastavitve že uporabljenih pristojnih enot objekta ohranijo."
+
+msgid "cont_repository_item"
+msgstr "Objekt v magazinu"
+
+msgid "cont_reset_nr_of_tries"
+msgstr "Ponastavi število poskusov za odgovore."
+
+msgid "cont_resize_img"
+msgstr "Prilagodi velikost slike"
+
+msgid "cont_resource"
+msgstr "Vir"
+
+msgid "cont_resource_size"
+msgstr "Orginalna velikost vira / Ni podatka o velikosti"
+
+msgid "cont_resource_size_info"
+msgstr "Če podatek o velikosti ni na voljo, lahko na velikost vplivate s slogom vsebine. Brez pravila o velikosti bodo slikovne datoteke prikazane v svojih normalni velikosti."
+
+msgid "cont_resource_type"
+msgstr "Tip"
+
+msgid "cont_resources"
+msgstr "Viri"
+
+msgid "cont_resources_of_type"
+msgstr "Vsebine posameznega tipa"
+
+msgid "cont_restrict_forw_nav"
+msgstr "Uredi listanje naprej v učnem modulu"
+
+msgid "cont_restrict_forw_nav_info"
+msgstr "Uporabniki lahko obiščejo naslednjo stran šele takrat, ko so pravilno odgovorili na vsa prejšnja testna vprašanja."
+
+msgid "cont_revision"
+msgstr "Sprememba"
+
+msgid "cont_right"
+msgstr "Desno"
+
+msgid "cont_right_float"
+msgstr "Desno, besedilo zvezno"
+
+msgid "cont_rollback"
+msgstr "Vrnitev"
+
+msgid "cont_rollback_confirmation"
+msgstr "Ali res želite obnoviti to staro različico strani?"
+
+msgid "cont_roman"
+msgstr "Rimska I, II, …"
+
+msgid "cont_roman_s"
+msgstr "Rimska i, ii, …"
+
+msgid "cont_rowspan"
+msgstr "Združene vrstice"
+
+msgid "cont_rte_settings"
+msgstr "Nastavitve RTE"
+
+msgid "cont_rvalue"
+msgstr "Vrednost"
+
+msgid "cont_save_all_titles"
+msgstr "Shrani naslov"
+
+msgid "cont_save_positions"
+msgstr "Shrani vrstni red"
+
+msgid "cont_save_positions_and_classes"
+msgstr "Shrani položaje in sloge"
+
+msgid "cont_save_spans"
+msgstr "Shrani združene celice"
+
+msgid "cont_save_types"
+msgstr "Shrani tipe"
+
+msgid "cont_save_widths"
+msgstr "Shrani širine"
+
+msgid "cont_saved_export_ids"
+msgstr "ID-ji izvoza HTML so shranjeni."
+
+msgid "cont_saved_interactive_image"
+msgstr "Interaktivna slika je shranjena"
+
+msgid "cont_saved_map_area"
+msgstr "Področje povezav je shranjeno."
+
+msgid "cont_saved_map_data"
+msgstr "Slikovni zemljevid je shranjen."
+
+msgid "cont_saving"
+msgstr "Shrani..."
+
+msgid "cont_sc_auto_continue"
+msgstr "Preusmeri uporabnika"
+
+msgid "cont_sc_auto_continue_info"
+msgstr "Po zadnji dejavnosti bodo uporabniki samodejno preusmerjeni v naslednji SCO. Te funkcije ne podpirajo vsi učni moduli SCORM 1.2."
+
+msgid "cont_sc_auto_review_2004"
+msgstr "Shrani podatke"
+
+msgid "cont_sc_auto_review_completed"
+msgstr "ne shranjuj od statusa 'v celoti urejeno'"
+
+msgid "cont_sc_auto_review_completed_and_passed"
+msgstr "ne shranjuj od statusa 'v celoti urejeno' in 'opravljeno'"
+
+msgid "cont_sc_auto_review_completed_not_failed_or_passed"
+msgstr "ne shranjuj od statusa 'v celoti urejeno' (če ni 'ni opravljeno') ali 'opravljeno'"
+
+msgid "cont_sc_auto_review_completed_or_passed"
+msgstr "ne shranjuj od statusa 'v celoti urejeno' ali 'opravljeno'"
+
+msgid "cont_sc_auto_review_info_2004"
+msgstr "Ko uporabniki v seji urejanja za poglavje / SCO dosežejo izbirni status, se ta status zaklene. Uporabniki ne morejo spremeniti statusa niti v poznejših sejah urejanja. <br />V redkih primerih, če učni modul uporabi 'Zaporedje & navigacija' v skladu s SCORM 2004, moea biti izbrana možnost 'vedno (priporočeno)'."
+
+msgid "cont_sc_auto_review_no"
+msgstr "vedno (priporočeno)"
+
+msgid "cont_sc_auto_review_passed"
+msgstr "ne shranjuj od statusa 'opravljeno'"
+
+msgid "cont_sc_auto_review_passed_or_failed"
+msgstr "ne shranjuj od statusa 'opravljeno' ali 'ni opravljeno'"
+
+msgid "cont_sc_id_setting"
+msgstr "student_id v skladu s SCORM 1.2 ustreza"
+
+msgid "cont_sc_id_setting_2004"
+msgstr "learner_id v skladu s SCORM 2004 ustreza"
+
+msgid "cont_sc_id_setting_info"
+msgstr "Če številčni ID za student_id (SCORM 1.2) ali learner_id (SCORM 2004) povzroča težave pri učnem modulu, uporabite možnost 'Uporabniško ime ILIAS'. Dodatek RefId oz. ObjId je lahko smiseln za učne module, ki se povezujejo z zunanjim strežnikom."
+
+msgid "cont_sc_id_setting_user_id"
+msgstr "UserId ILIAS (privzeto)"
+
+msgid "cont_sc_id_setting_user_id_plus_obj_id"
+msgstr "UserId ILIAS skupaj z ObjId učnega modula"
+
+msgid "cont_sc_id_setting_user_id_plus_ref_id"
+msgstr "UserId ILIAS skupaj z RefId učnega modula"
+
+msgid "cont_sc_id_setting_user_login"
+msgstr "Uporabniško ime ILIAS"
+
+msgid "cont_sc_id_setting_user_login_plus_obj_id"
+msgstr "Uporabniško ime ILIAS skupaj z ObjId učnega modula"
+
+msgid "cont_sc_id_setting_user_login_plus_ref_id"
+msgstr "Uporabniško ime ILIAS skupaj z RefId učnega modula"
+
+msgid "cont_sc_less_mode_browse"
+msgstr "Samo predogled / preview ('browse')"
+
+#, fuzzy
+msgid "cont_sc_less_mode_browse_info"
+msgstr "The SCORM mode is set to \"browse\"."
+
+msgid "cont_sc_less_mode_normal"
+msgstr "Normalna uporaba ('normal')"
+
+#, fuzzy
+msgid "cont_sc_less_mode_normal_info"
+msgstr "The SCORM mode is set to \"normal\"."
+
+msgid "cont_sc_max_attempt_exceed"
+msgstr "Maksimalno število poskusov za ta modul je bilo doseženo."
+
+msgid "cont_sc_name_setting"
+msgstr "student_name v skladu s SCORM 1.2 ustreza"
+
+msgid "cont_sc_name_setting_2004"
+msgstr "learner_name v skladu s SCORM 2004 ustreza"
+
+msgid "cont_sc_name_setting_first_lastname"
+msgstr "Ime in priimek"
+
+msgid "cont_sc_name_setting_first_name"
+msgstr "Ime"
+
+msgid "cont_sc_name_setting_fullname"
+msgstr "Naziv, ime in priimek"
+
+msgid "cont_sc_name_setting_info"
+msgstr "Ime učenca se lahko v učnem modulu prikaže na več načinov. Če so učni moduli na zunanjem strežniku, je morda koristno, da imena ne razkrijemo."
+
+msgid "cont_sc_name_setting_last_firstname"
+msgstr "Priimek, ime"
+
+msgid "cont_sc_name_setting_no_name"
+msgstr "Brez imena"
+
+msgid "cont_sc_name_setting_salutation_lastname"
+msgstr "Naslavljanje in priimek"
+
+msgid "cont_sc_new_version"
+msgstr "Naloži novo različico"
+
+msgid "cont_sc_preview"
+msgstr "Predogled"
+
+msgid "cont_sc_stat_browsed"
+msgstr "Obiskano"
+
+msgid "cont_sc_stat_completed"
+msgstr "Zaključeno"
+
+msgid "cont_sc_stat_failed"
+msgstr "Ni opravljeno"
+
+msgid "cont_sc_stat_incomplete"
+msgstr "Nepopolno"
+
+msgid "cont_sc_stat_not_attempted"
+msgstr "Ni začeto"
+
+msgid "cont_sc_stat_passed"
+msgstr "Opravljeno"
+
+msgid "cont_sc_stat_running"
+msgstr "Aktivno"
+
+msgid "cont_sc_store_if_previous_score_was_lower"
+msgstr "ne shrani, če je bilo prej doseženo število točk višje ali enako"
+
+msgid "cont_sc_title"
+msgstr "Naslov"
+
+msgid "cont_sc_usession"
+msgstr "Prepreči samodejno odjavo iz ILIAS"
+
+msgid "cont_sc_usession_info"
+msgstr "ILIAS-u bodo redno poslane zahteve, da uporabnik ostane prijavljen v platformi. V nasprotnem primeru bi ILIAS urejanje učnega modula ocenil kot neaktivnost in prekinil sejo. S tem bi se izgubili vsi podatki urejanja."
+
+msgid "cont_sc_version"
+msgstr "Različica učnega modula"
+
+msgid "cont_sc_version_info"
+msgstr "Zaporedna številka bo samodejno prebrana iz upravljanja različic učnega modula."
+
+msgid "cont_scheduled_activation"
+msgstr "Časovno aktiviranje"
+
+msgid "cont_sco_glossary"
+msgstr "Glosar"
+
+msgid "cont_score"
+msgstr "Točke"
+
+msgid "cont_scorm_ed_properties"
+msgstr "Lastnosti učnega modula"
+
+msgid "cont_scorm_options"
+msgstr "Snemanje podatkov o urejanju"
+
+msgid "cont_scorm_type"
+msgstr "adlcp"
+
+msgid "cont_screen_ids"
+msgstr "ID-ji zaslona"
+
+#, fuzzy
+msgid "cont_sec_protected"
+msgstr "Protected"
+
+#, fuzzy
+msgid "cont_sec_protected_text"
+msgstr "The following section is protected and can not be edited."
+
+msgid "cont_second"
+msgstr "Druga"
+
+#, fuzzy
+msgid "cont_sel_el_use_paste"
+msgstr "Selected elements are now in the clipboard. Please click the desired target placeholder and select ‘Paste’."
+
+msgid "cont_select"
+msgstr "Izberi"
+
+msgid "cont_select_file"
+msgstr "Izberi datoteko"
+
+msgid "cont_select_from_upload_dir"
+msgstr "-- Izberite s seznama za nalaganje --"
+
+msgid "cont_select_item"
+msgstr "Izberite vsaj en objekt."
+
+msgid "cont_select_max_one_item"
+msgstr "Izberite samo en objekt."
+
+msgid "cont_select_media_pool"
+msgstr "Izberi skupino medijev"
+
+#, fuzzy
+msgid "cont_select_none"
+msgstr "Clear Selection"
+
+msgid "cont_select_other_qpool"
+msgstr "Izberite drugo skupino!"
+
+msgid "cont_select_par_or_section"
+msgstr "Izberite vsaj en element besedila ali bloka."
+
+msgid "cont_selected_items_have_been_copied"
+msgstr "Izbrani elementi so bili kopirani v odložišče. Kliknite na ustrezno rezervirano mesto, da ga vstavite v učni modul"
+
+msgid "cont_selected_items_have_been_cut"
+msgstr "Izbrani elementi so bili premaknjeni v odložišče. Kliknite na ustrezno rezervirano mesto, da ga vstavite v učni modul."
+
+msgid "cont_selected_pg_chap"
+msgstr "Izbrane strani/poglavja"
+
+msgid "cont_selected_terms"
+msgstr "Izbrani pojmi"
+
+msgid "cont_selected_topic"
+msgstr "Izbrana tema"
+
+msgid "cont_selection"
+msgstr "Izbira"
+
+msgid "cont_self_assessment"
+msgstr "Samotestiranja"
+
+msgid "cont_sequencing"
+msgstr "Zaporedje & navigacija"
+
+msgid "cont_sequencing_info"
+msgstr "Aktivira pravila učnega modula za interaktivno krmiljenje možnosti navigacije uporabnikov izven učnega modula odvisno od dogodkov ali rezultatov. <br />Najprej se prepričajte, ali vaš učni modul sploh vsebuje tovrstne podatke v 'Zaporedje & navigacija'. To se zgodi le redko."
+
+msgid "cont_set_alignment"
+msgstr "Nastavi poravnavo"
+
+msgid "cont_set_layout"
+msgstr "Nastavi postavitev"
+
+msgid "cont_set_link"
+msgstr "Spremeni sklic"
+
+#, fuzzy
+msgid "cont_set_manuall"
+msgstr "Set Manually"
+
+#, fuzzy
+msgid "cont_set_properties"
+msgstr "Set Properties"
+
+msgid "cont_set_start_file"
+msgstr "Določi začetno datoteko"
+
+msgid "cont_set_styles"
+msgstr "Določi sloge"
+
+msgid "cont_set_tab_style_info"
+msgstr "Aktiviraj potrditvena polja, da se oblikujejo celice v tabelah"
+
+msgid "cont_settings"
+msgstr "Nastavitve učnih modulov"
+
+msgid "cont_shape"
+msgstr "Oblika"
+
+#, fuzzy
+msgid "cont_shift_click_to_select"
+msgstr "<b>Shift-click</b> on elements will <b>select</b> them and switch to the selection mode."
+
+msgid "cont_short_title"
+msgstr "Kratek naslov"
+
+msgid "cont_short_title_info"
+msgstr "Kratki naslovi se uporabljajo v levem drevesnem prikazu ter za navigacijo naprej in nazaj."
+
+msgid "cont_short_titles"
+msgstr "Kratek naslov"
+
+msgid "cont_show_activation_info"
+msgstr "Prikaži informacije o aktiviranju"
+
+msgid "cont_show_activation_info_info"
+msgstr "Če je aktiviranje v prihodnosti, stran ne bo preskočena. Učencu bo prikazano obvestilo s časom aktiviranja."
+
+msgid "cont_show_adv"
+msgstr "Prikaži napredno znanje"
+
+msgid "cont_show_content_after_focus"
+msgstr "Nadaljuj z drugimi vsebinami učnega modula"
+
+#, fuzzy
+msgid "cont_show_fullscreen"
+msgstr "Show Fullscreen"
+
+msgid "cont_show_info"
+msgstr "Prikaži informacije"
+
+msgid "cont_show_line_numbers"
+msgstr "Prikaži številke vrstic"
+
+msgid "cont_show_print_view"
+msgstr "Pogled tiskanja"
+
+msgid "cont_size"
+msgstr "Velikost"
+
+msgid "cont_skip_chapter"
+msgstr "Preskoči to poglavje"
+
+msgid "cont_snippet_from_another_installation"
+msgstr "Sestavni del vsebine je iz druge namestitve ILIAS."
+
+msgid "cont_snippets_used"
+msgstr "Uporabljeni sestavni deli vsebine"
+
+msgid "cont_span"
+msgstr "Združi celice"
+
+msgid "cont_special_page"
+msgstr "Posebna stran"
+
+#, fuzzy
+msgid "cont_split_cell"
+msgstr "Split Cell"
+
+msgid "cont_spreadsheet_table"
+msgstr "Tabela z izračunom"
+
+msgid "cont_sqst"
+msgstr "Anketno vprašanje (gradivo)"
+
+msgid "cont_src"
+msgstr "Programski jezik"
+
+msgid "cont_src_other"
+msgstr "Drugi"
+
+msgid "cont_st_title"
+msgstr "Naslov poglavja"
+
+msgid "cont_standard"
+msgstr "Standard"
+
+msgid "cont_start"
+msgstr "Začetek"
+
+msgid "cont_start_file_set_to"
+msgstr "%s je bila določena kot začetna datoteka."
+
+msgid "cont_start_value"
+msgstr "Začetna vrednost"
+
+msgid "cont_start_value_info"
+msgstr "Vnesite začetno vrednost kot decimalno število. Privzeta vrednost je 1."
+
+msgid "cont_startfile"
+msgstr "Začetna datoteka"
+
+msgid "cont_status"
+msgstr "Status"
+
+msgid "cont_std_is_in_dir"
+msgstr "Brisanje ni mogoče. Datoteka za privzeti pogled je na seznamu."
+
+msgid "cont_std_view"
+msgstr "Privzeti pogled"
+
+msgid "cont_structure"
+msgstr "Struktura"
+
+msgid "cont_style"
+msgstr "Slog"
+
+msgid "cont_subchapters"
+msgstr "Podpoglavje"
+
+msgid "cont_submit_answers"
+msgstr "Oceni"
+
+msgid "cont_subtitle_file"
+msgstr "Datoteka SRT ZIP"
+
+msgid "cont_subtitle_files"
+msgstr "Podnapisi za medijski objekt"
+
+#, fuzzy
+msgid "cont_sur_block_format"
+msgstr "Surrounding Section"
+
+msgid "cont_switch_to_media_pool"
+msgstr "Preklopi na drugo skupino medijev"
+
+msgid "cont_syntax_help"
+msgstr "Pomoč za sintakso"
+
+#, fuzzy
+msgid "cont_tab_add_above"
+msgstr "Add Panel Above"
+
+#, fuzzy
+msgid "cont_tab_add_below"
+msgstr "Add Panel Below"
+
+msgid "cont_tab_cont_height"
+msgstr "Višina vsebine"
+
+msgid "cont_tab_cont_width"
+msgstr "Širina vsebine"
+
+#, fuzzy
+msgid "cont_tab_delete"
+msgstr "Delete Panel"
+
+#, fuzzy
+msgid "cont_tab_move_bottom"
+msgstr "Move To Bottom"
+
+#, fuzzy
+msgid "cont_tab_move_down"
+msgstr "Move Downwards"
+
+#, fuzzy
+msgid "cont_tab_move_top"
+msgstr "Move To Top"
+
+#, fuzzy
+msgid "cont_tab_move_up"
+msgstr "Move Upwards"
+
+msgid "cont_table"
+msgstr "Tabela"
+
+#, fuzzy
+msgid "cont_table_adv_settings"
+msgstr "Erweiterte Einstellungen"
+
+msgid "cont_table_border"
+msgstr "Širina roba tabele"
+
+msgid "cont_table_border_info"
+msgstr "Vnesite vrednosti vključno z enotami (npr. px). Če ni vnesena nobena vrednost, bodo prevzete vrednosti iz slogovne predloge."
+
+#, fuzzy
+msgid "cont_table_cell_edit_info_1"
+msgstr "Click on a table cell to select or deselect it."
+
+#, fuzzy
+msgid "cont_table_cell_edit_info_2"
+msgstr "Click on a row or column header to select or deselect the corresponding row or column."
+
+#, fuzzy
+msgid "cont_table_cell_edit_info_3"
+msgstr "Click on a second cell while holding shift to select all the cells in between."
+
+msgid "cont_table_cell_properties"
+msgstr "Lastnosti celic tabele"
+
+msgid "cont_table_cellpadding"
+msgstr "Notranji razmik celic tabele"
+
+msgid "cont_table_cellpadding_info"
+msgstr "Vnesite vrednosti vključno z enotami (npr. px). Če ni vnesena nobena vrednost, bodo prevzete vrednosti iz slogovne predloge."
+
+#, fuzzy
+msgid "cont_table_edit_cells"
+msgstr "Edit Cells"
+
+#, fuzzy
+msgid "cont_table_import_info"
+msgstr "Please enter the table data separated by semicolon or TAB character for each column. Start a new row for each table row. Spreadsheet applications will usually use TAB characters for separation when transfered via clipboard. It should be possible to paste this data directly into the input field. No further formattings will be imported."
+
+msgid "cont_table_properties"
+msgstr "Lastnosti tabele"
+
+#, fuzzy
+msgid "cont_table_style"
+msgstr "Style"
+
+msgid "cont_table_width"
+msgstr "Širina tabele"
+
+msgid "cont_tabs"
+msgstr "Predali"
+
+msgid "cont_tabs_acc_hor"
+msgstr "Horizontalna harmonika"
+
+msgid "cont_tabs_acc_ver"
+msgstr "Vertikalna harmonika"
+
+msgid "cont_tabs_carousel"
+msgstr "Vrtiljak"
+
+msgid "cont_tabs_confirm_deletion"
+msgstr "Ali ste prepričani, da želite izbrisati te predale z vašimi vsebinami?"
+
+#, fuzzy
+msgid "cont_target"
+msgstr "Target"
+
+msgid "cont_target_missing"
+msgstr "Manjka ciljna točka"
+
+msgid "cont_target_within_source"
+msgstr "Cilj ne sme biti znotraj objekta."
+
+msgid "cont_template"
+msgstr "Predloga"
+
+msgid "cont_term"
+msgstr "Pojem"
+
+msgid "cont_terms"
+msgstr "Pojmi"
+
+msgid "cont_tex"
+msgstr "Latex koda"
+
+msgid "cont_text_acc"
+msgstr "Poudarek:"
+
+msgid "cont_text_code"
+msgstr "Programska koda:"
+
+msgid "cont_text_com"
+msgstr "Komentar:"
+
+#, fuzzy
+msgid "cont_text_editing"
+msgstr "Edit Text"
+
+msgid "cont_text_emp"
+msgstr "Poudarjeno besedilo:"
+
+msgid "cont_text_fn"
+msgstr "Opomba:"
+
+#, fuzzy
+msgid "cont_text_iln_link"
+msgstr "Internal Link"
+
+msgid "cont_text_imp"
+msgstr "Pomembno:"
+
+msgid "cont_text_keyword"
+msgstr "Ključna beseda"
+
+msgid "cont_text_placeh"
+msgstr "Kliknite in uredite, da vstavite besedilo"
+
+msgid "cont_text_placehl"
+msgstr "Rezervirano mesto za besedilo"
+
+msgid "cont_text_quot"
+msgstr "Citat:"
+
+msgid "cont_text_str"
+msgstr "Močno poudarjeno besedilo:"
+
+msgid "cont_text_sub"
+msgstr "Podpisano"
+
+msgid "cont_text_sup"
+msgstr "Nadpisano"
+
+msgid "cont_text_tex"
+msgstr "LaTeX koda:"
+
+msgid "cont_text_xln"
+msgstr "Zunanja povezava:"
+
+msgid "cont_third_and_more"
+msgstr "Tretji ali poznejši"
+
+msgid "cont_time"
+msgstr "Čas"
+
+msgid "cont_time_from_lms"
+msgstr "Čas za urejanje določi ILIAS"
+
+msgid "cont_time_from_lms_info"
+msgstr "V izogib težavam pri beleženju časa, ki se pri učnem modulu SCORM pogosto pojavljajo, lahko ILIAS sam beleži čas. Pri tem se upoštevajo stroga pravila standarda SCORM."
+
+msgid "cont_time_limit_action"
+msgstr "adlcp"
+
+msgid "cont_to_focus_beginning"
+msgstr "Nazaj na vsebine učnega cilja"
+
+msgid "cont_to_focus_return_crs"
+msgstr "Nazaj na tečaj"
+
+msgid "cont_toc"
+msgstr "Vsebina"
+
+msgid "cont_toc_mode"
+msgstr "Kazalo vsebine"
+
+msgid "cont_tool_faq"
+msgstr "FAQ"
+
+msgid "cont_tool_media"
+msgstr "Media"
+
+msgid "cont_top"
+msgstr "Zgoraj"
+
+msgid "cont_topic"
+msgstr "Tema"
+
+msgid "cont_total_time"
+msgstr "Skupni čas"
+
+msgid "cont_tracking_bysco"
+msgstr "Po poglavjih"
+
+msgid "cont_tracking_byuser"
+msgstr "Po uporabnikih"
+
+msgid "cont_tracking_data"
+msgstr "Podatki protokola"
+
+msgid "cont_tracking_items"
+msgstr "Vsebine protokola"
+
+msgid "cont_tracking_modify"
+msgstr "Spremeni podatke"
+
+msgid "cont_trans_import_info"
+msgstr "Če ste ta modul izvozili v drugo namestitev kot \"XML (glavni jezik za prevod - master)\", lahko tukaj znova uvozite prevedene datoteke za izvoz te druge namestitve."
+
+msgid "cont_transl_master_language_not_allowed"
+msgstr "Za uvoz prevoda mora biti pod \"Nastavitve\" » \"Večjezičnost\" aktiviran vsaj en dodaten jezik."
+
+msgid "cont_tree_fixed"
+msgstr "Struktura učnega modila je bila popravljena."
+
+msgid "cont_tries"
+msgstr "Poskusi odgovora"
+
+msgid "cont_tries_remaining"
+msgstr "Preostali poskusi"
+
+msgid "cont_tries_reset_on_visit"
+msgstr "Ponastavi ob nalaganju strani"
+
+msgid "cont_tries_reset_on_visit_info"
+msgstr "Uporabnik ima ob vsakem nalaganju strani s testnim vprašanjem na voljo maksimalno število poskusov odgovora. Na testna vprašanja je treba odgovoriti vsakič."
+
+msgid "cont_tries_store"
+msgstr "Shrani poskuse odgovora"
+
+msgid "cont_tries_store_info"
+msgstr "Število poskusov se zabeleži in shrani. Na pravilno odgovorjena vprašanja ni treba več odgovarjati. Ko uporabniki dosežejo maksimalno število poskusov, ne morejo več ponovno odgovarjati na vprašanja."
+
+msgid "cont_trigger_area"
+msgstr "Področje za sprožilce"
+
+msgid "cont_type"
+msgstr "Tip"
+
+msgid "cont_type_not_allowed"
+msgstr "Ta element na tem mestu ni dovoljen"
+
+msgid "cont_unlock_allow_continue"
+msgstr "Aktiviraj odklepanje / nadaljevanje"
+
+msgid "cont_unlocked"
+msgstr "Odklenjeno"
+
+msgid "cont_update_amd_page_list"
+msgstr "Uredi seznam strani"
+
+msgid "cont_update_blog"
+msgstr "Uredi objavo v blogu"
+
+msgid "cont_update_consultation_hours"
+msgstr "Uredi govorilne ure"
+
+msgid "cont_update_login_page"
+msgstr "Posodobi elemente strani za prijavo"
+
+msgid "cont_update_map"
+msgstr "Uredi zemljevid"
+
+msgid "cont_update_my_courses"
+msgstr "Uredi moje tečaje"
+
+msgid "cont_update_profile"
+msgstr "Uredi objavljene podatke"
+
+msgid "cont_update_resources"
+msgstr "Posodobi seznam gradiv"
+
+msgid "cont_update_section"
+msgstr "Posodobi blok"
+
+msgid "cont_update_skills"
+msgstr "Uredi kompetenco"
+
+msgid "cont_update_verification"
+msgstr "Uredi certifikat"
+
+msgid "cont_upload_dir"
+msgstr "Seznam za nalaganje"
+
+#, fuzzy
+msgid "cont_upload_file"
+msgstr "Upload File"
+
+msgid "cont_upload_multi_srt_howto"
+msgstr "Omogoča nalaganje več datotek s podnapisi (.srt) v eni datoteki .zip za vse medijske objekte. Datoteka .zip / arhiv .zip ne sme vsebovati podseznamov. Vse datoteke .srt morajo biti na najvišji ravni, da so prepoznane. Imena datotek se morajo končati z \"_&lt;SPRACHE&gt;.srt\", pri čemer je JEZIK ustrezna kratica jezika (npr. \"en\", \"it\" ali \"de\"). Preostanek imena datoteke mora ustrezati pripadajoči video datoteki. Datoteka za angleške podnapise v videu \"my_video.mp4\" se temu ustrezno imenuje \"my_video_en.srt\"."
+
+msgid "cont_uploaded_file"
+msgstr "Obstoječa datoteka"
+
+#, fuzzy
+msgid "cont_url_info"
+msgstr "URL of a media file or Youtube URL."
+
+msgid "cont_usage"
+msgstr "Uporaba"
+
+msgid "cont_use_same_resource_as_above"
+msgstr "Uporabi zgornjo datoteko"
+
+msgid "cont_user"
+msgstr "Uporabnik"
+
+msgid "cont_user_blocked"
+msgstr "Zaklenjeni uporabniki brez nadaljnih poskusov odgovorov v učnem modulu \"%s\"."
+
+msgid "cont_user_blocked2"
+msgstr "Uporabnik je dosegel maksimalno število poskusov odgovorov na vprašanje v učnem modulu. Ta uporabnik lahko naloži naslednje strani, samo če ga odklenete."
+
+msgid "cont_user_blocked3"
+msgstr "Odprite učni modul v načinu urejanja in pojdite na naslednji pogled:"
+
+msgid "cont_user_search_did_not_match"
+msgstr "Noben uporabnik ni bil najden."
+
+msgid "cont_users_answered"
+msgstr "Odgovori uporabnikov"
+
+msgid "cont_users_have_mob_in_clip1"
+msgstr "Ta medijski objekt se nahaja v odložišču"
+
+msgid "cont_users_have_mob_in_clip2"
+msgstr "uporabnika(-ov)."
+
+msgid "cont_validate_file"
+msgstr "Preveri datoteko"
+
+msgid "cont_verification_object"
+msgstr "Certifikat"
+
+msgid "cont_verification_placeh"
+msgstr "Kliknite in uredite, da vstavite certifikat"
+
+msgid "cont_verification_placehl"
+msgstr "Rezervirano mesto za certifikat"
+
+msgid "cont_version"
+msgstr "Različica"
+
+msgid "cont_versions"
+msgstr "Različice"
+
+msgid "cont_whole_glossary"
+msgstr "Celoten glosar"
+
+msgid "cont_width"
+msgstr "Širina"
+
+msgid "cont_width_height_info"
+msgstr "Velikost prikaza lahko določite. V praksi se je za najboljšo izkazala širina 950 pikslov in višina 650 pikslov. Če ni vnesena nobena vrednost, bo brskalnik določil velikost okna."
+
+#, fuzzy
+msgid "cont_width_px_perc"
+msgstr "Width"
+
+#, fuzzy
+msgid "cont_width_px_perc_info"
+msgstr "(e.g. px or % value)"
+
+msgid "cont_wiki_link_dialog"
+msgstr "Povezava do strani Wiki (pogovorno okno)"
+
+msgid "cont_wiki_page"
+msgstr "Stran Wiki"
+
+msgid "cont_wiki_page_link"
+msgstr "Povezava do strani Wiki"
+
+msgid "cont_wrong_answers"
+msgstr "Število napak"
+
+msgid "cont_wrong_answers_single"
+msgstr "Napačna izbira."
+
+msgid "cont_xml_base"
+msgstr "xml"
+
+msgid "cont_zip_file_invalid"
+msgstr "Datoteka ni veljavna datoteka za uvoz. <br>Ne vsebuje datoteke '%s'."
+
+msgid "content_no_edit_lock"
+msgstr "Stran trenutno ureja drug uporabnik."
+
+msgid "content_page_history"
+msgstr "Potek strani"
+
+msgid "content_plugin_not_activated"
+msgstr "Vtičnik za vsebino strani trenutno ni aktiviran."
+
+msgid "content_some_export_ids_multiple_times"
+msgstr "Nekateri ID-ji izvoza se uporabljajo večkrat. To bo povzročilo manjkajoče strani pri izvozu."
+
+msgid "content_until"
+msgstr "Urejanje je za druge uporabnike zaklenjeno do"
+
+msgid "copied_to_clipboard"
+msgstr "Objekt(i) so bili kopirani v odložišče."
+
+msgid "dgl_pagebreak"
+msgstr "Prelom strani"
+
+msgid "glo_add_new_term"
+msgstr "Dodaj nov pojem"
+
+msgid "glo_content_settings"
+msgstr "Pregled vsebine"
+
+msgid "glo_editing_view"
+msgstr "Pogled urejanja"
+
+msgid "glo_full_definitions"
+msgstr "Seznam"
+
+msgid "glo_full_definitions_info"
+msgstr "Vsi pojmi in definicije bodo v celoti prikazani drug pod drugim."
+
+msgid "glo_hide_taxonomy"
+msgstr "Skrij taksonomijo"
+
+msgid "glo_list_usages"
+msgstr "Uporaba"
+
+msgid "glo_mode_normal_info"
+msgstr "Glosar vključuje samo pojme, ki so ustvarjeni v tem objektu."
+
+msgid "glo_presentation_mode"
+msgstr "Pogled"
+
+msgid "glo_presentation_view"
+msgstr "Pogled predstavitve"
+
+msgid "glo_quick_navigation"
+msgstr "Hitri dostop"
+
+msgid "glo_style"
+msgstr "Slog glosarja"
+
+msgid "glo_table_form"
+msgstr "Tabela"
+
+msgid "glo_table_form_info"
+msgstr "Pojmi in skrajšane definicije bodo prikazani v preglednici. S klikom na pojem se bo prikazala celotna definicija."
+
+msgid "glo_term_is_used_n_times"
+msgstr "Pojem je uporabljen %s-krat."
+
+msgid "glo_term_must_belong_to_glo"
+msgstr "Dejanje se lahko izvede samo za pojme, ki so definirani znotraj tega glosarja."
+
+msgid "glo_term_used_in"
+msgstr "Naslednji viri se sklicujejo na ta pojem"
+
+msgid "glo_text_snippet_length"
+msgstr "Dolžina skrajšanih definicij"
+
+msgid "glo_text_snippet_length_info"
+msgstr "Število znakov, na katero so bile skrajšane definicije v preglednici."
+
+msgid "glo_usages"
+msgstr "Glosar se uporablja v..."
+
+msgid "glo_used_in_scorm"
+msgstr "Glosar uporablja modul SCORM. Če glosar izbrišete, se sklicevanj na glosar ne da več rešiti."
+
+msgid "help_assign_help_ids"
+msgstr "Dodelitev ID zaslonov poglavjem"
+
+msgid "htlm_import"
+msgstr "Uvozi učni modul HTML"
+
+msgid "import_sco_object"
+msgstr "Uvozi SCO"
+
+msgid "info_stop_offline_mode_sure"
+msgstr "Pozor: Učni napredek, dosežen brez spletne povezave, bo izgubljen. Ali ste prepričani?"
+
+#, fuzzy
+msgid "infobox_files_not_migrated"
+msgstr "The files of this learning module have not yet been migrated to the Resource Storage Service and can therefore not be edited."
+
+msgid "lm_activate_rating"
+msgstr "Dovoli oceno strani"
+
+msgid "lm_editing_view"
+msgstr "Editing View"
+
+#, fuzzy
+msgid "lm_import"
+msgstr "Import ILIAS Learning Module"
+
+msgid "lm_menu_edit_entry"
+msgstr "Uredi vnos v meniju"
+
+msgid "lm_menu_entry_target"
+msgstr "Cilj"
+
+msgid "lm_menu_entry_title"
+msgstr "Naslov"
+
+msgid "lm_menu_new_entry"
+msgstr "Ustvari nov vnos v meniju"
+
+msgid "lm_menu_select_internal_object"
+msgstr "Izberi notranji objekt >>"
+
+msgid "lm_menu_select_object_to_add"
+msgstr "Kliknite na objekt, ki ga želite dodati v meni"
+
+msgid "lm_no_download_files"
+msgstr "Trenutno ni na voljo nobenih datotek za prenos."
+
+msgid "lm_only_one_download_per_type"
+msgstr "Za vsak tip lahko javno objavite samo po eno datoteko (XML, HTML, SCORM)."
+
+msgid "lm_rate_page"
+msgstr "Oceni stran"
+
+msgid "lm_rating"
+msgstr "Oceni učni modul"
+
+msgid "mep_folder_created"
+msgstr "Mapa je bila ustvarjena."
+
+msgid "msg_entry_added"
+msgstr "Vnos v meni je shranjen"
+
+msgid "msg_entry_removed"
+msgstr "Vnos v meni je odstranjen"
+
+msgid "msg_entry_updated"
+msgstr "Vnos v meni je posodobljen"
+
+msgid "msg_no_page_access"
+msgstr "Nimate pravic za dostop do te strani."
+
+msgid "msg_page_no_public_access"
+msgstr "Strani, ki ste jih naložili, niso na voljo za javno področje. Najprej se prijavite v ILIAS, da dobite dostop do te strani."
+
+msgid "msg_page_not_public"
+msgstr "Stran ni javna"
+
+msgid "offline_mode_manager"
+msgstr "Uporaba brez spletne povezave"
+
+msgid "offline_mode_users"
+msgstr "Uporabniki v načinu brez spletne povezave"
+
+msgid "offline_mode_users_info"
+msgstr "Uporabnike je mogoče ročno odstraniti iz načina brez spletne povezave, nato pa lahko ti ponovno uporabljajo učni modul na spletu. To je smiselno, če je bil npr. ukraden prenosnik z učnimi moduli."
+
+msgid "page_does_not_exist"
+msgstr "Žal ta stran ne obstaja (več)."
+
+msgid "par"
+msgstr "Besedilo"
+
+msgid "pg"
+msgstr "Stran"
+
+msgid "public_section"
+msgstr "Javno področje"
+
+msgid "sahs_empty_objectives_are_not_allowed"
+msgstr "Vnesite učni cilj."
+
+msgid "sahs_insert_pg_from_clip"
+msgstr "Uvozi strani iz učnega modula ILIAS"
+
+msgid "sahs_insert_st_from_clip"
+msgstr "Uvozi poglavje iz učnega modula ILIAS"
+
+msgid "sahs_insert_st_from_clip_inside_chap"
+msgstr "Uvozi poglavje iz učnega modula ILIAS (znotraj poglavja)"
+
+msgid "save_new"
+msgstr "Shrani in nov odstavek"
+
+msgid "saved_media_object"
+msgstr "Medijski objekt je shranjen"
+
+msgid "scplayer_collapsetree"
+msgstr "Skrči drevo"
+
+msgid "scplayer_continue"
+msgstr "Naprej"
+
+msgid "scplayer_debugger"
+msgstr "Pokaži orodje za preizkus"
+
+msgid "scplayer_exit"
+msgstr "Zapri"
+
+msgid "scplayer_exitall"
+msgstr "Zaključi urejanje"
+
+msgid "scplayer_expandtree"
+msgstr "Razširi drevo"
+
+msgid "scplayer_hidetree"
+msgstr "Skrij drevo"
+
+msgid "scplayer_next"
+msgstr "Pred"
+
+msgid "scplayer_phpmysqlcheck"
+msgstr "Če želite uporabljati JavaScript RTE, potrebujete podporo JSON"
+
+msgid "scplayer_previous"
+msgstr "Nazaj"
+
+msgid "scplayer_showtree"
+msgstr "Prikaži drevo"
+
+msgid "scplayer_start"
+msgstr "Start"
+
+msgid "scplayer_suspendall"
+msgstr "Prekini urejanje"
+
+msgid "selectFooter"
+msgstr "Izberi kot nogo strani"
+
+msgid "selectHeader"
+msgstr "Izberi kot glavo strani"
+
+msgid "select_a_file"
+msgstr "Izberite datoteko."
+
+msgid "seq_close"
+msgstr "Zaprite okno učnega modula SCORM."
+
+msgid "seq_endsession"
+msgstr "Aktualna seja tečaja je bila zaključena."
+
+msgid "seq_error"
+msgstr "Prišlo je do notranje napake v sekvencerju."
+
+msgid "seq_toc"
+msgstr "Izberite lekcijo iz pregleda na levi strani."
+
+msgid "set_public_mode"
+msgstr "Nastavi način dostopa"
+
+msgid "st"
+msgstr "Poglavje"
+
+#, fuzzy
+msgid "start_lm"
+msgstr "Launch Learning Module"
+
+msgid "text_repr"
+msgstr "Alternativno besedilo"
+
+msgid "text_repr_info"
+msgstr "Se uporabi, če ni mogoče prikazati grafike."

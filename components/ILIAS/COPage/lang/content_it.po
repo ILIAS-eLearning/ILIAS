@@ -1,0 +1,3745 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: content\n"
+
+msgid "Pages"
+msgstr "Pagine"
+
+msgid "add_menu_entry"
+msgstr "Aggiungi voce nel menu >>"
+
+msgid "all_pages"
+msgstr "per l'intero modulo didattico"
+
+msgid "citate"
+msgstr "Cita"
+
+msgid "citate_from"
+msgstr "Cita da ..."
+
+msgid "citate_page"
+msgstr "Cita questa pagina"
+
+msgid "citate_to"
+msgstr "Cita fino a ..."
+
+msgid "cont_Additional"
+msgstr "Informazioni Extra"
+
+msgid "cont_AdvancedKnowledge"
+msgstr "Conoscenza avanzata"
+
+msgid "cont_Attention"
+msgstr "Attenzione"
+
+msgid "cont_Background"
+msgstr "Sfondo"
+
+msgid "cont_Block"
+msgstr "Blocco"
+
+msgid "cont_Book"
+msgstr "Libro"
+
+msgid "cont_Circle"
+msgstr "Cerchio"
+
+msgid "cont_Citation"
+msgstr "Citazione"
+
+msgid "cont_Confirmation"
+msgstr "Conferma"
+
+msgid "cont_Example"
+msgstr "Esempio"
+
+msgid "cont_Excursus"
+msgstr "Digressione"
+
+msgid "cont_FileListItem"
+msgstr "Elemento del File (Standard)"
+
+msgid "cont_Headline1"
+msgstr "Intestazione 1"
+
+msgid "cont_Headline2"
+msgstr "Intestazione 2"
+
+msgid "cont_Headline3"
+msgstr "Intestazione 3"
+
+msgid "cont_Information"
+msgstr "Information"
+
+msgid "cont_Interaction"
+msgstr "Interazione"
+
+msgid "cont_List"
+msgstr "Lista"
+
+msgid "cont_Literature"
+msgstr "Literature"
+
+msgid "cont_Mnemonic"
+msgstr "Mnemonico"
+
+msgid "cont_Numbers"
+msgstr "Numbers"
+
+msgid "cont_Poly"
+msgstr "Poligono"
+
+msgid "cont_Rect"
+msgstr "Rettangolo"
+
+msgid "cont_Remark"
+msgstr "Osservazione"
+
+msgid "cont_Separator"
+msgstr "Separatore"
+
+msgid "cont_Special"
+msgstr "Speciale"
+
+msgid "cont_StandardCenter"
+msgstr "Standard Center"
+
+msgid "cont_StandardTable"
+msgstr "Tabella Standard"
+
+msgid "cont_TableContent"
+msgstr "Tabella Contenuti"
+
+msgid "cont_Verse"
+msgstr "Verse/Stanza"
+
+msgid "cont_WholePicture"
+msgstr "Immagine intera"
+
+msgid "cont_accented"
+msgstr "Accentata"
+
+msgid "cont_act_number"
+msgstr "Numerazione capitoli"
+
+msgid "cont_activate_html"
+msgstr "Attiva il rendering HTML"
+
+msgid "cont_activate_js"
+msgstr "Attiva la modalità Javascript"
+
+msgid "cont_activate_media"
+msgstr "Attiva media"
+
+msgid "cont_activate_page"
+msgstr "Attiva Pagina"
+
+msgid "cont_activated"
+msgstr "Attivato"
+
+msgid "cont_activation"
+msgstr "Attivazione"
+
+msgid "cont_active"
+msgstr "Abilita menu"
+
+msgid "cont_active_areas"
+msgstr "Causa"
+
+msgid "cont_active_from"
+msgstr "Attivazione iniziata"
+
+msgid "cont_active_to"
+msgstr "Attivazione terminata"
+
+msgid "cont_add_area"
+msgstr "Aggiungi Area"
+
+msgid "cont_add_cell"
+msgstr "Aggiungi colonna"
+
+msgid "cont_add_elements"
+msgstr "Clicca sui segnalibri per aggiungere nuovi elementi."
+
+msgid "cont_add_file"
+msgstr "Aggiungi File"
+
+msgid "cont_add_images"
+msgstr "Adatta immagine"
+
+msgid "cont_add_popup"
+msgstr "Aggiungi Popup"
+
+msgid "cont_add_tab"
+msgstr "Aggiungi scomparto"
+
+msgid "cont_add_url"
+msgstr "From URL"
+
+msgid "cont_added_cell"
+msgstr "Colonna aggiunta"
+
+msgid "cont_added_comment"
+msgstr "Il commento e' stato aggiunto nella storia."
+
+msgid "cont_added_tab"
+msgstr "Scheda creata."
+
+msgid "cont_added_term"
+msgstr "Termine aggiunto"
+
+msgid "cont_adjust_size"
+msgstr "Aggiusta Dimensioni"
+
+msgid "cont_advanced_settings"
+msgstr "Advanced Settings"
+
+msgid "cont_align"
+msgstr "Allineamento"
+
+msgid "cont_alignment"
+msgstr "Allineamento"
+
+msgid "cont_all_answers_correct"
+msgstr "Tutte le risposte sono corrette"
+
+msgid "cont_all_closed"
+msgstr "Chiuso tutto"
+
+msgid "cont_all_languages"
+msgstr "Tutte le lingue"
+
+msgid "cont_all_pages"
+msgstr "Tutte le pagine"
+
+msgid "cont_all_topics"
+msgstr "Tutti gli argomenti"
+
+msgid "cont_all_usages"
+msgstr "Includi cronologia"
+
+msgid "cont_alphabetic"
+msgstr "Alfabetico A, B, ..."
+
+msgid "cont_alphabetic_s"
+msgstr "Alfabetico a, b, ..."
+
+msgid "cont_always"
+msgstr "Sempre"
+
+msgid "cont_anchor"
+msgstr "Ancoraggio"
+
+msgid "cont_annex"
+msgstr "Allegati"
+
+msgid "cont_anonymous_user_missing_perm"
+msgstr "Gli utenti anonimi attualmente non dispongono dell'autorizzazione per accedere a questo modulo di apprendimento."
+
+msgid "cont_areas_deleted"
+msgstr "Aree cancellate."
+
+msgid "cont_assign_characteristic"
+msgstr "Assegna Caratteristiche"
+
+msgid "cont_assign_full"
+msgstr "Imposta a tutto schermo"
+
+msgid "cont_assign_std"
+msgstr "Imposta standard"
+
+msgid "cont_assign_to_parent"
+msgstr "Assegna a principale"
+
+msgid "cont_auto_glossaries"
+msgstr "Glossari collegati automaticamente"
+
+msgid "cont_auto_last_visited"
+msgstr "carica l'ultimo capitolo visitato (SCO / Asset)"
+
+msgid "cont_auto_last_visited_info"
+msgstr "Apre l'ultima SCO / risorsa visitata quando lo studente rientra nel modulo di apprendimento."
+
+msgid "cont_auto_suspend"
+msgstr "Assicurati di ottenere dati di tracciamento da tentativi precedenti"
+
+msgid "cont_auto_suspend_info"
+msgstr "Questa opzione è per i moduli di apprendimento SCORM, che supportano SCORM 2004 in modo inadeguato non inviando i valori corretti per cmi.exit."
+
+msgid "cont_auto_time"
+msgstr "Animazione automatica tempo di attesa"
+
+msgid "cont_autoindent"
+msgstr "Indentazione automatica"
+
+msgid "cont_automatically_set_store_tries"
+msgstr "L’opzione \"$1\" è stata attivata automaticamente poiché l’opzione \"$2\" è stata consentita."
+
+msgid "cont_autostart"
+msgstr "Avvio automatico"
+
+msgid "cont_back"
+msgstr "Indietro"
+
+msgid "cont_base_image"
+msgstr "Immagine di base"
+
+msgid "cont_bb_tip"
+msgstr "Consiglio: Gli Stili possono essere applicati rapidamente al testo selezionato."
+
+msgid "cont_behavior"
+msgstr "Comportamento"
+
+msgid "cont_biblio"
+msgstr "Dati bibliografici"
+
+msgid "cont_biblio_info"
+msgstr "Consenti la funziona dati bibliografici"
+
+msgid "cont_blist"
+msgstr "Elenco puntato"
+
+msgid "cont_block_format"
+msgstr "Formato Sezione"
+
+msgid "cont_blocked_users"
+msgstr "Utenti bloccati"
+
+msgid "cont_blocked_users_mail_link"
+msgstr "Clicca sul seguente link per aprire il modello di apprendimento:"
+
+msgid "cont_bottom"
+msgstr "In fondo"
+
+msgid "cont_bullet_list"
+msgstr "Elenco Puntato"
+
+msgid "cont_cach_mode"
+msgstr "Modalità"
+
+msgid "cont_cach_mode_automatic"
+msgstr "Automatico"
+
+msgid "cont_cach_mode_automatic_info"
+msgstr "Verranno pubblicate tutte le tue ore di consultazione."
+
+msgid "cont_cach_mode_manual"
+msgstr "Manuale"
+
+msgid "cont_cach_mode_manual_info"
+msgstr "Verranno pubblicate solo le ore di consultazione dei seguenti gruppi."
+
+msgid "cont_cant_copy_folders"
+msgstr "Le cartelle non possono essere copiate negli appunti."
+
+msgid "cont_cant_del_full"
+msgstr "La cancellazione del file a schermo intero non è possibile."
+
+msgid "cont_cant_del_std"
+msgstr "La cancellazione del file di visualizzazione standard non è possibile."
+
+msgid "cont_caption"
+msgstr "Didascalia"
+
+#, fuzzy
+msgid "cont_caption_style"
+msgstr "Caption Style Class"
+
+msgid "cont_cc_emp"
+msgstr "Enfatico"
+
+msgid "cont_cc_imp"
+msgstr "Importante"
+
+msgid "cont_cc_str"
+msgstr "Forte"
+
+msgid "cont_cc_sub"
+msgstr "Indice inferiore"
+
+msgid "cont_cc_sup"
+msgstr "Indice superiore"
+
+#, fuzzy
+msgid "cont_cell_properties"
+msgstr "Table Cell Properties"
+
+msgid "cont_center"
+msgstr "Centro"
+
+#, fuzzy
+msgid "cont_change_alignment"
+msgstr "Change Alignment"
+
+msgid "cont_change_notification_salutation"
+msgstr "Ciao %s,"
+
+msgid "cont_change_notification_subject_lm"
+msgstr "Il modulo didattico \"%1$s\" è stato cambiato: %2$s"
+
+msgid "cont_change_object_reference"
+msgstr "Cambia il riferimento dell'oggetto"
+
+#, fuzzy
+msgid "cont_change_style"
+msgstr "Change Style"
+
+msgid "cont_change_type"
+msgstr "Cambia il tipo"
+
+#, fuzzy
+msgid "cont_change_width"
+msgstr "Change Width"
+
+msgid "cont_chap_and_pages"
+msgstr "Capitoli e Pagine"
+
+msgid "cont_chap_select_target_now"
+msgstr "Capitolo selezionato per lo spostamento. Scegli adesso la destinazione."
+
+msgid "cont_chapters"
+msgstr "Capitoli"
+
+msgid "cont_chapters_after_pages"
+msgstr "Ricordatevi che le pagine devono precedere tutti i sottocapitoli dello stesso livello."
+
+msgid "cont_chapters_and_pages"
+msgstr "Capitoli e pagine"
+
+msgid "cont_chapters_only"
+msgstr "Capitoli solamente"
+
+msgid "cont_char_format"
+msgstr "Carattere"
+
+#, fuzzy
+msgid "cont_char_link"
+msgstr "Link"
+
+#, fuzzy
+msgid "cont_char_media"
+msgstr "Media (Standard)"
+
+msgid "cont_char_style_acc"
+msgstr "Marcato"
+
+msgid "cont_char_style_code"
+msgstr "Codice"
+
+msgid "cont_char_style_com"
+msgstr "Commento"
+
+msgid "cont_char_style_quot"
+msgstr "Quotazione"
+
+msgid "cont_characteristic"
+msgstr "Stile"
+
+#, fuzzy
+msgid "cont_characteristic_table"
+msgstr "Style Class"
+
+msgid "cont_check_values"
+msgstr "controlla i valori inviati da SCO"
+
+msgid "cont_check_values_info"
+msgstr "Lo strumento di test controllerà se i valori inviati dagli SCO aderiscono allo standard SCORM. <br /> Lo standard SCORM è molto esigente per quanto riguarda il risparmio di valori. Non tutti i moduli di apprendimento soddisfano i requisiti dello standard. Questa opzione consente di verificare se il modulo aderisce allo standard o meno. Non controllare questa opzione se si desidera solo controllare se ILIAS può eseguire questo modulo o meno."
+
+msgid "cont_choose_characteristic"
+msgstr "Scegli caratteristiche"
+
+msgid "cont_choose_characteristic_section"
+msgstr "Sezioni"
+
+msgid "cont_choose_characteristic_text"
+msgstr "Elementi di Testo"
+
+msgid "cont_choose_file_source"
+msgstr "Fonte"
+
+msgid "cont_choose_from_clipboard"
+msgstr "Scegli dagli appunti"
+
+msgid "cont_choose_from_pool"
+msgstr "Scegli dal Media Pool"
+
+msgid "cont_choose_glo"
+msgstr "Scegli il glossario"
+
+msgid "cont_choose_lm"
+msgstr "Scegli il modulo di apprendimento"
+
+msgid "cont_choose_local"
+msgstr "Cartella locale"
+
+msgid "cont_choose_media_pool"
+msgstr "Seleziona Pool"
+
+msgid "cont_choose_mep"
+msgstr "Scegli gruppo media"
+
+msgid "cont_choose_pages_or_chapters_only"
+msgstr "Seleziona solamente le pagine o i capitoli."
+
+msgid "cont_choose_upload_dir"
+msgstr "Cartella di caricamento (upload)"
+
+msgid "cont_choose_wiki"
+msgstr "Scegli Wiki"
+
+msgid "cont_citation_selection_not_valid"
+msgstr "La tua selezione non è valida"
+
+msgid "cont_click_br_corner"
+msgstr "Fare clic sull'angolo in basso a destra dell'area desiderata."
+
+msgid "cont_click_center"
+msgstr "Fare clic sul centro dell'area desiderata."
+
+msgid "cont_click_circle"
+msgstr "Fare clic su un punto circolare dell'area desiderata."
+
+msgid "cont_click_edit"
+msgstr "<b>Click</b> on elements to <b>edit</b> its properties."
+
+msgid "cont_click_multi_select"
+msgstr "<b>Click</b> on elements to <b>select</b> or deselect them."
+
+msgid "cont_click_next_or_save"
+msgstr "Fare clic sul punto successivo del poligono o salvare l'area. (Non è necessario fare nuovamente clic sul punto iniziale di questo poligono!)"
+
+msgid "cont_click_next_point"
+msgstr "Per favore, clicca nel punto successivo del poligono."
+
+msgid "cont_click_starting_point"
+msgstr "Per favore, clicca nel punto di partenza del poligono."
+
+msgid "cont_click_tl_corner"
+msgstr "Fare clic sull'angolo in alto a sinistra dell'area desiderata."
+
+#, fuzzy
+msgid "cont_code_import_file"
+msgstr "Import"
+
+#, fuzzy
+msgid "cont_code_manual_editing"
+msgstr "Manuelle Eingabe"
+
+msgid "cont_colspan"
+msgstr "Intervallo colonne"
+
+msgid "cont_commented_by"
+msgstr "Commentato da"
+
+msgid "cont_comments"
+msgstr "Abilitare la raccomandazione dei commenti"
+
+msgid "cont_comments_info"
+msgstr "Alcuni moduli di apprendimento SCROM 2004 consentono agli utenti di fornire commenti all’interno del modulo. Quest’opzione consente di salvare questi commenti."
+
+msgid "cont_confirm_delete"
+msgstr "Confermare eliminazione?"
+
+msgid "cont_constrain_proportions"
+msgstr "Vincola le proporzioni"
+
+msgid "cont_content"
+msgstr "Contenuto"
+
+msgid "cont_content_popup"
+msgstr "Popup dei contenuti"
+
+msgid "cont_content_popups"
+msgstr "Popup dei contenuti"
+
+msgid "cont_coords"
+msgstr "Coordinate"
+
+msgid "cont_copy_question_from_pool"
+msgstr "Copia domanda dal gruppo"
+
+msgid "cont_copy_question_into_page"
+msgstr "Copia nella pagina"
+
+msgid "cont_copy_to_clipboard"
+msgstr "Copia negli appunti"
+
+msgid "cont_correct_after_first"
+msgstr "Primo tentativo corretto"
+
+msgid "cont_correct_answer_also"
+msgstr "È anche corretto:"
+
+msgid "cont_correct_answers_also"
+msgstr "Sono anche corretti:"
+
+msgid "cont_correct_answers_shown"
+msgstr "Le risposte corrette sono mostrate sopra"
+
+msgid "cont_could_not_determine_resource_size"
+msgstr "ILIAS non può calcolare automaticamente la grandezza della risorsa."
+
+msgid "cont_could_not_save_duplicate_pc_ids"
+msgstr "Purtroppo non è stato possibile salvare la pagina. (ID PC duplicati)"
+
+msgid "cont_cp_question_diff_formats_info"
+msgstr "Si noti che alcune formattazioni non sono supportate nei moduli di contenuto."
+
+msgid "cont_create_link"
+msgstr "Crea link"
+
+msgid "cont_create_mob"
+msgstr "Crea oggetto multimediale"
+
+msgid "cont_credits"
+msgstr "Ringraziamenti"
+
+msgid "cont_current_chapter"
+msgstr "Capitolo attuale"
+
+msgid "cont_current_lang"
+msgstr "Lingua attuale"
+
+msgid "cont_current_page"
+msgstr "Pagina attuale"
+
+msgid "cont_current_style"
+msgstr "Stile Attuale"
+
+msgid "cont_current_term"
+msgstr "Termine attuale"
+
+msgid "cont_current_usages"
+msgstr "Utilizzi attuali"
+
+msgid "cont_current_version"
+msgstr "Versione Attuale"
+
+msgid "cont_custom"
+msgstr "Personalizza"
+
+msgid "cont_custom_menu_entries"
+msgstr "Voci di menu personalizzate"
+
+msgid "cont_custom_size"
+msgstr "Dimensioni customizzate (custom size)"
+
+msgid "cont_dark"
+msgstr "Scura"
+
+msgid "cont_data_from_lms"
+msgstr "adlcp:datafromlms"
+
+msgid "cont_de_activate"
+msgstr "Disattiva"
+
+msgid "cont_deactivate_html"
+msgstr "Disattiva il rendering HTML"
+
+msgid "cont_deactivate_js"
+msgstr "Attiva la modalità modulo"
+
+msgid "cont_deactivate_media"
+msgstr "Disattiva media"
+
+msgid "cont_deactivate_page"
+msgstr "Disattiva pagina"
+
+msgid "cont_deactivated"
+msgstr "Disattivata"
+
+msgid "cont_debug"
+msgstr "Mostra menu di debug"
+
+msgid "cont_debug_deactivate"
+msgstr "Suggerimento: lo strumento di test può essere disabilitato per tutti i moduli di apprendimento."
+
+msgid "cont_debug_deactivate12"
+msgstr "Uno strumento di test verrà mostrato nella modalità di presentazione del modulo di apprendimento. Sulla base di dati forniti da questo, l’interazione del modulo di apprendimento e ILIAS possono essere calcolati."
+
+msgid "cont_debug_deactivated"
+msgstr "Suggerimento: lo strumento di test è disabilitato per tutti i moduli di apprendimento."
+
+msgid "cont_debugging"
+msgstr "Debugging"
+
+msgid "cont_decimal"
+msgstr "Decimale"
+
+msgid "cont_def_feedb_activated"
+msgstr "I testi di feedback predefiniti sono attualmente attivati nelle impostazioni del modulo di apprendimento."
+
+msgid "cont_def_feedb_deactivated"
+msgstr "I testi di feedback predefiniti sono attualmente disattivati nelle impostazioni del modulo di apprendimento."
+
+msgid "cont_def_layout"
+msgstr "Layout predefinito"
+
+msgid "cont_def_lesson_mode"
+msgstr "Modalita' default di esecuzione del modulo"
+
+msgid "cont_def_map_areas"
+msgstr "Area link di default"
+
+msgid "cont_def_organization"
+msgstr "Organizzazione predefinita"
+
+msgid "cont_default"
+msgstr "Impostazione predefinita"
+
+msgid "cont_definition"
+msgstr "Definizione"
+
+msgid "cont_delete_content"
+msgstr "Cancella Contenuti"
+
+#, fuzzy
+msgid "cont_delete_file_item_confirm"
+msgstr "Do you really want to delete the selected file(s)?"
+
+msgid "cont_delete_selected"
+msgstr "Cancella"
+
+msgid "cont_delete_style"
+msgstr "Cancella stile"
+
+msgid "cont_delete_track_data"
+msgstr "cancella dati di tracking"
+
+msgid "cont_dependencies"
+msgstr "Dipendenze"
+
+msgid "cont_dir_created"
+msgstr "Directory creata."
+
+msgid "cont_dir_deleted"
+msgstr "Directory cancellata."
+
+msgid "cont_dir_file"
+msgstr "Cartella/File"
+
+msgid "cont_dir_renamed"
+msgstr "Directory rinominata."
+
+msgid "cont_disable_def_feedback"
+msgstr "Disattiva feedback domande predefinite"
+
+msgid "cont_disable_def_feedback_info"
+msgstr "Se disabilitato, le risposte alle domande non mostreranno alcun feedback per l’allievo. È necessario fornire feedback personalizzati per le vostre domande."
+
+msgid "cont_download"
+msgstr "Scarica"
+
+msgid "cont_download_title"
+msgstr "Download titolo"
+
+msgid "cont_drag_and_drop_elements"
+msgstr "Copia/Incolla gli elementi del contenuto sui segnaposto (placeholders) per muovere gli elementi."
+
+msgid "cont_drag_element_click_save"
+msgstr "Sposta l'elemento nella posizione desiderata, quindi fai clic su \"Salva\"."
+
+msgid "cont_ed_align_center"
+msgstr "allineam: centrato"
+
+msgid "cont_ed_align_left"
+msgstr "allineam: a sinistra"
+
+msgid "cont_ed_align_left_float"
+msgstr "allineam: a sinistra float"
+
+msgid "cont_ed_align_right"
+msgstr "allineam: a destra"
+
+msgid "cont_ed_align_right_float"
+msgstr "allineam: a destra float"
+
+msgid "cont_ed_atable"
+msgstr "Tabella avanzata"
+
+msgid "cont_ed_cell_left"
+msgstr "Sposta a sinistra"
+
+msgid "cont_ed_cell_right"
+msgstr "Sposta a destra"
+
+msgid "cont_ed_class"
+msgstr "Stile"
+
+msgid "cont_ed_click_to_add_pg"
+msgstr "Clicca qui per aggiungere contenuto."
+
+msgid "cont_ed_col_left"
+msgstr "Sposta la colonna a sinistra"
+
+msgid "cont_ed_col_right"
+msgstr "Sposta la colonna a destra"
+
+msgid "cont_ed_copy"
+msgstr "Copia"
+
+msgid "cont_ed_copy_clip"
+msgstr "Copia nella clipboard"
+
+msgid "cont_ed_cut"
+msgstr "Taglia"
+
+msgid "cont_ed_delete"
+msgstr "Elimina"
+
+msgid "cont_ed_delete_cell"
+msgstr "Elimina colonna"
+
+msgid "cont_ed_delete_col"
+msgstr "elimina colonna"
+
+msgid "cont_ed_delete_item"
+msgstr "elimina elemento"
+
+msgid "cont_ed_delete_row"
+msgstr "elimina riga"
+
+msgid "cont_ed_dtable"
+msgstr "Tabella dati"
+
+msgid "cont_ed_edit"
+msgstr "modifica"
+
+msgid "cont_ed_edit_data"
+msgstr "Edita Dati"
+
+msgid "cont_ed_edit_files"
+msgstr "Edita Files"
+
+msgid "cont_ed_edit_multiple"
+msgstr "Modifica sequenza di paragrafi"
+
+msgid "cont_ed_edit_prop"
+msgstr "Proprietà"
+
+msgid "cont_ed_enable"
+msgstr "Abilita/Disabilita"
+
+msgid "cont_ed_flist"
+msgstr " Elenco file"
+
+msgid "cont_ed_go"
+msgstr "OK"
+
+msgid "cont_ed_grid_col_width"
+msgstr "Larghezza colonna"
+
+msgid "cont_ed_grid_col_width_info"
+msgstr "La larghezza della colonna può estendersi su più di 1/12 unità della riga e dipende dalla dimensione complessiva dello schermo. I dispositivi sono riportati come esempi. Le loro dimensioni dello schermo determinano il comportamento concreto. 12/12 corrisponde al 100% di larghezza."
+
+msgid "cont_ed_grid_col_widths"
+msgstr "Larghezze colonne"
+
+#, fuzzy
+msgid "cont_ed_insert_amdfrm"
+msgstr "Insert Advanced Metadata"
+
+msgid "cont_ed_insert_amdpl"
+msgstr "Inserisci lista di pagine"
+
+msgid "cont_ed_insert_blog"
+msgstr "Inserisci blog"
+
+msgid "cont_ed_insert_cach"
+msgstr "Inserisci orario colloqui"
+
+msgid "cont_ed_insert_dtab"
+msgstr "Inserisci Tabella Dati"
+
+msgid "cont_ed_insert_flst"
+msgstr "Inserisci lista file"
+
+msgid "cont_ed_insert_grid"
+msgstr "Inserisci layout colonna"
+
+msgid "cont_ed_insert_grid_info"
+msgstr "Aggiunge un layout di colonna reattivo basato su una griglia con 12 unità per riga."
+
+msgid "cont_ed_insert_iim"
+msgstr "Inserisci immagine interattiva"
+
+msgid "cont_ed_insert_incl"
+msgstr "Inserisci frammento di contenuto"
+
+#, fuzzy
+msgid "cont_ed_insert_lay"
+msgstr "Insert Layout Template"
+
+msgid "cont_ed_insert_lhist"
+msgstr "Inserisci Storico progressi didattici"
+
+msgid "cont_ed_insert_list"
+msgstr "inserisci lista"
+
+msgid "cont_ed_insert_lpe"
+msgstr "Inserisci elemento della pagina di login"
+
+msgid "cont_ed_insert_map"
+msgstr "Inserisci Mappa"
+
+msgid "cont_ed_insert_mcrs"
+msgstr "Inserisci i miei corsi"
+
+msgid "cont_ed_insert_media"
+msgstr "inserisci multimedia"
+
+msgid "cont_ed_insert_par"
+msgstr "inserisci paragrafo"
+
+msgid "cont_ed_insert_pcqst"
+msgstr "Inserisci domanda"
+
+msgid "cont_ed_insert_plach"
+msgstr "Inserisci segnaposto"
+
+msgid "cont_ed_insert_prof"
+msgstr "Inserisci dati personali"
+
+msgid "cont_ed_insert_qover"
+msgstr "Inserisci panoramica domande"
+
+msgid "cont_ed_insert_repobj"
+msgstr "Inserisci Elenco Risorse"
+
+msgid "cont_ed_insert_sec"
+msgstr "Inserisci Sezione"
+
+msgid "cont_ed_insert_skills"
+msgstr "Inserisci competenze"
+
+msgid "cont_ed_insert_src"
+msgstr "Inserisci Codice"
+
+msgid "cont_ed_insert_tab"
+msgstr "Inserisci Tabella Avanzata"
+
+msgid "cont_ed_insert_tabs"
+msgstr "Inserisci Tabs"
+
+msgid "cont_ed_insert_templ"
+msgstr "Inserisci modello di contenuto"
+
+msgid "cont_ed_insert_vrfc"
+msgstr "Insert Certificate"
+
+msgid "cont_ed_item_down"
+msgstr "sposta loggetto in basso"
+
+msgid "cont_ed_item_up"
+msgstr "Sposta elemento in alto"
+
+msgid "cont_ed_list"
+msgstr " Lista avanzata"
+
+msgid "cont_ed_moveafter"
+msgstr "sposta dopo"
+
+msgid "cont_ed_movebefore"
+msgstr "sposta prima"
+
+msgid "cont_ed_new_col_after"
+msgstr "Nuova colonna dopo"
+
+msgid "cont_ed_new_col_before"
+msgstr "Nuova colonna prima"
+
+msgid "cont_ed_new_item_after"
+msgstr "Nuovo elemento dopo"
+
+msgid "cont_ed_new_item_before"
+msgstr "Nuovo elemento prima"
+
+msgid "cont_ed_new_row_after"
+msgstr "Nuova riga dopo"
+
+msgid "cont_ed_new_row_before"
+msgstr "Nuova riga prima"
+
+#, fuzzy
+msgid "cont_ed_nr_cols"
+msgstr "Number of Columns"
+
+#, fuzzy
+msgid "cont_ed_nr_rows"
+msgstr "Number of Rows"
+
+msgid "cont_ed_par"
+msgstr "Testo"
+
+msgid "cont_ed_paste"
+msgstr "Incolla"
+
+msgid "cont_ed_paste_clip"
+msgstr "Incolla da clipboard"
+
+msgid "cont_ed_pglprop"
+msgstr "Proprieta' del layout pagine"
+
+msgid "cont_ed_plachmedia"
+msgstr "Media Segnaposto"
+
+msgid "cont_ed_plachprop"
+msgstr "Proprieta' Segnaposto"
+
+msgid "cont_ed_plachquestion"
+msgstr "Domanda sul Segnaposto"
+
+msgid "cont_ed_plachtext"
+msgstr "Testo del Segnaposto"
+
+msgid "cont_ed_plachverification"
+msgstr "Certificato segnaposto"
+
+msgid "cont_ed_row_down"
+msgstr "sposta la riga in basso"
+
+msgid "cont_ed_row_up"
+msgstr "sposta la riga in alto"
+
+msgid "cont_ed_select_pctext"
+msgstr "Seleziona Text Item"
+
+msgid "cont_ed_split_page"
+msgstr "Splittare su nuova pagina"
+
+msgid "cont_ed_split_page_next"
+msgstr "suddividi nella pagina successiva"
+
+msgid "cont_ed_textitem"
+msgstr " Elemento di testo"
+
+msgid "cont_ed_width"
+msgstr "Larghezza"
+
+msgid "cont_edit_base_image"
+msgstr "Modifica immagine di base"
+
+msgid "cont_edit_comp"
+msgstr "Editing"
+
+msgid "cont_edit_definition"
+msgstr "Modifica definizione"
+
+msgid "cont_edit_file_list_properties"
+msgstr "Modifica proprietà elenco file"
+
+msgid "cont_edit_language_version"
+msgstr "Modifica versione"
+
+msgid "cont_edit_lrs_settings"
+msgstr "Edita Impostazioni"
+
+msgid "cont_edit_marker_position"
+msgstr "Modifica posizione indicatore"
+
+msgid "cont_edit_mob"
+msgstr "Modifica oggetto multimediale"
+
+msgid "cont_edit_mob_alias_prop"
+msgstr "Modifica proprietà istanza oggetto multimediale"
+
+msgid "cont_edit_mode"
+msgstr "Modifica modalità"
+
+msgid "cont_edit_multi"
+msgstr "Selezione Multipla"
+
+msgid "cont_edit_overlay_position"
+msgstr "Modifica posizione sovrapposizione"
+
+msgid "cont_edit_par"
+msgstr "Modifica paragrafo"
+
+msgid "cont_edit_personal_data"
+msgstr "Modifica dati personali"
+
+msgid "cont_edit_popup_position"
+msgstr "Modifica posizione popup"
+
+msgid "cont_edit_qover"
+msgstr "Modifica panoramica domande"
+
+msgid "cont_edit_shape_circle"
+msgstr "Edita forma (Cerchio)"
+
+msgid "cont_edit_shape_polygon"
+msgstr "Edita forma (Poligono)"
+
+msgid "cont_edit_shape_rectangle"
+msgstr "Edita forma (Rettangolo)"
+
+msgid "cont_edit_shape_whole_picture"
+msgstr "Edita forma (Immagine intera)"
+
+msgid "cont_edit_src"
+msgstr "Modifica codice sorgente"
+
+msgid "cont_edit_style"
+msgstr "Edita Stile"
+
+#, fuzzy
+msgid "cont_edit_table"
+msgstr "Edit Table"
+
+msgid "cont_edit_tabs"
+msgstr "Proprietà"
+
+msgid "cont_edit_term"
+msgstr "Modifica termine"
+
+#, fuzzy
+msgid "cont_edit_title"
+msgstr "Change Title"
+
+msgid "cont_element_refers_removed_itgr"
+msgstr "Questo elemento di contenuto fa riferimento a un gruppo di articoli che nel frattempo è stato rimosso."
+
+msgid "cont_empty_question"
+msgstr "Modifica della domande non terminata. Si prega cliccare e modificare o eliminare domanda."
+
+msgid "cont_enable_page_history"
+msgstr "Cronologia pagina"
+
+msgid "cont_enable_page_history_info"
+msgstr "Memorizza le versioni precedenti delle pagine e consente di ripristinare le versioni precedenti."
+
+msgid "cont_enable_time_scheduled_page_activation"
+msgstr "Attivazione Pagina non prevista"
+
+msgid "cont_enable_time_scheduled_page_activation_info"
+msgstr "Se abilitato, un periodo di attivazione (data/ora) puo'essere selezionato nell'editore di modulo per ogni pagina."
+
+msgid "cont_end"
+msgstr "Fine"
+
+msgid "cont_enough_answers_correct"
+msgstr "Giusto, ma non è la soluzione migliore!"
+
+msgid "cont_enter_a_dir_name"
+msgstr "Inserisci nome cartella."
+
+msgid "cont_enter_a_file"
+msgstr "Seleziona un file."
+
+msgid "cont_error"
+msgstr "Ha avuto luogo un errore"
+
+msgid "cont_exp_id_used_multiple"
+msgstr "ID di esportazione utilizzato diverse volte"
+
+msgid "cont_exp_ids_not_resp_format1"
+msgstr "Gli ID di esportazione possono utilizzare solo i seguenti caratteri"
+
+msgid "cont_exp_ids_not_resp_format2"
+msgstr "Controlla e correggi il tuo input."
+
+msgid "cont_exp_ids_not_resp_format3"
+msgstr "L’ID non deve cominciare con un numero."
+
+msgid "cont_export_all"
+msgstr "Esporta tutto"
+
+msgid "cont_export_id"
+msgstr "Esporta ID"
+
+msgid "cont_file"
+msgstr "File"
+
+msgid "cont_file_created"
+msgstr "File creato."
+
+msgid "cont_file_deleted"
+msgstr "File cancellato."
+
+msgid "cont_file_from_repository"
+msgstr "File dall'Archivio"
+
+msgid "cont_file_from_workspace"
+msgstr "File dalle risorse personali"
+
+msgid "cont_file_renamed"
+msgstr "File rinominato."
+
+msgid "cont_file_unzipped"
+msgstr "File dezippato."
+
+msgid "cont_files"
+msgstr "File"
+
+msgid "cont_finish_editing"
+msgstr "Termina modifica"
+
+#, fuzzy
+msgid "cont_finish_table_editing"
+msgstr "Finish Data Table Editing"
+
+msgid "cont_first_open"
+msgstr "In primo luogo aperto"
+
+msgid "cont_first_page"
+msgstr "Prima pagina"
+
+msgid "cont_first_row_style"
+msgstr "Stile della prima riga"
+
+msgid "cont_fix_tree"
+msgstr "Correggi la struttura ad albero (Fix Tree)"
+
+msgid "cont_fix_tree_confirm"
+msgstr "Esegui questo comando solo se la struttura ad albero di questo modulo di apprendimento è corrotta, ad es. se si verificano elementi vuoti nella vista Explorer."
+
+msgid "cont_fn"
+msgstr "Nota a piè di pagina"
+
+msgid "cont_footer"
+msgstr "Piè di pagina"
+
+msgid "cont_footnote"
+msgstr "Footnote"
+
+msgid "cont_force_all_open"
+msgstr "Forza tutta aperta"
+
+msgid "cont_format"
+msgstr "Formato"
+
+#, fuzzy
+msgid "cont_format_cells"
+msgstr "Format Cells"
+
+msgid "cont_fourth_edition"
+msgstr "SCORM 2004 quarta edizione"
+
+msgid "cont_fourth_edition_info"
+msgstr "SCORM 2004 4th edition offre alcuni vantaggi rispetto alla 3a edizione. Ulteriori dati oltre i limiti SCO possono essere scambiati per esempio. Queste opzioni sono tuttavia utilizzate raramente e hanno un effetto negativo sulla velocità."
+
+msgid "cont_free_pages"
+msgstr "Pagine libere"
+
+msgid "cont_full_is_in_dir"
+msgstr "Cancellazione impossibile. Il file a schermo intero è nella directory."
+
+msgid "cont_fullscreen"
+msgstr "A tutto schermo"
+
+msgid "cont_general_properties"
+msgstr "Proprieta' generali"
+
+msgid "cont_get_link"
+msgstr "restituisci il collegamento"
+
+msgid "cont_glo_assign"
+msgstr "Assegna Glossario"
+
+msgid "cont_glo_create"
+msgstr "Crea Glossario"
+
+msgid "cont_glo_detach"
+msgstr "Separa Glossario"
+
+msgid "cont_glo_properties"
+msgstr "Proprietà del glossario"
+
+msgid "cont_glossaries"
+msgstr "Glossari"
+
+msgid "cont_got_lock_release"
+msgstr "La pagina è stata bloccata per permetterLe di modificarla fino a %1. Fino ad allora altri utenti non possono effettuare modifiche alla pagina. La preghiamo di sbloccarla al termine delle Sue modifiche."
+
+msgid "cont_grid_cell"
+msgstr "Colonna"
+
+msgid "cont_grid_cell_confirm_deletion"
+msgstr "Vuoi davvero eliminare la/e colonna/e?"
+
+msgid "cont_grid_nr_cells"
+msgstr "Numero di colonne"
+
+msgid "cont_grid_t_main_side"
+msgstr "Blocco principale e secondario"
+
+msgid "cont_grid_t_main_side_info"
+msgstr "Crea una colonna larga a sinistra e una colonna più stretta sulla destra. La visualizzazione passa ad una colonna nella modalità mobile (small)."
+
+msgid "cont_grid_t_manual"
+msgstr "Layout di pagina creato manualmente"
+
+msgid "cont_grid_t_manual_info"
+msgstr "Permette di impostare liberamente il numero e la larghezza delle colonne"
+
+msgid "cont_grid_t_three_column"
+msgstr "Distribuzione a tre colonne"
+
+msgid "cont_grid_t_three_column_info"
+msgstr "Crea tre colonne della stessa ampiezza. Su dispositivi cellulari la visualizzazione cambia ad una colonna (small)."
+
+msgid "cont_grid_t_two_by_two"
+msgstr "Scatola due-per-due"
+
+msgid "cont_grid_t_two_by_two_info"
+msgstr "Crea due righe con due colonne della stessa ampiezza. Passa ad una colonna in visualizzazione mobile (small) ed a quattro colonne su dispositivi con schermi molto larghi (extralarge)."
+
+msgid "cont_grid_t_two_column"
+msgstr "Distribuzione a due colonne"
+
+msgid "cont_grid_t_two_column_info"
+msgstr "Crea due colonne accostate della stessa ampiezza. Passa ad una colonna nella visualizzazione da dispositivi cellulari (small)."
+
+msgid "cont_grid_width_l"
+msgstr "Grande"
+
+msgid "cont_grid_width_l_info"
+msgstr "Per esempio desktop"
+
+msgid "cont_grid_width_m"
+msgstr "Medio"
+
+msgid "cont_grid_width_m_info"
+msgstr "p.es. tablet"
+
+msgid "cont_grid_width_s"
+msgstr "Piccolo"
+
+msgid "cont_grid_width_s_info"
+msgstr "p.es. smartphone"
+
+msgid "cont_grid_width_xl"
+msgstr "Molto grande (Extra Large)"
+
+msgid "cont_grid_width_xl_info"
+msgstr "p.es. desktop ampio"
+
+#, fuzzy
+msgid "cont_hacc_needs_height"
+msgstr "Please set a content height for horizontal accordions."
+
+#, fuzzy
+msgid "cont_hacc_needs_width"
+msgstr "Please set a content width for horizontal accordions."
+
+#, fuzzy
+msgid "cont_has_row_header"
+msgstr "Has a Header Row"
+
+msgid "cont_header"
+msgstr "Intestazione"
+
+msgid "cont_height"
+msgstr "Altezza"
+
+msgid "cont_help_no_valid_tooltip_id"
+msgstr "L’ID descrizione comando immesso non è valido."
+
+msgid "cont_hide_adv"
+msgstr "Nascondi conoscenza avanzata"
+
+msgid "cont_hide_head_foot_print"
+msgstr "Nascondi intestazione personalizzata e piè di pagina nella visualizzazione stampa"
+
+msgid "cont_hidenavig"
+msgstr "Nascondi albero a sinistra"
+
+msgid "cont_hidenavig_info"
+msgstr "L'albero di navigazione a sinistra può essere nascosto se il modulo di apprendimento SCORM contiene funzionalità sufficienti per navigare nel contenuto o viene visualizzata la barra di navigazione in alto."
+
+msgid "cont_highlight_class"
+msgstr "Evidenzia classe"
+
+msgid "cont_highlight_mode"
+msgstr "Evidenzia modalità"
+
+msgid "cont_hover"
+msgstr "Passaggio del mouse"
+
+msgid "cont_href"
+msgstr "href"
+
+msgid "cont_html_export_ids"
+msgstr "ID di esportazione HTML"
+
+msgid "cont_html_export_ids_info"
+msgstr "Consente di mantenere ID aggiuntivi per i moduli di apprendimento ILIAS, utilizzati per denominare i file HTML, al termine dell'esportazione HTML."
+
+msgid "cont_html_table"
+msgstr "Tabella HTML"
+
+msgid "cont_id_ref"
+msgstr "identificatore ref"
+
+msgid "cont_ie_compatibility"
+msgstr "Internet Explorer 7 modalità compatibile"
+
+msgid "cont_ie_compatibility_info"
+msgstr "Soprattutto per i moduli di apprendimento più vecchi può essere utile attivare la modalità di compatibilità. Si noti che la modalità di compatibilità può essere disabilitata nelle versioni più recenti di Internet Explorer."
+
+msgid "cont_ie_force_render"
+msgstr "Forza il rendering di Internet Explorer"
+
+msgid "cont_ie_force_render_info"
+msgstr "Abilita questa opzione solo se il contenuto del modulo di apprendimento non viene visualizzato correttamente con Internet Explorer a causa di molti frame o iframe. Inoltre, devi impostare l'opzione \"Visualizza\" su \"in una nuova finestra\"."
+
+#, fuzzy
+msgid "cont_iim_add_overlay"
+msgstr "Add Overlay"
+
+#, fuzzy
+msgid "cont_iim_add_trigger"
+msgstr "Add Trigger"
+
+#, fuzzy
+msgid "cont_iim_add_trigger_text"
+msgstr "Please add a trigger. Afterwards edit size and position on the right screen."
+
+#, fuzzy
+msgid "cont_iim_background_image"
+msgstr "Background Image"
+
+#, fuzzy
+msgid "cont_iim_background_image_and_caption"
+msgstr "Background Image and Caption"
+
+#, fuzzy
+msgid "cont_iim_edit"
+msgstr "Edit Interactive Image"
+
+#, fuzzy
+msgid "cont_iim_edit_trigger"
+msgstr "Edit Trigger"
+
+#, fuzzy
+msgid "cont_iim_finish_editing"
+msgstr "Finish Editing Interactive Image"
+
+#, fuzzy
+msgid "cont_iim_horizontal"
+msgstr "Horizontal"
+
+#, fuzzy
+msgid "cont_iim_lg"
+msgstr "Large"
+
+#, fuzzy
+msgid "cont_iim_md"
+msgstr "Medium"
+
+#, fuzzy
+msgid "cont_iim_no_overlay"
+msgstr "No Overlay"
+
+#, fuzzy
+msgid "cont_iim_overview"
+msgstr "Overview"
+
+#, fuzzy
+msgid "cont_iim_select_overlay"
+msgstr "Select Overlay"
+
+#, fuzzy
+msgid "cont_iim_select_trigger"
+msgstr "To edit an existing trigger, click it on the right screen."
+
+#, fuzzy
+msgid "cont_iim_size"
+msgstr "Size"
+
+#, fuzzy
+msgid "cont_iim_sm"
+msgstr "Small"
+
+#, fuzzy
+msgid "cont_iim_tr_add_popup"
+msgstr "Add Content-Popup"
+
+#, fuzzy
+msgid "cont_iim_tr_properties_info"
+msgstr "The trigger will be presented on the right side. You may alter position and size using the mouse."
+
+#, fuzzy
+msgid "cont_iim_trigger"
+msgstr "Trigger"
+
+#, fuzzy
+msgid "cont_iim_vertical"
+msgstr "Vertical"
+
+msgid "cont_imagemap"
+msgstr "Mappa Immagine"
+
+msgid "cont_import"
+msgstr "Importa"
+
+msgid "cont_import_id"
+msgstr "Identificatore"
+
+msgid "cont_import_lang"
+msgstr "Lingua di destinazione"
+
+msgid "cont_import_tracking"
+msgstr "Importazione dei dati di tracking"
+
+msgid "cont_import_trans"
+msgstr "Importa traduzione"
+
+msgid "cont_import_validation_errors"
+msgstr "Errori durante la validazione del learning module. La presentazione del learning module può essere corretta, ma le pagine contenenti errori potrebbero non essere modificabili"
+
+msgid "cont_initial_attached_content"
+msgstr "Contenuto aggiuntivo iniziale"
+
+msgid "cont_insert_amd_page_list"
+msgstr "Inserisci elenco pagina"
+
+msgid "cont_insert_as_chapter"
+msgstr "Inserisci come Capitolo"
+
+msgid "cont_insert_as_subchapter"
+msgstr "Inserisci come Sottocapitolo"
+
+msgid "cont_insert_blog"
+msgstr "Aggiungi Blog"
+
+msgid "cont_insert_chapter"
+msgstr "Inserisci Capitolo"
+
+msgid "cont_insert_chapter_from_clip"
+msgstr "Incolla i capitoli dagli appunti"
+
+msgid "cont_insert_consultation_hours"
+msgstr "Inserisci ore di consultazione"
+
+msgid "cont_insert_file_item"
+msgstr "Inserisci il file."
+
+msgid "cont_insert_file_list"
+msgstr "Inserisci l' elenco di file."
+
+msgid "cont_insert_list"
+msgstr "Inserisci lista"
+
+msgid "cont_insert_login_page"
+msgstr "Aggiungi elemento nella pagina di accesso"
+
+msgid "cont_insert_map"
+msgstr "Inserisci Mappa"
+
+msgid "cont_insert_mob"
+msgstr "Nuovo oggetto multimediale"
+
+msgid "cont_insert_my_courses"
+msgstr "Inserisci Miei corsi"
+
+msgid "cont_insert_page"
+msgstr "Inserisci Pagina"
+
+msgid "cont_insert_page_from_clip"
+msgstr "Incolla le pagine dagli appunti"
+
+msgid "cont_insert_pagelayout"
+msgstr "Inserisci modello di pagina"
+
+msgid "cont_insert_par"
+msgstr "Inserisci paragrafo"
+
+msgid "cont_insert_profile"
+msgstr "Aggiungi dati personali"
+
+msgid "cont_insert_resources"
+msgstr "Inserisci Elenco Risorse"
+
+msgid "cont_insert_section"
+msgstr "Inserisci Sezione"
+
+msgid "cont_insert_skills"
+msgstr "Inserisci competenze"
+
+msgid "cont_insert_src"
+msgstr "Inserisci codice sorgente"
+
+msgid "cont_insert_subchapter"
+msgstr "Inserisci Sottocapitolo"
+
+msgid "cont_insert_subchapter_from_clip"
+msgstr "Incolla i sottocapitoli dagli appunti"
+
+msgid "cont_insert_table"
+msgstr "Inserisci tabella"
+
+msgid "cont_insert_verification"
+msgstr "Aggiungi verifica"
+
+msgid "cont_inst_map_areas"
+msgstr "Aree collegate dell'istanza"
+
+msgid "cont_interactions"
+msgstr "consentire la memorizzazione dei risultati delle interazioni"
+
+msgid "cont_interactions_info"
+msgstr "Solitamente i risultati delle interazione nei moduli di apprendimento sono semplicemente archiviati senza essere nuovamente letti/caricati. Se si accerta che questo è il modo in cui il modulo di apprendimento funziona, questa opzione migliorerà la prestazione."
+
+msgid "cont_interactions_info_12"
+msgstr "I risultati delle interazioni nei moduli di apprendimento SCORM 1,2 sono semplicemente archiviati. Questa opzione migliorerà la prestazione."
+
+msgid "cont_internal_link"
+msgstr "Collegamento interno"
+
+msgid "cont_internal_links"
+msgstr "Collegamenti interni"
+
+msgid "cont_invalid_new_module"
+msgstr "Modulo NON compatibile! Assicuratevi che il file imsmanifest.xml non sia cambiato"
+
+msgid "cont_is_visible"
+msgstr "e' visibile"
+
+msgid "cont_item"
+msgstr "Elemento"
+
+msgid "cont_keyword"
+msgstr "Keyword"
+
+msgid "cont_language"
+msgstr "Lingua"
+
+msgid "cont_languages"
+msgstr "Lingue"
+
+msgid "cont_last_try"
+msgstr "Ultimo tentativo"
+
+msgid "cont_last_update"
+msgstr "Last Update"
+
+msgid "cont_last_visited_page"
+msgstr "Ultima pagina visitata"
+
+msgid "cont_latest_rev"
+msgstr "Ultima revisione"
+
+msgid "cont_layout"
+msgstr "Disposizione"
+
+msgid "cont_layout_1window"
+msgstr "Una finestra"
+
+msgid "cont_layout_1window_desc"
+msgstr "Contenuto nel frame principale. Link a media e glossario, e FAQ si aprono in un frame separato."
+
+msgid "cont_layout_2window"
+msgstr "Due Finestre"
+
+msgid "cont_layout_2window_desc"
+msgstr "Contenuto nel frame di sinistra. Link a media e glossario, e FAQ si aprono nel frame a destra."
+
+msgid "cont_layout_3window"
+msgstr "Tre Finestre"
+
+msgid "cont_layout_3window_desc"
+msgstr "Contenuto del frame di sinistra. Link a media e FAQ si aprono le frame in alto a destra, i link al glossario in basso a destra."
+
+msgid "cont_layout_fullscreen"
+msgstr "Schermo intero"
+
+msgid "cont_layout_fullscreen_desc"
+msgstr "Contenuto nel frame principale. Link a media e glossario, e FAQ si aprono in un frame separato. Non ci sono la barra di navigazione ed il menu' principale ILIAS."
+
+msgid "cont_layout_per_page"
+msgstr "Autorizzare disposizione per singola pagina"
+
+msgid "cont_layout_per_page_info"
+msgstr "Consente la definizione di layout specifici per ogni pagina. Attiva automaticamente anche il \"Synchronize Frames\"."
+
+msgid "cont_layout_presentation"
+msgstr "Presentazione"
+
+msgid "cont_layout_presentation_desc"
+msgstr "Contenuto nel frame principale. Link a media e glossario, e FAQ si aprono in un frame separato. Non c'è il menù principale ILIAS."
+
+msgid "cont_layout_template"
+msgstr "Modello di layout"
+
+msgid "cont_layout_toc2win"
+msgstr "Tabella dei contenuti"
+
+msgid "cont_layout_toc2win_desc"
+msgstr "Table of contents a sinistra, contenuti a destra, Glossario, FAQ e media link si aprono dinamicamente in una finestra separata."
+
+msgid "cont_layout_toc2windyn"
+msgstr "Tabella dei contenuti, finestra dinamica"
+
+msgid "cont_layout_toc2windyn_desc"
+msgstr "Tabella dei contenuti a sinistra, contenuti a destra, Glossario, FAQ e media link si aprono dinamicamente in un frame in basso a destra."
+
+msgid "cont_left"
+msgstr "Sinistra"
+
+msgid "cont_left_float"
+msgstr "Sinistra, Floating"
+
+msgid "cont_license"
+msgstr "Licenza"
+
+msgid "cont_license_info"
+msgstr "Consenti la funzione di autorizzazione"
+
+msgid "cont_light"
+msgstr "Chiara"
+
+#, fuzzy
+msgid "cont_link"
+msgstr "Link"
+
+msgid "cont_link_area"
+msgstr "Collega area"
+
+msgid "cont_link_ext"
+msgstr "Link (esterno)"
+
+msgid "cont_link_glo_in_lm"
+msgstr "Tutti i termini del glossario dovrebbero essere collegati adesso al modulo di apprendimento?"
+
+msgid "cont_link_int"
+msgstr "Link (interno)"
+
+msgid "cont_link_no"
+msgstr "Nessun collegamento"
+
+msgid "cont_link_select"
+msgstr "Collegamento interno"
+
+msgid "cont_link_to_external"
+msgstr "Collegamento al sito esterno"
+
+msgid "cont_link_to_internal"
+msgstr "Collegamento alla risorsa ILIAS"
+
+msgid "cont_link_to_wiki"
+msgstr "Link al Wiki Page"
+
+msgid "cont_link_type"
+msgstr "Tipo di collegamento"
+
+msgid "cont_link_user"
+msgstr "User Profile"
+
+msgid "cont_linked_mobs"
+msgstr "Oggetto multimediale collegato"
+
+msgid "cont_links"
+msgstr "Collegamenti"
+
+msgid "cont_list_files"
+msgstr "Elenco file"
+
+msgid "cont_list_indent"
+msgstr "Elenco rientro"
+
+#, fuzzy
+msgid "cont_list_item_style"
+msgstr "List Item Style"
+
+msgid "cont_list_outdent"
+msgstr "Elenco rientro"
+
+msgid "cont_list_properties"
+msgstr "Elenca le proprieta'"
+
+msgid "cont_lists"
+msgstr "Liste"
+
+msgid "cont_lk_chapter"
+msgstr "Capitolo"
+
+msgid "cont_lk_chapter_new"
+msgstr "Capitolo (Nuovo frame)"
+
+msgid "cont_lk_file"
+msgstr "File/Documento"
+
+msgid "cont_lk_media_faq"
+msgstr "Media (Frame per FAQ)"
+
+msgid "cont_lk_media_inline"
+msgstr "Supporti (in linea)"
+
+msgid "cont_lk_media_media"
+msgstr "Media (Frame per Media)"
+
+msgid "cont_lk_media_new"
+msgstr "Media (Nuovo frame)"
+
+msgid "cont_lk_page"
+msgstr "Pagina"
+
+msgid "cont_lk_page_faq"
+msgstr "Pagina (Frame per FAQ)"
+
+msgid "cont_lk_page_new"
+msgstr "Pagina (Nuovo frame)"
+
+msgid "cont_lk_term"
+msgstr "Elemento Glossario"
+
+msgid "cont_lk_term_new"
+msgstr "Elemento Glossario (Nuovo frame)"
+
+msgid "cont_lm_comments_desc"
+msgstr "Consente agli utenti di condividere commenti su ogni pagina del modulo di apprendimento."
+
+msgid "cont_lm_default_layout"
+msgstr "Layout di default del learning module"
+
+msgid "cont_lm_mail_permanent_link"
+msgstr "Clicca sul seguente link per accedere al modello di apprendimento:"
+
+msgid "cont_lm_menu"
+msgstr "Menu"
+
+msgid "cont_lm_properties"
+msgstr "Impostazioni del modulo di apprendimento"
+
+msgid "cont_lm_starting_point"
+msgstr "Punti di inizio per i moduli di apprendimento ILIAS"
+
+msgid "cont_lm_starting_point_info"
+msgstr "Pagina aperta quando si fa clicca su un titolo dei moduli di apprendimento."
+
+msgid "cont_localfile"
+msgstr "File locale"
+
+msgid "cont_localization"
+msgstr "Localizzazione"
+
+msgid "cont_localization_info"
+msgstr "Lingua utilizzata per testi predefiniti, ad es. \"Precedente\" e \"Successivo\"."
+
+msgid "cont_location"
+msgstr "Posizione"
+
+#, fuzzy
+msgid "cont_lpe_dpro_agreement_link"
+msgstr "Declaration of Data Protection Link"
+
+msgid "cont_lpe_language_selection"
+msgstr "Selezione delle lingua"
+
+msgid "cont_lpe_login_form"
+msgstr "Modulo di accesso"
+
+msgid "cont_lpe_openid_connect_login"
+msgstr "OpenId Connect Login"
+
+msgid "cont_lpe_openid_login_form"
+msgstr "OpenId modulo di accesso"
+
+msgid "cont_lpe_registration_link"
+msgstr "Nuovo collegamento di registrazione"
+
+#, fuzzy
+msgid "cont_lpe_saml_login"
+msgstr "SAML Login"
+
+msgid "cont_lpe_shib_login_form"
+msgstr "Shibboleth modulo di accesso"
+
+msgid "cont_lpe_user_agreement_link"
+msgstr "Collegamento accordo utente"
+
+msgid "cont_lrs_settings"
+msgstr "Impostazioni"
+
+msgid "cont_lvalue"
+msgstr "Elemento dati"
+
+msgid "cont_maintenance"
+msgstr "Manutenzione"
+
+msgid "cont_manifest"
+msgstr "Manifesto"
+
+#, fuzzy
+msgid "cont_manual_item_group"
+msgstr "Manually Create Item Group"
+
+msgid "cont_map_file_not_generated"
+msgstr "Non è possibile generare la map file per l'editing."
+
+msgid "cont_marker"
+msgstr "Indicatore"
+
+msgid "cont_master_language_only"
+msgstr "Lingua principale per traduzione"
+
+msgid "cont_master_language_only_no_media"
+msgstr "Lingua principale senza media"
+
+msgid "cont_mastery_score"
+msgstr "punteggio minimo"
+
+msgid "cont_mastery_score_12"
+msgstr "sovrascrivi punteggio_di padronanza"
+
+msgid "cont_mastery_score_12_info"
+msgstr "Se uno SCO non determina autonomamente uno stato, uno SCO viene considerato superato se il punteggio ha raggiunto almeno un certo livello di - punteggio_di padronanza. Questo valore-può essere sovrascritto qui ad esempio per ridurre il livello di necessità. Se il campo è vuoto, le informazioni nel manifesto SCORN sono valide. Ne file-manifesto vengono forniti tutti i seguenti valori:"
+
+msgid "cont_mastery_score_2004"
+msgstr "sovrascrivi punteggio_di passaggio_scalare"
+
+msgid "cont_mastery_score_2004_info"
+msgstr "Gli obiettivi dell’apprendimento principali di questo modulo di apprendimento vengono considerati superati se il punteggio ha raggiunto almeno un certo livello di punteggio_di passaggio_scalare. Questo valore-da affermare come valore percentuale-può essere sovrascritto qui ad esempio per ridurre il livello di necessità. Se il campo è vuoto, le informazioni nel manifesto SCORN sono valide. Ne file-manifesto vengono forniti tutti i seguenti valori:"
+
+msgid "cont_max_time_allowed"
+msgstr "tempo massimo consentito"
+
+#, fuzzy
+msgid "cont_media"
+msgstr "Images/Media"
+
+msgid "cont_media_placeh"
+msgstr "Clicca e edita per inserire oggetto"
+
+msgid "cont_media_placehl"
+msgstr "Segnaposto Media"
+
+msgid "cont_media_source"
+msgstr "Sorgenti multimediali"
+
+#, fuzzy
+msgid "cont_merge_cells"
+msgstr "Merge Cells"
+
+msgid "cont_missing_preconditions"
+msgstr "È necessario soddisfare i seguenti presupposti per accedere al capitolo \"%s\"."
+
+msgid "cont_missing_snippet"
+msgstr "Frammento di contenuto mancante. Il frammento è stato eliminato."
+
+msgid "cont_mob_def_prop"
+msgstr "Proprietà di default"
+
+msgid "cont_mob_from_media_pool"
+msgstr "Scegli dal media pool"
+
+msgid "cont_mob_inst_prop"
+msgstr "Proprietà dell'istanza"
+
+msgid "cont_mob_usages"
+msgstr "Utilizzo"
+
+msgid "cont_more_character_styles"
+msgstr "...altri stili di caratteri"
+
+msgid "cont_more_functions"
+msgstr "Altro"
+
+msgid "cont_moved_srt_files"
+msgstr "I sottotitoli file spostati negli oggetti multimediali."
+
+msgid "cont_multi_srt_files"
+msgstr "File SRT"
+
+msgid "cont_mycourses_sortorder"
+msgstr "Ordinamento predefinito"
+
+msgid "cont_mycourses_sortorder_alphabetical"
+msgstr "Alfabetico"
+
+msgid "cont_mycourses_sortorder_info"
+msgstr "Questa è un’impostazione predefinita. Ogni utente può scegliere un ordine personale che riguarda tutti \"I miei corsi\" - elementi di qualsiasi portfolio."
+
+msgid "cont_mycourses_sortorder_location"
+msgstr "Per posizione"
+
+msgid "cont_name"
+msgstr "Nome"
+
+msgid "cont_never"
+msgstr "Mai"
+
+msgid "cont_new_area"
+msgstr "Nuova area di collegamento"
+
+msgid "cont_new_chap"
+msgstr "Nuovo capitolo"
+
+msgid "cont_new_dir"
+msgstr "Nuova cartella"
+
+msgid "cont_new_file"
+msgstr "Nuovo file"
+
+msgid "cont_new_marker"
+msgstr "Nuovo indicatore"
+
+msgid "cont_new_mob"
+msgstr "Nuovo Oggetto Multimediale"
+
+msgid "cont_new_module_added"
+msgstr "Nuova versione del modulo uploadata correttamente"
+
+msgid "cont_new_page"
+msgstr "Nuova Pagina"
+
+msgid "cont_new_popup"
+msgstr "Nuovo popup"
+
+msgid "cont_new_question"
+msgstr "Nuova domanda"
+
+msgid "cont_new_tab"
+msgstr "Nuovo tab"
+
+msgid "cont_new_term"
+msgstr "Nuovo termine"
+
+msgid "cont_new_trigger_area"
+msgstr "Nuova area trigger"
+
+msgid "cont_next_rev"
+msgstr "Prossima revisione"
+
+msgid "cont_nlist"
+msgstr "Lista numerata"
+
+msgid "cont_no_access"
+msgstr "Accesso non consentito"
+
+msgid "cont_no_block"
+msgstr "No Section"
+
+msgid "cont_no_caption"
+msgstr "Nessuna didascalia"
+
+msgid "cont_no_glossary"
+msgstr "Nessun glossario"
+
+msgid "cont_no_manifest"
+msgstr "Nessun file imsmanifest.xml trovato nella directory principale."
+
+msgid "cont_no_page"
+msgstr "Nessuna pagina trovata."
+
+msgid "cont_no_page_access_unansw_q"
+msgstr "È necessario rispondere correttamente a tutte le domande delle pagine precedenti per ottenere l'accesso a questa pagina."
+
+msgid "cont_no_page_in_chapter"
+msgstr "Non c'è contenuto attivo in questo capitolo."
+
+msgid "cont_no_parameters"
+msgstr "Nessun parametro"
+
+msgid "cont_no_read"
+msgstr "No read permission"
+
+msgid "cont_no_subdir_in_zip"
+msgstr "Comando di Zip fallito o file di import non valido.<br>Il file non contiene cartella/e."
+
+msgid "cont_no_text"
+msgstr "Nessun testo"
+
+msgid "cont_nomenu"
+msgstr "Disabilita la Topnavigation-Bar"
+
+msgid "cont_nomenu_info"
+msgstr "La barra di navigazione in alto può essere nascosta, se il modulo di apprendimento SCORM contiene funzionalità sufficienti per sospendere, terminare e navigare il contenuto."
+
+msgid "cont_none"
+msgstr "Nessuno"
+
+msgid "cont_not_saved_edit_lock_expired"
+msgstr "Spiacenti, ma nel frattempo un altro utente ha ottenuto il blocco di modifica per questa pagina. Puoi chiudere questo messaggio e copiare il contenuto nei tuoi appunti."
+
+msgid "cont_notification_activate_lm"
+msgstr "Activate Notification for Learning Module"
+
+msgid "cont_notification_activate_page"
+msgstr "Activate Notification for Page"
+
+msgid "cont_notification_activated"
+msgstr "Notification Activated (Whole LM)"
+
+msgid "cont_notification_comment_lm"
+msgstr "the following Learning Module Page has been commented"
+
+msgid "cont_notification_comment_subject_lm"
+msgstr "A comment was added to %s: %s"
+
+msgid "cont_notification_deactivate_lm"
+msgstr "Deactivate Notification for Learning Module"
+
+msgid "cont_notification_deactivate_page"
+msgstr "Deactivate Notification for Page"
+
+msgid "cont_notification_deactivated"
+msgstr "Notification Deactivated"
+
+msgid "cont_notification_update_lm"
+msgstr "the following Learning Module has been updated"
+
+msgid "cont_notify_on_blocked_users"
+msgstr "Notifiche sugli utenti bloccati"
+
+msgid "cont_notify_on_blocked_users_info"
+msgstr "Riceverai una notifica se gli utenti verranno bloccati quando avranno esaurito i tentativi."
+
+msgid "cont_nr_col_footer"
+msgstr "Colonne a piè di pagina"
+
+msgid "cont_nr_col_header"
+msgstr "Colonne nell’intestazione"
+
+msgid "cont_nr_cols"
+msgstr "Numero di colonne"
+
+msgid "cont_nr_items"
+msgstr "Numero di elementi"
+
+msgid "cont_nr_of_tries_exceeded"
+msgstr "Numero di tentativi superato"
+
+msgid "cont_nr_row_footer"
+msgstr "File a piè di pagina"
+
+msgid "cont_nr_row_header"
+msgstr "File nell’intestazione"
+
+msgid "cont_nr_rows"
+msgstr "Numero di righe"
+
+msgid "cont_number_of_tabs"
+msgstr "Numero tabulatori"
+
+msgid "cont_number_std"
+msgstr "Standard"
+
+msgid "cont_number_type"
+msgstr "Tipo di numero"
+
+msgid "cont_numbered_list"
+msgstr "Lista numerata"
+
+msgid "cont_obj_removed"
+msgstr "Oggetti cancellati."
+
+msgid "cont_objectives"
+msgstr "consentire la memorizzazione dei dati relativi agli obiettivi di apprendimento"
+
+msgid "cont_objectives_info"
+msgstr "Se ci si assicura che questo modulo di apprendimento funziona bene, questa opzione migliora la prestazione."
+
+msgid "cont_online"
+msgstr "Online"
+
+msgid "cont_online_help_ids"
+msgstr "Help IDs"
+
+msgid "cont_online_info"
+msgstr "Imposta online il modulo di apprendimento SCORM per renderlo visibile e disponibile per agli utenti. In caso contrario, solo gli utenti con l’autorizzazione 'Modifica' avranno accesso a esso."
+
+msgid "cont_open"
+msgstr "Display"
+
+msgid "cont_open_clipboard"
+msgstr "Open Clipboard"
+
+msgid "cont_open_iframe"
+msgstr "Si apre nella stessa finestra, viene visualizzato il menu principale di ILIAS"
+
+#, fuzzy
+msgid "cont_open_iframe_info"
+msgstr "The learning module starts in the same window (iFrame) next to the ILIAS main menu."
+
+msgid "cont_open_normal"
+msgstr "nella scheda / nuova finestra con collegamento"
+
+#, fuzzy
+msgid "cont_open_normal_info"
+msgstr "The learning module starts in a new tab or alternatively in a new window without the ILIAS main menu."
+
+msgid "cont_open_window"
+msgstr "Sicuramente si apre in una nuova finestra, senza il menu principale ILIAS"
+
+#, fuzzy
+msgid "cont_open_window_info"
+msgstr "The learning module must start in a new window without the ILIAS main menu."
+
+msgid "cont_operation_not_allowed"
+msgstr "Operazione non consentita"
+
+msgid "cont_organization"
+msgstr "Organizzazione"
+
+msgid "cont_organizations"
+msgstr "Organizzazioni"
+
+msgid "cont_orig_size"
+msgstr "Dimensioni originali"
+
+#, fuzzy
+msgid "cont_other_resources"
+msgstr "Content (Other Remaining Resources)"
+
+msgid "cont_out_of_focus_message"
+msgstr "Questa pagina non è più correlata al tuo attuale obiettivo di apprendimento."
+
+msgid "cont_out_of_focus_message_last_page"
+msgstr "Questa è l’ultima pagina del contenuto correlato al tuo obiettivo dell’apprendimento."
+
+msgid "cont_ov_all_correct"
+msgstr "Hai risposto correttamente a tutte le domande."
+
+msgid "cont_ov_preview"
+msgstr "La panoramica domande non funziona nel contesto dell’editor di pagina. Utilizza invece l'anteprima del livello SCO o SCORM."
+
+msgid "cont_ov_some_correct"
+msgstr "Hai risposto correttamente a [x] su [y] domande."
+
+msgid "cont_ov_wrong_answered"
+msgstr "Le domande seguenti sono senza risposta o risposte in modo errato"
+
+msgid "cont_overlay_image"
+msgstr "Immagine sovrapposta"
+
+msgid "cont_overlay_images"
+msgstr "Immagini sovrapposte"
+
+msgid "cont_overlays_have_been_deleted"
+msgstr "Le sovrapposizioni sono state eliminate."
+
+msgid "cont_page_activation"
+msgstr "Attivazione Pagina"
+
+msgid "cont_page_activation_on"
+msgstr "Il contenuto verrà attivato su %s."
+
+msgid "cont_page_compare"
+msgstr "Confronta le Versioni Selezionate"
+
+msgid "cont_page_created"
+msgstr "Page created"
+
+msgid "cont_page_currently_deactivated"
+msgstr "Questa pagina è disattivata."
+
+msgid "cont_page_deactivated"
+msgstr "La pagina è disattivata"
+
+msgid "cont_page_deactivated_elements"
+msgstr "La pagina contiene elementi disattivati."
+
+msgid "cont_page_header"
+msgstr "Intestazione pagina"
+
+msgid "cont_page_layout"
+msgstr "Layout di pagina"
+
+msgid "cont_page_lock_released"
+msgstr "Modifica terminata. Il blocco della pagina è stato rilasciato."
+
+msgid "cont_page_notification_activated"
+msgstr "Notification Activated (Single Page)"
+
+msgid "cont_page_template"
+msgstr "Page Template"
+
+msgid "cont_page_toc"
+msgstr "Panoramica della pagina"
+
+msgid "cont_page_translation_does_not_exist"
+msgstr "La pagina di traduzione non esiste ancora e verrà creata"
+
+#, fuzzy
+msgid "cont_page_usage"
+msgstr "Page Usage"
+
+msgid "cont_pages"
+msgstr "Pagine"
+
+msgid "cont_pages_and_subchapters"
+msgstr "Pagine e Sottocapitoli"
+
+msgid "cont_par_format"
+msgstr "Paragrafo"
+
+msgid "cont_paragraph_styles"
+msgstr "Stili paragrafo"
+
+msgid "cont_parameter"
+msgstr "Parametro"
+
+msgid "cont_parameters"
+msgstr "Parametri"
+
+msgid "cont_paste_from_clipboard"
+msgstr "Incolla dagli appunti"
+
+#, fuzzy
+msgid "cont_paste_from_spreadsheet"
+msgstr "Paste From Spreadsheet"
+
+msgid "cont_paste_table"
+msgstr "Incolla Tabella"
+
+msgid "cont_pc_amdpl"
+msgstr "Elenco pagina"
+
+msgid "cont_pc_blog"
+msgstr "Blog"
+
+msgid "cont_pc_carousel"
+msgstr "Sequenza"
+
+msgid "cont_pc_code"
+msgstr "Codice"
+
+msgid "cont_pc_deleted"
+msgstr "Contenuti Cancellati"
+
+msgid "cont_pc_dtab"
+msgstr "Tabella dati"
+
+msgid "cont_pc_flist"
+msgstr "Lista file"
+
+msgid "cont_pc_grid"
+msgstr "Layout colonna"
+
+msgid "cont_pc_hacc"
+msgstr "Accordion (Orizzontale)"
+
+msgid "cont_pc_iim"
+msgstr "immagine interattiva"
+
+msgid "cont_pc_incl"
+msgstr "Frammento di contenuto"
+
+#, fuzzy
+msgid "cont_pc_lay"
+msgstr "Layout Template"
+
+msgid "cont_pc_list"
+msgstr "Lista avanzata"
+
+msgid "cont_pc_map"
+msgstr "Mappa"
+
+#, fuzzy
+msgid "cont_pc_media"
+msgstr "Image/Media"
+
+msgid "cont_pc_mob"
+msgstr "Supporti"
+
+msgid "cont_pc_modified"
+msgstr "Contenuto modificato"
+
+msgid "cont_pc_new"
+msgstr "Nuovo contenuto"
+
+msgid "cont_pc_par"
+msgstr "Testo"
+
+#, fuzzy
+msgid "cont_pc_plach"
+msgstr "Placeholder"
+
+msgid "cont_pc_prof"
+msgstr "Dati personali"
+
+msgid "cont_pc_qover"
+msgstr "Panoramica domande"
+
+msgid "cont_pc_qst"
+msgstr "Domanda"
+
+#, fuzzy
+msgid "cont_pc_repobj"
+msgstr "Item Group"
+
+msgid "cont_pc_res"
+msgstr "Risorsa"
+
+msgid "cont_pc_sec"
+msgstr "Sezione"
+
+msgid "cont_pc_skills"
+msgstr "competenze"
+
+#, fuzzy
+msgid "cont_pc_src"
+msgstr "Source Code"
+
+msgid "cont_pc_tab"
+msgstr "Tabella avanzata"
+
+#, fuzzy
+msgid "cont_pc_tabs"
+msgstr "Accordion/Carousel"
+
+msgid "cont_pc_vacc"
+msgstr "Accordion (Verticale)"
+
+msgid "cont_pc_vrfc"
+msgstr "Verifica"
+
+#, fuzzy
+msgid "cont_permission_handling"
+msgstr "Permission Handling"
+
+msgid "cont_permission_object"
+msgstr "Oggetto di permesso"
+
+msgid "cont_permission_object_desc"
+msgstr "La sezione verrà presentata solo per gli utenti che dispongono dell'autorizzazione specificata per l'oggetto di permesso."
+
+msgid "cont_personal_clipboard"
+msgstr "Appunti personali"
+
+msgid "cont_pg_title"
+msgstr "Titolo pagina"
+
+msgid "cont_please_enter_a_term"
+msgstr "Inserisci un termine."
+
+msgid "cont_please_select"
+msgstr "per favore scegli"
+
+msgid "cont_please_try_again"
+msgstr "Per favore riprova"
+
+msgid "cont_popups_have_been_deleted"
+msgstr "I popup sono state eliminati."
+
+msgid "cont_position"
+msgstr "Posizione"
+
+msgid "cont_prereq_type"
+msgstr "tipo di prerequisiti"
+
+msgid "cont_prerequisites"
+msgstr "prerequisiti"
+
+msgid "cont_presentation"
+msgstr "Presentazione"
+
+msgid "cont_presentation_view"
+msgstr "Visualizzazione presentazione"
+
+msgid "cont_preview"
+msgstr "Anteprima"
+
+msgid "cont_previous_rev"
+msgstr "Versione precedente"
+
+msgid "cont_print_no_page_selected"
+msgstr "Seleziona almeno una pagina."
+
+msgid "cont_print_selection"
+msgstr "Stampa Selezione"
+
+msgid "cont_print_view"
+msgstr "Stampa"
+
+msgid "cont_print_view_pre_glo"
+msgstr "Prevenire le appendici al glossario nella visualizzazione di stampa"
+
+msgid "cont_profile_mode"
+msgstr "Modalità"
+
+msgid "cont_profile_mode_inherit"
+msgstr "Automatico"
+
+msgid "cont_profile_mode_inherit_info"
+msgstr "Usa le tue impostazioni del profilo pubblico"
+
+msgid "cont_profile_mode_manual"
+msgstr "Manuale"
+
+msgid "cont_profile_mode_manual_info"
+msgstr "Utilizza i seguenti dati:"
+
+msgid "cont_profile_mode_template_inherit_info"
+msgstr "Utilizza impostazioni di profilo"
+
+msgid "cont_progress_icons"
+msgstr "Icone di progresso"
+
+msgid "cont_progress_icons_info"
+msgstr "Mostra le icone di avanzamento anziché le icone della pagina del capitolo in modalità presentazione. Si noti che le informazioni sull'avanzamento vengono archiviate solo con ILIAS 4.5 e versioni successive."
+
+msgid "cont_prtf_page"
+msgstr "Pagina portfolio"
+
+msgid "cont_prtt_page"
+msgstr "Pagina modello di portfolio"
+
+msgid "cont_public_access"
+msgstr "Accesso pubblico"
+
+msgid "cont_purpose"
+msgstr "Scopo"
+
+msgid "cont_qover_list_wrong_q"
+msgstr "Lista delle risposte sbagliate"
+
+msgid "cont_qover_list_wrong_q_info"
+msgstr "Verrà mostrata una lista delle risposte sbagliate o delle domande senza risposta."
+
+msgid "cont_qover_short_message"
+msgstr "Messaggio di stato"
+
+msgid "cont_qover_short_message_info"
+msgstr "Sarà mostrato un messaggio \"Hai risposto correttamente alle domande C su Y di questa unità.\""
+
+msgid "cont_qtries"
+msgstr "Numero di tentativi per domanda"
+
+msgid "cont_qtries_info"
+msgstr "Valore predefinito per il numero di tentativi per le domande appena create."
+
+#, fuzzy
+msgid "cont_question"
+msgstr "Question"
+
+#, fuzzy
+msgid "cont_question_page_usage"
+msgstr "Questions on Pages"
+
+msgid "cont_question_placeh"
+msgstr "Clicca e edita per inserire domanda"
+
+msgid "cont_question_placehl"
+msgstr "Segnalibro della domanda"
+
+msgid "cont_question_stats"
+msgstr "Statistiche"
+
+msgid "cont_question_type"
+msgstr "Tipo di domanda"
+
+#, fuzzy
+msgid "cont_question_usage"
+msgstr "Usages"
+
+#, fuzzy
+msgid "cont_quit_text_editing"
+msgstr "Finish Text Editing"
+
+msgid "cont_rand_start"
+msgstr "Avvio casuale"
+
+msgid "cont_really_delete_overlays"
+msgstr "Vuoi davvero eliminare le seguenti sovrapposizioni?"
+
+msgid "cont_really_delete_popups"
+msgstr "Vuoi davvero eliminare i seguenti popup?"
+
+msgid "cont_really_delete_triggers"
+msgstr "Vuoi davvero eliminare i seguenti trigger?"
+
+msgid "cont_ref_helptext"
+msgstr "(per es. http://www.server.org/myimage.jpg)"
+
+msgid "cont_ref_images"
+msgstr "Immagini riferite"
+
+msgid "cont_reference"
+msgstr "Riferimento"
+
+msgid "cont_remove_format"
+msgstr "Rimuovi formato"
+
+msgid "cont_rename_dir"
+msgstr "Rinomina directory"
+
+msgid "cont_replace_mob_feature"
+msgstr "Sostituisci i Media Objects nel contenuto"
+
+msgid "cont_replace_mob_feature_info"
+msgstr "Attiva una funzione che consente la sostituzione di un oggetto multimediale mantenendo le altre proprieta di una istanza dell'oggetto multimediale nel contenuto."
+
+msgid "cont_repository_item"
+msgstr "Risorsa"
+
+msgid "cont_reset_nr_of_tries"
+msgstr "Azzera numero di tentativi"
+
+msgid "cont_resize_img"
+msgstr "Ridimensiona immagine"
+
+msgid "cont_resource"
+msgstr "Risorsa"
+
+msgid "cont_resource_size"
+msgstr "Dimensione della risorsa"
+
+msgid "cont_resource_size_info"
+msgstr "Without size declaration the size can be controlled by the content style. If neither a size is declared nor the content style contains a rule that determines the size, only images will be displayed in their default size."
+
+msgid "cont_resource_type"
+msgstr "Tipo"
+
+msgid "cont_resources"
+msgstr "Risorse"
+
+msgid "cont_resources_of_type"
+msgstr "Risorse di tipo"
+
+msgid "cont_restrict_forw_nav"
+msgstr "Limita la navigazione in avanti"
+
+msgid "cont_restrict_forw_nav_info"
+msgstr "Gli allievi non possono accedere alle pagine successive a meno che non abbiano risposto correttamente a tutte le domande precedenti."
+
+msgid "cont_revision"
+msgstr "Revisione"
+
+msgid "cont_right"
+msgstr "Destra"
+
+msgid "cont_right_float"
+msgstr "Destra, Floating"
+
+msgid "cont_rollback"
+msgstr "Ripristino dello stato precedente"
+
+msgid "cont_rollback_confirmation"
+msgstr "Vuoi ripristinare la vecchia versione della pagina?"
+
+msgid "cont_roman"
+msgstr "Roman I, II, ..."
+
+msgid "cont_roman_s"
+msgstr "Roman i, ii, ..."
+
+msgid "cont_rowspan"
+msgstr "Intervallo di righe"
+
+msgid "cont_rte_settings"
+msgstr "Impostazioni RTE"
+
+msgid "cont_rvalue"
+msgstr "Valori"
+
+msgid "cont_save_all_titles"
+msgstr "Salva i titoli"
+
+msgid "cont_save_positions"
+msgstr "Salva le posizioni"
+
+msgid "cont_save_positions_and_classes"
+msgstr "Salva le posizioni e le classi"
+
+msgid "cont_save_spans"
+msgstr "Salva Spans"
+
+msgid "cont_save_types"
+msgstr "Salva tipi"
+
+msgid "cont_save_widths"
+msgstr "Salva Widths"
+
+msgid "cont_saved_export_ids"
+msgstr "ID di esportazione HTML salvati."
+
+msgid "cont_saved_interactive_image"
+msgstr "Crea immagine interattiva"
+
+msgid "cont_saved_map_area"
+msgstr "Area salvata"
+
+msgid "cont_saved_map_data"
+msgstr "Mappa Dati salvata"
+
+msgid "cont_saving"
+msgstr "Salva..."
+
+msgid "cont_sc_auto_continue"
+msgstr "Auto-Continue"
+
+msgid "cont_sc_auto_continue_info"
+msgstr "Dopo aver terminato la loro ultima attività, gli utenti saranno automaticamente reindirizzati al prossimo SCO. La funzione non è supportata da tutti i moduli di apprendimento SCORM 1.2."
+
+msgid "cont_sc_auto_review_2004"
+msgstr "Modalità di revisione automatica"
+
+msgid "cont_sc_auto_review_completed"
+msgstr "se completato"
+
+msgid "cont_sc_auto_review_completed_and_passed"
+msgstr "se completato e superato"
+
+msgid "cont_sc_auto_review_completed_not_failed_or_passed"
+msgstr "se completato o superato, ma non fallito (consigliato per la modalità di revisione automatica)"
+
+msgid "cont_sc_auto_review_completed_or_passed"
+msgstr "se completato o superato"
+
+msgid "cont_sc_auto_review_info_2004"
+msgstr "Se la modalità di revisione automatica è abilitata, i dati di tracciamento per un capitolo (SCO) del modulo di apprendimento non vengono memorizzati quando si applica una di queste opzioni. Nel raro caso, tuttavia, che il modulo di apprendimento utilizzi Sequencing & Navigation secondo SCORM 2004, questa opzione non dovrebbe essere abilitata."
+
+msgid "cont_sc_auto_review_no"
+msgstr "disabled"
+
+msgid "cont_sc_auto_review_passed"
+msgstr "se superato"
+
+msgid "cont_sc_auto_review_passed_or_failed"
+msgstr "se superato o fallito"
+
+msgid "cont_sc_id_setting"
+msgstr "id_studente in base a SCORM 1.2"
+
+msgid "cont_sc_id_setting_2004"
+msgstr "id_allievo in base a SCORM 2004"
+
+msgid "cont_sc_id_setting_info"
+msgstr "Nel caso in cui un id numerico per l’id_studente (SCORM 1.2) o per l’id_allievo (SCORM 2004) crea problemi per il modulo di apprendimento, utilizzare l’opzione 'Nome utente ILIAS'. L'aggiunta di RefId o ObjId può essere utile per i moduli di apprendimento che si connettono a un server esterno."
+
+msgid "cont_sc_id_setting_user_id"
+msgstr "Id-Utente ILIAS (Standard)"
+
+msgid "cont_sc_id_setting_user_id_plus_obj_id"
+msgstr "Id Utente ILIAS più Objld del modulo di apprendimento"
+
+msgid "cont_sc_id_setting_user_id_plus_ref_id"
+msgstr "Id Utente ILIAS più Refld del modulo di apprendimento"
+
+msgid "cont_sc_id_setting_user_login"
+msgstr "Nome accesso ILIAS"
+
+msgid "cont_sc_id_setting_user_login_plus_obj_id"
+msgstr "Nome accesso ILIAS più Objld del modulo di apprendimento"
+
+msgid "cont_sc_id_setting_user_login_plus_ref_id"
+msgstr "Nome accesso ILIAS più Refld del modulo di apprendimento"
+
+msgid "cont_sc_less_mode_browse"
+msgstr "Lettura"
+
+#, fuzzy
+msgid "cont_sc_less_mode_browse_info"
+msgstr "The SCORM mode is set to \"browse\"."
+
+msgid "cont_sc_less_mode_normal"
+msgstr "Normale"
+
+#, fuzzy
+msgid "cont_sc_less_mode_normal_info"
+msgstr "The SCORM mode is set to \"normal\"."
+
+msgid "cont_sc_max_attempt_exceed"
+msgstr "E'stato raggiunto il numero massimo di tentativi."
+
+msgid "cont_sc_name_setting"
+msgstr "nome_studente in base a SCORM 1.2"
+
+msgid "cont_sc_name_setting_2004"
+msgstr "nome_allievo in base a SCORM 2004"
+
+msgid "cont_sc_name_setting_first_lastname"
+msgstr "Nome e Cognome"
+
+msgid "cont_sc_name_setting_first_name"
+msgstr "Nome"
+
+msgid "cont_sc_name_setting_fullname"
+msgstr "Titolo, nome e cognome"
+
+msgid "cont_sc_name_setting_info"
+msgstr "Il nome dell’allievo può essere visualizzato nel modulo di apprendimento in diversi modi. Nel caso in cui i moduli di apprendimento si trovino su un server esterno, potrebbe essere utile non rivelare il nome."
+
+msgid "cont_sc_name_setting_last_firstname"
+msgstr "Nome, Cognome"
+
+msgid "cont_sc_name_setting_no_name"
+msgstr "nessun nome"
+
+msgid "cont_sc_name_setting_salutation_lastname"
+msgstr "Saluto e cognome"
+
+msgid "cont_sc_new_version"
+msgstr "Carica Nuova Versione"
+
+msgid "cont_sc_preview"
+msgstr "Anteprima"
+
+msgid "cont_sc_stat_browsed"
+msgstr "Visto"
+
+msgid "cont_sc_stat_completed"
+msgstr "Completato"
+
+msgid "cont_sc_stat_failed"
+msgstr "Fallito"
+
+msgid "cont_sc_stat_incomplete"
+msgstr "Incompleto"
+
+msgid "cont_sc_stat_not_attempted"
+msgstr "Non eseguito"
+
+msgid "cont_sc_stat_passed"
+msgstr "Superato"
+
+msgid "cont_sc_stat_running"
+msgstr "In esecuzione"
+
+msgid "cont_sc_store_if_previous_score_was_lower"
+msgstr "mantenere i dati di tracciamento se il punteggio raggiunto nel tentativo precedente era maggiore o uguale"
+
+msgid "cont_sc_title"
+msgstr "Titolo"
+
+msgid "cont_sc_usession"
+msgstr "Timeout sessione illimitato"
+
+msgid "cont_sc_usession_info"
+msgstr "Questa impostazione attiva richieste periodiche al server per mantenere attiva la sessione."
+
+msgid "cont_sc_version"
+msgstr "Versione SC"
+
+msgid "cont_sc_version_info"
+msgstr "La gestione della versione inserirà automaticamente il numero di versione corretto."
+
+msgid "cont_scheduled_activation"
+msgstr "Attivazione programmata"
+
+msgid "cont_sco_glossary"
+msgstr "Unità glossario"
+
+msgid "cont_score"
+msgstr "Punteggio"
+
+msgid "cont_scorm_ed_properties"
+msgstr "Proprietà / Glossario del modulo di apprendimento"
+
+msgid "cont_scorm_options"
+msgstr "Opzioni SCORM"
+
+msgid "cont_scorm_type"
+msgstr "tipo di SCORM"
+
+msgid "cont_screen_ids"
+msgstr "Screen IDs"
+
+#, fuzzy
+msgid "cont_sec_protected"
+msgstr "Protected"
+
+#, fuzzy
+msgid "cont_sec_protected_text"
+msgstr "The following section is protected and can not be edited."
+
+msgid "cont_second"
+msgstr "Secondo"
+
+msgid "cont_sel_el_use_paste"
+msgstr "Selected elements are now in the clipboard. Please click the desired target placeholder and select ‘Paste’."
+
+msgid "cont_select"
+msgstr "Seleziona"
+
+msgid "cont_select_file"
+msgstr "Seleziona File"
+
+msgid "cont_select_from_upload_dir"
+msgstr "-- Seleziona dalla directory di upload --"
+
+msgid "cont_select_item"
+msgstr "Seleziona almeno un elemento."
+
+msgid "cont_select_max_one_item"
+msgstr "Per favore, scegli solo un elemento"
+
+msgid "cont_select_media_pool"
+msgstr "Seleziona Media Pool"
+
+msgid "cont_select_none"
+msgstr "Clear Selection"
+
+msgid "cont_select_other_qpool"
+msgstr "Seleziona altro gruppo"
+
+msgid "cont_select_par_or_section"
+msgstr "Seleziona almeno un paragrafo o una sezione"
+
+msgid "cont_selected_items_have_been_copied"
+msgstr "Gli elementi selezionati sono stati copiati negli appunti. Clicca sui segnalibri per incollarli nel learning module."
+
+msgid "cont_selected_items_have_been_cut"
+msgstr "Gli elementi selezionati sono stati tagliati negli appunti. Clicca sui segnalibri per incollarli nel learning module."
+
+msgid "cont_selected_pg_chap"
+msgstr "Pagine/Capitoli selezionati"
+
+msgid "cont_selected_terms"
+msgstr "Termini selezionati"
+
+msgid "cont_selected_topic"
+msgstr "Argomento selezionato"
+
+msgid "cont_selection"
+msgstr "Selezione"
+
+msgid "cont_self_assessment"
+msgstr "Autovalutazione"
+
+msgid "cont_sequencing"
+msgstr "Sequenziamento e navigazione"
+
+msgid "cont_sequencing_info"
+msgstr "Abilita il comportamento di sequenziamento e navigazione come definito dal modulo di apprendimento."
+
+msgid "cont_set_alignment"
+msgstr "Allineamento set"
+
+msgid "cont_set_layout"
+msgstr "Imposta layout"
+
+msgid "cont_set_link"
+msgstr "Imposta il collegamento"
+
+#, fuzzy
+msgid "cont_set_manuall"
+msgstr "Set Manually"
+
+#, fuzzy
+msgid "cont_set_properties"
+msgstr "Set Properties"
+
+msgid "cont_set_start_file"
+msgstr "Imposta file di partenza"
+
+msgid "cont_set_styles"
+msgstr "Stile set"
+
+msgid "cont_set_tab_style_info"
+msgstr "Per fissare lo styel spunta le caselle nelle celle di tabella"
+
+msgid "cont_settings"
+msgstr "Impostazioni per i moduli di apprendimento"
+
+msgid "cont_shape"
+msgstr "Forma"
+
+msgid "cont_shift_click_to_select"
+msgstr "<b>Shift-click</b> on elements will <b>select</b> them and switch to the selection mode."
+
+msgid "cont_short_title"
+msgstr "Titolo breve"
+
+msgid "cont_short_title_info"
+msgstr "I titoli brevi vengono utilizzati nella presentazione dell'albero a sinistra e per le etichette nella navigazione precedente/successiva."
+
+msgid "cont_short_titles"
+msgstr "Titoli brevi"
+
+msgid "cont_show_activation_info"
+msgstr "Mostra informazioni attivazione"
+
+msgid "cont_show_activation_info_info"
+msgstr "Se l'attivazione pianificata non è ancora raggiunta, la pagina non verrà ignorata. Le informazioni verranno mostrate all’utente quando verrà attivata la pagina."
+
+msgid "cont_show_adv"
+msgstr "Mostra conoscenza avanzata"
+
+msgid "cont_show_content_after_focus"
+msgstr "Continua con il modulo apprendimento"
+
+msgid "cont_show_fullscreen"
+msgstr "Show Fullscreen"
+
+msgid "cont_show_info"
+msgstr "Mostra Info"
+
+msgid "cont_show_line_numbers"
+msgstr "Mostra i numeri di linea"
+
+msgid "cont_show_print_view"
+msgstr "Anteprima di stampa"
+
+msgid "cont_size"
+msgstr "Dimensioni"
+
+msgid "cont_skip_chapter"
+msgstr "Salta questo capitolo"
+
+msgid "cont_snippet_from_another_installation"
+msgstr "Il frammento proviene da un’altra installazione."
+
+msgid "cont_snippets_used"
+msgstr "Frammenti di contenuto utilizzati"
+
+msgid "cont_span"
+msgstr "Intervallo"
+
+msgid "cont_special_page"
+msgstr "Pagina di contenuto speciale"
+
+#, fuzzy
+msgid "cont_split_cell"
+msgstr "Split Cell"
+
+msgid "cont_spreadsheet_table"
+msgstr "Tabella di foglio elettronico"
+
+msgid "cont_sqst"
+msgstr "Domanda di sondaggio (Materiale assegnato)"
+
+msgid "cont_src"
+msgstr "Codice sorgente"
+
+msgid "cont_src_other"
+msgstr "altro"
+
+msgid "cont_st_title"
+msgstr "Titolo capitolo"
+
+msgid "cont_standard"
+msgstr "Standard"
+
+msgid "cont_start"
+msgstr "Avvio"
+
+msgid "cont_start_file_set_to"
+msgstr "%s è stato impostato come file di avvio."
+
+msgid "cont_start_value"
+msgstr "Valore di start"
+
+msgid "cont_start_value_info"
+msgstr "Inserisci valore iniziale come decimale. Default = 1."
+
+msgid "cont_startfile"
+msgstr "File di partenza"
+
+msgid "cont_status"
+msgstr "Stato"
+
+msgid "cont_std_is_in_dir"
+msgstr "Cancellazione impossibile. Il file di visualizzazione standard è nella directory."
+
+msgid "cont_std_view"
+msgstr "Vista standard"
+
+msgid "cont_structure"
+msgstr "Struttura"
+
+msgid "cont_style"
+msgstr "Stile"
+
+msgid "cont_subchapters"
+msgstr "Sottocapitoli"
+
+msgid "cont_submit_answers"
+msgstr "Invia risposte"
+
+msgid "cont_subtitle_file"
+msgstr "File SRT ZIP"
+
+msgid "cont_subtitle_files"
+msgstr "Sottotitoli multimediali"
+
+#, fuzzy
+msgid "cont_sur_block_format"
+msgstr "Surrounding Section"
+
+msgid "cont_switch_to_media_pool"
+msgstr "Passa a un altro gruppo di supporti"
+
+msgid "cont_syntax_help"
+msgstr "Help di sintassi"
+
+#, fuzzy
+msgid "cont_tab_add_above"
+msgstr "Add Panel Above"
+
+#, fuzzy
+msgid "cont_tab_add_below"
+msgstr "Add Panel Below"
+
+msgid "cont_tab_cont_height"
+msgstr "Altezza contenuto"
+
+msgid "cont_tab_cont_width"
+msgstr "Larghezza contenuto"
+
+#, fuzzy
+msgid "cont_tab_delete"
+msgstr "Delete Panel"
+
+#, fuzzy
+msgid "cont_tab_move_bottom"
+msgstr "Move To Bottom"
+
+#, fuzzy
+msgid "cont_tab_move_down"
+msgstr "Move Downwards"
+
+#, fuzzy
+msgid "cont_tab_move_top"
+msgstr "Move To Top"
+
+#, fuzzy
+msgid "cont_tab_move_up"
+msgstr "Move Upwards"
+
+msgid "cont_table"
+msgstr "Tabella"
+
+#, fuzzy
+msgid "cont_table_adv_settings"
+msgstr "Erweiterte Einstellungen"
+
+msgid "cont_table_border"
+msgstr "Bordo tabella"
+
+msgid "cont_table_border_info"
+msgstr "Mantieni questo vuoti per rendere effettive le impostazioni di stile del contenuto. I valori devono includere unità (come px)."
+
+#, fuzzy
+msgid "cont_table_cell_edit_info_1"
+msgstr "Click on a table cell to select or deselect it."
+
+#, fuzzy
+msgid "cont_table_cell_edit_info_2"
+msgstr "Click on a row or column header to select or deselect the corresponding row or column."
+
+#, fuzzy
+msgid "cont_table_cell_edit_info_3"
+msgstr "Click on a second cell while holding shift to select all the cells in between."
+
+msgid "cont_table_cell_properties"
+msgstr "Tabella delle proprietà della cella"
+
+msgid "cont_table_cellpadding"
+msgstr "Cell Padding della tabella"
+
+msgid "cont_table_cellpadding_info"
+msgstr "Mantieni questo vuoti per rendere effettive le impostazioni di stile del contenuto. I valori devono includere unità (come px)."
+
+msgid "cont_table_edit_cells"
+msgstr "Edit Cells"
+
+#, fuzzy
+msgid "cont_table_import_info"
+msgstr "Please enter the table data separated by semicolon or TAB character for each column. Start a new row for each table row. Spreadsheet applications will usually use TAB characters for separation when transfered via clipboard. It should be possible to paste this data directly into the input field. No further formattings will be imported."
+
+msgid "cont_table_properties"
+msgstr "Tabella Proprietà"
+
+#, fuzzy
+msgid "cont_table_style"
+msgstr "Style"
+
+msgid "cont_table_width"
+msgstr "Larghezza tabella"
+
+msgid "cont_tabs"
+msgstr "Tabs"
+
+msgid "cont_tabs_acc_hor"
+msgstr "Accordion orizzontale"
+
+msgid "cont_tabs_acc_ver"
+msgstr "Fisarmonica verticale"
+
+msgid "cont_tabs_carousel"
+msgstr "Sequenza"
+
+msgid "cont_tabs_confirm_deletion"
+msgstr "Sei sicuro che tutti i tabs ed il loro contenuto debba essere cancellato?"
+
+#, fuzzy
+msgid "cont_target"
+msgstr "Target"
+
+msgid "cont_target_missing"
+msgstr "Manca Target"
+
+msgid "cont_target_within_source"
+msgstr "Il destinatario non deve essere l' oggetto sorgente."
+
+msgid "cont_template"
+msgstr "Modello"
+
+msgid "cont_term"
+msgstr "Voce"
+
+msgid "cont_terms"
+msgstr "Termini"
+
+msgid "cont_tex"
+msgstr "Codice Latex"
+
+msgid "cont_text_acc"
+msgstr "Accento:"
+
+msgid "cont_text_code"
+msgstr "Codice:"
+
+msgid "cont_text_com"
+msgstr "Commento:"
+
+#, fuzzy
+msgid "cont_text_editing"
+msgstr "Edit Text"
+
+msgid "cont_text_emp"
+msgstr "Testo enfatizzato:"
+
+msgid "cont_text_fn"
+msgstr "Note in calce alla pagina:"
+
+msgid "cont_text_iln_link"
+msgstr "Interal Link"
+
+msgid "cont_text_imp"
+msgstr "Importante:"
+
+msgid "cont_text_keyword"
+msgstr "Parola chiave"
+
+msgid "cont_text_placeh"
+msgstr "Clicca e edita per inserire testo"
+
+msgid "cont_text_placehl"
+msgstr "Segnalibro per testo"
+
+msgid "cont_text_quot"
+msgstr "Virgolettato:"
+
+msgid "cont_text_str"
+msgstr "Testo in evidenza:"
+
+msgid "cont_text_sub"
+msgstr "Indice inferiore"
+
+msgid "cont_text_sup"
+msgstr "Indice superiore"
+
+msgid "cont_text_tex"
+msgstr "Codice LaTeX:"
+
+msgid "cont_text_xln"
+msgstr "Collegamenti esterni:"
+
+msgid "cont_third_and_more"
+msgstr "Terzo o più"
+
+msgid "cont_time"
+msgstr "Tempo"
+
+msgid "cont_time_from_lms"
+msgstr "Determina i tempi di elaborazione di ALIAS anziché di SCO"
+
+msgid "cont_time_from_lms_info"
+msgstr "Controllo rigoroso (secondo lo standard SCORM) dei valori inviati dal modulo di apprendimento a ILIAS."
+
+msgid "cont_time_limit_action"
+msgstr "esecuzione a tempo limitato"
+
+msgid "cont_to_focus_beginning"
+msgstr "Torna al contenuto correlato all'obiettivo di apprendimento"
+
+msgid "cont_to_focus_return_crs"
+msgstr "Torna al corso"
+
+msgid "cont_toc"
+msgstr "Tabella dei contenuti"
+
+msgid "cont_toc_mode"
+msgstr "Tipo menu"
+
+msgid "cont_tool_faq"
+msgstr "FAQ"
+
+msgid "cont_tool_media"
+msgstr "Media"
+
+msgid "cont_top"
+msgstr "Alto"
+
+msgid "cont_topic"
+msgstr "Argomento"
+
+msgid "cont_total_time"
+msgstr "Tempo totale"
+
+msgid "cont_tracking_bysco"
+msgstr "Per Capitolo"
+
+msgid "cont_tracking_byuser"
+msgstr "Per Utente"
+
+msgid "cont_tracking_data"
+msgstr "Tracking dei dati"
+
+msgid "cont_tracking_items"
+msgstr "Voci tracciate"
+
+msgid "cont_tracking_modify"
+msgstr "modifica dati"
+
+msgid "cont_trans_import_info"
+msgstr "Se hai esportato questo modulo come XML/Lingua principale per traduzione in un’altra installazione, adesso puoi importare nuovamente i file di traduzione esportati da questa seconda installazione."
+
+msgid "cont_transl_master_language_not_allowed"
+msgstr "Per importare una traduzione è necessario attivare almeno un’altra lingua sotto \"Impostazioni\" > \"Plurilinguismo\"."
+
+msgid "cont_tree_fixed"
+msgstr "La struttura ad albero è stata corretta."
+
+msgid "cont_tries"
+msgstr "Comportamento delle domande"
+
+msgid "cont_tries_remaining"
+msgstr "Tentativi rimasti"
+
+msgid "cont_tries_reset_on_visit"
+msgstr "Ripristina su visita pagina"
+
+msgid "cont_tries_reset_on_visit_info"
+msgstr "Le domande iniziano con 0 tentativi ogni volta che uno studente visita una pagina. L’allievo deve rispondere alle domande in ogni pagina che visita."
+
+msgid "cont_tries_store"
+msgstr "Stato dell’archivio di risposte"
+
+msgid "cont_tries_store_info"
+msgstr "Numero di tentativi accumulati e archiviati. Non bisogna rispondere nuovamente alle domande correttamente risolte. Gli allievi possono esaurire i tentativi di domande."
+
+msgid "cont_trigger_area"
+msgstr "Area trigger"
+
+msgid "cont_type"
+msgstr "Tipo"
+
+msgid "cont_type_not_allowed"
+msgstr "Tipo di contenuto non consentito in questa posizione"
+
+msgid "cont_unlock_allow_continue"
+msgstr "Sblocca/ Consenti di continuare"
+
+msgid "cont_unlocked"
+msgstr "Sbloccato"
+
+msgid "cont_update_amd_page_list"
+msgstr "Modifica elenco pagina"
+
+msgid "cont_update_blog"
+msgstr "Modifica blog"
+
+msgid "cont_update_consultation_hours"
+msgstr "Modifica ore di consultazione"
+
+msgid "cont_update_login_page"
+msgstr "Modifica elemento nella pagina di accesso"
+
+msgid "cont_update_map"
+msgstr "Edita Mappa"
+
+msgid "cont_update_my_courses"
+msgstr "Modifica Miei corsi"
+
+msgid "cont_update_profile"
+msgstr "Modifica i dati personali"
+
+msgid "cont_update_resources"
+msgstr "Aggiorna lista risorse"
+
+msgid "cont_update_section"
+msgstr "Aggiorna Sezione"
+
+msgid "cont_update_skills"
+msgstr "Modifica competenze"
+
+msgid "cont_update_verification"
+msgstr "Modifica verifica"
+
+msgid "cont_upload_dir"
+msgstr "Carica directory"
+
+msgid "cont_upload_file"
+msgstr "Upload File"
+
+msgid "cont_upload_multi_srt_howto"
+msgstr "Questa funzione permette di caricare più sottotitoli (srt) in uno zip file per tutti i video del modulo ILIAS. Lo zip file deve contenere tutti i file SRT su un solo livello (no subdirectories). Il nome dei file deve finire con \"_&lt;lang code&gt;.srt\" dove il lang code è per esempio \"en\", \"it\", \"de\". Il resto del nomefile deve corrispondere al nome del video, per esempio \"my_video.mp4\" -> \"my_video_en.srt\"."
+
+msgid "cont_uploaded_file"
+msgstr "File esistente"
+
+msgid "cont_url_info"
+msgstr "URL of a media file or Youtube URL."
+
+msgid "cont_usage"
+msgstr "Uso"
+
+msgid "cont_use_same_resource_as_above"
+msgstr "Usa la stessa risorsa vista sopra"
+
+msgid "cont_user"
+msgstr "Utente"
+
+msgid "cont_user_blocked"
+msgstr "Tentativi esauriti degli utenti nel modulo di apprendimento \"%s\"."
+
+msgid "cont_user_blocked2"
+msgstr "Un utente ha esaurito i tentativi di risposta nel modulo di apprendimento. L'utente non sarà in grado di navigare ulteriormente attraverso il modulo di apprendimento senza il tuo intervento."
+
+msgid "cont_user_blocked3"
+msgstr "Apri il modello di apprendimento nella modalità di modifica e accedi alla schermata:"
+
+msgid "cont_user_search_did_not_match"
+msgstr "La ricerca non corrisponde a nessun utente."
+
+msgid "cont_users_answered"
+msgstr "Risposta degli utenti"
+
+msgid "cont_users_have_mob_in_clip1"
+msgstr "Questo oggetto multimediale è negli Appunti di"
+
+msgid "cont_users_have_mob_in_clip2"
+msgstr "utente(i)."
+
+msgid "cont_validate_file"
+msgstr "Valida file"
+
+msgid "cont_verification_object"
+msgstr "Verifica"
+
+msgid "cont_verification_placeh"
+msgstr "Clicca e modifica per inserire il certificato"
+
+msgid "cont_verification_placehl"
+msgstr "Segnaposto certificato"
+
+msgid "cont_version"
+msgstr "Versione"
+
+msgid "cont_versions"
+msgstr "Versioni"
+
+msgid "cont_whole_glossary"
+msgstr "Glossario completo"
+
+msgid "cont_width"
+msgstr "Larghezza"
+
+msgid "cont_width_height_info"
+msgstr "La dimensione del display può essere impostata su una dimensione fissa. 950 pixel per Larghezza e 650 pixel per Altezza sono valori comprovati per l'impostazione delle dimensioni. Se non viene effettuata alcuna immissione, il browser determinerà le dimensioni del display."
+
+#, fuzzy
+msgid "cont_width_px_perc"
+msgstr "Width"
+
+#, fuzzy
+msgid "cont_width_px_perc_info"
+msgstr "(e.g. px or % value)"
+
+msgid "cont_wiki_link_dialog"
+msgstr "Link alla pagina Wiki (Dialogo)"
+
+msgid "cont_wiki_page"
+msgstr "Pagina Wiki"
+
+msgid "cont_wiki_page_link"
+msgstr "Link pagina Wiki"
+
+msgid "cont_wrong_answers"
+msgstr "Risposte sbagliate"
+
+msgid "cont_wrong_answers_single"
+msgstr "Scelta sbagliata."
+
+msgid "cont_xml_base"
+msgstr "xml:base"
+
+msgid "cont_zip_file_invalid"
+msgstr "File di import non valido.<br>Il file non contiene il file &"
+
+msgid "content_no_edit_lock"
+msgstr "La pagina è attualmente bloccata da un altro utente."
+
+msgid "content_page_history"
+msgstr "Storia della pagina"
+
+msgid "content_plugin_not_activated"
+msgstr "Il plugin dell'elemento di contenuto della pagina non è attualmente attivato."
+
+msgid "content_some_export_ids_multiple_times"
+msgstr "Alcuni ID di esportazione vengono utilizzati più volte. Questo porterà a pagine mancanti nell'esportazione."
+
+msgid "content_until"
+msgstr "Almeno bloccato fino a:"
+
+msgid "copied_to_clipboard"
+msgstr "Oggetti copiati negli appunti."
+
+msgid "dgl_pagebreak"
+msgstr "Interruzione di pagina"
+
+msgid "glo_add_new_term"
+msgstr "Aggiungi nuovo termine"
+
+msgid "glo_content_settings"
+msgstr "Contenuto"
+
+msgid "glo_editing_view"
+msgstr "Visualizzazione di modifica"
+
+msgid "glo_full_definitions"
+msgstr "Definizioni complete"
+
+msgid "glo_full_definitions_info"
+msgstr "I termini e le definizioni sono visualizzati nella vista principale."
+
+msgid "glo_hide_taxonomy"
+msgstr "Nascondi tassonomia"
+
+msgid "glo_list_usages"
+msgstr "Elenco usi"
+
+msgid "glo_mode_normal_info"
+msgstr "Saranno inclusi solo i termini creati all'interno di questo glossario."
+
+msgid "glo_presentation_mode"
+msgstr "Modo di presentazione"
+
+msgid "glo_presentation_view"
+msgstr "Vista di presentazione"
+
+msgid "glo_quick_navigation"
+msgstr "Navigazione veloce"
+
+msgid "glo_style"
+msgstr "Stile del glossario"
+
+msgid "glo_table_form"
+msgstr "In forma di tabella"
+
+msgid "glo_table_form_info"
+msgstr "I termini e le definizioni sono dapprima mostrati in una visualizzazione a due colonne. Cliccando un termine si apre il contenuto interno su una nuova schermata."
+
+msgid "glo_term_is_used_n_times"
+msgstr "Il termine è utilizzato %s volta/e nei moduli di contenuto."
+
+msgid "glo_term_must_belong_to_glo"
+msgstr "L'azione può essere eseguita solo in termini definiti in questo glossario."
+
+msgid "glo_term_used_in"
+msgstr "Le seguenti risorse sono collegate con quel termine"
+
+msgid "glo_text_snippet_length"
+msgstr "lunghezza segmento di definizione"
+
+msgid "glo_text_snippet_length_info"
+msgstr "Lunghezza del frammento di testo della definizione mostrata nella overview."
+
+msgid "glo_usages"
+msgstr "Il glossario e in uso in..."
+
+msgid "glo_used_in_scorm"
+msgstr "Il glossario viene utilizzato nel modulo SCORM. Se eliminati, i riferimenti al glossario non possono più essere risolti."
+
+msgid "help_assign_help_ids"
+msgstr "Assegnazione capitolo/ID schermo"
+
+msgid "htlm_import"
+msgstr "Importa HTML Learning Module"
+
+msgid "import_sco_object"
+msgstr "Importa SCO"
+
+msgid "info_stop_offline_mode_sure"
+msgstr "Nota: I progressi di apprendimento raggiunti in modalità offline sono andati persi. Sei sicuro?"
+
+#, fuzzy
+msgid "infobox_files_not_migrated"
+msgstr "The files of this learning module have not yet been migrated to the Resource Storage Service and can therefore not be edited."
+
+msgid "lm_activate_rating"
+msgstr "Attiva valutazione per nuove pagine"
+
+msgid "lm_editing_view"
+msgstr "Vista Editing"
+
+msgid "lm_import"
+msgstr "Import ILIAS Learning Module"
+
+msgid "lm_menu_edit_entry"
+msgstr "Modifica voce del menu"
+
+msgid "lm_menu_entry_target"
+msgstr "Obiettivo"
+
+msgid "lm_menu_entry_title"
+msgstr "Titolo"
+
+msgid "lm_menu_new_entry"
+msgstr "Crea una nuova voce nel menu"
+
+msgid "lm_menu_select_internal_object"
+msgstr "Scegli un oggetto interno >>"
+
+msgid "lm_menu_select_object_to_add"
+msgstr "Seleziona l'oggetto che desideri aggiungere al menu"
+
+msgid "lm_no_download_files"
+msgstr "Attualmente non ci sono file disponibile per il download."
+
+msgid "lm_only_one_download_per_type"
+msgstr "Si prega di notare che è possibile creare un solo file per tipo (XLM, HTML, SCORM) pubblico accessibile."
+
+msgid "lm_rate_page"
+msgstr "Valuta pagina"
+
+msgid "lm_rating"
+msgstr "Valuta modulo di apprendimento"
+
+msgid "mep_folder_created"
+msgstr "Aggiunto nuovo folder."
+
+msgid "msg_entry_added"
+msgstr "Voce aggiunta la menu"
+
+msgid "msg_entry_removed"
+msgstr "Voce tolta dal menu"
+
+msgid "msg_entry_updated"
+msgstr "Voce del menu aggiornata"
+
+msgid "msg_no_page_access"
+msgstr "Non sei autorizzato ad accedere a questa pagina."
+
+msgid "msg_page_no_public_access"
+msgstr "La pagina che hai chiamato non è disponibile nell'area pubblica. Solo gli utenti registrati possono visualizzare questa pagina. Effettua prima il login per accedere a questa pagina."
+
+msgid "msg_page_not_public"
+msgstr "La pagina non è pubblica"
+
+msgid "offline_mode_manager"
+msgstr "Utilizzo Offline"
+
+msgid "offline_mode_users"
+msgstr "Utenti in modalità offline"
+
+msgid "offline_mode_users_info"
+msgstr "Gli utenti possono essere presi manualmente dalla modalità offline e dopo aver fatto in modo questi utenti possono nuovamente utilizzare la versione online del modulo di apprendimento. Questo ha senso se per esempio il computer con il modello di apprendimento è stato rubato."
+
+msgid "page_does_not_exist"
+msgstr "Siamo spiacenti ma questa pagina non esiste."
+
+msgid "par"
+msgstr "Paragrafo"
+
+msgid "pg"
+msgstr "Pagina"
+
+msgid "public_section"
+msgstr "Sezione pubblica"
+
+msgid "sahs_empty_objectives_are_not_allowed"
+msgstr "Si prega di inserire un aggetto di apprendimento."
+
+msgid "sahs_insert_pg_from_clip"
+msgstr "Importa pagine dal modulo di apprendimento ILIAS"
+
+msgid "sahs_insert_st_from_clip"
+msgstr "Importa capitoli dal modulo di apprendimento ILIAS"
+
+msgid "sahs_insert_st_from_clip_inside_chap"
+msgstr "Importa capitoli dal modulo di apprendimento ILIAS (capitolo interno)"
+
+msgid "save_new"
+msgstr "Salva e nuovo"
+
+msgid "saved_media_object"
+msgstr "Media object salvato."
+
+msgid "scplayer_collapsetree"
+msgstr "Contrai"
+
+msgid "scplayer_continue"
+msgstr "Continua"
+
+msgid "scplayer_debugger"
+msgstr "Mostra debugger"
+
+msgid "scplayer_exit"
+msgstr "Uscita"
+
+msgid "scplayer_exitall"
+msgstr "Esci da tutto"
+
+msgid "scplayer_expandtree"
+msgstr "Espandi tutto"
+
+msgid "scplayer_hidetree"
+msgstr "Nascondi Albero"
+
+msgid "scplayer_next"
+msgstr "Successivo"
+
+msgid "scplayer_phpmysqlcheck"
+msgstr "E'richiesto MYSQL 4.1 o più recente e l'abilitazione del supporto JSON per usare il  JavaScript-RTE"
+
+msgid "scplayer_previous"
+msgstr "Precedente"
+
+msgid "scplayer_showtree"
+msgstr "Mostra Albero"
+
+msgid "scplayer_start"
+msgstr "Avvio"
+
+msgid "scplayer_suspendall"
+msgstr "Sospendi tutto"
+
+msgid "selectFooter"
+msgstr "Scegli come Footer"
+
+msgid "selectHeader"
+msgstr "Scegli come Header"
+
+msgid "select_a_file"
+msgstr "Per favore seleziona un file."
+
+msgid "seq_close"
+msgstr "Chiudere la finestra del player."
+
+msgid "seq_endsession"
+msgstr "La sessione del corso è terminata."
+
+msgid "seq_error"
+msgstr "Errore interno nel sequencer."
+
+msgid "seq_toc"
+msgstr "Scegliere un'attività dalla Tabella Contenuti - TOC sulla sinistra, per iniziare il corso."
+
+msgid "set_public_mode"
+msgstr "Imposta in modalita' di accesso pubblico"
+
+msgid "st"
+msgstr "Capitolo"
+
+#, fuzzy
+msgid "start_lm"
+msgstr "Launch Learning Module"
+
+msgid "text_repr"
+msgstr "Testo alternativo"
+
+msgid "text_repr_info"
+msgstr "Verrà usato quando l'immagine non verrà mostrata"
