@@ -33,6 +33,7 @@ class ContainerURIConsumer implements ContainerConsumer
 
     private Archives $archives;
     protected ?int $revision_number = null;
+    private bool $isolated = true;
 
     /**
      * DownloadConsumer constructor.
@@ -46,6 +47,19 @@ class ContainerURIConsumer implements ContainerConsumer
     ) {
         global $DIC;
         $this->archives = $DIC->archives();
+    }
+
+    /**
+     * Delivers the container from the ILIAS domain even when User Content Isolation
+     * is active. Only for content that must run on the same origin as ILIAS (e.g.
+     * SCORM packages, which call the API of the player synchronously); such content
+     * does not profit from the isolation.
+     */
+    public function withoutIsolation(): self
+    {
+        $clone = clone $this;
+        $clone->isolated = false;
+        return $clone;
     }
 
     public function getURI(): ?URI
@@ -62,7 +76,8 @@ class ContainerURIConsumer implements ContainerConsumer
             $this->stream_access->populateRevision($this->getRevision()),
             true,
             $this->valid_for_at_least_minutes,
-            $filename
+            $filename,
+            $this->isolated
         ) . StreamDelivery::SUBREQUEST_SEPARATOR . $startfile;
 
         try {

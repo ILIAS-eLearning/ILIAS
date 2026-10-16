@@ -45,13 +45,15 @@ final class Builder
 
     public function shortFile(
         FileStream $stream,
-        string $filename
+        string $filename,
+        bool $isolated = true
     ): ShortFilePayload {
         $uri = $stream->getMetadata()['uri'];
 
         return new ShortFilePayload(
             $uri,
-            $filename
+            $filename,
+            $isolated
         );
     }
 

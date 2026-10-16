@@ -30,13 +30,15 @@ interface SrcBuilder
 {
     /**
      * @param string|null $filename
+     * @param bool $isolated false delivers from the ILIAS domain instead of the content domain of User Content Isolation
      * @throw \RuntimeException if signing is not possible or failed, but was requested with $signed = true
      */
     public function getRevisionURL(
         Revision $revision,
         bool $signed = true,
         float $valid_for_at_least_minutes = 60.0,
-        ?string $filename = null
+        ?string $filename = null,
+        bool $isolated = true
     ): string;
 
     /**

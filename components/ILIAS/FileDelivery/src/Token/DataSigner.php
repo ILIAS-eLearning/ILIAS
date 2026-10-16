@@ -81,11 +81,13 @@ final class DataSigner implements DataSigning
         string $filename,
         Disposition $disposition,
         int $user_id,
-        ?\DateTimeImmutable $until = null
+        ?\DateTimeImmutable $until = null,
+        bool $isolated = true
     ): string {
         $payload = $this->payload_builder->shortFile(
             $stream,
-            $filename
+            $filename,
+            $isolated
         );
 
         if ($until !== null) {

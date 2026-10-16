@@ -66,9 +66,9 @@ final class ServicesBaseUriTest extends TestCase
         $legacy = new LegacyDelivery($http, $rb, $rb, IsolationConfig::disabled());
 
         return new class ($stream, $legacy, $data_signer, $http, $isolation) extends Services {
-            public function exposedBaseURI(): string
+            public function exposedBaseURI(bool $isolated = true): string
             {
-                return $this->getBaseURI();
+                return $this->getBaseURI($isolated);
             }
         };
     }
@@ -105,6 +105,14 @@ final class ServicesBaseUriTest extends TestCase
         // even if the request arrives on a different host/port, the content
         // domain is authoritative for the asset base URI
         $services = $this->services($this->activeConfig(), 'http', 'whatever.example.org', 1234);
+        $this->assertSame('https://content.example.org/data', $services->exposedBaseURI());
+    }
+
+    public function testStaysOnRequestHostWithoutIsolationWhenIsolationActive(): void
+    {
+        $services = $this->services($this->activeConfig(), 'https', 'app.example.org', 8443);
+        $this->assertSame('https://app.example.org:8443/data', $services->exposedBaseURI(false));
+        // the isolated base URI is not affected by an earlier call without isolation
         $this->assertSame('https://content.example.org/data', $services->exposedBaseURI());
     }
 }
