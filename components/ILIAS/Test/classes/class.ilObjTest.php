@@ -4795,11 +4795,16 @@ class ilObjTest extends ilObject
                 $row = [];
                 $reached_points = 0;
                 $max_points = 0;
+
                 $pass = ilObjTest::_getResultPass($active_id);
-                // abort if no valid pass can be found
-                if (!is_int($pass)) {
+                if ($pass === null) {
                     continue;
                 }
+
+                if ($this->isRandomTest()) {
+                    $this->loadQuestions($active_id, $pass);
+                }
+
                 foreach ($this->questions as $value) {
                     $question = ilObjTest::_instanciateQuestion($value);
                     if (is_object($question)) {
@@ -6396,7 +6401,16 @@ class ilObjTest extends ilObject
                 $row = [];
                 $reached_points = 0;
                 $max_points = 0;
+
                 $pass = ilObjTest::_getResultPass($active_id);
+                if ($pass === null) {
+                    continue;
+                }
+
+                if ($this->isRandomTest()) {
+                    $this->loadQuestions($active_id, $pass);
+                }
+
                 foreach ($this->questions as $value) {
                     $question = ilObjTest::_instanciateQuestion($value);
                     if (is_object($question)) {
