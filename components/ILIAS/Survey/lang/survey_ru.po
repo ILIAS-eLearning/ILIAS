@@ -1,0 +1,1855 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ru\n"
+"Language-Team: Russian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: survey\n"
+
+msgid "SurveyMatrixQuestion"
+msgstr "Matrix Question"
+
+msgid "SurveyMetricQuestion"
+msgstr "Metric Question"
+
+msgid "SurveyMultipleChoiceQuestion"
+msgstr "Флажки (Несколько ответов)"
+
+msgid "SurveySingleChoiceQuestion"
+msgstr "Выбор (Один ответ)"
+
+msgid "SurveyTextQuestion"
+msgstr "Эссе"
+
+msgid "add_heading"
+msgstr "Добавить заголовок"
+
+msgid "already_completed_survey"
+msgstr "Вы уже завершили опрос! Нельзя зайти в опрос снова."
+
+msgid "anonymization"
+msgstr "Анонимность"
+
+msgid "anonymize_anonymous_introduction"
+msgstr "Анонимный опрос. Для доступа введите 32-разрядный числовой код в поле ниже."
+
+msgid "answer"
+msgstr "Ответ"
+
+msgid "arithmetic_mean"
+msgstr "Арифметическое значение"
+
+msgid "browse_for_questions"
+msgstr "Просмотреть вопросы"
+
+msgid "cancel_survey"
+msgstr "Suspend the Survey"
+
+msgid "cannot_read_survey"
+msgstr "У вас недостаточно прав для чтения данных опроса!"
+
+msgid "cannot_switch_to_online_no_questions"
+msgstr "Статус не может быть установлен в &quot;online&quot; т.к. в опросе отсутствуют вопросы!"
+
+#, fuzzy
+msgid "cant_send_email_smtp_disabled"
+msgstr "Sending external mails is not available. This option is deactivated globally."
+
+msgid "category"
+msgstr "Категории"
+
+msgid "category_nr_selected"
+msgstr "Количество пользователей, выбравших эту категорию"
+
+msgid "chart"
+msgstr "Чат"
+
+msgid "codes"
+msgstr "Коды доступа"
+
+msgid "codes_created"
+msgstr "Код(ы) созданы"
+
+msgid "codes_deleted"
+msgstr "Код(ы) удалены"
+
+msgid "combobox"
+msgstr "Выбор"
+
+msgid "concatenation"
+msgstr "Конкатенация"
+
+msgid "confirm_delete_all_user_data"
+msgstr "Вы уверены, что хотите удалить все данные пользователя опроса?"
+
+msgid "confirm_delete_single_user_data"
+msgstr "Вы уверены что хотите удалить результаты опроса для выбранных пользователей?"
+
+msgid "confirm_remove_heading"
+msgstr "Вы уверены, что хотите удалить все заголовки?"
+
+msgid "confirm_sync_questions"
+msgstr "Вы изменили копию вопроса, который был создан с активного опроса. Вы хотите изменить оригинал вопроса?"
+
+msgid "conjunction_and"
+msgstr "если удовлетворено каждое ограничение"
+
+msgid "conjunction_and_title"
+msgstr "Удовлетворить каждому из следующих условий"
+
+msgid "conjunction_or"
+msgstr "если удовлетворено одно ограничение"
+
+msgid "conjunction_or_title"
+msgstr "Удовлетворить одному из следующих условий"
+
+msgid "constraint_add"
+msgstr "Добавить начальное условие"
+
+msgid "constraint_fulfilled"
+msgstr "Show page"
+
+msgid "constraints"
+msgstr "Условия"
+
+msgid "constraints_first_question_description"
+msgstr "Первый элемента не может иметь никаких предусловий т.к. перед ним отсутствуют вопросы."
+
+msgid "constraints_introduction"
+msgstr "For every entity (a single question or a question block with multiple questions) one or more preconditions could be defined. These preconditions will be derived from the answers of the survey participants of questions which occur earlier in the survey. Since the first entity has no previous questions or questionblocks there is no possibility to define preconditions for it."
+
+msgid "constraints_list_of_entities"
+msgstr "Доступные элементы опроса для предусловий"
+
+msgid "constraints_no_nonessay_available"
+msgstr "There are no previous questions or only essay questions available to calculate preconditions (essay questions are not valid to calculate preconditions)"
+
+msgid "constraints_no_questions_or_questionblocks_selected"
+msgstr "Please select at least one question or questionblock!"
+
+msgid "contains"
+msgstr "Содержимое"
+
+msgid "continue"
+msgstr "Продолжение >>"
+
+msgid "create_new"
+msgstr "Создать сейчас"
+
+msgid "dc_agree"
+msgstr "согласен"
+
+msgid "dc_always"
+msgstr "всегда"
+
+msgid "dc_definitelyfalse"
+msgstr "definitely false"
+
+msgid "dc_definitelytrue"
+msgstr "definitely true"
+
+msgid "dc_desired"
+msgstr "желательно"
+
+msgid "dc_disagree"
+msgstr "несогласен"
+
+msgid "dc_fair"
+msgstr "fair"
+
+msgid "dc_false"
+msgstr "ошибочно"
+
+msgid "dc_good"
+msgstr "правильно"
+
+msgid "dc_manytimes"
+msgstr "несколько раз"
+
+msgid "dc_morenegative"
+msgstr "больше отрицательно"
+
+msgid "dc_morepositive"
+msgstr "больше правильно"
+
+msgid "dc_mostcertainly"
+msgstr "most certainly"
+
+msgid "dc_mostcertainlynot"
+msgstr "most certainly not"
+
+msgid "dc_must"
+msgstr "must"
+
+msgid "dc_mustnot"
+msgstr "must not"
+
+msgid "dc_neutral"
+msgstr "нейтрально"
+
+msgid "dc_never"
+msgstr "никогда"
+
+msgid "dc_no"
+msgstr "не"
+
+msgid "dc_notacceptable"
+msgstr "недоступен"
+
+msgid "dc_poor"
+msgstr "poor"
+
+msgid "dc_rarely"
+msgstr "редко"
+
+msgid "dc_should"
+msgstr "возможно"
+
+msgid "dc_shouldnot"
+msgstr "невозможно"
+
+msgid "dc_sometimes"
+msgstr "иногда"
+
+msgid "dc_stronglyagree"
+msgstr "польностью согласен"
+
+msgid "dc_stronglydesired"
+msgstr "strongly desired"
+
+msgid "dc_stronglydisagree"
+msgstr "полностью несогласен"
+
+msgid "dc_stronglyundesired"
+msgstr "strongly undesired"
+
+msgid "dc_true"
+msgstr "правильно"
+
+msgid "dc_undecided"
+msgstr "не знаю"
+
+msgid "dc_undesired"
+msgstr "undesired"
+
+msgid "dc_varying"
+msgstr "varying"
+
+msgid "dc_verygood"
+msgstr "очень хорошо"
+
+msgid "dc_yes"
+msgstr "да"
+
+msgid "default_codes_mail_message"
+msgstr "Ваш код доступа к опросу [code]. Вы можете начать опрос перейдя по ссылке [url]"
+
+msgid "default_codes_mail_subject"
+msgstr "Ваш код доступа для %s"
+
+msgid "define_questionblock"
+msgstr "Определить блок вопроса"
+
+msgid "delete_saved_message"
+msgstr "Delete Messagetext"
+
+msgid "display_all_available"
+msgstr "Показать все доступные"
+
+msgid "duplicate"
+msgstr "Дублирование"
+
+msgid "edit_heading"
+msgstr "Редактировать заголовок"
+
+msgid "end_date"
+msgstr "Конец данных"
+
+msgid "end_date_reached"
+msgstr "Вы не можете начать опрос. Он был окончен!"
+
+msgid "enter_anonymous_id"
+msgstr "Код доступа опроса"
+
+msgid "enter_valid_number_of_codes"
+msgstr "Пожалуйста, введите корректное значение для генерации кодов доступа опроса!"
+
+msgid "err_external_rcp_no_email"
+msgstr "The import data must at least contain an 'email' field"
+
+msgid "err_external_rcp_no_email_column"
+msgstr "The import data must at least contain a column 'email' with the title 'email' in the first row and the email addresses in the following rows"
+
+msgid "err_maxvaluegeminvalue"
+msgstr "Максимальное значение должно быть больше либо равно чем минимальное значение и меньше либо равно чем максимальное количество ответов."
+
+msgid "err_minvalueganswers"
+msgstr "Минимум должен быть меньше или равен максимальному количеству ответов."
+
+msgid "err_no_exact_answers"
+msgstr "Please check exactly %s answers."
+
+msgid "err_no_max_answers"
+msgstr "Please check at most %s answers."
+
+msgid "err_no_min_answers"
+msgstr "Please check at least %s answers."
+
+msgid "error_retrieving_anonymous_survey"
+msgstr "Система не нашла данные опроса для кода &quot;%s&quot;. Пожалуйста, проверьте правильность введенного кода!"
+
+#, fuzzy
+msgid "error_save_code"
+msgstr "Value not saved properly. <b>The E- mail: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>"
+
+msgid "evaluation"
+msgstr "Эволюция"
+
+msgid "evaluation_access"
+msgstr "Доступ к результатам"
+
+msgid "evaluation_access_all"
+msgstr "Результаты доступны для всех пользователей"
+
+msgid "evaluation_access_info"
+msgstr "У вас есть доступ к результатам опроса."
+
+msgid "evaluation_access_off"
+msgstr "Выключено"
+
+msgid "evaluation_access_participants"
+msgstr "Результаты доступны для участников опроса"
+
+msgid "existing_constraints"
+msgstr "Существующие условия"
+
+msgid "exp_type_csv"
+msgstr "Значения разделенные запятыми (CSV)"
+
+msgid "exp_type_excel"
+msgstr "Microsoft Excel"
+
+msgid "export_all_survey_codes"
+msgstr "Экспортировать все коды доступа"
+
+msgid "export_label_only"
+msgstr "Экспортировать только текст"
+
+msgid "export_title_label"
+msgstr "Экспортировать заголовок и текст"
+
+msgid "export_title_only"
+msgstr "Экспортировать только заголовок"
+
+msgid "external_recipients_imported"
+msgstr "Внешние получатели были импортированы."
+
+msgid "externalmails"
+msgstr "Импортировать файл"
+
+msgid "externalmails_info"
+msgstr "The import file must be a CSV file, columns separated by a semicolon. The first row contains the column titles. The file must at least contain an 'email' column containing the recipient email."
+
+msgid "externaltext"
+msgstr "Импортировать текст"
+
+msgid "externaltext_info"
+msgstr "Импортируемый текст должен быть представлен в виде строк и столбцов, разделенных точкой с замятой. Первая строка содержит заголовки столбцов. Текст должен содержать как"
+
+msgid "filter_all_question_types"
+msgstr "Все типы вопроса"
+
+msgid "filter_all_questionpools"
+msgstr "Все наборы вопроса"
+
+msgid "finished_mail_subject"
+msgstr "The survey was finished"
+
+msgid "freetext_answers"
+msgstr "Open Answers"
+
+msgid "geometric_mean"
+msgstr "Среднее геометрическое"
+
+msgid "given_answers"
+msgstr "Выбранные ответы"
+
+msgid "glossary_term"
+msgstr "Термины словаря"
+
+msgid "harmonic_mean"
+msgstr "Среднее гармоническое"
+
+msgid "heading"
+msgstr "Заголовок"
+
+msgid "horizontal"
+msgstr "горизонтальный"
+
+msgid "import_error_closing_file"
+msgstr "Ошибка закрытия файла импорта!"
+
+msgid "import_error_opening_file"
+msgstr "Ошибка открытии я файла импорта!"
+
+msgid "import_from_file"
+msgstr "Импортировать из файла"
+
+msgid "import_from_text"
+msgstr "Импортировать из текста"
+
+msgid "import_no_file_selected"
+msgstr "Не выбран файл!"
+
+msgid "import_question"
+msgstr "Импортировать вопрос(ы)"
+
+msgid "import_wrong_file_type"
+msgstr "Ошибка типа файла!"
+
+msgid "insert_after"
+msgstr "Добавить после"
+
+msgid "insert_before"
+msgstr "Добавить до"
+
+msgid "insert_missing_question"
+msgstr "Пожалуйста, выберите хотя бы один вопрос для добавления в опрос!"
+
+msgid "insert_missing_questionblock"
+msgstr "Пожалуйста, выберите хотя бы один блок вопроса для добавления в опрос!"
+
+msgid "insert_saved_message"
+msgstr "Insert Messagetext"
+
+msgid "internal_link"
+msgstr "Внутренняя ссылка"
+
+msgid "introduction"
+msgstr "Вступление"
+
+msgid "invited_users"
+msgstr "Приглашенные пользователи"
+
+msgid "label"
+msgstr "Метка"
+
+msgid "label_info"
+msgstr "Альтернативный идентификатор для дальнейшей обработки данных (например в SPSS)"
+
+msgid "language_changed"
+msgstr "Язык изменён"
+
+msgid "layout"
+msgstr "Layout"
+
+msgid "lower_limit"
+msgstr "Нижний предел"
+
+msgid "mail_import_example2"
+msgstr "sandraowen@domain.tld;Sandra;Owen"
+
+msgid "mail_import_example3"
+msgstr "kennethbirt@domain.tld;Kenneth;Birt"
+
+msgid "mail_sent_short"
+msgstr "Sent"
+
+msgid "mail_survey_codes"
+msgstr "Mail access codes"
+
+msgid "mailaddresses"
+msgstr "Адреса получателей."
+
+msgid "mailaddresses_info"
+msgstr "Введите получателей разделенных запятыми которые получат уведомление об окончании опросов."
+
+msgid "mailnotification"
+msgstr "Email уведомление"
+
+msgid "mailparticipantdata"
+msgstr "Дополнительная информация о участнике"
+
+msgid "mailparticipantdata_info"
+msgstr "Add an introductory message to the notification mail."
+
+msgid "mailparticipantdata_placeholder"
+msgstr "The following placeholders will be replaced with real user data in personalized surveys:"
+
+msgid "maintenance"
+msgstr "Участники"
+
+msgid "matrix_appearance"
+msgstr "Внешний вид"
+
+msgid "matrix_bipolar_adjectives"
+msgstr "Биполярные прилагательные"
+
+msgid "matrix_bipolar_adjectives_description"
+msgstr "You may use a pair of bipolar adjectives to scale the column responses to words, short phrases, or texts"
+
+msgid "matrix_column_separators"
+msgstr "Разделители столбцов"
+
+msgid "matrix_column_separators_description"
+msgstr "Select the check box if you want to have separators (thin lines) between the columns in the output of the Matrix Question"
+
+msgid "matrix_column_settings"
+msgstr "Matrix Column Settings"
+
+msgid "matrix_columns"
+msgstr "Matrix Columns"
+
+msgid "matrix_left_pole"
+msgstr "Left Pole"
+
+msgid "matrix_neutral_answer"
+msgstr "Text for a Neutral Column (\"Not Specified\", \"I don't know\" etc.)"
+
+msgid "matrix_neutral_column_separator"
+msgstr "Neutral Column Separator"
+
+msgid "matrix_neutral_column_separator_description"
+msgstr "Select the check box if you want to have a separator (thick line) between the neutral column and the other columns in the output of the Matrix Question"
+
+msgid "matrix_question_checkbox_not_checked"
+msgstr "Please check at least one check box in every row!"
+
+msgid "matrix_question_radio_button_not_checked"
+msgstr "Please select an option button for every row!"
+
+msgid "matrix_right_pole"
+msgstr "Right Pole"
+
+msgid "matrix_row_separators"
+msgstr "Row Separators"
+
+msgid "matrix_row_separators_description"
+msgstr "Select the check box if you want to have separators (thin lines) between the rows in the output of the Matrix Question"
+
+msgid "matrix_rows"
+msgstr "Matrix Rows"
+
+msgid "matrix_standard_answers"
+msgstr "Текст столбца"
+
+msgid "matrix_subtype_mr"
+msgstr "Флажки (Несколько вариантов ответа)"
+
+msgid "matrix_subtype_sr"
+msgstr "Option Buttons (Single Response)"
+
+msgid "maxchars"
+msgstr "Максимальное число символов"
+
+msgid "maximum"
+msgstr "Максимальное значение"
+
+msgid "median"
+msgstr "Медиана"
+
+msgid "median_between"
+msgstr "между"
+
+msgid "menuback"
+msgstr "Назад"
+
+msgid "menubacktosurvey"
+msgstr "Назад к опросу"
+
+msgid "message_content_info"
+msgstr "Введите сообщение уведомления содержащее коды опроса для участников. Вы можете использовать ключевые слова [code] (код доступа), [url] (URL опроса) и информацию относящуюся к участникам в зависимости от импортируемых полей: %s. Ключевые слова в сообщении будут заменены на импортированную информацию о пользователе."
+
+msgid "metric_question_floating_point"
+msgstr "Введенное вами значение - вещественное. Вещественное значение неразрешено в этом типе вопроса!"
+
+msgid "metric_question_not_a_value"
+msgstr "Вы ввели не числовое значение!"
+
+msgid "metric_question_out_of_bounds"
+msgstr "Значение, которое вы ввели, выходит за пределы максимума и минимума!"
+
+msgid "metric_subtype_description_interval"
+msgstr "Equivalent intervals between measurements allow a meaningful comparison between arbitrary pairs of measurements. The zero point on the scale is arbitrary, so negative values can be used. Examples of interval values are the year date in many calendars or the temperature in Celsius scale."
+
+msgid "metric_subtype_description_ratioabsolute"
+msgstr "The ratio absolute measurement uses natural numbers additional to the non-arbitrary zero point for example the number of children in a family or probability."
+
+msgid "metric_subtype_description_rationonabsolute"
+msgstr "In addition to the interval measurement there are also meaningful ratios between arbitrary pairs of numbers. The zero value on a ratio scale is non-arbitrary. Most physical quantities, such as length in centimeters or duration in seconds are measured on ratio scales."
+
+msgid "minimum"
+msgstr "Минимальное значение"
+
+msgid "mode"
+msgstr "Часто выбираемое значение"
+
+msgid "mode_nr_of_selections"
+msgstr "Номер выбора"
+
+msgid "mode_text"
+msgstr "Часто выбираемое значение (Текст)"
+
+msgid "msg_duplicate_scale"
+msgstr "Please enter unique scale values"
+
+msgid "msg_enter_value_for_valid_constraint"
+msgstr "Please enter a value to create a valid precondition!"
+
+#, fuzzy
+msgid "msg_input_only_positive_numbers"
+msgstr "Please enter positive numbers in scale values."
+
+msgid "msg_max_nr_answers"
+msgstr "Please select at most %s answers"
+
+msgid "msg_message_deleted"
+msgstr "Messagetext deleted"
+
+msgid "msg_message_inserted"
+msgstr "Messagetext inserted"
+
+msgid "msg_min_max_exact_answers"
+msgstr "Please check exactly %s answers"
+
+msgid "msg_min_max_nr_answers"
+msgstr "Please select at least %s and at most %s answers"
+
+msgid "msg_min_nr_answers"
+msgstr "Please select at least %s answers"
+
+msgid "msg_no_message_deleted"
+msgstr "Please select a saved messagetext"
+
+msgid "msg_no_message_inserted"
+msgstr "Please select a messagetext"
+
+msgid "new_survey_codes"
+msgstr "новый код(ы) доступа опроса"
+
+msgid "no_question_selected_for_copy_to_pool"
+msgstr "Please select at least one question, which is not already linked to a question pool."
+
+msgid "no_question_selected_for_move"
+msgstr "Пожалуйста, отметьте хотя бы один вопрос для перемещения!"
+
+msgid "no_question_selected_for_removal"
+msgstr "Пожалуйста, выберите один вопрос или блок вопроса, чтобы удалить его!"
+
+msgid "no_target_selected_for_move"
+msgstr "Вы должны выделить позицию цели!"
+
+msgid "non_ratio"
+msgstr "Non-Ratio"
+
+msgid "not_sent_only"
+msgstr "Only to new recipients (who did not receive a mail yet)"
+
+msgid "not_used"
+msgstr "неиспользуется"
+
+msgid "nr_max_answers"
+msgstr "Maximum"
+
+msgid "nr_min_answers"
+msgstr "Number"
+
+msgid "obligatory"
+msgstr "обязательный"
+
+msgid "off"
+msgstr "выкл"
+
+msgid "on"
+msgstr "вкл"
+
+msgid "or"
+msgstr "или"
+
+msgid "orientation"
+msgstr "Ориентация"
+
+msgid "other_answer"
+msgstr "Other answer"
+
+msgid "other_answer_label"
+msgstr "Label of other answer (optional)"
+
+msgid "outro"
+msgstr "Финальное обращение"
+
+#, fuzzy
+msgid "please_enter_mail_url"
+msgstr "Please enter the access url placeholder [url]"
+
+msgid "qpl_confirm_delete_questions"
+msgstr "Вы уверены, что хотите удалить следующий вопрос(ы)?"
+
+msgid "qpl_define_questionblock_select_missing"
+msgstr "Пожалуйста, выберите хотя бы два вопроса, если выхотите определить блок вопросов!"
+
+msgid "qpl_delete_select_none"
+msgstr "Пожалуйста, для удаления выберите хотя бы один вопрос!"
+
+msgid "qpl_export_select_none"
+msgstr "Пожалуйста, выберите хотя бы один вопрос на экспортирование."
+
+msgid "qpl_questions_deleted"
+msgstr "Вопрос(ы) удален(ы)."
+
+msgid "qpl_unfold_select_none"
+msgstr "Пожалуйста, выберите один блок вопроса, если вы хотите разкрыть блоки вопроса!"
+
+msgid "question_changed_in_survey_only"
+msgstr "Question was changed only in survey"
+
+msgid "question_mr_no_other_answer"
+msgstr "Please enter a text for the other answer"
+
+msgid "question_mr_no_other_answer_checked"
+msgstr "Вы должны включить флажок если вводите текст ответа"
+
+msgid "question_mr_not_checked"
+msgstr "Please check at least one of the offered answers!"
+
+msgid "question_not_checked"
+msgstr "Пожалуйста, выберите один из предлагаемых ответов!"
+
+msgid "question_obligatory"
+msgstr "Вопрос обязателен!"
+
+msgid "question_sr_no_other_answer_checked"
+msgstr "Вы должны выбрать вариант если вводите текст ответа"
+
+msgid "question_type"
+msgstr "Тип вопроса"
+
+msgid "questionblock"
+msgstr "Блок вопроса"
+
+msgid "questionblock_inserted"
+msgstr "Question Block inserted"
+
+msgid "questionblocks"
+msgstr "Блоки вопроса"
+
+msgid "questionblocks_inserted"
+msgstr "Question Blocks inserted"
+
+msgid "questions"
+msgstr "Вопросы"
+
+msgid "questions_inserted"
+msgstr "Вопрос(ы) вставлен(ы)!"
+
+msgid "questions_removed"
+msgstr "Вопрос(ы) и/или удаленный блок(и) вопроса!"
+
+msgid "questiontype"
+msgstr "Тип вопроса"
+
+msgid "ratio_absolute"
+msgstr "Абсолютное отношение"
+
+msgid "ratio_non_absolute"
+msgstr "Неабсолютное отношение"
+
+msgid "recipients"
+msgstr "Recipients"
+
+msgid "remove_question"
+msgstr "Удалить"
+
+msgid "remove_questions"
+msgstr "Вы уверены, что Вы хотите удалить следующий вопрос(ы) и/или блок(и) вопроса из теста?"
+
+msgid "results"
+msgstr "Результаты"
+
+msgid "resume_survey"
+msgstr "Продолжить опрос"
+
+msgid "row_text"
+msgstr "Row Text"
+
+msgid "save_obligatory_state"
+msgstr "Сохранить обязательные структуры"
+
+msgid "save_reuse_message"
+msgstr "Save message text for later use"
+
+msgid "save_reuse_title"
+msgstr "Message text title"
+
+msgid "saved_messages"
+msgstr "Доступные сообщения"
+
+msgid "scale"
+msgstr "Scale"
+
+msgid "search_groups"
+msgstr "Группы"
+
+msgid "search_term"
+msgstr "Поиск термина"
+
+msgid "select_option"
+msgstr "--- Пожалуйста, выберите опцию ---"
+
+msgid "select_prior_question"
+msgstr "Выбор предыдущего вопроса"
+
+msgid "select_relation"
+msgstr "Выбрать отношение"
+
+msgid "select_target_position_for_move_question"
+msgstr "Пожалуйста, для перемещения вопроса(ов) выберите расположение цели и нажмите на одну из кнопок вставки!"
+
+msgid "select_value"
+msgstr "Выберите значение"
+
+msgid "selection"
+msgstr "Выбор"
+
+msgid "send_to_all"
+msgstr "To all recipients"
+
+msgid "send_to_answered"
+msgstr "To all recipients who did finish the survey"
+
+msgid "send_to_unanswered"
+msgstr "To all recipients who did not finish the survey"
+
+msgid "show_questiontext"
+msgstr "Отображать текст вопроса"
+
+msgid "show_questiontext_description"
+msgstr "Если установлен этот флажок, то для каждого блока вопроса будет отображаться его текст. Если не установлено, то текст вопроса для каждого вопроса в блоке не будет отображаться."
+
+msgid "skipped"
+msgstr "пропущенный"
+
+msgid "spl_copy_insert_clipboard"
+msgstr "Выбранные вопрос(ы) скопированы в буфер."
+
+msgid "spl_copy_select_none"
+msgstr "Please check at least one question to copy it to the clipboard"
+
+msgid "spl_move_insert_clipboard"
+msgstr "Выбранные вопрос(ы)  помечены для перемещения"
+
+msgid "spl_move_same_pool"
+msgstr "It has no effect to move questions from inside the same question pool."
+
+msgid "spl_move_select_none"
+msgstr "Please check at least one question to select it for moving"
+
+msgid "spl_online_property"
+msgstr "Online"
+
+msgid "spl_paste_no_objects"
+msgstr "There are no questions in the clipboard. Please copy or move a question into the clipboard."
+
+msgid "spl_paste_success"
+msgstr "Вопрос(ы) были вставлены в пул вопросов"
+
+msgid "spl_save_obligatory_state"
+msgstr "Save Obligatory States"
+
+msgid "start_date"
+msgstr "Дата начала"
+
+msgid "start_date_not_reached"
+msgstr "Вы не можете начать опрос, пока дата его начала не настала!"
+
+msgid "start_survey"
+msgstr "Начать опрос"
+
+msgid "subtype"
+msgstr "Подтип"
+
+msgid "survey_360_add_external_rater"
+msgstr "Add External Rater"
+
+msgid "survey_360_add_self_appraisee"
+msgstr "Add yourself as appraisee to this survey"
+
+msgid "survey_360_appraisee"
+msgstr "Appraisee"
+
+msgid "survey_360_appraisee_close_action"
+msgstr "Close Survey For Raters"
+
+msgid "survey_360_appraisee_close_action_info"
+msgstr "This will give access to your statistics."
+
+msgid "survey_360_appraisee_close_action_info_skill"
+msgstr "This will give access to your statistics and update your competence levels."
+
+msgid "survey_360_appraisee_close_action_status"
+msgstr "Survey was closed on %s."
+
+msgid "survey_360_appraisee_close_action_success"
+msgstr "You have closed your 360° survey for your raters."
+
+msgid "survey_360_appraisee_close_action_success_admin"
+msgstr "The 360° surveys of the appraisees were closed for the raters."
+
+msgid "survey_360_appraisee_close_table"
+msgstr "Closed on"
+
+msgid "survey_360_appraisee_is_closed"
+msgstr "The appraisee has closed his survey."
+
+msgid "survey_360_appraisees"
+msgstr "Appraisees"
+
+msgid "survey_360_edit_raters"
+msgstr "Manage Raters"
+
+msgid "survey_360_mode"
+msgstr "360° Feedback"
+
+msgid "survey_360_mode_info"
+msgstr "Use for peer-reviewing of persons"
+
+msgid "survey_360_no_appraisees"
+msgstr "There are currently no appraisees for you to rate."
+
+#, fuzzy
+msgid "survey_360_rate_other_appraisee"
+msgstr "Rate Appraisee"
+
+msgid "survey_360_rater_finished"
+msgstr "Survey Finished"
+
+msgid "survey_360_rater_mail_sent"
+msgstr "Mail sent"
+
+msgid "survey_360_rater_message_content_anonymous"
+msgstr "Message Content (Anonymous)"
+
+msgid "survey_360_rater_message_content_anonymous_default"
+msgstr "Your survey access code is [code]. You can start the survey in your web browser using the URL [url]."
+
+msgid "survey_360_rater_message_content_registered"
+msgstr "Message Content (Registered)"
+
+msgid "survey_360_rater_message_content_registered_default"
+msgstr "You can start the survey in your web browser using the URL [url]."
+
+msgid "survey_360_rater_subject_default"
+msgstr "You have been invited as rater to a 360° survey."
+
+msgid "survey_360_raters"
+msgstr "Raters"
+
+msgid "survey_360_raters_finished"
+msgstr "Raters Finished"
+
+msgid "survey_360_remove_appraisees"
+msgstr "Remove Appraisee(s)"
+
+msgid "survey_360_results"
+msgstr "Access To Results For Appraisees"
+
+msgid "survey_360_results_all"
+msgstr "To All Appraisees"
+
+#, fuzzy
+msgid "survey_360_results_all_info"
+msgstr "todo11"
+
+msgid "survey_360_results_none"
+msgstr "None"
+
+#, fuzzy
+msgid "survey_360_results_none_info"
+msgstr "todo9"
+
+msgid "survey_360_results_own"
+msgstr "To Own Raters"
+
+#, fuzzy
+msgid "survey_360_results_own_info"
+msgstr "todo10"
+
+msgid "survey_360_select_appraisee"
+msgstr "Select"
+
+msgid "survey_360_self_appraisee"
+msgstr "Users Can Add Themselves As Appraisees"
+
+#, fuzzy
+msgid "survey_360_self_appraisee_info"
+msgstr "todo8"
+
+msgid "survey_360_self_evaluation"
+msgstr "Appraisees Can Rate Themselves"
+
+#, fuzzy
+msgid "survey_360_self_evaluation_info"
+msgstr "todo6"
+
+msgid "survey_360_self_raters"
+msgstr "Appraisees Can Manage Their Raters"
+
+#, fuzzy
+msgid "survey_360_self_raters_info"
+msgstr "todo7"
+
+msgid "survey_360_sure_appraisee_close"
+msgstr "Are you sure you want to close the survey for all of your raters?"
+
+msgid "survey_360_sure_appraisee_close_admin"
+msgstr "Are you sure you want to close the surveys for the following appraisees?"
+
+msgid "survey_360_sure_delete_appraises"
+msgstr "Are you sure you want to remove the following appraisees?"
+
+msgid "survey_360_sure_delete_raters"
+msgstr "Are you sure you want to remove the following raters for %s?"
+
+#, fuzzy
+msgid "survey_access_code"
+msgstr "Authentication by Access Codes"
+
+#, fuzzy
+msgid "survey_access_codes_info"
+msgstr "Users get access to the survey by entering a code on the 'Info'-tab. These access codes are generated in a sub-tab 'Access Codes' in the tab 'Participants'."
+
+msgid "survey_activate_skill_service"
+msgstr "Activate Competence Service"
+
+#, fuzzy
+msgid "survey_activate_skill_service_info"
+msgstr "todo12"
+
+msgid "survey_add_new_question"
+msgstr "Создать страницу"
+
+msgid "survey_assign_competence"
+msgstr "Assign Competence"
+
+msgid "survey_auto_block_title"
+msgstr "Page Header"
+
+msgid "survey_available_question_pools"
+msgstr "Доступные наборы вопросов для опроса"
+
+msgid "survey_calc_skills"
+msgstr "Determine Competence Levels"
+
+#, fuzzy
+msgid "survey_calculate_sum_score"
+msgstr "Calculate Sum Score"
+
+#, fuzzy
+msgid "survey_calculate_sum_score_info"
+msgstr "Calculates the sum of all scale values for single choice, multiple choice and matrix questions for each participant. Caution: If participants skip these kind of questions, the whole sum score will not be calculated anymore."
+
+msgid "survey_cancel_preview"
+msgstr "Отменить предпросмотр"
+
+msgid "survey_cannot_preview_survey"
+msgstr "Preview not available"
+
+msgid "survey_code"
+msgstr "Код доступа опроса"
+
+msgid "survey_code_delete_sure"
+msgstr "Are you sure you want to delete the following access codes?"
+
+msgid "survey_code_url"
+msgstr "URL for direct access"
+
+msgid "survey_code_url_name"
+msgstr "URL (use right mouse button to copy URL)"
+
+msgid "survey_code_used"
+msgstr "Код использовался"
+
+msgid "survey_codes_lang"
+msgstr "Предопределенный язык опроса"
+
+msgid "survey_codes_no_anonymization"
+msgstr "Вы должны создать анонимный опрос с доступом по кодам чтобы создать новые коды доступа."
+
+msgid "survey_competences"
+msgstr "Competences"
+
+#, fuzzy
+msgid "survey_constraint_deleted"
+msgstr "The routing rule has been deleted."
+
+msgid "survey_copy_questions_to_pool"
+msgstr "Скопировать вопросы в пул"
+
+msgid "survey_copy_select_questionpool"
+msgstr "Question pool to put the copies"
+
+msgid "survey_copy_to_questionpool_success"
+msgstr "Вопросы были успешно скопированы в набор."
+
+msgid "survey_delete_heading"
+msgstr "Remove Heading"
+
+msgid "survey_edit_heading"
+msgstr "Редактировать заглавие"
+
+msgid "survey_edit_settings"
+msgstr "Править настройки"
+
+msgid "survey_error_insert_incomplete_question"
+msgstr "Вы попытались добавить незаконченный вопрос в опрос! Вопрос не был добавлен."
+
+#, fuzzy
+msgid "survey_execution_exit"
+msgstr "Back to repository"
+
+#, fuzzy
+msgid "survey_execution_exit_360"
+msgstr "Back"
+
+#, fuzzy
+msgid "survey_execution_sure_finish"
+msgstr "Are you sure you want to finish the survey? You will not be able to edit your answers afterwards."
+
+msgid "survey_finish"
+msgstr "закончить опрос"
+
+msgid "survey_finished"
+msgstr "Вы закончили опрос. Спасибо за ваше участие!"
+
+msgid "survey_has_datasets_warning"
+msgstr "The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section."
+
+msgid "survey_has_datasets_warning_page_view"
+msgstr "The survey already contains datasets. You cannot edit the survey questions until you remove these datasets."
+
+msgid "survey_has_datasets_warning_page_view_link"
+msgstr "Редактировать участников"
+
+msgid "survey_introduction_info"
+msgstr "Данное сообщение появляется в начале опроса."
+
+msgid "survey_is_offline"
+msgstr "Вы не можете начать опрос! Опрос в офлайн."
+
+msgid "survey_next"
+msgstr "следующий >>>"
+
+#, fuzzy
+msgid "survey_not_available"
+msgstr "n/a"
+
+msgid "survey_notification_finished_introduction"
+msgstr "The following participant has finished the survey."
+
+msgid "survey_notification_finished_reason"
+msgstr "You are receiving this email because you activated notifications for the survey mentioned above."
+
+msgid "survey_notification_target_group"
+msgstr "Target Group"
+
+#, fuzzy
+msgid "survey_notification_target_group_invited"
+msgstr "All users who got the survey put on their Personal Desktop"
+
+msgid "survey_notification_target_group_invited_info"
+msgstr "Currently invited users: %s"
+
+msgid "survey_notification_target_group_parent_course"
+msgstr "All members of parent course/group"
+
+msgid "survey_notification_target_group_parent_course_inactive"
+msgstr "No parent course/group given - no reminders will be sent!"
+
+msgid "survey_notification_tutor_body"
+msgstr "The following survey has been finished by all participants"
+
+msgid "survey_notification_tutor_link"
+msgstr "Link to Survey"
+
+msgid "survey_notification_tutor_recipients"
+msgstr "Tutors (Login[s])"
+
+msgid "survey_notification_tutor_recipients_invalid"
+msgstr "Please state users with write permission."
+
+msgid "survey_notification_tutor_salutation"
+msgstr "Hello %s,"
+
+msgid "survey_notification_tutor_setting"
+msgstr "Notify tutors when\tall participants have finished"
+
+msgid "survey_notification_tutor_subject"
+msgstr "All participants have finished the survey \"%s\""
+
+msgid "survey_order"
+msgstr "Sort Order"
+
+msgid "survey_previous"
+msgstr "<<< предыдущий"
+
+msgid "survey_question_editor"
+msgstr "Просмотр списка"
+
+msgid "survey_question_obligatory"
+msgstr "(Этот вопрос обязателен. Вы должны ответить на вопрос)"
+
+msgid "survey_question_pool"
+msgstr "Question Pool"
+
+msgid "survey_question_pool_title"
+msgstr "Pool Title"
+
+msgid "survey_question_title"
+msgstr "Question Title"
+
+msgid "survey_questions"
+msgstr "Вопросы"
+
+msgid "survey_questions_to_clipboard_copy"
+msgstr "Question(s) were copied to the clipboard. Please select a target or empty the clipboard."
+
+msgid "survey_reached_level"
+msgstr "Reached Level"
+
+msgid "survey_reminder_body"
+msgstr "the following survey has not been finished by you yet"
+
+#, fuzzy
+msgid "survey_reminder_cron"
+msgstr "Remind users to participate"
+
+msgid "survey_reminder_cron_info"
+msgstr "If activated, users will be reminded to participate in surveys."
+
+msgid "survey_reminder_end"
+msgstr "End"
+
+msgid "survey_reminder_frequency"
+msgstr "Frequency"
+
+msgid "survey_reminder_frequency_days"
+msgstr "Days"
+
+msgid "survey_reminder_link"
+msgstr "URL"
+
+msgid "survey_reminder_salutation"
+msgstr "Hello %s,"
+
+msgid "survey_reminder_setting"
+msgstr "Remind Users to Participate"
+
+msgid "survey_reminder_start"
+msgstr "Start"
+
+msgid "survey_reminder_subject"
+msgstr "Survey \"%s\" was not finished"
+
+msgid "survey_remove_competence"
+msgstr "Remove Competence"
+
+#, fuzzy
+msgid "survey_results_anonymization"
+msgstr "Privacy"
+
+#, fuzzy
+msgid "survey_results_anonymized"
+msgstr "Without Names"
+
+#, fuzzy
+msgid "survey_results_anonymized_info"
+msgstr "In the tab 'Results' participants' names are replaced by codes. Users having acces to this tab cannot attribute answers to named participants but only to user \"iTXaF\" (example)."
+
+#, fuzzy
+msgid "survey_results_finished"
+msgstr "Survey finished"
+
+#, fuzzy
+msgid "survey_results_not_started"
+msgstr "Survey not started"
+
+#, fuzzy
+msgid "survey_results_personalized"
+msgstr "With Names"
+
+#, fuzzy
+msgid "survey_results_personalized_info"
+msgstr "In the tab 'Results' the names of the partcipants and their respective answers are listed. Users having access to this tab can inspect who has provided which answer."
+
+#, fuzzy
+msgid "survey_results_started"
+msgstr "Survey started"
+
+msgid "survey_show_blocktitle"
+msgstr "Show Block Title"
+
+msgid "survey_show_blocktitle_description"
+msgstr "Если включено, то в опросе будет отображаться заголовок блока."
+
+msgid "survey_skill"
+msgstr "Competence"
+
+msgid "survey_skill_assign"
+msgstr "Question/Competence Assignment"
+
+msgid "survey_skill_level"
+msgstr "Competence Level"
+
+msgid "survey_skill_max_scale_points"
+msgstr "Max. Scale Points"
+
+msgid "survey_skill_nr_q"
+msgstr "Number of Questions"
+
+msgid "survey_skill_thresholds"
+msgstr "Competence Thresholds"
+
+msgid "survey_start"
+msgstr "выйти на главную страницу"
+
+msgid "survey_sum_of_means"
+msgstr "Sum of Arithm. Means per Question"
+
+#, fuzzy
+msgid "survey_sure_delete_constraint"
+msgstr "Are you sure you want to delete the routing rule \"%1$s\" for the question \"%2$s\"?"
+
+msgid "survey_sure_delete_questions"
+msgstr "Вы уверены что хотите удалить следующие вопросы или заголовки?"
+
+msgid "survey_sync_insufficient_permissions"
+msgstr "Недостаточно прав"
+
+msgid "survey_sync_question_copies"
+msgstr "Sync Question Copies"
+
+msgid "survey_sync_question_copies_info"
+msgstr "Выбранные вопросы будут заменены текущей версией набора вопросов."
+
+msgid "survey_sync_success"
+msgstr "Выбранные вопросы обновлены."
+
+msgid "survey_up_to_x_points"
+msgstr "Up to x points"
+
+msgid "survey_use_start_button"
+msgstr "Вы должны войти в опрос используя кнопку старта!"
+
+msgid "svy_activation_limited_visibility_info"
+msgstr "Если выбрано, то опрос будет виден даже для не обладающих нужными правами."
+
+msgid "svy_activation_online_info"
+msgstr "Активируйте, чтобы сделать опрос доступным для всех пользователей"
+
+#, fuzzy
+msgid "svy_add_internal_user"
+msgstr "Add User"
+
+#, fuzzy
+msgid "svy_add_internal_user_info"
+msgstr "The rater has a registered user on this platform."
+
+#, fuzzy
+msgid "svy_add_rater"
+msgstr "Add Rater"
+
+#, fuzzy
+msgid "svy_all_raters"
+msgstr "All Raters"
+
+msgid "svy_all_survey_competences"
+msgstr "All Survey Competences"
+
+msgid "svy_all_user_data_deleted"
+msgstr "Все пользовательские данные этого опроса были удалены!"
+
+msgid "svy_analysis"
+msgstr "Analysis"
+
+#, fuzzy
+msgid "svy_anonymous_participants"
+msgstr "List of Participants"
+
+#, fuzzy
+msgid "svy_anonymous_participants_info"
+msgstr "If activated a list of participants can be enabled in anonymous surveys."
+
+#, fuzzy
+msgid "svy_anonymous_participants_min"
+msgstr "Minimum Number of Participants"
+
+#, fuzzy
+msgid "svy_anonymous_participants_min_info"
+msgstr "The list will only be available if there are at least the minimum number of participants."
+
+#, fuzzy
+msgid "svy_anonymous_participants_svy"
+msgstr "List of Participants"
+
+#, fuzzy
+msgid "svy_anonymous_participants_svy_info"
+msgstr "If activated a list of participants is available after the end date."
+
+#, fuzzy
+msgid "svy_answer_too_long"
+msgstr "Your current answer is too long (%s characters). Please shorten your answer."
+
+#, fuzzy
+msgid "svy_app_see_rater_info"
+msgstr "Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters."
+
+#, fuzzy
+msgid "svy_appraisses_cannot_be_raters"
+msgstr "User cannot be added as rater. Use self evaluation option in the survey settings instead."
+
+msgid "svy_back"
+msgstr "Back"
+
+msgid "svy_categories"
+msgstr "Ответы"
+
+msgid "svy_check_evaluation_access_introduction"
+msgstr "Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation."
+
+msgid "svy_check_evaluation_authentication_needed"
+msgstr "Необходима аутентификация"
+
+msgid "svy_check_evaluation_wrong_key"
+msgstr "Вы ввели неверный код доступа к опросу или не участвуете в нём. Вам закрыт доступ к результатам опроса."
+
+#, fuzzy
+msgid "svy_compress_view"
+msgstr "Compressed View"
+
+#, fuzzy
+msgid "svy_compress_view_info"
+msgstr "If activated, all single choice questions with similar scales will be presented matrix-like."
+
+msgid "svy_copy"
+msgstr "Скопировать опрос"
+
+msgid "svy_create_question"
+msgstr "Создать вопрос"
+
+msgid "svy_delete_all_user_data"
+msgstr "Удалите все пользовательские данные"
+
+#, fuzzy
+msgid "svy_dont_send"
+msgstr "Don't send a message"
+
+#, fuzzy
+msgid "svy_eval_captions"
+msgstr "Figures"
+
+#, fuzzy
+msgid "svy_eval_captions_abs"
+msgstr "Absolute"
+
+#, fuzzy
+msgid "svy_eval_captions_abs_perc"
+msgstr "Absolute and Percentage"
+
+#, fuzzy
+msgid "svy_eval_captions_perc"
+msgstr "Percentage"
+
+msgid "svy_eval_competences"
+msgstr "Competence Results"
+
+msgid "svy_eval_cumulated"
+msgstr "Накопленные результаты"
+
+msgid "svy_eval_detail"
+msgstr "Накопленные результаты (детали)"
+
+msgid "svy_eval_skipped_value"
+msgstr "Results: \"skipped\""
+
+msgid "svy_eval_skipped_value_custom"
+msgstr "Use custom value"
+
+msgid "svy_eval_skipped_value_custom_info"
+msgstr "Define any (or empty) value to use for skipped answers"
+
+msgid "svy_eval_skipped_value_custom_value"
+msgstr "Value"
+
+msgid "svy_eval_skipped_value_lng"
+msgstr "Use language file entry"
+
+msgid "svy_eval_skipped_value_lng_info"
+msgstr "Current value: \"%s\""
+
+msgid "svy_eval_user"
+msgstr "Отдельные результаты пользователей"
+
+#, fuzzy
+msgid "svy_eval_view"
+msgstr "View"
+
+#, fuzzy
+msgid "svy_eval_view_charts"
+msgstr "Chart"
+
+#, fuzzy
+msgid "svy_eval_view_tables"
+msgstr "Table"
+
+#, fuzzy
+msgid "svy_eval_view_tables_charts"
+msgstr "Table and chart"
+
+#, fuzzy
+msgid "svy_evaluation_access_all_info"
+msgstr "All registered users that can access the survey can also look at the results of this survey. "
+
+#, fuzzy
+msgid "svy_evaluation_access_off_info"
+msgstr "Only Users that can edit the survey (write permission) have access to the survey's results."
+
+#, fuzzy
+msgid "svy_evaluation_access_participants_info"
+msgstr "All users that participated in the survey may choose to look at the results after finishing it. "
+
+msgid "svy_export_files"
+msgstr "Экспорт файлов"
+
+#, fuzzy
+msgid "svy_export_format"
+msgstr "Export survey data as"
+
+#, fuzzy
+msgid "svy_export_pdf"
+msgstr "Export PDF"
+
+#, fuzzy
+msgid "svy_ext_rater_firstname"
+msgstr "First name of external rater"
+
+#, fuzzy
+msgid "svy_ext_rater_lastname"
+msgstr "Last name of external rater"
+
+#, fuzzy
+msgid "svy_external_rater"
+msgstr "Add External Rater"
+
+#, fuzzy
+msgid "svy_external_rater_info"
+msgstr "The rater is not registered on this platform."
+
+#, fuzzy
+msgid "svy_fraction_of_selections"
+msgstr "Fraction of selections"
+
+msgid "svy_gap_analysis"
+msgstr "Gap Analysis"
+
+msgid "svy_general_properties"
+msgstr "General Properties"
+
+#, fuzzy
+msgid "svy_import_codes"
+msgstr "Import Codes"
+
+#, fuzzy
+msgid "svy_import_codes_info"
+msgstr "This import requires a \"%s\" export file."
+
+#, fuzzy
+msgid "svy_ind_feedb_info"
+msgstr "Users get distinct evaluations by others."
+
+#, fuzzy
+msgid "svy_ind_feedb_mode"
+msgstr "Individual Feedback"
+
+#, fuzzy
+msgid "svy_mail_confirmation_subject"
+msgstr "Survey \"%s\" - Your participation confirmation"
+
+#, fuzzy
+msgid "svy_mail_context_rater_invitation_info"
+msgstr "Invite raters to participate in a survey."
+
+#, fuzzy
+msgid "svy_mail_context_rater_invitation_survey_title"
+msgstr "Survey Title"
+
+#, fuzzy
+msgid "svy_mail_context_rater_invitation_title"
+msgstr "Survey: Rater Invitation"
+
+#, fuzzy
+msgid "svy_mail_context_reminder_info"
+msgstr "Reminds users to participate in survey"
+
+#, fuzzy
+msgid "svy_mail_context_reminder_survey_title"
+msgstr "Survey Title"
+
+#, fuzzy
+msgid "svy_mail_context_reminder_title"
+msgstr "Survey Reminder"
+
+#, fuzzy
+msgid "svy_mail_own_results_body"
+msgstr "the following is a complete summary of your survey participation."
+
+#, fuzzy
+msgid "svy_mail_own_results_subject"
+msgstr "Survey \"%s\" - Your Answers"
+
+#, fuzzy
+msgid "svy_mail_send_confirmation"
+msgstr "Send Participation Confirmation"
+
+msgid "svy_matrix_layout_percentages_sum_invalid"
+msgstr "The column settings do not sum up to 100%."
+
+#, fuzzy
+msgid "svy_max_sum_score"
+msgstr "Maximum Sum Score"
+
+msgid "svy_neutral_answer"
+msgstr "Text for a Neutral Answer (\"Not Specified\", \"I don't know\" etc.)"
+
+#, fuzzy
+msgid "svy_no_appraisees_found"
+msgstr "No appraisees with feedbacks found."
+
+#, fuzzy
+msgid "svy_notification_tutor_results"
+msgstr "One E-Mail including Survey Results"
+
+#, fuzzy
+msgid "svy_notification_tutor_results_alert"
+msgstr "This requires an end date."
+
+#, fuzzy
+msgid "svy_notification_tutor_results_info"
+msgstr "After reaching the end data a cron job will send an email with the detailed survey results attached to it."
+
+#, fuzzy
+msgid "svy_only_max_one_external_rater"
+msgstr "Please select only one external rater."
+
+msgid "svy_page_error"
+msgstr "Была ошибка в ответе на вопрос опроса. Пожалуйста, просмотрите вопрос и найдите ошибку!"
+
+msgid "svy_page_errors"
+msgstr "Были допущены ошибки в ответах на опрос. Пожалуйста, просмотрите вопросы и найдите ошибки!"
+
+#, fuzzy
+msgid "svy_participant"
+msgstr "Participant"
+
+#, fuzzy
+msgid "svy_participants"
+msgstr "Participants"
+
+msgid "svy_participation"
+msgstr "Participation"
+
+#, fuzzy
+msgid "svy_please_select_unused_codes"
+msgstr "Please select at least one unused code."
+
+#, fuzzy
+msgid "svy_print_hide_labels"
+msgstr "Hide labels"
+
+#, fuzzy
+msgid "svy_print_show_labels"
+msgstr "Show labels"
+
+#, fuzzy
+msgid "svy_privacy_info"
+msgstr "Privacy"
+
+#, fuzzy
+msgid "svy_rater"
+msgstr "Rater"
+
+#, fuzzy
+msgid "svy_rater_see_app_info"
+msgstr "The names of appraisees will be presented to raters to enable them evaluating the questions."
+
+#, fuzzy
+msgid "svy_reminder_mail_template"
+msgstr "Mail Template"
+
+#, fuzzy
+msgid "svy_reminder_mail_template_none"
+msgstr "Do not use mail template"
+
+msgid "svy_result_mail_notification_info"
+msgstr "On finishing the survey the answers of each participant will be sent to the defined recipients."
+
+msgid "svy_results"
+msgstr "Results"
+
+#, fuzzy
+msgid "svy_results_mail_confirm"
+msgstr "Participants can request participation confirmation"
+
+#, fuzzy
+msgid "svy_results_mail_confirm_info"
+msgstr "Participants can request a mail with a confirmation of participation at the end of the survey."
+
+#, fuzzy
+msgid "svy_results_mail_own"
+msgstr "Participant can mail own answers"
+
+#, fuzzy
+msgid "svy_results_mail_own_info"
+msgstr "todo5"
+
+#, fuzzy
+msgid "svy_save_and_continue"
+msgstr "Save and Continue"
+
+msgid "svy_save_sync"
+msgstr "Save and Sync Question Copies"
+
+#, fuzzy
+msgid "svy_search_user"
+msgstr "Search User"
+
+#, fuzzy
+msgid "svy_search_user_info"
+msgstr "Search for users or roles and pick participants."
+
+msgid "svy_search_users"
+msgstr "Search for participants"
+
+#, fuzzy
+msgid "svy_select_rater"
+msgstr "Select Rater"
+
+msgid "svy_selected_user_data_deleted"
+msgstr "The survey data of the selected user(s) was deleted successfully"
+
+#, fuzzy
+msgid "svy_self_ev_access_results_all"
+msgstr "Access to Self-Evaluations of All Participants"
+
+#, fuzzy
+msgid "svy_self_ev_access_results_none"
+msgstr "No Access to Results"
+
+#, fuzzy
+msgid "svy_self_ev_access_results_own"
+msgstr "Access to Own Self-Evaluations"
+
+#, fuzzy
+msgid "svy_self_ev_info"
+msgstr "Use for self evaluation."
+
+#, fuzzy
+msgid "svy_self_ev_mode"
+msgstr "Self-Evaluation Only"
+
+#, fuzzy
+msgid "svy_settings_section_access"
+msgstr "Administering the Survey: Access"
+
+#, fuzzy
+msgid "svy_settings_section_before_start"
+msgstr "Information before Start of Survey"
+
+#, fuzzy
+msgid "svy_settings_section_finishing"
+msgstr "Finishing the Survey"
+
+#, fuzzy
+msgid "svy_settings_section_question_behaviour"
+msgstr "Administering the Survey: Behaviour of the Question"
+
+#, fuzzy
+msgid "svy_settings_section_reminders"
+msgstr "Reminders"
+
+msgid "svy_show_questiontitles"
+msgstr "Показать названия вопросов в опросе"
+
+msgid "svy_skl_comp_assignm_not_supported"
+msgstr "Competence assignment is not supported for this question type."
+
+#, fuzzy
+msgid "svy_sum_score"
+msgstr "Sum Score"
+
+#, fuzzy
+msgid "svy_type_of_rater"
+msgstr "Type of Rater"
+
+#, fuzzy
+msgid "svy_view_own_results"
+msgstr "View given answers"
+
+#, fuzzy
+msgid "svy_wrong_or_expired_code"
+msgstr "Sorry, you entered an invalid or expired code."
+
+msgid "text_maximum_chars_allowed"
+msgstr "Пожалуйста, не вводите более чем %s символов. Остальные символы будут удалены."
+
+msgid "text_question_not_filled_out"
+msgstr "Пожалуйста, заполните поле ответа!"
+
+msgid "unfold"
+msgstr "Открыть"
+
+msgid "upper_limit"
+msgstr "Верхний предел"
+
+msgid "use_anonymous_id"
+msgstr "Show survey code"
+
+msgid "use_anonymous_id_desc"
+msgstr "Если включено, то имя пользователя в анонимных опросах будет отображаться в виде кода опроса, иначе будет отображаться текст \"Anonymous\"."
+
+msgid "use_browser_print_function"
+msgstr "Please use the print function of your web browser."
+
+msgid "use_min_answers"
+msgstr "Варианты ответа"
+
+msgid "use_min_answers_option"
+msgstr "Use minimum number of answer selections"
+
+msgid "use_other_answer"
+msgstr "Open answer"
+
+msgid "used"
+msgstr "используется"
+
+msgid "users_answered"
+msgstr "Пользователи ответили"
+
+msgid "users_invited"
+msgstr "Было приглашено %s пользователей"
+
+msgid "users_skipped"
+msgstr "Пользователи пропущены"
+
+msgid "values"
+msgstr "Значение"
+
+msgid "vertical"
+msgstr "вертикальный"
+
+msgid "warning_question_not_complete"
+msgstr "Вопрос не завершен!"
+
+msgid "workingtime"
+msgstr "Время работы"

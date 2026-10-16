@@ -1,0 +1,1820 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: et\n"
+"Language-Team: Estonian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: survey\n"
+
+msgid "SurveyMatrixQuestion"
+msgstr "Maatriksküsimus"
+
+msgid "SurveyMetricQuestion"
+msgstr "Mõõtmisküsimus"
+
+msgid "SurveyMultipleChoiceQuestion"
+msgstr "Valikvastustega küsimus (mitu vastust)"
+
+msgid "SurveySingleChoiceQuestion"
+msgstr "Valikvastustega küsimus (üks vastus)"
+
+msgid "SurveyTextQuestion"
+msgstr "Essee"
+
+msgid "add_heading"
+msgstr "Lisa päis"
+
+msgid "already_completed_survey"
+msgstr "Sa oled küsitluse juba lõpetanud! Küsitlusse siseneda pole enam võimalik."
+
+msgid "anonymization"
+msgstr "Anonüümsus"
+
+msgid "anonymize_anonymous_introduction"
+msgstr "See küsitlus muudab anonüümseks kõikide kasutajate andmed. Kindlustamaks ligipääsu küsitlusele, pead kasutama 32 märgist koosnevat küsitluskoodi, mille võid saada selle testi haldaja/looja käest. <br />Palun sisesta see allpool olevale tekstiväljale."
+
+msgid "answer"
+msgstr "Vastus"
+
+msgid "arithmetic_mean"
+msgstr "Aritmeetiline keskmine"
+
+msgid "browse_for_questions"
+msgstr "Sirvi küsimusi"
+
+msgid "cancel_survey"
+msgstr "Katkesta küsitlus"
+
+msgid "cannot_read_survey"
+msgstr "Sul pole küsitluse andmete lugemiseks piisavalt õigusi!"
+
+msgid "cannot_switch_to_online_no_questions"
+msgstr "Staatust ei saa &quot;võrgus&quot; olevaks, kuna küsitluses puuduvad küsimused!"
+
+#, fuzzy
+msgid "cant_send_email_smtp_disabled"
+msgstr "Sending external mails is not available. This option is deactivated globally."
+
+msgid "category"
+msgstr "vastus"
+
+msgid "category_nr_selected"
+msgstr "Selle vastuse valinud kasutajate arv"
+
+msgid "chart"
+msgstr "Diagramm"
+
+msgid "codes"
+msgstr "Ligipääsukoodid"
+
+msgid "codes_created"
+msgstr "Kood(id) on loodud"
+
+msgid "codes_deleted"
+msgstr "Kood(id) on kustutatud"
+
+msgid "combobox"
+msgstr "Rippmenüü"
+
+msgid "concatenation"
+msgstr "Ahel"
+
+msgid "confirm_delete_all_user_data"
+msgstr "Soovite kustutada küsitlusest kõik kasutajate andmed?"
+
+msgid "confirm_delete_single_user_data"
+msgstr "Kas oled kindel, et soovid valitud kasutajate küsitlusandmed kustutada?"
+
+msgid "confirm_remove_heading"
+msgstr "Kas oled kindel, et soovid päise eemaldada?"
+
+msgid "confirm_sync_questions"
+msgstr "Muudetud küsimus on koopia, mis loodi aktiivses küsitluses kasutamiseks. Kas soovid muuta ka originaali?"
+
+msgid "conjunction_and"
+msgstr "kõik tingimused on täidetud"
+
+msgid "conjunction_and_title"
+msgstr "Täitke kõik järgnevad piirangud"
+
+msgid "conjunction_or"
+msgstr "kui üks tingimus on täidetud"
+
+msgid "conjunction_or_title"
+msgstr "Täitke üks järgnevatest piirangutest"
+
+msgid "constraint_add"
+msgstr "Lisa eeltingimus"
+
+msgid "constraint_fulfilled"
+msgstr "Näita lehte"
+
+msgid "constraints"
+msgstr "Eeltingimused"
+
+msgid "constraints_first_question_description"
+msgstr "Esimene üksus ei saa omada eeltingimusi, kuna eelnevad küsimused puuduvad."
+
+msgid "constraints_introduction"
+msgstr "Iga üksuse jaoks (üksik küsimus või küsimusteplokk paljude küsimustega) on võimalik määrata ühe või mitu eeltingimust. Need eeltingimused olenevad varem esitatud küsimuste vastustest. Kuna esimesel üksusel puuduvad eelnevad küsimused või küsimusteplokid, pole selle jaoks eeltingimusi võimalik määrata."
+
+msgid "constraints_list_of_entities"
+msgstr "Eeltingimusteks võimalikud üksused"
+
+msgid "constraints_no_nonessay_available"
+msgstr "Eeltingimuste määramiseks eelnevad küsimused kas puuduvad või on olemasvaid esseeküsimused (esseeküsimused ei võimalda eeltingimusi määrata."
+
+msgid "constraints_no_questions_or_questionblocks_selected"
+msgstr "Valige vähemalt üks vastus või vastusteblokk!"
+
+msgid "contains"
+msgstr "Sisaldab"
+
+msgid "continue"
+msgstr "Jätka >>"
+
+msgid "create_new"
+msgstr "Loo uus"
+
+msgid "dc_agree"
+msgstr "nõus"
+
+msgid "dc_always"
+msgstr "alati"
+
+msgid "dc_definitelyfalse"
+msgstr "kindlasti vale"
+
+msgid "dc_definitelytrue"
+msgstr "kindlasti õige"
+
+msgid "dc_desired"
+msgstr "soovitud"
+
+msgid "dc_disagree"
+msgstr "ei ole nõus"
+
+msgid "dc_fair"
+msgstr "rahuldav"
+
+msgid "dc_false"
+msgstr "vale"
+
+msgid "dc_good"
+msgstr "hea"
+
+msgid "dc_manytimes"
+msgstr "palju kordi"
+
+msgid "dc_morenegative"
+msgstr "pigem mitte"
+
+msgid "dc_morepositive"
+msgstr "pigem jah"
+
+msgid "dc_mostcertainly"
+msgstr "kindlasti"
+
+msgid "dc_mostcertainlynot"
+msgstr "kindlasti mitte"
+
+msgid "dc_must"
+msgstr "peab"
+
+msgid "dc_mustnot"
+msgstr "kindlasti mitte"
+
+msgid "dc_neutral"
+msgstr "neutraalne"
+
+msgid "dc_never"
+msgstr "mitte kunagi"
+
+msgid "dc_no"
+msgstr "ei"
+
+msgid "dc_notacceptable"
+msgstr "vastuvõetamatu"
+
+msgid "dc_poor"
+msgstr "halb"
+
+msgid "dc_rarely"
+msgstr "harva"
+
+msgid "dc_should"
+msgstr "peaks"
+
+msgid "dc_shouldnot"
+msgstr "ei peaks"
+
+msgid "dc_sometimes"
+msgstr "mõnikord"
+
+msgid "dc_stronglyagree"
+msgstr "väga nõus"
+
+msgid "dc_stronglydesired"
+msgstr "kindlasti soovitatav"
+
+msgid "dc_stronglydisagree"
+msgstr "ei ole üldse nõus"
+
+msgid "dc_stronglyundesired"
+msgstr "üldse mitte soovitatav"
+
+msgid "dc_true"
+msgstr "õige"
+
+msgid "dc_undecided"
+msgstr "ei oska vastata"
+
+msgid "dc_undesired"
+msgstr "mittesoovitav"
+
+msgid "dc_varying"
+msgstr "muutlik"
+
+msgid "dc_verygood"
+msgstr "väga hea"
+
+msgid "dc_yes"
+msgstr "jah"
+
+msgid "default_codes_mail_message"
+msgstr "Sinu küsitluskood on [code]. Võid küsitlusele vastamiseks kasutada URL [url]"
+
+msgid "default_codes_mail_subject"
+msgstr "Teie juurdepääsukood on %s"
+
+msgid "define_questionblock"
+msgstr "Määra küsimuste plokk"
+
+msgid "delete_saved_message"
+msgstr "Kustuta sõnumitekst"
+
+msgid "display_all_available"
+msgstr "Kuva kõik võimalikud"
+
+msgid "duplicate"
+msgstr "Duplitseeri"
+
+msgid "edit_heading"
+msgstr "Muuda päist"
+
+msgid "end_date"
+msgstr "Lõpp"
+
+msgid "end_date_reached"
+msgstr "Küsimustikule ei saa vastata. See on suletud!"
+
+msgid "enter_anonymous_id"
+msgstr "Küsitluse ligipääsukood"
+
+msgid "enter_valid_number_of_codes"
+msgstr "Palun sisesta kehtiv number küsitluse koodide genereerimiseks!"
+
+msgid "err_external_rcp_no_email"
+msgstr "Impordiandmed peavad sisaldama vähemalt  'e-post' välja"
+
+msgid "err_external_rcp_no_email_column"
+msgstr "Impordiandmed peavad sisaldama vähemalt  veergu 'e-post' koos pealkirjaga 'e-post' esimeses reas ja e-posti aadresse järgmistes ridades"
+
+msgid "err_maxvaluegeminvalue"
+msgstr "Suurim väärtus peab ületama väiksemat väärtust ja olema väiksem või võrdne vastuste arvuga."
+
+msgid "err_minvalueganswers"
+msgstr "Väikseim väärtus peab olema väiksem või võrdne vastuste arvuga."
+
+msgid "err_no_exact_answers"
+msgstr "Vali %s vastust."
+
+msgid "err_no_max_answers"
+msgstr "Vali kuni %s vastust."
+
+msgid "err_no_min_answers"
+msgstr "Vali vähemalt %s vastustest."
+
+msgid "error_retrieving_anonymous_survey"
+msgstr "Süsteem ei leia sinu küsitluse andmeid küsitlusekoodile &quot;%s&quot;. Palun kontrolli sisestatud küsitlusekoodi!"
+
+#, fuzzy
+msgid "error_save_code"
+msgstr "Value not saved properly. <b>The E- mail: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>"
+
+msgid "evaluation"
+msgstr "Tulemused"
+
+msgid "evaluation_access"
+msgstr "Ligipääs tulemustele"
+
+msgid "evaluation_access_all"
+msgstr "Ligipääs tulemustele on kõikidel kasutajatel"
+
+msgid "evaluation_access_info"
+msgstr "Sul on ligipääs küsitluse tulemustele"
+
+msgid "evaluation_access_off"
+msgstr "Kinni"
+
+msgid "evaluation_access_participants"
+msgstr "Ligipääs tulemustele on küsitlusele vastajatel"
+
+msgid "existing_constraints"
+msgstr "Olemasolevad eeltingimused"
+
+msgid "exp_type_csv"
+msgstr "CVS-vorming (komaga eraldatud väärtused)"
+
+msgid "exp_type_excel"
+msgstr "Microsoft Excel"
+
+msgid "export_all_survey_codes"
+msgstr "Ekspordi kõik ligipääsukoodid"
+
+msgid "export_label_only"
+msgstr "Ekspordi ainult sildid"
+
+msgid "export_title_label"
+msgstr "Ekspordi pealkiri ja silt"
+
+msgid "export_title_only"
+msgstr "Ekspordi ainult pealkiri"
+
+msgid "external_recipients_imported"
+msgstr "Välised saajad on imporditud."
+
+msgid "externalmails"
+msgstr "Impordi fail"
+
+msgid "externalmails_info"
+msgstr "Importfail peab olema CSV file, veerud eraldatud semikooloniga. Esimene rida sisaldab veergude pealkirju. Fail peab vähemalt sisaldama veergu 'e-post', koos adressaadi e-posti aadressiga."
+
+msgid "externaltext"
+msgstr "Impordi tekst"
+
+msgid "externaltext_info"
+msgstr "Imporditav tekst peab olema ridades ja veergudes, veerud eraldatud semikooloniga. Esimene rida sisaldab veergude pealkirju. Tekst peab vähemalt sisaldama veergu 'e-post', koos adressaadi e-posti aadressiga."
+
+msgid "filter_all_question_types"
+msgstr "Kõik küsimustetüübid"
+
+msgid "filter_all_questionpools"
+msgstr "Kõik varamud"
+
+msgid "finished_mail_subject"
+msgstr "Küsitlus on lõpetatud"
+
+msgid "freetext_answers"
+msgstr "Open Answers"
+
+msgid "geometric_mean"
+msgstr "Geomeetriline keskmine"
+
+msgid "given_answers"
+msgstr "Antud vastused"
+
+msgid "glossary_term"
+msgstr "Sõnastiku mõiste"
+
+msgid "harmonic_mean"
+msgstr "Harmooniline keskmine"
+
+msgid "heading"
+msgstr "Päis"
+
+msgid "horizontal"
+msgstr "horisontaalne"
+
+msgid "import_error_closing_file"
+msgstr "Importfaili sulgemine ebaõnnestus!"
+
+msgid "import_error_opening_file"
+msgstr "Importfaili avamine ebaõnnestus!"
+
+msgid "import_from_file"
+msgstr "Impordi failist"
+
+msgid "import_from_text"
+msgstr "Impordi tekstist"
+
+msgid "import_no_file_selected"
+msgstr "Faili pole valitud!"
+
+msgid "import_question"
+msgstr "Impordi küsimused"
+
+msgid "import_wrong_file_type"
+msgstr "Vale failitüüp!"
+
+msgid "insert_after"
+msgstr "Sisesta pärast"
+
+msgid "insert_before"
+msgstr "Sisesta enne"
+
+msgid "insert_missing_question"
+msgstr "Valige vähemalt üks küsimus küsitlusse sisetamiseks!"
+
+msgid "insert_missing_questionblock"
+msgstr "Palun vali vähemalt üks küsimusteblokk küsitlusse sisestamiseks!"
+
+msgid "insert_saved_message"
+msgstr "Sisesta sõnumi tekst"
+
+msgid "internal_link"
+msgstr "Süsteemisisene link"
+
+msgid "introduction"
+msgstr "Sissejuhatus"
+
+msgid "invited_users"
+msgstr "Kutsutud kasutajad"
+
+msgid "label"
+msgstr "Silt"
+
+msgid "label_info"
+msgstr "Edasises andmetöötluses (nt SPSS-is) kasutatav lisaidentifitseerija"
+
+msgid "language_changed"
+msgstr "Keel muudetud"
+
+msgid "layout"
+msgstr "Kujundus"
+
+msgid "lower_limit"
+msgstr "Madalaim piir"
+
+msgid "mail_import_example2"
+msgstr "sandraowen@domain.tld;Sandra;Owen"
+
+msgid "mail_import_example3"
+msgstr "kennethbirt@domain.tld;Kenneth;Birt"
+
+msgid "mail_sent_short"
+msgstr "Saadetud"
+
+msgid "mail_survey_codes"
+msgstr "E-posti juurdepääsu koodid"
+
+msgid "mailaddresses"
+msgstr "Saajate aadressid"
+
+msgid "mailaddresses_info"
+msgstr "Sisesta komadega eraldatud nimestik adressaatidest, kes saavad lõpetatud küsitluste kohta märguande."
+
+msgid "mailnotification"
+msgstr "Märguanne e-kirjaga"
+
+msgid "mailparticipantdata"
+msgstr "Kasutajaandmed"
+
+msgid "mailparticipantdata_info"
+msgstr "Lisa märgukirjale sissejuhatus. Võid kasutada  kohahoidjaid osalejaga seotud andmete jaoks nagu [matrikulatsioon], [e-post], [eesnimi]. Kohahoidjad asendatakse personaalsetes küsitlustes reaalsetes kasutajaandmetega."
+
+msgid "mailparticipantdata_placeholder"
+msgstr "The following placeholders will be replaced with real user data in personalized surveys:"
+
+msgid "maintenance"
+msgstr "Haldus"
+
+msgid "matrix_appearance"
+msgstr "Välimus"
+
+msgid "matrix_bipolar_adjectives"
+msgstr "Vastandomadused"
+
+msgid "matrix_bipolar_adjectives_description"
+msgstr "Sa võid kasutada vastandomaduste paari (sõnad, lühifraasid v tekst), et vastuseid iseloomustada."
+
+msgid "matrix_column_separators"
+msgstr "Veergude eraldajad"
+
+msgid "matrix_column_separators_description"
+msgstr "Märgista juhul, kui soovid maatriksküsimuse veergude vahele eraldajaid (peenikesed jooned)"
+
+msgid "matrix_column_settings"
+msgstr "Maatriksveeru seaded"
+
+msgid "matrix_columns"
+msgstr "Maatriksveerud"
+
+msgid "matrix_left_pole"
+msgstr "Vasem pool"
+
+msgid "matrix_neutral_answer"
+msgstr "Neutraalse veeru tekst (\"Ei oska öelda\", \"Ma ei tea\" jne)"
+
+msgid "matrix_neutral_column_separator"
+msgstr "Neutraalse veeru eraldaja"
+
+msgid "matrix_neutral_column_separator_description"
+msgstr "Märgista juhul, kui soovid neutraalse veeru ja ülejäänud veergude vahele eraldajat (paks joon)."
+
+msgid "matrix_question_checkbox_not_checked"
+msgstr "Palun märgista igas reas vähemalt üks vastus!"
+
+msgid "matrix_question_radio_button_not_checked"
+msgstr "Palun tee igal real valik!"
+
+msgid "matrix_right_pole"
+msgstr "Parem pool"
+
+msgid "matrix_row_separators"
+msgstr "Ridade eraldajad"
+
+msgid "matrix_row_separators_description"
+msgstr "Märgista juhul, kui soovid maatriksküsimuse ridadede vahele eraldajaid (peenikesed jooned)"
+
+msgid "matrix_rows"
+msgstr "Maatriksread"
+
+msgid "matrix_standard_answers"
+msgstr "Veeru tekst"
+
+msgid "matrix_subtype_mr"
+msgstr "Märkeruudud (mitu vastust)"
+
+msgid "matrix_subtype_sr"
+msgstr "Raadionupud (üks vastus)"
+
+msgid "maxchars"
+msgstr "Tähemärkide maksimumarv"
+
+msgid "maximum"
+msgstr "Maksimumväärtus"
+
+msgid "median"
+msgstr "Mediaan"
+
+msgid "median_between"
+msgstr "vahepealne"
+
+msgid "menuback"
+msgstr "Tagasi"
+
+msgid "menubacktosurvey"
+msgstr "Tagasi küsitlusse"
+
+msgid "message_content_info"
+msgstr "Enter the mail message for the notification mail containing the survey codes for the participants. You may use the placeholders [code] (the access code), [url] (the URL to this survey), and participant related data depending on your import fields: %s. The placeholders will be replaced with the imported user data in the mail."
+
+msgid "metric_question_floating_point"
+msgstr "Sinu sisestatud väärtus on ujuvpunkt-väärtus. Ujuvpunkt-väärtused pole selles küsimusetüübis lubatud!"
+
+msgid "metric_question_not_a_value"
+msgstr "Sisestatud väärtus pole numbriline väärtus!"
+
+msgid "metric_question_out_of_bounds"
+msgstr "Sinu sisestatud väärtus pole minimaalse ja maksimaalse väärtuse vahel!"
+
+msgid "metric_subtype_description_interval"
+msgstr "Samaväärsed intervallid mõõtmiste vahel võimaldavad võrdlust mõõtmiste suvaliste paaride vahel. Skaala nullpunkt on juhuslik, seega saab kasutada ka negatiivseid väärtusi. Intervallväärtuste näiteks on aastaarv paljudes kalendrites  või temperatuur Celsiuse skaala järgi."
+
+msgid "metric_subtype_description_ratioabsolute"
+msgstr "Naturaalarvu mõõtmisel kasutatakse mittejuhusliku nullpunktiga naturaalarve, nt laste arv perekonnas või tõenäosus."
+
+msgid "metric_subtype_description_rationonabsolute"
+msgstr "Lisaks vahemiku mõõtmisele on tähendust omavad suhted ka suvaliste numbripaaride vahel. Nullpunkt suhtarvuskaalal pole juhuslik. Enamus füüsilisi koguseid mõõdetakse suhtarvuskaalal, nt pikkus sentimeetrites või kestus sekundites."
+
+msgid "minimum"
+msgstr "Miinimumväärtus"
+
+msgid "mode"
+msgstr "Enim valitud väärtus"
+
+msgid "mode_nr_of_selections"
+msgstr "Valikute nr"
+
+msgid "mode_text"
+msgstr "Enim valitud väärtus (tekst)"
+
+msgid "msg_duplicate_scale"
+msgstr "Sisesta unikaalse skaala väärtused"
+
+msgid "msg_enter_value_for_valid_constraint"
+msgstr "Palun sisesta kehtiva eeltingimuse jaoks väärtus!"
+
+#, fuzzy
+msgid "msg_input_only_positive_numbers"
+msgstr "Please enter positive numbers in scale values."
+
+msgid "msg_max_nr_answers"
+msgstr "Vali kuni %s vastust"
+
+msgid "msg_message_deleted"
+msgstr "Sõnumi tekst on kustutatud"
+
+msgid "msg_message_inserted"
+msgstr "Sõnumi tekst lisatud"
+
+msgid "msg_min_max_exact_answers"
+msgstr "Palun märgi täpselt  %s vastust!"
+
+msgid "msg_min_max_nr_answers"
+msgstr "Vali vähemalt %s kuni %s vastust"
+
+msgid "msg_min_nr_answers"
+msgstr "Vali vähemalt %s vastust"
+
+msgid "msg_no_message_deleted"
+msgstr "Vali eelnevalt salvestatud sõnumitekst"
+
+msgid "msg_no_message_inserted"
+msgstr "Vali sõnumi tekst"
+
+msgid "new_survey_codes"
+msgstr "uued küsitluse ligipääsukoodid"
+
+msgid "no_question_selected_for_copy_to_pool"
+msgstr "Valige vähemalt üks küsimus, mis ei ole juba küsimuste varamuga lingitud."
+
+msgid "no_question_selected_for_move"
+msgstr "Palun märgista ümbertõstmiseks vähemalt üks küsimus!"
+
+msgid "no_question_selected_for_removal"
+msgstr "Palun märgista eemaldamiseks vähemalt üks küsimus või küsimusteplokk!"
+
+msgid "no_target_selected_for_move"
+msgstr "Pead valima sihtkoha!"
+
+msgid "non_ratio"
+msgstr "Täisarv"
+
+msgid "not_sent_only"
+msgstr "Ainult uutele  saajatele (kes pole veel kirja saanud)"
+
+msgid "not_used"
+msgstr "Pole kasutatud"
+
+msgid "nr_max_answers"
+msgstr "Maksimum"
+
+msgid "nr_min_answers"
+msgstr "Miinimum"
+
+msgid "obligatory"
+msgstr "Kohustuslik"
+
+msgid "off"
+msgstr "kinni"
+
+msgid "on"
+msgstr "sees"
+
+msgid "or"
+msgstr "või"
+
+msgid "orientation"
+msgstr "Esitus"
+
+msgid "other_answer"
+msgstr "Teine vastus"
+
+msgid "other_answer_label"
+msgstr "Teise vastuse silt (valikuline)"
+
+msgid "outro"
+msgstr "Lõpulause"
+
+#, fuzzy
+msgid "please_enter_mail_url"
+msgstr "Please enter the access url placeholder [url]"
+
+msgid "qpl_confirm_delete_questions"
+msgstr "Soovite järgmise(d) küsimuse(d) kustutada?"
+
+msgid "qpl_define_questionblock_select_missing"
+msgstr "Palun vali küsimusteploki määramiseks vähemalt kaks küsimust!"
+
+msgid "qpl_delete_select_none"
+msgstr "Palun märgista kustutamiseks vähemalt üks küsimus!"
+
+msgid "qpl_export_select_none"
+msgstr "Palun märgista eksportimiseks vähemalt üks küsimus!"
+
+msgid "qpl_questions_deleted"
+msgstr "Küsimus(ed) on kustutatud"
+
+msgid "qpl_unfold_select_none"
+msgstr "Kui soovid küsimusteplokke vabastada, vali vähemalt üks plokk!"
+
+msgid "question_changed_in_survey_only"
+msgstr "Küsimused muudeti ainult küsitluses"
+
+msgid "question_mr_no_other_answer"
+msgstr "Palun sisesta vastuse jaoks ka tekst!"
+
+msgid "question_mr_no_other_answer_checked"
+msgstr "Kui sisestad vastusesse teksti, pead märgistama ka märkeruudu"
+
+msgid "question_mr_not_checked"
+msgstr "Palun märgista pakutud vastustest vähemalt üks!"
+
+msgid "question_not_checked"
+msgstr "Palun märgista pakutud vastustest üks!"
+
+msgid "question_obligatory"
+msgstr "Küsimusele vastamine kohustuslik!"
+
+msgid "question_sr_no_other_answer_checked"
+msgstr "Kui sisestad vastusesse teksti, pead märgistama ka \"raadionupu\""
+
+msgid "question_type"
+msgstr "Küsimuse tüüp"
+
+msgid "questionblock"
+msgstr "Küsimusteplokk"
+
+msgid "questionblock_inserted"
+msgstr "Küsimusteplokk on sisestatud"
+
+msgid "questionblocks"
+msgstr "Küsimusteplokid"
+
+msgid "questionblocks_inserted"
+msgstr "Küsimusteplokid on sisestatud"
+
+msgid "questions"
+msgstr "Küsimused"
+
+msgid "questions_inserted"
+msgstr "Küsimus(ed) on sisestatud!"
+
+msgid "questions_removed"
+msgstr "Küsimus(ed) ja/või küsimusteplok(id) on eemaldatud!"
+
+msgid "questiontype"
+msgstr "Küsimuse tüüp"
+
+msgid "ratio_absolute"
+msgstr "Naturaalarv"
+
+msgid "ratio_non_absolute"
+msgstr "Suhtarv"
+
+msgid "recipients"
+msgstr "Adressaadid"
+
+msgid "remove_question"
+msgstr "eemalda"
+
+msgid "remove_questions"
+msgstr "Kas oled kindel, et soovid küsitlusest eemaldada järgmise(d) küsimuse(d) ja/või küsimusteploki(d)?"
+
+msgid "results"
+msgstr "Tulemused"
+
+msgid "resume_survey"
+msgstr "Naase küsitlusse"
+
+msgid "row_text"
+msgstr "Rea tekst"
+
+msgid "save_obligatory_state"
+msgstr "Salvesta kohustuslike küsimuste märgid"
+
+msgid "save_reuse_message"
+msgstr "Salvesta sõnumi tekst hilisemaks kasutamiseks"
+
+msgid "save_reuse_title"
+msgstr "Sõnumi pealkiri"
+
+msgid "saved_messages"
+msgstr "Kättesaadavad sõnumid"
+
+msgid "scale"
+msgstr "Skaala"
+
+msgid "search_groups"
+msgstr "Leitud grupid"
+
+msgid "search_term"
+msgstr "Otsingusõna"
+
+msgid "select_option"
+msgstr "--- Palun tee valik ---"
+
+msgid "select_prior_question"
+msgstr "Vali eelmine küsimus"
+
+msgid "select_relation"
+msgstr "Vali suhe"
+
+msgid "select_target_position_for_move_question"
+msgstr "Palun vali küsimus(t)e ümbertõstmiseks sihtkoht ja klikka sisestusnuppu!"
+
+msgid "select_value"
+msgstr "Vali väärtus"
+
+msgid "selection"
+msgstr "Valik"
+
+msgid "send_to_all"
+msgstr "Kõikidele adressaatidele"
+
+msgid "send_to_answered"
+msgstr "Kõikidele küsitlusele vastanutele"
+
+msgid "send_to_unanswered"
+msgstr "Kõikidele küsitlust lõpetamata jätnutele (meeldetuletus)"
+
+msgid "show_questiontext"
+msgstr "Kuva küsimuse tekst"
+
+msgid "show_questiontext_description"
+msgstr "Kui see märkeruut on märgistatud, näidatakse iga küsimusteplokis oleva küsimuse juures küsimuse teksti. Kui märkeruut on märgistamata, on see tekst peidetud."
+
+msgid "skipped"
+msgstr "Vahele jäetud"
+
+msgid "spl_copy_insert_clipboard"
+msgstr "Valitud küsimus(ed) on puhvrisse kopeeritud"
+
+msgid "spl_copy_select_none"
+msgstr "Palun märgista puhvrisse kopeerimiseks vähemalt üks küsimus"
+
+msgid "spl_move_insert_clipboard"
+msgstr "Valitud küsimus(ed) on ümbertõstmiseks märgistatud"
+
+msgid "spl_move_same_pool"
+msgstr "Küsimuste ümbertõstmine samasse varamusse ei oma mõtet."
+
+msgid "spl_move_select_none"
+msgstr "Palun märgista ümbertõstmiseks vähemalt üks küsimus!"
+
+msgid "spl_online_property"
+msgstr "Võrgus"
+
+msgid "spl_paste_no_objects"
+msgstr "Puhvris puuduvad küsimused. Palun kopeeri või tõsta küsimus puhvrisse."
+
+msgid "spl_paste_success"
+msgstr "Küsimus(ed) on varamusse kleebitud"
+
+msgid "spl_save_obligatory_state"
+msgstr "Save Obligatory States"
+
+msgid "start_date"
+msgstr "Algus"
+
+msgid "start_date_not_reached"
+msgstr "Sa ei saa küsitlusele vastata enne, kui alguspäev on käes!"
+
+msgid "start_survey"
+msgstr "Alusta küsitlust"
+
+msgid "subtype"
+msgstr "Alatüüp"
+
+msgid "survey_360_add_external_rater"
+msgstr "Add External Rater"
+
+msgid "survey_360_add_self_appraisee"
+msgstr "Add yourself as appraisee to this survey"
+
+msgid "survey_360_appraisee"
+msgstr "Appraisee"
+
+msgid "survey_360_appraisee_close_action"
+msgstr "Close Survey For Raters"
+
+msgid "survey_360_appraisee_close_action_info"
+msgstr "This will give access to your statistics."
+
+msgid "survey_360_appraisee_close_action_info_skill"
+msgstr "This will give access to your statistics and update your competence levels."
+
+msgid "survey_360_appraisee_close_action_status"
+msgstr "Survey was closed on %s."
+
+msgid "survey_360_appraisee_close_action_success"
+msgstr "You have closed your 360° survey for your raters."
+
+msgid "survey_360_appraisee_close_action_success_admin"
+msgstr "The 360° surveys of the appraisees were closed for the raters."
+
+msgid "survey_360_appraisee_close_table"
+msgstr "Closed on"
+
+msgid "survey_360_appraisee_is_closed"
+msgstr "The appraisee has closed his survey."
+
+msgid "survey_360_appraisees"
+msgstr "Appraisees"
+
+msgid "survey_360_edit_raters"
+msgstr "Manage Raters"
+
+msgid "survey_360_mode"
+msgstr "360° Feedback"
+
+msgid "survey_360_mode_info"
+msgstr "Use for peer-reviewing of persons"
+
+msgid "survey_360_no_appraisees"
+msgstr "There are currently no appraisees for you to rate."
+
+#, fuzzy
+msgid "survey_360_rate_other_appraisee"
+msgstr "Rate Appraisee"
+
+msgid "survey_360_rater_finished"
+msgstr "Survey Finished"
+
+msgid "survey_360_rater_mail_sent"
+msgstr "Mail sent"
+
+msgid "survey_360_rater_message_content_anonymous"
+msgstr "Message Content (Anonymous)"
+
+msgid "survey_360_rater_message_content_anonymous_default"
+msgstr "Your survey access code is [code]. You can start the survey in your web browser using the URL [url]."
+
+msgid "survey_360_rater_message_content_registered"
+msgstr "Message Content (Registered)"
+
+msgid "survey_360_rater_message_content_registered_default"
+msgstr "You can start the survey in your web browser using the URL [url]."
+
+msgid "survey_360_rater_subject_default"
+msgstr "You have been invited as rater to a 360° survey."
+
+msgid "survey_360_raters"
+msgstr "Raters"
+
+msgid "survey_360_raters_finished"
+msgstr "Raters Finished"
+
+msgid "survey_360_remove_appraisees"
+msgstr "Remove Appraisee(s)"
+
+msgid "survey_360_results"
+msgstr "Access To Results For Appraisees"
+
+msgid "survey_360_results_all"
+msgstr "To All Appraisees"
+
+msgid "survey_360_results_all_info"
+msgstr "todo11"
+
+msgid "survey_360_results_none"
+msgstr "None"
+
+msgid "survey_360_results_none_info"
+msgstr "todo9"
+
+msgid "survey_360_results_own"
+msgstr "To Own Raters"
+
+msgid "survey_360_results_own_info"
+msgstr "todo10"
+
+msgid "survey_360_select_appraisee"
+msgstr "Select"
+
+msgid "survey_360_self_appraisee"
+msgstr "Users Can Add Themselves As Appraisees"
+
+msgid "survey_360_self_appraisee_info"
+msgstr "todo8"
+
+msgid "survey_360_self_evaluation"
+msgstr "Appraisees Can Rate Themselves"
+
+msgid "survey_360_self_evaluation_info"
+msgstr "todo6"
+
+msgid "survey_360_self_raters"
+msgstr "Appraisees Can Manage Their Raters"
+
+msgid "survey_360_self_raters_info"
+msgstr "todo7"
+
+msgid "survey_360_sure_appraisee_close"
+msgstr "Are you sure you want to close the survey for all of your raters?"
+
+msgid "survey_360_sure_appraisee_close_admin"
+msgstr "Are you sure you want to close the surveys for the following appraisees?"
+
+msgid "survey_360_sure_delete_appraises"
+msgstr "Are you sure you want to remove the following appraisees?"
+
+msgid "survey_360_sure_delete_raters"
+msgstr "Are you sure you want to remove the following raters for %s?"
+
+msgid "survey_access_code"
+msgstr "Authentication by Access Codes"
+
+msgid "survey_access_codes_info"
+msgstr "Users get access to the survey by entering a code on the 'Info'-tab. These access codes are generated in a sub-tab 'Access Codes' in the tab 'Participants'."
+
+msgid "survey_activate_skill_service"
+msgstr "Activate Competence Service"
+
+msgid "survey_activate_skill_service_info"
+msgstr "todo12"
+
+msgid "survey_add_new_question"
+msgstr "Lisa uus leht"
+
+msgid "survey_assign_competence"
+msgstr "Assign Competence"
+
+msgid "survey_auto_block_title"
+msgstr "Lehe pealkiri"
+
+msgid "survey_available_question_pools"
+msgstr "Kättesaadavad varamud"
+
+msgid "survey_calc_skills"
+msgstr "Determine Competence Levels"
+
+#, fuzzy
+msgid "survey_calculate_sum_score"
+msgstr "Calculate Sum Score"
+
+#, fuzzy
+msgid "survey_calculate_sum_score_info"
+msgstr "Calculates the sum of all scale values for single choice, multiple choice and matrix questions for each participant. Caution: If participants skip these kind of questions, the whole sum score will not be calculated anymore."
+
+msgid "survey_cancel_preview"
+msgstr "Katkesta eelvaade"
+
+msgid "survey_cannot_preview_survey"
+msgstr "Eelvaade pole kättesaadav"
+
+msgid "survey_code"
+msgstr "Küsitluse ligipääsukood"
+
+msgid "survey_code_delete_sure"
+msgstr "Are you sure you want to delete the following access codes?"
+
+msgid "survey_code_url"
+msgstr "Otsepääsu URL"
+
+msgid "survey_code_url_name"
+msgstr "URL (kasuta url kopeerimiseks hiire paremat klahvi)"
+
+msgid "survey_code_used"
+msgstr "Koodi kasutati"
+
+msgid "survey_codes_lang"
+msgstr "Küsitluse keel"
+
+msgid "survey_codes_no_anonymization"
+msgstr "Uute ligipääsukoodide loomiseks pead looma ligipääsukoodidega anonüümse küsitluse!"
+
+msgid "survey_competences"
+msgstr "Competences"
+
+msgid "survey_constraint_deleted"
+msgstr "The routing rule has been deleted."
+
+msgid "survey_copy_questions_to_pool"
+msgstr "Kopeeri küsimused varamusse"
+
+msgid "survey_copy_select_questionpool"
+msgstr "Küsimuste varamu koopiate jaoks"
+
+msgid "survey_copy_to_questionpool_success"
+msgstr "Küsimus on küsimuste varamusse edukalt kopeeritud."
+
+msgid "survey_delete_heading"
+msgstr "Eemalda päis"
+
+msgid "survey_edit_heading"
+msgstr "Muuda päist"
+
+msgid "survey_edit_settings"
+msgstr "Muuda seadeid"
+
+msgid "survey_error_insert_incomplete_question"
+msgstr "Üritasid küsitlusse lisada poolikut küsimust! Seda küsimust ei lisatud."
+
+msgid "survey_execution_exit"
+msgstr "Back to repository"
+
+#, fuzzy
+msgid "survey_execution_exit_360"
+msgstr "Back"
+
+msgid "survey_execution_sure_finish"
+msgstr "Are you sure you want to finish the survey? You will not be able to edit your answers afterwards."
+
+msgid "survey_finish"
+msgstr "lõpeta küsitlus"
+
+msgid "survey_finished"
+msgstr "Küsitlus on lõppenud. Aitäh osalemise eest!"
+
+msgid "survey_has_datasets_warning"
+msgstr "Küsitlus sisaldab juba andmeid. Sa ei saa küsitlust muuta enne, kui oled küsitluse haldusest need andmed eemaldanud."
+
+msgid "survey_has_datasets_warning_page_view"
+msgstr "Sellele küsitlusele on juba vastatud. Te ei saa küsitlust muuta enne kui senised andmed on kustutatud."
+
+msgid "survey_has_datasets_warning_page_view_link"
+msgstr "Muuda osalejaid"
+
+msgid "survey_introduction_info"
+msgstr "See sõnum ilmub küsitluse alguses."
+
+msgid "survey_is_offline"
+msgstr "Küsitlusele ei ole võimalik vastata! Küsitlus pole aktiivne."
+
+msgid "survey_next"
+msgstr "edasi >>>"
+
+msgid "survey_not_available"
+msgstr "n/a"
+
+msgid "survey_notification_finished_introduction"
+msgstr "The following participant has finished the survey."
+
+msgid "survey_notification_finished_reason"
+msgstr "You are receiving this email because you activated notifications for the survey mentioned above."
+
+msgid "survey_notification_target_group"
+msgstr "Target Group"
+
+#, fuzzy
+msgid "survey_notification_target_group_invited"
+msgstr "All users who got the survey put on their Personal Desktop"
+
+msgid "survey_notification_target_group_invited_info"
+msgstr "Currently invited users: %s"
+
+msgid "survey_notification_target_group_parent_course"
+msgstr "All members of parent course/group"
+
+msgid "survey_notification_target_group_parent_course_inactive"
+msgstr "No parent course/group given - no reminders will be sent!"
+
+msgid "survey_notification_tutor_body"
+msgstr "The following survey has been finished by all participants"
+
+msgid "survey_notification_tutor_link"
+msgstr "Link to Survey"
+
+msgid "survey_notification_tutor_recipients"
+msgstr "Tutors (Login[s])"
+
+msgid "survey_notification_tutor_recipients_invalid"
+msgstr "Please state users with write permission."
+
+msgid "survey_notification_tutor_salutation"
+msgstr "Hello %s,"
+
+msgid "survey_notification_tutor_setting"
+msgstr "Notify tutors when\tall participants have finished"
+
+msgid "survey_notification_tutor_subject"
+msgstr "All participants have finished the survey \"%s\""
+
+msgid "survey_order"
+msgstr "Sortimisjärjestus"
+
+msgid "survey_previous"
+msgstr "<<< eelmine"
+
+msgid "survey_question_editor"
+msgstr "Muuda küsitluse küsimusi"
+
+msgid "survey_question_obligatory"
+msgstr "(See küsimus on kohustuslik. Palun vasta küsimusele)"
+
+msgid "survey_question_pool"
+msgstr "Küsimuste varamu"
+
+msgid "survey_question_pool_title"
+msgstr "Varamu pealkiri"
+
+msgid "survey_question_title"
+msgstr "Küsimuse pealkiri"
+
+msgid "survey_questions"
+msgstr "Küsimused"
+
+msgid "survey_questions_to_clipboard_copy"
+msgstr "Küsimus(ed) kopeeriti puhvrisse. Palun vali sihtkoht või tühjenda sihtkoht."
+
+msgid "survey_reached_level"
+msgstr "Reached Level"
+
+msgid "survey_reminder_body"
+msgstr "the following survey has not been finished by you yet"
+
+#, fuzzy
+msgid "survey_reminder_cron"
+msgstr "Remind users to participate"
+
+msgid "survey_reminder_cron_info"
+msgstr "If activated, users will be reminded to participate in surveys."
+
+msgid "survey_reminder_end"
+msgstr "End"
+
+msgid "survey_reminder_frequency"
+msgstr "Frequency"
+
+msgid "survey_reminder_frequency_days"
+msgstr "Days"
+
+msgid "survey_reminder_link"
+msgstr "URL"
+
+msgid "survey_reminder_salutation"
+msgstr "Hello %s,"
+
+msgid "survey_reminder_setting"
+msgstr "Remind Users to Participate"
+
+msgid "survey_reminder_start"
+msgstr "Start"
+
+msgid "survey_reminder_subject"
+msgstr "Survey \"%s\" was not finished"
+
+msgid "survey_remove_competence"
+msgstr "Remove Competence"
+
+msgid "survey_results_anonymization"
+msgstr "Privacy"
+
+msgid "survey_results_anonymized"
+msgstr "Without Names"
+
+msgid "survey_results_anonymized_info"
+msgstr "In the tab 'Results' participants' names are replaced by codes. Users having acces to this tab cannot attribute answers to named participants but only to user \"iTXaF\" (example)."
+
+msgid "survey_results_finished"
+msgstr "Survey finished"
+
+#, fuzzy
+msgid "survey_results_not_started"
+msgstr "Survey not started"
+
+msgid "survey_results_personalized"
+msgstr "With Names"
+
+msgid "survey_results_personalized_info"
+msgstr "In the tab 'Results' the names of the partcipants and their respective answers are listed. Users having access to this tab can inspect who has provided which answer."
+
+#, fuzzy
+msgid "survey_results_started"
+msgstr "Survey started"
+
+msgid "survey_show_blocktitle"
+msgstr "Näita ploki pealkirja"
+
+msgid "survey_show_blocktitle_description"
+msgstr "Aktiveerimise korral on ploki pealkiri küsitluses nähtav."
+
+msgid "survey_skill"
+msgstr "Competence"
+
+msgid "survey_skill_assign"
+msgstr "Question/Competence Assignment"
+
+msgid "survey_skill_level"
+msgstr "Competence Level"
+
+msgid "survey_skill_max_scale_points"
+msgstr "Max. Scale Points"
+
+msgid "survey_skill_nr_q"
+msgstr "Number of Questions"
+
+msgid "survey_skill_thresholds"
+msgstr "Competence Thresholds"
+
+msgid "survey_start"
+msgstr "mine alguslehele"
+
+msgid "survey_sum_of_means"
+msgstr "Sum of Arithm. Means per Question"
+
+msgid "survey_sure_delete_constraint"
+msgstr "Are you sure you want to delete the routing rule \"%1$s\" for the question \"%2$s\"?"
+
+msgid "survey_sure_delete_questions"
+msgstr "Soovite kustutada järgnevad küsimused või päised?"
+
+msgid "survey_sync_insufficient_permissions"
+msgstr "Ebapiisavad õigused"
+
+msgid "survey_sync_question_copies"
+msgstr "Sünkroniseeri küsimuste koopiad"
+
+msgid "survey_sync_question_copies_info"
+msgstr "Valitud küsimused vahetatakse välja aktiivse varamu versiooniga."
+
+msgid "survey_sync_success"
+msgstr "Valitud küsimused on uuendatud."
+
+msgid "survey_up_to_x_points"
+msgstr "Up to x points"
+
+msgid "survey_use_start_button"
+msgstr "Sa pead küsitlusse sisenema, kasutades `Alusta` nuppu!"
+
+msgid "svy_activation_limited_visibility_info"
+msgstr "If chosen, the survey is visible even outside of the given availability."
+
+msgid "svy_activation_online_info"
+msgstr "Activate this setting to make the survey accessible to users."
+
+#, fuzzy
+msgid "svy_add_internal_user"
+msgstr "Add User"
+
+#, fuzzy
+msgid "svy_add_internal_user_info"
+msgstr "The rater has a registered user on this platform."
+
+#, fuzzy
+msgid "svy_add_rater"
+msgstr "Add Rater"
+
+#, fuzzy
+msgid "svy_all_raters"
+msgstr "All Raters"
+
+msgid "svy_all_survey_competences"
+msgstr "All Survey Competences"
+
+msgid "svy_all_user_data_deleted"
+msgstr "Selle ankeetküsitluse kasutajate andmed on kustutatud!"
+
+msgid "svy_analysis"
+msgstr "Analysis"
+
+#, fuzzy
+msgid "svy_anonymous_participants"
+msgstr "List of Participants"
+
+#, fuzzy
+msgid "svy_anonymous_participants_info"
+msgstr "If activated a list of participants can be enabled in anonymous surveys."
+
+#, fuzzy
+msgid "svy_anonymous_participants_min"
+msgstr "Minimum Number of Participants"
+
+#, fuzzy
+msgid "svy_anonymous_participants_min_info"
+msgstr "The list will only be available if there are at least the minimum number of participants."
+
+#, fuzzy
+msgid "svy_anonymous_participants_svy"
+msgstr "List of Participants"
+
+#, fuzzy
+msgid "svy_anonymous_participants_svy_info"
+msgstr "If activated a list of participants is available after the end date."
+
+#, fuzzy
+msgid "svy_answer_too_long"
+msgstr "Your current answer is too long (%s characters). Please shorten your answer."
+
+#, fuzzy
+msgid "svy_app_see_rater_info"
+msgstr "Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters."
+
+#, fuzzy
+msgid "svy_appraisses_cannot_be_raters"
+msgstr "User cannot be added as rater. Use self evaluation option in the survey settings instead."
+
+msgid "svy_back"
+msgstr "Back"
+
+msgid "svy_categories"
+msgstr "Vastus"
+
+msgid "svy_check_evaluation_access_introduction"
+msgstr "Kuna ligipääs küsitluse tulemustele on vaid küsitluse osalejatel, pead sisestama küsitluskoodi."
+
+msgid "svy_check_evaluation_authentication_needed"
+msgstr "Vajalik autentimine"
+
+msgid "svy_check_evaluation_wrong_key"
+msgstr "Sa sisestasid vale küsitluskoodi või pole küsitlusele vastanud. Ligipääs küsitluse tulemustele on keelatud."
+
+#, fuzzy
+msgid "svy_compress_view"
+msgstr "Compressed View"
+
+#, fuzzy
+msgid "svy_compress_view_info"
+msgstr "If activated, all single choice questions with similar scales will be presented matrix-like."
+
+msgid "svy_copy"
+msgstr "Copy Survey"
+
+msgid "svy_create_question"
+msgstr "Loo küsimus"
+
+msgid "svy_delete_all_user_data"
+msgstr "Kustuta kõikide kasutajate andmed"
+
+#, fuzzy
+msgid "svy_dont_send"
+msgstr "Don't send a message"
+
+#, fuzzy
+msgid "svy_eval_captions"
+msgstr "Figures"
+
+#, fuzzy
+msgid "svy_eval_captions_abs"
+msgstr "Absolute"
+
+#, fuzzy
+msgid "svy_eval_captions_abs_perc"
+msgstr "Absolute and Percentage"
+
+#, fuzzy
+msgid "svy_eval_captions_perc"
+msgstr "Percentage"
+
+msgid "svy_eval_competences"
+msgstr "Competence Results"
+
+msgid "svy_eval_cumulated"
+msgstr "Tulemused kokku"
+
+msgid "svy_eval_detail"
+msgstr "Tulemused kokku (detailselt)"
+
+msgid "svy_eval_skipped_value"
+msgstr "Results: \"skipped\""
+
+msgid "svy_eval_skipped_value_custom"
+msgstr "Use custom value"
+
+msgid "svy_eval_skipped_value_custom_info"
+msgstr "Define any (or empty) value to use for skipped answers"
+
+msgid "svy_eval_skipped_value_custom_value"
+msgstr "Value"
+
+msgid "svy_eval_skipped_value_lng"
+msgstr "Use language file entry"
+
+msgid "svy_eval_skipped_value_lng_info"
+msgstr "Current value: \"%s\""
+
+msgid "svy_eval_user"
+msgstr "Kasutajatest lähtuvad tulemused"
+
+#, fuzzy
+msgid "svy_eval_view"
+msgstr "View"
+
+#, fuzzy
+msgid "svy_eval_view_charts"
+msgstr "Chart"
+
+#, fuzzy
+msgid "svy_eval_view_tables"
+msgstr "Table"
+
+#, fuzzy
+msgid "svy_eval_view_tables_charts"
+msgstr "Table and chart"
+
+msgid "svy_evaluation_access_all_info"
+msgstr "All registered users that can access the survey can also look at the results of this survey."
+
+msgid "svy_evaluation_access_off_info"
+msgstr "Only Users that can edit the survey (write permission) have access to the survey's results."
+
+msgid "svy_evaluation_access_participants_info"
+msgstr "All users that participated in the survey may choose to look at the results after finishing it."
+
+msgid "svy_export_files"
+msgstr "Ekspordifail(id)"
+
+#, fuzzy
+msgid "svy_export_format"
+msgstr "Export survey data as"
+
+#, fuzzy
+msgid "svy_export_pdf"
+msgstr "Export PDF"
+
+#, fuzzy
+msgid "svy_ext_rater_firstname"
+msgstr "First name of external rater"
+
+#, fuzzy
+msgid "svy_ext_rater_lastname"
+msgstr "Last name of external rater"
+
+#, fuzzy
+msgid "svy_external_rater"
+msgstr "Add External Rater"
+
+#, fuzzy
+msgid "svy_external_rater_info"
+msgstr "The rater is not registered on this platform."
+
+#, fuzzy
+msgid "svy_fraction_of_selections"
+msgstr "Fraction of selections"
+
+msgid "svy_gap_analysis"
+msgstr "Gap Analysis"
+
+msgid "svy_general_properties"
+msgstr "Üldised seaded"
+
+msgid "svy_import_codes"
+msgstr "Import Codes"
+
+msgid "svy_import_codes_info"
+msgstr "This import requires a \"%s\" export file."
+
+#, fuzzy
+msgid "svy_ind_feedb_info"
+msgstr "Users get distinct evaluations by others."
+
+#, fuzzy
+msgid "svy_ind_feedb_mode"
+msgstr "Individual Feedback"
+
+#, fuzzy
+msgid "svy_mail_confirmation_subject"
+msgstr "Survey \"%s\" - Your participation confirmation"
+
+#, fuzzy
+msgid "svy_mail_context_rater_invitation_info"
+msgstr "Invite raters to participate in a survey."
+
+#, fuzzy
+msgid "svy_mail_context_rater_invitation_survey_title"
+msgstr "Survey Title"
+
+#, fuzzy
+msgid "svy_mail_context_rater_invitation_title"
+msgstr "Survey: Rater Invitation"
+
+#, fuzzy
+msgid "svy_mail_context_reminder_info"
+msgstr "Reminds users to participate in survey"
+
+#, fuzzy
+msgid "svy_mail_context_reminder_survey_title"
+msgstr "Survey Title"
+
+#, fuzzy
+msgid "svy_mail_context_reminder_title"
+msgstr "Survey Reminder"
+
+msgid "svy_mail_own_results_body"
+msgstr "the following is a complete summary of your survey participation."
+
+msgid "svy_mail_own_results_subject"
+msgstr "Survey \"%s\" - Your Answers"
+
+#, fuzzy
+msgid "svy_mail_send_confirmation"
+msgstr "Send Participation Confirmation"
+
+msgid "svy_matrix_layout_percentages_sum_invalid"
+msgstr "The column settings do not sum up to 100%."
+
+#, fuzzy
+msgid "svy_max_sum_score"
+msgstr "Maximum Sum Score"
+
+msgid "svy_neutral_answer"
+msgstr "Text for a Neutral Answer (\"Not Specified\", \"I don't know\" etc.)"
+
+#, fuzzy
+msgid "svy_no_appraisees_found"
+msgstr "No appraisees with feedbacks found."
+
+#, fuzzy
+msgid "svy_notification_tutor_results"
+msgstr "One E-Mail including Survey Results"
+
+#, fuzzy
+msgid "svy_notification_tutor_results_alert"
+msgstr "This requires an end date."
+
+#, fuzzy
+msgid "svy_notification_tutor_results_info"
+msgstr "After reaching the end data a cron job will send an email with the detailed survey results attached to it."
+
+#, fuzzy
+msgid "svy_only_max_one_external_rater"
+msgstr "Please select only one external rater."
+
+msgid "svy_page_error"
+msgstr "Küsitlusele vastamisel tekkis viga. Palun pöördu küsimuste juurde tagasi, et rohkem infot saada!"
+
+msgid "svy_page_errors"
+msgstr "Küsitlusele vastamisel tekkis viga. Palun pöördu küsimuste juurde tagasi, et viga näha!"
+
+#, fuzzy
+msgid "svy_participant"
+msgstr "Participant"
+
+#, fuzzy
+msgid "svy_participants"
+msgstr "Participants"
+
+msgid "svy_participation"
+msgstr "Osalus"
+
+#, fuzzy
+msgid "svy_please_select_unused_codes"
+msgstr "Please select at least one unused code."
+
+#, fuzzy
+msgid "svy_print_hide_labels"
+msgstr "Hide labels"
+
+#, fuzzy
+msgid "svy_print_show_labels"
+msgstr "Show labels"
+
+#, fuzzy
+msgid "svy_privacy_info"
+msgstr "Privacy"
+
+#, fuzzy
+msgid "svy_rater"
+msgstr "Rater"
+
+#, fuzzy
+msgid "svy_rater_see_app_info"
+msgstr "The names of appraisees will be presented to raters to enable them evaluating the questions."
+
+#, fuzzy
+msgid "svy_reminder_mail_template"
+msgstr "Mail Template"
+
+#, fuzzy
+msgid "svy_reminder_mail_template_none"
+msgstr "Do not use mail template"
+
+msgid "svy_result_mail_notification_info"
+msgstr "On finishing the survey the answers of each participant will be sent to the defined recipients."
+
+msgid "svy_results"
+msgstr "Results"
+
+#, fuzzy
+msgid "svy_results_mail_confirm"
+msgstr "Participants can request participation confirmation"
+
+#, fuzzy
+msgid "svy_results_mail_confirm_info"
+msgstr "Participants can request a mail with a confirmation of participation at the end of the survey."
+
+msgid "svy_results_mail_own"
+msgstr "Participant can mail own answers"
+
+msgid "svy_results_mail_own_info"
+msgstr "todo5"
+
+#, fuzzy
+msgid "svy_save_and_continue"
+msgstr "Save and Continue"
+
+msgid "svy_save_sync"
+msgstr "Salvesta ja sünkroniseeri küsimuste koopiad"
+
+#, fuzzy
+msgid "svy_search_user"
+msgstr "Search User"
+
+#, fuzzy
+msgid "svy_search_user_info"
+msgstr "Search for users or roles and pick participants."
+
+msgid "svy_search_users"
+msgstr "Otsi kasutajaid"
+
+#, fuzzy
+msgid "svy_select_rater"
+msgstr "Select Rater"
+
+msgid "svy_selected_user_data_deleted"
+msgstr "Valitud kasutajate küsitlusandmed on edukalt kustutatud"
+
+#, fuzzy
+msgid "svy_self_ev_access_results_all"
+msgstr "Access to Self-Evaluations of All Participants"
+
+#, fuzzy
+msgid "svy_self_ev_access_results_none"
+msgstr "No Access to Results"
+
+#, fuzzy
+msgid "svy_self_ev_access_results_own"
+msgstr "Access to Own Self-Evaluations"
+
+#, fuzzy
+msgid "svy_self_ev_info"
+msgstr "Use for self evaluation."
+
+#, fuzzy
+msgid "svy_self_ev_mode"
+msgstr "Self-Evaluation Only"
+
+msgid "svy_settings_section_access"
+msgstr "Administering the Survey: Access"
+
+msgid "svy_settings_section_before_start"
+msgstr "Information before Start of Survey"
+
+msgid "svy_settings_section_finishing"
+msgstr "Finishing the Survey"
+
+msgid "svy_settings_section_question_behaviour"
+msgstr "Administering the Survey: Behaviour of the Question"
+
+msgid "svy_settings_section_reminders"
+msgstr "Reminders"
+
+msgid "svy_show_questiontitles"
+msgstr "Näita küsitluses küsimuste pealkirju"
+
+msgid "svy_skl_comp_assignm_not_supported"
+msgstr "Competence assignment is not supported for this question type."
+
+#, fuzzy
+msgid "svy_sum_score"
+msgstr "Sum Score"
+
+#, fuzzy
+msgid "svy_type_of_rater"
+msgstr "Type of Rater"
+
+msgid "svy_view_own_results"
+msgstr "View given answers"
+
+#, fuzzy
+msgid "svy_wrong_or_expired_code"
+msgstr "Sorry, you entered an invalid or expired code."
+
+msgid "text_maximum_chars_allowed"
+msgstr "Palun ära sisesta üle %s tähemärgi. Kõik tähemärgid üle selle arvu kustuvad."
+
+msgid "text_question_not_filled_out"
+msgstr "Palun täida vastuseväli!"
+
+msgid "unfold"
+msgstr "Vabasta"
+
+msgid "upper_limit"
+msgstr "Ülemine piir"
+
+msgid "use_anonymous_id"
+msgstr "Näita küsitluskoodi"
+
+msgid "use_anonymous_id_desc"
+msgstr "Kui märgistatud, näidatakse kasutaja nime anonüümses küsitluses kui küsitluskoodi, vastasel juhul näidatakse teksti `Anonüümne`."
+
+msgid "use_browser_print_function"
+msgstr "Palun kasuta oma brauseri printimisfunktsiooni."
+
+msgid "use_min_answers"
+msgstr "Vastusvalik"
+
+msgid "use_min_answers_option"
+msgstr "Kasuta vastusvaliku miinimumi"
+
+msgid "use_other_answer"
+msgstr "Avatud vastus"
+
+msgid "used"
+msgstr "kasutatud"
+
+msgid "users_answered"
+msgstr "Vastanud kasutajad"
+
+msgid "users_invited"
+msgstr "%s kasutajat on kutsutud"
+
+msgid "users_skipped"
+msgstr "Vahele jätnud kasutajad"
+
+msgid "values"
+msgstr "Väärtused"
+
+msgid "vertical"
+msgstr "vertikaalne"
+
+msgid "warning_question_not_complete"
+msgstr "Küsimus pole lõpetatud!"
+
+msgid "workingtime"
+msgstr "Vastamiseks kulunud aeg"

@@ -1,0 +1,1741 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: survey\n"
+
+msgid "SurveyMatrixQuestion"
+msgstr "Matrix fråga"
+
+msgid "SurveyMetricQuestion"
+msgstr "Metrisk fråga"
+
+msgid "SurveyMultipleChoiceQuestion"
+msgstr "Flervalsfråga"
+
+msgid "SurveySingleChoiceQuestion"
+msgstr "Fråga med ett enda val"
+
+msgid "SurveyTextQuestion"
+msgstr "Ange fri text"
+
+msgid "add_heading"
+msgstr "Lägg till bildtext"
+
+msgid "already_completed_survey"
+msgstr "Du har redan slutfört undersökningen! En undersökning kan inte genomföras en andra gång."
+
+msgid "anonymization"
+msgstr "Anonymisering"
+
+msgid "anonymize_anonymous_introduction"
+msgstr "För att ge dig tillgång till denna undersökning måste du använda en 5-siffrig åtkomstnyckel som du kommer att få från den person som ansvarar för denna undersökning.<br />Ange denna åtkomstnyckel i textfältet ovan."
+
+msgid "answer"
+msgstr "Svar"
+
+msgid "arithmetic_mean"
+msgstr "Aritmetiskt medelvärde"
+
+msgid "browse_for_questions"
+msgstr "Lägg till från pool"
+
+msgid "cancel_survey"
+msgstr "Undersökning om avbrott"
+
+msgid "cannot_read_survey"
+msgstr "Du har inte tillräcklig behörighet för att komma åt undersökningsdata!"
+
+msgid "cannot_switch_to_online_no_questions"
+msgstr "Statusen kan inte ändras till &quot;online (aktiverad)&quot; eftersom inga frågor har lagts till i enkäten ännu!"
+
+msgid "cant_send_email_smtp_disabled"
+msgstr "Att skicka externa e-postmeddelanden är för närvarande globalt avaktiverat."
+
+msgid "category"
+msgstr "Svar"
+
+msgid "category_nr_selected"
+msgstr "Antal valmöjligheter"
+
+msgid "chart"
+msgstr "Diagram"
+
+msgid "codes"
+msgstr "Nyckel för åtkomst"
+
+msgid "codes_created"
+msgstr "Åtkomstnyckel genererad"
+
+msgid "codes_deleted"
+msgstr "Åtkomstnyckel borttagen"
+
+msgid "combobox"
+msgstr "Kombinationsfält"
+
+msgid "concatenation"
+msgstr "Länk"
+
+msgid "confirm_delete_all_user_data"
+msgstr "Är du säker på att du vill radera alla uppgifter om deltagarna i undersökningen?"
+
+msgid "confirm_delete_single_user_data"
+msgstr "Är du säker på att du vill ta bort dessa deltagare? Detta kommer att radera alla undersökningsdata för de valda användarna."
+
+msgid "confirm_remove_heading"
+msgstr "Är du säker på att du vill ta bort rubriken?"
+
+msgid "confirm_sync_questions"
+msgstr "Frågan du ändrade skapades som en kopia av ett original när du infogade den i undersökningen. Vill du nu tillämpa dina ändringar på den ursprungliga frågan?"
+
+msgid "conjunction_and"
+msgstr "Om varje villkor är uppfyllt"
+
+msgid "conjunction_and_title"
+msgstr "Uppfyller något av följande villkor"
+
+msgid "conjunction_or"
+msgstr "när ett villkor är uppfyllt"
+
+msgid "conjunction_or_title"
+msgstr "Uppfyller ett av följande villkor"
+
+msgid "constraint_add"
+msgstr "Lägg till förgreningsregel"
+
+msgid "constraint_fulfilled"
+msgstr "Visa sida"
+
+msgid "constraints"
+msgstr "Branchningsregel"
+
+msgid "constraints_first_question_description"
+msgstr "Den första posten kan inte ha en förgreningsregel eftersom det inte finns några tidigare poster."
+
+msgid "constraints_introduction"
+msgstr "Förgreningsregler kan läggas till för en enskild fråga såväl som för ett frågeblock med flera frågor. Beroende på det valda svaret i en tidigare fråga, presenteras en mycket specifik fråga härnäst. Förgreningsregler gör det möjligt för undersökningen att"
+
+msgid "constraints_list_of_entities"
+msgstr "Möjliga hängare för förgreningsregler"
+
+msgid "constraints_no_nonessay_available"
+msgstr "Det finns inga föregående frågor som kan användas för att skapa förgreningsregler. Följande typer stöds"
+
+msgid "constraints_no_questions_or_questionblocks_selected"
+msgstr "Välj minst en fråga eller ett frågeblock!"
+
+msgid "contains"
+msgstr "Inkluderar"
+
+msgid "continue"
+msgstr "Fortsätt &gt;&gt;"
+
+msgid "create_new"
+msgstr "Skapa ny"
+
+msgid "dc_agree"
+msgstr "överenskommet"
+
+msgid "dc_always"
+msgstr "alltid"
+
+msgid "dc_definitelyfalse"
+msgstr " otvetydigt fel"
+
+msgid "dc_definitelytrue"
+msgstr "otvetydigt sant"
+
+msgid "dc_desired"
+msgstr " önskad"
+
+msgid "dc_disagree"
+msgstr "inte håller med"
+
+msgid "dc_fair"
+msgstr "lämplig"
+
+msgid "dc_false"
+msgstr "fel"
+
+msgid "dc_good"
+msgstr "bra"
+
+msgid "dc_manytimes"
+msgstr "frekvent"
+
+msgid "dc_morenegative"
+msgstr "mer negativ"
+
+msgid "dc_morepositive"
+msgstr "mycket positiv"
+
+msgid "dc_mostcertainly"
+msgstr "absolut säker"
+
+msgid "dc_mostcertainlynot"
+msgstr "absolut osäker"
+
+msgid "dc_must"
+msgstr "måste"
+
+msgid "dc_mustnot"
+msgstr "får inte"
+
+msgid "dc_neutral"
+msgstr "neutral"
+
+msgid "dc_never"
+msgstr "aldrig"
+
+msgid "dc_no"
+msgstr "Nej"
+
+msgid "dc_notacceptable"
+msgstr "oacceptabelt"
+
+msgid "dc_poor"
+msgstr "fattig"
+
+msgid "dc_rarely"
+msgstr "sällan"
+
+msgid "dc_should"
+msgstr "bör"
+
+msgid "dc_shouldnot"
+msgstr "bör inte"
+
+msgid "dc_sometimes"
+msgstr "ibland"
+
+msgid "dc_stronglyagree"
+msgstr "absolut håller med"
+
+msgid "dc_stronglydesired"
+msgstr "absolut önskvärt"
+
+msgid "dc_stronglydisagree"
+msgstr "absolut håller inte med"
+
+msgid "dc_stronglyundesired"
+msgstr "absolut inte önskad"
+
+msgid "dc_true"
+msgstr "sant"
+
+msgid "dc_undecided"
+msgstr "obeslutad"
+
+msgid "dc_undesired"
+msgstr "oönskad"
+
+msgid "dc_varying"
+msgstr "different"
+
+msgid "dc_verygood"
+msgstr "mycket bra"
+
+msgid "dc_yes"
+msgstr "Ja"
+
+msgid "default_codes_mail_message"
+msgstr "Din åtkomstnyckel för undersökningen är [kod]. Du kan komma åt undersökningen när som helst på URL [url]."
+
+msgid "default_codes_mail_subject"
+msgstr "Din åtkomstnyckel för undersökningen %s"
+
+msgid "define_questionblock"
+msgstr "Definiera frågeblock"
+
+msgid "delete_saved_message"
+msgstr "Radera meddelandetext"
+
+msgid "display_all_available"
+msgstr "Visa alla tillgängliga"
+
+msgid "duplicate"
+msgstr "Kopia"
+
+msgid "edit_heading"
+msgstr "Redigera rubrik"
+
+msgid "end_date"
+msgstr "Slutdatum"
+
+msgid "end_date_reached"
+msgstr "Du kan inte längre starta undersökningen. Det sista tillåtna datumet har överskridits!"
+
+msgid "enter_anonymous_id"
+msgstr "Nyckel för åtkomst"
+
+msgid "enter_valid_number_of_codes"
+msgstr "Var god ange ett giltigt nummer för att generera åtkomstnycklar!"
+
+msgid "err_external_rcp_no_email"
+msgstr "Importdata måste innehålla minst en \"email\"-kolumn, dvs. en rad med rubriken \"email\" och ytterligare rader med respektive e-postadresser."
+
+msgid "err_external_rcp_no_email_column"
+msgstr "Importdata måste innehålla minst en \"email\"-kolumn, dvs. en rad med rubriken \"email\" och ytterligare rader med respektive e-postadresser."
+
+msgid "err_maxvaluegeminvalue"
+msgstr "Det maximala antalet svar måste vara större än eller lika med det minimala antalet svar och högst lika med det maximala antalet svar."
+
+msgid "err_minvalueganswers"
+msgstr "Det minsta antalet svar får inte vara större än det maximala antalet svar."
+
+msgid "err_no_exact_answers"
+msgstr "Välj exakt %s svar(en)."
+
+msgid "err_no_max_answers"
+msgstr "Välj högst %s svar."
+
+msgid "err_no_min_answers"
+msgstr "Välj minst %s svar."
+
+msgid "error_retrieving_anonymous_survey"
+msgstr "Systemet kunde inte hitta dina undersökningsdata under åtkomstnyckeln %s. Vänligen kontrollera åtkomstnyckeln!"
+
+msgid "error_save_code"
+msgstr "Värden sparades inte korrekt. <b>E-postadressen '%s' är inte giltig....</b> Förnamn"
+
+msgid "evaluation"
+msgstr "Statistik"
+
+msgid "evaluation_access"
+msgstr "Deltagarnas tillgång till resultaten"
+
+msgid "evaluation_access_all"
+msgstr "Alla registrerade ILIAS-användare kan få tillgång till resultaten"
+
+msgid "evaluation_access_info"
+msgstr "Du har tillgång till utvärderingen av undersökningen"
+
+msgid "evaluation_access_off"
+msgstr "Deltagarna har inte tillgång till resultaten"
+
+msgid "evaluation_access_participants"
+msgstr "Alla deltagare i undersökningen har tillgång till resultaten"
+
+msgid "existing_constraints"
+msgstr "Existerande förgreningsregler"
+
+msgid "exp_type_csv"
+msgstr "Kommaseparerade värden (CSV)"
+
+msgid "exp_type_excel"
+msgstr "Microsoft Excel"
+
+msgid "export_all_survey_codes"
+msgstr "Exportera alla åtkomstnycklar"
+
+msgid "export_label_only"
+msgstr "Endast exportmärkning"
+
+msgid "export_title_label"
+msgstr "Exportera titel och etikett"
+
+msgid "export_title_only"
+msgstr "Exportera endast titel"
+
+msgid "external_recipients_imported"
+msgstr "Data har importerats."
+
+msgid "externalmails"
+msgstr "Importera fil"
+
+msgid "externalmails_info"
+msgstr "Importfilen måste vara en CSV-fil. Kolumnerna måste separeras med semikolon. Den första raden måste innehålla kolumnrubrikerna. Filen måste innehålla minst en kolumn med kolumnrubriken \"email\". Detta gör det möjligt för personer utan ILIAS-konto att få å"
+
+msgid "externaltext"
+msgstr "Importera text"
+
+msgid "externaltext_info"
+msgstr "Den importerade texten måste delas in i rader och kolumner. Kolumnerna måste separeras med semikolon. Den första raden innehåller kolumnrubrikerna. Texten måste innehålla minst en post för respektive e-postadress. Detta gör det möjligt för personer utan"
+
+msgid "filter_all_question_types"
+msgstr "Alla typer av frågor"
+
+msgid "filter_all_questionpools"
+msgstr "Alla frågepooler"
+
+msgid "finished_mail_subject"
+msgstr "Undersökningen \"%s\" har avslutats"
+
+msgid "freetext_answers"
+msgstr "Freitext svar"
+
+msgid "geometric_mean"
+msgstr "Geometriskt medelvärde"
+
+msgid "given_answers"
+msgstr "Inlämnade svar"
+
+msgid "glossary_term"
+msgstr "Glossarisk term"
+
+msgid "harmonic_mean"
+msgstr "Harmoniska medel"
+
+msgid "heading"
+msgstr "Rubrik"
+
+msgid "horizontal"
+msgstr "horisontell"
+
+msgid "import_error_closing_file"
+msgstr "Fel vid stängning av importfilen!"
+
+msgid "import_error_opening_file"
+msgstr "Fel vid öppning av importfilen!"
+
+msgid "import_from_file"
+msgstr "Importera information om personer via fil"
+
+msgid "import_from_text"
+msgstr "Importera information om personer via text"
+
+msgid "import_no_file_selected"
+msgstr "Ingen fil vald!"
+
+msgid "import_question"
+msgstr "Importfrågor"
+
+msgid "import_wrong_file_type"
+msgstr "Fel filtyp!"
+
+msgid "insert_after"
+msgstr "Insätt bakom"
+
+msgid "insert_before"
+msgstr "Infoga före"
+
+msgid "insert_missing_question"
+msgstr "Välj minst en fråga att lägga till i undersökningen!"
+
+msgid "insert_missing_questionblock"
+msgstr "Välj minst ett frågeblock att lägga till i undersökningen!"
+
+msgid "insert_saved_message"
+msgstr "Inför meddelandetext"
+
+msgid "internal_link"
+msgstr "Intern referens"
+
+msgid "introduction"
+msgstr "Inledning"
+
+msgid "invited_users"
+msgstr "Utvalda användare"
+
+msgid "label"
+msgstr "Label"
+
+msgid "label_info"
+msgstr "Alternativ beteckning för vidare bearbetning (t.ex. i SPSS) av frågedata"
+
+msgid "language_changed"
+msgstr "Språk ändrat"
+
+msgid "layout"
+msgstr "Layout"
+
+msgid "lower_limit"
+msgstr "Lägre barriär"
+
+msgid "mail_import_example2"
+msgstr "ralfkoenig@domain.tld;Ralf;König"
+
+msgid "mail_import_example3"
+msgstr "ugoldschmidt@domain.tld;Ute;Goldschmidt"
+
+msgid "mail_sent_short"
+msgstr "Sänt"
+
+msgid "mail_survey_codes"
+msgstr "Skicka åtkomstnycklar och meddelanden"
+
+msgid "mailaddresses"
+msgstr "Skicka till"
+
+msgid "mailaddresses_info"
+msgstr " Ange kommaseparerade inloggningsnamn."
+
+msgid "mailnotification"
+msgstr "Ett e-postmeddelande per genomförd undersökning"
+
+msgid "mailparticipantdata"
+msgstr "Ytterligare uppgifter om deltagarna"
+
+msgid "mailparticipantdata_info"
+msgstr "Lägg till introduktionstext som ska anges i e-postmeddelandet före en deltagares resultatdata."
+
+msgid "mailparticipantdata_placeholder"
+msgstr " Dessa platshållare ersätts av motsvarande information om inställningen \"Sekretess\" nedan är inställd på \"Med namn\"."
+
+msgid "maintenance"
+msgstr "Deltagare"
+
+msgid "matrix_appearance"
+msgstr "Presentation"
+
+msgid "matrix_bipolar_adjectives"
+msgstr "Pol och antipol"
+
+msgid "matrix_bipolar_adjectives_description"
+msgstr "Du kan använda ett värdepar med en pol och en motsatt pol för att beskriva kolumnskalan mer exakt"
+
+msgid "matrix_column_separators"
+msgstr "Kolumnavgränsare"
+
+msgid "matrix_column_separators_description"
+msgstr "Markera kryssrutan om du vill visa separatorer (smala linjer) mellan kolumnerna i matrisfrågeutmatningen"
+
+msgid "matrix_column_settings"
+msgstr "Kolumnens egenskaper"
+
+msgid "matrix_columns"
+msgstr "Matrisens kolumner"
+
+msgid "matrix_left_pole"
+msgstr "Vänsterpol"
+
+msgid "matrix_neutral_answer"
+msgstr "Text för en neutral kolumn (\"Ej definierad\", \"Jag vet inte\", \"Ingen specifikation\" etc.)"
+
+msgid "matrix_neutral_column_separator"
+msgstr "Separator för den neutrala kolonnen"
+
+msgid "matrix_neutral_column_separator_description"
+msgstr "Markera kryssrutan om du vill visa en separator (bred linje) mellan den neutrala kolumnen och resten av kolumnerna i matrisfrågeutmatningen"
+
+msgid "matrix_question_checkbox_not_checked"
+msgstr "Välj minst en kryssruta i varje rad!"
+
+msgid "matrix_question_radio_button_not_checked"
+msgstr "Välj en alternativknapp på varje rad!"
+
+msgid "matrix_right_pole"
+msgstr "Högerpol"
+
+msgid "matrix_row_separators"
+msgstr "Linjeseparator"
+
+msgid "matrix_row_separators_description"
+msgstr "Markera kryssrutan om du vill visa separatorer (smala linjer) mellan raderna i matrisfrågeutmatningen"
+
+msgid "matrix_rows"
+msgstr "Matrislinjer"
+
+msgid "matrix_standard_answers"
+msgstr "Kolumntext"
+
+msgid "matrix_subtype_mr"
+msgstr "Kryssrutor (flera urval)"
+
+msgid "matrix_subtype_sr"
+msgstr "Radiobuttons (enstaka val)"
+
+msgid "maxchars"
+msgstr "Maximalt antal tillåtna tecken"
+
+msgid "maximum"
+msgstr "Maximalt värde"
+
+msgid "median"
+msgstr "Median"
+
+msgid "median_between"
+msgstr "mellan"
+
+msgid "menuback"
+msgstr "Tillbaka"
+
+msgid "menubacktosurvey"
+msgstr "Tillbaka till undersökningen"
+
+msgid "message_content_info"
+msgstr "Ange här den text som åtkomstnycklarna ska skickas med. Använd platshållarna [code] för åtkomstnyckeln, [url] för länken till denna undersökning och platshållarna [%s] som du använde i importdata. Platshållarna kommer att ersättas automatiskt."
+
+msgid "metric_question_floating_point"
+msgstr "Det angivna värdet är ett flyttal. Flytande tal är inte tillåtna för den här frågetypen!"
+
+msgid "metric_question_not_a_value"
+msgstr "Det angivna värdet är inte ett numeriskt värde!"
+
+msgid "metric_question_out_of_bounds"
+msgstr "Det värde du angav är inte mellan minimivärdet och maximivärdet!"
+
+msgid "metric_subtype_description_interval"
+msgstr "En egenskap kallas intervallskalad om den endast uppfyller de definierande egenskaperna för en kvantitativ egenskap. I synnerhet måste avstånden (skillnaderna) vara meningsfullt tolkningsbara. Termen tjänar endast till att skilja den från egenskaper vars"
+
+msgid "metric_subtype_description_ratioabsolute"
+msgstr "En kvantitativ egenskap kallas absolut skalad om endast en meningsfull skala kan användas för att mäta den. Detta motsvarar det faktum att endast en meningsfull enhet kan beaktas för egenskapen, t.ex. antalet barn i en familj. Egenskaper vars uttryck mät"
+
+msgid "metric_subtype_description_rationonabsolute"
+msgstr "En kvantitativ egenskap kallas proportionellt skalad om skalorna som används för mätning har en gemensam naturlig nollpunkt. Förhållanden (kvotdelar) av karakteristiska värden för en kvotskalad egenskap kan tilldelas en meningsfull innebörd. Den naturlig"
+
+msgid "minimum"
+msgstr "Minsta värde"
+
+msgid "mode"
+msgstr "Frekvent urval"
+
+msgid "mode_nr_of_selections"
+msgstr "Antal valmöjligheter"
+
+msgid "mode_text"
+msgstr "Frekvent urval (text)"
+
+msgid "msg_duplicate_scale"
+msgstr "Ange unika skalvärden."
+
+msgid "msg_enter_value_for_valid_constraint"
+msgstr "Var god ange ett värde för att skapa en giltig grenregel."
+
+msgid "msg_input_only_positive_numbers"
+msgstr "Ange siffror större än 0 som skalvärden."
+
+msgid "msg_max_nr_answers"
+msgstr "Välj högst %s svar."
+
+msgid "msg_message_deleted"
+msgstr "Meddelandet text borttagen"
+
+msgid "msg_message_inserted"
+msgstr "Meddelandet text infogad"
+
+msgid "msg_min_max_exact_answers"
+msgstr "Välj exakt %s svar(en)."
+
+msgid "msg_min_max_nr_answers"
+msgstr "Välj minst %s och högst %s svar."
+
+msgid "msg_min_nr_answers"
+msgstr "Välj minst %s svar."
+
+msgid "msg_no_message_deleted"
+msgstr "Välj en sparad meddelandetext som ska raderas."
+
+msgid "msg_no_message_inserted"
+msgstr "Välj en meddelandetext att infoga."
+
+msgid "new_survey_codes"
+msgstr "nya åtkomstnycklar för undersökningen"
+
+msgid "no_question_selected_for_copy_to_pool"
+msgstr "Välj minst en fråga som inte är tilldelad en frågepool."
+
+msgid "no_question_selected_for_move"
+msgstr "Välj minst en fråga att flytta!"
+
+msgid "no_question_selected_for_removal"
+msgstr "Välj minst en fråga och/eller ett frågeblock att ta bort!"
+
+msgid "no_target_selected_for_move"
+msgstr "Du måste välja en målposition!"
+
+msgid "non_ratio"
+msgstr "Intervall skala"
+
+msgid "not_sent_only"
+msgstr "Personer som ännu inte har fått ett e-postmeddelande"
+
+msgid "not_used"
+msgstr "används inte ännu"
+
+msgid "nr_max_answers"
+msgstr "Maximum"
+
+msgid "nr_min_answers"
+msgstr "Minimum"
+
+msgid "obligatory"
+msgstr "Åtagande"
+
+msgid "off"
+msgstr "Off"
+
+msgid "on"
+msgstr "An"
+
+msgid "or"
+msgstr "eller"
+
+msgid "orientation"
+msgstr "Inriktning"
+
+msgid "other_answer"
+msgstr "Annat svar"
+
+msgid "other_answer_label"
+msgstr "Label för ytterligare svar (valfritt)"
+
+msgid "outro"
+msgstr "Avslutande anmärkning"
+
+msgid "please_enter_mail_url"
+msgstr "Använd platshållaren för URL:en [url]."
+
+msgid "qpl_confirm_delete_questions"
+msgstr "Är du säker på att du vill ta bort följande frågor?"
+
+msgid "qpl_define_questionblock_select_missing"
+msgstr "Välj minst två frågor för att definiera ett frågeblock!"
+
+msgid "qpl_delete_select_none"
+msgstr "Välj minst en fråga för att utföra raderingsprocessen!"
+
+msgid "qpl_export_select_none"
+msgstr "Välj minst en fråga som du vill exportera!"
+
+msgid "qpl_questions_deleted"
+msgstr "Frågor borttagna."
+
+msgid "qpl_unfold_select_none"
+msgstr "Välj minst ett frågeblock att lösa!"
+
+msgid "question_changed_in_survey_only"
+msgstr "Frågan ändrades endast i undersökningen"
+
+msgid "question_mr_no_other_answer"
+msgstr "Var god ange en text för det fria svaret"
+
+msgid "question_mr_no_other_answer_checked"
+msgstr "Du måste markera kryssrutan när du anger en svarstext"
+
+msgid "question_mr_not_checked"
+msgstr "Välj minst ett av de svar som erbjuds!"
+
+msgid "question_not_checked"
+msgstr "Du måste välja ett av de svar som erbjuds!"
+
+msgid "question_obligatory"
+msgstr "Denna fråga är obligatorisk!"
+
+msgid "question_sr_no_other_answer_checked"
+msgstr "Du måste välja radioknappen när du anger en svarstext"
+
+msgid "question_type"
+msgstr "Typ av fråga"
+
+msgid "questionblock"
+msgstr "Frågeställning block"
+
+msgid "questionblock_inserted"
+msgstr "Frågeblock infört"
+
+msgid "questionblocks"
+msgstr "Frågeblock"
+
+msgid "questionblocks_inserted"
+msgstr "Frågeblock infogade"
+
+msgid "questions"
+msgstr "Frågor och svar"
+
+msgid "questions_inserted"
+msgstr "Frågor tillagda"
+
+msgid "questions_removed"
+msgstr "Frågor och/eller frågeblock borttagna!"
+
+msgid "questiontype"
+msgstr "Typ av fråga"
+
+msgid "ratio_absolute"
+msgstr "Absolut skalad"
+
+msgid "ratio_non_absolute"
+msgstr "Kvot skalad"
+
+msgid "recipients"
+msgstr "Skicka till"
+
+msgid "remove_question"
+msgstr "Remove"
+
+msgid "remove_questions"
+msgstr "Är du säker på att du vill ta bort följande frågor och/eller frågeblock från undersökningen?"
+
+msgid "results"
+msgstr "Resultat"
+
+msgid "resume_survey"
+msgstr "Fortsätt undersökningen"
+
+msgid "row_text"
+msgstr "Linje"
+
+msgid "save_obligatory_state"
+msgstr "Spara \"Obligatorisk\" status och sortering"
+
+msgid "save_reuse_message"
+msgstr "Spara meddelandeinnehåll för vidare användning"
+
+msgid "save_reuse_title"
+msgstr "Titel på meddelandets innehåll"
+
+msgid "saved_messages"
+msgstr "Tillgängliga meddelandetexter"
+
+msgid "scale"
+msgstr "Skala"
+
+msgid "search_groups"
+msgstr "Grupper"
+
+msgid "search_term"
+msgstr "Sökord(er)"
+
+msgid "select_option"
+msgstr "--- Vänligen välj ett svar ---."
+
+msgid "select_prior_question"
+msgstr "Välj en tidigare fråga"
+
+msgid "select_relation"
+msgstr "Välj relation"
+
+msgid "select_target_position_for_move_question"
+msgstr "Välj en målposition för att flytta frågor och tryck sedan på en av de två klistra in-knapparna!"
+
+msgid "select_value"
+msgstr "Sätt värde"
+
+msgid "selection"
+msgstr "Urval"
+
+msgid "send_to_all"
+msgstr "Alla personer för vilka åtkomstnycklar har genererats"
+
+msgid "send_to_answered"
+msgstr "Alla personer som redan har slutfört undersökningen"
+
+msgid "send_to_unanswered"
+msgstr "Personer som ännu inte har slutfört undersökningen"
+
+msgid "show_questiontext"
+msgstr "Visa frågetexten"
+
+msgid "show_questiontext_description"
+msgstr "Om denna kryssruta är aktiverad visas frågetexten för varje fråga inom frågeblocket (standard). Om denna kryssruta inte är aktiverad visas inte frågetexterna och endast svaren erbjuds. Detta kan vara användbart om du erbjuder flera frågor med identiska f"
+
+msgid "skipped"
+msgstr "hoppade över"
+
+msgid "spl_copy_insert_clipboard"
+msgstr "De valda frågorna har kopierats till Urklipp."
+
+msgid "spl_copy_select_none"
+msgstr "Välj minst en fråga att kopiera."
+
+msgid "spl_move_insert_clipboard"
+msgstr "De utvalda frågorna har markerats för flyttning."
+
+msgid "spl_move_same_pool"
+msgstr "Du kan inte flytta frågor inom samma frågepool."
+
+msgid "spl_move_select_none"
+msgstr "Välj minst en fråga att flytta."
+
+msgid "spl_online_property"
+msgstr "Online"
+
+msgid "spl_paste_no_objects"
+msgstr "Det finns inga frågor på klippbordet. Använd kopierings- eller flyttknapparna för detta."
+
+msgid "spl_paste_success"
+msgstr "Frågor infogade"
+
+msgid "spl_save_obligatory_state"
+msgstr "Spara status \"Obligatorisk\""
+
+msgid "start_date"
+msgstr "Startdatum"
+
+msgid "start_date_not_reached"
+msgstr "Du kan bara starta undersökningen när startdatumet har uppnåtts!"
+
+msgid "start_survey"
+msgstr "Starta undersökning"
+
+msgid "subtype"
+msgstr "Subtyp"
+
+msgid "survey_360_add_external_rater"
+msgstr "Lägg till extern feedbackgivare"
+
+msgid "survey_360_add_self_appraisee"
+msgstr "Lägg till dig själv som mottagare av feedback."
+
+msgid "survey_360_appraisee"
+msgstr "Feedback taker"
+
+msgid "survey_360_appraisee_close_action"
+msgstr "Stäng enkäten för feedbackgivare"
+
+msgid "survey_360_appraisee_close_action_info"
+msgstr "Detta ger dig tillgång till statistiken."
+
+msgid "survey_360_appraisee_close_action_info_skill"
+msgstr "Detta ger dig tillgång till statistiken och uppdaterar dina kompetensnivåer."
+
+msgid "survey_360_appraisee_close_action_status"
+msgstr "Poll avslutad på %s."
+
+msgid "survey_360_appraisee_close_action_success"
+msgstr "Du har stängt din 360°-undersökning för feedbackgivare."
+
+msgid "survey_360_appraisee_close_action_success_admin"
+msgstr "360° feedback-undersökningarna har avslutats."
+
+msgid "survey_360_appraisee_close_table"
+msgstr "Stängt på"
+
+msgid "survey_360_appraisee_is_closed"
+msgstr "Feedbackmottagaren har avslutat sin undersökning."
+
+msgid "survey_360_appraisees"
+msgstr "Feedback taker"
+
+msgid "survey_360_edit_raters"
+msgstr "Hantera feedbackgivare"
+
+msgid "survey_360_mode"
+msgstr "360° återkoppling"
+
+msgid "survey_360_mode_info"
+msgstr "Flera personer utvärderar varandra, feedback om en feedbackmottagare utvärderas aggregerat vid en tidpunkt."
+
+msgid "survey_360_no_appraisees"
+msgstr "Du kan inte ge feedback för tillfället."
+
+#, fuzzy
+msgid "survey_360_rate_other_appraisee"
+msgstr "Rate Appraisee"
+
+msgid "survey_360_rater_finished"
+msgstr "Undersökningen slutförd"
+
+msgid "survey_360_rater_mail_sent"
+msgstr "Mail skickat"
+
+msgid "survey_360_rater_message_content_anonymous"
+msgstr "Content (anonym)"
+
+msgid "survey_360_rater_message_content_anonymous_default"
+msgstr "Din åtkomstnyckel är [kod]. Du kan starta undersökningen i din webbläsare med följande URL"
+
+msgid "survey_360_rater_message_content_registered"
+msgstr "Content (Registrerade användare)"
+
+msgid "survey_360_rater_message_content_registered_default"
+msgstr "Du kan starta undersökningen i din webbläsare med följande URL"
+
+msgid "survey_360_rater_subject_default"
+msgstr "Du blev inbjuden att delta i en 360°-undersökning som feedbackgivare."
+
+msgid "survey_360_raters"
+msgstr "Feedback givare"
+
+msgid "survey_360_raters_finished"
+msgstr "Fullständig återkoppling"
+
+msgid "survey_360_remove_appraisees"
+msgstr "Ta bort Feedback-takers"
+
+msgid "survey_360_results"
+msgstr "Feedbackmottagare kan se svaren"
+
+msgid "survey_360_results_all"
+msgstr "All feedback"
+
+msgid "survey_360_results_all_info"
+msgstr "Alla som tar emot feedback i 360°-undersökningen kan se all feedback från alla som ger feedback om sig själva och om alla andra som tar emot feedback."
+
+msgid "survey_360_results_none"
+msgstr "Ingen åtkomst"
+
+msgid "survey_360_results_none_info"
+msgstr "Feedbackmottagare kan inte se de svar som feedbackgivare har valt."
+
+msgid "survey_360_results_own"
+msgstr "Endast egna feedbackgivare"
+
+msgid "survey_360_results_own_info"
+msgstr "Feedback-tagare kan bara se de svar som feedback-givare personligen har valt åt dem."
+
+msgid "survey_360_select_appraisee"
+msgstr "Välj"
+
+msgid "survey_360_self_appraisee"
+msgstr "Öppen feedback"
+
+msgid "survey_360_self_appraisee_info"
+msgstr "I fliken \"Info\" visas en länk för alla. Via denna länk kan personer registrera sig som feedbackmottagare för denna undersökning."
+
+msgid "survey_360_self_evaluation"
+msgstr "självutvärdering"
+
+msgid "survey_360_self_evaluation_info"
+msgstr "Feedback-tagare kan göra en självutvärdering baserat på frågorna."
+
+msgid "survey_360_self_raters"
+msgstr "Välj givare för återkoppling"
+
+msgid "survey_360_self_raters_info"
+msgstr "Feedback-mottagarna väljer själva vilka personer som ska ge dem feedback. De bjuder också in dessa personer själva."
+
+msgid "survey_360_sure_appraisee_close"
+msgstr "Vill du verkligen stänga enkäten för alla feedbackgivare?"
+
+msgid "survey_360_sure_appraisee_close_admin"
+msgstr "Vill du verkligen stänga enkäten för följande feedbackmottagare?"
+
+msgid "survey_360_sure_delete_appraises"
+msgstr "Vill du verkligen ta bort följande feedbackmottagare?"
+
+msgid "survey_360_sure_delete_raters"
+msgstr "Vill du verkligen ta bort följande feedbackgivare för %s?"
+
+msgid "survey_access_code"
+msgstr "Autentisering med åtkomstnycklar"
+
+msgid "survey_access_codes_info"
+msgstr "Användare får tillgång till undersökningen genom att ange en åtkomstnyckel på fliken \"Info\". Dessa åtkomstnycklar genereras i underfliken med samma namn i fliken \"Deltagare\"."
+
+msgid "survey_activate_skill_service"
+msgstr "Aktivera kompetenstjänst"
+
+msgid "survey_activate_skill_service_info"
+msgstr "Ytterligare en flik \"Kompetenser\" visas. Här tilldelas först kompetenser till frågorna, sedan sätts tröskelvärden för att uppnå vissa kompetensnivåer."
+
+msgid "survey_add_new_question"
+msgstr "Skapa fråga"
+
+msgid "survey_assign_competence"
+msgstr "Tilldela kompetens"
+
+msgid "survey_auto_block_title"
+msgstr "Sidans rubrik"
+
+msgid "survey_available_question_pools"
+msgstr "Tillgängliga pooler"
+
+msgid "survey_calc_skills"
+msgstr "Bestämma kompetensnivåer"
+
+msgid "survey_calculate_sum_score"
+msgstr "Beräkna skala poäng summa"
+
+msgid "survey_calculate_sum_score_info"
+msgstr "Beräknar summan av alla skalpoäng för envals-, flervals- och matrisfrågor per deltagare. Uppmärksamhet"
+
+msgid "survey_cancel_preview"
+msgstr "Avbryt förhandsgranskning"
+
+msgid "survey_cannot_preview_survey"
+msgstr "Preview inte tillgänglig"
+
+msgid "survey_code"
+msgstr "Nyckel för åtkomst"
+
+msgid "survey_code_delete_sure"
+msgstr "Vill du verkligen ta bort följande oanvända åtkomstnycklar?"
+
+msgid "survey_code_url"
+msgstr "URL för direkt åtkomst"
+
+msgid "survey_code_url_name"
+msgstr "URL <small>(Använd höger musknapp för att kopiera URL</small>:en)"
+
+msgid "survey_code_used"
+msgstr "Tillträdesnyckeln har varit ..."
+
+msgid "survey_codes_lang"
+msgstr "Förvalt användarspråk i URL"
+
+msgid "survey_codes_no_anonymization"
+msgstr "Du måste skapa en anonymiserad undersökning med åtkomstnycklar för att kunna generera åtkomstnycklar!"
+
+msgid "survey_competences"
+msgstr "Kompetens"
+
+msgid "survey_constraint_deleted"
+msgstr "Regeln har tagits bort."
+
+msgid "survey_copy_questions_to_pool"
+msgstr "Lägg till frågepoolen"
+
+msgid "survey_copy_select_questionpool"
+msgstr "Frågepool där frågorna ska lämnas in"
+
+msgid "survey_copy_to_questionpool_success"
+msgstr "Frågorna har kopierats framgångsrikt till frågepoolen."
+
+msgid "survey_delete_heading"
+msgstr "Ta bort bildtext"
+
+msgid "survey_edit_heading"
+msgstr "Redigera rubrik"
+
+msgid "survey_edit_settings"
+msgstr "Redigera inställningar"
+
+msgid "survey_error_insert_incomplete_question"
+msgstr "Du försökte lägga till en ofullständig fråga i undersökningen. Frågan lades inte till."
+
+msgid "survey_execution_exit"
+msgstr "Tillbaka till tidningen"
+
+msgid "survey_execution_exit_360"
+msgstr "Tillbaka"
+
+msgid "survey_execution_sure_finish"
+msgstr "Vill du verkligen avsluta undersökningen? Du kommer inte att kunna korrigera dina svar i efterhand."
+
+msgid "survey_finish"
+msgstr "Avsluta undersökningen &gt;&gt;"
+
+msgid "survey_finished"
+msgstr "Undersökningen är avslutad. Tack för ditt deltagande!"
+
+msgid "survey_has_datasets_warning"
+msgstr "Undersökningen innehåller redan deltagarregister. Du kan inte redigera frågorna igen förrän du har tagit bort alla deltagarregister."
+
+msgid "survey_has_datasets_warning_page_view"
+msgstr "Undersökningen innehåller redan deltagarregister. Du kan inte redigera frågorna igen förrän du har tagit bort alla deltagarregister."
+
+msgid "survey_has_datasets_warning_page_view_link"
+msgstr "Redigera deltagarnas uppgifter"
+
+msgid "survey_introduction_info"
+msgstr "Den här texten visas permanent på fliken \"Info\"."
+
+msgid "survey_is_offline"
+msgstr "Du kan inte starta undersökningen! Undersökningen är offline (inte aktiverad)."
+
+msgid "survey_next"
+msgstr "Fortsätt &gt;&gt;"
+
+msgid "survey_not_available"
+msgstr "n.a."
+
+msgid "survey_notification_finished_introduction"
+msgstr "En deltagare har slutfört undersökningen."
+
+msgid "survey_notification_finished_reason"
+msgstr "Du får detta meddelande eftersom du har aktiverat aviseringsfunktionen för ovanstående undersökning."
+
+msgid "survey_notification_target_group"
+msgstr "Målgrupp"
+
+msgid "survey_notification_target_group_invited"
+msgstr "Deltagare som har fått enkäten skickad till sin Personal Desk och som ännu inte har fyllt i enkäten."
+
+msgid "survey_notification_target_group_invited_info"
+msgstr "Aktuellt antal"
+
+msgid "survey_notification_target_group_parent_course"
+msgstr "Alla deltagare i föräldrakursen/gruppen som ännu inte har besvarat enkäten"
+
+msgid "survey_notification_target_group_parent_course_inactive"
+msgstr "Ingen kurs/grupp på högre nivå - ingen påminnelse möjlig!"
+
+msgid "survey_notification_tutor_body"
+msgstr "Följande enkät har fyllts i av alla deltagare"
+
+msgid "survey_notification_tutor_link"
+msgstr "Länk till undersökningen"
+
+msgid "survey_notification_tutor_recipients"
+msgstr "Sänd e-post till (inloggningsnamn)"
+
+# Modifierad som en del av jämställdhetsintegreringen för ILIAS 8
+msgid "survey_notification_tutor_recipients_invalid"
+msgstr "Ange inloggningsnamn för en person med skrivbehörighet "
+
+msgid "survey_notification_tutor_salutation"
+msgstr "Hej %s,"
+
+msgid "survey_notification_tutor_setting"
+msgstr "Ett e-postmeddelande efter att alla deltagare har avslutat"
+
+msgid "survey_notification_tutor_subject"
+msgstr "Alla deltagare har slutfört undersökningen \"%s"
+
+msgid "survey_order"
+msgstr "Sortering"
+
+msgid "survey_previous"
+msgstr "&lt;&lt; Tillbaka"
+
+msgid "survey_question_editor"
+msgstr "Listvy"
+
+msgid "survey_question_obligatory"
+msgstr "(Denna fråga är en obligatorisk fråga. Den måste besvaras!)"
+
+msgid "survey_question_pool"
+msgstr "Frågepool"
+
+msgid "survey_question_pool_title"
+msgstr "Pool titel"
+
+msgid "survey_question_title"
+msgstr "Frågans titel"
+
+msgid "survey_questions"
+msgstr "Frågor och svar"
+
+msgid "survey_questions_to_clipboard_copy"
+msgstr "Questions har kopierats till urklipp. Välj en destination eller rensa urklipp."
+
+msgid "survey_reached_level"
+msgstr "Uppnått uttryck"
+
+msgid "survey_reminder_body"
+msgstr "Följande enkät har ännu inte besvarats av dig"
+
+msgid "survey_reminder_cron"
+msgstr "Påminn användarna om att delta"
+
+msgid "survey_reminder_cron_info"
+msgstr "När detta är aktiverat påminns användarna om att delta i undersökningar."
+
+msgid "survey_reminder_end"
+msgstr "Slut"
+
+msgid "survey_reminder_frequency"
+msgstr "Frekvens av hågkomst"
+
+msgid "survey_reminder_frequency_days"
+msgstr "dagar"
+
+msgid "survey_reminder_link"
+msgstr "URL"
+
+msgid "survey_reminder_salutation"
+msgstr "Hej %s,"
+
+msgid "survey_reminder_setting"
+msgstr "Påminn användarna om att delta"
+
+msgid "survey_reminder_start"
+msgstr "Begin"
+
+msgid "survey_reminder_subject"
+msgstr "Poll \"%s\" har ännu inte redigerats"
+
+msgid "survey_remove_competence"
+msgstr "Ta bort kompetens"
+
+msgid "survey_results_anonymization"
+msgstr "Skydd av personuppgifter"
+
+msgid "survey_results_anonymized"
+msgstr "Utan namn / Anonym undersökning"
+
+msgid "survey_results_anonymized_info"
+msgstr "I fliken \"Resultat\" ersätts deltagarnas namn med koder. Användare med tillgång till denna flik kan inte tilldela svaren till ett namn, utan endast till en användare \"iTXaF\" (exempel)."
+
+msgid "survey_results_finished"
+msgstr "Undersökningen avslutad"
+
+msgid "survey_results_not_started"
+msgstr "Undersökningen har inte startat"
+
+msgid "survey_results_personalized"
+msgstr "Med namn"
+
+msgid "survey_results_personalized_info"
+msgstr "På fliken \"Resultat\" listas deltagarna med namn och deras svar visas. Alla användare med full åtkomst till denna flik kan se vem som gav vilka svar. Användare med begränsad åtkomst till fliken kan också tilldela enskilda svar till deltagare om antalet de"
+
+msgid "survey_results_started"
+msgstr "Undersökning påbörjad"
+
+msgid "survey_show_blocktitle"
+msgstr "Display block titel"
+
+msgid "survey_show_blocktitle_description"
+msgstr "Om denna kryssruta är aktiverad visas blockets titel i enkäten."
+
+msgid "survey_skill"
+msgstr "Kompetens"
+
+msgid "survey_skill_assign"
+msgstr "Fråga Kompetens Uppdrag"
+
+msgid "survey_skill_level"
+msgstr "Kompetensnivå"
+
+msgid "survey_skill_max_scale_points"
+msgstr "Max. Skalpunkter"
+
+msgid "survey_skill_nr_q"
+msgstr "Antal frågor"
+
+msgid "survey_skill_thresholds"
+msgstr "Kompetensgräns"
+
+msgid "survey_start"
+msgstr "&lt;&lt; Till hemsidan"
+
+msgid "survey_sum_of_means"
+msgstr "Summan av aritmen. Med hjälp av frågan"
+
+msgid "survey_sure_delete_constraint"
+msgstr "Vill du verkligen ta bort förgreningsregeln \"%1$s\" för frågan \"%2$s\"?"
+
+msgid "survey_sure_delete_questions"
+msgstr "Vill du verkligen ta bort följande frågor eller rubriker?"
+
+msgid "survey_sync_insufficient_permissions"
+msgstr "Inga tillräckliga villkor."
+
+msgid "survey_sync_question_copies"
+msgstr "Synkronisera kopior av frågor"
+
+msgid "survey_sync_question_copies_info"
+msgstr "Alla utvalda frågor uppdateras om poolfrågan."
+
+msgid "survey_sync_success"
+msgstr "De utvalda frågorna har uppdaterats."
+
+msgid "survey_up_to_x_points"
+msgstr "Upp till x poäng"
+
+msgid "survey_use_start_button"
+msgstr "Du kan endast starta en undersökning via knappen \"Starta undersökning\"!"
+
+msgid "svy_activation_limited_visibility_info"
+msgstr "Utanför den angivna perioden visas endast undersökningens titel, frågorna är inte tillgängliga."
+
+msgid "svy_activation_online_info"
+msgstr "Endast när undersökningen är online kan användarna delta i undersökningen."
+
+msgid "svy_add_internal_user"
+msgstr "Lägg till användare"
+
+msgid "svy_add_internal_user_info"
+msgstr "Feedback givers behöver ett ILIAS-konto för denna installation."
+
+msgid "svy_add_rater"
+msgstr "Lägg till feedbackgivare"
+
+msgid "svy_all_raters"
+msgstr "Alla som ger feedback"
+
+msgid "svy_all_survey_competences"
+msgstr "Alla undersökningskunskaper"
+
+msgid "svy_all_user_data_deleted"
+msgstr "Undersökningsposterna har tagits bort."
+
+msgid "svy_analysis"
+msgstr "Analys"
+
+msgid "svy_anonymous_participants"
+msgstr "Lista över deltagare"
+
+msgid "svy_anonymous_participants_info"
+msgstr "Om aktiverat kan en lista över deltagare genereras för anonyma undersökningar."
+
+msgid "svy_anonymous_participants_min"
+msgstr "Minsta antal deltagare"
+
+msgid "svy_anonymous_participants_min_info"
+msgstr "Listan visas endast från detta antal deltagare."
+
+msgid "svy_anonymous_participants_svy"
+msgstr "Lista över deltagare"
+
+msgid "svy_anonymous_participants_svy_info"
+msgstr "Om aktiverad, en lista över deltagare är tillgänglig efter slutdatumet."
+
+msgid "svy_answer_too_long"
+msgstr "Ditt svar är för långt (%s tecken). Vänligen förkorta ditt svar."
+
+msgid "svy_app_see_rater_info"
+msgstr "Feedbacknehemde kan på resultatsidorna se vilka feedbackgivare som har gett svaren, inkl. namn och e-post, om dessa angavs när feedbackgivarna skapades."
+
+msgid "svy_appraisses_cannot_be_raters"
+msgstr "Användare kan inte ange sig själva som feedbackgivare. Använd istället alternativet \"Självutvärdering\" i undersökningsinställningarna."
+
+msgid "svy_back"
+msgstr "Tillbaka"
+
+msgid "svy_categories"
+msgstr "Svar"
+
+msgid "svy_check_evaluation_access_introduction"
+msgstr "Då denna utvärdering endast är tillgänglig för deltagare i undersökningen, måste du ange din undersökningsåtkomstnyckel för att öppna utvärderingen."
+
+msgid "svy_check_evaluation_authentication_needed"
+msgstr "Autentisering krävs"
+
+msgid "svy_check_evaluation_wrong_key"
+msgstr "Du har angett en felaktig åtkomstnyckel för undersökningen eller har inte deltagit i undersökningen. Du nekades därför åtkomst till utvärderingen."
+
+msgid "svy_compress_view"
+msgstr "Komprimerad vy"
+
+msgid "svy_compress_view_info"
+msgstr "Alla envalsfrågor i ett frågeblock med samma svarsskalning visas i en matris."
+
+msgid "svy_copy"
+msgstr "Kopiundersökning"
+
+msgid "svy_create_question"
+msgstr "Skapa fråga"
+
+msgid "svy_delete_all_user_data"
+msgstr "Radera alla poster"
+
+msgid "svy_dont_send"
+msgstr "Sänd inget meddelande"
+
+msgid "svy_eval_captions"
+msgstr "Nyckeltal"
+
+msgid "svy_eval_captions_abs"
+msgstr "Nummer"
+
+msgid "svy_eval_captions_abs_perc"
+msgstr "Nummer och procent"
+
+msgid "svy_eval_captions_perc"
+msgstr "Procent"
+
+msgid "svy_eval_competences"
+msgstr "Kompetensresultat"
+
+msgid "svy_eval_cumulated"
+msgstr "Översikt"
+
+msgid "svy_eval_detail"
+msgstr "Detaljerade resultat"
+
+msgid "svy_eval_skipped_value"
+msgstr "Resultat"
+
+msgid "svy_eval_skipped_value_custom"
+msgstr "Använd justerat värde"
+
+msgid "svy_eval_skipped_value_custom_info"
+msgstr "Ge ett (eller tomt) värde för uteblivna svar"
+
+msgid "svy_eval_skipped_value_custom_value"
+msgstr "Värde"
+
+msgid "svy_eval_skipped_value_lng"
+msgstr "Ta över värde från språkfil"
+
+msgid "svy_eval_skipped_value_lng_info"
+msgstr "Nuvärde"
+
+msgid "svy_eval_user"
+msgstr "Per deltagare"
+
+msgid "svy_eval_view"
+msgstr "Display"
+
+msgid "svy_eval_view_charts"
+msgstr "Grafisk"
+
+msgid "svy_eval_view_tables"
+msgstr "Tabell"
+
+msgid "svy_eval_view_tables_charts"
+msgstr "Bord och grafik"
+
+msgid "svy_evaluation_access_all_info"
+msgstr "Alla registrerade användare som har tillgång till undersökningen kan också se dess resultat."
+
+msgid "svy_evaluation_access_off_info"
+msgstr "Endast användare som kan redigera undersökningen (höger 'Redigera inställningar') har tillgång till resultaten av undersökningen."
+
+msgid "svy_evaluation_access_participants_info"
+msgstr "Alla användare som har deltagit i undersökningen kan se sina resultat efter att de har slutfört undersökningen."
+
+msgid "svy_export_files"
+msgstr "Exportera filer"
+
+msgid "svy_export_format"
+msgstr "Exportera undersökningar som"
+
+msgid "svy_export_pdf"
+msgstr "Exportera PDF"
+
+msgid "svy_ext_rater_firstname"
+msgstr "Förstanamn på en extern leverantör av feedback"
+
+msgid "svy_ext_rater_lastname"
+msgstr "Efternamn på en extern leverantör av feedback"
+
+msgid "svy_external_rater"
+msgstr "Lägg till extern feedbackgivare"
+
+msgid "svy_external_rater_info"
+msgstr "Externa feedbackgivare har inget inloggningskonto på plattformen."
+
+msgid "svy_fraction_of_selections"
+msgstr "Andel av totalt antal valda svarsalternativ"
+
+msgid "svy_gap_analysis"
+msgstr "Analys av luckor"
+
+msgid "svy_general_properties"
+msgstr "Allmänna inställningar"
+
+msgid "svy_import_codes"
+msgstr "Importera nyckel"
+
+msgid "svy_import_codes_info"
+msgstr "Den här importen kräver en \"%s\"-exportfil."
+
+msgid "svy_ind_feedb_info"
+msgstr "Feedbackmottagare får flera individuella utvärderingar av feedbackgivare."
+
+msgid "svy_ind_feedb_mode"
+msgstr "Utländsk utvärdering"
+
+msgid "svy_mail_confirmation_subject"
+msgstr "Survey \"%s\" - Din bekräftelse på deltagande"
+
+msgid "svy_mail_context_rater_invitation_info"
+msgstr "Bjud in feedback-donatorer att delta i en undersökning."
+
+msgid "svy_mail_context_rater_invitation_survey_title"
+msgstr "Titel på undersökning"
+
+msgid "svy_mail_context_rater_invitation_title"
+msgstr "Undersökning"
+
+msgid "svy_mail_context_reminder_info"
+msgstr "Påminner användare att delta i en undersökning"
+
+msgid "svy_mail_context_reminder_survey_title"
+msgstr "Titel på undersökning"
+
+msgid "svy_mail_context_reminder_title"
+msgstr "Undersökning"
+
+msgid "svy_mail_own_results_body"
+msgstr "Du har deltagit i följande undersökning"
+
+msgid "svy_mail_own_results_subject"
+msgstr "Survey \"%s\" - Dina svar"
+
+msgid "svy_mail_send_confirmation"
+msgstr "Skicka bekräftelse på deltagande"
+
+msgid "svy_matrix_layout_percentages_sum_invalid"
+msgstr "Kolumninställningarna summerar inte till 100%."
+
+msgid "svy_max_sum_score"
+msgstr "Maximal skala punkt summa"
+
+msgid "svy_neutral_answer"
+msgstr "Text för ett neutralt svar (\"Ej definierat\", \"Jag vet inte\", \"Ingen indikation\" etc.)."
+
+#, fuzzy
+msgid "svy_no_appraisees_found"
+msgstr "No appraisees with feedbacks found."
+
+msgid "svy_notification_tutor_results"
+msgstr "Ett e-postmeddelande med undersökningsresultaten"
+
+msgid "svy_notification_tutor_results_alert"
+msgstr "Denna funktion kräver ett slutdatum."
+
+msgid "svy_notification_tutor_results_info"
+msgstr "Efter slutdatumet kommer ett e-postmeddelande att skickas med de detaljerade undersökningsresultaten."
+
+msgid "svy_only_max_one_external_rater"
+msgstr "Välj endast en extern leverantör av feedback."
+
+msgid "svy_page_error"
+msgstr "Ett fel uppstod när du besvarade en fråga. Du hittar felmeddelandet med den berörda frågan!"
+
+msgid "svy_page_errors"
+msgstr "Fel uppstod när flera frågor besvarades. Du hittar felmeddelandena med de berörda frågorna!"
+
+msgid "svy_participant"
+msgstr "Deltagare"
+
+#, fuzzy
+msgid "svy_participants"
+msgstr "Participants"
+
+msgid "svy_participation"
+msgstr "Deltagande"
+
+msgid "svy_please_select_unused_codes"
+msgstr "Välj minst en oanvänd åtkomstnyckel."
+
+msgid "svy_print_hide_labels"
+msgstr "Dölj Etiketter"
+
+msgid "svy_print_show_labels"
+msgstr "Visa Märkningar"
+
+msgid "svy_privacy_info"
+msgstr "Personuppgifter"
+
+msgid "svy_rater"
+msgstr "Feedback givare"
+
+msgid "svy_rater_see_app_info"
+msgstr "feedbackgivare, namnen på de som tar emot feedback visas så att de kan svara på frågorna i förhållande till den som tar emot feedback."
+
+msgid "svy_reminder_mail_template"
+msgstr "Mall för e-post"
+
+msgid "svy_reminder_mail_template_none"
+msgstr "Använd inte en mall"
+
+msgid "svy_result_mail_notification_info"
+msgstr "När en person har besvarat enkäten skickas resultatet via e-post."
+
+msgid "svy_results"
+msgstr "Resultat"
+
+msgid "svy_results_mail_confirm"
+msgstr "Deltagaren kan skicka bekräftelse på deltagande till sig själv"
+
+msgid "svy_results_mail_confirm_info"
+msgstr "Deltagarna kan få en bekräftelse på deltagande skickad till dem via e-post efter att ha slutfört undersökningen."
+
+msgid "svy_results_mail_own"
+msgstr "Skicka dina egna svar"
+
+msgid "svy_results_mail_own_info"
+msgstr "Dina egna svar kommer att bifogas bekräftelsen på deltagande."
+
+msgid "svy_save_and_continue"
+msgstr "Spara och fortsätt"
+
+msgid "svy_save_sync"
+msgstr "Spara och uppdatera kopior"
+
+msgid "svy_search_user"
+msgstr "Sök användare"
+
+msgid "svy_search_user_info"
+msgstr "Sök efter användare eller roller och välj deltagare."
+
+msgid "svy_search_users"
+msgstr "Sök användare"
+
+msgid "svy_select_rater"
+msgstr "Välj givare av feedback"
+
+msgid "svy_selected_user_data_deleted"
+msgstr "Undersökningsregistren för de utvalda deltagarna raderades framgångsrikt"
+
+msgid "svy_self_ev_access_results_all"
+msgstr "Tillgång till alla deltagares självutvärderingar"
+
+msgid "svy_self_ev_access_results_none"
+msgstr "Ingen tillgång till resultat"
+
+msgid "svy_self_ev_access_results_own"
+msgstr "Tillgång till självutvärderingar"
+
+msgid "svy_self_ev_info"
+msgstr "People utvärderar sig själv och bedömer sig själv."
+
+msgid "svy_self_ev_mode"
+msgstr "Självutvärdering"
+
+msgid "svy_settings_section_access"
+msgstr "Ledning av enkätundersökningar"
+
+msgid "svy_settings_section_before_start"
+msgstr "Information innan undersökningen påbörjas"
+
+msgid "svy_settings_section_finishing"
+msgstr "Avsluta undersökningen"
+
+msgid "svy_settings_section_question_behaviour"
+msgstr "Ledning av enkätundersökningar"
+
+msgid "svy_settings_section_reminders"
+msgstr "Minnen"
+
+msgid "svy_show_questiontitles"
+msgstr "Display av frågornas rubriker"
+
+msgid "svy_skl_comp_assignm_not_supported"
+msgstr "Tilldelning av kompetenser är inte möjlig för denna frågetyp."
+
+msgid "svy_sum_score"
+msgstr "Skala poäng totalt"
+
+msgid "svy_type_of_rater"
+msgstr "Konst feedback givare"
+
+msgid "svy_view_own_results"
+msgstr "Visa dina egna svar"
+
+msgid "svy_wrong_or_expired_code"
+msgstr "Tyvärr, den åtkomstnyckel du angav är inte giltig eller har gått ut. Vänligen försök igen."
+
+msgid "text_maximum_chars_allowed"
+msgstr "Var god ange inte mer än maximalt %s tecken. Alla tecken utöver detta raderas automatiskt."
+
+msgid "text_question_not_filled_out"
+msgstr "Du måste fylla i alla svarsfält!"
+
+msgid "unfold"
+msgstr "Lösa block av frågor"
+
+msgid "upper_limit"
+msgstr "Övre barriär"
+
+msgid "use_anonymous_id"
+msgstr "Visa åtkomstnyckel"
+
+msgid "use_anonymous_id_desc"
+msgstr "Visar åtkomstnyckeln istället för inloggningsnamnet för anonymiserade undersökningar. Om alternativet inte är valt visas strängen \"Okänd\" istället."
+
+msgid "use_browser_print_function"
+msgstr "Använd utskriftsfunktionen i din webbläsare"
+
+msgid "use_min_answers"
+msgstr "Svar antal"
+
+msgid "use_min_answers_option"
+msgstr "Bestäm antalet svar som ska väljas ut"
+
+msgid "use_other_answer"
+msgstr "Freitext"
+
+msgid "used"
+msgstr "använd"
+
+msgid "users_answered"
+msgstr "Besvarad"
+
+msgid "users_invited"
+msgstr "%s användare har bjudits in"
+
+msgid "users_skipped"
+msgstr "Skippad"
+
+msgid "values"
+msgstr "Värderingar"
+
+msgid "vertical"
+msgstr "vertikal"
+
+msgid "warning_question_not_complete"
+msgstr "Frågan är ofullständig!"
+
+msgid "workingtime"
+msgstr "Bearbetningstid"

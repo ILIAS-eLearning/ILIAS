@@ -1,0 +1,1738 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: survey\n"
+
+msgid "SurveyMatrixQuestion"
+msgstr "Mátrixkérdés"
+
+msgid "SurveyMetricQuestion"
+msgstr "Metrikus kérdés"
+
+msgid "SurveyMultipleChoiceQuestion"
+msgstr "Többválaszos kérdés (jelölőnégyzetes)"
+
+msgid "SurveySingleChoiceQuestion"
+msgstr "Egyválaszos kérdés (rádiógombos)"
+
+msgid "SurveyTextQuestion"
+msgstr "Esszékérdés"
+
+msgid "add_heading"
+msgstr "Címsor létrehozása"
+
+msgid "already_completed_survey"
+msgstr "Már befejezte a kérdőív kitöltését. Nem léphet bele többször."
+
+msgid "anonymization"
+msgstr "Névtelenség"
+
+msgid "anonymize_anonymous_introduction"
+msgstr "A kérdőív eléréséhez 5 karakterből álló kódot kell megadnia, amelyet ezen kérdőív létrehozójától/karbantartójától kaphat meg.<br/>Adja meg kódját a kérdőív indítása után."
+
+msgid "answer"
+msgstr "Válasz"
+
+msgid "arithmetic_mean"
+msgstr "Számtani átlag"
+
+msgid "browse_for_questions"
+msgstr "Hozzáadás kérdésgyűjteményből"
+
+msgid "cancel_survey"
+msgstr "Kérdőív kitöltésének felfüggesztése"
+
+msgid "cannot_read_survey"
+msgstr "Nincs megfelelő jogosultsága a kérdőív adatainak olvasásához."
+
+msgid "cannot_switch_to_online_no_questions"
+msgstr "A kérdőív nem módosítható ‘online’-ra, mert nincsenek benne kérdések."
+
+msgid "cant_send_email_smtp_disabled"
+msgstr "Külső e-mail küldésének lehetőségét központilag kikapcsolták."
+
+msgid "category"
+msgstr "Válasz"
+
+msgid "category_nr_selected"
+msgstr "Kiválasztások száma"
+
+msgid "chart"
+msgstr "Diagram"
+
+msgid "codes"
+msgstr "Hozzáférési kód"
+
+msgid "codes_created"
+msgstr "Kódo(ok) jött(ek) létre."
+
+msgid "codes_deleted"
+msgstr "Kód(ok) törlése sikerült."
+
+msgid "combobox"
+msgstr "Legördülő lista"
+
+msgid "concatenation"
+msgstr "Összefűzés"
+
+msgid "confirm_delete_all_user_data"
+msgstr "Biztos, hogy törli a kérdőív összes felhasználói adatát? Ez kihat a válaszokra és a kitöltők listájára is."
+
+msgid "confirm_delete_single_user_data"
+msgstr "Biztos, hogy törli a résztvevőket? Evvel törli a kiválasztott felhasználók kérdőívadatait is."
+
+msgid "confirm_remove_heading"
+msgstr "Biztos, hogy eltávolítja a címsort?"
+
+msgid "confirm_sync_questions"
+msgstr "A kérdés amit módosított, egy kérdés létrehozott másolata az aktuális kérdőívhez. A kérdés eredeti példányát is módosítani szeretné?"
+
+msgid "conjunction_and"
+msgstr "ha minden feltétel teljesül"
+
+msgid "conjunction_and_title"
+msgstr "Minden alábbi feltétel kitöltése"
+
+msgid "conjunction_or"
+msgstr "ha egy feltétel teljesül"
+
+msgid "conjunction_or_title"
+msgstr "Egy feltétel kitöltése az alábbiak közül"
+
+msgid "constraint_add"
+msgstr "Elágazási szabály létrehozása"
+
+msgid "constraint_fulfilled"
+msgstr "Lap megjelenítése"
+
+msgid "constraints"
+msgstr "Elágazási szabályok"
+
+msgid "constraints_first_question_description"
+msgstr "Az első kérdésnek és kérdésblokknak nem lehet semmilyen elágazása, mert nincsenek azt megelőző kérdések."
+
+msgid "constraints_introduction"
+msgstr "Egy kérdéshez vagy több kérdést tartalmazó kérdésblokkhoz elágazási szabály definiálható. A kitöltő a korábbi válaszától függően kapja vagy nem kapja a következő kérdést, azaz a kitöltő számára a válasza alapján nem relevánsnak ítélt következő kérdés nem jelenik meg, így rövidebb, személyre szabottabb lesz a kérdőív. Az első kérdéshez, illetve kérdésblokkhoz nem rendelhető elágazási szabály."
+
+msgid "constraints_list_of_entities"
+msgstr "Kérdések"
+
+msgid "constraints_no_nonessay_available"
+msgstr "Elágazási szabályok meghatározásához nincsenek korábbi kérdések. A következő típusok támogatottak: metrikus, egyválaszos, többválaszos."
+
+msgid "constraints_no_questions_or_questionblocks_selected"
+msgstr "Legalább egy kérdést vagy kérdésblokkot válasszon ki!"
+
+msgid "contains"
+msgstr "Magában foglalja"
+
+msgid "continue"
+msgstr "Folytatás >>"
+
+msgid "create_new"
+msgstr "új létrehozása"
+
+msgid "dc_agree"
+msgstr "egyetértek"
+
+msgid "dc_always"
+msgstr "mindig"
+
+msgid "dc_definitelyfalse"
+msgstr "egyértelműen hamis"
+
+msgid "dc_definitelytrue"
+msgstr "egyértelműen igaz"
+
+msgid "dc_desired"
+msgstr "kívánatos"
+
+msgid "dc_disagree"
+msgstr "nem értek egyet"
+
+msgid "dc_fair"
+msgstr "korrekt"
+
+msgid "dc_false"
+msgstr "HAMIS"
+
+msgid "dc_good"
+msgstr "jó"
+
+msgid "dc_manytimes"
+msgstr "többször"
+
+msgid "dc_morenegative"
+msgstr "inkább negatív"
+
+msgid "dc_morepositive"
+msgstr "inkább pozitív"
+
+msgid "dc_mostcertainly"
+msgstr "bizonyosan"
+
+msgid "dc_mostcertainlynot"
+msgstr "minden bizonnyal nem"
+
+msgid "dc_must"
+msgstr "kell"
+
+msgid "dc_mustnot"
+msgstr "nem kell"
+
+msgid "dc_neutral"
+msgstr "semleges"
+
+msgid "dc_never"
+msgstr "soha"
+
+msgid "dc_no"
+msgstr "nem"
+
+msgid "dc_notacceptable"
+msgstr "nem elfogadható"
+
+msgid "dc_poor"
+msgstr "szegényes"
+
+msgid "dc_rarely"
+msgstr "ritkán"
+
+msgid "dc_should"
+msgstr "kellene"
+
+msgid "dc_shouldnot"
+msgstr "nem kellene"
+
+msgid "dc_sometimes"
+msgstr "néha"
+
+msgid "dc_stronglyagree"
+msgstr "nagyon egyetértek"
+
+msgid "dc_stronglydesired"
+msgstr "erősen kívánatos"
+
+msgid "dc_stronglydisagree"
+msgstr "nagyon nem értek egyet"
+
+msgid "dc_stronglyundesired"
+msgstr "határozottan nem kívánatos"
+
+msgid "dc_true"
+msgstr "helyes"
+
+msgid "dc_undecided"
+msgstr "nem eldöntött"
+
+msgid "dc_undesired"
+msgstr "nem kívánatos"
+
+msgid "dc_varying"
+msgstr "változó"
+
+msgid "dc_verygood"
+msgstr "nagyon jó"
+
+msgid "dc_yes"
+msgstr "igen"
+
+msgid "default_codes_mail_message"
+msgstr "Tisztelt [lastname] [firstname], az Ön kérdőívkódja: [code]. A kérdőívet az következő linken éri el: [url]. Üdvözlettel:"
+
+msgid "default_codes_mail_subject"
+msgstr "‘%s’ kérdőívhez hozzáférési kód"
+
+msgid "define_questionblock"
+msgstr "Kérdésblokk definiálása"
+
+msgid "delete_saved_message"
+msgstr "Üzenetszöveg törlése"
+
+msgid "display_all_available"
+msgstr "Összes elérhető megjelenítése"
+
+msgid "duplicate"
+msgstr "Másodpéldány létrehozása"
+
+msgid "edit_heading"
+msgstr "Címsor módosítása"
+
+msgid "end_date"
+msgstr "Záró időpont"
+
+msgid "end_date_reached"
+msgstr "Már nem tudja elkezdeni a kérdőív kitöltését, mert elmúlt a záró időpont."
+
+msgid "enter_anonymous_id"
+msgstr "Kérdőív hozzáférési kódja"
+
+msgid "enter_valid_number_of_codes"
+msgstr "Érvényes számot adjon meg a kérdőív hozzáférési kódjának generálásához!"
+
+msgid "err_external_rcp_no_email"
+msgstr "Az importadatoknak legalább egy ‘e-mail’ mezőt kell tartalmaznia."
+
+msgid "err_external_rcp_no_email_column"
+msgstr "Az importadatoknak legalább egy ‘e-mail’ oszlopot kell tartalmaznia az ‘email’ felirattal az első sorban, és e-mail címeket a további sorokban."
+
+msgid "err_maxvaluegeminvalue"
+msgstr "A maximális érték nagyobb vagy egyenlő kell legyen, mint a minimumérték, és kisebb vagy egyenlő, mint a válaszok maximális száma."
+
+msgid "err_minvalueganswers"
+msgstr "A minimális érték kisebb vagy egyenlő kell legyen, mint a maximumérték, és kisebb vagy egyenlő, mint a válaszok maximális száma."
+
+msgid "err_no_exact_answers"
+msgstr "Pontosan %s választ jelöljön meg!"
+
+msgid "err_no_max_answers"
+msgstr "Legfeljebb %s választ jelöljön meg!"
+
+msgid "err_no_min_answers"
+msgstr "Legalább %s választ jelöljön meg!"
+
+msgid "error_retrieving_anonymous_survey"
+msgstr "Nem találja a rendszer a %s kódú kérdőívét. Ellenőrizze a megadott kérdőívkódot!"
+
+msgid "error_save_code"
+msgstr "Az értéket nem sikerült megfelelően menteni. <b>‘%s’ e-mail cím nem valós</b>. Családnév: ‘%s’, utónév: ‘%s’.<br />"
+
+msgid "evaluation"
+msgstr "Statisztika"
+
+msgid "evaluation_access"
+msgstr "Hozzáférés a végeredményekhez"
+
+msgid "evaluation_access_all"
+msgstr "Az összes felhasználó hozzáférhet ennek a kérdőívnek a végeredményeihez"
+
+msgid "evaluation_access_info"
+msgstr "Ön hozzáférhet a kérdőív végeredményeihez"
+
+msgid "evaluation_access_off"
+msgstr "A válaszadók nem férhetnek hozzá a végeredményekhez"
+
+msgid "evaluation_access_participants"
+msgstr "A kérdőív össze válaszadója hozzáférhet az végeredményekhez"
+
+msgid "existing_constraints"
+msgstr "Meglévő elágazási szabály(ok)"
+
+msgid "exp_type_csv"
+msgstr "Vesszővel tagolt szöveg (CSV)"
+
+msgid "exp_type_excel"
+msgstr "Microsoft Excel (XLS)"
+
+msgid "export_all_survey_codes"
+msgstr "Az összes hozzáférési kód exportálása"
+
+msgid "export_label_only"
+msgstr "Csak címkék exportálása"
+
+msgid "export_title_label"
+msgstr "Címek és címkék exportálása"
+
+msgid "export_title_only"
+msgstr "Csak címek exportálása"
+
+msgid "external_recipients_imported"
+msgstr "A külső címzetteket sikeresen importálta."
+
+msgid "externalmails"
+msgstr "Importfájl"
+
+msgid "externalmails_info"
+msgstr "Az importfájlnak CSV fájlnak kell lennie, az oszlopokat pontosvessző válassza el. Az első sor tartalmazza az oszlopcímeket. A fájlnak legalább ‘e-mail’ oszlopot kell tartalmaznia a címzett e-mail címével."
+
+msgid "externaltext"
+msgstr "Szöveg importálása"
+
+msgid "externaltext_info"
+msgstr "Az importszöveget sorokba és oszlopokba kell rendezni, az oszlopokat pontosvesszővel kell elválasztani. Az első sor tartalmazza az oszlop címét. A szövegnek legalább egy ‘email’ oszlopot kell tartalmaznia a címzett e-mail címével."
+
+msgid "filter_all_question_types"
+msgstr "Összes kérdéstípus"
+
+msgid "filter_all_questionpools"
+msgstr "Összes kérdésgyűjtemény"
+
+msgid "finished_mail_subject"
+msgstr "‘%s’ kérdőívet egy válaszadó befejezte"
+
+msgid "freetext_answers"
+msgstr "Szabadszöveges válaszok"
+
+msgid "geometric_mean"
+msgstr "Geometriai átlag"
+
+msgid "given_answers"
+msgstr "Adott válaszok"
+
+msgid "glossary_term"
+msgstr "Fogalomtár fogalma"
+
+msgid "harmonic_mean"
+msgstr "Harmonikus közép"
+
+msgid "heading"
+msgstr "Címsor"
+
+msgid "horizontal"
+msgstr "Vízszintes"
+
+msgid "import_error_closing_file"
+msgstr "Hiba az importfájl lezárásakor."
+
+msgid "import_error_opening_file"
+msgstr "Hiba az importfájl megnyitásakor."
+
+msgid "import_from_file"
+msgstr "Felhasználói adatok importálása fájlból"
+
+msgid "import_from_text"
+msgstr "Felhasználói adatok importálása szövegből"
+
+msgid "import_no_file_selected"
+msgstr "Nincs kiválasztott fájl."
+
+msgid "import_question"
+msgstr "Kérdés(ek) importálása"
+
+msgid "import_wrong_file_type"
+msgstr "Érvénytelen fájltípus."
+
+msgid "insert_after"
+msgstr "Beszúrás utána"
+
+msgid "insert_before"
+msgstr "Beszúrás előtte"
+
+msgid "insert_missing_question"
+msgstr "Legalább egy kérdést válasszon ki a kérdőívbe való beszúráshoz!"
+
+msgid "insert_missing_questionblock"
+msgstr "Legalább egy kérdésblokkot válasszon a kérdőívbe való beszúráshoz!"
+
+msgid "insert_saved_message"
+msgstr "Üzenetszöveg beszúrása"
+
+msgid "internal_link"
+msgstr "Belső link"
+
+msgid "introduction"
+msgstr "Bevezető üzenet"
+
+msgid "invited_users"
+msgstr "Kiválasztott felhasználók"
+
+msgid "label"
+msgstr "Címke"
+
+msgid "label_info"
+msgstr "Alternatív azonosító további adatfeldolgozáshoz (például SPSS-ben)."
+
+msgid "language_changed"
+msgstr "A nyelvet sikeresen  megváltoztatta."
+
+msgid "layout"
+msgstr "Elrendezés"
+
+msgid "lower_limit"
+msgstr "Alsó határ"
+
+msgid "mail_import_example2"
+msgstr "lucysnowe@villette.be;Lucy;Snowe"
+
+msgid "mail_import_example3"
+msgstr "holmes@bakerstreetconsulting.co.uk;Sherlock;Holmes"
+
+msgid "mail_sent_short"
+msgstr "Elküldés"
+
+msgid "mail_survey_codes"
+msgstr "Emlékeztető / Hozzáférési kód üzenetek"
+
+msgid "mailaddresses"
+msgstr "Címzettek"
+
+msgid "mailaddresses_info"
+msgstr "Adja meg azon felhasználónevek listáját vesszővel elválasztva, akikenek értesítést küldünk, amikor egy felhasználó befejezik a kérdőív kitöltését."
+
+msgid "mailnotification"
+msgstr "Minden befejezésről külön e-mail küldése"
+
+msgid "mailparticipantdata"
+msgstr "Információs szöveg"
+
+msgid "mailparticipantdata_info"
+msgstr "Ez az információ az értesítő levélbe automatikusan beillesztett eredmények része elé kerül."
+
+msgid "mailparticipantdata_placeholder"
+msgstr "Ezek a helyőrzők a felhasználó aktuális adatára cserélődnek, ha az ‘Adatvédelem’ értéke ‘Nevekkel’ (Lásd ‘Eredmények’ rész):"
+
+msgid "maintenance"
+msgstr "Válaszadók"
+
+msgid "matrix_appearance"
+msgstr "Megjelenés"
+
+msgid "matrix_bipolar_adjectives"
+msgstr "Bipoláris melléknevek"
+
+msgid "matrix_bipolar_adjectives_description"
+msgstr "Használhat kétpólusú melléknévpárokat (például: nagyon rossz-nagyon jó), hogy értelmet adjon az oszlopválaszoknak, illetve részletesebben leírja azokat."
+
+msgid "matrix_column_separators"
+msgstr "Oszlopelválasztók"
+
+msgid "matrix_column_separators_description"
+msgstr "Vastag vonal az oszlopok között."
+
+msgid "matrix_column_settings"
+msgstr "Mátrixoszlopok beállításai"
+
+msgid "matrix_columns"
+msgstr "Mátrixoszlopok"
+
+msgid "matrix_left_pole"
+msgstr "Bal pólus"
+
+msgid "matrix_neutral_answer"
+msgstr "Szöveg semleges oszlophoz (‘Nem meghatározott’, ‘Nem tudom’ stb.)"
+
+msgid "matrix_neutral_column_separator"
+msgstr "Semleges oszlopelválasztók"
+
+msgid "matrix_neutral_column_separator_description"
+msgstr "Vastag vonal a semleges és a többi oszlop közé."
+
+msgid "matrix_question_checkbox_not_checked"
+msgstr "Jelöljön be legalább egy jelölőnégyzetet minden sorban!"
+
+msgid "matrix_question_radio_button_not_checked"
+msgstr "Válasszon lehetőséggombot minden sorhoz!"
+
+msgid "matrix_right_pole"
+msgstr "Jobb pólus"
+
+msgid "matrix_row_separators"
+msgstr "Sorelválasztók"
+
+msgid "matrix_row_separators_description"
+msgstr "Vastag vonal a sorok között."
+
+msgid "matrix_rows"
+msgstr "Mátrixsorok"
+
+msgid "matrix_standard_answers"
+msgstr "Oszlopszöveg"
+
+msgid "matrix_subtype_mr"
+msgstr "Jelölőnégyzetek (több választható)"
+
+msgid "matrix_subtype_sr"
+msgstr "Rádiógombok (egy választható)"
+
+msgid "maxchars"
+msgstr "Karakterek maximális száma"
+
+msgid "maximum"
+msgstr "Maximális érték"
+
+msgid "median"
+msgstr "Medián"
+
+msgid "median_between"
+msgstr "ezek között:"
+
+msgid "menuback"
+msgstr "Vissza"
+
+msgid "menubacktosurvey"
+msgstr "Vissza a kérdőívhez"
+
+msgid "message_content_info"
+msgstr "Írjon üzenet a válaszadóknak, ami tartalmazza a kérdőívkódjukat. Használjon helyőrzőket [code] (=hozzáférési kód), [url] (=link ehhez a kérdőívhez), és a válaszadókhoz kapcsolódó adatokat a válaszadók importmezői szerint: %s. Az e-mail küldésekor az összes helyőrzőt lecseréljük a megfelelő értékére."
+
+msgid "metric_question_floating_point"
+msgstr "A megadott érték lebegőpontos, amely nem megengedett ehhez a kérdéstípushoz."
+
+msgid "metric_question_not_a_value"
+msgstr "A megadott érték nem numerikus."
+
+msgid "metric_question_out_of_bounds"
+msgstr "A bevitt érték nincs a minimum és maximum érték között."
+
+msgid "metric_subtype_description_interval"
+msgstr "Mérések esetén az ekvivalens intervallumok lehetővé teszik az önkényesen megadott méréshatárok közé eső adat jelentésének kiértékelését. A skálán a zérus pont bárhová tehető, így negatív értékek is használhatók. Példák intervallumértékekre: naptárban lévő évek vagy a Celsius fokban mért hőmérséklet."
+
+msgid "metric_subtype_description_ratioabsolute"
+msgstr "Az abszolút skálán mérés természetes számokat használ a nem önkényesen kijelölt zérusponthoz képest, például gyerekek száma egy családban vagy bekövetkezési valószínűség százalékban."
+
+msgid "metric_subtype_description_rationonabsolute"
+msgstr "Az intervallummérés mellett további jelentéssel bíró arányok is léteznek az önkényesen kijelölt számpárok között. A zérus érték egy arányskálán nem önkényes. A legtöbb fizikai mennyiséget, mint a hosszúságot centiméterben vagy az időtartamot másodpercben arányskálán mérjük."
+
+msgid "minimum"
+msgstr "Minimális érték"
+
+msgid "mode"
+msgstr "Legtöbbször kiválasztott érték"
+
+msgid "mode_nr_of_selections"
+msgstr "Kiválasztások száma"
+
+msgid "mode_text"
+msgstr "Legtöbbször kiválasztott érték (szöveg)"
+
+msgid "msg_duplicate_scale"
+msgstr "Egyedi arányértéket adjon meg!"
+
+msgid "msg_enter_value_for_valid_constraint"
+msgstr "Adjon meg egy értéket érvényes elágazási szabály létrehozásához!"
+
+msgid "msg_input_only_positive_numbers"
+msgstr "Pozitív számokat adjon meg a skálaértékekhez."
+
+msgid "msg_max_nr_answers"
+msgstr "Legfeljebb %s választ jelöljön meg!"
+
+msgid "msg_message_deleted"
+msgstr "Üzenetszöveget sikeresen törölte."
+
+msgid "msg_message_inserted"
+msgstr "Üzenetszöveget sikeresen beillesztette"
+
+msgid "msg_min_max_exact_answers"
+msgstr "Pontosan %s választ Jelöljön meg!"
+
+msgid "msg_min_max_nr_answers"
+msgstr "Legalább %s és legfeljebb %s választ jelöljön meg!"
+
+msgid "msg_min_nr_answers"
+msgstr "Legalább %s választ jelöljön meg!"
+
+msgid "msg_no_message_deleted"
+msgstr "Válasszon ki egy mentett üzenetszöveget!"
+
+msgid "msg_no_message_inserted"
+msgstr "Válasszon ki egy üzenetszöveget!"
+
+msgid "new_survey_codes"
+msgstr "új kérdőív-hozzáférési kód(ok)"
+
+msgid "no_question_selected_for_copy_to_pool"
+msgstr "Legalább egy olyan kérdést válasszon ki, amely még nincs linkelve kérdésgyűjteménybe."
+
+msgid "no_question_selected_for_move"
+msgstr "Legalább egy kérdést jelöljön ki az áthelyezéshez!"
+
+msgid "no_question_selected_for_removal"
+msgstr "Jelöljön ki legalább egy kérdést vagy kérdésblokkot az eltávolításhoz!"
+
+msgid "no_target_selected_for_move"
+msgstr "Ki kell választania egy célpozíciót!"
+
+msgid "non_ratio"
+msgstr "Intervallum"
+
+msgid "not_sent_only"
+msgstr "Csak az új címzetteknek (akik eddig még nem kaptak levelet)."
+
+msgid "not_used"
+msgstr "még nem használt"
+
+msgid "nr_max_answers"
+msgstr "Maximum"
+
+msgid "nr_min_answers"
+msgstr "Minimum"
+
+msgid "obligatory"
+msgstr "Kötelező"
+
+msgid "off"
+msgstr "kikapcsolás"
+
+msgid "on"
+msgstr "bekapcsolás"
+
+msgid "or"
+msgstr "vagy"
+
+msgid "orientation"
+msgstr "Tájolás"
+
+msgid "other_answer"
+msgstr "További válasz"
+
+msgid "other_answer_label"
+msgstr "Másik válasz címkéje (nem kötelező)"
+
+msgid "outro"
+msgstr "Záró megjegyzések"
+
+msgid "please_enter_mail_url"
+msgstr "Adja meg a hozzáférési url helyőrzőt [url]"
+
+msgid "qpl_confirm_delete_questions"
+msgstr "Biztos, hogy törli az alábbi kérdés(eke)t?"
+
+msgid "qpl_define_questionblock_select_missing"
+msgstr "Válasszon ki legalább két kérdést, ha kérdésblokkot szeretne létrehozni."
+
+msgid "qpl_delete_select_none"
+msgstr "Jelöljön ki legalább egy kérdést a törléshez!"
+
+msgid "qpl_export_select_none"
+msgstr "Legalább egy kérdést jelöljön ki az exportálásához!"
+
+msgid "qpl_questions_deleted"
+msgstr "Kérdés(eke)t sikeresen törölte."
+
+msgid "qpl_unfold_select_none"
+msgstr "Válasszon ki legalább egy kérdésblokkot, ha szét szeretné bontani a kérdésblokkokat!"
+
+msgid "question_changed_in_survey_only"
+msgstr "A kérdés csak a kérdőívben változott meg"
+
+msgid "question_mr_no_other_answer"
+msgstr "Adjon meg szöveget az egyéb válaszhoz."
+
+msgid "question_mr_no_other_answer_checked"
+msgstr "Be kell jelölnie a jelölőnégyzetet, ha választ ad meg a kérdésre."
+
+msgid "question_mr_not_checked"
+msgstr "Ellenőrizzen legalább egyet a felajánlott válaszok közül!"
+
+msgid "question_not_checked"
+msgstr "Jelöljön ki egy felajánlott választ!"
+
+msgid "question_obligatory"
+msgstr "A kérdés kötelező!"
+
+msgid "question_sr_no_other_answer_checked"
+msgstr "Be kell jelölnie a rádiógombot, ha választ ad meg a kérdésre."
+
+msgid "question_type"
+msgstr "Kérdéstípus"
+
+msgid "questionblock"
+msgstr "Kérdésblokk"
+
+msgid "questionblock_inserted"
+msgstr "Kérdésblokk beszúrva"
+
+msgid "questionblocks"
+msgstr "Kérdésblokkok"
+
+msgid "questionblocks_inserted"
+msgstr "Kérdésblokkok beszúrva"
+
+msgid "questions"
+msgstr "Kérdések"
+
+msgid "questions_inserted"
+msgstr "Kérdés(ek) beszúrva."
+
+msgid "questions_removed"
+msgstr "Kérdés(ek)/kérdésblokk(ok) eltávolítva."
+
+msgid "questiontype"
+msgstr "Kérdéstípus"
+
+msgid "ratio_absolute"
+msgstr "Abszolút skála"
+
+msgid "ratio_non_absolute"
+msgstr "Arányskála"
+
+msgid "recipients"
+msgstr "Címzettek"
+
+msgid "remove_question"
+msgstr "Eltávolítás"
+
+msgid "remove_questions"
+msgstr "Biztos, hogy eltávolítja az alábbi kérdés(eke)t/kérdésblokk(ok)at a kérdőívből?"
+
+msgid "results"
+msgstr "Eredmények"
+
+msgid "resume_survey"
+msgstr "Kérdőív kitöltésének folytatása"
+
+msgid "row_text"
+msgstr "Sorszöveg"
+
+msgid "save_obligatory_state"
+msgstr "Kötelező állapotok és sorrend mentése"
+
+msgid "save_reuse_message"
+msgstr "Üzenetszöveg mentése későbbi felhasználáshoz"
+
+msgid "save_reuse_title"
+msgstr "Üzenetszöveg címe"
+
+msgid "saved_messages"
+msgstr "Elérhető üzenetszövegek"
+
+msgid "scale"
+msgstr "Skála"
+
+msgid "search_groups"
+msgstr "Talált csoportok"
+
+msgid "search_term"
+msgstr "Fogalom keresése"
+
+msgid "select_option"
+msgstr "--- Válasszon egy beállítást ---"
+
+msgid "select_prior_question"
+msgstr "Előzetes kérdés kiválasztása"
+
+msgid "select_relation"
+msgstr "Kapcsolat kiválasztása"
+
+msgid "select_target_position_for_move_question"
+msgstr "Válasszon célhelyet a kérdés(ek) áthelyezéséhez és nyomja meg az egyik beszúrás gombot!"
+
+msgid "select_value"
+msgstr "Érték megadása"
+
+msgid "selection"
+msgstr "Kiválasztás"
+
+msgid "send_to_all"
+msgstr "Minden címzettnek"
+
+msgid "send_to_answered"
+msgstr "Minden címzettnek, akik már befejezték a kérdőívet."
+
+msgid "send_to_unanswered"
+msgstr "Minden címzettnek, akik még nem fejezték be a kérdőívet (emlékeztető)."
+
+msgid "show_questiontext"
+msgstr "Kérdésszöveg megjelenítése"
+
+msgid "show_questiontext_description"
+msgstr "A kérdésblokk egyes kérdéseinek kérdésszövege megjelenik. Ha nincs kiválasztva, a kérdésszövegek rejtve maradnak."
+
+msgid "skipped"
+msgstr "kihagyott"
+
+msgid "spl_copy_insert_clipboard"
+msgstr "A kiválasztott kérdés(ek)et a vágólapra másolta"
+
+msgid "spl_copy_select_none"
+msgstr "Ellenőrizze, hogy legalább egy kérdést kiválasztott, hogy másolhassa"
+
+msgid "spl_move_insert_clipboard"
+msgstr "A kiválasztott kérdés(eke)t kijelölte, hogy mozgathassa"
+
+msgid "spl_move_same_pool"
+msgstr "Ugyanazon kérdésgyűjteményen belül nem mozgathat kérdéseket."
+
+msgid "spl_move_select_none"
+msgstr "Ellenőrizze, hogy legalább egy kérdést kiválasztott a mozgatáshoz"
+
+msgid "spl_online_property"
+msgstr "Online"
+
+msgid "spl_paste_no_objects"
+msgstr "Egy kérdés sincs a vágólapon. Másoljon vagy helyezzen kérdést a vágólapra."
+
+msgid "spl_paste_success"
+msgstr "A kérdés(ek)et sikeresen beillesztette a kérdésgyűjteménybe."
+
+msgid "spl_save_obligatory_state"
+msgstr "Kötelező állapot mentése"
+
+msgid "start_date"
+msgstr "Kezdő időpont"
+
+msgid "start_date_not_reached"
+msgstr "A kezdő időpont előtt nem kezdhető el a kérdőív kitöltése."
+
+msgid "start_survey"
+msgstr "Kérdőív kitöltésének megkezdése"
+
+msgid "subtype"
+msgstr "Altípus"
+
+msgid "survey_360_add_external_rater"
+msgstr "Külső értékelő hozzáadása"
+
+msgid "survey_360_add_self_appraisee"
+msgstr "Saját maga hozzárendelése a kérdőívhez értékelendő személyként"
+
+msgid "survey_360_appraisee"
+msgstr "Értékelendő személy"
+
+msgid "survey_360_appraisee_close_action"
+msgstr "Kérdőív lezárása az értékelők számára"
+
+msgid "survey_360_appraisee_close_action_info"
+msgstr "A lezárás után hozzáférhet a saját statisztikáihoz."
+
+msgid "survey_360_appraisee_close_action_info_skill"
+msgstr "A lezárás után hozzáférhet a saját statisztikáihoz és frissíti a kompetenciaszintjeit."
+
+msgid "survey_360_appraisee_close_action_status"
+msgstr "Kérdőív lezárult: %s."
+
+msgid "survey_360_appraisee_close_action_success"
+msgstr "Lezárta saját 360°-os kérdőívét saját értékelői számára."
+
+msgid "survey_360_appraisee_close_action_success_admin"
+msgstr "Az értékelendő személyek 360°-os kérdőívei lezárultak az értékelők számára."
+
+msgid "survey_360_appraisee_close_table"
+msgstr "Lezárult"
+
+msgid "survey_360_appraisee_is_closed"
+msgstr "Az értékelendő személy lezárta a kérdőívét."
+
+msgid "survey_360_appraisees"
+msgstr "Értékelendő személyek"
+
+msgid "survey_360_edit_raters"
+msgstr "Értékelők módosítása"
+
+msgid "survey_360_mode"
+msgstr "360°-os értékelés"
+
+msgid "survey_360_mode_info"
+msgstr "Személyek teljes körű vizsgálata"
+
+msgid "survey_360_no_appraisees"
+msgstr "Jelenleg nincs olyan személy, akit értékelhetne."
+
+msgid "survey_360_rate_other_appraisee"
+msgstr "Értékelendő személyek értékelése"
+
+msgid "survey_360_rater_finished"
+msgstr "Kérdőív befejezve"
+
+msgid "survey_360_rater_mail_sent"
+msgstr "Levél elküldve"
+
+msgid "survey_360_rater_message_content_anonymous"
+msgstr "Üzenet tartalma (Anonymous)"
+
+msgid "survey_360_rater_message_content_anonymous_default"
+msgstr "Kérdőívének hozzáférési kódja [code]. A kérdőívet a következő linkkel tudja elérni: [url]"
+
+msgid "survey_360_rater_message_content_registered"
+msgstr "Üzenet tartalma (Regisztrált)"
+
+msgid "survey_360_rater_message_content_registered_default"
+msgstr "A kérdőívet a következő linkkel tudja elérni: [url]"
+
+msgid "survey_360_rater_subject_default"
+msgstr "Meghívás 360°-os kérdőívbe válaszadónak"
+
+msgid "survey_360_raters"
+msgstr "Értékelések"
+
+msgid "survey_360_raters_finished"
+msgstr "Befejezett értékelések"
+
+msgid "survey_360_remove_appraisees"
+msgstr "Értékelendő személy(ek) eltávolítása"
+
+msgid "survey_360_results"
+msgstr "Hozzáférés az értékelt személyek végeredményeihez"
+
+msgid "survey_360_results_all"
+msgstr "Az összes értékelt a másikéhoz is"
+
+msgid "survey_360_results_all_info"
+msgstr "Minden értékelendő hozzáférhet az összes értékelő összes értékeléséhez, nem csak az őt értékelők értékeléseihez."
+
+msgid "survey_360_results_none"
+msgstr "Nincs hozzáférés"
+
+msgid "survey_360_results_none_info"
+msgstr "At értékeltek nem férhetnek hozzá az értékelők által adott értékelésekhez."
+
+msgid "survey_360_results_own"
+msgstr "Mindenki a sajátjához"
+
+msgid "survey_360_results_own_info"
+msgstr "Minden értékelendő csak a saját magára kapott értékelésekhez férhet hozzá."
+
+msgid "survey_360_select_appraisee"
+msgstr "Válassz"
+
+msgid "survey_360_self_appraisee"
+msgstr "Nyílt visszajelzés"
+
+msgid "survey_360_self_appraisee_info"
+msgstr "Az összes felhasználó számára elérhető link jelenik meg az ‘Információ’ lapon. Erre kattintva önmagukat értékelendő személlyé tehetik, így visszajelzéseket kaphatnak."
+
+msgid "survey_360_self_evaluation"
+msgstr "Önértékelés"
+
+msgid "survey_360_self_evaluation_info"
+msgstr "A válaszadók a kérdéseken keresztül értékelhetik saját magukat."
+
+msgid "survey_360_self_raters"
+msgstr "Az értékelendő személy kiválaszthatja értékelőit"
+
+msgid "survey_360_self_raters_info"
+msgstr "Az értékelendők önállóan kiválaszthatják és meghívhatják azokat a felhasználókat, akik értékelést adhatnak rájuk."
+
+msgid "survey_360_sure_appraisee_close"
+msgstr "Biztos, hogy lezárja a kérdőívet az összes értékelő számára?"
+
+msgid "survey_360_sure_appraisee_close_admin"
+msgstr "Biztos, hogy lezárja a kérdőíveket az alábbi értékelendő személyek számára?"
+
+msgid "survey_360_sure_delete_appraises"
+msgstr "Biztos, hogy eltávolítja az alábbi értékelendő személyeket?"
+
+msgid "survey_360_sure_delete_raters"
+msgstr "Biztos, hogy eltávolítja %s értékelőit?"
+
+msgid "survey_access_code"
+msgstr "Hitelesítés kódokkal"
+
+msgid "survey_access_codes_info"
+msgstr "A felhasználók az ‘Információ’ lapon megadható kóddal férhet hozzá a teszthez. Kódokat generálni a ‘Válaszadók’ lap alatti ‘Hozzáférési kódok’ allap alatt lehet."
+
+msgid "survey_activate_skill_service"
+msgstr "Kompetenciaszolgáltatás bekapcsolása"
+
+msgid "survey_activate_skill_service_info"
+msgstr "Egy új, ‘Kompetencia’ nevű lap jelenik meg. Itt kompetenciákat rendelhet a kérdésekhez, majd küszöbértéket kompetenciaszintekhez."
+
+msgid "survey_add_new_question"
+msgstr "Új kérdés létrehozása"
+
+msgid "survey_assign_competence"
+msgstr "Kompetencia hozzárendelése"
+
+msgid "survey_auto_block_title"
+msgstr "Lapfejléc"
+
+msgid "survey_available_question_pools"
+msgstr "Elérhető gyűjtemények"
+
+msgid "survey_calc_skills"
+msgstr "Kompetenciaszintek megállapítása"
+
+msgid "survey_calculate_sum_score"
+msgstr "Összpontszám kiszámítása"
+
+msgid "survey_calculate_sum_score_info"
+msgstr "Kiszámolja az összes részvevő összes egyválaszos, többválaszos és mátrixkérdések értékének összegét. Vigyázzon: Ha a résztvevők kihagyják ezeket a kérdéseket, tovább a teljes szummát már nem számoljuk."
+
+msgid "survey_cancel_preview"
+msgstr "Előnézet kikapcsolása"
+
+msgid "survey_cannot_preview_survey"
+msgstr "Az előnézet nem érhető el"
+
+msgid "survey_code"
+msgstr "Kérdőív hozzáférési kódja"
+
+msgid "survey_code_delete_sure"
+msgstr "Biztos, hogy töröli az alábbi, fel nem használt hozzáférési kódokat?"
+
+msgid "survey_code_url"
+msgstr "URL közvetlen eléréshez"
+
+msgid "survey_code_url_name"
+msgstr "URL <small>(használja a jobb egérgombot az URL másolásához)</small>"
+
+msgid "survey_code_used"
+msgstr "A kód…"
+
+msgid "survey_codes_lang"
+msgstr "Előre kiválasztott kérdőívnyelv"
+
+msgid "survey_codes_no_anonymization"
+msgstr "Névtelen kérdőívet kell létrehoznia hozzáférési kóddal új hozzáférési kódok létrehozásához!"
+
+msgid "survey_competences"
+msgstr "Kompetenciák"
+
+msgid "survey_constraint_deleted"
+msgstr "Az elágazási szabályt sikeresen törölte."
+
+msgid "survey_copy_questions_to_pool"
+msgstr "Kérdés hozzáadása kérdésgyűjteményhez"
+
+msgid "survey_copy_select_questionpool"
+msgstr "Kérdésgyűjtemény a másolatok elhelyezéséhez"
+
+msgid "survey_copy_to_questionpool_success"
+msgstr "A kérdéseket sikeresen beillesztette a gyűjteménybe."
+
+msgid "survey_delete_heading"
+msgstr "Címsor eltávolítása"
+
+msgid "survey_edit_heading"
+msgstr "Címsor módosítása"
+
+msgid "survey_edit_settings"
+msgstr "Beállítások módosítása"
+
+msgid "survey_error_insert_incomplete_question"
+msgstr "Nem teljes kérdést próbált hozzáadni a kérdőívhez. A kérdés hozzáadása sikertelen."
+
+msgid "survey_execution_exit"
+msgstr "Vissza a Tartalomtárhoz"
+
+msgid "survey_execution_exit_360"
+msgstr "Vissza"
+
+msgid "survey_execution_sure_finish"
+msgstr "Biztos, hogy befejezi a kérdőív kitöltését? Utána már nem tudja módosítani válaszait."
+
+msgid "survey_finish"
+msgstr "Kérdőív befejezése"
+
+msgid "survey_finished"
+msgstr "Befejezte a kérdőív kitöltését. Köszönjük részvételét!"
+
+msgid "survey_has_datasets_warning"
+msgstr "A kérdőív tartalmaz már adathalmazokat. Amíg nem távolítja el ezeket a válaszadók részben, nem tudja szerkeszteni a kérdőív kérdéseit."
+
+msgid "survey_has_datasets_warning_page_view"
+msgstr "A kérdőív már tartalmaz válaszokat. Nem szerkesztheti a kérdőív kérdéseit, amíg el nem távolítja azokat."
+
+msgid "survey_has_datasets_warning_page_view_link"
+msgstr "Résztvevő eredményei"
+
+msgid "survey_introduction_info"
+msgstr "Ez az üzenet az ‘Információ’ lapon jelenik meg."
+
+msgid "survey_is_offline"
+msgstr "Nem tudja elkezdeni a kérdőív kitöltését. A kérdőív jelenleg offline (nem aktív)."
+
+msgid "survey_next"
+msgstr "Következő >>>"
+
+msgid "survey_not_available"
+msgstr "n.a."
+
+msgid "survey_notification_finished_introduction"
+msgstr "Egy válaszadó befejezte a kérdőívet."
+
+msgid "survey_notification_finished_reason"
+msgstr "Ezt a levelet azért kapta, mert fent említett kérdőívnél beállította, hogy kér értesítést."
+
+msgid "survey_notification_target_group"
+msgstr "Célcsoport"
+
+msgid "survey_notification_target_group_invited"
+msgstr "A kérdőív linkje megjelenik az összes felhasználó Műszerfalára."
+
+msgid "survey_notification_target_group_invited_info"
+msgstr "Jelenlegi felhasználók száma: %s"
+
+msgid "survey_notification_target_group_parent_course"
+msgstr "Kurzustároló/csoporttároló összes tagja"
+
+msgid "survey_notification_target_group_parent_course_inactive"
+msgstr "Nem adott meg kurzustárolót/csoporttárolót - emlékeztetőket nem küldünk!"
+
+msgid "survey_notification_tutor_body"
+msgstr "ezúton tájékoztatjuk, hogy az alábbi kérdőív kitöltését az összes válaszadó befejezte."
+
+msgid "survey_notification_tutor_link"
+msgstr "Link a kérdőívhez"
+
+msgid "survey_notification_tutor_recipients"
+msgstr "Tutorok (felhasználónevek)"
+
+msgid "survey_notification_tutor_recipients_invalid"
+msgstr "Kérem, adjon írási jogosultságot a felhasználók számára."
+
+msgid "survey_notification_tutor_salutation"
+msgstr "Tisztelt %s,"
+
+msgid "survey_notification_tutor_setting"
+msgstr "E-mail küldése, miután az összes válaszadó befejezte a kérdőív kitöltését"
+
+msgid "survey_notification_tutor_subject"
+msgstr "Az összes válaszadó befejezte a(z) ‘%s’ kérdőívet."
+
+msgid "survey_order"
+msgstr "Rendezési sorrend"
+
+msgid "survey_previous"
+msgstr "<<< Előző"
+
+msgid "survey_question_editor"
+msgstr "Listanézet"
+
+msgid "survey_question_obligatory"
+msgstr "Ezt a kérdést kötelező megválaszolnia."
+
+msgid "survey_question_pool"
+msgstr "Kérdésgyűjtemény"
+
+msgid "survey_question_pool_title"
+msgstr "Gyűjtemény címe"
+
+msgid "survey_question_title"
+msgstr "Kérdéscím"
+
+msgid "survey_questions"
+msgstr "Kérdések"
+
+msgid "survey_questions_to_clipboard_copy"
+msgstr "Kérdés(ek) volt(ak) a vágólapra másolva. Válassza ki a célt, vagy ürítse a vágólapot."
+
+msgid "survey_reached_level"
+msgstr "Elért szint"
+
+msgid "survey_reminder_body"
+msgstr "ezúton értesítjük, hogy a következő kérdőív kitöltését még nem fejezte be"
+
+msgid "survey_reminder_cron"
+msgstr "Felhasználók emlékeztetése a részvételre"
+
+msgid "survey_reminder_cron_info"
+msgstr "A felhasználóknak emlékeztetőt küldünk, hogy vegyenek részt a kérdőív kitöltésében."
+
+msgid "survey_reminder_end"
+msgstr "Záró időpont"
+
+msgid "survey_reminder_frequency"
+msgstr "Gyakoriság"
+
+msgid "survey_reminder_frequency_days"
+msgstr "Nap"
+
+msgid "survey_reminder_link"
+msgstr "URL"
+
+msgid "survey_reminder_salutation"
+msgstr "Tisztelt %s,"
+
+msgid "survey_reminder_setting"
+msgstr "Felhasználók emlékeztetése a részvételre"
+
+msgid "survey_reminder_start"
+msgstr "Kezdő időpont"
+
+msgid "survey_reminder_subject"
+msgstr "‘%s’ kérdőív még nem ért véget"
+
+msgid "survey_remove_competence"
+msgstr "Kompetencia eltávolítása"
+
+msgid "survey_results_anonymization"
+msgstr "Adatvédelem"
+
+msgid "survey_results_anonymized"
+msgstr "Nevek nélküli / Anonimizált kérdőív"
+
+msgid "survey_results_anonymized_info"
+msgstr "A végeredmények megtekintésekor a válaszadók neve helyett egy kód jelenik meg, azaz a válaszadók személyei senki számára be nem azonosíthatók."
+
+msgid "survey_results_finished"
+msgstr "Kérdőív befejezve"
+
+msgid "survey_results_not_started"
+msgstr "A kérdőív nem indult el"
+
+msgid "survey_results_personalized"
+msgstr "Nevekkel"
+
+msgid "survey_results_personalized_info"
+msgstr "A végeredmények megtekintésekor a válaszadók neve és válaszai megjelennek, azaz a válaszadók személyei a megfelelő jogosultsággal rendelkezők számára beazonosíthatók. Ez alacsony részvétel esetén a korlátozott hozzáféréssel rendelkezők is megtehetik."
+
+msgid "survey_results_started"
+msgstr "A kérdőív elindult"
+
+msgid "survey_show_blocktitle"
+msgstr "Blokkcím megjelenítése"
+
+msgid "survey_show_blocktitle_description"
+msgstr "A blokkcím megjelenik a kérdőívben."
+
+msgid "survey_skill"
+msgstr "Kompetencia"
+
+msgid "survey_skill_assign"
+msgstr "Kérdés/Kompetencia összerendelés"
+
+msgid "survey_skill_level"
+msgstr "Kompetenciaszint"
+
+msgid "survey_skill_max_scale_points"
+msgstr "Max. skálapont"
+
+msgid "survey_skill_nr_q"
+msgstr "Kérdések száma"
+
+msgid "survey_skill_thresholds"
+msgstr "Kompetencia küszöbértékek"
+
+msgid "survey_start"
+msgstr "Vissza a kezdőlapra"
+
+msgid "survey_sum_of_means"
+msgstr "Számtani közepek összege"
+
+msgid "survey_sure_delete_constraint"
+msgstr "Biztos, hogy törli a(z) ‘%2$s’ kérdés ‘%1$s’ elágazási szabályát?"
+
+msgid "survey_sure_delete_questions"
+msgstr "Biztos, hogy törli az alábbi kérdéseket vagy címsorokat?"
+
+msgid "survey_sync_insufficient_permissions"
+msgstr "Nincs elegendő jogosultság"
+
+msgid "survey_sync_question_copies"
+msgstr "Kérdésmásolatok szinkronizálása"
+
+msgid "survey_sync_question_copies_info"
+msgstr "A kiválasztott kérdőívkérdések frissítése a gyűjteményben lévő jelenlegi változatra."
+
+msgid "survey_sync_success"
+msgstr "A kiválasztott kérdések frissültek."
+
+#, fuzzy
+msgid "survey_up_to_x_points"
+msgstr "Up to x points"
+
+msgid "survey_use_start_button"
+msgstr "A kérdőívbe lépéshez használja a kezdés gombot."
+
+msgid "svy_activation_limited_visibility_info"
+msgstr "Az adott időszakon kívül csak a kérdőív címe látható, kérdései nem érhetőek el."
+
+msgid "svy_activation_online_info"
+msgstr "Felhasználók csak akkor vehetnek részt a kérdőív kitöltésében, ha az online."
+
+msgid "svy_add_internal_user"
+msgstr "Felhasználó hozzáadása"
+
+msgid "svy_add_internal_user_info"
+msgstr "Az értékelőnek van ILIAS-fiókja."
+
+msgid "svy_add_rater"
+msgstr "Értékelő hozzáadása"
+
+msgid "svy_all_raters"
+msgstr "Összes értékelő"
+
+msgid "svy_all_survey_competences"
+msgstr "Összes kérdőív kompetencia"
+
+msgid "svy_all_user_data_deleted"
+msgstr "Ehhez a kérdőívhez kapcsolódó összes felhasználói adatot sikeresen törölte."
+
+msgid "svy_analysis"
+msgstr "Analízis"
+
+msgid "svy_anonymous_participants"
+msgstr "Válaszadók listája"
+
+msgid "svy_anonymous_participants_info"
+msgstr "A válaszadók listája bekapcsolható névtelen kérdőívekben."
+
+msgid "svy_anonymous_participants_min"
+msgstr "A válaszadók minimális száma"
+
+msgid "svy_anonymous_participants_min_info"
+msgstr "A lista csak akkor lesz elérhető, ha a válaszadók száma meghaladja a minimálisat."
+
+msgid "svy_anonymous_participants_svy"
+msgstr "Válaszadók listája"
+
+msgid "svy_anonymous_participants_svy_info"
+msgstr "A válaszadók listája elérhető a záró időpont után."
+
+msgid "svy_answer_too_long"
+msgstr "Jelenlegi válasza túl hosszú (%s karakter), kérem, rövidítse válaszát."
+
+msgid "svy_app_see_rater_info"
+msgstr "Az értékelők az eredményekkel együtt hozzáférhetnek az értékelői információkhoz, beleértve a neveket és az e-mail címeket, amennyiben azokat az értékelők megadták."
+
+msgid "svy_appraisses_cannot_be_raters"
+msgstr "A felhasználó nem adható hozzá értékelőnek. Használja inkább a kérdőív beállításaiban lévő önértékelés lehetőséget."
+
+msgid "svy_back"
+msgstr "Vissza"
+
+msgid "svy_categories"
+msgstr "Válaszok"
+
+msgid "svy_check_evaluation_access_introduction"
+msgstr "Mivel ez a kérdőíves kiértékelés csak a kérdőívben válaszadók számára elérhető, meg kell adnia kérdőív-hozzáférési kódját a kiértékelés megnyitásához."
+
+msgid "svy_check_evaluation_authentication_needed"
+msgstr "Azonosítás szükséges"
+
+msgid "svy_check_evaluation_wrong_key"
+msgstr "Rossz kérdőív-hozzáférési kódot adott meg, vagy nem jogosult a kérdőív kitöltésére. Hozzáférését a kérdőív kiértékeléséhez elutasítottuk."
+
+msgid "svy_compress_view"
+msgstr "Sűrített nézet"
+
+msgid "svy_compress_view_info"
+msgstr "Az összes, ugyanolyan válaszlehetőségekkel bíró egyszeres választásos kérdés matrixnézetben jelenik meg."
+
+msgid "svy_copy"
+msgstr "Kérdőív másolása"
+
+msgid "svy_create_question"
+msgstr "Kérdés létrehozása"
+
+msgid "svy_delete_all_user_data"
+msgstr "Összes felhasználói adat törlése"
+
+msgid "svy_dont_send"
+msgstr "Ne küldjön üzenetet"
+
+msgid "svy_eval_captions"
+msgstr "Ábrák"
+
+msgid "svy_eval_captions_abs"
+msgstr "Abszolút"
+
+msgid "svy_eval_captions_abs_perc"
+msgstr "Abszolút és százalék"
+
+msgid "svy_eval_captions_perc"
+msgstr "Százalék"
+
+msgid "svy_eval_competences"
+msgstr "Kompetencia végeredmények"
+
+msgid "svy_eval_cumulated"
+msgstr "Áttekintés"
+
+msgid "svy_eval_detail"
+msgstr "Részletek"
+
+msgid "svy_eval_skipped_value"
+msgstr "Végeredmények: ‘kihagyott’"
+
+msgid "svy_eval_skipped_value_custom"
+msgstr "Egyéni érték használata"
+
+msgid "svy_eval_skipped_value_custom_info"
+msgstr "A kihagyott válaszok esetére adjon meg bármilyen értéket vagy hagyja üresen"
+
+msgid "svy_eval_skipped_value_custom_value"
+msgstr "Érték"
+
+msgid "svy_eval_skipped_value_lng"
+msgstr "Alapértelmezett bejegyzés használata"
+
+msgid "svy_eval_skipped_value_lng_info"
+msgstr "Jelenlegi értéke: ‘%s’"
+
+msgid "svy_eval_user"
+msgstr "válaszadónként"
+
+msgid "svy_eval_view"
+msgstr "Megjelenítés"
+
+msgid "svy_eval_view_charts"
+msgstr "Diagram"
+
+msgid "svy_eval_view_tables"
+msgstr "Táblázat"
+
+msgid "svy_eval_view_tables_charts"
+msgstr "Táblázat és diagram"
+
+msgid "svy_evaluation_access_all_info"
+msgstr "Az összes, a kérdőívhez hozzáféréssel rendelkező felhasználó hozzáférhet ennek a kérdőívnek a végeredményeihez."
+
+msgid "svy_evaluation_access_off_info"
+msgstr "Csak a kérdőívet módosítani képes (írási hozzáféréssel rendelkező) felhasználó férhet hozzá ennek a kérdőívnek a végeredményeihez."
+
+msgid "svy_evaluation_access_participants_info"
+msgstr "Az összes válaszadó a kérdőív kitöltését követően hozzáférhet ennek a kérdőívnek a végeredményeihez."
+
+msgid "svy_export_files"
+msgstr "Exportfájlok"
+
+msgid "svy_export_format"
+msgstr "Kérdőív adatainak exportálása mint"
+
+msgid "svy_export_pdf"
+msgstr "Exportálás PDF-ként"
+
+msgid "svy_ext_rater_firstname"
+msgstr "A külső értékelő családneve"
+
+msgid "svy_ext_rater_lastname"
+msgstr "A külső értékelő utóneve"
+
+msgid "svy_external_rater"
+msgstr "Külső értékelő hozzáadása"
+
+msgid "svy_external_rater_info"
+msgstr "Az értékelőnek nincs ILIAS-fiókja."
+
+msgid "svy_fraction_of_selections"
+msgstr "Kiválasztások aránya"
+
+msgid "svy_gap_analysis"
+msgstr "Gap analízis (rés elemzés)"
+
+msgid "svy_general_properties"
+msgstr "Általános tulajdonságok"
+
+msgid "svy_import_codes"
+msgstr "Kódok importálása"
+
+msgid "svy_import_codes_info"
+msgstr "Az importáláshoz szükséges egy ‘%s’ export fájl."
+
+msgid "svy_ind_feedb_info"
+msgstr "A felhasználók külön-külön kapnak visszajelzést a többiektől."
+
+msgid "svy_ind_feedb_mode"
+msgstr "Egyéni visszajelzés"
+
+msgid "svy_mail_confirmation_subject"
+msgstr "‘%s’ kérdőív kitöltéséről"
+
+msgid "svy_mail_context_rater_invitation_info"
+msgstr "Értékelők meghívása a kérdőívbe."
+
+msgid "svy_mail_context_rater_invitation_survey_title"
+msgstr "Kérdőív címe"
+
+msgid "svy_mail_context_rater_invitation_title"
+msgstr "Kérdőív: Értékelők meghívása"
+
+msgid "svy_mail_context_reminder_info"
+msgstr "Emlékeztető felhasználóknak kérdőívben való részvételre"
+
+msgid "svy_mail_context_reminder_survey_title"
+msgstr "Kérdőív címe"
+
+msgid "svy_mail_context_reminder_title"
+msgstr "Kérdőív: kérdőív-emlékeztető"
+
+msgid "svy_mail_own_results_body"
+msgstr "a következő kérdőívben adott válaszokat:"
+
+msgid "svy_mail_own_results_subject"
+msgstr "‘%s’ kérdőívre adott válaszai"
+
+msgid "svy_mail_send_confirmation"
+msgstr "A kitöltésről e-mail küldése"
+
+msgid "svy_matrix_layout_percentages_sum_invalid"
+msgstr "Az oszlopbeállítások összege nem 100%."
+
+msgid "svy_max_sum_score"
+msgstr "Összpontszám maximális értéke"
+
+msgid "svy_neutral_answer"
+msgstr "Szöveg semleges válaszhoz (‘Nem meghatározott’, ‘Nem tudom’ stb.)"
+
+msgid "svy_no_appraisees_found"
+msgstr "Egy értékelendő személy sem kapott még visszajelzést"
+
+msgid "svy_notification_tutor_results"
+msgstr "Egy e-mail a kérdőív eredményeivel"
+
+msgid "svy_notification_tutor_results_alert"
+msgstr "Adjon meg záró dátumot."
+
+msgid "svy_notification_tutor_results_info"
+msgstr "A feladatütemező el fogja küldeni csatolmányként a kérdőív részletes eredményeit a záró dátumkor."
+
+msgid "svy_only_max_one_external_rater"
+msgstr "Csak egy külső értékelőt válasszon."
+
+msgid "svy_page_error"
+msgstr "Egy kérdés megválaszolásakor egy hiba jelentkezett. További információért keresse meg a kérdést!"
+
+msgid "svy_page_errors"
+msgstr "Kérdések megválaszolásakor hibák jelentkeztek. További információért keresse meg a kérdéseket!"
+
+msgid "svy_participant"
+msgstr "Résztvevő"
+
+msgid "svy_participants"
+msgstr "Résztvevők"
+
+msgid "svy_participation"
+msgstr "Részvétel"
+
+msgid "svy_please_select_unused_codes"
+msgstr "Válasszon egy, még el nem használt kódot."
+
+msgid "svy_print_hide_labels"
+msgstr "Címkék elrejtése"
+
+msgid "svy_print_show_labels"
+msgstr "Címkék megjelenítése"
+
+msgid "svy_privacy_info"
+msgstr "Adatvédelem"
+
+msgid "svy_rater"
+msgstr "Értékelő"
+
+msgid "svy_rater_see_app_info"
+msgstr "A válaszadók neveit megjelenítjük az értékelőknek, hogy ki tudják értékelni a kérdéseket."
+
+msgid "svy_reminder_mail_template"
+msgstr "Levélsablon"
+
+msgid "svy_reminder_mail_template_none"
+msgstr "Ne használjon levélsablont"
+
+msgid "svy_result_mail_notification_info"
+msgstr "A kérdőív befejezésekor mindegyik válaszadó válaszát elküldjük a megadott címekre."
+
+msgid "svy_results"
+msgstr "Eredmények"
+
+msgid "svy_results_mail_confirm"
+msgstr "A válaszadók e-mailt kérhetnek"
+
+msgid "svy_results_mail_confirm_info"
+msgstr "A válaszadók e-mailt kérhetnek kitöltésükről a kérdőív végén."
+
+msgid "svy_results_mail_own"
+msgstr "A válaszok belefoglalása"
+
+msgid "svy_results_mail_own_info"
+msgstr "A válaszok kerüljenek bele az e-mailbe."
+
+msgid "svy_save_and_continue"
+msgstr "Mentés és folytatás"
+
+msgid "svy_save_sync"
+msgstr "Mentés és kérdésmásolatok szinkronizálása"
+
+msgid "svy_search_user"
+msgstr "Felhasználó keresése"
+
+msgid "svy_search_user_info"
+msgstr "Felhasználók, illetve szerepkörök keresése és résztvevők kiválasztása."
+
+msgid "svy_search_users"
+msgstr "Válaszadók keresése"
+
+msgid "svy_select_rater"
+msgstr "Értékelők keresése"
+
+msgid "svy_selected_user_data_deleted"
+msgstr "A kiválasztott felhasználó(k) kérdőívadatait sikeresen törlölte."
+
+msgid "svy_self_ev_access_results_all"
+msgstr "Összes résztvevő önértékeléseinek elérése"
+
+msgid "svy_self_ev_access_results_none"
+msgstr "Nincs hozzáférés az eredményekhez"
+
+msgid "svy_self_ev_access_results_own"
+msgstr "Saját önértékelések elérése"
+
+msgid "svy_self_ev_info"
+msgstr "Egy kérdőív, ami önértékelésre használható."
+
+msgid "svy_self_ev_mode"
+msgstr "Csak önértékelés"
+
+msgid "svy_settings_section_access"
+msgstr "Kérdőív kezelése: Hozzáférés"
+
+msgid "svy_settings_section_before_start"
+msgstr "Kérdőív kezdése előtt megjelenő információ"
+
+msgid "svy_settings_section_finishing"
+msgstr "Kérdőív befejezése"
+
+msgid "svy_settings_section_question_behaviour"
+msgstr "Kérdőív kezelése: A kérdés viselkedése"
+
+msgid "svy_settings_section_reminders"
+msgstr "Emlékeztetők"
+
+msgid "svy_show_questiontitles"
+msgstr "Kérdéscím megjelenítése"
+
+msgid "svy_skl_comp_assignm_not_supported"
+msgstr "Kompetencia összerendelés nem támogatott ebben a kérdéstípusban."
+
+msgid "svy_sum_score"
+msgstr "Összpontszám"
+
+msgid "svy_type_of_rater"
+msgstr "Értékelők típusa"
+
+msgid "svy_view_own_results"
+msgstr "Válaszaim megtekintése"
+
+msgid "svy_wrong_or_expired_code"
+msgstr "Lejárt vagy érvénytelen kódot adott meg."
+
+msgid "text_maximum_chars_allowed"
+msgstr "Ne adjon meg több, mint %s karaktert! Ha túllépi ezt a korlátot, a válaszát nem rögzítjük, a folytatáshoz le kell rövidítenie."
+
+msgid "text_question_not_filled_out"
+msgstr "Töltse ki a válaszmezőt!"
+
+msgid "unfold"
+msgstr "Kérdésblokk szétbontás"
+
+msgid "upper_limit"
+msgstr "Felső határ"
+
+msgid "use_anonymous_id"
+msgstr "Válaszadókód megjelenítése"
+
+msgid "use_anonymous_id_desc"
+msgstr "Anonimizált kérdőívben a résztvevők hozzáférési kódjait használjuk felhasználónevük helyett. Ha nincs bepipálva, a felhasználónevek helyett a ‘Névtelen’ felirat jelenik meg."
+
+msgid "use_browser_print_function"
+msgstr "Használja a böngészője nyomtatási funkcióját!"
+
+msgid "use_min_answers"
+msgstr "Válaszok elvárt száma"
+
+msgid "use_min_answers_option"
+msgstr "Kijelölendő válaszok számának (minimum, maximum) beállítása"
+
+msgid "use_other_answer"
+msgstr "Szabadszöveges válasz"
+
+msgid "used"
+msgstr "használt"
+
+msgid "users_answered"
+msgstr "Válaszoltak"
+
+msgid "users_invited"
+msgstr "%s felhasználót meghívta"
+
+msgid "users_skipped"
+msgstr "Kihagyták"
+
+msgid "values"
+msgstr "Értékek"
+
+msgid "vertical"
+msgstr "Függőleges"
+
+msgid "warning_question_not_complete"
+msgstr "Nem teljes a kérdés."
+
+msgid "workingtime"
+msgstr "Eltöltött idő"

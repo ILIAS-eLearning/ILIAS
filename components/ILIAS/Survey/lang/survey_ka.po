@@ -1,0 +1,1953 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ka\n"
+"Language-Team: Georgian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: survey\n"
+
+msgid "SurveyMatrixQuestion"
+msgstr "მატრიცული კითხვა"
+
+msgid "SurveyMetricQuestion"
+msgstr "მეტრკული კითხვა"
+
+msgid "SurveyMultipleChoiceQuestion"
+msgstr "მრავალ არჩევითი კითხვა ( მრავალი პასუხი)"
+
+msgid "SurveySingleChoiceQuestion"
+msgstr "მრავალ არჩევითი კითხვა ( ერთი პასუხი)"
+
+msgid "SurveyTextQuestion"
+msgstr "ესსე"
+
+msgid "add_heading"
+msgstr "სათაურის დამატება"
+
+msgid "already_completed_survey"
+msgstr "თქვენ უკვე დაასრულეთ ეს გამოკითხვა! თქვენ არ გაქვთ გამოკითხვაში ხელახლა შესვლის უფლება"
+
+#, fuzzy
+msgid "anonymization"
+msgstr "Anonymisation"
+
+msgid "anonymize_anonymous_introduction"
+msgstr "ამ გამოკითხვაში მომხმარებელთა მონაცემები ანონიმურია. იმისათვის რომ მიიღოთ კითხვარში შესვლის უფლება, თქვენ უნდა შეივანოთ 5 ნიშნიანი კითხვარის კოდი რომლის მიღებაც კითხვარის შემქმნელისაგან შეგიძლიათ მიიღოთ <br/> გთხოვთ შეიყვანოთ ის ქვემოთ ტექსტის ველში"
+
+msgid "answer"
+msgstr "პასუხი"
+
+msgid "arithmetic_mean"
+msgstr "საშუალო არითმეტიკული"
+
+msgid "browse_for_questions"
+msgstr "ძიება/კითხვებ"
+
+msgid "cancel_survey"
+msgstr "გამოკითხვის შეჩერება"
+
+msgid "cannot_read_survey"
+msgstr "თქვენ არ გაქვთ უფლება წაიკითხოთ კითხვარის მონაცემები!"
+
+msgid "cannot_switch_to_online_no_questions"
+msgstr "სტატუსის შეცვლა შეუძლებელია &quot;online&quot; რადგან კითხვარში არ არის კითხვები!"
+
+#, fuzzy
+msgid "cant_send_email_smtp_disabled"
+msgstr "Sending external mails is not available. This option is deactivated globally."
+
+msgid "category"
+msgstr "პასუხი"
+
+msgid "category_nr_selected"
+msgstr "იმ მომხმარებელთა რაოდენობა ვინც ეს პასუხი მონიშნა"
+
+msgid "chart"
+msgstr "რუკა"
+
+msgid "codes"
+msgstr "შესვლის კოდები"
+
+msgid "codes_created"
+msgstr "კოდები შექმნილია"
+
+msgid "codes_deleted"
+msgstr "კოდები წაშლილია"
+
+#, fuzzy
+msgid "combobox"
+msgstr "Combo Box"
+
+msgid "concatenation"
+msgstr "ურთიერთკავშირი"
+
+msgid "confirm_delete_all_user_data"
+msgstr "დარწმუნებული ხართ რომ კითხვარის მომხმარებლების ყველა მონაცემის წაშლა გსურთ?"
+
+msgid "confirm_delete_single_user_data"
+msgstr "დარწმუნებული ხართ რომ კითხვარში მონიშნული მომხმარებლების მონაცემების წაშლა გსურთ?"
+
+msgid "confirm_remove_heading"
+msgstr "დარწმუნებული ხართ რომ სათაურის წაშლა გსურთ?"
+
+msgid "confirm_sync_questions"
+msgstr "კითხვა რომელიც თქვენ შეცვალეთ ასლია რომელიც აქტიური კითხვარის მომხმარებლებისთვისაა შექმნილი. გსურთ თავდაპირველი კითხვის შესვლა?"
+
+msgid "conjunction_and"
+msgstr "თუ თითოეული შეზღუდვა შესრულებულია"
+
+msgid "conjunction_and_title"
+msgstr "შეასრულეთ თითოეული  შეზრუდვა"
+
+msgid "conjunction_or"
+msgstr "თუ ერთი შეზღუდვა შესრულებულია"
+
+msgid "conjunction_or_title"
+msgstr "შეასრულეთ ერთი  შეზრუდვა"
+
+msgid "constraint_add"
+msgstr "წინაპირობის დამატება"
+
+msgid "constraint_fulfilled"
+msgstr "გვერდის ჩვენება"
+
+msgid "constraints"
+msgstr "წინაპირობები"
+
+msgid "constraints_first_question_description"
+msgstr "პირველ ობიექტს არ შეიძლება ჰქონდეს რაიმე წინაპირობა რადგან წინა კითხვები არ არსებობს"
+
+msgid "constraints_introduction"
+msgstr "ყოველი ობიექტისთვის (ერთი კითხვა ან კითხვის ბლოკი მრავალი კითხვით) ერთი ან რამდენიმე წინაპირობა შეიძლება განისაზღვროს.  Eს წინაპირობები გამომდინარეობს კითხვარის პასუხებიდან კითხვარის დასაწყისში. ღადგან პირველ კიტხვას არ აქვს წინა კითხვები შეუძლებელია მისთვის წინაპირობების განსაზღვრა"
+
+msgid "constraints_list_of_entities"
+msgstr "კითხვარის შესაძლებელი კითხვები წინაპირობებისთვის"
+
+msgid "constraints_no_nonessay_available"
+msgstr "კითხვები ან ესსე კითხვები არ არის ხელმისაწვდომი წინაპირობების დასათვლელად ( ესსე კითხვები არ არის სწორი წინაპირობების დასათვლელად)"
+
+msgid "constraints_no_questions_or_questionblocks_selected"
+msgstr "გთხოვთ მონიშნოთ  სულ მცირე ერთი კითხვა ან კიტხვის ბლოკი"
+
+msgid "contains"
+msgstr "შეიცავს"
+
+msgid "continue"
+msgstr "გაგრძელება >>"
+
+msgid "create_new"
+msgstr "ახლის შექმნა"
+
+msgid "dc_agree"
+msgstr "თანხმობა"
+
+msgid "dc_always"
+msgstr "ყოველთვის"
+
+msgid "dc_definitelyfalse"
+msgstr "ნამდვილად მცდარი"
+
+msgid "dc_definitelytrue"
+msgstr "ნამდვილად ჭეშმარიტი"
+
+msgid "dc_desired"
+msgstr "სასურველი"
+
+msgid "dc_disagree"
+msgstr "უარყოფა"
+
+msgid "dc_fair"
+msgstr "მართალი"
+
+msgid "dc_false"
+msgstr "მცდარი"
+
+msgid "dc_good"
+msgstr "კარგი"
+
+msgid "dc_manytimes"
+msgstr "ბევრი დრო"
+
+msgid "dc_morenegative"
+msgstr "უფრო უარყოფითი"
+
+msgid "dc_morepositive"
+msgstr "უფრო დადებითი"
+
+msgid "dc_mostcertainly"
+msgstr "უფრო კი"
+
+msgid "dc_mostcertainlynot"
+msgstr "უფრო არა"
+
+msgid "dc_must"
+msgstr "უნდა"
+
+msgid "dc_mustnot"
+msgstr "არ უნდა"
+
+msgid "dc_neutral"
+msgstr "ნეიტრალური"
+
+msgid "dc_never"
+msgstr "არასოდეს"
+
+msgid "dc_no"
+msgstr "არა"
+
+msgid "dc_notacceptable"
+msgstr "არ არის მისაღები"
+
+msgid "dc_poor"
+msgstr "ღარიბი"
+
+msgid "dc_rarely"
+msgstr "იშვიათად"
+
+msgid "dc_should"
+msgstr "უნდა"
+
+msgid "dc_shouldnot"
+msgstr "არ უნდა"
+
+msgid "dc_sometimes"
+msgstr "ხანდახან"
+
+msgid "dc_stronglyagree"
+msgstr "ძლიერ ვეთანხმები"
+
+msgid "dc_stronglydesired"
+msgstr "ძლიერ სასურველია"
+
+msgid "dc_stronglydisagree"
+msgstr "ძლიერ არ ვეთანხმები"
+
+msgid "dc_stronglyundesired"
+msgstr "ძლიერ არასასურველია"
+
+msgid "dc_true"
+msgstr "სიმართლე"
+
+msgid "dc_undecided"
+msgstr "გადაუწყვეტელია"
+
+msgid "dc_undesired"
+msgstr "არ არის სასურველი"
+
+msgid "dc_varying"
+msgstr "მრავალმხრივია"
+
+msgid "dc_verygood"
+msgstr "ძალიან კარგი"
+
+msgid "dc_yes"
+msgstr "კი"
+
+msgid "default_codes_mail_message"
+msgstr "თქვენი კითხვარის შესვლის კოდი [კოდი]. თქვენ შეგიძლიათ დაიწყოთ კითხვარი თქვენ ვებ ბრაუზერში URL-ს გამოყენეით [url]"
+
+msgid "default_codes_mail_subject"
+msgstr "თქვენი შესვლის კოდი %s"
+
+msgid "define_questionblock"
+msgstr "კითხვის ბლოკის განსაზღვრა"
+
+msgid "delete_saved_message"
+msgstr "შეტყობინების ტექსტის წაშლა"
+
+msgid "display_all_available"
+msgstr "ყველას ჩვენება რაც შესაძლებელია"
+
+msgid "duplicate"
+msgstr "დუბლირება"
+
+msgid "edit_heading"
+msgstr "სათაურის რედაქტირება"
+
+msgid "end_date"
+msgstr "დასრულების თარიღი"
+
+msgid "end_date_reached"
+msgstr "თქვენ არ შეგიძლიათ გამოკიტხვის დაწყება. Dდასრულების ვადა გასულია."
+
+msgid "enter_anonymous_id"
+msgstr "კითხვარში შესვლის კოდი"
+
+msgid "enter_valid_number_of_codes"
+msgstr "გთხოვთ შეიყვანოთ სწორი რიცხვი კითხვების კოდების შესაქმნელად"
+
+msgid "err_external_rcp_no_email"
+msgstr "იმპორტის მონაცემი უნდა შეიცავდეს ველ \"ემაილი\""
+
+msgid "err_external_rcp_no_email_column"
+msgstr "იმპრტის მონაცემები უნდა შეიცავდეს კოლონას \"ემაილი\" დასახელებით \"ემაილი პირველ რიგში და ემაილის მისამართებს შემდეგ რიგებში"
+
+msgid "err_maxvaluegeminvalue"
+msgstr "მაქსიმალური ღირებულება უნდა იყოს მეტი ან ტოლი  მინიმალური ღირებულების  და ნაკლები ან ტოლი პასუხების მაქსიმალურ რაოდენობაზე"
+
+msgid "err_minvalueganswers"
+msgstr "მინიმუმი უნდა იყოს პასუხების როადენობის მაქსიმუმზე ნაკლები ან ტოლი"
+
+msgid "err_no_exact_answers"
+msgstr "გთხოვთ შეამოწმოთ ზუსტად %s პასუხი"
+
+msgid "err_no_max_answers"
+msgstr "გთხოვთ შეამოწმოთ მაქსიმუ %s პასუხი"
+
+msgid "err_no_min_answers"
+msgstr "გთხოვთ შეამოწმოთ სულ მცირე %s პასუხი"
+
+msgid "error_retrieving_anonymous_survey"
+msgstr "სისტემამ ვერ იპოვა თქვენი კითხვარის მონაცემები &quot;%s&quot; გთხოვთ შეამოწმოთ კითხვარის კოდი"
+
+#, fuzzy
+msgid "error_save_code"
+msgstr "Value not saved properly. <b>The E- mail: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>"
+
+msgid "evaluation"
+msgstr "სტატისტიკა"
+
+msgid "evaluation_access"
+msgstr "შეფასებითი შესვლა"
+
+msgid "evaluation_access_all"
+msgstr "შეფასებითი შესვლა ყველა მომხმარებლისთვის"
+
+msgid "evaluation_access_info"
+msgstr "თქვენ გაქვთ შესვლის დაშვება კითხვარის შეფასებაში"
+
+msgid "evaluation_access_off"
+msgstr "გამორთულია"
+
+msgid "evaluation_access_participants"
+msgstr "შეფასებითი შესვლა კითხვარის მონაწილეებისათვის"
+
+msgid "existing_constraints"
+msgstr "არსებული წინაპირობები"
+
+msgid "exp_type_csv"
+msgstr "მძიმეთი გამოყოფილი ღირებულება ( CSV)"
+
+msgid "exp_type_excel"
+msgstr "Microsoft Excel"
+
+msgid "export_all_survey_codes"
+msgstr "ყველა შესვლის კოდის გადაგზავნა"
+
+msgid "export_label_only"
+msgstr "მხოლოდ ეტიკეტის ექსპორტი"
+
+msgid "export_title_label"
+msgstr "ეტიკეტისა და დასახელების ექსპორტი"
+
+msgid "export_title_only"
+msgstr "მხოლოდ დასახელების ექსპორტი"
+
+msgid "external_recipients_imported"
+msgstr "გარე მიმღებები იმპორტირებულია"
+
+msgid "externalmails"
+msgstr "იმპორტის ფაილი"
+
+msgid "externalmails_info"
+msgstr "იმპორტირებული ფაილი უნდა იყოს CSV ფაილი, კოლონების გამოყოფილი წერტილ-მძიმეთი. Pპირველი რიგი შეიცავს კოლონების დასახელებებს. Fაილი უნდა შეიცავდეს კოლონას \"ემაილი\" რომელიც შეიცავს მიმღებების ემაილის მისამართებს"
+
+msgid "externaltext"
+msgstr "ტექსტის იმპორტი"
+
+msgid "externaltext_info"
+msgstr "იმპორტირებული ტექსტი უნდა იყოს აწყობილი რიგებად და კოლონებად, კოლონები წერტილ-მძიმეებით გამოყოფილი. Pირველი რიგი შეიცავს კოლონების დასახელებებს. ტექსტი უნდა შედგებოდეს სულ მცირე კოლონით \"ემაილი\" რომელიც შეიცავს მიმღების ემაილს"
+
+msgid "filter_all_question_types"
+msgstr "კითხვების ყველა სახეობა"
+
+msgid "filter_all_questionpools"
+msgstr "ყველა კითხვების ნაკადი"
+
+msgid "finished_mail_subject"
+msgstr "ეს გამოკითხვა დასრულებულია"
+
+msgid "freetext_answers"
+msgstr "Open Answers"
+
+msgid "geometric_mean"
+msgstr "საშუალო გეომეტრიული"
+
+msgid "given_answers"
+msgstr "მოცემული პასუხები"
+
+msgid "glossary_term"
+msgstr "ლექსიკონის პერიოდი"
+
+msgid "harmonic_mean"
+msgstr "ჰა"
+
+msgid "heading"
+msgstr "სათაური"
+
+msgid "horizontal"
+msgstr "ჰორიზონტალური"
+
+msgid "import_error_closing_file"
+msgstr "იმპორტის ფაილის დახურვისას მოხდა შეცდომა"
+
+msgid "import_error_opening_file"
+msgstr "იმპორტის ფაილის გახსნინას მოხდა შეცდომა"
+
+msgid "import_from_file"
+msgstr "იმპორტი ფაილიდან"
+
+msgid "import_from_text"
+msgstr "იმპორტი ტექსტიდან"
+
+msgid "import_no_file_selected"
+msgstr "მნიშნული ფაილები არ არის"
+
+msgid "import_question"
+msgstr "კითხვების იმპორტი"
+
+msgid "import_wrong_file_type"
+msgstr "ფაილის არასწორი სახეობა"
+
+msgid "insert_after"
+msgstr "შემდეგ ჩასმა"
+
+msgid "insert_before"
+msgstr "მანამდე ჩასმა"
+
+msgid "insert_missing_question"
+msgstr "გთხოვთ მონიშნოთ სულ მცირე ერთი კითხვა ამ კითხვარში ჩასასმელად"
+
+msgid "insert_missing_questionblock"
+msgstr "გთხოვთ მონიშნოთ სულ მცირე ერთი კითხვის ბლოკი კითხვარში ჩასასმელად"
+
+msgid "insert_saved_message"
+msgstr "შეტყობინების ტექსტის ჩასმა"
+
+msgid "internal_link"
+msgstr "შიდა ლინკი"
+
+msgid "introduction"
+msgstr "შესავალი"
+
+msgid "invited_users"
+msgstr "მოწვეული მომხმარებლები"
+
+msgid "label"
+msgstr "ეტიკეტი"
+
+msgid "label_info"
+msgstr "ალტერნატიული განმსაზღვრელი მონაცემების დამატებითი დამუშავებისთვის ( მაგალითად SPSS-ში)"
+
+msgid "language_changed"
+msgstr "ენა შეცვლილია"
+
+msgid "layout"
+msgstr "სქემა"
+
+msgid "lower_limit"
+msgstr "ქვედა ზღვარი"
+
+msgid "mail_import_example2"
+msgstr "sandraowen@domain.tld;Sandra;Owen"
+
+msgid "mail_import_example3"
+msgstr "kennethbirt@domain.tld;Kenneth;Birt"
+
+msgid "mail_sent_short"
+msgstr "გაგზავნილია"
+
+msgid "mail_survey_codes"
+msgstr "ემაილსა და შეტყობინებებში შესასვლელი კოდი"
+
+msgid "mailaddresses"
+msgstr "მიმღების მისამართი"
+
+msgid "mailaddresses_info"
+msgstr "შეიყვანით მძიმეთი გამოყოფილი მიმღებების სია ვინც დასრულებული კითხვარების შესახებ მიიღებს შეტყობინებას"
+
+msgid "mailnotification"
+msgstr "ემაილის შეტყობინება"
+
+msgid "mailparticipantdata"
+msgstr "მომხმარებლის დამატებითი მონაცემები"
+
+msgid "mailparticipantdata_info"
+msgstr "ემაილის შეტყობინებას დაამატეთ შესავალი. თქვენ შეგიძლიათ გამოიყენოთ ადგილის მფოლებელები მონაწილესთან დაკავშირებული მონაცემებისთვის [ჩარიცხვა], [ემაილი], [სახელი], ადგილის მფლობელებს შეცვლიან რეალური მომხმარებლების მონაცემების პირად კითხვარებში"
+
+#, fuzzy
+msgid "mailparticipantdata_placeholder"
+msgstr "The following placeholders will be replaced with real user data in personalized surveys:"
+
+msgid "maintenance"
+msgstr "მონაწილეები"
+
+msgid "matrix_appearance"
+msgstr "გარეგნობა"
+
+#, fuzzy
+msgid "matrix_bipolar_adjectives"
+msgstr "Bipolar Adjectives"
+
+#, fuzzy
+msgid "matrix_bipolar_adjectives_description"
+msgstr "You may use a pair of bipolar adjectives (words, short phrases, or texts) to create two opposite poles that can help more precisely describe the scale expressed by the possible answers in your columns."
+
+msgid "matrix_column_separators"
+msgstr "კოლონების გამომყოფები"
+
+msgid "matrix_column_separators_description"
+msgstr "მონიშნეთ შემოწმების ყუთი თუ გსურთ გამომყოფები( თხელი ხაზები) კოლონებს შორის მატრიცული კითხვის შედეგში"
+
+msgid "matrix_column_settings"
+msgstr "მატრიცული კოლონის პარამეტრები"
+
+msgid "matrix_columns"
+msgstr "მტრიცული კოლონები"
+
+msgid "matrix_left_pole"
+msgstr "მარხენა პოლუსი"
+
+msgid "matrix_neutral_answer"
+msgstr "ნეიტრალური კოლონის ტექსტი ( \"არ არიდ დაზუსტებული\", \"არ ვიცი\" ა.შ)"
+
+msgid "matrix_neutral_column_separator"
+msgstr "ნეიტრალური კოლონის გამომყოფი"
+
+msgid "matrix_neutral_column_separator_description"
+msgstr "მონიშნეთ სემოწმების ყუთი თუ გსურთ გამომყოფი ( მსხვილი ხაზი) ნეტრალურ კოლონებსა და სხვა კოლონებს შორის მატრიცული კითხვის შედეგში"
+
+msgid "matrix_question_checkbox_not_checked"
+msgstr "გთხოვთ შეამოწმოთ სულ მცირე ერთი შემოწმების ყუთი თითო რიგში"
+
+msgid "matrix_question_radio_button_not_checked"
+msgstr "გთხოვთ მონიშნოთ პარამეტრის ღილაკი თითი რიგში"
+
+msgid "matrix_right_pole"
+msgstr "მარჯვენა პოლუსი"
+
+msgid "matrix_row_separators"
+msgstr "რიგების გამომყოფები"
+
+msgid "matrix_row_separators_description"
+msgstr "გთხოვთ შეამოწმოთ შემოწმების ყუთი თუ გსურთ გამომყოფები ( თხელი ხაზი) რიგებს შორის მატრიცული კითხვების შედეგებში"
+
+msgid "matrix_rows"
+msgstr "მატრიცული რიგები"
+
+msgid "matrix_standard_answers"
+msgstr "კოლონის ტექსტი"
+
+msgid "matrix_subtype_mr"
+msgstr "შემოწმების ყუთები ( მრავალ არჩევითი)"
+
+msgid "matrix_subtype_sr"
+msgstr "პარამეტრების ღილაკი ( ერთი პასუხი)"
+
+msgid "maxchars"
+msgstr "ნიშნების მაქსიმალური რაოდენობა"
+
+msgid "maximum"
+msgstr "მაქსიმალური ღირებულება"
+
+msgid "median"
+msgstr "მედიანა"
+
+msgid "median_between"
+msgstr "შორის"
+
+msgid "menuback"
+msgstr "უკან"
+
+msgid "menubacktosurvey"
+msgstr "უკან კითხვარში"
+
+msgid "message_content_info"
+msgstr "გახსენით ემაილის შეტყობინება კიტხვარის კოდებისთვის. თქვენ შეგიძლიათ გამოიყენოთ  ადგილის მფლობელები [კოდი] (შესვლის კოდი), [url] (UღL კითხვარში), და მონაწილესთან დაკავშირებული მონაცემები თქვენი იმპორტის ველებზე დამოკიდებულებით: %s. Aდგილის მფლობელები შეიცვლებიან იმპორტირებული მომხმარებლის მონაცემებით ემაილში"
+
+msgid "metric_question_floating_point"
+msgstr "შეყვანილი ღირებულება არის მოძრავი წერტილის ღირებულება. მოძრავი წერტილი ღირებულებები არ არის დაშვებული კითხვის ამ სახეობაში"
+
+msgid "metric_question_not_a_value"
+msgstr "შეყვანილი ღირებულება არ არის რიცხვითი"
+
+msgid "metric_question_out_of_bounds"
+msgstr "შეყვანილი ღირებულება არ მერყეობს მინიმალურ და მაქსიმალურ ღირებულებებს შორის!"
+
+msgid "metric_subtype_description_interval"
+msgstr "განსაზღვრებებს შორის როლი ინტერვალები შესაძლებლობას იძლევა"
+
+#, fuzzy
+msgid "metric_subtype_description_ratioabsolute"
+msgstr "The ratio absolute scale also has a natural zero point, but uses natural numbers. It would be used for example to measure the number of children in a family. It is also used for per cent measurements, e.g. probabilities measured in per cent."
+
+#, fuzzy
+msgid "metric_subtype_description_rationonabsolute"
+msgstr "Like the interval scale, the ratio non-absolute scale also allows the comparison of values which are in essence arbitrary, but has a natural zero point. Most physical quantities, such as length in centimetres or duration in seconds are measured on ratio scales. The natural zero point allows for the ratio between values to be calculated, even when different measurement scales are being used (for example km/h and m/h)."
+
+msgid "minimum"
+msgstr "მინიმალური ღირებულება"
+
+msgid "mode"
+msgstr "ყველაზე მეტჯერი მონიშნული ღირებულება"
+
+msgid "mode_nr_of_selections"
+msgstr "მონიშნების რაოდენობა"
+
+msgid "mode_text"
+msgstr "ყველაზე მეტჯერ მონიშნული ღირებულება ( ტექსტი)"
+
+msgid "msg_duplicate_scale"
+msgstr "გთხოვთ შეიყვანოთ უნიკალური მასშტაბის ღირებულება"
+
+msgid "msg_enter_value_for_valid_constraint"
+msgstr "გთხოვთ შეოყვანოთ ღირებლება სწორი წინაპირობის შესაქმნელად"
+
+#, fuzzy
+msgid "msg_input_only_positive_numbers"
+msgstr "Please enter positive numbers in scale values."
+
+msgid "msg_max_nr_answers"
+msgstr "გთხოვთ შეამოწმოთ მაქსიმუმ %s პასუხი"
+
+msgid "msg_message_deleted"
+msgstr "შეტყობინების ტექსტი წაშლილია"
+
+msgid "msg_message_inserted"
+msgstr "შეტყობინების ტექსტი ჩასმულია"
+
+msgid "msg_min_max_exact_answers"
+msgstr "გთხოვთ შეამოწმოთ ზუსტად %s პასუხი"
+
+msgid "msg_min_max_nr_answers"
+msgstr "გთხოვთ შეამოწმოთ სულ მცირე %s და მაქსიმუმ %s პასუხი"
+
+msgid "msg_min_nr_answers"
+msgstr "გთხოვთ შეამოწმოთ სულ მცირე %s პასუხი"
+
+msgid "msg_no_message_deleted"
+msgstr "გთხოვთ მონიშნოთ შენახული შეტყობინების ტექსტი"
+
+msgid "msg_no_message_inserted"
+msgstr "გთხოვთ მონიშნოთ შეტყობინების ტექსტი"
+
+msgid "new_survey_codes"
+msgstr "ახალი კითხვარის შესვლის კოდი"
+
+msgid "no_question_selected_for_copy_to_pool"
+msgstr "გთხოვთ მონიშნოთ სულ მცირე ერთი კითხვა, რომელიც ჯერ არ არის დაკავშირებული კითხვების ნაკადთან"
+
+msgid "no_question_selected_for_move"
+msgstr "გთხოვთ მონიშნოთ სულ მცირე ერთი კითხვა გადასაადგილებლად"
+
+msgid "no_question_selected_for_removal"
+msgstr "გთხოვთ მონიშნოთ სულ მცირე ერთი კითხვა ან კითხვის ბლოკი ამოსაშლელად"
+
+msgid "no_target_selected_for_move"
+msgstr "თქვენ უნდა მონიშნოთ სამიზნე ადგილი"
+
+msgid "non_ratio"
+msgstr "ინტერვალი"
+
+msgid "not_sent_only"
+msgstr "მხოლოდ ახალ მიმღებებს ( ვისაც ჯერ არ მიუღია ემაილი)"
+
+msgid "not_used"
+msgstr "არ არის გამოყენებული ჯერ"
+
+msgid "nr_max_answers"
+msgstr "მაქსიმუმი"
+
+msgid "nr_min_answers"
+msgstr "მინიმუმი"
+
+msgid "obligatory"
+msgstr "სავალდებულო"
+
+msgid "off"
+msgstr "გამორთულია"
+
+msgid "on"
+msgstr "ჩართულია"
+
+msgid "or"
+msgstr "ან"
+
+msgid "orientation"
+msgstr "ორიენტაცია"
+
+msgid "other_answer"
+msgstr "სხვა პასუხი"
+
+msgid "other_answer_label"
+msgstr "სხვა პასუხის ეტიკეტი ( არჩევითი)"
+
+msgid "outro"
+msgstr "საბოლოო დასკვა"
+
+#, fuzzy
+msgid "please_enter_mail_url"
+msgstr "Please enter the access url placeholder [url]"
+
+msgid "qpl_confirm_delete_questions"
+msgstr "დარწმუნებული ხართ რომ შემდეგი კითხვების წაშლა გსურთ?"
+
+msgid "qpl_define_questionblock_select_missing"
+msgstr "გთხოვთ მონიშნოთ სულ მცირე  ორი კითხვა თუ კითხვის ბლოკის განსაზღვრა გსურთ!"
+
+msgid "qpl_delete_select_none"
+msgstr "გთხოვთ"
+
+msgid "qpl_export_select_none"
+msgstr "გთხოვთ შეამოწმოთ სულ მცირე ერთი კითხვა გასაგზავნად"
+
+msgid "qpl_questions_deleted"
+msgstr "კითხვები წაშლილია"
+
+msgid "qpl_unfold_select_none"
+msgstr "გთხოვთ მონიშნოთ სულ მცირე ერთი კითხვის ბლოკი მის გასახსნელად"
+
+msgid "question_changed_in_survey_only"
+msgstr "კითხვა მხოლოდ კითხვარში შეიცვალა"
+
+msgid "question_mr_no_other_answer"
+msgstr "გთხოვთ შეიყვანოთ ტექსტი სხვა პასუხისთვის"
+
+msgid "question_mr_no_other_answer_checked"
+msgstr "თქვენ უნდა მონიშნოთ შემოწმების ყუთი თუ შეგყავთ ტექსტი პასუხში"
+
+msgid "question_mr_not_checked"
+msgstr "გთხოვთ შეამოწმოთ სულ მცირე ერთი შემოთავაზებული პასუხებიდან!"
+
+msgid "question_not_checked"
+msgstr "გთხოვთ შეამოწმოთ ერთი შემოთავაზებული პასუხებიდან"
+
+msgid "question_obligatory"
+msgstr "ეს კითხვა სავალდებულოა"
+
+msgid "question_sr_no_other_answer_checked"
+msgstr "თქვენ უნდა მონიშნოთ რადიო ღილაკი თუ შეგყავთ ტექსტი პასუხში"
+
+msgid "question_type"
+msgstr "კითხვის სახეობა"
+
+msgid "questionblock"
+msgstr "კითხვის ბლოკი"
+
+msgid "questionblock_inserted"
+msgstr "კითხვის ბლოკი ჩასმულია"
+
+msgid "questionblocks"
+msgstr "კითხვის ბლოკები"
+
+msgid "questionblocks_inserted"
+msgstr "კითხვების ბლოკები ჩასმულია"
+
+msgid "questions"
+msgstr "კითხვები"
+
+msgid "questions_inserted"
+msgstr "კითხვები ჩასმულია"
+
+msgid "questions_removed"
+msgstr "კითხვები და/ან კითხვების ბლოკები ამოშლილია!"
+
+msgid "questiontype"
+msgstr "კითხვის სახეობა"
+
+msgid "ratio_absolute"
+msgstr "კოეფიციენტი-აბსოლუტური"
+
+msgid "ratio_non_absolute"
+msgstr "კოეფიციენტი-არა-აბსოლუტური"
+
+msgid "recipients"
+msgstr "მიმღებები"
+
+msgid "remove_question"
+msgstr "ამოშლა"
+
+msgid "remove_questions"
+msgstr "დარწმუნებული ხართ რომ შემდეგი კითხვების და/ან კითხვების ბლოკების ამოშლა გსურთ კითხვარიდან?"
+
+msgid "results"
+msgstr "შედეგები"
+
+msgid "resume_survey"
+msgstr "კითხვარის განახლება"
+
+msgid "row_text"
+msgstr "რიგის ტექსტი"
+
+msgid "save_obligatory_state"
+msgstr "სავალდებულო დასკვნებისა და ბრძანებების შენახვა"
+
+msgid "save_reuse_message"
+msgstr "შეტყობინების ტექსტის შენახვა შემდეგი გამოყენებისთვის"
+
+msgid "save_reuse_title"
+msgstr "შეტყობინების ტექსტის დასახელება"
+
+msgid "saved_messages"
+msgstr "ხელმისაწვდომი შეტყობინებები"
+
+msgid "scale"
+msgstr "მასშტაბი"
+
+msgid "search_groups"
+msgstr "ჯგუფები ნაპოვნია"
+
+msgid "search_term"
+msgstr "პერიოდის ძიება"
+
+msgid "select_option"
+msgstr "გთხოვთ მონიშნოთ პარამეტრი"
+
+msgid "select_prior_question"
+msgstr "გთხოვთ მონიშნოთ წინა კითხვა"
+
+msgid "select_relation"
+msgstr "კავშირის მონიშვნა"
+
+msgid "select_target_position_for_move_question"
+msgstr "გთხოვთ მონიშნოთ სამიზნე ადგილი კითხვების გადასატანად და დააკლიკეთ ჩასმის ღილაკს!"
+
+msgid "select_value"
+msgstr "შეიყვანეთ ღირებულება"
+
+msgid "selection"
+msgstr "მონიშვნა"
+
+msgid "send_to_all"
+msgstr "ყველა მიმღებს"
+
+msgid "send_to_answered"
+msgstr "ყველა მიმღებს ვინც დაასრულა კითხვარი"
+
+msgid "send_to_unanswered"
+msgstr "ყველა მიმღებს ვინც არ დაასრულა კითხვარი ( შეხსენაბა)"
+
+msgid "show_questiontext"
+msgstr "კითხვის ტექსტის ჩვენება"
+
+msgid "show_questiontext_description"
+msgstr "თუ შემოწმების ყუთი მონიშნულია, ყველა კითხვისთვის კითხვების ბლოკში გამოჩნდება ტექსტი. თუ შემოწმების ყუთი არ არის მონიშნული ტექსტი დამალული იქნება"
+
+msgid "skipped"
+msgstr "გამოტოვებული"
+
+msgid "spl_copy_insert_clipboard"
+msgstr "მონიშნული კითხვების ასლი ჩასმულია დაფაში"
+
+msgid "spl_copy_select_none"
+msgstr "გთხოვთ შეამოწმოთ სულ მცირე ერთი კითხვა მისი ასლის დაფაში ჩასმისთვის"
+
+msgid "spl_move_insert_clipboard"
+msgstr "მონიშნულია კითხვები გადასაადგილებლად"
+
+msgid "spl_move_same_pool"
+msgstr "არ აქვს აზრი კითხვების იმავე კითხვების ნაკადში გადატანას"
+
+msgid "spl_move_select_none"
+msgstr "გთხოვთ შეამოწმოთ სულ მცირე ერთი კითხვა გადასაადგილებლად"
+
+msgid "spl_online_property"
+msgstr "ონლაინ"
+
+msgid "spl_paste_no_objects"
+msgstr "დაფაზე არ არის კითხვები. გთხოვთ ასლი გაუკეთოთ ანდ გადმოიტანოთ ისინი დაფაზე"
+
+msgid "spl_paste_success"
+msgstr "კიტხვების ასლი ჩასმულია კითხვების ნაკადში"
+
+#, fuzzy
+msgid "spl_save_obligatory_state"
+msgstr "Save Obligatory States"
+
+msgid "start_date"
+msgstr "დაწყების თარიღი"
+
+msgid "start_date_not_reached"
+msgstr "თქვენ არ შეგიძლიათ კითხვარის დაწყება სანამ დაწყების თარიღი არ მოვა"
+
+msgid "start_survey"
+msgstr "გამოკითხვის დაწყება"
+
+msgid "subtype"
+msgstr "ქვეტიპი"
+
+#, fuzzy
+msgid "survey_360_add_external_rater"
+msgstr "Add External Rater"
+
+#, fuzzy
+msgid "survey_360_add_self_appraisee"
+msgstr "Add yourself as appraisee to this survey"
+
+#, fuzzy
+msgid "survey_360_appraisee"
+msgstr "Appraisee"
+
+#, fuzzy
+msgid "survey_360_appraisee_close_action"
+msgstr "Close Survey For Raters"
+
+#, fuzzy
+msgid "survey_360_appraisee_close_action_info"
+msgstr "This will give access to your statistics."
+
+#, fuzzy
+msgid "survey_360_appraisee_close_action_info_skill"
+msgstr "This will give access to your statistics and update your competence levels."
+
+#, fuzzy
+msgid "survey_360_appraisee_close_action_status"
+msgstr "Survey was closed on %s."
+
+#, fuzzy
+msgid "survey_360_appraisee_close_action_success"
+msgstr "You have closed your 360° survey for your raters."
+
+#, fuzzy
+msgid "survey_360_appraisee_close_action_success_admin"
+msgstr "The 360° surveys of the appraisees were closed for the raters."
+
+#, fuzzy
+msgid "survey_360_appraisee_close_table"
+msgstr "Closed on"
+
+#, fuzzy
+msgid "survey_360_appraisee_is_closed"
+msgstr "The appraisee has closed his survey."
+
+#, fuzzy
+msgid "survey_360_appraisees"
+msgstr "Appraisees"
+
+#, fuzzy
+msgid "survey_360_edit_raters"
+msgstr "Manage Raters"
+
+#, fuzzy
+msgid "survey_360_mode"
+msgstr "360° Feedback"
+
+#, fuzzy
+msgid "survey_360_mode_info"
+msgstr "Use for peer-reviewing of persons"
+
+#, fuzzy
+msgid "survey_360_no_appraisees"
+msgstr "There are currently no appraisees for you to rate."
+
+#, fuzzy
+msgid "survey_360_rate_other_appraisee"
+msgstr "Rate Appraisee"
+
+#, fuzzy
+msgid "survey_360_rater_finished"
+msgstr "Survey Finished"
+
+#, fuzzy
+msgid "survey_360_rater_mail_sent"
+msgstr "Mail sent"
+
+#, fuzzy
+msgid "survey_360_rater_message_content_anonymous"
+msgstr "Message Content (Anonymous)"
+
+#, fuzzy
+msgid "survey_360_rater_message_content_anonymous_default"
+msgstr "Your survey access code is [code]. You can start the survey in your web browser using the URL [url]."
+
+#, fuzzy
+msgid "survey_360_rater_message_content_registered"
+msgstr "Message Content (Registered)"
+
+#, fuzzy
+msgid "survey_360_rater_message_content_registered_default"
+msgstr "You can start the survey in your web browser using the URL [url]."
+
+#, fuzzy
+msgid "survey_360_rater_subject_default"
+msgstr "You have been invited as rater to a 360° survey."
+
+#, fuzzy
+msgid "survey_360_raters"
+msgstr "Raters"
+
+#, fuzzy
+msgid "survey_360_raters_finished"
+msgstr "Raters Finished"
+
+#, fuzzy
+msgid "survey_360_remove_appraisees"
+msgstr "Remove Appraisee(s)"
+
+#, fuzzy
+msgid "survey_360_results"
+msgstr "Access To Results For Appraisees"
+
+#, fuzzy
+msgid "survey_360_results_all"
+msgstr "To All Appraisees"
+
+#, fuzzy
+msgid "survey_360_results_all_info"
+msgstr "todo11"
+
+#, fuzzy
+msgid "survey_360_results_none"
+msgstr "None"
+
+#, fuzzy
+msgid "survey_360_results_none_info"
+msgstr "todo9"
+
+#, fuzzy
+msgid "survey_360_results_own"
+msgstr "To Own Raters"
+
+#, fuzzy
+msgid "survey_360_results_own_info"
+msgstr "todo10"
+
+#, fuzzy
+msgid "survey_360_select_appraisee"
+msgstr "Select"
+
+#, fuzzy
+msgid "survey_360_self_appraisee"
+msgstr "Users Can Add Themselves As Appraisees"
+
+#, fuzzy
+msgid "survey_360_self_appraisee_info"
+msgstr "todo8"
+
+#, fuzzy
+msgid "survey_360_self_evaluation"
+msgstr "Appraisees Can Rate Themselves"
+
+#, fuzzy
+msgid "survey_360_self_evaluation_info"
+msgstr "todo6"
+
+#, fuzzy
+msgid "survey_360_self_raters"
+msgstr "Appraisees Can Manage Their Raters"
+
+#, fuzzy
+msgid "survey_360_self_raters_info"
+msgstr "todo7"
+
+#, fuzzy
+msgid "survey_360_sure_appraisee_close"
+msgstr "Are you sure you want to close the survey for all of your raters?"
+
+#, fuzzy
+msgid "survey_360_sure_appraisee_close_admin"
+msgstr "Are you sure you want to close the surveys for the following appraisees?"
+
+#, fuzzy
+msgid "survey_360_sure_delete_appraises"
+msgstr "Are you sure you want to remove the following appraisees?"
+
+#, fuzzy
+msgid "survey_360_sure_delete_raters"
+msgstr "Are you sure you want to remove the following raters for %s?"
+
+#, fuzzy
+msgid "survey_access_code"
+msgstr "Authentication by Access Codes"
+
+#, fuzzy
+msgid "survey_access_codes_info"
+msgstr "Users get access to the survey by entering a code on the 'Info'-tab. These access codes are generated in a sub-tab 'Access Codes' in the tab 'Participants'."
+
+#, fuzzy
+msgid "survey_activate_skill_service"
+msgstr "Activate Competence Service"
+
+#, fuzzy
+msgid "survey_activate_skill_service_info"
+msgstr "todo12"
+
+msgid "survey_add_new_question"
+msgstr "ახალი გვერდის დამატება"
+
+#, fuzzy
+msgid "survey_assign_competence"
+msgstr "Assign Competence"
+
+msgid "survey_auto_block_title"
+msgstr "გვერდის სათაური"
+
+msgid "survey_available_question_pools"
+msgstr "შესაძლებელი ნაკადები"
+
+#, fuzzy
+msgid "survey_calc_skills"
+msgstr "Determine Competence Levels"
+
+#, fuzzy
+msgid "survey_calculate_sum_score"
+msgstr "Calculate Sum Score"
+
+#, fuzzy
+msgid "survey_calculate_sum_score_info"
+msgstr "Calculates the sum of all scale values for single choice, multiple choice and matrix questions for each participant. Caution: If participants skip these kind of questions, the whole sum score will not be calculated anymore."
+
+msgid "survey_cancel_preview"
+msgstr "წინასწარი ხედვა"
+
+msgid "survey_cannot_preview_survey"
+msgstr "წინასწარი ხედვა არ არის ხელმისაწვდომი"
+
+msgid "survey_code"
+msgstr "კითხვარში შესვლის კოდი"
+
+#, fuzzy
+msgid "survey_code_delete_sure"
+msgstr "Are you sure you want to delete the following access codes?"
+
+msgid "survey_code_url"
+msgstr "URL ან პირდაპირი შესვლა"
+
+msgid "survey_code_url_name"
+msgstr "URL <small> ( გამოიყენეთ მაუსის მარჯვენა ღილაკი ასლის გასაკეთებლად) <small>"
+
+msgid "survey_code_used"
+msgstr "კოდი იყო…"
+
+msgid "survey_codes_lang"
+msgstr "წინასწარ მონიშნული კითხვარის ენა"
+
+msgid "survey_codes_no_anonymization"
+msgstr "თქვენ უნდა შექმნათ ანონიმური კითხვარი შესვლის კოდით ახალი შესვლის კოდების შესაქმნელად!"
+
+#, fuzzy
+msgid "survey_competences"
+msgstr "Competences"
+
+#, fuzzy
+msgid "survey_constraint_deleted"
+msgstr "The routing rule has been deleted."
+
+msgid "survey_copy_questions_to_pool"
+msgstr "კითხვების ნაკადის დამატება"
+
+msgid "survey_copy_select_questionpool"
+msgstr "ასლის დასადებათ კითხვების ნაკადი"
+
+msgid "survey_copy_to_questionpool_success"
+msgstr "კითხვების ასლი ცასმული ნაკადში"
+
+msgid "survey_delete_heading"
+msgstr "სათაურის ამოშლა"
+
+msgid "survey_edit_heading"
+msgstr "სათაურის რედაქტირება"
+
+msgid "survey_edit_settings"
+msgstr "პარამეტრების რედაქტირება"
+
+msgid "survey_error_insert_incomplete_question"
+msgstr "თქვენ სცადეთ არასრული კითხვის დამატება კითხვარში! კითხვა არ არის დამატებული"
+
+#, fuzzy
+msgid "survey_execution_exit"
+msgstr "Back to repository"
+
+#, fuzzy
+msgid "survey_execution_exit_360"
+msgstr "Back"
+
+#, fuzzy
+msgid "survey_execution_sure_finish"
+msgstr "Are you sure you want to finish the survey? You will not be able to edit your answers afterwards."
+
+msgid "survey_finish"
+msgstr "კიტხვარის დასრულება"
+
+msgid "survey_finished"
+msgstr "თქვენ დაასრულეთ კითხვარი. Mმადლობას გიხდით მონაწილეობისთვის"
+
+msgid "survey_has_datasets_warning"
+msgstr "კითხვარი უკვე შეიცავს მონაცემებს. თქვენ არ შეგიძლიათ კითხვარის კითხვების რედაქტირება სანამ ამ მონაცემებს არ ამოშლიღ მონაწილეთა განყოფილებიდან"
+
+msgid "survey_has_datasets_warning_page_view"
+msgstr "ეს კითხვარი უკვე შეიცავს მოდემებს. თქვენ არ შეგიძლიათ კითხვარის კითხვების რედაქტირება სანამ ამ მოდემებს არ ამოშლით"
+
+msgid "survey_has_datasets_warning_page_view_link"
+msgstr "მონაწილეების რედაქტირება"
+
+msgid "survey_introduction_info"
+msgstr "ეს შეტყობინება კიტხვარის დასაწყისში გამოჩნდება"
+
+msgid "survey_is_offline"
+msgstr "თქვენ არ შეგიძლიათ კითხვარის დაწყება. კითხვარი კავშირ გარეშეა"
+
+msgid "survey_next"
+msgstr "შემდეგი >>"
+
+#, fuzzy
+msgid "survey_not_available"
+msgstr "n/a"
+
+#, fuzzy
+msgid "survey_notification_finished_introduction"
+msgstr "The following participant has finished the survey."
+
+#, fuzzy
+msgid "survey_notification_finished_reason"
+msgstr "You are receiving this email because you activated notifications for the survey mentioned above."
+
+#, fuzzy
+msgid "survey_notification_target_group"
+msgstr "Target Group"
+
+#, fuzzy
+msgid "survey_notification_target_group_invited"
+msgstr "All users who got the survey put on their Personal Desktop"
+
+#, fuzzy
+msgid "survey_notification_target_group_invited_info"
+msgstr "Currently invited users: %s"
+
+#, fuzzy
+msgid "survey_notification_target_group_parent_course"
+msgstr "All members of parent course/group"
+
+#, fuzzy
+msgid "survey_notification_target_group_parent_course_inactive"
+msgstr "No parent course/group given - no reminders will be sent!"
+
+#, fuzzy
+msgid "survey_notification_tutor_body"
+msgstr "The following survey has been finished by all participants"
+
+#, fuzzy
+msgid "survey_notification_tutor_link"
+msgstr "Link to Survey"
+
+#, fuzzy
+msgid "survey_notification_tutor_recipients"
+msgstr "Tutors (Login[s])"
+
+#, fuzzy
+msgid "survey_notification_tutor_recipients_invalid"
+msgstr "Please state users with write permission."
+
+#, fuzzy
+msgid "survey_notification_tutor_salutation"
+msgstr "Hello %s,"
+
+#, fuzzy
+msgid "survey_notification_tutor_setting"
+msgstr "Notify tutors when\tall participants have finished"
+
+#, fuzzy
+msgid "survey_notification_tutor_subject"
+msgstr "All participants have finished the survey \"%s\""
+
+msgid "survey_order"
+msgstr "თანმიმდევრობის დახარისხება"
+
+msgid "survey_previous"
+msgstr "<< წინა"
+
+msgid "survey_question_editor"
+msgstr "სიის ხედვა"
+
+msgid "survey_question_obligatory"
+msgstr "ეს კითხვა სავალდებულოა. თქვენ უნდა უპასუხოთ ამ კითხვას!"
+
+msgid "survey_question_pool"
+msgstr "კითხვების ნაკადი"
+
+msgid "survey_question_pool_title"
+msgstr "ნაკადის დასახელება"
+
+msgid "survey_question_title"
+msgstr "Question Title"
+
+msgid "survey_questions"
+msgstr "კითხვები"
+
+msgid "survey_questions_to_clipboard_copy"
+msgstr "კითხვების ასლი დალაგებულია დაფაზე. გთხოვთ მონიშნოთ სამიზნე ან ცარიელი დაფა"
+
+#, fuzzy
+msgid "survey_reached_level"
+msgstr "Reached Level"
+
+#, fuzzy
+msgid "survey_reminder_body"
+msgstr "the following survey has not been finished by you yet"
+
+#, fuzzy
+msgid "survey_reminder_cron"
+msgstr "Remind users to participate"
+
+#, fuzzy
+msgid "survey_reminder_cron_info"
+msgstr "If activated, users will be reminded to participate in surveys."
+
+#, fuzzy
+msgid "survey_reminder_end"
+msgstr "End"
+
+#, fuzzy
+msgid "survey_reminder_frequency"
+msgstr "Frequency"
+
+#, fuzzy
+msgid "survey_reminder_frequency_days"
+msgstr "Days"
+
+#, fuzzy
+msgid "survey_reminder_link"
+msgstr "URL"
+
+#, fuzzy
+msgid "survey_reminder_salutation"
+msgstr "Hello %s,"
+
+#, fuzzy
+msgid "survey_reminder_setting"
+msgstr "Remind Users to Participate"
+
+#, fuzzy
+msgid "survey_reminder_start"
+msgstr "Start"
+
+#, fuzzy
+msgid "survey_reminder_subject"
+msgstr "Survey \"%s\" was not finished"
+
+#, fuzzy
+msgid "survey_remove_competence"
+msgstr "Remove Competence"
+
+#, fuzzy
+msgid "survey_results_anonymization"
+msgstr "Privacy"
+
+#, fuzzy
+msgid "survey_results_anonymized"
+msgstr "Without Names"
+
+#, fuzzy
+msgid "survey_results_anonymized_info"
+msgstr "In the tab 'Results' participants' names are replaced by codes. Users having acces to this tab cannot attribute answers to named participants but only to user \"iTXaF\" (example)."
+
+#, fuzzy
+msgid "survey_results_finished"
+msgstr "Survey finished"
+
+#, fuzzy
+msgid "survey_results_not_started"
+msgstr "Survey not started"
+
+#, fuzzy
+msgid "survey_results_personalized"
+msgstr "With Names"
+
+#, fuzzy
+msgid "survey_results_personalized_info"
+msgstr "In the tab 'Results' the names of the partcipants and their respective answers are listed. Users having access to this tab can inspect who has provided which answer."
+
+#, fuzzy
+msgid "survey_results_started"
+msgstr "Survey started"
+
+msgid "survey_show_blocktitle"
+msgstr "ბლოკის დასახელების ჩვენება"
+
+msgid "survey_show_blocktitle_description"
+msgstr "თუ გააქტიურებულია ბლოკის დასახელება გამოჩნდება კითხვარში"
+
+#, fuzzy
+msgid "survey_skill"
+msgstr "Competence"
+
+#, fuzzy
+msgid "survey_skill_assign"
+msgstr "Question/Competence Assignment"
+
+#, fuzzy
+msgid "survey_skill_level"
+msgstr "Competence Level"
+
+#, fuzzy
+msgid "survey_skill_max_scale_points"
+msgstr "Max. Scale Points"
+
+#, fuzzy
+msgid "survey_skill_nr_q"
+msgstr "Number of Questions"
+
+#, fuzzy
+msgid "survey_skill_thresholds"
+msgstr "Competence Thresholds"
+
+msgid "survey_start"
+msgstr "მთავარ გვერდზე გადასვლა"
+
+#, fuzzy
+msgid "survey_sum_of_means"
+msgstr "Sum of Arithm. Means per Question"
+
+#, fuzzy
+msgid "survey_sure_delete_constraint"
+msgstr "Are you sure you want to delete the routing rule \"%1$s\" for the question \"%2$s\"?"
+
+msgid "survey_sure_delete_questions"
+msgstr "Are you sure that you want to delete the following questions or headings?"
+
+msgid "survey_sync_insufficient_permissions"
+msgstr "არადამაკმაყოფილებელი დაშვებები"
+
+msgid "survey_sync_question_copies"
+msgstr "კიტხვების ასლების სინქრონიზაცია"
+
+msgid "survey_sync_question_copies_info"
+msgstr "მონიშნული კითხვები შეიცვლება მიმდინარე ნაკადის ვერსიით"
+
+msgid "survey_sync_success"
+msgstr "მონიშნული კითხვები განახლებულია"
+
+#, fuzzy
+msgid "survey_up_to_x_points"
+msgstr "Up to x points"
+
+msgid "survey_use_start_button"
+msgstr "თქვენ უნდა შეხვიდეთ კითხვარში დაწყების ღილაკზე დაკლიკებით"
+
+msgid "svy_activation_limited_visibility_info"
+msgstr "If chosen, the survey is visible even outside of the given availability."
+
+msgid "svy_activation_online_info"
+msgstr "Activate this setting to make the survey accessible to users."
+
+#, fuzzy
+msgid "svy_add_internal_user"
+msgstr "Add User"
+
+#, fuzzy
+msgid "svy_add_internal_user_info"
+msgstr "The rater has a registered user on this platform."
+
+#, fuzzy
+msgid "svy_add_rater"
+msgstr "Add Rater"
+
+#, fuzzy
+msgid "svy_all_raters"
+msgstr "All Raters"
+
+#, fuzzy
+msgid "svy_all_survey_competences"
+msgstr "All Survey Competences"
+
+msgid "svy_all_user_data_deleted"
+msgstr "კითხვარის მომხმარებლების მონაცემები წაიშალა"
+
+#, fuzzy
+msgid "svy_analysis"
+msgstr "Analysis"
+
+#, fuzzy
+msgid "svy_anonymous_participants"
+msgstr "List of Participants"
+
+#, fuzzy
+msgid "svy_anonymous_participants_info"
+msgstr "If activated a list of participants can be enabled in anonymous surveys."
+
+#, fuzzy
+msgid "svy_anonymous_participants_min"
+msgstr "Minimum Number of Participants"
+
+#, fuzzy
+msgid "svy_anonymous_participants_min_info"
+msgstr "The list will only be available if there are at least the minimum number of participants."
+
+#, fuzzy
+msgid "svy_anonymous_participants_svy"
+msgstr "List of Participants"
+
+#, fuzzy
+msgid "svy_anonymous_participants_svy_info"
+msgstr "If activated a list of participants is available after the end date."
+
+#, fuzzy
+msgid "svy_answer_too_long"
+msgstr "Your current answer is too long (%s characters). Please shorten your answer."
+
+#, fuzzy
+msgid "svy_app_see_rater_info"
+msgstr "Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters."
+
+#, fuzzy
+msgid "svy_appraisses_cannot_be_raters"
+msgstr "User cannot be added as rater. Use self evaluation option in the survey settings instead."
+
+#, fuzzy
+msgid "svy_back"
+msgstr "Back"
+
+msgid "svy_categories"
+msgstr "პასუხები"
+
+msgid "svy_check_evaluation_access_introduction"
+msgstr "რადგან ამ კითხვარის შეფასება მხოლოდ მონაწილეებისთვისაა ხელმისაწვდომი, გთხოვთ შეიყვანოთ შესვლის კოდი."
+
+msgid "svy_check_evaluation_authentication_needed"
+msgstr "ავტორიზებაა საჭირო"
+
+msgid "svy_check_evaluation_wrong_key"
+msgstr "თქვენ შიყვანეთ არასწორი კოდი ან არ მიგიღიათ კითხვარში მონაწილეობა. თქვენი შესვლა შეფასებაში უარყოფილია"
+
+#, fuzzy
+msgid "svy_compress_view"
+msgstr "Compressed View"
+
+#, fuzzy
+msgid "svy_compress_view_info"
+msgstr "If activated, all single choice questions with similar scales will be presented matrix-like."
+
+msgid "svy_copy"
+msgstr "Copy Survey"
+
+msgid "svy_create_question"
+msgstr "Create Question"
+
+msgid "svy_delete_all_user_data"
+msgstr "ყველა მომხმარებლის მონაცემების წაშლა"
+
+#, fuzzy
+msgid "svy_dont_send"
+msgstr "Don't send a message"
+
+#, fuzzy
+msgid "svy_eval_captions"
+msgstr "Figures"
+
+#, fuzzy
+msgid "svy_eval_captions_abs"
+msgstr "Absolute"
+
+#, fuzzy
+msgid "svy_eval_captions_abs_perc"
+msgstr "Absolute and Percentage"
+
+#, fuzzy
+msgid "svy_eval_captions_perc"
+msgstr "Percentage"
+
+#, fuzzy
+msgid "svy_eval_competences"
+msgstr "Competence Results"
+
+msgid "svy_eval_cumulated"
+msgstr "შეჯამებული შედეგი"
+
+msgid "svy_eval_detail"
+msgstr "შეჯამებული შედეგი ( დეტალები)"
+
+#, fuzzy
+msgid "svy_eval_skipped_value"
+msgstr "Results: \"skipped\""
+
+#, fuzzy
+msgid "svy_eval_skipped_value_custom"
+msgstr "Use custom value"
+
+#, fuzzy
+msgid "svy_eval_skipped_value_custom_info"
+msgstr "Define any (or empty) value to use for skipped answers"
+
+#, fuzzy
+msgid "svy_eval_skipped_value_custom_value"
+msgstr "Value"
+
+#, fuzzy
+msgid "svy_eval_skipped_value_lng"
+msgstr "Use language file entry"
+
+#, fuzzy
+msgid "svy_eval_skipped_value_lng_info"
+msgstr "Current value: \"%s\""
+
+msgid "svy_eval_user"
+msgstr "მომხმარებლის სპეციფიკური შედეგები"
+
+#, fuzzy
+msgid "svy_eval_view"
+msgstr "View"
+
+#, fuzzy
+msgid "svy_eval_view_charts"
+msgstr "Chart"
+
+#, fuzzy
+msgid "svy_eval_view_tables"
+msgstr "Table"
+
+#, fuzzy
+msgid "svy_eval_view_tables_charts"
+msgstr "Table and chart"
+
+#, fuzzy
+msgid "svy_evaluation_access_all_info"
+msgstr "All registered users that can access the survey can also look at the results of this survey. "
+
+#, fuzzy
+msgid "svy_evaluation_access_off_info"
+msgstr "Only Users that can edit the survey (write permission) have access to the survey's results."
+
+#, fuzzy
+msgid "svy_evaluation_access_participants_info"
+msgstr "All users that participated in the survey may choose to look at the results after finishing it. "
+
+msgid "svy_export_files"
+msgstr "საექსპორტო ფაილები"
+
+#, fuzzy
+msgid "svy_export_format"
+msgstr "Export survey data as"
+
+#, fuzzy
+msgid "svy_export_pdf"
+msgstr "Export PDF"
+
+#, fuzzy
+msgid "svy_ext_rater_firstname"
+msgstr "First name of external rater"
+
+#, fuzzy
+msgid "svy_ext_rater_lastname"
+msgstr "Last name of external rater"
+
+#, fuzzy
+msgid "svy_external_rater"
+msgstr "Add External Rater"
+
+#, fuzzy
+msgid "svy_external_rater_info"
+msgstr "The rater is not registered on this platform."
+
+#, fuzzy
+msgid "svy_fraction_of_selections"
+msgstr "Fraction of selections"
+
+#, fuzzy
+msgid "svy_gap_analysis"
+msgstr "Gap Analysis"
+
+msgid "svy_general_properties"
+msgstr "ზოგადი პარამეტრები"
+
+#, fuzzy
+msgid "svy_import_codes"
+msgstr "Import Codes"
+
+#, fuzzy
+msgid "svy_import_codes_info"
+msgstr "This import requires a \"%s\" export file."
+
+#, fuzzy
+msgid "svy_ind_feedb_info"
+msgstr "Users get distinct evaluations by others."
+
+#, fuzzy
+msgid "svy_ind_feedb_mode"
+msgstr "Individual Feedback"
+
+#, fuzzy
+msgid "svy_mail_confirmation_subject"
+msgstr "Survey \"%s\" - Your participation confirmation"
+
+#, fuzzy
+msgid "svy_mail_context_rater_invitation_info"
+msgstr "Invite raters to participate in a survey."
+
+#, fuzzy
+msgid "svy_mail_context_rater_invitation_survey_title"
+msgstr "Survey Title"
+
+#, fuzzy
+msgid "svy_mail_context_rater_invitation_title"
+msgstr "Survey: Rater Invitation"
+
+#, fuzzy
+msgid "svy_mail_context_reminder_info"
+msgstr "Reminds users to participate in survey"
+
+#, fuzzy
+msgid "svy_mail_context_reminder_survey_title"
+msgstr "Survey Title"
+
+#, fuzzy
+msgid "svy_mail_context_reminder_title"
+msgstr "Survey Reminder"
+
+#, fuzzy
+msgid "svy_mail_own_results_body"
+msgstr "the following is a complete summary of your survey participation."
+
+#, fuzzy
+msgid "svy_mail_own_results_subject"
+msgstr "Survey \"%s\" - Your Answers"
+
+#, fuzzy
+msgid "svy_mail_send_confirmation"
+msgstr "Send Participation Confirmation"
+
+msgid "svy_matrix_layout_percentages_sum_invalid"
+msgstr "The column settings do not sum up to 100%."
+
+#, fuzzy
+msgid "svy_max_sum_score"
+msgstr "Maximum Sum Score"
+
+msgid "svy_neutral_answer"
+msgstr "Text for a Neutral Answer (\"Not Specified\", \"I don't know\" etc.)"
+
+#, fuzzy
+msgid "svy_no_appraisees_found"
+msgstr "No appraisees with feedbacks found."
+
+#, fuzzy
+msgid "svy_notification_tutor_results"
+msgstr "One E-Mail including Survey Results"
+
+#, fuzzy
+msgid "svy_notification_tutor_results_alert"
+msgstr "This requires an end date."
+
+#, fuzzy
+msgid "svy_notification_tutor_results_info"
+msgstr "After reaching the end data a cron job will send an email with the detailed survey results attached to it."
+
+#, fuzzy
+msgid "svy_only_max_one_external_rater"
+msgstr "Please select only one external rater."
+
+msgid "svy_page_error"
+msgstr "კიტხვარის კითხვაზე პასუხის გაცემისას მოხდა შეცდომა. გთხოვთ მიმართოთ კითხვას მეტი ინფორმაციის მოსაპოვებლად შეცდომაზე"
+
+msgid "svy_page_errors"
+msgstr "შეცდომები დაფიქსირდა კითხვაზე პასუხის გაცემისას გთხოვთ მიმართოთ კითხვებს შეცდომებზე მეტი ინფორმაციის მოსაპოვებლად"
+
+#, fuzzy
+msgid "svy_participant"
+msgstr "Participant"
+
+#, fuzzy
+msgid "svy_participants"
+msgstr "Participants"
+
+msgid "svy_participation"
+msgstr "Participation"
+
+#, fuzzy
+msgid "svy_please_select_unused_codes"
+msgstr "Please select at least one unused code."
+
+#, fuzzy
+msgid "svy_print_hide_labels"
+msgstr "Hide labels"
+
+#, fuzzy
+msgid "svy_print_show_labels"
+msgstr "Show labels"
+
+#, fuzzy
+msgid "svy_privacy_info"
+msgstr "Privacy"
+
+#, fuzzy
+msgid "svy_rater"
+msgstr "Rater"
+
+#, fuzzy
+msgid "svy_rater_see_app_info"
+msgstr "The names of appraisees will be presented to raters to enable them evaluating the questions."
+
+#, fuzzy
+msgid "svy_reminder_mail_template"
+msgstr "Mail Template"
+
+#, fuzzy
+msgid "svy_reminder_mail_template_none"
+msgstr "Do not use mail template"
+
+#, fuzzy
+msgid "svy_result_mail_notification_info"
+msgstr "On finishing the survey the answers of each participant will be sent to the defined recipients."
+
+#, fuzzy
+msgid "svy_results"
+msgstr "Results"
+
+#, fuzzy
+msgid "svy_results_mail_confirm"
+msgstr "Participants can request participation confirmation"
+
+#, fuzzy
+msgid "svy_results_mail_confirm_info"
+msgstr "Participants can request a mail with a confirmation of participation at the end of the survey."
+
+#, fuzzy
+msgid "svy_results_mail_own"
+msgstr "Participant can mail own answers"
+
+#, fuzzy
+msgid "svy_results_mail_own_info"
+msgstr "todo5"
+
+#, fuzzy
+msgid "svy_save_and_continue"
+msgstr "Save and Continue"
+
+msgid "svy_save_sync"
+msgstr "კითხვების ასლების შენახვა და სინქრონიზაცია"
+
+#, fuzzy
+msgid "svy_search_user"
+msgstr "Search User"
+
+#, fuzzy
+msgid "svy_search_user_info"
+msgstr "Search for users or roles and pick participants."
+
+msgid "svy_search_users"
+msgstr "მონაწილეების ძიება"
+
+#, fuzzy
+msgid "svy_select_rater"
+msgstr "Select Rater"
+
+msgid "svy_selected_user_data_deleted"
+msgstr "მონიშნული მომხმარებლების კითხვარის მონაცემები  წარმატებით წაიშალა"
+
+#, fuzzy
+msgid "svy_self_ev_access_results_all"
+msgstr "Access to Self-Evaluations of All Participants"
+
+#, fuzzy
+msgid "svy_self_ev_access_results_none"
+msgstr "No Access to Results"
+
+#, fuzzy
+msgid "svy_self_ev_access_results_own"
+msgstr "Access to Own Self-Evaluations"
+
+#, fuzzy
+msgid "svy_self_ev_info"
+msgstr "Use for self evaluation."
+
+#, fuzzy
+msgid "svy_self_ev_mode"
+msgstr "Self-Evaluation Only"
+
+#, fuzzy
+msgid "svy_settings_section_access"
+msgstr "Administering the Survey: Access"
+
+#, fuzzy
+msgid "svy_settings_section_before_start"
+msgstr "Information before Start of Survey"
+
+#, fuzzy
+msgid "svy_settings_section_finishing"
+msgstr "Finishing the Survey"
+
+#, fuzzy
+msgid "svy_settings_section_question_behaviour"
+msgstr "Administering the Survey: Behaviour of the Question"
+
+#, fuzzy
+msgid "svy_settings_section_reminders"
+msgstr "Reminders"
+
+msgid "svy_show_questiontitles"
+msgstr "კითხვარში კითხვების დასახელებების ჩვენება"
+
+#, fuzzy
+msgid "svy_skl_comp_assignm_not_supported"
+msgstr "Competence assignment is not supported for this question type."
+
+#, fuzzy
+msgid "svy_sum_score"
+msgstr "Sum Score"
+
+#, fuzzy
+msgid "svy_type_of_rater"
+msgstr "Type of Rater"
+
+#, fuzzy
+msgid "svy_view_own_results"
+msgstr "View given answers"
+
+#, fuzzy
+msgid "svy_wrong_or_expired_code"
+msgstr "Sorry, you entered an invalid or expired code."
+
+msgid "text_maximum_chars_allowed"
+msgstr "გთხოვთ არ შეიყვანოთ %s მაქსიმუმზე მეტი ნიშანი. ძედმეტი ნიშნები ამოიშლება"
+
+msgid "text_question_not_filled_out"
+msgstr "გთხოვთ შეავსოთ პასუხის ველი"
+
+msgid "unfold"
+msgstr "გახსნა"
+
+msgid "upper_limit"
+msgstr "ზედა ზღვარი"
+
+msgid "use_anonymous_id"
+msgstr "კითხვარის კოდის ჩვენება"
+
+msgid "use_anonymous_id_desc"
+msgstr "თუ შემოწმებულია,  მომხმარებლის სახელი ანონიმურ კითხვარებში ნაჩვენებია როგორც კითხვარის კოდი, სხვა შემთხვევაში ტექსტი \"ანონიმურია\" ნაჩვენები"
+
+msgid "use_browser_print_function"
+msgstr "გთხოვთ გამოიყენოთ ამოსაბეჭდი ფუნქცია თქვენს ბრაუზერში"
+
+msgid "use_min_answers"
+msgstr "პასუხის მონიშვნები"
+
+msgid "use_min_answers_option"
+msgstr "დააყენეთ პასუხის მონიშვნების რაოდენობა"
+
+msgid "use_other_answer"
+msgstr "პასუხის გახსნა"
+
+msgid "used"
+msgstr "გამოყენებულია"
+
+msgid "users_answered"
+msgstr "მომხმარებლებმა უპასუხეს"
+
+msgid "users_invited"
+msgstr "%s მომხმარებლები მოწვეულია"
+
+msgid "users_skipped"
+msgstr "მომხმარებლები გამოტოვებულია"
+
+msgid "values"
+msgstr "ღირებულებები"
+
+msgid "vertical"
+msgstr "ვერტიკალური"
+
+msgid "warning_question_not_complete"
+msgstr "კითხვა არ არის დასრულებული"
+
+msgid "workingtime"
+msgstr "სამუშაო დრო"

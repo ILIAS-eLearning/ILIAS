@@ -1,0 +1,1738 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: survey\n"
+
+msgid "SurveyMatrixQuestion"
+msgstr "マトリックス質問"
+
+msgid "SurveyMetricQuestion"
+msgstr "メートル法の質問"
+
+msgid "SurveyMultipleChoiceQuestion"
+msgstr "複数選択質問(複数回答)"
+
+msgid "SurveySingleChoiceQuestion"
+msgstr "複数選択質問(単一回答)"
+
+msgid "SurveyTextQuestion"
+msgstr "小論文"
+
+msgid "add_heading"
+msgstr "テキストブロックを追加"
+
+msgid "already_completed_survey"
+msgstr "サーベイは既に終わっています! 再度のサーベイはできません。"
+
+msgid "anonymization"
+msgstr "匿名化"
+
+msgid "anonymize_anonymous_introduction"
+msgstr "サーベイへのアクセス保証するには、このサーベイの作者または維持者から受け取る事のできる5文字サーベイコードを使用しなければなりません。<br />以下のテキスト欄にそれを入力してください。"
+
+msgid "answer"
+msgstr "回答"
+
+msgid "arithmetic_mean"
+msgstr "算術平均"
+
+msgid "browse_for_questions"
+msgstr "質問集から追加"
+
+msgid "cancel_survey"
+msgstr "サーベイを中断"
+
+msgid "cannot_read_survey"
+msgstr "サーベイデータを読み込むための十分な権利を所持していません!"
+
+msgid "cannot_switch_to_online_no_questions"
+msgstr "ステータスを &quot;online&quotに変更する事ができません; サーベイの中に質問がないためです!"
+
+msgid "cant_send_email_smtp_disabled"
+msgstr "外部メール送信はできません。このオプションはブローバル的に無効です。"
+
+msgid "category"
+msgstr "回答"
+
+msgid "category_nr_selected"
+msgstr "この質問を選択したユーザ数"
+
+msgid "chart"
+msgstr "チャート"
+
+msgid "codes"
+msgstr "アクセスコード"
+
+msgid "codes_created"
+msgstr "コードの作成"
+
+msgid "codes_deleted"
+msgstr "コードの削除"
+
+msgid "combobox"
+msgstr "コンボボックス"
+
+msgid "concatenation"
+msgstr "連結"
+
+msgid "confirm_delete_all_user_data"
+msgstr "本当にサーベイの全てのユーザデータを削除しますか?"
+
+msgid "confirm_delete_single_user_data"
+msgstr "本当に選択したユーザのサーベイデータを削除しますか?"
+
+msgid "confirm_remove_heading"
+msgstr "本当にテキストブロックを削除しますか?"
+
+msgid "confirm_sync_questions"
+msgstr "変更した質問はアクティブサーベイに使用するために作成されたコピーです。オリジナルの質問も一緒に変更しますか?"
+
+msgid "conjunction_and"
+msgstr "それぞれの制約が満たされない場合"
+
+msgid "conjunction_and_title"
+msgstr "次の制約をそれぞれ埋めなさい"
+
+msgid "conjunction_or"
+msgstr "制約が一つ満たされない場合"
+
+msgid "conjunction_or_title"
+msgstr "次の制約の一つを埋めなさい"
+
+msgid "constraint_add"
+msgstr "ルーティングルールを追加"
+
+msgid "constraint_fulfilled"
+msgstr "パージを表示"
+
+msgid "constraints"
+msgstr "ルーティング"
+
+msgid "constraints_first_question_description"
+msgstr "以前の質問がないため、初回エントリにはルーティングが存在しません"
+
+msgid "constraints_introduction"
+msgstr "単一質問あるいは複数質問のある質問ブロックへルーティングルールを追加できます。初期の質問への特定の回答次第で受験者は次の質問の定義を表示されます。よって、参加者に無関係の質問が提示されることはなくサーベイはより短めもしくは初期の回答により依存するようになります。最初の質問にもサーベイブロックの質問にもルーティングルールは設定できません。"
+
+msgid "constraints_list_of_entities"
+msgstr "ルーティングルール用の利用可能なホック"
+
+msgid "constraints_no_nonessay_available"
+msgstr "ルーティングルールを追加定義するのに利用可能な以前の質問がありません。次のタイプをサポートします:メートル、単一選択、複数選択質問"
+
+msgid "constraints_no_questions_or_questionblocks_selected"
+msgstr "質問または質問ブロックの少なくとも１つは選択してください!"
+
+msgid "contains"
+msgstr "含む"
+
+msgid "continue"
+msgstr "継続>>"
+
+msgid "create_new"
+msgstr "新規作成"
+
+msgid "dc_agree"
+msgstr "同意する"
+
+msgid "dc_always"
+msgstr "常時"
+
+msgid "dc_definitelyfalse"
+msgstr "確実に不可"
+
+msgid "dc_definitelytrue"
+msgstr "確実に可"
+
+msgid "dc_desired"
+msgstr "期待"
+
+msgid "dc_disagree"
+msgstr "期待しない"
+
+msgid "dc_fair"
+msgstr "可"
+
+msgid "dc_false"
+msgstr "不可"
+
+msgid "dc_good"
+msgstr "良"
+
+msgid "dc_manytimes"
+msgstr "多数"
+
+msgid "dc_morenegative"
+msgstr "より否定的"
+
+msgid "dc_morepositive"
+msgstr "より積極的"
+
+msgid "dc_mostcertainly"
+msgstr "最も確実"
+
+msgid "dc_mostcertainlynot"
+msgstr "最も否定的"
+
+msgid "dc_must"
+msgstr "must"
+
+msgid "dc_mustnot"
+msgstr "must not"
+
+msgid "dc_neutral"
+msgstr "中立"
+
+msgid "dc_never"
+msgstr "一度もない"
+
+msgid "dc_no"
+msgstr "no"
+
+msgid "dc_notacceptable"
+msgstr "許容不可"
+
+msgid "dc_poor"
+msgstr "貧弱"
+
+msgid "dc_rarely"
+msgstr "まれ"
+
+msgid "dc_should"
+msgstr "should"
+
+msgid "dc_shouldnot"
+msgstr "should not"
+
+msgid "dc_sometimes"
+msgstr "時々"
+
+msgid "dc_stronglyagree"
+msgstr "強く同意"
+
+msgid "dc_stronglydesired"
+msgstr "強く期待"
+
+msgid "dc_stronglydisagree"
+msgstr "強く否定"
+
+msgid "dc_stronglyundesired"
+msgstr "強く望まない"
+
+msgid "dc_true"
+msgstr "true"
+
+msgid "dc_undecided"
+msgstr "未"
+
+msgid "dc_undesired"
+msgstr "望まない"
+
+msgid "dc_varying"
+msgstr "変異"
+
+msgid "dc_verygood"
+msgstr "優"
+
+msgid "dc_yes"
+msgstr "yes"
+
+msgid "default_codes_mail_message"
+msgstr "サーベイアクセスコードは[code]です。 URL[url]を使ってWebブラウザからサーベイを開始できます。"
+
+msgid "default_codes_mail_subject"
+msgstr "%sのアクセスコード"
+
+msgid "define_questionblock"
+msgstr "質問ブロックを定義"
+
+msgid "delete_saved_message"
+msgstr "メッセージテキストを削除します"
+
+msgid "display_all_available"
+msgstr "使用可能なすべての表示"
+
+msgid "duplicate"
+msgstr "複製"
+
+msgid "edit_heading"
+msgstr "テキストブロックを編集"
+
+msgid "end_date"
+msgstr "終了日"
+
+msgid "end_date_reached"
+msgstr "サーベイを開始できません。最終日を過ぎています!"
+
+msgid "enter_anonymous_id"
+msgstr "サーベイアクセスコード"
+
+msgid "enter_valid_number_of_codes"
+msgstr "サーベイアクセスコードを生成するための有効数字を入力してください!"
+
+msgid "err_external_rcp_no_email"
+msgstr "インポート データには、少なくとも「email」フィールドを含める必要があります"
+
+msgid "err_external_rcp_no_email_column"
+msgstr "インポートデータには少なくとも最初の行に'email!タイトルのついた'email'列と次の行にあるemailアドレスを含める必要があります。"
+
+msgid "err_maxvaluegeminvalue"
+msgstr "最大値は最小値以上でかつ最大回答数以下になる必要があります。"
+
+msgid "err_minvalueganswers"
+msgstr "最小値は最大回答数以下になる必要があります。"
+
+msgid "err_no_exact_answers"
+msgstr " %s に一致する回答を確認して下さい。"
+
+msgid "err_no_max_answers"
+msgstr "最大 %s の回答を確認して下さい。"
+
+msgid "err_no_min_answers"
+msgstr "最小 %s の回答を確認して下さい。"
+
+msgid "error_retrieving_anonymous_survey"
+msgstr "システムはサーベイ code &quot;%s&quot;のサーベイデータを発見できません。入力したサーベイコードをチェックしてください!"
+
+msgid "error_save_code"
+msgstr "値は正しく保存されませんでした。<b>E- mail: '%s' は無効です</b>。 名: '%s', 姓: '%s'.<br>"
+
+msgid "evaluation"
+msgstr "統計"
+
+msgid "evaluation_access"
+msgstr "結果への受験者のアクセス"
+
+msgid "evaluation_access_all"
+msgstr "全登録ユーザは結果へアクセスできます"
+
+msgid "evaluation_access_info"
+msgstr "サーベイ結果へアクセスしました"
+
+msgid "evaluation_access_off"
+msgstr "受験者は結果へアクセスできません"
+
+msgid "evaluation_access_participants"
+msgstr "全サーベイ受験者は結果へアクセスできます"
+
+msgid "existing_constraints"
+msgstr "現在のルーティングルール"
+
+msgid "exp_type_csv"
+msgstr "カンマ区切り値(CSV)"
+
+msgid "exp_type_excel"
+msgstr "Microsoft Excel"
+
+msgid "export_all_survey_codes"
+msgstr "全てのアクセスコードをエクスポート"
+
+msgid "export_label_only"
+msgstr "ラベルのみエクスポート"
+
+msgid "export_title_label"
+msgstr "タイルとラベルをエクスポート"
+
+msgid "export_title_only"
+msgstr "タイトルのみエクスポート"
+
+msgid "external_recipients_imported"
+msgstr "外部受信者がインポートされました。"
+
+msgid "externalmails"
+msgstr "インポートファイル"
+
+msgid "externalmails_info"
+msgstr "インポートファイルは、セミコロンで区切られた列のCSV ファイルになる必要があります。最初の行に列見出しが含まれています。ファイルには少なくとも、受信者の電子メールを含む「メール アドレス」列を含める必要があります。"
+
+msgid "externaltext"
+msgstr "インポートテキスト"
+
+msgid "externaltext_info"
+msgstr "インポートテキストは行と列とセミコロンで区切られた列を配置する必要があります。テキストには受信者emailを含む'email'列を少なくとも一つ含む必要があります。"
+
+msgid "filter_all_question_types"
+msgstr "全ての質問タイプ"
+
+msgid "filter_all_questionpools"
+msgstr "すべての質問集"
+
+msgid "finished_mail_subject"
+msgstr "サーベイが終了しました"
+
+msgid "freetext_answers"
+msgstr "コメント記入"
+
+msgid "geometric_mean"
+msgstr "相乗平均"
+
+msgid "given_answers"
+msgstr "回答"
+
+msgid "glossary_term"
+msgstr "用語集"
+
+msgid "harmonic_mean"
+msgstr "調和平均"
+
+msgid "heading"
+msgstr "テキストブロック"
+
+msgid "horizontal"
+msgstr "水平"
+
+msgid "import_error_closing_file"
+msgstr "インポート ファイルを閉じる時のエラー!"
+
+msgid "import_error_opening_file"
+msgstr "インポート ファイルを開く時のエラー!"
+
+msgid "import_from_file"
+msgstr "ファイルからインポートします"
+
+msgid "import_from_text"
+msgstr "テキストからインポーします"
+
+msgid "import_no_file_selected"
+msgstr "ファイルが選択されていません!"
+
+msgid "import_question"
+msgstr "質問をインポート"
+
+msgid "import_wrong_file_type"
+msgstr "ファイルタイプが間違っています!"
+
+msgid "insert_after"
+msgstr "後ろに挿入"
+
+msgid "insert_before"
+msgstr "前に挿入"
+
+msgid "insert_missing_question"
+msgstr "サーベイへ挿入するために質問を最低１つ選択してください!"
+
+msgid "insert_missing_questionblock"
+msgstr "サーベイへ挿入するために質問ブロックを最低１つ選択してください!"
+
+msgid "insert_saved_message"
+msgstr "メッセージテキストを入力します"
+
+msgid "internal_link"
+msgstr "内部リンク"
+
+msgid "introduction"
+msgstr "紹介文"
+
+msgid "invited_users"
+msgstr "ユーザを選択"
+
+msgid "label"
+msgstr "ラベル"
+
+msgid "label_info"
+msgstr "今後のデータ処理用の代わりの識別子(例 SPSS)"
+
+msgid "language_changed"
+msgstr "言語が変更されました"
+
+msgid "layout"
+msgstr "レイアウト"
+
+msgid "lower_limit"
+msgstr "下限値"
+
+msgid "mail_import_example2"
+msgstr "sandraowen@domain.tld;Sandra;Owen"
+
+msgid "mail_import_example3"
+msgstr "kennethbirt@domain.tld;Kenneth;Birt"
+
+msgid "mail_sent_short"
+msgstr "送信済み"
+
+msgid "mail_survey_codes"
+msgstr "メールアクセスコードまたはメッセージ"
+
+msgid "mailaddresses"
+msgstr "受信者アドレス"
+
+msgid "mailaddresses_info"
+msgstr "サーベーイ終了時に通知を受け取る受信者のカンマ区切りリストを入力します。"
+
+msgid "mailnotification"
+msgstr "各サーベイ終了ごとに個別e-mail"
+
+msgid "mailparticipantdata"
+msgstr "追加受講者のデータ"
+
+msgid "mailparticipantdata_info"
+msgstr "この情報は通知メールの結果セクションへ自動的に含まれるように優先されます。"
+
+msgid "mailparticipantdata_placeholder"
+msgstr "これらのプレースフォルダは\"プライバシ\"が\"名前あり\"になっていると実際のユーザデータで置き換えられます:"
+
+msgid "maintenance"
+msgstr "受験者"
+
+msgid "matrix_appearance"
+msgstr "外観"
+
+msgid "matrix_bipolar_adjectives"
+msgstr "バイポーラ形容詞"
+
+msgid "matrix_bipolar_adjectives_description"
+msgstr "単語、短い語句、テキストへ応答する列調整のために、バイポーラ形容詞のペアを使用する事があります。"
+
+msgid "matrix_column_separators"
+msgstr "列セパレーター"
+
+msgid "matrix_column_separators_description"
+msgstr "マトリックス質問の出力列の間のセパレーター(細い線)をつけたい場合は、チェックボックスを選択します。"
+
+msgid "matrix_column_settings"
+msgstr "マトリックス列設定"
+
+msgid "matrix_columns"
+msgstr "マトリックス列"
+
+msgid "matrix_left_pole"
+msgstr "左のポール"
+
+msgid "matrix_neutral_answer"
+msgstr "中立列用のテキスト (\"指定なし\"、 \"わかりません\"など)"
+
+msgid "matrix_neutral_column_separator"
+msgstr "中立列セパレーター"
+
+msgid "matrix_neutral_column_separator_description"
+msgstr "中立列とマトリックス質問の出力の他の列の間のセパレーター（太線）を付けたい場合は、チェックボックスを選択します。"
+
+msgid "matrix_question_checkbox_not_checked"
+msgstr "各行のチェック ボックスから1つはチェックしてください!"
+
+msgid "matrix_question_radio_button_not_checked"
+msgstr "各行の選択ボタンのどれかはチェックしてください!"
+
+msgid "matrix_right_pole"
+msgstr "右のポール"
+
+msgid "matrix_row_separators"
+msgstr "行セパレーター"
+
+msgid "matrix_row_separators_description"
+msgstr "マトリックス質問の出力の行の間にセカレーター(細線)をつけたい場合は、チェックボックスを選択します。"
+
+msgid "matrix_rows"
+msgstr "マトリックス行"
+
+msgid "matrix_standard_answers"
+msgstr "列テキスト"
+
+msgid "matrix_subtype_mr"
+msgstr "チェックボックス(複数選択)"
+
+msgid "matrix_subtype_sr"
+msgstr "オプションボタン (シングル選択)"
+
+msgid "maxchars"
+msgstr "最大文字数"
+
+msgid "maximum"
+msgstr "最大値"
+
+msgid "median"
+msgstr "中央値"
+
+msgid "median_between"
+msgstr "間"
+
+msgid "menuback"
+msgstr "戻る"
+
+msgid "menubacktosurvey"
+msgstr "サーベイへ戻る"
+
+msgid "message_content_info"
+msgstr "参加者のサーベイコードが含まれる通知用のメール本文を入力します。プレースフォルダ[code]（アクセスコード)や[url)(このサーベイのURL)やインポートフィールド%sに依存する参加者の関係データを使用できます。プレースフォルダはメールのインポートユーザデータで置き換えられます。"
+
+msgid "metric_question_floating_point"
+msgstr "入力した値は浮動小数点の値です。浮動小数点の値はこの質問タイプ用には利用できません。"
+
+msgid "metric_question_not_a_value"
+msgstr "入力した値は数値ではありません!"
+
+msgid "metric_question_out_of_bounds"
+msgstr "入力した値は最大と最少値の間ではありません!"
+
+msgid "metric_subtype_description_interval"
+msgstr "測定間隔と同じ意味のある任意のペア測定値を比較できます。 負の値を使用できるようにスケールの原点は任意です。 間隔値の例として多くのカレンダーでは年間日付となり、温度計では摂氏となっています。"
+
+msgid "metric_subtype_description_ratioabsolute"
+msgstr "絶対測定比率は、一例として家族の子供の数や確率のような非任意のゼロポイントに追加する自然数を使います。"
+
+msgid "metric_subtype_description_rationonabsolute"
+msgstr "間隔測定に加えて任意のペアの数の間にも鋳物ある比率です。比率スケール上のゼロ値は、任意ではありません。長さセンチメートルや秒時間のような物理的数量は、比率スケールポイントの意味です。"
+
+msgid "minimum"
+msgstr "最小値"
+
+msgid "mode"
+msgstr "最も選択された値"
+
+msgid "mode_nr_of_selections"
+msgstr "選択数"
+
+msgid "mode_text"
+msgstr "最も選択された値(テキスト)"
+
+msgid "msg_duplicate_scale"
+msgstr "一意のスケール値を入力してください。"
+
+msgid "msg_enter_value_for_valid_constraint"
+msgstr "有効なルーティングルールを作成する値を入力してください!"
+
+msgid "msg_input_only_positive_numbers"
+msgstr "スケール値に正数を入力してください。"
+
+msgid "msg_max_nr_answers"
+msgstr "最大%s個の回答をチェックしてください"
+
+msgid "msg_message_deleted"
+msgstr "削除されたメッセージテキスト"
+
+msgid "msg_message_inserted"
+msgstr "挿入されたメッセージテキスト"
+
+msgid "msg_min_max_exact_answers"
+msgstr " %sに一致する回答を確認してください。"
+
+msgid "msg_min_max_nr_answers"
+msgstr "最大 %s と最小 %s の回答を確認して下さい。"
+
+msgid "msg_min_nr_answers"
+msgstr "最小 %s の回答を確認して下さい。"
+
+msgid "msg_no_message_deleted"
+msgstr "保存されたメッセージテキストを選択してください"
+
+msgid "msg_no_message_inserted"
+msgstr "メッセージテキストを選択してください"
+
+msgid "new_survey_codes"
+msgstr "新しいサーベイアクセスコード"
+
+msgid "no_question_selected_for_copy_to_pool"
+msgstr "質問集にまだリンクされていない質問をどれか一つ選択してください。"
+
+msgid "no_question_selected_for_move"
+msgstr "それを移動するには質問を少なくとも1つはチェックしてください!"
+
+msgid "no_question_selected_for_removal"
+msgstr "それを移動するには、質問または質問ブロックを少なくとも1つはチェックしてください!"
+
+msgid "no_target_selected_for_move"
+msgstr "目標位置を選択しなければなりません!"
+
+msgid "non_ratio"
+msgstr "間隔"
+
+msgid "not_sent_only"
+msgstr "新規受信者のみ(メールをまだ受信していない者）"
+
+msgid "not_used"
+msgstr "使用実績なし"
+
+msgid "nr_max_answers"
+msgstr "最大"
+
+msgid "nr_min_answers"
+msgstr "最小"
+
+msgid "obligatory"
+msgstr "必須"
+
+msgid "off"
+msgstr "Off"
+
+msgid "on"
+msgstr "On"
+
+msgid "or"
+msgstr "or"
+
+msgid "orientation"
+msgstr "方向"
+
+msgid "other_answer"
+msgstr "他の回答"
+
+msgid "other_answer_label"
+msgstr "その他の回答のラベル(オプション)"
+
+msgid "outro"
+msgstr "結語"
+
+msgid "please_enter_mail_url"
+msgstr "アクセスURLプレースホルダー[url]を入力してください。"
+
+msgid "qpl_confirm_delete_questions"
+msgstr "本当に次の質問を削除しますか?"
+
+msgid "qpl_define_questionblock_select_missing"
+msgstr "質問ブロックを削除したい場合は最低二つの質問を選択してください!"
+
+msgid "qpl_delete_select_none"
+msgstr "それを削除するには質問を1つはチェックしてください!"
+
+msgid "qpl_export_select_none"
+msgstr "それをエクスポートするには質問を1つはチェックしてください!"
+
+msgid "qpl_questions_deleted"
+msgstr "質問を削除しました。"
+
+msgid "qpl_unfold_select_none"
+msgstr "質問ブロックを展開したい場合は、質問ブロックを最低1つ選択してください!"
+
+msgid "question_changed_in_survey_only"
+msgstr "サーベイ中の質問のみ変更されました。"
+
+msgid "question_mr_no_other_answer"
+msgstr "回答を入力してください。"
+
+msgid "question_mr_no_other_answer_checked"
+msgstr "回答に文章を入力するにはチェックボックスを選択する必要があります。"
+
+msgid "question_mr_not_checked"
+msgstr "提示された回答の1 つはチェックしてください!"
+
+msgid "question_not_checked"
+msgstr "提示された回答のいずれかをチェックをしてください!"
+
+msgid "question_obligatory"
+msgstr "質問は必須です!"
+
+msgid "question_sr_no_other_answer_checked"
+msgstr "回答へ文章を入力するにはラジオボタンを選択する必要があります。"
+
+msgid "question_type"
+msgstr "質問タイプ"
+
+msgid "questionblock"
+msgstr "質問ブロック"
+
+msgid "questionblock_inserted"
+msgstr "質問ブロックの挿入"
+
+msgid "questionblocks"
+msgstr "質問ブロック"
+
+msgid "questionblocks_inserted"
+msgstr "質問ブロックの挿入"
+
+msgid "questions"
+msgstr "質問"
+
+msgid "questions_inserted"
+msgstr "質問を挿入しました!"
+
+msgid "questions_removed"
+msgstr "質問や質問ブロックを削除しました!"
+
+msgid "questiontype"
+msgstr "質問タイプ"
+
+msgid "ratio_absolute"
+msgstr "比率-絶対"
+
+msgid "ratio_non_absolute"
+msgstr "比率-非絶対"
+
+msgid "recipients"
+msgstr "受信者"
+
+msgid "remove_question"
+msgstr "削除"
+
+msgid "remove_questions"
+msgstr "本当に次の質問またはサーベイの質問ブロックを削除しますか?"
+
+msgid "results"
+msgstr "結果"
+
+msgid "resume_survey"
+msgstr "サーベイを中断"
+
+msgid "row_text"
+msgstr "行テキスト"
+
+msgid "save_obligatory_state"
+msgstr "'順番'」と'必須'を保存"
+
+msgid "save_reuse_message"
+msgstr "後で使用するメッセージのテキストを保存します"
+
+msgid "save_reuse_title"
+msgstr "メッセージテキストタイトル"
+
+msgid "saved_messages"
+msgstr "利用できるメッセージ"
+
+msgid "scale"
+msgstr "スケール"
+
+msgid "search_groups"
+msgstr "グループが見つかりました"
+
+msgid "search_term"
+msgstr "用語を検索"
+
+msgid "select_option"
+msgstr "--- オプションを選択 ---"
+
+msgid "select_prior_question"
+msgstr "以前の質問を選択します"
+
+msgid "select_relation"
+msgstr "関係を選択"
+
+msgid "select_target_position_for_move_question"
+msgstr "質問を移動する目標場所を選択して、挿入ボタンのいずれかを押してください!"
+
+msgid "select_value"
+msgstr "値を選択"
+
+msgid "selection"
+msgstr "選択"
+
+msgid "send_to_all"
+msgstr "全員へ"
+
+msgid "send_to_answered"
+msgstr "サーベイが完了していない全員へ"
+
+msgid "send_to_unanswered"
+msgstr "サーベイが完了していない全員へ(注意喚起)"
+
+msgid "show_questiontext"
+msgstr "質問テキストを表示"
+
+msgid "show_questiontext_description"
+msgstr "チェックボックスを選択すると質問ブロック内全ての質問でテキストが表示されます。 このチェック ボックスが選択されていない場合は、質問ブロック内のすべての質問のテキストが非表示になります。"
+
+msgid "skipped"
+msgstr "スキップしました"
+
+msgid "spl_copy_insert_clipboard"
+msgstr "選択した質問がクリップボードへコピーされました"
+
+msgid "spl_copy_select_none"
+msgstr "クリップボードへそれをコピーするために質問を最低1つチェックしてください"
+
+msgid "spl_move_insert_clipboard"
+msgstr "選択した質問は移動用にマークされています"
+
+msgid "spl_move_same_pool"
+msgstr "同一質問集の内から移動するには影響を与えません。"
+
+msgid "spl_move_select_none"
+msgstr "移動にそれを選択するには質問を最低1つチェックしてください"
+
+msgid "spl_online_property"
+msgstr "オンライン"
+
+msgid "spl_paste_no_objects"
+msgstr "クリップボードに質問がありません。質問をクリップボードへコピーまたは移動してください。"
+
+msgid "spl_paste_success"
+msgstr "質問が質問集へ貼り付けられました"
+
+msgid "spl_save_obligatory_state"
+msgstr "必須状態を保存"
+
+msgid "start_date"
+msgstr "開始日"
+
+msgid "start_date_not_reached"
+msgstr "開始日になるまでサーベイを開始する事はできません!"
+
+msgid "start_survey"
+msgstr "サーベイ開始"
+
+msgid "subtype"
+msgstr "サブタイプ"
+
+msgid "survey_360_add_external_rater"
+msgstr "外部考課者追加"
+
+msgid "survey_360_add_self_appraisee"
+msgstr "このサーベイの評価者として自身を追加"
+
+msgid "survey_360_appraisee"
+msgstr "評価者"
+
+msgid "survey_360_appraisee_close_action"
+msgstr "考課者サーベイを閉じる"
+
+msgid "survey_360_appraisee_close_action_info"
+msgstr "自分自身の分析へアクセスします。"
+
+msgid "survey_360_appraisee_close_action_info_skill"
+msgstr "自分自身の分析へアクセスしして能力レベルを更新します。"
+
+msgid "survey_360_appraisee_close_action_status"
+msgstr "サーベイは%sに終了しました。"
+
+msgid "survey_360_appraisee_close_action_success"
+msgstr "外部考課者の360°サーベイを終了しました。"
+
+msgid "survey_360_appraisee_close_action_success_admin"
+msgstr "評価者の360°サーベイは考課者用に終了されました。"
+
+msgid "survey_360_appraisee_close_table"
+msgstr "終了日"
+
+msgid "survey_360_appraisee_is_closed"
+msgstr "評価者はサーベイを終了しました。"
+
+msgid "survey_360_appraisees"
+msgstr "評価者"
+
+msgid "survey_360_edit_raters"
+msgstr "考課者管理"
+
+msgid "survey_360_mode"
+msgstr "360° フィードバック"
+
+msgid "survey_360_mode_info"
+msgstr "個人のピアレビューを使用"
+
+msgid "survey_360_no_appraisees"
+msgstr "現在格付けする評価者がいません。"
+
+msgid "survey_360_rate_other_appraisee"
+msgstr "評価対象者"
+
+msgid "survey_360_rater_finished"
+msgstr "サーベイ終了"
+
+msgid "survey_360_rater_mail_sent"
+msgstr "メール送信"
+
+msgid "survey_360_rater_message_content_anonymous"
+msgstr "メッセージコンテンツ(匿名)"
+
+msgid "survey_360_rater_message_content_anonymous_default"
+msgstr "サーベイアクセスコードは [code]です。URL[url]からブラウザでサーベイを開始できます。"
+
+msgid "survey_360_rater_message_content_registered"
+msgstr "メッセージコンテンツ(登録済み)"
+
+msgid "survey_360_rater_message_content_registered_default"
+msgstr "URL[url]からブラウザでサーベイを開始できます。"
+
+msgid "survey_360_rater_subject_default"
+msgstr "360° サーベイへ考課者として招待されています。"
+
+msgid "survey_360_raters"
+msgstr "考課"
+
+msgid "survey_360_raters_finished"
+msgstr "考課終了"
+
+msgid "survey_360_remove_appraisees"
+msgstr "評価者を削除"
+
+msgid "survey_360_results"
+msgstr "評価者の結果へアクセス"
+
+msgid "survey_360_results_all"
+msgstr "全てのフィードバック者"
+
+msgid "survey_360_results_all_info"
+msgstr "360°サーベイの評価対象者は自己評価のみを除く全評価対象者の全ての評価者による全てのフィードバックを表示できます。"
+
+msgid "survey_360_results_none"
+msgstr "結果へのアクセスなし"
+
+msgid "survey_360_results_none_info"
+msgstr "評価対象者は評価者のフィードバックへアクセスできません。"
+
+msgid "survey_360_results_own"
+msgstr "自己評価者のフィードバックへアクセス"
+
+msgid "survey_360_results_own_info"
+msgstr "評価対象者は自己評価者のフィードバックのみアクセスできます。"
+
+msgid "survey_360_select_appraisee"
+msgstr "選択"
+
+msgid "survey_360_self_appraisee"
+msgstr "360° フィードバックを開く"
+
+msgid "survey_360_self_appraisee_info"
+msgstr "Info'タブのリンクは全てのユーザへ表示されます。このリンクをクリックして評価対象者として自分自身を追加してフィードバックを受信します。"
+
+msgid "survey_360_self_evaluation"
+msgstr "自己評価"
+
+msgid "survey_360_self_evaluation_info"
+msgstr "評価対象者は質問を使用して自分自身の評価ができます。"
+
+msgid "survey_360_self_raters"
+msgstr "評価対象者は自身の評価者を選択"
+
+msgid "survey_360_self_raters_info"
+msgstr "評価対象者は自主的に選択してそれをフィードバック提供するためにサポートされる人を招待します。"
+
+msgid "survey_360_sure_appraisee_close"
+msgstr "本当に全ての評価のサーベイを終了しますか?"
+
+msgid "survey_360_sure_appraisee_close_admin"
+msgstr "本当に次の評価者のサーベイを終了しますか?"
+
+msgid "survey_360_sure_delete_appraises"
+msgstr "本当に次の評価者を削除しますか?"
+
+msgid "survey_360_sure_delete_raters"
+msgstr "本当に次の%sの考課者を削除しますか?"
+
+msgid "survey_access_code"
+msgstr "アクセスコードによる認証"
+
+msgid "survey_access_codes_info"
+msgstr "ユーザは\"Info\"タブのコード入力でサーベイへアクセスします。このアクセスコードは\"受験者\"タブ内の\"アクセスコード\"サブタブに作成されます。"
+
+msgid "survey_activate_skill_service"
+msgstr "能力サービスをアクティブ"
+
+msgid "survey_activate_skill_service_info"
+msgstr "新規\"能力\"タブが表示されます。このタブ内の質問は能力へ割り当てられてしきい値が能力の特定のレベルに達していること示します。"
+
+msgid "survey_add_new_question"
+msgstr "新規ページを追加"
+
+msgid "survey_assign_competence"
+msgstr "能力を割当て"
+
+msgid "survey_auto_block_title"
+msgstr "ページヘッダー"
+
+msgid "survey_available_question_pools"
+msgstr "利用可能な質問集"
+
+msgid "survey_calc_skills"
+msgstr "能力レベルの確定"
+
+msgid "survey_calculate_sum_score"
+msgstr "合計点数を計算"
+
+msgid "survey_calculate_sum_score_info"
+msgstr "各参加者について、単一選択、複数選択、およびマトリックス質問のすべてのスケール値の合計を計算してください。ご注意ください：参加者がこれらのタイプの質問をいずれかスキップした場合、その合計スコアは計算されません。"
+
+msgid "survey_cancel_preview"
+msgstr "プレビューをキャンセル"
+
+msgid "survey_cannot_preview_survey"
+msgstr "プレビューは利用不可"
+
+msgid "survey_code"
+msgstr "サーベイアクセスコード"
+
+msgid "survey_code_delete_sure"
+msgstr "以下の未使用のアクセスコードを削除してもよろしいですか？"
+
+msgid "survey_code_url"
+msgstr "ダイレククトアクセス用のURL"
+
+msgid "survey_code_url_name"
+msgstr "URL (URLをコピーするには右マウスボタン使用)"
+
+msgid "survey_code_used"
+msgstr "コードステータス"
+
+msgid "survey_codes_lang"
+msgstr "事前選択しているサーベイ言語"
+
+msgid "survey_codes_no_anonymization"
+msgstr "新しいアクセスコードを作成するには、アクセスコード付きの匿名化されたアンケートを作成する必要があります！"
+
+msgid "survey_competences"
+msgstr "能力"
+
+msgid "survey_constraint_deleted"
+msgstr "ルーティングルールは削除されました。"
+
+msgid "survey_copy_questions_to_pool"
+msgstr "問題集へ追加"
+
+msgid "survey_copy_select_questionpool"
+msgstr "質問集にコピーする"
+
+msgid "survey_copy_to_questionpool_success"
+msgstr "質問は質問集へ正しくコピーされました。"
+
+msgid "survey_delete_heading"
+msgstr "見出しを削除"
+
+msgid "survey_edit_heading"
+msgstr "ヘッダーを編集"
+
+msgid "survey_edit_settings"
+msgstr "設定を編集"
+
+msgid "survey_error_insert_incomplete_question"
+msgstr "不備な質問をサーベイへ追加しようとしました!　質問は追加されませんでした。"
+
+msgid "survey_execution_exit"
+msgstr "リポジトリへ戻る"
+
+msgid "survey_execution_exit_360"
+msgstr "戻る"
+
+msgid "survey_execution_sure_finish"
+msgstr "本当にサーベイを終了しますか? このあとで回答の編集はできなくなります。"
+
+msgid "survey_finish"
+msgstr "サーベイ終了"
+
+msgid "survey_finished"
+msgstr "サーベイを終了しました。ご参加いただきましてありがとうございます!"
+
+msgid "survey_has_datasets_warning"
+msgstr "サーベイにはすでにデータセットが含まれています。メンテナンスセクションのデータセットを削除するまでサーベイ質問を編集できません。"
+
+msgid "survey_has_datasets_warning_page_view"
+msgstr "サーベイには既にデータセットがあります。このデータセットを削除しない限りサーベイ質問を編集できません。"
+
+msgid "survey_has_datasets_warning_page_view_link"
+msgstr "受講者を編集"
+
+msgid "survey_introduction_info"
+msgstr "このメッセージは\"Info”タブへ常時表示されます。"
+
+msgid "survey_is_offline"
+msgstr "サーベイを開始できません! サーベイはオフラインです。"
+
+msgid "survey_next"
+msgstr "次へ>>"
+
+msgid "survey_not_available"
+msgstr "該当なし"
+
+msgid "survey_notification_finished_introduction"
+msgstr "次の参加者はサーベイを終了しました。"
+
+msgid "survey_notification_finished_reason"
+msgstr "上記のサーベイ通知を有効にしている者はこのメールを受領します。"
+
+msgid "survey_notification_target_group"
+msgstr "ターゲットグループ"
+
+msgid "survey_notification_target_group_invited"
+msgstr "サーベイへ手動で招待された全ユーザ"
+
+msgid "survey_notification_target_group_invited_info"
+msgstr "現在の招待ユーザ: %s"
+
+msgid "survey_notification_target_group_parent_course"
+msgstr "親コース/グループの全メンバ"
+
+msgid "survey_notification_target_group_parent_course_inactive"
+msgstr "親コース/グループなしの者 - 注意喚起はありません!"
+
+msgid "survey_notification_tutor_body"
+msgstr "次のサーベイは参加者により終了されました。"
+
+msgid "survey_notification_tutor_link"
+msgstr "サーベイへリンク"
+
+msgid "survey_notification_tutor_recipients"
+msgstr "メールを送信(ユーザ名)"
+
+msgid "survey_notification_tutor_recipients_invalid"
+msgstr "「設定を編集」権限を持つユーザーを入力してください。"
+
+msgid "survey_notification_tutor_salutation"
+msgstr "こんにちは%s, さん"
+
+msgid "survey_notification_tutor_setting"
+msgstr "全受験者が終了後1通のe-mail"
+
+msgid "survey_notification_tutor_subject"
+msgstr "全ての参加者はサーベイ\"%s\"を終了しました。"
+
+msgid "survey_order"
+msgstr "順番をソート"
+
+msgid "survey_previous"
+msgstr "<< 戻る"
+
+msgid "survey_question_editor"
+msgstr "質問のリスト"
+
+msgid "survey_question_obligatory"
+msgstr "この質問は必須です。 質問へ回答する必要があります!"
+
+msgid "survey_question_pool"
+msgstr "問題集"
+
+msgid "survey_question_pool_title"
+msgstr "問題集タイトル"
+
+msgid "survey_question_title"
+msgstr "問題のタイトル"
+
+msgid "survey_questions"
+msgstr "問題"
+
+msgid "survey_questions_to_clipboard_copy"
+msgstr "問題がクリップボードにコピーされました。ターゲットまたは空のクリップボードを選択してください。"
+
+msgid "survey_reached_level"
+msgstr "達成したレベル"
+
+msgid "survey_reminder_body"
+msgstr "次のサーベイはまだ終了していません。"
+
+msgid "survey_reminder_cron"
+msgstr "参加するようにユーザへ念押し / 指導教員へ結果送信"
+
+msgid "survey_reminder_cron_info"
+msgstr "有効にするとユーザはサーベイへの参加を注意喚起されます。"
+
+msgid "survey_reminder_end"
+msgstr "終わり"
+
+msgid "survey_reminder_frequency"
+msgstr "間隔"
+
+msgid "survey_reminder_frequency_days"
+msgstr "日数"
+
+msgid "survey_reminder_link"
+msgstr "URL"
+
+msgid "survey_reminder_salutation"
+msgstr "こんにちは%s, さん"
+
+msgid "survey_reminder_setting"
+msgstr "ユーザへ参加の注意喚起"
+
+msgid "survey_reminder_start"
+msgstr "開始"
+
+msgid "survey_reminder_subject"
+msgstr "サーベイ\"%s\"は終了していません。"
+
+msgid "survey_remove_competence"
+msgstr "能力を削除"
+
+msgid "survey_results_anonymization"
+msgstr "プライバシー"
+
+msgid "survey_results_anonymized"
+msgstr "無記名"
+
+msgid "survey_results_anonymized_info"
+msgstr "結果タブの受験者名はコードで置き換えられます。このタブへアクセスするユーザは、ユーザ’iTXaF’(例)を除き受講者名へ変更できません。"
+
+msgid "survey_results_finished"
+msgstr "サーベイ終了"
+
+msgid "survey_results_not_started"
+msgstr "サーベイは開始していません"
+
+msgid "survey_results_personalized"
+msgstr "名前あり"
+
+msgid "survey_results_personalized_info"
+msgstr "受験者の名前\"結果\"タブとそれぞれの回答が一覧表示されます。 このアタブへアクセスするユーザは回答した者を調査できます。"
+
+msgid "survey_results_started"
+msgstr "サーベイを開始しました"
+
+msgid "survey_show_blocktitle"
+msgstr "ブロックタイトルを表示"
+
+msgid "survey_show_blocktitle_description"
+msgstr "有効にするとブロックタイトルはサーベイに表示されます。"
+
+msgid "survey_skill"
+msgstr "能力"
+
+msgid "survey_skill_assign"
+msgstr "質問/能力割当て"
+
+msgid "survey_skill_level"
+msgstr "能力スレベル"
+
+msgid "survey_skill_max_scale_points"
+msgstr "Maxスケールポイント"
+
+msgid "survey_skill_nr_q"
+msgstr "質問数"
+
+msgid "survey_skill_thresholds"
+msgstr "能力しきい"
+
+msgid "survey_start"
+msgstr "スタートページへ"
+
+msgid "survey_sum_of_means"
+msgstr "質問当たりの算術合計"
+
+msgid "survey_sure_delete_constraint"
+msgstr "本当に質問\"%2$s\"用のルーティングルール\"%1$s\"を削除しますか?"
+
+msgid "survey_sure_delete_questions"
+msgstr "次の質問または表題を本当に削除しますか?"
+
+msgid "survey_sync_insufficient_permissions"
+msgstr "不適切なアクセス権"
+
+msgid "survey_sync_question_copies"
+msgstr "質問コピーの同期"
+
+msgid "survey_sync_question_copies_info"
+msgstr "選択した質問は現在の質問集で置き換えられます。"
+
+msgid "survey_sync_success"
+msgstr "選択された質問は更新されました"
+
+#, fuzzy
+msgid "survey_up_to_x_points"
+msgstr "Up to x points"
+
+msgid "survey_use_start_button"
+msgstr "スタートボタンを使ってサーベイを入力しなければなりません!"
+
+msgid "svy_activation_limited_visibility_info"
+msgstr "表示期間外に質問がアクセスできない間はサーベイのタイトルのみ表示されます。"
+
+msgid "svy_activation_online_info"
+msgstr "この設定を有効にする場合のみユーザはサーベイへアクセスできます"
+
+msgid "svy_add_internal_user"
+msgstr "ユーザを追加"
+
+msgid "svy_add_internal_user_info"
+msgstr "評価者がこのプラットフォームへユーザを登録します。"
+
+msgid "svy_add_rater"
+msgstr "評価者を追加"
+
+msgid "svy_all_raters"
+msgstr "全評価者"
+
+msgid "svy_all_survey_competences"
+msgstr "全てのサーベイコンピタンス"
+
+msgid "svy_all_user_data_deleted"
+msgstr "このサーベイの全てのユーザデータは削除されました!"
+
+msgid "svy_analysis"
+msgstr "解析"
+
+msgid "svy_anonymous_participants"
+msgstr "受講者リスト"
+
+msgid "svy_anonymous_participants_info"
+msgstr "有効の場合受験者リストは匿名サーベイ内で利用可能です。"
+
+msgid "svy_anonymous_participants_min"
+msgstr "最小受験者"
+
+msgid "svy_anonymous_participants_min_info"
+msgstr "最小受験者の場合はこのリストのみ利用可能になります。"
+
+msgid "svy_anonymous_participants_svy"
+msgstr "受験者リスト"
+
+msgid "svy_anonymous_participants_svy_info"
+msgstr "受験者リストが有効の場合は、終了日以降利用可能です。"
+
+msgid "svy_answer_too_long"
+msgstr "現在の回答は長すぎます (%s 文字). 回答を短くしてください。"
+
+msgid "svy_app_see_rater_info"
+msgstr "評価書を追加する前に入力すれば、評価対象者は結果画面の名前とメールアドレスを含む評価者情報へアクセスできます。"
+
+msgid "svy_appraisses_cannot_be_raters"
+msgstr "ユーザは後で追加することはできません。代わりにサーベイ設定の自己評価オプションを使用します。"
+
+msgid "svy_back"
+msgstr "戻る"
+
+msgid "svy_categories"
+msgstr "回答"
+
+msgid "svy_check_evaluation_access_introduction"
+msgstr "このサーベイ評価はサーベイ参加者によるアクセスのみなので、評価を開くためのサーベイアクセスコードを入力する必要があります。"
+
+msgid "svy_check_evaluation_authentication_needed"
+msgstr "認証が必要"
+
+msgid "svy_check_evaluation_wrong_key"
+msgstr "サーベイアクセスコードを間違えて入力したかサーベイに参加していません。サーベイ評価へのアクセスは拒否されます。"
+
+msgid "svy_compress_view"
+msgstr "圧縮ビュー"
+
+msgid "svy_compress_view_info"
+msgstr "有効にすると全ての同一スケールの単一選択問題はマトリックス風に表示され、あす。"
+
+msgid "svy_copy"
+msgstr "サーベイをコピー"
+
+msgid "svy_create_question"
+msgstr "質問を作成"
+
+msgid "svy_delete_all_user_data"
+msgstr "すべてのユーザデータを削除"
+
+msgid "svy_dont_send"
+msgstr "メッセージを送信してはいけません。"
+
+msgid "svy_eval_captions"
+msgstr "図"
+
+msgid "svy_eval_captions_abs"
+msgstr "絶対"
+
+msgid "svy_eval_captions_abs_perc"
+msgstr "絶対とパーセント"
+
+msgid "svy_eval_captions_perc"
+msgstr "パーセント"
+
+msgid "svy_eval_competences"
+msgstr "能力結果"
+
+msgid "svy_eval_cumulated"
+msgstr "概要"
+
+msgid "svy_eval_detail"
+msgstr "詳細"
+
+msgid "svy_eval_skipped_value"
+msgstr "結果: \"スキップ\""
+
+msgid "svy_eval_skipped_value_custom"
+msgstr "カスタム値を使用"
+
+msgid "svy_eval_skipped_value_custom_info"
+msgstr "スキップ回答に使用する値(または空)を定義する"
+
+msgid "svy_eval_skipped_value_custom_value"
+msgstr "値"
+
+msgid "svy_eval_skipped_value_lng"
+msgstr "言語ファイルエントリーを使用"
+
+msgid "svy_eval_skipped_value_lng_info"
+msgstr "現在の値: \"%s\""
+
+msgid "svy_eval_user"
+msgstr "受験者ごと"
+
+msgid "svy_eval_view"
+msgstr "ビュー"
+
+msgid "svy_eval_view_charts"
+msgstr "チャート"
+
+msgid "svy_eval_view_tables"
+msgstr "表"
+
+msgid "svy_eval_view_tables_charts"
+msgstr "表とチャート"
+
+msgid "svy_evaluation_access_all_info"
+msgstr "サーベイへアクセスできる全登録ユーザはサーベイ結果を見ることもできます。"
+
+msgid "svy_evaluation_access_off_info"
+msgstr "サーベイを編集(書き込みアクセス権あり)できるユーザのみがサーベイ結果へのアクセス権があります。"
+
+msgid "svy_evaluation_access_participants_info"
+msgstr "サーベイへ参加した全ユーザは終了した後で結果を見ることができます"
+
+msgid "svy_export_files"
+msgstr "エクスポートファイル"
+
+msgid "svy_export_format"
+msgstr "サーベイデータとしてエクスポート"
+
+msgid "svy_export_pdf"
+msgstr "PDFをエクスポート"
+
+msgid "svy_ext_rater_firstname"
+msgstr "外部評価者の氏名"
+
+msgid "svy_ext_rater_lastname"
+msgstr "外部評価者の姓名"
+
+msgid "svy_external_rater"
+msgstr "外部評価者を追加"
+
+msgid "svy_external_rater_info"
+msgstr "評価者はこのプラットフォームへ登録されません。"
+
+msgid "svy_fraction_of_selections"
+msgstr "選択の比率"
+
+msgid "svy_gap_analysis"
+msgstr "穴埋め解析"
+
+msgid "svy_general_properties"
+msgstr "全般プロパティ"
+
+msgid "svy_import_codes"
+msgstr "インポートコード"
+
+msgid "svy_import_codes_info"
+msgstr "このインポートには\"%s\"エクスポートファイルが必要です。"
+
+msgid "svy_ind_feedb_info"
+msgstr "ユーザは他で別の評価を得ます。"
+
+msgid "svy_ind_feedb_mode"
+msgstr "個別フィードバック"
+
+msgid "svy_mail_confirmation_subject"
+msgstr "サーベイ\"%s\" - 参加確認"
+
+msgid "svy_mail_context_rater_invitation_info"
+msgstr "サーベイへの参加する評価者を招待。"
+
+msgid "svy_mail_context_rater_invitation_survey_title"
+msgstr "サーベイタイトル"
+
+msgid "svy_mail_context_rater_invitation_title"
+msgstr "サーベイ: 評価者招待"
+
+msgid "svy_mail_context_reminder_info"
+msgstr "サーベイへの参加をユーザへ注意喚起します"
+
+msgid "svy_mail_context_reminder_survey_title"
+msgstr "サーベイスタイル"
+
+msgid "svy_mail_context_reminder_title"
+msgstr "サーベイ注意喚起"
+
+msgid "svy_mail_own_results_body"
+msgstr "以下はサーベイ参加の完了サマリーです。"
+
+msgid "svy_mail_own_results_subject"
+msgstr "サーベイ\"%s\" - あなたの回答"
+
+msgid "svy_mail_send_confirmation"
+msgstr "参加確認を送る"
+
+msgid "svy_matrix_layout_percentages_sum_invalid"
+msgstr "列設定は合計100%にする必要があります。"
+
+msgid "svy_max_sum_score"
+msgstr "最高累計点数"
+
+msgid "svy_neutral_answer"
+msgstr "中立回答用のテキスト(\"未定\"、\"わからない\"など)"
+
+msgid "svy_no_appraisees_found"
+msgstr "フィードバック評価対象者がいません"
+
+msgid "svy_notification_tutor_results"
+msgstr "サーベイ結果の含まれる1通のメール"
+
+msgid "svy_notification_tutor_results_alert"
+msgstr "これは終了日が必須です。"
+
+msgid "svy_notification_tutor_results_info"
+msgstr "データ終了するとcronjobはそれに添付する詳細サーベイ結果と合わせてメールを送ります。"
+
+msgid "svy_only_max_one_external_rater"
+msgstr "外部評価者を一人だけ選択してください。"
+
+msgid "svy_page_error"
+msgstr "質問回答中にエラーがありました。質問欄に表示されているエラー詳細情報を参照してください!"
+
+msgid "svy_page_errors"
+msgstr "質問回答中にエラーがありました。質問欄に表示されているエラー詳細情報を参照してください!"
+
+msgid "svy_participant"
+msgstr "参加者"
+
+msgid "svy_participants"
+msgstr "参加者"
+
+msgid "svy_participation"
+msgstr "参加"
+
+msgid "svy_please_select_unused_codes"
+msgstr "未使用のコードを一つは選択してください。"
+
+msgid "svy_print_hide_labels"
+msgstr "ラベルを非表示"
+
+msgid "svy_print_show_labels"
+msgstr "ラベルを表示"
+
+msgid "svy_privacy_info"
+msgstr "プライバシー"
+
+msgid "svy_rater"
+msgstr "評価者"
+
+msgid "svy_rater_see_app_info"
+msgstr "評価対象者名は問題評価を可能にする評価者へ表示されます。"
+
+msgid "svy_reminder_mail_template"
+msgstr "メールテンプレート"
+
+msgid "svy_reminder_mail_template_none"
+msgstr "メールテンプレートを使用してはいけません"
+
+msgid "svy_result_mail_notification_info"
+msgstr "サーベイ終了時に各参加者の結果は指定の受講者へ送信されます。"
+
+msgid "svy_results"
+msgstr "結果"
+
+msgid "svy_results_mail_confirm"
+msgstr "受講者は受講確認を要求可能"
+
+msgid "svy_results_mail_confirm_info"
+msgstr "受講者はサーベイ最後に受講確認のメールを要求できます。"
+
+msgid "svy_results_mail_own"
+msgstr "参加者は自身の回答をメールすることができます"
+
+msgid "svy_results_mail_own_info"
+msgstr "参加者は自身の回答を含むメールを要求できます。"
+
+msgid "svy_save_and_continue"
+msgstr "保存して継続"
+
+msgid "svy_save_sync"
+msgstr "保存して質問コピーを同期"
+
+msgid "svy_search_user"
+msgstr "ユーザを検索"
+
+msgid "svy_search_user_info"
+msgstr "ユーザを又は役割を検索して参加者ををピックアップ"
+
+msgid "svy_search_users"
+msgstr "参加者を検索"
+
+msgid "svy_select_rater"
+msgstr "評価者を選択"
+
+msgid "svy_selected_user_data_deleted"
+msgstr "選択したユーザのサーベイデータは正しく削除されました"
+
+msgid "svy_self_ev_access_results_all"
+msgstr "全参加者の自己評価へアクセス"
+
+msgid "svy_self_ev_access_results_none"
+msgstr "結果へのアクセスなし"
+
+msgid "svy_self_ev_access_results_own"
+msgstr "自分の自己評価へアクセス"
+
+msgid "svy_self_ev_info"
+msgstr "自己評価を使用"
+
+msgid "svy_self_ev_mode"
+msgstr "自己評価のみ"
+
+msgid "svy_settings_section_access"
+msgstr "サーベイ管理: アクセス"
+
+msgid "svy_settings_section_before_start"
+msgstr "サーベイ開始前情報"
+
+msgid "svy_settings_section_finishing"
+msgstr "サーベイ終了"
+
+msgid "svy_settings_section_question_behaviour"
+msgstr "サーベイ管理: 質問の動作"
+
+msgid "svy_settings_section_reminders"
+msgstr "注意喚起"
+
+msgid "svy_show_questiontitles"
+msgstr "質問タイトルを表示"
+
+msgid "svy_skl_comp_assignm_not_supported"
+msgstr "能力割当てはこの質問タイプをサポートしていません。"
+
+msgid "svy_sum_score"
+msgstr "合計点数"
+
+msgid "svy_type_of_rater"
+msgstr "評価者のタイプ"
+
+msgid "svy_view_own_results"
+msgstr "回答を表示する"
+
+msgid "svy_wrong_or_expired_code"
+msgstr "申し訳ありませんが無効もしくは期限切れのコードが入力されました"
+
+msgid "text_maximum_chars_allowed"
+msgstr "最大 %s 文字以上入力しないでください。 それを超える文字は削減されます。"
+
+msgid "text_question_not_filled_out"
+msgstr "回答欄に記入してください!"
+
+msgid "unfold"
+msgstr "展開"
+
+msgid "upper_limit"
+msgstr "上限"
+
+msgid "use_anonymous_id"
+msgstr "サーベイコードを表示"
+
+msgid "use_anonymous_id_desc"
+msgstr "チェックすると匿名サーベイのユーザ名にはサーベイコードを表示しますが、そうでないと\"匿名\"のテキストが表示されます。"
+
+msgid "use_browser_print_function"
+msgstr "Webブラウザの印刷機能を使用してください。"
+
+msgid "use_min_answers"
+msgstr "回答数選択"
+
+msgid "use_min_answers_option"
+msgstr "要回答数を設定"
+
+msgid "use_other_answer"
+msgstr "コメント記入"
+
+msgid "used"
+msgstr "使用済"
+
+msgid "users_answered"
+msgstr "ユーザ回答"
+
+msgid "users_invited"
+msgstr "%s のユーザが招待されました"
+
+msgid "users_skipped"
+msgstr "スキップしたユーザ"
+
+msgid "values"
+msgstr "値"
+
+msgid "vertical"
+msgstr "垂直"
+
+msgid "warning_question_not_complete"
+msgstr "質問設定が不完全です!"
+
+msgid "workingtime"
+msgstr "所要時間"
