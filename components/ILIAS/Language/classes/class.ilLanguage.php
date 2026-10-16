@@ -80,15 +80,14 @@ class ilLanguage implements \ILIAS\Language\Language
      */
     private static array $shipped_without_build = [];
 
-    /**
-     * Per module, see isShippedModule().
-     *
-     * @var array<string, bool>
-     */
-    private static array $shipped_modules = [];
+    private static ?LanguageFileDirectoryManager $indexed_manager = null;
 
-    private static bool $client_data_dir_resolved = false;
-    private static ?string $resolved_client_data_dir = null;
+    /**
+     * The directories of $indexed_manager by prefix, see findLanguageFileDirectory().
+     *
+     * @var array<string, LanguageFileDirectory>
+     */
+    private static array $directories_by_prefix = [];
 
     /**
      * Identifier => value per non-migrated module, cached by loadLanguageModule() and txt() with a LanguageIdentifier.
@@ -524,8 +523,7 @@ class ilLanguage implements \ILIAS\Language\Language
 
     private static function isShippedModule(string $a_module): bool
     {
-        return self::$shipped_modules[$a_module] ??= MigratedTranslations::isShippedModule($a_module)
-            || self::findLanguageFileDirectory($a_module) !== null;
+        return MigratedTranslations::isShippedModule($a_module) || self::findLanguageFileDirectory($a_module) !== null;
     }
 
     private static function isShippedWithoutBuild(string $a_module, string $lang_key): bool
@@ -550,22 +548,9 @@ class ilLanguage implements \ILIAS\Language\Language
         }
     }
 
-    /**
-     * Before ilInitialisation::initClientDataDir() (Setup, CLI) from ilias.ini.php, resolved once per process.
-     */
     private static function clientDataDir(): ?string
     {
-        if (defined('CLIENT_DATA_DIR')) {
-            return (string) CLIENT_DATA_DIR;
-        }
-        if (!self::$client_data_dir_resolved) {
-            self::$resolved_client_data_dir = MigratedLanguageFilePaths::resolveClientDataDir(
-                defined('ILIAS_ABSOLUTE_PATH') ? (string) ILIAS_ABSOLUTE_PATH : dirname(__DIR__, 4)
-            );
-            self::$client_data_dir_resolved = true;
-        }
-
-        return self::$resolved_client_data_dir;
+        return MigratedTranslations::clientDataDir();
     }
 
     /**
@@ -581,13 +566,15 @@ class ilLanguage implements \ILIAS\Language\Language
 
         /** @var LanguageFileDirectoryManager $manager */
         $manager = $DIC[LanguageFileDirectoryManager::class];
-        foreach ($manager->getDirectories() as $directory) {
-            if ($directory->getPrefix() === $a_module) {
-                return $directory;
+        if ($manager !== self::$indexed_manager) {
+            self::$directories_by_prefix = [];
+            foreach ($manager->getDirectories() as $directory) {
+                self::$directories_by_prefix[$directory->getPrefix()] ??= $directory;
             }
+            self::$indexed_manager = $manager;
         }
 
-        return null;
+        return self::$directories_by_prefix[$a_module] ?? null;
     }
 
     /**

@@ -272,8 +272,7 @@ final class MigratedPoFixture
         }
         (new ReflectionProperty(ilLanguage::class, 'installed_languages'))->setValue(null, null);
         (new ReflectionProperty(ilLanguage::class, 'shipped_without_build'))->setValue(null, []);
-        (new ReflectionProperty(ilLanguage::class, 'shipped_modules'))->setValue(null, []);
-        (new ReflectionProperty(ilLanguage::class, 'client_data_dir_resolved'))->setValue(null, false);
+        (new ReflectionProperty(ilLanguage::class, 'indexed_manager'))->setValue(null, null);
         MigratedLanguageFilePaths::useArtifactDirectoryForTests($artifact_directory ?? self::artifactDirectory());
         MigratedTranslations::resetForTests();
         NativeGettext::resetForTests();
