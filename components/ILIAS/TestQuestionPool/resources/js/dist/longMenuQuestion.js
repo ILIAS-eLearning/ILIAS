@@ -292,8 +292,9 @@ var longMenuQuestion = (function () {
 	pro.displayErrors = function(index)
 	{
 		var value_error = false;
-    let points = parseFloat(pub.questionParts.list[index][1]);
-		if( isNaN(points) || points <= 0)
+    const points_value = pub.questionParts.list[index][1].toString().replace(',', '.');
+    const points = parseFloat(points_value);
+		if (isNaN(points) || points <= 0 || points_value.match(/^0[1-9][0-9\.]*$/) !== null)
 		{
 			$('#' +'error_answer_' + index).find('.points_error').removeClass('prototype_long_menu');
 		}
