@@ -1,0 +1,122 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: da\n"
+"Language-Team: Danish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: pd\n"
+
+msgid "block_show_chatviewer"
+msgstr "Vis chatviser"
+
+msgid "block_show_pdbookm"
+msgstr "Vis favoritter"
+
+msgid "block_show_pdcal"
+msgstr "Vis kalender"
+
+#, fuzzy
+msgid "block_show_pdfrmpostdraft"
+msgstr "Show Postings Drafts"
+
+msgid "block_show_pdmail"
+msgstr "Vis mail"
+
+msgid "block_show_pdnews"
+msgstr "Vis nyheder"
+
+msgid "block_show_pdnotes"
+msgstr "Vis noter"
+
+#, fuzzy
+msgid "block_show_pdportf"
+msgstr "Show Portfolios"
+
+msgid "block_show_pdtag"
+msgstr "Vis tags"
+
+#, fuzzy
+msgid "block_show_pdtasks"
+msgstr "Show Tasks"
+
+msgid "block_show_x"
+msgstr "%s vis"
+
+#, fuzzy
+msgid "pd_achievements"
+msgstr "Achievements"
+
+msgid "pd_bookmarks"
+msgstr "Favoritter"
+
+msgid "pd_download_last_export_file"
+msgstr "Hent sidste eksportfil"
+
+msgid "pd_enable_comments"
+msgstr "Aktiver kommentarer"
+
+msgid "pd_enable_prtf"
+msgstr "Aktiver portfolioer"
+
+#, fuzzy
+msgid "pd_enable_user_publish"
+msgstr "Enable User Content Publishing"
+
+#, fuzzy
+msgid "pd_enable_user_publish_info"
+msgstr "If enabled, users can publish their profiles, workspace objects and portfolios on the Web."
+
+#, fuzzy
+msgid "pd_ended"
+msgstr "Ended"
+
+msgid "pd_export_profile"
+msgstr "Eksporter persondata"
+
+msgid "pd_import_personal_data"
+msgstr "Importer persondata"
+
+#, fuzzy
+msgid "pd_my_memberships_sort_default"
+msgstr "Default of Sort Option"
+
+#, fuzzy
+msgid "pd_not_dated"
+msgstr "Not Dated"
+
+#, fuzzy
+msgid "pd_ongoing"
+msgstr "Ongoing"
+
+msgid "pd_personal_items_default_view"
+msgstr "Standardvisning"
+
+msgid "pd_personal_items_default_view_info"
+msgstr "Vælg den foretrukne visning på dit skrivebord."
+
+#, fuzzy
+msgid "pd_presentation_mode_list"
+msgstr "Item List Presentation"
+
+#, fuzzy
+msgid "pd_presentation_mode_tile"
+msgstr "Tile Presentation"
+
+msgid "pd_private_calendars"
+msgstr "Private kalendere"
+
+msgid "pd_profile_data"
+msgstr "Profildata"
+
+#, fuzzy
+msgid "pd_remove_multi_confirm"
+msgstr "The objects were removed."
+
+#, fuzzy
+msgid "pd_upcoming"
+msgstr "Upcoming"
+
+msgid "pd_view_select_at_least_one"
+msgstr "Du skal vælge mindst en visning, enten 'Valgte elementer' og/eller/ 'Mine medlemsskaber'."

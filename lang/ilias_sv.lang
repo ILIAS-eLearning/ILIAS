@@ -4594,43 +4594,6 @@ noti#:#noti_activate_notification#:# Aktivera avisering
 noti#:#noti_deactivate_notification#:#Avaktivera avisering
 noti#:#noti_notification_activated#:#Notifieringar är aktiverade
 noti#:#noti_notification_deactivated#:#Notifieringar är inaktiverade
-pd#:#block_show_chatviewer#:#Visa Chatviewer
-pd#:#block_show_pdbookm#:#Visa Bokmärken
-pd#:#block_show_pdcal#:#Visa kalender
-pd#:#block_show_pdfrmpostdraft#:#Visa utkast till bidrag
-pd#:#block_show_pdmail#:#Visa Mail
-pd#:#block_show_pdnews#:#Visa nyheter
-pd#:#block_show_pdnotes#:#Visa anteckningar
-pd#:#block_show_pdportf#:#Visa Portföljer
-pd#:#block_show_pdtag#:#Visa taggar
-pd#:#block_show_pdtasks#:#Visa Att göra
-pd#:#block_show_x#:#Visa %s
-pd#:#pd_achievements#:#lärande framgångar
-pd#:#pd_bookmarks#:#Bokmärken
-pd#:#pd_download_last_export_file#:#Ladda ner aktuell exportfil
-pd#:#pd_enable_comments#:# Aktivera kommentarer
-pd#:#pd_enable_prtf#:#Aktivera portföljer
-pd#:#pd_enable_user_publish#:# Möjliggör publicering av innehåll från användare
-pd#:#pd_enable_user_publish_info#:#Med detta alternativ kan användare göra sin profil, arbetsyta och portföljer globalt tillgängliga (på internet).
-pd#:#pd_ended#:#Färdig
-pd#:#pd_export_profile#:#Exportera personuppgifter
-pd#:#pd_import_personal_data#:#Importera personuppgifter
-pd#:#pd_my_memberships_sort_default#:#Standard sortering
-pd#:#pd_no_items_to_manage#:#No items available for removal.###26 08 2024 new variable
-pd#:#pd_not_dated#:#Not Dated###21 11 2023 new variable
-pd#:#pd_ongoing#:#Aktuell
-pd#:#pd_personal_items_default_view#:#Standardvy
-pd#:#pd_personal_items_default_view_info#:#Välj standardvy för Selected-erbjudanden här.
-pd#:#pd_presentation_mode_list#:#Listvy
-pd#:#pd_presentation_mode_tile#:#Kakel utsikt
-pd#:#pd_private_calendars#:#Privata kalendrar
-pd#:#pd_profile_data#:#Profiluppgifter
-pd#:#pd_remove_multi_confirm#:#Objekten har tagits bort.
-pd#:#pd_remove_multiple#:#Ta bort flera objekt
-pd#:#pd_unsubscribe_memberships#:#Avsluta medlemskap
-pd#:#pd_unsubscribe_multiple_memberships#:#Avsluta flera medlemskap
-pd#:#pd_upcoming#:#Föregående
-pd#:#pd_view_select_at_least_one#:#Välj minst en vy, antingen "Utvalda erbjudanden" och/eller "Kurser och grupper".
 sahs#:#cont_insert_after_chap#:#Insätt element efter ett kapitel.
 sahs#:#cont_insert_into_chap#:#Insert elements inom ett kapitel.
 sahs#:#sahs_activate_expert_mode#:#Aktivera expertläget Sequencing

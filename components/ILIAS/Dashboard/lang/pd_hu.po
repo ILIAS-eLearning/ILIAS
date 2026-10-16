@@ -1,0 +1,108 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: pd\n"
+
+msgid "block_show_chatviewer"
+msgstr "Csevegésnéző megjelenítése"
+
+msgid "block_show_pdbookm"
+msgstr "Könyvjelzők megjelenítése"
+
+msgid "block_show_pdcal"
+msgstr "Naptár megjelenítése"
+
+msgid "block_show_pdfrmpostdraft"
+msgstr "Hozzászóláspiszkozatok megjelenítése"
+
+msgid "block_show_pdmail"
+msgstr "E-mail megjelenítése"
+
+msgid "block_show_pdnews"
+msgstr "Hírek megjelenítése"
+
+msgid "block_show_pdnotes"
+msgstr "Jegyzetek megjelenítése"
+
+msgid "block_show_pdportf"
+msgstr "Portfóliók megjelenítése"
+
+msgid "block_show_pdtag"
+msgstr "Saját címkéim megjelenítése"
+
+msgid "block_show_pdtasks"
+msgstr "Feladatok megjelenítése"
+
+msgid "block_show_x"
+msgstr "%s megjelenítése"
+
+msgid "pd_achievements"
+msgstr "Eredmények"
+
+msgid "pd_bookmarks"
+msgstr "Könyvjelzők"
+
+msgid "pd_download_last_export_file"
+msgstr "Utolsó exportfájlt letöltése"
+
+msgid "pd_enable_comments"
+msgstr "Nyilvános megjegyzések engedélyezése"
+
+msgid "pd_enable_prtf"
+msgstr "Portfóliók engedélyezése"
+
+msgid "pd_enable_user_publish"
+msgstr "Felhasználói tartalom-közzététel engedélyezése"
+
+msgid "pd_enable_user_publish_info"
+msgstr "A felhasználók közzé tehetik profiljukat, személyes erőforrásaikat és portfóliójukat a weben."
+
+msgid "pd_ended"
+msgstr "Elmúlt"
+
+msgid "pd_export_profile"
+msgstr "Személyes adatok exportálása"
+
+msgid "pd_import_personal_data"
+msgstr "Személyes adatok importálása"
+
+msgid "pd_my_memberships_sort_default"
+msgstr "Alapértelmezett rendezési szempont"
+
+msgid "pd_not_dated"
+msgstr "Nincs időpontja"
+
+msgid "pd_ongoing"
+msgstr "Folyamatban lévő"
+
+msgid "pd_personal_items_default_view"
+msgstr "Alapértelmezett nézet"
+
+msgid "pd_personal_items_default_view_info"
+msgstr "Munkaasztal alapértelmezett nézete."
+
+msgid "pd_presentation_mode_list"
+msgstr "Felsorolás"
+
+msgid "pd_presentation_mode_tile"
+msgstr "Csempe"
+
+msgid "pd_private_calendars"
+msgstr "Privát naptár"
+
+msgid "pd_profile_data"
+msgstr "Profiladatok"
+
+msgid "pd_remove_multi_confirm"
+msgstr "Az objektumokat eltávolítottuk."
+
+msgid "pd_upcoming"
+msgstr "Jövőbeli"
+
+msgid "pd_view_select_at_least_one"
+msgstr "Legalább egy nézetet ki kell választania vagy a ‘Kigyűjtött objektumok’ és/vagy a ‘Tagságaim’ közül."

@@ -1,0 +1,109 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: pd\n"
+
+msgid "block_show_chatviewer"
+msgstr "Visa Chatviewer"
+
+msgid "block_show_pdbookm"
+msgstr "Visa Bokmärken"
+
+msgid "block_show_pdcal"
+msgstr "Visa kalender"
+
+msgid "block_show_pdfrmpostdraft"
+msgstr "Visa utkast till bidrag"
+
+msgid "block_show_pdmail"
+msgstr "Visa Mail"
+
+msgid "block_show_pdnews"
+msgstr "Visa nyheter"
+
+msgid "block_show_pdnotes"
+msgstr "Visa anteckningar"
+
+msgid "block_show_pdportf"
+msgstr "Visa Portföljer"
+
+msgid "block_show_pdtag"
+msgstr "Visa taggar"
+
+msgid "block_show_pdtasks"
+msgstr "Visa Att göra"
+
+msgid "block_show_x"
+msgstr "Visa %s"
+
+msgid "pd_achievements"
+msgstr "lärande framgångar"
+
+msgid "pd_bookmarks"
+msgstr "Bokmärken"
+
+msgid "pd_download_last_export_file"
+msgstr "Ladda ner aktuell exportfil"
+
+msgid "pd_enable_comments"
+msgstr " Aktivera kommentarer"
+
+msgid "pd_enable_prtf"
+msgstr "Aktivera portföljer"
+
+msgid "pd_enable_user_publish"
+msgstr " Möjliggör publicering av innehåll från användare"
+
+msgid "pd_enable_user_publish_info"
+msgstr "Med detta alternativ kan användare göra sin profil, arbetsyta och portföljer globalt tillgängliga (på internet)."
+
+msgid "pd_ended"
+msgstr "Färdig"
+
+msgid "pd_export_profile"
+msgstr "Exportera personuppgifter"
+
+msgid "pd_import_personal_data"
+msgstr "Importera personuppgifter"
+
+msgid "pd_my_memberships_sort_default"
+msgstr "Standard sortering"
+
+#, fuzzy
+msgid "pd_not_dated"
+msgstr "Not Dated"
+
+msgid "pd_ongoing"
+msgstr "Aktuell"
+
+msgid "pd_personal_items_default_view"
+msgstr "Standardvy"
+
+msgid "pd_personal_items_default_view_info"
+msgstr "Välj standardvy för Selected-erbjudanden här."
+
+msgid "pd_presentation_mode_list"
+msgstr "Listvy"
+
+msgid "pd_presentation_mode_tile"
+msgstr "Kakel utsikt"
+
+msgid "pd_private_calendars"
+msgstr "Privata kalendrar"
+
+msgid "pd_profile_data"
+msgstr "Profiluppgifter"
+
+msgid "pd_remove_multi_confirm"
+msgstr "Objekten har tagits bort."
+
+msgid "pd_upcoming"
+msgstr "Föregående"
+
+msgid "pd_view_select_at_least_one"
+msgstr "Välj minst en vy, antingen \"Utvalda erbjudanden\" och/eller \"Kurser och grupper\"."

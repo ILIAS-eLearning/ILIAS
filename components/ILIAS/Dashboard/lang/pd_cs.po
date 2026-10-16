@@ -1,0 +1,112 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: pd\n"
+
+msgid "block_show_chatviewer"
+msgstr "Zobrazit Chatviewer"
+
+msgid "block_show_pdbookm"
+msgstr "Zobrazit záložky"
+
+msgid "block_show_pdcal"
+msgstr "Zobrazit kalendář"
+
+msgid "block_show_pdfrmpostdraft"
+msgstr "Zobrazit rozepsanou poštu"
+
+msgid "block_show_pdmail"
+msgstr "Zobrazit poštu"
+
+msgid "block_show_pdnews"
+msgstr "Zobrazit zprávy"
+
+msgid "block_show_pdnotes"
+msgstr "Zobrazit poznámky"
+
+msgid "block_show_pdportf"
+msgstr "Zobrazit portfolia"
+
+msgid "block_show_pdtag"
+msgstr "Zobrazit mé značky"
+
+#, fuzzy
+msgid "block_show_pdtasks"
+msgstr "Show Tasks"
+
+msgid "block_show_x"
+msgstr "Zobrazit %s"
+
+msgid "pd_achievements"
+msgstr "Úspěchy"
+
+msgid "pd_bookmarks"
+msgstr "Záložky"
+
+msgid "pd_download_last_export_file"
+msgstr "Stáhnout poslední exportovaný soubor"
+
+msgid "pd_enable_comments"
+msgstr "Zapnout komentáře"
+
+msgid "pd_enable_prtf"
+msgstr "Zapnout Portfolia"
+
+msgid "pd_enable_user_publish"
+msgstr "Zapnout publikování uživatelského obsahu"
+
+msgid "pd_enable_user_publish_info"
+msgstr "Je-li zapnuto, uživatelé mohou publikovat své profily, objekty pracovní plocha a portfolia na Webu."
+
+msgid "pd_ended"
+msgstr "Ukončeno"
+
+msgid "pd_export_profile"
+msgstr "Exportovat osobní data"
+
+msgid "pd_import_personal_data"
+msgstr "Importovat osobní data"
+
+msgid "pd_my_memberships_sort_default"
+msgstr "Výchozí volba řazení"
+
+#, fuzzy
+msgid "pd_not_dated"
+msgstr "Not Dated"
+
+msgid "pd_ongoing"
+msgstr "Probíhající"
+
+msgid "pd_personal_items_default_view"
+msgstr "Výchozí zobrazení"
+
+msgid "pd_personal_items_default_view_info"
+msgstr "Vyberte preferované zobrazení osobních položek."
+
+#, fuzzy
+msgid "pd_presentation_mode_list"
+msgstr "Item List Presentation"
+
+#, fuzzy
+msgid "pd_presentation_mode_tile"
+msgstr "Tile Presentation"
+
+msgid "pd_private_calendars"
+msgstr "Soukromé kalendáře"
+
+msgid "pd_profile_data"
+msgstr "Data profilu"
+
+msgid "pd_remove_multi_confirm"
+msgstr "Objekty byly odstraněny."
+
+msgid "pd_upcoming"
+msgstr "Nadcházející"
+
+msgid "pd_view_select_at_least_one"
+msgstr "Musíte vybrat alespoň jedno zobrazení, také 'Vybrané položky' a/nebo 'Má členství'."

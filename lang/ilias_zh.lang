@@ -4593,43 +4593,6 @@ noti#:#noti_activate_notification#:#Activate Notification###10 11 2018 new varia
 noti#:#noti_deactivate_notification#:#Deactivate Notification###10 11 2018 new variable
 noti#:#noti_notification_activated#:#Notification Activated###10 11 2018 new variable
 noti#:#noti_notification_deactivated#:#Notification Deactivated###10 11 2018 new variable
-pd#:#block_show_chatviewer#:#聊天查看器显示
-pd#:#block_show_pdbookm#:#书签显示
-pd#:#block_show_pdcal#:#日历显示
-pd#:#block_show_pdfrmpostdraft#:#Show Postings Drafts###07 02 2020 new variable
-pd#:#block_show_pdmail#:#邮件显示
-pd#:#block_show_pdnews#:#新闻显示
-pd#:#block_show_pdnotes#:#笔记显示
-pd#:#block_show_pdportf#:#Show Portfolios###30 08 2015 new variable
-pd#:#block_show_pdtag#:#标签显示
-pd#:#block_show_pdtasks#:#Show Tasks###07 02 2020 new variable
-pd#:#block_show_x#:#%s 显示
-pd#:#pd_achievements#:#Achievements###10 11 2018 new variable
-pd#:#pd_bookmarks#:#书签
-pd#:#pd_download_last_export_file#:#下载最后导出的文件
-pd#:#pd_enable_comments#:#启用评论
-pd#:#pd_enable_prtf#:#启用组合
-pd#:#pd_enable_user_publish#:#启用用户内容发布
-pd#:#pd_enable_user_publish_info#:#如果启用，用户能在网络上发布他们的资料(profiles)、工作空间对象和组合。
-pd#:#pd_ended#:#Ended###31 08 2017 new variable
-pd#:#pd_export_profile#:#导出个人数据
-pd#:#pd_import_personal_data#:#导入个人数据
-pd#:#pd_my_memberships_sort_default#:#Default of Sort Option###31 08 2017 new variable
-pd#:#pd_no_items_to_manage#:#No items available for removal.###26 08 2024 new variable
-pd#:#pd_not_dated#:#Not Dated###26 08 2024 new variable
-pd#:#pd_ongoing#:#Ongoing###31 08 2017 new variable
-pd#:#pd_personal_items_default_view#:#默认视图
-pd#:#pd_personal_items_default_view_info#:#选择个人项目的优先视图。
-pd#:#pd_presentation_mode_list#:#Item List Presentation###07 02 2020 new variable
-pd#:#pd_presentation_mode_tile#:#Tile Presentation###07 02 2020 new variable
-pd#:#pd_private_calendars#:#私人日历
-pd#:#pd_profile_data#:#资料(profile)数据
-pd#:#pd_remove_multi_confirm#:#The objects were removed.###11 03 2014 new variable
-pd#:#pd_remove_multiple#:#Remove Multiple Objects###24 10 2013 new variable
-pd#:#pd_unsubscribe_memberships#:#Unsubscribe###24 10 2013 new variable
-pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple###24 10 2013 new variable
-pd#:#pd_upcoming#:#Upcoming###31 08 2017 new variable
-pd#:#pd_view_select_at_least_one#:#您必须至少选择一个视图，“已选项目”和/或“我的会员资格”。
 sahs#:#cont_insert_after_chap#:#在章之后插入项目
 sahs#:#cont_insert_into_chap#:#在章里头插入项目
 sahs#:#sahs_activate_expert_mode#:#激活序列导出模式

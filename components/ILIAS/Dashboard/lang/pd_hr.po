@@ -1,0 +1,112 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: pd\n"
+
+msgid "block_show_chatviewer"
+msgstr "Prikaži preglednik razgovora"
+
+msgid "block_show_pdbookm"
+msgstr "Prikaži oznake"
+
+msgid "block_show_pdcal"
+msgstr "Prikaži kalendar"
+
+msgid "block_show_pdfrmpostdraft"
+msgstr "Prikaži nacrte objava"
+
+msgid "block_show_pdmail"
+msgstr "Prikaži poštu"
+
+msgid "block_show_pdnews"
+msgstr "Prikaži vijesti"
+
+msgid "block_show_pdnotes"
+msgstr "Prikaži bilješke"
+
+msgid "block_show_pdportf"
+msgstr "Prikaži portfelje"
+
+msgid "block_show_pdtag"
+msgstr "Prikaži moje oznake"
+
+#, fuzzy
+msgid "block_show_pdtasks"
+msgstr "Show Tasks"
+
+msgid "block_show_x"
+msgstr "Prikaži %s"
+
+msgid "pd_achievements"
+msgstr "Dostignuća"
+
+msgid "pd_bookmarks"
+msgstr "Oznake"
+
+msgid "pd_download_last_export_file"
+msgstr "Preuzmite datoteku zadnjeg izvoza"
+
+msgid "pd_enable_comments"
+msgstr "Omogući komentare"
+
+msgid "pd_enable_prtf"
+msgstr "Omogući portfelje"
+
+msgid "pd_enable_user_publish"
+msgstr "Omogući objavljivanje korisničkog sadržaja"
+
+msgid "pd_enable_user_publish_info"
+msgstr "Ako je omogućeno, korisnici mogu objavljivati svoje profile, predmete s radnog prostora i portfelje na webu."
+
+msgid "pd_ended"
+msgstr "Završeno"
+
+msgid "pd_export_profile"
+msgstr "Izvoz osobnih podataka"
+
+msgid "pd_import_personal_data"
+msgstr "Uvoz osobnih podataka"
+
+msgid "pd_my_memberships_sort_default"
+msgstr "Zadana opcija sortiranja"
+
+#, fuzzy
+msgid "pd_not_dated"
+msgstr "Not Dated"
+
+msgid "pd_ongoing"
+msgstr "U tijeku"
+
+msgid "pd_personal_items_default_view"
+msgstr "Zadani prikaz"
+
+msgid "pd_personal_items_default_view_info"
+msgstr "Odaberite željeni prikaz Osobnih stavki."
+
+#, fuzzy
+msgid "pd_presentation_mode_list"
+msgstr "Item List Presentation"
+
+#, fuzzy
+msgid "pd_presentation_mode_tile"
+msgstr "Tile Presentation"
+
+msgid "pd_private_calendars"
+msgstr "Privatni kalendari"
+
+msgid "pd_profile_data"
+msgstr "Podaci o profilu"
+
+msgid "pd_remove_multi_confirm"
+msgstr "Predmeti su uklonjeni."
+
+msgid "pd_upcoming"
+msgstr "Nadolazeće"
+
+msgid "pd_view_select_at_least_one"
+msgstr "Morate odabrati barem jedan prikaz, ili 'Odabrane stavke' i/ili 'Moja članstva'."

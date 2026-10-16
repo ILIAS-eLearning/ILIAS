@@ -1,0 +1,108 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: pd\n"
+
+msgid "block_show_chatviewer"
+msgstr "チャットビューワ表示"
+
+msgid "block_show_pdbookm"
+msgstr "ブックマーク表示"
+
+msgid "block_show_pdcal"
+msgstr "カレンダ表示"
+
+msgid "block_show_pdfrmpostdraft"
+msgstr "投稿ドラフトを表示"
+
+msgid "block_show_pdmail"
+msgstr "メールを表示"
+
+msgid "block_show_pdnews"
+msgstr "ニュースを表示"
+
+msgid "block_show_pdnotes"
+msgstr "ノートを表示"
+
+msgid "block_show_pdportf"
+msgstr "ポートフォリオを表示"
+
+msgid "block_show_pdtag"
+msgstr "マイタグを表示"
+
+msgid "block_show_pdtasks"
+msgstr "タスクを表示"
+
+msgid "block_show_x"
+msgstr "%s を表示"
+
+msgid "pd_achievements"
+msgstr "実績"
+
+msgid "pd_bookmarks"
+msgstr "ブックマーク"
+
+msgid "pd_download_last_export_file"
+msgstr "最終エクスポートファイルをダンロード"
+
+msgid "pd_enable_comments"
+msgstr "コメントを有効化"
+
+msgid "pd_enable_prtf"
+msgstr "ポートフォリオを有効にする"
+
+msgid "pd_enable_user_publish"
+msgstr "ユーザコンテンツ公開を有効にする"
+
+msgid "pd_enable_user_publish_info"
+msgstr "有効にするとユーザはWeb上のプロファイル、ワークスペースのオブジェクトやポートフォリオを公開することができす。"
+
+msgid "pd_ended"
+msgstr "終了日"
+
+msgid "pd_export_profile"
+msgstr "パーソナルデータをエクスポート"
+
+msgid "pd_import_personal_data"
+msgstr "パーソナルデータをインポート"
+
+msgid "pd_my_memberships_sort_default"
+msgstr "並び替えオプションの初期値"
+
+msgid "pd_not_dated"
+msgstr "日付なし"
+
+msgid "pd_ongoing"
+msgstr "継続中"
+
+msgid "pd_personal_items_default_view"
+msgstr "表示初期設定"
+
+msgid "pd_personal_items_default_view_info"
+msgstr "パーソナルアイテムの好みの表示を選択します。"
+
+msgid "pd_presentation_mode_list"
+msgstr "アイテムリスト形式表示"
+
+msgid "pd_presentation_mode_tile"
+msgstr "タイル形式表示"
+
+msgid "pd_private_calendars"
+msgstr "プライベートカレンダ"
+
+msgid "pd_profile_data"
+msgstr "プロファイルデータ"
+
+msgid "pd_remove_multi_confirm"
+msgstr "オブジェクトは削除されました。"
+
+msgid "pd_upcoming"
+msgstr "近日中"
+
+msgid "pd_view_select_at_least_one"
+msgstr " '選択したアイテム' か'マイメンバーシップ'のどちらかを最低一つ選択しなければなりません。"

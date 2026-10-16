@@ -4589,39 +4589,6 @@ noti#:#noti_activate_notification#:#Se estiver ativado, a pesquisa do utilizador
 noti#:#noti_deactivate_notification#:#Mostrar utilizadores com acesso limitado
 noti#:#noti_notification_activated#:#Se estiver ativado, a pesquisa do utilizador mostra também utilizadores com acesso limitado fora desse período de tempo autorizado.
 noti#:#noti_notification_deactivated#:#Tipo
-pd#:#block_show_chatviewer#:#Lista de competências
-pd#:#block_show_pdbookm#:#Nova referência de modelo de competências
-pd#:#block_show_pdcal#:#Sem competências
-pd#:#block_show_pdfrmpostdraft#:#Iniciar uma nova competência de autoavaliação:
-pd#:#block_show_pdmail#:#Selecione os seus níveis de competência.
-pd#:#block_show_pdnews#:#Tem a certeza que quer apagar os seguintes níveis de competência?
-pd#:#block_show_pdnotes#:#Tem a certeza que quer remover as seguintes competências da sua lista?
-pd#:#block_show_pdportf#:#Mostrar portefólios
-pd#:#block_show_pdtag#:#Remover competência
-pd#:#block_show_pdtasks#:#Show Tasks###07 02 2020 new variable
-pd#:#block_show_x#:#Remover competências
-pd#:#pd_achievements#:#Guardar ordem
-pd#:#pd_bookmarks#:#Favoritos
-pd#:#pd_download_last_export_file#:#Descarregar último ficheiro de exportação
-pd#:#pd_enable_comments#:#Ativar comentários
-pd#:#pd_enable_prtf#:#Ativar portefólios
-pd#:#pd_enable_user_publish#:#Ativar publicação do conteúdo do utilizador
-pd#:#pd_enable_user_publish_info#:#Se estiver ativado, os utilizadores podem publicar os seus perfis, objetos do espaço de trabalho e portefólios na web.
-pd#:#pd_ended#:#Terminado
-pd#:#pd_export_profile#:#Exportar dados pessoais
-pd#:#pd_import_personal_data#:#Importar dados pessoais
-pd#:#pd_my_memberships_sort_default#:#Predefinição da opção de ordenação
-pd#:#pd_not_dated#:#Not Dated###03 09 2026 new variable
-pd#:#pd_ongoing#:#Em curso
-pd#:#pd_personal_items_default_view#:#Vista predefinida
-pd#:#pd_personal_items_default_view_info#:#Modelos de competências
-pd#:#pd_presentation_mode_list#:#Item List Presentation###07 02 2020 new variable
-pd#:#pd_presentation_mode_tile#:#Tile Presentation###07 02 2020 new variable
-pd#:#pd_private_calendars#:#Calendários privados
-pd#:#pd_profile_data#:#Dados de perfil
-pd#:#pd_remove_multi_confirm#:#Os objetos foram removidos.
-pd#:#pd_upcoming#:#Futuros
-pd#:#pd_view_select_at_least_one#:#Este módulo de aprendizagem já foi exportado. Abra-o com o computador onde instalou o Firefox com o addon do leitor offline SCORM.
 sahs#:#cont_insert_after_chap#:#Inserir itens depois do capítulo
 sahs#:#cont_insert_into_chap#:#Inserir itens dentro do capítulo
 sahs#:#sahs_add#:#Criar módulo de aprendizagem SCORM

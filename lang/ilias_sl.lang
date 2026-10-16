@@ -4594,43 +4594,6 @@ noti#:#noti_activate_notification#:#Aktiviraj obveščanje
 noti#:#noti_deactivate_notification#:#Onemogoči obveščanje
 noti#:#noti_notification_activated#:#Obveščanje je aktivirano
 noti#:#noti_notification_deactivated#:#Obveščanje je onemogočeno
-pd#:#block_show_chatviewer#:#Prikaži brskalnik za klepet
-pd#:#block_show_pdbookm#:#Prikaži zaznamke
-pd#:#block_show_pdcal#:#Prikaži koledar
-pd#:#block_show_pdfrmpostdraft#:#Prikaži osnutke objav
-pd#:#block_show_pdmail#:#Prikaži pošto
-pd#:#block_show_pdnews#:#Prikaži novosti
-pd#:#block_show_pdnotes#:#Prikaži opombe
-pd#:#block_show_pdportf#:#Prikaži portfelje
-pd#:#block_show_pdtag#:#Prikaži oznake
-pd#:#block_show_pdtasks#:#Show Tasks
-pd#:#block_show_x#:#Prikaži %s
-pd#:#pd_achievements#:#Učni dosežki
-pd#:#pd_bookmarks#:#Zaznamki
-pd#:#pd_download_last_export_file#:#Prenesi aktualno datoteko za izvoz
-pd#:#pd_enable_comments#:#Aktiviraj komentarje
-pd#:#pd_enable_prtf#:#Aktiviraj portfelje
-pd#:#pd_enable_user_publish#:#Aktiviraj objavljanje uporabniške vsebine
-pd#:#pd_enable_user_publish_info#:#Ta možnost uporabnikom omogoča, da svoj profil, vsebine delovnega okolja in portfelje naredijo globalno (na spletu) dostopne.
-pd#:#pd_ended#:#Zaključeno
-pd#:#pd_export_profile#:#Izvozi osebne podatke
-pd#:#pd_import_personal_data#:#Uvozi osebne podatke
-pd#:#pd_my_memberships_sort_default#:#Privzeta razvrstitev
-pd#:#pd_no_items_to_manage#:#No items available for removal.###26 08 2024 new variable
-pd#:#pd_not_dated#:#Not Dated###26 08 2024 new variable
-pd#:#pd_ongoing#:#Trenutno
-pd#:#pd_personal_items_default_view#:#Privzeti pogled
-pd#:#pd_personal_items_default_view_info#:#Tukaj izberite privzeti pogled za izbrane ponudbe.
-pd#:#pd_presentation_mode_list#:#Item List Presentation
-pd#:#pd_presentation_mode_tile#:#Tile Presentation
-pd#:#pd_private_calendars#:#Zasebni koledarji
-pd#:#pd_profile_data#:#Podatki o profilu
-pd#:#pd_remove_multi_confirm#:#Objekti so bili odstranjeni.
-pd#:#pd_remove_multiple#:#Odstrani več objektov
-pd#:#pd_unsubscribe_memberships#:#Prekini članstva
-pd#:#pd_unsubscribe_multiple_memberships#:#Prekini več članstev
-pd#:#pd_upcoming#:#Predhodno
-pd#:#pd_view_select_at_least_one#:#Izberite vsaj en pogled, ali 'Izbrane ponudbe' in/ali 'Tečaji in skupine'.
 sahs#:#cont_insert_after_chap#:#Vstavi elemente za poglavje.
 sahs#:#cont_insert_into_chap#:#Vstavite elemente znotraj poglavja.
 sahs#:#sahs_activate_expert_mode#:#Aktiviraj strokovni način zaporedja

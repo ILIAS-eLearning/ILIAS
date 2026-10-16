@@ -4602,39 +4602,6 @@ noti#:#noti_activate_notification#:#Értesítés bekapcsolása
 noti#:#noti_deactivate_notification#:#Értesítés kikapcsolása
 noti#:#noti_notification_activated#:#Az értesítőt sikeresen bekapcsolta
 noti#:#noti_notification_deactivated#:#Az értesítőt sikeresen kikapcsolta
-pd#:#block_show_chatviewer#:#Csevegésnéző megjelenítése
-pd#:#block_show_pdbookm#:#Könyvjelzők megjelenítése
-pd#:#block_show_pdcal#:#Naptár megjelenítése
-pd#:#block_show_pdfrmpostdraft#:#Hozzászóláspiszkozatok megjelenítése
-pd#:#block_show_pdmail#:#E-mail megjelenítése
-pd#:#block_show_pdnews#:#Hírek megjelenítése
-pd#:#block_show_pdnotes#:#Jegyzetek megjelenítése
-pd#:#block_show_pdportf#:#Portfóliók megjelenítése
-pd#:#block_show_pdtag#:#Saját címkéim megjelenítése
-pd#:#block_show_pdtasks#:#Feladatok megjelenítése
-pd#:#block_show_x#:#%s megjelenítése
-pd#:#pd_achievements#:#Eredmények
-pd#:#pd_bookmarks#:#Könyvjelzők
-pd#:#pd_download_last_export_file#:#Utolsó exportfájlt letöltése
-pd#:#pd_enable_comments#:#Nyilvános megjegyzések engedélyezése
-pd#:#pd_enable_prtf#:#Portfóliók engedélyezése
-pd#:#pd_enable_user_publish#:#Felhasználói tartalom-közzététel engedélyezése
-pd#:#pd_enable_user_publish_info#:#A felhasználók közzé tehetik profiljukat, személyes erőforrásaikat és portfóliójukat a weben.
-pd#:#pd_ended#:#Elmúlt
-pd#:#pd_export_profile#:#Személyes adatok exportálása
-pd#:#pd_import_personal_data#:#Személyes adatok importálása
-pd#:#pd_my_memberships_sort_default#:#Alapértelmezett rendezési szempont
-pd#:#pd_not_dated#:#Nincs időpontja
-pd#:#pd_ongoing#:#Folyamatban lévő
-pd#:#pd_personal_items_default_view#:#Alapértelmezett nézet
-pd#:#pd_personal_items_default_view_info#:#Munkaasztal alapértelmezett nézete.
-pd#:#pd_presentation_mode_list#:#Felsorolás
-pd#:#pd_presentation_mode_tile#:#Csempe
-pd#:#pd_private_calendars#:#Privát naptár
-pd#:#pd_profile_data#:#Profiladatok
-pd#:#pd_remove_multi_confirm#:#Az objektumokat eltávolítottuk.
-pd#:#pd_upcoming#:#Jövőbeli
-pd#:#pd_view_select_at_least_one#:#Legalább egy nézetet ki kell választania vagy a ‘Kigyűjtött objektumok’ és/vagy a ‘Tagságaim’ közül.
 sahs#:#cont_insert_after_chap#:#Elemek beszúrása a fejezet után
 sahs#:#cont_insert_into_chap#:#Elemek beszúrása a fejezetbe
 sahs#:#sahs_add#:#SCORM-tananyag létrehozása

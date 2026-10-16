@@ -1,0 +1,109 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: pd\n"
+
+msgid "block_show_chatviewer"
+msgstr "Afficher le Lecteur de Chat"
+
+msgid "block_show_pdbookm"
+msgstr "Afficher les Favoris"
+
+msgid "block_show_pdcal"
+msgstr "Afficher l'Agenda"
+
+msgid "block_show_pdfrmpostdraft"
+msgstr "Show Postings Drafts"
+
+msgid "block_show_pdmail"
+msgstr "Afficher la Messagerie"
+
+msgid "block_show_pdnews"
+msgstr "Afficher les Actualités"
+
+msgid "block_show_pdnotes"
+msgstr "Afficher les Notes"
+
+msgid "block_show_pdportf"
+msgstr "Montrer portfolios"
+
+msgid "block_show_pdtag"
+msgstr "Afficher mes Mots-Clés"
+
+msgid "block_show_pdtasks"
+msgstr "Show Tasks"
+
+msgid "block_show_x"
+msgstr "Afficher %s"
+
+msgid "pd_achievements"
+msgstr "Achievements"
+
+msgid "pd_bookmarks"
+msgstr "Favoris"
+
+msgid "pd_download_last_export_file"
+msgstr "Télécharger le dernier fichier exporté"
+
+msgid "pd_enable_comments"
+msgstr "Activer les Commentaires"
+
+msgid "pd_enable_prtf"
+msgstr "Activer les Portfolios"
+
+msgid "pd_enable_user_publish"
+msgstr "Autoriser la Publication des Contenus Utilisateurs"
+
+msgid "pd_enable_user_publish_info"
+msgstr "Lorsque activé, les utilisateurs peuvent publier sur le Web leur profil, les objets de leur espace personnel ainsi que leurs portfolios."
+
+msgid "pd_ended"
+msgstr "Terminée"
+
+msgid "pd_export_profile"
+msgstr "Exporter des données personnelles"
+
+msgid "pd_import_personal_data"
+msgstr "Importer des données personnelles"
+
+msgid "pd_my_memberships_sort_default"
+msgstr "Option de triage par défaut"
+
+#, fuzzy
+msgid "pd_not_dated"
+msgstr "Not Dated"
+
+msgid "pd_ongoing"
+msgstr "En cours"
+
+msgid "pd_personal_items_default_view"
+msgstr "Vue par Défaut"
+
+msgid "pd_personal_items_default_view_info"
+msgstr "Choisir la présentation par défaut de vos objets personnels"
+
+msgid "pd_presentation_mode_list"
+msgstr "Item List Presentation"
+
+msgid "pd_presentation_mode_tile"
+msgstr "Tile Presentation"
+
+msgid "pd_private_calendars"
+msgstr "Calendriers privés"
+
+msgid "pd_profile_data"
+msgstr "Données personnelles"
+
+msgid "pd_remove_multi_confirm"
+msgstr "Les objets ont été retirés."
+
+msgid "pd_upcoming"
+msgstr "À venir"
+
+msgid "pd_view_select_at_least_one"
+msgstr "Vous devez sélectionner au moins une vue : 'Items sélectionnés' et/ou 'Mes appartenances'"

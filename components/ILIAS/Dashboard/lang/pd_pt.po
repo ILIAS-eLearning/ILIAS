@@ -1,0 +1,112 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: pd\n"
+
+msgid "block_show_chatviewer"
+msgstr "Lista de competências"
+
+msgid "block_show_pdbookm"
+msgstr "Nova referência de modelo de competências"
+
+msgid "block_show_pdcal"
+msgstr "Sem competências"
+
+msgid "block_show_pdfrmpostdraft"
+msgstr "Iniciar uma nova competência de autoavaliação:"
+
+msgid "block_show_pdmail"
+msgstr "Selecione os seus níveis de competência."
+
+msgid "block_show_pdnews"
+msgstr "Tem a certeza que quer apagar os seguintes níveis de competência?"
+
+msgid "block_show_pdnotes"
+msgstr "Tem a certeza que quer remover as seguintes competências da sua lista?"
+
+msgid "block_show_pdportf"
+msgstr "Mostrar portefólios"
+
+msgid "block_show_pdtag"
+msgstr "Remover competência"
+
+#, fuzzy
+msgid "block_show_pdtasks"
+msgstr "Show Tasks"
+
+msgid "block_show_x"
+msgstr "Remover competências"
+
+msgid "pd_achievements"
+msgstr "Guardar ordem"
+
+msgid "pd_bookmarks"
+msgstr "Favoritos"
+
+msgid "pd_download_last_export_file"
+msgstr "Descarregar último ficheiro de exportação"
+
+msgid "pd_enable_comments"
+msgstr "Ativar comentários"
+
+msgid "pd_enable_prtf"
+msgstr "Ativar portefólios"
+
+msgid "pd_enable_user_publish"
+msgstr "Ativar publicação do conteúdo do utilizador"
+
+msgid "pd_enable_user_publish_info"
+msgstr "Se estiver ativado, os utilizadores podem publicar os seus perfis, objetos do espaço de trabalho e portefólios na web."
+
+msgid "pd_ended"
+msgstr "Terminado"
+
+msgid "pd_export_profile"
+msgstr "Exportar dados pessoais"
+
+msgid "pd_import_personal_data"
+msgstr "Importar dados pessoais"
+
+msgid "pd_my_memberships_sort_default"
+msgstr "Predefinição da opção de ordenação"
+
+#, fuzzy
+msgid "pd_not_dated"
+msgstr "Not Dated"
+
+msgid "pd_ongoing"
+msgstr "Em curso"
+
+msgid "pd_personal_items_default_view"
+msgstr "Vista predefinida"
+
+msgid "pd_personal_items_default_view_info"
+msgstr "Modelos de competências"
+
+#, fuzzy
+msgid "pd_presentation_mode_list"
+msgstr "Item List Presentation"
+
+#, fuzzy
+msgid "pd_presentation_mode_tile"
+msgstr "Tile Presentation"
+
+msgid "pd_private_calendars"
+msgstr "Calendários privados"
+
+msgid "pd_profile_data"
+msgstr "Dados de perfil"
+
+msgid "pd_remove_multi_confirm"
+msgstr "Os objetos foram removidos."
+
+msgid "pd_upcoming"
+msgstr "Futuros"
+
+msgid "pd_view_select_at_least_one"
+msgstr "Este módulo de aprendizagem já foi exportado. Abra-o com o computador onde instalou o Firefox com o addon do leitor offline SCORM."

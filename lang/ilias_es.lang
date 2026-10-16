@@ -4604,43 +4604,6 @@ noti#:#noti_activate_notification#:#Activar notificación
 noti#:#noti_deactivate_notification#:#Desactivar notificación
 noti#:#noti_notification_activated#:#Notificación activada
 noti#:#noti_notification_deactivated#:#Notificación desactivada
-pd#:#block_show_chatviewer#:#Mostrar Visor de Chat
-pd#:#block_show_pdbookm#:#Mostrar Marcadores
-pd#:#block_show_pdcal#:#Mostrar Calendario
-pd#:#block_show_pdfrmpostdraft#:#Mostrar Borradores de Mensajes
-pd#:#block_show_pdmail#:#Mostrar Correo
-pd#:#block_show_pdnews#:#Mostrar Noticias
-pd#:#block_show_pdnotes#:#Mostrar Notas
-pd#:#block_show_pdportf#:#Mostrar Portafolios
-pd#:#block_show_pdtag#:#Mostrar Mis Etiquetas
-pd#:#block_show_pdtasks#:#Mostrar Tareas
-pd#:#block_show_x#:#Mostrar %s
-pd#:#pd_achievements#:#Logros
-pd#:#pd_bookmarks#:#Marcadores
-pd#:#pd_download_last_export_file#:#Descargar Último Archivo de Exportación
-pd#:#pd_enable_comments#:#Habilitar comentarios
-pd#:#pd_enable_prtf#:#Habilitar portafolios
-pd#:#pd_enable_user_publish#:#Habilitar publicación de contenidos de usuario
-pd#:#pd_enable_user_publish_info#:#Si se habilita, los usuarios podrán publicar sus perfiles, recursos personales y portafolios en la Web.
-pd#:#pd_ended#:#Finalizado
-pd#:#pd_export_profile#:#Exportar datos personales
-pd#:#pd_import_personal_data#:#Importar datos personales
-pd#:#pd_my_memberships_sort_default#:#Opción de ordenación por defecto
-pd#:#pd_no_items_to_manage#:#No items available for removal.###26 08 2024 new variable
-pd#:#pd_not_dated#:#Sin fecha
-pd#:#pd_ongoing#:#En curso
-pd#:#pd_personal_items_default_view#:#Vista por defecto
-pd#:#pd_personal_items_default_view_info#:#Elija la vista preferida para los elementos personales.
-pd#:#pd_presentation_mode_list#:#Presentación en lista de elementos
-pd#:#pd_presentation_mode_tile#:#Presentación en mosaico
-pd#:#pd_private_calendars#:#Calendarios privados
-pd#:#pd_profile_data#:#Datos del perfil
-pd#:#pd_remove_multi_confirm#:#Los objetos han sido eliminados.
-pd#:#pd_remove_multiple#:#Eliminar varios elementos.
-pd#:#pd_unsubscribe_memberships#:#Dar de baja un miembro
-pd#:#pd_unsubscribe_multiple_memberships#:#Dar de baja varios miembros
-pd#:#pd_upcoming#:#Próximamente
-pd#:#pd_view_select_at_least_one#:#Debe seleccionar al menos una vista, ya sea 'Elementos seleccionados' y/o 'Mis membresías'.
 sahs#:#cont_insert_after_chap#:#Insertar elementos después del capítulo
 sahs#:#cont_insert_into_chap#:#Insertar elementos dentro del capítulo
 sahs#:#sahs_activate_expert_mode#:#Activar Modo Experto de Secuenciación

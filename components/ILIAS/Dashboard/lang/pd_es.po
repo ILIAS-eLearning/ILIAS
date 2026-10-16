@@ -1,0 +1,108 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: pd\n"
+
+msgid "block_show_chatviewer"
+msgstr "Mostrar Visor de Chat"
+
+msgid "block_show_pdbookm"
+msgstr "Mostrar Marcadores"
+
+msgid "block_show_pdcal"
+msgstr "Mostrar Calendario"
+
+msgid "block_show_pdfrmpostdraft"
+msgstr "Mostrar Borradores de Mensajes"
+
+msgid "block_show_pdmail"
+msgstr "Mostrar Correo"
+
+msgid "block_show_pdnews"
+msgstr "Mostrar Noticias"
+
+msgid "block_show_pdnotes"
+msgstr "Mostrar Notas"
+
+msgid "block_show_pdportf"
+msgstr "Mostrar Portafolios"
+
+msgid "block_show_pdtag"
+msgstr "Mostrar Mis Etiquetas"
+
+msgid "block_show_pdtasks"
+msgstr "Mostrar Tareas"
+
+msgid "block_show_x"
+msgstr "Mostrar %s"
+
+msgid "pd_achievements"
+msgstr "Logros"
+
+msgid "pd_bookmarks"
+msgstr "Marcadores"
+
+msgid "pd_download_last_export_file"
+msgstr "Descargar Último Archivo de Exportación"
+
+msgid "pd_enable_comments"
+msgstr "Habilitar comentarios"
+
+msgid "pd_enable_prtf"
+msgstr "Habilitar portafolios"
+
+msgid "pd_enable_user_publish"
+msgstr "Habilitar publicación de contenidos de usuario"
+
+msgid "pd_enable_user_publish_info"
+msgstr "Si se habilita, los usuarios podrán publicar sus perfiles, recursos personales y portafolios en la Web."
+
+msgid "pd_ended"
+msgstr "Finalizado"
+
+msgid "pd_export_profile"
+msgstr "Exportar datos personales"
+
+msgid "pd_import_personal_data"
+msgstr "Importar datos personales"
+
+msgid "pd_my_memberships_sort_default"
+msgstr "Opción de ordenación por defecto"
+
+msgid "pd_not_dated"
+msgstr "Sin fecha"
+
+msgid "pd_ongoing"
+msgstr "En curso"
+
+msgid "pd_personal_items_default_view"
+msgstr "Vista por defecto"
+
+msgid "pd_personal_items_default_view_info"
+msgstr "Elija la vista preferida para los elementos personales."
+
+msgid "pd_presentation_mode_list"
+msgstr "Presentación en lista de elementos"
+
+msgid "pd_presentation_mode_tile"
+msgstr "Presentación en mosaico"
+
+msgid "pd_private_calendars"
+msgstr "Calendarios privados"
+
+msgid "pd_profile_data"
+msgstr "Datos del perfil"
+
+msgid "pd_remove_multi_confirm"
+msgstr "Los objetos han sido eliminados."
+
+msgid "pd_upcoming"
+msgstr "Próximamente"
+
+msgid "pd_view_select_at_least_one"
+msgstr "Debe seleccionar al menos una vista, ya sea 'Elementos seleccionados' y/o 'Mis membresías'."

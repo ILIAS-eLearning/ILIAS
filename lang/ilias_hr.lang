@@ -4594,43 +4594,6 @@ noti#:#noti_activate_notification#:#Aktiviraj obavijest
 noti#:#noti_deactivate_notification#:#Deaktiviraj obavijest
 noti#:#noti_notification_activated#:#Obavijest aktivirana
 noti#:#noti_notification_deactivated#:#Obavijest deaktivirana
-pd#:#block_show_chatviewer#:#Prikaži preglednik razgovora
-pd#:#block_show_pdbookm#:#Prikaži oznake
-pd#:#block_show_pdcal#:#Prikaži kalendar
-pd#:#block_show_pdfrmpostdraft#:#Prikaži nacrte objava
-pd#:#block_show_pdmail#:#Prikaži poštu
-pd#:#block_show_pdnews#:#Prikaži vijesti
-pd#:#block_show_pdnotes#:#Prikaži bilješke
-pd#:#block_show_pdportf#:#Prikaži portfelje
-pd#:#block_show_pdtag#:#Prikaži moje oznake
-pd#:#block_show_pdtasks#:#Show Tasks###04 06 2021 new variable
-pd#:#block_show_x#:#Prikaži %s
-pd#:#pd_achievements#:#Dostignuća
-pd#:#pd_bookmarks#:#Oznake
-pd#:#pd_download_last_export_file#:#Preuzmite datoteku zadnjeg izvoza
-pd#:#pd_enable_comments#:#Omogući komentare
-pd#:#pd_enable_prtf#:#Omogući portfelje
-pd#:#pd_enable_user_publish#:#Omogući objavljivanje korisničkog sadržaja
-pd#:#pd_enable_user_publish_info#:#Ako je omogućeno, korisnici mogu objavljivati svoje profile, predmete s radnog prostora i portfelje na webu.
-pd#:#pd_ended#:#Završeno
-pd#:#pd_export_profile#:#Izvoz osobnih podataka
-pd#:#pd_import_personal_data#:#Uvoz osobnih podataka
-pd#:#pd_my_memberships_sort_default#:#Zadana opcija sortiranja
-pd#:#pd_no_items_to_manage#:#No items available for removal.###26 08 2024 new variable
-pd#:#pd_not_dated#:#Not Dated###26 08 2024 new variable
-pd#:#pd_ongoing#:#U tijeku
-pd#:#pd_personal_items_default_view#:#Zadani prikaz
-pd#:#pd_personal_items_default_view_info#:#Odaberite željeni prikaz Osobnih stavki.
-pd#:#pd_presentation_mode_list#:#Item List Presentation###04 06 2021 new variable
-pd#:#pd_presentation_mode_tile#:#Tile Presentation###04 06 2021 new variable
-pd#:#pd_private_calendars#:#Privatni kalendari
-pd#:#pd_profile_data#:#Podaci o profilu
-pd#:#pd_remove_multi_confirm#:#Predmeti su uklonjeni.
-pd#:#pd_remove_multiple#:#Ukloni više objekata
-pd#:#pd_unsubscribe_memberships#:#Otkaži članstvo
-pd#:#pd_unsubscribe_multiple_memberships#:#Otkaži višestruko članstvo
-pd#:#pd_upcoming#:#Nadolazeće
-pd#:#pd_view_select_at_least_one#:#Morate odabrati barem jedan prikaz, ili 'Odabrane stavke' i/ili 'Moja članstva'.
 sahs#:#cont_insert_after_chap#:#Umetni stavke iza poglavlja
 sahs#:#cont_insert_into_chap#:#Umetni stavke u poglavlje
 sahs#:#sahs_activate_expert_mode#:#Aktiviraj ekspertni način sekvenciranja

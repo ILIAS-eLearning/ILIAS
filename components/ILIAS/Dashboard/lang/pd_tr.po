@@ -1,0 +1,120 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr\n"
+"Language-Team: Turkish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: pd\n"
+
+msgid "block_show_chatviewer"
+msgstr "Göster Chatviewer"
+
+msgid "block_show_pdbookm"
+msgstr "göster imleri"
+
+msgid "block_show_pdcal"
+msgstr "Göster Takvim"
+
+#, fuzzy
+msgid "block_show_pdfrmpostdraft"
+msgstr "Show Postings Drafts"
+
+msgid "block_show_pdmail"
+msgstr "Posta Göster"
+
+msgid "block_show_pdnews"
+msgstr "Göster Haberler"
+
+msgid "block_show_pdnotes"
+msgstr "Notları Göster"
+
+#, fuzzy
+msgid "block_show_pdportf"
+msgstr "Show Portfolios"
+
+msgid "block_show_pdtag"
+msgstr "Etiketleri Göster"
+
+#, fuzzy
+msgid "block_show_pdtasks"
+msgstr "Show Tasks"
+
+msgid "block_show_x"
+msgstr "Göster% s"
+
+#, fuzzy
+msgid "pd_achievements"
+msgstr "Achievements"
+
+msgid "pd_bookmarks"
+msgstr "imleri"
+
+msgid "pd_download_last_export_file"
+msgstr "İndir Son Verme Dosyası"
+
+msgid "pd_enable_comments"
+msgstr "Yorumları Etkinleştir"
+
+msgid "pd_enable_prtf"
+msgstr "Portföyleri Etkinleştir"
+
+msgid "pd_enable_user_publish"
+msgstr "Kullanıcı İçerik Yayınına İzin Ver"
+
+msgid "pd_enable_user_publish_info"
+msgstr "Etkinse, kullanıcılar kendi profillerini,çalışma alanı  öğelerini ve portfolyolarını Web de yayınlayabilir."
+
+#, fuzzy
+msgid "pd_ended"
+msgstr "Ended"
+
+msgid "pd_export_profile"
+msgstr "Kişisel Bilgileri Dışa Aktar"
+
+msgid "pd_import_personal_data"
+msgstr "Kişisel Bilgileri İçe Aktar"
+
+#, fuzzy
+msgid "pd_my_memberships_sort_default"
+msgstr "Default of Sort Option"
+
+#, fuzzy
+msgid "pd_not_dated"
+msgstr "Not Dated"
+
+#, fuzzy
+msgid "pd_ongoing"
+msgstr "Ongoing"
+
+msgid "pd_personal_items_default_view"
+msgstr "Varsayılan Görünüm"
+
+msgid "pd_personal_items_default_view_info"
+msgstr "Kişisel Öğeler tercih görünümü seçin."
+
+#, fuzzy
+msgid "pd_presentation_mode_list"
+msgstr "Item List Presentation"
+
+#, fuzzy
+msgid "pd_presentation_mode_tile"
+msgstr "Tile Presentation"
+
+msgid "pd_private_calendars"
+msgstr "Özel Takvimler"
+
+msgid "pd_profile_data"
+msgstr "Profili Veri"
+
+#, fuzzy
+msgid "pd_remove_multi_confirm"
+msgstr "The objects were removed."
+
+#, fuzzy
+msgid "pd_upcoming"
+msgstr "Upcoming"
+
+msgid "pd_view_select_at_least_one"
+msgstr "En az bir görünümü seçmek zorunda, ya 'Seçili Öğeler' ve / veya 'Üyelikler'."

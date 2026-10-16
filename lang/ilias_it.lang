@@ -4595,43 +4595,6 @@ noti#:#noti_activate_notification#:#Attiva notifica
 noti#:#noti_deactivate_notification#:#Disattiva notifica
 noti#:#noti_notification_activated#:#Notifica attivata
 noti#:#noti_notification_deactivated#:#Notifica disattivata
-pd#:#block_show_chatviewer#:#Mostra chatviewer
-pd#:#block_show_pdbookm#:#Mostra i segnalibri
-pd#:#block_show_pdcal#:#Mostra il calendario
-pd#:#block_show_pdfrmpostdraft#:#Mostra bozze
-pd#:#block_show_pdmail#:#Mostra le mail
-pd#:#block_show_pdnews#:#Mostra le news
-pd#:#block_show_pdnotes#:#Mostra le note
-pd#:#block_show_pdportf#:#Mostra portfolio
-pd#:#block_show_pdtag#:#Mostra i tag
-pd#:#block_show_pdtasks#:#Show Tasks
-pd#:#block_show_x#:#Mostra %s
-pd#:#pd_achievements#:#Risultati
-pd#:#pd_bookmarks#:#Segnalibri
-pd#:#pd_download_last_export_file#:#Scarica l'ultimo file esportato
-pd#:#pd_enable_comments#:#Abilita i commenti
-pd#:#pd_enable_prtf#:#Abilita il portfolio
-pd#:#pd_enable_user_publish#:#Abilita la pubblicazione dei contenuti privati
-pd#:#pd_enable_user_publish_info#:#Se attivato, permette all'utente di rendere accessibile il proprio profilo, la propria area di lavoro ed il proprio portfolio
-pd#:#pd_ended#:#Concluso
-pd#:#pd_export_profile#:#Esporta i dati personali
-pd#:#pd_import_personal_data#:#Importa i dati personali
-pd#:#pd_my_memberships_sort_default#:#Default dell’opzione ordina
-pd#:#pd_no_items_to_manage#:#No items available for removal.###30 04 2024 new variable
-pd#:#pd_not_dated#:#Not Dated###30 04 2024 new variable
-pd#:#pd_ongoing#:#Costante
-pd#:#pd_personal_items_default_view#:#Vista di default
-pd#:#pd_personal_items_default_view_info#:#Scegli la vista preferita degli oggetti personali.
-pd#:#pd_presentation_mode_list#:#Presentazione dell'elenco degli articoli
-pd#:#pd_presentation_mode_tile#:#Presentazione delle tessere
-pd#:#pd_private_calendars#:#Calendario privato
-pd#:#pd_profile_data#:#Dati personali
-pd#:#pd_remove_multi_confirm#:#Gli oggetti sono stati rimossi.
-pd#:#pd_remove_multiple#:#Rimuovi più oggetti
-pd#:#pd_unsubscribe_memberships#:#Annulla iscrizione
-pd#:#pd_unsubscribe_multiple_memberships#:#Annulla iscrizione multipla
-pd#:#pd_upcoming#:#Prossimo
-pd#:#pd_view_select_at_least_one#:#Devi selezionare almeno una vista: "Oggetti Selezionati" e/o "La Mia Iscrizione"
 sahs#:#cont_insert_after_chap#:#Inserisci l'Oggetto dopo il Capitolo
 sahs#:#cont_insert_into_chap#:#Inserisci l'Oggetto dentro il Capitolo
 sahs#:#sahs_activate_expert_mode#:#Attiva la Sequenza in Modo Esperto

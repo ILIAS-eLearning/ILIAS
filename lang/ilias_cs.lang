@@ -4594,43 +4594,6 @@ noti#:#noti_activate_notification#:#Aktivovat oznámení
 noti#:#noti_deactivate_notification#:#Deaktivovat oznámení
 noti#:#noti_notification_activated#:#Oznámení aktivováno
 noti#:#noti_notification_deactivated#:#Oznámení deaktivováno
-pd#:#block_show_chatviewer#:#Zobrazit Chatviewer
-pd#:#block_show_pdbookm#:#Zobrazit záložky
-pd#:#block_show_pdcal#:#Zobrazit kalendář
-pd#:#block_show_pdfrmpostdraft#:#Zobrazit rozepsanou poštu
-pd#:#block_show_pdmail#:#Zobrazit poštu
-pd#:#block_show_pdnews#:#Zobrazit zprávy
-pd#:#block_show_pdnotes#:#Zobrazit poznámky
-pd#:#block_show_pdportf#:#Zobrazit portfolia
-pd#:#block_show_pdtag#:#Zobrazit mé značky
-pd#:#block_show_pdtasks#:#Show Tasks###07 02 2020 new variable
-pd#:#block_show_x#:#Zobrazit %s
-pd#:#pd_achievements#:#Úspěchy
-pd#:#pd_bookmarks#:#Záložky
-pd#:#pd_download_last_export_file#:#Stáhnout poslední exportovaný soubor
-pd#:#pd_enable_comments#:#Zapnout komentáře
-pd#:#pd_enable_prtf#:#Zapnout Portfolia
-pd#:#pd_enable_user_publish#:#Zapnout publikování uživatelského obsahu
-pd#:#pd_enable_user_publish_info#:#Je-li zapnuto, uživatelé mohou publikovat své profily, objekty pracovní plocha a portfolia na Webu.
-pd#:#pd_ended#:#Ukončeno
-pd#:#pd_export_profile#:#Exportovat osobní data
-pd#:#pd_import_personal_data#:#Importovat osobní data
-pd#:#pd_my_memberships_sort_default#:#Výchozí volba řazení
-pd#:#pd_no_items_to_manage#:#No items available for removal.###26 08 2024 new variable
-pd#:#pd_not_dated#:#Not Dated###26 08 2024 new variable
-pd#:#pd_ongoing#:#Probíhající
-pd#:#pd_personal_items_default_view#:#Výchozí zobrazení
-pd#:#pd_personal_items_default_view_info#:#Vyberte preferované zobrazení osobních položek.
-pd#:#pd_presentation_mode_list#:#Item List Presentation###07 02 2020 new variable
-pd#:#pd_presentation_mode_tile#:#Tile Presentation###07 02 2020 new variable
-pd#:#pd_private_calendars#:#Soukromé kalendáře
-pd#:#pd_profile_data#:#Data profilu
-pd#:#pd_remove_multi_confirm#:#Objekty byly odstraněny.
-pd#:#pd_remove_multiple#:#Odebrat více objektů
-pd#:#pd_unsubscribe_memberships#:#Odhlásit z odběru
-pd#:#pd_unsubscribe_multiple_memberships#:#Odhlásit několik
-pd#:#pd_upcoming#:#Nadcházející
-pd#:#pd_view_select_at_least_one#:#Musíte vybrat alespoň jedno zobrazení, také 'Vybrané položky' a/nebo 'Má členství'.
 sahs#:#cont_insert_after_chap#:#Vložit položky za kapitolu
 sahs#:#cont_insert_into_chap#:#Vložit položky do kapitoly
 sahs#:#sahs_activate_expert_mode#:#Aktivovat sekvencování v expertním módu

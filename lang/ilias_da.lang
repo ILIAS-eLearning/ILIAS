@@ -4594,43 +4594,6 @@ noti#:#noti_activate_notification#:#Activate Notification###10 11 2018 new varia
 noti#:#noti_deactivate_notification#:#Deactivate Notification###10 11 2018 new variable
 noti#:#noti_notification_activated#:#Notification Activated###10 11 2018 new variable
 noti#:#noti_notification_deactivated#:#Notification Deactivated###10 11 2018 new variable
-pd#:#block_show_chatviewer#:#Vis chatviser
-pd#:#block_show_pdbookm#:#Vis favoritter
-pd#:#block_show_pdcal#:#Vis kalender
-pd#:#block_show_pdfrmpostdraft#:#Show Postings Drafts###07 02 2020 new variable
-pd#:#block_show_pdmail#:#Vis mail
-pd#:#block_show_pdnews#:#Vis nyheder
-pd#:#block_show_pdnotes#:#Vis noter
-pd#:#block_show_pdportf#:#Show Portfolios###30 08 2015 new variable
-pd#:#block_show_pdtag#:#Vis tags
-pd#:#block_show_pdtasks#:#Show Tasks###07 02 2020 new variable
-pd#:#block_show_x#:#%s vis
-pd#:#pd_achievements#:#Achievements###10 11 2018 new variable
-pd#:#pd_bookmarks#:#Favoritter
-pd#:#pd_download_last_export_file#:#Hent sidste eksportfil
-pd#:#pd_enable_comments#:#Aktiver kommentarer
-pd#:#pd_enable_prtf#:#Aktiver portfolioer
-pd#:#pd_enable_user_publish#:#Enable User Content Publishing###08 02 2012 new variable
-pd#:#pd_enable_user_publish_info#:#If enabled, users can publish their profiles, workspace objects and portfolios on the Web.###08 02 2012 new variable
-pd#:#pd_ended#:#Ended###31 08 2017 new variable
-pd#:#pd_export_profile#:#Eksporter persondata
-pd#:#pd_import_personal_data#:#Importer persondata
-pd#:#pd_my_memberships_sort_default#:#Default of Sort Option###31 08 2017 new variable
-pd#:#pd_no_items_to_manage#:#No items available for removal.###26 08 2024 new variable
-pd#:#pd_not_dated#:#Not Dated###26 08 2024 new variable
-pd#:#pd_ongoing#:#Ongoing###31 08 2017 new variable
-pd#:#pd_personal_items_default_view#:#Standardvisning
-pd#:#pd_personal_items_default_view_info#:#Vælg den foretrukne visning på dit skrivebord.
-pd#:#pd_presentation_mode_list#:#Item List Presentation###07 02 2020 new variable
-pd#:#pd_presentation_mode_tile#:#Tile Presentation###07 02 2020 new variable
-pd#:#pd_private_calendars#:#Private kalendere
-pd#:#pd_profile_data#:#Profildata
-pd#:#pd_remove_multi_confirm#:#The objects were removed.###11 03 2014 new variable
-pd#:#pd_remove_multiple#:#Remove Multiple Objects###16 09 2013 new variable
-pd#:#pd_unsubscribe_memberships#:#Unsubscribe###16 09 2013 new variable
-pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple###16 09 2013 new variable
-pd#:#pd_upcoming#:#Upcoming###31 08 2017 new variable
-pd#:#pd_view_select_at_least_one#:#Du skal vælge mindst en visning, enten 'Valgte elementer' og/eller/ 'Mine medlemsskaber'.
 sahs#:#cont_insert_after_chap#:#Insert items after chapter###12 06 2011 new variable
 sahs#:#cont_insert_into_chap#:#Insert items inside chapter###12 06 2011 new variable
 sahs#:#sahs_activate_expert_mode#:#Activate Sequencing Expert Mode###01 04 2011 new variable
