@@ -1797,7 +1797,6 @@ bgtask#:#bgtask_setting_threshold_count#:#Minimum Number###25 10 2016 new variab
 bgtask#:#bgtask_setting_threshold_count_info#:#If the number of files exceeds this value the download will be asynchronously.###25 10 2016 new variable
 bgtask#:#bgtask_setting_threshold_size#:#Minimum Size###25 10 2016 new variable
 bgtask#:#bgtask_setting_threshold_size_info#:#If the file sizes exceed this value the download will be asynchronously.###25 10 2016 new variable
-bkm#:#bkm_fold_created#:#Bookmark folder has been created.###25 10 2015 new variable
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#绝对路径
 common#:#accept_usr_agreement_btn#:#Accept###29 07 2022 new variable
@@ -4392,7 +4391,6 @@ common#:#zip#:#邮政编码
 common#:#zip_structure_error#:#归档文件包含相同的文件名。已放弃上传。
 common#:#zip_test_failed#:#zip压缩测试失败。请联系您的ILIAS管理员。
 common#:#zipcode#:#邮政编码
-cond#:#cond_under_parent_control#:#Preconditions are under the control of the parent object.###10 11 2018 new variable
 content#:#Pages#:#页
 content#:#add_menu_entry#:#添加菜单项 >>
 content#:#all_pages#:#全部学习模块
@@ -5604,11 +5602,6 @@ content#:#st#:#章标题
 content#:#start_lm#:#Launch Learning Module###26 08 2024 new variable
 content#:#text_repr#:#文本表示
 content#:#text_repr_info#:#用于图像“alt”属性。
-cptch#:#cptch_freetype_support_needed#:#使用这个特性，您需要在您的PHP中启用freetype支持。
-cptch#:#cptch_wrong_input#:#错误输入
-excv#:#excv_create#:#创建练习校验
-excv#:#excv_create_info#:#选择一个已完成的练习来为它生成一个校验
-impr#:#impr_page_type_impr#:#Imprint###29 07 2022 new variable
 lti#:#act_lti_for_obj_type#:#Activate LTI for Type of Object###31 08 2017 new variable
 lti#:#activity_id#:#Activity ID###07 02 2020 new variable
 lti#:#activity_id_info#:#This Activity ID is used by the LTI Tool to identify Statements.###07 02 2020 new variable
@@ -5990,7 +5983,6 @@ noti#:#noti_activate_notification#:#Activate Notification###10 11 2018 new varia
 noti#:#noti_deactivate_notification#:#Deactivate Notification###10 11 2018 new variable
 noti#:#noti_notification_activated#:#Notification Activated###10 11 2018 new variable
 noti#:#noti_notification_deactivated#:#Notification Deactivated###10 11 2018 new variable
-notifications#:#push_notification#:#Push Notifications###29 10 2025 new variable
 pd#:#block_show_chatviewer#:#聊天查看器显示
 pd#:#block_show_pdbookm#:#书签显示
 pd#:#block_show_pdcal#:#日历显示
@@ -6028,8 +6020,6 @@ pd#:#pd_unsubscribe_memberships#:#Unsubscribe###24 10 2013 new variable
 pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple###24 10 2013 new variable
 pd#:#pd_upcoming#:#Upcoming###31 08 2017 new variable
 pd#:#pd_view_select_at_least_one#:#您必须至少选择一个视图，“已选项目”和/或“我的会员资格”。
-pdesk#:#bookmark_moved_ok#:#书签已被移动
-pdesk#:#bookmark_select_target#:#请选择目标
 sahs#:#cont_insert_after_chap#:#在章之后插入项目
 sahs#:#cont_insert_into_chap#:#在章里头插入项目
 sahs#:#sahs_activate_expert_mode#:#激活序列导出模式
@@ -6079,7 +6069,6 @@ sahs#:#sahs_std_sequencing#:#标准序列
 sahs#:#sahs_std_sequencing_info#:#使用ILIAS标准序列行为。
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#创建导出文件(HTML, 一个页面, 审查模式)
-sc13#:#sc13_page_type_sahs#:#SCORM Editor Page###29 07 2022 new variable
 scormdebug#:#API-call#:#API调用
 scormdebug#:#Commit#:#储存数据
 scormdebug#:#GetDiagnostic#:#允许LMS(!)定义附加的诊断信息
@@ -6324,4 +6313,3 @@ scov#:#crsv_create#:#Create SCORM Certificate###30 12 2013 new variable
 scov#:#crsv_create_info#:#Select a completed learning module to generate a certificate for it###30 12 2013 new variable
 scov#:#scov_create#:#Create SCORM Certificate###23 12 2015 new variable
 scov#:#scov_create_info#:#Select a completed SCORM module to generate a certificate for it###23 12 2015 new variable
-violation#:#not_a_string#:#Given value is not a String###29 07 2022 new variable

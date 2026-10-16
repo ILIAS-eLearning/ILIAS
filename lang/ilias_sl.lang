@@ -1798,7 +1798,6 @@ bgtask#:#bgtask_setting_threshold_count#:#Minimum Number
 bgtask#:#bgtask_setting_threshold_count_info#:#If the number of files exceeds this value the download will be asynchronously.
 bgtask#:#bgtask_setting_threshold_size#:#Minimum Size
 bgtask#:#bgtask_setting_threshold_size_info#:#If the file sizes exceed this value the download will be asynchronously.
-bkm#:#bkm_fold_created#:#Mapa z zaznamki je bila ustvarjena.
 common#:#HH#:#UU:MM
 common#:#absolute_path#:#Absolutna pot
 common#:#accept_usr_agreement_btn#:#Accept###19 08 2022 new variable
@@ -4393,7 +4392,6 @@ common#:#zip#:#Poštna številka
 common#:#zip_structure_error#:#Arhiv vsebuje enaka imena datotek. Nalaganje je prekinjeno
 common#:#zip_test_failed#:#Test ZIP ni bil uspešen. Obrnite se na svojega administratorja ILIAS.
 common#:#zipcode#:#Poštna številka
-cond#:#cond_under_parent_control#:#Predpogoje upravlja nadrejeni objekt.
 content#:#Pages#:#Strani
 content#:#add_menu_entry#:#Dodaj vnos v meni >>
 content#:#all_pages#:#za celoten učni modul
@@ -5605,11 +5603,6 @@ content#:#st#:#Poglavje
 content#:#start_lm#:#Launch Learning Module###26 08 2024 new variable
 content#:#text_repr#:#Alternativno besedilo
 content#:#text_repr_info#:#Se uporabi, če ni mogoče prikazati grafike.
-cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.
-cptch#:#cptch_wrong_input#:#Wrong Input
-excv#:#excv_create#:#Ustvari certifikat za vajo
-excv#:#excv_create_info#:#Izberite vajo, za katero potrebujete certifikat
-impr#:#impr_page_type_impr#:#Imprint
 lti#:#act_lti_for_obj_type#:#Aktiviraj LTI za te tipe objektov
 lti#:#activity_id#:#Activity ID
 lti#:#activity_id_info#:#This Activity ID is used by the LTI Tool to identify Statements.
@@ -5991,7 +5984,6 @@ noti#:#noti_activate_notification#:#Aktiviraj obveščanje
 noti#:#noti_deactivate_notification#:#Onemogoči obveščanje
 noti#:#noti_notification_activated#:#Obveščanje je aktivirano
 noti#:#noti_notification_deactivated#:#Obveščanje je onemogočeno
-notifications#:#push_notification#:#Push Notifications###29 10 2025 new variable
 pd#:#block_show_chatviewer#:#Prikaži brskalnik za klepet
 pd#:#block_show_pdbookm#:#Prikaži zaznamke
 pd#:#block_show_pdcal#:#Prikaži koledar
@@ -6029,8 +6021,6 @@ pd#:#pd_unsubscribe_memberships#:#Prekini članstva
 pd#:#pd_unsubscribe_multiple_memberships#:#Prekini več članstev
 pd#:#pd_upcoming#:#Predhodno
 pd#:#pd_view_select_at_least_one#:#Izberite vsaj en pogled, ali 'Izbrane ponudbe' in/ali 'Tečaji in skupine'.
-pdesk#:#bookmark_moved_ok#:#Zaznamek je bil premaknjen.
-pdesk#:#bookmark_select_target#:#Izberite cilj.
 sahs#:#cont_insert_after_chap#:#Vstavi elemente za poglavje.
 sahs#:#cont_insert_into_chap#:#Vstavite elemente znotraj poglavja.
 sahs#:#sahs_activate_expert_mode#:#Aktiviraj strokovni način zaporedja
@@ -6080,7 +6070,6 @@ sahs#:#sahs_std_sequencing#:#Privzeto zaporedje
 sahs#:#sahs_std_sequencing_info#:#Uporabi privzeto zaporedje ILIAS (priporočeno).
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#Ustvari datoteko za izvoz (HTML, ena stran, način pregleda)
-sc13#:#sc13_page_type_sahs#:#SCORM Editor Page
 scormdebug#:#API-call#:#API-call
 scormdebug#:#Commit#:#store data
 scormdebug#:#GetDiagnostic#:#allows the LMS (!) to define additional diagnostic information
@@ -6325,4 +6314,3 @@ scov#:#crsv_create#:#Ustvari certifikat SCORM
 scov#:#crsv_create_info#:#Izberite zaključen učni modul, da ustvarite certifikat zanj.
 scov#:#scov_create#:#Ustvari certifikat SCORM
 scov#:#scov_create_info#:#Izberite modul SCORM, za katerega potrebujete certifikat
-violation#:#not_a_string#:#Given value is not a String###19 08 2022 new variable

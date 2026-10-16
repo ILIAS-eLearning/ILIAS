@@ -1802,7 +1802,6 @@ bgtask#:#bgtask_setting_threshold_count#:#最小数
 bgtask#:#bgtask_setting_threshold_count_info#:#この値を超えるファイルのいくつかはダウンロードが非同期になります。
 bgtask#:#bgtask_setting_threshold_size#:#最小サイズ
 bgtask#:#bgtask_setting_threshold_size_info#:#この値を超えるファイルサイズはダウンロードが非同期になります。
-bkm#:#bkm_fold_created#:#ブックマークフォルダが作成されました。
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#絶対Path
 common#:#accept_usr_agreement_btn#:#承諾
@@ -4399,7 +4398,6 @@ common#:#zip#:#郵便番号
 common#:#zip_structure_error#:#アーカイブに同一 ファイル名が含まれます。アップロードは中止されました。
 common#:#zip_test_failed#:#郵便番号テストに失敗しました。ILIAS 管理者へ連絡してください。
 common#:#zipcode#:#郵便番号
-cond#:#cond_under_parent_control#:#前提条件は、親オブジェクトの管理下です。
 content#:#Pages#:#ページ
 content#:#add_menu_entry#:#新規のエントリーを追加
 content#:#all_pages#:#ラーニングモジュール全体
@@ -5611,11 +5609,6 @@ content#:#st#:#章
 content#:#start_lm#:#学習モジュールを表示
 content#:#text_repr#:#テキスト表現
 content#:#text_repr_info#:#イメージ "alt"属性用として使用されます。
-cptch#:#cptch_freetype_support_needed#:#この機能を使用するにはPHPのフリータイプサポートを有効にする必要があります。
-cptch#:#cptch_wrong_input#:#入力間違い
-excv#:#excv_create#:#演習問題証明書の作成
-excv#:#excv_create_info#:#証明書を作成するには完了した演習問題を選択します
-impr#:#impr_page_type_impr#:#Imprint
 lti#:#act_lti_for_obj_type#:#オブジェクトタイプ用のLTIをアクティブにする。
 lti#:#activity_id#:#アクティビティID
 lti#:#activity_id_info#:#このアクティビティIDはステートメント識別用にLTIツールが使用します。
@@ -5998,7 +5991,6 @@ noti#:#noti_activate_notification#:#通知を有効化
 noti#:#noti_deactivate_notification#:#通知を解除
 noti#:#noti_notification_activated#:#通知を有効にしました
 noti#:#noti_notification_deactivated#:#通知を解除しました
-notifications#:#push_notification#:#プッシュ通知
 pd#:#block_show_chatviewer#:#チャットビューワ表示
 pd#:#block_show_pdbookm#:#ブックマーク表示
 pd#:#block_show_pdcal#:#カレンダ表示
@@ -6032,8 +6024,6 @@ pd#:#pd_profile_data#:#プロファイルデータ
 pd#:#pd_remove_multi_confirm#:#オブジェクトは削除されました。
 pd#:#pd_upcoming#:#近日中
 pd#:#pd_view_select_at_least_one#:# '選択したアイテム' か'マイメンバーシップ'のどちらかを最低一つ選択しなければなりません。
-pdesk#:#bookmark_moved_ok#:#ブックマークは移動されました。
-pdesk#:#bookmark_select_target#:#目標を選択してください。
 sahs#:#cont_insert_after_chap#:#章の後にアイテムを挿入
 sahs#:#cont_insert_into_chap#:#章内にアイテムを挿入
 sahs#:#sahs_add#:#SCORM学習モジュールを作成
@@ -6081,7 +6071,6 @@ sahs#:#sahs_std_sequencing#:#標準のシーケンス
 sahs#:#sahs_std_sequencing_info#:#ILIAS標準のシーケンス割り当てを使用する。
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#エクスポートファイル(HTML,1ページ,レビューモード)を作成
-sc13#:#sc13_page_type_sahs#:#SCORM Editor Page
 scormdebug#:#API-call#:#APIコール
 scormdebug#:#Commit#:#データを保存
 scormdebug#:#GetDiagnostic#:#LMS(!)へ追加診断情報を許可する
@@ -6326,4 +6315,3 @@ scov#:#crsv_create#:#SCORM証明書を作成
 scov#:#crsv_create_info#:#証明書を作成するには完了済み学習教材を選択
 scov#:#scov_create#:#SCORM証明書を作成
 scov#:#scov_create_info#:#証明書を作成するための完了済みSCORMモジュールを選択
-violation#:#not_a_string#:#入力の値がストリングではありません。

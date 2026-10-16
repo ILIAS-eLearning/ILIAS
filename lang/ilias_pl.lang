@@ -1798,7 +1798,6 @@ bgtask#:#bgtask_setting_threshold_count#:#Minimalna liczba
 bgtask#:#bgtask_setting_threshold_count_info#:#Od tej wartości pobieranie odbywa się asynchronicznie.
 bgtask#:#bgtask_setting_threshold_size#:#Minimalny rozmiar
 bgtask#:#bgtask_setting_threshold_size_info#:#Od tego rozmiaru pobieranie odbywa się asynchronicznie.
-bkm#:#bkm_fold_created#:#Utworzono folder zakładek.
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Ścieżka bezwzględna
 common#:#accept_usr_agreement_btn#:#Accept###29 07 2022 new variable
@@ -4393,7 +4392,6 @@ common#:#zip#:#Kod pocztowy
 common#:#zip_structure_error#:#W archiwum znajdują się pliki o tej samej nazwie. Proces pobierania został przerwany
 common#:#zip_test_failed#:#Nie udało się przeprowadzić testu ZIP. Skontaktuj się z administratorem ILIAS.
 common#:#zipcode#:#Kod pocztowy
-cond#:#cond_under_parent_control#:#Preconditions are under the control of the parent object.
 content#:#Pages#:#Strony
 content#:#add_menu_entry#:#Dodaj pozycję menu >>
 content#:#all_pages#:#Wnętrze modułu nauczania
@@ -5605,11 +5603,6 @@ content#:#st#:#Rozdział
 content#:#start_lm#:#Launch Learning Module###26 08 2024 new variable
 content#:#text_repr#:#Tekst alternatywny
 content#:#text_repr_info#:#Używany jest wtedy, gdy nie można wyświetlić grafiki.
-cptch#:#cptch_freetype_support_needed#:#Aby wykorzystać tę funkcję, potrzebujesz funkcji freetype PHP.
-cptch#:#cptch_wrong_input#:#Wprowadzono nieprawidłowe dane
-excv#:#excv_create#:#Utwórz certyfikat
-excv#:#excv_create_info#:#Wybierz ćwiczenie, dla którego potrzebujesz certyfikat
-impr#:#impr_page_type_impr#:#Imprint###29 07 2022 new variable
 lti#:#act_lti_for_obj_type#:#Aktywuj LTI dla tych typów obiektów
 lti#:#activity_id#:#Activity ID###07 02 2020 new variable
 lti#:#activity_id_info#:#This Activity ID is used by the LTI Tool to identify Statements.###07 02 2020 new variable
@@ -5991,7 +5984,6 @@ noti#:#noti_activate_notification#:#Activate Notification
 noti#:#noti_deactivate_notification#:#Deactivate Notification
 noti#:#noti_notification_activated#:#Notification Activated
 noti#:#noti_notification_deactivated#:#Notification Deactivated
-notifications#:#push_notification#:#Push Notifications###29 10 2025 new variable
 pd#:#block_show_chatviewer#:#Pokaż aplikację Chatviewer
 pd#:#block_show_pdbookm#:#Pokaż zakładki
 pd#:#block_show_pdcal#:#Pokaż kalendarz
@@ -6029,8 +6021,6 @@ pd#:#pd_unsubscribe_memberships#:#Zakończ członkostwa
 pd#:#pd_unsubscribe_multiple_memberships#:#Zakończ kilka członkostw
 pd#:#pd_upcoming#:#Planowane
 pd#:#pd_view_select_at_least_one#:#Musisz wybrać co najmniej jeden widok, albo 'Wybrane elementy' i/lub 'Moje członkostwo'.
-pdesk#:#bookmark_moved_ok#:#Przesunięto zakładkę.
-pdesk#:#bookmark_select_target#:#Wybierz element docelowy.
 sahs#:#cont_insert_after_chap#:#Wstaw elementy wg rozdziału.
 sahs#:#cont_insert_into_chap#:#Wstaw elementy w rozdziale.
 sahs#:#sahs_activate_expert_mode#:#Aktywuj tryb ekspercki sekwencjonowania
@@ -6080,7 +6070,6 @@ sahs#:#sahs_std_sequencing#:#Sekwencjonowanie standardowe
 sahs#:#sahs_std_sequencing_info#:#Użyj reakcji sekwencjonowania standardowego ILIAS (zalecane)
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#Utwórz plik eksportu (HTML, strona, tryb review)
-sc13#:#sc13_page_type_sahs#:#SCORM Editor Page###29 07 2022 new variable
 scormdebug#:#API-call#:#Wywołanie API
 scormdebug#:#Commit#:#Zapisz dane
 scormdebug#:#GetDiagnostic#:#służy platformie do wywoływania dodatkowych informacji
@@ -6325,4 +6314,3 @@ scov#:#crsv_create#:#Utwórz certyfikat SCORM
 scov#:#crsv_create_info#:#Wybierz ukończony moduł nauczania, aby wygenerować dla niego certyfikat.
 scov#:#scov_create#:#Sporządź certyfikat SCORM
 scov#:#scov_create_info#:#Wybierz moduł SCORM, dla którego potrzebujesz certyfikatu
-violation#:#not_a_string#:#Given value is not a String###29 07 2022 new variable

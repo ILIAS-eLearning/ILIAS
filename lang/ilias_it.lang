@@ -1797,7 +1797,6 @@ bgtask#:#bgtask_setting_threshold_count#:#Numero minimo
 bgtask#:#bgtask_setting_threshold_count_info#:#Se il numero di file supera questo valore, il download sarà in modo asincrono.
 bgtask#:#bgtask_setting_threshold_size#:#Grandezza minima
 bgtask#:#bgtask_setting_threshold_size_info#:#Se le grandezze dei file superano questo valore, il download sarà asincrono.
-bkm#:#bkm_fold_created#:#La cartella dei segnalibri è stata creata.
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Percorso assoluto
 common#:#accept_usr_agreement_btn#:#Accettare
@@ -4394,7 +4393,6 @@ common#:#zip#:#CAP
 common#:#zip_structure_error#:#L'archivio contiene gli stessi nomi dei file. Caricamento annullato.
 common#:#zip_test_failed#:#Zip-test non riuscito. Si prega di contattare il proprio amministratore ILIAS.
 common#:#zipcode#:#Codice postale
-cond#:#cond_under_parent_control#:#I presupposti vengono gestiti dall'oggetto genitore/superiore.
 content#:#Pages#:#Pagine
 content#:#add_menu_entry#:#Aggiungi voce nel menu >>
 content#:#all_pages#:#per l'intero modulo didattico
@@ -5606,11 +5604,6 @@ content#:#st#:#Capitolo
 content#:#start_lm#:#Launch Learning Module###30 04 2024 new variable
 content#:#text_repr#:#Testo alternativo
 content#:#text_repr_info#:#Verrà usato quando l'immagine non verrà mostrata
-cptch#:#cptch_freetype_support_needed#:#Per utilizzare questa funzione è necessario abilitare il supporto FreeType nel vostro PHP.
-cptch#:#cptch_wrong_input#:#Input sbagliato
-excv#:#excv_create#:#Crea verifica esercizio
-excv#:#excv_create_info#:#Seleziona un esercizio completato per generare una verifica per esso
-impr#:#impr_page_type_impr#:#Dichiarazione di proprietà
 lti#:#act_lti_for_obj_type#:#Attiva LTI per tipo di oggetto
 lti#:#activity_id#:#ID attività
 lti#:#activity_id_info#:#Questo ID attività viene utilizzato dallo strumento LTI per identificare gli statements.
@@ -5992,7 +5985,6 @@ noti#:#noti_activate_notification#:#Attiva notifica
 noti#:#noti_deactivate_notification#:#Disattiva notifica
 noti#:#noti_notification_activated#:#Notifica attivata
 noti#:#noti_notification_deactivated#:#Notifica disattivata
-notifications#:#push_notification#:#Push Notifications###28 11 2025 new variable
 pd#:#block_show_chatviewer#:#Mostra chatviewer
 pd#:#block_show_pdbookm#:#Mostra i segnalibri
 pd#:#block_show_pdcal#:#Mostra il calendario
@@ -6030,8 +6022,6 @@ pd#:#pd_unsubscribe_memberships#:#Annulla iscrizione
 pd#:#pd_unsubscribe_multiple_memberships#:#Annulla iscrizione multipla
 pd#:#pd_upcoming#:#Prossimo
 pd#:#pd_view_select_at_least_one#:#Devi selezionare almeno una vista: "Oggetti Selezionati" e/o "La Mia Iscrizione"
-pdesk#:#bookmark_moved_ok#:#Il segnalibro è stato spostato.
-pdesk#:#bookmark_select_target#:#Seleziona un target per favore.
 sahs#:#cont_insert_after_chap#:#Inserisci l'Oggetto dopo il Capitolo
 sahs#:#cont_insert_into_chap#:#Inserisci l'Oggetto dentro il Capitolo
 sahs#:#sahs_activate_expert_mode#:#Attiva la Sequenza in Modo Esperto
@@ -6081,7 +6071,6 @@ sahs#:#sahs_std_sequencing#:#Sequenziamento standard
 sahs#:#sahs_std_sequencing_info#:#Utilizza il comportamento di sequenziamento standard ILIAS.
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#Creare Export File (HTML, One Page, Review Mode)
-sc13#:#sc13_page_type_sahs#:#SCORM Editor Page
 scormdebug#:#API-call#:#Chiamata API
 scormdebug#:#Commit#:#memorizza i dati
 scormdebug#:#GetDiagnostic#:#consente all'LMS (!) di definire ulteriori informazioni diagnostiche
@@ -6326,4 +6315,3 @@ scov#:#crsv_create#:#Crea certificato SCORM
 scov#:#crsv_create_info#:#Seleziona un modulo di apprendimento terminato per generare un certificato per questo
 scov#:#scov_create#:#Crea certificato SCORM
 scov#:#scov_create_info#:#Seleziona un modulo SCORM terminato per generare un certificato per questo
-violation#:#not_a_string#:#Given value is not a String###31 03 2023 new variable

@@ -1798,7 +1798,6 @@ bgtask#:#bgtask_setting_threshold_count#:#Minimum Number###25 10 2016 new variab
 bgtask#:#bgtask_setting_threshold_count_info#:#If the number of files exceeds this value the download will be asynchronously.###25 10 2016 new variable
 bgtask#:#bgtask_setting_threshold_size#:#Minimum Size###25 10 2016 new variable
 bgtask#:#bgtask_setting_threshold_size_info#:#If the file sizes exceed this value the download will be asynchronously.###25 10 2016 new variable
-bkm#:#bkm_fold_created#:#Bookmark folder has been created.###25 10 2015 new variable
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#აბსოლუტური მდებარეობა
 common#:#accept_usr_agreement_btn#:#Accept###29 07 2022 new variable
@@ -4393,7 +4392,6 @@ common#:#zip#:#ზიპ კოდი
 common#:#zip_structure_error#:#არქივი შეიცავს იმავე ფაილის სახელებს. ატვირთვა გაუქმდა
 common#:#zip_test_failed#:#ზიპ ტესტირებული ფაილი. გთხოვთ დაუკავშირდეთ თქვენი ილიასის ადმინისტრატორს
 common#:#zipcode#:#ზიპ კოდი
-cond#:#cond_under_parent_control#:#Preconditions are under the control of the parent object.###10 11 2018 new variable
 content#:#Pages#:#გვერდები
 content#:#add_menu_entry#:#მენიუს შენატანის დამატება
 content#:#all_pages#:#მთლიანი სასწავლო მოდული
@@ -5605,11 +5603,6 @@ content#:#st#:#თავი
 content#:#start_lm#:#Launch Learning Module###26 08 2024 new variable
 content#:#text_repr#:#ტექსტის წარმომადგენლობა
 content#:#text_repr_info#:#გამოყენებულია სურათისთვის "ალტ" განსაზღვრება
-cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.
-cptch#:#cptch_wrong_input#:#Wrong Input
-excv#:#excv_create#:#შექმენით სავარჯიშO სერთიფიკატი
-excv#:#excv_create_info#:#მონიშნეთ დასრულებული სავარჯიშო სერთიფიკატის გასაკეთებლად
-impr#:#impr_page_type_impr#:#Imprint###29 07 2022 new variable
 lti#:#act_lti_for_obj_type#:#Activate LTI for Type of Object###31 08 2017 new variable
 lti#:#activity_id#:#Activity ID###07 02 2020 new variable
 lti#:#activity_id_info#:#This Activity ID is used by the LTI Tool to identify Statements.###07 02 2020 new variable
@@ -5991,7 +5984,6 @@ noti#:#noti_activate_notification#:#Activate Notification###10 11 2018 new varia
 noti#:#noti_deactivate_notification#:#Deactivate Notification###10 11 2018 new variable
 noti#:#noti_notification_activated#:#Notification Activated###10 11 2018 new variable
 noti#:#noti_notification_deactivated#:#Notification Deactivated###10 11 2018 new variable
-notifications#:#push_notification#:#Push Notifications###29 10 2025 new variable
 pd#:#block_show_chatviewer#:#Show Chatviewer
 pd#:#block_show_pdbookm#:#Show Bookmarks
 pd#:#block_show_pdcal#:#Show Calendar
@@ -6029,8 +6021,6 @@ pd#:#pd_unsubscribe_memberships#:#Unsubscribe###24 10 2013 new variable
 pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple###24 10 2013 new variable
 pd#:#pd_upcoming#:#Upcoming###31 08 2017 new variable
 pd#:#pd_view_select_at_least_one#:#თქვენ უნდა მონიშნოთ სულ მცირე ერთი ხედვა, ან "მინიშნული ნივთები" ან "ჩემი წევრობა"
-pdesk#:#bookmark_moved_ok#:#Bookmark has been moved.
-pdesk#:#bookmark_select_target#:#Please select target.
 sahs#:#cont_insert_after_chap#:#თავების შემდეგ ნივთების ჩასმა
 sahs#:#cont_insert_into_chap#:#თავში ნივთების ჩასმა
 sahs#:#sahs_activate_expert_mode#:#Sequencing Expert Mode გააქტიურება
@@ -6080,7 +6070,6 @@ sahs#:#sahs_std_sequencing#:#სტანდარტული თანმი�
 sahs#:#sahs_std_sequencing_info#:#ილიასის სტანდარტული თანმიმდევრობის ქცევის გამოყენება
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#საექსპორტო ფაილია (HTML, One Page, Review Mode)
-sc13#:#sc13_page_type_sahs#:#SCORM Editor Page###29 07 2022 new variable
 scormdebug#:#API-call#:#API-ზარები
 scormdebug#:#Commit#:#მონაცემების დალაგება
 scormdebug#:#GetDiagnostic#:#შესაძლებლობას აძლევს LMS-ს (!) განსაზღვროს დამატებითი დიაგნოსტიკური ინფორმაცია
@@ -6325,4 +6314,3 @@ scov#:#crsv_create#:#Create SCORM Certificate###30 12 2013 new variable
 scov#:#crsv_create_info#:#Select a completed learning module to generate a certificate for it###30 12 2013 new variable
 scov#:#scov_create#:#Create SCORM Certificate###23 12 2015 new variable
 scov#:#scov_create_info#:#Select a completed SCORM module to generate a certificate for it###23 12 2015 new variable
-violation#:#not_a_string#:#Given value is not a String###29 07 2022 new variable

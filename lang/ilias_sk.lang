@@ -1798,7 +1798,6 @@ bgtask#:#bgtask_setting_threshold_count#:#Minimum Number###25 10 2016 new variab
 bgtask#:#bgtask_setting_threshold_count_info#:#If the number of files exceeds this value the download will be asynchronously.###25 10 2016 new variable
 bgtask#:#bgtask_setting_threshold_size#:#Minimum Size###25 10 2016 new variable
 bgtask#:#bgtask_setting_threshold_size_info#:#If the file sizes exceed this value the download will be asynchronously.###25 10 2016 new variable
-bkm#:#bkm_fold_created#:#Bookmark folder has been created.###25 10 2015 new variable
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Absolutní cesta
 common#:#accept_usr_agreement_btn#:#Accept###29 07 2022 new variable
@@ -4393,7 +4392,6 @@ common#:#zip#:#Poštovní kód
 common#:#zip_structure_error#:#Archív obsahuje stejné názvy souborů. Odeslání přerušeno.
 common#:#zip_test_failed#:#Zip-Test failed. Please contact you ILIAS administrator
 common#:#zipcode#:#Poštovní směrovací číslo
-cond#:#cond_under_parent_control#:#Preconditions are under the control of the parent object.###10 11 2018 new variable
 content#:#Pages#:#Stránky
 content#:#add_menu_entry#:#Přidat položku menu >>
 content#:#all_pages#:#Celý výukový modul
@@ -5605,11 +5603,6 @@ content#:#st#:#Kapitola
 content#:#start_lm#:#Launch Learning Module###26 08 2024 new variable
 content#:#text_repr#:#Reprezentace textu
 content#:#text_repr_info#:#Pro obrázek použit "alt" atribut.
-cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.###28 08 2012 new variable
-cptch#:#cptch_wrong_input#:#Wrong Input###28 08 2012 new variable
-excv#:#excv_create#:#Create Exercise Verification###12 06 2011 new variable
-excv#:#excv_create_info#:#Select a completed exercise to generate a verification for it###12 06 2011 new variable
-impr#:#impr_page_type_impr#:#Imprint###29 07 2022 new variable
 lti#:#act_lti_for_obj_type#:#Activate LTI for Type of Object###31 08 2017 new variable
 lti#:#activity_id#:#Activity ID###07 02 2020 new variable
 lti#:#activity_id_info#:#This Activity ID is used by the LTI Tool to identify Statements.###07 02 2020 new variable
@@ -5991,7 +5984,6 @@ noti#:#noti_activate_notification#:#Activate Notification###10 11 2018 new varia
 noti#:#noti_deactivate_notification#:#Deactivate Notification###10 11 2018 new variable
 noti#:#noti_notification_activated#:#Notification Activated###10 11 2018 new variable
 noti#:#noti_notification_deactivated#:#Notification Deactivated###10 11 2018 new variable
-notifications#:#push_notification#:#Push Notifications###29 10 2025 new variable
 pd#:#block_show_chatviewer#:#Chatviewer anzeigen###28 08 2012 new variable
 pd#:#block_show_pdbookm#:#Bookmarks anzeigen###28 08 2012 new variable
 pd#:#block_show_pdcal#:#Kalender anzeigen###28 08 2012 new variable
@@ -6029,8 +6021,6 @@ pd#:#pd_unsubscribe_memberships#:#Unsubscribe###24 10 2013 new variable
 pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple###24 10 2013 new variable
 pd#:#pd_upcoming#:#Upcoming###31 08 2017 new variable
 pd#:#pd_view_select_at_least_one#:#Musíte vybrat alespoň jedno zobrazení, také 'Vybrané položky' a/nebo 'Má členství'.
-pdesk#:#bookmark_moved_ok#:#Bookmark has been moved.###28 08 2012 new variable
-pdesk#:#bookmark_select_target#:#Please select target.###28 08 2012 new variable
 sahs#:#cont_insert_after_chap#:#Insert items after chapter###12 06 2011 new variable
 sahs#:#cont_insert_into_chap#:#Insert items inside chapter###12 06 2011 new variable
 sahs#:#sahs_activate_expert_mode#:#Activate Sequencing Expert Mode###01 04 2011 new variable
@@ -6080,7 +6070,6 @@ sahs#:#sahs_std_sequencing#:#Standard Sequencing###01 04 2011 new variable
 sahs#:#sahs_std_sequencing_info#:#Use ILIAS standard sequencing behaviour.###01 04 2011 new variable
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#Create Export File (HTML, One Page, Review Mode)###18 07 2011 new variable
-sc13#:#sc13_page_type_sahs#:#SCORM Editor Page###29 07 2022 new variable
 scormdebug#:#API-call#:#API-call###06 08 2011 new variable
 scormdebug#:#Commit#:#store data###06 08 2011 new variable
 scormdebug#:#GetDiagnostic#:#allows the LMS (!) to define additional diagnostic information###06 08 2011 new variable
@@ -6325,4 +6314,3 @@ scov#:#crsv_create#:#Create SCORM Certificate###30 12 2013 new variable
 scov#:#crsv_create_info#:#Select a completed learning module to generate a certificate for it###30 12 2013 new variable
 scov#:#scov_create#:#Create SCORM Certificate###23 12 2015 new variable
 scov#:#scov_create_info#:#Select a completed SCORM module to generate a certificate for it###23 12 2015 new variable
-violation#:#not_a_string#:#Given value is not a String###29 07 2022 new variable

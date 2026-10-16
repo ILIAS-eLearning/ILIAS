@@ -1798,7 +1798,6 @@ bgtask#:#bgtask_setting_threshold_count#:#Minsta antal
 bgtask#:#bgtask_setting_threshold_count_info#:#Från och med detta värde sker nedladdningen asynkront.
 bgtask#:#bgtask_setting_threshold_size#:#Minsta storlek
 bgtask#:#bgtask_setting_threshold_size_info#:#Från denna storlek och uppåt är nedladdningen asynkron.
-bkm#:#bkm_fold_created#:#Bookmark-mappen har skapats.
 common#:#HH#:#SS
 common#:#absolute_path#:#Absolut väg
 common#:#accept_usr_agreement_btn#:#Agree
@@ -4393,7 +4392,6 @@ common#:#zip#:#PLZ
 common#:#zip_structure_error#:#Arkivet innehåller samma filnamn. Uppladdning avbruten
 common#:#zip_test_failed#:#ZIP-testet har misslyckats. Vänligen kontakta din ILIAS-administratör.
 common#:#zipcode#:#Postnummer
-cond#:#cond_under_parent_control#:#Förutsättningarna hanteras av det överordnade objektet.
 content#:#Pages#:#Sidor
 content#:#add_menu_entry#:#Lägg till menyalternativ &gt;&gt;
 content#:#all_pages#:# för hela utbildningsmodulen
@@ -5605,11 +5603,6 @@ content#:#st#:#Kapitel
 content#:#start_lm#:#Launch Learning Module###26 08 2024 new variable
 content#:#text_repr#:#Alternativ text
 content#:#text_repr_info#:#Används när grafiken inte kan visas.
-cptch#:#cptch_freetype_support_needed#:#För att använda denna funktion behöver du freetype-stödet för PHP.
-cptch#:#cptch_wrong_input#:#Felaktig inmatning
-excv#:#excv_create#:#Skapa träningscertifikat
-excv#:#excv_create_info#:#Välj en övning för vilken du behöver ett certifikat
-impr#:#impr_page_type_impr#:#Imprint
 lti#:#act_lti_for_obj_type#:#Aktivera LTI för dessa objekttyper
 lti#:#activity_id#:#Aktivitets-ID
 lti#:#activity_id_info#:#Detta aktivitets-ID används av LTI-verktyget för att identifiera uttalanden.
@@ -5991,7 +5984,6 @@ noti#:#noti_activate_notification#:# Aktivera avisering
 noti#:#noti_deactivate_notification#:#Avaktivera avisering
 noti#:#noti_notification_activated#:#Notifieringar är aktiverade
 noti#:#noti_notification_deactivated#:#Notifieringar är inaktiverade
-notifications#:#push_notification#:#Push Notifications###29 10 2025 new variable
 pd#:#block_show_chatviewer#:#Visa Chatviewer
 pd#:#block_show_pdbookm#:#Visa Bokmärken
 pd#:#block_show_pdcal#:#Visa kalender
@@ -6029,8 +6021,6 @@ pd#:#pd_unsubscribe_memberships#:#Avsluta medlemskap
 pd#:#pd_unsubscribe_multiple_memberships#:#Avsluta flera medlemskap
 pd#:#pd_upcoming#:#Föregående
 pd#:#pd_view_select_at_least_one#:#Välj minst en vy, antingen "Utvalda erbjudanden" och/eller "Kurser och grupper".
-pdesk#:#bookmark_moved_ok#:#Bookmark har flyttats.
-pdesk#:#bookmark_select_target#:#Vänligen välj destination.
 sahs#:#cont_insert_after_chap#:#Insätt element efter ett kapitel.
 sahs#:#cont_insert_into_chap#:#Insert elements inom ett kapitel.
 sahs#:#sahs_activate_expert_mode#:#Aktivera expertläget Sequencing
@@ -6080,7 +6070,6 @@ sahs#:#sahs_std_sequencing#:#Standard sekvensering
 sahs#:#sahs_std_sequencing_info#:#Använd ILIAS standardsekvenseringsbeteende (rekommenderas).
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#Skapa exportfil (HTML, en sida, granskningsläge)
-sc13#:#sc13_page_type_sahs#:#SCORM Redaktörens sida
 scormdebug#:#API-call#:#API-anrop
 scormdebug#:#Commit#:#Spara data
 scormdebug#:#GetDiagnostic#:#Serves lärplattform för att hämta ytterligare information.
@@ -6325,4 +6314,3 @@ scov#:#crsv_create#:#Skapa SCORM-certifikat
 scov#:#crsv_create_info#:#Välj en slutförd utbildningsmodul för att skapa ett certifikat för den.
 scov#:#scov_create#:#Skapa SCORM-certifikat
 scov#:#scov_create_info#:#Välj en SCORM-modul för vilken du behöver ett certifikat
-violation#:#not_a_string#:#Värdet är inte en sträng
