@@ -20,9 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Prompt\State;
 
-use ILIAS\UI\Component\Prompt as I;
-use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\Data\URI;
+use ILIAS\UI\Component\Prompt as I;
 
 class Factory implements I\State\Factory
 {
@@ -42,5 +41,4 @@ class Factory implements I\State\Factory
         return (new State(null))
             ->withRedirect($redirect);
     }
-
 }

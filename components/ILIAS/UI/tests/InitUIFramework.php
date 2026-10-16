@@ -381,6 +381,16 @@ class InitUIFramework
                             $c["help.text_retriever"],
                             $c["ui.upload_limit_resolver"]
                         ),
+                        new ILIAS\UI\Implementation\Component\Entity\EntityRendererFactory(
+                            $c["ui.factory"],
+                            $c["ui.template_factory"],
+                            $c["lng"],
+                            $c["ui.javascript_binding"],
+                            $c["ui.pathresolver"],
+                            $c["ui.data_factory"],
+                            $c["help.text_retriever"],
+                            $c["ui.upload_limit_resolver"],
+                        ),
                         new ILIAS\UI\Implementation\Component\Listing\ListingRendererFactory(
                             $c["ui.factory"],
                             $c["ui.template_factory"],
@@ -429,8 +439,15 @@ class InitUIFramework
             return new ILIAS\UI\Implementation\Component\Entity\Factory();
         };
 
+        $c["ui.factory.prompt.state"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Prompt\State\Factory();
+        };
+
         $c["ui.factory.prompt"] = function ($c) {
-            return new ILIAS\UI\Implementation\Component\Prompt\Factory($c["ui.signal_generator"]);
+            return new ILIAS\UI\Implementation\Component\Prompt\Factory(
+                $c["ui.signal_generator"],
+                $c["ui.factory.prompt.state"]
+            );
         };
 
         $c["ui.factory.navigation"] = function ($c) {
