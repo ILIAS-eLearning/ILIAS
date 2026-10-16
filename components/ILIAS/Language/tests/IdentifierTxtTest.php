@@ -409,9 +409,10 @@ class IdentifierTxtTest extends ilLanguageBaseTestCase
         $this->stubDatabase([], ['en|mig_b|only_en' => 'Only en from the database']);
         $language = $this->language([], 'de', 'en');
 
-        $this->assertSame('Only en from the database', $language->txt(IdentifierTxtTestMigBIdentifier::ONLY_EN));
+        // mig_b is shipped: never lng_data, also without a build for the default language
+        $this->assertSame('-only_en-', $language->txt(IdentifierTxtTestMigBIdentifier::ONLY_EN));
         $data_queries = array_filter($this->queries, static fn(string $sql): bool => str_contains($sql, 'lng_data'));
-        $this->assertCount(1, $data_queries);
+        $this->assertCount(0, $data_queries);
     }
 
     public function testAnInvalidDefaultLanguageIsNeverQueried(): void

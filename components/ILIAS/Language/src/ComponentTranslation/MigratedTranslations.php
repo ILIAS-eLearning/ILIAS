@@ -58,6 +58,11 @@ final class MigratedTranslations
     private static array $build_keys = [];
 
     /**
+     * @var array<string, string>|null see MigratedLanguageFilePaths::findShippedTemplates()
+     */
+    private static ?array $shipped_templates = null;
+
+    /**
      * Per "<module>|<lang>", `null` for a module not migrated for the language.
      *
      * @var array<string, State|null>
@@ -88,6 +93,42 @@ final class MigratedTranslations
     public static function keysOf(string $module, string $lang_key, ?string $client_data_dir): ?array
     {
         return self::state($module, $lang_key, $client_data_dir)['keys'] ?? null;
+    }
+
+    /**
+     * Whether $module belongs to the ILIAS components (it is built or ships a template): never served from
+     * lng_data/lng_modules then. Known without the component graph, so also in the Setup.
+     */
+    public static function isShippedModule(string $module): bool
+    {
+        return isset(self::pointer()['modules'][$module]) || isset(self::shippedTemplates()[$module]);
+    }
+
+    /**
+     * Whether the template directory of $module has a `.po` for $lang_key named by the default pattern
+     * ("<module>_<lang>.po").
+     */
+    public static function shipsPoFor(string $module, string $lang_key): bool
+    {
+        $directory = self::shippedTemplates()[$module] ?? null;
+
+        return $directory !== null
+            && MigratedLanguageFilePaths::isValidLanguageKey($lang_key)
+            && is_file($directory . '/' . $module . '_' . $lang_key . '.po');
+    }
+
+    /**
+     * Reports (fatal) that there is no build; `false` if there is one.
+     */
+    public static function reportMissingBuild(): bool
+    {
+        $pointer = self::pointer();
+        if ($pointer !== null && $pointer['build'] !== null) {
+            return false;
+        }
+        self::reportProblem(self::missingBuildMessage(), true);
+
+        return true;
     }
 
     /**
@@ -173,10 +214,7 @@ final class MigratedTranslations
     {
         $pointer = self::pointer();
         if ($pointer === null) {
-            self::reportProblem(sprintf(
-                'There is no build of the language files ("%s") - run "php cli/setup.php build".',
-                MigratedLanguageFilePaths::buildPointerFile(self::artifactDirectory())
-            ), true);
+            self::reportProblem(self::missingBuildMessage(), true);
         } else {
             foreach ($pointer['modules'] as $module => $languages) {
                 if ($languages !== []) {
@@ -231,6 +269,7 @@ final class MigratedTranslations
         self::$pointer = null;
         self::$build_keys = [];
         self::$states = [];
+        self::$shipped_templates = null;
     }
 
     /**
@@ -445,6 +484,22 @@ final class MigratedTranslations
         }
 
         return self::$build_keys[$module];
+    }
+
+    private static function missingBuildMessage(): string
+    {
+        return sprintf(
+            'There is no build of the language files ("%s") - run "php cli/setup.php build".',
+            MigratedLanguageFilePaths::buildPointerFile(self::artifactDirectory())
+        );
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private static function shippedTemplates(): array
+    {
+        return self::$shipped_templates ??= MigratedLanguageFilePaths::findShippedTemplates(self::iliasDirectory());
     }
 
     /**

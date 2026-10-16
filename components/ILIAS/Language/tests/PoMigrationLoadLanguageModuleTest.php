@@ -277,7 +277,9 @@ class PoMigrationLoadLanguageModuleTest extends ilLanguageBaseTestCase
             new ComponentLanguageFileDirectory(new \ILIAS\TermsOfService(), 'tos')
         );
 
-        $this->assertNull($this->callLoadFromMigratedLanguageFile('common', 'de'));
+        // a shipped module (lang/poll.pot) without a build for it: no identifiers, never the database
+        $this->expectOutputRegex('/Module "poll" ships a language file for "de" that is not built/');
+        $this->assertSame([], $this->callLoadFromMigratedLanguageFile('poll', 'de'));
     }
 
     /** "Migrated for a language" means a shipped `.po` exists: its absence makes this null, not a missing overlay `.mo`. */
@@ -287,12 +289,14 @@ class PoMigrationLoadLanguageModuleTest extends ilLanguageBaseTestCase
             new ComponentLanguageFileDirectory(new \ILIAS\TermsOfService(), 'tos')
         );
 
-        $this->assertNull($this->callLoadFromMigratedLanguageFile('tos', 'xx'));
+        $this->assertSame([], $this->callLoadFromMigratedLanguageFile('tos', 'xx'));
     }
 
     public function testFallsBackToNullWhenNoDirectoryManagerIsRegisteredAtAll(): void
     {
-        $this->assertNull($this->callLoadFromMigratedLanguageFile('tos', 'de'));
+        // tos is recognised by its shipped template without the component graph; there is no build
+        $this->expectOutputRegex('/There is no build of the language files/');
+        $this->assertSame([], $this->callLoadFromMigratedLanguageFile('tos', 'de'));
     }
 
     /**
@@ -308,7 +312,7 @@ class PoMigrationLoadLanguageModuleTest extends ilLanguageBaseTestCase
             new ComponentLanguageFileDirectory(new \ILIAS\TermsOfService(), 'tos')
         );
 
-        $this->assertNull($this->callLoadFromMigratedLanguageFile('tos', $invalid_lang_key));
+        $this->assertSame([], $this->callLoadFromMigratedLanguageFile('tos', $invalid_lang_key));
     }
 
     /**
@@ -330,8 +334,9 @@ class PoMigrationLoadLanguageModuleTest extends ilLanguageBaseTestCase
         $db->method('fetchAssoc')->willReturn(['value' => 'from the database']);
         $this->setGlobalVariable('ilDB', $db);
 
+        // a shipped module is never read from lng_data
         $this->assertSame(
-            'from the database',
+            '-sometopic-',
             ilLanguage::_lookupEntry($invalid_lang_key, 'tos', 'sometopic')
         );
     }
@@ -446,7 +451,7 @@ class PoMigrationLoadLanguageModuleTest extends ilLanguageBaseTestCase
         $this->registerDirectoryManager(new ComponentLanguageFileDirectory(new \ILIAS\TermsOfService(), 'tos'));
         $this->setInstalledLanguages(['en', 'fr']);
 
-        $this->assertNull($this->callLoadFromMigratedLanguageFile('tos', 'de'));
+        $this->assertSame([], $this->callLoadFromMigratedLanguageFile('tos', 'de'));
     }
 
     /** The restriction applies through _lookupEntry() too: a not-installed language falls through to the database. */
@@ -465,7 +470,7 @@ class PoMigrationLoadLanguageModuleTest extends ilLanguageBaseTestCase
 
         $language = $this->buildLanguageWithoutRunningConstructor('en');
 
-        $this->assertSame('from the database', $language->txtlng('tos', 'tos_agreement', 'de'));
+        $this->assertSame('-tos_agreement-', $language->txtlng('tos', 'tos_agreement', 'de'), 'never lng_data for a shipped module');
     }
 
     /** forgetInstalledLanguage() takes effect for the rest of the request: it also drops what was cached for the language. */
@@ -479,7 +484,8 @@ class PoMigrationLoadLanguageModuleTest extends ilLanguageBaseTestCase
 
         ilLanguage::forgetInstalledLanguage('de');
 
-        $this->assertNull(
+        $this->assertSame(
+            [],
             $this->callLoadFromMigratedLanguageFile('tos', 'de'),
             'both the stale cache entry and the list membership must be gone'
         );

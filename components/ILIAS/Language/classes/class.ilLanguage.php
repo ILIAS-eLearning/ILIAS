@@ -34,8 +34,9 @@ use ILIAS\Language\LanguageIdentifier;
  * e.g. $lng->txt("user_updated");
  * you can translate a lang-topic into the actual language
  *
- * Two backends: the legacy DB tables lng_data/lng_modules, and for a module migrated for the language its
- * build served through native gettext plus the overlay of local changes (see MigratedTranslations), never the DB.
+ * Two backends: a module of the ILIAS components is served from its build through native gettext plus the
+ * overlay of local changes (see MigratedTranslations), never from the DB, also in Setup and CLI; only the other
+ * modules (plugins) are read from lng_data/lng_modules.
  * Values of a migrated module do not go into $text: loadLanguageModule() records its identifiers in
  * $migrated_key_modules and txt() looks them up on demand.
  *
@@ -78,6 +79,13 @@ class ilLanguage implements \ILIAS\Language\Language
      * @var array<string, bool>
      */
     private static array $shipped_without_build = [];
+
+    /**
+     * Per module, see isShippedModule().
+     *
+     * @var array<string, bool>
+     */
+    private static array $shipped_modules = [];
 
     private static bool $client_data_dir_resolved = false;
     private static ?string $resolved_client_data_dir = null;
@@ -486,19 +494,23 @@ class ilLanguage implements \ILIAS\Language\Language
     }
 
     /**
-     * `null` unless $a_module is migrated for $lang_key, so the caller reads lng_modules/lng_data. A module whose
-     * `.po` is not built yet is migrated but has no identifiers (reported); never read from the database instead.
+     * `null` only for a module the ILIAS components do not ship (a plugin's), so the caller reads
+     * lng_modules/lng_data. A shipped module without a build for an installed $lang_key has no identifiers
+     * (reported if its `.po` exists); never read from the database instead.
      *
      * @return array<string, string>|null
      */
     private static function migratedKeysOf(string $a_module, string $lang_key): ?array
     {
-        if (!self::isInstalledLanguage($lang_key)) {
+        if (!self::isShippedModule($a_module)) {
             return null;
         }
+        if (!MigratedLanguageFilePaths::isValidLanguageKey($lang_key) || !self::isInstalledLanguage($lang_key)) {
+            return [];
+        }
         $keys = MigratedTranslations::keysOf($a_module, $lang_key, self::clientDataDir());
-        if ($keys !== null || !self::isShippedWithoutBuild($a_module, $lang_key)) {
-            return $keys;
+        if ($keys !== null || MigratedTranslations::reportMissingBuild() || !self::isShippedWithoutBuild($a_module, $lang_key)) {
+            return $keys ?? [];
         }
         MigratedTranslations::reportProblem(sprintf(
             'Module "%s" ships a language file for "%s" that is not built - if "php cli/setup.php build" warns'
@@ -510,6 +522,12 @@ class ilLanguage implements \ILIAS\Language\Language
         return [];
     }
 
+    private static function isShippedModule(string $a_module): bool
+    {
+        return self::$shipped_modules[$a_module] ??= MigratedTranslations::isShippedModule($a_module)
+            || self::findLanguageFileDirectory($a_module) !== null;
+    }
+
     private static function isShippedWithoutBuild(string $a_module, string $lang_key): bool
     {
         return self::$shipped_without_build[$a_module . '|' . $lang_key] ??= self::findShippedWithoutBuild($a_module, $lang_key);
@@ -519,7 +537,7 @@ class ilLanguage implements \ILIAS\Language\Language
     {
         $directory = self::findLanguageFileDirectory($a_module);
         if ($directory === null) {
-            return false;
+            return MigratedTranslations::shipsPoFor($a_module, $lang_key);
         }
         try {
             return is_file(MigratedLanguageFilePaths::shippedBasePath(
@@ -557,7 +575,7 @@ class ilLanguage implements \ILIAS\Language\Language
     {
         global $DIC;
 
-        if (!$DIC->offsetExists(LanguageFileDirectoryManager::class)) {
+        if (!$DIC instanceof \ArrayAccess || !$DIC->offsetExists(LanguageFileDirectoryManager::class)) {
             return null;
         }
 
@@ -602,7 +620,7 @@ class ilLanguage implements \ILIAS\Language\Language
 
     public static function _lookupEntry(string $a_lang_key, string $a_mod, string $a_id): string
     {
-        // a module migrated for $a_lang_key is never read from lng_data
+        // a shipped module is never read from lng_data
         $migrated_keys = self::migratedKeysOf($a_mod, $a_lang_key);
         if ($migrated_keys !== null) {
             $value = isset($migrated_keys[$a_id])
