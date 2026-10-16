@@ -66,7 +66,7 @@ class ilBlogDraftsDerivedTaskProvider implements ilDerivedTaskProvider
                     continue;
                 }
 
-                $active = ilBlogPosting::_lookupActive($post->getId(), "blp");
+                $active = $this->domain->pageManager()->lookupActive($post->getId(), "blp");
                 $withdrawn = $post->getLastWithdrawn()?->get(IL_CAL_DATETIME);
                 if (!$active && $withdrawn === null) {
                     $refId = $this->getFirstRefIdWithPermission('read', $blog_id, $user_id);

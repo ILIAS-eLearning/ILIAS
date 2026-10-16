@@ -2840,7 +2840,6 @@ class ilObjTest extends ilObject
 
         $score_settings = $this->getScoreSettings();
         $scoring_settings = $score_settings->getScoringSettings();
-        $gamification_settings = $score_settings->getGamificationSettings();
         $result_summary_settings = $score_settings->getResultSummarySettings();
         $result_details_settings = $score_settings->getResultDetailsSettings();
 
@@ -2880,33 +2879,6 @@ class ilObjTest extends ilObject
                     break;
                 case 'exam_conditions':
                     $introduction_settings = $introduction_settings->withExamConditionsCheckboxEnabled($metadata['entry'] === '1');
-                    break;
-                case "highscore_enabled":
-                    $gamification_settings = $gamification_settings->withHighscoreEnabled((bool) $metadata["entry"]);
-                    break;
-                case "highscore_anon":
-                    $gamification_settings = $gamification_settings->withHighscoreAnon((bool) $metadata["entry"]);
-                    break;
-                case "highscore_achieved_ts":
-                    $gamification_settings = $gamification_settings->withHighscoreAchievedTS((bool) $metadata["entry"]);
-                    break;
-                case "highscore_score":
-                    $gamification_settings = $gamification_settings->withHighscoreScore((bool) $metadata["entry"]);
-                    break;
-                case "highscore_percentage":
-                    $gamification_settings = $gamification_settings->withHighscorePercentage((bool) $metadata["entry"]);
-                    break;
-                case "highscore_wtime":
-                    $gamification_settings = $gamification_settings->withHighscoreWTime((bool) $metadata["entry"]);
-                    break;
-                case "highscore_own_table":
-                    $gamification_settings = $gamification_settings->withHighscoreOwnTable((bool) $metadata["entry"]);
-                    break;
-                case "highscore_top_table":
-                    $gamification_settings = $gamification_settings->withHighscoreTopTable((bool) $metadata["entry"]);
-                    break;
-                case "highscore_top_num":
-                    $gamification_settings = $gamification_settings->withHighscoreTopNum((int) $metadata["entry"]);
                     break;
                 case "use_previous_answers":
                     $participant_functionality_settings = $participant_functionality_settings->withUsePreviousAnswerAllowed((bool) $metadata["entry"]);
@@ -3113,7 +3085,6 @@ class ilObjTest extends ilObject
         $this->main_settings = $main_settings;
 
         $score_settings = $score_settings
-            ->withGamificationSettings($gamification_settings)
             ->withScoringSettings($scoring_settings)
             ->withResultDetailsSettings($result_details_settings)
             ->withResultSummarySettings($result_summary_settings);
@@ -3411,27 +3382,6 @@ class ilObjTest extends ilObject
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "force_instant_feedback");
         $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getQuestionBehaviourSettings()->getForceInstantFeedbackOnNextQuestion() ? 1 : 0);
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
-
-        $highscore_metadata = [
-            'highscore_enabled' => $this->getHighscoreEnabled(),
-            'highscore_anon' => $this->getHighscoreAnon(),
-            'highscore_achieved_ts' => $this->getHighscoreAchievedTS(),
-            'highscore_score' => $this->getHighscoreScore(),
-            'highscore_percentage' => $this->getHighscorePercentage(),
-            'highscore_wtime' => $this->getHighscoreWTime(),
-            'highscore_own_table' => $this->getHighscoreOwnTable(),
-            'highscore_top_table' => $this->getHighscoreTopTable(),
-        ];
-        foreach ($highscore_metadata as $label => $value) {
-            $a_xml_writer->xmlStartTag("qtimetadatafield");
-            $a_xml_writer->xmlElement("fieldlabel", null, $label);
-            $a_xml_writer->xmlElement("fieldentry", null, $value ? 1 : 0);
-            $a_xml_writer->xmlEndTag("qtimetadatafield");
-        }
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "highscore_top_num");
-        $a_xml_writer->xmlElement("fieldentry", null, $this->getHighscoreTopNum());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
@@ -6085,100 +6035,6 @@ class ilObjTest extends ilObject
             $this->getMainSettings()->withFinishingSettings($settings)
         );
         return $new_page_id;
-    }
-
-    public function getHighscoreEnabled(): bool
-    {
-        return $this->getScoreSettings()->getGamificationSettings()->getHighscoreEnabled();
-    }
-
-    /**
-     * Gets if the highscores should be anonymized per setting.
-     *
-     * Note: This method will retrieve the setting as set by the user. If you want
-     * to figure out, if the highscore is to be shown anonymized or not, with
-     * consideration of the global anon switch you should @see isHighscoreAnon().
-     *
-     * @return bool True, if setting is to anonymize highscores.
-     */
-    public function getHighscoreAnon(): bool
-    {
-        return $this->getScoreSettings()->getGamificationSettings()->getHighscoreAnon();
-    }
-
-    /**
-     * Gets if the highscores should be displayed anonymized.
-     *
-     * Note: This method considers the global anonymity switch. If you need
-     * access to the users setting, @see getHighscoreAnon()
-     *
-     * @return boolean True, if output is anonymized.
-     */
-    public function isHighscoreAnon(): bool
-    {
-        return $this->getAnonymity() == 1 || $this->getHighscoreAnon();
-    }
-
-    /**
-     * Returns if date and time of the scores achievement should be displayed.
-     */
-    public function getHighscoreAchievedTS(): bool
-    {
-        return $this->getScoreSettings()->getGamificationSettings()->getHighscoreAchievedTS();
-    }
-
-    /**
-     * Gets if the score column should be shown.
-     */
-    public function getHighscoreScore(): bool
-    {
-        return $this->getScoreSettings()->getGamificationSettings()->getHighscoreScore();
-    }
-
-    /**
-     * Gets if the percentage column should be shown.
-     */
-    public function getHighscorePercentage(): bool
-    {
-        return $this->getScoreSettings()->getGamificationSettings()->getHighscorePercentage();
-    }
-
-    /**
-     * Gets if the column with the workingtime should be shown.
-     */
-    public function getHighscoreWTime(): bool
-    {
-        return $this->getScoreSettings()->getGamificationSettings()->getHighscoreWTime();
-    }
-
-    /**
-     * Gets if the own rankings table should be shown.
-     */
-    public function getHighscoreOwnTable(): bool
-    {
-        return $this->getScoreSettings()->getGamificationSettings()->getHighscoreOwnTable();
-    }
-
-    /**
-     * Gets, if the top-rankings table should be shown.
-     */
-    public function getHighscoreTopTable(): bool
-    {
-        return $this->getScoreSettings()->getGamificationSettings()->getHighscoreTopTable();
-    }
-
-    /**
-     * Gets the number of entries which are to be shown in the top-rankings table.
-     * @return integer Number of entries to be shown in the top-rankings table.
-     */
-    public function getHighscoreTopNum(int $a_retval = 10): int
-    {
-        return $this->getScoreSettings()->getGamificationSettings()->getHighscoreTopNum();
-    }
-
-    public function getHighscoreMode(): int
-    {
-        return $this->getScoreSettings()->getGamificationSettings()->getHighScoreMode();
     }
 
     public function getSpecificAnswerFeedback(): bool

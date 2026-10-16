@@ -58,7 +58,6 @@ use ILIAS\Test\Presentation\TestScreenGUI;
 use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\Results\Data\Factory as ResultsDataFactory;
 use ILIAS\Test\Results\Presentation\Factory as ResultsPresentationFactory;
-use ILIAS\Test\Results\Toplist\TestTopListRepository;
 use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
 use ILIAS\Test\ExportImport\DBRepository as ExportRepository;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
@@ -158,7 +157,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     private ExportRepository $export_repository;
     private TestQuestionsRepository $test_questions_repository;
     private GeneralQuestionPropertiesRepository $questionrepository;
-    private TestTopListRepository $toplist_repository;
     private ilTestParticipantAccessFilterFactory $participant_access_filter_factory;
     private QPLRequestDataCollector $qplrequest;
     private TitleColumnsBuilder $title_builder;
@@ -242,7 +240,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->export_repository = $local_dic['exportimport.repository'];
         $this->participant_access_filter_factory = $local_dic['participant.access_filter.factory'];
         $this->test_pass_result_repository = $local_dic['results.data.repository'];
-        $this->toplist_repository = $local_dic['results.toplist.repository'];
         $this->personal_settings_templates_repository = $local_dic['settings.personal_templates.repository'];
         $this->main_settings_repository = $local_dic['settings.main.repository'];
         $this->score_settings_repository = $local_dic['settings.scoring.repository'];
@@ -497,16 +494,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->toolbar,
                     $this->tpl,
                     $this->ui_factory,
-                    $this->ui_renderer,
                     $this->skills_service,
                     $this->content_style,
-                    $this->toplist_repository,
                     $this->testrequest,
-                    $this->http,
-                    $this->data_factory,
                     $this->test_session_factory->getSession(),
-                    $this->getObjectiveOrientedContainer(),
-                    $this->participant_repository
+                    $this->getObjectiveOrientedContainer()
                 );
 
                 $this->ctrl->forwardCommand($gui);

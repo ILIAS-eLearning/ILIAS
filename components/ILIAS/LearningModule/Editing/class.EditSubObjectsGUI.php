@@ -838,7 +838,7 @@ class EditSubObjectsGUI
                 $childs = $lm_tree->getChilds($id);
                 foreach ($childs as $child) {
                     if (ilLMObject::_lookupType($child["child"]) == "pg") {
-                        $act = \ilLMPage::_lookupActive(
+                        $act = $this->domain->pageManager()->lookupActive(
                             $child["child"],
                             $this->lm->getType()
                         );
@@ -850,7 +850,7 @@ class EditSubObjectsGUI
                     }
                 }
                 if (ilLMObject::_lookupType($id) == "pg") {
-                    $act = \ilLMPage::_lookupActive(
+                    $act = $this->domain->pageManager()->lookupActive(
                         $id,
                         $this->lm->getType()
                     );

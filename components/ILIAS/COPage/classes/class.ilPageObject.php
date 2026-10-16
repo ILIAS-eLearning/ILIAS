@@ -86,7 +86,6 @@ abstract class ilPageObject
     public bool $dom_builded = false;
     public bool $history_saved = false;
     protected string $language = "-";
-    protected static array $activation_data = array();
     protected bool $import_mode = false;
     protected ilLogger $log;
     protected ?array $page_record = array();
@@ -487,145 +486,6 @@ abstract class ilPageObject
             }
         }
         return $this->active;
-    }
-
-    /**
-     * Preload activation data by Parent Id
-     */
-    public static function preloadActivationDataByParentId(int $a_parent_id): void
-    {
-        global $DIC;
-
-        $db = $DIC->database();
-        $set = $db->query(
-            "SELECT page_id, parent_type, lang, active, activation_start, activation_end, show_activation_info FROM page_object " .
-            " WHERE parent_id = " . $db->quote($a_parent_id, "integer")
-        );
-        while ($rec = $db->fetchAssoc($set)) {
-            self::$activation_data[$rec["page_id"] . ":" . $rec["parent_type"] . ":" . $rec["lang"]] = $rec;
-        }
-    }
-
-    /**
-     * lookup activation status
-     */
-    public static function _lookupActive(
-        int $a_id,
-        string $a_parent_type,
-        bool $a_check_scheduled_activation = false,
-        string $a_lang = "-"
-    ): bool {
-        global $DIC;
-
-        $db = $DIC->database();
-
-        // language must be set at least to "-"
-        if ($a_lang == "") {
-            $a_lang = "-";
-        }
-
-        if (isset(self::$activation_data[$a_id . ":" . $a_parent_type . ":" . $a_lang])) {
-            $rec = self::$activation_data[$a_id . ":" . $a_parent_type . ":" . $a_lang];
-        } else {
-            $set = $db->queryF(
-                "SELECT active, activation_start, activation_end FROM page_object WHERE page_id = %s" .
-                " AND parent_type = %s AND lang = %s",
-                array("integer", "text", "text"),
-                array($a_id, $a_parent_type, $a_lang)
-            );
-            $rec = $db->fetchAssoc($set);
-            if (!$rec) {
-                return true;
-            }
-        }
-
-        $rec["n"] = ilUtil::now();
-        if (!$rec["active"] && $a_check_scheduled_activation) {
-            if ($rec["n"] >= $rec["activation_start"] &&
-                $rec["n"] <= $rec["activation_end"]) {
-                return true;
-            }
-        }
-
-        return (bool) $rec["active"];
-    }
-
-    /**
-     * Check whether page is activated by time schedule
-     */
-    public static function _isScheduledActivation(
-        int $a_id,
-        string $a_parent_type,
-        string $a_lang = "-"
-    ): bool {
-        global $DIC;
-
-        $db = $DIC->database();
-
-        // language must be set at least to "-"
-        if ($a_lang == "") {
-            $a_lang = "-";
-        }
-
-        //echo "<br>";
-        //var_dump(self::$activation_data); exit;
-        if (isset(self::$activation_data[$a_id . ":" . $a_parent_type . ":" . $a_lang])) {
-            $rec = self::$activation_data[$a_id . ":" . $a_parent_type . ":" . $a_lang];
-        } else {
-            $set = $db->queryF(
-                "SELECT active, activation_start, activation_end FROM page_object WHERE page_id = %s" .
-                " AND parent_type = %s AND lang = %s",
-                array("integer", "text", "text"),
-                array($a_id, $a_parent_type, $a_lang)
-            );
-            $rec = $db->fetchAssoc($set);
-        }
-
-        if (!$rec["active"] && $rec["activation_start"] != "") {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Lookup activation data
-     */
-    public static function _lookupActivationData(
-        int $a_id,
-        string $a_parent_type,
-        string $a_lang = "-"
-    ): array {
-        global $DIC;
-
-        $db = $DIC->database();
-
-        // language must be set at least to "-"
-        if ($a_lang == "") {
-            $a_lang = "-";
-        }
-
-        if (isset(self::$activation_data[$a_id . ":" . $a_parent_type . ":" . $a_lang])) {
-            $rec = self::$activation_data[$a_id . ":" . $a_parent_type . ":" . $a_lang];
-        } else {
-            $set = $db->queryF(
-                "SELECT active, activation_start, activation_end, show_activation_info FROM page_object WHERE page_id = %s" .
-                " AND parent_type = %s AND lang = %s",
-                array("integer", "text", "text"),
-                array($a_id, $a_parent_type, $a_lang)
-            );
-            $rec = $db->fetchAssoc($set);
-            if (!$rec) {
-                return [
-                    "active" => 1,
-                    "activation_start" => null,
-                    "activation_end" => null,
-                    "show_activation_info" => 0
-                ];
-            }
-        }
-
-        return $rec;
     }
 
     /**
@@ -2010,36 +1870,6 @@ s     */
     public function getOfflineHandler(): ?object
     {
         return $this->offline_handler;
-    }
-
-    /**
-     * lookup whether page contains deactivated elements
-     */
-    public static function _lookupContainsDeactivatedElements(
-        int $a_id,
-        string $a_parent_type,
-        string $a_lang = "-"
-    ): bool {
-        global $DIC;
-
-        $db = $DIC->database();
-
-        if ($a_lang == "") {
-            $a_lang = "-";
-        }
-
-        $query = "SELECT * FROM page_object WHERE page_id = " .
-            $db->quote($a_id, "integer") . " AND " .
-            " parent_type = " . $db->quote($a_parent_type, "text") . " AND " .
-            " lang = " . $db->quote($a_lang, "text") . " AND " .
-            " inactive_elements = " . $db->quote(1, "integer");
-        $obj_set = $db->query($query);
-
-        if ($obj_rec = $obj_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-            return true;
-        }
-
-        return false;
     }
 
     /**

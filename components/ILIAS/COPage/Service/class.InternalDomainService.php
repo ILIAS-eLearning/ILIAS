@@ -37,6 +37,7 @@ class InternalDomainService
     protected ?\ilLogger $copg_log = null;
     protected InternalRepoService $repo_service;
     protected InternalDataService $data_service;
+    protected ?Page\PageManagerInterface $page_manager = null;
 
     public function __construct(
         Container $DIC,
@@ -90,7 +91,7 @@ class InternalDomainService
 
     public function page(): Page\PageManagerInterface
     {
-        return new Page\PageManager(
+        return $this->page_manager ??= new Page\PageManager(
             $this->repo_service->page(),
             $this->domUtil(),
             $this->profile()

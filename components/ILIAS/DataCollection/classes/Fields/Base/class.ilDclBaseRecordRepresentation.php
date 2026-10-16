@@ -29,6 +29,7 @@ class ilDclBaseRecordRepresentation
     protected ILIAS\Refinery\Factory $refinery;
     protected \ILIAS\UI\Renderer $renderer;
     protected ilObjUser $user;
+    protected \ILIAS\COPage\Page\PageManagerInterface $page_manager;
 
     public function __construct(ilDclBaseRecordFieldModel $record_field)
     {
@@ -42,6 +43,7 @@ class ilDclBaseRecordRepresentation
         $this->factory = $DIC->ui()->factory();
         $this->renderer = $DIC->ui()->renderer();
         $this->user = $DIC->user();
+        $this->page_manager = $DIC->copage()->internal()->domain()->page();
 
         $this->record_field = $record_field;
     }

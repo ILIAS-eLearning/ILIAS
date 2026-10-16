@@ -51,7 +51,7 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
             }
             if (
                 ilDclDetailedViewDefinition::exists($tableview_id) &&
-                ilDclDetailedViewDefinition::_lookupActive($tableview_id, ilDclDetailedViewDefinition::PARENT_TYPE)
+                $this->page_manager->lookupActive($tableview_id, ilDclDetailedViewDefinition::PARENT_TYPE)
             ) {
                 $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, 'record_id', $this->getRecord()->getId());
                 $links['dcl_open_detail_view'] = $this->ctrl->getLinkTargetByClass(ilDclDetailedViewGUI::class, 'renderRecord');

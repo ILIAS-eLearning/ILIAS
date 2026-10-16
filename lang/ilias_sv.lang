@@ -1516,27 +1516,6 @@ assessment#:#tst_hide_info_tab#:#Hide Info Tab###21 11 2023 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###21 11 2023 new variable
 assessment#:#tst_hide_pagecontents#:# Dölj sidans innehåll
 assessment#:#tst_hide_pagecontents_desc#:#ILIAS-innehåll som placeras före och efter den faktiska frågetexten via knappen "Redigera sida" visas inte i resultatvyerna och utskriften.
-assessment#:#tst_highscore_achieved_ts#:#Datum
-assessment#:#tst_highscore_achieved_ts_description#:#En extra kolumn med tiden för testet visas.
-assessment#:#tst_highscore_all_tables#:#Egen rankning och leaderboard
-assessment#:#tst_highscore_all_tables_description#:#Visar både en tabell med din egen ranking och en tabell med de bästa rankingarna.
-assessment#:#tst_highscore_anon#:#Visa inga namn
-assessment#:#tst_highscore_anon_description#:#Rankingen för andra deltagare visas utan att deras namn anges. Detta görs automatiskt för anonymiserade tester.
-assessment#:#tst_highscore_description#:#På fliken 'Resultat' visas ytterligare en underflik 'Placering'. En tabell som visar de olika personernas resultat i testet visas. Du måste aktivera alternativet "Visa eget testresultat" för att kunna använda denna funktion.
-assessment#:#tst_highscore_enabled#:#Placeringar
-assessment#:#tst_highscore_mode#:#Mode
-assessment#:#tst_highscore_own_table#:#Visa egen rankning
-assessment#:#tst_highscore_own_table_description#:#Deltagarna kommer att få se en tabell med sin rangordning inom alla placeringar.
-assessment#:#tst_highscore_percentage#:#Procent
-assessment#:#tst_highscore_percentage_description#:#Ytterligare en kolumn visas med det uppnådda procentuella värdet.
-assessment#:#tst_highscore_score#:#Poäng
-assessment#:#tst_highscore_score_description#:#Ytterligare en kolumn visas med antalet uppnådda poäng.
-assessment#:#tst_highscore_top_num#:#Bästa listlängd
-assessment#:#tst_highscore_top_num_description#:#Bestämmer hur många poster som visas i topplistan.
-assessment#:#tst_highscore_top_table#:#Bästalista
-assessment#:#tst_highscore_top_table_description#:#Deltagarna kommer att få se en tabell med de bästa placeringarna.
-assessment#:#tst_highscore_wtime#:#Bearbetningstid
-assessment#:#tst_highscore_wtime_description#:#Ytterligare en kolumn med behandlingstiden visas.
 assessment#:#tst_imap_qst_mode#:#Svarsläge
 assessment#:#tst_imap_qst_mode_mc#:#Multipla valmöjligheter
 assessment#:#tst_imap_qst_mode_sc#:#Enskilt val

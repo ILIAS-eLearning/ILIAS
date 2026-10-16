@@ -1516,27 +1516,6 @@ assessment#:#tst_hide_info_tab#:#Hide Info Tab###26 08 2024 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.###26 08 2024 new variable
-assessment#:#tst_highscore_achieved_ts#:#Показать дату прохождения теста
-assessment#:#tst_highscore_achieved_ts_description#:#Controls, if a column with the test date should be shown.
-assessment#:#tst_highscore_all_tables#:#All Rankings###07 11 2014 new variable
-assessment#:#tst_highscore_all_tables_description#:#If selected, the test provides both ranking tables.###07 11 2014 new variable
-assessment#:#tst_highscore_anon#:#Анонимизировать результаты.
-assessment#:#tst_highscore_anon_description#:#Controls, if names are anonymized with the ranks. This option may be overridden by the test anonymization switch.
-assessment#:#tst_highscore_description#:#Показывать лучшие баллы?
-assessment#:#tst_highscore_enabled#:#Отображение лучших баллов активировано
-assessment#:#tst_highscore_mode#:#Mode###07 11 2014 new variable
-assessment#:#tst_highscore_own_table#:#Показать таблицу 'собственный ранг'
-assessment#:#tst_highscore_own_table_description#:#Controls, if the table 'own ranking' should be shown.
-assessment#:#tst_highscore_percentage#:#Показать проценты
-assessment#:#tst_highscore_percentage_description#:#Controls, if a column with the tests percentage should be shown.
-assessment#:#tst_highscore_score#:#Показать баллы
-assessment#:#tst_highscore_score_description#:#Controls, if a column with the score should be shown.
-assessment#:#tst_highscore_top_num#:#Число рангов
-assessment#:#tst_highscore_top_num_description#:#Controls, how many ranks should be included in the top ranking table.
-assessment#:#tst_highscore_top_table#:#Показать таблицу 'лучший ранг'
-assessment#:#tst_highscore_top_table_description#:#Controls, if the table 'top ranking' should be shown.
-assessment#:#tst_highscore_wtime#:#Показать время работы
-assessment#:#tst_highscore_wtime_description#:#Controls, if a column with the tests working time should be shown.
 assessment#:#tst_imap_qst_mode#:#Mode
 assessment#:#tst_imap_qst_mode_mc#:#Multiple Choice
 assessment#:#tst_imap_qst_mode_sc#:#Single Choice

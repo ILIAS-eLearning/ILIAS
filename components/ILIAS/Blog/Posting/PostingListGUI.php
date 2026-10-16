@@ -106,7 +106,7 @@ class PostingListGUI
             $created = $item->getCreated();
             $approved = $item->isApproved();
             // only published items
-            $is_active = ilBlogPosting::_lookupActive($item_id, "blp");
+            $is_active = $this->page_manager->lookupActive($item_id, "blp");
             if (!$is_active && !$a_show_inactive) {
                 continue;
             }
