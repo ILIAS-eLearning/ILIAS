@@ -20,9 +20,6 @@ namespace ILIAS\COPage\IntLink;
 
 use ILIAS\Repository\BaseGUIRequest;
 
-/**
- * @deprecated 10 This component will be removed with ILIAS 10
- */
 class StandardGUIRequest
 {
     use BaseGUIRequest;

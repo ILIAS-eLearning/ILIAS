@@ -107,6 +107,8 @@ class PCParagraphTest extends COPageTestBase
             // internal links
             'xx [iln cat="106"] xx [/iln] xx'
                 => 'xx <IntLink Target="il__obj_106" Type="RepositoryItem"> xx </IntLink> xx',
+            'xx [iln cat="106" anchor="moin"] xx [/iln] xx'
+                => 'xx <IntLink Target="il__obj_106" Type="RepositoryItem" Anchor="moin"> xx </IntLink> xx',
             'xx [iln page="106"] xx [/iln] xx'
                 => 'xx <IntLink Target="il__pg_106" Type="PageObject"> xx </IntLink> xx',
             'xx [iln page="106"] xx  xx'
