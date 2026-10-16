@@ -42,7 +42,8 @@ class InlineSrcBuilder implements SrcBuilder
         Revision $revision,
         bool $signed = true,
         float $valid_for_at_least_minutes = 60.0,
-        ?string $filename = null
+        ?string $filename = null,
+        bool $isolated = true
     ): string {
         if ($signed) {
             throw new \RuntimeException('InlineSrcBuilder does not support signed URLs');
@@ -59,7 +60,8 @@ class InlineSrcBuilder implements SrcBuilder
                 $filename ?? $revision->getTitle(),
                 Disposition::INLINE,
                 6, // FSX TODO
-                1
+                1,
+                $isolated
             );
         }
         return '';

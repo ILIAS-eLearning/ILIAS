@@ -29,12 +29,17 @@ use ILIAS\FileDelivery\Token\Signer\Payload\Payload;
  */
 interface DataSigning
 {
+    /**
+     * @param bool $isolated false signs the token for delivery on the ILIAS domain
+     *                       instead of the content domain of User Content Isolation
+     */
     public function getSignedStreamToken(
         FileStream $stream,
         string $filename,
         Disposition $disposition,
         int $user_id,
-        ?\DateTimeImmutable $until = null
+        ?\DateTimeImmutable $until = null,
+        bool $isolated = true
     ): string;
 
     public function verifyStreamToken(string $token): ?Payload;

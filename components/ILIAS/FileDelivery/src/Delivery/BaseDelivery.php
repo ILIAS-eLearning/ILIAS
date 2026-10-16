@@ -124,7 +124,8 @@ abstract class BaseDelivery
         string $uri,
         string $mime_type,
         string $file_name,
-        Disposition $disposition = Disposition::INLINE
+        Disposition $disposition = Disposition::INLINE,
+        bool $isolated = true
     ): ResponseInterface {
         $r = $r->withHeader('X-ILIAS-FileDelivery-Method', $this->response_builder->getName());
         $r = $r->withHeader(ResponseHeader::CONTENT_TYPE, $mime_type);
@@ -138,7 +139,8 @@ abstract class BaseDelivery
             date("D, j M Y H:i:s", strtotime('+5 days')) . " GMT"
         );
 
-        return $this->applyIsolationHeaders($r);
+        // files delivered on the ILIAS domain are same-origin, the cross-origin headers do not apply
+        return $isolated ? $this->applyIsolationHeaders($r) : $r;
     }
 
     /**

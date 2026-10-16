@@ -35,11 +35,18 @@ interface FileDeliveryServices
 
     public function legacyDelivery(): LegacyDelivery;
 
+    /**
+     * @param bool $isolated false delivers the file from the ILIAS domain even when
+     *                       User Content Isolation is active, e.g. for content that
+     *                       must run on the same origin as ILIAS. The file then does
+     *                       not profit from the isolation, use it only where needed.
+     */
     public function buildTokenURL(
         FileStream $stream,
         string $filename,
         Disposition $disposition,
         int $user_id,
-        int $valid_for_at_least_hours
+        int $valid_for_at_least_hours,
+        bool $isolated = true
     ): URI;
 }

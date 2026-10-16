@@ -37,7 +37,8 @@ class Services implements FileDeliveryServices
 {
     public const DELIVERY_ENDPOINT = '/deliver.php/';
 
-    private ?string $base_uri = null;
+    /** @var array<string, string> */
+    private array $base_uris = [];
 
     public function __construct(
         private StreamDelivery $delivery,
@@ -64,7 +65,8 @@ class Services implements FileDeliveryServices
         string $filename,
         Disposition $disposition,
         int $user_id,
-        int $valid_for_at_least_hours
+        int $valid_for_at_least_hours,
+        bool $isolated = true
     ): URI {
         // a new DateTimeImmutable which is set to the end of now + $valid_for_at_least_hours hours
         $valid_for_at_least_hours++;
@@ -77,7 +79,8 @@ class Services implements FileDeliveryServices
             $filename,
             $disposition,
             $user_id,
-            $until
+            $until,
+            $isolated
         );
 
         // maybe add suffix
@@ -89,16 +92,17 @@ class Services implements FileDeliveryServices
         }
 
         return new URI(
-            $this->getBaseURI() . self::DELIVERY_ENDPOINT . $token . $suffix
+            $this->getBaseURI($isolated) . self::DELIVERY_ENDPOINT . $token . $suffix
         );
     }
 
-    protected function getBaseURI(): string
+    protected function getBaseURI(bool $isolated = true): string
     {
-        if ($this->base_uri !== null) {
-            return $this->base_uri;
-        }
+        return $this->base_uris[$isolated ? 'content' : 'ilias'] ??= $this->buildBaseURI($isolated);
+    }
 
+    private function buildBaseURI(bool $isolated): string
+    {
         $request_uri = $this->http->request()->getUri();
         $http_path = $this->http_path?->getHttpPath();
 
@@ -114,16 +118,19 @@ class Services implements FileDeliveryServices
             default => rtrim(dirname($request_uri->getPath()), '/'),
         };
 
-        if ($this->isolation->isActivated() && ($content_domain = $this->isolation->getContentDomain()) !== null) {
-            return $this->base_uri = rtrim($content_domain, '/') . $path;
+        if ($isolated
+            && $this->isolation->isActivated()
+            && ($content_domain = $this->isolation->getContentDomain()) !== null
+        ) {
+            return rtrim($content_domain, '/') . $path;
         }
 
         if ($is_without_request) {
-            return $this->base_uri = $http_path?->getBaseURI() ?? '';
+            return $http_path?->getBaseURI() ?? '';
         }
 
         // the host stays with the request, since allowed_hosts permits more than one
-        return $this->base_uri = rtrim(
+        return rtrim(
             $request_uri->getScheme()
             . '://' . $request_uri->getHost()
             . ($request_uri->getPort() ? ':' . $request_uri->getPort() : '')
