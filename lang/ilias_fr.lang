@@ -4198,11 +4198,6 @@ common#:#zip#:#Code Postal
 common#:#zip_structure_error#:#L'archive ZIP contient des noms de fichiers identiques. Le dépôt est abandonné.
 common#:#zip_test_failed#:#Le test ZIP a échoué. Veuillez contacter votre administrateur ILIAS.
 common#:#zipcode#:#Code postal
-mem#:#mem_period_without_time#:#Without Time Indication
-mem#:#mem_print_view_form#:#Paramètres par défaut pour l’aperçu avant impression
-mem#:#mem_settings_tab_print_view#:#Paramètres de la vue avant impression
-mem#:#mem_settings_tab_settings#:#Paramètres généraux
-mem#:#mmbr_gallery_user_actions#:#Actions de la galerie des membres
 noti#:#noti_activate_notification#:#Activate Notification
 noti#:#noti_deactivate_notification#:#Deactivate Notification
 noti#:#noti_notification_activated#:#Notification Activated

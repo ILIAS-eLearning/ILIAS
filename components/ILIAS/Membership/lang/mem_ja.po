@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: mem\n"
+
+msgid "mem_period_without_time"
+msgstr "時間表示なし"
+
+msgid "mem_print_view_form"
+msgstr "印刷表示用の既定値"
+
+msgid "mem_settings_tab_print_view"
+msgstr "印刷表示設定値"
+
+msgid "mem_settings_tab_settings"
+msgstr "全般設定値"
+
+msgid "mmbr_gallery_user_actions"
+msgstr "メンバーギャラリー内のユーザアクション"

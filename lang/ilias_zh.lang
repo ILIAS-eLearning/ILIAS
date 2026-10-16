@@ -4212,11 +4212,6 @@ common#:#zip#:#邮政编码
 common#:#zip_structure_error#:#归档文件包含相同的文件名。已放弃上传。
 common#:#zip_test_failed#:#zip压缩测试失败。请联系您的ILIAS管理员。
 common#:#zipcode#:#邮政编码
-mem#:#mem_period_without_time#:#Without Time Indication###07 02 2020 new variable
-mem#:#mem_print_view_form#:#Default Settings for Print View###25 10 2016 new variable
-mem#:#mem_settings_tab_print_view#:#Print View Settings###25 10 2016 new variable
-mem#:#mem_settings_tab_settings#:#General Settings###25 10 2016 new variable
-mem#:#mmbr_gallery_user_actions#:#Benutzeraktionen in Mitgliedergalerie###31 08 2017 new variable
 noti#:#noti_activate_notification#:#Activate Notification###10 11 2018 new variable
 noti#:#noti_deactivate_notification#:#Deactivate Notification###10 11 2018 new variable
 noti#:#noti_notification_activated#:#Notification Activated###10 11 2018 new variable

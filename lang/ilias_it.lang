@@ -4214,11 +4214,6 @@ common#:#zip#:#CAP
 common#:#zip_structure_error#:#L'archivio contiene gli stessi nomi dei file. Caricamento annullato.
 common#:#zip_test_failed#:#Zip-test non riuscito. Si prega di contattare il proprio amministratore ILIAS.
 common#:#zipcode#:#Codice postale
-mem#:#mem_period_without_time#:#Senza indicazione del tempo
-mem#:#mem_print_view_form#:#Impostazioni predefinite per visualizzazione stampa
-mem#:#mem_settings_tab_print_view#:#Impostazioni di visualizzazione stampa
-mem#:#mem_settings_tab_settings#:#Impostazioni generali
-mem#:#mmbr_gallery_user_actions#:#Azioni dell'utente nella galleria dei membri
 noti#:#noti_activate_notification#:#Attiva notifica
 noti#:#noti_deactivate_notification#:#Disattiva notifica
 noti#:#noti_notification_activated#:#Notifica attivata

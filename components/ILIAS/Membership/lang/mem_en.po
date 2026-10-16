@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mem\n"
+
+msgid "mem_period_without_time"
+msgstr "Without Time Indication"
+
+msgid "mem_print_view_form"
+msgstr "Default Settings for Print View"
+
+msgid "mem_settings_tab_print_view"
+msgstr "Print View Settings"
+
+msgid "mem_settings_tab_settings"
+msgstr "General Settings"
+
+msgid "mmbr_gallery_user_actions"
+msgstr "Member Gallery Actions"

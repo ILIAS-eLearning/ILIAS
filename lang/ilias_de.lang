@@ -4222,11 +4222,6 @@ common#:#zip#:#PLZ
 common#:#zip_structure_error#:#Archiv enthält gleiche Dateinamen. Upload abgebrochen
 common#:#zip_test_failed#:#Der ZIP-Test ist fehlgeschlagen. Bitte kontaktieren Sie Ihre technische Betreuung.
 common#:#zipcode#:#Postleitzahl
-mem#:#mem_period_without_time#:#ohne Uhrzeitangabe
-mem#:#mem_print_view_form#:#Standardeinstellungen für Druckansicht
-mem#:#mem_settings_tab_print_view#:#Einstellungen Druckansicht
-mem#:#mem_settings_tab_settings#:#Allgemeine Einstellungen
-mem#:#mmbr_gallery_user_actions#:#Aktionen in Galerie
 noti#:#noti_activate_notification#:#Benachrichtigung aktivieren
 noti#:#noti_deactivate_notification#:#Benachrichtigung deaktivieren
 noti#:#noti_notification_activated#:#Sie haben Benachrichtigungen aktiviert.

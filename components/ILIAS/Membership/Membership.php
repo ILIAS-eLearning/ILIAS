@@ -44,5 +44,9 @@ class Membership implements Component\Component
             $this,
             'membership'
         );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'mem'
+        );
     }
 }

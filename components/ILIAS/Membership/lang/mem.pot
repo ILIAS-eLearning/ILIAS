@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: mem\n"
+
+msgid "mem_period_without_time"
+msgstr ""
+
+msgid "mem_print_view_form"
+msgstr ""
+
+msgid "mem_settings_tab_print_view"
+msgstr ""
+
+msgid "mem_settings_tab_settings"
+msgstr ""
+
+msgid "mmbr_gallery_user_actions"
+msgstr ""
