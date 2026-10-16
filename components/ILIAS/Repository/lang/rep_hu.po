@@ -1,0 +1,267 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: rep\n"
+
+msgid "btn_undelete_new_location"
+msgstr "Visszaállítás (új hely)"
+
+msgid "btn_undelete_origin_location"
+msgstr "Visszaállítás (ugyanaz a hely)"
+
+msgid "rep_activation_access"
+msgstr "Hozzáférés"
+
+msgid "rep_activation_access_ref_info"
+msgstr "Ez a beállítás csak a Tartalomtár ezen hivatkozására van hatással."
+
+msgid "rep_activation_availability"
+msgstr "Elérhetőség"
+
+msgid "rep_activation_limited_end"
+msgstr "Záró időpont"
+
+msgid "rep_activation_limited_start"
+msgstr "Kezdő időpont"
+
+msgid "rep_activation_limited_visibility"
+msgstr "Mindig látható"
+
+msgid "rep_activation_online"
+msgstr "Online"
+
+msgid "rep_activation_online_object_info"
+msgstr "Ez a beállítás hatással van a Tartalomtár minden hivatkozására."
+
+msgid "rep_add_new_def_grp_assessment"
+msgstr "Értékelés"
+
+msgid "rep_add_new_def_grp_communication"
+msgstr "Kapcsolattartás"
+
+msgid "rep_add_new_def_grp_content"
+msgstr "Tartalom"
+
+msgid "rep_add_new_def_grp_feedback"
+msgstr "Visszajelzés és felmérés"
+
+msgid "rep_add_new_def_grp_organisation"
+msgstr "Szervezet"
+
+msgid "rep_add_new_def_grp_templates"
+msgstr "Sablonok"
+
+msgid "rep_added_rec_content"
+msgstr "Az ajánlott tartalmat sikeresen hozzáadta."
+
+msgid "rep_allowed_types"
+msgstr "Engedélyezett típusok"
+
+msgid "rep_breadcr_crs"
+msgstr "A navigációs sor a kurzustól indul"
+
+msgid "rep_breadcr_crs_config"
+msgstr "Beállítások"
+
+msgid "rep_breadcr_crs_overwrite"
+msgstr "A beállítás kurzusszinten módosítható"
+
+msgid "rep_breadcr_crs_overwrite_not"
+msgstr "A beállítás nem módosítható kurzusszinten"
+
+msgid "rep_breadcr_crs_overwrite_settings"
+msgstr "Kivételek engedélyezése"
+
+msgid "rep_breadcr_crs_overwrite_with_default"
+msgstr "Ez az alapértelmezett értek, de a beállítás kurzuszinten módosítható."
+
+msgid "rep_configure"
+msgstr "Beállítások"
+
+msgid "rep_crs_default_shortened"
+msgstr "Alapértelmezett: Rövidített navigációs sor"
+
+msgid "rep_custom_icons"
+msgstr "Egyéni ikonok"
+
+msgid "rep_default"
+msgstr "Alapértelmezett"
+
+msgid "rep_deleted_account"
+msgstr "Törölt fiók"
+
+msgid "rep_dependencies"
+msgstr "Függőségek"
+
+msgid "rep_dependency"
+msgstr "Függőség"
+
+msgid "rep_dependent_object"
+msgstr "Források függőséggel"
+
+msgid "rep_export_limit_number"
+msgstr "Objektumok száma"
+
+msgid "rep_export_limitation"
+msgstr "Tároló típusú objektumok exportálásának korlátozása"
+
+msgid "rep_export_limitation_disabled"
+msgstr "Tároló típusú objetumok exportálásának tiltása"
+
+msgid "rep_export_limitation_info"
+msgstr "A Tartalomtárban lévő tároló objektum (kurzusok, kategóriák, …) exportálásának korlátozása elemeinek száma alapján."
+
+msgid "rep_export_limitation_limited"
+msgstr "Exportálás korlátja"
+
+msgid "rep_export_limitation_unlimited"
+msgstr "Korlátlan exportálás"
+
+msgid "rep_failure_trashed_trash"
+msgstr "Olyan elemeket választott ki, melyek eredeti helyére nem állíthatók vissza, mert a szülőobjektumát törölték. Kérem, nem válasszon ki ilyen objektumot vagy válassza az új helyre visszaállítást."
+
+msgid "rep_fav_intro1"
+msgstr "Még nem választott ki egy kedvencet sem. Ehhez két lépést kell tennie:"
+
+msgid "rep_fav_intro2"
+msgstr "Kattintson ‘%s’ elemre és válasszon egy tanulási objektumot a rendelkezésre álló ajánlatból, például egy tananyagot vagy egy fórumot."
+
+msgid "rep_fav_intro3"
+msgstr "Amikor olyasmire bukkan, ami felkeltette az érdeklődését, adja hozzá a kedvenceihez: válassza a kívánt objektum <i>Műveletek</i> menüjéből a ‘<i>Hozzáadás a kedvencekhez</i>’ lehetőséget."
+
+msgid "rep_favourites"
+msgstr "Kedvencek"
+
+msgid "rep_favourites_info"
+msgstr "Kedvencként jelölhet meg Tartalomtárban lévő elemeket. A kedvencek listája az irányítópult és a menü beállításaiban kapcsolható be és konfigurálható."
+
+msgid "rep_input_not_empty"
+msgstr "Ez a mező nem lehet üres, kérem, adjon meg egy értéket."
+
+msgid "rep_intro"
+msgstr "Üdvözöljük a Tartalomtárban!"
+
+msgid "rep_intro1"
+msgstr "Ezen a területen tanulási és munkaforrásokat hozhat létre felhasználói számára. Minden forrás kategóriákba van szervezve. A kategóriák utalhatnak az Ön szervezetének struktúrájára (például osztályok), tudományágak hierarchiájára vagy iskolai osztályokra."
+
+msgid "rep_intro2"
+msgstr "Három lépés szükséges a kezdeti struktúra elkészítéséhez:"
+
+msgid "rep_intro3"
+msgstr "Kattintson a jobb felül lévő kiválasztható elemeket tartalmazó <i>%s</i> gombra."
+
+msgid "rep_intro4"
+msgstr "Az <i>Új kategória</i> űrlapon adjon meg címet és leírást, majd kattintson a <i>%s</i> gombra."
+
+msgid "rep_intro5"
+msgstr "A kategóriába annak címére kattintva lehet belépni."
+
+msgid "rep_intro6"
+msgstr "Ezen lépések után bármilyen tanulási vagy munkaforrást felvehet a kategóriába."
+
+msgid "rep_mo_mem_dash"
+msgstr "Jelenleg egy kurzusnak, illetve csoportnak sem tagja."
+
+msgid "rep_multiple_reference_deletion_instruction"
+msgstr "Válassza ki azokat, amelyeket szintén törölni szeretne:"
+
+msgid "rep_multiple_reference_deletion_intro"
+msgstr "További hivatkozások vannak ehhez az objektumhoz."
+
+msgid "rep_new_item_group_add"
+msgstr "Csoportosítás hozzáadása"
+
+msgid "rep_new_item_group_delete_sure"
+msgstr "Biztos, hogy törli az alábbi csoportosításokat?"
+
+msgid "rep_new_item_group_edit"
+msgstr "Csoportosítás módosítása"
+
+msgid "rep_new_item_group_nr_subitems"
+msgstr "Hozzárendelt objektumok száma"
+
+msgid "rep_new_item_group_other"
+msgstr "Egyebek"
+
+msgid "rep_new_item_group_unassigned"
+msgstr "Nincs hozzárendelve"
+
+msgid "rep_new_item_group_unassigned_subitems"
+msgstr "Hozzá nem rendelt objektumok száma: %s"
+
+msgid "rep_new_item_groups"
+msgstr "Csoportosítás"
+
+msgid "rep_new_item_menu"
+msgstr "‘Új objektum létrehozása’-Menü"
+
+msgid "rep_no_last_visited_mess"
+msgstr "Még a Tartalmotár egy objektumát sem látogatta meg."
+
+msgid "rep_no_permission_to_delete"
+msgstr "Nincs törlési jogosultság"
+
+msgid "rep_object_lists"
+msgstr "Objektum listák"
+
+msgid "rep_object_references_cannot_be_read"
+msgstr "Nincs több hivatkozásra engedélye ehhez: %s."
+
+msgid "rep_object_to_delete"
+msgstr "Törölni"
+
+msgid "rep_rec_content_removed"
+msgstr "Az ajánlott tartalmat sikeresen eltávolította."
+
+msgid "rep_recommended_content"
+msgstr "Ajánlott tartalom"
+
+msgid "rep_remove_rec_content"
+msgstr "Biztos, hogy eltávolítja az alábbi ajánlott tartalmat?"
+
+msgid "rep_target_location"
+msgstr "Célhely"
+
+msgid "rep_target_location_info"
+msgstr "Kérem, válassza ki a helyet, ahová a kiválasztott objektumokat visszaállítja."
+
+msgid "rep_time_based_availability"
+msgstr "Elérhetőség időbeli korlátozása"
+
+msgid "rep_time_based_availability_info"
+msgstr "A kiválasztott elemek csak a kezdő és a záró dátum között lesznek láthatók."
+
+msgid "rep_time_period"
+msgstr "Időszak"
+
+msgid "rep_trash_deleted_by_unknown"
+msgstr "Ismeretlen"
+
+msgid "rep_trash_table_col_deleted_by"
+msgstr "Törölte"
+
+msgid "rep_trash_table_col_deleted_on"
+msgstr "Törölve"
+
+msgid "rep_trash_table_col_num_subs"
+msgstr "Alelemek száma"
+
+msgid "rep_trash_table_title"
+msgstr "A törölt objektumok:"
+
+msgid "rep_tree_limit"
+msgstr "Elemek számának korlátozás a Tartalomtárban"
+
+msgid "rep_tree_limit_info"
+msgstr "A teljesítmény növelése érdekében korlátozható a Tartalomtár faszerkezetében megjelenő objektumok száma."
+
+msgid "rep_tree_limit_number"
+msgstr "Maximális szám"
+
+msgid "rep_tree_limit_number_info"
+msgstr "A csomópont kibontásakor megjelenő gyermekelemek maximális száma. Amennyiben ennél több gyermekelem létezik, egy beviteli mező jelenik meg, mely segítségével cím alapján szűrhetünk a gyermekelemekre."
