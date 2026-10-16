@@ -24,6 +24,7 @@ use ILIAS\Language\ComponentTranslation\PlainLogText;
 use ILIAS\Language\ComponentTranslation\TranslationMarkupPolicy;
 use ILIAS\Language\Activities\InstallLanguage;
 use ILIAS\Language\Activities\UpdateLanguage;
+use ILIAS\Language\Setup\ShippedLanguageFilesCompiledObjective;
 
 class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
 {
@@ -104,9 +105,16 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
      */
     public function getPreconditions(Setup\Environment $environment): array
     {
-        return [
-            new ilDatabaseInitializedObjective()
-        ];
+        $preconditions = [new ilDatabaseInitializedObjective()];
+        // with the default directories the build would serve no module at all
+        if (!$this->il_setup_language->usesDefaultLanguageFileDirectories()) {
+            $preconditions[] = new ShippedLanguageFilesCompiledObjective(
+                $this->il_setup_language->getLanguageFileDirectoryManager(),
+                dirname(__DIR__, 5)
+            );
+        }
+
+        return $preconditions;
     }
 
     /**

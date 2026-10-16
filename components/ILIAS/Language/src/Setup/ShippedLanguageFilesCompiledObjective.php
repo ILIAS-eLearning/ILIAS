@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Language\Setup;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
+use ILIAS\Language\ComponentTranslation\MigratedTranslations;
 use ILIAS\Language\ComponentTranslation\NativeGettext;
 use ILIAS\Language\ComponentTranslation\PlainLogText;
 use ILIAS\Language\ComponentTranslation\ShippedTranslations;
@@ -101,6 +102,8 @@ final class ShippedLanguageFilesCompiledObjective implements Setup\Objective
             // the check of the build activated native gettext in this process
             NativeGettext::restore();
         }
+        // the language objectives after it in this process serve the new build
+        MigratedTranslations::reset();
 
         foreach ($result['warnings'] as $warning) {
             $inform('WARNING: ' . $warning);
