@@ -1,0 +1,326 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: bibl\n"
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "add_filter"
+msgstr "Se estiver ativado, as sequências de texto configuradas são substituídas por um ícone. Ver separador de Smileys para configuração."
+
+msgid "bib_default_abstract"
+msgstr "Abstrato"
+
+msgid "bib_default_address"
+msgstr "Endereço"
+
+msgid "bib_default_author"
+msgstr "Autor"
+
+msgid "bib_default_cite"
+msgstr "Bib Cite"
+
+msgid "bib_default_edition"
+msgstr "Edição"
+
+msgid "bib_default_howpublished"
+msgstr "Publicado como"
+
+msgid "bib_default_isbn"
+msgstr "ISSN/ISBN"
+
+msgid "bib_default_journal"
+msgstr "Diário"
+
+msgid "bib_default_keywords"
+msgstr "Palavras-chave"
+
+msgid "bib_default_month"
+msgstr "Mês"
+
+msgid "bib_default_note"
+msgstr "Nota"
+
+msgid "bib_default_number"
+msgstr "Número"
+
+msgid "bib_default_organization"
+msgstr "Organização"
+
+msgid "bib_default_pages"
+msgstr "Páginas"
+
+msgid "bib_default_publisher"
+msgstr "Editor"
+
+msgid "bib_default_series"
+msgstr "Série"
+
+msgid "bib_default_title"
+msgstr "Título"
+
+msgid "bib_default_type"
+msgstr "Tipo"
+
+msgid "bib_default_url"
+msgstr "URL"
+
+msgid "bib_default_volume"
+msgstr "Volume"
+
+msgid "bib_default_year"
+msgstr "Ano"
+
+msgid "bibl_copy"
+msgstr "Se estiver ativado, os utilizadores são notificados por um popup sobre novos convites para chats de repositório."
+
+msgid "bibl_edit"
+msgstr "Editar bibliografia"
+
+msgid "bibl_filter"
+msgstr "Decidir intervalo para verificar novas notificações. Um número baixo vai notificar o utilizador mais rapidamente, mas aumenta o número de pedidos que o servidor da web tem de tratar."
+
+msgid "bibl_import"
+msgstr "Importar bibliografia"
+
+msgid "bibl_library_img"
+msgstr "URL de imagem"
+
+msgid "bibl_library_name"
+msgstr "Nome"
+
+msgid "bibl_library_show_in_list"
+msgstr "Mostrar conversação por dia"
+
+msgid "bibl_library_url"
+msgstr "URL base"
+
+msgid "bibl_link_online"
+msgstr "Consultar inventário"
+
+msgid "bibl_msg_translations_deleted"
+msgstr "Mostrar conversação por sessão"
+
+msgid "bibl_msg_translations_saved"
+msgstr "Nome de utilizador"
+
+msgid "bibl_new"
+msgstr "Nova bibliografia"
+
+msgid "bibl_settings_edit"
+msgstr "Editar Biblioteca"
+
+msgid "bibl_settings_libraries"
+msgstr "Bibliotecas"
+
+msgid "bibl_settings_new"
+msgstr "Adicionar biblioteca"
+
+msgid "bibl_translation_desc"
+msgstr "A conexão ao servidor de chat foi interrompida."
+
+msgid "bibl_translation_lang"
+msgstr "Sala de chat"
+
+msgid "bibl_translation_trans"
+msgstr "A sala de chat <b>"
+
+msgid "bibliography_file"
+msgstr "Bibliography File"
+
+msgid "bibtex"
+msgstr "A sala de chat pública foi adicionada ao repositório"
+
+msgid "changes_saved"
+msgstr "Definições"
+
+msgid "custom"
+msgstr "Falar com <b>"
+
+msgid "detail_view"
+msgstr "Vista de detalhes"
+
+#, fuzzy
+msgid "detailed_information"
+msgstr "Detailed Information"
+
+msgid "download_original_file"
+msgstr "Download ficheiro original"
+
+msgid "field"
+msgstr "Não foi possível estabelecer a ligação ao servidor de chat."
+
+msgid "fields"
+msgstr "O utilizador foi convidado."
+
+msgid "filter_deleted"
+msgstr "Convidar utilizador da sala de chat atual"
+
+msgid "filter_field_info"
+msgstr "Bem-vindo à sala de chat"
+
+msgid "filter_form_title"
+msgstr "Sussurrar para <b>"
+
+msgid "filter_type"
+msgstr "Smilies disponíveis"
+
+msgid "filter_type_1"
+msgstr "Apagar smilies selecionados"
+
+msgid "filter_type_2"
+msgstr "ILIAS não conseguiu estabelecer uma ligação de tomada com o servidor de chat."
+
+msgid "filter_type_3"
+msgstr "Smilies do chat inicializados"
+
+msgid "filter_type_info"
+msgstr "Definições gerais"
+
+msgid "identifier"
+msgstr "Chat de repositório: Ativar notificações no ecrã"
+
+msgid "msg_confirm_delete_filter"
+msgstr "Reproduzir um som"
+
+#, fuzzy
+msgid "msg_filter_info"
+msgstr "Create a filter here that can be used in the \"Contents\" tab to limit the display of entries."
+
+msgid "news_title_created"
+msgstr "Nova lista de bibliografia adicionada"
+
+msgid "news_title_updated"
+msgstr "Lista de bibliografia atualizada"
+
+#, fuzzy
+msgid "not_yet_migrated"
+msgstr "This Object has not et been migrated. Please contact the administrators of the platform."
+
+msgid "obj_bibl_duplicate"
+msgstr "Bibliografia duplicada"
+
+msgid "order"
+msgstr "Permissões da sala de chat pública"
+
+msgid "override_entries"
+msgstr "Substituir entradas"
+
+#, fuzzy
+msgid "replace_bibliography_file"
+msgstr "Replace Bibliography File"
+
+#, fuzzy
+msgid "replace_bibliography_file_info"
+msgstr "The current bibliography file will be replaced by the new file. All existing entries from the current file will be deleted."
+
+msgid "ris"
+msgstr "Definições da sala de chat pública"
+
+msgid "ris_default_a2"
+msgstr "Localização em arquivos"
+
+msgid "ris_default_au"
+msgstr "Autor"
+
+msgid "ris_default_cy"
+msgstr "Local publicado"
+
+msgid "ris_default_ep"
+msgstr "Fim número de página"
+
+msgid "ris_default_id"
+msgstr "ID de referência"
+
+msgid "ris_default_ja"
+msgstr "Revista na qual o artigo foi publicado"
+
+msgid "ris_default_kw"
+msgstr "Palavras-chave"
+
+msgid "ris_default_l3"
+msgstr "Registos relacionados"
+
+msgid "ris_default_m1"
+msgstr "Número"
+
+msgid "ris_default_m3"
+msgstr "Comb. 3"
+
+msgid "ris_default_n1"
+msgstr "Notas"
+
+msgid "ris_default_n2"
+msgstr "Abstrato"
+
+msgid "ris_default_pb"
+msgstr "Editor"
+
+msgid "ris_default_py"
+msgstr "Ano de publicação"
+
+msgid "ris_default_sn"
+msgstr "ISSN/ISBN/ASIN"
+
+msgid "ris_default_t1"
+msgstr "Título primário"
+
+msgid "ris_default_t2"
+msgstr "Título secundário"
+
+msgid "ris_default_t3"
+msgstr "Título terciário"
+
+msgid "ris_default_ti"
+msgstr "Título do livro"
+
+msgid "ris_default_ty"
+msgstr "Tipo"
+
+msgid "ris_default_u2"
+msgstr "Definido pelo utilizador"
+
+msgid "ris_default_ur"
+msgstr "URL"
+
+msgid "ris_default_vl"
+msgstr "Volume"
+
+msgid "ris_default_y1"
+msgstr "Ano"
+
+#, fuzzy
+msgid "sorting_1"
+msgstr "By Title (Ascending)"
+
+#, fuzzy
+msgid "sorting_2"
+msgstr "By Title (Descending)"
+
+#, fuzzy
+msgid "sorting_3"
+msgstr "By Author (Ascending)"
+
+#, fuzzy
+msgid "sorting_4"
+msgstr "By Author (Descending)"
+
+#, fuzzy
+msgid "sorting_5"
+msgstr "By Year (Ascending)"
+
+#, fuzzy
+msgid "sorting_6"
+msgstr "By Year (Descending)"
+
+msgid "standard"
+msgstr "Definições do servidor de chat"
+
+msgid "translate"
+msgstr "Nenhum objeto corresponde aos seus critérios selecionados."

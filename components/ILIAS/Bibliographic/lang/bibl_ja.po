@@ -1,0 +1,315 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: bibl\n"
+
+msgid "Type"
+msgstr "タイプ"
+
+msgid "add_filter"
+msgstr "フィルタ追加"
+
+msgid "bib_default_abstract"
+msgstr "Abstract"
+
+msgid "bib_default_address"
+msgstr "Address"
+
+msgid "bib_default_author"
+msgstr "著者"
+
+msgid "bib_default_cite"
+msgstr "前引用(Bib Cite)"
+
+msgid "bib_default_edition"
+msgstr "版"
+
+msgid "bib_default_howpublished"
+msgstr "出版社"
+
+msgid "bib_default_isbn"
+msgstr "ISSN/SBN"
+
+msgid "bib_default_journal"
+msgstr "Journal"
+
+msgid "bib_default_keywords"
+msgstr "キーワード"
+
+msgid "bib_default_month"
+msgstr "Month"
+
+msgid "bib_default_note"
+msgstr "Note"
+
+msgid "bib_default_number"
+msgstr "Number"
+
+msgid "bib_default_organization"
+msgstr "Organizaton"
+
+msgid "bib_default_pages"
+msgstr "ページ"
+
+msgid "bib_default_publisher"
+msgstr "出版社"
+
+msgid "bib_default_series"
+msgstr "Series"
+
+msgid "bib_default_title"
+msgstr "タイトル"
+
+msgid "bib_default_type"
+msgstr "Type"
+
+msgid "bib_default_url"
+msgstr "URL"
+
+msgid "bib_default_volume"
+msgstr "Volume"
+
+msgid "bib_default_year"
+msgstr "年"
+
+msgid "bibl_copy"
+msgstr "文献目録をコピー"
+
+msgid "bibl_edit"
+msgstr "文献目録を編集"
+
+msgid "bibl_filter"
+msgstr "フィルタ"
+
+msgid "bibl_import"
+msgstr "目録をインポート"
+
+msgid "bibl_library_img"
+msgstr "Image-URL"
+
+msgid "bibl_library_name"
+msgstr "名前"
+
+msgid "bibl_library_show_in_list"
+msgstr "リストのリンクを表示"
+
+msgid "bibl_library_url"
+msgstr "Base-URL"
+
+msgid "bibl_link_online"
+msgstr "目録を参照"
+
+msgid "bibl_msg_translations_deleted"
+msgstr "翻訳は削除されました。"
+
+msgid "bibl_msg_translations_saved"
+msgstr "翻訳は保存されました。"
+
+msgid "bibl_new"
+msgstr "新規文献目録"
+
+msgid "bibl_settings_edit"
+msgstr "ライブラリーを編集"
+
+msgid "bibl_settings_libraries"
+msgstr "ライブラリー"
+
+msgid "bibl_settings_new"
+msgstr "ライブラリーを追加"
+
+msgid "bibl_translation_desc"
+msgstr "説明"
+
+msgid "bibl_translation_lang"
+msgstr "言語"
+
+msgid "bibl_translation_trans"
+msgstr "翻訳"
+
+msgid "bibliography_file"
+msgstr "バイオグラフィーファイル"
+
+msgid "bibtex"
+msgstr "Bibtex"
+
+msgid "changes_saved"
+msgstr "変更が保存されました。"
+
+msgid "custom"
+msgstr "Custom"
+
+msgid "detail_view"
+msgstr "詳細ビュー"
+
+msgid "detailed_information"
+msgstr "詳細情報"
+
+msgid "download_original_file"
+msgstr "オリジナルファイルをダウンロード"
+
+msgid "field"
+msgstr "フィールド"
+
+msgid "fields"
+msgstr "フィールド"
+
+msgid "filter_deleted"
+msgstr "ファイルは削除されました。"
+
+msgid "filter_field_info"
+msgstr "追加したいフィルタのフィールドを選択してください。"
+
+msgid "filter_form_title"
+msgstr "新しいフィルターを追加"
+
+msgid "filter_type"
+msgstr "フィルタータイプ"
+
+msgid "filter_type_1"
+msgstr "テキスト入力"
+
+msgid "filter_type_2"
+msgstr "選択入力"
+
+msgid "filter_type_3"
+msgstr "複数選択入力"
+
+msgid "filter_type_info"
+msgstr "フィールドのフィルタータイプを選択してください。"
+
+msgid "identifier"
+msgstr "識別子"
+
+msgid "msg_confirm_delete_filter"
+msgstr "次のフィルターを削除したいですか？"
+
+msgid "msg_filter_info"
+msgstr "エントリー表示を制限するための \"コンテンツ\" タブ内に使用できるフィルタをここで作成します。"
+
+msgid "news_title_created"
+msgstr "新しい文献リストを追加しました"
+
+msgid "news_title_updated"
+msgstr "文献リストを更新しました。"
+
+msgid "not_yet_migrated"
+msgstr "このオブジェクトは移行されていません。プラットフォームの管理者へコンタクトしてください。"
+
+msgid "obj_bibl_duplicate"
+msgstr "文献目録を複製"
+
+msgid "order"
+msgstr "Order"
+
+msgid "override_entries"
+msgstr "エントリを上書き"
+
+msgid "replace_bibliography_file"
+msgstr "文献ファイルを置き換える"
+
+msgid "replace_bibliography_file_info"
+msgstr "現在の分類学ファイルは新しいファイルで置き換えられます。現在のファイルから全てのエントリーは削除されます。"
+
+msgid "ris"
+msgstr "Ris"
+
+msgid "ris_default_a2"
+msgstr "アーカイブ場所"
+
+msgid "ris_default_au"
+msgstr "著者"
+
+msgid "ris_default_cy"
+msgstr "出版市"
+
+msgid "ris_default_ep"
+msgstr "編集中のページ"
+
+msgid "ris_default_id"
+msgstr "レファレンスID"
+
+msgid "ris_default_ja"
+msgstr "出版済み論文中の定期刊行物"
+
+msgid "ris_default_kw"
+msgstr "Keywords"
+
+msgid "ris_default_l3"
+msgstr "関連の記録"
+
+msgid "ris_default_m1"
+msgstr "Number"
+
+msgid "ris_default_m3"
+msgstr "その他1"
+
+msgid "ris_default_n1"
+msgstr "Notes"
+
+msgid "ris_default_n2"
+msgstr "Abstract"
+
+msgid "ris_default_pb"
+msgstr "出版社"
+
+msgid "ris_default_py"
+msgstr "出版年"
+
+msgid "ris_default_sn"
+msgstr "ISSN/ISBN/ASIN"
+
+msgid "ris_default_t1"
+msgstr "Primary Title"
+
+msgid "ris_default_t2"
+msgstr "Secondary Title"
+
+msgid "ris_default_t3"
+msgstr "Tertiary Title"
+
+msgid "ris_default_ti"
+msgstr "本のタイトル"
+
+msgid "ris_default_ty"
+msgstr "タイプ"
+
+msgid "ris_default_u2"
+msgstr "ユーザ定期"
+
+msgid "ris_default_ur"
+msgstr "URL"
+
+msgid "ris_default_vl"
+msgstr "Volume"
+
+msgid "ris_default_y1"
+msgstr "Year"
+
+msgid "sorting_1"
+msgstr "タイトル順（昇順）"
+
+msgid "sorting_2"
+msgstr "タイトル順（降順）"
+
+msgid "sorting_3"
+msgstr "著者順(昇順)"
+
+msgid "sorting_4"
+msgstr "著者順(降順)"
+
+msgid "sorting_5"
+msgstr "年代順(昇順)"
+
+msgid "sorting_6"
+msgstr "年代順(降順)"
+
+msgid "standard"
+msgstr "標準"
+
+msgid "translate"
+msgstr "翻訳"

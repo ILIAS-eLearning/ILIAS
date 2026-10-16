@@ -1,0 +1,325 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: bibl\n"
+
+msgid "Type"
+msgstr "Typ"
+
+msgid "add_filter"
+msgstr "Lägg till filter"
+
+msgid "bib_default_abstract"
+msgstr "Abstrakt"
+
+msgid "bib_default_address"
+msgstr "Adress"
+
+msgid "bib_default_author"
+msgstr "Författare"
+
+msgid "bib_default_cite"
+msgstr "Bib Cite"
+
+msgid "bib_default_edition"
+msgstr "Cirkulation"
+
+msgid "bib_default_howpublished"
+msgstr "Typ av publicering"
+
+msgid "bib_default_isbn"
+msgstr "ISSN/ISBN"
+
+msgid "bib_default_journal"
+msgstr "Journal/Magazine"
+
+msgid "bib_default_keywords"
+msgstr "nyckelord"
+
+msgid "bib_default_month"
+msgstr "Månad"
+
+msgid "bib_default_note"
+msgstr "Note"
+
+msgid "bib_default_number"
+msgstr "Nummer"
+
+msgid "bib_default_organization"
+msgstr "Organisation"
+
+msgid "bib_default_pages"
+msgstr "Sidor"
+
+msgid "bib_default_publisher"
+msgstr "Förläggare"
+
+msgid "bib_default_series"
+msgstr "Serier"
+
+msgid "bib_default_title"
+msgstr "Titel"
+
+msgid "bib_default_type"
+msgstr "Typ"
+
+msgid "bib_default_url"
+msgstr "URL"
+
+msgid "bib_default_volume"
+msgstr "Cirkulation"
+
+msgid "bib_default_year"
+msgstr "År"
+
+msgid "bibl_copy"
+msgstr "Kopiera litteraturlista"
+
+msgid "bibl_edit"
+msgstr "Redigera litteraturlistan"
+
+msgid "bibl_filter"
+msgstr "Filter"
+
+msgid "bibl_import"
+msgstr "Importera litteraturlista"
+
+msgid "bibl_library_img"
+msgstr "URL för bild"
+
+msgid "bibl_library_name"
+msgstr "Namn"
+
+msgid "bibl_library_show_in_list"
+msgstr "Visa länk även i listan"
+
+msgid "bibl_library_url"
+msgstr "Bas-URL"
+
+msgid "bibl_link_online"
+msgstr "Fråga om inventering"
+
+msgid "bibl_msg_translations_deleted"
+msgstr "Översättningar har tagits bort."
+
+msgid "bibl_msg_translations_saved"
+msgstr "Översättningar har sparats"
+
+msgid "bibl_new"
+msgstr "Skapa ny bibliografi"
+
+msgid "bibl_settings_edit"
+msgstr "Redigera bibliotek"
+
+msgid "bibl_settings_libraries"
+msgstr "Bibliotek"
+
+msgid "bibl_settings_new"
+msgstr "Lägg till bibliotek"
+
+msgid "bibl_translation_desc"
+msgstr "Beskrivning"
+
+msgid "bibl_translation_lang"
+msgstr "Språk"
+
+msgid "bibl_translation_trans"
+msgstr "Översättning"
+
+msgid "bibliography_file"
+msgstr "Litteraturlista fil"
+
+msgid "bibtex"
+msgstr "Bibtex"
+
+msgid "changes_saved"
+msgstr "Ändringarna har sparats."
+
+msgid "custom"
+msgstr "Användare definierad"
+
+msgid "detail_view"
+msgstr "Detaljerad vy"
+
+#, fuzzy
+msgid "detailed_information"
+msgstr "Detailed Information"
+
+msgid "download_original_file"
+msgstr "Ladda ner originalfilen"
+
+msgid "field"
+msgstr "Fält"
+
+msgid "fields"
+msgstr "Fält"
+
+msgid "filter_deleted"
+msgstr "Filtret har tagits bort."
+
+msgid "filter_field_info"
+msgstr "Välj ett fält för vilket du vill lägga till ett filter."
+
+msgid "filter_form_title"
+msgstr "Lägg till nytt filter"
+
+msgid "filter_type"
+msgstr "Filter typ"
+
+msgid "filter_type_1"
+msgstr "Textfält"
+
+msgid "filter_type_2"
+msgstr "Urval"
+
+msgid "filter_type_3"
+msgstr "Multipelt urval"
+
+msgid "filter_type_info"
+msgstr "Välj en filtertyp för fältet."
+
+msgid "identifier"
+msgstr "Identifierare"
+
+msgid "msg_confirm_delete_filter"
+msgstr "Vill du verkligen ta bort följande filter?"
+
+#, fuzzy
+msgid "msg_filter_info"
+msgstr "Create a filter here that can be used in the \"Contents\" tab to limit the display of entries."
+
+msgid "news_title_created"
+msgstr "Ny litteraturlista tillagd"
+
+msgid "news_title_updated"
+msgstr "Litteraturlistan uppdaterad"
+
+msgid "not_yet_migrated"
+msgstr "Detta objekt har ännu inte migrerats. Kontakta plattformens administratörer."
+
+msgid "obj_bibl_duplicate"
+msgstr "Duplicera litteraturlistan"
+
+msgid "order"
+msgstr "Sortering"
+
+msgid "override_entries"
+msgstr "Överskriv poster"
+
+#, fuzzy
+msgid "replace_bibliography_file"
+msgstr "Replace Bibliography File"
+
+#, fuzzy
+msgid "replace_bibliography_file_info"
+msgstr "The current bibliography file will be replaced by the new file. All existing entries from the current file will be deleted."
+
+msgid "ris"
+msgstr "Ris"
+
+msgid "ris_default_a2"
+msgstr "Andra författaren"
+
+msgid "ris_default_au"
+msgstr "Författare"
+
+msgid "ris_default_cy"
+msgstr "Outlet"
+
+msgid "ris_default_ep"
+msgstr "Sista sidan"
+
+msgid "ris_default_id"
+msgstr "Reference ID"
+
+msgid "ris_default_ja"
+msgstr "Tidskrift i vilken artikeln publicerades"
+
+msgid "ris_default_kw"
+msgstr "Nyckelord"
+
+msgid "ris_default_l3"
+msgstr "Liknande register"
+
+msgid "ris_default_m1"
+msgstr "Nummer"
+
+msgid "ris_default_m3"
+msgstr "Misc. 3"
+
+msgid "ris_default_n1"
+msgstr "Noter"
+
+msgid "ris_default_n2"
+msgstr "Abstrakt"
+
+msgid "ris_default_pb"
+msgstr "Redaktör"
+
+msgid "ris_default_py"
+msgstr "Publiceringsår"
+
+msgid "ris_default_sn"
+msgstr "ISSN/ISBN/ASIN"
+
+msgid "ris_default_t1"
+msgstr "Huvudtitel"
+
+msgid "ris_default_t2"
+msgstr "Andra titeln"
+
+msgid "ris_default_t3"
+msgstr "Tredje avdelningen"
+
+msgid "ris_default_ti"
+msgstr "Boktitel"
+
+msgid "ris_default_ty"
+msgstr "Typ"
+
+msgid "ris_default_u2"
+msgstr "Användare definierad"
+
+msgid "ris_default_ur"
+msgstr "URL"
+
+msgid "ris_default_vl"
+msgstr "Volym"
+
+msgid "ris_default_y1"
+msgstr "År"
+
+#, fuzzy
+msgid "sorting_1"
+msgstr "By Title (Ascending)"
+
+#, fuzzy
+msgid "sorting_2"
+msgstr "By Title (Descending)"
+
+#, fuzzy
+msgid "sorting_3"
+msgstr "By Author (Ascending)"
+
+#, fuzzy
+msgid "sorting_4"
+msgstr "By Author (Descending)"
+
+#, fuzzy
+msgid "sorting_5"
+msgstr "By Year (Ascending)"
+
+#, fuzzy
+msgid "sorting_6"
+msgstr "By Year (Descending)"
+
+msgid "standard"
+msgstr "Standard"
+
+msgid "translate"
+msgstr "Översättning"

@@ -1,0 +1,315 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: bibl\n"
+
+msgid "Type"
+msgstr "Typ"
+
+msgid "add_filter"
+msgstr "Felder hinzufügen"
+
+msgid "bib_default_abstract"
+msgstr "Abstract"
+
+msgid "bib_default_address"
+msgstr "Adresse"
+
+msgid "bib_default_author"
+msgstr "Autor:in"
+
+msgid "bib_default_cite"
+msgstr "Bib Cite"
+
+msgid "bib_default_edition"
+msgstr "Auflage"
+
+msgid "bib_default_howpublished"
+msgstr "Publikations-Typ"
+
+msgid "bib_default_isbn"
+msgstr "ISSN/ISBN"
+
+msgid "bib_default_journal"
+msgstr "Journal/Zeitschrift"
+
+msgid "bib_default_keywords"
+msgstr "Schlagwörter"
+
+msgid "bib_default_month"
+msgstr "Monat"
+
+msgid "bib_default_note"
+msgstr "Notiz"
+
+msgid "bib_default_number"
+msgstr "Nummer"
+
+msgid "bib_default_organization"
+msgstr "Organisation"
+
+msgid "bib_default_pages"
+msgstr "Seiten"
+
+msgid "bib_default_publisher"
+msgstr "Verleger:in"
+
+msgid "bib_default_series"
+msgstr "Serie"
+
+msgid "bib_default_title"
+msgstr "Titel"
+
+msgid "bib_default_type"
+msgstr "Typ"
+
+msgid "bib_default_url"
+msgstr "URL"
+
+msgid "bib_default_volume"
+msgstr "Auflage"
+
+msgid "bib_default_year"
+msgstr "Jahr"
+
+msgid "bibl_copy"
+msgstr "Literaturliste kopieren"
+
+msgid "bibl_edit"
+msgstr "Einstellungen der Literaturliste"
+
+msgid "bibl_filter"
+msgstr "Filter"
+
+msgid "bibl_import"
+msgstr "Literaturliste importieren"
+
+msgid "bibl_library_img"
+msgstr "Bild-URL"
+
+msgid "bibl_library_name"
+msgstr "Name"
+
+msgid "bibl_library_show_in_list"
+msgstr "Link auch in der Liste anzeigen"
+
+msgid "bibl_library_url"
+msgstr "Basis-URL"
+
+msgid "bibl_link_online"
+msgstr "Bestandsabfrage"
+
+msgid "bibl_msg_translations_deleted"
+msgstr "Übersetzungen wurden gelöscht."
+
+msgid "bibl_msg_translations_saved"
+msgstr "Übersetzungen wurden gespeichert"
+
+msgid "bibl_new"
+msgstr "Neue Literaturliste anlegen"
+
+msgid "bibl_settings_edit"
+msgstr "Bibliothek bearbeiten"
+
+msgid "bibl_settings_libraries"
+msgstr "Bibliotheken"
+
+msgid "bibl_settings_new"
+msgstr "Bibliothek hinzufügen"
+
+msgid "bibl_translation_desc"
+msgstr "Beschreibung"
+
+msgid "bibl_translation_lang"
+msgstr "Sprache"
+
+msgid "bibl_translation_trans"
+msgstr "Übersetzung"
+
+msgid "bibliography_file"
+msgstr "Literaturlisten-Datei"
+
+msgid "bibtex"
+msgstr "Bibtex"
+
+msgid "changes_saved"
+msgstr "Die Änderungen wurden gespeichert."
+
+msgid "custom"
+msgstr "Benutzerdefiniert"
+
+msgid "detail_view"
+msgstr "Detailansicht"
+
+msgid "detailed_information"
+msgstr "Detaillierte Informationen"
+
+msgid "download_original_file"
+msgstr "Original-Datei herunterladen"
+
+msgid "field"
+msgstr "Feld"
+
+msgid "fields"
+msgstr "Felder"
+
+msgid "filter_deleted"
+msgstr "Der Filter wurde gelöscht."
+
+msgid "filter_field_info"
+msgstr "Wählen Sie ein Kriterium aus, das Sie dem Filter hinzufügen möchten."
+
+msgid "filter_form_title"
+msgstr "Neues Feld hinzufügen"
+
+msgid "filter_type"
+msgstr "Typ"
+
+msgid "filter_type_1"
+msgstr "Textfeld"
+
+msgid "filter_type_2"
+msgstr "Auswahl"
+
+msgid "filter_type_3"
+msgstr "Mehrfachauswahl"
+
+msgid "filter_type_info"
+msgstr "Wählen Sie einen Typ für das Feld aus."
+
+msgid "identifier"
+msgstr "Bezeichner"
+
+msgid "msg_confirm_delete_filter"
+msgstr "Möchten Sie den folgenden Filter wirklich löschen?"
+
+msgid "msg_filter_info"
+msgstr "Erstellen Sie hier einen Filter, der im Reiter „Inhalt“ benutzt werden kann, um die Anzeige der Einträge einzugrenzen."
+
+msgid "news_title_created"
+msgstr "Neue Literaturliste hinzugefügt"
+
+msgid "news_title_updated"
+msgstr "Literaturliste aktualisiert"
+
+msgid "not_yet_migrated"
+msgstr "Dieses Objekt wurde noch nicht migriert. Bitte kontaktieren Sie Ihre technische Betreuung."
+
+msgid "obj_bibl_duplicate"
+msgstr "Literaturliste duplizieren"
+
+msgid "order"
+msgstr "Sortierung"
+
+msgid "override_entries"
+msgstr "Einträge überschreiben"
+
+msgid "replace_bibliography_file"
+msgstr "Literaturliste ersetzen"
+
+msgid "replace_bibliography_file_info"
+msgstr "Die aktuelle Literaturlisten-Datei wird durch die neue Datei ersetzt. Alle vorhandenen Einträge der aktuellen Datei werden dabei gelöscht."
+
+msgid "ris"
+msgstr "Ris"
+
+msgid "ris_default_a2"
+msgstr "Zweite:r Autor:in"
+
+msgid "ris_default_au"
+msgstr "Autor:in"
+
+msgid "ris_default_cy"
+msgstr "Herausgabeort"
+
+msgid "ris_default_ep"
+msgstr "letzte Seite"
+
+msgid "ris_default_id"
+msgstr "Referenz-ID"
+
+msgid "ris_default_ja"
+msgstr "Zeitschrift, in der der Artikel veröffentlicht wurde"
+
+msgid "ris_default_kw"
+msgstr "Stichworte"
+
+msgid "ris_default_l3"
+msgstr "Ähnliche Datensätze"
+
+msgid "ris_default_m1"
+msgstr "Nummer"
+
+msgid "ris_default_m3"
+msgstr "Misc. 3"
+
+msgid "ris_default_n1"
+msgstr "Notizen"
+
+msgid "ris_default_n2"
+msgstr "Abstract"
+
+msgid "ris_default_pb"
+msgstr "Herausgeber:in"
+
+msgid "ris_default_py"
+msgstr "Erscheinungsjahr"
+
+msgid "ris_default_sn"
+msgstr "ISSN/ISBN/ASIN"
+
+msgid "ris_default_t1"
+msgstr "Haupttitel"
+
+msgid "ris_default_t2"
+msgstr "Zweittitel"
+
+msgid "ris_default_t3"
+msgstr "Dritter Titel"
+
+msgid "ris_default_ti"
+msgstr "Buchtitel"
+
+msgid "ris_default_ty"
+msgstr "Typ"
+
+msgid "ris_default_u2"
+msgstr "Benutzerdefiniert"
+
+msgid "ris_default_ur"
+msgstr "URL"
+
+msgid "ris_default_vl"
+msgstr "Volume"
+
+msgid "ris_default_y1"
+msgstr "Jahr"
+
+msgid "sorting_1"
+msgstr "Titel (aufsteigend)"
+
+msgid "sorting_2"
+msgstr "Titel (absteigend)"
+
+msgid "sorting_3"
+msgstr "Autor:in (aufsteigend)"
+
+msgid "sorting_4"
+msgstr "Autor:in (absteigend)"
+
+msgid "sorting_5"
+msgstr "Jahr (aufsteigend)"
+
+msgid "sorting_6"
+msgstr "Jahr (absteigend)"
+
+msgid "standard"
+msgstr "Standard"
+
+msgid "translate"
+msgstr "Übersetzen"
