@@ -1140,7 +1140,9 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
         $lng = $DIC->language();
 
+        $a_tpl->addJavaScript("assets/js/legacyAutocomplete.js", true, 3);
         $a_tpl->addJavaScript("assets/js/WikiEdit.js");
+        $a_tpl->addOnLoadCode("il.Wiki.Edit.txt.more = " . json_encode($lng->txt("autocomplete_more")) . ";");
         $a_tpl->addOnLoadCode("il.Wiki.Edit.txt.page_exists = '" . $lng->txt("wiki_page_exists") . "';");
         $a_tpl->addOnLoadCode("il.Wiki.Edit.txt.new_page = '" . $lng->txt("wiki_new_page") . "';");
     }
