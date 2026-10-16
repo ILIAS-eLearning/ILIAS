@@ -1,0 +1,2976 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: rbac\n"
+
+msgid "accs_edit_permission"
+msgstr "Korisnik može promijeniti dozvole za postavke pristupačnosti u administraciji."
+
+msgid "accs_read"
+msgstr "Korisnik ima pristup za čitanje postavki pristupačnosti u administraciji."
+
+msgid "accs_visible"
+msgstr "Postavke pristupačnosti vidljive su u administraciji."
+
+msgid "accs_write"
+msgstr "Korisnik može uređivati postavke pristupačnosti u administraciji."
+
+msgid "activate_wiki_protection"
+msgstr "Postavi samo za čitanje"
+
+msgid "active_preconditions"
+msgstr "Preduvjeti"
+
+msgid "add_consultation_hours"
+msgstr "Dodaj vrijeme konzultacija"
+
+#, fuzzy
+msgid "add_consume_provider"
+msgstr "Add Own LTI Provider Settings"
+
+#, fuzzy
+msgid "add_pages"
+msgstr "Add Pages"
+
+msgid "add_reply"
+msgstr "Dodaj odgovor"
+
+msgid "add_thread"
+msgstr "Dodaj temu"
+
+msgid "adm_edit_permission"
+msgstr "Korisnik može promijeniti dozvole za opće postavke u administraciji."
+
+msgid "adm_read"
+msgstr "Korisnik ima pristup za čitanje općih postavki u administraciji."
+
+msgid "adm_visible"
+msgstr "Opće postavke vidljive su u administraciji."
+
+msgid "adm_write"
+msgstr "Korisnik može uređivati opće postavke u administraciji."
+
+#, fuzzy
+msgid "adn_edit_permission"
+msgstr "User can change permissions of Administrative Notifications' administration."
+
+#, fuzzy
+msgid "adn_read"
+msgstr "User has read access to administration of Administrative Notifications."
+
+#, fuzzy
+msgid "adn_visible"
+msgstr "Administration of Administrative Notifications is visible."
+
+#, fuzzy
+msgid "adn_write"
+msgstr "User can add and edit Administrative Notifications."
+
+msgid "adopt_perm_from_template"
+msgstr "Postavke dozvole za kopiranje"
+
+msgid "adve_edit_permission"
+msgstr "Korisnik može promijeniti postavke za dozvole u administraciji uređivanja"
+
+msgid "adve_read"
+msgstr "Korisnik ima pristup za čitanje u administraciji uređivanja"
+
+msgid "adve_visible"
+msgstr "Uređivanje administracije je vidljivo"
+
+msgid "adve_write"
+msgstr "Korisnik može uređivati postavke u administraciji uređivanja"
+
+msgid "amend_grading"
+msgstr "Izmijeni konačnu ocjenu"
+
+msgid "assf_edit_permission"
+msgstr "Korisnik može promijeniti postavke za dozvole u administraciji za testiranje i ocjenjivanje"
+
+msgid "assf_read"
+msgstr "Korisnik je imao pristup za čitanje administracije za testiranje i ocjenjivanje"
+
+msgid "assf_visible"
+msgstr "Vidljiva je administracija za testiranje i ocjenjivanje"
+
+msgid "assf_write"
+msgstr "Korisnik može uređivati postavke administracije za testiranje i ocjenjivanje"
+
+msgid "auth_edit_permission"
+msgstr "Korisnik može promijeniti postavke za dozvole u administraciji za provjeru autentičnosti i registraciju"
+
+msgid "auth_read"
+msgstr "Korisnik ima pristup za čitanje u administraciji za provjeru autentičnosti i registraciju"
+
+msgid "auth_visible"
+msgstr "Administracija za provjeru autentičnosti i registraciju je vidljiva"
+
+msgid "auth_write"
+msgstr "Korisnik može uređivati postavke za provjeru autentičnosti i registraciju"
+
+msgid "awra_edit_permission"
+msgstr "Korisnik može promijeniti postavke za dozvole u administraciji ‘Tko je online?’"
+
+msgid "awra_read"
+msgstr "Korisnik ima pristup za čitanje u administraciji ‘Tko je online?’"
+
+msgid "awra_visible"
+msgstr "Administracija ‘Tko je online?’ je vidljiva"
+
+msgid "awra_write"
+msgstr "Uredi postavke u administraciji ‘Tko je online?’"
+
+msgid "bdga_edit_permission"
+msgstr "Korisnik može promijeniti postavke za dozvole"
+
+msgid "bdga_read"
+msgstr "Korisnik može čitati sadržaj administracije za bedž"
+
+msgid "bdga_visible"
+msgstr "Administracija za bedž je vidljiva"
+
+msgid "bdga_write"
+msgstr "Korisnik može uređivati postavke administracije za bedž"
+
+msgid "bibl_copy"
+msgstr "Kopiraj bibliografiju"
+
+msgid "bibl_delete"
+msgstr "Korisnik može premještati ili brisati bibliografiju"
+
+msgid "bibl_edit_permission"
+msgstr "Korisnik može promijeniti postavke za dozvole"
+
+msgid "bibl_read"
+msgstr "Korisnik može čitati sadržaj bibliografije"
+
+msgid "bibl_visible"
+msgstr "Bibliografija je vidljiva"
+
+msgid "bibl_write"
+msgstr "Korisnik može uređivati postavke bibliografije"
+
+msgid "bibs_copy"
+msgstr "Korisnik može kopirati bibliografiju"
+
+msgid "bibs_delete"
+msgstr "Korisnik može brisati unose u knjižnicu"
+
+msgid "bibs_edit_permission"
+msgstr "Korisnik može promijeniti postavke za dozvole"
+
+msgid "bibs_read"
+msgstr "Korisnik može čitati sadržaj bibliografije"
+
+msgid "bibs_visible"
+msgstr "Administracija bibliografije je vidljiva"
+
+msgid "bibs_write"
+msgstr "Korisnik može uređivati postavke bibliografije"
+
+msgid "blga_edit_permission"
+msgstr "Korisnik može promijeniti postavke za dozvolu za  administraciju bloga"
+
+msgid "blga_read"
+msgstr "Korisnik ima pristup za čitanje administracije bloga"
+
+msgid "blga_visible"
+msgstr "Administracija bloga je vidljiva"
+
+msgid "blga_write"
+msgstr "Korisnik može uređivati postavke u administracija bloga"
+
+msgid "blog_contribute"
+msgstr "Korisnik može kreirati objave"
+
+msgid "blog_copy"
+msgstr "Korisnik može kopirati blog"
+
+msgid "blog_delete"
+msgstr "Korisnik može premještati ili brisati blog"
+
+msgid "blog_edit_permission"
+msgstr "Korisnik može promijeniti postavke za dozvole"
+
+msgid "blog_read"
+msgstr "Korisnik može čitati sadržaj bloga"
+
+msgid "blog_redact"
+msgstr "Korisnik može uređivati i objave drugih suradnika"
+
+msgid "blog_visible"
+msgstr "Blog je vidljiv"
+
+msgid "blog_write"
+msgstr "Korisnik može uređivati postavke bloga"
+
+msgid "book_copy"
+msgstr "Korisnik može kopirati bazen za rezervacije"
+
+msgid "book_delete"
+msgstr "Korisnik može premjestiti ili izbrisati bazen za rezervacije"
+
+msgid "book_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvola za bazen za rezervacije"
+
+#, fuzzy
+msgid "book_manage_all_reservations"
+msgstr "User can manage all reservations"
+
+#, fuzzy
+msgid "book_manage_own_reservations"
+msgstr "User can manage own reservations"
+
+msgid "book_read"
+msgstr "Korisnik može rezervirati resurse/objekte u bazenu za rezervacije"
+
+msgid "book_visible"
+msgstr "Bazen za rezervacije je vidljiv"
+
+msgid "book_write"
+msgstr "Korisnik može uređivati postavke i sadržaj bazena za rezervacije"
+
+msgid "cadm_edit_permission"
+msgstr "Korisnik može promijeniti postavke za dozvole"
+
+msgid "cadm_read"
+msgstr "Korisnik ima pristup za čitanje administracije korisničke veze"
+
+msgid "cadm_visible"
+msgstr "Administracija korisničke veze je vidljiva"
+
+msgid "cadm_write"
+msgstr "Korisnik ima pristup za pisanje u administracije korisničke veze"
+
+msgid "cals_add_consultation_hours"
+msgstr "Korisnik može ponuditi i urediti vrijeme konzultacija u kalendaru"
+
+msgid "cals_edit_event"
+msgstr "Korisnik može stvarati i uređivati javne kalendare i događaje u ILIAS-u"
+
+msgid "cals_edit_permission"
+msgstr "Korisnik može promijeniti postavke dopuštenja za administraciju kalendara"
+
+msgid "cals_read"
+msgstr "Korisnik ima pristup za čitanje u administraciji kalendara"
+
+msgid "cals_visible"
+msgstr "Administracija kalendara je vidljiva"
+
+msgid "cals_write"
+msgstr "Korisnik može uređivati postavke administracije kalendara"
+
+msgid "cat_administrate_users"
+msgstr "Administriranje lokalnih korisničkih računa"
+
+msgid "cat_cat_administrate_users"
+msgstr "Korisnik može stvoriti i administrirati lokalne korisničke račune u ovoj kategoriji"
+
+msgid "cat_copy"
+msgstr "Korisnik može kopirati kategoriju"
+
+msgid "cat_delete"
+msgstr "Korisnik može premjestiti ili izbrisati kategoriju"
+
+msgid "cat_edit_permission"
+msgstr "Korisnik može promijeniti postavke za dozvole"
+
+msgid "cat_read"
+msgstr "Korisnik ima pristup za čitanje kategorije"
+
+msgid "cat_read_users"
+msgstr "Korisnik može čitati lokalne korisničke račune stvorene u ovoj kategoriji"
+
+msgid "cat_visible"
+msgstr "Kategorija je vidljiva"
+
+msgid "cat_write"
+msgstr "Korisnik može uređivati postavke kategorije i upravljati sadržajem"
+
+msgid "catr_copy"
+msgstr "Korisnik može kopirati poveznicu kategorije"
+
+msgid "catr_delete"
+msgstr "Korisnik može premjestiti ili izbrisati poveznicu kategorije"
+
+msgid "catr_edit_permission"
+msgstr "Korisnik može promijeniti postavke za dozvole"
+
+msgid "catr_visible"
+msgstr "Poveznica kategorije je vidljiva"
+
+msgid "catr_write"
+msgstr "Korisnik može uređivati postavke poveznice kategorije"
+
+msgid "cert_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvola za administraciju certifikata"
+
+msgid "cert_read"
+msgstr "Korisnik ima pristup čitanju administracije certifikata"
+
+msgid "cert_visible"
+msgstr "Administracija certifikata je vidljiva"
+
+msgid "cert_write"
+msgstr "Korisnik može uređivati postavke u administraciji certifikata"
+
+msgid "change_existing_object_type_desc"
+msgstr "Ovo će također promijeniti dozvole već postojećih objekata tog tipa"
+
+msgid "change_existing_objects"
+msgstr "Promijeni postojeće objekte"
+
+msgid "change_existing_objects_desc"
+msgstr "Postavke dozvole ove uloge usvojit će se za SVE postojeće objekte. Ako želite promijeniti dozvole samo za određene vrste objekata, kliknite potvrdne okvire s desne strane odgovarajuće vrste objekta."
+
+msgid "change_existing_prefix"
+msgstr "Promijeni postojeće"
+
+msgid "change_existing_prefix_single"
+msgstr "Promijeni"
+
+msgid "change_existing_suffix"
+msgstr "& nbsp;"
+
+msgid "change_existing_suffix_single"
+msgstr "& nbsp;"
+
+#, fuzzy
+msgid "change_presentation"
+msgstr "Change Presentation"
+
+msgid "chtr_delete"
+msgstr "Korisnik može premjestiti ili izbrisati sobu za razgovor"
+
+msgid "chtr_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvola za sobu za razgovor"
+
+msgid "chtr_moderate"
+msgstr "Korisnik može moderirati raspravu u sobi za razgovor"
+
+msgid "chtr_read"
+msgstr "Korisnik se može pridružiti i sudjelovati u sobi za razgovor"
+
+msgid "chtr_visible"
+msgstr "Soba za razgovor je vidljiva"
+
+msgid "chtr_write"
+msgstr "Korisnik može uređivati postavke sobe za razgovor i blokirati korisnike"
+
+#, fuzzy
+msgid "cmis_edit_permission"
+msgstr "User can change permission settings of xAPI/cmi5 administration."
+
+#, fuzzy
+msgid "cmis_read"
+msgstr "User has read access to xAPI/cmi5 administration."
+
+#, fuzzy
+msgid "cmis_visible"
+msgstr "Administration of xAPI/cmi5 is visible."
+
+#, fuzzy
+msgid "cmis_write"
+msgstr "User can edit settings of xAPI/cmi5 administration."
+
+#, fuzzy
+msgid "cmix_copy"
+msgstr "User can copy xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_delete"
+msgstr "User can move or delete xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "cmix_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "cmix_read"
+msgstr "User can see xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "cmix_read_outcomes"
+msgstr "User can see learning experiences and ranking of other users"
+
+#, fuzzy
+msgid "cmix_visible"
+msgstr "xAPI/cmi5 Object is visible"
+
+#, fuzzy
+msgid "cmix_write"
+msgstr "User can edit settings of xAPI/cmi5 Object"
+
+msgid "cmps_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole za  administraciju dodataka, modula i usluga"
+
+msgid "cmps_read"
+msgstr "Korisnik ima pristup za čitanje administracije dodataka, modula i usluga"
+
+msgid "cmps_visible"
+msgstr "Administracija postavki dodataka, modula i postavki je vidljiva"
+
+msgid "cmps_write"
+msgstr "Korisnik može uređivati postavke dodataka, modula i usluga"
+
+#, fuzzy
+msgid "coms_edit_permissions"
+msgstr "User can change permission settings of administration of Comments."
+
+#, fuzzy
+msgid "coms_read"
+msgstr "User has read access to administration of Comments."
+
+#, fuzzy
+msgid "coms_visible"
+msgstr "Administration of Comments is visible."
+
+#, fuzzy
+msgid "coms_write"
+msgstr "User can edit settings of administration of Comments."
+
+msgid "condition_failed"
+msgstr "Nije položio"
+
+msgid "condition_learning_progress"
+msgstr "Izvodi se iz napretka učenja"
+
+#, fuzzy
+msgid "condition_result_range_percentage"
+msgstr "Result Range"
+
+msgid "contribute"
+msgstr "Doprinosi"
+
+msgid "copa_copy"
+msgstr "Kopiraj stranicu sa sadržajem"
+
+msgid "copa_delete"
+msgstr "Korisnik može premjestiti ili izbrisati stranicu sa sadržajem"
+
+msgid "copa_edit_learning_progress"
+msgstr "Korisnik može uređivati postavke napretka u učenju"
+
+msgid "copa_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvola"
+
+msgid "copa_read"
+msgstr "Korisnik može čitati stranicu sa sadržajem"
+
+msgid "copa_read_learning_progress"
+msgstr "Korisnik može vidjeti napredak u učenju drugih korisnika"
+
+msgid "copa_visible"
+msgstr "Stranica sa sadržajem je vidljiva"
+
+msgid "copa_write"
+msgstr "Korisnik može uređivati stranicu sadržaja"
+
+#, fuzzy
+msgid "cpad_edit_permissions"
+msgstr "User can change permission settings of administration of Content Pages."
+
+#, fuzzy
+msgid "cpad_read"
+msgstr "User has read access to administration of Content Pages."
+
+#, fuzzy
+msgid "cpad_visible"
+msgstr "Administration of Content Pages is visible."
+
+#, fuzzy
+msgid "cpad_write"
+msgstr "User can edit settings of administration of Content Pages."
+
+msgid "crs_copy"
+msgstr "Korisnik može kopirati tečaj"
+
+msgid "crs_delete"
+msgstr "Korisnik može premjestiti ili izbrisati tečaj"
+
+msgid "crs_edit_event"
+msgstr "Uredi događaje kalendara"
+
+msgid "crs_edit_learning_progress"
+msgstr "Korisnik može uređivati postavke napretka u učenju"
+
+msgid "crs_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvola"
+
+msgid "crs_grade"
+msgstr "Ocjenjivanje članova tečaja"
+
+msgid "crs_join"
+msgstr "Korisnik se može pridružiti tečaju"
+
+msgid "crs_leave"
+msgstr "Korisnik se može odjaviti s tečaja"
+
+msgid "crs_manage_members"
+msgstr "Upravljanje članovima tečaja"
+
+msgid "crs_news_add_news"
+msgstr "Dodajte i uredite vlastite nove vijesti"
+
+msgid "crs_read"
+msgstr "Korisnik ima pristup čitanju tečaja"
+
+msgid "crs_read_learning_progress"
+msgstr "Korisnik može vidjeti napredak u učenju drugih korisnika"
+
+msgid "crs_visible"
+msgstr "Tečaj je vidljiv"
+
+msgid "crs_write"
+msgstr "Korisnik može uređivati postavke tečaja i upravljati sadržajem"
+
+msgid "crsr_copy"
+msgstr "Korisnik može kopirati poveznicu na tečaj"
+
+msgid "crsr_delete"
+msgstr "Korisnik može premjestiti ili izbrisati poveznicu na tečaj"
+
+#, fuzzy
+msgid "crsr_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "crsr_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvola"
+
+#, fuzzy
+msgid "crsr_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "crsr_visible"
+msgstr "Poveznica na tečaj je vidljiva"
+
+msgid "crsr_write"
+msgstr "Korisnik može uređivati postavke poveznice na tečaj"
+
+msgid "crss_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvola u administraciji tečaja"
+
+msgid "crss_read"
+msgstr "Korisnik ima pristup čitanju administracije tečaja"
+
+msgid "crss_visible"
+msgstr "Administracija tečaja je vidljiva"
+
+msgid "crss_write"
+msgstr "Uredite postavke u administraciji tečaja"
+
+msgid "dcl_add_entry"
+msgstr "Korisnik može dodavati/uređivati unose"
+
+msgid "dcl_copy"
+msgstr "Korisnik može kopirati prikupljanje podataka"
+
+msgid "dcl_delete"
+msgstr "Korisnik može premještati ili brisati prikupljanje podataka"
+
+msgid "dcl_edit_content"
+msgstr "Uredi unose"
+
+msgid "dcl_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvola"
+
+msgid "dcl_read"
+msgstr "Pristup za čitanje prikupljanju podataka"
+
+msgid "dcl_visible"
+msgstr "Prikupljanje podataka je vidljivo"
+
+msgid "dcl_write"
+msgstr "Korisnik može uređivati postavke i sadržaj prikupljanja podataka"
+
+msgid "delete_files"
+msgstr "Izbriši datoteke"
+
+msgid "delete_folders"
+msgstr "Izbriši mape"
+
+msgid "delete_wiki_pages"
+msgstr "Izbriši stranice"
+
+#, fuzzy
+msgid "dpro_edit_permission"
+msgstr "User can change permission settings in the Declaration of Data Protected administration"
+
+#, fuzzy
+msgid "dpro_read"
+msgstr "User has read access to the Declaration of Data Protection administration"
+
+#, fuzzy
+msgid "dpro_visible"
+msgstr "Declaration of Data Protection administration is visible"
+
+#, fuzzy
+msgid "dpro_write"
+msgstr "Edit settings in the Declaration of Data Protection"
+
+#, fuzzy
+msgid "dshs_change_presentation"
+msgstr "Change presentation of dashboard view"
+
+#, fuzzy
+msgid "dshs_edit_permission"
+msgstr "User can change permission settings of Dashboard administration"
+
+#, fuzzy
+msgid "dshs_read"
+msgstr "User has read access to Dashboard administration"
+
+#, fuzzy
+msgid "dshs_visible"
+msgstr "Dashboard administration is visible"
+
+#, fuzzy
+msgid "dshs_write"
+msgstr "Edit settings of Dashboard administration"
+
+msgid "ecss_edit_permission"
+msgstr "Korisnik može uređivati postavke dozvole administracije za ECS"
+
+msgid "ecss_read"
+msgstr "Korisnik može pročitati opće postavke ECS-a"
+
+msgid "ecss_visible"
+msgstr "Postavke ECS-a su vidljive"
+
+msgid "ecss_write"
+msgstr "Korisnik može uređivati postavke ECS-a"
+
+msgid "edit_event"
+msgstr "Uredi kalendar"
+
+#, fuzzy
+msgid "edit_file"
+msgstr "Edit File"
+
+#, fuzzy
+msgid "edit_in_online_editor"
+msgstr "Open in online editor"
+
+msgid "edit_learning_progress"
+msgstr "Uredi napredak u učenju"
+
+msgid "edit_members"
+msgstr "Upravljanje članovima"
+
+msgid "edit_permission"
+msgstr "Promjena dozvola"
+
+msgid "edit_roleassignment"
+msgstr "Uredi dodjelu uloge"
+
+msgid "edit_submissions_grades"
+msgstr "Uredi predane testove i ocjene"
+
+msgid "edit_userassignment"
+msgstr "Uredi korisničku dodjelu"
+
+msgid "edit_wiki_navigation"
+msgstr "Uredi navigaciju"
+
+msgid "exc_copy"
+msgstr "Korisnik može kopirati vježbu"
+
+msgid "exc_delete"
+msgstr "Korisnik može premjestiti ili izbrisati vježbu"
+
+msgid "exc_edit_learning_progress"
+msgstr "Korisnik može uređivati postavke napretka u učenju"
+
+msgid "exc_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvola"
+
+msgid "exc_edit_submissions_grades"
+msgstr "Korisnik može uređivati predane testove i ocjene"
+
+msgid "exc_read"
+msgstr "Korisnik može sudjelovati u vježbi"
+
+msgid "exc_read_learning_progress"
+msgstr "Korisnik može vidjeti napredak u učenju drugih korisnika"
+
+msgid "exc_visible"
+msgstr "Vježba je vidljiva"
+
+msgid "exc_write"
+msgstr "Korisnik može uređivati postavke i zadatke vježbe"
+
+msgid "excs_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvola u administraciji vježbi"
+
+msgid "excs_read"
+msgstr "Korisnik ima pristup za čitanje administracije vježbi"
+
+msgid "excs_visible"
+msgstr "Administracija vježbi je vidljiva"
+
+msgid "excs_write"
+msgstr "Uredi postavke u administraciji vježbi"
+
+msgid "export_member_data"
+msgstr "Pristup korisničkim podacima"
+
+msgid "facs_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvola za administraciju datoteka i mapa"
+
+msgid "facs_read"
+msgstr "Korisnik ima pristup za čitanje administracije datoteka i mapa"
+
+#, fuzzy
+msgid "facs_upload_blacklisted_files"
+msgstr "Upload indexed file types despite blacklist"
+
+msgid "facs_visible"
+msgstr "Administracija datoteka i mapa je vidljiva"
+
+msgid "facs_write"
+msgstr "Korisnik može uređivati postavke u administraciji datoteka i mapa"
+
+msgid "feed_copy"
+msgstr "Korisnik može kopirati webfeed"
+
+msgid "feed_delete"
+msgstr "Korisnik može premjestiti ili izbrisati web feed"
+
+msgid "feed_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "feed_read"
+msgstr "Korisnik može čitati sadržaj web feeda"
+
+msgid "feed_write"
+msgstr "Korisnik može uređivati postavke web feeda"
+
+msgid "file_copy"
+msgstr "Korisnik može kopirati datoteku"
+
+msgid "file_delete"
+msgstr "Korisnik može premjestiti ili izbrisati datoteku"
+
+#, fuzzy
+msgid "file_edit_file"
+msgstr "Allow to edit the file in an external editor, if available"
+
+msgid "file_edit_learning_progress"
+msgstr "Korisnik može uređivati postavke napretka u učenju"
+
+msgid "file_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+#, fuzzy
+msgid "file_file_view_content"
+msgstr "File content presented in browser (if WOPI is active)"
+
+#, fuzzy
+msgid "file_file_view_content_short"
+msgstr "Show Content"
+
+msgid "file_read"
+msgstr "Korisnik može preuzeti datoteku"
+
+msgid "file_read_learning_progress"
+msgstr "Korisnik može vidjeti napredak u učenju drugih korisnika"
+
+msgid "file_visible"
+msgstr "Datoteka je vidljiva"
+
+msgid "file_write"
+msgstr "Korisnik može uređivati postavke datoteke i učitati novu verziju datoteke"
+
+msgid "files_visible"
+msgstr "Datoteke su vidljive"
+
+#, fuzzy
+msgid "fils_edit_permissions"
+msgstr "User can change permission settings of File Services administration."
+
+#, fuzzy
+msgid "fils_read"
+msgstr "User has read access to File Services administration."
+
+#, fuzzy
+msgid "fils_visible"
+msgstr "Administration of File Services is visible."
+
+#, fuzzy
+msgid "fils_write"
+msgstr "User can edit and configure File Services."
+
+msgid "filter_all_roles"
+msgstr "Prikaži sve uloge trenutačnog konteksta"
+
+msgid "filter_global_roles"
+msgstr "Prikaži samo globalne uloge"
+
+msgid "filter_local_roles"
+msgstr "Prikaži samo lokalne uloge trenutačnog konteksta"
+
+msgid "filter_local_roles_object"
+msgstr "Prikaži samo lokalne uloge definirane na ovom mjestu"
+
+msgid "filter_roles_local_policy"
+msgstr "Prikažite samo uloge koristeći lokalna pravila na ovoj poziciji"
+
+msgid "fld_create_poll"
+msgstr "Kreiraj glasovanje"
+
+msgid "fold_copy"
+msgstr "Korisnik može kopirati mapu"
+
+msgid "fold_delete"
+msgstr "Korisnik može premjestiti ili izbrisati mapu"
+
+msgid "fold_edit_learning_progress"
+msgstr "Korisnik može uređivati postavke napretka u učenju"
+
+msgid "fold_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "fold_read"
+msgstr "Korisnik ima pristup za čitanje mape"
+
+msgid "fold_read_learning_progress"
+msgstr "Korisnik može vidjeti napredak u učenju drugih korisnika"
+
+msgid "fold_visible"
+msgstr "Mapa je vidljiva"
+
+msgid "fold_write"
+msgstr "Korisnik može uređivati postavke mape i upravljati sadržajem"
+
+msgid "folders_create"
+msgstr "Kreiraj mape"
+
+msgid "folders_visible"
+msgstr "Mape su vidljive"
+
+msgid "frm_add_reply"
+msgstr "Korisnici mogu odgovoriti na objavu"
+
+msgid "frm_add_thread"
+msgstr "Korisnik može dodati novu temu"
+
+msgid "frm_copy"
+msgstr "Korisnik može kopirati forum"
+
+msgid "frm_delete"
+msgstr "Korisnik može premjestiti ili izbrisati forum"
+
+#, fuzzy
+msgid "frm_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "frm_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "frm_moderate_frm"
+msgstr "Korisnik može uređivati, cenzurirati i brisati objave"
+
+msgid "frm_read"
+msgstr "Korisnik može čitati sadržaj foruma"
+
+#, fuzzy
+msgid "frm_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "frm_visible"
+msgstr "Forum je vidljiv"
+
+msgid "frm_write"
+msgstr "Korisnik može uređivati postavke foruma i moderatore"
+
+msgid "frma_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole za administraciju foruma"
+
+msgid "frma_read"
+msgstr "Korisnik ima pristup za čitanje administracije foruma"
+
+msgid "frma_visible"
+msgstr "Administracija foruma je vidljiva"
+
+msgid "frma_write"
+msgstr "Korisnik može uređivati postavke u administracija foruma"
+
+msgid "glo_copy"
+msgstr "Korisnik može kopirati pojmovnik"
+
+msgid "glo_delete"
+msgstr "Korisnik može premjestiti ili izbrisati pojmovnik"
+
+msgid "glo_edit_content"
+msgstr "Korisnik može uređivati sadržaj"
+
+msgid "glo_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "glo_read"
+msgstr "Korisnik može čitati sadržaj pojmovnika"
+
+msgid "glo_visible"
+msgstr "Pojmovnik je vidljiv"
+
+msgid "glo_write"
+msgstr "Korisnik može uređivati sadržaj i postavke pojmovnika"
+
+msgid "grp_copy"
+msgstr "Korisnik može kopirati grupu"
+
+msgid "grp_delete"
+msgstr "Korisnik može premjestiti ili izbrisati grupu"
+
+msgid "grp_edit_event"
+msgstr "Uredi događaje kalendara"
+
+msgid "grp_edit_learning_progress"
+msgstr "Korisnik može uređivati postavke napretka u učenju"
+
+msgid "grp_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "grp_grade"
+msgstr "Ocijeni članove grupe"
+
+msgid "grp_join"
+msgstr "Korisnik se može pridružiti grupi"
+
+msgid "grp_leave"
+msgstr "Korisnik se može odjaviti iz grupe"
+
+msgid "grp_manage_members"
+msgstr "Upravljanje članovima grupe"
+
+msgid "grp_news_add_news"
+msgstr "Dodaj i uredi vlastite novosti u grupi"
+
+msgid "grp_read"
+msgstr "Korisnik ima pristup za čitanje grupi"
+
+msgid "grp_read_learning_progress"
+msgstr "Korisnik može vidjeti napredak u učenju drugih korisnika"
+
+msgid "grp_visible"
+msgstr "Grupa je vidljiva"
+
+msgid "grp_write"
+msgstr "Korisnik može uređivati postavke grupe i upravljati sadržajem"
+
+msgid "grpr_copy"
+msgstr "Korisnik može kopirati poveznicu za grupu"
+
+msgid "grpr_delete"
+msgstr "Korisnik može premjestiti ili izbrisati poveznicu za grupu"
+
+msgid "grpr_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "grpr_visible"
+msgstr "Poveznica za grupu je vidljiva"
+
+msgid "grpr_write"
+msgstr "Korisnik može uređivati postavke poveznicu za grupu"
+
+msgid "grps_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole u administraciji grupe"
+
+msgid "grps_read"
+msgstr "Korisnik ima pristup za čitanje administraciji grupe"
+
+msgid "grps_visible"
+msgstr "Administracija grupe je vidljiva"
+
+msgid "grps_write"
+msgstr "Uredite postavke u administraciji grupe"
+
+msgid "hlps_edit_permission"
+msgstr "Korisnik može promijeniti dozvole za administraciju sustava pomoći."
+
+msgid "hlps_read"
+msgstr "Korisnik ima pristup za čitanje administraciji sustava pomoći."
+
+msgid "hlps_visible"
+msgstr "Administracija sustava pomoći je vidljiva."
+
+msgid "hlps_write"
+msgstr "Korisnik može uređivati postavke sustava pomoći i učitati nove verzije"
+
+msgid "htlm_copy"
+msgstr "Korisnik može kopirati HTML modul za učenje"
+
+msgid "htlm_delete"
+msgstr "Korisnik može premještati ili brisati HTML modul za učenje"
+
+msgid "htlm_edit_learning_progress"
+msgstr "Korisnik može uređivati postavke napretka u učenju"
+
+msgid "htlm_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "htlm_read"
+msgstr "Korisnik može čitati HTML modul za učenje"
+
+msgid "htlm_read_learning_progress"
+msgstr "Korisnik može vidjeti napredak u učenju drugih korisnika"
+
+msgid "htlm_visible"
+msgstr "HTML modul za učenje je vidljiv"
+
+msgid "htlm_write"
+msgstr "Korisnik može uređivati sadržaj i postavke HTML modula za učenje"
+
+msgid "iass_amend_grading"
+msgstr "Izmijeni ocjene u pojedinačnoj procjeni"
+
+msgid "iass_copy"
+msgstr "Kopiraj pojedinačnu procjenu"
+
+msgid "iass_delete"
+msgstr "Izbriši pojedinačnu procjenu"
+
+msgid "iass_edit_learning_progress"
+msgstr "Uredi podatke o napretku u učenju pojedinačne procjene"
+
+msgid "iass_edit_members"
+msgstr "Uredi članove pojedinačne procjene"
+
+msgid "iass_edit_permission"
+msgstr "Uredi dozvole pojedinačne procjene"
+
+msgid "iass_read"
+msgstr "Pročitaj sadržaj pojedinačne procjene"
+
+msgid "iass_read_learning_progress"
+msgstr "Vidi informacije o napretku učenja iz pojedinačne procjene"
+
+msgid "iass_visible"
+msgstr "Pojedinačna procjena je vidljiva"
+
+msgid "iass_write"
+msgstr "Uredi pojedinačnu procjenu"
+
+#, fuzzy
+msgid "il_lti_global_role"
+msgstr "LTI User"
+
+msgid "il_sess_participant"
+msgstr "Sudionik sesije"
+
+msgid "il_sess_status_closed"
+msgstr "Zatvorena sesija bez sudionika"
+
+msgid "ilias_id"
+msgstr "ILIAS-ID"
+
+#, fuzzy
+msgid "impr_edit_permission"
+msgstr "User can change permission settings of Legal Notice administration"
+
+#, fuzzy
+msgid "impr_read"
+msgstr "User can read in Legal Notice administration"
+
+#, fuzzy
+msgid "impr_visible"
+msgstr "Administration of Legal Notice is visible"
+
+#, fuzzy
+msgid "impr_write"
+msgstr "User can edit content and settings of Legal Notice"
+
+msgid "info_user_view_changed"
+msgstr "Korisnički prikaz promijenjen"
+
+msgid "internal_mail"
+msgstr "Interna pošta"
+
+msgid "invite"
+msgstr "Pozivanje na anketu"
+
+msgid "itgr_copy"
+msgstr "Korisnik može kopirati grupu stavki"
+
+msgid "itgr_delete"
+msgstr "Korisnik može premjestiti ili izbrisati grupu stavki"
+
+msgid "itgr_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "itgr_read"
+msgstr "Korisnik može vidjeti stavke u grupi predmeta"
+
+msgid "itgr_visible"
+msgstr "Grupa stavki je vidljiva"
+
+msgid "itgr_write"
+msgstr "Korisnik može uređivati sadržaj i postavke grupe stavki"
+
+msgid "leave"
+msgstr "Otkaži članstvo"
+
+#, fuzzy
+msgid "lhts_edit_permissions"
+msgstr "User can change permission settings of Learning History administration."
+
+#, fuzzy
+msgid "lhts_read"
+msgstr "User has read access to Learning History administration."
+
+#, fuzzy
+msgid "lhts_visible"
+msgstr "Administration of Learning History is visible."
+
+#, fuzzy
+msgid "lhts_write"
+msgstr "User can edit settings of Learning History administration."
+
+msgid "lm_copy"
+msgstr "Korisnik može kopirati ILIAS modul za učenje"
+
+msgid "lm_delete"
+msgstr "Korisnik može premjestiti ili izbrisati ILIAS modul za učenje"
+
+msgid "lm_edit_learning_progress"
+msgstr "Korisnik može uređivati postavke napretka u učenju"
+
+msgid "lm_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "lm_read"
+msgstr "Korisnik može čitati ILIAS modul za učenje"
+
+msgid "lm_read_learning_progress"
+msgstr "Korisnik može vidjeti napredak u učenju drugih korisnika"
+
+msgid "lm_visible"
+msgstr "Modul za učenje ILIAS je vidljiv"
+
+msgid "lm_write"
+msgstr "Korisnik može uređivati sadržaj i postavke ILIAS modula za učenje"
+
+msgid "lngf_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole za administraciju jezika"
+
+msgid "lngf_read"
+msgstr "Korisnik ima pristup čitanju administracije jezika"
+
+msgid "lngf_visible"
+msgstr "Administracija jezika je vidljiva"
+
+msgid "lngf_write"
+msgstr "Korisnik može uređivati postavke u administraciji jezika i koristiti prošireno održavanje jezika"
+
+msgid "logs_edit_permission"
+msgstr "Korisnik može uređivati postavke dozvole za administraciju protokoliranja"
+
+msgid "logs_read"
+msgstr "Korisnik može pročitati opće postavke protokoliranja"
+
+msgid "logs_visible"
+msgstr "Postavke protokoliranja su vidljive"
+
+msgid "logs_write"
+msgstr "Korisnik može uređivati postavke protokoliranja"
+
+msgid "lp_other_users"
+msgstr "Vidi pregled napretka učenja drugih korisnika"
+
+msgid "lrss_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole administracije resursa za učenje"
+
+msgid "lrss_read"
+msgstr "Pristup za čitanje administraciji resursa za učenje"
+
+msgid "lrss_visible"
+msgstr "Administracija resursa za učenje je vidljiva"
+
+msgid "lrss_write"
+msgstr "Korisnik može uređivati postavke resursa za učenje u administraciji"
+
+msgid "lso_copy"
+msgstr "Korisnik može kopirati sekvencu učenja"
+
+msgid "lso_delete"
+msgstr "Korisnik može izbrisati sekvencu učenja"
+
+msgid "lso_edit_learning_progress"
+msgstr "Korisnik može uređivati postavke napretka u učenju"
+
+msgid "lso_edit_permission"
+msgstr "Korisnik može mijenjati postavke dozvola sekvence učenja"
+
+msgid "lso_lp_other_users"
+msgstr "Korisnik može vidjeti napredak u učenju drugih korisnika"
+
+msgid "lso_manage_members"
+msgstr "Upravljanje članovima sekvence učenja"
+
+msgid "lso_participate"
+msgstr "Korisnik se može prijaviti na sekvencu učenja"
+
+msgid "lso_read"
+msgstr "Korisnici mogu pristupiti sekvenci učenja"
+
+msgid "lso_read_learning_progress"
+msgstr "Korisnik može vidjeti napredak u učenju drugih korisnika"
+
+msgid "lso_unparticipate"
+msgstr "Korisnik se može odjaviti iz sekvence učenja"
+
+msgid "lso_visible"
+msgstr "Sekvenca učenja je vidljiva"
+
+msgid "lso_write"
+msgstr "Korisnik može uređivati postavke sekvence učenja"
+
+#, fuzzy
+msgid "lsos_edit_permission"
+msgstr "User can change permission settings of Learning Sequences administration."
+
+#, fuzzy
+msgid "lsos_read"
+msgstr "User has read access to Learning Sequences administration."
+
+#, fuzzy
+msgid "lsos_visible"
+msgstr "Administration of Learning Sequences is visible."
+
+#, fuzzy
+msgid "lsos_write"
+msgstr "User can edit settings of Learning Sequences administration."
+
+#, fuzzy
+msgid "lti_copy"
+msgstr "User can copy LTI consumer"
+
+#, fuzzy
+msgid "lti_delete"
+msgstr "User can move or delete LTI consumer"
+
+#, fuzzy
+msgid "lti_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "lti_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "lti_read"
+msgstr "User can see LTI consumer"
+
+#, fuzzy
+msgid "lti_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "lti_read_outcomes"
+msgstr "User can see learning experiences and ranking of other users"
+
+#, fuzzy
+msgid "lti_visible"
+msgstr "LTI consumer is visible"
+
+#, fuzzy
+msgid "lti_write"
+msgstr "User can edit settings of LTI consumer"
+
+#, fuzzy
+msgid "ltis_add_consume_provider"
+msgstr "User can add own provider settings for LTI consumer"
+
+msgid "ltis_edit_permission"
+msgstr "Korisnik može promijeniti postavke dopuštenja u LTI administraciji"
+
+msgid "ltis_read"
+msgstr "Korisnik ima pristup za čitanje LTI administraciji"
+
+msgid "ltis_release_objects"
+msgstr "Korisnik može objaviti objekte za LTI potrošača"
+
+msgid "ltis_visible"
+msgstr "LTI administracija je vidljiva"
+
+msgid "ltis_write"
+msgstr "Korisnik može uređivati postavke u LTI administraciji"
+
+msgid "mail_internal_mail"
+msgstr "Korisnik može koristiti interni sustav pošte (ILIAS)"
+
+msgid "mail_mail_to_global_roles"
+msgstr "Korisnik može slati mailove globalnim ulogama"
+
+msgid "mail_read"
+msgstr "Korisnik ima pristup za čitanje administraciji pošte"
+
+msgid "mail_smtp_mail"
+msgstr "Korisnik može slati e-poštu po SMTP-u na vanjske adrese"
+
+msgid "mail_to_global_roles"
+msgstr "Globalne poruke e-pošte"
+
+msgid "mail_visible"
+msgstr "Administracija pošte je vidljiva"
+
+msgid "mail_write"
+msgstr "Korisnik može uređivati postavke u administraciji pošte"
+
+#, fuzzy
+msgid "manage_all_reservations"
+msgstr "Manage All Reservations"
+
+#, fuzzy
+msgid "manage_comp"
+msgstr "User can edit Competences"
+
+#, fuzzy
+msgid "manage_comp_temp"
+msgstr "User can edit Competence Templates"
+
+msgid "manage_materials"
+msgstr "Upravljanje materijalima"
+
+#, fuzzy
+msgid "manage_own_reservations"
+msgstr "Manage Own Reservations"
+
+#, fuzzy
+msgid "manage_profiles"
+msgstr "User can edit Competence Profiles"
+
+msgid "mcst_copy"
+msgstr "Korisnik može kopirati mediacast"
+
+msgid "mcst_delete"
+msgstr "Korisnik može premještati ili brisati mediacast"
+
+msgid "mcst_edit_learning_progress"
+msgstr "Korisnik može uređivati postavke napretka u učenju"
+
+msgid "mcst_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "mcst_read"
+msgstr "Korisnik može čitati mediacast"
+
+msgid "mcst_read_learning_progress"
+msgstr "Korisnik može vidjeti napredak u učenju drugih korisnika"
+
+msgid "mcst_visible"
+msgstr "Mediacast je vidljiv"
+
+msgid "mcst_write"
+msgstr "Korisnik može uređivati sadržaj i postavke mediacasta"
+
+msgid "mcts_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole u administraciji mediacasta"
+
+msgid "mcts_read"
+msgstr "Korisnik ima pristup za čitanje administraciji mediacasta"
+
+msgid "mcts_visible"
+msgstr "Administracija mediacasta je vidljiva"
+
+msgid "mcts_write"
+msgstr "Korisnik može uređivati postavke u administraciji mediacasta"
+
+msgid "mds_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole u administraciji metapodataka"
+
+msgid "mds_read"
+msgstr "Korisnik ima pristup za čitanje administraciji metapodataka"
+
+msgid "mds_visible"
+msgstr "Administracija metapodataka je vidljiva"
+
+msgid "mds_write"
+msgstr "Korisnik može uređivati postavke u administraciji metapodataka"
+
+msgid "mep_copy"
+msgstr "Korisnik može kopirati bazen medija"
+
+msgid "mep_delete"
+msgstr "Korisnik može premještati ili brisati bazen medija"
+
+msgid "mep_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "mep_read"
+msgstr "Korisnik ima pristup za čitanje bazena medija i može ponovno koristiti medijske objekte"
+
+msgid "mep_visible"
+msgstr "Bazen za medije je vidljiv"
+
+msgid "mep_write"
+msgstr "Korisnik može uređivati sadržaj i postavke bazena medija"
+
+msgid "mme_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvola administracije glavnog izbornika"
+
+msgid "mme_read"
+msgstr "Korisnik ima pristup za čitanje administracije glavnog izbornika"
+
+msgid "mme_visible"
+msgstr "Administracija glavnog izbornika je vidljiva"
+
+msgid "mme_write"
+msgstr "Korisnik može uređivati postavke administracije glavnog izbornika"
+
+msgid "mobs_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvola u administraciji medijskih objekata / bazena medija"
+
+msgid "mobs_read"
+msgstr "Korisnik ima pristup za čitanje administraciji medijskih objekata / bazena medija"
+
+msgid "mobs_visible"
+msgstr "Vidljiva je administracija medijskih objekata / bazena medija"
+
+msgid "mobs_write"
+msgstr "Korisnik može uređivati postavke u administraciji medijskih objekata / bazena medija"
+
+msgid "moderate"
+msgstr "Moderiraj"
+
+msgid "moderate_frm"
+msgstr "Moderiraj"
+
+#, fuzzy
+msgid "msg_anonymous_cannot_be_assigned"
+msgstr "Anonymous cannot be assigned to a role."
+
+msgid "msg_no_roles_of_type"
+msgstr "Nema dostupnih uloga s odabranom postavkom filtra"
+
+msgid "news_add_news"
+msgstr "Dodaj vijesti"
+
+#, fuzzy
+msgid "no_corresponding_roles"
+msgstr "No corresponding roles could be found."
+
+#, fuzzy
+msgid "nots_edit_permission"
+msgstr "User can change permission settings of Notes administration."
+
+#, fuzzy
+msgid "nots_read"
+msgstr "User has read access to Notes administration."
+
+#, fuzzy
+msgid "nots_visible"
+msgstr "Administration of Notes is visible."
+
+#, fuzzy
+msgid "nots_write"
+msgstr "User can edit settings of Notes administration."
+
+msgid "nwss_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole u administraciji vijesti i web feedova"
+
+msgid "nwss_read"
+msgstr "Korisnik ima pristup za čitanje administracije vijesti i web feedova"
+
+msgid "nwss_visible"
+msgstr "Vidljiva je administracija vijestima i web feedovima"
+
+msgid "nwss_write"
+msgstr "Korisnik može uređivati postavke u administraciji vijesti i web feedova"
+
+#, fuzzy
+msgid "obj_skee"
+msgstr "Competence Tree"
+
+msgid "org_op_access_results"
+msgstr "Pristupite rezultatima podređenih korisnika"
+
+msgid "org_op_edit_submissions_grades"
+msgstr "Uredi predane testove drugih korisnika"
+
+msgid "org_op_manage_participants"
+msgstr "Upravljaj podređenim sudionicima"
+
+msgid "org_op_score_participants"
+msgstr "Ocijeni podređene sudionike"
+
+#, fuzzy
+msgid "org_op_view_certificates"
+msgstr "View certificates of subordinated users"
+
+#, fuzzy
+msgid "org_op_view_competences"
+msgstr "View competences of subordinated users"
+
+msgid "org_op_write_learning_progress"
+msgstr "Postavi napredak u učenju podređenih korisnika"
+
+msgid "orgu_cat_administrate_users"
+msgstr "Korisnik može stvoriti i administrirati lokalne korisničke račune u ovoj organizacijskoj jedinici"
+
+msgid "orgu_copy"
+msgstr "Kopiraj organizacijsku jedinicu"
+
+msgid "orgu_delete"
+msgstr "Korisnik može premjestiti ili izbrisati organizacijsku jedinicu"
+
+msgid "orgu_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "orgu_read"
+msgstr "Korisnik ima pristup za čitanje organizacijskoj jedinici"
+
+msgid "orgu_read_users"
+msgstr "Korisnik može čitati lokalne korisničke račune stvorene u ovoj organizacijskoj jedinici"
+
+msgid "orgu_view_learning_progress"
+msgstr "Vidi napredak u učenju"
+
+msgid "orgu_view_learning_progress_rec"
+msgstr "Vidi napredak u učenju jedinice, uključujući podjedinice"
+
+msgid "orgu_visible"
+msgstr "Organizacijska jedinica je vidljiva"
+
+msgid "orgu_write"
+msgstr "Korisnik može uređivati postavke organizacijske jedinice"
+
+msgid "otpl_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole u administraciji didaktičkih predložaka"
+
+msgid "otpl_read"
+msgstr "Korisnik ima pristup čitanju administracije didaktičkih predložaka"
+
+msgid "otpl_visible"
+msgstr "Administracija didaktičkih predložaka je vidljiva"
+
+msgid "otpl_write"
+msgstr "Korisnik može uređivati postavke didaktičkih predložaka"
+
+msgid "perm_class_create"
+msgstr "Stvori nove objekte"
+
+msgid "perm_class_create_desc"
+msgstr "Odredi koji se tipovi objekata mogu kreirati pod trenutačnim objektom."
+
+msgid "perm_class_object"
+msgstr "Posebne operacije"
+
+msgid "perm_class_object_desc"
+msgstr "Operacije specifične za objekt."
+
+msgid "perm_global_role"
+msgstr "Globalna uloga"
+
+msgid "perm_local_role"
+msgstr "Lokalna uloga"
+
+msgid "perm_local_role_desc"
+msgstr "Ova je uloga lokalno definirana na trenutačnom objektu i odgovara lokalnoj politici"
+
+msgid "perm_protected_global_role"
+msgstr "Zaštićena globalna uloga"
+
+msgid "perm_protected_local_role"
+msgstr "Zaštićena lokalna uloga"
+
+msgid "perm_role_path_info_created"
+msgstr "Kreirano u %1$s \"%2$s\""
+
+msgid "perm_role_path_info_inheritance"
+msgstr "koristeći lokalna pravila iz %1$s \"%2$s\""
+
+msgid "perm_use_local_policy"
+msgstr "Koristi lokalna pravila"
+
+msgid "perm_use_local_policy_desc"
+msgstr "Ako je lokalno pravilo aktivirano, možete definirati različite zadane postavke dozvole za trenutni objekt."
+
+msgid "poll_copy"
+msgstr "Korisnik može kopirati glasovanje"
+
+msgid "poll_delete"
+msgstr "Korisnik može premjestiti ili izbrisati glasovanje"
+
+msgid "poll_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "poll_read"
+msgstr "Korisnik može sudjelovati u glasovanju"
+
+msgid "poll_visible"
+msgstr "Glasovanje je vidljivo"
+
+msgid "poll_write"
+msgstr "Korisnik može uređivati postavke i sadržaj glasovanja"
+
+msgid "positions_override_operations"
+msgstr "Zameni globalne postavke"
+
+msgid "precondition_not_obligatory_alt"
+msgstr "Preduvjet nije obvezan"
+
+msgid "precondition_num_obligatory"
+msgstr "Broj potrebnih materijala"
+
+msgid "precondition_num_optional_info"
+msgstr "Unesite minimalni broj materijala potrebnih za ispunjavanje ovog preduvjeta."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_bigger_preconditions_number"
+msgstr "The number of required materials must be less than the total number of preconditions."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_lower_compulsory_items"
+msgstr "The number of required materials must be greater than the number of compulsory preconditions."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_lower_than_one"
+msgstr "The number of required materials must be at least 1."
+
+msgid "precondition_obligatory"
+msgstr "Obavezno"
+
+msgid "precondition_obligatory_alt"
+msgstr "Preduvjet mora biti ispunjen"
+
+msgid "precondition_obligatory_info"
+msgstr "Za pristup moraju biti ispunjeni obvezni preduvjeti."
+
+msgid "precondition_obligatory_settings"
+msgstr "Postavke preduvjeta"
+
+#, fuzzy
+msgid "precondition_operator_range_err_min_max"
+msgstr "The minimum value must be less than the maximum value."
+
+#, fuzzy
+msgid "precondition_operator_range_max"
+msgstr "Maximum Percentage"
+
+#, fuzzy
+msgid "precondition_operator_range_min"
+msgstr "Minimum Percentage"
+
+msgid "prfa_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole administracije portfelja"
+
+msgid "prfa_read"
+msgstr "Korisnik ima pristup za čitanje administraciji portfelja"
+
+msgid "prfa_visible"
+msgstr "Administracija portfelja je vidljiva"
+
+msgid "prfa_write"
+msgstr "Korisnik može uređivati postavke u administraciji portfelja"
+
+msgid "prg_copy"
+msgstr "Korisnik može kopirati studijski program"
+
+msgid "prg_delete"
+msgstr "Korisnik može izbrisati studijski program"
+
+msgid "prg_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "prg_manage_members"
+msgstr "Upravljanje članovima studijskog programa"
+
+msgid "prg_read"
+msgstr "Korisnik ima pristup čitanju studijskog programa"
+
+msgid "prg_visible"
+msgstr "Studijski program je vidljiv"
+
+msgid "prg_write"
+msgstr "Korisnik može uređivati postavke studijskog programa"
+
+#, fuzzy
+msgid "prgr_copy"
+msgstr "User can copy links to study programmes."
+
+#, fuzzy
+msgid "prgr_delete"
+msgstr "User can move or delete links to study programmes."
+
+#, fuzzy
+msgid "prgr_edit_permission"
+msgstr "User can change permission settings."
+
+#, fuzzy
+msgid "prgr_visible"
+msgstr "Links to study programmes are visible and can be used"
+
+#, fuzzy
+msgid "prgr_write"
+msgstr "User can edit settings of links to study programmes."
+
+msgid "prgs_edit_permission"
+msgstr "Promijeni postavke dozvola u administraciji studijskog programa"
+
+msgid "prgs_read"
+msgstr "Korisnik ima pristup čitanju administracije studijskog programa"
+
+msgid "prgs_visible"
+msgstr "Administracija studijskog programa je vidljiva"
+
+msgid "prgs_write"
+msgstr "Uredi postavke u administraciji studijskog programa"
+
+#, fuzzy
+msgid "prss_edit_permission"
+msgstr "User can change permission settings of Personal Resources administration."
+
+#, fuzzy
+msgid "prss_read"
+msgstr "User has read access to Personal Resources administration."
+
+#, fuzzy
+msgid "prss_visible"
+msgstr "Administration of Personal Resources is visible."
+
+#, fuzzy
+msgid "prss_write"
+msgstr "User can edit settings of Personal Resources administration."
+
+msgid "prtt_copy"
+msgstr "Korisnik može kopirati predložak portfelja"
+
+msgid "prtt_delete"
+msgstr "Korisnik može premjestiti ili izbrisati predložak portfelja"
+
+msgid "prtt_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole za predložak portfelja"
+
+msgid "prtt_read"
+msgstr "Korisnik ima pristup za čitanje predlošku portfelja"
+
+msgid "prtt_visible"
+msgstr "Predložak portfelja je vidljiv"
+
+msgid "prtt_write"
+msgstr "Korisnik može uređivati postavke i sadržaj predloška portfelja"
+
+msgid "ps_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole administracije privatnosti/sigurnosti"
+
+msgid "ps_export_member_data"
+msgstr "Korisnik može izvesti podatke o članovima u tečajeve i grupe"
+
+msgid "ps_read"
+msgstr "Korisnik ima pristup za čitanje administraciji privatnosti/sigurnosti"
+
+msgid "ps_visible"
+msgstr "Administracija privatnosti/sigurnosti je vidljiva"
+
+msgid "ps_write"
+msgstr "Korisnik može uređivati postavke u administraciji privatnosti/sigurnosti"
+
+#, fuzzy
+msgid "push_desktop_items"
+msgstr "Recommend Content"
+
+msgid "qpl_copy"
+msgstr "Korisnik može kopirati skup pitanja za testove"
+
+msgid "qpl_delete"
+msgstr "Korisnik može premjestiti ili izbrisati bazen pitanja"
+
+msgid "qpl_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "qpl_read"
+msgstr "Korisnik može čitati ispitna pitanja u bazenu i umetati ih u testove"
+
+msgid "qpl_visible"
+msgstr "Bazen pitanje je vidljiv"
+
+msgid "qpl_write"
+msgstr "Korisnik može uređivati testna pitanja i postavke bazena pitanja"
+
+msgid "rbac_add_new_local_role"
+msgstr "Dodaj novu lokalnu ulogu"
+
+#, fuzzy
+msgid "rbac_add_recommended_content"
+msgstr "Recommended Content"
+
+#, fuzzy
+msgid "rbac_add_recommended_content_info"
+msgstr "Adds the current object '%1' for all members of the role as recommended content."
+
+msgid "rbac_admin_permissions"
+msgstr "Administratorska dopuštenja"
+
+msgid "rbac_auto_global"
+msgstr "Automatski generirana globalna uloga"
+
+msgid "rbac_auto_local"
+msgstr "Automatski generirana lokalna uloga"
+
+msgid "rbac_auto_rolt"
+msgstr "Automatski generirani predložak uloge"
+
+msgid "rbac_back_to_overview"
+msgstr "Povratak na popis uloga"
+
+msgid "rbac_cant_import_role_wrong_type"
+msgstr "Uvoz uloge iz stavke %s u stavku %s nije moguć."
+
+msgid "rbac_change_existing_confirm_tbl"
+msgstr "Postavke za 'Promijeni postojeće objekate'"
+
+msgid "rbac_change_existing_objects_desc_new_role"
+msgstr "Postavke dozvole ove uloge usvojit će se za SVE postojeće objekte."
+
+msgid "rbac_changes"
+msgstr "Promjene"
+
+msgid "rbac_choose_copy_targets"
+msgstr "Unesi upit za odabir ciljnih uloga."
+
+msgid "rbac_condition_delete_sure"
+msgstr "Jeste li sigurni da želite izbrisati sljedeće preduvjete?"
+
+msgid "rbac_context_global"
+msgstr "Globalno"
+
+msgid "rbac_copy_behaviour"
+msgstr "Postavke kopiranja uloga"
+
+#, fuzzy
+msgid "rbac_copy_behaviour_info"
+msgstr "Transfer Permissions from: %s to: %s"
+
+msgid "rbac_copy_finished"
+msgstr "Kopiranje završeno."
+
+#, fuzzy
+msgid "rbac_copy_multi_targets"
+msgstr "%s, %s and %s further Roles selected%s"
+
+#, fuzzy
+msgid "rbac_copy_no_targets"
+msgstr "At least one Role must be selected as Target"
+
+msgid "rbac_copy_role"
+msgstr "Kopiraj ulogu"
+
+msgid "rbac_copy_role_add_perm"
+msgstr "Dodaj dozvole"
+
+msgid "rbac_copy_role_copy"
+msgstr "Kopiraj dozvole"
+
+msgid "rbac_copy_role_remove_perm"
+msgstr "Ukloni dozvole"
+
+msgid "rbac_create_bibl"
+msgstr "Kreiraj bibliografiju"
+
+msgid "rbac_create_blog"
+msgstr "Kreiraj blog"
+
+msgid "rbac_create_book"
+msgstr "Kreiraj bazen za rezervacije"
+
+msgid "rbac_create_cat"
+msgstr "Kreiraj kategorije"
+
+msgid "rbac_create_catr"
+msgstr "Kreiraj poveznicu na kategoriju"
+
+msgid "rbac_create_chtr"
+msgstr "Kreiraj sobu za razgovor"
+
+#, fuzzy
+msgid "rbac_create_cmix"
+msgstr "Create xAPI/cmi5 Object"
+
+msgid "rbac_create_copa"
+msgstr "Kreiraj stranicu sa sadržajem"
+
+msgid "rbac_create_crs"
+msgstr "Kreiraj tečaj"
+
+msgid "rbac_create_crsr"
+msgstr "Kreiraj poveznicu na tečaj"
+
+msgid "rbac_create_dcl"
+msgstr "Kreiraj zbirku podataka"
+
+msgid "rbac_create_exc"
+msgstr "Kreiraj vježbu"
+
+msgid "rbac_create_file"
+msgstr "Učitaj datoteku"
+
+msgid "rbac_create_fold"
+msgstr "Kreiraj mapu"
+
+msgid "rbac_create_frm"
+msgstr "Kreiraj forum"
+
+msgid "rbac_create_glo"
+msgstr "Kreiraj pojmovnik"
+
+msgid "rbac_create_grp"
+msgstr "Kreiraj grupu"
+
+msgid "rbac_create_grpr"
+msgstr "Kreiraj poveznicu na grupu"
+
+msgid "rbac_create_htlm"
+msgstr "Kreiraj HTML modul za učenje"
+
+msgid "rbac_create_iass"
+msgstr "Kreiraj individualnu procjenu"
+
+msgid "rbac_create_itgr"
+msgstr "Kreiraj grupu predmeta"
+
+msgid "rbac_create_lm"
+msgstr "Kreiraj ILIAS modul za učenje"
+
+msgid "rbac_create_lso"
+msgstr "Kreiraj sekvencu učenja"
+
+#, fuzzy
+msgid "rbac_create_lti"
+msgstr "Create LTI Consumer"
+
+msgid "rbac_create_mcst"
+msgstr "Kreiraj mediacast"
+
+msgid "rbac_create_mep"
+msgstr "Kreiraj bazen za medije"
+
+msgid "rbac_create_orgu"
+msgstr "Kreiraj organizacijske jedinice"
+
+msgid "rbac_create_poll"
+msgstr "Kreiraj glasovanje"
+
+msgid "rbac_create_prg"
+msgstr "Kreiraj studijski program"
+
+#, fuzzy
+msgid "rbac_create_prgr"
+msgstr "Create link to study programme"
+
+msgid "rbac_create_prtt"
+msgstr "Kreiraj predložak portfelja"
+
+msgid "rbac_create_qpl"
+msgstr "Kreiraj bazene pitanja za testove"
+
+msgid "rbac_create_rcrs"
+msgstr "Kreiraj ECS tečaj"
+
+msgid "rbac_create_role"
+msgstr "Kreiraj novu ulogu"
+
+msgid "rbac_create_rolt"
+msgstr "Kreiraj novi predložak uloge"
+
+msgid "rbac_create_sahs"
+msgstr "Kreiraj SCORM modul za učenje"
+
+msgid "rbac_create_sess"
+msgstr "Kreiraj sesiju"
+
+#, fuzzy
+msgid "rbac_create_skee"
+msgstr "Create Competence Tree"
+
+msgid "rbac_create_spl"
+msgstr "Kreiraj bazen pitanje za ankete"
+
+msgid "rbac_create_svy"
+msgstr "Kreiraj anketu"
+
+msgid "rbac_create_tst"
+msgstr "Kreiraj test"
+
+msgid "rbac_create_usr"
+msgstr "Korisniku je omogućeno kreiranje korisničkih računa"
+
+msgid "rbac_create_webr"
+msgstr "Kreiraj internetsku poveznicu"
+
+msgid "rbac_create_wiki"
+msgstr "Kreiraj Wiki"
+
+msgid "rbac_delete_local_policies"
+msgstr "Izbriši lokalna pravila"
+
+msgid "rbac_delete_local_policies_info"
+msgstr "Ako je aktivirano, izbrisat će se sva lokalna pravila. Dopuštenja za objekt bit će prepisana i zaštićena."
+
+msgid "rbac_delete_role"
+msgstr "Izbriši ulogu"
+
+msgid "rbac_edit_condition"
+msgstr "Uredi preduvjet"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_button"
+msgstr "Rechte anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type"
+msgstr "Typ der Rechteanpassung"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_add"
+msgstr "Rechte hinzufügen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_add_info"
+msgstr "Fügt MARKIERTE Rechte der ausgewählten globalen Rollenvorlage zu den lokalen Rechtevorgabe hinzu."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_clone"
+msgstr "Rechte kopieren"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_clone_info"
+msgstr "Alle Rechte der ausgewählten globalen Rollenvorlage überschreiben alle lokalen Rechtevorgaben."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_remove"
+msgstr "Rechte entfernen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_remove_info"
+msgstr "Entfernt die MARKIERTEN Rechte der ausgewählten globalen Rollenvorlage aus den lokalen Rechtevorgaben."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_no_info"
+msgstr "Vorhandene lokale Rechtevorgaben entsprechend ergänzt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_yes"
+msgstr "Vorhandene Objekte nur um ausgewählte Rechte ergänzen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_yes_info"
+msgstr "Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend ergänzt."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_no_info"
+msgstr "Vorhandene lokale Rechtevorgaben werden überschrieben, die vorhandenen Objekte werden nicht in ihren Rechten angepasst."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_yes"
+msgstr "Vorhandene Objekte ändern"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_yes_info"
+msgstr "Vorhandene lokale Rechtevorgaben entsprechend überschreiben und IN GÄNZE mit allen gecheckten und ungecheckten Vorgaben auf vorhandene Objekte angewendet."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_no_info"
+msgstr "Markierte Rechte werden aus vorhandenen lokalen Rechtevorgaben entfernt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_yes"
+msgstr "Vorhandene Objekte nur um ausgewählte Rechte reduzieren"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_yes_info"
+msgstr "Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend reduziert."
+
+msgid "rbac_global_rolt"
+msgstr "Predložak globalne uloge"
+
+msgid "rbac_import_role"
+msgstr "Uvezi ulogu"
+
+msgid "rbac_info_only_position_access"
+msgstr "Prikazuju vam se samo oni članovi koji imaju položaj u vašoj organizacijskoj jedinici. Članovi s drugim organizacijskim pozicijama vam se ne prikazuju, ali mogu biti na ovom tečaju, a da vam se ne prikažu."
+
+msgid "rbac_keep_local_policies"
+msgstr "Pridržavajte se lokalnih pravila"
+
+msgid "rbac_keep_local_policies_info"
+msgstr "Odaberite ovaj način za zadržavanje svih lokalnih pravila. Dopuštenja objekta prilagodit će se tim pravilima i naknadno zaštititi."
+
+msgid "rbac_local_policies"
+msgstr "Lokalna pravila"
+
+msgid "rbac_local_policy"
+msgstr "Lokalno pravilo"
+
+msgid "rbac_log"
+msgstr "Dnevnik"
+
+msgid "rbac_log_change_owner"
+msgstr "Promijeni vlasnika objekta"
+
+msgid "rbac_log_changed_owner"
+msgstr "Promijenio vlasnika u"
+
+msgid "rbac_log_copy_object"
+msgstr "Kopiraj objekt"
+
+msgid "rbac_log_create_object"
+msgstr "Stvori objekt"
+
+msgid "rbac_log_edit_permissions"
+msgstr "Uredi dozvole"
+
+msgid "rbac_log_edit_template"
+msgstr "Uredi predložak uloge"
+
+msgid "rbac_log_edit_template_existing"
+msgstr "Koristi predložak uloge za postojeće objekte"
+
+msgid "rbac_log_inheritance_add"
+msgstr "Zaustavljeno nasljeđivanje za \"%s\""
+
+msgid "rbac_log_inheritance_rmv"
+msgstr "Dopušteno nasljeđivanje za \"%s\""
+
+msgid "rbac_log_link_object"
+msgstr "Poveznica objekta"
+
+msgid "rbac_log_move_object"
+msgstr "Premjesti objekt"
+
+msgid "rbac_log_operation_add"
+msgstr "Dodana operacija za \"%s\""
+
+msgid "rbac_log_operation_rmv"
+msgstr "Uklonjena operacija za \"%s\""
+
+msgid "rbac_log_source_object"
+msgstr "Izvorni objekt"
+
+msgid "rbac_msg_user_already_assigned"
+msgstr "Odabrani korisnici su već dodijeljeni ovoj ulozi."
+
+msgid "rbac_not_change_existing_objects"
+msgstr "NE mijenjajte postojeće objekte"
+
+msgid "rbac_permissions"
+msgstr "Dozvole"
+
+#, fuzzy
+msgid "rbac_precondition_condition"
+msgstr "Access requires having this status"
+
+msgid "rbac_precondition_hide"
+msgstr "Sakrij objekt"
+
+msgid "rbac_precondition_hide_info"
+msgstr "  Ova opcija omogućuje skrivanje objekta za korisnike koji trenutačno nisu ispunili preduvjete. Stoga su svi nepristupačni sadržaji nevidljivi."
+
+msgid "rbac_precondition_minimum_optional"
+msgstr "Najmanje 2 preduvjeta moraju ostati neobavezna."
+
+msgid "rbac_precondition_mode"
+msgstr "Način rada"
+
+msgid "rbac_precondition_mode_all"
+msgstr "Svi preduvjeti"
+
+msgid "rbac_precondition_mode_all_info"
+msgstr "Da bi se dobio pristup, moraju biti ispunjeni svi preduvjeti."
+
+msgid "rbac_precondition_mode_subset"
+msgstr "Podskup preduvjeta"
+
+msgid "rbac_precondition_mode_subset_info"
+msgstr "Da bi se dobio pristup, mora se ispuniti podskup preduvjeta. Neki se preduvjeti i dalje mogu postaviti kao obvezni."
+
+msgid "rbac_precondition_save_obligatory"
+msgstr "Spremi obvezno"
+
+msgid "rbac_precondition_source"
+msgstr "Okidač stanja"
+
+msgid "rbac_precondition_target"
+msgstr "Preduvjet za pristup"
+
+msgid "rbac_repository_permissions"
+msgstr "Dozvole za repozitorij"
+
+msgid "rbac_role_delete_qst"
+msgstr "Jeste li sigurni da želite izbrisati sljedeću ulogu? <br />Sve dozvole koja je zajamčila ova uloga trajno će se izbrisati."
+
+msgid "rbac_role_delete_self"
+msgstr "<strong>Pažnja:</strong>Dodijeljena vam je ova uloga. Ako nastavite s ovim postupkom brisanja, možete izgubiti pristup nekim ILIAS materijalima."
+
+msgid "rbac_role_exists_alert"
+msgstr "Uloga s istim imenom već postoji u ovom kontekstu. Odaberite drugo ime."
+
+msgid "rbac_role_imported"
+msgstr "Uloga je uvezena."
+
+msgid "rbac_role_rights_copy"
+msgstr "Kopiraj dozvole"
+
+msgid "rbac_role_rights_copy_change_existing"
+msgstr "Promijeni postojeće objekte"
+
+msgid "rbac_role_rights_copy_empty"
+msgstr "Nijedna"
+
+msgid "rbac_role_selection"
+msgstr "Vrsta uloge"
+
+msgid "rbac_role_title"
+msgstr "Naslov uloge"
+
+msgid "rbac_select_copy_targets"
+msgstr "Molimo odaberite ciljane uloge"
+
+msgid "rbac_select_roles"
+msgstr "Role Selection"
+
+msgid "rbac_ud_global"
+msgstr "Korisnički definirana globalna uloga"
+
+msgid "rbac_ud_local"
+msgstr "Korisnički definirana lokalna uloga"
+
+msgid "rbac_ud_rolt"
+msgstr "Korisnički definirani predložak uloge"
+
+msgid "rbac_unprotected_delete_local_policies_info"
+msgstr "Ako je aktivirano, izbrisat će se sva lokalna pravila. Dozvole na tečajevima i u grupama nanovo će se inicijalizirati."
+
+msgid "rbac_unprotected_keep_local_policies_info"
+msgstr "Odaberite ovaj način rada da biste zadržali sva lokalna pravila."
+
+#, fuzzy
+msgid "rbac_view_content"
+msgstr "View Content"
+
+msgid "rcat_delete"
+msgstr "Korisnik može premjestiti ili izbrisati kategoriju ECS"
+
+msgid "rcat_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "rcat_read"
+msgstr "Korisnik može koristiti kategoriju ECS"
+
+msgid "rcat_visible"
+msgstr "Kategorija ECS je vidljiva"
+
+msgid "rcat_write"
+msgstr "Korisnik može uređivati postavke kategorije ECS"
+
+msgid "rcrs_delete"
+msgstr "Korisnik može premjestiti ili izbrisati tečaj ECS"
+
+msgid "rcrs_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "rcrs_read"
+msgstr "Korisnik može koristiti tečaj ECS"
+
+msgid "rcrs_visible"
+msgstr "Tečaj ECS je vidljiv"
+
+msgid "rcrs_write"
+msgstr "Korisnik može uređivati postavke tečaja ECS"
+
+#, fuzzy
+msgid "read_all_accounts"
+msgstr "Read All Accounts"
+
+#, fuzzy
+msgid "read_comp"
+msgstr "User has read access to Competences and Competence Templates"
+
+msgid "read_learning_progress"
+msgstr "Pogledajte napredak učenja ostalih korisnika"
+
+#, fuzzy
+msgid "read_outcomes"
+msgstr "View learning experiences of other users"
+
+#, fuzzy
+msgid "read_profiles"
+msgstr "User has read access to Competence Profiles"
+
+msgid "read_results"
+msgstr "Rezultati ankete"
+
+msgid "read_users"
+msgstr "Pristup za čitanje korisničkim računima"
+
+msgid "recf_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvola administracije obnovljenih objekata"
+
+msgid "recf_read"
+msgstr "Korisnik ima pristup za čitanje administraciji obnovljenih objekata"
+
+msgid "recf_visible"
+msgstr "Administracija obnovljenih objekata je vidljiva"
+
+msgid "recf_write"
+msgstr "Uredite postavke i vratite objekte u administraciju obnovljenih objekata"
+
+msgid "redact"
+msgstr "Redigiraj"
+
+msgid "release_objects"
+msgstr "Omogući objekte"
+
+msgid "reps_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole u administraciji repozitorija"
+
+msgid "reps_read"
+msgstr "Korisnik ima pristup za čitanje administraciji repozitorija"
+
+msgid "reps_visible"
+msgstr "Administracija repozitorija je vidljiva"
+
+msgid "reps_write"
+msgstr "Uredi postavke u administraciji repozitorija"
+
+msgid "rfil_delete"
+msgstr "Korisnik može premjestiti ili izbrisati datoteku ECS"
+
+msgid "rfil_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "rfil_read"
+msgstr "Korisnik može koristiti datoteku ECS"
+
+msgid "rfil_visible"
+msgstr "Datoteka ECS je vidljiva"
+
+msgid "rfil_write"
+msgstr "Korisnik može uređivati postavke datoteke ECS"
+
+msgid "rglo_delete"
+msgstr "Korisnik može premjestiti ili izbrisati pojmovnik ECS"
+
+msgid "rglo_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "rglo_read"
+msgstr "Korisnik može koristiti pojmovnik ECS"
+
+msgid "rglo_visible"
+msgstr "Pojmovnik ECS je vidljiv"
+
+msgid "rglo_write"
+msgstr "Korisnik može uređivati postavke pojmovnika ECS"
+
+msgid "rgrp_delete"
+msgstr "Korisnik može premjestiti ili izbrisati grupu ECS"
+
+msgid "rgrp_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "rgrp_read"
+msgstr "Korisnik može koristiti grupu ECS"
+
+msgid "rgrp_visible"
+msgstr "Grupa ECS je vidljiva"
+
+msgid "rgrp_write"
+msgstr "Korisnik može uređivati postavke grupe ECS"
+
+msgid "rlm_delete"
+msgstr "Korisnik može premjestiti ili izbrisati modul za učenje ECS"
+
+msgid "rlm_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "rlm_read"
+msgstr "Korisnik može koristiti modul za učenje ECS"
+
+msgid "rlm_visible"
+msgstr "Modul za učenje ECS je vidljiv"
+
+msgid "rlm_write"
+msgstr "Korisnik može uređivati postavke modula za učenje ECS"
+
+msgid "role_block_role"
+msgstr "Blokiraj ulogu"
+
+msgid "role_block_role_desc"
+msgstr "Pristup ovom i svim podređenim objektima bit će opozvan."
+
+msgid "role_blocked"
+msgstr ": <i>Uloga će biti blokirana</i>"
+
+msgid "role_confirm_block_role"
+msgstr "Spremi status uloge"
+
+msgid "role_confirm_block_role_header"
+msgstr "Želite li zaista promijeniti blokirani status odabranih uloga?"
+
+msgid "role_confirm_block_role_info"
+msgstr "Sljedeći koraci bit će izvedeni za akciju \"Blokiraj ulogu\":<br /><br />- dozvole za ulogu ovog i svih podređenih objekata bit će blokirane. <br />- nove postavke dozvola bit će zaštićene."
+
+msgid "role_confirm_unblock_role_info"
+msgstr "Sljedeći koraci bit će izvedeni za akciju \"Deblokiraj ulogu\":<br /><br />- lokalna pravila će se izbrisati."
+
+msgid "role_unblocked"
+msgstr ": <i> Uloga će se deblokirati</i>"
+
+msgid "root_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "root_read"
+msgstr "Korisnik ima pristup za čitanje<i>Repozitorij - Početna stranica</i>"
+
+msgid "root_visible"
+msgstr "<i>Repozitorij - Početna stranica</i> je vidljiv"
+
+msgid "root_write"
+msgstr "Korisnik može uređivati postavke <i>Repozitorij - Početna stranica</i> i upravljati sadržajem"
+
+msgid "rtst_delete"
+msgstr "Korisnik može premjestiti ili izbrisati test ECS"
+
+msgid "rtst_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "rtst_read"
+msgstr "Korisnik može koristiti test ECS"
+
+msgid "rtst_visible"
+msgstr "Test ECS je vidljiv"
+
+msgid "rtst_write"
+msgstr "Korisnik može uređivati postavke testa ECS"
+
+msgid "rwik_delete"
+msgstr "Korisnik može premjestiti ili izbrisati Wiki ECS"
+
+msgid "rwik_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "rwik_read"
+msgstr "Korisnik može koristiti Wiki ECS"
+
+msgid "rwik_visible"
+msgstr "Wiki ECS je vidljiv"
+
+msgid "rwik_write"
+msgstr "Korisnik može uređivati postavke Wiki ECS"
+
+msgid "sahs_copy"
+msgstr "Korisnik može kopirati modul za učenje SCORM"
+
+msgid "sahs_delete"
+msgstr "Korisnik može premjestiti ili izbrisati modul za učenje SCORM"
+
+msgid "sahs_edit_learning_progress"
+msgstr "Korisnik može uređivati postavke napretka u učenju"
+
+msgid "sahs_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "sahs_read"
+msgstr "Korisnik može čitati modul za učenje SCORM"
+
+msgid "sahs_read_learning_progress"
+msgstr "Korisnik može vidjeti napredak u učenju drugih korisnika"
+
+msgid "sahs_visible"
+msgstr "Modul za učenje SCORM je vidljiv"
+
+msgid "sahs_write"
+msgstr "Korisnik može uređivati sadržaj i postavke modula za učenje SCORM"
+
+msgid "seas_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole ili administraciju pretraživanja"
+
+msgid "seas_read"
+msgstr "Korisnik ima pristup za čitanje administraciji pretraživanja"
+
+msgid "seas_search"
+msgstr "Korisnik može koristiti globalno pretraživanje u ILIAS-u"
+
+msgid "seas_visible"
+msgstr "Administracija pretraživanja je vidljiva"
+
+msgid "seas_write"
+msgstr "Uredi postavke u administraciji pretraživanja"
+
+msgid "sess_copy"
+msgstr "Korisnik može kopirati sesiju"
+
+msgid "sess_delete"
+msgstr "Korisnik može premjestiti ili izbrisati sesiju"
+
+msgid "sess_edit_event"
+msgstr "Uredi događaje kalendara"
+
+msgid "sess_edit_learning_progress"
+msgstr "Korisnik može uređivati postavke napretka u učenju"
+
+msgid "sess_edit_metadata"
+msgstr "Uredi metapodatke"
+
+msgid "sess_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "sess_manage_materials"
+msgstr "Upravljanje materijalima sesije"
+
+msgid "sess_manage_members"
+msgstr "Upravljanje sudionicima sesije"
+
+msgid "sess_read"
+msgstr "Korisnik ima pristup čitanju sesija"
+
+msgid "sess_read_learning_progress"
+msgstr "Korisnik može vidjeti napredak u učenju drugih korisnika"
+
+msgid "sess_visible"
+msgstr "Sesije su vidljive"
+
+msgid "sess_write"
+msgstr "Korisnik može uređivati sadržaj i postavke sesije"
+
+#, fuzzy
+msgid "skee_copy"
+msgstr "User can copy Competence Tree (currently not available)"
+
+#, fuzzy
+msgid "skee_delete"
+msgstr "User can delete Competence Tree"
+
+#, fuzzy
+msgid "skee_edit_permission"
+msgstr "User can change permission settings of Competence Tree administration"
+
+#, fuzzy
+msgid "skee_manage_comp"
+msgstr "User can edit Competences in Competence Tree"
+
+#, fuzzy
+msgid "skee_manage_comp_temp"
+msgstr "User can edit Competence Templates in Competence Tree"
+
+#, fuzzy
+msgid "skee_manage_profiles"
+msgstr "User can edit Competence Profiles in Competence Tree"
+
+#, fuzzy
+msgid "skee_read"
+msgstr "User has read access to administration of Competence Tree"
+
+#, fuzzy
+msgid "skee_read_comp"
+msgstr "User has read access to Competences and Competence Templates in Competence Tree"
+
+#, fuzzy
+msgid "skee_read_profiles"
+msgstr "User has read access to Competence Profiles in Competence Tree"
+
+#, fuzzy
+msgid "skee_visible"
+msgstr "Competence Tree is visible"
+
+#, fuzzy
+msgid "skee_write"
+msgstr "User can edit settings of Competence Tree"
+
+msgid "skmg_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole administracije za upravljanje kompetencijama"
+
+msgid "skmg_read"
+msgstr "Korisnik ima pristup za čitanje administraciji upravljanja kompetencijama"
+
+msgid "skmg_visible"
+msgstr "Vidljiva je administracija upravljanja kompetencijama"
+
+msgid "skmg_write"
+msgstr "Korisnik može uređivati postavke upravljanja kompetencijama"
+
+msgid "smtp_mail"
+msgstr "SMTP e-pošta"
+
+msgid "spl_copy"
+msgstr "Korisnik može kopirati bazen pitanja za ankete"
+
+msgid "spl_delete"
+msgstr "Korisnik može premjestiti ili izbrisati bazen pitanja"
+
+msgid "spl_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "spl_read"
+msgstr "Korisnik može pročitati anketna pitanja u bazenu i umetnuti ih u anketu"
+
+msgid "spl_visible"
+msgstr "Bazen pitanja je vidljiv"
+
+msgid "spl_write"
+msgstr "Korisnik može uređivati anketna pitanja i postavke bazena pitanja"
+
+msgid "statistics_read"
+msgstr "Vidi statistiku"
+
+#, fuzzy
+msgid "stus_edit_permission"
+msgstr "User can change permission settings in Shortlink administration"
+
+#, fuzzy
+msgid "stus_read"
+msgstr "User can see the Shortlink Administration"
+
+#, fuzzy
+msgid "stus_write"
+msgstr "User can edit Shortlinks"
+
+msgid "sty_write_content"
+msgstr "Uredi stilove sadržaja"
+
+msgid "sty_write_page_layout"
+msgstr "Uredi izgled stranice"
+
+msgid "sty_write_system"
+msgstr "Uredi stilove sustava"
+
+msgid "stys_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole administracije izgleda stranica i stilova"
+
+msgid "stys_read"
+msgstr "Korisnik ima pristup za čitanje administracije izgleda stranica i stilova"
+
+msgid "stys_sty_write_content"
+msgstr "Uredi stilova sadržaja"
+
+msgid "stys_sty_write_custom"
+msgstr "Uredi stilova sadržaja"
+
+msgid "stys_sty_write_page_layout"
+msgstr "Uredi izglede stranice"
+
+msgid "stys_sty_write_system"
+msgstr "Uredi stilove sustava"
+
+msgid "stys_visible"
+msgstr "Administracija izgleda stranice i stilova je vidljiva"
+
+msgid "svy_copy"
+msgstr "Korisnik može kopirati anketu"
+
+msgid "svy_delete"
+msgstr "Korisnik može premjestiti ili izbrisati anketu"
+
+msgid "svy_edit_learning_progress"
+msgstr "Korisnik može uređivati postavke napretk u učenju"
+
+msgid "svy_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvola"
+
+msgid "svy_invite"
+msgstr "Korisnik može pozvati druge u anketu"
+
+msgid "svy_read"
+msgstr "Korisnik može sudjelovati u anketi"
+
+msgid "svy_read_learning_progress"
+msgstr "Korisnik može vidjeti napredak u učenju drugih korisnika"
+
+msgid "svy_read_results"
+msgstr "Korisnik ima pristup rezultatima ankete drugih"
+
+msgid "svy_visible"
+msgstr "Anketa je vidljiva"
+
+msgid "svy_write"
+msgstr "Korisnik može uređivati sadržaj i postavke ankete"
+
+msgid "svyf_edit_permission"
+msgstr "Korisničke promjene postavki dozvole u administraciji ankete"
+
+msgid "svyf_read"
+msgstr "Korisnik ima pristup za čitanje administraciji ankete"
+
+msgid "svyf_visible"
+msgstr "Vidljiva je administracija ankete"
+
+msgid "svyf_write"
+msgstr "Uredi postavke u administraciji ankete"
+
+msgid "sysc_edit_permission"
+msgstr "Korisnik može promijeniti dozvole provjere sustava."
+
+msgid "sysc_read"
+msgstr "Korisnik ima pristup za čitanje provjere sustava."
+
+msgid "sysc_visible"
+msgstr "Provjera sustava je vidljiva."
+
+msgid "sysc_write"
+msgstr "Korisnik može izvršiti provjeru sustava."
+
+msgid "tags_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvola u administraciji označavanja"
+
+msgid "tags_read"
+msgstr "Korisnik ima pristup za čitanje administraciji označavanja"
+
+msgid "tags_visible"
+msgstr "Administracija označavanja je vidljiva"
+
+msgid "tags_write"
+msgstr "Korisnik može uređivati postavke u administraciji označavanja"
+
+#, fuzzy
+msgid "tala_edit_permission"
+msgstr "User can change permission settings in Talk Templates administration"
+
+#, fuzzy
+msgid "tala_read"
+msgstr "User has read access to Talk Templates administration"
+
+#, fuzzy
+msgid "tala_visible"
+msgstr "Talk Templates administration is visible"
+
+#, fuzzy
+msgid "tala_write"
+msgstr "User can create and edit Talk Templates"
+
+msgid "taxs_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole u administraciji taksonomije"
+
+msgid "taxs_read"
+msgstr "Korisnik ima pristup čitanju administracije taksonomije"
+
+msgid "taxs_visible"
+msgstr "Vidljiva je uprava taksonomije"
+
+msgid "taxs_write"
+msgstr "Uredi postavke u administraciji taksonomije"
+
+msgid "tos_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole u administraciji uvjeta usluge"
+
+msgid "tos_read"
+msgstr "Korisnik ima pristup za čitanje administracije uvjeta usluge"
+
+msgid "tos_visible"
+msgstr "Administracija uvjeta usluge je vidljiva"
+
+msgid "tos_write"
+msgstr "Uredi postavke u administraciji uvjeta usluge"
+
+msgid "trac_delete"
+msgstr "Korisnik može izbrisati podatke o praćenju"
+
+msgid "trac_edit_permission"
+msgstr "Promijeni postavke dozvolau administraciji statistika i napretka u učenju"
+
+msgid "trac_lp_other_users"
+msgstr "Vidi pregled napretka u učenju drugih korisnika"
+
+msgid "trac_read"
+msgstr "Korisnik ima pristup za čitanje administracije statistika i napretka u učenju"
+
+msgid "trac_visible"
+msgstr "Administracija statistika i napretka u učenju je vidljiv"
+
+msgid "trac_write"
+msgstr "Uredi postavke u administraciji statistika i napredak u učenju"
+
+msgid "tst_copy"
+msgstr "Korisnik može kopirati test"
+
+msgid "tst_delete"
+msgstr "Korisnik može premjestiti ili izbrisati test"
+
+msgid "tst_edit_learning_progress"
+msgstr "Korisnik može urediti postavke napretka u učenju"
+
+msgid "tst_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvola"
+
+msgid "tst_read"
+msgstr "Korisnik može izvršiti test"
+
+msgid "tst_read_learning_progress"
+msgstr "Korisnik može vidjeti napredak u učenju drugih korisnika"
+
+#, fuzzy
+msgid "tst_tst_history_read"
+msgstr "View History"
+
+msgid "tst_tst_results"
+msgstr "Korisnik ima pristup rezultatima testova drugih"
+
+msgid "tst_visible"
+msgstr "Test je vidljiv"
+
+msgid "tst_write"
+msgstr "Korisnik može uređivati sadržaj i postavke testa"
+
+#, fuzzy
+msgid "upload_blacklisted_files"
+msgstr "Bypass blacklist"
+
+msgid "usrf_delete"
+msgstr "Korisnik može brisati korisničke račune"
+
+msgid "usrf_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvola u administraciji korisnika"
+
+msgid "usrf_edit_roleassignment"
+msgstr "Korisnik može promijeniti dodjelu uloga korisničkog računa"
+
+msgid "usrf_push_desktop_items"
+msgstr "Korisniku je dopušteno predlagati stavke na osobnoj radnoj površini drugim korisnicim"
+
+msgid "usrf_read"
+msgstr "Korisnik ima pristup za čitanje administraciji korisnika"
+
+#, fuzzy
+msgid "usrf_read_all_accounts"
+msgstr "User can list all accounts in User administration"
+
+msgid "usrf_read_users"
+msgstr "Korisnik ima pristup za čitanje lokalnih korisničkih računa (lokalni administratori)"
+
+msgid "usrf_visible"
+msgstr "Administracija korisnika je vidljiva"
+
+msgid "usrf_write"
+msgstr "Uredi postavke u administracija korisnika"
+
+#, fuzzy
+msgid "wbdv_edit_permission"
+msgstr "User can change permission settings of WebDAV administration."
+
+#, fuzzy
+msgid "wbdv_read"
+msgstr "User has read access to WebDAV administration."
+
+#, fuzzy
+msgid "wbdv_visible"
+msgstr "Administration of WebDAV is visible."
+
+#, fuzzy
+msgid "wbdv_write"
+msgstr "User can edit settings of WebDAV administration."
+
+msgid "wbrs_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvola u administraciji internetskih poveznica (weblink)"
+
+msgid "wbrs_read"
+msgstr "Korisnik ima pristup za čitanje administracije internetskih poveznica (weblink)"
+
+msgid "wbrs_visible"
+msgstr "Administracija internetskih poveznica (weblink) je vidljiva"
+
+msgid "wbrs_write"
+msgstr "Uredite postavke u administraciji internetskih poveznica (weblink)"
+
+msgid "webr_copy"
+msgstr "Korisnik može kopirati internetsku poveznicu (weblink)"
+
+msgid "webr_delete"
+msgstr "Korisnik može premjestiti ili izbrisati internetske poveznice (weblink)"
+
+msgid "webr_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "webr_read"
+msgstr "Korisnik može čitati i koristiti internetske poveznice"
+
+msgid "webr_visible"
+msgstr "Internetska poveznica (weblink) je vidljiva"
+
+msgid "webr_write"
+msgstr "Korisnik može uređivati postavke internetskih poveznica (weblink)"
+
+msgid "wiki_activate_wiki_protection"
+msgstr "Postavi Wiki stranice na samo za čitanje"
+
+#, fuzzy
+msgid "wiki_add_pages"
+msgstr "User can create wiki pages"
+
+msgid "wiki_copy"
+msgstr "Korisnik može kopirati wiki"
+
+msgid "wiki_delete"
+msgstr "Korisnik može premještati ili brisati wiki"
+
+msgid "wiki_delete_wiki_pages"
+msgstr "Izbriši Wiki stranice"
+
+msgid "wiki_edit_content"
+msgstr "Korisnik može stvarati i uređivati wiki stranice"
+
+msgid "wiki_edit_page_meta"
+msgstr "Uredi metapodatke Wiki stranice"
+
+msgid "wiki_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "wiki_edit_wiki_navigation"
+msgstr "Uredi Wiki navigaciju"
+
+msgid "wiki_html_export"
+msgstr "Izvoz HTML-a"
+
+msgid "wiki_read"
+msgstr "Korisnik može čitati wiki sadržaj"
+
+msgid "wiki_statistics_read"
+msgstr "Vidi statistiku"
+
+msgid "wiki_visible"
+msgstr "Wiki je vidljiv"
+
+msgid "wiki_wiki_html_export"
+msgstr "Izvezi Wiki kao HTML"
+
+msgid "wiki_write"
+msgstr "Korisnik može uređivati postavke wikija"
+
+msgid "wiks_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole u administraciji Wiki-ja"
+
+msgid "wiks_read"
+msgstr "Korisnik ima pristup za čitanje administraciji Wiki-ja"
+
+msgid "wiks_visible"
+msgstr "Administracija Wiki-ja je vidljiva"
+
+msgid "wiks_write"
+msgstr "Uredi postavke u administraciji Wiki-ja"
+
+msgid "write"
+msgstr "Uredi postavke"

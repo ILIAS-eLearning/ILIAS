@@ -29,6 +29,8 @@ use ILIAS\AccessControl\Object\ObjectDataAccessProxy;
 use ILIAS\AccessControl\Object\ObjectDefinitionAccessProxy;
 use ILIAS\Database\Connection;
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 
 class AccessControl implements Component\Component
 {
@@ -101,5 +103,9 @@ class AccessControl implements Component\Component
             );
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ilPermSelect.js");
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'rbac'
+        );
     }
 }

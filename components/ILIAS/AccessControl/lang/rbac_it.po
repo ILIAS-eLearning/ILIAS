@@ -1,0 +1,2878 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: rbac\n"
+
+msgid "accs_edit_permission"
+msgstr "Modifica impostazioni dei permessi"
+
+msgid "accs_read"
+msgstr "Puoi accedere alle impostazioni di accessibilità"
+
+msgid "accs_visible"
+msgstr "Le impostazioni di Accessibilita' sono visibili"
+
+msgid "accs_write"
+msgstr "Modifica le Impostazioni di Accessibilita'"
+
+msgid "activate_wiki_protection"
+msgstr "Imposta solo lettura"
+
+msgid "active_preconditions"
+msgstr "Condizioni preliminari"
+
+msgid "add_consultation_hours"
+msgstr "Aggiungi orario di colloquio"
+
+msgid "add_consume_provider"
+msgstr "Add Own LTI Provider Settings"
+
+#, fuzzy
+msgid "add_pages"
+msgstr "Add Pages"
+
+msgid "add_reply"
+msgstr "Aggiungi risposta"
+
+msgid "add_thread"
+msgstr "Aggiungi Thread"
+
+msgid "adm_edit_permission"
+msgstr "Modifica le impostazioni dei permessi"
+
+msgid "adm_read"
+msgstr "Accedere in lettura alla sezione di amministrazione"
+
+msgid "adm_visible"
+msgstr "Vedere la sezione di amministrazione"
+
+msgid "adm_write"
+msgstr "L'utente può modificare le impostazioni generali in Amministrazione."
+
+msgid "adn_edit_permission"
+msgstr "User can change permissions of Administrative Notifications' administration."
+
+msgid "adn_read"
+msgstr "User has read access to administration of Administrative Notifications."
+
+msgid "adn_visible"
+msgstr "Administration of Administrative Notifications is visible."
+
+msgid "adn_write"
+msgstr "User can add and edit Administrative Notifications."
+
+msgid "adopt_perm_from_template"
+msgstr "Copia Impostazioni Permesi"
+
+msgid "adve_edit_permission"
+msgstr "Modifica Impostazioni dei Permessi"
+
+msgid "adve_read"
+msgstr "Gestione avanzata dell'amministrazione"
+
+msgid "adve_visible"
+msgstr "L'amministrazione avanzata dell'Editing è visibile"
+
+msgid "adve_write"
+msgstr "Amministrazione Avanzata Editing"
+
+msgid "amend_grading"
+msgstr "Modifica la classificazione finalizzata"
+
+msgid "assf_edit_permission"
+msgstr "Modificare i permessi"
+
+msgid "assf_read"
+msgstr "Accedere in lettura alla Amministrazione di Test e Valutazioni"
+
+msgid "assf_visible"
+msgstr "L'amministrazione del test e della valutazione è visibile"
+
+msgid "assf_write"
+msgstr "L'utente può modificare le impostazioni di Test and Assessment Administration"
+
+msgid "auth_edit_permission"
+msgstr "L'utente può modificare le impostazioni di autorizzazione dell'amministrazione di autenticazione e registrazione"
+
+msgid "auth_read"
+msgstr "Accedere in lettura alla modalita' di autenticazione"
+
+msgid "auth_visible"
+msgstr "Vedere la modalita' di autenticazione"
+
+msgid "auth_write"
+msgstr "L'utente può modificare le impostazioni per l'autenticazione e la registrazione"
+
+msgid "awra_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione nell’amministrazione “Chi è online?”"
+
+msgid "awra_read"
+msgstr "L’utente ha l’accesso di lettura all’amministrazione “Chi è online?”"
+
+msgid "awra_visible"
+msgstr "L’amministrazione “Chi è online” è visibile"
+
+msgid "awra_write"
+msgstr "Modifica impostazioni nell’amministrazione “Chi è online?”"
+
+msgid "bdga_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione"
+
+msgid "bdga_read"
+msgstr "L’utente può leggere il contenuto del badge di amministrazione"
+
+msgid "bdga_visible"
+msgstr "Il badge di amministrazione è visibile"
+
+msgid "bdga_write"
+msgstr "L’utente può modificare le impostazioni del badge di amministrazione"
+
+msgid "bibl_copy"
+msgstr "L'utente può copiare la bibliografia"
+
+msgid "bibl_delete"
+msgstr "L’utente può spostare o eliminare la bibliografia"
+
+msgid "bibl_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione"
+
+msgid "bibl_read"
+msgstr "L’utente può leggere il contenuto della bibliografia"
+
+msgid "bibl_visible"
+msgstr "La bibliografia è visibile"
+
+msgid "bibl_write"
+msgstr "L’utente può modificare le impostazioni della bibliografia"
+
+msgid "bibs_copy"
+msgstr "L’utente può copiare la bibliografia"
+
+msgid "bibs_delete"
+msgstr "L’utente può eliminare le voci della biblioteca"
+
+msgid "bibs_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione"
+
+msgid "bibs_read"
+msgstr "L’utente può leggere il contenuto della bibliografia"
+
+msgid "bibs_visible"
+msgstr "L'amministrazione della bibliografia è visibile"
+
+msgid "bibs_write"
+msgstr "L’utente può modificare le impostazioni della bibliografia"
+
+msgid "blga_edit_permission"
+msgstr "Cambia le impostazioni dei permessi"
+
+msgid "blga_read"
+msgstr "Accesso consentito a Blog-Administration"
+
+msgid "blga_visible"
+msgstr "Blog Administration è visibile"
+
+msgid "blga_write"
+msgstr "Modifica Blog Administration"
+
+msgid "blog_contribute"
+msgstr "L'utente può contribuire"
+
+msgid "blog_copy"
+msgstr "Copia blog"
+
+msgid "blog_delete"
+msgstr "Cancella il blog"
+
+msgid "blog_edit_permission"
+msgstr "Cambiare le impostazioni"
+
+msgid "blog_read"
+msgstr "Il blog è leggibile"
+
+msgid "blog_redact"
+msgstr "L'utente può modificare tutti i post"
+
+msgid "blog_visible"
+msgstr "Il blog iè visibile"
+
+msgid "blog_write"
+msgstr "L'utente può modificare il blog"
+
+msgid "book_copy"
+msgstr "L’utente può copiare il gruppo di prenotazione"
+
+msgid "book_delete"
+msgstr "L'utente può cancellare o spostare il pool di prenotazione"
+
+msgid "book_edit_permission"
+msgstr "Cambia permessi di accesso"
+
+#, fuzzy
+msgid "book_manage_all_reservations"
+msgstr "User can manage all reservations"
+
+#, fuzzy
+msgid "book_manage_own_reservations"
+msgstr "User can manage own reservations"
+
+msgid "book_read"
+msgstr "Salva le prenotazioni in Booking Pool"
+
+msgid "book_visible"
+msgstr "Booking Pool è visibile"
+
+msgid "book_write"
+msgstr "Modifica Booking Pool"
+
+msgid "cadm_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione"
+
+msgid "cadm_read"
+msgstr "L’utente ha l’accesso di lettura all’amministrazione della connessione"
+
+msgid "cadm_visible"
+msgstr "L’amministrazione della connessione utente è visibile"
+
+msgid "cadm_write"
+msgstr "L’utente ha l’accesso di scrittura all’amministrazione della connessione"
+
+msgid "cals_add_consultation_hours"
+msgstr "Puoi aggiungere orari di colloquio nel calendario"
+
+msgid "cals_edit_event"
+msgstr "Amministrare Calendari Pubblici"
+
+msgid "cals_edit_permission"
+msgstr "Cambia le impostazioni dei permessi"
+
+msgid "cals_read"
+msgstr "Accesso in lettura alle impostazioni del Calendario"
+
+msgid "cals_visible"
+msgstr "Le impostazioni dei calendari sono visibili"
+
+msgid "cals_write"
+msgstr "Edita le impostazioni del Calendario"
+
+msgid "cat_administrate_users"
+msgstr "Amministra gli account utente locali"
+
+msgid "cat_cat_administrate_users"
+msgstr "Amministrare utenti locali"
+
+msgid "cat_copy"
+msgstr "Copia Categoria"
+
+msgid "cat_delete"
+msgstr "Elimina un contesto"
+
+msgid "cat_edit_permission"
+msgstr "Modificare le impostazioni dei permessi"
+
+msgid "cat_read"
+msgstr "Accedere in lettura ad un contesto"
+
+msgid "cat_read_users"
+msgstr "Accedere in lettura agli utenti locali"
+
+msgid "cat_visible"
+msgstr "Vedere un contesto"
+
+msgid "cat_write"
+msgstr "Modificare un contesto"
+
+msgid "catr_copy"
+msgstr "Copia il riferimento di Categoria"
+
+msgid "catr_delete"
+msgstr "Cancella il Riferimento di Categoria"
+
+msgid "catr_edit_permission"
+msgstr "Cambia le impostazioni dei permessi"
+
+msgid "catr_visible"
+msgstr "Il riferimento di categoria è visibile"
+
+msgid "catr_write"
+msgstr "Edita i riferimenti di Categoria"
+
+msgid "cert_edit_permission"
+msgstr "Modifica impostazioni dei permessi"
+
+msgid "cert_read"
+msgstr "Accesso di lettura alla gestione certificati"
+
+msgid "cert_visible"
+msgstr "Impostazioni di Certificato visibili"
+
+msgid "cert_write"
+msgstr "Modifica le impostazioni di Certificato"
+
+msgid "change_existing_object_type_desc"
+msgstr "Cambia anche i permessi degli oggetti esistenti di quel tipo"
+
+msgid "change_existing_objects"
+msgstr "Modifica gli oggetti esistenti"
+
+msgid "change_existing_objects_desc"
+msgstr "Se attivato, verranno impostate le impostazioni dei diritti per tutti gli oggetti sottostanti. Per impostare i diritti singolarmente, spunta per favore ogni checkbox a destra separatamente."
+
+msgid "change_existing_prefix"
+msgstr "Modifica esistente"
+
+msgid "change_existing_prefix_single"
+msgstr "Modifica"
+
+msgid "change_existing_suffix"
+msgstr "Cambiare"
+
+msgid "change_existing_suffix_single"
+msgstr "Adattare"
+
+msgid "change_presentation"
+msgstr "Presentazione del cambiamento"
+
+msgid "chtr_delete"
+msgstr "L'utente può spostare o cancellare il corso"
+
+msgid "chtr_edit_permission"
+msgstr "Cambia i permessi"
+
+msgid "chtr_moderate"
+msgstr "Modera la Chatroom"
+
+msgid "chtr_read"
+msgstr "Leggi"
+
+msgid "chtr_visible"
+msgstr "Visibile"
+
+msgid "chtr_write"
+msgstr "Scrivi"
+
+#, fuzzy
+msgid "cmis_edit_permission"
+msgstr "User can change permission settings of xAPI/cmi5 administration."
+
+msgid "cmis_read"
+msgstr "L'utente ha accesso in lettura all'amministrazione di xAPI/cmi5."
+
+msgid "cmis_visible"
+msgstr "L'amministrazione di xAPI/cmi5 è visibile."
+
+msgid "cmis_write"
+msgstr "L'utente può modificare le impostazioni dell'amministrazione di xAPI/cmi5."
+
+msgid "cmix_copy"
+msgstr "L'utente può copiare l'oggetto xAPI/cmi5"
+
+msgid "cmix_delete"
+msgstr "L'utente può spostare o cancellare l'oggetto xAPI/cmi5 Object"
+
+msgid "cmix_edit_learning_progress"
+msgstr "L'utente può modificare le impostazioni del progresso dell'apprendimento"
+
+msgid "cmix_edit_permission"
+msgstr "L'utente può cambiare le impostazioni dei permessi"
+
+msgid "cmix_read"
+msgstr "L'utente può vedere l'oggetto xAPI/cmi5"
+
+msgid "cmix_read_learning_progress"
+msgstr "L'utente può visualizzare i progressi di apprendimento degli altri utenti"
+
+msgid "cmix_read_outcomes"
+msgstr "L'utente può vedere le esperienze di apprendimento e la classifica degli altri utenti"
+
+msgid "cmix_visible"
+msgstr "L'oggetto xAPI/cmi5 è visibile"
+
+msgid "cmix_write"
+msgstr "L'utente può modificare le impostazioni dell'oggetto xAPI/cmi5"
+
+msgid "cmps_edit_permission"
+msgstr "Cambia le impostazioni dei permessi"
+
+msgid "cmps_read"
+msgstr "Accesso in lettura alle impostazioni dei Componenti"
+
+msgid "cmps_visible"
+msgstr "Le impostazioni dei componenti sono visibili"
+
+msgid "cmps_write"
+msgstr "Edita le impostazioni dei Componenti"
+
+msgid "coms_edit_permissions"
+msgstr "L'utente può cambiare le impostazioni dei permessi di amministrazione dei commenti."
+
+msgid "coms_read"
+msgstr "L'utente ha accesso in lettura all'amministrazione dei commenti."
+
+msgid "coms_visible"
+msgstr "L'amministrazione dei commenti è visibile."
+
+msgid "coms_write"
+msgstr "L'utente può modificare le impostazioni di amministrazione dei commenti."
+
+msgid "condition_failed"
+msgstr "Non riuscito"
+
+msgid "condition_learning_progress"
+msgstr "Derivare dal progresso di apprendimento"
+
+#, fuzzy
+msgid "condition_result_range_percentage"
+msgstr "Result Range"
+
+msgid "contribute"
+msgstr "Contribuisci"
+
+msgid "copa_copy"
+msgstr "Copiare il contenuto della pagina"
+
+msgid "copa_delete"
+msgstr "L'utente può spostare o eliminare la pagina dei contenuti"
+
+msgid "copa_edit_learning_progress"
+msgstr "L'utente può modificare le impostazioni del progresso dell'apprendimento"
+
+msgid "copa_edit_permission"
+msgstr "L'utente può cambiare le impostazioni dei permessi"
+
+msgid "copa_read"
+msgstr "L'utente può leggere la pagina dei contenuti"
+
+msgid "copa_read_learning_progress"
+msgstr "L'utente può visualizzare i progressi di apprendimento degli altri utenti"
+
+msgid "copa_visible"
+msgstr "La pagina dei contenuti è visibile"
+
+msgid "copa_write"
+msgstr "L'utente può modificare la pagina dei contenuti"
+
+msgid "cpad_edit_permissions"
+msgstr "L'utente può cambiare le impostazioni dei permessi di amministrazione delle pagine di contenuto."
+
+msgid "cpad_read"
+msgstr "L'utente ha accesso in lettura all'amministrazione delle pagine di contenuto."
+
+msgid "cpad_visible"
+msgstr "L'amministrazione delle pagine di contenuto è visibile."
+
+msgid "cpad_write"
+msgstr "L'utente può modificare le impostazioni di amministrazione delle pagine di contenuto."
+
+msgid "crs_copy"
+msgstr "Copia Corso"
+
+msgid "crs_delete"
+msgstr "Cancella un corso"
+
+msgid "crs_edit_event"
+msgstr "Edita gli Eventi del Calendario"
+
+msgid "crs_edit_learning_progress"
+msgstr "L'utente può modificare le impostazioni di avanzamento dell'apprendimento"
+
+msgid "crs_edit_permission"
+msgstr "Modificare le impostazioni dei permessi"
+
+msgid "crs_grade"
+msgstr "Punteggio membri del corso"
+
+msgid "crs_join"
+msgstr "Iscriversi ad un corso"
+
+msgid "crs_leave"
+msgstr "Annullare iscrizione ad un corso"
+
+msgid "crs_manage_members"
+msgstr "Gestisci membri del corso"
+
+msgid "crs_news_add_news"
+msgstr "Aggiungi e modifica le proprie voci di notizie nel corso"
+
+msgid "crs_read"
+msgstr "Accedere in lettura ad un corso"
+
+msgid "crs_read_learning_progress"
+msgstr "L’utente può visualizzare il progresso di apprendimento degli altri utenti"
+
+msgid "crs_visible"
+msgstr "Vedere un corso"
+
+msgid "crs_write"
+msgstr "Modificare un corso"
+
+msgid "crsr_copy"
+msgstr "Copia il Riferimento del Corso"
+
+msgid "crsr_delete"
+msgstr "Cancella il Riferimento del Corso"
+
+#, fuzzy
+msgid "crsr_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "crsr_edit_permission"
+msgstr "Cambia le impostazioni dei permessi"
+
+#, fuzzy
+msgid "crsr_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "crsr_visible"
+msgstr "Il riferimento del Corso è visibile"
+
+msgid "crsr_write"
+msgstr "Edita i Riferimenti del Corso"
+
+msgid "crss_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione nell’amministrazione del corso"
+
+msgid "crss_read"
+msgstr "L’utente ha l’accesso di lettura all’amministrazione del corso"
+
+msgid "crss_visible"
+msgstr "L'amministrazione del corso è visibile"
+
+msgid "crss_write"
+msgstr "Modifica impostazioni nell’amministrazione del corso"
+
+msgid "dcl_add_entry"
+msgstr "L’utente può aggiungere/modificare le voci"
+
+msgid "dcl_copy"
+msgstr "L’utente può utilizzare la raccolta dati"
+
+msgid "dcl_delete"
+msgstr "L’utente può spostare o eliminare la raccolta dati"
+
+msgid "dcl_edit_content"
+msgstr "Modifica voci"
+
+msgid "dcl_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione"
+
+msgid "dcl_read"
+msgstr "Leggi accesso alla raccolta dati"
+
+msgid "dcl_visible"
+msgstr "La raccolta dati è visibile"
+
+msgid "dcl_write"
+msgstr "L’utente può modificare le impostazioni e il contenuto della raccolta dati"
+
+msgid "delete_files"
+msgstr "Elimina file"
+
+msgid "delete_folders"
+msgstr "Elimina cartelle"
+
+msgid "delete_wiki_pages"
+msgstr "Elimina pagine"
+
+#, fuzzy
+msgid "dpro_edit_permission"
+msgstr "User can change permission settings in the Declaration of Data Protected administration"
+
+#, fuzzy
+msgid "dpro_read"
+msgstr "User has read access to the Declaration of Data Protection administration"
+
+#, fuzzy
+msgid "dpro_visible"
+msgstr "Declaration of Data Protection administration is visible"
+
+#, fuzzy
+msgid "dpro_write"
+msgstr "Edit settings in the Declaration of Data Protection"
+
+msgid "dshs_change_presentation"
+msgstr "Cambiare la presentazione della vista della dashboard"
+
+msgid "dshs_edit_permission"
+msgstr "L'utente può cambiare le impostazioni dei permessi di amministrazione della Dashboard"
+
+msgid "dshs_read"
+msgstr "L'utente ha accesso in lettura all'amministrazione della Dashboard"
+
+msgid "dshs_visible"
+msgstr "L'amministrazione della Dashboard è visibile"
+
+msgid "dshs_write"
+msgstr "Modifica le impostazioni dell'amministrazione della Dashboard"
+
+msgid "ecss_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazioni dell’amministrazione ESC"
+
+msgid "ecss_read"
+msgstr "L’utente può leggere le impostazioni generali di ECS"
+
+msgid "ecss_visible"
+msgstr "Le impostazioni ESC sono visibili"
+
+msgid "ecss_write"
+msgstr "L’utente può modificare le impostazioni ESC"
+
+msgid "edit_event"
+msgstr "Modifica calendario"
+
+#, fuzzy
+msgid "edit_file"
+msgstr "Edit File"
+
+msgid "edit_in_online_editor"
+msgstr "Open in online editor"
+
+msgid "edit_learning_progress"
+msgstr "Modificare i progressi didattici"
+
+msgid "edit_members"
+msgstr "Gestisci membri"
+
+msgid "edit_permission"
+msgstr "Modifica delle autorizzazioni"
+
+msgid "edit_roleassignment"
+msgstr "Modifica assegnazione di ruolo"
+
+msgid "edit_submissions_grades"
+msgstr "Modifica di presentazioni e punteggi"
+
+msgid "edit_userassignment"
+msgstr "Modifica assegnazione utente"
+
+msgid "edit_wiki_navigation"
+msgstr "Modifica navigazione"
+
+msgid "exc_copy"
+msgstr "Copia Esercizio"
+
+msgid "exc_delete"
+msgstr "Eliminare una esercitazione"
+
+msgid "exc_edit_learning_progress"
+msgstr "Modifica i Progressi di apprendimento"
+
+msgid "exc_edit_permission"
+msgstr "Modificare le impostazioni dei permessi"
+
+msgid "exc_edit_submissions_grades"
+msgstr "L’utente può modificare le presentazioni e i punteggi"
+
+msgid "exc_read"
+msgstr "Accedere in lettura ad una esercitazione"
+
+msgid "exc_read_learning_progress"
+msgstr "L’utente può visualizzare il progresso di apprendimento degli altri utenti"
+
+msgid "exc_visible"
+msgstr "Vedere una esercitazione"
+
+msgid "exc_write"
+msgstr "Modificare una esercitazione"
+
+msgid "excs_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione nell’amministrazione dell’esercizio"
+
+msgid "excs_read"
+msgstr "L’utente ha l’accesso di lettura all’amministrazione dell’esercizio"
+
+msgid "excs_visible"
+msgstr "L'amministrazione dell’esercizio è visibile"
+
+msgid "excs_write"
+msgstr "Modifica impostazioni nell’amministrazione dell’esercizio"
+
+msgid "export_member_data"
+msgstr "Accesso ai dati dell'utente"
+
+msgid "facs_edit_permission"
+msgstr "Cambia le impostazioni dei permessi"
+
+msgid "facs_read"
+msgstr "Accesso in lettura alle impostazioni di files e cartelle"
+
+msgid "facs_upload_blacklisted_files"
+msgstr "Caricare tipi di file indicizzati nonostante la lista nera"
+
+msgid "facs_visible"
+msgstr "Le impostazioni dei files e cartelle sono visibili"
+
+msgid "facs_write"
+msgstr "Edita le impostazioni dei files e cartelle"
+
+msgid "feed_copy"
+msgstr "L’utente può copiare il web feed"
+
+msgid "feed_delete"
+msgstr "Cancella Web Feed"
+
+msgid "feed_edit_permission"
+msgstr "Modifica impostazioni dei permessi"
+
+msgid "feed_read"
+msgstr "Leggi l'accesso al Web Feed"
+
+msgid "feed_write"
+msgstr "Modifica Web Feed"
+
+msgid "file_copy"
+msgstr "Copia File"
+
+msgid "file_delete"
+msgstr "Cancellare un file"
+
+#, fuzzy
+msgid "file_edit_file"
+msgstr "Allow to edit the file in an external editor, if available"
+
+msgid "file_edit_learning_progress"
+msgstr "L’utente può modificare le impostazioni di progresso"
+
+msgid "file_edit_permission"
+msgstr "Modificare le impostazioni dei permessi"
+
+#, fuzzy
+msgid "file_file_view_content"
+msgstr "File content presented in browser (if WOPI is active)"
+
+#, fuzzy
+msgid "file_file_view_content_short"
+msgstr "Show Content"
+
+msgid "file_read"
+msgstr "Scaricare un file"
+
+msgid "file_read_learning_progress"
+msgstr "L’utente può visualizzare il progresso di apprendimento degli altri utenti"
+
+msgid "file_visible"
+msgstr "Vedere un file"
+
+msgid "file_write"
+msgstr "Creare un file"
+
+msgid "files_visible"
+msgstr "File visibili"
+
+msgid "fils_edit_permissions"
+msgstr "User can change permission settings of File Services administration."
+
+msgid "fils_read"
+msgstr "User has read access to File Services administration."
+
+msgid "fils_visible"
+msgstr "Administration of File Services is visible."
+
+msgid "fils_write"
+msgstr "User can edit and configure File Services."
+
+msgid "filter_all_roles"
+msgstr "Mostra tutti i ruoli del contesto corrente"
+
+msgid "filter_global_roles"
+msgstr "Mostra solo i ruoli globali"
+
+msgid "filter_local_roles"
+msgstr "Mostra solo i ruoli locali al contesto corrente"
+
+msgid "filter_local_roles_object"
+msgstr "Mostra solo i ruoli definiti in questo punto"
+
+msgid "filter_roles_local_policy"
+msgstr "Mostra solo i ruoli filtrati con una regola locale in questo punto"
+
+msgid "fld_create_poll"
+msgstr "Crea sondaggio"
+
+msgid "fold_copy"
+msgstr "Copia Cartella"
+
+msgid "fold_delete"
+msgstr "Cancella una cartella"
+
+msgid "fold_edit_learning_progress"
+msgstr "Modifica i progressi di apprendimento"
+
+msgid "fold_edit_permission"
+msgstr "Modifica le impostazioni dei permessi"
+
+msgid "fold_read"
+msgstr "Accedi in lettura ad una cartella"
+
+msgid "fold_read_learning_progress"
+msgstr "L’utente può visualizzare il progresso di apprendimento degli altri utenti"
+
+msgid "fold_visible"
+msgstr "Vedi una cartella"
+
+msgid "fold_write"
+msgstr "Modifica una cartella"
+
+msgid "folders_create"
+msgstr "Crea cartelle"
+
+msgid "folders_visible"
+msgstr "Cartelle visibili"
+
+msgid "frm_add_reply"
+msgstr "Lo user può rispondere ad un post"
+
+msgid "frm_add_thread"
+msgstr "Aggiungi nuovo argomento"
+
+msgid "frm_copy"
+msgstr "Copia Forum"
+
+msgid "frm_delete"
+msgstr "Cancella un forum"
+
+#, fuzzy
+msgid "frm_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "frm_edit_permission"
+msgstr "Modifica le impostazioni dei permessi"
+
+msgid "frm_moderate_frm"
+msgstr "Modifica, cancella o censura un post"
+
+msgid "frm_read"
+msgstr "Accedi in lettura ad un forum"
+
+#, fuzzy
+msgid "frm_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "frm_visible"
+msgstr "Vedi un forum"
+
+msgid "frm_write"
+msgstr "Modifica un forum"
+
+msgid "frma_edit_permission"
+msgstr "Cambia le impostazioni dei permessi"
+
+msgid "frma_read"
+msgstr "Lo user ha letto l'acceso a Forum Administration"
+
+msgid "frma_visible"
+msgstr "Forum Administration è visibile"
+
+msgid "frma_write"
+msgstr "Scrivi accesso a Forum Administration"
+
+msgid "glo_copy"
+msgstr "Copia Glossario"
+
+msgid "glo_delete"
+msgstr "Elimina un glossario"
+
+msgid "glo_edit_content"
+msgstr "L’utente può modificare il contenuto"
+
+msgid "glo_edit_permission"
+msgstr "Modifica le impostazioni dei permessi"
+
+msgid "glo_read"
+msgstr "Accedi in lettura ad un glossario"
+
+msgid "glo_visible"
+msgstr "Vedi un glossario"
+
+msgid "glo_write"
+msgstr "Modificare un glossario"
+
+msgid "grp_copy"
+msgstr "Copia Gruppo"
+
+msgid "grp_delete"
+msgstr "Eliminare un gruppo"
+
+msgid "grp_edit_event"
+msgstr "Edita gli Eventi del Calendario"
+
+msgid "grp_edit_learning_progress"
+msgstr "Modifica i Progressi di apprendimento"
+
+msgid "grp_edit_permission"
+msgstr "Modificare le impostazioni dei permessi"
+
+msgid "grp_grade"
+msgstr "Punteggio membri del gruppo"
+
+msgid "grp_join"
+msgstr "Iscrivere ad un gruppo"
+
+msgid "grp_leave"
+msgstr "Annullare iscrizione ad un gruppo"
+
+msgid "grp_manage_members"
+msgstr "Gestisci membri del gruppo"
+
+msgid "grp_news_add_news"
+msgstr "Aggiungi e modifica le proprie voci di notizie nel gruppo"
+
+msgid "grp_read"
+msgstr "Accedere in lettura ad un gruppo"
+
+msgid "grp_read_learning_progress"
+msgstr "L’utente può visualizzare il progresso di apprendimento degli altri utenti"
+
+msgid "grp_visible"
+msgstr "Vedere un gruppo"
+
+msgid "grp_write"
+msgstr "Modificare un gruppo"
+
+msgid "grpr_copy"
+msgstr "L'utente può copiare i riferimenti di gruppo"
+
+msgid "grpr_delete"
+msgstr "L'utente può spostare o eliminare il riferimento di gruppo"
+
+msgid "grpr_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione"
+
+msgid "grpr_visible"
+msgstr "Il riferimento al gruppo è visibile"
+
+msgid "grpr_write"
+msgstr "L'utente può modificare le impostazioni di riferimento del gruppo"
+
+msgid "grps_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione nell’amministrazione del gruppo"
+
+msgid "grps_read"
+msgstr "L’utente ha l’accesso di lettura all’amministrazione del gruppo"
+
+msgid "grps_visible"
+msgstr "L'amministrazione del gruppo è visibile"
+
+msgid "grps_write"
+msgstr "Modifica impostazioni nell’amministrazione del gruppo"
+
+msgid "hlps_edit_permission"
+msgstr "L’utente può modificare le autorizzazioni dell’amministrazione del sistema di aiuto."
+
+msgid "hlps_read"
+msgstr "L’utente ha l’accesso di lettura all’amministrazione del sistema di aiuto."
+
+msgid "hlps_visible"
+msgstr "L’amministrazione del sistema di aiuto è visibile."
+
+msgid "hlps_write"
+msgstr "L’utente può modificare le impostazioni del sistema di aiuto e caricare nuove versioni"
+
+msgid "htlm_copy"
+msgstr "Copia Learning Module HTML"
+
+msgid "htlm_delete"
+msgstr "Cancellare un modulo HTML"
+
+msgid "htlm_edit_learning_progress"
+msgstr "Modificare i progressi degli utenti"
+
+msgid "htlm_edit_permission"
+msgstr "Modificare le impostazioni dei permessi"
+
+msgid "htlm_read"
+msgstr "Accedere in lettura ad un modulo HTML"
+
+msgid "htlm_read_learning_progress"
+msgstr "L’utente può visualizzare il progresso di apprendimento degli altri utenti"
+
+msgid "htlm_visible"
+msgstr "Vedere un modulo HTML"
+
+msgid "htlm_write"
+msgstr "Modificare un modulo HTML"
+
+msgid "iass_amend_grading"
+msgstr "Modificare i gradi in una valutazione individuale"
+
+msgid "iass_copy"
+msgstr "Copiare una valutazione individuale"
+
+msgid "iass_delete"
+msgstr "Cancellare una valutazione individuale"
+
+msgid "iass_edit_learning_progress"
+msgstr "Modifica le informazioni sul progresso dell'apprendimento di una valutazione individuale"
+
+msgid "iass_edit_members"
+msgstr "Modifica i membri di una valutazione individuale"
+
+msgid "iass_edit_permission"
+msgstr "Modifica i permessi di una valutazione individuale"
+
+msgid "iass_read"
+msgstr "Leggere il contenuto di una valutazione individuale"
+
+msgid "iass_read_learning_progress"
+msgstr "Visualizza le informazioni sul progresso dell'apprendimento di una valutazione individuale"
+
+msgid "iass_visible"
+msgstr "L’assegnazione individuale è visibile"
+
+msgid "iass_write"
+msgstr "Modifica una valutazione individuale"
+
+#, fuzzy
+msgid "il_lti_global_role"
+msgstr "LTI User"
+
+msgid "il_sess_participant"
+msgstr "Partecipante alla sessione"
+
+msgid "il_sess_status_closed"
+msgstr "Sessione chiusa non partecipante"
+
+msgid "ilias_id"
+msgstr "ILIAS-ID"
+
+#, fuzzy
+msgid "impr_edit_permission"
+msgstr "User can change permission settings of Legal Notice administration"
+
+#, fuzzy
+msgid "impr_read"
+msgstr "User can read in Legal Notice administration"
+
+#, fuzzy
+msgid "impr_visible"
+msgstr "Administration of Legal Notice is visible"
+
+#, fuzzy
+msgid "impr_write"
+msgstr "User can edit content and settings of Legal Notice"
+
+msgid "info_user_view_changed"
+msgstr "Vista dell'utente modificata"
+
+msgid "internal_mail"
+msgstr "Mail interna"
+
+msgid "invite"
+msgstr "Invita per il sondaggio"
+
+msgid "itgr_copy"
+msgstr "L’utente può copiare il gruppo di elementi"
+
+msgid "itgr_delete"
+msgstr "L’utente può spostare o eliminare il gruppo di elementi"
+
+msgid "itgr_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione"
+
+msgid "itgr_read"
+msgstr "L'utente può leggere il gruppo di articoli"
+
+msgid "itgr_visible"
+msgstr "Il gruppo di articoli è visibile"
+
+msgid "itgr_write"
+msgstr "L’utente può modificare il contenuto e le impostazioni del gruppo di elementi"
+
+msgid "leave"
+msgstr "Abbandona"
+
+msgid "lhts_edit_permissions"
+msgstr "L'utente può cambiare le impostazioni di autorizzazione dell'amministrazione di Learning History."
+
+msgid "lhts_read"
+msgstr "L'utente ha accesso in lettura all'amministrazione di Learning History."
+
+msgid "lhts_visible"
+msgstr "L'amministrazione della Learning History è visibile."
+
+msgid "lhts_write"
+msgstr "L'utente può modificare le impostazioni dell'amministrazione di Learning History."
+
+msgid "lm_copy"
+msgstr "Copia ILIAS Learning Module"
+
+msgid "lm_delete"
+msgstr "Eliminare un modulo ILIAS"
+
+msgid "lm_edit_learning_progress"
+msgstr "Modifica i progressi didattici"
+
+msgid "lm_edit_permission"
+msgstr "Modificare le impostazioni dei permessi"
+
+msgid "lm_read"
+msgstr "Accedere in lettura ad un moduli ILIAS"
+
+msgid "lm_read_learning_progress"
+msgstr "L’utente può visualizzare il progresso di apprendimento degli altri utenti"
+
+msgid "lm_visible"
+msgstr "Vedere un modulo ILIAS"
+
+msgid "lm_write"
+msgstr "Modificare un modulo ILIAS"
+
+msgid "lngf_edit_permission"
+msgstr "Modificare le impostazioni dei permessi"
+
+msgid "lngf_read"
+msgstr "Accedere in lettura all'impostazione delle lingue"
+
+msgid "lngf_visible"
+msgstr "L'amministrazione della lingua è visibile"
+
+msgid "lngf_write"
+msgstr "Accesso in scrittura, necessario per la manutenzione estesa della lingua"
+
+msgid "logs_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazioni dell’amministrazione di registrazione"
+
+msgid "logs_read"
+msgstr "L’utente può leggere le impostazioni generali di registrazione"
+
+msgid "logs_visible"
+msgstr "Le impostazioni di registrazione sono visibili"
+
+msgid "logs_write"
+msgstr "L’utente può modificare le impostazioni della registrazione"
+
+msgid "lp_other_users"
+msgstr "Vedi panoramica del progresso di apprendimento degli altri utenti"
+
+msgid "lrss_edit_permission"
+msgstr "Modifica impostazioni dei permessi"
+
+msgid "lrss_read"
+msgstr "Leggere l'accesso alle impostazioni delle risorse di apprendimento"
+
+msgid "lrss_visible"
+msgstr "Le impostazioni delle risorse di apprendimento sono visibili"
+
+msgid "lrss_write"
+msgstr "Modifica Impostazioni delle Risorse Didattiche"
+
+msgid "lso_copy"
+msgstr "L'utente può copiare la sequenza di apprendimento"
+
+msgid "lso_delete"
+msgstr "L'utente può cancellare la sequenza di apprendimento"
+
+msgid "lso_edit_learning_progress"
+msgstr "L'utente può modificare la sequenza di apprendimento"
+
+msgid "lso_edit_permission"
+msgstr "L'utente può cambiare le impostazioni di autorizzazione della sequenza di apprendimento"
+
+msgid "lso_lp_other_users"
+msgstr "L'utente può visualizzare i progressi di apprendimento degli altri utenti"
+
+msgid "lso_manage_members"
+msgstr "Gestire i membri della sequenza di apprendimento"
+
+msgid "lso_participate"
+msgstr "L'utente può iscriversi a una sequenza di apprendimento"
+
+msgid "lso_read"
+msgstr "Gli utenti possono accedere alla sequenza di apprendimento"
+
+msgid "lso_read_learning_progress"
+msgstr "L'utente può visualizzare i progressi di apprendimento degli altri utenti"
+
+msgid "lso_unparticipate"
+msgstr "L'utente può cancellarsi da una sequenza di apprendimento"
+
+msgid "lso_visible"
+msgstr "La sequenza di apprendimento è visibile"
+
+msgid "lso_write"
+msgstr "L'utente può modificare le impostazioni della sequenza di apprendimento"
+
+#, fuzzy
+msgid "lsos_edit_permission"
+msgstr "User can change permission settings of Learning Sequences administration."
+
+msgid "lsos_read"
+msgstr "L'utente ha accesso in lettura all'amministrazione delle sequenze di apprendimento."
+
+msgid "lsos_visible"
+msgstr "L'amministrazione delle sequenze di apprendimento è visibile."
+
+msgid "lsos_write"
+msgstr "L'utente può modificare le impostazioni dell'amministrazione delle sequenze di apprendimento."
+
+msgid "lti_copy"
+msgstr "L'utente può copiare il consumatore LTI"
+
+msgid "lti_delete"
+msgstr "L'utente può spostare o cancellare il consumatore LTI"
+
+msgid "lti_edit_learning_progress"
+msgstr "L'utente può modificare le impostazioni del progresso dell'apprendimento"
+
+msgid "lti_edit_permission"
+msgstr "L'utente può cambiare le impostazioni dei permessi"
+
+msgid "lti_read"
+msgstr "L'utente può vedere il consumer LTI"
+
+msgid "lti_read_learning_progress"
+msgstr "L'utente può visualizzare i progressi di apprendimento degli altri utenti"
+
+msgid "lti_read_outcomes"
+msgstr "L'utente può vedere le esperienze di apprendimento e la classifica degli altri utenti"
+
+msgid "lti_visible"
+msgstr "LTI consumer è visibile"
+
+msgid "lti_write"
+msgstr "L'utente può modificare le impostazioni del LTI consumer"
+
+msgid "ltis_add_consume_provider"
+msgstr "L'utente può aggiungere le impostazioni del proprio fornitore per il consumatore LTI"
+
+msgid "ltis_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione nell’amministrazione LTI"
+
+msgid "ltis_read"
+msgstr "L’utente ha l’accesso di lettura all’amministrazione LTI"
+
+msgid "ltis_release_objects"
+msgstr "L’utente può immettere gli oggetti per il cliente LTI"
+
+msgid "ltis_visible"
+msgstr "L’amministrazione LTI è visibile"
+
+msgid "ltis_write"
+msgstr "L’utente può modificare le impostazioni dell’amministrazione LTI"
+
+msgid "mail_internal_mail"
+msgstr "L’utente può utilizzare il sistema di mail interne (ILIAS)"
+
+msgid "mail_mail_to_global_roles"
+msgstr "L'utente può inviare e-mail a ruoli globali"
+
+msgid "mail_read"
+msgstr "Accedere in lettura alle impostazioni della posta"
+
+msgid "mail_smtp_mail"
+msgstr "Inviare eMail via SMTP"
+
+msgid "mail_to_global_roles"
+msgstr "Mail a ruoli globali"
+
+msgid "mail_visible"
+msgstr "Vedere le impostazioni della posta"
+
+msgid "mail_write"
+msgstr "Modificare le impostazioni della posta"
+
+#, fuzzy
+msgid "manage_all_reservations"
+msgstr "Manage All Reservations"
+
+#, fuzzy
+msgid "manage_comp"
+msgstr "User can edit Competences"
+
+#, fuzzy
+msgid "manage_comp_temp"
+msgstr "User can edit Competence Templates"
+
+msgid "manage_materials"
+msgstr "Gestire i materiali"
+
+#, fuzzy
+msgid "manage_own_reservations"
+msgstr "Manage Own Reservations"
+
+#, fuzzy
+msgid "manage_profiles"
+msgstr "User can edit Competence Profiles"
+
+msgid "mcst_copy"
+msgstr "Copia MediaCast"
+
+msgid "mcst_delete"
+msgstr "Cancella Mediacast"
+
+msgid "mcst_edit_learning_progress"
+msgstr "L'utente può modificare le impostazioni del progresso dell'apprendimento"
+
+msgid "mcst_edit_permission"
+msgstr "Modifica impostazioni dei permessi"
+
+msgid "mcst_read"
+msgstr "Leggi l'accesso a MediaCast"
+
+msgid "mcst_read_learning_progress"
+msgstr "L’utente può visualizzare il progresso di apprendimento degli altri utenti"
+
+msgid "mcst_visible"
+msgstr "MediaCast è visibile"
+
+msgid "mcst_write"
+msgstr "Modifica MediaCast"
+
+msgid "mcts_edit_permission"
+msgstr "Cambia le impostazioni dei permessi"
+
+msgid "mcts_read"
+msgstr "Accesso in lettura alle impostazioni dei Mediacast"
+
+msgid "mcts_visible"
+msgstr "Le impostazioni dei Mediacast sono visibili"
+
+msgid "mcts_write"
+msgstr "Edita le impostazioni dei Mediacast"
+
+msgid "mds_edit_permission"
+msgstr "Cambia le impostazioni dei permessi"
+
+msgid "mds_read"
+msgstr "Accesso in lettura alle impostazioni dei Metadata"
+
+msgid "mds_visible"
+msgstr "Le impostazioni dei Mediacast sono visibili"
+
+msgid "mds_write"
+msgstr "Edita le impostazioni dei Mediacast"
+
+msgid "mep_copy"
+msgstr "L’utente può copiare il gruppo multimediale"
+
+msgid "mep_delete"
+msgstr "Cancellare una libreria multimediale"
+
+msgid "mep_edit_permission"
+msgstr "Modificare le impostazioni dei permessi"
+
+msgid "mep_read"
+msgstr "Leggi il contenuto del Media Pool"
+
+msgid "mep_visible"
+msgstr "Vedere una libreria multimediale"
+
+msgid "mep_write"
+msgstr "Modificare il contenuto di una libreria multimediale"
+
+msgid "mme_edit_permission"
+msgstr "L'utente può cambiare le impostazioni di autorizzazione dell'amministrazione del menu principale"
+
+msgid "mme_read"
+msgstr "L'utente ha accesso in lettura all'amministrazione del menu principale"
+
+msgid "mme_visible"
+msgstr "L'amministrazione del menu principale è visibile"
+
+msgid "mme_write"
+msgstr "L'utente può modificare le impostazioni dell'amministrazione del menu principale"
+
+msgid "mobs_edit_permission"
+msgstr "Modifica le impostazioni di autorizzazione"
+
+msgid "mobs_read"
+msgstr "Accesso in lettura agli oggetti multimediali/Pools Impostazioni"
+
+msgid "mobs_visible"
+msgstr "Le impostazioni degli oggetti multimediali/dei pool sono visibili"
+
+msgid "mobs_write"
+msgstr "L'utente può modificare le impostazioni degli oggetti multimediali/dei pool"
+
+msgid "moderate"
+msgstr "Moderare"
+
+msgid "moderate_frm"
+msgstr "Moderare"
+
+#, fuzzy
+msgid "msg_anonymous_cannot_be_assigned"
+msgstr "Anonymous cannot be assigned to a role."
+
+msgid "msg_no_roles_of_type"
+msgstr "Non sono disponibili ruoli, con queste impostazioni di filtro."
+
+msgid "news_add_news"
+msgstr "Aggiungi notizie"
+
+#, fuzzy
+msgid "no_corresponding_roles"
+msgstr "No corresponding roles could be found."
+
+#, fuzzy
+msgid "nots_edit_permission"
+msgstr "User can change permission settings of Notes administration."
+
+msgid "nots_read"
+msgstr "L'utente ha accesso in lettura all'amministrazione di Notes."
+
+msgid "nots_visible"
+msgstr "L'amministrazione di Notes è visibile."
+
+msgid "nots_write"
+msgstr "L'utente può modificare le impostazioni dell'amministrazione di Notes."
+
+msgid "nwss_edit_permission"
+msgstr "Modifica impostazioni dei permessi"
+
+msgid "nwss_read"
+msgstr "Accesso in lettura alle impostazioni Notizie e feed Web"
+
+msgid "nwss_visible"
+msgstr "Le impostazioni delle notizie e dei feed web sono visibili"
+
+msgid "nwss_write"
+msgstr "Modifica le impostazioni alle News ed ai Web Feeds"
+
+#, fuzzy
+msgid "obj_skee"
+msgstr "Competence Tree"
+
+msgid "org_op_access_results"
+msgstr "Risultati di accesso degli utenti subordinati"
+
+msgid "org_op_edit_submissions_grades"
+msgstr "Modifica le presentazioni degli altri utenti"
+
+msgid "org_op_manage_participants"
+msgstr "Gestire i partecipanti in oggetto"
+
+msgid "org_op_score_participants"
+msgstr "Punteggio Partecipanti in oggetto"
+
+msgid "org_op_view_certificates"
+msgstr "Visualizzare i certificati degli utenti in oggetto"
+
+msgid "org_op_view_competences"
+msgstr "Visualizzare le competenze degli utenti in oggetto"
+
+msgid "org_op_write_learning_progress"
+msgstr "Imposta il progresso di apprendimento degli utenti subordinati"
+
+msgid "orgu_cat_administrate_users"
+msgstr "L’utente può creare e amministrare gli account degli utenti locali in questa unità organizzativa"
+
+msgid "orgu_copy"
+msgstr "Copia unità organizzativa"
+
+msgid "orgu_delete"
+msgstr "L’utente può spostare o eliminare l’unità organizzativa"
+
+msgid "orgu_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione"
+
+msgid "orgu_read"
+msgstr "L’utente ha l’accesso di lettura all’unità organizzativa"
+
+msgid "orgu_read_users"
+msgstr "L’utente può leggere gli account degli utenti locali in questa unità organizzativa"
+
+msgid "orgu_view_learning_progress"
+msgstr "Visualizza il progresso dell'apprendimento"
+
+msgid "orgu_view_learning_progress_rec"
+msgstr "Visualizza il progresso dell'apprendimento delle unità incluse le sottounità"
+
+msgid "orgu_visible"
+msgstr "L’unità organizzativa è visibile"
+
+msgid "orgu_write"
+msgstr "L’utente può modificare le impostazione dell’unità organizzativa"
+
+msgid "otpl_edit_permission"
+msgstr "Cambiare le impostazioni dei permessi"
+
+msgid "otpl_read"
+msgstr "Accesso in lettura alle impostazioni del modello di oggetto"
+
+msgid "otpl_visible"
+msgstr "Le impostazioni del modello di oggetto sono visibili"
+
+msgid "otpl_write"
+msgstr "Modifica delle impostazioni del modello di oggetto"
+
+msgid "perm_class_create"
+msgstr "Creare nuovi oggetti"
+
+msgid "perm_class_create_desc"
+msgstr "Determina quali tipi di oggetto possono essere creati sotto l'oggetto corrente."
+
+msgid "perm_class_object"
+msgstr "Operazioni speciali"
+
+msgid "perm_class_object_desc"
+msgstr "Operazioni relative ai singoli oggetti, sono disponibili solamente per alcuni tipi di oggetto."
+
+msgid "perm_global_role"
+msgstr "Ruolo globale"
+
+msgid "perm_local_role"
+msgstr "Ruoli locali"
+
+msgid "perm_local_role_desc"
+msgstr "Questo ruolo è definito localmente nell'oggetto corrente e corrisponde a una politica locale"
+
+msgid "perm_protected_global_role"
+msgstr "Ruolo globale protetto"
+
+msgid "perm_protected_local_role"
+msgstr "Ruolo locale protetto"
+
+msgid "perm_role_path_info_created"
+msgstr "Creato in %1$s \"%2$s\""
+
+msgid "perm_role_path_info_inheritance"
+msgstr "utilizzo della politica locale da %1$s \"%2$s\""
+
+msgid "perm_use_local_policy"
+msgstr "Utilizzare una politica locale"
+
+msgid "perm_use_local_policy_desc"
+msgstr "Se la politica locale è attivata, è possibile definire diverse impostazioni di autorizzazione predefinite per l'oggetto corrente."
+
+msgid "poll_copy"
+msgstr "L’utente può copiare il gruppo"
+
+msgid "poll_delete"
+msgstr "L’utente può spostare o eliminare il gruppo"
+
+msgid "poll_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione"
+
+msgid "poll_read"
+msgstr "L’utente può partecipare al gruppo"
+
+msgid "poll_visible"
+msgstr "Il gruppo è visibile"
+
+msgid "poll_write"
+msgstr "L’utente può modificare le impostazione e il contenuto del gruppo"
+
+msgid "positions_override_operations"
+msgstr "Ignora impostazioni globali"
+
+msgid "precondition_not_obligatory_alt"
+msgstr "La condizione preliminare è facoltativa"
+
+msgid "precondition_num_obligatory"
+msgstr "Numero di materiali richiesti"
+
+msgid "precondition_num_optional_info"
+msgstr "Si prega di inserire il numero minimo di materiali che è richiesto per soddisfare questa precondizione."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_bigger_preconditions_number"
+msgstr "The number of required materials must be less than the total number of preconditions."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_lower_compulsory_items"
+msgstr "The number of required materials must be greater than the number of compulsory preconditions."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_lower_than_one"
+msgstr "The number of required materials must be at least 1."
+
+msgid "precondition_obligatory"
+msgstr "Obbligatorio"
+
+msgid "precondition_obligatory_alt"
+msgstr "La condizione preliminare deve essere soddisfatta"
+
+msgid "precondition_obligatory_info"
+msgstr "Devono essere soddisfatte precondizioni obbligatorie per avere accesso."
+
+msgid "precondition_obligatory_settings"
+msgstr "Impostazioni condizione preliminare"
+
+#, fuzzy
+msgid "precondition_operator_range_err_min_max"
+msgstr "The minimum value must be less than the maximum value."
+
+#, fuzzy
+msgid "precondition_operator_range_max"
+msgstr "Maximum Percentage"
+
+#, fuzzy
+msgid "precondition_operator_range_min"
+msgstr "Minimum Percentage"
+
+msgid "prfa_edit_permission"
+msgstr "L'utente può cambiare le impostazioni dei permessi dell'amministrazione del Portfolio"
+
+msgid "prfa_read"
+msgstr "L'utente ha accesso in lettura all'amministrazione del Portfolioportafoglio"
+
+msgid "prfa_visible"
+msgstr "L'amministrazione del portfolio è visibile"
+
+msgid "prfa_write"
+msgstr "Modifica amministrazione del portafoglio"
+
+msgid "prg_copy"
+msgstr "L’utente può copiare il programma di studio"
+
+msgid "prg_delete"
+msgstr "L'utente può eliminare il programma di studio"
+
+msgid "prg_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione"
+
+msgid "prg_manage_members"
+msgstr "Gestisci membri del programma di studio"
+
+msgid "prg_read"
+msgstr "L’utente ha l’accesso di lettura al programma di studio"
+
+msgid "prg_visible"
+msgstr "Programma di studio visibile"
+
+msgid "prg_write"
+msgstr "L’utente può modificare le impostazione del programma di studio"
+
+msgid "prgr_copy"
+msgstr "L'utente può copiare i link ai programmi di studio"
+
+msgid "prgr_delete"
+msgstr "L'utente può spostare o cancellare i link ai programmi di studio"
+
+msgid "prgr_edit_permission"
+msgstr "L'utente può cambiare le impostazioni dei permessi"
+
+msgid "prgr_visible"
+msgstr "I link ai programmi di studio sono visibili e possono essere utilizzati"
+
+msgid "prgr_write"
+msgstr "L'utente può modificare le impostazioni dei collegamenti ai programmi di studio"
+
+msgid "prgs_edit_permission"
+msgstr "Cambia impostazioni di autorizzazione nell’amministrazione del programma di studio"
+
+msgid "prgs_read"
+msgstr "L’utente ha l’accesso di lettura all’amministrazione del programma di studio"
+
+msgid "prgs_visible"
+msgstr "Amministrazione del programma di studio visibile"
+
+msgid "prgs_write"
+msgstr "Modifica impostazioni nell’amministrazione del programma di studio"
+
+#, fuzzy
+msgid "prss_edit_permission"
+msgstr "User can change permission settings of Personal Resources administration."
+
+msgid "prss_read"
+msgstr "L'utente ha accesso in lettura all'amministrazione delle risorse personali."
+
+msgid "prss_visible"
+msgstr "L'amministrazione delle risorse personali è visibile."
+
+msgid "prss_write"
+msgstr "L'utente può modificare le impostazioni dell'amministrazione delle risorse personali."
+
+msgid "prtt_copy"
+msgstr "L’utente può copiare il modello di portfolio"
+
+msgid "prtt_delete"
+msgstr "L’utente può spostare o eliminare il modello di portfolio"
+
+msgid "prtt_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione per il modello di portfolio"
+
+msgid "prtt_read"
+msgstr "L’utente ha l’accesso di lettura al modello di portfolio"
+
+msgid "prtt_visible"
+msgstr "Il modello del portfolio è visibile"
+
+msgid "prtt_write"
+msgstr "L’utente può modificare le impostazioni e il contenuto del modello di portfolio"
+
+msgid "ps_edit_permission"
+msgstr "Modifica impostazioni dei permessi"
+
+msgid "ps_export_member_data"
+msgstr "L'utente può esportare i dati dei membri"
+
+msgid "ps_read"
+msgstr "L'utente ha accesso in lettura all'amministrazione di Privacy/Sicurezza"
+
+msgid "ps_visible"
+msgstr "Le impostazioni di privacy/sicurezza sono visibili"
+
+msgid "ps_write"
+msgstr "L'utente può modificare le impostazioni nell'amministrazione di Privacy/Sicurezza"
+
+msgid "push_desktop_items"
+msgstr "Raccomandare il contenuto"
+
+msgid "qpl_copy"
+msgstr "L'utente può copiare il pool di domande per i test"
+
+msgid "qpl_delete"
+msgstr "Eliminare una raccolta di domande"
+
+msgid "qpl_edit_permission"
+msgstr "Modificare le impostazioni dei permessi"
+
+msgid "qpl_read"
+msgstr "Accedere in lettura ad una raccolta di domande"
+
+msgid "qpl_visible"
+msgstr "Vedere una raccolta di domande"
+
+msgid "qpl_write"
+msgstr "Modificare una raccolta di domande"
+
+msgid "rbac_add_new_local_role"
+msgstr "Aggiungi nuovo ruolo locale"
+
+msgid "rbac_add_recommended_content"
+msgstr "Contenuto raccomandato"
+
+msgid "rbac_add_recommended_content_info"
+msgstr "Aggiunge l'oggetto corrente '%1' per tutti i membri del ruolo come contenuto raccomandato."
+
+msgid "rbac_admin_permissions"
+msgstr "Autorizzazioni di amministrazione"
+
+msgid "rbac_auto_global"
+msgstr "Ruolo globale generato automaticamente"
+
+msgid "rbac_auto_local"
+msgstr "Ruolo locale generato automaticamente"
+
+msgid "rbac_auto_rolt"
+msgstr "Modello di ruolo generato automaticamente"
+
+msgid "rbac_back_to_overview"
+msgstr "Torna all’elenco ruolo"
+
+msgid "rbac_cant_import_role_wrong_type"
+msgstr "Non si può importare un ruolo dalla voce %s alla voce %s."
+
+msgid "rbac_change_existing_confirm_tbl"
+msgstr "Impostazioni per \"Cambiare gli oggetti esistenti"
+
+msgid "rbac_change_existing_objects_desc_new_role"
+msgstr "Le impostazioni dei permessi di questo ruolo saranno applicate a TUTTI gli oggetti esistenti."
+
+msgid "rbac_changes"
+msgstr "Modifiche"
+
+msgid "rbac_choose_copy_targets"
+msgstr "Inserisci una domanda per selezionare i ruoli di destinazione."
+
+msgid "rbac_condition_delete_sure"
+msgstr "Sei sicuro di voler eliminare le seguenti condizioni preliminari?"
+
+msgid "rbac_context_global"
+msgstr "Globale"
+
+msgid "rbac_copy_behaviour"
+msgstr "Impostazioni copia ruolo"
+
+#, fuzzy
+msgid "rbac_copy_behaviour_info"
+msgstr "Transfer Permissions from: %s to: %s"
+
+msgid "rbac_copy_finished"
+msgstr "Copia terminata."
+
+#, fuzzy
+msgid "rbac_copy_multi_targets"
+msgstr "%s, %s and %s further Roles selected%s"
+
+#, fuzzy
+msgid "rbac_copy_no_targets"
+msgstr "At least one Role must be selected as Target"
+
+msgid "rbac_copy_role"
+msgstr "Copia ruolo"
+
+msgid "rbac_copy_role_add_perm"
+msgstr "Aggiungi permessi"
+
+msgid "rbac_copy_role_copy"
+msgstr "Autorizzazioni di copia"
+
+msgid "rbac_copy_role_remove_perm"
+msgstr "Rimuovi permessi"
+
+msgid "rbac_create_bibl"
+msgstr "Crea bibliografia"
+
+msgid "rbac_create_blog"
+msgstr "Crea blog"
+
+msgid "rbac_create_book"
+msgstr "Crea gruppo di prenotazione"
+
+msgid "rbac_create_cat"
+msgstr "Crea nuovi contesti"
+
+msgid "rbac_create_catr"
+msgstr "Crea il Riferimento di Categoria"
+
+msgid "rbac_create_chtr"
+msgstr "Crea Chatroom"
+
+msgid "rbac_create_cmix"
+msgstr "Crea un oggetto xAPI/cmi5"
+
+msgid "rbac_create_copa"
+msgstr "Crea una pagina di contenuto"
+
+msgid "rbac_create_crs"
+msgstr "Crea corso"
+
+msgid "rbac_create_crsr"
+msgstr "Crea un riferimento al corso"
+
+msgid "rbac_create_dcl"
+msgstr "Crea raccolta dati"
+
+msgid "rbac_create_exc"
+msgstr "Crea esercizio"
+
+msgid "rbac_create_file"
+msgstr "Carica file"
+
+msgid "rbac_create_fold"
+msgstr "Crea una cartella"
+
+msgid "rbac_create_frm"
+msgstr "Crea forum"
+
+msgid "rbac_create_glo"
+msgstr "Crea glossario"
+
+msgid "rbac_create_grp"
+msgstr "Crea gruppo"
+
+msgid "rbac_create_grpr"
+msgstr "Crea un riferimento di gruppo"
+
+msgid "rbac_create_htlm"
+msgstr "Crea modulo di apprendimento HTML"
+
+msgid "rbac_create_iass"
+msgstr "Crea assegnazione individuale"
+
+msgid "rbac_create_itgr"
+msgstr "Crea gruppo di elementi"
+
+msgid "rbac_create_lm"
+msgstr "Crea modulo di apprendimento ILIAS"
+
+msgid "rbac_create_lso"
+msgstr "Crea una sequenza di apprendimento"
+
+msgid "rbac_create_lti"
+msgstr "Crea LTI Consumer"
+
+msgid "rbac_create_mcst"
+msgstr "Crea Mediacast"
+
+msgid "rbac_create_mep"
+msgstr "Crea gruppo di supporto"
+
+msgid "rbac_create_orgu"
+msgstr "Crea unità organizzative"
+
+msgid "rbac_create_poll"
+msgstr "Crea gruppo"
+
+msgid "rbac_create_prg"
+msgstr "Crea programma di studio"
+
+msgid "rbac_create_prgr"
+msgstr "Creare un collegamento al programma di studio"
+
+msgid "rbac_create_prtt"
+msgstr "Crea modello di portfolio"
+
+msgid "rbac_create_qpl"
+msgstr "Crea un testo del gruppo di domande"
+
+msgid "rbac_create_rcrs"
+msgstr "Creare il link al corso"
+
+msgid "rbac_create_role"
+msgstr "Crea nuovo ruolo"
+
+msgid "rbac_create_rolt"
+msgstr "Crea nuovo modello di ruolo"
+
+msgid "rbac_create_sahs"
+msgstr "Creare un modulo di apprendimento SCORM/AICC"
+
+msgid "rbac_create_sess"
+msgstr "Crea sessione"
+
+#, fuzzy
+msgid "rbac_create_skee"
+msgstr "Create Competence Tree"
+
+msgid "rbac_create_spl"
+msgstr "Crea sondaggio gruppo di domande"
+
+msgid "rbac_create_svy"
+msgstr "Crea sondaggio"
+
+msgid "rbac_create_tst"
+msgstr "Crea test"
+
+msgid "rbac_create_usr"
+msgstr "L’utente è abilitato a creare gli account utente"
+
+msgid "rbac_create_webr"
+msgstr "Crea collegamento web"
+
+msgid "rbac_create_wiki"
+msgstr "Crea Wiki"
+
+msgid "rbac_delete_local_policies"
+msgstr "Elimina criteri locali"
+
+msgid "rbac_delete_local_policies_info"
+msgstr "Se attivati, tutti i criteri locali verranno eliminati. Le autorizzazioni degli oggetti verranno riscritte e protette."
+
+msgid "rbac_delete_role"
+msgstr "Cancella ruolo"
+
+msgid "rbac_edit_condition"
+msgstr "Modifica condizione preliminare"
+
+msgid "rbac_form_copy_roles_adjust_button"
+msgstr "Adattare i diritti"
+
+msgid "rbac_form_copy_roles_adjust_type"
+msgstr "Tipo di regolazione dei diritti"
+
+msgid "rbac_form_copy_roles_adjust_type_add"
+msgstr "Aggiungere diritti"
+
+msgid "rbac_form_copy_roles_adjust_type_add_info"
+msgstr "Aggiunge i diritti MARKED del modello di ruolo globale selezionato al modello dei diritti locali."
+
+msgid "rbac_form_copy_roles_adjust_type_clone"
+msgstr "Diritti di copia"
+
+msgid "rbac_form_copy_roles_adjust_type_clone_info"
+msgstr "Tutti i permessi del modello di ruolo globale selezionato sovrascrivono tutte le impostazioni dei permessi locali."
+
+msgid "rbac_form_copy_roles_adjust_type_remove"
+msgstr "Rimuovere i diritti"
+
+msgid "rbac_form_copy_roles_adjust_type_remove_info"
+msgstr "Rimuove i permessi MARCATI del modello di ruolo globale selezionato dalle impostazioni dei permessi locali."
+
+msgid "rbac_form_copy_roles_ce_add_no"
+msgstr "NON modificare gli oggetti esistenti"
+
+msgid "rbac_form_copy_roles_ce_add_no_info"
+msgstr "Le specifiche dei diritti locali esistenti sono completate di conseguenza, i diritti degli oggetti esistenti non sono adattati."
+
+msgid "rbac_form_copy_roles_ce_add_yes"
+msgstr "Aggiungere solo i diritti selezionati agli oggetti esistenti"
+
+msgid "rbac_form_copy_roles_ce_add_yes_info"
+msgstr "Le impostazioni dei diritti locali esistenti e le impostazioni dei diritti degli oggetti esistenti sono integrate di conseguenza."
+
+msgid "rbac_form_copy_roles_ce_clone_no"
+msgstr "NON modificare gli oggetti esistenti"
+
+msgid "rbac_form_copy_roles_ce_clone_no_info"
+msgstr "I diritti locali predefiniti esistenti vengono sovrascritti, gli oggetti esistenti non vengono regolati nei loro diritti."
+
+msgid "rbac_form_copy_roles_ce_clone_yes"
+msgstr "Modificare gli oggetti esistenti"
+
+msgid "rbac_form_copy_roles_ce_clone_yes_info"
+msgstr "Sovrascrivere le impostazioni predefinite dei diritti locali esistenti di conseguenza e applicate IN TUTTO con tutte le impostazioni predefinite spuntate e non spuntate applicate agli oggetti esistenti."
+
+msgid "rbac_form_copy_roles_ce_remove_no"
+msgstr "NON modificare gli oggetti esistenti"
+
+msgid "rbac_form_copy_roles_ce_remove_no_info"
+msgstr "I diritti marcati vengono rimossi dalle impostazioni dei diritti locali esistenti, gli oggetti esistenti non vengono adeguati nei loro diritti."
+
+msgid "rbac_form_copy_roles_ce_remove_yes"
+msgstr "Ridurre gli oggetti esistenti solo per i diritti selezionati"
+
+msgid "rbac_form_copy_roles_ce_remove_yes_info"
+msgstr "Le impostazioni dei diritti locali esistenti e le impostazioni dei diritti degli oggetti esistenti vengono ridotte di conseguenza."
+
+msgid "rbac_global_rolt"
+msgstr "Modello ruolo globale"
+
+msgid "rbac_import_role"
+msgstr "Importa ruolo"
+
+msgid "rbac_info_only_position_access"
+msgstr "Sei presentato solo a quei membri che hanno una posizione all’interno della tua unità organizzativa. I membri con un’altra posizione organizzativa non vengono mostrati ma può risiedere in questi corsi senza esserti mostrato."
+
+msgid "rbac_keep_local_policies"
+msgstr "Mantieni criteri locali"
+
+msgid "rbac_keep_local_policies_info"
+msgstr "Scegli questa modalità per mantenere tutti i criteri locali. Le autorizzazioni per gli oggetti verranno adattate a tali criteri e successivamente protette."
+
+msgid "rbac_local_policies"
+msgstr "Criteri locali"
+
+msgid "rbac_local_policy"
+msgstr "Criterio locale"
+
+msgid "rbac_log"
+msgstr "Log"
+
+msgid "rbac_log_change_owner"
+msgstr "Modifica proprietario dell'oggetto"
+
+msgid "rbac_log_changed_owner"
+msgstr "Modifica proprietario per"
+
+msgid "rbac_log_copy_object"
+msgstr "Copia oggetto"
+
+msgid "rbac_log_create_object"
+msgstr "Crea oggetto"
+
+msgid "rbac_log_edit_permissions"
+msgstr "Modifica autorizzazioni"
+
+msgid "rbac_log_edit_template"
+msgstr "Modifica modello ruolo"
+
+msgid "rbac_log_edit_template_existing"
+msgstr "Utilizza modello ruolo per oggetto esistenti"
+
+msgid "rbac_log_inheritance_add"
+msgstr "Ereditarietà interrotta per \"%s\""
+
+msgid "rbac_log_inheritance_rmv"
+msgstr "Ereditarietà concessa per \"%s\""
+
+msgid "rbac_log_link_object"
+msgstr "Collega oggetto"
+
+msgid "rbac_log_move_object"
+msgstr "Sposta oggetto"
+
+msgid "rbac_log_operation_add"
+msgstr "Operazione aggiunta per \"%s\""
+
+msgid "rbac_log_operation_rmv"
+msgstr "Operazione rimossa per \"%s\""
+
+msgid "rbac_log_source_object"
+msgstr "Oggetto di origine"
+
+msgid "rbac_msg_user_already_assigned"
+msgstr "L’utente scelto è appena stato assegnato a questo ruolo."
+
+msgid "rbac_not_change_existing_objects"
+msgstr "NON modificare gli oggetti esistenti"
+
+msgid "rbac_permissions"
+msgstr "Autorizzazioni"
+
+#, fuzzy
+msgid "rbac_precondition_condition"
+msgstr "Access requires having this status"
+
+msgid "rbac_precondition_hide"
+msgstr "Nascondi oggetto"
+
+msgid "rbac_precondition_hide_info"
+msgstr " Questa opzione consente di nascondere l'oggetto per gli utenti che attualmente non hanno soddisfatto le condizioni preliminari. Pertanto, tutti i contenuti non accessibili non sono visibili."
+
+msgid "rbac_precondition_minimum_optional"
+msgstr "Almeno 2 condizioni preliminari devono rimanere facoltativi."
+
+msgid "rbac_precondition_mode"
+msgstr "Modalità"
+
+msgid "rbac_precondition_mode_all"
+msgstr "Tutte le condizioni preliminari"
+
+msgid "rbac_precondition_mode_all_info"
+msgstr "Tutte le condizioni preliminari devono essere soddisfatte per fornire l’accesso."
+
+msgid "rbac_precondition_mode_subset"
+msgstr "Sottoinsieme di condizioni preliminari"
+
+msgid "rbac_precondition_mode_subset_info"
+msgstr "Un sottoinsieme di precondizioni deve essere soddisfatto per dare accesso. Alcune precondizioni possono ancora essere impostate come obbligatorie."
+
+msgid "rbac_precondition_save_obligatory"
+msgstr "Salvataggio obbligatorio"
+
+msgid "rbac_precondition_source"
+msgstr "Condizione trigger"
+
+msgid "rbac_precondition_target"
+msgstr "La condizione limita l’accesso a"
+
+msgid "rbac_repository_permissions"
+msgstr "Condizioni preliminari del repository"
+
+msgid "rbac_role_delete_qst"
+msgstr "Sei sicuro di voler eliminare il seguente ruolo?<br />Tutte le autorizzazioni concesse da questo ruolo verranno eliminate definitivamente."
+
+msgid "rbac_role_delete_self"
+msgstr "<strong>Attenzione:</strong> Sei stato assegnato a questo ruolo. Se procedi con questa operazione di eliminazione, potresti perdere l’accesso a qualche materiale ILIAS."
+
+msgid "rbac_role_exists_alert"
+msgstr "Un ruolo con lo stesso nome esiste già in questo contesto. Si prega di scegliere un altro nome."
+
+msgid "rbac_role_imported"
+msgstr "Il ruolo è stato importato."
+
+msgid "rbac_role_rights_copy"
+msgstr "Autorizzazioni di copia"
+
+msgid "rbac_role_rights_copy_change_existing"
+msgstr "Cambia oggetti esistenti"
+
+msgid "rbac_role_rights_copy_empty"
+msgstr "Nessuno"
+
+msgid "rbac_role_selection"
+msgstr "Tipo di ruolo"
+
+msgid "rbac_role_title"
+msgstr "Titolo del ruolo"
+
+msgid "rbac_select_copy_targets"
+msgstr "Si prega di selezionare i ruoli di destinazione"
+
+msgid "rbac_select_roles"
+msgstr "Role Selection"
+
+msgid "rbac_ud_global"
+msgstr "Ruolo globale definito dall’utente"
+
+msgid "rbac_ud_local"
+msgstr "Ruolo locale definito dall’utente"
+
+msgid "rbac_ud_rolt"
+msgstr "Modello di ruolo definito dall’utente"
+
+msgid "rbac_unprotected_delete_local_policies_info"
+msgstr "Se attivati, tutti i criteri locali verranno eliminati. Le autorizzazioni nei corsi e nei gruppi sono appena state generate."
+
+msgid "rbac_unprotected_keep_local_policies_info"
+msgstr "Scegli questa modalità per mantenere tutti i criteri locali."
+
+#, fuzzy
+msgid "rbac_view_content"
+msgstr "View Content"
+
+msgid "rcat_delete"
+msgstr "L’utente può spostare o eliminare la Categoria ESC"
+
+msgid "rcat_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione"
+
+msgid "rcat_read"
+msgstr "L’utente può utilizzare la categoria ESC"
+
+msgid "rcat_visible"
+msgstr "La categoria ESC è visibile"
+
+msgid "rcat_write"
+msgstr "L’utente può modificare le impostazione della categoria ESC"
+
+msgid "rcrs_delete"
+msgstr "Cancella il link al Corso"
+
+msgid "rcrs_edit_permission"
+msgstr "Cambia le impostazioni dei permessi"
+
+msgid "rcrs_read"
+msgstr "Accesso in lettura ai link del Corso"
+
+msgid "rcrs_visible"
+msgstr "Il link al Corso è visibile"
+
+msgid "rcrs_write"
+msgstr "Edita i link al Corso"
+
+#, fuzzy
+msgid "read_all_accounts"
+msgstr "Read All Accounts"
+
+#, fuzzy
+msgid "read_comp"
+msgstr "User has read access to Competences and Competence Templates"
+
+msgid "read_learning_progress"
+msgstr "Visualizza il progresso di apprendimento degli altri utenti"
+
+msgid "read_outcomes"
+msgstr "Visualizza le esperienze di apprendimento di altri utenti"
+
+#, fuzzy
+msgid "read_profiles"
+msgstr "User has read access to Competence Profiles"
+
+msgid "read_results"
+msgstr "Risultati del sondaggio"
+
+msgid "read_users"
+msgstr "Accesso in lettura agli account utente locali"
+
+msgid "recf_edit_permission"
+msgstr "Cambia le impostazioni dei permessi"
+
+msgid "recf_read"
+msgstr "Accesso in lettura agli Oggetti ripristinati"
+
+msgid "recf_visible"
+msgstr "Gli Oggetti ripristinati sono visibili"
+
+msgid "recf_write"
+msgstr "Edita gli oggetti ripristinati"
+
+msgid "redact"
+msgstr "Redigi"
+
+msgid "release_objects"
+msgstr "Immetti oggetti"
+
+msgid "reps_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione nell’amministrazione del Repository"
+
+msgid "reps_read"
+msgstr "L’utente ha l’accesso di lettura all’amministrazione del Repository"
+
+msgid "reps_visible"
+msgstr "L'amministrazione del Repository è visibile"
+
+msgid "reps_write"
+msgstr "Modifica impostazioni nell’amministrazione del Repository"
+
+msgid "rfil_delete"
+msgstr "L’utente può spostare o eliminare il file ESC"
+
+msgid "rfil_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione"
+
+msgid "rfil_read"
+msgstr "L’utente può utilizzare il file ESC"
+
+msgid "rfil_visible"
+msgstr "Il file ESC è visibile"
+
+msgid "rfil_write"
+msgstr "L’utente può modificare le impostazione del file ESC"
+
+msgid "rglo_delete"
+msgstr "L’utente può spostare o eliminare il glossario ESC"
+
+msgid "rglo_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione"
+
+msgid "rglo_read"
+msgstr "L’utente può utilizzare il glossario ESC"
+
+msgid "rglo_visible"
+msgstr "Il glossario ESC è visibile"
+
+msgid "rglo_write"
+msgstr "L’utente può modificare le impostazione del glossario ESC"
+
+msgid "rgrp_delete"
+msgstr "L’utente può spostare o eliminare il Gruppo ESC"
+
+msgid "rgrp_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione"
+
+msgid "rgrp_read"
+msgstr "L’utente può utilizzare il gruppo ESC"
+
+msgid "rgrp_visible"
+msgstr "Il gruppo ESC è visibile"
+
+msgid "rgrp_write"
+msgstr "L’utente può modificare le impostazione del gruppo ESC"
+
+msgid "rlm_delete"
+msgstr "L’utente può spostare o eliminare il moduli di apprendimento ESC"
+
+msgid "rlm_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione"
+
+msgid "rlm_read"
+msgstr "L’utente può utilizzare i moduli di apprendimento ESC"
+
+msgid "rlm_visible"
+msgstr "Modulo di apprendimento ESC visibile"
+
+msgid "rlm_write"
+msgstr "L’utente può modificare le impostazione del moduli di apprendimento ESC"
+
+msgid "role_block_role"
+msgstr "Blocca ruolo"
+
+msgid "role_block_role_desc"
+msgstr "L'accesso a questo e a tutti gli oggetti subordinati sarà revocato."
+
+msgid "role_blocked"
+msgstr ": <i>Il ruolo verrà bloccato</i>"
+
+msgid "role_confirm_block_role"
+msgstr "Salva stato del ruolo"
+
+msgid "role_confirm_block_role_header"
+msgstr "Vuoi davvero bloccare i ruoli scelti?"
+
+msgid "role_confirm_block_role_info"
+msgstr "Verranno eseguite le seguenti operazioni:<br /><br />- i permessi di ruolo di questo e di tutti gli oggetti subordinati saranno bloccati.<br />- le nuove impostazioni di permesso saranno protette."
+
+msgid "role_confirm_unblock_role_info"
+msgstr "I seguenti passaggi verranno eseguiti per l'azione \"Sblocca ruolo\":<br /><br />- i criteri locali verranno eliminati."
+
+msgid "role_unblocked"
+msgstr ": <i>Il ruolo sarà sbloccato</i>"
+
+msgid "root_edit_permission"
+msgstr "Modificare le impostazioni dei permessi"
+
+msgid "root_read"
+msgstr "Accedere in lettura al sistema"
+
+msgid "root_visible"
+msgstr "Vedere il sistema"
+
+msgid "root_write"
+msgstr "Modificare il nodo radice di ILIAS"
+
+msgid "rtst_delete"
+msgstr "L’utente può spostare o eliminare il test ESC"
+
+msgid "rtst_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione"
+
+msgid "rtst_read"
+msgstr "L’utente può utilizzare il test ESC"
+
+msgid "rtst_visible"
+msgstr "Il test ESC è visibile"
+
+msgid "rtst_write"
+msgstr "L’utente può modificare le impostazione del test ESC"
+
+msgid "rwik_delete"
+msgstr "L’utente può spostare o eliminare il Wiki ESC"
+
+msgid "rwik_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione"
+
+msgid "rwik_read"
+msgstr "L’utente può utilizzare Wiki ESC"
+
+msgid "rwik_visible"
+msgstr "ECS Wiki è visibile"
+
+msgid "rwik_write"
+msgstr "L’utente può modificare le impostazione di Wiki ESC"
+
+msgid "sahs_copy"
+msgstr "L'utente può copiare il modulo di apprendimento SCORM"
+
+msgid "sahs_delete"
+msgstr "Eliminare un modulo SCORM/AICC"
+
+msgid "sahs_edit_learning_progress"
+msgstr "Modificare i progressi di apprendimento"
+
+msgid "sahs_edit_permission"
+msgstr "Modificare le impostazioni dei permessi"
+
+msgid "sahs_read"
+msgstr "Accedere in lettura ad un modulo SCORM/AICC"
+
+msgid "sahs_read_learning_progress"
+msgstr "L’utente può visualizzare il progresso di apprendimento degli altri utenti"
+
+msgid "sahs_visible"
+msgstr "Vedere un modulo SCORM/AICC"
+
+msgid "sahs_write"
+msgstr "Modificare un modulo SCORM/AICC"
+
+msgid "seas_edit_permission"
+msgstr "Modificare le impostazioni dei permessi"
+
+msgid "seas_read"
+msgstr "L'utente ha accesso in lettura all'amministrazione della ricerca"
+
+msgid "seas_search"
+msgstr "L'utente può utilizzare la ricerca globale in ILIAS"
+
+msgid "seas_visible"
+msgstr "Vedere le impostazioni di ricerca"
+
+msgid "seas_write"
+msgstr "Modificare le impostazioni di ricerca"
+
+msgid "sess_copy"
+msgstr "Copia sessione"
+
+msgid "sess_delete"
+msgstr "Cancella la Sessione"
+
+msgid "sess_edit_event"
+msgstr "Edita gli Eventi del Calendario"
+
+msgid "sess_edit_learning_progress"
+msgstr "L’utente può modificare le impostazioni di progresso"
+
+msgid "sess_edit_metadata"
+msgstr "Edit Metadata"
+
+msgid "sess_edit_permission"
+msgstr "Cambia le impostazioni dei permessi"
+
+msgid "sess_manage_materials"
+msgstr "Gestire i materiali della sessione"
+
+msgid "sess_manage_members"
+msgstr "Gestire i partecipanti di una sessione"
+
+msgid "sess_read"
+msgstr "L'utente ha accesso in lettura alle sessioni"
+
+msgid "sess_read_learning_progress"
+msgstr "L’utente può visualizzare il progresso di apprendimento degli altri utenti"
+
+msgid "sess_visible"
+msgstr "La sessione è visibile"
+
+msgid "sess_write"
+msgstr "L'utente può modificare il contenuto e le impostazioni della sessione"
+
+#, fuzzy
+msgid "skee_copy"
+msgstr "User can copy Competence Tree (currently not available)"
+
+#, fuzzy
+msgid "skee_delete"
+msgstr "User can delete Competence Tree"
+
+#, fuzzy
+msgid "skee_edit_permission"
+msgstr "User can change permission settings of Competence Tree administration"
+
+#, fuzzy
+msgid "skee_manage_comp"
+msgstr "User can edit Competences in Competence Tree"
+
+#, fuzzy
+msgid "skee_manage_comp_temp"
+msgstr "User can edit Competence Templates in Competence Tree"
+
+#, fuzzy
+msgid "skee_manage_profiles"
+msgstr "User can edit Competence Profiles in Competence Tree"
+
+#, fuzzy
+msgid "skee_read"
+msgstr "User has read access to administration of Competence Tree"
+
+#, fuzzy
+msgid "skee_read_comp"
+msgstr "User has read access to Competences and Competence Templates in Competence Tree"
+
+#, fuzzy
+msgid "skee_read_profiles"
+msgstr "User has read access to Competence Profiles in Competence Tree"
+
+#, fuzzy
+msgid "skee_visible"
+msgstr "Competence Tree is visible"
+
+#, fuzzy
+msgid "skee_write"
+msgstr "User can edit settings of Competence Tree"
+
+msgid "skmg_edit_permission"
+msgstr "L'utente può cambiare le impostazioni dei permessi dell'amministrazione della gestione delle competenze"
+
+msgid "skmg_read"
+msgstr "L'utente ha accesso in lettura all'amministrazione della Gestione delle competenze"
+
+msgid "skmg_visible"
+msgstr "La gestione delle competenze è visibile"
+
+msgid "skmg_write"
+msgstr "L'utente ha accesso in lettura all'amministrazione della Gestione delle competenze"
+
+msgid "smtp_mail"
+msgstr "Inviare mail"
+
+msgid "spl_copy"
+msgstr "L'utente può copiare il pool di domande per i sondaggi"
+
+msgid "spl_delete"
+msgstr "L'utente può spostare o eliminare il pool di domande"
+
+msgid "spl_edit_permission"
+msgstr "L'utente può cambiare le impostazioni dei permessi"
+
+msgid "spl_read"
+msgstr "L'utente può leggere le domande del sondaggio nel pool e inserirle nel sondaggio"
+
+msgid "spl_visible"
+msgstr "La raccolta di domande è visibile"
+
+msgid "spl_write"
+msgstr "L'utente può modificare le domande del sondaggio e le impostazioni del pool di domande"
+
+msgid "statistics_read"
+msgstr "Visualizza statistiche"
+
+#, fuzzy
+msgid "stus_edit_permission"
+msgstr "User can change permission settings in Shortlink administration"
+
+#, fuzzy
+msgid "stus_read"
+msgstr "User can see the Shortlink Administration"
+
+#, fuzzy
+msgid "stus_write"
+msgstr "User can edit Shortlinks"
+
+msgid "sty_write_content"
+msgstr "Modifica stili contenuto"
+
+msgid "sty_write_page_layout"
+msgstr "Modifica layout pagina"
+
+msgid "sty_write_system"
+msgstr "Modifica stili sistema"
+
+msgid "stys_edit_permission"
+msgstr "L'utente può cambiare le impostazioni di autorizzazione dell'amministrazione di Layout e Stili"
+
+msgid "stys_read"
+msgstr "L'utente ha accesso in lettura all'amministrazione di Layout e Stili"
+
+msgid "stys_sty_write_content"
+msgstr "Modifica stili contenuto"
+
+msgid "stys_sty_write_custom"
+msgstr "Modifica stili contenuto"
+
+msgid "stys_sty_write_page_layout"
+msgstr "Modifica layout pagina"
+
+msgid "stys_sty_write_system"
+msgstr "Modifica stili sistema"
+
+msgid "stys_visible"
+msgstr "Vedere le impostazioni degli stili"
+
+msgid "svy_copy"
+msgstr "Copia Sondaggio"
+
+msgid "svy_delete"
+msgstr "Eliminare un sondaggio"
+
+msgid "svy_edit_learning_progress"
+msgstr "L’utente può modificare le impostazioni di progresso"
+
+msgid "svy_edit_permission"
+msgstr "Modificare le impostazioni dei permessi"
+
+msgid "svy_invite"
+msgstr "Invitare utenti ad un sondaggio"
+
+msgid "svy_read"
+msgstr "Accedere in lettura ad un sondaggio"
+
+msgid "svy_read_learning_progress"
+msgstr "L’utente può visualizzare il progresso di apprendimento degli altri utenti"
+
+msgid "svy_read_results"
+msgstr "L'utente ha accesso ai risultati del sondaggio di altri"
+
+msgid "svy_visible"
+msgstr "Vedere un sondaggio"
+
+msgid "svy_write"
+msgstr "Modificare un sondaggio"
+
+msgid "svyf_edit_permission"
+msgstr "Cambia le impostazioni dei permessi"
+
+msgid "svyf_read"
+msgstr "Accesso in lettura alle impostazioni dei Sondaggi"
+
+msgid "svyf_visible"
+msgstr "Le impostazioni dei sondaggi sono visibili"
+
+msgid "svyf_write"
+msgstr "Edita le impostazioni del sondaggio"
+
+msgid "sysc_edit_permission"
+msgstr "L’utente può modificare le autorizzazioni del controllo di sistema."
+
+msgid "sysc_read"
+msgstr "L’utente ha l’accesso di lettura al controllo del sistema."
+
+msgid "sysc_visible"
+msgstr "Il controllo del sistema è visibile."
+
+msgid "sysc_write"
+msgstr "L’utente può svolgere il controllo del sistema."
+
+msgid "tags_edit_permission"
+msgstr "L'utente può cambiare le impostazioni dei permessi nell'amministrazione dei tag"
+
+msgid "tags_read"
+msgstr "L'utente ha accesso in lettura all'amministrazione dei tag"
+
+msgid "tags_visible"
+msgstr "Le impostazioni del tagging sono visibili"
+
+msgid "tags_write"
+msgstr "Modifica le impostazioni del Tagging"
+
+#, fuzzy
+msgid "tala_edit_permission"
+msgstr "User can change permission settings in Talk Templates administration"
+
+#, fuzzy
+msgid "tala_read"
+msgstr "User has read access to Talk Templates administration"
+
+#, fuzzy
+msgid "tala_visible"
+msgstr "Talk Templates administration is visible"
+
+#, fuzzy
+msgid "tala_write"
+msgstr "User can create and edit Talk Templates"
+
+msgid "taxs_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione nell’amministrazione della tassonomia"
+
+msgid "taxs_read"
+msgstr "L’utente ha l’accesso di lettura all’amministrazione della tassonomia"
+
+msgid "taxs_visible"
+msgstr "L'amministrazione della tassonomia è visibile"
+
+msgid "taxs_write"
+msgstr "Modifica impostazioni nell’amministrazione della tassonomia"
+
+msgid "tos_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione nell’amministrazione dei termini di servizio"
+
+msgid "tos_read"
+msgstr "L’utente ha l’accesso di lettura all’amministrazione dei termini di servizio"
+
+msgid "tos_visible"
+msgstr "L’amministrazione dei termini di servizio è visibile"
+
+msgid "tos_write"
+msgstr "Modifica impostazioni nell’amministrazione dei termini di servizio"
+
+msgid "trac_delete"
+msgstr "Eliminare i dati di tracciamento"
+
+msgid "trac_edit_permission"
+msgstr "Modificare le impostazioni dei permessi"
+
+msgid "trac_lp_other_users"
+msgstr "Vedi panoramica del progresso di apprendimento degli altri utenti"
+
+msgid "trac_read"
+msgstr "Accesso in lettura per accedere alle statistiche e alla gestione dei progressi di apprendimento"
+
+msgid "trac_visible"
+msgstr "Sono visibili le statistiche di accesso e la gestione dei progressi di apprendimento"
+
+msgid "trac_write"
+msgstr "Modifica le impostazioni per le statistiche di accesso e la gestione dei progressi di apprendimento"
+
+msgid "tst_copy"
+msgstr "Copia Test"
+
+msgid "tst_delete"
+msgstr "Eliminare o spostare un test"
+
+msgid "tst_edit_learning_progress"
+msgstr "L'utente può modificare i progressi didattici"
+
+msgid "tst_edit_permission"
+msgstr "Modificare le impostazioni dei permessi"
+
+msgid "tst_read"
+msgstr "Accedere in lettura ad un test"
+
+msgid "tst_read_learning_progress"
+msgstr "L’utente può visualizzare il progresso di apprendimento degli altri utenti"
+
+#, fuzzy
+msgid "tst_tst_history_read"
+msgstr "View History"
+
+msgid "tst_tst_results"
+msgstr "L'utente ha accesso ai risultati dei test degli altri"
+
+msgid "tst_visible"
+msgstr "Il test è visibile"
+
+msgid "tst_write"
+msgstr "Compilare il test e modificare le impostazioni"
+
+msgid "upload_blacklisted_files"
+msgstr "Bypassa la blacklist"
+
+msgid "usrf_delete"
+msgstr "Eliminare un utente"
+
+msgid "usrf_edit_permission"
+msgstr "Modificare le impostazioni dei permessi"
+
+msgid "usrf_edit_roleassignment"
+msgstr "Cambiare i ruoli assegnati agli utenti"
+
+msgid "usrf_push_desktop_items"
+msgstr "Consentire di inviare oggetti sul desktop."
+
+msgid "usrf_read"
+msgstr "Accedere in lettura alle registrazioni degli utenti"
+
+#, fuzzy
+msgid "usrf_read_all_accounts"
+msgstr "User can list all accounts in User administration"
+
+msgid "usrf_read_users"
+msgstr "Assegnare ruoli ad amministratori locali"
+
+msgid "usrf_visible"
+msgstr "Vedere le registrazioni degli utenti"
+
+msgid "usrf_write"
+msgstr "Modificare le registrazioni degli utenti"
+
+#, fuzzy
+msgid "wbdv_edit_permission"
+msgstr "User can change permission settings of WebDAV administration."
+
+msgid "wbdv_read"
+msgstr "L'utente ha accesso in lettura all'amministrazione di WebDAV."
+
+msgid "wbdv_visible"
+msgstr "L'amministrazione di WebDAV è visibile."
+
+msgid "wbdv_write"
+msgstr "L'utente può modificare le impostazioni dell'amministrazione WebDAV."
+
+msgid "wbrs_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione nell’amministrazione del collegamento web"
+
+msgid "wbrs_read"
+msgstr "L’utente ha l’accesso di lettura all’amministrazione del collegamento web"
+
+msgid "wbrs_visible"
+msgstr "L'amministrazione del collegamento web è visibile"
+
+msgid "wbrs_write"
+msgstr "Modifica impostazioni nell’amministrazione del collegamento web"
+
+msgid "webr_copy"
+msgstr "Copia Risorsa Web"
+
+msgid "webr_delete"
+msgstr "Elimina risorsa web"
+
+msgid "webr_edit_permission"
+msgstr "Modificare le impostazioni dei permessi"
+
+msgid "webr_read"
+msgstr "Accedere in lettura alle risorse web"
+
+msgid "webr_visible"
+msgstr "Vedere le risorse web"
+
+msgid "webr_write"
+msgstr "Modificare le risorse web"
+
+msgid "wiki_activate_wiki_protection"
+msgstr "Imposta le pagine Wiki su solo lettura"
+
+#, fuzzy
+msgid "wiki_add_pages"
+msgstr "User can create wiki pages"
+
+msgid "wiki_copy"
+msgstr "Copia Wiki"
+
+msgid "wiki_delete"
+msgstr "Cancella Wiki"
+
+msgid "wiki_delete_wiki_pages"
+msgstr "Elimina pagine Wiki"
+
+msgid "wiki_edit_content"
+msgstr "Modifica Pagine Wiki"
+
+msgid "wiki_edit_page_meta"
+msgstr "Modifica metadati pagina Wiki"
+
+msgid "wiki_edit_permission"
+msgstr "Modifica impostazioni dei permessi"
+
+msgid "wiki_edit_wiki_navigation"
+msgstr "Modifica navigazione Wiki"
+
+msgid "wiki_html_export"
+msgstr "Esporta HTML"
+
+msgid "wiki_read"
+msgstr "L'utente può leggere il contenuto del wiki"
+
+msgid "wiki_statistics_read"
+msgstr "Visualizza statistiche"
+
+msgid "wiki_visible"
+msgstr "Wiki è visibile"
+
+msgid "wiki_wiki_html_export"
+msgstr "Esporta Wiki come HTML"
+
+msgid "wiki_write"
+msgstr "Modifica impostazioni Wiki, Studenti Avanzati"
+
+msgid "wiks_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione nell’amministrazione del Wiki"
+
+msgid "wiks_read"
+msgstr "L’utente ha l’accesso di lettura all’amministrazione del Wiki"
+
+msgid "wiks_visible"
+msgstr "L'amministrazione del Wiki è visibile"
+
+msgid "wiks_write"
+msgstr "Modifica impostazioni nell’amministrazione del Wiki"
+
+msgid "write"
+msgstr "Modifica impostazioni"

@@ -1,0 +1,3116 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: et\n"
+"Language-Team: Estonian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: rbac\n"
+
+msgid "accs_edit_permission"
+msgstr "Change permission settings"
+
+msgid "accs_read"
+msgstr "Read access to Accessibility Settings"
+
+msgid "accs_visible"
+msgstr "Accessibility Settings are visible"
+
+msgid "accs_write"
+msgstr "Edit Accessibility Settings"
+
+#, fuzzy
+msgid "activate_wiki_protection"
+msgstr "Set Read-Only"
+
+msgid "active_preconditions"
+msgstr "Nõutavad eeltingimused"
+
+msgid "add_consultation_hours"
+msgstr "Lisa kalendrisse konsultatsiooniajad"
+
+#, fuzzy
+msgid "add_consume_provider"
+msgstr "Add Own LTI Provider Settings"
+
+#, fuzzy
+msgid "add_pages"
+msgstr "Add Pages"
+
+msgid "add_reply"
+msgstr "Add Reply"
+
+msgid "add_thread"
+msgstr "Lisa jutulõng"
+
+msgid "adm_edit_permission"
+msgstr "Change permission settings"
+
+msgid "adm_read"
+msgstr "Read access to System settings"
+
+msgid "adm_visible"
+msgstr "System settings are visible"
+
+msgid "adm_write"
+msgstr "Edit Basic system settings"
+
+#, fuzzy
+msgid "adn_edit_permission"
+msgstr "User can change permissions of Administrative Notifications' administration."
+
+#, fuzzy
+msgid "adn_read"
+msgstr "User has read access to administration of Administrative Notifications."
+
+#, fuzzy
+msgid "adn_visible"
+msgstr "Administration of Administrative Notifications is visible."
+
+#, fuzzy
+msgid "adn_write"
+msgstr "User can add and edit Administrative Notifications."
+
+msgid "adopt_perm_from_template"
+msgstr "Adopt permission settings from Role Template"
+
+msgid "adve_edit_permission"
+msgstr "Change Permission Settings"
+
+msgid "adve_read"
+msgstr "Access Advanced Editing Administration"
+
+msgid "adve_visible"
+msgstr "Advanced Editing Administration is Visible"
+
+msgid "adve_write"
+msgstr "Advanced Editing Administration"
+
+#, fuzzy
+msgid "amend_grading"
+msgstr "Amend finalized grading"
+
+msgid "assf_edit_permission"
+msgstr "Change permission settings"
+
+msgid "assf_read"
+msgstr "Access Test&Assessment Administration"
+
+msgid "assf_visible"
+msgstr "Test&Assessment administration is visible"
+
+msgid "assf_write"
+msgstr "Edit Test&Assessment administration"
+
+msgid "auth_edit_permission"
+msgstr "Change permission settings"
+
+msgid "auth_read"
+msgstr "Access authentication settings"
+
+msgid "auth_visible"
+msgstr "Authentication settings are visible"
+
+msgid "auth_write"
+msgstr "Edit authentication settings"
+
+#, fuzzy
+msgid "awra_edit_permission"
+msgstr "User can change permission settings in ‘Who is online?’ administration"
+
+#, fuzzy
+msgid "awra_read"
+msgstr "User has read access to ‘Who is online?’ administration"
+
+#, fuzzy
+msgid "awra_visible"
+msgstr "‘Who is online?’ administration is visible"
+
+#, fuzzy
+msgid "awra_write"
+msgstr "Edit settings in ‘Who is online?’ administration"
+
+#, fuzzy
+msgid "bdga_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "bdga_read"
+msgstr "User can read badge administration content"
+
+#, fuzzy
+msgid "bdga_visible"
+msgstr "Badge administration is visible"
+
+#, fuzzy
+msgid "bdga_write"
+msgstr "User can edit badge administration settings"
+
+msgid "bibl_copy"
+msgstr "User can copy bibliography"
+
+msgid "bibl_delete"
+msgstr "User can move or delete bibliography"
+
+msgid "bibl_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "bibl_read"
+msgstr "User can read bibliography content"
+
+msgid "bibl_visible"
+msgstr "Bibliography is visible"
+
+msgid "bibl_write"
+msgstr "User can edit bibliography settings"
+
+msgid "bibs_copy"
+msgstr "User can copy bibliography"
+
+msgid "bibs_delete"
+msgstr "User can delete library entries"
+
+msgid "bibs_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "bibs_read"
+msgstr "User can read bibliography content"
+
+msgid "bibs_visible"
+msgstr "Bibliography-Administration is visible"
+
+msgid "bibs_write"
+msgstr "User can edit bibliography settings"
+
+msgid "blga_edit_permission"
+msgstr "Change permission settings"
+
+msgid "blga_read"
+msgstr "Read access to Blog Administration"
+
+msgid "blga_visible"
+msgstr "Blog Administration is visible"
+
+msgid "blga_write"
+msgstr "Edit Blog Administration"
+
+msgid "blog_contribute"
+msgstr "User can contribute"
+
+msgid "blog_copy"
+msgstr "User can copy blog"
+
+msgid "blog_delete"
+msgstr "User can move or delete blog"
+
+msgid "blog_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "blog_read"
+msgstr "User can read blog content"
+
+#, fuzzy
+msgid "blog_redact"
+msgstr "User can edit all postings"
+
+msgid "blog_visible"
+msgstr "Blog is visible"
+
+msgid "blog_write"
+msgstr "User can edit blog settings"
+
+#, fuzzy
+msgid "book_copy"
+msgstr "User can copy booking pool"
+
+msgid "book_delete"
+msgstr "User can move or delete booking pool"
+
+msgid "book_edit_permission"
+msgstr "Change permission settings"
+
+#, fuzzy
+msgid "book_manage_all_reservations"
+msgstr "User can manage all reservations"
+
+#, fuzzy
+msgid "book_manage_own_reservations"
+msgstr "User can manage own reservations"
+
+msgid "book_read"
+msgstr "Read access to Booking Pool"
+
+msgid "book_visible"
+msgstr "Booking Pool is visible"
+
+msgid "book_write"
+msgstr "Edit Booking Pool"
+
+#, fuzzy
+msgid "cadm_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "cadm_read"
+msgstr "User has read access to user connection administration"
+
+#, fuzzy
+msgid "cadm_visible"
+msgstr "User connection administration is visible"
+
+#, fuzzy
+msgid "cadm_write"
+msgstr "User has write access to user connection administration"
+
+msgid "cals_add_consultation_hours"
+msgstr "Lisa kalendrisse konsultatsiooniajad"
+
+msgid "cals_edit_event"
+msgstr "Halda avalikke kalendreid"
+
+msgid "cals_edit_permission"
+msgstr "Muuda õiguste seadeid"
+
+msgid "cals_read"
+msgstr "Lugemisõigused to Calendar settings"
+
+msgid "cals_visible"
+msgstr "Kalendri seaded nähtavad"
+
+msgid "cals_write"
+msgstr "Muuda kalendri seadeid"
+
+msgid "cat_administrate_users"
+msgstr "Halda kohalikke kasutajakontosid"
+
+msgid "cat_cat_administrate_users"
+msgstr "Administrate local user accounts"
+
+msgid "cat_copy"
+msgstr "Copy Category"
+
+msgid "cat_delete"
+msgstr "Delete Category"
+
+msgid "cat_edit_permission"
+msgstr "Change permission settings"
+
+msgid "cat_read"
+msgstr "Read access to Category"
+
+msgid "cat_read_users"
+msgstr "Read access to local user accounts"
+
+msgid "cat_visible"
+msgstr "Category is visible"
+
+msgid "cat_write"
+msgstr "Edit Category"
+
+msgid "catr_copy"
+msgstr "Kategooria viite kopeerimine"
+
+msgid "catr_delete"
+msgstr "Kategooria viite kustutamine"
+
+msgid "catr_edit_permission"
+msgstr "Muuda õiguste seadeid"
+
+msgid "catr_visible"
+msgstr "Kategooria viide on nähtav"
+
+msgid "catr_write"
+msgstr "Kategooria viite muutmine"
+
+msgid "cert_edit_permission"
+msgstr "Change permission settings"
+
+msgid "cert_read"
+msgstr "Read access to Certificate Settings"
+
+msgid "cert_visible"
+msgstr "Certificate Settings are visible"
+
+msgid "cert_write"
+msgstr "Edit Certificate Settings"
+
+msgid "change_existing_object_type_desc"
+msgstr "Also change permissions of already existing objects of that type"
+
+msgid "change_existing_objects"
+msgstr "Change existing Objects"
+
+msgid "change_existing_objects_desc"
+msgstr "The permission settings of this role will be adpoted to ALL existing objects. If you want to change permissions only for specific object types please click the checkboxes to the right of the appropiate object type."
+
+msgid "change_existing_prefix"
+msgstr "Change existing"
+
+msgid "change_existing_prefix_single"
+msgstr "Change"
+
+msgid "change_existing_suffix"
+msgstr "&nbsp;"
+
+msgid "change_existing_suffix_single"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "change_presentation"
+msgstr "Change Presentation"
+
+msgid "chtr_delete"
+msgstr "User can move or delete course"
+
+msgid "chtr_edit_permission"
+msgstr "Change Permissions"
+
+msgid "chtr_moderate"
+msgstr "Moderate Chatroom"
+
+msgid "chtr_read"
+msgstr "Read"
+
+msgid "chtr_visible"
+msgstr "Visible"
+
+msgid "chtr_write"
+msgstr "Write"
+
+#, fuzzy
+msgid "cmis_edit_permission"
+msgstr "User can change permission settings of xAPI/cmi5 administration."
+
+#, fuzzy
+msgid "cmis_read"
+msgstr "User has read access to xAPI/cmi5 administration."
+
+#, fuzzy
+msgid "cmis_visible"
+msgstr "Administration of xAPI/cmi5 is visible."
+
+#, fuzzy
+msgid "cmis_write"
+msgstr "User can edit settings of xAPI/cmi5 administration."
+
+#, fuzzy
+msgid "cmix_copy"
+msgstr "User can copy xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_delete"
+msgstr "User can move or delete xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "cmix_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "cmix_read"
+msgstr "User can see xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "cmix_read_outcomes"
+msgstr "User can see learning experiences and ranking of other users"
+
+#, fuzzy
+msgid "cmix_visible"
+msgstr "xAPI/cmi5 Object is visible"
+
+#, fuzzy
+msgid "cmix_write"
+msgstr "User can edit settings of xAPI/cmi5 Object"
+
+msgid "cmps_edit_permission"
+msgstr "Muuda õiguste seadeid"
+
+msgid "cmps_read"
+msgstr "Lugemisõigused to component settings"
+
+msgid "cmps_visible"
+msgstr "Mooduli seaded on nähtavad"
+
+msgid "cmps_write"
+msgstr "Edit component settings"
+
+#, fuzzy
+msgid "coms_edit_permissions"
+msgstr "User can change permission settings of administration of Comments."
+
+#, fuzzy
+msgid "coms_read"
+msgstr "User has read access to administration of Comments."
+
+#, fuzzy
+msgid "coms_visible"
+msgstr "Administration of Comments is visible."
+
+#, fuzzy
+msgid "coms_write"
+msgstr "User can edit settings of administration of Comments."
+
+msgid "condition_failed"
+msgstr "Failed"
+
+msgid "condition_learning_progress"
+msgstr "Derive from Learning Progress"
+
+#, fuzzy
+msgid "condition_result_range_percentage"
+msgstr "Result Range"
+
+msgid "contribute"
+msgstr "Contribute"
+
+#, fuzzy
+msgid "copa_copy"
+msgstr "Copy Content Page"
+
+#, fuzzy
+msgid "copa_delete"
+msgstr "User can move or delete Content Page"
+
+#, fuzzy
+msgid "copa_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "copa_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "copa_read"
+msgstr "User can read Content Page"
+
+#, fuzzy
+msgid "copa_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "copa_visible"
+msgstr "Content Page is visible"
+
+#, fuzzy
+msgid "copa_write"
+msgstr "User can edit Content Page"
+
+#, fuzzy
+msgid "cpad_edit_permissions"
+msgstr "User can change permission settings of administration of Content Pages."
+
+#, fuzzy
+msgid "cpad_read"
+msgstr "User has read access to administration of Content Pages."
+
+#, fuzzy
+msgid "cpad_visible"
+msgstr "Administration of Content Pages is visible."
+
+#, fuzzy
+msgid "cpad_write"
+msgstr "User can edit settings of administration of Content Pages."
+
+msgid "crs_copy"
+msgstr "Copy Course"
+
+msgid "crs_delete"
+msgstr "Kustuta kursus"
+
+msgid "crs_edit_event"
+msgstr "Kalendrisündmuste muutmine"
+
+msgid "crs_edit_learning_progress"
+msgstr "Õpitulemuste muutmine"
+
+msgid "crs_edit_permission"
+msgstr "Muuda õiguste seadeid"
+
+#, fuzzy
+msgid "crs_grade"
+msgstr "Grade Members of Course"
+
+msgid "crs_join"
+msgstr "Kursusega liit(u)mine"
+
+msgid "crs_leave"
+msgstr "Kurseselt eemaldamine"
+
+#, fuzzy
+msgid "crs_manage_members"
+msgstr "Manage Members of Course"
+
+#, fuzzy
+msgid "crs_news_add_news"
+msgstr "Add and edit own news entries in course"
+
+msgid "crs_read"
+msgstr "Read access to Course"
+
+msgid "crs_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "crs_visible"
+msgstr "Course is visible"
+
+msgid "crs_write"
+msgstr "Muuda kursust"
+
+msgid "crsr_copy"
+msgstr "Soovitusliku kursuse kopeerimine"
+
+msgid "crsr_delete"
+msgstr "Kustuta kursuse link"
+
+#, fuzzy
+msgid "crsr_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "crsr_edit_permission"
+msgstr "Muuda õiguste seadeid"
+
+#, fuzzy
+msgid "crsr_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "crsr_visible"
+msgstr "Kursuse link on nähtav"
+
+msgid "crsr_write"
+msgstr "Muuda kursuse linki"
+
+msgid "crss_edit_permission"
+msgstr "User can change permission settings in Course administration"
+
+msgid "crss_read"
+msgstr "User has read access to Course administration"
+
+msgid "crss_visible"
+msgstr "Course administration is visible"
+
+msgid "crss_write"
+msgstr "Edit settings in Course administration"
+
+msgid "dcl_add_entry"
+msgstr "User can add/edit entries"
+
+msgid "dcl_copy"
+msgstr "User can copy data collection"
+
+msgid "dcl_delete"
+msgstr "User can move or delete data collection"
+
+#, fuzzy
+msgid "dcl_edit_content"
+msgstr "Edit entries"
+
+msgid "dcl_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "dcl_read"
+msgstr "Read access to Data Collection"
+
+msgid "dcl_visible"
+msgstr "Data Collection is visible"
+
+msgid "dcl_write"
+msgstr "User can edit settings and content of data collection"
+
+msgid "delete_files"
+msgstr "Delete Files"
+
+msgid "delete_folders"
+msgstr "Delete Folders"
+
+#, fuzzy
+msgid "delete_wiki_pages"
+msgstr "Delete Pages"
+
+#, fuzzy
+msgid "dpro_edit_permission"
+msgstr "User can change permission settings in the Declaration of Data Protected administration"
+
+#, fuzzy
+msgid "dpro_read"
+msgstr "User has read access to the Declaration of Data Protection administration"
+
+#, fuzzy
+msgid "dpro_visible"
+msgstr "Declaration of Data Protection administration is visible"
+
+#, fuzzy
+msgid "dpro_write"
+msgstr "Edit settings in the Declaration of Data Protection"
+
+#, fuzzy
+msgid "dshs_change_presentation"
+msgstr "Change presentation of dashboard view"
+
+#, fuzzy
+msgid "dshs_edit_permission"
+msgstr "User can change permission settings of Dashboard administration"
+
+#, fuzzy
+msgid "dshs_read"
+msgstr "User has read access to Dashboard administration"
+
+#, fuzzy
+msgid "dshs_visible"
+msgstr "Dashboard administration is visible"
+
+#, fuzzy
+msgid "dshs_write"
+msgstr "Edit settings of Dashboard administration"
+
+msgid "ecss_edit_permission"
+msgstr "User can edit permission settings of ECS administration"
+
+msgid "ecss_read"
+msgstr "User can read general ECS settings"
+
+msgid "ecss_visible"
+msgstr "ECS settings are visible"
+
+msgid "ecss_write"
+msgstr "User can edit ECS settings"
+
+msgid "edit_event"
+msgstr "Kalendri muutmine"
+
+#, fuzzy
+msgid "edit_file"
+msgstr "Edit File"
+
+#, fuzzy
+msgid "edit_in_online_editor"
+msgstr "Open in online editor"
+
+msgid "edit_learning_progress"
+msgstr "Muuda edasijõudmist"
+
+#, fuzzy
+msgid "edit_members"
+msgstr "Manage members"
+
+msgid "edit_permission"
+msgstr "Õiguste muutmine"
+
+msgid "edit_roleassignment"
+msgstr "Edit role assignment"
+
+#, fuzzy
+msgid "edit_submissions_grades"
+msgstr "Edit Submissions and Grades"
+
+msgid "edit_userassignment"
+msgstr "Edit User Assignment"
+
+#, fuzzy
+msgid "edit_wiki_navigation"
+msgstr "Edit Navigation"
+
+msgid "exc_copy"
+msgstr "Copy Exercise"
+
+msgid "exc_delete"
+msgstr "Kustuta ülesanne"
+
+msgid "exc_edit_learning_progress"
+msgstr "Muuda õpitulemusi"
+
+msgid "exc_edit_permission"
+msgstr "Muuda õiguste seadeid"
+
+#, fuzzy
+msgid "exc_edit_submissions_grades"
+msgstr "User can edit submissions and grades"
+
+msgid "exc_read"
+msgstr "Access exercise"
+
+msgid "exc_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "exc_visible"
+msgstr "Ülesanne on nähtav"
+
+msgid "exc_write"
+msgstr "Muuda ülesannet"
+
+msgid "excs_edit_permission"
+msgstr "User can change permission settings in Exercise administration"
+
+msgid "excs_read"
+msgstr "User has read access to Exercise administration"
+
+msgid "excs_visible"
+msgstr "Exercise administration is visible"
+
+msgid "excs_write"
+msgstr "Edit settings in Exercise administration"
+
+msgid "export_member_data"
+msgstr "Juurdepääs kasutaja andmetesse"
+
+msgid "facs_edit_permission"
+msgstr "Muuda õiguste seadeid"
+
+msgid "facs_read"
+msgstr "Lugemisõigused to files & foldes settings"
+
+#, fuzzy
+msgid "facs_upload_blacklisted_files"
+msgstr "Upload indexed file types despite blacklist"
+
+msgid "facs_visible"
+msgstr "Failide & kasutade seaded on nähtavad"
+
+msgid "facs_write"
+msgstr "Muuda failide & kaustade seadeid"
+
+#, fuzzy
+msgid "feed_copy"
+msgstr "User can copy webfeed"
+
+msgid "feed_delete"
+msgstr "Delete Web Feed"
+
+msgid "feed_edit_permission"
+msgstr "Change permission settings"
+
+msgid "feed_read"
+msgstr "Read access to Web Feed"
+
+msgid "feed_write"
+msgstr "Edit Web Feed"
+
+msgid "file_copy"
+msgstr "Copy File"
+
+msgid "file_delete"
+msgstr "Kustuta fail"
+
+#, fuzzy
+msgid "file_edit_file"
+msgstr "Allow to edit the file in an external editor, if available"
+
+#, fuzzy
+msgid "file_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "file_edit_permission"
+msgstr "Change Permission settings"
+
+#, fuzzy
+msgid "file_file_view_content"
+msgstr "File content presented in browser (if WOPI is active)"
+
+#, fuzzy
+msgid "file_file_view_content_short"
+msgstr "Show Content"
+
+msgid "file_read"
+msgstr "Lae fail alla"
+
+#, fuzzy
+msgid "file_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "file_visible"
+msgstr "Fail on nähtav"
+
+msgid "file_write"
+msgstr "Muuda faili"
+
+msgid "files_visible"
+msgstr "Files Visible"
+
+#, fuzzy
+msgid "fils_edit_permissions"
+msgstr "User can change permission settings of File Services administration."
+
+#, fuzzy
+msgid "fils_read"
+msgstr "User has read access to File Services administration."
+
+#, fuzzy
+msgid "fils_visible"
+msgstr "Administration of File Services is visible."
+
+#, fuzzy
+msgid "fils_write"
+msgstr "User can edit and configure File Services."
+
+msgid "filter_all_roles"
+msgstr "Näita kõiki rolle selles kontekstis"
+
+msgid "filter_global_roles"
+msgstr "Näita ainult üldiseid rolle"
+
+msgid "filter_local_roles"
+msgstr "Näita selle konteksti kohalikke rolle"
+
+msgid "filter_local_roles_object"
+msgstr "Näita ainult ainult siia määratud kohalikke rolle"
+
+msgid "filter_roles_local_policy"
+msgstr "Näita siin ainult kohalikke õigusi omavaid rolle"
+
+msgid "fld_create_poll"
+msgstr "Create Poll"
+
+msgid "fold_copy"
+msgstr "Copy Folder"
+
+msgid "fold_delete"
+msgstr "Kustuta kaust"
+
+msgid "fold_edit_learning_progress"
+msgstr "Muuda õpitulemusi"
+
+msgid "fold_edit_permission"
+msgstr "Change Permission settings"
+
+msgid "fold_read"
+msgstr "Read access to Folder"
+
+msgid "fold_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "fold_visible"
+msgstr "Folder is visible"
+
+msgid "fold_write"
+msgstr "Muuda kausta"
+
+msgid "folders_create"
+msgstr "Create Folders"
+
+msgid "folders_visible"
+msgstr "Folders Visible"
+
+msgid "frm_add_reply"
+msgstr "Users can reply to a posting"
+
+msgid "frm_add_thread"
+msgstr "Add new topi"
+
+msgid "frm_copy"
+msgstr "Copy Forum"
+
+msgid "frm_delete"
+msgstr "Kustuta foorum"
+
+#, fuzzy
+msgid "frm_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "frm_edit_permission"
+msgstr "Change permission settings"
+
+msgid "frm_moderate_frm"
+msgstr "Delete a post, censorship"
+
+msgid "frm_read"
+msgstr "Read access to Forum"
+
+#, fuzzy
+msgid "frm_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "frm_visible"
+msgstr "Foorum on nähtav"
+
+msgid "frm_write"
+msgstr "Muuda foorumit"
+
+msgid "frma_edit_permission"
+msgstr "Change permission settings"
+
+msgid "frma_read"
+msgstr "Read access to Forum Administration"
+
+msgid "frma_visible"
+msgstr "Forum Administration is visible"
+
+msgid "frma_write"
+msgstr "Write access to Forum Administration"
+
+msgid "glo_copy"
+msgstr "Copy Glossary"
+
+msgid "glo_delete"
+msgstr "Kustuta sõnastik"
+
+msgid "glo_edit_content"
+msgstr "User can edit content"
+
+msgid "glo_edit_permission"
+msgstr "Muuda õiguste seadeid"
+
+msgid "glo_read"
+msgstr "Read access to Glossary"
+
+msgid "glo_visible"
+msgstr "Sõnaraamat on nähtav"
+
+msgid "glo_write"
+msgstr "Muuda sõnaraamatut"
+
+msgid "grp_copy"
+msgstr "Copy Group"
+
+msgid "grp_delete"
+msgstr "Kustuta grupp"
+
+msgid "grp_edit_event"
+msgstr "Kalendrisündmuste muutmine"
+
+msgid "grp_edit_learning_progress"
+msgstr "Muuda õpitulemusi"
+
+msgid "grp_edit_permission"
+msgstr "Change permission settings"
+
+#, fuzzy
+msgid "grp_grade"
+msgstr "Grade Members of Group"
+
+msgid "grp_join"
+msgstr "Kasutaja võib grupiga liituda"
+
+msgid "grp_leave"
+msgstr "Kasutaja võib grupist lahkuda"
+
+#, fuzzy
+msgid "grp_manage_members"
+msgstr "Manage Members of Group"
+
+#, fuzzy
+msgid "grp_news_add_news"
+msgstr "Add and edit own news entries in group"
+
+msgid "grp_read"
+msgstr "Read access to Group"
+
+msgid "grp_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "grp_visible"
+msgstr "Grupp on nähtav"
+
+msgid "grp_write"
+msgstr "Muuda gruppi"
+
+#, fuzzy
+msgid "grpr_copy"
+msgstr "User can copy group reference"
+
+#, fuzzy
+msgid "grpr_delete"
+msgstr "User can move or delete group reference"
+
+#, fuzzy
+msgid "grpr_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "grpr_visible"
+msgstr "Group reference is visible"
+
+#, fuzzy
+msgid "grpr_write"
+msgstr "User can edit settings of group reference"
+
+msgid "grps_edit_permission"
+msgstr "User can change permission settings in Group administration"
+
+msgid "grps_read"
+msgstr "User has read access to Group administration"
+
+msgid "grps_visible"
+msgstr "Group administration is visible"
+
+msgid "grps_write"
+msgstr "Edit settings in Group administration"
+
+msgid "hlps_edit_permission"
+msgstr "User can change permissions of Help System administration."
+
+msgid "hlps_read"
+msgstr "User has read access to Help System administration."
+
+msgid "hlps_visible"
+msgstr "Help System administration is visible."
+
+msgid "hlps_write"
+msgstr "User can edit settings of Help System and upload new versions"
+
+msgid "htlm_copy"
+msgstr "Copy HTML Learning Module"
+
+msgid "htlm_delete"
+msgstr "Kustuta HTML õppemoodul"
+
+msgid "htlm_edit_learning_progress"
+msgstr "Muuda õpitulemusi"
+
+msgid "htlm_edit_permission"
+msgstr "Muuda õiguste seadeid"
+
+msgid "htlm_read"
+msgstr "Loe HTML õppemoodulit"
+
+msgid "htlm_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "htlm_visible"
+msgstr "HTML õppemoodul on nähtav"
+
+msgid "htlm_write"
+msgstr "Muuda HTML õppemoodulit"
+
+#, fuzzy
+msgid "iass_amend_grading"
+msgstr "Amend gradings in an Individual Assessment"
+
+#, fuzzy
+msgid "iass_copy"
+msgstr "Copy a Individual Assessment"
+
+#, fuzzy
+msgid "iass_delete"
+msgstr "Delete a Individual Assessment"
+
+#, fuzzy
+msgid "iass_edit_learning_progress"
+msgstr "Edit learning progress information of a Individual Assessment"
+
+#, fuzzy
+msgid "iass_edit_members"
+msgstr "Edit members of a Individual Assessment"
+
+#, fuzzy
+msgid "iass_edit_permission"
+msgstr "Edit permissions of a Individual Assessment"
+
+#, fuzzy
+msgid "iass_read"
+msgstr "Read content of a Individual Assessment"
+
+#, fuzzy
+msgid "iass_read_learning_progress"
+msgstr "View learning progress information of a Individual Assessment"
+
+#, fuzzy
+msgid "iass_visible"
+msgstr "Individual Assessment is visible"
+
+#, fuzzy
+msgid "iass_write"
+msgstr "Edit a Individual Assessment"
+
+#, fuzzy
+msgid "il_lti_global_role"
+msgstr "LTI User"
+
+#, fuzzy
+msgid "il_sess_participant"
+msgstr "Session Participant"
+
+#, fuzzy
+msgid "il_sess_status_closed"
+msgstr "Non-Participant Closed Session"
+
+msgid "ilias_id"
+msgstr "ILIAS-ID"
+
+#, fuzzy
+msgid "impr_edit_permission"
+msgstr "User can change permission settings of Legal Notice administration"
+
+#, fuzzy
+msgid "impr_read"
+msgstr "User can read in Legal Notice administration"
+
+#, fuzzy
+msgid "impr_visible"
+msgstr "Administration of Legal Notice is visible"
+
+#, fuzzy
+msgid "impr_write"
+msgstr "User can edit content and settings of Legal Notice"
+
+msgid "info_user_view_changed"
+msgstr "Kasutajavaade muudetud"
+
+msgid "internal_mail"
+msgstr "Internal Mail"
+
+msgid "invite"
+msgstr "Kutse küsitlusse"
+
+msgid "itgr_copy"
+msgstr "User can copy item group"
+
+msgid "itgr_delete"
+msgstr "User can move or delete item group"
+
+msgid "itgr_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "itgr_read"
+msgstr "User can read item group"
+
+msgid "itgr_visible"
+msgstr "Item group is visible"
+
+msgid "itgr_write"
+msgstr "User can edit content and settings of item group"
+
+msgid "leave"
+msgstr "Lahkumine"
+
+#, fuzzy
+msgid "lhts_edit_permissions"
+msgstr "User can change permission settings of Learning History administration."
+
+#, fuzzy
+msgid "lhts_read"
+msgstr "User has read access to Learning History administration."
+
+#, fuzzy
+msgid "lhts_visible"
+msgstr "Administration of Learning History is visible."
+
+#, fuzzy
+msgid "lhts_write"
+msgstr "User can edit settings of Learning History administration."
+
+msgid "lm_copy"
+msgstr "Copy ILIAS Lernmodul"
+
+msgid "lm_delete"
+msgstr "Kustuta ILIAS õpiobjekt"
+
+msgid "lm_edit_learning_progress"
+msgstr "Muuda edasijõudmist"
+
+msgid "lm_edit_permission"
+msgstr "Muuda õiguste seadeid"
+
+msgid "lm_read"
+msgstr "Read access to ILIAS Learning Module"
+
+msgid "lm_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "lm_visible"
+msgstr "ILIAS õpiobjekt on nähtav"
+
+msgid "lm_write"
+msgstr "Muuda ILIAS õpiobjekti"
+
+msgid "lngf_edit_permission"
+msgstr "Muuda õiguste seadeid"
+
+msgid "lngf_read"
+msgstr "Read access to Language settings"
+
+msgid "lngf_visible"
+msgstr "Language settings are visible"
+
+msgid "lngf_write"
+msgstr "Write access, needed for extended language maintenance"
+
+#, fuzzy
+msgid "logs_edit_permission"
+msgstr "User can edit permission settings of Logging administration"
+
+#, fuzzy
+msgid "logs_read"
+msgstr "User can read general Logging settings"
+
+#, fuzzy
+msgid "logs_visible"
+msgstr "Logging settings are visible"
+
+#, fuzzy
+msgid "logs_write"
+msgstr "User can edit Logging settings"
+
+msgid "lp_other_users"
+msgstr "See learning progress overview of other users"
+
+msgid "lrss_edit_permission"
+msgstr "Change permission settings"
+
+msgid "lrss_read"
+msgstr "Read access to Learning Resources Settings"
+
+msgid "lrss_visible"
+msgstr "Learning Resources Settings are visible"
+
+msgid "lrss_write"
+msgstr "Edit Learning Resources Settings"
+
+#, fuzzy
+msgid "lso_copy"
+msgstr "User can copy Learning Sequence"
+
+#, fuzzy
+msgid "lso_delete"
+msgstr "User can delete Learning Sequence"
+
+#, fuzzy
+msgid "lso_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "lso_edit_permission"
+msgstr "User can change permission settings of Learning Sequence"
+
+#, fuzzy
+msgid "lso_lp_other_users"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "lso_manage_members"
+msgstr "Manage members of Learning Sequence"
+
+#, fuzzy
+msgid "lso_participate"
+msgstr "User can subscribe to a Learning Sequence"
+
+#, fuzzy
+msgid "lso_read"
+msgstr "Users can access the Learning Sequence"
+
+#, fuzzy
+msgid "lso_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "lso_unparticipate"
+msgstr "User can unsubscribe from a Learning Sequence"
+
+#, fuzzy
+msgid "lso_visible"
+msgstr "Learning Sequence is visible"
+
+#, fuzzy
+msgid "lso_write"
+msgstr "User can edit settings of Learning Sequence"
+
+#, fuzzy
+msgid "lsos_edit_permission"
+msgstr "User can change permission settings of Learning Sequences administration."
+
+#, fuzzy
+msgid "lsos_read"
+msgstr "User has read access to Learning Sequences administration."
+
+#, fuzzy
+msgid "lsos_visible"
+msgstr "Administration of Learning Sequences is visible."
+
+#, fuzzy
+msgid "lsos_write"
+msgstr "User can edit settings of Learning Sequences administration."
+
+#, fuzzy
+msgid "lti_copy"
+msgstr "User can copy LTI consumer"
+
+#, fuzzy
+msgid "lti_delete"
+msgstr "User can move or delete LTI consumer"
+
+#, fuzzy
+msgid "lti_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "lti_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "lti_read"
+msgstr "User can see LTI consumer"
+
+#, fuzzy
+msgid "lti_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "lti_read_outcomes"
+msgstr "User can see learning experiences and ranking of other users"
+
+#, fuzzy
+msgid "lti_visible"
+msgstr "LTI consumer is visible"
+
+#, fuzzy
+msgid "lti_write"
+msgstr "User can edit settings of LTI consumer"
+
+#, fuzzy
+msgid "ltis_add_consume_provider"
+msgstr "User can add own provider settings for LTI consumer"
+
+#, fuzzy
+msgid "ltis_edit_permission"
+msgstr "User can change permission settings in LTI administration"
+
+#, fuzzy
+msgid "ltis_read"
+msgstr "User has read access to LTI administration "
+
+#, fuzzy
+msgid "ltis_release_objects"
+msgstr "User can release Objects for LTI Consumer"
+
+#, fuzzy
+msgid "ltis_visible"
+msgstr "LTI administration is visible"
+
+#, fuzzy
+msgid "ltis_write"
+msgstr "User can edit settings in LTI administration"
+
+msgid "mail_internal_mail"
+msgstr "User can use internal mail system (ILIAS)"
+
+msgid "mail_mail_to_global_roles"
+msgstr "User may send Emails to global roles"
+
+msgid "mail_read"
+msgstr "Read access to Mail settings"
+
+msgid "mail_smtp_mail"
+msgstr "User may send mail via SMTP"
+
+msgid "mail_to_global_roles"
+msgstr "Mail to Global Roles"
+
+msgid "mail_visible"
+msgstr "E-posti seaded on nähtavad"
+
+msgid "mail_write"
+msgstr "Muuda e-posti seadeid"
+
+#, fuzzy
+msgid "manage_all_reservations"
+msgstr "Manage All Reservations"
+
+#, fuzzy
+msgid "manage_comp"
+msgstr "User can edit Competences"
+
+#, fuzzy
+msgid "manage_comp_temp"
+msgstr "User can edit Competence Templates"
+
+#, fuzzy
+msgid "manage_materials"
+msgstr "Manage Materials"
+
+#, fuzzy
+msgid "manage_own_reservations"
+msgstr "Manage Own Reservations"
+
+#, fuzzy
+msgid "manage_profiles"
+msgstr "User can edit Competence Profiles"
+
+msgid "mcst_copy"
+msgstr "Copy MediaCast"
+
+msgid "mcst_delete"
+msgstr "Delete Mediacast"
+
+#, fuzzy
+msgid "mcst_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "mcst_edit_permission"
+msgstr "Change permission settings"
+
+msgid "mcst_read"
+msgstr "Read access to MediaCast"
+
+#, fuzzy
+msgid "mcst_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "mcst_visible"
+msgstr "MediaCast is visible"
+
+msgid "mcst_write"
+msgstr "Edit MediaCast"
+
+msgid "mcts_edit_permission"
+msgstr "Muuda õiguste seadeid"
+
+msgid "mcts_read"
+msgstr "Lugemisõigused to mediacast settings"
+
+msgid "mcts_visible"
+msgstr "Meedialevi seaded on nähtavad"
+
+msgid "mcts_write"
+msgstr "Muuda meedialevi seadeid"
+
+msgid "mds_edit_permission"
+msgstr "Muuda õiguste seadeid"
+
+msgid "mds_read"
+msgstr "Metaandmete seadete lugemisõigused"
+
+msgid "mds_visible"
+msgstr "Metaandmete seaded on nähtavad"
+
+msgid "mds_write"
+msgstr "Muuda metaandmete seadistust"
+
+#, fuzzy
+msgid "mep_copy"
+msgstr "User can copy media pool"
+
+msgid "mep_delete"
+msgstr "Kustuta meediabassein"
+
+msgid "mep_edit_permission"
+msgstr "Muuda õiguste seadeid"
+
+msgid "mep_read"
+msgstr "Read Media Pool Content"
+
+msgid "mep_visible"
+msgstr "Meediabassein on nähtav"
+
+msgid "mep_write"
+msgstr "Muuda meediabasseini sisu"
+
+#, fuzzy
+msgid "mme_edit_permission"
+msgstr "User can change permission settings of Main Menu administration"
+
+#, fuzzy
+msgid "mme_read"
+msgstr "User has read access to administration of Main Menu"
+
+#, fuzzy
+msgid "mme_visible"
+msgstr "Administration of Main Menu is visible"
+
+#, fuzzy
+msgid "mme_write"
+msgstr "User can edit settings of Main Menu administration"
+
+msgid "mobs_edit_permission"
+msgstr "Change permission settings"
+
+msgid "mobs_read"
+msgstr "Read access to Media Objects/Pools Settings"
+
+msgid "mobs_visible"
+msgstr "Media Objects/Pools Settings are visible"
+
+msgid "mobs_write"
+msgstr "Edit Media Objects/Pools Settings"
+
+msgid "moderate"
+msgstr "Moderate"
+
+msgid "moderate_frm"
+msgstr "Modereeri"
+
+#, fuzzy
+msgid "msg_anonymous_cannot_be_assigned"
+msgstr "Anonymous cannot be assigned to a role."
+
+msgid "msg_no_roles_of_type"
+msgstr "Valitud filtriseadetele vastavad rollid puuduvad"
+
+#, fuzzy
+msgid "news_add_news"
+msgstr "Add News"
+
+#, fuzzy
+msgid "no_corresponding_roles"
+msgstr "No corresponding roles could be found."
+
+#, fuzzy
+msgid "nots_edit_permission"
+msgstr "User can change permission settings of Notes administration."
+
+#, fuzzy
+msgid "nots_read"
+msgstr "User has read access to Notes administration."
+
+#, fuzzy
+msgid "nots_visible"
+msgstr "Administration of Notes is visible."
+
+#, fuzzy
+msgid "nots_write"
+msgstr "User can edit settings of Notes administration."
+
+msgid "nwss_edit_permission"
+msgstr "Change permission settings"
+
+msgid "nwss_read"
+msgstr "Read access to News and Web Feeds Settings"
+
+msgid "nwss_visible"
+msgstr "News and Web Feeds Settings are visible"
+
+msgid "nwss_write"
+msgstr "Edit News and Web Feeds Settings"
+
+#, fuzzy
+msgid "obj_skee"
+msgstr "Competence Tree"
+
+#, fuzzy
+msgid "org_op_access_results"
+msgstr "Access Results of Subordinated Users"
+
+#, fuzzy
+msgid "org_op_edit_submissions_grades"
+msgstr "Edit submissions of other users"
+
+#, fuzzy
+msgid "org_op_manage_participants"
+msgstr "Manage Subordinated Participants"
+
+#, fuzzy
+msgid "org_op_score_participants"
+msgstr "Score Subordinated Participants"
+
+#, fuzzy
+msgid "org_op_view_certificates"
+msgstr "View certificates of subordinated users"
+
+#, fuzzy
+msgid "org_op_view_competences"
+msgstr "View competences of subordinated users"
+
+#, fuzzy
+msgid "org_op_write_learning_progress"
+msgstr "Set learning Progress of Subordinate Users"
+
+msgid "orgu_cat_administrate_users"
+msgstr "User can create and administrate local user accounts in this Organisational Unit"
+
+msgid "orgu_copy"
+msgstr "Copy Organisational Unit"
+
+msgid "orgu_delete"
+msgstr "User can move or delete Organisational Unit"
+
+msgid "orgu_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "orgu_read"
+msgstr "User has read access to Organisational Unit"
+
+msgid "orgu_read_users"
+msgstr "User can read local user accounts created in this Organisational Unit"
+
+msgid "orgu_view_learning_progress"
+msgstr "View Learning Progress"
+
+msgid "orgu_view_learning_progress_rec"
+msgstr "View Learning Progress of Unit incl. Subunits"
+
+msgid "orgu_visible"
+msgstr "Organisational Unit is visible"
+
+msgid "orgu_write"
+msgstr "User can edit settings of Organisational Unit"
+
+msgid "otpl_edit_permission"
+msgstr "Muuda õiguste seadeid"
+
+msgid "otpl_read"
+msgstr "Read Access to Object Template Settings"
+
+msgid "otpl_visible"
+msgstr "Object Template Settings are visible"
+
+msgid "otpl_write"
+msgstr "Edit Object Template Settings"
+
+msgid "perm_class_create"
+msgstr "Loo uus objekt"
+
+msgid "perm_class_create_desc"
+msgstr "Määra, millist objektitüüpi on võimalik selle objekti all luua."
+
+msgid "perm_class_object"
+msgstr "Eritoimingud"
+
+msgid "perm_class_object_desc"
+msgstr "Objektikesksed toimingud, võimalikud ainult mõnedes objektitüüpides."
+
+msgid "perm_global_role"
+msgstr "Üldine roll"
+
+msgid "perm_local_role"
+msgstr "Kohalik roll"
+
+msgid "perm_local_role_desc"
+msgstr "See roll on käesolevas objektis määratud kohalikuks kasutuseks ja vastab kohalikule poliitikale."
+
+msgid "perm_protected_global_role"
+msgstr "Kaitstud üldine roll"
+
+msgid "perm_protected_local_role"
+msgstr "Kaitstud kohalik roll"
+
+msgid "perm_role_path_info_created"
+msgstr "Loodud %1$s \"%2$s\""
+
+msgid "perm_role_path_info_inheritance"
+msgstr "using local policy from %1$s \"%2$s\""
+
+msgid "perm_use_local_policy"
+msgstr "Kohalikud õigused"
+
+msgid "perm_use_local_policy_desc"
+msgstr "Kui kohalikud õigused on aktiveeritud, võid objekti jaoks määrata erinevaid vaikimisi kehtivaid õigusi."
+
+msgid "poll_copy"
+msgstr "User can copy poll"
+
+msgid "poll_delete"
+msgstr "User can move or delete poll"
+
+msgid "poll_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "poll_read"
+msgstr "User can participate at poll"
+
+msgid "poll_visible"
+msgstr "Poll is visible"
+
+msgid "poll_write"
+msgstr "User can edit poll settings and content"
+
+#, fuzzy
+msgid "positions_override_operations"
+msgstr "Override global Settings"
+
+msgid "precondition_not_obligatory_alt"
+msgstr "Precondition is optional"
+
+msgid "precondition_num_obligatory"
+msgstr "Nõutavate materjalide hulk"
+
+msgid "precondition_num_optional_info"
+msgstr "Please enter the minimum number of materials which is required for fullfilling this precondition."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_bigger_preconditions_number"
+msgstr "The number of required materials must be less than the total number of preconditions."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_lower_compulsory_items"
+msgstr "The number of required materials must be greater than the number of compulsory preconditions."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_lower_than_one"
+msgstr "The number of required materials must be at least 1."
+
+msgid "precondition_obligatory"
+msgstr "Kohustuslik"
+
+msgid "precondition_obligatory_alt"
+msgstr "Eeltingimused peavad olema täidetud"
+
+msgid "precondition_obligatory_info"
+msgstr "Juurdepääsuks tuleb täita kohustuslikud eeltingimused."
+
+msgid "precondition_obligatory_settings"
+msgstr "Eeltingimuste seaded"
+
+#, fuzzy
+msgid "precondition_operator_range_err_min_max"
+msgstr "The minimum value must be less than the maximum value."
+
+#, fuzzy
+msgid "precondition_operator_range_max"
+msgstr "Maximum Percentage"
+
+#, fuzzy
+msgid "precondition_operator_range_min"
+msgstr "Minimum Percentage"
+
+msgid "prfa_edit_permission"
+msgstr "Change permission settings"
+
+msgid "prfa_read"
+msgstr "Read access to Portfolio Administration"
+
+msgid "prfa_visible"
+msgstr "Portfolio Administration is visible"
+
+msgid "prfa_write"
+msgstr "Edit Portfolio Administration"
+
+#, fuzzy
+msgid "prg_copy"
+msgstr "User can copy Study Programme"
+
+#, fuzzy
+msgid "prg_delete"
+msgstr "User can delete Study Programme"
+
+#, fuzzy
+msgid "prg_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "prg_manage_members"
+msgstr "Manage members of Study Programme"
+
+#, fuzzy
+msgid "prg_read"
+msgstr "User has read access to Study Programme"
+
+#, fuzzy
+msgid "prg_visible"
+msgstr "Study Programme is visible"
+
+#, fuzzy
+msgid "prg_write"
+msgstr "User can edit settings of Study Programme"
+
+#, fuzzy
+msgid "prgr_copy"
+msgstr "User can copy links to study programmes."
+
+#, fuzzy
+msgid "prgr_delete"
+msgstr "User can move or delete links to study programmes."
+
+#, fuzzy
+msgid "prgr_edit_permission"
+msgstr "User can change permission settings."
+
+#, fuzzy
+msgid "prgr_visible"
+msgstr "Links to study programmes are visible and can be used"
+
+#, fuzzy
+msgid "prgr_write"
+msgstr "User can edit settings of links to study programmes."
+
+#, fuzzy
+msgid "prgs_edit_permission"
+msgstr "Change permission settings in Study Programme administration"
+
+#, fuzzy
+msgid "prgs_read"
+msgstr "User has read access to Study Programme administration"
+
+#, fuzzy
+msgid "prgs_visible"
+msgstr "Study Programme administration is visible"
+
+#, fuzzy
+msgid "prgs_write"
+msgstr "Edit settings in Study Programme administration"
+
+#, fuzzy
+msgid "prss_edit_permission"
+msgstr "User can change permission settings of Personal Resources administration."
+
+#, fuzzy
+msgid "prss_read"
+msgstr "User has read access to Personal Resources administration."
+
+#, fuzzy
+msgid "prss_visible"
+msgstr "Administration of Personal Resources is visible."
+
+#, fuzzy
+msgid "prss_write"
+msgstr "User can edit settings of Personal Resources administration."
+
+msgid "prtt_copy"
+msgstr "User can copy portfolio template"
+
+msgid "prtt_delete"
+msgstr "User can move or delete portfolio template"
+
+msgid "prtt_edit_permission"
+msgstr "User can change permission settings for portfolio template"
+
+msgid "prtt_read"
+msgstr "User has read access to portfolio template"
+
+msgid "prtt_visible"
+msgstr "Portfolio Template is visible"
+
+msgid "prtt_write"
+msgstr "User can edit settings and content of portfolio template"
+
+msgid "ps_edit_permission"
+msgstr "Change Permission Settings"
+
+msgid "ps_export_member_data"
+msgstr "User may Export Member Data"
+
+msgid "ps_read"
+msgstr "Read Access to Privacy/Security Settings"
+
+msgid "ps_visible"
+msgstr "Privacy/Security Settings are Visible"
+
+msgid "ps_write"
+msgstr "Edit Privacy/Security"
+
+#, fuzzy
+msgid "push_desktop_items"
+msgstr "Recommend Content"
+
+msgid "qpl_copy"
+msgstr "Copy Test Question Pool"
+
+msgid "qpl_delete"
+msgstr "Kustuta testi küsimustebassein"
+
+msgid "qpl_edit_permission"
+msgstr "Change permission settings"
+
+msgid "qpl_read"
+msgstr "Read access to Question Pool for Test"
+
+msgid "qpl_visible"
+msgstr "Question Pool for Test is visible"
+
+msgid "qpl_write"
+msgstr "Muuda testi küsimustebasseini"
+
+msgid "rbac_add_new_local_role"
+msgstr "Lisa uus kohalik roll"
+
+#, fuzzy
+msgid "rbac_add_recommended_content"
+msgstr "Recommended Content"
+
+#, fuzzy
+msgid "rbac_add_recommended_content_info"
+msgstr "Adds the current object '%1' for all members of the role as recommended content."
+
+msgid "rbac_admin_permissions"
+msgstr "Halduri õigused"
+
+msgid "rbac_auto_global"
+msgstr "Automaatselt loodud üldine roll"
+
+msgid "rbac_auto_local"
+msgstr "Automaatselt loodud kohalik roll"
+
+msgid "rbac_auto_rolt"
+msgstr "Automaatselt loodud rolli mall"
+
+msgid "rbac_back_to_overview"
+msgstr "Tagasi rollide loendisse"
+
+msgid "rbac_cant_import_role_wrong_type"
+msgstr "Can't import a role from item %s into item %s."
+
+msgid "rbac_change_existing_confirm_tbl"
+msgstr "Seaded \"Muuda olemasolevaid objekte\""
+
+msgid "rbac_change_existing_objects_desc_new_role"
+msgstr "The permission settings of this role will be adpoted to ALL existing objects."
+
+msgid "rbac_changes"
+msgstr "Muudatused"
+
+msgid "rbac_choose_copy_targets"
+msgstr "Please enter a quer for selecting the target roles."
+
+msgid "rbac_condition_delete_sure"
+msgstr "Are you sure you want to delete the following preconditions?"
+
+msgid "rbac_context_global"
+msgstr "Üldine"
+
+msgid "rbac_copy_behaviour"
+msgstr "Role Copy Settings"
+
+#, fuzzy
+msgid "rbac_copy_behaviour_info"
+msgstr "Transfer Permissions from: %s to: %s"
+
+msgid "rbac_copy_finished"
+msgstr "Kopeerimine lõpetatud."
+
+#, fuzzy
+msgid "rbac_copy_multi_targets"
+msgstr "%s, %s and %s further Roles selected%s"
+
+#, fuzzy
+msgid "rbac_copy_no_targets"
+msgstr "At least one Role must be selected as Target"
+
+msgid "rbac_copy_role"
+msgstr "Kopeeri roll"
+
+msgid "rbac_copy_role_add_perm"
+msgstr "Add Permissions"
+
+msgid "rbac_copy_role_copy"
+msgstr "Copy Permissions"
+
+msgid "rbac_copy_role_remove_perm"
+msgstr "Remove Permissions"
+
+msgid "rbac_create_bibl"
+msgstr "Create Bibliography"
+
+msgid "rbac_create_blog"
+msgstr "Create Blog"
+
+msgid "rbac_create_book"
+msgstr "Create Booking Pool"
+
+msgid "rbac_create_cat"
+msgstr "User may create Categories"
+
+msgid "rbac_create_catr"
+msgstr "Create Category Reference"
+
+msgid "rbac_create_chtr"
+msgstr "Create Chatroom"
+
+#, fuzzy
+msgid "rbac_create_cmix"
+msgstr "Create xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "rbac_create_copa"
+msgstr "Create Content Page"
+
+msgid "rbac_create_crs"
+msgstr "Create Course"
+
+msgid "rbac_create_crsr"
+msgstr "Create Course Referenc"
+
+msgid "rbac_create_dcl"
+msgstr "Create Data Collection"
+
+msgid "rbac_create_exc"
+msgstr "Create Exercise"
+
+msgid "rbac_create_file"
+msgstr "Upload File"
+
+msgid "rbac_create_fold"
+msgstr "Loo kaust"
+
+msgid "rbac_create_frm"
+msgstr "Create Forum"
+
+msgid "rbac_create_glo"
+msgstr "Create Glossary"
+
+msgid "rbac_create_grp"
+msgstr "Create Group"
+
+#, fuzzy
+msgid "rbac_create_grpr"
+msgstr "Create Group Reference"
+
+msgid "rbac_create_htlm"
+msgstr "Create HTML Learning Module"
+
+#, fuzzy
+msgid "rbac_create_iass"
+msgstr "Create Individual Assessment"
+
+msgid "rbac_create_itgr"
+msgstr "Create Item Group"
+
+msgid "rbac_create_lm"
+msgstr "Create ILIAS Learning Module"
+
+#, fuzzy
+msgid "rbac_create_lso"
+msgstr "Create Learning Sequence"
+
+#, fuzzy
+msgid "rbac_create_lti"
+msgstr "Create LTI Consumer"
+
+msgid "rbac_create_mcst"
+msgstr "Create Mediacast"
+
+msgid "rbac_create_mep"
+msgstr "Create Media Pool"
+
+msgid "rbac_create_orgu"
+msgstr "Create Organisational Units"
+
+msgid "rbac_create_poll"
+msgstr "Create Poll"
+
+#, fuzzy
+msgid "rbac_create_prg"
+msgstr "Create Study Programme"
+
+#, fuzzy
+msgid "rbac_create_prgr"
+msgstr "Create link to study programme"
+
+msgid "rbac_create_prtt"
+msgstr "Create Portfolio Template"
+
+msgid "rbac_create_qpl"
+msgstr "Create Question Pool Test"
+
+msgid "rbac_create_rcrs"
+msgstr "Create Course-Link"
+
+msgid "rbac_create_role"
+msgstr "Create new Role"
+
+msgid "rbac_create_rolt"
+msgstr "Create new Role Template"
+
+msgid "rbac_create_sahs"
+msgstr "Create SCORM/AICC Learning Module"
+
+msgid "rbac_create_sess"
+msgstr "Create Session"
+
+#, fuzzy
+msgid "rbac_create_skee"
+msgstr "Create Competence Tree"
+
+msgid "rbac_create_spl"
+msgstr "Create Question Pool Survey"
+
+msgid "rbac_create_svy"
+msgstr "Create Survey"
+
+msgid "rbac_create_tst"
+msgstr "Create Test"
+
+msgid "rbac_create_usr"
+msgstr "User is allowed to create user accounts"
+
+msgid "rbac_create_webr"
+msgstr "Create Weblink"
+
+msgid "rbac_create_wiki"
+msgstr "Create Wiki"
+
+msgid "rbac_delete_local_policies"
+msgstr "Kustuta kohalik reeglistik"
+
+msgid "rbac_delete_local_policies_info"
+msgstr "If activated, all local policies will be deleted. The object permissions will be rewritten and protected."
+
+msgid "rbac_delete_role"
+msgstr "Kustuta roll"
+
+msgid "rbac_edit_condition"
+msgstr "Edit Precondition"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_button"
+msgstr "Rechte anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type"
+msgstr "Typ der Rechteanpassung"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_add"
+msgstr "Rechte hinzufügen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_add_info"
+msgstr "Fügt MARKIERTE Rechte der ausgewählten globalen Rollenvorlage zu den lokalen Rechtevorgabe hinzu."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_clone"
+msgstr "Rechte kopieren"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_clone_info"
+msgstr "Alle Rechte der ausgewählten globalen Rollenvorlage überschreiben alle lokalen Rechtevorgaben."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_remove"
+msgstr "Rechte entfernen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_remove_info"
+msgstr "Entfernt die MARKIERTEN Rechte der ausgewählten globalen Rollenvorlage aus den lokalen Rechtevorgaben."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_no_info"
+msgstr "Vorhandene lokale Rechtevorgaben entsprechend ergänzt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_yes"
+msgstr "Vorhandene Objekte nur um ausgewählte Rechte ergänzen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_yes_info"
+msgstr "Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend ergänzt."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_no_info"
+msgstr "Vorhandene lokale Rechtevorgaben werden überschrieben, die vorhandenen Objekte werden nicht in ihren Rechten angepasst."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_yes"
+msgstr "Vorhandene Objekte ändern"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_yes_info"
+msgstr "Vorhandene lokale Rechtevorgaben entsprechend überschreiben und IN GÄNZE mit allen gecheckten und ungecheckten Vorgaben auf vorhandene Objekte angewendet."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_no_info"
+msgstr "Markierte Rechte werden aus vorhandenen lokalen Rechtevorgaben entfernt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_yes"
+msgstr "Vorhandene Objekte nur um ausgewählte Rechte reduzieren"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_yes_info"
+msgstr "Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend reduziert."
+
+msgid "rbac_global_rolt"
+msgstr "Üldise rolli mall"
+
+msgid "rbac_import_role"
+msgstr "Import Role"
+
+#, fuzzy
+msgid "rbac_info_only_position_access"
+msgstr "You are presented only with those members with a Position within your organisational unit. Members with other organisational Positions are not shown to you but may reside in this coures without being shown to you."
+
+msgid "rbac_keep_local_policies"
+msgstr "Säilita kohalik reeglistik"
+
+msgid "rbac_keep_local_policies_info"
+msgstr "Choose this mode for keeping all local policies. The object permissions will be adapted to these policies and afterwards protected."
+
+msgid "rbac_local_policies"
+msgstr "Kohalik reeglistik"
+
+msgid "rbac_local_policy"
+msgstr "Kohalik reeglistik"
+
+msgid "rbac_log"
+msgstr "Logi"
+
+msgid "rbac_log_change_owner"
+msgstr "Muuda objekti omanikku"
+
+msgid "rbac_log_changed_owner"
+msgstr "Muudetud omanikuks"
+
+msgid "rbac_log_copy_object"
+msgstr "Kopeeri objekt"
+
+msgid "rbac_log_create_object"
+msgstr "Loo objekt"
+
+msgid "rbac_log_edit_permissions"
+msgstr "Muuda õigusi"
+
+msgid "rbac_log_edit_template"
+msgstr "Muuda rollimalli"
+
+msgid "rbac_log_edit_template_existing"
+msgstr "Kasuta olemasolevate objektide jaoks rollimalli"
+
+msgid "rbac_log_inheritance_add"
+msgstr "Stopped Inheritance for \"%s\""
+
+#, fuzzy
+msgid "rbac_log_inheritance_rmv"
+msgstr "Allowed Inheritance for \"%s\""
+
+msgid "rbac_log_link_object"
+msgstr "Lingi objekt"
+
+msgid "rbac_log_move_object"
+msgstr "Liiguta objekt"
+
+msgid "rbac_log_operation_add"
+msgstr "Lisatud käsk \"%s\" jaoks"
+
+#, fuzzy
+msgid "rbac_log_operation_rmv"
+msgstr "Removed Operation for \"%s\""
+
+msgid "rbac_log_source_object"
+msgstr "Allika objekt"
+
+msgid "rbac_msg_user_already_assigned"
+msgstr "The chosen users are already assigned to this role."
+
+msgid "rbac_not_change_existing_objects"
+msgstr "Ära muuda olemasolevaid olemeid"
+
+#, fuzzy
+msgid "rbac_permissions"
+msgstr "Permissions"
+
+#, fuzzy
+msgid "rbac_precondition_condition"
+msgstr "Access requires having this status"
+
+msgid "rbac_precondition_hide"
+msgstr "Hide Object"
+
+msgid "rbac_precondition_hide_info"
+msgstr " This option allows to hide the object for users who currently have not fulfilled the preconditions. Therefore, all not accessible content is invisible."
+
+msgid "rbac_precondition_minimum_optional"
+msgstr "Vähemalt 2 valikut peavad jääma valikuliseks."
+
+msgid "rbac_precondition_mode"
+msgstr "Olek"
+
+msgid "rbac_precondition_mode_all"
+msgstr "Kõik eeltingimused"
+
+msgid "rbac_precondition_mode_all_info"
+msgstr "Juurdepääsuks on vaja täita kõik eeltingimused."
+
+msgid "rbac_precondition_mode_subset"
+msgstr "Eeltingimuste alamhulk"
+
+msgid "rbac_precondition_mode_subset_info"
+msgstr "Osa eeltingimustest tuleb juurdepääsuks täita. Mõned neist võib määrata kohustulikult täitmiseks."
+
+msgid "rbac_precondition_save_obligatory"
+msgstr "Salvesta kohustulik"
+
+msgid "rbac_precondition_source"
+msgstr "Tingimuse käiviti"
+
+msgid "rbac_precondition_target"
+msgstr "Condition limits access to"
+
+msgid "rbac_repository_permissions"
+msgstr "Varamu õigused"
+
+msgid "rbac_role_delete_qst"
+msgstr "Are you sure you want to delete the following role?<br />All permissions granted by this role will be deleted permanently."
+
+msgid "rbac_role_delete_self"
+msgstr "<strong>Tähelepanu:</strong> See roll on sulle määratud. Kui jätkad kustutamisoperatsiooni, võid kaotada ligipääse mõnedele ILIASe materjalidele."
+
+msgid "rbac_role_exists_alert"
+msgstr "A role with the same name already exists in this context. Please choose another name."
+
+msgid "rbac_role_imported"
+msgstr "The role has been imported."
+
+msgid "rbac_role_rights_copy"
+msgstr "Kopeerimise õigused"
+
+msgid "rbac_role_rights_copy_change_existing"
+msgstr "Muuda olemasolevaid objekte"
+
+msgid "rbac_role_rights_copy_empty"
+msgstr "Pole"
+
+msgid "rbac_role_selection"
+msgstr "Rolli tüüp"
+
+msgid "rbac_role_title"
+msgstr "Rolli nimetus"
+
+msgid "rbac_select_copy_targets"
+msgstr "Please select the target roles"
+
+msgid "rbac_select_roles"
+msgstr "Role Selection"
+
+msgid "rbac_ud_global"
+msgstr "User defined global role"
+
+msgid "rbac_ud_local"
+msgstr "User defined local role"
+
+msgid "rbac_ud_rolt"
+msgstr "User defined role template"
+
+msgid "rbac_unprotected_delete_local_policies_info"
+msgstr "Kui aktiveeritud, kustuvad kõik kohalikud õigused. Kursuste ja gruppide õigused tuleb uuesti määrata."
+
+msgid "rbac_unprotected_keep_local_policies_info"
+msgstr "Choose this mode to keep all local policies."
+
+#, fuzzy
+msgid "rbac_view_content"
+msgstr "View Content"
+
+msgid "rcat_delete"
+msgstr "User can move or delete ECS Category"
+
+msgid "rcat_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "rcat_read"
+msgstr "User can use ECS Category"
+
+msgid "rcat_visible"
+msgstr "ECS Category is visible"
+
+msgid "rcat_write"
+msgstr "User can edit settings of ECS Category"
+
+msgid "rcrs_delete"
+msgstr "Kursuse lingi kustutamine"
+
+msgid "rcrs_edit_permission"
+msgstr "Muuda õiguste seadeid"
+
+msgid "rcrs_read"
+msgstr "Kursuse lingi lugemisõigused"
+
+msgid "rcrs_visible"
+msgstr "Kursuse link on nähtav"
+
+msgid "rcrs_write"
+msgstr "Kursuse lingi muutmine"
+
+#, fuzzy
+msgid "read_all_accounts"
+msgstr "Read All Accounts"
+
+#, fuzzy
+msgid "read_comp"
+msgstr "User has read access to Competences and Competence Templates"
+
+msgid "read_learning_progress"
+msgstr "View learning progress of other users"
+
+#, fuzzy
+msgid "read_outcomes"
+msgstr "View learning experiences of other users"
+
+#, fuzzy
+msgid "read_profiles"
+msgstr "User has read access to Competence Profiles"
+
+#, fuzzy
+msgid "read_results"
+msgstr "Survey Results"
+
+msgid "read_users"
+msgstr "Lugemispääs kohalikke kasutajakontodesse"
+
+msgid "recf_edit_permission"
+msgstr "Muuda õiguste seadeid"
+
+msgid "recf_read"
+msgstr "Lugemisõigused to Restored Objects"
+
+msgid "recf_visible"
+msgstr "Restored Objects are visible"
+
+msgid "recf_write"
+msgstr "Muuda taastatud objekte"
+
+#, fuzzy
+msgid "redact"
+msgstr "Redact"
+
+#, fuzzy
+msgid "release_objects"
+msgstr "Release Objects"
+
+msgid "reps_edit_permission"
+msgstr "User can change permission settings in Repository administration"
+
+msgid "reps_read"
+msgstr "User has read access to Repository administration"
+
+msgid "reps_visible"
+msgstr "Repository administration is visible"
+
+msgid "reps_write"
+msgstr "Edit settings in Repository administration"
+
+msgid "rfil_delete"
+msgstr "User can move or delete ECS File"
+
+msgid "rfil_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "rfil_read"
+msgstr "User can use ECS File"
+
+msgid "rfil_visible"
+msgstr "ECS File is visible"
+
+msgid "rfil_write"
+msgstr "User can edit settings of ECS File"
+
+msgid "rglo_delete"
+msgstr "User can move or delete ECS Glossary"
+
+msgid "rglo_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "rglo_read"
+msgstr "User can use ECS Glossary"
+
+msgid "rglo_visible"
+msgstr "ECS Glossary is visible"
+
+msgid "rglo_write"
+msgstr "User can edit settings of ECS Glossary"
+
+msgid "rgrp_delete"
+msgstr "User can move or delete ECS Group"
+
+msgid "rgrp_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "rgrp_read"
+msgstr "User can use ECS Group"
+
+msgid "rgrp_visible"
+msgstr "ECS Group is visible"
+
+msgid "rgrp_write"
+msgstr "User can edit settings of ECS Group"
+
+msgid "rlm_delete"
+msgstr "User can move or delete ECS Learning Module"
+
+msgid "rlm_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "rlm_read"
+msgstr "User can use ECS Learning Module"
+
+msgid "rlm_visible"
+msgstr "ECS Learning Module is visible"
+
+msgid "rlm_write"
+msgstr "User can edit settings of ECS Learning Module"
+
+msgid "role_block_role"
+msgstr "Blokeeri roll"
+
+msgid "role_block_role_desc"
+msgstr "The access to this and all subordinated objects is will be revoked."
+
+#, fuzzy
+msgid "role_blocked"
+msgstr ": <i>Role will be blocked</i>"
+
+#, fuzzy
+msgid "role_confirm_block_role"
+msgstr "Save Role Status"
+
+msgid "role_confirm_block_role_header"
+msgstr "Soovite valitud rollid tõepoolest blokeerida?"
+
+msgid "role_confirm_block_role_info"
+msgstr "Tehakse järgnevad tegevused :<br /><br />- rolli õigused sellele ja alamobjektidele blokeeritakse.<br />- kaitstakse uued õiguste seaded."
+
+#, fuzzy
+msgid "role_confirm_unblock_role_info"
+msgstr "The following steps will be performed for the action \"Unblock Role\":<br /><br />- the local policy will be deleted."
+
+#, fuzzy
+msgid "role_unblocked"
+msgstr ": <i>Role will be unblocked</i>"
+
+msgid "root_edit_permission"
+msgstr "Change permission settings"
+
+msgid "root_read"
+msgstr "Read access to ILIAS system"
+
+msgid "root_visible"
+msgstr "ILIASe süsteem on nähtav"
+
+msgid "root_write"
+msgstr "Edit metadata of system root node"
+
+msgid "rtst_delete"
+msgstr "User can move or delete ECS Test"
+
+msgid "rtst_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "rtst_read"
+msgstr "User can use ECS Test"
+
+msgid "rtst_visible"
+msgstr "ECS Test is visible"
+
+msgid "rtst_write"
+msgstr "User can edit settings of ECS Test"
+
+msgid "rwik_delete"
+msgstr "User can move or delete ECS Wiki"
+
+msgid "rwik_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "rwik_read"
+msgstr "User can use ECS Wiki"
+
+msgid "rwik_visible"
+msgstr "ECS Wiki is visible"
+
+msgid "rwik_write"
+msgstr "User can edit settings of ECS Wiki"
+
+msgid "sahs_copy"
+msgstr "User can copy SCORM/AICC learning module"
+
+msgid "sahs_delete"
+msgstr "Kustuta  SCORM/AICC õppemoodul"
+
+msgid "sahs_edit_learning_progress"
+msgstr "Muuda õpitulemusi"
+
+msgid "sahs_edit_permission"
+msgstr "Change permission settings"
+
+msgid "sahs_read"
+msgstr "Read access to SCORM/AICC Learning Module"
+
+msgid "sahs_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "sahs_visible"
+msgstr "SCORM/AICC õppemoodul on nähtav"
+
+msgid "sahs_write"
+msgstr "Muuda SCORM/AICC õppemoodulit"
+
+msgid "seas_edit_permission"
+msgstr "Muuda õiguste seadeid"
+
+msgid "seas_read"
+msgstr "Read search settings"
+
+msgid "seas_search"
+msgstr "Luba kasutada otsingut"
+
+msgid "seas_visible"
+msgstr "Otsingu seaded on nähtavad"
+
+msgid "seas_write"
+msgstr "Muuda otsingu seadeid"
+
+msgid "sess_copy"
+msgstr "Kopeeri kohtumine"
+
+msgid "sess_delete"
+msgstr "Kustuta kohtumine"
+
+msgid "sess_edit_event"
+msgstr "Kalendrisündmuste muutmine"
+
+#, fuzzy
+msgid "sess_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "sess_edit_metadata"
+msgstr "Edit Metadata"
+
+msgid "sess_edit_permission"
+msgstr "Muuda õiguste seadeid"
+
+#, fuzzy
+msgid "sess_manage_materials"
+msgstr "Manage Session Materials"
+
+#, fuzzy
+msgid "sess_manage_members"
+msgstr "Manage Participants of a Session"
+
+msgid "sess_read"
+msgstr "Lugemisõigused kohtumistes"
+
+msgid "sess_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "sess_visible"
+msgstr "Kohtumised on nähtavad"
+
+msgid "sess_write"
+msgstr "Muuda kohtumisi"
+
+#, fuzzy
+msgid "skee_copy"
+msgstr "User can copy Competence Tree (currently not available)"
+
+#, fuzzy
+msgid "skee_delete"
+msgstr "User can delete Competence Tree"
+
+#, fuzzy
+msgid "skee_edit_permission"
+msgstr "User can change permission settings of Competence Tree administration"
+
+#, fuzzy
+msgid "skee_manage_comp"
+msgstr "User can edit Competences in Competence Tree"
+
+#, fuzzy
+msgid "skee_manage_comp_temp"
+msgstr "User can edit Competence Templates in Competence Tree"
+
+#, fuzzy
+msgid "skee_manage_profiles"
+msgstr "User can edit Competence Profiles in Competence Tree"
+
+#, fuzzy
+msgid "skee_read"
+msgstr "User has read access to administration of Competence Tree"
+
+#, fuzzy
+msgid "skee_read_comp"
+msgstr "User has read access to Competences and Competence Templates in Competence Tree"
+
+#, fuzzy
+msgid "skee_read_profiles"
+msgstr "User has read access to Competence Profiles in Competence Tree"
+
+#, fuzzy
+msgid "skee_visible"
+msgstr "Competence Tree is visible"
+
+#, fuzzy
+msgid "skee_write"
+msgstr "User can edit settings of Competence Tree"
+
+msgid "skmg_edit_permission"
+msgstr "Change permission settings"
+
+msgid "skmg_read"
+msgstr "Read access to Skill Management"
+
+msgid "skmg_visible"
+msgstr "Skill Management is visible"
+
+msgid "skmg_write"
+msgstr "Edit Skill Management"
+
+msgid "smtp_mail"
+msgstr "Saada kiri"
+
+msgid "spl_copy"
+msgstr "Copy Survey Question Pool"
+
+msgid "spl_delete"
+msgstr "Delete Question Pool for Survey"
+
+msgid "spl_edit_permission"
+msgstr "Change permission settings"
+
+msgid "spl_read"
+msgstr "Read access to Question Pool for Survey"
+
+msgid "spl_visible"
+msgstr "Question Pool for Survey is visible"
+
+msgid "spl_write"
+msgstr "Edit Question Pool for Survey"
+
+msgid "statistics_read"
+msgstr "View Statistics"
+
+#, fuzzy
+msgid "stus_edit_permission"
+msgstr "User can change permission settings in Shortlink administration"
+
+#, fuzzy
+msgid "stus_read"
+msgstr "User can see the Shortlink Administration"
+
+#, fuzzy
+msgid "stus_write"
+msgstr "User can edit Shortlinks"
+
+#, fuzzy
+msgid "sty_write_content"
+msgstr "Edit Content Styles"
+
+#, fuzzy
+msgid "sty_write_page_layout"
+msgstr "Edit Page Layouts"
+
+#, fuzzy
+msgid "sty_write_system"
+msgstr "Edit System Styles"
+
+msgid "stys_edit_permission"
+msgstr "Change permission settings"
+
+msgid "stys_read"
+msgstr "Read access to style settings"
+
+#, fuzzy
+msgid "stys_sty_write_content"
+msgstr "Edit Content Styles"
+
+#, fuzzy
+msgid "stys_sty_write_custom"
+msgstr "Edit Content Styles"
+
+#, fuzzy
+msgid "stys_sty_write_page_layout"
+msgstr "Edit Page Layouts"
+
+#, fuzzy
+msgid "stys_sty_write_system"
+msgstr "Edit System Styles"
+
+msgid "stys_visible"
+msgstr "Style settings are visible"
+
+msgid "svy_copy"
+msgstr "Copy Survey"
+
+msgid "svy_delete"
+msgstr "Kustuta küsitlus"
+
+#, fuzzy
+msgid "svy_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "svy_edit_permission"
+msgstr "Muuda õiguste seadeid"
+
+msgid "svy_invite"
+msgstr "Kutsu kasutajad küsitlusse"
+
+msgid "svy_read"
+msgstr "Read access to survey"
+
+#, fuzzy
+msgid "svy_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "svy_read_results"
+msgstr "User has access to survey results of others"
+
+msgid "svy_visible"
+msgstr "Küsitlus on nähtav!"
+
+msgid "svy_write"
+msgstr "Muuda küsitlust"
+
+msgid "svyf_edit_permission"
+msgstr "Muuda õiguste seadeid"
+
+msgid "svyf_read"
+msgstr "Lugemisõigused to survey settings"
+
+msgid "svyf_visible"
+msgstr "Küsitluse seaded on nähtavad"
+
+msgid "svyf_write"
+msgstr "Muuda küsitluse seadeid"
+
+msgid "sysc_edit_permission"
+msgstr "User can change permissions of System Check."
+
+msgid "sysc_read"
+msgstr "User has read access to System Check."
+
+msgid "sysc_visible"
+msgstr "System Check is visible."
+
+msgid "sysc_write"
+msgstr "User can execute System Check."
+
+msgid "tags_edit_permission"
+msgstr "Change permission settings"
+
+msgid "tags_read"
+msgstr "Read access to Tagging Settings"
+
+msgid "tags_visible"
+msgstr "Tagging Settings are visible"
+
+msgid "tags_write"
+msgstr "Edit Tagging Settings"
+
+#, fuzzy
+msgid "tala_edit_permission"
+msgstr "User can change permission settings in Talk Templates administration"
+
+#, fuzzy
+msgid "tala_read"
+msgstr "User has read access to Talk Templates administration"
+
+#, fuzzy
+msgid "tala_visible"
+msgstr "Talk Templates administration is visible"
+
+#, fuzzy
+msgid "tala_write"
+msgstr "User can create and edit Talk Templates"
+
+msgid "taxs_edit_permission"
+msgstr "User can change permission settings in Taxonomy administration"
+
+msgid "taxs_read"
+msgstr "User has read access to Taxonomy administration"
+
+msgid "taxs_visible"
+msgstr "Taxonomy administration is visible"
+
+msgid "taxs_write"
+msgstr "Edit settings in Taxonomy administration"
+
+msgid "tos_edit_permission"
+msgstr "User can change permission settings in Terms of Service administration"
+
+msgid "tos_read"
+msgstr "User has read access to Terms of Service administration"
+
+msgid "tos_visible"
+msgstr "Terms of Service administration is visible"
+
+msgid "tos_write"
+msgstr "Edit settings in Terms of Service administration"
+
+msgid "trac_delete"
+msgstr "Delete Tracking Data"
+
+msgid "trac_edit_permission"
+msgstr "Change permission settings"
+
+msgid "trac_lp_other_users"
+msgstr "See learning progress overview of other users"
+
+msgid "trac_read"
+msgstr "Read Tracking Data"
+
+msgid "trac_visible"
+msgstr "User tracking is visible"
+
+msgid "trac_write"
+msgstr "Edit settings in Statistics and Learning Progress administration"
+
+msgid "tst_copy"
+msgstr "Copy Test"
+
+msgid "tst_delete"
+msgstr "Kustuta test"
+
+msgid "tst_edit_learning_progress"
+msgstr "Muuda edasijõudmist"
+
+msgid "tst_edit_permission"
+msgstr "Muuda õiguseid"
+
+msgid "tst_read"
+msgstr "Read access to Test"
+
+msgid "tst_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "tst_tst_history_read"
+msgstr "View History"
+
+#, fuzzy
+msgid "tst_tst_results"
+msgstr "User has access to test results"
+
+msgid "tst_visible"
+msgstr "Test on nähtav"
+
+msgid "tst_write"
+msgstr "Muuda testi"
+
+#, fuzzy
+msgid "upload_blacklisted_files"
+msgstr "Bypass blacklist"
+
+msgid "usrf_delete"
+msgstr "Kustuta kasutajad"
+
+msgid "usrf_edit_permission"
+msgstr "Change access to user accounts"
+
+msgid "usrf_edit_roleassignment"
+msgstr "Change role assignment of user accounts"
+
+msgid "usrf_push_desktop_items"
+msgstr "Allow to push items on the personal desktop."
+
+msgid "usrf_read"
+msgstr "Read access to user accounts"
+
+#, fuzzy
+msgid "usrf_read_all_accounts"
+msgstr "User can list all accounts in User administration"
+
+msgid "usrf_read_users"
+msgstr "Role assignment for local administrators"
+
+msgid "usrf_visible"
+msgstr "Kasutajad on nähtavad"
+
+msgid "usrf_write"
+msgstr "Edit user accounts"
+
+#, fuzzy
+msgid "wbdv_edit_permission"
+msgstr "User can change permission settings of WebDAV administration."
+
+#, fuzzy
+msgid "wbdv_read"
+msgstr "User has read access to WebDAV administration."
+
+#, fuzzy
+msgid "wbdv_visible"
+msgstr "Administration of WebDAV is visible."
+
+#, fuzzy
+msgid "wbdv_write"
+msgstr "User can edit settings of WebDAV administration."
+
+msgid "wbrs_edit_permission"
+msgstr "User can change permission settings in Weblink administration"
+
+msgid "wbrs_read"
+msgstr "User has read access to Weblink administration"
+
+msgid "wbrs_visible"
+msgstr "Weblink administration is visible"
+
+msgid "wbrs_write"
+msgstr "Edit settings in Weblink administration"
+
+msgid "webr_copy"
+msgstr "Copy Web Resource"
+
+msgid "webr_delete"
+msgstr "Kustuta veebiallikas"
+
+msgid "webr_edit_permission"
+msgstr "Change permission settings"
+
+msgid "webr_read"
+msgstr "Read access to Web Resource"
+
+msgid "webr_visible"
+msgstr "Veebiallikas on nähtaval"
+
+msgid "webr_write"
+msgstr "Muuda veebiallikat"
+
+#, fuzzy
+msgid "wiki_activate_wiki_protection"
+msgstr "Set Wiki Pages to Read-Only"
+
+#, fuzzy
+msgid "wiki_add_pages"
+msgstr "User can create wiki pages"
+
+msgid "wiki_copy"
+msgstr "Copy Wiki"
+
+msgid "wiki_delete"
+msgstr "Delete Wiki"
+
+#, fuzzy
+msgid "wiki_delete_wiki_pages"
+msgstr "Delete Wiki Pages"
+
+msgid "wiki_edit_content"
+msgstr "Edit Wiki Pages"
+
+#, fuzzy
+msgid "wiki_edit_page_meta"
+msgstr "Edit Wiki Page Metadata"
+
+msgid "wiki_edit_permission"
+msgstr "Change permission settings"
+
+#, fuzzy
+msgid "wiki_edit_wiki_navigation"
+msgstr "Edit Wiki Navigation"
+
+#, fuzzy
+msgid "wiki_html_export"
+msgstr "Export HTML"
+
+msgid "wiki_read"
+msgstr "Read Wiki"
+
+msgid "wiki_statistics_read"
+msgstr "View Statistics"
+
+msgid "wiki_visible"
+msgstr "Wiki is visible"
+
+#, fuzzy
+msgid "wiki_wiki_html_export"
+msgstr "Export Wiki as HTML"
+
+msgid "wiki_write"
+msgstr "Change Wiki Settings, Grade Learners"
+
+msgid "wiks_edit_permission"
+msgstr "User can change permission settings in Wiki administration"
+
+msgid "wiks_read"
+msgstr "User has read access to Wiki administration"
+
+msgid "wiks_visible"
+msgstr "Wiki administration is visible"
+
+msgid "wiks_write"
+msgstr "Edit settings in Wiki administration"
+
+msgid "write"
+msgstr "Seadete muutmine"

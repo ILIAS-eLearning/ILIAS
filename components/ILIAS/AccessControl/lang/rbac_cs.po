@@ -1,0 +1,2976 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: rbac\n"
+
+msgid "accs_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "accs_read"
+msgstr "Přístup číst na nastavení přístupnosti"
+
+msgid "accs_visible"
+msgstr "Nastavení přístupnosti je viditelné"
+
+msgid "accs_write"
+msgstr "Upravit nastavení přístupnosti"
+
+msgid "activate_wiki_protection"
+msgstr "Nastavit pouze pro čtení"
+
+msgid "active_preconditions"
+msgstr "Předpoklady"
+
+msgid "add_consultation_hours"
+msgstr "Přidat kalendář konzultačních hodin"
+
+#, fuzzy
+msgid "add_consume_provider"
+msgstr "Add Own LTI Provider Settings"
+
+#, fuzzy
+msgid "add_pages"
+msgstr "Add Pages"
+
+msgid "add_reply"
+msgstr "Přidat odpověď"
+
+msgid "add_thread"
+msgstr "Přidat vlákno"
+
+msgid "adm_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "adm_read"
+msgstr "Právo číst na nastavení systému"
+
+msgid "adm_visible"
+msgstr "Nastavení systému jsou viditelná."
+
+msgid "adm_write"
+msgstr "Upravit základní nastavení systému"
+
+#, fuzzy
+msgid "adn_edit_permission"
+msgstr "User can change permissions of Administrative Notifications' administration."
+
+#, fuzzy
+msgid "adn_read"
+msgstr "User has read access to administration of Administrative Notifications."
+
+#, fuzzy
+msgid "adn_visible"
+msgstr "Administration of Administrative Notifications is visible."
+
+#, fuzzy
+msgid "adn_write"
+msgstr "User can add and edit Administrative Notifications."
+
+msgid "adopt_perm_from_template"
+msgstr "Zkopírovat nastavení oprávnění"
+
+msgid "adve_edit_permission"
+msgstr "Změna nastavení oprávnění"
+
+msgid "adve_read"
+msgstr "Rozšířená nastavení správy přístupu"
+
+msgid "adve_visible"
+msgstr "Rozšířená správa editace je viditelná"
+
+msgid "adve_write"
+msgstr "Rozšířená správa editace"
+
+msgid "amend_grading"
+msgstr "Amend finalized grading"
+
+msgid "assf_edit_permission"
+msgstr "Změna nastavení práv"
+
+msgid "assf_read"
+msgstr "Správa přístupu k testu a hodnocení"
+
+msgid "assf_visible"
+msgstr "Správa přístupu k testu a hodnocení je viditelná"
+
+msgid "assf_write"
+msgstr "Správa editace testu a hodnocení"
+
+msgid "auth_edit_permission"
+msgstr "Změna nastavení práv"
+
+msgid "auth_read"
+msgstr "Nastavení autentizace přístupu"
+
+msgid "auth_visible"
+msgstr "Nastavení autentizace jsou viditelné"
+
+msgid "auth_write"
+msgstr "Upravit nastavení autentizace"
+
+msgid "awra_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění na správu „Kdo je online?“"
+
+msgid "awra_read"
+msgstr "Uživatel má přístup do sekce správa „Kdo je online?“ jen pro čtení"
+
+msgid "awra_visible"
+msgstr "Správa sekce 'Kdo je online?' je viditelná"
+
+msgid "awra_write"
+msgstr "Upravit nastavení správy „Kdo je online?“"
+
+msgid "bdga_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění"
+
+msgid "bdga_read"
+msgstr "Uživatel může číst obsah správy karty"
+
+msgid "bdga_visible"
+msgstr "Správa karty je viditelná"
+
+msgid "bdga_write"
+msgstr "Uživatel může upravovat nastavení správy karty"
+
+msgid "bibl_copy"
+msgstr "Uživatel může kopírovat bibliografii"
+
+msgid "bibl_delete"
+msgstr "Uživatel může bibliografii přesouvat nebo mazat"
+
+msgid "bibl_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění"
+
+msgid "bibl_read"
+msgstr "Uživatel může číst obsah bibliografie"
+
+msgid "bibl_visible"
+msgstr "Bibliografie je viditelná"
+
+msgid "bibl_write"
+msgstr "Uživatel může upravovat nastavení bibliografie"
+
+msgid "bibs_copy"
+msgstr "Uživatel může kopírovat bibliografii"
+
+msgid "bibs_delete"
+msgstr "Uživatel může mazat položky knihovny"
+
+msgid "bibs_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění"
+
+msgid "bibs_read"
+msgstr "Uživatel může číst obsah bibliografie"
+
+msgid "bibs_visible"
+msgstr "Správa bibliografie je viditelná"
+
+msgid "bibs_write"
+msgstr "Uživatel může upravovat nastavení bibliografie"
+
+msgid "blga_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "blga_read"
+msgstr "Přístup číst na správu blogu"
+
+msgid "blga_visible"
+msgstr "Správa blogu je viditelná"
+
+msgid "blga_write"
+msgstr "Upravit správu blogu"
+
+msgid "blog_contribute"
+msgstr "Uživatel může přispět"
+
+msgid "blog_copy"
+msgstr "Uživatel může kopírovat blog"
+
+msgid "blog_delete"
+msgstr "Uživatel může blog přesouvat nebo mazat"
+
+msgid "blog_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění"
+
+msgid "blog_read"
+msgstr "Uživatel může číst obsah blogu"
+
+msgid "blog_redact"
+msgstr "Uživatel může upravovat všechny příspěvky"
+
+msgid "blog_visible"
+msgstr "Blog je viditelný"
+
+msgid "blog_write"
+msgstr "Uživatel může upravovat nastavení blogu"
+
+msgid "book_copy"
+msgstr "Uživatel může kopírovat rezervační fond"
+
+msgid "book_delete"
+msgstr "Uživatel může přesouvat nebo mazat rezervační fond"
+
+msgid "book_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+#, fuzzy
+msgid "book_manage_all_reservations"
+msgstr "User can manage all reservations"
+
+#, fuzzy
+msgid "book_manage_own_reservations"
+msgstr "User can manage own reservations"
+
+msgid "book_read"
+msgstr "Právo číst na zásobník objednávek"
+
+msgid "book_visible"
+msgstr "Zásobník objednávek je viditelný"
+
+msgid "book_write"
+msgstr "Upravit zásobník objednávek"
+
+msgid "cadm_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění"
+
+msgid "cadm_read"
+msgstr "Uživatel má přístup ke správě uživatelského připojení jen pro čtení"
+
+msgid "cadm_visible"
+msgstr "Správa připojení uživatele je viditelná"
+
+msgid "cadm_write"
+msgstr "Uživatel má plný přístup ke správě uživatelského připojení"
+
+msgid "cals_add_consultation_hours"
+msgstr "Přidat kalendář konzultačních hodin"
+
+msgid "cals_edit_event"
+msgstr "Spravovat veřejné kalendáře"
+
+msgid "cals_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "cals_read"
+msgstr "Právo číst na nastavení kalendáře"
+
+msgid "cals_visible"
+msgstr "Nastavení kalendáře je viditelné"
+
+msgid "cals_write"
+msgstr "Upravit nastavení kalendáře"
+
+msgid "cat_administrate_users"
+msgstr "Spravovat lokální uživatelské účty"
+
+msgid "cat_cat_administrate_users"
+msgstr "Správa lokálních účtů uživatelů"
+
+msgid "cat_copy"
+msgstr "Kopírovat kategorii"
+
+msgid "cat_delete"
+msgstr "Smazat kategorii"
+
+msgid "cat_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "cat_read"
+msgstr "Právo číst na kategorii"
+
+msgid "cat_read_users"
+msgstr "Právo číst na lokální účty uživatelů"
+
+msgid "cat_visible"
+msgstr "Kategorie je viditelná"
+
+msgid "cat_write"
+msgstr "Upravit kategorii"
+
+msgid "catr_copy"
+msgstr "Kopírovat odkaz kurzu"
+
+msgid "catr_delete"
+msgstr "Smazat odkaz kategorie"
+
+msgid "catr_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "catr_visible"
+msgstr "Odkaz kategorie je viditelný"
+
+msgid "catr_write"
+msgstr "Upravit odkaz kategorie"
+
+msgid "cert_edit_permission"
+msgstr "Změna nastavení oprávnění"
+
+msgid "cert_read"
+msgstr "Právo číst na nastavení certifikátu"
+
+msgid "cert_visible"
+msgstr "Nastavení certifikátu viditelné"
+
+msgid "cert_write"
+msgstr "Upravit nastavení certifikátu"
+
+msgid "change_existing_object_type_desc"
+msgstr "Změnit oprávnění také již existujících objektů tohoto typu"
+
+msgid "change_existing_objects"
+msgstr "Změnit existující objekty"
+
+msgid "change_existing_objects_desc"
+msgstr "Nastavení oprávnění této role bude aplikováno na VŠECHNY existující objekty. pokud chcete změnit oprávnění jen na specifikované typy objektů klepněte prosím na zaškrtávací pole k oprávnění příslušného typu objektu."
+
+msgid "change_existing_prefix"
+msgstr "Změnit existující"
+
+msgid "change_existing_prefix_single"
+msgstr "Změnit"
+
+msgid "change_existing_suffix"
+msgstr " "
+
+msgid "change_existing_suffix_single"
+msgstr " "
+
+#, fuzzy
+msgid "change_presentation"
+msgstr "Change Presentation"
+
+msgid "chtr_delete"
+msgstr "Uživatel může přesouvat nebo mazat kurz"
+
+msgid "chtr_edit_permission"
+msgstr "Změna oprávnění"
+
+msgid "chtr_moderate"
+msgstr "Moderovat Chatroom"
+
+msgid "chtr_read"
+msgstr "Číst"
+
+msgid "chtr_visible"
+msgstr "Viditelný"
+
+msgid "chtr_write"
+msgstr "Pro psaní"
+
+#, fuzzy
+msgid "cmis_edit_permission"
+msgstr "User can change permission settings of xAPI/cmi5 administration."
+
+#, fuzzy
+msgid "cmis_read"
+msgstr "User has read access to xAPI/cmi5 administration."
+
+#, fuzzy
+msgid "cmis_visible"
+msgstr "Administration of xAPI/cmi5 is visible."
+
+#, fuzzy
+msgid "cmis_write"
+msgstr "User can edit settings of xAPI/cmi5 administration."
+
+#, fuzzy
+msgid "cmix_copy"
+msgstr "User can copy xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_delete"
+msgstr "User can move or delete xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "cmix_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "cmix_read"
+msgstr "User can see xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "cmix_read_outcomes"
+msgstr "User can see learning experiences and ranking of other users"
+
+#, fuzzy
+msgid "cmix_visible"
+msgstr "xAPI/cmi5 Object is visible"
+
+#, fuzzy
+msgid "cmix_write"
+msgstr "User can edit settings of xAPI/cmi5 Object"
+
+msgid "cmps_edit_permission"
+msgstr "Změna nastavení oprávnění"
+
+msgid "cmps_read"
+msgstr "Přístup číst na nastavení komponent"
+
+msgid "cmps_visible"
+msgstr "Nastavení komponent je viditelné"
+
+msgid "cmps_write"
+msgstr "Upravit nastavení komponenty"
+
+#, fuzzy
+msgid "coms_edit_permissions"
+msgstr "User can change permission settings of administration of Comments."
+
+#, fuzzy
+msgid "coms_read"
+msgstr "User has read access to administration of Comments."
+
+#, fuzzy
+msgid "coms_visible"
+msgstr "Administration of Comments is visible."
+
+#, fuzzy
+msgid "coms_write"
+msgstr "User can edit settings of administration of Comments."
+
+msgid "condition_failed"
+msgstr "Nepodařilo se"
+
+msgid "condition_learning_progress"
+msgstr "Odvodit od postupu výuky"
+
+#, fuzzy
+msgid "condition_result_range_percentage"
+msgstr "Result Range"
+
+msgid "contribute"
+msgstr "Přispět"
+
+msgid "copa_copy"
+msgstr "Kopírovat stránku obsahu"
+
+msgid "copa_delete"
+msgstr "Uživatel může přesouvat nebo mazat obsah stránky"
+
+msgid "copa_edit_learning_progress"
+msgstr "Uživatel může upravovat nastavení průběhu učení"
+
+msgid "copa_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění"
+
+msgid "copa_read"
+msgstr "Uživatel může číst obsah stránky"
+
+msgid "copa_read_learning_progress"
+msgstr "Uživatel si může prohlédnout postup výuky ostatních uživatelů"
+
+msgid "copa_visible"
+msgstr "Obsah stránky je viditelný"
+
+msgid "copa_write"
+msgstr "Uživatel může upravovat obsah stránky"
+
+#, fuzzy
+msgid "cpad_edit_permissions"
+msgstr "User can change permission settings of administration of Content Pages."
+
+#, fuzzy
+msgid "cpad_read"
+msgstr "User has read access to administration of Content Pages."
+
+#, fuzzy
+msgid "cpad_visible"
+msgstr "Administration of Content Pages is visible."
+
+#, fuzzy
+msgid "cpad_write"
+msgstr "User can edit settings of administration of Content Pages."
+
+msgid "crs_copy"
+msgstr "Kopírovat kurz"
+
+msgid "crs_delete"
+msgstr "Smazat kurz"
+
+msgid "crs_edit_event"
+msgstr "Upravit události kalendáře"
+
+msgid "crs_edit_learning_progress"
+msgstr "Upravit výukový postup"
+
+msgid "crs_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "crs_grade"
+msgstr "Oznámkovat členy kurzu"
+
+msgid "crs_join"
+msgstr "Přihlásit se do kurzu"
+
+msgid "crs_leave"
+msgstr "Opustit kurz"
+
+msgid "crs_manage_members"
+msgstr "Řídit členy kurzu"
+
+msgid "crs_news_add_news"
+msgstr "Přidávat a upravovat nové položky v kurzu"
+
+msgid "crs_read"
+msgstr "Právo číst do kurzu"
+
+msgid "crs_read_learning_progress"
+msgstr "Uživatel si může prohlédnout postup výuky ostatních uživatelů"
+
+msgid "crs_visible"
+msgstr "Kurz je viditelný"
+
+msgid "crs_write"
+msgstr "Upravit kurz"
+
+msgid "crsr_copy"
+msgstr "Kopírovat odkaz kurzu"
+
+msgid "crsr_delete"
+msgstr "Smazat odkaz kurzu"
+
+#, fuzzy
+msgid "crsr_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "crsr_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+#, fuzzy
+msgid "crsr_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "crsr_visible"
+msgstr "Odkaz kurzu je viditelný"
+
+msgid "crsr_write"
+msgstr "Upravit odkaz kurzu"
+
+msgid "crss_edit_permission"
+msgstr "Uživatel může měnit nastavení oprávnění ve správě kurzu"
+
+msgid "crss_read"
+msgstr "Uživatel má přístup do sekce správa kurzu jen pro čtení"
+
+msgid "crss_visible"
+msgstr "Správa kurzu je viditelná"
+
+msgid "crss_write"
+msgstr "Upravit nastavení správy kurzu"
+
+msgid "dcl_add_entry"
+msgstr "Uživatel může přidávat / upravovat položky"
+
+msgid "dcl_copy"
+msgstr "Uživatel může kopírovat shromážděná data"
+
+msgid "dcl_delete"
+msgstr "Uživatel může přesouvat nebo mazat shromážděná data"
+
+msgid "dcl_edit_content"
+msgstr "Upravovat zadané položky"
+
+msgid "dcl_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění"
+
+msgid "dcl_read"
+msgstr "Přístup ke shromážděným datům jen pro čtení"
+
+msgid "dcl_visible"
+msgstr "Shromážděná data jsou viditelná"
+
+msgid "dcl_write"
+msgstr "Uživatel může upravovat nastavení a obsah shromážděných dat"
+
+msgid "delete_files"
+msgstr "Vymazat soubory"
+
+msgid "delete_folders"
+msgstr "Vymazat složky"
+
+msgid "delete_wiki_pages"
+msgstr "Vymazat stránky"
+
+#, fuzzy
+msgid "dpro_edit_permission"
+msgstr "User can change permission settings in the Declaration of Data Protected administration"
+
+#, fuzzy
+msgid "dpro_read"
+msgstr "User has read access to the Declaration of Data Protection administration"
+
+#, fuzzy
+msgid "dpro_visible"
+msgstr "Declaration of Data Protection administration is visible"
+
+#, fuzzy
+msgid "dpro_write"
+msgstr "Edit settings in the Declaration of Data Protection"
+
+#, fuzzy
+msgid "dshs_change_presentation"
+msgstr "Change presentation of dashboard view"
+
+#, fuzzy
+msgid "dshs_edit_permission"
+msgstr "User can change permission settings of Dashboard administration"
+
+#, fuzzy
+msgid "dshs_read"
+msgstr "User has read access to Dashboard administration"
+
+#, fuzzy
+msgid "dshs_visible"
+msgstr "Dashboard administration is visible"
+
+#, fuzzy
+msgid "dshs_write"
+msgstr "Edit settings of Dashboard administration"
+
+msgid "ecss_edit_permission"
+msgstr "Uživatel může upravovat nastavení oprávnění pro správu služby ECS"
+
+msgid "ecss_read"
+msgstr "Uživatel si může přečíst obecná nastavení ECS"
+
+msgid "ecss_visible"
+msgstr "Nastavení ECS jsou viditelná"
+
+msgid "ecss_write"
+msgstr "Uživatel může upravovat nastavení ECS"
+
+msgid "edit_event"
+msgstr "Upravit kalendář"
+
+#, fuzzy
+msgid "edit_file"
+msgstr "Edit File"
+
+#, fuzzy
+msgid "edit_in_online_editor"
+msgstr "Open in online editor"
+
+msgid "edit_learning_progress"
+msgstr "Upravit postup výuky"
+
+msgid "edit_members"
+msgstr "Správa členů"
+
+msgid "edit_permission"
+msgstr "Změnit oprávnění"
+
+msgid "edit_roleassignment"
+msgstr "Upravit přidělení role"
+
+msgid "edit_submissions_grades"
+msgstr "Upravit příspěvky a známky"
+
+msgid "edit_userassignment"
+msgstr "Upravit přiřazení uživatele"
+
+msgid "edit_wiki_navigation"
+msgstr "Upravit navigaci"
+
+msgid "exc_copy"
+msgstr "Kopírovat cvičení"
+
+msgid "exc_delete"
+msgstr "Smazat cvičení"
+
+msgid "exc_edit_learning_progress"
+msgstr "Upravit výukový postup"
+
+msgid "exc_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "exc_edit_submissions_grades"
+msgstr "Uživatel může upravovat příspěvky a známky"
+
+msgid "exc_read"
+msgstr "Přístup do cvičení"
+
+msgid "exc_read_learning_progress"
+msgstr "Uživatel si může prohlédnout postup výuky ostatních uživatelů"
+
+msgid "exc_visible"
+msgstr "Cvičení je viditelné"
+
+msgid "exc_write"
+msgstr "Upravit cvičení"
+
+msgid "excs_edit_permission"
+msgstr "Uživatel může měnit nastavení oprávnění ve správě cvičení"
+
+msgid "excs_read"
+msgstr "Uživatel má přístup do sekce správa cvičení jen pro čtení"
+
+msgid "excs_visible"
+msgstr "Správa cvičení je viditelná"
+
+msgid "excs_write"
+msgstr "Upravit nastavení správy cvičení"
+
+msgid "export_member_data"
+msgstr "Přístup k uživatelským datům"
+
+msgid "facs_edit_permission"
+msgstr "Změna nastavení oprávnění"
+
+msgid "facs_read"
+msgstr "Přístup číst na nastavení souborů & složek"
+
+#, fuzzy
+msgid "facs_upload_blacklisted_files"
+msgstr "Upload indexed file types despite blacklist"
+
+msgid "facs_visible"
+msgstr "Nastavení souborů a složek je viditelné"
+
+msgid "facs_write"
+msgstr "Upravit nastavení souboru & složky"
+
+msgid "feed_copy"
+msgstr "Uživatel může kopírovat webové zdroje"
+
+msgid "feed_delete"
+msgstr "Smazat webový zdroj zpráv"
+
+msgid "feed_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "feed_read"
+msgstr "Přístup číst webový zdroj zpráv"
+
+msgid "feed_write"
+msgstr "Upravit webový zásobník"
+
+msgid "file_copy"
+msgstr "Kopírovat soubor"
+
+msgid "file_delete"
+msgstr "Smazat soubor"
+
+#, fuzzy
+msgid "file_edit_file"
+msgstr "Allow to edit the file in an external editor, if available"
+
+msgid "file_edit_learning_progress"
+msgstr "Uživatel může upravovat nastavení průběhu učení"
+
+msgid "file_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+#, fuzzy
+msgid "file_file_view_content"
+msgstr "File content presented in browser (if WOPI is active)"
+
+#, fuzzy
+msgid "file_file_view_content_short"
+msgstr "Show Content"
+
+msgid "file_read"
+msgstr "Stáhnout soubor"
+
+msgid "file_read_learning_progress"
+msgstr "Uživatel si může prohlédnout postup výuky ostatních uživatelů"
+
+msgid "file_visible"
+msgstr "Soubor je viditelný"
+
+msgid "file_write"
+msgstr "Upravit soubor"
+
+msgid "files_visible"
+msgstr "Soubory jsou viditelné"
+
+#, fuzzy
+msgid "fils_edit_permissions"
+msgstr "User can change permission settings of File Services administration."
+
+#, fuzzy
+msgid "fils_read"
+msgstr "User has read access to File Services administration."
+
+#, fuzzy
+msgid "fils_visible"
+msgstr "Administration of File Services is visible."
+
+#, fuzzy
+msgid "fils_write"
+msgstr "User can edit and configure File Services."
+
+msgid "filter_all_roles"
+msgstr "Zobrazit všechny role aktuálního kontextu"
+
+msgid "filter_global_roles"
+msgstr "Zobrazit pouze globální role"
+
+msgid "filter_local_roles"
+msgstr "Zobrazit pouze lokální role aktuálního kontextu"
+
+msgid "filter_local_roles_object"
+msgstr "Zobrazit pouze lokální role definované na této pozici"
+
+msgid "filter_roles_local_policy"
+msgstr "Zobrazit pouze role s lokálním řízením přístupu na tuto pozici"
+
+msgid "fld_create_poll"
+msgstr "Vytvořit anketu"
+
+msgid "fold_copy"
+msgstr "Kopírovat složku"
+
+msgid "fold_delete"
+msgstr "Smazat složku"
+
+msgid "fold_edit_learning_progress"
+msgstr "Upravit postup výuky"
+
+msgid "fold_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "fold_read"
+msgstr "Právo číst na složku"
+
+msgid "fold_read_learning_progress"
+msgstr "Uživatel si může prohlédnout postup výuky ostatních uživatelů"
+
+msgid "fold_visible"
+msgstr "Složka je viditelná"
+
+msgid "fold_write"
+msgstr "Upravit složku"
+
+msgid "folders_create"
+msgstr "Vytvořit složky"
+
+msgid "folders_visible"
+msgstr "Složky jsou viditelné"
+
+msgid "frm_add_reply"
+msgstr "Uživatelé mohou odpovědět na příspěvek"
+
+msgid "frm_add_thread"
+msgstr "Přidat nové téma"
+
+msgid "frm_copy"
+msgstr "Kopírovat fórum"
+
+msgid "frm_delete"
+msgstr "Smazat fórum"
+
+#, fuzzy
+msgid "frm_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "frm_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "frm_moderate_frm"
+msgstr "Smazat poštu, cenzúra"
+
+msgid "frm_read"
+msgstr "Právo číst do fóra"
+
+#, fuzzy
+msgid "frm_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "frm_visible"
+msgstr "Fórum je viditelné"
+
+msgid "frm_write"
+msgstr "Upravit fórum"
+
+msgid "frma_edit_permission"
+msgstr "Změna nastavení oprávnění"
+
+msgid "frma_read"
+msgstr "Přístup ke správě fóra jen pro čtení"
+
+msgid "frma_visible"
+msgstr "Správa fóra je viditelná"
+
+msgid "frma_write"
+msgstr "Plný přístup ke správě fóra"
+
+msgid "glo_copy"
+msgstr "Kopírovat glosář"
+
+msgid "glo_delete"
+msgstr "Smazat glosář"
+
+msgid "glo_edit_content"
+msgstr "Uživatel může upravovat obsah"
+
+msgid "glo_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "glo_read"
+msgstr "Právo číst na glosář"
+
+msgid "glo_visible"
+msgstr "Glosář je viditelný"
+
+msgid "glo_write"
+msgstr "Upravit glosář"
+
+msgid "grp_copy"
+msgstr "Kopírovat skupinu"
+
+msgid "grp_delete"
+msgstr "Smazat skupinu"
+
+msgid "grp_edit_event"
+msgstr "Upravit události kalendáře"
+
+msgid "grp_edit_learning_progress"
+msgstr "Upravit výukový postup"
+
+msgid "grp_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "grp_grade"
+msgstr "Oznámkovat členy skupiny"
+
+msgid "grp_join"
+msgstr "Uživatel se může připojit je skupině."
+
+msgid "grp_leave"
+msgstr "Uživatel může opustit skupinu"
+
+msgid "grp_manage_members"
+msgstr "Řídit členy skupiny"
+
+msgid "grp_news_add_news"
+msgstr "Přidávat a upravovat nové položky ve skupině"
+
+msgid "grp_read"
+msgstr "Přístup číst pro skupinu"
+
+msgid "grp_read_learning_progress"
+msgstr "Uživatel si může prohlédnout postup výuky ostatních uživatelů"
+
+msgid "grp_visible"
+msgstr "Skupina je viditelná"
+
+msgid "grp_write"
+msgstr "Úprava skupiny"
+
+msgid "grpr_copy"
+msgstr "Uživatel může kopírovat odkaz na skupinu"
+
+msgid "grpr_delete"
+msgstr "Uživatel může přesouvat nebo mazat odkaz na skupinu"
+
+msgid "grpr_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění"
+
+msgid "grpr_visible"
+msgstr "Odkaz na skupinu je viditelný"
+
+msgid "grpr_write"
+msgstr "Uživatel může upravovat nastavení odkazu na skupinu"
+
+msgid "grps_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění ve správě skupiny"
+
+msgid "grps_read"
+msgstr "Uživatel má přístup ke správě skupiny jen pro čtení"
+
+msgid "grps_visible"
+msgstr "Správa skupiny je viditelná"
+
+msgid "grps_write"
+msgstr "Upravit nastavení ve správě skupiny"
+
+msgid "hlps_edit_permission"
+msgstr "Uživatel může změnit oprávnění správy systému nápovědy."
+
+msgid "hlps_read"
+msgstr "Uživatel má přístup ke správě systému nápovědy jen pro čtení"
+
+msgid "hlps_visible"
+msgstr "Správa systému nápovědy je viditelná"
+
+msgid "hlps_write"
+msgstr "Uživatel může upravit nastavení systému nápovědy a nahrát nové verze"
+
+msgid "htlm_copy"
+msgstr "Kopírovat výukový modul HTML"
+
+msgid "htlm_delete"
+msgstr "Smazat výukový modul HTML"
+
+msgid "htlm_edit_learning_progress"
+msgstr "Upravit postup výuky"
+
+msgid "htlm_edit_permission"
+msgstr "Změna nastavení oprávnění"
+
+msgid "htlm_read"
+msgstr "Čtení výukového modulu HTML"
+
+msgid "htlm_read_learning_progress"
+msgstr "Uživatel si může prohlédnout postup výuky ostatních uživatelů"
+
+msgid "htlm_visible"
+msgstr "Výukový modul HTML je viditelný"
+
+msgid "htlm_write"
+msgstr "Upravit výukový modul HTML"
+
+msgid "iass_amend_grading"
+msgstr "Změnit známky v individuálním hodnocení"
+
+msgid "iass_copy"
+msgstr "Kopírovat individuální hodnocení"
+
+msgid "iass_delete"
+msgstr "Zrušit individuální hodnocení"
+
+msgid "iass_edit_learning_progress"
+msgstr "Upravit informace o postupu výuky individuálního hodnocení"
+
+msgid "iass_edit_members"
+msgstr "Upravit členy individuálního hodnocení"
+
+msgid "iass_edit_permission"
+msgstr "Upravit oprávnění pro individuální hodnocení"
+
+msgid "iass_read"
+msgstr "Číst obsah individuálního hodnocení"
+
+msgid "iass_read_learning_progress"
+msgstr "Zobrazit informace o postupu výuky individuálního hodnocení"
+
+msgid "iass_visible"
+msgstr "Individuální hodnocení je viditelné"
+
+msgid "iass_write"
+msgstr "Upravit individuální hodnocení"
+
+#, fuzzy
+msgid "il_lti_global_role"
+msgstr "LTI User"
+
+msgid "il_sess_participant"
+msgstr "Účastník relace"
+
+msgid "il_sess_status_closed"
+msgstr "Relace uzavřena pro ty, kteří nejsou účastníky"
+
+msgid "ilias_id"
+msgstr "ILIAS-ID"
+
+#, fuzzy
+msgid "impr_edit_permission"
+msgstr "User can change permission settings of Legal Notice administration"
+
+#, fuzzy
+msgid "impr_read"
+msgstr "User can read in Legal Notice administration"
+
+#, fuzzy
+msgid "impr_visible"
+msgstr "Administration of Legal Notice is visible"
+
+#, fuzzy
+msgid "impr_write"
+msgstr "User can edit content and settings of Legal Notice"
+
+msgid "info_user_view_changed"
+msgstr "Uživatelské zobrazení změněno"
+
+msgid "internal_mail"
+msgstr "Interní mail"
+
+msgid "invite"
+msgstr "Pozvat do ankety"
+
+msgid "itgr_copy"
+msgstr "Uživatel může kopírovat skupinu položek"
+
+msgid "itgr_delete"
+msgstr "Uživatel může přesouvat nebo mazat skupinu položek"
+
+msgid "itgr_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění"
+
+msgid "itgr_read"
+msgstr "Uživatel může číst skupinu položek"
+
+msgid "itgr_visible"
+msgstr "Skupina položek je viditelná"
+
+msgid "itgr_write"
+msgstr "Uživatel může upravovat obsah a nastavení skupiny položek"
+
+msgid "leave"
+msgstr "Opustit"
+
+#, fuzzy
+msgid "lhts_edit_permissions"
+msgstr "User can change permission settings of Learning History administration."
+
+#, fuzzy
+msgid "lhts_read"
+msgstr "User has read access to Learning History administration."
+
+#, fuzzy
+msgid "lhts_visible"
+msgstr "Administration of Learning History is visible."
+
+#, fuzzy
+msgid "lhts_write"
+msgstr "User can edit settings of Learning History administration."
+
+msgid "lm_copy"
+msgstr "Kopírovat výukový modul ILIAS"
+
+msgid "lm_delete"
+msgstr "Smazat výukový modul ILIAS"
+
+msgid "lm_edit_learning_progress"
+msgstr "Upravit postup výuky"
+
+msgid "lm_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "lm_read"
+msgstr "Právo číst výukový modul"
+
+msgid "lm_read_learning_progress"
+msgstr "Uživatel si může prohlédnout postup výuky ostatních uživatelů"
+
+msgid "lm_visible"
+msgstr "Výukový modul ILIAS je viditelný"
+
+msgid "lm_write"
+msgstr "Upravit výukový modul ILIAS"
+
+msgid "lngf_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "lngf_read"
+msgstr "Právo číst jazyková nastavení"
+
+msgid "lngf_visible"
+msgstr "Jazyková nastavení jsou viditelná"
+
+msgid "lngf_write"
+msgstr "Přístup číst, potřebný pro rozšířenou údržbu jazyků"
+
+msgid "logs_edit_permission"
+msgstr "Uživatel může upravovat nastavení oprávnění pro správu protokolování"
+
+msgid "logs_read"
+msgstr "Uživatel si může přečíst obecná nastavení protokolování"
+
+msgid "logs_visible"
+msgstr "Nastavení protokolování jsou viditelná"
+
+msgid "logs_write"
+msgstr "Uživatel si může upravovat obecná nastavení protokolování"
+
+msgid "lp_other_users"
+msgstr "Zobrazit přehled postupu výuky jiných uživatelů"
+
+msgid "lrss_edit_permission"
+msgstr "Změna nastavení oprávnění"
+
+msgid "lrss_read"
+msgstr "Přístup číst do nastavení Výukových zdrojů"
+
+msgid "lrss_visible"
+msgstr "Nastavení zdrojů výuky je viditelné"
+
+msgid "lrss_write"
+msgstr "Upravit nastavení výukového objektu"
+
+msgid "lso_copy"
+msgstr "Uživatel může kopírovat výukovou sekvenci"
+
+msgid "lso_delete"
+msgstr "Uživatel může mazat výukovou sekvenci"
+
+msgid "lso_edit_learning_progress"
+msgstr "Uživatel může upravovat nastavení postupu výuky"
+
+msgid "lso_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění k výukové sekvenci"
+
+msgid "lso_lp_other_users"
+msgstr "Uživatel si může prohlédnout postup výuky ostatních uživatelů"
+
+msgid "lso_manage_members"
+msgstr "Spravovat členy výukové sekvence"
+
+msgid "lso_participate"
+msgstr "Uživatel si může předplatit výukovou sekvenci"
+
+msgid "lso_read"
+msgstr "Uživatel může přistupovat k výukové sekvenci"
+
+msgid "lso_read_learning_progress"
+msgstr "Uživatel si může prohlédnout postup výuky ostatních uživatelů"
+
+msgid "lso_unparticipate"
+msgstr "Uživatel může ukončit předplatné výukové sekvenci"
+
+msgid "lso_visible"
+msgstr "Výuková sekvence je viditelná"
+
+msgid "lso_write"
+msgstr "Uživatel může upravovat nastavení výukové sekvence"
+
+#, fuzzy
+msgid "lsos_edit_permission"
+msgstr "User can change permission settings of Learning Sequences administration."
+
+#, fuzzy
+msgid "lsos_read"
+msgstr "User has read access to Learning Sequences administration."
+
+#, fuzzy
+msgid "lsos_visible"
+msgstr "Administration of Learning Sequences is visible."
+
+#, fuzzy
+msgid "lsos_write"
+msgstr "User can edit settings of Learning Sequences administration."
+
+#, fuzzy
+msgid "lti_copy"
+msgstr "User can copy LTI consumer"
+
+#, fuzzy
+msgid "lti_delete"
+msgstr "User can move or delete LTI consumer"
+
+#, fuzzy
+msgid "lti_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "lti_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "lti_read"
+msgstr "User can see LTI consumer"
+
+#, fuzzy
+msgid "lti_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "lti_read_outcomes"
+msgstr "User can see learning experiences and ranking of other users"
+
+#, fuzzy
+msgid "lti_visible"
+msgstr "LTI consumer is visible"
+
+#, fuzzy
+msgid "lti_write"
+msgstr "User can edit settings of LTI consumer"
+
+#, fuzzy
+msgid "ltis_add_consume_provider"
+msgstr "User can add own provider settings for LTI consumer"
+
+msgid "ltis_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění ve správě LTI"
+
+msgid "ltis_read"
+msgstr "Uživatel má přístup ke správě LTI jen pro čtení"
+
+msgid "ltis_release_objects"
+msgstr "Uživatel může uvolňovat objekty pro spotřebitele LTI"
+
+msgid "ltis_visible"
+msgstr "Správa LTI je viditelná"
+
+msgid "ltis_write"
+msgstr "Uživatel může upravovat nastavení správy LTI"
+
+msgid "mail_internal_mail"
+msgstr "Uživatel může používat interní poštovní systém (ILIAS)"
+
+msgid "mail_mail_to_global_roles"
+msgstr "Uživatel může zasílat e-maily globálním rolím"
+
+msgid "mail_read"
+msgstr "Přístup číst na nastavení pošty"
+
+msgid "mail_smtp_mail"
+msgstr "Uživatel může zasílat poštu přes SMTP"
+
+msgid "mail_to_global_roles"
+msgstr "E-mail pro globální role"
+
+msgid "mail_visible"
+msgstr "Nastavení pošty je viditelné"
+
+msgid "mail_write"
+msgstr "Upravit nastavení pošty"
+
+#, fuzzy
+msgid "manage_all_reservations"
+msgstr "Manage All Reservations"
+
+#, fuzzy
+msgid "manage_comp"
+msgstr "User can edit Competences"
+
+#, fuzzy
+msgid "manage_comp_temp"
+msgstr "User can edit Competence Templates"
+
+msgid "manage_materials"
+msgstr "Správa materiálů"
+
+#, fuzzy
+msgid "manage_own_reservations"
+msgstr "Manage Own Reservations"
+
+#, fuzzy
+msgid "manage_profiles"
+msgstr "User can edit Competence Profiles"
+
+msgid "mcst_copy"
+msgstr "Kopírovat MediaCast"
+
+msgid "mcst_delete"
+msgstr "Smazat Mediacast"
+
+msgid "mcst_edit_learning_progress"
+msgstr "Uživatel může upravovat nastavení postupu výuky"
+
+msgid "mcst_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "mcst_read"
+msgstr "Přístup číst k MediaCast"
+
+msgid "mcst_read_learning_progress"
+msgstr "Uživatel si může prohlédnout postup výuky ostatních uživatelů"
+
+msgid "mcst_visible"
+msgstr "MediaCast je viditelný"
+
+msgid "mcst_write"
+msgstr "Upravit MediaCast"
+
+msgid "mcts_edit_permission"
+msgstr "Změna nastavení oprávnění"
+
+msgid "mcts_read"
+msgstr "Přístup číst na nastavení mediacast"
+
+msgid "mcts_visible"
+msgstr "Nastavení Mediacast je viditelné"
+
+msgid "mcts_write"
+msgstr "Upravit nastavení mediacast"
+
+msgid "mds_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "mds_read"
+msgstr "Přístup čtení k nastavení metadat"
+
+msgid "mds_visible"
+msgstr "Nastavení metadat je viditelné"
+
+msgid "mds_write"
+msgstr "Úprava nastavení metadat"
+
+msgid "mep_copy"
+msgstr "Uživatel může kopírovat fond médií"
+
+msgid "mep_delete"
+msgstr "Smazat zásobník multimédií"
+
+msgid "mep_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "mep_read"
+msgstr "Čtení obsahu zásobníku multimédií"
+
+msgid "mep_visible"
+msgstr "Zásobník multimédií je viditelný"
+
+msgid "mep_write"
+msgstr "Upravit obsah zásobníku multimédií"
+
+msgid "mme_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění pro správu hlavního menu"
+
+msgid "mme_read"
+msgstr "Uživatel má přístup ke správě hlavního menu jen pro čtení"
+
+msgid "mme_visible"
+msgstr "Správa hlavního menu je viditelná"
+
+msgid "mme_write"
+msgstr "Uživatel může upravovat nastavení oprávnění pro správu hlavního menu"
+
+msgid "mobs_edit_permission"
+msgstr "Změna nastavení oprávnění"
+
+msgid "mobs_read"
+msgstr "Právo číst na nastavení Mediální objekty/zásobníky"
+
+msgid "mobs_visible"
+msgstr "Nastavení mediálních objektů/zásobníků je viditelné"
+
+msgid "mobs_write"
+msgstr "Upravit nastavení mediálního objektu/zásobníku"
+
+msgid "moderate"
+msgstr "Moderovat"
+
+msgid "moderate_frm"
+msgstr "Moderovat"
+
+#, fuzzy
+msgid "msg_anonymous_cannot_be_assigned"
+msgstr "Anonymous cannot be assigned to a role."
+
+msgid "msg_no_roles_of_type"
+msgstr "Žádná role pro vybrané nastavení filtru nenalezena"
+
+msgid "news_add_news"
+msgstr "Přidat zprávy"
+
+#, fuzzy
+msgid "no_corresponding_roles"
+msgstr "No corresponding roles could be found."
+
+#, fuzzy
+msgid "nots_edit_permission"
+msgstr "User can change permission settings of Notes administration."
+
+#, fuzzy
+msgid "nots_read"
+msgstr "User has read access to Notes administration."
+
+#, fuzzy
+msgid "nots_visible"
+msgstr "Administration of Notes is visible."
+
+#, fuzzy
+msgid "nots_write"
+msgstr "User can edit settings of Notes administration."
+
+msgid "nwss_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "nwss_read"
+msgstr "Přístup číst na zprávy a nastavení webového zásobníku"
+
+msgid "nwss_visible"
+msgstr "Zprávy a nastavení webového zásobníku je viditelné"
+
+msgid "nwss_write"
+msgstr "Upravit zprávy a nastavení webového zásobníku"
+
+#, fuzzy
+msgid "obj_skee"
+msgstr "Competence Tree"
+
+msgid "org_op_access_results"
+msgstr "Přístup k výsledkům podřízených uživatelů"
+
+msgid "org_op_edit_submissions_grades"
+msgstr "Upravit žádosti ostatních uživatelů"
+
+msgid "org_op_manage_participants"
+msgstr "Správa podřízených účastníků"
+
+msgid "org_op_score_participants"
+msgstr "Hodnocení podřízených účastníků"
+
+#, fuzzy
+msgid "org_op_view_certificates"
+msgstr "View certificates of subordinated users"
+
+#, fuzzy
+msgid "org_op_view_competences"
+msgstr "View competences of subordinated users"
+
+msgid "org_op_write_learning_progress"
+msgstr "Nastavit postup výuky podřízených uživatelů"
+
+msgid "orgu_cat_administrate_users"
+msgstr "Uživatel může v této organizační jednotce vytvářet a spravovat lokální uživatelské účty"
+
+msgid "orgu_copy"
+msgstr "Kopírovat organizační jednotku"
+
+msgid "orgu_delete"
+msgstr "Uživatel může přesunout nebo odstranit organizační jednotku"
+
+msgid "orgu_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění"
+
+msgid "orgu_read"
+msgstr "Uživatel má přístup k organizační jednotce jen pro čtení"
+
+msgid "orgu_read_users"
+msgstr "Uživatel může číst lokální uživatelské účty vytvořené v této organizační jednotce"
+
+msgid "orgu_view_learning_progress"
+msgstr "Zobrazit potup výuky"
+
+msgid "orgu_view_learning_progress_rec"
+msgstr "Zobrazit postup výuky jednotky vč. podjednotek"
+
+msgid "orgu_visible"
+msgstr "Organizační jednotka je viditelná"
+
+msgid "orgu_write"
+msgstr "Uživatel může upravovat nastavení organizační jednotky"
+
+msgid "otpl_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "otpl_read"
+msgstr "Přístup číst na nastavení šablony objektu"
+
+msgid "otpl_visible"
+msgstr "Nastavení šablony objektu je viditelné"
+
+msgid "otpl_write"
+msgstr "Upravit nastavení šablony objektu"
+
+msgid "perm_class_create"
+msgstr "Vytvořit nové objekty"
+
+msgid "perm_class_create_desc"
+msgstr "Určit které typy objektů mohou být vytvořeny pod aktuálním objektem."
+
+msgid "perm_class_object"
+msgstr "Speciální operace"
+
+msgid "perm_class_object_desc"
+msgstr "Objektově specifikované operace, dostupné pouze určitým typům objektů."
+
+msgid "perm_global_role"
+msgstr "Globální role"
+
+msgid "perm_local_role"
+msgstr "Lokální role"
+
+msgid "perm_local_role_desc"
+msgstr "Tato role je definovaná lokálně v aktuálním objektu a odpovídá nastavení lokálního řízení přístupu."
+
+msgid "perm_protected_global_role"
+msgstr "Chráněné Globální role"
+
+msgid "perm_protected_local_role"
+msgstr "Chráněné lokální role"
+
+msgid "perm_role_path_info_created"
+msgstr "Vytvořeno v %1$s \"%2$s\""
+
+msgid "perm_role_path_info_inheritance"
+msgstr "použití lokální bezpečnostní politiky z %1$s \"%2$s\""
+
+msgid "perm_use_local_policy"
+msgstr "Použít lokální řízení přístupu"
+
+msgid "perm_use_local_policy_desc"
+msgstr "Pokud je lokální řízení přístupu aktivováno, můžete definovat rozdílné výchozí nastavení oprávnění pro aktuální objekt."
+
+msgid "poll_copy"
+msgstr "Uživatel může kopírovat anketu"
+
+msgid "poll_delete"
+msgstr "Uživatel může přesouvat nebo mazat anketu"
+
+msgid "poll_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění"
+
+msgid "poll_read"
+msgstr "Uživatel se může zúčastnit ankety"
+
+msgid "poll_visible"
+msgstr "Anketa je viditelná"
+
+msgid "poll_write"
+msgstr "Uživatel může upravovat nastavení ankety a obsah"
+
+msgid "positions_override_operations"
+msgstr "Přepsat globální nastavení"
+
+msgid "precondition_not_obligatory_alt"
+msgstr "Předpoklad je volitelný"
+
+msgid "precondition_num_obligatory"
+msgstr "Počet požadovaných materiálů"
+
+msgid "precondition_num_optional_info"
+msgstr "Vložte prosím minimální počet materiálů, který je požadován pro splnění tohoto předpokladu."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_bigger_preconditions_number"
+msgstr "The number of required materials must be less than the total number of preconditions."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_lower_compulsory_items"
+msgstr "The number of required materials must be greater than the number of compulsory preconditions."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_lower_than_one"
+msgstr "The number of required materials must be at least 1."
+
+msgid "precondition_obligatory"
+msgstr "Povinné"
+
+msgid "precondition_obligatory_alt"
+msgstr "Předpoklad musí být naplněn"
+
+msgid "precondition_obligatory_info"
+msgstr "Pro získání přístupu musí být naplněny povinné předpoklady."
+
+msgid "precondition_obligatory_settings"
+msgstr "Nastavení předpokladů"
+
+#, fuzzy
+msgid "precondition_operator_range_err_min_max"
+msgstr "The minimum value must be less than the maximum value."
+
+#, fuzzy
+msgid "precondition_operator_range_max"
+msgstr "Maximum Percentage"
+
+#, fuzzy
+msgid "precondition_operator_range_min"
+msgstr "Minimum Percentage"
+
+msgid "prfa_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "prfa_read"
+msgstr "Přístup číst ke správě portfolia"
+
+msgid "prfa_visible"
+msgstr "Správa portfolia je viditelná"
+
+msgid "prfa_write"
+msgstr "Upravit správu portfolia"
+
+msgid "prg_copy"
+msgstr "Uživatel může kopírovat studijní program"
+
+msgid "prg_delete"
+msgstr "Uživatel může mazat studijní program"
+
+msgid "prg_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění"
+
+msgid "prg_manage_members"
+msgstr "Správa členů studijního programu"
+
+msgid "prg_read"
+msgstr "Uživatel má přístup do sekce studijního programu jen pro čtení"
+
+msgid "prg_visible"
+msgstr "Studijní program je viditelný"
+
+msgid "prg_write"
+msgstr "Uživatel může upravovat nastavení studijního programu"
+
+#, fuzzy
+msgid "prgr_copy"
+msgstr "User can copy links to study programmes."
+
+#, fuzzy
+msgid "prgr_delete"
+msgstr "User can move or delete links to study programmes."
+
+#, fuzzy
+msgid "prgr_edit_permission"
+msgstr "User can change permission settings."
+
+#, fuzzy
+msgid "prgr_visible"
+msgstr "Links to study programmes are visible and can be used"
+
+#, fuzzy
+msgid "prgr_write"
+msgstr "User can edit settings of links to study programmes."
+
+msgid "prgs_edit_permission"
+msgstr "Změnit nastavení oprávnění ve správě studijního programu"
+
+msgid "prgs_read"
+msgstr "Uživatel má přístup do sekce studijního programu jen pro čtení"
+
+msgid "prgs_visible"
+msgstr "Správa studijního programu je viditelná"
+
+msgid "prgs_write"
+msgstr "Upravit nastavení ve správě studijního programu"
+
+#, fuzzy
+msgid "prss_edit_permission"
+msgstr "User can change permission settings of Personal Resources administration."
+
+#, fuzzy
+msgid "prss_read"
+msgstr "User has read access to Personal Resources administration."
+
+#, fuzzy
+msgid "prss_visible"
+msgstr "Administration of Personal Resources is visible."
+
+#, fuzzy
+msgid "prss_write"
+msgstr "User can edit settings of Personal Resources administration."
+
+msgid "prtt_copy"
+msgstr "Uživatel může kopírovat šablonu portfolia"
+
+msgid "prtt_delete"
+msgstr "Uživatel může přesouvat nebo mazat šablonu portfolia"
+
+msgid "prtt_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění k šabloně portfolia"
+
+msgid "prtt_read"
+msgstr "Uživatel má přístup k šabloně portfolia jen pro čtení"
+
+msgid "prtt_visible"
+msgstr "Šablona portfolia je viditelná"
+
+msgid "prtt_write"
+msgstr "Uživatel může upravovat nastavení a obsah šablony portfolia"
+
+msgid "ps_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "ps_export_member_data"
+msgstr "Uživatel může exportovat členská data"
+
+msgid "ps_read"
+msgstr "Přístup číst na nastavení Soukromí/bezpečnost"
+
+msgid "ps_visible"
+msgstr "Nastavení Soukromí/bezpečnost je viditelné"
+
+msgid "ps_write"
+msgstr "Upravit Soukromí/bezpečnost"
+
+#, fuzzy
+msgid "push_desktop_items"
+msgstr "Recommend Content"
+
+msgid "qpl_copy"
+msgstr "Kopírovat zásobník otázek testu"
+
+msgid "qpl_delete"
+msgstr "Smazat zásobník otázek testu"
+
+msgid "qpl_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "qpl_read"
+msgstr "Přístup číst k zásobníku otázek testu"
+
+msgid "qpl_visible"
+msgstr "Zásobník otázek testu je viditelný"
+
+msgid "qpl_write"
+msgstr "Upravit zásobník otázek testu"
+
+msgid "rbac_add_new_local_role"
+msgstr "Přidat novou lokální roli"
+
+#, fuzzy
+msgid "rbac_add_recommended_content"
+msgstr "Recommended Content"
+
+#, fuzzy
+msgid "rbac_add_recommended_content_info"
+msgstr "Adds the current object '%1' for all members of the role as recommended content."
+
+msgid "rbac_admin_permissions"
+msgstr "Oprávnění správy"
+
+msgid "rbac_auto_global"
+msgstr "Auto-generována globální role"
+
+msgid "rbac_auto_local"
+msgstr "Auto-generována lokální role"
+
+msgid "rbac_auto_rolt"
+msgstr "Auto-generována šablona role"
+
+msgid "rbac_back_to_overview"
+msgstr "Zpět na seznam rolí"
+
+msgid "rbac_cant_import_role_wrong_type"
+msgstr "Nelze importovat roli z položky %s do položky %s."
+
+msgid "rbac_change_existing_confirm_tbl"
+msgstr "Nastavení pro \"Změnu existujících objektů\""
+
+msgid "rbac_change_existing_objects_desc_new_role"
+msgstr "Nastavení oprávnění této role bude použito na VŠECHNY existující objekty."
+
+msgid "rbac_changes"
+msgstr "Změny"
+
+msgid "rbac_choose_copy_targets"
+msgstr "Vložte prosím vyhledávaný výraz pro výběr cílové role."
+
+msgid "rbac_condition_delete_sure"
+msgstr "Určitě chcete smazat následující předpoklady?"
+
+msgid "rbac_context_global"
+msgstr "Globální"
+
+msgid "rbac_copy_behaviour"
+msgstr "Nastavení kopírování role"
+
+#, fuzzy
+msgid "rbac_copy_behaviour_info"
+msgstr "Transfer Permissions from: %s to: %s"
+
+msgid "rbac_copy_finished"
+msgstr "Kopírování ukončeno"
+
+#, fuzzy
+msgid "rbac_copy_multi_targets"
+msgstr "%s, %s and %s further Roles selected%s"
+
+#, fuzzy
+msgid "rbac_copy_no_targets"
+msgstr "At least one Role must be selected as Target"
+
+msgid "rbac_copy_role"
+msgstr "Kopírovat roli"
+
+msgid "rbac_copy_role_add_perm"
+msgstr "Přidat oprávnění"
+
+msgid "rbac_copy_role_copy"
+msgstr "Kopírovat oprávnění"
+
+msgid "rbac_copy_role_remove_perm"
+msgstr "Odebrat oprávnění"
+
+msgid "rbac_create_bibl"
+msgstr "Vytvořit bibliografii"
+
+msgid "rbac_create_blog"
+msgstr "Vytvořit blog"
+
+msgid "rbac_create_book"
+msgstr "Vytvořit zásobník objednávek"
+
+msgid "rbac_create_cat"
+msgstr "Uživatel může vytvářet kategorie"
+
+msgid "rbac_create_catr"
+msgstr "Vytvořit odkaz kategorie"
+
+msgid "rbac_create_chtr"
+msgstr "Vytvořit hovornu"
+
+#, fuzzy
+msgid "rbac_create_cmix"
+msgstr "Create xAPI/cmi5 Object"
+
+msgid "rbac_create_copa"
+msgstr "Vytvořit stránku obsahu"
+
+msgid "rbac_create_crs"
+msgstr "Vytvořit kurz"
+
+msgid "rbac_create_crsr"
+msgstr "Vytvořit doporučení kurzu"
+
+msgid "rbac_create_dcl"
+msgstr "Vytvoření shromážděných dat"
+
+msgid "rbac_create_exc"
+msgstr "Vytvořit cvičení"
+
+msgid "rbac_create_file"
+msgstr "Uložit soubor"
+
+msgid "rbac_create_fold"
+msgstr "Vytvořit složku"
+
+msgid "rbac_create_frm"
+msgstr "Vytvořit fórum"
+
+msgid "rbac_create_glo"
+msgstr "Vytvořit glosář"
+
+msgid "rbac_create_grp"
+msgstr "Vytvořit skupinu"
+
+msgid "rbac_create_grpr"
+msgstr "Vytvořit odkaz na skupinu"
+
+msgid "rbac_create_htlm"
+msgstr "Vytvořit výukový modul HTML"
+
+msgid "rbac_create_iass"
+msgstr "Vytvořit individuální hodnocení"
+
+msgid "rbac_create_itgr"
+msgstr "Vytvořit item skupinu"
+
+msgid "rbac_create_lm"
+msgstr "Vytvořit výukový modul ILIAS"
+
+msgid "rbac_create_lso"
+msgstr "Vytvořit sekvenci učení"
+
+#, fuzzy
+msgid "rbac_create_lti"
+msgstr "Create LTI Consumer"
+
+msgid "rbac_create_mcst"
+msgstr "Vytvořit Mediacast"
+
+msgid "rbac_create_mep"
+msgstr "Vytvořit zásobník médií"
+
+msgid "rbac_create_orgu"
+msgstr "Vytvořit organizační jednotky"
+
+msgid "rbac_create_poll"
+msgstr "Vytvořit anketu"
+
+msgid "rbac_create_prg"
+msgstr "Vytvořit studijní program"
+
+#, fuzzy
+msgid "rbac_create_prgr"
+msgstr "Create link to study programme"
+
+msgid "rbac_create_prtt"
+msgstr "Vytvořit šablonu portfolia"
+
+msgid "rbac_create_qpl"
+msgstr "Vytvořit zásobník otázek testu"
+
+msgid "rbac_create_rcrs"
+msgstr "Vytvořit odkaz kurzu"
+
+msgid "rbac_create_role"
+msgstr "Vytvořit novou roli"
+
+msgid "rbac_create_rolt"
+msgstr "Vytvořit novou šablonu role"
+
+msgid "rbac_create_sahs"
+msgstr "Vytvořit výukový modul SCORM/AICC"
+
+msgid "rbac_create_sess"
+msgstr "Vytvořit lekci"
+
+#, fuzzy
+msgid "rbac_create_skee"
+msgstr "Create Competence Tree"
+
+msgid "rbac_create_spl"
+msgstr "Vytvořit zásobník otázek ankety"
+
+msgid "rbac_create_svy"
+msgstr "Vytvořit anketu"
+
+msgid "rbac_create_tst"
+msgstr "Vytvořit test"
+
+msgid "rbac_create_usr"
+msgstr "Uživatel může vytvářet uživatelské účty"
+
+msgid "rbac_create_webr"
+msgstr "Vytvořit webový odkaz"
+
+msgid "rbac_create_wiki"
+msgstr "Vytvořit Wiki"
+
+msgid "rbac_delete_local_policies"
+msgstr "Smazat pravidla lokální politiky"
+
+msgid "rbac_delete_local_policies_info"
+msgstr "Je-li aktivováno, všechna nastavení lokální bezpečnostní politiky budou smazána. Oprávnění objektů budou přepsána a chráněna."
+
+msgid "rbac_delete_role"
+msgstr "Smazat roli"
+
+msgid "rbac_edit_condition"
+msgstr "Upravit předpoklady"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_button"
+msgstr "Rechte anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type"
+msgstr "Typ der Rechteanpassung"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_add"
+msgstr "Rechte hinzufügen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_add_info"
+msgstr "Fügt MARKIERTE Rechte der ausgewählten globalen Rollenvorlage zu den lokalen Rechtevorgabe hinzu."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_clone"
+msgstr "Rechte kopieren"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_clone_info"
+msgstr "Alle Rechte der ausgewählten globalen Rollenvorlage überschreiben alle lokalen Rechtevorgaben."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_remove"
+msgstr "Rechte entfernen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_remove_info"
+msgstr "Entfernt die MARKIERTEN Rechte der ausgewählten globalen Rollenvorlage aus den lokalen Rechtevorgaben."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_no_info"
+msgstr "Vorhandene lokale Rechtevorgaben entsprechend ergänzt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_yes"
+msgstr "Vorhandene Objekte nur um ausgewählte Rechte ergänzen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_yes_info"
+msgstr "Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend ergänzt."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_no_info"
+msgstr "Vorhandene lokale Rechtevorgaben werden überschrieben, die vorhandenen Objekte werden nicht in ihren Rechten angepasst."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_yes"
+msgstr "Vorhandene Objekte ändern"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_yes_info"
+msgstr "Vorhandene lokale Rechtevorgaben entsprechend überschreiben und IN GÄNZE mit allen gecheckten und ungecheckten Vorgaben auf vorhandene Objekte angewendet."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_no_info"
+msgstr "Markierte Rechte werden aus vorhandenen lokalen Rechtevorgaben entfernt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_yes"
+msgstr "Vorhandene Objekte nur um ausgewählte Rechte reduzieren"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_yes_info"
+msgstr "Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend reduziert."
+
+msgid "rbac_global_rolt"
+msgstr "Šablona globální role"
+
+msgid "rbac_import_role"
+msgstr "Importovat roli"
+
+msgid "rbac_info_only_position_access"
+msgstr "Objeví se vám pouze ti členové, kteří mají pozici ve vaší organizační jednotce. Členové s jinými organizačními pozicemi se vám nezobrazí, ale mohou být do těchto kurzů zařazeni, aniž by se vám zobrazili."
+
+msgid "rbac_keep_local_policies"
+msgstr "Zachovat lokální bezpečnostní politiku"
+
+msgid "rbac_keep_local_policies_info"
+msgstr "Tento mód vyberte pro zachování lokální bezpečnostní politiky. Oprávnění objektu budou přizpůsobena této politice a následně chráněna."
+
+msgid "rbac_local_policies"
+msgstr "Lokální bezpečnostní politiky"
+
+msgid "rbac_local_policy"
+msgstr "Lokální bezpečnostní politika"
+
+msgid "rbac_log"
+msgstr "Záznam"
+
+msgid "rbac_log_change_owner"
+msgstr "Změnit vlastnictví objektu"
+
+msgid "rbac_log_changed_owner"
+msgstr "Vlastník změněn na"
+
+msgid "rbac_log_copy_object"
+msgstr "Kopírovat objekt"
+
+msgid "rbac_log_create_object"
+msgstr "Vytvořit objekt"
+
+msgid "rbac_log_edit_permissions"
+msgstr "Upravit oprávnění"
+
+msgid "rbac_log_edit_template"
+msgstr "Upravit šablonu role"
+
+msgid "rbac_log_edit_template_existing"
+msgstr "Použít šablonu role pro existující role"
+
+msgid "rbac_log_inheritance_add"
+msgstr "Ukončena dědičnost pro \"%s\""
+
+msgid "rbac_log_inheritance_rmv"
+msgstr "Převod povolen pro \"%s\""
+
+msgid "rbac_log_link_object"
+msgstr "Připojit objekt"
+
+msgid "rbac_log_move_object"
+msgstr "Přesunout objekt"
+
+msgid "rbac_log_operation_add"
+msgstr "Přidána operace pro \"%s\""
+
+msgid "rbac_log_operation_rmv"
+msgstr "Odstraněná operace pro %s"
+
+msgid "rbac_log_source_object"
+msgstr "Zdrojový objekt"
+
+msgid "rbac_msg_user_already_assigned"
+msgstr "Vybraní uživatelé jsou již dané roli přiřazeni."
+
+msgid "rbac_not_change_existing_objects"
+msgstr "Neměnit existující objekty"
+
+msgid "rbac_permissions"
+msgstr "Oprávnění"
+
+#, fuzzy
+msgid "rbac_precondition_condition"
+msgstr "Access requires having this status"
+
+msgid "rbac_precondition_hide"
+msgstr "Skrýt objekt"
+
+msgid "rbac_precondition_hide_info"
+msgstr " Tato volba umožňuje skrýt objekt pro uživatele, kteří v současné době nesplňují předpoklady. Proto je veškerý nepřístupný obsah neviditelný."
+
+msgid "rbac_precondition_minimum_optional"
+msgstr "Nejméně 2 předpoklady musí zůstat volitelné."
+
+msgid "rbac_precondition_mode"
+msgstr "Mód"
+
+msgid "rbac_precondition_mode_all"
+msgstr "Všechny předpoklady"
+
+msgid "rbac_precondition_mode_all_info"
+msgstr "Ke získání přístupu musí být naplněny všechny předpoklady."
+
+msgid "rbac_precondition_mode_subset"
+msgstr "Podmnožina předpokladů"
+
+msgid "rbac_precondition_mode_subset_info"
+msgstr "K poskytnutí přístupu musí být splněn soubor předpokladů. Některé předpoklady mohou navíc být nastaveny jako povinné."
+
+msgid "rbac_precondition_save_obligatory"
+msgstr "Uložit povinné"
+
+msgid "rbac_precondition_source"
+msgstr "Spouštěč podmínek"
+
+msgid "rbac_precondition_target"
+msgstr "Hranice podmínky přístupu k"
+
+msgid "rbac_repository_permissions"
+msgstr "Oprávnění úložiště"
+
+msgid "rbac_role_delete_qst"
+msgstr "Určitě chcete smazat následující role?<br />Všechna oprávnění přidělená touto rolí budou permanentně smazána."
+
+msgid "rbac_role_delete_self"
+msgstr "<strong>Pozor:</strong> Byla Vám přidělena tato role. Pokud budete pokračovat v tétot operaci mazání, můžete ztratit přístup k některým materiálům ILIAS."
+
+msgid "rbac_role_exists_alert"
+msgstr "Role s tímto názvem již v tomto kontextu existuje. Zvolte prosím jiný název."
+
+msgid "rbac_role_imported"
+msgstr "Role byla importována."
+
+msgid "rbac_role_rights_copy"
+msgstr "Kopírovat oprávnění"
+
+msgid "rbac_role_rights_copy_change_existing"
+msgstr "Změnit existující objekty"
+
+msgid "rbac_role_rights_copy_empty"
+msgstr "Žádný"
+
+msgid "rbac_role_selection"
+msgstr "Typ role"
+
+msgid "rbac_role_title"
+msgstr "Název role"
+
+msgid "rbac_select_copy_targets"
+msgstr "Vyberte prosím cílové role"
+
+msgid "rbac_select_roles"
+msgstr "Role Selection"
+
+msgid "rbac_ud_global"
+msgstr "Uživatelsky definovaná globální role"
+
+msgid "rbac_ud_local"
+msgstr "Uživatelsky definovaná lokální role"
+
+msgid "rbac_ud_rolt"
+msgstr "Uživatelsky definovaná šablona role"
+
+msgid "rbac_unprotected_delete_local_policies_info"
+msgstr "Je-li aktivováno, všechny lokální nastavení bezpečnostní politiky budou smazány. Oprávnění v kurzech a skupinách budou nově inicializovány."
+
+msgid "rbac_unprotected_keep_local_policies_info"
+msgstr "Tento mód vyberte pro zachování lokální bezpečnostní politiky."
+
+#, fuzzy
+msgid "rbac_view_content"
+msgstr "View Content"
+
+msgid "rcat_delete"
+msgstr "Uživatel může přesunout nebo odstranit kategorii ECS"
+
+msgid "rcat_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění"
+
+msgid "rcat_read"
+msgstr "Uživatel může používat kategorii ECS"
+
+msgid "rcat_visible"
+msgstr "Kategorie ECS je viditelná"
+
+msgid "rcat_write"
+msgstr "Uživatel může upravovat nastavení kategorie ECS"
+
+msgid "rcrs_delete"
+msgstr "Smazat odkazy kurzu"
+
+msgid "rcrs_edit_permission"
+msgstr "Změna nastavení oprávnění"
+
+msgid "rcrs_read"
+msgstr "Právo číst na nastavení odkazů kurzu"
+
+msgid "rcrs_visible"
+msgstr "Odkazy kurzu jsou viditelné"
+
+msgid "rcrs_write"
+msgstr "Upravit odkazy kurzu"
+
+#, fuzzy
+msgid "read_all_accounts"
+msgstr "Read All Accounts"
+
+#, fuzzy
+msgid "read_comp"
+msgstr "User has read access to Competences and Competence Templates"
+
+msgid "read_learning_progress"
+msgstr "Zobrazit pokrok ostatních uživatelů"
+
+#, fuzzy
+msgid "read_outcomes"
+msgstr "View learning experiences of other users"
+
+#, fuzzy
+msgid "read_profiles"
+msgstr "User has read access to Competence Profiles"
+
+msgid "read_results"
+msgstr "Výsledky průzkumu"
+
+msgid "read_users"
+msgstr "Přístup číst na lokální uživatelské účty"
+
+msgid "recf_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "recf_read"
+msgstr "Přístup číst na obnovené objekty"
+
+msgid "recf_visible"
+msgstr "Obnovené objekty jsou viditelné"
+
+msgid "recf_write"
+msgstr "Upravit obnovené objekty"
+
+msgid "redact"
+msgstr "Redigovat"
+
+msgid "release_objects"
+msgstr "Uvolnit objekty"
+
+msgid "reps_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění ve správě úložiště"
+
+msgid "reps_read"
+msgstr "Uživatel má přístup ke správě úložiště jen pro čtení"
+
+msgid "reps_visible"
+msgstr "Správa úložiště je viditelná"
+
+msgid "reps_write"
+msgstr "Upravit nastavení ve správě úložiště"
+
+msgid "rfil_delete"
+msgstr "Uživatel může přesunout nebo odstranit soubor ECS"
+
+msgid "rfil_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění"
+
+msgid "rfil_read"
+msgstr "Uživatel může používat soubor ECS"
+
+msgid "rfil_visible"
+msgstr "Soubor ECS je viditelný"
+
+msgid "rfil_write"
+msgstr "Uživatel může upravovat nastavení souboru ECS"
+
+msgid "rglo_delete"
+msgstr "Uživatel může přesunout nebo odstranit glosář ECS"
+
+msgid "rglo_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění"
+
+msgid "rglo_read"
+msgstr "Uživatel může používat glosář ECS"
+
+msgid "rglo_visible"
+msgstr "Glosář ECS je viditelný"
+
+msgid "rglo_write"
+msgstr "Uživatel může upravovat nastavení glosáře ECS"
+
+msgid "rgrp_delete"
+msgstr "Uživatel může přesunout nebo odstranit skupinu ECS"
+
+msgid "rgrp_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění"
+
+msgid "rgrp_read"
+msgstr "Uživatel může používat skupinu ECS"
+
+msgid "rgrp_visible"
+msgstr "Skupina ECS je viditelná"
+
+msgid "rgrp_write"
+msgstr "Uživatel může upravovat nastavení skupiny ECS"
+
+msgid "rlm_delete"
+msgstr "Uživatel může přesunout nebo odstranit výukový modul ECS"
+
+msgid "rlm_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění"
+
+msgid "rlm_read"
+msgstr "Uživatel může používat výukový modul ECS"
+
+msgid "rlm_visible"
+msgstr "Výukový modul ECS Learning je viditelný"
+
+msgid "rlm_write"
+msgstr "Uživatel může upravovat nastavení výukového modulu ECS"
+
+msgid "role_block_role"
+msgstr "Blokovat roli"
+
+msgid "role_block_role_desc"
+msgstr "Přístup k tomuto a podřízeným objektům bude zrušen."
+
+msgid "role_blocked"
+msgstr ": <i> Role bude blokována </i>"
+
+msgid "role_confirm_block_role"
+msgstr "Uložit status role"
+
+msgid "role_confirm_block_role_header"
+msgstr "Skutečně chcete blokovat vybrané role?"
+
+msgid "role_confirm_block_role_info"
+msgstr "Budou vykonány následující operace:<br /><br />- oprávnění role tohoto a všech podřízených objektů bude zablokováno.<br />- toto nové nastavení oprávnění bude bude chráněno."
+
+msgid "role_confirm_unblock_role_info"
+msgstr "Pro akci \"Odblokovat roli\" budou provedeny následující kroky: <br /> <br /> - místní politika bude smazána."
+
+msgid "role_unblocked"
+msgstr ": <i> Role bude odblokována </i>"
+
+msgid "root_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "root_read"
+msgstr "Přístup číst k systému ILIAS"
+
+msgid "root_visible"
+msgstr "Systém ILIAS je viditelný"
+
+msgid "root_write"
+msgstr "Upravit metadata root uzlu systému"
+
+msgid "rtst_delete"
+msgstr "Uživatel může přesunout nebo odstranit test ECS"
+
+msgid "rtst_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění"
+
+msgid "rtst_read"
+msgstr "Uživatel může použít test ECS"
+
+msgid "rtst_visible"
+msgstr "Test ECS je viditelný"
+
+msgid "rtst_write"
+msgstr "Uživatel může upravovat nastavení testu ECS"
+
+msgid "rwik_delete"
+msgstr "Uživatel může přesunout nebo odstranit ECS Wiki"
+
+msgid "rwik_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění"
+
+msgid "rwik_read"
+msgstr "Uživatel může používat ECS Wiki"
+
+msgid "rwik_visible"
+msgstr "ECS Wiki je viditelná"
+
+msgid "rwik_write"
+msgstr "Uživatel může upravovat nastavení ECS Wiki"
+
+msgid "sahs_copy"
+msgstr "Uživatel může kopírovat výukový modul SCORM / AICC"
+
+msgid "sahs_delete"
+msgstr "Smazat  výukový modul SCORM/AICC"
+
+msgid "sahs_edit_learning_progress"
+msgstr "Upravit postup výuky"
+
+msgid "sahs_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "sahs_read"
+msgstr "Přístup číst na výukový modul SCORM/AICC"
+
+msgid "sahs_read_learning_progress"
+msgstr "Uživatel si může prohlédnout postup výuky ostatních uživatelů"
+
+msgid "sahs_visible"
+msgstr "Výukový modul SCORM/AICC je viditelný"
+
+msgid "sahs_write"
+msgstr "Upravit výukový modul SCORM/AICC"
+
+msgid "seas_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "seas_read"
+msgstr "Hledat nastavení číst"
+
+msgid "seas_search"
+msgstr "Umožnit využití hledání"
+
+msgid "seas_visible"
+msgstr "Nastavení hledání je viditelné"
+
+msgid "seas_write"
+msgstr "Upravit nastavení hledání"
+
+msgid "sess_copy"
+msgstr "Kopírovat lekci"
+
+msgid "sess_delete"
+msgstr "Smazat schůzku"
+
+msgid "sess_edit_event"
+msgstr "Upravit události kalendáře"
+
+msgid "sess_edit_learning_progress"
+msgstr "Uživatel může upravovat nastavení postupu výuky"
+
+msgid "sess_edit_metadata"
+msgstr "Upravit metadata"
+
+msgid "sess_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "sess_manage_materials"
+msgstr "Správa materiálů relace"
+
+msgid "sess_manage_members"
+msgstr "Správa účastníků relace"
+
+msgid "sess_read"
+msgstr "Právo číst na nastavení lekce"
+
+msgid "sess_read_learning_progress"
+msgstr "Uživatel si může prohlédnout postup výuky ostatních uživatelů"
+
+msgid "sess_visible"
+msgstr "Lekce jsou viditelné"
+
+msgid "sess_write"
+msgstr "Upravit lekci"
+
+#, fuzzy
+msgid "skee_copy"
+msgstr "User can copy Competence Tree (currently not available)"
+
+#, fuzzy
+msgid "skee_delete"
+msgstr "User can delete Competence Tree"
+
+#, fuzzy
+msgid "skee_edit_permission"
+msgstr "User can change permission settings of Competence Tree administration"
+
+#, fuzzy
+msgid "skee_manage_comp"
+msgstr "User can edit Competences in Competence Tree"
+
+#, fuzzy
+msgid "skee_manage_comp_temp"
+msgstr "User can edit Competence Templates in Competence Tree"
+
+#, fuzzy
+msgid "skee_manage_profiles"
+msgstr "User can edit Competence Profiles in Competence Tree"
+
+#, fuzzy
+msgid "skee_read"
+msgstr "User has read access to administration of Competence Tree"
+
+#, fuzzy
+msgid "skee_read_comp"
+msgstr "User has read access to Competences and Competence Templates in Competence Tree"
+
+#, fuzzy
+msgid "skee_read_profiles"
+msgstr "User has read access to Competence Profiles in Competence Tree"
+
+#, fuzzy
+msgid "skee_visible"
+msgstr "Competence Tree is visible"
+
+#, fuzzy
+msgid "skee_write"
+msgstr "User can edit settings of Competence Tree"
+
+msgid "skmg_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "skmg_read"
+msgstr "Přístup číst na management odbornosti"
+
+msgid "skmg_visible"
+msgstr "Management odbornosti je viditelný"
+
+msgid "skmg_write"
+msgstr "Upravit management odbornosti"
+
+msgid "smtp_mail"
+msgstr "Odeslat e-mail"
+
+msgid "spl_copy"
+msgstr "Kopírovat zásobník otázek ankety"
+
+msgid "spl_delete"
+msgstr "Smazat zásobník otázek ankety"
+
+msgid "spl_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "spl_read"
+msgstr "Přístup číst na zásobník otázek ankety"
+
+msgid "spl_visible"
+msgstr "Zásobník otázek je viditelný"
+
+msgid "spl_write"
+msgstr "Upravit zásobník otázek"
+
+msgid "statistics_read"
+msgstr "Zobrazit statistiky"
+
+#, fuzzy
+msgid "stus_edit_permission"
+msgstr "User can change permission settings in Shortlink administration"
+
+#, fuzzy
+msgid "stus_read"
+msgstr "User can see the Shortlink Administration"
+
+#, fuzzy
+msgid "stus_write"
+msgstr "User can edit Shortlinks"
+
+msgid "sty_write_content"
+msgstr "Upravit styly obsahu"
+
+msgid "sty_write_page_layout"
+msgstr "Upravit rozvržení stránky"
+
+msgid "sty_write_system"
+msgstr "Upravit styly systému"
+
+msgid "stys_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "stys_read"
+msgstr "Přístup číst na nastavení stylu"
+
+msgid "stys_sty_write_content"
+msgstr "Upravit styly obsahu"
+
+msgid "stys_sty_write_custom"
+msgstr "Upravit styly obsahu"
+
+msgid "stys_sty_write_page_layout"
+msgstr "Upravit rozvržení stránky"
+
+msgid "stys_sty_write_system"
+msgstr "Upravit styly systému"
+
+msgid "stys_visible"
+msgstr "Nastavení stylu je viditelné"
+
+msgid "svy_copy"
+msgstr "Kopírovat anketu"
+
+msgid "svy_delete"
+msgstr "Smazat anketu"
+
+msgid "svy_edit_learning_progress"
+msgstr "Uživatel může upravovat nastavení postupu výuky"
+
+msgid "svy_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "svy_invite"
+msgstr "Pozvat uživatele do ankety"
+
+msgid "svy_read"
+msgstr "Přístup číst k anketě"
+
+msgid "svy_read_learning_progress"
+msgstr "Uživatel si může prohlédnout postup výuky ostatních uživatelů"
+
+msgid "svy_read_results"
+msgstr "Uživatel má přístup k výsledkům průzkumu ostatních"
+
+msgid "svy_visible"
+msgstr "Anketa je viditelná"
+
+msgid "svy_write"
+msgstr "Upravit anketu"
+
+msgid "svyf_edit_permission"
+msgstr "Změna nastavení oprávnění"
+
+msgid "svyf_read"
+msgstr "Přístup číst na nastavení ankety"
+
+msgid "svyf_visible"
+msgstr "Nastavení ankety je viditelné"
+
+msgid "svyf_write"
+msgstr "Upravit nastavení ankety"
+
+msgid "sysc_edit_permission"
+msgstr "Uživatel může měnit oprávnění ke kontrola systému."
+
+msgid "sysc_read"
+msgstr "Uživatel má přístup do sekce kontroly systému jen pro čtení"
+
+msgid "sysc_visible"
+msgstr "Systémová kontrola je viditelná."
+
+msgid "sysc_write"
+msgstr "Uživatel může provést kontrolu systému."
+
+msgid "tags_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "tags_read"
+msgstr "Právo číst na nastavení značení"
+
+msgid "tags_visible"
+msgstr "Nastavení značení je viditelné"
+
+msgid "tags_write"
+msgstr "Upravit nastavení značení"
+
+#, fuzzy
+msgid "tala_edit_permission"
+msgstr "User can change permission settings in Talk Templates administration"
+
+#, fuzzy
+msgid "tala_read"
+msgstr "User has read access to Talk Templates administration"
+
+#, fuzzy
+msgid "tala_visible"
+msgstr "Talk Templates administration is visible"
+
+#, fuzzy
+msgid "tala_write"
+msgstr "User can create and edit Talk Templates"
+
+msgid "taxs_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění ve správě taxonomie"
+
+msgid "taxs_read"
+msgstr "Uživatel má přístup ke správě taxonomie jen pro čtení"
+
+msgid "taxs_visible"
+msgstr "Správa taxonomie je viditelná"
+
+msgid "taxs_write"
+msgstr "Upravit nastavení ve správě taxonomie"
+
+msgid "tos_edit_permission"
+msgstr "Uživatel může měnit nastavení oprávnění ve správě podmínek služeb"
+
+msgid "tos_read"
+msgstr "Uživatel má přístup ke správě podmínek služeb"
+
+msgid "tos_visible"
+msgstr "Správa podmínek služeb je viditelná"
+
+msgid "tos_write"
+msgstr "Upravit nastavení správy podmínek služeb"
+
+msgid "trac_delete"
+msgstr "Smazat data sledování"
+
+msgid "trac_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "trac_lp_other_users"
+msgstr "Zobrazit přehled postupu výuky jiných uživatelů"
+
+msgid "trac_read"
+msgstr "Číst data sledování"
+
+msgid "trac_visible"
+msgstr "Audit uživatele je viditelný"
+
+msgid "trac_write"
+msgstr "Upravte nastavení ve správě statistiky a postupu výuky"
+
+msgid "tst_copy"
+msgstr "Kopírovat test"
+
+msgid "tst_delete"
+msgstr "Smazat test"
+
+msgid "tst_edit_learning_progress"
+msgstr "Upravit postup výuky"
+
+msgid "tst_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "tst_read"
+msgstr "Přístup číst na test"
+
+msgid "tst_read_learning_progress"
+msgstr "Uživatel si může prohlédnout postup výuky ostatních uživatelů"
+
+#, fuzzy
+msgid "tst_tst_history_read"
+msgstr "View History"
+
+msgid "tst_tst_results"
+msgstr "Uživatel má přístup k výsledkům testu"
+
+msgid "tst_visible"
+msgstr "Test je viditelný"
+
+msgid "tst_write"
+msgstr "Upravit test"
+
+#, fuzzy
+msgid "upload_blacklisted_files"
+msgstr "Bypass blacklist"
+
+msgid "usrf_delete"
+msgstr "Smazat účet uživatele"
+
+msgid "usrf_edit_permission"
+msgstr "Změnit přístup k účtům uživatele"
+
+msgid "usrf_edit_roleassignment"
+msgstr "Změnit přiřazení role účtům uživatele"
+
+msgid "usrf_push_desktop_items"
+msgstr "Povolit posouvání položek na osobní pracovní ploše."
+
+msgid "usrf_read"
+msgstr "Přístup číst k účtům uživatelů"
+
+#, fuzzy
+msgid "usrf_read_all_accounts"
+msgstr "User can list all accounts in User administration"
+
+msgid "usrf_read_users"
+msgstr "Přiřazení role pro lokální administrátory"
+
+msgid "usrf_visible"
+msgstr "Účty uživatelů jsou viditelné"
+
+msgid "usrf_write"
+msgstr "Upravit účty uživatelů"
+
+#, fuzzy
+msgid "wbdv_edit_permission"
+msgstr "User can change permission settings of WebDAV administration."
+
+#, fuzzy
+msgid "wbdv_read"
+msgstr "User has read access to WebDAV administration."
+
+#, fuzzy
+msgid "wbdv_visible"
+msgstr "Administration of WebDAV is visible."
+
+#, fuzzy
+msgid "wbdv_write"
+msgstr "User can edit settings of WebDAV administration."
+
+msgid "wbrs_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění ve správě Weblink"
+
+msgid "wbrs_read"
+msgstr "Uživatel má přístup ke správě Weblink jen pro čtení"
+
+msgid "wbrs_visible"
+msgstr "Správa Weblink je viditelná"
+
+msgid "wbrs_write"
+msgstr "Upravit nastavení ve správě Weblink"
+
+msgid "webr_copy"
+msgstr "Kopírovat webový zdroj"
+
+msgid "webr_delete"
+msgstr "Smazat webový zdroj"
+
+msgid "webr_edit_permission"
+msgstr "Změnit nastavení oprávnění"
+
+msgid "webr_read"
+msgstr "Přístup číst webový zdroj"
+
+msgid "webr_visible"
+msgstr "Webový zdroj je viditelný"
+
+msgid "webr_write"
+msgstr "Upravit webový zdroj"
+
+msgid "wiki_activate_wiki_protection"
+msgstr "Nastavit Wiki stránky pouze pro čtení"
+
+#, fuzzy
+msgid "wiki_add_pages"
+msgstr "User can create wiki pages"
+
+msgid "wiki_copy"
+msgstr "Kopírovat Wiki"
+
+msgid "wiki_delete"
+msgstr "Smazat Wiki"
+
+msgid "wiki_delete_wiki_pages"
+msgstr "Smazat Wiki stránky"
+
+msgid "wiki_edit_content"
+msgstr "Upravit stránky Wiki"
+
+msgid "wiki_edit_page_meta"
+msgstr "Upravit metadata stránky Wiki"
+
+msgid "wiki_edit_permission"
+msgstr "Změna nastavení oprávnění"
+
+msgid "wiki_edit_wiki_navigation"
+msgstr "Upravit navigaci Wiki"
+
+msgid "wiki_html_export"
+msgstr "Exportovat HTML"
+
+msgid "wiki_read"
+msgstr "Právo číst Wiki"
+
+msgid "wiki_statistics_read"
+msgstr "Zobrazit statistiky"
+
+msgid "wiki_visible"
+msgstr "Wiki je viditelné"
+
+msgid "wiki_wiki_html_export"
+msgstr "Exportovat Wiki jako HTML"
+
+msgid "wiki_write"
+msgstr "Změnit nastavení Wiki, hodnocení studentů"
+
+msgid "wiks_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění ve správě Wiki"
+
+msgid "wiks_read"
+msgstr "Uživatel má přístup ke správě Wiki jen pro čtení"
+
+msgid "wiks_visible"
+msgstr "Správa Wiki je viditelná"
+
+msgid "wiks_write"
+msgstr "Upravit nastavení ve správě Wiki"
+
+msgid "write"
+msgstr "Upravit nastavení"

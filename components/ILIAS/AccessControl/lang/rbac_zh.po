@@ -1,0 +1,3214 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: rbac\n"
+
+msgid "accs_edit_permission"
+msgstr "更改权限设置"
+
+msgid "accs_read"
+msgstr "Read access to Accessibility Settings"
+
+msgid "accs_visible"
+msgstr "Accessibility Settings are visible"
+
+msgid "accs_write"
+msgstr "Edit Accessibility Settings"
+
+#, fuzzy
+msgid "activate_wiki_protection"
+msgstr "Set Read-Only"
+
+msgid "active_preconditions"
+msgstr "活跃的先决条件"
+
+msgid "add_consultation_hours"
+msgstr "添加预约时间日历"
+
+#, fuzzy
+msgid "add_consume_provider"
+msgstr "Add Own LTI Provider Settings"
+
+#, fuzzy
+msgid "add_pages"
+msgstr "Add Pages"
+
+msgid "add_reply"
+msgstr "添加回复"
+
+msgid "add_thread"
+msgstr "添加线程"
+
+msgid "adm_edit_permission"
+msgstr "更改许可设置"
+
+msgid "adm_read"
+msgstr "基本系统设置为读访问"
+
+msgid "adm_visible"
+msgstr "系统设置可视"
+
+msgid "adm_write"
+msgstr "编辑基本系统设置"
+
+#, fuzzy
+msgid "adn_edit_permission"
+msgstr "User can change permissions of Administrative Notifications' administration."
+
+#, fuzzy
+msgid "adn_read"
+msgstr "User has read access to administration of Administrative Notifications."
+
+#, fuzzy
+msgid "adn_visible"
+msgstr "Administration of Administrative Notifications is visible."
+
+#, fuzzy
+msgid "adn_write"
+msgstr "User can add and edit Administrative Notifications."
+
+msgid "adopt_perm_from_template"
+msgstr "从角色模板选定许可设置"
+
+msgid "adve_edit_permission"
+msgstr "改变权限设置"
+
+msgid "adve_read"
+msgstr "访问高级编辑管理"
+
+msgid "adve_visible"
+msgstr "高级编辑管理是可见的"
+
+msgid "adve_write"
+msgstr "高级编辑管理"
+
+#, fuzzy
+msgid "amend_grading"
+msgstr "Amend finalized grading"
+
+msgid "assf_edit_permission"
+msgstr "改变权限设置"
+
+msgid "assf_read"
+msgstr "访问测试和评估管理"
+
+msgid "assf_visible"
+msgstr "测试和评估管理是可见的"
+
+msgid "assf_write"
+msgstr "编辑测试和评估管理"
+
+msgid "auth_edit_permission"
+msgstr "改变权限设置"
+
+msgid "auth_read"
+msgstr "访问身份验证设置"
+
+msgid "auth_visible"
+msgstr "身份验证设置可见"
+
+msgid "auth_write"
+msgstr "编辑身份验证设置"
+
+#, fuzzy
+msgid "awra_edit_permission"
+msgstr "User can change permission settings in ‘Who is online?’ administration"
+
+#, fuzzy
+msgid "awra_read"
+msgstr "User has read access to ‘Who is online?’ administration"
+
+#, fuzzy
+msgid "awra_visible"
+msgstr "‘Who is online?’ administration is visible"
+
+#, fuzzy
+msgid "awra_write"
+msgstr "Edit settings in ‘Who is online?’ administration"
+
+#, fuzzy
+msgid "bdga_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "bdga_read"
+msgstr "User can read badge administration content"
+
+#, fuzzy
+msgid "bdga_visible"
+msgstr "Badge administration is visible"
+
+#, fuzzy
+msgid "bdga_write"
+msgstr "User can edit badge administration settings"
+
+#, fuzzy
+msgid "bibl_copy"
+msgstr "User can copy bibliography"
+
+#, fuzzy
+msgid "bibl_delete"
+msgstr "User can move or delete bibliography"
+
+#, fuzzy
+msgid "bibl_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "bibl_read"
+msgstr "User can read bibliography content"
+
+#, fuzzy
+msgid "bibl_visible"
+msgstr "Bibliography is visible"
+
+#, fuzzy
+msgid "bibl_write"
+msgstr "User can edit bibliography settings"
+
+#, fuzzy
+msgid "bibs_copy"
+msgstr "User can copy bibliography"
+
+#, fuzzy
+msgid "bibs_delete"
+msgstr "User can delete library entries"
+
+#, fuzzy
+msgid "bibs_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "bibs_read"
+msgstr "User can read bibliography content"
+
+#, fuzzy
+msgid "bibs_visible"
+msgstr "Bibliography-Administration is visible"
+
+#, fuzzy
+msgid "bibs_write"
+msgstr "User can edit bibliography settings"
+
+msgid "blga_edit_permission"
+msgstr "更改权限设置"
+
+msgid "blga_read"
+msgstr "博客管理读访问权限"
+
+msgid "blga_visible"
+msgstr "博客管理是可见的"
+
+msgid "blga_write"
+msgstr "编辑博客管理"
+
+msgid "blog_contribute"
+msgstr "用户可以贡献"
+
+msgid "blog_copy"
+msgstr "用户可以复制博客"
+
+msgid "blog_delete"
+msgstr "用户可以移动或删除博客"
+
+msgid "blog_edit_permission"
+msgstr "用户可以更改权限设置"
+
+msgid "blog_read"
+msgstr "用户可以阅读博客内容"
+
+#, fuzzy
+msgid "blog_redact"
+msgstr "User can edit all postings"
+
+msgid "blog_visible"
+msgstr "博客是可见的"
+
+msgid "blog_write"
+msgstr "用户可以编辑博客设置"
+
+#, fuzzy
+msgid "book_copy"
+msgstr "User can copy booking pool"
+
+msgid "book_delete"
+msgstr "用户可以移动或删除预订池"
+
+msgid "book_edit_permission"
+msgstr "改变权限设置"
+
+#, fuzzy
+msgid "book_manage_all_reservations"
+msgstr "User can manage all reservations"
+
+#, fuzzy
+msgid "book_manage_own_reservations"
+msgstr "User can manage own reservations"
+
+msgid "book_read"
+msgstr "预订池读访问权限"
+
+msgid "book_visible"
+msgstr "预订池是可见的"
+
+msgid "book_write"
+msgstr "编辑预订池"
+
+#, fuzzy
+msgid "cadm_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "cadm_read"
+msgstr "User has read access to user connection administration"
+
+#, fuzzy
+msgid "cadm_visible"
+msgstr "User connection administration is visible"
+
+#, fuzzy
+msgid "cadm_write"
+msgstr "User has write access to user connection administration"
+
+msgid "cals_add_consultation_hours"
+msgstr "添加咨询时间日历"
+
+msgid "cals_edit_event"
+msgstr "管理公共日历"
+
+msgid "cals_edit_permission"
+msgstr "改变权限设置"
+
+msgid "cals_read"
+msgstr "日历设置读访问权限"
+
+msgid "cals_visible"
+msgstr "日历设置可见权限"
+
+msgid "cals_write"
+msgstr "日历设置编辑权限"
+
+msgid "cat_administrate_users"
+msgstr "管理本地用户账号"
+
+msgid "cat_cat_administrate_users"
+msgstr "管理本地用户账号"
+
+msgid "cat_copy"
+msgstr "复制类目(Category)"
+
+msgid "cat_delete"
+msgstr "删除类目"
+
+msgid "cat_edit_permission"
+msgstr "更改许可设置"
+
+msgid "cat_read"
+msgstr "类目设为读访问"
+
+msgid "cat_read_users"
+msgstr "可读访问本地用户账号"
+
+msgid "cat_visible"
+msgstr "类目可视"
+
+msgid "cat_write"
+msgstr "编辑类目"
+
+msgid "catr_copy"
+msgstr "复制类目参考"
+
+msgid "catr_delete"
+msgstr "删除类目参考"
+
+msgid "catr_edit_permission"
+msgstr "更改权限设置"
+
+msgid "catr_visible"
+msgstr "类目参考可见访问权限"
+
+msgid "catr_write"
+msgstr "类目参考编辑权限"
+
+msgid "cert_edit_permission"
+msgstr "改变权限设置"
+
+msgid "cert_read"
+msgstr "可读访问证书设置"
+
+msgid "cert_visible"
+msgstr "证书设置可见"
+
+msgid "cert_write"
+msgstr "编辑证书设置"
+
+msgid "change_existing_object_type_desc"
+msgstr "同时改变已存在的那些类型对象的权限"
+
+msgid "change_existing_objects"
+msgstr "更改现有对象"
+
+msgid "change_existing_objects_desc"
+msgstr "这个角色的权限设置将被适用到所有已存在的对象。如果您只想改变指定对象类型的权限，请点击右边的适当对象类型的复选框。"
+
+msgid "change_existing_prefix"
+msgstr "改变已存在的"
+
+msgid "change_existing_prefix_single"
+msgstr "改变"
+
+msgid "change_existing_suffix"
+msgstr "&nbsp;"
+
+msgid "change_existing_suffix_single"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "change_presentation"
+msgstr "Change Presentation"
+
+msgid "chtr_delete"
+msgstr "用户可以移动或删除课程"
+
+msgid "chtr_edit_permission"
+msgstr "更改权限"
+
+msgid "chtr_moderate"
+msgstr "Moderate 聊天室"
+
+msgid "chtr_read"
+msgstr "读"
+
+msgid "chtr_visible"
+msgstr "可见"
+
+msgid "chtr_write"
+msgstr "写"
+
+#, fuzzy
+msgid "cmis_edit_permission"
+msgstr "User can change permission settings of xAPI/cmi5 administration."
+
+#, fuzzy
+msgid "cmis_read"
+msgstr "User has read access to xAPI/cmi5 administration."
+
+#, fuzzy
+msgid "cmis_visible"
+msgstr "Administration of xAPI/cmi5 is visible."
+
+#, fuzzy
+msgid "cmis_write"
+msgstr "User can edit settings of xAPI/cmi5 administration."
+
+#, fuzzy
+msgid "cmix_copy"
+msgstr "User can copy xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_delete"
+msgstr "User can move or delete xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "cmix_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "cmix_read"
+msgstr "User can see xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "cmix_read_outcomes"
+msgstr "User can see learning experiences and ranking of other users"
+
+#, fuzzy
+msgid "cmix_visible"
+msgstr "xAPI/cmi5 Object is visible"
+
+#, fuzzy
+msgid "cmix_write"
+msgstr "User can edit settings of xAPI/cmi5 Object"
+
+msgid "cmps_edit_permission"
+msgstr "更改权限设置"
+
+msgid "cmps_read"
+msgstr "组件设置读访问权限"
+
+msgid "cmps_visible"
+msgstr "组件设置可见权限"
+
+msgid "cmps_write"
+msgstr "组件设置编辑权限"
+
+#, fuzzy
+msgid "coms_edit_permissions"
+msgstr "User can change permission settings of administration of Comments."
+
+#, fuzzy
+msgid "coms_read"
+msgstr "User has read access to administration of Comments."
+
+#, fuzzy
+msgid "coms_visible"
+msgstr "Administration of Comments is visible."
+
+#, fuzzy
+msgid "coms_write"
+msgstr "User can edit settings of administration of Comments."
+
+#, fuzzy
+msgid "condition_failed"
+msgstr "Failed"
+
+#, fuzzy
+msgid "condition_learning_progress"
+msgstr "Derive from Learning Progress"
+
+#, fuzzy
+msgid "condition_result_range_percentage"
+msgstr "Result Range"
+
+msgid "contribute"
+msgstr "Contribute"
+
+#, fuzzy
+msgid "copa_copy"
+msgstr "Copy Content Page"
+
+#, fuzzy
+msgid "copa_delete"
+msgstr "User can move or delete Content Page"
+
+#, fuzzy
+msgid "copa_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "copa_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "copa_read"
+msgstr "User can read Content Page"
+
+#, fuzzy
+msgid "copa_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "copa_visible"
+msgstr "Content Page is visible"
+
+#, fuzzy
+msgid "copa_write"
+msgstr "User can edit Content Page"
+
+#, fuzzy
+msgid "cpad_edit_permissions"
+msgstr "User can change permission settings of administration of Content Pages."
+
+#, fuzzy
+msgid "cpad_read"
+msgstr "User has read access to administration of Content Pages."
+
+#, fuzzy
+msgid "cpad_visible"
+msgstr "Administration of Content Pages is visible."
+
+#, fuzzy
+msgid "cpad_write"
+msgstr "User can edit settings of administration of Content Pages."
+
+msgid "crs_copy"
+msgstr "复制课程"
+
+msgid "crs_delete"
+msgstr "删除课程"
+
+msgid "crs_edit_event"
+msgstr "编辑日历事件"
+
+msgid "crs_edit_learning_progress"
+msgstr "编辑学习进度"
+
+msgid "crs_edit_permission"
+msgstr "更改许可设置"
+
+#, fuzzy
+msgid "crs_grade"
+msgstr "Grade Members of Course"
+
+msgid "crs_join"
+msgstr "注册课程"
+
+msgid "crs_leave"
+msgstr "注销课程"
+
+#, fuzzy
+msgid "crs_manage_members"
+msgstr "Manage Members of Course"
+
+#, fuzzy
+msgid "crs_news_add_news"
+msgstr "Add and edit own news entries in course"
+
+msgid "crs_read"
+msgstr "课程设为读访问"
+
+#, fuzzy
+msgid "crs_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "crs_visible"
+msgstr "课程可视"
+
+msgid "crs_write"
+msgstr "用户能编辑课程设置和管理内容"
+
+msgid "crsr_copy"
+msgstr "复制课程参考"
+
+msgid "crsr_delete"
+msgstr "删除课程参考"
+
+#, fuzzy
+msgid "crsr_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "crsr_edit_permission"
+msgstr "更改权限设置"
+
+#, fuzzy
+msgid "crsr_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "crsr_visible"
+msgstr "课程参考可见权限"
+
+msgid "crsr_write"
+msgstr "课程参考编辑权限"
+
+#, fuzzy
+msgid "crss_edit_permission"
+msgstr "User can change permission settings in Course administration"
+
+#, fuzzy
+msgid "crss_read"
+msgstr "User has read access to Course administration"
+
+#, fuzzy
+msgid "crss_visible"
+msgstr "Course administration is visible"
+
+#, fuzzy
+msgid "crss_write"
+msgstr "Edit settings in Course administration"
+
+msgid "dcl_add_entry"
+msgstr "用户能添加/编辑条目"
+
+msgid "dcl_copy"
+msgstr "用户可以复制数据采集"
+
+msgid "dcl_delete"
+msgstr "用户可以移动或删除数据采集"
+
+#, fuzzy
+msgid "dcl_edit_content"
+msgstr "Edit entries"
+
+msgid "dcl_edit_permission"
+msgstr "用户能更改权限设置"
+
+msgid "dcl_read"
+msgstr "数据收集读访问权限"
+
+msgid "dcl_visible"
+msgstr "数据采集是可见的"
+
+msgid "dcl_write"
+msgstr "用户可以编辑设置和数据采集的内容。"
+
+#, fuzzy
+msgid "delete_files"
+msgstr "Delete Files"
+
+#, fuzzy
+msgid "delete_folders"
+msgstr "Delete Folders"
+
+#, fuzzy
+msgid "delete_wiki_pages"
+msgstr "Delete Pages"
+
+#, fuzzy
+msgid "dpro_edit_permission"
+msgstr "User can change permission settings in the Declaration of Data Protected administration"
+
+#, fuzzy
+msgid "dpro_read"
+msgstr "User has read access to the Declaration of Data Protection administration"
+
+#, fuzzy
+msgid "dpro_visible"
+msgstr "Declaration of Data Protection administration is visible"
+
+#, fuzzy
+msgid "dpro_write"
+msgstr "Edit settings in the Declaration of Data Protection"
+
+#, fuzzy
+msgid "dshs_change_presentation"
+msgstr "Change presentation of dashboard view"
+
+#, fuzzy
+msgid "dshs_edit_permission"
+msgstr "User can change permission settings of Dashboard administration"
+
+#, fuzzy
+msgid "dshs_read"
+msgstr "User has read access to Dashboard administration"
+
+#, fuzzy
+msgid "dshs_visible"
+msgstr "Dashboard administration is visible"
+
+#, fuzzy
+msgid "dshs_write"
+msgstr "Edit settings of Dashboard administration"
+
+msgid "ecss_edit_permission"
+msgstr "用户可以编辑ECS管理的权限设置"
+
+msgid "ecss_read"
+msgstr "用户可以读取常规ECS设置"
+
+msgid "ecss_visible"
+msgstr "ECS 设置可见"
+
+msgid "ecss_write"
+msgstr "用户可以编辑 ECS 设置"
+
+msgid "edit_event"
+msgstr "编辑日历"
+
+#, fuzzy
+msgid "edit_file"
+msgstr "Edit File"
+
+#, fuzzy
+msgid "edit_in_online_editor"
+msgstr "Open in online editor"
+
+msgid "edit_learning_progress"
+msgstr "编辑学习进程"
+
+#, fuzzy
+msgid "edit_members"
+msgstr "Manage members"
+
+msgid "edit_permission"
+msgstr "修改权限"
+
+msgid "edit_roleassignment"
+msgstr "编辑角色分配"
+
+#, fuzzy
+msgid "edit_submissions_grades"
+msgstr "Edit Submissions and Grades"
+
+#, fuzzy
+msgid "edit_userassignment"
+msgstr "Edit User Assignment"
+
+#, fuzzy
+msgid "edit_wiki_navigation"
+msgstr "Edit Navigation"
+
+msgid "exc_copy"
+msgstr "复制练习(Exercise)"
+
+msgid "exc_delete"
+msgstr "删除练习"
+
+msgid "exc_edit_learning_progress"
+msgstr "编辑学习进程"
+
+msgid "exc_edit_permission"
+msgstr "更改许可设置"
+
+#, fuzzy
+msgid "exc_edit_submissions_grades"
+msgstr "User can edit submissions and grades"
+
+msgid "exc_read"
+msgstr "访问练习"
+
+#, fuzzy
+msgid "exc_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "exc_visible"
+msgstr "练习可见"
+
+msgid "exc_write"
+msgstr "编辑练习"
+
+#, fuzzy
+msgid "excs_edit_permission"
+msgstr "User can change permission settings in Exercise administration"
+
+#, fuzzy
+msgid "excs_read"
+msgstr "User has read access to Exercise administration"
+
+#, fuzzy
+msgid "excs_visible"
+msgstr "Exercise administration is visible"
+
+#, fuzzy
+msgid "excs_write"
+msgstr "Edit settings in Exercise administration"
+
+msgid "export_member_data"
+msgstr "访问用户数据"
+
+msgid "facs_edit_permission"
+msgstr "更改权限设置"
+
+msgid "facs_read"
+msgstr "文件&文件夹设置读访问权限"
+
+#, fuzzy
+msgid "facs_upload_blacklisted_files"
+msgstr "Upload indexed file types despite blacklist"
+
+msgid "facs_visible"
+msgstr "文件&文件夹设置可见权限"
+
+msgid "facs_write"
+msgstr "文件& 文件夹设置编辑权限"
+
+#, fuzzy
+msgid "feed_copy"
+msgstr "User can copy webfeed"
+
+msgid "feed_delete"
+msgstr "删除Web Feed"
+
+msgid "feed_edit_permission"
+msgstr "改变权限设置"
+
+msgid "feed_read"
+msgstr "读访问Web Feed"
+
+msgid "feed_write"
+msgstr "编辑 Web Feed"
+
+msgid "file_copy"
+msgstr "复制文件"
+
+msgid "file_delete"
+msgstr "删除文件"
+
+#, fuzzy
+msgid "file_edit_file"
+msgstr "Allow to edit the file in an external editor, if available"
+
+#, fuzzy
+msgid "file_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "file_edit_permission"
+msgstr "改变权限设置"
+
+#, fuzzy
+msgid "file_file_view_content"
+msgstr "File content presented in browser (if WOPI is active)"
+
+#, fuzzy
+msgid "file_file_view_content_short"
+msgstr "Show Content"
+
+msgid "file_read"
+msgstr "下载文件"
+
+#, fuzzy
+msgid "file_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "file_visible"
+msgstr "文件都是可见的"
+
+msgid "file_write"
+msgstr "编辑文件"
+
+#, fuzzy
+msgid "files_visible"
+msgstr "Files Visible"
+
+#, fuzzy
+msgid "fils_edit_permissions"
+msgstr "User can change permission settings of File Services administration."
+
+#, fuzzy
+msgid "fils_read"
+msgstr "User has read access to File Services administration."
+
+#, fuzzy
+msgid "fils_visible"
+msgstr "Administration of File Services is visible."
+
+#, fuzzy
+msgid "fils_write"
+msgstr "User can edit and configure File Services."
+
+msgid "filter_all_roles"
+msgstr "显示当前上下文的所有角色"
+
+msgid "filter_global_roles"
+msgstr "仅显示全局角色"
+
+msgid "filter_local_roles"
+msgstr "仅显示当前上下文的本地角色"
+
+msgid "filter_local_roles_object"
+msgstr "仅显示定义在这个位置的本地角色"
+
+msgid "filter_roles_local_policy"
+msgstr "仅在这个位置显示使用一个本地策略的角色"
+
+msgid "fld_create_poll"
+msgstr "创建投票"
+
+msgid "fold_copy"
+msgstr "复制文件夹"
+
+msgid "fold_delete"
+msgstr "删除文件夹"
+
+msgid "fold_edit_learning_progress"
+msgstr "编辑学习进程"
+
+msgid "fold_edit_permission"
+msgstr "改变权限设置"
+
+msgid "fold_read"
+msgstr "可读访问文件夹"
+
+#, fuzzy
+msgid "fold_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "fold_visible"
+msgstr "文件夹可见"
+
+msgid "fold_write"
+msgstr "编辑文件夹"
+
+#, fuzzy
+msgid "folders_create"
+msgstr "Create Folders"
+
+#, fuzzy
+msgid "folders_visible"
+msgstr "Folders Visible"
+
+msgid "frm_add_reply"
+msgstr "用户可以回复一个帖子"
+
+msgid "frm_add_thread"
+msgstr "添加新主题"
+
+msgid "frm_copy"
+msgstr "复制论坛"
+
+msgid "frm_delete"
+msgstr "删除论坛"
+
+#, fuzzy
+msgid "frm_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "frm_edit_permission"
+msgstr "更改许可设置"
+
+msgid "frm_moderate_frm"
+msgstr "删除帖子,审查"
+
+msgid "frm_read"
+msgstr "论坛设为读访问"
+
+#, fuzzy
+msgid "frm_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "frm_visible"
+msgstr "论坛可见"
+
+msgid "frm_write"
+msgstr "编辑论坛"
+
+msgid "frma_edit_permission"
+msgstr "更改权限设置"
+
+msgid "frma_read"
+msgstr "论坛管理读访问权限"
+
+msgid "frma_visible"
+msgstr "论坛管理是可见的。"
+
+msgid "frma_write"
+msgstr "论坛管理写权限"
+
+msgid "glo_copy"
+msgstr "复制词汇表"
+
+msgid "glo_delete"
+msgstr "删除术语表"
+
+#, fuzzy
+msgid "glo_edit_content"
+msgstr "User can edit content"
+
+msgid "glo_edit_permission"
+msgstr "更改许可设置"
+
+msgid "glo_read"
+msgstr "术语表设为读访问"
+
+msgid "glo_visible"
+msgstr "术语表可视"
+
+msgid "glo_write"
+msgstr "编辑术语表"
+
+msgid "grp_copy"
+msgstr "复制组"
+
+msgid "grp_delete"
+msgstr "删除组"
+
+msgid "grp_edit_event"
+msgstr "编辑日历事件"
+
+msgid "grp_edit_learning_progress"
+msgstr "编辑学习进程"
+
+msgid "grp_edit_permission"
+msgstr "更改权限设置"
+
+#, fuzzy
+msgid "grp_grade"
+msgstr "Grade Members of Group"
+
+msgid "grp_join"
+msgstr "用户可以加入组"
+
+msgid "grp_leave"
+msgstr "用户可以离开组"
+
+#, fuzzy
+msgid "grp_manage_members"
+msgstr "Manage Members of Group"
+
+#, fuzzy
+msgid "grp_news_add_news"
+msgstr "Add and edit own news entries in group"
+
+msgid "grp_read"
+msgstr "组设为读访问"
+
+#, fuzzy
+msgid "grp_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "grp_visible"
+msgstr "组可视"
+
+msgid "grp_write"
+msgstr "编辑组"
+
+#, fuzzy
+msgid "grpr_copy"
+msgstr "User can copy group reference"
+
+#, fuzzy
+msgid "grpr_delete"
+msgstr "User can move or delete group reference"
+
+#, fuzzy
+msgid "grpr_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "grpr_visible"
+msgstr "Group reference is visible"
+
+#, fuzzy
+msgid "grpr_write"
+msgstr "User can edit settings of group reference"
+
+#, fuzzy
+msgid "grps_edit_permission"
+msgstr "User can change permission settings in Group administration"
+
+#, fuzzy
+msgid "grps_read"
+msgstr "User has read access to Group administration"
+
+#, fuzzy
+msgid "grps_visible"
+msgstr "Group administration is visible"
+
+#, fuzzy
+msgid "grps_write"
+msgstr "Edit settings in Group administration"
+
+msgid "hlps_edit_permission"
+msgstr "用户可以更改帮助系统管理的权限。"
+
+msgid "hlps_read"
+msgstr "用户有帮助系统管理的读访问权限。"
+
+msgid "hlps_visible"
+msgstr "帮助系统管理是可见的"
+
+msgid "hlps_write"
+msgstr "用户可以编辑帮助系统设置和上传新的版本。"
+
+msgid "htlm_copy"
+msgstr "复制HTML学习模块"
+
+msgid "htlm_delete"
+msgstr "删除HTML学习模块"
+
+msgid "htlm_edit_learning_progress"
+msgstr "编辑学习进程"
+
+msgid "htlm_edit_permission"
+msgstr "改变权限设置"
+
+msgid "htlm_read"
+msgstr "阅读HTML学习模块"
+
+#, fuzzy
+msgid "htlm_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "htlm_visible"
+msgstr "HTML学习模块可见"
+
+msgid "htlm_write"
+msgstr "编辑HTML学习模块"
+
+#, fuzzy
+msgid "iass_amend_grading"
+msgstr "Amend gradings in an Individual Assessment"
+
+#, fuzzy
+msgid "iass_copy"
+msgstr "Copy a Individual Assessment"
+
+#, fuzzy
+msgid "iass_delete"
+msgstr "Delete a Individual Assessment"
+
+#, fuzzy
+msgid "iass_edit_learning_progress"
+msgstr "Edit learning progress information of a Individual Assessment"
+
+#, fuzzy
+msgid "iass_edit_members"
+msgstr "Edit members of a Individual Assessment"
+
+#, fuzzy
+msgid "iass_edit_permission"
+msgstr "Edit permissions of a Individual Assessment"
+
+#, fuzzy
+msgid "iass_read"
+msgstr "Read content of a Individual Assessment"
+
+#, fuzzy
+msgid "iass_read_learning_progress"
+msgstr "View learning progress information of a Individual Assessment"
+
+#, fuzzy
+msgid "iass_visible"
+msgstr "Individual Assessment is visible"
+
+#, fuzzy
+msgid "iass_write"
+msgstr "Edit a Individual Assessment"
+
+#, fuzzy
+msgid "il_lti_global_role"
+msgstr "LTI User"
+
+#, fuzzy
+msgid "il_sess_participant"
+msgstr "Session Participant"
+
+#, fuzzy
+msgid "il_sess_status_closed"
+msgstr "Non-Participant Closed Session"
+
+#, fuzzy
+msgid "ilias_id"
+msgstr "ILIAS-ID"
+
+#, fuzzy
+msgid "impr_edit_permission"
+msgstr "User can change permission settings of Legal Notice administration"
+
+#, fuzzy
+msgid "impr_read"
+msgstr "User can read in Legal Notice administration"
+
+#, fuzzy
+msgid "impr_visible"
+msgstr "Administration of Legal Notice is visible"
+
+#, fuzzy
+msgid "impr_write"
+msgstr "User can edit content and settings of Legal Notice"
+
+msgid "info_user_view_changed"
+msgstr "用户视图已更改"
+
+msgid "internal_mail"
+msgstr "内部邮件"
+
+msgid "invite"
+msgstr "邀请调查"
+
+msgid "itgr_copy"
+msgstr "用户能复制项目(item)组"
+
+msgid "itgr_delete"
+msgstr "用户能移动或删除项目(item)组"
+
+msgid "itgr_edit_permission"
+msgstr "用户能更改权限设置"
+
+msgid "itgr_read"
+msgstr "用户可以读项目(Item)组"
+
+msgid "itgr_visible"
+msgstr "项目(item)组是可见的"
+
+msgid "itgr_write"
+msgstr "用户可以编辑内容和项目(item)组的设置"
+
+msgid "leave"
+msgstr "离开"
+
+#, fuzzy
+msgid "lhts_edit_permissions"
+msgstr "User can change permission settings of Learning History administration."
+
+#, fuzzy
+msgid "lhts_read"
+msgstr "User has read access to Learning History administration."
+
+#, fuzzy
+msgid "lhts_visible"
+msgstr "Administration of Learning History is visible."
+
+#, fuzzy
+msgid "lhts_write"
+msgstr "User can edit settings of Learning History administration."
+
+msgid "lm_copy"
+msgstr "复制ILIAS 学习模块"
+
+msgid "lm_delete"
+msgstr "删除学习模块"
+
+msgid "lm_edit_learning_progress"
+msgstr "编辑学习进程"
+
+msgid "lm_edit_permission"
+msgstr "更改许可设置"
+
+msgid "lm_read"
+msgstr "学习模块设为读访问"
+
+#, fuzzy
+msgid "lm_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "lm_visible"
+msgstr "学习模块可视"
+
+msgid "lm_write"
+msgstr "编辑学习模块"
+
+msgid "lngf_edit_permission"
+msgstr "更改许可设置"
+
+msgid "lngf_read"
+msgstr "语言设置为读访问"
+
+msgid "lngf_visible"
+msgstr "语言设置可视"
+
+msgid "lngf_write"
+msgstr "扩展语言维护需要写权限"
+
+#, fuzzy
+msgid "logs_edit_permission"
+msgstr "User can edit permission settings of Logging administration"
+
+#, fuzzy
+msgid "logs_read"
+msgstr "User can read general Logging settings"
+
+#, fuzzy
+msgid "logs_visible"
+msgstr "Logging settings are visible"
+
+#, fuzzy
+msgid "logs_write"
+msgstr "User can edit Logging settings"
+
+msgid "lp_other_users"
+msgstr "看其他用户的学习进程概况。"
+
+msgid "lrss_edit_permission"
+msgstr "改变权限设置"
+
+msgid "lrss_read"
+msgstr "学习资源设置读权限"
+
+msgid "lrss_visible"
+msgstr "学习资源的设置是可见的"
+
+msgid "lrss_write"
+msgstr "编辑学习资源设置"
+
+#, fuzzy
+msgid "lso_copy"
+msgstr "User can copy Learning Sequence"
+
+#, fuzzy
+msgid "lso_delete"
+msgstr "User can delete Learning Sequence"
+
+#, fuzzy
+msgid "lso_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "lso_edit_permission"
+msgstr "User can change permission settings of Learning Sequence"
+
+#, fuzzy
+msgid "lso_lp_other_users"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "lso_manage_members"
+msgstr "Manage members of Learning Sequence"
+
+#, fuzzy
+msgid "lso_participate"
+msgstr "User can subscribe to a Learning Sequence"
+
+#, fuzzy
+msgid "lso_read"
+msgstr "Users can access the Learning Sequence"
+
+#, fuzzy
+msgid "lso_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "lso_unparticipate"
+msgstr "User can unsubscribe from a Learning Sequence"
+
+#, fuzzy
+msgid "lso_visible"
+msgstr "Learning Sequence is visible"
+
+#, fuzzy
+msgid "lso_write"
+msgstr "User can edit settings of Learning Sequence"
+
+#, fuzzy
+msgid "lsos_edit_permission"
+msgstr "User can change permission settings of Learning Sequences administration."
+
+#, fuzzy
+msgid "lsos_read"
+msgstr "User has read access to Learning Sequences administration."
+
+#, fuzzy
+msgid "lsos_visible"
+msgstr "Administration of Learning Sequences is visible."
+
+#, fuzzy
+msgid "lsos_write"
+msgstr "User can edit settings of Learning Sequences administration."
+
+#, fuzzy
+msgid "lti_copy"
+msgstr "User can copy LTI consumer"
+
+#, fuzzy
+msgid "lti_delete"
+msgstr "User can move or delete LTI consumer"
+
+#, fuzzy
+msgid "lti_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "lti_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "lti_read"
+msgstr "User can see LTI consumer"
+
+#, fuzzy
+msgid "lti_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "lti_read_outcomes"
+msgstr "User can see learning experiences and ranking of other users"
+
+#, fuzzy
+msgid "lti_visible"
+msgstr "LTI consumer is visible"
+
+#, fuzzy
+msgid "lti_write"
+msgstr "User can edit settings of LTI consumer"
+
+#, fuzzy
+msgid "ltis_add_consume_provider"
+msgstr "User can add own provider settings for LTI consumer"
+
+#, fuzzy
+msgid "ltis_edit_permission"
+msgstr "User can change permission settings in LTI administration"
+
+#, fuzzy
+msgid "ltis_read"
+msgstr "User has read access to LTI administration "
+
+#, fuzzy
+msgid "ltis_release_objects"
+msgstr "User can release Objects for LTI Consumer"
+
+#, fuzzy
+msgid "ltis_visible"
+msgstr "LTI administration is visible"
+
+#, fuzzy
+msgid "ltis_write"
+msgstr "User can edit settings in LTI administration"
+
+msgid "mail_internal_mail"
+msgstr "用户可以使用内部邮件系统(ILIAS)"
+
+msgid "mail_mail_to_global_roles"
+msgstr "用户可以发送电子邮件到全局角色"
+
+msgid "mail_read"
+msgstr "邮件设置为读访问"
+
+msgid "mail_smtp_mail"
+msgstr "用户可通过SMTP发送邮件"
+
+msgid "mail_to_global_roles"
+msgstr "发送邮件给全局角色"
+
+msgid "mail_visible"
+msgstr "邮件设置可见"
+
+msgid "mail_write"
+msgstr "编辑邮件设置"
+
+#, fuzzy
+msgid "manage_all_reservations"
+msgstr "Manage All Reservations"
+
+#, fuzzy
+msgid "manage_comp"
+msgstr "User can edit Competences"
+
+#, fuzzy
+msgid "manage_comp_temp"
+msgstr "User can edit Competence Templates"
+
+#, fuzzy
+msgid "manage_materials"
+msgstr "Manage Materials"
+
+#, fuzzy
+msgid "manage_own_reservations"
+msgstr "Manage Own Reservations"
+
+#, fuzzy
+msgid "manage_profiles"
+msgstr "User can edit Competence Profiles"
+
+msgid "mcst_copy"
+msgstr "复制 MediaCast"
+
+msgid "mcst_delete"
+msgstr "删除 Mediacast"
+
+#, fuzzy
+msgid "mcst_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "mcst_edit_permission"
+msgstr "改变权限设置"
+
+msgid "mcst_read"
+msgstr "设置 MediaCast 读权限"
+
+#, fuzzy
+msgid "mcst_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "mcst_visible"
+msgstr "MediaCast 可见"
+
+msgid "mcst_write"
+msgstr "编辑 MediaCast"
+
+msgid "mcts_edit_permission"
+msgstr "更改权限设置"
+
+msgid "mcts_read"
+msgstr "媒体广播设置读访问权限"
+
+msgid "mcts_visible"
+msgstr "媒体广播设置可见权限"
+
+msgid "mcts_write"
+msgstr "媒体广播设置编辑权限"
+
+msgid "mds_edit_permission"
+msgstr "更改权限设置"
+
+msgid "mds_read"
+msgstr "元数据设置读访问权限"
+
+msgid "mds_visible"
+msgstr "元数据设置可见权限"
+
+msgid "mds_write"
+msgstr "元数据设置编辑权限"
+
+#, fuzzy
+msgid "mep_copy"
+msgstr "User can copy media pool"
+
+msgid "mep_delete"
+msgstr "删除媒体池"
+
+msgid "mep_edit_permission"
+msgstr "改变权限设置"
+
+msgid "mep_read"
+msgstr "读媒体池内容"
+
+msgid "mep_visible"
+msgstr "媒体池可见"
+
+msgid "mep_write"
+msgstr "编辑媒体池内容"
+
+#, fuzzy
+msgid "mme_edit_permission"
+msgstr "User can change permission settings of Main Menu administration"
+
+#, fuzzy
+msgid "mme_read"
+msgstr "User has read access to administration of Main Menu"
+
+#, fuzzy
+msgid "mme_visible"
+msgstr "Administration of Main Menu is visible"
+
+#, fuzzy
+msgid "mme_write"
+msgstr "User can edit settings of Main Menu administration"
+
+msgid "mobs_edit_permission"
+msgstr "改变权限设置"
+
+msgid "mobs_read"
+msgstr "媒体对象/池设置读访问权限"
+
+msgid "mobs_visible"
+msgstr "媒体对象/池设置可见"
+
+msgid "mobs_write"
+msgstr "编辑媒体对象/池设置"
+
+msgid "moderate"
+msgstr "主持"
+
+msgid "moderate_frm"
+msgstr "Moderate"
+
+#, fuzzy
+msgid "msg_anonymous_cannot_be_assigned"
+msgstr "Anonymous cannot be assigned to a role."
+
+msgid "msg_no_roles_of_type"
+msgstr "选定的过滤器设置没有可用的角色"
+
+#, fuzzy
+msgid "news_add_news"
+msgstr "Add News"
+
+#, fuzzy
+msgid "no_corresponding_roles"
+msgstr "No corresponding roles could be found."
+
+#, fuzzy
+msgid "nots_edit_permission"
+msgstr "User can change permission settings of Notes administration."
+
+#, fuzzy
+msgid "nots_read"
+msgstr "User has read access to Notes administration."
+
+#, fuzzy
+msgid "nots_visible"
+msgstr "Administration of Notes is visible."
+
+#, fuzzy
+msgid "nots_write"
+msgstr "User can edit settings of Notes administration."
+
+msgid "nwss_edit_permission"
+msgstr "改变权限设置"
+
+msgid "nwss_read"
+msgstr "新闻和Web Feeds设置为读访问"
+
+msgid "nwss_visible"
+msgstr "新闻和Web Feeds 设置可见"
+
+msgid "nwss_write"
+msgstr "编辑新闻和Web Feeds 设置"
+
+#, fuzzy
+msgid "obj_skee"
+msgstr "Competence Tree"
+
+#, fuzzy
+msgid "org_op_access_results"
+msgstr "Access Results of Subordinated Users"
+
+#, fuzzy
+msgid "org_op_edit_submissions_grades"
+msgstr "Edit submissions of other users"
+
+#, fuzzy
+msgid "org_op_manage_participants"
+msgstr "Manage Subordinated Participants"
+
+#, fuzzy
+msgid "org_op_score_participants"
+msgstr "Score Subordinated Participants"
+
+#, fuzzy
+msgid "org_op_view_certificates"
+msgstr "View certificates of subordinated users"
+
+#, fuzzy
+msgid "org_op_view_competences"
+msgstr "View competences of subordinated users"
+
+#, fuzzy
+msgid "org_op_write_learning_progress"
+msgstr "Set learning Progress of Subordinate Users"
+
+#, fuzzy
+msgid "orgu_cat_administrate_users"
+msgstr "User can create and administrate local user accounts in this Organisational Unit"
+
+#, fuzzy
+msgid "orgu_copy"
+msgstr "Copy Organisational Unit"
+
+#, fuzzy
+msgid "orgu_delete"
+msgstr "User can move or delete Organisational Unit"
+
+#, fuzzy
+msgid "orgu_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "orgu_read"
+msgstr "User has read access to Organisational Unit"
+
+#, fuzzy
+msgid "orgu_read_users"
+msgstr "User can read local user accounts created in this Organisational Unit"
+
+#, fuzzy
+msgid "orgu_view_learning_progress"
+msgstr "View Learning Progress"
+
+#, fuzzy
+msgid "orgu_view_learning_progress_rec"
+msgstr "View Learning Progress of Unit incl. Subunits"
+
+#, fuzzy
+msgid "orgu_visible"
+msgstr "Organisational Unit is visible"
+
+#, fuzzy
+msgid "orgu_write"
+msgstr "User can edit settings of Organisational Unit"
+
+msgid "otpl_edit_permission"
+msgstr "改变权限设置"
+
+msgid "otpl_read"
+msgstr "对象模板设置读访问权限"
+
+msgid "otpl_visible"
+msgstr "对象模板设置可见"
+
+msgid "otpl_write"
+msgstr "编辑对象模板设置"
+
+msgid "perm_class_create"
+msgstr "创建新对象"
+
+msgid "perm_class_create_desc"
+msgstr "确定以下当前对象中哪些对象类型可以被创建。"
+
+msgid "perm_class_object"
+msgstr "特定操作"
+
+msgid "perm_class_object_desc"
+msgstr "特定对象操作，只适用于某些对象类型。"
+
+msgid "perm_global_role"
+msgstr "全局角色"
+
+msgid "perm_local_role"
+msgstr "本地角色"
+
+msgid "perm_local_role_desc"
+msgstr "这个角色在当前对象中是本地定义的，并且对应于一个本地策略"
+
+msgid "perm_protected_global_role"
+msgstr "受保护的全局角色"
+
+msgid "perm_protected_local_role"
+msgstr "受保护的本地角色"
+
+msgid "perm_role_path_info_created"
+msgstr "已创建在 %1$s \"%2$s\""
+
+msgid "perm_role_path_info_inheritance"
+msgstr "使用来自 %1$s \"%2$s\" 的本地策略"
+
+msgid "perm_use_local_policy"
+msgstr "使用本地策略"
+
+msgid "perm_use_local_policy_desc"
+msgstr "如果本地策略被激活，您能为当前对象定义不同的默认权限设置。"
+
+msgid "poll_copy"
+msgstr "用户可以复制投票"
+
+msgid "poll_delete"
+msgstr "用户可以移动或删除投票"
+
+msgid "poll_edit_permission"
+msgstr "用户可以更改权限设置"
+
+msgid "poll_read"
+msgstr "用户可以参与投票"
+
+msgid "poll_visible"
+msgstr "投票是可见的"
+
+msgid "poll_write"
+msgstr "用户可以编辑投票设置和内容"
+
+#, fuzzy
+msgid "positions_override_operations"
+msgstr "Override global Settings"
+
+msgid "precondition_not_obligatory_alt"
+msgstr "先决条件是可选的"
+
+msgid "precondition_num_obligatory"
+msgstr "所需材料的数量"
+
+msgid "precondition_num_optional_info"
+msgstr "请输入为满足这个先决条件所需资料的最小数量。"
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_bigger_preconditions_number"
+msgstr "The number of required materials must be less than the total number of preconditions."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_lower_compulsory_items"
+msgstr "The number of required materials must be greater than the number of compulsory preconditions."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_lower_than_one"
+msgstr "The number of required materials must be at least 1."
+
+msgid "precondition_obligatory"
+msgstr "必修(Obligatory)"
+
+msgid "precondition_obligatory_alt"
+msgstr "先决条件必需满足"
+
+msgid "precondition_obligatory_info"
+msgstr "为了访问，必修的先决条件必需满足。"
+
+msgid "precondition_obligatory_settings"
+msgstr "先决条件设置"
+
+#, fuzzy
+msgid "precondition_operator_range_err_min_max"
+msgstr "The minimum value must be less than the maximum value."
+
+#, fuzzy
+msgid "precondition_operator_range_max"
+msgstr "Maximum Percentage"
+
+#, fuzzy
+msgid "precondition_operator_range_min"
+msgstr "Minimum Percentage"
+
+msgid "prfa_edit_permission"
+msgstr "更改权限设置"
+
+msgid "prfa_read"
+msgstr "组合管理读访问权限"
+
+msgid "prfa_visible"
+msgstr "组合管理是可见的"
+
+msgid "prfa_write"
+msgstr "编辑组合管理"
+
+#, fuzzy
+msgid "prg_copy"
+msgstr "User can copy Study Programme"
+
+#, fuzzy
+msgid "prg_delete"
+msgstr "User can delete Study Programme"
+
+#, fuzzy
+msgid "prg_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "prg_manage_members"
+msgstr "Manage members of Study Programme"
+
+#, fuzzy
+msgid "prg_read"
+msgstr "User has read access to Study Programme"
+
+#, fuzzy
+msgid "prg_visible"
+msgstr "Study Programme is visible"
+
+#, fuzzy
+msgid "prg_write"
+msgstr "User can edit settings of Study Programme"
+
+#, fuzzy
+msgid "prgr_copy"
+msgstr "User can copy links to study programmes."
+
+#, fuzzy
+msgid "prgr_delete"
+msgstr "User can move or delete links to study programmes."
+
+#, fuzzy
+msgid "prgr_edit_permission"
+msgstr "User can change permission settings."
+
+#, fuzzy
+msgid "prgr_visible"
+msgstr "Links to study programmes are visible and can be used"
+
+#, fuzzy
+msgid "prgr_write"
+msgstr "User can edit settings of links to study programmes."
+
+#, fuzzy
+msgid "prgs_edit_permission"
+msgstr "Change permission settings in Study Programme administration"
+
+#, fuzzy
+msgid "prgs_read"
+msgstr "User has read access to Study Programme administration"
+
+#, fuzzy
+msgid "prgs_visible"
+msgstr "Study Programme administration is visible"
+
+#, fuzzy
+msgid "prgs_write"
+msgstr "Edit settings in Study Programme administration"
+
+#, fuzzy
+msgid "prss_edit_permission"
+msgstr "User can change permission settings of Personal Resources administration."
+
+#, fuzzy
+msgid "prss_read"
+msgstr "User has read access to Personal Resources administration."
+
+#, fuzzy
+msgid "prss_visible"
+msgstr "Administration of Personal Resources is visible."
+
+#, fuzzy
+msgid "prss_write"
+msgstr "User can edit settings of Personal Resources administration."
+
+#, fuzzy
+msgid "prtt_copy"
+msgstr "User can copy portfolio template"
+
+#, fuzzy
+msgid "prtt_delete"
+msgstr "User can move or delete portfolio template"
+
+#, fuzzy
+msgid "prtt_edit_permission"
+msgstr "User can change permission settings for portfolio template"
+
+#, fuzzy
+msgid "prtt_read"
+msgstr "User has read access to portfolio template"
+
+#, fuzzy
+msgid "prtt_visible"
+msgstr "Portfolio Template is visible"
+
+#, fuzzy
+msgid "prtt_write"
+msgstr "User can edit settings and content of portfolio template"
+
+msgid "ps_edit_permission"
+msgstr "改变权限设置"
+
+msgid "ps_export_member_data"
+msgstr "用户可能导出成员数据"
+
+msgid "ps_read"
+msgstr "隐私/安全设置设为读访问"
+
+msgid "ps_visible"
+msgstr "隐私/安全设置可见"
+
+msgid "ps_write"
+msgstr "编辑隐私/安全"
+
+#, fuzzy
+msgid "push_desktop_items"
+msgstr "Recommend Content"
+
+msgid "qpl_copy"
+msgstr "复制测试问题池"
+
+msgid "qpl_delete"
+msgstr "删除题目池"
+
+msgid "qpl_edit_permission"
+msgstr "更改许可设置"
+
+msgid "qpl_read"
+msgstr "题目池设为读访问"
+
+msgid "qpl_visible"
+msgstr "题目池可视"
+
+msgid "qpl_write"
+msgstr "编辑题目池"
+
+msgid "rbac_add_new_local_role"
+msgstr "添加新的本地角色"
+
+#, fuzzy
+msgid "rbac_add_recommended_content"
+msgstr "Recommended Content"
+
+#, fuzzy
+msgid "rbac_add_recommended_content_info"
+msgstr "Adds the current object '%1' for all members of the role as recommended content."
+
+msgid "rbac_admin_permissions"
+msgstr "管理权限"
+
+msgid "rbac_auto_global"
+msgstr "自动生成的全局角色"
+
+msgid "rbac_auto_local"
+msgstr "自动生成的本地角色"
+
+msgid "rbac_auto_rolt"
+msgstr "自动生成的角色模板"
+
+msgid "rbac_back_to_overview"
+msgstr "返回到角色列表"
+
+#, fuzzy
+msgid "rbac_cant_import_role_wrong_type"
+msgstr "Can't import a role from item %s into item %s."
+
+msgid "rbac_change_existing_confirm_tbl"
+msgstr "设置为“更改现有对象”"
+
+msgid "rbac_change_existing_objects_desc_new_role"
+msgstr "这个角色的权限设置将被适用到所有现存的对象。"
+
+msgid "rbac_changes"
+msgstr "更改"
+
+msgid "rbac_choose_copy_targets"
+msgstr "请为选择目标角色输入一个阙值。"
+
+msgid "rbac_condition_delete_sure"
+msgstr "您确定要删除以下先决条件？"
+
+msgid "rbac_context_global"
+msgstr "全局"
+
+msgid "rbac_copy_behaviour"
+msgstr "角色复制设置"
+
+#, fuzzy
+msgid "rbac_copy_behaviour_info"
+msgstr "Transfer Permissions from: %s to: %s"
+
+msgid "rbac_copy_finished"
+msgstr "已完成复制"
+
+#, fuzzy
+msgid "rbac_copy_multi_targets"
+msgstr "%s, %s and %s further Roles selected%s"
+
+#, fuzzy
+msgid "rbac_copy_no_targets"
+msgstr "At least one Role must be selected as Target"
+
+msgid "rbac_copy_role"
+msgstr "复制角色"
+
+#, fuzzy
+msgid "rbac_copy_role_add_perm"
+msgstr "Add Permissions"
+
+#, fuzzy
+msgid "rbac_copy_role_copy"
+msgstr "Copy Permissions"
+
+#, fuzzy
+msgid "rbac_copy_role_remove_perm"
+msgstr "Remove Permissions"
+
+#, fuzzy
+msgid "rbac_create_bibl"
+msgstr "Create Bibliography"
+
+msgid "rbac_create_blog"
+msgstr "创建一个博客"
+
+msgid "rbac_create_book"
+msgstr "创建预订池"
+
+msgid "rbac_create_cat"
+msgstr "用户可以创建类别"
+
+msgid "rbac_create_catr"
+msgstr "创建类目参考"
+
+msgid "rbac_create_chtr"
+msgstr "创建聊天室"
+
+#, fuzzy
+msgid "rbac_create_cmix"
+msgstr "Create xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "rbac_create_copa"
+msgstr "Create Content Page"
+
+msgid "rbac_create_crs"
+msgstr "创建课程"
+
+msgid "rbac_create_crsr"
+msgstr "创建课程参考"
+
+msgid "rbac_create_dcl"
+msgstr "创建数据采集"
+
+msgid "rbac_create_exc"
+msgstr "创建练习"
+
+msgid "rbac_create_file"
+msgstr "上传文件"
+
+msgid "rbac_create_fold"
+msgstr "创建文件夹"
+
+msgid "rbac_create_frm"
+msgstr "创建论坛"
+
+msgid "rbac_create_glo"
+msgstr "创建术语表"
+
+msgid "rbac_create_grp"
+msgstr "创建组"
+
+#, fuzzy
+msgid "rbac_create_grpr"
+msgstr "Create Group Reference"
+
+msgid "rbac_create_htlm"
+msgstr "创建HTML学习模块"
+
+#, fuzzy
+msgid "rbac_create_iass"
+msgstr "Create Individual Assessment"
+
+msgid "rbac_create_itgr"
+msgstr "创建项目(Item)组"
+
+msgid "rbac_create_lm"
+msgstr "创建ILIAS学习模块"
+
+#, fuzzy
+msgid "rbac_create_lso"
+msgstr "Create Learning Sequence"
+
+#, fuzzy
+msgid "rbac_create_lti"
+msgstr "Create LTI Consumer"
+
+msgid "rbac_create_mcst"
+msgstr "创建媒体广播"
+
+msgid "rbac_create_mep"
+msgstr "创建媒体池"
+
+#, fuzzy
+msgid "rbac_create_orgu"
+msgstr "Create Organisational Units"
+
+msgid "rbac_create_poll"
+msgstr "创建投票"
+
+#, fuzzy
+msgid "rbac_create_prg"
+msgstr "Create Study Programme"
+
+#, fuzzy
+msgid "rbac_create_prgr"
+msgstr "Create link to study programme"
+
+#, fuzzy
+msgid "rbac_create_prtt"
+msgstr "Create Portfolio Template"
+
+msgid "rbac_create_qpl"
+msgstr "创建题目池测试"
+
+msgid "rbac_create_rcrs"
+msgstr "创建课程链接"
+
+#, fuzzy
+msgid "rbac_create_role"
+msgstr "Create new Role"
+
+#, fuzzy
+msgid "rbac_create_rolt"
+msgstr "Create new Role Template"
+
+msgid "rbac_create_sahs"
+msgstr "创建SCROM/AICC学习模块"
+
+msgid "rbac_create_sess"
+msgstr "创建会话"
+
+#, fuzzy
+msgid "rbac_create_skee"
+msgstr "Create Competence Tree"
+
+msgid "rbac_create_spl"
+msgstr "创建题目池调查"
+
+msgid "rbac_create_svy"
+msgstr "创建调查"
+
+msgid "rbac_create_tst"
+msgstr "创建测试"
+
+#, fuzzy
+msgid "rbac_create_usr"
+msgstr "User is allowed to create user accounts"
+
+msgid "rbac_create_webr"
+msgstr "创建Web链接"
+
+msgid "rbac_create_wiki"
+msgstr "创建Wiki"
+
+msgid "rbac_delete_local_policies"
+msgstr "删除本地策略"
+
+msgid "rbac_delete_local_policies_info"
+msgstr "如果激活，所有本地策略将被删除。对象权限将被重写并被保护。"
+
+msgid "rbac_delete_role"
+msgstr "删除角色"
+
+msgid "rbac_edit_condition"
+msgstr "编辑先决条件"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_button"
+msgstr "Rechte anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type"
+msgstr "Typ der Rechteanpassung"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_add"
+msgstr "Rechte hinzufügen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_add_info"
+msgstr "Fügt MARKIERTE Rechte der ausgewählten globalen Rollenvorlage zu den lokalen Rechtevorgabe hinzu."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_clone"
+msgstr "Rechte kopieren"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_clone_info"
+msgstr "Alle Rechte der ausgewählten globalen Rollenvorlage überschreiben alle lokalen Rechtevorgaben."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_remove"
+msgstr "Rechte entfernen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_remove_info"
+msgstr "Entfernt die MARKIERTEN Rechte der ausgewählten globalen Rollenvorlage aus den lokalen Rechtevorgaben."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_no_info"
+msgstr "Vorhandene lokale Rechtevorgaben entsprechend ergänzt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_yes"
+msgstr "Vorhandene Objekte nur um ausgewählte Rechte ergänzen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_yes_info"
+msgstr "Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend ergänzt."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_no_info"
+msgstr "Vorhandene lokale Rechtevorgaben werden überschrieben, die vorhandenen Objekte werden nicht in ihren Rechten angepasst."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_yes"
+msgstr "Vorhandene Objekte ändern"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_yes_info"
+msgstr "Vorhandene lokale Rechtevorgaben entsprechend überschreiben und IN GÄNZE mit allen gecheckten und ungecheckten Vorgaben auf vorhandene Objekte angewendet."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_no_info"
+msgstr "Markierte Rechte werden aus vorhandenen lokalen Rechtevorgaben entfernt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_yes"
+msgstr "Vorhandene Objekte nur um ausgewählte Rechte reduzieren"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_yes_info"
+msgstr "Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend reduziert."
+
+msgid "rbac_global_rolt"
+msgstr "全局角色模板"
+
+msgid "rbac_import_role"
+msgstr "导入角色"
+
+#, fuzzy
+msgid "rbac_info_only_position_access"
+msgstr "You are presented only with those members with a Position within your organisational unit. Members with other organisational Positions are not shown to you but may reside in this coures without being shown to you."
+
+msgid "rbac_keep_local_policies"
+msgstr "保持本地策略"
+
+msgid "rbac_keep_local_policies_info"
+msgstr "选择这个模式保持所有本地策略。对象权限将被适配到这些策略，并且之后被保护起来。"
+
+msgid "rbac_local_policies"
+msgstr "本地策略"
+
+msgid "rbac_local_policy"
+msgstr "本地策略"
+
+msgid "rbac_log"
+msgstr "日志"
+
+msgid "rbac_log_change_owner"
+msgstr "更改对象的所有者"
+
+msgid "rbac_log_changed_owner"
+msgstr "更改所有者为"
+
+msgid "rbac_log_copy_object"
+msgstr "复制对象"
+
+msgid "rbac_log_create_object"
+msgstr "创建对象"
+
+msgid "rbac_log_edit_permissions"
+msgstr "编辑权限"
+
+msgid "rbac_log_edit_template"
+msgstr "编辑角色模板"
+
+msgid "rbac_log_edit_template_existing"
+msgstr "为现有对象使用角色模板"
+
+msgid "rbac_log_inheritance_add"
+msgstr "\"%s\" 停止继承"
+
+#, fuzzy
+msgid "rbac_log_inheritance_rmv"
+msgstr "Allowed Inheritance for \"%s\""
+
+msgid "rbac_log_link_object"
+msgstr "链接对象"
+
+msgid "rbac_log_move_object"
+msgstr "移动对象"
+
+msgid "rbac_log_operation_add"
+msgstr " \"%s\" 的添加操作。"
+
+#, fuzzy
+msgid "rbac_log_operation_rmv"
+msgstr "Removed Operation for \"%s\""
+
+msgid "rbac_log_source_object"
+msgstr "源对象"
+
+msgid "rbac_msg_user_already_assigned"
+msgstr "选择的用户已经分配到这个角色"
+
+msgid "rbac_not_change_existing_objects"
+msgstr "不更改现有对象"
+
+#, fuzzy
+msgid "rbac_permissions"
+msgstr "Permissions"
+
+#, fuzzy
+msgid "rbac_precondition_condition"
+msgstr "Access requires having this status"
+
+#, fuzzy
+msgid "rbac_precondition_hide"
+msgstr "Hide Object"
+
+#, fuzzy
+msgid "rbac_precondition_hide_info"
+msgstr " This option allows to hide the object for users who currently have not fulfilled the preconditions. Therefore, all not accessible content is invisible."
+
+msgid "rbac_precondition_minimum_optional"
+msgstr "至少2个先决条件必需保持可选。"
+
+msgid "rbac_precondition_mode"
+msgstr "模式"
+
+msgid "rbac_precondition_mode_all"
+msgstr "所有先决条件"
+
+msgid "rbac_precondition_mode_all_info"
+msgstr "为访问，所有先决条件都必需被满足。"
+
+msgid "rbac_precondition_mode_subset"
+msgstr "先决条件的子集"
+
+msgid "rbac_precondition_mode_subset_info"
+msgstr "为访问，先决条件的一个子集必需被满足。有些先决条件可能仍被设置为必要的。"
+
+msgid "rbac_precondition_save_obligatory"
+msgstr "保存必要的"
+
+msgid "rbac_precondition_source"
+msgstr "条件触发器"
+
+msgid "rbac_precondition_target"
+msgstr "条件限制访问"
+
+msgid "rbac_repository_permissions"
+msgstr "知识库权限"
+
+msgid "rbac_role_delete_qst"
+msgstr "您确认想删除以下角色？<br/>所有已授予给这个角色的权限将被永久删除。"
+
+msgid "rbac_role_delete_self"
+msgstr "<strong>注意：</strong>您已分配到这个角色。如果您继续这个删除操作，您可能无法访问某些ILIAS资料。"
+
+msgid "rbac_role_exists_alert"
+msgstr "在这个上下文中已经有一个同名的角色了。请选择其它名字。"
+
+msgid "rbac_role_imported"
+msgstr "角色已经导入"
+
+msgid "rbac_role_rights_copy"
+msgstr "复制权限"
+
+msgid "rbac_role_rights_copy_change_existing"
+msgstr "更改现有对象"
+
+msgid "rbac_role_rights_copy_empty"
+msgstr "None"
+
+msgid "rbac_role_selection"
+msgstr "角色类型"
+
+msgid "rbac_role_title"
+msgstr "角色标题"
+
+msgid "rbac_select_copy_targets"
+msgstr "请选择目标角色"
+
+msgid "rbac_select_roles"
+msgstr "Role Selection"
+
+msgid "rbac_ud_global"
+msgstr "用户定义的全局角色"
+
+msgid "rbac_ud_local"
+msgstr "用户定义的本地角色"
+
+msgid "rbac_ud_rolt"
+msgstr "用户定义的角色模板"
+
+msgid "rbac_unprotected_delete_local_policies_info"
+msgstr "如果激活，所有本地策略将被删除。课程和组中的权限将被重新初始化。"
+
+msgid "rbac_unprotected_keep_local_policies_info"
+msgstr "选择这个模式保持所有本地策略。"
+
+#, fuzzy
+msgid "rbac_view_content"
+msgstr "View Content"
+
+msgid "rcat_delete"
+msgstr "用户可以移动或删除ECS类目"
+
+msgid "rcat_edit_permission"
+msgstr "用户可以更改权限设置"
+
+msgid "rcat_read"
+msgstr "用户可以使用 ECS 类目"
+
+msgid "rcat_visible"
+msgstr "ECS 类目是可见的"
+
+msgid "rcat_write"
+msgstr "用户可以编辑ECS类目的设置"
+
+msgid "rcrs_delete"
+msgstr "删除课程链接"
+
+msgid "rcrs_edit_permission"
+msgstr "更改权限设置"
+
+msgid "rcrs_read"
+msgstr "课程链接读访问权限"
+
+msgid "rcrs_visible"
+msgstr "课程链接可见权限"
+
+msgid "rcrs_write"
+msgstr "课程链接编辑权限"
+
+#, fuzzy
+msgid "read_all_accounts"
+msgstr "Read All Accounts"
+
+#, fuzzy
+msgid "read_comp"
+msgstr "User has read access to Competences and Competence Templates"
+
+#, fuzzy
+msgid "read_learning_progress"
+msgstr "View learning progress of other users"
+
+#, fuzzy
+msgid "read_outcomes"
+msgstr "View learning experiences of other users"
+
+#, fuzzy
+msgid "read_profiles"
+msgstr "User has read access to Competence Profiles"
+
+#, fuzzy
+msgid "read_results"
+msgstr "Survey Results"
+
+msgid "read_users"
+msgstr "本地用户账号读访问权限"
+
+msgid "recf_edit_permission"
+msgstr "更改权限设置"
+
+msgid "recf_read"
+msgstr "已恢复对象的读访问权限"
+
+msgid "recf_visible"
+msgstr " 已恢复对象的可见权限"
+
+msgid "recf_write"
+msgstr "已恢复对象的编辑权限"
+
+#, fuzzy
+msgid "redact"
+msgstr "Redact"
+
+#, fuzzy
+msgid "release_objects"
+msgstr "Release Objects"
+
+#, fuzzy
+msgid "reps_edit_permission"
+msgstr "User can change permission settings in Repository administration"
+
+#, fuzzy
+msgid "reps_read"
+msgstr "User has read access to Repository administration"
+
+#, fuzzy
+msgid "reps_visible"
+msgstr "Repository administration is visible"
+
+#, fuzzy
+msgid "reps_write"
+msgstr "Edit settings in Repository administration"
+
+msgid "rfil_delete"
+msgstr "用户可以移动或删除ECS文件"
+
+msgid "rfil_edit_permission"
+msgstr "用户可以更改权限设置"
+
+msgid "rfil_read"
+msgstr "用户可以使用ECS文件"
+
+msgid "rfil_visible"
+msgstr "ECS文件都是可见的"
+
+msgid "rfil_write"
+msgstr "用户可以编辑ECS文件设置"
+
+msgid "rglo_delete"
+msgstr "用户可以移动或删除ECS词汇表"
+
+msgid "rglo_edit_permission"
+msgstr "用户可以更改权限设置"
+
+msgid "rglo_read"
+msgstr "用户可以使用ECS词汇表"
+
+msgid "rglo_visible"
+msgstr "ECS词汇表是可见的"
+
+msgid "rglo_write"
+msgstr "用户可以编辑ECS词汇表"
+
+msgid "rgrp_delete"
+msgstr "用户可以移动或删除ECS组"
+
+msgid "rgrp_edit_permission"
+msgstr "用户可以更改权限设置"
+
+msgid "rgrp_read"
+msgstr "用户可以使用ECS组"
+
+msgid "rgrp_visible"
+msgstr "ECS 组是可见的"
+
+msgid "rgrp_write"
+msgstr "用户可以编辑ECS组设置"
+
+msgid "rlm_delete"
+msgstr "用户可以移动或删除ECS学习模块"
+
+msgid "rlm_edit_permission"
+msgstr "用户可以更改权限设置"
+
+msgid "rlm_read"
+msgstr "用户可以使用ECS学习模块"
+
+msgid "rlm_visible"
+msgstr "ECS学习模块是可见的"
+
+msgid "rlm_write"
+msgstr "用户可以编辑ECS学习模块的设置"
+
+msgid "role_block_role"
+msgstr "块角色"
+
+msgid "role_block_role_desc"
+msgstr "访问到这个对象及其所有子对象"
+
+#, fuzzy
+msgid "role_blocked"
+msgstr ": <i>Role will be blocked</i>"
+
+#, fuzzy
+msgid "role_confirm_block_role"
+msgstr "Save Role Status"
+
+msgid "role_confirm_block_role_header"
+msgstr "您真的想阻止选择的角色吗？"
+
+msgid "role_confirm_block_role_info"
+msgstr "以下操作将被执行：<br/><br/>- 这个对象及其子对象的角色权限将被阻止。<br/>- 新权限设置将被保护。"
+
+#, fuzzy
+msgid "role_confirm_unblock_role_info"
+msgstr "The following steps will be performed for the action \"Unblock Role\":<br /><br />- the local policy will be deleted."
+
+#, fuzzy
+msgid "role_unblocked"
+msgstr ": <i>Role will be unblocked</i>"
+
+msgid "root_edit_permission"
+msgstr "更改许可设置"
+
+msgid "root_read"
+msgstr "ILIAS系统设为读访问"
+
+msgid "root_visible"
+msgstr "ILIAS系统可视"
+
+msgid "root_write"
+msgstr "编辑ILIAS根节点数据"
+
+msgid "rtst_delete"
+msgstr "用户可以移动或删除ECS测试"
+
+msgid "rtst_edit_permission"
+msgstr "用户可以更改权限设置"
+
+msgid "rtst_read"
+msgstr "用户可以使用 ECS 测试"
+
+msgid "rtst_visible"
+msgstr "ECS 测试是可见的"
+
+msgid "rtst_write"
+msgstr "用户可以编辑ECS测试的设置"
+
+msgid "rwik_delete"
+msgstr "用户可以移动或删除ECS Wiki"
+
+msgid "rwik_edit_permission"
+msgstr "用户可以更改权限设置"
+
+msgid "rwik_read"
+msgstr "用户可以使用ECS Wiki"
+
+msgid "rwik_visible"
+msgstr "ECS Wiki 是可见的"
+
+msgid "rwik_write"
+msgstr "用户可以编辑ECS Wiki的设置"
+
+msgid "sahs_copy"
+msgstr "用户可以复制 SCORM/AICC 学习模块"
+
+msgid "sahs_delete"
+msgstr "删除 SCORM/AICC 学习模块"
+
+msgid "sahs_edit_learning_progress"
+msgstr "编辑学习进程"
+
+msgid "sahs_edit_permission"
+msgstr "改变权限设置"
+
+msgid "sahs_read"
+msgstr "SCORM/AICC学习模块可读"
+
+#, fuzzy
+msgid "sahs_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "sahs_visible"
+msgstr "SCORM/AICC 学习模块可见"
+
+msgid "sahs_write"
+msgstr "编辑 SCORM/AICC 学习模块"
+
+msgid "seas_edit_permission"
+msgstr "改变权限设置"
+
+msgid "seas_read"
+msgstr "搜索设置可读"
+
+msgid "seas_search"
+msgstr "允许使用搜索"
+
+msgid "seas_visible"
+msgstr "搜索设置可见"
+
+msgid "seas_write"
+msgstr "编辑搜索设置"
+
+msgid "sess_copy"
+msgstr "复制会话"
+
+msgid "sess_delete"
+msgstr "删除会话"
+
+msgid "sess_edit_event"
+msgstr "编辑日历事件"
+
+#, fuzzy
+msgid "sess_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "sess_edit_metadata"
+msgstr "Edit Metadata"
+
+msgid "sess_edit_permission"
+msgstr "C更改权限设置"
+
+#, fuzzy
+msgid "sess_manage_materials"
+msgstr "Manage Session Materials"
+
+#, fuzzy
+msgid "sess_manage_members"
+msgstr "Manage Participants of a Session"
+
+msgid "sess_read"
+msgstr "会话的读访问权限"
+
+#, fuzzy
+msgid "sess_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "sess_visible"
+msgstr "会话的可见权限"
+
+msgid "sess_write"
+msgstr "会话的编辑权限"
+
+#, fuzzy
+msgid "skee_copy"
+msgstr "User can copy Competence Tree (currently not available)"
+
+#, fuzzy
+msgid "skee_delete"
+msgstr "User can delete Competence Tree"
+
+#, fuzzy
+msgid "skee_edit_permission"
+msgstr "User can change permission settings of Competence Tree administration"
+
+#, fuzzy
+msgid "skee_manage_comp"
+msgstr "User can edit Competences in Competence Tree"
+
+#, fuzzy
+msgid "skee_manage_comp_temp"
+msgstr "User can edit Competence Templates in Competence Tree"
+
+#, fuzzy
+msgid "skee_manage_profiles"
+msgstr "User can edit Competence Profiles in Competence Tree"
+
+#, fuzzy
+msgid "skee_read"
+msgstr "User has read access to administration of Competence Tree"
+
+#, fuzzy
+msgid "skee_read_comp"
+msgstr "User has read access to Competences and Competence Templates in Competence Tree"
+
+#, fuzzy
+msgid "skee_read_profiles"
+msgstr "User has read access to Competence Profiles in Competence Tree"
+
+#, fuzzy
+msgid "skee_visible"
+msgstr "Competence Tree is visible"
+
+#, fuzzy
+msgid "skee_write"
+msgstr "User can edit settings of Competence Tree"
+
+msgid "skmg_edit_permission"
+msgstr "更改权限设置"
+
+msgid "skmg_read"
+msgstr "技能管理读访问权限"
+
+msgid "skmg_visible"
+msgstr "技能管理是可见的"
+
+msgid "skmg_write"
+msgstr "编辑技能管理"
+
+msgid "smtp_mail"
+msgstr "发送邮件"
+
+msgid "spl_copy"
+msgstr "复制调查问题池"
+
+msgid "spl_delete"
+msgstr "删除题目池"
+
+msgid "spl_edit_permission"
+msgstr "改变权限设置"
+
+msgid "spl_read"
+msgstr "题目池读权限"
+
+msgid "spl_visible"
+msgstr "题目池可见"
+
+msgid "spl_write"
+msgstr "编辑题目池"
+
+#, fuzzy
+msgid "statistics_read"
+msgstr "View Statistics"
+
+#, fuzzy
+msgid "stus_edit_permission"
+msgstr "User can change permission settings in Shortlink administration"
+
+#, fuzzy
+msgid "stus_read"
+msgstr "User can see the Shortlink Administration"
+
+#, fuzzy
+msgid "stus_write"
+msgstr "User can edit Shortlinks"
+
+#, fuzzy
+msgid "sty_write_content"
+msgstr "Edit Content Styles"
+
+#, fuzzy
+msgid "sty_write_page_layout"
+msgstr "Edit Page Layouts"
+
+#, fuzzy
+msgid "sty_write_system"
+msgstr "Edit System Styles"
+
+msgid "stys_edit_permission"
+msgstr "改变权限设置"
+
+msgid "stys_read"
+msgstr "风格设置读权限"
+
+#, fuzzy
+msgid "stys_sty_write_content"
+msgstr "Edit Content Styles"
+
+#, fuzzy
+msgid "stys_sty_write_custom"
+msgstr "Edit Content Styles"
+
+#, fuzzy
+msgid "stys_sty_write_page_layout"
+msgstr "Edit Page Layouts"
+
+#, fuzzy
+msgid "stys_sty_write_system"
+msgstr "Edit System Styles"
+
+msgid "stys_visible"
+msgstr "风格设置可见"
+
+msgid "svy_copy"
+msgstr "复制调查"
+
+msgid "svy_delete"
+msgstr "删除调查"
+
+#, fuzzy
+msgid "svy_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "svy_edit_permission"
+msgstr "改变权限设置"
+
+msgid "svy_invite"
+msgstr "邀请用户参加调查"
+
+msgid "svy_read"
+msgstr "调查的读权限"
+
+#, fuzzy
+msgid "svy_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "svy_read_results"
+msgstr "User has access to survey results of others"
+
+msgid "svy_visible"
+msgstr "调查可见"
+
+msgid "svy_write"
+msgstr "编辑调查"
+
+msgid "svyf_edit_permission"
+msgstr "更改权限设置"
+
+msgid "svyf_read"
+msgstr "调查设置的读访问权限"
+
+msgid "svyf_visible"
+msgstr "调查设置的可见权限"
+
+msgid "svyf_write"
+msgstr "调查设置的编辑权限"
+
+#, fuzzy
+msgid "sysc_edit_permission"
+msgstr "User can change permissions of System Check."
+
+#, fuzzy
+msgid "sysc_read"
+msgstr "User has read access to System Check."
+
+#, fuzzy
+msgid "sysc_visible"
+msgstr "System Check is visible."
+
+#, fuzzy
+msgid "sysc_write"
+msgstr "User can execute System Check."
+
+msgid "tags_edit_permission"
+msgstr "改变权限设置"
+
+msgid "tags_read"
+msgstr "标签设置可读"
+
+msgid "tags_visible"
+msgstr "标签设置可见"
+
+msgid "tags_write"
+msgstr "编辑标签设置"
+
+#, fuzzy
+msgid "tala_edit_permission"
+msgstr "User can change permission settings in Talk Templates administration"
+
+#, fuzzy
+msgid "tala_read"
+msgstr "User has read access to Talk Templates administration"
+
+#, fuzzy
+msgid "tala_visible"
+msgstr "Talk Templates administration is visible"
+
+#, fuzzy
+msgid "tala_write"
+msgstr "User can create and edit Talk Templates"
+
+#, fuzzy
+msgid "taxs_edit_permission"
+msgstr "User can change permission settings in Taxonomy administration"
+
+#, fuzzy
+msgid "taxs_read"
+msgstr "User has read access to Taxonomy administration"
+
+#, fuzzy
+msgid "taxs_visible"
+msgstr "Taxonomy administration is visible"
+
+#, fuzzy
+msgid "taxs_write"
+msgstr "Edit settings in Taxonomy administration"
+
+#, fuzzy
+msgid "tos_edit_permission"
+msgstr "User can change permission settings in Terms of Service administration"
+
+#, fuzzy
+msgid "tos_read"
+msgstr "User has read access to Terms of Service administration"
+
+#, fuzzy
+msgid "tos_visible"
+msgstr "Terms of Service administration is visible"
+
+#, fuzzy
+msgid "tos_write"
+msgstr "Edit settings in Terms of Service administration"
+
+msgid "trac_delete"
+msgstr "删除跟踪数据"
+
+msgid "trac_edit_permission"
+msgstr "改变权限设置"
+
+msgid "trac_lp_other_users"
+msgstr "看其他用户的学习进程概况。"
+
+msgid "trac_read"
+msgstr "读取跟踪数据"
+
+msgid "trac_visible"
+msgstr "用户跟踪是可见的"
+
+msgid "trac_write"
+msgstr "在统计和学习进程管理中编辑设置"
+
+msgid "tst_copy"
+msgstr "复制测试"
+
+msgid "tst_delete"
+msgstr "删除测试"
+
+msgid "tst_edit_learning_progress"
+msgstr "编辑学习属性"
+
+msgid "tst_edit_permission"
+msgstr "更改许可设置"
+
+msgid "tst_read"
+msgstr "测试设为读访问"
+
+#, fuzzy
+msgid "tst_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "tst_tst_history_read"
+msgstr "View History"
+
+#, fuzzy
+msgid "tst_tst_results"
+msgstr "User has access to test results"
+
+msgid "tst_visible"
+msgstr "测试可视"
+
+msgid "tst_write"
+msgstr "编辑测试"
+
+#, fuzzy
+msgid "upload_blacklisted_files"
+msgstr "Bypass blacklist"
+
+msgid "usrf_delete"
+msgstr "删除用户账号"
+
+msgid "usrf_edit_permission"
+msgstr "更改许可设置"
+
+msgid "usrf_edit_roleassignment"
+msgstr "更改用户账号角色分配"
+
+msgid "usrf_push_desktop_items"
+msgstr "允许在个人桌面上推送项目。"
+
+msgid "usrf_read"
+msgstr "用户账号设为读访问"
+
+#, fuzzy
+msgid "usrf_read_all_accounts"
+msgstr "User can list all accounts in User administration"
+
+msgid "usrf_read_users"
+msgstr "本地管理员角色分配"
+
+msgid "usrf_visible"
+msgstr "用户账号可视"
+
+msgid "usrf_write"
+msgstr "编辑用户账号"
+
+#, fuzzy
+msgid "wbdv_edit_permission"
+msgstr "User can change permission settings of WebDAV administration."
+
+#, fuzzy
+msgid "wbdv_read"
+msgstr "User has read access to WebDAV administration."
+
+#, fuzzy
+msgid "wbdv_visible"
+msgstr "Administration of WebDAV is visible."
+
+#, fuzzy
+msgid "wbdv_write"
+msgstr "User can edit settings of WebDAV administration."
+
+#, fuzzy
+msgid "wbrs_edit_permission"
+msgstr "User can change permission settings in Weblink administration"
+
+#, fuzzy
+msgid "wbrs_read"
+msgstr "User has read access to Weblink administration"
+
+#, fuzzy
+msgid "wbrs_visible"
+msgstr "Weblink administration is visible"
+
+#, fuzzy
+msgid "wbrs_write"
+msgstr "Edit settings in Weblink administration"
+
+msgid "webr_copy"
+msgstr "复制Web资源"
+
+msgid "webr_delete"
+msgstr "删除web资源"
+
+msgid "webr_edit_permission"
+msgstr "改变权限设置"
+
+msgid "webr_read"
+msgstr "网络资源读访问权限"
+
+msgid "webr_visible"
+msgstr "web资源可见"
+
+msgid "webr_write"
+msgstr "编辑web资源"
+
+#, fuzzy
+msgid "wiki_activate_wiki_protection"
+msgstr "Set Wiki Pages to Read-Only"
+
+#, fuzzy
+msgid "wiki_add_pages"
+msgstr "User can create wiki pages"
+
+msgid "wiki_copy"
+msgstr "复制Wiki"
+
+msgid "wiki_delete"
+msgstr "删除Wiki"
+
+#, fuzzy
+msgid "wiki_delete_wiki_pages"
+msgstr "Delete Wiki Pages"
+
+msgid "wiki_edit_content"
+msgstr "编辑维基页面"
+
+#, fuzzy
+msgid "wiki_edit_page_meta"
+msgstr "Edit Wiki Page Metadata"
+
+msgid "wiki_edit_permission"
+msgstr "改变权限设置"
+
+#, fuzzy
+msgid "wiki_edit_wiki_navigation"
+msgstr "Edit Wiki Navigation"
+
+#, fuzzy
+msgid "wiki_html_export"
+msgstr "Export HTML"
+
+msgid "wiki_read"
+msgstr "维基可读权限"
+
+#, fuzzy
+msgid "wiki_statistics_read"
+msgstr "View Statistics"
+
+msgid "wiki_visible"
+msgstr "Wiki可见权限"
+
+#, fuzzy
+msgid "wiki_wiki_html_export"
+msgstr "Export Wiki as HTML"
+
+msgid "wiki_write"
+msgstr "更改Wiki设置,年级学习者"
+
+#, fuzzy
+msgid "wiks_edit_permission"
+msgstr "User can change permission settings in Wiki administration"
+
+#, fuzzy
+msgid "wiks_read"
+msgstr "User has read access to Wiki administration"
+
+#, fuzzy
+msgid "wiks_visible"
+msgstr "Wiki administration is visible"
+
+#, fuzzy
+msgid "wiks_write"
+msgstr "Edit settings in Wiki administration"
+
+msgid "write"
+msgstr "编辑设置"
