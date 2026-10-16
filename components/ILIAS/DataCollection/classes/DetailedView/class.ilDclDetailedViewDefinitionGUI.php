@@ -29,6 +29,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
     protected ?ilDclBaseRecordModel $record = null;
+    protected \ILIAS\COPage\Page\PageManagerInterface $page_manager;
 
     public function __construct(int $tableview_id)
     {
@@ -38,6 +39,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->locator = $DIC['ilLocator'];
+        $this->page_manager = $DIC->copage()->internal()->domain()->page();
 
         $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
         $this->setStyleId($DIC->contentStyle()->domain()->styleForRefId($ref_id)->getEffectiveStyleId());
@@ -47,7 +49,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
             $viewdef->setId($tableview_id);
             $viewdef->setParentId(ilObject2::_lookupObjectId($ref_id));
             $viewdef->create();
-        } elseif (!ilPageObject::_lookupActive($tableview_id, 'dclf')) {
+        } elseif (!$this->page_manager->lookupActive($tableview_id, 'dclf')) {
             $page = new ilDclDetailedViewDefinition($tableview_id);
             $page->setActive(true);
             foreach ($page->getAllPCIds() as $id) {

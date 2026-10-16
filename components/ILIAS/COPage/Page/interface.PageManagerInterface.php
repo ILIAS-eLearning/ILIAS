@@ -38,6 +38,27 @@ interface PageManagerInterface
 
     public function writeActive(int $page_id, string $parent_type, bool $active): void;
 
+    public function preloadActivationDataByParentId(int $parent_id): void;
+
+    public function lookupActive(
+        int $page_id,
+        string $parent_type,
+        bool $check_scheduled_activation = false,
+        string $lang = "-"
+    ): bool;
+
+    public function isScheduledActivation(
+        int $page_id,
+        string $parent_type,
+        string $lang = "-"
+    ): bool;
+
+    public function lookupActivationData(
+        int $page_id,
+        string $parent_type,
+        string $lang = "-"
+    ): array;
+
     public function getParentObjectContributors(
         string $parent_type,
         int $parent_id,

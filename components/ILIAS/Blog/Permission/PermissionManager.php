@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Blog\Permission;
 
 use ILIAS\Blog\InternalDomainService;
+use ILIAS\COPage\Page\PageManagerInterface;
 
 class PermissionManager
 {
@@ -31,6 +32,7 @@ class PermissionManager
     protected \ilWorkspaceAccessHandler|\ilAccessHandler $access;
     protected ?int $node_id;
     protected int $user_id;
+    protected PageManagerInterface $page_manager;
 
     public function __construct(
         InternalDomainService $domain,
@@ -47,6 +49,7 @@ class PermissionManager
         $this->owner = $owner;
         $this->ws_tree = new \ilWorkspaceTree($this->owner);
         $this->posting_manager = $domain->posting();
+        $this->page_manager = $domain->pageManager();
     }
 
     public function canWrite(): bool
@@ -124,7 +127,7 @@ class PermissionManager
             $this->postingIdMatches($posting_id) &&
             $this->checkPermissionBool("read") &&
             ($this->mayContribute() ||
-            \ilBlogPosting::_lookupActive($posting_id, "blp")));
+            $this->page_manager->lookupActive($posting_id, "blp")));
     }
 
     public function canApprove(int $posting_id): bool
@@ -139,7 +142,7 @@ class PermissionManager
 
     public function isActive(int $posting_id): bool
     {
-        return (\ilBlogPosting::_lookupActive($posting_id, "blp"));
+        return $this->page_manager->lookupActive($posting_id, "blp");
     }
 
     protected function postingIdMatches(int $posting_id): bool

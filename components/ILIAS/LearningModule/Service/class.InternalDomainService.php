@@ -60,6 +60,7 @@ class InternalDomainService
         return self::$instance["sub_obj_retrieval"][$lm_id][$type][$current_node] ??=
             new Editing\SubObjectRetrieval(
                 $this->lmTree($lm_id),
+                $this->page_manager,
                 $type,
                 $current_node,
                 $lang
@@ -77,7 +78,7 @@ class InternalDomainService
         string $lm_type,
         bool $layout_per_page
     ): Editing\PagesRetrieval {
-        return new Editing\PagesRetrieval($lm_id, $lm_type, $layout_per_page);
+        return new Editing\PagesRetrieval($lm_id, $lm_type, $layout_per_page, $this->page_manager);
     }
 
     public function blockedUsersRetrieval(int $ref_id): Question\BlockedUsers\Retrieval

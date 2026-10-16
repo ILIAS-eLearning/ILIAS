@@ -23,6 +23,7 @@ namespace ILIAS\LearningModule\Editing;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
 use ILIAS\Repository\RetrievalInterface;
+use ILIAS\COPage\Page\PageManagerInterface;
 
 class SubObjectRetrieval implements RetrievalInterface
 {
@@ -31,6 +32,7 @@ class SubObjectRetrieval implements RetrievalInterface
 
     public function __construct(
         protected \ilLMTree $lm_tree,
+        protected PageManagerInterface $page_manager,
         protected $type = "",
         protected $current_node = 0,
         protected $transl = ""
@@ -73,7 +75,7 @@ class SubObjectRetrieval implements RetrievalInterface
             if ($child["type"] === "pg") {
                 // check activation
                 $lm_set = new \ilSetting("lm");
-                $active = \ilLMPage::_lookupActive(
+                $active = $this->page_manager->lookupActive(
                     $child["obj_id"],
                     "lm",
                     (bool) $lm_set->get("time_scheduled_page_activation")
@@ -81,7 +83,7 @@ class SubObjectRetrieval implements RetrievalInterface
 
                 // is page scheduled?
                 $scheduled = ((bool) $lm_set->get("time_scheduled_page_activation") &&
-                    \ilLMPage::_isScheduledActivation($child["obj_id"], "lm"));
+                    $this->page_manager->isScheduledActivation($child["obj_id"], "lm"));
                 if ($active) {
                     $deactivated_elements = (\ilLMPage::_lookupContainsDeactivatedElements(
                         $child["obj_id"],

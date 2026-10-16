@@ -52,7 +52,7 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
             $a_name = "standard/icon_" . $a_node["type"] . ".svg";
             if ($a_node["type"] == "pg") {
                 $lm_set = new ilSetting("lm");
-                $active = ilLMPage::_lookupActive(
+                $active = $this->page_manager->lookupActive(
                     $a_node["child"],
                     $this->lm->getType(),
                     (bool) $lm_set->get("time_scheduled_page_activation")
@@ -60,7 +60,7 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
 
                 // is page scheduled?
                 $img_sc = ($lm_set->get("time_scheduled_page_activation") &&
-                    ilLMPage::_isScheduledActivation($a_node["child"], $this->lm->getType()))
+                    $this->page_manager->isScheduledActivation($a_node["child"], $this->lm->getType()))
                     ? "_sc"
                     : "";
 
@@ -97,7 +97,7 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
 
         if ($a_node["type"] == "pg") {
             $lm_set = new ilSetting("lm");
-            $active = ilLMPage::_lookupActive(
+            $active = $this->page_manager->lookupActive(
                 $a_node["child"],
                 $this->lm->getType(),
                 (bool) $lm_set->get("time_scheduled_page_activation")

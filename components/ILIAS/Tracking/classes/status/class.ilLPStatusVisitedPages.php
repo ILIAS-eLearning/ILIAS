@@ -107,7 +107,7 @@ class ilLPStatusVisitedPages extends ilLPStatus
         );
         while ($row = $ilDB->fetchAssoc($set)) {
             // only active pages (time-based activation not supported)
-            if (ilPageObject::_lookupActive($row["obj_id"], "lm")) {
+            if ($DIC->copage()->internal()->domain()->page()->lookupActive((int) $row["obj_id"], "lm")) {
                 $res[] = (int) $row["obj_id"];
             }
         }

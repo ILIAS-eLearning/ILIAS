@@ -57,6 +57,29 @@ class ilUnitTestPageManager implements \ILIAS\COPage\Page\PageManagerInterface
     {
     }
 
+    public function preloadActivationDataByParentId(int $parent_id): void
+    {
+    }
+
+    public function lookupActive(
+        int $page_id,
+        string $parent_type,
+        bool $check_scheduled_activation = false,
+        string $lang = "-"
+    ): bool {
+        return true;
+    }
+
+    public function isScheduledActivation(int $page_id, string $parent_type, string $lang = "-"): bool
+    {
+        return false;
+    }
+
+    public function lookupActivationData(int $page_id, string $parent_type, string $lang = "-"): array
+    {
+        return [];
+    }
+
     public function getParentObjectContributors(
         string $parent_type,
         int $parent_id,

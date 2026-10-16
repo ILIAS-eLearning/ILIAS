@@ -86,7 +86,6 @@ abstract class ilPageObject
     public bool $dom_builded = false;
     public bool $history_saved = false;
     protected string $language = "-";
-    protected static array $activation_data = array();
     protected bool $import_mode = false;
     protected ilLogger $log;
     protected ?array $page_record = array();
@@ -495,15 +494,7 @@ abstract class ilPageObject
     public static function preloadActivationDataByParentId(int $a_parent_id): void
     {
         global $DIC;
-
-        $db = $DIC->database();
-        $set = $db->query(
-            "SELECT page_id, parent_type, lang, active, activation_start, activation_end, show_activation_info FROM page_object " .
-            " WHERE parent_id = " . $db->quote($a_parent_id, "integer")
-        );
-        while ($rec = $db->fetchAssoc($set)) {
-            self::$activation_data[$rec["page_id"] . ":" . $rec["parent_type"] . ":" . $rec["lang"]] = $rec;
-        }
+        $DIC->copage()->internal()->domain()->page()->preloadActivationDataByParentId($a_parent_id);
     }
 
     /**
@@ -516,38 +507,12 @@ abstract class ilPageObject
         string $a_lang = "-"
     ): bool {
         global $DIC;
-
-        $db = $DIC->database();
-
-        // language must be set at least to "-"
-        if ($a_lang == "") {
-            $a_lang = "-";
-        }
-
-        if (isset(self::$activation_data[$a_id . ":" . $a_parent_type . ":" . $a_lang])) {
-            $rec = self::$activation_data[$a_id . ":" . $a_parent_type . ":" . $a_lang];
-        } else {
-            $set = $db->queryF(
-                "SELECT active, activation_start, activation_end FROM page_object WHERE page_id = %s" .
-                " AND parent_type = %s AND lang = %s",
-                array("integer", "text", "text"),
-                array($a_id, $a_parent_type, $a_lang)
-            );
-            $rec = $db->fetchAssoc($set);
-            if (!$rec) {
-                return true;
-            }
-        }
-
-        $rec["n"] = ilUtil::now();
-        if (!$rec["active"] && $a_check_scheduled_activation) {
-            if ($rec["n"] >= $rec["activation_start"] &&
-                $rec["n"] <= $rec["activation_end"]) {
-                return true;
-            }
-        }
-
-        return (bool) $rec["active"];
+        return $DIC->copage()->internal()->domain()->page()->lookupActive(
+            $a_id,
+            $a_parent_type,
+            $a_check_scheduled_activation,
+            $a_lang
+        );
     }
 
     /**
@@ -559,33 +524,11 @@ abstract class ilPageObject
         string $a_lang = "-"
     ): bool {
         global $DIC;
-
-        $db = $DIC->database();
-
-        // language must be set at least to "-"
-        if ($a_lang == "") {
-            $a_lang = "-";
-        }
-
-        //echo "<br>";
-        //var_dump(self::$activation_data); exit;
-        if (isset(self::$activation_data[$a_id . ":" . $a_parent_type . ":" . $a_lang])) {
-            $rec = self::$activation_data[$a_id . ":" . $a_parent_type . ":" . $a_lang];
-        } else {
-            $set = $db->queryF(
-                "SELECT active, activation_start, activation_end FROM page_object WHERE page_id = %s" .
-                " AND parent_type = %s AND lang = %s",
-                array("integer", "text", "text"),
-                array($a_id, $a_parent_type, $a_lang)
-            );
-            $rec = $db->fetchAssoc($set);
-        }
-
-        if (!$rec["active"] && $rec["activation_start"] != "") {
-            return true;
-        }
-
-        return false;
+        return $DIC->copage()->internal()->domain()->page()->isScheduledActivation(
+            $a_id,
+            $a_parent_type,
+            $a_lang
+        );
     }
 
     /**
@@ -597,35 +540,11 @@ abstract class ilPageObject
         string $a_lang = "-"
     ): array {
         global $DIC;
-
-        $db = $DIC->database();
-
-        // language must be set at least to "-"
-        if ($a_lang == "") {
-            $a_lang = "-";
-        }
-
-        if (isset(self::$activation_data[$a_id . ":" . $a_parent_type . ":" . $a_lang])) {
-            $rec = self::$activation_data[$a_id . ":" . $a_parent_type . ":" . $a_lang];
-        } else {
-            $set = $db->queryF(
-                "SELECT active, activation_start, activation_end, show_activation_info FROM page_object WHERE page_id = %s" .
-                " AND parent_type = %s AND lang = %s",
-                array("integer", "text", "text"),
-                array($a_id, $a_parent_type, $a_lang)
-            );
-            $rec = $db->fetchAssoc($set);
-            if (!$rec) {
-                return [
-                    "active" => 1,
-                    "activation_start" => null,
-                    "activation_end" => null,
-                    "show_activation_info" => 0
-                ];
-            }
-        }
-
-        return $rec;
+        return $DIC->copage()->internal()->domain()->page()->lookupActivationData(
+            $a_id,
+            $a_parent_type,
+            $a_lang
+        );
     }
 
     /**
