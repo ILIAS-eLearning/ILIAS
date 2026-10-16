@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Mail\Message;
 
 use DateTimeImmutable;
-use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
+use ILIAS\Mail\Attachments\MailAttachments;
 
 class MailRecordData
 {
@@ -29,7 +29,7 @@ class MailRecordData
     public const string STATUS_UNREAD = 'unread';
 
     /**
-     * @param null|non-empty-list<string>|ResourceCollectionIdentification $attachments
+     * @param null|MailAttachments $attachments
      */
     public function __construct(
         private readonly int $mail_id,
@@ -45,7 +45,7 @@ class MailRecordData
         private readonly ?string $rcp_to = null,
         private readonly ?string $rcp_cc = null,
         private readonly ?string $rcp_bc = null,
-        private readonly null|array|ResourceCollectionIdentification $attachments = null,
+        private readonly ?MailAttachments $attachments = null,
         private readonly ?string $tpl_ctx_id = null,
         private readonly ?string $tpl_ctx_params = null
     ) {
@@ -116,10 +116,7 @@ class MailRecordData
         return $this->rcp_bc;
     }
 
-    /**
-     * @return null|non-empty-list<string>|ResourceCollectionIdentification
-     */
-    public function getAttachments(): null|array|ResourceCollectionIdentification
+    public function getAttachments(): ?MailAttachments
     {
         return $this->attachments;
     }
@@ -141,7 +138,7 @@ class MailRecordData
 
     public function hasAttachments(): bool
     {
-        return !empty($this->attachments);
+        return $this->attachments !== null && !$this->attachments->isEmpty();
     }
 
     public function hasPersonalSender(): bool

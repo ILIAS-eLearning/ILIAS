@@ -31,7 +31,9 @@ use ilDBInterface;
 use Throwable;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use SplFileInfo;
+use ilFileDataMail;
 
 class MailDeletionHandler
 {
@@ -53,7 +55,8 @@ class MailDeletionHandler
         ?ilDBInterface $db = null,
         ?ilSetting $setting = null,
         ?ilLogger $logger = null,
-        ?callable $delete_directory_callback = null
+        ?callable $delete_directory_callback = null,
+        private readonly ?ilFileDataMail $mail_file_data = null,
     ) {
         global $DIC;
 
@@ -71,6 +74,32 @@ class MailDeletionHandler
     /**
      * @return list<string>
      */
+    private function determineAttachmentRcidsOfDeletedMails(): array
+    {
+        $rcids = [];
+        $res = $this->db->query(
+            '
+                SELECT DISTINCT rcid
+                FROM mail_attachment
+                WHERE rcid IS NOT NULL AND rcid != "" AND rcid != "-"
+                AND ' . $this->db->in(
+                'mail_id',
+                $this->collector->mailIdsToDelete(),
+                false,
+                ilDBConstants::T_INTEGER
+            )
+        );
+
+        while ($row = $this->db->fetchAssoc($res)) {
+            $rcids[] = (string) $row['rcid'];
+        }
+
+        return $rcids;
+    }
+
+    /**
+     * @return list<string>
+     */
     private function determineDeletableAttachmentPaths(): array
     {
         $attachment_paths = [];
@@ -79,7 +108,8 @@ class MailDeletionHandler
             '
 				SELECT path, COUNT(mail_id) cnt_mail_ids
 				FROM mail_attachment 
-				WHERE ' . $this->db->in(
+				WHERE path IS NOT NULL AND path != ""
+				AND ' . $this->db->in(
                 'mail_id',
                 $this->collector->mailIdsToDelete(),
                 false,
@@ -101,7 +131,8 @@ class MailDeletionHandler
             )['cnt'];
             $num_usages_within_deleted_mails = (int) $row['cnt_mail_ids'];
 
-            if ($num_usages_within_deleted_mails >= $num_usages_total) {
+            // IRSS based attachments have an empty path, which must never resolve to the mail directory itself
+            if ($num_usages_within_deleted_mails >= $num_usages_total && trim((string) $row['path'], '/. ') !== '') {
                 $attachment_paths[] = $row['path'];
             }
 
@@ -122,6 +153,7 @@ class MailDeletionHandler
 
     private function deleteAttachments(): void
     {
+        $attachment_rcids = $this->determineAttachmentRcidsOfDeletedMails();
         $attachment_paths = $this->determineDeletableAttachmentPaths();
 
         $i = 0;
@@ -185,6 +217,17 @@ class MailDeletionHandler
             'DELETE FROM mail_attachment WHERE ' .
             $this->db->in('mail_id', $this->collector->mailIdsToDelete(), false, ilDBConstants::T_INTEGER)
         );
+
+        if ($attachment_rcids !== []) {
+            $mail_file_data = $this->mail_file_data ?? new ilFileDataMail();
+            foreach ($attachment_rcids as $rcid) {
+                try {
+                    $mail_file_data->releaseCollectionIfUnreferenced(new ResourceCollectionIdentification($rcid));
+                } catch (Throwable $e) {
+                    $this->logger->warning($e->getMessage());
+                }
+            }
+        }
     }
 
     private function deleteMails(): void

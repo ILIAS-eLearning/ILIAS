@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager;
 use ILIAS\BackgroundTasks\Task\TaskFactory;
 use ILIAS\DI\Container;
+use ILIAS\Mail\Attachments\MailAttachments;
 
 class ilMailTaskProcessorTest extends ilMailBaseTestCase
 {
@@ -58,7 +59,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTestCase
             '',
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce mollis posuere tincidunt. Phasellus et euismod ligula. Suspendisse dignissim eget dui nec imperdiet. Donec in pretium tellus. Maecenas lacinia eleifend erat ut euismod. Aenean eu malesuada est.',
             'Dear Steve, great!',
-            []
+            MailAttachments::empty()
         );
     }
 
@@ -108,7 +109,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTestCase
             '',
             'That is awesome!',
             'Dear Steve, great!',
-            []
+            MailAttachments::empty()
         );
 
         $value_objects = [
@@ -175,7 +176,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTestCase
             '',
             'That is awesome!',
             'Dear Steve, great!',
-            []
+            MailAttachments::empty()
         );
 
         $value_objects[] = new ilMailValueObject(
@@ -185,7 +186,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTestCase
             '',
             'Greate',
             'Steve, Steve, Steve. Wait that is not Steve',
-            []
+            MailAttachments::empty()
         );
 
         $usr_id = 100;
@@ -248,7 +249,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTestCase
             '',
             'That is awesome!',
             'Dear Steve, great!',
-            []
+            MailAttachments::empty()
         );
 
         $value_objects[] = new ilMailValueObject(
@@ -258,7 +259,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTestCase
             '',
             'Greate',
             'Steve, Steve, Steve. Wait that is not Steve',
-            []
+            MailAttachments::empty()
         );
 
         $value_objects[] = new ilMailValueObject(
@@ -268,7 +269,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTestCase
             '',
             'That is awesome!',
             'Hey Alan! Alan! Alan!',
-            []
+            MailAttachments::empty()
         );
 
         $usr_id = 100;
@@ -334,7 +335,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTestCase
             '',
             'That is awesome!',
             'Dear Steve, great!',
-            []
+            MailAttachments::empty()
         );
 
         $value_objects[] = new ilMailValueObject(
@@ -344,7 +345,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTestCase
             '',
             'Greate',
             'Steve, Steve, Steve. Wait that is not Steve',
-            []
+            MailAttachments::empty()
         );
 
         $value_objects[] = 'This should fail';

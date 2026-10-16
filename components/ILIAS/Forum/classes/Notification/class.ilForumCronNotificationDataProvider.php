@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Mail\Attachments\MailAttachments;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
+
 /**
  * Class ilForumCronNotificationDataProvider
  * @author Nadia Matuschek <nmatuschek@databay.de>
@@ -46,6 +49,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
     private readonly string $import_name;
     /** @var list<string> */
     private array $attachments = [];
+    private ?MailAttachments $mail_attachments = null;
     /** @var int[] */
     private array $cron_recipients = [];
     private readonly int $post_update_user_id;
@@ -105,14 +109,24 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 
     private function readAttachments(): void
     {
-        if (ilForumProperties::isSendAttachmentsByMailEnabled()) {
-            $fileDataForum = new ilFileDataForum($this->getObjId(), $this->getPostId());
-            $filesOfPost = $fileDataForum->getFilesOfPost();
-
-            foreach ($filesOfPost as $attachment) {
-                $this->attachments[] = $attachment['name'];
-            }
+        if (!ilForumProperties::isSendAttachmentsByMailEnabled()) {
+            return;
         }
+
+        $fileDataForum = new ilFileDataForum($this->getObjId(), $this->getPostId());
+        foreach ($fileDataForum->getFilesOfPost() as $attachment) {
+            $this->attachments[] = $attachment['name'];
+        }
+
+        $post = new ilForumPost($this->getPostId());
+        $rcid_string = $post->getRCID();
+        if ($rcid_string === '' || $rcid_string === ilForumPost::NO_RCID) {
+            return;
+        }
+
+        $this->mail_attachments = MailAttachments::fromIrss(
+            new ResourceCollectionIdentification($rcid_string)
+        );
     }
 
     public function addRecipient(int $user_id): void
@@ -214,6 +228,11 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
     public function getAttachments(): array
     {
         return $this->attachments;
+    }
+
+    public function getMailAttachments(): MailAttachments
+    {
+        return $this->mail_attachments ?? MailAttachments::empty();
     }
 
     public function getPosDisplayUserId(): int

@@ -380,6 +380,9 @@ class ilMailbox
 
     public function delete(): void
     {
+        $fdm = new ilFileDataMail($this->usr_id);
+        $fdm->onUserDelete();
+
         $this->db->manipulateF(
             'DELETE FROM mail_obj_data WHERE user_id = %s',
             ['integer'],
@@ -409,11 +412,6 @@ class ilMailbox
             ['integer', 'integer'],
             [$this->usr_id, $this->usr_id]
         );
-
-        // Delete the user's files from filesystem:
-        // This has to be done before deleting the database entries in table 'mail'
-        $fdm = new ilFileDataMail($this->usr_id);
-        $fdm->onUserDelete();
 
         // Delete mails of deleted user
         $this->db->manipulateF(
