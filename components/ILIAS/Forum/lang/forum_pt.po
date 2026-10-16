@@ -1,0 +1,756 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: forum\n"
+
+msgid "activate_new_posts"
+msgstr "Cobertura"
+
+msgid "activate_only_current"
+msgstr "Emirados Árabes Unidos"
+
+msgid "activate_post"
+msgstr "Afeganistão"
+
+msgid "activate_post_txt"
+msgstr "Antígua e Barbuda"
+
+msgid "add_new_answer"
+msgstr "Adicionar posting"
+
+msgid "add_re_to_subject"
+msgstr "Albânia"
+
+msgid "adm_autosave_drafts"
+msgstr "Guarda automaticamente esboços"
+
+msgid "adm_autosave_drafts_desc"
+msgstr "Se estiver ativado, os esboços são automaticamente guardados durante a edição."
+
+msgid "adm_autosave_ival"
+msgstr "Intervalo"
+
+msgid "adm_save_drafts"
+msgstr "Guardar esboços"
+
+msgid "adm_save_drafts_desc"
+msgstr "Se estiver ativado, os utilizadores registados podem guardar postings de fóruns como esboço."
+
+msgid "allow_file_upload_desc"
+msgstr "Se estiver ativado, os utilizadores podem anexar ficheiros aos seus postings."
+
+msgid "ascending_order"
+msgstr "Últimos postings em baixo"
+
+msgid "autosave_draft_info"
+msgstr "<span class=\"asterisk\">Este esboço será automaticamente guardado a cada %s segundos.</span>"
+
+msgid "autosave_post_draft_info"
+msgstr "<span class=\"asterisk\">Este post será automaticamente guardado a cada %s segundos.</span>"
+
+msgid "close_topics"
+msgstr "Fechar"
+
+msgid "content_censored_post"
+msgstr "Conteúdo do posting censurado:"
+
+msgid "content_deleted_post"
+msgstr "Conteúdo do posting apagado:"
+
+msgid "content_deleted_thread"
+msgstr "Conteúdo do tópico apagado:"
+
+msgid "content_post_updated"
+msgstr "Conteúdo do posting editado:"
+
+#, fuzzy
+msgid "deletePosting"
+msgstr "Delete Posting"
+
+#, fuzzy
+msgid "deletePostingDraft"
+msgstr "Delete Draft"
+
+msgid "delete_draft_successfully"
+msgstr "O esboço foi apagado com sucesso."
+
+msgid "delete_drafts_successfully"
+msgstr "Os esboços foram apagados com sucesso."
+
+#, fuzzy
+msgid "delete_thread"
+msgstr "Delete Thread"
+
+msgid "descending_order"
+msgstr "Últimos postings em cima"
+
+msgid "edit_thread_draft"
+msgstr "Editar esboço de tópico"
+
+msgid "empty_subject"
+msgstr "Em resposta, o utilizador tem de inserir um novo título."
+
+#, fuzzy
+msgid "empty_thread"
+msgstr "Empty Thread"
+
+msgid "enable_send_attachments"
+msgstr "Enviar anexos com notificações de fóruns"
+
+msgid "enable_send_attachments_desc"
+msgstr "Note que os anexos de ficheiros têm de ser guardados separadamente por cada utilizador notificado. Isto pode causar uma elevada utilização do espaço em disco do servidor."
+
+msgid "enable_thread_ratings"
+msgstr "Classificação do tópico"
+
+msgid "enable_thread_ratings_info"
+msgstr "Se estiver ativado, os utilizadores podem classificar os tópicos."
+
+msgid "enter_new_subject"
+msgstr "Insira um novo assunto"
+
+#, fuzzy
+msgid "error_no_target_selected"
+msgstr "Please select a forum."
+
+msgid "error_reading_file"
+msgstr "Houve um erro ao ler o ficheiro"
+
+msgid "error_same_thread_ids"
+msgstr "O tópico de origem e de destino têm de ser diferentes."
+
+msgid "file_upload_allowed"
+msgstr "Permitir anexos"
+
+msgid "file_upload_allowed_fora"
+msgstr "Anexos"
+
+msgid "file_upload_allowed_fora_desc"
+msgstr "Se estiver selecionado \"Permitir anexos em fóruns selecionados\", os moderadores do fórum podem autorizar individualmente anexar ficheiros a postings nas definições de cada fórum. Em fóruns novos, o upload de anexos está desativado por defeito."
+
+msgid "file_upload_option_allow"
+msgstr "Permitir anexos em todos os fóruns"
+
+#, fuzzy
+msgid "file_upload_option_allow_info"
+msgstr "Files can be attached to posts in all forums."
+
+msgid "file_upload_option_disallow"
+msgstr "Permitir anexos em todos selecionados"
+
+msgid "fmr_copy_threads_info"
+msgstr "Tem a possibilidade de copiar tópicos individuais. Apenas o início dos tópicos escolhidos é que será duplicado."
+
+msgid "forum_add_quote"
+msgstr "Adicionar cotação"
+
+msgid "forums_all_threads_marked_read"
+msgstr "Todos os tópicos foram marcados como lidos"
+
+msgid "forums_attachments"
+msgstr "Arménia"
+
+msgid "forums_attachments_add"
+msgstr "Antilhas Holandesas"
+
+msgid "forums_censor_comment"
+msgstr "Antártida"
+
+msgid "forums_count_art"
+msgstr "Samoa Americana"
+
+msgid "forums_created_by"
+msgstr "Criado por"
+
+msgid "forums_delete_file"
+msgstr "Áustria"
+
+msgid "forums_disable_notification"
+msgstr "Austrália"
+
+msgid "forums_download_attachment"
+msgstr "Ilhas Åland"
+
+msgid "forums_edit_draft"
+msgstr "Editar esboço"
+
+msgid "forums_edit_post"
+msgstr "Azerbaijão"
+
+msgid "forums_enable_notification"
+msgstr "Bósnia-Herzegovina"
+
+#, fuzzy
+msgid "forums_forum_notification"
+msgstr "Send Forum Notifications"
+
+#, fuzzy
+msgid "forums_forum_notification_desc"
+msgstr "If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail."
+
+msgid "forums_forum_notification_disabled"
+msgstr "Deixa de ser notificado sobre novas mensagens neste fórum."
+
+msgid "forums_info_censor2_post"
+msgstr "Bélgica"
+
+msgid "forums_info_censor_post"
+msgstr "Bulgária"
+
+msgid "forums_info_delete_draft"
+msgstr "Tem a certeza que quer apagar este esboço?"
+
+msgid "forums_info_delete_post"
+msgstr "Bolívia"
+
+msgid "forums_mark_read"
+msgstr "Brasil"
+
+msgid "forums_new_thread"
+msgstr "Butão"
+
+msgid "forums_no_posts_available"
+msgstr "Ilhas Cocos (Keeling)"
+
+msgid "forums_notification_disabled"
+msgstr "Ilha Bouvet"
+
+msgid "forums_notification_enabled"
+msgstr "Notificação ativada"
+
+msgid "forums_notification_intro"
+msgstr "Botsuana"
+
+msgid "forums_notification_show_frm"
+msgstr "Mostrar fórum: %s"
+
+msgid "forums_notification_show_post"
+msgstr "Canadá"
+
+msgid "forums_post_activation_mail"
+msgstr "Costa do Marfim"
+
+msgid "forums_post_deleted"
+msgstr "Ilhas Cook"
+
+msgid "forums_post_modified"
+msgstr "Camarões"
+
+msgid "forums_post_needs_to_be_activated"
+msgstr "Colômbia"
+
+msgid "forums_post_new_entry"
+msgstr "Cabo Verde"
+
+msgid "forums_post_was_activated"
+msgstr "Ilha do Natal"
+
+msgid "forums_posts"
+msgstr "República Central Africana"
+
+msgid "forums_posts_not_available"
+msgstr "Suíça"
+
+msgid "forums_print_thread"
+msgstr "Chipre"
+
+msgid "forums_subject"
+msgstr "Assunto"
+
+msgid "forums_the_post"
+msgstr "República Checa"
+
+msgid "forums_thread"
+msgstr "Portugal"
+
+msgid "forums_thread_create_from"
+msgstr "Dinamarca"
+
+msgid "forums_thread_deleted"
+msgstr "O tópico selecionado incluindo todos os postings foram apagados."
+
+msgid "forums_thread_drafts_deleted"
+msgstr "O tópico selecionado incluindo todos os postings e esboços foram apagados."
+
+msgid "forums_thread_marked"
+msgstr "O tópico foi marcado como lido."
+
+msgid "forums_thread_new_entry"
+msgstr "República Dominicana"
+
+msgid "forums_threads_deleted"
+msgstr "Os tópicos selecionados incluindo todos os postings foram apagados."
+
+msgid "forums_threads_drafts_deleted"
+msgstr "Os tópicos selecionados incluindo todos os postings e esboços foram apagados."
+
+msgid "forums_your_reply"
+msgstr "Argélia"
+
+msgid "frm_action_not_possible_parent_deleted"
+msgstr "Equador"
+
+msgid "frm_action_not_possible_thr_closed"
+msgstr "Estónia"
+
+msgid "frm_action_not_possible_thr_deleted"
+msgstr "Egipto"
+
+#, fuzzy
+msgid "frm_activation_online_info"
+msgstr "Set the forum online to make it visible and available to other users. If not, only administrators will have access to it."
+
+#, fuzzy
+msgid "frm_adm_sec_default_settings"
+msgstr "Default Object Settings"
+
+#, fuzzy
+msgid "frm_adm_sec_drafts"
+msgstr "Drafts"
+
+#, fuzzy
+msgid "frm_adm_sec_features"
+msgstr "Forum Features"
+
+#, fuzzy
+msgid "frm_adm_sec_notifications"
+msgstr "Notifications"
+
+#, fuzzy
+msgid "frm_all_threads"
+msgstr "All Threads"
+
+msgid "frm_anonymous_posting"
+msgstr "Saara Ocidental"
+
+msgid "frm_anonymous_posting_desc"
+msgstr "Eritreia"
+
+msgid "frm_at_least_one_moderator"
+msgstr "Tem de haver pelo menos um moderador."
+
+msgid "frm_censorship"
+msgstr "Censurar"
+
+msgid "frm_censorship_applied"
+msgstr "A censura foi aplicada com sucesso."
+
+msgid "frm_censorship_revoked"
+msgstr "A censura foi revogada com sucesso."
+
+msgid "frm_copy"
+msgstr "Copiar fórum"
+
+msgid "frm_default_view"
+msgstr "Vista predefinida"
+
+msgid "frm_edit_title"
+msgstr "Editar título"
+
+#, fuzzy
+msgid "frm_enable_print_option"
+msgstr "Enable print option"
+
+#, fuzzy
+msgid "frm_enable_print_option_desc"
+msgstr "If disabled, nobody is able to select the print option in Forum."
+
+#, fuzzy
+msgid "frm_forum_push_notification_info"
+msgstr "Forum notifications are sent as push notifications instead of e-mail. If the push notification cannot be delivered, an e-mail will be sent instead."
+
+msgid "frm_mark_as_read"
+msgstr "Marcar como lido"
+
+msgid "frm_mark_as_unread"
+msgstr "Marcar como não lido"
+
+msgid "frm_max_notification_age"
+msgstr "Idade máx. de notificação"
+
+msgid "frm_max_notification_age_info"
+msgstr "Defina a idade máxima de postings para lhe enviar notificações. Recomenda-se escolher um valor mais alto do que o intervalo programado."
+
+msgid "frm_max_notification_age_unit"
+msgstr "Dia(s)"
+
+msgid "frm_merge_src"
+msgstr "Tópico selecionado: %s"
+
+msgid "frm_merge_target"
+msgstr "Objetivo: %s"
+
+msgid "frm_moderator_f"
+msgstr "Moderador"
+
+msgid "frm_moderator_m"
+msgstr "Moderador"
+
+msgid "frm_moderator_n"
+msgstr "Espanha"
+
+msgid "frm_moderator_role_added_successfully"
+msgstr "Etiópia"
+
+msgid "frm_moderators"
+msgstr "Moderadores"
+
+msgid "frm_moderators_detached_role_successfully"
+msgstr "O papel do moderador foi destacado para todos os utilizadores selecionados com sucesso."
+
+msgid "frm_moderators_not_exist_yet"
+msgstr "Escolha um moderador."
+
+msgid "frm_moderators_select_at_least_one"
+msgstr "Escolha pelo menos um moderador."
+
+msgid "frm_moderators_select_one"
+msgstr "Escolha apenas um utilizador."
+
+#, fuzzy
+msgid "frm_move_invalid_file_type"
+msgstr "The thread \"%s\" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist."
+
+msgid "frm_noti_message"
+msgstr "Mensagem:"
+
+msgid "frm_noti_new_post"
+msgstr "foi criado um novo posting no fórum \"%1$s\"."
+
+#, fuzzy
+msgid "frm_noti_obj_crs"
+msgstr "course"
+
+#, fuzzy
+msgid "frm_noti_obj_grp"
+msgstr "group"
+
+msgid "frm_noti_subject_act_post"
+msgstr "Posting ativado no fórum \"%1$s\", tópico \"%2$s\""
+
+msgid "frm_noti_subject_answ_post"
+msgstr "Posting respondido no fórum \"%1$s\", tópico \"%2$s\""
+
+msgid "frm_noti_subject_cens_post"
+msgstr "Posting censurado no fórum \"%1$s\", tópico \"%2$s\""
+
+msgid "frm_noti_subject_del_post"
+msgstr "Posting apagado no fórum \"%1$s\", tópico \"%2$s\""
+
+msgid "frm_noti_subject_del_thread"
+msgstr "Tópico \"%2$s\" apagado no fórum \"%1$s\""
+
+msgid "frm_noti_subject_new_post"
+msgstr "Novo posting no fórum \"%1$s\", tópico \"%2$s\""
+
+msgid "frm_noti_subject_uncens_post"
+msgstr "Posting não censurado no fórum \"%1$s\", tópico \"%2$s\""
+
+msgid "frm_noti_subject_upt_post"
+msgstr "Posting modificado no fórum \"%1$s\", tópico \"%2$s\""
+
+msgid "frm_notification_activated"
+msgstr "Notificação ativada"
+
+#, fuzzy
+msgid "frm_notification_bg_task_title"
+msgstr "Forum notification delivery"
+
+msgid "frm_notification_deactivated"
+msgstr "Notificação desativada"
+
+msgid "frm_post_not_activated_yet"
+msgstr "Não ativado ainda."
+
+#, fuzzy
+msgid "frm_posts"
+msgstr "Forum Posts"
+
+msgid "frm_pseudonym"
+msgstr "Finlândia"
+
+msgid "frm_purifier_not_implemented_for_type_x"
+msgstr "Purificador para tipo %s não implementado ainda."
+
+msgid "frm_rating"
+msgstr "Classificação"
+
+msgid "frm_revoke_censorship"
+msgstr "Revogar censura"
+
+msgid "frm_search"
+msgstr "Pesquisa"
+
+msgid "frm_selected_merge_src"
+msgstr "Tópico selecionado para unir: %s"
+
+msgid "frm_settings_form_header"
+msgstr "Ilhas Malvinas"
+
+msgid "frm_settings_mod_functions_header"
+msgstr "Micronésia"
+
+msgid "frm_settings_privacy_header"
+msgstr "França"
+
+msgid "frm_settings_user_functions_header"
+msgstr "França, Metropolitana"
+
+msgid "frm_statistics"
+msgstr "Gabão"
+
+msgid "frm_statistics_disabled_for_participants"
+msgstr "As estatísticas estão desativadas para membros do fórum."
+
+msgid "frm_statistics_enabled"
+msgstr "Ativar estatísticas"
+
+msgid "frm_statistics_enabled_desc"
+msgstr "Ativar estatística de posting para todos os participantes"
+
+msgid "frm_statistics_ranking"
+msgstr "Reino Unido"
+
+msgid "frm_subject_setting"
+msgstr "Definição de assunto"
+
+msgid "frm_sure_delete_threads"
+msgstr "Gronelândia"
+
+msgid "frm_sure_merge_threads"
+msgstr "Gâmbia"
+
+#, fuzzy
+msgid "frm_task_publishing_draft_title"
+msgstr "Publishing of Draft \"%s\""
+
+msgid "frm_wizard_page"
+msgstr "Copiar fórum (passo 2/2)"
+
+msgid "is_read"
+msgstr "Guiné"
+
+msgid "make_topics_non_sticky"
+msgstr "Guadalupe"
+
+msgid "make_topics_sticky"
+msgstr "Guiné Equatorial"
+
+msgid "mark_moderator_posts"
+msgstr "Marcar posts do moderador"
+
+msgid "mark_moderator_posts_desc"
+msgstr "Se estiver ativado, os posts do moderador serão realçados"
+
+msgid "merge"
+msgstr "Unir"
+
+msgid "merge_posts_into_thread"
+msgstr "Unir postings com outro tópico"
+
+msgid "merged_threads_successfully"
+msgstr "Os tópicos selecionados foram unidos com sucesso"
+
+msgid "move_chosen_topics"
+msgstr "Grécia"
+
+msgid "move_thread_to_forum"
+msgstr "Mover tópico para outro fórum"
+
+msgid "new_post"
+msgstr "Novo post"
+
+#, fuzzy
+msgid "new_thread_with_post"
+msgstr "New Thread with Post"
+
+msgid "no_forum_selected"
+msgstr "Geórgia do Sul e As Ilhas Sanduiche do Sul"
+
+msgid "not_allowed_to_merge_into_another_forum"
+msgstr "Não é possível unir tópicos de diferentes fóruns."
+
+#, fuzzy
+msgid "notification_settings"
+msgstr "Notification Settings"
+
+#, fuzzy
+msgid "notify_censored"
+msgstr "Censored Posts"
+
+#, fuzzy
+msgid "notify_modified"
+msgstr "Modified Posts"
+
+#, fuzzy
+msgid "notify_post_deleted"
+msgstr "Deleted Posts"
+
+#, fuzzy
+msgid "notify_thread_deleted"
+msgstr "Deleted Threads"
+
+#, fuzzy
+msgid "notify_uncensored"
+msgstr "Uncensored Posts"
+
+msgid "number_of_threads"
+msgstr "Número de tópicos apresentados por página"
+
+msgid "please_choose_target"
+msgstr "Escolha um tópico como destino para unir."
+
+msgid "post_activation_desc"
+msgstr "Guiné-Bissau"
+
+msgid "post_censored_by"
+msgstr "posting censurado no fórum \"%2$s” por \"%1$s\":"
+
+msgid "post_censored_comment_by_moderator"
+msgstr "Guiana"
+
+msgid "post_deleted_by"
+msgstr "o seguinte posting no fórum \"%2$s\" foi apagado por \"%1$s\":"
+
+#, fuzzy
+msgid "post_draft_info"
+msgstr "This post draft is only visible for you."
+
+msgid "post_reply"
+msgstr "Re:"
+
+msgid "post_reply_count"
+msgstr "Re(%s):"
+
+msgid "post_uncensored_by"
+msgstr "um posting não foi censurado por \"%1$s\""
+
+msgid "post_updated_by"
+msgstr "posting subsequentemente editado no fórum por \"%1$s\": \"%2$s\""
+
+msgid "preset_subject"
+msgstr "Predefinir assunto em resposta"
+
+msgid "publish"
+msgstr "Publicar"
+
+#, fuzzy
+msgid "relevance"
+msgstr "Relevance"
+
+msgid "reopen_topics"
+msgstr "Reabrir"
+
+msgid "reply_to_postings"
+msgstr "Responder"
+
+#, fuzzy
+msgid "reset_limited_view"
+msgstr "Limited view on this post an all posts below it."
+
+#, fuzzy
+msgid "reset_limited_view_button"
+msgstr "Show entire thread"
+
+#, fuzzy
+msgid "reset_limited_view_info"
+msgstr "Limited view on this post and all posts below it."
+
+msgid "restore"
+msgstr "Repor"
+
+msgid "restore_draft_from_autosave"
+msgstr "Repor esboço"
+
+msgid "save_draft_successfully"
+msgstr "O esboço foi guardado com sucesso."
+
+msgid "sel_threads_already_sticky"
+msgstr "Pelo menos um dos tópicos selecionados já está fixo"
+
+msgid "sel_threads_already_unsticky"
+msgstr "Croácia"
+
+msgid "sel_threads_make_sticky"
+msgstr "Os tópicos selecionados foram marcados como fixo"
+
+msgid "sel_threads_make_unsticky"
+msgstr "Os tópicos selecionados já não estão marcados como fixo"
+
+msgid "select_at_least_one_thread"
+msgstr "Ilhas Heard e Nc Donald"
+
+msgid "select_max_one_thread"
+msgstr "Selecione apenas um tópico!"
+
+msgid "selected_threads_closed"
+msgstr "Os tópicos selecionados foram fechados"
+
+msgid "selected_threads_reopened"
+msgstr "Os tópicos selecionados foram reabertos"
+
+msgid "sort_by_date"
+msgstr "Ordenar por data"
+
+#, fuzzy
+msgid "sort_by_date_desc"
+msgstr "The thread is presented in a flat view. The posts are shown in chronological order of creation."
+
+msgid "sort_by_posts"
+msgstr "Ordenar por posts"
+
+#, fuzzy
+msgid "sort_by_posts_desc"
+msgstr "The thread is presented in a tree view. Replies to posts are shown in the order in which they relate to each other."
+
+#, fuzzy
+msgid "sorting"
+msgstr "Sorting"
+
+msgid "sticky"
+msgstr "fixo"
+
+msgid "sure_delete_drafts"
+msgstr "Tem a certeza que quer apagar os esboços selecionados?"
+
+msgid "switch_threads_for_merge"
+msgstr "O tópico selecionado é mais antigo do que o tópico de destino. Para assegurar uma união bem-sucedida, o tópico de origem e o de destino serão mudados."
+
+#, fuzzy
+msgid "target_select"
+msgstr "Select post for limited view"
+
+#, fuzzy
+msgid "thema"
+msgstr "Threads"
+
+msgid "thread"
+msgstr "Indonésia"
+
+msgid "thread_deleted_by"
+msgstr "o seguinte tópico no fórum \"%2$s\" foi apagado por \"%1$s\":"
+
+#, fuzzy
+msgid "thread_overview"
+msgstr "Thread-Overview"
+
+msgid "threads_moved_successfully"
+msgstr "Irlanda"
+
+#, fuzzy
+msgid "top_thema"
+msgstr "Top-Threads"
+
+msgid "topic_close"
+msgstr "Ilha de Man"
+
+msgid "topics_please_select_one_action"
+msgstr "Selecione uma ação"
+
+msgid "user_decides_notification"
+msgstr "Índia"
