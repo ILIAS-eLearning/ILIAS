@@ -168,6 +168,8 @@ class ilObjUser extends ilObject
             $this->profile_data->withSystemInformation($this->buildSystemInformationArrayForDB())
         );
 
+        $this->writePrefs();
+
         // CREATE ENTRIES FOR MAIL BOX
         $mbox = new ilMailbox($this->id);
         $mbox->createDefaultFolder();
