@@ -1,0 +1,4817 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: assessment\n"
+
+msgid "activate_logging"
+msgstr "テストとログをアクティブにする"
+
+msgid "activate_manual_scoring"
+msgstr "手動並び替えを有効にする"
+
+msgid "activate_manual_scoring_desc"
+msgstr "全ての問題タイプの手動並び替えを有効にする"
+
+msgid "addSuggestedSolution"
+msgstr "要約用のコンテンツを追加"
+
+msgid "add_answers"
+msgstr "解答を追加"
+
+msgid "add_circle"
+msgstr "円形エリアを追加"
+
+msgid "add_gap"
+msgstr "穴埋めテキストを追加"
+
+msgid "add_imagemap"
+msgstr "イメージマップをインポート"
+
+msgid "add_poly"
+msgstr "多角形エリアを追加"
+
+msgid "add_rect"
+msgstr "長方形エリアを追加"
+
+msgid "add_users"
+msgstr "ユーザを追加"
+
+msgid "additional_rating_info"
+msgstr "ここに示される値はパーセント表示で100以内にする必要がある事に注意願います。"
+
+msgid "advanced_rating"
+msgstr "上位レート"
+
+msgid "advanced_rating_info"
+msgstr "上位レートはユニットが結果に割り当てられる場合のみ利用できます。"
+
+msgid "all_available_question_pools"
+msgstr "全ての利用可能な問題集"
+
+msgid "all_participants"
+msgstr "全受験者"
+
+msgid "allow_images"
+msgstr "解答用のイメージサポート"
+
+msgid "allowedextensions"
+msgstr "許可するファイル拡張子"
+
+msgid "allowedextensions_info"
+msgstr "特定のファイル拡張子セット (doc、xls、odt など) のアップロードを制限する場合は、許可するファイル拡張子をカンマで区切りで入力します。"
+
+msgid "already_added_extra_time"
+msgstr "追加済: %s min"
+
+msgid "analyze_errortext"
+msgstr "エラーテキストを分析"
+
+msgid "answer"
+msgstr "回答"
+
+msgid "answer_characters"
+msgstr " 文字利用可能で入力した文字数:"
+
+msgid "answer_image"
+msgstr "解答イメージ"
+
+msgid "answer_is_not_correct_but_positive"
+msgstr "ベストな正解ではありませんが解答に対して加点されました。"
+
+msgid "answer_is_right"
+msgstr "解答は正解"
+
+msgid "answer_is_wrong"
+msgstr "解答は誤り"
+
+msgid "answer_of"
+msgstr "回答者"
+
+msgid "answer_options"
+msgstr "解答オプション:"
+
+msgid "answer_question"
+msgstr "問題回答"
+
+msgid "answer_text"
+msgstr "答案テキスト"
+
+msgid "answer_types"
+msgstr "答案タイプ"
+
+msgid "answered"
+msgstr "回答数"
+
+msgid "answers_multiline"
+msgstr "複数行の答案"
+
+msgid "answers_of"
+msgstr "解答:"
+
+msgid "answers_select"
+msgstr "選択"
+
+msgid "answers_singleline"
+msgstr "単一行の答案"
+
+msgid "answers_text_box"
+msgstr "テキスト"
+
+msgid "applet_attributes"
+msgstr "アプレットの属性"
+
+msgid "applet_parameter"
+msgstr "パラメーター"
+
+msgid "applet_parameters"
+msgstr "アプレットパラメーター"
+
+msgid "apply_def_settings_to_tst"
+msgstr "設定適用"
+
+msgid "assClozeTest"
+msgstr "穴埋め問題"
+
+msgid "assErrorText"
+msgstr "エラーテキスト"
+
+msgid "assFileUpload"
+msgstr "アップロード問題ファイル"
+
+msgid "assFlashQuestion"
+msgstr "Flash問題"
+
+msgid "assFormulaQuestion"
+msgstr "数式問題"
+
+msgid "assImagemapQuestion"
+msgstr "イメージマップ問題"
+
+msgid "assKprimChoice"
+msgstr "多肢選択問題 (Kprim解答)"
+
+msgid "assLongMenu"
+msgstr "長いメニュー"
+
+msgid "assMatchingQuestion"
+msgstr "組み合わせ問題"
+
+msgid "assMultipleChoice"
+msgstr "多肢選択問題(複数解答)"
+
+msgid "assNumeric"
+msgstr "数的問題"
+
+msgid "assOrderingHorizontal"
+msgstr "整序問題(水平方向)"
+
+msgid "assOrderingQuestion"
+msgstr "整序問題(垂直方向)"
+
+msgid "assQuestions"
+msgstr "問題"
+
+msgid "assSingleChoice"
+msgstr "多肢選択問題(単一解答)"
+
+msgid "assTextQuestion"
+msgstr "小論文"
+
+msgid "assTextSubset"
+msgstr "記入問題"
+
+msgid "ass_cloze_fb_mode"
+msgstr "フィードバックモード"
+
+msgid "ass_cloze_fb_mode_gap_answ"
+msgstr "回答特定フィードバック"
+
+msgid "ass_cloze_fb_mode_gap_answ_info"
+msgstr "各ギャップは個々のフィードバックの別の回答用として構成できます。"
+
+msgid "ass_cloze_fb_mode_gap_qst"
+msgstr "GAP当たりのフィードバック"
+
+msgid "ass_cloze_fb_mode_gap_qst_info"
+msgstr "どのギャップも単一フィードバックが構成できます。"
+
+msgid "ass_cloze_gap_fb_gap_label"
+msgstr "Gap %s: <i>%s</i>"
+
+msgid "ass_cloze_gap_fb_num_empty_label"
+msgstr "Gap %s - No Input"
+
+msgid "ass_cloze_gap_fb_num_rangehit_label"
+msgstr "Gap %s - Range Hit"
+
+msgid "ass_cloze_gap_fb_num_toohigh_label"
+msgstr "Gap %s - Value too High"
+
+msgid "ass_cloze_gap_fb_num_toolow_label"
+msgstr "Gap %s - Value too Low"
+
+msgid "ass_cloze_gap_fb_num_valuehit_label"
+msgstr "Gap %s - Value Hit"
+
+msgid "ass_cloze_gap_fb_sel_empty_label"
+msgstr "Gap %s - 選択なし"
+
+msgid "ass_cloze_gap_fb_sel_opt_label"
+msgstr "Gap %s - 選択オプション: <i>%s</i>"
+
+msgid "ass_cloze_gap_fb_txt_empty_label"
+msgstr "Gap %s - No Input"
+
+msgid "ass_cloze_gap_fb_txt_match_label"
+msgstr "Gap %s - 回答: <i>%s</i>"
+
+msgid "ass_cloze_gap_fb_txt_nomatch_label"
+msgstr "Gap %s - 間違い"
+
+msgid "ass_commented_questions_only"
+msgstr "コメントされた質問のみ"
+
+msgid "ass_comments"
+msgstr "コメント"
+
+msgid "ass_competence_respect_level_ordering"
+msgstr "能力スレショールドは適応能力レベルに応じて昇順に定義すべきであることに注意願います。"
+
+msgid "ass_completion_by_submission"
+msgstr "提出すると完了"
+
+msgid "ass_completion_by_submission_info"
+msgstr "有効にすると提出ファイルの一つはこの問題の最高点で承認して完了した事になります。点数は後で手動にて修正可能です。この設定の変更は既に提出済みの解答には影響しません。"
+
+msgid "ass_create_export_file_with_results"
+msgstr "テストエクスポートファイル(受験者結果を含む)を作成"
+
+msgid "ass_create_export_test_archive"
+msgstr "テストアーカイブファイルを作成"
+
+msgid "ass_create_question"
+msgstr "問題を作成"
+
+msgid "ass_imap_hint"
+msgstr "ツールチップとしてヒントを表示"
+
+msgid "ass_imap_map_file_not_readable"
+msgstr "アップロードされたイメージマップを読み込む事ができませんでした。"
+
+msgid "ass_imap_no_map_found"
+msgstr "アップロードされたイメージマップ内に書式が見つかりませんでした。"
+
+msgid "ass_lac_expression"
+msgstr "式"
+
+msgid "ass_lac_show_legend_btn"
+msgstr "凡例を非表示"
+
+msgid "ass_lac_unable_to_parse_condition"
+msgstr "条件\"%s\"は検証できません。"
+
+msgid "ass_lac_validation_error"
+msgstr "条件式の検証中にエラーが発生しました!"
+
+msgid "ass_location"
+msgstr "ロケーション"
+
+msgid "ass_mc_sel_lim_exhausted_hint"
+msgstr "回答の%s / %s以上を選択しないでください !"
+
+msgid "ass_mc_sel_lim_hint"
+msgstr "回答の%s / %sを選択してください。"
+
+msgid "ass_mc_sel_lim_setting"
+msgstr "回答制限"
+
+msgid "ass_mc_sel_lim_setting_desc"
+msgstr "受験者が選択可能なこの回答数設定は制限することができます。"
+
+msgid "ass_process_lock"
+msgstr "受験中のロックを使用"
+
+msgid "ass_process_lock_desc"
+msgstr "どのロックメカニズムも使用もしないで競技条件は可能です。これは矛盾するテスト結果につながります。"
+
+msgid "ass_process_lock_mode"
+msgstr "受験中のロックモード"
+
+msgid "ass_process_lock_mode_db"
+msgstr "データベーステーブルロックを使用"
+
+msgid "ass_process_lock_mode_db_desc"
+msgstr "このロックメカニズムはデータベース内のテーブルをロックします。同一または別の問題の同一または別のテストの同一または別のユーザの平行プロセスは他のプロセスがそのロックを開放するまで待ちます。"
+
+msgid "ass_process_lock_mode_file"
+msgstr "ファイルロックシステムを使用"
+
+msgid "ass_process_lock_mode_file_desc"
+msgstr "このロックメカニズムはファイルシステム内に空のファイルのロックを要求します。同一ユーザの同一テスト/問題用の平行プロセスは他のプロセスがそのロックを開放するまで待ちます。"
+
+msgid "ass_question"
+msgstr "問題"
+
+msgid "ass_size"
+msgstr "サイズ"
+
+msgid "ass_skl_import_fails_remove_btn"
+msgstr "このヒントを削除"
+
+msgid "assessment_existing_pool"
+msgstr "既存の演習問題集を使用"
+
+msgid "assessment_new_pool"
+msgstr "新しい問題集を作成"
+
+msgid "assessment_no_pool"
+msgstr "問題集を使用しない"
+
+msgid "assessment_pool_selection"
+msgstr "問題集選択"
+
+msgid "assessment_scoring_adjust"
+msgstr "修正を有効"
+
+msgid "assessment_scoring_adjust_desc"
+msgstr "テスト問題の変更許可機能の修正を有効"
+
+msgid "autocomplete_error"
+msgstr "少な目の文字数の回答はオートコンプリート数が大きくなるので表示されることはありません。"
+
+msgid "autoparticipants_subtab"
+msgstr "受験者"
+
+msgid "autosave"
+msgstr "自動保存"
+
+msgid "autosave_failed"
+msgstr "自動保存に失敗しました !"
+
+msgid "autosave_info"
+msgstr "データ紛失回避のために設定した間隔で自動保存されます。"
+
+msgid "autosave_ival"
+msgstr "間隔"
+
+msgid "autosave_success"
+msgstr "自動保存に成功..."
+
+msgid "autosavecontent"
+msgstr "自動保存コンテンツ"
+
+msgid "average_reached_points"
+msgstr "平均達成点"
+
+msgid "back_to_objective_container"
+msgstr "コースへ戻る"
+
+msgid "backtocallingpage"
+msgstr "問題ページへ戻る"
+
+msgid "backtocallingpool"
+msgstr "問題集へ戻る"
+
+msgid "backtocallingtest"
+msgstr "呼び出し中のテストに戻る"
+
+msgid "baseunit"
+msgstr "ベースユニット"
+
+msgid "broken_test"
+msgstr "ブロークンテスト"
+
+msgid "bulkedit_author"
+msgstr "著者を設定"
+
+msgid "bulkedit_lifecycle"
+msgstr "ライフシクルを設定"
+
+msgid "bulkedit_taxonomies"
+msgstr "分類を設定"
+
+msgid "cancel_test"
+msgstr "テスト中断"
+
+msgid "cannot_edit_marks"
+msgstr "既にテストを実行した学習者がいます。スコア報告日が有効でまだ報告日になっていない場合はマーク変更だけができます。"
+
+msgid "cannot_edit_test"
+msgstr "テストを編集するための十分なアクセス権限がありません!"
+
+msgid "cannot_execute_test"
+msgstr "テストを実行するための十分なアクセス権限がありません!"
+
+msgid "cannot_export_archive"
+msgstr "アーカイブーエクスポートは作成できません。"
+
+msgid "cannot_read_questionpool"
+msgstr "問題集データを読み込むための十分なアクセス権限がありません!"
+
+msgid "cannot_save_metaobject"
+msgstr "メタデータを保存するための十分なアクセス権限がありません!"
+
+msgid "cannot_switch_to_online_no_questions_andor_no_mark_steps"
+msgstr "ステータスが&quot;online&quotへ変更できません;問題がないまたはテスト内にマークがないの両方が考えられます!"
+
+msgid "category"
+msgstr "カテゴリ"
+
+msgid "changeSuggestedSolution"
+msgstr "要約用のコンテンツタイプを選択"
+
+msgid "change_adm_categories_not_allowed"
+msgstr "このカテゴリに対するアクセス権が何もありません。"
+
+msgid "checkbox_checked"
+msgstr "確認済み"
+
+msgid "checkbox_unchecked"
+msgstr "未確認"
+
+msgid "circle"
+msgstr "円"
+
+msgid "circle_click_center"
+msgstr "希望範囲の中心をクリックしてください。"
+
+msgid "circle_click_circle"
+msgstr "希望範囲の円の部分をクリックしてください。"
+
+msgid "client_ip_range"
+msgstr "Client IP 範囲"
+
+msgid "clientip"
+msgstr "クライアントのIP"
+
+msgid "close_text_hint"
+msgstr "新しくギャップを追加するには選択の位置にカーソルをセットして\"ギャップを挿入\"ボタンをクリックします。対応する編集セクションが下に表示されます。ギャップはギャップテキスト内のギャップをクリックして編集することもできます。"
+
+msgid "cloze_answer_text_info"
+msgstr "フォームが保存されると回答テキストの前後のスペースは削除されます。"
+
+msgid "cloze_fixed_textlength"
+msgstr "テキスト欄の長さ"
+
+msgid "cloze_fixed_textlength_description"
+msgstr "0以上の値を入力すると全てのテキストと数値穴埋めテキストフィールドがこの値の固定長で作成されます。"
+
+msgid "cloze_gap_size_info"
+msgstr "0以上を入力するとこのギャップテキストフィールドはこの値の固定長で作成されます。値を入力しない場合はギャップテキストフィールドはグローバル固定長で作成されます。"
+
+msgid "cloze_text"
+msgstr "穴埋め問題のテキスト"
+
+msgid "cloze_textgap_case_insensitive"
+msgstr "大文字・小文字を非区分"
+
+msgid "cloze_textgap_case_sensitive"
+msgstr "大文字・小文字を区分"
+
+msgid "cloze_textgap_levenshtein_of"
+msgstr "%sのレーベンシュタイン距離"
+
+msgid "code"
+msgstr "コード"
+
+msgid "codebase"
+msgstr "コードベース"
+
+msgid "concatenation"
+msgstr "結び付け"
+
+msgid "conf_delete_pass"
+msgstr "パスを本当に削除しますか?"
+
+msgid "confirm_log_deletion"
+msgstr "選択したログエントリを削除してもよろしいですか？削除したエントリは復元できません。"
+
+msgid "confirm_sync_questions"
+msgstr "変更した問題は実際のテストで使用するために作成したコピーです。オリジナルの問題も合わせて変更しますか?"
+
+#, fuzzy
+msgid "contained_question_types"
+msgstr "Contained Question Types"
+
+msgid "coordinates"
+msgstr "座標"
+
+msgid "copy_and_link_to_questionpool"
+msgstr "問題集へ追加"
+
+msgid "copy_no_questions_selected"
+msgstr "コピーするには問題のどれかひとつを選択してください。"
+
+msgid "copy_questions_success"
+msgstr "問題がコピーされました。"
+
+msgid "correct_answers"
+msgstr "正解:"
+
+msgid "counter"
+msgstr "カウンター"
+
+msgid "create_gaps"
+msgstr "穴埋め作成"
+
+msgid "create_new"
+msgstr "新規作成"
+
+msgid "created"
+msgstr "作成されました"
+
+msgid "customstyle"
+msgstr "カスタムスタイル"
+
+msgid "dashboard_tab"
+msgstr "Dashboard"
+
+msgid "definition"
+msgstr "定義"
+
+msgid "definition_image"
+msgstr "定義イメージ"
+
+msgid "definition_text"
+msgstr "定義テキスト"
+
+msgid "definitions"
+msgstr "定義"
+
+msgid "deleteSuggestedSolution"
+msgstr "要約のためこのコンテンツを削除"
+
+msgid "delete_all_user_data_confirmation"
+msgstr "本当にこのテストの全ユーザのテストデータを削除しますか?"
+
+msgid "delete_image_header"
+msgstr "イメージを削除"
+
+msgid "delete_image_question"
+msgstr "本当にイメージを削除しますか?"
+
+msgid "delete_mark_confirmation"
+msgstr "次のヒントを要求マークを本当に削除しますか?"
+
+msgid "delete_participants_no_valid_participants_selected"
+msgstr "選択の受験者はすでにテスト結果が存在するので削除する事はできません。"
+
+msgid "delete_result_no_valid_participants_selected"
+msgstr "選択した受験者のテストデータがないので削除できません。"
+
+msgid "delete_selected_user_data_confirmation"
+msgstr "選択した受験者のでテストデータを本当に削除しますか?"
+
+msgid "delete_user_data"
+msgstr "結果を削除"
+
+msgid "description_maxchars"
+msgstr "未入力の場合はこのテキスト解答に対する最大文字数の制限はありません。"
+
+msgid "detail_ending_time_reached"
+msgstr "テスト時間は終了しました。%sを過ぎた後のテスト続行はできません。"
+
+msgid "detail_max_processing_time_reached"
+msgstr "テスト所要制限時間を過ぎました!"
+
+msgid "detail_starting_time_not_reached"
+msgstr "テスト開始時間になっていません。テストは %s から利用できます。"
+
+msgid "detailed_evaluation"
+msgstr "評価詳細"
+
+msgid "detailed_evaluation_for"
+msgstr "%sの評価詳細"
+
+msgid "detailed_evaluation_missing_active_id"
+msgstr "選択した受講者の評価詳細をコールする必要があります!"
+
+msgid "detailed_evaluation_show"
+msgstr "評価詳細を表示する"
+
+msgid "detailed_output_printview"
+msgstr "問題印刷表示の詳細出力"
+
+msgid "detailed_output_solutions"
+msgstr "問題解答の詳細出力"
+
+msgid "direct_feedback"
+msgstr "解答の確認"
+
+msgid "discard_answer"
+msgstr "回答破棄:testナビ"
+
+msgid "discard_answer_confirmation"
+msgstr "回答は最終的に完全に破棄されます。別の回答を提出するまで問題は未回答となります。<br /><br />本当に回答を破棄しますか?"
+
+msgid "dont_use_questionpool"
+msgstr "問題集へ問題を挿入しない(このテストでの利用のみ）"
+
+msgid "download_all_files"
+msgstr "全ファイルをダウンロード"
+
+msgid "duplicate"
+msgstr "重複"
+
+msgid "duplicate_matching_values_selected"
+msgstr "選択値が重複しています!"
+
+msgid "duplicate_order_values_entered"
+msgstr "選択順が重複しています!"
+
+msgid "edit_answer"
+msgstr "回答を編集"
+
+msgid "edit_concluding_remarks"
+msgstr "結語を編集"
+
+msgid "edit_introduction"
+msgstr "序論を編集"
+
+msgid "edit_question"
+msgstr "問題編集"
+
+msgid "edit_score"
+msgstr "採点を編集"
+
+msgid "edit_test_questions"
+msgstr "リスト表示"
+
+msgid "element_height"
+msgstr "最少高"
+
+msgid "element_height_info"
+msgstr "テストの表示期間中の用語や定義や図アイテムの最少ピクセル高です。"
+
+msgid "enable_examview"
+msgstr "試験表示を有効"
+
+msgid "enable_examview_desc"
+msgstr "テスト提出前に全般へ全問題と解答結果が表示されます。"
+
+msgid "end_tag"
+msgstr "エンドタグ"
+
+msgid "enlarge"
+msgstr "拡大"
+
+msgid "enter_anonymous_code"
+msgstr "匿名アクセスコードを入力"
+
+msgid "enter_enough_positive_points"
+msgstr "最高点は0以上にしなけれなりません! 答案に対する妥当な点数を入力してください。"
+
+msgid "enter_enough_positive_points_checked"
+msgstr "得点には回答が一つは必要です。回答選択肢として正の点数を入力してください。"
+
+msgid "enter_valid_values"
+msgstr "値を入力してください。不正な文字はチエックされます!"
+
+msgid "errFormulaQuestion"
+msgstr "数式問題に間違った情報が含まれています!!"
+
+msgid "errRecursionInResult"
+msgstr "式に無限再帰が含まれています。"
+
+msgid "err_category_in_use"
+msgstr "カテゴリが一つは削除できません。複数のカテゴリのユニットがすでに使用中です。"
+
+msgid "err_divider_too_big"
+msgstr "この問題の変数の分母は大きすぎます。"
+
+msgid "err_division"
+msgstr "この値は最大範囲よりも小さくすべきです。"
+
+msgid "err_duplicate_results"
+msgstr "利用可能な結果を複数回使用しています。問題文章中にこれは使用できません。"
+
+msgid "err_no_formula"
+msgstr "式を入力する必要があります"
+
+msgid "err_no_numeric_value"
+msgstr "数値を入力してください"
+
+msgid "err_range"
+msgstr "最大範囲は最小範囲より大きくする必要があります"
+
+msgid "err_rating_advanced_not_allowed"
+msgstr "簡易レート以外のレートは同一ベースユニットの複数結果ユニットを提唱する限り許可されません。"
+
+msgid "err_unit_in_results"
+msgstr "ユニットを削除できません。すでに複数のテスト問題が使用されています。"
+
+msgid "err_unit_in_variables"
+msgstr "ユニットを削除できません。すでに複数のテスト問題が使用されています。"
+
+msgid "err_unit_is_baseunit"
+msgstr "ユニットを削除できません。すでに他のユニットがベースユニットとして使用されています。"
+
+msgid "err_wrong_categoryname"
+msgstr "カテゴリがすでに存在します。"
+
+msgid "err_wrong_rating_advanced"
+msgstr "上級レート設定の追加は100パーセントになるようにしてください。"
+
+msgid "error_creating_certificate_zip_empty"
+msgstr "エクスポートデータがありません"
+
+msgid "error_importing_question"
+msgstr "選択されたファイルから問題をインポートする最中にエラーが発生しました!"
+
+msgid "error_open_image_file"
+msgstr "イメージファイルオープン時のエラー!"
+
+msgid "error_random_question_generation"
+msgstr "テスト用のランダムな問題を作成中に致命的なエラーが発生しました。次の情報と一緒に管理者へ連絡してください。システムはuser ID %s とtest IDのアクティブID%sを作成できませんでした。"
+
+msgid "errors"
+msgstr "エラー"
+
+msgid "errors_section"
+msgstr "エラーデータ"
+
+msgid "errortext"
+msgstr "エラーテキスト"
+
+msgid "errortext_info"
+msgstr "エラーテキストを入力してください。エラーとしてマークするには、単語の前にハッシュ (#)を挿入してください。 &quot;エラーテキストを分析&quot; ボタンを押すと全てのマークした単語は以降の処理用として展開されます。"
+
+msgid "essay_scoring_mode"
+msgstr "採点モード"
+
+msgid "essay_scoring_mode_keyword_relation_all"
+msgstr "すべてに一致するキーワードで自動採点"
+
+msgid "essay_scoring_mode_keyword_relation_all_desc"
+msgstr "すべてのキーワードが見つかれば点数が自動付与されます。"
+
+msgid "essay_scoring_mode_keyword_relation_any"
+msgstr "いずれか検索のキーワードで自動採点"
+
+msgid "essay_scoring_mode_keyword_relation_any_desc"
+msgstr "何かキーワードが見つかると対応点が自動的に承諾されます。"
+
+msgid "essay_scoring_mode_keyword_relation_one"
+msgstr "ひとつ一致するキーワードで自動採点"
+
+msgid "essay_scoring_mode_keyword_relation_one_desc"
+msgstr "ひとつでもキーワードが見つかれば点数は自動付与されます。"
+
+msgid "essay_scoring_mode_without_keywords"
+msgstr "自動採点禁止"
+
+msgid "essay_scoring_mode_without_keywords_desc"
+msgstr "指導教員の手動採点を除いて点数は付与されません。"
+
+msgid "eval_all_users"
+msgstr "全ユーザの評価"
+
+msgid "eval_legend_link"
+msgstr "凡例の列ヘッダーの記号の意味を参照してください。"
+
+msgid "evaluated_users"
+msgstr "評価済ユーザ"
+
+msgid "exam_id"
+msgstr "Test ID:"
+
+msgid "exam_id_label"
+msgstr "Test ID"
+
+msgid "exam_id_of_attempt"
+msgstr "実行者のID"
+
+msgid "examid_in_test_pass"
+msgstr "テスト実行IDを表示"
+
+msgid "examid_in_test_pass_desc"
+msgstr "テスト実施IDはテスト中表示されます。新規IDは各テスト実施ごとに生成されます。"
+
+msgid "examid_in_test_res"
+msgstr "ILIAS テスト実施 ID"
+
+msgid "examid_in_test_res_desc"
+msgstr "ILIASテスト実施ＩDはテスト結果内に含まれます。"
+
+msgid "exp_all_test_runs"
+msgstr "全テスト試み"
+
+msgid "exp_eval_data"
+msgstr "評価データ用にエクスポート"
+
+msgid "exp_grammar_as"
+msgstr "as"
+
+msgid "exp_scored_test_attempt"
+msgstr "採点されたテスト試み"
+
+msgid "exp_type_certificate"
+msgstr "証明書 (PDF)"
+
+msgid "exp_type_excel"
+msgstr "Microsoft Excel"
+
+msgid "expected_result_type"
+msgstr "予想結果タイプ"
+
+msgid "export_cert_failed_for_users_p"
+msgstr "通知ファイルが生成されて次の %s アカウント: %s へ追加された可能性があります。ログファイルを確認するように管理者へコンタクトしてください。"
+
+msgid "export_cert_failed_for_users_s"
+msgstr "通知ファイルが生成されて次の %s アカウント: %s へアーカイブされた可能性があります。ログファイルを確認するように管理者へコンタクトしてください。"
+
+msgid "export_cert_ignored_for_users_p"
+msgstr "次の %s アカウントは証明書のアーカイブもなく証明書サービスの有効/アクティブ化: %s もしていません。"
+
+msgid "export_cert_ignored_for_users_s"
+msgstr "次のアカウントは証明書のアーカイブもなく証明書サービスの有効/アクティブ化: %s もしていません。"
+
+msgid "export_cert_no_users"
+msgstr "テスト受験者不明のため証明書アーカイブ作成ができません。"
+
+msgid "export_essay_qst_with_html"
+msgstr "HTMLコード付きで小論文問題をエクスポート"
+
+msgid "export_essay_qst_with_html_desc"
+msgstr "有効にするとHTMLでExcelへ小論文問題のエクスポートが可能になります。"
+
+msgid "export_legacy_logs"
+msgstr "レガシーLogデータをエクスポート"
+
+msgid "extra_time_byline"
+msgstr "超過時間を分に置き換え。すでに入力の延長時間が累積されます。"
+
+msgid "extra_time_for_all_participants"
+msgstr "全ての受験者へとと延長時間を塚しています。"
+
+msgid "extra_time_for_selected_participants"
+msgstr "選択の受験者へ延長時間を追加しています。"
+
+msgid "extra_time_for_selected_participants_different"
+msgstr "別の追加時間の受験者を選択しました。"
+
+msgid "extra_time_for_single_participant"
+msgstr "次の受験者へ延長時間を追加しています:"
+
+msgid "extratime"
+msgstr "延長時間"
+
+msgid "extratime_added"
+msgstr "選択の受験者へ延長時が追加されました。"
+
+msgid "factor"
+msgstr "要因"
+
+msgid "failed_official"
+msgstr "不合格です"
+
+msgid "failed_short"
+msgstr "不合格"
+
+msgid "false"
+msgstr "False"
+
+msgid "feedback_all"
+msgstr "全解答の特定フィードバックの回答を表示"
+
+msgid "feedback_answers"
+msgstr "問題の各答案に対するフィードバック"
+
+msgid "feedback_checked"
+msgstr "全選択または選択された解答の特定のフィードバック解答を表示"
+
+msgid "feedback_complete_solution"
+msgstr "正解"
+
+msgid "feedback_correct_kprim"
+msgstr "全ての正解の特定のフィードバック回答を表示( 選択された/選択した際にポジティブな選択肢のような正解)"
+
+msgid "feedback_correct_sc_mc"
+msgstr "全ての正解の特定のフィードバック回答を表示( 選択された/選択した際に点数が上がるような正解)"
+
+msgid "feedback_generic"
+msgstr "共通解答フィードバック"
+
+msgid "feedback_incomplete_solution"
+msgstr "答案のどれかに間違いがある"
+
+msgid "feedback_setting"
+msgstr "特定のフィードバック解答モード"
+
+msgid "fileDownload"
+msgstr "ファイルのダウンロード"
+
+msgid "file_uploads"
+msgstr "ファイルのアップロード"
+
+msgid "fill_out_all_required_fields_add_answer"
+msgstr "解答を追加する前に、全ての必須項目を記入してください!"
+
+msgid "filter_all_question_types"
+msgstr "全ての問題のタイプ"
+
+msgid "filter_all_questionpools"
+msgstr "全ての問題集"
+
+msgid "filter_show_question_types"
+msgstr "問題のタイプを表示"
+
+msgid "filter_show_questionpools"
+msgstr "問題集を表示"
+
+msgid "final_statement"
+msgstr "注釈を含む"
+
+msgid "final_statement_show_desc"
+msgstr "テスト提出後に注釈を含めて表示"
+
+msgid "finalized_by"
+msgstr "完了者"
+
+msgid "finalized_evaluation"
+msgstr "採点完了"
+
+msgid "finalized_on"
+msgstr "完了時刻"
+
+msgid "finish_all_user_passes"
+msgstr "全てのテスト受験を終了します"
+
+msgid "finish_pass_for_all_users"
+msgstr "全ユーザ用のテスト受験を本当に終了しますか。"
+
+msgid "finish_pass_for_multiple_users_in_processing_time"
+msgstr "選択のユーザの一人は処理時間がまだ終了していないので、選択のユーザ同士を合格終了できません。"
+
+msgid "finish_pass_for_user_confirmation"
+msgstr "このテスト受験を本当に終了しますか。"
+
+msgid "finish_pass_for_user_in_processing_time"
+msgstr "WARNING: やむを得ない理由(例: テストから除外)に限りテストランから終了すべきです。"
+
+msgid "finish_test"
+msgstr "テストを終了"
+
+msgid "finish_test_all"
+msgstr "全てのユーザーのテストの試行を終了してもよろしいですか？"
+
+msgid "finish_test_more_than_one_selected"
+msgstr "テストが一度のパスしか許可していない場合、パスを完了できるのは一人の参加者のみです。"
+
+msgid "finish_test_multiple"
+msgstr "次の参加者のテストの試行を終了してもよろしいですか？"
+
+msgid "finish_test_no_valid_participants_selected"
+msgstr "選択された参加者には実行中のテストがないため、完了することはできません。"
+
+msgid "finish_test_single"
+msgstr "参加者\"%s\"のテストの試行を終了してもよろしいですか？"
+
+msgid "finish_unfinished_passes"
+msgstr "未完了の試み終了"
+
+msgid "finish_unfinished_passes_desc"
+msgstr "終了時間または構成された期間制限の受験はこのクローンジョブでクローズされます。"
+
+msgid "finished_by_administrator"
+msgstr "管理者により終了"
+
+msgid "finished_by_cronjob"
+msgstr "Crojobにより終了"
+
+msgid "finished_by_duration"
+msgstr "時間制限により終了"
+
+msgid "finished_by_participant"
+msgstr "受験者により終了"
+
+msgid "finished_by_unknown"
+msgstr "不明な終了"
+
+msgid "fixed_participants_hint"
+msgstr "このテストは以下に示す手動で追加された受験者のみアクセス可能です。この設定を無効にするにはテスト設定項目の\"手動で受験者を選択\"のチェックボックスを解除します。"
+
+msgid "fixedparticipants_subtab"
+msgstr "手動で選択の受験者"
+
+msgid "flashfile"
+msgstr "フラッシュファイル"
+
+msgid "for"
+msgstr "for"
+
+msgid "forcejs"
+msgstr "テスト問題にJavaScript出力を使用"
+
+msgid "form_msg_area_missing_points"
+msgstr "全てのエリアに点数を入力してください。"
+
+msgid "formula"
+msgstr "式"
+
+msgid "fq_formula_desc"
+msgstr "事前定義変数($v1を$vnへ)を(例 $r1)のように公式の括弧、数学演算子+(加算), -(減算), *(積算), /(割算), ^(n乗), piの定数'pi', オイラーの定数'e'やファンクション'sin', 'sinh', 'arcsin', 'asin', 'arcsinh', 'asinh', 'cos', 'cosh', 'arccos', 'acos', 'arccosh', 'acosh', 'tan', 'tanh', 'arctan', 'atan', 'arctanh', 'atanh', 'sqrt', 'abs', 'ln','log'も同様に入力できます。"
+
+msgid "fq_no_restriction_info"
+msgstr "10進と分母両方共に入力として承認されます。"
+
+msgid "fq_precision_info"
+msgstr "希望する10進位置を入力してください。"
+
+msgid "fq_question_desc"
+msgstr "問題文章中の必要な位置で$r1, $r2 .... $rnを挿入する事により$v1, $v2 ... $vnの挿入による変数を定義できます。変数と結果のフォーム編集を作成するには\"問題解析\"ボタンをクリックします。"
+
+msgid "gap"
+msgstr "穴埋め"
+
+msgid "gap_combination"
+msgstr "ギャップ連結"
+
+msgid "gaps"
+msgstr "Gaps"
+
+msgid "glossary_term"
+msgstr "用語集"
+
+msgid "goto_first_question"
+msgstr "第1問を表示"
+
+msgid "grading_mark_msg"
+msgstr "結果: &quot;[mark]&quot;"
+
+msgid "grading_status_failed_msg"
+msgstr "残念ながらテストに <b>不合格です。</b>"
+
+msgid "grading_status_passed_msg"
+msgstr "おめでとうございます。テスト <b>合格です。</b>"
+
+msgid "hide_best_solution"
+msgstr "最適解を非表示"
+
+msgid "identical_scoring"
+msgstr "同一採点"
+
+msgid "identical_scoring_desc"
+msgstr "選択すると、同じ解答が2度以上使用されても同一解答の穴埋めが採点されます。選択していないと、同じ解答の最初のものだけが採点されます。"
+
+msgid "imagemap"
+msgstr "イメージマップ"
+
+msgid "imap_line_color"
+msgstr "イメージマップラインカラー"
+
+msgid "import_question"
+msgstr "問題をインポート"
+
+msgid "in_range"
+msgstr "範囲内"
+
+msgid "in_trash"
+msgstr "ゴミ箱内"
+
+msgid "info_answer_type_change"
+msgstr "問題にはイメージが既に含まれます。複数解答に対して解答タイプの変更はできません。"
+
+msgid "info_text_upload"
+msgstr "アップロードする回答テキスト(UTF-8)を選択"
+
+msgid "insert_after"
+msgstr "後に挿入"
+
+msgid "insert_before"
+msgstr "前に挿入"
+
+msgid "insert_gap"
+msgstr "ギャップを挿入"
+
+msgid "interaction_type"
+msgstr "インタラクションタイプ"
+
+msgid "internal_links"
+msgstr "内部リンク"
+
+msgid "intprecision"
+msgstr "非表示者"
+
+msgid "intprecision_info"
+msgstr "「〜で割り切れる（Divisible by）」は、精度の値が0の場合にのみ変数の作成に影響します。この場合、「〜で割り切れる」に整数値を指定し、その整数値が作成される変数で割り切れる必要があります。例えば、10を指定すると、10で割り切れる整数のみが生成されます。5を指定すると、5で割り切れる整数が生成されます。精度が0の場合、「〜で割り切れる」は必須項目で、正の整数を含める必要があります。任意の整数に対するデフォルト値は1です。"
+
+msgid "invalid_ip"
+msgstr "無効なIP"
+
+msgid "ip_range_byline"
+msgstr "定義された範囲内のIPアドレスのみがテストを開始できます。IPv4またはIPv6のどちらかのアドレスを使用できます。"
+
+msgid "ip_range_for_all_participants"
+msgstr "すべての参加者のIP範囲を変更しようとしています"
+
+msgid "ip_range_for_selected_participants"
+msgstr "あなたは次の参加者のIP範囲を変更しようとしています。"
+
+msgid "ip_range_for_single_participant"
+msgstr "選択した参加者のIP範囲を変更しようとしています。"
+
+msgid "ip_range_info"
+msgstr "指定された範囲のIPを持つクライアントのみがテストにアクセスできます。"
+
+msgid "ip_range_label"
+msgstr "IP範囲"
+
+msgid "ip_range_updated"
+msgstr "選択の受験者のIP範囲が更新されました。"
+
+msgid "kiosk"
+msgstr "試験ビュー"
+
+msgid "kiosk_description"
+msgstr "試験ビューはKioskモードでテストを実行します。このテストには含まれないブラウザバー、ナビゲーション、その他の画面要素を非表示にします。受験者が他のWebサイトを開かないようにします。"
+
+msgid "kiosk_options"
+msgstr "試験ビューオプション"
+
+msgid "kiosk_options_desc"
+msgstr "画面のトップセクションにインフォメーションが表示されます。"
+
+msgid "kiosk_show_participant"
+msgstr "受験者の名前を表示"
+
+msgid "kiosk_show_title"
+msgstr "テスト題名を表示"
+
+msgid "kprim_answers_info"
+msgstr "多肢選択問題タイプ\"正誤4問解答\"(タイプK、Kprimとも称す)は4つを解答、問題への追加、不完全な文のどれかになります。正解を確定するには4つ解答または追加をする必要があります。全て正解と確定する場合は最高点は承認のみになります。"
+
+msgid "kprim_instruction_text"
+msgstr "各ステートメント [%s] または [%s]を確定する必要があります。"
+
+msgid "lacex_assClozeTest_NumberOfResultExpression_d"
+msgstr "4番目の回答オプションは穴埋めが選択されていて2番目のオプションが選択されていました。"
+
+msgid "lacex_assClozeTest_NumberOfResultExpression_e"
+msgstr "R[4] = +2+"
+
+msgid "lacex_assClozeTest_NumericResultExpression_d"
+msgstr "2番目の回答オプションは数値穴埋めであり数値5の回答でした。"
+
+msgid "lacex_assClozeTest_NumericResultExpression_e"
+msgstr "R[2] = #5"
+
+msgid "lacex_assClozeTest_StringResultExpression_1_d"
+msgstr "最初の回答オプションはテキスト穴埋めであり\"月曜日の回答でした。"
+
+msgid "lacex_assClozeTest_StringResultExpression_1_e"
+msgstr "R[1] = ~月曜日~"
+
+msgid "lacex_assClozeTest_StringResultExpression_2_d"
+msgstr "4番目の回答オプションは穴埋めが選択されていて\"緑色\"オプションラベルが選択されていました。"
+
+msgid "lacex_assClozeTest_StringResultExpression_2_e"
+msgstr "R[4] = ~Green~"
+
+msgid "lacex_assErrorText_ExclusiveResultExpression_d"
+msgstr "問題回答中まさに回答オプション1、3、4が選択されました。"
+
+msgid "lacex_assErrorText_ExclusiveResultExpression_e"
+msgstr "R = *1,3,4*"
+
+msgid "lacex_assErrorText_NumberOfResultExpression_d"
+msgstr "問題回答中に2番目の回答オプションが選択"
+
+msgid "lacex_assErrorText_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assFormulaQuestion_NumericResultExpression_d"
+msgstr "最初の回答オプションは数値3.1459が回答されました。"
+
+msgid "lacex_assFormulaQuestion_NumericResultExpression_e"
+msgstr "R[1] = #3.14159"
+
+msgid "lacex_assImagemapQuestion_ExclusiveResultExpression_d"
+msgstr "問題回答中まさに回答オプション1、3、4が選択されました。"
+
+msgid "lacex_assImagemapQuestion_ExclusiveResultExpression_e"
+msgstr "R = *1,3,4*"
+
+msgid "lacex_assImagemapQuestion_NumberOfResultExpression_d"
+msgstr "問題回答中に2番目の回答オプションが選択"
+
+msgid "lacex_assImagemapQuestion_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assMatchingQuestion_MatchingResultExpression_d"
+msgstr "問題の用語は次のように定義されていました: 1 => 2 and 2 => 3 and 3 => 1"
+
+msgid "lacex_assMatchingQuestion_MatchingResultExpression_e"
+msgstr "R = ;1:2; & R = ;2:3; & R = ;3:1;"
+
+msgid "lacex_assMultipleChoice_ExclusiveResultExpression_d"
+msgstr "問題回答中まさに回答オプション1、3、4が選択されました。"
+
+msgid "lacex_assMultipleChoice_ExclusiveResultExpression_e"
+msgstr "R = *1,3,4*"
+
+msgid "lacex_assMultipleChoice_NumberOfResultExpression_d"
+msgstr "問題回答中に2番目の回答オプションが選択"
+
+msgid "lacex_assMultipleChoice_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assNumeric_NumericResultExpression_d"
+msgstr "4.7の数値で問題回答されました。"
+
+msgid "lacex_assNumeric_NumericResultExpression_e"
+msgstr "R = #4.7"
+
+msgid "lacex_assOrderingHorizontal_OrderingResultExpression_d"
+msgstr "問題の要素は次の順になっていました: 2, 5, 1, 4, 3"
+
+msgid "lacex_assOrderingHorizontal_OrderingResultExpression_e"
+msgstr "R = $2,5,1,4,3$"
+
+msgid "lacex_assOrderingQuestion_OrderingResultExpression_d"
+msgstr "問題の要素は次の順になっていました: 2, 5, 1, 4, 3"
+
+msgid "lacex_assOrderingQuestion_OrderingResultExpression_e"
+msgstr "R = $2,5,1,4,3$"
+
+msgid "lacex_assQuestion_EmptyAnswerExpression_d"
+msgstr "未回答です。"
+
+msgid "lacex_assQuestion_EmptyAnswerExpression_e"
+msgstr "R = ?"
+
+msgid "lacex_assQuestion_PercentageResultExpression_d"
+msgstr "問題回答結果は75%以上です"
+
+msgid "lacex_assQuestion_PercentageResultExpression_e"
+msgstr "R >= %75%"
+
+msgid "lacex_assSingleChoice_NumberOfResultExpression_d"
+msgstr "問題回答中に2番目の回答オプションが選択"
+
+msgid "lacex_assSingleChoice_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assTextSubset_StringResultExpression_d"
+msgstr "2番目の回答オプションとして塩化ナトリウム回答が入力されました。"
+
+msgid "lacex_assTextSubset_StringResultExpression_e"
+msgstr "R[2] = ~塩化ナトリウム~"
+
+msgid "lacex_example_header"
+msgstr "例"
+
+msgid "list_of_participants"
+msgstr "受験者"
+
+msgid "locked"
+msgstr "固定"
+
+msgid "log_deletion_not_allowed"
+msgstr "ログエントリを削除するための必要な権限がありません。"
+
+msgid "log_entry_type"
+msgstr "ログエントリータイプ"
+
+msgid "log_ip"
+msgstr "Log IP"
+
+msgid "log_ip_info"
+msgstr "参加者のIPは、テストとの各やり取りごとに記録されます。無効にしても既存のIP記録は削除されません。"
+
+msgid "log_participant_data_delete_warning"
+msgstr "このテストには参加者のやり取りに関するログデータが含まれており、テストを名前なしのテストに変更すると削除されます。"
+
+msgid "log_text"
+msgstr "ログメッセージ"
+
+msgid "log_user_solution_willingly_deleted"
+msgstr "ユーザは回答を削除しました。"
+
+msgid "logging_settings"
+msgstr "ロギング"
+
+msgid "logs_answer_deleted"
+msgstr "回答を削除しました"
+
+msgid "logs_answer_submitted"
+msgstr "回答を提出しました"
+
+msgid "logs_deleted"
+msgstr "選択のログデータは削除されました。"
+
+msgid "logs_error_on_participant_interaction"
+msgstr "受験者インタラクションのエラー"
+
+msgid "logs_error_on_question_administration_interaction"
+msgstr "問題管理インタラクションのエラー"
+
+msgid "logs_error_on_scoring_interaction"
+msgstr "並べ替えインタラクションのエラー"
+
+msgid "logs_error_on_test_administration_interaction"
+msgstr "テスト題名を表示管理インタラクションのエラー"
+
+msgid "logs_error_on_undefined_interaction"
+msgstr "未定義インタラクションのエラー"
+
+msgid "logs_extra_time_added"
+msgstr "超過時間の追加"
+
+msgid "logs_main_settings_modified"
+msgstr "メオン設定の変更"
+
+msgid "logs_mark_schema_modified"
+msgstr "マ-クスキーマの変更"
+
+msgid "logs_mark_schema_reset"
+msgstr "マークスキーマのリセット"
+
+msgid "logs_new_test_created"
+msgstr "新しいテストのリセット"
+
+msgid "logs_output"
+msgstr "ログテータ出力"
+
+msgid "logs_participant_data_removed"
+msgstr "受験者データの削除しました"
+
+msgid "logs_pi"
+msgstr "受験者インタラクション"
+
+msgid "logs_qai"
+msgstr "問題管理インタラクション"
+
+msgid "logs_question_added"
+msgstr "問題追加しました"
+
+msgid "logs_question_graded"
+msgstr "問題評価しました"
+
+msgid "logs_question_grading_reset"
+msgstr "評価をリセット"
+
+msgid "logs_question_modified"
+msgstr "問題変更しました"
+
+msgid "logs_question_modified_in_corrections"
+msgstr "修正で問題を変更しました"
+
+msgid "logs_question_moved"
+msgstr "問題を移動しました"
+
+msgid "logs_question_removed"
+msgstr "問題を削除しました"
+
+msgid "logs_question_removed_in_corrections"
+msgstr "問題を修正で削除しました"
+
+msgid "logs_question_selection_criteria_modified"
+msgstr "問題選択基準を変更しました"
+
+msgid "logs_question_shown"
+msgstr "問題を表示"
+
+msgid "logs_question_skipped"
+msgstr "問題をスキップしました"
+
+msgid "logs_question_synchronisation_reset"
+msgstr "問題同期をリセット"
+
+msgid "logs_questions_synchronised"
+msgstr "問題を同期しました"
+
+msgid "logs_scoring_settings_modified"
+msgstr "採点設定を変更しました"
+
+msgid "logs_si"
+msgstr "採点インタラクション"
+
+msgid "logs_tai"
+msgstr "テスト管理シンタラクション"
+
+msgid "logs_te"
+msgstr "エラー"
+
+msgid "logs_test_deleted"
+msgstr "テストを削除しました"
+
+msgid "logs_test_run_finished"
+msgstr "テストランを終了しました"
+
+msgid "logs_test_run_of_participant_closed"
+msgstr "受験者ランをクローズしました"
+
+msgid "logs_test_run_started"
+msgstr "テストランを終了しましたを開始しました"
+
+msgid "logs_wrong_test_password_provided"
+msgstr "受験者が間違ったテストパスワードを入力しました。"
+
+msgid "longmenu"
+msgstr "ロングメニュー"
+
+msgid "longmenu_answeroptions_differ"
+msgstr "訂正オプションのテキスト内ギャップ数が同じではないので問題は正しく動作しません。"
+
+msgid "longmenu_text"
+msgstr "長いメニューテキスト"
+
+msgid "mainbar_button_label_questionlist"
+msgstr "問題リスト"
+
+msgid "maintenance"
+msgstr "メンテナンス"
+
+msgid "manscoring"
+msgstr "手動採点"
+
+msgid "manscoring_done"
+msgstr "採点済み受講者"
+
+#, fuzzy
+msgid "manscoring_finalized"
+msgstr "The user's status has been set to 'Scoring Finalised'."
+
+#, fuzzy
+msgid "manscoring_finalized_removed"
+msgstr "The user's 'Scoring Finalised' status has been removed."
+
+msgid "manscoring_hint"
+msgstr "手動で採点を必要とする問題を最低 1 つ追加しました。"
+
+msgid "manscoring_none"
+msgstr "未採点受講者"
+
+msgid "manscoring_not_allowed"
+msgstr "手動採点は問題タイプを使用可能にできませんでした。このタブを使用する事はできません。"
+
+msgid "manscoring_questions_not_found"
+msgstr "この試験には手動採点可能な問題タイプがありません。"
+
+msgid "manscoring_results_pass"
+msgstr "試験%sの手動採点可能な問題"
+
+msgid "manual_editing"
+msgstr "手動編集"
+
+msgid "manual_entry"
+msgstr "手動エントリー"
+
+msgid "mark_schema"
+msgstr "評価尺度"
+
+msgid "mark_schema_invalid"
+msgstr "マークスキーマは検証されません。正しいスキーマを作成してください。"
+
+msgid "matches"
+msgstr "一致するもの"
+
+msgid "matching_pairs"
+msgstr "一致する組"
+
+msgid "matching_shuffle_definitions"
+msgstr "定義のみ"
+
+msgid "matching_shuffle_terms"
+msgstr "用語のみ"
+
+msgid "matching_shuffle_terms_definitions"
+msgstr "両方 (用語と定義)"
+
+msgid "matching_type"
+msgstr "問題サブタイプの一致"
+
+msgid "material"
+msgstr "教材"
+
+msgid "material_file"
+msgstr "教材ファイル"
+
+msgid "max_ip_label"
+msgstr "アクセス最大IP"
+
+msgid "maxchars"
+msgstr "最大文字数"
+
+msgid "maximum_nr_of_tries_reached"
+msgstr "このテストの最大受験回数に達しています。テストへの再入力はできません。"
+
+msgid "maximum_points"
+msgstr "最高得点"
+
+msgid "maxsize"
+msgstr "最大アップロードファイルサイズ"
+
+msgid "maxsize_info"
+msgstr "ファイル アップロードを許可するバイト単位の最大サイズを入力します。このフィールドを空白のままにする場合は、このインストールの最大サイズが代わりに選択されます。"
+
+msgid "min_auto_complete"
+msgstr "オートコンプリート"
+
+msgid "min_ip_label"
+msgstr "アクセス可能な最低IP"
+
+msgid "min_percentage_ne_0"
+msgstr "最小0のパーセントを定義する必要があります! 評価尺度は保存されませんでした。"
+
+msgid "misc"
+msgstr "その他オプション"
+
+msgid "mode_allatonce"
+msgstr "All"
+
+msgid "mode_onebyone"
+msgstr "一つずつ"
+
+msgid "mode_question"
+msgstr "問題指向"
+
+msgid "mode_user"
+msgstr "受験者志向"
+
+msgid "msg_circle_added"
+msgstr "円の追加"
+
+msgid "msg_no_questions_selected"
+msgstr "問題が選択されませんでした。"
+
+msgid "msg_number_of_terms_too_low"
+msgstr "用語数は定義数と等しいかそれ以上である必要があります。"
+
+msgid "msg_poly_added"
+msgstr "多角形の追加"
+
+msgid "msg_questions_moved"
+msgstr "問題の移動"
+
+msgid "msg_rect_added"
+msgstr "長方形の追加"
+
+msgid "msg_score_settings_modified_and_recalc"
+msgstr "変更は保存されて結果は準じて再計算されました。"
+
+msgid "msg_score_settings_not_modified"
+msgstr "変更は保存されていません。"
+
+msgid "msg_selected_for_move"
+msgstr "移動用に選択した問題"
+
+msgid "new_category"
+msgstr "新ユニットカテゴリ"
+
+msgid "new_unit"
+msgstr "新ユニット"
+
+msgid "next_question"
+msgstr "次"
+
+msgid "next_question_rows"
+msgstr "問題 %dの%d - %d >>"
+
+msgid "no_manual_feedback_export_info"
+msgstr "マニュアルフィードバックはエクスポートされません。"
+
+msgid "no_passed_after_failed"
+msgstr "不合格の成績は、合格の成績よりも高い最低評価を持つことはできません。"
+
+msgid "no_passed_mark"
+msgstr "合格のマークを1つはセットしなけれなりません! 採点尺度が保存されませんでした。"
+
+msgid "no_question_selected_for_move"
+msgstr "移動する問題の最低一つにチェックしてください!"
+
+msgid "no_questions_available"
+msgstr "問題がありません!"
+
+msgid "no_result_type"
+msgstr "結果タイプなしを選択"
+
+msgid "no_selection"
+msgstr "--- 未選択 ---"
+
+msgid "no_selection_for_move"
+msgstr "移動するための問題が選択されていません"
+
+msgid "no_target_selected_for_move"
+msgstr "目標位置の選択が必要です!"
+
+msgid "no_user_or_group_selected"
+msgstr "何(ユーザ、グループ、役割）を検索するかオプションをチェックしてください!"
+
+msgid "no_valid_participant_selection"
+msgstr "有効な受講者が選択されていません。"
+
+msgid "not_evaluated_users"
+msgstr "未採点ユーザ"
+
+msgid "not_started"
+msgstr "まだ開始していません"
+
+msgid "not_yet_accessed"
+msgstr "未接続"
+
+msgid "nr_of_correct_answers"
+msgstr "要求する解答数"
+
+msgid "number_of_answers"
+msgstr "解答数"
+
+msgid "numeric_gap"
+msgstr "数値穴埋め"
+
+msgid "old_mark_default_not_applied"
+msgstr "パーソナル設定マークは古い書式利用では適用できません。他の全設定は更新されました。"
+
+msgid "option_label"
+msgstr "オプションラベル"
+
+msgid "option_label_adequate"
+msgstr "適切"
+
+msgid "option_label_adequate_or_not"
+msgstr "適切/不適切"
+
+msgid "option_label_applicable"
+msgstr "適用"
+
+msgid "option_label_applicable_or_not"
+msgstr "適用/不適用"
+
+msgid "option_label_custom"
+msgstr "ユーザ定義ラベル"
+
+msgid "option_label_custom_false"
+msgstr "間違い'用ラベル"
+
+msgid "option_label_custom_true"
+msgstr "正解'用ラベル"
+
+msgid "option_label_info"
+msgstr "構成される文は受験者の選択したオプションのラベルとして使用されます。"
+
+msgid "option_label_minus"
+msgstr "-"
+
+msgid "option_label_not_adequate"
+msgstr "不適切"
+
+msgid "option_label_not_applicable"
+msgstr "不適用"
+
+msgid "option_label_plus"
+msgstr "+"
+
+msgid "option_label_plus_minus"
+msgstr "+ / -"
+
+msgid "option_label_right"
+msgstr "正しい"
+
+msgid "option_label_right_wrong"
+msgstr "正/誤"
+
+msgid "option_label_wrong"
+msgstr "誤り"
+
+msgid "oq_btn_define_pictures"
+msgstr "図定義ビューに切り替える"
+
+msgid "oq_btn_define_terms"
+msgstr "用語定義ビューに切り替える"
+
+msgid "oq_btn_nest_pictures"
+msgstr "図ネスト表示に切り替える"
+
+msgid "oq_btn_nest_terms"
+msgstr "用語ネスト表示に切り替える"
+
+msgid "oq_btn_use_order_pictures"
+msgstr "解答図を使用する"
+
+msgid "oq_btn_use_order_terms"
+msgstr "解答用語を使用する"
+
+msgid "oq_header_ordering_elements"
+msgstr "要素順"
+
+msgid "or"
+msgstr "または"
+
+msgid "order"
+msgstr "順番"
+
+msgid "ordering_answer_sequence_info"
+msgstr "ここで定義する解答順序は正解として使用されます。"
+
+msgid "ordertext"
+msgstr "整列するテキスト"
+
+msgid "ordertext_info"
+msgstr "水平方向にそろえるテキストを入力してください。整列するテキストはテキストの空白記号で区切られます。別の区切りが必要な場合は、%s の区切り記号を使用してテキストの単位を区切る事ができます。"
+
+msgid "out_of_range"
+msgstr "範囲外"
+
+msgid "output"
+msgstr "出力"
+
+msgid "output_mode"
+msgstr "出力モード"
+
+msgid "parseQuestion"
+msgstr "問題解析"
+
+msgid "part_received_a_of_b_points"
+msgstr "受験者は%s中の%s得点しました"
+
+msgid "participants"
+msgstr "受験者"
+
+msgid "participants_invitation"
+msgstr "手動選択受験者"
+
+msgid "participants_invitation_description"
+msgstr "このテストは\"受験者\"タブで手動追加したユーザのみアクセスする事ができます。"
+
+msgid "participants_results_subtab"
+msgstr "全受験者"
+
+msgid "pass"
+msgstr "合格回数"
+
+msgid "pass_finished"
+msgstr "%s回"
+
+msgid "passed_official"
+msgstr "合格です"
+
+msgid "passed_only"
+msgstr "テストのみ合格です"
+
+msgid "passed_short"
+msgstr "合格"
+
+msgid "passed_status"
+msgstr "受験状況"
+
+msgid "passes_finished"
+msgstr "合格数%s"
+
+msgid "percentage"
+msgstr "パーセント"
+
+msgid "percentage_points_achieved"
+msgstr "得点"
+
+msgid "percentile"
+msgstr "パーセンタイル(百分位数)"
+
+msgid "personal_settings_apply"
+msgstr "設定を適用"
+
+msgid "personal_settings_apply_changed_confirmation"
+msgstr "在のテスト設定は、選択したテンプレートの設定で上書きされます。これにより、テスト問題の選択も上書きされます。この操作は元に戻せません！"
+
+msgid "personal_settings_apply_confirmation"
+msgstr "現在のテスト設定は、選択したテンプレートの設定で上書きされます。この操作は元に戻せません！"
+
+msgid "personal_settings_apply_description"
+msgstr "このテンプレートは、テスト '%s' のすべての設定を上書きします。"
+
+msgid "personal_settings_apply_not_possible"
+msgstr "ILIASは、このテストに選択されたテンプレートを適用できませんでした！このテストにはすでに参加者のデータセットが含まれている可能性があります。"
+
+msgid "personal_settings_apply_success"
+msgstr "個人用テスト設定が正常に適用されました。"
+
+msgid "personal_settings_author"
+msgstr "作成者"
+
+msgid "personal_settings_create"
+msgstr "新しい設定テンプレートを追加"
+
+msgid "personal_settings_delete_confirmation"
+msgstr "選択したテンプレートは恒久的に削除されます。これは元に戻すことはできません。"
+
+msgid "personal_settings_delete_success"
+msgstr "選択したテンプレートは削除されました。"
+
+msgid "personal_settings_description"
+msgstr "テンプレート説明"
+
+msgid "personal_settings_explanation"
+msgstr "ILIASは現在のテストの設定をテンプレートに保存します。このテンプレートは、設定を別のテストに転送するために使用できます。"
+
+msgid "personal_settings_export"
+msgstr "エクスポート設定テンプレート"
+
+msgid "personal_settings_import"
+msgstr "インポート設定テンプレート"
+
+msgid "personal_settings_import_success"
+msgstr "テンプレートは正しくインポートされました。"
+
+msgid "personal_settings_invalid_selection"
+msgstr "テンプレートを一つ選択してください。"
+
+msgid "personal_settings_name"
+msgstr "テンプレートタイトル"
+
+msgid "personal_settings_required_author"
+msgstr "テンプレート著者を入力してください。"
+
+msgid "personal_settings_required_title"
+msgstr "テンプレート用のタイトルを入力してください。"
+
+msgid "personal_settings_save"
+msgstr "新しい設定テンプレートを保存"
+
+msgid "personal_settings_show"
+msgstr "テンプレート詳細を表示"
+
+msgid "personal_settings_templates_available"
+msgstr "個人テスト設定テンプレート"
+
+msgid "personal_settings_timestamp"
+msgstr "作成日"
+
+msgid "picture"
+msgstr "図"
+
+msgid "point"
+msgstr "点"
+
+msgid "points"
+msgstr "点"
+
+msgid "points_checked"
+msgstr "チェック時の点数"
+
+msgid "points_non_numeric_or_negative_msg"
+msgstr "点数入力は正の数値のみ可能です。"
+
+msgid "points_short"
+msgstr "Pt."
+
+msgid "points_unchecked"
+msgstr "未チェック時の点数"
+
+msgid "points_wrong"
+msgstr "選択まちがい"
+
+msgid "points_wrong_info"
+msgstr "マーク済みエラーのリスト上にない全選択の点数を入力します。"
+
+msgid "polygon"
+msgstr "多角形"
+
+msgid "polygon_click_next_or_save"
+msgstr "多角形の次のポイントをクリックするか、領域を保存してください。 （この多角形の開始点をもう一度クリックする必要はありません!）"
+
+msgid "polygon_click_next_point"
+msgstr "5角形の次の点をクリックしてください。"
+
+msgid "polygon_click_starting_point"
+msgstr "5角形の開始点をクリックしてください。"
+
+msgid "positive_numbers_required"
+msgstr "正数のみを入力してください。"
+
+msgid "postpone_question"
+msgstr "問題を最後へ移動"
+
+msgid "postponed"
+msgstr "後回ししました"
+
+msgid "precision"
+msgstr "精度"
+
+msgid "previous_question"
+msgstr "前へ"
+
+msgid "previous_question_rows"
+msgstr "<< 問題%dの%d - %d"
+
+msgid "print_answers"
+msgstr "回答を印刷"
+
+msgid "qpl_assessment_no_assessment_of_questions"
+msgstr "選択した問題には問題のアセスメントがありません。テストでは過去使用された事がありません。"
+
+msgid "qpl_assessment_total_of_answers"
+msgstr "解答の合計"
+
+msgid "qpl_assessment_total_of_right_answers"
+msgstr "正解の総合計比率(最高点比率)"
+
+msgid "qpl_bulk_save_add"
+msgstr "追加"
+
+msgid "qpl_bulk_save_overwrite"
+msgstr "上書き"
+
+msgid "qpl_bulkedit_success"
+msgstr "変更を保存しました。"
+
+msgid "qpl_cancel_skill_assigns_update"
+msgstr "キャンセル"
+
+msgid "qpl_confirm_delete_questions"
+msgstr "本当に次の問題を削除しますか?"
+
+msgid "qpl_copy_insert_clipboard"
+msgstr "選択した問題をクリップボードへコピーします"
+
+msgid "qpl_copy_select_none"
+msgstr "クリップボードへコピーする問題を最低1個チェックしてください"
+
+msgid "qpl_delete_rbac_error"
+msgstr "この問題の削除権がありません!"
+
+msgid "qpl_delete_select_none"
+msgstr "削除する問題の最低1個をチェックしてください"
+
+msgid "qpl_export_excel"
+msgstr "Microsoft Excel ファイル"
+
+msgid "qpl_export_select_none"
+msgstr "エクスポートするには最低1個の問題にチェックしてください"
+
+msgid "qpl_export_xml"
+msgstr "QTI XML ファイル"
+
+msgid "qpl_form_general_settings"
+msgstr "全般設定"
+
+msgid "qpl_imagemap_preview_missing"
+msgstr "ILIASはイメージマップ領域を含む一時的なプレビューファイルを作成できませんでした。 代わりに元の画像が表示されます。これは、Web サーバのイメージマジック ツールが正しく構成されていないか、またはテンポラリディレクトリに書き込みアクセス権限がない事を意味します! システム管理者へお問い合わせください。"
+
+msgid "qpl_import_create_new_qpl"
+msgstr "新しい問題集の中の問題をインポート"
+
+msgid "qpl_import_no_items"
+msgstr "エラー。インポートファイルに問題が含まれていません!"
+
+msgid "qpl_import_non_ilias_files"
+msgstr "エラー。 インポートファイルにはILIASシステムが作成しないQTIファイルが含まれています。ILIASチームへ連絡してQTIファイル形式用のインポートフィルタを取得してください。。"
+
+#, fuzzy
+msgid "qpl_import_step_persist"
+msgstr "Import question pool"
+
+#, fuzzy
+msgid "qpl_import_step_select"
+msgstr "Select questions to import"
+
+msgid "qpl_import_verify_found_questions"
+msgstr "ILIASのインポートファイルに次の問題がありました。インポートしたい問題を選択してください。"
+
+msgid "qpl_lac_desc_brackets"
+msgstr "角括弧"
+
+msgid "qpl_lac_desc_compare_answer_exist"
+msgstr "問題/穴埋めの回答がある場合に比較"
+
+msgid "qpl_lac_desc_compare_with_answer_n"
+msgstr "問題の回答番号n-th結果を比較"
+
+msgid "qpl_lac_desc_compare_with_assignment"
+msgstr "n:m照合結果を比較"
+
+msgid "qpl_lac_desc_compare_with_exact_sequence"
+msgstr "全くそのままのシーケンス結果を比較"
+
+msgid "qpl_lac_desc_compare_with_number"
+msgstr "順位n番結果を比較"
+
+msgid "qpl_lac_desc_compare_with_quest_res"
+msgstr "達成点数パーセント結果を比較"
+
+msgid "qpl_lac_desc_compare_with_sequence"
+msgstr "回答シーケンス($a,..,z$)結果を比較"
+
+msgid "qpl_lac_desc_compare_with_text"
+msgstr "文字TEXT結果を比較"
+
+msgid "qpl_lac_desc_logical_and"
+msgstr "論理AND"
+
+msgid "qpl_lac_desc_logical_or"
+msgstr "論理OR"
+
+msgid "qpl_lac_desc_negation"
+msgstr "論理否"
+
+msgid "qpl_lac_desc_res_of_answ_m_of_cur_quest"
+msgstr "現在の問題のm-th番の回答結果"
+
+msgid "qpl_lac_desc_res_of_cur_quest"
+msgstr "現在の問題の結果"
+
+msgid "qpl_lac_legend_header_common"
+msgstr "式ロジック"
+
+msgid "qpl_lac_legend_header_quest_specific"
+msgstr "式を特定する問題"
+
+msgid "qpl_lac_legend_label_operators"
+msgstr "オペレーター"
+
+msgid "qpl_maxchars_info_numeric_question"
+msgstr "値を入力すると数字解答用のフィールドがこの値の固定長で作成されますので許容文字数以上の入力はできなくなります。数字穴埋め用には十進数セパレーターが通常の文字としてカウントされることに注意願います。"
+
+msgid "qpl_move_insert_clipboard"
+msgstr "選択した問題は移動用としてマークされています"
+
+msgid "qpl_move_select_none"
+msgstr "移動するには最低一つ問題にチェックしてください"
+
+msgid "qpl_numeric_lower_needs_valid_lower_alert"
+msgstr "下限は、上限より低い有効な数値である必要があります。"
+
+msgid "qpl_numeric_upper_needs_valid_upper_alert"
+msgstr "上限は、下限より低い有効な数値である必要があります。"
+
+msgid "qpl_paste_error"
+msgstr "問題集の中に問題が一つも貼り付けられていない可能性があります。考えられる原因: 同じ問題集へ問題を移動しようとしていた。"
+
+msgid "qpl_paste_no_objects"
+msgstr "クリップボードに問題がありません。クリップボードに問題をコピーまたは移動してください。"
+
+msgid "qpl_paste_success"
+msgstr "問題は問題集に貼り付けられました"
+
+msgid "qpl_qst_edit_form_taxonomy"
+msgstr "分類基準 \"%s\""
+
+msgid "qpl_qst_edit_form_taxonomy_section"
+msgstr "分類基準"
+
+msgid "qpl_qst_inp_matching_mode"
+msgstr "整合モード"
+
+msgid "qpl_qst_inp_matching_mode_all_on_all"
+msgstr "複数用語が複数定義と一致(n:n)"
+
+msgid "qpl_qst_inp_matching_mode_one_on_one"
+msgstr "用語一つが定義一つと一致(1:1)"
+
+msgid "qpl_qst_skl_assign_properties_modified"
+msgstr "割り当てプロパティが修正されました。"
+
+msgid "qpl_qst_skl_assign_synced_to_orig"
+msgstr "能力割り当てはオリジナルの問題と同期されました。"
+
+msgid "qpl_qst_skl_assigns_updated"
+msgstr "能力割り当てが更新されました。"
+
+msgid "qpl_qst_skl_selection_for_question_header"
+msgstr "問題の割り当て埋め合わせ: %s"
+
+msgid "qpl_qst_skl_usg_numq_col"
+msgstr "この能力への取り組み問題集数"
+
+msgid "qpl_qst_skl_usg_skill_col"
+msgstr "能力"
+
+msgid "qpl_qst_skl_usg_sklpnt_col"
+msgstr "能力当たりの能力-ポイントの総合計"
+
+msgid "qpl_question_is_in_use"
+msgstr "テスト%s 内にある修正しようとしている問題です。 この問題を修正しても、テストへ挿入の時点でシステムが問題のコピーを作成するためテストの問題は修正されません!"
+
+msgid "qpl_questions_deleted"
+msgstr "問題は削除されました。"
+
+msgid "qpl_reset_preview"
+msgstr "プレビューをリセット"
+
+msgid "qpl_save_skill_assigns_update"
+msgstr "能力割り当てを保存"
+
+msgid "qpl_settings_availability"
+msgstr "Availability(空き状況)"
+
+msgid "qpl_settings_general_form_prop_show_tax_desc"
+msgstr "有効にすると作成可能性のある分類基準がフィルタ用として表示されます。"
+
+msgid "qpl_settings_general_form_property_nav_taxonomy"
+msgstr "ナビゲーションツリーの分類基準フィルタ"
+
+msgid "qpl_settings_general_form_property_nav_taxonomy_description"
+msgstr "分類基準が選択されるとテーブルフィルタアイテムに代わりナビゲーションツリーとして表示されます。"
+
+msgid "qpl_settings_general_form_property_opt_notax_selected"
+msgstr "ナビゲーションツリーフィルタなしを使用"
+
+msgid "qpl_settings_general_form_property_show_taxonomies"
+msgstr "分類基準を表示"
+
+msgid "qpl_settings_subtab_general"
+msgstr "全般設定"
+
+msgid "qpl_settings_subtab_taxonomies"
+msgstr "分類基準"
+
+msgid "qpl_skill_point_eval_by_quest_result"
+msgstr "問題結果による能力ポイントの評価"
+
+msgid "qpl_skill_point_eval_by_solution_compare"
+msgstr "正解比較による能力ポイントの評価"
+
+msgid "qpl_skill_point_eval_mode_quest_result"
+msgstr "問題結果"
+
+msgid "qpl_skill_point_eval_mode_solution_compare"
+msgstr "正解比較"
+
+msgid "qpl_skl_all_questions"
+msgstr "全問題"
+
+msgid "qpl_skl_assigned_questions"
+msgstr "課題付きの問題"
+
+msgid "qpl_skl_assignment_for_question"
+msgstr "問題「%s」に対する権限の割り当て"
+
+msgid "qpl_skl_sub_tab_quest_assign"
+msgstr "問題/能力割り当て"
+
+msgid "qpl_skl_sub_tab_usages"
+msgstr "割り当て間隔"
+
+msgid "qpl_skl_unassigned_questions"
+msgstr "課題付きの問題"
+
+msgid "qpl_skl_view_control_mode_aria:"
+msgstr "制御モードを表示"
+
+msgid "qpl_sync_quest_skl_assigns_confirmation"
+msgstr "問題が別のリポジトリオブジェクトから挿入されました。オリジナルの問題を能力割り当ての現状構成へ更新しますか?"
+
+msgid "qpl_tab_competences"
+msgstr "能力"
+
+msgid "qpl_taxonomy_tab_info_message"
+msgstr "問題集の分類は問題のフィルタとして利用できます。\"設定\"タブの機能を変更すると。\"問題\"タブ内のフィルタへ表示されます。"
+
+msgid "qst_error_text_too_long"
+msgstr "間違いとしてマークされた複数のテキスト要素は長すぎます。間違いとしてマークされるテキスト要素の最大数は150文字です。"
+
+msgid "qst_essay_allready_written_words"
+msgstr "入力した文字数:"
+
+msgid "qst_essay_chars_remaining"
+msgstr "残り文字数:"
+
+msgid "qst_essay_wordcounter_enabled"
+msgstr "カウント文字数"
+
+msgid "qst_essay_wordcounter_enabled_info"
+msgstr "入力の文字数をカウントします。受験者は以下のテキスト入力欄へ書きこんだ文字数が表示されます。"
+
+msgid "qst_essay_written_words"
+msgstr "入力した文字数:"
+
+msgid "qst_lifecycle"
+msgstr "ライフサイクル"
+
+msgid "qst_lifecycle_draft"
+msgstr "ドラフト"
+
+msgid "qst_lifecycle_filter_all"
+msgstr "全てのライフサイクル"
+
+msgid "qst_lifecycle_final"
+msgstr "最終"
+
+msgid "qst_lifecycle_outdated"
+msgstr "旧"
+
+msgid "qst_lifecycle_rejected"
+msgstr "拒否されました"
+
+msgid "qst_lifecycle_review"
+msgstr "要レビュー"
+
+msgid "qst_lifecycle_sharable"
+msgstr "共有化"
+
+msgid "qst_nested_nested_answers_off"
+msgstr "インデントなし、順番のみ"
+
+msgid "qst_nested_nested_answers_on"
+msgstr "回答にインデントを使用"
+
+msgid "qst_nr_of_tries"
+msgstr "実行回数"
+
+msgid "qst_preview_reset_msg"
+msgstr "プレビューがリセットされました。"
+
+msgid "qst_use_nested_answers"
+msgstr "ネスト化された回答"
+
+#, fuzzy
+msgid "qst_use_nested_answers_info"
+msgstr "After selecting 'Nested Answers', you will need to save the question. A new 'Nesting' subtab will then appear at the top of the screen, where you can arrange the answer elements into a hierarchy of your choice."
+
+msgid "que_contains_unused_var"
+msgstr "問題文章にはどの結果式にも使われていなし変数が含まれます。"
+
+msgid "question_browse_area_info"
+msgstr "インポートしたい質問からオブジェクトを選択してください。"
+
+msgid "question_complete_title"
+msgstr "完了"
+
+msgid "question_cumulated_statistics"
+msgstr "累計問題状況"
+
+msgid "question_id"
+msgstr "Question ID"
+
+msgid "question_id_short"
+msgstr "ID"
+
+msgid "question_instances_title"
+msgstr "この問題は次のテストに使用されます。"
+
+msgid "question_is_part_of_running_test"
+msgstr "問題はランニングテストの一部であり編集はできない可能性があります。"
+
+msgid "question_marking"
+msgstr "フラッグ問題"
+
+msgid "question_marking_description"
+msgstr "受験者はその他の目的の用としてテスト問題へフラッグするオプションが得られます。有効になるとフラッグは\"問題のリスト\"へ表示されます。"
+
+msgid "question_not_answered"
+msgstr "問題に未解答"
+
+msgid "question_saved_for_upload"
+msgstr "問題はアップロードファイルの保管用のハードディスクスペースを確保するために自動的に保管されました。このフォームを今キャンセルすると、キープしたくない問題集中の問題を削除しなければならない事にもなります!"
+
+msgid "question_summary"
+msgstr "問題リスト"
+
+msgid "question_summary_btn"
+msgstr "ダッシュボード"
+
+msgid "question_title"
+msgstr "問題名"
+
+msgid "question_type"
+msgstr "問題のタイプ"
+
+msgid "questionlist_cannot_be_altered"
+msgstr "テストにはすでに参加者のデータセットが含まれているため、質問リストを変更することはできません。"
+
+msgid "questionpool_not_entered"
+msgstr "問題集の名前を入力してください!"
+
+msgid "questionpool_not_selected"
+msgstr "問題集を選択して下さい!"
+
+msgid "questions"
+msgstr "問題"
+
+msgid "questions_from"
+msgstr "質問者"
+
+msgid "questions_per_page_view"
+msgstr "ページ表示"
+
+msgid "random_accept_sample"
+msgstr "サンプルを承諾"
+
+msgid "random_another_sample"
+msgstr "他のサンプルを入手"
+
+msgid "random_selection"
+msgstr "ランダム選択"
+
+msgid "range"
+msgstr "範囲"
+
+msgid "range_lower_limit"
+msgstr "下限"
+
+msgid "range_max"
+msgstr "範囲(最大)"
+
+msgid "range_min"
+msgstr "範囲(最小)"
+
+msgid "range_upper_limit"
+msgstr "上限"
+
+msgid "rated_sign"
+msgstr "サイン"
+
+msgid "rated_unit"
+msgstr "ユニット"
+
+msgid "rated_value"
+msgstr "値"
+
+msgid "rating"
+msgstr "レート"
+
+msgid "rating_sign"
+msgstr "レートサイン"
+
+msgid "rating_simple"
+msgstr "簡易レート"
+
+msgid "rating_unit"
+msgstr "レートユニット"
+
+msgid "rating_value"
+msgstr "レート値"
+
+msgid "rectangle"
+msgstr "長方形"
+
+msgid "rectangle_click_br_corner"
+msgstr "希望する領域の右隅下をクリックしてください。"
+
+msgid "rectangle_click_tl_corner"
+msgstr "希望する領域の左隅上をクリックしてください。"
+
+msgid "redirectAfterSave"
+msgstr "解答期限制限時間になりましたので最後の問題は自動的に保存されます。しばらくするとリダイレクトされます..."
+
+msgid "redirect_after_finishing_rule"
+msgstr "リダイレクト"
+
+msgid "redirect_after_finishing_tst"
+msgstr "リダイレクト"
+
+msgid "redirect_after_finishing_tst_desc"
+msgstr "テストを完了すると各受験者は自動的に決められたWebページへリダイレクトされます。これは受験者がテスト結果へアクセスしない場合のみ有効です。"
+
+msgid "redirect_always"
+msgstr "常に決められたwebページへ"
+
+msgid "redirect_always_to_logout"
+msgstr "常時ログアウト画面へ"
+
+msgid "redirect_in_kiosk_mode"
+msgstr "試験ビューが有効の際にのみ"
+
+msgid "redirect_url_invalid"
+msgstr "ターゲットページの有効なURLを入力してください"
+
+msgid "redirect_url_required_for_rule"
+msgstr "%s が選択されている場合、ウェブページのURLが必要です。"
+
+msgid "redirection_url"
+msgstr "webページのURL"
+
+msgid "region"
+msgstr "Region"
+
+msgid "remaining_duration"
+msgstr "残り期間"
+
+msgid "remove_gap"
+msgstr "ギャップを削除"
+
+msgid "remove_participants"
+msgstr "受験者を削除"
+
+msgid "remove_question"
+msgstr "削除"
+
+msgid "remove_selected_participants_confirmation"
+msgstr "選択した参加者をテストから削除してもよろしいですか？"
+
+msgid "remove_selected_templates_confirmation"
+msgstr "選択した個人用テスト設定テンプレートを完全に削除してもよろしいですか？"
+
+msgid "remove_solution"
+msgstr "要約用のコンテンツを削除"
+
+msgid "res_contains_undef_res"
+msgstr "結果式に未定義結果が含まれます!"
+
+msgid "res_contains_undef_var"
+msgstr "結果式に未定義変数が含まれます!"
+
+msgid "reset_definitions"
+msgstr "定義領域をリセット"
+
+msgid "reset_pictures"
+msgstr "図位置をリセット"
+
+msgid "reset_terms"
+msgstr "用語位置をリセット"
+
+msgid "result"
+msgstr "結果"
+
+msgid "result_co_frac"
+msgstr "互いに素の分割"
+
+msgid "result_co_frac_info"
+msgstr "分割をキャンセル　例:1/3のみが有効結果"
+
+msgid "result_dec"
+msgstr "十進数"
+
+msgid "result_dec_info"
+msgstr "有効結果例:　2,3　2.3"
+
+msgid "result_frac"
+msgstr "分割"
+
+msgid "result_frac_info"
+msgstr "例: 1/3 2/6は有効結果"
+
+msgid "result_type_selection"
+msgstr "結果タイプ選択"
+
+msgid "result_unit_info"
+msgstr "選択の結果ユニットは\"利用可能なユニット\"もアクティブにしなければならない事に注意願います。"
+
+msgid "result_units"
+msgstr "利用可能ユニット"
+
+msgid "result_units_info"
+msgstr "選択のユニットは解答部分として学習者へ示されます。学習者は1ユニットを選択しなければなりません。"
+
+msgid "result_x"
+msgstr "結果"
+
+msgid "results"
+msgstr "結果"
+
+msgid "results_tab"
+msgstr "結果"
+
+msgid "resulttable_all"
+msgstr "All"
+
+msgid "resulttable_correct"
+msgstr "正解"
+
+msgid "resulttable_incorrect"
+msgstr "間違い/未完了"
+
+msgid "resulttable_vc_sort_iooa"
+msgstr "表示順"
+
+msgid "resulttable_vc_sort_posscore"
+msgstr "最高予想点優先"
+
+msgid "review_view"
+msgstr "レビュー"
+
+msgid "running"
+msgstr "稼働中"
+
+msgid "saveOrder"
+msgstr "順番を保存"
+
+msgid "saveOrderAndObligations"
+msgstr "順番と必須を保存"
+
+msgid "save_and_next"
+msgstr "保存して続ける"
+
+msgid "save_on_navigation"
+msgstr "ナビゲーションを保存"
+
+msgid "save_on_navigation_confirmation"
+msgstr "変更した回答はナビゲートする時に自動的に保存されます。"
+
+msgid "save_on_navigation_forced_feedback_hint"
+msgstr "回答済みへフィードバックする前。"
+
+msgid "save_on_navigation_locked_confirmation"
+msgstr "変更した回答はナビゲート時にロックされて自動的に保存されます。"
+
+msgid "saved_adjustment"
+msgstr "変更を保存しました。"
+
+msgid "score_anon"
+msgstr "採点を匿名"
+
+msgid "score_partsol_enabled"
+msgstr "部分正解を有効化"
+
+msgid "score_partsol_enabled_info"
+msgstr "通常受験者が構成点を得るには設問へ全正解する必要があります。このオプションとして受験者は最低3問正解で半分の構成点となります。"
+
+msgid "scored_by"
+msgstr "採点者"
+
+msgid "scored_pass"
+msgstr "完了対象"
+
+msgid "scoring"
+msgstr "点数と結果"
+
+msgid "scoringadjust"
+msgstr "修正"
+
+msgid "search_groups"
+msgstr "グループを検索"
+
+msgid "search_roles"
+msgstr "役割を検索"
+
+msgid "search_term"
+msgstr "用語を検索"
+
+msgid "select_at_least_one_feedback_type_and_trigger"
+msgstr "ファイードバックとトリガーの一つは選択してください。"
+
+msgid "select_at_least_one_lock_answer_type"
+msgstr "ロックされた回答の一つは選択してください。"
+
+msgid "select_gap"
+msgstr "穴埋めを選択"
+
+msgid "select_max_one_item"
+msgstr "一アイテムのみ選択してください"
+
+msgid "select_one_user"
+msgstr "最低ユーザ1名を選択してください。"
+
+msgid "select_question"
+msgstr "問題を選択"
+
+msgid "select_target_position_for_move_question"
+msgstr "問題を移動する目標の位置を選択して挿入ボタンのどれかを押してください!"
+
+msgid "select_unit"
+msgstr "--- ユニット選択 ---"
+
+msgid "selected_category"
+msgstr "選択されたカテゴリ: %s"
+
+msgid "selection"
+msgstr "選択"
+
+msgid "set_edit_mode"
+msgstr "編集モード"
+
+msgid "set_filter"
+msgstr "フィルタ"
+
+msgid "set_manscoring_done"
+msgstr "この受講者を\"採点済み受講者”としてマーク"
+
+msgid "set_manscoring_open"
+msgstr "採点完了' フラグを削除"
+
+msgid "set_manual_feedback"
+msgstr "手動フィードバック"
+
+msgid "shape"
+msgstr "形状"
+
+msgid "showSuggestedSolution"
+msgstr "推奨の解答"
+
+msgid "show_all_test_properties_on_info_page"
+msgstr "全テストプロパティを表示"
+
+msgid "show_all_test_properties_on_info_page_byline"
+msgstr "ユーザは、点数とレポート情報の例のように'info'タブ内のテストプロパティの全リストと一緒に表示されます。"
+
+msgid "show_answer_overview"
+msgstr "解答概要を表示"
+
+msgid "show_best_solution"
+msgstr "最適解を表示"
+
+msgid "show_detailed_results"
+msgstr "ユーザの詳細結果を表示(パスしたものをマーク)"
+
+msgid "show_examview_html"
+msgstr "画面上に"
+
+msgid "show_hide_best_solution"
+msgstr "最適解を表示または非表示"
+
+msgid "show_old_concluding_remarks"
+msgstr "過去の結論を表示"
+
+msgid "show_old_introduction"
+msgstr "過去の序論を表示"
+
+msgid "show_pass_overview"
+msgstr "マークした試験状況を表示"
+
+msgid "show_results"
+msgstr "結果を表示"
+
+msgid "show_user_answers"
+msgstr "マークしたユーザの解答を表示"
+
+msgid "shuffle_answers"
+msgstr "解答をシャッフル"
+
+msgid "skip_question"
+msgstr "回答しないで次へ"
+
+msgid "solution"
+msgstr "解答"
+
+msgid "solutionText"
+msgstr "テキスト"
+
+msgid "solution_contain_keywords"
+msgstr "点数は次のキーワードの発生を基準に承諾されます:"
+
+msgid "solution_hint"
+msgstr "要約用のコンテンツを割り当て"
+
+msgid "solutions"
+msgstr "解答"
+
+msgid "start_tag"
+msgstr "開始タグ"
+
+msgid "statistical_data"
+msgstr "統計データ"
+
+msgid "statistics"
+msgstr "統計"
+
+msgid "status_of_attempt"
+msgstr "試みのステータス"
+
+msgid "submit_and_check"
+msgstr "回答を保存してチェック"
+
+msgid "submit_answer"
+msgstr "回答を保存して次へ"
+
+msgid "suggest_range"
+msgstr "推奨範囲"
+
+msgid "suggestedSolutionType"
+msgstr "推奨解答のタイプ"
+
+msgid "suggested_solution"
+msgstr "要約用のコンテンツ"
+
+msgid "suggested_solution_added_successfully"
+msgstr "要約用のコンテンツを正しくセットしました"
+
+msgid "sync_question_to_pool"
+msgstr "問題を同期"
+
+msgid "ta_resulttable_vc_mode_aria"
+msgstr "問題モードを切替る"
+
+msgid "tab_nest_answers"
+msgstr "ネストにする"
+
+msgid "tax_filter"
+msgstr "分類学"
+
+msgid "tax_filter_notax"
+msgstr "分類学割り当てなしの問題"
+
+msgid "taxonomy_node_title"
+msgstr "分類学ノードタイトル"
+
+msgid "taxonomy_title"
+msgstr "分類学タイトル"
+
+msgid "term"
+msgstr "用語"
+
+msgid "term_image"
+msgstr "用語イメージ"
+
+msgid "term_text"
+msgstr "用語テキスト"
+
+msgid "terms"
+msgstr "用語集"
+
+msgid "test_attempts_finished"
+msgstr "選択の参加者のテストパスは完了しました。"
+
+msgid "test_confirm_template_reset"
+msgstr "今後テンプレートを本当に使用したくないですか?"
+
+msgid "test_delete_page"
+msgstr "問題を削除"
+
+msgid "test_edit_settings"
+msgstr "編集設定"
+
+msgid "test_enable_archiving"
+msgstr "アーカイブを有効"
+
+msgid "test_has_datasets_warning_page_view"
+msgstr "テストにはデータセットが既に含まれています。テストデータセットを削除するまでテスト問題の編集はできません。"
+
+msgid "test_has_datasets_warning_page_view_link"
+msgstr "受験者を編集"
+
+msgid "test_is_offline"
+msgstr "テスト開始できません! テストはオフラインです。"
+
+msgid "test_jump_to"
+msgstr "問題ヘジャンプ"
+
+msgid "test_move_page"
+msgstr "問題を移動"
+
+msgid "test_next_question"
+msgstr "次の問題"
+
+msgid "test_prev_question"
+msgstr "前の問題"
+
+msgid "test_question_set_type"
+msgstr "テスト問題の選択"
+
+msgid "test_question_set_type_fixed"
+msgstr "固定問題"
+
+msgid "test_question_set_type_fixed_info"
+msgstr "全ての受験者は同じ問題を見ます。<br>問題集から問題を使用するようにテストへ直接問題を作成できます。新しい問題作成時は問題集へ保存するかどうか確定できます。"
+
+msgid "test_question_set_type_random"
+msgstr "ランダム問題"
+
+msgid "test_question_set_type_random_info"
+msgstr "各テスト受験者には、個別に作成された問題セットが見えます。問題は複数の問題集から作成されます。"
+
+msgid "test_results"
+msgstr "テスト結果サマリ"
+
+msgid "test_scoring"
+msgstr "採点オプション"
+
+msgid "test_template_reset"
+msgstr "テンプレートは削除されています。"
+
+msgid "test_title"
+msgstr "テストタイトル"
+
+msgid "test_using_template"
+msgstr "このテストはテンプレート%sを使用します。テンプレートを使用したくなくて全ての設定をアクセスする場合はここ%sをクリックしてください。"
+
+msgid "test_using_template_link"
+msgstr "今後テンプレート使用を禁止"
+
+msgid "text_correct"
+msgstr "正しいテキスト"
+
+msgid "text_gap"
+msgstr "テキスト穴埋め"
+
+msgid "text_maximum_chars_allowed"
+msgstr "最大 %s 文字数以上を入力しないでください。超える分は削除されます。"
+
+msgid "text_rating"
+msgstr "テキスト一致方法"
+
+msgid "text_wrong"
+msgstr "テキスト間違い"
+
+msgid "textsize"
+msgstr "テキストサイズ"
+
+msgid "textsize_errortext_info"
+msgstr "100パーセント以外のサイズにしたい場合は、エラーテキストのテキストサイズをパーセントで入力してください。"
+
+msgid "textsize_info"
+msgstr "100パーセント以外のサイズにしたい場合は、指示するテキストのテキストサイズをパーセントで入力してください。"
+
+msgid "thumb_size"
+msgstr "サムネイルサイズ"
+
+msgid "thumb_size_info"
+msgstr "サムネイルのサイズを入力すると、そのサイズのサムネイルがアップロードイメージ用として作成されます。サムネイルサイズなしの場合は、オリジナルのイメージサイズが使用されます。"
+
+msgid "thumb_size_unit_pixel"
+msgstr "Pixel"
+
+msgid "time_format"
+msgstr "HH MM SS"
+
+msgid "timing"
+msgstr "延長時間"
+
+msgid "tolerance"
+msgstr "公差(%)"
+
+msgid "tolerance_info"
+msgstr "公差は結果値のばらつき許容パーセントを表す。公差ゼロは正確な値のみが正しい結果という事になる。"
+
+msgid "too_many_targets_selected_for_move"
+msgstr "正確に一つの目標位置を選択としなけれなりません!"
+
+msgid "toplist_by_score"
+msgstr "得点別高得点"
+
+msgid "toplist_by_time"
+msgstr "時間別高得点"
+
+msgid "toplist_col_achieved"
+msgstr "日付"
+
+msgid "toplist_col_participant"
+msgstr "受験者"
+
+msgid "toplist_col_percentage"
+msgstr "パーセント"
+
+msgid "toplist_col_rank"
+msgstr "順位"
+
+msgid "toplist_col_score"
+msgstr "点数"
+
+msgid "toplist_col_wtime"
+msgstr "処理時間"
+
+msgid "total_attempts"
+msgstr "合計試行回数"
+
+msgid "total_duration"
+msgstr "合計時間"
+
+msgid "total_max_points_cannot_be_negative"
+msgstr "最大達成可能点数は負にはなりえません。"
+
+msgid "true"
+msgstr "True"
+
+msgid "tst_access_code_created"
+msgstr "テスト結果への恒久アクセスと、このテストを再開可能性を提供するためにユニークなテストのアクセス コードが作成されました。以降のアクションはこのコードを使って書いてください。"
+
+msgid "tst_activate_skill_service"
+msgstr "能力サービスを有効化"
+
+msgid "tst_activate_skill_service_desc"
+msgstr "新規タブ'能力'が表示されます。このタブには問題が能力へ割り当てられてしきい値は能力の一定レベル達成用に帰属します。"
+
+msgid "tst_activation_limited_visibility_info"
+msgstr "表示期間前後にテストのタイトルのみが表示されます。受験者はテスト受験できません。"
+
+msgid "tst_activation_online_info"
+msgstr "オンラインの場合に受験者はテスト受験できます。"
+
+msgid "tst_add_quest_cont_edit_mode"
+msgstr "追加問題コンテンツのモード編集"
+
+msgid "tst_add_quest_cont_edit_mode_IPE"
+msgstr "問題、回答、フィードバックとヒント用のILIASページエディタにはプレインテキストを使用します。"
+
+msgid "tst_add_quest_cont_edit_mode_IPE_info"
+msgstr "問題と回答に書式設定がありません。LaTexにもありません。ただし、ｄフィードバックとヒントはILIAS学習モジュールへ問題が埋め込まれ時に再利用できます。"
+
+msgid "tst_add_quest_cont_edit_mode_RTE"
+msgstr "問題、回答、フィードバック、ヒントにはRich-Text-Editor (TinyMCE)を使用します。"
+
+msgid "tst_add_quest_cont_edit_mode_RTE_info"
+msgstr "ヒント、フィードバック、回答、問題の書式設定を許可。ただし、フィードバックとヒントはILIAS学習モジュールへ問題が埋め込まれた時には再利用できません。"
+
+msgid "tst_add_quest_cont_edit_mode_plain"
+msgstr "平文を使用"
+
+msgid "tst_add_quest_cont_edit_mode_plain_info"
+msgstr "問題、回答、フィードバック、ヒント内のテキストフォーマットがありません。"
+
+msgid "tst_addit_passes_blocked_after_passed_msg"
+msgstr "試験に合格です。試験は再開できません。"
+
+msgid "tst_all_test_competences"
+msgstr "全テスト能力"
+
+msgid "tst_all_user_data_deleted"
+msgstr "このテストの全ユーザデータは削除されました!"
+
+msgid "tst_already_passed_cannot_retake"
+msgstr "テストはすでに終わっています。テストを再開始できません。"
+
+msgid "tst_already_submitted"
+msgstr "テストはすでに終了して提出済です。"
+
+msgid "tst_analysis"
+msgstr "分析"
+
+msgid "tst_anonymity"
+msgstr "プライバシー"
+
+msgid "tst_anonymity_anonymous_test"
+msgstr "無記名結果/匿名テスト"
+
+msgid "tst_anonymity_no_anonymization"
+msgstr "記名結果"
+
+msgid "tst_answer_aggr_answer_header"
+msgstr "回答"
+
+msgid "tst_answer_aggr_frequency_header"
+msgstr "頻度"
+
+msgid "tst_answer_details"
+msgstr "解答詳細"
+
+msgid "tst_answer_fixation"
+msgstr "回答をロック"
+
+msgid "tst_answer_fixation_handling"
+msgstr "受験者回答"
+
+msgid "tst_answer_fixation_none"
+msgstr "テスト実行中の受験者回答をロックしない"
+
+msgid "tst_answer_fixation_none_desc"
+msgstr "テスト実行が終了しない限り受験者はいつでも回答を変更できます。"
+
+msgid "tst_answer_fixation_on_followup_question"
+msgstr "フォローアップ質問の受験者回答をロック"
+
+msgid "tst_answer_fixation_on_followup_question_desc"
+msgstr "フォローアップ質問の表示は前の質問の受験者回答をロックし、受験者は以降その回答を変更できません。"
+
+msgid "tst_answer_fixation_on_instant_feedback"
+msgstr "フィードバックのプレゼン有の回答をロック"
+
+msgid "tst_answer_fixation_on_instant_feedback_desc"
+msgstr "質問のフィードバック後に受験者回答はロックされて表示し、受験者は以降その回答を変更できません。"
+
+msgid "tst_answer_fixation_on_instantfb_or_followupqst"
+msgstr "フィードバックのプレゼン付き回答又はフォローアップ質問をロック"
+
+msgid "tst_answer_fixation_on_instantfb_or_followupqst_desc"
+msgstr "質問の受験者回答は質問のフィードバックのプレゼン付きまたはフォローアップ質問が表示されている時はロックされます。"
+
+msgid "tst_answer_status_answered"
+msgstr "回答済み"
+
+msgid "tst_answer_status_editing"
+msgstr " (編集中 ... )"
+
+msgid "tst_answer_status_not_answered"
+msgstr "未回答"
+
+msgid "tst_answered_questions"
+msgstr "回答問題"
+
+msgid "tst_answered_questions_of_total"
+msgstr "%s of %s"
+
+msgid "tst_answered_questions_test"
+msgstr "このテストへの解答結果"
+
+msgid "tst_attached_xls_file"
+msgstr "添付のExcelファイルにこの受験者のテスト結果があります。"
+
+msgid "tst_attempt"
+msgstr "試み"
+
+msgid "tst_attempt_limit_message"
+msgstr "テストの試行回数の上限は<b>%s</b>です。"
+
+msgid "tst_attempt_started"
+msgstr "試行開始しました"
+
+msgid "tst_back_to_pass_details"
+msgstr "合格詳細へ戻る"
+
+msgid "tst_back_to_question_list"
+msgstr "問題リストへ戻る"
+
+msgid "tst_back_to_top"
+msgstr "トップへ戻る"
+
+msgid "tst_back_to_virtual_pass"
+msgstr "問題概要へ戻る"
+
+msgid "tst_best_solution_is"
+msgstr "最もふさわしい解答"
+
+msgid "tst_block_passes_after_passed"
+msgstr "テスト合格後の追加受験を防止する"
+
+msgid "tst_block_passes_after_passed_info"
+msgstr "受験者がテスト合格するとこのオプションでは受験者は以降の受験ができなくなります。"
+
+msgid "tst_browse_for_qpl_questions"
+msgstr "問題集から追加"
+
+msgid "tst_browse_for_tst_questions"
+msgstr "他のテストから追加"
+
+msgid "tst_btn_hide_best_solutions"
+msgstr "模範解答を非表示"
+
+msgid "tst_btn_rebuild_random_question_stage"
+msgstr "問題集と問題を同期する"
+
+msgid "tst_btn_reset_pool_sync"
+msgstr "同期を編集/キャンセル"
+
+msgid "tst_btn_show_best_solutions"
+msgstr "模範解答を表示"
+
+msgid "tst_cannot_online_due_to_switched_quest_set_type_setting"
+msgstr "テストモード設定が変更されたためにテストをオンラインにできません。テストをオンライン設定する前に問題構成に関連するテストモードを設定する必要があります。"
+
+msgid "tst_change_dyn_test_question_selection"
+msgstr "現在の問題選択を変更"
+
+msgid "tst_change_points_for_question"
+msgstr "答案点数を変更"
+
+msgid "tst_change_quest_set_type_from_old_to_new_with_conflict"
+msgstr "問題や問題集構成に関係するテストモードがすでに存在するにも関わらずテストモードを<b>%s</b>から<b>%s</b>へ変更しようとしています。<br />既存の構成は消去されます。"
+
+msgid "tst_change_workingtime"
+msgstr "受験者へ時間を延長"
+
+msgid "tst_comp_eval_mode"
+msgstr "評価者"
+
+msgid "tst_comp_points"
+msgstr "能力ポイント"
+
+msgid "tst_competence"
+msgstr "能力"
+
+msgid "tst_competence_tree"
+msgstr "能力ツリー"
+
+msgid "tst_conditions_checkbox_enabled"
+msgstr "試験条件"
+
+msgid "tst_conditions_checkbox_enabled_desc"
+msgstr "テストを開始するには受験者はチェックボックスを選択する必要があります。 試験の受験者へわかるように紹介文を使用してください。"
+
+msgid "tst_confirm_submit_answers"
+msgstr "答案提出を確認してください。 提出ボタンを押すと解答に戻る事はできません。"
+
+msgid "tst_conflicting_setting"
+msgstr "この設定は他の設定と競合しています。"
+
+msgid "tst_copy"
+msgstr "テストをコピー"
+
+msgid "tst_corr_add_as_answer_btn"
+msgstr "正解を追加"
+
+msgid "tst_corr_answ_stat_tbl_header_answer"
+msgstr "回答"
+
+msgid "tst_corr_answ_stat_tbl_header_frequency"
+msgstr "頻度"
+
+msgid "tst_corrections_answers_tbl"
+msgstr "統計"
+
+msgid "tst_corrections_answers_tbl_subindex"
+msgstr "%sの統計"
+
+msgid "tst_corrections_incompatible_question_set_type"
+msgstr "テストユーザが問題設定を固定している場合に限り修正可能です。"
+
+msgid "tst_corrections_manscore_reset_warning"
+msgstr "問題\"%s (ID: %s)\"用に処理された%sの手動採点があります。全ての手動採点は問題を保存する際にリセットされます。"
+
+msgid "tst_corrections_qst_form"
+msgstr "点数の修正"
+
+msgid "tst_corrections_tab_question"
+msgstr "問題"
+
+msgid "tst_corrections_tab_solution"
+msgstr "解答"
+
+msgid "tst_corrections_tab_statistics"
+msgstr "統計"
+
+msgid "tst_count_correct_solutions"
+msgstr "正解と完全解答得点のみ"
+
+msgid "tst_count_correct_solutions_desc"
+msgstr "受験者点数、完全解答で全正解の最高点または他のどこかが0点のどちらかの受験者点数。"
+
+msgid "tst_count_partial_solutions"
+msgstr "不完全もしくは部分不正解の点数"
+
+msgid "tst_count_partial_solutions_desc"
+msgstr "部分解答の正解点数が追加されます: 受験者は不正解または部分不正解を得点できます。"
+
+msgid "tst_current_run_no_longer_valid"
+msgstr "現在のテストは無効です。<br>指導教員によりすでに完了された可能性があります。"
+
+msgid "tst_delete_missing_mark"
+msgstr "削除を進むには一つはマークを選択してください。"
+
+msgid "tst_derive_new_pool"
+msgstr "新規問題集を得る"
+
+msgid "tst_derive_new_pools"
+msgstr "新規問題集を得る"
+
+msgid "tst_dont_show_msg_again_in_current_session"
+msgstr "現在のセッションへこのメッセージを再表示しません。"
+
+msgid "tst_edit_competence_assign"
+msgstr "割り当てのプロパティを編集"
+
+msgid "tst_edit_scoring"
+msgstr "点数を編集"
+
+msgid "tst_enable_questionlist"
+msgstr " '問題リスト’を表示"
+
+msgid "tst_enable_questionlist_description"
+msgstr "受験者は実際の問題の左側へテスト問題のリストを切替できます。"
+
+msgid "tst_ending_time"
+msgstr "終了時間"
+
+msgid "tst_ending_time_before_starting_time"
+msgstr "開始日以降のテスト終了日を入力してください。"
+
+msgid "tst_ending_time_desc"
+msgstr "テスト終了時点の点数: 受験者はこれ以降回答できません、ILIASはテストを終了します。"
+
+msgid "tst_enter_questionpool"
+msgstr "新規問題の保存場所の問題集名"
+
+msgid "tst_eval_question_points"
+msgstr "完了%sの答案結果"
+
+msgid "tst_eval_results_by_pass"
+msgstr "完了%sの答案一覧"
+
+msgid "tst_eval_results_by_pass_lo"
+msgstr "試み%sの回答リスト"
+
+msgid "tst_eval_results_lo"
+msgstr "回答リスト"
+
+msgid "tst_eval_show_answer"
+msgstr "答案を表示"
+
+msgid "tst_eval_total_finished"
+msgstr "終了テスト数合計 (全問解答したと思われる者)"
+
+msgid "tst_eval_total_finished_average_time"
+msgstr "平均テスト処理時間"
+
+msgid "tst_eval_total_passed"
+msgstr "合計テスト受験者数"
+
+msgid "tst_eval_total_passed_average_points"
+msgstr "テスト受験者平均点"
+
+msgid "tst_eval_total_passed_average_time"
+msgstr "総テスト受験者の平均処理時間"
+
+msgid "tst_eval_total_persons"
+msgstr "受験開始者合計数"
+
+msgid "tst_exam_access_code"
+msgstr "アクセスコード"
+
+msgid "tst_exam_access_code_invalid_message"
+msgstr "提供のコードは無効です。"
+
+msgid "tst_exam_access_code_label"
+msgstr "既に開始したテストを続けるにはアクセスコードを入力"
+
+msgid "tst_exam_conditions"
+msgstr "試験条件"
+
+msgid "tst_exam_conditions_label"
+msgstr "条件を承諾するにはチエック"
+
+msgid "tst_exam_conditions_not_checked_message"
+msgstr "試験条件を承諾する必要があります!"
+
+msgid "tst_exam_ending_time_message"
+msgstr "%s 以降はテストを開始できません。"
+
+msgid "tst_exam_modal_message_conditions"
+msgstr "テストを開始するには条件を確認してください。"
+
+msgid "tst_exam_modal_message_conditions_and_password"
+msgstr "テストを開始するにはパスワードを確認してください。"
+
+msgid "tst_exam_modal_message_password"
+msgstr "テストを開始するにはパスワードを入力してください。"
+
+msgid "tst_exam_not_assigned_participant_disclaimer"
+msgstr "受験者として割り当てされていないのでこのテストを開始できません。"
+
+msgid "tst_exam_password"
+msgstr "テストパスワードを入力"
+
+msgid "tst_exam_password_invalid_message"
+msgstr "入力のパスワードは無効です。"
+
+msgid "tst_exam_password_label"
+msgstr "パスワード"
+
+msgid "tst_exam_required_fields_not_filled_message"
+msgstr "全ての必須欄に記入する必要があります。"
+
+msgid "tst_exam_start"
+msgstr "テストを開始"
+
+msgid "tst_exam_use_previous_answers"
+msgstr "前の回答"
+
+msgid "tst_exam_use_previous_answers_label"
+msgstr "有効にすると前のテストから回答が事前入力されます。"
+
+msgid "tst_extratime_added"
+msgstr "受験者の回答時間が%s分増えました。"
+
+msgid "tst_extratime_info"
+msgstr "解答時間を同じ受験者へ掛け算したい場合は追加したい合計時間を挿入してください。"
+
+msgid "tst_extratime_notavailable"
+msgstr "延長時間は1回のテストと最長所要時間のみに追加することができます。"
+
+msgid "tst_failed"
+msgstr "不合格"
+
+msgid "tst_failed_imp_qst_skl_assign"
+msgstr "次のコンピーテンスへの問題の割当ては作成することができませんでした。習得のコンピーテンスはローカルシステム内で識別することができませんでした。"
+
+msgid "tst_failed_imp_skl_thresholds"
+msgstr "ローカルシステムに沿ったコンピーテンスはレベルの別リストと一緒に構成されるので、次のコンピーテンスのスレッショールドのインポートはスキップされました。"
+
+msgid "tst_feedback"
+msgstr "フィードバック"
+
+msgid "tst_feedback_is_given_inline"
+msgstr "フィードバックは回答に沿って表示されます。"
+
+msgid "tst_feedback_not_available_for_answer"
+msgstr "回答には可能なフィードバックがありません。"
+
+msgid "tst_filter_lifecycle_enabled"
+msgstr "フィルターをライフサイクルへ利用"
+
+msgid "tst_filter_question_type"
+msgstr "質問タイプ"
+
+msgid "tst_filter_question_type_enabled"
+msgstr "フィルターとして質問タイプを使用"
+
+msgid "tst_filter_tax_node"
+msgstr "分類基準モード"
+
+msgid "tst_filter_taxonomy"
+msgstr "分類基準フィルタ"
+
+msgid "tst_final_information"
+msgstr "テスト終了"
+
+msgid "tst_finish_confirm_button"
+msgstr "はい、テストを終了します"
+
+msgid "tst_finish_confirm_cancel_button"
+msgstr "いいえ、前の問題へ戻ります"
+
+msgid "tst_finish_confirmation_question"
+msgstr "このテストを終了すると最大受験可能回数に達します。解答を変更しようとしても再度入力する事はできなくなります。本当にこのテストを終了しますか?"
+
+msgid "tst_finish_confirmation_question_no_attempts_left"
+msgstr "コノテストを終了して受験回数上限になろうとしています。回答を変更しようとしてもこのテストを再受験できなくなります。本当にこのテストを終了しますか?"
+
+msgid "tst_finished"
+msgstr "終了"
+
+msgid "tst_form_dynamic_question_set_config"
+msgstr "問題選択の継続"
+
+msgid "tst_gap_analysis"
+msgstr "ギャップ分析"
+
+msgid "tst_general_properties"
+msgstr "全般プロパティ"
+
+msgid "tst_header_participant"
+msgstr "結果:"
+
+msgid "tst_header_participant_no_answer"
+msgstr "問題-未回答"
+
+msgid "tst_header_solution"
+msgstr "正解:"
+
+msgid "tst_hide_info_tab"
+msgstr "Info タブを非表示"
+
+msgid "tst_hide_info_tab_desc"
+msgstr "テストの ‘Info’ タブを非表示"
+
+msgid "tst_hide_pagecontents"
+msgstr "ページコンテンツを非表示"
+
+msgid "tst_hide_pagecontents_desc"
+msgstr "ページ編集ボタン経由の実際のテキスト前後に位置するILIASコンテンツは結果ビューにも印刷にも出力されません。。"
+
+msgid "tst_imap_qst_mode"
+msgstr "モード"
+
+msgid "tst_imap_qst_mode_mc"
+msgstr "複数選択"
+
+msgid "tst_imap_qst_mode_sc"
+msgstr "単一選択"
+
+msgid "tst_import_non_ilias_zip"
+msgstr "エラー: アップロードするインポートファイルのファイル名がエクスポート形式と一致しません。"
+
+msgid "tst_import_verify_found_questions"
+msgstr "テストインポートファイルから次の問題が見つかりました。このテストにインポートしたい問題を選択してください。"
+
+msgid "tst_inp_all_quest_points_equal_per_pool"
+msgstr "均一の採点問題集を要求"
+
+msgid "tst_inp_all_quest_points_equal_per_pool_desc"
+msgstr "有効にすると均一に採点される問題集のみが提示されます。テストは全受験者の最高得点と同じになるのでテスト結果は比較しやすくなります。このモードの選択を推奨します。"
+
+msgid "tst_inp_dyn_quest_set_quest_ordering_by_date_desc"
+msgstr "問題表示順番は問題の最終編集日付に依存します。"
+
+msgid "tst_inp_dyn_quest_set_quest_ordering_by_tax_desc"
+msgstr "問題表示順番は分類基準の問題割り当てに依存します。"
+
+msgid "tst_inp_no_available_tax_hint"
+msgstr "選択の問題集には利用可能な分類基準がありません"
+
+msgid "tst_inp_quest_amount_cfg_mode"
+msgstr "問題数"
+
+msgid "tst_inp_quest_amount_cfg_mode_pool"
+msgstr "選択された問題集当りの問題数の構成"
+
+msgid "tst_inp_quest_amount_cfg_mode_test"
+msgstr "テスト当りの問題数の構成"
+
+msgid "tst_inp_quest_amount_per_source_pool"
+msgstr "問題数"
+
+msgid "tst_inp_quest_amount_per_test"
+msgstr "全テストの問題数"
+
+msgid "tst_inp_source_pool_filter_tax"
+msgstr "分類基準フィルタ"
+
+msgid "tst_inp_source_pool_filter_tax_x"
+msgstr "フィルタに分類基準\"%s\"を使用"
+
+msgid "tst_inp_source_pool_label"
+msgstr "問題集ソース"
+
+msgid "tst_inp_source_pool_no_tax_filter"
+msgstr "分類基準ではないフィルタを使用"
+
+msgid "tst_input_dyn_quest_set_answer_status_filter_enabled"
+msgstr "回答ステータスフィルタを提供"
+
+msgid "tst_input_dynamic_question_set_ordering_tax"
+msgstr "分類基準の順番"
+
+msgid "tst_input_dynamic_question_set_ordering_tax_description"
+msgstr "選択された分類基準の割り当て通りにテスト問題が表示されます。"
+
+msgid "tst_input_dynamic_question_set_question_ordering"
+msgstr "問題順番"
+
+msgid "tst_input_dynamic_question_set_question_ordering_by_date"
+msgstr "日付別問題の順番"
+
+msgid "tst_input_dynamic_question_set_question_ordering_by_tax"
+msgstr "分類基準の問題順番"
+
+msgid "tst_input_dynamic_question_set_source_questionpool"
+msgstr "問題集ソース"
+
+msgid "tst_input_dynamic_question_set_taxonomie_filter_enabled"
+msgstr "分類基準フィルタを提供"
+
+msgid "tst_insert_in_test"
+msgstr "テストへ挿入"
+
+msgid "tst_insert_missing_question"
+msgstr "テストに挿入する問題を最低一つ選択してください!"
+
+msgid "tst_insert_questions"
+msgstr "本当にテストへ次の問題を挿入しますか?"
+
+msgid "tst_instant_feedback"
+msgstr "即時フィードバック"
+
+msgid "tst_instant_feedback_answer_generic"
+msgstr "全正解のフィードバック"
+
+msgid "tst_instant_feedback_answer_generic_desc"
+msgstr "一般のフィードバックは設問構成に沿って単純\"正解\"または\"誤り\"フィードバックを印刷します。"
+
+msgid "tst_instant_feedback_answer_specific"
+msgstr "各解答の特定のフィードバック"
+
+msgid "tst_instant_feedback_answer_specific_desc"
+msgstr "クリックボタンのクリックでILIASは受験者の選択したオプション全解答の特定のフィードバックを表示します。フィードバックは問題に沿って準備する必要があります。この特定のフィードバックは全問題タイプをサポートするものではありません。"
+
+msgid "tst_instant_feedback_contents"
+msgstr "コンテンツを含む"
+
+msgid "tst_instant_feedback_desc"
+msgstr "質問がフィードバックで構成されている時はテスト実行中受験者へ提供されます。"
+
+msgid "tst_instant_feedback_results"
+msgstr "達成点"
+
+msgid "tst_instant_feedback_results_desc"
+msgstr "クリックボタンをクリックするとILIASはこの問題解答で何点達成されたかを表示します。"
+
+msgid "tst_instant_feedback_solution"
+msgstr "最適な解答案を表示"
+
+msgid "tst_instant_feedback_solution_desc"
+msgstr "クリックボタンをクリックするとILIASはこの問題の最適な解答案を表示します。"
+
+msgid "tst_instant_feedback_trigger"
+msgstr "フィードバックトリガー"
+
+msgid "tst_instant_feedback_trigger_forced"
+msgstr "フィードバックは質疑応答がトリガーとなります。"
+
+msgid "tst_instant_feedback_trigger_forced_desc"
+msgstr "フィードバックノプレゼンは全受講者へ質疑応答を強制します。"
+
+msgid "tst_instant_feedback_trigger_manual"
+msgstr "受験者はフィードバックを手動でトリガーできます。"
+
+msgid "tst_instant_feedback_trigger_manual_desc"
+msgstr "フィードバックは利用可能ですが、参加者トリガプレゼンテションが手動の時に表示されるのみです。"
+
+msgid "tst_introduction"
+msgstr "Introduction"
+
+msgid "tst_introduction_desc"
+msgstr "テストの\"Info\"タブの案内文を表示します。このテキストはテスト開始前からアクセスできます。"
+
+msgid "tst_introduction_text"
+msgstr "案内メッセージ"
+
+msgid "tst_invited_nobody"
+msgstr "ユーザ、グループ、役割のいずれもテスト確定受験者として追加されませんでした"
+
+msgid "tst_invited_selected_users"
+msgstr "選択したユーザはテスト確定受験者として追加されました"
+
+msgid "tst_launcher_button_label_passes_limit_reached"
+msgstr "テスト受験者数上限に達しました。"
+
+msgid "tst_launcher_status_message_conditions"
+msgstr "このテスト開始時に試験条件への承諾を尋ねられます。"
+
+msgid "tst_launcher_status_message_conditions_and_password"
+msgstr "このテスト開始時に試験条件への承諾とパスワードを尋ねられます。"
+
+msgid "tst_launcher_status_message_password"
+msgstr "このテスト開始時にパスワードを尋ねられます。"
+
+msgid "tst_level"
+msgstr "能力レベル"
+
+msgid "tst_limit_nr_of_tries"
+msgstr "最大受験回数"
+
+msgid "tst_link_only_unassigned"
+msgstr "問題集に既にリンンクされている問題をどれか一つ選択しました。未割当問題のみ問題集へ追加できます。"
+
+msgid "tst_list_answer_details"
+msgstr "以下リストに表示"
+
+msgid "tst_list_of_answers"
+msgstr "解答の一覧"
+
+msgid "tst_list_of_answers_show"
+msgstr "解答の一覧を表示"
+
+msgid "tst_list_of_questions_end"
+msgstr "受験者がテスト終了前に表示"
+
+msgid "tst_list_of_questions_start"
+msgstr "最初の問題に先立って表示"
+
+msgid "tst_list_of_questions_with_description"
+msgstr "問題説明を含む"
+
+msgid "tst_man_scoring_answered_hide"
+msgstr "回答済問題を非表示"
+
+msgid "tst_man_scoring_answered_only"
+msgstr "回答済問題を表示"
+
+msgid "tst_man_scoring_by_part"
+msgstr "受験者別の採点"
+
+msgid "tst_man_scoring_by_qst"
+msgstr "問題別の採点"
+
+msgid "tst_man_scoring_finalized"
+msgstr "最終評価を表示"
+
+msgid "tst_man_scoring_finalized_hide"
+msgstr "最終評価を非表示"
+
+msgid "tst_man_scoring_finalized_only"
+msgstr "最終評価のみを表示"
+
+msgid "tst_man_scoring_only_answered"
+msgstr "回答済のみ"
+
+msgid "tst_man_scoring_questionselection"
+msgstr "問題"
+
+#, fuzzy
+msgid "tst_man_scoring_users_scored"
+msgstr "Users Scored"
+
+msgid "tst_man_scoring_userselection"
+msgstr "受験者"
+
+msgid "tst_manage_competence_assigns"
+msgstr "能力割り当てを管理"
+
+msgid "tst_manage_competence_select_skills"
+msgstr "能力を選択"
+
+msgid "tst_manscoring_input_max_points_for_question"
+msgstr "問題最高点数"
+
+msgid "tst_manscoring_input_of_max"
+msgstr "of"
+
+msgid "tst_manscoring_input_question_and_user_solution"
+msgstr "問題とユーザ解答"
+
+msgid "tst_manscoring_maxpoints_exceeded_input_alert"
+msgstr "最高点%sは超えています!"
+
+msgid "tst_manscoring_no_feedback"
+msgstr "まだ書面によるフィードバックはありません。"
+
+msgid "tst_manscoring_question_section_header"
+msgstr "問題:%s"
+
+msgid "tst_manscoring_user_notification"
+msgstr "通知送付"
+
+msgid "tst_mark"
+msgstr "マーク"
+
+msgid "tst_mark_create_new_mark_step"
+msgstr "新規評価尺度を作成"
+
+msgid "tst_mark_minimum_level"
+msgstr "最低レベル (%中)"
+
+msgid "tst_mark_minimum_level_invalid"
+msgstr "最低レベルは0~100の間の必要があります。"
+
+msgid "tst_mark_official_form"
+msgstr "正式書式"
+
+msgid "tst_mark_passed"
+msgstr "合格"
+
+msgid "tst_mark_reset_to_simple_mark_schema"
+msgstr "シンプル評価尺度を作成"
+
+msgid "tst_mark_reset_to_simple_mark_schema_confirmation"
+msgstr "このテストの現状のマークスキーマを進める場合は、全てのローカル変更を削除するので、シンプルマークスキーマで置換えられます。"
+
+msgid "tst_mark_short_form"
+msgstr "略式書式"
+
+msgid "tst_max_comp_points"
+msgstr "最大能力ポイント"
+
+msgid "tst_maximum_points"
+msgstr "最高点"
+
+msgid "tst_mc_label_none_above"
+msgstr "上記回答なし"
+
+msgid "tst_median_mark_panel"
+msgstr "Mark of Median"
+
+msgid "tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part"
+msgstr "問題選択を継続すると既存の参加日の都合により構成の修正はできません。"
+
+msgid "tst_msg_cannot_modify_random_question_set_conf_due_to_part"
+msgstr "ランダム問題セット構成は既存の受験者データが存在するので修正できません。"
+
+msgid "tst_msg_dynamic_question_set_config_modified"
+msgstr "問題選択を継続して構成が変更されました。"
+
+msgid "tst_msg_rand_quest_set_change_quest_amount_here"
+msgstr "問題数を変更できます: %s"
+
+msgid "tst_msg_rand_quest_set_incomplete_quest_amount_cfg"
+msgstr "正しい問題数を定義しないと受験者のランダムテスト作成はできません。"
+
+msgid "tst_msg_rand_quest_set_lost_pools"
+msgstr "構成に影響する以下の問題集は誰も利用できないのでテストの問題選択構成は確定されました:<br />%s"
+
+msgid "tst_msg_rand_quest_set_lost_pools_link"
+msgstr "サブタブ%上の利用できない問題集は新しく導き出すことができます。"
+
+msgid "tst_msg_rand_quest_set_no_pools_available"
+msgstr "利用可能な問題集がないので、問題選択用の新しいルールは現在追加できません。"
+
+msgid "tst_msg_rand_quest_set_no_src_pool_defs"
+msgstr "問題集ソースを定義しないでランダムテスト作成はできません。"
+
+msgid "tst_msg_rand_quest_set_not_sync"
+msgstr "質問の無作為抽出用のルールは新たに作成または変更することができます。問題集から質問はテストで使用される前に同期されなければなりません。これはランダムテストが適応ルール設定で可能であってもチックします。"
+
+msgid "tst_msg_rand_quest_set_pass_buildable"
+msgstr "問題のランダム設定ありテストは現状の構成で可能です。"
+
+msgid "tst_msg_rand_quest_set_pass_not_buildable"
+msgstr "問題集ソースと問題数の現在の構成では受験者のランダムテスト作成はできません。"
+
+msgid "tst_msg_rand_quest_set_rule_label"
+msgstr "ルール %"
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_missing"
+msgstr "%sしか設問がありませんがルール%は%s質問に必須です。"
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_missing_shared"
+msgstr "この問題からの追加は、次の他のルール: %sへ提供される%s問もあります。"
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_reserved"
+msgstr "ルール%は%s質問に必須で%s問が提供されます。"
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_reserved_shared"
+msgstr "次の他のルール:%sとの共通点のために提供された質問の%sしか保証ありません。"
+
+msgid "tst_msg_rand_quest_set_stage_pool_last_sync"
+msgstr "現在の構成で受験者のランダムテスト作成ができます。<br />選択された問題集ソースの最終同期時間： <b>%s</b>"
+
+msgid "tst_msg_random_qsc_modified_add_new_rule"
+msgstr "問題のランダム設定用の構成は正しく修正されました。現在、新しいルールを追加できます。"
+
+msgid "tst_msg_random_question_set_config_modified"
+msgstr "ランダムテスト構成は正しく修正されました。"
+
+msgid "tst_msg_random_question_set_synced"
+msgstr "現在の構成用の問題は正しく同期されました。"
+
+msgid "tst_msg_skl_lvl_thresholds_saved"
+msgstr "能力しきい値が保存されました。"
+
+msgid "tst_msg_skl_qst_assign_points_not_saved"
+msgstr "能力ポイントは保存されませんでした。入力を確認してください。"
+
+msgid "tst_msg_skl_qst_assign_points_saved"
+msgstr "能力点数が保存されました。"
+
+msgid "tst_msg_source_pool_definitions_deleted"
+msgstr "ルールは正しく削除されました。"
+
+msgid "tst_nav_next_locks_current_answer_confirm"
+msgstr "次の質問へナビゲートすると現在への回答はロックされて以降変更できなくなります。"
+
+msgid "tst_nav_next_locks_current_answer_header"
+msgstr "次の質問へのナビゲート"
+
+msgid "tst_nav_next_locks_empty_answer_confirm"
+msgstr "現在の質問へ回答していません。空の回答が保存されて回答としてロックされます。その回答は後で変更できません。"
+
+msgid "tst_nav_next_locks_empty_answer_header"
+msgstr "回答なしのナビゲーション"
+
+msgid "tst_nav_while_edit_modal_cancel_btn"
+msgstr "キャンセル"
+
+msgid "tst_nav_while_edit_modal_header"
+msgstr "回答について決定"
+
+msgid "tst_nav_while_edit_modal_nosave_btn"
+msgstr "保存しない"
+
+msgid "tst_nav_while_edit_modal_save_btn"
+msgstr "保存する"
+
+msgid "tst_nav_while_edit_modal_text"
+msgstr "この問題について考えられる入力回答をどうしますか?"
+
+msgid "tst_no_evaluation_data"
+msgstr "利用できる評価データがありません。"
+
+msgid "tst_no_marks_defined"
+msgstr "マークがないので、少なくともシンプル評価尺度を作成してください!"
+
+msgid "tst_no_question_selected_for_moving_to_qpl"
+msgstr "問題集へ追加する問題を一つは選択してください!"
+
+msgid "tst_no_question_selected_for_removal"
+msgstr "削除するには最低でも一つチェックしてください!"
+
+msgid "tst_no_scorable_qst_available"
+msgstr "採点可能な問題なし"
+
+msgid "tst_non_avail_pool_msg_status_lost"
+msgstr "この問題集はもう利用できません。この問題集から問題の同期はもうできません。このテスト内の問題コンテナから新しい問題集を得ることができます。"
+
+msgid "tst_non_avail_pool_msg_status_trashed"
+msgstr "システムから完全に削除される時にこの問題集は破棄されてテストは問題と同期することが不可能になります。"
+
+msgid "tst_non_avail_pools_table"
+msgstr "利用可能な問題集がありません"
+
+msgid "tst_non_available_pool_newly_derived"
+msgstr "新規問題集は正しくできました。"
+
+msgid "tst_nonpool_questions_get_lost_warning"
+msgstr "<b>構成中の問題を含む現在のテストモードはどの問題集にも割り当てられません。テストモードを変更すると問題は完全に消去されます。</b>"
+
+msgid "tst_notification_explanation_admin"
+msgstr "通知を有効にしているためILIASからこのメッセージを受信します。"
+
+msgid "tst_notify_manscoring_done_body_msg_reason"
+msgstr "このテストの受験者なので通知を受領しました。"
+
+msgid "tst_notify_manscoring_done_body_msg_subject"
+msgstr "テスト \"%s\"の手動採点を確約"
+
+msgid "tst_notify_manscoring_done_body_msg_topic"
+msgstr "次のテストには手動採点が確約されました:"
+
+msgid "tst_nr_of_passes"
+msgstr "試験数"
+
+msgid "tst_nr_of_tries"
+msgstr "最大受験回数"
+
+msgid "tst_nr_of_tries_desc"
+msgstr "受験者が可能な最大受験回数"
+
+msgid "tst_num_all_questions"
+msgstr "全問題数"
+
+msgid "tst_num_correct_answered_questions"
+msgstr "正解問題"
+
+msgid "tst_num_non_answered_questions_notseen"
+msgstr "まだ未表示です。"
+
+msgid "tst_num_non_answered_questions_skipped"
+msgstr "スキップしました"
+
+msgid "tst_num_questions"
+msgstr "問題数"
+
+msgid "tst_num_selected_questions"
+msgstr "選択された問題数"
+
+msgid "tst_num_wrong_answered_questions"
+msgstr "不正解問題"
+
+msgid "tst_objective_oriented_test_pass_without_questions"
+msgstr "テスト \"%s\"のテスト開始には問題が存在しません。"
+
+msgid "tst_objective_progress_header"
+msgstr "学習目標進捗"
+
+msgid "tst_objectives_progress_header"
+msgstr "学習目標進捗"
+
+msgid "tst_old_style_rnd_quest_set_broken"
+msgstr "1個以上の接続された問題集が削除されてしまっているのでこのランダムテストは修復できない状態です。よって受験者はテストを続行することができません。"
+
+# 2026年5月26日 新しい変数
+msgid "tst_optional_questions_confirmation_fixed_test"
+msgstr "<b>すでに合格した学習目標の質問には、すでに回答済みです。</b><br /><br />次の質問は、すでに合格した学習目標に割り当てられています。前回のテストでの回答は引き継がれます。<br /><br />続行すると、回答を修正することができます。修正すると、関連する学習目標の結果が変更される場合があります。<br /><br />回答を修正したくない場合は、戻ることができます。"
+
+msgid "tst_optional_questions_confirmation_non_fixed_test"
+msgstr "<b>すでにパスした学習目標に関係する問題はオプションです。</b><br /><br />すでにパスした学習目標に関係する問題をナビゲートしたい。<br />選択できます:<br /><br />進むにはこれらの問題を実行することができます。新しいランダム問題がこの試みで選択されていないので以前の回答からは選択されていません。この問題の実行中は学習目標結果も下方修正できます。<br /><br />この問題の実行をしないと確定すると後戻りできます。この場合に問題は評価へ考慮されません。"
+
+msgid "tst_out_of_time_message"
+msgstr "コノテストの処理時間上限値に達しました!"
+
+msgid "tst_participant"
+msgstr "受験者"
+
+msgid "tst_participant_fullname_pattern"
+msgstr "%2$s, %1$s"
+
+msgid "tst_participant_status"
+msgstr "受験者状況"
+
+msgid "tst_participating_users"
+msgstr "受講中のユーザ"
+
+msgid "tst_pass_best_pass"
+msgstr "試験最高成績"
+
+msgid "tst_pass_best_pass_desc"
+msgstr "受験者のベスト解答したテストが採点されます。テスト受験が複数回できるようになっているものへのみ適用されきます。"
+
+msgid "tst_pass_deletion"
+msgstr "前回の正解"
+
+msgid "tst_pass_deletion_allowed"
+msgstr "前回正解の削除を許可"
+
+msgid "tst_pass_details"
+msgstr "試験詳細"
+
+msgid "tst_pass_details_header_lo_initial"
+msgstr "学習目標に対する最初のテスト結果<br />%s - %s"
+
+msgid "tst_pass_details_header_lo_qualifying"
+msgstr "学習目標に対する資格テスト結果<br />%s - %s"
+
+msgid "tst_pass_details_overview_table_title"
+msgstr "テスト%sの詳細全体像"
+
+msgid "tst_pass_finished"
+msgstr "テスト受験終了"
+
+msgid "tst_pass_finished_on"
+msgstr "テスト受験終了日"
+
+msgid "tst_pass_last_pass"
+msgstr "最終試験成績"
+
+msgid "tst_pass_last_pass_desc"
+msgstr "受験者の最終合格が採点されます。"
+
+msgid "tst_pass_overview_for_participant"
+msgstr "受験者の受験回数:%s"
+
+msgid "tst_pass_overview_header_lo_initial_all_objectives"
+msgstr "最初のテスト結果<br />コース%内の学習目標用"
+
+msgid "tst_pass_overview_header_lo_initial_per_objective"
+msgstr "最初のテスト結果<br />コース%内の学習目標%用"
+
+msgid "tst_pass_overview_header_lo_qualifying_all_objectives"
+msgstr "資格試験結果<br />コース%s内の学習目標用"
+
+msgid "tst_pass_overview_header_lo_qualifying_per_objective"
+msgstr "資格試験結果<br />コース%内の学習目標%用"
+
+msgid "tst_pass_scoring"
+msgstr "複数試験成績"
+
+msgid "tst_pass_scoring_best"
+msgstr "受験最高点"
+
+msgid "tst_pass_scoring_last"
+msgstr "最終受験"
+
+msgid "tst_pass_waiting_enabled"
+msgstr "受験の間の強制待ち時間"
+
+msgid "tst_pass_waiting_info"
+msgstr "このオプションでは追加受験の開始は定義の時間に関係する最後に終了した受験に関した項目がなくなるまで開始できません。"
+
+msgid "tst_pass_waiting_time"
+msgstr "待ち時間"
+
+msgid "tst_passed"
+msgstr "Passed"
+
+msgid "tst_passes"
+msgstr "試験"
+
+msgid "tst_password"
+msgstr "テストのパスワード"
+
+msgid "tst_password_details"
+msgstr "テストのパスワードを決めると、テストにアクセスする全ユーザはテスト開始するためにこのパスワードの入力が必要です。"
+
+msgid "tst_password_enter"
+msgstr "パスワードを入力"
+
+msgid "tst_password_entered_wrong_password"
+msgstr "入力したパスワードが間違っているのでテストを開始できません!"
+
+msgid "tst_password_form"
+msgstr "テストパスワードを入力"
+
+msgid "tst_password_introduction"
+msgstr "テストのパスワードがないとテストにはアクセスできません。テストを開始するためにテストのパスワードを入力してください。"
+
+msgid "tst_percent_solved"
+msgstr "正解率"
+
+msgid "tst_player_answer_saved_and_locked"
+msgstr "回答は保存されてロックされ変更できなくなります。"
+
+msgid "tst_please_select_source_pool"
+msgstr "問題集を選択してください。"
+
+msgid "tst_please_select_target_for_pool_derives"
+msgstr "目標のコンテナを選択してください。"
+
+msgid "tst_position"
+msgstr "問題 %s の%s"
+
+msgid "tst_position_without_total"
+msgstr "問題 %s"
+
+msgid "tst_postpone"
+msgstr "問題を後回し"
+
+msgid "tst_postpone_off"
+msgstr "未回答問題の位置に留まる"
+
+msgid "tst_postpone_off_desc"
+msgstr "ユーザが見ただけで回答しないで飛ばした問題は、テスト内の位置に留まりテスト最後の待ち行列にはなりません。"
+
+msgid "tst_postpone_on"
+msgstr "未回答問題を待ち行列にする"
+
+msgid "tst_postpone_on_desc"
+msgstr "ユーザが見ただけで回答しないで飛ばした問題は、テスト最後に自動再表示するように待ち行列になります。"
+
+msgid "tst_presentation_properties"
+msgstr "テスト管理:問題の振る舞い"
+
+msgid "tst_presentation_settings_section"
+msgstr "Presentation"
+
+msgid "tst_previous_access_code_not_available"
+msgstr "以前のコードは見当たりません!"
+
+msgid "tst_proceed"
+msgstr "Proceed"
+
+msgid "tst_processing_time"
+msgstr "制限時間"
+
+msgid "tst_processing_time_desc"
+msgstr "受験者は決められた時間内でテスト受験ができます。時間はユーザが最初にテスト開始した時間からカウントされます。テスト保留時間のカウント停止はしません。"
+
+msgid "tst_processing_time_duration"
+msgstr "最長テスト時間"
+
+msgid "tst_processing_time_duration_desc"
+msgstr "テスト受験最延長時間"
+
+msgid "tst_qbt_filter_question_title"
+msgstr "問題タイトル"
+
+msgid "tst_qst_added_to_pool_p"
+msgstr "選択の問題集へ質問は正しく追加されました。"
+
+msgid "tst_qst_added_to_pool_s"
+msgstr "選択の問題集へ質問は正しく追加されました。"
+
+msgid "tst_qst_order"
+msgstr "順番"
+
+msgid "tst_qst_skl_cfg_in_pool_hint_dynquestset"
+msgstr "モード\"%s\"テスト用の能力-問題-割当ては問題集に相応して処理されます:<br />%s<br /><br />スレッショールド値の構成はテス内のここで処理されます。"
+
+msgid "tst_qst_skl_cfg_in_pool_hint_rndquestset"
+msgstr "モード\"%s\"テスト用の能力-問題-割当ては問題集に相応して処理されます:<br />%s<br /><br />スレッショールド値の構成はテス内のここで処理されます。"
+
+msgid "tst_question"
+msgstr "問題"
+
+msgid "tst_question_amount"
+msgstr "問題数"
+
+msgid "tst_question_answer_status"
+msgstr "解答ステータス"
+
+msgid "tst_question_answer_status_all_non_correct"
+msgstr "全問題(正解の解答を除く)"
+
+msgid "tst_question_answer_status_non_answered"
+msgstr "未解答問題"
+
+msgid "tst_question_answer_status_wrong_answered"
+msgstr "間違い問題"
+
+msgid "tst_question_feedback_back_to_feedback_form"
+msgstr "問題の呼び出しに戻る"
+
+msgid "tst_question_feedback_edit_page"
+msgstr "コンテンツ編集"
+
+msgid "tst_question_mark"
+msgstr "この問題をマーク"
+
+msgid "tst_question_marked"
+msgstr "問題にマークしました"
+
+msgid "tst_question_marker"
+msgstr "マーカー"
+
+msgid "tst_question_no"
+msgstr "順番"
+
+msgid "tst_question_not_from_pool_info"
+msgstr "問題集なし"
+
+msgid "tst_question_not_marked"
+msgstr "問題はマークされません"
+
+msgid "tst_question_offer"
+msgstr "このサンプルでよろしいですか、それとも他にしますか?"
+
+msgid "tst_question_set_type"
+msgstr "テスト問題選択"
+
+msgid "tst_question_set_type_dynamic"
+msgstr "問題キュー - 問題集の全問題"
+
+msgid "tst_question_set_type_dynamic_desc"
+msgstr "受験者は一個の問題集から解答します。不正解の解答は再度表示されます。問題はランニングテスト中に追加編集ができます。"
+
+msgid "tst_question_set_type_fixed"
+msgstr "問題固定のテスト"
+
+msgid "tst_question_set_type_fixed_desc"
+msgstr "全受験者には同じ問題が設定されます。"
+
+msgid "tst_question_set_type_random"
+msgstr "ランダム設定問題"
+
+msgid "tst_question_set_type_random_desc"
+msgstr "受験者ごとに別々の問題が設定されます。問題は一つまたは複数の問題集からランダムに抽出されます。"
+
+msgid "tst_question_title"
+msgstr "問題タイトル"
+
+msgid "tst_question_type"
+msgstr "問題タイプ"
+
+msgid "tst_questions_inserted"
+msgstr "問題が挿入されました!"
+
+msgid "tst_questions_removed"
+msgstr "問題が削除されました!"
+
+msgid "tst_random_nr_of_questions"
+msgstr "問題数は?"
+
+msgid "tst_random_question_set_source_questionpool_summary_string"
+msgstr "%s (Path: %s) [%s Questions]"
+
+msgid "tst_random_select_questionpool"
+msgstr "問題抽出用に問題集を選択"
+
+msgid "tst_reached_points"
+msgstr "得点"
+
+msgid "tst_reached_points_of_max"
+msgstr "%s of %s"
+
+msgid "tst_remove_mark"
+msgstr "マークを外す"
+
+msgid "tst_remove_question"
+msgstr "テストから次の問題を本当に削除しますか?"
+
+msgid "tst_remove_questions"
+msgstr "本当にテストから次の問題を削除しますか?"
+
+msgid "tst_remove_questions_and_results"
+msgstr "テストはすでにユーザ %s によって実行されました。テストから問題を削除すると、ユーザの全てのテスト結果を削除します。本当にテストから次の問題を削除しますか?"
+
+msgid "tst_report_after_date"
+msgstr "採点報告日設定後"
+
+msgid "tst_report_after_first_question"
+msgstr "テストが開始されたらテスト結果を提示する"
+
+msgid "tst_report_after_passed"
+msgstr "テスト完了後に結果を提示"
+
+msgid "tst_report_after_test"
+msgstr "テスト終了時にテスト結果を表示"
+
+msgid "tst_report_never"
+msgstr "利用可能なテスト結果がありません"
+
+msgid "tst_reporting_date"
+msgstr "日付"
+
+msgid "tst_res_jump_to_participant_btn"
+msgstr "ジャンプ"
+
+msgid "tst_res_jump_to_participant_hint_opt"
+msgstr "--受験者へジャンプ--"
+
+msgid "tst_res_lo_objectives_header"
+msgstr "関連する学習目標"
+
+msgid "tst_res_lo_try_header"
+msgstr "試み"
+
+msgid "tst_res_lo_try_n"
+msgstr "試み %s"
+
+msgid "tst_res_tab_msg_no_lp_access"
+msgstr "テスト結果の閲覧できないので現在学習進捗へのアクセスはできません。"
+
+msgid "tst_res_tab_msg_res_after_date"
+msgstr "テスト結果は次の日付でここへ提示されます+F1961: %s"
+
+msgid "tst_res_tab_msg_res_after_date_no_res"
+msgstr "テストを受験するとテスト結果は次の日付でここへ提示されます: %s"
+
+msgid "tst_res_tab_msg_res_after_finish_test"
+msgstr "終了後にテスト結果はここへ提示されます。"
+
+msgid "tst_res_tab_msg_res_after_taking_test"
+msgstr "テスト受験後にテスト結果はここへ提示されます。"
+
+msgid "tst_res_tab_msg_res_after_test_passed"
+msgstr "テスト実施後テスト結果はここへ提示されます。"
+
+msgid "tst_reset_processing_time"
+msgstr "試験毎に時間をリセット"
+
+msgid "tst_reset_processing_time_desc"
+msgstr "受験時間はテストごとに最長に定義してリセットされます。この設定は有効になるように複数試験に要求されます。"
+
+msgid "tst_result"
+msgstr "テスト結果"
+
+msgid "tst_result_pass"
+msgstr "テスト合格結果"
+
+msgid "tst_result_user_name"
+msgstr "%sのテスト結果"
+
+msgid "tst_result_user_name_pass"
+msgstr "%s中%sの受験結果"
+
+msgid "tst_results"
+msgstr "テスト結果"
+
+msgid "tst_results_access_always"
+msgstr "すぐに"
+
+msgid "tst_results_access_always_desc"
+msgstr "受験者は受験開始後とテスト受験中はすぐに\"Info\"タブの結果へアクセスできます。さらにテスト終了後すぐにILIASはテスト結果を表示します。"
+
+msgid "tst_results_access_date"
+msgstr "日付"
+
+msgid "tst_results_access_date_desc"
+msgstr "受験者は決められた日以降\"Info\"タブのテスト結果へアクセスできます。"
+
+msgid "tst_results_access_enabled"
+msgstr "テスト結果へアクセス"
+
+msgid "tst_results_access_enabled_desc"
+msgstr "テスト結果を表示ボタンは\"Info\"タブの受験者へ表示されます。このオプションと以降のセクショはアクセスされる際に情報がレポートへ含められて続けて構成されます。"
+
+msgid "tst_results_access_finished"
+msgstr "テスト終了後"
+
+msgid "tst_results_access_finished_desc"
+msgstr "ILIASは試験終了後に結果を表示します。テスト終了後受験者は\"info\"タブのテスト結果へいつでもアクセスできます。"
+
+msgid "tst_results_access_passed"
+msgstr "テスト終了後"
+
+msgid "tst_results_access_passed_desc"
+msgstr "受験者がテスト終了後にILIASはテスト結果を表示します。テスト終了後に受験者は'結果タブ'内のテスト結果へいつでもアクセスできます。"
+
+msgid "tst_results_access_setting"
+msgstr "時点"
+
+msgid "tst_results_aggregated"
+msgstr "テスト結果総括"
+
+msgid "tst_results_back_introduction"
+msgstr "Introductionへ戻る"
+
+msgid "tst_results_back_overview"
+msgstr "結果全般へ戻る"
+
+msgid "tst_results_details_options"
+msgstr "テスト結果へ含めるべき詳細"
+
+msgid "tst_results_gamification"
+msgstr "ゲーム化"
+
+msgid "tst_results_grading_opt_show_details"
+msgstr "テスト結果詳細を表示"
+
+msgid "tst_results_grading_opt_show_details_desc"
+msgstr "テスト結果サマリーに加えて\"詳細結果\" アクションが提供されます。\"詳細テスト結果\" テーブルはタイトルと各回の達成点を表示します。テーブルのコンテンツは\"今後のオプション\"セクション内の将来捕捉になる可能性があります。"
+
+msgid "tst_results_grading_opt_show_mark"
+msgstr "結果マークのみ表示"
+
+msgid "tst_results_grading_opt_show_mark_desc"
+msgstr "結果マークはテスト結果サマリへ付加されます。受験者は”Info\"タブのテスト結果へアクセスできます。"
+
+msgid "tst_results_grading_opt_show_status"
+msgstr "合格/\"不合格\"ステータスを表示"
+
+msgid "tst_results_grading_opt_show_status_desc"
+msgstr "合格/\"不合格\"ステータスの情報はテスト結果サマリへ付加されます。受験者は\"Info\"タブのテスト結果へアクセスできます。<br />"
+
+msgid "tst_results_overview"
+msgstr "テスト結果全般"
+
+msgid "tst_results_print_best_solution"
+msgstr "模範解答"
+
+msgid "tst_results_print_best_solution_info"
+msgstr "各問題用に加えて考えられる模範解答が表示されます。"
+
+msgid "tst_resume_test"
+msgstr "テストを再開"
+
+msgid "tst_revert_changes"
+msgstr "編集をUndo"
+
+msgid "tst_rnd_quest_cfg_tab_general"
+msgstr "全般構成"
+
+msgid "tst_rnd_quest_cfg_tab_pool"
+msgstr "問題集ソース"
+
+msgid "tst_rnd_quest_set_cfg_general_form"
+msgstr "ランダム問題選択構成"
+
+msgid "tst_rnd_quest_set_cfg_pool_form"
+msgstr "問題集ソース定義"
+
+msgid "tst_rnd_quest_set_tb_add_pool_btn"
+msgstr "新規問題集ソース定義を追加"
+
+msgid "tst_save_and_create_new_rule"
+msgstr "保存して新規ルールを追加"
+
+msgid "tst_save_and_proceed"
+msgstr "保存して進む"
+
+msgid "tst_save_comp_points"
+msgstr "能力点を保存"
+
+msgid "tst_save_manscoring_failed"
+msgstr "テスト%sの手動採点保存は失敗しました。"
+
+msgid "tst_save_thresholds"
+msgstr "しきい値を保存"
+
+msgid "tst_saved_manscoring_by_question_successfully"
+msgstr "テスト%sの問題%sの手動採点は正しく保存されました。"
+
+msgid "tst_saved_manscoring_successfully"
+msgstr "テスト%sの手動採点は正しく保存されました。"
+
+msgid "tst_score_cut_question"
+msgstr "各減点問題は\"0点\"に設定"
+
+msgid "tst_score_cut_question_desc"
+msgstr "個別回答オプションの割当てに負の点数がある問題は、受験者の結果は負になる可能性があります。この設定では問題に対してどの負の結果も０点に設定される事を意味します。"
+
+msgid "tst_score_cut_test"
+msgstr "テスト全体に対して負の結果を\"0点\"に設定します。"
+
+msgid "tst_score_cut_test_desc"
+msgstr "受験者が負の結果になる可能性のある問題があります。全ての問題の点数は累積されます。テストの全体結果が負の場合に限りこの全体結果は0点に設定されます。この設定では負の点数が多くの重みにつながります。"
+
+msgid "tst_score_cutting"
+msgstr "負の点数"
+
+msgid "tst_search_users"
+msgstr "受験者を検索"
+
+msgid "tst_select_questionpool"
+msgstr "作成問題を保存する問題集を選択してください"
+
+msgid "tst_selected_user_data_deleted"
+msgstr "選択したユーザのテストデータは正しく削除されました"
+
+msgid "tst_sequence_properties"
+msgstr "テスト管理:受験者が利用可能な機能"
+
+msgid "tst_set_offline_due_to_switched_question_set_type_setting"
+msgstr "テストモード設定が変更されたためテストはオフラインになっています。テストを再度オンラインにする前に問題に関係する新規のテストモード構成を設定する必要があります。"
+
+msgid "tst_settings_conflict_postpone_and_lock"
+msgstr "未回答問題は”次の問題へ後回し回答ロック\"と一緒にキューに入れる事はできません。"
+
+msgid "tst_settings_conflict_shuffle_and_lock"
+msgstr "「次の質問に進んだ後に回答をロックする」と「質問をシャッフルする」は一緒に使用できません。"
+
+msgid "tst_settings_form_reload_needed"
+msgstr "利用可能な設定は、参加者のすべての結果の削除により変更されたため、データ損失を避けるためにフォームを再読み込みする必要がありました"
+
+msgid "tst_settings_header_additional"
+msgstr "追加機能"
+
+msgid "tst_settings_header_execution"
+msgstr "テスト管理: アクセス"
+
+msgid "tst_settings_header_intro"
+msgstr "テスト開始前情報"
+
+msgid "tst_settings_header_test_run"
+msgstr "テスト管理: テスト中"
+
+msgid "tst_settings_not_found"
+msgstr "テスト設定がありません"
+
+msgid "tst_settings_not_found_msg"
+msgstr "テスト設定が見つかりませんでした。これは、移行ステップが欠落していることが原因かもしれません。システム管理者にお問い合わせください。"
+
+msgid "tst_show_answer_sheet"
+msgstr "全解答を表示"
+
+msgid "tst_show_cancel"
+msgstr "テスト中断オプションを表示"
+
+msgid "tst_show_cancel_description"
+msgstr "チェックするとテスト中断ボタンがテスト実行中表示されます。"
+
+msgid "tst_show_comp_results"
+msgstr "能力結果を表示"
+
+msgid "tst_show_results"
+msgstr "テスト結果を表示"
+
+msgid "tst_show_side_list"
+msgstr "脇に問題一覧を表示"
+
+msgid "tst_show_solution_answers_only"
+msgstr "結果印刷表示(解答のみ)"
+
+msgid "tst_show_solution_answers_only_desc"
+msgstr "選択すると\"コンテンツ編集\"タブを使って問題の周りに配置したILIASコンテンツのページは印刷には表示されません。少し紙面スペースを保存したい場合はこのオプションを選択します。"
+
+msgid "tst_show_solution_details_singlepage"
+msgstr "単一ページ上の採点済解答"
+
+msgid "tst_show_solution_details_singlepage_desc"
+msgstr "回答が正解で何点かを確認したければ、受験者は各問題個々にアクセスできます。"
+
+msgid "tst_show_solution_feedback"
+msgstr "フィードバック"
+
+msgid "tst_show_solution_feedback_desc"
+msgstr "受験者の解答に関連したフィードバックが表示されます。\"受験者の解答点数\"が有効でかつフィードバックが最初の場所内の問題に沿って準備された場合のみ有効になることに留意願います。"
+
+msgid "tst_show_solution_printview"
+msgstr "追加の印刷用の\"解答リスト\""
+
+msgid "tst_show_solution_printview_desc"
+msgstr "対象の受験者の解答付問題の概要が作成されます。このリストは\"Info\"タブへテスト終了時の最終提出前に提示されます。"
+
+msgid "tst_show_solution_signature"
+msgstr "署名記入欄"
+
+msgid "tst_show_solution_signature_desc"
+msgstr "準備した印刷バージョンは受験者用の署名記入欄に含まれます。この機能を使用するには\"問題ごとに達成度を印刷\"を有効にしてください。"
+
+msgid "tst_show_solution_suggested"
+msgstr "要約用のコンテンツ"
+
+msgid "tst_show_solution_suggested_desc"
+msgstr "要約用のコンテンツが最初の場所内のテスト問題へ割り当てられているとコンテンツは\"問題ごとの達成点数\"テーブル内に表示されます。受験者は補修学習用の機会を得ます。このオプションを有効にするには\"テスト結果へアクセス\"配下の\"問題ごとの達成点数\"を有効にする必要があります。"
+
+msgid "tst_show_summary"
+msgstr "問題リストを表示"
+
+msgid "tst_show_summary_description"
+msgstr "受験者は実際の問題の左側のテスト問題のリストへ切替できます。さらに\"問題リスト\"へ表示されます。その画面上で問題の全般ステータスが表示されます。"
+
+msgid "tst_show_toplist"
+msgstr "順位を表示"
+
+msgid "tst_shuffle_questions"
+msgstr "問題をシャッフル"
+
+msgid "tst_shuffle_questions_description"
+msgstr "各受験者と実施済テストの問題シーケンスをシャッフル"
+
+msgid "tst_signature"
+msgstr "署名"
+
+msgid "tst_single_answer_details"
+msgstr "単一解答を表示"
+
+msgid "tst_skill_triggerings_num_req_answers"
+msgstr "能力トリガー用の回答数が必須です。"
+
+msgid "tst_skill_triggerings_num_req_answers_desc"
+msgstr "この前に能力はトリガーされなく、問題回答数は能力レベルの計算へ寄与します。"
+
+msgid "tst_skill_triggerings_num_req_answers_not_reached_warn"
+msgstr "これにより処理される能力の一つはこのテストは、必須問題最小数でトリガーされません。<br />必須問題数は: %sです。"
+
+msgid "tst_skl_level_thresholds_link"
+msgstr "能力-スレッショールドを構成"
+
+msgid "tst_skl_level_thresholds_missing"
+msgstr "関連する能力のスレッショールドがありません!"
+
+msgid "tst_skl_sub_tab_thresholds"
+msgstr "能力しきい値"
+
+msgid "tst_sol_comp_expressions"
+msgstr "能力しきい値"
+
+msgid "tst_solution_compare_cfg"
+msgstr "正解比較用の構成"
+
+msgid "tst_source_question_pool"
+msgstr "問題集ソース"
+
+msgid "tst_src_quest_pool_def_list_table"
+msgstr "問題集ソースの定義"
+
+msgid "tst_start_dyn_test_with_cur_quest_sel"
+msgstr "現在の問題選択でテストを開始"
+
+msgid "tst_start_new_test_pass"
+msgstr "新しい試験を開始"
+
+msgid "tst_start_test"
+msgstr "テストを開始"
+
+msgid "tst_starting_time"
+msgstr "開始時間"
+
+msgid "tst_starting_time_desc"
+msgstr "開始ボタンのクリックでテストを開始した時点以降受験者は問題へ解答することができます。"
+
+msgid "tst_stat_result_atimeofwork"
+msgstr "平均解答時間"
+
+msgid "tst_stat_result_firstvisit"
+msgstr "初回訪問"
+
+msgid "tst_stat_result_lastvisit"
+msgstr "最終訪問"
+
+msgid "tst_stat_result_mark_median"
+msgstr "Medianマーク"
+
+msgid "tst_stat_result_median"
+msgstr "点数結果Median"
+
+msgid "tst_stat_result_pworkedthrough"
+msgstr "終了済の総作業負荷率"
+
+msgid "tst_stat_result_qmax"
+msgstr "問題総数"
+
+msgid "tst_stat_result_qworkedthrough"
+msgstr "解答済みの問題数"
+
+msgid "tst_stat_result_rank_median"
+msgstr "Medianランク"
+
+msgid "tst_stat_result_rank_participant"
+msgstr "受験者順位"
+
+msgid "tst_stat_result_resultsmarks"
+msgstr "テスト結果マーク"
+
+msgid "tst_stat_result_resultspoints"
+msgstr "テスト点数結果"
+
+msgid "tst_stat_result_timeontask"
+msgstr "タスクの時間"
+
+msgid "tst_stat_result_total_participants"
+msgstr "受験者総数"
+
+msgid "tst_stat_result_total_timeontask"
+msgstr "作業総時間（全試行）"
+
+msgid "tst_submit_results"
+msgstr "はい、提出を確認します。"
+
+msgid "tst_tab_competences"
+msgstr "能力"
+
+msgid "tst_tab_results_objective_oriented"
+msgstr "学習目標結果"
+
+msgid "tst_tab_results_pass_oriented"
+msgstr "試み結果"
+
+msgid "tst_tbl_col_answered_questions"
+msgstr "回答"
+
+msgid "tst_tbl_col_final_mark"
+msgstr "マーク"
+
+msgid "tst_tbl_col_finished_passes"
+msgstr "終了した通過数"
+
+msgid "tst_tbl_col_finished_passes_num_of"
+msgstr "割当てのプロパティを表示"
+
+msgid "tst_tbl_col_last_scored_access"
+msgstr "最終採点付きのアクセス"
+
+msgid "tst_tbl_col_pass_finished"
+msgstr "終了済回数"
+
+msgid "tst_tbl_col_passed_status"
+msgstr "評価"
+
+msgid "tst_tbl_col_percent_result"
+msgstr "回答率"
+
+msgid "tst_tbl_col_reached_points"
+msgstr "達成点"
+
+msgid "tst_tbl_col_scored_pass"
+msgstr "合格回数"
+
+msgid "tst_tbl_col_started_passes"
+msgstr "開始済回数"
+
+msgid "tst_tbl_invited_users"
+msgstr "手動で選択の受験者"
+
+msgid "tst_tbl_participants"
+msgstr "受験者"
+
+msgid "tst_tbl_results_grades"
+msgstr "結果と評価"
+
+msgid "tst_test_result"
+msgstr "テスト結果"
+
+msgid "tst_text_count_system"
+msgstr "採点システム"
+
+msgid "tst_threshold"
+msgstr "しきい値"
+
+msgid "tst_time_already_spent"
+msgstr "テストを %s に開始しました。 制限時間は %s です。"
+
+msgid "tst_time_already_spent_left"
+msgstr " %s 残っています。"
+
+msgid "tst_time_limit_message"
+msgstr "全問題の回答には <b>%s 分</b> あります。"
+
+msgid "tst_title_output"
+msgstr "問題タイトルを表示"
+
+msgid "tst_title_output_full"
+msgstr "問題タイトルと配点"
+
+msgid "tst_title_output_hide_points"
+msgstr "問題タイトルのみ"
+
+msgid "tst_title_output_info"
+msgstr "テストを受けている間およびテスト試行の概要内（下記参照）で、参加者に表示される質問タイトルおよび/または利用可能なポイントの組み合わせを設定します。"
+
+msgid "tst_title_output_no_title"
+msgstr "問題タイトルも配点どちらも"
+
+msgid "tst_title_output_only_points"
+msgstr "利用可能な点数のみ"
+
+msgid "tst_trigger_result_refreshing"
+msgstr "結果は再計算される必要があります。しばらく時間がかかります。"
+
+msgid "tst_type"
+msgstr "テストタイプ"
+
+msgid "tst_unchanged_answer_is_correct"
+msgstr "プリセット回答は正しい"
+
+msgid "tst_unchanged_order_is_correct"
+msgstr "プリセット順番は正しい"
+
+msgid "tst_use_previous_answers"
+msgstr "前回の回答を使用"
+
+msgid "tst_use_previous_answers_description"
+msgstr "参加者には前回使用の回答が表示されます。このオプションは登録開始前にInfoタブ上に参加者個々で有効する必要があります。"
+
+msgid "tst_user_finished_test"
+msgstr "終了したテスト(%s) を使用"
+
+msgid "tst_view_competence_assign"
+msgstr "割り当てプロパティを表示"
+
+msgid "tst_virtual_pass_header_lo_initial"
+msgstr "学習目標に対する最初のテスト結果<br />%s"
+
+msgid "tst_virtual_pass_header_lo_qualifying"
+msgstr "学習目標に対する資格テスト結果<br />%s"
+
+msgid "tst_wf_info_answer_adopted_from_prev_pass"
+msgstr "前に試みた回答が適合されました。"
+
+msgid "tst_wf_info_answer_not_adopted"
+msgstr "以前適合を試みた回答がありませんので学習目標を下方修正するにはこの問題を完了する必要があります。"
+
+msgid "tst_wf_info_optional_question"
+msgstr "この問題はすでにパスした学習目標に関係します。"
+
+msgid "tst_your_answer_was"
+msgstr "解答"
+
+msgid "tst_your_answers"
+msgstr "次の問題に対する答案があります。"
+
+msgid "un_add_category"
+msgstr "カテゴリを追加"
+
+msgid "un_add_unit"
+msgstr "ユニットを追加"
+
+msgid "un_cat_deletion_errors_f"
+msgstr "一部のカテゴリを削除できません:"
+
+msgid "un_cat_deletion_errors_f_s"
+msgstr "カテゴリを削除できません。"
+
+msgid "un_cat_deletion_errors_p"
+msgstr "一部のカテゴリを削除できませんでした:"
+
+msgid "un_cat_deletion_errors_p_s"
+msgstr "カテゴリを削除できませんでした:"
+
+msgid "un_category_not_exist"
+msgstr "要求のカテゴリは存在しません。"
+
+msgid "un_deleted_categories"
+msgstr "削除は正しく完了しました"
+
+msgid "un_deleted_categories_s"
+msgstr "削除は正しく完了しました"
+
+msgid "un_deleted_units"
+msgstr "削除は正しく完了しました"
+
+msgid "un_deleted_units_s"
+msgstr "削除は正しく完了しました"
+
+msgid "un_global_units"
+msgstr "グローバルユニット"
+
+msgid "un_local_units"
+msgstr "ローカルユニット"
+
+msgid "un_save_order"
+msgstr "順番を保存"
+
+msgid "un_sel_cat_sel_unit"
+msgstr "選択のカテゴリ: %s, 選択のユニット: %s"
+
+msgid "un_sequence"
+msgstr "シーケンス"
+
+msgid "un_show_units"
+msgstr "ユニットを表示"
+
+msgid "un_sure_delete_categories"
+msgstr "選択のカテゴリを本当に削除しますか?"
+
+msgid "un_sure_delete_categories_s"
+msgstr "選択のカテゴリを本当に削除しますか?"
+
+msgid "un_sure_delete_units"
+msgstr "選択のユニットを本当に削除しますか?"
+
+msgid "un_sure_delete_units_s"
+msgstr "選択のユニットを本当に削除しますか?"
+
+msgid "un_unit_deletion_errors_f"
+msgstr "一部のユニットを削除できません:"
+
+msgid "un_unit_deletion_errors_f_s"
+msgstr "ユニットを削除できません:"
+
+msgid "un_unit_deletion_errors_p"
+msgstr "一部のユニットを削除できませんでした:"
+
+msgid "un_unit_deletion_errors_p_s"
+msgstr "ユニットを削除できませんでした:"
+
+msgid "un_units_of_category_x"
+msgstr "カテゴリのユニット: %s"
+
+msgid "unfinished_passes"
+msgstr "未終了の受験者"
+
+msgid "unit"
+msgstr "ユニット"
+
+msgid "unit_placeholder"
+msgstr "** 新規ユニット **"
+
+msgid "units"
+msgstr "ユニット"
+
+msgid "unlimited"
+msgstr "無期限"
+
+msgid "unlock"
+msgstr "解除"
+
+msgid "updated"
+msgstr "更新済"
+
+msgid "uploaded_material"
+msgstr "アップロードされた教材"
+
+msgid "use_previous_solution"
+msgstr "前回の解答を使用する"
+
+msgid "use_previous_solution_advice"
+msgstr "表示されている回答は前回のものです。何も変更しないでそのまま利用したい場合は、その解答の採用を必ず確認する必要があります。"
+
+msgid "user_has_finished_a_test"
+msgstr "受験者はテストを終了しました。"
+
+msgid "user_ip_outside_range"
+msgstr "このIPからテストへのアクセスを許可されていません。"
+
+msgid "user_not_invited"
+msgstr "あなたはこのテストの受験対象者ではありません。"
+
+msgid "usr_manscoring_complete"
+msgstr "記録済'としてマーク"
+
+msgid "value_between_x_and_y"
+msgstr "値は %s と %s の間になります"
+
+msgid "values"
+msgstr "値"
+
+msgid "variable"
+msgstr "変数"
+
+msgid "variable_x"
+msgstr "変数 %s"
+
+msgid "variables"
+msgstr "変数"
+
+msgid "wait_for_next_pass_hint_msg"
+msgstr "追加受験は可能です: %s"
+
+msgid "warning_question_not_complete"
+msgstr "問題は完了していません!"
+
+msgid "width"
+msgstr "幅"
+
+msgid "with_solution"
+msgstr "解答ありの受験者"
+
+msgid "with_solutions_participants"
+msgstr "解答ありの受験者"
+
+msgid "without_solution"
+msgstr "解答なしの受験者"
+
+msgid "without_solutions_participants"
+msgstr "解答なしの受験者"
+
+msgid "worked_through"
+msgstr "答案済"
+
+msgid "working_time"
+msgstr "答案時間"
+
+msgid "you_received_a_of_b_points"
+msgstr "ポイントは配点%s中の%s です。"
+
+msgid "your_results"
+msgstr "自分の結果"

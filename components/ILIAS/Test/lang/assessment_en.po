@@ -1,0 +1,4809 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: assessment\n"
+
+msgid "activate_logging"
+msgstr "Activate Test and Assessment Logging"
+
+msgid "activate_manual_scoring"
+msgstr "Enable Scoring"
+
+msgid "activate_manual_scoring_desc"
+msgstr "Enables Scoring for all question types."
+
+msgid "addSuggestedSolution"
+msgstr "Add Content for Recapitulation"
+
+msgid "add_answers"
+msgstr "Add answers"
+
+msgid "add_circle"
+msgstr "Add Circular Area"
+
+msgid "add_gap"
+msgstr "Add Gap Text"
+
+msgid "add_imagemap"
+msgstr "Import Image Map"
+
+msgid "add_poly"
+msgstr "Add Polygonal Area"
+
+msgid "add_rect"
+msgstr "Add Rectangular Area"
+
+msgid "add_users"
+msgstr "Add Users"
+
+msgid "additional_rating_info"
+msgstr "Please note that the values given here are expressed as percentages and these must add up to 100."
+
+msgid "advanced_rating"
+msgstr "Advanced Rating"
+
+msgid "advanced_rating_info"
+msgstr "The advanced rating is only available if a unit is assigned to the result. Further rating settings are displayed after saving the specified units."
+
+msgid "all_available_question_pools"
+msgstr "All available question pools"
+
+msgid "all_participants"
+msgstr "All participants"
+
+msgid "allow_images"
+msgstr "Image Support for Answers"
+
+msgid "allowedextensions"
+msgstr "Permitted File Types"
+
+msgid "allowedextensions_info"
+msgstr "Enter a comma separated list of allowed file extensions if you want to restrict the upload to specific file types (e.g. docx, xlsx, odt)."
+
+msgid "already_added_extra_time"
+msgstr "already added: %s min"
+
+msgid "analyze_errortext"
+msgstr "Analyse Error Text"
+
+msgid "answer"
+msgstr "Answer"
+
+msgid "answer_characters"
+msgstr " characters allowed, entered number of characters:"
+
+msgid "answer_image"
+msgstr "Answer Image"
+
+msgid "answer_is_not_correct_but_positive"
+msgstr "You've got points for your solution but it’s not the best solution"
+
+msgid "answer_is_right"
+msgstr "Your solution is correct"
+
+msgid "answer_is_wrong"
+msgstr "Your solution is wrong"
+
+msgid "answer_of"
+msgstr "Answer of"
+
+msgid "answer_options"
+msgstr "Answer Options:"
+
+msgid "answer_question"
+msgstr "Answer Question"
+
+msgid "answer_text"
+msgstr "Answer Text"
+
+msgid "answer_types"
+msgstr "Editor for Answers"
+
+msgid "answered"
+msgstr "Answered"
+
+msgid "answers_multiline"
+msgstr "Multi Line Answers"
+
+msgid "answers_of"
+msgstr "Answers of:"
+
+msgid "answers_select"
+msgstr "Select"
+
+msgid "answers_singleline"
+msgstr "Single Line Answers"
+
+msgid "answers_text_box"
+msgstr "Text"
+
+msgid "applet_attributes"
+msgstr "Applet Attributes"
+
+msgid "applet_parameter"
+msgstr "Parameter"
+
+msgid "applet_parameters"
+msgstr "Applet Parameters"
+
+msgid "apply_def_settings_to_tst"
+msgstr "Apply Settings to Test"
+
+msgid "assClozeTest"
+msgstr "Cloze Question"
+
+msgid "assErrorText"
+msgstr "Error Text"
+
+msgid "assFileUpload"
+msgstr "File Upload Question"
+
+msgid "assFlashQuestion"
+msgstr "Flash Question"
+
+msgid "assFormulaQuestion"
+msgstr "Formula Question"
+
+msgid "assImagemapQuestion"
+msgstr "Hot Spot / Image Map Question"
+
+msgid "assKprimChoice"
+msgstr "Multiple Choice Question (Kprim Answers)"
+
+msgid "assLongMenu"
+msgstr "Long Menu"
+
+msgid "assMatchingQuestion"
+msgstr "Matching Question"
+
+msgid "assMultipleChoice"
+msgstr "Multiple Choice Question (Multiple Answers)"
+
+msgid "assNumeric"
+msgstr "Numeric Question"
+
+msgid "assOrderingHorizontal"
+msgstr "Ordering Question (Horizontal)"
+
+msgid "assOrderingQuestion"
+msgstr "Ordering Question (Vertical)"
+
+msgid "assQuestions"
+msgstr "Questions"
+
+msgid "assSingleChoice"
+msgstr "Multiple Choice Question (Single Answer)"
+
+msgid "assTextQuestion"
+msgstr "Essay Question"
+
+msgid "assTextSubset"
+msgstr "Text Subset Question"
+
+msgid "ass_cloze_fb_mode"
+msgstr "Feedback Mode"
+
+msgid "ass_cloze_fb_mode_gap_answ"
+msgstr "Answer specific Feedback"
+
+msgid "ass_cloze_fb_mode_gap_answ_info"
+msgstr "For every gap separate feedbacks can be configured for different answers."
+
+msgid "ass_cloze_fb_mode_gap_qst"
+msgstr "Feedback per Gap"
+
+msgid "ass_cloze_fb_mode_gap_qst_info"
+msgstr "For every gap a single feedback can be configured."
+
+msgid "ass_cloze_gap_fb_gap_label"
+msgstr "Gap %s: <i>%s</i>"
+
+msgid "ass_cloze_gap_fb_num_empty_label"
+msgstr "Gap %s - No Input"
+
+msgid "ass_cloze_gap_fb_num_rangehit_label"
+msgstr "Gap %s - Range Hit"
+
+msgid "ass_cloze_gap_fb_num_toohigh_label"
+msgstr "Gap %s - Value too High"
+
+msgid "ass_cloze_gap_fb_num_toolow_label"
+msgstr "Gap %s - Value too Low"
+
+msgid "ass_cloze_gap_fb_num_valuehit_label"
+msgstr "Gap %s - Value Hit"
+
+msgid "ass_cloze_gap_fb_sel_empty_label"
+msgstr "Gap %s - No Selection"
+
+msgid "ass_cloze_gap_fb_sel_opt_label"
+msgstr "Gap %s - Select Option: <i>%s</i>"
+
+msgid "ass_cloze_gap_fb_txt_empty_label"
+msgstr "Gap %s - No Input"
+
+msgid "ass_cloze_gap_fb_txt_match_label"
+msgstr "Gap %s - Given Answer: <i>%s</i>"
+
+msgid "ass_cloze_gap_fb_txt_nomatch_label"
+msgstr "Gap %s - Wrong Answer"
+
+msgid "ass_commented_questions_only"
+msgstr "Only Commented Questions"
+
+msgid "ass_comments"
+msgstr "Comments"
+
+msgid "ass_competence_respect_level_ordering"
+msgstr "Please note that the competence thresholds have to be set in an ascending order in accordance with the competence levels."
+
+msgid "ass_completion_by_submission"
+msgstr "Points Upon Submission"
+
+msgid "ass_completion_by_submission_info"
+msgstr "Automatically award the maximum points available for this question when a file is submitted. The score can be manually changed later. Changing this setting does not affect already submitted work."
+
+msgid "ass_create_export_file_with_results"
+msgstr "incl. Participant Results"
+
+msgid "ass_create_export_test_archive"
+msgstr "as Archive File"
+
+msgid "ass_create_question"
+msgstr "Create Question"
+
+msgid "ass_imap_hint"
+msgstr "Hint to be shown as Tooltip"
+
+msgid "ass_imap_map_file_not_readable"
+msgstr "The uploaded image map could not be read."
+
+msgid "ass_imap_no_map_found"
+msgstr "Could not find any form in the uploaded image map."
+
+msgid "ass_lac_expression"
+msgstr "Expression"
+
+msgid "ass_lac_show_legend_btn"
+msgstr "Show Legend"
+
+msgid "ass_lac_unable_to_parse_condition"
+msgstr "The condition \"%s\" can not be validated."
+
+msgid "ass_lac_validation_error"
+msgstr "Errors occured while validating the conditional expression(s)!"
+
+msgid "ass_location"
+msgstr "Location"
+
+msgid "ass_mc_sel_lim_exhausted_hint"
+msgstr "Please do not select more than %s of the %s possible answers!"
+
+msgid "ass_mc_sel_lim_hint"
+msgstr "Please select at most %s of the %s possible answers!"
+
+msgid "ass_mc_sel_lim_setting"
+msgstr "Answer Limit"
+
+msgid "ass_mc_sel_lim_setting_desc"
+msgstr "The maximum number of answers that can be chosen by a participant."
+
+msgid "ass_process_lock"
+msgstr "Use Locking Mechanism During Attempts"
+
+msgid "ass_process_lock_desc"
+msgstr "Use a locking mechanism during test attempts. If a locking mechanism is not used, this can lead to what is known as ‘race conditions’, which can in turn ultimately lead to inconsistent test results"
+
+msgid "ass_process_lock_mode"
+msgstr "Locking Mechanism Type"
+
+msgid "ass_process_lock_mode_db"
+msgstr "Database Table Locks"
+
+msgid "ass_process_lock_mode_db_desc"
+msgstr "This locking mechanism locks tables within the database. Concurrent processes for the same user or other users, in the same or other test, for the same question or other questions, have to wait until the other process releases its locks."
+
+msgid "ass_process_lock_mode_file"
+msgstr "Filesystem Locks"
+
+msgid "ass_process_lock_mode_file_desc"
+msgstr "This locking mechanism locks empty files in the filesystem. Concurrent processes for the same user and the same test/question have to wait until the other process releases its lock."
+
+msgid "ass_question"
+msgstr "Question"
+
+msgid "ass_size"
+msgstr "Size"
+
+msgid "ass_skl_import_fails_remove_btn"
+msgstr "Remove this Hint"
+
+msgid "assessment_existing_pool"
+msgstr "Use existing question pool"
+
+msgid "assessment_new_pool"
+msgstr "Create new question pool"
+
+msgid "assessment_no_pool"
+msgstr "Do not use question pool"
+
+msgid "assessment_pool_selection"
+msgstr "Pool Selection"
+
+msgid "assessment_scoring_adjust"
+msgstr "Allow Retrospective Question Adjustments"
+
+msgid "assessment_scoring_adjust_desc"
+msgstr "Make it possible for test admins to adjust the point values of questions after a test has been taken. Also make it possible for answer options in some question types to be deleted and for alternate answers to be marked as correct in cloze questions."
+
+msgid "autocomplete_error"
+msgstr "Your autocomplete value is too large, you have answers which have fewer characters than the autocomplete value. This means that those answers will not be shown and will therefore not be selectable."
+
+msgid "autoparticipants_subtab"
+msgstr "Participants"
+
+msgid "autosave"
+msgstr "Automatic Saving"
+
+msgid "autosave_failed"
+msgstr "Autosave failed!"
+
+msgid "autosave_info"
+msgstr "The answers of the participants to the last opened question are automatically saved by ILIAS. These automatically saved answers are <b>not</b> considered to be answers that have been authorised by the participant. Therefore, they are not taken into account by ILIAS during the automated evaluation. Automatically saved answers must always be evaluated manually! They are also not displayed in a participant’s ‘Results’ tab. The automatic saving of answers is only intended for emergencies, e.g. if the browser window is closed by mistake!"
+
+msgid "autosave_ival"
+msgstr "Interval"
+
+msgid "autosave_success"
+msgstr "Autosave successful..."
+
+msgid "autosavecontent"
+msgstr "Autosave Content"
+
+msgid "average_reached_points"
+msgstr "Average Points"
+
+msgid "back_to_objective_container"
+msgstr "Go to Course"
+
+msgid "backtocallingpage"
+msgstr "Back to Question"
+
+msgid "backtocallingpool"
+msgstr "Back to Question Pool"
+
+msgid "backtocallingtest"
+msgstr "Back to List of Questions"
+
+msgid "baseunit"
+msgstr "Base Unit"
+
+msgid "broken_test"
+msgstr "Broken Test"
+
+msgid "bulkedit_author"
+msgstr "Set Author"
+
+msgid "bulkedit_lifecycle"
+msgstr "Set Lifecycle"
+
+msgid "bulkedit_taxonomies"
+msgstr "Set Taxonomies"
+
+msgid "cancel_test"
+msgstr "Suspend Test"
+
+msgid "cannot_edit_marks"
+msgstr "The test has already been completed by some participants. You can only change the marks if an ’Access to Test Results’ date has been set and that date is in the future i.e. it has not yet been reached."
+
+msgid "cannot_edit_test"
+msgstr "You do not possess sufficient permissions to edit the test!"
+
+msgid "cannot_execute_test"
+msgstr "You do not possess sufficient permissions to run the test!"
+
+msgid "cannot_export_archive"
+msgstr "Archive-Export cannot be created."
+
+msgid "cannot_read_questionpool"
+msgstr "You do not possess sufficient permissions to read the question pool data!"
+
+msgid "cannot_save_metaobject"
+msgstr "You do not possess sufficient permissions to save the metadata!"
+
+msgid "cannot_switch_to_online_no_questions_andor_no_mark_steps"
+msgstr "The status cannot be changed to &quot;online&quot; because there are no questions and/or no marks in the test!"
+
+msgid "category"
+msgstr "Category"
+
+msgid "changeSuggestedSolution"
+msgstr "Select type of content for recapitulation"
+
+msgid "change_adm_categories_not_allowed"
+msgstr "You do not have any permissions concerning this category."
+
+msgid "checkbox_checked"
+msgstr "Selected"
+
+msgid "checkbox_unchecked"
+msgstr "Not Selected"
+
+msgid "circle"
+msgstr "Circle"
+
+msgid "circle_click_center"
+msgstr "Please click on the centre of the desired area."
+
+msgid "circle_click_circle"
+msgstr "Please click on a point on the outer edge of your desired circular area."
+
+msgid "client_ip_range"
+msgstr "Client IP Range"
+
+msgid "clientip"
+msgstr "Client IP"
+
+msgid "close_text_hint"
+msgstr "To add a new gap, set the cursor to the desired position and then click on one of the buttons to create the gap type of your choice. This will add your selected gap type to the text and create a corresponding editing section below."
+
+msgid "cloze_answer_text_info"
+msgstr "Spaces preceding or following the answer text will be deleted upon saving."
+
+msgid "cloze_fixed_textlength"
+msgstr "Input Field Length"
+
+msgid "cloze_fixed_textlength_description"
+msgstr "Set a fixed length in characters for the solution input field of gaps that do not have their own length setting. This will affect the visual length of the input fields and also prevent participants from entering answers of more than the allowed number of characters. Please note: for numeric gaps the decimal separator is counted as a regular character."
+
+msgid "cloze_gap_size_info"
+msgstr "Set a fixed length in characters for the solution input field of this gap. This will affect the visual length of the input field and also prevent participants from entering answers of more than the allowed number of characters. If left empty, the length of the field will be decided by the input field length for the question as a whole."
+
+msgid "cloze_text"
+msgstr "Cloze Text"
+
+msgid "cloze_textgap_case_insensitive"
+msgstr "Case Insensitive"
+
+msgid "cloze_textgap_case_sensitive"
+msgstr "Case Sensitive"
+
+msgid "cloze_textgap_levenshtein_of"
+msgstr "Levenshtein Distance of %s"
+
+msgid "code"
+msgstr "Code"
+
+msgid "codebase"
+msgstr "Codebase"
+
+msgid "concatenation"
+msgstr "Concatenation"
+
+msgid "conf_delete_pass"
+msgstr "Are you sure you want to delete your existing answers?"
+
+msgid "confirm_log_deletion"
+msgstr "Are you sure you want to delete the selected log entries? Deleted entries cannot be recovered."
+
+msgid "confirm_sync_questions"
+msgstr "The question you changed is a copy which has been created for use with the active test. Do you also want to change the original version of the question?"
+
+msgid "contained_question_types"
+msgstr "Contained Question Types"
+
+msgid "coordinates"
+msgstr "Coordinates"
+
+msgid "copy_and_link_to_questionpool"
+msgstr "Add to question pool"
+
+msgid "copy_no_questions_selected"
+msgstr "Please select at least one question to copy."
+
+msgid "copy_questions_success"
+msgstr "Question(s) successfully copied."
+
+msgid "correct_answers"
+msgstr "Correct Answers"
+
+msgid "counter"
+msgstr "Counter"
+
+msgid "create_gaps"
+msgstr "Create and Refresh Gaps"
+
+msgid "create_new"
+msgstr "Create New"
+
+msgid "created"
+msgstr "Created"
+
+msgid "customstyle"
+msgstr "Custom Style"
+
+msgid "dashboard_tab"
+msgstr "Participants"
+
+msgid "definition"
+msgstr "Definition"
+
+msgid "definition_image"
+msgstr "Definition Image"
+
+msgid "definition_text"
+msgstr "Definition Text"
+
+msgid "definitions"
+msgstr "Definitions"
+
+msgid "deleteSuggestedSolution"
+msgstr "Remove this content for recapitulation"
+
+msgid "delete_all_user_data_confirmation"
+msgstr "Are you sure you want to delete the test results of all of the participants of this test?"
+
+msgid "delete_image_header"
+msgstr "Remove image"
+
+msgid "delete_image_question"
+msgstr "Do you really want to remove the image?"
+
+msgid "delete_mark_confirmation"
+msgstr "Are you sure you want to delete the following mark?"
+
+msgid "delete_participants_no_valid_participants_selected"
+msgstr "Test results already exist for the selected participant(s). They therefore cannot be removed."
+
+msgid "delete_result_no_valid_participants_selected"
+msgstr "There are no test results for the selected participants, so they cannot be removed."
+
+msgid "delete_selected_user_data_confirmation"
+msgstr "Are you sure you want to remove the test data of the following participants? Please note: For users that have not been added manually as fixed test participants, this will completely remove the users from the list of participants."
+
+msgid "delete_user_data"
+msgstr "Remove Result(s)"
+
+msgid "description_maxchars"
+msgstr "If left empty, the maximum number of characters for this text answer is unlimited."
+
+msgid "detail_ending_time_reached"
+msgstr "The maximum time available for completing this test has expired. This test has not been available since %s."
+
+msgid "detail_max_processing_time_reached"
+msgstr "You have exceeded the maximum time available for completing this test! You are no longer allowed to continue with the test."
+
+msgid "detail_starting_time_not_reached"
+msgstr "You cannot start the test yet. The test will be available from %s onwards."
+
+msgid "detailed_evaluation"
+msgstr "Detailed Evaluation"
+
+msgid "detailed_evaluation_for"
+msgstr "Detailed Evaluation for %s"
+
+msgid "detailed_evaluation_missing_active_id"
+msgstr "You must call the ‘Detailed Evaluation’ for a selected participant!"
+
+msgid "detailed_evaluation_show"
+msgstr "Show Detailed Evaluation"
+
+msgid "detailed_output_printview"
+msgstr "Detailed Output with Question Print Views"
+
+msgid "detailed_output_solutions"
+msgstr "Detailed Output with Question Solutions"
+
+msgid "direct_feedback"
+msgstr "Verify Your Solution"
+
+msgid "discard_answer"
+msgstr "Delete Answer"
+
+msgid "discard_answer_confirmation"
+msgstr "Your answer will be finally and completely deleted. You can provide a new answer at any time. But this one will be purged.<br /><br />Do you want to delete your answer?"
+
+msgid "dont_use_questionpool"
+msgstr "Don't insert the questions in a question pool (only available in this test)"
+
+msgid "download_all_files"
+msgstr "Download All Files"
+
+msgid "duplicate"
+msgstr "Duplicate"
+
+msgid "duplicate_matching_values_selected"
+msgstr "You have selected duplicate matching values!"
+
+msgid "duplicate_order_values_entered"
+msgstr "You have entered duplicate order values!"
+
+msgid "edit_answer"
+msgstr "Edit Answer"
+
+msgid "edit_concluding_remarks"
+msgstr "Edit Concluding Remarks"
+
+msgid "edit_introduction"
+msgstr "Edit Introduction"
+
+msgid "edit_question"
+msgstr "Edit Question"
+
+msgid "edit_score"
+msgstr "Edit Score"
+
+msgid "edit_test_questions"
+msgstr "List of Questions"
+
+msgid "element_height"
+msgstr "Minimum Height"
+
+msgid "element_height_info"
+msgstr "This is the minimum height in pixels for term and definition/picture items during the test output."
+
+msgid "enable_examview"
+msgstr "Overview of Answers Given"
+
+msgid "enable_examview_desc"
+msgstr "When they click on ‘Finish Test’, participants are presented with an overview of the test’s questions and the answers they provided to those questions. From this overview, they are still able return to the test and make changes to their answers as long as the answers have not been locked (see ‘Lock Answers’ above)."
+
+msgid "end_tag"
+msgstr "End Tag"
+
+msgid "enlarge"
+msgstr "Enlarge"
+
+msgid "enter_anonymous_code"
+msgstr "Enter access code to continue your already started test:"
+
+msgid "enter_enough_positive_points"
+msgstr "The maximum points attainable needs to be greater than 0! Please make sure that the sum of all positive and negative points is a positive number."
+
+msgid "enter_enough_positive_points_checked"
+msgstr "At least one answer needs to score. Please enter a positive score for the selection of an answer."
+
+msgid "enter_valid_values"
+msgstr "Please enter valid value. Chars will be evaluated as incorrect!"
+
+msgid "errFormulaQuestion"
+msgstr "A Formula Question contains incorrect information!!"
+
+msgid "errRecursionInResult"
+msgstr "The formula contains an infinite recursion."
+
+msgid "err_category_in_use"
+msgstr "At least one category cannot be deleted. One or more units of the category are already in use."
+
+msgid "err_divider_too_big"
+msgstr "The divider of one of the variables in this question is too big."
+
+msgid "err_division"
+msgstr "The value you have chosen would make it impossible to generate a valid value for this variable."
+
+msgid "err_duplicate_results"
+msgstr "You used a result variable more than once. This is not allowed in the question text."
+
+msgid "err_no_formula"
+msgstr "You must enter a formula."
+
+msgid "err_no_numeric_value"
+msgstr "Please enter a numeric value."
+
+msgid "err_range"
+msgstr "The ‘Range (Maximum)’ entry must be greater than the ‘Range (Minimum)’ entry."
+
+msgid "err_rating_advanced_not_allowed"
+msgstr "A rating other than simple rating is not allowed since you are offering multiple result units with an identical base unit."
+
+msgid "err_unit_in_results"
+msgstr "This unit cannot be deleted as it is already in use in one or more test questions."
+
+msgid "err_unit_in_variables"
+msgstr "This unit cannot be deleted. It is already in use in one or more test questions."
+
+msgid "err_unit_is_baseunit"
+msgstr "This unit cannot be deleted because it is being used as the base unit for other units."
+
+msgid "err_wrong_categoryname"
+msgstr "The category already exists."
+
+msgid "err_wrong_rating_advanced"
+msgstr "Please make sure that the addition of the advanced rating settings equals to 100 percent"
+
+msgid "error_creating_certificate_zip_empty"
+msgstr "No data for export."
+
+msgid "error_importing_question"
+msgstr "There was an error importing the question(s) from the file you have selected!"
+
+msgid "error_open_image_file"
+msgstr "Error opening an image file!"
+
+msgid "error_random_question_generation"
+msgstr "A fatal error occurred during the generation of your random questions for the test. Please contact your administrator with the following information: The system could not create an active ID for user ID %s and test ID %s."
+
+msgid "errors"
+msgstr "Errors"
+
+msgid "errors_section"
+msgstr "Error Data"
+
+msgid "errortext"
+msgstr "Error Text"
+
+msgid "errortext_info"
+msgstr "Please enter the error text for this question here. To mark a word as an error please insert a hash sign (#) in front of the word. To mark a group of words as an error please encapsulate the word group between double brackets (i.e.: here is ((an example)) of how this would look). Please note: for participants to be awarded points for a group-of-words error, they need to select ALL of the words in the group. Press the &quot;Analyse Error Text&quot; button, to extract all marked words for further processing."
+
+msgid "essay_scoring_mode"
+msgstr "Automatic Scoring Mode"
+
+msgid "essay_scoring_mode_keyword_relation_all"
+msgstr "All Keywords Required"
+
+msgid "essay_scoring_mode_keyword_relation_all_desc"
+msgstr "Points are awarded automatically if all of the required keywords are found."
+
+msgid "essay_scoring_mode_keyword_relation_any"
+msgstr "Per Keyword"
+
+msgid "essay_scoring_mode_keyword_relation_any_desc"
+msgstr "Points are awarded for each keyword found."
+
+msgid "essay_scoring_mode_keyword_relation_one"
+msgstr "At Least One Keyword"
+
+msgid "essay_scoring_mode_keyword_relation_one_desc"
+msgstr "Points are awarded automatically if at least one keyword is found."
+
+msgid "essay_scoring_mode_without_keywords"
+msgstr "No Automatic Scoring"
+
+msgid "essay_scoring_mode_without_keywords_desc"
+msgstr "Points are not awarded automatically; they can only be awarded manually."
+
+msgid "eval_all_users"
+msgstr "Evaluation for All Users"
+
+msgid "eval_legend_link"
+msgstr "Please refer to the legend for the meaning of the column header symbols."
+
+msgid "evaluated_users"
+msgstr "Show only users set to 'Scoring Finalised'"
+
+msgid "exam_id"
+msgstr "Test ID:"
+
+msgid "exam_id_label"
+msgstr "Test ID"
+
+msgid "exam_id_of_attempt"
+msgstr "ID of Attempt"
+
+msgid "examid_in_test_pass"
+msgstr "Display Test ID"
+
+msgid "examid_in_test_pass_desc"
+msgstr "A Test ID is displayed in the test. A new, unique ID is generated every time the test is taken."
+
+msgid "examid_in_test_res"
+msgstr "Display ILIAS Test ID"
+
+msgid "examid_in_test_res_desc"
+msgstr "Show the ILIAS Test ID in the ‘Detailed Results’ and ‘Printable List of Answers’ views as well as in spreadsheet files exported via the ‘Participants’ tab."
+
+msgid "exp_all_test_runs"
+msgstr "All Test Attempts"
+
+msgid "exp_eval_data"
+msgstr "Export Data"
+
+msgid "exp_grammar_as"
+msgstr "As"
+
+msgid "exp_scored_test_attempt"
+msgstr "Scored Test Attempt"
+
+msgid "exp_type_certificate"
+msgstr "Certificate (PDF)"
+
+msgid "exp_type_excel"
+msgstr "Microsoft Excel"
+
+msgid "expected_result_type"
+msgstr "Required answer format"
+
+msgid "export_cert_failed_for_users_p"
+msgstr "No certificate file could be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file."
+
+msgid "export_cert_failed_for_users_s"
+msgstr "No certificate file could be generated and added to the archive for the following account: %s. Please contact an administrator to check the log file."
+
+msgid "export_cert_ignored_for_users_p"
+msgstr "No certificate has been exported for the following %s accounts, because no certificate has been issued for them: %s"
+
+msgid "export_cert_ignored_for_users_s"
+msgstr "No certificate has been exported for the following account, because no certificate has been issued for it: %s"
+
+msgid "export_cert_no_users"
+msgstr "A certificate archive cannot be created due to missing test participants."
+
+msgid "export_essay_qst_with_html"
+msgstr "Export Essay Questions With HTML code"
+
+msgid "export_essay_qst_with_html_desc"
+msgstr "Allow essay questions to be exported to spreadsheet programmes with HTML code."
+
+msgid "export_legacy_logs"
+msgstr "Export Legacy Log Data"
+
+msgid "extra_time_byline"
+msgstr "Put in extra time in minutes. Already entered extra time is added up."
+
+msgid "extra_time_for_all_participants"
+msgstr "You are adding some extra time to all participants."
+
+msgid "extra_time_for_selected_participants"
+msgstr "You are adding extra time to the selected participants."
+
+msgid "extra_time_for_selected_participants_different"
+msgstr "You have selected participants with different additional times."
+
+msgid "extra_time_for_single_participant"
+msgstr "Your are adding extra time to the following participant:"
+
+msgid "extratime"
+msgstr "Extra Time"
+
+msgid "extratime_added"
+msgstr "The extra time has been added to the selected participants."
+
+msgid "factor"
+msgstr "Factor"
+
+msgid "failed_official"
+msgstr "failed"
+
+msgid "failed_short"
+msgstr "failed"
+
+msgid "false"
+msgstr "False"
+
+msgid "feedback_all"
+msgstr "Show answer specific feedback for all answers."
+
+msgid "feedback_answers"
+msgstr "Feedback for Every Answer"
+
+msgid "feedback_checked"
+msgstr "Show answer specific feedback for all chosen/selected answers."
+
+msgid "feedback_complete_solution"
+msgstr "Correct Solution"
+
+msgid "feedback_correct_kprim"
+msgstr "Show answer specific feedback for all correct answers (Correct answers are those, for that the positive option is to be chosen/selected)."
+
+msgid "feedback_correct_sc_mc"
+msgstr "Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected)."
+
+msgid "feedback_generic"
+msgstr "Correct / Incorrect Answer Feedback"
+
+msgid "feedback_incomplete_solution"
+msgstr "At Least One Incorrect Answer"
+
+msgid "feedback_setting"
+msgstr "Mode of answer specific feedback."
+
+msgid "fileDownload"
+msgstr "File download"
+
+msgid "file_uploads"
+msgstr "File Uploads"
+
+msgid "fill_out_all_required_fields_add_answer"
+msgstr "Please fill out all required fields before you add answers!"
+
+msgid "filter_all_question_types"
+msgstr "All Question Types"
+
+msgid "filter_all_questionpools"
+msgstr "All Question Pools"
+
+msgid "filter_show_question_types"
+msgstr "Show Question Types"
+
+msgid "filter_show_questionpools"
+msgstr "Show Question Pools"
+
+msgid "final_statement"
+msgstr "Concluding Remarks"
+
+msgid "final_statement_show_desc"
+msgstr "Show concluding remarks after the test has been submitted. It is not possible to return to the test from this page. Concluding remarks can be edited in the ‘Settings’ subtab ‘Edit Concluding Remarks’."
+
+msgid "finalized_by"
+msgstr "Completed by"
+
+msgid "finalized_evaluation"
+msgstr "Scoring Finalised"
+
+msgid "finalized_on"
+msgstr "Completed at"
+
+msgid "finish_all_user_passes"
+msgstr "Finish all Test Attempts"
+
+msgid "finish_pass_for_all_users"
+msgstr "Are you sure you want to finish the test attempts for all users?"
+
+msgid "finish_pass_for_multiple_users_in_processing_time"
+msgstr "You cannot finish the passes of the selected users together, because for at least one selected user the processing time is not over yet."
+
+msgid "finish_pass_for_user_confirmation"
+msgstr "Are you sure you want to finish this test attempt for the participant \"%s\"?"
+
+msgid "finish_pass_for_user_in_processing_time"
+msgstr "<b>Warning</b>: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test)."
+
+msgid "finish_test"
+msgstr "Finish Test"
+
+msgid "finish_test_all"
+msgstr "Are you sure you want to finish the test attempts for all users?"
+
+msgid "finish_test_more_than_one_selected"
+msgstr "Only a single participant may be selected to finish the pass if the test allows only one pass."
+
+msgid "finish_test_multiple"
+msgstr "Are you sure you want to finish the test attempts for the following participants?"
+
+msgid "finish_test_no_valid_participants_selected"
+msgstr "There are no active test runs for the selected participants, so they cannot be completed."
+
+msgid "finish_test_single"
+msgstr "Are you sure you want to finish the test attempt for the participant \"%s\"?"
+
+msgid "finish_unfinished_passes"
+msgstr "Finish Uncompleted Attempts"
+
+msgid "finish_unfinished_passes_desc"
+msgstr "Test attempts which have a set finishing time or a time limit will be closed by this cron job."
+
+msgid "finished_by_administrator"
+msgstr "Ended by administrator"
+
+msgid "finished_by_cronjob"
+msgstr "Ended by cronjob"
+
+msgid "finished_by_duration"
+msgstr "Time limit reached"
+
+msgid "finished_by_participant"
+msgstr "Finished by participant"
+
+msgid "finished_by_unknown"
+msgstr "Ended by unknown"
+
+msgid "fixed_participants_hint"
+msgstr "This test is only accessible for the manually added participants listed below. You can disable this setting by deactivating the checkbox ‘Manually Selected Participants’ in the test settings."
+
+msgid "fixedparticipants_subtab"
+msgstr "Manually Selected Participants"
+
+msgid "flashfile"
+msgstr "Flash File"
+
+msgid "for"
+msgstr "for"
+
+msgid "forcejs"
+msgstr "Force JavaScript output for test questions"
+
+msgid "form_msg_area_missing_points"
+msgstr "Please enter points for all areas."
+
+msgid "formula"
+msgstr "Formula"
+
+msgid "fq_formula_desc"
+msgstr "You may enter predefined variables ($v1 to $vn), defined results (e.g. $r1), braces for expressions, mathematical operators  + (addition), - (subtraction), * (multiplication), / (division), ^ (nth power), the constants ‘pi’ for pi and ‘e’ for euler's constant, as well as the functions ‘sin’, ‘sinh’, ‘arcsin’, ‘asin’, ‘arcsinh’, ‘asinh’, ‘cos’, ‘cosh’, ‘arccos’, ‘acos’, ‘arccosh’, ‘acosh’, ‘tan’, ‘tanh’, ‘arctan’, ‘atan’, ‘arctanh’, ‘atanh’, ‘sqrt’, ‘abs’, ‘ln’ and ‘log’."
+
+msgid "fq_no_restriction_info"
+msgstr "Both decimals and fractions are accepted as answer formats."
+
+msgid "fq_precision_info"
+msgstr "Enter the number of desired decimal places."
+
+msgid "fq_question_desc"
+msgstr "You can define variables by inserting $v1, $v2 ... $vn and results by inserting $r1, $r2 ... $rn at the desired position in the question text. Click on the button ‘Parse Question’ to create editing forms for variables and results."
+
+msgid "gap"
+msgstr "Gap"
+
+msgid "gap_combination"
+msgstr "Gap Combination"
+
+msgid "gaps"
+msgstr "Gaps"
+
+msgid "glossary_term"
+msgstr "Glossary Term"
+
+msgid "goto_first_question"
+msgstr "Show First Question"
+
+msgid "grading_mark_msg"
+msgstr "Your grade is: &quot;[mark]&quot;"
+
+msgid "grading_status_failed_msg"
+msgstr "Sorry, you have <b>failed</b> the test."
+
+msgid "grading_status_passed_msg"
+msgstr "Congratulations, you have <b>passed</b> the test."
+
+msgid "hide_best_solution"
+msgstr "Hide best solution"
+
+msgid "identical_scoring"
+msgstr "Identical Scoring"
+
+msgid "identical_scoring_desc"
+msgstr "Award points even if the same solution is used for multiple gaps. If left unselected, only the first occurrence of a solution that is used multiple times will be scored."
+
+msgid "imagemap"
+msgstr "Image Map"
+
+msgid "imap_line_color"
+msgstr "Image Map Line Colour"
+
+msgid "import_question"
+msgstr "Import Question(s)"
+
+msgid "in_range"
+msgstr "Within range"
+
+msgid "in_trash"
+msgstr "In Trash"
+
+msgid "info_answer_type_change"
+msgstr "The question already contains images. You can't change the answer type to multi-line answers."
+
+msgid "info_text_upload"
+msgstr "Choose an answer text (UTF-8) file to upload."
+
+msgid "insert_after"
+msgstr "Insert After"
+
+msgid "insert_before"
+msgstr "Insert Before"
+
+msgid "insert_gap"
+msgstr "Insert Gap"
+
+msgid "interaction_type"
+msgstr "Interaction Type"
+
+msgid "internal_links"
+msgstr "Internal Links"
+
+msgid "intprecision"
+msgstr "Divisible By"
+
+msgid "intprecision_info"
+msgstr "‘Divisible by’ affects only the creation of variables, if the value for the precision is 0. In this case, you define for ‘Divisible by’ an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, ‘Divisible by’ is a mandatory field and must contain a positive integer. The default value is 1 for any integers."
+
+msgid "invalid_ip"
+msgstr "Invalid IP"
+
+msgid "ip_range_byline"
+msgstr "Only IP addresses within the defined range can start the test. You can either use IPv4 OR IPv6 addresses."
+
+msgid "ip_range_for_all_participants"
+msgstr "You are changing the IP Range of all participants"
+
+msgid "ip_range_for_selected_participants"
+msgstr "You are changing the IP Range of the following participant."
+
+msgid "ip_range_for_single_participant"
+msgstr "You are changing the IP Range of the selected participants."
+
+msgid "ip_range_info"
+msgstr "Only devices with an IP from the specified range can start the test."
+
+msgid "ip_range_label"
+msgstr "IP Range"
+
+msgid "ip_range_updated"
+msgstr "The IP Range has been updated for the selected participants."
+
+msgid "kiosk"
+msgstr "Exam View"
+
+msgid "kiosk_description"
+msgstr "Runs tests in kiosk mode. This hides the browser bar, navigation and all other screen elements that are not part of the test. Participants are prevented from opening other websites.<br />Effectively preventing participants from opening other websites during tests additionally requires the deployment of a suitable browser (e.g. Safe Exam Browser)."
+
+msgid "kiosk_options"
+msgstr "Exam View Options"
+
+msgid "kiosk_options_desc"
+msgstr "Information is displayed in the header section of the screen."
+
+msgid "kiosk_show_participant"
+msgstr "Show Name of Participant"
+
+msgid "kiosk_show_title"
+msgstr "Show Test Title"
+
+msgid "kprim_answers_info"
+msgstr "The ‘four-option multiple true-false question’ type (Type K’, also known as Kprim) gives four answers to a question or four endings to an incomplete statement. A decision about the correctness is to be made for all four answers/endings. The maximum points are granted only if all decisions are correct."
+
+msgid "kprim_instruction_text"
+msgstr "For each statement you have to decide if it is [%s] or [%s]"
+
+msgid "lacex_assClozeTest_NumberOfResultExpression_d"
+msgstr "The fourth answer option is a select gap and the second option was selected"
+
+msgid "lacex_assClozeTest_NumberOfResultExpression_e"
+msgstr "R[4] = +2+"
+
+msgid "lacex_assClozeTest_NumericResultExpression_d"
+msgstr "The second answer option is a numeric gap and was answered with the numeric value 5"
+
+msgid "lacex_assClozeTest_NumericResultExpression_e"
+msgstr "R[2] = #5#"
+
+msgid "lacex_assClozeTest_StringResultExpression_1_d"
+msgstr "The first answer option is a text gap and was answered with “Monday”"
+
+msgid "lacex_assClozeTest_StringResultExpression_1_e"
+msgstr "R[1] = ~Monday~"
+
+msgid "lacex_assClozeTest_StringResultExpression_2_d"
+msgstr "The fourth answer option is a select gap and the option labelled as “Green“ was selected"
+
+msgid "lacex_assClozeTest_StringResultExpression_2_e"
+msgstr "R[4] = ~Green~"
+
+msgid "lacex_assErrorText_ExclusiveResultExpression_d"
+msgstr "Exactly the answer options 1, 3 and 4 were chosen while answering the question"
+
+msgid "lacex_assErrorText_ExclusiveResultExpression_e"
+msgstr "R = *1,3,4*"
+
+msgid "lacex_assErrorText_NumberOfResultExpression_d"
+msgstr "While answering the question the second answer option was chosen"
+
+msgid "lacex_assErrorText_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assFormulaQuestion_NumericResultExpression_d"
+msgstr "The first answer option was answered with the numeric value 3.14159"
+
+msgid "lacex_assFormulaQuestion_NumericResultExpression_e"
+msgstr "R[1] = #3.14159#"
+
+msgid "lacex_assImagemapQuestion_ExclusiveResultExpression_d"
+msgstr "Exactly the answer options 1, 3 and 4 were chosen while answering the question"
+
+msgid "lacex_assImagemapQuestion_ExclusiveResultExpression_e"
+msgstr "R = *1,3,4*"
+
+msgid "lacex_assImagemapQuestion_NumberOfResultExpression_d"
+msgstr "While answering the question the second answer option was chosen"
+
+msgid "lacex_assImagemapQuestion_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assMatchingQuestion_MatchingResultExpression_d"
+msgstr "The question's terms were assigned to definitions as follows: 1 &rarr; 2 and 2 &rarr; 3 and 3 &rarr; 1"
+
+msgid "lacex_assMatchingQuestion_MatchingResultExpression_e"
+msgstr "R = ;1:2; & R = ;2:3; & R = ;3:1;"
+
+msgid "lacex_assMultipleChoice_ExclusiveResultExpression_d"
+msgstr "Exactly the answer options 1, 3 and 4 were chosen while answering the question"
+
+msgid "lacex_assMultipleChoice_ExclusiveResultExpression_e"
+msgstr "R = *1,3,4*"
+
+msgid "lacex_assMultipleChoice_NumberOfResultExpression_d"
+msgstr "While answering the question the second answer option was chosen"
+
+msgid "lacex_assMultipleChoice_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assNumeric_NumericResultExpression_d"
+msgstr "The question was answered with the numeric value 4.7"
+
+msgid "lacex_assNumeric_NumericResultExpression_e"
+msgstr "R = #4.7#"
+
+msgid "lacex_assOrderingHorizontal_OrderingResultExpression_d"
+msgstr "The question's elements were ordered as follows: 2, 5, 1, 4, 3"
+
+msgid "lacex_assOrderingHorizontal_OrderingResultExpression_e"
+msgstr "R = $2,5,1,4,3$"
+
+msgid "lacex_assOrderingQuestion_OrderingResultExpression_d"
+msgstr "The question's elements were ordered as follows: 2, 5, 1, 4, 3"
+
+msgid "lacex_assOrderingQuestion_OrderingResultExpression_e"
+msgstr "R = $2,5,1,4,3$"
+
+msgid "lacex_assQuestion_EmptyAnswerExpression_d"
+msgstr "The question was not answered"
+
+msgid "lacex_assQuestion_EmptyAnswerExpression_e"
+msgstr "R = ?"
+
+msgid "lacex_assQuestion_PercentageResultExpression_d"
+msgstr "The questions answer result is equal to or greater than 75%"
+
+msgid "lacex_assQuestion_PercentageResultExpression_e"
+msgstr "R >= %75%"
+
+msgid "lacex_assSingleChoice_NumberOfResultExpression_d"
+msgstr "While answering the question the second answer option was chosen"
+
+msgid "lacex_assSingleChoice_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assTextSubset_StringResultExpression_d"
+msgstr "For the second answer option the answer „sodium chloride“ was entered"
+
+msgid "lacex_assTextSubset_StringResultExpression_e"
+msgstr "R[2] = ~sodium chloride~"
+
+msgid "lacex_example_header"
+msgstr "Examples"
+
+msgid "list_of_participants"
+msgstr "Participants"
+
+msgid "locked"
+msgstr "locked"
+
+msgid "log_deletion_not_allowed"
+msgstr "You don't have the permissions required to delete log entries."
+
+msgid "log_entry_type"
+msgstr "Log Entry Type"
+
+msgid "log_ip"
+msgstr "Log IP"
+
+msgid "log_ip_info"
+msgstr "Log the IP addresses of participants every time they interact with a test. Disabling it does not delete existing IP address records."
+
+msgid "log_participant_data_delete_warning"
+msgstr "This test contains log data for participant interactions that will be deleted when changing the test to a test without names."
+
+msgid "log_text"
+msgstr "Log message"
+
+msgid "log_user_solution_willingly_deleted"
+msgstr "User deleted the answer."
+
+msgid "logging_settings"
+msgstr "Logging"
+
+msgid "logs_answer_deleted"
+msgstr "Answer deleted"
+
+msgid "logs_answer_submitted"
+msgstr "Answer submitted"
+
+msgid "logs_deleted"
+msgstr "The selected log data has been deleted."
+
+msgid "logs_error_on_participant_interaction"
+msgstr "Error during participant interaction"
+
+msgid "logs_error_on_question_administration_interaction"
+msgstr "Error during question administration Interaction"
+
+msgid "logs_error_on_scoring_interaction"
+msgstr "Error during scoring interaction"
+
+msgid "logs_error_on_test_administration_interaction"
+msgstr "Error during test administration interaction"
+
+msgid "logs_error_on_undefined_interaction"
+msgstr "Error during undefined interaction"
+
+msgid "logs_extra_time_added"
+msgstr "Extra time added"
+
+msgid "logs_main_settings_modified"
+msgstr "Main settings modified"
+
+msgid "logs_mark_schema_modified"
+msgstr "Grading scale modified"
+
+msgid "logs_mark_schema_reset"
+msgstr "Grading scale reset"
+
+msgid "logs_new_test_created"
+msgstr "New test created"
+
+msgid "logs_output"
+msgstr "Log Data Output"
+
+msgid "logs_participant_data_removed"
+msgstr "Participant data removed"
+
+msgid "logs_pi"
+msgstr "Participant interaction"
+
+msgid "logs_qai"
+msgstr "Question administration interaction"
+
+msgid "logs_question_added"
+msgstr "Question added"
+
+msgid "logs_question_graded"
+msgstr "Question scored"
+
+msgid "logs_question_grading_reset"
+msgstr "Score reset"
+
+msgid "logs_question_modified"
+msgstr "Question modified"
+
+msgid "logs_question_modified_in_corrections"
+msgstr "Question modified retrospectively"
+
+msgid "logs_question_moved"
+msgstr "Question moved"
+
+msgid "logs_question_removed"
+msgstr "Question removed"
+
+msgid "logs_question_removed_in_corrections"
+msgstr "Question removed retrospectively"
+
+msgid "logs_question_selection_criteria_modified"
+msgstr "Question selection criteria modified"
+
+msgid "logs_question_shown"
+msgstr "Question shown"
+
+msgid "logs_question_skipped"
+msgstr "Question skipped"
+
+msgid "logs_question_synchronisation_reset"
+msgstr "Question synchronisation reset"
+
+msgid "logs_questions_synchronised"
+msgstr "Questions synchronised"
+
+msgid "logs_scoring_settings_modified"
+msgstr "Scoring settings modified"
+
+msgid "logs_si"
+msgstr "Scoring interaction"
+
+msgid "logs_tai"
+msgstr "Test administration interaction"
+
+msgid "logs_te"
+msgstr "Error"
+
+msgid "logs_test_deleted"
+msgstr "Test deleted"
+
+msgid "logs_test_run_finished"
+msgstr "Test attempt finished by participant"
+
+msgid "logs_test_run_of_participant_closed"
+msgstr "Test attempt set to finished by admin"
+
+msgid "logs_test_run_started"
+msgstr "Test attempt started"
+
+msgid "logs_wrong_test_password_provided"
+msgstr "Participant entered incorrect test password."
+
+msgid "longmenu"
+msgstr "Long Menu"
+
+msgid "longmenu_answeroptions_differ"
+msgstr "This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options."
+
+msgid "longmenu_text"
+msgstr "Long Menu Text"
+
+msgid "mainbar_button_label_questionlist"
+msgstr "Question List"
+
+msgid "maintenance"
+msgstr "Maintenance"
+
+msgid "manscoring"
+msgstr "Scoring"
+
+msgid "manscoring_done"
+msgstr "Scored Participants"
+
+msgid "manscoring_finalized"
+msgstr "The user's status has been set to 'Scoring Finalised'."
+
+msgid "manscoring_finalized_removed"
+msgstr "The user's 'Scoring Finalised' status has been removed."
+
+msgid "manscoring_hint"
+msgstr "You have added at least one question which may require manual scoring. To avoid participants getting access to the test results before you have finished manual scoring, please set a suitable date before which the results cannot be accessed."
+
+msgid "manscoring_none"
+msgstr "Unscored Participants"
+
+msgid "manscoring_not_allowed"
+msgstr "The Scoring wasn‘t activated for a question type. You are not allowed to use this tab."
+
+msgid "manscoring_questions_not_found"
+msgstr "This test attempt does not contain question types which can be scored."
+
+msgid "manscoring_results_pass"
+msgstr "Scored Questions for Pass %s"
+
+msgid "manual_editing"
+msgstr "Manual Editing"
+
+msgid "manual_entry"
+msgstr "Manual Entry"
+
+msgid "mark_schema"
+msgstr "Grading System"
+
+msgid "mark_schema_invalid"
+msgstr "The grading system that you have tried to create contains errors. Please make sure that the values in the ‘Minimum Score Required (in %]’ column are correct."
+
+msgid "matches"
+msgstr "matches"
+
+msgid "matching_pairs"
+msgstr "Matching Pairs"
+
+msgid "matching_shuffle_definitions"
+msgstr "Definitions only"
+
+msgid "matching_shuffle_terms"
+msgstr "Terms only"
+
+msgid "matching_shuffle_terms_definitions"
+msgstr "Both (terms and definitions)"
+
+msgid "matching_type"
+msgstr "Matching Question Subtype"
+
+msgid "material"
+msgstr "Material"
+
+msgid "material_file"
+msgstr "Material File"
+
+msgid "max_ip_label"
+msgstr "Highest IP With Access"
+
+msgid "maxchars"
+msgstr "Maximum Number of Characters"
+
+msgid "maximum_nr_of_tries_reached"
+msgstr "You have already taken this test the maximum number of times possible. You cannot start the test again."
+
+msgid "maximum_points"
+msgstr "Maximum Available Points"
+
+msgid "maxsize"
+msgstr "Maximum File Upload Size"
+
+msgid "maxsize_info"
+msgstr "Enter the maximum allowed file upload size in bytes. If left empty, this installation's default maximum size for uploads will be used instead."
+
+msgid "min_auto_complete"
+msgstr "Autocomplete"
+
+msgid "min_ip_label"
+msgstr "Lowest IP With Access"
+
+msgid "min_percentage_ne_0"
+msgstr "One of your grade categories needs to start at the ‘Minimum Score Required (in %)’ level of 0%  Your grading system hasn’t been saved."
+
+msgid "misc"
+msgstr "Misc Options"
+
+msgid "mode_allatonce"
+msgstr "All"
+
+msgid "mode_onebyone"
+msgstr "One by One"
+
+msgid "mode_question"
+msgstr "By Question"
+
+msgid "mode_user"
+msgstr "By Participant"
+
+msgid "msg_circle_added"
+msgstr "Circular area added."
+
+msgid "msg_no_questions_selected"
+msgstr "No questions were selected."
+
+msgid "msg_number_of_terms_too_low"
+msgstr "The number of terms must be greater or equal to the number of definitions."
+
+msgid "msg_poly_added"
+msgstr "Polygonal area added."
+
+msgid "msg_questions_moved"
+msgstr "Question(s) moved"
+
+msgid "msg_rect_added"
+msgstr "Rectangular area added."
+
+msgid "msg_score_settings_modified_and_recalc"
+msgstr "Your changes were saved and the results recalculated correspondingly."
+
+msgid "msg_score_settings_not_modified"
+msgstr "Your changes were not saved."
+
+msgid "msg_selected_for_move"
+msgstr "Question(s) selected for moving"
+
+msgid "new_category"
+msgstr "New Unit Category"
+
+msgid "new_unit"
+msgstr "New Unit"
+
+msgid "next_question"
+msgstr "Next"
+
+msgid "next_question_rows"
+msgstr "Questions %d - %d of %d →"
+
+msgid "no_manual_feedback_export_info"
+msgstr "Manual feedbacks will not be exported."
+
+msgid "no_passed_after_failed"
+msgstr "Failing marks cannot have a higher minimum level than any passing mark."
+
+msgid "no_passed_mark"
+msgstr "At least one grade has to be a passing grade. For a grade to be a passing grade, it needs to have the appropriate box in the ‘Passed’ column checked."
+
+msgid "no_question_selected_for_move"
+msgstr "Please check at least one question to move it!"
+
+msgid "no_questions_available"
+msgstr "There are no questions available!"
+
+msgid "no_result_type"
+msgstr "No restrictions"
+
+msgid "no_selection"
+msgstr "--- No Selection ---"
+
+msgid "no_selection_for_move"
+msgstr "No question selected for moving"
+
+msgid "no_target_selected_for_move"
+msgstr "You must select a target position!"
+
+msgid "no_user_or_group_selected"
+msgstr "Please check an option what are you searching for (users, groups, roles)!"
+
+msgid "no_valid_participant_selection"
+msgstr "No valid Participants selected."
+
+msgid "not_evaluated_users"
+msgstr "Hide users set to 'Scoring Finalised'"
+
+msgid "not_started"
+msgstr "Not started yet"
+
+msgid "not_yet_accessed"
+msgstr "Not yet accessed"
+
+msgid "nr_of_correct_answers"
+msgstr "Number of Requested Answers"
+
+msgid "number_of_answers"
+msgstr "Number of Answers"
+
+msgid "numeric_gap"
+msgstr "Numeric Gap"
+
+msgid "old_mark_default_not_applied"
+msgstr "The marks from your personal settings could not be applied as they use an old format. All other settings have been updated."
+
+msgid "option_label"
+msgstr "Option Labels"
+
+msgid "option_label_adequate"
+msgstr "Adequate"
+
+msgid "option_label_adequate_or_not"
+msgstr "Adequate / Inadequate"
+
+msgid "option_label_applicable"
+msgstr "Applicable"
+
+msgid "option_label_applicable_or_not"
+msgstr "Applicable / Not Applicable"
+
+msgid "option_label_custom"
+msgstr "Custom option labels"
+
+msgid "option_label_custom_false"
+msgstr "Label for ‘FALSE’"
+
+msgid "option_label_custom_true"
+msgstr "Label for ‘TRUE’"
+
+msgid "option_label_info"
+msgstr "User-defined option labels that will be used in place of the standard labels"
+
+msgid "option_label_minus"
+msgstr "-"
+
+msgid "option_label_not_adequate"
+msgstr "Inadequate"
+
+msgid "option_label_not_applicable"
+msgstr "Not Applicable"
+
+msgid "option_label_plus"
+msgstr "+"
+
+msgid "option_label_plus_minus"
+msgstr "+ / -"
+
+msgid "option_label_right"
+msgstr "Right"
+
+msgid "option_label_right_wrong"
+msgstr "Right / Wrong"
+
+msgid "option_label_wrong"
+msgstr "Wrong"
+
+msgid "oq_btn_define_pictures"
+msgstr "Switch to picture definition view"
+
+msgid "oq_btn_define_terms"
+msgstr "Switch to term definition view"
+
+msgid "oq_btn_nest_pictures"
+msgstr "Switch to picture nesting view"
+
+msgid "oq_btn_nest_terms"
+msgstr "Switch to term nesting view"
+
+msgid "oq_btn_use_order_pictures"
+msgstr "Use Image Answers"
+
+msgid "oq_btn_use_order_terms"
+msgstr "Use Text Answers"
+
+msgid "oq_header_ordering_elements"
+msgstr "Answer Elements"
+
+msgid "or"
+msgstr "or"
+
+msgid "order"
+msgstr "Order"
+
+msgid "ordering_answer_sequence_info"
+msgstr "The order in which the answer elements are listed here will be used as the correct order for scoring purposes."
+
+msgid "ordertext"
+msgstr "Text to Order"
+
+msgid "ordertext_info"
+msgstr "Please enter the text in the correct horizontal order. This will count as the correct order for scoring purposes. The spaces between the words will automatically act as element separators. This means that in a standard sentence the individual words will act as the elements to be ordered. If you wish to create different element groups, for example to split a sentence into groups of words, then use %s as a separator."
+
+msgid "out_of_range"
+msgstr "Out of range"
+
+msgid "output"
+msgstr "Output"
+
+msgid "output_mode"
+msgstr "Output Mode"
+
+msgid "parseQuestion"
+msgstr "Generate Fields"
+
+msgid "part_received_a_of_b_points"
+msgstr "The participant received %s of %s possible points"
+
+msgid "participants"
+msgstr "Participants"
+
+msgid "participants_invitation"
+msgstr "Select Participants Manually"
+
+msgid "participants_invitation_description"
+msgstr "This test can only be accessed by users you have manually added in the ‘Participants’ tab of the test."
+
+msgid "participants_results_subtab"
+msgstr "All Participants"
+
+msgid "pass"
+msgstr "Attempt"
+
+msgid "pass_finished"
+msgstr "%s pass"
+
+msgid "passed_official"
+msgstr "passed"
+
+msgid "passed_only"
+msgstr "Passed Tests Only"
+
+msgid "passed_short"
+msgstr "passed"
+
+msgid "passed_status"
+msgstr "Passed Status"
+
+msgid "passes_finished"
+msgstr "%s passes"
+
+msgid "percentage"
+msgstr "Percentage"
+
+msgid "percentage_points_achieved"
+msgstr "Average Percentage"
+
+msgid "percentile"
+msgstr "Percentile"
+
+msgid "personal_settings_apply"
+msgstr "Apply Settings Template"
+
+msgid "personal_settings_apply_changed_confirmation"
+msgstr "The current test settings will be overwritten with the settings from the selected template. This also overwrites the Selection of Test Questions. The process cannot be undone!"
+
+msgid "personal_settings_apply_confirmation"
+msgstr "The current test settings will be overwritten with the settings from the selected template. This process cannot be undone!"
+
+msgid "personal_settings_apply_description"
+msgstr "This template overrides all settings of test '%s'."
+
+msgid "personal_settings_apply_not_possible"
+msgstr "ILIAS could not apply the selected template to this test! Maybe this test already contains participant data sets."
+
+msgid "personal_settings_apply_success"
+msgstr "Personal Test Settings have been applied successfully."
+
+msgid "personal_settings_author"
+msgstr "Created by"
+
+msgid "personal_settings_create"
+msgstr "Add New Setting Template"
+
+msgid "personal_settings_delete_confirmation"
+msgstr "The selected template(s) will be permanently deleted. This cannot be undone."
+
+msgid "personal_settings_delete_success"
+msgstr "The selected template(s) have been deleted."
+
+msgid "personal_settings_description"
+msgstr "Template Description"
+
+msgid "personal_settings_explanation"
+msgstr "ILIAS will store the settings of the current test in a template. This template can be used to transfer the settings to another test."
+
+msgid "personal_settings_export"
+msgstr "Export Settings Template"
+
+msgid "personal_settings_import"
+msgstr "Import Setting Templates"
+
+msgid "personal_settings_import_success"
+msgstr "The template was imported successfully."
+
+msgid "personal_settings_invalid_selection"
+msgstr "Please select one template."
+
+msgid "personal_settings_name"
+msgstr "Template Title"
+
+msgid "personal_settings_required_author"
+msgstr "Please enter an author for your template."
+
+msgid "personal_settings_required_title"
+msgstr "Please enter a title for your template."
+
+msgid "personal_settings_save"
+msgstr "Save New Setting Template"
+
+msgid "personal_settings_show"
+msgstr "Show Template Details"
+
+msgid "personal_settings_templates_available"
+msgstr "Personal Test Settings Templates"
+
+msgid "personal_settings_timestamp"
+msgstr "Creation Date"
+
+msgid "picture"
+msgstr "Picture"
+
+msgid "point"
+msgstr "Point"
+
+msgid "points"
+msgstr "Points"
+
+msgid "points_checked"
+msgstr "Points when Checked"
+
+msgid "points_non_numeric_or_negative_msg"
+msgstr "Inputs for points only accept positive numeric values."
+
+msgid "points_short"
+msgstr "Pt."
+
+msgid "points_unchecked"
+msgstr "Points when Unchecked"
+
+msgid "points_wrong"
+msgstr "Point Deduction for Incorrect Selection"
+
+msgid "points_wrong_info"
+msgstr "Enter the negative point score, e.g. -1, -2, etc. for each word selected by participants that is not one of the errors."
+
+msgid "polygon"
+msgstr "Polygon"
+
+msgid "polygon_click_next_or_save"
+msgstr "Please click on the next point of the polygon or click on ‘Save’ to save the polygon area. It is not necessary to click again on the starting point of this polygon!"
+
+msgid "polygon_click_next_point"
+msgstr "Please click on the next point of the polygon."
+
+msgid "polygon_click_starting_point"
+msgstr "Please click on the starting point of the polygon."
+
+msgid "positive_numbers_required"
+msgstr "Please enter only positive numbers."
+
+msgid "postpone_question"
+msgstr "Move Question to the End"
+
+msgid "postponed"
+msgstr "postponed"
+
+msgid "precision"
+msgstr "Precision"
+
+msgid "previous_question"
+msgstr "Previous"
+
+msgid "previous_question_rows"
+msgstr "<< Questions %d - %d of %d"
+
+msgid "print_answers"
+msgstr "Print Answers"
+
+msgid "qpl_assessment_no_assessment_of_questions"
+msgstr "There is no assessment of questions available for the selected question. The question has not yet been used in a test."
+
+msgid "qpl_assessment_total_of_answers"
+msgstr "Total of Answers"
+
+msgid "qpl_assessment_total_of_right_answers"
+msgstr "Total Percentage of Correct Answers (percentage of maximum points)"
+
+msgid "qpl_bulk_save_add"
+msgstr "Add"
+
+msgid "qpl_bulk_save_overwrite"
+msgstr "Overwrite"
+
+msgid "qpl_bulkedit_success"
+msgstr "Modifications saved."
+
+msgid "qpl_cancel_skill_assigns_update"
+msgstr "Cancel"
+
+msgid "qpl_confirm_delete_questions"
+msgstr "Are you sure you want to remove the following questions?"
+
+msgid "qpl_copy_insert_clipboard"
+msgstr "Selected question(s) successfully copied to clipboard."
+
+msgid "qpl_copy_select_none"
+msgstr "Please check at least one question to copy it to the clipboard"
+
+msgid "qpl_delete_rbac_error"
+msgstr "You have no rights to remove this question!"
+
+msgid "qpl_delete_select_none"
+msgstr "Please check at least one question to remove it"
+
+msgid "qpl_export_excel"
+msgstr "Microsoft Excel File"
+
+msgid "qpl_export_select_none"
+msgstr "Please check at least one question to export it"
+
+msgid "qpl_export_xml"
+msgstr "QTI XML File"
+
+msgid "qpl_form_general_settings"
+msgstr "General Settings"
+
+msgid "qpl_imagemap_preview_missing"
+msgstr "ILIAS could not create the temporary preview file containing the image map areas. The original image is shown instead. This means that either the web server‘s ImageMagick tool isn‘t configured correctly or there are no write permissions in the temporary directory! Please contact your system administrator."
+
+msgid "qpl_import_create_new_qpl"
+msgstr "Import the questions in a new question pool"
+
+msgid "qpl_import_no_items"
+msgstr "Error: The import file contains no questions!"
+
+msgid "qpl_import_non_ilias_files"
+msgstr "Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format."
+
+msgid "qpl_import_step_persist"
+msgstr "Import question pool"
+
+msgid "qpl_import_step_select"
+msgstr "Select questions to import"
+
+msgid "qpl_import_verify_found_questions"
+msgstr "ILIAS found the following questions in the import file. Please select the questions you want to import."
+
+msgid "qpl_lac_desc_brackets"
+msgstr "Brackets"
+
+msgid "qpl_lac_desc_compare_answer_exist"
+msgstr "Compare if there is an Answer for a Question/Gap"
+
+msgid "qpl_lac_desc_compare_with_answer_n"
+msgstr "Compare the Result with the n-th Answer of the Question"
+
+msgid "qpl_lac_desc_compare_with_assignment"
+msgstr "Compare the Result with the Matching n:m"
+
+msgid "qpl_lac_desc_compare_with_exact_sequence"
+msgstr "Compare the Result with exactly the Given Sequence"
+
+msgid "qpl_lac_desc_compare_with_number"
+msgstr "Compare the Result with the Number n"
+
+msgid "qpl_lac_desc_compare_with_quest_res"
+msgstr "Compare the Result with the Reached Points in Percent"
+
+msgid "qpl_lac_desc_compare_with_sequence"
+msgstr "Compare the Result with the Answer Sequence ($a,..,z$)"
+
+msgid "qpl_lac_desc_compare_with_text"
+msgstr "Compare the Result with the text TEXT"
+
+msgid "qpl_lac_desc_logical_and"
+msgstr "Logical AND"
+
+msgid "qpl_lac_desc_logical_or"
+msgstr "Logical OR"
+
+msgid "qpl_lac_desc_negation"
+msgstr "Negation"
+
+msgid "qpl_lac_desc_res_of_answ_m_of_cur_quest"
+msgstr "Result of m-th Answer of Current Question"
+
+msgid "qpl_lac_desc_res_of_cur_quest"
+msgstr "Result of Current Question"
+
+msgid "qpl_lac_legend_header_common"
+msgstr "Expression Logic"
+
+msgid "qpl_lac_legend_header_quest_specific"
+msgstr "Question Specific Expressions"
+
+msgid "qpl_lac_legend_label_operators"
+msgstr "Operators"
+
+msgid "qpl_maxchars_info_numeric_question"
+msgstr "Set a fixed length in characters for this numeric question’s solution input field. This will affect the visual length of the input field and also prevent participants from entering answers of more than the allowed number of characters. Please note that the decimal separator is counted as a regular character."
+
+msgid "qpl_move_insert_clipboard"
+msgstr "Selected question(s) marked for moving."
+
+msgid "qpl_move_select_none"
+msgstr "Please check at least one question to select it for moving"
+
+msgid "qpl_numeric_lower_needs_valid_lower_alert"
+msgstr "The lower bound needs to be valid numerical value lower than the upper bound."
+
+msgid "qpl_numeric_upper_needs_valid_upper_alert"
+msgstr "The upper bound needs to be valid numerical value greater than the lower bound."
+
+msgid "qpl_paste_error"
+msgstr "At least one question could not be pasted into the question pool. Possible reason: You tried to move the question into the same question pool."
+
+msgid "qpl_paste_no_objects"
+msgstr "There are no questions in the clipboard. Please copy or move a question into the clipboard."
+
+msgid "qpl_paste_success"
+msgstr "The question(s) have been pasted into the question pool"
+
+msgid "qpl_qst_edit_form_taxonomy"
+msgstr "Taxonomy \"%s\""
+
+msgid "qpl_qst_edit_form_taxonomy_section"
+msgstr "Taxonomies"
+
+msgid "qpl_qst_inp_matching_mode"
+msgstr "Matching Mode"
+
+msgid "qpl_qst_inp_matching_mode_all_on_all"
+msgstr "One or more terms match one or more definitions (n:n)"
+
+msgid "qpl_qst_inp_matching_mode_one_on_one"
+msgstr "One term matches one definition (1:1)"
+
+msgid "qpl_qst_skl_assign_properties_modified"
+msgstr "The assignment's properties has been modified."
+
+msgid "qpl_qst_skl_assign_synced_to_orig"
+msgstr "The original version of the question has been updated with the new competence assignment."
+
+msgid "qpl_qst_skl_assigns_updated"
+msgstr "Competence assignments updated."
+
+msgid "qpl_qst_skl_selection_for_question_header"
+msgstr "Competence Assignments for Question: %s"
+
+msgid "qpl_qst_skl_usg_numq_col"
+msgstr "Number of Questions in Pool addressing this competence"
+
+msgid "qpl_qst_skl_usg_skill_col"
+msgstr "Competence"
+
+msgid "qpl_qst_skl_usg_sklpnt_col"
+msgstr "Total Sum of Competence-Points per Competence"
+
+msgid "qpl_question_is_in_use"
+msgstr "The question you are about to edit is used in %s test(s). If you change this question, this will NOT change any examples of this question used in any tests, because the system creates a copy of a question when it is inserted into a test!"
+
+msgid "qpl_questions_deleted"
+msgstr "Question(s) removed."
+
+msgid "qpl_reset_preview"
+msgstr "Reset Preview"
+
+msgid "qpl_save_skill_assigns_update"
+msgstr "Save Competence Assignments"
+
+msgid "qpl_settings_availability"
+msgstr "Availability"
+
+msgid "qpl_settings_general_form_prop_show_tax_desc"
+msgstr "Taxonomies can be used as filters in the ‘Questions’ tab."
+
+msgid "qpl_settings_general_form_property_nav_taxonomy"
+msgstr "Taxonomy as Tree View"
+
+msgid "qpl_settings_general_form_property_nav_taxonomy_description"
+msgstr "The selected taxonomy is displayed in a tree view in the „Questions” tab. It will not appear in the filter anymore."
+
+msgid "qpl_settings_general_form_property_opt_notax_selected"
+msgstr "Use No Navigation Tree Filter"
+
+msgid "qpl_settings_general_form_property_show_taxonomies"
+msgstr "Taxonomies"
+
+msgid "qpl_settings_subtab_general"
+msgstr "General Settings"
+
+msgid "qpl_settings_subtab_taxonomies"
+msgstr "Taxonomies"
+
+msgid "qpl_skill_point_eval_by_quest_result"
+msgstr "Evaluation of Competence Points by Question Result"
+
+msgid "qpl_skill_point_eval_by_solution_compare"
+msgstr "Evaluation of Competence Points by Solution Compare"
+
+msgid "qpl_skill_point_eval_mode_quest_result"
+msgstr "Question Result"
+
+msgid "qpl_skill_point_eval_mode_solution_compare"
+msgstr "Solution Compare"
+
+msgid "qpl_skl_all_questions"
+msgstr "All questions"
+
+msgid "qpl_skl_assigned_questions"
+msgstr "Questions with assignment"
+
+msgid "qpl_skl_assignment_for_question"
+msgstr "Competence Assignments for Question ‘%s’"
+
+msgid "qpl_skl_sub_tab_quest_assign"
+msgstr "Question/Competence Assignment"
+
+msgid "qpl_skl_sub_tab_usages"
+msgstr "Assignment Frequency"
+
+msgid "qpl_skl_unassigned_questions"
+msgstr "Questions without assignment"
+
+msgid "qpl_skl_view_control_mode_aria:"
+msgstr "View control mode"
+
+msgid "qpl_sync_quest_skl_assigns_confirmation"
+msgstr "This question was added from a question pool or a different test. Should the original version of the question also be updated with the new competence assignments?"
+
+msgid "qpl_tab_competences"
+msgstr "Competences"
+
+msgid "qpl_taxonomy_tab_info_message"
+msgstr "Taxonomies in question pools can be used to filter the questions. After activating the function in the \"Settings\" tab, they are displayed in the filter in the \"Questions\" tab."
+
+msgid "qst_error_text_too_long"
+msgstr "One or more text elements marked as erroneous are too long. The maximum size for a text element marked as erroneous is 150 characters:"
+
+msgid "qst_essay_allready_written_words"
+msgstr "Word count:"
+
+msgid "qst_essay_chars_remaining"
+msgstr "Remaining characters:"
+
+msgid "qst_essay_wordcounter_enabled"
+msgstr "Word Count"
+
+msgid "qst_essay_wordcounter_enabled_info"
+msgstr "A word count is provided for participants beneath the question’s text input field."
+
+msgid "qst_essay_written_words"
+msgstr "Number of entered words:"
+
+msgid "qst_lifecycle"
+msgstr "Lifecycle"
+
+msgid "qst_lifecycle_draft"
+msgstr "Draft"
+
+msgid "qst_lifecycle_filter_all"
+msgstr "All Lifecycles"
+
+msgid "qst_lifecycle_final"
+msgstr "Final"
+
+msgid "qst_lifecycle_outdated"
+msgstr "Outdated"
+
+msgid "qst_lifecycle_rejected"
+msgstr "Rejected"
+
+msgid "qst_lifecycle_review"
+msgstr "To be Reviewed"
+
+msgid "qst_lifecycle_sharable"
+msgstr "Shareable"
+
+msgid "qst_nested_nested_answers_off"
+msgstr "Deactivated: Sequential order only"
+
+msgid "qst_nested_nested_answers_on"
+msgstr "Activated: Answer elements can be nested (hierarchical order)"
+
+msgid "qst_nr_of_tries"
+msgstr "Number of Tries"
+
+msgid "qst_preview_reset_msg"
+msgstr "The preview has been reset."
+
+msgid "qst_use_nested_answers"
+msgstr "Nested Answers"
+
+msgid "qst_use_nested_answers_info"
+msgstr "After selecting 'Nested Answers', you will need to save the question. A new 'Nesting' subtab will then appear at the top of the screen, where you can arrange the answer elements into a hierarchy of your choice."
+
+msgid "que_contains_unused_var"
+msgstr "The question text contains a variable, that is not used in any formula."
+
+msgid "question_browse_area_info"
+msgstr "Please select an object from which you want to import questions."
+
+msgid "question_complete_title"
+msgstr "Complete"
+
+msgid "question_cumulated_statistics"
+msgstr "Cumulated Question Statistics"
+
+msgid "question_id"
+msgstr "Question ID"
+
+msgid "question_id_short"
+msgstr "ID"
+
+msgid "question_instances_title"
+msgstr "This question is used in the following tests"
+
+msgid "question_is_part_of_running_test"
+msgstr "Question is part of a running test and may not be edited."
+
+msgid "question_marking"
+msgstr "Question Flagging"
+
+msgid "question_marking_description"
+msgstr "Participants can flag test questions for themselves. The flags are shown in the ‘Test Attempt Overview’ if that feature has been activated."
+
+msgid "question_not_answered"
+msgstr "The question was not answered"
+
+msgid "question_saved_for_upload"
+msgstr "The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!"
+
+msgid "question_summary"
+msgstr "Test Attempt Overview"
+
+msgid "question_summary_btn"
+msgstr "Test Attempt Overview"
+
+msgid "question_title"
+msgstr "Question Title"
+
+msgid "question_type"
+msgstr "Question Type"
+
+msgid "questionlist_cannot_be_altered"
+msgstr "The question list cannot be altered as the test already contains participant data sets."
+
+msgid "questionpool_not_entered"
+msgstr "Please enter a title for the the new question pool you would like to create."
+
+msgid "questionpool_not_selected"
+msgstr "Please select a question pool!"
+
+msgid "questions"
+msgstr "Questions"
+
+msgid "questions_from"
+msgstr "questions from"
+
+msgid "questions_per_page_view"
+msgstr "Page View"
+
+msgid "random_accept_sample"
+msgstr "Accept Sample"
+
+msgid "random_another_sample"
+msgstr "Get another Sample"
+
+msgid "random_selection"
+msgstr "Random Selection"
+
+msgid "range"
+msgstr "Range"
+
+msgid "range_lower_limit"
+msgstr "Lower Bound"
+
+msgid "range_max"
+msgstr "Range (Maximum)"
+
+msgid "range_min"
+msgstr "Range (Minimum)"
+
+msgid "range_upper_limit"
+msgstr "Upper Bound"
+
+msgid "rated_sign"
+msgstr "Sign"
+
+msgid "rated_unit"
+msgstr "Unit"
+
+msgid "rated_value"
+msgstr "Value"
+
+msgid "rating"
+msgstr "Rating"
+
+msgid "rating_sign"
+msgstr "Rate Sign"
+
+msgid "rating_simple"
+msgstr "Simple Rating"
+
+msgid "rating_unit"
+msgstr "Rate Unit"
+
+msgid "rating_value"
+msgstr "Rate Value"
+
+msgid "rectangle"
+msgstr "Rectangle"
+
+msgid "rectangle_click_br_corner"
+msgstr "Please click on the bottom right corner of the desired area."
+
+msgid "rectangle_click_tl_corner"
+msgstr "Please click on the top left corner of the desired area."
+
+msgid "redirectAfterSave"
+msgstr "The maximum working time has been reached. In a few seconds you will be redirected..."
+
+msgid "redirect_after_finishing_rule"
+msgstr "Redirect to Web Page"
+
+msgid "redirect_after_finishing_tst"
+msgstr "Redirect"
+
+msgid "redirect_after_finishing_tst_desc"
+msgstr "After completing the test, each participant is automatically redirected to a specific webpage of your choosing. This will only happen if participants do not have direct access to their test results. When entering the address of an external webpage, use the complete URL (including ‘https://’). When redirecting to an Object in ILIAS, use the permalink that can be found in the footer of the Object in question."
+
+msgid "redirect_always"
+msgstr "Always"
+
+msgid "redirect_always_to_logout"
+msgstr "Always to the logout screen"
+
+msgid "redirect_in_kiosk_mode"
+msgstr "Only when ‘Exam View’ has been activated"
+
+msgid "redirect_url_invalid"
+msgstr "Please enter a valid url of the target webpage."
+
+msgid "redirect_url_required_for_rule"
+msgstr "The url of the webpage is required when \"%s\" is selected."
+
+msgid "redirection_url"
+msgstr "URL of Webpage"
+
+msgid "region"
+msgstr "Region"
+
+msgid "remaining_duration"
+msgstr "Total Time Remaining"
+
+msgid "remove_gap"
+msgstr "Remove Gap"
+
+msgid "remove_participants"
+msgstr "Remove Participant(s)"
+
+msgid "remove_question"
+msgstr "Remove"
+
+msgid "remove_selected_participants_confirmation"
+msgstr "Are you sure you want to remove the selected participants from the test?"
+
+msgid "remove_selected_templates_confirmation"
+msgstr "Are you sure you want to permanently remove the selected personal test settings templates?"
+
+msgid "remove_solution"
+msgstr "Remove Content for Recapitulation"
+
+msgid "res_contains_undef_res"
+msgstr "A result formula contains an undefined result!"
+
+msgid "res_contains_undef_var"
+msgstr "A result formula contains an undefined variable!"
+
+msgid "reset_definitions"
+msgstr "Reset Ordering"
+
+msgid "reset_pictures"
+msgstr "Reset Picture Positions"
+
+msgid "reset_terms"
+msgstr "Reset Ordering"
+
+msgid "result"
+msgstr "Result"
+
+msgid "result_co_frac"
+msgstr "Irreducible fraction"
+
+msgid "result_co_frac_info"
+msgstr "Only a fully reduced fraction (e.g. 1/3) is a valid result. For this answer format, it is recommended that tolerance is left at 0!"
+
+msgid "result_dec"
+msgstr "Decimal"
+
+msgid "result_dec_info"
+msgstr "Answers with a comma or point decimal separator are considered valid, i.e. 2,3 or 2.3"
+
+msgid "result_frac"
+msgstr "Fraction"
+
+msgid "result_frac_info"
+msgstr "Answers given as fractions are considered valid. Fractions do not need to be reduced to lowest terms; for example, both 1/3 and 2/6 are valid."
+
+msgid "result_type_selection"
+msgstr "Required Answer Format"
+
+msgid "result_unit_info"
+msgstr "Please note that the selected result unit must also be activated in ‘Available units’."
+
+msgid "result_units"
+msgstr "Available Units"
+
+msgid "result_units_info"
+msgstr "The selected units are offered to the learner as part of an answer. The learner has to choose one unit."
+
+msgid "result_x"
+msgstr "Result %s"
+
+msgid "results"
+msgstr "Results"
+
+msgid "results_tab"
+msgstr "Results"
+
+msgid "resulttable_all"
+msgstr "All"
+
+msgid "resulttable_correct"
+msgstr "Correct"
+
+msgid "resulttable_incorrect"
+msgstr "Incorrect/Incomplete"
+
+msgid "resulttable_vc_sort_iooa"
+msgstr "in order of appearance"
+
+msgid "resulttable_vc_sort_posscore"
+msgstr "highest possible score first"
+
+msgid "review_view"
+msgstr "Review"
+
+msgid "running"
+msgstr "Running"
+
+msgid "saveOrder"
+msgstr "Save Order"
+
+msgid "saveOrderAndObligations"
+msgstr "Save Order and Obligations"
+
+msgid "save_and_next"
+msgstr "Save and Continue"
+
+msgid "save_on_navigation"
+msgstr "Save on Navigation"
+
+msgid "save_on_navigation_confirmation"
+msgstr "Your changed answers will be automatically saved when you navigate."
+
+msgid "save_on_navigation_forced_feedback_hint"
+msgstr "Before you get feedback on your given answer."
+
+msgid "save_on_navigation_locked_confirmation"
+msgstr "Your changed answers will be automatically saved and locked when you navigate."
+
+msgid "saved_adjustment"
+msgstr "Changes saved."
+
+msgid "score_anon"
+msgstr "Score anonymously"
+
+msgid "score_partsol_enabled"
+msgstr "Half-Point Scoring"
+
+msgid "score_partsol_enabled_info"
+msgstr "Award participants half of the maximum available point score for this question if they get three out of four answers correct. No points are awarded for fewer than three correct answers."
+
+msgid "scored_by"
+msgstr "Scored By"
+
+msgid "scored_pass"
+msgstr "Scored Test Attempt"
+
+msgid "scoring"
+msgstr "Scoring and Results"
+
+msgid "scoringadjust"
+msgstr "Corrections"
+
+msgid "search_groups"
+msgstr "Search Groups"
+
+msgid "search_roles"
+msgstr "Search Roles"
+
+msgid "search_term"
+msgstr "Search Term"
+
+msgid "select_at_least_one_feedback_type_and_trigger"
+msgstr "Please Select at least one type of feedback and a trigger."
+
+msgid "select_at_least_one_lock_answer_type"
+msgstr "Please select at least one condition that will trigger the locking of answers."
+
+msgid "select_gap"
+msgstr "Selection Gap"
+
+msgid "select_max_one_item"
+msgstr "Please select one item only"
+
+msgid "select_one_user"
+msgstr "Please select at least one user."
+
+msgid "select_question"
+msgstr "Select a Question"
+
+msgid "select_target_position_for_move_question"
+msgstr "Please select a target position to move the question(s) and press one of the insert buttons!"
+
+msgid "select_unit"
+msgstr "--- Select Unit ---"
+
+msgid "selected_category"
+msgstr "Selected Category: %s"
+
+msgid "selection"
+msgstr "Selection"
+
+msgid "set_edit_mode"
+msgstr "Set Edit Mode"
+
+msgid "set_filter"
+msgstr "Set Filter"
+
+msgid "set_manscoring_done"
+msgstr "Set User to 'Scoring Finalised'"
+
+msgid "set_manscoring_open"
+msgstr "Remove 'Scoring Finalised' Status"
+
+msgid "set_manual_feedback"
+msgstr "Manual Feedback"
+
+msgid "shape"
+msgstr "Shape"
+
+msgid "showSuggestedSolution"
+msgstr "Type"
+
+msgid "show_all_test_properties_on_info_page"
+msgstr "Show all Test Properties"
+
+msgid "show_all_test_properties_on_info_page_byline"
+msgstr "Users will be presented with a complete list of test properties in the ‘Info’ tab, i.e. information on scoring and reporting."
+
+msgid "show_answer_overview"
+msgstr "Show Answer Overview"
+
+msgid "show_best_solution"
+msgstr "Show best solution"
+
+msgid "show_detailed_results"
+msgstr "Show User’s Detailed Results (Marked Pass)"
+
+msgid "show_examview_html"
+msgstr "On screen"
+
+msgid "show_hide_best_solution"
+msgstr "Show or hide best solution"
+
+msgid "show_old_concluding_remarks"
+msgstr "Show Old Concluding Remarks"
+
+msgid "show_old_introduction"
+msgstr "Show Old Introduction"
+
+msgid "show_pass_overview"
+msgstr "Show Marked Pass Overview"
+
+msgid "show_results"
+msgstr "Show Results"
+
+msgid "show_user_answers"
+msgstr "Show User’s Marked Answers"
+
+msgid "shuffle_answers"
+msgstr "Shuffle Answers"
+
+msgid "skip_question"
+msgstr "Do not Answer and Next"
+
+msgid "solution"
+msgstr "Solution"
+
+msgid "solutionText"
+msgstr "Text"
+
+msgid "solution_contain_keywords"
+msgstr "Score is granted based on the occurrence of the following keywords:"
+
+msgid "solution_hint"
+msgstr "Assigned Content for Recapitulation"
+
+msgid "solutions"
+msgstr "Solutions"
+
+msgid "start_tag"
+msgstr "Start Tag"
+
+msgid "statistical_data"
+msgstr "Statistical Data"
+
+msgid "statistics"
+msgstr "Statistics"
+
+msgid "status_of_attempt"
+msgstr "Status"
+
+msgid "submit_and_check"
+msgstr "Save and Check Answer"
+
+msgid "submit_answer"
+msgstr "Save Answer"
+
+msgid "suggest_range"
+msgstr "Suggest Range"
+
+msgid "suggestedSolutionType"
+msgstr "Refer to"
+
+msgid "suggested_solution"
+msgstr "Content for Recapitulation"
+
+msgid "suggested_solution_added_successfully"
+msgstr "You successfully set a content for recapitulation!"
+
+msgid "sync_question_to_pool"
+msgstr "Synchronise Question"
+
+msgid "ta_resulttable_vc_mode_aria"
+msgstr "switch question mode"
+
+msgid "tab_nest_answers"
+msgstr "Nesting"
+
+msgid "tax_filter"
+msgstr "Taxonomy"
+
+msgid "tax_filter_notax"
+msgstr "Questions without assigned Taxonomy"
+
+msgid "taxonomy_node_title"
+msgstr "Taxonomy Node Title"
+
+msgid "taxonomy_title"
+msgstr "Taxonomy Title"
+
+msgid "term"
+msgstr "Term"
+
+msgid "term_image"
+msgstr "Term Image"
+
+msgid "term_text"
+msgstr "Term Text"
+
+msgid "terms"
+msgstr "Terms"
+
+msgid "test_attempts_finished"
+msgstr "The test attempt has been ended for the selected participant(s)."
+
+msgid "test_confirm_template_reset"
+msgstr "Are you sure that you do not want to use the template anymore?"
+
+msgid "test_delete_page"
+msgstr "Delete Question"
+
+msgid "test_edit_settings"
+msgstr "Edit Settings"
+
+msgid "test_enable_archiving"
+msgstr "Enable Archiving"
+
+msgid "test_has_datasets_warning_page_view"
+msgstr "The test already contains data sets. The options to edit questions are limited until you remove these data sets."
+
+msgid "test_has_datasets_warning_page_view_link"
+msgstr "Participant Results"
+
+msgid "test_is_offline"
+msgstr "You cannot start the test! The test is offline."
+
+msgid "test_jump_to"
+msgstr "Jump to Question"
+
+msgid "test_move_page"
+msgstr "Move Question"
+
+msgid "test_next_question"
+msgstr "Next Question"
+
+msgid "test_prev_question"
+msgstr "Previous Question"
+
+msgid "test_question_set_type"
+msgstr "Question Selection Mode"
+
+msgid "test_question_set_type_fixed"
+msgstr "Fixed questions"
+
+msgid "test_question_set_type_fixed_info"
+msgstr "All test participants see the same questions.<br>You can create questions directly in the test as well as use questions from a question pool. If you create new questions, you can decide to save them in a question pool."
+
+msgid "test_question_set_type_random"
+msgstr "Random questions"
+
+msgid "test_question_set_type_random_info"
+msgstr "Each test participant will see an individually generated set of questions. The questions are drawn from one or more question pools."
+
+msgid "test_results"
+msgstr "Test Results"
+
+msgid "test_scoring"
+msgstr "Scoring Options"
+
+msgid "test_template_reset"
+msgstr "The template has been removed."
+
+msgid "test_title"
+msgstr "Test Title"
+
+msgid "test_using_template"
+msgstr "This test uses the template %s. If you do not want to use a template and have access to all settings, please click here: %s."
+
+msgid "test_using_template_link"
+msgstr "Do not use template anymore"
+
+msgid "text_correct"
+msgstr "Correct Text"
+
+msgid "text_gap"
+msgstr "Text Gap"
+
+msgid "text_maximum_chars_allowed"
+msgstr "Please do not enter more than a maximum of %s characters. Additional characters won't get cut, but the exceeding might be considered during scoring."
+
+msgid "text_rating"
+msgstr "Text Matching Method"
+
+msgid "text_wrong"
+msgstr "Incorrect Text"
+
+msgid "textsize"
+msgstr "Text Size"
+
+msgid "textsize_errortext_info"
+msgstr "Set the size of the error text as a percentage of the standard size. If you do not specify a value, the standard size (100 per cent) will be used."
+
+msgid "textsize_info"
+msgstr "Set the size of the text to be ordered as a percentage of the standard size. If you do not specify a value, the standard size (100 per cent) will be used."
+
+msgid "thumb_size"
+msgstr "Thumbnail Size"
+
+msgid "thumb_size_info"
+msgstr "Rescale the longest edge of answer images to this length in pixels. The aspect ratio of the image will be preserved."
+
+msgid "thumb_size_unit_pixel"
+msgstr "pixels"
+
+msgid "time_format"
+msgstr "HH MM SS"
+
+msgid "timing"
+msgstr "Extra Time"
+
+msgid "tolerance"
+msgstr "Tolerance (%)"
+
+msgid "tolerance_info"
+msgstr "Allow answers that deviate from the expected result by the percentage margin entered here. A tolerance of 0 means that only the exact result value will be scored as correct, whereas a tolerance of 5 will mean that the given answer can deviate by up to 5% from the result value."
+
+msgid "too_many_targets_selected_for_move"
+msgstr "You must select exactly one target position!"
+
+msgid "toplist_by_score"
+msgstr "Ranking by Score"
+
+msgid "toplist_by_time"
+msgstr "Ranking by Time Taken"
+
+msgid "toplist_col_achieved"
+msgstr "Date"
+
+msgid "toplist_col_participant"
+msgstr "Participant"
+
+msgid "toplist_col_percentage"
+msgstr "Percentage Score"
+
+msgid "toplist_col_rank"
+msgstr "Rank"
+
+msgid "toplist_col_score"
+msgstr "Point Score"
+
+msgid "toplist_col_wtime"
+msgstr "Time Taken"
+
+msgid "total_attempts"
+msgstr "Number of Attempts Made"
+
+msgid "total_duration"
+msgstr "Total Time Available"
+
+msgid "total_max_points_cannot_be_negative"
+msgstr "The maximum amount of reachable points cannot be negative."
+
+msgid "true"
+msgstr "True"
+
+msgid "tst_access_code_created"
+msgstr "To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please make a note of this code so that you can continue the test later."
+
+msgid "tst_activate_skill_service"
+msgstr "Competence Service"
+
+msgid "tst_activate_skill_service_desc"
+msgstr "Allow questions to be assigned to competences and for  thresholds for reaching specific competence levels to be set."
+
+msgid "tst_activation_limited_visibility_info"
+msgstr "Before and after the period during which the test is available,  the test's title will be displayed, but participants won’t be able to take the test. Access, including to tests already in progress, will be prevented once the period of availability has ended."
+
+msgid "tst_activation_online_info"
+msgstr "Participants can take the test if it is ‘Online’."
+
+msgid "tst_add_quest_cont_edit_mode"
+msgstr "Editor"
+
+msgid "tst_add_quest_cont_edit_mode_IPE"
+msgstr "Use plain text when creating questions and answer options"
+
+msgid "tst_add_quest_cont_edit_mode_IPE_info"
+msgstr "When creating or editing questions and answer options, the text cannot be formatted. Feedback however, can be formatted using the ILIAS page editor and also reused if the question is embedded in an ILIAS learning module."
+
+msgid "tst_add_quest_cont_edit_mode_RTE"
+msgstr "Use Rich-Text-Editor (TinyMCE) for editing questions, answer options and feedback"
+
+msgid "tst_add_quest_cont_edit_mode_RTE_info"
+msgstr "Text in questions, answers and feedback can be formatted. However, feedback will not be carried across if the question is embedded in an ILIAS learning module."
+
+msgid "tst_add_quest_cont_edit_mode_plain"
+msgstr "Use plain text"
+
+msgid "tst_add_quest_cont_edit_mode_plain_info"
+msgstr "No formatting of text in question, answers and feedback."
+
+msgid "tst_addit_passes_blocked_after_passed_msg"
+msgstr "You have passed the test. The test cannot be started again."
+
+msgid "tst_all_test_competences"
+msgstr "All Test Competence"
+
+msgid "tst_all_user_data_deleted"
+msgstr "All user data for this test has been removed!"
+
+msgid "tst_already_passed_cannot_retake"
+msgstr "You have already passed this test. You cannot start the test again."
+
+msgid "tst_already_submitted"
+msgstr "The test has already been completed and submitted."
+
+msgid "tst_analysis"
+msgstr "Analysis"
+
+msgid "tst_anonymity"
+msgstr "Privacy"
+
+msgid "tst_anonymity_anonymous_test"
+msgstr "Results without names / anonymous test"
+
+msgid "tst_anonymity_no_anonymization"
+msgstr "Results with names"
+
+msgid "tst_answer_aggr_answer_header"
+msgstr "Answer"
+
+msgid "tst_answer_aggr_frequency_header"
+msgstr "Frequency"
+
+msgid "tst_answer_details"
+msgstr "Answer Details"
+
+msgid "tst_answer_fixation"
+msgstr "Lock answers after feedback shown and/or moving to next question"
+
+msgid "tst_answer_fixation_handling"
+msgstr "Lock Answers"
+
+msgid "tst_answer_fixation_none"
+msgstr "Do not lock answers"
+
+msgid "tst_answer_fixation_none_desc"
+msgstr "Participants can change their answers at any time while a test is still running."
+
+msgid "tst_answer_fixation_on_followup_question"
+msgstr "After Moving to Next Question"
+
+msgid "tst_answer_fixation_on_followup_question_desc"
+msgstr "As soon as the next question in the test has been revealed, a participant’s answers to the previous question are locked and can no longer be changed."
+
+msgid "tst_answer_fixation_on_instant_feedback"
+msgstr "After Feedback Received"
+
+msgid "tst_answer_fixation_on_instant_feedback_desc"
+msgstr "After the feedback to a question has been shown, a participant’s answers are locked and they can no longer change their answers."
+
+msgid "tst_answer_fixation_on_instantfb_or_followupqst"
+msgstr "After feedback or moving to next question"
+
+msgid "tst_answer_fixation_on_instantfb_or_followupqst_desc"
+msgstr "A participant’s answers to a question will be locked as soon as the question's feedback is shown or when the next question in the test has been revealed."
+
+msgid "tst_answer_status_answered"
+msgstr "Answered"
+
+msgid "tst_answer_status_editing"
+msgstr " (editing)"
+
+msgid "tst_answer_status_not_answered"
+msgstr "Not answered"
+
+msgid "tst_answered_questions"
+msgstr "Questions Answered"
+
+msgid "tst_answered_questions_of_total"
+msgstr "%s of %s"
+
+msgid "tst_answered_questions_test"
+msgstr "Questions answered in this test"
+
+msgid "tst_attached_xls_file"
+msgstr "You can find the test results for this participant in the attached Excel file."
+
+msgid "tst_attempt"
+msgstr "Attempt"
+
+msgid "tst_attempt_limit_message"
+msgstr "Total number of times you may take this test: <b>%s</b>."
+
+msgid "tst_attempt_started"
+msgstr "Attempt Started"
+
+msgid "tst_back_to_pass_details"
+msgstr "Back to Pass Details"
+
+msgid "tst_back_to_question_list"
+msgstr "Back to Question List"
+
+msgid "tst_back_to_top"
+msgstr "Back to Top"
+
+msgid "tst_back_to_virtual_pass"
+msgstr "Back to Question Overview"
+
+msgid "tst_best_solution_is"
+msgstr "The best solution is:"
+
+msgid "tst_block_passes_after_passed"
+msgstr "Prevent Retakes After Pass"
+
+msgid "tst_block_passes_after_passed_info"
+msgstr "Prevent participants from retaking the test once they have passed it."
+
+msgid "tst_browse_for_qpl_questions"
+msgstr "Add From Pool"
+
+msgid "tst_browse_for_tst_questions"
+msgstr "Add From Other Test"
+
+msgid "tst_btn_hide_best_solutions"
+msgstr "Hide Best Solutions"
+
+msgid "tst_btn_rebuild_random_question_stage"
+msgstr "Synchronize Questions from Pool"
+
+msgid "tst_btn_reset_pool_sync"
+msgstr "Edit/Cancel Synchronisation"
+
+msgid "tst_btn_show_best_solutions"
+msgstr "Show Best Solutions"
+
+msgid "tst_cannot_online_due_to_switched_quest_set_type_setting"
+msgstr "The test cannot be set to online, because the test mode setting has been changed. You have to set a test mode relating question config before the test can be set to online."
+
+msgid "tst_change_dyn_test_question_selection"
+msgstr "Change Question Selection"
+
+msgid "tst_change_points_for_question"
+msgstr "Points for the Answer"
+
+msgid "tst_change_quest_set_type_from_old_to_new_with_conflict"
+msgstr "You are about to change the question selection mode from <b>%s</b> to <b>%s</b>. You should be aware that a set of questions or a question pool configuration (depending on the current mode) already exists for this test.<br />Any existing questions or question pool configurations will be lost if you change the question selection mode. As a result of changing the mode, you will therefore need to redo the questions for the test by assigning or drawing up new questions, or by configuring the question pool(s) from which questions will be drawn."
+
+msgid "tst_change_workingtime"
+msgstr "Add extra time for a participant"
+
+msgid "tst_comp_eval_mode"
+msgstr "Evaluation by"
+
+msgid "tst_comp_points"
+msgstr "Competence Points"
+
+msgid "tst_competence"
+msgstr "Competence"
+
+msgid "tst_competence_tree"
+msgstr "Competence tree"
+
+msgid "tst_conditions_checkbox_enabled"
+msgstr "Exam Conditions"
+
+msgid "tst_conditions_checkbox_enabled_desc"
+msgstr "Participants are required to select a checkbox confirming their acceptance of the exam conditions in order to start the test. Please use the test’s introductory message to present the exam conditions to participants."
+
+msgid "tst_confirm_submit_answers"
+msgstr "Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button."
+
+msgid "tst_conflicting_setting"
+msgstr "This setting does conflict with another setting."
+
+msgid "tst_copy"
+msgstr "Copy Test"
+
+msgid "tst_corr_add_as_answer_btn"
+msgstr "Add as Correct Answer"
+
+msgid "tst_corr_answ_stat_tbl_header_answer"
+msgstr "Answer"
+
+msgid "tst_corr_answ_stat_tbl_header_frequency"
+msgstr "Frequency"
+
+msgid "tst_corrections_answers_tbl"
+msgstr "Statistics"
+
+msgid "tst_corrections_answers_tbl_subindex"
+msgstr "Statistics for %s"
+
+msgid "tst_corrections_incompatible_question_set_type"
+msgstr "Corrections are only possible if the test uses a fixed set of questions."
+
+msgid "tst_corrections_manscore_reset_warning"
+msgstr "This question has been scored manually %s times: '%s' (ID: %s). Saving the question will reset all of these scores."
+
+msgid "tst_corrections_qst_form"
+msgstr "Point Correction"
+
+msgid "tst_corrections_tab_question"
+msgstr "Question"
+
+msgid "tst_corrections_tab_solution"
+msgstr "Solution"
+
+msgid "tst_corrections_tab_statistics"
+msgstr "Statistics"
+
+msgid "tst_count_correct_solutions"
+msgstr "Only fully correct and complete answers score points"
+
+msgid "tst_count_correct_solutions_desc"
+msgstr "Fully correct and complete answers score the maximum number of points available. Incomplete or partially incorrect answers score 0 points - this is even the case for questions that otherwise award points for partial answers."
+
+msgid "tst_count_partial_solutions"
+msgstr "Incomplete or partially incorrect answers score points"
+
+msgid "tst_count_partial_solutions_desc"
+msgstr "Some types of questions (multiple choice, Kprim, multiple choice in image map questions, error texts and matching questions) allow points to be awarded for incomplete or only partially correct answers. Allow these points to be added up and for them to count towards the overall score."
+
+msgid "tst_current_run_no_longer_valid"
+msgstr "Your current test run is no longer valid. <br>It was probably completed already or finished by a tutor."
+
+msgid "tst_delete_missing_mark"
+msgstr "Please select at least one mark step to remove it"
+
+msgid "tst_derive_new_pool"
+msgstr "Derive New Question Pool"
+
+msgid "tst_derive_new_pools"
+msgstr "Derive New Question Pools"
+
+msgid "tst_dont_show_msg_again_in_current_session"
+msgstr "Don't show this message again in my current session."
+
+msgid "tst_edit_competence_assign"
+msgstr "Edit Assignment Properties"
+
+msgid "tst_edit_scoring"
+msgstr "Edit Scoring"
+
+msgid "tst_enable_questionlist"
+msgstr "Show List of Questions"
+
+msgid "tst_enable_questionlist_description"
+msgstr "Participants can access a list of the test questions via the 'Tools' menu option in the main menu bar to the left of the current question."
+
+msgid "tst_ending_time"
+msgstr "Finishing Time"
+
+msgid "tst_ending_time_before_starting_time"
+msgstr "Please enter a date for the end of the test that is after the start date."
+
+msgid "tst_ending_time_desc"
+msgstr "Time from which participants can no longer submit answers. <strong>Important</strong>: Do <strong>not</strong> use this option for e-exams/distance exams. Instead, use the ‘Time Limit’ function (see below). Only then will the test be ended on the server side and each participant's last entry automatically saved as auto-save-content. <strong>Please NOTE:</strong> This auto-save content will <strong>NOT</strong> be automatically scored."
+
+msgid "tst_enter_questionpool"
+msgstr "Please enter a question pool name where the new question will be stored"
+
+msgid "tst_eval_question_points"
+msgstr "Question Results for Pass %s"
+
+msgid "tst_eval_results_by_pass"
+msgstr "List of Answers for Attempt Nr. %s"
+
+msgid "tst_eval_results_by_pass_lo"
+msgstr "List of Answers for Attempt %s"
+
+msgid "tst_eval_results_lo"
+msgstr "List of Answers"
+
+msgid "tst_eval_show_answer"
+msgstr "Show Answer"
+
+msgid "tst_eval_total_finished"
+msgstr "Total finished tests (Participants that used up all possible passes.)"
+
+msgid "tst_eval_total_finished_average_time"
+msgstr "Average Time on Task"
+
+msgid "tst_eval_total_passed"
+msgstr "Total passed tests"
+
+msgid "tst_eval_total_passed_average_points"
+msgstr "Average points of passed tests"
+
+msgid "tst_eval_total_passed_average_time"
+msgstr "Average Time on Task of All Passed Tests"
+
+msgid "tst_eval_total_persons"
+msgstr "Total number of participants who started the test"
+
+msgid "tst_exam_access_code"
+msgstr "Access Code"
+
+msgid "tst_exam_access_code_invalid_message"
+msgstr "The code you provided is invalid."
+
+msgid "tst_exam_access_code_label"
+msgstr "Enter access code to continue your already started test. Leave the field empty to start a new test run."
+
+msgid "tst_exam_conditions"
+msgstr "Exam Conditions"
+
+msgid "tst_exam_conditions_label"
+msgstr "Check this box to confirm that you accept the conditions."
+
+msgid "tst_exam_conditions_not_checked_message"
+msgstr "In order to take this test, you need to accept the exam conditions!"
+
+msgid "tst_exam_ending_time_message"
+msgstr "The test cannot be started after %s."
+
+msgid "tst_exam_modal_message_conditions"
+msgstr "Please confirm that you accept the exam conditions in order to start the test."
+
+msgid "tst_exam_modal_message_conditions_and_password"
+msgstr "Please confirm that you accept the exam conditions and enter the password in order to start the test."
+
+msgid "tst_exam_modal_message_password"
+msgstr "Please enter the password to start the test."
+
+msgid "tst_exam_not_assigned_participant_disclaimer"
+msgstr "You cannot start this test, as you are not an assigned participant."
+
+msgid "tst_exam_password"
+msgstr "Test Password"
+
+msgid "tst_exam_password_invalid_message"
+msgstr "The password you entered is not valid. Please try again and, if necessary, contact the person responsible for this test."
+
+msgid "tst_exam_password_label"
+msgstr "Password"
+
+msgid "tst_exam_required_fields_not_filled_message"
+msgstr "You need to fill out all required fields!"
+
+msgid "tst_exam_start"
+msgstr "Start Test"
+
+msgid "tst_exam_use_previous_answers"
+msgstr "Use Previous Answers"
+
+msgid "tst_exam_use_previous_answers_label"
+msgstr "Automatically prefill the answers based on answers you gave the last time you took this test."
+
+msgid "tst_extratime_added"
+msgstr "The working time of the participant has been increased by %s minutes."
+
+msgid "tst_extratime_info"
+msgstr "If you want to add the working time multiple times for the same participant, please insert the total amount of time you want to add."
+
+msgid "tst_extratime_notavailable"
+msgstr "Extra time can be added only for tests with one pass and a maximum processing time."
+
+msgid "tst_failed"
+msgstr "Failed"
+
+msgid "tst_failed_imp_qst_skl_assign"
+msgstr "The question's assignments to the following competences could not be created. The according competences could not be identified within the local system."
+
+msgid "tst_failed_imp_skl_thresholds"
+msgstr "The Import of thresholds for the following competences were skipped, because the according competences within the local system are configured with a different list of levels."
+
+msgid "tst_feedback"
+msgstr "Feedback"
+
+msgid "tst_feedback_is_given_inline"
+msgstr "The feedback will be displayed along with your answer."
+
+msgid "tst_feedback_not_available_for_answer"
+msgstr "There is no feedback available for your answer."
+
+msgid "tst_filter_lifecycle_enabled"
+msgstr "Use Lifecycle as Filter"
+
+msgid "tst_filter_question_type"
+msgstr "Question Type"
+
+msgid "tst_filter_question_type_enabled"
+msgstr "Use Question Type as Filter"
+
+msgid "tst_filter_tax_node"
+msgstr "Taxonomy Node"
+
+msgid "tst_filter_taxonomy"
+msgstr "Taxonomy"
+
+msgid "tst_final_information"
+msgstr "Finishing the Test"
+
+msgid "tst_finish_confirm_button"
+msgstr "Yes, I want to finish the test"
+
+msgid "tst_finish_confirm_cancel_button"
+msgstr "No, go back to the previous question"
+
+msgid "tst_finish_confirmation_question"
+msgstr "You are going to finish this test. You won’t be able to enter this test attempt again to change your answers. Do you really want to finish this test?"
+
+msgid "tst_finish_confirmation_question_no_attempts_left"
+msgstr "You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?"
+
+msgid "tst_finished"
+msgstr "Finished"
+
+msgid "tst_form_dynamic_question_set_config"
+msgstr "Continues Question Selection"
+
+msgid "tst_gap_analysis"
+msgstr "Gap Analysis"
+
+msgid "tst_general_properties"
+msgstr "General Settings"
+
+msgid "tst_header_participant"
+msgstr "Question and your answer:"
+
+msgid "tst_header_participant_no_answer"
+msgstr "Question - not answered"
+
+msgid "tst_header_solution"
+msgstr "Best Solution:"
+
+msgid "tst_hide_info_tab"
+msgstr "Hide Info Tab"
+
+msgid "tst_hide_info_tab_desc"
+msgstr "Hide the test’s ‘Info’ tab."
+
+msgid "tst_hide_pagecontents"
+msgstr "Hide Page Content"
+
+msgid "tst_hide_pagecontents_desc"
+msgstr "Content placed before and after the actual question text via the \"Edit Page\" button will not be displayed in results views or print output."
+
+msgid "tst_imap_qst_mode"
+msgstr "Mode"
+
+msgid "tst_imap_qst_mode_mc"
+msgstr "Multiple choice"
+
+msgid "tst_imap_qst_mode_sc"
+msgstr "Single choice"
+
+msgid "tst_import_non_ilias_zip"
+msgstr "Error: The filename of the uploaded import file does not match the expected format."
+
+msgid "tst_import_verify_found_questions"
+msgstr "ILIAS found the following questions in the test import file. Please select the questions you want to import with this test."
+
+msgid "tst_inp_all_quest_points_equal_per_pool"
+msgstr "Only Use Pools With Equal Value Questions"
+
+msgid "tst_inp_all_quest_points_equal_per_pool_desc"
+msgstr "Only question pools in which all questions have the same points are offered. Participants of such a test can all have the same number of maximum points, thus the test results will be better comparable. It is recommended to choose this option. Please take note that preexisting rules are not reevaluated upon activation of this setting."
+
+msgid "tst_inp_dyn_quest_set_quest_ordering_by_date_desc"
+msgstr "The presentation order for the questions bases upon the question's last editing date."
+
+msgid "tst_inp_dyn_quest_set_quest_ordering_by_tax_desc"
+msgstr "The presentation order for the questions bases upon the question's assignments in a taxonomy."
+
+msgid "tst_inp_no_available_tax_hint"
+msgstr "No Available Taxonomies for Selected Question Pool"
+
+msgid "tst_inp_quest_amount_cfg_mode"
+msgstr "Amount of Questions"
+
+msgid "tst_inp_quest_amount_cfg_mode_pool"
+msgstr "Define the amount of questions per selected question pool and taxonomy node."
+
+msgid "tst_inp_quest_amount_cfg_mode_test"
+msgstr "Define the amount of questions per test"
+
+msgid "tst_inp_quest_amount_per_source_pool"
+msgstr "Question Amount"
+
+msgid "tst_inp_quest_amount_per_test"
+msgstr "Number of Questions for the Whole Test"
+
+msgid "tst_inp_source_pool_filter_tax"
+msgstr "Taxonomy Filter"
+
+msgid "tst_inp_source_pool_filter_tax_x"
+msgstr "Use Taxonomy \"%s\" as Filter"
+
+msgid "tst_inp_source_pool_label"
+msgstr "Question Pool"
+
+msgid "tst_inp_source_pool_no_tax_filter"
+msgstr "Use No Taxonomy Based Filter"
+
+msgid "tst_input_dyn_quest_set_answer_status_filter_enabled"
+msgstr "Provide Answer Status Filter"
+
+msgid "tst_input_dynamic_question_set_ordering_tax"
+msgstr "Ordering Taxonomy"
+
+msgid "tst_input_dynamic_question_set_ordering_tax_description"
+msgstr "The test questions will be presented accordingly to their assignments in the selected taxonomy."
+
+msgid "tst_input_dynamic_question_set_question_ordering"
+msgstr "Question Ordering"
+
+msgid "tst_input_dynamic_question_set_question_ordering_by_date"
+msgstr "Order Questions by Date"
+
+msgid "tst_input_dynamic_question_set_question_ordering_by_tax"
+msgstr "Order Questions by Taxonomy"
+
+msgid "tst_input_dynamic_question_set_source_questionpool"
+msgstr "Source Question Pool"
+
+msgid "tst_input_dynamic_question_set_taxonomie_filter_enabled"
+msgstr "Provide Taxonomy Filter"
+
+msgid "tst_insert_in_test"
+msgstr "Insert in Test"
+
+msgid "tst_insert_missing_question"
+msgstr "Please select at least one question to insert it into the test!"
+
+msgid "tst_insert_questions"
+msgstr "Are you sure you want to insert the following question(s) to the test?"
+
+msgid "tst_instant_feedback"
+msgstr "Instant Feedback"
+
+msgid "tst_instant_feedback_answer_generic"
+msgstr "Correct / Incorrect Answer Feedback"
+
+msgid "tst_instant_feedback_answer_generic_desc"
+msgstr "Display different feedback depending on whether an answer given was fully correct or not fully correct. Both types of feedback have to be prepared in the question’s ‘Feedback’ tab. Whether this feedback is provided automatically or requires manual triggering can be set below."
+
+msgid "tst_instant_feedback_answer_specific"
+msgstr "Specific Feedback for Each Answer"
+
+msgid "tst_instant_feedback_answer_specific_desc"
+msgstr "Display specific feedback for each answer option selected by a participant. This feedback has to be prepared in the question’s ‘Feedback’ tab. Whether this feedback is provided automatically or requires manual triggering can be set below."
+
+msgid "tst_instant_feedback_contents"
+msgstr "Included Contents"
+
+msgid "tst_instant_feedback_desc"
+msgstr "If questions have had feedback added, this will be made available to participants during the test."
+
+msgid "tst_instant_feedback_results"
+msgstr "Points Attained"
+
+msgid "tst_instant_feedback_results_desc"
+msgstr "Participants will be shown how many points their answer is worth. Please select how the feedback should be triggered below."
+
+msgid "tst_instant_feedback_solution"
+msgstr "Best Possible Answer"
+
+msgid "tst_instant_feedback_solution_desc"
+msgstr "Participants will be shown the best possible answer to the question. Please select below how the feedback should be triggered."
+
+msgid "tst_instant_feedback_trigger"
+msgstr "Feedback Trigger"
+
+msgid "tst_instant_feedback_trigger_forced"
+msgstr "Answering a question"
+
+msgid "tst_instant_feedback_trigger_forced_desc"
+msgstr "Feedback is shown automatically when a question is answered."
+
+msgid "tst_instant_feedback_trigger_manual"
+msgstr "Manual trigger"
+
+msgid "tst_instant_feedback_trigger_manual_desc"
+msgstr "Feedback is available, but is only displayed when a participant triggers it manually."
+
+msgid "tst_introduction"
+msgstr "Introductory Message"
+
+msgid "tst_introduction_desc"
+msgstr "Display an introductory message in the ‘Test’ tab. This message can be edited in the 'Edit Introduction' sub tab of these settings and is already accessible to users before starting the test."
+
+msgid "tst_introduction_text"
+msgstr "Introductory Message"
+
+msgid "tst_invited_nobody"
+msgstr "No users, groups or roles have been added as fixed test participants"
+
+msgid "tst_invited_selected_users"
+msgstr "The selected users have been added as fixed test participants."
+
+msgid "tst_launcher_button_label_passes_limit_reached"
+msgstr "You have taken this test the maximum number of times possible."
+
+msgid "tst_launcher_status_message_conditions"
+msgstr "You will be asked to confirm that you have read and accepted the exam conditions when you start the test."
+
+msgid "tst_launcher_status_message_conditions_and_password"
+msgstr "You will be asked for the password and to confirm that you have read and accepted the exam conditions when you start the test."
+
+msgid "tst_launcher_status_message_password"
+msgstr "You will be asked for the password when you start the test."
+
+msgid "tst_level"
+msgstr "Competence Level"
+
+msgid "tst_limit_nr_of_tries"
+msgstr "Limit Nr. of Attempts"
+
+msgid "tst_link_only_unassigned"
+msgstr "You have selected at least one question that is already part of a question pool. Only unassigned questions can be added to a question pool. Please make a new selection."
+
+msgid "tst_list_answer_details"
+msgstr "Show in List Below"
+
+msgid "tst_list_of_answers"
+msgstr "List of Answers"
+
+msgid "tst_list_of_answers_show"
+msgstr "Printable List of Answers"
+
+msgid "tst_list_of_questions_end"
+msgstr "Before Finishing Test"
+
+msgid "tst_list_of_questions_start"
+msgstr "Prior to First Question"
+
+msgid "tst_list_of_questions_with_description"
+msgstr "Include Question Descriptions"
+
+msgid "tst_man_scoring_answered_hide"
+msgstr "Hide answered questions"
+
+msgid "tst_man_scoring_answered_only"
+msgstr "Only show answered questions"
+
+msgid "tst_man_scoring_by_part"
+msgstr "Scoring by Participant"
+
+msgid "tst_man_scoring_by_qst"
+msgstr "Scoring by Question"
+
+msgid "tst_man_scoring_finalized"
+msgstr "Questions Scored"
+
+msgid "tst_man_scoring_finalized_hide"
+msgstr "Hide 'Scoring Finalised' questions"
+
+msgid "tst_man_scoring_finalized_only"
+msgstr "Show only 'Scoring Finalised' questions"
+
+msgid "tst_man_scoring_only_answered"
+msgstr "Answered / Unanswered"
+
+msgid "tst_man_scoring_questionselection"
+msgstr "Questions"
+
+msgid "tst_man_scoring_users_scored"
+msgstr "Users Scored"
+
+msgid "tst_man_scoring_userselection"
+msgstr "Participants"
+
+msgid "tst_manage_competence_assigns"
+msgstr "Manage Competence Assignments"
+
+msgid "tst_manage_competence_select_skills"
+msgstr "Select Competences"
+
+msgid "tst_manscoring_input_max_points_for_question"
+msgstr "Maximum Points for Question"
+
+msgid "tst_manscoring_input_of_max"
+msgstr "out of"
+
+msgid "tst_manscoring_input_question_and_user_solution"
+msgstr "Question and User Solution"
+
+msgid "tst_manscoring_maxpoints_exceeded_input_alert"
+msgstr "The maximum of %s point(s) is exceeded!"
+
+msgid "tst_manscoring_no_feedback"
+msgstr "No written feedback has been given yet."
+
+msgid "tst_manscoring_question_section_header"
+msgstr "Question: %s"
+
+msgid "tst_manscoring_user_notification"
+msgstr "Send Notification"
+
+msgid "tst_mark"
+msgstr "Grade"
+
+msgid "tst_mark_create_new_mark_step"
+msgstr "Create New Grade Tier"
+
+msgid "tst_mark_minimum_level"
+msgstr "Minimum Requirement (in %)"
+
+msgid "tst_mark_minimum_level_invalid"
+msgstr "Minimum Requirement (in %) must be between 0 and 100."
+
+msgid "tst_mark_official_form"
+msgstr "Official Form"
+
+msgid "tst_mark_passed"
+msgstr "Pass"
+
+msgid "tst_mark_reset_to_simple_mark_schema"
+msgstr "Reset to Simple Grading Scale"
+
+msgid "tst_mark_reset_to_simple_mark_schema_confirmation"
+msgstr "Are you sure you wish to proceed? The current grading scale for this test will be replaced by a default pass/fail grading scale. All local changes will be deleted."
+
+msgid "tst_mark_short_form"
+msgstr "Short Form"
+
+msgid "tst_max_comp_points"
+msgstr "Max. Competence Points"
+
+msgid "tst_maximum_points"
+msgstr "Maximum Points"
+
+msgid "tst_mc_label_none_above"
+msgstr "None of the answers above"
+
+msgid "tst_median_mark_panel"
+msgstr "Mark of Median"
+
+msgid "tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part"
+msgstr "Continues question selection configuration cannot be modified due to existing participant data."
+
+msgid "tst_msg_cannot_modify_random_question_set_conf_due_to_part"
+msgstr "The random question set configuration cannot be modified due to existing participant data."
+
+msgid "tst_msg_dynamic_question_set_config_modified"
+msgstr "Continues question selection configuration has been modified."
+
+msgid "tst_msg_rand_quest_set_change_quest_amount_here"
+msgstr "You can change the question amount here: %s"
+
+msgid "tst_msg_rand_quest_set_incomplete_quest_amount_cfg"
+msgstr "A test with a random set of questions is not possible without a correctly defined amount of questions."
+
+msgid "tst_msg_rand_quest_set_lost_pools"
+msgstr "The test's question selection configuration has been frozen because the following question pools used in this configuration are no longer available. If you wish, the questions of these pools can be used to create new question pools.<br />%s"
+
+msgid "tst_msg_rand_quest_set_lost_pools_link"
+msgstr "Open Selected Question Pools"
+
+msgid "tst_msg_rand_quest_set_no_pools_available"
+msgstr "Currently you cannot add new rules for the question selection, because there are no question pools available."
+
+msgid "tst_msg_rand_quest_set_no_src_pool_defs"
+msgstr "A test with randomly selected questions needs to have at least one question pool selected from which questions can be drawn."
+
+msgid "tst_msg_rand_quest_set_not_sync"
+msgstr "The rules for a random selection of questions were newly created or changed. The questions from the pools have to be synchronized in the test before it can be used. This checks also if a random test is possible with the given set of rules."
+
+msgid "tst_msg_rand_quest_set_pass_buildable"
+msgstr "A test with a random set of questions is possible with the current configuration."
+
+msgid "tst_msg_rand_quest_set_pass_not_buildable"
+msgstr "<b>A test with a random set of questions is not possible with the current selection of question pools and the amount of questions.</b><br />"
+
+msgid "tst_msg_rand_quest_set_rule_label"
+msgstr "Rule %s"
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_missing"
+msgstr "Rule %s requires %s questions, but there are only %s questions provided."
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_missing_shared"
+msgstr "Additionally from these questions there are %s questions also provided to the following other rules: %s"
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_reserved"
+msgstr "Rule %s requires %s questions and there are %s questions provided."
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_reserved_shared"
+msgstr "But there are only %s of the provided questions guaranteed available, because of intersections with the following other rules: %s"
+
+msgid "tst_msg_rand_quest_set_stage_pool_last_sync"
+msgstr "Date of last synchronisation of selected question pools: %s"
+
+msgid "tst_msg_random_qsc_modified_add_new_rule"
+msgstr "The configuration for the random set of questions has been modified successfully. You can add a new rule now."
+
+msgid "tst_msg_random_question_set_config_modified"
+msgstr "The configuration for the random set of questions has been modified successfully."
+
+msgid "tst_msg_random_question_set_synced"
+msgstr "The questions for the current configuration has been synchronized successfully."
+
+msgid "tst_msg_skl_lvl_thresholds_saved"
+msgstr "The competence thresholds has been saved."
+
+msgid "tst_msg_skl_qst_assign_points_not_saved"
+msgstr "The competence points have not been saved. Please check your input."
+
+msgid "tst_msg_skl_qst_assign_points_saved"
+msgstr "The competence points have been saved."
+
+msgid "tst_msg_source_pool_definitions_deleted"
+msgstr "The rule has been removed successfully."
+
+msgid "tst_nav_next_locks_current_answer_confirm"
+msgstr "As soon as you have moved on to the next question, your answer to the current question will be locked in and it will no longer be possible to change it."
+
+msgid "tst_nav_next_locks_current_answer_header"
+msgstr "Lock In Current Answer?"
+
+msgid "tst_nav_next_locks_empty_answer_confirm"
+msgstr "You have not answered the current question. An empty solution will be saved and locked in as your answer. You will not be able to go back and change this answer."
+
+msgid "tst_nav_next_locks_empty_answer_header"
+msgstr "Lock In Empty Solution?"
+
+msgid "tst_nav_while_edit_modal_cancel_btn"
+msgstr "Cancel"
+
+msgid "tst_nav_while_edit_modal_header"
+msgstr "Decision about Answers"
+
+msgid "tst_nav_while_edit_modal_nosave_btn"
+msgstr "Do Not Save"
+
+msgid "tst_nav_while_edit_modal_save_btn"
+msgstr "Save"
+
+msgid "tst_nav_while_edit_modal_text"
+msgstr "What to do with the answers you possibly entered for this question?"
+
+msgid "tst_no_evaluation_data"
+msgstr "There is no evaluation data available."
+
+msgid "tst_no_marks_defined"
+msgstr "There are no marks defined, please create at least a simple mark schema!"
+
+msgid "tst_no_question_selected_for_moving_to_qpl"
+msgstr "Please choose at least one question to be added to a question pool!"
+
+msgid "tst_no_question_selected_for_removal"
+msgstr "Please check at least one question to remove it!"
+
+msgid "tst_no_scorable_qst_available"
+msgstr "No question to score available"
+
+msgid "tst_non_avail_pool_msg_status_lost"
+msgstr "This question pool is not available anymore. Synchronizing questions from this pool is not possible any longer. You can derive a new question pool from the questions contained in this test."
+
+msgid "tst_non_avail_pool_msg_status_trashed"
+msgstr "This question pool is trashed, when it gets removed from system permanently, the test is no longer able to synchronize questions from it."
+
+msgid "tst_non_avail_pools_table"
+msgstr "Non Available Questionpools"
+
+msgid "tst_non_available_pool_newly_derived"
+msgstr "The new question pool(s) has been derived successfully."
+
+msgid "tst_nonpool_questions_get_lost_warning"
+msgstr "<b>The current test mode includes questions in its configuration that are not assigned to any question pool. If you change the test mode, these questions will be lost permanently.</b>"
+
+msgid "tst_notification_explanation_admin"
+msgstr "You receive this mail from ILIAS because you activated the notification."
+
+msgid "tst_notify_manscoring_done_body_msg_reason"
+msgstr "You have received this notification, because you participated in this test."
+
+msgid "tst_notify_manscoring_done_body_msg_subject"
+msgstr "Scoring for Test \"%s\" committed"
+
+msgid "tst_notify_manscoring_done_body_msg_topic"
+msgstr "Your test has been graded:"
+
+msgid "tst_nr_of_passes"
+msgstr "Number of Test Attempts"
+
+msgid "tst_nr_of_tries"
+msgstr "Max. Number of Attempts"
+
+msgid "tst_nr_of_tries_desc"
+msgstr "Limit the maximum number of times a participant can take the test. If this option is not selected, the test can be retaken indefinitely while available."
+
+msgid "tst_num_all_questions"
+msgstr "Number of All Questions"
+
+msgid "tst_num_correct_answered_questions"
+msgstr "Answered Correctly"
+
+msgid "tst_num_non_answered_questions_notseen"
+msgstr "Not Presented, Yet"
+
+msgid "tst_num_non_answered_questions_skipped"
+msgstr "Skipped"
+
+msgid "tst_num_questions"
+msgstr "Number of Questions"
+
+msgid "tst_num_selected_questions"
+msgstr "Number of Selected Questions"
+
+msgid "tst_num_wrong_answered_questions"
+msgstr " Answered Wrongly"
+
+msgid "tst_objective_oriented_test_pass_without_questions"
+msgstr "The started pass for test \"%s\" does not contain any questions."
+
+msgid "tst_objective_progress_header"
+msgstr "Learning Objective Progress"
+
+msgid "tst_objectives_progress_header"
+msgstr "Learning Objectives Progress"
+
+msgid "tst_old_style_rnd_quest_set_broken"
+msgstr "This random test is in a irreparable state, because one or more connected question pools have been deleted. Therefor participants cannot take the test any longer."
+
+msgid "tst_optional_questions_confirmation_fixed_test"
+msgstr "<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back."
+
+msgid "tst_optional_questions_confirmation_non_fixed_test"
+msgstr "<b>Questions for already passed learning objectives are optional.</b><br /><br />The next questions are assigned to already passed learning objectives.<br /><br />If you continue, you can work through these questions. Your results in the related learning objectives may change.<br /><br />If you go back, the questions will not factor into the evaluation of this test."
+
+msgid "tst_out_of_time_message"
+msgstr "The time available for taking this test has expired."
+
+msgid "tst_participant"
+msgstr "Participant"
+
+msgid "tst_participant_fullname_pattern"
+msgstr "%2$s, %1$s"
+
+msgid "tst_participant_status"
+msgstr "Participant Status"
+
+msgid "tst_participating_users"
+msgstr "Participating Users"
+
+msgid "tst_pass_best_pass"
+msgstr "Use best score achieved"
+
+msgid "tst_pass_best_pass_desc"
+msgstr "If multiple test attempts are allowed, a participant´s highest scoring result is considered to be their official score."
+
+msgid "tst_pass_deletion"
+msgstr "Allow Deletion of Non-Scoring Attempts"
+
+msgid "tst_pass_deletion_allowed"
+msgstr "Non-scoring test attempts may be deleted via the ‘My Results’ tab."
+
+msgid "tst_pass_details"
+msgstr "Detailed Results"
+
+msgid "tst_pass_details_header_lo_initial"
+msgstr "Initial Test Results for the Learning Objectives<br />%s - %s"
+
+msgid "tst_pass_details_header_lo_qualifying"
+msgstr "Qualifying Test Results for the Learning Objectives<br />%s - %s"
+
+msgid "tst_pass_details_overview_table_title"
+msgstr "Detailed Overview for Pass %s"
+
+msgid "tst_pass_finished"
+msgstr "Test attempt finished"
+
+msgid "tst_pass_finished_on"
+msgstr "Test attempt finished on"
+
+msgid "tst_pass_last_pass"
+msgstr "Use score of latest attempt"
+
+msgid "tst_pass_last_pass_desc"
+msgstr "If multiple test attempts are allowed, a participant’s latest result is considered to be their official score."
+
+msgid "tst_pass_overview_for_participant"
+msgstr "Test Attempts for Participant: %s"
+
+msgid "tst_pass_overview_header_lo_initial_all_objectives"
+msgstr "Initial Test Results<br />for the Learning Objectives within the Course %s"
+
+msgid "tst_pass_overview_header_lo_initial_per_objective"
+msgstr "Initial Test Results<br />for the Learning Objectives %s within the Course %s"
+
+msgid "tst_pass_overview_header_lo_qualifying_all_objectives"
+msgstr "Qualifying Test Results<br />for the Learning Objectives within the Course %s"
+
+msgid "tst_pass_overview_header_lo_qualifying_per_objective"
+msgstr "Qualifying Test Results<br />for the Learning Objectives %s within the Course %s"
+
+msgid "tst_pass_scoring"
+msgstr "Scoring Multiple Attempts"
+
+msgid "tst_pass_scoring_best"
+msgstr "Best Test Attempt"
+
+msgid "tst_pass_scoring_last"
+msgstr "Last Test Attempt"
+
+msgid "tst_pass_waiting_enabled"
+msgstr "Force Waiting Time"
+
+msgid "tst_pass_waiting_info"
+msgstr "Participants cannot retake the test until a set period of time has passed since the last time the test was taken."
+
+msgid "tst_pass_waiting_time"
+msgstr "Waiting Time"
+
+msgid "tst_passed"
+msgstr "Passed"
+
+msgid "tst_passes"
+msgstr "Test Attempts"
+
+msgid "tst_password"
+msgstr "Test Password"
+
+msgid "tst_password_details"
+msgstr "If you set a password for this test, users will have to enter this password to start the test."
+
+msgid "tst_password_enter"
+msgstr "Password:"
+
+msgid "tst_password_entered_wrong_password"
+msgstr "You cannot start the test because you entered the wrong test password!"
+
+msgid "tst_password_form"
+msgstr "Enter Test Password"
+
+msgid "tst_password_introduction"
+msgstr "This test can only be accessed with a test password. Please enter the test password to start the test."
+
+msgid "tst_percent_solved"
+msgstr "Percentage Score"
+
+msgid "tst_player_answer_saved_and_locked"
+msgstr "Answer is saved and locked and can no longer be changed"
+
+msgid "tst_please_select_source_pool"
+msgstr "Please select a question pool."
+
+msgid "tst_please_select_target_for_pool_derives"
+msgstr "Please select a target conatainer."
+
+msgid "tst_position"
+msgstr "Question %s of %s"
+
+msgid "tst_position_without_total"
+msgstr "Question %s"
+
+msgid "tst_postpone"
+msgstr "Unanswered Questions"
+
+msgid "tst_postpone_off"
+msgstr "Unanswered questions stay in position"
+
+msgid "tst_postpone_off_desc"
+msgstr "Questions that users skip without answering will remain in their respective positions within the test. They will not be presented again at the end of the test."
+
+msgid "tst_postpone_on"
+msgstr "Unanswered questions are enqueued"
+
+msgid "tst_postpone_on_desc"
+msgstr "Questions that users skip without answering will be presented again automatically at the end of the test."
+
+msgid "tst_presentation_properties"
+msgstr "Administering the Test: Question Behaviour"
+
+msgid "tst_presentation_settings_section"
+msgstr "Presentation"
+
+msgid "tst_previous_access_code_not_available"
+msgstr "No previous code available!"
+
+msgid "tst_proceed"
+msgstr "Proceed"
+
+msgid "tst_processing_time"
+msgstr "Time Limit"
+
+msgid "tst_processing_time_desc"
+msgstr "Each participant can work through the test only for a specified period of time. Time starts running down from the moment a user starts the test for the first time. Suspending the test does not stop the clock. If the number of times a test can be taken is limited, an additional feature for granting extra time to participants appears in the 'Participants' tab."
+
+msgid "tst_processing_time_duration"
+msgstr "Maximum Time Available in Mins"
+
+msgid "tst_processing_time_duration_desc"
+msgstr "Maximum of time granted to take the test."
+
+msgid "tst_qbt_filter_question_title"
+msgstr "Title of Question"
+
+msgid "tst_qst_added_to_pool_p"
+msgstr "Questions successfully added to selected question pool."
+
+msgid "tst_qst_added_to_pool_s"
+msgstr "Question successfully added to selected question pool."
+
+msgid "tst_qst_order"
+msgstr "No."
+
+msgid "tst_qst_skl_cfg_in_pool_hint_dynquestset"
+msgstr "The Competence-Question-Assignment for tests with mode \"%s\" is to be done in the corresponding question pool:<br />%s<br /><br />The configuration of threshold values is to be done here in the test."
+
+msgid "tst_qst_skl_cfg_in_pool_hint_rndquestset"
+msgstr "The Competence-Question-Assignment for tests with mode \"%s\" is to be done in the corresponding question pool(s):<br />%s<br /><br />The configuration of threshold values is to be done here in the test."
+
+msgid "tst_question"
+msgstr "Question"
+
+msgid "tst_question_amount"
+msgstr "Question Amount"
+
+msgid "tst_question_answer_status"
+msgstr "Which questions should be presented?"
+
+msgid "tst_question_answer_status_all_non_correct"
+msgstr "All Questions Except those Answered Correctly"
+
+msgid "tst_question_answer_status_non_answered"
+msgstr "Non Answered Questions"
+
+msgid "tst_question_answer_status_wrong_answered"
+msgstr "Only wrongly answered questions"
+
+msgid "tst_question_feedback_back_to_feedback_form"
+msgstr "Back to Feedback Overview"
+
+msgid "tst_question_feedback_edit_page"
+msgstr "Edit Content"
+
+msgid "tst_question_mark"
+msgstr "Flag this question"
+
+msgid "tst_question_marked"
+msgstr "You flagged the question"
+
+msgid "tst_question_marker"
+msgstr "Flagged"
+
+msgid "tst_question_no"
+msgstr "Order"
+
+msgid "tst_question_not_from_pool_info"
+msgstr "No Pool"
+
+msgid "tst_question_not_marked"
+msgstr "Question is not Marked"
+
+msgid "tst_question_offer"
+msgstr "Do you accept this sample or do you want another one?"
+
+msgid "tst_question_set_type"
+msgstr "Selection of Test Questions"
+
+msgid "tst_question_set_type_dynamic"
+msgstr "Question Queue - All Questions from a Question Pool"
+
+msgid "tst_question_set_type_dynamic_desc"
+msgstr "Participants work through questions from one question pool. Questions answered incorrectly will be presented again. Questions can be added and edited in a running test."
+
+msgid "tst_question_set_type_fixed"
+msgstr "Fixed questions"
+
+msgid "tst_question_set_type_fixed_desc"
+msgstr "All participants get the same set of questions."
+
+msgid "tst_question_set_type_random"
+msgstr "Random questions"
+
+msgid "tst_question_set_type_random_desc"
+msgstr "Each participant gets a different set of questions. Questions are randomly selected from one or more question pools."
+
+msgid "tst_question_title"
+msgstr "Question Title"
+
+msgid "tst_question_type"
+msgstr "Question Type"
+
+msgid "tst_questions_inserted"
+msgstr "Question(s) inserted!"
+
+msgid "tst_questions_removed"
+msgstr "Question(s) removed!"
+
+msgid "tst_random_nr_of_questions"
+msgstr "How many questions?"
+
+msgid "tst_random_question_set_source_questionpool_summary_string"
+msgstr "%s (Path: %s) [%s Questions]"
+
+msgid "tst_random_select_questionpool"
+msgstr "Select the question pool to choose the questions from"
+
+msgid "tst_reached_points"
+msgstr "Point Score"
+
+msgid "tst_reached_points_of_max"
+msgstr "%s of %s"
+
+msgid "tst_remove_mark"
+msgstr "Remove this flag"
+
+msgid "tst_remove_question"
+msgstr "Are you sure you want to remove the following question from the test?"
+
+msgid "tst_remove_questions"
+msgstr "Are you sure you want to remove the following questions from the test?"
+
+msgid "tst_remove_questions_and_results"
+msgstr "This test contains test results. Removing questions from this test will remove the corresponding results. Are you sure you want to remove the following question(s) from the test?"
+
+msgid "tst_report_after_date"
+msgstr "After a fixed score reporting date"
+
+msgid "tst_report_after_first_question"
+msgstr "Offer test results when the test has been started"
+
+msgid "tst_report_after_passed"
+msgstr "Offer test results when the test has been passed"
+
+msgid "tst_report_after_test"
+msgstr "Offer test results when the test is finished"
+
+msgid "tst_report_never"
+msgstr "No test results available"
+
+msgid "tst_reporting_date"
+msgstr "Date"
+
+msgid "tst_res_jump_to_participant_btn"
+msgstr "Jump"
+
+msgid "tst_res_jump_to_participant_hint_opt"
+msgstr "Jump to Participant"
+
+msgid "tst_res_lo_objectives_header"
+msgstr "Relevant Learning Objectives"
+
+msgid "tst_res_lo_try_header"
+msgstr "Attempt"
+
+msgid "tst_res_lo_try_n"
+msgstr "Attempt %s"
+
+msgid "tst_res_tab_msg_no_lp_access"
+msgstr "You are currently not allowed to access your Learning Progress, as you are not allowed to see your test results."
+
+msgid "tst_res_tab_msg_res_after_date"
+msgstr "Your test results will be shown here after: %s"
+
+msgid "tst_res_tab_msg_res_after_date_no_res"
+msgstr "Once you have taken the test your results will be shown here after: %s"
+
+msgid "tst_res_tab_msg_res_after_finish_test"
+msgstr "After finishing the test your results will be shown here."
+
+msgid "tst_res_tab_msg_res_after_taking_test"
+msgstr "After taking the test your results will be shown here."
+
+msgid "tst_res_tab_msg_res_after_test_passed"
+msgstr "After passing the test your results will be shown here."
+
+msgid "tst_reset_processing_time"
+msgstr "Automatic Time Limit Reset"
+
+msgid "tst_reset_processing_time_desc"
+msgstr "The time limit for the test will be reset every time the test is taken. For this setting to have any effect, participants must be able to take the test multiple times."
+
+msgid "tst_result"
+msgstr "Test Result"
+
+msgid "tst_result_pass"
+msgstr "Results of Test Attempt"
+
+msgid "tst_result_user_name"
+msgstr "Test Results for %s"
+
+msgid "tst_result_user_name_pass"
+msgstr "Results of Test Attempt %s for %s"
+
+msgid "tst_results"
+msgstr "Test Results"
+
+msgid "tst_results_access_always"
+msgstr "Immediately"
+
+msgid "tst_results_access_always_desc"
+msgstr "Participants can access their results within the 'My Results' tab immediately after starting the test. Additionally, ILIAS will redirect participants to the 'My Results' tab upon finishing the test. <br/> <b>Please note: Participants will be able to access their results while still taking the test.</b>"
+
+msgid "tst_results_access_date"
+msgstr "From a set date and time"
+
+msgid "tst_results_access_date_desc"
+msgstr "Participants will be able to access their results via the ‘My Results’ tab from a set date and time onwards."
+
+msgid "tst_results_access_enabled"
+msgstr "Access to Test Results"
+
+msgid "tst_results_access_enabled_desc"
+msgstr "Give participants access to a 'My Results' tab. The information contained therein and when it can be accessed can be configured below."
+
+msgid "tst_results_access_finished"
+msgstr "After the test has been taken"
+
+msgid "tst_results_access_finished_desc"
+msgstr "Participants gain access to their test results via the ‘My Results’ tab as soon as they have finished the test."
+
+msgid "tst_results_access_passed"
+msgstr "Once the test has been passed"
+
+msgid "tst_results_access_passed_desc"
+msgstr "Participants only gain access to their test results via the ‘My Results’ tab after they have passed the test."
+
+msgid "tst_results_access_setting"
+msgstr "When?"
+
+msgid "tst_results_aggregated"
+msgstr "Aggregated Test Results"
+
+msgid "tst_results_back_introduction"
+msgstr "Back to Introductory Message"
+
+msgid "tst_results_back_overview"
+msgstr "Back to Results Overview"
+
+msgid "tst_results_details_options"
+msgstr "Further Options"
+
+msgid "tst_results_gamification"
+msgstr "Gamification"
+
+msgid "tst_results_grading_opt_show_details"
+msgstr "Make Detailed Results Available"
+
+msgid "tst_results_grading_opt_show_details_desc"
+msgstr "In addition to the standard overview of their test results provided in the 'My Results' tab, allow participants to access 'Detailed Results' for each attempt they have undertaken. These results can be accessed via the 'Actions' menu for each individual attempt. This table shows shows the titles of the questions, the questions themselves and the points earned for the answer given. The contents of the table can be expanded in the 'Further Options' section below."
+
+msgid "tst_results_grading_opt_show_mark"
+msgstr "Show Grade"
+
+msgid "tst_results_grading_opt_show_mark_desc"
+msgstr "Display a participant’s grade (based on their scoring attempt) as a notification in their ‘My Results’ tab."
+
+msgid "tst_results_grading_opt_show_status"
+msgstr "Show ‘Passed’ / ‘Failed’ Status"
+
+msgid "tst_results_grading_opt_show_status_desc"
+msgstr "Display a participant’s ‘passed’ or ‘failed’ status (based on their scoring attempt) as a notification in their ‘My Results’ tab."
+
+msgid "tst_results_overview"
+msgstr "Overview of Test Attempts"
+
+msgid "tst_results_print_best_solution"
+msgstr "Best Solution"
+
+msgid "tst_results_print_best_solution_info"
+msgstr "Display the best possible solution for each question on the 'Detailed Results' page of each individual attempt. This can be accessed via the actions menu for each test attempt in 'My Results'. For this,  'Access to Test Results' and then 'Make Detailed Results Available' need to have been activated (see above)."
+
+msgid "tst_resume_test"
+msgstr "Resume Test"
+
+msgid "tst_revert_changes"
+msgstr "Undo Editing"
+
+msgid "tst_rnd_quest_cfg_tab_general"
+msgstr "Configuration"
+
+msgid "tst_rnd_quest_cfg_tab_pool"
+msgstr "Selected Question Pools"
+
+msgid "tst_rnd_quest_set_cfg_general_form"
+msgstr "Configure Random Set of Questions"
+
+msgid "tst_rnd_quest_set_cfg_pool_form"
+msgstr "Rule for Selection of Questions"
+
+msgid "tst_rnd_quest_set_tb_add_pool_btn"
+msgstr "New Rule for Selection of Questions"
+
+msgid "tst_save_and_create_new_rule"
+msgstr "Save and Add New Rule"
+
+msgid "tst_save_and_proceed"
+msgstr "Save and Proceed"
+
+msgid "tst_save_comp_points"
+msgstr "Save Competence Points"
+
+msgid "tst_save_manscoring_failed"
+msgstr "Saving the scoring for test attempt %s has failed."
+
+msgid "tst_save_thresholds"
+msgstr "Save Thresholds"
+
+msgid "tst_saved_manscoring_by_question_successfully"
+msgstr "The scoring for the question %s for test attempt %s has been saved successfully."
+
+msgid "tst_saved_manscoring_successfully"
+msgstr "The scoring for test attempt %s for %s has been saved successfully."
+
+msgid "tst_score_cut_question"
+msgstr "Individual questions cannot receive a negative score"
+
+msgid "tst_score_cut_question_desc"
+msgstr "Questions that usually allow negative scores when wrong answers have been given, have their scores set to zero in such a situation. This means that individual questions score at worst zero, and do not detract from the overall score for the test by contributing negative scores."
+
+msgid "tst_score_cut_test"
+msgstr "Individual questions can receive negative scores"
+
+msgid "tst_score_cut_test_desc"
+msgstr "Participants can score negative points in individual questions. At the end of the test, the points scored in all questions are added together. If the overall score for the test is negative, it is set to 0. With this setting, questions that have been answered incorrectly or partially incorrectly have a much greater impact on the overall score."
+
+msgid "tst_score_cutting"
+msgstr "Negative Points"
+
+msgid "tst_search_users"
+msgstr "Search Participants"
+
+msgid "tst_select_questionpool"
+msgstr "Please select a question pool to store the created question"
+
+msgid "tst_selected_user_data_deleted"
+msgstr "The test data of the selected user(s) has been successfully removed."
+
+msgid "tst_sequence_properties"
+msgstr "Administering the Test: Functionality Available to Participants"
+
+msgid "tst_set_offline_due_to_switched_question_set_type_setting"
+msgstr "The test has been set to offline because the question selection mode has been changed. You will need to add or assign questions to the test again before it can be set to online."
+
+msgid "tst_settings_conflict_postpone_and_lock"
+msgstr "'Unanswered questions are enqueued' cannot be used together with 'Lock Answers: After moving to next question'."
+
+msgid "tst_settings_conflict_shuffle_and_lock"
+msgstr "‘Shuffle Questions’ cannot be used together with ‘Lock Answers: After moving to next question’."
+
+msgid "tst_settings_form_reload_needed"
+msgstr "The form needed to be reloaded to avoid data loss as the available settings have changed due to the removal of all results of participants."
+
+msgid "tst_settings_header_additional"
+msgstr "Additional Features"
+
+msgid "tst_settings_header_execution"
+msgstr "Administering the Test: Access"
+
+msgid "tst_settings_header_intro"
+msgstr "Information Before Start of Test"
+
+msgid "tst_settings_header_test_run"
+msgstr "Administering the Test: Taking the Test"
+
+msgid "tst_settings_not_found"
+msgstr "Missing test settings"
+
+msgid "tst_settings_not_found_msg"
+msgstr "Test Settings could not be found. This may be due to a missing migration step. Please contact your technical support."
+
+msgid "tst_show_answer_sheet"
+msgstr "Show Answers"
+
+msgid "tst_show_cancel"
+msgstr "Show ‘Suspend Test’ Button"
+
+msgid "tst_show_cancel_description"
+msgstr "Participants are presented with a button with which they can suspend the test in order to continue it later. Caution: suspending the test does not stop the clock running down if a time limit has been set for the test."
+
+msgid "tst_show_comp_results"
+msgstr "Competence Results"
+
+msgid "tst_show_results"
+msgstr "Test Results"
+
+msgid "tst_show_side_list"
+msgstr "Show List of Questions"
+
+msgid "tst_show_solution_answers_only"
+msgstr "Print View of Results (Answers Only)"
+
+msgid "tst_show_solution_answers_only_desc"
+msgstr "If is selected, the ILIAS content you place around a question using the ‘Edit content’ tab page will not be visible in a print-out. If you want to save some paper space, select this option."
+
+msgid "tst_show_solution_details_singlepage"
+msgstr "Scored Answers on single pages"
+
+msgid "tst_show_solution_details_singlepage_desc"
+msgstr "Participants can access each question individually and see if their answers were correct and how many points they scored."
+
+msgid "tst_show_solution_feedback"
+msgstr "Feedback"
+
+msgid "tst_show_solution_feedback_desc"
+msgstr "Provide participants with feedback on the answers they have given. For this, feedback needs to have been added to the individual questions and 'Access to Test Results' and then 'Make Detailed Results Available' (see above) need to have been activated."
+
+msgid "tst_show_solution_printview"
+msgstr "Printable List of Answers"
+
+msgid "tst_show_solution_printview_desc"
+msgstr "Once the test is finished, an overview of all questions with the answers of the respective participant will be generated. This list will be offered within the 'My Results' tab in a subtab 'Printable List of Answers'."
+
+msgid "tst_show_solution_signature"
+msgstr "Signature Placeholder"
+
+msgid "tst_show_solution_signature_desc"
+msgstr "If either of the options ‘Make Detailed Results Available’ or ‘Printable List of Answers’ has been activated, the prepared printout version will contain a signature placeholder for the participant’s signature."
+
+msgid "tst_show_solution_suggested"
+msgstr "Content for Recapitulation"
+
+msgid "tst_show_solution_suggested_desc"
+msgstr "If a question has had content for recapitulation added, show this content in the 'Detailed Results' table. This will give participants the opportunity to have another look at the material being addressed by the question. For this, 'Access to Test Results' and then 'Make Detailed Test Results Available' need to have been activated (see above)."
+
+msgid "tst_show_summary"
+msgstr "Show Test Attempt Overview"
+
+msgid "tst_show_summary_description"
+msgstr "Show a ‘Test Attempt Overview’ button. By clicking on this, participants can access an overview of the current test attempt showing which questions have already been answered. Additionally, which questions have been flagged and how many points a question is worth will displayed according to which of these options have been activated. Further fine tuning to the overview of the test attempt can be undertaken below."
+
+msgid "tst_show_toplist"
+msgstr "Rankings"
+
+msgid "tst_shuffle_questions"
+msgstr "Shuffle Questions"
+
+msgid "tst_shuffle_questions_description"
+msgstr "Shuffle the question order for each participant and each time the test is taken."
+
+msgid "tst_signature"
+msgstr "Signature"
+
+msgid "tst_single_answer_details"
+msgstr "Show Single Answer"
+
+msgid "tst_skill_triggerings_num_req_answers"
+msgstr "Required Number of Answers for Competence Calculation"
+
+msgid "tst_skill_triggerings_num_req_answers_desc"
+msgstr "Competences levels will not be calculated until at least this many questions have been answered that count towards the competence."
+
+msgid "tst_skill_triggerings_num_req_answers_not_reached_warn"
+msgstr "At least one of the competences addressed by this test is not triggered by the minimal required amount of questions. No competence records will be written for these competences.<br />The required amount of questions: %s"
+
+msgid "tst_skl_level_thresholds_link"
+msgstr "Configure Competence Thresholds"
+
+msgid "tst_skl_level_thresholds_missing"
+msgstr "At least some of the competences to which questions have been assigned, have not yet had thresholds configured!"
+
+msgid "tst_skl_sub_tab_thresholds"
+msgstr "Competence Thresholds"
+
+msgid "tst_sol_comp_expressions"
+msgstr "Comparison Expressions"
+
+msgid "tst_solution_compare_cfg"
+msgstr "Configuration for Solution Compare"
+
+msgid "tst_source_question_pool"
+msgstr "Question Pool"
+
+msgid "tst_src_quest_pool_def_list_table"
+msgstr "Rules for Random Selection of Questions"
+
+msgid "tst_start_dyn_test_with_cur_quest_sel"
+msgstr "Start Test with Current Question Selection"
+
+msgid "tst_start_new_test_pass"
+msgstr "Start New Attempt on Test"
+
+msgid "tst_start_test"
+msgstr "Start the Test"
+
+msgid "tst_starting_time"
+msgstr "Starting Time"
+
+msgid "tst_starting_time_desc"
+msgstr "Time from which the test can be started. From this moment on, clicking the button \"Start test\" is possible and participants can answer questions."
+
+msgid "tst_stat_result_atimeofwork"
+msgstr "Average Time on Task per Question"
+
+msgid "tst_stat_result_firstvisit"
+msgstr "First Visit"
+
+msgid "tst_stat_result_lastvisit"
+msgstr "Last Visit"
+
+msgid "tst_stat_result_mark_median"
+msgstr "Mark of Median"
+
+msgid "tst_stat_result_median"
+msgstr "Median of Test Result in Points"
+
+msgid "tst_stat_result_pworkedthrough"
+msgstr "Percent of total workload already worked through"
+
+msgid "tst_stat_result_qmax"
+msgstr "Total number of Questions"
+
+msgid "tst_stat_result_qworkedthrough"
+msgstr "Questions already worked through"
+
+msgid "tst_stat_result_rank_median"
+msgstr "Rank of Median"
+
+msgid "tst_stat_result_rank_participant"
+msgstr "Rank of Participant"
+
+msgid "tst_stat_result_resultsmarks"
+msgstr "Test Results in Marks"
+
+msgid "tst_stat_result_resultspoints"
+msgstr "Test Results in Points"
+
+msgid "tst_stat_result_timeontask"
+msgstr "Time on Task"
+
+msgid "tst_stat_result_total_participants"
+msgstr "Total Number of Participants"
+
+msgid "tst_stat_result_total_timeontask"
+msgstr "Total Time On Task (All Test Attempts)"
+
+msgid "tst_submit_results"
+msgstr "Yes, I do confirm the submission."
+
+msgid "tst_tab_competences"
+msgstr "Competences"
+
+msgid "tst_tab_results_objective_oriented"
+msgstr "Test Results by Learning Objectives"
+
+msgid "tst_tab_results_pass_oriented"
+msgstr "Test Results by Attempts"
+
+msgid "tst_tbl_col_answered_questions"
+msgstr "Answered Questions"
+
+msgid "tst_tbl_col_final_mark"
+msgstr "Mark"
+
+msgid "tst_tbl_col_finished_passes"
+msgstr "Finished Attempts"
+
+msgid "tst_tbl_col_finished_passes_num_of"
+msgstr "%s of %s"
+
+msgid "tst_tbl_col_last_scored_access"
+msgstr "Last Scored Access"
+
+msgid "tst_tbl_col_pass_finished"
+msgstr "Pass Finished"
+
+msgid "tst_tbl_col_passed_status"
+msgstr "Grading"
+
+msgid "tst_tbl_col_percent_result"
+msgstr "Percent Solved"
+
+msgid "tst_tbl_col_reached_points"
+msgstr "Reached Points"
+
+msgid "tst_tbl_col_scored_pass"
+msgstr "Scored Pass"
+
+msgid "tst_tbl_col_started_passes"
+msgstr "Started Attempts"
+
+msgid "tst_tbl_invited_users"
+msgstr "Manually Selected Participants"
+
+msgid "tst_tbl_participants"
+msgstr "Participants"
+
+msgid "tst_tbl_results_grades"
+msgstr "Results and Grades"
+
+msgid "tst_test_result"
+msgstr "Test Result"
+
+msgid "tst_text_count_system"
+msgstr "Scoring System"
+
+msgid "tst_threshold"
+msgstr "Thresholds (in %)"
+
+msgid "tst_time_already_spent"
+msgstr "You started the test at: %s. Your maximum processing time is %s."
+
+msgid "tst_time_already_spent_left"
+msgstr "You have %s remaining."
+
+msgid "tst_time_limit_message"
+msgstr "You will have <b>%s minutes</b> to answer all questions."
+
+msgid "tst_title_output"
+msgstr "Question Title Display Options"
+
+msgid "tst_title_output_full"
+msgstr "Question titles and available points"
+
+msgid "tst_title_output_hide_points"
+msgstr "Only question titles"
+
+msgid "tst_title_output_info"
+msgstr "Set which combination of question titles and/or points available should be visible to participants while they are taking the test and within the test attempt overview (see below)."
+
+msgid "tst_title_output_no_title"
+msgstr "Neither question titles nor available points"
+
+msgid "tst_title_output_only_points"
+msgstr "Only available points"
+
+msgid "tst_trigger_result_refreshing"
+msgstr "Results need to be recalculated. This may take a while."
+
+msgid "tst_type"
+msgstr "Test Type"
+
+msgid "tst_unchanged_answer_is_correct"
+msgstr "The preset answer is correct"
+
+msgid "tst_unchanged_order_is_correct"
+msgstr "The preset order is correct"
+
+msgid "tst_use_previous_answers"
+msgstr "Use Previous Answers"
+
+msgid "tst_use_previous_answers_description"
+msgstr "Participants will be presented with their answers from previous test attempts. This option has to be activated by individual participants in a modal that pops up when starting a test attempt."
+
+msgid "tst_user_finished_test"
+msgstr "User finished test (%s)"
+
+msgid "tst_view_competence_assign"
+msgstr "View Assignment Properties"
+
+msgid "tst_virtual_pass_header_lo_initial"
+msgstr "Initial Test Results for the Learning Objective<br />%s"
+
+msgid "tst_virtual_pass_header_lo_qualifying"
+msgstr "Qualifying Test Results for the Learning Objective<br />%s"
+
+msgid "tst_wf_info_answer_adopted_from_prev_pass"
+msgstr "Your answer from a previous attempt was adopted."
+
+msgid "tst_wf_info_answer_not_adopted"
+msgstr "There was no answer from previous attempts adopted, so you have to work through this question, because otherwise your learning objective result will be degraded."
+
+msgid "tst_wf_info_optional_question"
+msgstr "This question relates to an already passed learning objective."
+
+msgid "tst_your_answer_was"
+msgstr "Your answer was"
+
+msgid "tst_your_answers"
+msgstr "These are your answers given to the following questions."
+
+msgid "un_add_category"
+msgstr "Add Category"
+
+msgid "un_add_unit"
+msgstr "Add Unit"
+
+msgid "un_cat_deletion_errors_f"
+msgstr "Cannot delete certain categories:"
+
+msgid "un_cat_deletion_errors_f_s"
+msgstr "Cannot delete category:"
+
+msgid "un_cat_deletion_errors_p"
+msgstr "Could not delete certain categories:"
+
+msgid "un_cat_deletion_errors_p_s"
+msgstr "Could not delete category:"
+
+msgid "un_category_not_exist"
+msgstr "The requested category does not exist."
+
+msgid "un_deleted_categories"
+msgstr "Deletion successfully processed"
+
+msgid "un_deleted_categories_s"
+msgstr "Deletion successfully processed"
+
+msgid "un_deleted_units"
+msgstr "Deletion successfully processed"
+
+msgid "un_deleted_units_s"
+msgstr "Deletion successfully processed"
+
+msgid "un_global_units"
+msgstr "Global Units"
+
+msgid "un_local_units"
+msgstr "Local Units"
+
+msgid "un_save_order"
+msgstr "Save Order"
+
+msgid "un_sel_cat_sel_unit"
+msgstr "Selected Category: %s, Selected Unit: %s"
+
+msgid "un_sequence"
+msgstr "Sequence"
+
+msgid "un_show_units"
+msgstr "Show Units"
+
+msgid "un_sure_delete_categories"
+msgstr "Are you sure you want to delete the selected categories?"
+
+msgid "un_sure_delete_categories_s"
+msgstr "Are you sure you want to delete the selected category?"
+
+msgid "un_sure_delete_units"
+msgstr "Are you sure you want to delete the selected units?"
+
+msgid "un_sure_delete_units_s"
+msgstr "Are you sure you want to delete the selected unit?"
+
+msgid "un_unit_deletion_errors_f"
+msgstr "The following units cannot be deleted:"
+
+msgid "un_unit_deletion_errors_f_s"
+msgstr "The following unit cannot be deleted:"
+
+msgid "un_unit_deletion_errors_p"
+msgstr "It was not possible to delete the following units:"
+
+msgid "un_unit_deletion_errors_p_s"
+msgstr "It was not possible to delete the following unit:"
+
+msgid "un_units_of_category_x"
+msgstr "Units of Category: %s"
+
+msgid "unfinished_passes"
+msgstr "Unfinished Passes"
+
+msgid "unit"
+msgstr "Unit"
+
+msgid "unit_placeholder"
+msgstr "** New Unit **"
+
+msgid "units"
+msgstr "Units"
+
+msgid "unlimited"
+msgstr "unlimited"
+
+msgid "unlock"
+msgstr "Unlock"
+
+msgid "updated"
+msgstr "Updated"
+
+msgid "uploaded_material"
+msgstr "Uploaded Material"
+
+msgid "use_previous_solution"
+msgstr "Use previous solution"
+
+msgid "use_previous_solution_advice"
+msgstr "The solution shown is your solution from the last time you took this test. To adopt this previous solution without any changes, you need to select the ‘Use previous solution’ checkbox beneath the question."
+
+msgid "user_has_finished_a_test"
+msgstr "A participant has finished a test."
+
+msgid "user_ip_outside_range"
+msgstr "You are not allowed to start the test from this IP address."
+
+msgid "user_not_invited"
+msgstr "You are not supposed to take this test."
+
+msgid "usr_manscoring_complete"
+msgstr "Scoring Finalised"
+
+msgid "value_between_x_and_y"
+msgstr "The value should be between %s and %s"
+
+msgid "values"
+msgstr "Values"
+
+msgid "variable"
+msgstr "Variable"
+
+msgid "variable_x"
+msgstr "Variable %s"
+
+msgid "variables"
+msgstr "Variables"
+
+msgid "wait_for_next_pass_hint_msg"
+msgstr "Test can be taken again from the following time: %s"
+
+msgid "warning_question_not_complete"
+msgstr "Question is incomplete!"
+
+msgid "width"
+msgstr "Width"
+
+msgid "with_solution"
+msgstr "Participants with solution"
+
+msgid "with_solutions_participants"
+msgstr "Participants with solutions"
+
+msgid "without_solution"
+msgstr "Participants without solution"
+
+msgid "without_solutions_participants"
+msgstr "Participants without solutions"
+
+msgid "worked_through"
+msgstr "Worked Through"
+
+msgid "working_time"
+msgstr "Total Time Spent"
+
+msgid "you_received_a_of_b_points"
+msgstr "You received %s of %s possible points"
+
+msgid "your_results"
+msgstr "My Results"

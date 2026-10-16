@@ -1,0 +1,5086 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: assessment\n"
+
+msgid "activate_logging"
+msgstr "Aktivera loggning av test och bedömning"
+
+#, fuzzy
+msgid "activate_manual_scoring"
+msgstr "Enable Manual Scoring"
+
+#, fuzzy
+msgid "activate_manual_scoring_desc"
+msgstr "Enables manual Scoring for all question types."
+
+msgid "addSuggestedSolution"
+msgstr "Innehåll för repetition"
+
+msgid "add_answers"
+msgstr "Lägg till svar"
+
+msgid "add_circle"
+msgstr "Lägg till cirkel"
+
+msgid "add_gap"
+msgstr "Lägg till cloze"
+
+msgid "add_imagemap"
+msgstr "Importera imagemap"
+
+msgid "add_poly"
+msgstr "Lägg till Polygon"
+
+msgid "add_rect"
+msgstr "Lägg till rektangel"
+
+#, fuzzy
+msgid "add_users"
+msgstr "Add Users"
+
+msgid "additional_rating_info"
+msgstr "Observera att de värden som anges här är i procent och måste summeras till 100."
+
+msgid "advanced_rating"
+msgstr "Avancerad utvärdering"
+
+msgid "advanced_rating_info"
+msgstr "Den utökade utvärderingen är endast möjlig om du har angett en enhet för resultatet. Ytterligare utvärderingsinställningar visas efter att de angivna enheterna har sparats."
+
+msgid "all_available_question_pools"
+msgstr "Alla befintliga frågepooler"
+
+msgid "all_participants"
+msgstr "Alla deltagare"
+
+msgid "allow_images"
+msgstr "Grafiskt stöd för svar"
+
+msgid "allowedextensions"
+msgstr "Tillåtna filtillägg"
+
+msgid "allowedextensions_info"
+msgstr "Ange en kommaseparerad lista över tillåtna filändelser om du vill begränsa uppladdningen till vissa filtyper (t.ex. doc, pdf, odt)."
+
+#, fuzzy
+msgid "already_added_extra_time"
+msgstr "already added: %s min"
+
+msgid "analyze_errortext"
+msgstr "Analysera text"
+
+msgid "answer"
+msgstr "Svar"
+
+msgid "answer_characters"
+msgstr " tillåtna tecken, antal tecken som anges"
+
+msgid "answer_image"
+msgstr "Svar grafik"
+
+msgid "answer_is_not_correct_but_positive"
+msgstr "Du har fått poäng för din lösning. Det är dock inte den bästa lösningen."
+
+msgid "answer_is_right"
+msgstr "Din lösning är korrekt."
+
+msgid "answer_is_wrong"
+msgstr "Din lösning är fel."
+
+msgid "answer_of"
+msgstr "Reply från"
+
+msgid "answer_options"
+msgstr "Alternativ för svar"
+
+msgid "answer_question"
+msgstr "Svar på fråga"
+
+msgid "answer_text"
+msgstr "Svar text"
+
+msgid "answer_types"
+msgstr "Svar redaktör"
+
+msgid "answered"
+msgstr "Besvarad"
+
+msgid "answers_multiline"
+msgstr "Svar från Multiline"
+
+msgid "answers_of"
+msgstr "Svar från"
+
+msgid "answers_select"
+msgstr "Urval"
+
+msgid "answers_singleline"
+msgstr "Svar på en rad"
+
+msgid "answers_text_box"
+msgstr "Textfält"
+
+msgid "applet_attributes"
+msgstr "Applet-attribut"
+
+msgid "applet_parameter"
+msgstr "Parametrar"
+
+msgid "applet_parameters"
+msgstr "Parametrar för applet"
+
+msgid "apply_def_settings_to_tst"
+msgstr "Tillämpa inställningar för test"
+
+msgid "assClozeTest"
+msgstr "Cloze fråga"
+
+msgid "assErrorText"
+msgstr "Markera fel/ord"
+
+msgid "assFileUpload"
+msgstr "Ladda upp fil"
+
+msgid "assFlashQuestion"
+msgstr "Inbäddad fråga"
+
+msgid "assFormulaQuestion"
+msgstr "formelfråga"
+
+msgid "assImagemapQuestion"
+msgstr "Hotspot/Imagemap"
+
+msgid "assKprimChoice"
+msgstr "Kprim Val"
+
+msgid "assLongMenu"
+msgstr "\"Lång meny\" fråga"
+
+msgid "assMatchingQuestion"
+msgstr "Uppgiftsfråga"
+
+msgid "assMultipleChoice"
+msgstr "Multipla valmöjligheter"
+
+msgid "assNumeric"
+msgstr "Numeriskt svar"
+
+msgid "assOrderingHorizontal"
+msgstr "Arrangemang fråga"
+
+msgid "assOrderingQuestion"
+msgstr "Arrangemang fråga"
+
+msgid "assQuestions"
+msgstr "Frågor och svar"
+
+msgid "assSingleChoice"
+msgstr "Enskilt val"
+
+msgid "assTextQuestion"
+msgstr "Ange fri text"
+
+msgid "assTextSubset"
+msgstr "Namn termer"
+
+msgid "ass_cloze_fb_mode"
+msgstr "Metod för återkoppling"
+
+msgid "ass_cloze_fb_mode_gap_answ"
+msgstr "Svarsspecifik feedback"
+
+msgid "ass_cloze_fb_mode_gap_answ_info"
+msgstr "För varje gap kan olika feedback lagras för varje svar."
+
+msgid "ass_cloze_fb_mode_gap_qst"
+msgstr "Avkastning per gap"
+
+msgid "ass_cloze_fb_mode_gap_qst_info"
+msgstr "För varje gap kan en återkoppling deponeras."
+
+msgid "ass_cloze_gap_fb_gap_label"
+msgstr "Gap %s"
+
+msgid "ass_cloze_gap_fb_num_empty_label"
+msgstr "Gap %s - Ingen inmatning"
+
+msgid "ass_cloze_gap_fb_num_rangehit_label"
+msgstr "Gap %s - Värdeintervall"
+
+msgid "ass_cloze_gap_fb_num_toohigh_label"
+msgstr "Gap %s - Värde för högt"
+
+msgid "ass_cloze_gap_fb_num_toolow_label"
+msgstr "Gap %s - värde för lågt"
+
+msgid "ass_cloze_gap_fb_num_valuehit_label"
+msgstr "Gap %s - Exakt värde"
+
+msgid "ass_cloze_gap_fb_sel_empty_label"
+msgstr "Gap %s - Inget urval"
+
+msgid "ass_cloze_gap_fb_sel_opt_label"
+msgstr "Gap %s - Valmöjlighet"
+
+msgid "ass_cloze_gap_fb_txt_empty_label"
+msgstr "Gap %s - Ingen inmatning"
+
+msgid "ass_cloze_gap_fb_txt_match_label"
+msgstr "Gap %s - Specificerat svar"
+
+msgid "ass_cloze_gap_fb_txt_nomatch_label"
+msgstr "Gap %s - Felaktig inmatning"
+
+msgid "ass_commented_questions_only"
+msgstr "Endast kommenterade frågor"
+
+msgid "ass_comments"
+msgstr "Kommentarer"
+
+msgid "ass_competence_respect_level_ordering"
+msgstr "Observera att tröskelvärdena för kompetens måste definieras i enlighet med kompetensnivåerna i stigande ordning."
+
+msgid "ass_completion_by_submission"
+msgstr "Passera genom att lämna in"
+
+msgid "ass_completion_by_submission_info"
+msgstr "Om den är aktiverad leder inlämnandet av en lösningsfil till att maximalt antal poäng tilldelas för denna fråga. Poängen kan justeras manuellt när som helst. Ändring av denna inställning har ingen efterföljande effekt på redan inlämnade lösningar."
+
+msgid "ass_create_export_file_with_results"
+msgstr "Skapa exportfil (inkl. deltagarresultat)"
+
+msgid "ass_create_export_test_archive"
+msgstr "Skapa arkivfil för test"
+
+msgid "ass_create_question"
+msgstr "Skapa fråga"
+
+msgid "ass_imap_hint"
+msgstr "Note (visas som verktygstips)"
+
+msgid "ass_imap_map_file_not_readable"
+msgstr "Den uppladdade bildkartan kan inte läsas."
+
+msgid "ass_imap_no_map_found"
+msgstr "Ingen stödd form kunde hittas i den uppladdade bildkartan."
+
+msgid "ass_lac_expression"
+msgstr "Uttryck"
+
+msgid "ass_lac_show_legend_btn"
+msgstr "Visa legend"
+
+msgid "ass_lac_unable_to_parse_condition"
+msgstr "Uttrycket \"%s\" kan inte valideras."
+
+msgid "ass_lac_validation_error"
+msgstr "Det finns fel i valideringen av villkoret/villkoren!"
+
+msgid "ass_location"
+msgstr "Plats"
+
+msgid "ass_mc_sel_lim_exhausted_hint"
+msgstr "Var vänlig välj inte fler än %s av %s svar!"
+
+msgid "ass_mc_sel_lim_hint"
+msgstr "Välj högst %s av %s svar!"
+
+msgid "ass_mc_sel_lim_setting"
+msgstr "Begränsning av svar"
+
+msgid "ass_mc_sel_lim_setting_desc"
+msgstr "Med denna inställning kan antalet svar som kan väljas av deltagaren begränsas."
+
+msgid "ass_process_lock"
+msgstr "Använd låsmekanism under testkörningar"
+
+msgid "ass_process_lock_desc"
+msgstr "Race-förhållanden är möjliga utan användning av en låsmekanism. Dessa kan leda till inkonsekventa testresultat."
+
+msgid "ass_process_lock_mode"
+msgstr "Låst läge under inlämning av deltagarlösningar"
+
+msgid "ass_process_lock_mode_db"
+msgstr "Använd låsning av databastabeller"
+
+msgid "ass_process_lock_mode_db_desc"
+msgstr "Denna låsmekanism skapar lås på motsvarande tabeller i databasen. Konkurrerande processer för samma eller olika användare i samma eller olika test för samma eller olika frågor måste vänta tills den andra processen släpper låset."
+
+msgid "ass_process_lock_mode_file"
+msgstr "Använda filsystemlås"
+
+msgid "ass_process_lock_mode_file_desc"
+msgstr "Den här låsmekanismen skapar lås på tomma filer i filsystemet. Konkurrerande processer för samma användare och samma test/fråga måste vänta tills den andra processen släpper låset."
+
+msgid "ass_question"
+msgstr "Fråga"
+
+msgid "ass_size"
+msgstr "Storlek"
+
+msgid "ass_skl_import_fails_remove_btn"
+msgstr "Ta bort detta meddelande"
+
+msgid "assessment_existing_pool"
+msgstr "Använda befintlig frågepool"
+
+msgid "assessment_new_pool"
+msgstr "Skapa och använd en ny frågepool"
+
+msgid "assessment_no_pool"
+msgstr "Använd inte en frågepool"
+
+msgid "assessment_pool_selection"
+msgstr "Val av pool"
+
+msgid "assessment_scoring_adjust"
+msgstr " Aktivera läge efter korrigering"
+
+msgid "assessment_scoring_adjust_desc"
+msgstr "Aktiverar efterkorrigeringsläget för att i efterhand justera poängsättningen av frågor i tester."
+
+msgid "autocomplete_error"
+msgstr "Ditt autokompletteringsvärde är för stort, du har svar i dina svarsalternativ som har färre tecken och därför aldrig kan väljas."
+
+msgid "autoparticipants_subtab"
+msgstr "Deltagare"
+
+msgid "autosave"
+msgstr "Automatiskt sparande"
+
+msgid "autosave_failed"
+msgstr "Automatisk räddning misslyckades!"
+
+msgid "autosave_info"
+msgstr "Deltagarnas svar på den senast öppnade frågan sparas automatiskt av ILIAS. Dessa automatiskt sparade svar räknas <b>inte</b> som svar som godkänts av deltagaren. De beaktas därför inte av ILIAS under den automatiska utvärderingen. Automatiskt sparade sva"
+
+msgid "autosave_ival"
+msgstr "Spara intervall"
+
+msgid "autosave_success"
+msgstr "Automatisk besparing framgångsrikt genomförd..."
+
+msgid "autosavecontent"
+msgstr "Automatisk lagring av innehåll"
+
+msgid "average_reached_points"
+msgstr "Genomsnittlig uppnådd poäng"
+
+msgid "back_to_objective_container"
+msgstr "Tillbaka till kursen"
+
+msgid "backtocallingpage"
+msgstr "Tillbaka till frågesidan"
+
+msgid "backtocallingpool"
+msgstr "Tillbaka till frågepoolen"
+
+msgid "backtocallingtest"
+msgstr "Tillbaka till testet"
+
+msgid "baseunit"
+msgstr "Basenhet"
+
+#, fuzzy
+msgid "broken_test"
+msgstr "Broken Test"
+
+#, fuzzy
+msgid "bulkedit_author"
+msgstr "Set Author"
+
+#, fuzzy
+msgid "bulkedit_lifecycle"
+msgstr "Set Lifecycle"
+
+#, fuzzy
+msgid "bulkedit_taxonomies"
+msgstr "Set Taxonomies"
+
+msgid "cancel_test"
+msgstr "Test av avbrott"
+
+msgid "cannot_edit_marks"
+msgstr "Testet har redan genomförts av deltagarna. Du kan bara ändra bedömningen om ett datum har fastställts för resultatutmatningen som för närvarande fortfarande ligger i framtiden."
+
+msgid "cannot_edit_test"
+msgstr "Du har inte tillräckliga rättigheter för att redigera testet!"
+
+msgid "cannot_execute_test"
+msgstr "Du har inte tillräckliga rättigheter för att utföra testet!"
+
+msgid "cannot_export_archive"
+msgstr "Arkivexport kan inte skapas."
+
+msgid "cannot_read_questionpool"
+msgstr "Du har inte tillräckliga rättigheter för att komma åt frågepoolen!"
+
+msgid "cannot_save_metaobject"
+msgstr "Du har inte tillräckliga rättigheter för att spara metadata!"
+
+msgid "cannot_switch_to_online_no_questions_andor_no_mark_steps"
+msgstr "Statusen kan inte ändras till &quot;online (aktiverad)&quot; eftersom inga frågor och/eller markeringar har lagts till i testet ännu!"
+
+msgid "category"
+msgstr "Kategori"
+
+msgid "changeSuggestedSolution"
+msgstr "Välj typ av innehåll som ska upprepas"
+
+msgid "change_adm_categories_not_allowed"
+msgstr "I detta skede har du inte skrivrättigheter till kategorin."
+
+msgid "checkbox_checked"
+msgstr "Vald"
+
+msgid "checkbox_unchecked"
+msgstr "Inte vald"
+
+msgid "circle"
+msgstr "Cirkel"
+
+msgid "circle_click_center"
+msgstr "Klicka på mitten av den önskade regionen"
+
+msgid "circle_click_circle"
+msgstr "Klicka på en punkt på omkretsen av den önskade regionen"
+
+#, fuzzy
+msgid "client_ip_range"
+msgstr "Client IP Range"
+
+msgid "clientip"
+msgstr "Klient IP"
+
+msgid "close_text_hint"
+msgstr "För att infoga ett mellanrum i texten, placera markören på motsvarande position och använd knappen \"Textmellanrum\". Därefter finns motsvarande redigeringsområden tillgängliga längre ner. Du kan också klicka direkt på luckorna för att redigera i lucktexte"
+
+#, fuzzy
+msgid "cloze_answer_text_info"
+msgstr "Spaces preceding or following the answer text will be deleted when the form is saved."
+
+msgid "cloze_fixed_textlength"
+msgstr "Längd på textfältet"
+
+msgid "cloze_fixed_textlength_description"
+msgstr "Om du anger ett värde här skapas textgap som inte definierar ett eget värde för en maximal längd, samt numeriska gap med denna längd, så att det inte är möjligt att ange ett större antal tecken. För numeriska luckor, observera att decimalavgränsaren ocks"
+
+msgid "cloze_gap_size_info"
+msgstr "Om ett värde större än 0 anges skapas detta mellanrum med den längd som anges här. Om inget värde anges skapas detta mellanrum med den globalt angivna textfältslängden."
+
+msgid "cloze_text"
+msgstr "Cloze fråga"
+
+msgid "cloze_textgap_case_insensitive"
+msgstr "Ingen skillnad görs mellan stora och små bokstäver"
+
+msgid "cloze_textgap_case_sensitive"
+msgstr "Känsliga gemener"
+
+msgid "cloze_textgap_levenshtein_of"
+msgstr "Levenshtein avstånd från %s"
+
+msgid "code"
+msgstr "Kod"
+
+msgid "codebase"
+msgstr "Codebase"
+
+msgid "concatenation"
+msgstr "Länk"
+
+msgid "conf_delete_pass"
+msgstr "Vill du verkligen ta bort passagen?"
+
+#, fuzzy
+msgid "confirm_log_deletion"
+msgstr "Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries."
+
+msgid "confirm_sync_questions"
+msgstr "Frågan du ändrade skapades som en kopia av ett original när du infogade den i testet. Vill du nu tillämpa dina ändringar på den ursprungliga frågan?"
+
+#, fuzzy
+msgid "contained_question_types"
+msgstr "Contained Question Types"
+
+msgid "coordinates"
+msgstr "Koordinater"
+
+msgid "copy_and_link_to_questionpool"
+msgstr "Lägg till frågepoolen"
+
+msgid "copy_no_questions_selected"
+msgstr "Välj minst en fråga att kopiera."
+
+msgid "copy_questions_success"
+msgstr "Frågorna har kopierats."
+
+msgid "correct_answers"
+msgstr "Rätt svar"
+
+msgid "counter"
+msgstr "Counter"
+
+msgid "create_gaps"
+msgstr "Skapa och uppdatera luckor"
+
+msgid "create_new"
+msgstr "Skapa ny"
+
+#, fuzzy
+msgid "created"
+msgstr "Created"
+
+msgid "customstyle"
+msgstr "Egen formatmall"
+
+msgid "dashboard_tab"
+msgstr "Deltagare"
+
+msgid "definition"
+msgstr "Definition"
+
+msgid "definition_image"
+msgstr "Image"
+
+msgid "definition_text"
+msgstr "Text"
+
+msgid "definitions"
+msgstr "Definitioner"
+
+msgid "deleteSuggestedSolution"
+msgstr "Ta bort innehåll för upprepning"
+
+msgid "delete_all_user_data_confirmation"
+msgstr "Vill du verkligen radera testdata för alla deltagare?"
+
+msgid "delete_image_header"
+msgstr "Ta bort bild"
+
+msgid "delete_image_question"
+msgstr "Vill du verkligen ta bort bilden?"
+
+#, fuzzy
+msgid "delete_mark_confirmation"
+msgstr "Are you sure you want to delete the following mark?"
+
+#, fuzzy
+msgid "delete_participants_no_valid_participants_selected"
+msgstr "Test results already exist for the selected participant(s). They therefore cannot be removed."
+
+#, fuzzy
+msgid "delete_result_no_valid_participants_selected"
+msgstr "There are no test results for the selected participants, so they cannot be removed."
+
+msgid "delete_selected_user_data_confirmation"
+msgstr "Är du säker på att du vill ta bort alla testdata för de valda användarna?"
+
+msgid "delete_user_data"
+msgstr "Ta bort testdata"
+
+msgid "description_maxchars"
+msgstr "Om inget anges är det maximala antalet tecken för detta textsvar obegränsat."
+
+msgid "detail_ending_time_reached"
+msgstr "Du har överskridit den längsta möjliga behandlingstiden för testet. Testet kunde endast slutföras av %s."
+
+msgid "detail_max_processing_time_reached"
+msgstr "Du har överskridit den maximala tidsgränsen för testet. Du får inte fortsätta att arbeta på provet!"
+
+msgid "detail_starting_time_not_reached"
+msgstr "Testet kan ännu inte bearbetas. Bearbetning är möjlig tidigast från %s."
+
+msgid "detailed_evaluation"
+msgstr "Detaljerad statistik"
+
+msgid "detailed_evaluation_for"
+msgstr "Detaljerad statistik för %s"
+
+msgid "detailed_evaluation_missing_active_id"
+msgstr "Du behöver ta fram detaljerad statistik för en specifik deltagare!"
+
+msgid "detailed_evaluation_show"
+msgstr "Visa detaljerad statistik"
+
+msgid "detailed_output_printview"
+msgstr "Detaljutskrift med utskriftsvy av frågorna"
+
+msgid "detailed_output_solutions"
+msgstr "Detaljera resultatet med lösningar"
+
+msgid "direct_feedback"
+msgstr "Kontrollera din lösning"
+
+msgid "discard_answer"
+msgstr "Radera svar"
+
+msgid "discard_answer_confirmation"
+msgstr "Ditt svar kommer att raderas fullständigt och permanent. Du kan dock svara på frågan igen vid ett senare tillfälle.<br /><br />Ska ditt svar raderas permanent?"
+
+msgid "dont_use_questionpool"
+msgstr "Lägg inte in frågor i en frågepool, utan använd dem endast i detta test."
+
+#, fuzzy
+msgid "download_all_files"
+msgstr "Download All Files"
+
+msgid "duplicate"
+msgstr "Kopia"
+
+msgid "duplicate_matching_values_selected"
+msgstr "Du har valt minst ett värde för dubbel tilldelning!"
+
+msgid "duplicate_order_values_entered"
+msgstr "Du har gett minst en dubbelbeställning!"
+
+msgid "edit_answer"
+msgstr "Ändra svar"
+
+#, fuzzy
+msgid "edit_concluding_remarks"
+msgstr "Edit Concluding Remarks"
+
+#, fuzzy
+msgid "edit_introduction"
+msgstr "Edit Introduction"
+
+msgid "edit_question"
+msgstr "Redigera fråga"
+
+#, fuzzy
+msgid "edit_score"
+msgstr "Edit Score"
+
+msgid "edit_test_questions"
+msgstr "Listvy"
+
+msgid "element_height"
+msgstr "Minsta höjd"
+
+msgid "element_height_info"
+msgstr "Detta värde anger minsta höjd för termer och definitioner/bilder vid testutskrift."
+
+msgid "enable_examview"
+msgstr "Översikt över givna svar"
+
+msgid "enable_examview_desc"
+msgstr "Deltagarna presenteras med alla frågor och de svar de har gett innan de skickar in testet."
+
+msgid "end_tag"
+msgstr "Slutmarkör"
+
+msgid "enlarge"
+msgstr "enlarge"
+
+msgid "enter_anonymous_code"
+msgstr "Ange åtkomstnyckel för att fortsätta tester som redan har påbörjats."
+
+msgid "enter_enough_positive_points"
+msgstr "Det maximala antalet poäng för frågan måste vara större än noll! Ange tillräckligt många icke-negativa poäng för svaren."
+
+msgid "enter_enough_positive_points_checked"
+msgstr "Minst ett svar måste ge poäng. Ange en positiv poäng för att välja ett svar."
+
+msgid "enter_valid_values"
+msgstr "Se till att du anger giltiga värden. Om du anger bokstäver kommer det att bedömas som fel!"
+
+msgid "errFormulaQuestion"
+msgstr "En formelfråga innehåller felaktig information"
+
+msgid "errRecursionInResult"
+msgstr "Formeln innehåller en icke-lösbar rekursion."
+
+msgid "err_category_in_use"
+msgstr "Kategorin kan inte raderas. En eller flera enheter i kategorin används redan."
+
+msgid "err_divider_too_big"
+msgstr "Divisorn för en av variablerna i denna fråga är för stor."
+
+msgid "err_division"
+msgstr "Det värde du anger gör det omöjligt att generera ett giltigt värde för variabeln."
+
+msgid "err_duplicate_results"
+msgstr "Du har använt en resultatvariabel mer än en gång. Detta är inte tillåtet i uppgiftstexten!"
+
+msgid "err_no_formula"
+msgstr "Ange en formel för att beräkna resultatet."
+
+msgid "err_no_numeric_value"
+msgstr "Var god ange ett numeriskt värde"
+
+msgid "err_range"
+msgstr "Den övre gränsen måste vara större än den undre gränsen."
+
+msgid "err_rating_advanced_not_allowed"
+msgstr "Du kan bara använda den enkla klassificeringen eftersom du använder flera resultatenheter med en identisk basenhet."
+
+msgid "err_unit_in_results"
+msgstr "Enheten kan inte raderas. Den används redan i testfrågor."
+
+msgid "err_unit_in_variables"
+msgstr "Enheten kan inte raderas. Den används redan i testfrågor."
+
+msgid "err_unit_is_baseunit"
+msgstr "Enheten kan inte raderas. Den används som basenhet av andra enheter."
+
+msgid "err_wrong_categoryname"
+msgstr "Kategorin finns redan."
+
+msgid "err_wrong_rating_advanced"
+msgstr "Se till att summan av de utökade betygsalternativen är exakt 100 procent."
+
+#, fuzzy
+msgid "error_creating_certificate_zip_empty"
+msgstr "No data for export."
+
+msgid "error_importing_question"
+msgstr "Ett fel uppstod vid import av frågorna!"
+
+msgid "error_open_image_file"
+msgstr "Fel vid öppning av en bildfil!"
+
+msgid "error_random_question_generation"
+msgstr "Ett okänt fel uppstod när slumpmässiga frågor genererades. Vänligen kontakta din ILIAS-administration och vidarebefordra följande information"
+
+msgid "errors"
+msgstr "Fel"
+
+msgid "errors_section"
+msgstr "Felaktiga data"
+
+msgid "errortext"
+msgstr " Markera fel/ord"
+
+msgid "errortext_info"
+msgstr "Vänligen ange en text. För att markera ett ord som felaktigt, placera en hash (#) direkt framför det önskade ordet. För att definiera en grupp av felaktiga ord, sätt orden inom dubbla parenteser och utelämna hashtecknet i detta fall. Exempel"
+
+msgid "essay_scoring_mode"
+msgstr "Utvärderingssätt"
+
+msgid "essay_scoring_mode_keyword_relation_all"
+msgstr "Automatisk utvärdering när alla termer är namngivna"
+
+msgid "essay_scoring_mode_keyword_relation_all_desc"
+msgstr "Poängen tilldelas automatiskt om alla villkor har hittats."
+
+msgid "essay_scoring_mode_keyword_relation_any"
+msgstr "Automatisk utvärdering när enskilda termer nämns"
+
+msgid "essay_scoring_mode_keyword_relation_any_desc"
+msgstr "För varje term som hittas tilldelas motsvarande poäng."
+
+msgid "essay_scoring_mode_keyword_relation_one"
+msgstr "Automatisk utvärdering när en term är namngiven"
+
+msgid "essay_scoring_mode_keyword_relation_one_desc"
+msgstr "Poängen tilldelas automatiskt om minst en term hittas."
+
+msgid "essay_scoring_mode_without_keywords"
+msgstr "Ingen automatisk klassificering"
+
+msgid "essay_scoring_mode_without_keywords_desc"
+msgstr "Inga poäng tilldelas automatiskt. Poäng kan endast tilldelas med manuell bedömning."
+
+msgid "eval_all_users"
+msgstr "Utvärdering för alla användare"
+
+msgid "eval_legend_link"
+msgstr "För innebörden av kolumnrubrikerna, se teckenförklaringen"
+
+msgid "evaluated_users"
+msgstr "Rated användare"
+
+msgid "exam_id"
+msgstr "ILIAS examensnummer"
+
+msgid "exam_id_label"
+msgstr "ILIAS examensnummer"
+
+#, fuzzy
+msgid "exam_id_of_attempt"
+msgstr "ID of Attempt"
+
+msgid "examid_in_test_pass"
+msgstr "Visa ILIAS provnummer"
+
+msgid "examid_in_test_pass_desc"
+msgstr "Ett ILIAS-examensnummer visas i testet. Ett separat nummer genereras för varje testkörning."
+
+msgid "examid_in_test_res"
+msgstr "Visa ILIAS provnummer"
+
+msgid "examid_in_test_res_desc"
+msgstr "I testresultaten, statistiken och Excel-exporten visas ILIAS-examensnumret."
+
+#, fuzzy
+msgid "exp_all_test_runs"
+msgstr "All test runs"
+
+msgid "exp_eval_data"
+msgstr "Exportera utvärderingsdata som"
+
+#, fuzzy
+msgid "exp_grammar_as"
+msgstr "as"
+
+msgid "exp_scored_test_attempt"
+msgstr "Scored Test Attempt"
+
+msgid "exp_type_certificate"
+msgstr "Certifikat (PDF)"
+
+msgid "exp_type_excel"
+msgstr "Microsoft Excel"
+
+msgid "expected_result_type"
+msgstr "Typ av förväntat resultat"
+
+#, fuzzy
+msgid "export_cert_failed_for_users_p"
+msgstr "No certificate file could be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file."
+
+#, fuzzy
+msgid "export_cert_failed_for_users_s"
+msgstr "No certificate file could be generated and added to the archive for the following account: %s. Please contact an administrator to check the log file."
+
+#, fuzzy
+msgid "export_cert_ignored_for_users_p"
+msgstr "The following %s accounts did not achieve a certificate, or the certificate service is not enabled/activate: %s"
+
+#, fuzzy
+msgid "export_cert_ignored_for_users_s"
+msgstr "The following account did not achieve a certificate, or the certificate service is not enabled/activate: %s"
+
+#, fuzzy
+msgid "export_cert_no_users"
+msgstr "A certificate archive cannot be created due to missing test participants."
+
+msgid "export_essay_qst_with_html"
+msgstr "Exportera fritextfrågor med HTML-kod"
+
+msgid "export_essay_qst_with_html_desc"
+msgstr "Om aktiverat har du möjlighet att exportera fritextfrågor med den angivna HTML-koden till Excel."
+
+#, fuzzy
+msgid "export_legacy_logs"
+msgstr "Legacy Log-Daten exportieren"
+
+#, fuzzy
+msgid "extra_time_byline"
+msgstr "Put in extra time in minutes. Already entered extra time is added up."
+
+#, fuzzy
+msgid "extra_time_for_all_participants"
+msgstr "You are adding some extra time to all participants."
+
+#, fuzzy
+msgid "extra_time_for_selected_participants"
+msgstr "You are adding extra time to the selected participants."
+
+#, fuzzy
+msgid "extra_time_for_selected_participants_different"
+msgstr "You have selected participants with different additional times."
+
+#, fuzzy
+msgid "extra_time_for_single_participant"
+msgstr "Your are adding extra time to the following participant:"
+
+msgid "extratime"
+msgstr "Tidsförlängning"
+
+#, fuzzy
+msgid "extratime_added"
+msgstr "The extra time has been added to the selected participants."
+
+msgid "factor"
+msgstr "Faktor"
+
+msgid "failed_official"
+msgstr "Misslyckad"
+
+msgid "failed_short"
+msgstr "Misslyckad"
+
+msgid "false"
+msgstr "Fel"
+
+msgid "feedback_all"
+msgstr "Visa feedback på alla svarsalternativ."
+
+msgid "feedback_answers"
+msgstr "Olika feedback per givet svar"
+
+msgid "feedback_checked"
+msgstr "Visa feedback på utvalda svar från deltagaren."
+
+msgid "feedback_complete_solution"
+msgstr "Rätt lösning"
+
+msgid "feedback_correct_kprim"
+msgstr "Visa feedback för korrekta svar (korrekta svar är de där det positiva alternativet ska väljas)."
+
+msgid "feedback_correct_sc_mc"
+msgstr "Visa feedback för korrekta svar (korrekta svar är de för vilka det finns positiva poäng när de väljs)."
+
+msgid "feedback_generic"
+msgstr "Feedback på den korrekta lösningen"
+
+msgid "feedback_incomplete_solution"
+msgstr "Minst ett svar är inte korrekt"
+
+msgid "feedback_setting"
+msgstr "Mode"
+
+msgid "fileDownload"
+msgstr "Ladda ner filer"
+
+msgid "file_uploads"
+msgstr "Uppladdade filer"
+
+msgid "fill_out_all_required_fields_add_answer"
+msgstr "Du måste först fylla i alla obligatoriska fält innan du kan lägga till svar!"
+
+msgid "filter_all_question_types"
+msgstr "Alla typer av frågor"
+
+msgid "filter_all_questionpools"
+msgstr "Alla frågepooler"
+
+msgid "filter_show_question_types"
+msgstr "Visa följande typer av frågor"
+
+msgid "filter_show_questionpools"
+msgstr "Visa följande frågepooler"
+
+msgid "final_statement"
+msgstr "Avslutande anmärkning"
+
+msgid "final_statement_show_desc"
+msgstr "Visar den slutliga kommentaren efter att testet har skickats in."
+
+msgid "finalized_by"
+msgstr "Rating genomförd av"
+
+msgid "finalized_evaluation"
+msgstr "Final betygsatt"
+
+msgid "finalized_on"
+msgstr "Värderingen slutförd den"
+
+msgid "finish_all_user_passes"
+msgstr "Avsluta alla testkörningar"
+
+msgid "finish_pass_for_all_users"
+msgstr "Vill du verkligen stoppa testkörningarna för alla användare?"
+
+msgid "finish_pass_for_multiple_users_in_processing_time"
+msgstr "Du kan inte avsluta körningarna för alla användare tillsammans, eftersom behandlingstiden för minst en användare ännu inte är över."
+
+msgid "finish_pass_for_user_confirmation"
+msgstr "Vill du verkligen avsluta testkörningen för deltagaren \"%s\"?"
+
+msgid "finish_pass_for_user_in_processing_time"
+msgstr "VARNING"
+
+msgid "finish_test"
+msgstr "Avsluta test"
+
+#, fuzzy
+msgid "finish_test_all"
+msgstr "Are you sure you want to finish the test attempts for all users?"
+
+#, fuzzy
+msgid "finish_test_more_than_one_selected"
+msgstr "Only a single participant may be selected to finish the pass if the test allows only one pass."
+
+#, fuzzy
+msgid "finish_test_multiple"
+msgstr "Are you sure you want to finish the test attempts for the following participants?"
+
+#, fuzzy
+msgid "finish_test_no_valid_participants_selected"
+msgstr "There are no active test runs for the selected participants, so they cannot be completed."
+
+#, fuzzy
+msgid "finish_test_single"
+msgstr "Are you sure you want to finish the test attempt for the participant \"%s\"?"
+
+msgid "finish_unfinished_passes"
+msgstr "Avslutar testkörningar som fortfarande är öppna"
+
+msgid "finish_unfinished_passes_desc"
+msgstr "Test som ännu inte har slutförts avslutas automatiskt - förutsatt att en sluttid har fastställts för dessa test eller att deltagarna har överskridit den maximala sluttiden."
+
+#, fuzzy
+msgid "finished_by_administrator"
+msgstr "Finished by Administrator"
+
+#, fuzzy
+msgid "finished_by_cronjob"
+msgstr "Finished by Cronjob"
+
+#, fuzzy
+msgid "finished_by_duration"
+msgstr "Finished by time limit"
+
+#, fuzzy
+msgid "finished_by_participant"
+msgstr "Finished by Participant"
+
+#, fuzzy
+msgid "finished_by_unknown"
+msgstr "Finished by Unknown"
+
+msgid "fixed_participants_hint"
+msgstr "Detta test är endast tillgängligt för denna fasta grupp av deltagare. Om du vill göra testet tillgängligt för alla deltagare måste du ändra markeringen i kryssrutan för fasta deltagare i testinställningarna."
+
+msgid "fixedparticipants_subtab"
+msgstr "Utvalda deltagare"
+
+msgid "flashfile"
+msgstr "Flash-fil"
+
+msgid "for"
+msgstr "för"
+
+msgid "forcejs"
+msgstr "Tvinga JavaScript för utdata från testfrågor"
+
+msgid "form_msg_area_missing_points"
+msgstr "Ange en poäng för alla regioner."
+
+msgid "formula"
+msgstr "Formel"
+
+msgid "fq_formula_desc"
+msgstr "Tillåtet är användning av redan definierade variabler ($v1 till $vn), av redan definierade resultat (t.ex. $r1), godtycklig parentesering av uttryck, de matematiska operatorerna + (addition), - (subtraktion), * (multiplikation), / (division), ^ (exponent"
+
+msgid "fq_no_restriction_info"
+msgstr "Både decimaltal och bråktal accepteras som indata."
+
+msgid "fq_precision_info"
+msgstr "Ange det antal decimaler du vill ha här."
+
+msgid "fq_question_desc"
+msgstr "Du definierar variabler genom att ange $v1, $v2 ... $vn, resultatfält med $r1, $r2 .... $rn på önskade positioner i texten. Klicka sedan på knappen \"Analysera fråga\" för att generera redigeringsformulär för alla variabler och resultat."
+
+msgid "gap"
+msgstr "Gap"
+
+msgid "gap_combination"
+msgstr "Cloze kombination"
+
+#, fuzzy
+msgid "gaps"
+msgstr "Gaps"
+
+msgid "glossary_term"
+msgstr "Glossarisk term"
+
+#, fuzzy
+msgid "goto_first_question"
+msgstr "Show First Question"
+
+msgid "grading_mark_msg"
+msgstr "Du har uppnått märket &quot;[märke]&quot;."
+
+msgid "grading_status_failed_msg"
+msgstr "Synd, tyvärr <b>klarade</b> du inte testet."
+
+msgid "grading_status_passed_msg"
+msgstr "Grattis! Du har <b>klarat</b> provet."
+
+#, fuzzy
+msgid "hide_best_solution"
+msgstr "Hide best solution"
+
+msgid "identical_scoring"
+msgstr "Identisk utvärdering"
+
+msgid "identical_scoring_desc"
+msgstr "Om den är markerad kommer luckor med identiska lösningar att poängsättas enligt specifikationerna, även om samma lösning har använts flera gånger. Om kryssrutan inte är markerad kommer endast den första identiska lösningen som används att poängsättas."
+
+msgid "imagemap"
+msgstr "Imagemap"
+
+msgid "imap_line_color"
+msgstr "Imagemap linjefärg"
+
+msgid "import_question"
+msgstr "Importfrågor"
+
+#, fuzzy
+msgid "in_range"
+msgstr "Within range"
+
+#, fuzzy
+msgid "in_trash"
+msgstr "In Trash"
+
+msgid "info_answer_type_change"
+msgstr "Frågan innehåller redan bilder. Frågetypen kunde därför inte ändras till flerradiga svar."
+
+msgid "info_text_upload"
+msgstr "Välj en textfil (UTF-8) med svar som ska laddas upp."
+
+msgid "insert_after"
+msgstr "Insätt bakom"
+
+msgid "insert_before"
+msgstr "Infoga före"
+
+msgid "insert_gap"
+msgstr "Insert gap"
+
+#, fuzzy
+msgid "interaction_type"
+msgstr "Interaction Type"
+
+msgid "internal_links"
+msgstr "Interna referenser"
+
+msgid "intprecision"
+msgstr "Kan delas av"
+
+msgid "intprecision_info"
+msgstr "Divisible by\" påverkar endast skapandet av variabler om värdet för precision är 0. I detta fall bestämmer \"Delbar med\" med vilket heltal den skapade variabeln måste vara delbar. Ett värde på 10 genererar därför bara heltal som är delbara med 10, ett värd"
+
+#, fuzzy
+msgid "invalid_ip"
+msgstr "Invalid IP"
+
+#, fuzzy
+msgid "ip_range_byline"
+msgstr "Only IP addresses within the defined range can start the test. You can either use IPv4 OR IPv6 addresses."
+
+#, fuzzy
+msgid "ip_range_for_all_participants"
+msgstr "You are changing the IP Range of all participants"
+
+#, fuzzy
+msgid "ip_range_for_selected_participants"
+msgstr "You are changing the IP Range of the following participant."
+
+#, fuzzy
+msgid "ip_range_for_single_participant"
+msgstr "You are changing the IP Range of the selected participants."
+
+#, fuzzy
+msgid "ip_range_info"
+msgstr "Only clients with an IP in the provided range will be able to access the test."
+
+#, fuzzy
+msgid "ip_range_label"
+msgstr "IP Range"
+
+#, fuzzy
+msgid "ip_range_updated"
+msgstr "The IP-Range has been update for the selected participants."
+
+msgid "kiosk"
+msgstr "Examensvy"
+
+msgid "kiosk_description"
+msgstr "Provvyn visar testet i kioskläge. Alla skärmelement som inte hör till testet är dolda. För att effektivt förhindra att deltagarna öppnar andra webbplatser under provet bör du dessutom använda en webbläsare som är specialiserad på e-prov (t.ex. \"Safe Exam"
+
+msgid "kiosk_options"
+msgstr "Information visas"
+
+msgid "kiosk_options_desc"
+msgstr "Den valda informationen visas i sidhuvudet."
+
+msgid "kiosk_show_participant"
+msgstr "Namn på deltagaren"
+
+msgid "kiosk_show_title"
+msgstr "Titel på testet"
+
+msgid "kprim_answers_info"
+msgstr "Flervalsfrågan \"Fyrfaldigt beslut rätt/fel\" (typ K', kallad Kprim) kännetecknas av att en fråga eller ett ofullständigt påstående följs av fyra svar eller tillägg. För vart och ett av dessa fyra alternativ måste ett beslut fattas om huruvida det är korre"
+
+msgid "kprim_instruction_text"
+msgstr "För varje uttalande måste beslut fattas"
+
+msgid "lacex_assClozeTest_NumberOfResultExpression_d"
+msgstr "Det 4:e svarsalternativet är ett urvalsgap och det 2:a alternativet valdes där."
+
+msgid "lacex_assClozeTest_NumberOfResultExpression_e"
+msgstr "R[4] = +2+"
+
+msgid "lacex_assClozeTest_NumericResultExpression_d"
+msgstr "Det andra svarsalternativet är ett numeriskt gap och besvarades med det numeriska värdet 5."
+
+msgid "lacex_assClozeTest_NumericResultExpression_e"
+msgstr "R[2] = #5#"
+
+msgid "lacex_assClozeTest_StringResultExpression_1_d"
+msgstr "Det 1:a svarsalternativet är ett textgap och besvarades med \"Måndag\"."
+
+msgid "lacex_assClozeTest_StringResultExpression_1_e"
+msgstr "R[1] = ~Montag~"
+
+msgid "lacex_assClozeTest_StringResultExpression_2_d"
+msgstr "Det 4:e svarsalternativet är ett urvalsgap och det svarsalternativ vars etikett motsvarar \"Grön\" valdes."
+
+msgid "lacex_assClozeTest_StringResultExpression_2_e"
+msgstr "R[4] = ~Grün~"
+
+msgid "lacex_assErrorText_ExclusiveResultExpression_d"
+msgstr "Exakt de svarsalternativ 1, 3 och 4 som valdes för frågan"
+
+msgid "lacex_assErrorText_ExclusiveResultExpression_e"
+msgstr "R = *1,3,4*"
+
+msgid "lacex_assErrorText_NumberOfResultExpression_d"
+msgstr "När du besvarade frågan valdes det andra svarsalternativet."
+
+msgid "lacex_assErrorText_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assFormulaQuestion_NumericResultExpression_d"
+msgstr "Det 1:a svarsalternativet besvarades med det numeriska värdet 3.14159"
+
+msgid "lacex_assFormulaQuestion_NumericResultExpression_e"
+msgstr "R[1] = #3.14159#"
+
+msgid "lacex_assImagemapQuestion_ExclusiveResultExpression_d"
+msgstr "Exakt de svarsalternativ 1, 3 och 4 som valdes för frågan"
+
+msgid "lacex_assImagemapQuestion_ExclusiveResultExpression_e"
+msgstr "R = *1,3,4*"
+
+msgid "lacex_assImagemapQuestion_NumberOfResultExpression_d"
+msgstr "När du besvarade frågan valdes det andra svarsalternativet."
+
+msgid "lacex_assImagemapQuestion_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assMatchingQuestion_MatchingResultExpression_d"
+msgstr "Elementen tilldelades enligt följande"
+
+msgid "lacex_assMatchingQuestion_MatchingResultExpression_e"
+msgstr "R = ;1"
+
+msgid "lacex_assMultipleChoice_ExclusiveResultExpression_d"
+msgstr "Exakt de svarsalternativ 1, 3 och 4 som valdes för frågan"
+
+msgid "lacex_assMultipleChoice_ExclusiveResultExpression_e"
+msgstr "R = *1,3,4*"
+
+msgid "lacex_assMultipleChoice_NumberOfResultExpression_d"
+msgstr "När du besvarade frågan valdes det andra svarsalternativet."
+
+msgid "lacex_assMultipleChoice_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assNumeric_NumericResultExpression_d"
+msgstr "Frågan besvarades med det numeriska värdet 4.7"
+
+msgid "lacex_assNumeric_NumericResultExpression_e"
+msgstr "R = #4.7#"
+
+msgid "lacex_assOrderingHorizontal_OrderingResultExpression_d"
+msgstr "Elementen som skulle sorteras arrangerades i följande ordning"
+
+msgid "lacex_assOrderingHorizontal_OrderingResultExpression_e"
+msgstr "R = $2,5,1,4,3$"
+
+msgid "lacex_assOrderingQuestion_OrderingResultExpression_d"
+msgstr "Elementen som skulle sorteras arrangerades i följande ordning"
+
+msgid "lacex_assOrderingQuestion_OrderingResultExpression_e"
+msgstr "R = $2,5,1,4,3$"
+
+msgid "lacex_assQuestion_EmptyAnswerExpression_d"
+msgstr "Inget svar gavs på frågan"
+
+msgid "lacex_assQuestion_EmptyAnswerExpression_e"
+msgstr "R = ?"
+
+msgid "lacex_assQuestion_PercentageResultExpression_d"
+msgstr "Fick den aktuella frågan exakt eller mer än 75% av de möjliga poängen?"
+
+msgid "lacex_assQuestion_PercentageResultExpression_e"
+msgstr "R >= %75%"
+
+msgid "lacex_assSingleChoice_NumberOfResultExpression_d"
+msgstr "När du besvarade frågan valdes det andra svarsalternativet."
+
+msgid "lacex_assSingleChoice_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assTextSubset_StringResultExpression_d"
+msgstr "För det andra svarsalternativet angavs texten \"Natriumklorid\"."
+
+msgid "lacex_assTextSubset_StringResultExpression_e"
+msgstr "R[2] = ~natriumklorid~"
+
+msgid "lacex_example_header"
+msgstr "Exempel"
+
+#, fuzzy
+msgid "list_of_participants"
+msgstr "Participants"
+
+msgid "locked"
+msgstr "låst"
+
+#, fuzzy
+msgid "log_deletion_not_allowed"
+msgstr "You don't have the necessary permissions to delete log entries."
+
+#, fuzzy
+msgid "log_entry_type"
+msgstr "Log Entry Type"
+
+#, fuzzy
+msgid "log_ip"
+msgstr "Log IP"
+
+#, fuzzy
+msgid "log_ip_info"
+msgstr "The IP of Participants is Logged for each interaction with a test. Disabling it does not delete existing IP records."
+
+#, fuzzy
+msgid "log_participant_data_delete_warning"
+msgstr "This test contains log data for participant interactions that will be deleted when changing the test to a test without names."
+
+msgid "log_text"
+msgstr "Protokollinmatning"
+
+msgid "log_user_solution_willingly_deleted"
+msgstr "Användaren har tagit bort sitt svar."
+
+msgid "logging_settings"
+msgstr "Protokolluppgifter"
+
+#, fuzzy
+msgid "logs_answer_deleted"
+msgstr "Answer deleted"
+
+#, fuzzy
+msgid "logs_answer_submitted"
+msgstr "Answer Submitted"
+
+msgid "logs_deleted"
+msgstr "Loggposterna för de utvalda testerna har raderats!"
+
+#, fuzzy
+msgid "logs_error_on_participant_interaction"
+msgstr "Error on Participant Interaction"
+
+#, fuzzy
+msgid "logs_error_on_question_administration_interaction"
+msgstr "Error on Question Administration Interaction"
+
+#, fuzzy
+msgid "logs_error_on_scoring_interaction"
+msgstr "Error on Scoring Interaction"
+
+#, fuzzy
+msgid "logs_error_on_test_administration_interaction"
+msgstr "Error on Test Administration Interaction"
+
+#, fuzzy
+msgid "logs_error_on_undefined_interaction"
+msgstr "Error on Undefined Interaction"
+
+#, fuzzy
+msgid "logs_extra_time_added"
+msgstr "Extra Time Added"
+
+#, fuzzy
+msgid "logs_main_settings_modified"
+msgstr "Main Settings Modified"
+
+#, fuzzy
+msgid "logs_mark_schema_modified"
+msgstr "Mark Schema Modified"
+
+#, fuzzy
+msgid "logs_mark_schema_reset"
+msgstr "Mark Schema Reset"
+
+#, fuzzy
+msgid "logs_new_test_created"
+msgstr "New Test Created"
+
+msgid "logs_output"
+msgstr "Utmatning av loggdata"
+
+#, fuzzy
+msgid "logs_participant_data_removed"
+msgstr "Participant Data Removed"
+
+#, fuzzy
+msgid "logs_pi"
+msgstr "Participant Interaction"
+
+#, fuzzy
+msgid "logs_qai"
+msgstr "Question Administration Interaction"
+
+#, fuzzy
+msgid "logs_question_added"
+msgstr "Question Added"
+
+#, fuzzy
+msgid "logs_question_graded"
+msgstr "Question Graded"
+
+#, fuzzy
+msgid "logs_question_grading_reset"
+msgstr "Grading Reset"
+
+#, fuzzy
+msgid "logs_question_modified"
+msgstr "Question Modified"
+
+#, fuzzy
+msgid "logs_question_modified_in_corrections"
+msgstr "Question Modified in Corrections"
+
+#, fuzzy
+msgid "logs_question_moved"
+msgstr "Question Moved"
+
+#, fuzzy
+msgid "logs_question_removed"
+msgstr "Question Removed"
+
+#, fuzzy
+msgid "logs_question_removed_in_corrections"
+msgstr "Question Removed in Corrections"
+
+#, fuzzy
+msgid "logs_question_selection_criteria_modified"
+msgstr "Question Selection Criteria Modified"
+
+#, fuzzy
+msgid "logs_question_shown"
+msgstr "Question Shown"
+
+#, fuzzy
+msgid "logs_question_skipped"
+msgstr "Question Skipped"
+
+#, fuzzy
+msgid "logs_question_synchronisation_reset"
+msgstr "Question Synchronisation Reset"
+
+#, fuzzy
+msgid "logs_questions_synchronised"
+msgstr "Questions Synchonised"
+
+#, fuzzy
+msgid "logs_scoring_settings_modified"
+msgstr "Scoring Settings Modified"
+
+#, fuzzy
+msgid "logs_si"
+msgstr "Scoring Interaction"
+
+#, fuzzy
+msgid "logs_tai"
+msgstr "Test Administration Interaction"
+
+#, fuzzy
+msgid "logs_te"
+msgstr "Error"
+
+#, fuzzy
+msgid "logs_test_deleted"
+msgstr "Test Deleted"
+
+#, fuzzy
+msgid "logs_test_run_finished"
+msgstr "Test Run Finished"
+
+#, fuzzy
+msgid "logs_test_run_of_participant_closed"
+msgstr "Run of Participant Closed"
+
+#, fuzzy
+msgid "logs_test_run_started"
+msgstr "Test Run Started"
+
+msgid "logs_wrong_test_password_provided"
+msgstr "Deltagaren har angett fel testlösenord."
+
+msgid "longmenu"
+msgstr "Lång meny"
+
+msgid "longmenu_answeroptions_differ"
+msgstr "Den här frågan fungerar inte korrekt eftersom den inte har samma antal luckor i texten som i svarsalternativen."
+
+msgid "longmenu_text"
+msgstr "\"Lång meny\" text"
+
+#, fuzzy
+msgid "mainbar_button_label_questionlist"
+msgstr "Questionlist"
+
+msgid "maintenance"
+msgstr "Underhåll"
+
+msgid "manscoring"
+msgstr "Manuell bedömning"
+
+msgid "manscoring_done"
+msgstr "Redan betygsatta deltagare"
+
+#, fuzzy
+msgid "manscoring_finalized"
+msgstr "The user's status has been set to 'Scoring Finalised'."
+
+#, fuzzy
+msgid "manscoring_finalized_removed"
+msgstr "The user's 'Scoring Finalised' status has been removed."
+
+msgid "manscoring_hint"
+msgstr "Testet innehåller minst en fråga som kan poängsättas manuellt. Om du planerar att poängsätta testfrågor manuellt bör du ange ett lämpligt sent datum för deltagarna att komma åt sina testresultat så att du fortfarande kan poängsätta i förväg."
+
+msgid "manscoring_none"
+msgstr "Ej betygsatta deltagare"
+
+msgid "manscoring_not_allowed"
+msgstr "Manuell poängsättning har inte aktiverats för någon frågetyp. Du kan därför inte använda denna funktion!"
+
+msgid "manscoring_questions_not_found"
+msgstr "Den här testkörningen inkluderar inte frågetyper som kan poängsättas manuellt."
+
+msgid "manscoring_results_pass"
+msgstr "Manuellt poängsatta frågor för testkörning %s"
+
+msgid "manual_editing"
+msgstr "Manuell redigering"
+
+#, fuzzy
+msgid "manual_entry"
+msgstr "Manual Entry"
+
+msgid "mark_schema"
+msgstr "Notschema"
+
+msgid "mark_schema_invalid"
+msgstr "Bedömningsschemat kunde inte valideras framgångsrikt. Vänligen skapa ett giltigt schema."
+
+msgid "matches"
+msgstr "fits"
+
+msgid "matching_pairs"
+msgstr "Associationspar"
+
+msgid "matching_shuffle_definitions"
+msgstr "Endast definitioner"
+
+msgid "matching_shuffle_terms"
+msgstr "Endast villkor"
+
+msgid "matching_shuffle_terms_definitions"
+msgstr "Båda (termer och definitioner)"
+
+msgid "matching_type"
+msgstr "Subtyp av uppdragsfrågan"
+
+msgid "material"
+msgstr "Material"
+
+msgid "material_file"
+msgstr "Material fil"
+
+#, fuzzy
+msgid "max_ip_label"
+msgstr "Highest IP With Access"
+
+msgid "maxchars"
+msgstr "Maximalt antal tecken"
+
+msgid "maximum_nr_of_tries_reached"
+msgstr "Du har förbrukat det maximala antalet testkörningar för detta test. Testet kan inte startas igen."
+
+msgid "maximum_points"
+msgstr "Maximalt uppnåelig poäng"
+
+msgid "maxsize"
+msgstr "Maximal filstorlek"
+
+msgid "maxsize_info"
+msgstr "Anger den maximala storleken i bytes som en uppladdad fil får ha. Om du lämnar fältet tomt används inställningen för det underliggande systemet."
+
+msgid "min_auto_complete"
+msgstr "Autokomplett"
+
+#, fuzzy
+msgid "min_ip_label"
+msgstr "Lowest IP With Access"
+
+msgid "min_percentage_ne_0"
+msgstr "Du måste ange en lägsta procentsats på 0 procent. Betygsschemat har inte sparats."
+
+msgid "misc"
+msgstr "Olika alternativ"
+
+#, fuzzy
+msgid "mode_allatonce"
+msgstr "All"
+
+#, fuzzy
+msgid "mode_onebyone"
+msgstr "One by One"
+
+#, fuzzy
+msgid "mode_question"
+msgstr "Question oriented"
+
+#, fuzzy
+msgid "mode_user"
+msgstr "Participant oriented"
+
+msgid "msg_circle_added"
+msgstr "Circle tillagd"
+
+#, fuzzy
+msgid "msg_no_questions_selected"
+msgstr "No questions were selected."
+
+msgid "msg_number_of_terms_too_low"
+msgstr "Antalet termer måste vara större än eller lika med antalet definitioner."
+
+msgid "msg_poly_added"
+msgstr "Polygon tillagd"
+
+msgid "msg_questions_moved"
+msgstr "Frågeställningar uppskjutna"
+
+msgid "msg_rect_added"
+msgstr "Rektangel tillagd"
+
+#, fuzzy
+msgid "msg_score_settings_modified_and_recalc"
+msgstr "Your changes were saved and the results recalculated correspondingly."
+
+#, fuzzy
+msgid "msg_score_settings_not_modified"
+msgstr "Your changes were not saved."
+
+msgid "msg_selected_for_move"
+msgstr "Frågor om att flytta utvalda"
+
+msgid "new_category"
+msgstr "Nya enheter Kategori"
+
+msgid "new_unit"
+msgstr "Ny enhet"
+
+msgid "next_question"
+msgstr "Fortsättning"
+
+msgid "next_question_rows"
+msgstr "Frågor %d - %d från %d &gt;&gt;"
+
+msgid "no_manual_feedback_export_info"
+msgstr "Manuell feedback exporteras inte."
+
+#, fuzzy
+msgid "no_passed_after_failed"
+msgstr "Failing marks cannot have a higher minimum level than any passing mark."
+
+msgid "no_passed_mark"
+msgstr "Du måste markera minst ett notsteg som PASSED! Anteckningsschemat har inte sparats!"
+
+msgid "no_question_selected_for_move"
+msgstr "Välj minst en fråga att flytta!"
+
+msgid "no_questions_available"
+msgstr "Det finns inga frågor tillgängliga!"
+
+msgid "no_result_type"
+msgstr "Ingen begränsning"
+
+msgid "no_selection"
+msgstr "--- Inget urval ---"
+
+msgid "no_selection_for_move"
+msgstr "Ingen fråga om att flytta markerad"
+
+msgid "no_target_selected_for_move"
+msgstr "Du måste välja en målposition!"
+
+msgid "no_user_or_group_selected"
+msgstr "Välj en målgrupp där sökningen ska utföras (användare och/eller grupper)!"
+
+#, fuzzy
+msgid "no_valid_participant_selection"
+msgstr "No valid Participants selected."
+
+msgid "not_evaluated_users"
+msgstr "Not yet rated users"
+
+#, fuzzy
+msgid "not_started"
+msgstr "Not started yet"
+
+msgid "not_yet_accessed"
+msgstr "Ingen åtkomst ännu"
+
+msgid "nr_of_correct_answers"
+msgstr "Antal önskade svar"
+
+msgid "number_of_answers"
+msgstr "Antal svar"
+
+msgid "numeric_gap"
+msgstr "Numeriskt gap"
+
+#, fuzzy
+msgid "old_mark_default_not_applied"
+msgstr "The marks from your personal settings could not be applied as they use an old format. All other settings have been updated."
+
+msgid "option_label"
+msgstr "Namn på alternativ"
+
+msgid "option_label_adequate"
+msgstr "adekvat"
+
+msgid "option_label_adequate_or_not"
+msgstr "tillräcklig / inte tillräcklig"
+
+msgid "option_label_applicable"
+msgstr "tillämplig"
+
+msgid "option_label_applicable_or_not"
+msgstr "tillämplig / inte tillämplig"
+
+msgid "option_label_custom"
+msgstr " Användardefinierade beteckningar"
+
+msgid "option_label_custom_false"
+msgstr "Beteckning för \"FALSE"
+
+msgid "option_label_custom_true"
+msgstr "Beteckning för \"TRUE"
+
+msgid "option_label_info"
+msgstr "De etiketter som konfigureras här används som etiketter för beslutsalternativen."
+
+msgid "option_label_minus"
+msgstr "-"
+
+msgid "option_label_not_adequate"
+msgstr "inte adekvat"
+
+msgid "option_label_not_applicable"
+msgstr "inte tillämpligt"
+
+msgid "option_label_plus"
+msgstr "+"
+
+msgid "option_label_plus_minus"
+msgstr "+ / -"
+
+msgid "option_label_right"
+msgstr "right"
+
+msgid "option_label_right_wrong"
+msgstr "sann / falsk"
+
+msgid "option_label_wrong"
+msgstr "fel"
+
+msgid "oq_btn_define_pictures"
+msgstr "Visa"
+
+msgid "oq_btn_define_terms"
+msgstr "Visa"
+
+msgid "oq_btn_nest_pictures"
+msgstr "Visa"
+
+msgid "oq_btn_nest_terms"
+msgstr "Visa"
+
+msgid "oq_btn_use_order_pictures"
+msgstr "Använd svar med bilder"
+
+msgid "oq_btn_use_order_terms"
+msgstr "Använd svar med villkor"
+
+msgid "oq_header_ordering_elements"
+msgstr "Arrangemangselement"
+
+msgid "or"
+msgstr "eller"
+
+msgid "order"
+msgstr "Sortering"
+
+msgid "ordering_answer_sequence_info"
+msgstr "Den svarsordning som anges här används som korrekt lösningsordning."
+
+msgid "ordertext"
+msgstr "Texten ska ordnas"
+
+msgid "ordertext_info"
+msgstr "Var vänlig ange texten i den ordning som den ska placeras horisontellt. De enskilda komponenterna separeras med mellanslag. Om du vill ha en annan avgränsning kan du använda avgränsaren %s istället för mellanslag."
+
+msgid "out_of_range"
+msgstr "Utanför intervall"
+
+msgid "output"
+msgstr "Utmatning"
+
+msgid "output_mode"
+msgstr "Utmatningsläge"
+
+msgid "parseQuestion"
+msgstr "Analysera frågan"
+
+msgid "part_received_a_of_b_points"
+msgstr "Deltagaren har uppnått %s av %s möjliga poäng."
+
+msgid "participants"
+msgstr "Deltagare"
+
+msgid "participants_invitation"
+msgstr "Endast utvalda deltagare"
+
+msgid "participants_invitation_description"
+msgstr "Testet kan endast utföras av de användare som har lagts till på fliken \"Dashboard\"."
+
+msgid "participants_results_subtab"
+msgstr "Alla deltagare"
+
+msgid "pass"
+msgstr "Passage"
+
+msgid "pass_finished"
+msgstr "%s pass"
+
+msgid "passed_official"
+msgstr "bekräftad"
+
+msgid "passed_only"
+msgstr "Endast godkända tester"
+
+msgid "passed_short"
+msgstr "bekräftad"
+
+msgid "passed_status"
+msgstr "Bekräftad status"
+
+msgid "passes_finished"
+msgstr "%s passerar"
+
+msgid "percentage"
+msgstr "Procent"
+
+#, fuzzy
+msgid "percentage_points_achieved"
+msgstr "Reached Points"
+
+msgid "percentile"
+msgstr "Percentil"
+
+#, fuzzy
+msgid "personal_settings_apply"
+msgstr "Apply Settings Template"
+
+#, fuzzy
+msgid "personal_settings_apply_changed_confirmation"
+msgstr "The current test settings will be overwritten with the settings from the selected template. This also overwrites the Selection of Test Questions. The process cannot be undone!"
+
+#, fuzzy
+msgid "personal_settings_apply_confirmation"
+msgstr "The current test settings will be overwritten with the settings from the selected template. This process cannot be undone!"
+
+#, fuzzy
+msgid "personal_settings_apply_description"
+msgstr "This template overrides all settings of test '%s'."
+
+#, fuzzy
+msgid "personal_settings_apply_not_possible"
+msgstr "ILIAS could not apply the selected template to this test! Maybe this test already contains participant data sets."
+
+#, fuzzy
+msgid "personal_settings_apply_success"
+msgstr "Personal Test Settings have been applied successfully."
+
+#, fuzzy
+msgid "personal_settings_author"
+msgstr "Created by"
+
+#, fuzzy
+msgid "personal_settings_create"
+msgstr "Add New Setting Template"
+
+#, fuzzy
+msgid "personal_settings_delete_confirmation"
+msgstr "The selected template(s) will be permanently deleted. This cannot be undone."
+
+#, fuzzy
+msgid "personal_settings_delete_success"
+msgstr "The selected template(s) have been deleted."
+
+#, fuzzy
+msgid "personal_settings_description"
+msgstr "Template Description"
+
+#, fuzzy
+msgid "personal_settings_explanation"
+msgstr "ILIAS will store the settings of the current test in a template. This template can be used to transfer the settings to another test."
+
+#, fuzzy
+msgid "personal_settings_export"
+msgstr "Export Settings Template"
+
+#, fuzzy
+msgid "personal_settings_import"
+msgstr "Import Setting Templates"
+
+#, fuzzy
+msgid "personal_settings_import_success"
+msgstr "The template was imported successfully."
+
+#, fuzzy
+msgid "personal_settings_invalid_selection"
+msgstr "Please select one template."
+
+#, fuzzy
+msgid "personal_settings_name"
+msgstr "Template Title"
+
+#, fuzzy
+msgid "personal_settings_required_author"
+msgstr "Please enter an author for your template."
+
+#, fuzzy
+msgid "personal_settings_required_title"
+msgstr "Please enter a title for your template."
+
+#, fuzzy
+msgid "personal_settings_save"
+msgstr "Save New Setting Template"
+
+#, fuzzy
+msgid "personal_settings_show"
+msgstr "Show Template Details"
+
+#, fuzzy
+msgid "personal_settings_templates_available"
+msgstr "Personal Test Settings Templates"
+
+#, fuzzy
+msgid "personal_settings_timestamp"
+msgstr "Creation Date"
+
+msgid "picture"
+msgstr "Image"
+
+msgid "point"
+msgstr "Punkt"
+
+msgid "points"
+msgstr "Poäng"
+
+msgid "points_checked"
+msgstr "Points (markerad)"
+
+#, fuzzy
+msgid "points_non_numeric_or_negative_msg"
+msgstr "Inputs for points only accept positive numeric values."
+
+msgid "points_short"
+msgstr "Pt."
+
+msgid "points_unchecked"
+msgstr "Points (ej markerad)"
+
+msgid "points_wrong"
+msgstr "Felaktiga urval"
+
+msgid "points_wrong_info"
+msgstr "Ge poäng för att välja ord som inte finns med i listan över markerade fel."
+
+msgid "polygon"
+msgstr "Polygontåg"
+
+msgid "polygon_click_next_or_save"
+msgstr "Klicka på nästa punkt i polygonbanan eller spara regionen. (Det är inte nödvändigt att klicka på startpunkten igen för att stänga polygonbanan!)"
+
+msgid "polygon_click_next_point"
+msgstr "Klicka på nästa punkt i polygonbanan."
+
+msgid "polygon_click_starting_point"
+msgstr "Klicka på startpunkten för polygonbanan."
+
+msgid "positive_numbers_required"
+msgstr "Var vänlig ange endast positiva siffror här."
+
+msgid "postpone_question"
+msgstr "Flytta frågan till slutet"
+
+msgid "postponed"
+msgstr "återställning"
+
+msgid "precision"
+msgstr "Precision"
+
+msgid "previous_question"
+msgstr "Tillbaka"
+
+msgid "previous_question_rows"
+msgstr "? Frågor %d - %d från %d"
+
+#, fuzzy
+msgid "print_answers"
+msgstr "Print Answers"
+
+msgid "qpl_assessment_no_assessment_of_questions"
+msgstr "Ingen statistisk utvärdering finns tillgänglig för den valda frågan. Frågan har aldrig använts i ett test hittills."
+
+msgid "qpl_assessment_total_of_answers"
+msgstr "Totalt antal svar"
+
+msgid "qpl_assessment_total_of_right_answers"
+msgstr "Total procentandel korrekta svar"
+
+#, fuzzy
+msgid "qpl_bulk_save_add"
+msgstr "Add"
+
+#, fuzzy
+msgid "qpl_bulk_save_overwrite"
+msgstr "Overwrite"
+
+#, fuzzy
+msgid "qpl_bulkedit_success"
+msgstr "Modifications saved."
+
+msgid "qpl_cancel_skill_assigns_update"
+msgstr "Avbryt"
+
+msgid "qpl_confirm_delete_questions"
+msgstr "Är du säker på att du vill ta bort följande frågor?"
+
+msgid "qpl_copy_insert_clipboard"
+msgstr "De valda frågorna har kopierats till Urklipp"
+
+msgid "qpl_copy_select_none"
+msgstr "Välj minst en fråga för att kopiera den till urklipp!"
+
+msgid "qpl_delete_rbac_error"
+msgstr "Du har inte tillstånd att ta bort denna fråga!"
+
+msgid "qpl_delete_select_none"
+msgstr "Välj minst en fråga för att utföra raderingsprocessen!"
+
+msgid "qpl_export_excel"
+msgstr "Microsoft Excel-fil"
+
+msgid "qpl_export_select_none"
+msgstr "Välj minst en fråga för exportfunktionen!"
+
+msgid "qpl_export_xml"
+msgstr "QTI XML-fil"
+
+msgid "qpl_form_general_settings"
+msgstr "Allmänna inställningar"
+
+msgid "qpl_imagemap_preview_missing"
+msgstr "ILIAS kunde inte skapa en tillfällig förhandsgranskningsfil med imagemap-regionerna. Istället visas den ursprungliga bilden. Det betyder att verktyget ImageMagick på webbservern inte är korrekt konfigurerat eller att du inte har skrivrättigheter i den te"
+
+msgid "qpl_import_create_new_qpl"
+msgstr "Import till en ny frågepool"
+
+msgid "qpl_import_no_items"
+msgstr "Fel"
+
+msgid "qpl_import_non_ilias_files"
+msgstr "Fel"
+
+#, fuzzy
+msgid "qpl_import_step_persist"
+msgstr "Import question pool"
+
+#, fuzzy
+msgid "qpl_import_step_select"
+msgstr "Select questions to import"
+
+msgid "qpl_import_verify_found_questions"
+msgstr "ILIAS har hittat följande frågor i importfilen. Välj de frågor som du vill importera."
+
+msgid "qpl_lac_desc_brackets"
+msgstr "bracketing"
+
+msgid "qpl_lac_desc_compare_answer_exist"
+msgstr "Jämför om inget svar gavs på en fråga/gap i en fråga"
+
+msgid "qpl_lac_desc_compare_with_answer_n"
+msgstr "Jämför resultatet med det n:te svaret på frågan"
+
+msgid "qpl_lac_desc_compare_with_assignment"
+msgstr "Jämför resultatet med uppgiften n"
+
+msgid "qpl_lac_desc_compare_with_exact_sequence"
+msgstr "Jämför resultatet om endast den angivna sekvensen valdes"
+
+msgid "qpl_lac_desc_compare_with_number"
+msgstr "Jämför resultatet med det numeriska värdet n"
+
+msgid "qpl_lac_desc_compare_with_quest_res"
+msgstr "Jämför resultatet med det uppnådda resultatet i procent"
+
+msgid "qpl_lac_desc_compare_with_sequence"
+msgstr "Jämför resultatet med svarssekvensen ($a,..,z$)"
+
+msgid "qpl_lac_desc_compare_with_text"
+msgstr "Jämför resultatet med fritexten TEXT"
+
+msgid "qpl_lac_desc_logical_and"
+msgstr "Logiskt och"
+
+msgid "qpl_lac_desc_logical_or"
+msgstr "Logisk"
+
+msgid "qpl_lac_desc_negation"
+msgstr "Negation"
+
+msgid "qpl_lac_desc_res_of_answ_m_of_cur_quest"
+msgstr "Resultat av det m:e svaret på den aktuella frågan"
+
+msgid "qpl_lac_desc_res_of_cur_quest"
+msgstr "Resultat av den aktuella frågan"
+
+msgid "qpl_lac_legend_header_common"
+msgstr "Logik för uttalanden"
+
+msgid "qpl_lac_legend_header_quest_specific"
+msgstr "Fråga specifika uttryck"
+
+msgid "qpl_lac_legend_label_operators"
+msgstr "Operatörer"
+
+msgid "qpl_maxchars_info_numeric_question"
+msgstr "Om du anger ett värde här skapas fältet för det numeriska svaret med angiven längd, så att det inte är möjligt att ange ett större antal tecken. Observera att decimalavgränsaren också räknas."
+
+msgid "qpl_move_insert_clipboard"
+msgstr "De utvalda frågorna har markerats för flyttning"
+
+msgid "qpl_move_select_none"
+msgstr "Välj minst en fråga att flytta!"
+
+msgid "qpl_numeric_lower_needs_valid_lower_alert"
+msgstr "Den nedre gränsen måste vara ett giltigt numeriskt värde som är lägre än den övre gränsen."
+
+msgid "qpl_numeric_upper_needs_valid_upper_alert"
+msgstr "Den övre gränsen måste vara ett giltigt numeriskt värde som är större än den nedre gränsen."
+
+msgid "qpl_paste_error"
+msgstr "Minst en fråga kunde inte läggas till i frågepoolen. Möjligt skäl"
+
+msgid "qpl_paste_no_objects"
+msgstr "Det finns inga frågor i Urklipp. Vänligen kopiera eller flytta minst en fråga till Urklipp."
+
+msgid "qpl_paste_success"
+msgstr "Frågorna lades till i frågepoolen"
+
+msgid "qpl_qst_edit_form_taxonomy"
+msgstr "Taxonomi \"%s"
+
+msgid "qpl_qst_edit_form_taxonomy_section"
+msgstr " Tilldelning till taxonominoder"
+
+msgid "qpl_qst_inp_matching_mode"
+msgstr "Uppdragsläge"
+
+msgid "qpl_qst_inp_matching_mode_all_on_all"
+msgstr "En eller flera termer kan tilldelas en eller flera definitioner (n"
+
+msgid "qpl_qst_inp_matching_mode_one_on_one"
+msgstr "En term kan tilldelas en definition (1"
+
+msgid "qpl_qst_skl_assign_properties_modified"
+msgstr "Uppdragets egenskaper har sparats."
+
+msgid "qpl_qst_skl_assign_synced_to_orig"
+msgstr "Kompetensuppdragen överfördes till den ursprungliga frågan."
+
+msgid "qpl_qst_skl_assigns_updated"
+msgstr "Kompetensuppdragen har uppdaterats."
+
+msgid "qpl_qst_skl_selection_for_question_header"
+msgstr "Kompetensuppdrag för frågan"
+
+msgid "qpl_qst_skl_usg_numq_col"
+msgstr "Antal frågor i hela poolen som behandlar kompetensen"
+
+msgid "qpl_qst_skl_usg_skill_col"
+msgstr "Kompetens"
+
+msgid "qpl_qst_skl_usg_sklpnt_col"
+msgstr "Summa av alla kompetenspoäng per kompetens"
+
+msgid "qpl_question_is_in_use"
+msgstr "Frågan du vill redigera nu finns redan i %s test(s). Om du ändrar den här frågan nu kommer det INTE att påverka frågor som redan ingår i test, eftersom systemet automatiskt skapar en kopia av frågan när den ingår i ett test!"
+
+msgid "qpl_questions_deleted"
+msgstr "Frågor borttagna"
+
+msgid "qpl_reset_preview"
+msgstr "Återställ förhandsgranskning"
+
+msgid "qpl_save_skill_assigns_update"
+msgstr "Spara kompetensuppdrag"
+
+#, fuzzy
+msgid "qpl_settings_availability"
+msgstr "Availability"
+
+msgid "qpl_settings_general_form_prop_show_tax_desc"
+msgstr "Existerande taxonomier kan användas för att filtrera frågorna."
+
+msgid "qpl_settings_general_form_property_nav_taxonomy"
+msgstr "Taxonomi som navigationsträd"
+
+msgid "qpl_settings_general_form_property_nav_taxonomy_description"
+msgstr "Om en taxonomi väljs visas den inte som ett filter utan som ett navigationsträd."
+
+msgid "qpl_settings_general_form_property_opt_notax_selected"
+msgstr "Använd inte taxonomi som navigationsträd"
+
+msgid "qpl_settings_general_form_property_show_taxonomies"
+msgstr "Taxonomier"
+
+msgid "qpl_settings_subtab_general"
+msgstr "Allmänna inställningar"
+
+msgid "qpl_settings_subtab_taxonomies"
+msgstr "Taxonomier"
+
+msgid "qpl_skill_point_eval_by_quest_result"
+msgstr "Bestämning av kompetenspoäng via svarsresultat"
+
+msgid "qpl_skill_point_eval_by_solution_compare"
+msgstr "Bestämma kompetenspunkter genom att jämföra lösningar"
+
+msgid "qpl_skill_point_eval_mode_quest_result"
+msgstr "Respons resultat"
+
+msgid "qpl_skill_point_eval_mode_solution_compare"
+msgstr "Jämförelse av lösningar"
+
+#, fuzzy
+msgid "qpl_skl_all_questions"
+msgstr "All questions"
+
+#, fuzzy
+msgid "qpl_skl_assigned_questions"
+msgstr "Questions with assignment"
+
+#, fuzzy
+msgid "qpl_skl_assignment_for_question"
+msgstr "Competence assignments for question „%s“"
+
+msgid "qpl_skl_sub_tab_quest_assign"
+msgstr "Fråga Kompetens Uppdrag"
+
+msgid "qpl_skl_sub_tab_usages"
+msgstr "Frekvens av användning"
+
+#, fuzzy
+msgid "qpl_skl_unassigned_questions"
+msgstr "Questions without assignment"
+
+#, fuzzy
+msgid "qpl_skl_view_control_mode_aria:"
+msgstr "View control mode"
+
+msgid "qpl_sync_quest_skl_assigns_confirmation"
+msgstr "Frågan infogades från ett annat tidningsobjekt. Ska den aktuella konfigurationen av kompetensuppdrag överföras till frågans original?"
+
+msgid "qpl_tab_competences"
+msgstr "Kompetens"
+
+#, fuzzy
+msgid "qpl_taxonomy_tab_info_message"
+msgstr "Taxonomies in question pools can be used to filter the questions. After activating the function in the \"Settings\" tab, they are displayed in the filter in the \"Questions\" tab."
+
+msgid "qst_error_text_too_long"
+msgstr "Ett eller flera av de textelement som markerats som felaktiga är för långa. Den maximala längden för ett textelement som markerats som felaktigt är 150 tecken."
+
+msgid "qst_essay_allready_written_words"
+msgstr "Ord som redan är skrivna"
+
+msgid "qst_essay_chars_remaining"
+msgstr "Andra tecken"
+
+msgid "qst_essay_wordcounter_enabled"
+msgstr "Räkna ord"
+
+msgid "qst_essay_wordcounter_enabled_info"
+msgstr "De inmatade orden räknas. Antalet ord visas för deltagarna under textinmatningsfältet."
+
+msgid "qst_essay_written_words"
+msgstr "Antal inmatade ord"
+
+msgid "qst_lifecycle"
+msgstr "Livscykel"
+
+msgid "qst_lifecycle_draft"
+msgstr "Draft"
+
+msgid "qst_lifecycle_filter_all"
+msgstr "Alla livscykler"
+
+msgid "qst_lifecycle_final"
+msgstr "Final"
+
+msgid "qst_lifecycle_outdated"
+msgstr "Veraltet"
+
+msgid "qst_lifecycle_rejected"
+msgstr "Avvisad"
+
+msgid "qst_lifecycle_review"
+msgstr "Revision nödvändig"
+
+msgid "qst_lifecycle_sharable"
+msgstr "Distribuerbar"
+
+msgid "qst_nested_nested_answers_off"
+msgstr " Utan indragning"
+
+msgid "qst_nested_nested_answers_on"
+msgstr "Med indrag"
+
+msgid "qst_nr_of_tries"
+msgstr "Antal försök"
+
+msgid "qst_preview_reset_msg"
+msgstr "Förhandsgranskningen har återställts."
+
+msgid "qst_use_nested_answers"
+msgstr "Använd indrag i svar"
+
+#, fuzzy
+msgid "qst_use_nested_answers_info"
+msgstr "After selecting 'Nested Answers', you will need to save the question. A new 'Nesting' subtab will then appear at the top of the screen, where you can arrange the answer elements into a hierarchy of your choice."
+
+msgid "que_contains_unused_var"
+msgstr "Frågetexten innehåller variabler som inte används i någon formel."
+
+msgid "question_browse_area_info"
+msgstr "Välj ett objekt från vilket du vill importera frågor."
+
+#, fuzzy
+msgid "question_complete_title"
+msgstr "Complete"
+
+msgid "question_cumulated_statistics"
+msgstr "Statistik över kumulativa frågor"
+
+msgid "question_id"
+msgstr "Fråga ID"
+
+msgid "question_id_short"
+msgstr "ID"
+
+msgid "question_instances_title"
+msgstr "Den här frågan används i följande tester"
+
+msgid "question_is_part_of_running_test"
+msgstr "Frågan är en del av ett pågående test och får inte ändras."
+
+msgid "question_marking"
+msgstr "Mark frågor"
+
+msgid "question_marking_description"
+msgstr "Deltagarna ges möjlighet att markera frågor för sig själva. Markeringarna visas också i översikten \"Bearbetningsstatus\", om denna är aktiverad."
+
+msgid "question_not_answered"
+msgstr "Frågan besvarades inte"
+
+msgid "question_saved_for_upload"
+msgstr "Frågan sparades automatiskt för att tillåta uppladdning av en fil. Om du avbryter redigeringen av denna fråga nu, observera att du måste ta bort frågan i frågepoolen om du inte vill behålla den."
+
+msgid "question_summary"
+msgstr "Status för bearbetning"
+
+msgid "question_summary_btn"
+msgstr "Status för bearbetning"
+
+msgid "question_title"
+msgstr "Frågans titel"
+
+msgid "question_type"
+msgstr "Typ av fråga"
+
+#, fuzzy
+msgid "questionlist_cannot_be_altered"
+msgstr "The question list cannot be altered as the test already contains participant data sets."
+
+msgid "questionpool_not_entered"
+msgstr "Var vänlig ange ett namn för frågepoolen!"
+
+msgid "questionpool_not_selected"
+msgstr "Välkomna att välja en frågepool!"
+
+#, fuzzy
+msgid "questions"
+msgstr "Questions"
+
+msgid "questions_from"
+msgstr "Frågor från"
+
+msgid "questions_per_page_view"
+msgstr "Sidvisning"
+
+msgid "random_accept_sample"
+msgstr "Acceptera sammanställning"
+
+msgid "random_another_sample"
+msgstr "Ny sammanställning"
+
+msgid "random_selection"
+msgstr "Slumpmässigt urval"
+
+msgid "range"
+msgstr "Område"
+
+msgid "range_lower_limit"
+msgstr "Lägre barriär"
+
+msgid "range_max"
+msgstr "Range (maximalt)"
+
+msgid "range_min"
+msgstr "Range (Minimum)"
+
+msgid "range_upper_limit"
+msgstr "Övre barriär"
+
+msgid "rated_sign"
+msgstr "Omens"
+
+msgid "rated_unit"
+msgstr "Enhet"
+
+msgid "rated_value"
+msgstr "Värde"
+
+msgid "rating"
+msgstr "Rating"
+
+msgid "rating_sign"
+msgstr "Värdering (tecken)"
+
+msgid "rating_simple"
+msgstr "Enkel bedömning"
+
+msgid "rating_unit"
+msgstr "Värdering (enhet)"
+
+msgid "rating_value"
+msgstr "Värdering (värde)"
+
+msgid "rectangle"
+msgstr "Rektangel"
+
+msgid "rectangle_click_br_corner"
+msgstr "Klicka på det nedre högra hörnet av önskad region."
+
+msgid "rectangle_click_tl_corner"
+msgstr "Klicka på det övre vänstra hörnet av den önskade regionen."
+
+msgid "redirectAfterSave"
+msgstr "Den maximala tiden för detta test har uppnåtts. Din senaste fråga sparades automatiskt när tidsgränsen uppnåddes. Om några sekunder kommer du att omdirigeras..."
+
+msgid "redirect_after_finishing_rule"
+msgstr "Forwarding"
+
+msgid "redirect_after_finishing_tst"
+msgstr "Forwarding"
+
+msgid "redirect_after_finishing_tst_desc"
+msgstr "Deltagarna omdirigeras automatiskt till en definierad webbplats efter att ha slutfört testet. Detta händer bara om testet har konfigurerats så att deltagarna inte kan se sina testresultat efter att testet har slutförts. Om du anger adressen till en exter"
+
+msgid "redirect_always"
+msgstr " alltid till den definierade målsidan"
+
+#, fuzzy
+msgid "redirect_always_to_logout"
+msgstr "Always to the logout screen"
+
+msgid "redirect_in_kiosk_mode"
+msgstr "Nur när granskningsvyn är aktiverad"
+
+#, fuzzy
+msgid "redirect_url_invalid"
+msgstr "Please enter a valid url of the target webpage."
+
+#, fuzzy
+msgid "redirect_url_required_for_rule"
+msgstr "The url of the webpage is required when \"%s\" is selected."
+
+msgid "redirection_url"
+msgstr "URL målsida"
+
+msgid "region"
+msgstr "Region"
+
+#, fuzzy
+msgid "remaining_duration"
+msgstr "Remaining Duration"
+
+msgid "remove_gap"
+msgstr "Ta bort gap"
+
+msgid "remove_participants"
+msgstr "Avlägsna som fast deltagare"
+
+msgid "remove_question"
+msgstr "Remove"
+
+#, fuzzy
+msgid "remove_selected_participants_confirmation"
+msgstr "Are you sure you want to remove the selected participants from the test?"
+
+#, fuzzy
+msgid "remove_selected_templates_confirmation"
+msgstr "Are you sure you want to permanently remove the selected personal test settings templates?"
+
+msgid "remove_solution"
+msgstr "Ta bort hänvisning till innehåll för upprepning"
+
+msgid "res_contains_undef_res"
+msgstr "I formeln används resultat som inte finns med i frågetexten."
+
+msgid "res_contains_undef_var"
+msgstr "Formeln använder variabler som inte finns med i frågetexten."
+
+msgid "reset_definitions"
+msgstr "Återställ arrangemang"
+
+msgid "reset_pictures"
+msgstr "Återställ positionerna för bilderna"
+
+msgid "reset_terms"
+msgstr "Återställ arrangemang"
+
+msgid "result"
+msgstr "Resultat"
+
+msgid "result_co_frac"
+msgstr "Partiell utländsk fraktur"
+
+msgid "result_co_frac_info"
+msgstr "Endast ett helt förkortat bråk (t.ex. 1/3) är ett giltigt resultat"
+
+msgid "result_dec"
+msgstr "Decimal"
+
+msgid "result_dec_info"
+msgstr "Valida decimaltal är t.ex. 2.3 och 2.3"
+
+msgid "result_frac"
+msgstr "bryt"
+
+msgid "result_frac_info"
+msgstr "Ingångarna 1/3 och 2/6 är båda giltiga resultat"
+
+msgid "result_type_selection"
+msgstr "Resultat typval"
+
+msgid "result_unit_info"
+msgstr "Observera att den enhet som anges här också måste väljas bland de \"valbara enheterna\"."
+
+msgid "result_units"
+msgstr " Valbara enheter"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "result_units_info"
+msgstr "För att besvara frågan erbjuds de aktiverade enheterna."
+
+msgid "result_x"
+msgstr "Resultat %s"
+
+msgid "results"
+msgstr "Resultat"
+
+msgid "results_tab"
+msgstr "Resultat"
+
+#, fuzzy
+msgid "resulttable_all"
+msgstr "All"
+
+#, fuzzy
+msgid "resulttable_correct"
+msgstr "Correct"
+
+#, fuzzy
+msgid "resulttable_incorrect"
+msgstr "Incorrect/Incomplete"
+
+#, fuzzy
+msgid "resulttable_vc_sort_iooa"
+msgstr "in order of appearance"
+
+#, fuzzy
+msgid "resulttable_vc_sort_posscore"
+msgstr "highest possible score first"
+
+msgid "review_view"
+msgstr "Förhandsgranskning"
+
+#, fuzzy
+msgid "running"
+msgstr "Running"
+
+msgid "saveOrder"
+msgstr "Spara sortering"
+
+msgid "saveOrderAndObligations"
+msgstr "Sortera och spara obligationer"
+
+msgid "save_and_next"
+msgstr "Spara och gå vidare"
+
+msgid "save_on_navigation"
+msgstr "Navigera med spara"
+
+msgid "save_on_navigation_confirmation"
+msgstr "Dina ändrade svar sparas automatiskt när du navigerar."
+
+msgid "save_on_navigation_forced_feedback_hint"
+msgstr " Innan du får feedback på ditt svar."
+
+msgid "save_on_navigation_locked_confirmation"
+msgstr "Dina ändrade svar sparas automatiskt och registreras när du navigerar."
+
+msgid "saved_adjustment"
+msgstr "Ändring sparad."
+
+#, fuzzy
+msgid "score_anon"
+msgstr "Score anonymously"
+
+msgid "score_partsol_enabled"
+msgstr "Aktivera halvpunktsvärdering"
+
+msgid "score_partsol_enabled_info"
+msgstr "Det har visat sig användbart att belöna tre korrekta svar med hälften av det högsta möjliga antalet poäng. För färre än tre korrekta svar ges inga poäng."
+
+#, fuzzy
+msgid "scored_by"
+msgstr "Scored BY"
+
+msgid "scored_pass"
+msgstr "Värderad körning"
+
+msgid "scoring"
+msgstr "Utvärdering"
+
+msgid "scoringadjust"
+msgstr "postkorrigering"
+
+msgid "search_groups"
+msgstr "efter grupper"
+
+msgid "search_roles"
+msgstr "Efter rullar"
+
+msgid "search_term"
+msgstr "Sökord"
+
+#, fuzzy
+msgid "select_at_least_one_feedback_type_and_trigger"
+msgstr "Please Select at least one type of feedback and a trigger."
+
+#, fuzzy
+msgid "select_at_least_one_lock_answer_type"
+msgstr "Please select at least one type of answer lock."
+
+msgid "select_gap"
+msgstr "Selektionsgap"
+
+msgid "select_max_one_item"
+msgstr "Välj endast ett objekt!"
+
+msgid "select_one_user"
+msgstr "Välj minst en användare!"
+
+#, fuzzy
+msgid "select_question"
+msgstr "Select a Question"
+
+msgid "select_target_position_for_move_question"
+msgstr "Välj en målposition för att flytta frågorna och klicka på en av insättningsknapparna!"
+
+msgid "select_unit"
+msgstr "--- Välj enhet ---"
+
+msgid "selected_category"
+msgstr "Vald kategori"
+
+msgid "selection"
+msgstr "Urval"
+
+msgid "set_edit_mode"
+msgstr "Ställa in redigeringsläge"
+
+msgid "set_filter"
+msgstr "Ställ in filter"
+
+msgid "set_manscoring_done"
+msgstr "Markera som betygsatt"
+
+#, fuzzy
+msgid "set_manscoring_open"
+msgstr "Remove 'scoring complete' flag"
+
+msgid "set_manual_feedback"
+msgstr "Manuell återkoppling"
+
+msgid "shape"
+msgstr "form"
+
+msgid "showSuggestedSolution"
+msgstr "Konst"
+
+#, fuzzy
+msgid "show_all_test_properties_on_info_page"
+msgstr "Show all Test Properties"
+
+#, fuzzy
+msgid "show_all_test_properties_on_info_page_byline"
+msgstr "Users will be presented with a complete list of test properties in the ‘Info’ tab, i.e. information on scoring and reporting."
+
+msgid "show_answer_overview"
+msgstr "Visa översikt över svar"
+
+#, fuzzy
+msgid "show_best_solution"
+msgstr "Show best solution"
+
+msgid "show_detailed_results"
+msgstr "Detaljerade testresultat (poängsatt testkörning)"
+
+msgid "show_examview_html"
+msgstr "På skärmen"
+
+#, fuzzy
+msgid "show_hide_best_solution"
+msgstr "Show or hide best solution"
+
+#, fuzzy
+msgid "show_old_concluding_remarks"
+msgstr "Show old conlcuding remarks"
+
+#, fuzzy
+msgid "show_old_introduction"
+msgstr "Show old introduction"
+
+msgid "show_pass_overview"
+msgstr "Resultatöversikt (poängsatt provkörning)"
+
+#, fuzzy
+msgid "show_results"
+msgstr "Show Results"
+
+msgid "show_user_answers"
+msgstr "Answers (poängsatt testkörning)"
+
+msgid "shuffle_answers"
+msgstr "Svar från Shuffle"
+
+msgid "skip_question"
+msgstr "Svara inte och fortsätt"
+
+#, fuzzy
+msgid "solution"
+msgstr "Solution"
+
+msgid "solutionText"
+msgstr "Text"
+
+msgid "solution_contain_keywords"
+msgstr "Poäng tilldelas baserat på förekomsten av följande villkor"
+
+msgid "solution_hint"
+msgstr "Tilldelat innehåll för repetition"
+
+#, fuzzy
+msgid "solutions"
+msgstr "Solutions"
+
+msgid "start_tag"
+msgstr "Starta varumärke"
+
+msgid "statistical_data"
+msgstr "Statistiska uppgifter"
+
+msgid "statistics"
+msgstr "Statistik"
+
+#, fuzzy
+msgid "status_of_attempt"
+msgstr "Status of Attempt"
+
+msgid "submit_and_check"
+msgstr "Spara svar och begär feedback"
+
+msgid "submit_answer"
+msgstr "Spara och gå vidare"
+
+msgid "suggest_range"
+msgstr "Föreslå område"
+
+msgid "suggestedSolutionType"
+msgstr "referera till"
+
+msgid "suggested_solution"
+msgstr "Innehåll för repetition"
+
+msgid "suggested_solution_added_successfully"
+msgstr "Hänvisningen till innehåll för repetition har lagts till med framgång!"
+
+#, fuzzy
+msgid "sync_question_to_pool"
+msgstr "Synchronize Question"
+
+#, fuzzy
+msgid "ta_resulttable_vc_mode_aria"
+msgstr "switch question mode"
+
+msgid "tab_nest_answers"
+msgstr "indentation"
+
+#, fuzzy
+msgid "tax_filter"
+msgstr "Taxonomy"
+
+#, fuzzy
+msgid "tax_filter_notax"
+msgstr "Questions without assigned Taxonomy"
+
+#, fuzzy
+msgid "taxonomy_node_title"
+msgstr "Taxonomy Node Title"
+
+#, fuzzy
+msgid "taxonomy_title"
+msgstr "Taxonomy Title"
+
+msgid "term"
+msgstr "Term"
+
+msgid "term_image"
+msgstr "Image"
+
+msgid "term_text"
+msgstr "Text"
+
+msgid "terms"
+msgstr "Termer"
+
+#, fuzzy
+msgid "test_attempts_finished"
+msgstr "The test pass has been finished for the selected participants."
+
+msgid "test_confirm_template_reset"
+msgstr "Är du säker på att du inte vill använda mallen igen?"
+
+msgid "test_delete_page"
+msgstr "Ta bort frågan"
+
+msgid "test_edit_settings"
+msgstr "Redigera inställningar"
+
+msgid "test_enable_archiving"
+msgstr "Aktivera arkivering"
+
+msgid "test_has_datasets_warning_page_view"
+msgstr "Testet innehåller redan deltagaruppgifter. Du kan inte redigera frågorna igen förrän du har tagit bort alla deltagarregister."
+
+msgid "test_has_datasets_warning_page_view_link"
+msgstr "Deltagarnas resultat"
+
+msgid "test_is_offline"
+msgstr "Du kan inte starta testet! Testet är offline."
+
+msgid "test_jump_to"
+msgstr "Hoppa till frågan"
+
+msgid "test_move_page"
+msgstr "Flytta fråga"
+
+msgid "test_next_question"
+msgstr "Nästa fråga"
+
+msgid "test_prev_question"
+msgstr "Förra frågan"
+
+msgid "test_question_set_type"
+msgstr "Val av testfrågor"
+
+msgid "test_question_set_type_fixed"
+msgstr "Fixat urval av frågor"
+
+msgid "test_question_set_type_fixed_info"
+msgstr "Alla deltagare får samma frågor.<br>Du kan återanvända befintliga frågor från frågepooler samt skapa nya frågor direkt i testet. Du kan också spara nyskapade frågor för återanvändning i en frågepool."
+
+msgid "test_question_set_type_random"
+msgstr "Slumpmässigt urval av frågor"
+
+msgid "test_question_set_type_random_info"
+msgstr "Varje deltagare får svara på olika frågor. Frågorna väljs slumpmässigt från en eller flera frågepooler."
+
+msgid "test_results"
+msgstr "Meddelande av testresultatet"
+
+msgid "test_scoring"
+msgstr "Utvärdering av testet"
+
+msgid "test_template_reset"
+msgstr "Mallen har tagits bort."
+
+#, fuzzy
+msgid "test_title"
+msgstr "Test Title"
+
+msgid "test_using_template"
+msgstr "Detta test använder mallen %s. Om du inte vill använda en mall och alla inställningar, klicka här"
+
+msgid "test_using_template_link"
+msgstr "Använd inte mallen längre"
+
+msgid "text_correct"
+msgstr "Korrigera text"
+
+msgid "text_gap"
+msgstr "Textgap"
+
+msgid "text_maximum_chars_allowed"
+msgstr "Var vänlig ange inte mer än maximalt %s tecken. Inlägg som överskrider gränsen kommer inte att klippas bort, men kan inkluderas i utvärderingen."
+
+msgid "text_rating"
+msgstr "Metod för textjämförelser"
+
+msgid "text_wrong"
+msgstr " Felaktig text"
+
+msgid "textsize"
+msgstr "Textens storlek"
+
+msgid "textsize_errortext_info"
+msgstr "Ange textens storlek som en procentandel av normalstorleken. Om du inte anger något värde kommer normalstorleken (100 procent) att användas."
+
+msgid "textsize_info"
+msgstr "Ange textstorleken för den text som ska arrangeras som en procentandel av normalstorleken. Om du inte anger något värde kommer normalstorleken (100 procent) att användas."
+
+msgid "thumb_size"
+msgstr "Förhandsgranska storlek"
+
+msgid "thumb_size_info"
+msgstr "Ange ett värde i pixlar för den maximala förhandsgranskningsstorleken för grafiken. Beroende på bildförhållandet konverteras förhandsgranskningen till den maximala förhandsgranskningsstorleken antingen i höjd eller i bredd."
+
+msgid "thumb_size_unit_pixel"
+msgstr "Pixel"
+
+msgid "time_format"
+msgstr "HH MM SS"
+
+msgid "timing"
+msgstr "Tidsförlängning"
+
+msgid "tolerance"
+msgstr "Tolerans (%)"
+
+msgid "tolerance_info"
+msgstr "Toleransen definierar en tillåten procentuell avvikelse från resultatvärdet. Med en tolerans på 0 utvärderas endast det exakta resultatvärdet som korrekt."
+
+msgid "too_many_targets_selected_for_move"
+msgstr "Du måste välja exakt en målposition!"
+
+msgid "toplist_by_score"
+msgstr "Placering enligt poäng"
+
+msgid "toplist_by_time"
+msgstr "Placering efter bearbetningstid"
+
+msgid "toplist_col_achieved"
+msgstr "Datum"
+
+msgid "toplist_col_participant"
+msgstr "Deltagare"
+
+msgid "toplist_col_percentage"
+msgstr "Procent"
+
+msgid "toplist_col_rank"
+msgstr "Plats"
+
+msgid "toplist_col_score"
+msgstr "Score"
+
+msgid "toplist_col_wtime"
+msgstr "Bearbetningstid"
+
+#, fuzzy
+msgid "total_attempts"
+msgstr "Total Attempts"
+
+#, fuzzy
+msgid "total_duration"
+msgstr "Total Duration"
+
+#, fuzzy
+msgid "total_max_points_cannot_be_negative"
+msgstr "The maximum amount of reachable points cannot be negative."
+
+msgid "true"
+msgstr "Sant"
+
+msgid "tst_access_code_created"
+msgstr "För att du ska ha permanent tillgång till dina testresultat och kunna återuppta ett avbrutet test har en personlig åtkomstnyckel genererats för dig. Vänligen notera koden nedan för att kunna fortsätta testet senare."
+
+msgid "tst_activate_skill_service"
+msgstr "Kompetens"
+
+msgid "tst_activate_skill_service_desc"
+msgstr "Tillåter tilldelning av frågor till kompetenser samt definition av tröskelvärden för uppnåendet av vissa kompetensnivåer."
+
+#, fuzzy
+msgid "tst_activation_limited_visibility_info"
+msgstr "Before and after the period during which the test is available,  the test's title will be displayed, but participants won’t be able to take the test. Access, including to tests already in progress, will be prevented once the period of availability has ended."
+
+msgid "tst_activation_online_info"
+msgstr "Endast när testet är online kan användare delta i testet."
+
+msgid "tst_add_quest_cont_edit_mode"
+msgstr "Redaktör"
+
+msgid "tst_add_quest_cont_edit_mode_IPE"
+msgstr "Oformaterad text för frågor och svar och ILIAS sidredigerare för feedback och lösningsanteckningar"
+
+msgid "tst_add_quest_cont_edit_mode_IPE_info"
+msgstr "Tillhandahåller inte formatering av text i frågor och svar, men tillåter utformning av feedback och lösningsanteckningar med ILIAS sidredigerare och återanvändning i frågor i ILIAS inlärningsmoduler."
+
+msgid "tst_add_quest_cont_edit_mode_RTE"
+msgstr "Riktig textredigerare (TinyMCE) för redigering av frågor, svar, feedback och lösningsanteckningar."
+
+msgid "tst_add_quest_cont_edit_mode_RTE_info"
+msgstr "Tillåter formaterad text för frågor, svar, feedback och lösningsanteckningar. Feedback och lösningsanteckningar antas dock inte när frågor integreras i ILIAS inlärningsmoduler."
+
+#, fuzzy
+msgid "tst_add_quest_cont_edit_mode_plain"
+msgstr "Use plain text"
+
+#, fuzzy
+msgid "tst_add_quest_cont_edit_mode_plain_info"
+msgstr "No formatting of text in question, answers and feedback."
+
+msgid "tst_addit_passes_blocked_after_passed_msg"
+msgstr "Du har klarat testet. Testet kan inte påbörjas igen."
+
+msgid "tst_all_test_competences"
+msgstr "Alla testfärdigheter"
+
+msgid "tst_all_user_data_deleted"
+msgstr "Uppgifterna för alla testdeltagare har raderats!"
+
+#, fuzzy
+msgid "tst_already_passed_cannot_retake"
+msgstr "Test already passed. You cannot start the test again."
+
+msgid "tst_already_submitted"
+msgstr "Testet har redan genomförts och svaren har skickats iväg."
+
+msgid "tst_analysis"
+msgstr "Analys"
+
+msgid "tst_anonymity"
+msgstr "Skydd av personuppgifter"
+
+msgid "tst_anonymity_anonymous_test"
+msgstr "Testresultat utan namn / Anonymt test"
+
+msgid "tst_anonymity_no_anonymization"
+msgstr "Testresultat med namn"
+
+msgid "tst_answer_aggr_answer_header"
+msgstr "Svar"
+
+msgid "tst_answer_aggr_frequency_header"
+msgstr "Frekvens"
+
+msgid "tst_answer_details"
+msgstr "Svar detaljer"
+
+#, fuzzy
+msgid "tst_answer_fixation"
+msgstr "Lock Answers"
+
+msgid "tst_answer_fixation_handling"
+msgstr "Deltagarnas svar"
+
+msgid "tst_answer_fixation_none"
+msgstr "Fixa inte svar under testkörningen"
+
+msgid "tst_answer_fixation_none_desc"
+msgstr "Så länge en testkörning inte är avslutad kan deltagarna ändra sina svar som de vill."
+
+msgid "tst_answer_fixation_on_followup_question"
+msgstr "Fixa svar när uppföljningsfrågan visas"
+
+msgid "tst_answer_fixation_on_followup_question_desc"
+msgstr "Efter att uppföljningsfrågan har visats kan deltagarna inte längre ändra svaret på den föregående frågan."
+
+msgid "tst_answer_fixation_on_instant_feedback"
+msgstr "Ange svar när feedback visas"
+
+msgid "tst_answer_fixation_on_instant_feedback_desc"
+msgstr "När återkopplingen till en fråga visas kan deltagarna inte längre ändra sina svar."
+
+msgid "tst_answer_fixation_on_instantfb_or_followupqst"
+msgstr "Befästa svar med visning av feedback eller uppföljningsfrågan"
+
+msgid "tst_answer_fixation_on_instantfb_or_followupqst_desc"
+msgstr "Deltagare kan inte ändra svar efter att återkopplingen till frågan eller följdfrågan har visats."
+
+msgid "tst_answer_status_answered"
+msgstr "Besvarad"
+
+msgid "tst_answer_status_editing"
+msgstr "(pågående)"
+
+msgid "tst_answer_status_not_answered"
+msgstr "Ej besvarad"
+
+msgid "tst_answered_questions"
+msgstr "Frågor besvarade"
+
+msgid "tst_answered_questions_of_total"
+msgstr "%s från %s"
+
+msgid "tst_answered_questions_test"
+msgstr "Frågor som besvaras i detta test"
+
+msgid "tst_attached_xls_file"
+msgstr "Testresultaten för denna deltagare finns i den bifogade Excel-filen."
+
+msgid "tst_attempt"
+msgstr "Försök"
+
+#, fuzzy
+msgid "tst_attempt_limit_message"
+msgstr "Your limit of test attempts is <b>%s</b>."
+
+msgid "tst_attempt_started"
+msgstr "Testet påbörjat"
+
+msgid "tst_back_to_pass_details"
+msgstr "Tillbaka till översikten av körningen"
+
+msgid "tst_back_to_question_list"
+msgstr "Tillbaka till frågelistan"
+
+msgid "tst_back_to_top"
+msgstr "Tillbaka till toppen"
+
+msgid "tst_back_to_virtual_pass"
+msgstr "Tillbaka till frågeöversikten"
+
+msgid "tst_best_solution_is"
+msgstr "Den bästa möjliga lösningen är"
+
+msgid "tst_block_passes_after_passed"
+msgstr "Förhindra ytterligare testkörningar efter godkänt test"
+
+msgid "tst_block_passes_after_passed_info"
+msgstr "När en deltagare har klarat testet kommer deltagaren med detta alternativ inte att tillåtas några ytterligare testkörningar."
+
+msgid "tst_browse_for_qpl_questions"
+msgstr "Lägg till från pool"
+
+msgid "tst_browse_for_tst_questions"
+msgstr "Add från annat test"
+
+msgid "tst_btn_hide_best_solutions"
+msgstr "Dölja bästa möjliga lösningar"
+
+msgid "tst_btn_rebuild_random_question_stage"
+msgstr "Synkronisera frågor från poolerna"
+
+msgid "tst_btn_reset_pool_sync"
+msgstr "Redigera/Avbryta synkronisering"
+
+msgid "tst_btn_show_best_solutions"
+msgstr "Visa bästa möjliga lösningar"
+
+msgid "tst_cannot_online_due_to_switched_quest_set_type_setting"
+msgstr "Testet kunde inte ställas in till online eftersom testläget ändrades. Du måste skapa en ny testlägesrelaterad frågekonfiguration innan du kan ställa in testet online igen."
+
+msgid "tst_change_dyn_test_question_selection"
+msgstr "Ändra urval av frågor"
+
+msgid "tst_change_points_for_question"
+msgstr "Poäng för svaret"
+
+msgid "tst_change_quest_set_type_from_old_to_new_with_conflict"
+msgstr "Om du ändrar urvalet av testfrågor från <b>%s</b> till <b>%s</b> förloras den aktuella frågetilldelningen. Du måste då tilldela frågor på nytt för den nya konfigurationen eller konfigurera frågepoolen på motsvarande sätt.<br />Klicka på <b>Bekräfta</b> o"
+
+msgid "tst_change_workingtime"
+msgstr "Skapa en tidsförlängning för en deltagare"
+
+msgid "tst_comp_eval_mode"
+msgstr "Utvärdering via"
+
+msgid "tst_comp_points"
+msgstr "Kompetenspunkter"
+
+msgid "tst_competence"
+msgstr "Kompetens"
+
+#, fuzzy
+msgid "tst_competence_tree"
+msgstr "Competence tree"
+
+#, fuzzy
+msgid "tst_conditions_checkbox_enabled"
+msgstr "Exam Conditions"
+
+#, fuzzy
+msgid "tst_conditions_checkbox_enabled_desc"
+msgstr "Participants must select a checkbox to start the test. Please use the introductory message to present the exam to the participants."
+
+msgid "tst_confirm_submit_answers"
+msgstr "Vänligen bekräfta att du vill slutföra testet och skicka in de angivna svaren. Efter inlämningen finns det inte längre någon möjlighet att ange eller korrigera svar."
+
+msgid "tst_conflicting_setting"
+msgstr "Denna inställning står i konflikt med en annan inställning."
+
+msgid "tst_copy"
+msgstr "Kopiera test"
+
+msgid "tst_corr_add_as_answer_btn"
+msgstr "Lägg till som korrekt svar"
+
+msgid "tst_corr_answ_stat_tbl_header_answer"
+msgstr "Svar"
+
+msgid "tst_corr_answ_stat_tbl_header_frequency"
+msgstr "Frekvens"
+
+msgid "tst_corrections_answers_tbl"
+msgstr "Statistik över svar"
+
+msgid "tst_corrections_answers_tbl_subindex"
+msgstr "Svarsstatistik för %s"
+
+msgid "tst_corrections_incompatible_question_set_type"
+msgstr "En efterkorrigering är endast möjlig om testet använder ett fast frågeurval."
+
+msgid "tst_corrections_manscore_reset_warning"
+msgstr "Det finns %s manuella poäng för frågan \"%s (ID"
+
+msgid "tst_corrections_qst_form"
+msgstr "Korrigering av punkterna"
+
+msgid "tst_corrections_tab_question"
+msgstr "Fråga"
+
+msgid "tst_corrections_tab_solution"
+msgstr "Lösning"
+
+msgid "tst_corrections_tab_statistics"
+msgstr "Statistik över svar"
+
+msgid "tst_count_correct_solutions"
+msgstr "Endast helt korrekt besvarade frågor ger poäng"
+
+msgid "tst_count_correct_solutions_desc"
+msgstr "Fullständiga och korrekta svar ger maximalt antal poäng. I alla andra fall ges 0 poäng. Detta gäller även frågor som ger poäng för partiella svar."
+
+msgid "tst_count_partial_solutions"
+msgstr "Även delvis felaktigt besvarade frågor ger poäng"
+
+msgid "tst_count_partial_solutions_desc"
+msgstr "För vissa frågetyper kan du få poäng för korrekta delsvar. Dessa läggs ihop. Detta gäller för frågetyperna Flervalsfrågor, KPrim, Flervalsfrågor i Imagemaps, Markera fel/ord och Uppgiftsfråga."
+
+msgid "tst_current_run_no_longer_valid"
+msgstr "Din nuvarande testsession är inte längre giltig. <br>Den har förmodligen redan avslutats eller avslutats av en handledare."
+
+msgid "tst_delete_missing_mark"
+msgstr "Välj minst en årskurs för att ta bort!"
+
+msgid "tst_derive_new_pool"
+msgstr "Skapa ny frågepool"
+
+msgid "tst_derive_new_pools"
+msgstr "Skapa nya frågepooler"
+
+msgid "tst_dont_show_msg_again_in_current_session"
+msgstr "Visa inte detta meddelande igen i min nuvarande session."
+
+msgid "tst_edit_competence_assign"
+msgstr "Redigera egenskaper för tilldelning"
+
+msgid "tst_edit_scoring"
+msgstr "Ändra betyg"
+
+#, fuzzy
+msgid "tst_enable_questionlist"
+msgstr "Show 'List of Questions’"
+
+#, fuzzy
+msgid "tst_enable_questionlist_description"
+msgstr "Participants can switch on a list of the test questions on the left of the actual question."
+
+msgid "tst_ending_time"
+msgstr "Slut"
+
+msgid "tst_ending_time_before_starting_time"
+msgstr "Ange ett datum för slutet av testet som ligger efter startdatumet."
+
+msgid "tst_ending_time_desc"
+msgstr "Tid från vilken deltagare inte längre kan skicka in svar. <b>Viktigt</b>"
+
+msgid "tst_enter_questionpool"
+msgstr "Ange namnet på en frågepool där den nya frågan ska lämnas in"
+
+msgid "tst_eval_question_points"
+msgstr "Frågeresultat för testkörning %s"
+
+msgid "tst_eval_results_by_pass"
+msgstr "Detaljerade testresultat för testkörning %s"
+
+msgid "tst_eval_results_by_pass_lo"
+msgstr "Detaljerade testresultat för %s. Test"
+
+msgid "tst_eval_results_lo"
+msgstr " Avvikande testresultat"
+
+msgid "tst_eval_show_answer"
+msgstr "Visa svar"
+
+msgid "tst_eval_total_finished"
+msgstr "Totalt antal genomförda tester (användare som har genomfört det maximala antalet testkörningar)."
+
+msgid "tst_eval_total_finished_average_time"
+msgstr "Genomsnittlig behandlingstid för alla tester"
+
+msgid "tst_eval_total_passed"
+msgstr "Totalt antal godkända tester"
+
+msgid "tst_eval_total_passed_average_points"
+msgstr "Genomsnittlig poäng för de godkända testerna"
+
+msgid "tst_eval_total_passed_average_time"
+msgstr "Genomsnittlig behandlingstid för alla godkända tester"
+
+msgid "tst_eval_total_persons"
+msgstr "Totalt antal personer som startade testet"
+
+#, fuzzy
+msgid "tst_exam_access_code"
+msgstr "Access Code"
+
+#, fuzzy
+msgid "tst_exam_access_code_invalid_message"
+msgstr "The code you provided is invalid."
+
+#, fuzzy
+msgid "tst_exam_access_code_label"
+msgstr "Enter access code to continue your already started test."
+
+#, fuzzy
+msgid "tst_exam_conditions"
+msgstr "Exam Conditions"
+
+#, fuzzy
+msgid "tst_exam_conditions_label"
+msgstr "Check to accept the conditions."
+
+#, fuzzy
+msgid "tst_exam_conditions_not_checked_message"
+msgstr "You need to accept the exam conditions!"
+
+#, fuzzy
+msgid "tst_exam_ending_time_message"
+msgstr "The test cannot be started after %s."
+
+#, fuzzy
+msgid "tst_exam_modal_message_conditions"
+msgstr "Please confirm the conditions to start the test."
+
+#, fuzzy
+msgid "tst_exam_modal_message_conditions_and_password"
+msgstr "Please confirm the conditions and enter the password to start the test."
+
+#, fuzzy
+msgid "tst_exam_modal_message_password"
+msgstr "Please enter the password to start the test."
+
+#, fuzzy
+msgid "tst_exam_not_assigned_participant_disclaimer"
+msgstr "You cannot start this test, as you are not an assigned participant."
+
+#, fuzzy
+msgid "tst_exam_password"
+msgstr "Test Password"
+
+#, fuzzy
+msgid "tst_exam_password_invalid_message"
+msgstr "The given password is not valid!"
+
+#, fuzzy
+msgid "tst_exam_password_label"
+msgstr "Password"
+
+#, fuzzy
+msgid "tst_exam_required_fields_not_filled_message"
+msgstr "You need to fill out all required fields!"
+
+#, fuzzy
+msgid "tst_exam_start"
+msgstr "Start Test"
+
+#, fuzzy
+msgid "tst_exam_use_previous_answers"
+msgstr "Previous Answers"
+
+#, fuzzy
+msgid "tst_exam_use_previous_answers_label"
+msgstr "If enabled answers from previous tests will be prefilled."
+
+msgid "tst_extratime_added"
+msgstr "Deltagarens behandlingstid har förlängts med %s minuter."
+
+msgid "tst_extratime_info"
+msgstr "Om en testtagares behandlingstid förlängs flera gånger, ange summan av alla hans/hennes förlängningar här."
+
+msgid "tst_extratime_notavailable"
+msgstr "Tidsförlängningar kan endast göras för tester med en körning och en angiven bearbetningstid."
+
+msgid "tst_failed"
+msgstr "Misslyckad"
+
+msgid "tst_failed_imp_qst_skl_assign"
+msgstr "Frågornas tilldelning till följande kompetenser kunde inte produceras av importen. De motsvarande kompetenserna kunde inte identifieras i systemet här."
+
+msgid "tst_failed_imp_skl_thresholds"
+msgstr "Importen av tröskelvärden för följande kompetenser hoppades över eftersom den associerade kompetensen i det lokala systemet har en annan lista över färdigheter."
+
+msgid "tst_feedback"
+msgstr "Återgång"
+
+msgid "tst_feedback_is_given_inline"
+msgstr "Återkopplingen visas direkt under ditt svar."
+
+msgid "tst_feedback_not_available_for_answer"
+msgstr "Det finns ingen feedback tillgänglig för ditt svar."
+
+msgid "tst_filter_lifecycle_enabled"
+msgstr "Använd filtret \"Livscykel\""
+
+msgid "tst_filter_question_type"
+msgstr "Typ av fråga"
+
+msgid "tst_filter_question_type_enabled"
+msgstr "Frågetyp Använd filter"
+
+msgid "tst_filter_tax_node"
+msgstr "Taxonomi nod"
+
+msgid "tst_filter_taxonomy"
+msgstr "Taxonomi"
+
+msgid "tst_final_information"
+msgstr "Fullständigt test"
+
+msgid "tst_finish_confirm_button"
+msgstr "Ja, jag vill avsluta testet"
+
+msgid "tst_finish_confirm_cancel_button"
+msgstr "Nej, jag vill gå tillbaka till det senaste svaret"
+
+msgid "tst_finish_confirmation_question"
+msgstr "Du är på väg att avsluta testet och nå det maximala antalet tillåtna testkörningar. Efter det kommer du inte längre att kunna komma åt testet igen för att ändra dina svar. Vill du verkligen avsluta testet?"
+
+#, fuzzy
+msgid "tst_finish_confirmation_question_no_attempts_left"
+msgstr "You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?"
+
+msgid "tst_finished"
+msgstr "Färdig"
+
+msgid "tst_form_dynamic_question_set_config"
+msgstr "Kontinuerligt urval av frågor"
+
+msgid "tst_gap_analysis"
+msgstr "Analys av luckor"
+
+msgid "tst_general_properties"
+msgstr "Inställningar för testet"
+
+msgid "tst_header_participant"
+msgstr "Ditt svar"
+
+#, fuzzy
+msgid "tst_header_participant_no_answer"
+msgstr "Question - not answered"
+
+msgid "tst_header_solution"
+msgstr "Bästa möjliga lösning"
+
+#, fuzzy
+msgid "tst_hide_info_tab"
+msgstr "Hide Info Tab"
+
+#, fuzzy
+msgid "tst_hide_info_tab_desc"
+msgstr "Hides the tab ‘Info’ of the test."
+
+msgid "tst_hide_pagecontents"
+msgstr " Dölj sidans innehåll"
+
+msgid "tst_hide_pagecontents_desc"
+msgstr "ILIAS-innehåll som placeras före och efter den faktiska frågetexten via knappen \"Redigera sida\" visas inte i resultatvyerna och utskriften."
+
+msgid "tst_imap_qst_mode"
+msgstr "Svarsläge"
+
+msgid "tst_imap_qst_mode_mc"
+msgstr "Multipla valmöjligheter"
+
+msgid "tst_imap_qst_mode_sc"
+msgstr "Enskilt val"
+
+msgid "tst_import_non_ilias_zip"
+msgstr "Fel"
+
+msgid "tst_import_verify_found_questions"
+msgstr "ILIAS har hittat följande frågor i importfilen. Välj de frågor som du vill importera med detta test."
+
+msgid "tst_inp_all_quest_points_equal_per_pool"
+msgstr "Endast frågepooler med frågor med samma poäng"
+
+msgid "tst_inp_all_quest_points_equal_per_pool_desc"
+msgstr "Om aktiverat kommer endast frågepooler vars frågor har samma poäng att erbjudas för urval. Detta test kommer då att ha samma maxpoäng för alla deltagare, vilket gör testresultaten mer jämförbara. Detta förfarande rekommenderas."
+
+msgid "tst_inp_dyn_quest_set_quest_ordering_by_date_desc"
+msgstr "Frågornas ordningsföljd baseras på datumet för den senaste ändringen."
+
+msgid "tst_inp_dyn_quest_set_quest_ordering_by_tax_desc"
+msgstr "Frågornas ordningsföljd baseras på frågornas tilldelning i en taxonomi."
+
+msgid "tst_inp_no_available_tax_hint"
+msgstr "Taxonomier är inte tillgängliga för den valda frågepoolen"
+
+msgid "tst_inp_quest_amount_cfg_mode"
+msgstr "Antal frågor"
+
+msgid "tst_inp_quest_amount_cfg_mode_pool"
+msgstr "Ställ in antalet frågor per vald frågepool eller taxonominod."
+
+msgid "tst_inp_quest_amount_cfg_mode_test"
+msgstr "Bestäm antalet frågor för hela testet"
+
+msgid "tst_inp_quest_amount_per_source_pool"
+msgstr "Antal frågor"
+
+msgid "tst_inp_quest_amount_per_test"
+msgstr "Totalt antal frågor i testet"
+
+msgid "tst_inp_source_pool_filter_tax"
+msgstr "Taxonomifilter"
+
+msgid "tst_inp_source_pool_filter_tax_x"
+msgstr "Använd taxonomi \"%s\" som filter"
+
+msgid "tst_inp_source_pool_label"
+msgstr "Frågepool"
+
+msgid "tst_inp_source_pool_no_tax_filter"
+msgstr "Använd inte taxonomi som filter"
+
+msgid "tst_input_dyn_quest_set_answer_status_filter_enabled"
+msgstr "Visa filter för svarsstatus"
+
+msgid "tst_input_dynamic_question_set_ordering_tax"
+msgstr "Taxonomi för order"
+
+msgid "tst_input_dynamic_question_set_ordering_tax_description"
+msgstr "Testfrågorna presenteras enligt deras uppgifter i den valda taxonomin."
+
+msgid "tst_input_dynamic_question_set_question_ordering"
+msgstr "Fråga order"
+
+msgid "tst_input_dynamic_question_set_question_ordering_by_date"
+msgstr "Ordna frågor efter datum"
+
+msgid "tst_input_dynamic_question_set_question_ordering_by_tax"
+msgstr "Ordne-frågor efter taxonomiska noder"
+
+msgid "tst_input_dynamic_question_set_source_questionpool"
+msgstr "Frågepool"
+
+msgid "tst_input_dynamic_question_set_taxonomie_filter_enabled"
+msgstr "Visa taxonomifilter"
+
+#, fuzzy
+msgid "tst_insert_in_test"
+msgstr "Insert in Test"
+
+msgid "tst_insert_missing_question"
+msgstr "Välj minst en fråga att lägga till i testet!"
+
+msgid "tst_insert_questions"
+msgstr "Är du säker på att du vill lägga till följande frågor i testet?"
+
+msgid "tst_instant_feedback"
+msgstr "Direkt feedback"
+
+msgid "tst_instant_feedback_answer_generic"
+msgstr "Feedback på den korrekta lösningen"
+
+msgid "tst_instant_feedback_answer_generic_desc"
+msgstr "Om hela svaret är korrekt kommer ILIAS att visa en typ av feedback när knappen \"Begär feedback\" klickas. Om hela svaret inte är helt korrekt visas en annan återkoppling. Båda versionerna måste lagras på fliken \"Feedback\" i frågan."
+
+msgid "tst_instant_feedback_answer_specific"
+msgstr "Olika feedback per givet svar"
+
+msgid "tst_instant_feedback_answer_specific_desc"
+msgstr "När du klickar på knappen \"Begär feedback\" visar ILIAS respektive feedback för varje inlämnat svar. Inte alla frågetyper stöder denna typ av feedback. Återkopplingen måste lagras i frågan på fliken \"Återkoppling\"."
+
+msgid "tst_instant_feedback_contents"
+msgstr "Innehållet i återkopplingen"
+
+msgid "tst_instant_feedback_desc"
+msgstr "Om frågorna är försedda med feedback är dessa tillgängliga för deltagarna under testet."
+
+msgid "tst_instant_feedback_results"
+msgstr "Antal uppnådda poäng"
+
+msgid "tst_instant_feedback_results_desc"
+msgstr "När deltagarna svarar på en fråga klickar de på knappen \"Begär feedback\" och ILIAS visar hur många poäng som uppnåddes för det givna svaret."
+
+msgid "tst_instant_feedback_solution"
+msgstr "Visa bästa möjliga lösning"
+
+msgid "tst_instant_feedback_solution_desc"
+msgstr "När du klickar på knappen \"Begär feedback\" kommer ILIAS att visa den bästa möjliga lösningen på frågan."
+
+msgid "tst_instant_feedback_trigger"
+msgstr "Utlösande faktor för återkoppling"
+
+msgid "tst_instant_feedback_trigger_forced"
+msgstr "Återkopplingen visas när frågorna besvaras"
+
+msgid "tst_instant_feedback_trigger_forced_desc"
+msgstr "Genom att svara på en fråga aktiveras återkopplingen automatiskt."
+
+msgid "tst_instant_feedback_trigger_manual"
+msgstr "Deltagarna kan själva aktivera återkopplingen"
+
+msgid "tst_instant_feedback_trigger_manual_desc"
+msgstr "Feedback är tillgänglig för deltagarna, men visas endast när deltagaren aktiverar den."
+
+msgid "tst_introduction"
+msgstr "Inledning"
+
+msgid "tst_introduction_desc"
+msgstr "Visar en introduktionstext på fliken \"Info\" i testet. Texten är tillgänglig redan innan testet startar."
+
+msgid "tst_introduction_text"
+msgstr "introducerande text"
+
+msgid "tst_invited_nobody"
+msgstr "Inga användare, grupper eller roller lades till som fasta deltagare"
+
+msgid "tst_invited_selected_users"
+msgstr "De utvalda användarna har lagts till som permanenta deltagare"
+
+#, fuzzy
+msgid "tst_launcher_button_label_passes_limit_reached"
+msgstr "You have reached the limit of possible test passes"
+
+#, fuzzy
+msgid "tst_launcher_status_message_conditions"
+msgstr "You will be asked for your approval of the exam conditions when you start the test."
+
+#, fuzzy
+msgid "tst_launcher_status_message_conditions_and_password"
+msgstr "You will be asked for the password and your approval of the exam conditions when you start the test."
+
+#, fuzzy
+msgid "tst_launcher_status_message_password"
+msgstr "You will be asked for the password when you start the test."
+
+msgid "tst_level"
+msgstr "Kompetensnivå"
+
+msgid "tst_limit_nr_of_tries"
+msgstr "Begränsning av antalet testkörningar"
+
+msgid "tst_link_only_unassigned"
+msgstr "Du har valt minst en fråga som redan är tilldelad en frågepool. Endast frågor som inte har tilldelats en frågepool kan läggas till i en frågepool. Vänligen gör ett nytt val."
+
+msgid "tst_list_answer_details"
+msgstr "Visa i listan nedan"
+
+msgid "tst_list_of_answers"
+msgstr "Lista över svar"
+
+msgid "tst_list_of_answers_show"
+msgstr "Relaterade svar"
+
+msgid "tst_list_of_questions_end"
+msgstr "Visas före slutet av testet"
+
+msgid "tst_list_of_questions_start"
+msgstr "Visas före den första frågan"
+
+msgid "tst_list_of_questions_with_description"
+msgstr "Visa beskrivningar av frågor"
+
+#, fuzzy
+msgid "tst_man_scoring_answered_hide"
+msgstr "Hide answered questions"
+
+#, fuzzy
+msgid "tst_man_scoring_answered_only"
+msgstr "Show only answered questions"
+
+msgid "tst_man_scoring_by_part"
+msgstr "Rating av deltagare"
+
+msgid "tst_man_scoring_by_qst"
+msgstr "Rating efter fråga"
+
+#, fuzzy
+msgid "tst_man_scoring_finalized"
+msgstr "Show finalized gradings"
+
+#, fuzzy
+msgid "tst_man_scoring_finalized_hide"
+msgstr "Hide finalized gradings"
+
+#, fuzzy
+msgid "tst_man_scoring_finalized_only"
+msgstr "Show only finalized gradings"
+
+msgid "tst_man_scoring_only_answered"
+msgstr "Endast besvarad"
+
+#, fuzzy
+msgid "tst_man_scoring_questionselection"
+msgstr "Questions"
+
+#, fuzzy
+msgid "tst_man_scoring_users_scored"
+msgstr "Users Scored"
+
+#, fuzzy
+msgid "tst_man_scoring_userselection"
+msgstr "Participants"
+
+msgid "tst_manage_competence_assigns"
+msgstr "Hantera kompetensuppdrag"
+
+#, fuzzy
+msgid "tst_manage_competence_select_skills"
+msgstr "Select Competences"
+
+msgid "tst_manscoring_input_max_points_for_question"
+msgstr "Maximalt antal poäng för frågan"
+
+#, fuzzy
+msgid "tst_manscoring_input_of_max"
+msgstr "of"
+
+msgid "tst_manscoring_input_question_and_user_solution"
+msgstr "Fråga och deltagarens lösning"
+
+msgid "tst_manscoring_maxpoints_exceeded_input_alert"
+msgstr "Det maximala antalet %s-punkter har överskridits!"
+
+#, fuzzy
+msgid "tst_manscoring_no_feedback"
+msgstr "No written feedback has been given yet."
+
+msgid "tst_manscoring_question_section_header"
+msgstr "Fråga"
+
+msgid "tst_manscoring_user_notification"
+msgstr "Skicka meddelande"
+
+msgid "tst_mark"
+msgstr "Note"
+
+msgid "tst_mark_create_new_mark_step"
+msgstr "Skapa ny anteckningsnivå"
+
+msgid "tst_mark_minimum_level"
+msgstr "Minsta procentandel"
+
+#, fuzzy
+msgid "tst_mark_minimum_level_invalid"
+msgstr "Minimum Level must be between 0 and 100."
+
+msgid "tst_mark_official_form"
+msgstr "Officiell beteckning"
+
+msgid "tst_mark_passed"
+msgstr "Bekräftad"
+
+#, fuzzy
+msgid "tst_mark_reset_to_simple_mark_schema"
+msgstr "Reset to Simple Mark Schema"
+
+#, fuzzy
+msgid "tst_mark_reset_to_simple_mark_schema_confirmation"
+msgstr "If you proceed the current mark schema set for this test will be replaced by a simple mark schema thus deleting all local changes."
+
+msgid "tst_mark_short_form"
+msgstr "Kort namn"
+
+msgid "tst_max_comp_points"
+msgstr "Max. Kompetenspoäng"
+
+msgid "tst_maximum_points"
+msgstr "Maximal poäng"
+
+msgid "tst_mc_label_none_above"
+msgstr "Inget av ovanstående svar"
+
+msgid "tst_median_mark_panel"
+msgstr "Not för medianvärdet"
+
+msgid "tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part"
+msgstr "Konfiguration för kontinuerligt frågeval kan inte ändras eftersom deltagarnas resultat redan är tillgängliga."
+
+msgid "tst_msg_cannot_modify_random_question_set_conf_due_to_part"
+msgstr "Konfigurationen för slumpmässigt frågeval kan inte ändras eftersom deltagarnas resultat redan är tillgängliga."
+
+msgid "tst_msg_dynamic_question_set_config_modified"
+msgstr "Konfigurationen för kontinuerligt frågeval har ändrats."
+
+msgid "tst_msg_rand_quest_set_change_quest_amount_here"
+msgstr "Du kan ställa in antalet frågor här"
+
+msgid "tst_msg_rand_quest_set_incomplete_quest_amount_cfg"
+msgstr "Om du inte anger ett antal frågor kan inte ett test med slumpmässigt frågeval genereras."
+
+msgid "tst_msg_rand_quest_set_lost_pools"
+msgstr "Testets konfiguration för frågelottning har frysts eftersom följande frågepooler som är involverade i konfigurationen inte längre är tillgängliga. De otillgängliga frågepoolerna kan återskapas.<br />%s"
+
+msgid "tst_msg_rand_quest_set_lost_pools_link"
+msgstr "Öppet urval av frågepooler"
+
+msgid "tst_msg_rand_quest_set_no_pools_available"
+msgstr "För närvarande kan du inte lägga till nya regler för frågeval eftersom det inte finns några frågepooler tillgängliga."
+
+msgid "tst_msg_rand_quest_set_no_src_pool_defs"
+msgstr "För att aktivera ett test med slumpmässigt frågeval måste minst en frågepool väljas från vilken frågor kan hämtas."
+
+msgid "tst_msg_rand_quest_set_not_sync"
+msgstr "Reglerna för slumpmässig dragning av frågor har återskapats eller ändrats. Frågorna måste kopieras igen från frågepoolerna till testet. Denna process inkluderar även en kontroll för att se om regeluppsättningen för slumpmässig dragning kan uppfyllas."
+
+msgid "tst_msg_rand_quest_set_pass_buildable"
+msgstr "Ett test med slumpmässigt val av frågor är möjligt med den aktuella konfigurationen."
+
+msgid "tst_msg_rand_quest_set_pass_not_buildable"
+msgstr "Med<b>det aktuella urvalet av frågebanker och antalet frågor kan ett test med slumpmässigt frågeurval inte skapas</b>.<br />"
+
+msgid "tst_msg_rand_quest_set_rule_label"
+msgstr "Regel %s"
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_missing"
+msgstr "Regel %s kräver %s frågor. Dock är endast %s frågor tillgängliga."
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_missing_shared"
+msgstr "Av de angivna frågorna är %s frågor tillgängliga på även följande regler"
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_reserved"
+msgstr "För regel %s behövs %s frågor och %s frågor tillhandahålls."
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_reserved_shared"
+msgstr "Men på grund av överlappningar med följande regler är endast %s frågor garanterat tillgängliga"
+
+msgid "tst_msg_rand_quest_set_stage_pool_last_sync"
+msgstr "Tidpunkt för den senaste synkroniseringen av frågorna från de valda frågepoolerna"
+
+msgid "tst_msg_random_qsc_modified_add_new_rule"
+msgstr "Konfigurationen för testet med slumpmässigt frågeval har ändrats framgångsrikt. Du kan nu lägga till en ny regel."
+
+msgid "tst_msg_random_question_set_config_modified"
+msgstr "Konfigurationen för testet med slumpmässigt val av frågor ändrades framgångsrikt."
+
+msgid "tst_msg_random_question_set_synced"
+msgstr "Frågorna för den aktuella konfigurationen av testet med slumpmässigt frågeval synkroniserades framgångsrikt."
+
+msgid "tst_msg_skl_lvl_thresholds_saved"
+msgstr "Tröskelvärdena för kompetens har sparats."
+
+msgid "tst_msg_skl_qst_assign_points_not_saved"
+msgstr "Kompetenspoängen har inte sparats. Vänligen kontrollera din post."
+
+msgid "tst_msg_skl_qst_assign_points_saved"
+msgstr "Kompetenspunkterna har sparats."
+
+msgid "tst_msg_source_pool_definitions_deleted"
+msgstr "Frågevalsregeln har tagits bort framgångsrikt."
+
+msgid "tst_nav_next_locks_current_answer_confirm"
+msgstr "När du navigerar till nästa fråga är svaret på den aktuella frågan fast och kan inte ändras igen."
+
+msgid "tst_nav_next_locks_current_answer_header"
+msgstr "Navigera till nästa fråga"
+
+msgid "tst_nav_next_locks_empty_answer_confirm"
+msgstr "Du har inte angett något svar. En tom lösning sparas och fixeras som svaret på den aktuella frågan. Svaret kan inte längre ändras."
+
+msgid "tst_nav_next_locks_empty_answer_header"
+msgstr "Navigera utan svar"
+
+msgid "tst_nav_while_edit_modal_cancel_btn"
+msgstr "Avbryt"
+
+msgid "tst_nav_while_edit_modal_header"
+msgstr "Beslut om svar"
+
+msgid "tst_nav_while_edit_modal_nosave_btn"
+msgstr "Spara inte"
+
+msgid "tst_nav_while_edit_modal_save_btn"
+msgstr "Spara"
+
+msgid "tst_nav_while_edit_modal_text"
+msgstr "Vad ska göras med de svar på denna fråga som du kanske redan har gett?"
+
+msgid "tst_no_evaluation_data"
+msgstr "Det finns inga tillgängliga poster ännu."
+
+msgid "tst_no_marks_defined"
+msgstr "Det finns inga noter definierade. Vänligen skapa åtminstone ett enkelt notschema!"
+
+msgid "tst_no_question_selected_for_moving_to_qpl"
+msgstr "Välj minst en fråga som du vill överföra till en frågepool!"
+
+msgid "tst_no_question_selected_for_removal"
+msgstr "Välj minst en fråga att ta bort!"
+
+msgid "tst_no_scorable_qst_available"
+msgstr "Ingen manuellt bedömbar fråga tillgänglig"
+
+msgid "tst_non_avail_pool_msg_status_lost"
+msgstr "Den här<b>frågepoolen är inte längre tillgänglig.</b><br />Det går inte längre att synkronisera frågor från den här frågepoolen. Du kan härleda en ny frågepool från de frågor som redan finns i testet."
+
+msgid "tst_non_avail_pool_msg_status_trashed"
+msgstr "<b>Frågepoolen är i papperskorgen.</b><br />Om den tas bort permanent från systemet kan testet inte återsynkronisera frågorna från denna pool."
+
+msgid "tst_non_avail_pools_table"
+msgstr "Inte tillgängliga frågepooler"
+
+msgid "tst_non_available_pool_newly_derived"
+msgstr "Den nya frågepoolen har framgångsrikt härletts."
+
+msgid "tst_nonpool_questions_get_lost_warning"
+msgstr "Det<b>aktuella testläget innehåller frågor i sin konfiguration som inte är tilldelade någon frågepool. Om du ändrar testläget kommer dessa frågor oåterkalleligen att gå förlorade.</b>"
+
+msgid "tst_notification_explanation_admin"
+msgstr "Du får detta mail eftersom du har aktiverat aviseringsfunktionen."
+
+msgid "tst_notify_manscoring_done_body_msg_reason"
+msgstr "Du får detta meddelande eftersom du deltog i detta test."
+
+msgid "tst_notify_manscoring_done_body_msg_subject"
+msgstr "Manuell utvärdering för test \"%s\" har gjorts"
+
+msgid "tst_notify_manscoring_done_body_msg_topic"
+msgstr "den manuella bedömningen för följande test lämnades in"
+
+msgid "tst_nr_of_passes"
+msgstr "Antal testkörningar"
+
+msgid "tst_nr_of_tries"
+msgstr "Maximalt antal testkörningar"
+
+msgid "tst_nr_of_tries_desc"
+msgstr "Maximalt antal testkörningar som en deltagare kan genomföra."
+
+msgid "tst_num_all_questions"
+msgstr "Antal av alla frågor"
+
+msgid "tst_num_correct_answered_questions"
+msgstr "Rätt besvarad"
+
+msgid "tst_num_non_answered_questions_notseen"
+msgstr "Ännu inte visad"
+
+msgid "tst_num_non_answered_questions_skipped"
+msgstr "Visad, inte besvarad"
+
+msgid "tst_num_questions"
+msgstr "Antal frågor"
+
+msgid "tst_num_selected_questions"
+msgstr "Antal utvalda frågor"
+
+msgid "tst_num_wrong_answered_questions"
+msgstr "Felaktigt besvarad"
+
+msgid "tst_objective_oriented_test_pass_without_questions"
+msgstr "Den påbörjade körningen i testet \"%s\" innehåller inga frågor."
+
+msgid "tst_objective_progress_header"
+msgstr "Framsteg när det gäller lärandemålet"
+
+msgid "tst_objectives_progress_header"
+msgstr "Framsteg när det gäller lärandemålen"
+
+msgid "tst_old_style_rnd_quest_set_broken"
+msgstr "Detta slumpmässiga test är i ett irreparabelt tillstånd eftersom anslutna frågepooler har raderats. Av denna anledning kan deltagarna inte längre göra detta test."
+
+#, fuzzy
+msgid "tst_optional_questions_confirmation_fixed_test"
+msgstr "<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back."
+
+msgid "tst_optional_questions_confirmation_non_fixed_test"
+msgstr "Frågor<b>om inlärningsmål som redan har uppnåtts är frivilliga.</b><br /><br />Du vill nu växla till en fråga som hör till ett inlärningsmål som redan har uppnåtts.<br />Du kan välja"
+
+#, fuzzy
+msgid "tst_out_of_time_message"
+msgstr "You have reached the maximum allowed processing time of the test!"
+
+msgid "tst_participant"
+msgstr "Deltagare"
+
+msgid "tst_participant_fullname_pattern"
+msgstr "%2$s, %1$s"
+
+msgid "tst_participant_status"
+msgstr "Deltagarnas status"
+
+msgid "tst_participating_users"
+msgstr "Deltagande användare"
+
+msgid "tst_pass_best_pass"
+msgstr "Rating den bästa körningen av testet"
+
+msgid "tst_pass_best_pass_desc"
+msgstr "Körningen med det högsta antalet poäng är poängsatt."
+
+msgid "tst_pass_deletion"
+msgstr "Radera körningar"
+
+msgid "tst_pass_deletion_allowed"
+msgstr "Pass som inte används för bedömning kan raderas."
+
+msgid "tst_pass_details"
+msgstr "Detaljerade resultat"
+
+msgid "tst_pass_details_header_lo_initial"
+msgstr "Establishment results för inlärningsmålen<br />%s - %s"
+
+msgid "tst_pass_details_header_lo_qualifying"
+msgstr "Kvalificera resultat för inlärningsmålen<br />%s - %s"
+
+msgid "tst_pass_details_overview_table_title"
+msgstr "Detaljerade testresultat för testkörning %s"
+
+msgid "tst_pass_finished"
+msgstr "Testkörningen slutfördes"
+
+msgid "tst_pass_finished_on"
+msgstr "Testkörning avslutad på"
+
+msgid "tst_pass_last_pass"
+msgstr "Utvärdera sista körningen av testet"
+
+msgid "tst_pass_last_pass_desc"
+msgstr "Endast den sista körningen av testet poängsätts."
+
+msgid "tst_pass_overview_for_participant"
+msgstr "Testkörningar för deltagare"
+
+msgid "tst_pass_overview_header_lo_initial_all_objectives"
+msgstr "Ange testresultat<br />till inlärningsmålen i kursen %s"
+
+msgid "tst_pass_overview_header_lo_initial_per_objective"
+msgstr "Ange testresultat<br />för inlärningsmål %s i kurs %s"
+
+msgid "tst_pass_overview_header_lo_qualifying_all_objectives"
+msgstr "Kvalificera testresultat<br />till inlärningsmålen i kursen %s"
+
+msgid "tst_pass_overview_header_lo_qualifying_per_objective"
+msgstr "Kvalificera testresultat<br />för lärandemålet %s i kursen %s"
+
+msgid "tst_pass_scoring"
+msgstr "Utvärdering för flera körningar"
+
+#, fuzzy
+msgid "tst_pass_scoring_best"
+msgstr "Best Test Attempt"
+
+#, fuzzy
+msgid "tst_pass_scoring_last"
+msgstr "Last Test Attempt"
+
+msgid "tst_pass_waiting_enabled"
+msgstr "Tvinga fram väntetid mellan körningarna"
+
+msgid "tst_pass_waiting_info"
+msgstr "Med detta alternativ kan nya körningar endast startas när den definierade tidsperioden har förflutit sedan den föregående körningen."
+
+msgid "tst_pass_waiting_time"
+msgstr "Väntetid"
+
+msgid "tst_passed"
+msgstr "Bekräftad"
+
+msgid "tst_passes"
+msgstr "Test körningar"
+
+msgid "tst_password"
+msgstr "Testa lösenord"
+
+msgid "tst_password_details"
+msgstr "Om ett testlösenord har definierats måste deltagarna ange det för att starta eller fortsätta testet. Detta gäller även för pågående testkörningar."
+
+msgid "tst_password_enter"
+msgstr "Ange lösenord"
+
+msgid "tst_password_entered_wrong_password"
+msgstr "Du kan inte starta testet eftersom du har angett ett felaktigt testlösenord!"
+
+msgid "tst_password_form"
+msgstr "Ange lösenord för test"
+
+msgid "tst_password_introduction"
+msgstr "Detta test kan endast startas eller fortsättas med ett testlösenord. Ange lösenordet här."
+
+msgid "tst_percent_solved"
+msgstr "Procent löst"
+
+msgid "tst_player_answer_saved_and_locked"
+msgstr "Response är sparat och låst. Det innebär att svaret inte längre kan ändras."
+
+msgid "tst_please_select_source_pool"
+msgstr "Vänligen välj en frågepool."
+
+msgid "tst_please_select_target_for_pool_derives"
+msgstr "Vänligen välj en destinationscontainer."
+
+msgid "tst_position"
+msgstr "Fråga %s från %s"
+
+msgid "tst_position_without_total"
+msgstr "Fråga %s"
+
+msgid "tst_postpone"
+msgstr "Ej besvarade frågor"
+
+msgid "tst_postpone_off"
+msgstr "Obesvarade frågor stannar kvar på sin plats"
+
+msgid "tst_postpone_off_desc"
+msgstr "Även om deltagarna kastar bort svar eller hoppar över frågor ligger frågorna kvar på sin plats i testet."
+
+msgid "tst_postpone_on"
+msgstr "Obesvarade frågor skjuts till slutet av testet"
+
+msgid "tst_postpone_on_desc"
+msgstr "Frågor vars svar deltagarna ignorerar eller hoppar över presenteras igen av ILIAS i slutet av testet."
+
+msgid "tst_presentation_properties"
+msgstr "Utförande"
+
+msgid "tst_presentation_settings_section"
+msgstr "Presentation"
+
+#, fuzzy
+msgid "tst_previous_access_code_not_available"
+msgstr "No previous code available!"
+
+msgid "tst_proceed"
+msgstr "Fortsättning"
+
+msgid "tst_processing_time"
+msgstr "Begränsad bearbetningstid"
+
+msgid "tst_processing_time_desc"
+msgstr "Använd denna inställning för e-tester/distanstester för att ge deltagarna en fast tidsperiod för att slutföra testet. Tiden löper för varje deltagare från det ögonblick då den första testkörningen startades. \"Avbryt test\" stoppar inte testets varaktighet"
+
+msgid "tst_processing_time_duration"
+msgstr "Bearbetningstid"
+
+msgid "tst_processing_time_duration_desc"
+msgstr "Maximal tillgänglig tid för att utföra testet"
+
+msgid "tst_qbt_filter_question_title"
+msgstr "Frågans titel"
+
+msgid "tst_qst_added_to_pool_p"
+msgstr "Frågorna överfördes framgångsrikt till frågepoolen."
+
+msgid "tst_qst_added_to_pool_s"
+msgstr "Frågan överfördes framgångsrikt till frågepoolen."
+
+msgid "tst_qst_order"
+msgstr "Nej."
+
+msgid "tst_qst_skl_cfg_in_pool_hint_dynquestset"
+msgstr "Frågekompetenstilldelningen för tester i läget \"%s\" måste alltid göras i den tilldelade frågepoolen."
+
+msgid "tst_qst_skl_cfg_in_pool_hint_rndquestset"
+msgstr "Frågekompetenstilldelningen för tester i läget \"%s\" måste alltid göras i de tilldelade frågepoolerna."
+
+msgid "tst_question"
+msgstr "Fråga"
+
+msgid "tst_question_amount"
+msgstr "Antal frågor"
+
+msgid "tst_question_answer_status"
+msgstr "Vilka frågor bör skickas in på nytt?"
+
+msgid "tst_question_answer_status_all_non_correct"
+msgstr "Alla utom korrekt besvarade frågor"
+
+msgid "tst_question_answer_status_non_answered"
+msgstr "Frågor som ännu inte besvarats"
+
+msgid "tst_question_answer_status_wrong_answered"
+msgstr "Endast felaktigt besvarade frågor"
+
+msgid "tst_question_feedback_back_to_feedback_form"
+msgstr "Tillbaka till kallelsefrågan"
+
+msgid "tst_question_feedback_edit_page"
+msgstr "Redigera innehåll"
+
+msgid "tst_question_mark"
+msgstr "Mark fråga"
+
+msgid "tst_question_marked"
+msgstr "Du har markerat frågan"
+
+msgid "tst_question_marker"
+msgstr "märkt"
+
+msgid "tst_question_no"
+msgstr "Beställ"
+
+msgid "tst_question_not_from_pool_info"
+msgstr "Ingen pool"
+
+msgid "tst_question_not_marked"
+msgstr "Frågan är inte markerad."
+
+msgid "tst_question_offer"
+msgstr "Vill du använda denna sammanställning eller ska en ny sammanställning genereras?"
+
+msgid "tst_question_set_type"
+msgstr "Val av testfrågor"
+
+msgid "tst_question_set_type_dynamic"
+msgstr "Återinlämningsläge - alla frågor i en frågepool"
+
+msgid "tst_question_set_type_dynamic_desc"
+msgstr "Alla deltagare får svara på alla frågor från en definierad frågepool en efter en. ILIAS skickar tillbaka frågor som har besvarats felaktigt. Frågor från redan pågående tester kan också läggas till eller ändras."
+
+msgid "tst_question_set_type_fixed"
+msgstr "Fixat urval av frågor"
+
+msgid "tst_question_set_type_fixed_desc"
+msgstr "Alla deltagare får samma frågor."
+
+msgid "tst_question_set_type_random"
+msgstr "Slumpmässigt urval av frågor"
+
+msgid "tst_question_set_type_random_desc"
+msgstr "Varje deltagare får svara på olika frågor. Frågorna väljs slumpmässigt från en eller flera frågepooler."
+
+msgid "tst_question_title"
+msgstr "Frågans titel"
+
+msgid "tst_question_type"
+msgstr "Typ av fråga"
+
+msgid "tst_questions_inserted"
+msgstr "Frågor bifogas!"
+
+msgid "tst_questions_removed"
+msgstr "Frågor borttagna!"
+
+msgid "tst_random_nr_of_questions"
+msgstr "Hur många frågor?"
+
+#, fuzzy
+msgid "tst_random_question_set_source_questionpool_summary_string"
+msgstr "%s (Path: %s) [%s Questions]"
+
+msgid "tst_random_select_questionpool"
+msgstr "Välj en frågepool från vilken frågorna ska användas."
+
+msgid "tst_reached_points"
+msgstr "Antal uppnådda poäng"
+
+msgid "tst_reached_points_of_max"
+msgstr "%s från %s"
+
+msgid "tst_remove_mark"
+msgstr "Ta bort markör"
+
+msgid "tst_remove_question"
+msgstr "Är du säker på att du vill ta bort följande fråga från ditt test?"
+
+msgid "tst_remove_questions"
+msgstr "Är du säker på att du vill ta bort följande frågor från ditt test?"
+
+msgid "tst_remove_questions_and_results"
+msgstr "Detta test har redan redigerats av %s användare. Om du tar bort frågor raderas alla befintliga resultat för detta test. Är du säker på att du vill ta bort följande frågor?"
+
+msgid "tst_report_after_date"
+msgstr "Efter ett bestämt datum"
+
+msgid "tst_report_after_first_question"
+msgstr "Erbjud testresultat omedelbart efter testets start"
+
+msgid "tst_report_after_passed"
+msgstr "Visa endast testresultat när testet har godkänts."
+
+msgid "tst_report_after_test"
+msgstr "Offerera testresultat först efter avslutad testkörning"
+
+msgid "tst_report_never"
+msgstr "Testresultaten är inte synliga"
+
+msgid "tst_reporting_date"
+msgstr "Datum"
+
+msgid "tst_res_jump_to_participant_btn"
+msgstr "Springe"
+
+msgid "tst_res_jump_to_participant_hint_opt"
+msgstr "-- Hoppa till deltagare--"
+
+msgid "tst_res_lo_objectives_header"
+msgstr "Relevanta lärandemål"
+
+msgid "tst_res_lo_try_header"
+msgstr "Försök"
+
+msgid "tst_res_lo_try_n"
+msgstr "%s. Försök"
+
+#, fuzzy
+msgid "tst_res_tab_msg_no_lp_access"
+msgstr "You are currently not allowed to access your Learning Progress, as you are not allowed to see your test results."
+
+msgid "tst_res_tab_msg_res_after_date"
+msgstr "Testresultaten kommer att presenteras för dig här på följande datum"
+
+msgid "tst_res_tab_msg_res_after_date_no_res"
+msgstr "Om du utför testet kommer testresultaten att presenteras här på följande datum"
+
+msgid "tst_res_tab_msg_res_after_finish_test"
+msgstr "När du har slutfört testet presenteras testresultaten här."
+
+msgid "tst_res_tab_msg_res_after_taking_test"
+msgstr "När du har utfört testet presenteras testresultaten här."
+
+msgid "tst_res_tab_msg_res_after_test_passed"
+msgstr "Om du har klarat testet presenteras testresultaten här."
+
+msgid "tst_reset_processing_time"
+msgstr "Återställ maximal bearbetningstid för varje testkörning"
+
+msgid "tst_reset_processing_time_desc"
+msgstr "Den maximala behandlingstiden är tillgänglig för varje testkörning."
+
+msgid "tst_result"
+msgstr "Testresultat"
+
+msgid "tst_result_pass"
+msgstr "Resultat av testkörningen"
+
+msgid "tst_result_user_name"
+msgstr "Testresultat för %s"
+
+msgid "tst_result_user_name_pass"
+msgstr "Resultat av testkörning %s för %s"
+
+msgid "tst_results"
+msgstr "Testresultat"
+
+msgid "tst_results_access_always"
+msgstr "Instant"
+
+msgid "tst_results_access_always_desc"
+msgstr "Ett mellanresultat kan redan visas under en testkörning via fliken \"Resultat\". Efter avslutad körning visas testresultatet automatiskt."
+
+msgid "tst_results_access_date"
+msgstr "Från definierat datum"
+
+msgid "tst_results_access_date_desc"
+msgstr "Resultat visas endast på fliken \"Resultat\" från det valda datumet."
+
+msgid "tst_results_access_enabled"
+msgstr "Visa ditt eget testresultat"
+
+msgid "tst_results_access_enabled_desc"
+msgstr "Deltagarna kan komma åt sina testresultat via fliken \"Resultat\"."
+
+msgid "tst_results_access_finished"
+msgstr "Efter att ha kört testet"
+
+msgid "tst_results_access_finished_desc"
+msgstr "När en testkörning har slutförts visas resultaten automatiskt på fliken \"Resultat\"."
+
+msgid "tst_results_access_passed"
+msgstr "Efter godkänt test"
+
+msgid "tst_results_access_passed_desc"
+msgstr "Först när testet har klarats kommer resultaten att visas. Deltagare som inte klarar testet kommer inte att få se något resultat."
+
+msgid "tst_results_access_setting"
+msgstr "Tid"
+
+msgid "tst_results_aggregated"
+msgstr "Aggregerade testresultat"
+
+msgid "tst_results_back_introduction"
+msgstr "Tillbaka till startsidan"
+
+msgid "tst_results_back_overview"
+msgstr "Tillbaka till resultatöversikten"
+
+msgid "tst_results_details_options"
+msgstr "Andra alternativ"
+
+msgid "tst_results_gamification"
+msgstr "Spelifiering"
+
+msgid "tst_results_grading_opt_show_details"
+msgstr "Visa detaljerade testresultat"
+
+msgid "tst_results_grading_opt_show_details_desc"
+msgstr "Förutom det sammanfattande testresultatet erbjuds en åtgärd för \"Detaljerade resultat\". Tabellen \"Detaljerade testresultat\" visar titlarna på frågorna och de poäng som uppnåtts för varje körning. Innehållet i tabellen kan kompletteras ytterligare i avsni"
+
+msgid "tst_results_grading_opt_show_mark"
+msgstr "Visa anteckning"
+
+msgid "tst_results_grading_opt_show_mark_desc"
+msgstr "Ett meddelande på fliken \"Resultat\" informerar deltagarna om vilket betyg de har uppnått."
+
+msgid "tst_results_grading_opt_show_status"
+msgstr "\"Godkänd\" / \"Underkänd\" display"
+
+msgid "tst_results_grading_opt_show_status_desc"
+msgstr "Ett meddelande på fliken \"Resultat\" informerar deltagarna om de har godkänts eller inte."
+
+msgid "tst_results_overview"
+msgstr "Oversikt över testkörningarna"
+
+msgid "tst_results_print_best_solution"
+msgstr "Bästa möjliga lösning"
+
+msgid "tst_results_print_best_solution_info"
+msgstr "Dina egna svar jämförs med de bästa möjliga lösningarna."
+
+msgid "tst_resume_test"
+msgstr "Fortsätt testet"
+
+msgid "tst_revert_changes"
+msgstr "Reverse redigera"
+
+msgid "tst_rnd_quest_cfg_tab_general"
+msgstr "Konfiguration fråga urval"
+
+msgid "tst_rnd_quest_cfg_tab_pool"
+msgstr "Utvalda frågepooler"
+
+msgid "tst_rnd_quest_set_cfg_general_form"
+msgstr "Konfiguration av det slumpmässiga urvalet av frågor"
+
+msgid "tst_rnd_quest_set_cfg_pool_form"
+msgstr "Regler för urval av frågor"
+
+msgid "tst_rnd_quest_set_tb_add_pool_btn"
+msgstr "Lägg till regel för val av fråga"
+
+msgid "tst_save_and_create_new_rule"
+msgstr "Spara och lägg till ny regel"
+
+msgid "tst_save_and_proceed"
+msgstr "Spara och gå vidare"
+
+msgid "tst_save_comp_points"
+msgstr "Spara kompetenspoäng"
+
+msgid "tst_save_manscoring_failed"
+msgstr "Den manuella bedömningen för testkörning %s kunde inte sparas."
+
+msgid "tst_save_thresholds"
+msgstr "Spara tröskelvärden"
+
+msgid "tst_saved_manscoring_by_question_successfully"
+msgstr "Den manuella bedömningen av fråga %s för testkörning %s sparades framgångsrikt."
+
+msgid "tst_saved_manscoring_successfully"
+msgstr "Den manuella bedömningen för testkörning %s av %s sparades framgångsrikt."
+
+msgid "tst_score_cut_question"
+msgstr "Resultatet av en fråga kan aldrig vara mindre än 0 poäng."
+
+msgid "tst_score_cut_question_desc"
+msgstr "Vid tilldelning av minuspoäng för enskilda svarsalternativ kan minuspoäng uppnås genom att svara fel på en fråga. Med detta alternativ sätts de minuspoäng som uppnås per fråga till 0 poäng."
+
+msgid "tst_score_cut_test"
+msgstr "En fråga kan också ha en negativ poäng."
+
+msgid "tst_score_cut_test_desc"
+msgstr "Minuspoäng kan erhållas per fråga. Poängen för alla frågor läggs ihop och endast om denna summa fortfarande är negativ, sätts det totala resultatet av testet till 0 poäng. Helt eller delvis felaktigt besvarade frågor väger därför mycket tungt."
+
+msgid "tst_score_cutting"
+msgstr "Negativa punkter"
+
+msgid "tst_search_users"
+msgstr "Sök efter deltagare"
+
+msgid "tst_select_questionpool"
+msgstr "Välj en frågepool där du kommer att lagra den skapade frågan!"
+
+msgid "tst_selected_user_data_deleted"
+msgstr "Testdata för de valda användarna har raderats framgångsrikt."
+
+msgid "tst_sequence_properties"
+msgstr "Utförande"
+
+msgid "tst_set_offline_due_to_switched_question_set_type_setting"
+msgstr "Testet har satts offline eftersom inställningen för val av testfrågor har ändrats. Tilldela frågor till testet igen. Du kan sedan sätta testet online igen."
+
+#, fuzzy
+msgid "tst_settings_conflict_postpone_and_lock"
+msgstr "\"Unanswered questions will be enqueued\" cannot be used together with \"Lock Answers After Moving to Next Question\"."
+
+#, fuzzy
+msgid "tst_settings_conflict_shuffle_and_lock"
+msgstr "\"Shuffle Questions\" cannot be used together with \"Lock Answers After Moving to Next Question\"."
+
+#, fuzzy
+msgid "tst_settings_form_reload_needed"
+msgstr "The form needed to be reloaded to avoid data loss as the available settings have changed due to the removal of all results of participants."
+
+#, fuzzy
+msgid "tst_settings_header_additional"
+msgstr "Additional Features"
+
+msgid "tst_settings_header_execution"
+msgstr "Utförande"
+
+msgid "tst_settings_header_intro"
+msgstr "Information om hur du kommer igång"
+
+msgid "tst_settings_header_test_run"
+msgstr "Utförande"
+
+#, fuzzy
+msgid "tst_settings_not_found"
+msgstr "Missing Test Settings"
+
+#, fuzzy
+msgid "tst_settings_not_found_msg"
+msgstr "Test Settings could not found. This may be due to a missing migration step. Please contact your system administrator."
+
+msgid "tst_show_answer_sheet"
+msgstr "Visa översikt över svar"
+
+msgid "tst_show_cancel"
+msgstr "Display \"Avbrottstest"
+
+msgid "tst_show_cancel_description"
+msgstr "Visar en knapp under testet som kan användas för att avbryta testet. Uppmärksamhet"
+
+msgid "tst_show_comp_results"
+msgstr "Kompetensresultat"
+
+msgid "tst_show_results"
+msgstr "Testresultat"
+
+msgid "tst_show_side_list"
+msgstr "Frågelista till"
+
+msgid "tst_show_solution_answers_only"
+msgstr "Skriv ut resultaten (endast svar)"
+
+msgid "tst_show_solution_answers_only_desc"
+msgstr "Om \"Skriv ut resultat (endast svar)\" är markerat, kommer ILIAS-innehåll som du kan placera före och efter den faktiska frågetexten via fliken \"Redigera innehåll\" i frågorna inte att visas i en utskrift."
+
+msgid "tst_show_solution_details_singlepage"
+msgstr "Relaterade svar på enskilda sidor"
+
+msgid "tst_show_solution_details_singlepage_desc"
+msgstr "Deltagarna kan ringa upp varje fråga individuellt och se om deras svar var korrekta och hur många poäng de fick."
+
+msgid "tst_show_solution_feedback"
+msgstr "Tillbaka"
+
+msgid "tst_show_solution_feedback_desc"
+msgstr "Om feedback på de givna svaren har deponerats med frågan kommer den att visas. Du måste aktivera alternativet \"Betygsatta svar som lista\" och/eller \"Betygsatta svar på enskilda sidor\" för att kunna använda denna funktion."
+
+msgid "tst_show_solution_printview"
+msgstr "Utskrivbar lista med svar"
+
+msgid "tst_show_solution_printview_desc"
+msgstr "När du har klickat på \"Avsluta testet\" visas ytterligare en flik \"Utvärderade svar\" på fliken \"Resultat\". Här visas deltagarnas svar på de enskilda testfrågorna."
+
+msgid "tst_show_solution_signature"
+msgstr "Planshållare för signatur"
+
+msgid "tst_show_solution_signature_desc"
+msgstr "Om alternativet \"Visa detaljerade testresultat\" eller \"Utskrivbar lista över svar\" är aktiverat, infogar ILIAS också ett signaturfält i utskriften. Den person som utförde testet kan signera i detta fält."
+
+msgid "tst_show_solution_suggested"
+msgstr "Innehåll för repetition"
+
+msgid "tst_show_solution_suggested_desc"
+msgstr "Om frågorna i testet har tilldelats innehåll för att gå igenom materialet visas detta. Du måste aktivera alternativet \"Visa detaljerade testresultat\" för att kunna använda denna funktion. Deltagarna kan därmed täppa till eventuella luckor i sina kunskape"
+
+msgid "tst_show_summary"
+msgstr "Visa frågelista och redigeringsstatus"
+
+msgid "tst_show_summary_description"
+msgstr "Deltagarna kan visa en lista med frågor till vänster om testfrågorna. Med knappen \"Bearbetningsstatus\" får deltagarna fram en översikt som visar vilka frågor de redan har bearbetat eller markerat. Du kan ytterligare konfigurera beteendet för översikten \""
+
+msgid "tst_show_toplist"
+msgstr "Placering"
+
+msgid "tst_shuffle_questions"
+msgstr "Mix frågor"
+
+msgid "tst_shuffle_questions_description"
+msgstr "Ordningen på frågorna kommer att ändras per deltagare och per testkörning."
+
+msgid "tst_signature"
+msgstr "Signatur"
+
+msgid "tst_single_answer_details"
+msgstr "Visa ett enda svar"
+
+msgid "tst_skill_triggerings_num_req_answers"
+msgstr "Nödvändigt antal svar för kompetensundersökningar"
+
+msgid "tst_skill_triggerings_num_req_answers_desc"
+msgstr "Kompetens samlas endast in när minst detta antal svar bidrar till beräkningen av kompetensnivån."
+
+msgid "tst_skill_triggerings_num_req_answers_not_reached_warn"
+msgstr "Minst en kompetens som tas upp i testet har inte tilldelats ett tillräckligt antal frågor. För dessa kompetenser registreras inga kompetensposter för deltagarna.<br />Minsta antal tilldelade frågor"
+
+msgid "tst_skl_level_thresholds_link"
+msgstr "Konfigurera tröskelvärden för kompetens"
+
+msgid "tst_skl_level_thresholds_missing"
+msgstr "Tröskelvärden har ännu inte definierats för alla relevanta kompetenser!"
+
+msgid "tst_skl_sub_tab_thresholds"
+msgstr "Tröskelvärden för kompetens"
+
+msgid "tst_sol_comp_expressions"
+msgstr "Jämförelse av uttryck"
+
+msgid "tst_solution_compare_cfg"
+msgstr "Konfiguration för jämförelse av svar"
+
+msgid "tst_source_question_pool"
+msgstr "Frågepool"
+
+msgid "tst_src_quest_pool_def_list_table"
+msgstr "Regler för slumpmässigt urval av frågor"
+
+msgid "tst_start_dyn_test_with_cur_quest_sel"
+msgstr "Starta testet med aktuellt frågeval"
+
+msgid "tst_start_new_test_pass"
+msgstr "Starta en ny testkörning"
+
+msgid "tst_start_test"
+msgstr "Starta test"
+
+msgid "tst_starting_time"
+msgstr "Start"
+
+msgid "tst_starting_time_desc"
+msgstr "Tid från vilken testet kan startas. Från och med nu är det möjligt att klicka på knappen \"Starta test\" och deltagarna kan svara på frågor."
+
+msgid "tst_stat_result_atimeofwork"
+msgstr "Genomsnittlig bearbetningstid"
+
+msgid "tst_stat_result_firstvisit"
+msgstr "Första samtal"
+
+msgid "tst_stat_result_lastvisit"
+msgstr "Sista samtal"
+
+msgid "tst_stat_result_mark_median"
+msgstr "Note tilldelad medianen"
+
+msgid "tst_stat_result_median"
+msgstr "Median av testresultatets poängsatta poäng"
+
+msgid "tst_stat_result_pworkedthrough"
+msgstr "Percentage (fullständigt redigerad)"
+
+msgid "tst_stat_result_qmax"
+msgstr "Totalt antal frågor"
+
+msgid "tst_stat_result_qworkedthrough"
+msgstr "Frågor som redan besvarats"
+
+msgid "tst_stat_result_rank_median"
+msgstr "Rank tilldelad medianen"
+
+msgid "tst_stat_result_rank_participant"
+msgstr "Rank av deltagaren"
+
+msgid "tst_stat_result_resultsmarks"
+msgstr "Testresultat som klass"
+
+msgid "tst_stat_result_resultspoints"
+msgstr "Testresultat i punkter"
+
+msgid "tst_stat_result_timeontask"
+msgstr "Bearbetningstid"
+
+msgid "tst_stat_result_total_participants"
+msgstr "Totalt antal deltagare"
+
+#, fuzzy
+msgid "tst_stat_result_total_timeontask"
+msgstr "Total Time On Task (All Test Attempts)"
+
+msgid "tst_submit_results"
+msgstr "YES, jag bekräftar härmed att mina svar har skickats"
+
+msgid "tst_tab_competences"
+msgstr "Kompetens"
+
+msgid "tst_tab_results_objective_oriented"
+msgstr "Testresultat i enlighet med inlärningsmål"
+
+msgid "tst_tab_results_pass_oriented"
+msgstr "Testresultat efter tester"
+
+msgid "tst_tbl_col_answered_questions"
+msgstr "Frågor besvarade"
+
+msgid "tst_tbl_col_final_mark"
+msgstr "Note"
+
+msgid "tst_tbl_col_finished_passes"
+msgstr "Avslutade körningar"
+
+msgid "tst_tbl_col_finished_passes_num_of"
+msgstr "%s från %s"
+
+msgid "tst_tbl_col_last_scored_access"
+msgstr "Sista utvärderade tillgång"
+
+msgid "tst_tbl_col_pass_finished"
+msgstr "Run avslutad"
+
+msgid "tst_tbl_col_passed_status"
+msgstr "Rating"
+
+msgid "tst_tbl_col_percent_result"
+msgstr "Resultat"
+
+msgid "tst_tbl_col_reached_points"
+msgstr "Antal uppnådda poäng"
+
+msgid "tst_tbl_col_scored_pass"
+msgstr "Värderad körning"
+
+msgid "tst_tbl_col_started_passes"
+msgstr "Startade körningar"
+
+msgid "tst_tbl_invited_users"
+msgstr "Utvalda deltagare"
+
+msgid "tst_tbl_participants"
+msgstr "Deltagare"
+
+msgid "tst_tbl_results_grades"
+msgstr "Resultat och betyg"
+
+msgid "tst_test_result"
+msgstr "Testresultat"
+
+msgid "tst_text_count_system"
+msgstr "Bedömningsregel"
+
+msgid "tst_threshold"
+msgstr "Tröskelvärde (i %)"
+
+msgid "tst_time_already_spent"
+msgstr "Du har startat testet"
+
+msgid "tst_time_already_spent_left"
+msgstr "Du är kvar med %s"
+
+#, fuzzy
+msgid "tst_time_limit_message"
+msgstr "You will have <b>%s minutes</b> to answer all questions."
+
+msgid "tst_title_output"
+msgstr "Display av frågornas rubriker"
+
+msgid "tst_title_output_full"
+msgstr "Frågetitlar och uppnåbara punkter"
+
+msgid "tst_title_output_hide_points"
+msgstr "Endast titel på fråga"
+
+#, fuzzy
+msgid "tst_title_output_info"
+msgstr "Set which combination of question titles and/or points available should be visible to participants while they are taking the test and within the test attempt overview (see below)."
+
+msgid "tst_title_output_no_title"
+msgstr "Varken frågetitel eller uppnåeliga punkter"
+
+#, fuzzy
+msgid "tst_title_output_only_points"
+msgstr "Only Available Points"
+
+msgid "tst_trigger_result_refreshing"
+msgstr "Resultatet beräknas på nytt. Detta kan ta en stund."
+
+msgid "tst_type"
+msgstr "Testa typ"
+
+msgid "tst_unchanged_answer_is_correct"
+msgstr "Det angivna svaret är korrekt."
+
+msgid "tst_unchanged_order_is_correct"
+msgstr "Det givna arrangemanget är korrekt."
+
+msgid "tst_use_previous_answers"
+msgstr "Använda tidigare lösningar"
+
+msgid "tst_use_previous_answers_description"
+msgstr "Visar deltagarna svaren från föregående testkörning. Alternativet måste aktiveras av deltagaren via en kryssruta på fliken \"Info\" innan testet påbörjas."
+
+msgid "tst_user_finished_test"
+msgstr "En deltagare har avslutat testet (%s)"
+
+msgid "tst_view_competence_assign"
+msgstr "Visa egenskaper för tilldelning"
+
+msgid "tst_virtual_pass_header_lo_initial"
+msgstr "Establishment-resultat för lärandemålet<br />%s"
+
+msgid "tst_virtual_pass_header_lo_qualifying"
+msgstr "Kvalificerande resultat för lärandemålet<br />%s"
+
+msgid "tst_wf_info_answer_adopted_from_prev_pass"
+msgstr "Ditt svar från ett tidigare försök har tagits över."
+
+msgid "tst_wf_info_answer_not_adopted"
+msgstr "Inget svar hämtades från tidigare försök. Därför måste du arbeta med den här frågan, annars kommer ditt resultat för lärandemålet att försämras."
+
+msgid "tst_wf_info_optional_question"
+msgstr "Den här frågan hör till ett inlärningsmål som redan har uppnåtts."
+
+msgid "tst_your_answer_was"
+msgstr "Du har gett följande svar"
+
+msgid "tst_your_answers"
+msgstr "Det här är svaren du gav på följande frågor. Kontrollera dina svar och skicka sedan in dem."
+
+msgid "un_add_category"
+msgstr "Lägg till kategori"
+
+msgid "un_add_unit"
+msgstr "Lägg till enhet"
+
+msgid "un_cat_deletion_errors_f"
+msgstr "Följande kategorier kan inte raderas"
+
+msgid "un_cat_deletion_errors_f_s"
+msgstr "Följande kategori kan inte raderas"
+
+msgid "un_cat_deletion_errors_p"
+msgstr "Följande kategorier kunde inte raderas"
+
+msgid "un_cat_deletion_errors_p_s"
+msgstr "Följande kategori kunde inte tas bort"
+
+msgid "un_category_not_exist"
+msgstr "Den begärda kategorin finns inte."
+
+msgid "un_deleted_categories"
+msgstr "De valda kategorierna har raderats framgångsrikt."
+
+msgid "un_deleted_categories_s"
+msgstr "Den valda kategorin har raderats framgångsrikt."
+
+msgid "un_deleted_units"
+msgstr "De valda enheterna har raderats framgångsrikt."
+
+msgid "un_deleted_units_s"
+msgstr "Den valda enheten har raderats framgångsrikt."
+
+msgid "un_global_units"
+msgstr "Globala enheter"
+
+msgid "un_local_units"
+msgstr "Lokala enheter"
+
+msgid "un_save_order"
+msgstr "Spara sekvens"
+
+msgid "un_sel_cat_sel_unit"
+msgstr "Vald kategori"
+
+msgid "un_sequence"
+msgstr "Beställ"
+
+msgid "un_show_units"
+msgstr "Visa enheter"
+
+msgid "un_sure_delete_categories"
+msgstr "Är du säker på att du vill radera de valda kategorierna?"
+
+msgid "un_sure_delete_categories_s"
+msgstr "Är du säker på att du vill ta bort den valda kategorin?"
+
+msgid "un_sure_delete_units"
+msgstr "Är du säker på att du vill ta bort de valda enheterna?"
+
+msgid "un_sure_delete_units_s"
+msgstr "Är du säker på att du vill ta bort den valda enheten?"
+
+msgid "un_unit_deletion_errors_f"
+msgstr "Följande enheter kan inte raderas"
+
+msgid "un_unit_deletion_errors_f_s"
+msgstr "Följande enhet kan inte raderas"
+
+msgid "un_unit_deletion_errors_p"
+msgstr "Följande enheter kunde inte raderas"
+
+msgid "un_unit_deletion_errors_p_s"
+msgstr "Följande enhet kunde inte tas bort"
+
+msgid "un_units_of_category_x"
+msgstr "Antal enheter i kategorin"
+
+msgid "unfinished_passes"
+msgstr "Oavslutad testkörning"
+
+msgid "unit"
+msgstr "Enhet"
+
+msgid "unit_placeholder"
+msgstr "** Ny enhet **"
+
+msgid "units"
+msgstr "Antal enheter"
+
+msgid "unlimited"
+msgstr "obegränsad"
+
+msgid "unlock"
+msgstr "Lås upp"
+
+#, fuzzy
+msgid "updated"
+msgstr "Updated"
+
+msgid "uploaded_material"
+msgstr "Uppladdade material"
+
+msgid "use_previous_solution"
+msgstr "Använd tidigare lösning"
+
+msgid "use_previous_solution_advice"
+msgstr "Lösningen som visas har tidigare lämnats in av dig. Du måste bekräfta antagandet av denna lösning under frågan om du vill anta lösningen utan ändringar."
+
+msgid "user_has_finished_a_test"
+msgstr "En deltagare har avslutat ett test."
+
+#, fuzzy
+msgid "user_ip_outside_range"
+msgstr "You are not allowed to start the test from this IP address."
+
+msgid "user_not_invited"
+msgstr "Du är inte en deltagare i provet."
+
+#, fuzzy
+msgid "usr_manscoring_complete"
+msgstr "Marke as 'scored'"
+
+msgid "value_between_x_and_y"
+msgstr "Värdet måste vara mellan %s och %s"
+
+msgid "values"
+msgstr "Värderingar"
+
+#, fuzzy
+msgid "variable"
+msgstr "Variable"
+
+msgid "variable_x"
+msgstr "Variabel %s"
+
+msgid "variables"
+msgstr "Variabler"
+
+msgid "wait_for_next_pass_hint_msg"
+msgstr "Förnyelse möjlig från följande tidpunkt"
+
+msgid "warning_question_not_complete"
+msgstr "Frågan är ofullständig!"
+
+msgid "width"
+msgstr "Bredd"
+
+#, fuzzy
+msgid "with_solution"
+msgstr "Participants with solution"
+
+msgid "with_solutions_participants"
+msgstr "Deltagare med svar"
+
+#, fuzzy
+msgid "without_solution"
+msgstr "Participants without solution"
+
+msgid "without_solutions_participants"
+msgstr "Deltagare utan svar"
+
+msgid "worked_through"
+msgstr "Editerad"
+
+msgid "working_time"
+msgstr "Bearbetningstid"
+
+msgid "you_received_a_of_b_points"
+msgstr "Du har uppnått %s av %s möjliga poäng."
+
+#, fuzzy
+msgid "your_results"
+msgstr "Your Results"
