@@ -91,7 +91,7 @@ class PagesRetrieval implements RetrievalInterface
                 "active" => $active,
                 "scheduled" => $scheduled,
                 "deactivated_elements" => $active &&
-                    \ilLMPage::_lookupContainsDeactivatedElements($id, $this->lm_type),
+                    $this->page_manager->lookupContainsDeactivatedElements($id, $this->lm_type),
                 "layout" => $this->layout_per_page
                     ? \ilLMObject::lookupLayout($id)
                     : ""

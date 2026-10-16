@@ -69,7 +69,7 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
                 if (!$active) {
                     $a_name = "standard/icon_pg_d" . $img_sc . ".svg";
                 } else {
-                    $contains_dis = ilLMPage::_lookupContainsDeactivatedElements(
+                    $contains_dis = $this->page_manager->lookupContainsDeactivatedElements(
                         $a_node["child"],
                         $this->lm->getType()
                     );
@@ -106,7 +106,7 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
             if (!$active) {
                 return $lng->txt("cont_page_deactivated");
             } else {
-                $contains_dis = ilLMPage::_lookupContainsDeactivatedElements(
+                $contains_dis = $this->page_manager->lookupContainsDeactivatedElements(
                     $a_node["child"],
                     $this->lm->getType()
                 );

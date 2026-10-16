@@ -57,6 +57,14 @@ class ilUnitTestPageManager implements \ILIAS\COPage\Page\PageManagerInterface
     {
     }
 
+    public function lookupContainsDeactivatedElements(
+        int $page_id,
+        string $parent_type,
+        string $lang = "-"
+    ): bool {
+        return false;
+    }
+
     public function preloadActivationDataByParentId(int $parent_id): void
     {
     }

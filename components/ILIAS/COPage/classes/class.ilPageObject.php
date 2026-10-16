@@ -489,65 +489,6 @@ abstract class ilPageObject
     }
 
     /**
-     * Preload activation data by Parent Id
-     */
-    public static function preloadActivationDataByParentId(int $a_parent_id): void
-    {
-        global $DIC;
-        $DIC->copage()->internal()->domain()->page()->preloadActivationDataByParentId($a_parent_id);
-    }
-
-    /**
-     * lookup activation status
-     */
-    public static function _lookupActive(
-        int $a_id,
-        string $a_parent_type,
-        bool $a_check_scheduled_activation = false,
-        string $a_lang = "-"
-    ): bool {
-        global $DIC;
-        return $DIC->copage()->internal()->domain()->page()->lookupActive(
-            $a_id,
-            $a_parent_type,
-            $a_check_scheduled_activation,
-            $a_lang
-        );
-    }
-
-    /**
-     * Check whether page is activated by time schedule
-     */
-    public static function _isScheduledActivation(
-        int $a_id,
-        string $a_parent_type,
-        string $a_lang = "-"
-    ): bool {
-        global $DIC;
-        return $DIC->copage()->internal()->domain()->page()->isScheduledActivation(
-            $a_id,
-            $a_parent_type,
-            $a_lang
-        );
-    }
-
-    /**
-     * Lookup activation data
-     */
-    public static function _lookupActivationData(
-        int $a_id,
-        string $a_parent_type,
-        string $a_lang = "-"
-    ): array {
-        global $DIC;
-        return $DIC->copage()->internal()->domain()->page()->lookupActivationData(
-            $a_id,
-            $a_parent_type,
-            $a_lang
-        );
-    }
-
-    /**
      * @param string $a_activationstart IL_CAL_DATETIME format
      */
     public function setActivationStart(?string $a_activationstart): void
@@ -1929,36 +1870,6 @@ s     */
     public function getOfflineHandler(): ?object
     {
         return $this->offline_handler;
-    }
-
-    /**
-     * lookup whether page contains deactivated elements
-     */
-    public static function _lookupContainsDeactivatedElements(
-        int $a_id,
-        string $a_parent_type,
-        string $a_lang = "-"
-    ): bool {
-        global $DIC;
-
-        $db = $DIC->database();
-
-        if ($a_lang == "") {
-            $a_lang = "-";
-        }
-
-        $query = "SELECT * FROM page_object WHERE page_id = " .
-            $db->quote($a_id, "integer") . " AND " .
-            " parent_type = " . $db->quote($a_parent_type, "text") . " AND " .
-            " lang = " . $db->quote($a_lang, "text") . " AND " .
-            " inactive_elements = " . $db->quote(1, "integer");
-        $obj_set = $db->query($query);
-
-        if ($obj_rec = $obj_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-            return true;
-        }
-
-        return false;
     }
 
     /**

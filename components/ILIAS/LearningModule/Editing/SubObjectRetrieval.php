@@ -85,7 +85,7 @@ class SubObjectRetrieval implements RetrievalInterface
                 $scheduled = ((bool) $lm_set->get("time_scheduled_page_activation") &&
                     $this->page_manager->isScheduledActivation($child["obj_id"], "lm"));
                 if ($active) {
-                    $deactivated_elements = (\ilLMPage::_lookupContainsDeactivatedElements(
+                    $deactivated_elements = ($this->page_manager->lookupContainsDeactivatedElements(
                         $child["obj_id"],
                         "lm"
                     ));

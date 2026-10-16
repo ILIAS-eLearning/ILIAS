@@ -22,9 +22,6 @@ namespace ILIAS\COPage\Page;
 
 use ILIAS\Repository\Profile\ProfileAdapter;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
 class PageManager implements PageManagerInterface
 {
     protected \ILIAS\COPage\Dom\DomUtil $dom_util;
@@ -70,6 +67,15 @@ class PageManager implements PageManagerInterface
     public function writeActive(int $page_id, string $parent_type, bool $active): void
     {
         $this->repo->writeActive($page_id, $parent_type, $active);
+    }
+
+    public function lookupContainsDeactivatedElements(
+        int $page_id,
+        string $parent_type,
+        string $lang = "-"
+    ): bool {
+        $lang = $lang === "" ? "-" : $lang;
+        return $this->repo->lookupContainsDeactivatedElements($page_id, $parent_type, $lang);
     }
 
     public function preloadActivationDataByParentId(int $parent_id): void

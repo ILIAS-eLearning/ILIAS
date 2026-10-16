@@ -38,6 +38,12 @@ interface PageManagerInterface
 
     public function writeActive(int $page_id, string $parent_type, bool $active): void;
 
+    public function lookupContainsDeactivatedElements(
+        int $page_id,
+        string $parent_type,
+        string $lang = "-"
+    ): bool;
+
     public function preloadActivationDataByParentId(int $parent_id): void;
 
     public function lookupActive(

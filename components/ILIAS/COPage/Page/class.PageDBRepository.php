@@ -93,6 +93,21 @@ class PageDBRepository
         return $record ?: null;
     }
 
+    public function lookupContainsDeactivatedElements(
+        int $page_id,
+        string $parent_type,
+        string $lang
+    ): bool {
+        $set = $this->db->queryF(
+            "SELECT page_id FROM page_object " .
+            "WHERE page_id = %s AND parent_type = %s AND lang = %s " .
+            "AND inactive_elements = %s",
+            ["integer", "text", "text", "integer"],
+            [$page_id, $parent_type, $lang, 1]
+        );
+        return (bool) $this->db->fetchAssoc($set);
+    }
+
     /**
      * @return array{pages: list<array<string, mixed>>, history: list<array<string, mixed>>}
      */
