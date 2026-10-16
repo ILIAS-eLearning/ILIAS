@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+
 class Authentication implements Component\Component
 {
     public function init(
@@ -77,5 +80,9 @@ class Authentication implements Component\Component
             new Authentication\UserSettings\Settings();
         $contribute[\ILIAS\StaticURL\Handler\Handler::class] = static fn() =>
             new \ILIAS\Authentication\StaticUrlHandler();
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'auth'
+        );
     }
 }

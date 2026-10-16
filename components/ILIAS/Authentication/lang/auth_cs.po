@@ -1,0 +1,486 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: auth\n"
+
+msgid "auth_account_code"
+msgstr "Kód"
+
+msgid "auth_account_code_info"
+msgstr "K reaktivaci Vašeho účtu můžete použít kód účtu ILIAS."
+
+msgid "auth_account_code_title"
+msgstr "Kód účtu"
+
+msgid "auth_account_code_used"
+msgstr "Váš účet byl reaktivován. Přihlašte se prosím znovu z důvodu bezpečnosti."
+
+msgid "auth_account_migration"
+msgstr "Nový účet ILIAS"
+
+msgid "auth_account_migration_keep"
+msgstr "Přenést existující uživatelské účty"
+
+msgid "auth_account_migration_name"
+msgstr "Přenesení"
+
+msgid "auth_account_migration_new"
+msgstr "Vytvořit nový uživatelský účet"
+
+msgid "auth_activation_code_success"
+msgstr "Váš účet byl znovu aktivován. Nyní se můžete přihlásit do ILIAS."
+
+msgid "auth_allow_local_info"
+msgstr "Pokud je povoleno lokální ověření na základě databáze ILIAS, je stále možné (s lokálním přihlášením/heslem) pro ty uživatelské účty, jejichž režim ověřování je nastaven na SAML."
+
+msgid "auth_auth_settings"
+msgstr "Nastavení"
+
+#, fuzzy
+msgid "auth_cron_destroy_expired_sessions"
+msgstr "Deletion of Expired Sessions"
+
+#, fuzzy
+msgid "auth_cron_destroy_expired_sessions_desc"
+msgstr "This job deletes expires sessions."
+
+msgid "auth_err_expired"
+msgstr "Vaše relace byla deaktivována z důvodu nečinnosti."
+
+msgid "auth_err_invalid_user_account"
+msgstr "Ověření se nezdařilo z důvodu interního selhání."
+
+msgid "auth_err_ldap_exception"
+msgstr "Ověření se nezdařilo z důvodu interního selhání ověřování (LDAP)."
+
+msgid "auth_info_add"
+msgstr "Tuto volbu použijte, pokud nejste doposud v systému ILIAS registrován. Bude vytvořen nový účet."
+
+msgid "auth_info_migrate"
+msgstr "Pokud máte již v ILIAS účet, vložte jméno uživatele a heslo k přenesení Vašich osobních údajů (E-mail, výsledky testů...)."
+
+msgid "auth_ldap_server_ds"
+msgstr "LDAP-Server"
+
+msgid "auth_login_editor"
+msgstr "Editor přihlašovací stránky"
+
+#, fuzzy
+msgid "auth_odic_scope_info"
+msgstr "In this mask, the standard claims are displayed as a suggestion for a profile data assignment based on the OpenID Connect scopes configured %s. You can adopt this suggestion as an effective profile data assignment by clicking on \"%s\" or make your own adjustments by changing the text fields."
+
+#, fuzzy
+msgid "auth_odic_scope_tab_info"
+msgstr "In this mask you can assign OpenID Connect claims to ILIAS profile data. To do this, enter the scope from which the information should be taken over upon successful authentication in the corresponding text fields for the respective profile date. Activate the corresponding checkbox if the data should also be transferred to an existing ILIAS user account. You can view a list of standard claims %s."
+
+msgid "auth_oidc"
+msgstr "OpenId Connect"
+
+#, fuzzy
+msgid "auth_oidc_configured_scopes"
+msgstr "Pre-fill Scope-based Mapping"
+
+#, fuzzy
+msgid "auth_oidc_discover_scopes"
+msgstr "Perform Scope Auto Discovery"
+
+#, fuzzy
+msgid "auth_oidc_discover_scopes_info"
+msgstr "The automatic scope discovery was performed. Scopes are added to the field \"Additional Scopes\" in the form below. Please define your relevant scopes and save the form afterwards."
+
+#, fuzzy
+msgid "auth_oidc_failed"
+msgstr "Login via OpenID Connect failed"
+
+#, fuzzy
+msgid "auth_oidc_here"
+msgstr "here"
+
+#, fuzzy
+msgid "auth_oidc_login_element_info"
+msgstr "Login to ILIAS via OpenID Connect"
+
+msgid "auth_oidc_mapping_table"
+msgstr "Přiřazení uživatelských údajů ILIAS k atributům OpenId Connect"
+
+msgid "auth_oidc_profile"
+msgstr "Přiřazení údajů o profilu"
+
+#, fuzzy
+msgid "auth_oidc_role_info"
+msgstr "OpenID Connect Attribute::Value (e.g: \"roles::employee\")."
+
+msgid "auth_oidc_role_mapping_table"
+msgstr "Přiřazení rolí ILIAS k atributům OpenId Connect"
+
+msgid "auth_oidc_roles"
+msgstr "Přiřazení rolí"
+
+#, fuzzy
+msgid "auth_oidc_saved_values"
+msgstr "Effective Attribute Mapping"
+
+#, fuzzy
+msgid "auth_oidc_scopes"
+msgstr "Scopes"
+
+msgid "auth_oidc_settings"
+msgstr "Nastavení serveru"
+
+msgid "auth_oidc_settings_activation"
+msgstr "Aktivovat OpenID Connect"
+
+#, fuzzy
+msgid "auth_oidc_settings_additional_scopes"
+msgstr "Additional Scopes"
+
+#, fuzzy
+msgid "auth_oidc_settings_additional_scopes_info"
+msgstr "Standard scopes: address, email, phone, profile"
+
+msgid "auth_oidc_settings_client_id"
+msgstr "ID klienta"
+
+msgid "auth_oidc_settings_custom_session_duration"
+msgstr "Doba relace"
+
+msgid "auth_oidc_settings_custom_session_duration_option"
+msgstr "Vlastní doba relace"
+
+msgid "auth_oidc_settings_custom_session_duration_type"
+msgstr "Nastavení doby relace"
+
+msgid "auth_oidc_settings_default_role"
+msgstr "Přiřazení rolí"
+
+msgid "auth_oidc_settings_default_role_info"
+msgstr "Vyberte globální roli pro nově vytvořeného uživatele ILIAS"
+
+#, fuzzy
+msgid "auth_oidc_settings_default_scopes"
+msgstr "Default Scope"
+
+#, fuzzy
+msgid "auth_oidc_settings_discovery_error"
+msgstr "Retrieving the Discovery URL failed with: %s"
+
+#, fuzzy
+msgid "auth_oidc_settings_discovery_url"
+msgstr "Discovery URL of the provider"
+
+msgid "auth_oidc_settings_img"
+msgstr "Obrázek"
+
+msgid "auth_oidc_settings_img_file_info"
+msgstr "Nahrajte obrázek, který se má zobrazit na přihlašovací stránce. Obrázek automaticky odkazuje na přihlašovací skript OpenId Connect."
+
+#, fuzzy
+msgid "auth_oidc_settings_invalid_scopes"
+msgstr "The following values are not valid Scopes: %s"
+
+msgid "auth_oidc_settings_le"
+msgstr "Zobrazení přihlašovací stránky"
+
+msgid "auth_oidc_settings_login_option_default"
+msgstr "Nevynutit přihlášení"
+
+msgid "auth_oidc_settings_login_option_default_info"
+msgstr "Není nutné přihlášení k serveru OpenId Connect, když již existuje platná relace."
+
+msgid "auth_oidc_settings_login_option_enforce"
+msgstr "Vynutit přihlášení"
+
+msgid "auth_oidc_settings_login_option_enforce_info"
+msgstr "Přihlášení k serveru OpenId Connect je nutné v každém případě - i když již existuje platná relace."
+
+msgid "auth_oidc_settings_login_options"
+msgstr "Možnosti přihlášení"
+
+msgid "auth_oidc_settings_logout_scope"
+msgstr "Jednání při odhlášení"
+
+msgid "auth_oidc_settings_logout_scope_global"
+msgstr "Globální odhlášení"
+
+msgid "auth_oidc_settings_logout_scope_global_info"
+msgstr "Je-li aktivováno, je při odhlášení ukončena jak relace OpenId Connect, tak také relace systému ILIAS."
+
+msgid "auth_oidc_settings_logout_scope_local"
+msgstr "odhlásit jen v ILIAS"
+
+msgid "auth_oidc_settings_logout_scope_local_info"
+msgstr "Je-li aktivováno, je při odhlášení ukončena jen relace ILIAS."
+
+msgid "auth_oidc_settings_provider"
+msgstr "URL poskytovatele"
+
+msgid "auth_oidc_settings_secret"
+msgstr "Klíč klienta"
+
+msgid "auth_oidc_settings_section_user_sync"
+msgstr "Nastavení synchronizace uživatelů"
+
+msgid "auth_oidc_settings_session_duration"
+msgstr "Trvání"
+
+msgid "auth_oidc_settings_title"
+msgstr "Konfigurace ověření OpenID Connect"
+
+msgid "auth_oidc_settings_txt"
+msgstr "Text"
+
+msgid "auth_oidc_settings_txt_val_info"
+msgstr "Napište text, který se má zobrazit na přihlašovací stránce. Text automaticky odkazuje na přihlašovací skript OpenId Connect."
+
+msgid "auth_oidc_settings_user_attr"
+msgstr "Název atributu průchodu uživatele"
+
+msgid "auth_oidc_settings_user_sync"
+msgstr "Automatická synchronizace"
+
+msgid "auth_oidc_settings_user_sync_info"
+msgstr "Je-li aktivována, je pro uživatele, kteří byli úspěšně ověřeni v Open ID Connect, ale nemají uživatelský účet ILIAS, automaticky vytvořen nový uživatelský účet."
+
+#, fuzzy
+msgid "auth_oidc_settings_validate_scope_custom"
+msgstr "Use custom OpenID Connect Discovery url"
+
+#, fuzzy
+msgid "auth_oidc_settings_validate_scope_default"
+msgstr "Use :Provider-URL:/.well-known/openid-configuration"
+
+#, fuzzy
+msgid "auth_oidc_settings_validate_scope_none"
+msgstr "Do not validate Scopes on saving"
+
+#, fuzzy
+msgid "auth_oidc_settings_validate_scopes"
+msgstr "Validate Scopes upon saving"
+
+msgid "auth_oidc_update_field_info"
+msgstr "Automatické aktualizace"
+
+msgid "auth_oidc_update_role_info"
+msgstr "Použít jen při prvním přihlášení (automatická synchronizace)"
+
+msgid "auth_oidconnect"
+msgstr "OpenID Connect"
+
+#, fuzzy
+msgid "auth_page_type_auth"
+msgstr "Login Page"
+
+#, fuzzy
+msgid "auth_required_password"
+msgstr "Please enter a password."
+
+#, fuzzy
+msgid "auth_required_username"
+msgstr "Please enter a username."
+
+msgid "auth_saml_add_idp_btn"
+msgstr "Přidat nového poskytovatele identity"
+
+msgid "auth_saml_add_idp_md_error"
+msgstr "Uvedená hodnota nebyla platným dokumentem XML. Ujistěte se, že XML obsahuje platného poskytovatele identity."
+
+msgid "auth_saml_add_idp_md_info"
+msgstr "Pro poskytovatele identity zadejte metadata ve formátu XML."
+
+msgid "auth_saml_add_idp_md_label"
+msgstr "SAML metadata poskytovatele identity"
+
+msgid "auth_saml_configure"
+msgstr "Konfigurovat ověření SAML"
+
+msgid "auth_saml_configure_idp"
+msgstr "Konfigurovat SAML IDP: %s"
+
+msgid "auth_saml_deleted_idp"
+msgstr "Poskytovatel identity byl smazán."
+
+msgid "auth_saml_enable"
+msgstr "Povolit podporu SAML"
+
+#, fuzzy
+msgid "auth_saml_err_sqlite_driver"
+msgstr "The SAML authentication requires the SQLite driver for PHP. Please install the SQLite package and try again."
+
+msgid "auth_saml_idp"
+msgstr "IDP"
+
+#, fuzzy
+msgid "auth_saml_idp_deactivated_auth_failed"
+msgstr "Authentication failed, the identity provider is disabled."
+
+msgid "auth_saml_idp_selection_table_desc"
+msgstr "Vyberte poskytovatele identity, s nímž se chcete přihlásit."
+
+msgid "auth_saml_idp_selection_table_title"
+msgstr "Výběr poskytovatele identity"
+
+msgid "auth_saml_idp_settings"
+msgstr "Nastavení IDP"
+
+msgid "auth_saml_idps"
+msgstr "Seznam SAML IDL"
+
+msgid "auth_saml_idps_info"
+msgstr "Zkontrolujte a upravte konfiguraci SimpleSAMLphp v '<strong>%s</strong>' a '<strong>%s</strong>' (externí datový adresář). Přečtěte si návod pro další vysvětlení %s."
+
+msgid "auth_saml_login_form"
+msgstr "Tlačítko na přihlašovací stránce"
+
+msgid "auth_saml_login_form_info"
+msgstr "Je-li aktivováno a je aktivní alespoň jedno aktivní IDP, objeví se tlačítko na přihlašovací stránce. Kliknutím na toto tlačítko se spustí požadavek SAML."
+
+msgid "auth_saml_migration"
+msgstr "Migrace účtu:"
+
+msgid "auth_saml_migration_info"
+msgstr "Aktivujte tuto možnost, pokud chcete, aby měli noví uživatelé možnost migrovat své stávající účty ILIAS na ověření SAML."
+
+msgid "auth_saml_role_select"
+msgstr "Role:"
+
+msgid "auth_saml_sure_delete_idp"
+msgstr "Opravdu chcete odstranit vybraného poskytovatele identity? Nelze to zrušit. Ovlivněné uživatelské účty budou přepnuty na výchozí ověření."
+
+msgid "auth_saml_sync"
+msgstr "Synchronizace uživatele"
+
+msgid "auth_saml_sync_info"
+msgstr "Je-li povolena, nové uživatelské účty budou automaticky vytvořeny po úspěšném ověření.  Kromě toho budou existující uživatelské účty dále upraveny podle definovaných pravidel mapování uživatelského profilu."
+
+msgid "auth_saml_uid_claim"
+msgstr "Unikátní atribut pro přiřazování uživatelského účtu"
+
+msgid "auth_saml_uid_claim_info"
+msgstr "Definujte atribut, který ILIAS používá k zjištění, zda se příchozí požadavek na ověření shoduje s existujícím uživatelským účtem ILIAS."
+
+msgid "auth_saml_unknow_idp"
+msgstr "Předaný poskytovatel identity neexistuje."
+
+msgid "auth_saml_update_field_info"
+msgstr "Automaticky aktualizovat"
+
+msgid "auth_saml_user_mapping"
+msgstr "Mapování uživatelského profilu"
+
+msgid "auth_saml_username_claim"
+msgstr "Atribut pro uživatelské jméno"
+
+msgid "auth_saml_username_claim_info"
+msgstr "Definujte atribut, který ILIAS používá pro generování uživatelského jména, které bude viditelné v systému ILIAS."
+
+msgid "auth_sync"
+msgstr "Synchronizace uživatelů"
+
+#, fuzzy
+msgid "destination_after_logout"
+msgstr "Destination After Logout"
+
+#, fuzzy
+msgid "destination_external_ressource"
+msgstr "Show External Ressource"
+
+#, fuzzy
+msgid "destination_external_ressource_url"
+msgstr "External URL"
+
+#, fuzzy
+msgid "destination_internal_ressource"
+msgstr "Show Internal Ressource"
+
+#, fuzzy
+msgid "destination_internal_ressource_ref_id"
+msgstr "Internal Reference Id"
+
+#, fuzzy
+msgid "destination_login_screen"
+msgstr "Show Login Screen"
+
+#, fuzzy
+msgid "destination_login_screen_info"
+msgstr "Make sure that, for example, an SSO is not addressed that leads to immediate login."
+
+#, fuzzy
+msgid "destination_logout_screen"
+msgstr "Show Logout Screen"
+
+#, fuzzy
+msgid "err_auth_ldap_failed"
+msgstr "Authentication failed. Please contact your ILIAS administrator."
+
+msgid "err_auth_saml_failed"
+msgstr "Ověření se nezdařilo. Obraťte se na svého správce systému."
+
+msgid "err_auth_saml_no_ilias_user"
+msgstr "Ověření se nezdařilo. Obraťte se na svého správce systému."
+
+#, fuzzy
+msgid "language_does_not_exist"
+msgstr "The selected language does not exist."
+
+#, fuzzy
+msgid "login_page"
+msgstr "Language of Login-Page"
+
+#, fuzzy
+msgid "login_pages"
+msgstr "Login-Pages"
+
+#, fuzzy
+msgid "logout_behaviour"
+msgstr "Logout Behaviour"
+
+#, fuzzy
+msgid "logout_behaviour_invalid_ref_id"
+msgstr "Please make sure the internal resource id exists and is not in trash"
+
+#, fuzzy
+msgid "logout_behaviour_invalid_url"
+msgstr "The external ressource given is not a valid URL."
+
+#, fuzzy
+msgid "logout_behaviour_ref_id_no_access"
+msgstr "Please make sure the \"Anonymous\" user has access to the defined ressource."
+
+#, fuzzy
+msgid "logout_behaviour_ref_id_valid_status_changed"
+msgstr "The configured internal resource is no longer valid. If the resource has been deleted or access for the \"Anonymous\" user has been restricted, please configure a new valid internal resource. Without a valid configuration, the user will be redirected to the logout screen by default."
+
+#, fuzzy
+msgid "logout_behaviour_settings"
+msgstr "Logout Behaviour Settings"
+
+#, fuzzy
+msgid "logout_editor"
+msgstr "Design Logout-Page"
+
+#, fuzzy
+msgid "logout_page"
+msgstr "Language of Logout-Page"
+
+#, fuzzy
+msgid "logout_pages"
+msgstr "Logout-Pages"
+
+msgid "lti_consumer_inactive"
+msgstr "Uživatel nástroje LTI je vypnutý."
+
+#, fuzzy
+msgid "page_design_activate"
+msgstr "Activate Page Design"
+
+#, fuzzy
+msgid "page_design_deactivate"
+msgstr "Deactivate Page Design"
+
+msgid "saml_tab_head_idp"
+msgstr "IDP"

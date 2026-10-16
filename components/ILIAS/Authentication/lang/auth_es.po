@@ -1,0 +1,435 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: auth\n"
+
+msgid "auth_account_code"
+msgstr "Código"
+
+msgid "auth_account_code_info"
+msgstr "Para reactivar su cuenta puede usar un código de cuenta ILIAS."
+
+msgid "auth_account_code_title"
+msgstr "Código de cuenta"
+
+msgid "auth_account_code_used"
+msgstr "Su cuenta ha sido reactivada. Por favor, inicie sesión de nuevo por razones de seguridad."
+
+msgid "auth_account_migration"
+msgstr "Nueva cuenta ILIAS"
+
+msgid "auth_account_migration_keep"
+msgstr "Migrar cuenta de usuario existente"
+
+msgid "auth_account_migration_name"
+msgstr "Migración"
+
+msgid "auth_account_migration_new"
+msgstr "Crear nueva cuenta de usuario"
+
+msgid "auth_activation_code_success"
+msgstr "Su cuenta ha sido reactivada. Ahora puede iniciar sesión en ILIAS."
+
+msgid "auth_allow_local_info"
+msgstr "Si se activa, el inicio de sesión local contra la base de datos de ILIAS seguirá siendo posible (con usuario/contraseña local) para aquellas cuentas de usuario cuyo modo de autenticación esté configurado como SAML."
+
+msgid "auth_auth_settings"
+msgstr "Ajustes"
+
+msgid "auth_cron_destroy_expired_sessions"
+msgstr "Eliminación de sesiones caducadas"
+
+msgid "auth_cron_destroy_expired_sessions_desc"
+msgstr "Esta tarea elimina las sesiones caducadas."
+
+msgid "auth_err_expired"
+msgstr "Su sesión ha sido desactivada por inactividad."
+
+msgid "auth_err_invalid_user_account"
+msgstr "Error de inicio de sesión. Por favor, compruebe que ha introducido correctamente su nombre de usuario y contraseña. Si el problema persiste, es posible que su cuenta esté inactiva o haya caducado. En ese caso, póngase en contacto con el soporte técnico de su plataforma ILIAS a través del enlace situado en la parte inferior de la pantalla."
+
+msgid "auth_err_ldap_exception"
+msgstr "La autenticación falló debido a un error de autenticación interno (LDAP)."
+
+msgid "auth_info_add"
+msgstr "Elija esta opción si nunca se ha registrado en ILIAS. Se creará una cuenta nueva."
+
+msgid "auth_info_migrate"
+msgstr "Si ya tiene una cuenta en ILIAS, introduzca su nombre de usuario y contraseña para migrar sus datos personales (correo, resultados de exámenes...)."
+
+msgid "auth_ldap_server_ds"
+msgstr "Servidor-LDAP"
+
+msgid "auth_login_editor"
+msgstr "Diseñar página de inicio de sesión"
+
+msgid "auth_odic_scope_info"
+msgstr "En esta máscara, los atributos (claims) estándar se muestran como una sugerencia para una asignación de datos de perfil basada en los alcances (scopes) de OpenID Connect configurados %s. Puede adoptar esta sugerencia como una asignación de datos de perfil efectiva haciendo clic en \"%s\" o realizar sus propios ajustes cambiando los campos de texto."
+
+msgid "auth_odic_scope_tab_info"
+msgstr "En esta máscara puede asignar atributos (claims) de OpenID Connect a los datos de perfil de ILIAS. Para ello, introduzca el alcance (scope) del cual debe tomarse la información tras una autenticación exitosa en los campos de texto correspondientes para el dato de perfil respectivo. Active la casilla correspondiente si los datos también deben transferirse a una cuenta de usuario de ILIAS existente. Puede ver una lista de atributos estándar %s."
+
+msgid "auth_oidc"
+msgstr "OpenID Connect"
+
+msgid "auth_oidc_configured_scopes"
+msgstr "Pre-completar mapeo basado en Scopes"
+
+msgid "auth_oidc_discover_scopes"
+msgstr "Realizar autodescubrimiento de Scopes"
+
+msgid "auth_oidc_discover_scopes_info"
+msgstr "Se ha realizado el autodescubrimiento de alcances (scopes). Los alcances se han añadido al campo \"Alcances adicionales\" en el formulario de abajo. Por favor, defina sus alcances relevantes y guarde el formulario después."
+
+msgid "auth_oidc_failed"
+msgstr "El inicio de sesión mediante OpenID Connect ha fallado"
+
+msgid "auth_oidc_here"
+msgstr "aquí"
+
+msgid "auth_oidc_login_element_info"
+msgstr "Iniciar sesión en ILIAS mediante OpenID Connect"
+
+msgid "auth_oidc_mapping_table"
+msgstr "Mapeo de la información de usuario de ILIAS a atributos de OpenID Connect"
+
+msgid "auth_oidc_profile"
+msgstr "Mapeo de perfil de usuario"
+
+msgid "auth_oidc_role_info"
+msgstr "Atributo de OpenID Connect::Valor (p. ej.: 'roles::employee')."
+
+msgid "auth_oidc_role_mapping_table"
+msgstr "Mapeo de roles de ILIAS a atributos de OpenID Connect."
+
+msgid "auth_oidc_roles"
+msgstr "Asignación de roles"
+
+msgid "auth_oidc_saved_values"
+msgstr "Mapeo de atributos efectivo"
+
+msgid "auth_oidc_scopes"
+msgstr "Alcances (Scopes)"
+
+msgid "auth_oidc_settings"
+msgstr "Configuración del servidor"
+
+msgid "auth_oidc_settings_activation"
+msgstr "Activar OpenID Connect"
+
+msgid "auth_oidc_settings_additional_scopes"
+msgstr "Alcances adicionales"
+
+msgid "auth_oidc_settings_additional_scopes_info"
+msgstr "Alcances estándar: address, email, phone, profile"
+
+msgid "auth_oidc_settings_client_id"
+msgstr "ID de cliente"
+
+msgid "auth_oidc_settings_custom_session_duration"
+msgstr "Duración de la sesión"
+
+msgid "auth_oidc_settings_custom_session_duration_option"
+msgstr "Duración de la propia sesión"
+
+msgid "auth_oidc_settings_custom_session_duration_type"
+msgstr "Configuración de la duración de la sesión"
+
+msgid "auth_oidc_settings_default_role"
+msgstr "Asignación de roles"
+
+msgid "auth_oidc_settings_default_role_info"
+msgstr "Seleccione un rol global para las cuentas de usuario de ILIAS que se crearán para los usuarios que se hayan autenticado mediante OpenID Connect."
+
+msgid "auth_oidc_settings_default_scopes"
+msgstr "Ámbito (Scope) predeterminado"
+
+msgid "auth_oidc_settings_discovery_error"
+msgstr "La recuperación de la URL de descubrimiento falló con: %s"
+
+msgid "auth_oidc_settings_discovery_url"
+msgstr "URL de descubrimiento del proveedor"
+
+msgid "auth_oidc_settings_img"
+msgstr "Imagen"
+
+msgid "auth_oidc_settings_img_file_info"
+msgstr "Suba una imagen que desee que se muestre en la página de inicio de sesión. La imagen se enlazará automáticamente al script de inicio de sesión de OpenID Connect."
+
+msgid "auth_oidc_settings_invalid_scopes"
+msgstr "Los siguientes valores no son ámbitos (scopes) válidos: %s"
+
+msgid "auth_oidc_settings_le"
+msgstr "Presentación visual de la página de inicio de sesión"
+
+msgid "auth_oidc_settings_login_option_default"
+msgstr "Inicio de sesión no obligatorio"
+
+msgid "auth_oidc_settings_login_option_default_info"
+msgstr "No es necesario que los usuarios inicien sesión a través del servidor OpenID Connect si hay una sesión válida en curso."
+
+msgid "auth_oidc_settings_login_option_enforce"
+msgstr "Inicio de sesión obligatorio"
+
+msgid "auth_oidc_settings_login_option_enforce_info"
+msgstr "Los usuarios siempre deben iniciar sesión a través del servidor OpenID Connect, incluso si ya hay una sesión válida en curso."
+
+msgid "auth_oidc_settings_login_options"
+msgstr "Opciones de inicio de sesión"
+
+msgid "auth_oidc_settings_logout_scope"
+msgstr "Opciones de cierre de sesión"
+
+msgid "auth_oidc_settings_logout_scope_global"
+msgstr "Cerrar sesión globalmente"
+
+msgid "auth_oidc_settings_logout_scope_global_info"
+msgstr "Cuando un usuario cierra la sesión, finaliza tanto su sesión de OpenID Connect como su sesión de ILIAS."
+
+msgid "auth_oidc_settings_logout_scope_local"
+msgstr "Cerrar sesión SOLO en ILIAS"
+
+msgid "auth_oidc_settings_logout_scope_local_info"
+msgstr "Cuando un usuario cierra la sesión, solo finaliza su sesión en ILIAS, no su sesión de OpenID Connect."
+
+msgid "auth_oidc_settings_provider"
+msgstr "URL del proveedor"
+
+msgid "auth_oidc_settings_secret"
+msgstr "Clave del cliente (Client Secret)"
+
+msgid "auth_oidc_settings_section_user_sync"
+msgstr "Configuración de sincronización de usuarios"
+
+msgid "auth_oidc_settings_session_duration"
+msgstr "Duración"
+
+msgid "auth_oidc_settings_title"
+msgstr "Configurar autenticación OpenID Connect"
+
+msgid "auth_oidc_settings_txt"
+msgstr "Texto"
+
+msgid "auth_oidc_settings_txt_val_info"
+msgstr "Introduzca un texto para mostrar en la página de inicio de sesión. El texto se enlazará automáticamente al script de inicio de sesión de OpenID Connect."
+
+msgid "auth_oidc_settings_user_attr"
+msgstr "Nombre del atributo de las cuentas de usuario"
+
+msgid "auth_oidc_settings_user_sync"
+msgstr "Sincronizar automáticamente"
+
+msgid "auth_oidc_settings_user_sync_info"
+msgstr "Los usuarios que no tengan una cuenta ILIAS, pero que se hayan autenticado con éxito mediante OpenID Connect, tendrán una cuenta ILIAS creada para ellos automáticamente."
+
+msgid "auth_oidc_settings_validate_scope_custom"
+msgstr "Utilizar URL de descubrimiento de OpenID Connect personalizada"
+
+msgid "auth_oidc_settings_validate_scope_default"
+msgstr "Utilizar [PROVIDER_URL]/.well-known/openid-configuration"
+
+msgid "auth_oidc_settings_validate_scope_none"
+msgstr "No validar ámbitos (scopes) al guardar"
+
+msgid "auth_oidc_settings_validate_scopes"
+msgstr "Validar ámbitos (scopes) al guardar"
+
+msgid "auth_oidc_update_field_info"
+msgstr "Actualizar automáticamente"
+
+msgid "auth_oidc_update_role_info"
+msgstr "Sincronizar automáticamente sólo la primera vez que un usuario inicie sesión."
+
+msgid "auth_oidconnect"
+msgstr "OpenID Connect"
+
+msgid "auth_page_type_auth"
+msgstr "Página de inicio de sesión"
+
+msgid "auth_required_password"
+msgstr "Por favor, introduzca una contraseña."
+
+msgid "auth_required_username"
+msgstr "Por favor, introduzca un nombre de usuario."
+
+msgid "auth_saml_add_idp_btn"
+msgstr "Añadir nuevo Proveedor de Identidad"
+
+msgid "auth_saml_add_idp_md_error"
+msgstr "El valor proporcionado no es un documento XML válido. Asegúrese de que el XML contiene un Proveedor de Identidad válido."
+
+msgid "auth_saml_add_idp_md_info"
+msgstr "Por favor, introduzca los metadatos formateados en XML para el Proveedor de Identidad."
+
+msgid "auth_saml_add_idp_md_label"
+msgstr "Metadatos SAML del Proveedor de Identidad"
+
+msgid "auth_saml_configure"
+msgstr "Configurar autenticación SAML"
+
+msgid "auth_saml_configure_idp"
+msgstr "Configurar IDP SAML: %s"
+
+msgid "auth_saml_deleted_idp"
+msgstr "El Proveedor de Identidad ha sido eliminado."
+
+msgid "auth_saml_enable"
+msgstr "Activar soporte SAML"
+
+msgid "auth_saml_err_sqlite_driver"
+msgstr "La autenticación SAML requiere el controlador SQLite para PHP. Por favor, instale el paquete SQLite e inténtelo de nuevo."
+
+msgid "auth_saml_idp"
+msgstr "IDP"
+
+msgid "auth_saml_idp_deactivated_auth_failed"
+msgstr "La autenticación ha fallado, el proveedor de identidad está desactivado."
+
+msgid "auth_saml_idp_selection_table_desc"
+msgstr "Por favor, seleccione el proveedor de identidad con el que desea iniciar sesión."
+
+msgid "auth_saml_idp_selection_table_title"
+msgstr "Selección de Proveedor de Identidad"
+
+msgid "auth_saml_idp_settings"
+msgstr "Configuración del IDP"
+
+msgid "auth_saml_idps"
+msgstr "Lista de IDP SAML"
+
+msgid "auth_saml_idps_info"
+msgstr "Por favor, compruebe y edite la configuración de SimpleSAMLphp en '<strong>%s</strong>' y '<strong>%s</strong>' (directorio de datos externo). No olvide añadir las rutas a su clave privada y certificado en el archivo authsources.php. Por favor, lea el manual para más explicaciones %s.<br />URL de metadatos de federación: %s"
+
+msgid "auth_saml_login_form"
+msgstr "Botón en la página de inicio de sesión"
+
+msgid "auth_saml_login_form_info"
+msgstr "Si está activado y hay al menos un IDP activo, aparecerá un botón en la página de inicio de sesión. Al hacer clic en este botón se iniciará una solicitud SAML."
+
+msgid "auth_saml_migration"
+msgstr "Migración de cuenta:"
+
+msgid "auth_saml_migration_info"
+msgstr "Active esta opción para dar a los nuevos usuarios la posibilidad de migrar sus cuentas de ILIAS existentes a la autenticación SAML."
+
+msgid "auth_saml_role_select"
+msgstr "Rol:"
+
+msgid "auth_saml_sure_delete_idp"
+msgstr "¿Está seguro de que desea eliminar el Proveedor de Identidad seleccionado? Esto no se puede deshacer. Las cuentas de usuario afectadas se cambiarán a la autenticación predeterminada."
+
+msgid "auth_saml_sync"
+msgstr "Sincronización de usuarios"
+
+msgid "auth_saml_sync_info"
+msgstr "Si se activa, las nuevas cuentas de usuario se crearán automáticamente tras una autenticación exitosa. Además, las cuentas de usuario existentes se modificarán de acuerdo con las reglas de mapeo de perfil de usuario definidas."
+
+msgid "auth_saml_uid_claim"
+msgstr "Atributo único para la coincidencia de cuentas de usuario"
+
+msgid "auth_saml_uid_claim_info"
+msgstr "Defina el atributo que ILIAS utiliza para detectar si una solicitud de autenticación entrante coincide o no con una cuenta de usuario de ILIAS existente."
+
+msgid "auth_saml_unknow_idp"
+msgstr "El Proveedor de Identidad proporcionado no existe."
+
+msgid "auth_saml_update_field_info"
+msgstr "Actualizar automáticamente"
+
+msgid "auth_saml_user_mapping"
+msgstr "Mapeo del perfil de usuario"
+
+msgid "auth_saml_username_claim"
+msgstr "Atributo para el nombre de usuario"
+
+msgid "auth_saml_username_claim_info"
+msgstr "Defina el atributo que utiliza ILIAS para generar el nombre de usuario que será visible en ILIAS."
+
+msgid "auth_sync"
+msgstr "Sincronización de usuarios"
+
+msgid "destination_after_logout"
+msgstr "Destino tras el cierre de sesión"
+
+msgid "destination_external_ressource"
+msgstr "Mostrar recurso externo"
+
+msgid "destination_external_ressource_url"
+msgstr "URL externa"
+
+msgid "destination_internal_ressource"
+msgstr "Mostrar recurso interno"
+
+msgid "destination_internal_ressource_ref_id"
+msgstr "ID de referencia interna"
+
+msgid "destination_login_screen"
+msgstr "Mostrar pantalla de inicio de sesión"
+
+msgid "destination_login_screen_info"
+msgstr "Asegúrese de que, por ejemplo, no se direccione a un SSO que provoque un inicio de sesión inmediato."
+
+msgid "destination_logout_screen"
+msgstr "Mostrar pantalla de cierre de sesión"
+
+msgid "err_auth_ldap_failed"
+msgstr "La autenticación ha fallado. Por favor, póngase en contacto con su administrador de ILIAS."
+
+msgid "err_auth_saml_failed"
+msgstr "La autenticación ha fallado. Por favor, póngase en contacto con su administrador del sistema."
+
+msgid "err_auth_saml_no_ilias_user"
+msgstr "La autenticación ha fallado. Por favor, póngase en contacto con su administrador del sistema."
+
+msgid "language_does_not_exist"
+msgstr "El idioma seleccionado no existe."
+
+msgid "login_page"
+msgstr "Idioma de la página de inicio de sesión"
+
+msgid "login_pages"
+msgstr "Páginas de inicio de sesión"
+
+msgid "logout_behaviour"
+msgstr "Comportamiento al cerrar sesión"
+
+msgid "logout_behaviour_invalid_ref_id"
+msgstr "Asegúrese de que el ID del recurso interno existe y no está en la papelera"
+
+msgid "logout_behaviour_invalid_url"
+msgstr "El recurso externo proporcionado no es una URL válida."
+
+msgid "logout_behaviour_ref_id_no_access"
+msgstr "Asegúrese de que el usuario \"Anónimo\" tiene acceso al recurso definido."
+
+msgid "logout_behaviour_ref_id_valid_status_changed"
+msgstr "El recurso interno configurado ya no es válido. Si el recurso ha sido eliminado o se ha restringido el acceso al usuario \"Anónimo\", configure un nuevo recurso interno válido. Sin una configuración válida, el usuario será redirigido a la pantalla de cierre de sesión por defecto."
+
+msgid "logout_behaviour_settings"
+msgstr "Ajustes del comportamiento al cerrar sesión"
+
+msgid "logout_editor"
+msgstr "Diseñar página de cierre de sesión"
+
+msgid "logout_page"
+msgstr "Idioma de la página de cierre de sesión"
+
+msgid "logout_pages"
+msgstr "Páginas de cierre de sesión"
+
+msgid "lti_consumer_inactive"
+msgstr "El consumidor de herramientas LTI está desactivado."
+
+msgid "page_design_activate"
+msgstr "Activar diseño de página"
+
+msgid "page_design_deactivate"
+msgstr "Desactivar diseño de página"
+
+msgid "saml_tab_head_idp"
+msgstr "IDP"

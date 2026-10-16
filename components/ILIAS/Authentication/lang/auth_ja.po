@@ -1,0 +1,435 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: auth\n"
+
+msgid "auth_account_code"
+msgstr "コード"
+
+msgid "auth_account_code_info"
+msgstr "アカウントを再設定するとILIASアカウントコードを利用できます。"
+
+msgid "auth_account_code_title"
+msgstr "アカウントコード"
+
+msgid "auth_account_code_used"
+msgstr "アカウントが再設定されました。セキュリティー上の理由により再度ログイン願います。"
+
+msgid "auth_account_migration"
+msgstr "新規ILIASのアカウント"
+
+msgid "auth_account_migration_keep"
+msgstr "既存のユーザアカウントを移行"
+
+msgid "auth_account_migration_name"
+msgstr "移行"
+
+msgid "auth_account_migration_new"
+msgstr "新規ユーザアカウントを作成します。"
+
+msgid "auth_activation_code_success"
+msgstr "アカウントは再アクティブにされました。ILIASへログインできます。"
+
+msgid "auth_allow_local_info"
+msgstr "ILIASに対してローカル認証を有効にするとデータベースはそのユーザカウント用に(ローカルログイン/パスワードで)認証モードをSAMLに設定することが可能です。"
+
+msgid "auth_auth_settings"
+msgstr "設定"
+
+msgid "auth_cron_destroy_expired_sessions"
+msgstr "期限切れセッションの削除"
+
+msgid "auth_cron_destroy_expired_sessions_desc"
+msgstr "このジョブは期限切れセッションを削除します"
+
+msgid "auth_err_expired"
+msgstr "使用されていないのでセッションは解除されました。"
+
+msgid "auth_err_invalid_user_account"
+msgstr "内部不良により認証は失敗しました。"
+
+msgid "auth_err_ldap_exception"
+msgstr "内部認証不良(LDAP)により認証は失敗しました。"
+
+msgid "auth_info_add"
+msgstr "ILIASに一度も登録したことがなければオプションを選択。新規アカウントが作成されます。"
+
+msgid "auth_info_migrate"
+msgstr "既にILIASのアカウントがあれば、パーソナルデータ(メール、テスト結果など）を移行するためのユーザ名とパスワードを入力します。"
+
+msgid "auth_ldap_server_ds"
+msgstr "LDAP-Server"
+
+msgid "auth_login_editor"
+msgstr "ログインスクリーンエディタ"
+
+msgid "auth_odic_scope_info"
+msgstr "このマスクでは、標準クレームが、設定された OpenID Connect スコープ %s に基づくプロファイルデータの割り当ての提案として表示されます。「%s」をクリックすることで、この提案を有効なプロファイルデータ割り当てとして採用することができ、またテキストフィールドを変更して独自に調整することも可能です。"
+
+msgid "auth_odic_scope_tab_info"
+msgstr "このマスクでは、OpenID Connect のクレームを ILIAS のプロファイルデータに割り当てることができます。これを行うには、認証が成功した際に情報を取得するスコープを、対応するプロファイルデータ用のテキストフィールドに入力してください。データを既存の ILIAS ユーザーアカウントに転送する場合は、対応するチェックボックスを有効にしてください。標準クレームの一覧は %s で確認できます。"
+
+msgid "auth_oidc"
+msgstr "OpenIdコンテンツ"
+
+msgid "auth_oidc_configured_scopes"
+msgstr "スコープベースのマッピングを事前入力"
+
+msgid "auth_oidc_discover_scopes"
+msgstr "スコープの自動検出を実行"
+
+msgid "auth_oidc_discover_scopes_info"
+msgstr "自動スコープの検出が実行されました。スコープは以下のフォームの「追加スコープ」欄に追加されます。関連するスコープを定義し、フォームを保存してください。"
+
+msgid "auth_oidc_failed"
+msgstr "Login via OpenID Connect 経由のLoginに失敗"
+
+msgid "auth_oidc_here"
+msgstr "ここ"
+
+msgid "auth_oidc_login_element_info"
+msgstr "OpenID Connect経由でILIASへログイン"
+
+msgid "auth_oidc_mapping_table"
+msgstr "ILIASユーザーデータのOpenIdコンテンツ属性への割り当て"
+
+msgid "auth_oidc_profile"
+msgstr "プロファイルデータの割当"
+
+msgid "auth_oidc_role_info"
+msgstr "OpenID Connect Attribute::Value (e.g: \"roles::employee\")"
+
+msgid "auth_oidc_role_mapping_table"
+msgstr "OpenIdコンテンツ属性へのILIAS役割の割り当て"
+
+msgid "auth_oidc_roles"
+msgstr "役割のの割り当て"
+
+msgid "auth_oidc_saved_values"
+msgstr "有効な属性マッピング"
+
+msgid "auth_oidc_scopes"
+msgstr "範囲"
+
+msgid "auth_oidc_settings"
+msgstr "サーバの設定"
+
+msgid "auth_oidc_settings_activation"
+msgstr "OpenIDコンテンツアクティベーション"
+
+msgid "auth_oidc_settings_additional_scopes"
+msgstr "追加の範囲"
+
+msgid "auth_oidc_settings_additional_scopes_info"
+msgstr "標準範囲:アドレス、email、電話番号、プロファイル"
+
+msgid "auth_oidc_settings_client_id"
+msgstr "Client-ID"
+
+msgid "auth_oidc_settings_custom_session_duration"
+msgstr "セッション期間"
+
+msgid "auth_oidc_settings_custom_session_duration_option"
+msgstr "自身のセッション期間"
+
+msgid "auth_oidc_settings_custom_session_duration_type"
+msgstr "セッション期間の設定"
+
+msgid "auth_oidc_settings_default_role"
+msgstr "役割の割り当て"
+
+msgid "auth_oidc_settings_default_role_info"
+msgstr "新しいILIASユーザーのためのグローバル役割を選択してください"
+
+msgid "auth_oidc_settings_default_scopes"
+msgstr "ダフォルトの範囲"
+
+msgid "auth_oidc_settings_discovery_error"
+msgstr "ディスカバリーURLの読込みに失敗: %s"
+
+msgid "auth_oidc_settings_discovery_url"
+msgstr "プロバイダーのDiscovery URL"
+
+msgid "auth_oidc_settings_img"
+msgstr "Bild"
+
+msgid "auth_oidc_settings_img_file_info"
+msgstr "ログインページに表示する写真をアップロードします。画像は自動的にOpenId コンテンツログインスクリプトにリンクします。"
+
+msgid "auth_oidc_settings_invalid_scopes"
+msgstr "次の値には有効な範囲がありません: %s"
+
+msgid "auth_oidc_settings_le"
+msgstr "プレゼンテーションログインページ"
+
+msgid "auth_oidc_settings_login_option_default"
+msgstr "強制的にログオンしない"
+
+msgid "auth_oidc_settings_login_option_default_info"
+msgstr "有効なセッションがすでに存在する場合は、OpenIdコンテンツサーバーにログインする必要はありません。"
+
+msgid "auth_oidc_settings_login_option_enforce"
+msgstr "強制ログイン"
+
+msgid "auth_oidc_settings_login_option_enforce_info"
+msgstr "有効なセッションがすでに存在していても、OpenIdコンテンツサーバーへの登録はいずれの場合でも必要です。"
+
+msgid "auth_oidc_settings_login_options"
+msgstr "ログインオプション"
+
+msgid "auth_oidc_settings_logout_scope"
+msgstr "ログアウト時の動作"
+
+msgid "auth_oidc_settings_logout_scope_global"
+msgstr "グローバルにログアウトする"
+
+msgid "auth_oidc_settings_logout_scope_global_info"
+msgstr "有効にすると、OpenIdコンテンツセッションとILIASセッションの両方がログオフ時に終了します。"
+
+msgid "auth_oidc_settings_logout_scope_local"
+msgstr "ILIASからの退会のみ"
+
+msgid "auth_oidc_settings_logout_scope_local_info"
+msgstr "有効にした場合、ログオフ時にILIASセッションのみが終了します。"
+
+msgid "auth_oidc_settings_provider"
+msgstr "プロバイダー-Url"
+
+msgid "auth_oidc_settings_secret"
+msgstr "クライアントキー。"
+
+msgid "auth_oidc_settings_section_user_sync"
+msgstr "ユーザー同期設定"
+
+msgid "auth_oidc_settings_session_duration"
+msgstr "期間"
+
+msgid "auth_oidc_settings_title"
+msgstr "OpenIDコンテンツ認証を行う。"
+
+msgid "auth_oidc_settings_txt"
+msgstr "Text"
+
+msgid "auth_oidc_settings_txt_val_info"
+msgstr "ログインページに表示されるテキストを入力してください。テキストは自動的にOpenIdコンテンツログインスクリプトにリンクします。"
+
+msgid "auth_oidc_settings_user_attr"
+msgstr "ユーザーアクセスの属性名"
+
+msgid "auth_oidc_settings_user_sync"
+msgstr "自動同期"
+
+msgid "auth_oidc_settings_user_sync_info"
+msgstr "有効にした場合、Open IDコンテンツに対して正常に認証されたがILIASユーザーアカウントを持っていないユーザーは自動的に新しいユーザーアカウントを作成します。"
+
+msgid "auth_oidc_settings_validate_scope_custom"
+msgstr "カスタムOpenID Connect Discovery urlを使用"
+
+msgid "auth_oidc_settings_validate_scope_default"
+msgstr "Use :Provider-URL:/.well-known/openid-configuration"
+
+msgid "auth_oidc_settings_validate_scope_none"
+msgstr "保存のスコープを有効にしない"
+
+msgid "auth_oidc_settings_validate_scopes"
+msgstr "保存に関するスコープを有効化"
+
+msgid "auth_oidc_update_field_info"
+msgstr "自動的に更新します。"
+
+msgid "auth_oidc_update_role_info"
+msgstr "初回ログイン時にのみ使用します（自動同期）"
+
+msgid "auth_oidconnect"
+msgstr "OpenIdコンテンツ"
+
+msgid "auth_page_type_auth"
+msgstr "ログインページ"
+
+msgid "auth_required_password"
+msgstr "パスワードを入力してください。"
+
+msgid "auth_required_username"
+msgstr "ユーザ名を入力してください。"
+
+msgid "auth_saml_add_idp_btn"
+msgstr "新しいIDプロバイダを追加"
+
+msgid "auth_saml_add_idp_md_error"
+msgstr "入力の値は有効なXMLドキュメントではありません。XMLには有効なIDプロバイダが含まれている事を確認してください。"
+
+msgid "auth_saml_add_idp_md_info"
+msgstr "IDプロバイダー用にはXML形式のメタデータであることを確認してください。"
+
+msgid "auth_saml_add_idp_md_label"
+msgstr "IDプロバイダーSAMLメタデータ"
+
+msgid "auth_saml_configure"
+msgstr "SAML認証を構成"
+
+msgid "auth_saml_configure_idp"
+msgstr "SAML IDP: %sを構成"
+
+msgid "auth_saml_deleted_idp"
+msgstr "IDプロバイダーは削除されました。"
+
+msgid "auth_saml_enable"
+msgstr "Enable SAML Support"
+
+msgid "auth_saml_err_sqlite_driver"
+msgstr "SAML認証はPHP用のSQLite ドライバーが必須です。SQLite packageをインストールして再試行してください。"
+
+msgid "auth_saml_idp"
+msgstr "IDP"
+
+msgid "auth_saml_idp_deactivated_auth_failed"
+msgstr "認証に失敗しました。IDプロバイダーが無効になっています"
+
+msgid "auth_saml_idp_selection_table_desc"
+msgstr "ログオンする id プロバイダーを選択してください。"
+
+msgid "auth_saml_idp_selection_table_title"
+msgstr "IDプロバイダー選択"
+
+msgid "auth_saml_idp_settings"
+msgstr "IDP設定"
+
+msgid "auth_saml_idps"
+msgstr "SAML IDPリスト"
+
+msgid "auth_saml_idps_info"
+msgstr " '<strong>%s</strong>' と'<strong>%s</strong>' (外部データディレクトリ)中のSimpleSAMLphp構成を確認してください。詳細説明については%sのマニュアルを読んでください。"
+
+msgid "auth_saml_login_form"
+msgstr "ログインページのボタン"
+
+msgid "auth_saml_login_form_info"
+msgstr "有効にしてどれか一つIDPをアクティブにするとログインページへボタンが表示されます。このボタンをクリックするとSAML要求が開始されます。"
+
+msgid "auth_saml_migration"
+msgstr "アカウント移行"
+
+msgid "auth_saml_migration_info"
+msgstr "既存のILIASアカウントをSAML認証へ移行するための可能性を新しいユーザへ提供するにはこのオプションを有効にする。"
+
+msgid "auth_saml_role_select"
+msgstr "役割"
+
+msgid "auth_saml_sure_delete_idp"
+msgstr "選択のＵＤプロバイダーを本当に削除しますか?やり直しできません。影響するユーザアカウントは初期認証へ切り替わります。"
+
+msgid "auth_saml_sync"
+msgstr "ユーザ同期"
+
+msgid "auth_saml_sync_info"
+msgstr "有効にすると新しいユーザアカウントは認証成功後に自動的に作成されます。さらに、既存のユーザアカウントは定義されたユーザプロファイルマッピングルールに沿って修正されます。"
+
+msgid "auth_saml_uid_claim"
+msgstr "ユーザアカウント合致用のユニークな属性"
+
+msgid "auth_saml_uid_claim_info"
+msgstr "ILIASが受信する認証要求が既存のILIASユーザアカウントに一致するかどうかの検知に使用する属性を定義。"
+
+msgid "auth_saml_unknow_idp"
+msgstr "通過したＩＤプロバイダは存在しません。"
+
+msgid "auth_saml_update_field_info"
+msgstr "自動的に更新"
+
+msgid "auth_saml_user_mapping"
+msgstr "ユーザプロファイルマッピング"
+
+msgid "auth_saml_username_claim"
+msgstr "ユーザ名用の属性"
+
+msgid "auth_saml_username_claim_info"
+msgstr "ILIASへ表示されるユーザ名の生成用にILIASが使用する属性を定義。"
+
+msgid "auth_sync"
+msgstr "ユーザの同期"
+
+msgid "destination_after_logout"
+msgstr "ログアウト後の移動先"
+
+msgid "destination_external_ressource"
+msgstr "外部リソースを表示"
+
+msgid "destination_external_ressource_url"
+msgstr "外部URL"
+
+msgid "destination_internal_ressource"
+msgstr "内部リソースを表示"
+
+msgid "destination_internal_ressource_ref_id"
+msgstr "内部参照ID"
+
+msgid "destination_login_screen"
+msgstr "ログイン画面を表示"
+
+msgid "destination_login_screen_info"
+msgstr "たとえば、即座にログインにつながるSSOに対応しないように注意してください。"
+
+msgid "destination_logout_screen"
+msgstr "ログアウト画面を表示"
+
+msgid "err_auth_ldap_failed"
+msgstr "認証に失敗しました。ILIAS管理書へ連絡して下さい"
+
+msgid "err_auth_saml_failed"
+msgstr "認証に失敗しました。システム管理者へ連絡してください。"
+
+msgid "err_auth_saml_no_ilias_user"
+msgstr "認証に失敗しました。システム管理者へ連絡してください。"
+
+msgid "language_does_not_exist"
+msgstr "選択の言語が存在しません。"
+
+msgid "login_page"
+msgstr "ログインページの言語"
+
+msgid "login_pages"
+msgstr "ログインページ"
+
+msgid "logout_behaviour"
+msgstr "ログアウトのふるまい"
+
+msgid "logout_behaviour_invalid_ref_id"
+msgstr "内部リソースIDが存在し、ゴミ箱に入っていないことを確認してください"
+
+msgid "logout_behaviour_invalid_url"
+msgstr "指定された外部リソースは有効なURLではありません。"
+
+msgid "logout_behaviour_ref_id_no_access"
+msgstr "「匿名」ユーザーが定義されたリソースにアクセスできることを確認してください。"
+
+msgid "logout_behaviour_ref_id_valid_status_changed"
+msgstr "構成された内部リソースはもはや有効ではありません。リソースが削除された場合、または「匿名」ユーザーのアクセスが制限されている場合は、新しい有効な内部リソースを構成してください。有効な構成がない場合、ユーザーはデフォルトでログアウト画面にリダイレクトされます。"
+
+msgid "logout_behaviour_settings"
+msgstr "ログアウトふるまいの設定"
+
+msgid "logout_editor"
+msgstr "ログアウトページデザイン"
+
+msgid "logout_page"
+msgstr "ログアウトページの言語"
+
+msgid "logout_pages"
+msgstr "ログアウトページ"
+
+msgid "lti_consumer_inactive"
+msgstr "LTI tool consumerは無効です。"
+
+msgid "page_design_activate"
+msgstr "ページデザインをアクティブ化"
+
+msgid "page_design_deactivate"
+msgstr "ページデザインを非アクティブ化"
+
+msgid "saml_tab_head_idp"
+msgstr "IDP"

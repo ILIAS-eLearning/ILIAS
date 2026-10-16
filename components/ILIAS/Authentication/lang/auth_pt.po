@@ -1,0 +1,486 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: auth\n"
+
+msgid "auth_account_code"
+msgstr "foi criado o seguinte posting de blog."
+
+msgid "auth_account_code_info"
+msgstr "foi atualizado o seguinte posting de blog."
+
+msgid "auth_account_code_title"
+msgstr "Link para posting de blog"
+
+msgid "auth_account_code_used"
+msgstr "Está a receber este e-mail porque ativou notificações para o blog mencionado acima."
+
+msgid "auth_account_migration"
+msgstr "Para além da lista de ‘Contribuidores’, os utilizadores com uma das seguintes funções podem também adicionar postings: %s"
+
+msgid "auth_account_migration_keep"
+msgstr "Contribuidores de blog"
+
+msgid "auth_account_migration_name"
+msgstr "O posting é retirado e deixa de ser publicado."
+
+msgid "auth_account_migration_new"
+msgstr "Aprovar postings"
+
+msgid "auth_activation_code_success"
+msgstr "A sua conta foi reativada. Pode agora fazer login em ILIAS."
+
+msgid "auth_allow_local_info"
+msgstr "Se estiver ativada, é ainda possível fazer um autenticação local contra a base de dados ILIAS (com um login local/palavra-passe) para essas contas de utilizador, cujo modo de autenticação está definido para SAML."
+
+msgid "auth_auth_settings"
+msgstr "Definições"
+
+#, fuzzy
+msgid "auth_cron_destroy_expired_sessions"
+msgstr "Deletion of Expired Sessions"
+
+#, fuzzy
+msgid "auth_cron_destroy_expired_sessions_desc"
+msgstr "This job deletes expires sessions."
+
+msgid "auth_err_expired"
+msgstr "A sua sessão foi desativada por causa de inatividade."
+
+msgid "auth_err_invalid_user_account"
+msgstr "A autenticação falhou devido a uma falha interna."
+
+msgid "auth_err_ldap_exception"
+msgstr "A autenticação falhou devido a uma falha interna de autenticação (LDAP)."
+
+msgid "auth_info_add"
+msgstr "Os postings são publicados apenas depois de aprovados por um utilizador com permissão ‘Editar definições’ para este blog."
+
+msgid "auth_info_migrate"
+msgstr "Ativar RSS"
+
+msgid "auth_ldap_server_ds"
+msgstr "Servidor LDAP"
+
+msgid "auth_login_editor"
+msgstr "Este blog faz parte da atribuição \"%s\" do exercício \"%s\"."
+
+#, fuzzy
+msgid "auth_odic_scope_info"
+msgstr "In this mask, the standard claims are displayed as a suggestion for a profile data assignment based on the OpenID Connect scopes configured %s. You can adopt this suggestion as an effective profile data assignment by clicking on \"%s\" or make your own adjustments by changing the text fields."
+
+#, fuzzy
+msgid "auth_odic_scope_tab_info"
+msgstr "In this mask you can assign OpenID Connect claims to ILIAS profile data. To do this, enter the scope from which the information should be taken over upon successful authentication in the corresponding text fields for the respective profile date. Activate the corresponding checkbox if the data should also be transferred to an existing ILIAS user account. You can view a list of standard claims %s."
+
+msgid "auth_oidc"
+msgstr "A sua última entrega foi a %s. Verifique o ficheiro de exportação: %s"
+
+#, fuzzy
+msgid "auth_oidc_configured_scopes"
+msgstr "Pre-fill Scope-based Mapping"
+
+#, fuzzy
+msgid "auth_oidc_discover_scopes"
+msgstr "Perform Scope Auto Discovery"
+
+#, fuzzy
+msgid "auth_oidc_discover_scopes_info"
+msgstr "The automatic scope discovery was performed. Scopes are added to the field \"Additional Scopes\" in the form below. Please define your relevant scopes and save the form afterwards."
+
+#, fuzzy
+msgid "auth_oidc_failed"
+msgstr "Login via OpenID Connect failed"
+
+#, fuzzy
+msgid "auth_oidc_here"
+msgstr "here"
+
+#, fuzzy
+msgid "auth_oidc_login_element_info"
+msgstr "Login to ILIAS via OpenID Connect"
+
+msgid "auth_oidc_mapping_table"
+msgstr "Número total de meses apresentados"
+
+msgid "auth_oidc_profile"
+msgstr "Os meses adicionais serão apresentados com o seu número total de postings."
+
+#, fuzzy
+msgid "auth_oidc_role_info"
+msgstr "OpenID Connect Attribute::Value (e.g: \"roles::employee\")."
+
+msgid "auth_oidc_role_mapping_table"
+msgstr "O posting ainda não foi aprovado"
+
+msgid "auth_oidc_roles"
+msgstr "Apenas os postings do mês selecionado é que são apresentados no bloco 'Postings'. O mês pode ser mudado por dropdown."
+
+#, fuzzy
+msgid "auth_oidc_saved_values"
+msgstr "Effective Attribute Mapping"
+
+#, fuzzy
+msgid "auth_oidc_scopes"
+msgstr "Scopes"
+
+msgid "auth_oidc_settings"
+msgstr "O posting está publicado."
+
+msgid "auth_oidc_settings_activation"
+msgstr "Desativar notificação"
+
+#, fuzzy
+msgid "auth_oidc_settings_additional_scopes"
+msgstr "Additional Scopes"
+
+#, fuzzy
+msgid "auth_oidc_settings_additional_scopes_info"
+msgstr "Standard scopes: address, email, phone, profile"
+
+msgid "auth_oidc_settings_client_id"
+msgstr "Ativar notificação"
+
+msgid "auth_oidc_settings_custom_session_duration"
+msgstr "Número de utilizadores que anexaram notas ou comentários a este posting"
+
+msgid "auth_oidc_settings_custom_session_duration_option"
+msgstr "O posting foi apagado."
+
+msgid "auth_oidc_settings_custom_session_duration_type"
+msgstr "Tem a certeza que quer apagar o seguinte posting?"
+
+msgid "auth_oidc_settings_default_role"
+msgstr "O tamanho predefinido é de 1370x100 pixéis."
+
+msgid "auth_oidc_settings_default_role_info"
+msgstr "Retirar publicação"
+
+#, fuzzy
+msgid "auth_oidc_settings_default_scopes"
+msgstr "Default Scope"
+
+#, fuzzy
+msgid "auth_oidc_settings_discovery_error"
+msgstr "Retrieving the Discovery URL failed with: %s"
+
+#, fuzzy
+msgid "auth_oidc_settings_discovery_url"
+msgstr "Discovery URL of the provider"
+
+msgid "auth_oidc_settings_img"
+msgstr "Objetos de reserva"
+
+msgid "auth_oidc_settings_img_file_info"
+msgstr "Tem a certeza que quer cancelar as seguintes reservas?"
+
+#, fuzzy
+msgid "auth_oidc_settings_invalid_scopes"
+msgstr "The following values are no valid Scopes: %s"
+
+msgid "auth_oidc_settings_le"
+msgstr "Reservas"
+
+msgid "auth_oidc_settings_login_option_default"
+msgstr "Objetos de reserva"
+
+msgid "auth_oidc_settings_login_option_default_info"
+msgstr "Use variáveis para comunicar especificidades sobre reservas. <br />[OBJECT] será substituído pelo respetivo objeto de reserva. <br />[PERIOD] será substituído pela respetiva marcação."
+
+msgid "auth_oidc_settings_login_option_enforce"
+msgstr "Os utilizadores com a permissão \"leitura\" verão apenas as reservas dos outros utilizadores."
+
+msgid "auth_oidc_settings_login_option_enforce_info"
+msgstr "Este tipo pode ser usado para quartos, projetores de vídeo e equivalente."
+
+msgid "auth_oidc_settings_login_options"
+msgstr "Não"
+
+msgid "auth_oidc_settings_logout_scope"
+msgstr "Este tipo pode ser usado para documentos de seminário, locais de seminários e equivalente."
+
+msgid "auth_oidc_settings_logout_scope_global"
+msgstr "Atualmente não existe uma marcação disponível. Para usar o banco de reservas tem de criar uma marcação para reservas (ou mudar para um tipo diferente de banco)."
+
+msgid "auth_oidc_settings_logout_scope_global_info"
+msgstr "Ação impossível. Utilizador já ignorado '%s'."
+
+msgid "auth_oidc_settings_logout_scope_local"
+msgstr "Ação impossível. Já aceitou o pedido de contacto do utilizador '%s'."
+
+msgid "auth_oidc_settings_logout_scope_local_info"
+msgstr "Ação impossível. Utilizador já solicitado '%s'."
+
+msgid "auth_oidc_settings_provider"
+msgstr "Ação impossível. O estado de contacto para o utilizador '%s' já está desassociado."
+
+msgid "auth_oidc_settings_secret"
+msgstr "Ignorar contacto"
+
+msgid "auth_oidc_settings_section_user_sync"
+msgstr "Confirmar contacto"
+
+msgid "auth_oidc_settings_session_duration"
+msgstr "Ocorreu um erro durante a importação de um certificado!"
+
+msgid "auth_oidc_settings_title"
+msgstr "Ocorreu um erro durante o carregamento de uma imagem de fundo!"
+
+msgid "auth_oidc_settings_txt"
+msgstr "Exportar"
+
+msgid "auth_oidc_settings_txt_val_info"
+msgstr "Nome completo do utilizador (título, nome próprio e apelido)"
+
+msgid "auth_oidc_settings_user_attr"
+msgstr "‘aprovado’ ou ‘reprovado’, dependendo dos resultados do teste"
+
+msgid "auth_oidc_settings_user_sync"
+msgstr "‘Aprovado’ ou ‘Reprovado’"
+
+msgid "auth_oidc_settings_user_sync_info"
+msgstr "Pontuação do utilizador"
+
+#, fuzzy
+msgid "auth_oidc_settings_validate_scope_custom"
+msgstr "Use custom OpenID Connect Discovery url"
+
+#, fuzzy
+msgid "auth_oidc_settings_validate_scope_default"
+msgstr "Use :Provider-URL:/.well-known/openid-configuration"
+
+#, fuzzy
+msgid "auth_oidc_settings_validate_scope_none"
+msgstr "Do not validate Scopes on saving"
+
+#, fuzzy
+msgid "auth_oidc_settings_validate_scopes"
+msgstr "Validate Scopes upon saving"
+
+msgid "auth_oidc_update_field_info"
+msgstr "Pré-visualização"
+
+msgid "auth_oidc_update_role_info"
+msgstr "Note que a utilização dos certificados só está disponível se o servidor Java de ILIAS estiver em funcionamento. A configuração para o servidor Java está disponível no servidor Administração » Definições gerais », subseparador do servidor Java."
+
+msgid "auth_oidconnect"
+msgstr "Todos os meses com postings são apresentados no bloco 'Postings'."
+
+#, fuzzy
+msgid "auth_page_type_auth"
+msgstr "Login Page"
+
+#, fuzzy
+msgid "auth_required_password"
+msgstr "Please enter a password."
+
+#, fuzzy
+msgid "auth_required_username"
+msgstr "Please enter a username."
+
+msgid "auth_saml_add_idp_btn"
+msgstr "Adicionar novo fornecedor de identidade"
+
+msgid "auth_saml_add_idp_md_error"
+msgstr "O valor fornecido não foi um documento XML válido. Assegure-se que o XML contém um fornecedor de identidade válido."
+
+msgid "auth_saml_add_idp_md_info"
+msgstr "Insira os metadados XML formatados para o fornecedor de identidade."
+
+msgid "auth_saml_add_idp_md_label"
+msgstr "Metadados SAML do fornecedor de identidade"
+
+msgid "auth_saml_configure"
+msgstr "Configurar autenticação SAML"
+
+msgid "auth_saml_configure_idp"
+msgstr "Configurar SAML IDP: %s"
+
+msgid "auth_saml_deleted_idp"
+msgstr "O fornecedor de identidade foi eliminado."
+
+msgid "auth_saml_enable"
+msgstr "Ativar suporte SAML"
+
+#, fuzzy
+msgid "auth_saml_err_sqlite_driver"
+msgstr "The SAML authentication requires the SQLite driver for PHP. Please install the SQLite package and try again."
+
+msgid "auth_saml_idp"
+msgstr "IDP"
+
+#, fuzzy
+msgid "auth_saml_idp_deactivated_auth_failed"
+msgstr "Authentication failed, the identity provider is disabled."
+
+msgid "auth_saml_idp_selection_table_desc"
+msgstr "Selecione um fornecedor de identidade com o qual se quer registar."
+
+msgid "auth_saml_idp_selection_table_title"
+msgstr "Seleção do fornecedor de identidade"
+
+msgid "auth_saml_idp_settings"
+msgstr "Definições IDP"
+
+msgid "auth_saml_idps"
+msgstr "Lista SAML IDP"
+
+msgid "auth_saml_idps_info"
+msgstr "--- <b>"
+
+msgid "auth_saml_login_form"
+msgstr "Botão na página de login"
+
+msgid "auth_saml_login_form_info"
+msgstr "Se estiver ativado e houver pelo menos um IDP ativo, aparece um botão na página de login. Se clicar neste botão, inicia um pedido SAML."
+
+msgid "auth_saml_migration"
+msgstr "Migração de conta:"
+
+msgid "auth_saml_migration_info"
+msgstr "Ative esta opção para permitir aos utilizadores migrar as suas contas ILIAS existentes para a autenticação SAML."
+
+msgid "auth_saml_role_select"
+msgstr "Função:"
+
+msgid "auth_saml_sure_delete_idp"
+msgstr "Tem a certeza que quer apagar o fornecedor de identidade selecionado? Não poderá reverter essa ação. As contas de utilizador afetadas serão mudadas para a autenticação predefinida."
+
+msgid "auth_saml_sync"
+msgstr "Sincronização de utilizador"
+
+msgid "auth_saml_sync_info"
+msgstr "Se estiver ativada, serão criadas novas contas de utilizador automaticamente depois de uma autenticação bem-sucedida.  Além disso, as contas de utilizador existentes serão alteradas de acordo com as regras de mapeamento do perfil de utilizador definido."
+
+msgid "auth_saml_uid_claim"
+msgstr "Atributo único para correspondência da conta de utilizador"
+
+msgid "auth_saml_uid_claim_info"
+msgstr "ILIAS usa a definição do atributo para detetar se um pedido de autenticação que entra corresponde ou não a uma conta de utilizador existente em ILIAS."
+
+msgid "auth_saml_unknow_idp"
+msgstr "O fornecedor de identidade aprovado não existe."
+
+msgid "auth_saml_update_field_info"
+msgstr "Atualizar automaticamente"
+
+msgid "auth_saml_user_mapping"
+msgstr "Mapeamento do perfil do utilizador"
+
+msgid "auth_saml_username_claim"
+msgstr "Atributo para nome de utilizador"
+
+msgid "auth_saml_username_claim_info"
+msgstr "ILIAS usa a definição do atributo para criar o nome de utilizador que será visível em ILIAS."
+
+msgid "auth_sync"
+msgstr "+++ <b>"
+
+#, fuzzy
+msgid "destination_after_logout"
+msgstr "Destination After Logout"
+
+#, fuzzy
+msgid "destination_external_ressource"
+msgstr "Show External Ressource"
+
+#, fuzzy
+msgid "destination_external_ressource_url"
+msgstr "External URL"
+
+#, fuzzy
+msgid "destination_internal_ressource"
+msgstr "Show Internal Ressource"
+
+#, fuzzy
+msgid "destination_internal_ressource_ref_id"
+msgstr "Internal Reference Id"
+
+#, fuzzy
+msgid "destination_login_screen"
+msgstr "Show Login Screen"
+
+#, fuzzy
+msgid "destination_login_screen_info"
+msgstr "Make sure that, for example, an SSO is not addressed that leads to immediate login."
+
+#, fuzzy
+msgid "destination_logout_screen"
+msgstr "Show Logout Screen"
+
+#, fuzzy
+msgid "err_auth_ldap_failed"
+msgstr "Authentication failed. Please contact your ILIAS administrator."
+
+msgid "err_auth_saml_failed"
+msgstr "Autenticação falhou. Entre em contacto com o administrador do seu sistema."
+
+msgid "err_auth_saml_no_ilias_user"
+msgstr "Autenticação falhou. Entre em contacto com o administrador do seu sistema."
+
+#, fuzzy
+msgid "language_does_not_exist"
+msgstr "The selected language does not exist."
+
+#, fuzzy
+msgid "login_page"
+msgstr "Language of Login-Page"
+
+#, fuzzy
+msgid "login_pages"
+msgstr "Login-Pages"
+
+#, fuzzy
+msgid "logout_behaviour"
+msgstr "Logout Behaviour"
+
+#, fuzzy
+msgid "logout_behaviour_invalid_ref_id"
+msgstr "Please make sure the internal resource id exists and is not in trash"
+
+#, fuzzy
+msgid "logout_behaviour_invalid_url"
+msgstr "The external ressource given is not a valid URL."
+
+#, fuzzy
+msgid "logout_behaviour_ref_id_no_access"
+msgstr "Please make sure the \"Anonymous\" user has access to the defined ressource."
+
+#, fuzzy
+msgid "logout_behaviour_ref_id_valid_status_changed"
+msgstr "The configured internal resource is no longer valid. If the resource has been deleted or access for the \"Anonymous\" user has been restricted, please configure a new valid internal resource. Without a valid configuration, the user will be redirected to the logout screen by default."
+
+#, fuzzy
+msgid "logout_behaviour_settings"
+msgstr "Logout Behaviour Settings"
+
+#, fuzzy
+msgid "logout_editor"
+msgstr "Design Logout-Page"
+
+#, fuzzy
+msgid "logout_page"
+msgstr "Language of Logout-Page"
+
+#, fuzzy
+msgid "logout_pages"
+msgstr "Logout-Pages"
+
+msgid "lti_consumer_inactive"
+msgstr "O consumidor da ferramenta LTI está desativado."
+
+#, fuzzy
+msgid "page_design_activate"
+msgstr "Activate Page Design"
+
+#, fuzzy
+msgid "page_design_deactivate"
+msgstr "Deactivate Page Design"
+
+msgid "saml_tab_head_idp"
+msgstr "IDP"
