@@ -955,4 +955,30 @@ class ilLanguagesInstalledAndUpdatedObjectiveTest extends TestCase
             ],
         ];
     }
+
+    public function testTheBuildIsAPreconditionOnlyWithDirectoriesOfTheComponentGraph(): void
+    {
+        $environment = $this->createStub(Setup\Environment::class);
+
+        $default = new ilLanguagesInstalledAndUpdatedObjective(new ilSetupLanguage('en'));
+        $this->assertCount(1, $default->getPreconditions($environment));
+        $this->assertInstanceOf(ilDatabaseInitializedObjective::class, $default->getPreconditions($environment)[0]);
+
+        $manager = new LanguageFileDirectoryManager(new CustomizingLanguageFileDirectory(), new MainLanguageFileDirectory());
+        $setup_language = new ilSetupLanguage('en', $manager);
+        $preconditions = (new ilLanguagesInstalledAndUpdatedObjective($setup_language))->getPreconditions($environment);
+
+        $this->assertCount(2, $preconditions);
+        $this->assertInstanceOf(ilDatabaseInitializedObjective::class, $preconditions[0]);
+        $this->assertSame(
+            (new ilLanguageSetupAgent(
+                $this->createStub(\ILIAS\Refinery\Factory::class),
+                $setup_language,
+                $this->createStub(\ILIAS\Language\Activities\InstallLanguage::class),
+                $this->createStub(\ILIAS\Language\Activities\UpdateLanguage::class)
+            ))->getBuildObjective()->getHash(),
+            $preconditions[1]->getHash(),
+            'the same objective as the build of the agent, so Setup achieves it once'
+        );
+    }
 }

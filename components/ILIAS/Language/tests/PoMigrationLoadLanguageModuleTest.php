@@ -271,7 +271,7 @@ class PoMigrationLoadLanguageModuleTest extends ilLanguageBaseTestCase
         $this->assertArrayHasKey('tos_withdrawal_usr_deletion_desc', $text);
     }
 
-    public function testFallsBackToNullWhenNoComponentContributesThatPrefix(): void
+    public function testAShippedModuleWithoutABuildHasNoIdentifiersAndIsReported(): void
     {
         $this->registerDirectoryManager(
             new ComponentLanguageFileDirectory(new \ILIAS\TermsOfService(), 'tos')
@@ -282,8 +282,8 @@ class PoMigrationLoadLanguageModuleTest extends ilLanguageBaseTestCase
         $this->assertSame([], $this->callLoadFromMigratedLanguageFile('poll', 'de'));
     }
 
-    /** "Migrated for a language" means a shipped `.po` exists: its absence makes this null, not a missing overlay `.mo`. */
-    public function testFallsBackToNullWhenDirectoryIsContributedButHasNoShippedPoForThisLanguage(): void
+    /** "Migrated for a language" means a shipped `.po` exists: its absence yields no identifiers, not a missing overlay `.mo`. */
+    public function testNoIdentifiersAndNoReportWhenNoShippedPoExistsForThisLanguage(): void
     {
         $this->registerDirectoryManager(
             new ComponentLanguageFileDirectory(new \ILIAS\TermsOfService(), 'tos')
@@ -292,7 +292,7 @@ class PoMigrationLoadLanguageModuleTest extends ilLanguageBaseTestCase
         $this->assertSame([], $this->callLoadFromMigratedLanguageFile('tos', 'xx'));
     }
 
-    public function testFallsBackToNullWhenNoDirectoryManagerIsRegisteredAtAll(): void
+    public function testAShippedModuleIsRecognisedByItsTemplateWithoutADirectoryManager(): void
     {
         // tos is recognised by its shipped template without the component graph; there is no build
         $this->expectOutputRegex('/There is no build of the language files/');
@@ -306,7 +306,7 @@ class PoMigrationLoadLanguageModuleTest extends ilLanguageBaseTestCase
      * @param non-empty-string $invalid_lang_key
      */
     #[DataProvider('invalidLangKeys')]
-    public function testFallsBackToNullForAnInvalidLangKeyInsteadOfThrowing(string $invalid_lang_key): void
+    public function testAnInvalidLangKeyYieldsNoIdentifiersInsteadOfThrowing(string $invalid_lang_key): void
     {
         $this->registerDirectoryManager(
             new ComponentLanguageFileDirectory(new \ILIAS\TermsOfService(), 'tos')
@@ -316,12 +316,12 @@ class PoMigrationLoadLanguageModuleTest extends ilLanguageBaseTestCase
     }
 
     /**
-     * _lookupEntry() must fall through to the lng_data lookup for an invalid $a_lang_key, not throw.
+     * _lookupEntry() must not throw for an invalid $a_lang_key and must not read lng_data for a shipped module.
      *
      * @param non-empty-string $invalid_lang_key
      */
     #[DataProvider('invalidLangKeys')]
-    public function testLookupEntryFallsBackToTheDatabaseForAnInvalidLangKey(string $invalid_lang_key): void
+    public function testLookupEntryNeverReadsTheDatabaseForAnInvalidLangKeyOfAShippedModule(string $invalid_lang_key): void
     {
         $this->registerDirectoryManager(
             new ComponentLanguageFileDirectory(new \ILIAS\TermsOfService(), 'tos')
@@ -444,8 +444,8 @@ class PoMigrationLoadLanguageModuleTest extends ilLanguageBaseTestCase
         );
     }
 
-    /** A language not in the installed-languages list falls back to lng_modules, even if its shipped `.po` and overlay are readable. */
-    public function testMigratedStateFallsBackToNullForALanguageNotInTheInstalledLanguagesList(): void
+    /** A language not in the installed-languages list has no identifiers (never lng_modules), even if its shipped `.po` and overlay are readable. */
+    public function testNoIdentifiersForALanguageNotInTheInstalledLanguagesList(): void
     {
         $this->ensureRealTosDeMoFileExists();
         $this->registerDirectoryManager(new ComponentLanguageFileDirectory(new \ILIAS\TermsOfService(), 'tos'));
@@ -454,8 +454,8 @@ class PoMigrationLoadLanguageModuleTest extends ilLanguageBaseTestCase
         $this->assertSame([], $this->callLoadFromMigratedLanguageFile('tos', 'de'));
     }
 
-    /** The restriction applies through _lookupEntry() too: a not-installed language falls through to the database. */
-    public function testTxtlngFallsBackToTheDatabaseForALanguageNotInTheInstalledLanguagesList(): void
+    /** The restriction applies through _lookupEntry() too: a not-installed language never reads the database. */
+    public function testTxtlngNeverReadsTheDatabaseForALanguageNotInTheInstalledLanguagesList(): void
     {
         $this->ensureRealTosDeMoFileExists();
         $this->registerDirectoryManager(new ComponentLanguageFileDirectory(new \ILIAS\TermsOfService(), 'tos'));

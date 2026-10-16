@@ -542,4 +542,57 @@ class MigratedTranslationsTest extends TestCase
 
         $this->assertSame('Guten Tag', $this->text('greeting'));
     }
+
+    public function testAnOverlayIsServedOnceTheClientDataDirectoryBecomesKnown(): void
+    {
+        $this->build();
+        $this->writeOverlay(['greeting' => 'Overlay']);
+
+        $this->assertSame('Hallo', MigratedTranslations::text('mtr', 'de', 'greeting', null), 'Setup before the client data directory is known');
+        $this->assertSame('Hallo', MigratedTranslations::text('mtr', 'de', 'greeting', null), 'still unknown on the next call');
+        $this->assertSame('Overlay', $this->text('greeting'));
+        $this->assertSame([], $this->warnings);
+    }
+
+    public function testTheOverlayIsCheckedOnlyOnceAfterTheClientDataDirectoryIsKnown(): void
+    {
+        $this->build();
+
+        $this->assertSame('Hallo', $this->text('greeting'), 'no overlay yet');
+        $this->writeOverlay(['greeting' => 'Late']);
+
+        $this->assertSame('Hallo', $this->text('greeting'), 'not looked at again without invalidate()');
+        MigratedTranslations::invalidate('mtr', 'de');
+        $this->assertSame('Late', $this->text('greeting'));
+    }
+
+    public function testAModuleIsShippedIfItIsBuiltOrHasATemplateInTheComponents(): void
+    {
+        $this->assertFalse(MigratedTranslations::isShippedModule('mtr'), 'no build, no template');
+        $this->build();
+
+        $this->assertTrue(MigratedTranslations::isShippedModule('mtr'), 'built');
+        $this->assertTrue(MigratedTranslations::isShippedModule('tos'), 'template of the TermsOfService component, without a build of it');
+        $this->assertFalse(MigratedTranslations::isShippedModule('some_plugin_module'));
+    }
+
+    public function testShipsPoForNeedsATemplateADefaultNamedPoAndAValidLanguageKey(): void
+    {
+        $this->assertTrue(MigratedTranslations::shipsPoFor('tos', 'de'));
+        $this->assertFalse(MigratedTranslations::shipsPoFor('tos', 'xx'), 'no such .po');
+        $this->assertFalse(MigratedTranslations::shipsPoFor('tos', '../de'), 'no path');
+        $this->assertFalse(MigratedTranslations::shipsPoFor('some_plugin_module', 'de'), 'no template');
+    }
+
+    public function testReportMissingBuildIsFatalWithoutABuildAndSilentWithOne(): void
+    {
+        $this->build();
+        $this->assertFalse(MigratedTranslations::reportMissingBuild());
+        $this->assertSame([], $this->warnings);
+
+        MigratedPoFixture::resetRuntime();
+        $this->assertTrue(MigratedTranslations::reportMissingBuild());
+        $this->assertCount(1, $this->warnings);
+        $this->assertStringContainsString('There is no build', implode("\n", $this->warnings));
+    }
 }

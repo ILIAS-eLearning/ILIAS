@@ -493,4 +493,32 @@ class MigratedLanguageFilePathsTest extends TestCase
             'placeholder at the very start' => ['%s_suffix', 'tos', 'suffix.pot'],
         ];
     }
+
+    public function testFindShippedTemplatesListsValidModulesOfComponentLangDirectoriesOnly(): void
+    {
+        foreach (
+            [
+                'components/Vendor/CompA/lang/alpha.pot',
+                'components/Vendor/CompB/lang/beta.pot',
+                'components/Vendor/CompB/lang/Bad Name.pot',
+                'components/Vendor/CompB/lang/gamma_de.po',
+                'components/Vendor/CompC/other/delta.pot',
+                'components/Vendor/CompD/lang/sub/epsilon.pot',
+                'components/CompE/lang/zeta.pot',
+            ] as $file
+        ) {
+            is_dir(dirname($this->root . '/' . $file)) || mkdir(dirname($this->root . '/' . $file), 0775, true);
+            file_put_contents($this->root . '/' . $file, '');
+        }
+        mkdir($this->root . '/components/Vendor/CompF/lang/theta.pot', 0775, true);
+
+        $templates = MigratedLanguageFilePaths::findShippedTemplates($this->root . '/');
+
+        ksort($templates);
+        $this->assertSame(
+            ['alpha' => $this->root . '/components/Vendor/CompA/lang', 'beta' => $this->root . '/components/Vendor/CompB/lang'],
+            $templates
+        );
+        $this->assertSame([], MigratedLanguageFilePaths::findShippedTemplates($this->root . '/nowhere'));
+    }
 }
