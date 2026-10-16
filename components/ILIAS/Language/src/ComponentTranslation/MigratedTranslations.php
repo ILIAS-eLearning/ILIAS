@@ -38,7 +38,7 @@ namespace ILIAS\Language\ComponentTranslation;
  *
  * Static: ilLanguage::_lookupEntry() is static, and native gettext's state is per process anyway.
  *
- * @phpstan-type State array{keys: array<string, string>, ok: bool, domain: string, overlay_domain: ?string, overlay_keys: array<string, true>}
+ * @phpstan-type State array{keys: array<string, string>, ok: bool, domain: string, overlay_domain: ?string, overlay_keys: array<string, true>, overlay_checked: bool}
  * @phpstan-import-type Pointer from ShippedTranslationsBuild
  */
 final class MigratedTranslations
@@ -264,7 +264,12 @@ final class MigratedTranslations
     {
         $cache_key = $module . '|' . $lang_key;
         if (array_key_exists($cache_key, self::$states)) {
-            return self::$states[$cache_key];
+            $state = self::$states[$cache_key];
+            // the client data directory became known later in the request (e.g. Setup)
+            if ($state !== null && $state['ok'] && !$state['overlay_checked'] && $client_data_dir !== null) {
+                $state = self::$states[$cache_key] = self::withOverlay($state, $client_data_dir, $module, $lang_key);
+            }
+            return $state;
         }
         $pointer = self::pointer();
         if (
@@ -280,7 +285,7 @@ final class MigratedTranslations
         $build_directory = MigratedLanguageFilePaths::buildDirectory(self::artifactDirectory(), $pointer['build']);
         $domain = MigratedLanguageFilePaths::shippedDomain($module, $lang_key);
         $keys = self::buildKeys($build_directory, $module);
-        $state = ['keys' => $keys ?? [], 'ok' => false, 'domain' => $domain, 'overlay_domain' => null, 'overlay_keys' => []];
+        $state = ['keys' => $keys ?? [], 'ok' => false, 'domain' => $domain, 'overlay_domain' => null, 'overlay_keys' => [], 'overlay_checked' => false];
         if ($keys === null) {
             self::reportProblem(sprintf(
                 'The identifiers of module "%s" cannot be read from "%s" - run "php cli/setup.php build".',
@@ -312,6 +317,7 @@ final class MigratedTranslations
      */
     private static function withOverlay(array $state, string $client_data_dir, string $module, string $lang_key): array
     {
+        $state['overlay_checked'] = true;
         $overlay_directory = MigratedLanguageFilePaths::overlayDirectory($client_data_dir, $module, $lang_key);
         $current_file = MigratedLanguageFilePaths::overlayCurrentFile($overlay_directory);
         if (!file_exists($current_file) && !is_link($current_file)) {

@@ -79,6 +79,9 @@ class ilLanguage implements \ILIAS\Language\Language
      */
     private static array $shipped_without_build = [];
 
+    private static bool $client_data_dir_resolved = false;
+    private static ?string $resolved_client_data_dir = null;
+
     /**
      * Identifier => value per non-migrated module, cached by loadLanguageModule() and txt() with a LanguageIdentifier.
      *
@@ -486,14 +489,11 @@ class ilLanguage implements \ILIAS\Language\Language
      * `null` unless $a_module is migrated for $lang_key, so the caller reads lng_modules/lng_data. A module whose
      * `.po` is not built yet is migrated but has no identifiers (reported); never read from the database instead.
      *
-     * Deliberately only when CLIENT_DATA_DIR is defined, not via MigratedLanguageFilePaths::resolveClientDataDir():
-     * before ilInitialisation::initClientDataDir() (e.g. plugin Setup Objectives) lng_modules is the correct source.
-     *
      * @return array<string, string>|null
      */
     private static function migratedKeysOf(string $a_module, string $lang_key): ?array
     {
-        if (!defined('CLIENT_DATA_DIR') || !self::isInstalledLanguage($lang_key)) {
+        if (!self::isInstalledLanguage($lang_key)) {
             return null;
         }
         $keys = MigratedTranslations::keysOf($a_module, $lang_key, self::clientDataDir());
@@ -532,9 +532,22 @@ class ilLanguage implements \ILIAS\Language\Language
         }
     }
 
+    /**
+     * Before ilInitialisation::initClientDataDir() (Setup, CLI) from ilias.ini.php, resolved once per process.
+     */
     private static function clientDataDir(): ?string
     {
-        return defined('CLIENT_DATA_DIR') ? (string) CLIENT_DATA_DIR : null;
+        if (defined('CLIENT_DATA_DIR')) {
+            return (string) CLIENT_DATA_DIR;
+        }
+        if (!self::$client_data_dir_resolved) {
+            self::$resolved_client_data_dir = MigratedLanguageFilePaths::resolveClientDataDir(
+                defined('ILIAS_ABSOLUTE_PATH') ? (string) ILIAS_ABSOLUTE_PATH : dirname(__DIR__, 4)
+            );
+            self::$client_data_dir_resolved = true;
+        }
+
+        return self::$resolved_client_data_dir;
     }
 
     /**
