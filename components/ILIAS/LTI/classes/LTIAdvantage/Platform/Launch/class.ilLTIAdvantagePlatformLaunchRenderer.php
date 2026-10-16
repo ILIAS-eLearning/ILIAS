@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 use ceLTIc\LTI\Platform;
 use ILIAS\DI\Container;
-use ILIAS\HTTP\Response\Sender\ResponseSendingException;
 use ILIAS\UI\Component\Component;
 use Random\RandomException;
 
@@ -105,7 +104,6 @@ final class ilLTIAdvantagePlatformLaunchRenderer
      * Sends the page that starts the launch and ends the request.
      *
      * @throws RandomException
-     * @throws ResponseSendingException
      */
     public static function sendLaunchPage(
         ilObjLTITool $object,

@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS;
 
 use ArrayAccess;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Setup\Agent;
 use ilLTISetupAgent;
 
@@ -42,7 +43,7 @@ class LTI implements Component\Component
         array | ArrayAccess &$pull,
         array | ArrayAccess &$internal,
     ): void {
-        $contribute[Agent::class] = static fn() => new ilLTISetupAgent($pull[\ILIAS\Refinery\Factory::class]);
+        $contribute[Agent::class] = static fn() => new ilLTISetupAgent($pull[Refinery::class]);
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\Endpoint($this, "ltiresult.php");

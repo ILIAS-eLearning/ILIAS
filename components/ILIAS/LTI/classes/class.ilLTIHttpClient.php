@@ -27,9 +27,9 @@ use ceLTIc\LTI\Http\HttpMessage;
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-final class ilLTIHttpClient implements ClientInterface
+final readonly class ilLTIHttpClient implements ClientInterface
 {
-    public function __construct(private readonly ?ClientInterface $client, private readonly ilLogger $logger)
+    public function __construct(private ?ClientInterface $client, private ilLogger $logger)
     {
     }
 

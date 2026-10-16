@@ -263,8 +263,6 @@ class ilLTIAppEventListener implements ilAppEventListener
      * @param bool $only_changes true to send nothing when the platform has the score already
      *
      * @return bool true when the platform accepted the outcome
-     *
-     * @throws RandomException
      */
     private function sendOutcome(
         int $resource_link,
@@ -343,7 +341,7 @@ class ilLTIAppEventListener implements ilAppEventListener
         ];
         // the column may come from the launch of another link of the object: unlike getLineItems() of the
         // link, the service then must not ask only for the columns of this link
-        $line_items = (new LineItemService($link->getPlatform(), $link->getSetting('custom_lineitems_url')))
+        $line_items = new LineItemService($link->getPlatform(), $link->getSetting('custom_lineitems_url'))
             ->getAll(null, (string) $ref_id);
         $line_item = is_array($line_items) && $line_items !== [] ? reset($line_items) : null;
         if ($line_item === null) {

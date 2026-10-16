@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use Random\RandomException;
+
 /**
  * What the services of ILIAS as LTI Advantage platform (ltiservices.php) share: their URLs, the tool an
  * access token of ltitoken.php was given to and the object of that tool a request is about. A refused
@@ -69,7 +71,7 @@ final class ilLTIAdvantagePlatformServiceRequest
      *
      * @param array $scopes
      * @throws ilException when ILIAS has no key
-     * @throws \Random\RandomException
+     * @throws RandomException
      */
     public static function authorize(string $authorization, array $scopes): ilLTITool
     {

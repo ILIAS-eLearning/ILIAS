@@ -261,11 +261,6 @@ class ilLTITool
         return $this->use_tool_id;
     }
 
-    public function getCustomParams(): string
-    {
-        return $this->custom_params;
-    }
-
     /**
      * @return array the custom parameters every object of the tool sends
      */
@@ -340,14 +335,6 @@ class ilLTITool
     public function isNamesRoles(): bool
     {
         return $this->names_roles;
-    }
-
-    /**
-     * True when the tool lets the user pick its content through LTI Advantage Deep Linking.
-     */
-    public function isContentItem(): bool
-    {
-        return $this->content_item;
     }
 
     /**

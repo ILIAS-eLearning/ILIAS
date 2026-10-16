@@ -21,7 +21,6 @@ declare(strict_types=1);
 use ceLTIc\LTI\Content\Item;
 use ceLTIc\LTI\Util;
 use ILIAS\DI\Container;
-use ILIAS\HTTP\Response\Sender\ResponseSendingException;
 use Random\RandomException;
 
 /**
@@ -65,7 +64,6 @@ final class ilLTIAdvantagePlatformDeepLinking
      *
      * @param string $return_url where the tool posts its response
      * @throws RandomException
-     * @throws ResponseSendingException
      */
     public static function sendRequestPage(string $state, int $user_id, int $ref_id, string $return_url, Container $dic): never
     {
@@ -179,7 +177,7 @@ final class ilLTIAdvantagePlatformDeepLinking
     public static function sendTopRedirect(string $url): never
     {
         $escaped = htmlspecialchars($url, ENT_QUOTES);
-        $page = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>ILIAS</title></head><body>'
+        $page = '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>ILIAS</title></head><body>'
             . '<script>window.top.location.replace(' . json_encode($url, JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) . ');</script>'
             . '<a href="' . $escaped . '" target="_top">' . $escaped . '</a></body></html>';
 

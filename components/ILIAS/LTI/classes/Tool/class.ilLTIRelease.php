@@ -205,19 +205,11 @@ class ilLTIRelease
      */
     public function getLocalRoles(User $user): array
     {
-        $has = static function (array $names, array $sub_role_prefixes = []) use ($user): bool {
-            foreach ($user->roles as $role) {
-                if (in_array($role, $names, true)) {
-                    return true;
-                }
-                foreach ($sub_role_prefixes as $prefix) {
-                    if (str_starts_with($role, $prefix)) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        };
+        $has = static fn(array $names, array $sub_role_prefixes = []): bool => array_any(
+            $user->roles,
+            static fn($role): bool => in_array($role, $names, true)
+                || array_any($sub_role_prefixes, static fn(string $prefix): bool => str_starts_with($role, $prefix))
+        );
         $institution = static fn(string ...$names): array => array_merge(
             array_map(static fn(string $name): string => self::INSTITUTION_ROLE . $name, $names),
             array_map(static fn(string $name): string => self::INSTITUTION_ROLE_1P1 . $name, $names)

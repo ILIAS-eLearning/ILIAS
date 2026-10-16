@@ -39,7 +39,6 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
 
     /**
      * @return array the message parameters, the user id of the tool being the login hint of the launch
-     * @throws ilWACException
      */
     public static function build(ilObjLTITool $object, ilCmiXapiUser $cmix_user, string $return_url): array
     {
@@ -94,7 +93,7 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
             array_keys($rbac_review->getParentRoleIds($ref_id, true))
         );
         foreach ($roles as $role_id) {
-            $title = (string) ilObject::_lookupTitle($role_id);
+            $title = ilObject::_lookupTitle($role_id);
             if (str_starts_with($title, 'il_' . $context_type . '_admin') || str_starts_with($title, 'il_' . $context_type . '_tutor')) {
                 return self::ROLE_INSTRUCTOR;
             }

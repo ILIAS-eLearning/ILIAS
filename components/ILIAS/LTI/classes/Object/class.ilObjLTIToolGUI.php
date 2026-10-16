@@ -596,7 +596,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
         $this->ctrl->setParameter($this, 'new_type', $this->getType());
         $this->ctrl->setParameter($this, self::DEEP_LINKING_PARAM, $state);
         $return_url = ilLTIEndpoint::getBaseUrl() . '/'
-            . $this->ctrl->getLinkTarget($this, self::CMD_FINISH_DEEP_LINKING, '', false, false);
+            . $this->ctrl->getLinkTarget($this, self::CMD_FINISH_DEEP_LINKING);
 
         ilLTIAdvantagePlatformDeepLinking::sendRequestPage(
             $state,
@@ -630,7 +630,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
             $DIC
         );
         $this->ctrl->setParameter($this, 'new_type', $this->getType());
-        $create_url = $this->ctrl->getLinkTarget($this, 'create', '', false, false);
+        $create_url = $this->ctrl->getLinkTarget($this, 'create');
 
         if ($response === null) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('lti_deep_linking_failed'), true);
@@ -910,10 +910,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
 
         return $this->ctrl->getLinkTargetByClass(
             [ilObjLTIToolGUI::class, ilLTIObjectSettingsGUI::class],
-            ilLTIObjectSettingsGUI::CMD_SHOW,
-            '',
-            false,
-            false
+            ilLTIObjectSettingsGUI::CMD_SHOW
         );
     }
 
@@ -922,7 +919,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
         global $DIC;
 
         return (string) $DIC['static_url']->builder()->build(
-            (string) ilObject::_lookupType($ref_id, true),
+            ilObject::_lookupType($ref_id, true),
             new ReferenceId($ref_id)
         );
     }

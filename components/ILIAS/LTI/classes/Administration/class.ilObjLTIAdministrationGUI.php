@@ -378,7 +378,6 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
         if (ilObject::_getIdsForTitle(self::LTI_USER_ROLE, "role") !== []) {
             $this->ctrl->redirect($this, self::CMD_LIST_PLATFORMS);
-            return;
         }
 
         $role = new ilObjRole();

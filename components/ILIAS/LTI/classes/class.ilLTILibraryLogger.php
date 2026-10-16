@@ -79,10 +79,8 @@ final class ilLTILibraryLogger extends AbstractLogger
     public function log($level, string|Stringable $message, array $context = []): void
     {
         $message = (string) $message;
-        foreach (self::NOISE as $noise) {
-            if (str_starts_with($message, $noise)) {
-                return;
-            }
+        if (array_any(self::NOISE, static fn(string $noise): bool => str_starts_with($message, $noise))) {
+            return;
         }
 
         $detailed = in_array($level, ['debug', 'info'], true) || str_starts_with($message, self::REFUSED);

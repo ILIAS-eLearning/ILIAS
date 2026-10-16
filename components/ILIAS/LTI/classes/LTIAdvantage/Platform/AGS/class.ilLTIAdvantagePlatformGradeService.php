@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ceLTIc\LTI\Service\LineItem;
 use ceLTIc\LTI\Service\Result;
 use ceLTIc\LTI\Service\Score;
+use Random\RandomException;
 
 /**
  * The Assignment and Grade Services of ILIAS as LTI Advantage platform (ltiservices.php). Each LTI object is
@@ -184,7 +185,7 @@ final class ilLTIAdvantagePlatformGradeService
      *
      * @param array $scopes
      * @throws ilException when ILIAS has no key
-     * @throws \Random\RandomException
+     * @throws RandomException
      */
     private function authorize(string $authorization, array $scopes): ilLTITool
     {
@@ -290,13 +291,11 @@ final class ilLTIAdvantagePlatformGradeService
      */
     private function findResourceLink(array $objects, string $resource_link_id): ?ilObjLTITool
     {
-        foreach ($objects as $object) {
-            if (ilLTIAdvantagePlatformLaunchParameterBuilder::getResourceLinkId($object) === $resource_link_id) {
-                return $object;
-            }
-        }
-
-        return null;
+        return array_find(
+            $objects,
+            static fn(ilObjLTITool $object): bool
+                => ilLTIAdvantagePlatformLaunchParameterBuilder::getResourceLinkId($object) === $resource_link_id
+        );
     }
 
     /**
