@@ -1,0 +1,477 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr\n"
+"Language-Team: Turkish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: scormdebug\n"
+
+msgid "API-call"
+msgstr "API çağrısı"
+
+msgid "Commit"
+msgstr "veri depolama"
+
+msgid "GetDiagnostic"
+msgstr "olanak LMS (!) ek tanı bilgileri tanımlamak için"
+
+msgid "GetErrorString"
+msgstr "mevcut hata durumu bir metin açıklaması almak"
+
+msgid "GetLastError"
+msgstr "mevcut hata durumu için hata kodunu istemek"
+
+msgid "GetValue"
+msgstr "veri almak"
+
+msgid "Initialize"
+msgstr "initialize API-iletişim"
+
+msgid "SCO-name"
+msgstr "SCO-adı"
+
+msgid "SCO-title"
+msgstr "SCO-başlık"
+
+msgid "SetValue"
+msgstr "Veri gönderme"
+
+msgid "Terminate"
+msgstr "veri depolama ve API-iletişimi sonlandırmak"
+
+msgid "adl.nav.request"
+msgstr "Navigasyon istek) (Sonlandır hemen aşağıdaki işlenecek"
+
+msgid "adl.nav.request_valid.choice"
+msgstr "Belirli bir etkinlik için bir Seçim gezinti isteği başarılı olmadığını belirlemek için bir SCO tarafından el."
+
+msgid "adl.nav.request_valid.continue"
+msgstr "Bir Devam gezinti isteği başarılı olmadığını belirlemek için bir SCO tarafından el."
+
+msgid "adl.nav.request_valid.previous"
+msgstr "Bir Önceki gezinti isteği başarılı olmadığını belirlemek için bir SCO tarafından kullanılır."
+
+msgid "all_API-calls_shown"
+msgstr "Tüm API-çağrılar şu anda gösterilmiştir."
+
+msgid "cmi._version"
+msgstr "veri modeli versiyon temsil eder"
+
+msgid "cmi.comments_from_learner._children"
+msgstr "Desteklenen veri modeli öğelerinin İlanı"
+
+msgid "cmi.comments_from_learner._count"
+msgstr "Öğrenen yorumların Cari sayısı"
+
+msgid "cmi.comments_from_learner.n.comment"
+msgstr "Metinsel girişi"
+
+msgid "cmi.comments_from_learner.n.location"
+msgstr "Yorum geçerlidir hangi SCO'da Noktası"
+
+msgid "cmi.comments_from_learner.n.timestamp"
+msgstr "Yorum oluşturulduğu veya en son değiştirildiği hangi sürede Noktası"
+
+msgid "cmi.comments_from_lms._children"
+msgstr "Desteklenen veri modeli öğelerinin İlanı"
+
+msgid "cmi.comments_from_lms._count"
+msgstr "LMS yorumlarına Cari sayısı"
+
+msgid "cmi.comments_from_lms.n.comment"
+msgstr "SCO ile ilişkili Yorum veya açıklamaları"
+
+msgid "cmi.comments_from_lms.n.location"
+msgstr "Yorum geçerlidir hangi SCO'da Noktası"
+
+msgid "cmi.comments_from_lms.n.timestamp"
+msgstr "Yorum oluşturulduğu veya en son değiştirildiği hangi sürede Noktası"
+
+msgid "cmi.completion_status"
+msgstr "öğrencinin SCO tamamladı olmadığını gösterir"
+
+msgid "cmi.completion_threshold"
+msgstr "SCO tam olarak kabul edilmesi gerektiğini belirlemek için kullanılır"
+
+msgid "cmi.credit"
+msgstr "öğrenen SCO performans için yatırılacaktır olmadığını gösterir"
+
+msgid "cmi.entry"
+msgstr "öğrencinin önceden SCO erişilebilir olup olmadığını İfade Etti ANKARA"
+
+msgid "cmi.exit"
+msgstr "öğrencinin SCO terk nasıl veya neden gösterir"
+
+msgid "cmi.interactions._children"
+msgstr "Desteklenen veri modeli öğelerinin İlanı"
+
+msgid "cmi.interactions._count"
+msgstr "Etkileşimlerin Cari sayısı LMS tarafından depolanan"
+
+msgid "cmi.interactions.n.correct_responses._count"
+msgstr "Doğru cevapların Cari sayısı bu etkileşim için LMS tarafından depolanan"
+
+msgid "cmi.interactions.n.correct_responses.n.pattern"
+msgstr "etkileşim için uygun bir tepki modelidir"
+
+msgid "cmi.interactions.n.description"
+msgstr "Etkileşim Kısa bilgilendirici açıklama"
+
+msgid "cmi.interactions.n.id"
+msgstr "etkileşim için benzersiz etiket"
+
+msgid "cmi.interactions.n.latency"
+msgstr "Zaman etkileşimi yanıt öğrenen sunuldu kez ve ilk tepki zamanı arasında geçen"
+
+msgid "cmi.interactions.n.learner_response"
+msgstr "Bir öğrenci bir etkileşim yanıt oluşturulur Veri"
+
+msgid "cmi.interactions.n.objectives._count"
+msgstr "Amaçların Cari sayısı (yani, objektif tanımlayıcılar) Bu etkileşim için LMS tarafından depolanan"
+
+msgid "cmi.interactions.n.objectives.n.id"
+msgstr "Etkileşim ile ilişkili hedefleri için Etiket"
+
+msgid "cmi.interactions.n.result"
+msgstr "Öğrenci yanıtlama doğruluğunun Yargı"
+
+msgid "cmi.interactions.n.timestamp"
+msgstr "Etkileşim ilk öğrenen etkileşimi ve yanıt öğrenen kullanılabilir yapıldığı zaman içinde Noktası"
+
+msgid "cmi.interactions.n.type"
+msgstr "Etkileşim Hangi türü kaydedilmiştir"
+
+msgid "cmi.interactions.n.weighting"
+msgstr "Diğer etkileşimler etkileşimi göreli verilen Ağırlık"
+
+msgid "cmi.launch_data"
+msgstr "Başlatmak sonra bir SCO sağlanan Veri, dataFromLMS tezahür öğesinden başlatıldı"
+
+msgid "cmi.learner_id"
+msgstr "SCO başlatıldı kime adına öğrenen tanımlar"
+
+msgid "cmi.learner_name"
+msgstr "LMS tarafından öğrenci için sağlanan Ad"
+
+msgid "cmi.learner_preference._children"
+msgstr "Desteklenen veri modeli öğelerinin İlanı"
+
+msgid "cmi.learner_preference.audio_captioning"
+msgstr "ses karşılık yazısı metin görüntüleneceğini belirtir"
+
+msgid "cmi.learner_preference.audio_level"
+msgstr "algılanan ses seviyesi amaçlanan bir değişikliği belirtir"
+
+msgid "cmi.learner_preference.delivery_speed"
+msgstr "Içerik dağıtımına öğrencinin tercih bağıl hız"
+
+msgid "cmi.learner_preference.language"
+msgstr "Dilli yeteneği ile SCOs için öğrencinin tercih ettiği dili"
+
+msgid "cmi.location"
+msgstr "SCO içinde öğrencinin Geçerli konum"
+
+msgid "cmi.max_time_allowed"
+msgstr "Birikmiş zamanın Tutarı öğrenen bir SCO kullanmak için izin verilir"
+
+msgid "cmi.mode"
+msgstr "SCO öğrenci sunulabilir hangi bir üç olası verilme şekilleri tanımlar"
+
+msgid "cmi.objectives._children"
+msgstr "Desteklenen veri modeli öğelerinin İlanı"
+
+msgid "cmi.objectives._count"
+msgstr "Amaçların Cari sayısı LMS tarafından depolanan"
+
+msgid "cmi.objectives.n.completion_status"
+msgstr "öğrencinin ilişkili hedefi tamamladı olmadığını gösterir"
+
+msgid "cmi.objectives.n.description"
+msgstr "hedefi kısa bir bilgilendirici açıklama sağlar"
+
+msgid "cmi.objectives.n.id"
+msgstr "Hedefi için Benzersiz etiketi"
+
+msgid "cmi.objectives.n.progress_measure"
+msgstr "Ilerleme Tedbir öğrencinin hedefi tamamlama doğru yaptı"
+
+msgid "cmi.objectives.n.score._children"
+msgstr "Desteklenen veri modeli öğelerinin İlanı"
+
+msgid "cmi.objectives.n.score.max"
+msgstr "Ham puan için aralığında hedefi için maksimum değer,"
+
+msgid "cmi.objectives.n.score.min"
+msgstr "Ham puan için aralığında hedefi için minimum değer,"
+
+msgid "cmi.objectives.n.score.raw"
+msgstr "Minimum ve maksimum değerleri ile sınırlı aralıktaki göreli hedefi için öğrencinin performansını yansıtan Sayı,"
+
+msgid "cmi.objectives.n.score.scaled"
+msgstr "Hedefi için öğrencinin performansını yansıtan Sayı"
+
+msgid "cmi.objectives.n.success_status"
+msgstr "öğrencinin hedefi hakim olup olmadığını gösterir"
+
+msgid "cmi.progress_measure"
+msgstr "Ilerleme Tedbir öğrenen SCO tamamlama doğru yaptı"
+
+msgid "cmi.scaled_passing_score"
+msgstr "SCO ustalaşmak için gereken Ölçekli geçme puanı"
+
+msgid "cmi.score._children"
+msgstr "Desteklenen veri modeli öğelerinin İlanı"
+
+msgid "cmi.score.max"
+msgstr "Ham puan için aralıktaki Maksimum değer"
+
+msgid "cmi.score.min"
+msgstr "Ham puan için aralıktaki Minimum değer"
+
+msgid "cmi.score.raw"
+msgstr "Aralığına öğrenen göre performansını yansıtan sayısı minimum ve maksimum değerleri ile sınırlı"
+
+msgid "cmi.score.scaled"
+msgstr "Öğrencinin performansını yansıtan Sayı"
+
+msgid "cmi.session_time"
+msgstr "Öğrencinin bu SCO için geçerli öğrenen oturumda harcanan olduğu zaman Tutarı"
+
+msgid "cmi.success_status"
+msgstr "öğrencinin SCO hakim olup olmadığını gösterir"
+
+msgid "cmi.suspend_data"
+msgstr "öğrenci oturumları arasında veri depolamak ve almak için alan sağlar"
+
+msgid "cmi.time_limit_action"
+msgstr "cmi.max_time_allowed aşıldığında SCO ne yapması gerektiğini belirtir"
+
+msgid "cmi.total_time"
+msgstr "Geçerli öğrenen girişimi biriken öğrenenin aktif kalma süreleri tüm Toplamı"
+
+msgid "completion_status_by_progress_measure"
+msgstr "Cmi.completion_threshold için bir değeri yoktur olduğundan, cmi.completion_status için değer LMS tarafından değerlendirilir! Bu cmi.progress_measure değeri ile cmi.completion_threshold için değeriyle karşılaştırarak yapılır. Cmi.completion_status için değeri şu anda:"
+
+msgid "debugwindow_action"
+msgstr "Eylem"
+
+msgid "debugwindow_cancel"
+msgstr "İptal"
+
+msgid "debugwindow_comment"
+msgstr "Yorum"
+
+msgid "debugwindow_comment_enter"
+msgstr "Yorum sizin girin"
+
+msgid "debugwindow_console"
+msgstr "Konsolu"
+
+msgid "debugwindow_date"
+msgstr "Tarih"
+
+msgid "debugwindow_delete"
+msgstr "Sil"
+
+msgid "debugwindow_delete_logfile"
+msgstr "Sil logfile"
+
+msgid "debugwindow_download"
+msgstr "Yükle"
+
+msgid "debugwindow_filename"
+msgstr "Dosya Adı"
+
+msgid "debugwindow_logs"
+msgstr "Kayıtlar"
+
+msgid "debugwindow_open"
+msgstr "Aç"
+
+msgid "debugwindow_start_recording"
+msgstr "Kayıt Başlatma"
+
+msgid "debugwindow_stop_recording"
+msgstr "Kaydı Durdur"
+
+msgid "debugwindow_submission_failed"
+msgstr "Gönderme başarısız"
+
+msgid "debugwindow_submit"
+msgstr "Gönder"
+
+msgid "description_for"
+msgstr "Için açıklaması"
+
+msgid "error0"
+msgstr "hata yok"
+
+msgid "error101"
+msgstr "Genel exeption"
+
+msgid "error102"
+msgstr "Genel Başlatma Hatası"
+
+msgid "error103"
+msgstr "Zaten Initialized"
+
+msgid "error104"
+msgstr "Sonlandırıldı İçerik Örneği"
+
+msgid "error111"
+msgstr "Genel Fesih Arızası"
+
+msgid "error112"
+msgstr "Başlatma önce Fesih"
+
+msgid "error113"
+msgstr "Fesih Sonrası Fesih"
+
+msgid "error122"
+msgstr "Başlatma Öncesi Veri Al"
+
+msgid "error123"
+msgstr "Fesih Sonrası Veri Al"
+
+msgid "error132"
+msgstr "Başlatma önce Mağaza Veri"
+
+msgid "error133"
+msgstr "Fesih Sonrası Mağaza Veri"
+
+msgid "error142"
+msgstr "Başlatma önce Commit"
+
+msgid "error143"
+msgstr "Fesih Sonrası Commit"
+
+msgid "error201"
+msgstr "Genel Argüman hatası"
+
+msgid "error301"
+msgstr "General Failure alın"
+
+msgid "error351"
+msgstr "Genel Seti Arızası"
+
+msgid "error391"
+msgstr "Genel Commit Arızası"
+
+msgid "error401"
+msgstr "Tanımsız Veri Modeli Eleman"
+
+msgid "error402"
+msgstr "Uygulanmayan Veri Modeli Eleman"
+
+msgid "error403"
+msgstr "Veri Modeli Öğe Değer Başlatılmamış"
+
+msgid "error404"
+msgstr "Veri Modeli Eleman Read Only mı"
+
+msgid "error405"
+msgstr "Veri Modeli Eleman Sadece Yazın"
+
+msgid "error406"
+msgstr "Veri Modeli Eleman Türü Uyumsuzluğu"
+
+msgid "error407"
+msgstr "Range Out Of Veri Modeli Öğe Değer"
+
+msgid "error408"
+msgstr "Veri Modeli Bağımlılık Tespit Edilmedi"
+
+msgid "generated"
+msgstr "Oluşturulan"
+
+msgid "i_fuchsia"
+msgstr "fuşya: tolere değer gönderilecek değeri reddedilir çünkü"
+
+msgid "i_gray"
+msgstr "gri: ILIAS düzeltilebilir hata"
+
+msgid "i_green"
+msgstr "yeşil: tamam"
+
+msgid "i_orange"
+msgstr "turuncu: Dikkat lütfen!"
+
+msgid "i_red"
+msgstr "kırmızı: Hata!"
+
+msgid "id_learning_module"
+msgstr "Öğrenme modülü Kimliği"
+
+msgid "log_for"
+msgstr "Öğrenme modülü için Günlükler"
+
+msgid "milliseconds"
+msgstr "milisaniye"
+
+msgid "missing_API-calls"
+msgstr "Bu API çağrıları eksik:"
+
+msgid "no_missing_API-calls"
+msgstr "Eksik API çağrıları kabul edilmemişti."
+
+msgid "nr_session"
+msgstr "Oturumun sayı"
+
+msgid "only_important_API-Calls_shown"
+msgstr "API-Çağrılar sadece önemli şu anda gösterilmiştir."
+
+msgid "return_value"
+msgstr "dönüş değeri"
+
+msgid "scormdebug_disable_cache"
+msgstr "SCORM 2004 Tarayıcı önbelleği devre dışı bırakma"
+
+msgid "scormdebug_disable_cache_info"
+msgstr "Bu tarayıcı önbelleğinde SCORM 2004 javascript dosyaları depolama önler. Yeni bir sürüm önce zaman bu işlevi kullanın!"
+
+msgid "scormdebug_global_activate"
+msgstr "Etkinleştir SCORM test aracı"
+
+msgid "scormdebug_global_activate_info"
+msgstr "Etkinse, SCORM test aracı istenilen öğrenme modülleri için devreye sokulabilir. Devre dışı bırakılırsa, test aracı tüm öğrenme modülleri için devre dışı bırakılır."
+
+msgid "sent_values_not_checked"
+msgstr "Seçilen özellik: SCO tarafından gönderilen değerleri tam kontrol edilmez"
+
+msgid "show_all_API-calls"
+msgstr "tüm API çağrıları göster!"
+
+msgid "show_only_important_API-calls"
+msgstr "sadece önemli API çağrıları göster!"
+
+msgid "started"
+msgstr "başladı"
+
+msgid "strange_API-Call"
+msgstr "garip API Çağrı"
+
+msgid "strange_error"
+msgstr "garip hata"
+
+msgid "success_status_by_score_scaled"
+msgstr "Cmi.scaled_passing_score için bir değeri yoktur olduğundan, cmi.success_status için değer LMS tarafından değerlendirilir! Bu cmi.score.scaled değeri ile cmi.scaled_passing_score için değeriyle karşılaştırarak yapılır. Cmi.success_status için değeri şu anda:"
+
+msgid "summary_csv"
+msgstr "Özet Excel örneğin ithal CSV dosyası olarak oluşturulur"
+
+msgid "summary_download"
+msgstr "Sen 'Kayıtlar' için Klick ve tekrar bu aracı başladığınızda indirebilirsiniz."
+
+msgid "summary_for_SCO_with_test"
+msgstr "Bir test ile SCO için Özeti"
+
+msgid "summary_for_SCO_without_test"
+msgstr "Bir test olmadan SCO için Özeti"
+
+msgid "undefined_color"
+msgstr "tanımsız rengi"
+
+msgid "unknown"
+msgstr "Bilinmeyen"

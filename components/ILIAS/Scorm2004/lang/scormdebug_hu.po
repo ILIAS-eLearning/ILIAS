@@ -1,0 +1,477 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: scormdebug\n"
+
+msgid "API-call"
+msgstr "API-hívás"
+
+msgid "Commit"
+msgstr "adat tárolása"
+
+msgid "GetDiagnostic"
+msgstr "lehetővé teszi az LMS (!) számára további diagnosztikai információk definiálását"
+
+msgid "GetErrorString"
+msgstr "a jelenlegi hibaállapot szöveges leírásának kinyerése"
+
+msgid "GetLastError"
+msgstr "jelenlegi hibaállapothoz hibakód kérése"
+
+msgid "GetValue"
+msgstr "adat megkapása"
+
+msgid "Initialize"
+msgstr "API-kommunikáció inicializálása"
+
+msgid "SCO-name"
+msgstr "SCO-név"
+
+msgid "SCO-title"
+msgstr "SCO-cím"
+
+msgid "SetValue"
+msgstr "adat küldése"
+
+msgid "Terminate"
+msgstr "adat tárolása és API-kommunikáció befejezése"
+
+msgid "adl.nav.request"
+msgstr "Navigációs kérés azonnali feldolgozáshoz, utána Terminate()"
+
+msgid "adl.nav.request_valid.choice"
+msgstr "SCO használja, hogy döntsön, ha a Választás navigációs kérés egy tevékenységhez sikeres lesz."
+
+msgid "adl.nav.request_valid.continue"
+msgstr "SCO használja, hogy döntsön, ha a Folytatás navigációs kérés sikeres lesz."
+
+msgid "adl.nav.request_valid.previous"
+msgstr "SCO használja, hogy döntsön, ha az Előző navigációs kérés sikeres lesz."
+
+msgid "all_API-calls_shown"
+msgstr "Jelenleg minden API-hívás látható."
+
+msgid "cmi._version"
+msgstr "Az adatmodell verziójának feltüntetése"
+
+msgid "cmi.comments_from_learner._children"
+msgstr "Támogatott adatmodell-elemek listázása"
+
+msgid "cmi.comments_from_learner._count"
+msgstr "Tanulói megjegyzések jelenlegi száma"
+
+msgid "cmi.comments_from_learner.n.comment"
+msgstr "Szöveges input"
+
+msgid "cmi.comments_from_learner.n.location"
+msgstr "SCO-pont, amelyre a megjegyzés vonatkozik"
+
+msgid "cmi.comments_from_learner.n.timestamp"
+msgstr "A megjegyzés létrehozásának vagy legutóbbi módosításának időpontja"
+
+msgid "cmi.comments_from_lms._children"
+msgstr "Támogatott adatmodellek listázása"
+
+msgid "cmi.comments_from_lms._count"
+msgstr "Megjegyzések jelenlegi száma az LMS-ből"
+
+msgid "cmi.comments_from_lms.n.comment"
+msgstr "SCO-hoz rendelt megjegyzések vagy magyarázatok"
+
+msgid "cmi.comments_from_lms.n.location"
+msgstr "SCO-pont, amelyre a megjegyzés vonatkozik"
+
+msgid "cmi.comments_from_lms.n.timestamp"
+msgstr "A megjegyzés létrehozásának vagy legutóbbi módosításának időpontja"
+
+msgid "cmi.completion_status"
+msgstr "Jelzi, hogy a tanuló befejezte-e az SCO-t"
+
+msgid "cmi.completion_threshold"
+msgstr "Arra használt, hogy meghatározza, az SCO-t befejezettnek kell-e tekinteni"
+
+msgid "cmi.credit"
+msgstr "Jelzi, hogy a tanulónak jóváírásra kerül-e az SCO-beli teljesítményhez"
+
+msgid "cmi.entry"
+msgstr "Bizonyítja, hogy a tanuló korábban már hozzáfért az SCO-hoz"
+
+msgid "cmi.exit"
+msgstr "Jelzi, hogy a tanuló hogyan és miért hagyta el az SCO-t"
+
+msgid "cmi.interactions._children"
+msgstr "Támogatott adatmodell-elemek listázása"
+
+msgid "cmi.interactions._count"
+msgstr "LMS által tárolt interakciók jelenlegi száma"
+
+msgid "cmi.interactions.n.correct_responses._count"
+msgstr "A jelenlegi helyes válaszok számát ehhez az interakcióhoz tárolja az LMS"
+
+msgid "cmi.interactions.n.correct_responses.n.pattern"
+msgstr "Egy helyes válaszminta az interakcióhoz"
+
+msgid "cmi.interactions.n.description"
+msgstr "Az interakció rövid, informatív leírása"
+
+msgid "cmi.interactions.n.id"
+msgstr "Egyedi címke az interakcióhoz"
+
+msgid "cmi.interactions.n.latency"
+msgstr "Az interakció tanulónak válaszhoz elérhetővé tétele és az első válasz között eltelt idő"
+
+msgid "cmi.interactions.n.learner_response"
+msgstr "Az adatot akkor generáltuk, amikor a hallgató válaszolt egy interakcióra"
+
+msgid "cmi.interactions.n.objectives._count"
+msgstr "LMS által ehhez az interakcióhoz tárolt célok jelenlegi száma (például célazonosítók)"
+
+msgid "cmi.interactions.n.objectives.n.id"
+msgstr "Ezzel az interakcióval összerendelt címke a célokhoz"
+
+msgid "cmi.interactions.n.result"
+msgstr "A tanulói válasz helyességének megítélése"
+
+msgid "cmi.interactions.n.timestamp"
+msgstr "Az interakció először elérhetővé tételének időpontja a tanuló számára tanulói interakcióhoz és válaszhoz"
+
+msgid "cmi.interactions.n.type"
+msgstr "Melyik interakciótípus van rögzítve"
+
+msgid "cmi.interactions.n.weighting"
+msgstr "Az interakcióhoz adott súly relatív más interakciókhoz"
+
+msgid "cmi.launch_data"
+msgstr "SCO-nak a dataFromLMS manifest által szolgáltatott adatok az indulás, inicializálás után"
+
+msgid "cmi.learner_id"
+msgstr "Annak a tanulónak az azonosítása, akinek a nevében az SCO elindult"
+
+msgid "cmi.learner_name"
+msgstr "Az LMS által a tanulónak szolgáltatott név"
+
+msgid "cmi.learner_preference._children"
+msgstr "Támogatott adatmodell-elemek listázása"
+
+msgid "cmi.learner_preference.audio_captioning"
+msgstr "Megadja, hogy a feliratozás szövege a megjelenő hanghoz tartozik-e"
+
+msgid "cmi.learner_preference.audio_level"
+msgstr "Az érzékelhető audiószintben tervezett változás megadása"
+
+msgid "cmi.learner_preference.delivery_speed"
+msgstr "A tanuló által kívánt szövegátvitel relatív sebessége"
+
+msgid "cmi.learner_preference.language"
+msgstr "A tanuló kívánt nyelve az SCO-khoz a többnyelvűség lehetőségével"
+
+msgid "cmi.location"
+msgstr "A tanuló jelenlegi helye az SCO-ban"
+
+msgid "cmi.max_time_allowed"
+msgstr "Halmozott idő, amelyben a tanuló használhatja az SCO-t"
+
+msgid "cmi.mode"
+msgstr "Azonosítja a három lehetséges mód közül az egyiket, amelyben az SCO megjelenhet a tanulónak"
+
+msgid "cmi.objectives._children"
+msgstr "Támogatott adatmodell-elemek listázása"
+
+msgid "cmi.objectives._count"
+msgstr "Az LMS által tárolt célok jelenlegi száma"
+
+msgid "cmi.objectives.n.completion_status"
+msgstr "Jelzi, hogy a tanuló befejezte-e a hozzárendelt célt"
+
+msgid "cmi.objectives.n.description"
+msgstr "A cél rövid, informatív leírását adja"
+
+msgid "cmi.objectives.n.id"
+msgstr "Egyedi címke a célokhoz"
+
+msgid "cmi.objectives.n.progress_measure"
+msgstr "A tanuló cél teljesítése felé tett előrehaladásának mértéke"
+
+msgid "cmi.objectives.n.score._children"
+msgstr "Támogatott adatmodell-elemek listázása"
+
+msgid "cmi.objectives.n.score.max"
+msgstr "Maximális érték a célhoz a tartományban a nyers pontszámhoz"
+
+msgid "cmi.objectives.n.score.min"
+msgstr "Minimális érték a célhoz a tartományban a nyers pontszámhoz"
+
+msgid "cmi.objectives.n.score.raw"
+msgstr "A tanuló teljesítményét tükröző szám a cél eléréséhez relatív a tartományhoz, amely a min és max értékekkel határolt"
+
+msgid "cmi.objectives.n.score.scaled"
+msgstr "A tanuló teljesítményét tükröző szám a cél eléréséhez"
+
+msgid "cmi.objectives.n.success_status"
+msgstr "Jelzi, hogy a tanuló elsajátította-e a célt"
+
+msgid "cmi.progress_measure"
+msgstr "A tanuló SCO teljesítése felé tett előrehaladásának mértéke"
+
+msgid "cmi.scaled_passing_score"
+msgstr "Szükséges skálázott pontszám az SCO elsajátításához"
+
+msgid "cmi.score._children"
+msgstr "Támogatott adatmodell-elemek listázása"
+
+msgid "cmi.score.max"
+msgstr "Maximális érték a célhoz a tartományban a nyers pontszámhoz"
+
+msgid "cmi.score.min"
+msgstr "Minimális érték a célhoz a tartományban a nyers pontszámhoz"
+
+msgid "cmi.score.raw"
+msgstr "A tanuló teljesítményét tükröző szám a cél eléréséhez relatív a tartományhoz, amely a min és max értékekkel határolt"
+
+msgid "cmi.score.scaled"
+msgstr "A tanuló előrehaladását tükröző szám"
+
+msgid "cmi.session_time"
+msgstr "A tanulónak a jelenlegi tanulói munkamenetben ezzel az SCO-val töltött ideje"
+
+msgid "cmi.success_status"
+msgstr "Jelzi, hogy a tanuló elsajátította-e az SCO-t"
+
+msgid "cmi.suspend_data"
+msgstr "Helyet nyújt adatok tároláshoz és visszanyeréséhez a tanulói munkamenetek között"
+
+msgid "cmi.time_limit_action"
+msgstr "Jelzi, hogy melyik SCO-t kellene megcsinálni, amikor cmi.max_time_allowed lejár"
+
+msgid "cmi.total_time"
+msgstr "A jelenlegi tanulói próbálkozásban összesített tanulói munkamenetidő összege"
+
+msgid "completion_status_by_progress_measure"
+msgstr "Mivel van érték a cmi.completion_threshold-hoz, a cmi.completion_status-hoz levő értéket az LMS értékeli ki! Ez a cmi.completion_threshold-hoz és a cmi.progress_measure-höz tartozó értékek összehasonlításával történik. A cmi.completion_status-hoz tartozó érték jelenleg:"
+
+msgid "debugwindow_action"
+msgstr "Művelet"
+
+msgid "debugwindow_cancel"
+msgstr "Mégsem"
+
+msgid "debugwindow_comment"
+msgstr "megjegyzés"
+
+msgid "debugwindow_comment_enter"
+msgstr "Adja meg megjegyzését"
+
+msgid "debugwindow_console"
+msgstr "Konzol"
+
+msgid "debugwindow_date"
+msgstr "Dátum"
+
+msgid "debugwindow_delete"
+msgstr "Törlés"
+
+msgid "debugwindow_delete_logfile"
+msgstr "Naplófájl törlése"
+
+msgid "debugwindow_download"
+msgstr "Letöltés"
+
+msgid "debugwindow_filename"
+msgstr "Fájlnév"
+
+msgid "debugwindow_logs"
+msgstr "Logok"
+
+msgid "debugwindow_open"
+msgstr "Megnyitás"
+
+msgid "debugwindow_start_recording"
+msgstr "Felvétel indítása"
+
+msgid "debugwindow_stop_recording"
+msgstr "Felvétel leállítása"
+
+msgid "debugwindow_submission_failed"
+msgstr "Küldés sikertelen"
+
+msgid "debugwindow_submit"
+msgstr "Küldés"
+
+msgid "description_for"
+msgstr "leírás ehhez:"
+
+msgid "error0"
+msgstr "Nincs hiba"
+
+msgid "error101"
+msgstr "Általános kivétel"
+
+msgid "error102"
+msgstr "Általános inicializációs hiba"
+
+msgid "error103"
+msgstr "Már inicializálva van"
+
+msgid "error104"
+msgstr "Tartalompéldány megszüntetve"
+
+msgid "error111"
+msgstr "Általános megszüntetési hiba"
+
+msgid "error112"
+msgstr "Inicializáció előtti megszüntetés"
+
+msgid "error113"
+msgstr "Megszüntetés utáni megszüntetés"
+
+msgid "error122"
+msgstr "Inicializálás előtti adatkinyerés"
+
+msgid "error123"
+msgstr "Megszüntetés utáni adatkinyerés"
+
+msgid "error132"
+msgstr "Inicializáció előtti adattárolás"
+
+msgid "error133"
+msgstr "Megszüntetés utáni adattárolás"
+
+msgid "error142"
+msgstr "Inicializálás előtti végrehajtás"
+
+msgid "error143"
+msgstr "Megszüntetés utáni végrehajtás"
+
+msgid "error201"
+msgstr "Általános argumentumhiba"
+
+msgid "error301"
+msgstr "Általános get hiba"
+
+msgid "error351"
+msgstr "Általános set hiba"
+
+msgid "error391"
+msgstr "Általános végrehajtási hiba"
+
+msgid "error401"
+msgstr "Nem definiált adatmodell-elem"
+
+msgid "error402"
+msgstr "Nem implementált adatmodell-elem"
+
+msgid "error403"
+msgstr "Adatmodell-elem nem inicializált"
+
+msgid "error404"
+msgstr "Adatmodell-elem írásvédett"
+
+msgid "error405"
+msgstr "Adatmodell-elem csak írható"
+
+msgid "error406"
+msgstr "Adatmodell-elem típusegyeztetési hiba"
+
+msgid "error407"
+msgstr "Adatmodell-elem értéke értékhatáron kívül van"
+
+msgid "error408"
+msgstr "Adatmodell függőség nem megállapított"
+
+msgid "generated"
+msgstr "generált"
+
+msgid "i_fuchsia"
+msgstr "rózsaszín: tolerálható, mert az elküldött értéket nem utasították el"
+
+msgid "i_gray"
+msgstr "szürke: ILIAS által javított hiba"
+
+msgid "i_green"
+msgstr "zöld: rendben"
+
+msgid "i_orange"
+msgstr "narancs: figyelem!"
+
+msgid "i_red"
+msgstr "piros: hiba!"
+
+msgid "id_learning_module"
+msgstr "Tananyag-ID-je"
+
+msgid "log_for"
+msgstr "Log a tananyaghoz"
+
+msgid "milliseconds"
+msgstr "ezredmásodperc"
+
+msgid "missing_API-calls"
+msgstr "Ezek az API-hívások hiányoznak:"
+
+msgid "no_missing_API-calls"
+msgstr "Nem ismertek hiányzó API-hívások."
+
+msgid "nr_session"
+msgstr "munkamenet száma"
+
+msgid "only_important_API-Calls_shown"
+msgstr "Csak a fontos API-hívások vannak jelenleg megjelenítve."
+
+msgid "return_value"
+msgstr "visszatérési érték"
+
+msgid "scormdebug_disable_cache"
+msgstr "SCORM 2004 böngésző-gyorsítótárazás letiltása"
+
+msgid "scormdebug_disable_cache_info"
+msgstr "Ez megakadályozza a SCORM 2004 JavaScript fájlok tárolását a böngésző gyorsítótárában. Ezt a funkciót új közzététel előtt használja."
+
+msgid "scormdebug_global_activate"
+msgstr "SCORM teszteszköz engedélyezése"
+
+msgid "scormdebug_global_activate_info"
+msgstr "A SCORM-teszteszköz aktiválható a kívánt tananyagokhoz. Ha le van tiltva, a teszteszköz egyik tananyaghoz sem aktív."
+
+msgid "sent_values_not_checked"
+msgstr "kiválasztott tulajdonság: az SCO által elküldött értékek nem ellenőrzöttek teljes mértékben"
+
+msgid "show_all_API-calls"
+msgstr "API-hívások megjelenítése."
+
+msgid "show_only_important_API-calls"
+msgstr "Csak a fontos API-hívások megjelenítése."
+
+msgid "started"
+msgstr "elindítva"
+
+msgid "strange_API-Call"
+msgstr "szokatlan API-hívás"
+
+msgid "strange_error"
+msgstr "szokatlan hiba"
+
+msgid "success_status_by_score_scaled"
+msgstr "Mivel van érték a cmi.scaled_passing_score-hoz, a cmi.success_status-hoz levő értéket az LMS értékeli ki! Ez a cmi.scaled_passing_score-hoz és a cmi.score.scaled-hez tartozó értékek összehasonlításával történik. A cmi.success_status-hoz tartozó érték jelenleg:"
+
+msgid "summary_csv"
+msgstr "Az összefoglaló CVS-fájlként van generálva például Excelbe importáláshoz"
+
+msgid "summary_download"
+msgstr "A ‘Logokra’ kattinthat, és amikor legközelebb elindítja ezt az eszközt, letöltheti."
+
+msgid "summary_for_SCO_with_test"
+msgstr "Összefoglaló SCO-hoz teszttel"
+
+msgid "summary_for_SCO_without_test"
+msgstr "Összefoglaló SCO-hoz teszt nélkül"
+
+msgid "undefined_color"
+msgstr "nem definiált szín"
+
+msgid "unknown"
+msgstr "nem ismert"

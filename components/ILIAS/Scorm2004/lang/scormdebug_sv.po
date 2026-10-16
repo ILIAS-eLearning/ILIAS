@@ -1,0 +1,486 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: scormdebug\n"
+
+msgid "API-call"
+msgstr "API-anrop"
+
+msgid "Commit"
+msgstr "Spara data"
+
+msgid "GetDiagnostic"
+msgstr "Serves lärplattform för att hämta ytterligare information."
+
+msgid "GetErrorString"
+msgstr "Hämta beskrivning för aktuell felstatus"
+
+msgid "GetLastError"
+msgstr "Hämta felkod för aktuell felstatus"
+
+msgid "GetValue"
+msgstr "Återkalla data"
+
+msgid "Initialize"
+msgstr "Initialisera (starta) kommunikation med SCORM API"
+
+msgid "SCO-name"
+msgstr "SCO namn"
+
+msgid "SCO-title"
+msgstr "SCO-titel"
+
+msgid "SetValue"
+msgstr "Skicka data"
+
+msgid "Terminate"
+msgstr "Spara data och avsluta kommunikationen med SCORM API"
+
+msgid "adl.nav.request"
+msgstr "Navigeringsanrop som ska utföras efter Terminate()"
+
+msgid "adl.nav.request_valid.choice"
+msgstr "Ger feedback till SCO om ett specifikt navigeringsanrop kommer att vara möjligt"
+
+msgid "adl.nav.request_valid.continue"
+msgstr "Ger feedback till SCO om ytterligare navigering kommer att vara möjlig"
+
+msgid "adl.nav.request_valid.previous"
+msgstr "Ger feedback till SCO om bakåtnavigering kommer att vara möjlig"
+
+msgid "all_API-calls_shown"
+msgstr "Alla anrop till SCORM API visas för närvarande."
+
+msgid "cmi._version"
+msgstr "visar versionen av datamodellen"
+
+msgid "cmi.comments_from_learner._children"
+msgstr "Lista över de delar av datamodellen som stöds här"
+
+msgid "cmi.comments_from_learner._count"
+msgstr " aktuellt antal kommentarer som gjorts av eleven"
+
+msgid "cmi.comments_from_learner.n.comment"
+msgstr "Text för kommentaren"
+
+msgid "cmi.comments_from_learner.n.location"
+msgstr "Position inom SCO som kommentaren avser"
+
+msgid "cmi.comments_from_learner.n.timestamp"
+msgstr "Tidpunkt då kommentaren skapades eller senast ändrades"
+
+msgid "cmi.comments_from_lms._children"
+msgstr "Lista över de delar av datamodellen som stöds här"
+
+msgid "cmi.comments_from_lms._count"
+msgstr "aktuellt antal kommentarer från LMS"
+
+msgid "cmi.comments_from_lms.n.comment"
+msgstr "Kommentar från LMS länkad till SCO"
+
+msgid "cmi.comments_from_lms.n.location"
+msgstr "Position inom SCO som kommentaren avser"
+
+msgid "cmi.comments_from_lms.n.timestamp"
+msgstr "Tidpunkt då kommentaren skapades eller senast ändrades"
+
+msgid "cmi.completion_status"
+msgstr "Anger om och i vilken utsträckning SCO har bearbetats."
+
+msgid "cmi.completion_threshold"
+msgstr "bestämmer den nivå på vilken ett SCO anses vara slutfört."
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "cmi.credit"
+msgstr "bestämmer om inlärningsframsteg ska registreras."
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "cmi.entry"
+msgstr "sänds om SCO redan har behandlats "
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteterna för ILIAS 8
+msgid "cmi.exit"
+msgstr "överförde varför och hur SCO lämnades."
+
+msgid "cmi.interactions._children"
+msgstr "Lista över de delar av datamodellen som stöds här"
+
+msgid "cmi.interactions._count"
+msgstr "aktuellt antal interaktioner som lagras av LMS"
+
+msgid "cmi.interactions.n.correct_responses._count"
+msgstr " aktuellt antal korrekta svar som lagrats av LMS för denna interaktion"
+
+msgid "cmi.interactions.n.correct_responses.n.pattern"
+msgstr "Ett korrekt svar för denna interaktion"
+
+msgid "cmi.interactions.n.description"
+msgstr "Beskrivning av interaktionen"
+
+msgid "cmi.interactions.n.id"
+msgstr "unikt ID för interaktionen"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteterna för ILIAS 8
+msgid "cmi.interactions.n.latency"
+msgstr "förlorad tid mellan tillhandahållandet av interaktionen och svaret"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "cmi.interactions.n.learner_response"
+msgstr "Svar på denna interaktion"
+
+msgid "cmi.interactions.n.objectives._count"
+msgstr " aktuellt antal inlärningsmål som lagrats av LMS för denna interaktion"
+
+msgid "cmi.interactions.n.objectives.n.id"
+msgstr "ID för lärandemålet som är kopplat till denna interaktion"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "cmi.interactions.n.result"
+msgstr "Bedöm om svaret är korrekt"
+
+msgid "cmi.interactions.n.timestamp"
+msgstr "Tidpunkt då interaktionen gjordes tillgänglig för bearbetning"
+
+msgid "cmi.interactions.n.type"
+msgstr "Typ av interaktion"
+
+msgid "cmi.interactions.n.weighting"
+msgstr "Viktning av denna interaktion i förhållande till andra interaktioner"
+
+msgid "cmi.launch_data"
+msgstr "Uppgifter som tillhandahålls SCO vid start"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteterna för ILIAS 8
+msgid "cmi.learner_id"
+msgstr "ID för eleven som lagras i LMS"
+
+msgid "cmi.learner_name"
+msgstr "Namn så som det lagras i LMS"
+
+msgid "cmi.learner_preference._children"
+msgstr "Lista över de delar av datamodellen som stöds här"
+
+msgid "cmi.learner_preference.audio_captioning"
+msgstr "ställer in om kompletterande ljudtext ska visas"
+
+msgid "cmi.learner_preference.audio_level"
+msgstr " ställer in eller hämtar den volym som ska sparas"
+
+msgid "cmi.learner_preference.delivery_speed"
+msgstr "Ställer in eller hämtar hastigheten för innehållspresentationen som ska kommas ihåg."
+
+msgid "cmi.learner_preference.language"
+msgstr " anger eller hämtar det språk som skall kommas ihåg"
+
+# Modifierad som en del av jämställdhetsintegreringsåtgärderna för ILIAS 8
+msgid "cmi.location"
+msgstr "personens nuvarande befattning inom SCO"
+
+# Modifierad som en del av jämställdhetsintegreringen för ILIAS 8
+msgid "cmi.max_time_allowed"
+msgstr "visar den maximalt tillåtna inlärningstiden för SCO"
+
+msgid "cmi.mode"
+msgstr "indikerar vilket läge SCO är i"
+
+msgid "cmi.objectives._children"
+msgstr "Lista över de delar av datamodellen som stöds här"
+
+msgid "cmi.objectives._count"
+msgstr " aktuellt antal inlärningsmål som lagras av LMS för SCO"
+
+msgid "cmi.objectives.n.completion_status"
+msgstr "Indikerar i vilken utsträckning lärandemålet har uppnåtts."
+
+msgid "cmi.objectives.n.description"
+msgstr "Beskrivning av lärandemålet"
+
+msgid "cmi.objectives.n.id"
+msgstr "ID för lärandemålet"
+
+msgid "cmi.objectives.n.progress_measure"
+msgstr "Indikerar graden av uppfyllelse av ett lärandemål."
+
+msgid "cmi.objectives.n.score._children"
+msgstr "Lista över de delar av datamodellen som stöds här"
+
+msgid "cmi.objectives.n.score.max"
+msgstr "Maximalt antal poäng som ska uppnås för lärandemålet"
+
+msgid "cmi.objectives.n.score.min"
+msgstr "Minsta antal poäng som ska uppnås för lärandemålet"
+
+msgid "cmi.objectives.n.score.raw"
+msgstr "Score uppnådd för lärandemålet i intervallet mellan score.min och score.max"
+
+msgid "cmi.objectives.n.score.scaled"
+msgstr "bestämmer vilken relativ andel av poängintervallet som uppnåddes för detta lärandemål"
+
+msgid "cmi.objectives.n.success_status"
+msgstr "indikerar med vilken framgång lärandemålet uppnåddes"
+
+msgid "cmi.progress_measure"
+msgstr "Indikerar graden av fullständighet i bearbetningen av en SCO"
+
+msgid "cmi.scaled_passing_score"
+msgstr "bestämmer från vilken relativ andel av punktintervallet en SCO bearbetades framgångsrikt"
+
+msgid "cmi.score._children"
+msgstr "Lista över de delar av datamodellen som stöds här"
+
+msgid "cmi.score.max"
+msgstr "Högsta poäng som kan uppnås i SCO"
+
+msgid "cmi.score.min"
+msgstr "minsta poäng som ska uppnås i SCO"
+
+msgid "cmi.score.raw"
+msgstr "Score uppnådd i intervallet mellan score.min och score.max"
+
+msgid "cmi.score.scaled"
+msgstr "bestämmer vilken relativ andel av poängintervallet som uppnåddes i en SCO"
+
+msgid "cmi.session_time"
+msgstr "Tid som eleven tillbringat i en SCO under denna session."
+
+msgid "cmi.success_status"
+msgstr "indikerar med vilken framgång SCO behandlades"
+
+msgid "cmi.suspend_data"
+msgstr "Minnesutrymme för datalagring mellan inlärningstillfällen"
+
+msgid "cmi.time_limit_action"
+msgstr "Anger hur SCO ska bete sig när den maximalt tillåtna inlärningstiden har uppnåtts."
+
+msgid "cmi.total_time"
+msgstr "Summan av alla ackumulerade sessionstider för SCO i det aktuella inlärningsförsöket"
+
+msgid "completion_status_by_progress_measure"
+msgstr "Eftersom det finns ett värde för cmi.completion_threshold, bestäms värdet för cmi.completion_status av LMS! Detta görs genom att jämföra värdet för cmi.completion_threshold med värdet för cmi.progress_measure. Värdet för cmi.completion_status är för närv"
+
+msgid "debugwindow_action"
+msgstr "Åtgärder"
+
+msgid "debugwindow_cancel"
+msgstr "abort"
+
+msgid "debugwindow_comment"
+msgstr "Kommentar"
+
+msgid "debugwindow_comment_enter"
+msgstr "Ange din kommentar"
+
+msgid "debugwindow_console"
+msgstr "Konsol"
+
+msgid "debugwindow_date"
+msgstr "Datum"
+
+msgid "debugwindow_delete"
+msgstr "Radera"
+
+msgid "debugwindow_delete_logfile"
+msgstr "Ta bort loggfilen"
+
+msgid "debugwindow_download"
+msgstr "Ladda ner"
+
+msgid "debugwindow_filename"
+msgstr "Filenamn"
+
+msgid "debugwindow_logs"
+msgstr "Logga filer"
+
+msgid "debugwindow_open"
+msgstr "Öppen"
+
+msgid "debugwindow_start_recording"
+msgstr "Starta inspelning"
+
+msgid "debugwindow_stop_recording"
+msgstr "Stoppa inspelningen"
+
+msgid "debugwindow_submission_failed"
+msgstr "Räddning misslyckades"
+
+msgid "debugwindow_submit"
+msgstr "sänd av"
+
+msgid "description_for"
+msgstr "Förklaring till"
+
+msgid "error0"
+msgstr " inget fel"
+
+msgid "error101"
+msgstr "Generellt undantagsfel"
+
+msgid "error102"
+msgstr "Generellt initialiseringsfel"
+
+msgid "error103"
+msgstr " redan initialiserad"
+
+msgid "error104"
+msgstr "Innehållsinstans avslutad"
+
+msgid "error111"
+msgstr "Allmänt fel vid uppsägning"
+
+msgid "error112"
+msgstr "Stopp före initialisering"
+
+msgid "error113"
+msgstr "Terminering efter uppsägning"
+
+msgid "error122"
+msgstr "Query data före initialisering"
+
+msgid "error123"
+msgstr "Query data efter uppsägning"
+
+msgid "error132"
+msgstr "Spara data före initialisering"
+
+msgid "error133"
+msgstr "Spara data efter slutförandet"
+
+msgid "error142"
+msgstr "Spara data före initialisering"
+
+msgid "error143"
+msgstr "Spara data efter slutförandet"
+
+msgid "error201"
+msgstr "Generellt fel i argumentet"
+
+msgid "error301"
+msgstr "Generellt fel vid hämtning av data"
+
+msgid "error351"
+msgstr "Generellt fel vid sändning av data"
+
+msgid "error391"
+msgstr "Generellt fel vid lagring av data"
+
+msgid "error401"
+msgstr "Odefinierat element i datamodellen"
+
+msgid "error402"
+msgstr "Elementet är inte implementerat i datamodellen"
+
+msgid "error403"
+msgstr "Värdet av elementet i datamodellen inte initialiserat"
+
+msgid "error404"
+msgstr "Element i datamodellen får endast läsas"
+
+msgid "error405"
+msgstr "Element i datamodellen får endast skrivas"
+
+msgid "error406"
+msgstr "Datatyp för elementet i datamodellen är olämplig"
+
+msgid "error407"
+msgstr "Värdet för elementet i datamodellen ligger inte inom det tillåtna intervallet"
+
+msgid "error408"
+msgstr "Relation av datamodellen är inte skapad"
+
+msgid "generated"
+msgstr "skapad"
+
+msgid "i_fuchsia"
+msgstr "rosa"
+
+msgid "i_gray"
+msgstr "grå"
+
+msgid "i_green"
+msgstr "grön"
+
+msgid "i_orange"
+msgstr "orange"
+
+msgid "i_red"
+msgstr "röd"
+
+msgid "id_learning_module"
+msgstr "Id för inlärningsmodulen"
+
+msgid "log_for"
+msgstr "Protokoll för utbildningsmodulen"
+
+msgid "milliseconds"
+msgstr "Millisekunder"
+
+msgid "missing_API-calls"
+msgstr "Följande API-anrop saknas"
+
+msgid "no_missing_API-calls"
+msgstr "Saknade API-anrop upptäcktes inte."
+
+msgid "nr_session"
+msgstr "Sessionens nummer"
+
+msgid "only_important_API-Calls_shown"
+msgstr "För närvarande visas endast viktiga anrop till SCORM API."
+
+msgid "return_value"
+msgstr "Återgång"
+
+msgid "scormdebug_disable_cache"
+msgstr "SCORM 2004 Inaktivera webbläsarens cache"
+
+msgid "scormdebug_disable_cache_info"
+msgstr "Detta förhindrar lagring av SCORM 2004 Javascript-filer i webbläsarens cache. Använd denna funktion i god tid före ett versionsbyte!"
+
+msgid "scormdebug_global_activate"
+msgstr "Aktivera testverktyget SCORM"
+
+msgid "scormdebug_global_activate_info"
+msgstr "Funktionen gör det möjligt att testa SCORM-inlärningsmoduler. Dessutom måste testverktyget aktiveras för varje önskad SCORM-modul. Om testverktyget avaktiveras vid denna tidpunkt avaktiveras testverktyget för alla inlärningsmoduler."
+
+msgid "sent_values_not_checked"
+msgstr "Vald egenskap"
+
+msgid "show_all_API-calls"
+msgstr "Visa alla API-anrop!"
+
+msgid "show_only_important_API-calls"
+msgstr "Visa endast viktiga API-anrop!"
+
+msgid "started"
+msgstr "startade"
+
+msgid "strange_API-Call"
+msgstr "specifikt API-anrop"
+
+msgid "strange_error"
+msgstr "konstigt misstag"
+
+msgid "success_status_by_score_scaled"
+msgstr "Eftersom det finns ett värde för cmi.scaled_passing_score bestäms värdet för cmi.success_status av LMS! Detta görs genom att jämföra värdet för cmi.scaled_passing_score med värdet för cmi.score.scaled. Värdet för cmi.success_status är för närvarande"
+
+msgid "summary_csv"
+msgstr "Sammanfattning som CSV-fil för import t.ex. till Excel skapades"
+
+msgid "summary_download"
+msgstr "Du kan ladda ner filen via \"Loggar\" nästa gång du startar verktyget."
+
+msgid "summary_for_SCO_with_test"
+msgstr "Sammanfattning för SCO med test"
+
+msgid "summary_for_SCO_without_test"
+msgstr "Sammanfattning för en SCO utan test"
+
+msgid "undefined_color"
+msgstr "icke definierad färg"
+
+msgid "unknown"
+msgstr "okänd"

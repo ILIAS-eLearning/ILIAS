@@ -1,0 +1,477 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: scormdebug\n"
+
+msgid "API-call"
+msgstr "Wywołanie API"
+
+msgid "Commit"
+msgstr "Zapisz dane"
+
+msgid "GetDiagnostic"
+msgstr "służy platformie do wywoływania dodatkowych informacji"
+
+msgid "GetErrorString"
+msgstr "Wywołaj opis dla aktualnego statusu błędu"
+
+msgid "GetLastError"
+msgstr "Wywołaj kod błędu dla aktualnego statusu błędu"
+
+msgid "GetValue"
+msgstr "Wywołaj dane"
+
+msgid "Initialize"
+msgstr "Rozpocznij komunikację ze SCORM-API (uruchom)"
+
+msgid "SCO-name"
+msgstr "Nazwa SCO"
+
+msgid "SCO-title"
+msgstr "Tytuł SCO"
+
+msgid "SetValue"
+msgstr "Wyślij dane"
+
+msgid "Terminate"
+msgstr "Zapisz dane i zakończ komunikację z SCORM-API"
+
+msgid "adl.nav.request"
+msgstr "konieczne wywołanie nawigacji wg pojęć()"
+
+msgid "adl.nav.request_valid.choice"
+msgstr "wysyła komunikat zwrotny do SCO, czy możliwe jest właściwe wywołanie nawigacji"
+
+msgid "adl.nav.request_valid.continue"
+msgstr "wysyła komunikat zwrotny do SCO, czy możliwa jest dalsza nawigacja"
+
+msgid "adl.nav.request_valid.previous"
+msgstr "wysyła komunikat zwrotny do SCO, czy możliwa jest zwrotna nawigacja"
+
+msgid "all_API-calls_shown"
+msgstr "Aktualnie wyświetlane są wszystkie wywołania SCORM-API."
+
+msgid "cmi._version"
+msgstr "przedstawia wersję modelu danych"
+
+msgid "cmi.comments_from_learner._children"
+msgstr "Lista obsługiwanych elementów modelu danych"
+
+msgid "cmi.comments_from_learner._count"
+msgstr "aktualna liczba komentarzy uczestnika/uczestników kursu"
+
+msgid "cmi.comments_from_learner.n.comment"
+msgstr "Tekst komentarza"
+
+msgid "cmi.comments_from_learner.n.location"
+msgstr "Pozycja w SCO, której dotyczy komentarz"
+
+msgid "cmi.comments_from_learner.n.timestamp"
+msgstr "Czas, w którym został sporządzony lub po raz ostatni edytowany komentarz"
+
+msgid "cmi.comments_from_lms._children"
+msgstr "Lista obsługiwanych elementów modelu danych"
+
+msgid "cmi.comments_from_lms._count"
+msgstr "aktualna liczba komentarzy LMS"
+
+msgid "cmi.comments_from_lms.n.comment"
+msgstr "komentarz LMS połączony z SCO"
+
+msgid "cmi.comments_from_lms.n.location"
+msgstr "Pozycja w SCO, której dotyczy komentarz"
+
+msgid "cmi.comments_from_lms.n.timestamp"
+msgstr "Czas, w którym został sporządzony lub po raz ostatni edytowany komentarz"
+
+msgid "cmi.completion_status"
+msgstr "informuje, czy i w jakim zakresie edytowany jest SCO"
+
+msgid "cmi.completion_threshold"
+msgstr "określa, od jakiego stopnia SCO uznaje się za zakończony (completed)."
+
+msgid "cmi.credit"
+msgstr "określa, czy należy ująć postęp w nauce uczestnika / uczestników kursu"
+
+msgid "cmi.entry"
+msgstr "przekazuje, czy uczestnik kursu już edytował SCO"
+
+msgid "cmi.exit"
+msgstr "przekazuje, dlaczego i jak uczestnik kursu opuścił SCO"
+
+msgid "cmi.interactions._children"
+msgstr "Lista obsługiwanych elementów modelu danych"
+
+msgid "cmi.interactions._count"
+msgstr "aktualna liczba zapisanych przez LMS interakcji"
+
+msgid "cmi.interactions.n.correct_responses._count"
+msgstr "aktualna liczba prawidłowych odpowiedzi, które zostały zapisane przez LMS dla tej interakcji"
+
+msgid "cmi.interactions.n.correct_responses.n.pattern"
+msgstr "prawidłowa odpowiedź dla tej interakcji"
+
+msgid "cmi.interactions.n.description"
+msgstr "Opis interakcji"
+
+msgid "cmi.interactions.n.id"
+msgstr "jednoznaczny numer ID interakcji"
+
+msgid "cmi.interactions.n.latency"
+msgstr "czas, który upłynął od udostępnienia interakcji a odpowiedzią uczestnika kursu"
+
+msgid "cmi.interactions.n.learner_response"
+msgstr "Odpowiedź uczestnika kursu na tę interakcję"
+
+msgid "cmi.interactions.n.objectives._count"
+msgstr "aktualna liczba celów dydaktycznych, które zostały zapisane przez LMS dla tej interakcji"
+
+msgid "cmi.interactions.n.objectives.n.id"
+msgstr "Numer ID celu dydaktycznego, który jest powiązany z interakcją"
+
+msgid "cmi.interactions.n.result"
+msgstr "Ocena prawidłowości odpowiedzi uczestnika kursu"
+
+msgid "cmi.interactions.n.timestamp"
+msgstr "Czas, w którym interakcje została udostępniona do edycji"
+
+msgid "cmi.interactions.n.type"
+msgstr "Typ interakcji"
+
+msgid "cmi.interactions.n.weighting"
+msgstr "Znaczenie interakcji w odniesieniu do innych interakcji"
+
+msgid "cmi.launch_data"
+msgstr "Dane, które zostaną udostępnione SCO podczas rozpoczęcia"
+
+msgid "cmi.learner_id"
+msgstr "Numer ID uczestnika kursu, zgodnie z numerem zapisanym w LMS"
+
+msgid "cmi.learner_name"
+msgstr "Nazwisko uczestnika kursu, zgodnie z nazwiskiem zapisanym w LMS"
+
+msgid "cmi.learner_preference._children"
+msgstr "Lista obsługiwanych elementów modelu danych"
+
+msgid "cmi.learner_preference.audio_captioning"
+msgstr "ustala, czy należy wyświetlić automatycznie uzupełniający się tekst"
+
+msgid "cmi.learner_preference.audio_level"
+msgstr "włącza lub wyłącza zapisany poziom głośności"
+
+msgid "cmi.learner_preference.delivery_speed"
+msgstr "włącza lub wyłącza zapisaną prędkość prezentacji zawartości"
+
+msgid "cmi.learner_preference.language"
+msgstr "włącza lub wyłącza zapisany język"
+
+msgid "cmi.location"
+msgstr "aktualna pozycja uczestnika kursu w SCO"
+
+msgid "cmi.max_time_allowed"
+msgstr "podaje maksymalny dopuszczalny czas nauki uczestnika kursu dla SCO"
+
+msgid "cmi.mode"
+msgstr "podaje, w jakim trybie znajduje się SCO"
+
+msgid "cmi.objectives._children"
+msgstr "Lista obsługiwanych elementów modelu danych"
+
+msgid "cmi.objectives._count"
+msgstr "aktualna liczba celów dydaktycznych, które zostały zapisane przez LMS dla SCO"
+
+msgid "cmi.objectives.n.completion_status"
+msgstr "informuje, w jakim stopniu został osiągnięty cel dydaktyczny"
+
+msgid "cmi.objectives.n.description"
+msgstr "Opis celu nauczania"
+
+msgid "cmi.objectives.n.id"
+msgstr "Numer ID celu nauczania"
+
+msgid "cmi.objectives.n.progress_measure"
+msgstr "podaje stopień, w jaki cel dydaktyczny został przetworzony"
+
+msgid "cmi.objectives.n.score._children"
+msgstr "Lista obsługiwanych elementów modelu danych"
+
+msgid "cmi.objectives.n.score.max"
+msgstr "maksymalna liczba punktów, którą można osiągnąć dla celu dydaktycznego"
+
+msgid "cmi.objectives.n.score.min"
+msgstr "minimalna liczba punktów, którą można osiągnąć dla celu dydaktycznego"
+
+msgid "cmi.objectives.n.score.raw"
+msgstr "otrzymana liczba punktów dla celu dydaktycznego pomiędzy score.min a score.max"
+
+msgid "cmi.objectives.n.score.scaled"
+msgstr "określa, jaki względny procent punktów został osiągnięty dla tego celu dydaktycznego"
+
+msgid "cmi.objectives.n.success_status"
+msgstr "informuje, z jakim wynikiem został osiągnięty cel dydaktyczny"
+
+msgid "cmi.progress_measure"
+msgstr "podaje stopień, w jaki SCO zostało przetworzone"
+
+msgid "cmi.scaled_passing_score"
+msgstr "określa, powyżej jakiego względnego procentu punktów SCO zostaje uznane za skutecznie przetworzone"
+
+msgid "cmi.score._children"
+msgstr "Lista obsługiwanych elementów modelu danych"
+
+msgid "cmi.score.max"
+msgstr "maksymalna liczba punktów do osiągnięcia w SCO"
+
+msgid "cmi.score.min"
+msgstr "minimalna liczba punktów do osiągnięcia w SCO"
+
+msgid "cmi.score.raw"
+msgstr "otrzymana liczba punktów pomiędzy score.min a score.max"
+
+msgid "cmi.score.scaled"
+msgstr "określa, jaki względny procent punktów został osiągnięty w SCO"
+
+msgid "cmi.session_time"
+msgstr "Czas, który uczestnik kursu przebywa w SCO w trakcie tej sesji"
+
+msgid "cmi.success_status"
+msgstr "informuje, z jakim wynikiem przetworzone zostało SCO"
+
+msgid "cmi.suspend_data"
+msgstr "Pamięć na dane pomiędzy sesjami nauki"
+
+msgid "cmi.time_limit_action"
+msgstr "określa reakcję SCO w momencie osiągnięcia maksymalnego dopuszczalnego czasu nauki"
+
+msgid "cmi.total_time"
+msgstr "Suma wszystkich skumulowanych czasów sesji SCO w danej próbie nauki"
+
+msgid "completion_status_by_progress_measure"
+msgstr "Ponieważ istnieje wartość dla cmi.completion_threshold, wartość dla cmi.completion_status ustalana jest przez LMS! Porównywana jest wartość dla cmi.completion_threshold z wartością dla cmi.progress_measure. Wartość dla cmi.completion_status jest aktualna:"
+
+msgid "debugwindow_action"
+msgstr "Akcja"
+
+msgid "debugwindow_cancel"
+msgstr "Przerwij"
+
+msgid "debugwindow_comment"
+msgstr "Komentarz"
+
+msgid "debugwindow_comment_enter"
+msgstr "Wpisz swój komentarz"
+
+msgid "debugwindow_console"
+msgstr "Konsola"
+
+msgid "debugwindow_date"
+msgstr "Data"
+
+msgid "debugwindow_delete"
+msgstr "Usuń"
+
+msgid "debugwindow_delete_logfile"
+msgstr "Usuń plik logu"
+
+msgid "debugwindow_download"
+msgstr "Pobierz"
+
+msgid "debugwindow_filename"
+msgstr "Nazwa pliku"
+
+msgid "debugwindow_logs"
+msgstr "Pliki logu"
+
+msgid "debugwindow_open"
+msgstr "Otwórz"
+
+msgid "debugwindow_start_recording"
+msgstr "Rozpocznij zapisywanie"
+
+msgid "debugwindow_stop_recording"
+msgstr "Zakończ zapisywanie"
+
+msgid "debugwindow_submission_failed"
+msgstr "Zapisywanie nie udało się"
+
+msgid "debugwindow_submit"
+msgstr "wyślij"
+
+msgid "description_for"
+msgstr "Wyjaśnienie dla"
+
+msgid "error0"
+msgstr "brak błędu"
+
+msgid "error101"
+msgstr "Ogólny błąd skutkujący"
+
+msgid "error102"
+msgstr "Ogólny błąd inicjalizacji"
+
+msgid "error103"
+msgstr "inicjalizacja już się odbyła"
+
+msgid "error104"
+msgstr "Instancja zawartości już zakończona"
+
+msgid "error111"
+msgstr "Ogólny błąd kończący"
+
+msgid "error112"
+msgstr "Zakończenie przed inicjalizacją"
+
+msgid "error113"
+msgstr "Zakończenie po zakończeniu"
+
+msgid "error122"
+msgstr "Wywołaj dane przed inicjalizacją"
+
+msgid "error123"
+msgstr "Wywołaj dane po zakończeniu"
+
+msgid "error132"
+msgstr "Zapisz dane przed inicjalizacją"
+
+msgid "error133"
+msgstr "Zapisz dane po zakończeniu"
+
+msgid "error142"
+msgstr "Zabezpiecz dane przed inicjalizacją"
+
+msgid "error143"
+msgstr "Zabezpiecz dane po zakończeniu"
+
+msgid "error201"
+msgstr "Ogólny błąd argumentu"
+
+msgid "error301"
+msgstr "Ogólny błąd przy wywoływaniu danych"
+
+msgid "error351"
+msgstr "Ogólny błąd przy wysyłaniu danych"
+
+msgid "error391"
+msgstr "Ogólny błąd przy zapisie danych"
+
+msgid "error401"
+msgstr "Niezdefiniowany element w modelu danych"
+
+msgid "error402"
+msgstr "Nie zaimplementowano elementu w modelu danych"
+
+msgid "error403"
+msgstr "Wartość elementu w modelu danych nie został poddany inicjalizacji"
+
+msgid "error404"
+msgstr "Element w modelu danych można tylko odczytać"
+
+msgid "error405"
+msgstr "Element w modelu danych można tylko napisać"
+
+msgid "error406"
+msgstr "Typ danych elementu w modelu danych nie pasuje"
+
+msgid "error407"
+msgstr "Typ danych elementu w modelu danych poza dopuszczalnym zakresem"
+
+msgid "error408"
+msgstr "Brak relacji modelu danych"
+
+msgid "generated"
+msgstr "utworzono"
+
+msgid "i_fuchsia"
+msgstr "różowy: tolerowana wartość, ponieważ przesłana wartość nie została odrzucona"
+
+msgid "i_gray"
+msgstr "szary: błąd poprawiony przez ILIAS"
+
+msgid "i_green"
+msgstr "zielony: w porządku"
+
+msgid "i_orange"
+msgstr "pomarańczowy: uwaga!"
+
+msgid "i_red"
+msgstr "czerwony: błąd!"
+
+msgid "id_learning_module"
+msgstr "Numer ID modułu nauczania"
+
+msgid "log_for"
+msgstr "Protokół dla modułu nauczania"
+
+msgid "milliseconds"
+msgstr "Milisekundy"
+
+msgid "missing_API-calls"
+msgstr "Brak następujących wywołań API:"
+
+msgid "no_missing_API-calls"
+msgstr "Nie ustalono brakujących wywołań API."
+
+msgid "nr_session"
+msgstr "Numer sesji"
+
+msgid "only_important_API-Calls_shown"
+msgstr "Aktualnie wyświetlane są tylko ważne wywołania SCORM-API."
+
+msgid "return_value"
+msgstr "Zwrot"
+
+msgid "scormdebug_disable_cache"
+msgstr "Wyłącz pamięć podręczną przeglądarki SCORM 2004"
+
+msgid "scormdebug_disable_cache_info"
+msgstr "Ta opcja zapobiega zapisywaniu plików SCORM 2004 Javascript w pamięci podręcznej przeglądarki. Użyj tej funkcji odpowiednio wcześniej zanim zmienisz wersję release!"
+
+msgid "scormdebug_global_activate"
+msgstr "Aktywuj narzędzie testowe SCORM"
+
+msgid "scormdebug_global_activate_info"
+msgstr "Ta funkcja umożliwia testowanie modułów nauczania SCORM/AICC. Przy każdym wybranym module SCORM należy aktywować dodatkowo narzędzie testowe. Jeśli narzędzie testowe zostanie tutaj wyłączone, narzędzie będzie wyłączone dla wszystkich modułów nauczania."
+
+msgid "sent_values_not_checked"
+msgstr "Wybrana właściwość: Wartość przesłane przez SCO poddawane są ograniczonej kontroli"
+
+msgid "show_all_API-calls"
+msgstr "Pokaż wszystkie wywołania API!"
+
+msgid "show_only_important_API-calls"
+msgstr "Pokaż tylko ważne wywołania API!"
+
+msgid "started"
+msgstr "rozpoczęto"
+
+msgid "strange_API-Call"
+msgstr "nietypowe wywołanie API"
+
+msgid "strange_error"
+msgstr "nietypowy błąd"
+
+msgid "success_status_by_score_scaled"
+msgstr "Ponieważ istnieje wartość dla cmi.scaled_passing_score, wartość dla cmi.success_status ustalana jest przez LMS! Porównywana jest wartość dla cmi.scaled_passing_score z wartością dla cmi.score.scaled. Wartość dla cmi.success_status jest aktualna:"
+
+msgid "summary_csv"
+msgstr "Utworzono podsumowanie w postaci pliku CSV do zaimportowania, np. w Excelu"
+
+msgid "summary_download"
+msgstr "Plik możesz pobrać przy kolejnym uruchomieniu narzędzia za pomocą 'Logów'."
+
+msgid "summary_for_SCO_with_test"
+msgstr "Podsumowanie dla SCO z testem"
+
+msgid "summary_for_SCO_without_test"
+msgstr "Podsumowanie dla SCO bez testu"
+
+msgid "undefined_color"
+msgstr "nie zdefiniowany kolor"
+
+msgid "unknown"
+msgstr "nieznany"

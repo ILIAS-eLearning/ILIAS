@@ -1,0 +1,477 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: scormdebug\n"
+
+msgid "API-call"
+msgstr "APIコール"
+
+msgid "Commit"
+msgstr "データを保存"
+
+msgid "GetDiagnostic"
+msgstr "LMS(!)へ追加診断情報を許可する"
+
+msgid "GetErrorString"
+msgstr "現在のエラー状態のテキスト説明を呼び出す"
+
+msgid "GetLastError"
+msgstr "現在のエラー状態のエラーコードを要求する"
+
+msgid "GetValue"
+msgstr "データ取得"
+
+msgid "Initialize"
+msgstr "API通信を初期化"
+
+msgid "SCO-name"
+msgstr "SCO名"
+
+msgid "SCO-title"
+msgstr "SCOタイトル"
+
+msgid "SetValue"
+msgstr "データ送信"
+
+msgid "Terminate"
+msgstr "データをストアしてAPI通信を終了する"
+
+msgid "adl.nav.request"
+msgstr "次の()で終了する速やかに処理すべきナビゲーション要求"
+
+msgid "adl.nav.request_valid.choice"
+msgstr "特定のアクティビティー用ナビゲーション要求選択が成功するとSCOを使用して決定します。"
+
+msgid "adl.nav.request_valid.continue"
+msgstr "継続ナビゲーション要求が成功するとSCOを使用して決定します。"
+
+msgid "adl.nav.request_valid.previous"
+msgstr "前のナビゲーション要求が成功するとSCOを使って決定します。"
+
+msgid "all_API-calls_shown"
+msgstr "全てのAPIコールが現在表示されます。"
+
+msgid "cmi._version"
+msgstr "データモデルのバージョンを表示"
+
+msgid "cmi.comments_from_learner._children"
+msgstr "サポートしているデータモデル要素をリスト"
+
+msgid "cmi.comments_from_learner._count"
+msgstr "現在の学習者コメント数"
+
+msgid "cmi.comments_from_learner.n.comment"
+msgstr "原文入力"
+
+msgid "cmi.comments_from_learner.n.location"
+msgstr "コメントを適用するSCOのポイント"
+
+msgid "cmi.comments_from_learner.n.timestamp"
+msgstr "コメントが作成されたまたは最近変更した時間のポイント"
+
+msgid "cmi.comments_from_lms._children"
+msgstr "サポートされているデータモデル要素をリスト"
+
+msgid "cmi.comments_from_lms._count"
+msgstr "LMSの現在のコメント数"
+
+msgid "cmi.comments_from_lms.n.comment"
+msgstr "コメントまたはSCOに関連付けられたアノテーション"
+
+msgid "cmi.comments_from_lms.n.location"
+msgstr "コメントを適用するSCOのポイント"
+
+msgid "cmi.comments_from_lms.n.timestamp"
+msgstr "コメントが作成または最近変更された時間のポイント"
+
+msgid "cmi.completion_status"
+msgstr "学習者がSCOを完了したかどうかを表示"
+
+msgid "cmi.completion_threshold"
+msgstr "SCO検討の完了をすべきかどうかの決定に使用"
+
+msgid "cmi.credit"
+msgstr "学習者がSCOの成績に認められるかどうかを表示"
+
+msgid "cmi.entry"
+msgstr "学習者がSCOへ以前アクセスしたかどうかを主張"
+
+msgid "cmi.exit"
+msgstr "学習者がSCOをどのようにまたはなぜ止めたかを表示"
+
+msgid "cmi.interactions._children"
+msgstr "サポートされているデータモデル要素をリスト"
+
+msgid "cmi.interactions._count"
+msgstr "LMSが預かっている現在のインタラクション数"
+
+msgid "cmi.interactions.n.correct_responses._count"
+msgstr "インタラクション用にLMSが預かっている現在の正しいレスポンス数"
+
+msgid "cmi.interactions.n.correct_responses.n.pattern"
+msgstr "インタラクション用の一つの正しいレスポンスパターン"
+
+msgid "cmi.interactions.n.description"
+msgstr "インタラクションの短い重要な説明"
+
+msgid "cmi.interactions.n.id"
+msgstr "インタラクション用のユニークラベル"
+
+msgid "cmi.interactions.n.latency"
+msgstr "学習者に対して応答が実行されたインタラクション時間と初回応答間の経過時間"
+
+msgid "cmi.interactions.n.learner_response"
+msgstr "学習者がインタラクション応答時に生成したデータ"
+
+msgid "cmi.interactions.n.objectives._count"
+msgstr "このインタラクション用にLMSが保存している現在の目標数（例：目標識別子)"
+
+msgid "cmi.interactions.n.objectives.n.id"
+msgstr "インタラクションに関連するオブジェクトのラベル"
+
+msgid "cmi.interactions.n.result"
+msgstr "学習者の応答正確性の判定"
+
+msgid "cmi.interactions.n.timestamp"
+msgstr "インタラクションが学習者のインタラクションと応答用に初めて学習者へ可能になる時間のポイント"
+
+msgid "cmi.interactions.n.type"
+msgstr "どのタイプのインタラクションが記録されるか"
+
+msgid "cmi.interactions.n.weighting"
+msgstr "他のインタラクションに関係する決められたウェイト"
+
+msgid "cmi.launch_data"
+msgstr "開始後SCOへ提供されたデータはdataFromLMSマニュフェスト要素で初期化しました。"
+
+msgid "cmi.learner_id"
+msgstr "SCOを開始した学習者代表を識別する"
+
+msgid "cmi.learner_name"
+msgstr "LMS学習者用に提供される氏名"
+
+msgid "cmi.learner_preference._children"
+msgstr "サポートされているデータモデル要素をリストする"
+
+msgid "cmi.learner_preference.audio_captioning"
+msgstr "オーディオ表示の際の説明文であるかどうかを明記する"
+
+msgid "cmi.learner_preference.audio_level"
+msgstr "音量感知の調整暗示を明記する"
+
+msgid "cmi.learner_preference.delivery_speed"
+msgstr "学習者のコンテンツ配信好みの関連速度"
+
+msgid "cmi.learner_preference.language"
+msgstr "学習者のSCO多国後対応用好みの言語"
+
+msgid "cmi.location"
+msgstr "学習者のSCO内現在位置"
+
+msgid "cmi.max_time_allowed"
+msgstr "学習者がSCO利用に許可されている累積時間"
+
+msgid "cmi.mode"
+msgstr "SCOが学習者へ提供予定の3つのモデルノ中の一つを識別する"
+
+msgid "cmi.objectives._children"
+msgstr "サポートしているデータ要素をリスト"
+
+msgid "cmi.objectives._count"
+msgstr "LMSが保存している現在のオブジェクト数"
+
+msgid "cmi.objectives.n.completion_status"
+msgstr "学習者が完了済みの関連目標を表示する"
+
+msgid "cmi.objectives.n.description"
+msgstr "短い有効なオ目標説明を提供する"
+
+msgid "cmi.objectives.n.id"
+msgstr "目標用のユニークなラベル"
+
+msgid "cmi.objectives.n.progress_measure"
+msgstr "学習者の目標完了のための進捗を確認する"
+
+msgid "cmi.objectives.n.score._children"
+msgstr "サポートされているデータモデル要素をリスト"
+
+msgid "cmi.objectives.n.score.max"
+msgstr "生スコア範囲内の目標最大値"
+
+msgid "cmi.objectives.n.score.min"
+msgstr "生スコア範囲内の目標最小値"
+
+msgid "cmi.objectives.n.score.raw"
+msgstr "最小と最大値に紐付けられた範囲に関係する目標用の学習者成績に反映する番号"
+
+msgid "cmi.objectives.n.score.scaled"
+msgstr "目標用学習者の成績に反映する数"
+
+msgid "cmi.objectives.n.success_status"
+msgstr "学習者がマスターする目標を表示する"
+
+msgid "cmi.progress_measure"
+msgstr "学習者のSCO完了に対する進捗を確認する"
+
+msgid "cmi.scaled_passing_score"
+msgstr "SCOをマスターするために要求される合格点基準"
+
+msgid "cmi.score._children"
+msgstr "サポートされているデータモデル要素をリスト"
+
+msgid "cmi.score.max"
+msgstr "生スコア範囲内最大値"
+
+msgid "cmi.score.min"
+msgstr "生スコア範囲内最小値"
+
+msgid "cmi.score.raw"
+msgstr "最小と最大値に紐付けられた範囲に関係する学習者成績に反映する番号"
+
+msgid "cmi.score.scaled"
+msgstr "学習者の成績に反映する番号"
+
+msgid "cmi.session_time"
+msgstr "学習者がこのSCOの現在の学習セッション経過に用した総時間"
+
+msgid "cmi.success_status"
+msgstr "学習者がSOをマスターしかた表示する"
+
+msgid "cmi.suspend_data"
+msgstr "学習者セッション間のストアと読み込みにスペースを提供する"
+
+msgid "cmi.time_limit_action"
+msgstr "cmi.max_time_allowed経過後にSCOは何をすべきかを表示する"
+
+msgid "cmi.total_time"
+msgstr "現在学習中の全学習者の総セッション時間の合計"
+
+msgid "completion_status_by_progress_measure"
+msgstr "cmi.completion_threshold用の値があるのでcmi.completion_statusの値はLMSが評価します。cmi.completion_threshold値をcmi.progress_measure値と比較して実行されます。cmi.completion_statusの現在値："
+
+msgid "debugwindow_action"
+msgstr "アクション"
+
+msgid "debugwindow_cancel"
+msgstr "キャンセル"
+
+msgid "debugwindow_comment"
+msgstr "コメントする"
+
+msgid "debugwindow_comment_enter"
+msgstr "コメントを入力してください"
+
+msgid "debugwindow_console"
+msgstr "コンソール"
+
+msgid "debugwindow_date"
+msgstr "日付"
+
+msgid "debugwindow_delete"
+msgstr "削除"
+
+msgid "debugwindow_delete_logfile"
+msgstr "ログファイルを削除"
+
+msgid "debugwindow_download"
+msgstr "ダウンロード"
+
+msgid "debugwindow_filename"
+msgstr "ファイル名"
+
+msgid "debugwindow_logs"
+msgstr "ログ"
+
+msgid "debugwindow_open"
+msgstr "開く"
+
+msgid "debugwindow_start_recording"
+msgstr "記録開始"
+
+msgid "debugwindow_stop_recording"
+msgstr "記録停止"
+
+msgid "debugwindow_submission_failed"
+msgstr "提出失敗"
+
+msgid "debugwindow_submit"
+msgstr "提出する"
+
+msgid "description_for"
+msgstr "説明"
+
+msgid "error0"
+msgstr "エラーなし"
+
+msgid "error101"
+msgstr "一般例外"
+
+msgid "error102"
+msgstr "一般初期化失敗"
+
+msgid "error103"
+msgstr "初期化済み"
+
+msgid "error104"
+msgstr "Content Instance を終了"
+
+msgid "error111"
+msgstr "一般終了失敗"
+
+msgid "error112"
+msgstr "初期化前の終了"
+
+msgid "error113"
+msgstr "終了後の終了"
+
+msgid "error122"
+msgstr "初期化前の読み込み"
+
+msgid "error123"
+msgstr "終了後のデータ読み込み"
+
+msgid "error132"
+msgstr "初期化前のデータストア"
+
+msgid "error133"
+msgstr "終了後にデータストア"
+
+msgid "error142"
+msgstr "初期化前にコミットする"
+
+msgid "error143"
+msgstr "終了後にコミットする"
+
+msgid "error201"
+msgstr "一般引数エラー"
+
+msgid "error301"
+msgstr "一般取得エラー"
+
+msgid "error351"
+msgstr "一般セットエラー"
+
+msgid "error391"
+msgstr "一般コミットエラー"
+
+msgid "error401"
+msgstr "データモデル要素が未定義"
+
+msgid "error402"
+msgstr "データモデル要素が未実装"
+
+msgid "error403"
+msgstr "データモデル要素値が初期化されていません"
+
+msgid "error404"
+msgstr "データモデル要素はRead Only"
+
+msgid "error405"
+msgstr "データモデル要素Write Only"
+
+msgid "error406"
+msgstr "データモデル要素タイプがミスマッチ"
+
+msgid "error407"
+msgstr "データモデル要素値は範囲外"
+
+msgid "error408"
+msgstr "データモデル依存が確立されていません"
+
+msgid "generated"
+msgstr "生成されました"
+
+msgid "i_fuchsia"
+msgstr "フクシア: 送った値が拒否されない場合の許容値"
+
+msgid "i_gray"
+msgstr "gray: ILIASによるエラー修正"
+
+msgid "i_green"
+msgstr "green: OK"
+
+msgid "i_orange"
+msgstr "orange: 注意!"
+
+msgid "i_red"
+msgstr "red: 不良!"
+
+msgid "id_learning_module"
+msgstr "ラーニングモジュールのID"
+
+msgid "log_for"
+msgstr "ラーニングモジュールのログ"
+
+msgid "milliseconds"
+msgstr "ミリ秒"
+
+msgid "missing_API-calls"
+msgstr "API-callsが不足しています:"
+
+msgid "no_missing_API-calls"
+msgstr "不足しているAPI-callsが認識されました。"
+
+msgid "nr_session"
+msgstr "セッション数"
+
+msgid "only_important_API-Calls_shown"
+msgstr "現在重要なAPI-Callsのみを表示しています。"
+
+msgid "return_value"
+msgstr "戻り値"
+
+msgid "scormdebug_disable_cache"
+msgstr "SCORM 2004ブラウザキャッシュを無効にする"
+
+msgid "scormdebug_disable_cache_info"
+msgstr "ブラウザキャッシュのSCORM 2004 javascriptファイルのストレージを防止します。新規リリース前にこの機能を使ってください。"
+
+msgid "scormdebug_global_activate"
+msgstr "SCORM 2004 テストツールを有効にする"
+
+msgid "scormdebug_global_activate_info"
+msgstr "有効にするとSCORM 2004テストツールは目的のラーニングモンジュールを起動します。無効にするとテストツールは全てのラーニングモジュールをオフにします。"
+
+msgid "sent_values_not_checked"
+msgstr "選択のプロパティ:SCOからの値を完全にチェックしない"
+
+msgid "show_all_API-calls"
+msgstr "全てのAPI-callを表示!"
+
+msgid "show_only_important_API-calls"
+msgstr "重要なAPI-callのみを表示!"
+
+msgid "started"
+msgstr "起動しました"
+
+msgid "strange_API-Call"
+msgstr "不正なAPI-Call"
+
+msgid "strange_error"
+msgstr "不正なエラー"
+
+msgid "success_status_by_score_scaled"
+msgstr "cmi.scaled_passing_scoreの値があるのでcmi.success_statusの値はLMSが評価します。cmi.scaled_passing_score値をcmi.progress_measure値と比較して実行されます。cmi.success_statusの現在値："
+
+msgid "summary_csv"
+msgstr "サマリーはExcelの例用にCSV形式のファイルを生成します。"
+
+msgid "summary_download"
+msgstr "このツールを再スタートすると”ログ\"をクリックしてダウロードできます。"
+
+msgid "summary_for_SCO_with_test"
+msgstr "テスト付のSCO用サマリー"
+
+msgid "summary_for_SCO_without_test"
+msgstr "テストなしのSCO用サマリー"
+
+msgid "undefined_color"
+msgstr "未定義のカラー"
+
+msgid "unknown"
+msgstr "不明"

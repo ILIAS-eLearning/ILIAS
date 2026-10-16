@@ -1,0 +1,474 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: scormdebug\n"
+
+msgid "API-call"
+msgstr ""
+
+msgid "Commit"
+msgstr ""
+
+msgid "GetDiagnostic"
+msgstr ""
+
+msgid "GetErrorString"
+msgstr ""
+
+msgid "GetLastError"
+msgstr ""
+
+msgid "GetValue"
+msgstr ""
+
+msgid "Initialize"
+msgstr ""
+
+msgid "SCO-name"
+msgstr ""
+
+msgid "SCO-title"
+msgstr ""
+
+msgid "SetValue"
+msgstr ""
+
+msgid "Terminate"
+msgstr ""
+
+msgid "adl.nav.request"
+msgstr ""
+
+msgid "adl.nav.request_valid.choice"
+msgstr ""
+
+msgid "adl.nav.request_valid.continue"
+msgstr ""
+
+msgid "adl.nav.request_valid.previous"
+msgstr ""
+
+msgid "all_API-calls_shown"
+msgstr ""
+
+msgid "cmi._version"
+msgstr ""
+
+msgid "cmi.comments_from_learner._children"
+msgstr ""
+
+msgid "cmi.comments_from_learner._count"
+msgstr ""
+
+msgid "cmi.comments_from_learner.n.comment"
+msgstr ""
+
+msgid "cmi.comments_from_learner.n.location"
+msgstr ""
+
+msgid "cmi.comments_from_learner.n.timestamp"
+msgstr ""
+
+msgid "cmi.comments_from_lms._children"
+msgstr ""
+
+msgid "cmi.comments_from_lms._count"
+msgstr ""
+
+msgid "cmi.comments_from_lms.n.comment"
+msgstr ""
+
+msgid "cmi.comments_from_lms.n.location"
+msgstr ""
+
+msgid "cmi.comments_from_lms.n.timestamp"
+msgstr ""
+
+msgid "cmi.completion_status"
+msgstr ""
+
+msgid "cmi.completion_threshold"
+msgstr ""
+
+msgid "cmi.credit"
+msgstr ""
+
+msgid "cmi.entry"
+msgstr ""
+
+msgid "cmi.exit"
+msgstr ""
+
+msgid "cmi.interactions._children"
+msgstr ""
+
+msgid "cmi.interactions._count"
+msgstr ""
+
+msgid "cmi.interactions.n.correct_responses._count"
+msgstr ""
+
+msgid "cmi.interactions.n.correct_responses.n.pattern"
+msgstr ""
+
+msgid "cmi.interactions.n.description"
+msgstr ""
+
+msgid "cmi.interactions.n.id"
+msgstr ""
+
+msgid "cmi.interactions.n.latency"
+msgstr ""
+
+msgid "cmi.interactions.n.learner_response"
+msgstr ""
+
+msgid "cmi.interactions.n.objectives._count"
+msgstr ""
+
+msgid "cmi.interactions.n.objectives.n.id"
+msgstr ""
+
+msgid "cmi.interactions.n.result"
+msgstr ""
+
+msgid "cmi.interactions.n.timestamp"
+msgstr ""
+
+msgid "cmi.interactions.n.type"
+msgstr ""
+
+msgid "cmi.interactions.n.weighting"
+msgstr ""
+
+msgid "cmi.launch_data"
+msgstr ""
+
+msgid "cmi.learner_id"
+msgstr ""
+
+msgid "cmi.learner_name"
+msgstr ""
+
+msgid "cmi.learner_preference._children"
+msgstr ""
+
+msgid "cmi.learner_preference.audio_captioning"
+msgstr ""
+
+msgid "cmi.learner_preference.audio_level"
+msgstr ""
+
+msgid "cmi.learner_preference.delivery_speed"
+msgstr ""
+
+msgid "cmi.learner_preference.language"
+msgstr ""
+
+msgid "cmi.location"
+msgstr ""
+
+msgid "cmi.max_time_allowed"
+msgstr ""
+
+msgid "cmi.mode"
+msgstr ""
+
+msgid "cmi.objectives._children"
+msgstr ""
+
+msgid "cmi.objectives._count"
+msgstr ""
+
+msgid "cmi.objectives.n.completion_status"
+msgstr ""
+
+msgid "cmi.objectives.n.description"
+msgstr ""
+
+msgid "cmi.objectives.n.id"
+msgstr ""
+
+msgid "cmi.objectives.n.progress_measure"
+msgstr ""
+
+msgid "cmi.objectives.n.score._children"
+msgstr ""
+
+msgid "cmi.objectives.n.score.max"
+msgstr ""
+
+msgid "cmi.objectives.n.score.min"
+msgstr ""
+
+msgid "cmi.objectives.n.score.raw"
+msgstr ""
+
+msgid "cmi.objectives.n.score.scaled"
+msgstr ""
+
+msgid "cmi.objectives.n.success_status"
+msgstr ""
+
+msgid "cmi.progress_measure"
+msgstr ""
+
+msgid "cmi.scaled_passing_score"
+msgstr ""
+
+msgid "cmi.score._children"
+msgstr ""
+
+msgid "cmi.score.max"
+msgstr ""
+
+msgid "cmi.score.min"
+msgstr ""
+
+msgid "cmi.score.raw"
+msgstr ""
+
+msgid "cmi.score.scaled"
+msgstr ""
+
+msgid "cmi.session_time"
+msgstr ""
+
+msgid "cmi.success_status"
+msgstr ""
+
+msgid "cmi.suspend_data"
+msgstr ""
+
+msgid "cmi.time_limit_action"
+msgstr ""
+
+msgid "cmi.total_time"
+msgstr ""
+
+msgid "completion_status_by_progress_measure"
+msgstr ""
+
+msgid "debugwindow_action"
+msgstr ""
+
+msgid "debugwindow_cancel"
+msgstr ""
+
+msgid "debugwindow_comment"
+msgstr ""
+
+msgid "debugwindow_comment_enter"
+msgstr ""
+
+msgid "debugwindow_console"
+msgstr ""
+
+msgid "debugwindow_date"
+msgstr ""
+
+msgid "debugwindow_delete"
+msgstr ""
+
+msgid "debugwindow_delete_logfile"
+msgstr ""
+
+msgid "debugwindow_download"
+msgstr ""
+
+msgid "debugwindow_filename"
+msgstr ""
+
+msgid "debugwindow_logs"
+msgstr ""
+
+msgid "debugwindow_open"
+msgstr ""
+
+msgid "debugwindow_start_recording"
+msgstr ""
+
+msgid "debugwindow_stop_recording"
+msgstr ""
+
+msgid "debugwindow_submission_failed"
+msgstr ""
+
+msgid "debugwindow_submit"
+msgstr ""
+
+msgid "description_for"
+msgstr ""
+
+msgid "error0"
+msgstr ""
+
+msgid "error101"
+msgstr ""
+
+msgid "error102"
+msgstr ""
+
+msgid "error103"
+msgstr ""
+
+msgid "error104"
+msgstr ""
+
+msgid "error111"
+msgstr ""
+
+msgid "error112"
+msgstr ""
+
+msgid "error113"
+msgstr ""
+
+msgid "error122"
+msgstr ""
+
+msgid "error123"
+msgstr ""
+
+msgid "error132"
+msgstr ""
+
+msgid "error133"
+msgstr ""
+
+msgid "error142"
+msgstr ""
+
+msgid "error143"
+msgstr ""
+
+msgid "error201"
+msgstr ""
+
+msgid "error301"
+msgstr ""
+
+msgid "error351"
+msgstr ""
+
+msgid "error391"
+msgstr ""
+
+msgid "error401"
+msgstr ""
+
+msgid "error402"
+msgstr ""
+
+msgid "error403"
+msgstr ""
+
+msgid "error404"
+msgstr ""
+
+msgid "error405"
+msgstr ""
+
+msgid "error406"
+msgstr ""
+
+msgid "error407"
+msgstr ""
+
+msgid "error408"
+msgstr ""
+
+msgid "generated"
+msgstr ""
+
+msgid "i_fuchsia"
+msgstr ""
+
+msgid "i_gray"
+msgstr ""
+
+msgid "i_green"
+msgstr ""
+
+msgid "i_orange"
+msgstr ""
+
+msgid "i_red"
+msgstr ""
+
+msgid "id_learning_module"
+msgstr ""
+
+msgid "log_for"
+msgstr ""
+
+msgid "milliseconds"
+msgstr ""
+
+msgid "missing_API-calls"
+msgstr ""
+
+msgid "no_missing_API-calls"
+msgstr ""
+
+msgid "nr_session"
+msgstr ""
+
+msgid "only_important_API-Calls_shown"
+msgstr ""
+
+msgid "return_value"
+msgstr ""
+
+msgid "scormdebug_disable_cache"
+msgstr ""
+
+msgid "scormdebug_disable_cache_info"
+msgstr ""
+
+msgid "scormdebug_global_activate"
+msgstr ""
+
+msgid "scormdebug_global_activate_info"
+msgstr ""
+
+msgid "sent_values_not_checked"
+msgstr ""
+
+msgid "show_all_API-calls"
+msgstr ""
+
+msgid "show_only_important_API-calls"
+msgstr ""
+
+msgid "started"
+msgstr ""
+
+msgid "strange_API-Call"
+msgstr ""
+
+msgid "strange_error"
+msgstr ""
+
+msgid "success_status_by_score_scaled"
+msgstr ""
+
+msgid "summary_csv"
+msgstr ""
+
+msgid "summary_download"
+msgstr ""
+
+msgid "summary_for_SCO_with_test"
+msgstr ""
+
+msgid "summary_for_SCO_without_test"
+msgstr ""
+
+msgid "undefined_color"
+msgstr ""
+
+msgid "unknown"
+msgstr ""
