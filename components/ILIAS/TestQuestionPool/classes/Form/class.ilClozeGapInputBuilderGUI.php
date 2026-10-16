@@ -170,7 +170,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 
                 $json[0][$key]['text_field_length'] = $gapsize > 0 ? $gapsize : '';
 
-                $select_at_least_on_positive = false;
+                $select_at_least_one_positive = false;
                 if ($getType == assClozeGap::TYPE_TEXT || $getType == assClozeGap::TYPE_SELECT) {
                     $gapText = self::stripSlashesRecursive($this->raw('gap_' . $key), false);
                     foreach ($gapText['answer'] as $row => $answer) {
@@ -181,13 +181,14 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                     $points_sum = 0;
                     if (array_key_exists('points', $gapText)) {
                         foreach ($gapText['points'] as $row => $points) {
-                            $points = str_replace(',', '.', $points);
-                            if (isset($points) && $points != '' && is_numeric($points)) {
-                                $points_sum += $points;
-                                if ($points > 0) {
-                                    $select_at_least_on_positive = true;
+                            try {
+                                $points = $this->refinery->kindlyTo()->float()->transform($points);
+
+                                if ($points > 0.0) {
+                                    $select_at_least_one_positive = true;
+                                    $points_sum += $points;
                                 }
-                            } else {
+                            } catch (\ILIAS\Refinery\ConstraintViolationException $e) {
                                 $error = true;
                             }
                         }
@@ -195,7 +196,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                             $points_sum += $gap_with_points[$key];
                         }
                         if ($points_sum <= 0) {
-                            if (!array_key_exists($key, $gaps_used_in_combination) && (!$getType == 'select' || $select_at_least_on_positive == false)) {
+                            if (!array_key_exists($key, $gaps_used_in_combination) && (!$getType == 'select' || $select_at_least_one_positive == false)) {
                                 $error = true;
                             }
                         }
