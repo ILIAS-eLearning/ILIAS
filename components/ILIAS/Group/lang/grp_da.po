@@ -1,0 +1,628 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: da\n"
+"Language-Team: Danish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: grp\n"
+
+msgid "crs_add_grouping"
+msgstr "Opret medlemsskabsbegrænsning"
+
+#, fuzzy
+msgid "crs_grouping_delete_sure"
+msgstr "Are you sure you want to delete this membership limitation ?"
+
+#, fuzzy
+msgid "crs_grouping_deleted"
+msgstr "Deleted membership limitation."
+
+msgid "crs_grouping_select_one"
+msgstr "Vælg en medlemsbegrænsning"
+
+#, fuzzy
+msgid "crs_grp_added_grouping"
+msgstr "Added new membership limitation."
+
+#, fuzzy
+msgid "crs_grp_assign_crs"
+msgstr "Assignment of Groups"
+
+#, fuzzy
+msgid "crs_grp_no_courses_assigned"
+msgstr "No Groups Assigned"
+
+#, fuzzy
+msgid "events"
+msgstr "Sessions"
+
+#, fuzzy
+msgid "grouping_change_assignment"
+msgstr "Change Assignment"
+
+msgid "grp_activate_notification"
+msgstr "Slå advisering til"
+
+#, fuzzy
+msgid "grp_activation_online_info"
+msgstr "Set the group online to make it visible and available for group members. If not, only group administrators and roles with permission \"Edit Settings\" have access to it."
+
+#, fuzzy
+msgid "grp_add_to_group"
+msgstr "Add to Group"
+
+#, fuzzy
+msgid "grp_add_user"
+msgstr "Add User"
+
+#, fuzzy
+msgid "grp_add_user_to_group"
+msgstr "Add user to group"
+
+msgid "grp_added_to_list"
+msgstr "Du er blevet sat på ventelisten som nummer %s."
+
+msgid "grp_admins"
+msgstr "Administratorer"
+
+#, fuzzy
+msgid "grp_admission_link_failure_invalid_code"
+msgstr "Can't register: Link is invalid."
+
+#, fuzzy
+msgid "grp_admission_link_failure_membership_limited"
+msgstr "Can't registrate: Group membership is limited."
+
+#, fuzzy
+msgid "grp_admission_link_failure_registration_period"
+msgstr "Can't registrate: Group is out of registration period."
+
+#, fuzzy
+msgid "grp_admission_link_success_registration"
+msgstr "Successfully registrated to group \"%s\"."
+
+#, fuzzy
+msgid "grp_agree"
+msgstr "Acceptance"
+
+#, fuzzy
+msgid "grp_agreement_header"
+msgstr "User Agreement"
+
+#, fuzzy
+msgid "grp_agreement_required"
+msgstr "You have to accept the user agreement, if you want to access the group content."
+
+msgid "grp_already_assigned"
+msgstr "Du har allerede anmodet om medlemsskab af denne gruppe."
+
+#, fuzzy
+msgid "grp_at_least_one_admin"
+msgstr "There has to be at least one group administrator."
+
+#, fuzzy
+msgid "grp_auto_notification"
+msgstr "Welcome-Mail For New Members"
+
+#, fuzzy
+msgid "grp_auto_notification_info"
+msgstr "New members get a mail notification when added to the group."
+
+msgid "grp_cancel_subscr_request"
+msgstr "Slet anmodning om medlemsskab"
+
+#, fuzzy
+msgid "grp_cancellation_end"
+msgstr "Cancellation Limit"
+
+#, fuzzy
+msgid "grp_cancellation_end_info"
+msgstr "From this date on particiants cannot unsubscribe anymore."
+
+#, fuzzy
+msgid "grp_cancellation_end_rbac_info"
+msgstr "The cancellation deadline was met on %s, a cancellation is not possible anymore."
+
+#, fuzzy
+msgid "grp_cdf_edit_member"
+msgstr "Edit Group Relevant User Data"
+
+#, fuzzy
+msgid "grp_cdf_tbl_last_edit"
+msgstr "Last Update (Group-specific Data)"
+
+msgid "grp_change_type"
+msgstr "Skift gruppetype"
+
+#, fuzzy
+msgid "grp_contact"
+msgstr "Contact"
+
+msgid "grp_copy"
+msgstr "Kopier gruppe"
+
+#, fuzzy
+msgid "grp_create_and_add_user"
+msgstr "Create and Add User"
+
+#, fuzzy
+msgid "grp_create_new"
+msgstr "Create New Group"
+
+#, fuzzy
+msgid "grp_create_new_grp_in"
+msgstr "Create new group in '%1'."
+
+#, fuzzy
+msgid "grp_create_or_use_existing"
+msgstr "Do you want to add the user to an existing group or create a new group?"
+
+#, fuzzy
+msgid "grp_created_and_user_been_added"
+msgstr "Die Gruppe wurde erstellt und der Benutzer hinzugefügt."
+
+msgid "grp_custom_user_fields"
+msgstr "Grupperelevante brugerdata"
+
+#, fuzzy
+msgid "grp_custom_user_fields_infobox"
+msgstr "Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the \"Members\" tab."
+
+#, fuzzy
+msgid "grp_custom_user_fields_table_title"
+msgstr "Relevant User Data of This Group"
+
+msgid "grp_deactivate_notification"
+msgstr "Slå advisering fra"
+
+msgid "grp_enable_map"
+msgstr "Aktiver gruppekort"
+
+#, fuzzy
+msgid "grp_err_registration_limited"
+msgstr "please enter a valid start and end date for the registration"
+
+msgid "grp_general_informations"
+msgstr "Generel information"
+
+msgid "grp_grp_info_reg"
+msgstr "Du kan kun indmeldels i en af grupperne:"
+
+#, fuzzy
+msgid "grp_grp_open"
+msgstr "Open Group"
+
+#, fuzzy
+msgid "grp_header_delete_members"
+msgstr "Would you like to remove the following members from this group?"
+
+msgid "grp_header_waiting_list"
+msgstr "Venteliste"
+
+msgid "grp_icon_settings"
+msgstr "Gruppe ikon"
+
+msgid "grp_import"
+msgstr "Importer gruppe"
+
+#, fuzzy
+msgid "grp_info_agree"
+msgstr "I accept, that the above data types are visible for group administrators."
+
+#, fuzzy
+msgid "grp_info_agreement"
+msgstr "The following data types are visible for group administrators:"
+
+msgid "grp_info_new_grp_type"
+msgstr "Ny gruppetype"
+
+msgid "grp_info_settings"
+msgstr "Gruppe information"
+
+msgid "grp_information"
+msgstr "Vigtig information"
+
+msgid "grp_information_info"
+msgstr "Denne information bliver vist på informationssiden og til nye tilmeldinger."
+
+msgid "grp_join_request"
+msgstr "Send"
+
+#, fuzzy
+msgid "grp_lim_assigned"
+msgstr "Already assigned to associated group \"%s\"."
+
+msgid "grp_mail_admission_new_bod"
+msgstr "Vi bekræfter hermed at din anmodning om medlemsskab af gruppen \"%s\"."
+
+msgid "grp_mail_admission_new_sub"
+msgstr "Din anmodning til gruppen \"%s\""
+
+#, fuzzy
+msgid "grp_mail_all"
+msgstr "For all Participants"
+
+#, fuzzy
+msgid "grp_mail_all_info"
+msgstr "Members and administrators can use the feature \"Mail to Members\" in the \"Members\" tab."
+
+msgid "grp_mail_dismiss_bod"
+msgstr "Dit medlemsskab i gruppe \"%s\" er ophørt."
+
+msgid "grp_mail_dismiss_sub"
+msgstr "Medlemsskab i gruppe \"%s\" ophørt"
+
+msgid "grp_mail_notification_reg_bod"
+msgstr "%s har tilmeldt sig gruppe \"%s\"."
+
+msgid "grp_mail_notification_reg_req_bod"
+msgstr "%s har anmodet om medlemsskab af gruppen \"%s\"."
+
+msgid "grp_mail_notification_reg_req_bod2"
+msgstr "For at bekræfte denne anmodning skal du gå til:"
+
+msgid "grp_mail_notification_reg_req_sub"
+msgstr "Anmodning om at tilmelde gruppe \"%s\""
+
+msgid "grp_mail_notification_reg_sub"
+msgstr "Bruger har tilmeldt sig gruppe \"%s\""
+
+msgid "grp_mail_notification_unsub_bod"
+msgstr "%s har ophørt sit medlemsskab af gruppen \"%s\"."
+
+#, fuzzy
+msgid "grp_mail_notification_unsub_bod2"
+msgstr "There might be other members on a waiting list of your group.\\nYou should check for the waiting list now.\\nTo view the members of your group, click here:"
+
+msgid "grp_mail_notification_unsub_sub"
+msgstr "Bruger forlod gruppen \"%s\""
+
+msgid "grp_mail_permanent_link"
+msgstr "Tryk på nedenstående link for at få mere information om gruppen:"
+
+msgid "grp_mail_status_bod"
+msgstr "Din status i gruppe \"%s\" er blevet ændret."
+
+msgid "grp_mail_status_sub"
+msgstr "Ændret status i gruppe \"%s\""
+
+msgid "grp_mail_sub_acc_bod"
+msgstr "Vi bekræfter hermed din tilmelding til gruppen \"%s\"."
+
+msgid "grp_mail_sub_acc_sub"
+msgstr "Tilmelding til \"%s\" bekræftet"
+
+msgid "grp_mail_sub_dec_bod"
+msgstr "Din anmodning om medlemsskab af gruppen \"%s\" er beklageligvis afvist."
+
+msgid "grp_mail_sub_dec_sub"
+msgstr "Anmodning afvist i gruppen \"%s\""
+
+msgid "grp_mail_subscribe_member_bod"
+msgstr "Det glæder os at bekræfte din indmeldelse i gruppe \"%s\"."
+
+msgid "grp_mail_subscribe_member_sub"
+msgstr "Din tilmelding til gruppen \"%s\""
+
+#, fuzzy
+msgid "grp_mail_tutors_only"
+msgstr "For Administrators only"
+
+#, fuzzy
+msgid "grp_mail_tutors_only_info"
+msgstr "Only administrators can use the feature \"Mail to Members\" in the \"Members\" tab."
+
+#, fuzzy
+msgid "grp_mail_type"
+msgstr "Mail to Members"
+
+msgid "grp_mail_unsubscribe_member_bod"
+msgstr "Dit medlemsskab er gruppen %s er hermed ophørt.\\n."
+
+msgid "grp_mail_unsubscribe_member_sub"
+msgstr "Dit ophør af medlemsskab af gruppen \"%s\""
+
+msgid "grp_mail_wl_bod"
+msgstr "Du er blevet sat på ventelisten i gruppen \"%s\".\\nDu står nummer %s på listen.\\n\\n Du vil senere få en besked fra gruppeadministrator når din anmodning er godkendt eller afvist."
+
+msgid "grp_mail_wl_sub"
+msgstr "Din anmodning om medlemsskab i gruppen \"%s\"."
+
+msgid "grp_map_location"
+msgstr "Gruppekort placering"
+
+msgid "grp_map_settings"
+msgstr "Kort indstillinger"
+
+#, fuzzy
+msgid "grp_max_and_min_members_invalid"
+msgstr "The minimum number must be smaller than the maximum number of members."
+
+#, fuzzy
+msgid "grp_mem_contacts"
+msgstr "Tutorial Support"
+
+#, fuzzy
+msgid "grp_mem_tbl_header"
+msgstr "Group Participants"
+
+#, fuzzy
+msgid "grp_member_administration"
+msgstr "Edit Participants"
+
+msgid "grp_members"
+msgstr "Medlemmer"
+
+#, fuzzy
+msgid "grp_members_deleted"
+msgstr "Deleted members"
+
+msgid "grp_members_map"
+msgstr "Kort over gruppemedlemmer"
+
+msgid "grp_members_print_title"
+msgstr "Gruppemedlemmer"
+
+#, fuzzy
+msgid "grp_min_one_admin"
+msgstr "There has to be at least one administrator assigned to this group."
+
+msgid "grp_missing_grp_type"
+msgstr "Vælg gruppetype."
+
+msgid "grp_missing_password"
+msgstr "Indtast gruppepassword."
+
+msgid "grp_new_status"
+msgstr "Din nye status er:"
+
+#, fuzzy
+msgid "grp_next"
+msgstr "Next"
+
+#, fuzzy
+msgid "grp_no_perm_to_add_create_first"
+msgstr "You need to create a group first. Please select where to create a new group."
+
+msgid "grp_notification"
+msgstr "Advisering"
+
+msgid "grp_notification_activated"
+msgstr "Advisering slået til"
+
+msgid "grp_notification_deactivated"
+msgstr "Advisering slået fra"
+
+msgid "grp_notification_explanation_admin"
+msgstr "Du modtager denne besked fordi du er gruppeadministrator med advisering slået til."
+
+#, fuzzy
+msgid "grp_notification_salutation"
+msgstr "Dear group participant,"
+
+msgid "grp_notify_off"
+msgstr "Advisering om nye registreringer deaktiveret"
+
+msgid "grp_notify_on"
+msgstr "Advisering om nye registreringer aktiveret"
+
+msgid "grp_pass_request"
+msgstr "Tilmelding med fælles gruppe-password"
+
+#, fuzzy
+msgid "grp_period"
+msgstr "Period of Event"
+
+#, fuzzy
+msgid "grp_period_info"
+msgstr "Information about the start and end date of the event, which is supported by the group"
+
+msgid "grp_presentation_type"
+msgstr "Presentation af indhold"
+
+#, fuzzy
+msgid "grp_print_list"
+msgstr "Generate List"
+
+msgid "grp_public"
+msgstr "Offentlig gruppe"
+
+msgid "grp_public_info"
+msgstr "Gruppen er synlig for ikke-medlemmer men de skal opfylde betingelserne for at tilmelde sig gruppen."
+
+msgid "grp_reg_code"
+msgstr "Registreringskode"
+
+msgid "grp_reg_code_enabled_info"
+msgstr "Hvis aktiv kan automatisk indmeldelse ske ved brug af dette registreringslink."
+
+msgid "grp_reg_code_link"
+msgstr "Registreringslink"
+
+msgid "grp_reg_deac_info_screen"
+msgstr "Der er lukket for tilmelding."
+
+msgid "grp_reg_direct"
+msgstr "Direkte tilmelding"
+
+msgid "grp_reg_direct_info_screen"
+msgstr "Du kan tilmelde dig denne gruppe direkte."
+
+msgid "grp_reg_disabled"
+msgstr "Tilmelding ikke mulig"
+
+msgid "grp_reg_disabled_info"
+msgstr "Kun gruppens administratorer kan tilføje brugere til gruppen."
+
+msgid "grp_reg_limited"
+msgstr "Tilmeldingsperiode"
+
+msgid "grp_reg_max_members_info"
+msgstr "Antal medlemmer der samtidigt kan være i gruppen."
+
+#, fuzzy
+msgid "grp_reg_no_selfreg"
+msgstr "No self-enrolment"
+
+msgid "grp_reg_passwd_info_screen"
+msgstr "Hvis gruppeadministrator har givet dig det fælles password kan du tilmelde dig denne gruppe."
+
+msgid "grp_reg_password_info"
+msgstr "Brugere skal kende det fælles gruppe-password for at blive indmeldt i gruppen."
+
+msgid "grp_reg_req_info_screen"
+msgstr "Du kan anmode om medlemsskab af denne gruppe. Når gruppeadministrator herefter har taget stilling til din anmodning modtager du en mail med en bekræftelse eller en afvisning."
+
+msgid "grp_reg_request"
+msgstr "Anmod om medlemsskab"
+
+msgid "grp_reg_request_info"
+msgstr "Interesserede brugere kan sende en anmodning/besked til gruppens administrator(ere)"
+
+msgid "grp_reg_subject"
+msgstr "Anmodningsbesked"
+
+msgid "grp_registration_unlimited"
+msgstr "Ubegrænset registrering"
+
+#, fuzzy
+msgid "grp_role_status"
+msgstr "Role/Status"
+
+msgid "grp_search_users"
+msgstr "Find bruger"
+
+msgid "grp_set_on_waiting_list"
+msgstr "Du kan få din anmodning på ventelisten. Du vil i så fald modtage en besked fra gruppeadministrator når du godkendes eller afvises."
+
+msgid "grp_setting_header_presentation"
+msgstr "Gruppe layout"
+
+msgid "grp_setting_header_registration"
+msgstr "Gruppe indmeldelse"
+
+msgid "grp_settings"
+msgstr "Gruppe indstillinger"
+
+#, fuzzy
+msgid "grp_show_members"
+msgstr "Show Members"
+
+#, fuzzy
+msgid "grp_show_members_info"
+msgstr "If activated, group members can access the members gallery."
+
+#, fuzzy
+msgid "grp_subscription_min_members_info"
+msgstr "Define the number of users that is minimally required for this group to be held at all. If this number is not met either after the date until which users can register or unsubscribe from the group a mail will be send to those group administrators or tutors that have activated the 'Notification' flag in the 'Members'-tab."
+
+#, fuzzy
+msgid "grp_sure_add_user_to_group"
+msgstr "Do you really want to add this user to the group?"
+
+#, fuzzy
+msgid "grp_sure_create_group_add_user"
+msgstr "Do you really want to create the group and add the user?"
+
+msgid "grp_typ"
+msgstr "Gruppetype"
+
+msgid "grp_unsubscribe"
+msgstr "Afbryd abonnement"
+
+msgid "grp_update_subscr_request"
+msgstr "Opdater anmodning om medlemsskab"
+
+#, fuzzy
+msgid "grp_use_existing"
+msgstr "Use Existing Group"
+
+#, fuzzy
+msgid "grp_user_agreement"
+msgstr "Released Data Types"
+
+#, fuzzy
+msgid "grp_user_agreement_info"
+msgstr "Visible Personal Data for Group Administrators"
+
+#, fuzzy
+msgid "grp_user_already_in_group"
+msgstr "The selected user is already member of the group."
+
+#, fuzzy
+msgid "grp_user_been_added"
+msgstr "The user has been added to the group."
+
+msgid "grp_users_already_assigned"
+msgstr "Brugeren er allerede indmeldt i gruppen."
+
+#, fuzzy
+msgid "grp_usr_agreement"
+msgstr "User Agreement"
+
+#, fuzzy
+msgid "grp_view_info_by_type"
+msgstr "This content presentation groups all items by resource type."
+
+#, fuzzy
+msgid "grp_view_info_simple"
+msgstr "This content presentation lists all items in one block."
+
+msgid "grp_view_inherit"
+msgstr "Standard"
+
+msgid "grp_view_inherit_info"
+msgstr "Visningen af indhold arves fra kursets ditto."
+
+msgid "grp_waiting_list"
+msgstr "Aktiver venteliste"
+
+#, fuzzy
+msgid "grp_waiting_list_autofill"
+msgstr "With Auto-Fill"
+
+#, fuzzy
+msgid "grp_waiting_list_autofill_info"
+msgstr "Participants are recruited from the waiting list automatically on cancellations."
+
+msgid "grp_waiting_list_info"
+msgstr "Når pladserne er fyldt placeres brugere på ventelisten."
+
+#, fuzzy
+msgid "grp_waiting_list_no_autofill"
+msgstr "Without Auto-Fill"
+
+msgid "grp_warn_grp_type_changed"
+msgstr "Er du sikker på du vil ændre gruppetype? Alle rettighedsindstillinger bliver resettet til det valgte."
+
+#, fuzzy
+msgid "grp_warn_no_max_set_on_waiting_list"
+msgstr "The maximum number of group members is exceeded. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected."
+
+#, fuzzy
+msgid "grp_warn_wl_set_on_waiting_list"
+msgstr "Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected."
+
+#, fuzzy
+msgid "grp_wrong_max_members"
+msgstr "Please check the maximum number of users."
+
+#, fuzzy
+msgid "grp_wrong_min_max_members"
+msgstr "Please check the minimum and maximum number of users."
+
+#, fuzzy
+msgid "grp_wrong_reg_time_limit"
+msgstr "Please check the registration start and end times."
+
+msgid "reg_grp_max_members"
+msgstr "Maks antal brugere"
+
+msgid "reg_grp_max_members_short"
+msgstr "Antal medlemmer"
+
+#, fuzzy
+msgid "reg_grp_min_members"
+msgstr "Minimum Number of Members"

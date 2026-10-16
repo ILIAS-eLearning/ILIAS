@@ -1,0 +1,546 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: grp\n"
+
+msgid "crs_add_grouping"
+msgstr "メンバーシップの制限を追加"
+
+msgid "crs_grouping_delete_sure"
+msgstr "本当にメンバーシップの制限を削除しますか?"
+
+msgid "crs_grouping_deleted"
+msgstr "メンバーシップの制限は削除されました。"
+
+msgid "crs_grouping_select_one"
+msgstr "メンバーシップの制限を一つ選択してください。"
+
+msgid "crs_grp_added_grouping"
+msgstr "新規メンバーシップの制限を追加しました。"
+
+msgid "crs_grp_assign_crs"
+msgstr "グループの割当て"
+
+msgid "crs_grp_no_courses_assigned"
+msgstr "グループが割当てられていません"
+
+msgid "events"
+msgstr "セッション"
+
+msgid "grouping_change_assignment"
+msgstr "割当て変更"
+
+msgid "grp_activate_notification"
+msgstr "通知をオン"
+
+msgid "grp_activation_online_info"
+msgstr "グループをオンラインに設定すると、グループメンバーが閲覧・アクセスできるようになります。設定しない場合は、グループ管理者と「設定を編集」権限を持つ役割だけがアクセスできます。"
+
+msgid "grp_add_to_group"
+msgstr "グループへ追加"
+
+msgid "grp_add_user"
+msgstr "ユーザを追加"
+
+msgid "grp_add_user_to_group"
+msgstr "グループへユーザを追加"
+
+msgid "grp_added_to_list"
+msgstr "グループ \"%s\"の待ちリストに割当てられています。待ちリスト上の%sの位置にいます。"
+
+msgid "grp_admins"
+msgstr "管理者"
+
+msgid "grp_admission_link_failure_invalid_code"
+msgstr "登録できません: リンクが無効です。"
+
+msgid "grp_admission_link_failure_membership_limited"
+msgstr "登録不可: グループメンバーシップは制限されています。"
+
+msgid "grp_admission_link_failure_registration_period"
+msgstr "登録不可: グループは登録期間外です。"
+
+msgid "grp_admission_link_success_registration"
+msgstr "グループ\"%s\"へ新しい予定が作成されました。正しく登録されました。"
+
+msgid "grp_agree"
+msgstr "承諾"
+
+msgid "grp_agreement_header"
+msgstr "使用許諾書"
+
+msgid "grp_agreement_required"
+msgstr "グループコンテンツにアクセスしたい場合は利用条件への承諾が必要です。"
+
+msgid "grp_already_assigned"
+msgstr "既に、このグループのメンバーシップリクエストをしています。"
+
+msgid "grp_at_least_one_admin"
+msgstr "少なくともグループ管理者が一人は必要です。"
+
+msgid "grp_auto_notification"
+msgstr "新しいメンバー用のWelcome-Mail"
+
+msgid "grp_auto_notification_info"
+msgstr "グループへ追加されると新しいメンバーはメール通知を受領します。"
+
+msgid "grp_cancel_subscr_request"
+msgstr "メンバーシップリクエストを削除"
+
+msgid "grp_cancellation_end"
+msgstr "キャンセル期限"
+
+msgid "grp_cancellation_end_info"
+msgstr "この日付以降受講者はもう登録を取り消しできなくなります。"
+
+msgid "grp_cancellation_end_rbac_info"
+msgstr "キャンセル期限は%sでしたのでキャンセルはもうできません。"
+
+msgid "grp_cdf_edit_member"
+msgstr "ユーザ関連のグループを編集"
+
+msgid "grp_cdf_tbl_last_edit"
+msgstr "最終更新 (データ特定グループ)"
+
+msgid "grp_change_type"
+msgstr "グループタイプを変更"
+
+msgid "grp_contact"
+msgstr "Contact"
+
+msgid "grp_copy"
+msgstr "グループをコピー"
+
+msgid "grp_create_and_add_user"
+msgstr "ユーザの作成と追加"
+
+msgid "grp_create_new"
+msgstr "新規グループを作成"
+
+msgid "grp_create_new_grp_in"
+msgstr "%1'内に新区グループを作成"
+
+msgid "grp_create_or_use_existing"
+msgstr "既存のグループへユーザを追加するか新規グループを追加希望しますか?"
+
+msgid "grp_created_and_user_been_added"
+msgstr "グループの作成とユーザーを追加しました。"
+
+msgid "grp_custom_user_fields"
+msgstr "関連ユーザデータのグループ"
+
+msgid "grp_custom_user_fields_infobox"
+msgstr "参加時にグループメンバー用に記入するための追加データを生成します。\"メンバー\"タブ内の追加列にこの情報を表示できます。"
+
+msgid "grp_custom_user_fields_table_title"
+msgstr "このグループの関連ユーザデータ"
+
+msgid "grp_deactivate_notification"
+msgstr "通知をオフ"
+
+msgid "grp_enable_map"
+msgstr "グループmapを有効"
+
+msgid "grp_err_registration_limited"
+msgstr "登録用の有効な開始と終了日を入力してください。"
+
+msgid "grp_general_informations"
+msgstr "総合情報"
+
+msgid "grp_grp_info_reg"
+msgstr "これらのグループの一つにだけ登録できます"
+
+msgid "grp_grp_open"
+msgstr "グループを開く"
+
+msgid "grp_header_delete_members"
+msgstr "このグループから次のメンバーを削除しますか?"
+
+msgid "grp_header_waiting_list"
+msgstr "待ちリスト"
+
+msgid "grp_icon_settings"
+msgstr "グループアイコン"
+
+msgid "grp_import"
+msgstr "グループをインポート"
+
+msgid "grp_info_agree"
+msgstr "上記情報内容がグループ管理者へ表示される事を承諾します。"
+
+msgid "grp_info_agreement"
+msgstr "次の情報内容をグループ管理者へ表示"
+
+msgid "grp_info_new_grp_type"
+msgstr "新グループタイプ"
+
+msgid "grp_info_settings"
+msgstr "グループ情報"
+
+msgid "grp_information"
+msgstr "重要情報"
+
+msgid "grp_information_info"
+msgstr "この情報はinfoページ上で新規登録用に表示されます。"
+
+msgid "grp_join_request"
+msgstr "送る"
+
+msgid "grp_lim_assigned"
+msgstr "すでに関連グループ\"%s\" へ割当て済です。"
+
+msgid "grp_mail_admission_new_bod"
+msgstr "グループ \"%s\"へ登録された事をご案内します。"
+
+msgid "grp_mail_admission_new_sub"
+msgstr "グループ \"%s\"の登録"
+
+msgid "grp_mail_all"
+msgstr "全ての参加者用"
+
+msgid "grp_mail_all_info"
+msgstr "メンバと管理者のみが\"メンバ\"タブ内の\"メンバへメール\"機能を使用できます。"
+
+msgid "grp_mail_dismiss_bod"
+msgstr "グループ \"%s\"のメンバーシップは終了しました。"
+
+msgid "grp_mail_dismiss_sub"
+msgstr "グループ \"%s\"の終了したメンバーシップ"
+
+msgid "grp_mail_notification_reg_bod"
+msgstr "%sはグループ \"%s\"へ登録しました。"
+
+msgid "grp_mail_notification_reg_req_bod"
+msgstr "%sはグループ \"%s\"のメンバーシップをリクエストしました。"
+
+msgid "grp_mail_notification_reg_req_bod2"
+msgstr "この登録の確認は次へ:"
+
+msgid "grp_mail_notification_reg_req_sub"
+msgstr "グループ \"%s\"参加のリクエスト"
+
+msgid "grp_mail_notification_reg_sub"
+msgstr "グループ \"%s\"へユーザが登録されました"
+
+msgid "grp_mail_notification_unsub_bod"
+msgstr "%sはグループ \"%s\"用にそのメンバーシップをキャンセルしました。"
+
+msgid "grp_mail_notification_unsub_bod2"
+msgstr "グループの待ちリスト上に他のメンバーがいる可能性があります。すぐに待ちリストをチェックする必要があります。グループのメンバーシップを見るには次をクリック"
+
+msgid "grp_mail_notification_unsub_sub"
+msgstr "ユーザはグループ \"%s\"から外れました。"
+
+msgid "grp_mail_permanent_link"
+msgstr "グループに関する必要なすべての情報を得るには以下のリンクをクリック:"
+
+msgid "grp_mail_status_bod"
+msgstr "グループ \"%s\"のステータスは更新されました。"
+
+msgid "grp_mail_status_sub"
+msgstr "グループ\"%s\"のステータスを更新"
+
+msgid "grp_mail_sub_acc_bod"
+msgstr "グループ \"%s\"への登録が確認されました."
+
+msgid "grp_mail_sub_acc_sub"
+msgstr "%sの登録を確認"
+
+msgid "grp_mail_sub_dec_bod"
+msgstr "申し訳ありませんが、グループ \"%s\"への登録は拒否されました。"
+
+msgid "grp_mail_sub_dec_sub"
+msgstr "グループ \"%s\"への登録拒否"
+
+msgid "grp_mail_subscribe_member_bod"
+msgstr "グループ \"%s\"への登録が確認されました。"
+
+msgid "grp_mail_subscribe_member_sub"
+msgstr "グループ \"%s\"の登録"
+
+msgid "grp_mail_tutors_only"
+msgstr "管理者専用"
+
+msgid "grp_mail_tutors_only_info"
+msgstr "管理者のみ\"メンバ\"タブ内の\"メンバへメール\"機能を使用できます。"
+
+msgid "grp_mail_type"
+msgstr "メンバーへメール"
+
+msgid "grp_mail_unsubscribe_member_bod"
+msgstr "グループ %sのメンバーシップのキャンセル確認です。別のコースでのご参加をお待ちしています。"
+
+msgid "grp_mail_unsubscribe_member_sub"
+msgstr "グループ \"%s\"のメンバーシップのキャンセル"
+
+msgid "grp_mail_wl_bod"
+msgstr "グループ \"%s\"の待ちリストへ割当てられました。リスト上の%sの位置です。リクエストが承認または却下されるとグループ管理者からメッセージを受信します。"
+
+msgid "grp_mail_wl_sub"
+msgstr "グループ \"%s\"の登録"
+
+msgid "grp_map_location"
+msgstr "グループMapロケーション"
+
+msgid "grp_map_settings"
+msgstr "Map設定"
+
+msgid "grp_max_and_min_members_invalid"
+msgstr "最小値は最大メンバー数以下にする必要があります。"
+
+msgid "grp_mem_contacts"
+msgstr "チュートリアルサポート"
+
+msgid "grp_mem_tbl_header"
+msgstr "グループ参加者"
+
+msgid "grp_member_administration"
+msgstr "参加者を編集"
+
+msgid "grp_members"
+msgstr "メンバー"
+
+msgid "grp_members_deleted"
+msgstr "メンバーを削除しました"
+
+msgid "grp_members_map"
+msgstr "グループ メンバーのMap"
+
+msgid "grp_members_print_title"
+msgstr "グループメンバ"
+
+msgid "grp_min_one_admin"
+msgstr "このグループには管理者が一人は必要です。"
+
+msgid "grp_missing_grp_type"
+msgstr "グループタイプを選んでください。"
+
+msgid "grp_missing_password"
+msgstr "グループパスワードを入力してください。"
+
+msgid "grp_new_status"
+msgstr "新しいステータス"
+
+msgid "grp_next"
+msgstr "次へ"
+
+msgid "grp_no_perm_to_add_create_first"
+msgstr "グループを先に作成する必要があります。新規グループを作成する場所を選択してください。"
+
+msgid "grp_notification"
+msgstr "通知"
+
+msgid "grp_notification_activated"
+msgstr "オンになっている通知"
+
+msgid "grp_notification_deactivated"
+msgstr "オフになっている通知"
+
+msgid "grp_notification_explanation_admin"
+msgstr "通知ありのグループ管理者なのでこのメールを受領します。"
+
+msgid "grp_notification_salutation"
+msgstr "グループ受講者の皆様へ"
+
+msgid "grp_notify_off"
+msgstr "新しい登録無効に関する通知"
+
+msgid "grp_notify_on"
+msgstr "新しい登録有効に関する通知"
+
+msgid "grp_pass_request"
+msgstr "グループ パスワードで参加"
+
+msgid "grp_period"
+msgstr "グループ期間設定"
+
+msgid "grp_period_info"
+msgstr "グループのサポートする開始と終了に関するイベント情報"
+
+msgid "grp_presentation_type"
+msgstr "プレゼンテーションタイプ"
+
+msgid "grp_print_list"
+msgstr "リストを生成"
+
+msgid "grp_public"
+msgstr "パブリックグループ"
+
+msgid "grp_public_info"
+msgstr "グループ非メンバーへ表示されますが参加するには特別な要件が必要です。"
+
+msgid "grp_reg_code"
+msgstr "登録コード"
+
+msgid "grp_reg_code_enabled_info"
+msgstr "有効にすると、自動登録は特定の登録リンクを使用して可能になります。"
+
+msgid "grp_reg_code_link"
+msgstr "登録リンク"
+
+msgid "grp_reg_deac_info_screen"
+msgstr "グループ参加受付は終了しています。"
+
+msgid "grp_reg_direct"
+msgstr "直接登録"
+
+msgid "grp_reg_direct_info_screen"
+msgstr "この グループへ直接参加できます。"
+
+msgid "grp_reg_disabled"
+msgstr "登録は不可能"
+
+msgid "grp_reg_disabled_info"
+msgstr "グループ 管理者だけがグループへユーザを追加できます。"
+
+msgid "grp_reg_limited"
+msgstr "自己登録"
+
+msgid "grp_reg_max_members_info"
+msgstr "このグループへ割当て可能な最大ユーザ数を定義します。"
+
+msgid "grp_reg_no_selfreg"
+msgstr "自己登録なし"
+
+msgid "grp_reg_passwd_info_screen"
+msgstr "グループ管理者がグループパスワードを付与すると、このグループへ参加できます。"
+
+msgid "grp_reg_password_info"
+msgstr "ユーザはこのグループへ参加するための正しいパスワードのタイプが必要です。"
+
+msgid "grp_reg_req_info_screen"
+msgstr "このグループのメンバーシップをリクエストできます。リクエストが承認または却下されるとグループ管理者からメッセージを受領します。"
+
+msgid "grp_reg_request"
+msgstr "メンバーシップをリクエスト"
+
+msgid "grp_reg_request_info"
+msgstr "関心のあるユーザはグループ管理者へリクエスト/メッセージを送る事ができます。"
+
+msgid "grp_reg_subject"
+msgstr "メッセージ"
+
+msgid "grp_registration_unlimited"
+msgstr "無期限"
+
+msgid "grp_role_status"
+msgstr "役割と状態"
+
+msgid "grp_search_users"
+msgstr "ユーザを検索"
+
+msgid "grp_set_on_waiting_list"
+msgstr "待ちリストへ参加リクエストを追加できます。リクエストが承認または却下されるとグループ管理者からメッセージを受信します。"
+
+msgid "grp_setting_header_presentation"
+msgstr "グループプレゼンテーション"
+
+msgid "grp_setting_header_registration"
+msgstr "グループ登録"
+
+msgid "grp_settings"
+msgstr "グループ設定"
+
+msgid "grp_show_members"
+msgstr "メンバーを表示"
+
+msgid "grp_show_members_info"
+msgstr "有効にするとグループメンバーはメンバーギャラリーへアクセスできます。"
+
+msgid "grp_subscription_min_members_info"
+msgstr "このグループを全て把握するために必要な最小ユーザ数を定義します。この数字がユーザが登録るあるいは登録を取り消しできる日付になるまでメールがこれらのグループ管理者または'メンバー'タブ内の'通知'フラッグがアクティブになっている指導教員へ送信されます。"
+
+msgid "grp_sure_add_user_to_group"
+msgstr "グループへこのユーザを本当に追加しますか?"
+
+msgid "grp_sure_create_group_add_user"
+msgstr "グループを作成してユーザ追加をしますか?"
+
+msgid "grp_typ"
+msgstr "グループタイプ"
+
+msgid "grp_unsubscribe"
+msgstr "購読解除"
+
+msgid "grp_update_subscr_request"
+msgstr "メンバーシップリクエストを更新"
+
+msgid "grp_use_existing"
+msgstr "既存のグループを使用する"
+
+msgid "grp_user_agreement"
+msgstr "データタイプをリリース"
+
+msgid "grp_user_agreement_info"
+msgstr "グループ管理者用のパーソナルデータを表示します"
+
+msgid "grp_user_already_in_group"
+msgstr "選択のユーザはすでにグループのメンバーです。"
+
+msgid "grp_user_been_added"
+msgstr "グループへﾕｻﾞが追加されました。"
+
+msgid "grp_users_already_assigned"
+msgstr "ユーザは既にグループ.へ割当てられています。"
+
+msgid "grp_usr_agreement"
+msgstr "ユーザ許諾書"
+
+msgid "grp_view_info_by_type"
+msgstr "このコンテンツプレゼンテーションはリソースタイプで全てのアイテムをグループ化します。"
+
+msgid "grp_view_info_simple"
+msgstr "このコンテンツプレゼンテーションは1ブロックに全てのアイテムをリストします。"
+
+msgid "grp_view_inherit"
+msgstr "初期設定"
+
+msgid "grp_view_inherit_info"
+msgstr "グループプレゼンテーションタイプは元のコースから引き継がれました。"
+
+msgid "grp_waiting_list"
+msgstr "待ちリストを有効にする"
+
+msgid "grp_waiting_list_autofill"
+msgstr "自動挿入あり"
+
+msgid "grp_waiting_list_autofill_info"
+msgstr "キャンセル時には受講者は自動的に待ちリストから採用されます。これは、オートフィルがバイパスするので\"メンバーシップを要求\"登録手順\"で使用すべきではありません。"
+
+msgid "grp_waiting_list_info"
+msgstr "有効の場合、最大ユーザ数を超えると新規登録は待ちリストに載ります。"
+
+msgid "grp_waiting_list_no_autofill"
+msgstr "自動挿入なし"
+
+msgid "grp_warn_grp_type_changed"
+msgstr "本当にグループタイプを変更しますか? 全てのアクセス権限設定はリセットされます。"
+
+msgid "grp_warn_no_max_set_on_waiting_list"
+msgstr "最大グループ メンバー数を超えています。待ちリストへ参加リクエストを追加できます。リクエストが承認または却下されると、グループ 管理者からメッセージを受信します。"
+
+msgid "grp_warn_wl_set_on_waiting_list"
+msgstr "ユーザをすでに待ちリストへ割当てています。参加リクエストを待ちリストへ追加できます。リクエストが承認または却下されると、グループ 管理者からメッセージを受信します。"
+
+msgid "grp_wrong_max_members"
+msgstr "ユーザ最大数をチェックしてください。"
+
+msgid "grp_wrong_min_max_members"
+msgstr "最小か最大メンバー数あるいは両方を設定してください。"
+
+msgid "grp_wrong_reg_time_limit"
+msgstr "登録開始と終了時間をチェックしてください。"
+
+msgid "reg_grp_max_members"
+msgstr "制限メンバー数"
+
+msgid "reg_grp_max_members_short"
+msgstr "メンバー数"
+
+msgid "reg_grp_min_members"
+msgstr "最小メンバー数"

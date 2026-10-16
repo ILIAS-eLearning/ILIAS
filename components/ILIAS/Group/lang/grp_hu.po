@@ -1,0 +1,546 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: grp\n"
+
+msgid "crs_add_grouping"
+msgstr "Tagságkorlátozás létrehozása"
+
+msgid "crs_grouping_delete_sure"
+msgstr "Biztos, hogy törli ezt a tagsági korlátozást?"
+
+msgid "crs_grouping_deleted"
+msgstr "Törölt tagsági korlátozás"
+
+msgid "crs_grouping_select_one"
+msgstr "Válasszon egy tagságkorlátozást."
+
+msgid "crs_grp_added_grouping"
+msgstr "Sikeresen létrehozott egy új tagságkorlátozást."
+
+msgid "crs_grp_assign_crs"
+msgstr "Csoportok hozzárendelése"
+
+msgid "crs_grp_no_courses_assigned"
+msgstr "Egy csoport sincs hozzárendelve"
+
+msgid "events"
+msgstr "Események"
+
+msgid "grouping_change_assignment"
+msgstr "Hozzárendelés változtatása"
+
+msgid "grp_activate_notification"
+msgstr "Értesítés bekapcsolása"
+
+msgid "grp_activation_online_info"
+msgstr "A csoport beállítása online, hogy látható és elérhető legyen a csoport tagjai számára. Ha nem online, akkor csak a csoportvezetők és a ‘Beállítások szerkesztése’ engedéllyel rendelkező szerepkörök férhetnek hozzá."
+
+msgid "grp_add_to_group"
+msgstr "Csoporthoz adás"
+
+msgid "grp_add_user"
+msgstr "Felhasználó hozzáadása"
+
+msgid "grp_add_user_to_group"
+msgstr "Felhasználó csoporthoz adása"
+
+msgid "grp_added_to_list"
+msgstr "Ön már a ‘%s’ csoport várólistáján van. Ön a %s. a listán."
+
+msgid "grp_admins"
+msgstr "Vezetők"
+
+msgid "grp_admission_link_failure_invalid_code"
+msgstr "Nem rögzíthető: érvénytelen link."
+
+msgid "grp_admission_link_failure_membership_limited"
+msgstr "Nem regisztrálhat, mert a csoport tagsága korlátozott."
+
+msgid "grp_admission_link_failure_registration_period"
+msgstr "Nem regisztrálhat, mert jelenleg nincs regisztrációs időszak."
+
+msgid "grp_admission_link_success_registration"
+msgstr "‘%s’ csoportba sikeresen regisztrált."
+
+msgid "grp_agree"
+msgstr "Elfogadás"
+
+msgid "grp_agreement_header"
+msgstr "Felhasználói megállapodás"
+
+msgid "grp_agreement_required"
+msgstr "El kell fogadnia a felhasználói megállapodást, ha el szeretné érni a csoporttartalmat."
+
+msgid "grp_already_assigned"
+msgstr "Ön már rendelkezik a kívánt tagsággal ebben a csoportban."
+
+msgid "grp_at_least_one_admin"
+msgstr "Legalább egy kurzusvezető kell, hogy legyen."
+
+msgid "grp_auto_notification"
+msgstr "Új tagoknak üdvözlőlevél"
+
+msgid "grp_auto_notification_info"
+msgstr "Csoportcsatlakozáskor levelet küldünk az új tagoknak."
+
+msgid "grp_cancel_subscr_request"
+msgstr "Tagsági kérelem törlése"
+
+msgid "grp_cancellation_end"
+msgstr "Lemondás időkorlátja"
+
+msgid "grp_cancellation_end_info"
+msgstr "Az itt megadott ideig tudnak a résztvevők leiratkozni a csoportról."
+
+msgid "grp_cancellation_end_rbac_info"
+msgstr "A lemondás határideje %s volt, lemondás utána már nem lehetséges."
+
+msgid "grp_cdf_edit_member"
+msgstr "Felhasználó csoporthoz kötődő adatainak módosítása"
+
+msgid "grp_cdf_tbl_last_edit"
+msgstr "Módosítva (csoportspecifikus adat)"
+
+msgid "grp_change_type"
+msgstr "Csoporttípus változtatása"
+
+msgid "grp_contact"
+msgstr "Támogatás"
+
+msgid "grp_copy"
+msgstr "Csoport másolása"
+
+msgid "grp_create_and_add_user"
+msgstr "Létrehozás és felhasználó hozzáadása"
+
+msgid "grp_create_new"
+msgstr "Új csoport létrehozása"
+
+msgid "grp_create_new_grp_in"
+msgstr "Új csoport létrehozása ebben: ‘%1’."
+
+msgid "grp_create_or_use_existing"
+msgstr "Meglévő vagy új csoporthoz hozzáadja a felhasználót?"
+
+msgid "grp_created_and_user_been_added"
+msgstr "A csoportot sikeresen létrehozta és a felhasználót sikeresen hozzáadta."
+
+msgid "grp_custom_user_fields"
+msgstr "Csoporthoz tartozó felhasználói adatok"
+
+msgid "grp_custom_user_fields_infobox"
+msgstr "Hozzon létre további adatmezőket a csoporttagok számára, amelyeket csatlakozáskor ki kell töltenie. Ezt az információt további oszlopként is megjelenítheti a ‘Tagok’ lapon."
+
+msgid "grp_custom_user_fields_table_title"
+msgstr "A csoport releváns felhasználói adatai"
+
+msgid "grp_deactivate_notification"
+msgstr "Értesítés kikapcsolása"
+
+msgid "grp_enable_map"
+msgstr "Csoporttérkép engedélyezése"
+
+msgid "grp_err_registration_limited"
+msgstr "Valós dátumot adjon meg a regisztráció nyitó- és záródátumának"
+
+msgid "grp_general_informations"
+msgstr "Általános információk"
+
+msgid "grp_grp_info_reg"
+msgstr "Csak egy csoportba regisztrálhat ezek közül:"
+
+msgid "grp_grp_open"
+msgstr "Csoport megnyitása"
+
+msgid "grp_header_delete_members"
+msgstr "Biztos, hogy eltávolítja az alábbi tagokat ebből a csoportból?"
+
+msgid "grp_header_waiting_list"
+msgstr "Várólista"
+
+msgid "grp_icon_settings"
+msgstr "Ikonbeállítások"
+
+msgid "grp_import"
+msgstr "Csoport importálása"
+
+msgid "grp_info_agree"
+msgstr "Elfogadom, hogy a fenti adattípusok láthatók a csoportvezetők számára."
+
+msgid "grp_info_agreement"
+msgstr "A következő adattípusok láthatók a csoportvezetők számára:"
+
+msgid "grp_info_new_grp_type"
+msgstr "Új csoporttípus"
+
+msgid "grp_info_settings"
+msgstr "Csoportinformációk"
+
+msgid "grp_information"
+msgstr "Fontos információk"
+
+msgid "grp_information_info"
+msgstr "Ez az információ az ‘Információ’ lapon és az új regisztráltaknak fog megjelenni."
+
+msgid "grp_join_request"
+msgstr "Küldés"
+
+msgid "grp_lim_assigned"
+msgstr "‘%s’ csoportnak már tagja."
+
+msgid "grp_mail_admission_new_bod"
+msgstr "ezúton tájékoztatjuk, hogy ‘%s’ csoportban tag lett."
+
+msgid "grp_mail_admission_new_sub"
+msgstr "‘%s’ csoporthoz csatlakozás"
+
+msgid "grp_mail_all"
+msgstr "Összes tag"
+
+msgid "grp_mail_all_info"
+msgstr "Tagok és vezetők használhatják a ‘Tagok’ lapon lévő ‘Levél küldése tagoknak’ lehetőséget."
+
+msgid "grp_mail_dismiss_bod"
+msgstr "ezúton tájékoztatjuk, hogy ‘%s’ csoportban megszűnt a tagsága."
+
+msgid "grp_mail_dismiss_sub"
+msgstr "‘%s’ csoporttagság megszűnése"
+
+msgid "grp_mail_notification_reg_bod"
+msgstr "%s regisztrált a(z) ‘%s’ csoportba."
+
+msgid "grp_mail_notification_reg_req_bod"
+msgstr "%s tagsági kérelmet adott be a(z) ‘%s’ csoportba."
+
+msgid "grp_mail_notification_reg_req_bod2"
+msgstr "A regisztráció megerősítéséhez keresse fel:"
+
+msgid "grp_mail_notification_reg_req_sub"
+msgstr "‘%s’ csoportcsatlakozási kérés"
+
+msgid "grp_mail_notification_reg_sub"
+msgstr "‘%s’ csoportba felhasználó regisztrált"
+
+msgid "grp_mail_notification_unsub_bod"
+msgstr "%s törölte tagságát a(z) ‘%s’ csoportból."
+
+msgid "grp_mail_notification_unsub_bod2"
+msgstr "Csoportjának várólistáján lehet hogy vannak. Kérjük, ellenőrizze a várólistát. A csoporttagok listáját ide kattintva tekintheti meg:"
+
+msgid "grp_mail_notification_unsub_sub"
+msgstr "‘%s’ csoportot elhagyta egy felhasználó"
+
+msgid "grp_mail_permanent_link"
+msgstr "Az alábbi linken érheti el a csoportot:"
+
+msgid "grp_mail_status_bod"
+msgstr "ezúton tájékoztatjuk, hogy ‘%s’ csoportban az állapota megváltozott."
+
+msgid "grp_mail_status_sub"
+msgstr "‘%s’ csoportban állapotváltozás"
+
+msgid "grp_mail_sub_acc_bod"
+msgstr "ezúton tájékoztatjuk, hogy ‘%s’ csoportba tagsági kérelmét elfogadták."
+
+msgid "grp_mail_sub_acc_sub"
+msgstr "‘%s’ csoportba tagsági kérelem elfogadása"
+
+msgid "grp_mail_sub_dec_bod"
+msgstr "ezúton tájékoztatjuk, hogy ‘%s’ csoportba tagsági kérelmét nem fogadták el."
+
+msgid "grp_mail_sub_dec_sub"
+msgstr "‘%s’ csoportba tagsági kérelem elutasítása"
+
+msgid "grp_mail_subscribe_member_bod"
+msgstr "ezúton tájékoztatjuk, hogy ‘%s’ csoporthoz sikeresen csatlakozott."
+
+msgid "grp_mail_subscribe_member_sub"
+msgstr "‘%s’ csoporthoz csatlakozás"
+
+msgid "grp_mail_tutors_only"
+msgstr "Csak vezetők"
+
+msgid "grp_mail_tutors_only_info"
+msgstr "Csak vezetők használhatják a ‘Tagok’ lapon lévő ‘Levél küldése tagoknak’ lehetőséget."
+
+msgid "grp_mail_type"
+msgstr "Levél küldése tagoknak"
+
+msgid "grp_mail_unsubscribe_member_bod"
+msgstr "ezúton tájékoztatjuk, hogy ‘%s’ csoportból tagságát sikeresen töröltük."
+
+msgid "grp_mail_unsubscribe_member_sub"
+msgstr "‘%s’ csoporttagság törlése"
+
+msgid "grp_mail_wl_bod"
+msgstr "‘%s’ csoport várólistájára felkerült. Ön a(z) %s. a listán. Üzenetben fogja értesíteni Önt a csoportvezető, amikor kérését elfogadják vagy elutasítják."
+
+msgid "grp_mail_wl_sub"
+msgstr "‘%s’ csoportba regisztráció"
+
+msgid "grp_map_location"
+msgstr "Csoporttérkép helye"
+
+msgid "grp_map_settings"
+msgstr "Térképbeállítások"
+
+msgid "grp_max_and_min_members_invalid"
+msgstr "A tagok minimális száma kisebb kell, hogy legyen, mint a maximális."
+
+msgid "grp_mem_contacts"
+msgstr "Tutori támogatás"
+
+msgid "grp_mem_tbl_header"
+msgstr "Csoportrésztvevők"
+
+msgid "grp_member_administration"
+msgstr "Résztvevők módosítása"
+
+msgid "grp_members"
+msgstr "Tagok"
+
+msgid "grp_members_deleted"
+msgstr "A tago(ka)t sikeresen törölte"
+
+msgid "grp_members_map"
+msgstr "Csoporttagok térképe"
+
+msgid "grp_members_print_title"
+msgstr "A csoport tagjai"
+
+msgid "grp_min_one_admin"
+msgstr "Legalább egy vezető kell, hogy legyen a csoportban."
+
+msgid "grp_missing_grp_type"
+msgstr "Válasszon csoporttípust!"
+
+msgid "grp_missing_password"
+msgstr "Adjon meg csoportjelszót!"
+
+msgid "grp_new_status"
+msgstr "Az Ön új állapota:"
+
+msgid "grp_next"
+msgstr "Következő"
+
+msgid "grp_no_perm_to_add_create_first"
+msgstr "Először hozzon létre egy csoportot. Válassza ki, hová hoz létre csoportot."
+
+msgid "grp_notification"
+msgstr "Értesítés"
+
+msgid "grp_notification_activated"
+msgstr "Értesítés bekapcsolva"
+
+msgid "grp_notification_deactivated"
+msgstr "Értesítés kikapcsolva"
+
+msgid "grp_notification_explanation_admin"
+msgstr "Ezt a levelet azért kapta, mert csoportvezető, aki beállította, hogy kér értesítést."
+
+msgid "grp_notification_salutation"
+msgstr "Kedves Csoporttag,"
+
+msgid "grp_notify_off"
+msgstr "Értesítés új regisztrációkról letiltva"
+
+msgid "grp_notify_on"
+msgstr "Értesítés új regisztrációkról engedélyezve"
+
+msgid "grp_pass_request"
+msgstr "Csatlakozás csoportjelszóval"
+
+msgid "grp_period"
+msgstr "Esemény időköze"
+
+msgid "grp_period_info"
+msgstr "Információ a csoport által támogatott esemény kezdő és záró dátumáról."
+
+msgid "grp_presentation_type"
+msgstr "Megjelenítés típusa"
+
+msgid "grp_print_list"
+msgstr "Névsor létrehozása"
+
+msgid "grp_public"
+msgstr "Nyilvános csoport"
+
+msgid "grp_public_info"
+msgstr "Akik nem tagok, azok is láthatják a csoportot, de lehet hogy speciális követelmények szükségesek a csatlakozáshoz."
+
+msgid "grp_reg_code"
+msgstr "Regisztráció linkkel"
+
+msgid "grp_reg_code_enabled_info"
+msgstr "A választott regisztrációs mód és jogosultságok mellett ez egy másik lehetőség az érdeklődő felhasználóknak, hogy közvetlenül regisztrálhassanak az alábbi regisztrációs linkkel."
+
+msgid "grp_reg_code_link"
+msgstr "Link a közvetlen regisztrációhoz"
+
+msgid "grp_reg_deac_info_screen"
+msgstr "Jelenleg nincs felvétel a csoportba."
+
+msgid "grp_reg_direct"
+msgstr "Közvetlen regisztráció"
+
+msgid "grp_reg_direct_info_screen"
+msgstr "Közvetlenül csatlakozhat ehhez a csoporthoz."
+
+msgid "grp_reg_disabled"
+msgstr "Nem lehetséges a regisztráció"
+
+msgid "grp_reg_disabled_info"
+msgstr "Csak csoportvezetők vehetnek fel felhasználót a csoportba."
+
+msgid "grp_reg_limited"
+msgstr "Regisztráció időbeni korlátozása"
+
+msgid "grp_reg_max_members_info"
+msgstr "Adja meg a csoport tagjainak maximális számát."
+
+msgid "grp_reg_no_selfreg"
+msgstr "Senki sem regisztrálhatja saját magát"
+
+msgid "grp_reg_passwd_info_screen"
+msgstr "Ha a csoportvezető megadta Önnek a csoportjelszót, csatlakozhat ehhez a csoporthoz."
+
+msgid "grp_reg_password_info"
+msgstr "A felhasználóknak be kell gépelniük a jelszót a csoporthoz való csatlakozáshoz."
+
+msgid "grp_reg_req_info_screen"
+msgstr "Kérhet tagságot ehhez a csoporthoz. Egy üzenetet fog kapni a csoportvezetőtől, ha kérését jóváhagyják vagy elutasítják."
+
+msgid "grp_reg_request"
+msgstr "Tagság kérése"
+
+msgid "grp_reg_request_info"
+msgstr "Az érdeklődő felhasználók kérést/üzenetet küldenek a csoportvezetőknek, akik jóváhagyhatják vagy elutasíthatják a kérést."
+
+msgid "grp_reg_subject"
+msgstr "Üzenet"
+
+msgid "grp_registration_unlimited"
+msgstr "Korlátlan"
+
+msgid "grp_role_status"
+msgstr "Szerep/állapot"
+
+msgid "grp_search_users"
+msgstr "Felhasználó keresése"
+
+msgid "grp_set_on_waiting_list"
+msgstr "Feljelentkezhet a várólistára. Egy üzenetet fog kapni a csoportvezetőtől, amikor kérését jóváhagyják vagy elutasítják."
+
+msgid "grp_setting_header_presentation"
+msgstr "Csoportmegjelenítés"
+
+msgid "grp_setting_header_registration"
+msgstr "Csoportregisztráció"
+
+msgid "grp_settings"
+msgstr "Csoportbeállítások"
+
+msgid "grp_show_members"
+msgstr "Tagok megjelenítése"
+
+msgid "grp_show_members_info"
+msgstr "A csoport tagjai elérhetik a tagok képtárát."
+
+msgid "grp_subscription_min_members_info"
+msgstr "A csoport indulásához szükséges minimális létszámot határozza meg. Amennyiben a csoportlétszám nem éri el ezt a számot a csoport regisztrációs, illetve lejelentkezési határidejéig, figyelmeztető levelet küldünk a csoport azon vezetőinek és tutorainak, akinél aktív az értesítés a csoport ‘Tagok’ lapján."
+
+msgid "grp_sure_add_user_to_group"
+msgstr "Biztos, hogy hozzáadja ez a felhasználót a csoporthoz?"
+
+msgid "grp_sure_create_group_add_user"
+msgstr "Biztos, hogy létrehozza a csoportot és hozzáadja felhasználót?"
+
+msgid "grp_typ"
+msgstr "Csoporttípus"
+
+msgid "grp_unsubscribe"
+msgstr "Kilépés"
+
+msgid "grp_update_subscr_request"
+msgstr "Tagsági kérelem módosítása"
+
+msgid "grp_use_existing"
+msgstr "Meglévő csoport használata"
+
+msgid "grp_user_agreement"
+msgstr "Kiadott adattípusok"
+
+msgid "grp_user_agreement_info"
+msgstr "Látható személyes adatok a csoportvezetőnek"
+
+msgid "grp_user_already_in_group"
+msgstr "A kijelölt felhasználó már tagja a csoportnak."
+
+msgid "grp_user_been_added"
+msgstr "A felhasználó sikeresen hozzáadta a csoporthoz."
+
+msgid "grp_users_already_assigned"
+msgstr "A felhasználót már hozzárendelték ehhez a csoporthoz."
+
+msgid "grp_usr_agreement"
+msgstr "Szolgáltatási feltételek"
+
+msgid "grp_view_info_by_type"
+msgstr "Az objektumokat típusuk alapján csoportosítva jelenítjük meg."
+
+msgid "grp_view_info_simple"
+msgstr "Az objektumokat nem csoportosítjuk, azokat egymás alatt jelenítjük meg."
+
+msgid "grp_view_inherit"
+msgstr "Alapértelmezett"
+
+msgid "grp_view_inherit_info"
+msgstr "A megjelenítés típusát a kurzustárolótól vesszük át."
+
+msgid "grp_waiting_list"
+msgstr "Várólista"
+
+msgid "grp_waiting_list_autofill"
+msgstr "Automatikus feltöltéssel"
+
+msgid "grp_waiting_list_autofill_info"
+msgstr "A résztvevőket automatikusan felvesszük a várólistáról lemondás esetén. Ez nem alkalmazható együtt a ‘Részvétel jóváhagyása’ regisztrációs eljárással, mert az automatikus felvétel kizárja a jóváhagyást."
+
+msgid "grp_waiting_list_info"
+msgstr "A maximális felhasználószám elérése után regisztrálók várólistára kerülnek."
+
+msgid "grp_waiting_list_no_autofill"
+msgstr "Automatikus feltöltés nélkül"
+
+msgid "grp_warn_grp_type_changed"
+msgstr "Biztos, hogy megváltoztatja a csoport típusát? Minden jogosultsági beállítás alapértelmezettre fog visszaállni."
+
+msgid "grp_warn_no_max_set_on_waiting_list"
+msgstr "A csoport elérte a maximális taglétszámát. Csatlakozási kérelmével feliratkozhat a várólistára. A csoportvezető üzenetet fog küldeni Önnek, ha kérését jóváhagyják vagy elutasítják."
+
+msgid "grp_warn_wl_set_on_waiting_list"
+msgstr "Van már néhány felhasználó a várólistán. Csatlakozási kérelmével Ön is feliratkozhat a várólistára. A csoportvezető üzenetet fog küldeni Önnek, amikor kérését jóváhagyják vagy elutasítják."
+
+msgid "grp_wrong_max_members"
+msgstr "A várólista bekapcsolásához a taglétszám maximalizálása szükséges!"
+
+msgid "grp_wrong_min_max_members"
+msgstr "Legyen szíves ellenőrizze a felhasználók minimális, illetve maximális számát."
+
+msgid "grp_wrong_reg_time_limit"
+msgstr "Ellenőrizze a regisztráció kezdő és záró időpontját!"
+
+msgid "reg_grp_max_members"
+msgstr "Tagok maximális száma"
+
+msgid "reg_grp_max_members_short"
+msgstr "Felhasználószám korlátozása"
+
+msgid "reg_grp_min_members"
+msgstr "Tagok minimális száma"
