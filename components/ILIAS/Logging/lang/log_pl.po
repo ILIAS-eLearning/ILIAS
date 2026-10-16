@@ -1,0 +1,56 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: log\n"
+
+msgid "log_component_btn_reset"
+msgstr "Przywróć ustawienia"
+
+msgid "log_component_col_component"
+msgstr "Element"
+
+msgid "log_component_col_level"
+msgstr "Poziom logu"
+
+#, fuzzy
+msgid "log_component_unknown"
+msgstr "Unknown (%s)"
+
+msgid "log_components"
+msgstr "Elementy"
+
+msgid "log_level_alert"
+msgstr "ALERT"
+
+msgid "log_level_critical"
+msgstr "KRYTYCZNY"
+
+msgid "log_level_debug"
+msgstr "DEBUG"
+
+#, fuzzy
+msgid "log_level_default"
+msgstr "Default (%s)"
+
+msgid "log_level_emergency"
+msgstr "AWARIA"
+
+msgid "log_level_error"
+msgstr "BŁĄD"
+
+msgid "log_level_info"
+msgstr "INFO"
+
+msgid "log_level_notice"
+msgstr "UWAGA"
+
+msgid "log_level_off"
+msgstr "Wyłączony"
+
+msgid "log_level_warning"
+msgstr "OSTRZEŻENIE"

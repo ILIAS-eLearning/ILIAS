@@ -5937,28 +5937,6 @@ irss#:#title_manage_container#:#Fájlok és mappák kezelése
 irss#:#type#:#Fájl típusa
 irss#:#upload_field_title#:#Kiválasztott fájlok
 irss#:#upload_modal_title#:#Fájlok hozzáadása
-log#:#log_browser#:#Böngésző konzolnaplózása
-log#:#log_browser_users#:#Felhasználónevek használata a konzolnaplózásban
-log#:#log_cache_#:#Gyorsítótárazás
-log#:#log_cache_info#:#A naplóhoz csak akkor adjuk a pillanatnyi kéréshez tartozó naplózási szintet elérő összes üzenet, amikor egy üzenet eléri vagy túlhaladja a gyorsítótár szintjét.
-log#:#log_cache_level#:#Gyorsítótár szintje
-log#:#log_component_btn_reset#:#Beállítások alapértelmezettre állítása
-log#:#log_component_col_component#:#Komponens
-log#:#log_component_col_level#:#Naplózás szintje
-log#:#log_component_root_desc#:#Üzenethez log-szint, ami egy komponenshez sincs hozzárendelve.
-log#:#log_components#:#Komponensek
-log#:#log_general_settings#:#Naplózási beállítások
-log#:#log_level_alert#:#RIASZTÁS
-log#:#log_level_critical#:#KRITIKUS
-log#:#log_level_debug#:#HIBAKERESÉS
-log#:#log_level_emergency#:#SÜRGŐS
-log#:#log_level_error#:#HIBA
-log#:#log_level_info#:#INFORMACIÓ
-log#:#log_level_notice#:#MEGJEGYZÉS
-log#:#log_level_off#:#Kikapcsolva
-log#:#log_level_warning#:#FIGYELMETETÉS
-log#:#log_log_level#:#Naplózás szintje
-log#:#log_memory#:#Memóriahasználat naplózása
 lti#:#act_lti_for_obj_type#:#Objektumtípusra LTI aktiválása
 lti#:#activity_id#:#AktivításID
 lti#:#activity_id_info#:#Ezt az AktivításID-t használja az LTI Eszköz, hogy azonosítsa a Statement-eket.

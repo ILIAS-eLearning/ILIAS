@@ -5944,21 +5944,6 @@ irss#:#title_manage_container#:#Manage files and folders
 irss#:#type#:#File Type
 irss#:#upload_field_title#:#Selected Files
 irss#:#upload_modal_title#:#Add Files
-log#:#log_component_btn_reset#:#Reset Settings
-log#:#log_component_col_component#:#Component
-log#:#log_component_col_level#:#Log-Level
-log#:#log_component_unknown#:#Unknown (%s)
-log#:#log_components#:#Components
-log#:#log_level_alert#:#ALERT
-log#:#log_level_critical#:#CRITICAL
-log#:#log_level_debug#:#DEBUG
-log#:#log_level_default#:#Default (%s)
-log#:#log_level_emergency#:#EMERGENCY
-log#:#log_level_error#:#ERROR
-log#:#log_level_info#:#INFO
-log#:#log_level_notice#:#NOTICE
-log#:#log_level_off#:#Disabled
-log#:#log_level_warning#:#WARNING
 lti#:#act_lti_for_obj_type#:#Activate LTI for Type of Object
 lti#:#activity_id#:#Activity ID
 lti#:#activity_id_info#:#This Activity ID is used by the LTI Tool to identify Statements.

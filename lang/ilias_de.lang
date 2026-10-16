@@ -5943,21 +5943,6 @@ irss#:#title_manage_container#:#Dateien und Ordner verwalten
 irss#:#type#:#Dateityp
 irss#:#upload_field_title#:#Ausgewählte Dateien
 irss#:#upload_modal_title#:#Dateien hinzufügen
-log#:#log_component_btn_reset#:#Einstellungen zurücksetzen
-log#:#log_component_col_component#:#Komponente
-log#:#log_component_col_level#:#Log-Level
-log#:#log_component_unknown#:#Unbekannt (%s)
-log#:#log_components#:#Komponenten
-log#:#log_level_alert#:#ALERT
-log#:#log_level_critical#:#CRITICAL
-log#:#log_level_debug#:#DEBUG
-log#:#log_level_default#:#Standard (%s)
-log#:#log_level_emergency#:#EMERGENCY
-log#:#log_level_error#:#ERROR
-log#:#log_level_info#:#INFO
-log#:#log_level_notice#:#NOTICE
-log#:#log_level_off#:#Deaktiviert
-log#:#log_level_warning#:#WARNING
 lti#:#act_lti_for_obj_type#:#LTI für diese Objekttypen aktivieren
 lti#:#activity_id#:#Activity-ID
 lti#:#activity_id_info#:#Diese Activity-ID wird vom LTI-Tool verwendet, um Statements zu identifizieren.

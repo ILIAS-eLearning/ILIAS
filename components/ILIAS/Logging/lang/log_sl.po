@@ -1,0 +1,56 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: log\n"
+
+msgid "log_component_btn_reset"
+msgstr "Reset Settings"
+
+msgid "log_component_col_component"
+msgstr "Component"
+
+msgid "log_component_col_level"
+msgstr "Log-Level"
+
+#, fuzzy
+msgid "log_component_unknown"
+msgstr "Unknown (%s)"
+
+msgid "log_components"
+msgstr "Components"
+
+msgid "log_level_alert"
+msgstr "ALERT"
+
+msgid "log_level_critical"
+msgstr "CRITICAL"
+
+msgid "log_level_debug"
+msgstr "DEBUG"
+
+#, fuzzy
+msgid "log_level_default"
+msgstr "Default (%s)"
+
+msgid "log_level_emergency"
+msgstr "EMERGENCY"
+
+msgid "log_level_error"
+msgstr "ERROR"
+
+msgid "log_level_info"
+msgstr "INFO"
+
+msgid "log_level_notice"
+msgstr "NOTICE"
+
+msgid "log_level_off"
+msgstr "Disabled"
+
+msgid "log_level_warning"
+msgstr "WARNING"

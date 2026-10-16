@@ -5925,28 +5925,6 @@ irss#:#title_manage_container#:#Manage files and folders###26 08 2024 new variab
 irss#:#type#:#File Type###26 08 2024 new variable
 irss#:#upload_field_title#:#Selected Files###26 08 2024 new variable
 irss#:#upload_modal_title#:#Add Files###26 08 2024 new variable
-log#:#log_browser#:#Browser Console Log###30 08 2015 new variable
-log#:#log_browser_users#:#Usernames Using Console Log###30 08 2015 new variable
-log#:#log_cache_#:#Caching###30 08 2015 new variable
-log#:#log_cache_info#:#Only if a message reaches or surpasses the caching level, all messages which have at least the log level will be added to the log for the current request.###23 12 2015 new variable
-log#:#log_cache_level#:#Caching-Level###30 08 2015 new variable
-log#:#log_component_btn_reset#:#Reset Settings###30 08 2015 new variable
-log#:#log_component_col_component#:#Component###30 08 2015 new variable
-log#:#log_component_col_level#:#Log-Level###30 08 2015 new variable
-log#:#log_component_root_desc#:#Leg-Level for message which are not assigned to any component.###08 10 2015 new variable
-log#:#log_components#:#Komponenten###30 08 2015 new variable
-log#:#log_general_settings#:#Logging Settings###30 08 2015 new variable
-log#:#log_level_alert#:#ALERT###30 08 2015 new variable
-log#:#log_level_critical#:#CRITICAL###30 08 2015 new variable
-log#:#log_level_debug#:#DEBUG###30 08 2015 new variable
-log#:#log_level_emergency#:#EMERGENCY###30 08 2015 new variable
-log#:#log_level_error#:#ERROR###30 08 2015 new variable
-log#:#log_level_info#:#INFO###30 08 2015 new variable
-log#:#log_level_notice#:#NOTICE###30 08 2015 new variable
-log#:#log_level_off#:#Disabled###08 10 2015 new variable
-log#:#log_level_warning#:#WARNING###30 08 2015 new variable
-log#:#log_log_level#:#Log-Level###30 08 2015 new variable
-log#:#log_memory#:#Log Memory Usage###30 08 2015 new variable
 lti#:#act_lti_for_obj_type#:#Activate LTI for Type of Object###31 08 2017 new variable
 lti#:#activity_id#:#Activity ID###07 02 2020 new variable
 lti#:#activity_id_info#:#This Activity ID is used by the LTI Tool to identify Statements.###07 02 2020 new variable

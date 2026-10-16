@@ -5940,28 +5940,6 @@ irss#:#title_manage_container#:#Gestionar archivos y carpetas
 irss#:#type#:#Tipo de archivo
 irss#:#upload_field_title#:#Archivos seleccionados
 irss#:#upload_modal_title#:#Añadir archivos
-log#:#log_browser#:#Registro de consola del navegador
-log#:#log_browser_users#:#Nombres de usuario utilizando el registro de consola
-log#:#log_cache_#:#Almacenamiento en caché
-log#:#log_cache_info#:#Solo si un mensaje alcanza o supera el nivel de almacenamiento en caché, todos los mensajes que tengan al menos el nivel de registro se añadirán al registro para la solicitud actual.
-log#:#log_cache_level#:#Nivel de almacenamiento en caché
-log#:#log_component_btn_reset#:#Restablecer configuración
-log#:#log_component_col_component#:#Componente
-log#:#log_component_col_level#:#Nivel de registro
-log#:#log_component_root_desc#:#Nivel de registro para mensajes que no están asignados a ningún componente.
-log#:#log_components#:#Componentes
-log#:#log_general_settings#:#Ajustes de registro
-log#:#log_level_alert#:#ALERTA
-log#:#log_level_critical#:#CRÍTICO
-log#:#log_level_debug#:#DEPURACIÓN
-log#:#log_level_emergency#:#EMERGENCIA
-log#:#log_level_error#:#ERROR
-log#:#log_level_info#:#INFORMACIÓN
-log#:#log_level_notice#:#AVISO
-log#:#log_level_off#:#Desactivado
-log#:#log_level_warning#:#ADVERTENCIA
-log#:#log_log_level#:#Nivel de registro
-log#:#log_memory#:#Registrar uso de memoria
 lti#:#act_lti_for_obj_type#:#Activar LTI para tipo de objeto
 lti#:#activity_id#:#ID de actividad
 lti#:#activity_id_info#:#Este ID de actividad es utilizado por la herramienta LTI para identificar declaraciones.

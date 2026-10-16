@@ -1,0 +1,56 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: log\n"
+
+msgid "log_component_btn_reset"
+msgstr "Resetovat nastavení"
+
+msgid "log_component_col_component"
+msgstr "Komponenta"
+
+msgid "log_component_col_level"
+msgstr "Úroveň protokolu"
+
+#, fuzzy
+msgid "log_component_unknown"
+msgstr "Unknown (%s)"
+
+msgid "log_components"
+msgstr "Komponenty"
+
+msgid "log_level_alert"
+msgstr "VÝSTRAHA"
+
+msgid "log_level_critical"
+msgstr "KRITICKÝ"
+
+msgid "log_level_debug"
+msgstr "LADIT"
+
+#, fuzzy
+msgid "log_level_default"
+msgstr "Default (%s)"
+
+msgid "log_level_emergency"
+msgstr "NOUZOVÝ"
+
+msgid "log_level_error"
+msgstr "CHYBA"
+
+msgid "log_level_info"
+msgstr "INFORMACE"
+
+msgid "log_level_notice"
+msgstr "OZNÁMENÍ"
+
+msgid "log_level_off"
+msgstr "Vypnutý"
+
+msgid "log_level_warning"
+msgstr "UPOZORNĚNÍ"

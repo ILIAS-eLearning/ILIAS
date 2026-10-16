@@ -1,0 +1,54 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: log\n"
+
+msgid "log_component_btn_reset"
+msgstr "Einstellungen zurücksetzen"
+
+msgid "log_component_col_component"
+msgstr "Komponente"
+
+msgid "log_component_col_level"
+msgstr "Log-Level"
+
+msgid "log_component_unknown"
+msgstr "Unbekannt (%s)"
+
+msgid "log_components"
+msgstr "Komponenten"
+
+msgid "log_level_alert"
+msgstr "ALERT"
+
+msgid "log_level_critical"
+msgstr "CRITICAL"
+
+msgid "log_level_debug"
+msgstr "DEBUG"
+
+msgid "log_level_default"
+msgstr "Standard (%s)"
+
+msgid "log_level_emergency"
+msgstr "EMERGENCY"
+
+msgid "log_level_error"
+msgstr "ERROR"
+
+msgid "log_level_info"
+msgstr "INFO"
+
+msgid "log_level_notice"
+msgstr "NOTICE"
+
+msgid "log_level_off"
+msgstr "Deaktiviert"
+
+msgid "log_level_warning"
+msgstr "WARNING"

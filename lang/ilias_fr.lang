@@ -5908,28 +5908,6 @@ irss#:#title_manage_container#:#Manage files and folders###26 08 2024 new variab
 irss#:#type#:#File Type###31 10 2023 new variable
 irss#:#upload_field_title#:#Selected Files###31 10 2023 new variable
 irss#:#upload_modal_title#:#Add Files###31 10 2023 new variable
-log#:#log_browser#:#Journal de console du navigateur
-log#:#log_browser_users#:#Noms d’utilisateurs utilisant le journal de console
-log#:#log_cache_#:#Mise en cache
-log#:#log_cache_info#:#Tous les messages qui disposent au moins du niveau de journal seront ajoutés au journal pour la demande actuelle uniquement si un message atteint ou dépasse le niveau de mise en cache.
-log#:#log_cache_level#:#Niveau de mise en cache
-log#:#log_component_btn_reset#:#Réinitialiser les paramètres
-log#:#log_component_col_component#:#Composant
-log#:#log_component_col_level#:#Niveau du journal
-log#:#log_component_root_desc#:#Niveau de journal pour les messages qui ne sont pas assignés à un composant.
-log#:#log_components#:#Komponenten
-log#:#log_general_settings#:#Paramètres de connexion
-log#:#log_level_alert#:#ALERTE
-log#:#log_level_critical#:#CRITIQUE
-log#:#log_level_debug#:#DÉBOGAGE
-log#:#log_level_emergency#:#URGENCE
-log#:#log_level_error#:#ERREUR
-log#:#log_level_info#:#INFO
-log#:#log_level_notice#:#NOTIFICATION
-log#:#log_level_off#:#Désactivé
-log#:#log_level_warning#:#AVERTISSEMENT
-log#:#log_log_level#:#Log-Level
-log#:#log_memory#:#Utilisation de la mémoire interne
 lti#:#act_lti_for_obj_type#:#Activer la LTI pour le type d’objet
 lti#:#activity_id#:#Activity ID
 lti#:#activity_id_info#:#This Activity ID is used by the LTI Tool to identify Statements.
