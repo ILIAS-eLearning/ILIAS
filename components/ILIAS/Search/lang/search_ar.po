@@ -1,0 +1,455 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ar\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=6; plural=(n == 0) ? 0 : ((n == 1) ? 1 : ((n == 2) ? 2 : ((n % 100 >= 3 && n % 100 <= 10) ? 3 : ((n % 100 >= 11 && n % 100 <= 99) ? 4 : 5))));\n"
+"X-Domain: search\n"
+
+msgid "add_members_header"
+msgstr "اضافة اعضاء"
+
+msgid "append_results"
+msgstr "Append results"
+
+#, fuzzy
+msgid "btn_search"
+msgstr "Search"
+
+msgid "last_search_result"
+msgstr "Last Search Result"
+
+msgid "lucene_and"
+msgstr "و"
+
+msgid "lucene_cpu"
+msgstr "Maximum Number of Threads"
+
+msgid "lucene_create_ini"
+msgstr "انشاء ملف التكوين"
+
+msgid "lucene_default_operator"
+msgstr "المشغل الافتراضي"
+
+msgid "lucene_default_operator_info"
+msgstr "الرجاء اختيار المشغل الافتراضي للاستعلامات الافتراضيى. في الاسلوب الافتراضي \"و\" تعتبر المصطلحات موصولة. اما في \"أو\" فتعتبر المصطلحات غير المعدلة اختيارية"
+
+msgid "lucene_download_ini"
+msgstr "Download Configuration File"
+
+msgid "lucene_err_ampersand"
+msgstr "Queries containing the special characters && must be in the form: term1 && term2."
+
+msgid "lucene_err_and_or_not"
+msgstr "Queries containing AND/OR/NOT must be in the form: term1 AND|OR|NOT|AND NOT term2."
+
+msgid "lucene_err_asterisk"
+msgstr "The wildcard (*) character must be preceded by at least one alphabet or number."
+
+msgid "lucene_err_caret"
+msgstr "The caret (^) character must be preceded by alphanumeric characters and followed by numbers."
+
+msgid "lucene_err_colon"
+msgstr "Field declarations (:) must be preceded by at least one alphabet or number and followed by at least one alphabet or number."
+
+msgid "lucene_err_exclamation_mark"
+msgstr "Queries containing the special character (!) must be in the form: term1 ! term2."
+
+msgid "lucene_err_parenthesis_empty"
+msgstr "Parentheses must contain at least one character."
+
+msgid "lucene_err_parenthesis_not_closed"
+msgstr "Parentheses must be closed."
+
+msgid "lucene_err_plus_minus"
+msgstr "(+) and (-) modifiers must be followed by at least one alphabet or number."
+
+msgid "lucene_err_question_mark"
+msgstr "The question mark (?) character must be preceded by at least one alphabet or number."
+
+msgid "lucene_err_quotes"
+msgstr "Please close all quote (\") marks."
+
+msgid "lucene_err_quotes_not_empty"
+msgstr "Quotes (\") must contain at least one character."
+
+msgid "lucene_general_settings"
+msgstr "General Settings"
+
+msgid "lucene_host"
+msgstr "Host"
+
+msgid "lucene_host_info"
+msgstr "Please enter the hostname or Ip-address for the java server."
+
+msgid "lucene_index_path"
+msgstr "Directory for Index Files"
+
+msgid "lucene_index_path_info"
+msgstr "Please enter a directory name for storing index files."
+
+msgid "lucene_last_index_time"
+msgstr "انشاء اخر مؤشر"
+
+msgid "lucene_last_index_time_info"
+msgstr "الرجاء تعديل هذه الاعدادات فقط اذا قمت بإدراج فهرس احتياطي"
+
+msgid "lucene_level"
+msgstr "Log-Level"
+
+msgid "lucene_log"
+msgstr "Path to Logfile"
+
+msgid "lucene_log_info"
+msgstr "Enter the absolute path to a file in which log messages will we written. If the file does not exist, it will be created automatically."
+
+msgid "lucene_max_fs"
+msgstr "Maximum Filesize (in MB)"
+
+msgid "lucene_max_fs_info"
+msgstr "Defines the file size limit. Bigger files will not be included in the index."
+
+msgid "lucene_num_frag_info"
+msgstr "الرجاء اختيار الحد الاقصى لعدد اجزاء النص المحددة"
+
+msgid "lucene_num_fragments"
+msgstr "عدد اجزاء النص"
+
+msgid "lucene_offline_filter"
+msgstr "Offline-Status"
+
+msgid "lucene_or"
+msgstr "أو"
+
+msgid "lucene_port"
+msgstr "Port"
+
+#, fuzzy
+msgid "lucene_prefix_wildcard"
+msgstr "Prefix Wildcard Queries"
+
+#, fuzzy
+msgid "lucene_prefix_wildcard_info"
+msgstr "If enabled, prefix wildcard queries (*LIAS finds ILIAS) are supported."
+
+#, fuzzy
+msgid "lucene_settings_index_section"
+msgstr "Index Backup"
+
+msgid "lucene_settings_tab"
+msgstr "Lucene"
+
+#, fuzzy
+msgid "lucene_settings_text_section"
+msgstr "Presentation of Search Results"
+
+msgid "lucene_settings_title"
+msgstr "Lucene اعدادات"
+
+msgid "lucene_size_frag_info"
+msgstr "الرجاء اختيار الحد الاقصى لحجم الاجزاء الاختبار المحدد"
+
+msgid "lucene_size_fragments"
+msgstr "حجم اجزاء النص"
+
+msgid "lucene_tbl_create_ini"
+msgstr "Create Java-Server Ini-File"
+
+#, fuzzy
+msgid "search_add_members_from_container_crs"
+msgstr "Add Users of Current Course"
+
+#, fuzzy
+msgid "search_add_members_from_container_grp"
+msgstr "Add Users of Current Group"
+
+msgid "search_any"
+msgstr "-- أي --"
+
+#, fuzzy
+msgid "search_area_filter"
+msgstr "Scope"
+
+msgid "search_area_info"
+msgstr "الرجاء اختيار حقل حتى يبدأ البحث"
+
+msgid "search_auto_complete_length"
+msgstr "عدد مدخلات القائمة الكاملة الالية"
+
+#, fuzzy
+msgid "search_auto_complete_length_info"
+msgstr "Choose ‘0‘ to switch off the auto-complete list."
+
+#, fuzzy
+msgid "search_cdate_filter"
+msgstr "Filter by Creation Date"
+
+#, fuzzy
+msgid "search_cdate_filter_info"
+msgstr "If enabled, the object search can be filtered by an optional creation date filter."
+
+msgid "search_content"
+msgstr "Page Content"
+
+#, fuzzy
+msgid "search_copyright"
+msgstr "Copyright"
+
+#, fuzzy
+msgid "search_created_after"
+msgstr "Objects created after"
+
+#, fuzzy
+msgid "search_created_before"
+msgstr "Objects created before..."
+
+#, fuzzy
+msgid "search_created_on"
+msgstr "Objects create on..."
+
+msgid "search_crs_title"
+msgstr "اسم الدورة"
+
+#, fuzzy
+msgid "search_detailed_results_title"
+msgstr "Detailed results in %s"
+
+msgid "search_details_info"
+msgstr "البحث المفصل. الرجاء اختيار واحدة او اكثر من انواع المصادر"
+
+msgid "search_direct"
+msgstr "البحث المباشر"
+
+msgid "search_err_user_not_exist"
+msgstr "A user with that login name does not exist."
+
+msgid "search_fast_info"
+msgstr "ابحث عن العناوين، الشروحات، والكلمات المفتاحية في جميع انواع العناصر"
+
+#, fuzzy
+msgid "search_field"
+msgstr "Search Input Field"
+
+#, fuzzy
+msgid "search_field_perform"
+msgstr "Perform Search"
+
+msgid "search_filter_by_type"
+msgstr "Filter by Type"
+
+#, fuzzy
+msgid "search_filter_cd"
+msgstr "Filter by Creation Date"
+
+#, fuzzy
+msgid "search_filter_settings_section"
+msgstr "Filters for the Search Results"
+
+msgid "search_for_crs_members"
+msgstr "البحث عن أعضاء الدورة"
+
+msgid "search_for_grp_members"
+msgstr "البحث عن أعضاء المجموعة"
+
+#, fuzzy
+msgid "search_for_orgu_members"
+msgstr "Search for Organisational Units"
+
+#, fuzzy
+msgid "search_for_orgu_members_recursive"
+msgstr "Include Subunits?"
+
+msgid "search_for_role_members"
+msgstr "البحث عن اعضاء وظيفة"
+
+msgid "search_for_users"
+msgstr "البحث عن مستخدمين"
+
+msgid "search_grp_title"
+msgstr "اسم المجموعة"
+
+msgid "search_item_filter_form"
+msgstr "بحث حسب النوع"
+
+msgid "search_item_filter_form_info"
+msgstr "عند التفعيل، سيكون البحث محصورا بأنواع العناصر المختارة"
+
+#. Needs to be adapted to new content of German lang file.
+msgid "search_like_info"
+msgstr "اختر هذا الخيار للحصول على نتائج افضل"
+
+msgid "search_limit_reached"
+msgstr "Your search produced more than %s hits. You can restrict the search terms to receive more detailed results."
+
+msgid "search_lucene"
+msgstr "Lucene بحث"
+
+#, fuzzy
+msgid "search_mime_excel"
+msgstr "Excel Files"
+
+#, fuzzy
+msgid "search_mime_filter_form"
+msgstr "Mime Type Filter"
+
+#, fuzzy
+msgid "search_mime_filter_form_info"
+msgstr "Search can be restricted to the chosen mime types."
+
+#, fuzzy
+msgid "search_mime_image"
+msgstr "Images"
+
+#, fuzzy
+msgid "search_mime_pdf"
+msgstr "PDF Files"
+
+#, fuzzy
+msgid "search_mime_powerpoint"
+msgstr "Powerpoint Files"
+
+#, fuzzy
+msgid "search_mime_word"
+msgstr "Word Files"
+
+#, fuzzy
+msgid "search_minimum_info"
+msgstr "Your search must be at least %s characters long"
+
+msgid "search_minimum_three"
+msgstr "Your search must be at least three characters long"
+
+#, fuzzy
+msgid "search_newer_than"
+msgstr "Objects newer than"
+
+msgid "search_no_connection_lucene"
+msgstr "Cannot connect to Lucene server."
+
+#, fuzzy
+msgid "search_no_further_match"
+msgstr "No further matches found."
+
+msgid "search_no_match"
+msgstr "Your search did not match any results"
+
+msgid "search_no_match_hint"
+msgstr "Your search - <b>%s</b> - did not match any documents.<br /><br />Suggestions:<br />Make sure all words are spelled correctly.<br />Try different keywords.<br />Try more general keywords.<br />Try fewer keywords."
+
+msgid "search_no_selection"
+msgstr "You made no selection."
+
+msgid "search_off"
+msgstr "Off"
+
+#, fuzzy
+msgid "search_readme_file"
+msgstr "Readme File"
+
+#, fuzzy
+msgid "search_results_show_subitems"
+msgstr "See detailed results"
+
+#, fuzzy
+msgid "search_results_too_many_subitems"
+msgstr "More results are available, please make your search terms more precise."
+
+msgid "search_role_title"
+msgstr "اسم الوظيفة"
+
+msgid "search_select_search_area"
+msgstr "حقل اختيار البحث"
+
+#, fuzzy
+msgid "search_server_further_information"
+msgstr "You can find further information about the Lucene server configuration in the readme file."
+
+#, fuzzy
+msgid "search_show_inactive_user"
+msgstr "Show Inactive Users"
+
+#, fuzzy
+msgid "search_show_inactive_user_info"
+msgstr "If enabled, the user search will show inactive users."
+
+#, fuzzy
+msgid "search_show_limited_user"
+msgstr "Show Limited Users"
+
+#, fuzzy
+msgid "search_show_limited_user_info"
+msgstr "If enabled, the user search will show users with limited access and outside their allowed time period."
+
+#, fuzzy
+msgid "search_sort_by"
+msgstr "Sortation: %s"
+
+#, fuzzy
+msgid "search_sort_creation_date_asc"
+msgstr "Oldest"
+
+#, fuzzy
+msgid "search_sort_creation_date_desc"
+msgstr "Latest"
+
+#, fuzzy
+msgid "search_sort_relevance"
+msgstr "By Relevance"
+
+#, fuzzy
+msgid "search_sort_title_asc"
+msgstr "Alphabetically: A-Z"
+
+#, fuzzy
+msgid "search_sort_title_desc"
+msgstr "Alphabetically: Z-A"
+
+#, fuzzy
+msgid "search_tab_content"
+msgstr "Content"
+
+#, fuzzy
+msgid "search_tab_user"
+msgstr "Users"
+
+msgid "search_term_combination"
+msgstr "مجموعة"
+
+msgid "search_title_description"
+msgstr "العنوان\\ الشرح"
+
+msgid "search_tst_svy"
+msgstr "اختبارات\\ احصائيات"
+
+msgid "search_type"
+msgstr "البحث عن نوع"
+
+msgid "search_user"
+msgstr "Users"
+
+msgid "search_user_extended"
+msgstr "بحث المستخدم الممتد"
+
+#, fuzzy
+msgid "search_user_search_form"
+msgstr "User Search"
+
+#, fuzzy
+msgid "search_user_search_info_form"
+msgstr "If enabled, users data will be indexed and is searchable."
+
+msgid "seas_search_type"
+msgstr "البحث عن نوع"
+
+#, fuzzy
+msgid "select_orgu"
+msgstr "Select Organisational Units"
+
+msgid "until"
+msgstr "الوصول الى"
+
+#, fuzzy
+msgid "user_search_settings_section"
+msgstr "User Search in 'Member'-tabs"

@@ -1,0 +1,507 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: el\n"
+"Language-Team: Greek\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: search\n"
+
+msgid "add_members_header"
+msgstr "Προσθήκη μελών"
+
+msgid "append_results"
+msgstr "Επισύναψη αποτελεσμάτων"
+
+#, fuzzy
+msgid "btn_search"
+msgstr "Search"
+
+msgid "last_search_result"
+msgstr "Last Search Result"
+
+#, fuzzy
+msgid "lucene_and"
+msgstr "AND"
+
+#, fuzzy
+msgid "lucene_cpu"
+msgstr "Maximum Number of Threads"
+
+#, fuzzy
+msgid "lucene_create_ini"
+msgstr "Create Configuration File"
+
+#, fuzzy
+msgid "lucene_default_operator"
+msgstr "Default Operator"
+
+#, fuzzy
+msgid "lucene_default_operator_info"
+msgstr "Please choose the default operator for boolean queries. In default mode (\"AND\") terms are considered to be in conjunction. In \"OR\" mode terms without any modifiers are considered optional."
+
+#, fuzzy
+msgid "lucene_download_ini"
+msgstr "Download Configuration File"
+
+#, fuzzy
+msgid "lucene_err_ampersand"
+msgstr "Queries containing the special characters && must be in the form: term1 && term2."
+
+#, fuzzy
+msgid "lucene_err_and_or_not"
+msgstr "Queries containing AND/OR/NOT must be in the form: term1 AND|OR|NOT|AND NOT term2."
+
+#, fuzzy
+msgid "lucene_err_asterisk"
+msgstr "The wildcard (*) character must be preceded by at least one alphabet or number."
+
+#, fuzzy
+msgid "lucene_err_caret"
+msgstr "The caret (^) character must be preceded by alphanumeric characters and followed by numbers."
+
+#, fuzzy
+msgid "lucene_err_colon"
+msgstr "Field declarations (:) must be preceded by at least one alphabet or number and followed by at least one alphabet or number."
+
+#, fuzzy
+msgid "lucene_err_exclamation_mark"
+msgstr "Queries containing the special character (!) must be in the form: term1 ! term2."
+
+#, fuzzy
+msgid "lucene_err_parenthesis_empty"
+msgstr "Parentheses must contain at least one character."
+
+#, fuzzy
+msgid "lucene_err_parenthesis_not_closed"
+msgstr "Parentheses must be closed."
+
+#, fuzzy
+msgid "lucene_err_plus_minus"
+msgstr "(+) and (-) modifiers must be followed by at least one alphabet or number."
+
+#, fuzzy
+msgid "lucene_err_question_mark"
+msgstr "The question mark (?) character must be preceded by at least one alphabet or number."
+
+#, fuzzy
+msgid "lucene_err_quotes"
+msgstr "Please close all quote (\") marks."
+
+#, fuzzy
+msgid "lucene_err_quotes_not_empty"
+msgstr "Quotes (\") must contain at least one character."
+
+#, fuzzy
+msgid "lucene_general_settings"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "lucene_host"
+msgstr "Host"
+
+#, fuzzy
+msgid "lucene_host_info"
+msgstr "Please enter the hostname or Ip-address for the java server."
+
+#, fuzzy
+msgid "lucene_index_path"
+msgstr "Directory for Index Files"
+
+#, fuzzy
+msgid "lucene_index_path_info"
+msgstr "Please enter a directory name for storing index files."
+
+#, fuzzy
+msgid "lucene_last_index_time"
+msgstr "Last Index Generation"
+
+#, fuzzy
+msgid "lucene_last_index_time_info"
+msgstr "Please modify this settings only if you have installed an index backup."
+
+#, fuzzy
+msgid "lucene_level"
+msgstr "Log-Level"
+
+#, fuzzy
+msgid "lucene_log"
+msgstr "Path to Logfile"
+
+#, fuzzy
+msgid "lucene_log_info"
+msgstr "The file will be created automatically."
+
+#, fuzzy
+msgid "lucene_max_fs"
+msgstr "Maximum Filesize (in MB)"
+
+#, fuzzy
+msgid "lucene_max_fs_info"
+msgstr "Defines the file size limit. Bigger files will not be included in the index."
+
+#, fuzzy
+msgid "lucene_num_frag_info"
+msgstr "Please choose the maximum number of highlighted text fragments."
+
+#, fuzzy
+msgid "lucene_num_fragments"
+msgstr "Number of Text Fragments"
+
+#, fuzzy
+msgid "lucene_offline_filter"
+msgstr "Offline-Status"
+
+#, fuzzy
+msgid "lucene_or"
+msgstr "OR"
+
+#, fuzzy
+msgid "lucene_port"
+msgstr "Port"
+
+#, fuzzy
+msgid "lucene_prefix_wildcard"
+msgstr "Prefix Wildcard Queries"
+
+#, fuzzy
+msgid "lucene_prefix_wildcard_info"
+msgstr "If enabled, prefix wildcard queries (*LIAS finds ILIAS) are supported."
+
+#, fuzzy
+msgid "lucene_settings_index_section"
+msgstr "Index Backup"
+
+#, fuzzy
+msgid "lucene_settings_tab"
+msgstr "Lucene"
+
+#, fuzzy
+msgid "lucene_settings_text_section"
+msgstr "Presentation of Search Results"
+
+#, fuzzy
+msgid "lucene_settings_title"
+msgstr "Lucene Settings"
+
+#, fuzzy
+msgid "lucene_size_frag_info"
+msgstr "Please choose the maximum size of highlighted test fragments."
+
+#, fuzzy
+msgid "lucene_size_fragments"
+msgstr "Size of Text Fragments"
+
+#, fuzzy
+msgid "lucene_tbl_create_ini"
+msgstr "Create Java-Server Ini-File"
+
+#, fuzzy
+msgid "search_add_members_from_container_crs"
+msgstr "Add Users of Current Course"
+
+#, fuzzy
+msgid "search_add_members_from_container_grp"
+msgstr "Add Users of Current Group"
+
+msgid "search_any"
+msgstr "-- οποιοδήποτε --"
+
+#, fuzzy
+msgid "search_area_filter"
+msgstr "Scope"
+
+msgid "search_area_info"
+msgstr "Παρακαλώ επιλέξτε μία περιοχή που θα πρέπει να ξεκινήσει η αναζήτηση."
+
+#, fuzzy
+msgid "search_auto_complete_length"
+msgstr "Number of Auto Complete List Entries"
+
+#, fuzzy
+msgid "search_auto_complete_length_info"
+msgstr "Choose ‘0‘ to switch off the auto-complete list."
+
+#, fuzzy
+msgid "search_cdate_filter"
+msgstr "Filter by Creation Date"
+
+#, fuzzy
+msgid "search_cdate_filter_info"
+msgstr "If enabled, the object search can be filtered by an optional creation date filter."
+
+msgid "search_content"
+msgstr "Περιεχόμενο σελίδας"
+
+#, fuzzy
+msgid "search_copyright"
+msgstr "Copyright"
+
+#, fuzzy
+msgid "search_created_after"
+msgstr "Objects created after"
+
+#, fuzzy
+msgid "search_created_before"
+msgstr "Objects created before..."
+
+#, fuzzy
+msgid "search_created_on"
+msgstr "Objects create on..."
+
+#, fuzzy
+msgid "search_crs_title"
+msgstr "Course Name"
+
+#, fuzzy
+msgid "search_detailed_results_title"
+msgstr "Detailed results in %s"
+
+msgid "search_details_info"
+msgstr "Λεπτομερής αναζήτηση. Παρακαλώ επιλέξτε ένα ή περισσότερα αντικείμενα."
+
+msgid "search_direct"
+msgstr "Απευθείας αναζήτηση"
+
+#, fuzzy
+msgid "search_err_user_not_exist"
+msgstr "A user with that login name does not exist."
+
+msgid "search_fast_info"
+msgstr "Αναζήτηση για τίτλους, περιγραφές και λέξεις κλειδιά σε όλους τους τύπους αντικειμένων."
+
+#, fuzzy
+msgid "search_field"
+msgstr "Search Input Field"
+
+#, fuzzy
+msgid "search_field_perform"
+msgstr "Perform Search"
+
+#, fuzzy
+msgid "search_filter_by_type"
+msgstr "Filter by Type"
+
+#, fuzzy
+msgid "search_filter_cd"
+msgstr "Filter by Creation Date"
+
+#, fuzzy
+msgid "search_filter_settings_section"
+msgstr "Filters for the Search Results"
+
+#, fuzzy
+msgid "search_for_crs_members"
+msgstr "Search for Course Members"
+
+msgid "search_for_grp_members"
+msgstr "Αναζήτηση για μέλη ομάδας"
+
+#, fuzzy
+msgid "search_for_orgu_members"
+msgstr "Search for Organisational Units"
+
+#, fuzzy
+msgid "search_for_orgu_members_recursive"
+msgstr "Include Subunits?"
+
+msgid "search_for_role_members"
+msgstr "Αναζήτηση για ρόλους μελών"
+
+msgid "search_for_users"
+msgstr "Αναζήτηση για χρήστες"
+
+msgid "search_grp_title"
+msgstr "Όνομα ομάδας"
+
+#, fuzzy
+msgid "search_item_filter_form"
+msgstr "Search by Type"
+
+#, fuzzy
+msgid "search_item_filter_form_info"
+msgstr "If enabled, a search can be restricted to the chosen item types."
+
+#. Needs to be adapted to new content of German lang file.
+msgid "search_like_info"
+msgstr "Επιλέξτε αυτήν την επιλογή για καλύτερα αποτελέσματα."
+
+msgid "search_limit_reached"
+msgstr "Η αναζήτησή σας επέστρεψε περισσότερα από %s αποτελέσματα. Μπορείτε να περιορίσετε τους όρους αναζήτησης για να λάβετε πιο λεπτομερή αποτελέσματα."
+
+msgid "search_lucene"
+msgstr "Αναζήτηση Lucene"
+
+#, fuzzy
+msgid "search_mime_excel"
+msgstr "Excel Files"
+
+#, fuzzy
+msgid "search_mime_filter_form"
+msgstr "Mime Type Filter"
+
+#, fuzzy
+msgid "search_mime_filter_form_info"
+msgstr "Search can be restricted to the chosen mime types."
+
+#, fuzzy
+msgid "search_mime_image"
+msgstr "Images"
+
+#, fuzzy
+msgid "search_mime_pdf"
+msgstr "PDF Files"
+
+#, fuzzy
+msgid "search_mime_powerpoint"
+msgstr "Powerpoint Files"
+
+#, fuzzy
+msgid "search_mime_word"
+msgstr "Word Files"
+
+#, fuzzy
+msgid "search_minimum_info"
+msgstr "Your search must be at least %s characters long"
+
+msgid "search_minimum_three"
+msgstr "Η αναζήτησή σας πρέπει να έχει μέγεθος τουλάχιστον τρεις χαρακτήρες"
+
+#, fuzzy
+msgid "search_newer_than"
+msgstr "Objects newer than"
+
+msgid "search_no_connection_lucene"
+msgstr "Είναι αδύνατη η σύνδεση με το διακομιστή Lucene."
+
+#, fuzzy
+msgid "search_no_further_match"
+msgstr "No further matches found."
+
+msgid "search_no_match"
+msgstr "Η αναζήτησή σας δεν έφερε κανένα αποτέλεσμα"
+
+#, fuzzy
+msgid "search_no_match_hint"
+msgstr "Your search - <b>%s</b> - did not match any documents.<br /><br />Suggestions:<br />Make sure all words are spelled correctly.<br />Try different keywords.<br />Try more general keywords.<br />Try fewer keywords."
+
+msgid "search_no_selection"
+msgstr "Δεν έχετε επιλέξει κάτι."
+
+#, fuzzy
+msgid "search_off"
+msgstr "Off"
+
+#, fuzzy
+msgid "search_readme_file"
+msgstr "Readme File"
+
+#, fuzzy
+msgid "search_results_show_subitems"
+msgstr "See detailed results"
+
+#, fuzzy
+msgid "search_results_too_many_subitems"
+msgstr "More results are available, please make your search terms more precise."
+
+msgid "search_role_title"
+msgstr "Όνομα ρόλου"
+
+#, fuzzy
+msgid "search_select_search_area"
+msgstr "Select Search Area"
+
+#, fuzzy
+msgid "search_server_further_information"
+msgstr "You can find further information about the Lucene server configuration in the readme file."
+
+#, fuzzy
+msgid "search_show_inactive_user"
+msgstr "Show Inactive Users"
+
+#, fuzzy
+msgid "search_show_inactive_user_info"
+msgstr "If enabled, the user search will show inactive users."
+
+#, fuzzy
+msgid "search_show_limited_user"
+msgstr "Show Limited Users"
+
+#, fuzzy
+msgid "search_show_limited_user_info"
+msgstr "If enabled, the user search will show users with limited access and outside their allowed time period."
+
+#, fuzzy
+msgid "search_sort_by"
+msgstr "Sortation: %s"
+
+#, fuzzy
+msgid "search_sort_creation_date_asc"
+msgstr "Oldest"
+
+#, fuzzy
+msgid "search_sort_creation_date_desc"
+msgstr "Latest"
+
+#, fuzzy
+msgid "search_sort_relevance"
+msgstr "By Relevance"
+
+#, fuzzy
+msgid "search_sort_title_asc"
+msgstr "Alphabetically: A-Z"
+
+#, fuzzy
+msgid "search_sort_title_desc"
+msgstr "Alphabetically: Z-A"
+
+#, fuzzy
+msgid "search_tab_content"
+msgstr "Content"
+
+#, fuzzy
+msgid "search_tab_user"
+msgstr "Users"
+
+#, fuzzy
+msgid "search_term_combination"
+msgstr "Combination"
+
+#, fuzzy
+msgid "search_title_description"
+msgstr "Title / Description"
+
+msgid "search_tst_svy"
+msgstr "Διαγωνίσματα/Έρευνες"
+
+msgid "search_type"
+msgstr "Τύπος αναζήτησης"
+
+msgid "search_user"
+msgstr "Χρήστες"
+
+msgid "search_user_extended"
+msgstr "Extended User Search"
+
+#, fuzzy
+msgid "search_user_search_form"
+msgstr "User Search"
+
+#, fuzzy
+msgid "search_user_search_info_form"
+msgstr "If enabled, users data will be indexed and is searchable."
+
+msgid "seas_search_type"
+msgstr "Τύπος αναζήτησης"
+
+#, fuzzy
+msgid "select_orgu"
+msgstr "Select Organisational Units"
+
+msgid "until"
+msgstr "μέχρι"
+
+#, fuzzy
+msgid "user_search_settings_section"
+msgstr "User Search in 'Member'-tabs"

@@ -1,0 +1,400 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: search\n"
+
+msgid "add_members_header"
+msgstr ""
+
+msgid "append_results"
+msgstr ""
+
+msgid "btn_search"
+msgstr ""
+
+msgid "last_search_result"
+msgstr ""
+
+msgid "lucene_and"
+msgstr ""
+
+msgid "lucene_cpu"
+msgstr ""
+
+msgid "lucene_create_ini"
+msgstr ""
+
+msgid "lucene_default_operator"
+msgstr ""
+
+msgid "lucene_default_operator_info"
+msgstr ""
+
+msgid "lucene_download_ini"
+msgstr ""
+
+msgid "lucene_err_ampersand"
+msgstr ""
+
+msgid "lucene_err_and_or_not"
+msgstr ""
+
+msgid "lucene_err_asterisk"
+msgstr ""
+
+msgid "lucene_err_caret"
+msgstr ""
+
+msgid "lucene_err_colon"
+msgstr ""
+
+msgid "lucene_err_exclamation_mark"
+msgstr ""
+
+msgid "lucene_err_parenthesis_empty"
+msgstr ""
+
+msgid "lucene_err_parenthesis_not_closed"
+msgstr ""
+
+msgid "lucene_err_plus_minus"
+msgstr ""
+
+msgid "lucene_err_question_mark"
+msgstr ""
+
+msgid "lucene_err_quotes"
+msgstr ""
+
+msgid "lucene_err_quotes_not_empty"
+msgstr ""
+
+msgid "lucene_general_settings"
+msgstr ""
+
+msgid "lucene_host"
+msgstr ""
+
+msgid "lucene_host_info"
+msgstr ""
+
+msgid "lucene_index_path"
+msgstr ""
+
+msgid "lucene_index_path_info"
+msgstr ""
+
+msgid "lucene_last_index_time"
+msgstr ""
+
+msgid "lucene_last_index_time_info"
+msgstr ""
+
+msgid "lucene_level"
+msgstr ""
+
+msgid "lucene_log"
+msgstr ""
+
+msgid "lucene_log_info"
+msgstr ""
+
+msgid "lucene_max_fs"
+msgstr ""
+
+msgid "lucene_max_fs_info"
+msgstr ""
+
+msgid "lucene_num_frag_info"
+msgstr ""
+
+msgid "lucene_num_fragments"
+msgstr ""
+
+msgid "lucene_offline_filter"
+msgstr ""
+
+msgid "lucene_or"
+msgstr ""
+
+msgid "lucene_port"
+msgstr ""
+
+msgid "lucene_prefix_wildcard"
+msgstr ""
+
+msgid "lucene_prefix_wildcard_info"
+msgstr ""
+
+msgid "lucene_settings_index_section"
+msgstr ""
+
+msgid "lucene_settings_tab"
+msgstr ""
+
+msgid "lucene_settings_text_section"
+msgstr ""
+
+msgid "lucene_settings_title"
+msgstr ""
+
+msgid "lucene_size_frag_info"
+msgstr ""
+
+msgid "lucene_size_fragments"
+msgstr ""
+
+msgid "lucene_tbl_create_ini"
+msgstr ""
+
+msgid "search_add_members_from_container_crs"
+msgstr ""
+
+msgid "search_add_members_from_container_grp"
+msgstr ""
+
+msgid "search_any"
+msgstr ""
+
+msgid "search_area_filter"
+msgstr ""
+
+msgid "search_area_info"
+msgstr ""
+
+msgid "search_auto_complete_length"
+msgstr ""
+
+msgid "search_auto_complete_length_info"
+msgstr ""
+
+msgid "search_cdate_filter"
+msgstr ""
+
+msgid "search_cdate_filter_info"
+msgstr ""
+
+msgid "search_content"
+msgstr ""
+
+msgid "search_copyright"
+msgstr ""
+
+msgid "search_created_after"
+msgstr ""
+
+msgid "search_created_before"
+msgstr ""
+
+msgid "search_created_on"
+msgstr ""
+
+msgid "search_crs_title"
+msgstr ""
+
+msgid "search_detailed_results_title"
+msgstr ""
+
+msgid "search_details_info"
+msgstr ""
+
+msgid "search_direct"
+msgstr ""
+
+msgid "search_err_user_not_exist"
+msgstr ""
+
+msgid "search_fast_info"
+msgstr ""
+
+msgid "search_field"
+msgstr ""
+
+msgid "search_field_perform"
+msgstr ""
+
+msgid "search_filter_by_type"
+msgstr ""
+
+msgid "search_filter_cd"
+msgstr ""
+
+msgid "search_filter_settings_section"
+msgstr ""
+
+msgid "search_for_crs_members"
+msgstr ""
+
+msgid "search_for_grp_members"
+msgstr ""
+
+msgid "search_for_orgu_members"
+msgstr ""
+
+msgid "search_for_orgu_members_recursive"
+msgstr ""
+
+msgid "search_for_role_members"
+msgstr ""
+
+msgid "search_for_users"
+msgstr ""
+
+msgid "search_grp_title"
+msgstr ""
+
+msgid "search_item_filter_form"
+msgstr ""
+
+msgid "search_item_filter_form_info"
+msgstr ""
+
+#. Needs to be adapted to new content of German lang file.
+msgid "search_like_info"
+msgstr ""
+
+msgid "search_limit_reached"
+msgstr ""
+
+msgid "search_lucene"
+msgstr ""
+
+msgid "search_mime_excel"
+msgstr ""
+
+msgid "search_mime_filter_form"
+msgstr ""
+
+msgid "search_mime_filter_form_info"
+msgstr ""
+
+msgid "search_mime_image"
+msgstr ""
+
+msgid "search_mime_pdf"
+msgstr ""
+
+msgid "search_mime_powerpoint"
+msgstr ""
+
+msgid "search_mime_word"
+msgstr ""
+
+msgid "search_minimum_info"
+msgstr ""
+
+msgid "search_minimum_three"
+msgstr ""
+
+msgid "search_newer_than"
+msgstr ""
+
+msgid "search_no_connection_lucene"
+msgstr ""
+
+msgid "search_no_further_match"
+msgstr ""
+
+msgid "search_no_match"
+msgstr ""
+
+msgid "search_no_match_hint"
+msgstr ""
+
+msgid "search_no_selection"
+msgstr ""
+
+msgid "search_off"
+msgstr ""
+
+msgid "search_readme_file"
+msgstr ""
+
+msgid "search_results_show_subitems"
+msgstr ""
+
+msgid "search_results_too_many_subitems"
+msgstr ""
+
+msgid "search_role_title"
+msgstr ""
+
+msgid "search_select_search_area"
+msgstr ""
+
+msgid "search_server_further_information"
+msgstr ""
+
+msgid "search_show_inactive_user"
+msgstr ""
+
+msgid "search_show_inactive_user_info"
+msgstr ""
+
+msgid "search_show_limited_user"
+msgstr ""
+
+msgid "search_show_limited_user_info"
+msgstr ""
+
+msgid "search_sort_by"
+msgstr ""
+
+msgid "search_sort_creation_date_asc"
+msgstr ""
+
+msgid "search_sort_creation_date_desc"
+msgstr ""
+
+msgid "search_sort_relevance"
+msgstr ""
+
+msgid "search_sort_title_asc"
+msgstr ""
+
+msgid "search_sort_title_desc"
+msgstr ""
+
+msgid "search_tab_content"
+msgstr ""
+
+msgid "search_tab_user"
+msgstr ""
+
+msgid "search_term_combination"
+msgstr ""
+
+msgid "search_title_description"
+msgstr ""
+
+msgid "search_tst_svy"
+msgstr ""
+
+msgid "search_type"
+msgstr ""
+
+msgid "search_user"
+msgstr ""
+
+msgid "search_user_extended"
+msgstr ""
+
+msgid "search_user_search_form"
+msgstr ""
+
+msgid "search_user_search_info_form"
+msgstr ""
+
+msgid "seas_search_type"
+msgstr ""
+
+msgid "select_orgu"
+msgstr ""
+
+msgid "until"
+msgstr ""
+
+msgid "user_search_settings_section"
+msgstr ""
