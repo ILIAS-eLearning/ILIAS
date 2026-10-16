@@ -1,0 +1,367 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: orgu\n"
+
+msgid "Staff"
+msgstr "Osoblje"
+
+msgid "add_position"
+msgstr "Dodaj položaj"
+
+msgid "authorities"
+msgstr "Ovlasti"
+
+msgid "authority"
+msgstr "Ovlast"
+
+msgid "backto_staff"
+msgstr "Povratak na osoblje"
+
+msgid "change_to_employee"
+msgstr "Prijeđi na zaposlenika"
+
+msgid "change_to_superior"
+msgstr "Prijeđi na nadređenog"
+
+msgid "confirm_deletion_and_assign"
+msgstr "Izbriši i dodijeli korisnike"
+
+msgid "confirm_deletion_button"
+msgstr "Izbriši"
+
+msgid "deassign_user_successful"
+msgstr "Korisnici su uspješno izpisani iz ove uloge."
+
+msgid "edit_translations"
+msgstr "Naslov i opis"
+
+msgid "employee"
+msgstr "Zaposlenik"
+
+msgid "ext_id"
+msgstr "Vanjski ID"
+
+msgid "ext_id_updated"
+msgstr "Vanjski ID uspješno je ažuriran."
+
+msgid "form_title_org_default_permissions_update"
+msgstr "Zadana dopuštenja"
+
+msgid "import_failed"
+msgstr "Uvoz nije uspio. Provjerite je li datoteka u xml formatu i je li valjane strukture."
+
+msgid "import_successful"
+msgstr "Uvoz je uspješno završen. Kreirano: %s, uređeno/ premješteno: %s, izbrisano: %s."
+
+msgid "import_terminated_with_errors"
+msgstr "Uvoz je prekinut s pogreškama."
+
+msgid "import_terminated_with_warnings"
+msgstr "Uvoz je završen s upozorenjima"
+
+msgid "import_xml_file"
+msgstr "Uvezi datoteku"
+
+msgid "local_other_roles"
+msgstr "Dodatne lokalne uloge %s"
+
+msgid "local_staff"
+msgstr "Zaposlenici %s"
+
+msgid "msg_assignment_to_employee_done"
+msgstr "Dodjela ulozi zaposlenika uspješna"
+
+msgid "msg_confirm_d_ua"
+msgstr "Želite li ovu osobu rasporediti na radno mjesto zaposlenika u njezinoj organizacijskoj jedinici?"
+
+msgid "msg_confirm_deletion"
+msgstr "Želite li zaista izbrisati sljedeću poziciju?"
+
+msgid "msg_confirm_remove_user"
+msgstr "Želite li zaista ukloniti sljedećeg korisnika s položaja %s?"
+
+msgid "msg_deleted"
+msgstr "Izbrisano"
+
+msgid "msg_position_created"
+msgstr "Pozicija je kreirana."
+
+#, fuzzy
+msgid "msg_position_delete_fail"
+msgstr "Position wurde nicht gefunden."
+
+msgid "msg_position_updated"
+msgstr "Pozicija je ažurirana."
+
+msgid "msg_success_permission_saved"
+msgstr "Dopuštenja su spremljena."
+
+msgid "no_assignment"
+msgstr "Molimo provjerite svoju XML-datoteku. Ne postoji dodjela korisnika."
+
+msgid "no_orgunit"
+msgstr "Molimo provjerite svoju XML-datoteku. Ne postoji organizacijska jedinica."
+
+msgid "no_roles"
+msgstr "U ovom trenutku nema dodatnih uloga."
+
+msgid "not_movable_to_subtree"
+msgstr "Organizacijska jedinica ne može se premjestiti u vlastito podstablo. To bi stvorilo petlju."
+
+msgid "org_op_access_enrolments"
+msgstr "Vidi upise"
+
+msgid "org_op_access_results"
+msgstr "Pristupi rezultatima"
+
+msgid "org_op_create_employee_talk"
+msgstr "Create talk appointments / edit talk appointments that you have created yourself"
+
+msgid "org_op_edit_employee_talk"
+msgstr "Edit Talk appointments"
+
+#, fuzzy
+msgid "org_op_edit_individual_plan"
+msgstr "Edit Individual Plan"
+
+msgid "org_op_edit_submissions_grades"
+msgstr "Uredi predane testove drugih korisnika"
+
+msgid "org_op_manage_members"
+msgstr "Upravljanje članovima"
+
+msgid "org_op_read_employee_talk"
+msgstr "Read access talk appointments"
+
+msgid "org_op_read_learning_progress"
+msgstr "Vidi napredak učenja ostalih korisnika"
+
+#, fuzzy
+msgid "org_op_view_certificates"
+msgstr "View certificates of other users"
+
+#, fuzzy
+msgid "org_op_view_competences"
+msgstr "View competences of other users"
+
+#, fuzzy
+msgid "org_op_view_individual_plan"
+msgstr "View Individual Plan"
+
+#, fuzzy
+msgid "org_op_view_members"
+msgstr "View Members"
+
+msgid "org_op_write_learning_progress"
+msgstr "Postavite napredak učenja drugih korisnika"
+
+msgid "org_unit_not_found"
+msgstr "Organizacijska jedinica nije pronađena."
+
+msgid "orgu_add"
+msgstr "Dodaj organizacijsku jedinicu"
+
+msgid "orgu_adv_settings"
+msgstr "Napredne postavke"
+
+msgid "orgu_already_deleted"
+msgstr "Objekt je već izbrisan."
+
+msgid "orgu_enable_my_staff"
+msgstr "Omogući 'Osoblje'"
+
+msgid "orgu_enable_my_staff_info"
+msgstr "Prikazuje napredak u učenju vlastitih zaposlenika."
+
+msgid "orgu_global_set_form"
+msgstr "Postavke globalne organizacijske jedinice"
+
+msgid "orgu_global_set_positions"
+msgstr "Prikaži korisničke podatke prema položajima organizacijske jedinice"
+
+msgid "orgu_global_set_positions_type_active"
+msgstr "Položaji u"
+
+msgid "orgu_global_set_type_changeable"
+msgstr "Promjenjivo"
+
+msgid "orgu_global_set_type_changeable_no"
+msgstr "Postavka nije promjenjiva"
+
+msgid "orgu_global_set_type_changeable_object"
+msgstr "Postavka je promjenjiva na razini objekta"
+
+msgid "orgu_global_set_type_default"
+msgstr "Tvorničke postavke"
+
+msgid "orgu_global_set_type_default_info"
+msgstr "Definiraj zadanu vrijednost za nekonfigurirane objekte"
+
+msgid "orgu_import"
+msgstr "Uvezi organizacijsku jedinicu"
+
+msgid "orgu_new"
+msgstr "Nova organizacijska jedinica"
+
+msgid "orgu_orgu_type"
+msgstr "Vrsta organizacijske jedinice"
+
+msgid "orgu_settings"
+msgstr "Postavke organizacijske jedinice"
+
+msgid "orgu_staff"
+msgstr "Osoblje"
+
+msgid "orgu_staff_deassign"
+msgstr "Jeste li sigurni da ovim korisnicima želite dodijeliti ovu ulogu?"
+
+msgid "orgu_type"
+msgstr "Vrsta organizacijske jedinice"
+
+msgid "orgu_type_add"
+msgstr "Dodaj vrstu organizacijske jedinice"
+
+msgid "orgu_type_assign_amd_sets"
+msgstr "Dodijeli napredne skupove metapodataka"
+
+msgid "orgu_type_available_amd_sets"
+msgstr "Dostupni skupovi naprednih metapodataka"
+
+msgid "orgu_type_custom_icon"
+msgstr "Prilagođena ikona za ovaj tip organizacijske jedinice"
+
+msgid "orgu_type_custom_icon_info"
+msgstr "Sve organizacijske jedinice kojima je dodijeljena ova vrsta upotrebljavat će ikonu na stablu i zaglavlju."
+
+msgid "orgu_type_edit"
+msgstr "Uredi vrstu organizacijske jedinice"
+
+msgid "orgu_type_msg_assign_amd_prevented"
+msgstr "Dodjeljivanje AMDRecord-a spriječeno dodacima: %s"
+
+msgid "orgu_type_msg_deassign_amd_prevented"
+msgstr "Poništavanje dodjele AMDRecord-a spriječeno dodacima: %s"
+
+msgid "orgu_type_msg_deleted"
+msgstr "Izbrisan tip organizacijske jedinice"
+
+msgid "orgu_type_msg_deletion_prevented"
+msgstr "Brisanje objekta spriječeno dodacima: %s"
+
+msgid "orgu_type_msg_error_custom_icon"
+msgstr "Prilagođenu ikonu nije moguće spremiti"
+
+msgid "orgu_type_msg_missing_title"
+msgstr "Mora biti postavljen naslov za zadani jezik"
+
+msgid "orgu_type_msg_missing_title_default_language"
+msgstr "Mora biti postavljen zadani jezik i naslov za zadani jezik"
+
+msgid "orgu_type_msg_setting_default_lang_prevented"
+msgstr "Postavljanje '%s' kao zadani jezik spriječeno dodacima: %s"
+
+msgid "orgu_type_msg_setting_member_prevented"
+msgstr "Postavljanje '%s' spriječeno dodacima: %s"
+
+msgid "orgu_type_msg_unable_delete"
+msgstr "Nije moguće izbrisati vrstu jer je i dalje dodijeljena sljedećim organizacijskim jedinicama: %s"
+
+msgid "orgu_type_msg_updating_prevented"
+msgstr "Ažuriranje objekta spriječeno dodacima: %s"
+
+msgid "orgu_types"
+msgstr "Tipovi"
+
+msgid "orgunit_position_permissions_not_active_for"
+msgstr "Ne možete poništiti dozvole određene pozicije za tip:"
+
+msgid "ou_external_id_exists"
+msgstr "Jedinica s vanjskim ID-om već postoji u ovom sustavu."
+
+msgid "ou_id_not_valid"
+msgstr "ID uvoza nije pronađen."
+
+msgid "ou_more_than_one_match_found"
+msgstr "Pronađeno je više od jedne podudarnosti."
+
+msgid "ou_parent_id_not_valid"
+msgstr "Nije moguće pronaći ou_parent_id."
+
+msgid "over"
+msgstr "Iznad"
+
+msgid "over_-1"
+msgstr "Svatko"
+
+msgid "placeholder"
+msgstr "..."
+
+msgid "positions"
+msgstr "Položaji"
+
+msgid "rec_staff"
+msgstr "Zaposlenici % s uklj. podjedinicama"
+
+msgid "remove_successful"
+msgstr "Korisnik je uspješno uklonjen."
+
+msgid "remove_user"
+msgstr "Ukloni"
+
+msgid "scope"
+msgstr "U"
+
+msgid "scope_1"
+msgstr "Ista organizacijska jedinica"
+
+msgid "scope_2"
+msgstr "Naknadne organizacijske jedinice"
+
+msgid "scope_3"
+msgstr "Sve organizacijske jedinice"
+
+msgid "show_learning_progress"
+msgstr "Pokaži napredak u učenju"
+
+msgid "simple_import"
+msgstr "Jednostavan uvoz XML-a"
+
+msgid "simple_user_import"
+msgstr "Dodjela korisnika XML-a"
+
+msgid "simple_xls"
+msgstr "Jednostavan Excel izvoz"
+
+msgid "simple_xml"
+msgstr "Jednostavan izvoz XML-a"
+
+msgid "superior"
+msgstr "Nadređeni"
+
+msgid "user_assignments"
+msgstr "Zadaci korisnika"
+
+#, fuzzy
+msgid "user_assignments_recursive"
+msgstr "User Assignments Subtree"
+
+msgid "user_changed_successful"
+msgstr "Korisnik je uspješno promijenjen."
+
+msgid "user_import_successful"
+msgstr "Uvoz je uspješno završen. Dodijeljeno: %s, uklonjeno: %s."
+
+msgid "users_successfuly_added"
+msgstr "Korisnik je uspješno dodan."
+
+msgid "view_learning_progress"
+msgstr "Pogledajte napredak učenja"
+
+msgid "view_learning_progress_rec"
+msgstr "Pogledajte napredak učenja jedinice, uključujući podjedinice"

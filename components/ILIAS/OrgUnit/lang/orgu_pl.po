@@ -1,0 +1,368 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: orgu\n"
+
+msgid "Staff"
+msgstr "Pracownik"
+
+msgid "add_position"
+msgstr "Dodaj pozycję"
+
+msgid "authorities"
+msgstr "Uprawnienia"
+
+msgid "authority"
+msgstr "Uprawnienia"
+
+msgid "backto_staff"
+msgstr "Wróć do osób"
+
+msgid "change_to_employee"
+msgstr "Przejdź do zatrudnionych"
+
+msgid "change_to_superior"
+msgstr "Przejdź do przełożonych"
+
+msgid "confirm_deletion_and_assign"
+msgstr "Usuń i przydziel użytkowników"
+
+msgid "confirm_deletion_button"
+msgstr "Usuń"
+
+msgid "deassign_user_successful"
+msgstr "Użytkownik został z powodzeniem usunięty."
+
+msgid "edit_translations"
+msgstr "Tytuł i opis"
+
+msgid "employee"
+msgstr "Pracownik"
+
+msgid "ext_id"
+msgstr "Zewnętrzny numer ID"
+
+msgid "ext_id_updated"
+msgstr "Zewnętrzny numer ID został z powodzeniem edytowany, ponieważ dane zapisywane są w trybie anonimowym."
+
+msgid "form_title_org_default_permissions_update"
+msgstr "Uprawnienia standardowe"
+
+msgid "import_failed"
+msgstr "Nie udało się przeprowadzić importu. Upewnij się, że plik zapisany jest w formacie XML i posiada ważną strukturę."
+
+msgid "import_successful"
+msgstr "Import został z powodzeniem przeprowadzony. Nowo utworzono: %s, edytowano/przesunięto: %s, usunięto: %s."
+
+msgid "import_terminated_with_errors"
+msgstr "Podczas importu rozpoznano błędy."
+
+msgid "import_terminated_with_warnings"
+msgstr "Podczas importu wygenerowano ostrzeżenia"
+
+msgid "import_xml_file"
+msgstr "Plik importowy"
+
+msgid "local_other_roles"
+msgstr "Dodatkowe role lokalne %s"
+
+msgid "local_staff"
+msgstr "Pracownik %s"
+
+msgid "msg_assignment_to_employee_done"
+msgstr "Przydział do roli pracownika powiódł się"
+
+msgid "msg_confirm_d_ua"
+msgstr "Czy chcesz poniższych użytkowników przydzielić do sekcji pracowników w odpowiedniej jednostce organizacyjnej?"
+
+msgid "msg_confirm_deletion"
+msgstr "Czy na pewno chcesz usunąć poniższą pozycję?"
+
+msgid "msg_confirm_remove_user"
+msgstr "Czy naprawdę chcesz usunąć poniższego użytkownika z pozycji %s?"
+
+msgid "msg_deleted"
+msgstr "Usunięte"
+
+msgid "msg_position_created"
+msgstr "Pozycja została utworzona."
+
+#, fuzzy
+msgid "msg_position_delete_fail"
+msgstr "Position wurde nicht gefunden."
+
+msgid "msg_position_updated"
+msgstr "Pozycja została zaktualizowana."
+
+msgid "msg_success_permission_saved"
+msgstr "Uprawnienia zostały zapisane."
+
+msgid "no_assignment"
+msgstr "Sprawdź plik XML. Nie udało się znaleźć przydziału użytkownika."
+
+msgid "no_orgunit"
+msgstr "Sprawdź plik XML. Nie udało się znaleźć jednostki organizacyjnej."
+
+msgid "no_roles"
+msgstr "W tym miejscu nie ma żadnych dodatkowych ról lokalnych."
+
+msgid "not_movable_to_subtree"
+msgstr "Jednostki organizacyjnej nie można podzielić na podjednostki, ponieważ w ten sposób powstałaby pętla."
+
+msgid "org_op_access_enrolments"
+msgstr "Wgląd w zapisy"
+
+msgid "org_op_access_results"
+msgstr "Access Results"
+
+msgid "org_op_create_employee_talk"
+msgstr "Create talk appointments / edit talk appointments that you have created yourself"
+
+msgid "org_op_edit_employee_talk"
+msgstr "Edit Talk appointments"
+
+#, fuzzy
+msgid "org_op_edit_individual_plan"
+msgstr "Edit Individual Plan"
+
+msgid "org_op_edit_submissions_grades"
+msgstr "Przetwarzaj zadania oddane przez innych użytkowników"
+
+msgid "org_op_manage_members"
+msgstr "Przetwarzaj uczestników"
+
+msgid "org_op_read_employee_talk"
+msgstr "Read access talk appointments"
+
+msgid "org_op_read_learning_progress"
+msgstr "Obejrzyj postęp w nauce innych użytkowników"
+
+#, fuzzy
+msgid "org_op_view_certificates"
+msgstr "View certificates of other users"
+
+#, fuzzy
+msgid "org_op_view_competences"
+msgstr "View competences of other users"
+
+#, fuzzy
+msgid "org_op_view_individual_plan"
+msgstr "View Individual Plan"
+
+#, fuzzy
+msgid "org_op_view_members"
+msgstr "View Members"
+
+msgid "org_op_write_learning_progress"
+msgstr "Ustal postęp w nauce innych użytkowników"
+
+msgid "org_unit_not_found"
+msgstr "Nie znaleziono jednostki organizacyjnej."
+
+msgid "orgu_add"
+msgstr "Dodaj jednostkę organizacyjną"
+
+msgid "orgu_adv_settings"
+msgstr "Ustawienia zaawansowane"
+
+msgid "orgu_already_deleted"
+msgstr "Ten obiekt został już usunięty."
+
+msgid "orgu_enable_my_staff"
+msgstr "Aktywuj ‘Widok ogólny, pracownik’"
+
+msgid "orgu_enable_my_staff_info"
+msgstr "Widok ‘Moi pracownicy’ pokazuje postęp w nauce własnych pracowników."
+
+msgid "orgu_global_set_form"
+msgstr "Ustawienia globalne"
+
+msgid "orgu_global_set_positions"
+msgstr "Wyświetlenie danych użytkownika według pozycji w jednostkach organizacyjnych"
+
+msgid "orgu_global_set_positions_type_active"
+msgstr "Pozycje w:"
+
+msgid "orgu_global_set_type_changeable"
+msgstr "Reakcja nowych obiektów"
+
+msgid "orgu_global_set_type_changeable_no"
+msgstr "Nie można wyłączyć pozycji w obiekcie"
+
+msgid "orgu_global_set_type_changeable_object"
+msgstr "Zmieniane ustawienie w obiekcie"
+
+msgid "orgu_global_set_type_default"
+msgstr "Domyślnie"
+
+msgid "orgu_global_set_type_default_info"
+msgstr "W zakładce 'Ustawienia' obiektu pozycje są domyślnie aktywne."
+
+msgid "orgu_import"
+msgstr "Importuj jednostkę organizacyjną"
+
+msgid "orgu_new"
+msgstr "Nowa jednostka organizacyjna"
+
+msgid "orgu_orgu_type"
+msgstr "Typ jednostek organizacyjnych"
+
+msgid "orgu_settings"
+msgstr "Ustawienia dotyczące jednostek organizacyjnych"
+
+msgid "orgu_staff"
+msgstr "Osoba zatrudniona"
+
+msgid "orgu_staff_deassign"
+msgstr "Czy naprawdę chcesz usunąć użytkownika z roli?"
+
+msgid "orgu_type"
+msgstr "Typ jednostek organizacyjnych"
+
+msgid "orgu_type_add"
+msgstr "Dodaj typ jednostki organizacyjnej"
+
+msgid "orgu_type_assign_amd_sets"
+msgstr "Przydziel metadane właściwe dla użytkownika"
+
+msgid "orgu_type_available_amd_sets"
+msgstr "Dostępne metadane właściwe dla użytkownika"
+
+msgid "orgu_type_custom_icon"
+msgstr "Ikony właściwe dla użytkownika dla tego typu jednostek organizacyjnych"
+
+msgid "orgu_type_custom_icon_info"
+msgstr "Wszystkie jednostki organizacyjne tego typu przedstawiane są z tą ikoną."
+
+msgid "orgu_type_edit"
+msgstr "Edytuj typ jednostki organizacyjnej"
+
+msgid "orgu_type_msg_assign_amd_prevented"
+msgstr "Dodanie zaawansowanych materiałów nie jest możliwe z powodu poniższych wtyczek: %s"
+
+msgid "orgu_type_msg_deassign_amd_prevented"
+msgstr "Usunięcie zaawansowanych materiałów nie jest możliwe z powodu poniższych wtyczek: %s"
+
+msgid "orgu_type_msg_deleted"
+msgstr "Typ jednostki organizacyjnej został usunięty"
+
+msgid "orgu_type_msg_deletion_prevented"
+msgstr "Usunięcie nie jest możliwe z powodu poniższych wtyczek: %s"
+
+msgid "orgu_type_msg_error_custom_icon"
+msgstr "Nie udało się zapisać ikony"
+
+msgid "orgu_type_msg_missing_title"
+msgstr "Należy podać tytuł dla języka domyślnego"
+
+msgid "orgu_type_msg_missing_title_default_language"
+msgstr "Należy wypełnić pole z językiem domyślnym oraz tytułem języka domyślnego."
+
+msgid "orgu_type_msg_setting_default_lang_prevented"
+msgstr "'%' nie może być językiem domyślnym z powodu poniższych wtyczek: %s"
+
+msgid "orgu_type_msg_setting_member_prevented"
+msgstr "Przydzielenie '%s' nie jest możliwe z powodu poniższych wtyczek: %s"
+
+msgid "orgu_type_msg_unable_delete"
+msgstr "Nie można usunąć typu, ponieważ przydzielony jest do poniższych jednostek organizacyjnych: %s"
+
+msgid "orgu_type_msg_updating_prevented"
+msgstr "Aktualizowanie obiektu nie jest możliwe z powodu poniższych wtyczek: %s"
+
+msgid "orgu_types"
+msgstr "Typy"
+
+msgid "orgunit_position_permissions_not_active_for"
+msgstr "You cannot override the position specific permissions for the type:"
+
+msgid "ou_external_id_exists"
+msgstr "Jednostka organizacyjna z zewnętrznymi numerami ID istnieje już w ILIAS."
+
+msgid "ou_id_not_valid"
+msgstr "Nie udało się znaleźć numeru ID importu."
+
+#, fuzzy
+msgid "ou_more_than_one_match_found"
+msgstr "More then one match found."
+
+msgid "ou_parent_id_not_valid"
+msgstr "Nie znaleziono ou_parent_id."
+
+msgid "over"
+msgstr "poprzez"
+
+msgid "over_-1"
+msgstr "Każdy"
+
+msgid "placeholder"
+msgstr "..."
+
+msgid "positions"
+msgstr "Pozycje"
+
+msgid "rec_staff"
+msgstr "Pracownik %s i następni"
+
+msgid "remove_successful"
+msgstr "Użytkownik został z powodzeniem usunięty."
+
+msgid "remove_user"
+msgstr "Usuń"
+
+msgid "scope"
+msgstr "w"
+
+msgid "scope_1"
+msgstr "własnej jednostki organizacyjnej"
+
+msgid "scope_2"
+msgstr "podporządkowanym jednostkom organizacyjnym"
+
+msgid "scope_3"
+msgstr "wszystkim jednostkom organizacyjnym"
+
+msgid "show_learning_progress"
+msgstr "Pokaż postęp w nauce"
+
+msgid "simple_import"
+msgstr "Prosty import XML"
+
+msgid "simple_user_import"
+msgstr "Przydział użytkownika XML"
+
+msgid "simple_xls"
+msgstr "Prosty eksport do Excela"
+
+msgid "simple_xml"
+msgstr "Prosty eksport XML"
+
+msgid "superior"
+msgstr "Przełożony"
+
+msgid "user_assignments"
+msgstr "Przydział użytkownika"
+
+#, fuzzy
+msgid "user_assignments_recursive"
+msgstr "User Assignments Subtree"
+
+msgid "user_changed_successful"
+msgstr "Udało się zmienić nazwę użytkownika."
+
+msgid "user_import_successful"
+msgstr "Import został z powodzeniem przeprowadzony. Na nowo przydzielono: %s, usunięto przydział: %s."
+
+msgid "users_successfuly_added"
+msgstr "Użytkownik został z powodzeniem wpisany."
+
+msgid "view_learning_progress"
+msgstr "Obejrzyj postęp w nauce"
+
+msgid "view_learning_progress_rec"
+msgstr "Wgląd w postęp w nauce w trybie powtarzającym się"
