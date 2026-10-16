@@ -2230,14 +2230,16 @@
 			</div>
 			<!-- mob caption -->
 			<xsl:choose>			<!-- derive -->
-				<xsl:when test="count(../MediaAliasItem[@Purpose=$curPurpose]/Caption[1]) != 0 and ../MediaAliasItem[@Purpose=$curPurpose]/Caption[1] != ''">
-					<figcaption><xsl:attribute name="style"><xsl:value-of select="$captiondisplay"/></xsl:attribute><div>
-						<xsl:attribute name="class"><xsl:value-of select="$captionclass"/></xsl:attribute>
-					<xsl:call-template name="FullscreenLink">
-						<xsl:with-param name="cmobid" select="$cmobid"/>
-					</xsl:call-template>
-					<xsl:value-of select="../MediaAliasItem[@Purpose=$curPurpose]/Caption[1]"/>
-					</div></figcaption>
+				<xsl:when test="count(../MediaAliasItem[@Purpose=$curPurpose]/Caption[1]) != 0">
+					<xsl:if test="../MediaAliasItem[@Purpose=$curPurpose]/Caption[1] != ''">
+						<figcaption><xsl:attribute name="style"><xsl:value-of select="$captiondisplay"/></xsl:attribute><div>
+							<xsl:attribute name="class"><xsl:value-of select="$captionclass"/></xsl:attribute>
+						<xsl:call-template name="FullscreenLink">
+							<xsl:with-param name="cmobid" select="$cmobid"/>
+						</xsl:call-template>
+						<xsl:value-of select="../MediaAliasItem[@Purpose=$curPurpose]/Caption[1]"/>
+						</div></figcaption>
+					</xsl:if>
 				</xsl:when>
 				<xsl:when test="count(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Caption[1]) != 0">
 					<figcaption><xsl:attribute name="style"><xsl:value-of select="$captiondisplay"/></xsl:attribute><div>
