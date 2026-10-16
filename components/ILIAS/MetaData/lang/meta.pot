@@ -1,0 +1,2502 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: meta\n"
+
+msgid "adt_error_max_length"
+msgstr ""
+
+msgid "md_adn_int_error_no_default"
+msgstr ""
+
+msgid "md_adv_active"
+msgstr ""
+
+msgid "md_adv_added_new_record"
+msgstr ""
+
+msgid "md_adv_col_presentation_ordering"
+msgstr ""
+
+msgid "md_adv_confirm_definition"
+msgstr ""
+
+msgid "md_adv_confirm_definition_select_option"
+msgstr ""
+
+msgid "md_adv_confirm_definition_select_option_all"
+msgstr ""
+
+msgid "md_adv_confirm_definition_select_option_all_action"
+msgstr ""
+
+msgid "md_adv_confirm_definition_select_option_overwrite"
+msgstr ""
+
+msgid "md_adv_confirm_definition_select_option_remove"
+msgstr ""
+
+msgid "md_adv_confirm_definition_select_option_single"
+msgstr ""
+
+msgid "md_adv_confirm_definition_select_section"
+msgstr ""
+
+msgid "md_adv_create_field"
+msgstr ""
+
+msgid "md_adv_create_record"
+msgstr ""
+
+msgid "md_adv_delete_fields_sure"
+msgstr ""
+
+msgid "md_adv_delete_files_sure"
+msgstr ""
+
+msgid "md_adv_delete_record_sure"
+msgstr ""
+
+msgid "md_adv_deleted_fields"
+msgstr ""
+
+msgid "md_adv_deleted_files"
+msgstr ""
+
+msgid "md_adv_deleted_records"
+msgstr ""
+
+msgid "md_adv_desc_show"
+msgstr ""
+
+msgid "md_adv_edit_complex_option"
+msgstr ""
+
+msgid "md_adv_edit_field"
+msgstr ""
+
+msgid "md_adv_edit_record"
+msgstr ""
+
+msgid "md_adv_field_fields"
+msgstr ""
+
+msgid "md_adv_field_filter_warning"
+msgstr ""
+
+msgid "md_adv_field_list"
+msgstr ""
+
+msgid "md_adv_field_names"
+msgstr ""
+
+msgid "md_adv_field_table"
+msgstr ""
+
+msgid "md_adv_fields_show"
+msgstr ""
+
+msgid "md_adv_file_list"
+msgstr ""
+
+msgid "md_adv_import_record"
+msgstr ""
+
+msgid "md_adv_int_current"
+msgstr ""
+
+msgid "md_adv_int_default"
+msgstr ""
+
+msgid "md_adv_int_translation_info"
+msgstr ""
+
+msgid "md_adv_no_fields"
+msgstr ""
+
+msgid "md_adv_number_decimals"
+msgstr ""
+
+msgid "md_adv_number_max"
+msgstr ""
+
+msgid "md_adv_number_min"
+msgstr ""
+
+msgid "md_adv_number_suffix"
+msgstr ""
+
+msgid "md_adv_presentation"
+msgstr ""
+
+msgid "md_adv_record_activate_languages"
+msgstr ""
+
+msgid "md_adv_record_list"
+msgstr ""
+
+msgid "md_adv_record_lng_table"
+msgstr ""
+
+msgid "md_adv_record_lng_table_active"
+msgstr ""
+
+msgid "md_adv_record_lng_table_default"
+msgstr ""
+
+msgid "md_adv_record_lng_table_inst"
+msgstr ""
+
+msgid "md_adv_record_lng_table_lng"
+msgstr ""
+
+msgid "md_adv_records"
+msgstr ""
+
+msgid "md_adv_records_exported"
+msgstr ""
+
+msgid "md_adv_scope"
+msgstr ""
+
+msgid "md_adv_scope_info"
+msgstr ""
+
+msgid "md_adv_scope_list_header"
+msgstr ""
+
+msgid "md_adv_scope_objects"
+msgstr ""
+
+msgid "md_adv_searchable"
+msgstr ""
+
+msgid "md_adv_select_one_file"
+msgstr ""
+
+msgid "md_adv_show"
+msgstr ""
+
+msgid "md_adv_substitution_table"
+msgstr ""
+
+msgid "md_adv_text_max_length"
+msgstr ""
+
+msgid "md_adv_text_multi"
+msgstr ""
+
+msgid "md_adv_text_multi_val"
+msgstr ""
+
+msgid "md_adv_text_multi_val_info"
+msgstr ""
+
+msgid "md_advanced"
+msgstr ""
+
+msgid "md_aria_language_selection"
+msgstr ""
+
+msgid "md_copyright"
+msgstr ""
+
+msgid "md_copyright_add"
+msgstr ""
+
+msgid "md_copyright_admin_tab"
+msgstr ""
+
+msgid "md_copyright_alt_text"
+msgstr ""
+
+msgid "md_copyright_alt_text_info"
+msgstr ""
+
+msgid "md_copyright_default"
+msgstr ""
+
+msgid "md_copyright_edit"
+msgstr ""
+
+msgid "md_copyright_enable_info"
+msgstr ""
+
+msgid "md_copyright_enabled"
+msgstr ""
+
+msgid "md_copyright_full_name"
+msgstr ""
+
+msgid "md_copyright_image"
+msgstr ""
+
+msgid "md_copyright_image_file"
+msgstr ""
+
+msgid "md_copyright_image_is_file"
+msgstr ""
+
+msgid "md_copyright_image_is_link"
+msgstr ""
+
+msgid "md_copyright_image_link"
+msgstr ""
+
+msgid "md_copyright_link"
+msgstr ""
+
+msgid "md_copyright_link_info"
+msgstr ""
+
+msgid "md_copyright_preview"
+msgstr ""
+
+msgid "md_copyright_selection"
+msgstr ""
+
+msgid "md_copyright_value"
+msgstr ""
+
+msgid "md_copyrights_deleted"
+msgstr ""
+
+msgid "md_days"
+msgstr ""
+
+msgid "md_delete_cp_sure"
+msgstr ""
+
+msgid "md_delimiter"
+msgstr ""
+
+msgid "md_delimiter_info"
+msgstr ""
+
+msgid "md_editor_custom_input"
+msgstr ""
+
+msgid "md_editor_from_vocab_input"
+msgstr ""
+
+msgid "md_editor_value"
+msgstr ""
+
+msgid "md_fields"
+msgstr ""
+
+msgid "md_import_file_vocab"
+msgstr ""
+
+msgid "md_import_vocab"
+msgstr ""
+
+msgid "md_import_vocab_modal"
+msgstr ""
+
+msgid "md_months"
+msgstr ""
+
+msgid "md_oai_contact_mail"
+msgstr ""
+
+msgid "md_oai_identifier_prefix"
+msgstr ""
+
+msgid "md_oai_identifier_prefix_info"
+msgstr ""
+
+msgid "md_oai_pmh_enabled"
+msgstr ""
+
+msgid "md_oai_pmh_enabled_info"
+msgstr ""
+
+msgid "md_oai_repository_name"
+msgstr ""
+
+msgid "md_oai_repository_name_info"
+msgstr ""
+
+msgid "md_obj_types"
+msgstr ""
+
+msgid "md_publishing"
+msgstr ""
+
+msgid "md_publishing_action_accept"
+msgstr ""
+
+msgid "md_publishing_action_block"
+msgstr ""
+
+msgid "md_publishing_action_publish"
+msgstr ""
+
+msgid "md_publishing_action_reject"
+msgstr ""
+
+msgid "md_publishing_action_submit"
+msgstr ""
+
+msgid "md_publishing_action_unblock"
+msgstr ""
+
+msgid "md_publishing_action_withdraw"
+msgstr ""
+
+msgid "md_publishing_center_title"
+msgstr ""
+
+msgid "md_publishing_confirmation_accept"
+msgstr ""
+
+msgid "md_publishing_confirmation_info_accept"
+msgstr ""
+
+msgid "md_publishing_confirmation_info_reject"
+msgstr ""
+
+msgid "md_publishing_confirmation_info_withdraw"
+msgstr ""
+
+msgid "md_publishing_confirmation_reject"
+msgstr ""
+
+msgid "md_publishing_confirmation_withdraw"
+msgstr ""
+
+msgid "md_publishing_control_center"
+msgstr ""
+
+msgid "md_publishing_current_status"
+msgstr ""
+
+msgid "md_publishing_info_blocked"
+msgstr ""
+
+msgid "md_publishing_info_published"
+msgstr ""
+
+msgid "md_publishing_info_under_review"
+msgstr ""
+
+msgid "md_publishing_info_unpublished"
+msgstr ""
+
+msgid "md_publishing_info_wrong_copyright"
+msgstr ""
+
+msgid "md_publishing_last_reference_info"
+msgstr ""
+
+msgid "md_publishing_status_blocked"
+msgstr ""
+
+msgid "md_publishing_status_published"
+msgstr ""
+
+msgid "md_publishing_status_under_review"
+msgstr ""
+
+msgid "md_publishing_status_unpublished"
+msgstr ""
+
+msgid "md_publishing_success_accept"
+msgstr ""
+
+msgid "md_publishing_success_block"
+msgstr ""
+
+msgid "md_publishing_success_publish"
+msgstr ""
+
+msgid "md_publishing_success_reject"
+msgstr ""
+
+msgid "md_publishing_success_submit"
+msgstr ""
+
+msgid "md_publishing_success_unblock"
+msgstr ""
+
+msgid "md_publishing_success_withdraw"
+msgstr ""
+
+msgid "md_publishing_workflow"
+msgstr ""
+
+msgid "md_publishing_workflow_automatic"
+msgstr ""
+
+msgid "md_publishing_workflow_automatic_info"
+msgstr ""
+
+msgid "md_publishing_workflow_manual"
+msgstr ""
+
+msgid "md_publishing_workflow_manual_info"
+msgstr ""
+
+msgid "md_publishing_workflow_mode"
+msgstr ""
+
+msgid "md_publishing_workflow_mode_info"
+msgstr ""
+
+msgid "md_record_export_table"
+msgstr ""
+
+msgid "md_record_list_table"
+msgstr ""
+
+msgid "md_separated_by"
+msgstr ""
+
+msgid "md_settings"
+msgstr ""
+
+msgid "md_settings_harvester"
+msgstr ""
+
+msgid "md_settings_licence"
+msgstr ""
+
+msgid "md_settings_publishing"
+msgstr ""
+
+msgid "md_time"
+msgstr ""
+
+msgid "md_unknown_vocabulary_flag"
+msgstr ""
+
+msgid "md_used"
+msgstr ""
+
+msgid "md_vocab_activate_action"
+msgstr ""
+
+msgid "md_vocab_active_column"
+msgstr ""
+
+msgid "md_vocab_all_values_title"
+msgstr ""
+
+msgid "md_vocab_allow_custom_input_action"
+msgstr ""
+
+msgid "md_vocab_custom_input_column"
+msgstr ""
+
+msgid "md_vocab_deactivate_action"
+msgstr ""
+
+msgid "md_vocab_delete_action"
+msgstr ""
+
+msgid "md_vocab_delete_confirmation_text"
+msgstr ""
+
+msgid "md_vocab_delete_confirmation_title"
+msgstr ""
+
+msgid "md_vocab_deletion_successful"
+msgstr ""
+
+msgid "md_vocab_disallow_custom_input_action"
+msgstr ""
+
+msgid "md_vocab_element_column"
+msgstr ""
+
+msgid "md_vocab_element_with_condition"
+msgstr ""
+
+msgid "md_vocab_import_invalid"
+msgstr ""
+
+msgid "md_vocab_import_successful"
+msgstr ""
+
+msgid "md_vocab_import_upload_failed"
+msgstr ""
+
+msgid "md_vocab_preview_column"
+msgstr ""
+
+msgid "md_vocab_show_all_action"
+msgstr ""
+
+msgid "md_vocab_source_column"
+msgstr ""
+
+msgid "md_vocab_table_title"
+msgstr ""
+
+msgid "md_vocab_type_column"
+msgstr ""
+
+msgid "md_vocab_type_controlled_string"
+msgstr ""
+
+msgid "md_vocab_type_controlled_vocab_value"
+msgstr ""
+
+msgid "md_vocab_type_copyright"
+msgstr ""
+
+msgid "md_vocab_type_standard"
+msgstr ""
+
+msgid "md_vocab_update_successful"
+msgstr ""
+
+msgid "md_vocabularies_config"
+msgstr ""
+
+msgid "meta_1"
+msgstr ""
+
+msgid "meta_2"
+msgstr ""
+
+msgid "meta_3"
+msgstr ""
+
+msgid "meta_4"
+msgstr ""
+
+msgid "meta_accessibility_restrictions"
+msgstr ""
+
+msgid "meta_active"
+msgstr ""
+
+msgid "meta_add"
+msgstr ""
+
+msgid "meta_add_element"
+msgstr ""
+
+msgid "meta_add_element_success"
+msgstr ""
+
+msgid "meta_advmd_add_field"
+msgstr ""
+
+msgid "meta_advmd_select_delete_option"
+msgstr ""
+
+msgid "meta_advmd_select_first_position_identifier"
+msgstr ""
+
+msgid "meta_advmd_select_new_option"
+msgstr ""
+
+msgid "meta_advmd_select_option_position"
+msgstr ""
+
+msgid "meta_advmd_select_option_value"
+msgstr ""
+
+msgid "meta_advmd_select_options"
+msgstr ""
+
+msgid "meta_advmd_select_options_edit"
+msgstr ""
+
+msgid "meta_advmd_select_position_identifier"
+msgstr ""
+
+msgid "meta_aggregation_level"
+msgstr ""
+
+msgid "meta_amaya"
+msgstr ""
+
+msgid "meta_annotation"
+msgstr ""
+
+msgid "meta_annotation_plural"
+msgstr ""
+
+msgid "meta_any"
+msgstr ""
+
+msgid "meta_atomic"
+msgstr ""
+
+msgid "meta_author"
+msgstr ""
+
+msgid "meta_authors"
+msgstr ""
+
+msgid "meta_browser"
+msgstr ""
+
+msgid "meta_button_to_full_editor_label"
+msgstr ""
+
+msgid "meta_c_AD"
+msgstr ""
+
+msgid "meta_c_AE"
+msgstr ""
+
+msgid "meta_c_AF"
+msgstr ""
+
+msgid "meta_c_AG"
+msgstr ""
+
+msgid "meta_c_AI"
+msgstr ""
+
+msgid "meta_c_AL"
+msgstr ""
+
+msgid "meta_c_AM"
+msgstr ""
+
+msgid "meta_c_AN"
+msgstr ""
+
+msgid "meta_c_AO"
+msgstr ""
+
+msgid "meta_c_AQ"
+msgstr ""
+
+msgid "meta_c_AR"
+msgstr ""
+
+msgid "meta_c_AS"
+msgstr ""
+
+msgid "meta_c_AT"
+msgstr ""
+
+msgid "meta_c_AU"
+msgstr ""
+
+msgid "meta_c_AW"
+msgstr ""
+
+msgid "meta_c_AX"
+msgstr ""
+
+msgid "meta_c_AZ"
+msgstr ""
+
+msgid "meta_c_BA"
+msgstr ""
+
+msgid "meta_c_BB"
+msgstr ""
+
+msgid "meta_c_BD"
+msgstr ""
+
+msgid "meta_c_BE"
+msgstr ""
+
+msgid "meta_c_BF"
+msgstr ""
+
+msgid "meta_c_BG"
+msgstr ""
+
+msgid "meta_c_BH"
+msgstr ""
+
+msgid "meta_c_BI"
+msgstr ""
+
+msgid "meta_c_BJ"
+msgstr ""
+
+msgid "meta_c_BL"
+msgstr ""
+
+msgid "meta_c_BM"
+msgstr ""
+
+msgid "meta_c_BN"
+msgstr ""
+
+msgid "meta_c_BO"
+msgstr ""
+
+msgid "meta_c_BR"
+msgstr ""
+
+msgid "meta_c_BS"
+msgstr ""
+
+msgid "meta_c_BT"
+msgstr ""
+
+msgid "meta_c_BV"
+msgstr ""
+
+msgid "meta_c_BW"
+msgstr ""
+
+msgid "meta_c_BY"
+msgstr ""
+
+msgid "meta_c_BZ"
+msgstr ""
+
+msgid "meta_c_CA"
+msgstr ""
+
+msgid "meta_c_CC"
+msgstr ""
+
+msgid "meta_c_CF"
+msgstr ""
+
+msgid "meta_c_CG"
+msgstr ""
+
+msgid "meta_c_CH"
+msgstr ""
+
+msgid "meta_c_CI"
+msgstr ""
+
+msgid "meta_c_CK"
+msgstr ""
+
+msgid "meta_c_CL"
+msgstr ""
+
+msgid "meta_c_CM"
+msgstr ""
+
+msgid "meta_c_CN"
+msgstr ""
+
+msgid "meta_c_CO"
+msgstr ""
+
+msgid "meta_c_CR"
+msgstr ""
+
+msgid "meta_c_CU"
+msgstr ""
+
+msgid "meta_c_CV"
+msgstr ""
+
+msgid "meta_c_CX"
+msgstr ""
+
+msgid "meta_c_CY"
+msgstr ""
+
+msgid "meta_c_CZ"
+msgstr ""
+
+msgid "meta_c_DE"
+msgstr ""
+
+msgid "meta_c_DJ"
+msgstr ""
+
+msgid "meta_c_DK"
+msgstr ""
+
+msgid "meta_c_DM"
+msgstr ""
+
+msgid "meta_c_DO"
+msgstr ""
+
+msgid "meta_c_DZ"
+msgstr ""
+
+msgid "meta_c_EC"
+msgstr ""
+
+msgid "meta_c_EE"
+msgstr ""
+
+msgid "meta_c_EG"
+msgstr ""
+
+msgid "meta_c_EH"
+msgstr ""
+
+msgid "meta_c_ER"
+msgstr ""
+
+msgid "meta_c_ES"
+msgstr ""
+
+msgid "meta_c_ET"
+msgstr ""
+
+msgid "meta_c_FI"
+msgstr ""
+
+msgid "meta_c_FJ"
+msgstr ""
+
+msgid "meta_c_FK"
+msgstr ""
+
+msgid "meta_c_FM"
+msgstr ""
+
+msgid "meta_c_FO"
+msgstr ""
+
+msgid "meta_c_FR"
+msgstr ""
+
+msgid "meta_c_FX"
+msgstr ""
+
+msgid "meta_c_GA"
+msgstr ""
+
+msgid "meta_c_GB"
+msgstr ""
+
+msgid "meta_c_GD"
+msgstr ""
+
+msgid "meta_c_GE"
+msgstr ""
+
+msgid "meta_c_GF"
+msgstr ""
+
+msgid "meta_c_GG"
+msgstr ""
+
+msgid "meta_c_GH"
+msgstr ""
+
+msgid "meta_c_GI"
+msgstr ""
+
+msgid "meta_c_GL"
+msgstr ""
+
+msgid "meta_c_GM"
+msgstr ""
+
+msgid "meta_c_GN"
+msgstr ""
+
+msgid "meta_c_GP"
+msgstr ""
+
+msgid "meta_c_GQ"
+msgstr ""
+
+msgid "meta_c_GR"
+msgstr ""
+
+msgid "meta_c_GS"
+msgstr ""
+
+msgid "meta_c_GT"
+msgstr ""
+
+msgid "meta_c_GU"
+msgstr ""
+
+msgid "meta_c_GW"
+msgstr ""
+
+msgid "meta_c_GY"
+msgstr ""
+
+msgid "meta_c_HK"
+msgstr ""
+
+msgid "meta_c_HM"
+msgstr ""
+
+msgid "meta_c_HN"
+msgstr ""
+
+msgid "meta_c_HR"
+msgstr ""
+
+msgid "meta_c_HT"
+msgstr ""
+
+msgid "meta_c_HU"
+msgstr ""
+
+msgid "meta_c_ID"
+msgstr ""
+
+msgid "meta_c_IE"
+msgstr ""
+
+msgid "meta_c_IL"
+msgstr ""
+
+msgid "meta_c_IM"
+msgstr ""
+
+msgid "meta_c_IN"
+msgstr ""
+
+msgid "meta_c_IO"
+msgstr ""
+
+msgid "meta_c_IQ"
+msgstr ""
+
+msgid "meta_c_IR"
+msgstr ""
+
+msgid "meta_c_IS"
+msgstr ""
+
+msgid "meta_c_IT"
+msgstr ""
+
+msgid "meta_c_JE"
+msgstr ""
+
+msgid "meta_c_JM"
+msgstr ""
+
+msgid "meta_c_JO"
+msgstr ""
+
+msgid "meta_c_JP"
+msgstr ""
+
+msgid "meta_c_KE"
+msgstr ""
+
+msgid "meta_c_KG"
+msgstr ""
+
+msgid "meta_c_KH"
+msgstr ""
+
+msgid "meta_c_KI"
+msgstr ""
+
+msgid "meta_c_KM"
+msgstr ""
+
+msgid "meta_c_KN"
+msgstr ""
+
+msgid "meta_c_KP"
+msgstr ""
+
+msgid "meta_c_KR"
+msgstr ""
+
+msgid "meta_c_KW"
+msgstr ""
+
+msgid "meta_c_KY"
+msgstr ""
+
+msgid "meta_c_KZ"
+msgstr ""
+
+msgid "meta_c_LA"
+msgstr ""
+
+msgid "meta_c_LB"
+msgstr ""
+
+msgid "meta_c_LC"
+msgstr ""
+
+msgid "meta_c_LI"
+msgstr ""
+
+msgid "meta_c_LK"
+msgstr ""
+
+msgid "meta_c_LR"
+msgstr ""
+
+msgid "meta_c_LS"
+msgstr ""
+
+msgid "meta_c_LT"
+msgstr ""
+
+msgid "meta_c_LU"
+msgstr ""
+
+msgid "meta_c_LV"
+msgstr ""
+
+msgid "meta_c_LY"
+msgstr ""
+
+msgid "meta_c_MA"
+msgstr ""
+
+msgid "meta_c_MC"
+msgstr ""
+
+msgid "meta_c_MD"
+msgstr ""
+
+msgid "meta_c_ME"
+msgstr ""
+
+msgid "meta_c_MF"
+msgstr ""
+
+msgid "meta_c_MG"
+msgstr ""
+
+msgid "meta_c_MH"
+msgstr ""
+
+msgid "meta_c_MK"
+msgstr ""
+
+msgid "meta_c_ML"
+msgstr ""
+
+msgid "meta_c_MM"
+msgstr ""
+
+msgid "meta_c_MN"
+msgstr ""
+
+msgid "meta_c_MO"
+msgstr ""
+
+msgid "meta_c_MP"
+msgstr ""
+
+msgid "meta_c_MQ"
+msgstr ""
+
+msgid "meta_c_MR"
+msgstr ""
+
+msgid "meta_c_MS"
+msgstr ""
+
+msgid "meta_c_MT"
+msgstr ""
+
+msgid "meta_c_MU"
+msgstr ""
+
+msgid "meta_c_MV"
+msgstr ""
+
+msgid "meta_c_MW"
+msgstr ""
+
+msgid "meta_c_MX"
+msgstr ""
+
+msgid "meta_c_MY"
+msgstr ""
+
+msgid "meta_c_MZ"
+msgstr ""
+
+msgid "meta_c_NA"
+msgstr ""
+
+msgid "meta_c_NC"
+msgstr ""
+
+msgid "meta_c_NE"
+msgstr ""
+
+msgid "meta_c_NF"
+msgstr ""
+
+msgid "meta_c_NG"
+msgstr ""
+
+msgid "meta_c_NI"
+msgstr ""
+
+msgid "meta_c_NL"
+msgstr ""
+
+msgid "meta_c_NO"
+msgstr ""
+
+msgid "meta_c_NP"
+msgstr ""
+
+msgid "meta_c_NR"
+msgstr ""
+
+msgid "meta_c_NU"
+msgstr ""
+
+msgid "meta_c_NZ"
+msgstr ""
+
+msgid "meta_c_OM"
+msgstr ""
+
+msgid "meta_c_PA"
+msgstr ""
+
+msgid "meta_c_PE"
+msgstr ""
+
+msgid "meta_c_PF"
+msgstr ""
+
+msgid "meta_c_PG"
+msgstr ""
+
+msgid "meta_c_PH"
+msgstr ""
+
+msgid "meta_c_PK"
+msgstr ""
+
+msgid "meta_c_PL"
+msgstr ""
+
+msgid "meta_c_PM"
+msgstr ""
+
+msgid "meta_c_PN"
+msgstr ""
+
+msgid "meta_c_PR"
+msgstr ""
+
+msgid "meta_c_PS"
+msgstr ""
+
+msgid "meta_c_PT"
+msgstr ""
+
+msgid "meta_c_PW"
+msgstr ""
+
+msgid "meta_c_PY"
+msgstr ""
+
+msgid "meta_c_QA"
+msgstr ""
+
+msgid "meta_c_RE"
+msgstr ""
+
+msgid "meta_c_RO"
+msgstr ""
+
+msgid "meta_c_RS"
+msgstr ""
+
+msgid "meta_c_RU"
+msgstr ""
+
+msgid "meta_c_RW"
+msgstr ""
+
+msgid "meta_c_SA"
+msgstr ""
+
+msgid "meta_c_SB"
+msgstr ""
+
+msgid "meta_c_SC"
+msgstr ""
+
+msgid "meta_c_SD"
+msgstr ""
+
+msgid "meta_c_SE"
+msgstr ""
+
+msgid "meta_c_SG"
+msgstr ""
+
+msgid "meta_c_SH"
+msgstr ""
+
+msgid "meta_c_SI"
+msgstr ""
+
+msgid "meta_c_SJ"
+msgstr ""
+
+msgid "meta_c_SK"
+msgstr ""
+
+msgid "meta_c_SL"
+msgstr ""
+
+msgid "meta_c_SM"
+msgstr ""
+
+msgid "meta_c_SN"
+msgstr ""
+
+msgid "meta_c_SO"
+msgstr ""
+
+msgid "meta_c_SR"
+msgstr ""
+
+msgid "meta_c_ST"
+msgstr ""
+
+msgid "meta_c_SV"
+msgstr ""
+
+msgid "meta_c_SY"
+msgstr ""
+
+msgid "meta_c_SZ"
+msgstr ""
+
+msgid "meta_c_TC"
+msgstr ""
+
+msgid "meta_c_TD"
+msgstr ""
+
+msgid "meta_c_TF"
+msgstr ""
+
+msgid "meta_c_TG"
+msgstr ""
+
+msgid "meta_c_TH"
+msgstr ""
+
+msgid "meta_c_TJ"
+msgstr ""
+
+msgid "meta_c_TK"
+msgstr ""
+
+msgid "meta_c_TL"
+msgstr ""
+
+msgid "meta_c_TM"
+msgstr ""
+
+msgid "meta_c_TN"
+msgstr ""
+
+msgid "meta_c_TO"
+msgstr ""
+
+msgid "meta_c_TR"
+msgstr ""
+
+msgid "meta_c_TT"
+msgstr ""
+
+msgid "meta_c_TV"
+msgstr ""
+
+msgid "meta_c_TW"
+msgstr ""
+
+msgid "meta_c_TZ"
+msgstr ""
+
+msgid "meta_c_UA"
+msgstr ""
+
+msgid "meta_c_UG"
+msgstr ""
+
+msgid "meta_c_UM"
+msgstr ""
+
+msgid "meta_c_US"
+msgstr ""
+
+msgid "meta_c_UY"
+msgstr ""
+
+msgid "meta_c_UZ"
+msgstr ""
+
+msgid "meta_c_VA"
+msgstr ""
+
+msgid "meta_c_VC"
+msgstr ""
+
+msgid "meta_c_VE"
+msgstr ""
+
+msgid "meta_c_VG"
+msgstr ""
+
+msgid "meta_c_VI"
+msgstr ""
+
+msgid "meta_c_VN"
+msgstr ""
+
+msgid "meta_c_VU"
+msgstr ""
+
+msgid "meta_c_WF"
+msgstr ""
+
+msgid "meta_c_WS"
+msgstr ""
+
+msgid "meta_c_XK"
+msgstr ""
+
+msgid "meta_c_YE"
+msgstr ""
+
+msgid "meta_c_YT"
+msgstr ""
+
+msgid "meta_c_ZA"
+msgstr ""
+
+msgid "meta_c_ZM"
+msgstr ""
+
+msgid "meta_c_ZW"
+msgstr ""
+
+msgid "meta_catalog"
+msgstr ""
+
+msgid "meta_classification"
+msgstr ""
+
+msgid "meta_classification_plural"
+msgstr ""
+
+msgid "meta_collection"
+msgstr ""
+
+msgid "meta_competency"
+msgstr ""
+
+msgid "meta_contentprovider"
+msgstr ""
+
+msgid "meta_context"
+msgstr ""
+
+msgid "meta_context_plural"
+msgstr ""
+
+msgid "meta_contribute"
+msgstr ""
+
+msgid "meta_contribute_plural"
+msgstr ""
+
+msgid "meta_copyright"
+msgstr ""
+
+msgid "meta_copyright_and_other_restrictions"
+msgstr ""
+
+msgid "meta_copyright_change_info"
+msgstr ""
+
+msgid "meta_copyright_change_oer_info"
+msgstr ""
+
+msgid "meta_copyright_change_warning_title"
+msgstr ""
+
+msgid "meta_copyright_in_use"
+msgstr ""
+
+msgid "meta_copyright_outdated"
+msgstr ""
+
+msgid "meta_copyright_outdated_error"
+msgstr ""
+
+msgid "meta_copyright_show_usages"
+msgstr ""
+
+msgid "meta_copyright_status"
+msgstr ""
+
+msgid "meta_copyright_sub_items"
+msgstr ""
+
+msgid "meta_copyright_usage"
+msgstr ""
+
+msgid "meta_cost"
+msgstr ""
+
+msgid "meta_coverage"
+msgstr ""
+
+msgid "meta_coverage_plural"
+msgstr ""
+
+msgid "meta_cp_own"
+msgstr ""
+
+msgid "meta_creator"
+msgstr ""
+
+msgid "meta_current_value"
+msgstr ""
+
+msgid "meta_date"
+msgstr ""
+
+msgid "meta_date_time"
+msgstr ""
+
+msgid "meta_delete"
+msgstr ""
+
+msgid "meta_delete_confirm"
+msgstr ""
+
+msgid "meta_delete_element"
+msgstr ""
+
+msgid "meta_delete_element_success"
+msgstr ""
+
+msgid "meta_delete_this_element"
+msgstr ""
+
+msgid "meta_description"
+msgstr ""
+
+msgid "meta_description_plural"
+msgstr ""
+
+msgid "meta_diagramm"
+msgstr ""
+
+msgid "meta_difficult"
+msgstr ""
+
+msgid "meta_difficulty"
+msgstr ""
+
+msgid "meta_discipline"
+msgstr ""
+
+msgid "meta_draft"
+msgstr ""
+
+msgid "meta_duration"
+msgstr ""
+
+msgid "meta_easy"
+msgstr ""
+
+msgid "meta_edit_element"
+msgstr ""
+
+msgid "meta_edit_element_success"
+msgstr ""
+
+msgid "meta_editor"
+msgstr ""
+
+msgid "meta_education"
+msgstr ""
+
+msgid "meta_educational"
+msgstr ""
+
+msgid "meta_educational_level"
+msgstr ""
+
+msgid "meta_educational_objective"
+msgstr ""
+
+msgid "meta_educational_plural"
+msgstr ""
+
+msgid "meta_educationalvalidator"
+msgstr ""
+
+msgid "meta_entity"
+msgstr ""
+
+msgid "meta_entity_plural"
+msgstr ""
+
+msgid "meta_entry"
+msgstr ""
+
+msgid "meta_error_empty_input"
+msgstr ""
+
+msgid "meta_exam"
+msgstr ""
+
+msgid "meta_exercise"
+msgstr ""
+
+msgid "meta_experiment"
+msgstr ""
+
+msgid "meta_expositive"
+msgstr ""
+
+msgid "meta_figure"
+msgstr ""
+
+msgid "meta_final"
+msgstr ""
+
+msgid "meta_first_author"
+msgstr ""
+
+msgid "meta_format"
+msgstr ""
+
+msgid "meta_format_plural"
+msgstr ""
+
+msgid "meta_full_editor_navigation_info"
+msgstr ""
+
+msgid "meta_general"
+msgstr ""
+
+msgid "meta_global"
+msgstr ""
+
+msgid "meta_graph"
+msgstr ""
+
+msgid "meta_graphicaldesigner"
+msgstr ""
+
+msgid "meta_has_format"
+msgstr ""
+
+msgid "meta_has_part"
+msgstr ""
+
+msgid "meta_has_version"
+msgstr ""
+
+msgid "meta_hierarchical"
+msgstr ""
+
+msgid "meta_high"
+msgstr ""
+
+msgid "meta_higher_education"
+msgstr ""
+
+msgid "meta_id"
+msgstr ""
+
+msgid "meta_idea"
+msgstr ""
+
+msgid "meta_identifier"
+msgstr ""
+
+msgid "meta_identifier_plural"
+msgstr ""
+
+msgid "meta_index"
+msgstr ""
+
+msgid "meta_info_licence_section"
+msgstr ""
+
+msgid "meta_info_only_repository_objects"
+msgstr ""
+
+msgid "meta_initiator"
+msgstr ""
+
+msgid "meta_installation_remarks"
+msgstr ""
+
+msgid "meta_instructionaldesigner"
+msgstr ""
+
+msgid "meta_intended_end_user_role"
+msgstr ""
+
+msgid "meta_intended_end_user_role_plural"
+msgstr ""
+
+msgid "meta_interactivity_level"
+msgstr ""
+
+msgid "meta_interactivity_type"
+msgstr ""
+
+msgid "meta_is_based_on"
+msgstr ""
+
+msgid "meta_is_basis_for"
+msgstr ""
+
+msgid "meta_is_format_of"
+msgstr ""
+
+msgid "meta_is_part_of"
+msgstr ""
+
+msgid "meta_is_referenced_by"
+msgstr ""
+
+msgid "meta_is_required_by"
+msgstr ""
+
+msgid "meta_is_version_of"
+msgstr ""
+
+msgid "meta_keyword"
+msgstr ""
+
+msgid "meta_keyword_plural"
+msgstr ""
+
+msgid "meta_kind"
+msgstr ""
+
+msgid "meta_l_aa"
+msgstr ""
+
+msgid "meta_l_ab"
+msgstr ""
+
+msgid "meta_l_af"
+msgstr ""
+
+msgid "meta_l_am"
+msgstr ""
+
+msgid "meta_l_ar"
+msgstr ""
+
+msgid "meta_l_as"
+msgstr ""
+
+msgid "meta_l_ay"
+msgstr ""
+
+msgid "meta_l_az"
+msgstr ""
+
+msgid "meta_l_ba"
+msgstr ""
+
+msgid "meta_l_be"
+msgstr ""
+
+msgid "meta_l_bg"
+msgstr ""
+
+msgid "meta_l_bh"
+msgstr ""
+
+msgid "meta_l_bi"
+msgstr ""
+
+msgid "meta_l_bn"
+msgstr ""
+
+msgid "meta_l_bo"
+msgstr ""
+
+msgid "meta_l_br"
+msgstr ""
+
+msgid "meta_l_ca"
+msgstr ""
+
+msgid "meta_l_co"
+msgstr ""
+
+msgid "meta_l_cs"
+msgstr ""
+
+msgid "meta_l_cy"
+msgstr ""
+
+msgid "meta_l_da"
+msgstr ""
+
+msgid "meta_l_de"
+msgstr ""
+
+msgid "meta_l_dz"
+msgstr ""
+
+msgid "meta_l_el"
+msgstr ""
+
+msgid "meta_l_en"
+msgstr ""
+
+msgid "meta_l_eo"
+msgstr ""
+
+msgid "meta_l_es"
+msgstr ""
+
+msgid "meta_l_et"
+msgstr ""
+
+msgid "meta_l_eu"
+msgstr ""
+
+msgid "meta_l_fa"
+msgstr ""
+
+msgid "meta_l_fi"
+msgstr ""
+
+msgid "meta_l_fj"
+msgstr ""
+
+msgid "meta_l_fo"
+msgstr ""
+
+msgid "meta_l_fr"
+msgstr ""
+
+msgid "meta_l_fy"
+msgstr ""
+
+msgid "meta_l_ga"
+msgstr ""
+
+msgid "meta_l_gd"
+msgstr ""
+
+msgid "meta_l_gl"
+msgstr ""
+
+msgid "meta_l_gn"
+msgstr ""
+
+msgid "meta_l_gu"
+msgstr ""
+
+msgid "meta_l_ha"
+msgstr ""
+
+msgid "meta_l_he"
+msgstr ""
+
+msgid "meta_l_hi"
+msgstr ""
+
+msgid "meta_l_hr"
+msgstr ""
+
+msgid "meta_l_hu"
+msgstr ""
+
+msgid "meta_l_hy"
+msgstr ""
+
+msgid "meta_l_ia"
+msgstr ""
+
+msgid "meta_l_id"
+msgstr ""
+
+msgid "meta_l_ie"
+msgstr ""
+
+msgid "meta_l_ik"
+msgstr ""
+
+msgid "meta_l_is"
+msgstr ""
+
+msgid "meta_l_it"
+msgstr ""
+
+msgid "meta_l_iu"
+msgstr ""
+
+msgid "meta_l_ja"
+msgstr ""
+
+msgid "meta_l_jv"
+msgstr ""
+
+msgid "meta_l_ka"
+msgstr ""
+
+msgid "meta_l_kk"
+msgstr ""
+
+msgid "meta_l_kl"
+msgstr ""
+
+msgid "meta_l_km"
+msgstr ""
+
+msgid "meta_l_kn"
+msgstr ""
+
+msgid "meta_l_ko"
+msgstr ""
+
+msgid "meta_l_ks"
+msgstr ""
+
+msgid "meta_l_ku"
+msgstr ""
+
+msgid "meta_l_ky"
+msgstr ""
+
+msgid "meta_l_la"
+msgstr ""
+
+msgid "meta_l_ln"
+msgstr ""
+
+msgid "meta_l_lo"
+msgstr ""
+
+msgid "meta_l_lt"
+msgstr ""
+
+msgid "meta_l_lv"
+msgstr ""
+
+msgid "meta_l_mg"
+msgstr ""
+
+msgid "meta_l_mi"
+msgstr ""
+
+msgid "meta_l_mk"
+msgstr ""
+
+msgid "meta_l_ml"
+msgstr ""
+
+msgid "meta_l_mn"
+msgstr ""
+
+msgid "meta_l_mo"
+msgstr ""
+
+msgid "meta_l_mr"
+msgstr ""
+
+msgid "meta_l_ms"
+msgstr ""
+
+msgid "meta_l_mt"
+msgstr ""
+
+msgid "meta_l_my"
+msgstr ""
+
+msgid "meta_l_na"
+msgstr ""
+
+msgid "meta_l_ne"
+msgstr ""
+
+msgid "meta_l_nl"
+msgstr ""
+
+msgid "meta_l_no"
+msgstr ""
+
+msgid "meta_l_oc"
+msgstr ""
+
+msgid "meta_l_om"
+msgstr ""
+
+msgid "meta_l_or"
+msgstr ""
+
+msgid "meta_l_pa"
+msgstr ""
+
+msgid "meta_l_pl"
+msgstr ""
+
+msgid "meta_l_ps"
+msgstr ""
+
+msgid "meta_l_pt"
+msgstr ""
+
+msgid "meta_l_qu"
+msgstr ""
+
+msgid "meta_l_rm"
+msgstr ""
+
+msgid "meta_l_rn"
+msgstr ""
+
+msgid "meta_l_ro"
+msgstr ""
+
+msgid "meta_l_ru"
+msgstr ""
+
+msgid "meta_l_rw"
+msgstr ""
+
+msgid "meta_l_sa"
+msgstr ""
+
+msgid "meta_l_sd"
+msgstr ""
+
+msgid "meta_l_sg"
+msgstr ""
+
+msgid "meta_l_sh"
+msgstr ""
+
+msgid "meta_l_si"
+msgstr ""
+
+msgid "meta_l_sk"
+msgstr ""
+
+msgid "meta_l_sl"
+msgstr ""
+
+msgid "meta_l_sm"
+msgstr ""
+
+msgid "meta_l_sn"
+msgstr ""
+
+msgid "meta_l_so"
+msgstr ""
+
+msgid "meta_l_sq"
+msgstr ""
+
+msgid "meta_l_sr"
+msgstr ""
+
+msgid "meta_l_ss"
+msgstr ""
+
+msgid "meta_l_st"
+msgstr ""
+
+msgid "meta_l_su"
+msgstr ""
+
+msgid "meta_l_sv"
+msgstr ""
+
+msgid "meta_l_sw"
+msgstr ""
+
+msgid "meta_l_ta"
+msgstr ""
+
+msgid "meta_l_te"
+msgstr ""
+
+msgid "meta_l_tg"
+msgstr ""
+
+msgid "meta_l_th"
+msgstr ""
+
+msgid "meta_l_ti"
+msgstr ""
+
+msgid "meta_l_tk"
+msgstr ""
+
+msgid "meta_l_tl"
+msgstr ""
+
+msgid "meta_l_tn"
+msgstr ""
+
+msgid "meta_l_to"
+msgstr ""
+
+msgid "meta_l_tr"
+msgstr ""
+
+msgid "meta_l_ts"
+msgstr ""
+
+msgid "meta_l_tt"
+msgstr ""
+
+msgid "meta_l_tw"
+msgstr ""
+
+msgid "meta_l_ug"
+msgstr ""
+
+msgid "meta_l_uk"
+msgstr ""
+
+msgid "meta_l_ur"
+msgstr ""
+
+msgid "meta_l_uz"
+msgstr ""
+
+msgid "meta_l_vi"
+msgstr ""
+
+msgid "meta_l_vo"
+msgstr ""
+
+msgid "meta_l_wo"
+msgstr ""
+
+msgid "meta_l_xh"
+msgstr ""
+
+msgid "meta_l_xx"
+msgstr ""
+
+msgid "meta_l_yi"
+msgstr ""
+
+msgid "meta_l_yo"
+msgstr ""
+
+msgid "meta_l_za"
+msgstr ""
+
+msgid "meta_l_zh"
+msgstr ""
+
+msgid "meta_l_zu"
+msgstr ""
+
+msgid "meta_language"
+msgstr ""
+
+msgid "meta_language_plural"
+msgstr ""
+
+msgid "meta_learner"
+msgstr ""
+
+msgid "meta_learning_resource_type"
+msgstr ""
+
+msgid "meta_learning_resource_type_plural"
+msgstr ""
+
+msgid "meta_lecture"
+msgstr ""
+
+msgid "meta_lifecycle"
+msgstr ""
+
+msgid "meta_linear"
+msgstr ""
+
+msgid "meta_local"
+msgstr ""
+
+msgid "meta_location"
+msgstr ""
+
+msgid "meta_location_plural"
+msgstr ""
+
+msgid "meta_lom"
+msgstr ""
+
+msgid "meta_lom_short"
+msgstr ""
+
+msgid "meta_low"
+msgstr ""
+
+msgid "meta_macos"
+msgstr ""
+
+msgid "meta_manager"
+msgstr ""
+
+msgid "meta_maximum_version"
+msgstr ""
+
+msgid "meta_medium"
+msgstr ""
+
+msgid "meta_meta_metadata"
+msgstr ""
+
+msgid "meta_metadatascheme"
+msgstr ""
+
+msgid "meta_metadatascheme_plural"
+msgstr ""
+
+msgid "meta_minimum_version"
+msgstr ""
+
+msgid "meta_mixed"
+msgstr ""
+
+msgid "meta_ms-internet_explorer"
+msgstr ""
+
+msgid "meta_ms-windows"
+msgstr ""
+
+msgid "meta_multi-os"
+msgstr ""
+
+msgid "meta_name"
+msgstr ""
+
+msgid "meta_narrative_text"
+msgstr ""
+
+msgid "meta_netscape_communicator"
+msgstr ""
+
+msgid "meta_networked"
+msgstr ""
+
+msgid "meta_new_element"
+msgstr ""
+
+msgid "meta_no"
+msgstr ""
+
+msgid "meta_none"
+msgstr ""
+
+msgid "meta_obj_type_active"
+msgstr ""
+
+msgid "meta_obj_type_inactive"
+msgstr ""
+
+msgid "meta_obj_type_mandatory"
+msgstr ""
+
+msgid "meta_obj_type_optional"
+msgstr ""
+
+msgid "meta_oer_copyright_selection"
+msgstr ""
+
+msgid "meta_oer_copyright_selection_info"
+msgstr ""
+
+msgid "meta_oer_editorial_category"
+msgstr ""
+
+msgid "meta_oer_editorial_step_info"
+msgstr ""
+
+msgid "meta_oer_editorial_step_toggle"
+msgstr ""
+
+msgid "meta_oer_exposed_source"
+msgstr ""
+
+msgid "meta_oer_harvested_licences"
+msgstr ""
+
+msgid "meta_oer_harvested_types"
+msgstr ""
+
+msgid "meta_oer_harvester"
+msgstr ""
+
+msgid "meta_oer_harvester_desc"
+msgstr ""
+
+msgid "meta_oer_object_type_selection"
+msgstr ""
+
+msgid "meta_opera"
+msgstr ""
+
+msgid "meta_operating_system"
+msgstr ""
+
+msgid "meta_or_composite"
+msgstr ""
+
+msgid "meta_or_composite_plural"
+msgstr ""
+
+msgid "meta_order"
+msgstr ""
+
+msgid "meta_other"
+msgstr ""
+
+msgid "meta_other_plattform_requirements"
+msgstr ""
+
+msgid "meta_pc-dos"
+msgstr ""
+
+msgid "meta_pointofcontact"
+msgstr ""
+
+msgid "meta_prerequisite"
+msgstr ""
+
+msgid "meta_problem_statement"
+msgstr ""
+
+msgid "meta_publisher"
+msgstr ""
+
+msgid "meta_publishing_config_cp"
+msgstr ""
+
+msgid "meta_publishing_config_cron_job_admin"
+msgstr ""
+
+msgid "meta_publishing_config_disabled"
+msgstr ""
+
+msgid "meta_publishing_config_enabled"
+msgstr ""
+
+msgid "meta_publishing_config_harvester"
+msgstr ""
+
+msgid "meta_publishing_config_status"
+msgstr ""
+
+msgid "meta_purpose"
+msgstr ""
+
+msgid "meta_questionnaire"
+msgstr ""
+
+msgid "meta_references"
+msgstr ""
+
+msgid "meta_relation"
+msgstr ""
+
+msgid "meta_relation_plural"
+msgstr ""
+
+msgid "meta_requirement"
+msgstr ""
+
+msgid "meta_requirement_plural"
+msgstr ""
+
+msgid "meta_requires"
+msgstr ""
+
+msgid "meta_resource"
+msgstr ""
+
+msgid "meta_revised"
+msgstr ""
+
+msgid "meta_rights"
+msgstr ""
+
+msgid "meta_role"
+msgstr ""
+
+msgid "meta_save_order"
+msgstr ""
+
+msgid "meta_school"
+msgstr ""
+
+msgid "meta_scriptwriter"
+msgstr ""
+
+msgid "meta_second_author"
+msgstr ""
+
+msgid "meta_section"
+msgstr ""
+
+msgid "meta_security_level"
+msgstr ""
+
+msgid "meta_self_assessment"
+msgstr ""
+
+msgid "meta_semantic_density"
+msgstr ""
+
+msgid "meta_simulation"
+msgstr ""
+
+msgid "meta_size"
+msgstr ""
+
+msgid "meta_skill_level"
+msgstr ""
+
+msgid "meta_slide"
+msgstr ""
+
+msgid "meta_source"
+msgstr ""
+
+msgid "meta_status"
+msgstr ""
+
+msgid "meta_string"
+msgstr ""
+
+msgid "meta_structure"
+msgstr ""
+
+msgid "meta_tab_advmd"
+msgstr ""
+
+msgid "meta_tab_advmd_def"
+msgstr ""
+
+msgid "meta_tab_lom"
+msgstr ""
+
+msgid "meta_table"
+msgstr ""
+
+msgid "meta_taxon"
+msgstr ""
+
+msgid "meta_taxon_path"
+msgstr ""
+
+msgid "meta_taxon_path_plural"
+msgstr ""
+
+msgid "meta_taxon_plural"
+msgstr ""
+
+msgid "meta_teacher"
+msgstr ""
+
+msgid "meta_technical"
+msgstr ""
+
+msgid "meta_technicalimplementer"
+msgstr ""
+
+msgid "meta_technicalvalidator"
+msgstr ""
+
+msgid "meta_terminator"
+msgstr ""
+
+msgid "meta_third_author"
+msgstr ""
+
+msgid "meta_title"
+msgstr ""
+
+msgid "meta_training"
+msgstr ""
+
+msgid "meta_type"
+msgstr ""
+
+msgid "meta_typical_age_range"
+msgstr ""
+
+msgid "meta_typical_age_range_plural"
+msgstr ""
+
+msgid "meta_typical_learning_time"
+msgstr ""
+
+msgid "meta_unavailable"
+msgstr ""
+
+msgid "meta_unix"
+msgstr ""
+
+msgid "meta_unknown"
+msgstr ""
+
+msgid "meta_validator"
+msgstr ""
+
+msgid "meta_value"
+msgstr ""
+
+msgid "meta_version"
+msgstr ""
+
+msgid "meta_very_difficult"
+msgstr ""
+
+msgid "meta_very_easy"
+msgstr ""
+
+msgid "meta_very_high"
+msgstr ""
+
+msgid "meta_very_low"
+msgstr ""
+
+msgid "meta_yes"
+msgstr ""
+
+msgid "udf_type_address"
+msgstr ""
+
+msgid "udf_type_externallink"
+msgstr ""
+
+msgid "udf_type_float"
+msgstr ""
+
+msgid "udf_type_integer"
+msgstr ""
+
+msgid "udf_type_internallink"
+msgstr ""
+
+msgid "udf_type_location"
+msgstr ""
+
+msgid "udf_type_selectmulti"
+msgstr ""
