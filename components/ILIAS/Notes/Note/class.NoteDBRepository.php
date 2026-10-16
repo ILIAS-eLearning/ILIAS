@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Notes;
 
@@ -148,19 +148,23 @@ class NoteDBRepository
             ? " rep_obj_id = " . $db->quote($context->getObjId(), "integer")
             : " " . $db->in("rep_obj_id", $obj_ids, false, "integer");
 
-        $sub_where .= ($context && !$incl_sub)
-            ? " AND note.obj_id = " . $db->quote($context->getSubObjId(), "integer") .
-            " AND note.obj_type = " . $db->quote($context->getType(), "text")
-            : "";
+        if ($context instanceof Context && !$incl_sub) {
+            $sub_where .= " AND note.obj_id = " . $db->quote($context->getSubObjId(), "integer");
+
+            if ($context->getType() !== "") {
+                $sub_where .= " AND note.obj_type = " . $db->quote($context->getType(), "text");
+            }
+        }
 
         if ($since !== "") {
             $sub_where .= " AND creation_date > " . $db->quote($since, "timestamp");
         }
 
         $news_where = "";
-        if ($context) {
-            $news_where =
-                " AND news_id = " . $db->quote($context->getNewsId(), "integer");
+        if ($context instanceof Context) {
+            if ($context->getNewsId() > 0) {
+                $news_where = " AND news_id = " . $db->quote($context->getNewsId(), "integer");
+            }
 
             $sub_where .= " AND no_repository = " . $db->quote(!$context->getInRepository(), "integer");
         }
