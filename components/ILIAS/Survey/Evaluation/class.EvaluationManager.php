@@ -221,7 +221,9 @@ class EvaluationManager
             $filter = true;
             // see #36336
             if ($this->survey->getMode() === \ilObjSurvey::MODE_SELF_EVAL &&
-            $this->survey->getSelfEvaluationResults() === \ilObjSurvey::RESULTS_SELF_EVAL_ALL) {
+                ($this->survey->getSelfEvaluationResults() === \ilObjSurvey::RESULTS_SELF_EVAL_ALL ||
+                    $this->access->canEditSettings() ||
+                    $this->access->canReadAllResults())) {
                 $filter = false;
             }
             // see #36336, #36378
