@@ -1,0 +1,375 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: et\n"
+"Language-Team: Estonian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: bibl\n"
+
+msgid "Type"
+msgstr "Type"
+
+#, fuzzy
+msgid "add_filter"
+msgstr "Add Filter"
+
+msgid "bib_default_abstract"
+msgstr "Abstract"
+
+#, fuzzy
+msgid "bib_default_address"
+msgstr "Address"
+
+msgid "bib_default_author"
+msgstr "Author"
+
+msgid "bib_default_cite"
+msgstr "Bib Cite"
+
+#, fuzzy
+msgid "bib_default_edition"
+msgstr "Edition"
+
+#, fuzzy
+msgid "bib_default_howpublished"
+msgstr "Published as"
+
+msgid "bib_default_isbn"
+msgstr "ISSN/ISBN"
+
+msgid "bib_default_journal"
+msgstr "Journal"
+
+msgid "bib_default_keywords"
+msgstr "Keywords"
+
+msgid "bib_default_month"
+msgstr "Month"
+
+msgid "bib_default_note"
+msgstr "Note"
+
+msgid "bib_default_number"
+msgstr "Number"
+
+#, fuzzy
+msgid "bib_default_organization"
+msgstr "Organizaton"
+
+msgid "bib_default_pages"
+msgstr "Pages"
+
+#, fuzzy
+msgid "bib_default_publisher"
+msgstr "Publisher"
+
+#, fuzzy
+msgid "bib_default_series"
+msgstr "Series"
+
+msgid "bib_default_title"
+msgstr "Title"
+
+#, fuzzy
+msgid "bib_default_type"
+msgstr "Type"
+
+msgid "bib_default_url"
+msgstr "URL"
+
+msgid "bib_default_volume"
+msgstr "Volume"
+
+msgid "bib_default_year"
+msgstr "Year"
+
+msgid "bibl_copy"
+msgstr "User can copy bibliography"
+
+msgid "bibl_edit"
+msgstr "Edit Bibliography"
+
+#, fuzzy
+msgid "bibl_filter"
+msgstr "Filter"
+
+msgid "bibl_import"
+msgstr "Import Bibliography"
+
+msgid "bibl_library_img"
+msgstr "Image-URL"
+
+msgid "bibl_library_name"
+msgstr "Name"
+
+msgid "bibl_library_show_in_list"
+msgstr "Show link als in the list"
+
+msgid "bibl_library_url"
+msgstr "Base-URL"
+
+msgid "bibl_link_online"
+msgstr "Lookup inventory"
+
+#, fuzzy
+msgid "bibl_msg_translations_deleted"
+msgstr "Translations were deleted"
+
+#, fuzzy
+msgid "bibl_msg_translations_saved"
+msgstr "Translations were saved"
+
+msgid "bibl_new"
+msgstr "New Bibliography"
+
+msgid "bibl_settings_edit"
+msgstr "Edit Library"
+
+msgid "bibl_settings_libraries"
+msgstr "Libraries"
+
+msgid "bibl_settings_new"
+msgstr "Add Library"
+
+#, fuzzy
+msgid "bibl_translation_desc"
+msgstr "Description"
+
+#, fuzzy
+msgid "bibl_translation_lang"
+msgstr "Language"
+
+#, fuzzy
+msgid "bibl_translation_trans"
+msgstr "Translation"
+
+msgid "bibliography_file"
+msgstr "Bibliography File"
+
+#, fuzzy
+msgid "bibtex"
+msgstr "Bibtex"
+
+#, fuzzy
+msgid "changes_saved"
+msgstr "Changes were saved."
+
+#, fuzzy
+msgid "custom"
+msgstr "Custom"
+
+msgid "detail_view"
+msgstr "Detail View"
+
+#, fuzzy
+msgid "detailed_information"
+msgstr "Detailed Information"
+
+msgid "download_original_file"
+msgstr "Download Original File"
+
+#, fuzzy
+msgid "field"
+msgstr "Field"
+
+#, fuzzy
+msgid "fields"
+msgstr "Fields"
+
+#, fuzzy
+msgid "filter_deleted"
+msgstr "The Filter was deleted."
+
+#, fuzzy
+msgid "filter_field_info"
+msgstr "Please choose a field for which you want to add a filter."
+
+#, fuzzy
+msgid "filter_form_title"
+msgstr "Add new filter"
+
+#, fuzzy
+msgid "filter_type"
+msgstr "Filter Type"
+
+#, fuzzy
+msgid "filter_type_1"
+msgstr "Textinput"
+
+#, fuzzy
+msgid "filter_type_2"
+msgstr "Selectinput"
+
+#, fuzzy
+msgid "filter_type_3"
+msgstr "Multi-Selectinput"
+
+#, fuzzy
+msgid "filter_type_info"
+msgstr "Please choose a filter type for the field."
+
+#, fuzzy
+msgid "identifier"
+msgstr "Identifier"
+
+#, fuzzy
+msgid "msg_confirm_delete_filter"
+msgstr "Do you like to delete the following filter?"
+
+#, fuzzy
+msgid "msg_filter_info"
+msgstr "Create a filter here that can be used in the \"Contents\" tab to limit the display of entries."
+
+#, fuzzy
+msgid "news_title_created"
+msgstr "New bibliography list added"
+
+#, fuzzy
+msgid "news_title_updated"
+msgstr "Bibliography list updated"
+
+#, fuzzy
+msgid "not_yet_migrated"
+msgstr "This Object has not et been migrated. Please contact the administrators of the platform."
+
+msgid "obj_bibl_duplicate"
+msgstr "Duplicate Bibliography"
+
+#, fuzzy
+msgid "order"
+msgstr "Order"
+
+msgid "override_entries"
+msgstr "Override Entries"
+
+#, fuzzy
+msgid "replace_bibliography_file"
+msgstr "Replace Bibliography File"
+
+#, fuzzy
+msgid "replace_bibliography_file_info"
+msgstr "The current bibliography file will be replaced by the new file. All existing entries from the current file will be deleted."
+
+#, fuzzy
+msgid "ris"
+msgstr "Ris"
+
+#, fuzzy
+msgid "ris_default_a2"
+msgstr "Location in Archives"
+
+msgid "ris_default_au"
+msgstr "Author"
+
+#, fuzzy
+msgid "ris_default_cy"
+msgstr "Place Published"
+
+#, fuzzy
+msgid "ris_default_ep"
+msgstr "Ending Page Number"
+
+#, fuzzy
+msgid "ris_default_id"
+msgstr "Reference ID"
+
+msgid "ris_default_ja"
+msgstr "Periodical in which article was published"
+
+#, fuzzy
+msgid "ris_default_kw"
+msgstr "Keywords"
+
+msgid "ris_default_l3"
+msgstr "Related records"
+
+#, fuzzy
+msgid "ris_default_m1"
+msgstr "Number"
+
+msgid "ris_default_m3"
+msgstr "Misc. 3"
+
+#, fuzzy
+msgid "ris_default_n1"
+msgstr "Notes"
+
+#, fuzzy
+msgid "ris_default_n2"
+msgstr "Abstract"
+
+msgid "ris_default_pb"
+msgstr "Publisher"
+
+msgid "ris_default_py"
+msgstr "Publication year"
+
+msgid "ris_default_sn"
+msgstr "ISSN/ISBN/ASIN"
+
+#, fuzzy
+msgid "ris_default_t1"
+msgstr "Primary Title"
+
+#, fuzzy
+msgid "ris_default_t2"
+msgstr "Secondary Title"
+
+#, fuzzy
+msgid "ris_default_t3"
+msgstr "Tertiary Title"
+
+msgid "ris_default_ti"
+msgstr "Book title"
+
+#, fuzzy
+msgid "ris_default_ty"
+msgstr "Type"
+
+#, fuzzy
+msgid "ris_default_u2"
+msgstr "User Defined"
+
+msgid "ris_default_ur"
+msgstr "URL"
+
+msgid "ris_default_vl"
+msgstr "Volume"
+
+#, fuzzy
+msgid "ris_default_y1"
+msgstr "Year"
+
+#, fuzzy
+msgid "sorting_1"
+msgstr "By Title (Ascending)"
+
+#, fuzzy
+msgid "sorting_2"
+msgstr "By Title (Descending)"
+
+#, fuzzy
+msgid "sorting_3"
+msgstr "By Author (Ascending)"
+
+#, fuzzy
+msgid "sorting_4"
+msgstr "By Author (Descending)"
+
+#, fuzzy
+msgid "sorting_5"
+msgstr "By Year (Ascending)"
+
+#, fuzzy
+msgid "sorting_6"
+msgstr "By Year (Descending)"
+
+#, fuzzy
+msgid "standard"
+msgstr "Standard"
+
+#, fuzzy
+msgid "translate"
+msgstr "Translate"

@@ -1,0 +1,326 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: bg\n"
+"Language-Team: Bulgarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: bibl\n"
+
+msgid "Type"
+msgstr "Вид"
+
+msgid "add_filter"
+msgstr "Прибавяне на филтър"
+
+msgid "bib_default_abstract"
+msgstr "Абстракт"
+
+msgid "bib_default_address"
+msgstr "Адрес"
+
+msgid "bib_default_author"
+msgstr "Автор"
+
+msgid "bib_default_cite"
+msgstr "Bib Cite"
+
+msgid "bib_default_edition"
+msgstr "Редакция"
+
+msgid "bib_default_howpublished"
+msgstr "Публикувано като"
+
+msgid "bib_default_isbn"
+msgstr "ISSN/ISBN"
+
+msgid "bib_default_journal"
+msgstr "Журнал"
+
+msgid "bib_default_keywords"
+msgstr "Ключови думи"
+
+msgid "bib_default_month"
+msgstr "Месец"
+
+msgid "bib_default_note"
+msgstr "Бележка"
+
+msgid "bib_default_number"
+msgstr "Номер"
+
+msgid "bib_default_organization"
+msgstr "Организация"
+
+msgid "bib_default_pages"
+msgstr "Страници"
+
+msgid "bib_default_publisher"
+msgstr "Издател"
+
+msgid "bib_default_series"
+msgstr "Серия"
+
+msgid "bib_default_title"
+msgstr "Заглавие"
+
+msgid "bib_default_type"
+msgstr "Вид"
+
+msgid "bib_default_url"
+msgstr "URL"
+
+msgid "bib_default_volume"
+msgstr "Том"
+
+msgid "bib_default_year"
+msgstr "Година"
+
+msgid "bibl_copy"
+msgstr "Потребителят може да копира библиография"
+
+msgid "bibl_edit"
+msgstr "Едит на библиография"
+
+msgid "bibl_filter"
+msgstr "Филтър"
+
+msgid "bibl_import"
+msgstr "Импорт на библиография"
+
+msgid "bibl_library_img"
+msgstr "Image-URL"
+
+msgid "bibl_library_name"
+msgstr "Име"
+
+msgid "bibl_library_show_in_list"
+msgstr "Показване на връзката als в списъка"
+
+msgid "bibl_library_url"
+msgstr "Base-URL"
+
+msgid "bibl_link_online"
+msgstr "Изследване на инвентара"
+
+msgid "bibl_msg_translations_deleted"
+msgstr "Преводите са изтрити"
+
+msgid "bibl_msg_translations_saved"
+msgstr "Преводите са запазени"
+
+msgid "bibl_new"
+msgstr "Нова библиография"
+
+msgid "bibl_settings_edit"
+msgstr "Редактиране на библиотека"
+
+msgid "bibl_settings_libraries"
+msgstr "Библиотеки"
+
+msgid "bibl_settings_new"
+msgstr "Добавяне на библиотека"
+
+msgid "bibl_translation_desc"
+msgstr "Описание"
+
+msgid "bibl_translation_lang"
+msgstr "Език"
+
+msgid "bibl_translation_trans"
+msgstr "Превод"
+
+msgid "bibliography_file"
+msgstr "Библиографски файл"
+
+msgid "bibtex"
+msgstr "Bibtex"
+
+msgid "changes_saved"
+msgstr "Промените са запазени."
+
+msgid "custom"
+msgstr "Custom"
+
+msgid "detail_view"
+msgstr "Поглед на детайлите"
+
+#, fuzzy
+msgid "detailed_information"
+msgstr "Detailed Information"
+
+msgid "download_original_file"
+msgstr " Изтегляне на оригиналния файл"
+
+msgid "field"
+msgstr "Поле"
+
+msgid "fields"
+msgstr "Полета"
+
+msgid "filter_deleted"
+msgstr "Филтърът е изтрит."
+
+msgid "filter_field_info"
+msgstr "Изберете полето, за което искате да добавите филтър."
+
+msgid "filter_form_title"
+msgstr "Прибавяне на нов филтър"
+
+msgid "filter_type"
+msgstr "Тип на филтъра"
+
+msgid "filter_type_1"
+msgstr "Textinput"
+
+msgid "filter_type_2"
+msgstr "Selectinput"
+
+msgid "filter_type_3"
+msgstr "Multi-Selectinput"
+
+msgid "filter_type_info"
+msgstr "Изберете тип филтър за полето."
+
+msgid "identifier"
+msgstr "Identifier"
+
+msgid "msg_confirm_delete_filter"
+msgstr " Искате ли да изтриете следния филтър?"
+
+#, fuzzy
+msgid "msg_filter_info"
+msgstr "Create a filter here that can be used in the \"Contents\" tab to limit the display of entries."
+
+msgid "news_title_created"
+msgstr "Добавен е нов библиографски списък"
+
+msgid "news_title_updated"
+msgstr "Актуализиран списък на библиографията"
+
+#, fuzzy
+msgid "not_yet_migrated"
+msgstr "This Object has not et been migrated. Please contact the administrators of the platform."
+
+msgid "obj_bibl_duplicate"
+msgstr "Дублирана библиография"
+
+msgid "order"
+msgstr "Order"
+
+msgid "override_entries"
+msgstr "Вписвания за отмяна"
+
+#, fuzzy
+msgid "replace_bibliography_file"
+msgstr "Replace Bibliography File"
+
+#, fuzzy
+msgid "replace_bibliography_file_info"
+msgstr "The current bibliography file will be replaced by the new file. All existing entries from the current file will be deleted."
+
+msgid "ris"
+msgstr "Ris"
+
+msgid "ris_default_a2"
+msgstr "Място в архивите"
+
+msgid "ris_default_au"
+msgstr "Автор"
+
+msgid "ris_default_cy"
+msgstr "Място на публикуване"
+
+msgid "ris_default_ep"
+msgstr "Номер на крайната страница"
+
+msgid "ris_default_id"
+msgstr "Идентификатор на препратка"
+
+msgid "ris_default_ja"
+msgstr "Периодичното издание, в което е публикувана статията"
+
+msgid "ris_default_kw"
+msgstr "Ключови думи"
+
+msgid "ris_default_l3"
+msgstr "Свързани записи"
+
+msgid "ris_default_m1"
+msgstr "Номер"
+
+msgid "ris_default_m3"
+msgstr "Misc. 3"
+
+msgid "ris_default_n1"
+msgstr "Бележки"
+
+msgid "ris_default_n2"
+msgstr "Абстракт"
+
+msgid "ris_default_pb"
+msgstr "Издател"
+
+msgid "ris_default_py"
+msgstr "Година на публикуване"
+
+msgid "ris_default_sn"
+msgstr "ISSN/ISBN/ASIN"
+
+msgid "ris_default_t1"
+msgstr "Първоначално заглавие"
+
+msgid "ris_default_t2"
+msgstr "Вторично заглавие"
+
+msgid "ris_default_t3"
+msgstr "Tertiary Title"
+
+msgid "ris_default_ti"
+msgstr "Заглавие на книгата"
+
+msgid "ris_default_ty"
+msgstr "Вид"
+
+msgid "ris_default_u2"
+msgstr "Дефинирано от потребителя"
+
+msgid "ris_default_ur"
+msgstr "URL"
+
+msgid "ris_default_vl"
+msgstr "Volume"
+
+msgid "ris_default_y1"
+msgstr "Година"
+
+#, fuzzy
+msgid "sorting_1"
+msgstr "By Title (Ascending)"
+
+#, fuzzy
+msgid "sorting_2"
+msgstr "By Title (Descending)"
+
+#, fuzzy
+msgid "sorting_3"
+msgstr "By Author (Ascending)"
+
+#, fuzzy
+msgid "sorting_4"
+msgstr "By Author (Descending)"
+
+#, fuzzy
+msgid "sorting_5"
+msgstr "By Year (Ascending)"
+
+#, fuzzy
+msgid "sorting_6"
+msgstr "By Year (Descending)"
+
+msgid "standard"
+msgstr "Standard"
+
+msgid "translate"
+msgstr "Превод"

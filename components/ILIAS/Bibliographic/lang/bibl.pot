@@ -1,0 +1,312 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: bibl\n"
+
+msgid "Type"
+msgstr ""
+
+msgid "add_filter"
+msgstr ""
+
+msgid "bib_default_abstract"
+msgstr ""
+
+msgid "bib_default_address"
+msgstr ""
+
+msgid "bib_default_author"
+msgstr ""
+
+msgid "bib_default_cite"
+msgstr ""
+
+msgid "bib_default_edition"
+msgstr ""
+
+msgid "bib_default_howpublished"
+msgstr ""
+
+msgid "bib_default_isbn"
+msgstr ""
+
+msgid "bib_default_journal"
+msgstr ""
+
+msgid "bib_default_keywords"
+msgstr ""
+
+msgid "bib_default_month"
+msgstr ""
+
+msgid "bib_default_note"
+msgstr ""
+
+msgid "bib_default_number"
+msgstr ""
+
+msgid "bib_default_organization"
+msgstr ""
+
+msgid "bib_default_pages"
+msgstr ""
+
+msgid "bib_default_publisher"
+msgstr ""
+
+msgid "bib_default_series"
+msgstr ""
+
+msgid "bib_default_title"
+msgstr ""
+
+msgid "bib_default_type"
+msgstr ""
+
+msgid "bib_default_url"
+msgstr ""
+
+msgid "bib_default_volume"
+msgstr ""
+
+msgid "bib_default_year"
+msgstr ""
+
+msgid "bibl_copy"
+msgstr ""
+
+msgid "bibl_edit"
+msgstr ""
+
+msgid "bibl_filter"
+msgstr ""
+
+msgid "bibl_import"
+msgstr ""
+
+msgid "bibl_library_img"
+msgstr ""
+
+msgid "bibl_library_name"
+msgstr ""
+
+msgid "bibl_library_show_in_list"
+msgstr ""
+
+msgid "bibl_library_url"
+msgstr ""
+
+msgid "bibl_link_online"
+msgstr ""
+
+msgid "bibl_msg_translations_deleted"
+msgstr ""
+
+msgid "bibl_msg_translations_saved"
+msgstr ""
+
+msgid "bibl_new"
+msgstr ""
+
+msgid "bibl_settings_edit"
+msgstr ""
+
+msgid "bibl_settings_libraries"
+msgstr ""
+
+msgid "bibl_settings_new"
+msgstr ""
+
+msgid "bibl_translation_desc"
+msgstr ""
+
+msgid "bibl_translation_lang"
+msgstr ""
+
+msgid "bibl_translation_trans"
+msgstr ""
+
+msgid "bibliography_file"
+msgstr ""
+
+msgid "bibtex"
+msgstr ""
+
+msgid "changes_saved"
+msgstr ""
+
+msgid "custom"
+msgstr ""
+
+msgid "detail_view"
+msgstr ""
+
+msgid "detailed_information"
+msgstr ""
+
+msgid "download_original_file"
+msgstr ""
+
+msgid "field"
+msgstr ""
+
+msgid "fields"
+msgstr ""
+
+msgid "filter_deleted"
+msgstr ""
+
+msgid "filter_field_info"
+msgstr ""
+
+msgid "filter_form_title"
+msgstr ""
+
+msgid "filter_type"
+msgstr ""
+
+msgid "filter_type_1"
+msgstr ""
+
+msgid "filter_type_2"
+msgstr ""
+
+msgid "filter_type_3"
+msgstr ""
+
+msgid "filter_type_info"
+msgstr ""
+
+msgid "identifier"
+msgstr ""
+
+msgid "msg_confirm_delete_filter"
+msgstr ""
+
+msgid "msg_filter_info"
+msgstr ""
+
+msgid "news_title_created"
+msgstr ""
+
+msgid "news_title_updated"
+msgstr ""
+
+msgid "not_yet_migrated"
+msgstr ""
+
+msgid "obj_bibl_duplicate"
+msgstr ""
+
+msgid "order"
+msgstr ""
+
+msgid "override_entries"
+msgstr ""
+
+msgid "replace_bibliography_file"
+msgstr ""
+
+msgid "replace_bibliography_file_info"
+msgstr ""
+
+msgid "ris"
+msgstr ""
+
+msgid "ris_default_a2"
+msgstr ""
+
+msgid "ris_default_au"
+msgstr ""
+
+msgid "ris_default_cy"
+msgstr ""
+
+msgid "ris_default_ep"
+msgstr ""
+
+msgid "ris_default_id"
+msgstr ""
+
+msgid "ris_default_ja"
+msgstr ""
+
+msgid "ris_default_kw"
+msgstr ""
+
+msgid "ris_default_l3"
+msgstr ""
+
+msgid "ris_default_m1"
+msgstr ""
+
+msgid "ris_default_m3"
+msgstr ""
+
+msgid "ris_default_n1"
+msgstr ""
+
+msgid "ris_default_n2"
+msgstr ""
+
+msgid "ris_default_pb"
+msgstr ""
+
+msgid "ris_default_py"
+msgstr ""
+
+msgid "ris_default_sn"
+msgstr ""
+
+msgid "ris_default_t1"
+msgstr ""
+
+msgid "ris_default_t2"
+msgstr ""
+
+msgid "ris_default_t3"
+msgstr ""
+
+msgid "ris_default_ti"
+msgstr ""
+
+msgid "ris_default_ty"
+msgstr ""
+
+msgid "ris_default_u2"
+msgstr ""
+
+msgid "ris_default_ur"
+msgstr ""
+
+msgid "ris_default_vl"
+msgstr ""
+
+msgid "ris_default_y1"
+msgstr ""
+
+msgid "sorting_1"
+msgstr ""
+
+msgid "sorting_2"
+msgstr ""
+
+msgid "sorting_3"
+msgstr ""
+
+msgid "sorting_4"
+msgstr ""
+
+msgid "sorting_5"
+msgstr ""
+
+msgid "sorting_6"
+msgstr ""
+
+msgid "standard"
+msgstr ""
+
+msgid "translate"
+msgstr ""

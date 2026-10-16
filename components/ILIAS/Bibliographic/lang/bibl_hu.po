@@ -1,0 +1,315 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: bibl\n"
+
+msgid "Type"
+msgstr "Típus"
+
+msgid "add_filter"
+msgstr "Szűrő hozzáadása"
+
+msgid "bib_default_abstract"
+msgstr "Absztrakt"
+
+msgid "bib_default_address"
+msgstr "Cím"
+
+msgid "bib_default_author"
+msgstr "Szerző"
+
+msgid "bib_default_cite"
+msgstr "Bib idézet"
+
+msgid "bib_default_edition"
+msgstr "Kiadás"
+
+msgid "bib_default_howpublished"
+msgstr "Kiadva, mint"
+
+msgid "bib_default_isbn"
+msgstr "ISSN/ISBN"
+
+msgid "bib_default_journal"
+msgstr "Folyóirat"
+
+msgid "bib_default_keywords"
+msgstr "Kulcsszavak"
+
+msgid "bib_default_month"
+msgstr "Hónap"
+
+msgid "bib_default_note"
+msgstr "Megjegyzés"
+
+msgid "bib_default_number"
+msgstr "Szám"
+
+msgid "bib_default_organization"
+msgstr "Szervezet"
+
+msgid "bib_default_pages"
+msgstr "Oldalak"
+
+msgid "bib_default_publisher"
+msgstr "Közzétevő"
+
+msgid "bib_default_series"
+msgstr "Sorozat"
+
+msgid "bib_default_title"
+msgstr "Cím"
+
+msgid "bib_default_type"
+msgstr "Típus"
+
+msgid "bib_default_url"
+msgstr "URL"
+
+msgid "bib_default_volume"
+msgstr "Kötet"
+
+msgid "bib_default_year"
+msgstr "Év"
+
+msgid "bibl_copy"
+msgstr "Bibliográfia másolása"
+
+msgid "bibl_edit"
+msgstr "Bibliográfia módosítása"
+
+msgid "bibl_filter"
+msgstr "Szűrő"
+
+msgid "bibl_import"
+msgstr "Bibliográfia importálása"
+
+msgid "bibl_library_img"
+msgstr "Kép-URL"
+
+msgid "bibl_library_name"
+msgstr "Név"
+
+msgid "bibl_library_show_in_list"
+msgstr "A link is jelenjen meg a felsorolásban"
+
+msgid "bibl_library_url"
+msgstr "Alap-URL"
+
+msgid "bibl_link_online"
+msgstr "Leltár keresése"
+
+msgid "bibl_msg_translations_deleted"
+msgstr "A fordításokat sikeresen törölte"
+
+msgid "bibl_msg_translations_saved"
+msgstr "A fordításokat sikeresen mentette"
+
+msgid "bibl_new"
+msgstr "Új bibliográfia"
+
+msgid "bibl_settings_edit"
+msgstr "Könyvtár módosítása"
+
+msgid "bibl_settings_libraries"
+msgstr "Könyvtárak"
+
+msgid "bibl_settings_new"
+msgstr "Könyvtár hozzáadása"
+
+msgid "bibl_translation_desc"
+msgstr "Leírás"
+
+msgid "bibl_translation_lang"
+msgstr "Nyelv"
+
+msgid "bibl_translation_trans"
+msgstr "Fordítás"
+
+msgid "bibliography_file"
+msgstr "Bibliográfia fájl"
+
+msgid "bibtex"
+msgstr "Bibtex"
+
+msgid "changes_saved"
+msgstr "A módosításokat sikeresen mentette."
+
+msgid "custom"
+msgstr "Egyéni"
+
+msgid "detail_view"
+msgstr "Részletes nézet"
+
+msgid "detailed_information"
+msgstr "Részletes információ"
+
+msgid "download_original_file"
+msgstr "Eredeti fájl letöltése"
+
+msgid "field"
+msgstr "Mező"
+
+msgid "fields"
+msgstr "Mezők"
+
+msgid "filter_deleted"
+msgstr "A szűrőt sikeresen törölte."
+
+msgid "filter_field_info"
+msgstr "Válasszon egy mezőt, melyhez szűrőt kíván adni."
+
+msgid "filter_form_title"
+msgstr "Új szűrő hozzáadása"
+
+msgid "filter_type"
+msgstr "Szűrő típusa"
+
+msgid "filter_type_1"
+msgstr "Szövegbemenet"
+
+msgid "filter_type_2"
+msgstr "Választóbemenet"
+
+msgid "filter_type_3"
+msgstr "Többszörös szövegbemenet"
+
+msgid "filter_type_info"
+msgstr "Válasszon egy szűrőtípust a mezőhöz."
+
+msgid "identifier"
+msgstr "Azonosító"
+
+msgid "msg_confirm_delete_filter"
+msgstr "Biztos, hogy törli az alábbi szűrőt?"
+
+msgid "msg_filter_info"
+msgstr "Hozzon létre itt egy szűrőt, amellyel a ‘Tartalom’ lapon a bejegyzések megjelenítését korlátozhatja."
+
+msgid "news_title_created"
+msgstr "Új bibliográfiai lista jött létre"
+
+msgid "news_title_updated"
+msgstr "Bibliográfiai lista frissült"
+
+msgid "not_yet_migrated"
+msgstr "Ezt az objektumot még nem migráltuk. Kérem, jelezze az Üzemeltetőknek."
+
+msgid "obj_bibl_duplicate"
+msgstr "Bibliográfia duplikálása"
+
+msgid "order"
+msgstr "Sorrend"
+
+msgid "override_entries"
+msgstr "Bejegyzések felülbírálása"
+
+msgid "replace_bibliography_file"
+msgstr "Bibliográfiai fájl cseréje"
+
+msgid "replace_bibliography_file_info"
+msgstr "A jelenlegi bibliográi fálj cseréje annak összes bejegyzését törli."
+
+msgid "ris"
+msgstr "Ris"
+
+msgid "ris_default_a2"
+msgstr "Archívumban a helye"
+
+msgid "ris_default_au"
+msgstr "Szerző"
+
+msgid "ris_default_cy"
+msgstr "Kiadás helye"
+
+msgid "ris_default_ep"
+msgstr "Záró oldal száma"
+
+msgid "ris_default_id"
+msgstr "Hivatkozásazonosító"
+
+msgid "ris_default_ja"
+msgstr "Időszakos kiadvány, melyben a cikket publikálták"
+
+msgid "ris_default_kw"
+msgstr "kulcsszavak"
+
+msgid "ris_default_l3"
+msgstr "Kapcsolódó rekordok"
+
+msgid "ris_default_m1"
+msgstr "Szám"
+
+msgid "ris_default_m3"
+msgstr "Egyéb 3"
+
+msgid "ris_default_n1"
+msgstr "Jegyzetek"
+
+msgid "ris_default_n2"
+msgstr "Absztrakt"
+
+msgid "ris_default_pb"
+msgstr "Kiadó"
+
+msgid "ris_default_py"
+msgstr "Publikáció éve"
+
+msgid "ris_default_sn"
+msgstr "ISSN/ISBN/ASIN"
+
+msgid "ris_default_t1"
+msgstr "Elsődleges cím"
+
+msgid "ris_default_t2"
+msgstr "Másodlagos cím"
+
+msgid "ris_default_t3"
+msgstr "Harmadlagos cím"
+
+msgid "ris_default_ti"
+msgstr "Könyv címe"
+
+msgid "ris_default_ty"
+msgstr "Típus"
+
+msgid "ris_default_u2"
+msgstr "Felhasználó által meghatározott"
+
+msgid "ris_default_ur"
+msgstr "URL"
+
+msgid "ris_default_vl"
+msgstr "Kötet"
+
+msgid "ris_default_y1"
+msgstr "Év"
+
+msgid "sorting_1"
+msgstr "Cím szerint A→Z"
+
+msgid "sorting_2"
+msgstr "Cím szerint Z→A"
+
+msgid "sorting_3"
+msgstr "Szerző szerint A→Z"
+
+msgid "sorting_4"
+msgstr "Szerző szerint Z→A"
+
+msgid "sorting_5"
+msgstr "Év szerint ↑"
+
+msgid "sorting_6"
+msgstr "Év szerint ↓"
+
+msgid "standard"
+msgstr "Standard"
+
+msgid "translate"
+msgstr "Fordítás"

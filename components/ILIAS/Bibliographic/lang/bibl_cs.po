@@ -1,0 +1,326 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: bibl\n"
+
+msgid "Type"
+msgstr "Typ"
+
+msgid "add_filter"
+msgstr "Přidat filtr"
+
+msgid "bib_default_abstract"
+msgstr "Abstrakt"
+
+msgid "bib_default_address"
+msgstr "Adresa"
+
+msgid "bib_default_author"
+msgstr "Autor"
+
+msgid "bib_default_cite"
+msgstr "Bib Cite"
+
+msgid "bib_default_edition"
+msgstr "Vydání"
+
+msgid "bib_default_howpublished"
+msgstr "Zveřejněno jako"
+
+msgid "bib_default_isbn"
+msgstr "ISSN/ISBN"
+
+msgid "bib_default_journal"
+msgstr "Časopis"
+
+msgid "bib_default_keywords"
+msgstr "Klíčová slova"
+
+msgid "bib_default_month"
+msgstr "Měsíc"
+
+msgid "bib_default_note"
+msgstr "Poznámka"
+
+msgid "bib_default_number"
+msgstr "Číslo"
+
+msgid "bib_default_organization"
+msgstr "Organizace"
+
+msgid "bib_default_pages"
+msgstr "Stránky"
+
+msgid "bib_default_publisher"
+msgstr "Vydavatel"
+
+msgid "bib_default_series"
+msgstr "Série"
+
+msgid "bib_default_title"
+msgstr "Název"
+
+msgid "bib_default_type"
+msgstr "Typ"
+
+msgid "bib_default_url"
+msgstr "URL"
+
+msgid "bib_default_volume"
+msgstr "Díl"
+
+msgid "bib_default_year"
+msgstr "Rok"
+
+msgid "bibl_copy"
+msgstr "Uživatel může kopírovat bibliografii"
+
+msgid "bibl_edit"
+msgstr "Upravit bibliografii"
+
+msgid "bibl_filter"
+msgstr "Filtr"
+
+msgid "bibl_import"
+msgstr "Importovat bibliografii"
+
+msgid "bibl_library_img"
+msgstr "Image-URL"
+
+msgid "bibl_library_name"
+msgstr "Název"
+
+msgid "bibl_library_show_in_list"
+msgstr "Zobrazit odkaz jako v seznamu"
+
+msgid "bibl_library_url"
+msgstr "Základní URL"
+
+msgid "bibl_link_online"
+msgstr "Vyhledávání v katalogu"
+
+msgid "bibl_msg_translations_deleted"
+msgstr "Překlady byly smazány"
+
+msgid "bibl_msg_translations_saved"
+msgstr "Překlady byly uloženy"
+
+msgid "bibl_new"
+msgstr "Nová bibliografie"
+
+msgid "bibl_settings_edit"
+msgstr "Upravit knihovnu"
+
+msgid "bibl_settings_libraries"
+msgstr "Knihovny"
+
+msgid "bibl_settings_new"
+msgstr "Přidat knihovnu"
+
+msgid "bibl_translation_desc"
+msgstr "Popis"
+
+msgid "bibl_translation_lang"
+msgstr "Jazyk"
+
+msgid "bibl_translation_trans"
+msgstr "Překlad"
+
+msgid "bibliography_file"
+msgstr "Bibliography File"
+
+msgid "bibtex"
+msgstr "Bibtex"
+
+msgid "changes_saved"
+msgstr "Změny byly uloženy."
+
+msgid "custom"
+msgstr "Vlastní"
+
+msgid "detail_view"
+msgstr "Podrobný náhled"
+
+#, fuzzy
+msgid "detailed_information"
+msgstr "Detailed Information"
+
+msgid "download_original_file"
+msgstr "Stáhnout původní soubor"
+
+msgid "field"
+msgstr "Pole"
+
+msgid "fields"
+msgstr "Pole"
+
+msgid "filter_deleted"
+msgstr "Filtr byl smazán."
+
+msgid "filter_field_info"
+msgstr "Vyberte pole, pro které chcete přidat filtr."
+
+msgid "filter_form_title"
+msgstr "Přidat nový filtr"
+
+msgid "filter_type"
+msgstr "Typ filtru"
+
+msgid "filter_type_1"
+msgstr "Textový vstup"
+
+msgid "filter_type_2"
+msgstr "Výběrový vstup"
+
+msgid "filter_type_3"
+msgstr "Výběr více vstupů"
+
+msgid "filter_type_info"
+msgstr "Vyberte typ filtru pro pole."
+
+msgid "identifier"
+msgstr "Identifikátor"
+
+msgid "msg_confirm_delete_filter"
+msgstr "Chcete odstranit následující filtr?"
+
+#, fuzzy
+msgid "msg_filter_info"
+msgstr "Create a filter here that can be used in the \"Contents\" tab to limit the display of entries."
+
+msgid "news_title_created"
+msgstr "Přidán nový seznam bibliografie"
+
+msgid "news_title_updated"
+msgstr "Aktualizován seznam bibliografie"
+
+#, fuzzy
+msgid "not_yet_migrated"
+msgstr "This Object has not et been migrated. Please contact the administrators of the platform."
+
+msgid "obj_bibl_duplicate"
+msgstr "Duplikovat bibliografii"
+
+msgid "order"
+msgstr "Pořadí"
+
+msgid "override_entries"
+msgstr "Přepsat vstupy"
+
+#, fuzzy
+msgid "replace_bibliography_file"
+msgstr "Replace Bibliography File"
+
+#, fuzzy
+msgid "replace_bibliography_file_info"
+msgstr "The current bibliography file will be replaced by the new file. All existing entries from the current file will be deleted."
+
+msgid "ris"
+msgstr "Ris"
+
+msgid "ris_default_a2"
+msgstr "Umístění v archivu"
+
+msgid "ris_default_au"
+msgstr "Autor"
+
+msgid "ris_default_cy"
+msgstr "Zveřejněno místo"
+
+msgid "ris_default_ep"
+msgstr "Číslo koncové stránky"
+
+msgid "ris_default_id"
+msgstr "Reference ID"
+
+msgid "ris_default_ja"
+msgstr "Periodikum v němž byl článek zveřejněn"
+
+msgid "ris_default_kw"
+msgstr "Klíčová slova"
+
+msgid "ris_default_l3"
+msgstr "Související záznamy"
+
+msgid "ris_default_m1"
+msgstr "Číslo"
+
+msgid "ris_default_m3"
+msgstr "Různé  3"
+
+msgid "ris_default_n1"
+msgstr "Poznámky"
+
+msgid "ris_default_n2"
+msgstr "Abstrakt"
+
+msgid "ris_default_pb"
+msgstr "Vydavatel"
+
+msgid "ris_default_py"
+msgstr "Rok vydání"
+
+msgid "ris_default_sn"
+msgstr "ISSN/ISBN/ASIN"
+
+msgid "ris_default_t1"
+msgstr "Primární titul"
+
+msgid "ris_default_t2"
+msgstr "Sekundární titul"
+
+msgid "ris_default_t3"
+msgstr "Terciární titul"
+
+msgid "ris_default_ti"
+msgstr "Název knihy"
+
+msgid "ris_default_ty"
+msgstr "Typ"
+
+msgid "ris_default_u2"
+msgstr "Uživatel definován"
+
+msgid "ris_default_ur"
+msgstr "URL"
+
+msgid "ris_default_vl"
+msgstr "Svazek"
+
+msgid "ris_default_y1"
+msgstr "Rok"
+
+#, fuzzy
+msgid "sorting_1"
+msgstr "By Title (Ascending)"
+
+#, fuzzy
+msgid "sorting_2"
+msgstr "By Title (Descending)"
+
+#, fuzzy
+msgid "sorting_3"
+msgstr "By Author (Ascending)"
+
+#, fuzzy
+msgid "sorting_4"
+msgstr "By Author (Descending)"
+
+#, fuzzy
+msgid "sorting_5"
+msgstr "By Year (Ascending)"
+
+#, fuzzy
+msgid "sorting_6"
+msgstr "By Year (Descending)"
+
+msgid "standard"
+msgstr "Norma"
+
+msgid "translate"
+msgstr "Přeložit"
