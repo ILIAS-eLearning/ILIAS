@@ -7898,7 +7898,7 @@ crs#:#crs_timings_optional_on#:#Optional mode is active.
 crs#:#crs_timings_optional_on_and_passed#:#Optional mode is active and cannot be changed because user is passed.
 crs#:#crs_timings_optional_unchecked#:#Optional mode was deactivated for this user
 crs#:#crs_timings_planed_info#:#Temps de modification planifié
-crs#:#crs_timings_planed_start#:#Débit/Fin planifié
+crs#:#crs_timings_planned_start#:#Débit/Fin planifié
 crs#:#crs_timings_presetting#:#Recommandation Activée
 crs#:#crs_timings_short_active#:#Activé
 crs#:#crs_timings_short_active_tt#:#Activate Timings

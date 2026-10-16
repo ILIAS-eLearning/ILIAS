@@ -7913,7 +7913,7 @@ crs#:#crs_timings_optional_on#:#Prostovoljni način je aktiviran.
 crs#:#crs_timings_optional_on_and_passed#:#Prostovoljni način je aktiviran in ga ni mogoče spremeniti, ker ima uporabnik status "Opravljeno".
 crs#:#crs_timings_optional_unchecked#:#Prostovoljni način je bil za tega uporabnika onemogočen.
 crs#:#crs_timings_planed_info#:#Načrtovani čas urejanja
-crs#:#crs_timings_planed_start#:#Načrtovano
+crs#:#crs_timings_planned_start#:#Načrtovano
 crs#:#crs_timings_presetting#:#Načrtovanje učenja je vklopljeno
 crs#:#crs_timings_short_active#:#Načrtovanje učenja
 crs#:#crs_timings_short_active_tt#:#Aktiviraj načrtovanje učenja

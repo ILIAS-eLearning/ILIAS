@@ -7913,7 +7913,7 @@ crs#:#crs_timings_optional_on#:#Volontärläget är aktivt.
 crs#:#crs_timings_optional_on_and_passed#:#Volontärläget är aktivt och kan inte ändras eftersom användaren har statusen "Godkänd".
 crs#:#crs_timings_optional_unchecked#:#Volontärläget har inaktiverats för den här användaren.
 crs#:#crs_timings_planed_info#:#Planerad bearbetningstid
-crs#:#crs_timings_planed_start#:#Planerad
+crs#:#crs_timings_planned_start#:#Planerad
 crs#:#crs_timings_presetting#:#Lärandeplanering påslagen
 crs#:#crs_timings_short_active#:#Planering av lärande
 crs#:#crs_timings_short_active_tt#:#Möjliggöra planering av lärande

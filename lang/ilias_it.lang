@@ -7914,7 +7914,7 @@ crs#:#crs_timings_optional_on#:#La modalità opzionale è attiva.
 crs#:#crs_timings_optional_on_and_passed#:#La modalità opzionale è attiva e non può essere modificata perché l'utente è passato.
 crs#:#crs_timings_optional_unchecked#:#La modalità opzionale è stata disattivata per questo utente
 crs#:#crs_timings_planed_info#:#Tempo di editing definito
-crs#:#crs_timings_planed_start#:#Definito
+crs#:#crs_timings_planned_start#:#Definito
 crs#:#crs_timings_presetting#:#Time Target abilitato
 crs#:#crs_timings_short_active#:#Attivato
 crs#:#crs_timings_short_active_tt#:#Attiva i tempi

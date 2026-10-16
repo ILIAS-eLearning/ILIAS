@@ -7913,7 +7913,7 @@ crs#:#crs_timings_optional_on#:#Optional mode is active.###10 11 2018 new variab
 crs#:#crs_timings_optional_on_and_passed#:#Optional mode is active and cannot be changed because user is passed.###10 11 2018 new variable
 crs#:#crs_timings_optional_unchecked#:#Optional mode was deactivated for this user###10 11 2018 new variable
 crs#:#crs_timings_planed_info#:#Plánovaný čas editace
-crs#:#crs_timings_planed_start#:#Plánovaný
+crs#:#crs_timings_planned_start#:#Plánovaný
 crs#:#crs_timings_presetting#:#Plánování výuky zapnuto
 crs#:#crs_timings_short_active#:#Zapnuto
 crs#:#crs_timings_short_active_tt#:#Activate Timings###10 11 2018 new variable

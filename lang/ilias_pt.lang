@@ -7963,7 +7963,7 @@ crs#:#crs_timings_optional_on#:#A atribuição será automaticamente definida pa
 crs#:#crs_timings_optional_on_and_passed#:#Número necessário de feedbacks
 crs#:#crs_timings_optional_unchecked#:#O número de feedbacks que um participante tem de dar aos colegas. No caso de o número mínimo de feedbacks necessários ser superior ao número atual de submissões, o mínimo exigido é automaticamente reduzido para o número de submissões de colegas.
 crs#:#crs_timings_planed_info#:#Tempo de edição previsto
-crs#:#crs_timings_planed_start#:#Previsto
+crs#:#crs_timings_planned_start#:#Previsto
 crs#:#crs_timings_presetting#:#Tempo alvo ativado
 crs#:#crs_timings_short_active#:#Ativado
 crs#:#crs_timings_short_active_tt#:#Atribuição portefólio

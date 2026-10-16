@@ -7913,7 +7913,7 @@ crs#:#crs_timings_optional_on#:#Opcionalni način rada je aktivan.
 crs#:#crs_timings_optional_on_and_passed#:#Opcionalni način rada je aktivan i ne može se promijeniti jer je status korisnika "položio".
 crs#:#crs_timings_optional_unchecked#:#Opcionalni način rada deaktiviran je za ovog korisnika
 crs#:#crs_timings_planed_info#:#Planirano vrijeme obrade
-crs#:#crs_timings_planed_start#:#Planirano
+crs#:#crs_timings_planned_start#:#Planirano
 crs#:#crs_timings_presetting#:#Vremenski cilj omogućen
 crs#:#crs_timings_short_active#:#Omogućeno
 crs#:#crs_timings_short_active_tt#:#Aktiviraj vremenske planove
