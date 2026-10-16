@@ -6057,55 +6057,6 @@ grp#:#grp_wrong_reg_time_limit#:#Ellenőrizze a regisztráció kezdő és záró
 grp#:#reg_grp_max_members#:#Tagok maximális száma
 grp#:#reg_grp_max_members_short#:#Felhasználószám korlátozása
 grp#:#reg_grp_min_members#:#Tagok minimális száma
-gsfo#:#accessibility#:#Hozzáférhetőség
-gsfo#:#confirm_delete#:#Biztos, hogy törli a következő elem(ek)et?
-gsfo#:#confirm_reset#:#A lábléc alapértelmezettre állítása az összes elemet eredeti állapotába állítja. A személyre szabások és a kézi bejegyzések visszavonhatatlanul törlődnek. Biztos, hogy folytatja?
-gsfo#:#entries_add#:#Elem hozzáadása
-gsfo#:#entries_edit#:#Elem módosítása
-gsfo#:#entries_parent#:#Blokk kiválasztása
-gsfo#:#entries_select_parent#:#Elem mozgatása a csoportba
-gsfo#:#entries_target_group#:#Select target group###07 07 2026 new variable
-gsfo#:#entry_action#:#Link
-gsfo#:#entry_action_info#:#Teljes link a protokollal (pl. https://www.ilias.hu)
-gsfo#:#entry_activation_toggled#:#Az aktiválás megváltozott
-gsfo#:#entry_active#:#Aktív
-gsfo#:#entry_active_info#:#Elem aktiválása
-gsfo#:#entry_add#:#Elem hozzáadása
-gsfo#:#entry_delete#:#Törlés
-gsfo#:#entry_deleted#:#Törölt
-gsfo#:#entry_deleted_failed#:#Deletion not possible###07 07 2026 new variable
-gsfo#:#entry_edit#:#Módosítás
-gsfo#:#entry_external#:#Megnyitás új lapon
-gsfo#:#entry_move#:#Áthelyezés
-gsfo#:#entry_moved#:#Az elemet sikeresen áthelyezte
-gsfo#:#entry_title#:#Cím (alapértelmezett nyelven)
-gsfo#:#entry_toggle_activation#:#(In-)Aktiválás
-gsfo#:#group_activation_toggled#:#Az aktiváció megváltozott
-gsfo#:#group_active#:#Aktív
-gsfo#:#group_active_info#:#Blokk aktiválása
-gsfo#:#group_add#:#Blokk hozzáadása
-gsfo#:#group_delete#:#Törlés
-gsfo#:#group_deleted#:#Törölt
-gsfo#:#group_edit#:#Blokk módosítása
-gsfo#:#group_edit_entries#:#Elem módosítása
-gsfo#:#group_items#:#Elemek
-gsfo#:#group_not_empty#:#Ebben a blokkban vannak elemek. Először ezeket helyezze át vagy törölje
-gsfo#:#group_title#:#Cím (alapértelmezett nyelv)
-gsfo#:#group_title_info#:#A blokk mentése után további fordításokat adhat hozzá a ‘Fordítás hozzáadása’ művelettel.
-gsfo#:#group_toggle_activation#:#(In-)aktiválás
-gsfo#:#group_translate#:#Fordítás
-gsfo#:#info_not_deletable_core#:#Az alapértelmezett elemek nem törölhetők
-gsfo#:#info_not_deletable_not_empty#:#Csak üres blokk törlhetők.
-gsfo#:#item_moved#:#Entry moved###07 07 2026 new variable
-gsfo#:#legal_information#:#Jogi információk
-gsfo#:#order_saved#:#A sorbarendezést sikeresen mentette
-gsfo#:#permanent#:#állandó
-gsfo#:#reset_footer#:#Lábléc alapértelmezettre állítása
-gsfo#:#reset_success#:#A láblécet sikeresen alapértelmezettre állította
-gsfo#:#services#:#Szolgáltatások
-gsfo#:#support#:#Támogatás
-gsfo#:#translate#:#Fordítás
-gsfo#:#translations#:#Fordítások
 impr#:#impr_page_type_impr#:#Impresszum
 irss#:#action_download#:#Letöltés
 irss#:#action_goto#:#Erőforrás megnyitása

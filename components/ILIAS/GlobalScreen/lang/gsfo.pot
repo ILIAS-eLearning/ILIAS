@@ -1,0 +1,153 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: gsfo\n"
+
+msgid "accessibility"
+msgstr ""
+
+msgid "confirm_delete"
+msgstr ""
+
+msgid "confirm_reset"
+msgstr ""
+
+msgid "entries_add"
+msgstr ""
+
+msgid "entries_edit"
+msgstr ""
+
+msgid "entries_parent"
+msgstr ""
+
+msgid "entries_select_parent"
+msgstr ""
+
+msgid "entries_target_group"
+msgstr ""
+
+msgid "entry_action"
+msgstr ""
+
+msgid "entry_action_info"
+msgstr ""
+
+msgid "entry_activation_toggled"
+msgstr ""
+
+msgid "entry_active"
+msgstr ""
+
+msgid "entry_active_info"
+msgstr ""
+
+msgid "entry_add"
+msgstr ""
+
+msgid "entry_delete"
+msgstr ""
+
+msgid "entry_deleted"
+msgstr ""
+
+msgid "entry_deleted_failed"
+msgstr ""
+
+msgid "entry_edit"
+msgstr ""
+
+msgid "entry_external"
+msgstr ""
+
+msgid "entry_move"
+msgstr ""
+
+msgid "entry_moved"
+msgstr ""
+
+msgid "entry_title"
+msgstr ""
+
+msgid "entry_toggle_activation"
+msgstr ""
+
+msgid "group_activation_toggled"
+msgstr ""
+
+msgid "group_active"
+msgstr ""
+
+msgid "group_active_info"
+msgstr ""
+
+msgid "group_add"
+msgstr ""
+
+msgid "group_delete"
+msgstr ""
+
+msgid "group_deleted"
+msgstr ""
+
+msgid "group_edit"
+msgstr ""
+
+msgid "group_edit_entries"
+msgstr ""
+
+msgid "group_items"
+msgstr ""
+
+msgid "group_not_empty"
+msgstr ""
+
+msgid "group_title"
+msgstr ""
+
+msgid "group_title_info"
+msgstr ""
+
+msgid "group_toggle_activation"
+msgstr ""
+
+msgid "group_translate"
+msgstr ""
+
+msgid "info_not_deletable_core"
+msgstr ""
+
+msgid "info_not_deletable_not_empty"
+msgstr ""
+
+msgid "item_moved"
+msgstr ""
+
+msgid "legal_information"
+msgstr ""
+
+msgid "order_saved"
+msgstr ""
+
+msgid "permanent"
+msgstr ""
+
+msgid "reset_footer"
+msgstr ""
+
+msgid "reset_success"
+msgstr ""
+
+msgid "services"
+msgstr ""
+
+msgid "support"
+msgstr ""
+
+msgid "translate"
+msgstr ""
+
+msgid "translations"
+msgstr ""
