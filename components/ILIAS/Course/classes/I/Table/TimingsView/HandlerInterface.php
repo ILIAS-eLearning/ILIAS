@@ -23,11 +23,8 @@ namespace ILIAS\Course\I\Table\TimingsView;
 interface HandlerInterface
 {
     public const string TABLE_COL_TITLE = 'title';
-    public const string TABLE_COL_SUGGESTION_START = 'crs_timings_short_start';
-    public const string TABLE_COL_SUGGESTION_END = 'crs_timings_short_end';
-    public const string TABLE_COL_TIMINGS_MODIFIED = 'crs_timings_changed';
-    public const string TABLE_COL_TIMINGS_PLANNED_START = 'crs_timings_planed_start';
-    public const string TABLE_COL_TIMINGS_PLANNED_END = 'crs_timings_planed_end';
+    public const string TABLE_COL_SUGGESTION = 'crs_timings_suggestion';
+    public const string TABLE_COL_TIMINGS_PLANNED = 'crs_timings_planned';
 
     public function getHTML(): string;
 }

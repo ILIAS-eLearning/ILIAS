@@ -25,7 +25,6 @@ use Generator;
 use ILIAS\Course\I\Table\TimingsView\DataRetrievalInterface;
 use ILIAS\Course\I\Table\TimingsView\HandlerInterface;
 use ILIAS\Data\DateFormat\DateFormat;
-use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
 use ILIAS\DI\UIServices;
@@ -39,16 +38,12 @@ use ilTimingUser;
 
 class DataRetrieval implements DataRetrievalInterface
 {
-    protected const string KEY_SUGGESTION_START = 'suggestion_start';
-    protected const string KEY_SUGGESTION_END = 'suggestion_end';
-    protected const string KEY_TIMING_START = 'timing_start';
-    protected const string KEY_TIMING_END = 'timing_end';
-    protected const string KEY_TIMING_TYPE = 'timing_type';
-    protected const string KEY_REF_ID = 'ref_id';
+    protected const string KEY_SUGGESTION = 'suggestion';
+    protected const string KEY_PLANNED = 'planned';
+    protected const string KEY_ROW_ID = 'row_id';
     protected const string KEY_TYPE = 'type';
     protected const string KEY_TITLE_LINK = 'title_link';
     protected const string KEY_TITLE = 'title';
-    protected const string KEY_TIMINGS_MODIFIED = 'timings_modified';
     protected const string ITEM_GROUP_TYPE = 'itgr';
     protected array $rows;
     protected string $username;
@@ -56,7 +51,6 @@ class DataRetrieval implements DataRetrievalInterface
     public function __construct(
         protected readonly UIServices $ui,
         protected readonly ilObjUser $user,
-        protected readonly DataFactory $data_factory,
         protected readonly int $user_id,
         protected readonly int $parent_object_ref_id,
     ) {
@@ -72,40 +66,59 @@ class DataRetrieval implements DataRetrievalInterface
         $items = ilObjectActivation::getItems($this->parent_object_ref_id, false);
         foreach ($items as $item) {
             // hide objects without timings
-            if ($item[self::KEY_TIMING_TYPE] != ilObjectActivation::TIMINGS_PRESETTING) {
+            if ($item['timing_type'] != ilObjectActivation::TIMINGS_PRESETTING) {
                 continue;
             }
             // no item groups
-            if ($item[self::KEY_TYPE] == self::ITEM_GROUP_TYPE) {
+            if ($item['type'] == self::ITEM_GROUP_TYPE) {
                 continue;
             }
-            if ($item[self::KEY_TYPE] == 'sess' && !strlen($item[self::KEY_TITLE])) {
-                $app_info = ilSessionAppointment::_lookupAppointment(ilObject::_lookupObjId($item[self::KEY_REF_ID]));
-                $item[self::KEY_TITLE] = ilSessionAppointment::_appointmentToString(
-                    $app_info['start'],
-                    $app_info['end'],
-                    (bool) $app_info['fullday']
-                );
-            }
-            match ($item[self::KEY_TYPE]) {
-                'fold', 'grp', 'sess' => $item[self::KEY_TITLE_LINK] = ilLink::_getLink($item[self::KEY_REF_ID], $item[self::KEY_TYPE]),
-                default => $item[self::KEY_TITLE_LINK] = '',
-            };
+            # Title
+            $sess_values = ilSessionAppointment::_lookupAppointment(ilObject::_lookupObjId($item['ref_id']));
+            $title = (
+                count($sess_values) > 0 &&
+                $item['type'] == 'sess' &&
+                !strlen($item['title'])
+            )
+                ? ilSessionAppointment::_appointmentToString(
+                    $sess_values['start'],
+                    $sess_values['end'],
+                    (bool) $sess_values['fullday']
+                )
+                : $item['title'];
+
+            # Title Link
+            $title_link = (in_array($item[self::KEY_TYPE], ['fold', 'grp', 'sess']))
+                ? ilLink::_getLink($item['ref_id'], $item['type'])
+                : '';
+
+            # Suggested Timing
+            $suggested = [
+                DateTimeImmutable::createFromTimestamp($item['suggestion_start']),
+                DateTimeImmutable::createFromTimestamp($item['suggestion_end']),
+            ];
+
+            # Planned Timing
             $timing_user = new ilTimingUser($item['child'], $this->user_id);
-            $item[self::KEY_SUGGESTION_START] = ($item[self::KEY_TIMING_TYPE] == ilObjectActivation::TIMINGS_PRESETTING)
-                ? $timing_user->getStart()->get(IL_CAL_UNIX) ?? $item[self::KEY_SUGGESTION_START]
-                : $item[self::KEY_SUGGESTION_START];
-            $item[self::KEY_SUGGESTION_START] = DateTimeImmutable::createFromTimestamp($item[self::KEY_SUGGESTION_START])->setTime(0, 0);
-            $item[self::KEY_SUGGESTION_END] = ($item[self::KEY_TIMING_TYPE] == ilObjectActivation::TIMINGS_PRESETTING)
-                ? $timing_user->getEnd()->get(IL_CAL_UNIX) ?? $item[self::KEY_SUGGESTION_END]
-                : $item[self::KEY_SUGGESTION_END];
-            $item[self::KEY_SUGGESTION_END] = DateTimeImmutable::createFromTimestamp($item[self::KEY_SUGGESTION_END])->setTime(0, 0);
-            $item[self::KEY_TIMING_START] = DateTimeImmutable::createFromTimestamp($item[self::KEY_TIMING_START])->setTime(0, 0);
-            $item[self::KEY_TIMING_END] = DateTimeImmutable::createFromTimestamp($item[self::KEY_TIMING_END])->setTime(0, 0);
-            $item[self::KEY_TIMINGS_MODIFIED] =
-                $item[self::KEY_SUGGESTION_START] != $item[self::KEY_TIMING_START] ||
-                $item[self::KEY_SUGGESTION_END] != $item[self::KEY_TIMING_END];
-            $this->rows[] = $item;
+
+            $planned = (
+                ((int) $item['timing_type']) === ilObjectActivation::TIMINGS_PRESETTING &&
+                !is_null($timing_user->getStart()->get(IL_CAL_UNIX)) &&
+                !is_null($timing_user->getEnd()->get(IL_CAL_UNIX))
+            )
+                ? [
+                    DateTimeImmutable::createFromTimestamp($timing_user->getStart()->get(IL_CAL_UNIX)),
+                    DateTimeImmutable::createFromTimestamp($timing_user->getEnd()->get(IL_CAL_UNIX))
+                ]
+                : $suggested;
+
+            $this->rows[] = [
+                self::KEY_ROW_ID => $item['ref_id'],
+                self::KEY_TITLE => $title,
+                self::KEY_TITLE_LINK => $title_link,
+                self::KEY_PLANNED => $planned,
+                self::KEY_SUGGESTION => $suggested,
+            ];
         }
     }
 
@@ -118,21 +131,17 @@ class DataRetrieval implements DataRetrievalInterface
         mixed $filter_data,
         mixed $additional_parameters
     ): Generator {
-        $icons = [
-            true => $this->ui->factory()->symbol()->icon()->custom('assets/images/standard/icon_checked.svg', '', 'small'),
-            false => $this->ui->factory()->symbol()->icon()->custom('assets/images/standard/icon_unchecked.svg', '', 'small')
-        ];
         foreach ($this->rows as $row) {
             yield $row_builder->buildDataRow(
-                $row[self::KEY_REF_ID] . '',
+                $row[self::KEY_ROW_ID] . '',
                 [
-                    HandlerInterface::TABLE_COL_TITLE => $this->ui->factory()->link()->standard($row[self::KEY_TITLE], $row[self::KEY_TITLE_LINK])
+                    HandlerInterface::TABLE_COL_TITLE => $this->ui->factory()->link()->standard(
+                        $row[self::KEY_TITLE],
+                        $row[self::KEY_TITLE_LINK]
+                    )
                         ->withDisabled(strcmp($row[self::KEY_TITLE_LINK], '') === 0),
-                    HandlerInterface::TABLE_COL_SUGGESTION_START => $row[self::KEY_SUGGESTION_START],
-                    HandlerInterface::TABLE_COL_SUGGESTION_END => $row[self::KEY_SUGGESTION_END],
-                    HandlerInterface::TABLE_COL_TIMINGS_MODIFIED => $icons[$row[self::KEY_TIMINGS_MODIFIED]],
-                    HandlerInterface::TABLE_COL_TIMINGS_PLANNED_START => $row[self::KEY_TIMING_START],
-                    HandlerInterface::TABLE_COL_TIMINGS_PLANNED_END => $row[self::KEY_TIMING_END]
+                    HandlerInterface::TABLE_COL_SUGGESTION => $row[self::KEY_SUGGESTION],
+                    HandlerInterface::TABLE_COL_TIMINGS_PLANNED => $row[self::KEY_PLANNED],
                 ]
             );
         }
@@ -157,6 +166,6 @@ class DataRetrieval implements DataRetrievalInterface
 
     final public function getDateFormat(): DateFormat
     {
-        return $this->data_factory->dateFormat()->standard();
+        return $this->user->getDateFormat();
     }
 }

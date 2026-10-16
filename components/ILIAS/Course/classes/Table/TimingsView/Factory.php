@@ -57,7 +57,6 @@ readonly class Factory implements FactoryInterface
         return new DataRetrieval(
             $this->ui,
             $this->user,
-            new DataFactory(),
             $user_id,
             $parent_object_ref_id
         );

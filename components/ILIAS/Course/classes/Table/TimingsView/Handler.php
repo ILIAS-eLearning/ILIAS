@@ -30,11 +30,8 @@ use ilLanguage;
 class Handler implements HandlerInterface
 {
     protected const string LNG_TABLE_COL_TITLE = 'title';
-    protected const string LNG_TABLE_COL_SUGGESTION_START = 'crs_timings_short_start_end';
-    protected const string LNG_TABLE_COL_SUGGESTION_END = 'crs_timings_short_end';
-    protected const string LNG_TABLE_COL_TIMINGS_MODIFIED = 'crs_timings_changed';
-    protected const string LNG_TABLE_COL_TIMINGS_PLANNED_START = 'crs_timings_sug_begin';
-    protected const string LNG_TABLE_COL_TIMINGS_PLANNED_END = 'crs_timings_sug_end';
+    protected const string LNG_TABLE_COL_SUGGESTION = 'crs_timings_short_start_end';
+    protected const string LNG_TABLE_COL_TIMINGS_PLANNED = 'crs_timings_planned_start';
     protected const string LNG_TABLE_TITLE = 'timings_of';
     protected const string TABLE_ID = 'tmgsvw';
 
@@ -50,28 +47,16 @@ class Handler implements HandlerInterface
 
     final protected function getColumns(): array
     {
-
         return [
             self::TABLE_COL_TITLE => $this->ui->factory()->table()->column()->link(
                 $this->lng->txt(self::LNG_TABLE_COL_TITLE)
             ),
-            self::TABLE_COL_SUGGESTION_START => $this->ui->factory()->table()->column()->date(
-                $this->lng->txt(self::LNG_TABLE_COL_SUGGESTION_START),
+            self::TABLE_COL_SUGGESTION => $this->ui->factory()->table()->column()->timeSpan(
+                $this->lng->txt(self::LNG_TABLE_COL_SUGGESTION),
                 $this->data_retrieval->getDateFormat()
             ),
-            self::TABLE_COL_SUGGESTION_END => $this->ui->factory()->table()->column()->date(
-                $this->lng->txt(self::LNG_TABLE_COL_SUGGESTION_END),
-                $this->data_retrieval->getDateFormat()
-            ),
-            self::TABLE_COL_TIMINGS_MODIFIED => $this->ui->factory()->table()->column()->statusIcon(
-                $this->lng->txt(self::LNG_TABLE_COL_TIMINGS_MODIFIED)
-            ),
-            self::TABLE_COL_TIMINGS_PLANNED_START => $this->ui->factory()->table()->column()->date(
-                $this->lng->txt(self::LNG_TABLE_COL_TIMINGS_PLANNED_START),
-                $this->data_retrieval->getDateFormat()
-            ),
-            self::TABLE_COL_TIMINGS_PLANNED_END => $this->ui->factory()->table()->column()->date(
-                $this->lng->txt(self::LNG_TABLE_COL_TIMINGS_PLANNED_END),
+            self::TABLE_COL_TIMINGS_PLANNED => $this->ui->factory()->table()->column()->timeSpan(
+                $this->lng->txt(self::LNG_TABLE_COL_TIMINGS_PLANNED),
                 $this->data_retrieval->getDateFormat()
             )
         ];
