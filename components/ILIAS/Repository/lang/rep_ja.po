@@ -1,0 +1,267 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: rep\n"
+
+msgid "btn_undelete_new_location"
+msgstr "リストア (新しいロケーション)"
+
+msgid "btn_undelete_origin_location"
+msgstr "リストア (同じロケーション)"
+
+msgid "rep_activation_access"
+msgstr "アクセス"
+
+msgid "rep_activation_access_ref_info"
+msgstr "この設定はこれを除くリポジトリ内の他の参照には影響しません。"
+
+msgid "rep_activation_availability"
+msgstr "Availability(空き状況)"
+
+msgid "rep_activation_limited_end"
+msgstr "終了時間"
+
+msgid "rep_activation_limited_start"
+msgstr "開始時間"
+
+msgid "rep_activation_limited_visibility"
+msgstr "常に表示"
+
+msgid "rep_activation_online"
+msgstr "オンライン"
+
+msgid "rep_activation_online_object_info"
+msgstr "この設定はリポジトリの全参照に影響します。"
+
+msgid "rep_add_new_def_grp_assessment"
+msgstr "アセスメント"
+
+msgid "rep_add_new_def_grp_communication"
+msgstr "コミュニケーション"
+
+msgid "rep_add_new_def_grp_content"
+msgstr "コンテンツ"
+
+msgid "rep_add_new_def_grp_feedback"
+msgstr "フィードバックと評価"
+
+msgid "rep_add_new_def_grp_organisation"
+msgstr "組織"
+
+msgid "rep_add_new_def_grp_templates"
+msgstr "テンプレート"
+
+msgid "rep_added_rec_content"
+msgstr "推奨コンテンツが追加されました。"
+
+msgid "rep_allowed_types"
+msgstr "有効形式"
+
+msgid "rep_breadcr_crs"
+msgstr "コースのパンくずステータス"
+
+msgid "rep_breadcr_crs_config"
+msgstr "構成"
+
+msgid "rep_breadcr_crs_overwrite"
+msgstr "設定はコースレベル上で変更可能です"
+
+msgid "rep_breadcr_crs_overwrite_not"
+msgstr "設定はコースレベル上で変更不可です"
+
+msgid "rep_breadcr_crs_overwrite_settings"
+msgstr "例外を許容"
+
+msgid "rep_breadcr_crs_overwrite_with_default"
+msgstr "設定はこれをデフォルトコースレベル上で変更されます。"
+
+msgid "rep_configure"
+msgstr "構成"
+
+msgid "rep_crs_default_shortened"
+msgstr "Default: パンクズリスト省略"
+
+msgid "rep_custom_icons"
+msgstr "カスタムアイコン"
+
+msgid "rep_default"
+msgstr "Default"
+
+msgid "rep_deleted_account"
+msgstr "アカウントを削除しました"
+
+msgid "rep_dependencies"
+msgstr "依存性"
+
+msgid "rep_dependency"
+msgstr "依存性"
+
+msgid "rep_dependent_object"
+msgstr "依存性でレスキュー"
+
+msgid "rep_export_limit_number"
+msgstr "オブジェクト数"
+
+msgid "rep_export_limitation"
+msgstr "コンテナエクスポート制限"
+
+msgid "rep_export_limitation_disabled"
+msgstr "コンテナエクスポートは使用不可"
+
+msgid "rep_export_limitation_info"
+msgstr "リポジトリ内のコンテナエクスポート(コース、カテゴリー,…)のオブジェクト制限数"
+
+msgid "rep_export_limitation_limited"
+msgstr "エクスポート制限"
+
+msgid "rep_export_limitation_unlimited"
+msgstr "無制限エクスポート"
+
+msgid "rep_failure_trashed_trash"
+msgstr "親オブジェクトが削除されたのでオリジラルロケーションへリストアできなかったオブジェクトが選択されました。表内のそれぞれのオブジェクトを未チエックにするか代わりに新しいロケーションへリストアを選択して下さい。"
+
+msgid "rep_fav_intro1"
+msgstr "まだ、何もお気に入りを選択していません。これを実行するには2つのステップを行う必要があります。"
+
+msgid "rep_fav_intro2"
+msgstr "'%s' をクリックして利用可能なもの(例:学習モジュールまたは掲示板)から学習オブジェクトを選択します。"
+
+msgid "rep_fav_intro3"
+msgstr "興味のあるものを見つけた時は簡単にお気に入りへ追加できます。<i>アクション</i> メニュー内から希望のアイテムを選択して \"<i>お気に入りへ追加</i>\"します。"
+
+msgid "rep_favourites"
+msgstr "お気に入り"
+
+msgid "rep_favourites_info"
+msgstr "好みによりシングルリポジトリアイテムをユーザはマークできます。好みのリストはアクティブ化できてダッシュボード内とメニュー設定にて構成可能です。"
+
+msgid "rep_input_not_empty"
+msgstr "このフィールドは空にできないので値を設定してください。"
+
+msgid "rep_intro"
+msgstr "リポジトリへようこそ!"
+
+msgid "rep_intro1"
+msgstr "このエリアでは全てのユーザ用の学習とワーク用のリソースを作成できます。全てのリソースはカテゴリの中に配置されています。カテゴリにはユーザの組織 （例：部門）、学部構成や学校のクラス編成などを反映する事ができます。"
+
+msgid "rep_intro2"
+msgstr "初期構成の構築には3ステップが必要です。"
+
+msgid "rep_intro3"
+msgstr "右上にある<i>%s</i>ボタンに続いて表示されるリストをクリック。"
+
+msgid "rep_intro4"
+msgstr "続いてフォームにタイトルと説明を入力して<i>%s</i>をクリック。"
+
+msgid "rep_intro5"
+msgstr "カテゴリのタイトルをクリックしてカテゴリを入力。"
+
+msgid "rep_intro6"
+msgstr "その手順の後でカテゴリへ学習やワークリソースを追加する事もできます。"
+
+msgid "rep_mo_mem_dash"
+msgstr "現在コース、グループのどちらもメンバーではありません。"
+
+msgid "rep_multiple_reference_deletion_instruction"
+msgstr "どれを削除するのか選択してください："
+
+msgid "rep_multiple_reference_deletion_intro"
+msgstr "このオブジェクトには追加情報が存在します。"
+
+msgid "rep_new_item_group_add"
+msgstr "グループ追加"
+
+msgid "rep_new_item_group_delete_sure"
+msgstr "本当に次のグループ化を削除しますか?"
+
+msgid "rep_new_item_group_edit"
+msgstr "グループ編集"
+
+msgid "rep_new_item_group_nr_subitems"
+msgstr "割当て済みオブジェクト数"
+
+msgid "rep_new_item_group_other"
+msgstr "その他"
+
+msgid "rep_new_item_group_unassigned"
+msgstr "割り当てなし"
+
+msgid "rep_new_item_group_unassigned_subitems"
+msgstr "未割当てオブジェクト数: %s"
+
+msgid "rep_new_item_groups"
+msgstr "グループ化"
+
+msgid "rep_new_item_menu"
+msgstr "「新規アイテム追加」- メニュー"
+
+msgid "rep_no_last_visited_mess"
+msgstr "まだ、どの教材も訪問していません。"
+
+msgid "rep_no_permission_to_delete"
+msgstr "削除の権限がありません"
+
+msgid "rep_object_lists"
+msgstr "オブジェクト一覧"
+
+msgid "rep_object_references_cannot_be_read"
+msgstr "%sの詳細を参照する権限がありません。"
+
+msgid "rep_object_to_delete"
+msgstr "削除します"
+
+msgid "rep_rec_content_removed"
+msgstr "推奨コンテンツは削除されました。"
+
+msgid "rep_recommended_content"
+msgstr "推奨コンテンツ"
+
+msgid "rep_remove_rec_content"
+msgstr "本当に次の推奨コンテンツを削除しますか？"
+
+msgid "rep_target_location"
+msgstr "ターゲットロケーション"
+
+msgid "rep_target_location_info"
+msgstr "選択したオブジェクトの復元先を選択してください。"
+
+msgid "rep_time_based_availability"
+msgstr "限定のAvailability(空き状況)期間"
+
+msgid "rep_time_based_availability_info"
+msgstr "選択のアイテムは開始と終了日観でのみ表示されます。"
+
+msgid "rep_time_period"
+msgstr "期間"
+
+msgid "rep_trash_deleted_by_unknown"
+msgstr "Unknown"
+
+msgid "rep_trash_table_col_deleted_by"
+msgstr "削除者"
+
+msgid "rep_trash_table_col_deleted_on"
+msgstr "削除日"
+
+msgid "rep_trash_table_col_num_subs"
+msgstr "サブアイテム数"
+
+msgid "rep_trash_table_title"
+msgstr "以下のオブジェクトを削除しました:"
+
+msgid "rep_tree_limit"
+msgstr "ツリーでアイテムを制限"
+
+msgid "rep_tree_limit_info"
+msgstr "リポジトリーツリーのオブジェクト数は拡張機能へ制限されます。"
+
+msgid "rep_tree_limit_number"
+msgstr "最大数"
+
+msgid "rep_tree_limit_number_info"
+msgstr "子要素の最大数は展開ノードへ最初に表示されます。さらに子要素が存在する場合は、検索入力フィールドがタイトルで子要素フィルターへ表示されます。"

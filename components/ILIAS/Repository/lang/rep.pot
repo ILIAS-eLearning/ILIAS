@@ -1,0 +1,264 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: rep\n"
+
+msgid "btn_undelete_new_location"
+msgstr ""
+
+msgid "btn_undelete_origin_location"
+msgstr ""
+
+msgid "rep_activation_access"
+msgstr ""
+
+msgid "rep_activation_access_ref_info"
+msgstr ""
+
+msgid "rep_activation_availability"
+msgstr ""
+
+msgid "rep_activation_limited_end"
+msgstr ""
+
+msgid "rep_activation_limited_start"
+msgstr ""
+
+msgid "rep_activation_limited_visibility"
+msgstr ""
+
+msgid "rep_activation_online"
+msgstr ""
+
+msgid "rep_activation_online_object_info"
+msgstr ""
+
+msgid "rep_add_new_def_grp_assessment"
+msgstr ""
+
+msgid "rep_add_new_def_grp_communication"
+msgstr ""
+
+msgid "rep_add_new_def_grp_content"
+msgstr ""
+
+msgid "rep_add_new_def_grp_feedback"
+msgstr ""
+
+msgid "rep_add_new_def_grp_organisation"
+msgstr ""
+
+msgid "rep_add_new_def_grp_templates"
+msgstr ""
+
+msgid "rep_added_rec_content"
+msgstr ""
+
+msgid "rep_allowed_types"
+msgstr ""
+
+msgid "rep_breadcr_crs"
+msgstr ""
+
+msgid "rep_breadcr_crs_config"
+msgstr ""
+
+msgid "rep_breadcr_crs_overwrite"
+msgstr ""
+
+msgid "rep_breadcr_crs_overwrite_not"
+msgstr ""
+
+msgid "rep_breadcr_crs_overwrite_settings"
+msgstr ""
+
+msgid "rep_breadcr_crs_overwrite_with_default"
+msgstr ""
+
+msgid "rep_configure"
+msgstr ""
+
+msgid "rep_crs_default_shortened"
+msgstr ""
+
+msgid "rep_custom_icons"
+msgstr ""
+
+msgid "rep_default"
+msgstr ""
+
+msgid "rep_deleted_account"
+msgstr ""
+
+msgid "rep_dependencies"
+msgstr ""
+
+msgid "rep_dependency"
+msgstr ""
+
+msgid "rep_dependent_object"
+msgstr ""
+
+msgid "rep_export_limit_number"
+msgstr ""
+
+msgid "rep_export_limitation"
+msgstr ""
+
+msgid "rep_export_limitation_disabled"
+msgstr ""
+
+msgid "rep_export_limitation_info"
+msgstr ""
+
+msgid "rep_export_limitation_limited"
+msgstr ""
+
+msgid "rep_export_limitation_unlimited"
+msgstr ""
+
+msgid "rep_failure_trashed_trash"
+msgstr ""
+
+msgid "rep_fav_intro1"
+msgstr ""
+
+msgid "rep_fav_intro2"
+msgstr ""
+
+msgid "rep_fav_intro3"
+msgstr ""
+
+msgid "rep_favourites"
+msgstr ""
+
+msgid "rep_favourites_info"
+msgstr ""
+
+msgid "rep_input_not_empty"
+msgstr ""
+
+msgid "rep_intro"
+msgstr ""
+
+msgid "rep_intro1"
+msgstr ""
+
+msgid "rep_intro2"
+msgstr ""
+
+msgid "rep_intro3"
+msgstr ""
+
+msgid "rep_intro4"
+msgstr ""
+
+msgid "rep_intro5"
+msgstr ""
+
+msgid "rep_intro6"
+msgstr ""
+
+msgid "rep_mo_mem_dash"
+msgstr ""
+
+msgid "rep_multiple_reference_deletion_instruction"
+msgstr ""
+
+msgid "rep_multiple_reference_deletion_intro"
+msgstr ""
+
+msgid "rep_new_item_group_add"
+msgstr ""
+
+msgid "rep_new_item_group_delete_sure"
+msgstr ""
+
+msgid "rep_new_item_group_edit"
+msgstr ""
+
+msgid "rep_new_item_group_nr_subitems"
+msgstr ""
+
+msgid "rep_new_item_group_other"
+msgstr ""
+
+msgid "rep_new_item_group_unassigned"
+msgstr ""
+
+msgid "rep_new_item_group_unassigned_subitems"
+msgstr ""
+
+msgid "rep_new_item_groups"
+msgstr ""
+
+msgid "rep_new_item_menu"
+msgstr ""
+
+msgid "rep_no_last_visited_mess"
+msgstr ""
+
+msgid "rep_no_permission_to_delete"
+msgstr ""
+
+msgid "rep_object_lists"
+msgstr ""
+
+msgid "rep_object_references_cannot_be_read"
+msgstr ""
+
+msgid "rep_object_to_delete"
+msgstr ""
+
+msgid "rep_rec_content_removed"
+msgstr ""
+
+msgid "rep_recommended_content"
+msgstr ""
+
+msgid "rep_remove_rec_content"
+msgstr ""
+
+msgid "rep_target_location"
+msgstr ""
+
+msgid "rep_target_location_info"
+msgstr ""
+
+msgid "rep_time_based_availability"
+msgstr ""
+
+msgid "rep_time_based_availability_info"
+msgstr ""
+
+msgid "rep_time_period"
+msgstr ""
+
+msgid "rep_trash_deleted_by_unknown"
+msgstr ""
+
+msgid "rep_trash_table_col_deleted_by"
+msgstr ""
+
+msgid "rep_trash_table_col_deleted_on"
+msgstr ""
+
+msgid "rep_trash_table_col_num_subs"
+msgstr ""
+
+msgid "rep_trash_table_title"
+msgstr ""
+
+msgid "rep_tree_limit"
+msgstr ""
+
+msgid "rep_tree_limit_info"
+msgstr ""
+
+msgid "rep_tree_limit_number"
+msgstr ""
+
+msgid "rep_tree_limit_number_info"
+msgstr ""

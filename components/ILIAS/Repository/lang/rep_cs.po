@@ -1,0 +1,299 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: rep\n"
+
+#, fuzzy
+msgid "btn_undelete_new_location"
+msgstr "Restore (new location)"
+
+#, fuzzy
+msgid "btn_undelete_origin_location"
+msgstr "Restore (same location)"
+
+msgid "rep_activation_access"
+msgstr "Přístup"
+
+msgid "rep_activation_access_ref_info"
+msgstr "Toto nastavení ovlivní pouze tento a žádný jiný odkaz v úložišti."
+
+msgid "rep_activation_availability"
+msgstr "Dostupnost"
+
+msgid "rep_activation_limited_end"
+msgstr "Čas ukončení"
+
+msgid "rep_activation_limited_start"
+msgstr "Čas zahájení"
+
+msgid "rep_activation_limited_visibility"
+msgstr "Vždy viditelné"
+
+msgid "rep_activation_online"
+msgstr "Online"
+
+msgid "rep_activation_online_object_info"
+msgstr "Toto nastavení ovlivní všechny odkazy v úložišti."
+
+msgid "rep_add_new_def_grp_assessment"
+msgstr "Posouzení"
+
+msgid "rep_add_new_def_grp_communication"
+msgstr "Sdělení"
+
+msgid "rep_add_new_def_grp_content"
+msgstr "Obsah"
+
+msgid "rep_add_new_def_grp_feedback"
+msgstr "Zpětná vazba a hodnocení"
+
+msgid "rep_add_new_def_grp_organisation"
+msgstr "Organizace"
+
+msgid "rep_add_new_def_grp_templates"
+msgstr "Šablony"
+
+#, fuzzy
+msgid "rep_added_rec_content"
+msgstr "Recommended content has been added."
+
+#, fuzzy
+msgid "rep_allowed_types"
+msgstr "Allowed Types"
+
+msgid "rep_breadcr_crs"
+msgstr "Breadcrumb začíná kurzem"
+
+#, fuzzy
+msgid "rep_breadcr_crs_config"
+msgstr "Configuration"
+
+msgid "rep_breadcr_crs_overwrite"
+msgstr "Nastavení lze měnit na úrovni kurz"
+
+msgid "rep_breadcr_crs_overwrite_not"
+msgstr "Nastavení nelze měnit na úrovni kurz"
+
+#, fuzzy
+msgid "rep_breadcr_crs_overwrite_settings"
+msgstr "Allow Exceptions"
+
+#, fuzzy
+msgid "rep_breadcr_crs_overwrite_with_default"
+msgstr "Setting is changeable on course level, with this as default"
+
+#, fuzzy
+msgid "rep_configure"
+msgstr "Configure"
+
+#, fuzzy
+msgid "rep_crs_default_shortened"
+msgstr "Default: Breadcrumbs Shortened"
+
+msgid "rep_custom_icons"
+msgstr "Vlastní ikony"
+
+msgid "rep_default"
+msgstr "Výchozí"
+
+#, fuzzy
+msgid "rep_deleted_account"
+msgstr "Deleted Account"
+
+msgid "rep_dependencies"
+msgstr "Závislosti"
+
+msgid "rep_dependency"
+msgstr "Závislost"
+
+msgid "rep_dependent_object"
+msgstr "Zdroj se závislostí"
+
+#, fuzzy
+msgid "rep_export_limit_number"
+msgstr "Number of Objects"
+
+#, fuzzy
+msgid "rep_export_limitation"
+msgstr "Container Export Limitation"
+
+#, fuzzy
+msgid "rep_export_limitation_disabled"
+msgstr "Container Export Disabled"
+
+#, fuzzy
+msgid "rep_export_limitation_info"
+msgstr "Limits the number of objects for container exports (courses, categories, ...) in the repository."
+
+#, fuzzy
+msgid "rep_export_limitation_limited"
+msgstr "Limit Export"
+
+#, fuzzy
+msgid "rep_export_limitation_unlimited"
+msgstr "Unlimited Export"
+
+#, fuzzy
+msgid "rep_failure_trashed_trash"
+msgstr "You selected objects that cannot be restored to their original location, because their parent objects were deleted. Please uncheck the respective object in the table or select the Restore to New Location instead."
+
+msgid "rep_fav_intro1"
+msgstr "Zatím jste nevybrali žádné oblíbené položky. Chcete-li to provést, musíte provést dva kroky:"
+
+msgid "rep_fav_intro2"
+msgstr "Klikněte na '%s' a vyberte si z dostupných možností studijní objekt, např. studijní modul nebo fórum."
+
+msgid "rep_fav_intro3"
+msgstr "Pokud najdete něco, co vás zajímá, můžete si to snadno přidat do oblíbených. U požadované položky vyberte v nabídce Akce možnost „Přidat do oblíbených“."
+
+msgid "rep_favourites"
+msgstr "Oblíbené"
+
+#, fuzzy
+msgid "rep_favourites_info"
+msgstr "Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings."
+
+#, fuzzy
+msgid "rep_input_not_empty"
+msgstr "This field must not be empty, please provide a value."
+
+msgid "rep_intro"
+msgstr "Vítejte v úložišti!"
+
+msgid "rep_intro1"
+msgstr "V této oblasti můžete vytvářet výukové a pracovní prostředky pro všechny uživatele. Všechny prostředky jsou organizovány do kategorií. Kategorie mohou zohledňovat strukturu Vaší organizace (např. katedry), hierarchii vědních oborů, nebo třídy školy."
+
+msgid "rep_intro2"
+msgstr "K vybudování počáteční struktury jsou potřebné tři kroky:"
+
+msgid "rep_intro3"
+msgstr "Klepněte na tlačítko <i>%s</i> mimo seznam výběru vpravo nahoře."
+
+msgid "rep_intro4"
+msgstr "V následujícím formuláři, vložte název a popis, a klepněte na <i>%s</i>."
+
+msgid "rep_intro5"
+msgstr "Klepnutím na název kategorie vložte svou kategorii."
+
+msgid "rep_intro6"
+msgstr "Po této proceduře můžete přidávat jakékoliv výukové a pracovní prostředky do Vaší kategorie."
+
+#, fuzzy
+msgid "rep_mo_mem_dash"
+msgstr "Sie sind aktuell noch nicht Mitglied eines Kurses oder einer Gruppe."
+
+msgid "rep_multiple_reference_deletion_instruction"
+msgstr "Vyberte ty, které by měly být také smazány:"
+
+msgid "rep_multiple_reference_deletion_intro"
+msgstr "Pro tento objekt existují další odkazy."
+
+msgid "rep_new_item_group_add"
+msgstr "Přidat skupinu"
+
+msgid "rep_new_item_group_delete_sure"
+msgstr "Opravdu chcete odstranit následující skupiny?"
+
+msgid "rep_new_item_group_edit"
+msgstr "Upravit skupinu"
+
+msgid "rep_new_item_group_nr_subitems"
+msgstr "Počet přiřazených objektů"
+
+msgid "rep_new_item_group_other"
+msgstr "Další"
+
+msgid "rep_new_item_group_unassigned"
+msgstr "Nepřiřazen"
+
+msgid "rep_new_item_group_unassigned_subitems"
+msgstr "Počet objektů, u kterých bylo zrušeno přiřazení: %s"
+
+msgid "rep_new_item_groups"
+msgstr "Nové skupiny položek"
+
+msgid "rep_new_item_menu"
+msgstr "Přidat novou položku menu"
+
+#, fuzzy
+msgid "rep_no_last_visited_mess"
+msgstr "You did not visited any resources yet."
+
+msgid "rep_no_permission_to_delete"
+msgstr "Žádné oprávnění k odstranění"
+
+msgid "rep_object_lists"
+msgstr "Seznamy objektů"
+
+msgid "rep_object_references_cannot_be_read"
+msgstr "Žádná oprávnění pro další odkazy %s."
+
+msgid "rep_object_to_delete"
+msgstr "Ke smazání"
+
+#, fuzzy
+msgid "rep_rec_content_removed"
+msgstr "Recommended content has been removed."
+
+#, fuzzy
+msgid "rep_recommended_content"
+msgstr "Recommended Content"
+
+#, fuzzy
+msgid "rep_remove_rec_content"
+msgstr "Are you sure you want to remove the following recommended content?"
+
+#, fuzzy
+msgid "rep_target_location"
+msgstr "Target Location"
+
+#, fuzzy
+msgid "rep_target_location_info"
+msgstr "Bitte wählen Sie nun das Ziel aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen."
+
+msgid "rep_time_based_availability"
+msgstr "Dočasně k dispozici"
+
+#, fuzzy
+msgid "rep_time_based_availability_info"
+msgstr "The selected items will only be visible between the start and end date."
+
+msgid "rep_time_period"
+msgstr "Doba"
+
+#, fuzzy
+msgid "rep_trash_deleted_by_unknown"
+msgstr "Unknown"
+
+#, fuzzy
+msgid "rep_trash_table_col_deleted_by"
+msgstr "Deleted by"
+
+#, fuzzy
+msgid "rep_trash_table_col_deleted_on"
+msgstr "Deleted on"
+
+#, fuzzy
+msgid "rep_trash_table_col_num_subs"
+msgstr "Number Subitems"
+
+#, fuzzy
+msgid "rep_trash_table_title"
+msgstr "Deleted objects below:"
+
+msgid "rep_tree_limit"
+msgstr "Omezit položky ve stromu"
+
+msgid "rep_tree_limit_info"
+msgstr "Počet objektů ve stromu úložiště bude omezen, aby se zvýšila výkonnost."
+
+msgid "rep_tree_limit_number"
+msgstr "Maximální počet"
+
+msgid "rep_tree_limit_number_info"
+msgstr "Maximální počet prvků stromu, které jsou zpočátku zobrazeny pro rozšířený uzel. Pokud je k dispozici více prvků stromu, zobrazí se vstupní vyhledávací pole pro filtrování prvků stromu podle názvu."
