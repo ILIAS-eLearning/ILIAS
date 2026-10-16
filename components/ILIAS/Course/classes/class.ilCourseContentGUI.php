@@ -18,11 +18,12 @@
 
 declare(strict_types=0);
 
+use ILIAS\DI\UIServices as UIServices;
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 use ILIAS\Refinery\Factory;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 /**
  * Class ilCourseContentGUI
@@ -51,6 +52,7 @@ class ilCourseContentGUI
     protected Factory $refinery;
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
+    protected UIServices $ui;
     protected LOMServices $lom_services;
 
     public function __construct(ilContainerGUI $container_gui_obj)
@@ -72,6 +74,7 @@ class ilCourseContentGUI
         $this->refinery = $DIC->refinery();
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
+        $this->ui = $DIC->ui();
         $this->lom_services = $DIC->learningObjectMetadata();
 
         $this->container_gui = $container_gui_obj;
@@ -348,52 +351,34 @@ class ilCourseContentGUI
         $this->ctrl->returnToParent($this);
     }
 
-    /**
-     * @deprecated
-     * @todo
-     */
     public function showUserTimings(): void
     {
-        $this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.crs_user_timings.html', 'components/ILIAS/Course');
         $this->tabs->clearSubTabs();
-        $this->tabs->setTabActive('members');
-
+        $this->tabs->activateTab('members');
+        $back_breadcrumb = $this->ui->factory()->breadcrumbs([
+            $this->ui->factory()->link()->standard(
+                $this->lng->txt("back"),
+                $this->ctrl->getLinkTarget($this, 'returnToMembers')
+            )
+        ]);
         if (!$this->initMemberIdFromQuery()) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
-            $this->ctrl->returnToParent($this);
+            $this->ctrl->redirectByClass(ilCourseContentGUI::class, 'returnToMembers');
         }
-
-        // Back button
-        $this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-        $this->tpl->setCurrentBlock("btn_cell");
-        $this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, 'returnToMembers'));
-        $this->tpl->setVariable("BTN_TXT", $this->lng->txt("back"));
-        $this->tpl->parseCurrentBlock();
-
-        $usr_icon = $this->ui_factory->symbol()->icon()->standard(
-            'usr',
-            $this->lng->txt('obj_usr'),
-            'large'
+        $membership_timingsview_table_factory = new ILIAS\Course\Table\TimingsView\Factory(
+            $this->user,
+            $this->ui,
+            $this->http,
+            $this->lng
         );
-        $this->tpl->setVariable("HEADER_IMG", $this->ui_renderer->render($usr_icon));
-        $this->tpl->setVariable("TABLE_HEADER", $this->lng->txt('timings_of'));
-        $name = ilObjUser::_lookupName($this->initMemberIdFromQuery());
-        $this->tpl->setVariable("USER_NAME", $name['lastname'] . ', ' . $name['firstname']);
-
-        $this->tpl->setVariable("TXT_TITLE", $this->lng->txt('title'));
-        $this->tpl->setVariable("TXT_START_END", $this->lng->txt('crs_timings_short_start_end'));
-        $this->tpl->setVariable("TXT_INFO_START_END", $this->lng->txt('crs_timings_start_end_info'));
-        $this->tpl->setVariable("TXT_CHANGED", $this->lng->txt('crs_timings_changed'));
-        $this->tpl->setVariable("TXT_OWN_PRESETTING", $this->lng->txt('crs_timings_planed_start'));
-        $this->tpl->setVariable("TXT_INFO_OWN_PRESETTING", $this->lng->txt('crs_timings_from_until'));
-
-        $items = ilObjectActivation::getTimingsAdministrationItems($this->course_obj->getRefId());
-        foreach ($items as $item) {
-            if (($item['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) or
-                ilObjectActivation::hasChangeableTimings($item['ref_id'])) {
-                $this->__renderUserItem($item, 0);
-            }
-        }
+        $data_retrieval = $membership_timingsview_table_factory->dataRetrieval(
+            $this->initMemberIdFromQuery(),
+            $this->course_obj->getRefId()
+        );
+        $table = $membership_timingsview_table_factory->handler(
+            $data_retrieval
+        );
+        $this->tpl->setContent($this->ui->renderer()->render($back_breadcrumb) . $table->getHTML());
     }
 
     /**
