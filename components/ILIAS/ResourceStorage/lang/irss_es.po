@@ -1,0 +1,195 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: irss\n"
+
+msgid "action_download"
+msgstr "Descargar"
+
+msgid "action_goto"
+msgstr "Abrir recurso"
+
+msgid "action_remove_resource"
+msgstr "Eliminar recurso"
+
+msgid "action_remove_resource_msg"
+msgstr "¿Desea eliminar el/los siguiente(s) recurso(s)?"
+
+msgid "action_remove_zip_path"
+msgstr "Eliminar ruta"
+
+msgid "action_remove_zip_path_msg"
+msgstr "¿Desea eliminar las siguientes rutas?"
+
+msgid "action_show_revisions"
+msgstr "Mostrar versiones"
+
+msgid "by_creation_date_asc"
+msgstr "Por fecha de creación (ascendente)"
+
+msgid "by_creation_date_desc"
+msgstr "Por fecha de creación (descendente)"
+
+msgid "by_size_asc"
+msgstr "Por tamaño de archivo (ascendente)"
+
+msgid "by_size_desc"
+msgstr "Por tamaño de archivo (descendente)"
+
+msgid "by_title_asc"
+msgstr "Por título (ascendente)"
+
+msgid "by_title_desc"
+msgstr "Por título (descendente)"
+
+#, fuzzy
+msgid "confidential"
+msgstr "Confidential"
+
+#, fuzzy
+msgid "confidential_no_download"
+msgstr "This resource is confidential and can only be downloaded by its owner."
+
+#, fuzzy
+msgid "confidential_redacted"
+msgstr "[Confidential]"
+
+msgid "create_directory"
+msgstr "Crear directorio"
+
+msgid "creation_date"
+msgstr "Fecha de creación (esta versión)"
+
+msgid "directory_name"
+msgstr "Nombre del directorio"
+
+msgid "directory_name_info"
+msgstr "Nombre del directorio que se insertará en la ubicación actual."
+
+msgid "download_zip"
+msgstr "Descargar todos los archivos como ZIP"
+
+msgid "entries_target_group"
+msgstr "Seleccionar grupo destino"
+
+msgid "entry_deleted_failed"
+msgstr "Eliminación no posible"
+
+msgid "file_size"
+msgstr "Tamaño del archivo (esta versión)"
+
+msgid "file_size_bigger_than"
+msgstr "Tamaño del archivo > MB"
+
+msgid "full_size"
+msgstr "Tamaño del recurso (todas las versiones)"
+
+msgid "home_directory"
+msgstr "Directorio raíz"
+
+msgid "item_moved"
+msgstr "Entrada movida"
+
+msgid "max_revision"
+msgstr "Versión máx."
+
+msgid "msg_error_adding_directory"
+msgstr "No se pudo crear el directorio."
+
+msgid "msg_paths_deleted"
+msgstr "Ruta(s) eliminada(s)"
+
+msgid "msg_success_adding_directory"
+msgstr "El directorio se creó correctamente."
+
+msgid "msg_upload"
+msgstr "Arrastre archivos aquí para subirlos"
+
+msgid "no_parent_selected"
+msgstr "No se ha seleccionado ningún grupo destino"
+
+msgid "resource_id"
+msgstr "ID del recurso"
+
+msgid "resource_no_stakeholder_uri"
+msgstr "Ningún interesado proporciona un enlace válido para el uso de este recurso."
+
+msgid "resource_overview"
+msgstr "Resumen del recurso"
+
+msgid "revision"
+msgstr "Versión"
+
+msgid "revision_status"
+msgstr "Estado"
+
+msgid "revision_status_10"
+msgstr "Publicado"
+
+msgid "revision_status_20"
+msgstr "Borrador"
+
+msgid "revisions"
+msgstr "Versiones disponibles"
+
+msgid "rid_deleted"
+msgstr "Archivo eliminado"
+
+msgid "rids_appended"
+msgstr "Recurso(s) añadido(s)"
+
+msgid "rids_appended_failed"
+msgstr "No se han añadido recursos"
+
+msgid "rids_deleted"
+msgstr "Recurso(s) eliminado(s)"
+
+msgid "rids_updated"
+msgstr "Recurso(s) actualizado(s)"
+
+msgid "sorting"
+msgstr "Orden predeterminado"
+
+msgid "sorting_1"
+msgstr "Por título (ascendente)"
+
+msgid "sorting_2"
+msgstr "Por título (descendente)"
+
+msgid "sorting_3"
+msgstr "Por tamaño de archivo (ascendente)"
+
+msgid "sorting_4"
+msgstr "Por tamaño de archivo (descendente)"
+
+msgid "sorting_5"
+msgstr "Por fecha de creación (ascendente)"
+
+msgid "sorting_6"
+msgstr "Por fecha de creación (descendente)"
+
+msgid "stakeholders"
+msgstr "Origen"
+
+msgid "storage_id"
+msgstr "ID de almacenamiento"
+
+msgid "storage_info"
+msgstr "Información de almacenamiento"
+
+msgid "title_manage_container"
+msgstr "Gestionar archivos y carpetas"
+
+msgid "type"
+msgstr "Tipo de archivo"
+
+msgid "upload_field_title"
+msgstr "Archivos seleccionados"
+
+msgid "upload_modal_title"
+msgstr "Añadir archivos"

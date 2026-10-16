@@ -5882,67 +5882,6 @@ cptch#:#cptch_wrong_input#:#Falsche Eingabe
 excv#:#excv_create#:#Übungszertifikat erstellen
 excv#:#excv_create_info#:#Wählen Sie eine Übung, für die Sie ein Zertifikat benötigen
 impr#:#impr_page_type_impr#:#Impressum
-irss#:#action_download#:#Herunterladen
-irss#:#action_goto#:#Ressource öffnen
-irss#:#action_remove_resource#:#Ressource löschen
-irss#:#action_remove_resource_msg#:#Möchten Sie die folgende(n) Ressource(n) löschen?
-irss#:#action_remove_zip_path#:#Pfad löschen
-irss#:#action_remove_zip_path_msg#:#Möchten sie die folgenden Pfade löschen?
-irss#:#action_show_revisions#:#Revisionen anzeigen
-irss#:#by_creation_date_asc#:#Erstellungsdatum (aufsteigend)
-irss#:#by_creation_date_desc#:#Erstellungsdatum (absteigend)
-irss#:#by_size_asc#:#Dateigröße (aufsteigend)
-irss#:#by_size_desc#:#Dateigröße (absteigend)
-irss#:#by_title_asc#:#Titel (aufsteigend)
-irss#:#by_title_desc#:#Titel (absteigend)
-irss#:#confidential#:#Vertraulich
-irss#:#confidential_no_download#:#Diese Ressource ist vertraulich und kann nur von ihrem Besitzer heruntergeladen werden.
-irss#:#confidential_redacted#:#[Vertraulich]
-irss#:#create_directory#:#Verzeichnis erstellen
-irss#:#creation_date#:#Erstellungsdatum (Diese Revision)
-irss#:#directory_name#:#Verzeichnisname
-irss#:#directory_name_info#:#Name des Verzeichnisses, welches an der aktuellen Stelle eingefügt werden soll.
-irss#:#download_zip#:#Alle Dateien als ZIP herunterladen
-irss#:#entries_target_group#:#Ziel wählen
-irss#:#entry_deleted_failed#:#Löschen nicht möglich
-irss#:#file_size#:#Dateigröße (Diese Revision)
-irss#:#file_size_bigger_than#:#Dateigröße > MB
-irss#:#full_size#:#Ressourcengröße (Alle Revisionen)
-irss#:#home_directory#:#Stammverzeichnis
-irss#:#item_moved#:#Eintrag verschoben
-irss#:#max_revision#:#Maximale Revision
-irss#:#msg_error_adding_directory#:#Das Verzeichnis konnte nicht angelegt werden.
-irss#:#msg_paths_deleted#:#Pfad(e) gelöscht
-irss#:#msg_success_adding_directory#:#Das Verzeichnis wurde erfolgreich angelegt.
-irss#:#msg_upload#:#Dateien zum Hinzufügen hier ablegen
-irss#:#no_parent_selected#:#Kein Ziel gewählt
-irss#:#resource_id#:#Resource ID
-irss#:#resource_no_stakeholder_uri#:#Kein Stakeholder stellt einen Link zu der Nutzung dieser Resource zur Verfügung.
-irss#:#resource_overview#:#Ressourcen-Übersicht
-irss#:#revision#:#Revision
-irss#:#revision_status#:#Status
-irss#:#revision_status_10#:#Veröffentlicht
-irss#:#revision_status_20#:#Entwurf
-irss#:#revisions#:#Verfügbare Revisionen
-irss#:#rid_deleted#:#Datei entfernt
-irss#:#rids_appended#:#Ressource(n) hinzugefügt
-irss#:#rids_appended_failed#:#Keine Ressource(n) hinzugefügt
-irss#:#rids_deleted#:#Ressource(n) gelöscht
-irss#:#rids_updated#:#Ressource(n) aktualisiert
-irss#:#sorting#:#Sortierung
-irss#:#sorting_1#:#Titel (aufsteigend)
-irss#:#sorting_2#:#Titel (absteigend)
-irss#:#sorting_3#:#Dateigröße (aufsteigend)
-irss#:#sorting_4#:#Dateigröße (absteigend)
-irss#:#sorting_5#:#Erstellungsdatum (aufsteigend)
-irss#:#sorting_6#:#Erstellungsdatum (absteigend)
-irss#:#stakeholders#:#Ursprung
-irss#:#storage_id#:#Storage ID
-irss#:#storage_info#:#Storage Information
-irss#:#title_manage_container#:#Dateien und Ordner verwalten
-irss#:#type#:#Dateityp
-irss#:#upload_field_title#:#Ausgewählte Dateien
-irss#:#upload_modal_title#:#Dateien hinzufügen
 lti#:#act_lti_for_obj_type#:#LTI für diese Objekttypen aktivieren
 lti#:#activity_id#:#Activity-ID
 lti#:#activity_id_info#:#Diese Activity-ID wird vom LTI-Tool verwendet, um Statements zu identifizieren.

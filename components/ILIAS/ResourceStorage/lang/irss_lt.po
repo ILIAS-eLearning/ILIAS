@@ -1,0 +1,253 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: lt\n"
+"Language-Team: Lithuanian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 1 : 2);\n"
+"X-Domain: irss\n"
+
+#, fuzzy
+msgid "action_download"
+msgstr "Download"
+
+#, fuzzy
+msgid "action_goto"
+msgstr "Open Resource"
+
+#, fuzzy
+msgid "action_remove_resource"
+msgstr "Delete Resource"
+
+#, fuzzy
+msgid "action_remove_resource_msg"
+msgstr "Do you want to delete the following Resource(s)?"
+
+#, fuzzy
+msgid "action_remove_zip_path"
+msgstr "Delete path"
+
+#, fuzzy
+msgid "action_remove_zip_path_msg"
+msgstr "Would you like to delete the following paths?"
+
+#, fuzzy
+msgid "action_show_revisions"
+msgstr "Show Revisions"
+
+#, fuzzy
+msgid "by_creation_date_asc"
+msgstr "By Creation Date (Ascending)"
+
+#, fuzzy
+msgid "by_creation_date_desc"
+msgstr "By Creation Date (Descending)"
+
+#, fuzzy
+msgid "by_size_asc"
+msgstr "By File Size (Ascending)"
+
+#, fuzzy
+msgid "by_size_desc"
+msgstr "By File Size (Descending)"
+
+#, fuzzy
+msgid "by_title_asc"
+msgstr "By Title (Ascending)"
+
+#, fuzzy
+msgid "by_title_desc"
+msgstr "By Title (Descending)"
+
+#, fuzzy
+msgid "confidential"
+msgstr "Confidential"
+
+#, fuzzy
+msgid "confidential_no_download"
+msgstr "This resource is confidential and can only be downloaded by its owner."
+
+#, fuzzy
+msgid "confidential_redacted"
+msgstr "[Confidential]"
+
+#, fuzzy
+msgid "create_directory"
+msgstr "Create Directory"
+
+#, fuzzy
+msgid "creation_date"
+msgstr "Creation Date (This Revision)"
+
+#, fuzzy
+msgid "directory_name"
+msgstr "Directory Name"
+
+#, fuzzy
+msgid "directory_name_info"
+msgstr "Name of the directory to be inserted at the current location."
+
+#, fuzzy
+msgid "download_zip"
+msgstr "Download all files as ZIP"
+
+#, fuzzy
+msgid "entries_target_group"
+msgstr "Select target group"
+
+#, fuzzy
+msgid "entry_deleted_failed"
+msgstr "Deletion not possible"
+
+#, fuzzy
+msgid "file_size"
+msgstr "File Size (This Revision)"
+
+#, fuzzy
+msgid "file_size_bigger_than"
+msgstr "File Size > MB"
+
+#, fuzzy
+msgid "full_size"
+msgstr "Resource Size (All Revisions)"
+
+#, fuzzy
+msgid "home_directory"
+msgstr "Root-Directory"
+
+#, fuzzy
+msgid "item_moved"
+msgstr "Entry moved"
+
+#, fuzzy
+msgid "max_revision"
+msgstr "Max. Revision"
+
+#, fuzzy
+msgid "msg_error_adding_directory"
+msgstr "The directory could not be created."
+
+#, fuzzy
+msgid "msg_paths_deleted"
+msgstr "Path(s) deleted"
+
+#, fuzzy
+msgid "msg_success_adding_directory"
+msgstr "The directory was created successfully."
+
+#, fuzzy
+msgid "msg_upload"
+msgstr "Drop Files to upload"
+
+#, fuzzy
+msgid "no_parent_selected"
+msgstr "No target group selected"
+
+#, fuzzy
+msgid "resource_id"
+msgstr "Resource ID"
+
+#, fuzzy
+msgid "resource_no_stakeholder_uri"
+msgstr "No Stakeholder provides a valid Link to the usage of this Resource."
+
+#, fuzzy
+msgid "resource_overview"
+msgstr "Resource Overview"
+
+#, fuzzy
+msgid "revision"
+msgstr "Revision"
+
+#, fuzzy
+msgid "revision_status"
+msgstr "Status"
+
+#, fuzzy
+msgid "revision_status_10"
+msgstr "Published"
+
+#, fuzzy
+msgid "revision_status_20"
+msgstr "Draft"
+
+#, fuzzy
+msgid "revisions"
+msgstr "Available Revisions"
+
+#, fuzzy
+msgid "rid_deleted"
+msgstr "File removed"
+
+#, fuzzy
+msgid "rids_appended"
+msgstr "Resource(s) added"
+
+#, fuzzy
+msgid "rids_appended_failed"
+msgstr "No Resource(s) added"
+
+#, fuzzy
+msgid "rids_deleted"
+msgstr "Resource(s) deleted"
+
+#, fuzzy
+msgid "rids_updated"
+msgstr "Ressource(n) updated"
+
+#, fuzzy
+msgid "sorting"
+msgstr "Default Ordering"
+
+#, fuzzy
+msgid "sorting_1"
+msgstr "By Title (Ascending)"
+
+#, fuzzy
+msgid "sorting_2"
+msgstr "By Title (Descending)"
+
+#, fuzzy
+msgid "sorting_3"
+msgstr "By File Size (Ascending)"
+
+#, fuzzy
+msgid "sorting_4"
+msgstr "By File Size (Descending)"
+
+#, fuzzy
+msgid "sorting_5"
+msgstr "By Creation Date (Ascending)"
+
+#, fuzzy
+msgid "sorting_6"
+msgstr "By Creation Date (Descending)"
+
+#, fuzzy
+msgid "stakeholders"
+msgstr "Stakeholders"
+
+#, fuzzy
+msgid "storage_id"
+msgstr "Storage ID"
+
+#, fuzzy
+msgid "storage_info"
+msgstr "Storage Information"
+
+#, fuzzy
+msgid "title_manage_container"
+msgstr "Manage files and folders"
+
+#, fuzzy
+msgid "type"
+msgstr "File Type"
+
+#, fuzzy
+msgid "upload_field_title"
+msgstr "Selected Files"
+
+#, fuzzy
+msgid "upload_modal_title"
+msgstr "Add Files"

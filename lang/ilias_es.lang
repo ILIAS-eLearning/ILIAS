@@ -5882,64 +5882,6 @@ cptch#:#cptch_wrong_input#:#Entrada incorrecta
 excv#:#excv_create#:#Crear certificado de ejercicio
 excv#:#excv_create_info#:#Seleccione un ejercicio finalizado para generar un certificado para el mismo.
 impr#:#impr_page_type_impr#:#Pie de imprenta
-irss#:#action_download#:#Descargar
-irss#:#action_goto#:#Abrir recurso
-irss#:#action_remove_resource#:#Eliminar recurso
-irss#:#action_remove_resource_msg#:#¿Desea eliminar el/los siguiente(s) recurso(s)?
-irss#:#action_remove_zip_path#:#Eliminar ruta
-irss#:#action_remove_zip_path_msg#:#¿Desea eliminar las siguientes rutas?
-irss#:#action_show_revisions#:#Mostrar versiones
-irss#:#by_creation_date_asc#:#Por fecha de creación (ascendente)
-irss#:#by_creation_date_desc#:#Por fecha de creación (descendente)
-irss#:#by_size_asc#:#Por tamaño de archivo (ascendente)
-irss#:#by_size_desc#:#Por tamaño de archivo (descendente)
-irss#:#by_title_asc#:#Por título (ascendente)
-irss#:#by_title_desc#:#Por título (descendente)
-irss#:#create_directory#:#Crear directorio
-irss#:#creation_date#:#Fecha de creación (esta versión)
-irss#:#directory_name#:#Nombre del directorio
-irss#:#directory_name_info#:#Nombre del directorio que se insertará en la ubicación actual.
-irss#:#download_zip#:#Descargar todos los archivos como ZIP
-irss#:#entries_target_group#:#Seleccionar grupo destino
-irss#:#entry_deleted_failed#:#Eliminación no posible
-irss#:#file_size#:#Tamaño del archivo (esta versión)
-irss#:#file_size_bigger_than#:#Tamaño del archivo > MB
-irss#:#full_size#:#Tamaño del recurso (todas las versiones)
-irss#:#home_directory#:#Directorio raíz
-irss#:#item_moved#:#Entrada movida
-irss#:#max_revision#:#Versión máx.
-irss#:#msg_error_adding_directory#:#No se pudo crear el directorio.
-irss#:#msg_paths_deleted#:#Ruta(s) eliminada(s)
-irss#:#msg_success_adding_directory#:#El directorio se creó correctamente.
-irss#:#msg_upload#:#Arrastre archivos aquí para subirlos
-irss#:#no_parent_selected#:#No se ha seleccionado ningún grupo destino
-irss#:#resource_id#:#ID del recurso
-irss#:#resource_no_stakeholder_uri#:#Ningún interesado proporciona un enlace válido para el uso de este recurso.
-irss#:#resource_overview#:#Resumen del recurso
-irss#:#revision#:#Versión
-irss#:#revision_status#:#Estado
-irss#:#revision_status_10#:#Publicado
-irss#:#revision_status_20#:#Borrador
-irss#:#revisions#:#Versiones disponibles
-irss#:#rid_deleted#:#Archivo eliminado
-irss#:#rids_appended#:#Recurso(s) añadido(s)
-irss#:#rids_appended_failed#:#No se han añadido recursos
-irss#:#rids_deleted#:#Recurso(s) eliminado(s)
-irss#:#rids_updated#:#Recurso(s) actualizado(s)
-irss#:#sorting#:#Orden predeterminado
-irss#:#sorting_1#:#Por título (ascendente)
-irss#:#sorting_2#:#Por título (descendente)
-irss#:#sorting_3#:#Por tamaño de archivo (ascendente)
-irss#:#sorting_4#:#Por tamaño de archivo (descendente)
-irss#:#sorting_5#:#Por fecha de creación (ascendente)
-irss#:#sorting_6#:#Por fecha de creación (descendente)
-irss#:#stakeholders#:#Origen
-irss#:#storage_id#:#ID de almacenamiento
-irss#:#storage_info#:#Información de almacenamiento
-irss#:#title_manage_container#:#Gestionar archivos y carpetas
-irss#:#type#:#Tipo de archivo
-irss#:#upload_field_title#:#Archivos seleccionados
-irss#:#upload_modal_title#:#Añadir archivos
 lti#:#act_lti_for_obj_type#:#Activar LTI para tipo de objeto
 lti#:#activity_id#:#ID de actividad
 lti#:#activity_id_info#:#Este ID de actividad es utilizado por la herramienta LTI para identificar declaraciones.
