@@ -20,6 +20,7 @@ namespace ILIAS\Wiki;
 
 use ILIAS\COPage;
 use ILIAS\Export;
+use ilWikiPage;
 use ilPropertyFormGUI;
 
 /**
@@ -95,6 +96,9 @@ class WikiPrintViewProviderGUI extends Export\AbstractPrintViewProvider
     {
         $print_pages = [];
         foreach ($this->selected_pages as $p_id) {
+            if (ilWikiPage::lookupWikiId((int) $p_id) !== $this->wiki->getId()) {
+                continue;
+            }
             $page_gui = new \ilWikiPageGUI(
                 $p_id,
                 0,
