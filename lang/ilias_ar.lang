@@ -4213,10 +4213,6 @@ common#:#zip#:#Zip رمز
 common#:#zip_structure_error#:#Archive contains same filenames. Upload aborted.
 common#:#zip_test_failed#:# ILIAS الرجاء الاتصال بمدير Zip-اخفق اختبار
 common#:#zipcode#:#الرمز البريدي
-noti#:#noti_activate_notification#:#Activate Notification###10 11 2018 new variable
-noti#:#noti_deactivate_notification#:#Deactivate Notification###10 11 2018 new variable
-noti#:#noti_notification_activated#:#Notification Activated###10 11 2018 new variable
-noti#:#noti_notification_deactivated#:#Notification Deactivated###10 11 2018 new variable
 sahs#:#cont_insert_after_chap#:#Insert items after chapter
 sahs#:#cont_insert_into_chap#:#Insert items inside chapter
 sahs#:#sahs_activate_expert_mode#:#Activate Sequencing Expert Mode

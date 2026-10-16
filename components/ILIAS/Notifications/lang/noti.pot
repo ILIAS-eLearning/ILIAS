@@ -1,0 +1,18 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: noti\n"
+
+msgid "noti_activate_notification"
+msgstr ""
+
+msgid "noti_deactivate_notification"
+msgstr ""
+
+msgid "noti_notification_activated"
+msgstr ""
+
+msgid "noti_notification_deactivated"
+msgstr ""

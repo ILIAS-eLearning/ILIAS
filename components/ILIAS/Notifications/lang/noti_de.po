@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: noti\n"
+
+msgid "noti_activate_notification"
+msgstr "Benachrichtigung aktivieren"
+
+msgid "noti_deactivate_notification"
+msgstr "Benachrichtigung deaktivieren"
+
+msgid "noti_notification_activated"
+msgstr "Sie haben Benachrichtigungen aktiviert."
+
+msgid "noti_notification_deactivated"
+msgstr "Sie haben Benachrichtigungen deaktiviert."

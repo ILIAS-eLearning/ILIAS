@@ -4213,10 +4213,6 @@ common#:#zip#:#Poštovní kód
 common#:#zip_structure_error#:#Archív obsahuje stejné názvy souborů. Odeslání přerušeno.
 common#:#zip_test_failed#:#Zip-Test selhal. Kontaktujte prosím správce ILIAS
 common#:#zipcode#:#Poštovní směrovací číslo
-noti#:#noti_activate_notification#:#Aktivovat oznámení
-noti#:#noti_deactivate_notification#:#Deaktivovat oznámení
-noti#:#noti_notification_activated#:#Oznámení aktivováno
-noti#:#noti_notification_deactivated#:#Oznámení deaktivováno
 sahs#:#cont_insert_after_chap#:#Vložit položky za kapitolu
 sahs#:#cont_insert_into_chap#:#Vložit položky do kapitoly
 sahs#:#sahs_activate_expert_mode#:#Aktivovat sekvencování v expertním módu

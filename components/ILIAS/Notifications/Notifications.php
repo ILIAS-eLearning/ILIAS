@@ -56,5 +56,9 @@ class Notifications implements Component\Component
             $this,
             'notifications_adm'
         );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'noti'
+        );
     }
 }

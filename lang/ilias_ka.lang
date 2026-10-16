@@ -4213,10 +4213,6 @@ common#:#zip#:#ზიპ კოდი
 common#:#zip_structure_error#:#არქივი შეიცავს იმავე ფაილის სახელებს. ატვირთვა გაუქმდა
 common#:#zip_test_failed#:#ზიპ ტესტირებული ფაილი. გთხოვთ დაუკავშირდეთ თქვენი ილიასის ადმინისტრატორს
 common#:#zipcode#:#ზიპ კოდი
-noti#:#noti_activate_notification#:#Activate Notification###10 11 2018 new variable
-noti#:#noti_deactivate_notification#:#Deactivate Notification###10 11 2018 new variable
-noti#:#noti_notification_activated#:#Notification Activated###10 11 2018 new variable
-noti#:#noti_notification_deactivated#:#Notification Deactivated###10 11 2018 new variable
 sahs#:#cont_insert_after_chap#:#თავების შემდეგ ნივთების ჩასმა
 sahs#:#cont_insert_into_chap#:#თავში ნივთების ჩასმა
 sahs#:#sahs_activate_expert_mode#:#Sequencing Expert Mode გააქტიურება

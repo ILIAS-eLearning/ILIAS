@@ -4215,10 +4215,6 @@ common#:#zip#:#Mã bưu điện
 common#:#zip_structure_error#:#Archive contains same filenames. Upload aborted.###23 09 2007 new variable
 common#:#zip_test_failed#:#Zip-Test failed. Please contact you ILIAS administrator.###15 09 2008 new variable
 common#:#zipcode#:#Mã bưu điện
-noti#:#noti_activate_notification#:#Activate Notification###10 11 2018 new variable
-noti#:#noti_deactivate_notification#:#Deactivate Notification###10 11 2018 new variable
-noti#:#noti_notification_activated#:#Notification Activated###10 11 2018 new variable
-noti#:#noti_notification_deactivated#:#Notification Deactivated###10 11 2018 new variable
 sahs#:#cont_insert_after_chap#:#Insert items after chapter###12 06 2011 new variable
 sahs#:#cont_insert_into_chap#:#Insert items inside chapter###12 06 2011 new variable
 sahs#:#sahs_activate_expert_mode#:#Activate Sequencing Expert Mode###01 04 2011 new variable
