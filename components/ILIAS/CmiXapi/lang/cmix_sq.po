@@ -1,0 +1,1057 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sq\n"
+"Language-Team: Albanian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cmix\n"
+
+#, fuzzy
+msgid "achieved_info"
+msgstr "Successfully bring about or reach a desired objective, level, or result by effort, skill, or courage."
+
+#, fuzzy
+msgid "achieved_label"
+msgstr "Statements with the verb 'achieved'"
+
+#, fuzzy
+msgid "activity_id"
+msgstr "Activity-ID"
+
+#, fuzzy
+msgid "activity_id_info"
+msgstr "This ID is primarily used for the display of data from the LRS. You receive this ID from the resource provider."
+
+#, fuzzy
+msgid "answered_info"
+msgstr "Indicates the actor replied to a question, where the object is generally an activity representing the question. The text of the answer will often be included in the response inside result."
+
+#, fuzzy
+msgid "answered_label"
+msgstr "Statements with the verb 'answered'"
+
+#, fuzzy
+msgid "btn_change_registration"
+msgstr "Submit"
+
+#, fuzzy
+msgid "btn_create_lrs_type"
+msgstr "Add LRS-Type"
+
+#, fuzzy
+msgid "btn_create_registration"
+msgstr "Submit"
+
+#, fuzzy
+msgid "change_registration"
+msgstr "E-Mail address for Registration"
+
+#, fuzzy
+msgid "cmix_add"
+msgstr "Add xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_add_cmi5_lm"
+msgstr "cmi5 Learning Module"
+
+#, fuzzy
+msgid "cmix_add_cmi5_lm_info"
+msgstr "This option should be used when the content is a cmi5 compliant learning module. Related features like suitable reportings are available without further configurations."
+
+#, fuzzy
+msgid "cmix_add_lrs_type"
+msgstr "LRS-Type"
+
+#, fuzzy
+msgid "cmix_add_source"
+msgstr "Source"
+
+#, fuzzy
+msgid "cmix_add_source_external_app"
+msgstr "Resource not launched by ILIAS"
+
+#, fuzzy
+msgid "cmix_add_source_external_app_info"
+msgstr "Use this option for separately launched resources as e.g. apps or simulations. Users must agree to the fetching of data."
+
+#, fuzzy
+msgid "cmix_add_source_local_dir"
+msgstr "Local Directory"
+
+#, fuzzy
+msgid "cmix_add_source_local_dir_info"
+msgstr "Use this option for content packages on your local device."
+
+#, fuzzy
+msgid "cmix_add_source_upload_dir"
+msgstr "Upload Directory"
+
+#, fuzzy
+msgid "cmix_add_source_upload_dir_info"
+msgstr "Use this option for content packages already uploaded into the ILIAS upload directory which is also used for SCORM and HTML packages."
+
+#, fuzzy
+msgid "cmix_add_source_upload_select"
+msgstr "--- Please select ---"
+
+#, fuzzy
+msgid "cmix_add_source_url"
+msgstr "Resource URL"
+
+#, fuzzy
+msgid "cmix_add_source_url_info"
+msgstr "Use this option for an external resource."
+
+#, fuzzy
+msgid "cmix_add_xapi_standard_object"
+msgstr "xAPI Standard Object"
+
+#, fuzzy
+msgid "cmix_add_xapi_standard_object_info"
+msgstr "Use this option to have a generic content module offering all features like different reportings. This option comes with the greatest possible flexibility but requires a more complex configuration."
+
+#, fuzzy
+msgid "cmix_adlnetgov_expapi_verbs_answered"
+msgstr "Answered"
+
+#, fuzzy
+msgid "cmix_adlnetgov_expapi_verbs_asked"
+msgstr "Asked"
+
+#, fuzzy
+msgid "cmix_adlnetgov_expapi_verbs_attempted"
+msgstr "Attempted"
+
+#, fuzzy
+msgid "cmix_adlnetgov_expapi_verbs_attended"
+msgstr "Attended"
+
+#, fuzzy
+msgid "cmix_adlnetgov_expapi_verbs_commented"
+msgstr "Commented"
+
+#, fuzzy
+msgid "cmix_adlnetgov_expapi_verbs_completed"
+msgstr "Completed"
+
+#, fuzzy
+msgid "cmix_adlnetgov_expapi_verbs_exited"
+msgstr "Exited"
+
+#, fuzzy
+msgid "cmix_adlnetgov_expapi_verbs_experienced"
+msgstr "Experienced"
+
+#, fuzzy
+msgid "cmix_adlnetgov_expapi_verbs_failed"
+msgstr "Failed"
+
+#, fuzzy
+msgid "cmix_adlnetgov_expapi_verbs_imported"
+msgstr "Imported"
+
+#, fuzzy
+msgid "cmix_adlnetgov_expapi_verbs_initialized"
+msgstr "Initialized"
+
+#, fuzzy
+msgid "cmix_adlnetgov_expapi_verbs_interacted"
+msgstr "Interacted"
+
+#, fuzzy
+msgid "cmix_adlnetgov_expapi_verbs_launched"
+msgstr "Launched"
+
+#, fuzzy
+msgid "cmix_adlnetgov_expapi_verbs_mastered"
+msgstr "Mastered"
+
+#, fuzzy
+msgid "cmix_adlnetgov_expapi_verbs_passed"
+msgstr "Passed"
+
+#, fuzzy
+msgid "cmix_adlnetgov_expapi_verbs_preferred"
+msgstr "Preferred"
+
+#, fuzzy
+msgid "cmix_adlnetgov_expapi_verbs_progressed"
+msgstr "Progressed"
+
+#, fuzzy
+msgid "cmix_adlnetgov_expapi_verbs_registered"
+msgstr "Registered"
+
+#, fuzzy
+msgid "cmix_adlnetgov_expapi_verbs_responded"
+msgstr "Responded"
+
+#, fuzzy
+msgid "cmix_adlnetgov_expapi_verbs_resumed"
+msgstr "Resumed"
+
+#, fuzzy
+msgid "cmix_adlnetgov_expapi_verbs_scored"
+msgstr "Scored"
+
+#, fuzzy
+msgid "cmix_adlnetgov_expapi_verbs_shared"
+msgstr "Shared"
+
+#, fuzzy
+msgid "cmix_adlnetgov_expapi_verbs_suspended"
+msgstr "Suspended"
+
+#, fuzzy
+msgid "cmix_adlnetgov_expapi_verbs_terminated"
+msgstr "Terminated"
+
+#, fuzzy
+msgid "cmix_adlnetgov_expapi_verbs_voided"
+msgstr "Voided"
+
+#, fuzzy
+msgid "cmix_all_verbs"
+msgstr "All Verbs"
+
+#, fuzzy
+msgid "cmix_copy"
+msgstr "Copy xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_import"
+msgstr "Import xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_indication_to_user"
+msgstr "Further Hints for this LRS"
+
+#, fuzzy
+msgid "cmix_info_external_lrs_info"
+msgstr "This Learning Record Store is an external LRS. An external LRS is characterized by insufficient influence on the LRS by the operator of the ILIAS-Installation. This is the case e.g. if there are no rights to delete data."
+
+#, fuzzy
+msgid "cmix_info_external_lrs_label"
+msgstr "Additional Info about this LRS"
+
+#, fuzzy
+msgid "cmix_info_privacy_section"
+msgstr "Info about personal data"
+
+#, fuzzy
+msgid "cmix_info_privacy_section_launch"
+msgstr "Info about personal data transmitted at launch"
+
+#, fuzzy
+msgid "cmix_lrs_type"
+msgstr "Learning Record Store (LRS)"
+
+#, fuzzy
+msgid "cmix_new"
+msgstr "New xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "completed_info"
+msgstr "Indicates the actor finished or concluded the activity normally."
+
+#, fuzzy
+msgid "completed_label"
+msgstr "Statements with the verb 'completed'"
+
+#, fuzzy
+msgid "conf_availability"
+msgstr "Availability"
+
+#, fuzzy
+msgid "conf_availability_0"
+msgstr "Not available"
+
+#, fuzzy
+msgid "conf_availability_0_info"
+msgstr "Existing xAPI/cmi5 objects that use this LRS type can no longer be used."
+
+#, fuzzy
+msgid "conf_availability_1"
+msgstr "Existing ones allowed"
+
+#, fuzzy
+msgid "conf_availability_1_info"
+msgstr "This LRS type is not offered when creating new xAPI/cmi5 objects. Existing xAPI/cmi5 objects that use this type can continue to write or read data. Use this option to be able to delete data in the connected LRS at a later time."
+
+#, fuzzy
+msgid "conf_availability_2"
+msgstr "New producible"
+
+#, fuzzy
+msgid "conf_availability_2_info"
+msgstr "This LRS type can be selected when creating xAPI/cmi5 objects."
+
+#, fuzzy
+msgid "conf_bypass_proxy"
+msgstr "Detection of Learning Progress"
+
+#, fuzzy
+msgid "conf_bypass_proxy_disabled"
+msgstr "xAPI-Proxy to get immediately data"
+
+#, fuzzy
+msgid "conf_bypass_proxy_enabled"
+msgstr "CronJob to check Learning Record Store"
+
+#, fuzzy
+msgid "conf_bypass_proxy_info"
+msgstr "In most cases it is recommended to use the xAPI-Proxy. Use the CronJob in case of Limitations regarding Resource or Server."
+
+#, fuzzy
+msgid "conf_cronjob_neccessary"
+msgstr "CronJob necessary for Learning Progress"
+
+#, fuzzy
+msgid "conf_cronjob_neccessary_info"
+msgstr "By activating this option, xAPI-Objects using this LRS-Type could not use the xAPI-Proxy to get immediately data for Detection of Learning Progress. Use only the CronJob in case of limitations regarding resources or server."
+
+#, fuzzy
+msgid "conf_delete_data"
+msgstr "Delete Data in LRS"
+
+#, fuzzy
+msgid "conf_delete_data_info"
+msgstr "Deletion is currently only possible with the Learning Record Store (LRS) LearningLocker. Only use the options for deleting the user identification if the data has been pseudonymized in the LRS."
+
+#, fuzzy
+msgid "conf_delete_data_opt0"
+msgstr "Never"
+
+#, fuzzy
+msgid "conf_delete_data_opt1"
+msgstr "Never - but if users are deleted and if xAPI/cmi objects are moved to the trash or deleted, data will no longer be assignable for ILIAS by deleting the - user identification"
+
+#, fuzzy
+msgid "conf_delete_data_opt11"
+msgstr "When users are deleted and when xAPI/cmi objects are moved to the trash or deleted"
+
+#, fuzzy
+msgid "conf_delete_data_opt12"
+msgstr "Additionally when users are removed from courses or groups"
+
+#, fuzzy
+msgid "conf_delete_data_opt2"
+msgstr "Never - but additionally when users are removed from courses or groups, data will no longer be assignable for ILIAS by deleting the user identification"
+
+#, fuzzy
+msgid "conf_description"
+msgstr "Description"
+
+#, fuzzy
+msgid "conf_external_lrs"
+msgstr "External LRS"
+
+#, fuzzy
+msgid "conf_keep_lp"
+msgstr "Keep Learning Progress"
+
+#, fuzzy
+msgid "conf_keep_lp_info"
+msgstr "The ILIAS learning progress status completed would be freezed."
+
+#, fuzzy
+msgid "conf_launch_mode"
+msgstr "Launch Mode"
+
+#, fuzzy
+msgid "conf_launch_mode_browse"
+msgstr "Browse"
+
+#, fuzzy
+msgid "conf_launch_mode_browse_info"
+msgstr "This option should provide a user experience that allows the user to \"look around\" without judgement."
+
+#, fuzzy
+msgid "conf_launch_mode_normal"
+msgstr "Normal"
+
+#, fuzzy
+msgid "conf_launch_mode_normal_info"
+msgstr "Data related to the learning progress should be recorded."
+
+#, fuzzy
+msgid "conf_launch_mode_review"
+msgstr "Review"
+
+#, fuzzy
+msgid "conf_launch_mode_review_info"
+msgstr "This option should provide a user experience that allows the user to \"revisit / review\" already completed material."
+
+#, fuzzy
+msgid "conf_lrs_endpoint"
+msgstr "Endpoint"
+
+#, fuzzy
+msgid "conf_lrs_key"
+msgstr "Key / Login"
+
+#, fuzzy
+msgid "conf_lrs_secret"
+msgstr "Secret / Password"
+
+#, fuzzy
+msgid "conf_new_window"
+msgstr "New Window"
+
+#, fuzzy
+msgid "conf_new_window_info"
+msgstr "The content is opened in a new window. When leaving the content this window gets closed."
+
+#, fuzzy
+msgid "conf_own_window"
+msgstr "Own Window"
+
+#, fuzzy
+msgid "conf_own_window_info"
+msgstr "The content is opened in the same window and replaces the ILIAS Screen. When leaving the content the user returns to ILIAS."
+
+#, fuzzy
+msgid "conf_privacy_comment_default"
+msgstr "Indication to user"
+
+#, fuzzy
+msgid "conf_privacy_ident"
+msgstr "User identification"
+
+#, fuzzy
+msgid "conf_privacy_ident_il_uuid_ext_account"
+msgstr "External User ID combined with a unique ILIAS platform id formatted as an E-Mail address"
+
+#, fuzzy
+msgid "conf_privacy_ident_il_uuid_ext_account_info"
+msgstr "This is identical to each call, but may allow a direct conclusion about the user."
+
+#, fuzzy
+msgid "conf_privacy_ident_il_uuid_login"
+msgstr "ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail address"
+
+#, fuzzy
+msgid "conf_privacy_ident_il_uuid_login_info"
+msgstr "Sends the login name. This is identical to each call, but may allow a direct conclusion about the ILIAS user."
+
+#, fuzzy
+msgid "conf_privacy_ident_il_uuid_random"
+msgstr "Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address"
+
+#, fuzzy
+msgid "conf_privacy_ident_il_uuid_random_info"
+msgstr "For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects."
+
+#, fuzzy
+msgid "conf_privacy_ident_il_uuid_sha256"
+msgstr "Hash combined with a unique ILIAS platform id formatted as an E-Mail address"
+
+#, fuzzy
+msgid "conf_privacy_ident_il_uuid_sha256_info"
+msgstr "This is identical to each call, but does not permit any direct conclusions about the ILIAS user."
+
+#, fuzzy
+msgid "conf_privacy_ident_il_uuid_sha256url"
+msgstr "Hash combined with the ILIAS Domain formatted as an E-Mail address"
+
+#, fuzzy
+msgid "conf_privacy_ident_il_uuid_sha256url_info"
+msgstr "This is identical to each call, with with a maximum of 80 characters significantly shorter than the variant with the ILIAS platform ID and allows only very limited conclusions about the ILIAS user."
+
+#, fuzzy
+msgid "conf_privacy_ident_il_uuid_user_id"
+msgstr "ILIAS user id combined with a unique ILIAS platform id formatted as an E-Mail address"
+
+#, fuzzy
+msgid "conf_privacy_ident_il_uuid_user_id_info"
+msgstr "Sends the internal numeric user id. This is identical to each call, but may allow conclusions about the ILIAS user."
+
+#, fuzzy
+msgid "conf_privacy_ident_info"
+msgstr "Standard is frequently the E-Mail address. The unique ILIAS platform id is:"
+
+#, fuzzy
+msgid "conf_privacy_ident_real_email"
+msgstr "E-Mail Address"
+
+#, fuzzy
+msgid "conf_privacy_ident_real_email_info"
+msgstr "Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)"
+
+#, fuzzy
+msgid "conf_privacy_name"
+msgstr "User name"
+
+#, fuzzy
+msgid "conf_privacy_name_firstname"
+msgstr "First name"
+
+#, fuzzy
+msgid "conf_privacy_name_firstname_info"
+msgstr "Sends the first name of the user name from ILIAS"
+
+#, fuzzy
+msgid "conf_privacy_name_fullname"
+msgstr "Entire name"
+
+#, fuzzy
+msgid "conf_privacy_name_fullname_info"
+msgstr "Sends title, first name and last name"
+
+#, fuzzy
+msgid "conf_privacy_name_info"
+msgstr "Sending an user name is usually not required."
+
+#, fuzzy
+msgid "conf_privacy_name_lastname"
+msgstr "Title and last name"
+
+#, fuzzy
+msgid "conf_privacy_name_lastname_info"
+msgstr "Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name"
+
+#, fuzzy
+msgid "conf_privacy_name_none"
+msgstr "No one"
+
+#, fuzzy
+msgid "conf_privacy_name_none_info"
+msgstr "Sends '-' instead of a name"
+
+#, fuzzy
+msgid "conf_privacy_setting_conf"
+msgstr "Configuration Options"
+
+#, fuzzy
+msgid "conf_privacy_setting_default"
+msgstr "Default Settings, changeable for Objects"
+
+#, fuzzy
+msgid "conf_privacy_setting_force"
+msgstr "Settings are not changeable for Objects"
+
+#, fuzzy
+msgid "conf_privacy_setting_info"
+msgstr "Configuration Options for Privacy Settings"
+
+#, fuzzy
+msgid "conf_remarks"
+msgstr "Internal comments"
+
+#, fuzzy
+msgid "conf_title"
+msgstr "Title"
+
+#, fuzzy
+msgid "conf_use_proxy"
+msgstr "xAPI-Proxy"
+
+#, fuzzy
+msgid "conf_use_proxy_info"
+msgstr "The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. If the xAPI proxy is deactivated, the learning content writes the learning progress directly to the LRS. This data must then also be retrieved directly from the LRS. The cron job \"xAPI/cmi5 get results\" is required to determine the learning progress. The xAPI proxy is mandatory for cmi5 objects and is activated automatically."
+
+#, fuzzy
+msgid "conf_use_proxy_info_cmi5"
+msgstr "The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. The xAPI proxy is mandatory for cmi5 objects."
+
+#, fuzzy
+msgid "conf_use_proxy_info_xapi"
+msgstr "The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. If the xAPI proxy is deactivated, the learning content writes the learning progress directly to the LRS. This data must then also be retrieved directly from the LRS. The cron job \"xAPI/cmi5 get results\" is required to determine the learning progress."
+
+#, fuzzy
+msgid "conf_user_ident"
+msgstr "User identification"
+
+#, fuzzy
+msgid "conf_user_ident_il_uuid_ext_account"
+msgstr "External User Id combined with a unique ILIAS platform id formated as an email adress."
+
+#, fuzzy
+msgid "conf_user_ident_il_uuid_ext_account_info"
+msgstr "This is identical to each call, but may allow a direct conclusion about the user."
+
+#, fuzzy
+msgid "conf_user_ident_il_uuid_login"
+msgstr "ILIAS Login combined with a unique ILIAS platform id formated as an email adress."
+
+#, fuzzy
+msgid "conf_user_ident_il_uuid_login_info"
+msgstr "This is identical to each call, but may allow a direct conclusion about the ILIAS user."
+
+#, fuzzy
+msgid "conf_user_ident_il_uuid_random"
+msgstr "Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address"
+
+#, fuzzy
+msgid "conf_user_ident_il_uuid_random_info"
+msgstr "For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects."
+
+#, fuzzy
+msgid "conf_user_ident_il_uuid_user_id"
+msgstr "ILIAS user id combined with a unique ILIAS platform id formated as an email adress."
+
+#, fuzzy
+msgid "conf_user_ident_il_uuid_user_id_info"
+msgstr "This is identical to each call, but doesn't allow a direct conclusion about the ILIAS user."
+
+#, fuzzy
+msgid "conf_user_ident_info"
+msgstr "Standard is frequently the email address. The unique ILIAS platform id is:"
+
+#, fuzzy
+msgid "conf_user_ident_real_email"
+msgstr "E-Mail Address"
+
+#, fuzzy
+msgid "conf_user_ident_real_email_info"
+msgstr "Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)"
+
+#, fuzzy
+msgid "conf_user_name"
+msgstr "User name"
+
+#, fuzzy
+msgid "conf_user_name_firstname"
+msgstr "First name"
+
+#, fuzzy
+msgid "conf_user_name_firstname_info"
+msgstr "Sends the first name of the user name from ILIAS"
+
+#, fuzzy
+msgid "conf_user_name_fullname"
+msgstr "Entire name"
+
+#, fuzzy
+msgid "conf_user_name_fullname_info"
+msgstr "Sends title, first name and last name"
+
+#, fuzzy
+msgid "conf_user_name_info"
+msgstr "Sending an user name is usually not required."
+
+#, fuzzy
+msgid "conf_user_name_lastname"
+msgstr "Title and last name"
+
+#, fuzzy
+msgid "conf_user_name_lastname_info"
+msgstr "Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name"
+
+#, fuzzy
+msgid "conf_user_name_none"
+msgstr "No one"
+
+#, fuzzy
+msgid "conf_user_name_none_info"
+msgstr "Sends '-' instead of a name"
+
+#, fuzzy
+msgid "conf_user_registered_mail"
+msgstr "Registered E-Mail-Address"
+
+#, fuzzy
+msgid "content_privacy_ident"
+msgstr "User identification for resource"
+
+#, fuzzy
+msgid "content_privacy_name"
+msgstr "User name for resource"
+
+#, fuzzy
+msgid "create_lrs_type_form"
+msgstr "New LRS-Type"
+
+#, fuzzy
+msgid "create_registration"
+msgstr "Register your E-Mail address"
+
+#, fuzzy
+msgid "cron_xapi_del"
+msgstr "Delete xAPI/cmi5 data in the Learning Record Store"
+
+#, fuzzy
+msgid "cron_xapi_del_desc"
+msgstr "Data is deleted according to the settings of the xAPI/cmi5 objects."
+
+#, fuzzy
+msgid "cron_xapi_results_evaluation"
+msgstr "Fetch xAPI/cmi5 Results"
+
+#, fuzzy
+msgid "cron_xapi_results_evaluation_desc"
+msgstr "Requests all xAPI results from learning record stores for objects not supporting the ILIAS xAPI proxy."
+
+#, fuzzy
+msgid "description_info"
+msgstr "The description will be shown below the title."
+
+#, fuzzy
+msgid "download_certificate"
+msgstr "Download Certificate"
+
+#, fuzzy
+msgid "duration_info"
+msgstr "The duration can be entered e.g. for answering a task. The duration is set to the default value 0 seconds (PT00.000S) by this option."
+
+#, fuzzy
+msgid "duration_label"
+msgstr "Duration"
+
+#, fuzzy
+msgid "edit_lrs_type_form"
+msgstr "LRS-Type"
+
+#, fuzzy
+msgid "failed_info"
+msgstr "Indicates the actor did not successfully pass an activity to a level of predetermined satisfaction."
+
+#, fuzzy
+msgid "failed_label"
+msgstr "Statements with the verb 'failed'"
+
+#, fuzzy
+msgid "fetch_xapi_statements"
+msgstr "Fetch results from Learning Record Store"
+
+#, fuzzy
+msgid "field_user_ident"
+msgstr "E-Mail-Address"
+
+#, fuzzy
+msgid "field_user_ident_info"
+msgstr "Enter the e-mail address used in the external application to identify you."
+
+#, fuzzy
+msgid "form_change_registration"
+msgstr "Registration"
+
+#, fuzzy
+msgid "form_create_registration"
+msgstr "Registration"
+
+#, fuzzy
+msgid "hide_data_info"
+msgstr "With this option which is only available for the ILIAS LRS proxy certain data is stored in statements with unrecognizable values in the Learning Record Store."
+
+#, fuzzy
+msgid "hide_data_label"
+msgstr "Blacken data"
+
+#, fuzzy
+msgid "highscore_achieved_ts"
+msgstr "Date"
+
+#, fuzzy
+msgid "highscore_achieved_ts_description"
+msgstr "A column containing the date will be included in the ranking."
+
+#, fuzzy
+msgid "highscore_all_tables"
+msgstr "Participant's Own Rank and Top Ranking"
+
+#, fuzzy
+msgid "highscore_all_tables_description"
+msgstr "Participants get information about the top ranking and their own position in the ranking."
+
+#, fuzzy
+msgid "highscore_description"
+msgstr "The names of other users could be displayed if the right 'View learning experiences of other users' is set."
+
+#, fuzzy
+msgid "highscore_enabled"
+msgstr "Ranking"
+
+#, fuzzy
+msgid "highscore_mode"
+msgstr "Mode"
+
+#, fuzzy
+msgid "highscore_own_table"
+msgstr "Participant's Own Rank"
+
+#, fuzzy
+msgid "highscore_own_table_description"
+msgstr "Participants are advised of their own position in the ranking."
+
+#, fuzzy
+msgid "highscore_percentage"
+msgstr "Percentage"
+
+#, fuzzy
+msgid "highscore_percentage_description"
+msgstr "A column containing the score as percentage will be included in the ranking."
+
+#, fuzzy
+msgid "highscore_score"
+msgstr "Score"
+
+#, fuzzy
+msgid "highscore_score_description"
+msgstr "A column containing the score will be included in the ranking."
+
+#, fuzzy
+msgid "highscore_top_num"
+msgstr "Length of Top Ranking"
+
+#, fuzzy
+msgid "highscore_top_num_description"
+msgstr "Specify how many ranks are to be included in the top ranking list."
+
+#, fuzzy
+msgid "highscore_top_num_unit"
+msgstr "entries"
+
+#, fuzzy
+msgid "highscore_top_table"
+msgstr "Top Ranking"
+
+#, fuzzy
+msgid "highscore_top_table_description"
+msgstr "Participants are presented with a table containing the top rankings."
+
+#, fuzzy
+msgid "highscore_wtime"
+msgstr "Duration"
+
+#, fuzzy
+msgid "highscore_wtime_description"
+msgstr "A column containing the duration will be included in the ranking."
+
+#, fuzzy
+msgid "info_availability"
+msgstr "Hereby you can operate the availability of the LRS-type within the magazine. All types can set on \"allow existing ones\" instead of being deleted."
+
+#, fuzzy
+msgid "info_description"
+msgstr "This description will be shown when choosing the type for new objects."
+
+#, fuzzy
+msgid "info_external_lrs"
+msgstr "A hint will be shown to users when dealing with an external LRS. An external LRS is characterized by insufficient influence on the LRS the by the operator of the ILIAS-installation. This is the case when there are no rights to delete."
+
+#, fuzzy
+msgid "info_lrs_endpoint"
+msgstr "URL of the endpoint without '/' at the end"
+
+#, fuzzy
+msgid "info_lrs_key"
+msgstr "Key or login for access, i.e. 12345"
+
+#, fuzzy
+msgid "info_lrs_secret"
+msgstr "Shared secret / Password, i.e. secret"
+
+#, fuzzy
+msgid "info_privacy_comment_default"
+msgstr "Please insert, if required, an additional indication on data security when using this LRS."
+
+#, fuzzy
+msgid "info_remarks"
+msgstr "Place to write down your comments on this LRS-type here."
+
+#, fuzzy
+msgid "info_title"
+msgstr "This title will be shown when choosing the type for new objects."
+
+#, fuzzy
+msgid "initialized_info"
+msgstr "Indicates the activity provider has determined that the actor successfully started an activity."
+
+#, fuzzy
+msgid "initialized_label"
+msgstr "Statements with the verb 'initialized'"
+
+#, fuzzy
+msgid "launch_options"
+msgstr "Options for Launch"
+
+#, fuzzy
+msgid "launch_url"
+msgstr "URL of the resource"
+
+#, fuzzy
+msgid "launch_url_info"
+msgstr "Insert here the Internet address by adding http:// or https:// . Options for data security are also relevant for remote resources."
+
+#, fuzzy
+msgid "log_options"
+msgstr "Options for the display of transmitted data"
+
+#, fuzzy
+msgid "lrs_authentication"
+msgstr "Authentication"
+
+#, fuzzy
+msgid "no_substatements_info"
+msgstr "With this option - which is only available for the ILIAS LRS proxy - the storage of subordinate statements can be suppressed. This can for example affect the answering of single tasks in a test. The content is informed that the statements would have been saved."
+
+#, fuzzy
+msgid "no_substatements_label"
+msgstr "Do not store substatements"
+
+#, fuzzy
+msgid "online_info"
+msgstr "This makes the object visible and usable for the users."
+
+#, fuzzy
+msgid "only_moveon_info"
+msgstr "With this option, which is only available for the ILIAS LRS proxy, only statements with defined verbs are stored in the Learning Record Store (WhiteList). The content is informed that the statements would have been saved. This usually ensures the expiration date but should be discussed with the content provider."
+
+#, fuzzy
+msgid "only_moveon_label"
+msgstr "Save learning success data only"
+
+#, fuzzy
+msgid "passed_info"
+msgstr "Indicates the actor successfully passed an activity to a level of predetermined satisfaction."
+
+#, fuzzy
+msgid "passed_label"
+msgstr "Statements with the verb 'passed'"
+
+#, fuzzy
+msgid "privacy_options"
+msgstr "Options for data security"
+
+#, fuzzy
+msgid "progressed_info"
+msgstr "Indicates a value of how much of an actor has advanced or moved through an activity."
+
+#, fuzzy
+msgid "progressed_label"
+msgstr "Statements with the verb 'progressed'"
+
+#, fuzzy
+msgid "registration_saved_successfully"
+msgstr "Registration saved successfully"
+
+#, fuzzy
+msgid "satisfied_info"
+msgstr "Indicates that the authority or activity provider determined the actor has fulfilled the criteria of the object or activity."
+
+#, fuzzy
+msgid "satisfied_label"
+msgstr "Statements with the verb 'satisfied'"
+
+#, fuzzy
+msgid "sect_learning_progress_options"
+msgstr "Options for Learning Progress"
+
+#, fuzzy
+msgid "show_debug"
+msgstr "Display Learning Experiences"
+
+#, fuzzy
+msgid "show_debug_info"
+msgstr "The Learning Experiences of other users could be displayed if the right 'View learning experiences of other users' is set."
+
+#, fuzzy
+msgid "tab_export"
+msgstr "Export"
+
+#, fuzzy
+msgid "tab_info"
+msgstr "Info"
+
+#, fuzzy
+msgid "tab_lrs_types"
+msgstr "LRS-Types"
+
+#, fuzzy
+msgid "tab_scoring"
+msgstr "Ranking"
+
+#, fuzzy
+msgid "tab_settings"
+msgstr "Settings"
+
+#, fuzzy
+msgid "tab_statements"
+msgstr "Learning Experiences"
+
+#, fuzzy
+msgid "tbl_action_raw_data"
+msgstr "View Raw Data"
+
+#, fuzzy
+msgid "tbl_lrs_type_availability"
+msgstr "Availability"
+
+#, fuzzy
+msgid "tbl_lrs_type_title"
+msgstr "Title"
+
+#, fuzzy
+msgid "tbl_lrs_type_usages"
+msgstr "Usages Count"
+
+#, fuzzy
+msgid "tbl_lrs_types_header"
+msgstr "LRS-Types"
+
+#, fuzzy
+msgid "tbl_statements_actor"
+msgstr "User"
+
+#, fuzzy
+msgid "tbl_statements_date"
+msgstr "Date"
+
+#, fuzzy
+msgid "tbl_statements_object"
+msgstr "Object"
+
+#, fuzzy
+msgid "tbl_statements_verb"
+msgstr "Verb"
+
+#, fuzzy
+msgid "terminated_info"
+msgstr "Indicates that the actor successfully ended an activity."
+
+#, fuzzy
+msgid "terminated_label"
+msgstr "Statements with the verb 'terminated'"
+
+#, fuzzy
+msgid "timestamp_info"
+msgstr "The timestamp marks the time of an action indicated by the statement. The timestamp is set to the default value 01.01.1970 (1970-01-01T00:00:00.000Z) by this option. Please note that a Learning Record Store may automatically set a value for the stored date, which can be almost identical to the timestamp."
+
+#, fuzzy
+msgid "timestamp_label"
+msgstr "Timestamp"
+
+#, fuzzy
+msgid "title_info"
+msgstr "Give the object a title."
+
+#, fuzzy
+msgid "type_cmi5"
+msgstr "cmi5 Learning Module"
+
+#, fuzzy
+msgid "type_generic"
+msgstr "xAPI Standard Object"
+
+#, fuzzy
+msgid "use_fetch"
+msgstr "Authorization through Fetch-URL"
+
+#, fuzzy
+msgid "use_fetch_info"
+msgstr "As long as the resource supports this option, you should use this option to increase data security."
+
+#, fuzzy
+msgid "xapi_statements_fetched_successfully"
+msgstr "Results from Learning Record Store were fetched successfully"
+
+#, fuzzy
+msgid "xapi_statements_last_fetch_date"
+msgstr "Last fetch of Results:"
+
+#, fuzzy
+msgid "xapi_statements_not_fetched_yet"
+msgstr "Results from Learning Record Store are not fetched yet"
