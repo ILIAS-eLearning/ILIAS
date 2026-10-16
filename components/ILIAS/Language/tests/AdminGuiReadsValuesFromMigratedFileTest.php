@@ -273,11 +273,11 @@ class AdminGuiReadsValuesFromMigratedFileTest extends ilLanguageBaseTestCase
 
     public function testValuesForANonMigratedModuleStillComeFromLngData(): void
     {
-        $this->stubDatabase([['module' => 'common', 'identifier' => 'hello', 'value' => 'Welt']]);
+        $this->stubDatabase([['module' => 'rep_robj_xtst', 'identifier' => 'hello', 'value' => 'Welt']]);
 
         $values = ilObjLanguageExt::_getValues('de');
 
-        $this->assertSame(['common#:#hello' => 'Welt'], $values);
+        $this->assertSame(['rep_robj_xtst#:#hello' => 'Welt'], $values);
     }
 
     public function testMergesAMigratedModuleWithANonMigratedOne(): void
@@ -445,9 +445,9 @@ class AdminGuiReadsValuesFromMigratedFileTest extends ilLanguageBaseTestCase
 
     public function testAnEmptySearchPatternDoesNotFilter(): void
     {
-        $this->stubDatabase([['module' => 'common', 'identifier' => 'hello', 'value' => 'Welt']]);
+        $this->stubDatabase([['module' => 'rep_robj_xtst', 'identifier' => 'hello', 'value' => 'Welt']]);
 
-        $this->assertSame(['common#:#hello' => 'Welt'], ilObjLanguageExt::_getValues('de', [], [], ''));
+        $this->assertSame(['rep_robj_xtst#:#hello' => 'Welt'], ilObjLanguageExt::_getValues('de', [], [], ''));
         $this->assertSame([], $this->like_calls);
     }
 
@@ -463,7 +463,8 @@ class AdminGuiReadsValuesFromMigratedFileTest extends ilLanguageBaseTestCase
         $logger_factory->method('getComponentLogger')->willReturn($logger);
         $this->setGlobalVariable('ilLoggerFactory', $logger_factory);
 
-        $this->assertSame(['mtest#:#greeting' => 'Aus lng_data'], ilObjLanguageExt::_getValues('de'));
+        // the shipped values (the fixture ships the overlay's values), never lng_data
+        $this->assertSame(['mtest#:#greeting' => 'Aus dem Overlay'], ilObjLanguageExt::_getValues('de'));
     }
 
     public function testAppliesTheTopicsFilterToTheMigratedModulesValues(): void
@@ -520,11 +521,11 @@ class AdminGuiReadsValuesFromMigratedFileTest extends ilLanguageBaseTestCase
 
     public function testFallsBackToDbOnlyBehaviorWhenNoDirectoryManagerIsRegisteredAtAll(): void
     {
-        $this->stubDatabase([['module' => 'common', 'identifier' => 'hello', 'value' => 'Welt']]);
+        $this->stubDatabase([['module' => 'rep_robj_xtst', 'identifier' => 'hello', 'value' => 'Welt']]);
 
         $values = ilObjLanguageExt::_getValues('de');
 
-        $this->assertSame(['common#:#hello' => 'Welt'], $values);
+        $this->assertSame(['rep_robj_xtst#:#hello' => 'Welt'], $values);
     }
 
     public function testGetModulesIncludesAMigratedModuleEvenWithoutAnyLngDataRow(): void

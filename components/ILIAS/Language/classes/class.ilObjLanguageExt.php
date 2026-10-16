@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
 use ILIAS\Language\ComponentTranslation\MigratedLanguageFilePaths;
 use ILIAS\Language\ComponentTranslation\MigratedLanguageFileSync;
+use ILIAS\Language\ComponentTranslation\MigratedTranslations;
 use ILIAS\Language\ComponentTranslation\PlainLogText;
 use ILIAS\Language\ComponentTranslation\PluralFormKey;
 use ILIAS\Language\ComponentTranslation\ShippedPoMerger;
@@ -935,31 +936,35 @@ class ilObjLanguageExt extends ilObjLanguage
         // migrated modules are read from their .po file, exactly as ilLanguage::txt() serves them; the filters
         // are re-applied in PHP, mirroring the SQL WHERE clauses below
         $migrated_values = [];
+        // never their (dual-written) lng_data rows, also if their files cannot be read
         $migrated_modules_found = [];
-        if ($DIC->offsetExists(LanguageFileDirectoryManager::class)) {
+        $has_manager = $DIC->offsetExists(LanguageFileDirectoryManager::class);
+        if ($has_manager) {
             $manager = $DIC[LanguageFileDirectoryManager::class];
             $client_data_dir = MigratedLanguageFilePaths::resolveClientDataDir(ILIAS_ABSOLUTE_PATH);
-            $candidate_modules = $a_modules !== []
+            $candidate_modules = $a_modules !== [] || !MigratedLanguageFilePaths::isValidLanguageKey($a_lang_key)
                 ? $a_modules
-                : MigratedLanguageFileSync::getMigratedModules($manager, $a_lang_key, $client_data_dir);
+                : array_keys(MigratedLanguageFileSync::findShippedModuleFiles($manager, ILIAS_ABSOLUTE_PATH, $a_lang_key));
 
             foreach ($candidate_modules as $module) {
+                $module = (string) $module;
                 try {
-                    $translations = MigratedLanguageFileSync::loadModuleTranslations(
+                    $translations = MigratedLanguageFileSync::loadEditableModuleTranslations(
                         $manager,
                         $a_lang_key,
                         $module,
-                        $client_data_dir
+                        $client_data_dir,
+                        ILIAS_ABSOLUTE_PATH
                     );
                 } catch (\Throwable $t) {
-                    // an unreadable overlay: show the (dual-written) lng_data rows instead
-                    $DIC->logger()->forComponent('lang')->warning(sprintf(
-                        'Could not read migrated language file for module "%s", language "%s": %s',
+                    MigratedTranslations::reportProblem(sprintf(
+                        'The language file of module "%s" for "%s" cannot be read, its values are not shown: %s',
                         $module,
                         $a_lang_key,
                         $t->getMessage()
                     ));
-                    $translations = null;
+                    $migrated_modules_found[] = $module;
+                    continue;
                 }
                 if ($translations === null) {
                     continue;
@@ -1018,6 +1023,13 @@ class ilObjLanguageExt extends ilObjLanguage
 
         $values = array();
         while ($rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+            if (!$has_manager && MigratedTranslations::shipsPoFor((string) $rec["module"], $a_lang_key)) {
+                MigratedTranslations::reportProblem(sprintf(
+                    'Without the language file directories the values of module "%s" are not shown.',
+                    $rec["module"]
+                ));
+                continue;
+            }
             $values[$rec["module"] . $lng->separator . $rec["identifier"]] = $rec["value"];
         }
 
@@ -1334,6 +1346,9 @@ class ilObjLanguageExt extends ilObjLanguage
                 static function () use ($a_lang_key, $module, $entries, $merge_onto_current_content, $module_plural_rows, $shipped_module_values, $save_date, $module_remark_changes): bool {
                     // without a current content the entries are written as they are; replaceLangModule() creates the row
                     $current = $merge_onto_current_content ? self::currentModuleContent($a_lang_key, $module) : [];
+                    if ($current === null) {
+                        return false;
+                    }
                     $content = array_merge($current, $entries);
                     $written = ilObjLanguage::replaceLangModule($a_lang_key, $module, $content);
                     self::writePluralRows($a_lang_key, $module, $content, $shipped_module_values, $module_plural_rows, $save_date);
@@ -1541,45 +1556,45 @@ class ilObjLanguageExt extends ilObjLanguage
 
     /**
      * The content a partial save/delete is applied to, as served by ilLanguage: for a module maintained in PO files
-     * its shipped state plus overlay delta (see MigratedLanguageFileSync::loadModuleTranslations()), falling back to
-     * lng_modules and then to the lng_data rows - applying a partial change to nothing would reset every not
-     * saved entry to shipped. For other modules the lng_modules row, `[]` if none.
+     * its shipped state plus overlay delta (see MigratedLanguageFileSync::loadEditableModuleTranslations()), never
+     * its database rows - `null` (reported) if that cannot be read, applying a partial change to nothing would
+     * reset every not saved entry to shipped. For other modules the lng_modules row, `[]` if none.
      *
      * Must be called under the module's overlay lock (see withModuleLock()).
      *
-     * @return array<string, string> identifier => value
+     * @return array<string, string>|null identifier => value
      */
-    private static function currentModuleContent(string $a_lang_key, string $module): array
+    private static function currentModuleContent(string $a_lang_key, string $module): ?array
     {
         global $DIC;
 
-        $manager = null;
-        $is_migrated = false;
         if ($DIC->offsetExists(LanguageFileDirectoryManager::class)) {
-            $manager = $DIC[LanguageFileDirectoryManager::class];
-            $is_migrated = isset(MigratedLanguageFileSync::findShippedModuleFiles($manager, ILIAS_ABSOLUTE_PATH, $a_lang_key)[$module]);
-        }
-        if ($manager !== null && $is_migrated) {
             try {
-                $overlay = MigratedLanguageFileSync::loadModuleTranslations(
-                    $manager,
+                $content = MigratedLanguageFileSync::loadEditableModuleTranslations(
+                    $DIC[LanguageFileDirectoryManager::class],
                     $a_lang_key,
                     $module,
                     MigratedLanguageFilePaths::resolveClientDataDir(ILIAS_ABSOLUTE_PATH),
                     ILIAS_ABSOLUTE_PATH
                 );
             } catch (\Throwable $t) {
-                $DIC->logger()->forComponent('lang')->warning(sprintf(
-                    'Could not read migrated language file for module "%s", language "%s" - using lng_modules: %s',
+                MigratedTranslations::reportProblem(sprintf(
+                    'The language file of module "%s" for "%s" cannot be read, the changes are not saved: %s',
                     $module,
                     $a_lang_key,
                     $t->getMessage()
                 ));
-                $overlay = null;
+                return null;
             }
-            if ($overlay !== null) {
-                return array_map(static fn(array $entry): string => $entry['value'], $overlay);
+            if ($content !== null) {
+                return array_map(static fn(array $entry): string => $entry['value'], $content);
             }
+        } elseif (MigratedTranslations::shipsPoFor($module, $a_lang_key)) {
+            MigratedTranslations::reportProblem(sprintf(
+                'Without the language file directories the changes of module "%s" are not saved.',
+                $module
+            ));
+            return null;
         }
 
         $ilDB = $DIC->database();
@@ -1592,23 +1607,8 @@ class ilObjLanguageExt extends ilObjLanguage
         $content = is_array($row) && isset($row["lang_array"])
             ? unserialize((string) $row["lang_array"], ["allowed_classes" => false])
             : null;
-        if (is_array($content) || !$is_migrated) {
-            return is_array($content) ? $content : [];
-        }
 
-        // PO module with an unreadable state and no lng_modules row: rebuilt from lng_data (always dual-written),
-        // so the sync gets all entries of the module, not just the ones saved now
-        $content = [];
-        $set = $ilDB->query(sprintf(
-            "SELECT identifier, value FROM lng_data WHERE lang_key = %s AND module = %s",
-            $ilDB->quote($a_lang_key, "text"),
-            $ilDB->quote($module, "text")
-        ));
-        while ($row = $ilDB->fetchAssoc($set)) {
-            $content[(string) $row["identifier"]] = (string) $row["value"];
-        }
-
-        return $content;
+        return is_array($content) ? $content : [];
     }
 
     /**
@@ -1697,6 +1697,9 @@ class ilObjLanguageExt extends ilObjLanguage
                 static function () use ($a_lang_key, $module, $entries, $module_plural_rows, $shipped_module_values, $save_date, $module_remark_changes): bool {
                     // without a current content nothing is left to keep; the entries to delete must not be written back
                     $current = self::currentModuleContent($a_lang_key, $module);
+                    if ($current === null) {
+                        return false;
+                    }
                     $content = array_diff_key($current, $entries);
                     $written = ilObjLanguage::replaceLangModule($a_lang_key, $module, $content);
                     self::writePluralRows($a_lang_key, $module, $content, $shipped_module_values, $module_plural_rows, $save_date);

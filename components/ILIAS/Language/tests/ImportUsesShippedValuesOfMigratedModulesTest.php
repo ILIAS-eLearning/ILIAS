@@ -473,7 +473,8 @@ class ImportUsesShippedValuesOfMigratedModulesTest extends ilLanguageBaseTestCas
             restore_error_handler();
         }
 
-        $this->assertSame(['greeting' => 'Aus der lang-Datei'], $this->lng_modules['itest']);
+        // the content of a shipped module is never rebuilt from the database: its module row is not written
+        $this->assertArrayNotHasKey('itest', $this->lng_modules);
     }
 
     private function overlayDirectory(): string

@@ -1886,6 +1886,52 @@ final class MigratedLanguageFileSync
     }
 
     /**
+     * The content of $module/$lang_key the administration edits, never taken from the database: that of
+     * loadModuleTranslations(), without $client_data_dir or with an unreadable overlay (reported) the shipped
+     * `.po` alone. `null` where loadModuleTranslations() returns `null` for another reason.
+     *
+     * @param string|null $ilias_absolute_path see loadModuleTranslations()
+     * @return array<string, array{value: string, local_change: bool, local_change_date: ?string, original: ?string}>|null
+     * @throws RuntimeException if the shipped `.po` cannot be read
+     */
+    public static function loadEditableModuleTranslations(
+        LanguageFileDirectoryManager $language_file_directory_manager,
+        string $lang_key,
+        string $module,
+        ?string $client_data_dir,
+        ?string $ilias_absolute_path = null
+    ): ?array {
+        $directory = self::findDirectory($language_file_directory_manager, $module);
+        if ($directory === null || !MigratedLanguageFilePaths::isValidLanguageKey($lang_key)) {
+            return null;
+        }
+        $ilias_absolute_path ??= defined('ILIAS_ABSOLUTE_PATH') ? (string) ILIAS_ABSOLUTE_PATH : dirname(__DIR__, 5);
+        $shipped_po = MigratedLanguageFilePaths::shippedBasePath($ilias_absolute_path, $directory, $lang_key) . '.po';
+        if (!is_file($shipped_po)) {
+            return null;
+        }
+        if ($client_data_dir !== null) {
+            try {
+                return self::loadModuleTranslations($language_file_directory_manager, $lang_key, $module, $client_data_dir, $ilias_absolute_path);
+            } catch (\Throwable $t) {
+                MigratedTranslations::reportProblem(sprintf(
+                    'The local changes of module "%s" for "%s" cannot be read, the shipped values are used: %s',
+                    $module,
+                    $lang_key,
+                    $t->getMessage()
+                ));
+            }
+        }
+
+        $result = [];
+        foreach (self::flatModuleValues(self::readShippedPo($shipped_po), $module) as $identifier => $value) {
+            $result[$identifier] = ['value' => $value, 'local_change' => false, 'local_change_date' => null, 'original' => $value];
+        }
+
+        return $result;
+    }
+
+    /**
      * Only the overlay delta of $module/$lang_key (see sync()), i.e. the entries loadModuleTranslations() takes
      * from the overlay; `[]` without overlay, `null` where loadModuleTranslations() returns `null`. The shipped
      * `.po` is only read for an overlay with a plural message: its forms are those of the shipped rule (see

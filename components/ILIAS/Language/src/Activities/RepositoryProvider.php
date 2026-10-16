@@ -22,6 +22,7 @@ namespace ILIAS\Language\Activities;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
 use ILIAS\Language\ComponentTranslation\MigratedLanguageFileSync;
+use ILIAS\Language\ComponentTranslation\MigratedTranslations;
 use ILIAS\Language\ComponentTranslation\PluralFormKey;
 use ILIAS\Language\Setup\InstallationRoot;
 use ILIAS\Language\Setup\InstalledLanguageRepository;
@@ -165,7 +166,17 @@ class RepositoryProvider
             $module,
             $client_data_dir,
             function () use ($lang_key, $module, $identifier, $value, $remarks, $client_data_dir): bool {
-                $entries = $this->currentModuleEntries($lang_key, $module, $client_data_dir);
+                try {
+                    $entries = $this->currentModuleEntries($lang_key, $module, $client_data_dir);
+                } catch (\Throwable $t) {
+                    MigratedTranslations::reportProblem(sprintf(
+                        'The language file of module "%s" for "%s" cannot be read, the new entry is not added to it: %s',
+                        $module,
+                        $lang_key,
+                        $t->getMessage()
+                    ));
+                    return false;
+                }
                 if ($entries === null) {
                     // no lng_modules row of a module not maintained in PO files: lng_data holds the entry
                     return true;
@@ -339,31 +350,23 @@ class RepositoryProvider
 
     /**
      * The content the new entry is added to: for a module maintained in PO files what ilLanguage serves
-     * (shipped state plus overlay), otherwise or if unreadable the lng_modules row. Without a row only a
-     * PO module is rebuilt from lng_data, so its entry never hides behind the overlay; any other module
-     * gives null, since the module name is free input and no row may be created for an arbitrary one.
+     * (shipped state plus overlay, see MigratedLanguageFileSync::loadEditableModuleTranslations()), never
+     * its database rows; otherwise the lng_modules row, null without one (the module name is free input).
      *
      * @return array<string, string>|null identifier => value
+     * @throws \RuntimeException if the shipped `.po` of a module maintained in PO files cannot be read
      */
     private function currentModuleEntries(string $lang_key, string $module, ?string $client_data_dir): ?array
     {
-        $is_migrated = $this->shippedModuleFile($lang_key, $module) !== null;
-        if ($is_migrated) {
-            try {
-                $overlay = MigratedLanguageFileSync::loadModuleTranslations(
-                    $this->language_file_directory_manager,
-                    $lang_key,
-                    $module,
-                    $client_data_dir,
-                    $this->installation_root->getPath()
-                );
-            } catch (\Throwable) {
-                // an unreadable overlay is rebuilt by the sync, the database content is the base then
-                $overlay = null;
-            }
-            if ($overlay !== null) {
-                return array_map(static fn(array $entry): string => $entry['value'], $overlay);
-            }
+        $content = MigratedLanguageFileSync::loadEditableModuleTranslations(
+            $this->language_file_directory_manager,
+            $lang_key,
+            $module,
+            $client_data_dir,
+            $this->installation_root->getPath()
+        );
+        if ($content !== null) {
+            return array_map(static fn(array $entry): string => $entry['value'], $content);
         }
 
         $set = $this->db->query(
@@ -374,23 +377,8 @@ class RepositoryProvider
         $entries = is_string($row['lang_array'] ?? null)
             ? unserialize($row['lang_array'], ['allowed_classes' => false])
             : null;
-        if (is_array($entries)) {
-            return $entries;
-        }
-        if (!$is_migrated) {
-            return null;
-        }
 
-        $entries = [];
-        $set = $this->db->query(
-            'SELECT identifier, value FROM lng_data WHERE lang_key = '
-            . $this->db->quote($lang_key, 'text') . ' AND module = ' . $this->db->quote($module, 'text')
-        );
-        while ($row = $this->db->fetchAssoc($set)) {
-            $entries[(string) $row['identifier']] = (string) $row['value'];
-        }
-
-        return $entries;
+        return is_array($entries) ? $entries : null;
     }
 
     private function languageObject(int $obj_id): \ilObjLanguage
