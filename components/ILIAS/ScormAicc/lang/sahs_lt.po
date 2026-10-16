@@ -1,0 +1,217 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: lt\n"
+"Language-Team: Lithuanian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 1 : 2);\n"
+"X-Domain: sahs\n"
+
+#, fuzzy
+msgid "cont_insert_after_chap"
+msgstr "Insert items after chapter"
+
+#, fuzzy
+msgid "cont_insert_into_chap"
+msgstr "Insert items inside chapter"
+
+#, fuzzy
+msgid "sahs_add"
+msgstr "Create SCORM Learning Module"
+
+#, fuzzy
+msgid "sahs_authoring_mode"
+msgstr "Authoring Mode"
+
+#, fuzzy
+msgid "sahs_authoring_mode_info"
+msgstr "The package must have been created with the ILIAS SCORM editor and it must have been exported as SCORM 1.2/2004 package."
+
+#, fuzzy
+msgid "sahs_chapter"
+msgstr "Chapter"
+
+#, fuzzy
+msgid "sahs_choose_page_template"
+msgstr "Choose Page Template"
+
+#, fuzzy
+msgid "sahs_choose_pages_chap_scos_ass_only"
+msgstr "Please select either pages, SCOs, assets or chapters only."
+
+#, fuzzy
+msgid "sahs_choose_special_page"
+msgstr "Choose Special Page"
+
+#, fuzzy
+msgid "sahs_copy"
+msgstr "Copy SCORM Learning Module"
+
+#, fuzzy
+msgid "sahs_desc_objectives"
+msgstr "Description/Objectives"
+
+#, fuzzy
+msgid "sahs_file_import_from_upload_dir_failed"
+msgstr "File from Upload-Directory not imported"
+
+#, fuzzy
+msgid "sahs_file_imported_from_upload_dir"
+msgstr "File imported from Upload-Directory"
+
+#, fuzzy
+msgid "sahs_glo_info"
+msgstr "Please note that internal links in glossary terms are not supported."
+
+#, fuzzy
+msgid "sahs_hide_objectives_page"
+msgstr "Hide Description/Objectives Page"
+
+#, fuzzy
+msgid "sahs_hide_objectives_page_info"
+msgstr "If checked, the SCO description and objectives page will not be included in the presentation."
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir"
+msgstr "Import from Upload-Directory"
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir_file_name"
+msgstr "Filename"
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir_info"
+msgstr "Please select file for import"
+
+#, fuzzy
+msgid "sahs_import_sequencing"
+msgstr "Import Sequencing"
+
+#, fuzzy
+msgid "sahs_import_sequencing_info"
+msgstr "Import sequencing information from package (Sequencing Expert Mode)."
+
+#, fuzzy
+msgid "sahs_insert_ass"
+msgstr "Insert Asset"
+
+#, fuzzy
+msgid "sahs_insert_ass_from_clip"
+msgstr "Paste Assets from Clipboard"
+
+#, fuzzy
+msgid "sahs_insert_ass_from_clip_inside_chap"
+msgstr "Paste Assets from Clipboard (inside chapter)"
+
+#, fuzzy
+msgid "sahs_insert_ass_inside_chap"
+msgstr "Insert Asset (inside chapter)"
+
+#, fuzzy
+msgid "sahs_insert_chapter"
+msgstr "Insert Chapter"
+
+#, fuzzy
+msgid "sahs_insert_page"
+msgstr "Insert Page"
+
+#, fuzzy
+msgid "sahs_insert_pagelayout"
+msgstr "Insert Template Page"
+
+#, fuzzy
+msgid "sahs_insert_sco"
+msgstr "Insert SCO"
+
+#, fuzzy
+msgid "sahs_insert_sco_from_clip_inside_chap"
+msgstr "Paste SCOs from Clipboard (inside chapter)"
+
+#, fuzzy
+msgid "sahs_insert_sco_inside_chap"
+msgstr "Insert SCO (inside chapter)"
+
+#, fuzzy
+msgid "sahs_insert_special_page"
+msgstr "Insert Special Page"
+
+#, fuzzy
+msgid "sahs_learning_objectives"
+msgstr "Learning Objectives"
+
+#, fuzzy
+msgid "sahs_list_info"
+msgstr "Use leading * for bullet lists or leading # for numbered lists."
+
+#, fuzzy
+msgid "sahs_mail_context_lp"
+msgstr "SCORM Learning Progress"
+
+#, fuzzy
+msgid "sahs_mail_context_lp_info"
+msgstr "For the participant emails on the learning progress screens of a scorm module"
+
+#, fuzzy
+msgid "sahs_new_asset"
+msgstr "New Asset"
+
+#, fuzzy
+msgid "sahs_new_chapter"
+msgstr "New Chapter"
+
+#, fuzzy
+msgid "sahs_new_page"
+msgstr "New Page"
+
+#, fuzzy
+msgid "sahs_new_sco"
+msgstr "New SCO"
+
+#, fuzzy
+msgid "sahs_oa_no_scos"
+msgstr "The chapter does not contain any SCOs yet."
+
+#, fuzzy
+msgid "sahs_objectives"
+msgstr "Learning Objectives"
+
+#, fuzzy
+msgid "sahs_objectives_alignment"
+msgstr "Learning Objectives Alignment"
+
+#, fuzzy
+msgid "sahs_organization"
+msgstr "Organization"
+
+#, fuzzy
+msgid "sahs_page"
+msgstr "Page"
+
+#, fuzzy
+msgid "sahs_questions"
+msgstr "Questions"
+
+#, fuzzy
+msgid "sahs_sco_objective"
+msgstr "Objectives"
+
+#, fuzzy
+msgid "sahs_sequencing"
+msgstr "Sequencing"
+
+#, fuzzy
+msgid "sahs_std_sequencing"
+msgstr "Standard Sequencing"
+
+#, fuzzy
+msgid "sahs_std_sequencing_info"
+msgstr "Use ILIAS standard sequencing behaviour."
+
+#, fuzzy
+msgid "sahs_unit"
+msgstr "SCO"
+
+#, fuzzy
+msgid "scorm_create_export_file_html_one"
+msgstr "Create Export File (HTML, One Page, Review Mode)"

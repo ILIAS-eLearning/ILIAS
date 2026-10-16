@@ -1,0 +1,170 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: sahs\n"
+
+msgid "cont_insert_after_chap"
+msgstr "章の後にアイテムを挿入"
+
+msgid "cont_insert_into_chap"
+msgstr "章内にアイテムを挿入"
+
+msgid "sahs_add"
+msgstr "SCORM学習モジュールを作成"
+
+msgid "sahs_authoring_mode"
+msgstr "オーサリングモード"
+
+msgid "sahs_authoring_mode_info"
+msgstr "パッケージはILIAS SCORMエディターで作成する必要がありSCORM 1.2/2004パッケージとしてエクスポートしなければなりません。"
+
+msgid "sahs_chapter"
+msgstr "章"
+
+msgid "sahs_choose_page_template"
+msgstr "ページテンプレートを選択"
+
+msgid "sahs_choose_pages_chap_scos_ass_only"
+msgstr "ページ、SCO、資産、章のどれか一つを選択してください。"
+
+msgid "sahs_choose_special_page"
+msgstr "スペシャルページを選択"
+
+msgid "sahs_copy"
+msgstr "SCORM学習モジュールをコピー"
+
+msgid "sahs_desc_objectives"
+msgstr "説明/目標"
+
+#, fuzzy
+msgid "sahs_file_import_from_upload_dir_failed"
+msgstr "File from Upload-Directory not imported"
+
+#, fuzzy
+msgid "sahs_file_imported_from_upload_dir"
+msgstr "File imported from Upload-Directory"
+
+msgid "sahs_glo_info"
+msgstr "用語集へのリンクはサポートされていない事に注意願います。"
+
+msgid "sahs_hide_objectives_page"
+msgstr "説明/目標ページを非表示"
+
+msgid "sahs_hide_objectives_page_info"
+msgstr "チェックするとSCO説明とオブジェクトページがプレゼンテーションに含まれなくなります。"
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir"
+msgstr "Import from Upload-Directory"
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir_file_name"
+msgstr "Filename"
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir_info"
+msgstr "Please select file for import"
+
+msgid "sahs_import_sequencing"
+msgstr "シーケンスをインポート"
+
+msgid "sahs_import_sequencing_info"
+msgstr "パッケージからシーケンス情報をインポート(シーケンスエキスパートモード）"
+
+msgid "sahs_insert_ass"
+msgstr "Assetを挿入"
+
+msgid "sahs_insert_ass_from_clip"
+msgstr "クリップボードからAssetを貼り付け"
+
+msgid "sahs_insert_ass_from_clip_inside_chap"
+msgstr "クリップボードからAssetを貼り付け(章の内部)"
+
+msgid "sahs_insert_ass_inside_chap"
+msgstr "Asset を挿入(章の内部)"
+
+msgid "sahs_insert_chapter"
+msgstr "章を挿入"
+
+msgid "sahs_insert_page"
+msgstr "ページを挿入"
+
+msgid "sahs_insert_pagelayout"
+msgstr "テンプレートページを挿入"
+
+msgid "sahs_insert_sco"
+msgstr "SCOを挿入"
+
+msgid "sahs_insert_sco_from_clip_inside_chap"
+msgstr "クリップボードからSCOを貼り付け(章の内部)"
+
+msgid "sahs_insert_sco_inside_chap"
+msgstr "SCOを挿入(章の内部)"
+
+msgid "sahs_insert_special_page"
+msgstr "スペシャルページを挿入"
+
+msgid "sahs_learning_objectives"
+msgstr "学習目標"
+
+msgid "sahs_list_info"
+msgstr "箇条書き先頭に*を使用または番号リスト先頭に#を使用する"
+
+msgid "sahs_mail_context_lp"
+msgstr "SCORM学習進捗"
+
+msgid "sahs_mail_context_lp_info"
+msgstr "SCORMモジュールの学習進捗画面上の受講者email用"
+
+msgid "sahs_new_asset"
+msgstr "新規Asset"
+
+msgid "sahs_new_chapter"
+msgstr "新しい章"
+
+msgid "sahs_new_page"
+msgstr "新しいページ"
+
+msgid "sahs_new_sco"
+msgstr "新しいSCO"
+
+msgid "sahs_oa_no_scos"
+msgstr "章にはまだSCOが含まれていません。"
+
+msgid "sahs_objectives"
+msgstr "学習目標"
+
+msgid "sahs_objectives_alignment"
+msgstr "学習オブジェクト位置合わせ"
+
+msgid "sahs_organization"
+msgstr "構成"
+
+msgid "sahs_page"
+msgstr "ページ"
+
+msgid "sahs_questions"
+msgstr "問題"
+
+msgid "sahs_sco_objective"
+msgstr "目標"
+
+msgid "sahs_sequencing"
+msgstr "シーケンス"
+
+msgid "sahs_std_sequencing"
+msgstr "標準のシーケンス"
+
+msgid "sahs_std_sequencing_info"
+msgstr "ILIAS標準のシーケンス割り当てを使用する。"
+
+msgid "sahs_unit"
+msgstr "SCO"
+
+msgid "scorm_create_export_file_html_one"
+msgstr "エクスポートファイル(HTML,1ページ,レビューモード)を作成"

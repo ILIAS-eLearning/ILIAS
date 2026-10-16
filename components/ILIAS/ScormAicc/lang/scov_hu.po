@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: scov\n"
+
+msgid "crsv_create"
+msgstr "SCORM-tanúsítvány létrehozása"
+
+msgid "crsv_create_info"
+msgstr "Válasszon egy tananyagot, hogy tanúsítványt generálhassunk hozzá"
+
+msgid "scov_create"
+msgstr "SCORM-tanúsítvány létrehozása"
+
+msgid "scov_create_info"
+msgstr "Válasszon egy teljes SCORM-tananyag, amelyikhez tanúsítványt hozzunk létre."

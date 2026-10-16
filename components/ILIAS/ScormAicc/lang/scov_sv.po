@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: scov\n"
+
+msgid "crsv_create"
+msgstr "Skapa SCORM-certifikat"
+
+msgid "crsv_create_info"
+msgstr "Välj en slutförd utbildningsmodul för att skapa ett certifikat för den."
+
+msgid "scov_create"
+msgstr "Skapa SCORM-certifikat"
+
+msgid "scov_create_info"
+msgstr "Välj en SCORM-modul för vilken du behöver ett certifikat"

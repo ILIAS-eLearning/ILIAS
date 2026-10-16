@@ -1,0 +1,261 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: scormtrac\n"
+
+msgid "LearningModuleId"
+msgstr "ID výukového modulu"
+
+msgid "LearningModuleTitle"
+msgstr "Název výukového modulu"
+
+msgid "LearningModuleVersion"
+msgstr "Verze výukového modulu"
+
+msgid "Percentage"
+msgstr "Procento dokončených SCO"
+
+msgid "Status"
+msgstr "celkový status"
+
+msgid "audio_captioning"
+msgstr "cmi.learner_preference.audio_captioning"
+
+msgid "audio_level"
+msgstr "cmi.learner_preference.audio_captioning"
+
+msgid "c_entry"
+msgstr "cmi.entry"
+
+msgid "c_exit"
+msgstr "cmi.credit"
+
+msgid "c_language"
+msgstr "cmi.learner_preference.language"
+
+msgid "c_location"
+msgstr "cmi.location"
+
+msgid "c_max"
+msgstr "cmi.score.max"
+
+msgid "c_min"
+msgstr "cmi.score.max"
+
+msgid "c_mode"
+msgstr "cmi.mode"
+
+msgid "c_raw"
+msgstr "cmi.score.raw: dosažené skóre"
+
+msgid "c_timestamp"
+msgstr "Poslední přístup"
+
+msgid "c_type"
+msgstr "cmi.interactions.n.type"
+
+msgid "completedSCOs"
+msgstr "Počet plně dokončených SCO"
+
+msgid "completion_status"
+msgstr "cmi.completion_status"
+
+msgid "completion_threshold"
+msgstr "cmi.completion_threshold"
+
+msgid "counter"
+msgstr "počítadlo"
+
+msgid "counter_all"
+msgstr "všichni uživatelé"
+
+msgid "counter_correct"
+msgstr "uživatelé se správným výsledkem"
+
+msgid "counter_correct_percent"
+msgstr "Procento uživatelů se správným výsledkem"
+
+msgid "counter_i_correct"
+msgstr "správně zodpovězené interakce"
+
+msgid "counter_i_correct_percent"
+msgstr "Procento správně zodpovězených interakcí"
+
+msgid "counter_i_incorrect"
+msgstr "nesprávně zodpovězené interakce"
+
+msgid "counter_i_incorrect_percent"
+msgstr "Procento nesprávně zodpovězených interakcí"
+
+msgid "counter_i_other"
+msgstr "ani správně ani nesprávně zodpovězené interakce"
+
+msgid "counter_i_other_percent"
+msgstr "Procento ani správně ani nesprávně zodpovězených interakcí"
+
+msgid "counter_incorrect"
+msgstr "uživatelé s nesprávným výsledkem"
+
+msgid "counter_incorrect_percent"
+msgstr "Procento uživatelů s nesprávným výsledkem"
+
+msgid "counter_other"
+msgstr "uživatelé s jinými výsledky"
+
+msgid "counter_other_percent"
+msgstr "Procento uživatelů s jiným výsledkem"
+
+msgid "cp_node_id"
+msgstr "ID kapitoly (SCO)"
+
+msgid "credit"
+msgstr "cmi.credit"
+
+msgid "delivery_speed"
+msgstr "cmi.learner_preference.delivery_speed"
+
+msgid "existingSCOs"
+msgstr "Počet stávajících SCO"
+
+msgid "exportobjglobaltosystem"
+msgstr "Zpráva o globálních cílech systému (používá dělení do sekvencí)"
+
+msgid "exportselectedcore"
+msgstr "Základní zpráva o kapitolách (SCO)"
+
+msgid "exportselectedinteractions"
+msgstr "Základní zpráva o interakcích"
+
+msgid "exportselectedobjectives"
+msgstr "Zpráva o cílech"
+
+msgid "exportselectedraw"
+msgstr "(HRUBÁ) data CMI"
+
+msgid "exportselectedsuccess"
+msgstr "Základní zpráva o úspěchu"
+
+msgid "identifierref"
+msgstr "Identifikátor SCO"
+
+msgid "interaction_description"
+msgstr "Popis interakce"
+
+msgid "interaction_id"
+msgstr "ID interakce"
+
+msgid "interaction_value"
+msgstr "Výsledky interakce"
+
+msgid "latency"
+msgstr "cmi.interactions.n.latency: čas"
+
+msgid "latency_seconds"
+msgstr "cmi.interactions.n.latency: čas"
+
+msgid "launch_data"
+msgstr "cmi.launch_data: data na začátku SCO"
+
+msgid "learner_response"
+msgstr "cmi.interactions.n.learner_response: Odezva"
+
+msgid "lesson_status"
+msgstr "lesson_status"
+
+msgid "lm_id"
+msgstr "ID výukového modulu"
+
+msgid "lm_title"
+msgstr "Název výukového modulu"
+
+msgid "lvalue"
+msgstr "Klíč"
+
+msgid "measure"
+msgstr "Status: opatření"
+
+msgid "ostatus"
+msgstr "Status cíle"
+
+msgid "passedSCOs"
+msgstr "Počet absolvovaných SCO"
+
+msgid "progress_measure"
+msgstr "cmi.progress_measure"
+
+msgid "report"
+msgstr "Zpráva"
+
+msgid "result"
+msgstr "cmi.interactions.n.result"
+
+msgid "roundedTotal_timeSeconds"
+msgstr "Celkový čas v sekundách (zaokrouhleno)"
+
+msgid "rvalue"
+msgstr "Hodnota"
+
+msgid "satisfied"
+msgstr "Stav: uspokojivý"
+
+msgid "scaled"
+msgstr "cmi.score.scaled: dosažené hodnocení jako desetinný zlomek"
+
+msgid "scaled_passing_score"
+msgstr "cmi.scaled_passing_score: hodnocení nutné pro splnění jako desetinný zlomek"
+
+msgid "sco_id"
+msgstr "ID kapitoly (SCO)"
+
+msgid "sco_marked_for_learning_progress"
+msgstr "relevantní pro pokrok v učení"
+
+msgid "sco_title"
+msgstr "název kapitoly (SCO)"
+
+msgid "scope"
+msgstr "Rozsah"
+
+msgid "session_time"
+msgstr "cmi.session_time: čas v poslední relaci"
+
+msgid "session_time_seconds"
+msgstr "cmi.session_time: čas v poslední relaci v sekundách"
+
+msgid "startedSCOs"
+msgstr "Počet zahájených SCO"
+
+msgid "student_response"
+msgstr "student_response: Odpověď"
+
+msgid "success_status"
+msgstr "cmi.success_status: úspěch"
+
+msgid "suspend_data"
+msgstr "cmi.suspend_data: proměnná vyrovnávací paměť SCO"
+
+msgid "total_time"
+msgstr "cmi.total_time: celkový čas"
+
+msgid "total_time_seconds"
+msgstr "cmi.total_time: celkový čas v sekundách"
+
+msgid "tracinteractionitem"
+msgstr "Vyhodnocení na interakci"
+
+msgid "tracinteractionuser"
+msgstr "Vyhodnocení na uživatele"
+
+msgid "tracinteractionuseranswers"
+msgstr "Odpovědi uživatelů"
+
+msgid "user_id"
+msgstr "Uživatelské ID"
+
+msgid "weighting"
+msgstr "cmi.interactions.n.weighting"

@@ -1,0 +1,175 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: et\n"
+"Language-Team: Estonian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: sahs\n"
+
+msgid "cont_insert_after_chap"
+msgstr "Lisa üksused pärast peatükki"
+
+msgid "cont_insert_into_chap"
+msgstr "Sisesta objektid peatüki sisse"
+
+#, fuzzy
+msgid "sahs_add"
+msgstr "Create SCORM Learning Module"
+
+msgid "sahs_authoring_mode"
+msgstr "Loomeviis"
+
+msgid "sahs_authoring_mode_info"
+msgstr "Pakett peab olema loodud ILIAS SCORM toimetiga, ja olema eksporditud SCORM versiooni 1.2/2004 paketiks."
+
+msgid "sahs_chapter"
+msgstr "Peatükk"
+
+msgid "sahs_choose_page_template"
+msgstr "Choose Page Template"
+
+msgid "sahs_choose_pages_chap_scos_ass_only"
+msgstr "Vali üks järgnevatest, kas SCO, teadmiseks või peatükk."
+
+msgid "sahs_choose_special_page"
+msgstr "Choose Special Page"
+
+#, fuzzy
+msgid "sahs_copy"
+msgstr "Copy SCORM Learning Module"
+
+msgid "sahs_desc_objectives"
+msgstr "Description/Objectives"
+
+#, fuzzy
+msgid "sahs_file_import_from_upload_dir_failed"
+msgstr "File from Upload-Directory not imported"
+
+#, fuzzy
+msgid "sahs_file_imported_from_upload_dir"
+msgstr "File imported from Upload-Directory"
+
+#, fuzzy
+msgid "sahs_glo_info"
+msgstr "Please note that internal links in glossary terms are not supported."
+
+msgid "sahs_hide_objectives_page"
+msgstr "Peida kirjelduse/eesmärgi leht"
+
+msgid "sahs_hide_objectives_page_info"
+msgstr "Valiku korral ei näidata SCO esitamisel kirjeldust ja eesmärki."
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir"
+msgstr "Import from Upload-Directory"
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir_file_name"
+msgstr "Filename"
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir_info"
+msgstr "Please select file for import"
+
+msgid "sahs_import_sequencing"
+msgstr "Improdi järjestamine"
+
+msgid "sahs_import_sequencing_info"
+msgstr "Impordi järjestus paketist (järjestuse ekspertrežiim)."
+
+msgid "sahs_insert_ass"
+msgstr "Lisa infoobjekt"
+
+msgid "sahs_insert_ass_from_clip"
+msgstr "Kleebi infoobjekt(id) puhvrist"
+
+msgid "sahs_insert_ass_from_clip_inside_chap"
+msgstr "Kleebi teadmiseks lõikepuhvrist (peatüki sees)"
+
+msgid "sahs_insert_ass_inside_chap"
+msgstr "Lisa teadmiseks (peatüki sisse)"
+
+msgid "sahs_insert_chapter"
+msgstr "Lisa peatükk"
+
+msgid "sahs_insert_page"
+msgstr "Sisesta leht"
+
+msgid "sahs_insert_pagelayout"
+msgstr "Sisesta lehemall"
+
+msgid "sahs_insert_sco"
+msgstr "Lisa SCO"
+
+msgid "sahs_insert_sco_from_clip_inside_chap"
+msgstr "Kleebi SCOd vahemälust (peatüki sisse)"
+
+msgid "sahs_insert_sco_inside_chap"
+msgstr "Sisesta SCO (peatüki sisse)"
+
+msgid "sahs_insert_special_page"
+msgstr "Insert Special Page"
+
+msgid "sahs_learning_objectives"
+msgstr "Õpieesmärgid"
+
+msgid "sahs_list_info"
+msgstr "Kasuta * täpploendi või # nummerdatud loendi ees."
+
+#, fuzzy
+msgid "sahs_mail_context_lp"
+msgstr "SCORM Learning Progress"
+
+#, fuzzy
+msgid "sahs_mail_context_lp_info"
+msgstr "For the participant emails on the learning progress screens of a scorm module"
+
+msgid "sahs_new_asset"
+msgstr "Uus teadmiseks"
+
+msgid "sahs_new_chapter"
+msgstr "Uus peatükk"
+
+msgid "sahs_new_page"
+msgstr "Uus leht"
+
+msgid "sahs_new_sco"
+msgstr "Uus SCO"
+
+msgid "sahs_oa_no_scos"
+msgstr "Peatükk ei sisalda veel ühtegi SCOd."
+
+msgid "sahs_objectives"
+msgstr "Õpieesmärgid"
+
+msgid "sahs_objectives_alignment"
+msgstr "Õpieesmärkide järjestus"
+
+msgid "sahs_organization"
+msgstr "Sisu struktuur"
+
+msgid "sahs_page"
+msgstr "Leht"
+
+msgid "sahs_questions"
+msgstr "Küsimused"
+
+msgid "sahs_sco_objective"
+msgstr "Eesmärgid"
+
+msgid "sahs_sequencing"
+msgstr "Järjestus"
+
+msgid "sahs_std_sequencing"
+msgstr "Tavaline järjestus"
+
+msgid "sahs_std_sequencing_info"
+msgstr "Kasuta ILIASe tavalist järjestust."
+
+msgid "sahs_unit"
+msgstr "SCO"
+
+msgid "scorm_create_export_file_html_one"
+msgstr "Create Export File (HTML, One Page, Review Mode)"

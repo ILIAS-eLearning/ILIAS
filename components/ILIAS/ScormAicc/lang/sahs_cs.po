@@ -1,0 +1,170 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: sahs\n"
+
+msgid "cont_insert_after_chap"
+msgstr "Vložit položky za kapitolu"
+
+msgid "cont_insert_into_chap"
+msgstr "Vložit položky do kapitoly"
+
+msgid "sahs_add"
+msgstr "Create SCORM Learning Module"
+
+msgid "sahs_authoring_mode"
+msgstr "Mód tvorby"
+
+msgid "sahs_authoring_mode_info"
+msgstr "SCORM ZIP balíček musí být vytvořen pomocí ILIAS SCORM editoru a exportován jako balíček 1.2/2004."
+
+msgid "sahs_chapter"
+msgstr "Kapitola"
+
+msgid "sahs_choose_page_template"
+msgstr "Vybrat šablonu stránky"
+
+msgid "sahs_choose_pages_chap_scos_ass_only"
+msgstr "Vyberte prosím buď stránky, SCO, aktiva nebo jen kapitoly."
+
+msgid "sahs_choose_special_page"
+msgstr "Vybrat zvláštní stránku"
+
+msgid "sahs_copy"
+msgstr "Kopírovat výukový modul SCORM"
+
+msgid "sahs_desc_objectives"
+msgstr "Popis/Cíle"
+
+#, fuzzy
+msgid "sahs_file_import_from_upload_dir_failed"
+msgstr "File from Upload-Directory not imported"
+
+#, fuzzy
+msgid "sahs_file_imported_from_upload_dir"
+msgstr "File imported from Upload-Directory"
+
+msgid "sahs_glo_info"
+msgstr "Vezměte prosím na vědomí, že interní odkazy v glosářích nejsou podporovány."
+
+msgid "sahs_hide_objectives_page"
+msgstr "Skrýt stránku Popis/Cíle"
+
+msgid "sahs_hide_objectives_page_info"
+msgstr "Je-li vybráno, stránka popisu a cíle SCO nebudou v prezentaci zahrnuty."
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir"
+msgstr "Import from Upload-Directory"
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir_file_name"
+msgstr "Filename"
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir_info"
+msgstr "Please select file for import"
+
+msgid "sahs_import_sequencing"
+msgstr "Importovat sekvencování"
+
+msgid "sahs_import_sequencing_info"
+msgstr "Import informací sekvencování z balíčku (Expertní mód sekvencování)."
+
+msgid "sahs_insert_ass"
+msgstr "Vložit aktivum"
+
+msgid "sahs_insert_ass_from_clip"
+msgstr "Vložit aktiva ze schránky"
+
+msgid "sahs_insert_ass_from_clip_inside_chap"
+msgstr "Vložit aktiva ze schránky (uvnitř kapitoly)"
+
+msgid "sahs_insert_ass_inside_chap"
+msgstr "Vložit aktivum (uvnitř kapitoly)"
+
+msgid "sahs_insert_chapter"
+msgstr "Vložit kapitolu"
+
+msgid "sahs_insert_page"
+msgstr "Vložit stránku"
+
+msgid "sahs_insert_pagelayout"
+msgstr "Vložit stránku šablony"
+
+msgid "sahs_insert_sco"
+msgstr "Vložit SCO"
+
+msgid "sahs_insert_sco_from_clip_inside_chap"
+msgstr "Vložit SCO ze schránky (uvnitř kapitoly)"
+
+msgid "sahs_insert_sco_inside_chap"
+msgstr "Vložit SCO (uvnitř kapitoly)"
+
+msgid "sahs_insert_special_page"
+msgstr "Vložit zvláštní stránku"
+
+msgid "sahs_learning_objectives"
+msgstr "Cíle výuky"
+
+msgid "sahs_list_info"
+msgstr "Použít úvodní * pro puntíkovaný seznam, nebo úvodní"
+
+msgid "sahs_mail_context_lp"
+msgstr "Postup výuky SCORM"
+
+msgid "sahs_mail_context_lp_info"
+msgstr "Pro e-maily účastníků na obrazovkách postup výuky modulu scorm"
+
+msgid "sahs_new_asset"
+msgstr "Nové aktivum"
+
+msgid "sahs_new_chapter"
+msgstr "Nová kapitola"
+
+msgid "sahs_new_page"
+msgstr "Nová stránka"
+
+msgid "sahs_new_sco"
+msgstr "Nový SCO"
+
+msgid "sahs_oa_no_scos"
+msgstr "Tato kapitola dosud neobsahuje žádný SCO."
+
+msgid "sahs_objectives"
+msgstr "Cíle výuky"
+
+msgid "sahs_objectives_alignment"
+msgstr "Zarovnání cílů výuky"
+
+msgid "sahs_organization"
+msgstr "Organizace"
+
+msgid "sahs_page"
+msgstr "Stránka"
+
+msgid "sahs_questions"
+msgstr "Otázky"
+
+msgid "sahs_sco_objective"
+msgstr "Cíle"
+
+msgid "sahs_sequencing"
+msgstr "Řazení"
+
+msgid "sahs_std_sequencing"
+msgstr "Standardní sekvencování"
+
+msgid "sahs_std_sequencing_info"
+msgstr "Použít standardní chování sekvencování ILIAS."
+
+msgid "sahs_unit"
+msgstr "SCO"
+
+msgid "scorm_create_export_file_html_one"
+msgstr "Vytvořit exportní soubor (HTML, jedna stránka, Mód přehledu)"

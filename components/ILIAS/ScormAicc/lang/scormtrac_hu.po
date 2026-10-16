@@ -1,0 +1,261 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: scormtrac\n"
+
+msgid "LearningModuleId"
+msgstr "Tananyag azonosítója"
+
+msgid "LearningModuleTitle"
+msgstr "Tananyag címe"
+
+msgid "LearningModuleVersion"
+msgstr "Tananyag verziója"
+
+msgid "Percentage"
+msgstr "Befejezett SCO-k százaléka"
+
+msgid "Status"
+msgstr "Összesített állapot"
+
+msgid "audio_captioning"
+msgstr "learner_preference.audio_captioning"
+
+msgid "audio_level"
+msgstr "learner_preference.audio_level"
+
+msgid "c_entry"
+msgstr "entry"
+
+msgid "c_exit"
+msgstr "exit"
+
+msgid "c_language"
+msgstr "learner_preference.language"
+
+msgid "c_location"
+msgstr "location"
+
+msgid "c_max"
+msgstr "score.max: maximális pontszám"
+
+msgid "c_min"
+msgstr "score.min: minimális pontszám"
+
+msgid "c_mode"
+msgstr "mód"
+
+msgid "c_raw"
+msgstr "score.raw: elért pontszám"
+
+msgid "c_timestamp"
+msgstr "Utolsó hozzáférés"
+
+msgid "c_type"
+msgstr "Típus"
+
+msgid "completedSCOs"
+msgstr "Teljesen befejezett SCO-k száma"
+
+msgid "completion_status"
+msgstr "Befejezettségi állapot"
+
+msgid "completion_threshold"
+msgstr "Befejezettségi küszöb"
+
+msgid "counter"
+msgstr "számláló"
+
+msgid "counter_all"
+msgstr "összes felhasználó"
+
+msgid "counter_correct"
+msgstr "felhasználó és pillanatnyi eredményeik"
+
+msgid "counter_correct_percent"
+msgstr "Felhasználó százaléka és pillanatnyi eredményeik"
+
+msgid "counter_i_correct"
+msgstr "Helyesen megválaszolt interakciók"
+
+msgid "counter_i_correct_percent"
+msgstr "Helyesen megválaszolt interakciók százaléka"
+
+msgid "counter_i_incorrect"
+msgstr "Helytelenül megválaszolt interakciók"
+
+msgid "counter_i_incorrect_percent"
+msgstr "Helytelenül megválaszolt interakciók százaléka"
+
+msgid "counter_i_other"
+msgstr "Sem helyesen sem helytelenül megválaszolt interakciók"
+
+msgid "counter_i_other_percent"
+msgstr "Sem helyesen sem helytelenül megválaszolt interakciók százaléka"
+
+msgid "counter_incorrect"
+msgstr "felhasználó és helytelen eredményeik"
+
+msgid "counter_incorrect_percent"
+msgstr "Felhasználó százaléka és helytelen eredményeik"
+
+msgid "counter_other"
+msgstr "felhasználók és egyéb eredményeik"
+
+msgid "counter_other_percent"
+msgstr "Felhasználó százaléka és egyéb eredményeik"
+
+msgid "cp_node_id"
+msgstr "Fejezet-ID"
+
+msgid "credit"
+msgstr "credit: kredit"
+
+msgid "delivery_speed"
+msgstr "learner_preference.delivery_speed"
+
+msgid "existingSCOs"
+msgstr "Létező SCO-k száma"
+
+msgid "exportobjglobaltosystem"
+msgstr "Feldolgozási állapotok fejezetenkénti áttekintése"
+
+msgid "exportselectedcore"
+msgstr "Fejezetenkénti állapot áttekintése"
+
+msgid "exportselectedinteractions"
+msgstr "Interakciók áttekintése"
+
+msgid "exportselectedobjectives"
+msgstr "Tanulási célkitűzések áttekintése"
+
+msgid "exportselectedraw"
+msgstr "CMI (RAW) adatsor"
+
+msgid "exportselectedsuccess"
+msgstr "Haladások áttekintése"
+
+msgid "identifierref"
+msgstr "SCO-Azonosító"
+
+msgid "interaction_description"
+msgstr "Interakció leírása"
+
+msgid "interaction_id"
+msgstr "Interakció-ID"
+
+msgid "interaction_value"
+msgstr "Interakció eredménye"
+
+msgid "latency"
+msgstr "latency: időtartam"
+
+msgid "latency_seconds"
+msgstr "latency: időtartam másodpercben"
+
+msgid "launch_data"
+msgstr "launch_data: SCO elején lévő adat"
+
+msgid "learner_response"
+msgstr "interactions.n.learner_response: válasz"
+
+msgid "lesson_status"
+msgstr "Tanulási állapot"
+
+msgid "lm_id"
+msgstr "Tananyag-ID"
+
+msgid "lm_title"
+msgstr "Tananyag címe"
+
+msgid "lvalue"
+msgstr "Kulcs"
+
+msgid "measure"
+msgstr "Állapot: mérés"
+
+msgid "ostatus"
+msgstr "Cél állapota"
+
+msgid "passedSCOs"
+msgstr "Teljesített SCO-k száma"
+
+msgid "progress_measure"
+msgstr "progress_measure: folyamatmérés"
+
+msgid "report"
+msgstr "Riport"
+
+msgid "result"
+msgstr "result: eredmény"
+
+msgid "roundedTotal_timeSeconds"
+msgstr "Összes idő másodpercben (kerekítve)"
+
+msgid "rvalue"
+msgstr "Érték"
+
+msgid "satisfied"
+msgstr "Állapot: elégedett"
+
+msgid "scaled"
+msgstr "score.scaled: megszerzett pontszám tizedestörtként"
+
+msgid "scaled_passing_score"
+msgstr "scaled_passing_score: sikeres teljesítéshez szükséges pontszám tizedestörtként"
+
+msgid "sco_id"
+msgstr "Fejezet / SCO azonosítója"
+
+msgid "sco_marked_for_learning_progress"
+msgstr "Tanulási célhoz számít"
+
+msgid "sco_title"
+msgstr "Fejezet/SCO címe"
+
+msgid "scope"
+msgstr "hatókör"
+
+msgid "session_time"
+msgstr "session_time: utolsó munkamenet időtartama"
+
+msgid "session_time_seconds"
+msgstr "session_time: utolsó munkamenet időtartama másodpercben"
+
+msgid "startedSCOs"
+msgstr "Elkezdett SCO-k száma"
+
+msgid "student_response"
+msgstr "student_response: válasz"
+
+msgid "success_status"
+msgstr "success_status: sikeres feldolgozás állapota"
+
+msgid "suspend_data"
+msgstr "suspend_data: SCO módosítható puffere"
+
+msgid "total_time"
+msgstr "total_time: összes idő"
+
+msgid "total_time_seconds"
+msgstr "total_time: összes idő másodpercben"
+
+msgid "tracinteractionitem"
+msgstr "Interakciónkénti értékelés"
+
+msgid "tracinteractionuser"
+msgstr "Felhasználónkénti értékelés"
+
+msgid "tracinteractionuseranswers"
+msgstr "Felhasználók válaszai"
+
+msgid "user_id"
+msgstr "User_id"
+
+msgid "weighting"
+msgstr "weighting"

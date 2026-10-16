@@ -1,0 +1,345 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: bg\n"
+"Language-Team: Bulgarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: scormtrac\n"
+
+#, fuzzy
+msgid "LearningModuleId"
+msgstr "Id of the learning module"
+
+#, fuzzy
+msgid "LearningModuleTitle"
+msgstr "Title of the learning module"
+
+#, fuzzy
+msgid "LearningModuleVersion"
+msgstr "Version of the learning module"
+
+#, fuzzy
+msgid "Percentage"
+msgstr "Percentage of completed SCOs"
+
+#, fuzzy
+msgid "Status"
+msgstr "total status"
+
+#, fuzzy
+msgid "audio_captioning"
+msgstr "cmi.learner_preference.audio_captioning"
+
+#, fuzzy
+msgid "audio_level"
+msgstr "cmi.learner_preference.audio_level"
+
+#, fuzzy
+msgid "c_entry"
+msgstr "cmi.entry"
+
+#, fuzzy
+msgid "c_exit"
+msgstr "cmi.exit"
+
+#, fuzzy
+msgid "c_language"
+msgstr "cmi.learner_preference.language"
+
+#, fuzzy
+msgid "c_location"
+msgstr "cmi.location"
+
+#, fuzzy
+msgid "c_max"
+msgstr "cmi.score.max"
+
+#, fuzzy
+msgid "c_min"
+msgstr "cmi.score.min"
+
+#, fuzzy
+msgid "c_mode"
+msgstr "cmi.mode"
+
+#, fuzzy
+msgid "c_raw"
+msgstr "cmi.score.raw: achieved score"
+
+#, fuzzy
+msgid "c_timestamp"
+msgstr "Last access"
+
+#, fuzzy
+msgid "c_type"
+msgstr "cmi.interactions.n.type"
+
+#, fuzzy
+msgid "completedSCOs"
+msgstr "Number of fully completed SCO"
+
+#, fuzzy
+msgid "completion_status"
+msgstr "cmi.completion_status"
+
+#, fuzzy
+msgid "completion_threshold"
+msgstr "cmi.completion_threshold"
+
+#, fuzzy
+msgid "counter"
+msgstr "counter"
+
+#, fuzzy
+msgid "counter_all"
+msgstr "all users"
+
+#, fuzzy
+msgid "counter_correct"
+msgstr "users with correct result"
+
+#, fuzzy
+msgid "counter_correct_percent"
+msgstr "Percentage of users with correct result"
+
+#, fuzzy
+msgid "counter_i_correct"
+msgstr "correctly answered interactions"
+
+#, fuzzy
+msgid "counter_i_correct_percent"
+msgstr "Percentage of correctly answered interactions"
+
+#, fuzzy
+msgid "counter_i_incorrect"
+msgstr "incorrectly answered interactions"
+
+#, fuzzy
+msgid "counter_i_incorrect_percent"
+msgstr "Percentage of incorrectly answered interactions"
+
+#, fuzzy
+msgid "counter_i_other"
+msgstr "neither correctly nor incorrectly answered interactions"
+
+#, fuzzy
+msgid "counter_i_other_percent"
+msgstr "Percentage of neither correctly nor incorrectly answered interactions"
+
+#, fuzzy
+msgid "counter_incorrect"
+msgstr "users with incorrect result"
+
+#, fuzzy
+msgid "counter_incorrect_percent"
+msgstr "Percentage of users with incorrect result"
+
+#, fuzzy
+msgid "counter_other"
+msgstr "users with other result"
+
+#, fuzzy
+msgid "counter_other_percent"
+msgstr "Percentage of users with other result"
+
+#, fuzzy
+msgid "cp_node_id"
+msgstr "Id of the chapter (SCO)"
+
+#, fuzzy
+msgid "credit"
+msgstr "cmi.credit"
+
+#, fuzzy
+msgid "delivery_speed"
+msgstr "cmi.learner_preference.delivery_speed"
+
+#, fuzzy
+msgid "existingSCOs"
+msgstr "Number of existing SCOs"
+
+#, fuzzy
+msgid "exportobjglobaltosystem"
+msgstr "Report for Objectives Global To System (used by Sequencing)"
+
+#, fuzzy
+msgid "exportselectedcore"
+msgstr "Basic report for chapters (SCO)"
+
+#, fuzzy
+msgid "exportselectedinteractions"
+msgstr "Basic report forinteractions"
+
+#, fuzzy
+msgid "exportselectedobjectives"
+msgstr "Report for objectives"
+
+#, fuzzy
+msgid "exportselectedraw"
+msgstr "CMI (RAW) data"
+
+#, fuzzy
+msgid "exportselectedsuccess"
+msgstr "Basic report for success"
+
+#, fuzzy
+msgid "identifierref"
+msgstr "SCO-Identifier"
+
+#, fuzzy
+msgid "interaction_description"
+msgstr "Decription of the interaction"
+
+#, fuzzy
+msgid "interaction_id"
+msgstr "Id of the interaction"
+
+#, fuzzy
+msgid "interaction_value"
+msgstr "result of the interaction"
+
+#, fuzzy
+msgid "latency"
+msgstr "cmi.interactions.n.latency: time"
+
+#, fuzzy
+msgid "latency_seconds"
+msgstr "cmi.interactions.n.latency: time in seconds"
+
+#, fuzzy
+msgid "launch_data"
+msgstr "cmi.launch_data: data at start of the SCO"
+
+#, fuzzy
+msgid "learner_response"
+msgstr "cmi.interactions.n.learner_response: Response"
+
+#, fuzzy
+msgid "lesson_status"
+msgstr "lesson_status"
+
+#, fuzzy
+msgid "lm_id"
+msgstr "Id of the learning module"
+
+#, fuzzy
+msgid "lm_title"
+msgstr "Title of the learning module"
+
+#, fuzzy
+msgid "lvalue"
+msgstr "Key"
+
+#, fuzzy
+msgid "measure"
+msgstr "Status: measure"
+
+#, fuzzy
+msgid "ostatus"
+msgstr "Status of the objective"
+
+#, fuzzy
+msgid "passedSCOs"
+msgstr "Number of passed SCOs"
+
+#, fuzzy
+msgid "progress_measure"
+msgstr "cmi.progress_measure"
+
+#, fuzzy
+msgid "report"
+msgstr "Report"
+
+#, fuzzy
+msgid "result"
+msgstr "cmi.interactions.n.result"
+
+#, fuzzy
+msgid "roundedTotal_timeSeconds"
+msgstr "Total time in seconds (rounded)"
+
+#, fuzzy
+msgid "rvalue"
+msgstr "Value"
+
+#, fuzzy
+msgid "satisfied"
+msgstr "Status: satisfied"
+
+#, fuzzy
+msgid "scaled"
+msgstr "cmi.score.scaled: score achieved as a decimal fraction"
+
+#, fuzzy
+msgid "scaled_passing_score"
+msgstr "cmi.scaled_passing_score: score required to pass as a decimal fraction"
+
+#, fuzzy
+msgid "sco_id"
+msgstr "Id of the chapter (SCO)"
+
+#, fuzzy
+msgid "sco_marked_for_learning_progress"
+msgstr "relevant for learning progress"
+
+#, fuzzy
+msgid "sco_title"
+msgstr "title of the chapter (SCO)"
+
+#, fuzzy
+msgid "scope"
+msgstr "scope"
+
+#, fuzzy
+msgid "session_time"
+msgstr "cmi.session_time: time in the last session"
+
+#, fuzzy
+msgid "session_time_seconds"
+msgstr "cmi.session_time: time in the last session in seconds"
+
+#, fuzzy
+msgid "startedSCOs"
+msgstr "Number of SCOs been started"
+
+#, fuzzy
+msgid "student_response"
+msgstr "student_response: Response"
+
+#, fuzzy
+msgid "success_status"
+msgstr "cmi.success_status: success"
+
+#, fuzzy
+msgid "suspend_data"
+msgstr "cmi.suspend_data: variable buffer of the SCO"
+
+#, fuzzy
+msgid "total_time"
+msgstr "cmi.total_time: total time"
+
+#, fuzzy
+msgid "total_time_seconds"
+msgstr "cmi.total_time: total time in seconds"
+
+#, fuzzy
+msgid "tracinteractionitem"
+msgstr "Evaluation per interaction"
+
+#, fuzzy
+msgid "tracinteractionuser"
+msgstr "Evaluation per user"
+
+#, fuzzy
+msgid "tracinteractionuseranswers"
+msgstr "Responses of users"
+
+#, fuzzy
+msgid "user_id"
+msgstr "User-Id"
+
+#, fuzzy
+msgid "weighting"
+msgstr "cmi.interactions.n.weighting"

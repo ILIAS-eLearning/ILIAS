@@ -1,0 +1,261 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: scormtrac\n"
+
+msgid "LearningModuleId"
+msgstr "ID modula za učenje"
+
+msgid "LearningModuleTitle"
+msgstr "Naslov modula za učenje"
+
+msgid "LearningModuleVersion"
+msgstr "Verzija modula za učenje"
+
+msgid "Percentage"
+msgstr "Postotak dovršenih SCO-a"
+
+msgid "Status"
+msgstr "Ukupan status"
+
+msgid "audio_captioning"
+msgstr "learner_preference.audio_captioning"
+
+msgid "audio_level"
+msgstr "learner_preference.audio_level"
+
+msgid "c_entry"
+msgstr "ulaz"
+
+msgid "c_exit"
+msgstr "izlaz"
+
+msgid "c_language"
+msgstr "learner_preference.language"
+
+msgid "c_location"
+msgstr "lokacija"
+
+msgid "c_max"
+msgstr "rezultat.maks"
+
+msgid "c_min"
+msgstr "rezultat.min"
+
+msgid "c_mode"
+msgstr "način rada"
+
+msgid "c_raw"
+msgstr "score.raw: postignuti rezultat"
+
+msgid "c_timestamp"
+msgstr "Zadnji pristup"
+
+msgid "c_type"
+msgstr "Tip"
+
+msgid "completedSCOs"
+msgstr "Broj potpuno dovršenih SCO-a"
+
+msgid "completion_status"
+msgstr "status_obrade"
+
+msgid "completion_threshold"
+msgstr "prag_obrade"
+
+msgid "counter"
+msgstr "brojač"
+
+msgid "counter_all"
+msgstr "Svi korisnici"
+
+msgid "counter_correct"
+msgstr "Korisnici s točnim rezultatom"
+
+msgid "counter_correct_percent"
+msgstr "Postotak korisnika s točnim rezultatom"
+
+msgid "counter_i_correct"
+msgstr "Točno odgovorene interakcije"
+
+msgid "counter_i_correct_percent"
+msgstr "Postotak interakcija s ispravnim odgovorom"
+
+msgid "counter_i_incorrect"
+msgstr "Interakcije s netočnim odgovorom"
+
+msgid "counter_i_incorrect_percent"
+msgstr "Postotak interakcija s netočnim odgovorom"
+
+msgid "counter_i_other"
+msgstr "Interakcije s ni točnim ni pogrešnim odgovorom"
+
+msgid "counter_i_other_percent"
+msgstr "Postotak interakcija na koje se nije odgovorilo točno ili s pogrešnim odgovorima"
+
+msgid "counter_incorrect"
+msgstr "Korisnici s netočnim rezultatom"
+
+msgid "counter_incorrect_percent"
+msgstr "Postotak korisnika s netočnim rezultatom"
+
+msgid "counter_other"
+msgstr "Korisnici s drugim rezultatom"
+
+msgid "counter_other_percent"
+msgstr "Postotak korisnika s drugim rezultatom"
+
+msgid "cp_node_id"
+msgstr "ID poglavlja / SCO"
+
+msgid "credit"
+msgstr "kredit"
+
+msgid "delivery_speed"
+msgstr "learner_preference.delivery_speed"
+
+msgid "existingSCOs"
+msgstr "Broj postojećih SCO-a"
+
+msgid "exportobjglobaltosystem"
+msgstr "Izvješće za ciljeve globalnog sustava (koristi se od strane sekvenciranja)"
+
+msgid "exportselectedcore"
+msgstr "Osnovno izvješće za poglavlja (SCO)"
+
+msgid "exportselectedinteractions"
+msgstr "Osnovno izvješće za interakcije"
+
+msgid "exportselectedobjectives"
+msgstr "Izvještaj za ciljeve"
+
+msgid "exportselectedraw"
+msgstr "CMI (RAW) podaci"
+
+msgid "exportselectedsuccess"
+msgstr "Osnovno izvješće o uspjehu"
+
+msgid "identifierref"
+msgstr "SCO-identifikator"
+
+msgid "interaction_description"
+msgstr "Opis interakcije"
+
+msgid "interaction_id"
+msgstr "ID interakcije"
+
+msgid "interaction_value"
+msgstr "Rezultat interakcije"
+
+msgid "latency"
+msgstr "latency: vrijeme"
+
+msgid "latency_seconds"
+msgstr "latency: vrijeme u sekundama"
+
+msgid "launch_data"
+msgstr "launch_data: podaci na početku SCO-a"
+
+msgid "learner_response"
+msgstr "learner_response: odgovor"
+
+msgid "lesson_status"
+msgstr "lesson_status"
+
+msgid "lm_id"
+msgstr "ID modula za učenje"
+
+msgid "lm_title"
+msgstr "Naslov modula za učenje"
+
+msgid "lvalue"
+msgstr "Ključ"
+
+msgid "measure"
+msgstr "Status: mjera"
+
+msgid "ostatus"
+msgstr "Status cilja"
+
+msgid "passedSCOs"
+msgstr "Broj položenih SCO-a"
+
+msgid "progress_measure"
+msgstr "progress_measure"
+
+msgid "report"
+msgstr "Izvješće"
+
+msgid "result"
+msgstr "Rezultat"
+
+msgid "roundedTotal_timeSeconds"
+msgstr "Ukupno vrijeme u sekundama (zaokruženo)"
+
+msgid "rvalue"
+msgstr "Vrijednost"
+
+msgid "satisfied"
+msgstr "Status: zadovoljan"
+
+msgid "scaled"
+msgstr "score.scaled: rezultat postignut kao decimalni razlomak"
+
+msgid "scaled_passing_score"
+msgstr "scaled_passing_score: rezultat potreban za prolazak kao decimalni razlomak"
+
+msgid "sco_id"
+msgstr "ID poglavlja / SCO"
+
+msgid "sco_marked_for_learning_progress"
+msgstr "Relevantno za napredak u učenju"
+
+msgid "sco_title"
+msgstr "Naslov poglavlja / SCO"
+
+msgid "scope"
+msgstr "opseg"
+
+msgid "session_time"
+msgstr "session_time: vrijeme posljednje sesije"
+
+msgid "session_time_seconds"
+msgstr "session_time: vrijeme posljednje sesije u sekundama"
+
+msgid "startedSCOs"
+msgstr "Broj započetih SCO-a"
+
+msgid "student_response"
+msgstr "student_response: odgovor"
+
+msgid "success_status"
+msgstr "success_status: uspjeh"
+
+msgid "suspend_data"
+msgstr "suspend_data: varijabilni međuspremnik SCO-a"
+
+msgid "total_time"
+msgstr "total_time: ukupno vrijeme"
+
+msgid "total_time_seconds"
+msgstr "total_time: ukupno vrijeme u sekundama"
+
+msgid "tracinteractionitem"
+msgstr "Evaluacija po interakciji"
+
+msgid "tracinteractionuser"
+msgstr "Evaluacija po korisniku"
+
+msgid "tracinteractionuseranswers"
+msgstr "Odgovori korisnika"
+
+msgid "user_id"
+msgstr "Korisnički ID"
+
+msgid "weighting"
+msgstr "ponderiranje"

@@ -1,0 +1,292 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: scormtrac\n"
+
+#, fuzzy
+msgid "LearningModuleId"
+msgstr "ID of learning module"
+
+#, fuzzy
+msgid "LearningModuleTitle"
+msgstr "Title of learning module"
+
+#, fuzzy
+msgid "LearningModuleVersion"
+msgstr "Version of learning module"
+
+#, fuzzy
+msgid "Percentage"
+msgstr "Percentage of completed SCOs"
+
+#, fuzzy
+msgid "Status"
+msgstr "Total status"
+
+msgid "audio_captioning"
+msgstr "cmi.learner_preference.audio_captioning"
+
+msgid "audio_level"
+msgstr "cmi.learner_preference.audio_level"
+
+msgid "c_entry"
+msgstr "cmi.entry"
+
+msgid "c_exit"
+msgstr "cmi.exit"
+
+msgid "c_language"
+msgstr "cmi.learner_preference.language"
+
+msgid "c_location"
+msgstr "cmi.location"
+
+msgid "c_max"
+msgstr "cmi.score.max"
+
+msgid "c_min"
+msgstr "cmi.score.min"
+
+msgid "c_mode"
+msgstr "cmi.mode"
+
+msgid "c_raw"
+msgstr "cmi.score.raw: bereikte score"
+
+msgid "c_timestamp"
+msgstr "Laatste toegang"
+
+msgid "c_type"
+msgstr "cmi.interactions.n.type"
+
+#, fuzzy
+msgid "completedSCOs"
+msgstr "Number of fully completed SCOs"
+
+msgid "completion_status"
+msgstr "cmi.completion_status"
+
+msgid "completion_threshold"
+msgstr "cmi.completion_threshold"
+
+#, fuzzy
+msgid "counter"
+msgstr "counter"
+
+msgid "counter_all"
+msgstr "alle gebruikers"
+
+msgid "counter_correct"
+msgstr "gebruikers met correcte resultaten"
+
+msgid "counter_correct_percent"
+msgstr "Percentage gebruikers met correcte resultaten"
+
+#, fuzzy
+msgid "counter_i_correct"
+msgstr "Correctly answered interactions"
+
+#, fuzzy
+msgid "counter_i_correct_percent"
+msgstr "Percentage of correctly answered interactions"
+
+#, fuzzy
+msgid "counter_i_incorrect"
+msgstr "Incorrectly answered interactions"
+
+#, fuzzy
+msgid "counter_i_incorrect_percent"
+msgstr "Percentage of incorrectly answered interactions"
+
+#, fuzzy
+msgid "counter_i_other"
+msgstr "Neither correctly nor incorrectly answered interactions"
+
+#, fuzzy
+msgid "counter_i_other_percent"
+msgstr "Percentage of neither correctly nor incorrectly answered interactions"
+
+msgid "counter_incorrect"
+msgstr "gebruikers met incorrecte resultaten"
+
+msgid "counter_incorrect_percent"
+msgstr "Percentage gebruikers met incorrecte resultaten"
+
+msgid "counter_other"
+msgstr "Gebruikers met een ander resultaat"
+
+msgid "counter_other_percent"
+msgstr "Percentage gebruikers met andere resultaten"
+
+msgid "cp_node_id"
+msgstr "ID van het hoofdstuk (SCO)"
+
+msgid "credit"
+msgstr "cmi.credit"
+
+msgid "delivery_speed"
+msgstr "cmi.learner_preference.delivery_speed"
+
+#, fuzzy
+msgid "existingSCOs"
+msgstr "Number of existing SCOs"
+
+#, fuzzy
+msgid "exportobjglobaltosystem"
+msgstr "Report for Objectives Global To System (used by Sequencing)"
+
+msgid "exportselectedcore"
+msgstr "Basis rapportage voor hoofdstukken (SCO)"
+
+msgid "exportselectedinteractions"
+msgstr "Basis rapportage voor interacties"
+
+#, fuzzy
+msgid "exportselectedobjectives"
+msgstr "Report for objectives"
+
+#, fuzzy
+msgid "exportselectedraw"
+msgstr "CMI (RAW) data"
+
+#, fuzzy
+msgid "exportselectedsuccess"
+msgstr "Basic report for success"
+
+#, fuzzy
+msgid "identifierref"
+msgstr "SCO-Identifier"
+
+msgid "interaction_description"
+msgstr "Beschrijving van de interactie"
+
+msgid "interaction_id"
+msgstr "ID van de interactie"
+
+msgid "interaction_value"
+msgstr "Resultaat van de interacties"
+
+msgid "latency"
+msgstr "cmi.interactions.n.latency: time"
+
+msgid "latency_seconds"
+msgstr "cmi.interactions.n.latency: tijd in seconden"
+
+msgid "launch_data"
+msgstr "cmi.launch_data: gegevens bij het begin van de SCO"
+
+msgid "learner_response"
+msgstr "cmi.interactions.n.learner_response: Antwoord"
+
+#, fuzzy
+msgid "lesson_status"
+msgstr "lesson_status"
+
+msgid "lm_id"
+msgstr "ID van de leermodule"
+
+msgid "lm_title"
+msgstr "Titel van de leermodule"
+
+#, fuzzy
+msgid "lvalue"
+msgstr "Key"
+
+#, fuzzy
+msgid "measure"
+msgstr "Status: measure"
+
+#, fuzzy
+msgid "ostatus"
+msgstr "Status of the objective"
+
+#, fuzzy
+msgid "passedSCOs"
+msgstr "Number of passed SCOs"
+
+msgid "progress_measure"
+msgstr "cmi.progress_measure"
+
+msgid "report"
+msgstr "Rapport"
+
+msgid "result"
+msgstr "cmi.interactions.n.result"
+
+#, fuzzy
+msgid "roundedTotal_timeSeconds"
+msgstr "Total time in seconds (rounded)"
+
+#, fuzzy
+msgid "rvalue"
+msgstr "Value"
+
+#, fuzzy
+msgid "satisfied"
+msgstr "Status: satisfied"
+
+msgid "scaled"
+msgstr "cmi.score.scaled: score die is behaald als een decimale fractie"
+
+msgid "scaled_passing_score"
+msgstr "cmi.scaled_passing_score: score als decimale fractie die nodig is om te slagen"
+
+#, fuzzy
+msgid "sco_id"
+msgstr "ID of chapter / SCO"
+
+msgid "sco_marked_for_learning_progress"
+msgstr "relevant voor leervoortgang"
+
+msgid "sco_title"
+msgstr "titel van het hoofdstuk (SCO)"
+
+#, fuzzy
+msgid "scope"
+msgstr "scope"
+
+msgid "session_time"
+msgstr "cmi.session_time: tijd van de laatste sessie"
+
+msgid "session_time_seconds"
+msgstr "cmi.session_time: tijd van de laatste sessie in seconden"
+
+#, fuzzy
+msgid "startedSCOs"
+msgstr "Number of started SCOs"
+
+#, fuzzy
+msgid "student_response"
+msgstr "student_response: Response"
+
+msgid "success_status"
+msgstr "cmi.success_status: succes"
+
+msgid "suspend_data"
+msgstr "cmi.suspend_data: variabele buffer van de SCO"
+
+msgid "total_time"
+msgstr "cmi.total_time: totale tijd"
+
+msgid "total_time_seconds"
+msgstr "cmi.total_time: totale tijd in seconden"
+
+msgid "tracinteractionitem"
+msgstr "Evaluatie per interactie"
+
+msgid "tracinteractionuser"
+msgstr "Evaluatie per gebruiker"
+
+msgid "tracinteractionuseranswers"
+msgstr "Antwoorden van gebruikers"
+
+msgid "user_id"
+msgstr "User-Id"
+
+msgid "weighting"
+msgstr "cmi.interactions.n.weighting"

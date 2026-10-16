@@ -1,0 +1,170 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: sahs\n"
+
+msgid "cont_insert_after_chap"
+msgstr "Vstavi elemente za poglavje."
+
+msgid "cont_insert_into_chap"
+msgstr "Vstavite elemente znotraj poglavja."
+
+msgid "sahs_add"
+msgstr "Ustvari učni modul SCORM"
+
+msgid "sahs_authoring_mode"
+msgstr "Avtorski način"
+
+msgid "sahs_authoring_mode_info"
+msgstr "Datoteka SCORM ZIP mora biti ustvarjena z urejevalnikom ILIAS SCORM in jo je treba izvoziti kot paket SCORM 1.2/2004."
+
+msgid "sahs_chapter"
+msgstr "Poglavje"
+
+msgid "sahs_choose_page_template"
+msgstr "Izberi predlogo strani"
+
+msgid "sahs_choose_pages_chap_scos_ass_only"
+msgstr "Izberite samo strani, SCO, sredstva ali poglavja."
+
+msgid "sahs_choose_special_page"
+msgstr "Izberi posebno stran"
+
+msgid "sahs_copy"
+msgstr "Kopiraj učni modul SCORM"
+
+msgid "sahs_desc_objectives"
+msgstr "Opis/cilji"
+
+#, fuzzy
+msgid "sahs_file_import_from_upload_dir_failed"
+msgstr "File from Upload-Directory not imported"
+
+#, fuzzy
+msgid "sahs_file_imported_from_upload_dir"
+msgstr "File imported from Upload-Directory"
+
+msgid "sahs_glo_info"
+msgstr "Upoštevajte, da notranje povezave v pojmih glosarja niso podprte."
+
+msgid "sahs_hide_objectives_page"
+msgstr "Skrij opisno stran/stran s cilji"
+
+msgid "sahs_hide_objectives_page_info"
+msgstr "Če je omogočeno, potem se v pogledu predstavitve ne prikaže opis SCO in učni cilji."
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir"
+msgstr "Import from Upload-Directory"
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir_file_name"
+msgstr "Filename"
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir_info"
+msgstr "Please select file for import"
+
+msgid "sahs_import_sequencing"
+msgstr "Uvozi informacije o zaporedju"
+
+msgid "sahs_import_sequencing_info"
+msgstr "Uvožene bodo informacije o zaporedju paketov SCORM (strokovni način zaporedja)"
+
+msgid "sahs_insert_ass"
+msgstr "Vstavi sredstvo"
+
+msgid "sahs_insert_ass_from_clip"
+msgstr "Vstavi sredstva iz odložišča"
+
+msgid "sahs_insert_ass_from_clip_inside_chap"
+msgstr "Vstavi sredstva iz odložišča (znotraj poglavja)"
+
+msgid "sahs_insert_ass_inside_chap"
+msgstr "Vstavi sredstvo (znotraj poglavja)"
+
+msgid "sahs_insert_chapter"
+msgstr "Vstavi poglavje"
+
+msgid "sahs_insert_page"
+msgstr "Vstavi stran"
+
+msgid "sahs_insert_pagelayout"
+msgstr "Vstavi predlogo strani"
+
+msgid "sahs_insert_sco"
+msgstr "Vstavi SCO"
+
+msgid "sahs_insert_sco_from_clip_inside_chap"
+msgstr "Vstavi SCO-je iz odložišča (znotraj poglavja)"
+
+msgid "sahs_insert_sco_inside_chap"
+msgstr "Vstavi SCO (znotraj poglavja)"
+
+msgid "sahs_insert_special_page"
+msgstr "Vstavi posebno stran"
+
+msgid "sahs_learning_objectives"
+msgstr "Učni cilji"
+
+msgid "sahs_list_info"
+msgstr "Uporabite * pred neoštevilčenimi seznami ali # pred oštevilčenimi seznami."
+
+msgid "sahs_mail_context_lp"
+msgstr "Učni modul SCORM: Učni napredek"
+
+msgid "sahs_mail_context_lp_info"
+msgstr "Za pošiljanje e-pošte udeležencem v pogledu učnega napredka modula SCORM"
+
+msgid "sahs_new_asset"
+msgstr "Novo sredstvo"
+
+msgid "sahs_new_chapter"
+msgstr "Novo poglavje"
+
+msgid "sahs_new_page"
+msgstr "Nova stran"
+
+msgid "sahs_new_sco"
+msgstr "Nov SCO"
+
+msgid "sahs_oa_no_scos"
+msgstr "Poglavje še ne vsebuje nobenih SCO."
+
+msgid "sahs_objectives"
+msgstr "Učni cilji"
+
+msgid "sahs_objectives_alignment"
+msgstr "Dodelitev učnih ciljev"
+
+msgid "sahs_organization"
+msgstr "Organizacija"
+
+msgid "sahs_page"
+msgstr "Stran"
+
+msgid "sahs_questions"
+msgstr "Vprašanja"
+
+msgid "sahs_sco_objective"
+msgstr "SCO-ji in vaši učni cilji"
+
+msgid "sahs_sequencing"
+msgstr "Zaporedje"
+
+msgid "sahs_std_sequencing"
+msgstr "Privzeto zaporedje"
+
+msgid "sahs_std_sequencing_info"
+msgstr "Uporabi privzeto zaporedje ILIAS (priporočeno)."
+
+msgid "sahs_unit"
+msgstr "SCO"
+
+msgid "scorm_create_export_file_html_one"
+msgstr "Ustvari datoteko za izvoz (HTML, ena stran, način pregleda)"

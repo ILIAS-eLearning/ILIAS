@@ -1,0 +1,170 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: sahs\n"
+
+msgid "cont_insert_after_chap"
+msgstr "Inserir itens depois do capítulo"
+
+msgid "cont_insert_into_chap"
+msgstr "Inserir itens dentro do capítulo"
+
+msgid "sahs_add"
+msgstr "Criar módulo de aprendizagem SCORM"
+
+msgid "sahs_authoring_mode"
+msgstr "Modo de autorização"
+
+msgid "sahs_authoring_mode_info"
+msgstr "The package must have been created with the ILIAS SCORM editor and it must have been exported as SCORM 1.2/2004 package."
+
+msgid "sahs_chapter"
+msgstr "Capítulo"
+
+msgid "sahs_choose_page_template"
+msgstr "Escolher modelo de página"
+
+msgid "sahs_choose_pages_chap_scos_ass_only"
+msgstr "Selecione páginas, SCOs, recursos ou capítulo apenas."
+
+msgid "sahs_choose_special_page"
+msgstr "Escolher página especial"
+
+msgid "sahs_copy"
+msgstr "Copiar módulo de aprendizagem SCORM"
+
+msgid "sahs_desc_objectives"
+msgstr "Descrição/objetivo"
+
+#, fuzzy
+msgid "sahs_file_import_from_upload_dir_failed"
+msgstr "File from Upload-Directory not imported"
+
+#, fuzzy
+msgid "sahs_file_imported_from_upload_dir"
+msgstr "File imported from Upload-Directory"
+
+msgid "sahs_glo_info"
+msgstr "Note que os links internos nos termos do glossário não são suportados."
+
+msgid "sahs_hide_objectives_page"
+msgstr "Ocultar página de descrição/objetivos"
+
+msgid "sahs_hide_objectives_page_info"
+msgstr "Se estiver selecionado, a página de descrição e objetivos SCO não será incluída na apresentação."
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir"
+msgstr "Import from Upload-Directory"
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir_file_name"
+msgstr "Filename"
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir_info"
+msgstr "Please select file for import"
+
+msgid "sahs_import_sequencing"
+msgstr "Importar sequenciação"
+
+msgid "sahs_import_sequencing_info"
+msgstr "Importar informação de sequenciação do pacote (modo especializado de sequenciação)"
+
+msgid "sahs_insert_ass"
+msgstr "Inserir recurso"
+
+msgid "sahs_insert_ass_from_clip"
+msgstr "Colar recursos a partir da área de transferência"
+
+msgid "sahs_insert_ass_from_clip_inside_chap"
+msgstr "Colar recursos a partir da área de transferência (dentro do capítulo)"
+
+msgid "sahs_insert_ass_inside_chap"
+msgstr "Inserir recurso (dentro do capítulo)"
+
+msgid "sahs_insert_chapter"
+msgstr "Inserir capítulo"
+
+msgid "sahs_insert_page"
+msgstr "Inserir página"
+
+msgid "sahs_insert_pagelayout"
+msgstr "Inserir página modelo"
+
+msgid "sahs_insert_sco"
+msgstr "Inserir SCO"
+
+msgid "sahs_insert_sco_from_clip_inside_chap"
+msgstr "Colar SCOs a partir da área de transferência (dentro do capítulo)"
+
+msgid "sahs_insert_sco_inside_chap"
+msgstr "Inserir SCO (dentro do capítulo)"
+
+msgid "sahs_insert_special_page"
+msgstr "Inserir página especial"
+
+msgid "sahs_learning_objectives"
+msgstr "Objectivos de aprendizagem"
+
+msgid "sahs_list_info"
+msgstr "Usar * avançado para lista de pontos ou avançado"
+
+msgid "sahs_mail_context_lp"
+msgstr "Progresso de aprendizagem SCORM"
+
+msgid "sahs_mail_context_lp_info"
+msgstr "For the participant emails on the learning progress screens of a scorm module"
+
+msgid "sahs_new_asset"
+msgstr "Novo recurso"
+
+msgid "sahs_new_chapter"
+msgstr "Novo capítulo"
+
+msgid "sahs_new_page"
+msgstr "Nova página"
+
+msgid "sahs_new_sco"
+msgstr "Novo SCO"
+
+msgid "sahs_oa_no_scos"
+msgstr "O capítulo não contém ainda nenhum SCO."
+
+msgid "sahs_objectives"
+msgstr "Objectivos de aprendizagem"
+
+msgid "sahs_objectives_alignment"
+msgstr "Alinhamento Objectivos de aprendizagem"
+
+msgid "sahs_organization"
+msgstr "Organização"
+
+msgid "sahs_page"
+msgstr "Página"
+
+msgid "sahs_questions"
+msgstr "Perguntas"
+
+msgid "sahs_sco_objective"
+msgstr "Objetivos"
+
+msgid "sahs_sequencing"
+msgstr "Sequenciação"
+
+msgid "sahs_std_sequencing"
+msgstr "Sequenciação padrão"
+
+msgid "sahs_std_sequencing_info"
+msgstr "Usar comportamento de sequenciação padrão ILIAS."
+
+msgid "sahs_unit"
+msgstr "SCO"
+
+msgid "scorm_create_export_file_html_one"
+msgstr "Criar ficheiro de exportação (HTML, One Page, Modo revisão)"

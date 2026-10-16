@@ -1,0 +1,25 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: el\n"
+"Language-Team: Greek\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: scov\n"
+
+#, fuzzy
+msgid "crsv_create"
+msgstr "Create SCORM Certificate"
+
+#, fuzzy
+msgid "crsv_create_info"
+msgstr "Select a completed learning module to generate a certificate for it"
+
+#, fuzzy
+msgid "scov_create"
+msgstr "Create SCORM Certificate"
+
+#, fuzzy
+msgid "scov_create_info"
+msgstr "Select a completed SCORM module to generate a certificate for it"
