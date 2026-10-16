@@ -62,6 +62,11 @@ final class MigratedTranslations
      */
     private static ?array $shipped_templates = null;
 
+    /**
+     * @var array<string, bool> see isShippedModule()
+     */
+    private static array $shipped_modules = [];
+
     private static ?string $client_data_dir = null;
 
     /**
@@ -98,12 +103,21 @@ final class MigratedTranslations
     }
 
     /**
-     * Whether $module belongs to the ILIAS components (it is built or ships a template): never served from
-     * lng_data/lng_modules then. Known without the component graph, so also in the Setup.
+     * Whether $module belongs to the ILIAS components: never served from lng_data/lng_modules then. Known
+     * without the component graph, so also in the Setup: from the contributions the build recorded, without a
+     * build (or one that did not record them) from the shipped templates.
      */
     public static function isShippedModule(string $module): bool
     {
-        return isset(self::pointer()['modules'][$module]) || isset(self::shippedTemplates()[$module]);
+        if (!isset(self::$shipped_modules[$module])) {
+            $pointer = self::pointer();
+            // a pointer without build (e.g. written from no directories) lists nothing reliable
+            self::$shipped_modules[$module] = $pointer !== null && $pointer['build'] !== null && $pointer['shipped'] !== null
+                ? in_array($module, $pointer['shipped'], true)
+                : isset($pointer['modules'][$module]) || isset(self::shippedTemplates()[$module]);
+        }
+
+        return self::$shipped_modules[$module];
     }
 
     /**
@@ -285,6 +299,7 @@ final class MigratedTranslations
         self::$build_keys = [];
         self::$states = [];
         self::$shipped_templates = null;
+        self::$shipped_modules = [];
         self::$client_data_dir = null;
     }
 

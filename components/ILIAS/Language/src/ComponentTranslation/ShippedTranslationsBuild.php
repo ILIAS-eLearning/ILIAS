@@ -43,8 +43,8 @@ use RuntimeException;
  * - `<build>/locale/`: the locale native gettext is activated with (see NativeGettext), a copy of "C.utf8";
  * - `<build>/manifest.json`: size and hash of every file, to tell an intact build, the hash of each built `.po`
  *   (see servesShippedPo()), the warnings and collisions;
- * - `current.json`: the build the runtime serves and its languages per module - read on every request, so
- *   nothing else.
+ * - `current.json`: the build the runtime serves, its languages per module and every contributed module
+ *   ("shipped", never read from the database) - read on every request, so nothing else.
  *
  * The build id fingerprints everything that determines the build: the shipped files, the compiling code (see
  * FORMAT_VERSION) and the locale. An intact build with the same id (its manifest also keeps its warnings) is
@@ -62,7 +62,7 @@ use RuntimeException;
  * damaged by a crash.
  *
  * @phpstan-type Manifest array{files: array<string, array{0: int, 1: string}>, sample: array{module: string, lang: string, key: string, value: string}, languages: array<string, list<string>>, hashes: array<string, array<string, string>>, warnings: list<string>, collisions: list<string>, compatibility: string}
- * @phpstan-type Pointer array{build: ?string, previous: ?string, modules: array<string, list<string>>}
+ * @phpstan-type Pointer array{build: ?string, previous: ?string, modules: array<string, list<string>>, shipped: ?list<string>}
  */
 final class ShippedTranslationsBuild
 {
@@ -137,10 +137,10 @@ final class ShippedTranslationsBuild
     private function runLocked(string $artifact_directory, callable $inform): array
     {
         $pointer = self::readPointer($artifact_directory);
-        $modules = $this->findShippedFiles($inform);
+        [$modules, $shipped] = $this->findShippedFiles($inform);
 
         if ($modules === []) {
-            $this->writePointer($artifact_directory, ['build' => null, 'previous' => null, 'modules' => []]);
+            $this->writePointer($artifact_directory, ['build' => null, 'previous' => null, 'modules' => [], 'shipped' => $shipped]);
             return [
                 'build' => null,
                 'compiled' => 0,
@@ -181,6 +181,7 @@ final class ShippedTranslationsBuild
             'build' => $build_id,
             'previous' => $previous,
             'modules' => $manifest['languages'],
+            'shipped' => $shipped,
         ];
         if ($new_pointer !== $pointer) {
             $this->writePointer($artifact_directory, $new_pointer);
@@ -199,7 +200,8 @@ final class ShippedTranslationsBuild
     /**
      * `current.json` of $artifact_directory, `null` if it is missing or not valid.
      *
-     * @return Pointer|null modules: module => the languages it is built for
+     * @return Pointer|null modules: module => the languages it is built for; shipped: `null` in a pointer
+     *         written before it was recorded
      */
     public static function readPointer(string $artifact_directory): ?array
     {
@@ -228,10 +230,22 @@ final class ShippedTranslationsBuild
             ));
         }
 
+        $shipped = $data['shipped'] ?? null;
+        if ($shipped !== null && (!is_array($shipped) || !array_is_list($shipped))) {
+            return null;
+        }
+        if ($shipped !== null) {
+            $shipped = array_values(array_filter(
+                $shipped,
+                static fn($module): bool => is_string($module) && MigratedLanguageFilePaths::isValidModule($module)
+            ));
+        }
+
         return [
             'build' => $build,
             'previous' => $previous,
             'modules' => $modules,
+            'shipped' => $shipped,
         ];
     }
 
@@ -520,12 +534,14 @@ final class ShippedTranslationsBuild
      * directory has none and holds no `.po`), per module.
      *
      * @param callable(string): void $inform
-     * @return array<string, array{directory: LanguageFileDirectory, languages: array<string, string>, template: ?string}>
-     *         sorted by module; languages: lang => shipped `.po`, sorted by language
+     * @return array{0: array<string, array{directory: LanguageFileDirectory, languages: array<string, string>, template: ?string}>, 1: list<string>}
+     *         the modules with `.po` files, sorted by module (languages: lang => shipped `.po`, sorted by
+     *         language), and every contributed module, sorted
      */
     private function findShippedFiles(callable $inform): array
     {
         $modules = [];
+        $contributed = [];
         $matching_files = [];
         $all_shipped_files = [];
         foreach ($this->language_file_directory_manager->getDirectories() as $directory) {
@@ -549,6 +565,14 @@ final class ShippedTranslationsBuild
                 $inform(sprintf('WARNING: The language files of module "%s" are not compiled: %s', $module, $e->getMessage()));
                 continue;
             }
+            $contributed[$module] = $module;
+            if (!MigratedLanguageFilePaths::isFoundWithoutGraph($this->ilias_absolute_path, $directory)) {
+                $inform(sprintf(
+                    'WARNING: Module "%s" has no template "components/<Vendor>/<Component>/lang/%s.pot" - without a build Setup and CLI do not recognise it as shipped.',
+                    $module,
+                    $module
+                ));
+            }
             $base = rtrim($this->ilias_absolute_path, '/') . '/' . ltrim($directory->getPath(), '/');
             $matching_files = [...$matching_files, ...(glob($base . sprintf($pattern, '*') . '.po') ?: [])];
             $all_shipped_files = [...$all_shipped_files, ...array_values($shipped_files)];
@@ -567,8 +591,9 @@ final class ShippedTranslationsBuild
             $inform(sprintf('WARNING: "%s" is not compiled: its name contains no valid language key.', $this->relativePath($unknown)));
         }
         ksort($modules, SORT_STRING);
+        sort($contributed, SORT_STRING);
 
-        return $modules;
+        return [$modules, array_values($contributed)];
     }
 
     /**

@@ -418,9 +418,9 @@ class ShippedTranslationsBuildTest extends TestCase
 
         $keys = array_keys($data);
         sort($keys);
-        $this->assertSame(['build', 'modules', 'previous'], $keys);
+        $this->assertSame(['build', 'modules', 'previous', 'shipped'], $keys);
         sort($data['modules']['mpa']);
-        $this->assertSame(['build' => $second, 'previous' => $first, 'modules' => ['mpa' => ['de', 'en']]], $data);
+        $this->assertSame(['build' => $second, 'previous' => $first, 'modules' => ['mpa' => ['de', 'en']], 'shipped' => ['mpa']], $data);
     }
 
     public function testReadPointerIgnoresFieldsAFormerVersionWroteIntoCurrentJson(): void
@@ -434,7 +434,7 @@ class ShippedTranslationsBuildTest extends TestCase
         $data['collisions'] = ['old collision'];
         file_put_contents($this->pointerFile(), json_encode($data));
 
-        $this->assertSame(['build' => $build, 'previous' => null, 'modules' => ['mpa' => ['de']]], ShippedTranslationsBuild::readPointer($this->artifacts));
+        $this->assertSame(['build' => $build, 'previous' => null, 'modules' => ['mpa' => ['de']], 'shipped' => ['mpa']], ShippedTranslationsBuild::readPointer($this->artifacts));
         $this->assertSame($pointer, ShippedTranslationsBuild::readPointer($this->artifacts));
         $this->assertTrue($this->build(['mpa'])['unchanged'], 'a current.json of the former layout is no reason to rebuild');
     }
