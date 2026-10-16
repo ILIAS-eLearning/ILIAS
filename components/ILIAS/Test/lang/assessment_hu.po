@@ -1,0 +1,4807 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: assessment\n"
+
+msgid "activate_logging"
+msgstr "Teszt és értékelés naplózása"
+
+msgid "activate_manual_scoring"
+msgstr "Manuális pontozás bekapcsolása"
+
+msgid "activate_manual_scoring_desc"
+msgstr "Maunális pontozás bekapcsolása az összes kérdéstípushoz"
+
+msgid "addSuggestedSolution"
+msgstr "Ismétlő összefoglaláshoz tartalom hozzáadása"
+
+msgid "add_answers"
+msgstr "Válasz hozzáadása"
+
+msgid "add_circle"
+msgstr "Kör alakú terület hozzáadása"
+
+msgid "add_gap"
+msgstr "Kiegészítendő szöveg hozzáadása"
+
+msgid "add_imagemap"
+msgstr "Képtérkép importálása"
+
+msgid "add_poly"
+msgstr "Sokszög alakú terület hozzáadása"
+
+msgid "add_rect"
+msgstr "Téglalap alakú terület hozzáadása"
+
+msgid "add_users"
+msgstr "Felhasználók hozzáadása"
+
+msgid "additional_rating_info"
+msgstr "Figyeljen arra, hogy az itt megadott érték százalékot jelentenek, és összegük 100 kell, hogy legyen."
+
+msgid "advanced_rating"
+msgstr "Fejlett értékelés"
+
+msgid "advanced_rating_info"
+msgstr "A fejlett értékelés csak akkor elérhető, ha a végeredményhez hozzá van rendelve egy mértékegység. További értékelési beállítások az érintett mértékegység mentése után jelennek meg."
+
+msgid "all_available_question_pools"
+msgstr "Összes elérhető kérdésgyűjtemény"
+
+msgid "all_participants"
+msgstr "Összes kitöltő"
+
+msgid "allow_images"
+msgstr "Képsegítség válaszokhoz"
+
+msgid "allowedextensions"
+msgstr "Engedélyezett fájlkiterjesztések"
+
+msgid "allowedextensions_info"
+msgstr "Sorolja fel vesszővel tagolva az engedélyezett fájlkiterjesztéseket, amennyiben korlátozni szeretné a feltölthető fájltípusokat (például: doc, xls, odt)."
+
+msgid "already_added_extra_time"
+msgstr "már hozzáadott %s percet"
+
+msgid "analyze_errortext"
+msgstr "Szöveg elemzése"
+
+msgid "answer"
+msgstr "Válasz"
+
+msgid "answer_characters"
+msgstr " az engedélyezett karakterek száma, a válasz karaktereinek száma:"
+
+msgid "answer_image"
+msgstr "Válaszkép"
+
+msgid "answer_is_not_correct_but_positive"
+msgstr "Szerzett pontot a megoldására, de megoldása nem a legtökéletesebb megoldás."
+
+msgid "answer_is_right"
+msgstr "A megoldása helyes"
+
+msgid "answer_is_wrong"
+msgstr "A megoldása rossz"
+
+msgid "answer_of"
+msgstr "Válasz"
+
+msgid "answer_options"
+msgstr "Válaszlehetőségek:"
+
+msgid "answer_question"
+msgstr "Kérdés megválaszolása"
+
+msgid "answer_text"
+msgstr "Válaszszöveg"
+
+msgid "answer_types"
+msgstr "Válaszokhoz szerkesztő"
+
+msgid "answered"
+msgstr "Megválaszolva"
+
+msgid "answers_multiline"
+msgstr "Többsoros válaszok"
+
+msgid "answers_of"
+msgstr "Válasz:"
+
+msgid "answers_select"
+msgstr "Legördülő"
+
+msgid "answers_singleline"
+msgstr "Egysoros válaszok"
+
+msgid "answers_text_box"
+msgstr "Szöveg"
+
+msgid "applet_attributes"
+msgstr "Applet-tulajdonságok"
+
+msgid "applet_parameter"
+msgstr "Paraméter"
+
+msgid "applet_parameters"
+msgstr "Applet-paraméterek"
+
+msgid "apply_def_settings_to_tst"
+msgstr "Alapbeállítás alkalmazása"
+
+msgid "assClozeTest"
+msgstr "Mondatkiegészítés"
+
+msgid "assErrorText"
+msgstr "Hibás szövegrész(ek) megjelölése"
+
+msgid "assFileUpload"
+msgstr "Fájlfeltöltéses kérdés"
+
+msgid "assFlashQuestion"
+msgstr "Flash-kérdés"
+
+msgid "assFormulaQuestion"
+msgstr "Képletkérdés"
+
+msgid "assImagemapQuestion"
+msgstr "Aktív terület/képtérképes kérdés"
+
+msgid "assKprimChoice"
+msgstr "Többválaszos kérdés (Kprim válaszok)"
+
+msgid "assLongMenu"
+msgstr "‘Étlap’-kérdés"
+
+msgid "assMatchingQuestion"
+msgstr "Párosító kérdés"
+
+msgid "assMultipleChoice"
+msgstr "Többválaszos kérdés (jelölőnégyzetes)"
+
+msgid "assNumeric"
+msgstr "Számszerű kérdés"
+
+msgid "assOrderingHorizontal"
+msgstr "Sorrendbe rakó kérdés (vízszintes)"
+
+msgid "assOrderingQuestion"
+msgstr "Sorrendbe rakó kérdés (függőleges)"
+
+msgid "assQuestions"
+msgstr "Kérdések"
+
+msgid "assSingleChoice"
+msgstr "Egyválaszos kérdés (rádiógombos)"
+
+msgid "assTextQuestion"
+msgstr "Esszékérdés"
+
+msgid "assTextSubset"
+msgstr "Szövegrészhalmaz-kérdés"
+
+msgid "ass_cloze_fb_mode"
+msgstr "Visszajelző mód"
+
+msgid "ass_cloze_fb_mode_gap_answ"
+msgstr "Válaszfüggő visszajelzés"
+
+msgid "ass_cloze_fb_mode_gap_answ_info"
+msgstr "Minden szöveghelyhez és eltérő válaszhoz más-más visszajelzés állítható be."
+
+msgid "ass_cloze_fb_mode_gap_qst"
+msgstr "Visszajelzés résenként"
+
+msgid "ass_cloze_fb_mode_gap_qst_info"
+msgstr "Minden szöveghelyhez egy egyszerű visszajelzés állítható be."
+
+msgid "ass_cloze_gap_fb_gap_label"
+msgstr "‘%s’ szöveghely: <i>%s</i>"
+
+msgid "ass_cloze_gap_fb_num_empty_label"
+msgstr "‘%s’ szöveghely - Nincs bemenet"
+
+msgid "ass_cloze_gap_fb_num_rangehit_label"
+msgstr "‘%s’ szöveghely - Tartománytalálat"
+
+msgid "ass_cloze_gap_fb_num_toohigh_label"
+msgstr "‘%s’ szöveghely - Túl magas érték"
+
+msgid "ass_cloze_gap_fb_num_toolow_label"
+msgstr "‘%s’ szöveghely - Túl alacsony érték"
+
+msgid "ass_cloze_gap_fb_num_valuehit_label"
+msgstr "‘%s’ szöveghely - Értéktalálat"
+
+msgid "ass_cloze_gap_fb_sel_empty_label"
+msgstr "‘%s’ szöveghely - Nincs választás"
+
+msgid "ass_cloze_gap_fb_sel_opt_label"
+msgstr "‘%s’ szöveghely - Lehetőség kiválasztása: <i>%s</i>"
+
+msgid "ass_cloze_gap_fb_txt_empty_label"
+msgstr "‘%s’ szöveghely - Nincs bemenet"
+
+msgid "ass_cloze_gap_fb_txt_match_label"
+msgstr "‘%s’ szöveghely - Adott válasz: <i>%s</i>"
+
+msgid "ass_cloze_gap_fb_txt_nomatch_label"
+msgstr "‘%s’ szöveghely - Hibás válasz"
+
+msgid "ass_commented_questions_only"
+msgstr "Csak azok a kérdések, melyekhez hozzászóltak"
+
+msgid "ass_comments"
+msgstr "Hozzászólások"
+
+msgid "ass_competence_respect_level_ordering"
+msgstr "Figyeljen arra, hogy a kompetencia-küszöbértékeket az elérhető kompetenciaszintek alapján növekvő sorrendben szükséges megadni."
+
+msgid "ass_completion_by_submission"
+msgstr "Befejezve elküldéssel"
+
+msgid "ass_completion_by_submission_info"
+msgstr "Legalább egy fájl elküldése ennek a kérdésnek a teljesítését jelenti a maximális pontszám megszerzésével. A pont a későbbiekben manuálisan módosítható. Ennek a beállításnak a bekapcsolása nincs hatással a már beküldött megoldásokra."
+
+msgid "ass_create_export_file_with_results"
+msgstr "Export fájl létrehozása (kitöltők eredményeivel)"
+
+msgid "ass_create_export_test_archive"
+msgstr "Tesztarchívum fájl létrehozása"
+
+msgid "ass_create_question"
+msgstr "Kérdés létrehozása"
+
+msgid "ass_imap_hint"
+msgstr "Tippek buboréksúgóként jelenjenek meg"
+
+msgid "ass_imap_map_file_not_readable"
+msgstr "A feltöltött képtérkép nem olvasható."
+
+msgid "ass_imap_no_map_found"
+msgstr "Egy űrlap sem található a feltöltött képtérképben."
+
+msgid "ass_lac_expression"
+msgstr "Kifejezés"
+
+msgid "ass_lac_show_legend_btn"
+msgstr "Jelmagyarázat megjelenítése"
+
+msgid "ass_lac_unable_to_parse_condition"
+msgstr "‘%s’ feltétel nem validálható."
+
+msgid "ass_lac_validation_error"
+msgstr "Hiba a feltételes kifejezés(ek) validálása során!"
+
+msgid "ass_location"
+msgstr "Helyszín"
+
+msgid "ass_mc_sel_lim_exhausted_hint"
+msgstr "Ne jelöljön ki %s válasznál többet %s válaszlehetőségből!"
+
+msgid "ass_mc_sel_lim_hint"
+msgstr "Maximum %s választ jelöljön ki %s válaszlehetőségből!"
+
+msgid "ass_mc_sel_lim_setting"
+msgstr "Válaszlehetőségek korlátja"
+
+msgid "ass_mc_sel_lim_setting_desc"
+msgstr "Ezzel a beállítással korlátozható a válaszadók válaszainak száma."
+
+msgid "ass_process_lock"
+msgstr "Tesztkitöltések idejére zárolások használata"
+
+msgid "ass_process_lock_desc"
+msgstr "Zárolás használata nélkül ún. versenyhelyzet alakulhat ki, amely hibás, inkonzisztens teszteredményekhez vezethet."
+
+msgid "ass_process_lock_mode"
+msgstr "Tesztkitöltés alatti zárolás típusa"
+
+msgid "ass_process_lock_mode_db"
+msgstr "Adatbázistábla-szintű zárolások használata"
+
+msgid "ass_process_lock_mode_db_desc"
+msgstr "Ez a zárolási típus az adatbázis tábláit zárolja. Ugyanaz, illetve más felhasználók ugyanabban, illetve másik tesztben, ugyanannál, illetve másik kérdésnél lévő egyidejű folyamatai addig várnak míg a másik folyamat feloldja a zárolásait."
+
+msgid "ass_process_lock_mode_file"
+msgstr "Fájlrendszerzárolások használata"
+
+msgid "ass_process_lock_mode_file_desc"
+msgstr "Ez a zárolási típus a fájlrendszerben üres fájlokat zárol. Ugyanannak a felhasználóknak ugyanabban a tesztben/kérdésnél lévő egyidejű folyamatai addig várnak míg a másik folyamat feloldja a zárolását."
+
+msgid "ass_question"
+msgstr "Kérdés"
+
+msgid "ass_size"
+msgstr "Méret"
+
+msgid "ass_skl_import_fails_remove_btn"
+msgstr "Ezen tipp törlése"
+
+msgid "assessment_existing_pool"
+msgstr "Már meglévő kérdésgyűjtemény használata"
+
+msgid "assessment_new_pool"
+msgstr "Új kérdésgyűjtemény létrehozása"
+
+msgid "assessment_no_pool"
+msgstr "Ne használjon kérdésgyűjteményt"
+
+msgid "assessment_pool_selection"
+msgstr "Gyűjtemény kiválasztása"
+
+msgid "assessment_scoring_adjust"
+msgstr "Utólagos korrekció engedélyezése"
+
+msgid "assessment_scoring_adjust_desc"
+msgstr "Az utólagos korrekció engedélyezése a kérdések módosítását teszi lehetővé a tesztben."
+
+msgid "autocomplete_error"
+msgstr "Az automatikus kiegészítés értéke túl nagy szám. Mivel válaszai rövidebbek, azok sosem fognak megjelenni."
+
+msgid "autoparticipants_subtab"
+msgstr "Kitöltők"
+
+msgid "autosave"
+msgstr "Automatikus mentés"
+
+msgid "autosave_failed"
+msgstr "Az automatikus mentés sikertelen volt!"
+
+msgid "autosave_info"
+msgstr "Az ILIAS automatikusan elmenti a felhasználók válaszait a legutóbb megnyitott kérdésre. Mivel ezek az automatikusan mentett válaszok <b>nem</b> minősülnek a felhasználó által adott válaszoknak, ezért ezeket az ILIAS nem veszi figyelembe az automatizált értékelés során. Az automatikusan mentett válaszokat mindig manuálisan kell kiértékelni, azok nem jelennek meg az adott felhasználó eredménynézetében sem. A válaszok automatikus mentése csak vészhelyzetekre szolgál, ilyen lehet például a böngészőablak véletlen bezárása."
+
+msgid "autosave_ival"
+msgstr "Időköz"
+
+msgid "autosave_success"
+msgstr "Az automatikus mentés sikeres…"
+
+msgid "autosavecontent"
+msgstr "Tartalom automatikus mentése"
+
+msgid "average_reached_points"
+msgstr "Elért pontok átlaga"
+
+msgid "back_to_objective_container"
+msgstr "Ugrás a kurzushoz"
+
+msgid "backtocallingpage"
+msgstr "Vissza a kérdésoldalra"
+
+msgid "backtocallingpool"
+msgstr "Vissza a kérdésgyűjteményhez"
+
+msgid "backtocallingtest"
+msgstr "Vissza a teszthez"
+
+msgid "baseunit"
+msgstr "Alapmértékegység"
+
+msgid "broken_test"
+msgstr "Törött teszt"
+
+msgid "bulkedit_author"
+msgstr "Szerző beállítása"
+
+msgid "bulkedit_lifecycle"
+msgstr "Életcilklus beállítása"
+
+msgid "bulkedit_taxonomies"
+msgstr "Taxonómiák beállítása"
+
+msgid "cancel_test"
+msgstr "Teszt felfüggesztése"
+
+msgid "cannot_edit_marks"
+msgstr "Néhány felhasználók már kitöltötte a tesztet. Az érdemjegyeket csak akkor módosíthatja, ha a ‘Hozzáférés a teszteredményekhez’ dátum be van állítva és az jövőbeni."
+
+msgid "cannot_edit_test"
+msgstr "Nincs megfelelő jogosultsága a teszt módosításához."
+
+msgid "cannot_execute_test"
+msgstr "Nincs megfelelő jogosultsága a teszt futtatásához."
+
+msgid "cannot_export_archive"
+msgstr "Export archívum fájl nem hozható létre."
+
+msgid "cannot_read_questionpool"
+msgstr "Nincs megfelelő jogosultsága a kérdésgyűjtemény adatainak olvasásához."
+
+msgid "cannot_save_metaobject"
+msgstr "Nincs megfelelő jogosultsága a metaadatok mentéséhez."
+
+msgid "cannot_switch_to_online_no_questions_andor_no_mark_steps"
+msgstr "Nem módosítható &quot;online (aktív)&quot;-ra az állapot, mert nincsenek kérdések és/vagy érdemjegyek a tesztben."
+
+msgid "category"
+msgstr "Kategória"
+
+msgid "changeSuggestedSolution"
+msgstr "Ismétléshez tartalomtípus kiválasztása"
+
+msgid "change_adm_categories_not_allowed"
+msgstr "Nem rendelkezel semmilyen ezt a kategóriát érintő jogosultsággal."
+
+msgid "checkbox_checked"
+msgstr "Kiválasztott"
+
+msgid "checkbox_unchecked"
+msgstr "Nem kiválasztott"
+
+msgid "circle"
+msgstr "Kör"
+
+msgid "circle_click_center"
+msgstr "Kattintson a kívánt terület középpontjába."
+
+msgid "circle_click_circle"
+msgstr "Kattintson a kívánt terület körvonalának egy pontjára."
+
+msgid "client_ip_range"
+msgstr "Kliens IP-tartománya"
+
+msgid "clientip"
+msgstr "Kliens-IP"
+
+msgid "close_text_hint"
+msgstr "Új kitöltendő hely létrehozásához vigye a kurzort a kívánt helyre, majd használja a ‘Szöveghely’ legördülőt. A megfelelő szerkesztési szakaszok megjelennek alatta. A kitöltendő helyeket szerkesztheti úgy is, hogy kitöltendő részen belül a kitöltendő szövegre kattint."
+
+msgid "cloze_answer_text_info"
+msgstr "A válaszszöveg előtti és utáni szóközök mentéskor törlődnek."
+
+msgid "cloze_fixed_textlength"
+msgstr "Szövegmező hossza"
+
+msgid "cloze_fixed_textlength_description"
+msgstr "Ha megad egy értéket, akkor az összes szöveg- és szám mező evvel a rögzített hosszal kerül létrehozásra, így nincs lehetőség a több karakter bevitelére. Szövegmezőknek lehet saját korlátjuk a karakterszámra. Számmezők esetén a tizedesvessző is egy karakternek számít."
+
+msgid "cloze_gap_size_info"
+msgstr "Ha 0-nál nagyobb értéked ad meg, ilyen hosszúságú lesz a szövegmező. Amennyiben nem ad meg értéket, a globális hossz lesz ez az érték."
+
+msgid "cloze_text"
+msgstr "Kiegészítendő szöveg"
+
+msgid "cloze_textgap_case_insensitive"
+msgstr "Kis-/nagybetűre nem érzékeny"
+
+msgid "cloze_textgap_case_sensitive"
+msgstr "Kis-/nagybetűre érzékeny"
+
+msgid "cloze_textgap_levenshtein_of"
+msgstr "‘%s’ Levenshtein-távolsága"
+
+msgid "code"
+msgstr "Kód"
+
+msgid "codebase"
+msgstr "Kódbázis"
+
+msgid "concatenation"
+msgstr "Szavak összekapcsolása"
+
+msgid "conf_delete_pass"
+msgstr "Biztos, hogy törli a már létező válaszát?"
+
+msgid "confirm_log_deletion"
+msgstr "Biztos, hogy véglegesen törli a kiválasztott naplóbejegyzéseket?"
+
+msgid "confirm_sync_questions"
+msgstr "A módosított kérdés egy aktív teszt kérdésének másolata. Módosítja az eredeti kérdést is?"
+
+#, fuzzy
+msgid "contained_question_types"
+msgstr "Contained Question Types"
+
+msgid "coordinates"
+msgstr "Koordináták"
+
+msgid "copy_and_link_to_questionpool"
+msgstr "Hozzáadás kérdésgyűjteményhez"
+
+msgid "copy_no_questions_selected"
+msgstr "Válasszon ki legalább egy kérdést a másoláshoz!"
+
+msgid "copy_questions_success"
+msgstr "A kérdés(eke)t másolta."
+
+msgid "correct_answers"
+msgstr "Helyes válaszok:"
+
+msgid "counter"
+msgstr "Számláló"
+
+msgid "create_gaps"
+msgstr "Kitöltendő helyek létrehozása és frissítése"
+
+msgid "create_new"
+msgstr "új létrehozása"
+
+msgid "created"
+msgstr "Létrehozta"
+
+msgid "customstyle"
+msgstr "Egyéni stílus"
+
+msgid "dashboard_tab"
+msgstr "Kitöltők"
+
+msgid "definition"
+msgstr "Definíció"
+
+msgid "definition_image"
+msgstr "Definíciókép"
+
+msgid "definition_text"
+msgstr "Definíciószöveg"
+
+msgid "definitions"
+msgstr "Definíciók"
+
+msgid "deleteSuggestedSolution"
+msgstr "Ezen tartalom eltávolítása"
+
+msgid "delete_all_user_data_confirmation"
+msgstr "Biztos, hogy eltávolítja ebben a teszt összes kitöltőjének tesztadatát?"
+
+msgid "delete_image_header"
+msgstr "Kép eltávolítása"
+
+msgid "delete_image_question"
+msgstr "Biztos, hogy eltávolítja a képet?"
+
+msgid "delete_mark_confirmation"
+msgstr "ABiztos, hogy eltávolítja a jegyet?"
+
+msgid "delete_participants_no_valid_participants_selected"
+msgstr "A kiválasztott kitöltőkhöz már léteznek eredmények, ezért ezek nem távolíthatók el."
+
+msgid "delete_result_no_valid_participants_selected"
+msgstr "A kiválasztott kitöltőkhöz még léteznek eredmények, ezért ezek nem távolíthatók el."
+
+msgid "delete_selected_user_data_confirmation"
+msgstr "Biztos, hogy eltávolítja a kiválasztott felhasználó tesztadatait?"
+
+msgid "delete_user_data"
+msgstr "A kiválasztott felhasználók tesztadatinak eltávolítása"
+
+msgid "description_maxchars"
+msgstr "Ha üres, ennek a szöveges válasznak a maximális karakterszáma nincs korlátozva."
+
+msgid "detail_ending_time_reached"
+msgstr "A teszt befejezesére rendelkezésre álló idő lejárt. A teszt nem elérhető % óta"
+
+msgid "detail_max_processing_time_reached"
+msgstr "A tesztet nem folytathaja, mert elérte a maximálisan engedélyezett kitöltési időt."
+
+msgid "detail_starting_time_not_reached"
+msgstr "Még nem indíthatja el a tesztet. A teszt kezdő időpontja: %s"
+
+msgid "detailed_evaluation"
+msgstr "Részletes értékelés"
+
+msgid "detailed_evaluation_for"
+msgstr "Részletes értékelés - %s"
+
+msgid "detailed_evaluation_missing_active_id"
+msgstr "Részletes értékelést kell kérni a kiválasztott kitöltőhöz!"
+
+msgid "detailed_evaluation_show"
+msgstr "Részletes értékelés megjelenítése"
+
+msgid "detailed_output_printview"
+msgstr "Részletes eredmény kérdés-nyomtatási képekkel"
+
+msgid "detailed_output_solutions"
+msgstr "Részletes eredmény kérdésmegoldásokkal"
+
+msgid "direct_feedback"
+msgstr "Válasz ellenőrzése"
+
+#. fau: testNav
+msgid "discard_answer"
+msgstr "Válasz törlése"
+
+msgid "discard_answer_confirmation"
+msgstr "Válaszát végérvényesen törölni készül. Bármikor új választ adhat a kérdésre, de a jelenlegi választ végérvényesen töröli.<br /><br />Biztos, hogy törli válaszát?"
+
+msgid "dont_use_questionpool"
+msgstr "Ne illessze be a kérdéseket kérdésgyűjteménybe (csak ebben a tesztben elérhetők)."
+
+msgid "download_all_files"
+msgstr "Összes fájl letöltése"
+
+msgid "duplicate"
+msgstr "Másodpéldány létrehozása"
+
+msgid "duplicate_matching_values_selected"
+msgstr "Többszörösen illeszkedő értékeket választott ki."
+
+msgid "duplicate_order_values_entered"
+msgstr "Többszörös sorrendi értékeket adott meg."
+
+msgid "edit_answer"
+msgstr "Válasz módosítása"
+
+msgid "edit_concluding_remarks"
+msgstr "Záró megjegyzések szerkesztése"
+
+msgid "edit_introduction"
+msgstr "Útmutató szerkesztése"
+
+msgid "edit_question"
+msgstr "Kérdés módosítása"
+
+msgid "edit_score"
+msgstr "Pontszám módosítása"
+
+msgid "edit_test_questions"
+msgstr "Listanézet"
+
+msgid "element_height"
+msgstr "Minimum magasság"
+
+msgid "element_height_info"
+msgstr "Ez a minimális magasság pixelben a kifejezés és definíció/kép elemek számára a tesztkimenethez."
+
+msgid "enable_examview"
+msgstr "Adott válaszok áttekintése"
+
+msgid "enable_examview_desc"
+msgstr "A teszt befejezésére kattinta a kitöltőknek megjelenik az összes kérdés és a kérdésekre adott válaszaik. Innen még vissza tudnak menni, hogy módosítsák válaszaikat, amíg azokat nem zárolták."
+
+msgid "end_tag"
+msgstr "Zárócímke"
+
+msgid "enlarge"
+msgstr "növelés"
+
+msgid "enter_anonymous_code"
+msgstr "A teszt folytatásához adja meg a hozzáférési kódot:"
+
+msgid "enter_enough_positive_points"
+msgstr "A maximálisan elérhető pontszámnak magasabbnak kell lennie 0-nál. Megfelelő, nem negatív pontszámokat adjon válaszaihoz."
+
+msgid "enter_enough_positive_points_checked"
+msgstr "A pontozáshoz legalább egy választ meg kell adnia. Kérjük, adjon meg egy pozitív számot a válasz megjelöléséhez."
+
+msgid "enter_valid_values"
+msgstr "Érvényes számot adj meg! Karakterek hibásan lesznek értékelve!"
+
+msgid "errFormulaQuestion"
+msgstr "A képlet-kérdés hibás információt tartalmaz!"
+
+msgid "errRecursionInResult"
+msgstr "A képlet végtelen rekurziót tartalmaz."
+
+msgid "err_category_in_use"
+msgstr "Legalább egy kategória nem törölhető. A kategória egy vagy több mértékegysége még használatban van."
+
+msgid "err_divider_too_big"
+msgstr "Ebben a kérdésben az egyik változó osztója túl nagy."
+
+msgid "err_division"
+msgstr "Ennek az értéknek a maximumnál kisebbnek kell lennie."
+
+msgid "err_duplicate_results"
+msgstr "Többször használtál egy végeredményt. Ez tesztkérdésben nem megengedett"
+
+msgid "err_no_formula"
+msgstr "Képletet írjon"
+
+msgid "err_no_numeric_value"
+msgstr "Számértéket adjon meg!"
+
+msgid "err_range"
+msgstr "A maximum értéknek nagyobbnak kell lennie, mint a minimum érték"
+
+msgid "err_rating_advanced_not_allowed"
+msgstr "Más értékelés, mint az egyszerű jelenleg nem használható, mivel több azonos alapmértékegységű végeredményt adott meg."
+
+msgid "err_unit_in_results"
+msgstr "A mértékegység nem törölhető. Jelenleg használatban van egy vagy több tesztkérdésben."
+
+msgid "err_unit_in_variables"
+msgstr "A mértékegység nem törölhető. Jelenleg használatban van egy vagy több tesztkérdésben."
+
+msgid "err_unit_is_baseunit"
+msgstr "A mértékegység nem törölhető. Jelenleg egy másik mértékegység alapmértékegysége."
+
+msgid "err_wrong_categoryname"
+msgstr "A kategória már létezik."
+
+msgid "err_wrong_rating_advanced"
+msgstr "Fejlett értékelés esetén a számok összege 100% kell, hogy legyen."
+
+msgid "error_creating_certificate_zip_empty"
+msgstr "Nincs exportálható adat."
+
+msgid "error_importing_question"
+msgstr "Hiba lépett fel a kérdés(ek) kijelölt fájlból való importálásakor."
+
+msgid "error_open_image_file"
+msgstr "Hiba történt egy képfájl megnyitásakor."
+
+msgid "error_random_question_generation"
+msgstr "Végzetes hiba történt tesztjéhez a kérdések véletlenszerű generálása közben. Vegye fel a kapcsolatot a rendszergazdával a következő információkkal: A rendszer nem tudott aktív ID-t létrehozni %s user_ID-hez és %s test_ID-hez."
+
+msgid "errors"
+msgstr "Hibák"
+
+msgid "errors_section"
+msgstr "Hibás szövegrész(ek) adatai"
+
+msgid "errortext"
+msgstr "Hibás szöveg"
+
+msgid "errortext_info"
+msgstr "Adja meg a hibás szöveget. Ha a hibás szövegrész egy-egy szó, mindegyik elé rakjon kettőskereszt (#) karaktert. Például: Ember #barátnak #farkasa. Ha a hibás szövegrész több egymás utáni szó, használjon dupla zárójelet. Például: ((Barát barátnak)) farkasa. A &quot;Szöveg elemzése&quot; gomb megnyomására az összes megjelölt hibás szövegrészt további feldolgozásra kiemeljük."
+
+msgid "essay_scoring_mode"
+msgstr "Pontozás módja"
+
+msgid "essay_scoring_mode_keyword_relation_all"
+msgstr "Az ÖSSZES kulcsszó megtalálásán alapuló automatikus pontozás"
+
+msgid "essay_scoring_mode_keyword_relation_all_desc"
+msgstr "A megfelelő pontokat automatikusan megadjuk, ha minden kulcsszót megtalálunk."
+
+msgid "essay_scoring_mode_keyword_relation_any"
+msgstr "BÁRMELY kulcsszó megtalálásán alapuló automatikus pontozás"
+
+msgid "essay_scoring_mode_keyword_relation_any_desc"
+msgstr "A megfelelő pontokat automatikusan megadjuk, ha akármelyik kulcsszót találjuk."
+
+msgid "essay_scoring_mode_keyword_relation_one"
+msgstr "EGY kulcsszó megtalálásán alapuló automatikus pontozás"
+
+msgid "essay_scoring_mode_keyword_relation_one_desc"
+msgstr "A megfelelő pontokat automatikusan megadjuk, ha legalább egy kulcsszót találunk."
+
+msgid "essay_scoring_mode_without_keywords"
+msgstr "Nincs automatikus pontozás"
+
+msgid "essay_scoring_mode_without_keywords_desc"
+msgstr "Csak a tutor manuális pontozásával kerülnek megadásra pontok."
+
+msgid "eval_all_users"
+msgstr "Összes felhasználó eredménye"
+
+msgid "eval_legend_link"
+msgstr "Az oszlopok fejlécszimbólumainak jelentése alább található."
+
+msgid "evaluated_users"
+msgstr "Értékelt felhasználók"
+
+msgid "exam_id"
+msgstr "Tesztkitöltés-azonosító:"
+
+msgid "exam_id_label"
+msgstr "Teszt-azonosító"
+
+msgid "exam_id_of_attempt"
+msgstr "Kitöltés-ID-je"
+
+msgid "examid_in_test_pass"
+msgstr "Tesztkitöltés-azonosító megjelenítése"
+
+msgid "examid_in_test_pass_desc"
+msgstr "Minden tesztkitöltésnek új, egyedi azonosítója van, ami megjelenik a tesztben."
+
+msgid "examid_in_test_res"
+msgstr "ILIAS-vizsgaazonosító megjelenítése"
+
+msgid "examid_in_test_res_desc"
+msgstr "Az ILIAS-vizsgaazonosító a teszteredményeknél jelenik meg."
+
+msgid "exp_all_test_runs"
+msgstr "Az összes tesztkitöltés"
+
+msgid "exp_eval_data"
+msgstr "Adatok exportálása"
+
+msgid "exp_grammar_as"
+msgstr "mint"
+
+msgid "exp_scored_test_attempt"
+msgstr "Pontozott tesztkitöltés"
+
+msgid "exp_type_certificate"
+msgstr "Tanúsítvány (PDF)"
+
+msgid "exp_type_excel"
+msgstr "Microsoft Excel (XLS)"
+
+msgid "expected_result_type"
+msgstr "Elvárt eredménytípus"
+
+msgid "export_cert_failed_for_users_p"
+msgstr "Nem sikerült tanúsítványfájlt létrehozni és hozzáadni a következő %s fiókhoz: %s. Kérem, keresse az üzemeltetőt, hogy tekintse meg a naplófájlt."
+
+msgid "export_cert_failed_for_users_s"
+msgstr "Nem sikerült tanúsítványfájlt létrehozni és hozzáadni a következő fiókhoz: %s. Kérem, keresse az üzemeltetőt, hogy tekintse meg a naplófájlt."
+
+msgid "export_cert_ignored_for_users_p"
+msgstr "A következő %s fiók nem szerzett tanúsítványt, vagy a tanúsítványszolgáltatás nincs bekapcsolva: %s"
+
+msgid "export_cert_ignored_for_users_s"
+msgstr "A következő fiók nem szerzett tanúsítványt, vagy a tanúsítványszolgáltatás nincs bekapcsolva: %s"
+
+msgid "export_cert_no_users"
+msgstr "Hiányzó kitöltők miatt nem lehet tanúsítványarchívumot létrehozni"
+
+msgid "export_essay_qst_with_html"
+msgstr "Esszé kérdések exportálása HTML kódként"
+
+msgid "export_essay_qst_with_html_desc"
+msgstr "Lehetővé válik esszékérdések exportálása HTML segítségével Excelbe."
+
+msgid "export_legacy_logs"
+msgstr "Joginapló adatok exportálása"
+
+msgid "extra_time_byline"
+msgstr "Adja meg az extra időt percben. A már megadott extra időt megnöveli."
+
+msgid "extra_time_for_all_participants"
+msgstr "Extra időt állított be az összes kitöltőnek."
+
+msgid "extra_time_for_selected_participants"
+msgstr "Extra időt állított be a kiválasztott kitöltőknek."
+
+msgid "extra_time_for_selected_participants_different"
+msgstr "A kiválasztott felhasználóknak eltérő extra idő van beállítva."
+
+msgid "extra_time_for_single_participant"
+msgstr "Extra időt állított be az alábbi kitöltőknek:"
+
+msgid "extratime"
+msgstr "Extra idő"
+
+msgid "extratime_added"
+msgstr "Az extra időt sikeresen hozzáadta a kiválasztott kitöltőkhöz."
+
+msgid "factor"
+msgstr "Szorzó"
+
+msgid "failed_official"
+msgstr "nem teljesítette"
+
+msgid "failed_short"
+msgstr "sikertelen"
+
+msgid "false"
+msgstr "Hamis"
+
+msgid "feedback_all"
+msgstr "Válaszfüggő visszajelzések megjelenítése az összes kérdéshez."
+
+msgid "feedback_answers"
+msgstr "Visszajelzés a kérdés minden válaszához"
+
+msgid "feedback_checked"
+msgstr "Válaszfüggő visszajelzések megjelenítése az összes kiválasztott kérdéshez."
+
+msgid "feedback_complete_solution"
+msgstr "Hibátlan megoldás"
+
+msgid "feedback_correct_kprim"
+msgstr "Válaszfüggő visszajelzések megjelenítése az összes helyesen megválaszolt kérdéshez (helyes válasznak az minősül, mely pozitív lehetőséget választottak)."
+
+msgid "feedback_correct_sc_mc"
+msgstr "Válaszfüggő visszajelzések megjelenítése az összes helyesen megválaszolt kérdéshez (helyes válasznak az minősül, mely pozitív pontot ér)."
+
+msgid "feedback_generic"
+msgstr "Hibátlan/hibás megoldás visszajelzése"
+
+msgid "feedback_incomplete_solution"
+msgstr "Legalább egy válasz nem helyes"
+
+msgid "feedback_setting"
+msgstr "Válaszfüggő visszajelzések módja."
+
+msgid "fileDownload"
+msgstr "Fájlletöltés"
+
+msgid "file_uploads"
+msgstr "Fájlfeltöltések"
+
+msgid "fill_out_all_required_fields_add_answer"
+msgstr "Töltsön ki minden kötelező mezőt, mielőtt válaszokat vesz fel!"
+
+msgid "filter_all_question_types"
+msgstr "Összes kérdéstípus"
+
+msgid "filter_all_questionpools"
+msgstr "Összes kérdésgyűjtemény"
+
+msgid "filter_show_question_types"
+msgstr "Kérdéstípusok megjelenítése"
+
+msgid "filter_show_questionpools"
+msgstr "Kérdésgyűjtemények megjelenítése"
+
+msgid "final_statement"
+msgstr "Zárómegjegyzések"
+
+msgid "final_statement_show_desc"
+msgstr "A zárómegjegyzések megjelenítése a teszt beadása után."
+
+msgid "finalized_by"
+msgstr "Befejezte"
+
+msgid "finalized_evaluation"
+msgstr "A pontozás befejezve"
+
+msgid "finalized_on"
+msgstr "Befejezve"
+
+msgid "finish_all_user_passes"
+msgstr "Összes tesztkitöltés befejezettre állítása"
+
+msgid "finish_pass_for_all_users"
+msgstr "Biztos, hogy az összes felhasználó kitöltését befejezettre állítja?"
+
+msgid "finish_pass_for_multiple_users_in_processing_time"
+msgstr "Nem állíthatja befejezettre a kiválasztott felhasználók tesztkitöltést, mert legalább egy kitöltési időkorlátja még nem járt le."
+
+msgid "finish_pass_for_user_confirmation"
+msgstr "Biztos, hogy befejezettre állítja ‘%s’ tesztkitöltését?"
+
+msgid "finish_pass_for_user_in_processing_time"
+msgstr "FIGYELMEZTETÉS: a felhasználó ideje még nem járt le! Csak nyomós ok esetén fejezze be a tesztkitöltést (például kizárás a tesztből)."
+
+msgid "finish_test"
+msgstr "Teszt befejezése"
+
+msgid "finish_test_all"
+msgstr "Biztos, hogy befejezettre állítja az összes felhasználó tesztkitöltését?"
+
+msgid "finish_test_more_than_one_selected"
+msgstr "Ha csak egy kitöltés engedélyezett, akkor csak az egyszeres kitöltőknél állítható befejezettre a tesz."
+
+msgid "finish_test_multiple"
+msgstr "Biztos, hogy befejezettre állítja a kiválasztott felhasználók tesztkitöltését?"
+
+msgid "finish_test_no_valid_participants_selected"
+msgstr "Egy aktív tesztkitöltése sincs a kiválasztott felhasználóknak, így nincs mit befejezni."
+
+msgid "finish_test_single"
+msgstr "Biztos, hogy befejezettre állítja ‘%s’ felhasználók tesztkitöltését?"
+
+msgid "finish_unfinished_passes"
+msgstr "Összes befejezetlen tesztkitöltés befejezettre állítása"
+
+msgid "finish_unfinished_passes_desc"
+msgstr "Ez az ütemezett feladat az összes záró időponttal vagy időtartamkorláttal rendelkező kitöltést befejezettre állítja."
+
+msgid "finished_by_administrator"
+msgstr "Befejezettre állította az Adminisztrátor"
+
+msgid "finished_by_cronjob"
+msgstr "Befejezettre állította az Ütemezett feladat"
+
+msgid "finished_by_duration"
+msgstr "Befejezettre állította az határidő"
+
+msgid "finished_by_participant"
+msgstr "Befejezettre állította a kitöltő"
+
+msgid "finished_by_unknown"
+msgstr "Befejezettre állította: ismeretlen"
+
+msgid "fixed_participants_hint"
+msgstr "Ez a teszt csak a kézzel hozzárendelt, alább felsorolt kitöltők számára érhető el. Kikapcsolhatja ezt a korlátozást úgy, hogy a tesztbeállításokban lévő ‘Kézzel beállított kitöltők’ jelölőnégyzetből kiveszi a pipát."
+
+msgid "fixedparticipants_subtab"
+msgstr "Manuálisan kiválasztott kitöltők"
+
+msgid "flashfile"
+msgstr "Flash fájl"
+
+msgid "for"
+msgstr "ehhez"
+
+msgid "forcejs"
+msgstr "JavaScript output kikényszerítése tesztkérdésekhez"
+
+msgid "form_msg_area_missing_points"
+msgstr "Adjon meg pontot minden területhez."
+
+msgid "formula"
+msgstr "Képlet"
+
+msgid "fq_formula_desc"
+msgstr "Beírhat megadott változókat ($v1, $v2, …, $vn), megadott eredményeket (például $r1), zárójeleket, matematikai műveleti jeleket + (összeadás), - (kivonás), * (szorzás), / (osztás), ^ (n-edik hatvány), ‘pi’ és ‘e’ konstansokat, továbbá ‘sin’, ‘sinh’, ‘arcsin’, ‘asin’, ‘arcsinh’, ‘asinh’, ‘cos’, ‘cosh’, ‘arccos’, ‘acos’, ‘arccosh’, ‘acosh’, ‘tan’, ‘tanh’, ‘arctan’, ‘atan’, ‘arctanh’, ‘atanh’, ‘sqrt’, ‘abs’, ‘ln’ és ‘log’ függvényeket."
+
+msgid "fq_no_restriction_info"
+msgstr "Tizedestört és tört egyaránt megadható."
+
+msgid "fq_precision_info"
+msgstr "Adja meg a tizedeshelyek számát."
+
+msgid "fq_question_desc"
+msgstr "Definiálhat változókat $v1, $v2 … $vn beírásával, végeredményeket $r1, $r2 …. $rn beírásával a kérdés szövegének tetszőleges helyén. Kattintson a ‘Kérdés elemzése’ gombra, hogy a változók és a végeredmények szerkeszthető űrlapja megjelenjen."
+
+msgid "gap"
+msgstr "Kitöltendő hely"
+
+msgid "gap_combination"
+msgstr "Kitöltéskombináció"
+
+msgid "gaps"
+msgstr "Kitöltendő helyek"
+
+msgid "glossary_term"
+msgstr "Fogalomtár fogalma"
+
+msgid "goto_first_question"
+msgstr "Az első kérdés megjelenítése"
+
+msgid "grading_mark_msg"
+msgstr "Érdemjegye: &quot;[mark]&quot;"
+
+msgid "grading_status_failed_msg"
+msgstr "Sajnáljuk, <b>nem teljesítette</b> a tesztet."
+
+msgid "grading_status_passed_msg"
+msgstr "Gratulálunk, <b>sikeresen teljesítette</b> a tesztet."
+
+msgid "hide_best_solution"
+msgstr "A legjobb megoldás elrejtése"
+
+msgid "identical_scoring"
+msgstr "Megegyezők pontozása"
+
+msgid "identical_scoring_desc"
+msgstr "A kitöltendő helyek megegyező megoldásai pontozva legyenek-e meg akkor is, ha ugyanazon megoldást kétszer vagy többször adott meg. Ha nincs pipa, csak a megoldás első előfordulása kerül pontozásra."
+
+msgid "imagemap"
+msgstr "Képtérkép"
+
+msgid "imap_line_color"
+msgstr "Képtérkép vonal színe"
+
+msgid "import_question"
+msgstr "Kérdés(ek) importálása"
+
+msgid "in_range"
+msgstr "Terjedelmen belül"
+
+msgid "in_trash"
+msgstr "Lomtárba"
+
+msgid "info_answer_type_change"
+msgstr "A kérdés képet tartalmaz. Nem változtathatja a válasz típusát többsorosra."
+
+msgid "info_text_upload"
+msgstr "Válasszon egy UTF-8 kódolású válaszfájlt a feltöltéshez"
+
+msgid "insert_after"
+msgstr "Beszúrás utána"
+
+msgid "insert_before"
+msgstr "Beszúrás elé"
+
+msgid "insert_gap"
+msgstr "Kitöltendő hely beszúrása"
+
+msgid "interaction_type"
+msgstr "Interakcó típusa"
+
+msgid "internal_links"
+msgstr "Belső linkek"
+
+msgid "intprecision"
+msgstr "Osztható a következővel"
+
+msgid "intprecision_info"
+msgstr " Az ‘Osztható a következővel’ csak akkor van hatással a változók létrehozására, ha a Pontosság értéke 0. Ebben az esetben az ‘Osztható a következővel’-nek olyan egész számot adj meg, amivel oszthatónak kell lennie az létrehozott változónak. 10 esetén olyan egészeket generálódnak, melyek 10-el oszthatók. 5 esetén olyan egészek jönnek létre, melyek 5-el oszthatók, stb.. Amennyiben a Pontosság értéke 0, az ‘Osztható a következővel’-t kötelezőt megadni, értéke pozitív egész kell, hogy legyen. Egészek esetén az alapértelmezett érték 1."
+
+msgid "invalid_ip"
+msgstr "Érvénytelen IP"
+
+msgid "ip_range_byline"
+msgstr "Csak a meghatározott IP-tartományba eső IP-címek indíthatják el a tesztet. IPv4 VAGY IPv6 címek is használhatók."
+
+msgid "ip_range_for_all_participants"
+msgstr "Megváltoztatja az IP-tartományt az összes kitöltőnél."
+
+msgid "ip_range_for_selected_participants"
+msgstr "Megváltoztatja az IP-tartományt a következő kitöltőknél."
+
+msgid "ip_range_for_single_participant"
+msgstr "Megváltoztatja az IP-tartományt a kiválasztott kitöltőnél."
+
+msgid "ip_range_info"
+msgstr "Csak a megadott tartományba eső IP-címmel rendelkezőknek van hozzáférésük a teszthez."
+
+msgid "ip_range_label"
+msgstr "IP-tartomány"
+
+msgid "ip_range_updated"
+msgstr "Az IP-tartomány módosult a kiválasztott kitöltőnél."
+
+msgid "kiosk"
+msgstr "Vizsganézet"
+
+msgid "kiosk_description"
+msgstr "A vizsganézet esetén a teszt úgynevezett kioszk-módban fut. Ilyenkor nem látszódik a böngésző cím- és állapotsora, továbbá azok az elemek sem, amelyek nem részei a tesztnek. Ez megakadályozva a felhasználót új weboldal megnyitásában.<br />Hogy a teszt kitöltése alatt hatékonyan megakadályozhassuk a kitöltőknek másik weboldal megnyitását, megfelelő böngészőkörnyezet telepítése szükséges (például Safe Exam Browser)."
+
+msgid "kiosk_options"
+msgstr "Vizsganézet beállításai"
+
+msgid "kiosk_options_desc"
+msgstr "Az információ a képernyő fejlécén jelenik meg."
+
+msgid "kiosk_show_participant"
+msgstr "Kitöltő nevének megjelenítése"
+
+msgid "kiosk_show_title"
+msgstr "Tesztcím megjelenítése"
+
+msgid "kprim_answers_info"
+msgstr "Egyválaszos kérdés (rádiógombos) ‘négy helyes/helytelen döntés’ fajtája (‘K’ vagy ‘Kprim’-ként is ismert). Eredménye négy válasz/döntés vagy befejezetlen állapot lehet. A hibátlan eredmény mind a négy kérdésre adott választól/döntéstől függ. Maximális pontszám csak akkor adható, ha mind négy válasz/döntés hibátlan."
+
+msgid "kprim_instruction_text"
+msgstr "Minden állításnál döntse el: [%s] vagy [%s]"
+
+msgid "lacex_assClozeTest_NumberOfResultExpression_d"
+msgstr "A negyedik válaszlehetőség egy választásos szöveghely és a második lehetőséget választották válaszul"
+
+msgid "lacex_assClozeTest_NumberOfResultExpression_e"
+msgstr "R[4] = +2+"
+
+msgid "lacex_assClozeTest_NumericResultExpression_d"
+msgstr "A második válaszlehetőség egy szöveghely és az 5 számértéket adták rá válaszul"
+
+msgid "lacex_assClozeTest_NumericResultExpression_e"
+msgstr "R[2] = #5#"
+
+msgid "lacex_assClozeTest_StringResultExpression_1_d"
+msgstr "A második válaszlehetőség egy szöveghely és a „Hétfő” szövegértéket adták rá válaszul"
+
+msgid "lacex_assClozeTest_StringResultExpression_1_e"
+msgstr "R[1] = ~Hétfő~"
+
+msgid "lacex_assClozeTest_StringResultExpression_2_d"
+msgstr "A negyedik válaszlehetőség egy választásos szöveghely és a „Zöld” feliratú lehetőséget választották válaszul"
+
+msgid "lacex_assClozeTest_StringResultExpression_2_e"
+msgstr "R[4] = ~Zöld~"
+
+msgid "lacex_assErrorText_ExclusiveResultExpression_d"
+msgstr "A kérdés megválaszolásához pontosan az első, a harmadik és a negyedik lehetőséget választották"
+
+msgid "lacex_assErrorText_ExclusiveResultExpression_e"
+msgstr "R = *1,3,4*"
+
+msgid "lacex_assErrorText_NumberOfResultExpression_d"
+msgstr "A kérdés megválaszolásához a második lehetőséget választották"
+
+msgid "lacex_assErrorText_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assFormulaQuestion_NumericResultExpression_d"
+msgstr "Az első válaszra a 3.14159 számértéket adták válaszul"
+
+msgid "lacex_assFormulaQuestion_NumericResultExpression_e"
+msgstr "R[1] = #3.14159#"
+
+msgid "lacex_assImagemapQuestion_ExclusiveResultExpression_d"
+msgstr "A kérdés megválaszolásához pontosan az első, a harmadik és a negyedik lehetőséget választották"
+
+msgid "lacex_assImagemapQuestion_ExclusiveResultExpression_e"
+msgstr "R = *1,3,4*"
+
+msgid "lacex_assImagemapQuestion_NumberOfResultExpression_d"
+msgstr "A kérdés megválaszolásához a második lehetőséget választották"
+
+msgid "lacex_assImagemapQuestion_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assMatchingQuestion_MatchingResultExpression_d"
+msgstr "A kérdés kifejezéseit a meghatározásokhoz a következő szerint rendelték össze: 1 => 2 és 2 => 3 és 3 => 1"
+
+msgid "lacex_assMatchingQuestion_MatchingResultExpression_e"
+msgstr "R = ;1:2; & R = ;2:3; & R = ;3:1;"
+
+msgid "lacex_assMultipleChoice_ExclusiveResultExpression_d"
+msgstr "A kérdés megválaszolásához pontosan az első, a harmadik és a negyedik lehetőséget választották"
+
+msgid "lacex_assMultipleChoice_ExclusiveResultExpression_e"
+msgstr "R = *1,3,4*"
+
+msgid "lacex_assMultipleChoice_NumberOfResultExpression_d"
+msgstr "A kérdés megválaszolásához a második lehetőséget választották"
+
+msgid "lacex_assMultipleChoice_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assNumeric_NumericResultExpression_d"
+msgstr "A kérdésre érkezett válasz értéke 4.7"
+
+msgid "lacex_assNumeric_NumericResultExpression_e"
+msgstr "R = #4.7#"
+
+msgid "lacex_assOrderingHorizontal_OrderingResultExpression_d"
+msgstr "A kérdés elemeit a következő szerint rendezték: 2, 5, 1, 4, 3"
+
+msgid "lacex_assOrderingHorizontal_OrderingResultExpression_e"
+msgstr "R = $2,5,1,4,3$"
+
+msgid "lacex_assOrderingQuestion_OrderingResultExpression_d"
+msgstr "A kérdés elemeit a következő szerint rendezték: 2, 5, 1, 4, 3"
+
+msgid "lacex_assOrderingQuestion_OrderingResultExpression_e"
+msgstr "R = $2,5,1,4,3$"
+
+msgid "lacex_assQuestion_EmptyAnswerExpression_d"
+msgstr "A kérdést nem válaszolták meg"
+
+msgid "lacex_assQuestion_EmptyAnswerExpression_e"
+msgstr "R = ?"
+
+msgid "lacex_assQuestion_PercentageResultExpression_d"
+msgstr "A kérdésre adott válasz értéke nagyobb vagy egyenlő mint 75%"
+
+msgid "lacex_assQuestion_PercentageResultExpression_e"
+msgstr "R >= %75%"
+
+msgid "lacex_assSingleChoice_NumberOfResultExpression_d"
+msgstr "A kérdés megválaszolásához a második lehetőséget választották"
+
+msgid "lacex_assSingleChoice_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assTextSubset_StringResultExpression_d"
+msgstr "A második válaszlehetőségre a „nátrium-klorid” választ adták"
+
+msgid "lacex_assTextSubset_StringResultExpression_e"
+msgstr "R[2] = ~nátrium-klorid~"
+
+msgid "lacex_example_header"
+msgstr "Példák"
+
+msgid "list_of_participants"
+msgstr "Kitöltők"
+
+msgid "locked"
+msgstr "Zárolva"
+
+msgid "log_deletion_not_allowed"
+msgstr "Nincs jogosultsága törölni a naplóbejegyzéseket."
+
+msgid "log_entry_type"
+msgstr "Naplóbejegyzés típusa"
+
+msgid "log_ip"
+msgstr "IP naplózása"
+
+msgid "log_ip_info"
+msgstr "A kitöltők minden tesztinterakciójával naplózzuk a kitöltő IP-címét. Kikapcsolása nem törli a már meglévő rekordokat."
+
+msgid "log_participant_data_delete_warning"
+msgstr "Ez a teszt naplóadatokat tartalmaz a kitöltők interakcióiról, amelyek törlődnek, ha a tesztet nevek nélküli tesztre módosítja."
+
+msgid "log_text"
+msgstr "Naplóüzenet"
+
+msgid "log_user_solution_willingly_deleted"
+msgstr "A felhasználó törölte a választ."
+
+msgid "logging_settings"
+msgstr "Naplózás"
+
+msgid "logs_answer_deleted"
+msgstr "Választ töröltek"
+
+msgid "logs_answer_submitted"
+msgstr "Választ beküldtek"
+
+msgid "logs_deleted"
+msgstr "A kiválasztott naplóadatokat sikeresen törölte."
+
+msgid "logs_error_on_participant_interaction"
+msgstr "Hiba a kitöltő interakciójában"
+
+msgid "logs_error_on_question_administration_interaction"
+msgstr "Hiba kérdés adminisztrációs interakciójában"
+
+msgid "logs_error_on_scoring_interaction"
+msgstr "Hiba az interakció pontozásakor"
+
+msgid "logs_error_on_test_administration_interaction"
+msgstr "Hiba a teszt adminisztrációs interakciójában"
+
+msgid "logs_error_on_undefined_interaction"
+msgstr "Hiba a nem definált interakción."
+
+msgid "logs_extra_time_added"
+msgstr "Extra idő hozzáadva"
+
+msgid "logs_main_settings_modified"
+msgstr "Alapbeállítások módosítva"
+
+msgid "logs_mark_schema_modified"
+msgstr "Értékelési séma módosítva"
+
+msgid "logs_mark_schema_reset"
+msgstr "Értékelési séma alapértelmezettre állítva"
+
+msgid "logs_new_test_created"
+msgstr "Új teszt jött létre"
+
+msgid "logs_output"
+msgstr "Napló adat kimenet"
+
+msgid "logs_participant_data_removed"
+msgstr "Kitöltő adatai törölve"
+
+msgid "logs_pi"
+msgstr "Kitöltő interakció"
+
+msgid "logs_qai"
+msgstr "Kérdés adminisztrációs interakció"
+
+msgid "logs_question_added"
+msgstr "Kérdés hozzáadva"
+
+msgid "logs_question_graded"
+msgstr "Kérdés értékelték"
+
+msgid "logs_question_grading_reset"
+msgstr "Kérdés alapértelmezettre állították"
+
+msgid "logs_question_modified"
+msgstr "Kérdés módosították"
+
+msgid "logs_question_modified_in_corrections"
+msgstr "A kérdést a javításokban módosították"
+
+msgid "logs_question_moved"
+msgstr "Kérdés áthelyezték"
+
+msgid "logs_question_removed"
+msgstr "Kérdés törölték"
+
+msgid "logs_question_removed_in_corrections"
+msgstr "A kérdést eltávolították a javításokból."
+
+msgid "logs_question_selection_criteria_modified"
+msgstr "Kérdés kiválasztási feltételét módosították"
+
+msgid "logs_question_shown"
+msgstr "Kérdés megjelenítve"
+
+msgid "logs_question_skipped"
+msgstr "Kérdést kihagyták"
+
+msgid "logs_question_synchronisation_reset"
+msgstr "Kérdések szinkonizálását alaértelmezettre állították"
+
+msgid "logs_questions_synchronised"
+msgstr "Kérdéseket szinkronizálták"
+
+msgid "logs_scoring_settings_modified"
+msgstr "Pontozási beállításokat módosították"
+
+msgid "logs_si"
+msgstr "Pontozás interakció"
+
+msgid "logs_tai"
+msgstr "Teszt adminisztrációs interakció"
+
+msgid "logs_te"
+msgstr "Hiba"
+
+msgid "logs_test_deleted"
+msgstr "Tesztet törölték"
+
+msgid "logs_test_run_finished"
+msgstr "Teszt futását befejezték"
+
+msgid "logs_test_run_of_participant_closed"
+msgstr "Kitöltő futását lezárták"
+
+msgid "logs_test_run_started"
+msgstr "Teszt futása elindult"
+
+msgid "logs_wrong_test_password_provided"
+msgstr "Kitöltő hibás jelszót adott meg."
+
+msgid "longmenu"
+msgstr "Étlap"
+
+msgid "longmenu_answeroptions_differ"
+msgstr "Ez a kérdés jelenleg nem teljes, mert a szövegben lévő rések száma nem egyezik a javítási lehetőségek számával."
+
+msgid "longmenu_text"
+msgstr "‘Étlap’-szöveg"
+
+msgid "mainbar_button_label_questionlist"
+msgstr "Kérdéslista"
+
+msgid "maintenance"
+msgstr "Karbantartás"
+
+msgid "manscoring"
+msgstr "Manuális pontozás"
+
+msgid "manscoring_done"
+msgstr "Pontozott kitöltők"
+
+msgid "manscoring_hint"
+msgstr "Van legalább egy olyan kérdés, amely manuálisan pontozható. Kérjük, megfelelő időpontot adjon a teszteredmények eléréséhez annak érdekében, hogy a felhasználók a manuális pontozás előtt ne tekinthessék meg teszteredményüket."
+
+msgid "manscoring_none"
+msgstr "Nem pontozott kitöltők"
+
+msgid "manscoring_not_allowed"
+msgstr "A manuális pontozás nem volt bekapcsolva erre a kérdéstípusra. Nincs engedélyezve az Ön számára ennek a lapnak a használata."
+
+msgid "manscoring_questions_not_found"
+msgstr "Ez a tesztteljesítés nem tartalmaz olyan kérdéstípusokat, amelyeket manuálisan lehet pontozni."
+
+msgid "manscoring_results_pass"
+msgstr "Manuálisan pontozandó kérdések a(z) %s sorszámhoz"
+
+msgid "manual_editing"
+msgstr "Manuális módosítás"
+
+msgid "manual_entry"
+msgstr "Manuális bejegyzés"
+
+msgid "mark_schema"
+msgstr "Értékelés"
+
+msgid "mark_schema_invalid"
+msgstr "Az értékelésséma nem teljes, kérem, ellenőrizze a minálisan elérendő értéket."
+
+msgid "matches"
+msgstr "összeillők"
+
+msgid "matching_pairs"
+msgstr "Összeillő párok"
+
+msgid "matching_shuffle_definitions"
+msgstr "Csak definíciók"
+
+msgid "matching_shuffle_terms"
+msgstr "Csak szakkifejezések"
+
+msgid "matching_shuffle_terms_definitions"
+msgstr "Mindkettő (szakkifejezések és definíciók)"
+
+msgid "matching_type"
+msgstr "Párosító kérdés altípusa"
+
+msgid "material"
+msgstr "Segítség"
+
+msgid "material_file"
+msgstr "Fájl"
+
+msgid "max_ip_label"
+msgstr "Legmagasabb IP-jű hozzáférés"
+
+msgid "maxchars"
+msgstr "Karakterek maximális száma"
+
+msgid "maximum_nr_of_tries_reached"
+msgstr "Elfogyott az összes teszkitöltési lehetősége ebben a tesztben. A teszt nem nyitható meg."
+
+msgid "maximum_points"
+msgstr "Maximálisan elérhető pont"
+
+msgid "maxsize"
+msgstr "Feltölthető maximális fájlméret"
+
+msgid "maxsize_info"
+msgstr "Adja meg bájtban a feltölthető fájlméretet. Ha üresen hagyja ezt a mezőt, a rendszerben beállított maximális méret kerül használatra."
+
+msgid "min_auto_complete"
+msgstr "Automatikus kiegészítés"
+
+msgid "min_ip_label"
+msgstr "Legalacsonyabb IP-jű hozzáférés"
+
+msgid "min_percentage_ne_0"
+msgstr "Az egyik kategóriának 0 százalékkal kell kezdődnie. Az értékeléssémát nem mentettük."
+
+msgid "misc"
+msgstr "Egyéb beállítások"
+
+msgid "mode_allatonce"
+msgstr "Összes"
+
+msgid "mode_onebyone"
+msgstr "Egyesével"
+
+msgid "mode_question"
+msgstr "Kérdésorientáltan"
+
+msgid "mode_user"
+msgstr "Résztvevő-orientáltan"
+
+msgid "msg_circle_added"
+msgstr "Kör hozzáadva"
+
+msgid "msg_no_questions_selected"
+msgstr "Egy kérdés sincs kiválasztva."
+
+msgid "msg_number_of_terms_too_low"
+msgstr "A kifejezések száma nagyobb vagy egyenlő legyen, mint a definíciók száma."
+
+msgid "msg_poly_added"
+msgstr "Sokszög hozzáadva"
+
+msgid "msg_questions_moved"
+msgstr "Kérdés(ek) áthelyezve."
+
+msgid "msg_rect_added"
+msgstr "Téglalap hozzáadva"
+
+msgid "msg_score_settings_modified_and_recalc"
+msgstr "A módosításait sikeresen mentette, az eredményeket ennek megfelelően újraszámoltuk."
+
+msgid "msg_score_settings_not_modified"
+msgstr "Módosításait nem mentette."
+
+msgid "msg_selected_for_move"
+msgstr "Kérdés(ek) kiválasztva áthelyezéshez."
+
+msgid "new_category"
+msgstr "Új mértékegység-kategória"
+
+msgid "new_unit"
+msgstr "Új mértékegység"
+
+msgid "next_question"
+msgstr "Következő"
+
+msgid "next_question_rows"
+msgstr "Kérdések %d - %d (összesen: %d) →"
+
+msgid "no_manual_feedback_export_info"
+msgstr "A manuális visszajelzéseket nem exportáljuk."
+
+msgid "no_passed_after_failed"
+msgstr "A nem teljesítésnek nem lehet magasabb a minimális szintje, mint a teljesítésnek."
+
+msgid "no_passed_mark"
+msgstr "Legalább egy értékelésnek sikeres teljesítésnek kell lennie. Az értékeléssémát nem mentettük."
+
+msgid "no_question_selected_for_move"
+msgstr "Legalább egy kérdést jelöljön ki az áthelyezéshez!"
+
+msgid "no_questions_available"
+msgstr "Nincsenek elérhető kérdések."
+
+msgid "no_result_type"
+msgstr "Nincs korlátozás"
+
+msgid "no_selection"
+msgstr "--- Nincs kiválasztva ---"
+
+msgid "no_selection_for_move"
+msgstr "Nincs kiválasztva kérdés a mozgatáshoz"
+
+msgid "no_target_selected_for_move"
+msgstr "Ki kell választania egy célpozíciót!"
+
+msgid "no_user_or_group_selected"
+msgstr "Jelöljön ki egy beállítást, amelyet keres (felhasználók/csoportok)!"
+
+msgid "no_valid_participant_selection"
+msgstr "Egy érvényes kitöltőt sem választott ki."
+
+msgid "not_evaluated_users"
+msgstr "Még nem értékelt felhasználók"
+
+msgid "not_started"
+msgstr "Még nem indult el"
+
+msgid "not_yet_accessed"
+msgstr "Még senki sem lépett be"
+
+msgid "nr_of_correct_answers"
+msgstr "Elvárt válaszok száma"
+
+msgid "number_of_answers"
+msgstr "Válaszok száma"
+
+msgid "numeric_gap"
+msgstr "Számszerű hely"
+
+msgid "old_mark_default_not_applied"
+msgstr "A személyes beállításaiban szereplő jegyek nem használhatók, mert a formátumuk régi. Az összes többi beállítást frissítettük."
+
+msgid "option_label"
+msgstr "Választható címkék"
+
+msgid "option_label_adequate"
+msgstr "adekvát"
+
+msgid "option_label_adequate_or_not"
+msgstr "adekvát / nem adekvát"
+
+msgid "option_label_applicable"
+msgstr "alkalmazható"
+
+msgid "option_label_applicable_or_not"
+msgstr "alkalmazható / nem alkalmazható"
+
+msgid "option_label_custom"
+msgstr "Felhasználó által definiált címkék"
+
+msgid "option_label_custom_false"
+msgstr "‘HAMIS’-ra címke"
+
+msgid "option_label_custom_true"
+msgstr "‘IGAZ’-ra címre"
+
+msgid "option_label_info"
+msgstr "A kitöltők döntésüknél választható címkeként látják az itt megadott megnevezéseket."
+
+msgid "option_label_minus"
+msgstr "-"
+
+msgid "option_label_not_adequate"
+msgstr "nem adekvát"
+
+msgid "option_label_not_applicable"
+msgstr "nem alkalmazható"
+
+msgid "option_label_plus"
+msgstr "+"
+
+msgid "option_label_plus_minus"
+msgstr "+ / -"
+
+msgid "option_label_right"
+msgstr "helyes"
+
+msgid "option_label_right_wrong"
+msgstr "helyes / helytelen"
+
+msgid "option_label_wrong"
+msgstr "helytelen"
+
+msgid "oq_btn_define_pictures"
+msgstr "Kép-megadó nézetre váltás"
+
+msgid "oq_btn_define_terms"
+msgstr "Kifejezés-megadó nézetre váltás"
+
+msgid "oq_btn_nest_pictures"
+msgstr "Kép-használó nézetre váltás"
+
+msgid "oq_btn_nest_terms"
+msgstr "Kifejezés-használó nézetre váltás"
+
+msgid "oq_btn_use_order_pictures"
+msgstr "Rendezze a képeket"
+
+msgid "oq_btn_use_order_terms"
+msgstr "Rendezze a kifejezéseket"
+
+msgid "oq_header_ordering_elements"
+msgstr "Elemek rendezése"
+
+msgid "or"
+msgstr "vagy"
+
+msgid "order"
+msgstr "Sorrend"
+
+msgid "ordering_answer_sequence_info"
+msgstr "Az itt megadott válaszsorozat a helyes megoldások sorozataként kerül felhasználásra."
+
+msgid "ordertext"
+msgstr "Sorrendbe rakó szöveg"
+
+msgid "ordertext_info"
+msgstr "Adja meg a vízszintesen sorba rakandó szöveget. A rendezendő szövegegységek nem látható (fehér) karakterekkel lesznek elválasztva. Ha más elválasztójelre van szüksége, használhatja a %s elválasztójelet szövegegységeinek elkülönítésére."
+
+msgid "out_of_range"
+msgstr "Tartományon kívül esik"
+
+msgid "output"
+msgstr "Kimenet (output)"
+
+msgid "output_mode"
+msgstr "Kimeneti mód"
+
+msgid "parseQuestion"
+msgstr "Kérdés elemzése"
+
+msgid "part_received_a_of_b_points"
+msgstr "A kitöltő elért %s pontot a lehetséges %s pontból"
+
+msgid "participants"
+msgstr "Kitöltők"
+
+msgid "participants_invitation"
+msgstr "Kitöltők manuális kiválasztása"
+
+msgid "participants_invitation_description"
+msgstr "Ez a teszt csak a ‘Kitöltők’ lapon manuálisan hozzáadott felhasználók számára érhető el."
+
+msgid "participants_results_subtab"
+msgstr "Összes kitöltő"
+
+msgid "pass"
+msgstr "Sorszám"
+
+msgid "pass_finished"
+msgstr "%s tesztkitöltés"
+
+msgid "passed_official"
+msgstr "sikeresen teljesítette"
+
+msgid "passed_only"
+msgstr "Csak a sikeresen teljesített tesztek"
+
+msgid "passed_short"
+msgstr "sikeres"
+
+msgid "passed_status"
+msgstr "Teljesítési állapot"
+
+msgid "passes_finished"
+msgstr "%s tesztkitöltés"
+
+msgid "percentage"
+msgstr "Százalék"
+
+msgid "percentage_points_achieved"
+msgstr "Elért pontszám"
+
+msgid "percentile"
+msgstr "Százalékpont"
+
+msgid "personal_settings_apply"
+msgstr "Beállítássablon alkalmazása"
+
+msgid "personal_settings_apply_changed_confirmation"
+msgstr "A jelenlegi tesztbeállításokat a kiválasztott sablon felülírja, a tesztkédések kiválasztátást is. Ez a folyamat nem vonható vissza!"
+
+msgid "personal_settings_apply_confirmation"
+msgstr "A jelenlegi tesztbeállításokat a kiválasztott sablon felülírja. Ez a folyamat nem vonható vissza!"
+
+msgid "personal_settings_apply_description"
+msgstr "‘%s’ teszt összes beállítását felülírja ez a sablon."
+
+msgid "personal_settings_apply_not_possible"
+msgstr "Az ILIAS nem tudta alkalmazni a kiválasztott sablont erre a tesztre! Lehetséges, hogy a tesztnek már vannak kitöltői."
+
+msgid "personal_settings_apply_success"
+msgstr "A személyes tesztbeállításokat sikeresen alkalmazta."
+
+msgid "personal_settings_author"
+msgstr "Létrehozta"
+
+msgid "personal_settings_create"
+msgstr "Új beállítássablon létrehozása"
+
+msgid "personal_settings_delete_confirmation"
+msgstr "A kiválasztott sablon(oka)t véglegesen törli. Ez nem visszavonható."
+
+msgid "personal_settings_delete_success"
+msgstr "A kiválasztott sablon(oka)t sikeresen törölte."
+
+msgid "personal_settings_description"
+msgstr "Sablon leírása"
+
+msgid "personal_settings_explanation"
+msgstr "A teszt beállításait sablonként menti, aminek a használatával a beállításokat másik tesztbe viheti át."
+
+msgid "personal_settings_export"
+msgstr "Beállítássablon exportálása"
+
+msgid "personal_settings_import"
+msgstr "Beállítássablon importálása"
+
+msgid "personal_settings_import_success"
+msgstr "A sablont sikeresen importálta."
+
+msgid "personal_settings_invalid_selection"
+msgstr "Válasszon egy sablont"
+
+msgid "personal_settings_name"
+msgstr "Sablon címe"
+
+msgid "personal_settings_required_author"
+msgstr "Adja meg a sablon szerzőjét"
+
+msgid "personal_settings_required_title"
+msgstr "Adjon címet a sablonjának"
+
+msgid "personal_settings_save"
+msgstr "Új beállítássablon mentése"
+
+msgid "personal_settings_show"
+msgstr "Sablon részleteinek megjelenítése"
+
+msgid "personal_settings_templates_available"
+msgstr "Személyes tesztbeállítás-sablon"
+
+msgid "personal_settings_timestamp"
+msgstr "Létrehozás dátuma"
+
+msgid "picture"
+msgstr "Kép"
+
+msgid "point"
+msgstr "pont"
+
+msgid "points"
+msgstr "pont"
+
+msgid "points_checked"
+msgstr "Pont (bejelölve)"
+
+msgid "points_non_numeric_or_negative_msg"
+msgstr "A pontok csak pozitív számok lehetnek."
+
+msgid "points_short"
+msgstr "pont"
+
+msgid "points_unchecked"
+msgstr "Pont (bejelölés nélkül)"
+
+msgid "points_wrong"
+msgstr "Helytelen kiválasztások"
+
+msgid "points_wrong_info"
+msgstr "Adja meg minden helytelen kiválasztás, azaz a hibás szavak felsorolásában nem szereplő szó kiválasztása esetén járó negatív pontot."
+
+msgid "polygon"
+msgstr "Sokszög"
+
+msgid "polygon_click_next_or_save"
+msgstr "Kattintson a sokszög következő pontjára vagy mentse a területet. (Nem szükséges ismét kattintani a sokszög kezdőpontján.)"
+
+msgid "polygon_click_next_point"
+msgstr "Kattintson a sokszög következő pontjára!"
+
+msgid "polygon_click_starting_point"
+msgstr "Kattintson a sokszög kezdőpontjára!"
+
+msgid "positive_numbers_required"
+msgstr "Pozitív számokat adjon meg."
+
+#. fau: testNav
+msgid "postpone_question"
+msgstr "Kérdés mozgatása a végére"
+
+msgid "postponed"
+msgstr "Későbbre halasztott"
+
+msgid "precision"
+msgstr "Pontosság (tizedesjegyek száma)"
+
+msgid "previous_question"
+msgstr "Előző"
+
+msgid "previous_question_rows"
+msgstr "<< Kérdések %d - %d (összesen: %d)"
+
+msgid "print_answers"
+msgstr "Válaszok nyomtatása"
+
+msgid "qpl_assessment_no_assessment_of_questions"
+msgstr "Nincs a kiválasztott kérdéshez elérhető értékelés. A kérdést még nem használták a tesztben."
+
+msgid "qpl_assessment_total_of_answers"
+msgstr "Válaszok összszáma"
+
+msgid "qpl_assessment_total_of_right_answers"
+msgstr "Hibátlan válaszok összszázaléka (maximum pontok százaléka)"
+
+msgid "qpl_bulk_save_add"
+msgstr "Hozzáadás"
+
+msgid "qpl_bulk_save_overwrite"
+msgstr "Felülírás"
+
+msgid "qpl_bulkedit_success"
+msgstr "A módosításokat sikeresen mentette."
+
+msgid "qpl_cancel_skill_assigns_update"
+msgstr "Mégsem"
+
+msgid "qpl_confirm_delete_questions"
+msgstr "Biztos, hogy eltávolítja az alábbi kérdés(eke)t?"
+
+msgid "qpl_copy_insert_clipboard"
+msgstr "A kijelölt kérdés(ek)et a vágólapra helyezte."
+
+msgid "qpl_copy_select_none"
+msgstr "Jelöljön ki legalább egy kérdést a másoláshoz!"
+
+msgid "qpl_delete_rbac_error"
+msgstr "Nincs joga a kérdés(ek) eltávolításához."
+
+msgid "qpl_delete_select_none"
+msgstr "Jelöljön ki legalább egy kérdést a eltávolításához!"
+
+msgid "qpl_export_excel"
+msgstr "Microsoft Excel (XLS) fájl"
+
+msgid "qpl_export_select_none"
+msgstr "Legalább egy kérdést jelöljön ki az exportáláshoz."
+
+msgid "qpl_export_xml"
+msgstr "QTI XML fájl"
+
+msgid "qpl_form_general_settings"
+msgstr "Általános beállítások"
+
+msgid "qpl_imagemap_preview_missing"
+msgstr "Az ILIAS nem tudja létrehozni a képtérkép területeket tartalmazó ideiglenes előnézeti fájlt. Az eredeti kép látható helyette. Ez azt jelenti, hogy vagy a webszerver ImageMagick eszköze nincs helyesen konfigurálva, vagy nincs írási jogosultság az ideiglenes fájlokat tartalmazó mappára. Lépjen kapcsolatba egy rendszergazdával."
+
+msgid "qpl_import_create_new_qpl"
+msgstr "Kérdések új kérdésgyűjteménybe importálása"
+
+msgid "qpl_import_no_items"
+msgstr "Hiba: Az importfájl nem tartalmaz kérdéseket."
+
+msgid "qpl_import_non_ilias_files"
+msgstr "Hiba: Az importfájl QTI fájlokat tartalmaz, amelyek nem egy ILIAS-rendszerrel készültek. Vegye fel a kapcsolatot az ILIAS-fejlesztőkkel, hogy beszerezhesse az importszűrőt az Ön QTI fájlformátumához."
+
+msgid "qpl_import_verify_found_questions"
+msgstr "Az ILIAS az alább felsorolt kérdéseket találta az importfájlban. Válassza ki az importálni kívánt kérdéseket."
+
+msgid "qpl_lac_desc_brackets"
+msgstr "Zárójelek"
+
+msgid "qpl_lac_desc_compare_answer_exist"
+msgstr "Összehasonlítás, ha van válasz a kérdésre/résre"
+
+msgid "qpl_lac_desc_compare_with_answer_n"
+msgstr "Végeredmény összehasonlítása a kérdés n-edik válaszával"
+
+msgid "qpl_lac_desc_compare_with_assignment"
+msgstr "Végeredmény összehasonlítása n:m egyezéssel"
+
+msgid "qpl_lac_desc_compare_with_exact_sequence"
+msgstr "Végeredmény összehasonlítása pontosan a megadott sorrenddel"
+
+msgid "qpl_lac_desc_compare_with_number"
+msgstr "Végeredmény összehasonlítása az n számmal"
+
+msgid "qpl_lac_desc_compare_with_quest_res"
+msgstr "Végeredmény összehasonlítása az elért pontszámokkal százalékban"
+
+msgid "qpl_lac_desc_compare_with_sequence"
+msgstr "Végeredmény összehasonlítása válaszsorrenddel ($a,..,z$)"
+
+msgid "qpl_lac_desc_compare_with_text"
+msgstr "Végeredmény összehasonlítása az TEXT szöveggel"
+
+msgid "qpl_lac_desc_logical_and"
+msgstr "Logikai ÉS"
+
+msgid "qpl_lac_desc_logical_or"
+msgstr "Logikai VAGY"
+
+msgid "qpl_lac_desc_negation"
+msgstr "Tagadás"
+
+msgid "qpl_lac_desc_res_of_answ_m_of_cur_quest"
+msgstr "Jelen kérdés m-edik válaszának eredménye"
+
+msgid "qpl_lac_desc_res_of_cur_quest"
+msgstr "Jelen kérdés végeredménye"
+
+msgid "qpl_lac_legend_header_common"
+msgstr "Logikai kifejezések"
+
+msgid "qpl_lac_legend_header_quest_specific"
+msgstr "Kérdésfüggő kifejezések"
+
+msgid "qpl_lac_legend_label_operators"
+msgstr "Operátorok"
+
+msgid "qpl_maxchars_info_numeric_question"
+msgstr "Ha megad egy értéket, akkor a válaszként számot váró mező evvel a rögzített hosszal kerül létrehozásra, így nincs lehetőség a több karakter bevitelére. Számmezők esetén a tizedesvessző is egy karakternek számít."
+
+msgid "qpl_move_insert_clipboard"
+msgstr "A kiválasztott kérdés(ek)et mozgatásra kijelölte."
+
+msgid "qpl_move_select_none"
+msgstr "Ellenőrizze, hogy legalább egy kérdést kiválasztott a mozgatáshoz!"
+
+msgid "qpl_numeric_lower_needs_valid_lower_alert"
+msgstr "Az alsó korlátnak a felső korlátnál nagyobb számnak kell lennie."
+
+msgid "qpl_numeric_upper_needs_valid_upper_alert"
+msgstr "A felső korlátnak az alsó korlátnál kisebb számnak kell lennie."
+
+msgid "qpl_paste_error"
+msgstr "Legalább egy kérdés beillesztése sikertelen a kérdésgyűjteménybe. Ennek egyik lehetséges oka, hogy ugyanabba a kérdésgyűjteménybe próbálta mozgatni."
+
+msgid "qpl_paste_no_objects"
+msgstr "Nincsenek kérdések a vágólapon. Másoljon vagy mozgasson egy kérdést a vágólapra!"
+
+msgid "qpl_paste_success"
+msgstr "A kérdés(ek)et sikeresen beillesztette a kérdésgyűjteménybe."
+
+msgid "qpl_qst_edit_form_taxonomy"
+msgstr "‘%s’ taxonómia"
+
+msgid "qpl_qst_edit_form_taxonomy_section"
+msgstr "Taxonómiák"
+
+msgid "qpl_qst_inp_matching_mode"
+msgstr "Egyezés módja"
+
+msgid "qpl_qst_inp_matching_mode_all_on_all"
+msgstr "Egy vagy több kifejezés egy vagy több definícióval egyezik meg (n:n)"
+
+msgid "qpl_qst_inp_matching_mode_one_on_one"
+msgstr "Egy kifejezés egy definícióval egyezik meg (1:1)"
+
+msgid "qpl_qst_skl_assign_properties_modified"
+msgstr "Az összerendelés tulajdonságait sikeresen módosította."
+
+msgid "qpl_qst_skl_assign_synced_to_orig"
+msgstr "A kompetencia-összerendeléseket sikeresen szinkronizálta az eredeti kérdésekkel."
+
+msgid "qpl_qst_skl_assigns_updated"
+msgstr "A kompetencia összerendeléseit sikeresen módosította."
+
+msgid "qpl_qst_skl_selection_for_question_header"
+msgstr "Kérdéshez rendelt kompetenciák: %s"
+
+msgid "qpl_qst_skl_usg_numq_col"
+msgstr "Kérdésgyűjteményben lévő, erre a kompetenciára vonatkozó kérdések száma"
+
+msgid "qpl_qst_skl_usg_skill_col"
+msgstr "Kompetencia"
+
+msgid "qpl_qst_skl_usg_sklpnt_col"
+msgstr "Kompetencia-pontszámok összege kérdésenként"
+
+msgid "qpl_question_is_in_use"
+msgstr "A módosítandó kérdés %s tesztben szerepel. Ha megváltoztatja a kérdést, az a teszt(ek)ben nem fog módosulni, mert a rendszer másolatot hoz létre a kérdésekről, mielőtt beilleszti azokat a teszt(ek)be."
+
+msgid "qpl_questions_deleted"
+msgstr "Kérdés(eke)et sikeresen eltávolított."
+
+msgid "qpl_reset_preview"
+msgstr "Előnézet alaphelyzetbe állítása"
+
+msgid "qpl_save_skill_assigns_update"
+msgstr "Kompetencia-összerendelése mentése"
+
+msgid "qpl_settings_availability"
+msgstr "Elérhetőség"
+
+msgid "qpl_settings_general_form_prop_show_tax_desc"
+msgstr "A már létező taxonómiák a kérdések szűrésére használhatók ebben a gyűjteményben."
+
+msgid "qpl_settings_general_form_property_nav_taxonomy"
+msgstr "Taxonómia szűrő, mint navigációs fa"
+
+msgid "qpl_settings_general_form_property_nav_taxonomy_description"
+msgstr "Mikor egy taxonómia kiválasztása kerül, asztali szűrő helyett navigáció faként jelenik meg."
+
+msgid "qpl_settings_general_form_property_opt_notax_selected"
+msgstr "Ne használjon navigációs fa szűrőt"
+
+msgid "qpl_settings_general_form_property_show_taxonomies"
+msgstr "Taxonómiák megjelenítése"
+
+msgid "qpl_settings_subtab_general"
+msgstr "Általános beállítások"
+
+msgid "qpl_settings_subtab_taxonomies"
+msgstr "Taxonómiák"
+
+msgid "qpl_skill_point_eval_by_quest_result"
+msgstr "Kompetencia-pontszámok kiértékelése kérdéseredmény alapján"
+
+msgid "qpl_skill_point_eval_by_solution_compare"
+msgstr "Kompetencia-pontszámok kiértékelése megoldás-összehasonlítás alapján"
+
+msgid "qpl_skill_point_eval_mode_quest_result"
+msgstr "Kérdéseredmény"
+
+msgid "qpl_skill_point_eval_mode_solution_compare"
+msgstr "Megoldás-összehasonlítás"
+
+msgid "qpl_skl_all_questions"
+msgstr "Összes kérdés"
+
+msgid "qpl_skl_assigned_questions"
+msgstr "Kérdések hozzárendeléssel"
+
+msgid "qpl_skl_assignment_for_question"
+msgstr "Kompetenciahozzárendelések ‘%s’ kérdéshez"
+
+msgid "qpl_skl_sub_tab_quest_assign"
+msgstr "Kérdés/kompetencia összerendelés"
+
+msgid "qpl_skl_sub_tab_usages"
+msgstr "Összerendelés gyakorisága"
+
+msgid "qpl_skl_unassigned_questions"
+msgstr "Hozzárendelés nélküli kérdések"
+
+msgid "qpl_skl_view_control_mode_aria:"
+msgstr "Ellenőrzési mód nézete"
+
+msgid "qpl_sync_quest_skl_assigns_confirmation"
+msgstr "A kérdést egy másik objektumból illesztették be. Frissítsük a kérdés eredetijét a jelenlegi kompetencia-összerendelések beállítása alapján?"
+
+msgid "qpl_tab_competences"
+msgstr "Kompetenciák"
+
+msgid "qpl_taxonomy_tab_info_message"
+msgstr "A kérdések szűrésére használhatók a kérdésgyűjteményben található taxonómiák. Miután bekapcsolta ezt a funkciót a ‘Beállítások’ lapon, szűrésre használhatja a ‘Kérdések’ lapon."
+
+msgid "qst_error_text_too_long"
+msgstr "Néhány szövegelem hibásnak van megjelölve a hossza miatt. A karakterek megengedett maximális száma 150:"
+
+msgid "qst_essay_allready_written_words"
+msgstr "Beírt szavak száma:"
+
+msgid "qst_essay_chars_remaining"
+msgstr "Fennmaradó karakterek száma:"
+
+msgid "qst_essay_wordcounter_enabled"
+msgstr "Szavak számolása"
+
+msgid "qst_essay_wordcounter_enabled_info"
+msgstr "A beírt szavak számát számoljuk és megjelenítjük a felhasználóknak a bevitelő mező alatt ."
+
+msgid "qst_essay_written_words"
+msgstr "Szavak megadott száma:"
+
+msgid "qst_lifecycle"
+msgstr "Életciklus"
+
+msgid "qst_lifecycle_draft"
+msgstr "Piszkozat"
+
+msgid "qst_lifecycle_filter_all"
+msgstr "Összes életciklus"
+
+msgid "qst_lifecycle_final"
+msgstr "Végső"
+
+msgid "qst_lifecycle_outdated"
+msgstr "Elavult"
+
+msgid "qst_lifecycle_rejected"
+msgstr "Elutasított"
+
+msgid "qst_lifecycle_review"
+msgstr "Átnézendő"
+
+msgid "qst_lifecycle_sharable"
+msgstr "Megosztható"
+
+msgid "qst_nested_nested_answers_off"
+msgstr "Nincsnek behúzások, csak rendezés"
+
+msgid "qst_nested_nested_answers_on"
+msgstr "Behúzások használata a válaszokban"
+
+msgid "qst_nr_of_tries"
+msgstr "Próbálkozások száma"
+
+msgid "qst_preview_reset_msg"
+msgstr "Előnézet alaphelyzetbe állítása megtörtént."
+
+msgid "qst_use_nested_answers"
+msgstr "Beágyazott válaszok"
+
+msgid "que_contains_unused_var"
+msgstr "A kérdés olyan változót tartalmaz, mely egyik végeredmény-képletben sem szerepel!"
+
+msgid "question_browse_area_info"
+msgstr "Válasszon egy objektumot, melyből kérdéseket kíván importálni."
+
+msgid "question_complete_title"
+msgstr "Sikeresen teljesítve"
+
+msgid "question_cumulated_statistics"
+msgstr "Halmozott kérdésstatisztika"
+
+msgid "question_id"
+msgstr "Kérdésazonosító"
+
+msgid "question_id_short"
+msgstr "Azonosító"
+
+msgid "question_instances_title"
+msgstr "Ezt a kérdést az alábbi tesztek használják"
+
+msgid "question_is_part_of_running_test"
+msgstr "A kérdés egy futó teszt része, így nem módosítható."
+
+msgid "question_marking"
+msgstr "Kérdések megjelölése"
+
+msgid "question_marking_description"
+msgstr "A kitöltők lehetőséget kapnak, hogy megjelölhessék a tesztkérdéseket. A jelölések a ‘Kérdéslistában’ láthatók."
+
+msgid "question_not_answered"
+msgstr "Nem válaszolt a kérdésre"
+
+msgid "question_saved_for_upload"
+msgstr "A kérdést automatikusan mentettük, hogy lefoglalja a feltöltött fájl számára szükséges területet a tárhelyen. Ha nem fejezi be az űrlap kitöltést, és a kérdést sem szeretné megtartani, akkor a kérdést a kérdésgyűjteményből kell törölnie."
+
+msgid "question_summary"
+msgstr "Teszkitöltések áttekintése"
+
+msgid "question_summary_btn"
+msgstr "Teszkitöltések áttekintése"
+
+msgid "question_title"
+msgstr "Kérdéscím"
+
+msgid "question_type"
+msgstr "Kérdéstípus"
+
+msgid "questionlist_cannot_be_altered"
+msgstr "A kérdéslista nem módosítható, mert már vannak kitöltések."
+
+msgid "questionpool_not_entered"
+msgstr "Adjon nevet a kérdésgyűjteménynek."
+
+msgid "questionpool_not_selected"
+msgstr "Kérem, válasszon ki egy kérdésgyűjteményt."
+
+msgid "questions"
+msgstr "Kérdések"
+
+msgid "questions_from"
+msgstr "kérdések innen:"
+
+msgid "questions_per_page_view"
+msgstr "Lapnézet"
+
+msgid "random_accept_sample"
+msgstr "Minta elfogadása"
+
+msgid "random_another_sample"
+msgstr "Másik minta kérése"
+
+msgid "random_selection"
+msgstr "Véletlen-kiválasztás"
+
+msgid "range"
+msgstr "Terület"
+
+msgid "range_lower_limit"
+msgstr "Alsó határ"
+
+msgid "range_max"
+msgstr "Tartomány (Maximum)"
+
+msgid "range_min"
+msgstr "Tartomány (Minimum)"
+
+msgid "range_upper_limit"
+msgstr "Felső határ"
+
+msgid "rated_sign"
+msgstr "Jel"
+
+msgid "rated_unit"
+msgstr "Mértékegység"
+
+msgid "rated_value"
+msgstr "Érték"
+
+msgid "rating"
+msgstr "Értékelés"
+
+msgid "rating_sign"
+msgstr "Jel értékelése"
+
+msgid "rating_simple"
+msgstr "Egyszerű értékelés"
+
+msgid "rating_unit"
+msgstr "Mértékegység értékelése"
+
+msgid "rating_value"
+msgstr "Érték értékelése"
+
+msgid "rectangle"
+msgstr "Téglalap"
+
+msgid "rectangle_click_br_corner"
+msgstr "Kattintson a kívánt terület jobb alsó sarkán."
+
+msgid "rectangle_click_tl_corner"
+msgstr "Kattintson a kívánt terület bal felső sarkán."
+
+msgid "redirectAfterSave"
+msgstr "Elérte a maximális munkaidőt, az Ön utolsó kérdését automatikusan mentettük. Hamarosan átirányítjuk…"
+
+msgid "redirect_after_finishing_rule"
+msgstr "Átirányítás"
+
+msgid "redirect_after_finishing_tst"
+msgstr "Átirányítás"
+
+msgid "redirect_after_finishing_tst_desc"
+msgstr "A teszt befejezése után az összes kitöltő automatikus átirányítása a megadott oldalra, amennyiben nincs hozzáférése a teszteredményéhez. Külső weboldal megadásakor használjon teljes URL-t (beleértve a ‘https://’-t is). ILIAS-objektumra irányításhoz használja annak láblécében levő állandó linket."
+
+msgid "redirect_always"
+msgstr "Mindig a megadott URL-re"
+
+msgid "redirect_always_to_logout"
+msgstr "Mindig a kijelentkezési képpernyőre"
+
+msgid "redirect_in_kiosk_mode"
+msgstr "Amikor a ‘Vizsganézet’ be van kapcsolva, a meghatározott weboldalra"
+
+msgid "redirect_url_invalid"
+msgstr "A cél weboldal valós URL-jét írja ide."
+
+msgid "redirect_url_required_for_rule"
+msgstr "Amikor \"%s\" van kiválasztva, a weboldal URL-je kötelező."
+
+msgid "redirection_url"
+msgstr "URL"
+
+msgid "region"
+msgstr "Régió"
+
+msgid "remaining_duration"
+msgstr "Fennmaradó idő"
+
+msgid "remove_gap"
+msgstr "Kitöltendő hely eltávolítása"
+
+msgid "remove_participants"
+msgstr "Kitöltő(k) eltávolítása"
+
+msgid "remove_question"
+msgstr "Eltávolítás"
+
+msgid "remove_selected_participants_confirmation"
+msgstr "Biztos, hogy eltávolítja a következő résztvevőket a tesztből?"
+
+msgid "remove_selected_templates_confirmation"
+msgstr "Biztos, hogy véglegesen eltávolítja a kiválasztott személyes tesztbeállítás-sablont?"
+
+msgid "remove_solution"
+msgstr "Ismétlő összefoglaló tartalmának eltávolítása"
+
+msgid "res_contains_undef_res"
+msgstr "Egy végeredmény-képlet nem definiált végeredményt tartalmaz!"
+
+msgid "res_contains_undef_var"
+msgstr "Egy végeredmény-képlet nem definiált változót tartalmaz!"
+
+msgid "reset_definitions"
+msgstr "Rendezés visszaállítása"
+
+msgid "reset_pictures"
+msgstr "Képek helyének visszaállítása"
+
+msgid "reset_terms"
+msgstr "Rendezés visszaállítása"
+
+msgid "result"
+msgstr "Eredmény"
+
+msgid "result_co_frac"
+msgstr "Relatív prím tört (nem egyszerűsíthető)"
+
+msgid "result_co_frac_info"
+msgstr "Nem egyszerűsíthető tört. Elfogadható eredmény például az 1/3, de a 2/6 nem."
+
+msgid "result_dec"
+msgstr "Tizedes"
+
+msgid "result_dec_info"
+msgstr "Elfogadható eredmény például a 2,3 és a 2.3"
+
+msgid "result_frac"
+msgstr "Tört"
+
+msgid "result_frac_info"
+msgstr "Elfogadható eredmény például az 1/3 és a 2/6"
+
+msgid "result_type_selection"
+msgstr "Eredmény-típus választása"
+
+msgid "result_unit_info"
+msgstr "Figyeljen arra, hogy a kiválasztott mértékegységnek aktívak kell lenni a ‘Rendelkezésre álló mértékegységek’-ben."
+
+msgid "result_units"
+msgstr "Elérhető mértékegységek"
+
+msgid "result_units_info"
+msgstr "A megjelölt mértékegységeket a válasz részeként ajánljuk fel a hallgatónak, amiből egyet kell választania."
+
+msgid "result_x"
+msgstr "%s eredmény"
+
+msgid "results"
+msgstr "Eredmények"
+
+msgid "results_tab"
+msgstr "Eredmények"
+
+msgid "resulttable_all"
+msgstr "Összes"
+
+msgid "resulttable_correct"
+msgstr "Helyes"
+
+msgid "resulttable_incorrect"
+msgstr "Helytelen/Nem teljes"
+
+msgid "resulttable_vc_sort_iooa"
+msgstr "megjelenési sorrendben"
+
+msgid "resulttable_vc_sort_posscore"
+msgstr "a lehető legmagasabb pontszám legelől"
+
+msgid "review_view"
+msgstr "Áttekintés"
+
+msgid "running"
+msgstr "Fut"
+
+msgid "saveOrder"
+msgstr "Sorrend mentése"
+
+msgid "saveOrderAndObligations"
+msgstr "Sorrend és kötelezőség mentése"
+
+msgid "save_and_next"
+msgstr "Mentés és folytatás"
+
+#. fau: testNav
+msgid "save_on_navigation"
+msgstr "Mentés navigáláskor"
+
+#. fau: testNav
+msgid "save_on_navigation_confirmation"
+msgstr "Módosításait automatikusan mentjük navigáláskor."
+
+#. fau: testNav
+msgid "save_on_navigation_forced_feedback_hint"
+msgstr "Mielőtt visszajelzést kap válaszára."
+
+#. fau: testNav
+msgid "save_on_navigation_locked_confirmation"
+msgstr "Módosított válaszait automatikusan mentjük és zároljuk navigáláskor."
+
+msgid "saved_adjustment"
+msgstr "Változások mentése sikerült."
+
+msgid "score_anon"
+msgstr "Pontozás névtelenül"
+
+msgid "score_partsol_enabled"
+msgstr "Részmegoldások pontozásának bekapcsolása"
+
+msgid "score_partsol_enabled_info"
+msgstr "A felhasználóknak általában az összes kérdést hibátlanul meg kell válaszolniuk a beállított pont eléréséhez. Evvel a lehetőséggel a beállított pont felét megszerezhetik legalább három hibátlan döntés esetén."
+
+msgid "scored_by"
+msgstr "Pontozta:"
+
+msgid "scored_pass"
+msgstr "Sikeres kitöltés"
+
+msgid "scoring"
+msgstr "Pontozás és eredmények"
+
+msgid "scoringadjust"
+msgstr "Utólagos módosítás"
+
+msgid "search_groups"
+msgstr "Talált csoportok"
+
+msgid "search_roles"
+msgstr "Talált szerepkörök"
+
+msgid "search_term"
+msgstr "Fogalom keresése"
+
+msgid "select_at_least_one_feedback_type_and_trigger"
+msgstr "Kérjük, válasszon legalább egy visszajelzéstípust és egy triggert."
+
+msgid "select_at_least_one_lock_answer_type"
+msgstr "Legalább egy válaszzárolási típust válasszon."
+
+msgid "select_gap"
+msgstr "Szöveghely választása"
+
+msgid "select_max_one_item"
+msgstr "Csak egy elemet válasszon!"
+
+msgid "select_one_user"
+msgstr "Válasszon legalább egy felhasználót!"
+
+msgid "select_question"
+msgstr "Válasszon egy kérdést"
+
+msgid "select_target_position_for_move_question"
+msgstr "Válasszon célhelyet a kérdés(ek) áthelyezéséhez és nyomja meg az egyik beszúrás gombot."
+
+msgid "select_unit"
+msgstr "--- Válasszon mértékegységet ---"
+
+msgid "selected_category"
+msgstr "Kiválasztott kategória: %s"
+
+msgid "selection"
+msgstr "Válasszon"
+
+msgid "set_edit_mode"
+msgstr "Szerkesztői mód beállítása"
+
+msgid "set_filter"
+msgstr "Szűrő beállítása"
+
+msgid "set_manscoring_done"
+msgstr "‘Pontozott kitöltő’-ként megjelölés"
+
+msgid "set_manscoring_open"
+msgstr "‘Pontozás kész’ jelölés eltávolítása"
+
+msgid "set_manual_feedback"
+msgstr "Manuális visszajelzés"
+
+msgid "shape"
+msgstr "Alakzat"
+
+msgid "showSuggestedSolution"
+msgstr "Típus"
+
+msgid "show_all_test_properties_on_info_page"
+msgstr "Az összes teszttulajdonság megjelenítése"
+
+msgid "show_all_test_properties_on_info_page_byline"
+msgstr "Az ‘Információ’ lapon az összes pontozással és riportálással kapcsolatos teszttulajdonságot megjelenítjük."
+
+msgid "show_answer_overview"
+msgstr "Válaszok áttekintésének megjelenítése"
+
+msgid "show_best_solution"
+msgstr "Legjobb megoldás megjelenítése"
+
+msgid "show_detailed_results"
+msgstr "Figyelembe vett tesztkitöltés részletes áttekintése"
+
+msgid "show_examview_html"
+msgstr "Képernyőn"
+
+msgid "show_hide_best_solution"
+msgstr "Legjobb eredmény megjelenítése / elrejtése"
+
+msgid "show_old_concluding_remarks"
+msgstr "A régi záró megjegyzések megjelenítése"
+
+msgid "show_old_introduction"
+msgstr "A régi utasítás megjelenítése"
+
+msgid "show_pass_overview"
+msgstr "Figyelembe vett tesztkitöltés áttekintése"
+
+msgid "show_results"
+msgstr "Eredmények megjelentése"
+
+msgid "show_user_answers"
+msgstr "Figyelembe vett tesztkitöltés válaszainak megjelenítése"
+
+msgid "shuffle_answers"
+msgstr "Kevert válaszok"
+
+msgid "skip_question"
+msgstr "Válaszadás kihagyása és következő"
+
+msgid "solution"
+msgstr "Megoldás"
+
+msgid "solutionText"
+msgstr "Szöveg"
+
+msgid "solution_contain_keywords"
+msgstr "A pontozás a következő kulcsszavak előfordulása alapján történik:"
+
+msgid "solution_hint"
+msgstr "Ismétlő összefoglaláshoz rendelt tartalom"
+
+msgid "solutions"
+msgstr "Megoldások"
+
+msgid "start_tag"
+msgstr "Kezdő címke"
+
+msgid "statistical_data"
+msgstr "Statisztikai adatok"
+
+msgid "statistics"
+msgstr "Statisztika"
+
+msgid "status_of_attempt"
+msgstr "A kitöltés állapota"
+
+msgid "submit_and_check"
+msgstr "Mentés és válasz ellenőrzése"
+
+msgid "submit_answer"
+msgstr "Válasz mentése"
+
+msgid "suggest_range"
+msgstr "Ajánlott tartomány"
+
+msgid "suggestedSolutionType"
+msgstr "Hivatkozás a következőre"
+
+msgid "suggested_solution"
+msgstr "Ismétlő összefoglaló tartalma"
+
+msgid "suggested_solution_added_successfully"
+msgstr "Sikeresen beállított tartalmat ismétlő összefoglaláshoz."
+
+msgid "sync_question_to_pool"
+msgstr "Kérdés szinkronizálása"
+
+msgid "ta_resulttable_vc_mode_aria"
+msgstr "váltás kérdés módra"
+
+msgid "tab_nest_answers"
+msgstr "Behúzás"
+
+msgid "tax_filter"
+msgstr "Taxonomia"
+
+msgid "tax_filter_notax"
+msgstr "Taxonómia nélküli kérdések"
+
+msgid "taxonomy_node_title"
+msgstr "Taxonómia csomópont címe"
+
+msgid "taxonomy_title"
+msgstr "Taxonómia címe"
+
+msgid "term"
+msgstr "Fogalom"
+
+msgid "term_image"
+msgstr "Kifejezéskép"
+
+msgid "term_text"
+msgstr "Kifejezésszöveg"
+
+msgid "terms"
+msgstr "Fogalmak"
+
+msgid "test_attempts_finished"
+msgstr "A tesztkitöltés befejeződött a kiválasztott kitöltők számára."
+
+msgid "test_confirm_template_reset"
+msgstr "Biztos, hogy nem szeretné használni továbbiakban a sablont?"
+
+msgid "test_delete_page"
+msgstr "Kérdések törlése"
+
+msgid "test_edit_settings"
+msgstr "Beállítások módosítása"
+
+msgid "test_enable_archiving"
+msgstr "Archiválás engedélyezése"
+
+msgid "test_has_datasets_warning_page_view"
+msgstr "A teszt már tartalmaz adatokat. Nem szerkesztheti a kérdéseket, amíg el nem távolítja azokat."
+
+msgid "test_has_datasets_warning_page_view_link"
+msgstr "Kitöltők módosítása"
+
+msgid "test_is_offline"
+msgstr "Nem kezdheti el a tesztet, mert az offline (nem aktív)."
+
+msgid "test_jump_to"
+msgstr "Ugrás kérdésre"
+
+msgid "test_move_page"
+msgstr "Kérdések áthelyezése"
+
+msgid "test_next_question"
+msgstr "Következő kérdés"
+
+msgid "test_prev_question"
+msgstr "Előző kérdés"
+
+msgid "test_question_set_type"
+msgstr "Tesztkérdések kiválasztása"
+
+msgid "test_question_set_type_fixed"
+msgstr "Rögzített kérdéssor használata"
+
+msgid "test_question_set_type_fixed_info"
+msgstr "Az összes tesztkitöltő ugyanazokat a kérdéseket kapja.<br />A kérdéseket létrehozhatja közvetlenül a tesztben, vagy újra használhatja őket kérdésgyűjteményből. Az újonan létrehozott kérdéseket kérdésgyújteménybe is mentheti."
+
+msgid "test_question_set_type_random"
+msgstr "Véletlenszerű kérdéssor használata"
+
+msgid "test_question_set_type_random_info"
+msgstr "Minden tesztkitöltő egyéni kérdéssor kap. A kérdések egy vagy több kérdésgyűjteményből véletlen kiválasztással kerülnek ki."
+
+msgid "test_results"
+msgstr "Teszteredmények összefoglalója"
+
+msgid "test_scoring"
+msgstr "Pontozási beállítások"
+
+msgid "test_template_reset"
+msgstr "A sablont sikeresen eltávolította."
+
+msgid "test_title"
+msgstr "Teszt címe"
+
+msgid "test_using_template"
+msgstr "A teszt ezt a sablont használja: %s. Ha nem szeretne sablont használni a teszthez, és már vannak beállításai, kattintson ide: %s."
+
+msgid "test_using_template_link"
+msgstr "Ne használjon a továbbiakban sablont"
+
+msgid "text_correct"
+msgstr "Helyes szöveg"
+
+msgid "text_gap"
+msgstr "Szöveghely"
+
+msgid "text_maximum_chars_allowed"
+msgstr "Ne adjon meg több, mint %s karaktert! Az efölötti karaktereket tároljuk, de a túllépést lehet, hogy figyelembe veszik a pontozáskor."
+
+msgid "text_rating"
+msgstr "Szövegillesztési módszer"
+
+msgid "text_wrong"
+msgstr "Hibás szöveg"
+
+msgid "textsize"
+msgstr "Szövegméret"
+
+msgid "textsize_errortext_info"
+msgstr "Adja meg a hibás szöveg méretét százalékban, ha 100%-tól eltérőt szeretne."
+
+msgid "textsize_info"
+msgstr "Adja meg a sorrendbe rakó szöveg szövegméretét százalékban, ha 100%-tól eltérőt szeretne."
+
+msgid "thumb_size"
+msgstr "Bélyegképméret"
+
+msgid "thumb_size_info"
+msgstr "A bélyegkép adott magasság és szélesség maximális értékekkel jön létre, megtartva a kép méretarányát."
+
+msgid "thumb_size_unit_pixel"
+msgstr "Pixel"
+
+msgid "time_format"
+msgstr "ÓÓ PP MM"
+
+msgid "timing"
+msgstr "Extra-idő"
+
+msgid "tolerance"
+msgstr "Hibahatár (%)"
+
+msgid "tolerance_info"
+msgstr "A Hibahatár megadja az eredménytől való megengedett százalékos eltérést. Amennyiben értéke 0, csak a pontos eredmény elfogadható."
+
+msgid "too_many_targets_selected_for_move"
+msgstr "Egy célpozíciót válasszon ki!"
+
+msgid "toplist_by_score"
+msgstr "Toplista pontozás alapján"
+
+msgid "toplist_by_time"
+msgstr "Toplista kidolgozási idő alapján"
+
+msgid "toplist_col_achieved"
+msgstr "Dátum"
+
+msgid "toplist_col_participant"
+msgstr "Kitöltő"
+
+msgid "toplist_col_percentage"
+msgstr "Százalék"
+
+msgid "toplist_col_rank"
+msgstr "Helyezés"
+
+msgid "toplist_col_score"
+msgstr "Pont"
+
+msgid "toplist_col_wtime"
+msgstr "Kidolgozási idő"
+
+msgid "total_attempts"
+msgstr "Összes kitöltés"
+
+msgid "total_duration"
+msgstr "Összes időtartam"
+
+msgid "total_max_points_cannot_be_negative"
+msgstr "Az elérhető pontok maximális száma nem lehet negatív."
+
+msgid "true"
+msgstr "Igaz"
+
+msgid "tst_access_code_created"
+msgstr "Egyedi hozzáférési kódot állítottunk be az Ön számára, hogy bármikor elérhesse teszteredményeit, és hogy lehetősége legyen ennek a tesztnek a folytatására. Jegyezze fel ezt a kódot, hogy később a teszt elérhesse, illetve folytathassa."
+
+msgid "tst_activate_skill_service"
+msgstr "Kompetenciaszolgáltatás"
+
+msgid "tst_activate_skill_service_desc"
+msgstr "A teszt elérhetősége előtt és után a teszt címe jelenik meg, a kitöltők a tesztet nem tudják kitölteni. A teszt elérhetőség után a tesztet már nem lehet kitölteni, illetve befejezni, akkor sem, a kiltöltés már folyamatban van."
+
+msgid "tst_activation_limited_visibility_info"
+msgstr "Az adott időszakon kívül csak a teszt címe látható. Ilyenkor a kitöltők nem tudják kitölteni a tesztet."
+
+msgid "tst_activation_online_info"
+msgstr "Ha online, a kitöltők kitölthetik a tesztet."
+
+msgid "tst_add_quest_cont_edit_mode"
+msgstr "Szerkesztő"
+
+msgid "tst_add_quest_cont_edit_mode_IPE"
+msgstr "Egyszerű szöveg használata kérdések és válaszok, ILIAS-lapszerkesztő használata visszajelzések és tippek szerkesztéséhez."
+
+msgid "tst_add_quest_cont_edit_mode_IPE_info"
+msgstr "A kérdések és a válaszok nem formázható szövegek. LaTex sem használható. Viszont a visszajelzések és a tippek újra felhasználhatók, ha kérdés beágyazott az ILIAS-tananyagban."
+
+msgid "tst_add_quest_cont_edit_mode_RTE"
+msgstr "Rich-Text-Editor (TinyMCE) használata a kérdések és a válaszok, továbbá a visszajelzések és a segítségek szerkesztéséhez"
+
+msgid "tst_add_quest_cont_edit_mode_RTE_info"
+msgstr "A kérdések, a válaszok, a visszajelzések és a tippek formázható szövegek. Viszont a visszajelzések és a tippek nem használhatók fel újra, ha kérdés beágyazott az ILIAS-tananyagban."
+
+msgid "tst_add_quest_cont_edit_mode_plain"
+msgstr "Egyszerű szöveg használata"
+
+msgid "tst_add_quest_cont_edit_mode_plain_info"
+msgstr "A kérdések, a válaszok, a visszajelzések és a tippek nem formázható szövegek."
+
+msgid "tst_addit_passes_blocked_after_passed_msg"
+msgstr "A tesztet sikeresen kitöltötte, több kitöltést nem indíthat el."
+
+msgid "tst_all_test_competences"
+msgstr "Összes tesztkompetencia"
+
+msgid "tst_all_user_data_deleted"
+msgstr "Ennek a tesztnek minden felhasználói adatát sikeresen eltávolította."
+
+msgid "tst_already_passed_cannot_retake"
+msgstr "A tesztet már sikeresen teljesítette, nem indíthatja el újra."
+
+msgid "tst_already_submitted"
+msgstr "A tesztet már befejezte és válaszait elküldte."
+
+msgid "tst_analysis"
+msgstr "Analízis"
+
+msgid "tst_anonymity"
+msgstr "Adatvédelem"
+
+msgid "tst_anonymity_anonymous_test"
+msgstr "Eredmények nevek nélkül / Névtelen teszt"
+
+msgid "tst_anonymity_no_anonymization"
+msgstr "Eredmények nevekkel"
+
+msgid "tst_answer_aggr_answer_header"
+msgstr "Válasz"
+
+msgid "tst_answer_aggr_frequency_header"
+msgstr "Gyakoriság"
+
+msgid "tst_answer_details"
+msgstr "Válasz részletei"
+
+msgid "tst_answer_fixation"
+msgstr "Válaszok zárolása"
+
+msgid "tst_answer_fixation_handling"
+msgstr "Válaszok véglegesítése"
+
+msgid "tst_answer_fixation_none"
+msgstr "A válaszokat nem véglegesítjük a tesztkitöltés alatt"
+
+msgid "tst_answer_fixation_none_desc"
+msgstr "A kitöltők a válaszaikat a teszt befejezésig bármikor módosíthatják."
+
+msgid "tst_answer_fixation_on_followup_question"
+msgstr "A válaszok véglegesítése a következő kérdés megjelenésekor"
+
+msgid "tst_answer_fixation_on_followup_question_desc"
+msgstr "A kitöltő a válaszát a következő kérdés megjelenése utána már nem módosíthatja."
+
+msgid "tst_answer_fixation_on_instant_feedback"
+msgstr "A válaszok véglegesítése a visszajelzés megjelenésekor"
+
+msgid "tst_answer_fixation_on_instant_feedback_desc"
+msgstr "A kitöltő a válaszát a visszajelzés utána már nem módosíthatja."
+
+msgid "tst_answer_fixation_on_instantfb_or_followupqst"
+msgstr "A válaszok véglegesítése a visszajelzés vagy a következő kérdés megjelenésekor"
+
+msgid "tst_answer_fixation_on_instantfb_or_followupqst_desc"
+msgstr "A kitöltő a válaszát a visszajelzés, illetve a következő kérdés megjelenése után már módosíthatja."
+
+#. fau: testNav
+msgid "tst_answer_status_answered"
+msgstr "Megválaszolt"
+
+#. fau: testNav
+msgid "tst_answer_status_editing"
+msgstr " (módosítás alatt)"
+
+#. fau: testNav
+msgid "tst_answer_status_not_answered"
+msgstr "Meg nem válaszolt"
+
+msgid "tst_answered_questions"
+msgstr "Megválaszolt kérdések"
+
+msgid "tst_answered_questions_of_total"
+msgstr "%s / %s"
+
+msgid "tst_answered_questions_test"
+msgstr "Ebben a tesztben megválaszolt kérdések"
+
+msgid "tst_attached_xls_file"
+msgstr "A csatolt Excel fájlban találja a kitöltő teszteredményét."
+
+msgid "tst_attempt"
+msgstr "Testkitöltés"
+
+msgid "tst_attempt_limit_message"
+msgstr "A maximálisan engedélyezett teszkitöltések száma: <b>%s</b>."
+
+msgid "tst_attempt_started"
+msgstr "A kitöltés elkezdődött"
+
+msgid "tst_back_to_pass_details"
+msgstr "Vissza a kitöltés részleteihez"
+
+msgid "tst_back_to_question_list"
+msgstr "Vissza kérdéslistához"
+
+msgid "tst_back_to_top"
+msgstr "Vissza a tetejére"
+
+msgid "tst_back_to_virtual_pass"
+msgstr "Vissza a kérdésáttekintéshez"
+
+msgid "tst_best_solution_is"
+msgstr "A legjobb megoldás"
+
+msgid "tst_block_passes_after_passed"
+msgstr "További teszkitöltések tiltás sikeres kitöltés után"
+
+msgid "tst_block_passes_after_passed_info"
+msgstr "A kitöltő sikeres kitöltés után már nem töltheti ki többször a tesztet."
+
+msgid "tst_browse_for_qpl_questions"
+msgstr "Hozzáadás kérdésgyűjteményből"
+
+msgid "tst_browse_for_tst_questions"
+msgstr "Hozzáadás másik tesztből"
+
+msgid "tst_btn_hide_best_solutions"
+msgstr "Legjobb megoldások elrejtése"
+
+msgid "tst_btn_rebuild_random_question_stage"
+msgstr "Kérdések szinkronizálása gyűjteményekből"
+
+msgid "tst_btn_reset_pool_sync"
+msgstr "Szinkronizáció módosítása/megszakítása"
+
+msgid "tst_btn_show_best_solutions"
+msgstr "Legjobb megoldások megjelenítése"
+
+msgid "tst_cannot_online_due_to_switched_quest_set_type_setting"
+msgstr "A teszt nem állítható online-ra, mert a teszt-mód beállítása megváltozott. A kérdésbeállításnak megfelelő teszt-módot szükséges beállítani, mielőtt a teszt ismét online-ra állítható."
+
+msgid "tst_change_dyn_test_question_selection"
+msgstr "Kérdéskiválasztás módosítása"
+
+msgid "tst_change_points_for_question"
+msgstr "Válaszért járó pontszám"
+
+msgid "tst_change_quest_set_type_from_old_to_new_with_conflict"
+msgstr "Hamarosan megváltoztatja a teszt módját: <b>%s</b> -> <b>%s</b>, annak ellenére, hogy ehhez teszt módhoz a kérdése/kérdésgyűjtemények beállítása már megtörtént.<br/>A jelenlegi beállítások elvesznek."
+
+msgid "tst_change_workingtime"
+msgstr "Extra-idő adása a kitöltőknek"
+
+msgid "tst_comp_eval_mode"
+msgstr "Értékelte"
+
+msgid "tst_comp_points"
+msgstr "Kompetencia-pontszámok"
+
+msgid "tst_competence"
+msgstr "Kompetencia"
+
+msgid "tst_competence_tree"
+msgstr "Kompetenciafa"
+
+msgid "tst_conditions_checkbox_enabled"
+msgstr "Vizsgafeltételek"
+
+msgid "tst_conditions_checkbox_enabled_desc"
+msgstr "A kitöltőknek ki kell pipálniuk egy jelölőnégyzetet. Kérem, használja az ‘Útmutató szerkesztése’ allapot a vizsga bemutatására."
+
+msgid "tst_confirm_submit_answers"
+msgstr "Ellenőrizze megoldását! Az elküldés gomb megnyomása után már nem fogja tudni visszavonni válaszait."
+
+msgid "tst_conflicting_setting"
+msgstr "Ez a beállítás ütközik egy másikkal."
+
+msgid "tst_copy"
+msgstr "Teszt másolása"
+
+msgid "tst_corr_add_as_answer_btn"
+msgstr "Hozzáadás helyes válaszként"
+
+msgid "tst_corr_answ_stat_tbl_header_answer"
+msgstr "Válasz"
+
+msgid "tst_corr_answ_stat_tbl_header_frequency"
+msgstr "Gyakoriság"
+
+msgid "tst_corrections_answers_tbl"
+msgstr "Statisztikák"
+
+msgid "tst_corrections_answers_tbl_subindex"
+msgstr "%s statisztikái"
+
+msgid "tst_corrections_incompatible_question_set_type"
+msgstr "Javítás csak rögzített kérdések esetén lehetséges."
+
+msgid "tst_corrections_manscore_reset_warning"
+msgstr "%s manuális pontozás található ‘%s (ID: %s)’ kérdéshez, ezek mind elvesznek a kérdés mentésekor."
+
+msgid "tst_corrections_qst_form"
+msgstr "Pontok javítása"
+
+msgid "tst_corrections_tab_question"
+msgstr "Kérdés"
+
+msgid "tst_corrections_tab_solution"
+msgstr "Megoldás"
+
+msgid "tst_corrections_tab_statistics"
+msgstr "Statisztikák"
+
+msgid "tst_count_correct_solutions"
+msgstr "Csak a teljesen hibátlan megoldások érnek pontot"
+
+msgid "tst_count_correct_solutions_desc"
+msgstr "A tökéletes, teljesen hibátlan megoldás maximális pontszámot, minden egyéb 0 pontot ér. Ez azokra a kérdésekre is érvényes, melyeknél részmegoldásért is járna pont."
+
+msgid "tst_count_partial_solutions"
+msgstr "Nem teljes vagy részben hibás megoldások is érnek pontot"
+
+msgid "tst_count_partial_solutions_desc"
+msgstr "A részmegoldásért jár pont. A helyes részmegoldások pontszámai összeadódnak: a kitöltők pontot kapnak a nem teljes vagy részben hibás megoldásokért ezeknél a kérdéseknél."
+
+msgid "tst_current_run_no_longer_valid"
+msgstr "A jelenlegi teszkitöltése nem érvényes. <br />Vélhetően már befejezték vagy a tutor lezárta."
+
+msgid "tst_delete_missing_mark"
+msgstr "Válasszon legalább egy érdemjegyet az eltávolításhoz!"
+
+msgid "tst_derive_new_pool"
+msgstr "Új kérdésgyűjtemény származtatása"
+
+msgid "tst_derive_new_pools"
+msgstr "Új kérdésgyűjtemények származtatása"
+
+msgid "tst_dont_show_msg_again_in_current_session"
+msgstr "Ez az üzenet többször ne jelenjen meg a munkamenet alatt."
+
+msgid "tst_edit_competence_assign"
+msgstr "Összerendelési tulajdonságok módosítása"
+
+msgid "tst_edit_scoring"
+msgstr "Pontozás módosítása"
+
+msgid "tst_enable_questionlist"
+msgstr "‘Kérdések listája’ megjelenítése"
+
+msgid "tst_enable_questionlist_description"
+msgstr "A kitöltők bekapcsolhatják a tesztkérdések felsorolását az aktuális kérdés bal oldalán."
+
+msgid "tst_ending_time"
+msgstr "Záró időpont"
+
+msgid "tst_ending_time_before_starting_time"
+msgstr "A tesztet lezáró, a kezdődátumnál későbbi dátum."
+
+msgid "tst_ending_time_desc"
+msgstr "Az az időpont, ami utána kitöltők már nem tudnak választ adni. <strong>Fontos</strong>: <strong>Ne</strong> használja ezt a lehetőséget vizsgánál, helyett inkább korlátozza a kitöltési időt. Csak ez utóbbi esetben fejeződik be a teszt a szerveroldalon, illetve ekkor mentjük automatikusan az utolsó beírt választ."
+
+msgid "tst_enter_questionpool"
+msgstr "Adja meg annak a kérdéssornak a nevét, amelybe menteni szeretné az új kérdést."
+
+msgid "tst_eval_question_points"
+msgstr "Eredményes teljesítéshez kérdéseredmények %s"
+
+msgid "tst_eval_results_by_pass"
+msgstr "%s. tesztkitöltés kérdésre adott válaszai"
+
+msgid "tst_eval_results_by_pass_lo"
+msgstr "%s tesztkitöltés válaszainak felsorolása"
+
+msgid "tst_eval_results_lo"
+msgstr "Válaszok felsorolása"
+
+msgid "tst_eval_show_answer"
+msgstr "Válasz megjelenítése"
+
+msgid "tst_eval_total_finished"
+msgstr "Összes befejezett teszt (azon kitöltők, aki az összes tesztkitöltési lehetőségük elhasználták)"
+
+msgid "tst_eval_total_finished_average_time"
+msgstr "Teszt átlagos kitöltési ideje"
+
+msgid "tst_eval_total_passed"
+msgstr "Összes sikeres teszt"
+
+msgid "tst_eval_total_passed_average_points"
+msgstr "Sikeres tesztek átlagpontszámai"
+
+msgid "tst_eval_total_passed_average_time"
+msgstr "Sikeres tesztek átlagos kitöltési ideje"
+
+msgid "tst_eval_total_persons"
+msgstr "A tesztet elkezdő összes kitöltő száma"
+
+msgid "tst_exam_access_code"
+msgstr "Hozzáférési kód"
+
+msgid "tst_exam_access_code_invalid_message"
+msgstr "A megadott kód érvénytelen."
+
+msgid "tst_exam_access_code_label"
+msgstr "Adja meg a hozzáférési kódot a már megkezdett tesztkitöltés folytatásához vagy hagyja üresen teljesen új kitöltés indításhoz."
+
+msgid "tst_exam_conditions"
+msgstr "Vizsgafeltételek"
+
+msgid "tst_exam_conditions_label"
+msgstr "Jelölje be a feltételek elfogadásához."
+
+msgid "tst_exam_conditions_not_checked_message"
+msgstr "El kell fogadni a vizsgfeltételeket!"
+
+msgid "tst_exam_ending_time_message"
+msgstr "A teszt nem indítható %s után."
+
+msgid "tst_exam_modal_message_conditions"
+msgstr "A teszt indításához, kérem, fogadja el a vizsgafeltéleket."
+
+msgid "tst_exam_modal_message_conditions_and_password"
+msgstr "A teszt indításához, kérem, adja meg a jelszót és erősítse meg a vizsgafeltéleket."
+
+msgid "tst_exam_modal_message_password"
+msgstr "A teszt indításához, kérem, adja meg a jelszót."
+
+msgid "tst_exam_not_assigned_participant_disclaimer"
+msgstr "Nem kezdheti meg a teszt kitöltését, mert annak nem kitöltője."
+
+msgid "tst_exam_password"
+msgstr "Tesztjelszó!"
+
+msgid "tst_exam_password_invalid_message"
+msgstr "A megadott jelszó nem érvényes!"
+
+msgid "tst_exam_password_label"
+msgstr "Jelszó"
+
+msgid "tst_exam_required_fields_not_filled_message"
+msgstr "Az összes köteletző mezőt ki kell töltenie!"
+
+msgid "tst_exam_start"
+msgstr "Teszt indítása"
+
+msgid "tst_exam_use_previous_answers"
+msgstr "Korábbi válaszok"
+
+msgid "tst_exam_use_previous_answers_label"
+msgstr "Korábbi tesztkitöltésében megadott válaszai betöltődnek."
+
+msgid "tst_extratime_added"
+msgstr "A kitöltő munkaideje megnövelve %s perccel."
+
+msgid "tst_extratime_info"
+msgstr "Amennyiben többször szeretne extra-időt adni ugyanannak a kitöltőnek az idejéhez, az összesített extra-időt adja meg."
+
+msgid "tst_extratime_notavailable"
+msgstr "Extra-időt csak egy kitöltött és elért maximális kitöltési idővel rendelkező teszthez lehet adni."
+
+msgid "tst_failed"
+msgstr "Nem sikerült"
+
+msgid "tst_failed_imp_qst_skl_assign"
+msgstr "A kérdéseket nem sikerült a következő kompetenciákhoz rendelni. Az érintett kompetenciák nem azonosíthatók be ebben az ILIAS telepítésben."
+
+msgid "tst_failed_imp_skl_thresholds"
+msgstr "A következő kompetenciák határértékeinek importálása meghiúsult, mert az érintett kompetenciák eltérő szinteket tartalmaznak ebben az ILIAS telepítésben."
+
+msgid "tst_feedback"
+msgstr "Visszajelzés"
+
+msgid "tst_feedback_is_given_inline"
+msgstr "A visszajelzés a válaszával együtt jelenik meg."
+
+msgid "tst_feedback_not_available_for_answer"
+msgstr "Válaszához nincs visszajelzés."
+
+msgid "tst_filter_lifecycle_enabled"
+msgstr "Szűrés életciklus alapján"
+
+msgid "tst_filter_question_type"
+msgstr "Kérdéstípus"
+
+msgid "tst_filter_question_type_enabled"
+msgstr "Szűrés kérdéstípus alapján"
+
+msgid "tst_filter_tax_node"
+msgstr "Taxonómia csomópont"
+
+msgid "tst_filter_taxonomy"
+msgstr "Taxonómia"
+
+msgid "tst_final_information"
+msgstr "Teszt befejezése"
+
+msgid "tst_finish_confirm_button"
+msgstr "Igen, befejezem a tesztet."
+
+msgid "tst_finish_confirm_cancel_button"
+msgstr "Nem, menjen vissza az előző kérdéshez."
+
+msgid "tst_finish_confirmation_question"
+msgstr "Most befejezheti a tesztkitöltést. Ezután már nem lesz lehetősége, hogy ezen a kitöltésen módosítson. Biztos, hogy befejezi ezt a tesztkitöltést?"
+
+msgid "tst_finish_confirmation_question_no_attempts_left"
+msgstr "Most befejezheti a tesztet, amivel eléri az engedélyezett kitöltések számát. Ezután már nem lesz lehetősége, hogy a válaszait módosítsa. Biztos, hogy befejezi a tesztet?"
+
+msgid "tst_finished"
+msgstr "Befejezve"
+
+msgid "tst_form_dynamic_question_set_config"
+msgstr "Folyamatos kérdéskiválasztás"
+
+msgid "tst_gap_analysis"
+msgstr "Gap analízis (rés elemzés)"
+
+msgid "tst_general_properties"
+msgstr "Általános beállítások"
+
+msgid "tst_header_participant"
+msgstr "A kérdés és az Ön válasza:"
+
+msgid "tst_header_participant_no_answer"
+msgstr "Kérdés - meg nem válaszolt"
+
+msgid "tst_header_solution"
+msgstr "Legjobb megoldás:"
+
+msgid "tst_hide_info_tab"
+msgstr "Az ‘Információ’ lap elrejtése"
+
+msgid "tst_hide_info_tab_desc"
+msgstr "A teszt ‘Információ’ lapja nem látható"
+
+msgid "tst_hide_pagecontents"
+msgstr "Oldaltartalom elrejtése"
+
+msgid "tst_hide_pagecontents_desc"
+msgstr "Az ‘Oldal szerkesztése’ gombbal a tényleges kérdésszöveg előtt és után elhelyezett LIAS-tartalom nem jelenik meg a eredménynézetekben és a nyomtatási kimenetben."
+
+msgid "tst_imap_qst_mode"
+msgstr "Mód"
+
+msgid "tst_imap_qst_mode_mc"
+msgstr "Többválaszos kérdés (jelölőnégyzetes)"
+
+msgid "tst_imap_qst_mode_sc"
+msgstr "Egyválaszos kérdés (rádiógombos)"
+
+msgid "tst_import_non_ilias_zip"
+msgstr "Hiba: A feltöltött importfájl neve megfelelő formátumú."
+
+msgid "tst_import_verify_found_questions"
+msgstr "Az ILIAS az alábbi kérdéseket találta a teszt importfájlban. Válassza ki azokat a kérdéseket, amelyeket be szeretne importálni ebbe a tesztbe."
+
+msgid "tst_inp_all_quest_points_equal_per_pool"
+msgstr "Csak olyan kérdésgyűjtemények használata, melyben a kérdések pontszám megegyezik."
+
+msgid "tst_inp_all_quest_points_equal_per_pool_desc"
+msgstr "Csak azonos pontozású kérdéseket tartalmazó gyűjtemények használhatók. Az ilyen tesztben az összes kitöltő felhasználó maximálisan elérhető pontszáma így azonos lesz, és az elért eredmények ezáltal jobban összehasonlíthatók lesznek. Célszerű ezt a lehetőséget választani."
+
+msgid "tst_inp_dyn_quest_set_quest_ordering_by_date_desc"
+msgstr "A kérdések megjelenítésének sorrendje azok utolsó módosítási idején alapszik."
+
+msgid "tst_inp_dyn_quest_set_quest_ordering_by_tax_desc"
+msgstr "A kérdések megjelenítésének sorrendje azok taxonómiához rendeltségén alapszik."
+
+msgid "tst_inp_no_available_tax_hint"
+msgstr "Nincs elérhető taxonómia a kiválasztott kérdésgyűjteményhez"
+
+msgid "tst_inp_quest_amount_cfg_mode"
+msgstr "Kérdésmennyiség"
+
+msgid "tst_inp_quest_amount_cfg_mode_pool"
+msgstr "Kérdésmennyiség meghatározása a kiválasztott kérdésgyűjteményekhez és taxonómia csomóponthoz."
+
+msgid "tst_inp_quest_amount_cfg_mode_test"
+msgstr "Kérdésmennyiség meghatározása a teszthez"
+
+msgid "tst_inp_quest_amount_per_source_pool"
+msgstr "Kérdésmennyiség"
+
+msgid "tst_inp_quest_amount_per_test"
+msgstr "Kérdések szám az egész tesztre nézve"
+
+msgid "tst_inp_source_pool_filter_tax"
+msgstr "Taxonómia szűrő"
+
+msgid "tst_inp_source_pool_filter_tax_x"
+msgstr "‘%s’ taxonómia használata szűrőként"
+
+msgid "tst_inp_source_pool_label"
+msgstr "Kérdésgyűjtemény"
+
+msgid "tst_inp_source_pool_no_tax_filter"
+msgstr "Nem taxonómia alapú szűrő használata"
+
+msgid "tst_input_dyn_quest_set_answer_status_filter_enabled"
+msgstr "Válasz állapota alapján szűrő biztosítása"
+
+msgid "tst_input_dynamic_question_set_ordering_tax"
+msgstr "Taxonómia rendezése"
+
+msgid "tst_input_dynamic_question_set_ordering_tax_description"
+msgstr "A tesztkérdések a kiválasztott taxonómiához történt hozzárendeléseik alapján jelennek meg."
+
+msgid "tst_input_dynamic_question_set_question_ordering"
+msgstr "Kérdések rendezése"
+
+msgid "tst_input_dynamic_question_set_question_ordering_by_date"
+msgstr "Kérdések rendezése dátum szerint"
+
+msgid "tst_input_dynamic_question_set_question_ordering_by_tax"
+msgstr "Kérdések rendezése taxonómia alapján"
+
+msgid "tst_input_dynamic_question_set_source_questionpool"
+msgstr "Forrás kérdésgyűjtemény"
+
+msgid "tst_input_dynamic_question_set_taxonomie_filter_enabled"
+msgstr "Taxonómia alapján szűrő biztosítása"
+
+msgid "tst_insert_in_test"
+msgstr "Beillesztés a tesztbe"
+
+msgid "tst_insert_missing_question"
+msgstr "Válasszon legalább egy kérdést a tesztbe beillesztéshez!"
+
+msgid "tst_insert_questions"
+msgstr "Biztos, hogy beilleszti az alábbi kérdés(eke)t a tesztbe?"
+
+msgid "tst_instant_feedback"
+msgstr "Azonnali visszajelzés"
+
+msgid "tst_instant_feedback_answer_generic"
+msgstr "Helyes/Nem helyes válaszra visszajelzés"
+
+msgid "tst_instant_feedback_answer_generic_desc"
+msgstr "Amennyiben a válasz tökéletes, az ‘Ellenőrzés’ gombra kattintáskor a helyes megoldás jelenik meg. Amennyiben a válasz nem teljesen hibátlan, a ‘Legalább egy válasz nem helyes’ visszajelzés jelenik meg. Mindkét típust az adott kérdés ‘Visszajelzés’ lapjánál kell meghatározni."
+
+msgid "tst_instant_feedback_answer_specific"
+msgstr "Válaszlehetőségenkénti visszajelzés"
+
+msgid "tst_instant_feedback_answer_specific_desc"
+msgstr "Az ‘Ellenőrzés’ gombra kattintva előre meghatározott visszajelzés jelenik meg a felhasználó által kiválasztott válaszadási lehetőségre. A kérdéssel együtt kell elkészíteni az összes válaszhoz tartozó a visszajelzést. Nem minden kérdéstípus esetén lehetséges válaszfüggő visszajelzés."
+
+msgid "tst_instant_feedback_contents"
+msgstr "Visszajelzés típusai"
+
+msgid "tst_instant_feedback_desc"
+msgstr "Amikor a kérdéseket visszajelzéssel állítják be, az a kitöltőknek a teszt kitöltése alatt jelenik meg."
+
+msgid "tst_instant_feedback_results"
+msgstr "Elért pontszámok"
+
+msgid "tst_instant_feedback_results_desc"
+msgstr "Az ‘Ellenőrzés’ gombra kattintva megjelenik, mennyi pontot kapna erre válaszra."
+
+msgid "tst_instant_feedback_solution"
+msgstr "Legjobb lehetséges válasz megjelenítése"
+
+msgid "tst_instant_feedback_solution_desc"
+msgstr "Az ‘Ellenőrzés’ gombra kattintva megjelenítik erre a kérdésre adható legjobb válasz."
+
+msgid "tst_instant_feedback_trigger"
+msgstr "Mi váltsa ki a visszajelzést"
+
+msgid "tst_instant_feedback_trigger_forced"
+msgstr "Automatikus visszajelzés"
+
+msgid "tst_instant_feedback_trigger_forced_desc"
+msgstr "A visszajelzés automatikusan, válaszadáskor jelenik meg."
+
+msgid "tst_instant_feedback_trigger_manual"
+msgstr "Manuális visszajelzés"
+
+msgid "tst_instant_feedback_trigger_manual_desc"
+msgstr "A visszajelzés az ‘Ellenőrzés’ gombra kattintva jelenik meg."
+
+msgid "tst_introduction"
+msgstr "Bevezető üzenet"
+
+msgid "tst_introduction_desc"
+msgstr "Bevezető üzenet megjelenítése a teszt információs oldalán. Ez a szöveg már elérhető a teszt megkezdése előtt."
+
+msgid "tst_introduction_text"
+msgstr "Bevezető üzenet"
+
+msgid "tst_invited_nobody"
+msgstr "Nincs állandó kitöltőnek hozzáadott felhasználó, csoport vagy szerepkör."
+
+msgid "tst_invited_selected_users"
+msgstr "A kiválasztott felhasználókat állandó kitöltőként sikeresen felvette."
+
+msgid "tst_launcher_button_label_passes_limit_reached"
+msgstr "Sajnálom, elhasználta az összes tesztkitöltési lehetőségét!"
+
+msgid "tst_launcher_status_message_conditions"
+msgstr "A teszt indításához a vizsgafeltéleket el kell fogadnia."
+
+msgid "tst_launcher_status_message_conditions_and_password"
+msgstr "A teszt indításához a jelszót meg kell adnia és a vizsgafeltéleket el kell fogadnia."
+
+msgid "tst_launcher_status_message_password"
+msgstr "A teszt indításához a jelszót meg kell adnia."
+
+msgid "tst_level"
+msgstr "Kompetenciaszint"
+
+msgid "tst_limit_nr_of_tries"
+msgstr "Tesztkitöltések számának korlátja"
+
+msgid "tst_link_only_unassigned"
+msgstr "Legalább egy kérdésgyűjteménybe linkelt kérdést választott ki. Csak máshová nem rendelt kérdéseket vehet fel kérdésgyűjteménybe."
+
+msgid "tst_list_answer_details"
+msgstr "Mutassa az alábbi listában"
+
+msgid "tst_list_of_answers"
+msgstr "Válaszok listája"
+
+msgid "tst_list_of_answers_show"
+msgstr "A pontozott válaszok áttekintése"
+
+msgid "tst_list_of_questions_end"
+msgstr "Azelőtt jelenjen meg, mielőtt a kitöltő befejezi a tesztet"
+
+msgid "tst_list_of_questions_start"
+msgstr "Azelőtt jelenjen meg, mielőtt az első kérdés megjelenik"
+
+msgid "tst_list_of_questions_with_description"
+msgstr "Kérdésleírásokat is tartalmazza"
+
+msgid "tst_man_scoring_answered_hide"
+msgstr "Megválaszolt kérdések elrejtése"
+
+msgid "tst_man_scoring_answered_only"
+msgstr "Csak a megválaszolt kérdések megjelenítése"
+
+msgid "tst_man_scoring_by_part"
+msgstr "Rendezés kitöltők szerint"
+
+msgid "tst_man_scoring_by_qst"
+msgstr "Rendezés válaszok szerint"
+
+msgid "tst_man_scoring_finalized"
+msgstr "Véglegesített értékelések megjelenítése"
+
+msgid "tst_man_scoring_finalized_hide"
+msgstr "Véglegesített értékelések elrejtése"
+
+msgid "tst_man_scoring_finalized_only"
+msgstr "Csak a véglegesített értékelések megjelenítése"
+
+msgid "tst_man_scoring_only_answered"
+msgstr "Csak a megválaszoltak"
+
+msgid "tst_man_scoring_questionselection"
+msgstr "Kérdések"
+
+msgid "tst_man_scoring_userselection"
+msgstr "Résztvevők"
+
+msgid "tst_manage_competence_assigns"
+msgstr "Kompetencia-összerendelések kezelése"
+
+msgid "tst_manage_competence_select_skills"
+msgstr "Kompetenciák kiválasztása"
+
+msgid "tst_manscoring_input_max_points_for_question"
+msgstr "Válaszért adható maximális pontszám"
+
+msgid "tst_manscoring_input_of_max"
+msgstr "/"
+
+msgid "tst_manscoring_input_question_and_user_solution"
+msgstr "Kérdés és<br/>a felhasználó válasza"
+
+msgid "tst_manscoring_maxpoints_exceeded_input_alert"
+msgstr "Több, mint a maximum %s pont!"
+
+msgid "tst_manscoring_no_feedback"
+msgstr "Még senki sem írt visszajelzést."
+
+msgid "tst_manscoring_question_section_header"
+msgstr "Kérdés: <i>%s</i>"
+
+msgid "tst_manscoring_user_notification"
+msgstr "Értesítés küldése"
+
+msgid "tst_mark"
+msgstr "Jegy"
+
+msgid "tst_mark_create_new_mark_step"
+msgstr "Új értékelésséma létrehozása"
+
+msgid "tst_mark_minimum_level"
+msgstr "Minimumszint (%-ban)"
+
+msgid "tst_mark_minimum_level_invalid"
+msgstr "A minimumszint értéke 0 és 100 köze kell, hogy essen."
+
+msgid "tst_mark_official_form"
+msgstr "Hivatalos forma"
+
+msgid "tst_mark_passed"
+msgstr "Sikeres teljesítés-e"
+
+msgid "tst_mark_reset_to_simple_mark_schema"
+msgstr "Egyszerű (Teljesített/Nem teljesítette) értékelésséma visszaállítása"
+
+msgid "tst_mark_reset_to_simple_mark_schema_confirmation"
+msgstr "Ha továbblép, és az ehhez a teszthez beállított jelenlegi értékelési sémát lecseréli egy egyszerű értékelési sémára, akkor evvel törli az összes helyi módosítást is."
+
+msgid "tst_mark_short_form"
+msgstr "Rövid forma"
+
+msgid "tst_max_comp_points"
+msgstr "Max. kompetencia-pontszámok"
+
+msgid "tst_maximum_points"
+msgstr "Maximális pontszám"
+
+#. fau: testNav
+msgid "tst_mc_label_none_above"
+msgstr "Alábbi válaszok közül egyik sem."
+
+msgid "tst_median_mark_panel"
+msgstr "A medián értéke"
+
+msgid "tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part"
+msgstr "Folyamatos kérdéskiválasztás beállítása a már meglévő válaszadatok miatt nem módosítható."
+
+msgid "tst_msg_cannot_modify_random_question_set_conf_due_to_part"
+msgstr "A véletlenszerű kérdéskiválasztás beállításai már meglévő válaszadatok miatt nem módosítható."
+
+msgid "tst_msg_dynamic_question_set_config_modified"
+msgstr "Folyamatos kérdéskiválasztás módosult."
+
+msgid "tst_msg_rand_quest_set_change_quest_amount_here"
+msgstr "A kérdések számát itt tudja megváltoztatni: %s"
+
+msgid "tst_msg_rand_quest_set_incomplete_quest_amount_cfg"
+msgstr "Pontosan meghatározott kérdésszám nélkül a tesztet nem lehetséges véletlenszerű kérdésekre beállítani."
+
+msgid "tst_msg_rand_quest_set_lost_pools"
+msgstr "A teszt kérdéskiválasztási módja nem módosítható, mert a beállításokban szereplő alábbi kérdésgyűjtemények nem érhetőek el többé. A nem elérhető kérdésgyűjteményeket újra származtathatja.<br />%s"
+
+msgid "tst_msg_rand_quest_set_lost_pools_link"
+msgstr "Kiválasztott kérdésgyűjtemények megnyitása"
+
+msgid "tst_msg_rand_quest_set_no_pools_available"
+msgstr "Jelenleg me, adhat meg új szabályt a kérdéskiválasztáshoz, mert nincs elérhető kérdésgyűjtemény."
+
+msgid "tst_msg_rand_quest_set_no_src_pool_defs"
+msgstr "Kérdésgyűjtemény kiválasztása nélkül a tesztet nem lehetséges véletlenszerű kérdésekre beállítani."
+
+msgid "tst_msg_rand_quest_set_not_sync"
+msgstr "A kérdések véletlen kiválasztásának szabálya új vagy megváltozott. A kérdéseket a kérdésgyűjteményekből már ez előtt szinkronizáltuk. Ez azt is ellenőrzi, hogy a véletlen teszt lehetséges-e a megadott szabályokkal."
+
+msgid "tst_msg_rand_quest_set_pass_buildable"
+msgstr "A jelenlegi beállítások alapján a tesztet lehetséges véletlenszerű kérdésekre beállítani."
+
+msgid "tst_msg_rand_quest_set_pass_not_buildable"
+msgstr "<b>A jelenleg kiválasztott kérdésgyűjtemények és kérdések alapján a tesztet nem lehetséges véletlenszerű kérdésekre beállítani.</b><br />"
+
+msgid "tst_msg_rand_quest_set_rule_label"
+msgstr "%s szabály"
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_missing"
+msgstr "%s szabály használatához %s kérdés szükséges, de csak %s kérdés áll rendelkezésre."
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_missing_shared"
+msgstr "Továbbá ezekből a kérdésekből %s kérdés kerül a következő további szabályokhoz: %s"
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_reserved"
+msgstr "%s szabály használatához %s kérdés szükséges és %s kérdés áll rendelkezésre."
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_reserved_shared"
+msgstr "Csak %s kérdés lesz elérhető az alábbi szabályok együttállása miatt: %s"
+
+msgid "tst_msg_rand_quest_set_stage_pool_last_sync"
+msgstr "A kiválasztott kérdésgyűjtemények utolsó szinkronizációjának dátuma: %s"
+
+msgid "tst_msg_random_qsc_modified_add_new_rule"
+msgstr "A véletlenszerű kérdéskiválasztás beállításai módosultak. Új szabályt hozzáadhat."
+
+msgid "tst_msg_random_question_set_config_modified"
+msgstr "A véletlenszerű kérdéskiválasztás beállításai sikeresen módosultak."
+
+msgid "tst_msg_random_question_set_synced"
+msgstr "A jelenlegi beállítások alapján a véletlenszerűen kiválasztott kérdések sikeresen szinkronizálódtak."
+
+msgid "tst_msg_skl_lvl_thresholds_saved"
+msgstr "A kompetencia-küszöbértékeket sikeresen mentette."
+
+msgid "tst_msg_skl_qst_assign_points_not_saved"
+msgstr "A kompetenciapontokat nem sikerült menteni. Ellenőrizze a bemenetet."
+
+msgid "tst_msg_skl_qst_assign_points_saved"
+msgstr "A kompetenciapontokat sikeresen mentette."
+
+msgid "tst_msg_source_pool_definitions_deleted"
+msgstr "A szabályt sikeresen eltávolította."
+
+msgid "tst_nav_next_locks_current_answer_confirm"
+msgstr "A következő kérdésre ugrással válaszát zároljuk, a későbbiekben azt nem módosíthatja."
+
+msgid "tst_nav_next_locks_current_answer_header"
+msgstr "Ugrás a következő kérdésre"
+
+msgid "tst_nav_next_locks_empty_answer_confirm"
+msgstr "Ezt a kérdést még nem válaszolta meg. Üres megoldásként mentjük és zároljuk válaszát, a későbbiekben azt nem módosíthatja."
+
+msgid "tst_nav_next_locks_empty_answer_header"
+msgstr "Ugrás válaszadás nélkül"
+
+msgid "tst_nav_while_edit_modal_cancel_btn"
+msgstr "Mégsem"
+
+msgid "tst_nav_while_edit_modal_header"
+msgstr "Döntés a válaszokról"
+
+msgid "tst_nav_while_edit_modal_nosave_btn"
+msgstr "Nincs mentés"
+
+msgid "tst_nav_while_edit_modal_save_btn"
+msgstr "Mentés"
+
+msgid "tst_nav_while_edit_modal_text"
+msgstr "Mi legyen az erre a kérdésre adott válaszaival?"
+
+msgid "tst_no_evaluation_data"
+msgstr "Nincsenek elérhető kiértékelhető adatok."
+
+msgid "tst_no_marks_defined"
+msgstr "Nincsenek értékelések definiálva, adjon meg legalább egy egyszerű értékeléssémát."
+
+msgid "tst_no_question_selected_for_moving_to_qpl"
+msgstr "Legalább egy kérdést válasszon, ami kérdésgyűjteményhez kíván adni!"
+
+msgid "tst_no_question_selected_for_removal"
+msgstr "Jelöljön ki legalább egy kérdést az eltávolításhoz!"
+
+msgid "tst_no_scorable_qst_available"
+msgstr "Nincs elérhető pontozandó kérdés"
+
+msgid "tst_non_avail_pool_msg_status_lost"
+msgstr "Ez a kérdésgyűjtemény többé nem érhető el, ezért kérdései szinkronizációja nem lehetséges. Új kérdésgyűjteményt származtathat a teszt kérdéseiből."
+
+msgid "tst_non_avail_pool_msg_status_trashed"
+msgstr "Ez a kérdésgyűjtemény jelenleg a lomtárban van. Ha a rendszerből végleg eltávolítják, a teszt nem tud majd utána kérdéseket szinkronizálni belőle."
+
+msgid "tst_non_avail_pools_table"
+msgstr "Nem elérhető kérdésgyűjtemények"
+
+msgid "tst_non_available_pool_newly_derived"
+msgstr "Az új kérdésgyűjtemény(eke)t sikeresen származtatta."
+
+msgid "tst_nonpool_questions_get_lost_warning"
+msgstr "<b>A jelenlegi teszt mód beállításai alapján olyan kérdések is szerepelnek, melyek egy kérdésgyűjteményhez sem tartoznak. Amennyiben ezt a módot megváltoztatja, ezek a kérdések végérvényesen elvesznek.</b>"
+
+msgid "tst_notification_explanation_admin"
+msgstr "Ezt a levelet azért kapta, mert beállította, hogy kér értesítést."
+
+msgid "tst_notify_manscoring_done_body_msg_reason"
+msgstr "Ezt az értesítést azért kapta, mert kitöltő ebben a tesztben."
+
+msgid "tst_notify_manscoring_done_body_msg_subject"
+msgstr "‘%s’ teszthez manuális pontozás"
+
+msgid "tst_notify_manscoring_done_body_msg_topic"
+msgstr "ezúton tájékoztatjuk, hogy az alábbi teszthez a manuális pontozás közzétették:"
+
+msgid "tst_nr_of_passes"
+msgstr "Teszkitöltések száma"
+
+msgid "tst_nr_of_tries"
+msgstr "Teszkitöltés maximális száma"
+
+msgid "tst_nr_of_tries_desc"
+msgstr "Egy kitöltő maximális teszkitöltéseinek száma."
+
+msgid "tst_num_all_questions"
+msgstr "Összes kérdés száma"
+
+msgid "tst_num_correct_answered_questions"
+msgstr "Hibátlanul megválaszoltak"
+
+msgid "tst_num_non_answered_questions_notseen"
+msgstr "Még meg sem nyitottak"
+
+msgid "tst_num_non_answered_questions_skipped"
+msgstr "Kihagyottak"
+
+msgid "tst_num_questions"
+msgstr "Kérdések száma"
+
+msgid "tst_num_selected_questions"
+msgstr "Kiválasztott kérdések száma"
+
+msgid "tst_num_wrong_answered_questions"
+msgstr "Hibásan megválaszoltak"
+
+msgid "tst_objective_oriented_test_pass_without_questions"
+msgstr "‘%s’ teszt induló kitöltése nem tartalmaz kérdését."
+
+msgid "tst_objective_progress_header"
+msgstr "Tanulási célkitűzés folyamata"
+
+msgid "tst_objectives_progress_header"
+msgstr "Tanulási célkitűzések folyamata"
+
+msgid "tst_old_style_rnd_quest_set_broken"
+msgstr "Ez a véletlen teszt nem helyreállítható állapotban van, mert egy vagy több kérdésgyűjteményét törölték. Ezt a tesztet nem tölthetik ki többé."
+
+msgid "tst_optional_questions_confirmation_fixed_test"
+msgstr "<b>A már teljesített tanulási célokhoz tartozó kérdésekre már megválaszolták a kérdéseket.</b><br /><br />A következő kérdések a már teljesített tanulási célokhoz vannak rendelve. A korábbi tesztkísérletekből származó válaszai átkerülnek a korábbiakra.<br /><br />Ha folytatja, módosíthatja a válaszait. Ez megváltoztathatja a kapcsolódó tanulási célokban elért eredményeit.<br /><br />Ha nem szeretné módosítani a válaszait, visszaléphet."
+
+msgid "tst_optional_questions_confirmation_non_fixed_test"
+msgstr "<b>A már teljesített tanulási célokhoz tartozó kérdések opcionálisak.</b><br /><br />A következő kérdések a már teljesített tanulási célokhoz vannak rendelve.<br /><br />Ha folytatja, átgondolhatja ezeket a kérdéseket. A kapcsolódó tanulási célokban elért eredményei megváltozhatnak.<br /><br />Ha visszalép, a kérdések nem fognak szerepet játszani a teszt értékelésében."
+
+msgid "tst_out_of_time_message"
+msgstr "Sajnálom, elhasználta a teszt kitöltésére engedélyezett időkeretet!"
+
+msgid "tst_participant"
+msgstr "Kitöltő"
+
+msgid "tst_participant_fullname_pattern"
+msgstr "%2$s, %1$s"
+
+msgid "tst_participant_status"
+msgstr "Kitöltő állapota"
+
+msgid "tst_participating_users"
+msgstr "Felhasználók"
+
+msgid "tst_pass_best_pass"
+msgstr "Legnagyobb elért pontszám számít"
+
+msgid "tst_pass_best_pass_desc"
+msgstr "Amennyiben többször töltheti ki egy kitöltő a tesztet, a legjobb eredményét vesszük figyelembe."
+
+msgid "tst_pass_deletion"
+msgstr "Korábbi teszkitöltések kezelése"
+
+msgid "tst_pass_deletion_allowed"
+msgstr "A még nem pontozott teszkitöltések törölhetők."
+
+msgid "tst_pass_details"
+msgstr "Részletes eredmények"
+
+msgid "tst_pass_details_header_lo_initial"
+msgstr "A Tanulási célkitűzések Belépő tesztjének eredményei<br />%s - %s"
+
+msgid "tst_pass_details_header_lo_qualifying"
+msgstr "A Tanulási célkitűzések Záró tesztjének eredményei<br />%s - %s"
+
+msgid "tst_pass_details_overview_table_title"
+msgstr "%s. teszkitöltés válaszainak részletes áttekintése"
+
+msgid "tst_pass_finished"
+msgstr "A teszkitöltés befejeződött"
+
+msgid "tst_pass_finished_on"
+msgstr "A tesztkitöltés befejezésének időpontja"
+
+msgid "tst_pass_last_pass"
+msgstr "Utolsó teszkitöltés pontszáma számít"
+
+msgid "tst_pass_last_pass_desc"
+msgstr "Minden kitöltőnél a legutolsó teszkitöltését vesszük figyelembe."
+
+msgid "tst_pass_overview_for_participant"
+msgstr "<i>%s</i> teszt-sorszámai"
+
+msgid "tst_pass_overview_header_lo_initial_all_objectives"
+msgstr "‘%s’ kurzus Tanulási célkitűzéseinek<br />Belépő tesztjének eredményei"
+
+msgid "tst_pass_overview_header_lo_initial_per_objective"
+msgstr "‘%s’ kurzus Tanulási célkitűzésének<br />Belépő tesztjének eredményei"
+
+msgid "tst_pass_overview_header_lo_qualifying_all_objectives"
+msgstr "‘%s’ kurzus Tanulási célkitűzéseinek<br />Záró tesztjének eredményei"
+
+msgid "tst_pass_overview_header_lo_qualifying_per_objective"
+msgstr "‘%s’ kurzus Tanulási célkitűzésének<br />Záró tesztjének eredményei"
+
+msgid "tst_pass_scoring"
+msgstr "Több teszkitöltés esetén a pontszámítás"
+
+msgid "tst_pass_scoring_best"
+msgstr "Legjobb teszkitöltés"
+
+msgid "tst_pass_scoring_last"
+msgstr "Utolsó teszkitöltés"
+
+msgid "tst_pass_waiting_enabled"
+msgstr "Várakozási idő kikényszerítése teszkitöltések között"
+
+msgid "tst_pass_waiting_info"
+msgstr "További teszkitöltés nem indítható, amíg a megadott idő el nem telik az utolsó teszkitöltés befejezése óta."
+
+msgid "tst_pass_waiting_time"
+msgstr "Várakozási idő"
+
+msgid "tst_passed"
+msgstr "Sikeresen teljesítette"
+
+msgid "tst_passes"
+msgstr "Teszkitöltések"
+
+msgid "tst_password"
+msgstr "Tesztjelszó"
+
+msgid "tst_password_details"
+msgstr "Ha adott meg tesztjelszót, a teszt elkezdéséhez, illetve folytatásához azt meg kell adni."
+
+msgid "tst_password_enter"
+msgstr "Adja meg jelszavát"
+
+msgid "tst_password_entered_wrong_password"
+msgstr "Nem kezdheti meg a tesztet, mert rossz jelszót adott meg."
+
+msgid "tst_password_form"
+msgstr "Adja meg a tesztjelszót"
+
+msgid "tst_password_introduction"
+msgstr "Ez a teszt csak tesztjelszóval érhető el. Adja meg a teszthez tartozó jelszót a teszt elkezdéséhez!"
+
+msgid "tst_percent_solved"
+msgstr "Elért százalék"
+
+msgid "tst_player_answer_saved_and_locked"
+msgstr "Mentett és zárolt válasz nem módosítható"
+
+msgid "tst_please_select_source_pool"
+msgstr "Válassza ki a kérdésgyűjteményt."
+
+msgid "tst_please_select_target_for_pool_derives"
+msgstr "Válassza ki a céltárolót."
+
+msgid "tst_position"
+msgstr "%s / %s kérdés"
+
+msgid "tst_position_without_total"
+msgstr "%s. kérdés"
+
+msgid "tst_postpone"
+msgstr "Megválaszolatlan kérdések"
+
+msgid "tst_postpone_off"
+msgstr "Meg nem válaszolt kérdések helyükön maradnak"
+
+msgid "tst_postpone_off_desc"
+msgstr "A megtekintett, de meg nem válaszolt kérdések helyzete nem változik, azok nem jelennek meg újra a teszt végén."
+
+msgid "tst_postpone_on"
+msgstr "Meg nem válaszolt kérdések sorba állítása"
+
+msgid "tst_postpone_on_desc"
+msgstr "A megtekintett, de meg nem válaszolt kérdések a teszt végén automatikusan, sorba rendezve újra megjelennek."
+
+msgid "tst_presentation_properties"
+msgstr "Teszt kezelése: A kérdés viselkedése"
+
+msgid "tst_presentation_settings_section"
+msgstr "Megjelenítés"
+
+msgid "tst_previous_access_code_not_available"
+msgstr "Egy korábbi kód sem érhető el!"
+
+msgid "tst_proceed"
+msgstr "Folytatás"
+
+msgid "tst_processing_time"
+msgstr "Elhasználható idő korlátja"
+
+msgid "tst_processing_time_desc"
+msgstr "E-vizsgákhoz/távvizsgákhoz hasznos beálltás. A kitöltők csak meghatározott ideig dolgozhatnak a teszten. A visszaszámlálás akkor kezdődik, amikor a felhasználó először indítja a tesztet. A teszt felfüggesztése nem állítja meg az órát. Ha a lehetséges kitöltések száma korlátozott, megjelenik az extra idő biztosítása a kitöltőknek lehetőség a ‘Résztvevők’ lapon."
+
+msgid "tst_processing_time_duration"
+msgstr "Maximális feldolgozási idő"
+
+msgid "tst_processing_time_duration_desc"
+msgstr "Meghatározza a teszt befejezésének maximális időhosszát"
+
+msgid "tst_qbt_filter_question_title"
+msgstr "Kérdés címe"
+
+msgid "tst_qst_added_to_pool_p"
+msgstr "A kérdéseket sikeresen hozzáadta a kiválasztott kérdésgyűjteményhez."
+
+msgid "tst_qst_added_to_pool_s"
+msgstr "A kérdést sikeresen hozzáadta a kiválasztott kérdésgyűjteményhez."
+
+msgid "tst_qst_order"
+msgstr "Sorrend"
+
+msgid "tst_qst_skl_cfg_in_pool_hint_dynquestset"
+msgstr "A tesztek a kompetencia és kérdés összerendelése ‘%s’ módon a megfelelő kérdésgyűjteményben történik:<br />%s<br /><br />A küszöbértékek beállítása itt, a tesztben szükséges."
+
+msgid "tst_qst_skl_cfg_in_pool_hint_rndquestset"
+msgstr "A tesztek a kompetencia és kérdés összerendelése ‘%s’ módon a megfelelő kérdésgyűjtemény(ek)ben történik:<br />%s<br /><br />A küszöbértékek beállítása itt, a tesztben szükséges."
+
+msgid "tst_question"
+msgstr "Kérdés"
+
+msgid "tst_question_amount"
+msgstr "Kérdésmennyiség"
+
+msgid "tst_question_answer_status"
+msgstr "Mely kérdések jelenjenek meg?"
+
+msgid "tst_question_answer_status_all_non_correct"
+msgstr "Összes kérdés, kivéve a helyesen megválaszoltak"
+
+msgid "tst_question_answer_status_non_answered"
+msgstr "Meg nem válaszolt kérdések"
+
+msgid "tst_question_answer_status_wrong_answered"
+msgstr "Csak a hibásan megválaszolt kérdések"
+
+msgid "tst_question_feedback_back_to_feedback_form"
+msgstr "Vissza a kérdéshez"
+
+msgid "tst_question_feedback_edit_page"
+msgstr "Tartalom módosítása"
+
+msgid "tst_question_mark"
+msgstr "Kérdés megjelölése"
+
+msgid "tst_question_marked"
+msgstr "Ön megjelölte a kérdést"
+
+msgid "tst_question_marker"
+msgstr "Megjelölés"
+
+msgid "tst_question_no"
+msgstr "Sorszám"
+
+msgid "tst_question_not_from_pool_info"
+msgstr "Nincs gyűjtemény"
+
+#. fau: testNav
+msgid "tst_question_not_marked"
+msgstr "Kérdés nincs megjelölve"
+
+msgid "tst_question_offer"
+msgstr "Elfogadja ezt a mintát vagy másikat szeretne?"
+
+msgid "tst_question_set_type"
+msgstr "Tesztkérdések kiválasztása"
+
+msgid "tst_question_set_type_dynamic"
+msgstr "Kérdésfolyam - egy kérdésgyűjtemény összes kérdése"
+
+msgid "tst_question_set_type_dynamic_desc"
+msgstr "Minden kitöltő egy előre kiválasztott kérdésgyűjtemény kérdéseit kapja meg. A hibásan megválaszolt kérdések újra megjelennek. A már futó teszthez új kérdés adható, illetve a már hozzárendelt kérdések módosíthatók."
+
+msgid "tst_question_set_type_fixed"
+msgstr "Előre meghatározott kérdések"
+
+msgid "tst_question_set_type_fixed_desc"
+msgstr "Minden kitöltő ugyanazokat a kérdéseket kapja."
+
+msgid "tst_question_set_type_random"
+msgstr "Véletlenszerű kérdések"
+
+msgid "tst_question_set_type_random_desc"
+msgstr "Minden kitöltő más-más kérdéseket kap. A kérdések véletlenszerűen kerülnek kiválasztásra egy vagy több kérdésgyűjteményekből."
+
+msgid "tst_question_title"
+msgstr "Kérdéscím"
+
+msgid "tst_question_type"
+msgstr "Kérdéstípus"
+
+msgid "tst_questions_inserted"
+msgstr "A kérdés(eke)t sikeresen beillesztette."
+
+msgid "tst_questions_removed"
+msgstr "A kérdés(eke)t sikeresen eltávolította."
+
+msgid "tst_random_nr_of_questions"
+msgstr "Hány darab kérdés?"
+
+msgid "tst_random_question_set_source_questionpool_summary_string"
+msgstr "%s (Útvonal: %s) [%s kérdés]"
+
+msgid "tst_random_select_questionpool"
+msgstr "Válassza ki a kérdésgyűjteményt, hogy választhasson a kérdések közül"
+
+msgid "tst_reached_points"
+msgstr "Elért pontszám"
+
+msgid "tst_reached_points_of_max"
+msgstr "%s / %s"
+
+msgid "tst_remove_mark"
+msgstr "Megjelölés eltávolítása"
+
+msgid "tst_remove_question"
+msgstr "Biztos, hogy eltávolítja az alábbi kérdéseket a tesztből?"
+
+msgid "tst_remove_questions"
+msgstr "Biztos, hogy eltávolítja az alábbi kérdéseket a tesztből?"
+
+msgid "tst_remove_questions_and_results"
+msgstr "Ezt a tesztet %s felhasználó már kitöltötte. A kérdések eltávolításával törli ezen felhasználók minden teszteredményét is. Biztos, hogy eltávolítja az alábbi kérdés(eke)t?"
+
+msgid "tst_report_after_date"
+msgstr "Egy meghatározott dátum után"
+
+msgid "tst_report_after_first_question"
+msgstr "Teszteredményekről jelentés felajánlása a teszt elkezdésekor"
+
+msgid "tst_report_after_passed"
+msgstr "Teszteredményekről jelentés felajánlása a teszt sikeres befejezésekor"
+
+msgid "tst_report_after_test"
+msgstr "Teszteredményekről jelentés felajánlása a teszt befejezésekor"
+
+msgid "tst_report_never"
+msgstr "Egy teszteredmény sem érhető el"
+
+msgid "tst_reporting_date"
+msgstr "Dátum"
+
+msgid "tst_res_jump_to_participant_btn"
+msgstr "Ugrás"
+
+msgid "tst_res_jump_to_participant_hint_opt"
+msgstr "--Ugrás a kitöltőkhöz--"
+
+msgid "tst_res_lo_objectives_header"
+msgstr "Releváns Tanulási célkitűzések"
+
+msgid "tst_res_lo_try_header"
+msgstr "Teszkitöltés"
+
+msgid "tst_res_lo_try_n"
+msgstr "%s. teszkitöltés"
+
+msgid "tst_res_tab_msg_no_lp_access"
+msgstr "Jelenleg nem érheti el a saját tanulási haladását, mert a teszt eredményeit nem láthajta."
+
+msgid "tst_res_tab_msg_res_after_date"
+msgstr "Itt mutatjuk meg az eredményeit ekkortól: %s"
+
+msgid "tst_res_tab_msg_res_after_date_no_res"
+msgstr "A teszt kitöltésekor itt mutatjuk meg az eredményeit ekkortól: %s"
+
+msgid "tst_res_tab_msg_res_after_finish_test"
+msgstr "Itt mutatjuk meg az eredményeit a teszt befejezése után."
+
+msgid "tst_res_tab_msg_res_after_taking_test"
+msgstr "Itt mutatjuk meg az eredményeit a teszt megkezdése után."
+
+msgid "tst_res_tab_msg_res_after_test_passed"
+msgstr "Itt mutatjuk meg az eredményeit a teszt sikeres kitöltése után."
+
+msgid "tst_reset_processing_time"
+msgstr "Az összes teszkitöltés időkorlátjának alapértékre állítása"
+
+msgid "tst_reset_processing_time_desc"
+msgstr "A kitöltési időkorlát értéke visszaáll a megadott maximális értékre. Ez a beállítás csak akkor működik, ha a teszt többszörös kitölthető."
+
+msgid "tst_result"
+msgstr "Teszteredmény"
+
+msgid "tst_result_pass"
+msgstr "Teszkitöltés végeredményei"
+
+msgid "tst_result_user_name"
+msgstr "%s eredményei:"
+
+msgid "tst_result_user_name_pass"
+msgstr "%s. teszkitöltés eredményei, %s"
+
+msgid "tst_results"
+msgstr "Teszteredmények"
+
+msgid "tst_results_access_always"
+msgstr "Azonnal"
+
+msgid "tst_results_access_always_desc"
+msgstr "A kitöltők elérhetik eredményeiket az ‘Eredmények’ lapon a tesztkitöltésük ideje alatt, továbbá a teszt befejezése után átirányítjuk őket az ‘Eredmények’ lapra."
+
+msgid "tst_results_access_date"
+msgstr "Elérhető ettől (dátum)"
+
+msgid "tst_results_access_date_desc"
+msgstr "A kitöltők a megadott időpont után érhetik el eredményüket az ‘Eredmények’ lapon."
+
+msgid "tst_results_access_enabled"
+msgstr "Hozzáférés a teszteredményekhez"
+
+msgid "tst_results_access_enabled_desc"
+msgstr "A kitöltők számára elérhetővé válik az ‘Eredmények’ lap. Ebben és a következő részekben határozhatja meg, hogy a jelentés mikortól legyen elérhető és milyen információkat tartalmazzon."
+
+msgid "tst_results_access_finished"
+msgstr "A teszkitöltés befejezése után"
+
+msgid "tst_results_access_finished_desc"
+msgstr "A végeredmény a teszkitöltés befejezése után azonnal megjelenik. A teszkitöltés befejezése után a kitöltők bármikor elérhetik eredményeiket az ‘Eredmények’ lapon."
+
+msgid "tst_results_access_passed"
+msgstr "A teszkitöltés sikeres kitöltése után"
+
+msgid "tst_results_access_passed_desc"
+msgstr "A végeredmény a teszt sikeres kitöltése után jelenik meg. A teszt sikeres kitöltés után a kitöltők bármikor elérhetik eredményeiket az ‘Eredmények’ lapon."
+
+msgid "tst_results_access_setting"
+msgstr "Időpont"
+
+msgid "tst_results_aggregated"
+msgstr "Összesített teszteredmény"
+
+msgid "tst_results_back_introduction"
+msgstr "Vissza a bevezető üzenethez"
+
+msgid "tst_results_back_overview"
+msgstr "Vissza az eredmények áttekintéséhez"
+
+msgid "tst_results_details_options"
+msgstr "További lehetőségek"
+
+msgid "tst_results_gamification"
+msgstr "Gamifikació"
+
+msgid "tst_results_grading_opt_show_details"
+msgstr "Részletes teszteredmények megjelenítése"
+
+msgid "tst_results_grading_opt_show_details_desc"
+msgstr "Az összefoglaló teszteredmény mellett egy ‘Részletes eredmények’ művelet megjelenik. A ‘Részletes teszteredmények’ táblázat a kérdések címét és az egyes kitöltéseken elért pontokat jeleníti meg."
+
+msgid "tst_results_grading_opt_show_mark"
+msgstr "Érdemjegy megjelenítése"
+
+msgid "tst_results_grading_opt_show_mark_desc"
+msgstr "Érdemjegyről az információt a teszteredmények összegzéséhez fűzzük hozzá. A kitöltők elérhetik eredményeiket az ‘Eredmények’ lapon."
+
+msgid "tst_results_grading_opt_show_status"
+msgstr "Sikeres/Sikertelen állapot megjelenítése"
+
+msgid "tst_results_grading_opt_show_status_desc"
+msgstr "Sikeres/Sikertelen állapotról az információt a teszteredmények összegzéséhez fűzzük hozzá. A kitöltők elérhetik eredményeiket az ‘Eredmények’ lapon.<br />"
+
+msgid "tst_results_overview"
+msgstr "Teszteredmények áttekintése"
+
+msgid "tst_results_print_best_solution"
+msgstr "Legjobb megoldás"
+
+msgid "tst_results_print_best_solution_info"
+msgstr "Kérdésenként a lehetséges legjobb megoldás jelenik meg."
+
+msgid "tst_resume_test"
+msgstr "Teszt folytatása"
+
+#. fau: testNav
+msgid "tst_revert_changes"
+msgstr "Módosítás visszavonása"
+
+msgid "tst_rnd_quest_cfg_tab_general"
+msgstr "Beállítások"
+
+msgid "tst_rnd_quest_cfg_tab_pool"
+msgstr "Kiválasztott kérdésgyűjtemények"
+
+msgid "tst_rnd_quest_set_cfg_general_form"
+msgstr "Véletlenszerű kérdéskiválasztás beállítása"
+
+msgid "tst_rnd_quest_set_cfg_pool_form"
+msgstr "Kérdéskiválasztás szabálya"
+
+msgid "tst_rnd_quest_set_tb_add_pool_btn"
+msgstr "Kérdések kiválasztásának új szabálya"
+
+msgid "tst_save_and_create_new_rule"
+msgstr "Mentés és új szabály hozzáadása"
+
+#. fau: testNav
+msgid "tst_save_and_proceed"
+msgstr "Mentés és folytatás"
+
+msgid "tst_save_comp_points"
+msgstr "Kompetenciapontok mentése"
+
+msgid "tst_save_manscoring_failed"
+msgstr "Tesztmegoldásokhoz (%s) manuális pontozás mentése sikertelen."
+
+msgid "tst_save_thresholds"
+msgstr "Küszöbértékek mentése"
+
+msgid "tst_saved_manscoring_by_question_successfully"
+msgstr "%s tesztkitöltésének %s kérdéséhez a manuális pontozás mentése sikerült."
+
+msgid "tst_saved_manscoring_successfully"
+msgstr "%s. %s tesztkitöltéséhez a manuális pontozás mentése sikerült."
+
+msgid "tst_score_cut_question"
+msgstr "Az összes kérdésnél a negatív pontszám 0-ra módosítása"
+
+msgid "tst_score_cut_question_desc"
+msgstr "Előfordulhat, hogy egy kitöltő hibás válaszával negatív pontszámot kapna egy kérdésre. Evvel ezt elkerülheti, így minden egyes kérdésre a legkisebb elérhető pontszám 0 lesz."
+
+msgid "tst_score_cut_test"
+msgstr "Negatív pontszámú végeredmény 0-ra módosítása"
+
+msgid "tst_score_cut_test_desc"
+msgstr "Az összes kérdésre elért válasz pontszáma - melyek között lehet negatív is - összeadódik. A végeredmény, az összpontszám azonban nem lehet negatív, azt 0-ra módosítjuk. Ebben az esetben a hibás, illetve a részben hibás válaszok negatív pontszámai nagy hangsúlyt kaphatnak a végős pontszámban, eredményben."
+
+msgid "tst_score_cutting"
+msgstr "Negatív pontszámok"
+
+msgid "tst_search_users"
+msgstr "Kitöltők keresése"
+
+msgid "tst_select_questionpool"
+msgstr "Válasszon ki egy kérdésgyűjteményt a létrehozott kérdés mentéséhez!"
+
+msgid "tst_selected_user_data_deleted"
+msgstr "A kiválasztott felhasználó(k) tesztadatai sikeresen eltávolította."
+
+msgid "tst_sequence_properties"
+msgstr "Teszt felügyelete: Felhasználók számára elérhető funkcionalitások"
+
+msgid "tst_set_offline_due_to_switched_question_set_type_setting"
+msgstr "A teszt offline lett, mert a teszt-mód beállítása megváltozott. Új teszt-módot szükséges beállítani a kérdésbeállításnak megfelelően, mielőtt a teszt ismét online-ra állítható."
+
+msgid "tst_settings_conflict_postpone_and_lock"
+msgstr "A ‘Meg nem válaszolt kérdések sorba állítása’ nem használható együtt a ‘Válaszok véglegesítése a következő kérdés megjelenésekor’ lehetőséggel."
+
+msgid "tst_settings_conflict_shuffle_and_lock"
+msgstr "A ‘Kérdések keverése’ nem használható együtt a ‘Válaszok véglegesítése a következő kérdés megjelenésekor’ lehetőséggel."
+
+msgid "tst_settings_form_reload_needed"
+msgstr "Az adatvesztés elkerülése érdekében újra kellett tölteni az űrlapot, mivel az elérhető beállítások megváltoztak a résztvevők összes eredményének eltávolítása miatt."
+
+msgid "tst_settings_header_additional"
+msgstr "További jellemzők"
+
+msgid "tst_settings_header_execution"
+msgstr "Teszt kezelése: hozzáférés"
+
+msgid "tst_settings_header_intro"
+msgstr "A teszt megkezdése előtti információ"
+
+msgid "tst_settings_header_test_run"
+msgstr "Teszt kezelése: teszt futtatása"
+
+msgid "tst_settings_not_found"
+msgstr "Hiányzó tesztbeállítások"
+
+msgid "tst_settings_not_found_msg"
+msgstr "A teszbeállítások nem találhatók. Ennek oka vélhetően egy hiányzó migrációs lépés. Kérem, vegye fel a kapcsolatot az üzemeltetőkkel."
+
+msgid "tst_show_answer_sheet"
+msgstr "Válaszok megjelenítése"
+
+msgid "tst_show_cancel"
+msgstr "Teszt felfüggesztése"
+
+msgid "tst_show_cancel_description"
+msgstr "A kitöltő egy gomb megnyomásával felfüggeszthetik a teszt töltését, hogy később folytathassák azt. FIGYELEM: A teszt felfüggesztése nem állítja le az órát akkor sem, ha maximálisan elhasználható idő be lett állítva."
+
+msgid "tst_show_comp_results"
+msgstr "Kompetenciaeredmények"
+
+msgid "tst_show_results"
+msgstr "Teszteredmények"
+
+msgid "tst_show_side_list"
+msgstr "Kérdéslista megjelenítése"
+
+msgid "tst_show_solution_answers_only"
+msgstr "Eredmények nyomtatási előnézete (csak a válaszoké)"
+
+msgid "tst_show_solution_answers_only_desc"
+msgstr "A ‘Tartalom módosítása’ lapon a kérdéshez beállított tartalom nem jelenik meg nyomtatásban. Papír spórolása esetén válassza ezt az opciót."
+
+msgid "tst_show_solution_details_singlepage"
+msgstr "Pontozott válaszok egyetlen oldalon"
+
+msgid "tst_show_solution_details_singlepage_desc"
+msgstr "A kitöltők minden kérdéshez külön-külön hozzáférhetnek, és megnézhetik, hogy helyesek voltak-e a válaszaik, illetve, hogy hány pontot szereztek."
+
+msgid "tst_show_solution_feedback"
+msgstr "Válaszspecifikus visszajelzés megjelenítése a teszteredményekben"
+
+msgid "tst_show_solution_feedback_desc"
+msgstr "Válaszfüggő visszajelzés jelenik meg a teszteredményeknél a kérdések mellett. Figyeljen arra, hogy ezen opció csak akkor működik, ha bekapcsolta a ‘Kitöltők pontozott válaszai’-t, illetve a ‘Pontozott válaszok egy oldalon’-t és a visszajelzés a kérdésekhez elkészült."
+
+msgid "tst_show_solution_printview"
+msgstr "Válaszok listájának megjelenítése"
+
+msgid "tst_show_solution_printview_desc"
+msgstr "Az összes kérdésből és az adott kitöltő válaszaiból egy áttekintés készül. Ez a felsorolás az ‘Eredmények’ lap ‘Pontozott válaszok áttekintése’ allap alatt érhető el."
+
+msgid "tst_show_solution_signature"
+msgstr "Aláírás-helyőrző megjelenítése"
+
+msgid "tst_show_solution_signature_desc"
+msgstr "Az aláírás helye megjelenik nyomtatott verzióban. Ennek használatához ne felejtse bekapcsolni a ‘Részletes teszteredmények táblázata’ a funkciót."
+
+msgid "tst_show_solution_suggested"
+msgstr "Ismétlő összefoglaló tartalom megjelenítése"
+
+msgid "tst_show_solution_suggested_desc"
+msgstr "Ha az első helyen a teszt kérdéseihez ismétlő összefoglaló tartalom van hozzárendelve, akkor ez megjelenik a ‘Részletes teszteredmények táblázata’ tartalmában. A kitöltők lehetőséget kapnak újratanulásra. Hogy hatásos legyen ez az opció, kapcsolja be a ‘Hozzáférés a teszteredményekhez’ lapon a ‘Részletes teszteredmények táblázata’ opciót."
+
+msgid "tst_show_summary"
+msgstr "Kérdéslista megjelenítése"
+
+msgid "tst_show_summary_description"
+msgstr "A kitöltő számára megjelenik a ‘Kérdéslista’ gomb, amivel bekapcsolhatják az összes kérdések felsorolását, ahol látszódik, melyikre adtak már választ. További beállítási lehetőséget alább talál."
+
+msgid "tst_show_toplist"
+msgstr "Rangsor"
+
+msgid "tst_shuffle_questions"
+msgstr "Kérdések összekeverése"
+
+msgid "tst_shuffle_questions_description"
+msgstr "A kérdések sorrendje elterő lesz minden teszkitöltésnél."
+
+msgid "tst_signature"
+msgstr "Aláírás"
+
+msgid "tst_single_answer_details"
+msgstr "Egyszeres válasz megjelenítése"
+
+msgid "tst_skill_triggerings_num_req_answers"
+msgstr "Kompetencia felméréséhez szükséges válaszok száma"
+
+msgid "tst_skill_triggerings_num_req_answers_desc"
+msgstr "Kompetenciára nem váltunk át amíg a válaszok száma nem elegendő a kompetenciaszint számításához."
+
+msgid "tst_skill_triggerings_num_req_answers_not_reached_warn"
+msgstr "A teszt által legalább egy mérni kívánt kompetenciához nincs elegendő kérdés, így azokhoz egy kompetenciabejegyzést sem fogunk rögzíteni.<br />A szükséges minimális kérdésszám: %s"
+
+msgid "tst_skl_level_thresholds_link"
+msgstr "Kompetencia-küszöbértékek beállítása"
+
+msgid "tst_skl_level_thresholds_missing"
+msgstr "Az érintett kompetenciákhoz hiányoznak a küszöbértékek!"
+
+msgid "tst_skl_sub_tab_thresholds"
+msgstr "Kompetencia-küszöbértékek"
+
+msgid "tst_sol_comp_expressions"
+msgstr "Összehasonlító kifejezések"
+
+msgid "tst_solution_compare_cfg"
+msgstr "Megoldás összehasonlításához beállítások"
+
+msgid "tst_source_question_pool"
+msgstr "Kérdésgyűjtemény"
+
+msgid "tst_src_quest_pool_def_list_table"
+msgstr "Véletlenszerűen kiválasztott kérdések szabálya"
+
+msgid "tst_start_dyn_test_with_cur_quest_sel"
+msgstr "Teszt indítása a jelenlegi kérdéskiválasztással"
+
+msgid "tst_start_new_test_pass"
+msgstr "Új tesztkitöltés elkezdése"
+
+msgid "tst_start_test"
+msgstr "Teszt indítása"
+
+msgid "tst_starting_time"
+msgstr "Kezdő időpont"
+
+msgid "tst_starting_time_desc"
+msgstr "Az az időpont, ami után az ‘Indítás’ gomb megnyomásával a kitöltők megkezdhetik a válaszadást."
+
+msgid "tst_stat_result_atimeofwork"
+msgstr "Munkaidő átlaga"
+
+msgid "tst_stat_result_firstvisit"
+msgstr "Első látogatás"
+
+msgid "tst_stat_result_lastvisit"
+msgstr "Utolsó látogatás"
+
+msgid "tst_stat_result_mark_median"
+msgstr "A mediánhoz rendelhető érdemjegy"
+
+msgid "tst_stat_result_median"
+msgstr "A teszteredmény középértéke pontokban"
+
+msgid "tst_stat_result_pworkedthrough"
+msgstr "A teljes munka eddig elvégzett része százalékban"
+
+msgid "tst_stat_result_qmax"
+msgstr "Kérdések teljes számra"
+
+msgid "tst_stat_result_qworkedthrough"
+msgstr "Kérdések, amelyeken már keresztülhaladt"
+
+msgid "tst_stat_result_rank_median"
+msgstr "A mediánhoz rendelhető helyezés"
+
+msgid "tst_stat_result_rank_participant"
+msgstr "A kitöltő helyezése"
+
+msgid "tst_stat_result_resultsmarks"
+msgstr "Teszteredmények érdemjegyben kifejezve"
+
+msgid "tst_stat_result_resultspoints"
+msgstr "Teszteredmények pontban kifejezve"
+
+msgid "tst_stat_result_timeontask"
+msgstr "Feladatra fordított idő"
+
+msgid "tst_stat_result_total_participants"
+msgstr "Kitöltők teljes száma"
+
+msgid "tst_stat_result_total_timeontask"
+msgstr "Feladatra fordított összidő (összes teszkitöltés)"
+
+msgid "tst_submit_results"
+msgstr "Igen, megerősítem elküldési szándékom."
+
+msgid "tst_tab_competences"
+msgstr "Kompetenciák"
+
+msgid "tst_tab_results_objective_oriented"
+msgstr "Végeredmények tanulási célok szerint"
+
+msgid "tst_tab_results_pass_oriented"
+msgstr "Végeredmények teszkitöltések szerint"
+
+msgid "tst_tbl_col_answered_questions"
+msgstr "Megválaszolt kérdések"
+
+msgid "tst_tbl_col_final_mark"
+msgstr "Érdemjegy"
+
+msgid "tst_tbl_col_finished_passes"
+msgstr "Befejezett teszkitöltések"
+
+msgid "tst_tbl_col_finished_passes_num_of"
+msgstr "%s / %s"
+
+msgid "tst_tbl_col_last_scored_access"
+msgstr "Utolsó pontozott hozzáférés"
+
+msgid "tst_tbl_col_pass_finished"
+msgstr "Befejezte a kitöltést"
+
+msgid "tst_tbl_col_passed_status"
+msgstr "Értékelés"
+
+msgid "tst_tbl_col_percent_result"
+msgstr "Elért százalék"
+
+msgid "tst_tbl_col_reached_points"
+msgstr "Elért pontszám"
+
+msgid "tst_tbl_col_scored_pass"
+msgstr "Elért pontszám"
+
+msgid "tst_tbl_col_started_passes"
+msgstr "Megkezdett teszkitöltések"
+
+msgid "tst_tbl_invited_users"
+msgstr "Manuálisan kiválasztott kitöltők"
+
+msgid "tst_tbl_participants"
+msgstr "Résztevők"
+
+msgid "tst_tbl_results_grades"
+msgstr "Eredmények és érdemjegyek"
+
+msgid "tst_test_result"
+msgstr "Teszt végeredmények"
+
+msgid "tst_text_count_system"
+msgstr "Pontozási szisztéma"
+
+msgid "tst_threshold"
+msgstr "Küszöbértékek (itt: %)"
+
+msgid "tst_time_already_spent"
+msgstr "A tesztet elkezdte: %s. Maximális kitöltési idő: %s."
+
+msgid "tst_time_already_spent_left"
+msgstr "Maradt: %s."
+
+msgid "tst_time_limit_message"
+msgstr "<b>%s perce</b> lesz az összes kérdés megválaszolására."
+
+msgid "tst_title_output"
+msgstr "Kérdéscím megjelenítése"
+
+msgid "tst_title_output_full"
+msgstr "Kérdéscímek és elérhető pontszámok"
+
+msgid "tst_title_output_hide_points"
+msgstr "Csak kérdéscímek"
+
+msgid "tst_title_output_info"
+msgstr "Azt határozza meg, hogy a kérdéscímek és/vagy az elérhető pontszámok melyik kombinációja legyen látható a résztvevők számára a teszt kitöltése közben és a tesztkísérlet áttekintésében (lásd alább)."
+
+msgid "tst_title_output_no_title"
+msgstr "Sem a kérdéscímek, sem az elérhető pontszámok"
+
+msgid "tst_title_output_only_points"
+msgstr "Csak az elérhetőpontok"
+
+msgid "tst_trigger_result_refreshing"
+msgstr "A végeredményeket újra kell számolni. Ez egy ideig eltarthat."
+
+msgid "tst_type"
+msgstr "Teszttípus"
+
+#. fau: testNav
+msgid "tst_unchanged_answer_is_correct"
+msgstr "A jelenlegi válasz helyes."
+
+#. fau: testNav
+msgid "tst_unchanged_order_is_correct"
+msgstr "A jelenlegi sorrend helyes."
+
+msgid "tst_use_previous_answers"
+msgstr "Korábbi válaszok használata"
+
+msgid "tst_use_previous_answers_description"
+msgstr "A kitöltők számára korábbi teszkitöltéseinek válaszai megjelennek. Ezt a lehetőséget a kitöltők saját maguknak tudják bekapcsolni egy felugró ablakban a teszkitöltés indítása előtt."
+
+msgid "tst_user_finished_test"
+msgstr "‘%s’ tesztet egy felhasználó befejezte"
+
+msgid "tst_view_competence_assign"
+msgstr "Összerendelési tulajdonságok megtekintése"
+
+msgid "tst_virtual_pass_header_lo_initial"
+msgstr "A Tanulási célkitűzés Belépő tesztjének eredményei<br />%s"
+
+msgid "tst_virtual_pass_header_lo_qualifying"
+msgstr "A Tanulási célkitűzés Záró tesztjének eredményei<br />%s"
+
+msgid "tst_wf_info_answer_adopted_from_prev_pass"
+msgstr "Válaszát egy korábbi teszkitöltéséből elfogadtuk."
+
+msgid "tst_wf_info_answer_not_adopted"
+msgstr "Korábbi teszkitöltéseiből válaszát nem tudjuk elfogadni, így dolgoznia kell még a kérdés megválaszolásán, mert különben tanulási céljának eredményét le kell, hogy rontsuk."
+
+msgid "tst_wf_info_optional_question"
+msgstr "Ez a kérdés egy már korábban teljesített tanulási célhoz tartozik."
+
+msgid "tst_your_answer_was"
+msgstr "Az Ön által adott válasz a következő volt"
+
+msgid "tst_your_answers"
+msgstr "Ezek az Ön által adott válaszok az alábbi kérdésekre."
+
+msgid "un_add_category"
+msgstr "Kategória hozzáadása"
+
+msgid "un_add_unit"
+msgstr "Mértékegység hozzáadása"
+
+msgid "un_cat_deletion_errors_f"
+msgstr "Nem törölhető néhány kategória:"
+
+msgid "un_cat_deletion_errors_f_s"
+msgstr "Nem törölhető a kategória:"
+
+msgid "un_cat_deletion_errors_p"
+msgstr "Nem törölhető néhány kategória:"
+
+msgid "un_cat_deletion_errors_p_s"
+msgstr "Nem törölhető a kategória:"
+
+msgid "un_category_not_exist"
+msgstr "Ez a kategória nem létezik."
+
+msgid "un_deleted_categories"
+msgstr "A törléseket sikeresen végrehajtotta"
+
+msgid "un_deleted_categories_s"
+msgstr "A törlést sikeresen végrehajtotta"
+
+msgid "un_deleted_units"
+msgstr "Törlések sikerültek"
+
+msgid "un_deleted_units_s"
+msgstr "Törlés sikerült"
+
+msgid "un_global_units"
+msgstr "Globális mértékegységek"
+
+msgid "un_local_units"
+msgstr "Helyi mértékegységek"
+
+msgid "un_save_order"
+msgstr "Sorrend mentése"
+
+msgid "un_sel_cat_sel_unit"
+msgstr "Kiválasztott kategória: %s, Kiválasztott mértékegység: %s"
+
+msgid "un_sequence"
+msgstr "Sorozat"
+
+msgid "un_show_units"
+msgstr "Mértékegységek megjelenítése"
+
+msgid "un_sure_delete_categories"
+msgstr "Biztos, hogy törli a kiválasztott kategóriákat?"
+
+msgid "un_sure_delete_categories_s"
+msgstr "Biztos, hogy törli a kiválasztott kategóriát?"
+
+msgid "un_sure_delete_units"
+msgstr "Biztos, hogy törli a kiválasztott mértékegységeket?"
+
+msgid "un_sure_delete_units_s"
+msgstr "Biztos, hogy törli a kiválasztott mértékegységet?"
+
+msgid "un_unit_deletion_errors_f"
+msgstr "Nem törölhető néhány mértékegység:"
+
+msgid "un_unit_deletion_errors_f_s"
+msgstr "Nem törölhető a mértékegység:"
+
+msgid "un_unit_deletion_errors_p"
+msgstr "Nem törölhető néhány mértékegység:"
+
+msgid "un_unit_deletion_errors_p_s"
+msgstr "Nem törölhető a mértékegység:"
+
+msgid "un_units_of_category_x"
+msgstr "A kategória mértékegységei: %s"
+
+msgid "unfinished_passes"
+msgstr "Befejezetlen kitöltések"
+
+msgid "unit"
+msgstr "Mértékegység"
+
+msgid "unit_placeholder"
+msgstr "** Új mértékegység **"
+
+msgid "units"
+msgstr "Mértékegységek"
+
+msgid "unlimited"
+msgstr "Korlátlan"
+
+msgid "unlock"
+msgstr "Zárolás feloldása"
+
+msgid "updated"
+msgstr "Módosított"
+
+msgid "uploaded_material"
+msgstr "Feltöltött anyag"
+
+msgid "use_previous_solution"
+msgstr "Előző megoldás használata"
+
+msgid "use_previous_solution_advice"
+msgstr "A jelenleg látszódó megoldás egy korábbi teszkitöltése során adott válasza. Ha módosítás nélkül szeretné ezt a korábbi megoldását használni, erősítse azt meg a ‘Előző megoldás használata’ gombbal."
+
+msgid "user_has_finished_a_test"
+msgstr "Egy kitöltő befejezte a tesztet."
+
+msgid "user_ip_outside_range"
+msgstr "Erről az IP-címről nem érhető el a teszt."
+
+msgid "user_not_invited"
+msgstr "Önnek nem kell elvégeznie ezt a tesztet."
+
+msgid "usr_manscoring_complete"
+msgstr "Megjelölés ‘pontozott’-ként"
+
+msgid "value_between_x_and_y"
+msgstr "Az értéknek %s és %s közöttinek kell lennie."
+
+msgid "values"
+msgstr "Értékek"
+
+msgid "variable"
+msgstr "Változó"
+
+msgid "variable_x"
+msgstr "%s változó"
+
+msgid "variables"
+msgstr "Változók"
+
+msgid "wait_for_next_pass_hint_msg"
+msgstr "További kitöltés lehetséges ekkor: %s"
+
+msgid "warning_question_not_complete"
+msgstr "A kérdés hiányos."
+
+msgid "width"
+msgstr "Szélesség"
+
+msgid "with_solution"
+msgstr "Kitöltők megoldással"
+
+msgid "with_solutions_participants"
+msgstr "Választ adó kitöltők"
+
+msgid "without_solution"
+msgstr "Kitöltők megoldás nélkül"
+
+msgid "without_solutions_participants"
+msgstr "Egy választ sem adó kitöltők"
+
+msgid "worked_through"
+msgstr "Dolgozott rajta"
+
+msgid "working_time"
+msgstr "Megoldási idő"
+
+msgid "you_received_a_of_b_points"
+msgstr "Ön %s pontot kapott a lehetséges %s pontból"
+
+msgid "your_results"
+msgstr "Eredményeim"

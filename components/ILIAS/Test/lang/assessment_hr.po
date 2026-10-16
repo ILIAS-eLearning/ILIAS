@@ -1,0 +1,5144 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: assessment\n"
+
+msgid "activate_logging"
+msgstr "Aktivirajte protokoliranje testa i procjene"
+
+#, fuzzy
+msgid "activate_manual_scoring"
+msgstr "Enable Manual Scoring"
+
+#, fuzzy
+msgid "activate_manual_scoring_desc"
+msgstr "Enables manual Scoring for all question types."
+
+msgid "addSuggestedSolution"
+msgstr "Sadržaji za ponavljanje"
+
+msgid "add_answers"
+msgstr "Dodaj odgovore"
+
+msgid "add_circle"
+msgstr "Dodaj krug"
+
+msgid "add_gap"
+msgstr "Dodaj tekst za praznine"
+
+msgid "add_imagemap"
+msgstr "Uvezi Image Map"
+
+msgid "add_poly"
+msgstr "Dodaj poligon"
+
+msgid "add_rect"
+msgstr "Dodaj pravokutnik"
+
+#, fuzzy
+msgid "add_users"
+msgstr "Add Users"
+
+msgid "additional_rating_info"
+msgstr "Imajte na umu da su ovdje navedene vrijednosti iskazane u postocima te da u konačnici moraju dati zbroj od 100."
+
+msgid "advanced_rating"
+msgstr "Proširena ocjena"
+
+msgid "advanced_rating_info"
+msgstr "Proširena procjena moguća je samo ako ste definirali jedinicu za rezultat. Daljnje postavke za procjenu prikazuju se nakon spremanja utvrđenih jedinica."
+
+msgid "all_available_question_pools"
+msgstr "Svi postojeći bazeni pitanja"
+
+msgid "all_participants"
+msgstr "Svi sudionici"
+
+msgid "allow_images"
+msgstr "Grafička podrška za odgovore"
+
+msgid "allowedextensions"
+msgstr "Dopuštene ekstenzije datoteka"
+
+msgid "allowedextensions_info"
+msgstr "Unesite popis dopuštenih ekstenzija datoteka odvojen zarezima ako učitavanje želite ograničiti na određene vrste datoteka (npr. doc, pdf, odt)."
+
+#, fuzzy
+msgid "already_added_extra_time"
+msgstr "already added: %s min"
+
+msgid "analyze_errortext"
+msgstr "Analiziraj tekst"
+
+msgid "answer"
+msgstr "Odgovor"
+
+msgid "answer_characters"
+msgstr "Znak dopušten, broj unesenih znakova:"
+
+msgid "answer_image"
+msgstr "Grafika odgovora"
+
+msgid "answer_is_not_correct_but_positive"
+msgstr "Dobili ste bodove za svoje rješenje. Međutim, to nije najbolje rješenje."
+
+msgid "answer_is_right"
+msgstr "Vaše rješenje je ispravno."
+
+msgid "answer_is_wrong"
+msgstr "Vaše rješenje je pogrešno."
+
+#, fuzzy
+msgid "answer_of"
+msgstr "Answer of"
+
+msgid "answer_options"
+msgstr "Opcija odgovora:"
+
+msgid "answer_question"
+msgstr "Odgovori na pitanje"
+
+msgid "answer_text"
+msgstr "Tekst odgovora"
+
+msgid "answer_types"
+msgstr "Urednik odgovora"
+
+msgid "answered"
+msgstr "Odgovoreno"
+
+msgid "answers_multiline"
+msgstr "Odgovori s više redaka"
+
+msgid "answers_of"
+msgstr "Odgovori od:"
+
+msgid "answers_select"
+msgstr "Odabir"
+
+msgid "answers_singleline"
+msgstr "Odgovori s jednim retkom"
+
+msgid "answers_text_box"
+msgstr "Polje za tekst"
+
+msgid "applet_attributes"
+msgstr "Applet atributi"
+
+msgid "applet_parameter"
+msgstr "Parametar"
+
+msgid "applet_parameters"
+msgstr "Parametri Appleta"
+
+msgid "apply_def_settings_to_tst"
+msgstr "Preuzimi postavke za test"
+
+msgid "assClozeTest"
+msgstr "Pitanje s prazninom u tekstu"
+
+msgid "assErrorText"
+msgstr "Označi greške/riječi"
+
+msgid "assFileUpload"
+msgstr "Učitaj datoteku"
+
+msgid "assFlashQuestion"
+msgstr "Ugrađeno pitanje: Flash"
+
+msgid "assFormulaQuestion"
+msgstr "Pitanje u obliku formule"
+
+msgid "assImagemapQuestion"
+msgstr "Pitanje u obliku hot spota / image mapa"
+
+msgid "assKprimChoice"
+msgstr "Pitanje s više mogućih odgovora (Kprim odgovori)"
+
+msgid "assLongMenu"
+msgstr "Dugački izbornik"
+
+msgid "assMatchingQuestion"
+msgstr "Pitanje s dodijeljivanjem"
+
+msgid "assMultipleChoice"
+msgstr "Pitanje s višestrukim izborom (više odgovora)"
+
+msgid "assNumeric"
+msgstr "Numeričko pitanje"
+
+msgid "assOrderingHorizontal"
+msgstr "Pitanje za raspoređivanje (vodoravno)"
+
+msgid "assOrderingQuestion"
+msgstr "Pitanje za raspoređivanje (okomito)"
+
+msgid "assQuestions"
+msgstr "Pitanja"
+
+msgid "assSingleChoice"
+msgstr "Pitanje s višestrukim izborom (jedan odgovor)"
+
+msgid "assTextQuestion"
+msgstr "Pitanje sa slobodnim tekstom"
+
+msgid "assTextSubset"
+msgstr "Pitanje s navođenjem pojmova"
+
+msgid "ass_cloze_fb_mode"
+msgstr "Način povratne informacije"
+
+msgid "ass_cloze_fb_mode_gap_answ"
+msgstr "Povratne informacije specifične za odgovor"
+
+msgid "ass_cloze_fb_mode_gap_answ_info"
+msgstr "Za svaku prazninu mogu se pohraniti drugačije povratne informacije za svaki odgovor."
+
+msgid "ass_cloze_fb_mode_gap_qst"
+msgstr "Povratne informacije po praznini"
+
+msgid "ass_cloze_fb_mode_gap_qst_info"
+msgstr "Za svaku prazninu može se pohraniti povratna informacija."
+
+msgid "ass_cloze_gap_fb_gap_label"
+msgstr "Praznina %s: <i>%s</i>"
+
+msgid "ass_cloze_gap_fb_num_empty_label"
+msgstr "Praznina %s - nema unosa"
+
+msgid "ass_cloze_gap_fb_num_rangehit_label"
+msgstr "Praznina %s - raspon vrijednosti"
+
+msgid "ass_cloze_gap_fb_num_toohigh_label"
+msgstr "Praznina %s - vrijednost je previsoka"
+
+msgid "ass_cloze_gap_fb_num_toolow_label"
+msgstr "Praznina %s - vrijednost je preniska"
+
+msgid "ass_cloze_gap_fb_num_valuehit_label"
+msgstr "Praznina %s - točna vrijednost"
+
+msgid "ass_cloze_gap_fb_sel_empty_label"
+msgstr "Praznina %s - nema odabira"
+
+msgid "ass_cloze_gap_fb_sel_opt_label"
+msgstr "Praznina %s - opcija odabira: <i>%s</i>"
+
+msgid "ass_cloze_gap_fb_txt_empty_label"
+msgstr "Praznina %s - nema unosa"
+
+msgid "ass_cloze_gap_fb_txt_match_label"
+msgstr "Praznina %s - navedeni odgovor: <i>%s</i>"
+
+msgid "ass_cloze_gap_fb_txt_nomatch_label"
+msgstr "Praznina %s - pogrešan unos"
+
+msgid "ass_commented_questions_only"
+msgstr "Samo komentirana pitanja"
+
+msgid "ass_comments"
+msgstr "Komentari"
+
+msgid "ass_competence_respect_level_ordering"
+msgstr "Vodite računa o tome da se pragovi kompetencija moraju definirati uzlazno prema redoslijedu karakteristika kompetencija."
+
+msgid "ass_completion_by_submission"
+msgstr "Polaganje dostavom"
+
+msgid "ass_completion_by_submission_info"
+msgstr "Ako je to aktivirano, dostava datoteke s rješenjem dovodi do dodjele maksimalnog broja bodova za ovo pitanje. Procjena se u svakom trenutku može prilagoditi ručno. Promjena ove postavke nema nikakvih naknadnih učinaka na već dostavljena rješenja."
+
+msgid "ass_create_export_file_with_results"
+msgstr "Izradi datoteku za izvoz (uklj. rezultate sudionika)"
+
+msgid "ass_create_export_test_archive"
+msgstr "Izradi datoteku arhive za test"
+
+msgid "ass_create_question"
+msgstr "Izradi pitanje"
+
+msgid "ass_imap_hint"
+msgstr "Napomena (prikazuje kao tooltip)"
+
+msgid "ass_imap_map_file_not_readable"
+msgstr "Učitani se Imagemap ne može pročitati."
+
+msgid "ass_imap_no_map_found"
+msgstr "U učitanom Imapemap-u nije pronađen nijedan oblik koji se podržava."
+
+msgid "ass_lac_expression"
+msgstr "Izraz"
+
+msgid "ass_lac_show_legend_btn"
+msgstr "Prikaži legendu"
+
+msgid "ass_lac_unable_to_parse_condition"
+msgstr "Izraz „%s” ne može se validirati."
+
+msgid "ass_lac_validation_error"
+msgstr "Prilikom validiranja uvjeta je došlo do pogreške."
+
+msgid "ass_location"
+msgstr "Mjesto"
+
+msgid "ass_mc_sel_lim_exhausted_hint"
+msgstr "Molimo nemojte odabrati više od %s od %s odgovora!"
+
+msgid "ass_mc_sel_lim_hint"
+msgstr "Molimo odaberite najviše %s od %s odgovora!"
+
+msgid "ass_mc_sel_lim_setting"
+msgstr "Ograničenje odgovora"
+
+msgid "ass_mc_sel_lim_setting_desc"
+msgstr "Ovom postavkom može se ograničiti broj odgovora koje sudionici mogu odabrati."
+
+msgid "ass_process_lock"
+msgstr "Koristite mehanizam za zaključavanje tijekom testova"
+
+msgid "ass_process_lock_desc"
+msgstr "Bez upotrebe mehanizma za zaključavanje mogući su uvjeti utrke. To može dovesti do neusklađenih rezultata testa."
+
+msgid "ass_process_lock_mode"
+msgstr "Način zaključavanje tijekom podnošenja rješenja sudionika"
+
+msgid "ass_process_lock_mode_db"
+msgstr "Koristite blokade za zaključavanje tablica baze podataka"
+
+msgid "ass_process_lock_mode_db_desc"
+msgstr "Ovaj mehanizam zaključava blokadu odgovarajuće tablice iz baze podataka. Konkurirajući procesi za istog ili druge korisnike u istom ili drugom testu za ista ili druga pitanja će morati čekati dok drugi proces ne otključa blokadu."
+
+msgid "ass_process_lock_mode_file"
+msgstr "Koristite blokade za zaključavanje sustava datoteka"
+
+msgid "ass_process_lock_mode_file_desc"
+msgstr "Ovaj mehanizam zaključavanja stavlja blokade na prazne datoteke u datotečnom sustavu. Konkurirajući procesi za istog korisnika i isti test /o+isto pitanje će morati čekati dok drugi proces ne otključa blokadu."
+
+msgid "ass_question"
+msgstr "Pitanje"
+
+msgid "ass_size"
+msgstr "Veličina"
+
+msgid "ass_skl_import_fails_remove_btn"
+msgstr "Ukloni ovu poruku"
+
+msgid "assessment_existing_pool"
+msgstr "Koristite postojeći bazen pitanja"
+
+msgid "assessment_new_pool"
+msgstr "Izrada i korištenje novog bazena pitanja"
+
+msgid "assessment_no_pool"
+msgstr "Ne koristi bazen pitanja"
+
+msgid "assessment_pool_selection"
+msgstr "Odabir bazena"
+
+msgid "assessment_scoring_adjust"
+msgstr "Omogućavanje načina naknadne korekcije"
+
+msgid "assessment_scoring_adjust_desc"
+msgstr "Omogućava način naknadne korekcije kako bi se naknadno prilagodila procjena pitanja u testovima."
+
+msgid "autocomplete_error"
+msgstr "Vaša vrijednost za automatsko dovršavanje je prevelika, u svojim opcijama za odgovore imate odgovore koji imaju manje znakova te tako nikada ne bi mogli biti odabrani."
+
+msgid "autoparticipants_subtab"
+msgstr "Sudionici"
+
+msgid "autosave"
+msgstr "Automatsko spremanje"
+
+msgid "autosave_failed"
+msgstr "Automatsko spremanje nije uspjelo!"
+
+msgid "autosave_info"
+msgstr "Odgovori se automatski spremaju u određenim intervalima kako bi se izbjegao gubitak podataka."
+
+msgid "autosave_ival"
+msgstr "Interval"
+
+msgid "autosave_success"
+msgstr "Automatsko spemanje uspješno provedeno..."
+
+#, fuzzy
+msgid "autosavecontent"
+msgstr "Autosave Content"
+
+msgid "average_reached_points"
+msgstr "Prosječno ostvaren broj bodova"
+
+msgid "back_to_objective_container"
+msgstr "Natrag na tečaj"
+
+#, fuzzy
+msgid "backtocallingpage"
+msgstr "Back to the question page"
+
+#, fuzzy
+msgid "backtocallingpool"
+msgstr "Back to the question pool"
+
+msgid "backtocallingtest"
+msgstr "Natrag na pozivajući test"
+
+msgid "baseunit"
+msgstr "Osnovna jedinica"
+
+#, fuzzy
+msgid "broken_test"
+msgstr "Broken Test"
+
+#, fuzzy
+msgid "bulkedit_author"
+msgstr "Set Author"
+
+#, fuzzy
+msgid "bulkedit_lifecycle"
+msgstr "Set Lifecycle"
+
+#, fuzzy
+msgid "bulkedit_taxonomies"
+msgstr "Set Taxonomies"
+
+msgid "cancel_test"
+msgstr "Prekini test"
+
+msgid "cannot_edit_marks"
+msgstr "Već postoje učenici koji su završili test. Oznake možete promijeniti samo ako je omogućen datum izvještavanja o rezultatima, a datum izvještavanja je u budućnosti."
+
+msgid "cannot_edit_test"
+msgstr "Nemate dovoljna prava za uređivanje test!"
+
+msgid "cannot_execute_test"
+msgstr "Nemate dovoljna prava za provedbu testa!"
+
+msgid "cannot_export_archive"
+msgstr "Izvoz iz arhive se ne može proizvesti."
+
+msgid "cannot_read_questionpool"
+msgstr "Nemate dovoljno prava za pristup bazenu pitanja!"
+
+msgid "cannot_save_metaobject"
+msgstr "Nemate dovoljno prava za spremanje meta podataka!"
+
+msgid "cannot_switch_to_online_no_questions_andor_no_mark_steps"
+msgstr "Status se ne može prebaciti na „online (aktiviran)”, budući da testu nije dodano nijedno pitanje i/ili bilješka!"
+
+msgid "category"
+msgstr "Kategorija"
+
+msgid "changeSuggestedSolution"
+msgstr "Odaberite vrstu sadržaja za rekapitulaciju"
+
+msgid "change_adm_categories_not_allowed"
+msgstr "Nemate nikakvu dozvolu za ovu kategoriju."
+
+msgid "checkbox_checked"
+msgstr "Označeno"
+
+msgid "checkbox_unchecked"
+msgstr "Nije označeno"
+
+msgid "circle"
+msgstr "Krug"
+
+msgid "circle_click_center"
+msgstr "Molimo kliknite na središte željenog područja."
+
+msgid "circle_click_circle"
+msgstr "Molimo kliknite na točku u željenom području."
+
+#, fuzzy
+msgid "client_ip_range"
+msgstr "Client IP Range"
+
+msgid "clientip"
+msgstr "IP klijenta"
+
+msgid "close_text_hint"
+msgstr "Za umetanje praznina u tekstu, pomaknite pokazivač na željeni položaj i pritisnite uklopnu površinu ‘praznina u tekstu’. Nakon toga će niže biti dostupna odgovarajuća područja za uređivanje. Također možete kliknuti izravno na praznine kako biste ih obradili u tekstu s prazninama."
+
+#, fuzzy
+msgid "cloze_answer_text_info"
+msgstr "Spaces preceding or following the answer text will be deleted when the form is saved."
+
+msgid "cloze_fixed_textlength"
+msgstr "Duljina tekstualnog polja"
+
+msgid "cloze_fixed_textlength_description"
+msgstr "Ako ovdje unesete vrijednost, generiraju se praznine u tekstu koje ne definiraju vlastitu vrijednost za maksimalnu duljinu kao i numeričke praznine te duljine, tako da nije moguće upisati veći broj znakova od dopuštenog. Kod numeričkih praznina također treba voditi računa da se decimalni separator također računa kao znak."
+
+msgid "cloze_gap_size_info"
+msgstr "Ako je upisana vrijednost veća od 0, to se tekstualno polje s prazninom generira s ovdje navedenom duljinom. Ako nije upisana vrijednost, to se tekstualno polje s prazninom generira s globalno određenom duljinom polja za tekst."
+
+msgid "cloze_text"
+msgstr "Pitanje s prazninom u tekstu"
+
+msgid "cloze_textgap_case_insensitive"
+msgstr "Neosjetljivo na velika i mala slova"
+
+msgid "cloze_textgap_case_sensitive"
+msgstr "Osjetljivo na velika i mala slova"
+
+msgid "cloze_textgap_levenshtein_of"
+msgstr "Levenshtein razmak od%s"
+
+msgid "code"
+msgstr "Kod"
+
+msgid "codebase"
+msgstr "Kodna osnova"
+
+msgid "concatenation"
+msgstr "Povezivanje"
+
+msgid "conf_delete_pass"
+msgstr "Jeste li sigurni da želite izbrisati svoje postojeće odgovore?"
+
+#, fuzzy
+msgid "confirm_log_deletion"
+msgstr "Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries."
+
+msgid "confirm_sync_questions"
+msgstr "Pitanje, koje ste promijenili, je kopija koja je izrađena za uporabu s aktivnim testom. Želite li promijeniti i izvorno pitanje?"
+
+#, fuzzy
+msgid "contained_question_types"
+msgstr "Contained Question Types"
+
+msgid "coordinates"
+msgstr "Koordinate"
+
+msgid "copy_and_link_to_questionpool"
+msgstr "Dodaj u bazen pitanja"
+
+msgid "copy_no_questions_selected"
+msgstr "Molimo odaberite najmanje jedno pitanje za kopiranje."
+
+msgid "copy_questions_success"
+msgstr "Pitanje(a) je(su) kopirano(a)."
+
+msgid "correct_answers"
+msgstr "Točni odgovori"
+
+msgid "counter"
+msgstr "Brojač"
+
+msgid "create_gaps"
+msgstr "Generiraj i ažuriraj praznine"
+
+msgid "create_new"
+msgstr "Kreiraj novo"
+
+#, fuzzy
+msgid "created"
+msgstr "Created"
+
+msgid "customstyle"
+msgstr "Prilagodi stil"
+
+msgid "dashboard_tab"
+msgstr "Nadzorna ploča"
+
+msgid "definition"
+msgstr "Definicija"
+
+msgid "definition_image"
+msgstr "Definicija slike"
+
+msgid "definition_text"
+msgstr "Definicija teksta"
+
+msgid "definitions"
+msgstr "Definicije"
+
+msgid "deleteSuggestedSolution"
+msgstr "Ukloni ovaj sadržaj za rekapitulaciju"
+
+msgid "delete_all_user_data_confirmation"
+msgstr "Želite li stvarno izbrisati testne podatke svih sudionika ovoga testa?"
+
+msgid "delete_image_header"
+msgstr "Ukloni sliku"
+
+msgid "delete_image_question"
+msgstr "Želite li zaista ukloniti sliku?"
+
+#, fuzzy
+msgid "delete_mark_confirmation"
+msgstr "Are you sure you want to delete the following mark?"
+
+#, fuzzy
+msgid "delete_participants_no_valid_participants_selected"
+msgstr "Test results already exist for the selected participant(s). They therefore cannot be removed."
+
+#, fuzzy
+msgid "delete_result_no_valid_participants_selected"
+msgstr "There are no test results for the selected participants, so they cannot be removed."
+
+msgid "delete_selected_user_data_confirmation"
+msgstr "Jeste li sigurni da želite ukloniti testne podatke odabranih korisnika?"
+
+msgid "delete_user_data"
+msgstr "Ukloni testne podatke odabranih sudionika"
+
+msgid "description_maxchars"
+msgstr "Ako se ne unese ništa, maksimalni broj znakova za ovaj tekstualni odgovor je neograničen."
+
+msgid "detail_ending_time_reached"
+msgstr "Vrijeme predviđeno za ovaj test je sada isteklo. Test više nije bio dostupan od %s."
+
+msgid "detail_max_processing_time_reached"
+msgstr "Dosegli ste maksimalno dopušteno vrijeme za rješavanje testa!"
+
+msgid "detail_starting_time_not_reached"
+msgstr "Još nije stiglo vrijeme za početak testa. Test će biti dostupan u %s."
+
+msgid "detailed_evaluation"
+msgstr "Detaljna evaluacija"
+
+msgid "detailed_evaluation_for"
+msgstr "Detaljna evaluacija za %s"
+
+msgid "detailed_evaluation_missing_active_id"
+msgstr "Morate pozvati ‘detaljnu evaluaciju’ za odabranog sudionika!"
+
+msgid "detailed_evaluation_show"
+msgstr "Prikaži detaljnu evaluaciju"
+
+msgid "detailed_output_printview"
+msgstr "Detaljno izdavanje s pregledom ispisa pitanja"
+
+msgid "detailed_output_solutions"
+msgstr "Detaljno izdavanje s rješenjem pitanja"
+
+msgid "direct_feedback"
+msgstr "Provjeri svoje rješenje"
+
+#. fau: testNav
+msgid "discard_answer"
+msgstr "Izbriši odgovor"
+
+msgid "discard_answer_confirmation"
+msgstr "Vaš odgovor će se konačno i potpuno izbrisati. U bilo kojem trenutku možete dati novi odgovor. No, ovaj će odgovor biti izbrisan.<br /><br /> Želite li izbrisati svoj odgovor?"
+
+msgid "dont_use_questionpool"
+msgstr "Nemojte umetati pitanja u bazen pitanja (dostupan samo u ovom testu)"
+
+#, fuzzy
+msgid "download_all_files"
+msgstr "Download All Files"
+
+msgid "duplicate"
+msgstr "Dupliciraj"
+
+msgid "duplicate_matching_values_selected"
+msgstr "Odabrali ste dvostruku odgovarajuću vrijednost!"
+
+msgid "duplicate_order_values_entered"
+msgstr "Unijeli ste dvostruki redoslijed vrijednosti!"
+
+msgid "edit_answer"
+msgstr "Uredi odgovor"
+
+#, fuzzy
+msgid "edit_concluding_remarks"
+msgstr "Edit Concluding Remarks"
+
+#, fuzzy
+msgid "edit_introduction"
+msgstr "Edit Introduction"
+
+msgid "edit_question"
+msgstr "Uredi pitanje"
+
+#, fuzzy
+msgid "edit_score"
+msgstr "Edit Score"
+
+msgid "edit_test_questions"
+msgstr "Pregled u obliku popisa"
+
+msgid "element_height"
+msgstr "Minimalna visina"
+
+msgid "element_height_info"
+msgstr "Ovo je minimalna visina u pikselima za pojmove i definicije/slike tijekom izdavanja testa."
+
+msgid "enable_examview"
+msgstr "Pregled danih odgovora"
+
+msgid "enable_examview_desc"
+msgstr "Sudionicima se prija predaje testa prikazuju sva pitanja i odgovori koje su dali."
+
+msgid "end_tag"
+msgstr "Završna oznaka"
+
+msgid "enlarge"
+msgstr "Povećaj"
+
+msgid "enter_anonymous_code"
+msgstr "Unesite anonimni pristupni kod"
+
+msgid "enter_enough_positive_points"
+msgstr "Maksimalni broj bodova mora biti veći od 0! Unesite dovoljno pozitivnih bodova za odgovore."
+
+msgid "enter_enough_positive_points_checked"
+msgstr "Barem jedan odgovor treba postići bodove. Unesite pozitivan broj bodova za odabir odgovora."
+
+msgid "enter_valid_values"
+msgstr "Molimo, unesite važeću vrijednost. Unos znakova bit će ocijenjen kao pogrešan!"
+
+msgid "errFormulaQuestion"
+msgstr "Pitanje u obliku formule sadrži netočne informacije!!"
+
+msgid "errRecursionInResult"
+msgstr "Formula sadrži beskonačnu rekurziju."
+
+msgid "err_category_in_use"
+msgstr "Najmanje jedna kategorija se ne može izbrisati. Jedna ili više jedinica ove kategorije se već koriste."
+
+#, fuzzy
+msgid "err_divider_too_big"
+msgstr "The divider of one of the variables in this question is too big."
+
+#, fuzzy
+msgid "err_division"
+msgstr "The value you chose would make it impossible to generate a valid value for the variable."
+
+msgid "err_duplicate_results"
+msgstr "Jednu ste varijablu rezultata koristili više puta. Ovo nije dopušteno u tekstu pitanja."
+
+msgid "err_no_formula"
+msgstr "Morate unijeti formulu"
+
+msgid "err_no_numeric_value"
+msgstr "Molimo, unesite numeričku vrijednost"
+
+msgid "err_range"
+msgstr "Maksimalni raspon mora biti veći od minimalnog raspona"
+
+msgid "err_rating_advanced_not_allowed"
+msgstr "Možete koristiti samo jednostavnu ocjenu, budući da nudite više jedinica rezultata s identičnom osnovnom jedinicom."
+
+msgid "err_unit_in_results"
+msgstr "Ova se jedinica ne može izbrisati. Ona se već koristi u jednom ili više pitanja u testu."
+
+msgid "err_unit_in_variables"
+msgstr "Ova se jedinica ne može izbrisati. Ona se već koristi u jednom ili više pitanja u testu."
+
+msgid "err_unit_is_baseunit"
+msgstr "Ova se jedinica ne može izbrisati. Druge jedinice je koriste kao osnovnu jedinicu."
+
+msgid "err_wrong_categoryname"
+msgstr "Ova kategorija već postoji."
+
+msgid "err_wrong_rating_advanced"
+msgstr "Molimo provjerite da je zbroj naprednih postavki ocjenjivanja jednak 100 posto"
+
+#, fuzzy
+msgid "error_creating_certificate_zip_empty"
+msgstr "No data for export."
+
+msgid "error_importing_question"
+msgstr "Došlo je do pogreške prilikom uvoza pitanja iz datoteke koju ste odabrali!"
+
+msgid "error_open_image_file"
+msgstr "Pogreška pri otvaranju datoteke slike!"
+
+msgid "error_random_question_generation"
+msgstr "Došlo je do ozbiljne pogreške tijekom generiranja vaših slučajnih pitanja za test. Obratite se administratoru sa sljedećim podacima: Sustav nije mogao generirati aktivni ID za ID korisnika %s i ID testa %s."
+
+msgid "errors"
+msgstr "Pogreške"
+
+msgid "errors_section"
+msgstr "Podaci pogreške"
+
+msgid "errortext"
+msgstr "Tekst pogreške"
+
+msgid "errortext_info"
+msgstr "Molimo unesite tekst pogreške. Kako biste riječ označili kao pogrešku molimo unesite znak hash (#) ispred riječi. Kako biste skupinu riječi označili kao pogreška molimo stavite skupinu riječi između dvostrukih zagrada (npr: ovdje je ((primjer)) za to). Ako pritisnete tipku „Analiza pogrešnog teksta”, sve označene riječi će se izdvojiti za daljnju obradu."
+
+msgid "essay_scoring_mode"
+msgstr "Način ocjenjivanja"
+
+msgid "essay_scoring_mode_keyword_relation_all"
+msgstr "Automatsko ocjenjivanje u slučaju pronalaženja SVIH pojmova"
+
+msgid "essay_scoring_mode_keyword_relation_all_desc"
+msgstr "Bodovi se dodjeljuju automatski, ako su pronađene sve ključne riječi."
+
+msgid "essay_scoring_mode_keyword_relation_any"
+msgstr "Automatsko ocjenjivanje u slučaju pronalaženja NEKIH pojmova"
+
+msgid "essay_scoring_mode_keyword_relation_any_desc"
+msgstr "Za svaki pronađeni pojam odgovarajući bodovi se dodjeljuju automatski."
+
+msgid "essay_scoring_mode_keyword_relation_one"
+msgstr "Automatsko ocjenjivanje u slučaju pronalaženja JEDNOG pojma"
+
+msgid "essay_scoring_mode_keyword_relation_one_desc"
+msgstr "Bodovi se dodjeljuju automatski, ako je pronađena barem jedna ključna riječ."
+
+msgid "essay_scoring_mode_without_keywords"
+msgstr "Bez automatskog ocjenjivanja"
+
+msgid "essay_scoring_mode_without_keywords_desc"
+msgstr "Bodovi se ne dodjeluju automatski. Dodjela bodova moguća je samo uz ručno ocjenjivanje."
+
+msgid "eval_all_users"
+msgstr "Evaluacija za sve korisnike"
+
+msgid "eval_legend_link"
+msgstr "Za značenje simbola u naslovu stupca molimo pogledajte legendu."
+
+#, fuzzy
+msgid "evaluated_users"
+msgstr "Evaluated Users"
+
+msgid "exam_id"
+msgstr "ID prolaza testa:"
+
+#, fuzzy
+msgid "exam_id_label"
+msgstr "Exam Id"
+
+#, fuzzy
+msgid "exam_id_of_attempt"
+msgstr "ID of Attempt"
+
+msgid "examid_in_test_pass"
+msgstr "Prikaži ID prolaza testa:"
+
+msgid "examid_in_test_pass_desc"
+msgstr "U testu se prikazuje ID prolaza testa. Za svaki prolaz tests generira se novi ID."
+
+msgid "examid_in_test_res"
+msgstr "ID prolaza ILIAS testa"
+
+msgid "examid_in_test_res_desc"
+msgstr "ID prolaza ILIAS testa bit će uključen u rezultate testa."
+
+#, fuzzy
+msgid "exp_all_test_runs"
+msgstr "All test attempts"
+
+msgid "exp_eval_data"
+msgstr "Izvezi evaluacijske podatke kao"
+
+#, fuzzy
+msgid "exp_grammar_as"
+msgstr "as"
+
+#, fuzzy
+msgid "exp_scored_test_attempt"
+msgstr "Scored Test Attempt"
+
+msgid "exp_type_certificate"
+msgstr "Certifikat (PDF)"
+
+msgid "exp_type_excel"
+msgstr "Microsoft Excel"
+
+msgid "expected_result_type"
+msgstr "Očekivana vrsta rezultata"
+
+#, fuzzy
+msgid "export_cert_failed_for_users_p"
+msgstr "No certificate file could be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file."
+
+#, fuzzy
+msgid "export_cert_failed_for_users_s"
+msgstr "No certificate file could be generated and added to the archive for the following account: %s. Please contact an administrator to check the log file."
+
+#, fuzzy
+msgid "export_cert_ignored_for_users_p"
+msgstr "The following %s accounts did not achieve a certificate, or the certificate service is not enabled/activate: %s"
+
+#, fuzzy
+msgid "export_cert_ignored_for_users_s"
+msgstr "The following account did not achieve a certificate, or the certificate service is not enabled/activate: %s"
+
+#, fuzzy
+msgid "export_cert_no_users"
+msgstr "A certificate archive cannot be created due to missing test participants."
+
+msgid "export_essay_qst_with_html"
+msgstr "Izvezi pitanje sa slobodnim tekstom s HTML kodom"
+
+msgid "export_essay_qst_with_html_desc"
+msgstr "Ako je aktivirana, možete pitanja sa slobodnim tekstom s HTML kodom izvesti u Excel."
+
+#, fuzzy
+msgid "export_legacy_logs"
+msgstr "Legacy Log-Daten exportieren"
+
+#, fuzzy
+msgid "extra_time_byline"
+msgstr "Put in extra time in minutes. Already entered extra time is added up."
+
+#, fuzzy
+msgid "extra_time_for_all_participants"
+msgstr "You are adding some extra time to all participants."
+
+#, fuzzy
+msgid "extra_time_for_selected_participants"
+msgstr "You are adding extra time to the selected participants."
+
+#, fuzzy
+msgid "extra_time_for_selected_participants_different"
+msgstr "You have selected participants with different additional times."
+
+#, fuzzy
+msgid "extra_time_for_single_participant"
+msgstr "Your are adding extra time to the following participant:"
+
+msgid "extratime"
+msgstr "Produžetak vremena"
+
+#, fuzzy
+msgid "extratime_added"
+msgstr "The extra time has been added to the selected participants."
+
+msgid "factor"
+msgstr "Čimbenik"
+
+msgid "failed_official"
+msgstr "nije prošao"
+
+msgid "failed_short"
+msgstr "nije prošao"
+
+#, fuzzy
+msgid "false"
+msgstr "False"
+
+msgid "feedback_all"
+msgstr "Pokaži povratne informacije za sve odgovore."
+
+msgid "feedback_answers"
+msgstr "Povratna informacije za svaki odgovor"
+
+msgid "feedback_checked"
+msgstr "Pokaži povratne informacije za sve izabrane/odabrane odgovore."
+
+msgid "feedback_complete_solution"
+msgstr "Točno rješenje"
+
+msgid "feedback_correct_kprim"
+msgstr "Prikaži povratne informacije za sve točne odgovore (točni odgovori su oni za koje se treba izabrati/odabrati pozitivna opcija)."
+
+msgid "feedback_correct_sc_mc"
+msgstr "Prikaži povratne informacije za sve točne odgovore (točni odgovori su oni za dobivate bodove kada ih izaberete/odaberete)."
+
+msgid "feedback_generic"
+msgstr "Zajednička povratna informacija o točnom rješenju"
+
+msgid "feedback_incomplete_solution"
+msgstr "Barem jedan odgovor nije točan"
+
+msgid "feedback_setting"
+msgstr "Način povratne informacije za odgovor."
+
+msgid "fileDownload"
+msgstr "Preuzimanje datoteka"
+
+msgid "file_uploads"
+msgstr "Učitane datoteke"
+
+msgid "fill_out_all_required_fields_add_answer"
+msgstr "Molimo Vas da ispunite sva obavezna polja prije nego što dodate odgovore!"
+
+msgid "filter_all_question_types"
+msgstr "Svi tipovi pitanja"
+
+msgid "filter_all_questionpools"
+msgstr "Svi bazeni pitanja"
+
+msgid "filter_show_question_types"
+msgstr "Prikaži tipove pitanja"
+
+msgid "filter_show_questionpools"
+msgstr "Prikaži bazene pitanja"
+
+msgid "final_statement"
+msgstr "Završne napomene"
+
+msgid "final_statement_show_desc"
+msgstr "Prikaži završnu napomenu nakon predaje testa."
+
+#, fuzzy
+msgid "finalized_by"
+msgstr "Completed by"
+
+#, fuzzy
+msgid "finalized_evaluation"
+msgstr "Scoring completed"
+
+#, fuzzy
+msgid "finalized_on"
+msgstr "Completed at"
+
+msgid "finish_all_user_passes"
+msgstr "Završi sve prolaze testa"
+
+msgid "finish_pass_for_all_users"
+msgstr "Jeste li sigurni da želite završiti prolaze testa za sve korisnike?"
+
+#, fuzzy
+msgid "finish_pass_for_multiple_users_in_processing_time"
+msgstr "You cannot finish the passes of all users together, because for at least one user the processing time is not over yet."
+
+msgid "finish_pass_for_user_confirmation"
+msgstr "Jeste li sigurni da želite završiti ove prolaze testa za sudionike „%s”?"
+
+#, fuzzy
+msgid "finish_pass_for_user_in_processing_time"
+msgstr "WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test)."
+
+msgid "finish_test"
+msgstr "Završi test"
+
+#, fuzzy
+msgid "finish_test_all"
+msgstr "Are you sure you want to finish the test attempts for all users?"
+
+#, fuzzy
+msgid "finish_test_more_than_one_selected"
+msgstr "Only a single participant may be selected to finish the pass if the test allows only one pass."
+
+#, fuzzy
+msgid "finish_test_multiple"
+msgstr "Are you sure you want to finish the test attempts for the following participants?"
+
+#, fuzzy
+msgid "finish_test_no_valid_participants_selected"
+msgstr "There are no active test runs for the selected participants, so they cannot be completed."
+
+#, fuzzy
+msgid "finish_test_single"
+msgstr "Are you sure you want to finish the test attempt for the participant \"%s\"?"
+
+msgid "finish_unfinished_passes"
+msgstr "Završi prolaze koji su još otvoreni"
+
+msgid "finish_unfinished_passes_desc"
+msgstr "Prolazi koji imaju konfigurirano vrijeme završetka ili ograničenje trajanje će se zatvoriti."
+
+#, fuzzy
+msgid "finished_by_administrator"
+msgstr "Finished by Administrator"
+
+#, fuzzy
+msgid "finished_by_cronjob"
+msgstr "Finished by Cronjob"
+
+#, fuzzy
+msgid "finished_by_duration"
+msgstr "Finished by time limit"
+
+#, fuzzy
+msgid "finished_by_participant"
+msgstr "Finished by Participant"
+
+#, fuzzy
+msgid "finished_by_unknown"
+msgstr "Finished by Unknown"
+
+msgid "fixed_participants_hint"
+msgstr "Ovaj je test je dostupan samo za ručno dodane sudionike navedene u nastavku. Možete onemogućiti tu postavku tako da deaktivirate potvrdni okvir „Ručno odabrani sudionici” u postavkama testa."
+
+msgid "fixedparticipants_subtab"
+msgstr "Ručno odabrani sudionici"
+
+msgid "flashfile"
+msgstr "Flash datoteka"
+
+msgid "for"
+msgstr "za"
+
+msgid "forcejs"
+msgstr "Forsiraj JavaScript za izdavanje pitanja testa"
+
+msgid "form_msg_area_missing_points"
+msgstr "Unesite bodove za sva područja."
+
+msgid "formula"
+msgstr "Formula"
+
+msgid "fq_formula_desc"
+msgstr "Možete unijeti unaprijed definirane varijable ($v1 do $vn), definirane rezultate (npr. $r1), zagrade za izraze, matematičke operatore + (zbrajanje), - (oduzimanje), * (množenje), / (dijeljenje), ^ (n-ta snaga), konstante 'pi' za pi i 'e' za Eulerov broj, kao i funkcije 'sin', 'sinh', 'arcsin', 'asin', 'arcsinh', 'asinh', 'cos' 'cosh', 'arccos', 'acos', 'arccosh', 'acosh', 'tan', 'tanh', 'arctan', 'atan', 'arctanh', 'atanh', 'sqrt', 'abs', 'ln' i 'log'."
+
+msgid "fq_no_restriction_info"
+msgstr "Kao unos prihvaćeni su kako decimale tako i razlomci."
+
+msgid "fq_precision_info"
+msgstr "Unesite broj željenih decimalnih mjesta."
+
+msgid "fq_question_desc"
+msgstr "Varijable možete definirati tako da umetnete $v1, $v2 ... $ VN, a rezultate da umetnete $r1, $r2 .... $rn na željeno mjesto u tekstu pitanja. Kliknite na uklopnu površinu „Analiziraj Pitanje” kako bi se generirali obrasci za obradu varijabli i rezultata."
+
+msgid "gap"
+msgstr "Praznina"
+
+msgid "gap_combination"
+msgstr "Kombinacija praznina"
+
+#, fuzzy
+msgid "gaps"
+msgstr "Gaps"
+
+msgid "glossary_term"
+msgstr "Pojam iz pojmovnika"
+
+#, fuzzy
+msgid "goto_first_question"
+msgstr "Show First Question"
+
+msgid "grading_mark_msg"
+msgstr "Vaša ocjena je. &quot;[ocjena]&quot;"
+
+msgid "grading_status_failed_msg"
+msgstr "Nažalost ste <b>pali</b> na testu."
+
+msgid "grading_status_passed_msg"
+msgstr "Čestitke, <b>prošli</b> ste na testu."
+
+#, fuzzy
+msgid "hide_best_solution"
+msgstr "Hide best solution"
+
+msgid "identical_scoring"
+msgstr "Identična ocjena"
+
+msgid "identical_scoring_desc"
+msgstr "Ako je odabrano, praznine s identičnim rješenjima će se bodovati, čak i ako je isto rješenje korišteno dva ili više puta. Ako nije odabrano, bodovat će se samo prvo korištenje istog rješenja."
+
+msgid "imagemap"
+msgstr "Image Map"
+
+msgid "imap_line_color"
+msgstr "Boja crta Imagemap-a"
+
+msgid "import_question"
+msgstr "Uvezi pitanje(a)"
+
+#, fuzzy
+msgid "in_range"
+msgstr "Within range"
+
+#, fuzzy
+msgid "in_trash"
+msgstr "In Trash"
+
+msgid "info_answer_type_change"
+msgstr "Pitanje već sadrži slike. Ne možete promijeniti vrstu odgovora u odgovore s više redaka."
+
+msgid "info_text_upload"
+msgstr "Odaberite datoteku s tekstom odgovora (UTF-8) kako biste je učitali."
+
+msgid "insert_after"
+msgstr "Umetni iza"
+
+msgid "insert_before"
+msgstr "Umetni ispred"
+
+msgid "insert_gap"
+msgstr "Umetni prazninu"
+
+#, fuzzy
+msgid "interaction_type"
+msgstr "Interaction Type"
+
+msgid "internal_links"
+msgstr "Unutarnje poveznice"
+
+msgid "intprecision"
+msgstr "Djeljivo s"
+
+msgid "intprecision_info"
+msgstr "‘Djeljivo s’ utječe samo na kreiranje varijabli, ako je vrijednost za preciznost 0. U tom slučaju, za ‘djeljivo s’ određujete s kojim cijelim brojem kreirana varijabla mora biti djeljiva. Vrijednost od 10 tako generira samo cijele brojeve koji su djeljiv s 10. Vrijednost od 5 generira samo cijele brojeve koji su djeljiv s 5 itd. U slučaju preciznosti od 0 ‘Dijeljivo s’ je obvezno polje i mora sadržavati pozitivan cijeli broj. Unaprijed zadana vrijednost za sve cijele brojeve je 1."
+
+#, fuzzy
+msgid "invalid_ip"
+msgstr "Invalid IP"
+
+#, fuzzy
+msgid "ip_range_byline"
+msgstr "Only IP addresses within the defined range can start the test. You can either use IPv4 OR IPv6 addresses."
+
+#, fuzzy
+msgid "ip_range_for_all_participants"
+msgstr "You are changing the IP Range of all participants"
+
+#, fuzzy
+msgid "ip_range_for_selected_participants"
+msgstr "You are changing the IP Range of the following participant."
+
+#, fuzzy
+msgid "ip_range_for_single_participant"
+msgstr "You are changing the IP Range of the selected participants."
+
+#, fuzzy
+msgid "ip_range_info"
+msgstr "Only clients with an IP in the provided range will be able to access the test."
+
+#, fuzzy
+msgid "ip_range_label"
+msgstr "IP Range"
+
+#, fuzzy
+msgid "ip_range_updated"
+msgstr "The IP-Range has been update for the selected participants."
+
+msgid "kiosk"
+msgstr "Pregled za ispit"
+
+msgid "kiosk_description"
+msgstr "Pregled za ispit prikazuje test u načinu rada kiosk. U tom se načinu rada skrivaju traka za pretraživanje i navigaciju kao i drugi elementi zaslona koji nisu sastavni dio testa. Sudionicima se onemogućava otvaranje druge internetske stranice. <br />Učinkovito sprječavanje sudionika u otvaranju drugih internetskih stranica tijekom testova dodatno zahtijeva postavljanje odgovarajućeg okruženja preglednika (npr. preglednik Safe Exam)."
+
+msgid "kiosk_options"
+msgstr "Opcije prikaza ispita"
+
+msgid "kiosk_options_desc"
+msgstr "Informacije se prikazuju na gornjem dijelu zaslona."
+
+msgid "kiosk_show_participant"
+msgstr "Prikaži ime sudionika"
+
+msgid "kiosk_show_title"
+msgstr "Prikaži naslov testa"
+
+msgid "kprim_answers_info"
+msgstr "Vrsta pitanja s višestrukim izborom odgovora ‘četiri puta odluka točna/pogrešna’ (tip K’, također poznat kao Kprim) daje četiri odgovora ili dopune na pitanje ili nepotpunu izjavu. Za svaki od ova četiri odgovora / dopune treba odlučiti je li točan ili ne. Maksimalni broj bodova ostvaruje se samo ako su svi odgovori/dopune točni/točne."
+
+msgid "kprim_instruction_text"
+msgstr "Za svaki odgovor morate odlučiti: [%s] ili [%s]"
+
+msgid "lacex_assClozeTest_NumberOfResultExpression_d"
+msgstr "Četvrta opcija odgovora je praznina za odabir te je tamo odabrana druga opcija"
+
+msgid "lacex_assClozeTest_NumberOfResultExpression_e"
+msgstr "R[4] = +2+"
+
+msgid "lacex_assClozeTest_NumericResultExpression_d"
+msgstr "Druga opcija odgovora je numerička praznina te je tamo kao odgovor dana numerička vrijednost 5"
+
+msgid "lacex_assClozeTest_NumericResultExpression_e"
+msgstr "R[2] = #5#"
+
+msgid "lacex_assClozeTest_StringResultExpression_1_d"
+msgstr "Prva opcija odgovora je tekstualna praznina te je tamo kao odgovor dan „ponedjeljak”"
+
+msgid "lacex_assClozeTest_StringResultExpression_1_e"
+msgstr "R[1] = ~Ponedjeljak~"
+
+msgid "lacex_assClozeTest_StringResultExpression_2_d"
+msgstr "Četvrta opcija odgovora je praznina za odabir te je tamo odabrana opcija označena kao „zelena”"
+
+msgid "lacex_assClozeTest_StringResultExpression_2_e"
+msgstr "R[4] = ~Zelena~"
+
+msgid "lacex_assErrorText_ExclusiveResultExpression_d"
+msgstr "Kao odgovor na pitanje odabrane su opcije 1, 3 i 4"
+
+msgid "lacex_assErrorText_ExclusiveResultExpression_e"
+msgstr "R = *1,3,4*"
+
+msgid "lacex_assErrorText_NumberOfResultExpression_d"
+msgstr "Kao odgovor na pitanje odabrana je druga opcija"
+
+msgid "lacex_assErrorText_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assFormulaQuestion_NumericResultExpression_d"
+msgstr "Odabrana je prva opcija odgovora s numeričkom vrijednosti 3.14159"
+
+msgid "lacex_assFormulaQuestion_NumericResultExpression_e"
+msgstr "R[1] = #3,14159#"
+
+msgid "lacex_assImagemapQuestion_ExclusiveResultExpression_d"
+msgstr "Kao odgovor na pitanje odabrane su opcije 1, 3 i 4"
+
+msgid "lacex_assImagemapQuestion_ExclusiveResultExpression_e"
+msgstr "R = *1,3,4*"
+
+msgid "lacex_assImagemapQuestion_NumberOfResultExpression_d"
+msgstr "Kao odgovor na pitanje odabrana je druga opcija"
+
+msgid "lacex_assImagemapQuestion_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assMatchingQuestion_MatchingResultExpression_d"
+msgstr "Pojmovi iz pitanja raspoređeni su uz definicije kako slijedi: 1 &rarr; 2 i 2 &rarr; 3 i 3 &rarr; 1"
+
+msgid "lacex_assMatchingQuestion_MatchingResultExpression_e"
+msgstr "R = ;1:2; & R = ;2:3; & R = ;3:1;"
+
+msgid "lacex_assMultipleChoice_ExclusiveResultExpression_d"
+msgstr "Kao odgovor na pitanje odabrane su opcije 1, 3 i 4"
+
+msgid "lacex_assMultipleChoice_ExclusiveResultExpression_e"
+msgstr "R = *1,3,4*"
+
+msgid "lacex_assMultipleChoice_NumberOfResultExpression_d"
+msgstr "Kao odgovor na pitanje odabrana je druga opcija"
+
+msgid "lacex_assMultipleChoice_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assNumeric_NumericResultExpression_d"
+msgstr "Kao odgovor odabrana je numerička vrijednost 4.7"
+
+msgid "lacex_assNumeric_NumericResultExpression_e"
+msgstr "R = #4.7#"
+
+msgid "lacex_assOrderingHorizontal_OrderingResultExpression_d"
+msgstr "Elementi pitanja raspoređeni su kako slijedi: 2, 5, 1, 4, 3"
+
+msgid "lacex_assOrderingHorizontal_OrderingResultExpression_e"
+msgstr "R = $2,5,1,4,3$"
+
+msgid "lacex_assOrderingQuestion_OrderingResultExpression_d"
+msgstr "Elementi pitanja raspoređeni su kako slijedi: 2, 5, 1, 4, 3"
+
+msgid "lacex_assOrderingQuestion_OrderingResultExpression_e"
+msgstr "R = $2,5,1,4,3$"
+
+msgid "lacex_assQuestion_EmptyAnswerExpression_d"
+msgstr "Nije dan odgovor na pitanje"
+
+msgid "lacex_assQuestion_EmptyAnswerExpression_e"
+msgstr "R = ?"
+
+msgid "lacex_assQuestion_PercentageResultExpression_d"
+msgstr "Rezultat odgovora na pitanje je jednak ili veći 75%"
+
+msgid "lacex_assQuestion_PercentageResultExpression_e"
+msgstr "R >= %75%"
+
+msgid "lacex_assSingleChoice_NumberOfResultExpression_d"
+msgstr "Kao odgovor na pitanje odabrana je druga opcija"
+
+msgid "lacex_assSingleChoice_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assTextSubset_StringResultExpression_d"
+msgstr "Za drugu opciju odgovora unesen je odgovor „natrijev klorid”"
+
+msgid "lacex_assTextSubset_StringResultExpression_e"
+msgstr "R[2] = ~natrijev klorid~"
+
+msgid "lacex_example_header"
+msgstr "Primjeri"
+
+#, fuzzy
+msgid "list_of_participants"
+msgstr "Participants"
+
+msgid "locked"
+msgstr "zaključano"
+
+#, fuzzy
+msgid "log_deletion_not_allowed"
+msgstr "You don't have the necessary permissions to delete log entries."
+
+#, fuzzy
+msgid "log_entry_type"
+msgstr "Log Entry Type"
+
+#, fuzzy
+msgid "log_ip"
+msgstr "Log IP"
+
+#, fuzzy
+msgid "log_ip_info"
+msgstr "The IP of Participants is Logged for each interaction with a test. Disabling it does not delete existing IP records."
+
+#, fuzzy
+msgid "log_participant_data_delete_warning"
+msgstr "This test contains log data for participant interactions that will be deleted when changing the test to a test without names."
+
+msgid "log_text"
+msgstr "Poruka dnevnika"
+
+msgid "log_user_solution_willingly_deleted"
+msgstr "Korisnik je izbrisao odgovor."
+
+msgid "logging_settings"
+msgstr "Podaci dnevnika"
+
+#, fuzzy
+msgid "logs_answer_deleted"
+msgstr "Answer deleted"
+
+#, fuzzy
+msgid "logs_answer_submitted"
+msgstr "Answer Submitted"
+
+msgid "logs_deleted"
+msgstr "Podaci dnevnika za odabrane testove su izbrisani"
+
+#, fuzzy
+msgid "logs_error_on_participant_interaction"
+msgstr "Error on Participant Interaction"
+
+#, fuzzy
+msgid "logs_error_on_question_administration_interaction"
+msgstr "Error on Question Administration Interaction"
+
+#, fuzzy
+msgid "logs_error_on_scoring_interaction"
+msgstr "Error on Scoring Interaction"
+
+#, fuzzy
+msgid "logs_error_on_test_administration_interaction"
+msgstr "Error on Test Administration Interaction"
+
+#, fuzzy
+msgid "logs_error_on_undefined_interaction"
+msgstr "Error on Undefined Interaction"
+
+#, fuzzy
+msgid "logs_extra_time_added"
+msgstr "Extra Time Added"
+
+#, fuzzy
+msgid "logs_main_settings_modified"
+msgstr "Main Settings Modified"
+
+#, fuzzy
+msgid "logs_mark_schema_modified"
+msgstr "Mark Schema Modified"
+
+#, fuzzy
+msgid "logs_mark_schema_reset"
+msgstr "Mark Schema Reset"
+
+#, fuzzy
+msgid "logs_new_test_created"
+msgstr "New Test Created"
+
+msgid "logs_output"
+msgstr "Izlaz podataka dnevnika"
+
+#, fuzzy
+msgid "logs_participant_data_removed"
+msgstr "Participant Data Removed"
+
+#, fuzzy
+msgid "logs_pi"
+msgstr "Participant Interaction"
+
+#, fuzzy
+msgid "logs_qai"
+msgstr "Question Administration Interaction"
+
+#, fuzzy
+msgid "logs_question_added"
+msgstr "Question Added"
+
+#, fuzzy
+msgid "logs_question_graded"
+msgstr "Question Graded"
+
+#, fuzzy
+msgid "logs_question_grading_reset"
+msgstr "Grading Reset"
+
+#, fuzzy
+msgid "logs_question_modified"
+msgstr "Question Modified"
+
+#, fuzzy
+msgid "logs_question_modified_in_corrections"
+msgstr "Question Modified in Corrections"
+
+#, fuzzy
+msgid "logs_question_moved"
+msgstr "Question Moved"
+
+#, fuzzy
+msgid "logs_question_removed"
+msgstr "Question Removed"
+
+#, fuzzy
+msgid "logs_question_removed_in_corrections"
+msgstr "Question Removed in Corrections"
+
+#, fuzzy
+msgid "logs_question_selection_criteria_modified"
+msgstr "Question Selection Criteria Modified"
+
+#, fuzzy
+msgid "logs_question_shown"
+msgstr "Question Shown"
+
+#, fuzzy
+msgid "logs_question_skipped"
+msgstr "Question Skipped"
+
+#, fuzzy
+msgid "logs_question_synchronisation_reset"
+msgstr "Question Synchronisation Reset"
+
+#, fuzzy
+msgid "logs_questions_synchronised"
+msgstr "Questions Synchonised"
+
+#, fuzzy
+msgid "logs_scoring_settings_modified"
+msgstr "Scoring Settings Modified"
+
+#, fuzzy
+msgid "logs_si"
+msgstr "Scoring Interaction"
+
+#, fuzzy
+msgid "logs_tai"
+msgstr "Test Administration Interaction"
+
+#, fuzzy
+msgid "logs_te"
+msgstr "Error"
+
+#, fuzzy
+msgid "logs_test_deleted"
+msgstr "Test Deleted"
+
+#, fuzzy
+msgid "logs_test_run_finished"
+msgstr "Test Run Finished"
+
+#, fuzzy
+msgid "logs_test_run_of_participant_closed"
+msgstr "Run of Participant Closed"
+
+#, fuzzy
+msgid "logs_test_run_started"
+msgstr "Test Run Started"
+
+msgid "logs_wrong_test_password_provided"
+msgstr "Sudionik je unio pogrešnu lozinku za test. Ulazni podaci: '%s'"
+
+msgid "longmenu"
+msgstr "Dugi izbornik"
+
+#, fuzzy
+msgid "longmenu_answeroptions_differ"
+msgstr "This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options."
+
+msgid "longmenu_text"
+msgstr "Tekst dugog izbornika"
+
+#, fuzzy
+msgid "mainbar_button_label_questionlist"
+msgstr "Questionlist"
+
+msgid "maintenance"
+msgstr "Održavanje"
+
+msgid "manscoring"
+msgstr "Ručno bodovanje"
+
+msgid "manscoring_done"
+msgstr "Sudionici koji su već bodovani"
+
+msgid "manscoring_hint"
+msgstr "Dodali ste barem jedno pitanje za koje može biti potrebno ručno bodovanje. Kako biste izbjegli da sudionici dobiju pristup rezultatima testiranja prije nego što ste završili ručno bodovanje, odredite odgovarajući datum za pristup rezultatima testa."
+
+msgid "manscoring_none"
+msgstr "Sudionici koji još nisu bodovani"
+
+msgid "manscoring_not_allowed"
+msgstr "Ručno bodovanje nije aktivirano za nijednu vrstu pitanja. Zbog toga ne možete koristiti ovu funkciju."
+
+msgid "manscoring_questions_not_found"
+msgstr "Ovaj prolaz testa ne sadrži vrste pitanja koje se mogu bodovati ručno."
+
+msgid "manscoring_results_pass"
+msgstr "Pitanja za prolaz %s koja se mogu bodovati ručno"
+
+msgid "manual_editing"
+msgstr "Ručno uređivanje"
+
+#, fuzzy
+msgid "manual_entry"
+msgstr "Manual Entry"
+
+msgid "mark_schema"
+msgstr "Shema ocjena"
+
+msgid "mark_schema_invalid"
+msgstr "Ova shema ocjena nije se mogla validirati. Molimo izradite ispravnu shemu."
+
+msgid "matches"
+msgstr "odgovara"
+
+msgid "matching_pairs"
+msgstr "Odgovarajući parovi"
+
+msgid "matching_shuffle_definitions"
+msgstr "Samo definicije"
+
+msgid "matching_shuffle_terms"
+msgstr "Samo pojmovi"
+
+msgid "matching_shuffle_terms_definitions"
+msgstr "Oboje (pojmovi i definicije)"
+
+msgid "matching_type"
+msgstr "Podvrsta odgovarajućeg pitanja"
+
+msgid "material"
+msgstr "Materijal"
+
+msgid "material_file"
+msgstr "Datoteka materijala"
+
+#, fuzzy
+msgid "max_ip_label"
+msgstr "Highest IP With Access"
+
+msgid "maxchars"
+msgstr "Maksimalni broj znakova"
+
+msgid "maximum_nr_of_tries_reached"
+msgstr "Dosegli ste maksimalan broj prolaza za ovaj test. Test se ne može još jednom pokrenuti!"
+
+msgid "maximum_points"
+msgstr "Maksimalno raspoloživi broj bodova"
+
+msgid "maxsize"
+msgstr "Maksimalna veličina datoteke za učitavanje"
+
+msgid "maxsize_info"
+msgstr "Navedite u bajtovima maksimalnu veličinu koju bi smjela imati datoteka namijenjena za učitavanje. Ako ovo polje ostavite prazno, koristit će se umjesto toga maksimalna veličina osnovnog sustava."
+
+msgid "min_auto_complete"
+msgstr "Automatsko dopunjavanje"
+
+#, fuzzy
+msgid "min_ip_label"
+msgstr "Lowest IP With Access"
+
+msgid "min_percentage_ne_0"
+msgstr "Morate odrediti minimalni postotak od 0 posto! Shema ocjena nije spremljena."
+
+msgid "misc"
+msgstr "Razne opcije"
+
+#, fuzzy
+msgid "mode_allatonce"
+msgstr "All"
+
+#, fuzzy
+msgid "mode_onebyone"
+msgstr "One by One"
+
+#, fuzzy
+msgid "mode_question"
+msgstr "Question oriented"
+
+#, fuzzy
+msgid "mode_user"
+msgstr "Participant oriented"
+
+msgid "msg_circle_added"
+msgstr "Dodan je krug"
+
+#, fuzzy
+msgid "msg_no_questions_selected"
+msgstr "No questions were selected."
+
+msgid "msg_number_of_terms_too_low"
+msgstr "Broj pojmova mora biti veći ili jednak broju definicija."
+
+msgid "msg_poly_added"
+msgstr "Dodan je poligon"
+
+msgid "msg_questions_moved"
+msgstr "Pitanje(a) je(su) pomaknuto(a)"
+
+msgid "msg_rect_added"
+msgstr "Dodan je pravokutnik"
+
+#, fuzzy
+msgid "msg_score_settings_modified_and_recalc"
+msgstr "Your changes were saved and the results recalculated correspondingly."
+
+#, fuzzy
+msgid "msg_score_settings_not_modified"
+msgstr "Your changes were not saved."
+
+msgid "msg_selected_for_move"
+msgstr "Pitanje(a) odabrano(a) za pomicanje"
+
+msgid "new_category"
+msgstr "Kategorija nove jedinice"
+
+msgid "new_unit"
+msgstr "Nova jedinica"
+
+msgid "next_question"
+msgstr "Sljedeće"
+
+msgid "next_question_rows"
+msgstr "Pitanja %d - %d od %d »"
+
+#, fuzzy
+msgid "no_manual_feedback_export_info"
+msgstr "Manual feedbacks will not be exported."
+
+#, fuzzy
+msgid "no_passed_after_failed"
+msgstr "Failing marks cannot have a higher minimum level than any passing mark."
+
+msgid "no_passed_mark"
+msgstr "Barem jednu ocjenu morate odrediti kao PROLAZ! Shema ocjena nije spremljena."
+
+msgid "no_question_selected_for_move"
+msgstr "Molimo odaberite najmanje jedno pitanje za pomicanje!"
+
+msgid "no_questions_available"
+msgstr "Nema dostupnih pitanja!"
+
+msgid "no_result_type"
+msgstr "Bez ograničenja"
+
+msgid "no_selection"
+msgstr "--- Nema izbora ---"
+
+msgid "no_selection_for_move"
+msgstr "Nijedno pitanje nije odabrano za pomicanje"
+
+msgid "no_target_selected_for_move"
+msgstr "Morate odabrati ciljnu poziciju!"
+
+msgid "no_user_or_group_selected"
+msgstr "Molimo odaberite ciljanu skupinu koji želite pretražiti (korisnici, skupine uloge)!"
+
+#, fuzzy
+msgid "no_valid_participant_selection"
+msgstr "No valid Participants selected."
+
+#, fuzzy
+msgid "not_evaluated_users"
+msgstr "Not Yet Evaluated User"
+
+#, fuzzy
+msgid "not_started"
+msgstr "Not started yet"
+
+msgid "not_yet_accessed"
+msgstr "Još nije izvršen pristup"
+
+msgid "nr_of_correct_answers"
+msgstr "Broj traženih odgovora"
+
+msgid "number_of_answers"
+msgstr "Broj odgovora"
+
+msgid "numeric_gap"
+msgstr "Numerička praznina"
+
+#, fuzzy
+msgid "old_mark_default_not_applied"
+msgstr "The marks from your personal settings could not be applied as they use an old format. All other settings have been updated."
+
+msgid "option_label"
+msgstr "Nazivi opcija"
+
+msgid "option_label_adequate"
+msgstr "prikladno"
+
+msgid "option_label_adequate_or_not"
+msgstr "prikladno / nije prikladno"
+
+msgid "option_label_applicable"
+msgstr "primjenjivo"
+
+msgid "option_label_applicable_or_not"
+msgstr "primjenjivo / nije primjenjivo"
+
+msgid "option_label_custom"
+msgstr "nazivi definirani od korisnika"
+
+msgid "option_label_custom_false"
+msgstr "Oznaka za ‘NIJE ISTINITO’"
+
+msgid "option_label_custom_true"
+msgstr "Oznaka za ‘ISTINITO’"
+
+msgid "option_label_info"
+msgstr "Ovdje konfigurirane fraze koristit će se kao oznaka za opcije koje može odabrati sudionik."
+
+msgid "option_label_minus"
+msgstr "-"
+
+msgid "option_label_not_adequate"
+msgstr "nije prikladno"
+
+msgid "option_label_not_applicable"
+msgstr "nije primjenjivo"
+
+msgid "option_label_plus"
+msgstr "+"
+
+msgid "option_label_plus_minus"
+msgstr "+ / -"
+
+msgid "option_label_right"
+msgstr "točno"
+
+msgid "option_label_right_wrong"
+msgstr "točno / pogrešno"
+
+msgid "option_label_wrong"
+msgstr "pogrešno"
+
+msgid "oq_btn_define_pictures"
+msgstr "Prebaci na prikaz definicije slike"
+
+msgid "oq_btn_define_terms"
+msgstr "Prebaci na prikaz definicije pojma"
+
+msgid "oq_btn_nest_pictures"
+msgstr "Prebaci na prikaz raščlambe slike"
+
+msgid "oq_btn_nest_terms"
+msgstr "Prebaci na prikaz raščlambe pojma"
+
+msgid "oq_btn_use_order_pictures"
+msgstr "Koristi odgovor sa slikama"
+
+msgid "oq_btn_use_order_terms"
+msgstr "Koristi odgovor s pojmovima"
+
+msgid "oq_header_ordering_elements"
+msgstr "Elementi za raspoređivanje"
+
+msgid "or"
+msgstr "ili"
+
+#, fuzzy
+msgid "order"
+msgstr "Order"
+
+msgid "ordering_answer_sequence_info"
+msgstr "Slijed odgovora koji ovdje definirate uzet će se kao ispravan redoslijed rješenja."
+
+msgid "ordertext"
+msgstr "Tekst za raspoređivanje"
+
+msgid "ordertext_info"
+msgstr "Unesite tekst koji treba rasporediti vodoravno. Tekst koji treba rasporediti bit će odvojen razmaknicama u tekstu. Ako trebate drugačiji odvajanje, za razdvajanje tekstualnih jedinica umjesto razmaknica možete koristiti separator%s."
+
+msgid "out_of_range"
+msgstr "Izvan raspona"
+
+msgid "output"
+msgstr "Izdavanje"
+
+msgid "output_mode"
+msgstr "Način izdavanja"
+
+msgid "parseQuestion"
+msgstr "Analiziraj pitanje"
+
+msgid "part_received_a_of_b_points"
+msgstr "Sudionik je ostvario %s od %s mogućih bodova"
+
+msgid "participants"
+msgstr "Sudionici"
+
+msgid "participants_invitation"
+msgstr "Ručno odabrani sudionici"
+
+msgid "participants_invitation_description"
+msgstr "Ovom testu mogu pristupiti samo korisnici koje ste ručno dodali na kartici „Dashboard” (nadzorna ploča)."
+
+msgid "participants_results_subtab"
+msgstr "Svi sudionici"
+
+msgid "pass"
+msgstr "Prolaz"
+
+msgid "pass_finished"
+msgstr "%s prolaz"
+
+msgid "passed_official"
+msgstr "položeno"
+
+msgid "passed_only"
+msgstr "Samo položeni testovi"
+
+msgid "passed_short"
+msgstr "položeno"
+
+msgid "passed_status"
+msgstr "Status „položeno“"
+
+msgid "passes_finished"
+msgstr "%s prolazi"
+
+msgid "percentage"
+msgstr "Postotak"
+
+#, fuzzy
+msgid "percentage_points_achieved"
+msgstr "Reached Points"
+
+msgid "percentile"
+msgstr "U postocima"
+
+#, fuzzy
+msgid "personal_settings_apply"
+msgstr "Apply Settings Template"
+
+#, fuzzy
+msgid "personal_settings_apply_changed_confirmation"
+msgstr "The current test settings will be overwritten with the settings from the selected template. This also overwrites the Selection of Test Questions. The process cannot be undone!"
+
+#, fuzzy
+msgid "personal_settings_apply_confirmation"
+msgstr "The current test settings will be overwritten with the settings from the selected template. This process cannot be undone!"
+
+#, fuzzy
+msgid "personal_settings_apply_description"
+msgstr "This template overrides all settings of test '%s'."
+
+#, fuzzy
+msgid "personal_settings_apply_not_possible"
+msgstr "ILIAS could not apply the selected template to this test! Maybe this test already contains participant data sets."
+
+#, fuzzy
+msgid "personal_settings_apply_success"
+msgstr "Personal Test Settings have been applied successfully."
+
+#, fuzzy
+msgid "personal_settings_author"
+msgstr "Created by"
+
+#, fuzzy
+msgid "personal_settings_create"
+msgstr "Add New Setting Template"
+
+#, fuzzy
+msgid "personal_settings_delete_confirmation"
+msgstr "The selected template(s) will be permanently deleted. This cannot be undone."
+
+#, fuzzy
+msgid "personal_settings_delete_success"
+msgstr "The selected template(s) have been deleted."
+
+#, fuzzy
+msgid "personal_settings_description"
+msgstr "Template Description"
+
+#, fuzzy
+msgid "personal_settings_explanation"
+msgstr "ILIAS will store the settings of the current test in a template. This template can be used to transfer the settings to another test."
+
+#, fuzzy
+msgid "personal_settings_export"
+msgstr "Export Settings Template"
+
+#, fuzzy
+msgid "personal_settings_import"
+msgstr "Import Setting Templates"
+
+#, fuzzy
+msgid "personal_settings_import_success"
+msgstr "The template was imported successfully."
+
+#, fuzzy
+msgid "personal_settings_invalid_selection"
+msgstr "Please select one template."
+
+#, fuzzy
+msgid "personal_settings_name"
+msgstr "Template Title"
+
+#, fuzzy
+msgid "personal_settings_required_author"
+msgstr "Please enter an author for your template."
+
+#, fuzzy
+msgid "personal_settings_required_title"
+msgstr "Please enter a title for your template."
+
+#, fuzzy
+msgid "personal_settings_save"
+msgstr "Save New Setting Template"
+
+#, fuzzy
+msgid "personal_settings_show"
+msgstr "Show Template Details"
+
+#, fuzzy
+msgid "personal_settings_templates_available"
+msgstr "Personal Test Settings Templates"
+
+#, fuzzy
+msgid "personal_settings_timestamp"
+msgstr "Creation Date"
+
+msgid "picture"
+msgstr "Slika"
+
+msgid "point"
+msgstr "Bod"
+
+msgid "points"
+msgstr "Bodovi"
+
+msgid "points_checked"
+msgstr "Bodovi (provjereni)"
+
+#, fuzzy
+msgid "points_non_numeric_or_negative_msg"
+msgstr "Inputs for points only accept positive numeric values."
+
+msgid "points_short"
+msgstr "Bod."
+
+msgid "points_unchecked"
+msgstr "Bodovi (neprovjereni)"
+
+msgid "points_wrong"
+msgstr "Pogrešni odabiri"
+
+msgid "points_wrong_info"
+msgstr "Unesite negativne bodove za svaku odabranu riječ koja nije na popisu označenih pogrešaka."
+
+msgid "polygon"
+msgstr "Poligon"
+
+msgid "polygon_click_next_or_save"
+msgstr "Molimo kliknite na sljedeću točku poligona ili spremite područje. (Ne treba ponovno kliknuti na polaznu točku ovog poligona!)"
+
+msgid "polygon_click_next_point"
+msgstr "Molimo kliknite na sljedeću točku poligona."
+
+msgid "polygon_click_starting_point"
+msgstr "Molimo kliknite na polaznu točku poligona."
+
+msgid "positive_numbers_required"
+msgstr "Unesite samo pozitivne brojeve."
+
+#. fau: testNav
+msgid "postpone_question"
+msgstr "Pomaknite pitanje na kraj"
+
+msgid "postponed"
+msgstr "odgođeno"
+
+msgid "precision"
+msgstr "Točnost"
+
+msgid "previous_question"
+msgstr "Prethodni"
+
+msgid "previous_question_rows"
+msgstr "<< Pitanja %d - %d od %d"
+
+#, fuzzy
+msgid "print_answers"
+msgstr "Print Answers"
+
+msgid "qpl_assessment_no_assessment_of_questions"
+msgstr "Za odabrano pitanje ne postoji statistička evaluacija. Ovo pitanje još nije korišteno u testu."
+
+msgid "qpl_assessment_total_of_answers"
+msgstr "Ukupan broj odgovora"
+
+msgid "qpl_assessment_total_of_right_answers"
+msgstr "Ukupan postotak točnih odgovora (postotak maksimalnog broja bodova)"
+
+#, fuzzy
+msgid "qpl_bulk_save_add"
+msgstr "Add"
+
+#, fuzzy
+msgid "qpl_bulk_save_overwrite"
+msgstr "Overwrite"
+
+#, fuzzy
+msgid "qpl_bulkedit_success"
+msgstr "Modifications saved."
+
+msgid "qpl_cancel_skill_assigns_update"
+msgstr "Otkaži"
+
+msgid "qpl_confirm_delete_questions"
+msgstr "Jeste li sigurni da želite ukloniti sljedeća pitanja?"
+
+msgid "qpl_copy_insert_clipboard"
+msgstr "Odabrano(a) pitanje(a) se kopiraju u međuspremnik"
+
+msgid "qpl_copy_select_none"
+msgstr "Molimo odaberite najmanje jedno pitanje za kopiranje u međuspremnik!"
+
+msgid "qpl_delete_rbac_error"
+msgstr "Nemate prava za uklanjanje ovog pitanja!"
+
+msgid "qpl_delete_select_none"
+msgstr "Molimo odaberite najmanje jedno pitanje za uklanjanje!"
+
+msgid "qpl_export_excel"
+msgstr "Microsoft Excel datoteka"
+
+msgid "qpl_export_select_none"
+msgstr "Molimo odaberite najmanje jedno pitanje za izvoz!"
+
+msgid "qpl_export_xml"
+msgstr "QTI XML datoteka"
+
+msgid "qpl_form_general_settings"
+msgstr "Opće postavke"
+
+msgid "qpl_imagemap_preview_missing"
+msgstr "ILIAS nije mogao kreirati privremenu datoteku pregleda koja sadrži Imagemap područja. Umjesto toga prikazuje se izvorna slika. To znači da alat ImageMagick web-poslužitelja nije ispravno konfiguriran ili da u privremenom direktoriju nemate dozvolu za pisanje! Molimo kontaktirajte svog administratora sustava."
+
+msgid "qpl_import_create_new_qpl"
+msgstr "Uvezi pitanja u novi bazen pitanja"
+
+msgid "qpl_import_no_items"
+msgstr "Pogreška: uvezena datoteka ne sadrži pitanja!"
+
+msgid "qpl_import_non_ilias_files"
+msgstr "Pogreška: Uvozna datoteka sadrži QTI datoteke koje nije kreirajo sustav ILIAS. Molimo kontaktirajte tim ILIAS-a kako biste dobili filtar za uvoz vašeg QTI formata datoteke."
+
+msgid "qpl_import_verify_found_questions"
+msgstr "ILIAS je u datoteci za uvoz pronašao sljedeća pitanja. Odaberite pitanja koja želite uvesti."
+
+msgid "qpl_lac_desc_brackets"
+msgstr "Zagrade"
+
+msgid "qpl_lac_desc_compare_answer_exist"
+msgstr "Usporedi postoji li odgovor na pitanje/prazninu u pitanju"
+
+msgid "qpl_lac_desc_compare_with_answer_n"
+msgstr "Usporedi rezultat s n-tim odgovorom na pitanje"
+
+msgid "qpl_lac_desc_compare_with_assignment"
+msgstr "Usporedi rezultat s dodjelom n:m"
+
+msgid "qpl_lac_desc_compare_with_exact_sequence"
+msgstr "Usporedi rezultat je li odabrana isključivo navedena sekvenca"
+
+msgid "qpl_lac_desc_compare_with_number"
+msgstr "Usporedi rezultat s brojčanom vrijednosti n"
+
+msgid "qpl_lac_desc_compare_with_quest_res"
+msgstr "Usporedi rezultat s postignutim rezultatima u postotku"
+
+msgid "qpl_lac_desc_compare_with_sequence"
+msgstr "Usporedi rezultat sa sekvencom odgovora ($a,..,z$)"
+
+msgid "qpl_lac_desc_compare_with_text"
+msgstr "Usporedi rezultat sa slobodnim tekstom TEXT"
+
+msgid "qpl_lac_desc_logical_and"
+msgstr "Logički I"
+
+msgid "qpl_lac_desc_logical_or"
+msgstr "Logički ILI"
+
+msgid "qpl_lac_desc_negation"
+msgstr "Negacija"
+
+msgid "qpl_lac_desc_res_of_answ_m_of_cur_quest"
+msgstr "Rezultat m-tog odgovora na trenutačno pitanje"
+
+msgid "qpl_lac_desc_res_of_cur_quest"
+msgstr "Rezultat trenutačnog pitanja"
+
+msgid "qpl_lac_legend_header_common"
+msgstr "Logika izjave"
+
+msgid "qpl_lac_legend_header_quest_specific"
+msgstr "Izrazi specifični za pitanje"
+
+msgid "qpl_lac_legend_label_operators"
+msgstr "Operatori"
+
+msgid "qpl_maxchars_info_numeric_question"
+msgstr "Ako unesete vrijednost, generirat će se polje za numerički odgovor s navedenom duljinom, pa unos više od dopuštenih znakova nije moguć. Pritom treba imati na umu da se decimalni separator također računa kao znak."
+
+msgid "qpl_move_insert_clipboard"
+msgstr "Odabrano(a) pitanje(a) je(su) označena za pomicanje"
+
+msgid "qpl_move_select_none"
+msgstr "Molimo odaberite barem jedno pitanje za pomicanje"
+
+msgid "qpl_numeric_lower_needs_valid_lower_alert"
+msgstr "Donja granica mora biti valjana numerička vrijednost koja je niža od gornje granice."
+
+msgid "qpl_numeric_upper_needs_valid_upper_alert"
+msgstr "Gornja granica mora biti valjana numerička vrijednost koja je veća od donje granice."
+
+msgid "qpl_paste_error"
+msgstr "Najmanje jedno pitanje nije se moglo umetnuti u bazen pitanja. Mogući razlog: Pokušali ste pitanje premjestiti u isti bazen pitanja."
+
+msgid "qpl_paste_no_objects"
+msgstr "U međuspremniku nema pitanja. Kopirajte ili premjestite barem jedno pitanje u međuspremnik."
+
+msgid "qpl_paste_success"
+msgstr "Pitanje(a) je (su) umetnuto(a) u bazen pitanja"
+
+msgid "qpl_qst_edit_form_taxonomy"
+msgstr "Taksonomija \"%s\""
+
+msgid "qpl_qst_edit_form_taxonomy_section"
+msgstr "Taksonomije"
+
+msgid "qpl_qst_inp_matching_mode"
+msgstr "Način dodjeljivanja"
+
+msgid "qpl_qst_inp_matching_mode_all_on_all"
+msgstr "Jedan ili više pojmova odgovaraju jednoj ili više definicija (n:n)"
+
+msgid "qpl_qst_inp_matching_mode_one_on_one"
+msgstr "Jedan pojam odgovara jednoj definiciji (1:1)"
+
+msgid "qpl_qst_skl_assign_properties_modified"
+msgstr "Svojstva dodjele izmijenjena su."
+
+msgid "qpl_qst_skl_assign_synced_to_orig"
+msgstr "Dodjele kompetencija prenesene su na izvorno pitanje."
+
+msgid "qpl_qst_skl_assigns_updated"
+msgstr "Dodjele kompetencija su ažurirane."
+
+msgid "qpl_qst_skl_selection_for_question_header"
+msgstr "Dodjela kompetencija za pitanje: %s"
+
+msgid "qpl_qst_skl_usg_numq_col"
+msgstr "Broj pitanja u cjelokupnom bazenu koji se odnose na tu kompetenciju"
+
+msgid "qpl_qst_skl_usg_skill_col"
+msgstr "Kompetencija"
+
+msgid "qpl_qst_skl_usg_sklpnt_col"
+msgstr "Ukupan broj kompetencijskih bodova po kompetenciji"
+
+msgid "qpl_question_is_in_use"
+msgstr "Pitanje koje želite urediti postoji već u u %s testova. Ako promijenite ovo pitanje, to NEĆE imati nikakav utjecaj na pitanja koja su već sadržana u testovima, jer sustav automatski izrađuje kopiju pitanja kada se umetne u test!"
+
+msgid "qpl_questions_deleted"
+msgstr "Pitanje(a) izbrisano(a)."
+
+msgid "qpl_reset_preview"
+msgstr "Resetiraj pregled"
+
+msgid "qpl_save_skill_assigns_update"
+msgstr "Spremi dodjelu kompetencija"
+
+#, fuzzy
+msgid "qpl_settings_availability"
+msgstr "Availability"
+
+msgid "qpl_settings_general_form_prop_show_tax_desc"
+msgstr "Postojeće taksonomije u ovom bazenu mogu se koristiti za filtriranje pitanja."
+
+msgid "qpl_settings_general_form_property_nav_taxonomy"
+msgstr "Taksonomija za navigacijsko stablo"
+
+msgid "qpl_settings_general_form_property_nav_taxonomy_description"
+msgstr "Ako je odabrana taksonomija, ona se ne prikazuje kao filtar već kao navigacijsko stablo."
+
+msgid "qpl_settings_general_form_property_opt_notax_selected"
+msgstr "Ne koristi taksonomiju kao navigacijsko stablo"
+
+msgid "qpl_settings_general_form_property_show_taxonomies"
+msgstr "Prikaži taksonomije"
+
+msgid "qpl_settings_subtab_general"
+msgstr "Opće postavke"
+
+msgid "qpl_settings_subtab_taxonomies"
+msgstr "Taksonomije"
+
+msgid "qpl_skill_point_eval_by_quest_result"
+msgstr "Utvrđivanje kompetencijskih bodova putem rezultata odgovora"
+
+msgid "qpl_skill_point_eval_by_solution_compare"
+msgstr "Utvrđivanje kompetencijskih bodova usporedbom rješenja"
+
+msgid "qpl_skill_point_eval_mode_quest_result"
+msgstr "Rezultat odgovora"
+
+msgid "qpl_skill_point_eval_mode_solution_compare"
+msgstr "Usporedba rješenja"
+
+#, fuzzy
+msgid "qpl_skl_all_questions"
+msgstr "All questions"
+
+#, fuzzy
+msgid "qpl_skl_assigned_questions"
+msgstr "Questions with assignment"
+
+#, fuzzy
+msgid "qpl_skl_assignment_for_question"
+msgstr "Competence assignments for question „%s“"
+
+msgid "qpl_skl_sub_tab_quest_assign"
+msgstr "Dodjela pitanja/kompetencije"
+
+msgid "qpl_skl_sub_tab_usages"
+msgstr "Učestalost dodjele"
+
+#, fuzzy
+msgid "qpl_skl_unassigned_questions"
+msgstr "Questions without assignment"
+
+#, fuzzy
+msgid "qpl_skl_view_control_mode_aria:"
+msgstr "View control mode"
+
+msgid "qpl_sync_quest_skl_assigns_confirmation"
+msgstr "Pitanje je umetnuto iz drugog objekta repozitorija. Želite li da se aktualna konfiguacija dodjela kompetencija prenese na izvornik pitanja?"
+
+msgid "qpl_tab_competences"
+msgstr "Kompetencije"
+
+#, fuzzy
+msgid "qpl_taxonomy_tab_info_message"
+msgstr "Taxonomies in question pools can be used to filter the questions. After activating the function in the \"Settings\" tab, they are displayed in the filter in the \"Questions\" tab."
+
+#, fuzzy
+msgid "qst_error_text_too_long"
+msgstr "One or more text elements marked as erroneous are too long. The maximum size for a text element marked as erroneous is 150 characters:"
+
+#, fuzzy
+msgid "qst_essay_allready_written_words"
+msgstr "Already entered words:"
+
+#, fuzzy
+msgid "qst_essay_chars_remaining"
+msgstr "Remaining characters:"
+
+#, fuzzy
+msgid "qst_essay_wordcounter_enabled"
+msgstr "Count Words"
+
+#, fuzzy
+msgid "qst_essay_wordcounter_enabled_info"
+msgstr "The entered words are counted. The number of written words is shown to the participants below the text input field."
+
+#, fuzzy
+msgid "qst_essay_written_words"
+msgstr "Number of entered words:"
+
+#, fuzzy
+msgid "qst_lifecycle"
+msgstr "Lifecycle"
+
+#, fuzzy
+msgid "qst_lifecycle_draft"
+msgstr "Draft"
+
+#, fuzzy
+msgid "qst_lifecycle_filter_all"
+msgstr "All Lifecycles"
+
+#, fuzzy
+msgid "qst_lifecycle_final"
+msgstr "Final"
+
+#, fuzzy
+msgid "qst_lifecycle_outdated"
+msgstr "Outdated"
+
+#, fuzzy
+msgid "qst_lifecycle_rejected"
+msgstr "Rejected"
+
+#, fuzzy
+msgid "qst_lifecycle_review"
+msgstr "To be Reviewed"
+
+#, fuzzy
+msgid "qst_lifecycle_sharable"
+msgstr "Sharable"
+
+#, fuzzy
+msgid "qst_nested_nested_answers_off"
+msgstr "No indents, just order"
+
+#, fuzzy
+msgid "qst_nested_nested_answers_on"
+msgstr "Use indents in anwers"
+
+msgid "qst_nr_of_tries"
+msgstr "Broj pokušaja"
+
+msgid "qst_preview_reset_msg"
+msgstr "Pregled je resetiran."
+
+#, fuzzy
+msgid "qst_use_nested_answers"
+msgstr "Nested answers"
+
+msgid "que_contains_unused_var"
+msgstr "U tekstu pitanja sadržane su varijable koje se ne koriste u nijednoj formuli rezultata!"
+
+msgid "question_browse_area_info"
+msgstr "Molimo odaberite objekt iz kojeg želite uvoziti pitanja."
+
+#, fuzzy
+msgid "question_complete_title"
+msgstr "Complete"
+
+msgid "question_cumulated_statistics"
+msgstr "Kumulirana statistika pitanja"
+
+msgid "question_id"
+msgstr "ID pitanja"
+
+msgid "question_id_short"
+msgstr "ID"
+
+msgid "question_instances_title"
+msgstr "Ovo se pitanje koristi u sljedećim testovima"
+
+#, fuzzy
+msgid "question_is_part_of_running_test"
+msgstr "Question is part of a running test and may not be edited."
+
+msgid "question_marking"
+msgstr "Označavanje pitanja"
+
+msgid "question_marking_description"
+msgstr "Sudionici dobivaju mogućnost označavanja testnog pitanja u neku svrhu. Oznake se prikazuju i u pregledu 'Stanje obrade',  pod uvjetom da je aktiviran."
+
+msgid "question_not_answered"
+msgstr "Nije dan odgovor na pitanje"
+
+msgid "question_saved_for_upload"
+msgstr "Pitanje je automatski spremljeno kako bi se rezervirao prostor na tvrdom disku za pohranu učitane datoteke. Ako sada otkažete obradu ovog pitanja, imajte na umu da to pitanje morate izbrisati iz bazena pitanja ako ga ne želite zadržati!"
+
+msgid "question_summary"
+msgstr "Nadzorna ploča"
+
+msgid "question_summary_btn"
+msgstr "Dashboard"
+
+msgid "question_title"
+msgstr "Naziv pitanja"
+
+msgid "question_type"
+msgstr "Tip pitanja"
+
+#, fuzzy
+msgid "questionlist_cannot_be_altered"
+msgstr "The question list cannot be altered as the test already contains participant data sets."
+
+msgid "questionpool_not_entered"
+msgstr "Unesite naziv za bazen pitanja!"
+
+#, fuzzy
+msgid "questionpool_not_selected"
+msgstr "Please select a question pool!"
+
+#, fuzzy
+msgid "questions"
+msgstr "Questions"
+
+msgid "questions_from"
+msgstr "Pitanja iz"
+
+msgid "questions_per_page_view"
+msgstr "Prikaz stranice"
+
+msgid "random_accept_sample"
+msgstr "Prihvati uzorak"
+
+msgid "random_another_sample"
+msgstr "Uzmite drugi uzorak"
+
+msgid "random_selection"
+msgstr "Slučajni odabir"
+
+msgid "range"
+msgstr "Raspon"
+
+msgid "range_lower_limit"
+msgstr "Donja granica"
+
+msgid "range_max"
+msgstr "Raspon (maksimalni)"
+
+msgid "range_min"
+msgstr "Raspon (minimalni)"
+
+msgid "range_upper_limit"
+msgstr "Gornja granica"
+
+msgid "rated_sign"
+msgstr "Predznak"
+
+msgid "rated_unit"
+msgstr "Jedinica"
+
+msgid "rated_value"
+msgstr "Vrijednost"
+
+msgid "rating"
+msgstr "Ocjena"
+
+msgid "rating_sign"
+msgstr "Ocjena (predznak)"
+
+msgid "rating_simple"
+msgstr "Jednostavno ocjenjivanje"
+
+msgid "rating_unit"
+msgstr "Ocjena (jedinica)"
+
+msgid "rating_value"
+msgstr "Ocjena (vrijednost)"
+
+msgid "rectangle"
+msgstr "Pravokutnik"
+
+msgid "rectangle_click_br_corner"
+msgstr "Molimo kliknite na donji desni kut željenog područja."
+
+msgid "rectangle_click_tl_corner"
+msgstr "Molimo kliknite na gornji lijevi kut željenog područja."
+
+msgid "redirectAfterSave"
+msgstr "Dosegnuto je maksimalno radno vrijeme i vaše zadnje pitanje je automatski spremljeno. Bit ćete preusmjereni za nekoliko sekundi..."
+
+msgid "redirect_after_finishing_rule"
+msgstr "Preusmjeravanje"
+
+msgid "redirect_after_finishing_tst"
+msgstr "Preusmjeravanje"
+
+msgid "redirect_after_finishing_tst_desc"
+msgstr "Nakon završetka testa svaki se sudionik automatski preusmjerava na definiranu internetsku stranicu. To vrijedi samo ako sudionici nakon završetka testa nemaju pristup svojim rezultatima testa."
+
+msgid "redirect_always"
+msgstr "uvijek na definiranu internetsku stranicu"
+
+#, fuzzy
+msgid "redirect_always_to_logout"
+msgstr "Always to the logout screen"
+
+msgid "redirect_in_kiosk_mode"
+msgstr "samo kada je aktiviran prikaz testa"
+
+#, fuzzy
+msgid "redirect_url_invalid"
+msgstr "Please enter a valid url of the target webpage."
+
+#, fuzzy
+msgid "redirect_url_required_for_rule"
+msgstr "The url of the webpage is required when \"%s\" is selected."
+
+msgid "redirection_url"
+msgstr "URL internetske stranice"
+
+msgid "region"
+msgstr "Regija"
+
+#, fuzzy
+msgid "remaining_duration"
+msgstr "Remaining Duration"
+
+msgid "remove_gap"
+msgstr "Ukloni prazninu"
+
+msgid "remove_participants"
+msgstr "Ukloni kao fiksnog sudionika"
+
+msgid "remove_question"
+msgstr "Ukloni"
+
+#, fuzzy
+msgid "remove_selected_participants_confirmation"
+msgstr "Are you sure you want to remove the selected participants from the test?"
+
+#, fuzzy
+msgid "remove_selected_templates_confirmation"
+msgstr "Are you sure you want to permanently remove the selected personal test settings templates?"
+
+msgid "remove_solution"
+msgstr "Ukloni sadržaj za rekapitulaciju"
+
+msgid "res_contains_undef_res"
+msgstr "U formuli se koriste rezultati koji ne postoje u tekstu pitanja!"
+
+msgid "res_contains_undef_var"
+msgstr "U formuli se koriste varijable koje ne postoje u tekstu pitanja!"
+
+msgid "reset_definitions"
+msgstr "Resetiraj redoslijed"
+
+msgid "reset_pictures"
+msgstr "Resetiraj položaje slika"
+
+msgid "reset_terms"
+msgstr "Resetiraj redoslijed"
+
+msgid "result"
+msgstr "Rezultat"
+
+msgid "result_co_frac"
+msgstr "Koprimski razlomak"
+
+msgid "result_co_frac_info"
+msgstr "Samo je potpuno skraćen razlomak npr. 1/3 važeći rezultat"
+
+msgid "result_dec"
+msgstr "Decimala"
+
+msgid "result_dec_info"
+msgstr "Važeći rezultati su npr.: 2,3 i 2.3"
+
+msgid "result_frac"
+msgstr "Razlomak"
+
+msgid "result_frac_info"
+msgstr "npr.: 1/3 i 2/6 su važeći rezultati"
+
+msgid "result_type_selection"
+msgstr "Odabir tipa rezultata"
+
+msgid "result_unit_info"
+msgstr "Imajte na umu da se odabrana jedinica rezultata također mora aktivirati u ‘Dostupnim jedinicama’."
+
+msgid "result_units"
+msgstr "Dostupne jedinice"
+
+msgid "result_units_info"
+msgstr "Odabrane jedinice ponuđene su učeniku kao dio odgovora. Učenik ovdje mora odabrati jednu jedinicu."
+
+msgid "result_x"
+msgstr "Rezultat %s"
+
+msgid "results"
+msgstr "Rezultati"
+
+msgid "results_tab"
+msgstr "Rezultati"
+
+#, fuzzy
+msgid "resulttable_all"
+msgstr "All"
+
+#, fuzzy
+msgid "resulttable_correct"
+msgstr "Correct"
+
+#, fuzzy
+msgid "resulttable_incorrect"
+msgstr "Incorrect/Incomplete"
+
+#, fuzzy
+msgid "resulttable_vc_sort_iooa"
+msgstr "in order of appearance"
+
+#, fuzzy
+msgid "resulttable_vc_sort_posscore"
+msgstr "highest possible score first"
+
+msgid "review_view"
+msgstr "Pregled"
+
+#, fuzzy
+msgid "running"
+msgstr "Running"
+
+msgid "saveOrder"
+msgstr "Spremi redoslijed"
+
+msgid "saveOrderAndObligations"
+msgstr "Spremi redoslijed i obveze"
+
+msgid "save_and_next"
+msgstr "Spremi i nastavi"
+
+#. fau: testNav
+msgid "save_on_navigation"
+msgstr "Navigacija sa spremanjem"
+
+#. fau: testNav
+msgid "save_on_navigation_confirmation"
+msgstr "Vaši će se promijenjeni odgovori automatski spremiti kada navigirate."
+
+#. fau: testNav
+msgid "save_on_navigation_forced_feedback_hint"
+msgstr "Prije toga ćete dobiti povratne informacije o svom odgovoru."
+
+#. fau: testNav
+msgid "save_on_navigation_locked_confirmation"
+msgstr "Vaši će se promijenjeni odgovori automatski spremiti i zaključati kada navigirate."
+
+msgid "saved_adjustment"
+msgstr "Promjene spremljene."
+
+#, fuzzy
+msgid "score_anon"
+msgstr "Score anonymously"
+
+msgid "score_partsol_enabled"
+msgstr "Aktiviraj bodovanje s pola boda"
+
+msgid "score_partsol_enabled_info"
+msgstr "Sudionik obično mora dati potpuno ispravan odgovor na pitanje kako bi dobio konfigurirane bodove. S ovom opcijom sudionik dobiva polovicu konfiguriranih ako je dao najmanje tri točna odgovora."
+
+#, fuzzy
+msgid "scored_by"
+msgstr "Scored BY"
+
+msgid "scored_pass"
+msgstr "Ocijenjen prolaz"
+
+msgid "scoring"
+msgstr "Bodovi i rezultati"
+
+msgid "scoringadjust"
+msgstr "Ispravci"
+
+msgid "search_groups"
+msgstr "Pretraži po grupama"
+
+msgid "search_roles"
+msgstr "Pretraži po ulogama"
+
+msgid "search_term"
+msgstr "Pojam za pretraživanje"
+
+#, fuzzy
+msgid "select_at_least_one_feedback_type_and_trigger"
+msgstr "Please Select at least one type of feedback and a trigger."
+
+#, fuzzy
+msgid "select_at_least_one_lock_answer_type"
+msgstr "Please select at least one type of answer lock."
+
+msgid "select_gap"
+msgstr "Odaberi prazninu"
+
+msgid "select_max_one_item"
+msgstr "Molimo odaberite samo jedan objekt"
+
+msgid "select_one_user"
+msgstr "Molimo odaberite najmanje jednog korisnika."
+
+#, fuzzy
+msgid "select_question"
+msgstr "Select a Question"
+
+msgid "select_target_position_for_move_question"
+msgstr "Molimo odaberite jednu ciljnu poziciju za pomicanje pitanja i pritisnite jednu od tipki za umetanje!"
+
+msgid "select_unit"
+msgstr "--- Odaberi jedinicu ---"
+
+msgid "selected_category"
+msgstr "Odabrana kategorija: %s"
+
+msgid "selection"
+msgstr "Odabir"
+
+msgid "set_edit_mode"
+msgstr "Postavi način uređivanja"
+
+msgid "set_filter"
+msgstr "Postavi filtar"
+
+msgid "set_manscoring_done"
+msgstr "Označi kao ‘ocijenjen sudionik’"
+
+#, fuzzy
+msgid "set_manscoring_open"
+msgstr "Remove 'scoring complete' flag"
+
+msgid "set_manual_feedback"
+msgstr "Ručna povratna informacija"
+
+msgid "shape"
+msgstr "Oblik"
+
+msgid "showSuggestedSolution"
+msgstr "Vrsta"
+
+msgid "show_all_test_properties_on_info_page"
+msgstr "Prikaži sve karakterstike testa"
+
+msgid "show_all_test_properties_on_info_page_byline"
+msgstr "Korisnicima će se na kartici ‘Info’ prikazati sve karakteristike testa, npr. informacije o bodovima te izvješće o rezultatima."
+
+msgid "show_answer_overview"
+msgstr "Prikaži pregled odgovora"
+
+#, fuzzy
+msgid "show_best_solution"
+msgstr "Show best solution"
+
+msgid "show_detailed_results"
+msgstr "Prikaži detaljne rezultate korisnika (ocijenjen prolaz)"
+
+msgid "show_examview_html"
+msgstr "Na zaslonu"
+
+#, fuzzy
+msgid "show_hide_best_solution"
+msgstr "Show or hide best solution"
+
+#, fuzzy
+msgid "show_old_concluding_remarks"
+msgstr "Show old conlcuding remarks"
+
+#, fuzzy
+msgid "show_old_introduction"
+msgstr "Show old introduction"
+
+msgid "show_pass_overview"
+msgstr "Prikaži pregled rezultata ocijenjenog prolaza testa"
+
+#, fuzzy
+msgid "show_results"
+msgstr "Show Results"
+
+msgid "show_user_answers"
+msgstr "Pokaži ocijenjene odgovore korisnika"
+
+msgid "shuffle_answers"
+msgstr "Pomiješaj odgovore"
+
+msgid "skip_question"
+msgstr "Nemoj odgovoriti i dalje"
+
+#, fuzzy
+msgid "solution"
+msgstr "Solution"
+
+msgid "solutionText"
+msgstr "Tekst"
+
+msgid "solution_contain_keywords"
+msgstr "Bodovi će se dati na temelju korištenja sljedećih ključnih riječi:"
+
+msgid "solution_hint"
+msgstr "Dodijeljeni sadržaj za rekapitulaciju"
+
+#, fuzzy
+msgid "solutions"
+msgstr "Solutions"
+
+msgid "start_tag"
+msgstr "Oznaka početka"
+
+msgid "statistical_data"
+msgstr "Statistički podatci"
+
+msgid "statistics"
+msgstr "Statistika"
+
+#, fuzzy
+msgid "status_of_attempt"
+msgstr "Status of Attempt"
+
+msgid "submit_and_check"
+msgstr "Spremi i provjeri odgovor"
+
+msgid "submit_answer"
+msgstr "Spremi odgovor i dalje"
+
+msgid "suggest_range"
+msgstr "Predloži raspon"
+
+msgid "suggestedSolutionType"
+msgstr "Uputi na"
+
+msgid "suggested_solution"
+msgstr "Sadržaj za rekapitulaciju"
+
+msgid "suggested_solution_added_successfully"
+msgstr "Uspješno ste postavili sadržaj za rekapitulaciju!"
+
+#, fuzzy
+msgid "sync_question_to_pool"
+msgstr "Synchronize Question"
+
+#, fuzzy
+msgid "ta_resulttable_vc_mode_aria"
+msgstr "switch question mode"
+
+#, fuzzy
+msgid "tab_nest_answers"
+msgstr "Nesting"
+
+#, fuzzy
+msgid "tax_filter"
+msgstr "Taxonomy"
+
+#, fuzzy
+msgid "tax_filter_notax"
+msgstr "Questions without assigned Taxonomy"
+
+#, fuzzy
+msgid "taxonomy_node_title"
+msgstr "Taxonomy Node Title"
+
+#, fuzzy
+msgid "taxonomy_title"
+msgstr "Taxonomy Title"
+
+msgid "term"
+msgstr "Pojam"
+
+msgid "term_image"
+msgstr "Slika pojma"
+
+msgid "term_text"
+msgstr "Tekst pojma"
+
+msgid "terms"
+msgstr "Pojmovi"
+
+#, fuzzy
+msgid "test_attempts_finished"
+msgstr "The test pass has been finished for the selected participants."
+
+msgid "test_confirm_template_reset"
+msgstr "Jeste li sigurni da ne više želite koristiti predložak?"
+
+msgid "test_delete_page"
+msgstr "Izbriši pitanje"
+
+msgid "test_edit_settings"
+msgstr "Uredi postavke"
+
+msgid "test_enable_archiving"
+msgstr "Omogući arhiviranje"
+
+msgid "test_has_datasets_warning_page_view"
+msgstr "Test već sadrži skupove podataka sudionika. Pitanja u testu možete ponovno uređivati tek kada uklonite sve skupove podataka sudionika."
+
+msgid "test_has_datasets_warning_page_view_link"
+msgstr "Rezultati sudionika"
+
+msgid "test_is_offline"
+msgstr "Ne možete pokrenuti test! Test je offline."
+
+msgid "test_jump_to"
+msgstr "Preskoči na pitanje"
+
+msgid "test_move_page"
+msgstr "Pomakni pitanje"
+
+msgid "test_next_question"
+msgstr "Sljedeće pitanje"
+
+msgid "test_prev_question"
+msgstr "Prethodno pitanje"
+
+#, fuzzy
+msgid "test_question_set_type"
+msgstr "Selection of Test Questions"
+
+#, fuzzy
+msgid "test_question_set_type_fixed"
+msgstr "Use of a fixed set of questions"
+
+#, fuzzy
+msgid "test_question_set_type_fixed_info"
+msgstr "All testees see the same questions.<br>You can create questions directly in the test as well as reuse questions from a Question Pool. If you create new questions you can decide to save them in a Question Pool."
+
+#, fuzzy
+msgid "test_question_set_type_random"
+msgstr "Use of a random set of questions"
+
+#, fuzzy
+msgid "test_question_set_type_random_info"
+msgstr "Every testee will see an individually generated set of questions. The questions are drawn from one or more Question Pools."
+
+msgid "test_results"
+msgstr "Objava rezultata testa"
+
+msgid "test_scoring"
+msgstr "Ocjenjivanje testa"
+
+msgid "test_template_reset"
+msgstr "Predložak je uklonjen."
+
+#, fuzzy
+msgid "test_title"
+msgstr "Test Title"
+
+msgid "test_using_template"
+msgstr "Ovaj test koristi predložak %s. Ako ne želite koristiti predložak te želite imati pristup svim postavkama, kliknite ovdje: %s."
+
+msgid "test_using_template_link"
+msgstr "Ne koristite predložak više"
+
+msgid "text_correct"
+msgstr "Ispravan tekst"
+
+msgid "text_gap"
+msgstr "Praznina u tekstu"
+
+msgid "text_maximum_chars_allowed"
+msgstr "Molimo vas da ne uneste više od maksimalno %s znakova. Dodatni se znakovi neće odrezati, ali se možda neće uzeti u obzir prilikom bodovanja."
+
+msgid "text_rating"
+msgstr "Metoda za uspoređivanje teksta"
+
+msgid "text_wrong"
+msgstr "Pogrešan tekst"
+
+msgid "textsize"
+msgstr "Veličina teksta"
+
+msgid "textsize_errortext_info"
+msgstr "Molimo unesite veličinu teksta pogreške u postocima normalne veličine. Ako ne unesete vrijednost, koristit će se normalna veličina od 100 posto."
+
+msgid "textsize_info"
+msgstr "Molimo unesite veličinu teksta koji treba složiti prema redoslijedu u postocima normalne veličine. Ako ne unesete vrijednost, koristit će se normalna veličina od 100 posto."
+
+msgid "thumb_size"
+msgstr "Veličina sličica"
+
+msgid "thumb_size_info"
+msgstr "Uneste vrijednost za maksimalnu veličinu prikaza sličica. Ovisno o omjeru, prikaz će se maksimalnoj veličini sličica prilagoditi po visini ili širini."
+
+msgid "thumb_size_unit_pixel"
+msgstr "Piksel"
+
+msgid "time_format"
+msgstr "HH MM SS"
+
+msgid "timing"
+msgstr "Produžetak vremena"
+
+msgid "tolerance"
+msgstr "Tolerancija (%)"
+
+msgid "tolerance_info"
+msgstr "Tolerancija određuje dopušteno postotno odstupanje od vrijednosti rezultata. S tolerancijom od 0, samo se egzaktna vrijednost rezultat ocjenjuje kao točna."
+
+msgid "too_many_targets_selected_for_move"
+msgstr "Morate odabrati točno jednu ciljnu poziciju!"
+
+msgid "toplist_by_score"
+msgstr "Plasman prema bodovima"
+
+msgid "toplist_by_time"
+msgstr "Plasman prema vremenu obrade"
+
+msgid "toplist_col_achieved"
+msgstr "Datum"
+
+msgid "toplist_col_participant"
+msgstr "Sudionik"
+
+msgid "toplist_col_percentage"
+msgstr "Postotak"
+
+msgid "toplist_col_rank"
+msgstr "Rang"
+
+msgid "toplist_col_score"
+msgstr "Broj bodova"
+
+msgid "toplist_col_wtime"
+msgstr "Vrijeme obrade"
+
+#, fuzzy
+msgid "total_attempts"
+msgstr "Total Attempts"
+
+#, fuzzy
+msgid "total_duration"
+msgstr "Total Duration"
+
+#, fuzzy
+msgid "total_max_points_cannot_be_negative"
+msgstr "The maximum amount of reachable points cannot be negative."
+
+#, fuzzy
+msgid "true"
+msgstr "True"
+
+msgid "tst_access_code_created"
+msgstr "Kako bi Vam se osigurao stalni pristup vašim rezultatima testa i ponudila vam se mogućnost da nastavite ovaj test, za Vas je izrađen jedinstveni kod za pristup testu. Molimo zabilježite si ovaj kod kako biste ga mogli koristiti za daljnje akcije."
+
+msgid "tst_activate_skill_service"
+msgstr "Kompetencije"
+
+msgid "tst_activate_skill_service_desc"
+msgstr "Podržava raspoređivanje pitanja prema kompetencijama te definiranje pragova za postizanje određene razine kompetencije."
+
+#, fuzzy
+msgid "tst_activation_limited_visibility_info"
+msgstr "Before and after the period during which the test is available,  the test's title will be displayed, but participants won’t be able to take the test. Access, including to tests already in progress, will be prevented once the period of availability has ended."
+
+msgid "tst_activation_online_info"
+msgstr "Sudionici mogu ispunjavati test samo ako je on stavljen na mrežu (online)."
+
+msgid "tst_add_quest_cont_edit_mode"
+msgstr "Urednik za povratne informacije i savjete"
+
+msgid "tst_add_quest_cont_edit_mode_IPE"
+msgstr "Za uređivanje povratnih informacija i savjeta koristite urednika stranica aplikacije ILIAS"
+
+#, fuzzy
+msgid "tst_add_quest_cont_edit_mode_IPE_info"
+msgstr "No formatting of text in question and answers. No use of LaTex either. But feedback and hints can be reused when question is embedded in ILIAS learning module."
+
+msgid "tst_add_quest_cont_edit_mode_RTE"
+msgstr "Za uređivanje povratnih informacija i savjeta koristite urednika rich-text"
+
+#, fuzzy
+msgid "tst_add_quest_cont_edit_mode_RTE_info"
+msgstr "Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in ILIAS learning module."
+
+#, fuzzy
+msgid "tst_add_quest_cont_edit_mode_plain"
+msgstr "Use plain text"
+
+#, fuzzy
+msgid "tst_add_quest_cont_edit_mode_plain_info"
+msgstr "No formatting of text in question, answers and feedback."
+
+#, fuzzy
+msgid "tst_addit_passes_blocked_after_passed_msg"
+msgstr "You have passed the test. The test cannot be started again."
+
+msgid "tst_all_test_competences"
+msgstr "Sva kompetencije testa"
+
+msgid "tst_all_user_data_deleted"
+msgstr "Svi korisnički podaci ovog testa su uklonjeni!"
+
+#, fuzzy
+msgid "tst_already_passed_cannot_retake"
+msgstr "Test already passed. You cannot start the test again."
+
+msgid "tst_already_submitted"
+msgstr "Test je već završen i odgovori su poslani."
+
+msgid "tst_analysis"
+msgstr "Analiza"
+
+msgid "tst_anonymity"
+msgstr "Privatnost"
+
+msgid "tst_anonymity_anonymous_test"
+msgstr "Rezultati bez imena / Anonimni test"
+
+msgid "tst_anonymity_no_anonymization"
+msgstr "Rezultati s imenima"
+
+msgid "tst_answer_aggr_answer_header"
+msgstr "Odgovor"
+
+msgid "tst_answer_aggr_frequency_header"
+msgstr "Učestalost"
+
+msgid "tst_answer_details"
+msgstr "Detalji odgovora"
+
+#, fuzzy
+msgid "tst_answer_fixation"
+msgstr "Lock Answers"
+
+msgid "tst_answer_fixation_handling"
+msgstr "Odgovori sudionika"
+
+msgid "tst_answer_fixation_none"
+msgstr "Ne zaključavaj odgovore sudionika tijekom prolaza testa"
+
+msgid "tst_answer_fixation_none_desc"
+msgstr "Sve dok prolaz testa nije završen, sudionici u bilo kojem trenutku mogu promijeniti svoje odgovore."
+
+msgid "tst_answer_fixation_on_followup_question"
+msgstr "Zaključaj odgovore s prikazom sljedećeg pitanja"
+
+msgid "tst_answer_fixation_on_followup_question_desc"
+msgstr "Prikazom nastavnog pitanja zaključat će se odgovori sudionika na prethodno pitanje tako da sudionici te odgovore više ne mogu mijenjati."
+
+msgid "tst_answer_fixation_on_instant_feedback"
+msgstr "Zaključaj odgovore s prikazom povratne informacije"
+
+msgid "tst_answer_fixation_on_instant_feedback_desc"
+msgstr "Nakon što se prikaže povratna informacija za pitanje, odgovori sudionika su zaključani te oni više ne mogu mijenjati te odgovore."
+
+msgid "tst_answer_fixation_on_instantfb_or_followupqst"
+msgstr "Zaključaj odgovore s prikazom povratne informacije ili sljedećih pitanja"
+
+msgid "tst_answer_fixation_on_instantfb_or_followupqst_desc"
+msgstr "Odgovori sudionika na pitanje će biti zaključani ili s prikazom povratne informacije vezano za pitanje ili s prikazom sljedećeg pitanja."
+
+#. fau: testNav
+msgid "tst_answer_status_answered"
+msgstr "Odgovoreno"
+
+#. fau: testNav
+msgid "tst_answer_status_editing"
+msgstr " (obrada u tijeku)"
+
+#. fau: testNav
+msgid "tst_answer_status_not_answered"
+msgstr "Nije odgovoreno"
+
+msgid "tst_answered_questions"
+msgstr "Pitanja na koja je odgovoreno"
+
+msgid "tst_answered_questions_of_total"
+msgstr "%s od %s"
+
+msgid "tst_answered_questions_test"
+msgstr "Pitanja odgovorena u ovom testu"
+
+msgid "tst_attached_xls_file"
+msgstr "Rezultati testa za ovog sudionika nalaze se u priloženoj Excel datoteci."
+
+msgid "tst_attempt"
+msgstr "Pokušaj"
+
+#, fuzzy
+msgid "tst_attempt_limit_message"
+msgstr "Your limit of test attempts is <b>%s</b>."
+
+msgid "tst_attempt_started"
+msgstr "Test započet"
+
+msgid "tst_back_to_pass_details"
+msgstr "Natrag na detalje prolaza"
+
+msgid "tst_back_to_question_list"
+msgstr "Natrag na popis pitanja"
+
+msgid "tst_back_to_top"
+msgstr "Natrag na vrh"
+
+msgid "tst_back_to_virtual_pass"
+msgstr "Natrag na pregled pitanja"
+
+msgid "tst_best_solution_is"
+msgstr "Najbolje rješenje je:"
+
+#, fuzzy
+msgid "tst_block_passes_after_passed"
+msgstr "Block Additional Passes After Test is Passed"
+
+#, fuzzy
+msgid "tst_block_passes_after_passed_info"
+msgstr "After a participant has passed the test, no further test passes are allowed to the participant with this option."
+
+msgid "tst_browse_for_qpl_questions"
+msgstr "Dodaj iz bazena"
+
+msgid "tst_browse_for_tst_questions"
+msgstr "Dodaj iz drugog testa"
+
+msgid "tst_btn_hide_best_solutions"
+msgstr "Sakrij najbolja rješenja"
+
+msgid "tst_btn_rebuild_random_question_stage"
+msgstr "Sinkroniziraj pitanja iz bazena"
+
+#, fuzzy
+msgid "tst_btn_reset_pool_sync"
+msgstr "Edit/Cancel Synchronisation"
+
+msgid "tst_btn_show_best_solutions"
+msgstr "Prikaži najbolja rješenja"
+
+msgid "tst_cannot_online_due_to_switched_quest_set_type_setting"
+msgstr "Test se ne može postaviti na online, jer je postavka načina rada testa promijenjena. Morate postaviti novu konfiguraciju pitanju povezanu s načinom rada testa prije nego što test opet možete postaviti online."
+
+msgid "tst_change_dyn_test_question_selection"
+msgstr "Promijeni izbor pitanja"
+
+msgid "tst_change_points_for_question"
+msgstr "Bodovi za odgovor"
+
+msgid "tst_change_quest_set_type_from_old_to_new_with_conflict"
+msgstr "Ako promijenite odabir pitanja za test s <b>s%<b> na </b>s%</b>, nestat će postojeći raspored pitanja. U tom slučaju, za novu konfiguraciju ponovno morate dodijeliti pitanja, odnosno bazen pitanje konfigurati na odgovarajući način. <br />Kliknite na <b>Potvrdi</b> kako biste koristili novu postavku ili odaberite <b>Prekini</b> ako želite da se zadrži aktualno postavljeni odabir pitanja za test."
+
+msgid "tst_change_workingtime"
+msgstr "Produlji vrijeme za jednog sudionika"
+
+msgid "tst_comp_eval_mode"
+msgstr "Ocjenjivanje putem"
+
+msgid "tst_comp_points"
+msgstr "Bodovi za kompetencije"
+
+msgid "tst_competence"
+msgstr "Kompetencija"
+
+#, fuzzy
+msgid "tst_competence_tree"
+msgstr "Competence tree"
+
+#, fuzzy
+msgid "tst_conditions_checkbox_enabled"
+msgstr "Exam Conditions"
+
+#, fuzzy
+msgid "tst_conditions_checkbox_enabled_desc"
+msgstr "Participants must select a checkbox to start the test. Please use the introductory message to present the exam to the participants."
+
+msgid "tst_confirm_submit_answers"
+msgstr "Molimo potvrdite da želite završiti test i predati dane odgovore. Nakon predaje više ne postoji mogućnost za unos odgovora ili za njihov ispravak."
+
+msgid "tst_conflicting_setting"
+msgstr "Ova postavka je u sukobu s drugom postavkom."
+
+msgid "tst_copy"
+msgstr "Kopiraj test"
+
+msgid "tst_corr_add_as_answer_btn"
+msgstr "Dodaj kao točan odgovor"
+
+msgid "tst_corr_answ_stat_tbl_header_answer"
+msgstr "Odgovor"
+
+msgid "tst_corr_answ_stat_tbl_header_frequency"
+msgstr "Učestalost"
+
+msgid "tst_corrections_answers_tbl"
+msgstr "Statistika odgovora"
+
+msgid "tst_corrections_answers_tbl_subindex"
+msgstr "Statistika odgovora za %s"
+
+#, fuzzy
+msgid "tst_corrections_incompatible_question_set_type"
+msgstr "Corrections are only possible if the test uses a fixed set of questions."
+
+msgid "tst_corrections_manscore_reset_warning"
+msgstr "Postoji %s ručnih ocjena za pitanje „%s (ID: %s)\". Kada se pitanje spremi, sve se ručne ocjene resetiraju."
+
+msgid "tst_corrections_qst_form"
+msgstr "Ispravak bodova"
+
+msgid "tst_corrections_tab_question"
+msgstr "Pitanje"
+
+msgid "tst_corrections_tab_solution"
+msgstr "Rješenje"
+
+msgid "tst_corrections_tab_statistics"
+msgstr "Statistika odgovora"
+
+msgid "tst_count_correct_solutions"
+msgstr "Bodove dobivaju samo točni i potpuni odgovori"
+
+msgid "tst_count_correct_solutions_desc"
+msgstr "Sudionici dobivaju ili maksimalan broj bodova za potpun i točan odgovor ili 0 bodova u svim drugim slučajevima. To vrijedi i za pitanja koja definiraju bodove za djelomične odgovore."
+
+msgid "tst_count_partial_solutions"
+msgstr "Bodove dobivaju i djelomično pogrešni odgovori"
+
+msgid "tst_count_partial_solutions_desc"
+msgstr "Ako pitanje definira bodova za djelomične odgovore, bodovi za ispravne djelomične odgovore se zbrajaju: Dakle, ovisno o pitanju, daju se i bodovi za ukupno nepotpune ili djelomično pogrešne odgovore."
+
+#, fuzzy
+msgid "tst_current_run_no_longer_valid"
+msgstr "Your current test run is no longer valid. <br>It was probably completed already or finished by a tutor."
+
+msgid "tst_delete_missing_mark"
+msgstr "Molimo odaberite najmanje jednu ocjenu za uklanjanje!"
+
+msgid "tst_derive_new_pool"
+msgstr "Izvedi novi bazen pitanja"
+
+msgid "tst_derive_new_pools"
+msgstr "Izvedi nove bazene pitanja"
+
+msgid "tst_dont_show_msg_again_in_current_session"
+msgstr "Ne prikazuj više ovu poruku tijekom moje aktualne sesije."
+
+msgid "tst_edit_competence_assign"
+msgstr "Obradi karakteristike dodjele"
+
+msgid "tst_edit_scoring"
+msgstr "Uredi ocjenjivanje"
+
+#, fuzzy
+msgid "tst_enable_questionlist"
+msgstr "Show 'List of Questions’"
+
+#, fuzzy
+msgid "tst_enable_questionlist_description"
+msgstr "Participants can switch on a list of the test questions on the left of the actual question."
+
+msgid "tst_ending_time"
+msgstr "Vrijeme dovršetka"
+
+#, fuzzy
+msgid "tst_ending_time_before_starting_time"
+msgstr "Please enter a date for the end of the test that is after the start date."
+
+msgid "tst_ending_time_desc"
+msgstr "Trenutak kada će se test završiti: Sudionici od ovoga trenutka više ne mogu odgovarati na pitanja. Ilias je završio test."
+
+msgid "tst_enter_questionpool"
+msgstr "Molimo unesite naziv bazena pitanja u kojem će se pohraniti novo pitanje"
+
+msgid "tst_eval_question_points"
+msgstr "Rezultati pitanja za prolaz testa %s"
+
+msgid "tst_eval_results_by_pass"
+msgstr "Popis odgovora za prolaz %s"
+
+msgid "tst_eval_results_by_pass_lo"
+msgstr "Detaljni rezultati testa za pokušaj %s"
+
+msgid "tst_eval_results_lo"
+msgstr "Popis odgovora"
+
+msgid "tst_eval_show_answer"
+msgstr "Prikaži odgovor"
+
+msgid "tst_eval_total_finished"
+msgstr "Ukupan broj završenih testova (sudionici koji su prošli sve prolaze testa.)"
+
+msgid "tst_eval_total_finished_average_time"
+msgstr "Prosječno vrijeme obrade svih testova"
+
+msgid "tst_eval_total_passed"
+msgstr "Ukupan broj položenih testova"
+
+msgid "tst_eval_total_passed_average_points"
+msgstr "Prosječni broj bodova položenih testova"
+
+msgid "tst_eval_total_passed_average_time"
+msgstr "Prosječno vrijeme obrade svih položenih testova"
+
+msgid "tst_eval_total_persons"
+msgstr "Ukupan broj sudionika koji su započeli test"
+
+#, fuzzy
+msgid "tst_exam_access_code"
+msgstr "Access Code"
+
+#, fuzzy
+msgid "tst_exam_access_code_invalid_message"
+msgstr "The code you provided is invalid."
+
+#, fuzzy
+msgid "tst_exam_access_code_label"
+msgstr "Enter access code to continue your already started test."
+
+#, fuzzy
+msgid "tst_exam_conditions"
+msgstr "Exam Conditions"
+
+#, fuzzy
+msgid "tst_exam_conditions_label"
+msgstr "Check to accept the conditions."
+
+#, fuzzy
+msgid "tst_exam_conditions_not_checked_message"
+msgstr "You need to accept the exam conditions!"
+
+#, fuzzy
+msgid "tst_exam_ending_time_message"
+msgstr "The test cannot be started after %s."
+
+#, fuzzy
+msgid "tst_exam_modal_message_conditions"
+msgstr "Please confirm the conditions to start the test."
+
+#, fuzzy
+msgid "tst_exam_modal_message_conditions_and_password"
+msgstr "Please confirm the conditions and enter the password to start the test."
+
+#, fuzzy
+msgid "tst_exam_modal_message_password"
+msgstr "Please enter the password to start the test."
+
+#, fuzzy
+msgid "tst_exam_not_assigned_participant_disclaimer"
+msgstr "You cannot start this test, as you are not an assigned participant."
+
+#, fuzzy
+msgid "tst_exam_password"
+msgstr "Test Password"
+
+#, fuzzy
+msgid "tst_exam_password_invalid_message"
+msgstr "The given password is not valid!"
+
+#, fuzzy
+msgid "tst_exam_password_label"
+msgstr "Password"
+
+#, fuzzy
+msgid "tst_exam_required_fields_not_filled_message"
+msgstr "You need to fill out all required fields!"
+
+#, fuzzy
+msgid "tst_exam_start"
+msgstr "Start Test"
+
+#, fuzzy
+msgid "tst_exam_use_previous_answers"
+msgstr "Previous Answers"
+
+#, fuzzy
+msgid "tst_exam_use_previous_answers_label"
+msgstr "If enabled answers from previous tests will be prefilled."
+
+msgid "tst_extratime_added"
+msgstr "Vrijeme obrade sudionika povećano je za %s minuta."
+
+msgid "tst_extratime_info"
+msgstr "Ako želite više puta produljiti vrijeme obrade za istog sudionika, molimo unesite ukupnu količinu vremena koju želite dodati."
+
+msgid "tst_extratime_notavailable"
+msgstr "Dodatno vrijeme može se dodati samo za testove s jednim prolazom i maksimalnim vremenom obrade."
+
+msgid "tst_failed"
+msgstr "Nije prošao"
+
+msgid "tst_failed_imp_qst_skl_assign"
+msgstr "Dodjela pitanja sljedećim kompetencijama nije se mogla kreirati. Odgovarajuće kompetencije nisu se mogle identificirati u lokalnom sustavu."
+
+msgid "tst_failed_imp_skl_thresholds"
+msgstr "Uvoz pragova za sljedeće kompetencije je preskočen jer su odgovarajuće kompetencije unutar lokalnog sustava konfigurirane s različitim popisom razina."
+
+msgid "tst_feedback"
+msgstr "Povratne informacije"
+
+#, fuzzy
+msgid "tst_feedback_is_given_inline"
+msgstr "The feedback will be displayed along with your answer."
+
+#, fuzzy
+msgid "tst_feedback_not_available_for_answer"
+msgstr "There is no feedback available for your answer."
+
+#, fuzzy
+msgid "tst_filter_lifecycle_enabled"
+msgstr "Use Lifecycle as Filter"
+
+msgid "tst_filter_question_type"
+msgstr "Tip pitanja"
+
+msgid "tst_filter_question_type_enabled"
+msgstr "Koristi filtar za tip pitanja"
+
+msgid "tst_filter_tax_node"
+msgstr "Taksonomijski čvor"
+
+msgid "tst_filter_taxonomy"
+msgstr "Taksonomija"
+
+msgid "tst_final_information"
+msgstr "Završi test"
+
+msgid "tst_finish_confirm_button"
+msgstr "Da, želim završiti test"
+
+msgid "tst_finish_confirm_cancel_button"
+msgstr "Ne, želim se vratiti na prethodno pitanje"
+
+msgid "tst_finish_confirmation_question"
+msgstr "Završavate ovaj test i dolazite do maksimalnog broja dozvoljenih prolaza testa. Nakon toga nećete moći ponovno ući u ovaj test kako biste promijenili svoje odgovore. Želite li zaista završiti test?"
+
+#, fuzzy
+msgid "tst_finish_confirmation_question_no_attempts_left"
+msgstr "You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?"
+
+msgid "tst_finished"
+msgstr "Završeno"
+
+msgid "tst_form_dynamic_question_set_config"
+msgstr "Kontinuirani izbor pitanja"
+
+msgid "tst_gap_analysis"
+msgstr "Analiza praznine"
+
+msgid "tst_general_properties"
+msgstr "Opće postavke"
+
+msgid "tst_header_participant"
+msgstr "Vaš odgovor:"
+
+#, fuzzy
+msgid "tst_header_participant_no_answer"
+msgstr "Question - not answered"
+
+msgid "tst_header_solution"
+msgstr "Najbolje moguće rješenje:"
+
+#, fuzzy
+msgid "tst_hide_info_tab"
+msgstr "Hide Info Tab"
+
+#, fuzzy
+msgid "tst_hide_info_tab_desc"
+msgstr "Hides the tab ‘Info’ of the test."
+
+#, fuzzy
+msgid "tst_hide_pagecontents"
+msgstr "Hide page content"
+
+#, fuzzy
+msgid "tst_hide_pagecontents_desc"
+msgstr "ILIAS content placed before and after the actual question text via the \"Edit Page\" button will not be displayed in the result views and print output."
+
+msgid "tst_imap_qst_mode"
+msgstr "Način rada"
+
+msgid "tst_imap_qst_mode_mc"
+msgstr "Višestruki izbor"
+
+msgid "tst_imap_qst_mode_sc"
+msgstr "Jedan ponuđeni odgovor"
+
+msgid "tst_import_non_ilias_zip"
+msgstr "Pogreška: Naziv datoteke učitane datoteke za uvoz ne odgovara očekivanom formatu."
+
+msgid "tst_import_verify_found_questions"
+msgstr "ILIAS je uvoznoj datoteci testa pronašao sljedeća pitanja. Odaberite pitanja koja želite uvesti u ovaj test."
+
+msgid "tst_inp_all_quest_points_equal_per_pool"
+msgstr "Koristite samo bazene pitanja s pitanje koja nose isti broj bodova"
+
+msgid "tst_inp_all_quest_points_equal_per_pool_desc"
+msgstr "Ako je omogućeno, bit će ponuđeni samo bazeni pitanja u kojima sva pitanja nose isti broj bodova. Sudionici takvog testa mogu svi imati isti maksimalni broj bodova, čime se rezultati testa mogu bolje usporediti. Preporučuje se odabir ove opcije."
+
+msgid "tst_inp_dyn_quest_set_quest_ordering_by_date_desc"
+msgstr "Redoslijed pitanja ravna se prema datumu posljednje izmjene pitanja."
+
+msgid "tst_inp_dyn_quest_set_quest_ordering_by_tax_desc"
+msgstr "Redoslijed pitanja ravna se prema dodjelama pitanja u taksonomiji."
+
+msgid "tst_inp_no_available_tax_hint"
+msgstr "Nema raspoloživih taksonomije za odabrani bazen pitanja"
+
+msgid "tst_inp_quest_amount_cfg_mode"
+msgstr "Broj pitanja"
+
+msgid "tst_inp_quest_amount_cfg_mode_pool"
+msgstr "Odredite količinu pitanja po odabranom bazenu pitanja odn. čvoru taksonomije."
+
+msgid "tst_inp_quest_amount_cfg_mode_test"
+msgstr "Odredite broj pitanja po testu"
+
+msgid "tst_inp_quest_amount_per_source_pool"
+msgstr "Pitanja, broj"
+
+msgid "tst_inp_quest_amount_per_test"
+msgstr "Ukupan broj pitanja u testu"
+
+msgid "tst_inp_source_pool_filter_tax"
+msgstr "Taksonomijski filtar"
+
+msgid "tst_inp_source_pool_filter_tax_x"
+msgstr "Koristite taksonomiju „%s” kao filtar"
+
+msgid "tst_inp_source_pool_label"
+msgstr "Bazen pitanja"
+
+msgid "tst_inp_source_pool_no_tax_filter"
+msgstr "Ne koristi taksonomiju kao filtar"
+
+msgid "tst_input_dyn_quest_set_answer_status_filter_enabled"
+msgstr "Prikaži filter za status odgovora"
+
+msgid "tst_input_dynamic_question_set_ordering_tax"
+msgstr "Taksonomija redoslijeda"
+
+msgid "tst_input_dynamic_question_set_ordering_tax_description"
+msgstr "Pitanja iz testa bit će prezentirana u skladu s njihovim dodjelama u odabranoj taksonomiji."
+
+msgid "tst_input_dynamic_question_set_question_ordering"
+msgstr "Redoslijed pitanja"
+
+msgid "tst_input_dynamic_question_set_question_ordering_by_date"
+msgstr "Sortiranje pitanja po datumu"
+
+msgid "tst_input_dynamic_question_set_question_ordering_by_tax"
+msgstr "Sortiranje pitanja po taksonomiji"
+
+msgid "tst_input_dynamic_question_set_source_questionpool"
+msgstr "Izvorni bazen pitanja"
+
+msgid "tst_input_dynamic_question_set_taxonomie_filter_enabled"
+msgstr "Prikaži taksonomijski filtar"
+
+#, fuzzy
+msgid "tst_insert_in_test"
+msgstr "Insert in Test"
+
+msgid "tst_insert_missing_question"
+msgstr "Molimo odaberite najmanje jedno pitanje koje želite dodati u test!"
+
+msgid "tst_insert_questions"
+msgstr "Jeste li sigurni da sljedeće pitanje(a) želite dodati u test?"
+
+msgid "tst_instant_feedback"
+msgstr "Izravne povratne informacije"
+
+msgid "tst_instant_feedback_answer_generic"
+msgstr "Povratne informacije o točnom odgovoru"
+
+msgid "tst_instant_feedback_answer_generic_desc"
+msgstr "Ako je odgovor u potpunosti točan, ILIAS će nakon klika na tipku ‘Provjeri’ pokazati jednu vrstu povratne informacije.  Ako odgovor nije u potpunosti točan, prikazat će se druga vrsta povratne informacije. Obje vrste povratne informacije moraju biti pohranjene u kartici ‘Povratna informacija’ dotičnog pitanja."
+
+msgid "tst_instant_feedback_answer_specific"
+msgstr "Različite povratne informacije za svaki dani odgovor"
+
+msgid "tst_instant_feedback_answer_specific_desc"
+msgstr "Klikom na tipku ‘Provjeri'ILIAS će pokazati određenu povratnu informaciju za svaki mogući odgovor koji je odabrao sudionik. Povratna informacija mora se pohraniti uz pitanje. Ovu vrstu povratne informacije ne podržavaju sve vrste pitanja."
+
+msgid "tst_instant_feedback_contents"
+msgstr "Sadržaji povratne informacije"
+
+msgid "tst_instant_feedback_desc"
+msgstr "Kada su pitanja konfigurirana s povratnim informacijama, te informacije sudionicima stoje na raspolaganju tijekom testa."
+
+msgid "tst_instant_feedback_results"
+msgstr "Ostvareni bodovi"
+
+msgid "tst_instant_feedback_results_desc"
+msgstr "Klikom na tipku ‘Provjeri’ ILIAS će prikazati koliko je bodova postignuto danim odgovorom."
+
+msgid "tst_instant_feedback_solution"
+msgstr "Prikaži najbolji mogući odgovor"
+
+msgid "tst_instant_feedback_solution_desc"
+msgstr "Klikom na tipku ‘Check’ ILIAS će prikazati najbolji mogući odgovor na pitanje."
+
+msgid "tst_instant_feedback_trigger"
+msgstr "Okidač povratne informacije"
+
+msgid "tst_instant_feedback_trigger_forced"
+msgstr "Povratna informacija se aktivira danim odgovorom na pitanja"
+
+msgid "tst_instant_feedback_trigger_forced_desc"
+msgstr "Odgovorom na pitanje automatski se aktivira povratna informacija."
+
+msgid "tst_instant_feedback_trigger_manual"
+msgstr "Povratne informacije mogu potaknuti i sami sudionici"
+
+msgid "tst_instant_feedback_trigger_manual_desc"
+msgstr "Povratna informacija je dostupna, ali će biti prikazana samo ako je sudionik ručno aktivira."
+
+msgid "tst_introduction"
+msgstr "Uvodna poruka"
+
+msgid "tst_introduction_desc"
+msgstr "Pokazuje uvodnu poruku na kartici testa ‘Info’. Ovaj tekst je dostupan već prije početka testa."
+
+msgid "tst_introduction_text"
+msgstr "Uvodna poruka"
+
+msgid "tst_invited_nobody"
+msgstr "Korisnici, grupe ili uloge nisu dodani kao fiksni sudionici testa"
+
+msgid "tst_invited_selected_users"
+msgstr "Odabrani korisnici dodani su kao fiksni sudionici testa"
+
+#, fuzzy
+msgid "tst_launcher_button_label_passes_limit_reached"
+msgstr "You have reached the limit of possible test passes"
+
+#, fuzzy
+msgid "tst_launcher_status_message_conditions"
+msgstr "You will be asked for your approval of the exam conditions when you start the test."
+
+#, fuzzy
+msgid "tst_launcher_status_message_conditions_and_password"
+msgstr "You will be asked for the password and your approval of the exam conditions when you start the test."
+
+#, fuzzy
+msgid "tst_launcher_status_message_password"
+msgstr "You will be asked for the password when you start the test."
+
+msgid "tst_level"
+msgstr "Razina kompetencije"
+
+msgid "tst_limit_nr_of_tries"
+msgstr "Ograničavanje broja prolaza testa"
+
+msgid "tst_link_only_unassigned"
+msgstr "Odabrali ste barem jedno pitanje koje je već povezano s bazenom pitanja. U bazen pitanja mogu se samo dodati pitanja koja nisu sadržana u bazenu pitanja"
+
+msgid "tst_list_answer_details"
+msgstr "Prikaži na popisu u nastavku"
+
+msgid "tst_list_of_answers"
+msgstr "Popis odgovora"
+
+msgid "tst_list_of_answers_show"
+msgstr "Pregled ocjenjenih odgovora"
+
+msgid "tst_list_of_questions_end"
+msgstr "Prikaži prije nego što sudionik završi test"
+
+msgid "tst_list_of_questions_start"
+msgstr "Prikaži prije prvog pitanja"
+
+msgid "tst_list_of_questions_with_description"
+msgstr "Prikaži opise pitanja"
+
+#, fuzzy
+msgid "tst_man_scoring_answered_hide"
+msgstr "Hide answered questions"
+
+#, fuzzy
+msgid "tst_man_scoring_answered_only"
+msgstr "Show only answered questions"
+
+msgid "tst_man_scoring_by_part"
+msgstr "Ocjenjivanje po sudionicima"
+
+msgid "tst_man_scoring_by_qst"
+msgstr "Ocjenjivanje po pitanju"
+
+#, fuzzy
+msgid "tst_man_scoring_finalized"
+msgstr "Show finalized gradings"
+
+#, fuzzy
+msgid "tst_man_scoring_finalized_hide"
+msgstr "Hide finalized gradings"
+
+#, fuzzy
+msgid "tst_man_scoring_finalized_only"
+msgstr "Show only finalized gradings"
+
+#, fuzzy
+msgid "tst_man_scoring_only_answered"
+msgstr "Only answered"
+
+#, fuzzy
+msgid "tst_man_scoring_questionselection"
+msgstr "Questions"
+
+#, fuzzy
+msgid "tst_man_scoring_userselection"
+msgstr "Participants"
+
+msgid "tst_manage_competence_assigns"
+msgstr "Upravljanje dodjelama kompetencija"
+
+#, fuzzy
+msgid "tst_manage_competence_select_skills"
+msgstr "Select Competences"
+
+msgid "tst_manscoring_input_max_points_for_question"
+msgstr "Maksimalan broj bodova za pitanje"
+
+#, fuzzy
+msgid "tst_manscoring_input_of_max"
+msgstr "of"
+
+msgid "tst_manscoring_input_question_and_user_solution"
+msgstr "Pitanje i rješenje korisnika"
+
+msgid "tst_manscoring_maxpoints_exceeded_input_alert"
+msgstr "Prekoračen je maksimum od %s bodova!"
+
+#, fuzzy
+msgid "tst_manscoring_no_feedback"
+msgstr "No written feedback has been given yet."
+
+msgid "tst_manscoring_question_section_header"
+msgstr "Pitanje: %s"
+
+msgid "tst_manscoring_user_notification"
+msgstr "Pošalji obavijest"
+
+msgid "tst_mark"
+msgstr "Ocjena"
+
+msgid "tst_mark_create_new_mark_step"
+msgstr "Kreiraj novu ocjenu"
+
+msgid "tst_mark_minimum_level"
+msgstr "Minimalna razina (u %)"
+
+#, fuzzy
+msgid "tst_mark_minimum_level_invalid"
+msgstr "Minimum Level must be between 0 and 100."
+
+msgid "tst_mark_official_form"
+msgstr "Službeni naziv"
+
+msgid "tst_mark_passed"
+msgstr "Položeno"
+
+msgid "tst_mark_reset_to_simple_mark_schema"
+msgstr "Vrati na jednostavnu shemu ocjena"
+
+#, fuzzy
+msgid "tst_mark_reset_to_simple_mark_schema_confirmation"
+msgstr "If you proceed the current mark schema set for this test will be replaced by a simple mark schema thus deleting all local changes."
+
+msgid "tst_mark_short_form"
+msgstr "Skraćeni naziv"
+
+msgid "tst_max_comp_points"
+msgstr "Maks. bodovi za kompetencije"
+
+msgid "tst_maximum_points"
+msgstr "Maksimalan broj bodova"
+
+#. fau: testNav
+msgid "tst_mc_label_none_above"
+msgstr "Nijedan od gore navedenih odgovora"
+
+msgid "tst_median_mark_panel"
+msgstr "Ocjena medijana"
+
+msgid "tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part"
+msgstr "Konfiguracija za kontinuirani odabir pitanje ne može se mijenjati jer već postoje rezultati sudionika."
+
+msgid "tst_msg_cannot_modify_random_question_set_conf_due_to_part"
+msgstr "Konfiguracija za slučajni odabir pitanje ne može se mijenjati jer već postoje rezultati sudionika."
+
+msgid "tst_msg_dynamic_question_set_config_modified"
+msgstr "Konfiguracija za kontinuirani izbor pitanja je izmijenjena."
+
+msgid "tst_msg_rand_quest_set_change_quest_amount_here"
+msgstr "Ovdje možete promijeniti broj pitanja: %s"
+
+msgid "tst_msg_rand_quest_set_incomplete_quest_amount_cfg"
+msgstr "Test sa slučajnim odabirom pitanja ne može se proizvesti ako nije definiran broj pitanja."
+
+msgid "tst_msg_rand_quest_set_lost_pools"
+msgstr "Konfiguracija za odabir pitanja je smrznuta, jer sljedeći bazeni pitanja koji su uključeni u konfiguraciju više nisu dostupni. Bazeni pitanja koji nisu dostupni mogu se nanovo izvesti.<br />%s"
+
+msgid "tst_msg_rand_quest_set_lost_pools_link"
+msgstr "Otvori odabir bazena pitanja"
+
+msgid "tst_msg_rand_quest_set_no_pools_available"
+msgstr "Trenutačno ne možete dodati nova pravila za odabir pitanja, jer nema dostupnih bazena pitanja."
+
+msgid "tst_msg_rand_quest_set_no_src_pool_defs"
+msgstr "Test sa slučajnim odabirom pitanja ne može se proizvesti ako nije definiran barem jedan bazen pitanja."
+
+msgid "tst_msg_rand_quest_set_not_sync"
+msgstr "Pravila za slučajni odabir pitanja su nedavno izrađena ili promijenjena. Pitanja iz bazena moraju se ponovno kopirati u test kako bi se mogla koristiti. U tom se postupku također provjerava je li slučajni test moguć s danim skupom pravila."
+
+msgid "tst_msg_rand_quest_set_pass_buildable"
+msgstr "Test sa slučajnim odabirom pitanja je s trenutačnom konfiguracijom moguć."
+
+msgid "tst_msg_rand_quest_set_pass_not_buildable"
+msgstr "<b>Test sa slučajnim odabirom pitanja ne može se generirati s trenutačnom odabirom bazena i broja pitanja.</b><br />"
+
+msgid "tst_msg_rand_quest_set_rule_label"
+msgstr "Pravilo %s"
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_missing"
+msgstr "Pravilo %s zahtijeva %s pitanja, ali dostupna su samo %s pitanja."
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_missing_shared"
+msgstr "Osim ovih pitanja, %s pitanja također su dostupna i za sljedeća druga pravila: %s"
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_reserved"
+msgstr "Pravilo %s zahtijeva %s pitanja i predviđena su %s pitanja."
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_reserved_shared"
+msgstr "No, samo %s od navedenih pitanja je zbog preklapanja sa sljedećim drugim pravilima zajamčeno dostupno: %s"
+
+msgid "tst_msg_rand_quest_set_stage_pool_last_sync"
+msgstr "Datum posljednje sinkronizacije pitanja iz odabranih bazena pitanja: %s"
+
+msgid "tst_msg_random_qsc_modified_add_new_rule"
+msgstr "Konfiguracija za slučajnih odabir pitanja je uspješno izmijenjena. Sada možete dodati novo pravilo."
+
+msgid "tst_msg_random_question_set_config_modified"
+msgstr "Konfiguracija za slučajnih odabir pitanja je uspješno izmijenjena."
+
+msgid "tst_msg_random_question_set_synced"
+msgstr "Pitanja za trenutačnu konfiguraciju testa sa slučajnim odabirom pitanja uspješno su sinkronizirana."
+
+msgid "tst_msg_skl_lvl_thresholds_saved"
+msgstr "Pragovi za kompetencije su spremljeni."
+
+msgid "tst_msg_skl_qst_assign_points_not_saved"
+msgstr "Bodovi za kompetencije nisu spremljeni. Molimo provjerite svoj unos."
+
+msgid "tst_msg_skl_qst_assign_points_saved"
+msgstr "Bodovi za kompetencije su spremljeni."
+
+msgid "tst_msg_source_pool_definitions_deleted"
+msgstr "Pravilo za odabir pitanja je uspješno uklonjeno."
+
+msgid "tst_nav_next_locks_current_answer_confirm"
+msgstr "Kada navigirate do sljedećeg pitanja vaš odgovor na trenutačnu pitanje će se zaključati i više se neće moći mijenjati."
+
+msgid "tst_nav_next_locks_current_answer_header"
+msgstr "Navigiranje do sljedećeg pitanja"
+
+msgid "tst_nav_next_locks_empty_answer_confirm"
+msgstr "Niste odgovorili na trenutačno pitanje. Prazno rješenje će se spremiti i zaključati kao odgovor na trenutačno pitanje. Ovaj se odgovor kasnije više ne može promijeniti."
+
+msgid "tst_nav_next_locks_empty_answer_header"
+msgstr "Navigiranje bez odgovora"
+
+msgid "tst_nav_while_edit_modal_cancel_btn"
+msgstr "Prekini"
+
+msgid "tst_nav_while_edit_modal_header"
+msgstr "Odluka o odgovorima"
+
+msgid "tst_nav_while_edit_modal_nosave_btn"
+msgstr "Nemoj spremiti"
+
+msgid "tst_nav_while_edit_modal_save_btn"
+msgstr "Spremi"
+
+msgid "tst_nav_while_edit_modal_text"
+msgstr "Što učiniti s odgovorima koje ste eventualno već dali na ovo pitanje?"
+
+msgid "tst_no_evaluation_data"
+msgstr "(Još) Nema korisničkih podataka."
+
+msgid "tst_no_marks_defined"
+msgstr "Nema definiranih ocjena. Molimo izradite barem jednostavnu shemu ocjena!"
+
+msgid "tst_no_question_selected_for_moving_to_qpl"
+msgstr "Molimo izaberite barem jedno pitanje koje želite dodati u bazen pitanja!"
+
+msgid "tst_no_question_selected_for_removal"
+msgstr "Molimo odaberite najmanje jedno pitanje za uklanjanje!"
+
+msgid "tst_no_scorable_qst_available"
+msgstr "Nije dostupno nijedno pitanje za ručno ocjenjivanje"
+
+msgid "tst_non_avail_pool_msg_status_lost"
+msgstr "Ovaj bazen pitanja više nije dostupan Sinkronizacija pitanja iz ovog bazena više nije moguća. Iz pitanja koja se već nalaze u testu možete izvesti novi bazen pitanja."
+
+msgid "tst_non_avail_pool_msg_status_trashed"
+msgstr "Ovaj bazen pitanja je u košu za smeće. Ako se trajno ukloni iz sustava, test više neće biti u stanju sinkronizirati pitanja iz ovoga bazena."
+
+msgid "tst_non_avail_pools_table"
+msgstr "Bazeni pitanja koji nisu dostupni"
+
+msgid "tst_non_available_pool_newly_derived"
+msgstr "Novi bazen (i) pitanja su uspješno izvedeni."
+
+msgid "tst_nonpool_questions_get_lost_warning"
+msgstr "<b>Trenutačni način testa u svojoj konfiguraciji sadrži pitanja koja nisu dodijeljena nijednom bazu pitanja. Ako promijenite način testa, ta pitanja će biti trajno izgubljena.</b>"
+
+msgid "tst_notification_explanation_admin"
+msgstr "Primili ste ovu e-poštu od ILIAS-a jer ste aktiviraili funkciju obavijesti."
+
+msgid "tst_notify_manscoring_done_body_msg_reason"
+msgstr "Primili ste ovu obavijest jer ste sudjelovali u ovom testu."
+
+msgid "tst_notify_manscoring_done_body_msg_subject"
+msgstr "Provedeno ručno ocjenjivanje za test \"%s\""
+
+msgid "tst_notify_manscoring_done_body_msg_topic"
+msgstr "Vaš je test ocijenjen ručno:"
+
+msgid "tst_nr_of_passes"
+msgstr "Broja prolaza testa"
+
+msgid "tst_nr_of_tries"
+msgstr "Maks. broj prolaza"
+
+msgid "tst_nr_of_tries_desc"
+msgstr "Maksimalni broj prolaza koje sudionik može apsolvirati."
+
+msgid "tst_num_all_questions"
+msgstr "Broj sva pitanja"
+
+msgid "tst_num_correct_answered_questions"
+msgstr "Ispravno odgovoreno"
+
+msgid "tst_num_non_answered_questions_notseen"
+msgstr "Još nije pregledano"
+
+msgid "tst_num_non_answered_questions_skipped"
+msgstr "Preskočeno"
+
+msgid "tst_num_questions"
+msgstr "Broj pitanja"
+
+msgid "tst_num_selected_questions"
+msgstr "Broj odabranih pitanja"
+
+msgid "tst_num_wrong_answered_questions"
+msgstr "Pogrešno odgovoreno"
+
+msgid "tst_objective_oriented_test_pass_without_questions"
+msgstr "Započeti prolaz testa „%s” ne sadrži nijedno pitanje."
+
+msgid "tst_objective_progress_header"
+msgstr "Napredak kod cilja učenja"
+
+msgid "tst_objectives_progress_header"
+msgstr "Napredak u ciljevima učenja"
+
+msgid "tst_old_style_rnd_quest_set_broken"
+msgstr "Ovaj je slučajni test u nepopravljivu stanju, jer su jedan ili više povezanih bazena pitanja izbrisani. Zbog toga sudionici ne mogu dalje ispunjavati test."
+
+#, fuzzy
+msgid "tst_optional_questions_confirmation_fixed_test"
+msgstr "<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back."
+
+msgid "tst_optional_questions_confirmation_non_fixed_test"
+msgstr "<b>Pitanja vezana za već uspješno obrađene ciljeve učenja su opcionalna.</b><br /><br /> Vi želite prijeći na pitanje, koje se odnosi na već usvojen cilj učenja.<br /> Možete odabrati:<br /><br /> Ako nastavite, možete obraditi pitanja vezana za te ciljeve učenja. Vaši odgovori iz prethodnih pokušaja nisu preuzeti, jer su za ovaj pokušaj odabrana nova pitanja. U slučaju ponovne obrade pitanja možete i pogoršati svoj rezultat cilja učenja.<br /><br /> Ako ne želite ponovno obraditi ova pitanja, možete se vratiti. U tom slučaju ta se pitanja neće uzeti u obzir u procjeni."
+
+#, fuzzy
+msgid "tst_out_of_time_message"
+msgstr "You have reached the maximum allowed processing time of the test!"
+
+msgid "tst_participant"
+msgstr "Sudionik"
+
+msgid "tst_participant_fullname_pattern"
+msgstr "%2$s, %1$s"
+
+msgid "tst_participant_status"
+msgstr "Status sudionika"
+
+msgid "tst_participating_users"
+msgstr "Sudjelujući korisnici"
+
+msgid "tst_pass_best_pass"
+msgstr "Ocijeni najbolji prolaz testa"
+
+msgid "tst_pass_best_pass_desc"
+msgstr "Ocijenit će se prolaz testa u kojem je sudionik ostvario najviše bodova. Ova postavka se primjenjuje samo kada je moguće više polaza testa."
+
+msgid "tst_pass_deletion"
+msgstr "Prethodni prolazi"
+
+msgid "tst_pass_deletion_allowed"
+msgstr "Dopušteno je brisanje prethodnih prolaza testa"
+
+msgid "tst_pass_details"
+msgstr "Detaljni rezultati"
+
+msgid "tst_pass_details_header_lo_initial"
+msgstr "Početni rezultati testa za ciljeve učenja<br />%s - %s"
+
+msgid "tst_pass_details_header_lo_qualifying"
+msgstr "Kvalifikacijski rezultati testa za ciljeve učenja<br />%s - %s"
+
+msgid "tst_pass_details_overview_table_title"
+msgstr "Detaljan pregled rezultata testa za prolaz %s"
+
+#, fuzzy
+msgid "tst_pass_finished"
+msgstr "Test attempt finished"
+
+msgid "tst_pass_finished_on"
+msgstr "Prolaz testa završen dana"
+
+msgid "tst_pass_last_pass"
+msgstr "Ocijeni posljednji prolaz testa"
+
+msgid "tst_pass_last_pass_desc"
+msgstr "Ocjenjuje se uvijek posljednji prolaza testa sudionika."
+
+msgid "tst_pass_overview_for_participant"
+msgstr "Prolazi testa za sudionike: %s"
+
+msgid "tst_pass_overview_header_lo_initial_all_objectives"
+msgstr "Početni rezultati testa<br /> za ciljeve učenja na tečaju %s"
+
+msgid "tst_pass_overview_header_lo_initial_per_objective"
+msgstr "Početni rezultati testa<br /> za ciljeve učenja %s na tečaju %s"
+
+msgid "tst_pass_overview_header_lo_qualifying_all_objectives"
+msgstr "Kvalifikacijski rezultati testa<br /> za ciljeve učenja na tečaju %s"
+
+msgid "tst_pass_overview_header_lo_qualifying_per_objective"
+msgstr "Kvalifikacijski rezultati testa<br /> za ciljeve učenja %s na tečaju %s"
+
+msgid "tst_pass_scoring"
+msgstr "Bodovanje u slučaju više prolaza testa"
+
+#, fuzzy
+msgid "tst_pass_scoring_best"
+msgstr "Best Test Attempt"
+
+#, fuzzy
+msgid "tst_pass_scoring_last"
+msgstr "Last Test Attempt"
+
+msgid "tst_pass_waiting_enabled"
+msgstr "Odrediti vrijeme čekanja između prolaza testa"
+
+msgid "tst_pass_waiting_info"
+msgstr "S ovom opcijom ponovni prolazi testa se ne mogu pokrenuti prije nego što protekne definirano vremensko razdoblje od prethodnog prolaza."
+
+msgid "tst_pass_waiting_time"
+msgstr "Vrijeme čekanja"
+
+msgid "tst_passed"
+msgstr "Položeno"
+
+msgid "tst_passes"
+msgstr "Prolazi testa"
+
+msgid "tst_password"
+msgstr "Lozinka za test"
+
+msgid "tst_password_details"
+msgstr "Ako ste definirali lozinku za test, svi sudionici moraju unijeti tu lozinku kako bi mogli pokrenuti ili nastaviti test. To se odnosi i na prolaze testa koji su u tijeku."
+
+msgid "tst_password_enter"
+msgstr "Unesi lozinku"
+
+msgid "tst_password_entered_wrong_password"
+msgstr "Ne možete pokrenuti test jer ste unijeli pogrešnu lozinku za test!"
+
+msgid "tst_password_form"
+msgstr "Unesi lozinku za test"
+
+msgid "tst_password_introduction"
+msgstr "Ovom se testu može pristupiti samo s lozinkom za test. Unesite lozinku za test kako biste ga pokrenuli."
+
+msgid "tst_percent_solved"
+msgstr "Posto riješeno"
+
+#, fuzzy
+msgid "tst_player_answer_saved_and_locked"
+msgstr "Answer is saved and locked and can no longer be changed"
+
+#, fuzzy
+msgid "tst_please_select_source_pool"
+msgstr "Please select a question pool."
+
+msgid "tst_please_select_target_for_pool_derives"
+msgstr "Molimo odaberite ciljni kontejner."
+
+msgid "tst_position"
+msgstr "Pitanje %s od %s"
+
+msgid "tst_position_without_total"
+msgstr "Pitanje %s"
+
+msgid "tst_postpone"
+msgstr "Pitanja na koja nije odgovoreno"
+
+msgid "tst_postpone_off"
+msgstr "Pitanja na koja nije odgovoreno ostaju na svom mjestu"
+
+msgid "tst_postpone_off_desc"
+msgstr "Pitanje koja korisnici samo pogledaju i prelistaju bez da na njih odgovore, ostat će na svom mjestu u testu i neće biti prebačena na kraj testa."
+
+msgid "tst_postpone_on"
+msgstr "Pitanja na koja nije dan odgovor, bit će stavljena na kraj testa"
+
+msgid "tst_postpone_on_desc"
+msgstr "Pitanje koja korisnici samo pogledaju i prelistaju bez da na njih odgovore, ILIAS će staviti na kraj testa kako bi se još jednom prikazala na kraju testa."
+
+msgid "tst_presentation_properties"
+msgstr "Provedba testa: ponašanje pitanja"
+
+msgid "tst_presentation_settings_section"
+msgstr "Prezentacija"
+
+#, fuzzy
+msgid "tst_previous_access_code_not_available"
+msgstr "No previous code available!"
+
+msgid "tst_proceed"
+msgstr "Nastavi"
+
+msgid "tst_processing_time"
+msgstr "Ograniči trajanje testa"
+
+msgid "tst_processing_time_desc"
+msgstr "Sudionici test mogu rješavati samo tijekom određenog vremenskog razdoblja. Vrijeme teče od trenutka kada korisnik po prvi put pokrene test. Prekid testa ne zaustavlja vrijeme obrade. Ako je broj mogućih prolaza testa ograničen, na kartici ‘Nadzorna ploča’ prikazuje se dodatna značajka kako bi se sudionicima odobrilo dodatno vrijeme."
+
+msgid "tst_processing_time_duration"
+msgstr "Maksimalno trajanje testa"
+
+msgid "tst_processing_time_duration_desc"
+msgstr "Maksimalno raspoloživo vrijeme za rješavanje testa."
+
+msgid "tst_qbt_filter_question_title"
+msgstr "Naziv pitanja"
+
+msgid "tst_qst_added_to_pool_p"
+msgstr "Pitanja su uspješno dodana u odabrani bazen pitanja."
+
+msgid "tst_qst_added_to_pool_s"
+msgstr "Pitanje je uspješno dodano u odabrani bazen pitanja."
+
+msgid "tst_qst_order"
+msgstr "Br."
+
+msgid "tst_qst_skl_cfg_in_pool_hint_dynquestset"
+msgstr "Dodjela pitanja i kompetencija za test u načinu „%s” mora se načelno provesti u dodijeljenom bazenu pitanja:<br /> %s<br /><br /> Dodjela pragova za kompetencije provodi se ovdje u testu."
+
+msgid "tst_qst_skl_cfg_in_pool_hint_rndquestset"
+msgstr "Dodjela pitanja i kompetencija za test u načinu „%s” mora se načelno provesti u dodijeljenom(im) bazenu(ima) pitanja:<br /> %s<br /><br /> Dodjela pragova za kompetencije provodi se ovdje u testu."
+
+msgid "tst_question"
+msgstr "Pitanje"
+
+msgid "tst_question_amount"
+msgstr "Pitanja, broj"
+
+msgid "tst_question_answer_status"
+msgstr "Koja bi se pitanja trebala ponovno prikazati?"
+
+msgid "tst_question_answer_status_all_non_correct"
+msgstr "Sva pitanja, osim onih na koja je dan točan odgovor"
+
+msgid "tst_question_answer_status_non_answered"
+msgstr "Pitanja na koja nije odgovoreno"
+
+msgid "tst_question_answer_status_wrong_answered"
+msgstr "Samo Ppitanja na koja je odgovoreno pogrešno"
+
+msgid "tst_question_feedback_back_to_feedback_form"
+msgstr "Natrag na pozivajuće pitanje"
+
+msgid "tst_question_feedback_edit_page"
+msgstr "Uredi sadržaj"
+
+msgid "tst_question_mark"
+msgstr "Označi ovo pitanje"
+
+msgid "tst_question_marked"
+msgstr "Označili ste pitanje"
+
+msgid "tst_question_marker"
+msgstr "Označeno zastavicom"
+
+msgid "tst_question_no"
+msgstr "Redoslijed"
+
+msgid "tst_question_not_from_pool_info"
+msgstr "Nema bazena"
+
+#. fau: testNav
+msgid "tst_question_not_marked"
+msgstr "Pitanje nije označeno"
+
+msgid "tst_question_offer"
+msgstr "Želite li koristiti ovaj sastav ili želite generirati novi?"
+
+msgid "tst_question_set_type"
+msgstr "Odabir pitanja za test"
+
+msgid "tst_question_set_type_dynamic"
+msgstr "Način ponovnog prikazivanja pitanja - sva pitanja iz bazena pitanja"
+
+msgid "tst_question_set_type_dynamic_desc"
+msgstr "Sudionicima se predstavlja jedno pitanje za drugim iz bazena pitanja. Pitanja na koja je dan pogrešan odgovor ponovno će se prikazati. Mogu se dodavati i uređivati i pitanja iz testova koji su u tijeku."
+
+msgid "tst_question_set_type_fixed"
+msgstr "Fiksno definiran izbor pitanja"
+
+msgid "tst_question_set_type_fixed_desc"
+msgstr "Svi sudionici dobivaju ista pitanja."
+
+msgid "tst_question_set_type_random"
+msgstr "Slučajan izbor pitanja"
+
+msgid "tst_question_set_type_random_desc"
+msgstr "Svaki sudionik dobiva druga pitanja. Pitanja se nasumce biraju iz jednog ili više bazena pitanja."
+
+msgid "tst_question_title"
+msgstr "Naziv pitanja"
+
+msgid "tst_question_type"
+msgstr "Tip pitanja"
+
+msgid "tst_questions_inserted"
+msgstr "Pitanje(a) je(su) umetnuto(a)!"
+
+msgid "tst_questions_removed"
+msgstr "Pitanje(a) je(su) uklonjeno(a)!"
+
+msgid "tst_random_nr_of_questions"
+msgstr "Koliko pitanja?"
+
+msgid "tst_random_question_set_source_questionpool_summary_string"
+msgstr "%s (Staza: %s) [%s pitanja]"
+
+msgid "tst_random_select_questionpool"
+msgstr "Odaberite bazen pitanje iz kojeg želite izabrati pitanja"
+
+msgid "tst_reached_points"
+msgstr "Bodovi"
+
+msgid "tst_reached_points_of_max"
+msgstr "%s od %s"
+
+msgid "tst_remove_mark"
+msgstr "Ukloni ovu oznaku"
+
+msgid "tst_remove_question"
+msgstr "Jeste li sigurni da sljedeće pitanje želite izbrisati iz testa?"
+
+msgid "tst_remove_questions"
+msgstr "Jeste li sigurni da sljedeća pitanja želite izbrisati iz testa?"
+
+msgid "tst_remove_questions_and_results"
+msgstr "Ovaj je test ispunilo već %s korisnika. Uklanjanjem pitanja iz ovoga testa uklonit će se svi rezultati testa ovih korisnika. Jeste li sigurni da sljedeće(a) pitanje(a) želite izbrisati iz testa?"
+
+msgid "tst_report_after_date"
+msgstr "Nakon fiksno određenog datuma izvješćivanja"
+
+msgid "tst_report_after_first_question"
+msgstr "Nudi rezultate testa već neposredno nakon početka testa"
+
+msgid "tst_report_after_passed"
+msgstr "Nudi rezultate testa kada je test položen"
+
+msgid "tst_report_after_test"
+msgstr "Nudi rezultate testa kada je test završen"
+
+msgid "tst_report_never"
+msgstr "Nema dostupnih rezultata testa"
+
+msgid "tst_reporting_date"
+msgstr "Datum"
+
+msgid "tst_res_jump_to_participant_btn"
+msgstr "Skoči na"
+
+msgid "tst_res_jump_to_participant_hint_opt"
+msgstr "Skoči na sudionika"
+
+msgid "tst_res_lo_objectives_header"
+msgstr "Relevantni ciljevi učenja"
+
+msgid "tst_res_lo_try_header"
+msgstr "Pokušaj"
+
+msgid "tst_res_lo_try_n"
+msgstr "Pokušaj %s"
+
+#, fuzzy
+msgid "tst_res_tab_msg_no_lp_access"
+msgstr "You are currently not allowed to access your Learning Progress, as you are not allowed to see your test results."
+
+msgid "tst_res_tab_msg_res_after_date"
+msgstr "Rezultati test bit će ovdje prikazani na sljedeći datum: %s"
+
+msgid "tst_res_tab_msg_res_after_date_no_res"
+msgstr "Kada provodite test, rezultati testa bit će ovdje prikazani na sljedeći datum: %s"
+
+msgid "tst_res_tab_msg_res_after_finish_test"
+msgstr "Nakon završetka testa, vaši rezultati bit će ovdje prikazani."
+
+msgid "tst_res_tab_msg_res_after_taking_test"
+msgstr "Nakon provedbe testa, vaši rezultati bit će ovdje prikazani."
+
+msgid "tst_res_tab_msg_res_after_test_passed"
+msgstr "Nakon što se položili test, vaši rezultati bit će ovdje prikazani."
+
+msgid "tst_reset_processing_time"
+msgstr "Resetiraj maksimalno vrijeme obrade za svaki prolaz testa."
+
+msgid "tst_reset_processing_time_desc"
+msgstr "Trajanje će se resetirati na definirano maksimalno vrijeme obrade za svaki prolaz testa. Ova postavka zahtijeva da se aktivira više prolaza testova."
+
+msgid "tst_result"
+msgstr "Rezultat testa"
+
+msgid "tst_result_pass"
+msgstr "Rezultat prolaza testa"
+
+msgid "tst_result_user_name"
+msgstr "Rezultati testa za %s"
+
+msgid "tst_result_user_name_pass"
+msgstr "Rezultati prolaza testa %s za %s"
+
+msgid "tst_results"
+msgstr "Rezultati testa"
+
+msgid "tst_results_access_always"
+msgstr "Odmah"
+
+msgid "tst_results_access_always_desc"
+msgstr "Sudionici preko kartice ‘Rezultati’ mogu pristupiti svojim rezultatima odmah nakon početka prolaza testa. Osim toga, ILIAS će ih nakon završetka testa preusmjeriti na karticu ‘Rezultati’."
+
+msgid "tst_results_access_date"
+msgstr "Datum"
+
+msgid "tst_results_access_date_desc"
+msgstr "Sudionici nakon definiranog datuma mogu vidjeti svoje rezultate na kartici ‘Rezultati’ ."
+
+msgid "tst_results_access_enabled"
+msgstr "Pristup rezultatima testa"
+
+msgid "tst_results_access_enabled_desc"
+msgstr "Sudionici će dobiti pristup kartici ‘Rezultati’. Opcije u ovoj i sljedećim odjeljcima konfiguriraju koje informacije moraju biti sadržane u izvješću i kada će biti dostupno."
+
+msgid "tst_results_access_finished"
+msgstr "Nakon završetka prolaza testa"
+
+msgid "tst_results_access_finished_desc"
+msgstr "ILIAS prikazuje sudionicima rezultate ispitivanja odmah po završetku jednog prolaza testa. Po završetku prolaza testa sudionici svojim rezultatima mogu pristupiti u svako doba preko kartice ‘Rezultati’."
+
+msgid "tst_results_access_passed"
+msgstr "Nakon što je test položen"
+
+msgid "tst_results_access_passed_desc"
+msgstr "ILIAS prikazuje sudionicima njihove rezultate nakon što su položili test. Nakon što su položili test sudionici svojim rezultatima mogu pristupiti u svako doba preko kartice ‘Rezultati’."
+
+msgid "tst_results_access_setting"
+msgstr "Trenutak"
+
+msgid "tst_results_aggregated"
+msgstr "Agregirani rezultati testa"
+
+msgid "tst_results_back_introduction"
+msgstr "Natrag na početnu stranicu"
+
+msgid "tst_results_back_overview"
+msgstr "Natrag na pregled rezultata"
+
+msgid "tst_results_details_options"
+msgstr "Drugi detalji koji trebaju biti uključeni u rezultate testa"
+
+#, fuzzy
+msgid "tst_results_gamification"
+msgstr "Gamification"
+
+#, fuzzy
+msgid "tst_results_grading_opt_show_details"
+msgstr "Show detailed test results"
+
+#, fuzzy
+msgid "tst_results_grading_opt_show_details_desc"
+msgstr "In addition to the summary test result, a \"Detailed Results\" action is provided. The \"Detailed test results\" table shows the titles of the questions and the points achieved for each run. The content of the table can be further supplemented in the \"Further options\" section."
+
+msgid "tst_results_grading_opt_show_mark"
+msgstr "Prikaži konačnu ocjenu"
+
+msgid "tst_results_grading_opt_show_mark_desc"
+msgstr "Konačna ocjena prikazat će se u pregledu rezultata testa. Sudionici svojim rezultatima na testu mogu pristupiti preko kartice ‘Rezultati’."
+
+msgid "tst_results_grading_opt_show_status"
+msgstr "Prikaži ‘prošao’ / ‘nije prošao’"
+
+msgid "tst_results_grading_opt_show_status_desc"
+msgstr "Status ‘prošao’ / ‘nije prošao’ prikazat će se u pregledu rezultata testa. Sudionici svojim rezultatima na testu mogu pristupiti preko kartice ‘Rezultati’."
+
+msgid "tst_results_overview"
+msgstr "Pregled prolaza testa"
+
+msgid "tst_results_print_best_solution"
+msgstr "Najbolje moguće rješenje"
+
+msgid "tst_results_print_best_solution_info"
+msgstr "Dodatno će se za svako pitanje pokazati najbolje moguće rješenje."
+
+msgid "tst_resume_test"
+msgstr "Nastavi test"
+
+#. fau: testNav
+msgid "tst_revert_changes"
+msgstr "Poništi uređivanje"
+
+msgid "tst_rnd_quest_cfg_tab_general"
+msgstr "Konfiguracija odabira pitanja"
+
+msgid "tst_rnd_quest_cfg_tab_pool"
+msgstr "Odabrani bazen pitanja"
+
+msgid "tst_rnd_quest_set_cfg_general_form"
+msgstr "Konfiguriraj slučajan izbor pitanja"
+
+msgid "tst_rnd_quest_set_cfg_pool_form"
+msgstr "Pravilo za odabir pitanja"
+
+msgid "tst_rnd_quest_set_tb_add_pool_btn"
+msgstr "Dodaj pravilo za odabir pitanja"
+
+msgid "tst_save_and_create_new_rule"
+msgstr "Spremi i dodaj novo pravilo"
+
+#. fau: testNav
+msgid "tst_save_and_proceed"
+msgstr "Spremi i dalje"
+
+msgid "tst_save_comp_points"
+msgstr "Spremi bodovi za kompetencije"
+
+msgid "tst_save_manscoring_failed"
+msgstr "Ručno ocjenjivanje za prolaz testa %s nije se moglo spremiti."
+
+msgid "tst_save_thresholds"
+msgstr "Spremi pragove"
+
+msgid "tst_saved_manscoring_by_question_successfully"
+msgstr "Ručno ocjenjivanje pitanja %s za prolaz testa %s je uspješno spremljeno."
+
+msgid "tst_saved_manscoring_successfully"
+msgstr "Ručno bodovanje prolaza testa %s za %s je uspješno spremljeno."
+
+msgid "tst_score_cut_question"
+msgstr "Promijeni negativne bodove po pitanju i ‘0 bodova’"
+
+msgid "tst_score_cut_question_desc"
+msgstr "Kod dodjele negativnih bodova za pojedine opcije odgovora, sudionici s odgovorom na pitanje mogu ostvariti negativan rezultat. Ovom se postavkom ostvareni negativni bodovi po pitanju postavljaju na 0 bodova."
+
+msgid "tst_score_cut_test"
+msgstr "Negativan rezultat za cjelokupni test postavljen je na ‘0 bodova’"
+
+msgid "tst_score_cut_test_desc"
+msgstr "Po pitanju se mogu ostvariti negativni bodovi, Bodovi ostvarenih kod svih pitanja se zbrajaju. Ukupni rezultat postavit će se na 0 bodova samo ako je ukupan rezultat testa negativan. S ovom postavkom negativni bodovi imaju veliki značaj."
+
+msgid "tst_score_cutting"
+msgstr "Negativni bodovi"
+
+msgid "tst_search_users"
+msgstr "Pretraži sudionike"
+
+msgid "tst_select_questionpool"
+msgstr "Molimo odaberite bazen pitanja u koji želite spremiti izrađeno pitanje"
+
+msgid "tst_selected_user_data_deleted"
+msgstr "Podaci o testu odabranog(ih) korisnika uspješno su uklonjeni"
+
+msgid "tst_sequence_properties"
+msgstr "Provedba testa: Funkcionalnosti koje su dostupne sudionicim"
+
+msgid "tst_set_offline_due_to_switched_question_set_type_setting"
+msgstr "Test je postavljen offline, jer je postavka načina rada testa promijenjena. Morate dodijeliti pitanja za test prije nego što ga opet možete postaviti online."
+
+#, fuzzy
+msgid "tst_settings_conflict_postpone_and_lock"
+msgstr "\"Unanswered questions will be enqueued\" cannot be used together with \"Lock Answers After Moving to Next Question\"."
+
+#, fuzzy
+msgid "tst_settings_conflict_shuffle_and_lock"
+msgstr "\"Shuffle Questions\" cannot be used together with \"Lock Answers After Moving to Next Question\"."
+
+#, fuzzy
+msgid "tst_settings_form_reload_needed"
+msgstr "The form needed to be reloaded to avoid data loss as the available settings have changed due to the removal of all results of participants."
+
+#, fuzzy
+msgid "tst_settings_header_additional"
+msgstr "Additional Features"
+
+msgid "tst_settings_header_execution"
+msgstr "Provedba testa: pristup"
+
+msgid "tst_settings_header_intro"
+msgstr "Informacije prije pokretanja testa"
+
+msgid "tst_settings_header_test_run"
+msgstr "Provedba testa: pokusni rad"
+
+#, fuzzy
+msgid "tst_settings_not_found"
+msgstr "Missing Test Settings"
+
+#, fuzzy
+msgid "tst_settings_not_found_msg"
+msgstr "Test Settings could not found. This may be due to a missing migration step. Please contact your system administrator."
+
+msgid "tst_show_answer_sheet"
+msgstr "Prikaži odgovore"
+
+msgid "tst_show_cancel"
+msgstr "Prekini test"
+
+msgid "tst_show_cancel_description"
+msgstr "Tijekom testa sudionicima se prikazuje gumb kojim se test može prekinuti te kasnije nastaviti. Oprez: Prekidom test ne zaustavlja se odbrojavanje maksimalnog trajanja testa."
+
+msgid "tst_show_comp_results"
+msgstr "Kompetencijski rezultati"
+
+msgid "tst_show_results"
+msgstr "Rezultati testa"
+
+msgid "tst_show_side_list"
+msgstr "Pokaži popis pitanja"
+
+msgid "tst_show_solution_answers_only"
+msgstr "Prikaz ispisa rezultata (samo odgovori)"
+
+msgid "tst_show_solution_answers_only_desc"
+msgstr "Ako je odabrana ova opcija, sadržaj ILIAS-a koji s pomoću kartice ‘Uredi sadržaj’ možete postaviti ispred i iza samog teksta pitanja neće biti vidljiv na ispisu. Ako želite uštedjeti malo prostora na papiru, odaberite ovu opciju."
+
+#, fuzzy
+msgid "tst_show_solution_details_singlepage"
+msgstr "Scored Answers on single pages"
+
+#, fuzzy
+msgid "tst_show_solution_details_singlepage_desc"
+msgstr "Participants can access each question individually and see if their answers were correct and how many points they scored."
+
+msgid "tst_show_solution_feedback"
+msgstr "Povratne informacije"
+
+msgid "tst_show_solution_feedback_desc"
+msgstr "Prikazuju se povratne informacije vezane za odgovore sudionika. Imajte na umu da ovu opciju možete koristiti samo ako ste aktivirali ‘Bodovani odgovori sudionika’ te da su povratne informacije pripremljene zajedno s odgovorima."
+
+msgid "tst_show_solution_printview"
+msgstr "Dodatni ‘Popis odgovora’ za ispis"
+
+msgid "tst_show_solution_printview_desc"
+msgstr "Generira se pregled svih pitanja s odgovorima dotičnog sudionika. Taj popis će biti ponuđen u sklopu kartice ‘Rezultati’ u podkartici ‘Pregled bodovanih odgovora’."
+
+msgid "tst_show_solution_signature"
+msgstr "Mjesto rezervirano za potpis"
+
+msgid "tst_show_solution_signature_desc"
+msgstr "Pripremljena verzija za ispis će sadržavati rezervirano mjesto za potpis sudionika. Molimo imajte na da morate aktivirati ‘Tablicu detaljnih rezultata testa’ kako biste mogli koristiti ovu funkcionalnost."
+
+msgid "tst_show_solution_suggested"
+msgstr "Sadržaj za rekapitulaciju"
+
+msgid "tst_show_solution_suggested_desc"
+msgstr "Ako je sadržaj za rekapitulaciju dodijeljen pitanja u testu, taj će sadržaj biti prikazan u ‘Tablici detaljnih rezultata testa’. Sudionici tako imaju priliku popunite praznine u svom znanju. Kako biste mogli koristiti ovu funkciju, morate aktivirati ‘Tablicu detaljnih rezultata testa’ pod ‘Pristup rezultatima testa’."
+
+msgid "tst_show_summary"
+msgstr "Pokaži ‘Popis pitanja’"
+
+msgid "tst_show_summary_description"
+msgstr "Sudionici mogu uključiti popis pitanja testa s lijeve strane stvarnog pitanja. Pored toga, prikazuje im se tipka ‘Popis pitanja’. Na tom će se zaslonu prikazati ukupni status svih pitanja."
+
+msgid "tst_show_toplist"
+msgstr "Rangiranje"
+
+msgid "tst_shuffle_questions"
+msgstr "Promiješaj pitanja"
+
+msgid "tst_shuffle_questions_description"
+msgstr "Miješa se redoslijed pitanja za svakog sudionika i svaki prolaz testa."
+
+msgid "tst_signature"
+msgstr "Potpis"
+
+msgid "tst_single_answer_details"
+msgstr "Prikaži pojedinačni odgovor"
+
+msgid "tst_skill_triggerings_num_req_answers"
+msgstr "Potreban broj odgovora za procjenu kompetencija"
+
+msgid "tst_skill_triggerings_num_req_answers_desc"
+msgstr "Kompetencije se procjenjuju samo ako barem taj broj odgovora pridonosi izračunavanju razine kompetencije."
+
+msgid "tst_skill_triggerings_num_req_answers_not_reached_warn"
+msgstr "Barem za jednu kompetenciju obrađenu u testu nije dodijeljen dovoljan broj pitanja. Za ove kompetencije ne evidentiraju se unosi kompetencija za sudionike. <br />Minimalni broj dodijeljenih pitanja: %s"
+
+msgid "tst_skl_level_thresholds_link"
+msgstr "Kofiguriraj pragove za kompetencije"
+
+msgid "tst_skl_level_thresholds_missing"
+msgstr "Nisu definirani pragovi za sve relevantne kompetencije!"
+
+msgid "tst_skl_sub_tab_thresholds"
+msgstr "Pragovi za kompetencije"
+
+msgid "tst_sol_comp_expressions"
+msgstr "Komparativni izrazi"
+
+msgid "tst_solution_compare_cfg"
+msgstr "Konfiguracija za usporedbu odgovora"
+
+msgid "tst_source_question_pool"
+msgstr "Bazen pitanja"
+
+msgid "tst_src_quest_pool_def_list_table"
+msgstr "Pravilo za slučajni odabir pitanja"
+
+msgid "tst_start_dyn_test_with_cur_quest_sel"
+msgstr "Pokretni test s trenutačnim izborom pitanja"
+
+msgid "tst_start_new_test_pass"
+msgstr "Pokreni novi prolaz testa"
+
+msgid "tst_start_test"
+msgstr "Započnite test"
+
+msgid "tst_starting_time"
+msgstr "Vrijeme početka"
+
+msgid "tst_starting_time_desc"
+msgstr "Trenutak nakon kojeg se test može započeti klikom na gumb ‘Početak’ te sudionici mogu davati odgovore na pitanja."
+
+msgid "tst_stat_result_atimeofwork"
+msgstr "Prosječno vrijeme obrade"
+
+msgid "tst_stat_result_firstvisit"
+msgstr "Prvi posjet"
+
+msgid "tst_stat_result_lastvisit"
+msgstr "Posljednji posjet"
+
+msgid "tst_stat_result_mark_median"
+msgstr "Prosječna ocjena"
+
+msgid "tst_stat_result_median"
+msgstr "Prosječan rezultat testa u bodovima"
+
+msgid "tst_stat_result_pworkedthrough"
+msgstr "Postotak ukupno odrađenih radnih zadataka"
+
+msgid "tst_stat_result_qmax"
+msgstr "Ukupan broj pitanja"
+
+msgid "tst_stat_result_qworkedthrough"
+msgstr "Već odrađena pitanja"
+
+msgid "tst_stat_result_rank_median"
+msgstr "Prosječan rang"
+
+msgid "tst_stat_result_rank_participant"
+msgstr "Rang sudionika"
+
+msgid "tst_stat_result_resultsmarks"
+msgstr "Rezultati testa u obliku ocjene"
+
+msgid "tst_stat_result_resultspoints"
+msgstr "Rezultati testa u bodovima"
+
+msgid "tst_stat_result_timeontask"
+msgstr "Vrijeme obrade"
+
+msgid "tst_stat_result_total_participants"
+msgstr "Ukupan broj sudionika"
+
+#, fuzzy
+msgid "tst_stat_result_total_timeontask"
+msgstr "Total Time On Task (All Test Attempts)"
+
+msgid "tst_submit_results"
+msgstr "Da, potvrđujem predaju testa."
+
+msgid "tst_tab_competences"
+msgstr "Kompetencije"
+
+msgid "tst_tab_results_objective_oriented"
+msgstr "Rezultati testa po ciljevima učenja"
+
+msgid "tst_tab_results_pass_oriented"
+msgstr "Rezultati testa po pokušajima"
+
+msgid "tst_tbl_col_answered_questions"
+msgstr "Pitanja na koja je odgovoreno"
+
+msgid "tst_tbl_col_final_mark"
+msgstr "Ocjena"
+
+#, fuzzy
+msgid "tst_tbl_col_finished_passes"
+msgstr "Finished Passes"
+
+#, fuzzy
+msgid "tst_tbl_col_finished_passes_num_of"
+msgstr "%s of %s"
+
+#, fuzzy
+msgid "tst_tbl_col_last_scored_access"
+msgstr "Last Scored Access"
+
+msgid "tst_tbl_col_pass_finished"
+msgstr "Prolaz završen"
+
+msgid "tst_tbl_col_passed_status"
+msgstr "Ocjenjivanje"
+
+msgid "tst_tbl_col_percent_result"
+msgstr "Riješeni postotak"
+
+msgid "tst_tbl_col_reached_points"
+msgstr "Postignuti bodovi"
+
+msgid "tst_tbl_col_scored_pass"
+msgstr "Ocijenjen prolaz"
+
+#, fuzzy
+msgid "tst_tbl_col_started_passes"
+msgstr "Started Passes"
+
+msgid "tst_tbl_invited_users"
+msgstr "Ručno odabrani sudionici"
+
+msgid "tst_tbl_participants"
+msgstr "Sudionici"
+
+msgid "tst_tbl_results_grades"
+msgstr "Rezultati i ocjene"
+
+msgid "tst_test_result"
+msgstr "Rezultat testa"
+
+msgid "tst_text_count_system"
+msgstr "Sustav bodovanja"
+
+msgid "tst_threshold"
+msgstr "Pragovi (u%)"
+
+msgid "tst_time_already_spent"
+msgstr "Započeli ste test u: %s. Vaše maksimalno vrijeme obrade je %s."
+
+msgid "tst_time_already_spent_left"
+msgstr "Preostalo Vam je %s."
+
+#, fuzzy
+msgid "tst_time_limit_message"
+msgstr "You will have <b>%s minutes</b> to answer all questions."
+
+msgid "tst_title_output"
+msgstr "Prikaži naslov pitanja"
+
+msgid "tst_title_output_full"
+msgstr "Naslovi pitanja i raspoloživi bodovi"
+
+msgid "tst_title_output_hide_points"
+msgstr "Samo naslovi pitanja"
+
+#, fuzzy
+msgid "tst_title_output_info"
+msgstr "Set which combination of question titles and/or points available should be visible to participants while they are taking the test and within the test attempt overview (see below)."
+
+msgid "tst_title_output_no_title"
+msgstr "Niti naslovi pitanja niti raspoloživi bodovi"
+
+#, fuzzy
+msgid "tst_title_output_only_points"
+msgstr "Only Available Points"
+
+msgid "tst_trigger_result_refreshing"
+msgstr "Rezultati se moraju ponovno izračunati. Taj postupak bi mogao potrajati određeno vrijeme."
+
+msgid "tst_type"
+msgstr "Tip testa"
+
+#. fau: testNav
+msgid "tst_unchanged_answer_is_correct"
+msgstr "Unaprijed zadani odgovor je točan"
+
+#. fau: testNav
+msgid "tst_unchanged_order_is_correct"
+msgstr "Unaprijed zadani redoslijed je točan"
+
+msgid "tst_use_previous_answers"
+msgstr "Koristi prethodne odgovore"
+
+msgid "tst_use_previous_answers_description"
+msgstr "Sudionicima se prikazuju njihovi odgovori iz prijašnih prolaza testa. Ovu opciju mora aktivirati sudionik na kartici ‘Info’ prije početka prolaza testa."
+
+msgid "tst_user_finished_test"
+msgstr "Sudionik je završio test (%s)"
+
+msgid "tst_view_competence_assign"
+msgstr "Prikaži karakteristike dodjele"
+
+msgid "tst_virtual_pass_header_lo_initial"
+msgstr "Početni rezultati testa za cilj učenja<br />%s"
+
+msgid "tst_virtual_pass_header_lo_qualifying"
+msgstr "Kvalificiraju rezultati testa za cilj učenja<br />%s"
+
+msgid "tst_wf_info_answer_adopted_from_prev_pass"
+msgstr "Vaš odgovor iz prethodnog pokušaja je usvojen."
+
+msgid "tst_wf_info_answer_not_adopted"
+msgstr "Nije preuzet nijedan odgovor iz prijašnih pokušaja tako da morate riješiti ovo pitanje. U protivnom će se pogoršati vaš cilj učenja."
+
+msgid "tst_wf_info_optional_question"
+msgstr "Ovo pitanje se odnosi na već položen cilj učenja."
+
+msgid "tst_your_answer_was"
+msgstr "Dali ste sljedeći odgovor"
+
+msgid "tst_your_answers"
+msgstr "Ovo su vaši odgovori koji ste dali na sljedeća pitanja. Molimo pregledajte svoja pitanja i onda ih pošaljite."
+
+msgid "un_add_category"
+msgstr "Dodaj kategoriju"
+
+msgid "un_add_unit"
+msgstr "Dodaj jedinicu"
+
+msgid "un_cat_deletion_errors_f"
+msgstr "Sljedeće se kategorije ne mogu izbrisati:"
+
+msgid "un_cat_deletion_errors_f_s"
+msgstr "Sljedeća se kategorija ne može se izbrisati:"
+
+msgid "un_cat_deletion_errors_p"
+msgstr "Sljedeće se kategorije ne mogu izbrisati:"
+
+msgid "un_cat_deletion_errors_p_s"
+msgstr "Sljedeća se kategorija nije mogla izbrisati:"
+
+msgid "un_category_not_exist"
+msgstr "Zatražena kategorija ne postoji."
+
+msgid "un_deleted_categories"
+msgstr "Odabrane su kategorije uspješno izbrisane."
+
+msgid "un_deleted_categories_s"
+msgstr "Odabrana je kategorija uspješno izbrisana."
+
+msgid "un_deleted_units"
+msgstr "Odabrane su jedinice uspješno izbrisane."
+
+msgid "un_deleted_units_s"
+msgstr "Odabrana je jedinica uspješno izbrisana."
+
+msgid "un_global_units"
+msgstr "Globalne jedinice"
+
+msgid "un_local_units"
+msgstr "Lokalne jedinice"
+
+msgid "un_save_order"
+msgstr "Spremi redoslijed"
+
+msgid "un_sel_cat_sel_unit"
+msgstr "Odabrana kategorija: %s, Odabrana jedinica: %s"
+
+msgid "un_sequence"
+msgstr "Redoslijed"
+
+msgid "un_show_units"
+msgstr "Prikaži jedinice"
+
+msgid "un_sure_delete_categories"
+msgstr "Jeste li sigurni da želite izbrisati odabrane kategorije?"
+
+msgid "un_sure_delete_categories_s"
+msgstr "Jeste li sigurni da želite izbrisati odabranu kategoriju?"
+
+msgid "un_sure_delete_units"
+msgstr "Jeste li sigurni da želite izbrisati odabrane jedinice?"
+
+msgid "un_sure_delete_units_s"
+msgstr "Jeste li sigurni da želite izbrisati odabranu jedinicu?"
+
+msgid "un_unit_deletion_errors_f"
+msgstr "Sljedeće se jedinice ne mogu izbrisati:"
+
+msgid "un_unit_deletion_errors_f_s"
+msgstr "Sljedeća se jedinica ne može izbrisati:"
+
+msgid "un_unit_deletion_errors_p"
+msgstr "Sljedeće se jedinice nisu mogle izbrisati:"
+
+msgid "un_unit_deletion_errors_p_s"
+msgstr "Sljedeća se jedinica nije mogla izbrisati:"
+
+msgid "un_units_of_category_x"
+msgstr "Jedinice kategorije: %s"
+
+msgid "unfinished_passes"
+msgstr "Nezavršen prolaz testa"
+
+msgid "unit"
+msgstr "Jedinica"
+
+msgid "unit_placeholder"
+msgstr "** Nova jedinica **"
+
+msgid "units"
+msgstr "Jedinice"
+
+msgid "unlimited"
+msgstr "neograničeno"
+
+msgid "unlock"
+msgstr "Otključaj"
+
+#, fuzzy
+msgid "updated"
+msgstr "Updated"
+
+msgid "uploaded_material"
+msgstr "Učitani materijali"
+
+msgid "use_previous_solution"
+msgstr "Koristi prethodno rješenje"
+
+msgid "use_previous_solution_advice"
+msgstr "Prikazani odgovor je onaj koji ste prethodno dali na ovo pitanje. Ako ga želite preuzeti bez izmjena, morate potvrditi preuzimanje ovog rješenja."
+
+msgid "user_has_finished_a_test"
+msgstr "Jedan sudionik je završio test."
+
+#, fuzzy
+msgid "user_ip_outside_range"
+msgstr "You are not allowed to start the test from this IP address."
+
+msgid "user_not_invited"
+msgstr "Vi niste sudionik ovoga testa."
+
+#, fuzzy
+msgid "usr_manscoring_complete"
+msgstr "Marke as 'scored'"
+
+msgid "value_between_x_and_y"
+msgstr "Vrijednost bi trebala biti između %s i %s"
+
+msgid "values"
+msgstr "Vrijednosti"
+
+#, fuzzy
+msgid "variable"
+msgstr "Variable"
+
+msgid "variable_x"
+msgstr "Varijabla %s"
+
+msgid "variables"
+msgstr "Varijable"
+
+msgid "wait_for_next_pass_hint_msg"
+msgstr "Ponovni prolaz je moguć od sljedećeg trenutka: %s"
+
+msgid "warning_question_not_complete"
+msgstr "Pitanje je nepotpuno!"
+
+msgid "width"
+msgstr "Širina"
+
+#, fuzzy
+msgid "with_solution"
+msgstr "Participants with solution"
+
+msgid "with_solutions_participants"
+msgstr "Sudionici s odgovorima"
+
+#, fuzzy
+msgid "without_solution"
+msgstr "Participants without solution"
+
+msgid "without_solutions_participants"
+msgstr "Sudionici bez odgovora"
+
+msgid "worked_through"
+msgstr "Obrađeno"
+
+msgid "working_time"
+msgstr "Vrijeme obrade"
+
+msgid "you_received_a_of_b_points"
+msgstr "Ostvarili ste %s od %s mogućih bodova"
+
+#, fuzzy
+msgid "your_results"
+msgstr "Your Results"

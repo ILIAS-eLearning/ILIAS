@@ -1,0 +1,5157 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: assessment\n"
+
+#, fuzzy
+msgid "activate_logging"
+msgstr "Activate Test and Assessment Logging"
+
+#, fuzzy
+msgid "activate_manual_scoring"
+msgstr "Enable Manual Scoring"
+
+#, fuzzy
+msgid "activate_manual_scoring_desc"
+msgstr "Enables manual Scoring for all question types."
+
+msgid "addSuggestedSolution"
+msgstr "Adicionar conteúdo para recapitulação"
+
+msgid "add_answers"
+msgstr "Adicionar respostas"
+
+msgid "add_circle"
+msgstr "Adicionar área de círculo"
+
+msgid "add_gap"
+msgstr "Adicionar texto do intervalo"
+
+msgid "add_imagemap"
+msgstr "Importar mapa de imagem"
+
+msgid "add_poly"
+msgstr "Adicionar área de polígono"
+
+msgid "add_rect"
+msgstr "Adicionar área de retângulo"
+
+#, fuzzy
+msgid "add_users"
+msgstr "Add Users"
+
+msgid "additional_rating_info"
+msgstr "Note que os valores fornecidos aqui são expressos em percentagens e devem ir até aos 100."
+
+msgid "advanced_rating"
+msgstr "Classificação avançada"
+
+msgid "advanced_rating_info"
+msgstr "A classificação avançada só está disponível se uma unidade estiver atribuída ao resultado. Serão exibidas outras definições de classificação depois de guardar as unidades especificadas."
+
+msgid "all_available_question_pools"
+msgstr "Todos os bancos de perguntas disponíveis"
+
+msgid "all_participants"
+msgstr "Todos os participantes"
+
+msgid "allow_images"
+msgstr "Suporte de imagem para respostas"
+
+msgid "allowedextensions"
+msgstr "Extensões de ficheiro permitidas"
+
+msgid "allowedextensions_info"
+msgstr "Insira uma lista de extensões de ficheiro permitidos separadas por vírgulas se quiser restringir o upload a um determinado conjunto de extensões de ficheiro (p. ex. doc,xls,odt)."
+
+#, fuzzy
+msgid "already_added_extra_time"
+msgstr "already added: %s min"
+
+msgid "analyze_errortext"
+msgstr "Analisar erro texto"
+
+msgid "answer"
+msgstr "Resposta"
+
+msgid "answer_characters"
+msgstr " caracteres permitidos, número de caracteres introduzido:"
+
+msgid "answer_image"
+msgstr "Imagem de resposta"
+
+msgid "answer_is_not_correct_but_positive"
+msgstr "Tem pontos para a sua solução, mas não é a melhor solução"
+
+msgid "answer_is_right"
+msgstr "A sua solução é correta"
+
+msgid "answer_is_wrong"
+msgstr "A sua solução está errada"
+
+#, fuzzy
+msgid "answer_of"
+msgstr "Answer of"
+
+msgid "answer_options"
+msgstr "Opções de resposta:"
+
+msgid "answer_question"
+msgstr "Responder a pergunta"
+
+msgid "answer_text"
+msgstr "Texto de resposta"
+
+msgid "answer_types"
+msgstr "Editor para respostas"
+
+msgid "answered"
+msgstr "Respondido"
+
+msgid "answers_multiline"
+msgstr "Respostas de várias linhas"
+
+msgid "answers_of"
+msgstr "Respostas de:"
+
+msgid "answers_select"
+msgstr "Selecionar"
+
+msgid "answers_singleline"
+msgstr "Respostas de uma linha"
+
+msgid "answers_text_box"
+msgstr "Texto"
+
+msgid "applet_attributes"
+msgstr "Atributos Applet"
+
+msgid "applet_parameter"
+msgstr "Parâmetro"
+
+msgid "applet_parameters"
+msgstr "Parâmetros Applet"
+
+msgid "apply_def_settings_to_tst"
+msgstr "Aplicar definições"
+
+msgid "assClozeTest"
+msgstr "Fechar pergunta"
+
+msgid "assErrorText"
+msgstr "Erro texto"
+
+msgid "assFileUpload"
+msgstr "Pergunta carregar ficheiro"
+
+msgid "assFlashQuestion"
+msgstr "Pergunta Flash"
+
+msgid "assFormulaQuestion"
+msgstr "Pergunta fórmula"
+
+msgid "assImagemapQuestion"
+msgstr "Pergunta Hot Spot / Mapa de imagens"
+
+msgid "assKprimChoice"
+msgstr "Perguntas de escolha múltipla (respostas Kprim)"
+
+msgid "assLongMenu"
+msgstr "Menu comprido"
+
+msgid "assMatchingQuestion"
+msgstr "Ordenação perguntas"
+
+msgid "assMultipleChoice"
+msgstr "Pergunta de escolha múltipla (resposta múltipla)"
+
+msgid "assNumeric"
+msgstr "Pergunta numérica"
+
+msgid "assOrderingHorizontal"
+msgstr "Ordenação perguntas (horizontal)"
+
+msgid "assOrderingQuestion"
+msgstr "Ordenar pergunta"
+
+msgid "assQuestions"
+msgstr "Perguntas"
+
+msgid "assSingleChoice"
+msgstr "Pergunta de escolha múltipla (resposta única)"
+
+msgid "assTextQuestion"
+msgstr "Ensaiar pergunta"
+
+msgid "assTextSubset"
+msgstr "Pergunta subconjunto de texto"
+
+msgid "ass_cloze_fb_mode"
+msgstr "Modo Feedback"
+
+msgid "ass_cloze_fb_mode_gap_answ"
+msgstr "Feedback específico da resposta"
+
+msgid "ass_cloze_fb_mode_gap_answ_info"
+msgstr "Para cada intervalo podem ser configurados feedbacks separados para diferentes respostas."
+
+msgid "ass_cloze_fb_mode_gap_qst"
+msgstr "Feedback por intervalo"
+
+msgid "ass_cloze_fb_mode_gap_qst_info"
+msgstr "Para cada intervalo pode ser configurado um único feedback."
+
+msgid "ass_cloze_gap_fb_gap_label"
+msgstr "Intervalo %s: <i>%s</i>"
+
+msgid "ass_cloze_gap_fb_num_empty_label"
+msgstr "Intervalo %s - Nenhuma entrada"
+
+msgid "ass_cloze_gap_fb_num_rangehit_label"
+msgstr "Intervalo %s - Faixa alcançada"
+
+msgid "ass_cloze_gap_fb_num_toohigh_label"
+msgstr "Intervalo %s - Valor demasiado alto"
+
+msgid "ass_cloze_gap_fb_num_toolow_label"
+msgstr "Intervalo %s - Valor demasiado baixo"
+
+msgid "ass_cloze_gap_fb_num_valuehit_label"
+msgstr "Intervalo %s - Valor alcançado"
+
+msgid "ass_cloze_gap_fb_sel_empty_label"
+msgstr "Intervalo %s - Nenhuma seleção"
+
+msgid "ass_cloze_gap_fb_sel_opt_label"
+msgstr "Intervalo %s - Selecionar opção: <i>%s</i>"
+
+msgid "ass_cloze_gap_fb_txt_empty_label"
+msgstr "Intervalo %s - Nenhuma entrada"
+
+msgid "ass_cloze_gap_fb_txt_match_label"
+msgstr "Intervalo %s - Resposta dada: <i>%s</i>"
+
+msgid "ass_cloze_gap_fb_txt_nomatch_label"
+msgstr "Intervalo %s - Resposta errada:"
+
+msgid "ass_commented_questions_only"
+msgstr "Apenas perguntas comentadas"
+
+msgid "ass_comments"
+msgstr "Comentários"
+
+msgid "ass_competence_respect_level_ordering"
+msgstr "Note que os limites de competência têm de ser definidos por ordem ascendente de acordo com os níveis disponíveis."
+
+msgid "ass_completion_by_submission"
+msgstr "Completado por submissão"
+
+msgid "ass_completion_by_submission_info"
+msgstr "Se estiver ativado, a submissão de pelo menos um ficheiro leva à conclusão desta pergunta, concedendo a pontuação máxima para esta pergunta. A pontuação pode ser alterada mais tarde manualmente. Mudar esta definição não afeta as soluções já submetidas."
+
+msgid "ass_create_export_file_with_results"
+msgstr "Criar ficheiro de exportação de texto (incl. resultados do participante)"
+
+msgid "ass_create_export_test_archive"
+msgstr "Criar ficheiro de arquivo de teste"
+
+msgid "ass_create_question"
+msgstr "Criar pergunta"
+
+msgid "ass_imap_hint"
+msgstr "Sugestão para ser apresentado como dica de contexto."
+
+msgid "ass_imap_map_file_not_readable"
+msgstr "Não foi possível ler o mapa de imagem carregada."
+
+msgid "ass_imap_no_map_found"
+msgstr "Não foi possível encontrar qualquer forma na mapa de imagem carregada."
+
+msgid "ass_lac_expression"
+msgstr "Expressão"
+
+msgid "ass_lac_show_legend_btn"
+msgstr "Mostrar legenda"
+
+msgid "ass_lac_unable_to_parse_condition"
+msgstr "A condição \"%s\" não pode ser validada."
+
+msgid "ass_lac_validation_error"
+msgstr "Erros ocorridos enquanto validava a(s) expressão(expressões) condicional(condicionais)!"
+
+msgid "ass_location"
+msgstr "Localização"
+
+msgid "ass_mc_sel_lim_exhausted_hint"
+msgstr "Não selecione mais do %s que%s respostas!"
+
+msgid "ass_mc_sel_lim_hint"
+msgstr "Selecione %s %s respostas!"
+
+msgid "ass_mc_sel_lim_setting"
+msgstr "Limite de resposta"
+
+msgid "ass_mc_sel_lim_setting_desc"
+msgstr "Com esta definição pode limitar-se o número de perguntas que pode ser escolhido pelos participantes."
+
+msgid "ass_process_lock"
+msgstr "Usar bloqueios durante tentativas de teste"
+
+msgid "ass_process_lock_desc"
+msgstr "Sem usar qualquer mecanismo de bloqueio, pode haver condições de corrida. Isso pode levar a resultados de teste inconsistentes."
+
+msgid "ass_process_lock_mode"
+msgstr "Modo de bloqueio durante a tentativa de teste"
+
+msgid "ass_process_lock_mode_db"
+msgstr "Usar bloqueio de tabela da base de dados"
+
+msgid "ass_process_lock_mode_db_desc"
+msgstr "Este mecanismo de bloqueio bloqueia as tabelas dentro da base de dados. Os processos concorrentes para os mesmos ou para outros utilizadores no mesmo ou em outro teste para a mesma ou outra pergunta estão em espera até o outro processo libertar o seu bloqueio."
+
+msgid "ass_process_lock_mode_file"
+msgstr "Usar bloqueios do sistema de ficheiro"
+
+msgid "ass_process_lock_mode_file_desc"
+msgstr "Este mecanismo de bloqueio requer bloqueios em ficheiros vazios no sistema de ficheiro. Os processos concorrentes para os mesmos utilizadores e o mesmo teste/pergunta estão em espera até o outro processo libertar o seu bloqueio."
+
+msgid "ass_question"
+msgstr "Pergunta"
+
+msgid "ass_size"
+msgstr "Tamanho"
+
+msgid "ass_skl_import_fails_remove_btn"
+msgstr "Remover esta sugestão"
+
+msgid "assessment_existing_pool"
+msgstr "Usar banco de perguntas existente"
+
+msgid "assessment_new_pool"
+msgstr "Criar novo banco de perguntas"
+
+msgid "assessment_no_pool"
+msgstr "Não use o banco de perguntas"
+
+msgid "assessment_pool_selection"
+msgstr "Seleção de banco"
+
+msgid "assessment_scoring_adjust"
+msgstr "Ativar correções"
+
+msgid "assessment_scoring_adjust_desc"
+msgstr "Ativa a funcionalidade de correções para permitir modificações a perguntas num teste."
+
+msgid "autocomplete_error"
+msgstr "O seu número autocompleto é demasiado comprido, tem respostas que têm menos caracteres, de modo que nunca seriam exibidos."
+
+msgid "autoparticipants_subtab"
+msgstr "Participantes"
+
+msgid "autosave"
+msgstr "Guardar automaticamente"
+
+msgid "autosave_failed"
+msgstr "Guardar automaticamente falhou!"
+
+msgid "autosave_info"
+msgstr "As respostas são automaticamente guardadas em intervalos especificados para evitar a perda de dados."
+
+msgid "autosave_ival"
+msgstr "Intervalo"
+
+msgid "autosave_success"
+msgstr "Guardar automaticamente bem-sucedido..."
+
+#, fuzzy
+msgid "autosavecontent"
+msgstr "Autosave Content"
+
+msgid "average_reached_points"
+msgstr "Pontos médios"
+
+msgid "back_to_objective_container"
+msgstr "Ir para curso"
+
+#, fuzzy
+msgid "backtocallingpage"
+msgstr "Back to the question page"
+
+#, fuzzy
+msgid "backtocallingpool"
+msgstr "Back to the question pool"
+
+msgid "backtocallingtest"
+msgstr "Voltar ao teste vocacional"
+
+msgid "baseunit"
+msgstr "Unidade base"
+
+#, fuzzy
+msgid "broken_test"
+msgstr "Broken Test"
+
+#, fuzzy
+msgid "bulkedit_author"
+msgstr "Set Author"
+
+#, fuzzy
+msgid "bulkedit_lifecycle"
+msgstr "Set Lifecycle"
+
+#, fuzzy
+msgid "bulkedit_taxonomies"
+msgstr "Set Taxonomies"
+
+msgid "cancel_test"
+msgstr "Cancelar o teste"
+
+msgid "cannot_edit_marks"
+msgstr "Já há alunos que fizeram o teste. Pode apenas alterar as marcas se estiver ativada uma data do relatório da pontuação e se a data do relatório ainda não foi alcançada."
+
+msgid "cannot_edit_test"
+msgstr "Não possui permissões suficientes para editar o teste!"
+
+msgid "cannot_execute_test"
+msgstr "Não possui permissões suficientes para fazer o teste!"
+
+msgid "cannot_export_archive"
+msgstr "Não pode ser criada a exportação de arquivo."
+
+msgid "cannot_read_questionpool"
+msgstr "Não possui permissões suficientes para ler os dados do banco de perguntas!"
+
+msgid "cannot_save_metaobject"
+msgstr "Não possui permissões suficientes para guardar os meta-dados!"
+
+msgid "cannot_switch_to_online_no_questions_andor_no_mark_steps"
+msgstr "O estado não pode ser mudado para &quot;online&quot; porque não há perguntas e/ou marcas no teste!"
+
+msgid "category"
+msgstr "Categoria"
+
+msgid "changeSuggestedSolution"
+msgstr "Selecionar tipo de conteúdo para recapitulação"
+
+msgid "change_adm_categories_not_allowed"
+msgstr "Não tem quaisquer permissões no que diz respeito a esta categoria."
+
+msgid "checkbox_checked"
+msgstr "Marcado"
+
+msgid "checkbox_unchecked"
+msgstr "Não marcado"
+
+msgid "circle"
+msgstr "Círculo"
+
+msgid "circle_click_center"
+msgstr "Clique no centro da área desejada."
+
+msgid "circle_click_circle"
+msgstr "Clique num ponto circular da área desejada."
+
+#, fuzzy
+msgid "client_ip_range"
+msgstr "Client IP Range"
+
+msgid "clientip"
+msgstr "IP do cliente"
+
+msgid "close_text_hint"
+msgstr "Para adicionar um novo espaço coloque o cursor na posição que quiser e use a caixa de seleção ‘Espaço de texto’. Aparecem em baixo correspondentes secções de edição. Também pode editar espaços se clicar nos espaços dentro do texto de espaços."
+
+#, fuzzy
+msgid "cloze_answer_text_info"
+msgstr "Spaces preceding or following the answer text will be deleted when the form is saved."
+
+msgid "cloze_fixed_textlength"
+msgstr "Comprimento do campo de texto"
+
+msgid "cloze_fixed_textlength_description"
+msgstr "Se introduzir um novo valor, todos os campos de espaços do texto que não impõem uma limitação máxima própria de caracteres, assim como todos os campos de espaços numéricos, serão criados com um comprimento fixo deste valor, não sendo assim possível introduzir mais do que os caracteres permitidos. Repare que para os espaços numéricos, o separador decimal conta como um caracter regular."
+
+msgid "cloze_gap_size_info"
+msgstr "Se introduzir um valor superior a 0, este campo de texto de espaços será criado com o comprimento fixo deste valor. Se não introduzir um valor, o campo de texto de espaços será criado com o valor do comprimento global fixo."
+
+msgid "cloze_text"
+msgstr "Fechar texto"
+
+msgid "cloze_textgap_case_insensitive"
+msgstr "Caso insensível"
+
+msgid "cloze_textgap_case_sensitive"
+msgstr "Caso sensível"
+
+msgid "cloze_textgap_levenshtein_of"
+msgstr "Levenshtein distância de %s"
+
+msgid "code"
+msgstr "Código"
+
+msgid "codebase"
+msgstr "Base do código"
+
+msgid "concatenation"
+msgstr "Concatenação"
+
+msgid "conf_delete_pass"
+msgstr "Tem a certeza que quer remover as suas respostas existentes?"
+
+#, fuzzy
+msgid "confirm_log_deletion"
+msgstr "Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries."
+
+msgid "confirm_sync_questions"
+msgstr "A pergunta que alterou é uma cópia que foi criada para ser usada com o teste ativo. Quer mudar também o original da pergunta?"
+
+#, fuzzy
+msgid "contained_question_types"
+msgstr "Contained Question Types"
+
+msgid "coordinates"
+msgstr "Coordenadas"
+
+msgid "copy_and_link_to_questionpool"
+msgstr "Adicionar ao banco de perguntas"
+
+msgid "copy_no_questions_selected"
+msgstr "Selecione pelo menos uma pergunta para copiar."
+
+msgid "copy_questions_success"
+msgstr "A(s) pergunta(s) foi(foram) copiada(s)."
+
+msgid "correct_answers"
+msgstr "Respostas corretas:"
+
+msgid "counter"
+msgstr "Contador"
+
+msgid "create_gaps"
+msgstr "Criar e atualizar espaços"
+
+msgid "create_new"
+msgstr "Criar novo"
+
+#, fuzzy
+msgid "created"
+msgstr "Created"
+
+msgid "customstyle"
+msgstr "Estilo personalizado"
+
+msgid "dashboard_tab"
+msgstr "Painel"
+
+msgid "definition"
+msgstr "Definição"
+
+msgid "definition_image"
+msgstr "Definição imagem"
+
+msgid "definition_text"
+msgstr "Definição texto"
+
+msgid "definitions"
+msgstr "Definições"
+
+msgid "deleteSuggestedSolution"
+msgstr "Remover este conteúdo para recapitulação"
+
+msgid "delete_all_user_data_confirmation"
+msgstr "Tem a certeza que quer apagar os dados de teste de todos os utilizadores neste teste?"
+
+msgid "delete_image_header"
+msgstr "Remover imagem"
+
+msgid "delete_image_question"
+msgstr "Deseja realmente remover a imagem?"
+
+#, fuzzy
+msgid "delete_mark_confirmation"
+msgstr "Are you sure you want to delete the following mark?"
+
+#, fuzzy
+msgid "delete_participants_no_valid_participants_selected"
+msgstr "Test results already exist for the selected participants, so they cannot be removed."
+
+#, fuzzy
+msgid "delete_result_no_valid_participants_selected"
+msgstr "There are no test results for the selected participants, so they cannot be removed."
+
+#, fuzzy
+msgid "delete_selected_user_data_confirmation"
+msgstr "Are you sure you want to remove the test data of the selected users?"
+
+msgid "delete_user_data"
+msgstr "Remover dados de teste dos utilizadores selecionados"
+
+msgid "description_maxchars"
+msgstr "Se não estiver nada introduzido, o número máximo de caracteres para esta resposta de texto é ilimitado."
+
+msgid "detail_ending_time_reached"
+msgstr "O tempo atribuído a este teste terminou. O teste não estava disponível desde %s"
+
+msgid "detail_max_processing_time_reached"
+msgstr "Chegou ao tempo máximo de processamento permitido para o teste!"
+
+msgid "detail_starting_time_not_reached"
+msgstr "O tempo para iniciar o teste ainda não começou. O teste estará disponível a %s"
+
+msgid "detailed_evaluation"
+msgstr "Avaliação detalhada"
+
+msgid "detailed_evaluation_for"
+msgstr "Avaliação detalhada para %s"
+
+msgid "detailed_evaluation_missing_active_id"
+msgstr "Tem de chamar a ‘Avaliação detalhada’ para um participante selecionado!"
+
+msgid "detailed_evaluation_show"
+msgstr "Mostrar avaliação detalhada"
+
+msgid "detailed_output_printview"
+msgstr "Resultado detalhado com pergunta vistas de impressão"
+
+msgid "detailed_output_solutions"
+msgstr "Resultado detalhado com soluções das perguntas"
+
+msgid "direct_feedback"
+msgstr "Verifique a sua solução"
+
+#. fau: testNav
+msgid "discard_answer"
+msgstr "Apagar resposta"
+
+msgid "discard_answer_confirmation"
+msgstr "A sua resposta será apagada definitivamente e completamente. Pode fornecer uma resposta nova sempre que quiser. Mas esta será removida.<br /><br />Quer apagar a sua resposta?"
+
+msgid "dont_use_questionpool"
+msgstr "Não insira as perguntas num banco de perguntas (apenas disponível neste teste)"
+
+#, fuzzy
+msgid "download_all_files"
+msgstr "Download All Files"
+
+msgid "duplicate"
+msgstr "Duplicar"
+
+msgid "duplicate_matching_values_selected"
+msgstr "Selecionou valores correspondentes em duplicado!"
+
+msgid "duplicate_order_values_entered"
+msgstr "Introduziu valores de ordem em duplicado!"
+
+msgid "edit_answer"
+msgstr "Editar resposta"
+
+#, fuzzy
+msgid "edit_concluding_remarks"
+msgstr "Edit Concluding Remarks"
+
+#, fuzzy
+msgid "edit_introduction"
+msgstr "Edit Introduction"
+
+msgid "edit_question"
+msgstr "Editar pergunta"
+
+#, fuzzy
+msgid "edit_score"
+msgstr "Edit Score"
+
+msgid "edit_test_questions"
+msgstr "Vista de listas"
+
+msgid "element_height"
+msgstr "Altura mínima"
+
+msgid "element_height_info"
+msgstr "Esta é a altura mínima em pixéis para os itens do termo e definição/imagem durante o resultado do teste."
+
+msgid "enable_examview"
+msgstr "Vista geral das respostas dadas"
+
+msgid "enable_examview_desc"
+msgstr "Aos participantes são apresentadas todas perguntas e respostas que eles forneceram numa vista geral antes de submeterem o teste."
+
+msgid "end_tag"
+msgstr "Identificador final"
+
+msgid "enlarge"
+msgstr "Aumentar"
+
+msgid "enter_anonymous_code"
+msgstr "Introduzir código de acesso anónimo"
+
+msgid "enter_enough_positive_points"
+msgstr "O número máximo de pontos disponíveis tem de ser superior a 0! Introduza pontos positivos suficientes para as suas respostas."
+
+#, fuzzy
+msgid "enter_enough_positive_points_checked"
+msgstr "At least one answer needs to score. Please enter a positive score for the selection of an answer."
+
+msgid "enter_valid_values"
+msgstr "Introduza um valor válido. Os caracteres serão avaliados como incorretos!"
+
+msgid "errFormulaQuestion"
+msgstr "Uma pergunta de fórmula contém informação incorreta!!"
+
+msgid "errRecursionInResult"
+msgstr "A fórmula contém um recurso infinito."
+
+msgid "err_category_in_use"
+msgstr "Pelo menos uma categoria não pode ser apagada. Uma ou mais unidades da categoria já estão a ser usadas."
+
+#, fuzzy
+msgid "err_divider_too_big"
+msgstr "The divider of one of the variables in this question is too big."
+
+#, fuzzy
+msgid "err_division"
+msgstr "This value has to be smaller than the maximum range."
+
+msgid "err_duplicate_results"
+msgstr "Usou uma variável do resultado mais do que uma vez. Isso não é permitido no texto da pergunta."
+
+msgid "err_no_formula"
+msgstr "Tem de introduzir uma fórmula"
+
+msgid "err_no_numeric_value"
+msgstr "Insira um valor numérico"
+
+msgid "err_range"
+msgstr "O intervalo máximo tem de ser superior ao intervalo mínimo."
+
+msgid "err_rating_advanced_not_allowed"
+msgstr "Não é permitida uma classificação diferente da classificação simples, uma vez que está a oferecer múltiplas unidades de resultados com uma base de unidade idêntica."
+
+msgid "err_unit_in_results"
+msgstr "A unidade não pode ser apagada. Ela já está a ser usada em uma ou mais perguntas de teste."
+
+msgid "err_unit_in_variables"
+msgstr "A unidade não pode ser apagada. Ela já está a ser usada em uma ou mais perguntas de teste."
+
+msgid "err_unit_is_baseunit"
+msgstr "A unidade não pode ser apagada. É usada como unidade base por outras unidades."
+
+msgid "err_wrong_categoryname"
+msgstr "A categoria já existe."
+
+msgid "err_wrong_rating_advanced"
+msgstr "Certifique-se que a adição das definições de classificação avançada são iguais a 100 por cento"
+
+#, fuzzy
+msgid "error_creating_certificate_zip_empty"
+msgstr "No data for export."
+
+msgid "error_importing_question"
+msgstr "Houve um erro a importar a(s) pergunta(s) do ficheiro que selecionou!"
+
+msgid "error_open_image_file"
+msgstr "Erro a abrir um ficheiro de imagem!"
+
+msgid "error_random_question_generation"
+msgstr "Ocorreu um erro fatal durante a criação das suas perguntas aleatórias para o teste. Entre em contacto com o seu administrador comunicando o seguinte: O sistema não conseguiu criar um ID ativo para o ID do utilizador %s e ID de teste %s."
+
+msgid "errors"
+msgstr "Erros"
+
+msgid "errors_section"
+msgstr "Erro dados"
+
+msgid "errortext"
+msgstr "Texto de erros"
+
+msgid "errortext_info"
+msgstr "Introduza o texto de erro. Para marcar uma palavra como erro, insira um sinal cardinal ("
+
+msgid "essay_scoring_mode"
+msgstr "Modo de pontuação"
+
+msgid "essay_scoring_mode_keyword_relation_all"
+msgstr "Pontuação automática com palavras-chave em Encontrar TUDO"
+
+msgid "essay_scoring_mode_keyword_relation_all_desc"
+msgstr "Os pontos são automaticamente concedidos, se forem encontradas todas as palavras-chave."
+
+msgid "essay_scoring_mode_keyword_relation_any"
+msgstr "Pontuação automática com palavras-chave em Encontrar QUALQUER"
+
+msgid "essay_scoring_mode_keyword_relation_any_desc"
+msgstr "Por qualquer palavra-chave encontrada são concedidos automaticamente os pontos correspondentes."
+
+msgid "essay_scoring_mode_keyword_relation_one"
+msgstr "Pontuação automática com palavras-chave em Encontrar UM"
+
+msgid "essay_scoring_mode_keyword_relation_one_desc"
+msgstr "Os pontos são automaticamente concedidos, se for encontrada pelo menos uma palavra-chave."
+
+msgid "essay_scoring_mode_without_keywords"
+msgstr "Sem pontuação automática"
+
+msgid "essay_scoring_mode_without_keywords_desc"
+msgstr "Não são concedidos pontos, com exceção da pontuação manual do tutor."
+
+msgid "eval_all_users"
+msgstr "Avaliação para todos os utilizadores"
+
+msgid "eval_legend_link"
+msgstr "Consulte a legenda para saber o significado dos símbolos do cabeçalho da coluna."
+
+#, fuzzy
+msgid "evaluated_users"
+msgstr "Evaluated Users"
+
+msgid "exam_id"
+msgstr "ID de tentativa de teste:"
+
+#, fuzzy
+msgid "exam_id_label"
+msgstr "Exam Id"
+
+#, fuzzy
+msgid "exam_id_of_attempt"
+msgstr "ID of Attempt"
+
+msgid "examid_in_test_pass"
+msgstr "Apresentar ID da tentativa de teste"
+
+msgid "examid_in_test_pass_desc"
+msgstr "No teste aparece um ID de tentativa de teste. É criado um novo ID para cada tentativa de teste."
+
+msgid "examid_in_test_res"
+msgstr "ID de tentativa de teste ILIAS"
+
+msgid "examid_in_test_res_desc"
+msgstr "O ID de tentativa de teste ILIAS será incluído nos resultados do teste."
+
+#, fuzzy
+msgid "exp_all_test_runs"
+msgstr "All test attempts"
+
+msgid "exp_eval_data"
+msgstr "Exportar dados de avaliação como"
+
+#, fuzzy
+msgid "exp_grammar_as"
+msgstr "as"
+
+#, fuzzy
+msgid "exp_scored_test_attempt"
+msgstr "Scored Test Attempt"
+
+msgid "exp_type_certificate"
+msgstr "Certificado (PDF)"
+
+msgid "exp_type_excel"
+msgstr "Microsoft Excel"
+
+msgid "expected_result_type"
+msgstr "Tipo de resultado esperado"
+
+#, fuzzy
+msgid "export_cert_failed_for_users_p"
+msgstr "No certificate file could be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file."
+
+#, fuzzy
+msgid "export_cert_failed_for_users_s"
+msgstr "No certificate file could be generated and added to the archive for the following account: %s. Please contact an administrator to check the log file."
+
+#, fuzzy
+msgid "export_cert_ignored_for_users_p"
+msgstr "The following %s accounts did not achieve a certificate, or the certificate service is not enabled/activate: %s"
+
+#, fuzzy
+msgid "export_cert_ignored_for_users_s"
+msgstr "The following account did not achieve a certificate, or the certificate service is not enabled/activate: %s"
+
+#, fuzzy
+msgid "export_cert_no_users"
+msgstr "A certificate archive cannot be created due to missing test participants."
+
+msgid "export_essay_qst_with_html"
+msgstr "Exportar pergunta de ensaio com código HTML"
+
+msgid "export_essay_qst_with_html_desc"
+msgstr "Se estiver ativado, é possível exportar a pergunta de ensaio com HTML para Excel."
+
+#, fuzzy
+msgid "export_legacy_logs"
+msgstr "Export Legacy Log Data"
+
+#, fuzzy
+msgid "extra_time_byline"
+msgstr "Put in extra time in minutes. Already entered extra time is added up."
+
+#, fuzzy
+msgid "extra_time_for_all_participants"
+msgstr "You are adding some extra time to all participants."
+
+#, fuzzy
+msgid "extra_time_for_selected_participants"
+msgstr "You are adding extra time to the selected participants."
+
+#, fuzzy
+msgid "extra_time_for_selected_participants_different"
+msgstr "You have selected participants with different additional times."
+
+#, fuzzy
+msgid "extra_time_for_single_participant"
+msgstr "Your are adding extra time to the following participant:"
+
+msgid "extratime"
+msgstr "Tempo extra"
+
+#, fuzzy
+msgid "extratime_added"
+msgstr "The extra time has been added to the selected participants."
+
+msgid "factor"
+msgstr "Fator"
+
+msgid "failed_official"
+msgstr "falhou"
+
+msgid "failed_short"
+msgstr "falhou"
+
+msgid "false"
+msgstr "Falso"
+
+msgid "feedback_all"
+msgstr "Mostrar feedback específica da resposta para todas as respostas."
+
+msgid "feedback_answers"
+msgstr "Feedback para cada resposta"
+
+msgid "feedback_checked"
+msgstr "Mostrar feedback específica da resposta para todas as respostas escolhidas/selecionadas."
+
+msgid "feedback_complete_solution"
+msgstr "Solução correta"
+
+msgid "feedback_correct_kprim"
+msgstr "Mostrar feedback específico da resposta para todas as respostas corretas (As respostas corretas são aquelas, para as quais a opção positiva deve ser escolhida/selecionada)."
+
+msgid "feedback_correct_sc_mc"
+msgstr "Mostrar feedback específico da resposta para todas as respostas corretas (As respostas corretas são aquelas, que levam a uma pontuação positiva quando escolhida/selecionada)."
+
+msgid "feedback_generic"
+msgstr "Feedback de solução comum"
+
+msgid "feedback_incomplete_solution"
+msgstr "Pelo menos uma resposta não está correta"
+
+msgid "feedback_setting"
+msgstr "Modo de feedback específico da resposta."
+
+msgid "fileDownload"
+msgstr "Download de ficheiro"
+
+msgid "file_uploads"
+msgstr "Uploads de ficheiros"
+
+msgid "fill_out_all_required_fields_add_answer"
+msgstr "Preencha todos os campos requeridos antes de adicionar respostas!"
+
+msgid "filter_all_question_types"
+msgstr "Todos os tipos de perguntas"
+
+msgid "filter_all_questionpools"
+msgstr "Todos os bancos de perguntas"
+
+msgid "filter_show_question_types"
+msgstr "Mostrar tipos de perguntas"
+
+msgid "filter_show_questionpools"
+msgstr "Mostrar bancos de perguntas"
+
+msgid "final_statement"
+msgstr "Observações finais"
+
+msgid "final_statement_show_desc"
+msgstr "Mostra as observações finais depois de submeter o teste."
+
+#, fuzzy
+msgid "finalized_by"
+msgstr "Completed by"
+
+#, fuzzy
+msgid "finalized_evaluation"
+msgstr "Scoring completed"
+
+#, fuzzy
+msgid "finalized_on"
+msgstr "Completed at"
+
+msgid "finish_all_user_passes"
+msgstr "Terminar todas as tentativas de teste"
+
+msgid "finish_pass_for_all_users"
+msgstr "Tem a certeza que quer terminar as tentativas de teste para todos os utilizadores?"
+
+#, fuzzy
+msgid "finish_pass_for_multiple_users_in_processing_time"
+msgstr "You cannot finish the passes of the selected users together, because for at least one selected user the processing time is not over yet."
+
+msgid "finish_pass_for_user_confirmation"
+msgstr "Tem a certeza que quer terminar esta tentativa de teste?"
+
+#, fuzzy
+msgid "finish_pass_for_user_in_processing_time"
+msgstr "WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test)."
+
+msgid "finish_test"
+msgstr "Acabar o teste"
+
+#, fuzzy
+msgid "finish_test_all"
+msgstr "Are you sure you want to finish the test attempts for all users?"
+
+#, fuzzy
+msgid "finish_test_more_than_one_selected"
+msgstr "Only a single participant may be selected to finish the pass if the test allows only one pass."
+
+#, fuzzy
+msgid "finish_test_multiple"
+msgstr "Are you sure you want to finish the test attempts for the following participants?"
+
+#, fuzzy
+msgid "finish_test_no_valid_participants_selected"
+msgstr "There are no active test runs for the selected participants, so they cannot be completed."
+
+#, fuzzy
+msgid "finish_test_single"
+msgstr "Are you sure you want to finish the test attempt for the participant \"%s\"?"
+
+msgid "finish_unfinished_passes"
+msgstr "Terminar tentativas abertas"
+
+msgid "finish_unfinished_passes_desc"
+msgstr "As tentativas que têm um tempo para acabar ou uma duração limite configurada serão fechadas por este cron job (agendador de tarefas)"
+
+#, fuzzy
+msgid "finished_by_administrator"
+msgstr "Finished by Administrator"
+
+#, fuzzy
+msgid "finished_by_cronjob"
+msgstr "Finished by Cronjob"
+
+#, fuzzy
+msgid "finished_by_duration"
+msgstr "Finished by time limit"
+
+#, fuzzy
+msgid "finished_by_participant"
+msgstr "Finished by Participant"
+
+#, fuzzy
+msgid "finished_by_unknown"
+msgstr "Finished by Unknown"
+
+msgid "fixed_participants_hint"
+msgstr "Este teste está apenas acessível aos participantes manualmente adicionados que aparecem na lista abaixo. Pode desativar esta definição se desativar a caixa de controlo ‘Participantes manualmente selecionados’ nas definições de teste."
+
+msgid "fixedparticipants_subtab"
+msgstr "Participantes manualmente selecionados"
+
+msgid "flashfile"
+msgstr "Ficheiro Flash"
+
+msgid "for"
+msgstr "para"
+
+msgid "forcejs"
+msgstr "Forçar resultado JavaScript para perguntas do teste"
+
+msgid "form_msg_area_missing_points"
+msgstr "Introduza pontos para todas as áreas."
+
+msgid "formula"
+msgstr "Fórmula"
+
+msgid "fq_formula_desc"
+msgstr "Pode introduzir variáveis predefinidas ($v1 até $vn), resultados definidos (p. ex. $r1), apoios para expressões, operadores matemáticos  + (adição), - (subtração), * (multiplicação), / (divisão), ^ (enésimo expoente), as constantes ‘pi’ para pi e ‘e’ para constante de euler, assim como as funções ‘seno’, ‘senh’, ‘arco seno’, ‘aseno’, ‘arco senh’, ‘asenh’, ‘cos’, ‘cosh’, ‘arccos’, ‘acos’, ‘arccosh’, ‘acosh’, ‘tan’, ‘tanh’, ‘arctan’, ‘atan’, ‘arctanh’, ‘atanh’, ‘sqrt’, ‘abs’, ‘ln’ e ‘log’."
+
+msgid "fq_no_restriction_info"
+msgstr "São aceites entradas decimais e também frações."
+
+msgid "fq_precision_info"
+msgstr "Introduza o número de casas decimais pretendido."
+
+msgid "fq_question_desc"
+msgstr "Pode definir variáveis ao inserir $v1, $v2 ... $vn, resultados ao inserir $r1, $r2 .... $rn na posição pretendida no texto de perguntas. Clique no botão ‘Analisar pergunta’ para criar formas de edição para variáveis e resultados."
+
+msgid "gap"
+msgstr "Intervalo"
+
+msgid "gap_combination"
+msgstr "Combinação de intervalo"
+
+#, fuzzy
+msgid "gaps"
+msgstr "Gaps"
+
+msgid "glossary_term"
+msgstr "Termo do glossário"
+
+#, fuzzy
+msgid "goto_first_question"
+msgstr "Show first question"
+
+msgid "grading_mark_msg"
+msgstr "A sua marca é: &quot;[mark]&quot;"
+
+msgid "grading_status_failed_msg"
+msgstr "Lamentamos, mas <b>falhou</b> no teste."
+
+msgid "grading_status_passed_msg"
+msgstr "Parabéns, <b>passou</b> no teste."
+
+#, fuzzy
+msgid "hide_best_solution"
+msgstr "Hide best solution"
+
+msgid "identical_scoring"
+msgstr "Pontuação idêntica"
+
+msgid "identical_scoring_desc"
+msgstr "Se estiver selecionada, os espaços com soluções idênticas serão pontuados, mesmo que a mesma solução tenha sido usada duas vezes ou mais. Se não estiver selecionada, será pontuada apenas a primeira ocorrência da mesma solução."
+
+msgid "imagemap"
+msgstr "Mapa de imagem"
+
+#, fuzzy
+msgid "imap_line_color"
+msgstr "Image Map Line Color"
+
+msgid "import_question"
+msgstr "Importar pergunta(s)"
+
+#, fuzzy
+msgid "in_range"
+msgstr "Within range"
+
+#, fuzzy
+msgid "in_trash"
+msgstr "In Trash"
+
+msgid "info_answer_type_change"
+msgstr "A pergunta já contém imagens. Não pode mudar o tipo de resposta para respostas de múltiplas linhas."
+
+msgid "info_text_upload"
+msgstr "Escolha um ficheiro de texto de resposta (UTF-8) para carregar."
+
+msgid "insert_after"
+msgstr "Inserir depois"
+
+msgid "insert_before"
+msgstr "Inserir antes"
+
+msgid "insert_gap"
+msgstr "Inserir intervalo"
+
+#, fuzzy
+msgid "interaction_type"
+msgstr "Interaction Type"
+
+msgid "internal_links"
+msgstr "Links internos"
+
+msgid "intprecision"
+msgstr "Divisível por"
+
+msgid "intprecision_info"
+msgstr "‘Divisível por' afeta apenas a criação de variáveis, se o valor para a precisão for 0. Neste caso, pode definir para ‘Divisível por' um valor inteiro, que tem de ser 'divisível por' com a variável criada. Um valor de 10 gera, assim, apenas números inteiros que são divisíveis por 10. Um valor de 5 produz números inteiros que são divisíveis por 5, etc. Para uma precisão de 0, ‘Divisível por' é um campo obrigatório e não pode conter um número inteiro positivo. O valor predefinido é 1 para qualquer número inteiro."
+
+#, fuzzy
+msgid "invalid_ip"
+msgstr "Invalid IP"
+
+#, fuzzy
+msgid "ip_range_byline"
+msgstr "Only IP addresses within the defined range can start the test. You can either use IPv4 OR IPv6 addresses."
+
+#, fuzzy
+msgid "ip_range_for_all_participants"
+msgstr "You are changing the IP Range of all participants"
+
+#, fuzzy
+msgid "ip_range_for_selected_participants"
+msgstr "You are changing the IP Range of the following participant."
+
+#, fuzzy
+msgid "ip_range_for_single_participant"
+msgstr "You are changing the IP Range of the selected participants."
+
+#, fuzzy
+msgid "ip_range_info"
+msgstr "Only clients with an IP in the provided range will be able to access the test."
+
+#, fuzzy
+msgid "ip_range_label"
+msgstr "IP Range"
+
+#, fuzzy
+msgid "ip_range_updated"
+msgstr "The IP-Range has been update for the selected participants."
+
+msgid "kiosk"
+msgstr "Vista de exame"
+
+msgid "kiosk_description"
+msgstr "A vista de exame faz um teste no modo de quiosque. Isso oculta a barra do navegador e navegação e todos os outros elementos do ecrã que não fazem parte do teste. Os participantes são impedidos de abrir outra página web.<br />Evitar efetivamente que os participantes abrem outras páginas da web durante os testes, requer ainda a implementação de um ambiente de navegador adequado (p. ex. Safe Exam Browser)."
+
+msgid "kiosk_options"
+msgstr "Opções da vista de exame"
+
+msgid "kiosk_options_desc"
+msgstr "A informação é apresentada na parte superior do ecrã."
+
+msgid "kiosk_show_participant"
+msgstr "Mostrar nome do participante"
+
+msgid "kiosk_show_title"
+msgstr "Mostrar título do teste"
+
+msgid "kprim_answers_info"
+msgstr "O tipo de pergunta de escolha múltipla ‘decisão quatro vezes certo/errado’ (Tipo K’, também conhecido por Kprim) fornece quatro respostas ou adições a uma pergunta ou uma declaração incompleta. Tem de se decidir se está correta em todas as quatro respostas/adições. A pontuação máxima só é atribuída se todas as decisões estiverem corretas."
+
+msgid "kprim_instruction_text"
+msgstr "Tem de decidir sobre cada declaração: [%s] ou [%s]"
+
+msgid "lacex_assClozeTest_NumberOfResultExpression_d"
+msgstr "A opção da quarta resposta é um intervalo de seleção e foi escolhida a segunda opção"
+
+msgid "lacex_assClozeTest_NumberOfResultExpression_e"
+msgstr "R[4] = +2+"
+
+msgid "lacex_assClozeTest_NumericResultExpression_d"
+msgstr "A opção da segunda resposta é um intervalo numérico e foi respondida com o valor numérico 5"
+
+msgid "lacex_assClozeTest_NumericResultExpression_e"
+msgstr "R[2] ="
+
+msgid "lacex_assClozeTest_StringResultExpression_1_d"
+msgstr "A opção da primeira resposta é um intervalo de texto e foi respondida com “Segunda-feira”"
+
+msgid "lacex_assClozeTest_StringResultExpression_1_e"
+msgstr "R[1] = ~Segunda-feira~"
+
+msgid "lacex_assClozeTest_StringResultExpression_2_d"
+msgstr "A opção da quarta resposta é um intervalo de seleção e foi escolhida a opção rotulada “Verde”"
+
+msgid "lacex_assClozeTest_StringResultExpression_2_e"
+msgstr "R[4] = ~Verde~"
+
+msgid "lacex_assErrorText_ExclusiveResultExpression_d"
+msgstr "Foram escolhidas exatamente as opções de resposta 1, 3 e 4 enquanto respondia à pergunta"
+
+msgid "lacex_assErrorText_ExclusiveResultExpression_e"
+msgstr "R = *1,3,4*"
+
+msgid "lacex_assErrorText_NumberOfResultExpression_d"
+msgstr "Enquanto respondia à pergunta, foi escolhida a segunda opção de resposta"
+
+msgid "lacex_assErrorText_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assFormulaQuestion_NumericResultExpression_d"
+msgstr "A opção da primeira resposta foi respondida com um valor numérico 3,14159"
+
+msgid "lacex_assFormulaQuestion_NumericResultExpression_e"
+msgstr "R[1] ="
+
+msgid "lacex_assImagemapQuestion_ExclusiveResultExpression_d"
+msgstr "Foram escolhidas exatamente as opções de resposta 1, 3 e 4 enquanto respondia à pergunta"
+
+msgid "lacex_assImagemapQuestion_ExclusiveResultExpression_e"
+msgstr "R = *1,3,4*"
+
+msgid "lacex_assImagemapQuestion_NumberOfResultExpression_d"
+msgstr "Enquanto respondia à pergunta, foi escolhida a segunda opção de resposta"
+
+msgid "lacex_assImagemapQuestion_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assMatchingQuestion_MatchingResultExpression_d"
+msgstr "Os termos da pergunta foram atribuídos a definições do seguinte modo: 1 &rarr; 2 e 2 &rarr; 3 e 3 &rarr; 1"
+
+msgid "lacex_assMatchingQuestion_MatchingResultExpression_e"
+msgstr "R = ;1:2; & R = ;2:3; & R = ;3:1;"
+
+msgid "lacex_assMultipleChoice_ExclusiveResultExpression_d"
+msgstr "Foram escolhidas exatamente as opções de resposta 1, 3 e 4 enquanto respondia à pergunta"
+
+msgid "lacex_assMultipleChoice_ExclusiveResultExpression_e"
+msgstr "R = *1,3,4*"
+
+msgid "lacex_assMultipleChoice_NumberOfResultExpression_d"
+msgstr "Enquanto respondia à pergunta, foi escolhida a segunda opção de resposta"
+
+msgid "lacex_assMultipleChoice_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assNumeric_NumericResultExpression_d"
+msgstr "A pergunta foi respondida com um valor numérico 4,7"
+
+msgid "lacex_assNumeric_NumericResultExpression_e"
+msgstr "R ="
+
+msgid "lacex_assOrderingHorizontal_OrderingResultExpression_d"
+msgstr "Os elementos da pergunta foram ordenados do seguinte modo: 2, 5, 1, 4, 3"
+
+msgid "lacex_assOrderingHorizontal_OrderingResultExpression_e"
+msgstr "R = $2,5,1,4,3$"
+
+msgid "lacex_assOrderingQuestion_OrderingResultExpression_d"
+msgstr "Os elementos da pergunta foram ordenados do seguinte modo: 2, 5, 1, 4, 3"
+
+msgid "lacex_assOrderingQuestion_OrderingResultExpression_e"
+msgstr "R = $2,5,1,4,3$"
+
+msgid "lacex_assQuestion_EmptyAnswerExpression_d"
+msgstr "A pergunta não foi respondida"
+
+msgid "lacex_assQuestion_EmptyAnswerExpression_e"
+msgstr "R = ?"
+
+msgid "lacex_assQuestion_PercentageResultExpression_d"
+msgstr "O resultado das respostas às perguntas é igual ou superior a 75 %"
+
+msgid "lacex_assQuestion_PercentageResultExpression_e"
+msgstr "R >= %75%"
+
+msgid "lacex_assSingleChoice_NumberOfResultExpression_d"
+msgstr "Enquanto respondia à pergunta, foi escolhida a segunda opção de resposta"
+
+msgid "lacex_assSingleChoice_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assTextSubset_StringResultExpression_d"
+msgstr "Relativamente à segunda opção de resposta foi introduzida a resposta “cloreto de sódio“"
+
+msgid "lacex_assTextSubset_StringResultExpression_e"
+msgstr "R[2] = ~cloreto de sódio~"
+
+msgid "lacex_example_header"
+msgstr "Exemplos"
+
+#, fuzzy
+msgid "list_of_participants"
+msgstr "Participants"
+
+msgid "locked"
+msgstr "bloqueado"
+
+#, fuzzy
+msgid "log_deletion_not_allowed"
+msgstr "You don't have the necessary permissions to delete log entries."
+
+#, fuzzy
+msgid "log_entry_type"
+msgstr "Log Entry Type"
+
+#, fuzzy
+msgid "log_ip"
+msgstr "Log IP"
+
+#, fuzzy
+msgid "log_ip_info"
+msgstr "The IP of Participants is Logged for each interaction with a test. Disabling it does not delete existing IP records."
+
+#, fuzzy
+msgid "log_participant_data_delete_warning"
+msgstr "This test contains log data for participant interactions that will be deleted when changing the test to a test without names."
+
+#, fuzzy
+msgid "log_text"
+msgstr "Log message"
+
+msgid "log_user_solution_willingly_deleted"
+msgstr "O utilizador apagou a resposta."
+
+#, fuzzy
+msgid "logging_settings"
+msgstr "Logging"
+
+#, fuzzy
+msgid "logs_answer_deleted"
+msgstr "Answer deleted"
+
+#, fuzzy
+msgid "logs_answer_submitted"
+msgstr "Answer Submitted"
+
+#, fuzzy
+msgid "logs_deleted"
+msgstr "The selected Log Data has been deleted."
+
+#, fuzzy
+msgid "logs_error_on_participant_interaction"
+msgstr "Error on Participant Interaction"
+
+#, fuzzy
+msgid "logs_error_on_question_administration_interaction"
+msgstr "Error on Question Administration Interaction"
+
+#, fuzzy
+msgid "logs_error_on_scoring_interaction"
+msgstr "Error on Scoring Interaction"
+
+#, fuzzy
+msgid "logs_error_on_test_administration_interaction"
+msgstr "Error on Test Administration Interaction"
+
+#, fuzzy
+msgid "logs_error_on_undefined_interaction"
+msgstr "Error on Undefined Interaction"
+
+#, fuzzy
+msgid "logs_extra_time_added"
+msgstr "Extra Time Added"
+
+#, fuzzy
+msgid "logs_main_settings_modified"
+msgstr "Main Settings Modified"
+
+#, fuzzy
+msgid "logs_mark_schema_modified"
+msgstr "Mark Schema Modified"
+
+#, fuzzy
+msgid "logs_mark_schema_reset"
+msgstr "Mark Schema Reset"
+
+#, fuzzy
+msgid "logs_new_test_created"
+msgstr "New Test Created"
+
+#, fuzzy
+msgid "logs_output"
+msgstr "Log Data Output"
+
+#, fuzzy
+msgid "logs_participant_data_removed"
+msgstr "Participant Data Removed"
+
+#, fuzzy
+msgid "logs_pi"
+msgstr "Participant Interaction"
+
+#, fuzzy
+msgid "logs_qai"
+msgstr "Question Administration Interaction"
+
+#, fuzzy
+msgid "logs_question_added"
+msgstr "Question Added"
+
+#, fuzzy
+msgid "logs_question_graded"
+msgstr "Question Graded"
+
+#, fuzzy
+msgid "logs_question_grading_reset"
+msgstr "Grading Reset"
+
+#, fuzzy
+msgid "logs_question_modified"
+msgstr "Question Modified"
+
+#, fuzzy
+msgid "logs_question_modified_in_corrections"
+msgstr "Question Modified in Corrections"
+
+#, fuzzy
+msgid "logs_question_moved"
+msgstr "Question Moved"
+
+#, fuzzy
+msgid "logs_question_removed"
+msgstr "Question Removed"
+
+#, fuzzy
+msgid "logs_question_removed_in_corrections"
+msgstr "Question Removed in Corrections"
+
+#, fuzzy
+msgid "logs_question_selection_criteria_modified"
+msgstr "Question Selection Criteria Modified"
+
+#, fuzzy
+msgid "logs_question_shown"
+msgstr "Question Shown"
+
+#, fuzzy
+msgid "logs_question_skipped"
+msgstr "Question Skipped"
+
+#, fuzzy
+msgid "logs_question_synchronisation_reset"
+msgstr "Question Synchronisation Reset"
+
+#, fuzzy
+msgid "logs_questions_synchronised"
+msgstr "Questions Synchonised"
+
+#, fuzzy
+msgid "logs_scoring_settings_modified"
+msgstr "Scoring Settings Modified"
+
+#, fuzzy
+msgid "logs_si"
+msgstr "Scoring Interaction"
+
+#, fuzzy
+msgid "logs_tai"
+msgstr "Test Administration Interaction"
+
+#, fuzzy
+msgid "logs_te"
+msgstr "Error"
+
+#, fuzzy
+msgid "logs_test_deleted"
+msgstr "Test Deleted"
+
+#, fuzzy
+msgid "logs_test_run_finished"
+msgstr "Test Run Finished"
+
+#, fuzzy
+msgid "logs_test_run_of_participant_closed"
+msgstr "Run of Participant Closed"
+
+#, fuzzy
+msgid "logs_test_run_started"
+msgstr "Test Run Started"
+
+#, fuzzy
+msgid "logs_wrong_test_password_provided"
+msgstr "Participant entered wrong test password."
+
+msgid "longmenu"
+msgstr "Menu comprido"
+
+#, fuzzy
+msgid "longmenu_answeroptions_differ"
+msgstr "This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options."
+
+msgid "longmenu_text"
+msgstr "Texto de menu comprido"
+
+#, fuzzy
+msgid "mainbar_button_label_questionlist"
+msgstr "Questionlist"
+
+msgid "maintenance"
+msgstr "Manutenção"
+
+msgid "manscoring"
+msgstr "Pontuação manual"
+
+msgid "manscoring_done"
+msgstr "Participantes pontuados"
+
+msgid "manscoring_hint"
+msgstr "Adicionou pelo menos uma pergunta que pode exigir uma pontuação manual. Para evitar que os participantes tenham acesso aos resultados do teste ainda antes de ter terminado a pontuação manual, deverá definir uma data adequada para aceder aos resultados de teste."
+
+msgid "manscoring_none"
+msgstr "Participantes não pontuados"
+
+msgid "manscoring_not_allowed"
+msgstr "A pontuação manual não foi ativada para um tipo de pergunta. Não está autorizado a usar este separador."
+
+msgid "manscoring_questions_not_found"
+msgstr "Esta tentativa de teste não contém tipos de perguntas que podem ser pontuadas manualmente."
+
+msgid "manscoring_results_pass"
+msgstr "Perguntas manualmente pontuadas para tentativa %s"
+
+msgid "manual_editing"
+msgstr "Edição manual"
+
+#, fuzzy
+msgid "manual_entry"
+msgstr "Manual Entry"
+
+msgid "mark_schema"
+msgstr "Esquema de anotações"
+
+msgid "mark_schema_invalid"
+msgstr "O esquema de anotações não é válido. Crie um esquema correto."
+
+msgid "matches"
+msgstr "correspondências"
+
+msgid "matching_pairs"
+msgstr "Pares correspondentes"
+
+msgid "matching_shuffle_definitions"
+msgstr "Definições apenas"
+
+msgid "matching_shuffle_terms"
+msgstr "Termos apenas"
+
+msgid "matching_shuffle_terms_definitions"
+msgstr "Ambos (termos e definições)"
+
+msgid "matching_type"
+msgstr "Corresponder subtipo de pergunta"
+
+msgid "material"
+msgstr "Material"
+
+msgid "material_file"
+msgstr "Ficheiro de material"
+
+#, fuzzy
+msgid "max_ip_label"
+msgstr "Highest IP With Access"
+
+msgid "maxchars"
+msgstr "Número máximo de caracteres"
+
+msgid "maximum_nr_of_tries_reached"
+msgstr "Chegou ao número máximo de tentativas para este teste. O teste não pode entrar!"
+
+msgid "maximum_points"
+msgstr "Pontos máximos disponíveis"
+
+msgid "maxsize"
+msgstr "Tamanho máximo para carregar ficheiro:"
+
+msgid "maxsize_info"
+msgstr "Introduzir o tamanho máximo em bytes que deve ser permitido para carregar ficheiros. Se deixar este campo vazio, será em vez disso escolhido o tamanho máximo desta instalação."
+
+msgid "min_auto_complete"
+msgstr "Autocompletado"
+
+#, fuzzy
+msgid "min_ip_label"
+msgstr "Lowest IP With Access"
+
+msgid "min_percentage_ne_0"
+msgstr "Tem e definir uma percentagem mínima de 0 por cento! O esquema de anotações não foi guardado."
+
+msgid "misc"
+msgstr "Opções combinadas"
+
+#, fuzzy
+msgid "mode_allatonce"
+msgstr "All"
+
+#, fuzzy
+msgid "mode_onebyone"
+msgstr "One by One"
+
+#, fuzzy
+msgid "mode_question"
+msgstr "Question oriented"
+
+#, fuzzy
+msgid "mode_user"
+msgstr "Participant oriented"
+
+msgid "msg_circle_added"
+msgstr "Círculo adicionado"
+
+#, fuzzy
+msgid "msg_no_questions_selected"
+msgstr "No questions were selected."
+
+msgid "msg_number_of_terms_too_low"
+msgstr "O número de termos tem de ser superior ou igual ao número de definições."
+
+msgid "msg_poly_added"
+msgstr "Polígono adicionado"
+
+msgid "msg_questions_moved"
+msgstr "Pergunta(s) movida(s)"
+
+msgid "msg_rect_added"
+msgstr "Retângulo adicionado"
+
+#, fuzzy
+msgid "msg_score_settings_modified_and_recalc"
+msgstr "Your changes were saved and the results recalculated correspondingly."
+
+#, fuzzy
+msgid "msg_score_settings_not_modified"
+msgstr "Your changes were not saved."
+
+msgid "msg_selected_for_move"
+msgstr "Pergunta(s) selecionada(s) para mover"
+
+msgid "new_category"
+msgstr "Nova unidade de categoria"
+
+msgid "new_unit"
+msgstr "Nova unidade"
+
+msgid "next_question"
+msgstr "Próximo"
+
+msgid "next_question_rows"
+msgstr "Perguntas %d - %d de %d >>"
+
+#, fuzzy
+msgid "no_manual_feedback_export_info"
+msgstr "Manual feedbacks will not be exported."
+
+#, fuzzy
+msgid "no_passed_after_failed"
+msgstr "Failing marks cannot have a higher minimum level than any passing mark."
+
+msgid "no_passed_mark"
+msgstr "Tem de definir pelo menos uma marca para APROVADO! O esquema de anotações não foi guardado."
+
+msgid "no_question_selected_for_move"
+msgstr "Selecione pelo menos uma pergunta para mover!"
+
+msgid "no_questions_available"
+msgstr "Não existem nenhumas perguntas disponíveis!"
+
+msgid "no_result_type"
+msgstr "Sem restrições"
+
+msgid "no_selection"
+msgstr "--- Nenhuma seleção ---"
+
+msgid "no_selection_for_move"
+msgstr "Nenhuma pergunta selecionada para mover"
+
+msgid "no_target_selected_for_move"
+msgstr "Tem de selecionar uma posição de destino!"
+
+msgid "no_user_or_group_selected"
+msgstr "Marque uma opção sobre o que está a procurar (utilizadores e/ou grupos)!"
+
+#, fuzzy
+msgid "no_valid_participant_selection"
+msgstr "No valid Participants selected."
+
+#, fuzzy
+msgid "not_evaluated_users"
+msgstr "Not Yet Evaluated User"
+
+#, fuzzy
+msgid "not_started"
+msgstr "Not started yet"
+
+msgid "not_yet_accessed"
+msgstr "Ainda não acedido"
+
+msgid "nr_of_correct_answers"
+msgstr "Número de respostas pedidas"
+
+msgid "number_of_answers"
+msgstr "Número de respostas"
+
+msgid "numeric_gap"
+msgstr "Intervalo numérico"
+
+#, fuzzy
+msgid "old_mark_default_not_applied"
+msgstr "The marks from your personal settings could not be applied as they use an old format. All other settings have been updated."
+
+msgid "option_label"
+msgstr "Opção etiquetas"
+
+msgid "option_label_adequate"
+msgstr "adequado"
+
+msgid "option_label_adequate_or_not"
+msgstr "adequado/não adequado"
+
+msgid "option_label_applicable"
+msgstr "aplicável"
+
+msgid "option_label_applicable_or_not"
+msgstr "aplicável/não aplicável"
+
+msgid "option_label_custom"
+msgstr "Etiquetas definida pelo utilizador"
+
+msgid "option_label_custom_false"
+msgstr "Etiqueta para \"FALSO\""
+
+msgid "option_label_custom_true"
+msgstr "Etiqueta para \"VERDADEIRO\""
+
+msgid "option_label_info"
+msgstr "As frases configuradas serão usadas como etiqueta para as opções selecionáveis pelo participante."
+
+msgid "option_label_minus"
+msgstr "-"
+
+msgid "option_label_not_adequate"
+msgstr "não adequado"
+
+msgid "option_label_not_applicable"
+msgstr "não aplicável"
+
+msgid "option_label_plus"
+msgstr "+"
+
+msgid "option_label_plus_minus"
+msgstr "+ / -"
+
+msgid "option_label_right"
+msgstr "direita"
+
+msgid "option_label_right_wrong"
+msgstr "direita/esquerda"
+
+msgid "option_label_wrong"
+msgstr "errado"
+
+msgid "oq_btn_define_pictures"
+msgstr "Mudar para vista de definição de fotografia"
+
+msgid "oq_btn_define_terms"
+msgstr "Mudar para vista de definição de termo"
+
+msgid "oq_btn_nest_pictures"
+msgstr "Mudar para vista de encaixe de fotografia"
+
+msgid "oq_btn_nest_terms"
+msgstr "Mudar para vista de encaixe de termo"
+
+msgid "oq_btn_use_order_pictures"
+msgstr "Usar fotografias de resposta"
+
+msgid "oq_btn_use_order_terms"
+msgstr "Usar termos de resposta"
+
+msgid "oq_header_ordering_elements"
+msgstr "Ordenação elementos"
+
+msgid "or"
+msgstr "ou"
+
+#, fuzzy
+msgid "order"
+msgstr "Order"
+
+msgid "ordering_answer_sequence_info"
+msgstr "A sequência de respostas que define aqui será assumida como a sequência de solução correta."
+
+msgid "ordertext"
+msgstr "Ordenação texto"
+
+msgid "ordertext_info"
+msgstr "Introduza o texto que deve ser ordenado na horizontal. O texto de ordenação será separado pelos sinais de espaço em branco no texto. Se precisar de uma separação diferente, pode usar o separador %s para separar as suas unidades de texto."
+
+msgid "out_of_range"
+msgstr "Fora de alcance"
+
+msgid "output"
+msgstr "Saída"
+
+msgid "output_mode"
+msgstr "Modo saída"
+
+msgid "parseQuestion"
+msgstr "Analisar pergunta"
+
+msgid "part_received_a_of_b_points"
+msgstr "O participante recebeu %s de %s possíveis pontos"
+
+msgid "participants"
+msgstr "Participantes"
+
+msgid "participants_invitation"
+msgstr "Participantes manualmente selecionados"
+
+msgid "participants_invitation_description"
+msgstr "Este teste pode ser acedido apenas por utilizadores que introduziu manualmente no separador ‘Participantes’."
+
+msgid "participants_results_subtab"
+msgstr "Todos os participantes"
+
+msgid "pass"
+msgstr "Tentativa"
+
+msgid "pass_finished"
+msgstr "%s tentativa"
+
+msgid "passed_official"
+msgstr "aprovado"
+
+msgid "passed_only"
+msgstr "Apenas testes aprovados"
+
+msgid "passed_short"
+msgstr "aprovado"
+
+msgid "passed_status"
+msgstr "Estado aprovado"
+
+msgid "passes_finished"
+msgstr "%s aprovado"
+
+msgid "percentage"
+msgstr "Percentagem"
+
+#, fuzzy
+msgid "percentage_points_achieved"
+msgstr "Reached Points"
+
+msgid "percentile"
+msgstr "Percentil"
+
+#, fuzzy
+msgid "personal_settings_apply"
+msgstr "Apply Settings Template"
+
+#, fuzzy
+msgid "personal_settings_apply_changed_confirmation"
+msgstr "The current test settings will be overwritten with the settings from the selected template. This also overwrites the Selection of Test Questions. The process cannot be undone!"
+
+#, fuzzy
+msgid "personal_settings_apply_confirmation"
+msgstr "The current test settings will be overwritten with the settings from the selected template. This process cannot be undone!"
+
+#, fuzzy
+msgid "personal_settings_apply_description"
+msgstr "This template overrides all settings of test '%s'."
+
+#, fuzzy
+msgid "personal_settings_apply_not_possible"
+msgstr "ILIAS could not apply the selected template to this test! Maybe this test already contains participant data sets."
+
+#, fuzzy
+msgid "personal_settings_apply_success"
+msgstr "Personal Test Settings have been applied successfully."
+
+#, fuzzy
+msgid "personal_settings_author"
+msgstr "Created by"
+
+#, fuzzy
+msgid "personal_settings_create"
+msgstr "Add New Setting Template"
+
+#, fuzzy
+msgid "personal_settings_delete_confirmation"
+msgstr "The selected template(s) will be permanently deleted. This cannot be undone."
+
+#, fuzzy
+msgid "personal_settings_delete_success"
+msgstr "The selected template(s) have been deleted."
+
+#, fuzzy
+msgid "personal_settings_description"
+msgstr "Template Description"
+
+#, fuzzy
+msgid "personal_settings_explanation"
+msgstr "ILIAS will store the settings of the current test in a template. This template can be used to transfer the settings to another test."
+
+#, fuzzy
+msgid "personal_settings_export"
+msgstr "Export Settings Template"
+
+#, fuzzy
+msgid "personal_settings_import"
+msgstr "Import Setting Templates"
+
+#, fuzzy
+msgid "personal_settings_import_success"
+msgstr "The template was imported successfully."
+
+#, fuzzy
+msgid "personal_settings_invalid_selection"
+msgstr "Please select one template."
+
+#, fuzzy
+msgid "personal_settings_name"
+msgstr "Template Title"
+
+#, fuzzy
+msgid "personal_settings_required_author"
+msgstr "Please enter an author for your template."
+
+#, fuzzy
+msgid "personal_settings_required_title"
+msgstr "Please enter a title for your template."
+
+#, fuzzy
+msgid "personal_settings_save"
+msgstr "Save New Setting Template"
+
+#, fuzzy
+msgid "personal_settings_show"
+msgstr "Show Template Details"
+
+#, fuzzy
+msgid "personal_settings_templates_available"
+msgstr "Personal Test Settings Templates"
+
+#, fuzzy
+msgid "personal_settings_timestamp"
+msgstr "Creation Date"
+
+msgid "picture"
+msgstr "Fotografia"
+
+msgid "point"
+msgstr "Ponto"
+
+msgid "points"
+msgstr "Pontos"
+
+msgid "points_checked"
+msgstr "Pontos quando marcados"
+
+#, fuzzy
+msgid "points_non_numeric_or_negative_msg"
+msgstr "Inputs for points only accept positive numeric values."
+
+msgid "points_short"
+msgstr "Pt."
+
+msgid "points_unchecked"
+msgstr "Pontos quando desmarcados"
+
+msgid "points_wrong"
+msgstr "Seleções erradas"
+
+msgid "points_wrong_info"
+msgstr "Introduza os pontos negativos para cada palavra selecionada que não está na lista dos erros marcados."
+
+msgid "polygon"
+msgstr "Polígono"
+
+msgid "polygon_click_next_or_save"
+msgstr "Clique no próximo ponto do polígono ou guarde a área. (Não é necessário clicar novamente no ponto inicial deste polígono !)"
+
+msgid "polygon_click_next_point"
+msgstr "Clique no próximo ponto do polígono."
+
+msgid "polygon_click_starting_point"
+msgstr "Clique no ponto inicial do polígono."
+
+msgid "positive_numbers_required"
+msgstr "Introduza apenas números positivos."
+
+#. fau: testNav
+msgid "postpone_question"
+msgstr "Mover pergunta para o fim"
+
+msgid "postponed"
+msgstr "adiado"
+
+msgid "precision"
+msgstr "Precisão"
+
+msgid "previous_question"
+msgstr "Anterior"
+
+msgid "previous_question_rows"
+msgstr "<< Perguntas %d - %d de %d"
+
+#, fuzzy
+msgid "print_answers"
+msgstr "Print Answers"
+
+msgid "qpl_assessment_no_assessment_of_questions"
+msgstr "Não existe nenhuma avaliação de perguntas disponíveis para a pergunta selecionada. A pergunta nunca foi usada num teste."
+
+msgid "qpl_assessment_total_of_answers"
+msgstr "Total de respostas"
+
+msgid "qpl_assessment_total_of_right_answers"
+msgstr "Percentagem total de respostas certas (percentagem de pontos máximos)"
+
+#, fuzzy
+msgid "qpl_bulk_save_add"
+msgstr "Add"
+
+#, fuzzy
+msgid "qpl_bulk_save_overwrite"
+msgstr "Overwrite"
+
+#, fuzzy
+msgid "qpl_bulkedit_success"
+msgstr "Modifications saved."
+
+msgid "qpl_cancel_skill_assigns_update"
+msgstr "Cancelar"
+
+msgid "qpl_confirm_delete_questions"
+msgstr "Tem a certeza que quer remover as seguintes perguntas?"
+
+msgid "qpl_copy_insert_clipboard"
+msgstr "A(s) pergunta(s) selecionada(s) são copiada(s) para a área de transferência"
+
+msgid "qpl_copy_select_none"
+msgstr "Selecione pelo menos uma pergunta para copiar para a área de transferência!"
+
+msgid "qpl_delete_rbac_error"
+msgstr "Não tem permissão para remover esta pergunta!"
+
+msgid "qpl_delete_select_none"
+msgstr "Selecione pelo menos uma pergunta para remover"
+
+msgid "qpl_export_excel"
+msgstr "Ficheiro Microsoft Excel"
+
+msgid "qpl_export_select_none"
+msgstr "Selecione pelo menos uma pergunta para exportar"
+
+msgid "qpl_export_xml"
+msgstr "Ficheiro QTI XML"
+
+msgid "qpl_form_general_settings"
+msgstr "Definições gerais"
+
+msgid "qpl_imagemap_preview_missing"
+msgstr "ILIAS não conseguiu criar o ficheiro de pré-visualização temporário que contém as áreas do mapa de imagem. Em vez disso, a aparece a imagem original. Isso quer dizer que ou a ferramenta do servidor da web ImageMagick não está corretamente configurada ou que não há permissões de escrita no diretório temporário! Entre em contacto com o administrador do seu sistema."
+
+msgid "qpl_import_create_new_qpl"
+msgstr "Importar as perguntas para um novo banco de perguntas"
+
+msgid "qpl_import_no_items"
+msgstr "Erro: O ficheiro de importação não contém perguntas!"
+
+msgid "qpl_import_non_ilias_files"
+msgstr "Erro: O ficheiro de importação contém ficheiros QTI que não são criados por um sistema ILIAS. Entre em contacto com a equipa ILIAS para entrar no filtro de importação para o seu formato de ficheiro QTI."
+
+msgid "qpl_import_verify_found_questions"
+msgstr "ILIAS encontrou as seguintes perguntas no ficheiro de importação. Selecione as perguntas que quer importar."
+
+msgid "qpl_lac_desc_brackets"
+msgstr "Parênteses"
+
+msgid "qpl_lac_desc_compare_answer_exist"
+msgstr "Compare se existe uma resposta para a pergunta/intervalo"
+
+msgid "qpl_lac_desc_compare_with_answer_n"
+msgstr "Compare o resultado com n respostas à pergunta"
+
+msgid "qpl_lac_desc_compare_with_assignment"
+msgstr "Compare o resultado com o correspondente n:m"
+
+msgid "qpl_lac_desc_compare_with_exact_sequence"
+msgstr "Compare o resultado com sequência exatamente fornecida"
+
+msgid "qpl_lac_desc_compare_with_number"
+msgstr "Compare o resultado com o número n"
+
+msgid "qpl_lac_desc_compare_with_quest_res"
+msgstr "Compare o resultado com os pontos obtidos em percentagem"
+
+msgid "qpl_lac_desc_compare_with_sequence"
+msgstr "Compare o resultado com a sequência de respostas ($a,..,z$)"
+
+msgid "qpl_lac_desc_compare_with_text"
+msgstr "Compare o resultado com o texto TEXTO"
+
+msgid "qpl_lac_desc_logical_and"
+msgstr "E lógico"
+
+msgid "qpl_lac_desc_logical_or"
+msgstr "OU lógico"
+
+msgid "qpl_lac_desc_negation"
+msgstr "Negação"
+
+msgid "qpl_lac_desc_res_of_answ_m_of_cur_quest"
+msgstr "Resultado de n respostas à atual pergunta"
+
+msgid "qpl_lac_desc_res_of_cur_quest"
+msgstr "Resultado da pergunta atual"
+
+msgid "qpl_lac_legend_header_common"
+msgstr "Lógica da expressão"
+
+msgid "qpl_lac_legend_header_quest_specific"
+msgstr "Expressões lógicas da pergunta"
+
+msgid "qpl_lac_legend_label_operators"
+msgstr "Operadores"
+
+msgid "qpl_maxchars_info_numeric_question"
+msgstr "Se introduzir um valor, o campo para a resposta numérica será criado com um comprimento fixo deste valor, portanto, não é possível introduzir mais do que os caracteres permitidos. Note que, para os intervalos numéricos, o separador decimal é contado como um caractere regular."
+
+msgid "qpl_move_insert_clipboard"
+msgstr "A(s) pergunta(s) selecionada(s) são marcadas para mover"
+
+msgid "qpl_move_select_none"
+msgstr "Selecione pelo menos uma pergunta para a mover"
+
+msgid "qpl_numeric_lower_needs_valid_lower_alert"
+msgstr "O limite inferior tem de ser um valor numérico válido inferior ao limite superior."
+
+msgid "qpl_numeric_upper_needs_valid_upper_alert"
+msgstr "O limite superior tem de ser um valor numérico válido superior ao limite inferior."
+
+msgid "qpl_paste_error"
+msgstr "Pelo menos uma pergunta não deve ser copiada para o banco de perguntas. Possível razão: Tentou mover a pergunta para o mesmo banco de perguntas."
+
+msgid "qpl_paste_no_objects"
+msgstr "Não há perguntas na área de transferência. Copie ou mova uma pergunta para a área de transferência."
+
+msgid "qpl_paste_success"
+msgstr "A(s) pergunta(s) foi colada no banco de perguntas"
+
+msgid "qpl_qst_edit_form_taxonomy"
+msgstr "Taxonomia \"%s\""
+
+msgid "qpl_qst_edit_form_taxonomy_section"
+msgstr "Taxonomias"
+
+msgid "qpl_qst_inp_matching_mode"
+msgstr "Modo de correspondência"
+
+msgid "qpl_qst_inp_matching_mode_all_on_all"
+msgstr "Um ou mais termos correspondem a uma ou mais definições (n:n)"
+
+msgid "qpl_qst_inp_matching_mode_one_on_one"
+msgstr "Um termo corresponde a uma definição (1:1)"
+
+msgid "qpl_qst_skl_assign_properties_modified"
+msgstr "As propriedades de atribuição foram modificadas."
+
+msgid "qpl_qst_skl_assign_synced_to_orig"
+msgstr "As atribuições de competência foram sincronizadas com o original de perguntas."
+
+msgid "qpl_qst_skl_assigns_updated"
+msgstr "As atribuições de competência foram atualizadas."
+
+msgid "qpl_qst_skl_selection_for_question_header"
+msgstr "Atribuições de competência para pergunta: %s"
+
+msgid "qpl_qst_skl_usg_numq_col"
+msgstr "Número de perguntas no banco afetas a esta competência"
+
+msgid "qpl_qst_skl_usg_skill_col"
+msgstr "Competência"
+
+msgid "qpl_qst_skl_usg_sklpnt_col"
+msgstr "Total dos pontos de competência por competência"
+
+msgid "qpl_question_is_in_use"
+msgstr "A pergunta que está prestes a editar existe em %s teste(s). Se mudar esta pergunta, NÃO muda a(s) pergunta(s) no teste(s), porque o sistema cria uma cópia de uma pergunta quando é inserida num teste!"
+
+msgid "qpl_questions_deleted"
+msgstr "Pergunta(s) removida(s)."
+
+msgid "qpl_reset_preview"
+msgstr "Repor pré-visualização"
+
+msgid "qpl_save_skill_assigns_update"
+msgstr "Guardar atribuições de competência"
+
+#, fuzzy
+msgid "qpl_settings_availability"
+msgstr "Availability"
+
+msgid "qpl_settings_general_form_prop_show_tax_desc"
+msgstr "São propostas taxonomias existentes neste banco para filtrar as perguntas."
+
+msgid "qpl_settings_general_form_property_nav_taxonomy"
+msgstr "Filtro de taxonomia como árvore de navegação"
+
+msgid "qpl_settings_general_form_property_nav_taxonomy_description"
+msgstr "Quando é selecionada uma taxonomia, será apresentada como árvore de navegação em vez de um item de filtro da tabela."
+
+msgid "qpl_settings_general_form_property_opt_notax_selected"
+msgstr "Usar filtro de árvore de não navegação"
+
+msgid "qpl_settings_general_form_property_show_taxonomies"
+msgstr "Mostrar taxonomias"
+
+msgid "qpl_settings_subtab_general"
+msgstr "Definições gerais"
+
+msgid "qpl_settings_subtab_taxonomies"
+msgstr "Taxonomias"
+
+msgid "qpl_skill_point_eval_by_quest_result"
+msgstr "Avaliação dos pontos de competência por resultado de perguntas"
+
+msgid "qpl_skill_point_eval_by_solution_compare"
+msgstr "Avaliação dos pontos de competência por comparação de soluções"
+
+msgid "qpl_skill_point_eval_mode_quest_result"
+msgstr "Resultado de perguntas"
+
+msgid "qpl_skill_point_eval_mode_solution_compare"
+msgstr "Comparação de soluções"
+
+#, fuzzy
+msgid "qpl_skl_all_questions"
+msgstr "All questions"
+
+#, fuzzy
+msgid "qpl_skl_assigned_questions"
+msgstr "Questions with assignment"
+
+#, fuzzy
+msgid "qpl_skl_assignment_for_question"
+msgstr "Competence assignments for question „%s“"
+
+msgid "qpl_skl_sub_tab_quest_assign"
+msgstr "Atribuição pergunta/competência"
+
+msgid "qpl_skl_sub_tab_usages"
+msgstr "Frequência de atribuição"
+
+#, fuzzy
+msgid "qpl_skl_unassigned_questions"
+msgstr "Questions without assignment"
+
+#, fuzzy
+msgid "qpl_skl_view_control_mode_aria:"
+msgstr "View control mode"
+
+msgid "qpl_sync_quest_skl_assigns_confirmation"
+msgstr "A pergunta foi inserida a partir de outro objeto do repositório. Quer atualizar o original de perguntas com a configuração atual das atribuições de competências?"
+
+msgid "qpl_tab_competences"
+msgstr "Competências"
+
+#, fuzzy
+msgid "qpl_taxonomy_tab_info_message"
+msgstr "Taxonomies in question pools can be used to filter the questions. After activating the function in the \"Settings\" tab, they are displayed in the filter in the \"Questions\" tab."
+
+#, fuzzy
+msgid "qst_error_text_too_long"
+msgstr "One or more text elements marked as erroneous are too long. The maximum size for a text element marked as erroneous is 150 characters:"
+
+#, fuzzy
+msgid "qst_essay_allready_written_words"
+msgstr "Already entered words:"
+
+#, fuzzy
+msgid "qst_essay_chars_remaining"
+msgstr "Remaining characters:"
+
+#, fuzzy
+msgid "qst_essay_wordcounter_enabled"
+msgstr "Count Words"
+
+#, fuzzy
+msgid "qst_essay_wordcounter_enabled_info"
+msgstr "The entered words are counted. The number of written words is shown to the participants below the text input field."
+
+#, fuzzy
+msgid "qst_essay_written_words"
+msgstr "Number of entered words:"
+
+#, fuzzy
+msgid "qst_lifecycle"
+msgstr "Lifecycle"
+
+#, fuzzy
+msgid "qst_lifecycle_draft"
+msgstr "Draft"
+
+#, fuzzy
+msgid "qst_lifecycle_filter_all"
+msgstr "All Lifecycles"
+
+#, fuzzy
+msgid "qst_lifecycle_final"
+msgstr "Final"
+
+#, fuzzy
+msgid "qst_lifecycle_outdated"
+msgstr "Outdated"
+
+#, fuzzy
+msgid "qst_lifecycle_rejected"
+msgstr "Rejected"
+
+#, fuzzy
+msgid "qst_lifecycle_review"
+msgstr "To be Reviewed"
+
+#, fuzzy
+msgid "qst_lifecycle_sharable"
+msgstr "Sharable"
+
+#, fuzzy
+msgid "qst_nested_nested_answers_off"
+msgstr "No indents, just order"
+
+#, fuzzy
+msgid "qst_nested_nested_answers_on"
+msgstr "Use indents in anwers"
+
+msgid "qst_nr_of_tries"
+msgstr "Número de tentativas"
+
+msgid "qst_preview_reset_msg"
+msgstr "A pré-visualização foi reposta."
+
+#, fuzzy
+msgid "qst_use_nested_answers"
+msgstr "Nested answers"
+
+msgid "que_contains_unused_var"
+msgstr "O texto da pergunta contém uma variável, que não é usada em nenhuma fórmula de resultado!"
+
+msgid "question_browse_area_info"
+msgstr "Selecione um objeto do qual quer importar perguntas."
+
+#, fuzzy
+msgid "question_complete_title"
+msgstr "Complete"
+
+msgid "question_cumulated_statistics"
+msgstr "Estatística de perguntas acumuladas"
+
+msgid "question_id"
+msgstr "ID de pergunta"
+
+msgid "question_id_short"
+msgstr "ID"
+
+msgid "question_instances_title"
+msgstr "Esta pergunta é usada nos seguintes testes"
+
+#, fuzzy
+msgid "question_is_part_of_running_test"
+msgstr "Question is part of a running test and may not be edited."
+
+msgid "question_marking"
+msgstr "Marcar perguntas"
+
+msgid "question_marking_description"
+msgstr "Os participantes têm opção de marcar uma pergunta do teste por alguma razão. As marcas são apresentadas na ‘Lista de perguntas’, desde que esteja ativada."
+
+msgid "question_not_answered"
+msgstr "A pergunta não foi respondida"
+
+msgid "question_saved_for_upload"
+msgstr "A questão foi guardada automaticamente para reservar espaço no disco para guardar o ficheiro carregado. Se cancelar esta operação agora, tenha atenção que tem de apagar a pergunta no banco de perguntas se não quiser mantê-la!"
+
+msgid "question_summary"
+msgstr "Painel"
+
+msgid "question_summary_btn"
+msgstr "Painel"
+
+msgid "question_title"
+msgstr "Título da pergunta"
+
+msgid "question_type"
+msgstr "Tipo de pergunta"
+
+#, fuzzy
+msgid "questionlist_cannot_be_altered"
+msgstr "The question list cannot be altered as the test already contains participant data sets."
+
+msgid "questionpool_not_entered"
+msgstr "Introduza um nome para um banco de perguntas!"
+
+#, fuzzy
+msgid "questionpool_not_selected"
+msgstr "Please select a question pool!"
+
+#, fuzzy
+msgid "questions"
+msgstr "Questions"
+
+msgid "questions_from"
+msgstr "perguntas de"
+
+msgid "questions_per_page_view"
+msgstr "Vista de página"
+
+msgid "random_accept_sample"
+msgstr "Aceitar amostra"
+
+msgid "random_another_sample"
+msgstr "Obter outra amostra"
+
+msgid "random_selection"
+msgstr "Seleção aleatória"
+
+msgid "range"
+msgstr "Faixa"
+
+msgid "range_lower_limit"
+msgstr "Limite inferior"
+
+msgid "range_max"
+msgstr "Faixa (máxima)"
+
+msgid "range_min"
+msgstr "Faixa (mínima)"
+
+msgid "range_upper_limit"
+msgstr "Limite superior"
+
+msgid "rated_sign"
+msgstr "Sinal"
+
+msgid "rated_unit"
+msgstr "Unidade"
+
+msgid "rated_value"
+msgstr "Valor"
+
+msgid "rating"
+msgstr "Classificação"
+
+msgid "rating_sign"
+msgstr "Sinal de classificação"
+
+msgid "rating_simple"
+msgstr "Classificação simples"
+
+msgid "rating_unit"
+msgstr "Unidade de classificação"
+
+msgid "rating_value"
+msgstr "Valor de classificação"
+
+msgid "rectangle"
+msgstr "Retângulo"
+
+msgid "rectangle_click_br_corner"
+msgstr "Clique no canto inferior direito da área desejada."
+
+msgid "rectangle_click_tl_corner"
+msgstr "Clique no canto superior esquerdo da área desejada."
+
+msgid "redirectAfterSave"
+msgstr "O tempo máximo de trabalho foi alcançado e a sua última pergunta foi guardada automaticamente. Em poucos segundos será redirecionado..."
+
+msgid "redirect_after_finishing_rule"
+msgstr "Redirecionar"
+
+msgid "redirect_after_finishing_tst"
+msgstr "Redirecionar"
+
+msgid "redirect_after_finishing_tst_desc"
+msgstr "Uma vez completado o teste, cada participante será automaticamente redirecionado para uma página definida da web. Isto só é válido se os participantes não tiverem acesso aos resultados do seu teste."
+
+msgid "redirect_always"
+msgstr "sempre para a página da web definida"
+
+#, fuzzy
+msgid "redirect_always_to_logout"
+msgstr "Always to the logout screen"
+
+msgid "redirect_in_kiosk_mode"
+msgstr "apenas quando a vista de exame está ativada"
+
+#, fuzzy
+msgid "redirect_url_invalid"
+msgstr "Please enter a valid url of the target webpage."
+
+#, fuzzy
+msgid "redirect_url_required_for_rule"
+msgstr "The url of the webpage is required when \"%s\" is selected."
+
+msgid "redirection_url"
+msgstr "URL da página web"
+
+msgid "region"
+msgstr "Região"
+
+#, fuzzy
+msgid "remaining_duration"
+msgstr "Remaining Duration"
+
+msgid "remove_gap"
+msgstr "Remover intervalo"
+
+#, fuzzy
+msgid "remove_participants"
+msgstr "Remove Participant(s)"
+
+msgid "remove_question"
+msgstr "Remover"
+
+#, fuzzy
+msgid "remove_selected_participants_confirmation"
+msgstr "Are you sure you want to remove the selected participants from the test?"
+
+#, fuzzy
+msgid "remove_selected_templates_confirmation"
+msgstr "Are you sure you want to permanently remove the selected personal test settings templates?"
+
+msgid "remove_solution"
+msgstr "Remover conteúdo para recapitulação"
+
+msgid "res_contains_undef_res"
+msgstr "Uma fórmula de resultado contém um resultado indefinido!"
+
+msgid "res_contains_undef_var"
+msgstr "Uma fórmula de resultado contém uma variável indefinida!"
+
+msgid "reset_definitions"
+msgstr "Repor ordem"
+
+msgid "reset_pictures"
+msgstr "Repor posições de fotografia"
+
+msgid "reset_terms"
+msgstr "Repor ordem"
+
+msgid "result"
+msgstr "Resultado"
+
+msgid "result_co_frac"
+msgstr "Fração Coprime"
+
+msgid "result_co_frac_info"
+msgstr "Cancelou fração, nomeadamente: apenas 1/3 é que é um resultado válido"
+
+msgid "result_dec"
+msgstr "Decimal"
+
+msgid "result_dec_info"
+msgstr "Os resultados válidos são nomeadamente: 2,3 e 2.3"
+
+msgid "result_frac"
+msgstr "Fração"
+
+msgid "result_frac_info"
+msgstr "nomeadamente: 1/3 e 2/6 são resultados válidos"
+
+msgid "result_type_selection"
+msgstr "Seleção do tipo de resultado"
+
+msgid "result_unit_info"
+msgstr "Note que a unidade do resultado selecionado tem de estar também ativada em ‘Unidades disponíveis’."
+
+msgid "result_units"
+msgstr "Unidades disponíveis"
+
+msgid "result_units_info"
+msgstr "As unidades selecionadas são oferecidas ao aluno como parte de uma resposta. O aluno tem de escolher uma unidade."
+
+msgid "result_x"
+msgstr "Resultado %s"
+
+msgid "results"
+msgstr "Resultados"
+
+msgid "results_tab"
+msgstr "Resultados"
+
+#, fuzzy
+msgid "resulttable_all"
+msgstr "All"
+
+#, fuzzy
+msgid "resulttable_correct"
+msgstr "Correct"
+
+#, fuzzy
+msgid "resulttable_incorrect"
+msgstr "Incorrect/Incomplete"
+
+#, fuzzy
+msgid "resulttable_vc_sort_iooa"
+msgstr "in order of appearance"
+
+#, fuzzy
+msgid "resulttable_vc_sort_posscore"
+msgstr "highest possible score first"
+
+msgid "review_view"
+msgstr "Rever"
+
+#, fuzzy
+msgid "running"
+msgstr "Running"
+
+msgid "saveOrder"
+msgstr "Guardar pedido"
+
+msgid "saveOrderAndObligations"
+msgstr "Guardar ordem e obrigações"
+
+msgid "save_and_next"
+msgstr "Guardar e continuar"
+
+#. fau: testNav
+msgid "save_on_navigation"
+msgstr "Guardar na navegação"
+
+#. fau: testNav
+msgid "save_on_navigation_confirmation"
+msgstr "As suas respostas alteradas serão automaticamente guardadas quando navega."
+
+#. fau: testNav
+msgid "save_on_navigation_forced_feedback_hint"
+msgstr "Antes de obter feedback sobre a resposta que deu."
+
+#. fau: testNav
+msgid "save_on_navigation_locked_confirmation"
+msgstr "As suas respostas alteradas serão automaticamente guardadas e bloqueadas quando navega."
+
+msgid "saved_adjustment"
+msgstr "Alterações guardadas."
+
+#, fuzzy
+msgid "score_anon"
+msgstr "Score anonymously"
+
+msgid "score_partsol_enabled"
+msgstr "Ativar pontuação de meio ponto"
+
+msgid "score_partsol_enabled_info"
+msgstr "Normalmente o participante tem de responder à pergunta de forma totalmente correta para obter os pontos configurados. Com esta opção, o participante obtém metade dos pontos configurados com pelo menos três decisões corretas."
+
+#, fuzzy
+msgid "scored_by"
+msgstr "Scored BY"
+
+msgid "scored_pass"
+msgstr "Tentativa pontuada"
+
+msgid "scoring"
+msgstr "Pontuação e resultados"
+
+msgid "scoringadjust"
+msgstr "Correções"
+
+msgid "search_groups"
+msgstr "Pesquisar grupos"
+
+msgid "search_roles"
+msgstr "Pesquisar funções"
+
+msgid "search_term"
+msgstr "Pesquisar termo"
+
+#, fuzzy
+msgid "select_at_least_one_feedback_type_and_trigger"
+msgstr "Please Select at least one type of feedback and a trigger."
+
+#, fuzzy
+msgid "select_at_least_one_lock_answer_type"
+msgstr "Please select at least one type of answer lock."
+
+msgid "select_gap"
+msgstr "Selecionar espaço"
+
+msgid "select_max_one_item"
+msgstr "Selecione apenas um item"
+
+msgid "select_one_user"
+msgstr "Selecione pelo menos um utilizador."
+
+#, fuzzy
+msgid "select_question"
+msgstr "Select a Question"
+
+msgid "select_target_position_for_move_question"
+msgstr "Selecione uma posição de destino para mover a(s) pergunta(s) e prima um dos botões de inserir!"
+
+msgid "select_unit"
+msgstr "--- Selecionar unidade ---"
+
+msgid "selected_category"
+msgstr "Categoria selecionada: %s"
+
+msgid "selection"
+msgstr "Seleção"
+
+msgid "set_edit_mode"
+msgstr "Definir modo editar"
+
+msgid "set_filter"
+msgstr "Definir filtro"
+
+msgid "set_manscoring_done"
+msgstr "Marcar como ‘Participante pontuado’"
+
+#, fuzzy
+msgid "set_manscoring_open"
+msgstr "Remove 'scoring complete' flag"
+
+msgid "set_manual_feedback"
+msgstr "Feedback manual"
+
+msgid "shape"
+msgstr "Forma"
+
+msgid "showSuggestedSolution"
+msgstr "Tipo"
+
+#, fuzzy
+msgid "show_all_test_properties_on_info_page"
+msgstr "Show all Test Properties"
+
+#, fuzzy
+msgid "show_all_test_properties_on_info_page_byline"
+msgstr "Users will be presented with a complete list of test properties in the ‘Info’ tab, i.e. information on scoring and reporting."
+
+msgid "show_answer_overview"
+msgstr "Mostrar vista geral de respostas"
+
+#, fuzzy
+msgid "show_best_solution"
+msgstr "Show best solution"
+
+msgid "show_detailed_results"
+msgstr "Mostrar resultados detalhados do utilizador (tentativa marcada)"
+
+msgid "show_examview_html"
+msgstr "No ecrã"
+
+#, fuzzy
+msgid "show_hide_best_solution"
+msgstr "Show or hide best solution"
+
+#, fuzzy
+msgid "show_old_concluding_remarks"
+msgstr "Show Old Concluding Remarks"
+
+#, fuzzy
+msgid "show_old_introduction"
+msgstr "Show Old Introduction"
+
+msgid "show_pass_overview"
+msgstr "Mostrar vista geral de tentativas marcadas"
+
+#, fuzzy
+msgid "show_results"
+msgstr "Show Results"
+
+msgid "show_user_answers"
+msgstr "Mostrar respostas marcadas do utilizador"
+
+msgid "shuffle_answers"
+msgstr "Misturar respostas"
+
+msgid "skip_question"
+msgstr "Não responder e próximo"
+
+#, fuzzy
+msgid "solution"
+msgstr "Solution"
+
+msgid "solutionText"
+msgstr "Texto"
+
+msgid "solution_contain_keywords"
+msgstr "A pontuação é garantida com base na ocorrência das seguintes palavras-chave:"
+
+msgid "solution_hint"
+msgstr "Conteúdo atribuído para recapitulação"
+
+#, fuzzy
+msgid "solutions"
+msgstr "Solutions"
+
+msgid "start_tag"
+msgstr "Identificador inicial"
+
+msgid "statistical_data"
+msgstr "Dados estatísticos"
+
+msgid "statistics"
+msgstr "Estatísticas"
+
+#, fuzzy
+msgid "status_of_attempt"
+msgstr "Status of Attempt"
+
+msgid "submit_and_check"
+msgstr "Guardar resposta e controlo"
+
+msgid "submit_answer"
+msgstr "Guardar resposta e próximo"
+
+msgid "suggest_range"
+msgstr "Sugerir faixa"
+
+msgid "suggestedSolutionType"
+msgstr "Consultar"
+
+msgid "suggested_solution"
+msgstr "Conteúdo para recapitulação"
+
+msgid "suggested_solution_added_successfully"
+msgstr "Definiu com sucesso um conteúdo para recapitulação!"
+
+#, fuzzy
+msgid "sync_question_to_pool"
+msgstr "Synchronize Question"
+
+#, fuzzy
+msgid "ta_resulttable_vc_mode_aria"
+msgstr "switch question mode"
+
+#, fuzzy
+msgid "tab_nest_answers"
+msgstr "Nesting"
+
+#, fuzzy
+msgid "tax_filter"
+msgstr "Taxonomy"
+
+#, fuzzy
+msgid "tax_filter_notax"
+msgstr "Questions without assigned Taxonomy"
+
+#, fuzzy
+msgid "taxonomy_node_title"
+msgstr "Taxonomy Node Title"
+
+#, fuzzy
+msgid "taxonomy_title"
+msgstr "Taxonomy Title"
+
+msgid "term"
+msgstr "Termo"
+
+msgid "term_image"
+msgstr "Termo imagem"
+
+msgid "term_text"
+msgstr "Termo texto"
+
+msgid "terms"
+msgstr "Termos"
+
+#, fuzzy
+msgid "test_attempts_finished"
+msgstr "The test pass has been finished for the selected participants."
+
+msgid "test_confirm_template_reset"
+msgstr "Tem a certeza que não quer usar mais o modelo?"
+
+msgid "test_delete_page"
+msgstr "Apagar pergunta"
+
+msgid "test_edit_settings"
+msgstr "Editar definições"
+
+msgid "test_enable_archiving"
+msgstr "Ativar arquivo."
+
+msgid "test_has_datasets_warning_page_view"
+msgstr "O teste já contém conjuntos de dados. Não pode editar as perguntas do teste até ter removido esses conjuntos de dados."
+
+msgid "test_has_datasets_warning_page_view_link"
+msgstr "Editar participantes"
+
+msgid "test_is_offline"
+msgstr "Não pode iniciar o teste! O teste está offline."
+
+msgid "test_jump_to"
+msgstr "Saltar para a pergunta"
+
+msgid "test_move_page"
+msgstr "Mover pergunta"
+
+msgid "test_next_question"
+msgstr "Próxima pergunta"
+
+msgid "test_prev_question"
+msgstr "Pergunta anterior"
+
+#, fuzzy
+msgid "test_question_set_type"
+msgstr "Selection of Test Questions"
+
+#, fuzzy
+msgid "test_question_set_type_fixed"
+msgstr "Fixed Questions"
+
+#, fuzzy
+msgid "test_question_set_type_fixed_info"
+msgstr "All test participants see the same questions.<br>You can create questions directly in the test as well as use questions from a Question Pool. If you create new questions, you can decide to save them in a Question Pool."
+
+#, fuzzy
+msgid "test_question_set_type_random"
+msgstr "Random Questions"
+
+#, fuzzy
+msgid "test_question_set_type_random_info"
+msgstr "Each test participant will see an individually generated set of questions. The questions are drawn from one or more Question Pools."
+
+msgid "test_results"
+msgstr "Resumo dos resultados do teste"
+
+msgid "test_scoring"
+msgstr "Opções de pontuação"
+
+msgid "test_template_reset"
+msgstr "O modelo foi removido."
+
+#, fuzzy
+msgid "test_title"
+msgstr "Test Title"
+
+msgid "test_using_template"
+msgstr "Este teste usa o modelo %s. Se não puder usar um modelo e ter acesso a todas as definições, clique aqui: %s."
+
+msgid "test_using_template_link"
+msgstr "Não use mais o modelo"
+
+msgid "text_correct"
+msgstr "Corrigir texto"
+
+msgid "text_gap"
+msgstr "Espaço de texto"
+
+msgid "text_maximum_chars_allowed"
+msgstr "Não introduza mais do que o número máximo de %s caracteres. Os caracteres a mais não serão retirados, mas o excesso pode ser tido em conta durante a pontuação."
+
+msgid "text_rating"
+msgstr "Método de correspondência do texto"
+
+msgid "text_wrong"
+msgstr "Texto errado"
+
+msgid "textsize"
+msgstr "Tamanho do texto"
+
+msgid "textsize_errortext_info"
+msgstr "Introduza o tamanho do texto com erros em percentagem se quiser outro tamanho diferente de 100 por cento."
+
+msgid "textsize_info"
+msgstr "Introduza o tamanho do texto do texto de ordenação em percentagem se quiser outro tamanho diferente de 100 por cento."
+
+msgid "thumb_size"
+msgstr "Tamanho de miniatura"
+
+msgid "thumb_size_info"
+msgstr "Se introduzir um tamanho de miniatura, será criada uma miniatura deste tamanho para as imagens descarregadas. Sem um tamanho de miniatura, será usado o tamanho da imagem original."
+
+msgid "thumb_size_unit_pixel"
+msgstr "Pixel"
+
+msgid "time_format"
+msgstr "HH MM SS"
+
+msgid "timing"
+msgstr "Tempo extra"
+
+msgid "tolerance"
+msgstr "Tolerância (%)"
+
+msgid "tolerance_info"
+msgstr "A tolerância especifica um desvio tolerado da percentagem em relação ao valor do resultado. Com uma tolerância de 0, apenas o valor exato do resultado é que será avaliado para correção."
+
+msgid "too_many_targets_selected_for_move"
+msgstr "Tem de selecionar exatamente uma posição de destino!"
+
+msgid "toplist_by_score"
+msgstr "Estatística por pontuação"
+
+msgid "toplist_by_time"
+msgstr "Estatística por tempo de trabalho"
+
+msgid "toplist_col_achieved"
+msgstr "Data"
+
+msgid "toplist_col_participant"
+msgstr "Participante"
+
+msgid "toplist_col_percentage"
+msgstr "Percentagem"
+
+msgid "toplist_col_rank"
+msgstr "Classificação"
+
+msgid "toplist_col_score"
+msgstr "Pontuação"
+
+msgid "toplist_col_wtime"
+msgstr "Tempo de trabalho"
+
+#, fuzzy
+msgid "total_attempts"
+msgstr "Total Attempts"
+
+#, fuzzy
+msgid "total_duration"
+msgstr "Total Duration"
+
+#, fuzzy
+msgid "total_max_points_cannot_be_negative"
+msgstr "The maximum amount of reachable points cannot be negative."
+
+msgid "true"
+msgstr "Verdadeiro"
+
+msgid "tst_access_code_created"
+msgstr "Para fornecer-lhe acesso permanente aos resultados do seu teste e permitir-lhe retomar este teste, foi criado um acesso único ao teste. Anote este código para poder usá-lo noutras ocasiões."
+
+msgid "tst_activate_skill_service"
+msgstr "Serviço de competência"
+
+msgid "tst_activate_skill_service_desc"
+msgstr "Suporta a atribuição de perguntas a competências e a definição de limites para alcançar um nível de competência específico."
+
+msgid "tst_activation_limited_visibility_info"
+msgstr "Antes e depois do período indicado, aparece somente o título do teste. Os participantes não podem fazer o teste."
+
+msgid "tst_activation_online_info"
+msgstr "Se estiverem online, os participantes podem fazer o teste."
+
+msgid "tst_add_quest_cont_edit_mode"
+msgstr "Editor para feedback e sugestões"
+
+msgid "tst_add_quest_cont_edit_mode_IPE"
+msgstr "Usar editor de páginas ILIAS para editar feedback e sugestões"
+
+#, fuzzy
+msgid "tst_add_quest_cont_edit_mode_IPE_info"
+msgstr "No formatting of text in question and answers. No use of LaTex either. But feedback and hints can be reused when question is embedded in ILIAS learning module."
+
+msgid "tst_add_quest_cont_edit_mode_RTE"
+msgstr "Usar editor de Rich-Text para editar feedback e sugestões"
+
+#, fuzzy
+msgid "tst_add_quest_cont_edit_mode_RTE_info"
+msgstr "Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in ILIAS learning module."
+
+#, fuzzy
+msgid "tst_add_quest_cont_edit_mode_plain"
+msgstr "Use plain text"
+
+#, fuzzy
+msgid "tst_add_quest_cont_edit_mode_plain_info"
+msgstr "No formatting of text in question, answers, feedback, and hints."
+
+#, fuzzy
+msgid "tst_addit_passes_blocked_after_passed_msg"
+msgstr "You have passed the test. The test cannot be started again."
+
+msgid "tst_all_test_competences"
+msgstr "Todas as competências do teste"
+
+msgid "tst_all_user_data_deleted"
+msgstr "Todos os dados de utilizador deste teste foram removidos!"
+
+#, fuzzy
+msgid "tst_already_passed_cannot_retake"
+msgstr "Test already passed. You cannot start the test again."
+
+msgid "tst_already_submitted"
+msgstr "O teste já foi concluído e submetido."
+
+msgid "tst_analysis"
+msgstr "Análise"
+
+msgid "tst_anonymity"
+msgstr "Privacidade"
+
+msgid "tst_anonymity_anonymous_test"
+msgstr "Resultados sem nomes / teste anónimo"
+
+msgid "tst_anonymity_no_anonymization"
+msgstr "Resultados com nomes"
+
+msgid "tst_answer_aggr_answer_header"
+msgstr "Resposta"
+
+msgid "tst_answer_aggr_frequency_header"
+msgstr "Frequência"
+
+msgid "tst_answer_details"
+msgstr "Detalhes das respostas"
+
+#, fuzzy
+msgid "tst_answer_fixation"
+msgstr "Lock Answers"
+
+msgid "tst_answer_fixation_handling"
+msgstr "Respostas dos participantes"
+
+msgid "tst_answer_fixation_none"
+msgstr "Não bloqueie as respostas dos participantes durante as tentativas de teste"
+
+msgid "tst_answer_fixation_none_desc"
+msgstr "Enquanto não concluírem uma tentativa de teste, os participantes podem mudar as suas respostas, sempre que quiserem."
+
+msgid "tst_answer_fixation_on_followup_question"
+msgstr "Bloquear respostas com a apresentação de perguntas seguintes"
+
+msgid "tst_answer_fixation_on_followup_question_desc"
+msgstr "Mostrar a pergunta seguinte vai bloquear as respostas dos participantes para a pergunta anterior, os participantes deixam de poder mudar essas respostas."
+
+msgid "tst_answer_fixation_on_instant_feedback"
+msgstr "Bloquear respostas com a apresentação do feedback"
+
+msgid "tst_answer_fixation_on_instant_feedback_desc"
+msgstr "Depois de se mostrar ao participante o feedback a uma pergunta, as respostas ficam bloqueadas e os participantes já não podem mudar essas respostas."
+
+msgid "tst_answer_fixation_on_instantfb_or_followupqst"
+msgstr "Bloquear respostas com a apresentação do feedback ou perguntas seguintes"
+
+msgid "tst_answer_fixation_on_instantfb_or_followupqst_desc"
+msgstr "As respostas dos participantes a uma pergunta serão bloqueadas com a apresentação do feedback da pergunta ou quando é apresentada a pergunta seguinte."
+
+#. fau: testNav
+msgid "tst_answer_status_answered"
+msgstr "Respondido"
+
+#. fau: testNav
+msgid "tst_answer_status_editing"
+msgstr " (editar)"
+
+#. fau: testNav
+msgid "tst_answer_status_not_answered"
+msgstr "Não respondido"
+
+msgid "tst_answered_questions"
+msgstr "Perguntas respondidas"
+
+msgid "tst_answered_questions_of_total"
+msgstr "%s de %s"
+
+msgid "tst_answered_questions_test"
+msgstr "Perguntas respondidas neste teste"
+
+msgid "tst_attached_xls_file"
+msgstr "Encontrará o resultado do teste deste participante no ficheiro Excel anexado."
+
+msgid "tst_attempt"
+msgstr "Tentativa"
+
+#, fuzzy
+msgid "tst_attempt_limit_message"
+msgstr "Your limit of test attempts is <b>%s</b>."
+
+#, fuzzy
+msgid "tst_attempt_started"
+msgstr "Attempt Started"
+
+msgid "tst_back_to_pass_details"
+msgstr "Regressar aos detalhes da tentativa"
+
+msgid "tst_back_to_question_list"
+msgstr "Regressar à lista de perguntas"
+
+msgid "tst_back_to_top"
+msgstr "Regressar ao topo"
+
+msgid "tst_back_to_virtual_pass"
+msgstr "Regressar à vista geral das perguntas"
+
+msgid "tst_best_solution_is"
+msgstr "A melhor solução é"
+
+#, fuzzy
+msgid "tst_block_passes_after_passed"
+msgstr "Block Additional Passes After Test is Passed"
+
+#, fuzzy
+msgid "tst_block_passes_after_passed_info"
+msgstr "After a participant has passed the test, no further test passes are allowed to the participant with this option."
+
+msgid "tst_browse_for_qpl_questions"
+msgstr "Adicionar a partir do banco"
+
+msgid "tst_browse_for_tst_questions"
+msgstr "Adicionar a partir de outro teste"
+
+msgid "tst_btn_hide_best_solutions"
+msgstr "Ocultar as melhores soluções"
+
+msgid "tst_btn_rebuild_random_question_stage"
+msgstr "Sincronizar perguntas do banco"
+
+#, fuzzy
+msgid "tst_btn_reset_pool_sync"
+msgstr "Edit/Cancel Synchronisation"
+
+msgid "tst_btn_show_best_solutions"
+msgstr "Mostrar as melhores soluções"
+
+msgid "tst_cannot_online_due_to_switched_quest_set_type_setting"
+msgstr "O teste não pode ser definido para online porque as definições do modo de teste foram alteradas. Tem de definir um modo de teste relacionado com a configuração das perguntas antes de o teste poder ser definido para online."
+
+msgid "tst_change_dyn_test_question_selection"
+msgstr "Mudar seleção da pergunta"
+
+msgid "tst_change_points_for_question"
+msgstr "Pontos para a pergunta"
+
+msgid "tst_change_quest_set_type_from_old_to_new_with_conflict"
+msgstr "Está prestes a mudar o modo de teste de <b>%s</b> para <b>%s</b>, apesar de já existir uma configuração de perguntas/banco de perguntas dependente do modo de teste atual.<br />Esta configuração já existente perde-se."
+
+msgid "tst_change_workingtime"
+msgstr "Adicionar tempo extra para um participante"
+
+msgid "tst_comp_eval_mode"
+msgstr "Avaliação por"
+
+msgid "tst_comp_points"
+msgstr "Pontos de competência"
+
+msgid "tst_competence"
+msgstr "Competência"
+
+#, fuzzy
+msgid "tst_competence_tree"
+msgstr "Competence tree"
+
+#, fuzzy
+msgid "tst_conditions_checkbox_enabled"
+msgstr "Exam Conditions"
+
+#, fuzzy
+msgid "tst_conditions_checkbox_enabled_desc"
+msgstr "Participants must select a checkbox to start the test. Please use the introductory message to present the exam to the participants."
+
+msgid "tst_confirm_submit_answers"
+msgstr "Confirme o envio da sua solução. Não poderá inverter as suas respostas depois de premir o botão Submeter."
+
+msgid "tst_conflicting_setting"
+msgstr "Esta definição entra em conflito com outra definição."
+
+msgid "tst_copy"
+msgstr "Copiar teste"
+
+msgid "tst_corr_add_as_answer_btn"
+msgstr "Adicionar uma resposta correta"
+
+msgid "tst_corr_answ_stat_tbl_header_answer"
+msgstr "Resposta"
+
+msgid "tst_corr_answ_stat_tbl_header_frequency"
+msgstr "Frequência"
+
+msgid "tst_corrections_answers_tbl"
+msgstr "Estatística"
+
+msgid "tst_corrections_answers_tbl_subindex"
+msgstr "Estatística para %s"
+
+#, fuzzy
+msgid "tst_corrections_incompatible_question_set_type"
+msgstr "Corrections are only possible if the test uses a fixed set of questions."
+
+msgid "tst_corrections_manscore_reset_warning"
+msgstr "Existem %s pontuações manuais que foram feitas para a pergunta \"%s (ID: %s)\". Todas as pontuações manuais serão repostas quando guardar a pergunta."
+
+msgid "tst_corrections_qst_form"
+msgstr "Correção de pontos"
+
+msgid "tst_corrections_tab_question"
+msgstr "Pergunta"
+
+msgid "tst_corrections_tab_solution"
+msgstr "Solução"
+
+msgid "tst_corrections_tab_statistics"
+msgstr "Estatística"
+
+msgid "tst_count_correct_solutions"
+msgstr "Apenas as respostas corretas e completas é que pontuam"
+
+msgid "tst_count_correct_solutions_desc"
+msgstr "Os participantes pontuam o número máximo de pontos para uma resposta totalmente correta e completa ou 0 pontos nos outros casos. Isto também é válido para perguntas que definem pontos para respostas parciais."
+
+msgid "tst_count_partial_solutions"
+msgstr "As respostas incompletas ou parcialmente erradas pontuam"
+
+msgid "tst_count_partial_solutions_desc"
+msgstr "Quando uma pergunta define pontos para respostas parciais são adicionados pontos por respostas parcialmente corretas: Os participantes podem pontuar por respostas incompletas ou parcialmente erradas neste tipo de perguntas."
+
+#, fuzzy
+msgid "tst_current_run_no_longer_valid"
+msgstr "Your current test run is no longer valid. <br>It was probably completed already or finished by a tutor."
+
+msgid "tst_delete_missing_mark"
+msgstr "Selecione pelo menos um avanço de nota para remover"
+
+msgid "tst_derive_new_pool"
+msgstr "Derivar novo banco de perguntas"
+
+msgid "tst_derive_new_pools"
+msgstr "Derivar novo banco de perguntas"
+
+msgid "tst_dont_show_msg_again_in_current_session"
+msgstr "Não mostrar esta mensagem novamente durante a minha sessão atual."
+
+msgid "tst_edit_competence_assign"
+msgstr "Editar propriedades de atribuição"
+
+msgid "tst_edit_scoring"
+msgstr "Editar pontuação"
+
+#, fuzzy
+msgid "tst_enable_questionlist"
+msgstr "Show 'List of Questions’"
+
+#, fuzzy
+msgid "tst_enable_questionlist_description"
+msgstr "Participants can switch on a list of the test questions on the left of the actual question."
+
+msgid "tst_ending_time"
+msgstr "Tempo para acabar"
+
+#, fuzzy
+msgid "tst_ending_time_before_starting_time"
+msgstr "Please enter a date for the end of the test that is after the start date."
+
+msgid "tst_ending_time_desc"
+msgstr "Momento em que o teste será terminado: Os participantes já não respondem às perguntas, o teste foi terminado por ILIAS."
+
+msgid "tst_enter_questionpool"
+msgstr "Introduza um nome de banco de perguntas, onde a nova pergunta será guardada"
+
+msgid "tst_eval_question_points"
+msgstr "Resultados das perguntas para a tentativa %s"
+
+msgid "tst_eval_results_by_pass"
+msgstr "Lista de respostas para tentativa %s"
+
+msgid "tst_eval_results_by_pass_lo"
+msgstr "Lista de respostas para a tentativa %s"
+
+msgid "tst_eval_results_lo"
+msgstr "Lista de respostas"
+
+msgid "tst_eval_show_answer"
+msgstr "Mostrar resposta"
+
+msgid "tst_eval_total_finished"
+msgstr "Total de testes acabados (participantes que usaram todas as tentativas possíveis.)"
+
+msgid "tst_eval_total_finished_average_time"
+msgstr "Tempo médio de processamento do teste"
+
+msgid "tst_eval_total_passed"
+msgstr "Total de testes passados"
+
+msgid "tst_eval_total_passed_average_points"
+msgstr "Média de pontos de testes passados"
+
+msgid "tst_eval_total_passed_average_time"
+msgstr "Tempo de processamento médio para todos os testes aprovados"
+
+msgid "tst_eval_total_persons"
+msgstr "Número total de participantes que iniciaram o teste"
+
+#, fuzzy
+msgid "tst_exam_access_code"
+msgstr "Access Code"
+
+#, fuzzy
+msgid "tst_exam_access_code_invalid_message"
+msgstr "The code you provided is invalid."
+
+#, fuzzy
+msgid "tst_exam_access_code_label"
+msgstr "Enter access code to continue your already started test. Leave the field empty to start a new test run."
+
+#, fuzzy
+msgid "tst_exam_conditions"
+msgstr "Exam Conditions"
+
+#, fuzzy
+msgid "tst_exam_conditions_label"
+msgstr "Check to accept the conditions."
+
+#, fuzzy
+msgid "tst_exam_conditions_not_checked_message"
+msgstr "You need to accept the exam conditions!"
+
+#, fuzzy
+msgid "tst_exam_ending_time_message"
+msgstr "The test cannot be started after %s."
+
+#, fuzzy
+msgid "tst_exam_modal_message_conditions"
+msgstr "Please confirm the conditions to start the test."
+
+#, fuzzy
+msgid "tst_exam_modal_message_conditions_and_password"
+msgstr "Please confirm the conditions and enter the password to start the test."
+
+#, fuzzy
+msgid "tst_exam_modal_message_password"
+msgstr "Please enter the password to start the test."
+
+#, fuzzy
+msgid "tst_exam_not_assigned_participant_disclaimer"
+msgstr "You cannot start this test, as you are not an assigned participant."
+
+#, fuzzy
+msgid "tst_exam_password"
+msgstr "Test Password"
+
+#, fuzzy
+msgid "tst_exam_password_invalid_message"
+msgstr "The given password is not valid!"
+
+#, fuzzy
+msgid "tst_exam_password_label"
+msgstr "Password"
+
+#, fuzzy
+msgid "tst_exam_required_fields_not_filled_message"
+msgstr "You need to fill out all required fields!"
+
+#, fuzzy
+msgid "tst_exam_start"
+msgstr "Start Test"
+
+#, fuzzy
+msgid "tst_exam_use_previous_answers"
+msgstr "Previous Answers"
+
+#, fuzzy
+msgid "tst_exam_use_previous_answers_label"
+msgstr "If enabled answers from previous tests will be prefilled."
+
+msgid "tst_extratime_added"
+msgstr "O tempo de trabalho do participante aumentou em %s minutos."
+
+msgid "tst_extratime_info"
+msgstr "Se quiser adicionar o tempo de trabalho várias vezes para o mesmo participante, insira o tempo total que quer adicionar."
+
+msgid "tst_extratime_notavailable"
+msgstr "O tempo extra pode ser adicionado apenas para testes com uma tentativa e um tempo de processamento máximo."
+
+msgid "tst_failed"
+msgstr "Não foi possível criar as atribuições das perguntas às seguintes competências. Não se conseguiram identificar as correspondentes competências dentro do sistema local."
+
+msgid "tst_failed_imp_qst_skl_assign"
+msgstr "Taxonomia"
+
+msgid "tst_failed_imp_skl_thresholds"
+msgstr "A importação de limites para as seguintes competências foi ignorada porque as correspondentes competências dentro do sistema local estão configuradas com uma lista diferente de níveis."
+
+msgid "tst_feedback"
+msgstr "Feedback"
+
+#, fuzzy
+msgid "tst_feedback_is_given_inline"
+msgstr "The feedback will be displayed along with your answer."
+
+#, fuzzy
+msgid "tst_feedback_not_available_for_answer"
+msgstr "There is no feedback available for your answer."
+
+#, fuzzy
+msgid "tst_filter_lifecycle_enabled"
+msgstr "Use Lifecycle as Filter"
+
+msgid "tst_filter_question_type"
+msgstr "Tipo de pergunta"
+
+msgid "tst_filter_question_type_enabled"
+msgstr "Usar tipo de pergunta como filtro"
+
+msgid "tst_filter_tax_node"
+msgstr "Nó de taxonomia"
+
+msgid "tst_filter_taxonomy"
+msgstr "Acabar o teste"
+
+msgid "tst_final_information"
+msgstr "Vai acabar este teste e chegar ao número máximo de tentativas de teste permitidas. Não poderá entrar novamente neste teste para mudar as suas respostas. Quer mesmo acabar o teste?"
+
+msgid "tst_finish_confirm_button"
+msgstr "Sim, quero terminar o teste"
+
+msgid "tst_finish_confirm_cancel_button"
+msgstr "Notificação"
+
+msgid "tst_finish_confirmation_question"
+msgstr "Não, voltar à resposta anterior"
+
+#, fuzzy
+msgid "tst_finish_confirmation_question_no_attempts_left"
+msgstr "You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?"
+
+msgid "tst_finished"
+msgstr "Terminado"
+
+msgid "tst_form_dynamic_question_set_config"
+msgstr "Continuar seleção de perguntas"
+
+msgid "tst_gap_analysis"
+msgstr "Análise de intervalo"
+
+msgid "tst_general_properties"
+msgstr "A sua resposta:"
+
+msgid "tst_header_participant"
+msgstr "Melhor solução:"
+
+#, fuzzy
+msgid "tst_header_participant_no_answer"
+msgstr "Question - not answered"
+
+msgid "tst_header_solution"
+msgstr "Pontuação"
+
+#, fuzzy
+msgid "tst_hide_info_tab"
+msgstr "Hide Info Tab"
+
+#, fuzzy
+msgid "tst_hide_info_tab_desc"
+msgstr "Hides the tab ‘Info’ of the test."
+
+#, fuzzy
+msgid "tst_hide_pagecontents"
+msgstr "Hide page content"
+
+#, fuzzy
+msgid "tst_hide_pagecontents_desc"
+msgstr "ILIAS content placed before and after the actual question text via the \"Edit Page\" button will not be displayed in the result views and print output."
+
+msgid "tst_imap_qst_mode"
+msgstr "Modo"
+
+msgid "tst_imap_qst_mode_mc"
+msgstr "Escolha múltipla"
+
+msgid "tst_imap_qst_mode_sc"
+msgstr "Escolha única"
+
+msgid "tst_import_non_ilias_zip"
+msgstr "Erro: O nome do ficheiro de importação carregado não corresponde ao formato esperado."
+
+msgid "tst_import_verify_found_questions"
+msgstr "ILIAS encontrou as seguintes perguntas no ficheiro de importação de teste. Selecione as perguntas que quer importar com este teste."
+
+msgid "tst_inp_all_quest_points_equal_per_pool"
+msgstr "Se estiver ativado, são propostas apenas perguntas que têm o mesmo número de pontos. Os participantes desse tipo de teste podem ter todos o mesmo número máximo de pontos, para se poder comparar melhor os resultados do teste. Recomenda-se esta opção."
+
+msgid "tst_inp_all_quest_points_equal_per_pool_desc"
+msgstr "Quantidade de perguntas"
+
+msgid "tst_inp_dyn_quest_set_quest_ordering_by_date_desc"
+msgstr "A ordem de apresentação para as bases de perguntas de acordo com a data da última edição das perguntas."
+
+msgid "tst_inp_dyn_quest_set_quest_ordering_by_tax_desc"
+msgstr "A ordem de apresentação para as bases de perguntas de acordo com as atribuições das perguntas numa taxonomia."
+
+msgid "tst_inp_no_available_tax_hint"
+msgstr "Taxonomias não disponíveis para banco de perguntas selecionados"
+
+msgid "tst_inp_quest_amount_cfg_mode"
+msgstr "Definir a quantidade de perguntas por banco de perguntas selecionado e nó de taxonomia."
+
+msgid "tst_inp_quest_amount_cfg_mode_pool"
+msgstr "Definir a quantidade de perguntas por teste"
+
+msgid "tst_inp_quest_amount_cfg_mode_test"
+msgstr "Banco de perguntas"
+
+msgid "tst_inp_quest_amount_per_source_pool"
+msgstr "Quantidade de perguntas"
+
+msgid "tst_inp_quest_amount_per_test"
+msgstr "Número de perguntas para todo o teste"
+
+msgid "tst_inp_source_pool_filter_tax"
+msgstr "Filtro de taxonomia"
+
+msgid "tst_inp_source_pool_filter_tax_x"
+msgstr "Usar taxonomia \"%s\" como filtro"
+
+msgid "tst_inp_source_pool_label"
+msgstr "Selecione pelo menos uma pergunta para inseri-la no teste!"
+
+msgid "tst_inp_source_pool_no_tax_filter"
+msgstr "Não usar taxonomia com base no filtro"
+
+msgid "tst_input_dyn_quest_set_answer_status_filter_enabled"
+msgstr "Fornecer filtro do estado da pergunta"
+
+msgid "tst_input_dynamic_question_set_ordering_tax"
+msgstr "Ordenação taxonomia"
+
+msgid "tst_input_dynamic_question_set_ordering_tax_description"
+msgstr "As perguntas do teste serão apresentadas de acordo com as respetivas atribuições na taxonomia selecionada."
+
+msgid "tst_input_dynamic_question_set_question_ordering"
+msgstr "Ordenação perguntas"
+
+msgid "tst_input_dynamic_question_set_question_ordering_by_date"
+msgstr "Ordenar perguntas por data"
+
+msgid "tst_input_dynamic_question_set_question_ordering_by_tax"
+msgstr "Ordenar perguntas por taxonomia"
+
+msgid "tst_input_dynamic_question_set_source_questionpool"
+msgstr "Banco de perguntas original"
+
+msgid "tst_input_dynamic_question_set_taxonomie_filter_enabled"
+msgstr "Fornecer filtro de taxonomia"
+
+#, fuzzy
+msgid "tst_insert_in_test"
+msgstr "Insert in Test"
+
+msgid "tst_insert_missing_question"
+msgstr "Tem a certeza que quer inserir a(s) seguinte(s) pergunta(s) no teste?"
+
+msgid "tst_insert_questions"
+msgstr "Este teste foi já feito por %s utilizador(es). Inserir perguntas neste teste removerá todos os resultados destes utilizadores. Tem a certeza que quer inserir a(s) seguinte(s) pergunta(s) no teste?"
+
+msgid "tst_instant_feedback"
+msgstr "Feedback instantâneo"
+
+msgid "tst_instant_feedback_answer_generic"
+msgstr "Se a resposta fornecida estiver totalmente correta, ILIAS mostra um tipo de feedback se clicar no botão ‘Marcar’. Se a resposta fornecida não estiver totalmente correta, será exibido outro tipo de feedback. Ambos os tipos de feedback foram preparados no separador ‘Feedback’ da respetiva pergunta."
+
+msgid "tst_instant_feedback_answer_generic_desc"
+msgstr "Feedback específico fornecido para cada resposta"
+
+msgid "tst_instant_feedback_answer_specific"
+msgstr "Se clicar no botão ‘Marcar’, ILIAS mostra um feedback específico para cada opção de resposta selecionada pelo participante. O feedback tem de estar preparado juntamente com a pergunta. Este feedback específico não é suportado para todos os tipos de pergunta."
+
+msgid "tst_instant_feedback_answer_specific_desc"
+msgstr "Pontos obtidos"
+
+msgid "tst_instant_feedback_contents"
+msgstr "Se clicar no botão ‘Marcar’, ILIAS mostra quantos pontos foram obtidos ao responder a esta pergunta."
+
+msgid "tst_instant_feedback_desc"
+msgstr "Mostrar a melhor resposta possível"
+
+msgid "tst_instant_feedback_results"
+msgstr "Ao clicar no botão ‘Marcar', ILIAS mostra a melhor resposta possível à pergunta."
+
+msgid "tst_instant_feedback_results_desc"
+msgstr "Mensagem introdutória"
+
+msgid "tst_instant_feedback_solution"
+msgstr "Mostra uma mensagem introdutória no separador 'Informação' do teste. Este texto está acessível antes de o teste poder ser iniciado."
+
+msgid "tst_instant_feedback_solution_desc"
+msgstr "Número limite das tentativas de teste"
+
+msgid "tst_instant_feedback_trigger"
+msgstr "Mostrar antes de o participante terminar o teste"
+
+msgid "tst_instant_feedback_trigger_forced"
+msgstr "Mostrar antes da primeira pergunta"
+
+msgid "tst_instant_feedback_trigger_forced_desc"
+msgstr "Inclui descrições de perguntas"
+
+msgid "tst_instant_feedback_trigger_manual"
+msgstr "Nota"
+
+msgid "tst_instant_feedback_trigger_manual_desc"
+msgstr "Criar novo avanço de nota"
+
+msgid "tst_introduction"
+msgstr "Repor esquema de anotações simples"
+
+msgid "tst_introduction_desc"
+msgstr "Nível mínimo (em %)"
+
+msgid "tst_introduction_text"
+msgstr "Mensagem introdutória"
+
+msgid "tst_invited_nobody"
+msgstr "Nenhum utilizador, grupo ou função foi adicionado como participante de teste fixo"
+
+msgid "tst_invited_selected_users"
+msgstr "Os utilizadores selecionados foram adicionado como participante de teste fixo"
+
+#, fuzzy
+msgid "tst_launcher_button_label_passes_limit_reached"
+msgstr "You have reached the limit of possible test passes"
+
+#, fuzzy
+msgid "tst_launcher_status_message_conditions"
+msgstr "You will be asked for your approval of the exam conditions when you start the test."
+
+#, fuzzy
+msgid "tst_launcher_status_message_conditions_and_password"
+msgstr "You will be asked for the password and your approval of the exam conditions when you start the test."
+
+#, fuzzy
+msgid "tst_launcher_status_message_password"
+msgstr "You will be asked for the password when you start the test."
+
+msgid "tst_level"
+msgstr "Nível de competência"
+
+msgid "tst_limit_nr_of_tries"
+msgstr "Forma oficial"
+
+msgid "tst_link_only_unassigned"
+msgstr "Selecionou pelo menos uma pergunta que já está associada a um banco de perguntas. Só é possível adicionar a um banco de perguntas as perguntas que não estão atribuídas."
+
+msgid "tst_list_answer_details"
+msgstr "Mostrar lista abaixo"
+
+msgid "tst_list_of_answers"
+msgstr "Lista de respostas"
+
+msgid "tst_list_of_answers_show"
+msgstr "Mostrar lista de respostas"
+
+msgid "tst_list_of_questions_end"
+msgstr "Aprovado"
+
+msgid "tst_list_of_questions_start"
+msgstr "Forma curta"
+
+msgid "tst_list_of_questions_with_description"
+msgstr "Pontos máximos"
+
+#, fuzzy
+msgid "tst_man_scoring_answered_hide"
+msgstr "Hide answered questions"
+
+#, fuzzy
+msgid "tst_man_scoring_answered_only"
+msgstr "Show only answered questions"
+
+msgid "tst_man_scoring_by_part"
+msgstr "Pontuação por participante"
+
+msgid "tst_man_scoring_by_qst"
+msgstr "Pontuação por pergunta"
+
+#, fuzzy
+msgid "tst_man_scoring_finalized"
+msgstr "Show finalized gradings"
+
+#, fuzzy
+msgid "tst_man_scoring_finalized_hide"
+msgstr "Hide finalized gradings"
+
+#, fuzzy
+msgid "tst_man_scoring_finalized_only"
+msgstr "Show only finalized gradings"
+
+#, fuzzy
+msgid "tst_man_scoring_only_answered"
+msgstr "Only answered"
+
+#, fuzzy
+msgid "tst_man_scoring_questionselection"
+msgstr "Questions"
+
+#, fuzzy
+msgid "tst_man_scoring_userselection"
+msgstr "Participants"
+
+msgid "tst_manage_competence_assigns"
+msgstr "Gerir atribuições de competência"
+
+#, fuzzy
+msgid "tst_manage_competence_select_skills"
+msgstr "Select Competences"
+
+msgid "tst_manscoring_input_max_points_for_question"
+msgstr "Pontos máximos para a pergunta"
+
+#, fuzzy
+msgid "tst_manscoring_input_of_max"
+msgstr "of"
+
+msgid "tst_manscoring_input_question_and_user_solution"
+msgstr "Pergunta e solução do utilizador"
+
+msgid "tst_manscoring_maxpoints_exceeded_input_alert"
+msgstr "O máximo de %s ponto(s) foi excedido!"
+
+#, fuzzy
+msgid "tst_manscoring_no_feedback"
+msgstr "No written feedback has been given yet."
+
+msgid "tst_manscoring_question_section_header"
+msgstr "Pergunta: %s"
+
+msgid "tst_manscoring_user_notification"
+msgstr "Enviar notificação"
+
+msgid "tst_mark"
+msgstr "A configuração para o conjunto aleatório de perguntas foi modificada com sucesso."
+
+msgid "tst_mark_create_new_mark_step"
+msgstr "Não é possível um teste com um conjunto aleatório de perguntas sem uma quantidade de perguntas corretamente definida."
+
+msgid "tst_mark_minimum_level"
+msgstr "<b>Não é possível um teste com um conjunto aleatório de perguntas com a seleção atual de bancos de perguntas e a quantidade de perguntas.</b><br />"
+
+#, fuzzy
+msgid "tst_mark_minimum_level_invalid"
+msgstr "Minimum Level must be between 0 and 100."
+
+msgid "tst_mark_official_form"
+msgstr "Date da última sincronização dos bancos de perguntas selecionados: <b>%s</b>"
+
+msgid "tst_mark_passed"
+msgstr "Os pontos de competência foram guardados."
+
+#, fuzzy
+msgid "tst_mark_reset_to_simple_mark_schema"
+msgstr "Reset to Simple Mark Schema"
+
+#, fuzzy
+msgid "tst_mark_reset_to_simple_mark_schema_confirmation"
+msgstr "If you proceed the current mark schema set for this test will be replaced by a simple mark schema thus deleting all local changes."
+
+msgid "tst_mark_short_form"
+msgstr "A regra foi removida com sucesso."
+
+msgid "tst_max_comp_points"
+msgstr "Pontos máx. de competência"
+
+msgid "tst_maximum_points"
+msgstr "Recebeu esta notificação porque participou neste teste."
+
+#. fau: testNav
+msgid "tst_mc_label_none_above"
+msgstr "Nenhuma das respostas acima"
+
+msgid "tst_median_mark_panel"
+msgstr "Pontuação manual para teste \"%s\" comprometida"
+
+msgid "tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part"
+msgstr "A configuração contínua da seleção de perguntas não pode ser alterada devido a dados existentes do participante."
+
+msgid "tst_msg_cannot_modify_random_question_set_conf_due_to_part"
+msgstr "A configuração do conjunto aleatório de perguntas não pode ser alterada devido a dados existentes do participante."
+
+msgid "tst_msg_dynamic_question_set_config_modified"
+msgstr "A configuração contínua da seleção de perguntas foi alterada."
+
+msgid "tst_msg_rand_quest_set_change_quest_amount_here"
+msgstr "Pode mudar a quantidade de perguntas aqui: %s"
+
+msgid "tst_msg_rand_quest_set_incomplete_quest_amount_cfg"
+msgstr "Não existem dados de avaliação disponíveis."
+
+msgid "tst_msg_rand_quest_set_lost_pools"
+msgstr "A configuração da seleção de perguntas do teste foi congelada porque os seguintes bancos de perguntas envolvidos na configuração deixaram de estar disponíveis:<br />%s"
+
+msgid "tst_msg_rand_quest_set_lost_pools_link"
+msgstr "No subseparador %s os bancos de perguntas indisponíveis podem ser novamente derivados."
+
+msgid "tst_msg_rand_quest_set_no_pools_available"
+msgstr "Atualmente, não pode adicionar novas regras à seleção de perguntas porque não há bancos de perguntas disponíveis."
+
+msgid "tst_msg_rand_quest_set_no_src_pool_defs"
+msgstr "Não existem nenhumas anotações definidas, por favor crie pelo menos um esquema de anotações simples!"
+
+msgid "tst_msg_rand_quest_set_not_sync"
+msgstr "As regras para uma seleção aleatória de perguntas foram recentemente criadas ou alteradas. As perguntas dos bancos têm de ser sincronizadas no teste antes de poderem ser usadas. Isto verifica também se é possível um teste aleatório com o conjunto definido de regras."
+
+msgid "tst_msg_rand_quest_set_pass_buildable"
+msgstr "Com a atual configuração é possível um teste com um conjunto aleatório de perguntas."
+
+msgid "tst_msg_rand_quest_set_pass_not_buildable"
+msgstr "Selecione pelo menos uma pergunta para remover!"
+
+msgid "tst_msg_rand_quest_set_rule_label"
+msgstr "Regra %s"
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_missing"
+msgstr "Regra %s requer %s perguntas, mas só há %s perguntas fornecidas."
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_missing_shared"
+msgstr "Para além destas perguntas, há também %s perguntas fornecidas para outras regras que se seguem: %s"
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_reserved"
+msgstr "Regra %s requer %s perguntas, e há %s perguntas fornecidas."
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_reserved_shared"
+msgstr "Mas só %s das perguntas fornecidas é que estão garantidamente disponíveis devido às intersecções com as seguintes outras regras: %s"
+
+msgid "tst_msg_rand_quest_set_stage_pool_last_sync"
+msgstr "Não está disponível nenhuma pergunta para pontuar"
+
+msgid "tst_msg_random_qsc_modified_add_new_rule"
+msgstr "A configuração para o conjunto aleatório de perguntas foi modificada com sucesso. Pode adicionar uma nova regra agora."
+
+msgid "tst_msg_random_question_set_config_modified"
+msgstr "O seu teste foi manualmente pontuado:"
+
+msgid "tst_msg_random_question_set_synced"
+msgstr "As perguntas para a atual configuração foram sincronizadas com sucesso."
+
+msgid "tst_msg_skl_lvl_thresholds_saved"
+msgstr "Os limites de competência foram guardados."
+
+msgid "tst_msg_skl_qst_assign_points_not_saved"
+msgstr "Os pontos de competência não foram guardados. Verifique a sua entrada."
+
+msgid "tst_msg_skl_qst_assign_points_saved"
+msgstr "nenhuma"
+
+msgid "tst_msg_source_pool_definitions_deleted"
+msgstr "Número máx. de tentativas"
+
+msgid "tst_nav_next_locks_current_answer_confirm"
+msgstr "Tentativas já concluídos"
+
+msgid "tst_nav_next_locks_current_answer_header"
+msgstr "Respondidas corretamente"
+
+msgid "tst_nav_next_locks_empty_answer_confirm"
+msgstr "Não apresentadas, ainda"
+
+msgid "tst_nav_next_locks_empty_answer_header"
+msgstr "Ignoradas"
+
+msgid "tst_nav_while_edit_modal_cancel_btn"
+msgstr "Cancelar"
+
+msgid "tst_nav_while_edit_modal_header"
+msgstr "Decisão sobre respostas"
+
+msgid "tst_nav_while_edit_modal_nosave_btn"
+msgstr "Não guardar"
+
+msgid "tst_nav_while_edit_modal_save_btn"
+msgstr "Guardar"
+
+msgid "tst_nav_while_edit_modal_text"
+msgstr "O que fazer com as respostas que possivelmente inseriu para esta pergunta?"
+
+msgid "tst_no_evaluation_data"
+msgstr "Se definir uma palavra-passe de teste, todos os utilizadores com acesso ao teste têm de introduzir essa palavra-passe para iniciar o teste."
+
+msgid "tst_no_marks_defined"
+msgstr "Este teste pode ser acedido apenas com uma palavra-passe de teste. Introduza a palavra-passe do teste para iniciar o mesmo."
+
+msgid "tst_no_question_selected_for_moving_to_qpl"
+msgstr "Escolha pelo menos uma pergunta para adicionar a uma banco de perguntas!"
+
+msgid "tst_no_question_selected_for_removal"
+msgstr "Pontuar a melhor tentativa"
+
+msgid "tst_no_scorable_qst_available"
+msgstr "Resultados detalhados"
+
+msgid "tst_non_avail_pool_msg_status_lost"
+msgstr "Este banco de perguntas deixou de estar disponível. Deixou de ser possível sincronizar perguntas deste banco de perguntas. Pode derivar um novo banco de perguntas a partir das perguntas contidas neste teste."
+
+msgid "tst_non_avail_pool_msg_status_trashed"
+msgstr "Este banco de perguntas é destruído quando é removido do sistema permanentemente, o teste deixa de estar disponível para se poder sincronizar pergunta a partir dele."
+
+msgid "tst_non_avail_pools_table"
+msgstr "Bancos de perguntas indisponíveis"
+
+msgid "tst_non_available_pool_newly_derived"
+msgstr "O(s) novo(s) banco(s) de perguntas foi/foram derivados com sucesso."
+
+msgid "tst_nonpool_questions_get_lost_warning"
+msgstr "<b>O atual modo de teste inclui perguntas nesta configuração que não estão atribuídas a nenhum banco de perguntas. Se mudar o modo de teste, essas perguntas perdem-se permanentemente.</b>"
+
+msgid "tst_notification_explanation_admin"
+msgstr "Recebe este e-mail de ILIAS porque ativou a notificação."
+
+msgid "tst_notify_manscoring_done_body_msg_reason"
+msgstr " Respondidas erradamente"
+
+msgid "tst_notify_manscoring_done_body_msg_subject"
+msgstr "<b>As perguntas relacionadas com os objetivos de aprendizagem já aprovados foram respondidas em tentativas anteriores.</b><br /><br />Quer navegar para uma pergunta relacionada com um objetivo de aprendizagem já aprovado.<br />Pode optar:<br /><br />Se continuar, pode rever essas perguntas. Se mudar as suas respostas que foram adotadas de tentativas anteriores, pode também prejudicar o seu resultado do objetivo de aprendizagem.<br /><br />Se decidir não rever essas perguntas, pode voltar atrás. As perguntas serão consideradas na avaliação, em cada caso."
+
+msgid "tst_notify_manscoring_done_body_msg_topic"
+msgstr "<b>As perguntas relacionadas com objetivos de aprendizagem já aprovados são opcionais.</b><br /><br />Quer navegar para uma pergunta que está relacionada com um objetivo de aprendizagem já aprovado.<br />Pode optar:<br /><br />Se continuar, pode rever essas perguntas. As suas respostas das tentativas anteriores não foram adotadas, uma vez que as novas perguntas aleatórias foram selecionadas para esta tentativa. Se rever estas perguntas, pode também prejudicar o seu resultado do objetivo de aprendizagem.<br /><br />Se decidir não rever essas perguntas, pode voltar atrás. Neste caso, estas perguntas não serão consideradas na avaliação."
+
+msgid "tst_nr_of_passes"
+msgstr "Número de tentativas de teste"
+
+msgid "tst_nr_of_tries"
+msgstr "Pontuar múltiplas tentativas"
+
+msgid "tst_nr_of_tries_desc"
+msgstr "Número máximo de tentativas que um participante pode fazer."
+
+msgid "tst_num_all_questions"
+msgstr "Número de todas as perguntas"
+
+msgid "tst_num_correct_answered_questions"
+msgstr "Perguntas não respondidas"
+
+msgid "tst_num_non_answered_questions_notseen"
+msgstr "As perguntas não respondidas ficam no lugar"
+
+msgid "tst_num_non_answered_questions_skipped"
+msgstr "As perguntas que o utilizador analisou mas não respondeu ficam no seu lugar no teste e não serão bloqueadas no fim do teste."
+
+msgid "tst_num_questions"
+msgstr "Número de perguntas"
+
+msgid "tst_num_selected_questions"
+msgstr "Número das perguntas selecionadas"
+
+msgid "tst_num_wrong_answered_questions"
+msgstr "Perguntas não respondidas serão bloqueadas"
+
+msgid "tst_objective_oriented_test_pass_without_questions"
+msgstr "A tentativa iniciada para o teste \"%s\" não contém qualquer pergunta."
+
+msgid "tst_objective_progress_header"
+msgstr "Progresso dos objetivos de aprendizagem"
+
+msgid "tst_objectives_progress_header"
+msgstr "Progresso dos objetivos de aprendizagem"
+
+msgid "tst_old_style_rnd_quest_set_broken"
+msgstr "Este teste aleatório está num estado irreparável porque foram eliminados um ou mais bancos de perguntas conectados. Por isso, os participantes já não podem fazer este teste."
+
+msgid "tst_optional_questions_confirmation_fixed_test"
+msgstr "As perguntas que o utilizador analisou mas não respondeu serão bloqueadas para serem novamente apresentadas de forma automática no fim do teste."
+
+msgid "tst_optional_questions_confirmation_non_fixed_test"
+msgstr "Administrar o teste: comportamento da pergunta"
+
+#, fuzzy
+msgid "tst_out_of_time_message"
+msgstr "You have reached the maximum allowed processing time of the test!"
+
+msgid "tst_participant"
+msgstr "Participante"
+
+msgid "tst_participant_fullname_pattern"
+msgstr "%2$s, %1$s"
+
+msgid "tst_participant_status"
+msgstr "Estado do participante"
+
+msgid "tst_participating_users"
+msgstr "Utilizadores participantes"
+
+msgid "tst_pass_best_pass"
+msgstr "N.º"
+
+msgid "tst_pass_best_pass_desc"
+msgstr "A melhor tentativa do participante é a que será pontuada. Esta definição apenas se aplica quando é possível tentar mais do que uma vez o teste."
+
+msgid "tst_pass_deletion"
+msgstr "Tentativas anteriores"
+
+msgid "tst_pass_deletion_allowed"
+msgstr "É permitido eliminar as tentativas anteriores"
+
+msgid "tst_pass_details"
+msgstr "Pergunta(s) inserida(s)!"
+
+msgid "tst_pass_details_header_lo_initial"
+msgstr "Resultados de teste iniciais para os objetivos de aprendizagem<br />%s - %s"
+
+msgid "tst_pass_details_header_lo_qualifying"
+msgstr "Resultados de teste que se qualificam para os objetivos de aprendizagem<br />%s - %s"
+
+msgid "tst_pass_details_overview_table_title"
+msgstr "Vista geral detalhada para tentativa %s"
+
+#, fuzzy
+msgid "tst_pass_finished"
+msgstr "Test pass finished"
+
+msgid "tst_pass_finished_on"
+msgstr "Tentativa de teste concluída a"
+
+msgid "tst_pass_last_pass"
+msgstr "Pergunta(s) removida(s)!"
+
+msgid "tst_pass_last_pass_desc"
+msgstr "Será pontuada a última tentativa de um participante."
+
+msgid "tst_pass_overview_for_participant"
+msgstr "Tentativas de teste para o participante: %s"
+
+msgid "tst_pass_overview_header_lo_initial_all_objectives"
+msgstr "Resultados de teste iniciais<br />para os objetivos de aprendizagem dentro do curso %s"
+
+msgid "tst_pass_overview_header_lo_initial_per_objective"
+msgstr "Resultados de teste iniciais<br />para os objetivos de aprendizagem %s dentro do curso %s"
+
+msgid "tst_pass_overview_header_lo_qualifying_all_objectives"
+msgstr "Resultados de teste que se qualificam<br />para os objetivos de aprendizagem dentro do curso %s"
+
+msgid "tst_pass_overview_header_lo_qualifying_per_objective"
+msgstr "Resultados de teste que se qualificam<br />para os objetivos de aprendizagem %s dentro do curso %s"
+
+msgid "tst_pass_scoring"
+msgstr "Que perguntas devem ser apresentadas?"
+
+#, fuzzy
+msgid "tst_pass_scoring_best"
+msgstr "Best Test Attempt"
+
+#, fuzzy
+msgid "tst_pass_scoring_last"
+msgstr "Last Test Attempt"
+
+msgid "tst_pass_waiting_enabled"
+msgstr "Forçar tempo de espera entre tentativas"
+
+msgid "tst_pass_waiting_info"
+msgstr "Com esta opção, não é possível iniciar tentativas adicionais antes de o tempo definido ter decorrido relativamente à última tentativa concluída."
+
+msgid "tst_pass_waiting_time"
+msgstr "Tempo de espera"
+
+msgid "tst_passed"
+msgstr "Teste e avaliação - Visão de impressão"
+
+msgid "tst_passes"
+msgstr "Tentativas de teste"
+
+msgid "tst_password"
+msgstr "Palavra-passe de teste"
+
+msgid "tst_password_details"
+msgstr "Duração limite do teste"
+
+msgid "tst_password_enter"
+msgstr "Inserir palavra-passe"
+
+msgid "tst_password_entered_wrong_password"
+msgstr "Não pode iniciar o teste porque inseriu a palavra-passe de teste errada!"
+
+msgid "tst_password_form"
+msgstr "Inserir palavra-passe de teste"
+
+msgid "tst_password_introduction"
+msgstr "Os participantes podem rever o processar apenas por um período de tempo especificado. O tempo começa a contar a partir do momento que um utilizador inicia o teste pela primeira vez. Suspender o teste não para o relógio. Se houver um número limitado de possíveis tentativas do teste, aparece uma função adicional para garantir tempo extra aos participantes no separador 'Participantes'."
+
+msgid "tst_percent_solved"
+msgstr "Todas as perguntas, exceto as que forem respondidas corretamente"
+
+#, fuzzy
+msgid "tst_player_answer_saved_and_locked"
+msgstr "Answer is saved and locked and can no longer be changed"
+
+#, fuzzy
+msgid "tst_please_select_source_pool"
+msgstr "Please select a question pool."
+
+msgid "tst_please_select_target_for_pool_derives"
+msgstr "Selecione um destinatário."
+
+msgid "tst_position"
+msgstr "Pergunta %s de %s"
+
+msgid "tst_position_without_total"
+msgstr "Pergunta %s"
+
+msgid "tst_postpone"
+msgstr "Apenas as perguntas respondidas erradamente"
+
+msgid "tst_postpone_off"
+msgstr "A área de transferência de encomendas foi resposta."
+
+msgid "tst_postpone_off_desc"
+msgstr "Marcado"
+
+msgid "tst_postpone_on"
+msgstr "Encomenda"
+
+msgid "tst_postpone_on_desc"
+msgstr "Seleção das perguntas do teste"
+
+msgid "tst_presentation_properties"
+msgstr "Lista de perguntas - Todas as perguntas de um banco de perguntas"
+
+msgid "tst_presentation_settings_section"
+msgstr "Os participantes revêm as perguntas de um banco de perguntas. As perguntas respondidas erradamente serão novamente apresentadas. As perguntas podem ser adicionadas e editadas num teste de funcionamento."
+
+#, fuzzy
+msgid "tst_previous_access_code_not_available"
+msgstr "No previous code available!"
+
+msgid "tst_proceed"
+msgstr "Todos os participantes recebem o mesmo conjunto de perguntas."
+
+msgid "tst_processing_time"
+msgstr "Conjunto aleatório de perguntas"
+
+msgid "tst_processing_time_desc"
+msgstr "Cada participante obtém um conjunto diferente de perguntas. As perguntas são selecionadas à sorte de um ou mais bancos de perguntas."
+
+msgid "tst_processing_time_duration"
+msgstr "Duração máxima do teste"
+
+msgid "tst_processing_time_duration_desc"
+msgstr "Tempo máximo concedido para fazer o teste."
+
+msgid "tst_qbt_filter_question_title"
+msgstr "Título da pergunta"
+
+msgid "tst_qst_added_to_pool_p"
+msgstr "As perguntas foram adicionadas com sucesso ao banco selecionado."
+
+msgid "tst_qst_added_to_pool_s"
+msgstr "A pergunta foi adicionada com sucesso ao banco selecionado."
+
+msgid "tst_qst_order"
+msgstr "Título da pergunta"
+
+msgid "tst_qst_skl_cfg_in_pool_hint_dynquestset"
+msgstr "A atribuição de perguntas de competência para testes com o modo \"%s\" deve ser efetuada no correspondente banco de perguntas:<br />%s<br /><br />A configuração dos valores limite deve ser realizada aqui no teste."
+
+msgid "tst_qst_skl_cfg_in_pool_hint_rndquestset"
+msgstr "A atribuição de perguntas de competência para testes com o modo \"%s\" deve ser efetuada no(s) correspondente(s) banco(s) de perguntas:<br />%s<br /><br />A configuração dos valores limite deve ser realizada aqui no teste."
+
+msgid "tst_question"
+msgstr "Pergunta"
+
+msgid "tst_question_amount"
+msgstr "Quantidade de perguntas"
+
+msgid "tst_question_answer_status"
+msgstr "Tem a certeza que quer remover a(s) seguinte(s) pergunta(s) do teste?"
+
+msgid "tst_question_answer_status_all_non_correct"
+msgstr "Este teste foi já feito por %s utilizador(es). Remover perguntas deste teste removerá todos os resultados de teste destes utilizadores. Tem a certeza que quer remover a(s) seguinte(s) pergunta(s) do teste?"
+
+msgid "tst_question_answer_status_non_answered"
+msgstr "Perguntas não respondidas"
+
+msgid "tst_question_answer_status_wrong_answered"
+msgstr "Mostrar os resultados do teste quando terminar"
+
+msgid "tst_question_feedback_back_to_feedback_form"
+msgstr "Voltar à pergunta vocacional"
+
+msgid "tst_question_feedback_edit_page"
+msgstr "Editar conteúdo"
+
+msgid "tst_question_mark"
+msgstr "Marcar esta pergunta"
+
+msgid "tst_question_marked"
+msgstr "Marcou esta pergunta"
+
+msgid "tst_question_marker"
+msgstr "A duração será reposta para o máximo definido para cada tentativa de teste. Esta definição requer tentativas de teste para se torna eficaz."
+
+msgid "tst_question_no"
+msgstr "Resultados de teste"
+
+msgid "tst_question_not_from_pool_info"
+msgstr "Nenhum banco"
+
+#. fau: testNav
+msgid "tst_question_not_marked"
+msgstr "A pergunta não está marcada"
+
+msgid "tst_question_offer"
+msgstr "Aceita esta amostra ou quer outra?"
+
+msgid "tst_question_set_type"
+msgstr "Imediatamente"
+
+msgid "tst_question_set_type_dynamic"
+msgstr "Os participantes podem aceder os seus resultados no separador ‘Informação’ imediatamente depois de iniciar a tentativa de teste e ainda enquanto estão a fazer o teste. Além disso, ILIAS apresenta-lhes os seus resultados de teste logo após a sua conclusão."
+
+msgid "tst_question_set_type_dynamic_desc"
+msgstr "Os participantes poderão aceder aos resultados do seu teste no separador 'Informação' após a data definida."
+
+msgid "tst_question_set_type_fixed"
+msgstr "Aos participantes é apresentado um botão ‘Mostrar resultados de teste’ no separador ‘Informação’. As opções nesta secção e nas secções que se seguem abaixo configuram qual a informação que deve ser incluída no relatório e quando estará acessível."
+
+msgid "tst_question_set_type_fixed_desc"
+msgstr "Depois de terminar a tentativa de teste"
+
+msgid "tst_question_set_type_random"
+msgstr "ILIAS apresenta os resultados de teste depois de o teste estar concluído. Concluída a tentativa de teste, os participantes podem aceder aos resultados do seu teste no separador ‘Informação’, a qualquer momento."
+
+msgid "tst_question_set_type_random_desc"
+msgstr "Voltar à mensagem introdutória"
+
+msgid "tst_question_title"
+msgstr "Mostrar sinal resultante"
+
+msgid "tst_question_type"
+msgstr "O sinal resultante será anexado ao resultado resumido do teste. Os participantes podem aceder aos seus resultados de teste no separador ‘Informação’."
+
+msgid "tst_questions_inserted"
+msgstr "Tipo de pergunta"
+
+msgid "tst_questions_removed"
+msgstr "Pontos"
+
+msgid "tst_random_nr_of_questions"
+msgstr "Quantas perguntas?"
+
+#, fuzzy
+msgid "tst_random_question_set_source_questionpool_summary_string"
+msgstr "%s (Path: %s) [%s Questions]"
+
+msgid "tst_random_select_questionpool"
+msgstr "Selecione o banco de perguntas para escolher as perguntas de"
+
+msgid "tst_reached_points"
+msgstr "Mostrar estado ‘Aprovado’/‘Falhado’"
+
+msgid "tst_reached_points_of_max"
+msgstr "A informação sobre o estado ‘Aprovado’/‘Falhado’ será anexada ao resultado resumido do teste. Os participantes podem aceder aos seus resultados de teste no separador ‘Informação’. <br />"
+
+msgid "tst_remove_mark"
+msgstr "Remover esta marca"
+
+msgid "tst_remove_question"
+msgstr "Tem a certeza que quer remover a seguinte pergunta do teste?"
+
+msgid "tst_remove_questions"
+msgstr "Visão global das tentativas dos resultados do Teste"
+
+msgid "tst_remove_questions_and_results"
+msgstr "Melhor solução"
+
+msgid "tst_report_after_date"
+msgstr "Após uma data fixa do relatório da pontuação"
+
+msgid "tst_report_after_first_question"
+msgstr "Oferecer os resultados do teste quando tiver iniciado o teste"
+
+msgid "tst_report_after_passed"
+msgstr "Para cada pergunta será adicionalmente apresentada a melhor solução possível."
+
+msgid "tst_report_after_test"
+msgstr "Resultados de teste para %s"
+
+msgid "tst_report_never"
+msgstr "Nenhuns resultados de teste disponíveis"
+
+msgid "tst_reporting_date"
+msgstr "Data"
+
+msgid "tst_res_jump_to_participant_btn"
+msgstr "Saltar"
+
+msgid "tst_res_jump_to_participant_hint_opt"
+msgstr "--Saltar para participante--"
+
+msgid "tst_res_lo_objectives_header"
+msgstr "Objetivos de aprendizagem relevantes"
+
+msgid "tst_res_lo_try_header"
+msgstr "Tentativa"
+
+msgid "tst_res_lo_try_n"
+msgstr "Tentativa %s"
+
+#, fuzzy
+msgid "tst_res_tab_msg_no_lp_access"
+msgstr "You are currently not allowed to access your Learning Progress, as you are not allowed to see your test results."
+
+msgid "tst_res_tab_msg_res_after_date"
+msgstr "A sequência das perguntas é fixa"
+
+msgid "tst_res_tab_msg_res_after_date_no_res"
+msgstr "Administrar o teste: Funcionalidade disponível para participantes"
+
+msgid "tst_res_tab_msg_res_after_finish_test"
+msgstr "Definições de sessão"
+
+msgid "tst_res_tab_msg_res_after_taking_test"
+msgstr "Administrar o teste: realização de teste"
+
+msgid "tst_res_tab_msg_res_after_test_passed"
+msgstr "Apenas se tiver respondido a todas as perguntas obrigatórias é que pode terminar o teste. As perguntas obrigatórias podem ser definidas na ‘Vista de lista’. A opção ‘Mostrar lista de perguntas’ devia estar ativada para os participantes."
+
+msgid "tst_reset_processing_time"
+msgstr "Retomar o teste"
+
+msgid "tst_reset_processing_time_desc"
+msgstr "Configuração"
+
+msgid "tst_result"
+msgstr "Resultado de teste"
+
+msgid "tst_result_pass"
+msgstr "Resultados da tentativa de teste"
+
+msgid "tst_result_user_name"
+msgstr "Selecione um banco de perguntas para guardar a pergunta criada"
+
+msgid "tst_result_user_name_pass"
+msgstr "Resultados da tentativa de teste %s para %s"
+
+msgid "tst_results"
+msgstr "Bancos de perguntas selecionados"
+
+msgid "tst_results_access_always"
+msgstr "Configurar conjunto aleatório de perguntas"
+
+msgid "tst_results_access_always_desc"
+msgstr "Regra para seleção de perguntas"
+
+msgid "tst_results_access_date"
+msgstr "Data"
+
+msgid "tst_results_access_date_desc"
+msgstr "Nova regra para seleção de perguntas"
+
+msgid "tst_results_access_enabled"
+msgstr "Aceder a resultados de teste"
+
+msgid "tst_results_access_enabled_desc"
+msgstr "A pontuação manual para a tentativa de teste %s para %s foi guardada com sucesso."
+
+msgid "tst_results_access_finished"
+msgstr "Pontos negativos"
+
+msgid "tst_results_access_finished_desc"
+msgstr "Para cada pergunta, os pontos negativos são definido para ‘0 pontos’"
+
+msgid "tst_results_access_passed"
+msgstr "Para o teste completo, um resultado negativo é definido para ‘0 pontos’"
+
+msgid "tst_results_access_passed_desc"
+msgstr "Perguntas de escolha múltipla com resposta vazia"
+
+msgid "tst_results_access_setting"
+msgstr "Momento"
+
+msgid "tst_results_aggregated"
+msgstr "Resultados do teste agrupados"
+
+msgid "tst_results_back_introduction"
+msgstr "Guardar e pontuar respostas vazias (descontinuado)"
+
+msgid "tst_results_back_overview"
+msgstr "Voltar à vista geral de resultados"
+
+msgid "tst_results_details_options"
+msgstr "Mais detalhes a serem incluídos nos resultados de teste"
+
+#, fuzzy
+msgid "tst_results_gamification"
+msgstr "Gamification"
+
+#, fuzzy
+msgid "tst_results_grading_opt_show_details"
+msgstr "Show detailed test results"
+
+#, fuzzy
+msgid "tst_results_grading_opt_show_details_desc"
+msgstr "In addition to the summary test result, a \"Detailed Results\" action is provided. The \"Detailed test results\" table shows the titles of the questions and the points achieved for each run. The content of the table can be further supplemented in the \"Further options\" section."
+
+msgid "tst_results_grading_opt_show_mark"
+msgstr "Uma opção adicional \"Nenhuma das anteriores\" permite guardar respostas vazias. As opções não marcadas serão pontuadas conforme definido na pergunta. Esta definição só é mantida para testes existentes e será abandonada numa versão ILIAS posterior."
+
+msgid "tst_results_grading_opt_show_mark_desc"
+msgstr "Não guarda respostas vazias"
+
+msgid "tst_results_grading_opt_show_status"
+msgstr "As respostas sem qualquer opção marcada não são guardadas. Os participantes obtêm 0 pontos nestas perguntas."
+
+msgid "tst_results_grading_opt_show_status_desc"
+msgstr "Relatório da pontuação"
+
+msgid "tst_results_overview"
+msgstr "Data do relatório da pontuação"
+
+msgid "tst_results_print_best_solution"
+msgstr "Procurar participantes"
+
+msgid "tst_results_print_best_solution_info"
+msgstr "A data do teste do(s) utilizador(es) selecionado(s) foi removida com sucesso"
+
+msgid "tst_resume_test"
+msgstr "Sequência"
+
+#. fau: testNav
+msgid "tst_revert_changes"
+msgstr "Anular edição"
+
+msgid "tst_rnd_quest_cfg_tab_general"
+msgstr "Perguntas obrigatórias"
+
+msgid "tst_rnd_quest_cfg_tab_pool"
+msgstr "Os participantes pedem sugestões para responder a uma pergunta. Com cada sugestão apresentada, o número máximo de pontos a obter diminui."
+
+msgid "tst_rnd_quest_set_cfg_general_form"
+msgstr "Sugestões"
+
+msgid "tst_rnd_quest_set_cfg_pool_form"
+msgstr "Suspender teste"
+
+msgid "tst_rnd_quest_set_tb_add_pool_btn"
+msgstr "Os participantes têm um botão para parar o teste e continuá-lo mais tarde. Cuidado: Suspender o teste não para o relógio do tempo máximo para o teste."
+
+msgid "tst_save_and_create_new_rule"
+msgstr "Guardar e adicionar nova regra"
+
+#. fau: testNav
+msgid "tst_save_and_proceed"
+msgstr "Guardar e continuar"
+
+msgid "tst_save_comp_points"
+msgstr "Guardar pontos de competência"
+
+msgid "tst_save_manscoring_failed"
+msgstr "Guardar a pontuação manual para a tentativa de teste %s falhou."
+
+msgid "tst_save_thresholds"
+msgstr "Guardar limites"
+
+msgid "tst_saved_manscoring_by_question_successfully"
+msgstr "A pontuação manual para a pergunta %s para a tentativa de teste %s foi guardada com sucesso."
+
+msgid "tst_saved_manscoring_successfully"
+msgstr "Mostrar ‘Tabela dos resultados detalhados do teste’ para cada tentativa de teste num determinado momento"
+
+msgid "tst_score_cut_question"
+msgstr "Mostrar resultados do teste"
+
+msgid "tst_score_cut_question_desc"
+msgstr "Os participantes podem pontuar resultados negativos para uma pergunta que teve pontos negativos para atribuir a opções de resposta individuais. Esta definição garante que, por cada pergunta, qualquer resultado negativo é definido para 0 pontos."
+
+msgid "tst_score_cut_test"
+msgstr "Mostrar lista de perguntas"
+
+msgid "tst_score_cut_test_desc"
+msgstr "Os participantes podem pontuar pontos negativos nas perguntas. Os pontos pontuados em todas as perguntas são somados. Apenas se o resultado geral do teste for negativo, este resultado geral será definido para 0 pontos. Com esta definição, os pontos negativos têm um forte peso."
+
+msgid "tst_score_cutting"
+msgstr "O resumo dos resultados será anexado no momento indicado nas definições anteriores: Uma ‘Tabela dos resultados detalhados do teste’ mostra o título das perguntas e os pontos adquiridos numa determinada tentativa de teste. <br> Caso contrário, a tabela será apresentada depois da última tentativa possível de teste (definições no link ‘Geral’, opção ‘Número limite das tentativas de teste’) ou depois de o teste estar oficialmente terminado (definições no link ‘Geral’, opção ‘Tempo para acabar’). <br> Podem ser feitas outras definições sobre o conteúdo da ‘Tabela dos resultados detalhados do teste’ na secção ‘Outros detalhes a incluir nos resultados do teste’ deste formulário."
+
+msgid "tst_search_users"
+msgstr "É apresentado o feedback relacionado com as respostas fornecidas pelo participante. Note que esta opção só é válida se tiver ativado Respostas pontuadas do participante’ e se o feedback foi preparado juntamente com as perguntas em primeiro lugar."
+
+msgid "tst_select_questionpool"
+msgstr "É criada uma vista geral de todas as perguntas com as respostas do respetivo participante. Esta lista aparece no separador ‘Informação’."
+
+msgid "tst_selected_user_data_deleted"
+msgstr "‘Lista de respostas’ adicional para impressão"
+
+msgid "tst_sequence_properties"
+msgstr "Conteúdo para recapitulação"
+
+msgid "tst_set_offline_due_to_switched_question_set_type_setting"
+msgstr "O teste foi definido para online porque as definições do modo de teste foram alteradas. Tem de definir um novo modo de teste relacionado com a configuração das perguntas antes de o teste poder ser definido para online novamente."
+
+#, fuzzy
+msgid "tst_settings_conflict_postpone_and_lock"
+msgstr "\"Unanswered questions will be enqueued\" cannot be used together with \"Lock Answers After Moving to Next Question\"."
+
+#, fuzzy
+msgid "tst_settings_conflict_shuffle_and_lock"
+msgstr "\"Shuffle Questions\" cannot be used together with \"Lock Answers After Moving to Next Question\"."
+
+#, fuzzy
+msgid "tst_settings_form_reload_needed"
+msgstr "The form needed to be reloaded to avoid data loss as the available settings have changed due to the removal of all results of participants."
+
+#, fuzzy
+msgid "tst_settings_header_additional"
+msgstr "Additional Features"
+
+msgid "tst_settings_header_execution"
+msgstr "Administrar o teste: Acesso"
+
+msgid "tst_settings_header_intro"
+msgstr "Informação antes de iniciar o teste"
+
+msgid "tst_settings_header_test_run"
+msgstr "Os participantes podem ativar uma lista de perguntas de teste no lado esquerdo da pergunta atual. Para além disso, têm um botão ‘Lista de perguntas’. Nesse ecrã aparece o estado geral de todas as perguntas."
+
+#, fuzzy
+msgid "tst_settings_not_found"
+msgstr "Missing Test Settings"
+
+#, fuzzy
+msgid "tst_settings_not_found_msg"
+msgstr "Test Settings could not found. This may be due to a missing migration step. Please contact your system administrator."
+
+msgid "tst_show_answer_sheet"
+msgstr "Mostrar respostas"
+
+msgid "tst_show_cancel"
+msgstr "Regras para seleção aleatória de perguntas"
+
+msgid "tst_show_cancel_description"
+msgstr "Hora para começar"
+
+msgid "tst_show_comp_results"
+msgstr "Mostrar resultados de competência"
+
+msgid "tst_show_results"
+msgstr "Tempo médio para analisar"
+
+msgid "tst_show_side_list"
+msgstr "Primeira visita"
+
+msgid "tst_show_solution_answers_only"
+msgstr "Última visita"
+
+msgid "tst_show_solution_answers_only_desc"
+msgstr "Percentagem do trabalho total já feito"
+
+#, fuzzy
+msgid "tst_show_solution_details_singlepage"
+msgstr "Scored Answers on single pages"
+
+#, fuzzy
+msgid "tst_show_solution_details_singlepage_desc"
+msgstr "Participants can access each question individually and see if their answers were correct and how many points they scored."
+
+msgid "tst_show_solution_feedback"
+msgstr "Para terminar este teste, tem de responder a todas as perguntas obrigatórias (*)."
+
+msgid "tst_show_solution_feedback_desc"
+msgstr "Sistema de pontuação"
+
+msgid "tst_show_solution_printview"
+msgstr "Limites (em %)"
+
+msgid "tst_show_solution_printview_desc"
+msgstr "Começou o teste às: %s. O teu tempo máximo de processamento é %s."
+
+msgid "tst_show_solution_signature"
+msgstr "Mostrar título da pergunta"
+
+msgid "tst_show_solution_signature_desc"
+msgstr "Títulos das perguntas e pontos disponíveis"
+
+msgid "tst_show_solution_suggested"
+msgstr "Apenas títulos das perguntas"
+
+msgid "tst_show_solution_suggested_desc"
+msgstr "Nem títulos das perguntas ou pontos disponíveis"
+
+msgid "tst_show_summary"
+msgstr "Tipo de teste"
+
+msgid "tst_show_summary_description"
+msgstr "Usar respostas anteriores"
+
+msgid "tst_show_toplist"
+msgstr "Os participantes poderão ver as suas respostas das tentativas de este anteriores. Esta opção tem de ser ativada por participantes individuais no separador Informação antes de começar uma tentativa de teste."
+
+msgid "tst_shuffle_questions"
+msgstr "Misturar perguntas"
+
+msgid "tst_shuffle_questions_description"
+msgstr "Usar as minhas respostas anteriores como valores por defeito nas futuras tentativas de teste"
+
+msgid "tst_signature"
+msgstr "Assinatura"
+
+msgid "tst_single_answer_details"
+msgstr "Mostrar resposta única"
+
+msgid "tst_skill_triggerings_num_req_answers"
+msgstr "Quantidade de respostas necessária para acionadores de competência"
+
+msgid "tst_skill_triggerings_num_req_answers_desc"
+msgstr "As competências não são ativadas antes de esta quantidade de perguntas respondidas contribuir para o cálculo do nível de competência."
+
+msgid "tst_skill_triggerings_num_req_answers_not_reached_warn"
+msgstr "Pelo menos uma das competências abordadas por este teste não é ativada pela quantidade mínima exigida de perguntas.<br />A quantidade de perguntas exigida: %s"
+
+msgid "tst_skl_level_thresholds_link"
+msgstr "Resultados de teste iniciais para o objetivo de aprendizagem<br />%s"
+
+msgid "tst_skl_level_thresholds_missing"
+msgstr "Faltam limites para as competências relevantes!"
+
+msgid "tst_skl_sub_tab_thresholds"
+msgstr "Limites de competência"
+
+msgid "tst_sol_comp_expressions"
+msgstr "Expressões de comparação"
+
+msgid "tst_solution_compare_cfg"
+msgstr "Configuração para comparação de soluções"
+
+msgid "tst_source_question_pool"
+msgstr "Resultados de teste que se qualificam para o objetivo de aprendizagem<br />%s"
+
+msgid "tst_src_quest_pool_def_list_table"
+msgstr "Não foram assumidas respostas das tentativas anteriores, de modo que tem de analisar esta pergunta, caso contrário o seu resultado do objetivo de aprendizagem é afetado."
+
+msgid "tst_start_dyn_test_with_cur_quest_sel"
+msgstr "Iniciar teste com a seleção atual de perguntas"
+
+msgid "tst_start_new_test_pass"
+msgstr "ilimitado"
+
+msgid "tst_start_test"
+msgstr "Material carregado"
+
+msgid "tst_starting_time"
+msgstr "Esta pergunta refere-se a um objetivo de aprendizagem já aprovado."
+
+msgid "tst_starting_time_desc"
+msgstr "Momento após o qual o teste pode ser iniciado clicando no botão ‘Iniciar’, os participantes podem fornecer respostas às perguntas."
+
+msgid "tst_stat_result_atimeofwork"
+msgstr "Não é suposto fazer este teste."
+
+msgid "tst_stat_result_firstvisit"
+msgstr "Não possui o endereço de IP certo para aceder a este teste."
+
+msgid "tst_stat_result_lastvisit"
+msgstr "Use o grau 'FX'"
+
+msgid "tst_stat_result_mark_median"
+msgstr "Marca de mediano"
+
+msgid "tst_stat_result_median"
+msgstr "Mediano do resultado do teste em pontos"
+
+msgid "tst_stat_result_pworkedthrough"
+msgstr "Processado"
+
+msgid "tst_stat_result_qmax"
+msgstr "Número total de perguntas"
+
+msgid "tst_stat_result_qworkedthrough"
+msgstr "Código"
+
+msgid "tst_stat_result_rank_median"
+msgstr "Classificação de mediano"
+
+msgid "tst_stat_result_rank_participant"
+msgstr "Classificação do participante"
+
+msgid "tst_stat_result_resultsmarks"
+msgstr "Para reativar a sua conta pode usar um código de conta ILIAS."
+
+msgid "tst_stat_result_resultspoints"
+msgstr "Código de conta"
+
+#, fuzzy
+msgid "tst_stat_result_timeontask"
+msgstr "Time on Task"
+
+msgid "tst_stat_result_total_participants"
+msgstr "Número total de participantes"
+
+#, fuzzy
+msgid "tst_stat_result_total_timeontask"
+msgstr "Total Time On Task (All Test Attempts)"
+
+msgid "tst_submit_results"
+msgstr "Sim, eu confirmo a submissão."
+
+msgid "tst_tab_competences"
+msgstr "Competências"
+
+msgid "tst_tab_results_objective_oriented"
+msgstr "Resultados por objetivos de aprendizagem"
+
+msgid "tst_tab_results_pass_oriented"
+msgstr "Resultados por tentativas"
+
+msgid "tst_tbl_col_answered_questions"
+msgstr "Nova conta ILIAS"
+
+msgid "tst_tbl_col_final_mark"
+msgstr "Migrar conta de utilizador existente"
+
+#, fuzzy
+msgid "tst_tbl_col_finished_passes"
+msgstr "Finished Passes"
+
+#, fuzzy
+msgid "tst_tbl_col_finished_passes_num_of"
+msgstr "%s of %s"
+
+#, fuzzy
+msgid "tst_tbl_col_last_scored_access"
+msgstr "Last Scored Access"
+
+#, fuzzy
+msgid "tst_tbl_col_pass_finished"
+msgstr "Pass Finished"
+
+msgid "tst_tbl_col_passed_status"
+msgstr "Migração"
+
+msgid "tst_tbl_col_percent_result"
+msgstr "Criar nova conta de utilizador"
+
+msgid "tst_tbl_col_reached_points"
+msgstr "Escolha esta opção se nunca se registou em ILIAS. Será criada uma nova conta."
+
+msgid "tst_tbl_col_scored_pass"
+msgstr "Se você já possui uma conta de ILIAS insira o nome de utilizador e a palavra-passe para migrar os seus dados pessoais (correio, resultados do teste...)."
+
+#, fuzzy
+msgid "tst_tbl_col_started_passes"
+msgstr "Started Passes"
+
+msgid "tst_tbl_invited_users"
+msgstr "Editor do ecrã login"
+
+msgid "tst_tbl_participants"
+msgstr "Codificação dos caracteres"
+
+msgid "tst_tbl_results_grades"
+msgstr "Selecione a codificação dos caracteres para a comunicação com o servidor Radius. Se não tiver a certeza, selecione UTF-8."
+
+msgid "tst_test_result"
+msgstr "Resultado de teste"
+
+msgid "tst_text_count_system"
+msgstr "Se estiver ativada, a sincronização das contas do utilizador e das atribuições das funções é efetuada usando uma configuração LDAP existente."
+
+msgid "tst_threshold"
+msgstr "Criação automática de contas de utilizador"
+
+msgid "tst_time_already_spent"
+msgstr "Cria automaticamente contas de utilizador ILIAS, para utilizadores autenticados com sucesso contra Radius, sem ter ainda uma conta ILIAS."
+
+msgid "tst_time_already_spent_left"
+msgstr "Saiu %s."
+
+#, fuzzy
+msgid "tst_time_limit_message"
+msgstr "You will have <b>%s minutes</b> to answer all questions."
+
+msgid "tst_title_output"
+msgstr "Migração de conta:"
+
+msgid "tst_title_output_full"
+msgstr "Ative esta opção para permitir aos utilizadores migrar as suas contas ILIAS existentes para a autenticação Radius."
+
+msgid "tst_title_output_hide_points"
+msgstr "Verifique e edite a configuração SimpleSAMLphp em '<strong>%s</strong>' e '<strong>%s</strong>' (diretório externo de dados). Não se esqueça de adicionar os caminhos à sua chave privada e certificado no ficheiro authsources.php. Leia o manual para mais explicações %s.<br />Federação metadados URL: %s"
+
+#, fuzzy
+msgid "tst_title_output_info"
+msgstr "Set which combination of question titles and/or points available should be visible to participants while they are taking the test and within the test attempt overview (see below)."
+
+msgid "tst_title_output_no_title"
+msgstr "Sincronização de utilizador"
+
+#, fuzzy
+msgid "tst_title_output_only_points"
+msgstr "Only Available Points"
+
+msgid "tst_trigger_result_refreshing"
+msgstr "Os resultados têm de ser recalculados. Pode demorar algum tempo."
+
+msgid "tst_type"
+msgstr "Criação automática de contas de utilizador"
+
+#. fau: testNav
+msgid "tst_unchanged_answer_is_correct"
+msgstr "A resposta predefinida está correta"
+
+#. fau: testNav
+msgid "tst_unchanged_order_is_correct"
+msgstr "A ordem predefinida está correta"
+
+msgid "tst_use_previous_answers"
+msgstr "Cria automaticamente contas de utilizador ILIAS, para utilizadores autenticados com sucesso contra CAS, sem ter ainda uma conta ILIAS."
+
+msgid "tst_use_previous_answers_description"
+msgstr "Ativar editor para idiomas selecionados"
+
+msgid "tst_user_finished_test"
+msgstr "Utilizador terminou o teste (%s)"
+
+msgid "tst_view_competence_assign"
+msgstr "Ver propriedades de atribuição"
+
+msgid "tst_virtual_pass_header_lo_initial"
+msgstr "Usar o editor de páginas ILIAS"
+
+msgid "tst_virtual_pass_header_lo_qualifying"
+msgstr "Usar o editor Rich-Text"
+
+msgid "tst_wf_info_answer_adopted_from_prev_pass"
+msgstr "Foi adotada a sua resposta de uma tentativa anterior."
+
+msgid "tst_wf_info_answer_not_adopted"
+msgstr "Número máximo de itens na lista ‘Quem está online?’. Esta definição tem apenas uma influência mínima no desempenho quando apresenta a ferramenta na barra superior."
+
+msgid "tst_wf_info_optional_question"
+msgstr "Tarefas secundárias"
+
+msgid "tst_your_answer_was"
+msgstr "A sua resposta foi"
+
+msgid "tst_your_answers"
+msgstr "Estas são as respostas que deu nas seguintes perguntas."
+
+msgid "un_add_category"
+msgstr "Adicionar categoria"
+
+msgid "un_add_unit"
+msgstr "Adicionar unidade"
+
+msgid "un_cat_deletion_errors_f"
+msgstr "Não pode apagar certas categorias:"
+
+msgid "un_cat_deletion_errors_f_s"
+msgstr "Não pode apagar categoria:"
+
+msgid "un_cat_deletion_errors_p"
+msgstr "Não foi possível apagar certas categorias:"
+
+msgid "un_cat_deletion_errors_p_s"
+msgstr "Não foi possível apagar categoria:"
+
+msgid "un_category_not_exist"
+msgstr "A categoria pedida não existe."
+
+msgid "un_deleted_categories"
+msgstr "Eliminação processada com sucesso"
+
+msgid "un_deleted_categories_s"
+msgstr "Eliminação processada com sucesso"
+
+msgid "un_deleted_units"
+msgstr "Eliminação processada com sucesso"
+
+msgid "un_deleted_units_s"
+msgstr "Eliminação processada com sucesso"
+
+msgid "un_global_units"
+msgstr "Unidades globais"
+
+msgid "un_local_units"
+msgstr "Unidades locais"
+
+msgid "un_save_order"
+msgstr "Guardar ordem"
+
+msgid "un_sel_cat_sel_unit"
+msgstr "Categoria selecionada: %s, Unidade selecionada: %s"
+
+msgid "un_sequence"
+msgstr "Sequência"
+
+msgid "un_show_units"
+msgstr "Mostrar unidades"
+
+msgid "un_sure_delete_categories"
+msgstr "Tem a certeza que quer apagar as categorias selecionadas?"
+
+msgid "un_sure_delete_categories_s"
+msgstr "Tem a certeza que quer apagar a categoria selecionada?"
+
+msgid "un_sure_delete_units"
+msgstr "Tem a certeza que quer apagar as unidades selecionadas?"
+
+msgid "un_sure_delete_units_s"
+msgstr "Tem a certeza que quer apagar a unidade selecionada?"
+
+msgid "un_unit_deletion_errors_f"
+msgstr "Não pode apagar certas unidades:"
+
+msgid "un_unit_deletion_errors_f_s"
+msgstr "Não pode apagar unidade:"
+
+msgid "un_unit_deletion_errors_p"
+msgstr "Não foi possível apagar certas unidades:"
+
+msgid "un_unit_deletion_errors_p_s"
+msgstr "Não foi possível apagar unidade:"
+
+msgid "un_units_of_category_x"
+msgstr "Unidades da categoria: %s"
+
+msgid "unfinished_passes"
+msgstr "Tentativas não acabadas"
+
+msgid "unit"
+msgstr "Unidade"
+
+msgid "unit_placeholder"
+msgstr "** Nova unidade **"
+
+msgid "units"
+msgstr "Unidades"
+
+msgid "unlimited"
+msgstr "Conta Mozilla Backpack (e-mail)"
+
+msgid "unlock"
+msgstr "Desbloquear"
+
+#, fuzzy
+msgid "updated"
+msgstr "Updated"
+
+msgid "uploaded_material"
+msgstr "E-mail de contacto"
+
+msgid "use_previous_solution"
+msgstr "Usar solução anterior"
+
+msgid "use_previous_solution_advice"
+msgstr "A solução apresentada para a pergunta é a que deu anteriormente. Tem de confirmar a adoção da solução, se quiser usá-la sem qualquer alteração."
+
+msgid "user_has_finished_a_test"
+msgstr "Um participante acabou um teste."
+
+#, fuzzy
+msgid "user_ip_outside_range"
+msgstr "You are not allowed to start the test from this IP address."
+
+msgid "user_not_invited"
+msgstr "Copiar bibliografia"
+
+#, fuzzy
+msgid "usr_manscoring_complete"
+msgstr "Marked as 'scored'"
+
+msgid "value_between_x_and_y"
+msgstr "O valor deve estar entre %s e %s"
+
+msgid "values"
+msgstr "Valores"
+
+#, fuzzy
+msgid "variable"
+msgstr "Variable"
+
+msgid "variable_x"
+msgstr "Variável %s"
+
+msgid "variables"
+msgstr "Variáveis"
+
+msgid "wait_for_next_pass_hint_msg"
+msgstr "Uma tentativa adicional é possível se estiver dentro do tempo: %s"
+
+msgid "warning_question_not_complete"
+msgstr "A pergunta não está completa!"
+
+msgid "width"
+msgstr "Largura"
+
+#, fuzzy
+msgid "with_solution"
+msgstr "Participants with solution"
+
+msgid "with_solutions_participants"
+msgstr "Participantes com soluções"
+
+#, fuzzy
+msgid "without_solution"
+msgstr "Participants without solution"
+
+msgid "without_solutions_participants"
+msgstr "Participantes sem soluções"
+
+msgid "worked_through"
+msgstr "Escrito por"
+
+msgid "working_time"
+msgstr "Tempo de trabalho"
+
+msgid "you_received_a_of_b_points"
+msgstr "Recebeu %s de %s possíveis pontos"
+
+#, fuzzy
+msgid "your_results"
+msgstr "My Results"

@@ -57,5 +57,9 @@ class Test implements Component\Component
             $this,
             'tstv'
         );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'assessment'
+        );
     }
 }
