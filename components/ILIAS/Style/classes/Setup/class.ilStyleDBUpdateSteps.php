@@ -375,4 +375,16 @@ class ilStyleDBUpdateSteps implements \ilDatabaseUpdateSteps
         );
     }
 
+    /**
+     * Regenerate styles with the paragraph sizing copy selector.
+     */
+    public function step_24()
+    {
+        $this->db->update(
+            "style_data",
+            ["uptodate" => ["integer", 0]],
+            ["uptodate" => ["integer", 1]]
+        );
+    }
+
 }
