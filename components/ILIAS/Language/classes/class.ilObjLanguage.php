@@ -18,6 +18,13 @@
 
 declare(strict_types=1);
 
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
+use ILIAS\Language\ComponentTranslation\MainLanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\CustomizingLanguageFileDirectory;
+use ILIAS\Language\Setup\InstalledLanguageRepository;
+use ILIAS\Language\Setup\InstalledLanguageDatabaseRepository;
+use ILIAS\Language\Setup\LanguageInstallationManager;
+
 /**
  * Class ilObjLanguage
  *
@@ -40,6 +47,10 @@ class ilObjLanguage extends ilObject
     public string $key;
     public string $status;
     public string $cust_lang_path;
+    public string $absolute_path;
+    private LanguageFileDirectoryManager $language_file_directory_manager;
+    private InstalledLanguageRepository $repository;
+    private LanguageInstallationManager $manager;
 
     /**
      * Constructor
@@ -47,10 +58,18 @@ class ilObjLanguage extends ilObject
      * $a_id    reference_id or object_id
      * $a_call_by_reference treat the id as reference_id (true) or object_id (false)
      */
-    public function __construct(int $a_id = 0, bool $a_call_by_reference = false)
-    {
+    public function __construct(
+        int $a_id = 0,
+        bool $a_call_by_reference = false,
+        ?LanguageFileDirectoryManager $language_file_directory_manager = null
+    ) {
         global $DIC;
         $lng = $DIC->language();
+
+        // the first constructor argument is the customizing directory, not a global one
+        $this->language_file_directory_manager = $language_file_directory_manager
+            ?? ($DIC[LanguageFileDirectoryManager::class] ?? null)
+            ?? new LanguageFileDirectoryManager(new CustomizingLanguageFileDirectory(), new MainLanguageFileDirectory());
 
         $this->type = "lng";
         parent::__construct($a_id, $a_call_by_reference);
@@ -64,6 +83,19 @@ class ilObjLanguage extends ilObject
         $this->cust_lang_path = $lng->getCustomLangPath();
         $this->separator = $lng->separator;
         $this->comment_separator = $lng->comment_separator;
+        $this->absolute_path = (string) realpath(__DIR__ . "/../../../../");
+
+        $this->repository = new InstalledLanguageDatabaseRepository(
+            $DIC->database(),
+            $this->language_file_directory_manager,
+            $this->absolute_path
+        );
+        $this->manager = new LanguageInstallationManager(
+            $DIC->database(),
+            $this->language_file_directory_manager,
+            $this->absolute_path,
+            $this->repository
+        );
     }
 
 
@@ -88,6 +120,9 @@ class ilObjLanguage extends ilObject
 
     /**
      * Return the language keys of the installed languages
+     *
+     * Matches only "installed", not "installed_local" (unlike ilLanguage::_getInstalledLanguages()); this affects
+     * ilPluginLanguage's language selection.
      *
      * @return array
      */
@@ -184,12 +219,8 @@ class ilObjLanguage extends ilObject
      */
     public function install(string $scope = ""): string
     {
-        if (!empty($scope)) {
-            if ($scope === "global") {
-                $scope = "";
-            } else {
-                $scopeExtension = "." . $scope;
-            }
+        if ($scope === "global") {
+            $scope = "";
         }
 
         if (!$this->isInstalled() || (!$this->isLocal() && !empty($scope))) {
@@ -240,6 +271,8 @@ class ilObjLanguage extends ilObject
 
     /**
      * refresh current language
+     *
+     * A single insert() covers global and local/customizing content.
      */
     public function refresh(): bool
     {
@@ -250,13 +283,6 @@ class ilObjLanguage extends ilObject
             $this->setDescription($this->getStatus());
             $this->update();
 
-            if ($this->isLocal() && $this->check("local")) {
-                $this->insert("local");
-                $this->setTitle($this->getKey());
-                $this->setDescription($this->getStatus());
-                $this->update();
-            }
-
             return true;
         }
 
@@ -264,8 +290,11 @@ class ilObjLanguage extends ilObject
     }
 
     /**
-    * Refresh all installed languages
-    */
+     * Refresh all installed languages.
+     *
+     * @deprecated no caller left in the core (ilObjLanguageFolderGUI::refreshObject() was unreachable and removed;
+     * refreshSelectedObject() uses \ILIAS\Language\Activities\UpdateLanguage). Kept as public API for external code.
+     */
     public static function refreshAll(): void
     {
         $languages = ilObject::_getObjectsByType("lng");
@@ -358,7 +387,7 @@ class ilObjLanguage extends ilObject
         }
 
         $q = sprintf(
-            "SELECT * FROM lng_data WHERE lang_key = %s " .
+            "SELECT module, identifier, value FROM lng_data WHERE lang_key = %s " .
             "AND local_change >= %s AND local_change <= %s",
             $ilDB->quote($this->key, "text"),
             $ilDB->quote($a_min_date, "timestamp"),
@@ -412,7 +441,7 @@ class ilObjLanguage extends ilObject
 
         $changes = array();
         $result = $ilDB->queryF(
-            "SELECT * FROM lng_data WHERE lang_key = %s AND module = %s AND local_change IS NOT NULL",
+            "SELECT identifier, value FROM lng_data WHERE lang_key = %s AND module = %s AND local_change IS NOT NULL",
             array("text", "text"),
             array($a_key, $a_module)
         );
@@ -427,46 +456,33 @@ class ilObjLanguage extends ilObject
     /**
      * insert language data from file into database
      *
-     * $scope  empty (global) or "local"
+     * @deprecated $scope has no effect: LanguageInstallationManager::insertLanguageForInstallation() always processes
+     * every directory, including customizing, in one idempotent pass. No caller in the core passes it; kept for external code.
      */
     public function insert(string $scope = ""): void
     {
-        global $DIC;
-        $ilDB = $DIC->database();
-        $scopeExtension = "";
-        if (!empty($scope)) {
-            if ($scope === "global") {
-                $scope = "";
-            } else {
-                $scopeExtension = "." . $scope;
-            }
+        $this->manager->insertLanguageForInstallation($this->key);
+    }
+
+    /**
+     * Reinstalls the language purely from the global/component files. Must not use insert(): that merges the
+     * customizing directory back in and would reinstate what this method removes.
+     *
+     * Return true if the language was installed and could be reinstalled
+     */
+    public function removeLocalChanges(): bool
+    {
+        if (!$this->isInstalled() || !$this->check()) {
+            return false;
         }
 
-        $path = $this->lang_path;
-        if ($scope === "local") {
-            $path = $this->cust_lang_path;
-        }
+        $this->flush("all");
+        $this->manager->insertLanguageForRemovingLocalChanges($this->key);
+        $this->setTitle($this->getKey());
+        $this->setDescription("installed");
+        $this->update();
 
-        $lang_file = $path . "/ilias_" . $this->key . ".lang" . $scopeExtension;
-
-        if (is_file($lang_file)) {
-            // remove header first
-            if ($content = self::cut_header(file($lang_file))) {
-                $local_changes = null;
-                if (empty($scope)) {
-                    // get all local changes for a global file
-                    $local_changes = $this->getLocalChanges();
-                } elseif ($scope === "local") {
-                    // get the modification date of the local file
-                    // get the newer local changes for a local file
-                    $min_date = gmdate("Y-m-d H:i:s", filemtime($lang_file));
-                    $local_changes = $this->getLocalChanges($min_date);
-                }
-                $dbAccess = new ilObjLanguageDBAccess($ilDB, $this->key, $content, $local_changes, $scope);
-                $lang_array = $dbAccess->insertLangEntries($lang_file);
-                $dbAccess->replaceLangModules($lang_array);
-            }
-        }
+        return true;
     }
 
     /**
@@ -682,94 +698,18 @@ class ilObjLanguage extends ilObject
      * header, and each lang-entry consists of exactly three elements
      * (module, identifier, value).
      *
-     * $scope  empty (global) or "local"
-     * Return system message
+     * $scope  empty/"global" (all managed directories) or "local"
+     *         (customizing directory only)
+     *
+     * Delegates to InstalledLanguageRepository; callers (e.g. ilObjLanguageFolderGUI) turn a `false` into user feedback.
      */
     public function check(string $scope = ""): bool
     {
-        global $DIC;
-        $scopeExtension = "";
-        if (!empty($scope)) {
-            if ($scope === "global") {
-                $scope = "";
-            } else {
-                $scopeExtension = "." . $scope;
-            }
-        }
-
-        $path = $this->lang_path;
         if ($scope === "local") {
-            $path = $this->cust_lang_path;
+            return $this->repository->checkLocalLanguageFile($this->key);
         }
 
-        $tmpPath = getcwd();
-
-        // dir check
-        if (!is_dir($path)) {
-            $DIC->ui()->mainTemplate()->setOnScreenMessage(
-                'failure',
-                "Directory not found: " . $path,
-                true
-            );
-            $DIC->ctrl()->redirectByClass(ilobjlanguagefoldergui::class, 'view');
-        }
-
-        chdir($path);
-
-        // compute lang-file name format
-        $lang_file = "ilias_" . $this->key . ".lang" . $scopeExtension;
-
-        // file check
-        if (!is_file($lang_file)) {
-            $DIC->ui()->mainTemplate()->setOnScreenMessage(
-                'failure',
-                "File not found: " . $lang_file,
-                true
-            );
-            $DIC->ctrl()->redirectByClass(ilobjlanguagefoldergui::class, 'view');
-        }
-
-        // header check
-        $content = self::cut_header(file($lang_file));
-        if ($content === false) {
-            $DIC->ui()->mainTemplate()->setOnScreenMessage(
-                'failure',
-                "Wrong Header in " . $lang_file,
-                true
-            );
-            $DIC->ctrl()->redirectByClass(ilobjlanguagefoldergui::class, 'view');
-        }
-
-        // check (counting) elements of each lang-entry
-        $line = 0;
-        $n = 0;
-        foreach ($content as $key => $val) {
-            $separated = explode($this->separator, trim($val));
-            $num = count($separated);
-            ++$n;
-            if ($num !== 3) {
-                $line = $n + 36;
-                $DIC->ui()->mainTemplate()->setOnScreenMessage(
-                    'failure',
-                    "Wrong parameter count in " . $lang_file . " in line $line (Value: $val)! Please check your language file!",
-                    true
-                );
-                $DIC->ctrl()->redirectByClass(ilobjlanguagefoldergui::class, 'view');
-            }
-            if (!ilStr::isUtf8($separated[2])) {
-                $DIC->ui()->mainTemplate()->setOnScreenMessage(
-                    'failure',
-                    "Non UTF8 character found in " . $lang_file . " in line $line (Value: $val)! Please check your language file!",
-                    true
-                );
-                $DIC->ctrl()->redirectByClass(ilobjlanguagefoldergui::class, 'view');
-            }
-        }
-
-        chdir($tmpPath);
-
-        // no error occured
-        return true;
+        return $this->repository->checkLanguage($this->key);
     }
 
     /**

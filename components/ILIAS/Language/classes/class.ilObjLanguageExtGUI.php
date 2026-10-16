@@ -22,6 +22,10 @@ use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\Location;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Language\Activities\AddLanguageEntry;
+use ILIAS\Language\Activities\SetLanguageTranslationEnabled;
+use ILIAS\Language\Activities\SafeToDisplayActivityError;
+use ILIAS\Language\RendersActivityErrors;
 
 /**
 * Class ilObjLanguageExtGUI
@@ -39,8 +43,12 @@ use ILIAS\Refinery\Factory as Refinery;
 */
 class ilObjLanguageExtGUI extends ilObjectGUI
 {
-    private const ILIAS_LANGUAGE_MODULE = "components/ILIAS/Language";
+    use RendersActivityErrors;
+
+    private const string ILIAS_LANGUAGE_MODULE = "components/ILIAS/Language";
     private string $langmode;
+    private readonly AddLanguageEntry $add_language_entry;
+    private readonly SetLanguageTranslationEnabled $set_language_translation_enabled;
 
     /**
     * Constructor
@@ -61,6 +69,10 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $lng = $DIC->language();
         $this->http = $DIC['http'];
         $this->refinery = $DIC['refinery'];
+        $this->add_language_entry = $DIC[AddLanguageEntry::class];
+        $this->set_language_translation_enabled = $DIC[SetLanguageTranslationEnabled::class];
+        // used by activityErrorMessage() (see RendersActivityErrors)
+        $this->activity_error_logger = $DIC->logger()->lang();
 
         // language maintenance strings are defined in administration
         $lng->loadLanguageModule("administration");
@@ -581,8 +593,10 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $tmp["export"]["scope"] = ilUtil::stripSlashes($post_scope);
         ilSession::set("lang_ext_maintenance", $tmp);
 
+        $pos = strpos(ILIAS_VERSION, " ");
+        $pos = $pos === false ? null : $pos;
         $filename = "ilias_" . $this->object->key . '_'
-        . str_replace(".", "_", substr(ILIAS_VERSION, 0, strpos(ILIAS_VERSION, " ")))
+        . str_replace(".", "_", substr(ILIAS_VERSION, 0, $pos))
         . "-" . gmdate("Y-m-d")
         . ".lang." . $this->getSession()["export"]["scope"];
 
@@ -761,24 +775,39 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     }
 
     /**
-    * Set the language settings
+    * Set the language settings - see SetLanguageTranslationEnabled.
+    *
+    * An unchecked checkbox is not submitted, so a missing/empty "translation" means "disabled".
     */
     public function saveSettingsObject(): void
     {
-        global $DIC;
-        $ilSetting = $DIC->settings();
+        $ilUser = $this->user;
 
-        $translate_key = "lang_translate_" . $this->object->key;
+        $post_translation = $this->http->request()->getParsedBody()['translation'] ?? null;
+        $enabled = $post_translation !== null && $post_translation !== '';
 
-        $post_translation = $this->http->request()->getParsedBody()['translation'] ?? "";
-        // save and get the page translation setting
-        $translate = $ilSetting->get($translate_key, '0');
-        if (!is_null($post_translation) && $post_translation != $translate) {
-            $ilSetting->set($translate_key, $post_translation);
+        $result = $this->set_language_translation_enabled->maybePerformAs(
+            $this->ui_factory->input(),
+            $ilUser->getId(),
+            [
+                'language_key' => $this->object->key,
+                'enabled' => $enabled,
+            ]
+        );
+
+        if ($result->isError()) {
+            $error = $result->error();
+            $error_message = $this->activityErrorMessage($error);
+
+            $this->tpl->setOnScreenMessage('failure', $error_message);
+        } elseif ($result->value()['changed']) {
+            // only shown if the value changed
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"));
         }
+
         $form = $this->initNewSettingsForm();
 
+        // rendered directly with a non-persisted message, no redirect (unlike installObject() & Co.)
         $this->tpl->setContent($form->getHTML());
     }
 
@@ -1015,45 +1044,51 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
     public function saveNewEntryObject(): void
     {
-        global $DIC;
-        $ilDB = $DIC->database();
-        $ilCtrl = $DIC->ctrl();
-        $ilUser = $DIC->user();
+        $ilCtrl = $this->ctrl;
+        $ilUser = $this->user;
 
         $form = $this->initAddNewEntryForm();
         if ($form->checkInput()) {
             $mod = $form->getInput("mod");
             $id = $form->getInput("id");
 
-            $lang = array();
+            // a language left blank is skipped by AddLanguageEntry
+            $translations = [];
             foreach ($this->lng->getInstalledLanguages() as $lang_key) {
-                $trans = trim($form->getInput("trans_" . $lang_key));
-                if ($trans) {
-                    // add single entry
-                    ilObjLanguage::replaceLangEntry(
-                        $mod,
-                        $id,
-                        $lang_key,
-                        $trans,
-                        gmdate("Y-m-d H:i:s"),
-                        $ilUser->getLogin()
-                    );
+                $translations[$lang_key] = trim((string) $form->getInput("trans_" . $lang_key));
+            }
 
-                    // add to serialized module
-                    $set = $ilDB->query("SELECT lang_array FROM lng_modules" .
-                        " WHERE lang_key = " . $ilDB->quote($lang_key, "text") .
-                        " AND module = " . $ilDB->quote($mod, "text"));
-                    $row = $ilDB->fetchAssoc($set);
-                    $entries = unserialize($row["lang_array"], ["allowed_classes" => false]);
-                    if (is_array($entries)) {
-                        $entries[$id] = $trans;
-                        ilObjLanguage::replaceLangModule($lang_key, $mod, $entries);
-                    }
+            $result = $this->add_language_entry->maybePerformAs(
+                $this->ui_factory->input(),
+                $ilUser->getId(),
+                [
+                    'module' => $mod,
+                    'identifier' => $id,
+                    'translations' => $translations,
+                ]
+            );
+
+            if ($result->isError()) {
+                $error = $result->error();
+                $error_message = $this->activityErrorMessage($error);
+
+                if ($error instanceof SafeToDisplayActivityError) {
+                    // input rejection (e.g. blank "de"/"en"): re-render the form, keeping the entered values
+                    $this->tpl->setOnScreenMessage('failure', $error_message);
+                    $form->setValuesByPost();
+                    $this->addNewEntryObject($form);
+                    return;
                 }
+
+                // unexpected failure (logged by activityErrorMessage()): redirect, like every other Activity error path
+                $this->tpl->setOnScreenMessage('failure', $error_message, true);
+                $ilCtrl->redirect($this, "view");
+                return;
             }
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "view");
+            return;
         }
 
         $form->setValuesByPost();

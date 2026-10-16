@@ -20,6 +20,20 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\MainLanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\CustomizingLanguageFileDirectory;
+use ILIAS\Language\Activities\InstallLanguage;
+use ILIAS\Language\Activities\UpdateLanguage;
+use ILIAS\Language\Activities\UninstallLanguage;
+use ILIAS\Language\Activities\RemoveLocalLanguageChanges;
+use ILIAS\Language\Activities\AddLanguageEntry;
+use ILIAS\Language\Activities\SetLanguageDetectionEnabled;
+use ILIAS\Language\Activities\SetLanguageTranslationEnabled;
+use ILIAS\Language\Setup\InstalledLanguageDatabaseRepository;
+use ILIAS\Environment\Configuration\Installation\Directories;
+
 class Language implements Component\Component
 {
     public function init(
@@ -34,23 +48,239 @@ class Language implements Component\Component
     ): void {
         $define[] = \ILIAS\Language\Language::class;
 
+        // A Closure, not a value: init() runs without a booted $DIC.
+        $settings = static fn(): \ILIAS\Administration\Setting => $GLOBALS['DIC']->settings();
+
+        // --- $internal: wiring local to this component -----------------
+        // Ordered so each entry's dependencies are declared above it.
+
+        $internal[Language\LanguageFolder::class] = static fn() =>
+            new Language\LanguageFolderLegacyProxy();
+
+        $internal[LanguageFileDirectoryManager::class] = static fn() =>
+            new LanguageFileDirectoryManager(
+                new CustomizingLanguageFileDirectory(),
+                ...$seek[LanguageFileDirectory::class]
+            );
+
+        // Read access to the language installation domain, extracted from
+        // ilSetupLanguage per docs/development/repository-pattern.md - see that
+        // class' docblock.
+        $internal[InstalledLanguageDatabaseRepository::class] = static fn() =>
+            new InstalledLanguageDatabaseRepository(
+                $pull[\ILIAS\Database\Connection::class],
+                $internal[LanguageFileDirectoryManager::class],
+                $use[Directories::class]->getRoot()
+            );
+
+        // Setup instance: Setup hands in its own database via setDbHandler()
+        // instead of the Connection (see components/ILIAS/Database/ROADMAP.md).
+        $internal[\ilSetupLanguage::class] = static fn() =>
+            new \ilSetupLanguage(
+                "en",
+                $internal[LanguageFileDirectoryManager::class]
+            );
+
+        $runtime_setup_language = static fn(): \ilSetupLanguage =>
+            new \ilSetupLanguage(
+                "en",
+                $internal[LanguageFileDirectoryManager::class],
+                $pull[\ILIAS\Database\Connection::class]
+            );
+
+        $internal[InstallLanguage::class] = static fn() =>
+            new InstallLanguage(
+                $pull[\ILIAS\Refinery\Factory::class],
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
+                $runtime_setup_language(),
+                $internal[Language\LanguageFolder::class]
+            );
+
+        $internal[UpdateLanguage::class] = static fn() =>
+            new UpdateLanguage(
+                $pull[\ILIAS\Refinery\Factory::class],
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
+                $runtime_setup_language(),
+                $internal[Language\LanguageFolder::class]
+            );
+
+        // Unlike InstallLanguage/UpdateLanguage, UninstallLanguage needs no
+        // ilSetupLanguage - uninstalling a language is a runtime-only action with no
+        // equivalent step during Setup - and so no forSetup() factory either; its two legacy
+        // collaborators (enumerating "lng" objects, constructing an ilObjLanguage by id) are
+        // left at their defaults, which resolve the exact same legacy calls the extracted GUI
+        // code used directly before.
+        $internal[UninstallLanguage::class] = static fn() =>
+            new UninstallLanguage(
+                $pull[\ILIAS\Refinery\Factory::class],
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
+                $internal[Language\LanguageFolder::class]
+            );
+
+        // Same reasoning as UninstallLanguage above: no Setup counterpart, no
+        // ilSetupLanguage, no forSetup() factory; its two legacy
+        // collaborators (enumerating "lng" objects, constructing an
+        // ilObjLanguage by id) are left at their defaults, which resolve the
+        // exact same legacy calls the extracted GUI code used directly
+        // before.
+        $internal[RemoveLocalLanguageChanges::class] = static fn() =>
+            new RemoveLocalLanguageChanges(
+                $pull[\ILIAS\Refinery\Factory::class],
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
+                $internal[Language\LanguageFolder::class]
+            );
+
+        // Same reasoning again, minus the Setup/forSetup() bridge, which does not apply here
+        // either - adding a single language entry is a runtime-only action with no equivalent
+        // step during Setup. Unlike UninstallLanguage/RemoveLocalLanguageChanges, this needs no
+        // "lng" object enumeration or ilObjLanguage-by-id closures - it reads the set of
+        // installed languages from InstalledLanguageDatabaseRepository (shared with
+        // SetLanguageTranslationEnabled below) and writes single entries via the two legacy closures defaulted
+        // inside AddLanguageEntry itself.
+        $internal[AddLanguageEntry::class] = static fn() =>
+            new AddLanguageEntry(
+                $pull[\ILIAS\Refinery\Factory::class],
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
+                $internal[InstalledLanguageDatabaseRepository::class],
+                $pull[\ILIAS\Database\Connection::class],
+                $internal[Language\LanguageFolder::class],
+                // replace_lang_entry/update_module_cache/user_login: left at
+                // their defaults (see AddLanguageEntry's own constructor
+                // docblock).
+            );
+
+        // Same reasoning again, minus the Setup/forSetup() bridge, which does not apply here
+        // either - toggling a system setting is a runtime-only action with no equivalent step
+        // during Setup. Unlike every other Activity above, this needs no "lng" object
+        // enumeration, no ilObjLanguage-by-id closure and no installed-language repository - it
+        // only ever reads/writes the single "lang_detection" system setting, via the same
+        // $GLOBALS['DIC']->settings() call the extracted GUI code used directly (as
+        // $this->settings).
+        $internal[SetLanguageDetectionEnabled::class] = static fn() =>
+            new SetLanguageDetectionEnabled(
+                $pull[\ILIAS\Refinery\Factory::class],
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
+                $settings,
+                $internal[Language\LanguageFolder::class]
+            );
+
+        // Same reasoning again, minus the Setup/forSetup() bridge, which does not apply here
+        // either - toggling a per-language setting is a runtime-only action with no equivalent
+        // step during Setup. Like SetLanguageDetectionEnabled, this needs no "lng" object
+        // enumeration and no ilObjLanguage-by-id closure - it only ever reads/writes a single
+        // "lang_translate_<key>" system setting, via the same $GLOBALS['DIC']->settings() call
+        // the extracted GUI code used directly (as $DIC->settings() inside
+        // saveSettingsObject()). Unlike SetLanguageDetectionEnabled, it now also needs the
+        // installed-language repository (already built above for AddLanguageEntry) to validate
+        // that the given language_key is actually installed.
+        $internal[SetLanguageTranslationEnabled::class] = static fn() =>
+            new SetLanguageTranslationEnabled(
+                $pull[\ILIAS\Refinery\Factory::class],
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
+                $settings,
+                $internal[InstalledLanguageDatabaseRepository::class],
+                $internal[Language\LanguageFolder::class],
+            );
+
+        // LanguageLegacyInitialisationAdapter has no constructor of its own,
+        // so it never needs the LanguageFileDirectoryManager argument -
+        // it purely proxies to $DIC->language() at call time. This slot used
+        // to be misleadingly named $internal[\ilLanguage::class] even though
+        // it never held an \ilLanguage instance.
+        $internal[Language\LanguageLegacyInitialisationAdapter::class] = static fn() =>
+            new Language\LanguageLegacyInitialisationAdapter();
+
+        // --- $implement --------------------------------------------------
+
+        // This component registers TWO candidate implementations for
+        // \ILIAS\Language\Language. Both assignments below are intentional -
+        // ILIAS\Component\Dependencies\Reader::cacheImplement() collects every
+        // $implement[...] assignment into a list rather than overwriting a
+        // plain array key, and the generated RenamingDIC keeps each candidate
+        // under its own offset, so neither line is dead code.
+        // Consumers that $use[\ILIAS\Language\Language::class] (e.g. UI.php,
+        // Setup.php, Refinery.php) are disambiguated per bootstrap entry point:
+        //   - components/ILIAS/Setup/resources/dependency_resolution.php -> ilSetupLanguage
+        //   - components/ILIAS/Init/resources/dependency_resolution.php  -> LanguageLegacyInitialisationAdapter
+        // See docs/development/components-and-directories.md and cli/build_bootstrap.php.
         $implement[\ILIAS\Language\Language::class] = static fn() =>
             $internal[\ilSetupLanguage::class];
 
         $implement[\ILIAS\Language\Language::class] = static fn() =>
-            $internal[\ilLanguage::class];
+            $internal[Language\LanguageLegacyInitialisationAdapter::class];
+
+        // --- $provide: services made available to the rest of the system -
+
+        // Make the resolved language services available outside this component.
+        $provide[LanguageFileDirectoryManager::class] = static fn() =>
+            $internal[LanguageFileDirectoryManager::class];
+
+        // --- $contribute: contributions to other components' collection
+        //     points. Relative order preserved from before this file's
+        //     reorganisation, since components may in general add multiple
+        //     contributions to the same collection point sequentially (see
+        //     docs/development/components-and-directories.md, "Contribute to
+        //     Service or Functionality") - which the seven
+        //     \ILIAS\Component\Activities\Activity::class entries below
+        //     actually do, one per Activity this component offers.
+
+        $contribute[LanguageFileDirectory::class] = static fn() => new MainLanguageFileDirectory();
 
         $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ilLanguageSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class],
-                $internal[\ilSetupLanguage::class]
+                $internal[\ilSetupLanguage::class],
+                // Setup checks no permissions, hence no RBAC.
+                InstallLanguage::forSetup($internal[\ilSetupLanguage::class]),
+                UpdateLanguage::forSetup($internal[\ilSetupLanguage::class])
             );
 
-        $internal[\ilSetupLanguage::class] = static fn() =>
-            new \ilSetupLanguage("en");
-
-        $internal[\ilLanguage::class] = static fn() =>
-            new Language\LanguageLegacyInitialisationAdapter();
+        // The seven Activities this component offers are both provided under
+        // their own concrete class (so components/ILIAS/Init/Init.php can
+        // pull each one specifically - AllModernComponents.php then
+        // re-exposes that same resolved instance under the matching legacy
+        // $DIC[<Activity>::class] key, which is what every GUI class in
+        // this component reads) and contributed generically to
+        // \ILIAS\Component\Activities\Activity::class (so the
+        // cross-component Repository can discover them too) - see
+        // docs/development/components-and-directories.md, "Contribute to
+        // Service or Functionality". Because Init.php pulls these concrete
+        // classes (not an interface), none of the seven may become final - both
+        // ilObjLanguageFolderGUITest and ilObjLanguageExtGUITest build a
+        // PHPUnit mock of several of them directly (createMock(InstallLanguage::class)
+        // and siblings), which requires PHPUnit to generate a subclass at
+        // runtime - impossible for a final class.
+        //
+        // Kept as one combined loop rather than seven repeated
+        // $provide[...]/$contribute[...] pairs. Order matters for the
+        // $contribute side only (RenamingDIC assigns a shared, container-wide
+        // "_<counter>" suffix in call order to disambiguate the repeated
+        // \ILIAS\Component\Activities\Activity::class key - see
+        // LanguageComponentGraphTest::testContributeEntriesResolveToExpectedConcreteClassesInPreservedOrder());
+        // this list's order must therefore match $activities' declaration
+        // order exactly, and this loop must stay exactly here: after the two
+        // preceding $contribute entries (LanguageFileDirectory, Setup\Agent)
+        // and before the following one (UserSettings).
+        $activities = [
+            InstallLanguage::class,
+            UpdateLanguage::class,
+            UninstallLanguage::class,
+            RemoveLocalLanguageChanges::class,
+            AddLanguageEntry::class,
+            SetLanguageDetectionEnabled::class,
+            SetLanguageTranslationEnabled::class,
+        ];
+        foreach ($activities as $activity) {
+            $provide[$activity] = static fn() => $internal[$activity];
+            $contribute[\ILIAS\Component\Activities\Activity::class] = static fn() => $internal[$activity];
+        }
 
         $contribute[User\Settings\UserSettings::class] = fn() =>
             new Language\UserSettings\Settings();
