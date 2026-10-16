@@ -132,34 +132,67 @@ class RepositoryProviderTest extends \ilLanguageBaseTestCase
     }
 
     /**
-     * For a module that is maintained in PO files (a shipped `.po` exists) with neither a readable overlay nor a
-     * usable lng_modules row the module content is rebuilt from lng_data, which already holds the new entry.
+     * For a module maintained in PO files the content is the shipped `.po` plus overlay, never the database rows:
+     * the rows differ here on purpose.
      */
-    public function testCurrentModuleEntriesRebuildsFromLngDataForAModuleMaintainedInPoFilesWithoutAReadableOverlayOrRow(): void
+    public function testCurrentModuleEntriesOfAModuleMaintainedInPoFilesComeFromTheShippedPoNeverFromTheDatabase(): void
     {
-        $fixture_dir = __DIR__ . '/tmp-provider-fixtures-' . bin2hex(random_bytes(4));
-        mkdir($fixture_dir, 0775, true);
-        \MigratedPoFixture::writePo(
-            $fixture_dir . '/common_de.po',
-            \MigratedPoFixture::catalog('common', ['existing' => 'Veraltet'])
-        );
-        // an unreadable overlay leads to the lng_modules/lng_data fallback; without overlay the shipped state is the base
+        $fixture_dir = $this->shippedPoDirectory('common', ['existing' => 'Veraltet']);
+        try {
+            $db = $this->dbFetching(
+                ['lang_array' => serialize(['existing' => 'aus lng_modules'])],
+                [['identifier' => 'existing', 'value' => 'aus lng_data']]
+            );
+            $provider = $this->provider(db: $db, manager: $this->managerFor($fixture_dir, 'common'));
+
+            $this->assertSame(['existing' => 'Veraltet'], $this->currentModuleEntries($provider));
+        } finally {
+            \MigratedPoFixture::removeDirectory($fixture_dir);
+        }
+    }
+
+    /** An unreadable overlay is reported and the shipped values are the base, not the database. */
+    public function testAnUnreadableOverlayLeavesTheShippedValuesAsBase(): void
+    {
+        $this->expectErrorLog();
+        $fixture_dir = $this->shippedPoDirectory('common', ['existing' => 'Veraltet']);
         $client_data_dir = sys_get_temp_dir() . '/ilias_provider_test_' . bin2hex(random_bytes(4));
         $overlay_dir = $client_data_dir . '/lang/common/de';
         mkdir($overlay_dir, 0775, true);
         file_put_contents($overlay_dir . '/common_de.po', "msgid \"kaputt\n");
 
         try {
-            $db = $this->dbFetching(null, [
-                ['identifier' => 'existing', 'value' => 'Bestehend'],
-                ['identifier' => 'new_topic', 'value' => 'Hallo'],
-            ]);
+            $db = $this->dbFetching(null, [['identifier' => 'existing', 'value' => 'aus lng_data']]);
             $provider = $this->provider(db: $db, manager: $this->managerFor($fixture_dir, 'common'));
 
-            $this->assertSame(['existing' => 'Bestehend', 'new_topic' => 'Hallo'], $this->currentModuleEntries($provider, $client_data_dir));
+            $this->assertSame(['existing' => 'Veraltet'], $this->currentModuleEntries($provider, $client_data_dir));
         } finally {
             \MigratedPoFixture::removeDirectory($fixture_dir);
             \MigratedPoFixture::removeDirectory($client_data_dir);
+        }
+    }
+
+    /** An unreadable shipped `.po` aborts the add for this module: nothing is written, the overlay counts as unwritten. */
+    public function testUpdateModuleCacheReportsAnUnreadableShippedPoAndReturnsFalse(): void
+    {
+        $this->expectErrorLog();
+        $fixture_dir = __DIR__ . '/tmp-provider-fixtures-' . bin2hex(random_bytes(4));
+        mkdir($fixture_dir, 0775, true);
+        file_put_contents($fixture_dir . '/common_de.po', "msgid \"kaputt\n");
+
+        try {
+            $provider = $this->provider(
+                db: $this->dbNeverQueried(),
+                manager: $this->managerFor($fixture_dir, 'common')
+            );
+
+            $this->assertFalse($provider->updateModuleCache('de', 'common', 'new_topic', 'Hallo', 'author'));
+            $this->assertStringContainsString(
+                'cannot be read, the new entry is not added',
+                (string) file_get_contents((string) ini_get('error_log'))
+            );
+        } finally {
+            \MigratedPoFixture::removeDirectory($fixture_dir);
         }
     }
 
@@ -351,6 +384,19 @@ class RepositoryProviderTest extends \ilLanguageBaseTestCase
             ->invoke($provider, 'de', 'common', $client_data_dir);
     }
 
+    /**
+     * @param array<string, string> $entries
+     * @return string the fixture directory holding the shipped `common_de.po`; the caller removes it
+     */
+    private function shippedPoDirectory(string $module, array $entries): string
+    {
+        $fixture_dir = __DIR__ . '/tmp-provider-fixtures-' . bin2hex(random_bytes(4));
+        mkdir($fixture_dir, 0775, true);
+        \MigratedPoFixture::writePo($fixture_dir . '/' . $module . '_de.po', \MigratedPoFixture::catalog($module, $entries));
+
+        return $fixture_dir;
+    }
+
     /** A manager whose only shipped directory is $fixture_dir, holding the `.po` files of $module. */
     private function managerFor(string $fixture_dir, string $module): LanguageFileDirectoryManager
     {
@@ -364,6 +410,15 @@ class RepositoryProviderTest extends \ilLanguageBaseTestCase
      * @param ?array<string, mixed> $lng_modules_row
      * @param list<array{identifier: string, value: string}> $lng_data_rows
      */
+    /** A shipped module is never read from lng_modules or lng_data, not even as a fallback. */
+    private function dbNeverQueried(): \ilDBInterface
+    {
+        $db = $this->createMock(\ilDBInterface::class);
+        $db->expects($this->never())->method('query');
+
+        return $db;
+    }
+
     private function dbFetching(?array $lng_modules_row, array $lng_data_rows): \ilDBInterface
     {
         $modules_statement = $this->createStub(\ilDBStatement::class);

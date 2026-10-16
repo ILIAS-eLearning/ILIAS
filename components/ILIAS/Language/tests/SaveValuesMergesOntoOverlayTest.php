@@ -259,7 +259,8 @@ class SaveValuesMergesOntoOverlayTest extends ilLanguageBaseTestCase
 
         ilObjLanguageExt::_deleteValues('de', ['ctest2' . $lng->separator . 'greeting' => 'irrelevant']);
 
-        $this->assertSame(['farewell' => 'Tschüss aus lng_data'], $captured);
+        // the shipped content without the deleted key, never lng_data
+        $this->assertSame([], $captured);
     }
 
     /**
