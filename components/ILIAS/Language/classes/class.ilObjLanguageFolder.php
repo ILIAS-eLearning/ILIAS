@@ -264,7 +264,8 @@ class ilObjLanguageFolder extends ilObject
                 $error_double = false;
                 $double_checker = [];
 
-                if ($content = ilObjLanguage::cut_header($content)) {
+                // a file of only the header is valid: every module is shipped in PO files
+                if (($content = ilObjLanguage::cut_header($content)) !== false) {
                     $lines_cut = count($content);
                     foreach ($content as $key => $val) {
                         $separated = explode($this->separator, trim($val));
