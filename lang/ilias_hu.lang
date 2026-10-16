@@ -269,9 +269,6 @@ administration#:#restoring_unbound_objs#:#Kapcsolódás nélküli objektumok és
 administration#:#reuse_of_loginnames_contained_in_history#:#Felhasználónevek újra felhasználhatók
 administration#:#reuse_of_loginnames_contained_in_history_info#:#A felhasználó újra használtatja a korábbi felhasználóneveket (még abban az esetben is, ha a felhasználónév törölt felhasználóhoz tartozik).
 administration#:#rpc_pdf_configuration#:#PDF-generálás
-administration#:#rpc_pdf_font#:#Betűtípusok
-administration#:#rpc_pdf_font_info#:#További betűtípusok PDF fájlok létrehozásához. A ‘Helvetica’ és az ‘unifont’ betűtípusoktól eltérőket telepíteni kell az ILIAS szerverre.
-administration#:#rpc_pdf_generation#:#Betűtípusok PDF létrehozásához
 administration#:#scan#:#Vizsgálat
 administration#:#scan_desc#:#Rendszer átvizsgálása korrupt/érvénytelen/elveszett/kapcsolódás nélküli objektumok után.
 administration#:#scan_details#:#Vizsgálat részletei
@@ -4113,6 +4110,9 @@ common#:#rolt_edit#:#Szerepkörminta módosítása
 common#:#rolt_new#:#Új szerepkörminta
 common#:#row#:#sor
 common#:#rows#:#Sorok
+common#:#rpc_pdf_font#:#Betűtípusok
+common#:#rpc_pdf_font_info#:#További betűtípusok PDF fájlok létrehozásához. A ‘Helvetica’ és az ‘unifont’ betűtípusoktól eltérőket telepíteni kell az ILIAS szerverre.
+common#:#rpc_pdf_generation#:#Betűtípusok PDF létrehozásához
 common#:#sad#:#Szomorú
 common#:#sahs#:#SCORM-tananyag
 common#:#sahs_added#:#Sikeresen létrehozott egy SCORM-tananyagot.
