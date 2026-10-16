@@ -25,6 +25,7 @@ use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Implementation\Component\Prompt\State\State;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ILIAS\UI\Component\Prompt\IsPromptContent;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -53,22 +54,28 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        $content_component = $component->getContent();
-        if ($content_component === null) {
+        $secondary_content_components = $component->getSecondaryContent();
+        foreach ($secondary_content_components as $secondary_content_component) {
+            if ($secondary_content_component instanceof Component\MessageBox\MessageBox) {
+                $tpl->setCurrentBlock('top_secondary');
+                $tpl->setVariable('TOP_SECONDARY_CONTENT', $default_renderer->render($secondary_content_component));
+                $tpl->parseCurrentBlock();
+                continue;
+            }
+            $tpl->setCurrentBlock('bottom_secondary');
+            $tpl->setVariable('BOTTOM_SECONDARY_CONTENT', $default_renderer->render($secondary_content_component));
+            $tpl->parseCurrentBlock();
+        }
+
+        $primary_content_component = $component->getPrimaryContent();
+        if ($primary_content_component === null) {
             return $tpl->get();
         }
 
-        $tpl->setVariable('CONTENT', $default_renderer->render($content_component));
+        $tpl->setVariable('PRIMARY_CONTENT', $default_renderer->render($primary_content_component));
         $tpl->setVariable('TITLE', $component->getTitle());
 
-        $buttons = $component->getButtons();
-        if ($content_component instanceof \ILIAS\UI\Component\Input\Container\Form\Form) {
-            $submit_button = $this->getUIFactory()->button()->standard(
-                $content_component->getSubmitLabel() ?? $this->txt("save"),
-                $content_component->getSubmitSignal()
-            );
-            $buttons[] = $submit_button;
-        }
+        $buttons = $this->deriveButtonsFromPrimaryContent($primary_content_component);
 
         $buttons[] = $this->getUIFactory()->button()
             ->standard($this->txt('close'), '')
@@ -83,4 +90,22 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
+    /**
+     * @return Component\Button\Button[]
+     */
+    protected function deriveButtonsFromPrimaryContent(IsPromptContent $content): array
+    {
+        $buttons = [];
+        if ($content instanceof Component\MessageBox\MessageBox) {
+            $buttons = $content->getButtons();
+        }
+        if ($content instanceof Component\Input\Container\Form\Form) {
+            $submit_button = $this->getUIFactory()->button()->standard(
+                $content->getSubmitLabel() ?? $this->txt("save"),
+                $content->getSubmitSignal()
+            );
+            $buttons[] = $submit_button;
+        }
+        return $buttons;
+    }
 }

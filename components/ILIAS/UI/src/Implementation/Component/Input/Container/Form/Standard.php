@@ -33,7 +33,7 @@ use ILIAS\UI\Component\JavaScriptBindable;
 /**
  * This implements a standard form.
  */
-class Standard extends Form implements C\Input\Container\Form\Standard, IsPromptContentInternal, JavaScriptBindable
+class Standard extends Form implements C\Input\Container\Form\Standard, JavaScriptBindable
 {
     use HasPostURL;
     use JavaScriptBindableTrait;
@@ -69,16 +69,6 @@ class Standard extends Form implements C\Input\Container\Form\Standard, IsPrompt
     public function getSubmitLabel(): ?string
     {
         return $this->submit_caption;
-    }
-
-    public function getPromptButtons(): array
-    {
-        return [];
-    }
-
-    public function getPromptTitle(): string
-    {
-        return '';
     }
 
     public function getSubmitSignal(): Signal
