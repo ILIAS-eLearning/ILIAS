@@ -140,13 +140,9 @@ class ilPDNewsGUI
         $ilUser = $this->user;
 
         $news_ref_id = $this->std_request->getNewsRefId();
-        $news_per = $this->std_request->getNewsPer();
 
         $this->ctrl->setParameter($this, "news_ref_id", $news_ref_id);
         $ilUser->writePref("news_sel_ref_id", (string) $news_ref_id);
-        if ($news_per > 0) {
-            ilSession::set("news_pd_news_per", $news_per);
-        }
         $this->ctrl->redirect($this, "view");
     }
 
