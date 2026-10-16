@@ -29,13 +29,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-adm#:#adm_acc_ctrl_cpt_desc#:#有効にするとアクセッシビリティコントロールコンセプト用のリンクはフッタ－内に表示されます。
-adm#:#adm_acc_ctrl_cpt_enable#:#アクセッシビリティコントロールコンセプトを有効にする
-adm#:#adm_accessibility_contacts#:#コンタクトのAccessibility Point
-adm#:#adm_accessibility_contacts_info#:#フッターリンクのaccessibility issue報告用コンタクト。ログインアカウントのコンマ区切りリスト
-adm#:#adm_awrn_support_contacts_info#:#全てのテクニカルサポートコンタクトが表示されます。ユーザは"全般設定" > "コンタクト情報" セクションのテクニカルサポートコンタクトとして定義されます。
-adm#:#adm_support_contacts#:#テクニカルサポート
-adm#:#adm_support_contacts_info#:#フッターリンクと"誰がオンラインですか？"ツール(有効にしている場合)に使用されるサポートコンタクト。ログインアカウントのコンマ区切りのリスト。
 assessment#:#activate_logging#:#テストとログをアクティブにする
 assessment#:#activate_manual_scoring#:#手動並び替えを有効にする
 assessment#:#activate_manual_scoring_desc#:#全ての問題タイプの手動並び替えを有効にする

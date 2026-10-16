@@ -1,0 +1,30 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: adm\n"
+
+msgid "adm_acc_ctrl_cpt_desc"
+msgstr "A Hozzáférhetőségi Dokumentum linkje jelenik meg a láblécben."
+
+msgid "adm_acc_ctrl_cpt_enable"
+msgstr "A Hozzáférhetőségi Dokumentum linkje a láblécben"
+
+msgid "adm_accessibility_contacts"
+msgstr "Elérthetőségek hozzáférési problémák esetén"
+
+msgid "adm_accessibility_contacts_info"
+msgstr "Kapcsolatok a hozzáférési problémák jelentéséhez. Láblécben lévő link, felhasználónevek vesszővel elválasztott felsorolása."
+
+msgid "adm_awrn_support_contacts_info"
+msgstr "Az összes technikai segítségnyújtót felsoroljuk. Ezek az ‘Általános beállítások’ » ‘Elérhetőségek’ » ‘Technikai segítségnyújtók’ részben található felhasználók."
+
+msgid "adm_support_contacts"
+msgstr "Technikai segítségnyújtók"
+
+msgid "adm_support_contacts_info"
+msgstr "A támogatói kapcsolatok - ami vesszővel elválasztott felhasználónevek felsorolása - a ‘Ki van online?’-eszköz láblécébe kerülnek (ha az be van kapcsolva)."

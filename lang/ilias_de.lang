@@ -29,13 +29,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-adm#:#adm_acc_ctrl_cpt_desc#:#Zeigt im Footer den Link zur „Info Barrierefreiheit“ an.
-adm#:#adm_acc_ctrl_cpt_enable#:#Info Barrierefreiheit
-adm#:#adm_accessibility_contacts#:#Anlaufstelle für Barrierefreiheit
-adm#:#adm_accessibility_contacts_info#:#Kontaktperson(en), um in der Fußzeile Probleme mit der Barrierefreiheit zu melden. Mehrere Anmeldenamen müssen mit Komma getrennt werden.
-adm#:#adm_awrn_support_contacts_info#:#Alle Benutzer für die technische Betreuung werden aufgelistet. Der technischen Betreuung zugeordnet werden Benutzer im Administrationsbereich „Systemeinstellungen und Wartung » Allgemeine Einstellungen“, Reiter „Kontaktinformationen”.
-adm#:#adm_support_contacts#:#Technische Betreuung
-adm#:#adm_support_contacts_info#:#Bitte tragen Sie hier komma-separiert die Anmeldenamen der Personen ein, die bei Fragen und technischen Problemen kontaktiert werden können. Die Kontaktaufnahme erfolgt per Mail über den Link „Technische Betreuung kontaktieren“ im Footer von ILIAS. Ist die „Wer ist online?“-Anzeige aktiv, werden diese Personen auch dort als technische Betreuung angezeigt.
 assessment#:#activate_logging#:#Protokollieren des Test und Assessments aktivieren
 assessment#:#activate_manual_scoring#:#Bewertung aktivieren
 assessment#:#activate_manual_scoring_desc#:#Aktiviert die Bewertung für alle Fragentypen

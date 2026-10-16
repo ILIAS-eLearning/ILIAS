@@ -14,13 +14,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-adm#:#adm_acc_ctrl_cpt_desc#:#If activated, the link for the Accessibility Control Concept shows up in the Footer.
-adm#:#adm_acc_ctrl_cpt_enable#:#Enable Accessibility Control Concept
-adm#:#adm_accessibility_contacts#:#Accessibility Point of Contact
-adm#:#adm_accessibility_contacts_info#:#Contacts for reporting accessibility issues in the footer link. Comma separated list of account logins.
-adm#:#adm_awrn_support_contacts_info#:#Tous les contacts de support technique sont répertoriés. Les utilisateurs sont définis comme des contacts de support technique dans la section « Paramètres Généraux → Informations de Contacts ».
-adm#:#adm_support_contacts#:#Support technique
-adm#:#adm_support_contacts_info#:#Contacts de support technique utilisés dans le lien de bas de page, et si activé dans le 'Qui est en ligne ?', comme liste séparée de comptes de connexion.
 assessment#:#activate_logging#:#Activer le Suivi des Tests et Evaluations
 assessment#:#activate_manual_scoring#:#Enable Manual Scoring###28 10 2024 new variable
 assessment#:#activate_manual_scoring_desc#:#Enables manual Scoring for all question types.###28 10 2024 new variable

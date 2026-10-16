@@ -29,13 +29,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-adm#:#adm_acc_ctrl_cpt_desc#:#Display the link to your Accessibility document in the footer of your installation.###29 07 2022 new variable
-adm#:#adm_acc_ctrl_cpt_enable#:#Accessibility Link in Footer###29 07 2022 new variable
-adm#:#adm_accessibility_contacts#:#Accessibility Point of Contact###07 02 2020 new variable
-adm#:#adm_accessibility_contacts_info#:#Contacts for reporting accessibility issues in the footer link. Comma separated list of account logins.###07 02 2020 new variable
-adm#:#adm_awrn_support_contacts_info#:#Użytkownicy zajmujący się obsługą techniczną zostaną ujęci w liście. Użytkownicy przydzieleni są do działu obsługi technicznej w menu "Właściwości ogólne" » "Informacje kontaktowe".
-adm#:#adm_support_contacts#:#Obsługa techniczna
-adm#:#adm_support_contacts_info#:#Użytkownicy obsługi technicznej są podlinkowani w stopce - jeśli ta opcja jest aktywna, są również ujęci w liście „Kto jest online?” Lista kont użytkownika oddzielonych przecinkiem
 assessment#:#activate_logging#:#Aktywuj śledzenie testów i oceniania
 assessment#:#activate_manual_scoring#:#Enable Manual Scoring###28 10 2024 new variable
 assessment#:#activate_manual_scoring_desc#:#Enables manual Scoring for all question types.###28 10 2024 new variable

@@ -32,13 +32,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-adm#:#adm_acc_ctrl_cpt_desc#:#Mostrar el enlace a su documento de accesibilidad en el pie de página de su instalación.
-adm#:#adm_acc_ctrl_cpt_enable#:#Enlace de accesibilidad en el pie de página
-adm#:#adm_accessibility_contacts#:#Punto de contacto para problemas de accesibilidad
-adm#:#adm_accessibility_contacts_info#:#Contactos para el enlace ‘Reportar un problema de accesibilidad’ en el pie de página de su instalación. Lista separada por comas de nombres de usuario de las cuentas (logins).
-adm#:#adm_awrn_support_contacts_info#:#Se listan todos los usuarios asignados como contactos de soporte técnico. Los usuarios pueden asignarse a la lista de contactos de soporte técnico en la sección de administración 'Configuración del sistema y mantenimiento » Configuración general', pestaña 'Información de contacto'.
-adm#:#adm_support_contacts#:#Soporte técnico
-adm#:#adm_support_contacts_info#:#Introduzca aquí los nombres de usuario de las personas que pueden ser contactadas con preguntas y problemas técnicos, separados por comas. Se puede contactar con ellas por correo electrónico a través del enlace "Contactar con soporte técnico" en el pie de página de ILIAS. Si la visualización "¿Quién está en línea?" está activa, estas personas también aparecerán allí como soporte técnico.
 assessment#:#activate_logging#:#Activar el registro de pruebas y evaluaciones
 assessment#:#activate_manual_scoring#:#Activar puntuación manual
 assessment#:#activate_manual_scoring_desc#:#Habilita la puntuación manual para todos los tipos de preguntas.
