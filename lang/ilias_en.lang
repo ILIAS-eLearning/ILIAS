@@ -894,8 +894,8 @@ assessment#:#mainbar_button_label_questionlist#:#Question List
 assessment#:#maintenance#:#Maintenance
 assessment#:#manscoring#:#Scoring
 assessment#:#manscoring_done#:#Scored Participants
-assessment#:#manscoring_finalized#:#The user's status has been set to 'Scoring Finalised'. 
-assessment#:#manscoring_finalized_removed#:#The user's 'Scoring Finalised' status has been removed. 
+assessment#:#manscoring_finalized#:#The user's status has been set to 'Scoring Finalised'.
+assessment#:#manscoring_finalized_removed#:#The user's 'Scoring Finalised' status has been removed.
 assessment#:#manscoring_hint#:#You have added at least one question which may require manual scoring. To avoid participants getting access to the test results before you have finished manual scoring, please set a suitable date before which the results cannot be accessed.
 assessment#:#manscoring_none#:#Unscored Participants
 assessment#:#manscoring_not_allowed#:#The Scoring wasn‘t activated for a question type. You are not allowed to use this tab.
