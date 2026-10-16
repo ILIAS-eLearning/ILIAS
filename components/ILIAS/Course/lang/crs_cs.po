@@ -1,0 +1,1949 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: crs\n"
+
+msgid "activation_times_not_valid"
+msgstr "Neplatné období dostupnosti."
+
+msgid "assigned"
+msgstr "Určen"
+
+msgid "contact_email_not_valid"
+msgstr "Tento e-mail není platný."
+
+msgid "crs_accept_subscriber"
+msgstr "Zařazení do kurzu \"%s\""
+
+msgid "crs_accept_subscriber_body"
+msgstr "Byl(a) jste přijat(a) do kurzu \"%s\"."
+
+msgid "crs_access"
+msgstr "Přístup"
+
+msgid "crs_activate_notification"
+msgstr "Aktivovat upozornění"
+
+msgid "crs_activation"
+msgstr "Aktivace"
+
+msgid "crs_activation_limited_visibility_info"
+msgstr "Je-li vybráno, tento kurz je viditelný i mimo danou dosažitelnost."
+
+msgid "crs_activation_online_info"
+msgstr "Nastaví kurz online k zviditelnění a zpřístupnění členům kurzu. Když není nastaveno, pak přístup k němu mají jen administrátoři kurzu a lektoři."
+
+msgid "crs_add_archive_html"
+msgstr "Vytvořit archivní HTML"
+
+msgid "crs_add_archive_xml"
+msgstr "Vytvořit archivní XML"
+
+msgid "crs_add_grouping"
+msgstr "Přidat seskupení kurzů"
+
+msgid "crs_add_html_archive"
+msgstr "Přidat archív HTML"
+
+msgid "crs_add_objective"
+msgstr "Přidat cíle"
+
+msgid "crs_add_remove_from_desktop"
+msgstr "Přidat/odstranit z pracovní plochy"
+
+msgid "crs_add_remove_from_desktop_info"
+msgstr "Povolit příslušníkům přidávat položky kurzů na osobní pracovní plochu."
+
+msgid "crs_add_starter"
+msgstr "Přidat startovací objekt"
+
+msgid "crs_add_to_group"
+msgstr "Přidat do skupiny"
+
+msgid "crs_added_member"
+msgstr "Zařazení do kurzu \"%s\""
+
+msgid "crs_added_member_body"
+msgstr "Byl(a) jste přijat(a) do kurzu \"%s\"."
+
+msgid "crs_added_new_archive"
+msgstr "Nový archív byl přidán."
+
+msgid "crs_added_objective"
+msgstr "Nový výukový cíl byl vytvořen."
+
+msgid "crs_added_starters"
+msgstr "Přidělené startovací objekty"
+
+msgid "crs_added_to_list"
+msgstr "Byl(a) jste zařazen(a) na seznam čekatelů. Byl(a) jste zařazen(a) na pozici %s tohoto seznamu."
+
+msgid "crs_admin"
+msgstr "Správce"
+
+msgid "crs_administrators"
+msgstr "Správci"
+
+msgid "crs_admission_link_failure_availability"
+msgstr "Nelze zaregistrovat: Kurz není online."
+
+msgid "crs_admission_link_failure_invalid_code"
+msgstr "Nelze zaregistrovat: Odkaz je neplatný."
+
+msgid "crs_admission_link_failure_membership_limited"
+msgstr "Nelze zaregistrovat: Členství kurzu je omezené."
+
+msgid "crs_admission_link_failure_offline"
+msgstr "Nelze zaregistrovat: Kurz je offline."
+
+msgid "crs_admission_link_failure_registration_period"
+msgstr "Nelze zaregistrovat: Kurz je mimo období registrace."
+
+msgid "crs_admission_link_success_registration"
+msgstr "Úspěšně zaregistrováni do kurzu „%s“."
+
+msgid "crs_agree"
+msgstr "Přijetí"
+
+msgid "crs_agreement_header"
+msgstr "Uživatelské ujednání"
+
+msgid "crs_agreement_required"
+msgstr "Musíte akceptovat uživatelské ujednání, pokud se chcete do toho kurzu zaregistrovat."
+
+msgid "crs_at_least_one_admin"
+msgstr "Musí být alespoň jeden správce kurzu."
+
+msgid "crs_auto_notification"
+msgstr "Uvítací e-mail pro nové členy"
+
+msgid "crs_auto_notification_info"
+msgstr "Noví členové obdrží upozornění e-mailem, když jsou přidáni do kurzu."
+
+msgid "crs_awrn_current_course"
+msgstr "Aktuální kurz"
+
+msgid "crs_awrn_current_course_info"
+msgstr "Pokud uživatel přejde do kurzu v úložišti, jsou uvedeni všichni členové kurzu."
+
+msgid "crs_awrn_support_contacts"
+msgstr "Podpora výuky"
+
+msgid "crs_awrn_support_contacts_info"
+msgstr "Jsou uvedeny všechny kontakty podpory výuky kurzů s členstvím stávajícího uživatele. Uživatelé jsou definováni jako kontakty podpory výuky v záložce Členové příslušného kurzu."
+
+msgid "crs_blocked"
+msgstr "Přístup zamítnut"
+
+msgid "crs_blocked_member"
+msgstr "Členství zablokováno v kurzu \"%s\""
+
+msgid "crs_blocked_member_body"
+msgstr "Vaše členství v kurzu \"%s\" bylo zablokováno."
+
+msgid "crs_breadcrumb_crs_only"
+msgstr "Začít s kurzem"
+
+msgid "crs_breadcrumb_full_path"
+msgstr "Úplná cesta"
+
+msgid "crs_cancel_subscr_request"
+msgstr "Smazat požadavek členství"
+
+msgid "crs_cancel_subscription"
+msgstr "Uživatel opustil kurz \"%s\""
+
+msgid "crs_cancel_subscription_body"
+msgstr "%s ukončil své členství v kurzu \"%s\"."
+
+msgid "crs_cancel_subscription_body2"
+msgstr "Na seznamu čekatelů Vašeho kurzu mohou být další uživatelé.\\nMěl(a) by jste nyní tento seznam čekatelů zkontrolovat.\\nKe zobrazení členů Vašeho kurzu klepněte na:"
+
+msgid "crs_cancellation_end"
+msgstr "Limit zrušení"
+
+msgid "crs_cancellation_end_info"
+msgstr "Od tohoto data se již účastníci nemohou odhlásit."
+
+msgid "crs_cancellation_end_rbac_info"
+msgstr "Lhůta pro zrušení byla splněna v %s, zrušení již není možné."
+
+msgid "crs_cannot_find_role"
+msgstr "Nelze najít tuto roli."
+
+msgid "crs_cdf_edit_member"
+msgstr "Upravit uživatelská data relevantní pro kurz"
+
+msgid "crs_cdf_tbl_last_edit"
+msgstr "Poslední aktualizace (data specifická pro kurz)"
+
+msgid "crs_checklist_objective"
+msgstr "Cíl kontrolního seznamu"
+
+msgid "crs_contact"
+msgstr "Kontakt"
+
+msgid "crs_contact_consultation"
+msgstr "Konzultace"
+
+msgid "crs_contact_email"
+msgstr "E-mail"
+
+msgid "crs_contact_email_info"
+msgstr "Vložte jednu nebo více (oddělených čárkami) E-mailových adres."
+
+msgid "crs_contact_name"
+msgstr "Jméno"
+
+msgid "crs_contact_phone"
+msgstr "Telefon"
+
+msgid "crs_contact_responsibility"
+msgstr "Zodpovědnost"
+
+msgid "crs_content"
+msgstr "Obsah kurzu"
+
+msgid "crs_copy"
+msgstr "Kopírovat kurz"
+
+msgid "crs_course_group_notification_link"
+msgstr "Odkaz:"
+
+msgid "crs_course_period_not_valid"
+msgstr "Doba kurzu není platná."
+
+msgid "crs_course_status_of_users"
+msgstr "Status uživatelů prošlí"
+
+msgid "crs_create_date"
+msgstr "Vytvořit datum"
+
+msgid "crs_custom_user_fields"
+msgstr "Uživatelská data relevantní kurzu"
+
+#, fuzzy
+msgid "crs_custom_user_fields_infobox"
+msgstr "Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the \"Members\" tab."
+
+#, fuzzy
+msgid "crs_custom_user_fields_table_title"
+msgstr "Relevant User Data of This Course"
+
+msgid "crs_dates"
+msgstr "Data"
+
+msgid "crs_deactivate_notification"
+msgstr "Deaktivovat vyrozumění"
+
+msgid "crs_delete_objectve_sure"
+msgstr "Určitě chcete smazat vybrané cíle?"
+
+msgid "crs_details"
+msgstr "Podrobnosti kurzu"
+
+msgid "crs_dismiss_member"
+msgstr "Ukončeno členství pro kurz \"%s\""
+
+msgid "crs_dismiss_member_body"
+msgstr "Vaše členství v kurzu \"%s\" bylo ukončeno"
+
+msgid "crs_edit_lo_introduction"
+msgstr "Upravit úvod"
+
+msgid "crs_edit_timings"
+msgstr "Upravit plánování"
+
+msgid "crs_enable_map"
+msgstr "Zapnout mapování kurzu"
+
+msgid "crs_end"
+msgstr "Konec"
+
+msgid "crs_export"
+msgstr "Export kurzu"
+
+msgid "crs_file"
+msgstr "Soubor"
+
+msgid "crs_file_download"
+msgstr "Soubory ke stažení"
+
+msgid "crs_file_name"
+msgstr "Název souboru"
+
+msgid "crs_file_size_info"
+msgstr "Velikost souboru"
+
+msgid "crs_from"
+msgstr "Od:"
+
+msgid "crs_general_info"
+msgstr "Obecné informace"
+
+msgid "crs_general_informations"
+msgstr "Obecné informace"
+
+msgid "crs_grouping_delete_sure"
+msgstr "Skutečně chcete smazat následující seskupení kurzů?"
+
+msgid "crs_grouping_deleted"
+msgstr "Smazat seskupení kurzů."
+
+msgid "crs_grouping_select_one"
+msgstr "Vyberte prosím seskupení kurzů"
+
+msgid "crs_groupings"
+msgstr "Seskupení kurzů"
+
+msgid "crs_groups_nr"
+msgstr "Počet členství"
+
+msgid "crs_grp_added_grouping"
+msgstr "Nové omezení členství přidáno."
+
+msgid "crs_grp_already_assigned"
+msgstr "Již jste příslušníkem tohoto seskupení kurzu."
+
+msgid "crs_grp_assign_crs"
+msgstr "Přidělit  kurz"
+
+msgid "crs_grp_assignments"
+msgstr "Zařazení členů kurzu do skupin"
+
+msgid "crs_grp_enter_title"
+msgstr "Vložte prosím název."
+
+msgid "crs_grp_info_reg"
+msgstr "Můžete se zaregistrovat pouze do jednoho z těchto kurzů:"
+
+msgid "crs_grp_matriculation_required"
+msgstr "Toto seskupení kurzů vyžaduje unikátní imatrikulační číslo. <br />Vložte prosím tuto hodnotu do Vašeho nastavení na osobní pracovní ploše."
+
+msgid "crs_grp_no_courses_assigned"
+msgstr "Žádné přidělené kurzy."
+
+msgid "crs_grp_table_assigned_courses"
+msgstr "Přidělené kurzy"
+
+msgid "crs_header_archives"
+msgstr "Archívy kurzů"
+
+msgid "crs_header_delete_members"
+msgstr "Smazat příslušníky"
+
+msgid "crs_header_edit_members"
+msgstr "Vybrat příslušníky"
+
+msgid "crs_hide_all_obj"
+msgstr "Sbalit vše"
+
+msgid "crs_html"
+msgstr "HTML"
+
+msgid "crs_import"
+msgstr "Importovat kurz"
+
+msgid "crs_important_info"
+msgstr "Důležité informace"
+
+msgid "crs_info_agree"
+msgstr "Souhlasím, že výše uvedené typy dat jsou viditelné pro administrátory."
+
+msgid "crs_info_agreement"
+msgstr "Následující typy dat jsou viditelné pro administrátory:"
+
+msgid "crs_info_download"
+msgstr "Soubory ke stažení"
+
+msgid "crs_info_reg"
+msgstr "Registrace"
+
+msgid "crs_info_reg_confirmation"
+msgstr "Můžete požadovat členství v tomto kurzu. Obdržíte zprávu od administrátora kurzu zda Váš požadavek byl přijat, či zamítnut."
+
+msgid "crs_info_reg_deactivated"
+msgstr "Zápis do kurzu není dosud umožněn."
+
+msgid "crs_info_reg_direct"
+msgstr "Můžete se připojit ke kurzu přímo."
+
+msgid "crs_info_reg_password"
+msgstr "Pokud správce kurzu Vám sdělil heslo kurzu, můžete se připojit k tomuto kurzu."
+
+msgid "crs_info_settings"
+msgstr "Informace o kurzu"
+
+msgid "crs_info_start"
+msgstr "Přepracujte všechny výše uvedené položky kurzu.<br />Po průchodu všemi červeně označenými cíli, budou aktivovány nové položky kurzu."
+
+msgid "crs_intro_course_group_notification_for"
+msgstr "Toto je přehled denních zpráv pro: %s"
+
+msgid "crs_intro_course_group_notification_index"
+msgstr "Za období %1$s až %2$s jsou zprávy pro následující kurzy a skupiny:"
+
+msgid "crs_item_presetting_info"
+msgstr "Tuto volbu vyberte k nabídnutí studentům doporučeného času editace."
+
+msgid "crs_join_request"
+msgstr "Odeslat"
+
+msgid "crs_lhist_objective_completed"
+msgstr "Zvládnuté $3$ v $1$."
+
+msgid "crs_lim_assigned"
+msgstr "Již přiřazeno k připojenému kurzu \"%s\"."
+
+msgid "crs_link_hide_next_sessions"
+msgstr "Skrýt nadcházející sezení"
+
+msgid "crs_link_hide_prev_sessions"
+msgstr "Skrýt předchozí sezení"
+
+msgid "crs_link_show_all_next_sessions"
+msgstr "Skrýt všechny nadcházející sezení"
+
+msgid "crs_link_show_all_prev_sessions"
+msgstr "Skrýt všechny předchozí sezení"
+
+msgid "crs_lobj_pm_min_goal"
+msgstr "Požadované skóre"
+
+msgid "crs_lobj_pm_score"
+msgstr "Váš výsledek"
+
+msgid "crs_loc_btn_new_assignment"
+msgstr "Nové přiřazení testu"
+
+msgid "crs_loc_confirm_delete_tst"
+msgstr "Opravdu chcete zrušit přiřazení testu tohoto kurzu orientovaného na cíl učení?"
+
+msgid "crs_loc_delete_assignment"
+msgstr "Smazat přiřazení"
+
+msgid "crs_loc_err_no_active_it"
+msgstr "Cíle učení bez počátečního testu"
+
+msgid "crs_loc_err_no_active_lo"
+msgstr "Žádný aktivní cíl učení"
+
+msgid "crs_loc_err_no_active_mat"
+msgstr "Cíle učení bez materiálů"
+
+msgid "crs_loc_err_no_active_qst"
+msgstr "Cíle bez otázek"
+
+msgid "crs_loc_err_no_active_qt"
+msgstr "Cíle učení bez kvalifikačního testu"
+
+msgid "crs_loc_err_nr_tries_exceeded"
+msgstr "Počet průchodů na cíl překračuje možný počet průchodů kvalifikačního testu."
+
+msgid "crs_loc_err_stat_no_it"
+msgstr "Není k dispozici počáteční test"
+
+msgid "crs_loc_err_stat_no_materials"
+msgstr "Nejsou k dispozici materiály kurzu"
+
+msgid "crs_loc_err_stat_no_qt"
+msgstr "Není k dispozici kvalifikační test"
+
+msgid "crs_loc_err_stat_tst_offline"
+msgstr "Ne všechny testy jsou online."
+
+msgid "crs_loc_form_assign"
+msgstr "Použít existující test"
+
+msgid "crs_loc_form_assign_initial_info"
+msgstr "Vyberte test z tohoto kurzu, který bude sloužit jako rozřazovací test"
+
+msgid "crs_loc_form_assign_it"
+msgstr "Přiřazení testu"
+
+msgid "crs_loc_form_assign_qualified_info"
+msgstr "--"
+
+msgid "crs_loc_form_available_tsts"
+msgstr "Dostupné testy"
+
+msgid "crs_loc_form_create_objectives"
+msgstr "Vytvořit cíle učení"
+
+msgid "crs_loc_form_random_limits_it"
+msgstr "Definovat otázky počátečního testu"
+
+msgid "crs_loc_form_random_limits_qt"
+msgstr "Definovat otázky kvalifikačního testu"
+
+msgid "crs_loc_form_tst_new"
+msgstr "Vytvořit nový test"
+
+msgid "crs_loc_form_tst_new_initial_info"
+msgstr "Vytvořte nový test, který bude sloužit jako rozřazovací test"
+
+msgid "crs_loc_form_tst_new_qualified_info"
+msgstr "--"
+
+msgid "crs_loc_itest_info"
+msgstr "Počáteční test"
+
+msgid "crs_loc_itst_for_objective"
+msgstr "Počáteční test „%1$s“"
+
+msgid "crs_loc_learning_objective"
+msgstr "Cíl učení"
+
+msgid "crs_loc_mem_show_res"
+msgstr "Zobrazit výsledky testu"
+
+msgid "crs_loc_num_qst"
+msgstr "Počet otázek"
+
+msgid "crs_loc_objective_passed_confirmation"
+msgstr "Již jste dosáhli cíle učení. Nové spuštění testu vrátí výsledky zpět. Chcete znovu spustit test?"
+
+msgid "crs_loc_objectives_passed_confirmation"
+msgstr "Již jste dosáhli všech cílů učení. Nové spuštění testu vrátí výsledky zpět. Chcete znovu spustit test?"
+
+msgid "crs_loc_passes_info"
+msgstr "Maximální počet průchodů testem"
+
+msgid "crs_loc_passes_left"
+msgstr "Zbývající počet průchodů testem"
+
+msgid "crs_loc_passes_reached"
+msgstr "Nejsou možné žádné další průchody testem"
+
+msgid "crs_loc_perc"
+msgstr "Požadované procento bodů"
+
+msgid "crs_loc_progress_do_qualifying"
+msgstr "Proveďte kvalifikační test."
+
+msgid "crs_loc_progress_do_qualifying_again"
+msgstr "Znovu projděte materiály pro cíle učení."
+
+msgid "crs_loc_progress_no_result_do_initial"
+msgstr "Proveďte počáteční test."
+
+msgid "crs_loc_progress_no_result_no_initial"
+msgstr "Znovu projděte následující výukové materiály a pak proveďte kvalifikační test."
+
+msgid "crs_loc_progress_objective_complete"
+msgstr "Dokončili jste cíl učení."
+
+msgid "crs_loc_progress_result_itest"
+msgstr "Výsledek počátečního testu"
+
+msgid "crs_loc_progress_result_qtest"
+msgstr "Výsledek"
+
+msgid "crs_loc_qst_resume_tst_itest"
+msgstr "Nesmějí být současně spuštěny vstupní testy pro různé cíle učení. Již jste spustili jeden vstupní test pro cíl učení. Buď pokračujte v tomto starém testu, nebo spusťte nový test."
+
+msgid "crs_loc_qst_resume_tst_qtest"
+msgstr "Nesmějí být současně spuštěny kvalifikační testy pro různé cíle učení. Již jste spustili jeden kvalifikační test pro cíl učení. Buď pokračujte v tomto starém testu, nebo spusťte nový test."
+
+msgid "crs_loc_qtest_info"
+msgstr "Kvalifikovaný test"
+
+msgid "crs_loc_qtst_for_objective"
+msgstr "Kvalifikační test „%1$s“"
+
+msgid "crs_loc_rand_assign_qpl"
+msgstr "Formulář přiřazení zásobníku otázek"
+
+msgid "crs_loc_rand_qpl"
+msgstr "Dostupné zásobníky otázek"
+
+msgid "crs_loc_settings_err_qstart"
+msgstr "Byla deaktivována možnost „Závěrečný test jako startovní objekt“, protože ji lze použít pouze pro kurzy bez vstupního testu."
+
+msgid "crs_loc_settings_it_start_object"
+msgstr "Vstupní test je startovní objekt"
+
+msgid "crs_loc_settings_it_type"
+msgstr "Vstupní test"
+
+msgid "crs_loc_settings_itest_tbl"
+msgstr "Nastavení počátečního testu"
+
+msgid "crs_loc_settings_passed_mode"
+msgstr "Úspěšné cíle učení"
+
+msgid "crs_loc_settings_passed_mode_hide"
+msgstr "Jsou staženy testovací otázky pro existující cíle učení"
+
+msgid "crs_loc_settings_passed_mode_mark"
+msgstr "Jsou označeny testovací otázky pro existující cíle učení"
+
+msgid "crs_loc_settings_qt_all"
+msgstr "Závěrečný test"
+
+msgid "crs_loc_settings_qt_start_object"
+msgstr "Závěrečný test je startovní objekt"
+
+msgid "crs_loc_settings_qtest_tbl"
+msgstr "Nastavení kvalifikačního testu"
+
+msgid "crs_loc_settings_reset"
+msgstr "Výsledky testů"
+
+msgid "crs_loc_settings_reset_enable"
+msgstr "Umožnit vrácení výsledku testu"
+
+msgid "crs_loc_settings_reset_enable_info"
+msgstr "Pokud je aktivováno, mají všichni uživatelé možnost vrátit zpět individuální výsledky testů."
+
+msgid "crs_loc_settings_tbl"
+msgstr "Nastavení pro kurz zaměřený na cíl učení"
+
+msgid "crs_loc_settings_tbl_it_nq"
+msgstr "Diagnostické vstupní testy pro cíl učení"
+
+msgid "crs_loc_settings_tbl_it_q"
+msgstr "Kvalifikační vstupní testy pro cíl učení"
+
+msgid "crs_loc_settings_tbl_its_nq_all"
+msgstr "Diagnostický vstupní test pro všechny cíle učení"
+
+msgid "crs_loc_settings_tbl_its_q_all"
+msgstr "Kvalifikační vstupní test pro všechny cíle učení"
+
+msgid "crs_loc_settings_tbl_qt"
+msgstr "Závěrečné testy pro cíl učení"
+
+msgid "crs_loc_settings_tbl_qts_all"
+msgstr "Závěrečný test pro všechny cíle učení"
+
+msgid "crs_loc_settings_type_it_none"
+msgstr "Žádný vstupní test"
+
+msgid "crs_loc_settings_type_it_none_info"
+msgstr "Žádný rozřazovací test"
+
+msgid "crs_loc_settings_type_it_placement_all"
+msgstr "Diagnostický vstupní test pro všechny cíle učení"
+
+msgid "crs_loc_settings_type_it_placement_all_info"
+msgstr "Rozřazovací test pro všechny cíle učení"
+
+msgid "crs_loc_settings_type_it_placement_sel"
+msgstr "Diagnostický vstupní test pro cíl učení"
+
+msgid "crs_loc_settings_type_it_placement_sel_info"
+msgstr "Rozřazovací test pro jeden cíl učení"
+
+msgid "crs_loc_settings_type_it_qualifying_all"
+msgstr "Kvalifikační vstupní test pro všechny cíle učení"
+
+msgid "crs_loc_settings_type_it_qualifying_all_info"
+msgstr "Výkonnostní test pro všechny cíle učení"
+
+msgid "crs_loc_settings_type_it_qualifying_sel"
+msgstr "Kvalifikační vstupní test pro cíl učení"
+
+msgid "crs_loc_settings_type_it_qualifying_sel_info"
+msgstr "Výkonnostní test pro jeden cíl učení"
+
+msgid "crs_loc_settings_type_q_all"
+msgstr "Závěrečný test pro všechny cíle učení"
+
+msgid "crs_loc_settings_type_q_all_info"
+msgstr "Výkonnostní test pro všechny cíle učení"
+
+msgid "crs_loc_settings_type_q_selected"
+msgstr "Závěrečný test pro cíl učení"
+
+msgid "crs_loc_settings_type_q_selected_info"
+msgstr "Výkonnostní test pro jeden cíl učení"
+
+msgid "crs_loc_subtab_creation"
+msgstr "Vytvořit"
+
+msgid "crs_loc_suggested"
+msgstr "Projděte následující výukové materiály."
+
+msgid "crs_loc_tab_itest"
+msgstr "Počáteční test"
+
+msgid "crs_loc_tab_itests"
+msgstr "Vstupní testy"
+
+msgid "crs_loc_tab_materials"
+msgstr "Materiály"
+
+msgid "crs_loc_tab_objectives"
+msgstr "Cíle učení"
+
+msgid "crs_loc_tab_qtest"
+msgstr "Kvalifikační test"
+
+msgid "crs_loc_tab_qtests"
+msgstr "Závěrečné testy"
+
+msgid "crs_loc_tab_start"
+msgstr "Startovní objekty"
+
+msgid "crs_loc_tbl_tst_qst_qpl"
+msgstr "Otázky/zásobníky otázek"
+
+msgid "crs_loc_tbl_tst_type"
+msgstr "Testovací režim"
+
+msgid "crs_loc_test_results_of"
+msgstr "Výsledky testu z:"
+
+msgid "crs_loc_tst_assignment"
+msgstr "Přiřazení testu"
+
+msgid "crs_loc_tst_new_run"
+msgstr "Spustit nový průchod testem"
+
+msgid "crs_loc_tst_num_qst"
+msgstr "Počet otázek:"
+
+msgid "crs_loc_tst_qpls"
+msgstr "Dostupné zásobníky otázek:"
+
+msgid "crs_loc_tst_resume"
+msgstr "Pokračovat v průchodu testem"
+
+msgid "crs_loc_tst_start"
+msgstr "Spustit test"
+
+msgid "crs_loc_tt_info"
+msgstr "Dosáhli jste %1$d%%. Test je úspěšně absolvován s %2$d%%."
+
+msgid "crs_loc_type_initial_all_info"
+msgstr "todo"
+
+msgid "crs_loc_type_qualified_info"
+msgstr "todo"
+
+msgid "crs_mail_all"
+msgstr "Pro všechny účastníky"
+
+msgid "crs_mail_all_info"
+msgstr "Členové, správci a lektoři mohou používat funkci „Pošta členům“ v záložce „Členové“."
+
+msgid "crs_mail_context_member_info"
+msgstr "Pro kontaktní e-maily na informační obrazovce kurzu"
+
+msgid "crs_mail_context_member_title"
+msgstr "Člen kurzu"
+
+msgid "crs_mail_context_tutor_info"
+msgstr "Pro e-maily účastníků na obrazovkách členů a postupu učení kurzu"
+
+msgid "crs_mail_context_tutor_title"
+msgstr "Lektor kurzu"
+
+msgid "crs_mail_permanent_link"
+msgstr "Vyberte následující odkaz k přístupu k obsahu kurzu:"
+
+msgid "crs_mail_tutors_only"
+msgstr "Pouze pro lektory a administrátory"
+
+msgid "crs_mail_tutors_only_info"
+msgstr "Pouze správci a lektoři mohou používat funkci „Pošta členům“ v záložce „Členové“."
+
+msgid "crs_mail_type"
+msgstr "E-mail členům"
+
+msgid "crs_map_location"
+msgstr "Umístění mapy kurzu"
+
+msgid "crs_map_settings"
+msgstr "Nastavení mapy"
+
+msgid "crs_materials"
+msgstr "Materiály"
+
+msgid "crs_max_and_min_members_invalid"
+msgstr "Minimální počet musí být menší než maximální počet členů."
+
+msgid "crs_max_and_min_members_needed"
+msgstr "Nastavte minimální nebo maximální počet členů - nebo obojí."
+
+msgid "crs_max_members_needed"
+msgstr "Pro funkci pořadníku je zapotřebí maximální počet členů."
+
+msgid "crs_max_members_reached"
+msgstr "Byl dosažen maximální počet příslušníků kurzu"
+
+msgid "crs_mem_contact"
+msgstr "Kontakt podpory"
+
+msgid "crs_mem_contacts"
+msgstr "Kontakty podpory"
+
+msgid "crs_mem_send_mail"
+msgstr "Odeslat e-mail"
+
+msgid "crs_mem_tbl_header"
+msgstr "Účastníci kurzu"
+
+msgid "crs_member"
+msgstr "Příslušník"
+
+msgid "crs_member_administration"
+msgstr "Upravit účastníky"
+
+msgid "crs_member_passed_status_changed"
+msgstr "Status prošlí změněn"
+
+msgid "crs_members"
+msgstr "Příslušníci"
+
+msgid "crs_members_deleted"
+msgstr "Smazaní příslušníci"
+
+msgid "crs_members_groups"
+msgstr "Členství ve skupině"
+
+msgid "crs_members_map"
+msgstr "Mapa členů kurzu"
+
+msgid "crs_members_print_title"
+msgstr "Členové kurzu"
+
+msgid "crs_min_one_admin"
+msgstr "K tomuto kurzu musí být přiřazen alespoň jeden správce."
+
+#, fuzzy
+msgid "crs_msg_no_self_registration_period_if_self_enrolment_disabled"
+msgstr "The limited registration period can not be defined if the \"No Self-enrolment\" setting is active."
+
+msgid "crs_my_courses_groups_enabled"
+msgstr "Moje kurzy a skupiny"
+
+#, fuzzy
+msgid "crs_my_courses_groups_enabled_info"
+msgstr "If activated, the section 'My Courses and Groups' is visible."
+
+msgid "crs_new_status"
+msgstr "Váš nový status je:"
+
+msgid "crs_new_subscription"
+msgstr "Uživatel zařazen do kurzu \"%s\""
+
+msgid "crs_new_subscription_body"
+msgstr "%s byl registrován do kurzu \"%s\"."
+
+msgid "crs_new_subscription_request"
+msgstr "Požadavek k zařazení do kurzu \"%s\""
+
+msgid "crs_new_subscription_request_body"
+msgstr " %s  požádal o členství v kurzu \"%s\"."
+
+msgid "crs_new_subscription_request_body2"
+msgstr "Pro potvrzení této registrace zajděte k:"
+
+msgid "crs_news"
+msgstr "Zprávy kurzu"
+
+msgid "crs_no_archive_selected"
+msgstr "Žádné vybrané archívy"
+
+msgid "crs_no_archives_selected"
+msgstr "Vyberte prosím archív"
+
+msgid "crs_no_notify"
+msgstr "Žádné požadavky nových registrací"
+
+msgid "crs_no_objective_lms_found"
+msgstr "Tento kurz neobsahuje žádné materiály."
+
+msgid "crs_no_objective_selected"
+msgstr "Vyberte prosím jeden cíl."
+
+msgid "crs_no_objectives_created"
+msgstr "Zde nejsou stanoveny žádné cíle."
+
+msgid "crs_no_subscribers_selected"
+msgstr "Vyberte prosím uživatele"
+
+msgid "crs_no_users_added"
+msgstr "Žádní členové nepřidáni"
+
+msgid "crs_no_users_selected"
+msgstr "Nevybral(a) jste žádného uživatele"
+
+msgid "crs_not_available"
+msgstr "--Nedostupné--"
+
+msgid "crs_notification"
+msgstr "Upozornění"
+
+msgid "crs_notification_activated"
+msgstr "Upozornění aktivováno"
+
+msgid "crs_notification_deactivated"
+msgstr "Upozornění deaktivováno"
+
+msgid "crs_notification_explanation_admin"
+msgstr "Tento e-mail jste obdržel(a), protože jste jste správce/lektor kurzu se zapnutým upozorňováním."
+
+msgid "crs_notification_list_title"
+msgstr "Upozornění na nové členy"
+
+msgid "crs_notification_salutation"
+msgstr "Vážený účastníku kurzu,"
+
+msgid "crs_notify"
+msgstr "Upozornění na nové registrace"
+
+msgid "crs_nr"
+msgstr "Čís."
+
+msgid "crs_number_users_added"
+msgstr "Následující počet uživatelů byl zařazen do tohoto kurzu:"
+
+msgid "crs_obj_final_req_info"
+msgstr "Pokud tento počet bodů je dosažen, výukový cíl je splněn."
+
+msgid "crs_obj_initial_req_info"
+msgstr "Pokud tento počet bodů je dosažen, žádné materály kurzu nebudou doporučeny pro další zpracování."
+
+msgid "crs_obj_required_points"
+msgstr "Požadované body"
+
+msgid "crs_objective_accomplished"
+msgstr "Splněno"
+
+msgid "crs_objective_action_itest"
+msgstr "Přiřazení otázek počátečního testu"
+
+msgid "crs_objective_action_materials"
+msgstr "Přiřazení materiálu"
+
+msgid "crs_objective_action_qtest"
+msgstr "Přiřazení otázek kvalifikace"
+
+msgid "crs_objective_action_qtest_sep"
+msgstr "Přiřadit závěrečný test"
+
+msgid "crs_objective_add_mat"
+msgstr "Přidělit materiály"
+
+msgid "crs_objective_all_points"
+msgstr "Celkové body"
+
+msgid "crs_objective_assigned_materials"
+msgstr "Přidělené výukové materiály"
+
+msgid "crs_objective_err_limit"
+msgstr "Vložte prosím body mezi %s a %s."
+
+msgid "crs_objective_final_test"
+msgstr "Závěrečný test"
+
+msgid "crs_objective_limit_err"
+msgstr "Požadované body nemohou být vyšší, než jejich celkový počet."
+
+msgid "crs_objective_modified"
+msgstr "Cíl výuky aktualizován."
+
+msgid "crs_objective_not_accomplished"
+msgstr "Nesplněno"
+
+msgid "crs_objective_overview_objectives"
+msgstr "Přehled"
+
+msgid "crs_objective_overview_question_assignment"
+msgstr "Přehled přidělení otázek"
+
+msgid "crs_objective_points"
+msgstr "Bod(y)"
+
+msgid "crs_objective_pretest"
+msgstr "Po úvodním testu"
+
+msgid "crs_objective_qst_summary"
+msgstr "Přehled přidělení otázek"
+
+msgid "crs_objective_random_warn"
+msgstr "Nemůžete použít náhodné testy v kombinaci s cíli výuky."
+
+msgid "crs_objective_result"
+msgstr "Po závěrečném testu"
+
+#, fuzzy
+msgid "crs_objective_result_details"
+msgstr "« Show Details"
+
+#, fuzzy
+msgid "crs_objective_result_summary_initial"
+msgstr "Placement Test: %1$s (%2$s required)"
+
+#, fuzzy
+msgid "crs_objective_result_summary_qualifying"
+msgstr "Achievement Test: %1$s (%2$s required)"
+
+msgid "crs_objective_saved_sorting"
+msgstr "Seřazení uloženo."
+
+msgid "crs_objective_self_assessment"
+msgstr "Vstupní test"
+
+msgid "crs_objective_status"
+msgstr "Status učebního cíle"
+
+msgid "crs_objective_status_configure"
+msgstr "Konfigurovat kurz zaměřený na cíl učení"
+
+msgid "crs_objective_status_itest"
+msgstr "Konfigurovat počáteční test"
+
+msgid "crs_objective_status_materials"
+msgstr "Vytvořit nové materiály kurzu"
+
+#, fuzzy
+msgid "crs_objective_status_materials_info"
+msgstr "The course is currently empty. Add course materials that can be assigned to learning objectives."
+
+msgid "crs_objective_status_objective_creation"
+msgstr "Vytvořit cíl učení"
+
+msgid "crs_objective_status_objectives"
+msgstr "Konfigurovat cíle učení"
+
+msgid "crs_objective_status_qtest"
+msgstr "Konfigurovat kvalifikační test"
+
+msgid "crs_objective_status_settings"
+msgstr "Nastavení kurzu"
+
+msgid "crs_objective_tbl_col_final_tsts"
+msgstr "Závěrečné testy"
+
+msgid "crs_objective_wiz_final"
+msgstr "Otázky závěrečného testu"
+
+msgid "crs_objective_wiz_final_info"
+msgstr "Přidělení otázek závěrečného testu."
+
+msgid "crs_objective_wiz_final_limit"
+msgstr "Limity pro závěrečný test"
+
+msgid "crs_objective_wiz_materials"
+msgstr "Přidělení materiálů kurzu"
+
+msgid "crs_objective_wiz_materials_info"
+msgstr "Můžete přidělit materály, které jsou doporučeny pro zpracování k dosažení učebních cílů."
+
+msgid "crs_objective_wiz_self"
+msgstr "Otázky vstupního testu"
+
+msgid "crs_objective_wiz_self_limit"
+msgstr "Limity pro vstupní test"
+
+msgid "crs_objective_wiz_self_limit_info"
+msgstr "Definujte prosím limity pro otázky vstupního testu."
+
+msgid "crs_objective_wiz_title"
+msgstr "Popis výukových cílů"
+
+msgid "crs_objective_wiz_title_info"
+msgstr "Vyberte prosím název a krátký popis výukových cílů."
+
+msgid "crs_objectives"
+msgstr "Cíle výuky"
+
+msgid "crs_objectives_assigned_lm"
+msgstr "Vybrané materiály byly přiděleny."
+
+msgid "crs_objectives_deleted"
+msgstr "Smazat výukové cíle"
+
+msgid "crs_objectives_edit_question_assignments"
+msgstr "Upravit přidělení otázky"
+
+msgid "crs_objectives_reset_sure"
+msgstr "Hodláte smazat všechny výsledky tohoto kurzu. <br />Všechny výsledky budou smazány."
+
+msgid "crs_objectives_reseted"
+msgstr "Výsledky resetovány."
+
+msgid "crs_open"
+msgstr "Otevřít kurz"
+
+msgid "crs_other_resources"
+msgstr "Jiné zdroje"
+
+#, fuzzy
+msgid "crs_page_type_lobj"
+msgstr "Learning Objective Page"
+
+msgid "crs_passed"
+msgstr "Prospěl"
+
+msgid "crs_passed_status_manual_by"
+msgstr "Manuálně od"
+
+msgid "crs_passed_status_system"
+msgstr "Systém"
+
+msgid "crs_password_not_valid"
+msgstr "Vaše heslo není platné"
+
+msgid "crs_password_required"
+msgstr "Tato registrační procedura vyžaduje heslo."
+
+msgid "crs_pdf"
+msgstr "PDF"
+
+msgid "crs_period"
+msgstr "Doba kurzu"
+
+#, fuzzy
+msgid "crs_period_end_mail_placeholder"
+msgstr "Period End"
+
+msgid "crs_period_info"
+msgstr "Datum zahájení a ukončení kurzu"
+
+#, fuzzy
+msgid "crs_period_start_mail_placeholder"
+msgstr "Period Start"
+
+msgid "crs_presentation_type"
+msgstr "Typ prezentace"
+
+msgid "crs_print_list"
+msgstr "Vytvořit seznam"
+
+#, fuzzy
+msgid "crs_ref_delete_confirmation_info"
+msgstr "Would you like to remove the following members from this course? If these members are to be removed from courses linked into this course, please activate the respective checkboxes."
+
+#, fuzzy
+msgid "crs_ref_member_update"
+msgstr "Neue Mitglieder hinzufügen"
+
+#, fuzzy
+msgid "crs_ref_member_update_info"
+msgstr "Alle neuen Mitglieder des übergeordneten Kurses werden automatisch in den Kurs, auf den dieser Kurs-Link verweist, eingetragen."
+
+#, fuzzy
+msgid "crs_ref_missing_access"
+msgstr "Die Option kann nicht ausgewählt werden, da Sie nicht die Berechtigung \"Mitglieder verwalten\" für beide Kurse besitzen."
+
+#, fuzzy
+msgid "crs_ref_missing_parent_crs"
+msgstr "Die Option kann nicht ausgewählt werden, da dieser Kurs-Link keinen übergeordneten Kurs besitzt."
+
+msgid "crs_reg"
+msgstr "Nastavení registrace"
+
+msgid "crs_reg_code"
+msgstr "Přijetí přes odkaz"
+
+msgid "crs_reg_code_enabled_info"
+msgstr "Vedle zvolené registrační procedury tato volba umožňuje uživatelům vstupovat přímo použitím následujícího odkazu."
+
+msgid "crs_reg_code_link"
+msgstr "Odkaz na přímé přijetí"
+
+msgid "crs_reg_max_info"
+msgstr "Definujte maximální počet uživatelů, kteří se mohou ke kurzu připojit. '0' znamená neomezeno."
+
+msgid "crs_reg_no_selfreg"
+msgstr "Vlastní zápis není možný"
+
+msgid "crs_reg_password_info"
+msgstr "Při připojování k tomuto kurzu musí uživatelé zadat toto heslo."
+
+#, fuzzy
+msgid "crs_reg_selfreg"
+msgstr "Self-Enrolment"
+
+msgid "crs_reg_subject"
+msgstr "Zpráva"
+
+msgid "crs_reg_until"
+msgstr "Období registrace"
+
+msgid "crs_reg_user_already_subscribed"
+msgstr "Již máte požadované členství v tomto kurzu"
+
+msgid "crs_registration"
+msgstr "Registrace kurzu"
+
+msgid "crs_registration_confirmation_info"
+msgstr "Zájemci mohou poslat požadavek / zprávu správcům kurzu."
+
+msgid "crs_registration_deactivated"
+msgstr "Tato volba je k vypnutí registrace. Žádný uživatel se nebude moci ke kurzu nezávisle připojit."
+
+msgid "crs_registration_limited"
+msgstr "Časově omezená registrace"
+
+msgid "crs_registration_limited_info"
+msgstr "Členové se mohou zaregistrovat do tohoto kurzu pouze v určitém časovém období."
+
+msgid "crs_registration_period"
+msgstr "Doba"
+
+msgid "crs_registration_type"
+msgstr "Registrační procedura"
+
+msgid "crs_reject_subscriber"
+msgstr "Registrace zamítnuta pro \"%s\""
+
+msgid "crs_reject_subscriber_body"
+msgstr "S lítostí Vám oznamujeme, že Vaše registrace do kurzu \"%s\" byl zamítnuta."
+
+msgid "crs_reset_results"
+msgstr "Resetovat výsledky"
+
+msgid "crs_role_status"
+msgstr "Role / Status"
+
+msgid "crs_search_users"
+msgstr "Hledat uživatele"
+
+msgid "crs_select_archive_language"
+msgstr "Vyberte prosím jazyk pro archív."
+
+msgid "crs_select_one_archive"
+msgstr "Vyberte prosím jeden archív."
+
+msgid "crs_select_starter"
+msgstr "Vyberte startovací objekt"
+
+msgid "crs_settings"
+msgstr "Nastavení kurzu"
+
+msgid "crs_settings_saved"
+msgstr "Nastavení uloženo"
+
+msgid "crs_shorten_breadcrumb"
+msgstr "Popis cesty"
+
+msgid "crs_show_all_obj"
+msgstr "Rozbalit vše"
+
+msgid "crs_show_member_export"
+msgstr "Seznam účastníků"
+
+msgid "crs_show_member_export_info"
+msgstr "Členové kurzu mohou vytisknout seznam účastníků."
+
+msgid "crs_show_member_export_settings"
+msgstr "Seznam účastníků"
+
+msgid "crs_show_members"
+msgstr "Zobrazit příslušníky"
+
+msgid "crs_show_members_info"
+msgstr "Je-li aktivováno, příslušníci kurzu mohou mít přístup ke galerii příslušníků a posílat poštu dle zobrazení členů."
+
+msgid "crs_size"
+msgstr "Velikost souboru"
+
+msgid "crs_sort_activation"
+msgstr "Řadit dle aktivace"
+
+msgid "crs_sort_timing_info"
+msgstr "Řadit položky kurzu podle jejich času aktivace nebo přednastavení časování."
+
+msgid "crs_start"
+msgstr "Začátek"
+
+msgid "crs_start_objects"
+msgstr "Startovní objekty"
+
+msgid "crs_starter_delete_sure"
+msgstr "Určitě chcete smazat následující startovní objekty?"
+
+msgid "crs_starter_deleted"
+msgstr "Přidělení odstraněno."
+
+msgid "crs_starters_already_assigned"
+msgstr "Tento objekt již byl přidělen."
+
+msgid "crs_status"
+msgstr "Status"
+
+msgid "crs_status_changed"
+msgstr "Změněn status v \"%s\""
+
+msgid "crs_status_changed_body"
+msgstr "Váš status v kurzu \"%s\" byl změněn."
+
+msgid "crs_status_determination"
+msgstr "Určení"
+
+msgid "crs_status_determination_lp"
+msgstr "Skrze postup výuky"
+
+msgid "crs_status_determination_lp_info"
+msgstr "Když se postup učení změní na „Dokončeno“, stav kurzu „Uspěl“ bude nastaven automaticky. Lektoři stále mohou přepsat stav manuálně."
+
+msgid "crs_status_determination_manual"
+msgstr "Nezávisle na postupu výuky"
+
+msgid "crs_status_determination_sync"
+msgstr "Synchronizace statusu prošlí s postupem výuky pro všechny nynější členy"
+
+msgid "crs_structure"
+msgstr "Struktura kurzu"
+
+msgid "crs_subject_course_group_notification"
+msgstr "Denní zpráva pro %s"
+
+msgid "crs_subscribe_member"
+msgstr "Vaše registrace v kurzu \"%s\""
+
+msgid "crs_subscribe_member_body"
+msgstr "S potěšením Vám potvrzujeme Vaši registraci do kurzu \"%s\"."
+
+msgid "crs_subscribe_wl"
+msgstr "Vaše registrace v kurzu \"%s\"."
+
+msgid "crs_subscribe_wl_body"
+msgstr "byl(a) jste zařazen(a) na seznam čekatelů kurzu \"%s\".\\nByl(a) jste zařazena na %s místě seznamut.\\n\\nOd správce kurzu obdržíte zprávu, zda Váš požadavek byl akceptován, nebo zamítnut."
+
+msgid "crs_subscriber"
+msgstr "Žadatel"
+
+msgid "crs_subscribers_deleted"
+msgstr "Smazaní žadatelé"
+
+msgid "crs_subscription"
+msgstr "Zápis"
+
+msgid "crs_subscription_failed_limit"
+msgstr "Byl překročen maximální počet účastníků."
+
+msgid "crs_subscription_max_members"
+msgstr "Maximální počet členů"
+
+msgid "crs_subscription_max_members_short"
+msgstr "Počet členů"
+
+msgid "crs_subscription_max_members_short_info"
+msgstr "Lze nastavit minimální nebo maximální počet členů. Lze nastavit pořadník."
+
+msgid "crs_subscription_min_members"
+msgstr "Minimální počet"
+
+msgid "crs_subscription_min_members_err"
+msgstr "Minimální počet nesmí být větší než maximální počet účastníků."
+
+msgid "crs_subscription_min_members_info"
+msgstr "Viz cronová úloha „Limit zrušení“."
+
+msgid "crs_subscription_options_confirmation"
+msgstr "Požadavek členství"
+
+msgid "crs_subscription_options_direct"
+msgstr "Přímá registrace"
+
+msgid "crs_subscription_options_password"
+msgstr "Registrace s heslem kurzu"
+
+msgid "crs_subscription_successful"
+msgstr "Byl(a) jste zařazen(a) do tohoto kurzu"
+
+msgid "crs_sure_delete_selected_archives"
+msgstr "Určitě chcete smazat vybrané archívy"
+
+msgid "crs_syllabus"
+msgstr "Osnova"
+
+msgid "crs_sys_default"
+msgstr "Výchozí systém"
+
+msgid "crs_table_start_objects"
+msgstr "Startovní objekty"
+
+#, fuzzy
+msgid "crs_target_group"
+msgstr "Target Group"
+
+msgid "crs_tile_and_objective_view_not_supported"
+msgstr "Nelze současně aktivovat „Prezentaci dlaždic“ a „Prezentaci cílů učení“."
+
+msgid "crs_tile_and_session_limit_not_supported"
+msgstr "Nelze současně aktivovat „Prezentaci dlaždic“ a „Omezení relace“."
+
+#, fuzzy
+msgid "crs_timing_err_start_end"
+msgstr "The end date must be greater than or equals the start date."
+
+msgid "crs_timings_activate_optional"
+msgstr "Volitelný režim pro časování kurzu"
+
+msgid "crs_timings_activate_optional_own"
+msgstr "Volitelný režim pro moje časování kurzu"
+
+msgid "crs_timings_availability_enabled"
+msgstr "Dočasně dostupné"
+
+msgid "crs_timings_changeable"
+msgstr "Změnitelný cílový čas"
+
+msgid "crs_timings_changed"
+msgstr "Časování modifikováno"
+
+msgid "crs_timings_days_after_subsription"
+msgstr "Den (dny) po předplatném kurzu"
+
+msgid "crs_timings_disabled"
+msgstr "Časování vypnuto"
+
+msgid "crs_timings_disabled_info"
+msgstr "Vyberte tuto volbu pro vypnutí jakéhokoliv časování."
+
+msgid "crs_timings_early_begin"
+msgstr "Nejčasnější start"
+
+msgid "crs_timings_edit_personal"
+msgstr "Upravit osobní časování"
+
+msgid "crs_timings_end"
+msgstr "Čas ukončení"
+
+msgid "crs_timings_from_until"
+msgstr "(od/do)"
+
+msgid "crs_timings_in_days"
+msgstr "(ve dnech)"
+
+msgid "crs_timings_info_active"
+msgstr "(Aktivní)"
+
+msgid "crs_timings_not_changed"
+msgstr "Časování nebylo modifikováno"
+
+msgid "crs_timings_optional_checked"
+msgstr "Pro tohoto uživatele byl aktivován volitelný režim"
+
+msgid "crs_timings_optional_off"
+msgstr "Volitelný režim není aktivní."
+
+msgid "crs_timings_optional_on"
+msgstr "Volitelný režim je aktivní."
+
+msgid "crs_timings_optional_on_and_passed"
+msgstr "Volitelný režim je aktivní a nelze jej změnit, protože uživatel je schválen."
+
+msgid "crs_timings_optional_unchecked"
+msgstr "Pro tohoto uživatele byl deaktivován volitelný režim"
+
+msgid "crs_timings_planed_info"
+msgstr "Plánovaný čas editace"
+
+msgid "crs_timings_planned_start"
+msgstr "Plánován"
+
+msgid "crs_timings_presetting"
+msgstr "Cílový čas zapnut"
+
+msgid "crs_timings_short_active"
+msgstr "Zapnuto"
+
+msgid "crs_timings_short_active_tt"
+msgstr "Aktivovat časování"
+
+msgid "crs_timings_short_changeable"
+msgstr "Změnitelné"
+
+msgid "crs_timings_short_end"
+msgstr "Datum ukončení"
+
+msgid "crs_timings_short_limit_start_end"
+msgstr "Poslední datum ukončení"
+
+msgid "crs_timings_short_limit_start_end_tt"
+msgstr "Konec nejpozději"
+
+msgid "crs_timings_short_limit_start_end_tt_rel"
+msgstr "Konec nejpozději ve dnech po předplatném kurzu"
+
+msgid "crs_timings_short_start_end"
+msgstr "Návrh"
+
+msgid "crs_timings_short_start_end_rel"
+msgstr "Doporučený začátek (ve dnech)"
+
+msgid "crs_timings_short_start_end_tt"
+msgstr "Doporučený začátek"
+
+msgid "crs_timings_short_start_end_tt_rel"
+msgstr "Doporučený začátek po předplatném kurzu"
+
+msgid "crs_timings_start"
+msgstr "Čas spuštění"
+
+msgid "crs_timings_start_end_info"
+msgstr "(Start/Konec)"
+
+msgid "crs_timings_sug_begin"
+msgstr "Doporučený začátek"
+
+msgid "crs_timings_sug_end"
+msgstr "Doporučený konec"
+
+msgid "crs_timings_suggested_info"
+msgstr "Doporučený čas editace"
+
+msgid "crs_timings_time_frame"
+msgstr "Časový rámec"
+
+msgid "crs_timings_time_frame_tt"
+msgstr "Časový rámec ve dnech"
+
+msgid "crs_timings_update_error"
+msgstr "Vaše nastavení není platné, ověřte prosím časování po následující materiály kurzu:"
+
+msgid "crs_timings_warning_timing_exists"
+msgstr "Pro tento objekt jsou konfigurována časování. Pokud aktivujete nastavení dostupnosti, budou znovu obnovena tato nastavení časování."
+
+msgid "crs_to"
+msgstr "Do:"
+
+msgid "crs_tutor"
+msgstr "Lektor"
+
+msgid "crs_tutors"
+msgstr "Lektoři"
+
+msgid "crs_unblocked"
+msgstr "Volný vstup"
+
+msgid "crs_unblocked_member"
+msgstr "Přístup povolen do kurzu \"%s\""
+
+msgid "crs_unblocked_member_body"
+msgstr "Vaše členství v kurzu \"%s\" bylo obnoveno."
+
+msgid "crs_unlimited"
+msgstr "Neomezeno"
+
+msgid "crs_unsubscribe_member"
+msgstr "Vaše ukončení členství v kurzu \"%s\""
+
+msgid "crs_unsubscribe_member_body"
+msgstr "Potvrzujeme Vaše ukončení členství v kurzu \"%s\". Doufáme, že najdete příležitost zúčastnit se jiného kurzu."
+
+msgid "crs_unsubscribe_member_explanation"
+msgstr "Dostanete tuto zprávu, protože jste se odhlásili z výše uvedeného kurzu."
+
+msgid "crs_unsubscribe_sure"
+msgstr "Chcete se odhlásit z tohoto kurzu?"
+
+msgid "crs_unsubscribed_from_crs"
+msgstr "Byl(a) jste odhlášen(a) z tohoto kurzu."
+
+msgid "crs_update_subscr_request"
+msgstr "Aktualizovat požadavek členství"
+
+msgid "crs_user_agreement"
+msgstr "Uvolněné typy dat"
+
+msgid "crs_user_agreement_info"
+msgstr "Viditelné osobní data pro administrátory kurzů"
+
+msgid "crs_user_already_assigned"
+msgstr "Vybraný uživatel je již do daného kurzu zařazen."
+
+msgid "crs_users_added"
+msgstr "Uživatel přidán do kurzu"
+
+msgid "crs_users_already_assigned"
+msgstr "Tento uživatel je již do tohoto kurzu zařazen"
+
+msgid "crs_users_removed_from_list"
+msgstr "Vybraní uživatelé byli odstranění ze seznamu čekatelů"
+
+msgid "crs_usr_agreement"
+msgstr "Uživatelská smlouva"
+
+msgid "crs_view_info_objective"
+msgstr "Tento mód prezentace je použit pro prezentaci cílů výuky."
+
+msgid "crs_view_info_timing"
+msgstr "Mód prezentace časového přednastavení."
+
+msgid "crs_view_info_timing_absolute"
+msgstr "Datum zahájení a ukončení bude nastaveno na absolutní hodnotu."
+
+msgid "crs_view_info_timing_relative"
+msgstr "Datum zahájení a ukončení bude nastaveno vzhledem k datu předplatného."
+
+msgid "crs_view_mode"
+msgstr "Prezentace kurzu"
+
+msgid "crs_view_objective"
+msgstr "Zobrazení cílů výuky"
+
+msgid "crs_view_timing"
+msgstr "Zobrazení časování"
+
+msgid "crs_view_timing_absolute"
+msgstr "Absolutní data"
+
+msgid "crs_view_timing_relative"
+msgstr "Relativní data"
+
+msgid "crs_view_timings"
+msgstr "Typ zobrazení časování"
+
+#, fuzzy
+msgid "crs_visibility"
+msgstr "Visibility"
+
+msgid "crs_visibility_limitless"
+msgstr "Neomezeno"
+
+msgid "crs_visibility_until"
+msgstr "Dočasně viditelné"
+
+msgid "crs_visibility_until_info"
+msgstr "Kurz bude pro členy viditelný v určitém časovém období."
+
+#, fuzzy
+msgid "crs_visibility_unvisible"
+msgstr "The course is not visible."
+
+msgid "crs_wait_info"
+msgstr "Pokud je zapnuto a maximální počet uživatelů je překročen, nové registrace budou umístěny na seznam čekatelů."
+
+msgid "crs_waiting_list"
+msgstr "Seznam čekatelů"
+
+msgid "crs_waiting_list_autofill"
+msgstr "S funkcí Auto-Fill"
+
+msgid "crs_waiting_list_autofill_info"
+msgstr "Účastníci jsou automaticky vybíráni z pořadníku při zrušení."
+
+msgid "crs_waiting_list_no_autofill"
+msgstr "Bez funkce Auto-Fill"
+
+msgid "crs_warn_no_max_set_on_waiting_list"
+msgstr "Maximální pořet členů kurzu již byl dosažen. Můžete svůj požadavek připojit na seznam čekatelů. Od správce kurzu obdržíte zprávu, zda byla Vaše žádost přijata, nebo zamítnuta."
+
+msgid "crs_warn_wl_set_on_waiting_list"
+msgstr "Někteří uživatelé jsou zapsáni na seznam čekatelů. Svůj požadavek můžete přidat na seznam čekatelů. Od správce kurzu obdržíte zprávu, zda byl Váš požadavek přijat nebo zamítnut."
+
+msgid "crs_wiz_back"
+msgstr "Zpět"
+
+msgid "crs_wiz_next"
+msgstr "Uložit"
+
+msgid "crs_xml"
+msgstr "XML"
+
+msgid "edit_timings_list"
+msgstr "Upravit časování"
+
+msgid "event"
+msgstr "Sezení"
+
+msgid "event_add_new_event"
+msgstr "Nové sezení přidáno"
+
+msgid "event_assign_materials_info"
+msgstr "Přidělené materiály kurzu budou zobrazeny přímo pod lekcí."
+
+msgid "event_assign_materials_table"
+msgstr "Přidělití materiály kurzu"
+
+msgid "event_blank_columns"
+msgstr "Další sloupce"
+
+msgid "event_btn_add"
+msgstr "Přidat sezení"
+
+msgid "event_btn_add_edit"
+msgstr "Přidat sezení a určení materiálů"
+
+msgid "event_csv_export"
+msgstr "Export CSV"
+
+msgid "event_date_time"
+msgstr "Datum a čas"
+
+msgid "event_desc"
+msgstr "Popis"
+
+msgid "event_details_workflow"
+msgstr "Detaily/Průběh práce"
+
+msgid "event_edit_members"
+msgstr "Upravit účastníky"
+
+msgid "event_etime_smaller_stime"
+msgstr "Konečný čas je dříve než čas startu. Vložte prosím platné časové období."
+
+msgid "event_file"
+msgstr "Soubor"
+
+msgid "event_files"
+msgstr "Přidělené soubory"
+
+msgid "event_fulltime_info"
+msgstr "Žádný čas nespecifikován"
+
+msgid "event_lecturer"
+msgstr "Jméno"
+
+msgid "event_list_registered_only"
+msgstr "Pouze registrovaní členové"
+
+msgid "event_location"
+msgstr "Místo"
+
+msgid "event_materials"
+msgstr "Materiály k sezení"
+
+msgid "event_not_participated"
+msgstr "Neúčastní se"
+
+msgid "event_overview"
+msgstr "Účastníci lekce"
+
+msgid "event_participated"
+msgstr "Zúčastnění"
+
+msgid "event_registered"
+msgstr "Byl jste zaregistrován(a) do této lekce."
+
+msgid "event_section_information"
+msgstr "Informace k sezení"
+
+msgid "event_table_create"
+msgstr "Nové sezení"
+
+msgid "event_table_update"
+msgstr "Upravit sezení"
+
+msgid "event_tbl_admin"
+msgstr "Správce"
+
+msgid "event_tbl_admins"
+msgstr "Správci"
+
+msgid "event_tbl_member"
+msgstr "Člen"
+
+msgid "event_tbl_members"
+msgstr "Členové"
+
+msgid "event_tbl_participated"
+msgstr "Zúčastnění"
+
+msgid "event_tbl_registered"
+msgstr "Zaregistrovaní"
+
+msgid "event_tbl_tutor"
+msgstr "Lektor"
+
+msgid "event_tbl_tutors"
+msgstr "Lektoři"
+
+msgid "event_title"
+msgstr "Název"
+
+msgid "event_tutor_data"
+msgstr "Informace o lektorovi"
+
+msgid "event_unregister"
+msgstr "Zrušit registraci"
+
+msgid "event_unregistered"
+msgstr "Vaše registrace byla zrušena."
+
+msgid "event_updated"
+msgstr "Nastavení uloženo"
+
+msgid "event_user_selection"
+msgstr "Výběr uživatelů"
+
+msgid "event_user_selection_include_filter"
+msgstr "Zahrnout „%1$s“"
+
+msgid "event_user_selection_include_requests"
+msgstr "Zahrnout všechny uživatele na seznamu „Připojit požadavky“"
+
+msgid "event_user_selection_include_role"
+msgstr " Zahrnout všechny uživatele s rolí „%1$s“"
+
+msgid "event_user_selection_include_waiting_list"
+msgstr "Zahrnout všechny uživatele v „Pořadníku“"
+
+msgid "events"
+msgstr "Sezení"
+
+msgid "export_members"
+msgstr "Export účastníků"
+
+msgid "grouping_change_assignment"
+msgstr "Změnit přidělení"
+
+msgid "grp_grp_already_assigned"
+msgstr "Již jste členem tohoto seskupení skupin."
+
+#, fuzzy
+msgid "grp_not_all_users_assigned_msg"
+msgstr "%s user(s) assigned as group member(s), %s user(s) were already in the group."
+
+msgid "mem_cron_min_members_intro"
+msgstr "Následující kurzy a skupiny (ještě) nesplňují minimální počet členů."
+
+msgid "mem_cron_min_members_reason"
+msgstr "Dostanete tuto zprávu, protože jste aktivovali oznámení v záložce členové."
+
+msgid "mem_cron_min_members_subject"
+msgstr "Kurz/skupina: Kontrola minimálního počtu členů"
+
+msgid "mem_cron_min_members_task"
+msgstr "Informujte účastníky, pokud se kurz neuskuteční z důvodu nedostatečného počtu účastníků. Potom upravte nastavení."
+
+#, fuzzy
+msgid "obj_count_members"
+msgstr "Number of members"
+
+msgid "sess_attendance_list"
+msgstr "Seznam účasti"
+
+msgid "sess_gen_attendance_list"
+msgstr "Vytvořit seznam účastníků"
+
+msgid "sess_join_info"
+msgstr "Pokud se chcete účastnit lekce, klepněte prosím na tlačítko \"Připojit\"."
+
+msgid "sess_limit"
+msgstr "Omezený počet schůzek"
+
+msgid "sess_limit_info"
+msgstr "Vyberte tuto možnost, pokud chcete omezit počet viditelných relací"
+
+msgid "sess_num_next"
+msgstr "Počet následujících sezení"
+
+msgid "sess_num_prev"
+msgstr "Počet minulých sezení"
+
+msgid "sess_print_attendance_list"
+msgstr "Vytisknout seznam"
+
+msgid "sess_signature"
+msgstr "Podpis"
+
+msgid "subscription_times_not_valid"
+msgstr "Období registrace není platné."
+
+msgid "timing_accept_table"
+msgstr "Plánování výuky: poznámky"
+
+msgid "timing_accepted"
+msgstr "Přijato"
+
+msgid "timing_not_accepted"
+msgstr "Nepřijato"
+
+msgid "timing_remark"
+msgstr "Poznámky"
+
+msgid "timing_tutor_visible"
+msgstr "Poznámky jsou viditelné pro lektory kurzu"
+
+msgid "timing_user_accept"
+msgstr "Přijmout plánování"
+
+msgid "timing_user_accepted"
+msgstr "Plánování přijato"
+
+msgid "timings"
+msgstr "Plánování"
+
+#, fuzzy
+msgid "timings_cron_reminder_exceeded_start"
+msgstr "Der Bearbeitungszeitraum ist überfällig bei:"
+
+#, fuzzy
+msgid "timings_cron_reminder_exceeded_subject"
+msgstr "Sie haben den Bearbeitungszeitraum überschritten"
+
+#, fuzzy
+msgid "timings_cron_reminder_freshly_start"
+msgstr "Der Bearbeitungszeitraum hat begonnen bei:"
+
+#, fuzzy
+msgid "timings_cron_reminder_started_subject"
+msgstr "Der Bearbeitungszeitraum hat begonnen"
+
+msgid "timings_edit"
+msgstr "Upravit plánování"
+
+msgid "timings_of"
+msgstr "Plánování vypnuto"
+
+#, fuzzy
+msgid "timings_reminder_notifications"
+msgstr "Course Timings Notifications"
+
+#, fuzzy
+msgid "timings_reminder_notifications_info"
+msgstr "If enabled, course participants will be notified about exceeded timing materials."
+
+msgid "timings_timings"
+msgstr "Plánování"
+
+msgid "timings_timings_off"
+msgstr "Přepnout správu plánování - vypnuto"
+
+msgid "timings_timings_on"
+msgstr "Přepnout správu plánování - zapnuto"
+
+msgid "timings_usr_edit"
+msgstr "Upravit plánování"
+
+msgid "tutor_email"
+msgstr "Email"
+
+msgid "tutor_name"
+msgstr "Jméno"
+
+msgid "tutor_phone"
+msgstr "Telefon"
+
+#, fuzzy
+msgid "tutorial_support_block_byline"
+msgstr "The 'Tutorial Support' block is displayed in the 'Contents' tab. The user selected as \"Contact Person\" in the \"Members\" Tab is shown."
+
+#, fuzzy
+msgid "tutorial_support_block_contact"
+msgstr "Contact"
+
+#, fuzzy
+msgid "tutorial_support_block_send_mail"
+msgstr "send email"
+
+#, fuzzy
+msgid "tutorial_support_block_setting_desc"
+msgstr "The 'Tutorial Support' block is displayed in the 'Contents' tab."
+
+#, fuzzy
+msgid "tutorial_support_block_setting_title"
+msgstr "Tutorial Support Block"
+
+#, fuzzy
+msgid "tutorial_support_block_title"
+msgstr "Contact Person"
+
+msgid "user_fields"
+msgstr "Uživatelská pole"
