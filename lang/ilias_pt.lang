@@ -4207,11 +4207,6 @@ common#:#zip#:#Definições do módulo de aprendizagem
 common#:#zip_structure_error#:#Definições
 common#:#zip_test_failed#:#Teste Zip falhou. Entre em contacto com o seu administrador ILIAS.
 common#:#zipcode#:#Idioma usado para textos predefinidos, p. ex. "Anterior" e "Próximo".
-mem#:#mem_period_without_time#:#Without Time Indication###07 02 2020 new variable
-mem#:#mem_print_view_form#:#Definições padrão para vista da impressão
-mem#:#mem_settings_tab_print_view#:#Definição da vista da impressão
-mem#:#mem_settings_tab_settings#:#Definições gerais
-mem#:#mmbr_gallery_user_actions#:#Define o tamanho mínimo das palavras-passe da conta. Se estiver definido para 0, as palavras-passe têm de ter sempre um tamanho mínimo de 1. Se o comprimento exigido for alterado, o novo requisito é aplicado apenas a essas contas que foram criadas ou alteradas depois de ter sido definido um novo comprimento. As contas existentes não são afetadas.
 noti#:#noti_activate_notification#:#Se estiver ativado, a pesquisa do utilizador vai mostrar utilizadores inativos também.
 noti#:#noti_deactivate_notification#:#Mostrar utilizadores com acesso limitado
 noti#:#noti_notification_activated#:#Se estiver ativado, a pesquisa do utilizador mostra também utilizadores com acesso limitado fora desse período de tempo autorizado.

@@ -4230,11 +4230,6 @@ common#:#zip#:#Zip Code / Post Code
 common#:#zip_structure_error#:#Archive contains same file names. Upload aborted.
 common#:#zip_test_failed#:#Zip-Test failed. Please contact you ILIAS administrator.
 common#:#zipcode#:#Zip Code / Post Code
-mem#:#mem_period_without_time#:#Without Time Indication
-mem#:#mem_print_view_form#:#Default Settings for Print View
-mem#:#mem_settings_tab_print_view#:#Print View Settings
-mem#:#mem_settings_tab_settings#:#General Settings
-mem#:#mmbr_gallery_user_actions#:#Member Gallery Actions
 noti#:#noti_activate_notification#:#Activate Notification
 noti#:#noti_deactivate_notification#:#Deactivate Notification
 noti#:#noti_notification_activated#:#Notification Activated

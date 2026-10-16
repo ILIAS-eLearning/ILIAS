@@ -4222,11 +4222,6 @@ common#:#zip#:#Código Postal
 common#:#zip_structure_error#:#El archivo contiene nombres de archivo idénticos. Carga abortada.
 common#:#zip_test_failed#:#La prueba de Zip ha fallado. Por favor, contacte con su administrador de ILIAS.
 common#:#zipcode#:#Código Postal
-mem#:#mem_period_without_time#:#Sin indicación de hora
-mem#:#mem_print_view_form#:#Configuración predeterminada para la vista de impresión
-mem#:#mem_settings_tab_print_view#:#Ajustes de la vista de impresión
-mem#:#mem_settings_tab_settings#:#Ajustes generales
-mem#:#mmbr_gallery_user_actions#:#Acciones de la galería de miembros
 noti#:#noti_activate_notification#:#Activar notificación
 noti#:#noti_deactivate_notification#:#Desactivar notificación
 noti#:#noti_notification_activated#:#Notificación activada

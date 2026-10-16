@@ -4220,11 +4220,6 @@ common#:#zip#:#Irányítószám / Postafiók
 common#:#zip_structure_error#:#Az archívum fájl azonos nevű fájlokat tartalmaz. A feltöltés megszakadt.
 common#:#zip_test_failed#:#ZIP tesztelése sikertelen. Lépjen kapcsolatba egy rendszergazdával.
 common#:#zipcode#:#Irányítószám / Postafiók
-mem#:#mem_period_without_time#:#Időjelzés nélkül
-mem#:#mem_print_view_form#:#Nyomtatási nézet alapértelmezett beállításai
-mem#:#mem_settings_tab_print_view#:#Nyomtatási nézet beállításai
-mem#:#mem_settings_tab_settings#:#Általános beállítások
-mem#:#mmbr_gallery_user_actions#:#Műveletek a tagok képgalériájában
 noti#:#noti_activate_notification#:#Értesítés bekapcsolása
 noti#:#noti_deactivate_notification#:#Értesítés kikapcsolása
 noti#:#noti_notification_activated#:#Az értesítőt sikeresen bekapcsolta

@@ -4213,11 +4213,6 @@ common#:#zip#:#Kod pocztowy
 common#:#zip_structure_error#:#W archiwum znajdują się pliki o tej samej nazwie. Proces pobierania został przerwany
 common#:#zip_test_failed#:#Nie udało się przeprowadzić testu ZIP. Skontaktuj się z administratorem ILIAS.
 common#:#zipcode#:#Kod pocztowy
-mem#:#mem_period_without_time#:#Without Time Indication###07 02 2020 new variable
-mem#:#mem_print_view_form#:#Ustawienia domyślne dla podglądu wydruku
-mem#:#mem_settings_tab_print_view#:#Ustawienia dotyczące podglądu wydruku
-mem#:#mem_settings_tab_settings#:#Ustawienia ogólne
-mem#:#mmbr_gallery_user_actions#:#Działania użytkowników w galerii członków
 noti#:#noti_activate_notification#:#Activate Notification
 noti#:#noti_deactivate_notification#:#Deactivate Notification
 noti#:#noti_notification_activated#:#Notification Activated
