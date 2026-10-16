@@ -1622,37 +1622,6 @@ assessment#:#worked_through#:#Dolgozott rajta
 assessment#:#working_time#:#Megoldási idő
 assessment#:#you_received_a_of_b_points#:#Ön %s pontot kapott a lehetséges %s pontból
 assessment#:#your_results#:#Eredményeim
-background_tasks#:#abort#:#Megállított
-background_tasks#:#background_tasks#:#Háttérfolyamatok
-background_tasks#:#background_tasks_running#:#Háttérfolyamatok
-background_tasks#:#completed#:#Befejeződött
-background_tasks#:#proceed_job#:#Folytatás
-background_tasks#:#scheduled#:#Időzített
-background_tasks#:#task_might_be_failed#:#Ez a folyamat egy ideje nem válaszol, ha szükséges, bezárhatja.
-background_tasks#:#ui_msg_files_violate_maxsize#:#A letöltés mérete meghaladja az engedélyezett maximumot. A letöltést megszakadt.
-background_tasks#:#ui_msg_no_files_found#:#Egy fájlt sem találtunk. A letöltést megszakadt.
-background_tasks#:#ui_msg_num_files#:#%s fájlt találtunk a letöltéshez, biztos, hogy folytatja?
-background_tasks#:#ui_msg_sum_file_sizes#:#A letöltés mérete a zip készítése előtt %s. Biztos, hogy folytatja?
-background_tasks#:#waiting#:#Várakozó
-bgtask#:#bgtask_blocked#:#Egyidejű letöltés
-bgtask#:#bgtask_blocked_cancel_new#:#Új letöltés megszakítása
-bgtask#:#bgtask_blocked_cancel_old#:#Meglévő letöltés megszakítása
-bgtask#:#bgtask_blocked_info#:#Már folyamatban van egy letöltése.
-bgtask#:#bgtask_cron_gc_desc#:#Háttérfolyamatok által létrehozott elavult fájlok törlése.
-bgtask#:#bgtask_cron_gc_title#:#Szemétgyűjtő háttérfolyamat
-bgtask#:#bgtask_download_long#:#A letöltés %1$s darab fájllal (%2$s) egy ideig eltarthat.
-bgtask#:#bgtask_download_too_large#:#A letöltés átlépi a korlátot (%s).
-bgtask#:#bgtask_empty_folder#:#A jelenlegi kiválasztása nem tartalmaz letölthető objektumokat.
-bgtask#:#bgtask_failure#:#Hiba
-bgtask#:#bgtask_processing#:#Letöltés létrehozása
-bgtask#:#bgtask_setting#:#‘Letöltés háttérben’ bekapcsolása
-bgtask#:#bgtask_setting_info#:#A ZIP fájl létrehozása aszinkron módon történik, bármikor megszakítható.
-bgtask#:#bgtask_setting_limit#:#Globális korlát
-bgtask#:#bgtask_setting_limit_info#:#Letöltés csak akkor lehetséges, ha a fájlok összmérete ezen érték alatt van MB-ban.
-bgtask#:#bgtask_setting_threshold_count#:#Minimális szám
-bgtask#:#bgtask_setting_threshold_count_info#:#Ha a fájlok száma meghaladja ezt az értéket, a letöltés aszinkron lesz.
-bgtask#:#bgtask_setting_threshold_size#:#Minimális méret
-bgtask#:#bgtask_setting_threshold_size_info#:#Ha a fájlméret meghaladja ezt az értéket, a letöltés aszinkron lesz.
 common#:#HH#:#ÓÓ:PP
 common#:#absolute_path#:#Abszolút elérési út
 common#:#accept_usr_agreement_btn#:#Elfogadás

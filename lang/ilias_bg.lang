@@ -1619,37 +1619,6 @@ assessment#:#worked_through#:#Answered###25 02 2007 new variable
 assessment#:#working_time#:#Време за работа
 assessment#:#you_received_a_of_b_points#:#Получили сте %s от %s възможни точки
 assessment#:#your_results#:#Your Results###28 10 2024 new variable
-background_tasks#:#abort#:#Прекратяване
-background_tasks#:#background_tasks#:#Задачи на заден план
-background_tasks#:#background_tasks_running#:#Забавени задачи
-background_tasks#:#completed#:#Завършено
-background_tasks#:#proceed_job#:#Продължете
-background_tasks#:#scheduled#:#Планирано
-background_tasks#:#task_might_be_failed#:#Тази задача не е отговорила за известно време, можете да я прекратите, ако е необходимо.
-background_tasks#:#ui_msg_files_violate_maxsize#:#Общият размер на изтеглянето нарушава глобалното ограничение. Изтеглянето ще бъде прекъснато.
-background_tasks#:#ui_msg_no_files_found#:#Няма намерени файлове. Изтеглянето ще бъде прекъснато.
-background_tasks#:#ui_msg_num_files#:#%s file(-s) were detected for download, do you want to continue?
-background_tasks#:#ui_msg_sum_file_sizes#:#Общият размер на изтеглянето преди създаването на zip-папка е %s. Искате ли да продължите?
-background_tasks#:#waiting#:#В очакване
-bgtask#:#bgtask_blocked#:#Присъстващо изтегляне
-bgtask#:#bgtask_blocked_cancel_new#:#Отмяна на ново изтегляне
-bgtask#:#bgtask_blocked_cancel_old#:#Отмяна на съществуващо изтегляне
-bgtask#:#bgtask_blocked_info#:#За вас вече има обработено изтегляне.
-bgtask#:#bgtask_cron_gc_desc#:#Изтрива остарели файлове, които са били създадени от фонови задачи.
-bgtask#:#bgtask_cron_gc_title#:#Събиране на боклука на фонова задача
-bgtask#:#bgtask_download_long#:#Обработката на изтеглянето с %1$s файлове (%2$s) може да отнеме известно време.
-bgtask#:#bgtask_download_too_large#:#Изтеглянето надхвърля ограничението за размер от %s.
-bgtask#:#bgtask_empty_folder#:#Настоящата селекция не включва съдържание за изтегляне.
-bgtask#:#bgtask_failure#:#Грешка
-bgtask#:#bgtask_processing#:#Създаване на изтегляне
-bgtask#:#bgtask_setting#:#"Изтегляне на заден план" разрешено
-bgtask#:#bgtask_setting_info#:#Създаването на ZIP архива се извършва асинхронно и може да бъде отменено по всяко време.
-bgtask#:#bgtask_setting_limit#:#Глобален лимит
-bgtask#:#bgtask_setting_limit_info#:#Изтеглянето е възможно само ако сумата от размерите на файловете е под тази стойност.
-bgtask#:#bgtask_setting_threshold_count#:#Минимален брой
-bgtask#:#bgtask_setting_threshold_count_info#:#Ако броят на файловете надвиши тази стойност, изтеглянето ще се извърши асинхронно.
-bgtask#:#bgtask_setting_threshold_size#:#Минимален размер
-bgtask#:#bgtask_setting_threshold_size_info#:#Ако размерите на файловете надхвърлят тази стойност, изтеглянето ще се извърши асинхронно.
 common#:#HH#:#ЧЧ:ММ###22 06 2022 new variable
 common#:#absolute_path#:#Абсолютен път до файл
 common#:#accept_usr_agreement_btn#:#Accept###29 07 2022 new variable

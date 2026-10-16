@@ -1619,37 +1619,6 @@ assessment#:#worked_through#:#Skompletowane
 assessment#:#working_time#:#Czas pracy
 assessment#:#you_received_a_of_b_points#:#Otrzymałeś %s z %s możliwych punktów.
 assessment#:#your_results#:#Your Results###28 10 2024 new variable
-background_tasks#:#abort#:#Przerwij
-background_tasks#:#background_tasks#:#Zadania w tle
-background_tasks#:#background_tasks_running#:#Zadania w tle
-background_tasks#:#completed#:#Skończony
-background_tasks#:#proceed_job#:#Dalej
-background_tasks#:#scheduled#:#Planowany
-background_tasks#:#task_might_be_failed#:#To zadanie od dłuższej chwili nie odpowiada, możesz je zakończyć, jeśli jest to konieczne.
-background_tasks#:#ui_msg_files_violate_maxsize#:#The total download size violates the global limit. The download will be aborted.###07 02 2020 new variable
-background_tasks#:#ui_msg_no_files_found#:#No files have been found. The download will be aborted.###07 02 2020 new variable
-background_tasks#:#ui_msg_num_files#:#%s file(-s) were detected for download, do you want to continue?###07 02 2020 new variable
-background_tasks#:#ui_msg_sum_file_sizes#:#The total download size before creating the zip-folder is %s. Do you want to continue?###07 02 2020 new variable
-background_tasks#:#waiting#:#Czekaj
-bgtask#:#bgtask_blocked#:#Bieżące pobieranie
-bgtask#:#bgtask_blocked_cancel_new#:#Przerwij nowe pobieranie
-bgtask#:#bgtask_blocked_cancel_old#:#Przerwij bieżące pobieranie
-bgtask#:#bgtask_blocked_info#:#Twój proces pobierania jest w toku.
-bgtask#:#bgtask_cron_gc_desc#:#Usuwa już niepotrzebne pliki, które zostały utworzone w ramach procesów realizowanych w tle.
-bgtask#:#bgtask_cron_gc_title#:#Usuwanie zadań realizowanych w tle
-bgtask#:#bgtask_download_long#:#Pobieranie %1$s plików (%2$s) trochę potrwa.
-bgtask#:#bgtask_download_too_large#:#Pobierane elementy przekraczają limit %s.
-bgtask#:#bgtask_empty_folder#:#Wybór nie zawiera żadnych obiektów, które można pobrać.
-bgtask#:#bgtask_failure#:#Błędy
-bgtask#:#bgtask_processing#:#Rozpocznij pobieranie
-bgtask#:#bgtask_setting#:#Aktywuj «Pobierz w tle»
-bgtask#:#bgtask_setting_info#:#Plik ZIP generowany jest asynchronicznie. Ten proces można w każdej chwili przerwać.
-bgtask#:#bgtask_setting_limit#:#Globalny limit
-bgtask#:#bgtask_setting_limit_info#:#Pobieranie możliwe jest tylko wtedy, jeśli maksymalny łączny rozmiar plików nie przekracza tej wartości.
-bgtask#:#bgtask_setting_threshold_count#:#Minimalna liczba
-bgtask#:#bgtask_setting_threshold_count_info#:#Od tej wartości pobieranie odbywa się asynchronicznie.
-bgtask#:#bgtask_setting_threshold_size#:#Minimalny rozmiar
-bgtask#:#bgtask_setting_threshold_size_info#:#Od tego rozmiaru pobieranie odbywa się asynchronicznie.
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Ścieżka bezwzględna
 common#:#accept_usr_agreement_btn#:#Accept###29 07 2022 new variable

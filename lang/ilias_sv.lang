@@ -1619,37 +1619,6 @@ assessment#:#worked_through#:#Editerad
 assessment#:#working_time#:#Bearbetningstid
 assessment#:#you_received_a_of_b_points#:#Du har uppnått %s av %s möjliga poäng.
 assessment#:#your_results#:#Your Results###28 10 2024 new variable
-background_tasks#:#abort#:#Avbryt
-background_tasks#:#background_tasks#:#Bakgrundsuppgifter
-background_tasks#:#background_tasks_running#:#Bakgrundsuppgifter
-background_tasks#:#completed#:#Fullbordad
-background_tasks#:#proceed_job#:#Fortsättning
-background_tasks#:#scheduled#:#Planerad
-background_tasks#:#task_might_be_failed#:#Den här uppgiften har inte besvarats på ett tag, du kan stoppa den om det behövs.
-background_tasks#:#ui_msg_files_violate_maxsize#:#Den totala nedladdningsstorleken överskrider den globala gränsen. Nedladdningen avbryts.
-background_tasks#:#ui_msg_no_files_found#:#Inga filer hittades. Nedladdningen har avbrutits.
-background_tasks#:#ui_msg_num_files#:#%s fil(er) har hittats, vill du fortsätta?
-background_tasks#:#ui_msg_sum_file_sizes#:#Den totala nedladdningsstorleken innan zip-mappen skapas är %s. Vill du fortsätta?
-background_tasks#:#waiting#:#Väntar
-bgtask#:#bgtask_blocked#:#Running nedladdning
-bgtask#:#bgtask_blocked_cancel_new#:#Avbryt ny nedladdning
-bgtask#:#bgtask_blocked_cancel_old#:#Avbryt pågående nedladdning
-bgtask#:#bgtask_blocked_info#:#En nedladdning genereras redan åt dig.
-bgtask#:#bgtask_cron_gc_desc#:#Raderar filer som skapats av bakgrundsprocesser och som inte längre behövs.
-bgtask#:#bgtask_cron_gc_title#:#Bakgrundsuppgifter Uppstädning
-bgtask#:#bgtask_download_long#:#Det tar lite tid att skapa nedladdningen med %1$s filer (%2$s).
-bgtask#:#bgtask_download_too_large#:#Nedladdningen överskrider gränsen för %s.
-bgtask#:#bgtask_empty_folder#:#Urvalet innehåller inga objekt som kan laddas ner.
-bgtask#:#bgtask_failure#:#Fel
-bgtask#:#bgtask_processing#:#Create nedladdning
-bgtask#:#bgtask_setting#:#Activate "Ladda ner i bakgrunden
-bgtask#:#bgtask_setting_info#:#Skapandet av ZIP-filen sker asynkront och kan avbrytas när som helst.
-bgtask#:#bgtask_setting_limit#:#Global gräns
-bgtask#:#bgtask_setting_limit_info#:#En nedladdning är endast möjlig om den maximala summan av filstorlekarna inte överstiger värdet.
-bgtask#:#bgtask_setting_threshold_count#:#Minsta antal
-bgtask#:#bgtask_setting_threshold_count_info#:#Från och med detta värde sker nedladdningen asynkront.
-bgtask#:#bgtask_setting_threshold_size#:#Minsta storlek
-bgtask#:#bgtask_setting_threshold_size_info#:#Från denna storlek och uppåt är nedladdningen asynkron.
 common#:#HH#:#SS
 common#:#absolute_path#:#Absolut väg
 common#:#accept_usr_agreement_btn#:#Agree

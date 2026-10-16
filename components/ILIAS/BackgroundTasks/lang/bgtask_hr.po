@@ -1,0 +1,66 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: bgtask\n"
+
+msgid "bgtask_blocked"
+msgstr "Concurrent download"
+
+msgid "bgtask_blocked_cancel_new"
+msgstr "Cancel new download"
+
+msgid "bgtask_blocked_cancel_old"
+msgstr "Cancel existing download"
+
+msgid "bgtask_blocked_info"
+msgstr "There is already a download processed for you."
+
+msgid "bgtask_cron_gc_desc"
+msgstr "Deletes obsolete files which were created by background tasks."
+
+msgid "bgtask_cron_gc_title"
+msgstr "Background Task Garbage Collection"
+
+msgid "bgtask_download_long"
+msgstr "The processing of the download with %1$s files (%2$s) might take a while."
+
+msgid "bgtask_download_too_large"
+msgstr "The download surpasses the size limit of %s."
+
+msgid "bgtask_empty_folder"
+msgstr "The current selection does not include any downloadable content."
+
+msgid "bgtask_failure"
+msgstr "Error"
+
+msgid "bgtask_processing"
+msgstr "Creating download"
+
+msgid "bgtask_setting"
+msgstr "«Background download» enabled"
+
+msgid "bgtask_setting_info"
+msgstr "The creation of the ZIP archive is done asynchronously and can be cancelled anytime."
+
+msgid "bgtask_setting_limit"
+msgstr "Global Limit"
+
+msgid "bgtask_setting_limit_info"
+msgstr "A download is only possible if the sum of the file sizes is below this value."
+
+msgid "bgtask_setting_threshold_count"
+msgstr "Minimum Number"
+
+msgid "bgtask_setting_threshold_count_info"
+msgstr "If the number of files exceeds this value the download will be asynchronously."
+
+msgid "bgtask_setting_threshold_size"
+msgstr "Minimum Size"
+
+msgid "bgtask_setting_threshold_size_info"
+msgstr "If the file sizes exceed this value the download will be asynchronously."

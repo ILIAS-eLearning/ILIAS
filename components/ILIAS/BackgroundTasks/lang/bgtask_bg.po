@@ -1,0 +1,66 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: bg\n"
+"Language-Team: Bulgarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: bgtask\n"
+
+msgid "bgtask_blocked"
+msgstr "Присъстващо изтегляне"
+
+msgid "bgtask_blocked_cancel_new"
+msgstr "Отмяна на ново изтегляне"
+
+msgid "bgtask_blocked_cancel_old"
+msgstr "Отмяна на съществуващо изтегляне"
+
+msgid "bgtask_blocked_info"
+msgstr "За вас вече има обработено изтегляне."
+
+msgid "bgtask_cron_gc_desc"
+msgstr "Изтрива остарели файлове, които са били създадени от фонови задачи."
+
+msgid "bgtask_cron_gc_title"
+msgstr "Събиране на боклука на фонова задача"
+
+msgid "bgtask_download_long"
+msgstr "Обработката на изтеглянето с %1$s файлове (%2$s) може да отнеме известно време."
+
+msgid "bgtask_download_too_large"
+msgstr "Изтеглянето надхвърля ограничението за размер от %s."
+
+msgid "bgtask_empty_folder"
+msgstr "Настоящата селекция не включва съдържание за изтегляне."
+
+msgid "bgtask_failure"
+msgstr "Грешка"
+
+msgid "bgtask_processing"
+msgstr "Създаване на изтегляне"
+
+msgid "bgtask_setting"
+msgstr "\"Изтегляне на заден план\" разрешено"
+
+msgid "bgtask_setting_info"
+msgstr "Създаването на ZIP архива се извършва асинхронно и може да бъде отменено по всяко време."
+
+msgid "bgtask_setting_limit"
+msgstr "Глобален лимит"
+
+msgid "bgtask_setting_limit_info"
+msgstr "Изтеглянето е възможно само ако сумата от размерите на файловете е под тази стойност."
+
+msgid "bgtask_setting_threshold_count"
+msgstr "Минимален брой"
+
+msgid "bgtask_setting_threshold_count_info"
+msgstr "Ако броят на файловете надвиши тази стойност, изтеглянето ще се извърши асинхронно."
+
+msgid "bgtask_setting_threshold_size"
+msgstr "Минимален размер"
+
+msgid "bgtask_setting_threshold_size_info"
+msgstr "Ако размерите на файловете надхвърлят тази стойност, изтеглянето ще се извърши асинхронно."

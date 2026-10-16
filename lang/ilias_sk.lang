@@ -1619,37 +1619,6 @@ assessment#:#worked_through#:#Zodpovězeno
 assessment#:#working_time#:#Doba práce
 assessment#:#you_received_a_of_b_points#:#Obdržel(a) jste %s z %s možných bodů
 assessment#:#your_results#:#Your Results###28 10 2024 new variable
-background_tasks#:#abort#:#Abort###23 10 2017 new variable
-background_tasks#:#background_tasks#:#Background Tasks###31 08 2017 new variable
-background_tasks#:#background_tasks_running#:#Running Tasks###31 08 2017 new variable
-background_tasks#:#completed#:#Completed###31 08 2017 new variable
-background_tasks#:#proceed_job#:#Proceed###31 08 2017 new variable
-background_tasks#:#scheduled#:#Scheduled###31 08 2017 new variable
-background_tasks#:#task_might_be_failed#:#This Task has not responded for a while, you can quit it if needed.###23 10 2017 new variable
-background_tasks#:#ui_msg_files_violate_maxsize#:#The total download size violates the global limit. The download will be aborted.###07 02 2020 new variable
-background_tasks#:#ui_msg_no_files_found#:#No files have been found. The download will be aborted.###07 02 2020 new variable
-background_tasks#:#ui_msg_num_files#:#%s file(-s) were detected for download, do you want to continue?###07 02 2020 new variable
-background_tasks#:#ui_msg_sum_file_sizes#:#The total download size before creating the zip-folder is %s. Do you want to continue?###07 02 2020 new variable
-background_tasks#:#waiting#:#Waiting###31 08 2017 new variable
-bgtask#:#bgtask_blocked#:#Concurrent download###25 10 2016 new variable
-bgtask#:#bgtask_blocked_cancel_new#:#Cancel new download###25 10 2016 new variable
-bgtask#:#bgtask_blocked_cancel_old#:#Cancel existing download ###25 10 2016 new variable
-bgtask#:#bgtask_blocked_info#:#There is already a download processed for you.###25 10 2016 new variable
-bgtask#:#bgtask_cron_gc_desc#:#Deletes obsolete files which were created by background tasks.###25 10 2016 new variable
-bgtask#:#bgtask_cron_gc_title#:#Background Task Garbage Collection###25 10 2016 new variable
-bgtask#:#bgtask_download_long#:#The processing of the download with %1$s files (%2$s) might take a while.###25 10 2016 new variable
-bgtask#:#bgtask_download_too_large#:#The download surpasses the size limit of %s.###25 10 2016 new variable
-bgtask#:#bgtask_empty_folder#:#The current selection does not include any downloadable content.###25 10 2016 new variable
-bgtask#:#bgtask_failure#:#Error###25 10 2016 new variable
-bgtask#:#bgtask_processing#:#Creating download###25 10 2016 new variable
-bgtask#:#bgtask_setting#:#«Background download» enabled###25 10 2016 new variable
-bgtask#:#bgtask_setting_info#:#The creation of the ZIP archive is done asynchronously and can be cancelled anytime.###25 10 2016 new variable
-bgtask#:#bgtask_setting_limit#:#Global Limit###25 10 2016 new variable
-bgtask#:#bgtask_setting_limit_info#:#A download is only possible if the sum of the file sizes is below this value.###25 10 2016 new variable
-bgtask#:#bgtask_setting_threshold_count#:#Minimum Number###25 10 2016 new variable
-bgtask#:#bgtask_setting_threshold_count_info#:#If the number of files exceeds this value the download will be asynchronously.###25 10 2016 new variable
-bgtask#:#bgtask_setting_threshold_size#:#Minimum Size###25 10 2016 new variable
-bgtask#:#bgtask_setting_threshold_size_info#:#If the file sizes exceed this value the download will be asynchronously.###25 10 2016 new variable
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Absolutní cesta
 common#:#accept_usr_agreement_btn#:#Accept###29 07 2022 new variable

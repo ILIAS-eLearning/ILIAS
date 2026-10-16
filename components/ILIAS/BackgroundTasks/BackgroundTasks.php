@@ -23,6 +23,8 @@ namespace ILIAS;
 use ILIAS\Component\Component;
 use ILIAS\Setup\Agent;
 use ILIAS\Refinery\Factory;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 
 class BackgroundTasks implements Component
 {
@@ -40,5 +42,13 @@ class BackgroundTasks implements Component
             new \ilBackgroundTasksSetupAgent(
                 $pull[Factory::class]
             );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'bgtask'
+        );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'background_tasks'
+        );
     }
 }

@@ -1,0 +1,66 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: bgtask\n"
+
+msgid "bgtask_blocked"
+msgstr "平行ダウンロード"
+
+msgid "bgtask_blocked_cancel_new"
+msgstr "新しいダウンロードをキャンセル"
+
+msgid "bgtask_blocked_cancel_old"
+msgstr "現在のダウンロードをキャンセル"
+
+msgid "bgtask_blocked_info"
+msgstr "すでにダウンロード進行中のものがあります。"
+
+msgid "bgtask_cron_gc_desc"
+msgstr "バックグラウンドタスクで作成された古いファイルを削除します。"
+
+msgid "bgtask_cron_gc_title"
+msgstr "ゴミ収集バックグラウンドタスク"
+
+msgid "bgtask_download_long"
+msgstr " (%2$s) の%1$sファイルのダウンロード処理はしばらく時間がかかります。"
+
+msgid "bgtask_download_too_large"
+msgstr "ダウンロードは%sのサイズ制限を越えます。"
+
+msgid "bgtask_empty_folder"
+msgstr "現在の選択はダウンロードコンテンツが何も含まれていません。"
+
+msgid "bgtask_failure"
+msgstr "Error"
+
+msgid "bgtask_processing"
+msgstr "ダウンロード作成中"
+
+msgid "bgtask_setting"
+msgstr "バックグラウンドダウンロード' 有効化"
+
+msgid "bgtask_setting_info"
+msgstr "ZIPアーカイブ作成は非同期で行われいつでもキャンセルできます。"
+
+msgid "bgtask_setting_limit"
+msgstr "グローバル制限"
+
+msgid "bgtask_setting_limit_info"
+msgstr "ファイルサイズ合計がこの値よりも低ければダウンロードのみが可能です。"
+
+msgid "bgtask_setting_threshold_count"
+msgstr "最小数"
+
+msgid "bgtask_setting_threshold_count_info"
+msgstr "この値を超えるファイルのいくつかはダウンロードが非同期になります。"
+
+msgid "bgtask_setting_threshold_size"
+msgstr "最小サイズ"
+
+msgid "bgtask_setting_threshold_size_info"
+msgstr "この値を超えるファイルサイズはダウンロードが非同期になります。"

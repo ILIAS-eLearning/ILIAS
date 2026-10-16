@@ -1622,37 +1622,6 @@ assessment#:#worked_through#:#答案済
 assessment#:#working_time#:#答案時間
 assessment#:#you_received_a_of_b_points#:#ポイントは配点%s中の%s です。
 assessment#:#your_results#:#自分の結果
-background_tasks#:#abort#:#強制終了
-background_tasks#:#background_tasks#:#バックグラウンドタスク
-background_tasks#:#background_tasks_running#:#バックグラウンドタスク
-background_tasks#:#completed#:#完了しました
-background_tasks#:#proceed_job#:#続行
-background_tasks#:#scheduled#:#予定
-background_tasks#:#task_might_be_failed#:#このタスクはしばらく応答がありません、必要であれば中止できます。
-background_tasks#:#ui_msg_files_violate_maxsize#:#合計ダウンロードサイズがグローバル制限値を超えています。ダウンロードを中止します。
-background_tasks#:#ui_msg_no_files_found#:#ファイルが見つかりません。ダウンロードを中止します。
-background_tasks#:#ui_msg_num_files#:#ダウンロード用に %s file(-s) が検出されました。継続しますか？
-background_tasks#:#ui_msg_sum_file_sizes#:#Zipフォルダー作成前の郷瑛ダウンロードサイズは %s です。継続しますか?
-background_tasks#:#waiting#:#待ち
-bgtask#:#bgtask_blocked#:#平行ダウンロード
-bgtask#:#bgtask_blocked_cancel_new#:#新しいダウンロードをキャンセル
-bgtask#:#bgtask_blocked_cancel_old#:#現在のダウンロードをキャンセル
-bgtask#:#bgtask_blocked_info#:#すでにダウンロード進行中のものがあります。
-bgtask#:#bgtask_cron_gc_desc#:#バックグラウンドタスクで作成された古いファイルを削除します。
-bgtask#:#bgtask_cron_gc_title#:#ゴミ収集バックグラウンドタスク
-bgtask#:#bgtask_download_long#:# (%2$s) の%1$sファイルのダウンロード処理はしばらく時間がかかります。
-bgtask#:#bgtask_download_too_large#:#ダウンロードは%sのサイズ制限を越えます。
-bgtask#:#bgtask_empty_folder#:#現在の選択はダウンロードコンテンツが何も含まれていません。
-bgtask#:#bgtask_failure#:#Error
-bgtask#:#bgtask_processing#:#ダウンロード作成中
-bgtask#:#bgtask_setting#:#バックグラウンドダウンロード' 有効化
-bgtask#:#bgtask_setting_info#:#ZIPアーカイブ作成は非同期で行われいつでもキャンセルできます。
-bgtask#:#bgtask_setting_limit#:#グローバル制限
-bgtask#:#bgtask_setting_limit_info#:#ファイルサイズ合計がこの値よりも低ければダウンロードのみが可能です。
-bgtask#:#bgtask_setting_threshold_count#:#最小数
-bgtask#:#bgtask_setting_threshold_count_info#:#この値を超えるファイルのいくつかはダウンロードが非同期になります。
-bgtask#:#bgtask_setting_threshold_size#:#最小サイズ
-bgtask#:#bgtask_setting_threshold_size_info#:#この値を超えるファイルサイズはダウンロードが非同期になります。
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#絶対Path
 common#:#accept_usr_agreement_btn#:#承諾

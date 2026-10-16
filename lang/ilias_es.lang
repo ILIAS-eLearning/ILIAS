@@ -1624,37 +1624,6 @@ assessment#:#worked_through#:#Completado
 assessment#:#working_time#:#Tiempo de trabajo
 assessment#:#you_received_a_of_b_points#:#Ha recibido %s de %s puntos posibles
 assessment#:#your_results#:#Mis resultados
-background_tasks#:#abort#:#Abortar
-background_tasks#:#background_tasks#:#Tareas en segundo plano
-background_tasks#:#background_tasks_running#:#Tareas en segundo plano
-background_tasks#:#completed#:#Completado
-background_tasks#:#proceed_job#:#Continuar
-background_tasks#:#scheduled#:#Programado
-background_tasks#:#task_might_be_failed#:#Esta tarea no ha respondido desde hace un tiempo, puedes finalizarla si es necesario.
-background_tasks#:#ui_msg_files_violate_maxsize#:#El tamaño total de descarga supera el límite global. La descarga será cancelada.
-background_tasks#:#ui_msg_no_files_found#:#No se han encontrado archivos. La descarga será cancelada.
-background_tasks#:#ui_msg_num_files#:#Se detectaron %s archivo(s) para descargar, ¿deseas continuar?
-background_tasks#:#ui_msg_sum_file_sizes#:#El tamaño total de la descarga antes de crear la carpeta zip es %s. ¿Deseas continuar?
-background_tasks#:#waiting#:#En espera
-bgtask#:#bgtask_blocked#:#Descarga concurrente
-bgtask#:#bgtask_blocked_cancel_new#:#Cancelar nueva descarga
-bgtask#:#bgtask_blocked_cancel_old#:#Cancelar descarga existente
-bgtask#:#bgtask_blocked_info#:#Ya hay una descarga procesándose para usted.
-bgtask#:#bgtask_cron_gc_desc#:#Elimina archivos obsoletos creados por tareas en segundo plano.
-bgtask#:#bgtask_cron_gc_title#:#Recolección de basura de tareas en segundo plano
-bgtask#:#bgtask_download_long#:#El procesamiento de la descarga con %1$s archivos (%2$s) podría tardar un tiempo.
-bgtask#:#bgtask_download_too_large#:#La descarga supera el límite de tamaño de %s.
-bgtask#:#bgtask_empty_folder#:#La selección actual no incluye ningún contenido descargable.
-bgtask#:#bgtask_failure#:#Error
-bgtask#:#bgtask_processing#:#Creando descarga
-bgtask#:#bgtask_setting#:#"Descarga en segundo plano" activada
-bgtask#:#bgtask_setting_info#:#La creación del archivo ZIP se realiza de forma asíncrona y puede cancelarse en cualquier momento.
-bgtask#:#bgtask_setting_limit#:#Límite global
-bgtask#:#bgtask_setting_limit_info#:#Una descarga solo es posible si la suma de los tamaños de los archivos es inferior a este valor en MB.
-bgtask#:#bgtask_setting_threshold_count#:#Número mínimo
-bgtask#:#bgtask_setting_threshold_count_info#:#Si el número de archivos supera este valor, la descarga será asíncrona.
-bgtask#:#bgtask_setting_threshold_size#:#Tamaño mínimo
-bgtask#:#bgtask_setting_threshold_size_info#:#Si el tamaño de los archivos supera este valor, la descarga será asíncrona.
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Ruta absoluta
 common#:#accept_usr_agreement_btn#:#Aceptar

@@ -1619,37 +1619,6 @@ assessment#:#worked_through#:#Zodpovězeno
 assessment#:#working_time#:#Doba práce
 assessment#:#you_received_a_of_b_points#:#Obdržel(a) jste %s z %s možných bodů
 assessment#:#your_results#:#Your Results###28 10 2024 new variable
-background_tasks#:#abort#:#Přerušit
-background_tasks#:#background_tasks#:#Úlohy na pozadí
-background_tasks#:#background_tasks_running#:#Spuštěné úlohy
-background_tasks#:#completed#:#Dokončeno
-background_tasks#:#proceed_job#:#Pokračovat
-background_tasks#:#scheduled#:#Naplánováno
-background_tasks#:#task_might_be_failed#:#Tato úloha na chvíli neodpovídá, v případě potřeby ji můžete ukončit.
-background_tasks#:#ui_msg_files_violate_maxsize#:#The total download size violates the global limit. The download will be aborted.###07 02 2020 new variable
-background_tasks#:#ui_msg_no_files_found#:#No files have been found. The download will be aborted.###07 02 2020 new variable
-background_tasks#:#ui_msg_num_files#:#%s file(-s) were detected for download, do you want to continue?###07 02 2020 new variable
-background_tasks#:#ui_msg_sum_file_sizes#:#The total download size before creating the zip-folder is %s. Do you want to continue?###07 02 2020 new variable
-background_tasks#:#waiting#:#Čekání
-bgtask#:#bgtask_blocked#:#Souběžné stahování
-bgtask#:#bgtask_blocked_cancel_new#:#Zrušit nové stahování
-bgtask#:#bgtask_blocked_cancel_old#:#Zrušit existující stahování
-bgtask#:#bgtask_blocked_info#:#Pro vás je již zpracováno stahování.
-bgtask#:#bgtask_cron_gc_desc#:#Odstraní zastaralé soubory, které byly vytvořeny úlohami na pozadí.
-bgtask#:#bgtask_cron_gc_title#:#Uvolňování paměti úloh na pozadí
-bgtask#:#bgtask_download_long#:#Zpracování stahování s %1$s soubory (%2$s) může chvíli trvat.
-bgtask#:#bgtask_download_too_large#:#Stahování překračuje limit velikosti %s.
-bgtask#:#bgtask_empty_folder#:#Aktuální výběr neobsahuje žádný obsah ke stažení.
-bgtask#:#bgtask_failure#:#Chyba
-bgtask#:#bgtask_processing#:#Vytvoření stahování
-bgtask#:#bgtask_setting#:#«Stahování na pozadí» povoleno
-bgtask#:#bgtask_setting_info#:#Vytvoření ZIP archivu se provádí asynchronně a může být kdykoliv zrušeno.
-bgtask#:#bgtask_setting_limit#:#Globální limit
-bgtask#:#bgtask_setting_limit_info#:#Stahování je možné pouze v případě, že součet velikostí souborů je pod touto hodnotou.
-bgtask#:#bgtask_setting_threshold_count#:#Minimální počet
-bgtask#:#bgtask_setting_threshold_count_info#:#Pokud počet souborů překročí tuto hodnotu, stahování bude asynchronní.
-bgtask#:#bgtask_setting_threshold_size#:#Minimální velikost
-bgtask#:#bgtask_setting_threshold_size_info#:#Pokud velikost souborů překročí tuto hodnotu, stahování bude asynchronní.
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Absolutní cesta
 common#:#accept_usr_agreement_btn#:#Accept###29 07 2022 new variable

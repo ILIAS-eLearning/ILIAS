@@ -1,0 +1,66 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: bgtask\n"
+
+msgid "bgtask_blocked"
+msgstr "Téléchargement concurrent"
+
+msgid "bgtask_blocked_cancel_new"
+msgstr "Annuler le nouveau téléchargement"
+
+msgid "bgtask_blocked_cancel_old"
+msgstr "Cancel existing download"
+
+msgid "bgtask_blocked_info"
+msgstr "Il y a déjà un téléchargement traité pour vous."
+
+msgid "bgtask_cron_gc_desc"
+msgstr "Supprime les fichiers obsolètes qui ont été créés par les tâches en arrière-plan."
+
+msgid "bgtask_cron_gc_title"
+msgstr "Collecte de déchets de tâches en arrière-plan"
+
+msgid "bgtask_download_long"
+msgstr "Le traitement du téléchargement avec %1$s fichiers (%2$s) peut prendre un certain temps."
+
+msgid "bgtask_download_too_large"
+msgstr "Le téléchargement dépasse la taille limite de %s."
+
+msgid "bgtask_empty_folder"
+msgstr "La sélection actuelle n’inclut pas de contenu téléchargeable."
+
+msgid "bgtask_failure"
+msgstr "Erreur"
+
+msgid "bgtask_processing"
+msgstr "Création de téléchargement"
+
+msgid "bgtask_setting"
+msgstr "«Téléchargement en arrière-plan» autorisé"
+
+msgid "bgtask_setting_info"
+msgstr "La création de l’archive ZIP se fait de façon asynchrone et peut être annulée à tout moment."
+
+msgid "bgtask_setting_limit"
+msgstr "Limite globale"
+
+msgid "bgtask_setting_limit_info"
+msgstr "Un téléchargement est possible uniquement si la somme des tailles des fichiers est inférieure à cette valeur."
+
+msgid "bgtask_setting_threshold_count"
+msgstr "Nombre minimum"
+
+msgid "bgtask_setting_threshold_count_info"
+msgstr "Si le nombre de fichiers dépasse cette valeur, le téléchargement sera asynchrone."
+
+msgid "bgtask_setting_threshold_size"
+msgstr "Taille minimum"
+
+msgid "bgtask_setting_threshold_size_info"
+msgstr "Si les tailles de fichiers dépassent cette valeur, le téléchargement sera asynchrone."

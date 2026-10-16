@@ -1629,37 +1629,6 @@ assessment#:#worked_through#:#Bearbeitet
 assessment#:#working_time#:#Bearbeitungsdauer
 assessment#:#you_received_a_of_b_points#:#Sie haben %s von %s möglichen Punkten erreicht.
 assessment#:#your_results#:#Meine Ergebnisse
-background_tasks#:#abort#:#Abbrechen
-background_tasks#:#background_tasks#:#Background Tasks
-background_tasks#:#background_tasks_running#:#Background Tasks
-background_tasks#:#completed#:#Abgeschlossen
-background_tasks#:#proceed_job#:#Weiter
-background_tasks#:#scheduled#:#Geplant
-background_tasks#:#task_might_be_failed#:#Diese Aufgabe hat seit einiger Zeit nicht geantwortet, Sie können sie beenden, falls nötig.
-background_tasks#:#ui_msg_files_violate_maxsize#:#Die Gesamtdownloadgröße überschreitet das globale Limit. Der Download wird abgebrochen.
-background_tasks#:#ui_msg_no_files_found#:#Es wurden keine Dateien gefunden. Der Download wird abgebrochen.
-background_tasks#:#ui_msg_num_files#:#%s Datei(-en) wurden gefunden, möchten Sie fortfahren?
-background_tasks#:#ui_msg_sum_file_sizes#:#Die Gesamtdownloadgröße vor Erstellung des Zip-Ordners beträgt %s. Möchten Sie fortfahren?
-background_tasks#:#waiting#:#Warten
-bgtask#:#bgtask_blocked#:#Laufender Download
-bgtask#:#bgtask_blocked_cancel_new#:#Neuen Download abbrechen
-bgtask#:#bgtask_blocked_cancel_old#:#Laufenden Download abbrechen
-bgtask#:#bgtask_blocked_info#:#Es wird bereits ein Download für Sie erzeugt.
-bgtask#:#bgtask_cron_gc_desc#:#Löscht nicht mehr benötigte durch Hintergrundprozesse erzeugte Dateien.
-bgtask#:#bgtask_cron_gc_title#:#Hintergrundaufgaben-Bereinigung
-bgtask#:#bgtask_download_long#:#Die Erstellung des Downloads wird mit %1$s Dateien (%2$s) einige Zeit dauern.
-bgtask#:#bgtask_download_too_large#:#Der Download überschreitet das Limit von %s.
-bgtask#:#bgtask_empty_folder#:#Die Auswahl enthält keine Objekte, die heruntergeladen werden können.
-bgtask#:#bgtask_failure#:#Fehler
-bgtask#:#bgtask_processing#:#Download erzeugen
-bgtask#:#bgtask_setting#:#„Herunterladen im Hintergrund“ aktivieren
-bgtask#:#bgtask_setting_info#:#Die Erstellung der ZIP-Datei erfolgt asynchron und kann jederzeit abgebrochen werden.
-bgtask#:#bgtask_setting_limit#:#Größenlimit Download-Paket
-bgtask#:#bgtask_setting_limit_info#:#Der Download eines Ordners oder mehrerer Objekte ist nur möglich, wenn die Dateigrößen in Summe den eingegebenen Wert nicht überschreiten.
-bgtask#:#bgtask_setting_threshold_count#:#Mindestanzahl
-bgtask#:#bgtask_setting_threshold_count_info#:#Ab diesem Wert erfolgt der Download asynchron.
-bgtask#:#bgtask_setting_threshold_size#:#Minimale Größe
-bgtask#:#bgtask_setting_threshold_size_info#:#Ab dieser Größe erfolgt der Download asynchron.
 common#:#HH#:#SS:MM
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement_btn#:#Zustimmen
