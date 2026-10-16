@@ -23,6 +23,8 @@ namespace ILIAS;
 use ILIAS\Setup\Agent as SetupAgent;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\Search\Setup\Agent as SearchSetupAgent;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 
 class Search implements Component\Component
 {
@@ -41,5 +43,9 @@ class Search implements Component\Component
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "Search.js");
         $contribute[SetupAgent::class] = fn() => new SearchSetupAgent($pull[RefineryFactory::class]);
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'search'
+        );
     }
 }

@@ -1,0 +1,455 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: search\n"
+
+msgid "add_members_header"
+msgstr "添加成员"
+
+msgid "append_results"
+msgstr "附加结果"
+
+#, fuzzy
+msgid "btn_search"
+msgstr "Search"
+
+msgid "last_search_result"
+msgstr "最后搜索结果"
+
+msgid "lucene_and"
+msgstr "AND"
+
+msgid "lucene_cpu"
+msgstr "最大线程数"
+
+msgid "lucene_create_ini"
+msgstr "创建配置文件"
+
+msgid "lucene_default_operator"
+msgstr "默认操作符"
+
+msgid "lucene_default_operator_info"
+msgstr "请为布尔查询选择默认操作符。在默认模式(\"AND\")项下，都被认为是结合。在\"OR\"模式项下，没有任何修饰符被认为是可选。"
+
+msgid "lucene_download_ini"
+msgstr "下载配置文件"
+
+msgid "lucene_err_ampersand"
+msgstr "查询包含特殊字符 && 必须在下面的表单中：term1 && term2。"
+
+msgid "lucene_err_and_or_not"
+msgstr "查询包含 AND/OR/NOT，必须在表单中：term1 AND|OR|NOT|ADN NOT term2."
+
+msgid "lucene_err_asterisk"
+msgstr "通配符(*)字符前面必须至少有一个字母或数字。"
+
+msgid "lucene_err_caret"
+msgstr "字符(^)之前必须至少有一个字母或数字，并且必须由数字跟随。"
+
+msgid "lucene_err_colon"
+msgstr "字段声明(:)之前必须至少有一个字母或数字，并且至少有一个字母或数字跟随。"
+
+msgid "lucene_err_exclamation_mark"
+msgstr "查询包含特殊字符(!),必须在表单中：term1 ! term2."
+
+msgid "lucene_err_parenthesis_empty"
+msgstr "括号必须包含至少一个字符。"
+
+msgid "lucene_err_parenthesis_not_closed"
+msgstr "括号必须被关闭。"
+
+msgid "lucene_err_plus_minus"
+msgstr "(+)和(-)修饰符必须至少跟在一个字母或数字后面。"
+
+msgid "lucene_err_question_mark"
+msgstr "问号(?)字符前面必须至少有一个字母或数字。"
+
+msgid "lucene_err_quotes"
+msgstr "请关闭所有引号(\")。"
+
+msgid "lucene_err_quotes_not_empty"
+msgstr "引号(\")必须包含至少一个字符。"
+
+msgid "lucene_general_settings"
+msgstr "常规设置"
+
+msgid "lucene_host"
+msgstr "主机"
+
+msgid "lucene_host_info"
+msgstr "请输入Java服务器的主机名或IP地址。"
+
+msgid "lucene_index_path"
+msgstr "索引文件目录"
+
+msgid "lucene_index_path_info"
+msgstr "请输入一个排序索引文件的目录名。"
+
+msgid "lucene_last_index_time"
+msgstr "最后索引生成"
+
+msgid "lucene_last_index_time_info"
+msgstr "如果您已经安装了一个索引备份，请仅修改这个设置。"
+
+msgid "lucene_level"
+msgstr "日志级别(Log-Level)"
+
+msgid "lucene_log"
+msgstr "日志文件路径"
+
+msgid "lucene_log_info"
+msgstr "此文件将被自动创建。"
+
+msgid "lucene_max_fs"
+msgstr "最大文件大小(in MB)"
+
+msgid "lucene_max_fs_info"
+msgstr "定义文件大小限制。大于这个限制的文件将不被包括在这个索引中。"
+
+msgid "lucene_num_frag_info"
+msgstr "请选择高亮显示的文本片断的最大数目。"
+
+msgid "lucene_num_fragments"
+msgstr "文本片断的数目"
+
+msgid "lucene_offline_filter"
+msgstr "离线状态"
+
+msgid "lucene_or"
+msgstr "OR"
+
+msgid "lucene_port"
+msgstr "端口"
+
+#, fuzzy
+msgid "lucene_prefix_wildcard"
+msgstr "Prefix Wildcard Queries"
+
+#, fuzzy
+msgid "lucene_prefix_wildcard_info"
+msgstr "If enabled, prefix wildcard queries (*LIAS finds ILIAS) are supported."
+
+#, fuzzy
+msgid "lucene_settings_index_section"
+msgstr "Index Backup"
+
+msgid "lucene_settings_tab"
+msgstr "Lucene"
+
+#, fuzzy
+msgid "lucene_settings_text_section"
+msgstr "Presentation of Search Results"
+
+msgid "lucene_settings_title"
+msgstr "Lucene设置"
+
+msgid "lucene_size_frag_info"
+msgstr "请选择高亮文本片断的最大大小。"
+
+msgid "lucene_size_fragments"
+msgstr "文本片断的大小"
+
+msgid "lucene_tbl_create_ini"
+msgstr "创建Java服务器ini文件"
+
+#, fuzzy
+msgid "search_add_members_from_container_crs"
+msgstr "Add Users of Current Course"
+
+#, fuzzy
+msgid "search_add_members_from_container_grp"
+msgstr "Add Users of Current Group"
+
+msgid "search_any"
+msgstr "-- 任何 --"
+
+#, fuzzy
+msgid "search_area_filter"
+msgstr "Scope"
+
+msgid "search_area_info"
+msgstr "请选择一个搜索将开始的区域。"
+
+msgid "search_auto_complete_length"
+msgstr "自动完成列表条目的数量"
+
+#, fuzzy
+msgid "search_auto_complete_length_info"
+msgstr "Choose ‘0‘ to switch off the auto-complete list."
+
+#, fuzzy
+msgid "search_cdate_filter"
+msgstr "Filter by Creation Date"
+
+#, fuzzy
+msgid "search_cdate_filter_info"
+msgstr "If enabled, the object search can be filtered by an optional creation date filter."
+
+msgid "search_content"
+msgstr "页内容"
+
+#, fuzzy
+msgid "search_copyright"
+msgstr "Copyright"
+
+#, fuzzy
+msgid "search_created_after"
+msgstr "Objects created after"
+
+#, fuzzy
+msgid "search_created_before"
+msgstr "Objects created before..."
+
+#, fuzzy
+msgid "search_created_on"
+msgstr "Objects create on..."
+
+msgid "search_crs_title"
+msgstr "课程名"
+
+#, fuzzy
+msgid "search_detailed_results_title"
+msgstr "Detailed results in %s"
+
+msgid "search_details_info"
+msgstr "详情搜索。请选择一个或多个目标。"
+
+msgid "search_direct"
+msgstr "直接搜索"
+
+msgid "search_err_user_not_exist"
+msgstr "一个用户的登录名不存在。"
+
+msgid "search_fast_info"
+msgstr "在所有目标类型中搜索标题，描述和关键字"
+
+#, fuzzy
+msgid "search_field"
+msgstr "Search Input Field"
+
+#, fuzzy
+msgid "search_field_perform"
+msgstr "Perform Search"
+
+msgid "search_filter_by_type"
+msgstr "按类型过滤"
+
+#, fuzzy
+msgid "search_filter_cd"
+msgstr "Filter by Creation Date"
+
+#, fuzzy
+msgid "search_filter_settings_section"
+msgstr "Filters for the Search Results"
+
+msgid "search_for_crs_members"
+msgstr "搜索课程成员"
+
+msgid "search_for_grp_members"
+msgstr "搜索组成员"
+
+#, fuzzy
+msgid "search_for_orgu_members"
+msgstr "Search for Organisational Units"
+
+#, fuzzy
+msgid "search_for_orgu_members_recursive"
+msgstr "Include Subunits?"
+
+msgid "search_for_role_members"
+msgstr "搜索角色成员"
+
+msgid "search_for_users"
+msgstr "搜索用户"
+
+msgid "search_grp_title"
+msgstr "组名"
+
+msgid "search_item_filter_form"
+msgstr "按类型搜索"
+
+msgid "search_item_filter_form_info"
+msgstr "如果启用，一个搜索可以被限制到选择的项类型中。"
+
+#. Needs to be adapted to new content of German lang file.
+msgid "search_like_info"
+msgstr "选择这个选项获得最佳结果。"
+
+msgid "search_limit_reached"
+msgstr "您的搜索产生了比 %s 更高的点击量。您能限制搜索条目得到更详细的结果。"
+
+msgid "search_lucene"
+msgstr "Lucene搜索"
+
+#, fuzzy
+msgid "search_mime_excel"
+msgstr "Excel Files"
+
+#, fuzzy
+msgid "search_mime_filter_form"
+msgstr "Mime Type Filter"
+
+#, fuzzy
+msgid "search_mime_filter_form_info"
+msgstr "Search can be restricted to the chosen mime types."
+
+#, fuzzy
+msgid "search_mime_image"
+msgstr "Images"
+
+#, fuzzy
+msgid "search_mime_pdf"
+msgstr "PDF Files"
+
+#, fuzzy
+msgid "search_mime_powerpoint"
+msgstr "Powerpoint Files"
+
+#, fuzzy
+msgid "search_mime_word"
+msgstr "Word Files"
+
+#, fuzzy
+msgid "search_minimum_info"
+msgstr "Your search must be at least %s characters long"
+
+msgid "search_minimum_three"
+msgstr "搜索必须至少三个字符长"
+
+#, fuzzy
+msgid "search_newer_than"
+msgstr "Objects newer than"
+
+msgid "search_no_connection_lucene"
+msgstr "不能连接到Lucene服务器。"
+
+#, fuzzy
+msgid "search_no_further_match"
+msgstr "No further matches found."
+
+msgid "search_no_match"
+msgstr "搜索无任何匹配结果"
+
+msgid "search_no_match_hint"
+msgstr "您的搜索 - <b>%s</b> - 不能匹配到任何文档。<br/><br/>建议：<br/>确保所有关键字拼写都是正确的。<br/>尝试不同的关键字。<br/>尝试更多常规的关键字。<br/>尝试更少的关键字。"
+
+msgid "search_no_selection"
+msgstr "您未做任何选择。"
+
+msgid "search_off"
+msgstr "Off"
+
+#, fuzzy
+msgid "search_readme_file"
+msgstr "Readme File"
+
+#, fuzzy
+msgid "search_results_show_subitems"
+msgstr "See detailed results"
+
+#, fuzzy
+msgid "search_results_too_many_subitems"
+msgstr "More results are available, please make your search terms more precise."
+
+msgid "search_role_title"
+msgstr "角色名"
+
+msgid "search_select_search_area"
+msgstr "选择搜索区域"
+
+#, fuzzy
+msgid "search_server_further_information"
+msgstr "You can find further information about the Lucene server configuration in the readme file."
+
+#, fuzzy
+msgid "search_show_inactive_user"
+msgstr "Show Inactive Users"
+
+#, fuzzy
+msgid "search_show_inactive_user_info"
+msgstr "If enabled, the user search will show inactive users."
+
+#, fuzzy
+msgid "search_show_limited_user"
+msgstr "Show Limited Users"
+
+#, fuzzy
+msgid "search_show_limited_user_info"
+msgstr "If enabled, the user search will show users with limited access and outside their allowed time period."
+
+#, fuzzy
+msgid "search_sort_by"
+msgstr "Sortation: %s"
+
+#, fuzzy
+msgid "search_sort_creation_date_asc"
+msgstr "Oldest"
+
+#, fuzzy
+msgid "search_sort_creation_date_desc"
+msgstr "Latest"
+
+#, fuzzy
+msgid "search_sort_relevance"
+msgstr "By Relevance"
+
+#, fuzzy
+msgid "search_sort_title_asc"
+msgstr "Alphabetically: A-Z"
+
+#, fuzzy
+msgid "search_sort_title_desc"
+msgstr "Alphabetically: Z-A"
+
+#, fuzzy
+msgid "search_tab_content"
+msgstr "Content"
+
+#, fuzzy
+msgid "search_tab_user"
+msgstr "Users"
+
+msgid "search_term_combination"
+msgstr "组合"
+
+msgid "search_title_description"
+msgstr "标题/描述"
+
+msgid "search_tst_svy"
+msgstr "测试/调查"
+
+msgid "search_type"
+msgstr "搜索类型"
+
+msgid "search_user"
+msgstr "用户"
+
+msgid "search_user_extended"
+msgstr "扩展用户搜索"
+
+#, fuzzy
+msgid "search_user_search_form"
+msgstr "User Search"
+
+#, fuzzy
+msgid "search_user_search_info_form"
+msgstr "If enabled, users data will be indexed and is searchable."
+
+msgid "seas_search_type"
+msgstr "搜索类型"
+
+#, fuzzy
+msgid "select_orgu"
+msgstr "Select Organisational Units"
+
+msgid "until"
+msgstr "截至"
+
+#, fuzzy
+msgid "user_search_settings_section"
+msgstr "User Search in 'Member'-tabs"
