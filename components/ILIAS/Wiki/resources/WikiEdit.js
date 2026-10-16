@@ -15,12 +15,12 @@ il.Wiki.Edit = {
 		il.Wiki.Edit.addCallback = addCallback;
 
 		il.IntLink.showPanel();
-		il.Util.sendAjaxGetRequestToUrl(url + "&cmd=insertWikiLink", {}, {el_id: "ilIntLinkModalContent"}, function(o) {
+		il.repository.core.fetchHtml(url + "&cmd=insertWikiLink").then(function(html) {
 			var val_sel;
 
 			// output html
-			if(o.responseText !== undefined) {
-				$('#' + o.argument.el_id).html(o.responseText);
+			if(html !== undefined) {
+				$('#ilIntLinkModalContent').html(html);
 			}
 
 			il.Wiki.Edit.setTargetInfoText("&nbsp;");
@@ -30,14 +30,14 @@ il.Wiki.Edit = {
 			il.Wiki.Edit.initTextInputAutoComplete();
 
 			$('input#target_page').on('input', function() {
-				il.Wiki.Edit.setTargetInfoText("&nbsp;");
+				il.Wiki.Edit.setTargetInfoText(il.Wiki.Edit.txt.new_page);
 			});
 
 			val_sel = target_page;
 			if (val_sel != "") {
 				$("input#target_page").val(val_sel);
 				$("input#target_page").focus();
-				$("input#target_page").iladvancedautocomplete('search', val_sel);
+				document.getElementById("target_page").dispatchEvent(new KeyboardEvent("keyup", {key: "Enter"}));
 			} else {
 				$("input#target_page").focus();
 			}
@@ -63,18 +63,18 @@ il.Wiki.Edit = {
 			$("input[name*='searchWikiLink']").on("click", function(e) {
 				e.stopPropagation();
 				e.preventDefault();
-				il.Util.sendAjaxGetRequestToUrl(url + "&cmd=searchWikiLinkAC&term=" + encodeURIComponent($("input#target_page").val()), {}, {el_id: "ilIntLinkModalContent"}, function(o) {
+				il.repository.core.fetchHtml(url + "&cmd=searchWikiLinkAC&term=" + encodeURIComponent($("input#target_page").val())).then(function(html) {
 					// output html
-					if(o.responseText !== undefined) {
-						$('#' + o.argument.el_id).html(o.responseText);
+					if(html !== undefined) {
+						$('#ilIntLinkModalContent').html(html);
 					}
 					$("#ilWikiACSearchResult a").click(function () {
-						il.Wiki.Edit.openLinkDialog(il.Wiki.Edit.url, $(this).html());
+						il.Wiki.Edit.openLinkDialog(il.Wiki.Edit.url, $(this).text(), il.Wiki.Edit.addCallback);
 						return false;
 					});
 					$("#ilWikiACSearchCancel").click(function () {
 						console.log("search cancel!");
-						il.Wiki.Edit.openLinkDialog(il.Wiki.Edit.url);
+						il.Wiki.Edit.openLinkDialog(il.Wiki.Edit.url, "", il.Wiki.Edit.addCallback);
 					});
 
 				});
@@ -88,52 +88,26 @@ il.Wiki.Edit = {
 	 * Init autocomplete for target page
 	 */
 	initTextInputAutoComplete: function () {
-		$.widget( "custom.iladvancedautocomplete", $.ui.autocomplete, {
-			more: false,
-			_renderMenu: function(ul, items) {
-				var that = this;
-				$.each(items, function(index, item) {
-					that._renderItemData(ul, item);
+		const input = document.getElementById("target_page");
+		il.LegacyForm.autocomplete.init(input, {
+			dataSource: il.Wiki.Edit.url + "&cmd=insertWikiLinkAC",
+			delimiter: null,
+			autocompleteLength: 3,
+			moreText: il.Wiki.Edit.txt.more,
+			open: function(list) {
+				const matches = Array.from(list.children).some(function(item) {
+					return item.dataset.value.toLowerCase() === input.value.toLowerCase();
 				});
-
-				that.options.requestUrl = that.options.requestUrl.replace(/&fetchall=1/g, '');
-
-				// set position to be absolute, note relative (standar behaviour)
-				$("#ilIntLinkModalContent ul.ui-autocomplete").css("position", "absolute");
-				if (items[0] && ($("input#target_page").val().toLowerCase() == items[0].value.toLowerCase())) {
+				il.Wiki.Edit.setTargetInfoText(matches ? il.Wiki.Edit.txt.page_exists : il.Wiki.Edit.txt.new_page);
+				list.addEventListener("click", function() {
 					il.Wiki.Edit.setTargetInfoText(il.Wiki.Edit.txt.page_exists);
-				}
-			}
-		});
-
-		$('input#target_page').iladvancedautocomplete({
-			requestUrl: il.Wiki.Edit.url + "&cmd=insertWikiLinkAC",
-			appendTo: "#ilIntLinkModalContent",
-			response: function(e, u) {
-				il.Wiki.Edit.setTargetInfoText(il.Wiki.Edit.txt.new_page);
-				for (var j=0; j < u.content.length; j++) {
-					if (u.content[j].label.toLowerCase() == $("input#target_page").val().toLowerCase()) {
+				});
+				list.addEventListener("keydown", function(e) {
+					if (e.key === "Enter") {
 						il.Wiki.Edit.setTargetInfoText(il.Wiki.Edit.txt.page_exists);
 					}
-				}
-			},
-			select: function(e, u) {
-				il.Wiki.Edit.setTargetInfoText(il.Wiki.Edit.txt.page_exists);
-			},
-			source: function( request, response ) {
-				var that = this;
-				$.getJSON( that.options.requestUrl, {
-					term: request.term
-				}, function(data) {
-					if (typeof data.items == "undefined") {
-						response(data);
-					} else {
-						that.more = data.hasMoreResults;
-						response(data.items);
-					}
 				});
-			},
-			minLength: 3
+			}
 		});
 	}
 
