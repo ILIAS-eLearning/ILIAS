@@ -1,0 +1,1925 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: crs\n"
+
+msgid "activation_times_not_valid"
+msgstr "Tidsperioden för 'Availability' är inte giltig."
+
+msgid "assigned"
+msgstr "Tilldelad"
+
+msgid "contact_email_not_valid"
+msgstr "E-postadressen är inte giltig."
+
+msgid "crs_accept_subscriber"
+msgstr "Inspelning i kursen \"%s\""
+
+msgid "crs_accept_subscriber_body"
+msgstr "Du har blivit inkluderad i kursen \"%s\"."
+
+msgid "crs_access"
+msgstr "Tillgång"
+
+msgid "crs_activate_notification"
+msgstr " Aktivera avisering"
+
+msgid "crs_activation"
+msgstr "Aktivering"
+
+msgid "crs_activation_limited_visibility_info"
+msgstr "Utanför den angivna perioden visas kurstiteln men inte innehållet."
+
+msgid "crs_activation_online_info"
+msgstr "Endast när kursen är online kan användare gå med i kursen och kursmedlemmar komma åt kursen. Om inte, är kursen endast tillgänglig för administratörer och roller med rättigheten \"Redigera inställningar\"."
+
+msgid "crs_add_archive_html"
+msgstr "Lägg till HTML-arkiv"
+
+msgid "crs_add_archive_xml"
+msgstr "Lägg till ML-arkiv"
+
+msgid "crs_add_grouping"
+msgstr "Ny begränsning av medlemskap"
+
+msgid "crs_add_html_archive"
+msgstr "Lägg till HTML-arkiv"
+
+msgid "crs_add_objective"
+msgstr "Lägg till nytt inlärningsmål"
+
+msgid "crs_add_remove_from_desktop"
+msgstr "Lägg till i favoriter"
+
+msgid "crs_add_remove_from_desktop_info"
+msgstr "Objekt inom kursen kan läggas till i favoriter."
+
+msgid "crs_add_starter"
+msgstr "Lägg till startobjekt"
+
+msgid "crs_add_to_group"
+msgstr "Lägg till i grupp"
+
+msgid "crs_added_member"
+msgstr "Inspelning i kursen \"%s\""
+
+msgid "crs_added_member_body"
+msgstr "Du har blivit inkluderad i kursen \"%s\"."
+
+msgid "crs_added_new_archive"
+msgstr "Ett nytt arkiv har skapats."
+
+msgid "crs_added_objective"
+msgstr "Ett nytt inlärningsmål har lagts till."
+
+msgid "crs_added_starters"
+msgstr "De valda objekten har tilldelats."
+
+msgid "crs_added_to_list"
+msgstr "Du har lagts till på väntelistan.<br />Du har plats %s på väntelistan."
+
+msgid "crs_admin"
+msgstr "Administratör"
+
+msgid "crs_administrators"
+msgstr "Administratörer"
+
+msgid "crs_admission_link_failure_availability"
+msgstr "Ingen sammankoppling möjlig. Kursen är online."
+
+msgid "crs_admission_link_failure_invalid_code"
+msgstr "Ingen sammankoppling möjlig. Länken är inte giltig."
+
+msgid "crs_admission_link_failure_membership_limited"
+msgstr "Ingen anslutning möjlig. Antalet medlemmar i gruppen är begränsat."
+
+msgid "crs_admission_link_failure_offline"
+msgstr "Ingen sammankoppling möjlig. Kursen är offline."
+
+msgid "crs_admission_link_failure_registration_period"
+msgstr "Ingen anslutning möjlig. Registrering för kursen är utanför anslutningsperioden."
+
+msgid "crs_admission_link_success_registration"
+msgstr "Successfully joined the course \"%s\"."
+
+msgid "crs_agree"
+msgstr "Acceptance"
+
+msgid "crs_agreement_header"
+msgstr "Användningsavtal"
+
+msgid "crs_agreement_required"
+msgstr "Du kan bara gå med i den här kursen om du godkänner användaravtalet."
+
+msgid "crs_at_least_one_admin"
+msgstr "Minst en administratör måste vara tilldelad den här kursen."
+
+msgid "crs_auto_notification"
+msgstr "Välkomstmail för nya medlemmar"
+
+msgid "crs_auto_notification_info"
+msgstr "E-postmeddelanden skickas automatiskt till de medlemmar som har antagits till kursen av en handledare eller administratör."
+
+msgid "crs_awrn_current_course"
+msgstr "Aktuell kurs"
+
+msgid "crs_awrn_current_course_info"
+msgstr "Inom en kurs listas alla medlemmar i kursen."
+
+msgid "crs_awrn_support_contacts"
+msgstr "Kurstillsyn"
+
+msgid "crs_awrn_support_contacts_info"
+msgstr "Användare som övervakar kursen listas. Respektive användare anges på fliken Medlemmar i kursen för kursövervakning."
+
+msgid "crs_blocked"
+msgstr "Åtkomst blockerad"
+
+msgid "crs_blocked_member"
+msgstr "Status i kursen \"%s"
+
+msgid "crs_blocked_member_body"
+msgstr "Ditt medlemskap i kursen \"%s\" har upphävts."
+
+msgid "crs_breadcrumb_crs_only"
+msgstr "Breadcrumb Trail börjar med kurs"
+
+msgid "crs_breadcrumb_full_path"
+msgstr "Visa hela sökvägen"
+
+msgid "crs_cancel_subscr_request"
+msgstr "Tillbakadragande av ansökan om antagning"
+
+msgid "crs_cancel_subscription"
+msgstr "Avsluta från kursen \"%s\""
+
+msgid "crs_cancel_subscription_body"
+msgstr "Deltagaren %s har lämnat kursen \"%s\"."
+
+msgid "crs_cancel_subscription_body2"
+msgstr "Det kan finnas deltagare på väntelistan för denna kurs. För att se listan över deltagare, vänligen gå till följande länk"
+
+msgid "crs_cancellation_end"
+msgstr "Senaste kursutgång"
+
+msgid "crs_cancellation_end_info"
+msgstr "Medlemmar kan endast avsluta sitt kursmedlemskap självständigt fram till det angivna datumet."
+
+msgid "crs_cancellation_end_rbac_info"
+msgstr "Slutdatumet för avbokningen uppnåddes den %s. Det är nu inte längre möjligt att dra sig ur kursen."
+
+msgid "crs_cannot_find_role"
+msgstr "Rollen kunde inte hittas."
+
+msgid "crs_cdf_edit_member"
+msgstr "Redigera personliga uppgifter för denna kurs"
+
+msgid "crs_cdf_tbl_last_edit"
+msgstr "Uppdaterad (kursspecifika data)"
+
+msgid "crs_checklist_objective"
+msgstr "Checklista Inlärningsmål"
+
+msgid "crs_contact"
+msgstr "Kontakt"
+
+msgid "crs_contact_consultation"
+msgstr "Samråd"
+
+msgid "crs_contact_email"
+msgstr "E-post"
+
+msgid "crs_contact_email_info"
+msgstr "Du kan ange en eller flera (kommaseparerade) e-postadresser."
+
+msgid "crs_contact_name"
+msgstr "Namn"
+
+msgid "crs_contact_phone"
+msgstr "Telefon"
+
+msgid "crs_contact_responsibility"
+msgstr "Kompetens"
+
+msgid "crs_content"
+msgstr "Kursinnehåll"
+
+msgid "crs_copy"
+msgstr "Kopiera kurs"
+
+msgid "crs_course_group_notification_link"
+msgstr "Länk"
+
+msgid "crs_course_period_not_valid"
+msgstr "Perioden är inte giltig."
+
+msgid "crs_course_status_of_users"
+msgstr "Att klara kursen"
+
+msgid "crs_create_date"
+msgstr "Datum för skapande"
+
+msgid "crs_custom_user_fields"
+msgstr "Personuppgifter"
+
+#, fuzzy
+msgid "crs_custom_user_fields_infobox"
+msgstr "Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the \"Members\" tab."
+
+#, fuzzy
+msgid "crs_custom_user_fields_table_title"
+msgstr "Relevant User Data of This Course"
+
+msgid "crs_dates"
+msgstr "Datum"
+
+msgid "crs_deactivate_notification"
+msgstr "Avaktivera avisering"
+
+msgid "crs_delete_objectve_sure"
+msgstr "Är du säker på att de utvalda lärandemålen ska tas bort?"
+
+msgid "crs_details"
+msgstr "Detaljer om kursen"
+
+msgid "crs_dismiss_member"
+msgstr "Medlemskap i kursen \"%s\" avslutat"
+
+msgid "crs_dismiss_member_body"
+msgstr "Ditt medlemskap i kursen \"%s\" har avslutats."
+
+msgid "crs_edit_lo_introduction"
+msgstr "Redigera introduktion"
+
+msgid "crs_edit_timings"
+msgstr "Redigera tidtagningar"
+
+msgid "crs_enable_map"
+msgstr "Aktivera kurskort"
+
+msgid "crs_end"
+msgstr "Slut"
+
+msgid "crs_export"
+msgstr "Kursexport"
+
+msgid "crs_file"
+msgstr "Fil"
+
+msgid "crs_file_download"
+msgstr "Filer för nedladdning"
+
+msgid "crs_file_name"
+msgstr "Filenamn"
+
+msgid "crs_file_size_info"
+msgstr "Filens storlek"
+
+msgid "crs_from"
+msgstr "Från"
+
+msgid "crs_general_info"
+msgstr "Allmän information"
+
+msgid "crs_general_informations"
+msgstr "Allmän information"
+
+msgid "crs_grouping_delete_sure"
+msgstr "Är du säker på att du vill ta bort följande medlemsbegränsningar?"
+
+msgid "crs_grouping_deleted"
+msgstr "Grupperingen har tagits bort."
+
+msgid "crs_grouping_select_one"
+msgstr "Vänligen välj en medlemsbegränsning."
+
+msgid "crs_groupings"
+msgstr "Kursgrupperingar"
+
+msgid "crs_groups_nr"
+msgstr "Antal grupper"
+
+msgid "crs_grp_added_grouping"
+msgstr "En ny medlemsbegränsning har skapats."
+
+msgid "crs_grp_already_assigned"
+msgstr "Eftersom du redan är medlem i en av kurserna kan du inte gå med i en annan kurs från listan!"
+
+msgid "crs_grp_assign_crs"
+msgstr "Urvalda objekt för begränsning av medlemskap"
+
+msgid "crs_grp_assignments"
+msgstr "Tilldela kursdeltagare till grupper"
+
+msgid "crs_grp_enter_title"
+msgstr "Vänligen ange en titel."
+
+msgid "crs_grp_info_reg"
+msgstr "Följande kurser omfattas av en medlemsbegränsning. Du kan bara delta i en av dessa kurser"
+
+msgid "crs_grp_matriculation_required"
+msgstr "Ett unikt matrikulationsnummer krävs för att inkluderas i denna kursgruppering. <br />Ange detta i inställningarna för den personliga profilen."
+
+msgid "crs_grp_no_courses_assigned"
+msgstr "Ingen"
+
+msgid "crs_grp_table_assigned_courses"
+msgstr " Tilldelade kurser"
+
+msgid "crs_header_archives"
+msgstr "Kursarkiv"
+
+msgid "crs_header_delete_members"
+msgstr "Du vill avregistrera följande medlemmar från kursen?"
+
+msgid "crs_header_edit_members"
+msgstr "Redigera medlemmar"
+
+msgid "crs_hide_all_obj"
+msgstr "Dölj alla"
+
+msgid "crs_html"
+msgstr "HTML"
+
+msgid "crs_import"
+msgstr "Importkurs"
+
+msgid "crs_important_info"
+msgstr "Viktig information"
+
+msgid "crs_info_agree"
+msgstr " Jag godkänner att ovanstående data kan visas av kursadministratörer."
+
+msgid "crs_info_agreement"
+msgstr "Om följande uppgifter är tillgängliga i din personliga profil kan de visas av kursadministrationen"
+
+msgid "crs_info_download"
+msgstr "Filer för nedladdning"
+
+msgid "crs_info_reg"
+msgstr "Förfarande för inspelning"
+
+msgid "crs_info_reg_confirmation"
+msgstr "Du måste skicka in en ansökan för att delta i kursen. Beskriv varför du vill gå med i meddelandefältet. När din ansökan har godkänts eller avslagits får du ett meddelande."
+
+msgid "crs_info_reg_deactivated"
+msgstr "Ingen inspelning är möjlig för tillfället."
+
+msgid "crs_info_reg_direct"
+msgstr "Du kan anmäla dig till kursen direkt."
+
+msgid "crs_info_reg_password"
+msgstr "Om du har fått kurslösenordet från en kursadministratör kan du gå med i den här kursen."
+
+msgid "crs_info_settings"
+msgstr "Kursinformation"
+
+msgid "crs_info_start"
+msgstr "Please edit all the materials listed below first.<br/>När du har redigerat alla objekt kommer ytterligare kursinnehåll att låsas upp för dig."
+
+msgid "crs_intro_course_group_notification_for"
+msgstr "Detta är en sammanfattning av meddelanden från dina kurser och grupper för vilka automatisk avisering har aktiverats."
+
+msgid "crs_intro_course_group_notification_index"
+msgstr "Det finns meddelanden från följande kurser och grupper för perioden från %1$s till %2$s"
+
+msgid "crs_item_presetting_info"
+msgstr "Välj denna inställning för att rekommendera en redigeringstid för elever."
+
+msgid "crs_join_request"
+msgstr "Skicka"
+
+msgid "crs_lhist_objective_completed"
+msgstr "Passed $3$ in $1$."
+
+msgid "crs_lim_assigned"
+msgstr "Är redan medlem i kursen \"%s\"."
+
+msgid "crs_link_hide_next_sessions"
+msgstr "Dölj framtida sessioner"
+
+msgid "crs_link_hide_prev_sessions"
+msgstr "Dölj tidigare sessioner"
+
+msgid "crs_link_show_all_next_sessions"
+msgstr "Visa alla framtida sessioner"
+
+msgid "crs_link_show_all_prev_sessions"
+msgstr "Visa alla tidigare sessioner"
+
+msgid "crs_lobj_pm_min_goal"
+msgstr "Erforderligt värde"
+
+msgid "crs_lobj_pm_score"
+msgstr "Ditt resultat"
+
+msgid "crs_loc_btn_new_assignment"
+msgstr "Ny testuppgift"
+
+msgid "crs_loc_confirm_delete_tst"
+msgstr "Är du säker på att du vill ta bort tilldelningen av testerna till den lärandemålsorienterade kursen?"
+
+msgid "crs_loc_delete_assignment"
+msgstr "Ta bort uppdrag"
+
+msgid "crs_loc_err_no_active_it"
+msgstr "Lärandemål tillgängliga utan inträdesprov"
+
+msgid "crs_loc_err_no_active_lo"
+msgstr "Inget aktivt inlärningsmål"
+
+msgid "crs_loc_err_no_active_mat"
+msgstr "Lärandemål utan närvarande lärandeinnehåll"
+
+msgid "crs_loc_err_no_active_qst"
+msgstr "Lärandemål presenteras utan frågor"
+
+msgid "crs_loc_err_no_active_qt"
+msgstr "Lärandemål utan kvalificerande test tillgängliga"
+
+msgid "crs_loc_err_nr_tries_exceeded"
+msgstr "Antalet testkörningar per inlärningsmål överstiger antalet möjliga testkörningar av det kvalificerande provet."
+
+msgid "crs_loc_err_stat_no_it"
+msgstr "Inget inmatningstest skapat"
+
+msgid "crs_loc_err_stat_no_materials"
+msgstr "Inget material tillgängligt"
+
+msgid "crs_loc_err_stat_no_qt"
+msgstr "Inget slutligt test har skapats"
+
+msgid "crs_loc_err_stat_tst_offline"
+msgstr "Inte alla tester är online"
+
+msgid "crs_loc_form_assign"
+msgstr "Använd befintligt test"
+
+msgid "crs_loc_form_assign_initial_info"
+msgstr "Välj ett av de test som redan finns tillgängliga i kursen som ingångstest."
+
+msgid "crs_loc_form_assign_it"
+msgstr "Välj test"
+
+msgid "crs_loc_form_assign_qualified_info"
+msgstr "--"
+
+msgid "crs_loc_form_available_tsts"
+msgstr "Tillgängliga tester"
+
+msgid "crs_loc_form_create_objectives"
+msgstr "Skapa inlärningsmål"
+
+msgid "crs_loc_form_random_limits_it"
+msgstr "Bestäm frågor för inträdesprovet"
+
+msgid "crs_loc_form_random_limits_qt"
+msgstr "Bestäm frågor för det kvalificerande testet"
+
+msgid "crs_loc_form_tst_new"
+msgstr "Skapa nytt test"
+
+msgid "crs_loc_form_tst_new_initial_info"
+msgstr "Från detta nyskapade test tilldelas frågorna senare till inlärningsmålen."
+
+msgid "crs_loc_form_tst_new_qualified_info"
+msgstr "--"
+
+msgid "crs_loc_itest_info"
+msgstr "Ingångstest"
+
+msgid "crs_loc_itst_for_objective"
+msgstr "Ange test \"%1$s\""
+
+msgid "crs_loc_learning_objective"
+msgstr "Lärandemål"
+
+msgid "crs_loc_mem_show_res"
+msgstr "Visa testresultat"
+
+msgid "crs_loc_num_qst"
+msgstr "Antal frågor"
+
+msgid "crs_loc_objective_passed_confirmation"
+msgstr "Du har redan klarat inlärningsmålen. Om du startar testet igen återställs resultaten. Vill du starta testet igen?"
+
+msgid "crs_loc_objectives_passed_confirmation"
+msgstr "Du har redan klarat alla inlärningsmål. Om du startar testet igen återställs resultaten. Vill du starta testet igen?"
+
+msgid "crs_loc_passes_info"
+msgstr "Maximalt antal testkörningar"
+
+msgid "crs_loc_passes_left"
+msgstr "Resterande antal testkörningar"
+
+msgid "crs_loc_passes_reached"
+msgstr "Inga ytterligare testkörningar möjliga"
+
+msgid "crs_loc_perc"
+msgstr "Nödvändig procentandel av poäng"
+
+msgid "crs_loc_progress_do_qualifying"
+msgstr "Vänligen gör det slutliga testet för att slutföra lärandemålet."
+
+msgid "crs_loc_progress_do_qualifying_again"
+msgstr "Vänligen redigera lärandemålet igen."
+
+msgid "crs_loc_progress_no_result_do_initial"
+msgstr "Ta inträdesprovet"
+
+msgid "crs_loc_progress_no_result_no_initial"
+msgstr "Arbeta igenom följande material och sedan det slutliga testet."
+
+msgid "crs_loc_progress_objective_complete"
+msgstr "Du har uppnått lärandemålet."
+
+msgid "crs_loc_progress_result_itest"
+msgstr "Resultat inmatningstest"
+
+msgid "crs_loc_progress_result_qtest"
+msgstr "Resultat"
+
+msgid "crs_loc_qst_resume_tst_itest"
+msgstr "Inträdesprov för olika lärandemål får inte påbörjas parallellt. Du har redan påbörjat ett inträdesprov för ett lärandemål. Antingen fortsätter du med det gamla testet eller så startar du ett nytt test."
+
+msgid "crs_loc_qst_resume_tst_qtest"
+msgstr "Kvalificeringstest för olika lärandemål får inte startas parallellt. Du har redan påbörjat ett kvalificerande test för ett lärandemål. Antingen fortsätter du med det gamla testet eller så startar du ett nytt."
+
+msgid "crs_loc_qtest_info"
+msgstr "Slutligt test"
+
+msgid "crs_loc_qtst_for_objective"
+msgstr "Kvalificerande test \"%1$s\""
+
+msgid "crs_loc_rand_assign_qpl"
+msgstr "Uppdrag från frågepoolen"
+
+msgid "crs_loc_rand_qpl"
+msgstr "Tillgängliga frågepooler"
+
+msgid "crs_loc_settings_err_qstart"
+msgstr "Alternativet \"Slutprov som startobjekt\" har avaktiverats, eftersom det endast kan användas för kurser utan inträdesprov."
+
+msgid "crs_loc_settings_it_start_object"
+msgstr "Ingångstest är startobjekt"
+
+msgid "crs_loc_settings_it_type"
+msgstr "Ingångstest"
+
+msgid "crs_loc_settings_itest_tbl"
+msgstr "Inställningar för inmatningstest"
+
+msgid "crs_loc_settings_passed_mode"
+msgstr "Godkända inlärningsmål"
+
+msgid "crs_loc_settings_passed_mode_hide"
+msgstr "Testfrågor om godkända inlärningsmål är dolda."
+
+msgid "crs_loc_settings_passed_mode_mark"
+msgstr "Testfrågor om godkända inlärningsmål är markerade."
+
+msgid "crs_loc_settings_qt_all"
+msgstr "Slutligt test"
+
+msgid "crs_loc_settings_qt_start_object"
+msgstr "Final test är startobjekt"
+
+msgid "crs_loc_settings_qtest_tbl"
+msgstr "Inställningar för slutligt test"
+
+msgid "crs_loc_settings_reset"
+msgstr "Testresultat"
+
+msgid "crs_loc_settings_reset_enable"
+msgstr "Tillåt återställning av personliga testresultat"
+
+msgid "crs_loc_settings_reset_enable_info"
+msgstr "Kursdeltagare kan radera sina egna testresultat för att starta kursen igen. Denna inställning bör endast användas i utvecklingsfasen av kursen för att göra det lättare att kontrollera dess framsteg."
+
+msgid "crs_loc_settings_tbl"
+msgstr "Inställningar för den målorienterade kursen"
+
+msgid "crs_loc_settings_tbl_it_nq"
+msgstr "Diagnostiska inträdesprov per lärandemål"
+
+msgid "crs_loc_settings_tbl_it_q"
+msgstr "Kvalificerande inträdesprov per inlärningsmål"
+
+msgid "crs_loc_settings_tbl_its_nq_all"
+msgstr "Diagnostiskt inträdesprov för alla lärandemål"
+
+msgid "crs_loc_settings_tbl_its_q_all"
+msgstr "Kvalificerande inmatningstest för alla inlärningsmål"
+
+msgid "crs_loc_settings_tbl_qt"
+msgstr "Slutprov per lärandemål"
+
+msgid "crs_loc_settings_tbl_qts_all"
+msgstr "Slutprov på alla lärandemål"
+
+msgid "crs_loc_settings_type_it_none"
+msgstr "Inget inträdesprov"
+
+msgid "crs_loc_settings_type_it_none_info"
+msgstr "Inget inträdesprov"
+
+msgid "crs_loc_settings_type_it_placement_all"
+msgstr "Diagnostiskt inträdesprov för alla lärandemål"
+
+msgid "crs_loc_settings_type_it_placement_all_info"
+msgstr "Diagnostiskt inträdesprov för alla lärandemål"
+
+msgid "crs_loc_settings_type_it_placement_sel"
+msgstr "Diagnostiskt inmatningstest per inlärningsmål"
+
+msgid "crs_loc_settings_type_it_placement_sel_info"
+msgstr "Diagnostiskt inmatningstest per inlärningsmål"
+
+msgid "crs_loc_settings_type_it_qualifying_all"
+msgstr "Kvalificerande inmatningstest för alla inlärningsmål"
+
+msgid "crs_loc_settings_type_it_qualifying_all_info"
+msgstr "Kvalificerande inmatningstest för alla inlärningsmål"
+
+msgid "crs_loc_settings_type_it_qualifying_sel"
+msgstr "Qualifying entry test per inlärningsmål"
+
+msgid "crs_loc_settings_type_it_qualifying_sel_info"
+msgstr "Qualifying entry test per inlärningsmål"
+
+msgid "crs_loc_settings_type_q_all"
+msgstr "Slutprov på alla lärandemål"
+
+msgid "crs_loc_settings_type_q_all_info"
+msgstr "Slutprov på alla lärandemål"
+
+msgid "crs_loc_settings_type_q_selected"
+msgstr "Slutprov per lärandemål"
+
+msgid "crs_loc_settings_type_q_selected_info"
+msgstr "Slutprov per lärandemål"
+
+msgid "crs_loc_subtab_creation"
+msgstr "Skapa"
+
+msgid "crs_loc_suggested"
+msgstr "Vänligen arbeta igenom de material som anges för att uppnå lärandemålet."
+
+msgid "crs_loc_tab_itest"
+msgstr "Ingångstest"
+
+msgid "crs_loc_tab_itests"
+msgstr "Ingångstest"
+
+msgid "crs_loc_tab_materials"
+msgstr "Material"
+
+msgid "crs_loc_tab_objectives"
+msgstr "Lärandemål"
+
+msgid "crs_loc_tab_qtest"
+msgstr "Slutligt test"
+
+msgid "crs_loc_tab_qtests"
+msgstr "Slutliga prov"
+
+msgid "crs_loc_tab_start"
+msgstr "Starta objekt"
+
+msgid "crs_loc_tbl_tst_qst_qpl"
+msgstr "Frågor/frågepooler"
+
+msgid "crs_loc_tbl_tst_type"
+msgstr "Val av testfrågor"
+
+msgid "crs_loc_test_results_of"
+msgstr "Testresultat från"
+
+msgid "crs_loc_tst_assignment"
+msgstr "Test uppdrag"
+
+msgid "crs_loc_tst_new_run"
+msgstr "Starta nytt test"
+
+msgid "crs_loc_tst_num_qst"
+msgstr "Antal frågor"
+
+msgid "crs_loc_tst_qpls"
+msgstr "Tillgängliga frågepooler"
+
+msgid "crs_loc_tst_resume"
+msgstr "Fortsätt gammalt test"
+
+msgid "crs_loc_tst_start"
+msgstr "Starta test"
+
+msgid "crs_loc_tt_info"
+msgstr "Du har nått %1$d%%. Testet anses vara godkänt med %2$d%%."
+
+msgid "crs_loc_type_initial_all_info"
+msgstr "Baserat på resultaten från det inledande testet rekommenderar ILIAS lärandeinnehåll för de lärandemål som ännu inte har uppnåtts. I slutet, ett kvalificerande test kontrollerar uppnåendet av alla inlärningsmål."
+
+msgid "crs_loc_type_qualified_info"
+msgstr "Kursen börjar med ett test som kontrollerar individuellt om kursdeltagarna redan har behärskat inlärningsmålen. Om testet är godkänt behöver varken ytterligare utbildningsinnehåll eller tester bearbetas. ILIAS rekommenderar inlärningsinnehåll för alla in"
+
+msgid "crs_mail_all"
+msgstr "För alla medlemmar"
+
+msgid "crs_mail_all_info"
+msgstr "Medlemmar, administratörer och handledare kan använda funktionen \"Mail till medlemmar\" på fliken \"Medlemmar\"."
+
+msgid "crs_mail_context_member_info"
+msgstr "För kontaktuppgifter på informationssidan för en kurs"
+
+msgid "crs_mail_context_member_title"
+msgstr "Kurs"
+
+msgid "crs_mail_context_tutor_info"
+msgstr "For the participant e-postmeddelanden om medlemmen och inlärningsframsteg vyer av en kurs."
+
+msgid "crs_mail_context_tutor_title"
+msgstr "Kurs"
+
+msgid "crs_mail_permanent_link"
+msgstr "Välj följande länk för att komma åt kursinnehållet"
+
+msgid "crs_mail_tutors_only"
+msgstr "Endast för administratörer och handledare"
+
+msgid "crs_mail_tutors_only_info"
+msgstr "Endast administratörer och handledare kan använda funktionen \"Mail till medlemmar\" på fliken \"Medlemmar\"."
+
+msgid "crs_mail_type"
+msgstr "Mail till medlemmar"
+
+msgid "crs_map_location"
+msgstr "Place på karta till kurs"
+
+msgid "crs_map_settings"
+msgstr "Karta"
+
+msgid "crs_materials"
+msgstr "Material"
+
+msgid "crs_max_and_min_members_invalid"
+msgstr "Det lägsta antalet måste vara mindre än det högsta antalet."
+
+msgid "crs_max_and_min_members_needed"
+msgstr "Ange ett lägsta eller högsta antal - eller båda."
+
+msgid "crs_max_members_needed"
+msgstr "Ett maximalt antal medlemmar krävs för väntelistan."
+
+msgid "crs_max_members_reached"
+msgstr "Det maximala antalet medlemmar har överskridits"
+
+msgid "crs_mem_contact"
+msgstr "Stöd för undervisning"
+
+msgid "crs_mem_contacts"
+msgstr "Stöd för undervisning"
+
+msgid "crs_mem_send_mail"
+msgstr "Skicka e-post"
+
+msgid "crs_mem_tbl_header"
+msgstr "Kursdeltagare"
+
+msgid "crs_member"
+msgstr "Medlem"
+
+msgid "crs_member_administration"
+msgstr "Deltagarstyrning"
+
+msgid "crs_member_passed_status_changed"
+msgstr "Uppdatera status"
+
+msgid "crs_members"
+msgstr "Medlemmar"
+
+msgid "crs_members_deleted"
+msgstr "De utvalda medlemmarna har avregistrerats från kursen."
+
+msgid "crs_members_groups"
+msgstr "Gruppmedlemskap"
+
+msgid "crs_members_map"
+msgstr "Card kursdeltagare"
+
+msgid "crs_members_print_title"
+msgstr "Kursdeltagare"
+
+msgid "crs_min_one_admin"
+msgstr "Minst en administratör måste vara kvar på den här kursen."
+
+#, fuzzy
+msgid "crs_msg_no_self_registration_period_if_self_enrolment_disabled"
+msgstr "The limited registration period can not be defined if the \"No Self-enrolment\" setting is active."
+
+msgid "crs_my_courses_groups_enabled"
+msgstr "Mina kurser och grupper"
+
+msgid "crs_my_courses_groups_enabled_info"
+msgstr "Om du aktiverar det här alternativet visas alternativet \"Mina kurser och grupper\" i tidningen."
+
+msgid "crs_new_status"
+msgstr "Din status"
+
+msgid "crs_new_subscription"
+msgstr "Bli medlem i kursen \"%s\""
+
+msgid "crs_new_subscription_body"
+msgstr "%1$s har gått med i kursen %2$s."
+
+msgid "crs_new_subscription_request"
+msgstr "Ansökan om antagning till kursen \"%s"
+
+msgid "crs_new_subscription_request_body"
+msgstr "%1$s har skickat in en ansökan om antagning till kursen \"%2$s\"."
+
+msgid "crs_new_subscription_request_body2"
+msgstr "För att godkänna användaren till kursen eller avvisa begäran måste du ringa upp kursens medlemsadministration. För att göra detta, vänligen välj följande länk"
+
+msgid "crs_news"
+msgstr "Mail till kursen"
+
+msgid "crs_no_archive_selected"
+msgstr "Du har inte valt ett arkiv"
+
+msgid "crs_no_archives_selected"
+msgstr "Du har inte valt ett arkiv"
+
+msgid "crs_no_notify"
+msgstr "Ingen anmälan för anslutningar"
+
+msgid "crs_no_objective_lms_found"
+msgstr "Den här kursen innehåller inget innehåll som kan kopplas till lärandemålet."
+
+msgid "crs_no_objective_selected"
+msgstr "Välj minst ett inlärningsmål."
+
+msgid "crs_no_objectives_created"
+msgstr "Inga inlärningsmål har skapats"
+
+msgid "crs_no_subscribers_selected"
+msgstr "Du har inte valt några användare"
+
+msgid "crs_no_users_added"
+msgstr "Inga användare har lagts till"
+
+msgid "crs_no_users_selected"
+msgstr "Du har inte valt någon användare"
+
+msgid "crs_not_available"
+msgstr "-Inte specificerat-"
+
+msgid "crs_notification"
+msgstr "Notifieringar"
+
+msgid "crs_notification_activated"
+msgstr "Notifiering aktiverad"
+
+msgid "crs_notification_deactivated"
+msgstr "Notifiering avaktiverad"
+
+msgid "crs_notification_explanation_admin"
+msgstr "Du får det här mailet eftersom aviseringar är aktiverade för dig som kursansvarig."
+
+msgid "crs_notification_list_title"
+msgstr "Notifiering"
+
+msgid "crs_notification_salutation"
+msgstr "Kära kursdeltagare,"
+
+msgid "crs_notify"
+msgstr "Notifiering av anslutningar"
+
+msgid "crs_nr"
+msgstr "Nej."
+
+msgid "crs_number_users_added"
+msgstr "Följande antal användare har lagts till på kursen"
+
+msgid "crs_obj_final_req_info"
+msgstr "Ange den procentandel poäng över vilken lärandemålet har uppnåtts."
+
+msgid "crs_obj_initial_req_info"
+msgstr "Kursdeltagare som har uppnått denna procentandel poäng kommer inte att rekommenderas kursmaterial för vidare arbete."
+
+msgid "crs_obj_required_points"
+msgstr "Score krävs"
+
+msgid "crs_objective_accomplished"
+msgstr "Gjort"
+
+msgid "crs_objective_action_itest"
+msgstr "Bestäm frågor för inträdesprovet"
+
+msgid "crs_objective_action_materials"
+msgstr "Tilldela utbildningsinnehåll"
+
+msgid "crs_objective_action_qtest"
+msgstr "Bestämma frågor för det slutliga testet"
+
+msgid "crs_objective_action_qtest_sep"
+msgstr "Dela ut slutprov"
+
+msgid "crs_objective_add_mat"
+msgstr "Lämna ut material"
+
+msgid "crs_objective_all_points"
+msgstr "Achievable poäng"
+
+msgid "crs_objective_assigned_materials"
+msgstr "Tilldelat innehåll för lärande"
+
+msgid "crs_objective_err_limit"
+msgstr "Ange endast procenttal mellan 1 och 100."
+
+msgid "crs_objective_final_test"
+msgstr "Frågor slutprov"
+
+msgid "crs_objective_limit_err"
+msgstr "Den poäng som krävs får inte överstiga den totala poängen."
+
+msgid "crs_objective_modified"
+msgstr "Ändringarna har antagits."
+
+msgid "crs_objective_not_accomplished"
+msgstr "Inte uppfyllt"
+
+msgid "crs_objective_overview_objectives"
+msgstr "Allmän översikt"
+
+msgid "crs_objective_overview_question_assignment"
+msgstr "Oversiktsfråga uppdrag"
+
+msgid "crs_objective_points"
+msgstr "Punkt(er)"
+
+msgid "crs_objective_pretest"
+msgstr "Efter inträdesprov"
+
+msgid "crs_objective_qst_summary"
+msgstr "Frågeformulär"
+
+msgid "crs_objective_random_warn"
+msgstr "Ett slumpmässigt arrangemang av frågor är inställt för detta test, därför kan det inte användas för inlärningsmål."
+
+msgid "crs_objective_result"
+msgstr "Efter slutprov"
+
+msgid "crs_objective_result_details"
+msgstr "?? Visa resultat"
+
+msgid "crs_objective_result_summary_initial"
+msgstr "Ingångstest"
+
+msgid "crs_objective_result_summary_qualifying"
+msgstr "Slutligt test"
+
+msgid "crs_objective_saved_sorting"
+msgstr "Beställningen har sparats."
+
+msgid "crs_objective_self_assessment"
+msgstr "Frågor inmatningstest"
+
+msgid "crs_objective_status"
+msgstr "Lärandets målstatus"
+
+msgid "crs_objective_status_configure"
+msgstr "Kontrollista Kurs"
+
+msgid "crs_objective_status_itest"
+msgstr "Konfigurera inmatningstest"
+
+msgid "crs_objective_status_materials"
+msgstr "Lägg till utbildningsinnehåll"
+
+msgid "crs_objective_status_materials_info"
+msgstr "Kursen har för närvarande inget innehåll. Lägg till innehåll som kan kopplas till lärandemål."
+
+msgid "crs_objective_status_objective_creation"
+msgstr "Lägg till inlärningsmål"
+
+msgid "crs_objective_status_objectives"
+msgstr "Konfigurera inlärningsmål"
+
+msgid "crs_objective_status_qtest"
+msgstr "Konfigurera slutligt test"
+
+msgid "crs_objective_status_settings"
+msgstr "Gör kursinställningar"
+
+msgid "crs_objective_tbl_col_final_tsts"
+msgstr "Slutliga prov"
+
+msgid "crs_objective_wiz_final"
+msgstr "Bestämma frågor för det slutliga testet"
+
+msgid "crs_objective_wiz_final_info"
+msgstr "Ställ nu in frågorna för det slutliga testet för att kontrollera att lärandemålet har uppnåtts."
+
+msgid "crs_objective_wiz_final_limit"
+msgstr "Sätta gränserna för det slutliga testet"
+
+msgid "crs_objective_wiz_materials"
+msgstr "Tilldela utbildningsinnehåll"
+
+msgid "crs_objective_wiz_materials_info"
+msgstr "Här bestämmer du vilket innehåll som rekommenderas för att arbeta med lärandemålet."
+
+msgid "crs_objective_wiz_self"
+msgstr "Bestäm frågor för inträdesprovet"
+
+msgid "crs_objective_wiz_self_limit"
+msgstr "Sätta gränserna för inträdesprovet"
+
+msgid "crs_objective_wiz_self_limit_info"
+msgstr "Ange det antal poäng över vilket inget ytterligare utbildningsinnehåll rekommenderas för bearbetning."
+
+msgid "crs_objective_wiz_title"
+msgstr "Beskriv inlärningsmål"
+
+msgid "crs_objective_wiz_title_info"
+msgstr "Ange en titel och en kort beskrivning av lärandemålet."
+
+msgid "crs_objectives"
+msgstr "Lärandemål"
+
+msgid "crs_objectives_assigned_lm"
+msgstr "De valda materialen har tilldelats."
+
+msgid "crs_objectives_deleted"
+msgstr "Lärandemålen har tagits bort."
+
+msgid "crs_objectives_edit_question_assignments"
+msgstr "Redigera frågeställning"
+
+msgid "crs_objectives_reset_sure"
+msgstr "Är du säker på att du vill återställa alla resultat från den här kursen? <br />Alla framsteg och testresultat kommer att raderas oåterkalleligt."
+
+msgid "crs_objectives_reseted"
+msgstr "Alla resultat har återställts."
+
+msgid "crs_open"
+msgstr "Öppen kurs"
+
+msgid "crs_other_resources"
+msgstr "Annat kursmaterial"
+
+msgid "crs_page_type_lobj"
+msgstr "Learning Mål Introduktion"
+
+msgid "crs_passed"
+msgstr "Bekräftad"
+
+msgid "crs_passed_status_manual_by"
+msgstr "Manuellt genom"
+
+msgid "crs_passed_status_system"
+msgstr "System"
+
+msgid "crs_password_not_valid"
+msgstr "Lösenordet är inte korrekt"
+
+msgid "crs_password_required"
+msgstr "Ett lösenord krävs för denna typ av registrering."
+
+msgid "crs_pdf"
+msgstr "PDF"
+
+msgid "crs_period"
+msgstr "Händelseperiod"
+
+msgid "crs_period_end_mail_placeholder"
+msgstr "Slut på evenemanget"
+
+msgid "crs_period_info"
+msgstr "Information om start och slut för det evenemang som kursen är avsedd att stödja."
+
+msgid "crs_period_start_mail_placeholder"
+msgstr "Start av evenemanget"
+
+msgid "crs_presentation_type"
+msgstr "Visa"
+
+msgid "crs_print_list"
+msgstr "Skapa lista"
+
+msgid "crs_ref_delete_confirmation_info"
+msgstr "Vill du ta bort följande medlemmar från den här kursen? Om dessa medlemmar också ska tas bort från de länkade kurser som ingår i kursen, aktiverar du motsvarande kryssrutor."
+
+msgid "crs_ref_member_update"
+msgstr "Lägg till nya medlemmar"
+
+msgid "crs_ref_member_update_info"
+msgstr "Alla nya medlemmar i den överordnade kursen registreras automatiskt i den kurs som denna kurslänk hänvisar till."
+
+msgid "crs_ref_missing_access"
+msgstr "Alternativet kan inte väljas eftersom du inte har behörigheten \"Hantera medlemmar\" för båda kurserna."
+
+msgid "crs_ref_missing_parent_crs"
+msgstr "Alternativet kan inte väljas eftersom den här kurslänken inte har någon överordnad kurs."
+
+msgid "crs_reg"
+msgstr "Self entry av användaren"
+
+msgid "crs_reg_code"
+msgstr "Anmäl dig via länk"
+
+msgid "crs_reg_code_enabled_info"
+msgstr "Beroende på det valda anslutningsförfarandet och kursrättigheterna möjliggör detta alternativ direkt anslutning genom att ringa upp en länk."
+
+msgid "crs_reg_code_link"
+msgstr "Länk för direkt anslutning"
+
+msgid "crs_reg_max_info"
+msgstr "När det maximala antalet medlemmar har uppnåtts är det inte längre möjligt att ansluta sig självständigt."
+
+msgid "crs_reg_no_selfreg"
+msgstr "Ingen oberoende accession"
+
+msgid "crs_reg_password_info"
+msgstr "Användare måste ange detta lösenord för att gå med i kursen."
+
+#, fuzzy
+msgid "crs_reg_selfreg"
+msgstr "Self-Enrolment"
+
+msgid "crs_reg_subject"
+msgstr "Meddelande"
+
+msgid "crs_reg_until"
+msgstr "Tidsperiod för anslutningar"
+
+msgid "crs_reg_user_already_subscribed"
+msgstr "Du har redan skickat in en ansökan om antagning! Vänligen vänta på bekräftelsen."
+
+msgid "crs_registration"
+msgstr "Gå med i kursen"
+
+msgid "crs_registration_confirmation_info"
+msgstr "Anmäl dig först när du fått bekräftelse från en kursadministratör eller kurslärare."
+
+msgid "crs_registration_deactivated"
+msgstr "Endast kursadministratörer och kurshandledare kan lägga till användare i kursen."
+
+msgid "crs_registration_limited"
+msgstr "Tillfällig anslutning"
+
+msgid "crs_registration_limited_info"
+msgstr "Medlemmar kan endast delta i kursen under en viss period."
+
+msgid "crs_registration_period"
+msgstr "Tidsperiod"
+
+msgid "crs_registration_type"
+msgstr "Förfarande för anslutning"
+
+msgid "crs_reject_subscriber"
+msgstr "Avslag för kursen \"%s\""
+
+msgid "crs_reject_subscriber_body"
+msgstr "Din ansökan om antagning till kursen \"%s\" har avslagits."
+
+msgid "crs_reset_results"
+msgstr "Återställ resultat"
+
+msgid "crs_role_status"
+msgstr "Roll/Status"
+
+msgid "crs_search_users"
+msgstr "Sök användare"
+
+msgid "crs_select_archive_language"
+msgstr "Välj ett språk som arkivet ska skapas på."
+
+msgid "crs_select_one_archive"
+msgstr "Välj exakt ett arkiv!"
+
+msgid "crs_select_starter"
+msgstr "Välj startobjekt"
+
+msgid "crs_settings"
+msgstr "Kursinställningar"
+
+msgid "crs_settings_saved"
+msgstr "Inställningarna har sparats"
+
+msgid "crs_shorten_breadcrumb"
+msgstr "Navigering med brödsmulor"
+
+msgid "crs_show_all_obj"
+msgstr "Visa alla"
+
+msgid "crs_show_member_export"
+msgstr "Lista över deltagare"
+
+msgid "crs_show_member_export_info"
+msgstr "Medlemmar har möjlighet att skapa en lista över deltagare"
+
+msgid "crs_show_member_export_settings"
+msgstr "Lista över deltagare"
+
+msgid "crs_show_members"
+msgstr "Medlemmarnas galleri"
+
+msgid "crs_show_members_info"
+msgstr "Alla medlemmar kan se medlemsgalleriet på den här fliken."
+
+msgid "crs_size"
+msgstr "Filens storlek"
+
+msgid "crs_sort_activation"
+msgstr "I enlighet med tidsangivelser"
+
+msgid "crs_sort_timing_info"
+msgstr "De inkluderade objekten sorteras automatiskt efter rekommenderad behandlingstid och tillgänglighet."
+
+msgid "crs_start"
+msgstr "Start"
+
+msgid "crs_start_objects"
+msgstr "Starta objekt"
+
+msgid "crs_starter_delete_sure"
+msgstr "Vill du verkligen att följande objekt inte längre ska vara startobjekt?"
+
+msgid "crs_starter_deleted"
+msgstr "Uppdraget har tagits bort."
+
+msgid "crs_starters_already_assigned"
+msgstr "Detta objekt har redan tilldelats."
+
+msgid "crs_status"
+msgstr "Status"
+
+msgid "crs_status_changed"
+msgstr "Status i kursen \"%s"
+
+msgid "crs_status_changed_body"
+msgstr "Din status i kursen \"%s\" har ändrats."
+
+msgid "crs_status_determination"
+msgstr "Bestämning av status \"Godkänd\""
+
+msgid "crs_status_determination_lp"
+msgstr "Dra nytta av framsteg i lärandet"
+
+msgid "crs_status_determination_lp_info"
+msgstr "Om inlärningsförloppet ändras till \"Redigerad\", sätts statusen \"Godkänd\". Handledaren kan manuellt skriva över statusen."
+
+msgid "crs_status_determination_manual"
+msgstr "Endast manuellt av handledare"
+
+msgid "crs_status_determination_sync"
+msgstr "Inlärningsframstegen för denna kurs sätts automatiskt till \"Godkänd\" så snart någon har slutfört alla aktiviteter som krävs för den. Redan uppnådda framsteg tas med i beräkningen. En manuellt inställd status förblir oförändrad. Vill du sätta statusen \"Go"
+
+msgid "crs_structure"
+msgstr "Kursens struktur"
+
+msgid "crs_subject_course_group_notification"
+msgstr "Mailsammanfattning för %s"
+
+msgid "crs_subscribe_member"
+msgstr "Din registrering för kursen \"%s"
+
+msgid "crs_subscribe_member_body"
+msgstr "vi har just antagit dig till kursen %s i enlighet med din ansökan."
+
+msgid "crs_subscribe_wl"
+msgstr "Din registrering för kursen \"%s"
+
+msgid "crs_subscribe_wl_body"
+msgstr "Du har placerats på väntelistan för kursen \"%s\" och har positionen %s på väntelistan.  Du kommer att meddelas via e-post så snart din ansökan om tillträde har godkänts eller avslagits."
+
+msgid "crs_subscriber"
+msgstr "Ansökan om antagning inlämnad"
+
+msgid "crs_subscribers_deleted"
+msgstr "Förfrågan har tagits bort"
+
+msgid "crs_subscription"
+msgstr "Förfarande för anslutning"
+
+msgid "crs_subscription_failed_limit"
+msgstr "Det maximala antalet deltagare har överskridits."
+
+msgid "crs_subscription_max_members"
+msgstr "Maximalt antal"
+
+msgid "crs_subscription_max_members_short"
+msgstr "Begränsat antal medlemmar"
+
+msgid "crs_subscription_max_members_short_info"
+msgstr "Ett lägsta eller högsta antal medlemmar kan anges. En väntelista kan upprättas."
+
+msgid "crs_subscription_min_members"
+msgstr "Minsta antal"
+
+msgid "crs_subscription_min_members_err"
+msgstr "Det lägsta antalet får inte vara större än det högsta antalet."
+
+msgid "crs_subscription_min_members_info"
+msgstr "Om det erforderliga minimiantalet medlemmar inte uppnås kan kursen inte äga rum. Om minimiantalet medlemmar inte har uppnåtts vid slutet av anslutningsperioden eller det senaste kursuttaget, skickar ILIAS ett e-postmeddelande till de kursadministratörer"
+
+msgid "crs_subscription_options_confirmation"
+msgstr "Tillträde efter bekräftelse"
+
+msgid "crs_subscription_options_direct"
+msgstr "Direkt anslutning"
+
+msgid "crs_subscription_options_password"
+msgstr "Anmäl dig med lösenord för kursen"
+
+msgid "crs_subscription_successful"
+msgstr "Du har blivit antagen till kursen."
+
+msgid "crs_sure_delete_selected_archives"
+msgstr "Är du säker på att du vill radera de valda arkiven?"
+
+msgid "crs_syllabus"
+msgstr "Kursprogram"
+
+msgid "crs_sys_default"
+msgstr "Globalt standardvärde"
+
+msgid "crs_table_start_objects"
+msgstr "Starta objekt"
+
+msgid "crs_target_group"
+msgstr "Målgrupp"
+
+msgid "crs_tile_and_objective_view_not_supported"
+msgstr "Simultan aktivering av kakelpresentation och målorienterad vy för lärande stöds inte."
+
+msgid "crs_tile_and_session_limit_not_supported"
+msgstr "Samtidig aktivering av kakelpresentation och begränsning av visade sessioner stöds inte."
+
+msgid "crs_timing_err_start_end"
+msgstr "Startdatumet måste vara mindre än eller lika med slutdatumet."
+
+msgid "crs_timings_activate_optional"
+msgstr "Frivilligt läge för användarens studieplan"
+
+msgid "crs_timings_activate_optional_own"
+msgstr "Volontärläge för min studieplan"
+
+msgid "crs_timings_availability_enabled"
+msgstr "Begränsad tid tillgänglig"
+
+msgid "crs_timings_changeable"
+msgstr "Lärande planering föränderlig"
+
+msgid "crs_timings_changed"
+msgstr "Lärandeplan ändrad"
+
+msgid "crs_timings_days_after_subsription"
+msgstr "Dag(ar) efter kursstart"
+
+msgid "crs_timings_disabled"
+msgstr "Timmar avstängda"
+
+msgid "crs_timings_disabled_info"
+msgstr " Välj denna inställning för att inaktivera alla tidsinställningar."
+
+msgid "crs_timings_early_begin"
+msgstr "Tidig start"
+
+msgid "crs_timings_edit_personal"
+msgstr "Edit personlig planering av lärande"
+
+msgid "crs_timings_end"
+msgstr "Sluttid"
+
+msgid "crs_timings_from_until"
+msgstr "(Från/Till)"
+
+msgid "crs_timings_in_days"
+msgstr "(i dagar)"
+
+msgid "crs_timings_info_active"
+msgstr "(Aktiv)"
+
+msgid "crs_timings_not_changed"
+msgstr "Lärandeplanen har inte ändrats"
+
+msgid "crs_timings_optional_checked"
+msgstr "Volunteer-läget har aktiverats för den här användaren."
+
+msgid "crs_timings_optional_off"
+msgstr "Volontärläget är inte aktivt."
+
+msgid "crs_timings_optional_on"
+msgstr "Volontärläget är aktivt."
+
+msgid "crs_timings_optional_on_and_passed"
+msgstr "Volontärläget är aktivt och kan inte ändras eftersom användaren har statusen \"Godkänd\"."
+
+msgid "crs_timings_optional_unchecked"
+msgstr "Volontärläget har inaktiverats för den här användaren."
+
+msgid "crs_timings_planed_info"
+msgstr "Planerad bearbetningstid"
+
+msgid "crs_timings_planed_start"
+msgstr "Planerad"
+
+msgid "crs_timings_presetting"
+msgstr "Lärandeplanering påslagen"
+
+msgid "crs_timings_short_active"
+msgstr "Planering av lärande"
+
+msgid "crs_timings_short_active_tt"
+msgstr "Möjliggöra planering av lärande"
+
+msgid "crs_timings_short_changeable"
+msgstr "Ändringsbar"
+
+msgid "crs_timings_short_end"
+msgstr "Slutdatum"
+
+msgid "crs_timings_short_limit_start_end"
+msgstr "Senaste slut"
+
+msgid "crs_timings_short_limit_start_end_tt"
+msgstr "Senaste slut"
+
+msgid "crs_timings_short_limit_start_end_tt_rel"
+msgstr "Senaste avslut i dagar efter kursstart"
+
+msgid "crs_timings_short_start_end"
+msgstr "Startdatum"
+
+msgid "crs_timings_short_start_end_rel"
+msgstr "Rekommenderad start (dagar efter kursstart)"
+
+msgid "crs_timings_short_start_end_tt"
+msgstr "Rekommenderad start"
+
+msgid "crs_timings_short_start_end_tt_rel"
+msgstr "Rekommenderad start i dagar efter kursstart"
+
+msgid "crs_timings_start"
+msgstr "Starttid"
+
+msgid "crs_timings_start_end_info"
+msgstr "(Start/End)"
+
+msgid "crs_timings_sug_begin"
+msgstr "Rekommenderad start"
+
+msgid "crs_timings_sug_end"
+msgstr "Rekommenderat slut"
+
+msgid "crs_timings_suggested_info"
+msgstr "Rekommenderad behandlingstid"
+
+msgid "crs_timings_time_frame"
+msgstr "Tidsram"
+
+msgid "crs_timings_time_frame_tt"
+msgstr "Bearbetningstid i dagar"
+
+msgid "crs_timings_update_error"
+msgstr "Den rekommenderade inlärningstiden för följande kursmaterial strider mot den angivna senaste möjliga inlärningstiden."
+
+msgid "crs_timings_warning_timing_exists"
+msgstr "Attention"
+
+msgid "crs_to"
+msgstr "Till"
+
+msgid "crs_tutor"
+msgstr "Tutor"
+
+msgid "crs_tutors"
+msgstr "Tutorer"
+
+msgid "crs_unblocked"
+msgstr "Aktiverad"
+
+msgid "crs_unblocked_member"
+msgstr "Status i kursen \"%s"
+
+msgid "crs_unblocked_member_body"
+msgstr "Ditt medlemskap för kursen \"%s\" har aktiverats."
+
+msgid "crs_unlimited"
+msgstr "Obegränsad"
+
+msgid "crs_unsubscribe_member"
+msgstr "Din avregistrering från kursen \"%s\""
+
+msgid "crs_unsubscribe_member_body"
+msgstr "vi bekräftar din avregistrering från kursen \"%s\"."
+
+msgid "crs_unsubscribe_member_explanation"
+msgstr "Du får detta mail eftersom du har avslutat kursmedlemskapet för den ovan nämnda kursen."
+
+msgid "crs_unsubscribe_sure"
+msgstr "Är du säker på att du vill avbryta ditt medlemskap i den här kursen?"
+
+msgid "crs_unsubscribed_from_crs"
+msgstr "Ditt kursmedlemskap har avslutats."
+
+msgid "crs_update_subscr_request"
+msgstr "Uppdatera ansökan om antagning"
+
+msgid "crs_user_agreement"
+msgstr "Personliga profiluppgifter"
+
+msgid "crs_user_agreement_info"
+msgstr "Data delas med kursadministratörer"
+
+msgid "crs_user_already_assigned"
+msgstr "Personen är redan deltagare i denna kurs."
+
+msgid "crs_users_added"
+msgstr "User(s) har lagts till i kursen"
+
+msgid "crs_users_already_assigned"
+msgstr "En användare är redan medlem i denna kurs"
+
+msgid "crs_users_removed_from_list"
+msgstr "De valda användarna har tagits bort från väntelistan."
+
+msgid "crs_usr_agreement"
+msgstr "Insikt i personuppgifter"
+
+msgid "crs_view_info_objective"
+msgstr "Lärandemål visas i en separat lista. Objekt som inte är kopplade till lärandemål listas nedan."
+
+msgid "crs_view_info_timing"
+msgstr "Objekten visas enligt ett schema."
+
+msgid "crs_view_info_timing_absolute"
+msgstr "Start- och slutdatum är absoluta."
+
+msgid "crs_view_info_timing_relative"
+msgstr "Start- och slutdatum anges i förhållande till kursens startdatum med hjälp av tidsangivelser."
+
+msgid "crs_view_mode"
+msgstr "Presentation"
+
+msgid "crs_view_objective"
+msgstr "Lärande Målorienterad syn"
+
+msgid "crs_view_timing"
+msgstr "Planeringsvy för lärande"
+
+msgid "crs_view_timing_absolute"
+msgstr "Absolut datum"
+
+msgid "crs_view_timing_relative"
+msgstr "Relativt datum"
+
+msgid "crs_view_timings"
+msgstr "Planeringstyp för lärande"
+
+msgid "crs_visibility"
+msgstr "Synlighet"
+
+msgid "crs_visibility_limitless"
+msgstr "Unlimited - när den kopplas online"
+
+msgid "crs_visibility_until"
+msgstr "Tidsbegränsad tillgänglighet"
+
+msgid "crs_visibility_until_info"
+msgstr "Kursen visas endast för dess medlemmar under en viss tidsperiod."
+
+msgid "crs_visibility_unvisible"
+msgstr "Kursen är inte synlig."
+
+msgid "crs_wait_info"
+msgstr "Om det maximala antalet medlemmar uppnås kan ytterligare användare placeras på en väntelista."
+
+msgid "crs_waiting_list"
+msgstr "Väntelista"
+
+msgid "crs_waiting_list_autofill"
+msgstr "Med automatisk framflyttning"
+
+msgid "crs_waiting_list_autofill_info"
+msgstr "Deltagare flyttas automatiskt upp från väntelistan i händelse av avbokningar. Detta bör inte användas i samband med förfarandet \"gå med efter bekräftelse\" eftersom det kringgår bekräftelsen."
+
+msgid "crs_waiting_list_no_autofill"
+msgstr "Utan automatisk framflyttning"
+
+msgid "crs_warn_no_max_set_on_waiting_list"
+msgstr "Det maximala antalet deltagare har uppnåtts. Du kan dock sätta upp dig på väntelistan för den här kursen och få ett meddelande om du kan flytta upp i kursen."
+
+msgid "crs_warn_wl_set_on_waiting_list"
+msgstr "Det finns redan deltagare på väntelistan. Du kan dock lägga till ditt namn på väntelistan för denna kurs. Du kommer att meddelas via e-post så snart din ansökan om tillträde har godkänts eller avslagits."
+
+msgid "crs_wiz_back"
+msgstr "Tillbaka"
+
+msgid "crs_wiz_next"
+msgstr "Spara"
+
+msgid "crs_xml"
+msgstr "XML"
+
+msgid "edit_timings_list"
+msgstr "Edit planering av lärande"
+
+msgid "event"
+msgstr "Session"
+
+msgid "event_add_new_event"
+msgstr "En ny session har skapats."
+
+msgid "event_assign_materials_info"
+msgstr "Här kan du tilldela material till sessionen. Dessa visas sedan direkt under sessionen."
+
+msgid "event_assign_materials_table"
+msgstr "Allokering av material"
+
+msgid "event_blank_columns"
+msgstr "Ytterligare kolumner"
+
+msgid "event_btn_add"
+msgstr "Skapa session"
+
+msgid "event_btn_add_edit"
+msgstr "Skapa session och tilldela material"
+
+msgid "event_csv_export"
+msgstr "CSV export"
+
+msgid "event_date_time"
+msgstr "Datum och tid"
+
+msgid "event_desc"
+msgstr "Beskrivning"
+
+msgid "event_details_workflow"
+msgstr "Detaljer om sessionen"
+
+msgid "event_edit_members"
+msgstr "Deltagare"
+
+msgid "event_etime_smaller_stime"
+msgstr "Slutdatumet är tidigare än startdatumet. Ange en giltig tidsperiod."
+
+msgid "event_file"
+msgstr "Fil"
+
+msgid "event_files"
+msgstr " Tilldelade filer"
+
+msgid "event_fulltime_info"
+msgstr "Tillsättning hela dagen"
+
+msgid "event_lecturer"
+msgstr "Namn"
+
+msgid "event_list_registered_only"
+msgstr "Endast registrerad"
+
+msgid "event_location"
+msgstr "Plats"
+
+msgid "event_materials"
+msgstr "Material för sessionen"
+
+msgid "event_not_participated"
+msgstr "Inte deltagit"
+
+msgid "event_overview"
+msgstr "Deltagande i möten"
+
+msgid "event_participated"
+msgstr "Deltagande"
+
+msgid "event_registered"
+msgstr "Du har registrerat dig för denna session."
+
+msgid "event_section_information"
+msgstr "Information om sessionen"
+
+msgid "event_table_create"
+msgstr "Ny session"
+
+msgid "event_table_update"
+msgstr "Redigera session"
+
+msgid "event_tbl_admin"
+msgstr "Administratör"
+
+msgid "event_tbl_admins"
+msgstr "Administratörer"
+
+msgid "event_tbl_member"
+msgstr "Medlem"
+
+msgid "event_tbl_members"
+msgstr "Medlemmar"
+
+msgid "event_tbl_participated"
+msgstr "Deltagande"
+
+msgid "event_tbl_registered"
+msgstr "Reported"
+
+msgid "event_tbl_tutor"
+msgstr "Tutor"
+
+msgid "event_tbl_tutors"
+msgstr "Tutorer"
+
+msgid "event_title"
+msgstr "Titel"
+
+msgid "event_tutor_data"
+msgstr "Presentation av"
+
+msgid "event_unregister"
+msgstr "Logga ut"
+
+msgid "event_unregistered"
+msgstr "Du har blivit avregistrerad."
+
+msgid "event_updated"
+msgstr "Ändringarna har sparats"
+
+msgid "event_user_selection"
+msgstr "Urval av användare"
+
+msgid "event_user_selection_include_filter"
+msgstr "Inkludera \"%1$s"
+
+msgid "event_user_selection_include_requests"
+msgstr "Inkludera alla användare i listan \"Önskemål om inkludering\""
+
+msgid "event_user_selection_include_role"
+msgstr "Inkludera alla användare med rollen \"%1$s"
+
+msgid "event_user_selection_include_waiting_list"
+msgstr "Inkludera alla användare på \"väntelistan"
+
+msgid "events"
+msgstr "Sessioner"
+
+msgid "export_members"
+msgstr "Export av deltagardata"
+
+msgid "grouping_change_assignment"
+msgstr "Ändra uppdrag"
+
+msgid "grp_grp_already_assigned"
+msgstr "Eftersom du redan är medlem i en av grupperna kan du inte gå med i en annan grupp från listan!"
+
+#, fuzzy
+msgid "grp_not_all_users_assigned_msg"
+msgstr "%s user(s) assigned as group member(s), %s user(s) were already in the group."
+
+msgid "mem_cron_min_members_intro"
+msgstr "Följande kurser och grupper når för närvarande inte upp till minimiantalet medlemmar"
+
+msgid "mem_cron_min_members_reason"
+msgstr "Om du inte längre vill få aviseringar för dessa kurser och grupper, avaktivera kryssrutan \"Avisering\" på fliken \"Medlemmar\" i respektive objekt."
+
+msgid "mem_cron_min_members_subject"
+msgstr "Kurs/Grupp"
+
+msgid "mem_cron_min_members_task"
+msgstr "Informera de som redan har anmält sig i god tid om evenemanget inte blir av. Eller ändra det minsta antalet medlemmar eller anslutningsperioden. För att göra detta, justera inställningarna i avsnittet \"Tidsbegränsad anslutning\" eller \"Begränsat antal med"
+
+msgid "obj_count_members"
+msgstr "Antal medlemmar"
+
+msgid "sess_attendance_list"
+msgstr "Lista över deltagare"
+
+msgid "sess_gen_attendance_list"
+msgstr "Skapa lista"
+
+msgid "sess_join_info"
+msgstr "Klicka på Register om du vill delta i detta seminarium."
+
+msgid "sess_limit"
+msgstr "Begränsning av antalet sessioner som visas"
+
+msgid "sess_limit_info"
+msgstr "Deltagarna visas inte alla sessioner, utan endast ett definierat antal."
+
+msgid "sess_num_next"
+msgstr "Antal efterföljande sessioner (från och med i morgon)"
+
+msgid "sess_num_prev"
+msgstr "Antal tidigare sessioner (till och med igår)"
+
+msgid "sess_print_attendance_list"
+msgstr "Skriv ut lista"
+
+msgid "sess_signature"
+msgstr "Signatur"
+
+msgid "subscription_times_not_valid"
+msgstr "Tidsperioden för 'Registration' är inte giltig."
+
+msgid "timing_accept_table"
+msgstr "Planering av lärande"
+
+msgid "timing_accepted"
+msgstr "Accepted"
+
+msgid "timing_not_accepted"
+msgstr "Inte accepterad"
+
+msgid "timing_remark"
+msgstr "Note"
+
+msgid "timing_tutor_visible"
+msgstr "Markering är synlig för handledaren"
+
+msgid "timing_user_accept"
+msgstr "Acceptera rekommenderad utbildningsplan"
+
+msgid "timing_user_accepted"
+msgstr "Lärandeplan accepterad"
+
+msgid "timings"
+msgstr "Tidslinjer"
+
+msgid "timings_cron_reminder_exceeded_start"
+msgstr "Bearbetningsperioden är försenad till"
+
+msgid "timings_cron_reminder_exceeded_subject"
+msgstr "Du har överskridit bearbetningsperioden"
+
+msgid "timings_cron_reminder_freshly_start"
+msgstr "Bearbetningsperioden har börjat kl."
+
+msgid "timings_cron_reminder_started_subject"
+msgstr "Redigeringsperioden har börjat"
+
+msgid "timings_edit"
+msgstr "Redigera schemaläggning"
+
+msgid "timings_of"
+msgstr "Lärandeplanering från"
+
+msgid "timings_reminder_notifications"
+msgstr "Skicka meddelanden om planering av lärande"
+
+msgid "timings_reminder_notifications_info"
+msgstr "När den aktiveras informeras kursdeltagarna om överskridet material för utbildningsplanering."
+
+msgid "timings_timings"
+msgstr "Planering av lärande"
+
+msgid "timings_timings_off"
+msgstr "Learning planering ledning off"
+
+msgid "timings_timings_on"
+msgstr "Learning planering ledning på"
+
+msgid "timings_usr_edit"
+msgstr "Personlig planering av lärande"
+
+msgid "tutor_email"
+msgstr "E-post"
+
+msgid "tutor_name"
+msgstr "Namn"
+
+msgid "tutor_phone"
+msgstr "Telefon"
+
+#, fuzzy
+msgid "tutorial_support_block_byline"
+msgstr "The 'Tutorial Support' block is displayed in the 'Contents' tab. The user selected as \"Contact Person\" in the \"Members\" Tab is shown."
+
+#, fuzzy
+msgid "tutorial_support_block_contact"
+msgstr "Contact"
+
+#, fuzzy
+msgid "tutorial_support_block_send_mail"
+msgstr "send email"
+
+#, fuzzy
+msgid "tutorial_support_block_setting_desc"
+msgstr "The 'Tutorial Support' block is displayed in the 'Contents' tab."
+
+#, fuzzy
+msgid "tutorial_support_block_setting_title"
+msgstr "Tutorial Support Block"
+
+#, fuzzy
+msgid "tutorial_support_block_title"
+msgstr "Contact Person"
+
+msgid "user_fields"
+msgstr "Personliga profiluppgifter"

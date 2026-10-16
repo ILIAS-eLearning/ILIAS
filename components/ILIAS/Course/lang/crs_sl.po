@@ -1,0 +1,1931 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: crs\n"
+
+msgid "activation_times_not_valid"
+msgstr "Obdobje za 'Razpoložljivost' ni veljavno."
+
+msgid "assigned"
+msgstr "Dodeljen"
+
+msgid "contact_email_not_valid"
+msgstr "E-poštni naslov ni veljaven."
+
+msgid "crs_accept_subscriber"
+msgstr "Sprejem v tečaj \"%s\""
+
+msgid "crs_accept_subscriber_body"
+msgstr "Sprejeti ste bili v tečaj \"%s\"."
+
+msgid "crs_access"
+msgstr "Dostop"
+
+msgid "crs_activate_notification"
+msgstr "Aktiviraj obveščanje"
+
+msgid "crs_activation"
+msgstr "Aktiviranje"
+
+msgid "crs_activation_limited_visibility_info"
+msgstr "Izven določenega obdobja bo prikazan naslov tečaja, njegova vsebina pa ne."
+
+msgid "crs_activation_online_info"
+msgstr "Samo če je tečaj na spletu, ga uporabniki lahko urejajo, člani tečaja pa dostopajo do njega. V nasprotnem primeru je tečaj na voljo samo administratorjem in mentorjem."
+
+msgid "crs_add_archive_html"
+msgstr "Dodaj arhiv HTML"
+
+msgid "crs_add_archive_xml"
+msgstr "Dodaj arhiv XML"
+
+msgid "crs_add_grouping"
+msgstr "Nova omejitev članstva"
+
+msgid "crs_add_html_archive"
+msgstr "Dodaj arhiv HTML"
+
+msgid "crs_add_objective"
+msgstr "Dodaj nov učni cilj"
+
+msgid "crs_add_remove_from_desktop"
+msgstr "Dodaj kot priljubljeno"
+
+msgid "crs_add_remove_from_desktop_info"
+msgstr "Uporabniki lahko objekt tečaja dodajo kot priljubljene."
+
+msgid "crs_add_starter"
+msgstr "Dodaj začetni objekt"
+
+msgid "crs_add_to_group"
+msgstr "Dodaj v skupino"
+
+msgid "crs_added_member"
+msgstr "Sprejem v tečaj \"%s\""
+
+msgid "crs_added_member_body"
+msgstr "Sprejeti ste bili v tečaj \"%s\"."
+
+msgid "crs_added_new_archive"
+msgstr "Nov arhiv je bil ustvarjen."
+
+msgid "crs_added_objective"
+msgstr "Dodan je bil nov učni cilj."
+
+msgid "crs_added_starters"
+msgstr "Izbrani objekti so bili dodeljeni."
+
+msgid "crs_added_to_list"
+msgstr "Uvrščeni ste bili na čakalni seznam.<br />Ste na mestu %s čakalnega seznama."
+
+msgid "crs_admin"
+msgstr "Administrator"
+
+msgid "crs_administrators"
+msgstr "Administratorji"
+
+msgid "crs_admission_link_failure_availability"
+msgstr "Pridružitev ni mogoča. Tečaj je na spletu."
+
+msgid "crs_admission_link_failure_invalid_code"
+msgstr "Pridružitev ni mogoča. Povezava ni veljavna."
+
+msgid "crs_admission_link_failure_membership_limited"
+msgstr "Pridružitev ni mogoča. Število članov skupine je omejeno."
+
+msgid "crs_admission_link_failure_offline"
+msgstr "Pridružitev ni mogoča. Tečaj je brez spletne povezave."
+
+msgid "crs_admission_link_failure_registration_period"
+msgstr "Pridružitev ni mogoča. Tečaj je izven prijavnega obdobja."
+
+msgid "crs_admission_link_success_registration"
+msgstr "Uspešno ste se prijavili v tečaj \"%s\"."
+
+msgid "crs_agree"
+msgstr "Soglasje"
+
+msgid "crs_agreement_header"
+msgstr "Pogoji uporabe"
+
+msgid "crs_agreement_required"
+msgstr "Če se želite pridružiti temu tečaju, morate soglašati s pogoji uporabe."
+
+msgid "crs_at_least_one_admin"
+msgstr "Temu tečaju mora biti dodeljen vsaj en administrator."
+
+msgid "crs_auto_notification"
+msgstr "Pozdravna e-pošta za nove člane"
+
+msgid "crs_auto_notification_info"
+msgstr "Obvestila se po e-pošti samodejno pošljejo tistim članom, ki jih je mentor ali administrator sprejel v tečaj."
+
+msgid "crs_awrn_current_course"
+msgstr "Aktualno tečaj"
+
+msgid "crs_awrn_current_course_info"
+msgstr "Znotraj tečaja so našteti vsi člani tečaja."
+
+msgid "crs_awrn_support_contacts"
+msgstr "Podpora za tečaj"
+
+msgid "crs_awrn_support_contacts_info"
+msgstr "Uporabniki, ki nudijo podporo za tečaj, so našteti. Uporabniki, ki so opredeljeni kot podpora za tečaj, so vneseni v zavihku Člani tečaja."
+
+msgid "crs_blocked"
+msgstr "Dostop zaklenjen"
+
+msgid "crs_blocked_member"
+msgstr "Status v tečaju \"%s\""
+
+msgid "crs_blocked_member_body"
+msgstr "Vaše članstvo v tečaju \"%s\" je bilo zaklenjeno."
+
+msgid "crs_breadcrumb_crs_only"
+msgstr "Navigacijska sled se začne s tečajem"
+
+msgid "crs_breadcrumb_full_path"
+msgstr "Prikaži celotno sled"
+
+msgid "crs_cancel_subscr_request"
+msgstr "Umakni prošnjo za članstvo"
+
+msgid "crs_cancel_subscription"
+msgstr "Izstop iz tečaja \"%s\""
+
+msgid "crs_cancel_subscription_body"
+msgstr "udeleženec/udeleženka %s je izstopil/-a tečaj \"%s\"."
+
+msgid "crs_cancel_subscription_body2"
+msgstr "Morda so udeleženci uvrščeni na čakalni seznam tega tečaja. Za prikaz seznama udeležencev kliknite na naslednjo povezavo:"
+
+msgid "crs_cancellation_end"
+msgstr "Rok za stornacijo"
+
+msgid "crs_cancellation_end_info"
+msgstr "Uporabniki lahko samo do določenega datuma sami zaključijo članstvo v tečaju."
+
+msgid "crs_cancellation_end_rbac_info"
+msgstr "Rok za stornacijo je bil %s, izstop ni več mogoč."
+
+msgid "crs_cannot_find_role"
+msgstr "Vloga ni bila najdena."
+
+msgid "crs_cdf_edit_member"
+msgstr "Uredi uporabniške podatke, ki so specifični za tečaj"
+
+msgid "crs_cdf_tbl_last_edit"
+msgstr "Posodobljeno (specifični podatki o tečaju)"
+
+msgid "crs_checklist_objective"
+msgstr "Kontrolni seznam učnih ciljev"
+
+msgid "crs_contact"
+msgstr "Contact"
+
+msgid "crs_contact_consultation"
+msgstr "Govorilna ura"
+
+msgid "crs_contact_email"
+msgstr "E-pošta"
+
+msgid "crs_contact_email_info"
+msgstr "Vnesete lahko enega ali več e-poštnih naslovov (ločenih z vejico)."
+
+msgid "crs_contact_name"
+msgstr "Ime"
+
+msgid "crs_contact_phone"
+msgstr "Telephone"
+
+msgid "crs_contact_responsibility"
+msgstr "Mesto"
+
+msgid "crs_content"
+msgstr "Vsebina tečaja"
+
+msgid "crs_copy"
+msgstr "Kopiraj tečaj"
+
+msgid "crs_course_group_notification_link"
+msgstr "Povezava:"
+
+msgid "crs_course_period_not_valid"
+msgstr "Obdobje tečaja ni veljavno."
+
+msgid "crs_course_status_of_users"
+msgstr "Opravljen tečaj"
+
+msgid "crs_create_date"
+msgstr "Datum nastanka"
+
+msgid "crs_custom_user_fields"
+msgstr "Uporabniški podatki, ki so specifični za tečaj"
+
+#, fuzzy
+msgid "crs_custom_user_fields_infobox"
+msgstr "Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the \"Members\" tab."
+
+#, fuzzy
+msgid "crs_custom_user_fields_table_title"
+msgstr "Relevant User Data of This Course"
+
+msgid "crs_dates"
+msgstr "Termini"
+
+msgid "crs_deactivate_notification"
+msgstr "Onemogoči obveščanje"
+
+msgid "crs_delete_objectve_sure"
+msgstr "Ali ste prepričani, da želite odstraniti izbrane učne cilje?"
+
+msgid "crs_details"
+msgstr "Podrobnosti o tečaju"
+
+msgid "crs_dismiss_member"
+msgstr "Članstvo v tečaju \"%s\" je prekinjeno"
+
+msgid "crs_dismiss_member_body"
+msgstr "Vaše članstvo v tečaju \"%s\" je bilo prekinjeno."
+
+msgid "crs_edit_lo_introduction"
+msgstr "Uredi uvod"
+
+msgid "crs_edit_timings"
+msgstr "Uredi čase"
+
+msgid "crs_enable_map"
+msgstr "Aktiviraj zemljevid tečaja"
+
+msgid "crs_end"
+msgstr "Konec"
+
+msgid "crs_export"
+msgstr "Izvoz tečaja"
+
+msgid "crs_file"
+msgstr "Datoteka"
+
+msgid "crs_file_download"
+msgstr "Datoteke za prenos"
+
+msgid "crs_file_name"
+msgstr "Ime datoteke"
+
+msgid "crs_file_size_info"
+msgstr "Velikost datoteke"
+
+msgid "crs_from"
+msgstr "Od:"
+
+msgid "crs_general_info"
+msgstr "Informacije"
+
+msgid "crs_general_informations"
+msgstr "Splošne informacije"
+
+msgid "crs_grouping_delete_sure"
+msgstr "Ali ste prepričani, da želite odstraniti naslednje omejitve članstva?"
+
+msgid "crs_grouping_deleted"
+msgstr "Združevanje je bilo izbrisano."
+
+msgid "crs_grouping_select_one"
+msgstr "Izberite omejitev članstva."
+
+msgid "crs_groupings"
+msgstr "Združevanje tečajev"
+
+msgid "crs_groups_nr"
+msgstr "Število skupin"
+
+msgid "crs_grp_added_grouping"
+msgstr "Nova omejitev članstva je bila ustvarjena"
+
+msgid "crs_grp_already_assigned"
+msgstr "Ker ste že član tečaja, ne morete postati član nadaljnjega  tečaja s seznama!"
+
+msgid "crs_grp_assign_crs"
+msgstr "Dodeli tečaj"
+
+msgid "crs_grp_assignments"
+msgstr "Dodelitev članov tečaja skupinam"
+
+msgid "crs_grp_enter_title"
+msgstr "Vnesite naslov."
+
+msgid "crs_grp_info_reg"
+msgstr "Za naslednje tečaje velja omejitev članstva. Prijavite se lahko samo na enega teh tečajev."
+
+msgid "crs_grp_matriculation_required"
+msgstr "Za upoštevanje v tem združevanju tečajev je potrebna edinstvena vpisna številka. <br/>To vrednost vnesite v nastavitve osebnega profila."
+
+msgid "crs_grp_no_courses_assigned"
+msgstr "Noben tečaj ni dodeljen."
+
+msgid "crs_grp_table_assigned_courses"
+msgstr "Dodeljeni tečaji"
+
+msgid "crs_header_archives"
+msgstr "Arhivi tečajev"
+
+msgid "crs_header_delete_members"
+msgstr "Ali želite naslednje člane odstraniti iz tečaja?"
+
+msgid "crs_header_edit_members"
+msgstr "Uredi člane"
+
+msgid "crs_hide_all_obj"
+msgstr "Skrij vse"
+
+msgid "crs_html"
+msgstr "HTML"
+
+msgid "crs_import"
+msgstr "Uvozi tečaj"
+
+msgid "crs_important_info"
+msgstr "Splošne informacije"
+
+msgid "crs_info_agree"
+msgstr "Potrjujem, da sem upošteval postopek potrditve svoje ustanove in zavezujoče rezerviram tečaj."
+
+msgid "crs_info_agreement"
+msgstr "Administratorji tečaja imajo vpogled v naslednje podatke:"
+
+msgid "crs_info_download"
+msgstr "Datoteke za prenos"
+
+msgid "crs_info_reg"
+msgstr "Postopek sprejema"
+
+msgid "crs_info_reg_confirmation"
+msgstr "Za sprejem v skupino morate oddati prošnjo za sprejem. V polju Sporočilo opišite, zakaj se želite pridružiti. Takoj ko bo vaša zahteva sprejeta ali zavrnjena, boste prejeli obvestilo."
+
+msgid "crs_info_reg_deactivated"
+msgstr "Sprejem trenutno ni mogoč."
+
+msgid "crs_info_reg_direct"
+msgstr "Temu tečaju se lahko pridružite neposredno."
+
+msgid "crs_info_reg_password"
+msgstr "Če vam je administrator tečaja dal geslo za tečaj, se lahko pridružite temu tečaju."
+
+msgid "crs_info_settings"
+msgstr "Informacije o tečaju"
+
+msgid "crs_info_start"
+msgstr "Najprej obdelajte vsa spodaj navedena gradiva.<br/> Ko obdelate vse objekte, bodo na voljo nadaljnje vsebine tečaja."
+
+msgid "crs_intro_course_group_notification_for"
+msgstr "to je povzetek sporočil iz vaših tečajev in skupin, za katere je bilo aktivirano samodejno obveščanje."
+
+msgid "crs_intro_course_group_notification_index"
+msgstr "Obstajajo sporočila iz naslednjih tečajev in skupin za obdobje od %1$s do %2$s:"
+
+msgid "crs_item_presetting_info"
+msgstr "Izberite to nastavitev, če želite učencem predlagati trajanje urejanja."
+
+msgid "crs_join_request"
+msgstr "Odpošlji"
+
+msgid "crs_lhist_objective_completed"
+msgstr "Opravljeno $3$ od $1$."
+
+msgid "crs_lim_assigned"
+msgstr "Že udeleženec v tečaju \"%s\"."
+
+msgid "crs_link_hide_next_sessions"
+msgstr "Skrij prihodnje seje"
+
+msgid "crs_link_hide_prev_sessions"
+msgstr "Skrij pretekle seje"
+
+msgid "crs_link_show_all_next_sessions"
+msgstr "Prikaži vse prihodnje seje"
+
+msgid "crs_link_show_all_prev_sessions"
+msgstr "Prikaži vse pretekle seje"
+
+msgid "crs_lobj_pm_min_goal"
+msgstr "Potrebna vrednost"
+
+msgid "crs_lobj_pm_score"
+msgstr "Vaš rezultat"
+
+msgid "crs_loc_btn_new_assignment"
+msgstr "Nova dodelitev testa"
+
+msgid "crs_loc_confirm_delete_tst"
+msgstr "Ali ste prepričani, da želite izbrisati dodelitev testov k tečaju, ki je osredotočen na učne cilje?"
+
+msgid "crs_loc_delete_assignment"
+msgstr "Izbriši dodelitev"
+
+msgid "crs_loc_err_no_active_it"
+msgstr "Na voljo so učni cilji brez vstopnega testa"
+
+msgid "crs_loc_err_no_active_lo"
+msgstr "Ni aktivnega učnega cilja"
+
+msgid "crs_loc_err_no_active_mat"
+msgstr "Na voljo so učni cilji brez dodeljene učne vsebine"
+
+msgid "crs_loc_err_no_active_qst"
+msgstr "Na voljo so učni cilji brez vprašanj"
+
+msgid "crs_loc_err_no_active_qt"
+msgstr "Na voljo so učni cilji brez uvrstitvenega testa"
+
+msgid "crs_loc_err_nr_tries_exceeded"
+msgstr "Število opravljanj testa za posamezen učni cilj presega število mogočih opravljanj uvrstitvenega testa."
+
+msgid "crs_loc_err_stat_no_it"
+msgstr "Vstopni test ni ustvarjen"
+
+msgid "crs_loc_err_stat_no_materials"
+msgstr "Gradivo ni na voljo"
+
+msgid "crs_loc_err_stat_no_qt"
+msgstr "Zaključni test ni ustvarjen"
+
+msgid "crs_loc_err_stat_tst_offline"
+msgstr "Vsi testi niso na spletu"
+
+msgid "crs_loc_form_assign"
+msgstr "Uporabi obstoječi test"
+
+msgid "crs_loc_form_assign_initial_info"
+msgstr "Izberi enega od testov, ki so že na voljo v tečaju, kot vstopni test"
+
+msgid "crs_loc_form_assign_it"
+msgstr "Izberi test"
+
+msgid "crs_loc_form_assign_qualified_info"
+msgstr "--"
+
+msgid "crs_loc_form_available_tsts"
+msgstr "Razpoložljivi testi:"
+
+msgid "crs_loc_form_create_objectives"
+msgstr "Ustvari učne cilje"
+
+msgid "crs_loc_form_random_limits_it"
+msgstr "Določi vprašanja za vstopni test"
+
+msgid "crs_loc_form_random_limits_qt"
+msgstr "Določi vprašanja za uvrstitveni test"
+
+msgid "crs_loc_form_tst_new"
+msgstr "Ustvari nov test"
+
+msgid "crs_loc_form_tst_new_initial_info"
+msgstr "Vprašanja iz tega novo ustvarjenega testa bodo pozneje dodeljena učnim ciljem."
+
+msgid "crs_loc_form_tst_new_qualified_info"
+msgstr "--"
+
+msgid "crs_loc_itest_info"
+msgstr "Vstopni test"
+
+msgid "crs_loc_itst_for_objective"
+msgstr "Vstopni test \"%1$s\""
+
+msgid "crs_loc_learning_objective"
+msgstr "Učni cilj"
+
+msgid "crs_loc_mem_show_res"
+msgstr "Prikaži rezultate testa"
+
+msgid "crs_loc_num_qst"
+msgstr "Število vprašanj"
+
+msgid "crs_loc_objective_passed_confirmation"
+msgstr "Učni cilj ste že opravili. Ponovni začetek testa bo ponastavil rezultate. Ali res želite ponovno začeti test?"
+
+msgid "crs_loc_objectives_passed_confirmation"
+msgstr "Vse učne cilje ste že opravili. Ponovni začetek testa bo ponastavil rezultate. Ali res želite ponovno začeti test?"
+
+msgid "crs_loc_passes_info"
+msgstr "Maksimalno število opravljanj testa:"
+
+msgid "crs_loc_passes_left"
+msgstr "Preostalo število opravljanj testa"
+
+msgid "crs_loc_passes_reached"
+msgstr "Nadaljnja opravljanja testa niso mogoča"
+
+msgid "crs_loc_perc"
+msgstr "Zahtevani odstotek točk"
+
+msgid "crs_loc_progress_do_qualifying"
+msgstr "Opravite zaključni test, da zaključite učni cilj."
+
+msgid "crs_loc_progress_do_qualifying_again"
+msgstr "Ponovno uredite učni cilj."
+
+msgid "crs_loc_progress_no_result_do_initial"
+msgstr "Uredite vstopni test"
+
+msgid "crs_loc_progress_no_result_no_initial"
+msgstr "Predelajte naslednje gradivo in nato opravite zaključni test."
+
+msgid "crs_loc_progress_objective_complete"
+msgstr "Dosegli ste učni cilj."
+
+msgid "crs_loc_progress_result_itest"
+msgstr "Rezultat vstopnega testa"
+
+msgid "crs_loc_progress_result_qtest"
+msgstr "Rezultat"
+
+msgid "crs_loc_qst_resume_tst_itest"
+msgstr "Vstopnih testov za različne učne cilje ne smete začeti vzporedno. Začeli ste že z vstopnim testom za določen učni cilj. Nadaljujte s starim testom ali začnite novega."
+
+msgid "crs_loc_qst_resume_tst_qtest"
+msgstr "Uvrstitvenih testov za različne učne cilje ne smete začeti vzporedno. Začeli ste že z uvrstitvenim testom za določen učni cilj. Nadaljujte s starim testom ali začnite novega."
+
+msgid "crs_loc_qtest_info"
+msgstr "Zaključni test"
+
+msgid "crs_loc_qtst_for_objective"
+msgstr "Uvrstitveni test \"%1$s\""
+
+msgid "crs_loc_rand_assign_qpl"
+msgstr "Dodelitev iz skupine vprašanj"
+
+msgid "crs_loc_rand_qpl"
+msgstr "Razpoložljive skupine vprašanj:"
+
+msgid "crs_loc_settings_err_qstart"
+msgstr "Možnost \"Zaključni test kot začetni objekt\" je bila onemogočena, saj jo je mogoče izbrati samo za tečaje brez vstopnega testa."
+
+msgid "crs_loc_settings_it_start_object"
+msgstr "Vstopni test je začetni objekt"
+
+msgid "crs_loc_settings_it_type"
+msgstr "Vstopni test"
+
+msgid "crs_loc_settings_itest_tbl"
+msgstr "Nastavitve za vstopni test"
+
+msgid "crs_loc_settings_passed_mode"
+msgstr "Opravljeni učni cilji"
+
+msgid "crs_loc_settings_passed_mode_hide"
+msgstr "Testna vprašanja za opravljene učne cilje bodo skrita."
+
+msgid "crs_loc_settings_passed_mode_mark"
+msgstr "Testna vprašanja za opravljene učne cilje bodo označena."
+
+msgid "crs_loc_settings_qt_all"
+msgstr "Zaključni test"
+
+msgid "crs_loc_settings_qt_start_object"
+msgstr "Zaključni test je začetni objekt"
+
+msgid "crs_loc_settings_qtest_tbl"
+msgstr "Nastavitve za končni test"
+
+msgid "crs_loc_settings_reset"
+msgstr "Rezultati testa"
+
+msgid "crs_loc_settings_reset_enable"
+msgstr "Dovoli ponastavitev osebnih rezultatov testa"
+
+msgid "crs_loc_settings_reset_enable_info"
+msgstr "Člani tečaja lahko izbrišejo lastne rezultate testa, če želijo ponovno začeti s tečajem. Ta nastavitev se lahko uporablja samo v razvojni fazi tečaja za lažje preverjanje poteka tečaja."
+
+msgid "crs_loc_settings_tbl"
+msgstr "Nastavitve tečaja, ki je osredotočen na učne cilje"
+
+msgid "crs_loc_settings_tbl_it_nq"
+msgstr "Diagnostični vstopni testi na učni cilj"
+
+msgid "crs_loc_settings_tbl_it_q"
+msgstr "Uvrstitveni vstopni testi na učni cilj"
+
+msgid "crs_loc_settings_tbl_its_nq_all"
+msgstr "Diagnostični vstopni test za vse učne cilje"
+
+msgid "crs_loc_settings_tbl_its_q_all"
+msgstr "Uvrstitveni vstopni test za vse učne cilje"
+
+msgid "crs_loc_settings_tbl_qt"
+msgstr "Zaključni testi na učni cilj"
+
+msgid "crs_loc_settings_tbl_qts_all"
+msgstr "Zaključni testi za vse učne cilje"
+
+msgid "crs_loc_settings_type_it_none"
+msgstr "Ni vstopnega testa"
+
+msgid "crs_loc_settings_type_it_none_info"
+msgstr "Ni vstopnega testa"
+
+msgid "crs_loc_settings_type_it_placement_all"
+msgstr "Diagnostični vstopni test za vse učne cilje"
+
+msgid "crs_loc_settings_type_it_placement_all_info"
+msgstr "Diagnostični vstopni test za vse učne cilje"
+
+msgid "crs_loc_settings_type_it_placement_sel"
+msgstr "Diagnostični vstopni test na učni cilj"
+
+msgid "crs_loc_settings_type_it_placement_sel_info"
+msgstr "Diagnostični vstopni test na učni cilj"
+
+msgid "crs_loc_settings_type_it_qualifying_all"
+msgstr "Uvrstitveni vstopni test za vse učne cilje"
+
+msgid "crs_loc_settings_type_it_qualifying_all_info"
+msgstr "Uvrstitveni vstopni test za vse učne cilje"
+
+msgid "crs_loc_settings_type_it_qualifying_sel"
+msgstr "Uvrstitveni vstopni test na učni cilj"
+
+msgid "crs_loc_settings_type_it_qualifying_sel_info"
+msgstr "Uvrstitveni vstopni test na učni cilj"
+
+msgid "crs_loc_settings_type_q_all"
+msgstr "Zaključni testi za vse učne cilje"
+
+msgid "crs_loc_settings_type_q_all_info"
+msgstr "Zaključni testi za vse učne cilje"
+
+msgid "crs_loc_settings_type_q_selected"
+msgstr "Zaključni test na učni cilj"
+
+msgid "crs_loc_settings_type_q_selected_info"
+msgstr "Zaključni test na učni cilj"
+
+msgid "crs_loc_subtab_creation"
+msgstr "Ustvari"
+
+msgid "crs_loc_suggested"
+msgstr "Predelajte navedeno gradivo, da dosežete učni cilj."
+
+msgid "crs_loc_tab_itest"
+msgstr "Vstopni test"
+
+msgid "crs_loc_tab_itests"
+msgstr "Vstopni testi"
+
+msgid "crs_loc_tab_materials"
+msgstr "Gradivo"
+
+msgid "crs_loc_tab_objectives"
+msgstr "Učni cilji"
+
+msgid "crs_loc_tab_qtest"
+msgstr "Zaključni test"
+
+msgid "crs_loc_tab_qtests"
+msgstr "Zaključni testi"
+
+msgid "crs_loc_tab_start"
+msgstr "Začetni objekti"
+
+msgid "crs_loc_tbl_tst_qst_qpl"
+msgstr "Vprašanja/skupine vprašanj"
+
+msgid "crs_loc_tbl_tst_type"
+msgstr "Izbira testnih vprašanj"
+
+msgid "crs_loc_test_results_of"
+msgstr "Rezultati testa:"
+
+msgid "crs_loc_tst_assignment"
+msgstr "Dodelitev testa"
+
+msgid "crs_loc_tst_new_run"
+msgstr "Začni nov test"
+
+msgid "crs_loc_tst_num_qst"
+msgstr "Število vprašanj:"
+
+msgid "crs_loc_tst_qpls"
+msgstr "Razpoložljive skupine vprašanj:"
+
+msgid "crs_loc_tst_resume"
+msgstr "Nadaljuj s starim testom"
+
+msgid "crs_loc_tst_start"
+msgstr "Začni test"
+
+msgid "crs_loc_tt_info"
+msgstr "Dosegli ste %1$d%%. Test je opravljen pri %2$d%%."
+
+msgid "crs_loc_type_initial_all_info"
+msgstr "Na podlagi rezultatov vstopnih testov ILIAS priporoča učne vsebine za učne cilje, ki še niso doseženi. Z uvrstitvenim testom na koncu preveri doseganje vseh učnih ciljev."
+
+msgid "crs_loc_type_qualified_info"
+msgstr "Tečaj se začne s testom, s katerim se oceni, ali udeleženci tečaja že obvladajo učne cilje. Če je test opravljen, ni potrebno nadaljnje opravljanje učnih ciljev ali testov. Za vse nedosežene učne cilje ILIAS priporoča učne vsebine. Doseganje teh učnih ciljev se preveri z nadaljnjimi opravljanji testa."
+
+msgid "crs_mail_all"
+msgstr "Za vse člane"
+
+msgid "crs_mail_all_info"
+msgstr "Člani, administratorji in mentorji lahko uporabljajo funkcijo \"E-pošta članom\" v zavihku \"Člani\"."
+
+msgid "crs_mail_context_member_info"
+msgstr "Za kontaktno e-pošto na strani z informacijami o tečaju"
+
+msgid "crs_mail_context_member_title"
+msgstr "Tečaj: Stran z informacijami"
+
+msgid "crs_mail_context_tutor_info"
+msgstr "Za pošiljanje e-pošte udeležencem v pogledih z informacijami o članih in učnem napredku tečaja"
+
+msgid "crs_mail_context_tutor_title"
+msgstr "Tečaj: E-pošta članom"
+
+msgid "crs_mail_permanent_link"
+msgstr "Za dostop do vsebine tečaja kliknite na naslednjo povezavo:"
+
+msgid "crs_mail_tutors_only"
+msgstr "Samo za administratorje in mentorje"
+
+msgid "crs_mail_tutors_only_info"
+msgstr "Samo administratorji in mentorji lahko uporabljajo funkcijo \"E-pošta članom\" v zavihku \"Člani\"."
+
+msgid "crs_mail_type"
+msgstr "E-pošta članom"
+
+msgid "crs_map_location"
+msgstr "Lokacija tečaja na zemljevidu"
+
+msgid "crs_map_settings"
+msgstr "Zemljevid"
+
+msgid "crs_materials"
+msgstr "Gradivo"
+
+msgid "crs_max_and_min_members_invalid"
+msgstr "Minimalno število mora biti manjše od maksimalnega števila."
+
+msgid "crs_max_and_min_members_needed"
+msgstr "Določite minimalno ali maksimalno število - ali oboje."
+
+msgid "crs_max_members_needed"
+msgstr "Za čakalni seznam je potrebno maksimalno število članov."
+
+msgid "crs_max_members_reached"
+msgstr "Maksimalno število udeležencev je bilo preseženo."
+
+msgid "crs_mem_contact"
+msgstr "Podpora mentorja"
+
+msgid "crs_mem_contacts"
+msgstr "Podpora mentorja"
+
+msgid "crs_mem_send_mail"
+msgstr "Pošlji e-pošto"
+
+msgid "crs_mem_tbl_header"
+msgstr "Udeleženec tečaja"
+
+msgid "crs_member"
+msgstr "Član"
+
+msgid "crs_member_administration"
+msgstr "Upravljanje udeleženca"
+
+msgid "crs_member_passed_status_changed"
+msgstr "Status posodobitve"
+
+msgid "crs_members"
+msgstr "Člani"
+
+msgid "crs_members_deleted"
+msgstr "Član/-i je bil/so bili odstranjen/-i iz tečaja"
+
+msgid "crs_members_groups"
+msgstr "Članstva v skupini"
+
+msgid "crs_members_map"
+msgstr "Zemljevid članov tečaja"
+
+msgid "crs_members_print_title"
+msgstr "Člani tečaja"
+
+msgid "crs_min_one_admin"
+msgstr "Temu tečaju mora biti dodeljen vsaj en administrator."
+
+#, fuzzy
+msgid "crs_msg_no_self_registration_period_if_self_enrolment_disabled"
+msgstr "The limited registration period can not be defined if the \"No Self-enrolment\" setting is active."
+
+#, fuzzy
+msgid "crs_my_courses_groups_enabled"
+msgstr "My Courses and Groups"
+
+#, fuzzy
+msgid "crs_my_courses_groups_enabled_info"
+msgstr "If activated, the section 'My Courses and Groups' is visible."
+
+msgid "crs_new_status"
+msgstr "Vaš status:"
+
+msgid "crs_new_subscription"
+msgstr "Pridružitev tečaju \"%s\""
+
+msgid "crs_new_subscription_body"
+msgstr "%1$s se je pridružil tečaju %2$s."
+
+msgid "crs_new_subscription_request"
+msgstr "Zahteva za pridružitev tečaju \"%s\""
+
+msgid "crs_new_subscription_request_body"
+msgstr "%1$s je oddal prošnjo za sprejem v tečaj \"%2$s\"."
+
+msgid "crs_new_subscription_request_body2"
+msgstr "Za dodajanje uporabnika v tečaj ali zavrnitev prošnje morate dostopati do upravljanja tečaja. Za to kliknite na naslednjo povezavo:"
+
+msgid "crs_news"
+msgstr "E-pošta o tečaju"
+
+msgid "crs_no_archive_selected"
+msgstr "Niste izbrali nobenega arhiva"
+
+msgid "crs_no_archives_selected"
+msgstr "Niste izbrali nobenega arhiva"
+
+msgid "crs_no_notify"
+msgstr "Brez obvestila ob pridružitvi"
+
+msgid "crs_no_objective_lms_found"
+msgstr "Ta tečaj ne vsebuje učne vsebine, ki bi lahko bila dodeljena učnemu cilju."
+
+msgid "crs_no_objective_selected"
+msgstr "Izberite vsaj en učni cilj."
+
+msgid "crs_no_objectives_created"
+msgstr "Noben učni cilj ni bil ustvarjen"
+
+msgid "crs_no_subscribers_selected"
+msgstr "Niste izbrali nobenih uporabnikov"
+
+msgid "crs_no_users_added"
+msgstr "Niste dodali nobenega člana"
+
+msgid "crs_no_users_selected"
+msgstr "Niste izbrali nobenega uporabnika"
+
+msgid "crs_not_available"
+msgstr "-Ni navedeno-"
+
+msgid "crs_notification"
+msgstr "Obveščanje"
+
+msgid "crs_notification_activated"
+msgstr "Obveščanje je aktivirano"
+
+msgid "crs_notification_deactivated"
+msgstr "Obveščanje je onemogočeno"
+
+msgid "crs_notification_explanation_admin"
+msgstr "To e-pošto ste prejeli, ker je za vas aktivirana funkcija obveščanja."
+
+msgid "crs_notification_list_title"
+msgstr "Obveščanje"
+
+msgid "crs_notification_salutation"
+msgstr "Draga udeleženka tečaja, dragi udeleženec tečaja,"
+
+msgid "crs_notify"
+msgstr "Obvestilo ob pridružitvi"
+
+msgid "crs_nr"
+msgstr "Št."
+
+msgid "crs_number_users_added"
+msgstr "Tečaju je bilo dodano naslednje število uporabnikov:"
+
+msgid "crs_obj_final_req_info"
+msgstr "Vnesite odstotek točk, ki je potreben za dosego učnega cilja."
+
+msgid "crs_obj_initial_req_info"
+msgstr "Udeležencem tečaja, ki dosežejo ta odstotek točk, ne bo priporočeno nadaljnje gradivo za tečaj, ki ga morajo predelati."
+
+msgid "crs_obj_required_points"
+msgstr "Potrebno število točk"
+
+msgid "crs_objective_accomplished"
+msgstr "Urejeno"
+
+msgid "crs_objective_action_itest"
+msgstr "Določi vprašanja za vstopni test"
+
+msgid "crs_objective_action_materials"
+msgstr "Dodeli učne vsebine"
+
+msgid "crs_objective_action_qtest"
+msgstr "Določi vprašanja za zaključni test"
+
+msgid "crs_objective_action_qtest_sep"
+msgstr "Dodeli zaključni test"
+
+msgid "crs_objective_add_mat"
+msgstr "Dodeli gradivo"
+
+msgid "crs_objective_all_points"
+msgstr "Točke, ki jih je mogoče doseči"
+
+msgid "crs_objective_assigned_materials"
+msgstr "Dodeljene učne vsebine"
+
+msgid "crs_objective_err_limit"
+msgstr "Vnesite samo odstotek med 1 in 100."
+
+msgid "crs_objective_final_test"
+msgstr "Vprašanja za zaključni test"
+
+msgid "crs_objective_limit_err"
+msgstr "Potrebno število točk ne sme presegati skupnega števila točk."
+
+msgid "crs_objective_modified"
+msgstr "Spremembe so bile sprejete."
+
+msgid "crs_objective_not_accomplished"
+msgstr "Ni izpolnjeno"
+
+msgid "crs_objective_overview_objectives"
+msgstr "Celoten pregled"
+
+msgid "crs_objective_overview_question_assignment"
+msgstr "Pregled dodelitev vprašanj"
+
+msgid "crs_objective_points"
+msgstr "Točka/-e"
+
+msgid "crs_objective_pretest"
+msgstr "Po vstopnem testu"
+
+msgid "crs_objective_qst_summary"
+msgstr "Pregled vprašanj"
+
+msgid "crs_objective_random_warn"
+msgstr "Za ta test je določeno naključno zaporedje vprašanj, zato se ga ne more uporabiti za učne cilje."
+
+msgid "crs_objective_result"
+msgstr "Po zaključnem testu"
+
+msgid "crs_objective_result_details"
+msgstr "« Show Details"
+
+msgid "crs_objective_result_summary_initial"
+msgstr "Placement Test"
+
+msgid "crs_objective_result_summary_qualifying"
+msgstr "Achievement Test"
+
+msgid "crs_objective_saved_sorting"
+msgstr "Vrstni red je bil shranjen."
+
+msgid "crs_objective_self_assessment"
+msgstr "Vprašanja za vstopni test"
+
+msgid "crs_objective_status"
+msgstr "Status učnega cilja"
+
+msgid "crs_objective_status_configure"
+msgstr "Kontrolni seznam tečaja"
+
+msgid "crs_objective_status_itest"
+msgstr "Konfiguriraj vstopni test"
+
+msgid "crs_objective_status_materials"
+msgstr "Dodaj učne vsebine"
+
+#, fuzzy
+msgid "crs_objective_status_materials_info"
+msgstr "The course is currently empty. Add course materials that can be assigned to learning objectives."
+
+msgid "crs_objective_status_objective_creation"
+msgstr "Dodaj učne cilje"
+
+msgid "crs_objective_status_objectives"
+msgstr "Konfiguriraj učne cilje"
+
+msgid "crs_objective_status_qtest"
+msgstr "Konfiguriraj zaključni test"
+
+msgid "crs_objective_status_settings"
+msgstr "Izvedi nastavitve tečaja"
+
+msgid "crs_objective_tbl_col_final_tsts"
+msgstr "Zaključni testi"
+
+msgid "crs_objective_wiz_final"
+msgstr "Določi vprašanja za zaključni test"
+
+msgid "crs_objective_wiz_final_info"
+msgstr "Zdaj določite vprašanja za zaključni test, s katerimi želite preverite doseganje učnega cilja."
+
+msgid "crs_objective_wiz_final_limit"
+msgstr "Določi meje za zaključni test"
+
+msgid "crs_objective_wiz_materials"
+msgstr "Dodeli učne vsebine"
+
+msgid "crs_objective_wiz_materials_info"
+msgstr "Tukaj določite, katere učne vsebine so priporočene za urejanje učnega cilja."
+
+msgid "crs_objective_wiz_self"
+msgstr "Določi vprašanja za vstopni test"
+
+msgid "crs_objective_wiz_self_limit"
+msgstr "Določi meje vstopnega testa"
+
+msgid "crs_objective_wiz_self_limit_info"
+msgstr "Vnesite število točk, ki so potrebne, da ne bodo v obdelavo predlagane nadaljnje učne vsebine."
+
+msgid "crs_objective_wiz_title"
+msgstr "Opiši učni cilj"
+
+msgid "crs_objective_wiz_title_info"
+msgstr "Vnesite naslov in kratek opis učnega cilja."
+
+msgid "crs_objectives"
+msgstr "Učni cilji"
+
+msgid "crs_objectives_assigned_lm"
+msgstr "Izbrano gradivo je bilo dodeljeno."
+
+msgid "crs_objectives_deleted"
+msgstr "Učni cilji so bili odstranjeni."
+
+msgid "crs_objectives_edit_question_assignments"
+msgstr "Uredi dodelitev vprašanj"
+
+msgid "crs_objectives_reset_sure"
+msgstr "Ali ste prepričani, da želite ponastaviti vse rezultate tega tečaja? <br/>Vsi napredki, rezultati testov bodo nepreklicno izbrisani."
+
+msgid "crs_objectives_reseted"
+msgstr "Vsi rezultati so bili ponastavljeni."
+
+msgid "crs_open"
+msgstr "Odpri tečaj"
+
+msgid "crs_other_resources"
+msgstr "Nadaljnje gradivo za tečaj"
+
+msgid "crs_page_type_lobj"
+msgstr "Learning Objective Page"
+
+msgid "crs_passed"
+msgstr "Opravljeno"
+
+msgid "crs_passed_status_manual_by"
+msgstr "Ročno s strani"
+
+msgid "crs_passed_status_system"
+msgstr "Sistem"
+
+msgid "crs_password_not_valid"
+msgstr "Geslo ni pravilno"
+
+msgid "crs_password_required"
+msgstr "Za to vrsto registracije je potrebno geslo."
+
+msgid "crs_pdf"
+msgstr "PDF"
+
+msgid "crs_period"
+msgstr "Obdobje tečaja"
+
+msgid "crs_period_end_mail_placeholder"
+msgstr "Period End"
+
+msgid "crs_period_info"
+msgstr "Informacije o začetku in koncu dogodka, ki ga podpira tečaj."
+
+msgid "crs_period_start_mail_placeholder"
+msgstr "Period Start"
+
+msgid "crs_presentation_type"
+msgstr "Pogled"
+
+msgid "crs_print_list"
+msgstr "Ustvari seznam"
+
+msgid "crs_ref_delete_confirmation_info"
+msgstr "Would you like to remove the following members from this course? If these members are to be removed from courses linked into this course, please activate the respective checkboxes."
+
+msgid "crs_ref_member_update"
+msgstr "Add new members"
+
+msgid "crs_ref_member_update_info"
+msgstr "All new members of the parent course are automatically entered in the course to which this course link refers."
+
+msgid "crs_ref_missing_access"
+msgstr "The option cannot be selected because you do not have \"Manage Members\" permission for either course."
+
+msgid "crs_ref_missing_parent_crs"
+msgstr "The option cannot be selected because this course link does not have a parent course."
+
+msgid "crs_reg"
+msgstr "Samostojna pridružitev s strani uporabnika"
+
+msgid "crs_reg_code"
+msgstr "Pridružitev preko povezave"
+
+msgid "crs_reg_code_enabled_info"
+msgstr "Ta možnost omogoča neposredno pridružitev s klikom na povezavo, ne glede na izbran postopek pridružitve in pravic tečaja."
+
+msgid "crs_reg_code_link"
+msgstr "Povezava za neposredno pridružitev"
+
+msgid "crs_reg_max_info"
+msgstr "Ko je doseženo maksimalno število članov, samostojna pridružitev ni več mogoča."
+
+msgid "crs_reg_no_selfreg"
+msgstr "Samostojna pridružitev ni mogoča"
+
+msgid "crs_reg_password_info"
+msgstr "Uporabniki morajo vnesti to geslo, da se lahko pridružijo tečaju."
+
+#, fuzzy
+msgid "crs_reg_selfreg"
+msgstr "Self-Enrolment"
+
+msgid "crs_reg_subject"
+msgstr "Sporočilo"
+
+msgid "crs_reg_until"
+msgstr "Obdobje za pridružitve"
+
+msgid "crs_reg_user_already_subscribed"
+msgstr "Prošnjo za sprejem ste že oddali! Počakajte na potrditev."
+
+msgid "crs_registration"
+msgstr "Pridruži se tečaju"
+
+msgid "crs_registration_confirmation_info"
+msgstr "Pridružitev je mogoča le, če jo potrdi administrator tečaja ali mentor tečaja."
+
+msgid "crs_registration_deactivated"
+msgstr "Samo administratorji tečaja in mentorji tečaja lahko dodajajo uporabnike v tečaj."
+
+msgid "crs_registration_limited"
+msgstr "Časovno omejena pridružitev"
+
+msgid "crs_registration_limited_info"
+msgstr "Člani se lahko prijavijo na ta tečaj le v določenem obdobju."
+
+msgid "crs_registration_period"
+msgstr "Obdobje"
+
+msgid "crs_registration_type"
+msgstr "Postopek pridružitve"
+
+msgid "crs_reject_subscriber"
+msgstr "Zavrnitev za tečaj \"%s\""
+
+msgid "crs_reject_subscriber_body"
+msgstr "Vaša prošnja za sprejem v tečaj \"%s\" je bila zavrnjena."
+
+msgid "crs_reset_results"
+msgstr "Ponastavi rezultate"
+
+msgid "crs_role_status"
+msgstr "Vloga/status"
+
+msgid "crs_search_users"
+msgstr "Išči uporabnika"
+
+msgid "crs_select_archive_language"
+msgstr "Izberite jezik, v katerem bo ustvarjen arhiv"
+
+msgid "crs_select_one_archive"
+msgstr "Izberite natančno en arhiv"
+
+msgid "crs_select_starter"
+msgstr "Izberi začetni objekt"
+
+msgid "crs_settings"
+msgstr "Nastavitve tečaja"
+
+msgid "crs_settings_saved"
+msgstr "Nastavitve so bile shranjene"
+
+msgid "crs_shorten_breadcrumb"
+msgstr "Navigacijska sled"
+
+msgid "crs_show_all_obj"
+msgstr "Pokaži vse"
+
+msgid "crs_show_member_export"
+msgstr "Seznam udeležencev"
+
+msgid "crs_show_member_export_info"
+msgstr "Člani imajo možnost, da ustvarijo seznam udeležencev"
+
+msgid "crs_show_member_export_settings"
+msgstr "Seznam udeležencev"
+
+msgid "crs_show_members"
+msgstr "Galerija članov"
+
+msgid "crs_show_members_info"
+msgstr "Vsi člani imajo v tem zavihku vpogled v galerijo članov."
+
+msgid "crs_size"
+msgstr "Velikost datoteke"
+
+msgid "crs_sort_activation"
+msgstr "Po privzetih časih"
+
+msgid "crs_sort_timing_info"
+msgstr "Vsebovani objekti bodo samodejno razvrščeni po priporočljivem času urejanja in razpoložljivosti."
+
+msgid "crs_start"
+msgstr "Začetek"
+
+msgid "crs_start_objects"
+msgstr "Začetni objekti"
+
+msgid "crs_starter_delete_sure"
+msgstr "Ali res želite, da naj naslednji objekti ne bodo več začetni objekti?"
+
+msgid "crs_starter_deleted"
+msgstr "Dodalitev je bila odstranjena."
+
+msgid "crs_starters_already_assigned"
+msgstr "Ta objekt je že bil dodeljen."
+
+msgid "crs_status"
+msgstr "Status"
+
+msgid "crs_status_changed"
+msgstr "Status v tečaju \"%s\""
+
+msgid "crs_status_changed_body"
+msgstr "Vaš status v tečaju \"%s\" je bil spremenjen."
+
+msgid "crs_status_determination"
+msgstr "Določitev statusa \"Opravljeno\""
+
+msgid "crs_status_determination_lp"
+msgstr "Izpelji iz učnega napredka"
+
+msgid "crs_status_determination_lp_info"
+msgstr "Ko se učni napredek spremeni v \"Urejeno\", se status samodejno nastavi na \"Opravljeno\". Mentor lahko ročno prepiše status."
+
+msgid "crs_status_determination_manual"
+msgstr "Samo ročno s strani mentorja"
+
+msgid "crs_status_determination_sync"
+msgstr "Status tečaja bo samodejno nastavljen na \"Opravljeno\", ko učenec zaključi vse dejavnosti, ki so pomembne za učni napredek. Že dosežen napredek bo upoštevan, ročno nastavljen status na \"Opravljeno\" bo ostal nespremenjen. Ali želite zdaj nastaviti status na \"Opravljeno\" na podlagi posameznega aktualnega učnega napredka?"
+
+msgid "crs_structure"
+msgstr "Struktura tečaja"
+
+msgid "crs_subject_course_group_notification"
+msgstr "Povzetek e-pošte za %s"
+
+msgid "crs_subscribe_member"
+msgstr "Vaša prijava za tečaj \"%s\""
+
+msgid "crs_subscribe_member_body"
+msgstr "pravkar ste bili na podlagi vaše prošnje sprejeti v tečaj \"%s\"."
+
+msgid "crs_subscribe_wl"
+msgstr "Vaša prijava za tečaj \"%s\""
+
+msgid "crs_subscribe_wl_body"
+msgstr "Uvrščeni ste bili na čakalni seznam za tečaj \"%s\" in ste na mestu %s na čakalnem seznamu.  Ko bo vaša prošnja za sprejem odobrena oz. zavrnjena, boste obveščeni po e-pošti."
+
+msgid "crs_subscriber"
+msgstr "Prošnja za sprejem je vložena"
+
+msgid "crs_subscribers_deleted"
+msgstr "Prošnja je bila izbrisana"
+
+msgid "crs_subscription"
+msgstr "Postopek pridružitve"
+
+msgid "crs_subscription_failed_limit"
+msgstr "Maksimalno število udeležencev je bilo preseženo."
+
+msgid "crs_subscription_max_members"
+msgstr "Maksimalno število"
+
+msgid "crs_subscription_max_members_short"
+msgstr "Omejeno število članov"
+
+msgid "crs_subscription_max_members_short_info"
+msgstr "Določite lahko minimalno oz. maksimalno število članov. Ustvarite lahko čakalni seznam."
+
+msgid "crs_subscription_min_members"
+msgstr "Minimalno število"
+
+msgid "crs_subscription_min_members_err"
+msgstr "Minimalno število ne sme biti večje od maksimalnega števila."
+
+msgid "crs_subscription_min_members_info"
+msgstr "Glej cron job \"Rok za stornacijo\""
+
+msgid "crs_subscription_options_confirmation"
+msgstr "Pridružitev po potrditvi"
+
+msgid "crs_subscription_options_direct"
+msgstr "Neposredna pridružitev"
+
+msgid "crs_subscription_options_password"
+msgstr "Pridružitev z geslom tečaja"
+
+msgid "crs_subscription_successful"
+msgstr "Sprejeti ste bili v tečaj."
+
+msgid "crs_sure_delete_selected_archives"
+msgstr "Ali ste prepričani, da želite izbrisati izbrane arhive?"
+
+msgid "crs_syllabus"
+msgstr "Program tečaja"
+
+msgid "crs_sys_default"
+msgstr "Globalna privzeta vrednost"
+
+msgid "crs_table_start_objects"
+msgstr "Začetni objekti"
+
+msgid "crs_target_group"
+msgstr "Target Group"
+
+msgid "crs_tile_and_objective_view_not_supported"
+msgstr "Ne morete hkrati aktivirati predstavitve s ploščicami in pogleda glede na učne cilje."
+
+msgid "crs_tile_and_session_limit_not_supported"
+msgstr "Ne morete hkrati aktivirati predstavitve s ploščicami in omejitve prikazanih sej."
+
+msgid "crs_timing_err_start_end"
+msgstr "The end date must be greater than or equals the start date."
+
+msgid "crs_timings_activate_optional"
+msgstr "Prostovoljni način študijskega načrta uporabnika"
+
+msgid "crs_timings_activate_optional_own"
+msgstr "Prostovoljni način mojega študijskega načrta"
+
+msgid "crs_timings_availability_enabled"
+msgstr "Časovno omejena razpoložljivost"
+
+msgid "crs_timings_changeable"
+msgstr "Načrtovanje učenja je spremenljivo"
+
+msgid "crs_timings_changed"
+msgstr "Učni načrt je spremenjen"
+
+msgid "crs_timings_days_after_subsription"
+msgstr "Dan/dnevi po pridružitvi tečaju"
+
+msgid "crs_timings_disabled"
+msgstr "Časovni podatki so izklopljeni"
+
+msgid "crs_timings_disabled_info"
+msgstr "Izberite to nastavitev, če želite onemogočiti vse časovne podatke."
+
+msgid "crs_timings_early_begin"
+msgstr "Najzgodnejši začetek"
+
+msgid "crs_timings_edit_personal"
+msgstr "Uredi osebno načrtovanje učenja"
+
+msgid "crs_timings_end"
+msgstr "Čas zaključka"
+
+msgid "crs_timings_from_until"
+msgstr "(Od/Do)"
+
+msgid "crs_timings_in_days"
+msgstr "(v dnevih)"
+
+msgid "crs_timings_info_active"
+msgstr "(Aktivno)"
+
+msgid "crs_timings_not_changed"
+msgstr "Učni načrt ni bil spremenjen"
+
+msgid "crs_timings_optional_checked"
+msgstr "Za tega uporabnika je bil aktiviran prostovoljni način."
+
+msgid "crs_timings_optional_off"
+msgstr "Prostovoljni način ni aktiviran."
+
+msgid "crs_timings_optional_on"
+msgstr "Prostovoljni način je aktiviran."
+
+msgid "crs_timings_optional_on_and_passed"
+msgstr "Prostovoljni način je aktiviran in ga ni mogoče spremeniti, ker ima uporabnik status \"Opravljeno\"."
+
+msgid "crs_timings_optional_unchecked"
+msgstr "Prostovoljni način je bil za tega uporabnika onemogočen."
+
+msgid "crs_timings_planed_info"
+msgstr "Načrtovani čas urejanja"
+
+msgid "crs_timings_planed_start"
+msgstr "Načrtovano"
+
+msgid "crs_timings_presetting"
+msgstr "Načrtovanje učenja je vklopljeno"
+
+msgid "crs_timings_short_active"
+msgstr "Načrtovanje učenja"
+
+msgid "crs_timings_short_active_tt"
+msgstr "Aktiviraj načrtovanje učenja"
+
+msgid "crs_timings_short_changeable"
+msgstr "Spremenljivo"
+
+msgid "crs_timings_short_end"
+msgstr "Končni datum"
+
+msgid "crs_timings_short_limit_start_end"
+msgstr "Najpoznejši konec"
+
+msgid "crs_timings_short_limit_start_end_tt"
+msgstr "Najpoznejši konec"
+
+msgid "crs_timings_short_limit_start_end_tt_rel"
+msgstr "Najpoznejši konec v dnevih po pridružitvi tečaju"
+
+msgid "crs_timings_short_start_end"
+msgstr "Začetni datum"
+
+msgid "crs_timings_short_start_end_rel"
+msgstr "Priporočen začetek (dnevi po pridružitvi tečaju)"
+
+msgid "crs_timings_short_start_end_tt"
+msgstr "Priporočen začetek"
+
+msgid "crs_timings_short_start_end_tt_rel"
+msgstr "Priporočen začetek v dnevih po pridružitvi tečaju"
+
+msgid "crs_timings_start"
+msgstr "Začetni čas"
+
+msgid "crs_timings_start_end_info"
+msgstr "(Začetek/Konec)"
+
+msgid "crs_timings_sug_begin"
+msgstr "Priporočen začetek"
+
+msgid "crs_timings_sug_end"
+msgstr "Priporočen konec"
+
+msgid "crs_timings_suggested_info"
+msgstr "Priporočen čas urejanja"
+
+msgid "crs_timings_time_frame"
+msgstr "Časovni okvir"
+
+msgid "crs_timings_time_frame_tt"
+msgstr "Čas urejanja v dnevih"
+
+msgid "crs_timings_update_error"
+msgstr "Priporočen čas učenja gradiva za naslednji tečaj ni v skladu z najpoznejšim možnim časom učenja."
+
+msgid "crs_timings_warning_timing_exists"
+msgstr "Pozor: za ta objekt obstaja aktiven učni načrt. če aktivirate časovno omejeno razpoložljivost, bodo časi načrtovanja učenja ponastavljeni."
+
+msgid "crs_to"
+msgstr "Do:"
+
+msgid "crs_tutor"
+msgstr "Mentor"
+
+msgid "crs_tutors"
+msgstr "Mentorji"
+
+msgid "crs_unblocked"
+msgstr "Odobreno"
+
+msgid "crs_unblocked_member"
+msgstr "Status v tečaju \"%s\""
+
+msgid "crs_unblocked_member_body"
+msgstr "Vaše članstvo v tečaju \"%s\" je bilo odobreno."
+
+msgid "crs_unlimited"
+msgstr "Neomejeno"
+
+msgid "crs_unsubscribe_member"
+msgstr "Vaša odjava iz tečaja \"%s\""
+
+msgid "crs_unsubscribe_member_body"
+msgstr "</br></potrjujemo vašo odjavo iz tečaja \"%s\".</br></br>Prosimo upoštevajte!</br>V primeru odpovedi v zadnjem trenutku si pridržujemo pravico, da vaš račun obremenimo s stroški provizije (tudi če je bil dogodek za vas brezplačen).</br>"
+
+msgid "crs_unsubscribe_member_explanation"
+msgstr "To e-pošto ste prejeli, ker ste prekinili članstvo v zgoraj navedenem tečaju."
+
+msgid "crs_unsubscribe_sure"
+msgstr "Ali ste prepričani, da želite prekiniti članstvo v tem tečaju?"
+
+msgid "crs_unsubscribed_from_crs"
+msgstr "Vaše članstvo v tečaju je bilo prekinjeno."
+
+msgid "crs_update_subscr_request"
+msgstr "Posodobi prošnjo za sprejem"
+
+msgid "crs_user_agreement"
+msgstr "Released Data Types"
+
+msgid "crs_user_agreement_info"
+msgstr "Visible Personal Data for Course Administrators"
+
+msgid "crs_user_already_assigned"
+msgstr "Oseba je že udeleženec tega tečaja."
+
+msgid "crs_users_added"
+msgstr "Uporabnik/-i je bil/so bili dodan/-i v tečaj"
+
+msgid "crs_users_already_assigned"
+msgstr "Uporabnik je že član tega tečaja"
+
+msgid "crs_users_removed_from_list"
+msgstr "Izbrani uporabniki so bili odstranjeni s čakalnega seznama."
+
+msgid "crs_usr_agreement"
+msgstr "Uporabniška pogodba"
+
+msgid "crs_view_info_objective"
+msgstr "Učni cilji bodo prikazani v ločenem seznamu. Med njimi bodo našteti objekti, ki jim ni dodeljen noben učni cilj."
+
+msgid "crs_view_info_timing"
+msgstr "Objekti bodo prikazani na podlagi urnika."
+
+msgid "crs_view_info_timing_absolute"
+msgstr "Začetni in končni datum bosta absolutno določena."
+
+msgid "crs_view_info_timing_relative"
+msgstr "Začetni in končni datum bosta določena na podlagi časovnih podatkov relativno na datum pridružitve tečaju."
+
+msgid "crs_view_mode"
+msgstr "Prikaz"
+
+msgid "crs_view_objective"
+msgstr "Pogled glede na učne cilje"
+
+msgid "crs_view_timing"
+msgstr "Pogled načrtovanja učenja"
+
+msgid "crs_view_timing_absolute"
+msgstr "Absolutni datum"
+
+msgid "crs_view_timing_relative"
+msgstr "Relativni datum"
+
+msgid "crs_view_timings"
+msgstr "Tip načrtovanja učenja"
+
+#, fuzzy
+msgid "crs_visibility"
+msgstr "Visibility"
+
+msgid "crs_visibility_limitless"
+msgstr "Neomejeno - če je vklopljeno na spletu"
+
+msgid "crs_visibility_until"
+msgstr "Časovno omejena razpoložljivost"
+
+msgid "crs_visibility_until_info"
+msgstr "Tečaj bo članom viden v določenem obdobju."
+
+#, fuzzy
+msgid "crs_visibility_unvisible"
+msgstr "The course is not visible."
+
+msgid "crs_wait_info"
+msgstr "Če je doseženo maksimalno število članov, se lahko nadaljnji uporabniki uvrstijo na čakalni seznam."
+
+msgid "crs_waiting_list"
+msgstr "Čakalni seznam"
+
+msgid "crs_waiting_list_autofill"
+msgstr "Samodejno pomikanje navzgor"
+
+msgid "crs_waiting_list_autofill_info"
+msgstr "V primeru stornacije se udeleženci samodejno premaknejo na čakalnem seznamu."
+
+msgid "crs_waiting_list_no_autofill"
+msgstr "Brez samodejnega pomikanja navzgor"
+
+msgid "crs_warn_no_max_set_on_waiting_list"
+msgstr "Doseženo je maksimalno število udeležencev. Lahko se uvrstite na čakalni seznam za ta tečaj in boste obveščeni, ko se boste lahko pridružili tečaju."
+
+msgid "crs_warn_wl_set_on_waiting_list"
+msgstr "Na čakalnem seznamu so že uporabniki. Lahko se uvrstite na čakalni seznam za ta tečaj. Ko bo vaša prošnja za sprejem odobrena ali zavrnjena, boste obveščeni po e-pošti."
+
+msgid "crs_wiz_back"
+msgstr "Nazaj"
+
+msgid "crs_wiz_next"
+msgstr "Shrani"
+
+msgid "crs_xml"
+msgstr "XML"
+
+msgid "edit_timings_list"
+msgstr "Uredi načrtovanje učenja"
+
+msgid "event"
+msgstr "Seja"
+
+msgid "event_add_new_event"
+msgstr "Nova seja je bila ustvarjena."
+
+msgid "event_assign_materials_info"
+msgstr "Tukaj lahko seji dodelite gradivo. Dodeljeno gradivo bo prikazano neposredno pod sejo."
+
+msgid "event_assign_materials_table"
+msgstr "Dodelitev gradiva"
+
+msgid "event_blank_columns"
+msgstr "Dodatni stolpci"
+
+msgid "event_btn_add"
+msgstr "Ustvari sejo"
+
+msgid "event_btn_add_edit"
+msgstr "Ustvari sejo in dodeli gradivo"
+
+msgid "event_csv_export"
+msgstr "Izvoz CSV"
+
+msgid "event_date_time"
+msgstr "Datum in čas"
+
+msgid "event_desc"
+msgstr "Opis"
+
+msgid "event_details_workflow"
+msgstr "Podrobnosti o seji"
+
+msgid "event_edit_members"
+msgstr "Udeleženec"
+
+msgid "event_etime_smaller_stime"
+msgstr "Končni termin je pred začetnim datumom. Vnesite veljavno časovno obdobje."
+
+msgid "event_file"
+msgstr "Datoteka"
+
+msgid "event_files"
+msgstr "Dodeljene datoteke"
+
+msgid "event_fulltime_info"
+msgstr "Celodnevni dogodek"
+
+msgid "event_lecturer"
+msgstr "Ime"
+
+msgid "event_list_registered_only"
+msgstr "Samo prijavljeni"
+
+msgid "event_location"
+msgstr "Kraj"
+
+msgid "event_materials"
+msgstr "Gradivo za sejo"
+
+msgid "event_not_participated"
+msgstr "Se ni udeležil"
+
+msgid "event_overview"
+msgstr "Udeležba na sejah"
+
+msgid "event_participated"
+msgstr "Se je udeležil"
+
+msgid "event_registered"
+msgstr "Prijavili ste se za to sejo."
+
+msgid "event_section_information"
+msgstr "Informacije o seji"
+
+msgid "event_table_create"
+msgstr "Nova seja"
+
+msgid "event_table_update"
+msgstr "Uredi sejo"
+
+msgid "event_tbl_admin"
+msgstr "Administrator"
+
+msgid "event_tbl_admins"
+msgstr "Administratorji"
+
+msgid "event_tbl_member"
+msgstr "Član"
+
+msgid "event_tbl_members"
+msgstr "Člani"
+
+msgid "event_tbl_participated"
+msgstr "Se je udeležil"
+
+msgid "event_tbl_registered"
+msgstr "Prijavljen"
+
+msgid "event_tbl_tutor"
+msgstr "Mentor"
+
+msgid "event_tbl_tutors"
+msgstr "Mentorji"
+
+msgid "event_title"
+msgstr "Naslov"
+
+msgid "event_tutor_data"
+msgstr "Predstavitev"
+
+msgid "event_unregister"
+msgstr "Odjava"
+
+msgid "event_unregistered"
+msgstr "Bili ste odjavljeni."
+
+msgid "event_updated"
+msgstr "Spremembe so bile shranjene"
+
+msgid "event_user_selection"
+msgstr "Izbira uporabnikov"
+
+msgid "event_user_selection_include_filter"
+msgstr "Vključi \"%1$s\""
+
+msgid "event_user_selection_include_requests"
+msgstr "Vključi vse uporabnike s seznama \"Prošnje za sprejem\"."
+
+msgid "event_user_selection_include_role"
+msgstr "Vključi vse uporabnike vloge \"%1$s\""
+
+msgid "event_user_selection_include_waiting_list"
+msgstr "Vključi vse uporabnike na \"Čakalnem seznamu\""
+
+msgid "events"
+msgstr "Seje"
+
+msgid "export_members"
+msgstr "Izvoz udeleženca"
+
+msgid "grouping_change_assignment"
+msgstr "Spremeni dodelitve"
+
+msgid "grp_grp_already_assigned"
+msgstr "Ker ste že član skupine, ne morete postati član nadaljnje skupine s seznama!"
+
+#, fuzzy
+msgid "grp_not_all_users_assigned_msg"
+msgstr "%s user(s) assigned as group member(s), %s user(s) were already in the group."
+
+msgid "mem_cron_min_members_intro"
+msgstr "naslednji tečaji in skupine trenutno ne dosegajo minimalnega števila udeleženk in udeležencev."
+
+msgid "mem_cron_min_members_reason"
+msgstr "To e-pošto ste prejeli, ker ste aktivirali funkcijo obveščanja v posameznem zavihku člana."
+
+msgid "mem_cron_min_members_subject"
+msgstr "Tečaj/skupina: Preverjanje minimalnega števila udeležencev"
+
+msgid "mem_cron_min_members_task"
+msgstr "V primeru, da zaradi nezadostnega števila udeležencev tečaj ne bo izveden, o tem pravočasno obvestite že prijavljanje osebe. Po poteku prijavnega obdobja ustrezno prilagodite nastavitve tečaja."
+
+#, fuzzy
+msgid "obj_count_members"
+msgstr "Number of members"
+
+msgid "sess_attendance_list"
+msgstr "Seznam udeležencev"
+
+msgid "sess_gen_attendance_list"
+msgstr "Ustvari seznam"
+
+msgid "sess_join_info"
+msgstr "Kliknite na Prijava, če se želite udeležiti te seje."
+
+msgid "sess_limit"
+msgstr "Omeji število prikazanih sej"
+
+msgid "sess_limit_info"
+msgstr "Udeležencem niso prikazane vse seje, ampak samo določeno število."
+
+msgid "sess_num_next"
+msgstr "Število naslednjih sej (od jutri)"
+
+msgid "sess_num_prev"
+msgstr "Število preteklih sej (do vključno včeraj)"
+
+msgid "sess_print_attendance_list"
+msgstr "Natisni seznam"
+
+msgid "sess_signature"
+msgstr "Podpis"
+
+msgid "subscription_times_not_valid"
+msgstr "Obdobje za 'Registracijo' ni veljavno."
+
+msgid "timing_accept_table"
+msgstr "Načrtovanje učenja: Opombe"
+
+msgid "timing_accepted"
+msgstr "Sprejeto"
+
+msgid "timing_not_accepted"
+msgstr "Ni sprejeto"
+
+msgid "timing_remark"
+msgstr "Opomba"
+
+msgid "timing_tutor_visible"
+msgstr "Opomba je vidna mentorju"
+
+msgid "timing_user_accept"
+msgstr "Sprejmi priporočen učni načrt"
+
+msgid "timing_user_accepted"
+msgstr "Učni načrt je sprejet"
+
+msgid "timings"
+msgstr "Časovni podatki"
+
+msgid "timings_cron_reminder_exceeded_start"
+msgstr "The processing period is overdue at"
+
+msgid "timings_cron_reminder_exceeded_subject"
+msgstr "You have exceeded the processing period"
+
+msgid "timings_cron_reminder_freshly_start"
+msgstr "The processing period started at"
+
+msgid "timings_cron_reminder_started_subject"
+msgstr "The processing period has started"
+
+msgid "timings_edit"
+msgstr "Uredi urnik"
+
+msgid "timings_of"
+msgstr "Načrtovanje učenja"
+
+msgid "timings_reminder_notifications"
+msgstr "Pošlji obvestila o načrtovanju učenja"
+
+msgid "timings_reminder_notifications_info"
+msgstr "Če je aktivirano, bodo udeleženci tečaja obveščeni o prekoračenih gradivih za načrtovanje učenja."
+
+msgid "timings_timings"
+msgstr "Načrtovanje učenja"
+
+msgid "timings_timings_off"
+msgstr "Upravljanje načrtovanja učenja izklopljeno"
+
+msgid "timings_timings_on"
+msgstr "Upravljanje načrtovanja učenja vklopljeno"
+
+msgid "timings_usr_edit"
+msgstr "Osebno načrtovanje učenja"
+
+msgid "tutor_email"
+msgstr "E-pošta"
+
+msgid "tutor_name"
+msgstr "Ime"
+
+msgid "tutor_phone"
+msgstr "Phone"
+
+#, fuzzy
+msgid "tutorial_support_block_byline"
+msgstr "The 'Tutorial Support' block is displayed in the 'Contents' tab. The user selected as \"Contact Person\" in the \"Members\" Tab is shown."
+
+#, fuzzy
+msgid "tutorial_support_block_contact"
+msgstr "Contact"
+
+#, fuzzy
+msgid "tutorial_support_block_send_mail"
+msgstr "send email"
+
+#, fuzzy
+msgid "tutorial_support_block_setting_desc"
+msgstr "The 'Tutorial Support' block is displayed in the 'Contents' tab."
+
+#, fuzzy
+msgid "tutorial_support_block_setting_title"
+msgstr "Tutorial Support Block"
+
+#, fuzzy
+msgid "tutorial_support_block_title"
+msgstr "Contact Person"
+
+msgid "user_fields"
+msgstr "Uporabniški podatki"

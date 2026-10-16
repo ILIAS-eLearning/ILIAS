@@ -1,0 +1,1914 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: crs\n"
+
+msgid "activation_times_not_valid"
+msgstr "Az elérési időszak nem érvényes."
+
+msgid "assigned"
+msgstr "Engedélyezve"
+
+msgid "contact_email_not_valid"
+msgstr "A kapcsolattartó e-mail címe nem érvényes."
+
+msgid "crs_accept_subscriber"
+msgstr "‘%s’-hoz a regisztráció megerősítve"
+
+msgid "crs_accept_subscriber_body"
+msgstr "Megerősítjük regisztrációjukat a ‘%s’ kurzushoz."
+
+msgid "crs_access"
+msgstr "Hozzáférés"
+
+msgid "crs_activate_notification"
+msgstr "Értesítés bekapcsolása"
+
+msgid "crs_activation"
+msgstr "Aktiválás"
+
+msgid "crs_activation_limited_visibility_info"
+msgstr "A kurzus a megadott időszakon kívül is látható, de már a tagok számára sem elérhető."
+
+msgid "crs_activation_online_info"
+msgstr "Állítsa online-ra a kurzust, hogy az látható és elérhető legyen. Ellenkező esetben csak a kurzusvezetők és a tutorok érik el a kurzust és annak tartalmát."
+
+msgid "crs_add_archive_html"
+msgstr "HTML-archívum létrehozása"
+
+msgid "crs_add_archive_xml"
+msgstr "XML-archívum létrehozása"
+
+msgid "crs_add_grouping"
+msgstr "Tagságkorlátozás létrehozása"
+
+msgid "crs_add_html_archive"
+msgstr "HTML-archívum létrehozása"
+
+msgid "crs_add_objective"
+msgstr "Cél létrehozása"
+
+msgid "crs_add_remove_from_desktop"
+msgstr "Hozzáadása a kedvencekhez"
+
+msgid "crs_add_remove_from_desktop_info"
+msgstr "A kurzus elemeit a tagok a kedvenceik közé tehetik."
+
+msgid "crs_add_starter"
+msgstr "Kezdőobjektum beállítása"
+
+msgid "crs_add_to_group"
+msgstr "Csoportba felvétel"
+
+msgid "crs_added_member"
+msgstr "‘%s’ kurzushoz csatlakozás"
+
+msgid "crs_added_member_body"
+msgstr "ezúton tájékoztatjuk, hogy ‘%s’ kurzushoz sikeresen csatlakozott."
+
+msgid "crs_added_new_archive"
+msgstr "Új archívum jött létre"
+
+msgid "crs_added_objective"
+msgstr "Új tanulási célt adott hozzá."
+
+msgid "crs_added_starters"
+msgstr "Engedélyezett kezdő objektum(ok)."
+
+msgid "crs_added_to_list"
+msgstr "Várólistára került. Jelenleg %s. a várólistán."
+
+msgid "crs_admin"
+msgstr "Vezető"
+
+msgid "crs_administrators"
+msgstr "Vezetők"
+
+msgid "crs_admission_link_failure_availability"
+msgstr "Nem regisztrálhat: a kurzus nem online."
+
+msgid "crs_admission_link_failure_invalid_code"
+msgstr "Nem rögzíthető: érvénytelen link."
+
+msgid "crs_admission_link_failure_membership_limited"
+msgstr "Nem regisztrálhat, mert a kurzus tagsága korlátozott."
+
+msgid "crs_admission_link_failure_offline"
+msgstr "Nem regisztrálhat: a kurzus offline."
+
+msgid "crs_admission_link_failure_registration_period"
+msgstr "Nem regisztrálhat, mert jelenleg nincs regisztrációs időszak."
+
+msgid "crs_admission_link_success_registration"
+msgstr "‘%s’ kurzusba sikeresen regisztrált."
+
+msgid "crs_agree"
+msgstr "Elfogadás"
+
+msgid "crs_agreement_header"
+msgstr "Felhasználói megállapodás"
+
+msgid "crs_agreement_required"
+msgstr "El kell fogadnia a felhasználói megállapodást, ha regisztrálni szeretne erre a kurzusra."
+
+msgid "crs_at_least_one_admin"
+msgstr "Legalább egy csoportvezető kell, hogy legyen."
+
+msgid "crs_auto_notification"
+msgstr "Új tagoknak üdvözlőlevél"
+
+msgid "crs_auto_notification_info"
+msgstr "Kurzuscsatlakozáskor levelet küldünk az új tagoknak."
+
+msgid "crs_awrn_current_course"
+msgstr "Jelenlegi kurzus"
+
+msgid "crs_awrn_current_course_info"
+msgstr "Ha a felhasználó a kurzushoz navigál a Tartalomtárban, a kurzus összes tagját felsoroljuk."
+
+msgid "crs_awrn_support_contacts"
+msgstr "Tutori segítségnyújtók"
+
+msgid "crs_awrn_support_contacts_info"
+msgstr "A jelenlegi felhasználó összes kurzusának tutori segítségnyújtóinak felsorolása. Ezek a megfelelők kurzus ‘Tagok’ lapján lévő ‘Tutori segítségnyújtók’ részben található felhasználók."
+
+msgid "crs_blocked"
+msgstr "Hozzáférés megtagadva"
+
+msgid "crs_blocked_member"
+msgstr "‘%s’ kurzustagság blokkolása"
+
+msgid "crs_blocked_member_body"
+msgstr "ezúton tájékoztatjuk, hogy ‘%s’ kurzustagságát blokkolták."
+
+msgid "crs_breadcrumb_crs_only"
+msgstr "Kurzustól indul"
+
+msgid "crs_breadcrumb_full_path"
+msgstr "Teljes útvonal"
+
+msgid "crs_cancel_subscr_request"
+msgstr "Tagsági kérelem törlése"
+
+msgid "crs_cancel_subscription"
+msgstr "‘%s’ kurzust elhagyta egy tag"
+
+msgid "crs_cancel_subscription_body"
+msgstr "‘%s’ kurzustagságát egy tag lemondta."
+
+msgid "crs_cancel_subscription_body2"
+msgstr "Lehet, hogy vannak még a kurzus várólistáján. A várólistát most kell ellenőriznie. Kurzusának tagjait ide kattintva tekintheti meg:"
+
+msgid "crs_cancellation_end"
+msgstr "‘Lejelentkezés a kurzusról’ időkorlátja"
+
+msgid "crs_cancellation_end_info"
+msgstr "Az itt megadott ideig tudnak a résztvevők lejelentkezni a kurzusról."
+
+msgid "crs_cancellation_end_rbac_info"
+msgstr "A lemondást határideje %s volt, lemondása utána már nem lehetséges."
+
+msgid "crs_cannot_find_role"
+msgstr "Ez a szerepkör nem található."
+
+msgid "crs_cdf_edit_member"
+msgstr "Felhasználó kurzushoz kötődő adatainak módosítása"
+
+msgid "crs_cdf_tbl_last_edit"
+msgstr "Módosítva (kurzusspecifikus adat)"
+
+msgid "crs_checklist_objective"
+msgstr "Célkitűzés-ellenőrzőlista"
+
+msgid "crs_contact"
+msgstr "Kapcsolattartó"
+
+msgid "crs_contact_consultation"
+msgstr "Konzultáció"
+
+msgid "crs_contact_email"
+msgstr "E-mail cím"
+
+msgid "crs_contact_email_info"
+msgstr "Adjon meg egy vagy több (vesszővel elválasztott) e-mail címet."
+
+msgid "crs_contact_name"
+msgstr "Név"
+
+msgid "crs_contact_phone"
+msgstr "Telefon"
+
+msgid "crs_contact_responsibility"
+msgstr "Beosztás"
+
+msgid "crs_content"
+msgstr "Kurzustartalom"
+
+msgid "crs_copy"
+msgstr "Kurzus másolása"
+
+msgid "crs_course_group_notification_link"
+msgstr "Link:"
+
+msgid "crs_course_period_not_valid"
+msgstr "A kurzusidőszak nem érvényes."
+
+msgid "crs_course_status_of_users"
+msgstr "Kurzus teljesítése"
+
+msgid "crs_create_date"
+msgstr "Dátum létrehozása"
+
+msgid "crs_custom_user_fields"
+msgstr "Kurzushoz tartozó felhasználói adatok"
+
+msgid "crs_custom_user_fields_infobox"
+msgstr "További adatmezők létrehozása a kurzustagok számára, amelyeket csatlakozáskor ki kell töltenük. Ezt az információt további oszlopként is megjelenítheti a ‘Tagok’ lapon."
+
+msgid "crs_custom_user_fields_table_title"
+msgstr "A kurzus releváns felhasználói adatai"
+
+msgid "crs_dates"
+msgstr "Dátumok"
+
+msgid "crs_deactivate_notification"
+msgstr "Értesítés kikapcsolása"
+
+msgid "crs_delete_objectve_sure"
+msgstr "Biztos, hogy törli a kiválasztott célokat?"
+
+msgid "crs_details"
+msgstr "Kurzusrészletek"
+
+msgid "crs_dismiss_member"
+msgstr "‘%s’ tagságát megszüntették"
+
+msgid "crs_dismiss_member_body"
+msgstr "ezúton tájékoztatjuk, hogy ‘%s’ kurzusban tagságát megszüntették."
+
+msgid "crs_edit_lo_introduction"
+msgstr "Bevezető üzenet módosítása"
+
+msgid "crs_edit_timings"
+msgstr "Időzítés beállítása"
+
+msgid "crs_enable_map"
+msgstr "Kurzustérkép engedélyezése"
+
+msgid "crs_end"
+msgstr "Záró időpont"
+
+msgid "crs_export"
+msgstr "Kurzusexport"
+
+msgid "crs_file"
+msgstr "Fájl"
+
+msgid "crs_file_download"
+msgstr "Fájlok letöltéshez"
+
+msgid "crs_file_name"
+msgstr "Fájlnév"
+
+msgid "crs_file_size_info"
+msgstr "Fájlméret"
+
+msgid "crs_from"
+msgstr "Mikortól:"
+
+msgid "crs_general_info"
+msgstr "Általános információk"
+
+msgid "crs_general_informations"
+msgstr "Általános információk"
+
+msgid "crs_grouping_delete_sure"
+msgstr "Biztos, hogy törli az alábbi tagságkorlátozásokat?"
+
+msgid "crs_grouping_deleted"
+msgstr "Törölt kurzuscsoportosítás"
+
+msgid "crs_grouping_select_one"
+msgstr "Válasszon ki egy kurzuscsoportosítást!"
+
+msgid "crs_groupings"
+msgstr "Kurzuscsoportosítás"
+
+msgid "crs_groups_nr"
+msgstr "Csoporttagságok száma"
+
+msgid "crs_grp_added_grouping"
+msgstr "Új tagságkorlátozás jött létre"
+
+msgid "crs_grp_already_assigned"
+msgstr "Már tagja ennek a kurzuscsoportosításnak."
+
+msgid "crs_grp_assign_crs"
+msgstr "A tagságkorlátozás hozzárendelt objektumai"
+
+msgid "crs_grp_assignments"
+msgstr "Kurzustagok csoportokba rendezése"
+
+msgid "crs_grp_enter_title"
+msgstr "Adjon meg egy címet."
+
+msgid "crs_grp_info_reg"
+msgstr "Az alábbi kurzusokra tagsági korlátozás van érvényben. Ezekből csak egy kurzusra jelentkezhet:"
+
+msgid "crs_grp_matriculation_required"
+msgstr "Ez a kurzuscsoportosítás egyedi beiratkozási számot kíván. <br/>Adja meg ezt az értéket a személyes beállításaiban."
+
+msgid "crs_grp_no_courses_assigned"
+msgstr "Egy kurzus sincs hozzárendelve."
+
+msgid "crs_grp_table_assigned_courses"
+msgstr "Hozzárendelt kurzusok"
+
+msgid "crs_header_archives"
+msgstr "Kurzusarchívumok"
+
+msgid "crs_header_delete_members"
+msgstr "Biztos, hogy eltávolítja az alábbi tagokat ebből a kurzusból?"
+
+msgid "crs_header_edit_members"
+msgstr "Tagok módosítása"
+
+msgid "crs_hide_all_obj"
+msgstr "Összes becsukása"
+
+msgid "crs_html"
+msgstr "HTML"
+
+msgid "crs_import"
+msgstr "Kurzus importálása"
+
+msgid "crs_important_info"
+msgstr "Fontos információk"
+
+msgid "crs_info_agree"
+msgstr "Elfogadom, hogy a fenti adattípusok láthatók a kurzusvezetők számára."
+
+msgid "crs_info_agreement"
+msgstr "Az alábbi adattípusok láthatók a kurzusvezetők számára:"
+
+msgid "crs_info_download"
+msgstr "Fájlok letöltéshez"
+
+msgid "crs_info_reg"
+msgstr "Csatlakozás"
+
+msgid "crs_info_reg_confirmation"
+msgstr "Tagságot kell kérnie ehhez a kurzushoz. Üzenetet fog kapni a kurzusvezetőtől, amikor kérését elfogadta vagy elutasította."
+
+msgid "crs_info_reg_deactivated"
+msgstr "A csatlakozás le van tiltva."
+
+msgid "crs_info_reg_direct"
+msgstr "Közvetlenül csatlakozhat ehhez a kurzushoz."
+
+msgid "crs_info_reg_password"
+msgstr "Ha a kurzusvezetőtől kapott kurzusjelszót, csatlakozhat ehhez a kurzushoz."
+
+msgid "crs_info_settings"
+msgstr "Kurzusinformációk"
+
+msgid "crs_info_start"
+msgstr "Haladjon végig az összes lenti kurzuselemen!<br/>Miután feldolgozott minden megjelölt objektumot, új kurzuselemek válnak aktívvá."
+
+msgid "crs_intro_course_group_notification_for"
+msgstr "Ez kurzusai és csoportjai azon híreinek kivonata, melyekre aktív az értesítés."
+
+msgid "crs_intro_course_group_notification_index"
+msgstr "Az alábbi csoportokhoz és kurzusokhoz vannak hírek %1$s és %2$s közötti időszakból:"
+
+msgid "crs_item_presetting_info"
+msgstr "Válassza ezt a beállítást a tanulóknak ajánlott tanulási/feldolgozási időszak megadásához. Ez csak ajánlás, ettől függetlenül mindig elérhető."
+
+msgid "crs_join_request"
+msgstr "Küldés"
+
+msgid "crs_lhist_objective_completed"
+msgstr "$3$ elsajátítva $1$ alatt."
+
+msgid "crs_lim_assigned"
+msgstr "‘%s’ kurzusnak már tagja."
+
+msgid "crs_link_hide_next_sessions"
+msgstr "Közelgő események elrejtése"
+
+msgid "crs_link_hide_prev_sessions"
+msgstr "Előző esemény elrejtése"
+
+msgid "crs_link_show_all_next_sessions"
+msgstr "Összes közelgő esemény"
+
+msgid "crs_link_show_all_prev_sessions"
+msgstr "Összes előző esemény megjelenítése"
+
+msgid "crs_lobj_pm_min_goal"
+msgstr "Elvárt pontszám"
+
+msgid "crs_lobj_pm_score"
+msgstr "Eredményei"
+
+msgid "crs_loc_btn_new_assignment"
+msgstr "Új teszthozzárendelés"
+
+msgid "crs_loc_confirm_delete_tst"
+msgstr "Biztos, hogy törli ennek a tanulásicél-orientált kurzusnak a tesztjét?"
+
+msgid "crs_loc_delete_assignment"
+msgstr "Teszt hozzárendelésének törlése"
+
+msgid "crs_loc_err_no_active_it"
+msgstr "Belépő teszt nélküli tanulási célok"
+
+msgid "crs_loc_err_no_active_lo"
+msgstr "Nincsenek aktív tanulási célok"
+
+msgid "crs_loc_err_no_active_mat"
+msgstr "Tartalom nélküli tanulási célok"
+
+msgid "crs_loc_err_no_active_qst"
+msgstr "Kérdések nélküli tanulási célok"
+
+msgid "crs_loc_err_no_active_qt"
+msgstr "Záró teszt nélküli tanulási célok"
+
+msgid "crs_loc_err_nr_tries_exceeded"
+msgstr "Az objektumonkénti kitöltési lehetőségeinek száma meghaladja a záró teszt kitöltési lehetőségeinek számát."
+
+msgid "crs_loc_err_stat_no_it"
+msgstr "Nincs elérhető belépő teszt"
+
+msgid "crs_loc_err_stat_no_materials"
+msgstr "Nincs elérhető kurzussegédanyag"
+
+msgid "crs_loc_err_stat_no_qt"
+msgstr "Nincs elérhető záró teszt"
+
+msgid "crs_loc_err_stat_tst_offline"
+msgstr "Nem online az összes teszt."
+
+msgid "crs_loc_form_assign"
+msgstr "Meglévő teszt használata"
+
+msgid "crs_loc_form_assign_initial_info"
+msgstr "Ebben a kurzusban lévő egyik teszt kiválasztása belépő tesztnek"
+
+msgid "crs_loc_form_assign_it"
+msgstr "Teszt hozzárendelése"
+
+msgid "crs_loc_form_assign_qualified_info"
+msgstr "Ebben a kurzusban lévő egyik teszt kiválasztása záró tesztnek"
+
+msgid "crs_loc_form_available_tsts"
+msgstr "Elérhető tesztek"
+
+msgid "crs_loc_form_create_objectives"
+msgstr "Tanulási célok létrehozása"
+
+msgid "crs_loc_form_random_limits_it"
+msgstr "Belépő teszt kérdéseinek létrehozása"
+
+msgid "crs_loc_form_random_limits_qt"
+msgstr "Záró teszt kérdéseinek létrehozása"
+
+msgid "crs_loc_form_tst_new"
+msgstr "Új teszt létrehozása"
+
+msgid "crs_loc_form_tst_new_initial_info"
+msgstr "Új belépő teszt létrehozása"
+
+msgid "crs_loc_form_tst_new_qualified_info"
+msgstr "Új záró teszt létrehozása"
+
+msgid "crs_loc_itest_info"
+msgstr "Belépő teszt"
+
+msgid "crs_loc_itst_for_objective"
+msgstr "‘%1$s’ belépő teszt"
+
+msgid "crs_loc_learning_objective"
+msgstr "Tanulási célok"
+
+msgid "crs_loc_mem_show_res"
+msgstr "Teszteredmények megjelenítése"
+
+msgid "crs_loc_num_qst"
+msgstr "Kérdések száma"
+
+msgid "crs_loc_objective_passed_confirmation"
+msgstr "Ön már teljesítette a tanulási célt. A teszt egy újabb indításával törli a már elért eredményét. Biztos, hogy elindítja a tesztet?"
+
+msgid "crs_loc_objectives_passed_confirmation"
+msgstr "Ön már teljesítette az összes tanulási célt. A teszt egy újabb indításával törli a már elért összes eredményét. Biztos, hogy elindítja a tesztet?"
+
+msgid "crs_loc_passes_info"
+msgstr "Maximális tesztkitöltések száma"
+
+msgid "crs_loc_passes_left"
+msgstr "Hátralévő tesztkitöltési lehetőségek száma"
+
+msgid "crs_loc_passes_reached"
+msgstr "Nincs további tesztkitöltési lehetősége"
+
+msgid "crs_loc_perc"
+msgstr "Pontszámok elérendő százaléka"
+
+msgid "crs_loc_progress_do_qualifying"
+msgstr "Kérem, töltse ki a záró teszt."
+
+msgid "crs_loc_progress_do_qualifying_again"
+msgstr "Kérem, újra dolgozza fel a tanulási cél segédanyagait."
+
+msgid "crs_loc_progress_no_result_do_initial"
+msgstr "Kérem, töltse ki a belépő tesztet."
+
+msgid "crs_loc_progress_no_result_no_initial"
+msgstr "Kérem, újra dolgozza fel az alábbi tanulási cél segédanyagait és töltse ki újra a záró tesztet."
+
+msgid "crs_loc_progress_objective_complete"
+msgstr "Tanulási célokat sikeresen teljesített."
+
+msgid "crs_loc_progress_result_itest"
+msgstr "Belépő teszt eredménye"
+
+msgid "crs_loc_progress_result_qtest"
+msgstr "Végeredmény"
+
+msgid "crs_loc_qst_resume_tst_itest"
+msgstr "Különböző tanulás célokhoz belépő tesztek nem indíthatók el párhuzamosan. Egy tanulási célhoz már elkezdett kitölteni egy tesztet. Vagy folytassa a már elkezdett tesztet vagy kezdjen újat."
+
+msgid "crs_loc_qst_resume_tst_qtest"
+msgstr "Különböző tanulás célokhoz záró tesztek nem indíthatók el párhuzamosan. Egy tanulási célhoz már elkezdett kitölteni egy záró tesztet. Vagy folytassa a már elkezdett tesztet vagy kezdjen újat."
+
+msgid "crs_loc_qtest_info"
+msgstr "Záró teszt"
+
+msgid "crs_loc_qtst_for_objective"
+msgstr "‘%1$s’ záró teszt"
+
+msgid "crs_loc_rand_assign_qpl"
+msgstr "Hozzárendelés kérdésgyűjteményből"
+
+msgid "crs_loc_rand_qpl"
+msgstr "Elérhető kérdésgyűjtemények"
+
+msgid "crs_loc_settings_err_qstart"
+msgstr "A ‘Záró teszt legyen kezdőobjektum’ beállítása nem lehetséges, mert azt csak belépő teszt nélküli kurzusnál lehet bekapcsolni."
+
+msgid "crs_loc_settings_it_start_object"
+msgstr "A Belépő teszt legyen a kezdőobjektum"
+
+msgid "crs_loc_settings_it_type"
+msgstr "Belépő teszt"
+
+msgid "crs_loc_settings_itest_tbl"
+msgstr "Belépő teszt beállításai"
+
+msgid "crs_loc_settings_passed_mode"
+msgstr "Teljesített tanulási célkitűzések"
+
+msgid "crs_loc_settings_passed_mode_hide"
+msgstr "Teljesített tanulási célkitűzések tesztkérdéseinek elrejtése"
+
+msgid "crs_loc_settings_passed_mode_mark"
+msgstr "Teljesített tanulási célkitűzések tesztkérdéseinek megjelölése"
+
+msgid "crs_loc_settings_qt_all"
+msgstr "Záró teszt"
+
+msgid "crs_loc_settings_qt_start_object"
+msgstr "Záró teszt legyen kezdőobjektum"
+
+msgid "crs_loc_settings_qtest_tbl"
+msgstr "Záró teszt beállításai"
+
+msgid "crs_loc_settings_reset"
+msgstr "Teszteredmények"
+
+msgid "crs_loc_settings_reset_enable"
+msgstr "‘Teszteredmények visszaállításának’ engedélyezése"
+
+msgid "crs_loc_settings_reset_enable_info"
+msgstr "Minden felhasználó visszaállíthatja a saját teszteredményeit és újrakezdheti a kurzust."
+
+msgid "crs_loc_settings_tbl"
+msgstr "Tanulásicél-orientált kurzus beállításai"
+
+msgid "crs_loc_settings_tbl_it_nq"
+msgstr "Szintfelmérő belépő teszt a tanulási célhoz"
+
+msgid "crs_loc_settings_tbl_it_q"
+msgstr "Elővizsga belépő teszt a tanulási célhoz"
+
+msgid "crs_loc_settings_tbl_its_nq_all"
+msgstr "Ugyanaz a szintfelmérő belépő teszt az összes tanulási célhoz"
+
+msgid "crs_loc_settings_tbl_its_q_all"
+msgstr "Ugyanaz az elővizsga belépő teszt az összes tanulási célhoz"
+
+msgid "crs_loc_settings_tbl_qt"
+msgstr "Záró tesztek a tanulási célhoz"
+
+msgid "crs_loc_settings_tbl_qts_all"
+msgstr "Ugyanaz a záró teszt az összes tanulási célhoz"
+
+msgid "crs_loc_settings_type_it_none"
+msgstr "Ne legyen belépő teszt"
+
+msgid "crs_loc_settings_type_it_none_info"
+msgstr "A kurzustagok önállóan haladnak a tanulási célok elsajátításának útján. Elvégezhetik a záró tesztet, így ellenőrizhetik elsajátították-e a tanulási célt, vagy szükségük van-e még további tanulásra, gyakorlásra."
+
+msgid "crs_loc_settings_type_it_placement_all"
+msgstr "Összes tanulási célt lefedő szintfelmérő belépő teszt"
+
+msgid "crs_loc_settings_type_it_placement_all_info"
+msgstr "Minden résztvevő kitölt egy, az összes tanulási célra vonatkozó, átfogó kérdéssort tartalmazó belépő tesztet. Minden résztvevőnek a tanulási segédanyagokat a teszten elért eredménye alapján ajánljuk fel."
+
+msgid "crs_loc_settings_type_it_placement_sel"
+msgstr "Mindegyik tanulási célhoz más-más szintfelmérő belépő teszt"
+
+msgid "crs_loc_settings_type_it_placement_sel_info"
+msgstr "Minden résztvevő minden tanulási célhoz más-más, csak az adott tanulási céllal kapcsolatos kérdéseket tartalmazó belépő teszteket tölti ki. A résztvevőnek a tanulási segédanyagokat a teszteken elért eredményei alapján ajánljuk fel."
+
+msgid "crs_loc_settings_type_it_qualifying_all"
+msgstr "Összes tanulási célt lefedő elővizsga belépő teszt"
+
+msgid "crs_loc_settings_type_it_qualifying_all_info"
+msgstr "Az elővizsga belépő teszt azt vizsgálja, hogy a résztvevő tanulási célok elsajátítását már teljesítette-e. Az elővizsga belépő teszt az összes tanulási célra vonatkozó kérdéssort tartalmazza."
+
+msgid "crs_loc_settings_type_it_qualifying_sel"
+msgstr "Mindegyik tanulási célhoz más-más elővizsga belépő teszt"
+
+msgid "crs_loc_settings_type_it_qualifying_sel_info"
+msgstr "Minden résztvevő minden tanulási célhoz más-más, csak az adott tanulási céllal kapcsolatos kérdéseket tartalmazó elővizsga belépő teszteket tölti ki. Minden teszt azt ellenőrzi, hogy a résztvevő már sikeresen elsajátította-e az adott tanulási célt."
+
+msgid "crs_loc_settings_type_q_all"
+msgstr "Összes tanulási célt lefedő záró teszt"
+
+msgid "crs_loc_settings_type_q_all_info"
+msgstr "Az összes tanulási cél elsajátítását egy záró teszttel mérjük."
+
+msgid "crs_loc_settings_type_q_selected"
+msgstr "Mindegyik tanulási célhoz más-más záró teszt"
+
+msgid "crs_loc_settings_type_q_selected_info"
+msgstr "Minden tanulási cél elsajátítását külön-külön záró teszttel mérjük."
+
+msgid "crs_loc_subtab_creation"
+msgstr "Létrehozás"
+
+msgid "crs_loc_suggested"
+msgstr "Kérem, dolgozza fel az alábbi tanulási segédanyagokat."
+
+msgid "crs_loc_tab_itest"
+msgstr "Belépő teszt"
+
+msgid "crs_loc_tab_itests"
+msgstr "Belépő tesztek"
+
+msgid "crs_loc_tab_materials"
+msgstr "Segédanyag"
+
+msgid "crs_loc_tab_objectives"
+msgstr "Tanulási célok"
+
+msgid "crs_loc_tab_qtest"
+msgstr "Záró teszt"
+
+msgid "crs_loc_tab_qtests"
+msgstr "Záró tesztek"
+
+msgid "crs_loc_tab_start"
+msgstr "Kezdőobjektumok"
+
+msgid "crs_loc_tbl_tst_qst_qpl"
+msgstr "Kérdések / Kérdésgyűjtemények"
+
+msgid "crs_loc_tbl_tst_type"
+msgstr "Tesztkérdések kiválasztása"
+
+msgid "crs_loc_test_results_of"
+msgstr "Teszteredmények:"
+
+msgid "crs_loc_tst_assignment"
+msgstr "Teszt hozzárendelés"
+
+msgid "crs_loc_tst_new_run"
+msgstr "Új tesztkitöltés indítása"
+
+msgid "crs_loc_tst_num_qst"
+msgstr "Kérdések száma:"
+
+msgid "crs_loc_tst_qpls"
+msgstr "Elérhető kérdésgyűjtemények:"
+
+msgid "crs_loc_tst_resume"
+msgstr "Tesztkitöltés folytatása"
+
+msgid "crs_loc_tst_start"
+msgstr "Teszt indítása"
+
+msgid "crs_loc_tt_info"
+msgstr "%1$d%%-ot ért el. %2$d%%-tól sikeresen teljesített a teszt."
+
+msgid "crs_loc_type_initial_all_info"
+msgstr "Az ILIAS a belépő teszt végeredménye alapján személyre szabott tananyagot ajánl a még nem teljesített tanulási célok eléréséhez. A végső záró teszt azt méri, hogy a résztvevő elsajátította-e a tanulási célokat, vagy további tanulásra és képzésre van-e szüksége."
+
+msgid "crs_loc_type_qualified_info"
+msgstr "A kurzus egy teszttel indul, ami felméri, hogy a kurzustag elsajátította-e már a tanulási célokat. A kurzustagnak a sikeresen teljesíti tanulási célok tananyagaival nincs teendője, több tesztet sem kell kitölteni. Az el nem ért tanulási célok teljesítéséhez az ILIAS tananyagot ajánl, teljesítését további teszt vizsgálja."
+
+msgid "crs_mail_all"
+msgstr "Összes tag"
+
+msgid "crs_mail_all_info"
+msgstr "Tagok, vezetők és tutorok is használhatják a ‘Tagok’ lapon lévő ‘Levél küldése tagoknak’ lehetőséget."
+
+msgid "crs_mail_context_member_info"
+msgstr "Egy kurzus információs lapján lévő e-mail címekre"
+
+msgid "crs_mail_context_member_title"
+msgstr "Kurzus: infolap"
+
+msgid "crs_mail_context_tutor_info"
+msgstr "Egy kurzus tagok és tanulási haladás lapján lévő résztvevők e-mail címeire"
+
+msgid "crs_mail_context_tutor_title"
+msgstr "Kurzus: levél kurzustagoknak"
+
+msgid "crs_mail_permanent_link"
+msgstr "Az alábbi linken érheti el a kurzust:"
+
+msgid "crs_mail_tutors_only"
+msgstr "Csak tutorok és kurzusvezetők"
+
+msgid "crs_mail_tutors_only_info"
+msgstr "Csak vezetők és tutorok használhatják a ‘Tagok’ lapon lévő ‘Levél küldése tagoknak’ lehetőséget."
+
+msgid "crs_mail_type"
+msgstr "Levél küldése tagoknak"
+
+msgid "crs_map_location"
+msgstr "Kurzustérkép helye"
+
+msgid "crs_map_settings"
+msgstr "Térkép"
+
+msgid "crs_materials"
+msgstr "Segédanyagok"
+
+msgid "crs_max_and_min_members_invalid"
+msgstr "A minimális taglétszámnak kisebbnek kell lennie, mint a maximális taglétszámnak."
+
+msgid "crs_max_and_min_members_needed"
+msgstr "Állítsa be a minimális, illetve a maximális taglétszámot."
+
+msgid "crs_max_members_needed"
+msgstr "Várólista használatához a maximális taglétszám beállítása szükséges."
+
+msgid "crs_max_members_reached"
+msgstr "A tagok száma elérte a maximumot"
+
+msgid "crs_mem_contact"
+msgstr "Technikai segítségnyújtó"
+
+msgid "crs_mem_contacts"
+msgstr "Technikai segítségnyújtók"
+
+msgid "crs_mem_send_mail"
+msgstr "E-mail küldése"
+
+msgid "crs_mem_tbl_header"
+msgstr "Kurzusrésztvevők"
+
+msgid "crs_member"
+msgstr "Tag"
+
+msgid "crs_member_administration"
+msgstr "Résztvevők módosítása"
+
+msgid "crs_member_passed_status_changed"
+msgstr "Teljesítési állapot változása"
+
+msgid "crs_members"
+msgstr "Tagok"
+
+msgid "crs_members_deleted"
+msgstr "A tago(ka)t sikeresen eltávolította a kurzusból"
+
+msgid "crs_members_groups"
+msgstr "Csoporttagságok"
+
+msgid "crs_members_map"
+msgstr "Kurzustagok térképe"
+
+msgid "crs_members_print_title"
+msgstr "Kurzustagok"
+
+msgid "crs_min_one_admin"
+msgstr "Legalább egy vezetőt hozzá kell rendelni ehhez a kurzushoz."
+
+msgid "crs_msg_no_self_registration_period_if_self_enrolment_disabled"
+msgstr "A korlátozott regisztrációs időszak nem állítható be, amíg a ‘Senki sem regisztrálhatja saját magát’ beállítás aktív."
+
+msgid "crs_my_courses_groups_enabled"
+msgstr "Kurzusaim és csoportjaim"
+
+msgid "crs_my_courses_groups_enabled_info"
+msgstr "Ha bekapcsolja, a ‘Kurzusaim és csoportjaim’ rész megjelenik."
+
+msgid "crs_new_status"
+msgstr "Az Ön új állapota:"
+
+msgid "crs_new_subscription"
+msgstr "‘%s’ kurzusba felhasználó regisztrált"
+
+msgid "crs_new_subscription_body"
+msgstr "ezúton értesítjük, hogy %s regisztrált a(z) ‘%s’ kurzusba."
+
+msgid "crs_new_subscription_request"
+msgstr "Jelentkezés erre a kurzusra: ‘%s’"
+
+msgid "crs_new_subscription_request_body"
+msgstr "ezúton értesítjük, hogy %s tagsági kérelmet adott be a(z) ‘%s’ kurzushoz."
+
+msgid "crs_new_subscription_request_body2"
+msgstr "Regisztráció megerősítéséhez kattintson ide:"
+
+msgid "crs_news"
+msgstr "Kurzushírek"
+
+msgid "crs_no_archive_selected"
+msgstr "Egy archívum sincs kiválasztva"
+
+msgid "crs_no_archives_selected"
+msgstr "Válasszon ki egy archívumot."
+
+msgid "crs_no_notify"
+msgstr "Nincs értesítés az új regisztrációhoz"
+
+msgid "crs_no_objective_lms_found"
+msgstr "Ez a kurzus nem tartalmaz segédanyagokat, amit tanulási célhoz lehetne rendelni."
+
+msgid "crs_no_objective_selected"
+msgstr "Válasszon ki egy célt."
+
+msgid "crs_no_objectives_created"
+msgstr "Egy segédanyag sincs a kurzusban."
+
+msgid "crs_no_subscribers_selected"
+msgstr "Válasszon egy felhasználót!"
+
+msgid "crs_no_users_added"
+msgstr "Nincsenek tagok hozzáadva."
+
+msgid "crs_no_users_selected"
+msgstr "Nem választott ki felhasználót"
+
+msgid "crs_not_available"
+msgstr "-Nem elérhető-"
+
+msgid "crs_notification"
+msgstr "Értesítés"
+
+msgid "crs_notification_activated"
+msgstr "Értesítés bekapcsolva"
+
+msgid "crs_notification_deactivated"
+msgstr "Értesítés kikapcsolva"
+
+msgid "crs_notification_explanation_admin"
+msgstr "Ezt a levelet azért kapta, mert beállította, hogy kér értesítést."
+
+msgid "crs_notification_list_title"
+msgstr "Értesítés"
+
+msgid "crs_notification_salutation"
+msgstr "Kedves Kurzustag,"
+
+msgid "crs_notify"
+msgstr "Értesítés új regisztrációkhoz"
+
+msgid "crs_nr"
+msgstr "Ssz."
+
+msgid "crs_number_users_added"
+msgstr "Az alábbi számú felhasználót sikeresen hozzárendelte a kurzushoz:"
+
+msgid "crs_obj_final_req_info"
+msgstr "Ha eléri ezt a pontszámot, teljesítette a tanulási célt."
+
+msgid "crs_obj_initial_req_info"
+msgstr "Ha eléri ezt a pontszámot, további kurzusanyagokat nem ajánljunk fel feldolgozásra."
+
+msgid "crs_obj_required_points"
+msgstr "Szükséges pontszám"
+
+msgid "crs_objective_accomplished"
+msgstr "Elvégzett"
+
+msgid "crs_objective_action_itest"
+msgstr "Belépő teszt kérdéseinek hozzárendelése"
+
+msgid "crs_objective_action_materials"
+msgstr "Segédanyag hozzárendelése"
+
+msgid "crs_objective_action_qtest"
+msgstr "Záró teszt kérdéseinek hozzárendelése"
+
+msgid "crs_objective_action_qtest_sep"
+msgstr "Záró teszt hozzárendelése"
+
+msgid "crs_objective_add_mat"
+msgstr "Segédanyagok hozzárendelése"
+
+msgid "crs_objective_all_points"
+msgstr "Összes pontszám"
+
+msgid "crs_objective_assigned_materials"
+msgstr "Hozzárendelt tananyagok"
+
+msgid "crs_objective_err_limit"
+msgstr "1 és 100 közötti számot adjon meg."
+
+msgid "crs_objective_final_test"
+msgstr "Záró teszt kérdései"
+
+msgid "crs_objective_limit_err"
+msgstr "A megkívánt pontszám nem lehet magasabb, mint az összpontszám."
+
+msgid "crs_objective_modified"
+msgstr "Frissített tanulási cél."
+
+msgid "crs_objective_not_accomplished"
+msgstr "Nem befejezett"
+
+msgid "crs_objective_overview_objectives"
+msgstr "Áttekintés"
+
+msgid "crs_objective_overview_question_assignment"
+msgstr "Kérdés-hozzárendelés áttekintése"
+
+msgid "crs_objective_points"
+msgstr "Pont"
+
+msgid "crs_objective_pretest"
+msgstr "Belépő teszt után"
+
+msgid "crs_objective_qst_summary"
+msgstr "Kérdés-hozzárendelés áttekintése"
+
+msgid "crs_objective_random_warn"
+msgstr "Nem használhat véletlen-kiválasztásos tesztet tanulási célokkal kombinálva."
+
+msgid "crs_objective_result"
+msgstr "Befejezőteszt után"
+
+msgid "crs_objective_result_details"
+msgstr "⬅︎ Eredmények megjelenítése"
+
+msgid "crs_objective_result_summary_initial"
+msgstr "Belépő teszt: %1$s (%2$s kötelező)"
+
+msgid "crs_objective_result_summary_qualifying"
+msgstr "Elővizsga belépő teszt: %1$s (%2$s kötelező)"
+
+msgid "crs_objective_saved_sorting"
+msgstr "Mentett csoportosítás."
+
+msgid "crs_objective_self_assessment"
+msgstr "Belépő teszt kérdései"
+
+msgid "crs_objective_status"
+msgstr "Cél állapota"
+
+msgid "crs_objective_status_configure"
+msgstr "Kurzus ellenőrzőlistája"
+
+msgid "crs_objective_status_itest"
+msgstr "Belépő teszt beállítása"
+
+msgid "crs_objective_status_materials"
+msgstr "Kurzustartalom beállítása"
+
+msgid "crs_objective_status_materials_info"
+msgstr "A kurzus jelenleg még üres. Adjon hozzá a tanulási célokhoz rendelhető segédanyagokat."
+
+msgid "crs_objective_status_objective_creation"
+msgstr "Tanulási cél létrehozása"
+
+msgid "crs_objective_status_objectives"
+msgstr "Tanulási célok beállítása"
+
+msgid "crs_objective_status_qtest"
+msgstr "Záró teszt beállítása"
+
+msgid "crs_objective_status_settings"
+msgstr "Kurzusbeállítások"
+
+msgid "crs_objective_tbl_col_final_tsts"
+msgstr "Záró tesztek"
+
+msgid "crs_objective_wiz_final"
+msgstr "Záró teszt kérdései"
+
+msgid "crs_objective_wiz_final_info"
+msgstr "Záró tesztkérdések megadása."
+
+msgid "crs_objective_wiz_final_limit"
+msgstr "Küszöbérték a záró teszthez"
+
+msgid "crs_objective_wiz_materials"
+msgstr "Kurzusanyagok hozzárendelése"
+
+msgid "crs_objective_wiz_materials_info"
+msgstr "Megadhat ajánlott kurzusanyagokat a tanulási cél eléréséhez."
+
+msgid "crs_objective_wiz_self"
+msgstr "Belépő teszt kérdései"
+
+msgid "crs_objective_wiz_self_limit"
+msgstr "Küszöbérték a belépő teszthez"
+
+msgid "crs_objective_wiz_self_limit_info"
+msgstr "Határozza meg a korlátokat a belépő teszt kérdéseihez!"
+
+msgid "crs_objective_wiz_title"
+msgstr "Tanulási cél leírása"
+
+msgid "crs_objective_wiz_title_info"
+msgstr "Adja meg a tanulási cél címét és rövid leírását!"
+
+msgid "crs_objectives"
+msgstr "Tanulási célok"
+
+msgid "crs_objectives_assigned_lm"
+msgstr "A kiválasztott segédanyagokat sikeresen hozzárendelte."
+
+msgid "crs_objectives_deleted"
+msgstr "Tanulási célok törlése"
+
+msgid "crs_objectives_edit_question_assignments"
+msgstr "Kérdés-hozzárendelés módosítása"
+
+msgid "crs_objectives_reset_sure"
+msgstr "Biztos, hogy törli a kurzus összes eredményét?<br/>Ezzel a teszteredményeket is törli."
+
+msgid "crs_objectives_reseted"
+msgstr "Megmaradt eredmények."
+
+msgid "crs_open"
+msgstr "Kurzus megnyitása"
+
+msgid "crs_other_resources"
+msgstr "További források"
+
+msgid "crs_page_type_lobj"
+msgstr "Tanulásicél-oldal"
+
+msgid "crs_passed"
+msgstr "Teljesítette-e"
+
+msgid "crs_passed_status_manual_by"
+msgstr "Kézzel:"
+
+msgid "crs_passed_status_system"
+msgstr "Rendszer"
+
+msgid "crs_password_not_valid"
+msgstr "Érvénytelen a jelszava."
+
+msgid "crs_password_required"
+msgstr "Ehhez a regisztrációs eljáráshoz jelszó szükséges."
+
+msgid "crs_pdf"
+msgstr "PDF"
+
+msgid "crs_period"
+msgstr "Kurzusidőszak"
+
+msgid "crs_period_end_mail_placeholder"
+msgstr "Kurzusidőszak vége"
+
+msgid "crs_period_info"
+msgstr "Információ a kurzusidőszak kezdő és záró dátumáról"
+
+msgid "crs_period_start_mail_placeholder"
+msgstr "Kurzusidőszak kezdete"
+
+msgid "crs_presentation_type"
+msgstr "Megjelenítés típusa"
+
+msgid "crs_print_list"
+msgstr "Névsor létrehozása"
+
+msgid "crs_ref_delete_confirmation_info"
+msgstr "Biztos, hogy eltávolítja az alábbi tagokat a kurzusból? Amennyiben ezeket a tagokat az ide linkelő forráskurzusból is el kívánja távolítani, pipálja be a megfelelő jelölőnégyzetet."
+
+msgid "crs_ref_member_update"
+msgstr "Új tagok felvétele"
+
+msgid "crs_ref_member_update_info"
+msgstr "A szülőkurzus új tagját automatikusan hozzáadjuk tagként a forráskurzushoz is."
+
+msgid "crs_ref_missing_access"
+msgstr "Ezt az lehetőséget nem lehet kiválasztani, mert nem rendelkezik mind a két kurzuhoz a ‘Tagok kezelése’ jogosultsággal."
+
+msgid "crs_ref_missing_parent_crs"
+msgstr "Ezt az lehetőséget nem lehet kiválasztani, mert ennek a kurzuslinkek nem található a forráskurzusa."
+
+msgid "crs_reg"
+msgstr "Regisztrációs beállítások"
+
+msgid "crs_reg_code"
+msgstr "Regisztráció linkkel"
+
+msgid "crs_reg_code_enabled_info"
+msgstr "A választott regisztrációs mód és jogosultságok mellett ez egy másik lehetőség az érdeklődő felhasználóknak, hogy közvetlenül regisztrálhassanak az alábbi regisztrációs linkkel."
+
+msgid "crs_reg_code_link"
+msgstr "Link a közvetlen regisztrációhoz"
+
+msgid "crs_reg_max_info"
+msgstr "Adja meg a kurzushoz rendelhető felhasználók maximális számát."
+
+msgid "crs_reg_no_selfreg"
+msgstr "Senki sem regisztrálhatja saját magát"
+
+msgid "crs_reg_password_info"
+msgstr "A felhasználóknak a kurzushoz való csatlakozáskor ezt a jelszót kell majd begépelniük."
+
+msgid "crs_reg_selfreg"
+msgstr "Önregisztráció"
+
+msgid "crs_reg_subject"
+msgstr "Üzenet"
+
+msgid "crs_reg_until"
+msgstr "Regisztrációs időszak"
+
+msgid "crs_reg_user_already_subscribed"
+msgstr "Már adott le tagsági kérelmet ehhez a kurzushoz."
+
+msgid "crs_registration"
+msgstr "Kurzusregisztráció"
+
+msgid "crs_registration_confirmation_info"
+msgstr "A regisztrációt egy kurzusvezetőnek jóvá kell hagynia."
+
+msgid "crs_registration_deactivated"
+msgstr "Csak kurzusvezetők vehetnek fel felhasználót a kurzushoz."
+
+msgid "crs_registration_limited"
+msgstr "Regisztrációs időszak időbeni korlátozása"
+
+msgid "crs_registration_limited_info"
+msgstr "Csak egy meghatározott ideig lehet regisztrálni a kurzusra."
+
+msgid "crs_registration_period"
+msgstr "Regisztrációs időszak"
+
+msgid "crs_registration_type"
+msgstr "Regisztráció módja"
+
+msgid "crs_reject_subscriber"
+msgstr "‘%s’ kurzushoz elutasított regisztráció"
+
+msgid "crs_reject_subscriber_body"
+msgstr "sajnálattal közöljük, hogy ‘%s’ kurzusra jelentkezését elutasították."
+
+msgid "crs_reset_results"
+msgstr "Eredmények alapállapotba állítása"
+
+msgid "crs_role_status"
+msgstr "Szerep/állapot"
+
+msgid "crs_search_users"
+msgstr "Felhasználók keresése"
+
+msgid "crs_select_archive_language"
+msgstr "Válasszon ki egy nyelvet az archívumhoz"
+
+msgid "crs_select_one_archive"
+msgstr "Válasszon ki egy archívumot"
+
+msgid "crs_select_starter"
+msgstr "Kezdőobjektum kiválasztása"
+
+msgid "crs_settings"
+msgstr "Kurzusbeállítások"
+
+msgid "crs_settings_saved"
+msgstr "A beállításokat sikeresen mentette."
+
+msgid "crs_shorten_breadcrumb"
+msgstr "Navigációs sor"
+
+msgid "crs_show_all_obj"
+msgstr "Összes kibontása"
+
+msgid "crs_show_member_export"
+msgstr "Névsor"
+
+msgid "crs_show_member_export_info"
+msgstr "A kurzus tagjai kinyomtathatják a kurzustagok listáját."
+
+msgid "crs_show_member_export_settings"
+msgstr "Névsor"
+
+msgid "crs_show_members"
+msgstr "Tagok megjelenítése"
+
+msgid "crs_show_members_info"
+msgstr "Kurzustagok megtekinthetik a tagok képtárát."
+
+msgid "crs_size"
+msgstr "Fájlméret"
+
+msgid "crs_sort_activation"
+msgstr "Aktiválás szerinti sorrend"
+
+msgid "crs_sort_timing_info"
+msgstr "A kurzus objektumait aktiválási idejük vagy elérhetőségi időzítésük szerint rendezzük."
+
+msgid "crs_start"
+msgstr "Kezdő időpont"
+
+msgid "crs_start_objects"
+msgstr "Kezdőobjektumok"
+
+msgid "crs_starter_delete_sure"
+msgstr "Biztos, hogy törli az alábbi kezdőobjektumokat?"
+
+msgid "crs_starter_deleted"
+msgstr "Hozzárendelés eltávolítva."
+
+msgid "crs_starters_already_assigned"
+msgstr "Ez az objektum már hozzá van rendelve."
+
+msgid "crs_status"
+msgstr "Állapot"
+
+msgid "crs_status_changed"
+msgstr "‘%s’ kurzusban állapotváltozás"
+
+msgid "crs_status_changed_body"
+msgstr "ezúton értesítjük, hogy ‘%s’ kurzusban állapota megváltozott."
+
+msgid "crs_status_determination"
+msgstr "‘Sikeresen teljesítette’ állapot meghatározása"
+
+msgid "crs_status_determination_lp"
+msgstr "Tanulási haladás alapján"
+
+msgid "crs_status_determination_lp_info"
+msgstr "Amikor a tanulási haladás ‘Teljesített’-re vált, a kurzusállapot automatikusan ‘Sikeresen teljesítette’ lesz. Ettől függetlenül a tutorok kézzel is módosíthatják az állapotot."
+
+msgid "crs_status_determination_manual"
+msgstr "Csak a tutorok manuálisan"
+
+msgid "crs_status_determination_sync"
+msgstr "A kurzusállapot értéke automatikusan ‘Sikeresen teljesítette’ lesz, amint a tanuló a tanulási haladását befolyásoló összes objektumot teljesítette. A beállítások módosítása előtti tanulási haladásokat figyelembe vesszük, a kézzel állított ‘Sikeresen teljesítette’ állapotok sem változnak. Biztos, hogy módosítja az összes tag kurzusállapotát a jelenlegi tanulási haladásai alapján?"
+
+msgid "crs_structure"
+msgstr "Kurzusszerkezet"
+
+msgid "crs_subject_course_group_notification"
+msgstr "Napi levél ehhez: %s"
+
+msgid "crs_subscribe_member"
+msgstr "‘%s’ kurzusra regisztráció"
+
+msgid "crs_subscribe_member_body"
+msgstr "ezúton értesítjük, hogy ‘%s’ kurzusra sikeresen regisztrált."
+
+msgid "crs_subscribe_wl"
+msgstr "‘%s’ kurzusra regisztráció"
+
+msgid "crs_subscribe_wl_body"
+msgstr "ezúton értesítjük, hogy ‘%s’ kurzus várólistájára felkerült. Ön a(z) %s. a listán. A kurzusvezető üzenetet fog küldeni kérésének elfogadásáról vagy elutasításáról."
+
+msgid "crs_subscriber"
+msgstr "Csatlakozni kívánó"
+
+msgid "crs_subscribers_deleted"
+msgstr "Törölt csatlakozni kívánó(k)"
+
+msgid "crs_subscription"
+msgstr "Feliratkozás"
+
+msgid "crs_subscription_failed_limit"
+msgstr "A maximális felhasználószámot elérte."
+
+msgid "crs_subscription_max_members"
+msgstr "Maximális szám"
+
+msgid "crs_subscription_max_members_short"
+msgstr "Tagok számának korlátozása"
+
+msgid "crs_subscription_max_members_short_info"
+msgstr "A minimális, illetve a maximális taglétszám, továbbá várólista is beállítható."
+
+msgid "crs_subscription_min_members"
+msgstr "Minimális szám"
+
+msgid "crs_subscription_min_members_err"
+msgstr "A résztvevők minimális száma nem lehet kisebb a résztvevők maximális számánál."
+
+msgid "crs_subscription_min_members_info"
+msgstr "A kurzus indulásához szükséges minimális létszámot határozza meg. Amennyiben a kurzuslétszám nem éri el ezt a számot a kurzus regisztrációs, illetve lejelentkezési határidejéig, figyelmeztető levelet küldünk a kurzus azon vezetőinek és tutorainak, akinél aktív az értesítés a kurzus ‘Tagok’ lapján."
+
+msgid "crs_subscription_options_confirmation"
+msgstr "Tagság kérése"
+
+msgid "crs_subscription_options_direct"
+msgstr "Csatlakozás közvetlenül"
+
+msgid "crs_subscription_options_password"
+msgstr "Csatlakozás kurzusjelszóval"
+
+msgid "crs_subscription_successful"
+msgstr "Sikeresen csatlakozott a kurzushoz"
+
+msgid "crs_sure_delete_selected_archives"
+msgstr "Biztos, hogy törli a kiválasztott archívumokat?"
+
+msgid "crs_syllabus"
+msgstr "Kurzustematika"
+
+msgid "crs_sys_default"
+msgstr "Alapértelmezett"
+
+msgid "crs_table_start_objects"
+msgstr "Kezdőobjektumok"
+
+msgid "crs_target_group"
+msgstr "Célcsoport"
+
+msgid "crs_tile_and_objective_view_not_supported"
+msgstr "A ‘Csempe’ módot és a ‘Tanulásicél-orientált’ megjelenítést egyszerre nem kapcsolhatja be."
+
+msgid "crs_tile_and_session_limit_not_supported"
+msgstr "A ‘Csempe’ módot és ‘A megjelenítendő események számának korlátozását’ egyszerre nem kapcsolhatja be."
+
+msgid "crs_timing_err_start_end"
+msgstr "A záró dátum nem lehet korábbi, mint a nyitó dátum."
+
+msgid "crs_timings_activate_optional"
+msgstr "Kurzus időzítésének önkéntes módja"
+
+msgid "crs_timings_activate_optional_own"
+msgstr "Kurzusom időzítésének önkéntes módja"
+
+msgid "crs_timings_availability_enabled"
+msgstr "Elérhetőség időbeli korlátozása"
+
+msgid "crs_timings_changeable"
+msgstr "Javasolt tanulási időszak módosítható"
+
+msgid "crs_timings_changed"
+msgstr "Időzítést sikeresen módosította"
+
+msgid "crs_timings_days_after_subsription"
+msgstr "A kurzusra regisztrálás után napokban"
+
+msgid "crs_timings_disabled"
+msgstr "Nincs időzítés"
+
+msgid "crs_timings_disabled_info"
+msgstr "Válassza ezt a beállítást az időzítés kikapcsolásához."
+
+msgid "crs_timings_early_begin"
+msgstr "Legkorábbi kezdési dátum"
+
+msgid "crs_timings_edit_personal"
+msgstr "Egyéni időzítés módosítása"
+
+msgid "crs_timings_end"
+msgstr "Záró időpont"
+
+msgid "crs_timings_from_until"
+msgstr "(tól/ig)"
+
+msgid "crs_timings_in_days"
+msgstr "(napban)"
+
+msgid "crs_timings_info_active"
+msgstr "(aktív)"
+
+msgid "crs_timings_not_changed"
+msgstr "Az időzítés nem módosult"
+
+msgid "crs_timings_optional_checked"
+msgstr "Az önkéntes módot bekapcsoltuk ennél a felhasználónál"
+
+msgid "crs_timings_optional_off"
+msgstr "Az önkéntes mód nem aktív."
+
+msgid "crs_timings_optional_on"
+msgstr "Az önkéntes mód aktív."
+
+msgid "crs_timings_optional_on_and_passed"
+msgstr "Az önkéntes mód aktív, nem módosítható, mert a felhasználó állapota ‘Elmúlt’."
+
+msgid "crs_timings_optional_unchecked"
+msgstr "Az önkéntes módot kikapcsoltuk ennél a felhasználónál"
+
+msgid "crs_timings_planed_info"
+msgstr "Tervezett tanulási idő"
+
+msgid "crs_timings_planed_start"
+msgstr "Tervezett"
+
+msgid "crs_timings_presetting"
+msgstr "Javasolt tanulási időszak beállítása"
+
+msgid "crs_timings_short_active"
+msgstr "Engedélyezett"
+
+msgid "crs_timings_short_active_tt"
+msgstr "Időzítés aktiválása"
+
+msgid "crs_timings_short_changeable"
+msgstr "Módosítható"
+
+msgid "crs_timings_short_end"
+msgstr "Záró dátum"
+
+msgid "crs_timings_short_limit_start_end"
+msgstr "Legkésőbbi befejezési dátum"
+
+msgid "crs_timings_short_limit_start_end_tt"
+msgstr "Legkésőbbi befejezés"
+
+msgid "crs_timings_short_limit_start_end_tt_rel"
+msgstr "Legkésőbbi befejezés (napokban) a kurzusra történt regisztrálás után."
+
+msgid "crs_timings_short_start_end"
+msgstr "Javaslat"
+
+msgid "crs_timings_short_start_end_rel"
+msgstr "Javasolt kezdés (napokban)"
+
+msgid "crs_timings_short_start_end_tt"
+msgstr "Ajánlott indítás"
+
+msgid "crs_timings_short_start_end_tt_rel"
+msgstr "Az ajánlott kezdés a kurzusra regisztrálás után"
+
+msgid "crs_timings_start"
+msgstr "Kezdő időpont"
+
+msgid "crs_timings_start_end_info"
+msgstr "(Kezdő/Záró)"
+
+msgid "crs_timings_sug_begin"
+msgstr "Ajánlott kezdés"
+
+msgid "crs_timings_sug_end"
+msgstr "Ajánlott befejezés"
+
+msgid "crs_timings_suggested_info"
+msgstr "Javasolt tanulásai időszak"
+
+msgid "crs_timings_time_frame"
+msgstr "Időkeret"
+
+msgid "crs_timings_time_frame_tt"
+msgstr "Időkeret napokban"
+
+msgid "crs_timings_update_error"
+msgstr "Beállításai nem érvényesek, érvényesítse az időzítést az alábbi anyagok esetén:"
+
+msgid "crs_timings_warning_timing_exists"
+msgstr "Ennél az objektumnál időzítést beállítottak. Amennyiben aktiválja az elérhetőségi beállításokat, ezek az időzítési beállítások elvesznek."
+
+msgid "crs_to"
+msgstr "Meddig:"
+
+msgid "crs_tutor"
+msgstr "Tutor"
+
+msgid "crs_tutors"
+msgstr "Tutorok"
+
+msgid "crs_unblocked"
+msgstr "Nincs korlátozva a belépés"
+
+msgid "crs_unblocked_member"
+msgstr "‘%s’ kurzushoz hozzáférés"
+
+msgid "crs_unblocked_member_body"
+msgstr "ezúton tájékoztatjuk, hogy ‘%s’ kurzushozzáférésének blokkolását feloldották."
+
+msgid "crs_unlimited"
+msgstr "Nem korlátozott"
+
+msgid "crs_unsubscribe_member"
+msgstr "‘%s’ kurzustagság törlése"
+
+msgid "crs_unsubscribe_member_body"
+msgstr "ezúton tájékoztatjuk, hogy ‘%s’ kurzusról tagságát sikeresen töröltük."
+
+msgid "crs_unsubscribe_member_explanation"
+msgstr "Azért kapta ezt a levelet, mert leiratkozott a fentebb említett kurzusról."
+
+msgid "crs_unsubscribe_sure"
+msgstr "Biztos, hogy lejelentkezik erről a kurzusról?"
+
+msgid "crs_unsubscribed_from_crs"
+msgstr "Sikeresen lejelentkezett a kurzusról."
+
+msgid "crs_update_subscr_request"
+msgstr "Tagsági kérelem frissítése"
+
+msgid "crs_user_agreement"
+msgstr "Kibocsátott adattípusok"
+
+msgid "crs_user_agreement_info"
+msgstr "Látható adatok a kurzusvezető számára"
+
+msgid "crs_user_already_assigned"
+msgstr "A felhasználókat már korábban hozzárendelték ehhez a kurzushoz"
+
+msgid "crs_users_added"
+msgstr "Felhasználók hozzáadva a kurzushoz."
+
+msgid "crs_users_already_assigned"
+msgstr "A felhasználót már korábban hozzárendelték ehhez a kurzushoz"
+
+msgid "crs_users_removed_from_list"
+msgstr "A kiválasztott felhasználókat eltávolította a várólistáról"
+
+msgid "crs_usr_agreement"
+msgstr "Szolgáltatási feltételek"
+
+msgid "crs_view_info_objective"
+msgstr "Egyéni tanulási haladást biztosító kurzus: a tanulás haladás eredményessége határozza meg a kurzusban történő munkavégzést. A kurzustag számára a belépő tesztben elért saját eredménye határozhatja meg a kurzustartalmat, továbbá tanulási cél elérést záró teszttel igazolhatja."
+
+msgid "crs_view_info_timing"
+msgstr "Javasolt tanulási/feldolgozási idő használatakor célszerű választani."
+
+msgid "crs_view_info_timing_absolute"
+msgstr "A kezdő és a záró dátum konkrét dátum lesz."
+
+msgid "crs_view_info_timing_relative"
+msgstr "A kezdő és a záró dátum a regisztrációtól való eltéréssel lesz meghatározva."
+
+msgid "crs_view_mode"
+msgstr "Kurzusmegjelenítés"
+
+msgid "crs_view_objective"
+msgstr "Tanulásicél-orientált kurzus"
+
+msgid "crs_view_timing"
+msgstr "Időzítésnézet"
+
+msgid "crs_view_timing_absolute"
+msgstr "Abszolút dátumok"
+
+msgid "crs_view_timing_relative"
+msgstr "Relatív dátumok"
+
+msgid "crs_view_timings"
+msgstr "Időzítés típusa"
+
+msgid "crs_visibility"
+msgstr "Láthatóság"
+
+msgid "crs_visibility_limitless"
+msgstr "Korlátlan"
+
+msgid "crs_visibility_until"
+msgstr "Elérhetőség időbeni korlátozása"
+
+msgid "crs_visibility_until_info"
+msgstr "A kurzus egy meghatározott ideig marad látható tagjai számára."
+
+msgid "crs_visibility_unvisible"
+msgstr "A kurzus nem látható."
+
+msgid "crs_wait_info"
+msgstr "Ha a kurzushoz rendelhető maximális felhasználói létszám betelt, az új regisztrálók várólistára kerülnek be."
+
+msgid "crs_waiting_list"
+msgstr "Várólista"
+
+msgid "crs_waiting_list_autofill"
+msgstr "Automatikus feltöltéssel"
+
+msgid "crs_waiting_list_autofill_info"
+msgstr "A résztvevőket automatikusan felvesszük a várólistáról tagság lemondásakor. Ez nem alkalmazható együtt a ‘Tagság kérése’ regisztrációs eljárással, mert az automatikus felvétel kizárja a jóváhagyást."
+
+msgid "crs_waiting_list_no_autofill"
+msgstr "Automatikus feltöltés nélkül"
+
+msgid "crs_warn_no_max_set_on_waiting_list"
+msgstr "A kurzus elérte a maximális kurzuslétszámát. Feliratkozhat a várólistára. A kurzusvezető üzenetet fog küldeni Önnek, ha kérését jóváhagyják vagy elutasítják."
+
+msgid "crs_warn_wl_set_on_waiting_list"
+msgstr "Van már néhány felhasználó a várólistán. Csatlakozási kérelmével Ön is feliratkozhat a várólistára. A kurzusvezető üzenetet fog küldeni Önnek, ha kérését jóváhagyják vagy elutasítják."
+
+msgid "crs_wiz_back"
+msgstr "Vissza"
+
+msgid "crs_wiz_next"
+msgstr "Mentés"
+
+msgid "crs_xml"
+msgstr "XML"
+
+msgid "edit_timings_list"
+msgstr "Időzítés beállítása"
+
+msgid "event"
+msgstr "Esemény"
+
+msgid "event_add_new_event"
+msgstr "Új esemény létrehozása"
+
+msgid "event_assign_materials_info"
+msgstr "A hozzárendelt segédanyagok közvetlenül az esemény alatt fognak megjelenni."
+
+msgid "event_assign_materials_table"
+msgstr "Segédanyagok hozzárendelése"
+
+msgid "event_blank_columns"
+msgstr "További oszlopok"
+
+msgid "event_btn_add"
+msgstr "Esemény létrehozása"
+
+msgid "event_btn_add_edit"
+msgstr "Esemény létrehozása és segédanyag(ok) hozzárendelése"
+
+msgid "event_csv_export"
+msgstr "Exportálás vesszővel tagolt (.csv) fájlba"
+
+msgid "event_date_time"
+msgstr "Dátum és idő"
+
+msgid "event_desc"
+msgstr "Leírás"
+
+msgid "event_details_workflow"
+msgstr "Részletek/munkafolyamat"
+
+msgid "event_edit_members"
+msgstr "Résztvevők módosítása"
+
+msgid "event_etime_smaller_stime"
+msgstr "A záró időpont korábbi, mint a kezdő időpont. Érvényes időtartamot adjon meg!"
+
+msgid "event_file"
+msgstr "Fájl"
+
+msgid "event_files"
+msgstr "Hozzárendelt fájlok"
+
+msgid "event_fulltime_info"
+msgstr "Egész napos esemény"
+
+msgid "event_lecturer"
+msgstr "Név"
+
+msgid "event_list_registered_only"
+msgstr "Csak azon tagok, akik feljelentkeztek"
+
+msgid "event_location"
+msgstr "Helyszín"
+
+msgid "event_materials"
+msgstr "Segédanyagok megjelenítése"
+
+msgid "event_not_participated"
+msgstr "Nem vett részt"
+
+msgid "event_overview"
+msgstr "Jelenlétek eseményeken"
+
+msgid "event_participated"
+msgstr "Részt vett"
+
+msgid "event_registered"
+msgstr "Sikeresen feljelentkezett erre az eseményre."
+
+msgid "event_section_information"
+msgstr "Információk az eseményről"
+
+msgid "event_table_create"
+msgstr "Új esemény"
+
+msgid "event_table_update"
+msgstr "Esemény módosítása"
+
+msgid "event_tbl_admin"
+msgstr "Vezető"
+
+msgid "event_tbl_admins"
+msgstr "Vezetők"
+
+msgid "event_tbl_member"
+msgstr "Tag"
+
+msgid "event_tbl_members"
+msgstr "Tagok"
+
+msgid "event_tbl_participated"
+msgstr "Részt vett"
+
+msgid "event_tbl_registered"
+msgstr "Feljelentkezett"
+
+msgid "event_tbl_tutor"
+msgstr "Tutor"
+
+msgid "event_tbl_tutors"
+msgstr "Tutorok"
+
+msgid "event_title"
+msgstr "Cím"
+
+msgid "event_tutor_data"
+msgstr "Előadó:"
+
+msgid "event_unregister"
+msgstr "Lejelentkezés"
+
+msgid "event_unregistered"
+msgstr "Sikeresen lejelentkezett az eseményről."
+
+msgid "event_updated"
+msgstr "A beállításokat sikeresen mentette."
+
+msgid "event_user_selection"
+msgstr "Felhasználók kiválasztása"
+
+msgid "event_user_selection_include_filter"
+msgstr "‘%1$s’ is"
+
+msgid "event_user_selection_include_requests"
+msgstr "Csatlakozási kérelemmel rendelkezők is"
+
+msgid "event_user_selection_include_role"
+msgstr "‘%1$s’ szereppel rendelkezők is"
+
+msgid "event_user_selection_include_waiting_list"
+msgstr "Várólistán lévők is"
+
+msgid "events"
+msgstr "Események"
+
+msgid "export_members"
+msgstr "Résztvevők adatainak exportálása"
+
+msgid "grouping_change_assignment"
+msgstr "Hozzárendelés változtatása"
+
+msgid "grp_grp_already_assigned"
+msgstr "Már tagja ennek a csoportosításnak."
+
+msgid "grp_not_all_users_assigned_msg"
+msgstr "%s felhasználót felvettünk a csoportba, %s felhasználó már tagja volt a csportnak."
+
+msgid "mem_cron_min_members_intro"
+msgstr "Ezúton értesítjük, hogy az alábbi kurzusok és csoportok esetén nincs meg a minimális taglétszám (még):"
+
+msgid "mem_cron_min_members_reason"
+msgstr "Ezt a levelet azért kapta, mert a tagok lapon beállította, hogy kér értesítést."
+
+msgid "mem_cron_min_members_subject"
+msgstr "Kurzus/Csoport: Minimális taglétszám ellenőrzése"
+
+msgid "mem_cron_min_members_task"
+msgstr "Kérem, ha elegendő jelentkező hiányában a kurzus nem indul el, értesítse a résztvevőket és módosítsa a kurzus beállításait."
+
+msgid "obj_count_members"
+msgstr "Tagok száma"
+
+msgid "sess_attendance_list"
+msgstr "Jelenléti ív"
+
+msgid "sess_gen_attendance_list"
+msgstr "Névsor létrehozása"
+
+msgid "sess_join_info"
+msgstr "Kattintson a ‘Feljelentkezés’ gombra, ha részt szeretne venni ezen az eseményen."
+
+msgid "sess_limit"
+msgstr "A megjelenítendő események számának korlátozása"
+
+msgid "sess_limit_info"
+msgstr "A résztvevők nem jelennek meg az összes, csak a korlátozott számú események felsorolásakor"
+
+msgid "sess_num_next"
+msgstr "Jövőbeli események száma (holnapig)"
+
+msgid "sess_num_prev"
+msgstr "Elmúlt események száma (tegnapig)"
+
+msgid "sess_print_attendance_list"
+msgstr "Névsor nyomtatása"
+
+msgid "sess_signature"
+msgstr "Aláírás"
+
+msgid "subscription_times_not_valid"
+msgstr "A regisztrációs időszak nem érvényes."
+
+msgid "timing_accept_table"
+msgstr "Időtervezés: megjegyzések"
+
+msgid "timing_accepted"
+msgstr "Elfogadva"
+
+msgid "timing_not_accepted"
+msgstr "Nincs elfogadva"
+
+msgid "timing_remark"
+msgstr "Észrevétel"
+
+msgid "timing_tutor_visible"
+msgstr "Az észrevételek láthatók a tutorok számára"
+
+msgid "timing_user_accept"
+msgstr "Időzítés elfogadása"
+
+msgid "timing_user_accepted"
+msgstr "Időzítés elfogadva"
+
+msgid "timings"
+msgstr "Időzítés"
+
+msgid "timings_cron_reminder_exceeded_start"
+msgstr "A feldolgozási időszak vége:"
+
+msgid "timings_cron_reminder_exceeded_subject"
+msgstr "Túllépte a feldolgozási időszakot"
+
+msgid "timings_cron_reminder_freshly_start"
+msgstr "A feldolgozási időszak kezdete:"
+
+msgid "timings_cron_reminder_started_subject"
+msgstr "Megkezdődött a feldolgozási időszak"
+
+msgid "timings_edit"
+msgstr "Időzítés beállítása"
+
+msgid "timings_of"
+msgstr "Időzítésen kívül"
+
+msgid "timings_reminder_notifications"
+msgstr "A kurzusértesítések időzítése"
+
+msgid "timings_reminder_notifications_info"
+msgstr "A kurzusrésztvevők értesítést kapnak a lejárú határidejű segédanyagokról."
+
+msgid "timings_timings"
+msgstr "Időzítés"
+
+msgid "timings_timings_off"
+msgstr "Időzítéskezelés kikapcsolása"
+
+msgid "timings_timings_on"
+msgstr "Időzítéskezelés bekapcsolása"
+
+msgid "timings_usr_edit"
+msgstr "Időzítés beállítása"
+
+msgid "tutor_email"
+msgstr "E-mail cím"
+
+msgid "tutor_name"
+msgstr "Név"
+
+msgid "tutor_phone"
+msgstr "Telefon"
+
+msgid "tutorial_support_block_byline"
+msgstr "Az ‘Oktatóanyag támogatási blokk’ a ‘Tartalom’ lapon jelenik meg. A ‘Kapcsolattartó’ személye a ‘Tagok’ lapon jelenik meg."
+
+msgid "tutorial_support_block_contact"
+msgstr "Kapcsolat"
+
+msgid "tutorial_support_block_send_mail"
+msgstr "e-mail küldése"
+
+msgid "tutorial_support_block_setting_desc"
+msgstr "Az ‘Oktatóanyag támogatási blokk’ a ‘Tartalom’ lapon jelenik meg."
+
+msgid "tutorial_support_block_setting_title"
+msgstr "Oktatóanyag támogatási blokk"
+
+msgid "tutorial_support_block_title"
+msgstr "Kapcsolattartó"
+
+msgid "user_fields"
+msgstr "Felhasználói mezők"

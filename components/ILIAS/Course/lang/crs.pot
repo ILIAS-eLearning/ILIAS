@@ -1,0 +1,1911 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: crs\n"
+
+msgid "activation_times_not_valid"
+msgstr ""
+
+msgid "assigned"
+msgstr ""
+
+msgid "contact_email_not_valid"
+msgstr ""
+
+msgid "crs_accept_subscriber"
+msgstr ""
+
+msgid "crs_accept_subscriber_body"
+msgstr ""
+
+msgid "crs_access"
+msgstr ""
+
+msgid "crs_activate_notification"
+msgstr ""
+
+msgid "crs_activation"
+msgstr ""
+
+msgid "crs_activation_limited_visibility_info"
+msgstr ""
+
+msgid "crs_activation_online_info"
+msgstr ""
+
+msgid "crs_add_archive_html"
+msgstr ""
+
+msgid "crs_add_archive_xml"
+msgstr ""
+
+msgid "crs_add_grouping"
+msgstr ""
+
+msgid "crs_add_html_archive"
+msgstr ""
+
+msgid "crs_add_objective"
+msgstr ""
+
+msgid "crs_add_remove_from_desktop"
+msgstr ""
+
+msgid "crs_add_remove_from_desktop_info"
+msgstr ""
+
+msgid "crs_add_starter"
+msgstr ""
+
+msgid "crs_add_to_group"
+msgstr ""
+
+msgid "crs_added_member"
+msgstr ""
+
+msgid "crs_added_member_body"
+msgstr ""
+
+msgid "crs_added_new_archive"
+msgstr ""
+
+msgid "crs_added_objective"
+msgstr ""
+
+msgid "crs_added_starters"
+msgstr ""
+
+msgid "crs_added_to_list"
+msgstr ""
+
+msgid "crs_admin"
+msgstr ""
+
+msgid "crs_administrators"
+msgstr ""
+
+msgid "crs_admission_link_failure_availability"
+msgstr ""
+
+msgid "crs_admission_link_failure_invalid_code"
+msgstr ""
+
+msgid "crs_admission_link_failure_membership_limited"
+msgstr ""
+
+msgid "crs_admission_link_failure_offline"
+msgstr ""
+
+msgid "crs_admission_link_failure_registration_period"
+msgstr ""
+
+msgid "crs_admission_link_success_registration"
+msgstr ""
+
+msgid "crs_agree"
+msgstr ""
+
+msgid "crs_agreement_header"
+msgstr ""
+
+msgid "crs_agreement_required"
+msgstr ""
+
+msgid "crs_at_least_one_admin"
+msgstr ""
+
+msgid "crs_auto_notification"
+msgstr ""
+
+msgid "crs_auto_notification_info"
+msgstr ""
+
+msgid "crs_awrn_current_course"
+msgstr ""
+
+msgid "crs_awrn_current_course_info"
+msgstr ""
+
+msgid "crs_awrn_support_contacts"
+msgstr ""
+
+msgid "crs_awrn_support_contacts_info"
+msgstr ""
+
+msgid "crs_blocked"
+msgstr ""
+
+msgid "crs_blocked_member"
+msgstr ""
+
+msgid "crs_blocked_member_body"
+msgstr ""
+
+msgid "crs_breadcrumb_crs_only"
+msgstr ""
+
+msgid "crs_breadcrumb_full_path"
+msgstr ""
+
+msgid "crs_cancel_subscr_request"
+msgstr ""
+
+msgid "crs_cancel_subscription"
+msgstr ""
+
+msgid "crs_cancel_subscription_body"
+msgstr ""
+
+msgid "crs_cancel_subscription_body2"
+msgstr ""
+
+msgid "crs_cancellation_end"
+msgstr ""
+
+msgid "crs_cancellation_end_info"
+msgstr ""
+
+msgid "crs_cancellation_end_rbac_info"
+msgstr ""
+
+msgid "crs_cannot_find_role"
+msgstr ""
+
+msgid "crs_cdf_edit_member"
+msgstr ""
+
+msgid "crs_cdf_tbl_last_edit"
+msgstr ""
+
+msgid "crs_checklist_objective"
+msgstr ""
+
+msgid "crs_contact"
+msgstr ""
+
+msgid "crs_contact_consultation"
+msgstr ""
+
+msgid "crs_contact_email"
+msgstr ""
+
+msgid "crs_contact_email_info"
+msgstr ""
+
+msgid "crs_contact_name"
+msgstr ""
+
+msgid "crs_contact_phone"
+msgstr ""
+
+msgid "crs_contact_responsibility"
+msgstr ""
+
+msgid "crs_content"
+msgstr ""
+
+msgid "crs_copy"
+msgstr ""
+
+msgid "crs_course_group_notification_link"
+msgstr ""
+
+msgid "crs_course_period_not_valid"
+msgstr ""
+
+msgid "crs_course_status_of_users"
+msgstr ""
+
+msgid "crs_create_date"
+msgstr ""
+
+msgid "crs_custom_user_fields"
+msgstr ""
+
+msgid "crs_custom_user_fields_infobox"
+msgstr ""
+
+msgid "crs_custom_user_fields_table_title"
+msgstr ""
+
+msgid "crs_dates"
+msgstr ""
+
+msgid "crs_deactivate_notification"
+msgstr ""
+
+msgid "crs_delete_objectve_sure"
+msgstr ""
+
+msgid "crs_details"
+msgstr ""
+
+msgid "crs_dismiss_member"
+msgstr ""
+
+msgid "crs_dismiss_member_body"
+msgstr ""
+
+msgid "crs_edit_lo_introduction"
+msgstr ""
+
+msgid "crs_edit_timings"
+msgstr ""
+
+msgid "crs_enable_map"
+msgstr ""
+
+msgid "crs_end"
+msgstr ""
+
+msgid "crs_export"
+msgstr ""
+
+msgid "crs_file"
+msgstr ""
+
+msgid "crs_file_download"
+msgstr ""
+
+msgid "crs_file_name"
+msgstr ""
+
+msgid "crs_file_size_info"
+msgstr ""
+
+msgid "crs_from"
+msgstr ""
+
+msgid "crs_general_info"
+msgstr ""
+
+msgid "crs_general_informations"
+msgstr ""
+
+msgid "crs_grouping_delete_sure"
+msgstr ""
+
+msgid "crs_grouping_deleted"
+msgstr ""
+
+msgid "crs_grouping_select_one"
+msgstr ""
+
+msgid "crs_groupings"
+msgstr ""
+
+msgid "crs_groups_nr"
+msgstr ""
+
+msgid "crs_grp_added_grouping"
+msgstr ""
+
+msgid "crs_grp_already_assigned"
+msgstr ""
+
+msgid "crs_grp_assign_crs"
+msgstr ""
+
+msgid "crs_grp_assignments"
+msgstr ""
+
+msgid "crs_grp_enter_title"
+msgstr ""
+
+msgid "crs_grp_info_reg"
+msgstr ""
+
+msgid "crs_grp_matriculation_required"
+msgstr ""
+
+msgid "crs_grp_no_courses_assigned"
+msgstr ""
+
+msgid "crs_grp_table_assigned_courses"
+msgstr ""
+
+msgid "crs_header_archives"
+msgstr ""
+
+msgid "crs_header_delete_members"
+msgstr ""
+
+msgid "crs_header_edit_members"
+msgstr ""
+
+msgid "crs_hide_all_obj"
+msgstr ""
+
+msgid "crs_html"
+msgstr ""
+
+msgid "crs_import"
+msgstr ""
+
+msgid "crs_important_info"
+msgstr ""
+
+msgid "crs_info_agree"
+msgstr ""
+
+msgid "crs_info_agreement"
+msgstr ""
+
+msgid "crs_info_download"
+msgstr ""
+
+msgid "crs_info_reg"
+msgstr ""
+
+msgid "crs_info_reg_confirmation"
+msgstr ""
+
+msgid "crs_info_reg_deactivated"
+msgstr ""
+
+msgid "crs_info_reg_direct"
+msgstr ""
+
+msgid "crs_info_reg_password"
+msgstr ""
+
+msgid "crs_info_settings"
+msgstr ""
+
+msgid "crs_info_start"
+msgstr ""
+
+msgid "crs_intro_course_group_notification_for"
+msgstr ""
+
+msgid "crs_intro_course_group_notification_index"
+msgstr ""
+
+msgid "crs_item_presetting_info"
+msgstr ""
+
+msgid "crs_join_request"
+msgstr ""
+
+msgid "crs_lhist_objective_completed"
+msgstr ""
+
+msgid "crs_lim_assigned"
+msgstr ""
+
+msgid "crs_link_hide_next_sessions"
+msgstr ""
+
+msgid "crs_link_hide_prev_sessions"
+msgstr ""
+
+msgid "crs_link_show_all_next_sessions"
+msgstr ""
+
+msgid "crs_link_show_all_prev_sessions"
+msgstr ""
+
+msgid "crs_lobj_pm_min_goal"
+msgstr ""
+
+msgid "crs_lobj_pm_score"
+msgstr ""
+
+msgid "crs_loc_btn_new_assignment"
+msgstr ""
+
+msgid "crs_loc_confirm_delete_tst"
+msgstr ""
+
+msgid "crs_loc_delete_assignment"
+msgstr ""
+
+msgid "crs_loc_err_no_active_it"
+msgstr ""
+
+msgid "crs_loc_err_no_active_lo"
+msgstr ""
+
+msgid "crs_loc_err_no_active_mat"
+msgstr ""
+
+msgid "crs_loc_err_no_active_qst"
+msgstr ""
+
+msgid "crs_loc_err_no_active_qt"
+msgstr ""
+
+msgid "crs_loc_err_nr_tries_exceeded"
+msgstr ""
+
+msgid "crs_loc_err_stat_no_it"
+msgstr ""
+
+msgid "crs_loc_err_stat_no_materials"
+msgstr ""
+
+msgid "crs_loc_err_stat_no_qt"
+msgstr ""
+
+msgid "crs_loc_err_stat_tst_offline"
+msgstr ""
+
+msgid "crs_loc_form_assign"
+msgstr ""
+
+msgid "crs_loc_form_assign_initial_info"
+msgstr ""
+
+msgid "crs_loc_form_assign_it"
+msgstr ""
+
+msgid "crs_loc_form_assign_qualified_info"
+msgstr ""
+
+msgid "crs_loc_form_available_tsts"
+msgstr ""
+
+msgid "crs_loc_form_create_objectives"
+msgstr ""
+
+msgid "crs_loc_form_random_limits_it"
+msgstr ""
+
+msgid "crs_loc_form_random_limits_qt"
+msgstr ""
+
+msgid "crs_loc_form_tst_new"
+msgstr ""
+
+msgid "crs_loc_form_tst_new_initial_info"
+msgstr ""
+
+msgid "crs_loc_form_tst_new_qualified_info"
+msgstr ""
+
+msgid "crs_loc_itest_info"
+msgstr ""
+
+msgid "crs_loc_itst_for_objective"
+msgstr ""
+
+msgid "crs_loc_learning_objective"
+msgstr ""
+
+msgid "crs_loc_mem_show_res"
+msgstr ""
+
+msgid "crs_loc_num_qst"
+msgstr ""
+
+msgid "crs_loc_objective_passed_confirmation"
+msgstr ""
+
+msgid "crs_loc_objectives_passed_confirmation"
+msgstr ""
+
+msgid "crs_loc_passes_info"
+msgstr ""
+
+msgid "crs_loc_passes_left"
+msgstr ""
+
+msgid "crs_loc_passes_reached"
+msgstr ""
+
+msgid "crs_loc_perc"
+msgstr ""
+
+msgid "crs_loc_progress_do_qualifying"
+msgstr ""
+
+msgid "crs_loc_progress_do_qualifying_again"
+msgstr ""
+
+msgid "crs_loc_progress_no_result_do_initial"
+msgstr ""
+
+msgid "crs_loc_progress_no_result_no_initial"
+msgstr ""
+
+msgid "crs_loc_progress_objective_complete"
+msgstr ""
+
+msgid "crs_loc_progress_result_itest"
+msgstr ""
+
+msgid "crs_loc_progress_result_qtest"
+msgstr ""
+
+msgid "crs_loc_qst_resume_tst_itest"
+msgstr ""
+
+msgid "crs_loc_qst_resume_tst_qtest"
+msgstr ""
+
+msgid "crs_loc_qtest_info"
+msgstr ""
+
+msgid "crs_loc_qtst_for_objective"
+msgstr ""
+
+msgid "crs_loc_rand_assign_qpl"
+msgstr ""
+
+msgid "crs_loc_rand_qpl"
+msgstr ""
+
+msgid "crs_loc_settings_err_qstart"
+msgstr ""
+
+msgid "crs_loc_settings_it_start_object"
+msgstr ""
+
+msgid "crs_loc_settings_it_type"
+msgstr ""
+
+msgid "crs_loc_settings_itest_tbl"
+msgstr ""
+
+msgid "crs_loc_settings_passed_mode"
+msgstr ""
+
+msgid "crs_loc_settings_passed_mode_hide"
+msgstr ""
+
+msgid "crs_loc_settings_passed_mode_mark"
+msgstr ""
+
+msgid "crs_loc_settings_qt_all"
+msgstr ""
+
+msgid "crs_loc_settings_qt_start_object"
+msgstr ""
+
+msgid "crs_loc_settings_qtest_tbl"
+msgstr ""
+
+msgid "crs_loc_settings_reset"
+msgstr ""
+
+msgid "crs_loc_settings_reset_enable"
+msgstr ""
+
+msgid "crs_loc_settings_reset_enable_info"
+msgstr ""
+
+msgid "crs_loc_settings_tbl"
+msgstr ""
+
+msgid "crs_loc_settings_tbl_it_nq"
+msgstr ""
+
+msgid "crs_loc_settings_tbl_it_q"
+msgstr ""
+
+msgid "crs_loc_settings_tbl_its_nq_all"
+msgstr ""
+
+msgid "crs_loc_settings_tbl_its_q_all"
+msgstr ""
+
+msgid "crs_loc_settings_tbl_qt"
+msgstr ""
+
+msgid "crs_loc_settings_tbl_qts_all"
+msgstr ""
+
+msgid "crs_loc_settings_type_it_none"
+msgstr ""
+
+msgid "crs_loc_settings_type_it_none_info"
+msgstr ""
+
+msgid "crs_loc_settings_type_it_placement_all"
+msgstr ""
+
+msgid "crs_loc_settings_type_it_placement_all_info"
+msgstr ""
+
+msgid "crs_loc_settings_type_it_placement_sel"
+msgstr ""
+
+msgid "crs_loc_settings_type_it_placement_sel_info"
+msgstr ""
+
+msgid "crs_loc_settings_type_it_qualifying_all"
+msgstr ""
+
+msgid "crs_loc_settings_type_it_qualifying_all_info"
+msgstr ""
+
+msgid "crs_loc_settings_type_it_qualifying_sel"
+msgstr ""
+
+msgid "crs_loc_settings_type_it_qualifying_sel_info"
+msgstr ""
+
+msgid "crs_loc_settings_type_q_all"
+msgstr ""
+
+msgid "crs_loc_settings_type_q_all_info"
+msgstr ""
+
+msgid "crs_loc_settings_type_q_selected"
+msgstr ""
+
+msgid "crs_loc_settings_type_q_selected_info"
+msgstr ""
+
+msgid "crs_loc_subtab_creation"
+msgstr ""
+
+msgid "crs_loc_suggested"
+msgstr ""
+
+msgid "crs_loc_tab_itest"
+msgstr ""
+
+msgid "crs_loc_tab_itests"
+msgstr ""
+
+msgid "crs_loc_tab_materials"
+msgstr ""
+
+msgid "crs_loc_tab_objectives"
+msgstr ""
+
+msgid "crs_loc_tab_qtest"
+msgstr ""
+
+msgid "crs_loc_tab_qtests"
+msgstr ""
+
+msgid "crs_loc_tab_start"
+msgstr ""
+
+msgid "crs_loc_tbl_tst_qst_qpl"
+msgstr ""
+
+msgid "crs_loc_tbl_tst_type"
+msgstr ""
+
+msgid "crs_loc_test_results_of"
+msgstr ""
+
+msgid "crs_loc_tst_assignment"
+msgstr ""
+
+msgid "crs_loc_tst_new_run"
+msgstr ""
+
+msgid "crs_loc_tst_num_qst"
+msgstr ""
+
+msgid "crs_loc_tst_qpls"
+msgstr ""
+
+msgid "crs_loc_tst_resume"
+msgstr ""
+
+msgid "crs_loc_tst_start"
+msgstr ""
+
+msgid "crs_loc_tt_info"
+msgstr ""
+
+msgid "crs_loc_type_initial_all_info"
+msgstr ""
+
+msgid "crs_loc_type_qualified_info"
+msgstr ""
+
+msgid "crs_mail_all"
+msgstr ""
+
+msgid "crs_mail_all_info"
+msgstr ""
+
+msgid "crs_mail_context_member_info"
+msgstr ""
+
+msgid "crs_mail_context_member_title"
+msgstr ""
+
+msgid "crs_mail_context_tutor_info"
+msgstr ""
+
+msgid "crs_mail_context_tutor_title"
+msgstr ""
+
+msgid "crs_mail_permanent_link"
+msgstr ""
+
+msgid "crs_mail_tutors_only"
+msgstr ""
+
+msgid "crs_mail_tutors_only_info"
+msgstr ""
+
+msgid "crs_mail_type"
+msgstr ""
+
+msgid "crs_map_location"
+msgstr ""
+
+msgid "crs_map_settings"
+msgstr ""
+
+msgid "crs_materials"
+msgstr ""
+
+msgid "crs_max_and_min_members_invalid"
+msgstr ""
+
+msgid "crs_max_and_min_members_needed"
+msgstr ""
+
+msgid "crs_max_members_needed"
+msgstr ""
+
+msgid "crs_max_members_reached"
+msgstr ""
+
+msgid "crs_mem_contact"
+msgstr ""
+
+msgid "crs_mem_contacts"
+msgstr ""
+
+msgid "crs_mem_send_mail"
+msgstr ""
+
+msgid "crs_mem_tbl_header"
+msgstr ""
+
+msgid "crs_member"
+msgstr ""
+
+msgid "crs_member_administration"
+msgstr ""
+
+msgid "crs_member_passed_status_changed"
+msgstr ""
+
+msgid "crs_members"
+msgstr ""
+
+msgid "crs_members_deleted"
+msgstr ""
+
+msgid "crs_members_groups"
+msgstr ""
+
+msgid "crs_members_map"
+msgstr ""
+
+msgid "crs_members_print_title"
+msgstr ""
+
+msgid "crs_min_one_admin"
+msgstr ""
+
+msgid "crs_msg_no_self_registration_period_if_self_enrolment_disabled"
+msgstr ""
+
+msgid "crs_my_courses_groups_enabled"
+msgstr ""
+
+msgid "crs_my_courses_groups_enabled_info"
+msgstr ""
+
+msgid "crs_new_status"
+msgstr ""
+
+msgid "crs_new_subscription"
+msgstr ""
+
+msgid "crs_new_subscription_body"
+msgstr ""
+
+msgid "crs_new_subscription_request"
+msgstr ""
+
+msgid "crs_new_subscription_request_body"
+msgstr ""
+
+msgid "crs_new_subscription_request_body2"
+msgstr ""
+
+msgid "crs_news"
+msgstr ""
+
+msgid "crs_no_archive_selected"
+msgstr ""
+
+msgid "crs_no_archives_selected"
+msgstr ""
+
+msgid "crs_no_notify"
+msgstr ""
+
+msgid "crs_no_objective_lms_found"
+msgstr ""
+
+msgid "crs_no_objective_selected"
+msgstr ""
+
+msgid "crs_no_objectives_created"
+msgstr ""
+
+msgid "crs_no_subscribers_selected"
+msgstr ""
+
+msgid "crs_no_users_added"
+msgstr ""
+
+msgid "crs_no_users_selected"
+msgstr ""
+
+msgid "crs_not_available"
+msgstr ""
+
+msgid "crs_notification"
+msgstr ""
+
+msgid "crs_notification_activated"
+msgstr ""
+
+msgid "crs_notification_deactivated"
+msgstr ""
+
+msgid "crs_notification_explanation_admin"
+msgstr ""
+
+msgid "crs_notification_list_title"
+msgstr ""
+
+msgid "crs_notification_salutation"
+msgstr ""
+
+msgid "crs_notify"
+msgstr ""
+
+msgid "crs_nr"
+msgstr ""
+
+msgid "crs_number_users_added"
+msgstr ""
+
+msgid "crs_obj_final_req_info"
+msgstr ""
+
+msgid "crs_obj_initial_req_info"
+msgstr ""
+
+msgid "crs_obj_required_points"
+msgstr ""
+
+msgid "crs_objective_accomplished"
+msgstr ""
+
+msgid "crs_objective_action_itest"
+msgstr ""
+
+msgid "crs_objective_action_materials"
+msgstr ""
+
+msgid "crs_objective_action_qtest"
+msgstr ""
+
+msgid "crs_objective_action_qtest_sep"
+msgstr ""
+
+msgid "crs_objective_add_mat"
+msgstr ""
+
+msgid "crs_objective_all_points"
+msgstr ""
+
+msgid "crs_objective_assigned_materials"
+msgstr ""
+
+msgid "crs_objective_err_limit"
+msgstr ""
+
+msgid "crs_objective_final_test"
+msgstr ""
+
+msgid "crs_objective_limit_err"
+msgstr ""
+
+msgid "crs_objective_modified"
+msgstr ""
+
+msgid "crs_objective_not_accomplished"
+msgstr ""
+
+msgid "crs_objective_overview_objectives"
+msgstr ""
+
+msgid "crs_objective_overview_question_assignment"
+msgstr ""
+
+msgid "crs_objective_points"
+msgstr ""
+
+msgid "crs_objective_pretest"
+msgstr ""
+
+msgid "crs_objective_qst_summary"
+msgstr ""
+
+msgid "crs_objective_random_warn"
+msgstr ""
+
+msgid "crs_objective_result"
+msgstr ""
+
+msgid "crs_objective_result_details"
+msgstr ""
+
+msgid "crs_objective_result_summary_initial"
+msgstr ""
+
+msgid "crs_objective_result_summary_qualifying"
+msgstr ""
+
+msgid "crs_objective_saved_sorting"
+msgstr ""
+
+msgid "crs_objective_self_assessment"
+msgstr ""
+
+msgid "crs_objective_status"
+msgstr ""
+
+msgid "crs_objective_status_configure"
+msgstr ""
+
+msgid "crs_objective_status_itest"
+msgstr ""
+
+msgid "crs_objective_status_materials"
+msgstr ""
+
+msgid "crs_objective_status_materials_info"
+msgstr ""
+
+msgid "crs_objective_status_objective_creation"
+msgstr ""
+
+msgid "crs_objective_status_objectives"
+msgstr ""
+
+msgid "crs_objective_status_qtest"
+msgstr ""
+
+msgid "crs_objective_status_settings"
+msgstr ""
+
+msgid "crs_objective_tbl_col_final_tsts"
+msgstr ""
+
+msgid "crs_objective_wiz_final"
+msgstr ""
+
+msgid "crs_objective_wiz_final_info"
+msgstr ""
+
+msgid "crs_objective_wiz_final_limit"
+msgstr ""
+
+msgid "crs_objective_wiz_materials"
+msgstr ""
+
+msgid "crs_objective_wiz_materials_info"
+msgstr ""
+
+msgid "crs_objective_wiz_self"
+msgstr ""
+
+msgid "crs_objective_wiz_self_limit"
+msgstr ""
+
+msgid "crs_objective_wiz_self_limit_info"
+msgstr ""
+
+msgid "crs_objective_wiz_title"
+msgstr ""
+
+msgid "crs_objective_wiz_title_info"
+msgstr ""
+
+msgid "crs_objectives"
+msgstr ""
+
+msgid "crs_objectives_assigned_lm"
+msgstr ""
+
+msgid "crs_objectives_deleted"
+msgstr ""
+
+msgid "crs_objectives_edit_question_assignments"
+msgstr ""
+
+msgid "crs_objectives_reset_sure"
+msgstr ""
+
+msgid "crs_objectives_reseted"
+msgstr ""
+
+msgid "crs_open"
+msgstr ""
+
+msgid "crs_other_resources"
+msgstr ""
+
+msgid "crs_page_type_lobj"
+msgstr ""
+
+msgid "crs_passed"
+msgstr ""
+
+msgid "crs_passed_status_manual_by"
+msgstr ""
+
+msgid "crs_passed_status_system"
+msgstr ""
+
+msgid "crs_password_not_valid"
+msgstr ""
+
+msgid "crs_password_required"
+msgstr ""
+
+msgid "crs_pdf"
+msgstr ""
+
+msgid "crs_period"
+msgstr ""
+
+msgid "crs_period_end_mail_placeholder"
+msgstr ""
+
+msgid "crs_period_info"
+msgstr ""
+
+msgid "crs_period_start_mail_placeholder"
+msgstr ""
+
+msgid "crs_presentation_type"
+msgstr ""
+
+msgid "crs_print_list"
+msgstr ""
+
+msgid "crs_ref_delete_confirmation_info"
+msgstr ""
+
+msgid "crs_ref_member_update"
+msgstr ""
+
+msgid "crs_ref_member_update_info"
+msgstr ""
+
+msgid "crs_ref_missing_access"
+msgstr ""
+
+msgid "crs_ref_missing_parent_crs"
+msgstr ""
+
+msgid "crs_reg"
+msgstr ""
+
+msgid "crs_reg_code"
+msgstr ""
+
+msgid "crs_reg_code_enabled_info"
+msgstr ""
+
+msgid "crs_reg_code_link"
+msgstr ""
+
+msgid "crs_reg_max_info"
+msgstr ""
+
+msgid "crs_reg_no_selfreg"
+msgstr ""
+
+msgid "crs_reg_password_info"
+msgstr ""
+
+msgid "crs_reg_selfreg"
+msgstr ""
+
+msgid "crs_reg_subject"
+msgstr ""
+
+msgid "crs_reg_until"
+msgstr ""
+
+msgid "crs_reg_user_already_subscribed"
+msgstr ""
+
+msgid "crs_registration"
+msgstr ""
+
+msgid "crs_registration_confirmation_info"
+msgstr ""
+
+msgid "crs_registration_deactivated"
+msgstr ""
+
+msgid "crs_registration_limited"
+msgstr ""
+
+msgid "crs_registration_limited_info"
+msgstr ""
+
+msgid "crs_registration_period"
+msgstr ""
+
+msgid "crs_registration_type"
+msgstr ""
+
+msgid "crs_reject_subscriber"
+msgstr ""
+
+msgid "crs_reject_subscriber_body"
+msgstr ""
+
+msgid "crs_reset_results"
+msgstr ""
+
+msgid "crs_role_status"
+msgstr ""
+
+msgid "crs_search_users"
+msgstr ""
+
+msgid "crs_select_archive_language"
+msgstr ""
+
+msgid "crs_select_one_archive"
+msgstr ""
+
+msgid "crs_select_starter"
+msgstr ""
+
+msgid "crs_settings"
+msgstr ""
+
+msgid "crs_settings_saved"
+msgstr ""
+
+msgid "crs_shorten_breadcrumb"
+msgstr ""
+
+msgid "crs_show_all_obj"
+msgstr ""
+
+msgid "crs_show_member_export"
+msgstr ""
+
+msgid "crs_show_member_export_info"
+msgstr ""
+
+msgid "crs_show_member_export_settings"
+msgstr ""
+
+msgid "crs_show_members"
+msgstr ""
+
+msgid "crs_show_members_info"
+msgstr ""
+
+msgid "crs_size"
+msgstr ""
+
+msgid "crs_sort_activation"
+msgstr ""
+
+msgid "crs_sort_timing_info"
+msgstr ""
+
+msgid "crs_start"
+msgstr ""
+
+msgid "crs_start_objects"
+msgstr ""
+
+msgid "crs_starter_delete_sure"
+msgstr ""
+
+msgid "crs_starter_deleted"
+msgstr ""
+
+msgid "crs_starters_already_assigned"
+msgstr ""
+
+msgid "crs_status"
+msgstr ""
+
+msgid "crs_status_changed"
+msgstr ""
+
+msgid "crs_status_changed_body"
+msgstr ""
+
+msgid "crs_status_determination"
+msgstr ""
+
+msgid "crs_status_determination_lp"
+msgstr ""
+
+msgid "crs_status_determination_lp_info"
+msgstr ""
+
+msgid "crs_status_determination_manual"
+msgstr ""
+
+msgid "crs_status_determination_sync"
+msgstr ""
+
+msgid "crs_structure"
+msgstr ""
+
+msgid "crs_subject_course_group_notification"
+msgstr ""
+
+msgid "crs_subscribe_member"
+msgstr ""
+
+msgid "crs_subscribe_member_body"
+msgstr ""
+
+msgid "crs_subscribe_wl"
+msgstr ""
+
+msgid "crs_subscribe_wl_body"
+msgstr ""
+
+msgid "crs_subscriber"
+msgstr ""
+
+msgid "crs_subscribers_deleted"
+msgstr ""
+
+msgid "crs_subscription"
+msgstr ""
+
+msgid "crs_subscription_failed_limit"
+msgstr ""
+
+msgid "crs_subscription_max_members"
+msgstr ""
+
+msgid "crs_subscription_max_members_short"
+msgstr ""
+
+msgid "crs_subscription_max_members_short_info"
+msgstr ""
+
+msgid "crs_subscription_min_members"
+msgstr ""
+
+msgid "crs_subscription_min_members_err"
+msgstr ""
+
+msgid "crs_subscription_min_members_info"
+msgstr ""
+
+msgid "crs_subscription_options_confirmation"
+msgstr ""
+
+msgid "crs_subscription_options_direct"
+msgstr ""
+
+msgid "crs_subscription_options_password"
+msgstr ""
+
+msgid "crs_subscription_successful"
+msgstr ""
+
+msgid "crs_sure_delete_selected_archives"
+msgstr ""
+
+msgid "crs_syllabus"
+msgstr ""
+
+msgid "crs_sys_default"
+msgstr ""
+
+msgid "crs_table_start_objects"
+msgstr ""
+
+msgid "crs_target_group"
+msgstr ""
+
+msgid "crs_tile_and_objective_view_not_supported"
+msgstr ""
+
+msgid "crs_tile_and_session_limit_not_supported"
+msgstr ""
+
+msgid "crs_timing_err_start_end"
+msgstr ""
+
+msgid "crs_timings_activate_optional"
+msgstr ""
+
+msgid "crs_timings_activate_optional_own"
+msgstr ""
+
+msgid "crs_timings_availability_enabled"
+msgstr ""
+
+msgid "crs_timings_changeable"
+msgstr ""
+
+msgid "crs_timings_changed"
+msgstr ""
+
+msgid "crs_timings_days_after_subsription"
+msgstr ""
+
+msgid "crs_timings_disabled"
+msgstr ""
+
+msgid "crs_timings_disabled_info"
+msgstr ""
+
+msgid "crs_timings_early_begin"
+msgstr ""
+
+msgid "crs_timings_edit_personal"
+msgstr ""
+
+msgid "crs_timings_end"
+msgstr ""
+
+msgid "crs_timings_from_until"
+msgstr ""
+
+msgid "crs_timings_in_days"
+msgstr ""
+
+msgid "crs_timings_info_active"
+msgstr ""
+
+msgid "crs_timings_not_changed"
+msgstr ""
+
+msgid "crs_timings_optional_checked"
+msgstr ""
+
+msgid "crs_timings_optional_off"
+msgstr ""
+
+msgid "crs_timings_optional_on"
+msgstr ""
+
+msgid "crs_timings_optional_on_and_passed"
+msgstr ""
+
+msgid "crs_timings_optional_unchecked"
+msgstr ""
+
+msgid "crs_timings_planed_info"
+msgstr ""
+
+msgid "crs_timings_planed_start"
+msgstr ""
+
+msgid "crs_timings_presetting"
+msgstr ""
+
+msgid "crs_timings_short_active"
+msgstr ""
+
+msgid "crs_timings_short_active_tt"
+msgstr ""
+
+msgid "crs_timings_short_changeable"
+msgstr ""
+
+msgid "crs_timings_short_end"
+msgstr ""
+
+msgid "crs_timings_short_limit_start_end"
+msgstr ""
+
+msgid "crs_timings_short_limit_start_end_tt"
+msgstr ""
+
+msgid "crs_timings_short_limit_start_end_tt_rel"
+msgstr ""
+
+msgid "crs_timings_short_start_end"
+msgstr ""
+
+msgid "crs_timings_short_start_end_rel"
+msgstr ""
+
+msgid "crs_timings_short_start_end_tt"
+msgstr ""
+
+msgid "crs_timings_short_start_end_tt_rel"
+msgstr ""
+
+msgid "crs_timings_start"
+msgstr ""
+
+msgid "crs_timings_start_end_info"
+msgstr ""
+
+msgid "crs_timings_sug_begin"
+msgstr ""
+
+msgid "crs_timings_sug_end"
+msgstr ""
+
+msgid "crs_timings_suggested_info"
+msgstr ""
+
+msgid "crs_timings_time_frame"
+msgstr ""
+
+msgid "crs_timings_time_frame_tt"
+msgstr ""
+
+msgid "crs_timings_update_error"
+msgstr ""
+
+msgid "crs_timings_warning_timing_exists"
+msgstr ""
+
+msgid "crs_to"
+msgstr ""
+
+msgid "crs_tutor"
+msgstr ""
+
+msgid "crs_tutors"
+msgstr ""
+
+msgid "crs_unblocked"
+msgstr ""
+
+msgid "crs_unblocked_member"
+msgstr ""
+
+msgid "crs_unblocked_member_body"
+msgstr ""
+
+msgid "crs_unlimited"
+msgstr ""
+
+msgid "crs_unsubscribe_member"
+msgstr ""
+
+msgid "crs_unsubscribe_member_body"
+msgstr ""
+
+msgid "crs_unsubscribe_member_explanation"
+msgstr ""
+
+msgid "crs_unsubscribe_sure"
+msgstr ""
+
+msgid "crs_unsubscribed_from_crs"
+msgstr ""
+
+msgid "crs_update_subscr_request"
+msgstr ""
+
+msgid "crs_user_agreement"
+msgstr ""
+
+msgid "crs_user_agreement_info"
+msgstr ""
+
+msgid "crs_user_already_assigned"
+msgstr ""
+
+msgid "crs_users_added"
+msgstr ""
+
+msgid "crs_users_already_assigned"
+msgstr ""
+
+msgid "crs_users_removed_from_list"
+msgstr ""
+
+msgid "crs_usr_agreement"
+msgstr ""
+
+msgid "crs_view_info_objective"
+msgstr ""
+
+msgid "crs_view_info_timing"
+msgstr ""
+
+msgid "crs_view_info_timing_absolute"
+msgstr ""
+
+msgid "crs_view_info_timing_relative"
+msgstr ""
+
+msgid "crs_view_mode"
+msgstr ""
+
+msgid "crs_view_objective"
+msgstr ""
+
+msgid "crs_view_timing"
+msgstr ""
+
+msgid "crs_view_timing_absolute"
+msgstr ""
+
+msgid "crs_view_timing_relative"
+msgstr ""
+
+msgid "crs_view_timings"
+msgstr ""
+
+msgid "crs_visibility"
+msgstr ""
+
+msgid "crs_visibility_limitless"
+msgstr ""
+
+msgid "crs_visibility_until"
+msgstr ""
+
+msgid "crs_visibility_until_info"
+msgstr ""
+
+msgid "crs_visibility_unvisible"
+msgstr ""
+
+msgid "crs_wait_info"
+msgstr ""
+
+msgid "crs_waiting_list"
+msgstr ""
+
+msgid "crs_waiting_list_autofill"
+msgstr ""
+
+msgid "crs_waiting_list_autofill_info"
+msgstr ""
+
+msgid "crs_waiting_list_no_autofill"
+msgstr ""
+
+msgid "crs_warn_no_max_set_on_waiting_list"
+msgstr ""
+
+msgid "crs_warn_wl_set_on_waiting_list"
+msgstr ""
+
+msgid "crs_wiz_back"
+msgstr ""
+
+msgid "crs_wiz_next"
+msgstr ""
+
+msgid "crs_xml"
+msgstr ""
+
+msgid "edit_timings_list"
+msgstr ""
+
+msgid "event"
+msgstr ""
+
+msgid "event_add_new_event"
+msgstr ""
+
+msgid "event_assign_materials_info"
+msgstr ""
+
+msgid "event_assign_materials_table"
+msgstr ""
+
+msgid "event_blank_columns"
+msgstr ""
+
+msgid "event_btn_add"
+msgstr ""
+
+msgid "event_btn_add_edit"
+msgstr ""
+
+msgid "event_csv_export"
+msgstr ""
+
+msgid "event_date_time"
+msgstr ""
+
+msgid "event_desc"
+msgstr ""
+
+msgid "event_details_workflow"
+msgstr ""
+
+msgid "event_edit_members"
+msgstr ""
+
+msgid "event_etime_smaller_stime"
+msgstr ""
+
+msgid "event_file"
+msgstr ""
+
+msgid "event_files"
+msgstr ""
+
+msgid "event_fulltime_info"
+msgstr ""
+
+msgid "event_lecturer"
+msgstr ""
+
+msgid "event_list_registered_only"
+msgstr ""
+
+msgid "event_location"
+msgstr ""
+
+msgid "event_materials"
+msgstr ""
+
+msgid "event_not_participated"
+msgstr ""
+
+msgid "event_overview"
+msgstr ""
+
+msgid "event_participated"
+msgstr ""
+
+msgid "event_registered"
+msgstr ""
+
+msgid "event_section_information"
+msgstr ""
+
+msgid "event_table_create"
+msgstr ""
+
+msgid "event_table_update"
+msgstr ""
+
+msgid "event_tbl_admin"
+msgstr ""
+
+msgid "event_tbl_admins"
+msgstr ""
+
+msgid "event_tbl_member"
+msgstr ""
+
+msgid "event_tbl_members"
+msgstr ""
+
+msgid "event_tbl_participated"
+msgstr ""
+
+msgid "event_tbl_registered"
+msgstr ""
+
+msgid "event_tbl_tutor"
+msgstr ""
+
+msgid "event_tbl_tutors"
+msgstr ""
+
+msgid "event_title"
+msgstr ""
+
+msgid "event_tutor_data"
+msgstr ""
+
+msgid "event_unregister"
+msgstr ""
+
+msgid "event_unregistered"
+msgstr ""
+
+msgid "event_updated"
+msgstr ""
+
+msgid "event_user_selection"
+msgstr ""
+
+msgid "event_user_selection_include_filter"
+msgstr ""
+
+msgid "event_user_selection_include_requests"
+msgstr ""
+
+msgid "event_user_selection_include_role"
+msgstr ""
+
+msgid "event_user_selection_include_waiting_list"
+msgstr ""
+
+msgid "events"
+msgstr ""
+
+msgid "export_members"
+msgstr ""
+
+msgid "grouping_change_assignment"
+msgstr ""
+
+msgid "grp_grp_already_assigned"
+msgstr ""
+
+msgid "grp_not_all_users_assigned_msg"
+msgstr ""
+
+msgid "mem_cron_min_members_intro"
+msgstr ""
+
+msgid "mem_cron_min_members_reason"
+msgstr ""
+
+msgid "mem_cron_min_members_subject"
+msgstr ""
+
+msgid "mem_cron_min_members_task"
+msgstr ""
+
+msgid "obj_count_members"
+msgstr ""
+
+msgid "sess_attendance_list"
+msgstr ""
+
+msgid "sess_gen_attendance_list"
+msgstr ""
+
+msgid "sess_join_info"
+msgstr ""
+
+msgid "sess_limit"
+msgstr ""
+
+msgid "sess_limit_info"
+msgstr ""
+
+msgid "sess_num_next"
+msgstr ""
+
+msgid "sess_num_prev"
+msgstr ""
+
+msgid "sess_print_attendance_list"
+msgstr ""
+
+msgid "sess_signature"
+msgstr ""
+
+msgid "subscription_times_not_valid"
+msgstr ""
+
+msgid "timing_accept_table"
+msgstr ""
+
+msgid "timing_accepted"
+msgstr ""
+
+msgid "timing_not_accepted"
+msgstr ""
+
+msgid "timing_remark"
+msgstr ""
+
+msgid "timing_tutor_visible"
+msgstr ""
+
+msgid "timing_user_accept"
+msgstr ""
+
+msgid "timing_user_accepted"
+msgstr ""
+
+msgid "timings"
+msgstr ""
+
+msgid "timings_cron_reminder_exceeded_start"
+msgstr ""
+
+msgid "timings_cron_reminder_exceeded_subject"
+msgstr ""
+
+msgid "timings_cron_reminder_freshly_start"
+msgstr ""
+
+msgid "timings_cron_reminder_started_subject"
+msgstr ""
+
+msgid "timings_edit"
+msgstr ""
+
+msgid "timings_of"
+msgstr ""
+
+msgid "timings_reminder_notifications"
+msgstr ""
+
+msgid "timings_reminder_notifications_info"
+msgstr ""
+
+msgid "timings_timings"
+msgstr ""
+
+msgid "timings_timings_off"
+msgstr ""
+
+msgid "timings_timings_on"
+msgstr ""
+
+msgid "timings_usr_edit"
+msgstr ""
+
+msgid "tutor_email"
+msgstr ""
+
+msgid "tutor_name"
+msgstr ""
+
+msgid "tutor_phone"
+msgstr ""
+
+msgid "tutorial_support_block_byline"
+msgstr ""
+
+msgid "tutorial_support_block_contact"
+msgstr ""
+
+msgid "tutorial_support_block_send_mail"
+msgstr ""
+
+msgid "tutorial_support_block_setting_desc"
+msgstr ""
+
+msgid "tutorial_support_block_setting_title"
+msgstr ""
+
+msgid "tutorial_support_block_title"
+msgstr ""
+
+msgid "user_fields"
+msgstr ""

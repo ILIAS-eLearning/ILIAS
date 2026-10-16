@@ -1,0 +1,2087 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: crs\n"
+
+msgid "activation_times_not_valid"
+msgstr "De toegangsperiode is niet geldig"
+
+msgid "assigned"
+msgstr "Toegewezen"
+
+msgid "contact_email_not_valid"
+msgstr "De contact e-mail is niet geldig."
+
+msgid "crs_accept_subscriber"
+msgstr "Toelating tot een cursus"
+
+msgid "crs_accept_subscriber_body"
+msgstr "U bent toegelaten tot de cursus."
+
+msgid "crs_access"
+msgstr "Toegang"
+
+msgid "crs_activate_notification"
+msgstr "Inschakelen berichtgeving"
+
+msgid "crs_activation"
+msgstr "Activatie"
+
+msgid "crs_activation_limited_visibility_info"
+msgstr "Als gekozen, is de cursus zichtbaar, zelfs buiten de gegeven beschikbaarheid."
+
+msgid "crs_activation_online_info"
+msgstr "Als offline, kunnen alleen beheerders en instructeurs de cursus zien en wijzigen."
+
+msgid "crs_add_archive_html"
+msgstr "Maak HTML-archief"
+
+msgid "crs_add_archive_xml"
+msgstr "Maak XML-archief"
+
+msgid "crs_add_grouping"
+msgstr "Maak cursusgroep"
+
+msgid "crs_add_html_archive"
+msgstr "Voeg HTML-archief toe"
+
+msgid "crs_add_objective"
+msgstr "Voeg doelstelling toe"
+
+msgid "crs_add_remove_from_desktop"
+msgstr "Toevoegen/verwijderen van persoonlijke scherm"
+
+msgid "crs_add_remove_from_desktop_info"
+msgstr "Laat gebruikers toe om curusitems toe te voegen aan hun persoonlijk scherm."
+
+msgid "crs_add_starter"
+msgstr "Voeg startobject toe"
+
+msgid "crs_add_to_group"
+msgstr "Toevoegen aan groep"
+
+msgid "crs_added_member"
+msgstr "Toelating tot de cursus"
+
+msgid "crs_added_member_body"
+msgstr "Je bent toegelaten tot de cursus \"%s\"."
+
+msgid "crs_added_new_archive"
+msgstr "Een nieuw archief is toegevoegd"
+
+msgid "crs_added_objective"
+msgstr "Een nieuw leerdoel is gemaakt."
+
+msgid "crs_added_starters"
+msgstr "Toegewezen startobject"
+
+msgid "crs_added_to_list"
+msgstr "U bent toegelaten tot de wachtlijst."
+
+msgid "crs_admin"
+msgstr "Beheerder"
+
+msgid "crs_administrators"
+msgstr "Beheerders"
+
+#, fuzzy
+msgid "crs_admission_link_failure_availability"
+msgstr "Can't register: Course is not online."
+
+#, fuzzy
+msgid "crs_admission_link_failure_invalid_code"
+msgstr "Can't register: Link is invalid."
+
+#, fuzzy
+msgid "crs_admission_link_failure_membership_limited"
+msgstr "Can't register: Course membership is limited."
+
+#, fuzzy
+msgid "crs_admission_link_failure_offline"
+msgstr "Can't register: Course is offline."
+
+#, fuzzy
+msgid "crs_admission_link_failure_registration_period"
+msgstr "Can't register: Course is out of registration period."
+
+#, fuzzy
+msgid "crs_admission_link_success_registration"
+msgstr "Successfully registered to course \"%s\"."
+
+msgid "crs_agree"
+msgstr "Goedkeuring"
+
+msgid "crs_agreement_header"
+msgstr "Gebruikersovereenkomst"
+
+msgid "crs_agreement_required"
+msgstr "U heeft de gebruikersovereenkomst geaccepteerd."
+
+#, fuzzy
+msgid "crs_at_least_one_admin"
+msgstr "There has to be at least one course administrator."
+
+msgid "crs_auto_notification"
+msgstr "Bericht voor nieuwe deelnemers"
+
+msgid "crs_auto_notification_info"
+msgstr "Nieuwe deelnemers ontvangen een e-mailbericht als ze zijn ingeschreven voor een cursus"
+
+#, fuzzy
+msgid "crs_awrn_current_course"
+msgstr "Current Course"
+
+#, fuzzy
+msgid "crs_awrn_current_course_info"
+msgstr "If the user navigates to a course in the repository, all members of the course are listed."
+
+#, fuzzy
+msgid "crs_awrn_support_contacts"
+msgstr "Tutorial Support"
+
+#, fuzzy
+msgid "crs_awrn_support_contacts_info"
+msgstr "All tutorial support contacts of courses with membership of the current user are listed. Users are defined as tutorial support contacts in the Members tab of the respective course."
+
+msgid "crs_blocked"
+msgstr "Toegang geweigerd"
+
+msgid "crs_blocked_member"
+msgstr "Status van cursusdeelnemers"
+
+msgid "crs_blocked_member_body"
+msgstr "Je deelname aan deze cursus is geblokkeerd."
+
+#, fuzzy
+msgid "crs_breadcrumb_crs_only"
+msgstr "Start with Course"
+
+#, fuzzy
+msgid "crs_breadcrumb_full_path"
+msgstr "Full Path"
+
+msgid "crs_cancel_subscr_request"
+msgstr "Verwijderen van aanmeldingsverzoek"
+
+msgid "crs_cancel_subscription"
+msgstr "Uitgeschreven uit de cursus"
+
+msgid "crs_cancel_subscription_body"
+msgstr "%s heeft zich uitgeschreven uit de cursus \"%s\"."
+
+msgid "crs_cancel_subscription_body2"
+msgstr "Mogelijk staan andere deelnemers op een wachtrij voor deze cursus. \\nControleer deze lijst nu. \\nOm de deelnemers van de cursus te zien, klik je hier:"
+
+#, fuzzy
+msgid "crs_cancellation_end"
+msgstr "Cancellation Limit"
+
+#, fuzzy
+msgid "crs_cancellation_end_info"
+msgstr "From this date on particiants cannot unsubscribe anymore."
+
+#, fuzzy
+msgid "crs_cancellation_end_rbac_info"
+msgstr "The cancellation deadline was met on %s, a cancellation is not possible anymore."
+
+#, fuzzy
+msgid "crs_cannot_find_role"
+msgstr "Can't find this role."
+
+msgid "crs_cdf_edit_member"
+msgstr "Wijzigen cursusgerelateerde gebruikersgegevens"
+
+msgid "crs_cdf_tbl_last_edit"
+msgstr "Laatste Update (cursus-specifieke gegevens)"
+
+#, fuzzy
+msgid "crs_checklist_objective"
+msgstr "Checklist Objective"
+
+msgid "crs_contact"
+msgstr "Contact"
+
+msgid "crs_contact_consultation"
+msgstr "Spreekuur"
+
+msgid "crs_contact_email"
+msgstr "E-mail"
+
+msgid "crs_contact_email_info"
+msgstr "Voeg een of meer e-mail adressen toe, gescheiden door komma's"
+
+msgid "crs_contact_name"
+msgstr "Naam"
+
+msgid "crs_contact_phone"
+msgstr "Telefoon"
+
+msgid "crs_contact_responsibility"
+msgstr "Verantwoordelijkheid"
+
+msgid "crs_content"
+msgstr "Cursusinhoud"
+
+msgid "crs_copy"
+msgstr "Kopieer Cursus"
+
+msgid "crs_course_group_notification_link"
+msgstr "Link:"
+
+#, fuzzy
+msgid "crs_course_period_not_valid"
+msgstr "The course period is not valid."
+
+msgid "crs_course_status_of_users"
+msgstr "Slaagstatus van gebruikers"
+
+msgid "crs_create_date"
+msgstr "Datum aanmaken"
+
+msgid "crs_custom_user_fields"
+msgstr "Cursus relevante gebruikers gegevens"
+
+#, fuzzy
+msgid "crs_custom_user_fields_infobox"
+msgstr "Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the \"Members\" tab."
+
+#, fuzzy
+msgid "crs_custom_user_fields_table_title"
+msgstr "Relevant User Data of This Course"
+
+msgid "crs_dates"
+msgstr "Datums"
+
+msgid "crs_deactivate_notification"
+msgstr "Berichtgeving uitschakelen"
+
+msgid "crs_delete_objectve_sure"
+msgstr "Weet je zeker, dat je de geselecteerde doelen wilt verwijderen"
+
+msgid "crs_details"
+msgstr "Cursusdetails"
+
+msgid "crs_dismiss_member"
+msgstr "Beëindigen deelname aan deze curus"
+
+msgid "crs_dismiss_member_body"
+msgstr "Je deelname aan deze cursus is beëindigd!"
+
+#, fuzzy
+msgid "crs_edit_lo_introduction"
+msgstr "Edit Introduction"
+
+msgid "crs_edit_timings"
+msgstr "Wijzig timing"
+
+msgid "crs_enable_map"
+msgstr "Schakel cursus landkaart in"
+
+msgid "crs_end"
+msgstr "Einde"
+
+msgid "crs_export"
+msgstr "Cursus-export"
+
+msgid "crs_file"
+msgstr "Bestand"
+
+msgid "crs_file_download"
+msgstr "Bestanden om te downloaden"
+
+msgid "crs_file_name"
+msgstr "Bestandsnaam"
+
+msgid "crs_file_size_info"
+msgstr "Bestandsgrootte"
+
+msgid "crs_from"
+msgstr "Van:"
+
+msgid "crs_general_info"
+msgstr "Algemene informatie"
+
+msgid "crs_general_informations"
+msgstr "Algemene informatie"
+
+msgid "crs_grouping_delete_sure"
+msgstr "Weet je zeker dat je de volgende curusgroepingen wilt verwijderen?"
+
+msgid "crs_grouping_deleted"
+msgstr "Verwijder cursusgroepering"
+
+msgid "crs_grouping_select_one"
+msgstr "Gelieve een curusgroepering te selecteren."
+
+msgid "crs_groupings"
+msgstr "Cursusgroeperingen"
+
+msgid "crs_groups_nr"
+msgstr "Aantal groepen"
+
+msgid "crs_grp_added_grouping"
+msgstr "Nieuwe deelnamebeperking toegevoegd."
+
+msgid "crs_grp_already_assigned"
+msgstr "U bent reeds aangemeld"
+
+msgid "crs_grp_assign_crs"
+msgstr "Wijs cursus toe"
+
+msgid "crs_grp_assignments"
+msgstr "Toewijzen van cursusdeelnemers aan groepen"
+
+msgid "crs_grp_enter_title"
+msgstr "Gelieve een title te geven."
+
+msgid "crs_grp_info_reg"
+msgstr "U kan enkel registreren bij een van deze cursussen:"
+
+msgid "crs_grp_matriculation_required"
+msgstr "Deze cursusgroepering vereist een uniek inschrijvingsnummer. <br />Gelieve deze waarde in te geven bij de instellingen van je persoonlijk scherm."
+
+msgid "crs_grp_no_courses_assigned"
+msgstr "Geen toegewezen cursussen"
+
+msgid "crs_grp_table_assigned_courses"
+msgstr "Toegewezen cursussen"
+
+msgid "crs_header_archives"
+msgstr "Cursus-archieven"
+
+msgid "crs_header_delete_members"
+msgstr "Verwijderen deelnemers"
+
+msgid "crs_header_edit_members"
+msgstr "Wijzigen deelnemers"
+
+#, fuzzy
+msgid "crs_hide_all_obj"
+msgstr "Collapse All"
+
+msgid "crs_html"
+msgstr "HTML"
+
+msgid "crs_import"
+msgstr "Cursus importeren"
+
+msgid "crs_important_info"
+msgstr "Belangrijke informatie"
+
+msgid "crs_info_agree"
+msgstr "Ik accepteer, dat de bovenstaande gegevenstypes zichtbaar zijn voor de cursusbeheerders."
+
+msgid "crs_info_agreement"
+msgstr "De volgende gegevenstypes zijn zichtbaar voor de cursusbeheerders:"
+
+msgid "crs_info_download"
+msgstr "Bestanden om te downloaden"
+
+msgid "crs_info_reg"
+msgstr "Toegang"
+
+msgid "crs_info_reg_confirmation"
+msgstr "Je kunt je aanmelden voor deze cursus. Je zult een bericht krijgen van de cursusbeheerder zodra je aanmelding is goedgekeurd of niet."
+
+msgid "crs_info_reg_deactivated"
+msgstr "Cursustoegang is afgesloten."
+
+msgid "crs_info_reg_direct"
+msgstr "Je kunt je direct bij deze cursus aansluiten."
+
+msgid "crs_info_reg_password"
+msgstr "Als de cursusbeheerder je het cursuswachtwoord heeft gegeven dan kun je je bij deze cursus aansluiten."
+
+msgid "crs_info_settings"
+msgstr "Cursus informatie"
+
+msgid "crs_info_start"
+msgstr "Gelieve alle punten te doorlopen.<br />Nadat je alles hebt overlopen zullen nieuwe cursusitems ingeschakeld worden."
+
+msgid "crs_intro_course_group_notification_for"
+msgstr "Dit is de dagelijkse verzameling voor : %s"
+
+#, fuzzy
+msgid "crs_intro_course_group_notification_index"
+msgstr "There are news for the period of %1$s to %2$s for the following courses and groups:"
+
+msgid "crs_item_presetting_info"
+msgstr "Kies deze optie om de leerlingen voorgestelde tijden aan te bieden."
+
+msgid "crs_join_request"
+msgstr "Verzenden"
+
+#, fuzzy
+msgid "crs_lhist_objective_completed"
+msgstr "Mastered $3$ in $1$."
+
+msgid "crs_lim_assigned"
+msgstr "Reeds aangemeld tot cursus \"%s\"."
+
+msgid "crs_link_hide_next_sessions"
+msgstr "Verberg komende sessies"
+
+msgid "crs_link_hide_prev_sessions"
+msgstr "Verberg voorgaande sessies"
+
+msgid "crs_link_show_all_next_sessions"
+msgstr "Toon alle toekomstige sessies"
+
+msgid "crs_link_show_all_prev_sessions"
+msgstr "Toon alle vorige sessies"
+
+#, fuzzy
+msgid "crs_lobj_pm_min_goal"
+msgstr "Required Score"
+
+#, fuzzy
+msgid "crs_lobj_pm_score"
+msgstr "Your Result"
+
+#, fuzzy
+msgid "crs_loc_btn_new_assignment"
+msgstr "Neue Testzuordnung"
+
+msgid "crs_loc_confirm_delete_tst"
+msgstr "Wil je echt de toets loskoppellen van deze leerdoelgerichte cursus"
+
+msgid "crs_loc_delete_assignment"
+msgstr "Verwijderen opdracht"
+
+msgid "crs_loc_err_no_active_it"
+msgstr "Leerdoelen zonder instaptoets"
+
+msgid "crs_loc_err_no_active_lo"
+msgstr "Geen actieve leerdoelen"
+
+msgid "crs_loc_err_no_active_mat"
+msgstr "Leerdoelen zonder materiaal"
+
+msgid "crs_loc_err_no_active_qst"
+msgstr "Doelstellingen zonder vragen"
+
+msgid "crs_loc_err_no_active_qt"
+msgstr "Leerdoelen zonder kwalificatietoets"
+
+msgid "crs_loc_err_nr_tries_exceeded"
+msgstr "Het aantal pogingen per leerdoel overschrijdt de toegestane aantal voor de kwalificatietoets."
+
+msgid "crs_loc_err_stat_no_it"
+msgstr "Geen instaptoets beschikbaar"
+
+msgid "crs_loc_err_stat_no_materials"
+msgstr "Geen cursusmateriaal beschikbaar"
+
+msgid "crs_loc_err_stat_no_qt"
+msgstr "Geen kwalificatietoets beschikbaar"
+
+#, fuzzy
+msgid "crs_loc_err_stat_tst_offline"
+msgstr "Not all tests are online."
+
+msgid "crs_loc_form_assign"
+msgstr "Gebruik bestaande toets"
+
+#, fuzzy
+msgid "crs_loc_form_assign_initial_info"
+msgstr "Select a test from this course to serve as Placement Test"
+
+msgid "crs_loc_form_assign_it"
+msgstr "Toets toewijzing"
+
+#, fuzzy
+msgid "crs_loc_form_assign_qualified_info"
+msgstr "--"
+
+msgid "crs_loc_form_available_tsts"
+msgstr "Beschikbare toetsen"
+
+msgid "crs_loc_form_create_objectives"
+msgstr "Aanmaken leerdoelen"
+
+msgid "crs_loc_form_random_limits_it"
+msgstr "Instellen vragen voor instaptoets"
+
+msgid "crs_loc_form_random_limits_qt"
+msgstr "Instellen vragen voor kwalificatietoets"
+
+msgid "crs_loc_form_tst_new"
+msgstr "Aanmaken nieuwe toets"
+
+#, fuzzy
+msgid "crs_loc_form_tst_new_initial_info"
+msgstr "Create a new test to serve as Placement Test"
+
+#, fuzzy
+msgid "crs_loc_form_tst_new_qualified_info"
+msgstr "--"
+
+msgid "crs_loc_itest_info"
+msgstr "Instaptoets"
+
+msgid "crs_loc_itst_for_objective"
+msgstr "Instaptoets \"%1$s\""
+
+msgid "crs_loc_learning_objective"
+msgstr "Leerdoel"
+
+#, fuzzy
+msgid "crs_loc_mem_show_res"
+msgstr "Testergebnisse anzeigen"
+
+msgid "crs_loc_num_qst"
+msgstr "Aantal vragen"
+
+#, fuzzy
+msgid "crs_loc_objective_passed_confirmation"
+msgstr "Sie haben das Lernziel bereits bestanden. Ein erneutes Starten des Tests setzt die Ergebnisse zurück. Wollen Sie den Test erneut starten?"
+
+#, fuzzy
+msgid "crs_loc_objectives_passed_confirmation"
+msgstr "Sie haben bereits alle Lernziel bestanden. Ein erneutes Starten des Tests setzt die Ergebnisse zurück. Wollen Sie den Test erneut starten?"
+
+msgid "crs_loc_passes_info"
+msgstr "Maximale aantal toetspogingen"
+
+msgid "crs_loc_passes_left"
+msgstr "Resterend aantal toetspogingen"
+
+msgid "crs_loc_passes_reached"
+msgstr "Verdere toetsen zijn niet mogelijk"
+
+msgid "crs_loc_perc"
+msgstr "Vereiste percentage"
+
+msgid "crs_loc_progress_do_qualifying"
+msgstr "Doe de kwalificatietoets"
+
+msgid "crs_loc_progress_do_qualifying_again"
+msgstr "Werk nogmaals door leerdoel lesstof"
+
+msgid "crs_loc_progress_no_result_do_initial"
+msgstr "Doe de instaptoets"
+
+msgid "crs_loc_progress_no_result_no_initial"
+msgstr "Please work through the following learning materials and then take the qualifying test."
+
+msgid "crs_loc_progress_objective_complete"
+msgstr "Je hebt het leerdoel bereikt"
+
+msgid "crs_loc_progress_result_itest"
+msgstr "Resultaten van instaptoets"
+
+msgid "crs_loc_progress_result_qtest"
+msgstr "Resultaten"
+
+msgid "crs_loc_qst_resume_tst_itest"
+msgstr "Einstiegstests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen Einstiegstest zu einem Lernziel gestartet. Entweder setzen Sie diesen alten test fort oder Sie starten einen neuen test."
+
+msgid "crs_loc_qst_resume_tst_qtest"
+msgstr "Qualifizierende tests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen qualifizierenden test zu einem Lernziel gestartet. Entweder setzen Sie diesen alten test fort oder Sie starten einen neuen test."
+
+msgid "crs_loc_qtest_info"
+msgstr "Kwalificatietoets"
+
+msgid "crs_loc_qtst_for_objective"
+msgstr "Kwalificatietoets \"%1$s\""
+
+msgid "crs_loc_rand_assign_qpl"
+msgstr "Formulier voor toewijzing van vragenpool"
+
+msgid "crs_loc_rand_qpl"
+msgstr "Beschikbare vragenpools"
+
+#, fuzzy
+msgid "crs_loc_settings_err_qstart"
+msgstr "Die Option \"Abschlusstest als Startobjekt\" wurde deaktiviert, da sie nur für Kurse ohne Einstiegstest verwendet werden kann.\t\t"
+
+#, fuzzy
+msgid "crs_loc_settings_it_start_object"
+msgstr "Einstiegstest ist Startobjekt"
+
+#, fuzzy
+msgid "crs_loc_settings_it_type"
+msgstr "Einstiegstest"
+
+msgid "crs_loc_settings_itest_tbl"
+msgstr "Instellingen voor de instaptoets"
+
+#, fuzzy
+msgid "crs_loc_settings_passed_mode"
+msgstr "Bestandene Lernziele"
+
+#, fuzzy
+msgid "crs_loc_settings_passed_mode_hide"
+msgstr "Testfragen zu bestandenen Lernzielen werden ausgeblendet"
+
+#, fuzzy
+msgid "crs_loc_settings_passed_mode_mark"
+msgstr "Testfragen zu bestandenen Lernzielen werden markiert"
+
+#, fuzzy
+msgid "crs_loc_settings_qt_all"
+msgstr "Abschlusstest"
+
+#, fuzzy
+msgid "crs_loc_settings_qt_start_object"
+msgstr "Abschlusstest ist Startobjekt"
+
+msgid "crs_loc_settings_qtest_tbl"
+msgstr "Instellingen voor de kwalificatietoets"
+
+msgid "crs_loc_settings_reset"
+msgstr "testergebnisse"
+
+msgid "crs_loc_settings_reset_enable"
+msgstr "\"testergebnis zurücksetzen\" erlauben"
+
+msgid "crs_loc_settings_reset_enable_info"
+msgstr "Wenn aktiviert, haben alle Benutzer die Möglichkeit, ihre individuellen testergebnisse zurückzusetzen."
+
+msgid "crs_loc_settings_tbl"
+msgstr "Instellingen voor de leerdoel-gerichte cursus"
+
+#, fuzzy
+msgid "crs_loc_settings_tbl_it_nq"
+msgstr "Diagnostische Einstiegstests pro Lernziel"
+
+#, fuzzy
+msgid "crs_loc_settings_tbl_it_q"
+msgstr "Qualifizierende Einstiegstests pro Lernziel"
+
+#, fuzzy
+msgid "crs_loc_settings_tbl_its_nq_all"
+msgstr "Diagnostischer Einstiegstest über alle Lernziele"
+
+#, fuzzy
+msgid "crs_loc_settings_tbl_its_q_all"
+msgstr "Qualifizierender Einstiegstest über alle Lernziele"
+
+#, fuzzy
+msgid "crs_loc_settings_tbl_qt"
+msgstr "Abschlusstests pro Lernziel"
+
+#, fuzzy
+msgid "crs_loc_settings_tbl_qts_all"
+msgstr "Abschlusstest über alle Lernziele"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_none"
+msgstr "Kein Einstiegstest"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_none_info"
+msgstr "No placement test"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_placement_all"
+msgstr "Diagnostischer Einstiegstest über alle Lernziele"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_placement_all_info"
+msgstr "Placement test on all learning objectives"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_placement_sel"
+msgstr "Diagnostischer Einstiegstest pro Lernziel"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_placement_sel_info"
+msgstr "Placement test per single learning objective"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_qualifying_all"
+msgstr "Qualifizierender Einstiegstest über alle Lernziele"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_qualifying_all_info"
+msgstr "Achievement test on all learning objectives"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_qualifying_sel"
+msgstr "Qualifizierender Einstiegstest pro Lernziel"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_qualifying_sel_info"
+msgstr "Achievement test per sinble learning objective"
+
+#, fuzzy
+msgid "crs_loc_settings_type_q_all"
+msgstr "Abschlusstest über alle Lernziele"
+
+#, fuzzy
+msgid "crs_loc_settings_type_q_all_info"
+msgstr "Achievement test on all learning objectives"
+
+#, fuzzy
+msgid "crs_loc_settings_type_q_selected"
+msgstr "Abschlusstest pro Lernziel"
+
+#, fuzzy
+msgid "crs_loc_settings_type_q_selected_info"
+msgstr "Achievement test per sinble learning objective"
+
+msgid "crs_loc_subtab_creation"
+msgstr "Aanmaken"
+
+msgid "crs_loc_suggested"
+msgstr "Werk door de volgende leermaterialen."
+
+msgid "crs_loc_tab_itest"
+msgstr "Instaptoets"
+
+#, fuzzy
+msgid "crs_loc_tab_itests"
+msgstr "Einstiegstests"
+
+msgid "crs_loc_tab_materials"
+msgstr "Materiaal"
+
+msgid "crs_loc_tab_objectives"
+msgstr "Leerdoelen"
+
+msgid "crs_loc_tab_qtest"
+msgstr "Kwalificatietoets"
+
+#, fuzzy
+msgid "crs_loc_tab_qtests"
+msgstr "Abschlusstests"
+
+msgid "crs_loc_tab_start"
+msgstr "Startobjecten"
+
+msgid "crs_loc_tbl_tst_qst_qpl"
+msgstr "Vragen/vragenpools"
+
+msgid "crs_loc_tbl_tst_type"
+msgstr "Toets modus"
+
+#, fuzzy
+msgid "crs_loc_test_results_of"
+msgstr "Testergebnisse von:"
+
+#, fuzzy
+msgid "crs_loc_tst_assignment"
+msgstr "Test Assignment"
+
+msgid "crs_loc_tst_new_run"
+msgstr "Nieuwe poging doorlopen"
+
+msgid "crs_loc_tst_num_qst"
+msgstr "Aantal vragen"
+
+msgid "crs_loc_tst_qpls"
+msgstr "Beschikbare vragenpools"
+
+msgid "crs_loc_tst_resume"
+msgstr "testdurchlauf fortsetzen"
+
+#, fuzzy
+msgid "crs_loc_tst_start"
+msgstr "Test starten"
+
+msgid "crs_loc_tt_info"
+msgstr "Je hebt %1$d%% bereikt. De toets is geslaagd met %2$d%%."
+
+msgid "crs_loc_type_initial_all_info"
+msgstr "todo"
+
+msgid "crs_loc_type_qualified_info"
+msgstr "todo"
+
+msgid "crs_mail_all"
+msgstr "Voor alle deelnemers"
+
+msgid "crs_mail_all_info"
+msgstr "Deelnemers, beheerder en docenten kunnen de functie \"E-mail naar deelnemers\" in het Deelnemers tabblad gebruiken."
+
+#, fuzzy
+msgid "crs_mail_context_member_info"
+msgstr "For the contact emails on the info screen of a course "
+
+#, fuzzy
+msgid "crs_mail_context_member_title"
+msgstr "Course Member"
+
+#, fuzzy
+msgid "crs_mail_context_tutor_info"
+msgstr "For the participant emails on the member and learning progress screens of a course"
+
+#, fuzzy
+msgid "crs_mail_context_tutor_title"
+msgstr "Course Tutor "
+
+msgid "crs_mail_permanent_link"
+msgstr "Door op onderstaande link te klikken kom je bij de cursusinhoud."
+
+msgid "crs_mail_tutors_only"
+msgstr "Alleen voor docenten en beheerders"
+
+msgid "crs_mail_tutors_only_info"
+msgstr "Alleen beheerders en docenten kunnen de functie \"E-mail naar deelnemers\" in het Deelnemers tabblad gebruiken."
+
+msgid "crs_mail_type"
+msgstr "Email naar deelnemers"
+
+msgid "crs_map_location"
+msgstr "Cursuslocatie op landkaart"
+
+msgid "crs_map_settings"
+msgstr "Kaartinstellingen"
+
+msgid "crs_materials"
+msgstr "Cursusmaterialen"
+
+#, fuzzy
+msgid "crs_max_and_min_members_invalid"
+msgstr "The minimum number must be smaller than the maximum number of members."
+
+#, fuzzy
+msgid "crs_max_and_min_members_needed"
+msgstr "Set a minimum or maximum number of members - or both."
+
+#, fuzzy
+msgid "crs_max_members_needed"
+msgstr "A maximum number of members is needed for the waiting list feature."
+
+msgid "crs_max_members_reached"
+msgstr "Het maximum aantal gebruikers is bereikt"
+
+#, fuzzy
+msgid "crs_mem_contact"
+msgstr "Support Contact"
+
+#, fuzzy
+msgid "crs_mem_contacts"
+msgstr "Support Contacts"
+
+msgid "crs_mem_send_mail"
+msgstr "Verzend e-mail"
+
+#, fuzzy
+msgid "crs_mem_tbl_header"
+msgstr "Course Participants"
+
+msgid "crs_member"
+msgstr "Deelnemer"
+
+msgid "crs_member_administration"
+msgstr "Wijzig deelnemers"
+
+msgid "crs_member_passed_status_changed"
+msgstr "Slaagstatus aangepast"
+
+msgid "crs_members"
+msgstr "Deelnemers"
+
+msgid "crs_members_deleted"
+msgstr "Verwijder gebruikers"
+
+msgid "crs_members_groups"
+msgstr "Aanmelden in groep"
+
+msgid "crs_members_map"
+msgstr "Cursusdeelnemers op kaart"
+
+msgid "crs_members_print_title"
+msgstr "Cursusgebruikers"
+
+msgid "crs_min_one_admin"
+msgstr "Er moet tenminste één beheerder bestaan in deze cursus"
+
+#, fuzzy
+msgid "crs_msg_no_self_registration_period_if_self_enrolment_disabled"
+msgstr "The limited registration period can not be defined if the \"No Self-enrolment\" setting is active."
+
+#, fuzzy
+msgid "crs_my_courses_groups_enabled"
+msgstr "My Courses and Groups"
+
+#, fuzzy
+msgid "crs_my_courses_groups_enabled_info"
+msgstr "If activated, the section 'My Courses and Groups' is visible."
+
+msgid "crs_new_status"
+msgstr "Je nieuwe status is:"
+
+msgid "crs_new_subscription"
+msgstr "Gebruiker toegetreden tot de cursus \"%s\""
+
+msgid "crs_new_subscription_body"
+msgstr "Een gebruiker is toegetreden tot de cursus"
+
+msgid "crs_new_subscription_request"
+msgstr "Aanvraag om toe te treden tot de cursus"
+
+msgid "crs_new_subscription_request_body"
+msgstr "Een gebruiker vraagt om toe te treden tot de cursus."
+
+msgid "crs_new_subscription_request_body2"
+msgstr "Je moet aan de beheerder van de cursus vragen of je deelname goedgekeurd wordt."
+
+msgid "crs_news"
+msgstr "Cursusnieuws"
+
+msgid "crs_no_archive_selected"
+msgstr "Geen archief geselecteerd"
+
+msgid "crs_no_archives_selected"
+msgstr "Geen archief geselecteerd"
+
+msgid "crs_no_notify"
+msgstr "Geen melding voor een nieuwe aanmelding"
+
+msgid "crs_no_objective_lms_found"
+msgstr "De cursus bevat geen enkel leermateriaal"
+
+msgid "crs_no_objective_selected"
+msgstr "Gelieve een doelstelling te selecteren."
+
+msgid "crs_no_objectives_created"
+msgstr "Er zijn geen doelstellingen toegewezen."
+
+msgid "crs_no_subscribers_selected"
+msgstr "Gelieve een gebruiker te selecteren"
+
+msgid "crs_no_users_added"
+msgstr "Geen deelnemers toegevoegd"
+
+msgid "crs_no_users_selected"
+msgstr "U hebt geen gebruiker geselecteerd"
+
+msgid "crs_not_available"
+msgstr "- Niet beschikbaar-"
+
+msgid "crs_notification"
+msgstr "Bericht"
+
+msgid "crs_notification_activated"
+msgstr "Berichtgeving uitgeschakeld"
+
+msgid "crs_notification_deactivated"
+msgstr "Berichtgeving uitgeschakeld"
+
+msgid "crs_notification_explanation_admin"
+msgstr "Je ontvangt deze e-mail omdat je beheerder of docent bent voor deze cursus en je hebt aangegeven deze berichten te willen ontvangen."
+
+msgid "crs_notification_list_title"
+msgstr "Berichtgeving over nieuwe deelnemers"
+
+msgid "crs_notification_salutation"
+msgstr "Beste cursusdeelnemer"
+
+msgid "crs_notify"
+msgstr "Bericht voor nieuwe gebruikers"
+
+msgid "crs_nr"
+msgstr "Nr."
+
+msgid "crs_number_users_added"
+msgstr "-De volgende gebruikers zijn toegeschreven aan de cursus:"
+
+msgid "crs_obj_final_req_info"
+msgstr "Als dit aantal punten is gehaald, is het leerdoel met succes bereikt"
+
+msgid "crs_obj_initial_req_info"
+msgstr "If this number of points is achieved, no course materials will be recommended for further editing."
+
+msgid "crs_obj_required_points"
+msgstr "Vereiste punten"
+
+msgid "crs_objective_accomplished"
+msgstr "Geslaagd"
+
+msgid "crs_objective_action_itest"
+msgstr "Toewijzen vraag aan instaptoets"
+
+msgid "crs_objective_action_materials"
+msgstr "Materiaaltoewijzing"
+
+msgid "crs_objective_action_qtest"
+msgstr "Toewijzen vraag aan kwalificatietoets"
+
+#, fuzzy
+msgid "crs_objective_action_qtest_sep"
+msgstr "Abschlusstest zuordnen"
+
+msgid "crs_objective_add_mat"
+msgstr "Voeg materiaal toe"
+
+msgid "crs_objective_all_points"
+msgstr "Totaal aantal punten"
+
+msgid "crs_objective_assigned_materials"
+msgstr "Leermateriaal toegevoegd"
+
+msgid "crs_objective_err_limit"
+msgstr "Geef het aantal punten tussen %s en %s."
+
+msgid "crs_objective_final_test"
+msgstr "Eindtoets"
+
+msgid "crs_objective_limit_err"
+msgstr "Het vereiste aantal punten mag niet hoger zijn dan de totaal te halen punten"
+
+msgid "crs_objective_modified"
+msgstr "Leerdoelen geüpdate"
+
+msgid "crs_objective_not_accomplished"
+msgstr "Niet geslaagd"
+
+msgid "crs_objective_overview_objectives"
+msgstr "Overzicht doelstellingen"
+
+msgid "crs_objective_overview_question_assignment"
+msgstr "Overzicht vragen"
+
+msgid "crs_objective_points"
+msgstr "Point(s)"
+
+msgid "crs_objective_pretest"
+msgstr "Zelfbeoordeling"
+
+msgid "crs_objective_qst_summary"
+msgstr "Overzicht vragentoewijzing"
+
+msgid "crs_objective_random_warn"
+msgstr "Je kunt geen random toetsen gebruiken in combinatie met leerdoelen"
+
+msgid "crs_objective_result"
+msgstr "Na de toets"
+
+#, fuzzy
+msgid "crs_objective_result_details"
+msgstr "« Show Details"
+
+#, fuzzy
+msgid "crs_objective_result_summary_initial"
+msgstr "Placement Test: %1$s (%2$s required)"
+
+#, fuzzy
+msgid "crs_objective_result_summary_qualifying"
+msgstr "Achievement Test: %1$s (%2$s required)"
+
+msgid "crs_objective_saved_sorting"
+msgstr "Bewaar volgorde"
+
+msgid "crs_objective_self_assessment"
+msgstr "Initiële Toets"
+
+msgid "crs_objective_status"
+msgstr "Status van doelstelling"
+
+msgid "crs_objective_status_configure"
+msgstr "Configureren van doelstellingsgerichte cursus"
+
+msgid "crs_objective_status_itest"
+msgstr "Configureer instaptoets"
+
+msgid "crs_objective_status_materials"
+msgstr "Aanmaken nieuw cursus materiaal"
+
+#, fuzzy
+msgid "crs_objective_status_materials_info"
+msgstr "The course is currently empty. Add course materials that can be assigned to learning objectives."
+
+msgid "crs_objective_status_objective_creation"
+msgstr "Aanmaken leerdoel"
+
+msgid "crs_objective_status_objectives"
+msgstr "Configureer Leerdoelen"
+
+msgid "crs_objective_status_qtest"
+msgstr "Configureer kwalificatietoets"
+
+msgid "crs_objective_status_settings"
+msgstr "Cursusinstellingen"
+
+#, fuzzy
+msgid "crs_objective_tbl_col_final_tsts"
+msgstr "Abschlusstests"
+
+msgid "crs_objective_wiz_final"
+msgstr "Vragen eindtoets"
+
+msgid "crs_objective_wiz_final_info"
+msgstr "Toewijzing van toetsvragen"
+
+msgid "crs_objective_wiz_final_limit"
+msgstr "Limieten voor eindtoets"
+
+msgid "crs_objective_wiz_materials"
+msgstr "Toewijzing van cursusmateriaal"
+
+msgid "crs_objective_wiz_materials_info"
+msgstr "Je kunt cursusmaterialen toewijzen die zijn aanbevolen voor dit leerdoel"
+
+msgid "crs_objective_wiz_self"
+msgstr "Initiële Toetsvragen"
+
+msgid "crs_objective_wiz_self_limit"
+msgstr "Limieten voor eindtoets"
+
+msgid "crs_objective_wiz_self_limit_info"
+msgstr "Stel de limieten van de instaptoetsvragen op"
+
+msgid "crs_objective_wiz_title"
+msgstr "Leerobject doelstelling"
+
+msgid "crs_objective_wiz_title_info"
+msgstr "Kies een titel en en korte beschrijving van het leerdoel"
+
+msgid "crs_objectives"
+msgstr "Leerdoelen"
+
+msgid "crs_objectives_assigned_lm"
+msgstr "De geselecteerde onderdelen zijn toegewezen."
+
+msgid "crs_objectives_deleted"
+msgstr "Verwijder leerdoelen"
+
+msgid "crs_objectives_edit_question_assignments"
+msgstr "Wijzig vragen"
+
+msgid "crs_objectives_reset_sure"
+msgstr "Wil je alle resultaten van de cursus herstellen?<br />Alle resultaten zullen verwijderd worden?"
+
+msgid "crs_objectives_reseted"
+msgstr "Resultaten zijn gewist."
+
+#, fuzzy
+msgid "crs_open"
+msgstr "Open Course"
+
+msgid "crs_other_resources"
+msgstr "Andere middelen"
+
+#, fuzzy
+msgid "crs_page_type_lobj"
+msgstr "Learning Objective Page"
+
+msgid "crs_passed"
+msgstr "Geslaagd"
+
+msgid "crs_passed_status_manual_by"
+msgstr "Handleiding door"
+
+msgid "crs_passed_status_system"
+msgstr "Systeem"
+
+msgid "crs_password_not_valid"
+msgstr "Je wachtwoord is niet geldig"
+
+msgid "crs_password_required"
+msgstr "Deze aanmelding vereist een wachtwoord."
+
+msgid "crs_pdf"
+msgstr "PDF"
+
+#, fuzzy
+msgid "crs_period"
+msgstr "Course Period"
+
+#, fuzzy
+msgid "crs_period_end_mail_placeholder"
+msgstr "Period End"
+
+#, fuzzy
+msgid "crs_period_info"
+msgstr "Start to end date of the course"
+
+#, fuzzy
+msgid "crs_period_start_mail_placeholder"
+msgstr "Period Start"
+
+msgid "crs_presentation_type"
+msgstr "Type presentatie"
+
+msgid "crs_print_list"
+msgstr "Lijst afdrukken"
+
+#, fuzzy
+msgid "crs_ref_delete_confirmation_info"
+msgstr "Would you like to remove the following members from this course? If these members are to be removed from courses linked into this course, please activate the respective checkboxes."
+
+#, fuzzy
+msgid "crs_ref_member_update"
+msgstr "Neue Mitglieder hinzufügen"
+
+#, fuzzy
+msgid "crs_ref_member_update_info"
+msgstr "Alle neuen Mitglieder des übergeordneten Kurses werden automatisch in den Kurs, auf den dieser Kurs-Link verweist, eingetragen."
+
+#, fuzzy
+msgid "crs_ref_missing_access"
+msgstr "Die Option kann nicht ausgewählt werden, da Sie nicht die Berechtigung \"Mitglieder verwalten\" für beide Kurse besitzen."
+
+#, fuzzy
+msgid "crs_ref_missing_parent_crs"
+msgstr "Die Option kann nicht ausgewählt werden, da dieser Kurs-Link keinen übergeordneten Kurs besitzt."
+
+msgid "crs_reg"
+msgstr "Registratieinstellingen"
+
+msgid "crs_reg_code"
+msgstr "Toegangscode"
+
+msgid "crs_reg_code_enabled_info"
+msgstr "Als ingeschakeld, is het mogelijk om automatisch aan te melden gebruikmakend van een aanmeldkoppeling"
+
+msgid "crs_reg_code_link"
+msgstr "Koppeling naar aanmelding"
+
+msgid "crs_reg_max_info"
+msgstr "Bepaal het maximumaantal gebruikers dat aan deze cursus kan worden toegewezen . '0' betekent onbeperkt."
+
+msgid "crs_reg_no_selfreg"
+msgstr "Geen zelf-registratie"
+
+msgid "crs_reg_password_info"
+msgstr "Gebruikers moeten dit wachtwoord ingeven als ze zich aanmelden voor de cursus."
+
+#, fuzzy
+msgid "crs_reg_selfreg"
+msgstr "Self-Enrolment"
+
+msgid "crs_reg_subject"
+msgstr "Bericht"
+
+msgid "crs_reg_until"
+msgstr "Periode voor aanmelding"
+
+msgid "crs_reg_user_already_subscribed"
+msgstr "Je hebt reeds het lidmaatschap aangevraagd voor deze cursus"
+
+msgid "crs_registration"
+msgstr "Cursus aanmelding"
+
+msgid "crs_registration_confirmation_info"
+msgstr "Geïnteresseerde gebruikers kunnen een verzoek/boodschap sturen naar de cursusbeheerder."
+
+msgid "crs_registration_deactivated"
+msgstr "Zelfregistratie uitgeschakeld"
+
+msgid "crs_registration_limited"
+msgstr "Beperkte aanmeldperiode"
+
+#, fuzzy
+msgid "crs_registration_limited_info"
+msgstr "Members can only register for this course during a specific period of time."
+
+msgid "crs_registration_period"
+msgstr "Periode"
+
+msgid "crs_registration_type"
+msgstr "Registratie procedure"
+
+msgid "crs_reject_subscriber"
+msgstr "Geweigerd voor cursus"
+
+msgid "crs_reject_subscriber_body"
+msgstr "Je aanvraag om toe te treden tot de cursus is geweigerd."
+
+msgid "crs_reset_results"
+msgstr "Herstel resultaten"
+
+msgid "crs_role_status"
+msgstr "Rol/Status"
+
+msgid "crs_search_users"
+msgstr "Zoek gebruikers"
+
+msgid "crs_select_archive_language"
+msgstr "Gelieve een taal te selecteren voor dit archief"
+
+msgid "crs_select_one_archive"
+msgstr "Gelieve een archief te selecteren"
+
+msgid "crs_select_starter"
+msgstr "Selecteer een startdoel"
+
+msgid "crs_settings"
+msgstr "Cursusinstellingen"
+
+msgid "crs_settings_saved"
+msgstr "Instellingen opgeslagen"
+
+#, fuzzy
+msgid "crs_shorten_breadcrumb"
+msgstr "Breadcrumb"
+
+#, fuzzy
+msgid "crs_show_all_obj"
+msgstr "Expand All"
+
+#, fuzzy
+msgid "crs_show_member_export"
+msgstr "Participants List"
+
+#, fuzzy
+msgid "crs_show_member_export_info"
+msgstr "Course Members may print a list of participants."
+
+#, fuzzy
+msgid "crs_show_member_export_settings"
+msgstr "Participants List"
+
+msgid "crs_show_members"
+msgstr "Tonen deelnemers"
+
+msgid "crs_show_members_info"
+msgstr "Als ingeschakeld, hebben cursusdeelnemers toegang tot de gebruikerslijst en kunnen ze mails sturen."
+
+msgid "crs_size"
+msgstr "Bestandsgrootte"
+
+msgid "crs_sort_activation"
+msgstr "Gesorteerd volgens activatie"
+
+msgid "crs_sort_timing_info"
+msgstr "Sorteer cursusonderdelen naar hun Timing- of Activeringsinstellingen"
+
+msgid "crs_start"
+msgstr "Start"
+
+msgid "crs_start_objects"
+msgstr "Startobject"
+
+msgid "crs_starter_delete_sure"
+msgstr "Weet je zeker dat je deze beginobjecten wilt verwijderen?"
+
+msgid "crs_starter_deleted"
+msgstr "Verwijderde taak"
+
+msgid "crs_starters_already_assigned"
+msgstr "Dit onderwerp werd reeds toegewezen"
+
+msgid "crs_status"
+msgstr "Status"
+
+msgid "crs_status_changed"
+msgstr "Cursusstatus"
+
+msgid "crs_status_changed_body"
+msgstr "De status in de cursus werd gewijzigd."
+
+msgid "crs_status_determination"
+msgstr "Status vaststelling"
+
+msgid "crs_status_determination_lp"
+msgstr "Door voortgang"
+
+msgid "crs_status_determination_lp_info"
+msgstr "Als de voortgang verandert naar \"Beëindigd \" zal de cursus status automatisch op \"Geslaagd worden gezet. Docenten kunnen deze status nog met de hand aanpassen."
+
+msgid "crs_status_determination_manual"
+msgstr "Onafhankelijk van voortgang"
+
+msgid "crs_status_determination_sync"
+msgstr "Synchroniseren slaagstatus met alle deelnemers"
+
+msgid "crs_structure"
+msgstr "Cursusstructuur"
+
+msgid "crs_subject_course_group_notification"
+msgstr "Dagelijkse e-mail voor %s"
+
+msgid "crs_subscribe_member"
+msgstr "Inschrijving voor cursus \"%s\""
+
+msgid "crs_subscribe_member_body"
+msgstr "Hartelijk dank voor je aanmelding voor de cursus \"%s\"."
+
+msgid "crs_subscribe_wl"
+msgstr "Je aanmelding voor cursus \"%s\"."
+
+msgid "crs_subscribe_wl_body"
+msgstr "Je staat momenteel op de wachtij voor cursus \"%s\".\\nJe huidige positie in deze rij is %s.\\n\\nJe zult bericht ontvangen van een cursusbeheerder als je verzoek is goedgekeurd of verworpen."
+
+msgid "crs_subscriber"
+msgstr "Abonnee"
+
+msgid "crs_subscribers_deleted"
+msgstr "Verwijder inschrijver(s)"
+
+msgid "crs_subscription"
+msgstr "Inschrijving"
+
+msgid "crs_subscription_failed_limit"
+msgstr "Het maximaal toegestane aantal deelnemers is overschreden"
+
+msgid "crs_subscription_max_members"
+msgstr "Maximum aantal gebruikers"
+
+msgid "crs_subscription_max_members_short"
+msgstr "Aantal deelnemers"
+
+#, fuzzy
+msgid "crs_subscription_max_members_short_info"
+msgstr "The minimal respectively maximial number of members can be set. A waiting list can be set up."
+
+#, fuzzy
+msgid "crs_subscription_min_members"
+msgstr "Minimum Number"
+
+#, fuzzy
+msgid "crs_subscription_min_members_err"
+msgstr "The minimum number is not allowed to be greater than the maximum number of participants."
+
+#, fuzzy
+msgid "crs_subscription_min_members_info"
+msgstr "See cron job \"Cancellation Limit\"."
+
+msgid "crs_subscription_options_confirmation"
+msgstr "Aanmelden"
+
+msgid "crs_subscription_options_direct"
+msgstr "Onmiddelijk toetreden"
+
+msgid "crs_subscription_options_password"
+msgstr "Toetreden met cursuswachtwoord"
+
+msgid "crs_subscription_successful"
+msgstr "U ben toegetreden tot de cursus"
+
+msgid "crs_sure_delete_selected_archives"
+msgstr "Ben je zeker dat je de geselecteerde archieven wilt verwijderen"
+
+msgid "crs_syllabus"
+msgstr "Leerplan"
+
+#, fuzzy
+msgid "crs_sys_default"
+msgstr "System Default"
+
+msgid "crs_table_start_objects"
+msgstr "Startdoelen"
+
+#, fuzzy
+msgid "crs_target_group"
+msgstr "Target Group"
+
+#, fuzzy
+msgid "crs_tile_and_objective_view_not_supported"
+msgstr "You cannot activate both \"Tile Presentation\" and \"Learning Objectives Presentation\" at the same time."
+
+#, fuzzy
+msgid "crs_tile_and_session_limit_not_supported"
+msgstr "You cannot activate both \"Tile Presentation\" and \"Session Limitation\" at the same time."
+
+#, fuzzy
+msgid "crs_timing_err_start_end"
+msgstr "The end date must be greater than or equals the start date."
+
+#, fuzzy
+msgid "crs_timings_activate_optional"
+msgstr "Optional mode for course timings"
+
+#, fuzzy
+msgid "crs_timings_activate_optional_own"
+msgstr "Optional mode for my course timings"
+
+msgid "crs_timings_availability_enabled"
+msgstr "Tijdelijk beschikbaar"
+
+msgid "crs_timings_changeable"
+msgstr "Tijdsdoel wijzigbaar"
+
+msgid "crs_timings_changed"
+msgstr "Timing gewijzigd"
+
+#, fuzzy
+msgid "crs_timings_days_after_subsription"
+msgstr "Day(s) after course subscription"
+
+msgid "crs_timings_disabled"
+msgstr "Timing uitgeschakeld"
+
+msgid "crs_timings_disabled_info"
+msgstr "Kies deze optie om timing uit te schakelen."
+
+msgid "crs_timings_early_begin"
+msgstr "Eerste start"
+
+#, fuzzy
+msgid "crs_timings_edit_personal"
+msgstr "Edit Personal Timings"
+
+msgid "crs_timings_end"
+msgstr "Eind tijd"
+
+msgid "crs_timings_from_until"
+msgstr "(Van/Tot)"
+
+msgid "crs_timings_in_days"
+msgstr "(In dagen)"
+
+msgid "crs_timings_info_active"
+msgstr "(Actief)"
+
+msgid "crs_timings_not_changed"
+msgstr "Timingniet aangepast"
+
+#, fuzzy
+msgid "crs_timings_optional_checked"
+msgstr "Optional mode was activated for this user"
+
+#, fuzzy
+msgid "crs_timings_optional_off"
+msgstr "Optional mode is not active."
+
+#, fuzzy
+msgid "crs_timings_optional_on"
+msgstr "Optional mode is active."
+
+#, fuzzy
+msgid "crs_timings_optional_on_and_passed"
+msgstr "Optional mode is active and cannot be changed because user is passed."
+
+#, fuzzy
+msgid "crs_timings_optional_unchecked"
+msgstr "Optional mode was deactivated for this user"
+
+msgid "crs_timings_planed_info"
+msgstr "Geplande gewijzigde tijd"
+
+msgid "crs_timings_planed_start"
+msgstr "Gepland"
+
+msgid "crs_timings_presetting"
+msgstr "Tijdsdoel toegelaten"
+
+msgid "crs_timings_short_active"
+msgstr "Toegelaten"
+
+#, fuzzy
+msgid "crs_timings_short_active_tt"
+msgstr "Activate Timings"
+
+msgid "crs_timings_short_changeable"
+msgstr "Wijzigbaar"
+
+#, fuzzy
+msgid "crs_timings_short_end"
+msgstr "End Date"
+
+msgid "crs_timings_short_limit_start_end"
+msgstr "Wijzigbaar van/to"
+
+#, fuzzy
+msgid "crs_timings_short_limit_start_end_tt"
+msgstr "Latest end"
+
+#, fuzzy
+msgid "crs_timings_short_limit_start_end_tt_rel"
+msgstr "Latest end in days after course subscription"
+
+msgid "crs_timings_short_start_end"
+msgstr "Voorgesteld begin/einde"
+
+#, fuzzy
+msgid "crs_timings_short_start_end_rel"
+msgstr "Suggested Start (in days)"
+
+#, fuzzy
+msgid "crs_timings_short_start_end_tt"
+msgstr "Suggested start"
+
+#, fuzzy
+msgid "crs_timings_short_start_end_tt_rel"
+msgstr "Suggested start after course subscription"
+
+msgid "crs_timings_start"
+msgstr "Starttijd"
+
+msgid "crs_timings_start_end_info"
+msgstr "(Begin/Einde)"
+
+msgid "crs_timings_sug_begin"
+msgstr "Voorgesteld begin"
+
+msgid "crs_timings_sug_end"
+msgstr "Voorgesteld einde"
+
+msgid "crs_timings_suggested_info"
+msgstr "Voorgestelde wijzigeningstijd"
+
+msgid "crs_timings_time_frame"
+msgstr "Tijdsframe"
+
+#, fuzzy
+msgid "crs_timings_time_frame_tt"
+msgstr "Time frame in days"
+
+msgid "crs_timings_update_error"
+msgstr "Je instellingen zijn ongeldig, gelieve de timing voor de volgende cursusonderdelen te verifiëren:"
+
+#, fuzzy
+msgid "crs_timings_warning_timing_exists"
+msgstr "Timings are configured for this object. If you active the availability settings, these timing settings will be reseted."
+
+msgid "crs_to"
+msgstr "Tot:"
+
+msgid "crs_tutor"
+msgstr "Leerkracht"
+
+msgid "crs_tutors"
+msgstr "Leerkrachten"
+
+msgid "crs_unblocked"
+msgstr "Vrije toegang"
+
+msgid "crs_unblocked_member"
+msgstr "Status in de cursus"
+
+msgid "crs_unblocked_member_body"
+msgstr "Je deelname in de cursus is hersteld"
+
+msgid "crs_unlimited"
+msgstr "Onbeperkt"
+
+msgid "crs_unsubscribe_member"
+msgstr "Annulering van je inschrijving in cursus \"%s\""
+
+msgid "crs_unsubscribe_member_body"
+msgstr "Je inschrijving is cursus \"%s\" is geannuleerd. We hopen dat je een mogelijkheid vindt om aan en andere cursus deel te nemen."
+
+#, fuzzy
+msgid "crs_unsubscribe_member_explanation"
+msgstr "You receive this message because you unsubscribed from the course mentioned above."
+
+msgid "crs_unsubscribe_sure"
+msgstr "Wil je je uitschrijven uit deze cursus"
+
+msgid "crs_unsubscribed_from_crs"
+msgstr "Je bent uitgeschreven"
+
+msgid "crs_update_subscr_request"
+msgstr "Wijzigen deelnameverzoek"
+
+msgid "crs_user_agreement"
+msgstr "Vrijgegeven gegevenstype"
+
+msgid "crs_user_agreement_info"
+msgstr "Persoonlijke gegevens zijn zichtbaar voor de beheerder."
+
+msgid "crs_user_already_assigned"
+msgstr "De gekozen gebruiker is al toegewezen aan deze cursus"
+
+msgid "crs_users_added"
+msgstr "Voeg gebruiker toe aan de cursus"
+
+msgid "crs_users_already_assigned"
+msgstr "De gebruiker is reeds toegewezen aan deze cursus"
+
+msgid "crs_users_removed_from_list"
+msgstr "De geselecteerde gebruikers zijn verwijderd van de wachtlijst"
+
+#, fuzzy
+msgid "crs_usr_agreement"
+msgstr "User Agreement"
+
+msgid "crs_view_info_objective"
+msgstr "Deze presentatiewijze wordt gebruikt voor de presentatie van de leerdoelen."
+
+msgid "crs_view_info_timing"
+msgstr "Presentiewijze voor timing instellingen"
+
+#, fuzzy
+msgid "crs_view_info_timing_absolute"
+msgstr "Start and end date will be set absolute."
+
+#, fuzzy
+msgid "crs_view_info_timing_relative"
+msgstr "Start and end date will be set relative to the subscription date."
+
+msgid "crs_view_mode"
+msgstr "Cursusvoorstelling"
+
+msgid "crs_view_objective"
+msgstr "Beeld met leerdoelen"
+
+msgid "crs_view_timing"
+msgstr "Beeld met timinginstellingen"
+
+#, fuzzy
+msgid "crs_view_timing_absolute"
+msgstr "Absolute Dates"
+
+#, fuzzy
+msgid "crs_view_timing_relative"
+msgstr "Relative Dates"
+
+#, fuzzy
+msgid "crs_view_timings"
+msgstr "Timings View Type"
+
+#, fuzzy
+msgid "crs_visibility"
+msgstr "Visibility"
+
+msgid "crs_visibility_limitless"
+msgstr "Zichtbaar (onbeperkt)"
+
+msgid "crs_visibility_until"
+msgstr "Tijdelijk beschikbaar"
+
+#, fuzzy
+msgid "crs_visibility_until_info"
+msgstr "The course will be visible to it's members in a specific period of time."
+
+#, fuzzy
+msgid "crs_visibility_unvisible"
+msgstr "The course is not visible."
+
+msgid "crs_wait_info"
+msgstr "Als het maximum aantal gebruikers is bereikt, zullen nieuwe registraties aan de wachtlijst toegevoegd worden."
+
+msgid "crs_waiting_list"
+msgstr "Wachtlijst"
+
+#, fuzzy
+msgid "crs_waiting_list_autofill"
+msgstr "With Auto-Fill"
+
+#, fuzzy
+msgid "crs_waiting_list_autofill_info"
+msgstr "Participants are recruited from the waiting list automatically on cancellations."
+
+#, fuzzy
+msgid "crs_waiting_list_no_autofill"
+msgstr "Without Auto-Fill"
+
+msgid "crs_warn_no_max_set_on_waiting_list"
+msgstr "Het maximale aantal deelnemers is overschreden voor deze cursus. Je kunt je verzoek tot inschrijving in de wachtrij zetten.Je zult een bericht ontvangen van een cursusbeheerder als je verzoek is goedgekeurd of verworpen."
+
+msgid "crs_warn_wl_set_on_waiting_list"
+msgstr "Sommige gebruikers staan al in de wachtrij. Je kunt je aanmelden in de wachtrij. Je zult een bericht krijgen van de cursusbeheerder als je verzoek is goedgekeurd of niet."
+
+msgid "crs_wiz_back"
+msgstr "Terug"
+
+msgid "crs_wiz_next"
+msgstr "Opslaan"
+
+msgid "crs_xml"
+msgstr "XML"
+
+msgid "edit_timings_list"
+msgstr "Wijzig timing"
+
+msgid "event"
+msgstr "Sessie"
+
+msgid "event_add_new_event"
+msgstr "Nieuwe sessie toegevoegd"
+
+msgid "event_assign_materials_info"
+msgstr "Toegewezen leermaterialen zullen onmiddellijk worden getoond."
+
+msgid "event_assign_materials_table"
+msgstr "Toewijzing van cursusmateriaal"
+
+msgid "event_blank_columns"
+msgstr "Extra kolommen"
+
+msgid "event_btn_add"
+msgstr "Voeg sessie toe"
+
+msgid "event_btn_add_edit"
+msgstr "Toevoegen Sessie en toewijzen materiaal"
+
+msgid "event_csv_export"
+msgstr "CSV Export"
+
+msgid "event_date_time"
+msgstr "Datum en tijd"
+
+msgid "event_desc"
+msgstr "Omschrijving"
+
+msgid "event_details_workflow"
+msgstr "Details/Werkschema"
+
+msgid "event_edit_members"
+msgstr "Wijzig de deelnemers"
+
+msgid "event_etime_smaller_stime"
+msgstr "De eindtijd is eerder dan de begintijd.Gelieve een geldig tijdspanne in te geven."
+
+msgid "event_file"
+msgstr "Bestand"
+
+msgid "event_files"
+msgstr "Toegekend bestand"
+
+msgid "event_fulltime_info"
+msgstr "Geen gespecificeerde tijd"
+
+msgid "event_lecturer"
+msgstr "Naam"
+
+msgid "event_list_registered_only"
+msgstr "Alleen geregistreerde deelnemers"
+
+msgid "event_location"
+msgstr "Locatie"
+
+msgid "event_materials"
+msgstr "Sessie materialen"
+
+msgid "event_not_participated"
+msgstr "Niet deelgenomen"
+
+msgid "event_overview"
+msgstr "Deelnames in sessies"
+
+msgid "event_participated"
+msgstr "Deelgenomen"
+
+msgid "event_registered"
+msgstr "U bent geregistreerd voor deze gebeurtenis."
+
+msgid "event_section_information"
+msgstr "Sessie informatie"
+
+msgid "event_table_create"
+msgstr "Nieuwe sessie"
+
+msgid "event_table_update"
+msgstr "Wijzig sessie"
+
+#, fuzzy
+msgid "event_tbl_admin"
+msgstr "Administrator"
+
+msgid "event_tbl_admins"
+msgstr "Beheerders"
+
+#, fuzzy
+msgid "event_tbl_member"
+msgstr "Member"
+
+msgid "event_tbl_members"
+msgstr "Deelnemers"
+
+msgid "event_tbl_participated"
+msgstr "Deelgenomen"
+
+msgid "event_tbl_registered"
+msgstr "Geregistreerd"
+
+#, fuzzy
+msgid "event_tbl_tutor"
+msgstr "Tutor"
+
+msgid "event_tbl_tutors"
+msgstr "Docenten"
+
+msgid "event_title"
+msgstr "Titel"
+
+msgid "event_tutor_data"
+msgstr "Informatie over de leerkacht"
+
+msgid "event_unregister"
+msgstr "Niet geregistreerd"
+
+msgid "event_unregistered"
+msgstr "U bent niet geregistreerd."
+
+msgid "event_updated"
+msgstr "Instellingen opgeslagen"
+
+#, fuzzy
+msgid "event_user_selection"
+msgstr "Selection of Users"
+
+#, fuzzy
+msgid "event_user_selection_include_filter"
+msgstr "Include \"%1$s\""
+
+#, fuzzy
+msgid "event_user_selection_include_requests"
+msgstr "Include all users on list \"Join Requests\""
+
+#, fuzzy
+msgid "event_user_selection_include_role"
+msgstr " Include all users with role \"%1$s\""
+
+#, fuzzy
+msgid "event_user_selection_include_waiting_list"
+msgstr "Include all users on \"Waiting List\""
+
+msgid "events"
+msgstr "Sessies"
+
+msgid "export_members"
+msgstr "Exporteer Deelnemers"
+
+msgid "grouping_change_assignment"
+msgstr "Wijzig taak"
+
+#, fuzzy
+msgid "grp_grp_already_assigned"
+msgstr "You are already member of this grouping of groups."
+
+#, fuzzy
+msgid "grp_not_all_users_assigned_msg"
+msgstr "%s user(s) assigned as group member(s), %s user(s) were already in the group."
+
+#, fuzzy
+msgid "mem_cron_min_members_intro"
+msgstr "The following courses and groups do not meet the minimum number of members (yet)."
+
+#, fuzzy
+msgid "mem_cron_min_members_reason"
+msgstr "You receive this message because you have activated the notification in the members-tab."
+
+#, fuzzy
+msgid "mem_cron_min_members_subject"
+msgstr "Course/Group: Minimum Members Check"
+
+#, fuzzy
+msgid "mem_cron_min_members_task"
+msgstr "Please inform the participants if the course will not take place because of not enough attendants. Adjust the settings afterwards."
+
+#, fuzzy
+msgid "obj_count_members"
+msgstr "Number of members"
+
+msgid "sess_attendance_list"
+msgstr "Deelnemerslijst"
+
+msgid "sess_gen_attendance_list"
+msgstr "Maak deelnemerslijst aan"
+
+msgid "sess_join_info"
+msgstr "Selecteer de \"Aanmelden\" knop om deel te nemen aan deze sessie"
+
+msgid "sess_limit"
+msgstr "Beperk aantal sessies"
+
+msgid "sess_limit_info"
+msgstr "Beperken van aantal zichtbare sessies"
+
+msgid "sess_num_next"
+msgstr "Aantal toekomstige sessies"
+
+msgid "sess_num_prev"
+msgstr "Aantal voorbije sessies"
+
+msgid "sess_print_attendance_list"
+msgstr "Drukken deelnemerslijst"
+
+msgid "sess_signature"
+msgstr "Handtekening"
+
+msgid "subscription_times_not_valid"
+msgstr "De aanmeldperiode is niet geldig."
+
+msgid "timing_accept_table"
+msgstr "Timings:Opmerkingen"
+
+msgid "timing_accepted"
+msgstr "Geaccepteerd"
+
+msgid "timing_not_accepted"
+msgstr "Niet geaccepteerd"
+
+msgid "timing_remark"
+msgstr "Opmerking"
+
+msgid "timing_tutor_visible"
+msgstr "Opmerking is zichtbaar voor leerkrachten."
+
+msgid "timing_user_accept"
+msgstr "Timing goedkeuren"
+
+msgid "timing_user_accepted"
+msgstr "Timing goedgekeurd"
+
+msgid "timings"
+msgstr "Timing"
+
+#, fuzzy
+msgid "timings_cron_reminder_exceeded_start"
+msgstr "Der Bearbeitungszeitraum ist überfällig bei:"
+
+#, fuzzy
+msgid "timings_cron_reminder_exceeded_subject"
+msgstr "Sie haben den Bearbeitungszeitraum überschritten"
+
+#, fuzzy
+msgid "timings_cron_reminder_freshly_start"
+msgstr "Der Bearbeitungszeitraum hat begonnen bei:"
+
+#, fuzzy
+msgid "timings_cron_reminder_started_subject"
+msgstr "Der Bearbeitungszeitraum hat begonnen"
+
+msgid "timings_edit"
+msgstr "Wijzig Timing"
+
+msgid "timings_of"
+msgstr "Timing uit"
+
+#, fuzzy
+msgid "timings_reminder_notifications"
+msgstr "Course Timings Notifications"
+
+#, fuzzy
+msgid "timings_reminder_notifications_info"
+msgstr "If enabled, course participants will be notified about exceeded timing materials."
+
+msgid "timings_timings"
+msgstr "Timing"
+
+msgid "timings_timings_off"
+msgstr "Uitschakelen van tijdsbeheer"
+
+msgid "timings_timings_on"
+msgstr "Inschakelen van tijdsbeheer"
+
+msgid "timings_usr_edit"
+msgstr "Wijzig Timing"
+
+msgid "tutor_email"
+msgstr "E-mail"
+
+msgid "tutor_name"
+msgstr "Naam"
+
+msgid "tutor_phone"
+msgstr "Telefoon"
+
+#, fuzzy
+msgid "tutorial_support_block_byline"
+msgstr "The 'Tutorial Support' block is displayed in the 'Contents' tab. The user selected as \"Contact Person\" in the \"Members\" Tab is shown."
+
+#, fuzzy
+msgid "tutorial_support_block_contact"
+msgstr "Contact"
+
+#, fuzzy
+msgid "tutorial_support_block_send_mail"
+msgstr "send email"
+
+#, fuzzy
+msgid "tutorial_support_block_setting_desc"
+msgstr "The 'Tutorial Support' block is displayed in the 'Contents' tab."
+
+#, fuzzy
+msgid "tutorial_support_block_setting_title"
+msgstr "Tutorial Support Block"
+
+#, fuzzy
+msgid "tutorial_support_block_title"
+msgstr "Contact Person"
+
+msgid "user_fields"
+msgstr "Gebruikersvelden"

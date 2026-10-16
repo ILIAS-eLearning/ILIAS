@@ -1,0 +1,1914 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: crs\n"
+
+msgid "activation_times_not_valid"
+msgstr "利用可能な時間が間違っています。"
+
+msgid "assigned"
+msgstr "割当済"
+
+msgid "contact_email_not_valid"
+msgstr "連絡先emailが有効ではありません。"
+
+msgid "crs_accept_subscriber"
+msgstr "%sの登録確認"
+
+msgid "crs_accept_subscriber_body"
+msgstr "コース\"%s\"への登録が確認されましたのでご案内します。"
+
+msgid "crs_access"
+msgstr "アクセス"
+
+msgid "crs_activate_notification"
+msgstr "通知をオン"
+
+msgid "crs_activation"
+msgstr "アクティベーション"
+
+msgid "crs_activation_limited_visibility_info"
+msgstr "選択するとコースは外部への割り当てに対しても表示されます。"
+
+msgid "crs_activation_online_info"
+msgstr "オフラインの場合はコース管理者と指導教員のみしかコース閲覧と編集はできません。"
+
+msgid "crs_add_archive_html"
+msgstr "HTMLアーカイブを作成"
+
+msgid "crs_add_archive_xml"
+msgstr "XMLアーカイブを作成"
+
+msgid "crs_add_grouping"
+msgstr "メンバーシップ制限を追加"
+
+msgid "crs_add_html_archive"
+msgstr "HTMLアーカイブを追加"
+
+msgid "crs_add_objective"
+msgstr "目標追加"
+
+msgid "crs_add_remove_from_desktop"
+msgstr "デスクトップへ追加/削除"
+
+msgid "crs_add_remove_from_desktop_info"
+msgstr "コースアイテムをパーソナルデスクトップへ追加する事をメンバーへ許可。"
+
+msgid "crs_add_starter"
+msgstr "開始オブジェクトを追加"
+
+msgid "crs_add_to_group"
+msgstr "グループへ追加"
+
+msgid "crs_added_member"
+msgstr "コース\"%s\"の登録を完了しました"
+
+msgid "crs_added_member_body"
+msgstr "コース\"%s\"への登録完了のお知らせです。"
+
+msgid "crs_added_new_archive"
+msgstr "新規アーカイブが追加されました"
+
+msgid "crs_added_objective"
+msgstr "新学習目標が作成されました。"
+
+msgid "crs_added_starters"
+msgstr "開始オブジェクト(複数)を割当ました。"
+
+msgid "crs_added_to_list"
+msgstr "待ちリストへ割当てられました。待ちリストの % の位置に割当てられています。"
+
+msgid "crs_admin"
+msgstr "管理者"
+
+msgid "crs_administrators"
+msgstr "管理者"
+
+msgid "crs_admission_link_failure_availability"
+msgstr "登録できません: コースはオンラインではありません。"
+
+msgid "crs_admission_link_failure_invalid_code"
+msgstr "登録できません: リンクは無効です。"
+
+msgid "crs_admission_link_failure_membership_limited"
+msgstr "登録不可;コースメンバーが限定されています。"
+
+msgid "crs_admission_link_failure_offline"
+msgstr "登録できません: コースはオフラインです。"
+
+msgid "crs_admission_link_failure_registration_period"
+msgstr "登録不可:コースは登録期限を過ぎています。"
+
+msgid "crs_admission_link_success_registration"
+msgstr "正しくコース\"%s\"へ登録されました。"
+
+msgid "crs_agree"
+msgstr "承諾"
+
+msgid "crs_agreement_header"
+msgstr "利用条件"
+
+msgid "crs_agreement_required"
+msgstr "このコースへの登録には利用条件への承諾が必要です。"
+
+msgid "crs_at_least_one_admin"
+msgstr "最低一人のコース管理者が必要です。"
+
+msgid "crs_auto_notification"
+msgstr "新メンバ用の通知"
+
+msgid "crs_auto_notification_info"
+msgstr "新メンバはコースへ追加されるとメール通知されます。"
+
+msgid "crs_awrn_current_course"
+msgstr "現在のコース"
+
+msgid "crs_awrn_current_course_info"
+msgstr "ユーザがリポジトリのコースをナビゲートする場合は、コースの全メンバーが表示されます。"
+
+msgid "crs_awrn_support_contacts"
+msgstr "チュートリアルサポート"
+
+msgid "crs_awrn_support_contacts_info"
+msgstr "現在のユーザのメンバーシップありのコースコンタクトをサポートする全てのチュートリアルが表示されます。ユーザはチュートリアルがサポートするそれぞれのコースのメンバータブ内のチュートリアルサポートコンタクトとして定義されます。"
+
+msgid "crs_blocked"
+msgstr "アクセス拒否"
+
+msgid "crs_blocked_member"
+msgstr "コース \"%s\"のブロックされたメンバーシップ"
+
+msgid "crs_blocked_member_body"
+msgstr "コース \"%s\"のメンバーシップはブロックされました。"
+
+msgid "crs_breadcrumb_crs_only"
+msgstr "Start with Course"
+
+msgid "crs_breadcrumb_full_path"
+msgstr "Full Path"
+
+msgid "crs_cancel_subscr_request"
+msgstr "メンバーシップリクエストを削除"
+
+msgid "crs_cancel_subscription"
+msgstr "ユーザはコース \"%s\"を登録解除"
+
+msgid "crs_cancel_subscription_body"
+msgstr "%s はコース \"%s\"のメンバーシップをキャンセルしました。"
+
+msgid "crs_cancel_subscription_body2"
+msgstr "コースの待ちリスト上に他のメンバーがいる可能性があります。すぐに待ちリストをチェックしてください。コースのメンバーを見るには以下をクリック："
+
+msgid "crs_cancellation_end"
+msgstr "`コースから登録取り消し`を制限"
+
+msgid "crs_cancellation_end_info"
+msgstr "選択した日付になるまでメンバーはコースから登録を取り消しできます。"
+
+msgid "crs_cancellation_end_rbac_info"
+msgstr "キャンセル期限は%sでしたのでキャンセルはもうできません。"
+
+msgid "crs_cannot_find_role"
+msgstr "この役割を見つけることができません。"
+
+msgid "crs_cdf_edit_member"
+msgstr "ユーザーデータに関連するコースを編集"
+
+msgid "crs_cdf_tbl_last_edit"
+msgstr "最終更新 (コース特定データ)"
+
+msgid "crs_checklist_objective"
+msgstr "対象のチェックリスト"
+
+msgid "crs_contact"
+msgstr "連絡先"
+
+msgid "crs_contact_consultation"
+msgstr "参考"
+
+msgid "crs_contact_email"
+msgstr "email"
+
+msgid "crs_contact_email_info"
+msgstr "emailアドレスを一つ以上(カンマ区切り)入力してください。"
+
+msgid "crs_contact_name"
+msgstr "名前"
+
+msgid "crs_contact_phone"
+msgstr "電話"
+
+msgid "crs_contact_responsibility"
+msgstr "職務"
+
+msgid "crs_content"
+msgstr "コース"
+
+msgid "crs_copy"
+msgstr "コースをコピー"
+
+msgid "crs_course_group_notification_link"
+msgstr "リンク:"
+
+msgid "crs_course_period_not_valid"
+msgstr "コース期間設定が有効ではありません。"
+
+msgid "crs_course_status_of_users"
+msgstr "ユーザの合格状況"
+
+msgid "crs_create_date"
+msgstr "作成日"
+
+msgid "crs_custom_user_fields"
+msgstr "関連ユーザデータのコース"
+
+msgid "crs_custom_user_fields_infobox"
+msgstr "参加した際に記入するコースメンバー用の追加データフィールドを作成します。\"メンバー\"の追加列用としてこの情報を表示できます。"
+
+msgid "crs_custom_user_fields_table_title"
+msgstr "このコースの関連ユーザデータ"
+
+msgid "crs_dates"
+msgstr "日付"
+
+msgid "crs_deactivate_notification"
+msgstr "通知をオフ"
+
+msgid "crs_delete_objectve_sure"
+msgstr "本当に選択した学習目標を削除しますか?"
+
+msgid "crs_details"
+msgstr "コースを削除"
+
+msgid "crs_dismiss_member"
+msgstr "%sのメンバーシップを終了"
+
+msgid "crs_dismiss_member_body"
+msgstr "コース \"%s\"のメンバーシップは終了しました。"
+
+msgid "crs_edit_lo_introduction"
+msgstr "イントロを編集"
+
+msgid "crs_edit_timings"
+msgstr "タイミング調整"
+
+msgid "crs_enable_map"
+msgstr "コースマップを編集"
+
+msgid "crs_end"
+msgstr "終了"
+
+msgid "crs_export"
+msgstr "コースエクスポート"
+
+msgid "crs_file"
+msgstr "ファイル"
+
+msgid "crs_file_download"
+msgstr "ダウンロード用ファイル"
+
+msgid "crs_file_name"
+msgstr "ファイル名"
+
+msgid "crs_file_size_info"
+msgstr "ファイルサイズ"
+
+msgid "crs_from"
+msgstr "From"
+
+msgid "crs_general_info"
+msgstr "全般情報"
+
+msgid "crs_general_informations"
+msgstr "全般情報"
+
+msgid "crs_grouping_delete_sure"
+msgstr "本当に次のコースメンバーシップ制限を削除しますか?"
+
+msgid "crs_grouping_deleted"
+msgstr "コースグループを削除しました。"
+
+msgid "crs_grouping_select_one"
+msgstr "コースグループを編集してください。"
+
+msgid "crs_groupings"
+msgstr "コースグループ"
+
+msgid "crs_groups_nr"
+msgstr "メンバーシップ数"
+
+msgid "crs_grp_added_grouping"
+msgstr "新規メンバーシップの制限を追加しました。"
+
+msgid "crs_grp_already_assigned"
+msgstr "すでにこのコースグループの登録会員です。"
+
+msgid "crs_grp_assign_crs"
+msgstr "コースを割当てる"
+
+msgid "crs_grp_assignments"
+msgstr "グループに対するコースメンバーの割当"
+
+msgid "crs_grp_enter_title"
+msgstr "タイトルを入力してください。"
+
+msgid "crs_grp_info_reg"
+msgstr "このコースのどれか一つのみ登録できます"
+
+msgid "crs_grp_matriculation_required"
+msgstr "このコースグループには、ユニークな学籍番号を必要とします。<br />パーソナルデスクトトップの設定にこの値を挿入してください。"
+
+msgid "crs_grp_no_courses_assigned"
+msgstr "コースが割当てされていません。"
+
+msgid "crs_grp_table_assigned_courses"
+msgstr "割当て済コース"
+
+msgid "crs_header_archives"
+msgstr "コースアーカイブ"
+
+msgid "crs_header_delete_members"
+msgstr "メンバーを削除"
+
+msgid "crs_header_edit_members"
+msgstr "メンバーを編集"
+
+msgid "crs_hide_all_obj"
+msgstr "すべて崩壊"
+
+msgid "crs_html"
+msgstr "HTML"
+
+msgid "crs_import"
+msgstr "コースをインポート"
+
+msgid "crs_important_info"
+msgstr "重要情報"
+
+msgid "crs_info_agree"
+msgstr "コース管理者へ上記内容を表示する事に同意する。"
+
+msgid "crs_info_agreement"
+msgstr "コース 管理者へ次の情報内容を表示:"
+
+msgid "crs_info_download"
+msgstr "ダウンロード用のファイル"
+
+msgid "crs_info_reg"
+msgstr "受講"
+
+msgid "crs_info_reg_confirmation"
+msgstr "このコースのメンバーシップをリクエストする事ができます。リクエストが承認または拒否されるとコース管理者からメッセージを受領します。"
+
+msgid "crs_info_reg_deactivated"
+msgstr "コース受講受付は終了しています。"
+
+msgid "crs_info_reg_direct"
+msgstr "直接このコースへ参加できます。"
+
+msgid "crs_info_reg_password"
+msgstr "コース管理者からコースのパスワードを入手するとこのコースへ参加できます。"
+
+msgid "crs_info_settings"
+msgstr "コース情報"
+
+msgid "crs_info_start"
+msgstr "以下に列記されている全てのコース科目を完了してください。<br />マークされている全てのオブジェクトを完了すると新規コース科目が使用可能になります。"
+
+msgid "crs_intro_course_group_notification_for"
+msgstr "通知を有効にしているコースとグループのニュースです。"
+
+msgid "crs_intro_course_group_notification_index"
+msgstr "次のコースとグループには%1$sから%2$sの期間内にニュースがあります:"
+
+msgid "crs_item_presetting_info"
+msgstr "選択すると学習者へ標準の編集時間を表示します。"
+
+msgid "crs_join_request"
+msgstr "送る"
+
+msgid "crs_lhist_objective_completed"
+msgstr "Mastered $3$ in $1$."
+
+msgid "crs_lim_assigned"
+msgstr " 既に関連するコース\"%s\"へ割当てられています。"
+
+msgid "crs_link_hide_next_sessions"
+msgstr "今後のセッションを非表示"
+
+msgid "crs_link_hide_prev_sessions"
+msgstr "以前のセッションを非表示"
+
+msgid "crs_link_show_all_next_sessions"
+msgstr "今後のセッション全部を表示"
+
+msgid "crs_link_show_all_prev_sessions"
+msgstr "以前のすべてのセッションを表示"
+
+msgid "crs_lobj_pm_min_goal"
+msgstr "要件点数"
+
+msgid "crs_lobj_pm_score"
+msgstr "結果"
+
+msgid "crs_loc_btn_new_assignment"
+msgstr "新しいテストの割り当て"
+
+msgid "crs_loc_confirm_delete_tst"
+msgstr "本当に、この学習目標志向コースのテストの割り当て解除をしますか?"
+
+msgid "crs_loc_delete_assignment"
+msgstr "割り当てを削除"
+
+msgid "crs_loc_err_no_active_it"
+msgstr "初期テストなしの学習目標"
+
+msgid "crs_loc_err_no_active_lo"
+msgstr "有効な学習目標がありません"
+
+msgid "crs_loc_err_no_active_mat"
+msgstr "教材なしの学習目標"
+
+msgid "crs_loc_err_no_active_qst"
+msgstr "問題なしの目標"
+
+msgid "crs_loc_err_no_active_qt"
+msgstr "資格テストなしの学習目標"
+
+msgid "crs_loc_err_nr_tries_exceeded"
+msgstr "資格テスト合格可能者数を超える目標当りの合格者数"
+
+msgid "crs_loc_err_stat_no_it"
+msgstr "初期テスト利用不可"
+
+msgid "crs_loc_err_stat_no_materials"
+msgstr "コース教材利用不可"
+
+msgid "crs_loc_err_stat_no_qt"
+msgstr "資格テスト利用不可"
+
+msgid "crs_loc_err_stat_tst_offline"
+msgstr "全てのテストがオンラインではありません。"
+
+msgid "crs_loc_form_assign"
+msgstr "既存のテストを使用"
+
+msgid "crs_loc_form_assign_initial_info"
+msgstr "配置テストとして提供するにはこのコースからテストを選択します"
+
+msgid "crs_loc_form_assign_it"
+msgstr "テスト割り当て"
+
+msgid "crs_loc_form_assign_qualified_info"
+msgstr "--"
+
+msgid "crs_loc_form_available_tsts"
+msgstr "利用可能なテスト"
+
+msgid "crs_loc_form_create_objectives"
+msgstr "学習目標を作成"
+
+msgid "crs_loc_form_random_limits_it"
+msgstr "初期テストの問題を定義"
+
+msgid "crs_loc_form_random_limits_qt"
+msgstr "資格テストの問題を定義"
+
+msgid "crs_loc_form_tst_new"
+msgstr "新規テストを作成"
+
+msgid "crs_loc_form_tst_new_initial_info"
+msgstr "配置テストとして提供するには新規テストを作成します"
+
+msgid "crs_loc_form_tst_new_qualified_info"
+msgstr "--"
+
+msgid "crs_loc_itest_info"
+msgstr "初期テスト"
+
+msgid "crs_loc_itst_for_objective"
+msgstr "初期テスト\"%1$s\""
+
+msgid "crs_loc_learning_objective"
+msgstr "学習目標"
+
+msgid "crs_loc_mem_show_res"
+msgstr "テスト結果を表示"
+
+msgid "crs_loc_num_qst"
+msgstr "問題数"
+
+msgid "crs_loc_objective_passed_confirmation"
+msgstr "すでに学習目標に達しています。新しいテスト開始すると結果をリセットします。本当に新しいテストを開始しますか？"
+
+msgid "crs_loc_objectives_passed_confirmation"
+msgstr "すでに学習目標を達成しています。新しいテスト開始すると全ての結果をリセットします。本当に新しいテストを開始しますか？"
+
+msgid "crs_loc_passes_info"
+msgstr "最大試験回数"
+
+msgid "crs_loc_passes_left"
+msgstr "残り試験回数"
+
+msgid "crs_loc_passes_reached"
+msgstr "残り試験回数なし"
+
+msgid "crs_loc_perc"
+msgstr "必須パーセンテージポイント"
+
+msgid "crs_loc_progress_do_qualifying"
+msgstr "資格テストを受けてください。"
+
+msgid "crs_loc_progress_do_qualifying_again"
+msgstr "学習目標の教材をもう一度やり直してください。"
+
+msgid "crs_loc_progress_no_result_do_initial"
+msgstr "初期テストを受けてください。"
+
+msgid "crs_loc_progress_no_result_no_initial"
+msgstr "次の学習教材を実習してから資格テストを受けてください。"
+
+msgid "crs_loc_progress_objective_complete"
+msgstr "学習目標を完了しました。"
+
+msgid "crs_loc_progress_result_itest"
+msgstr "初期テストの結果"
+
+msgid "crs_loc_progress_result_qtest"
+msgstr "結果"
+
+msgid "crs_loc_qst_resume_tst_itest"
+msgstr "すでにもう一つの学習オブジェクトの初期テストを開始しています。開始したテストを終了するか止めてこちらを開始します。同時に2個の初期テスト受験はサポートされていません。"
+
+msgid "crs_loc_qst_resume_tst_qtest"
+msgstr "すでにもう一つの学習オブジェクトの資格テストを開始しています。開始したテストを終了するか止めてこちらを開始します。同時に2個の初期テスト受験はサポートされていません。"
+
+msgid "crs_loc_qtest_info"
+msgstr "資格テスト"
+
+msgid "crs_loc_qtst_for_objective"
+msgstr "資格テスト \"%1$s\""
+
+msgid "crs_loc_rand_assign_qpl"
+msgstr "問題集割り当てフォーム"
+
+msgid "crs_loc_rand_qpl"
+msgstr "利用可能な問題集"
+
+msgid "crs_loc_settings_err_qstart"
+msgstr "初期テストなしのコース用にのみ選択されているのでオプション(開始オブジェクトとしての終了テスト)は解除されました。"
+
+msgid "crs_loc_settings_it_start_object"
+msgstr "初期テストは開始オブジェクトです。"
+
+msgid "crs_loc_settings_it_type"
+msgstr "初期テスト"
+
+msgid "crs_loc_settings_itest_tbl"
+msgstr "初期テスト設定"
+
+msgid "crs_loc_settings_passed_mode"
+msgstr "学習目標をマスターしました"
+
+msgid "crs_loc_settings_passed_mode_hide"
+msgstr "マスター学習目標用のテスト問題は非表示になります。"
+
+msgid "crs_loc_settings_passed_mode_mark"
+msgstr "マスター学習目標用のテスト問題はフラッグになります。"
+
+msgid "crs_loc_settings_qt_all"
+msgstr "終了テスト"
+
+msgid "crs_loc_settings_qt_start_object"
+msgstr "終了テストが開始オブジェクトです。"
+
+msgid "crs_loc_settings_qtest_tbl"
+msgstr "資格テスト設定"
+
+msgid "crs_loc_settings_reset"
+msgstr "テスト結果"
+
+msgid "crs_loc_settings_reset_enable"
+msgstr "テスト結果のリセットを許可する"
+
+msgid "crs_loc_settings_reset_enable_info"
+msgstr "有効にすると全てのユーザは個別のテスト結果をリセット可能になりコースを再開始できます。"
+
+msgid "crs_loc_settings_tbl"
+msgstr "学習目標志向型コースの設定"
+
+msgid "crs_loc_settings_tbl_it_nq"
+msgstr "学習目標あたりの入門試験を診断"
+
+msgid "crs_loc_settings_tbl_it_q"
+msgstr "オブジェク当たりの入門試験"
+
+msgid "crs_loc_settings_tbl_its_nq_all"
+msgstr "全学習オブジェクトに関する診断テストエントリ"
+
+msgid "crs_loc_settings_tbl_its_q_all"
+msgstr "初期試験全学習オブジェクト概要"
+
+msgid "crs_loc_settings_tbl_qt"
+msgstr "終了テスト(目標当り)"
+
+msgid "crs_loc_settings_tbl_qts_all"
+msgstr "終了テスト(目標当り)"
+
+msgid "crs_loc_settings_type_it_none"
+msgstr "初期テストなし"
+
+msgid "crs_loc_settings_type_it_none_info"
+msgstr "コースメンバーは学習目標を通じて自発的に学習します。すでに学習目標を習得したのか追加学習やトレーニングが必要かどうかアクセスして終了テストを受験できます。"
+
+msgid "crs_loc_settings_type_it_placement_all"
+msgstr "すべての目標カをカバーする総合実力テスト"
+
+msgid "crs_loc_settings_type_it_placement_all_info"
+msgstr "受験者は全ての学習目標の問題で公正される初期テスト一つを受験します。学習教材は受験者の個別結果に基づいて推奨されます。"
+
+msgid "crs_loc_settings_type_it_placement_sel"
+msgstr "目標ごとのセパレート実力テスト"
+
+msgid "crs_loc_settings_type_it_placement_sel_info"
+msgstr "受験者は目標に限定した問題のみで構成された学習目標ごとのセパレート初期テストを受験できます。学習教材は受験者の個別結果に基づいて推奨されます。"
+
+msgid "crs_loc_settings_type_it_qualifying_all"
+msgstr "全ての目標をカバーする理解力達成テスト"
+
+msgid "crs_loc_settings_type_it_qualifying_all_info"
+msgstr "受験者がすでに学習目標の実力を達成しているとアクセスします。テストは全ての学習目標をカバーする問題で構成されます。"
+
+msgid "crs_loc_settings_type_it_qualifying_sel"
+msgstr "目標ごとのセパレート実力テスト"
+
+msgid "crs_loc_settings_type_it_qualifying_sel_info"
+msgstr "受験者は学習目標ごとのセパレート初期テストありで表示されます。このテストは受験者が目標に絞った問題のみで構成され、すでにこの目標の習得達成しているかどうかチェックします。"
+
+msgid "crs_loc_settings_type_q_all"
+msgstr "全目標をカバーする理解力最終テスト"
+
+msgid "crs_loc_settings_type_q_all_info"
+msgstr "全ての学習目標の習得は一回の単一終了テストで実施されます。"
+
+msgid "crs_loc_settings_type_q_selected"
+msgstr "各目標ごとのセパレート終了テスト"
+
+msgid "crs_loc_settings_type_q_selected_info"
+msgstr "受験者は学習目標ごとのセパレート習得テストありで表示されます。"
+
+msgid "crs_loc_subtab_creation"
+msgstr "作成"
+
+msgid "crs_loc_suggested"
+msgstr "次の学習教材を実習してください。"
+
+msgid "crs_loc_tab_itest"
+msgstr "配置テスト"
+
+msgid "crs_loc_tab_itests"
+msgstr "初期テスト"
+
+msgid "crs_loc_tab_materials"
+msgstr "教材"
+
+msgid "crs_loc_tab_objectives"
+msgstr "学習目標"
+
+msgid "crs_loc_tab_qtest"
+msgstr "資格テスト"
+
+msgid "crs_loc_tab_qtests"
+msgstr "終了テスト"
+
+msgid "crs_loc_tab_start"
+msgstr "オブジェクト開始"
+
+msgid "crs_loc_tbl_tst_qst_qpl"
+msgstr "問題/問題集"
+
+msgid "crs_loc_tbl_tst_type"
+msgstr "テストモード"
+
+msgid "crs_loc_test_results_of"
+msgstr "テスト結果:"
+
+msgid "crs_loc_tst_assignment"
+msgstr "テスト割り当て"
+
+msgid "crs_loc_tst_new_run"
+msgstr "新しいテストを開始しました。"
+
+msgid "crs_loc_tst_num_qst"
+msgstr "問題数:"
+
+msgid "crs_loc_tst_qpls"
+msgstr "利用可能問題集:"
+
+msgid "crs_loc_tst_resume"
+msgstr "テストを継続"
+
+msgid "crs_loc_tst_start"
+msgstr "Test開始"
+
+msgid "crs_loc_tt_info"
+msgstr "%1$d%%です。 %2$d%%テストは合格です。"
+
+msgid "crs_loc_type_initial_all_info"
+msgstr "クラス分けテストの個別結果をベースにILIASは未確定の学習オブジェクト用のコンテンツを推奨します。最終達成度確認テストには受講者が学習目標をすでに達成したか追加の学習と教育が必要かどうかをアクセスします。"
+
+msgid "crs_loc_type_qualified_info"
+msgstr "コースメンバーが学習目標をすでに終了している場合はテストアクセスでコース開始します。学習目標全クリヤのユーザは学習コンテンツの履修もテスト受講もする必要ありません。学習目標未確定の全員に対してはILIASは学習コンテンツを推奨します。残りの学習目標の終了には追加テストを実施します。"
+
+msgid "crs_mail_all"
+msgstr "全受験者"
+
+msgid "crs_mail_all_info"
+msgstr "メンバと管理者と指導教員が\"メンバ\"タブ内の\"メンバへメール\"機能を使用できます。"
+
+msgid "crs_mail_context_member_info"
+msgstr "コースのinfo画面上のコンタクトemail用"
+
+msgid "crs_mail_context_member_title"
+msgstr "コースページInfo"
+
+msgid "crs_mail_context_tutor_info"
+msgstr "メンバーの参加者用emaiとコースの学習進捗画面"
+
+msgid "crs_mail_context_tutor_title"
+msgstr "コースメンバーへメール"
+
+msgid "crs_mail_permanent_link"
+msgstr "コースに関する必要な全ての情報を得るには次のリンクをクリック:"
+
+msgid "crs_mail_tutors_only"
+msgstr "指導教員と管理者専用"
+
+msgid "crs_mail_tutors_only_info"
+msgstr "管理者と指導教員のみが\"メンバ\"タブ内の\"メンバへメール\"機能を使用できます。"
+
+msgid "crs_mail_type"
+msgstr "メンバーへメール"
+
+msgid "crs_map_location"
+msgstr "コースマップロケーション"
+
+msgid "crs_map_settings"
+msgstr "マップ設定"
+
+msgid "crs_materials"
+msgstr "コース教材"
+
+msgid "crs_max_and_min_members_invalid"
+msgstr "最小数は最大メンバー数よりも小さくすべきです。"
+
+msgid "crs_max_and_min_members_needed"
+msgstr "最小、最大メンバー数または両方を設定"
+
+msgid "crs_max_members_needed"
+msgstr "最大メンバー数が待ちリスト機能に必要です。"
+
+msgid "crs_max_members_reached"
+msgstr "最大メンバー数に達しました"
+
+msgid "crs_mem_contact"
+msgstr "チュートリアルサポート"
+
+msgid "crs_mem_contacts"
+msgstr "チュートリアルサポート"
+
+msgid "crs_mem_send_mail"
+msgstr "メールを送信"
+
+msgid "crs_mem_tbl_header"
+msgstr "コース受講者"
+
+msgid "crs_member"
+msgstr "メンバー"
+
+msgid "crs_member_administration"
+msgstr "受講者を編集"
+
+msgid "crs_member_passed_status_changed"
+msgstr "ステータス更新確認"
+
+msgid "crs_members"
+msgstr "メンバー"
+
+msgid "crs_members_deleted"
+msgstr "メンバーを削除"
+
+msgid "crs_members_groups"
+msgstr "グループのメンバーシップ"
+
+msgid "crs_members_map"
+msgstr "コースメンバーのマップ"
+
+msgid "crs_members_print_title"
+msgstr "コースメンバー"
+
+msgid "crs_min_one_admin"
+msgstr "このコース割当てのための管理者が一人は必要です。"
+
+msgid "crs_msg_no_self_registration_period_if_self_enrolment_disabled"
+msgstr "限定登録期間は\"自己入会なし\"設定が有効の場合定義できません。"
+
+msgid "crs_my_courses_groups_enabled"
+msgstr "マイコースとグループ"
+
+msgid "crs_my_courses_groups_enabled_info"
+msgstr "有効にすると'マイコースとグループ'セクションは表示されます。"
+
+msgid "crs_new_status"
+msgstr "新しいステータスは次の通り:"
+
+msgid "crs_new_subscription"
+msgstr "コース \"%s\"へユーザ が登録されました"
+
+msgid "crs_new_subscription_body"
+msgstr "%sさんをコース \"%s\"へ登録しました。"
+
+msgid "crs_new_subscription_request"
+msgstr "コース\"%s\"へ参加をリクエスト"
+
+msgid "crs_new_subscription_request_body"
+msgstr "%sさんはコース \"%s\"のメンバーをリクエストしました。"
+
+msgid "crs_new_subscription_request_body2"
+msgstr "この登録を確認すにるは次へ:"
+
+msgid "crs_news"
+msgstr "コースのニュース"
+
+msgid "crs_no_archive_selected"
+msgstr "アーカイブが選択されていません"
+
+msgid "crs_no_archives_selected"
+msgstr "アーカイブを選択してください"
+
+msgid "crs_no_notify"
+msgstr "新規登録に対して通知しない"
+
+msgid "crs_no_objective_lms_found"
+msgstr "このコースには教材が何もありません。"
+
+msgid "crs_no_objective_selected"
+msgstr "目標を一つ選択してください。"
+
+msgid "crs_no_objectives_created"
+msgstr "学習目標が割当られていません。"
+
+msgid "crs_no_subscribers_selected"
+msgstr "ユーザを選択してください。"
+
+msgid "crs_no_users_added"
+msgstr "メンバーは追加されていません"
+
+msgid "crs_no_users_selected"
+msgstr "ユーザをだれも選択していません"
+
+msgid "crs_not_available"
+msgstr "-利用不可-"
+
+msgid "crs_notification"
+msgstr "通知"
+
+msgid "crs_notification_activated"
+msgstr "オンになっている通知"
+
+msgid "crs_notification_deactivated"
+msgstr "オフになっている通知"
+
+msgid "crs_notification_explanation_admin"
+msgstr "通知設定を有りにしているコース管理者並びに指導教員はiliasからメールを受信します。"
+
+msgid "crs_notification_list_title"
+msgstr "新規メンバーに関する通知"
+
+msgid "crs_notification_salutation"
+msgstr "コース受講の皆様へ"
+
+msgid "crs_notify"
+msgstr "新規登録通知"
+
+msgid "crs_nr"
+msgstr "Nr."
+
+msgid "crs_number_users_added"
+msgstr "次の番号のユーザはコースに割当てられました"
+
+msgid "crs_obj_final_req_info"
+msgstr "この点に達すると学習目標は合格です。"
+
+msgid "crs_obj_initial_req_info"
+msgstr "この点に達すると以降の編集に推薦するコース教材はありません。"
+
+msgid "crs_obj_required_points"
+msgstr "必須点"
+
+msgid "crs_objective_accomplished"
+msgstr "完了"
+
+msgid "crs_objective_action_itest"
+msgstr "配置テスト問題割り当て"
+
+msgid "crs_objective_action_materials"
+msgstr "教材割り当て"
+
+msgid "crs_objective_action_qtest"
+msgstr "資格の問題割り当て"
+
+msgid "crs_objective_action_qtest_sep"
+msgstr "終了試験を割り当てる"
+
+msgid "crs_objective_add_mat"
+msgstr "割当教材"
+
+msgid "crs_objective_all_points"
+msgstr "合計点"
+
+msgid "crs_objective_assigned_materials"
+msgstr "割当て済学習教材"
+
+msgid "crs_objective_err_limit"
+msgstr "%s から %s の間の点数を入力してください。"
+
+msgid "crs_objective_final_test"
+msgstr "達成度テスト問題"
+
+msgid "crs_objective_limit_err"
+msgstr "必須点数が合計点数よりも高くなってはいけません。"
+
+msgid "crs_objective_modified"
+msgstr "学習目標を更新"
+
+msgid "crs_objective_not_accomplished"
+msgstr "未達"
+
+msgid "crs_objective_overview_objectives"
+msgstr "概要"
+
+msgid "crs_objective_overview_question_assignment"
+msgstr "問題割り当ての概要"
+
+msgid "crs_objective_points"
+msgstr "点"
+
+msgid "crs_objective_pretest"
+msgstr "初回テストの後"
+
+msgid "crs_objective_qst_summary"
+msgstr "問題割り当ての概要"
+
+msgid "crs_objective_random_warn"
+msgstr "学習目標と組合わせたランダムテストを使用する事はできません。"
+
+msgid "crs_objective_result"
+msgstr "前回テストの後"
+
+msgid "crs_objective_result_details"
+msgstr "« 詳細表示"
+
+msgid "crs_objective_result_summary_initial"
+msgstr "実力試験: %1$s (%2$s 必須)"
+
+msgid "crs_objective_result_summary_qualifying"
+msgstr "学力試験: %1$s (%2$s 必須)"
+
+msgid "crs_objective_saved_sorting"
+msgstr "並び替えを保存しました。"
+
+msgid "crs_objective_self_assessment"
+msgstr "配置テスト問題"
+
+msgid "crs_objective_status"
+msgstr "目標状況"
+
+msgid "crs_objective_status_configure"
+msgstr "コースのチェックリスト"
+
+msgid "crs_objective_status_itest"
+msgstr "配置テストを構成"
+
+msgid "crs_objective_status_materials"
+msgstr "新規コース教材を作成"
+
+msgid "crs_objective_status_materials_info"
+msgstr "コースは現在空です。学習オブジェクトに割当て可能なコース教材を追加します。"
+
+msgid "crs_objective_status_objective_creation"
+msgstr "学習目標を作成"
+
+msgid "crs_objective_status_objectives"
+msgstr "学習目標を構成"
+
+msgid "crs_objective_status_qtest"
+msgstr "資格テストを構成"
+
+msgid "crs_objective_status_settings"
+msgstr "コース設定"
+
+msgid "crs_objective_tbl_col_final_tsts"
+msgstr "終了テスト"
+
+msgid "crs_objective_wiz_final"
+msgstr "最終テスト問題"
+
+msgid "crs_objective_wiz_final_info"
+msgstr "最終テスト問題の割当てです。"
+
+msgid "crs_objective_wiz_final_limit"
+msgstr "最終テストの制限"
+
+msgid "crs_objective_wiz_materials"
+msgstr "コース教材の割当て"
+
+msgid "crs_objective_wiz_materials_info"
+msgstr "学習目標を進めるための推奨するコース教材を割当てる事ができます。"
+
+msgid "crs_objective_wiz_self"
+msgstr "最初のテスト問題"
+
+msgid "crs_objective_wiz_self_limit"
+msgstr "初回テストの制限"
+
+msgid "crs_objective_wiz_self_limit_info"
+msgstr "初回テストの問題制限を定義してください。"
+
+msgid "crs_objective_wiz_title"
+msgstr "学習目標説明"
+
+msgid "crs_objective_wiz_title_info"
+msgstr "タイトルと学習目標の短い説明を選んでください。"
+
+msgid "crs_objectives"
+msgstr "学習目標"
+
+msgid "crs_objectives_assigned_lm"
+msgstr "選択の教材は割当てられています。"
+
+msgid "crs_objectives_deleted"
+msgstr "学習目標を削除"
+
+msgid "crs_objectives_edit_question_assignments"
+msgstr "問題割り当てを編集"
+
+msgid "crs_objectives_reset_sure"
+msgstr "このコースのすべてのテスト結果を削除しますか。<br />すべてのテスト結果は削除されます。"
+
+msgid "crs_objectives_reseted"
+msgstr "テスト結果をリセットしました。"
+
+msgid "crs_open"
+msgstr "コースを開く"
+
+msgid "crs_other_resources"
+msgstr "その他のリソース"
+
+msgid "crs_page_type_lobj"
+msgstr "学習オブジェクトページ"
+
+msgid "crs_passed"
+msgstr "合格"
+
+msgid "crs_passed_status_manual_by"
+msgstr "更新者"
+
+msgid "crs_passed_status_system"
+msgstr "システム"
+
+msgid "crs_password_not_valid"
+msgstr "パスワードは有効ではありません"
+
+msgid "crs_password_required"
+msgstr "この登録手順にはパスワードが必須です。"
+
+msgid "crs_pdf"
+msgstr "PDF"
+
+msgid "crs_period"
+msgstr "コース期間設定"
+
+msgid "crs_period_end_mail_placeholder"
+msgstr "終了点"
+
+msgid "crs_period_info"
+msgstr "コースでサポートされるイベントの開始と終了日に関する情報"
+
+msgid "crs_period_start_mail_placeholder"
+msgstr "開始点"
+
+msgid "crs_presentation_type"
+msgstr "プレゼンテーションタイプ"
+
+msgid "crs_print_list"
+msgstr "印刷リスト"
+
+msgid "crs_ref_delete_confirmation_info"
+msgstr "このコースから次のメンバーを本当に削除しますか?このコースへリンクされているコースからこれらのメンバーが削除するには、該当のチェックボックス有効にしてください。"
+
+msgid "crs_ref_member_update"
+msgstr "新しいメンバーを追加"
+
+msgid "crs_ref_member_update_info"
+msgstr "上位レベルのコースのすべての新しいメンバーは、このコースリンクによって参照されるコースに自動的に入力されます。"
+
+msgid "crs_ref_missing_access"
+msgstr "両方のコースの「メンバーの管理」権限がないため、このオプションは選択できません。"
+
+msgid "crs_ref_missing_parent_crs"
+msgstr "このコースリンクには親コースがないため、オプションを選択できません。"
+
+msgid "crs_reg"
+msgstr "登録設定"
+
+msgid "crs_reg_code"
+msgstr "登録コード"
+
+msgid "crs_reg_code_enabled_info"
+msgstr "有効にすると特定の登録リンクを使用して自動登録可能になります。"
+
+msgid "crs_reg_code_link"
+msgstr "登録リンク"
+
+msgid "crs_reg_max_info"
+msgstr "このコースに割当て可能な最大ユーザ数を定義してください。"
+
+msgid "crs_reg_no_selfreg"
+msgstr "自己登録なし"
+
+msgid "crs_reg_password_info"
+msgstr "コース参加時にユーザはこのパスワードを入力する必要があります。"
+
+msgid "crs_reg_selfreg"
+msgstr "自己登録"
+
+msgid "crs_reg_subject"
+msgstr "メッセージ"
+
+msgid "crs_reg_until"
+msgstr "登録期限"
+
+msgid "crs_reg_user_already_subscribed"
+msgstr "このコースのメンバーシップを既に要求済です"
+
+msgid "crs_registration"
+msgstr "コース登録"
+
+msgid "crs_registration_confirmation_info"
+msgstr "興味のあるユーザはリクエスト/メッセージをコース管理者へ送ることができます。"
+
+msgid "crs_registration_deactivated"
+msgstr "コースへの登録を不可にするにはこれを選択します。このコースへユーザは参加できません。"
+
+msgid "crs_registration_limited"
+msgstr "限定登録期間"
+
+msgid "crs_registration_limited_info"
+msgstr "メンバーは決められた期間内に限りこのコースの登録が可能です。"
+
+msgid "crs_registration_period"
+msgstr "期間"
+
+msgid "crs_registration_type"
+msgstr "登録手順"
+
+msgid "crs_reject_subscriber"
+msgstr " \"%s\"の登録拒否"
+
+msgid "crs_reject_subscriber_body"
+msgstr "申し訳ありませんが、コース\"%s\"への登録は拒否されました。"
+
+msgid "crs_reset_results"
+msgstr "結果をリセット"
+
+msgid "crs_role_status"
+msgstr "役割 / ステータス"
+
+msgid "crs_search_users"
+msgstr "ユーザを検索"
+
+msgid "crs_select_archive_language"
+msgstr "アーカイブ用の言語を入力してください"
+
+msgid "crs_select_one_archive"
+msgstr "アーカイブを一つ選択してください"
+
+msgid "crs_select_starter"
+msgstr "開始オブジェクトを選択"
+
+msgid "crs_settings"
+msgstr "コース設定"
+
+msgid "crs_settings_saved"
+msgstr "設定が保存されました"
+
+msgid "crs_shorten_breadcrumb"
+msgstr "パンクズ"
+
+msgid "crs_show_all_obj"
+msgstr "すべて展開"
+
+msgid "crs_show_member_export"
+msgstr "参加者リスト"
+
+msgid "crs_show_member_export_info"
+msgstr "コースメンバーは参加者のリストを印刷することがあります。"
+
+msgid "crs_show_member_export_settings"
+msgstr "参加者リスト"
+
+msgid "crs_show_members"
+msgstr "メンバーを表示"
+
+msgid "crs_show_members_info"
+msgstr "オンにするとコース メンバーはメンバーギャラリーへのアクセスとメンバーへメールを送る事が可能になります。"
+
+msgid "crs_size"
+msgstr "ファイルサイズ"
+
+msgid "crs_sort_activation"
+msgstr "アクティベーションで並び替え"
+
+msgid "crs_sort_timing_info"
+msgstr "アクティベーション時間もしくは事前設定した時間でコースアイテムを並び替えます。"
+
+msgid "crs_start"
+msgstr "開始"
+
+msgid "crs_start_objects"
+msgstr "開始オブジェクト"
+
+msgid "crs_starter_delete_sure"
+msgstr "次の開始オブジェクトを本当に削除しますか?"
+
+msgid "crs_starter_deleted"
+msgstr "割当を削除しました。"
+
+msgid "crs_starters_already_assigned"
+msgstr "このオブジェクトは既に割当て済です。"
+
+msgid "crs_status"
+msgstr "ステータス"
+
+msgid "crs_status_changed"
+msgstr "%sのステータスを更新"
+
+msgid "crs_status_changed_body"
+msgstr "コース \"%s\" のステータスが更新されました。"
+
+msgid "crs_status_determination"
+msgstr "判定"
+
+msgid "crs_status_determination_lp"
+msgstr "学習進捗全体"
+
+msgid "crs_status_determination_lp_info"
+msgstr "学習進捗を\"完了\"にするとコースステータスは自動的に\"合格\"に変ります。指導教員は手動でステータスの上書きもできます。"
+
+msgid "crs_status_determination_manual"
+msgstr "指導教員による手動操作に限定"
+
+msgid "crs_status_determination_sync"
+msgstr "全メンバの学習進捗の入った合格状況をすぐに同期する"
+
+msgid "crs_structure"
+msgstr "コース構造"
+
+msgid "crs_subject_course_group_notification"
+msgstr "%sの日刊メール"
+
+msgid "crs_subscribe_member"
+msgstr "コース \"%s\" の登録"
+
+msgid "crs_subscribe_member_body"
+msgstr "コース \"%s\"への登録が確認された事をご案内します。"
+
+msgid "crs_subscribe_wl"
+msgstr "コース \"%s\"の登録"
+
+msgid "crs_subscribe_wl_body"
+msgstr "コース \"%s\"の待ちリストへ割当てられました。n\\リストの%s番目です。リクエストが承認または拒否されるとコース管理者からのメッセージを受信します。"
+
+msgid "crs_subscriber"
+msgstr "購読者"
+
+msgid "crs_subscribers_deleted"
+msgstr "購読者が削除されました"
+
+msgid "crs_subscription"
+msgstr "購読"
+
+msgid "crs_subscription_failed_limit"
+msgstr "最大受験者数を超えました。"
+
+msgid "crs_subscription_max_members"
+msgstr "最大数"
+
+msgid "crs_subscription_max_members_short"
+msgstr "メンバー数制限"
+
+msgid "crs_subscription_max_members_short_info"
+msgstr "メンバーの最大数それぞれに最小が設定できます。待ちリストが設定できます。"
+
+msgid "crs_subscription_min_members"
+msgstr "最小値"
+
+msgid "crs_subscription_min_members_err"
+msgstr "最少数字は参加者最大数以上にできません。"
+
+msgid "crs_subscription_min_members_info"
+msgstr "このコースを常時開催するための最小要求ユーザ数を定義します。この数値がユーザが登録またはコースから登録を取り消し可能な日付の後の場合はメールが’メンバー'－タブ内の'通知'フラッグをアクティブにしているこれらのコース管理者または指導教員へ送信されます。"
+
+msgid "crs_subscription_options_confirmation"
+msgstr "メンバーシップをリクエスト"
+
+msgid "crs_subscription_options_direct"
+msgstr "直接参加"
+
+msgid "crs_subscription_options_password"
+msgstr "コースパスワードで参加"
+
+msgid "crs_subscription_successful"
+msgstr "コースへ参加しました。"
+
+msgid "crs_sure_delete_selected_archives"
+msgstr "本当に選択したアーカイブを削除しますか?"
+
+msgid "crs_syllabus"
+msgstr "シラバス"
+
+msgid "crs_sys_default"
+msgstr "System Default"
+
+msgid "crs_table_start_objects"
+msgstr "開始オブジェクト"
+
+msgid "crs_target_group"
+msgstr "ターゲットグループ"
+
+msgid "crs_tile_and_objective_view_not_supported"
+msgstr "タイル形式 表示”と学習オブジェクト形式表示\"を同時に両方アクティブにはできません。"
+
+msgid "crs_tile_and_session_limit_not_supported"
+msgstr "タイル形式 表示”とセッション制限\"を同時に両方アクティブにはできません。"
+
+msgid "crs_timing_err_start_end"
+msgstr "終了日は開始日と等しいかそれ以上大きくする必要があります。"
+
+msgid "crs_timings_activate_optional"
+msgstr "コース期間設定のオプションモード"
+
+msgid "crs_timings_activate_optional_own"
+msgstr "マイコース期間設定のオプションモード"
+
+msgid "crs_timings_availability_enabled"
+msgstr "一時利用"
+
+msgid "crs_timings_changeable"
+msgstr "時間目標を変える"
+
+msgid "crs_timings_changed"
+msgstr "日程が修正されました"
+
+msgid "crs_timings_days_after_subsription"
+msgstr "コース申込み後の日数"
+
+msgid "crs_timings_disabled"
+msgstr "タイミングを使用しない"
+
+msgid "crs_timings_disabled_info"
+msgstr "タイミングを使用しない場合に選択します。"
+
+msgid "crs_timings_early_begin"
+msgstr "最短開始"
+
+msgid "crs_timings_edit_personal"
+msgstr "パーソナル期間を編集"
+
+msgid "crs_timings_end"
+msgstr "終了時間"
+
+msgid "crs_timings_from_until"
+msgstr "(いつからいつまで)"
+
+msgid "crs_timings_in_days"
+msgstr "(日間)"
+
+msgid "crs_timings_info_active"
+msgstr "(Active)"
+
+msgid "crs_timings_not_changed"
+msgstr "未修整の日程"
+
+msgid "crs_timings_optional_checked"
+msgstr "このユーザのオプションモードはアクティブ化されました。"
+
+msgid "crs_timings_optional_off"
+msgstr "オプションモードは非アクティブです。"
+
+msgid "crs_timings_optional_on"
+msgstr "オプションモードはアクティブです。"
+
+msgid "crs_timings_optional_on_and_passed"
+msgstr "オプションモードはアクティブでありユーザがパスしたので変更できません。"
+
+msgid "crs_timings_optional_unchecked"
+msgstr "このユーザのオプションモードは非アクティブ化されました。"
+
+msgid "crs_timings_planed_info"
+msgstr "編集時間が設定されました"
+
+msgid "crs_timings_planed_start"
+msgstr "計画後の"
+
+msgid "crs_timings_presetting"
+msgstr "時間目標を使用"
+
+msgid "crs_timings_short_active"
+msgstr "有効化"
+
+msgid "crs_timings_short_active_tt"
+msgstr "タイミングを有効化"
+
+msgid "crs_timings_short_changeable"
+msgstr "変える"
+
+msgid "crs_timings_short_end"
+msgstr "最終日"
+
+msgid "crs_timings_short_limit_start_end"
+msgstr "最新の最終日"
+
+msgid "crs_timings_short_limit_start_end_tt"
+msgstr "最新の最終"
+
+msgid "crs_timings_short_limit_start_end_tt_rel"
+msgstr "コース申込み後の最終日日数"
+
+msgid "crs_timings_short_start_end"
+msgstr "推奨"
+
+msgid "crs_timings_short_start_end_rel"
+msgstr "推奨の開始(日数)"
+
+msgid "crs_timings_short_start_end_tt"
+msgstr "推奨の開始"
+
+msgid "crs_timings_short_start_end_tt_rel"
+msgstr "コース申込み後の推奨開始"
+
+msgid "crs_timings_start"
+msgstr "開始時間"
+
+msgid "crs_timings_start_end_info"
+msgstr "(開始と終了日)"
+
+msgid "crs_timings_sug_begin"
+msgstr "推奨の開始"
+
+msgid "crs_timings_sug_end"
+msgstr "推奨の終了"
+
+msgid "crs_timings_suggested_info"
+msgstr "推奨終了時間"
+
+msgid "crs_timings_time_frame"
+msgstr "時間枠"
+
+msgid "crs_timings_time_frame_tt"
+msgstr "時間枠日数"
+
+msgid "crs_timings_update_error"
+msgstr "設定が有効ではありません。コース案内に従ってタイミングを確認してください。"
+
+msgid "crs_timings_warning_timing_exists"
+msgstr "このオブジェクトの期間を構成します。アベイラビリティを有効にするとこれらの期間はリセットされます。"
+
+msgid "crs_to"
+msgstr "期限"
+
+msgid "crs_tutor"
+msgstr "指導教員"
+
+msgid "crs_tutors"
+msgstr "指導教員"
+
+msgid "crs_unblocked"
+msgstr "入室制限なし"
+
+msgid "crs_unblocked_member"
+msgstr "コース \"%s\"の承認されたアクセス"
+
+msgid "crs_unblocked_member_body"
+msgstr "コース \"%s\" のメンバーシップはリストアされました。"
+
+msgid "crs_unlimited"
+msgstr "制限なし"
+
+msgid "crs_unsubscribe_member"
+msgstr "コース \"%s\"のメンバーシップのキャンセル"
+
+msgid "crs_unsubscribe_member_body"
+msgstr "コース \"%s\"のメンバーシップのキャンセル確認です。別のコースでのご参加をお待ちしています。"
+
+msgid "crs_unsubscribe_member_explanation"
+msgstr "上記のコースから登録を取り消ししたのでこのメッセージを受領します。"
+
+msgid "crs_unsubscribe_sure"
+msgstr "本当にこのコースから登録削除しますか?"
+
+msgid "crs_unsubscribed_from_crs"
+msgstr "このコースから登録削除されました。"
+
+msgid "crs_update_subscr_request"
+msgstr "メンバーシップリクエストを更新"
+
+msgid "crs_user_agreement"
+msgstr "関連データ"
+
+msgid "crs_user_agreement_info"
+msgstr "コース 管理者に表示されるパーソナルデータ"
+
+msgid "crs_user_already_assigned"
+msgstr "選択のユーザは既にこのコースへ割当て済です。"
+
+msgid "crs_users_added"
+msgstr "このコースへユーザが追加されました"
+
+msgid "crs_users_already_assigned"
+msgstr "ユーザはこのコースに割当て済です"
+
+msgid "crs_users_removed_from_list"
+msgstr "選択したユーザはマチリストから削除されました"
+
+msgid "crs_usr_agreement"
+msgstr "ユーザ許諾書"
+
+msgid "crs_view_info_objective"
+msgstr "個別取組みコース:ラーニングモジュールのパフォーマンスが取組状況を管理します。初期テストの個別パフォーマンスベースを推奨する内容となることがあります。最終テストは学習目標習熟度の把握に使用することができます。"
+
+msgid "crs_view_info_timing"
+msgstr "タイミング事前設定の説明モード"
+
+msgid "crs_view_info_timing_absolute"
+msgstr "開始と終了は絶対的に設定されます。"
+
+msgid "crs_view_info_timing_relative"
+msgstr "開始と終了は申込み日と関連して設定されます。"
+
+msgid "crs_view_mode"
+msgstr "コースプレゼンテーション"
+
+msgid "crs_view_objective"
+msgstr "学習目標指向型コース"
+
+msgid "crs_view_timing"
+msgstr "タイミングビュー"
+
+msgid "crs_view_timing_absolute"
+msgstr "絶対日付"
+
+msgid "crs_view_timing_relative"
+msgstr "総体日付"
+
+msgid "crs_view_timings"
+msgstr "期間表示タイプ"
+
+msgid "crs_visibility"
+msgstr "表示"
+
+msgid "crs_visibility_limitless"
+msgstr "期限なし"
+
+msgid "crs_visibility_until"
+msgstr "利用期間限定"
+
+msgid "crs_visibility_until_info"
+msgstr "コースは一定の期間そのメンバーへ表示されます。"
+
+msgid "crs_visibility_unvisible"
+msgstr "コースは表示されません。"
+
+msgid "crs_wait_info"
+msgstr "有効にしてユーザ最大数を超えると、新しい登録が待ちリストに載せられます。"
+
+msgid "crs_waiting_list"
+msgstr "待ちリスト"
+
+msgid "crs_waiting_list_autofill"
+msgstr "自動-挿入あり"
+
+msgid "crs_waiting_list_autofill_info"
+msgstr "受講者はキャンセルの際に自動的に待ちリストから採用されます。これは、オートフィルがバイパスするので\"メンバーシップを要求\"登録手順\"で使用すべきではありません。"
+
+msgid "crs_waiting_list_no_autofill"
+msgstr "自動-挿入なし"
+
+msgid "crs_warn_no_max_set_on_waiting_list"
+msgstr "コースメンバーの最大数を超えました。参加リクエストを待ちリストへ追加できます。リクエストが承認もしくは拒否されるとコース管理者からメッセージを受信します。"
+
+msgid "crs_warn_wl_set_on_waiting_list"
+msgstr "ユーザの何名かは既に待ちリストへ割当てられました。参加リクエストを待ちリストへ追加できます。リクエストが承認もしくは拒否されるとコース管理者からメッセージを受信します。"
+
+msgid "crs_wiz_back"
+msgstr "戻る"
+
+msgid "crs_wiz_next"
+msgstr "保存"
+
+msgid "crs_xml"
+msgstr "XML"
+
+msgid "edit_timings_list"
+msgstr "タイミングを編集"
+
+msgid "event"
+msgstr "セッション"
+
+msgid "event_add_new_event"
+msgstr "追加した新セッション"
+
+msgid "event_assign_materials_info"
+msgstr "割当てたコース教材はセッションの下に直接表示されます。"
+
+msgid "event_assign_materials_table"
+msgstr "コース教材の割当て"
+
+msgid "event_blank_columns"
+msgstr "追加列"
+
+msgid "event_btn_add"
+msgstr "セッションを追加"
+
+msgid "event_btn_add_edit"
+msgstr "セッションを追加して教材を割当てる"
+
+msgid "event_csv_export"
+msgstr "CSV エクスポート"
+
+msgid "event_date_time"
+msgstr "日付 & 時間"
+
+msgid "event_desc"
+msgstr "説明"
+
+msgid "event_details_workflow"
+msgstr "詳細/ワークフロー"
+
+msgid "event_edit_members"
+msgstr "受講者を編集"
+
+msgid "event_etime_smaller_stime"
+msgstr "終了時間が開始時間よりも早くなっています。正しい間隔を入力してください。"
+
+msgid "event_file"
+msgstr "ファイル"
+
+msgid "event_files"
+msgstr "割当て済のファイル"
+
+msgid "event_fulltime_info"
+msgstr "終日のイベント"
+
+msgid "event_lecturer"
+msgstr "名前"
+
+msgid "event_list_registered_only"
+msgstr "登録メンバー専用"
+
+msgid "event_location"
+msgstr "ロケーション"
+
+msgid "event_materials"
+msgstr "セッション教材"
+
+msgid "event_not_participated"
+msgstr "不参加"
+
+msgid "event_overview"
+msgstr "セッションの受講者"
+
+msgid "event_participated"
+msgstr "受講済"
+
+msgid "event_registered"
+msgstr "このセッションへ登録されました。"
+
+msgid "event_section_information"
+msgstr "セッション情報"
+
+msgid "event_table_create"
+msgstr "新セッション"
+
+msgid "event_table_update"
+msgstr "セッションを編集"
+
+msgid "event_tbl_admin"
+msgstr "Administrator"
+
+msgid "event_tbl_admins"
+msgstr "管理者"
+
+msgid "event_tbl_member"
+msgstr "Member"
+
+msgid "event_tbl_members"
+msgstr "メンバー"
+
+msgid "event_tbl_participated"
+msgstr "受講済"
+
+msgid "event_tbl_registered"
+msgstr "登録済"
+
+msgid "event_tbl_tutor"
+msgstr "Tutor"
+
+msgid "event_tbl_tutors"
+msgstr "指導教員"
+
+msgid "event_title"
+msgstr "タイトル"
+
+msgid "event_tutor_data"
+msgstr "講師に関する情報"
+
+msgid "event_unregister"
+msgstr "登録解除"
+
+msgid "event_unregistered"
+msgstr "登録が解除されました。"
+
+msgid "event_updated"
+msgstr "設定を保存しました"
+
+msgid "event_user_selection"
+msgstr "ユーザの選択"
+
+msgid "event_user_selection_include_filter"
+msgstr "%1$sを含む"
+
+msgid "event_user_selection_include_requests"
+msgstr "参加リクエストリストの全てのユーザを含む"
+
+msgid "event_user_selection_include_role"
+msgstr "%1$s役割を持つ全てのユーザを含む"
+
+msgid "event_user_selection_include_waiting_list"
+msgstr "待ちリストの全てのユーザを含む"
+
+msgid "events"
+msgstr "セッション"
+
+msgid "export_members"
+msgstr "受講者をエクスポート"
+
+msgid "grouping_change_assignment"
+msgstr "割当て変更"
+
+msgid "grp_grp_already_assigned"
+msgstr "既にグループのこのグループ化されたメンバーです。"
+
+msgid "grp_not_all_users_assigned_msg"
+msgstr "グループメンバーに割当ての % ユーザと %s ユーザは既にグループに存在します。"
+
+msgid "mem_cron_min_members_intro"
+msgstr "次のコースとグループは(まだ)最小メンバー数に達していません。"
+
+msgid "mem_cron_min_members_reason"
+msgstr "メンバータブ内の通知をアクティブにしているのでこのメッセージを受領します。"
+
+msgid "mem_cron_min_members_subject"
+msgstr "コース/グループ: 最小メンバ数ーチェック"
+
+msgid "mem_cron_min_members_task"
+msgstr "コースが参加者不足のため開催されない場合に受講者へ案内してください。後で設定調整します。"
+
+msgid "obj_count_members"
+msgstr "メンバー数"
+
+msgid "sess_attendance_list"
+msgstr "出席リスト"
+
+msgid "sess_gen_attendance_list"
+msgstr "出席リストを生成"
+
+msgid "sess_join_info"
+msgstr "このセッションの受講を希望する場合は参加ボタンをクリックしてください。"
+
+msgid "sess_limit"
+msgstr "セッション数の制限"
+
+msgid "sess_limit_info"
+msgstr "表示セッション数を制限するにはこのオプションを選びます。"
+
+msgid "sess_num_next"
+msgstr "次のセッション数"
+
+msgid "sess_num_prev"
+msgstr "過去のセッション数"
+
+msgid "sess_print_attendance_list"
+msgstr "参加リストを印刷"
+
+msgid "sess_signature"
+msgstr "署名"
+
+msgid "subscription_times_not_valid"
+msgstr "登録期間が有効ではありません。"
+
+msgid "timing_accept_table"
+msgstr "備考：タイミング"
+
+msgid "timing_accepted"
+msgstr "承諾済"
+
+msgid "timing_not_accepted"
+msgstr "未承諾"
+
+msgid "timing_remark"
+msgstr "備考"
+
+msgid "timing_tutor_visible"
+msgstr "備考をコース指導教員に表示"
+
+msgid "timing_user_accept"
+msgstr "日程を了承"
+
+msgid "timing_user_accepted"
+msgstr "日程が了承されました"
+
+msgid "timings"
+msgstr "タイミング"
+
+msgid "timings_cron_reminder_exceeded_start"
+msgstr "処理期間からすでに次の期間が過ぎています。"
+
+msgid "timings_cron_reminder_exceeded_subject"
+msgstr "処理期間外"
+
+msgid "timings_cron_reminder_freshly_start"
+msgstr "処理期間:"
+
+msgid "timings_cron_reminder_started_subject"
+msgstr "処理期間を開始"
+
+msgid "timings_edit"
+msgstr "日程を編集"
+
+msgid "timings_of"
+msgstr "タイミングをオフ"
+
+msgid "timings_reminder_notifications"
+msgstr "コースタイミング通知"
+
+msgid "timings_reminder_notifications_info"
+msgstr "有効にするとコース参加者は超過タイミング教材について通知されます。"
+
+msgid "timings_timings"
+msgstr "タイミング"
+
+msgid "timings_timings_off"
+msgstr "日程調整管理を止める"
+
+msgid "timings_timings_on"
+msgstr "日程調整管理を行う"
+
+msgid "timings_usr_edit"
+msgstr "日程を編集"
+
+msgid "tutor_email"
+msgstr "email"
+
+msgid "tutor_name"
+msgstr "名"
+
+msgid "tutor_phone"
+msgstr "電話"
+
+msgid "tutorial_support_block_byline"
+msgstr "チュートリアルサポート'ブロックは'コンテンツ'タブに表示されます。'メンバー'タブで'連絡担当者'として選択されたユーザーが表示されます。"
+
+msgid "tutorial_support_block_contact"
+msgstr "連絡先"
+
+msgid "tutorial_support_block_send_mail"
+msgstr "メールを送信"
+
+msgid "tutorial_support_block_setting_desc"
+msgstr "チュートリアルサポート'ブロックは、'コンテンツ'タブに表示されます。"
+
+msgid "tutorial_support_block_setting_title"
+msgstr "チュートリアルサポートブロック"
+
+msgid "tutorial_support_block_title"
+msgstr "担当者"
+
+msgid "user_fields"
+msgstr "ユーザ欄"
