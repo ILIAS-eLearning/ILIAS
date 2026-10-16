@@ -11176,12 +11176,25 @@ logging#:#log_error_settings#:#Einstellungen für das Fehlerprotokoll
 logging#:#logs_settings#:#Protokollierungseinstellungen
 lso#:#abstract#:#Einleitung
 lso#:#abstract_img#:#Bild für die Einleitungsseite
+lso#:#add_condition#:#Bedingung hinzufügen
+lso#:#always#:#Immer
 lso#:#avail_time_period#:#Zeitraum
 lso#:#completed_steps#:#Bestandene Schritte
-lso#:#condition_always#:#Immer
-lso#:#cont_ed_insert_lsocurriculum#:#Curriculum einfügen
+lso#:#condition_already_exists#:#Bedingung existiert bereits für dieses Objekt.
+lso#:#condition_learning_progress#:#Gemäß Lernfortschritt
+lso#:#condition_name#:#Name
+lso#:#condition_points#:#Punkte
+lso#:#condition_subtype#:#Subtyp
+lso#:#condition_targets#:#Zielobjekt(e)
+lso#:#condition_type#:#Typ
+lso#:#conditions#:#Bedingungen
+lso#:#conditions_deleted#:#Bedingung erfolgreich gelöscht
+lso#:#cont_ed_insert_lsolearningmap#:#Learning Map einfügen
 lso#:#cont_ed_insert_lsostartbutton#:#„Start”-Button einfügen
 lso#:#curriculum#:#Inhalt
+lso#:#delete_condition#:#Bedingung entfernen
+lso#:#delete_condition_no_selection#:#Bitte wählen Sie Bedingungen, die gelöscht werden sollen.
+lso#:#delete_condition_verify#:#Möchten Sie diese Bedingungen wirklich löschen?
 lso#:#delete_confirmation#:#Möchten Sie folgende Objekte wirklich löschen?
 lso#:#entries_deleted#:#Einträge wurden erfolgreich gelöscht.
 lso#:#entries_updated#:#Einträge gespeichert
@@ -11190,16 +11203,110 @@ lso#:#extro_img#:#Bild für die Abschlussseite
 lso#:#failed#:#Durchgefallen
 lso#:#finished#:#Abgeschlossen
 lso#:#first_access#:#Erster Zugriff
+lso#:#input_condition#:#Eingangsbedingung
+lso#:#input_conditions#:#Eingangsbedingungen
 lso#:#last_visited_step#:#Zuletzt besuchter Schritt
 lso#:#learner_view#:#Übersicht
+lso#:#learning_map#:#Lernkarte
+lso#:#learning_progress_completed#:#Abgeschlossen
+lso#:#learning_progress_in_progress#:#In Bearbeitung
+lso#:#learning_progress_input#:#Lernfortschritt
+lso#:#learning_progress_not_attempted#:#Nicht begonnen
+lso#:#learning_progress_output#:#Lernfortschritt
+lso#:#logic_gate#:#Logik Gatter
+lso#:#logic_gate_and#:#UND
+lso#:#logic_gate_and_byline#:#Alle ausgewählten Objekte müssen absolviert werden.
+lso#:#logic_gate_not#:#NICHT
+lso#:#logic_gate_not_byline#:#Keines der ausgewählten Objekte darf absolviert sein.
+lso#:#logic_gate_or#:#ODER
+lso#:#logic_gate_or_byline#:#Mindestens eines der ausgewählten Objekte muss absolviert werden.
 lso#:#lp_not_relevant_post_cond#:#für Fortfahren aktuell nicht maßgeblich
 lso#:#lso_activation_online_info#:#Nur wenn die Lernsequenz online geschaltet ist, können Personen beitreten und Mitglieder auf die Lernsequenz zugreifen. Wenn nicht, ist die Lernsequenz nur für Administration und Rollen mit dem Recht „Einstellungen bearbeiten“ verfügbar.
+lso#:#lso_adaptive_dead_end#:#Sackgasse
+lso#:#lso_adaptive_dead_end_info#:#Dieses Objekt hat keinen Nachfolger und ist nicht das Endobjekt. Lernende können von hier aus nicht weitergehen.
+lso#:#lso_adaptive_end#:#Ende
+lso#:#lso_adaptive_end_info#:#Dies ist das Endobjekt der Lernsequenz. Hier schließen Lernende die Lernsequenz ab.
+lso#:#lso_adaptive_entry_point#:#Einstiegspunkt
+lso#:#lso_adaptive_entry_point_info#:#Dieses Objekt hat keinen Vorgänger und ist nicht das Startobjekt. Lernende können es über den Lernpfad nicht erreichen.
+lso#:#lso_adaptive_information#:#Informationen
+lso#:#lso_adaptive_misconfigured#:#Fehlkonfiguration
+lso#:#lso_adaptive_misconfigured_info#:#Die Eingangsbedingungen dieses Objekts widersprechen sich. Lernende können es unter Umständen nicht aufrufen.
+lso#:#lso_adaptive_missing_boundaries_online#:#Da kein Start- oder Endobjekt ausgewählt wurde, kann die Lernsequenz nicht online geschaltet werden.
+lso#:#lso_adaptive_missing_end_object#:#Um die Lernsequenz zu beenden, wird ein End Objekt benötigt.
+lso#:#lso_adaptive_missing_start_object#:#Um die Lernsequenz zu starten, wird ein Start Objekt benötigt.
+lso#:#lso_adaptive_next_object#:#Nächstes Objekt
+lso#:#lso_adaptive_offline#:#Offline
+lso#:#lso_adaptive_offline_due_to_missing_boundaries#:#Weil es kein Start-/Endobjekt mehr gibt, wurde die Lernsequenz offline geschaltet.
+lso#:#lso_adaptive_offline_info#:#Dieses Objekt ist offline und wird Lernenden nicht angezeigt.
+lso#:#lso_adaptive_online_info#:#Dieses Objekt ist online und für Lernende zugänglich.
+lso#:#lso_adaptive_previous_object#:#Vorheriges Objekt
+lso#:#lso_adaptive_start#:#Start
+lso#:#lso_adaptive_start_end_not_same#:#Ein Objekt kann nicht gleichzeitig Start- und Endobjekt sein.
+lso#:#lso_adaptive_start_info#:#Dies ist das Startobjekt der Lernsequenz. Hier beginnen Lernende.
 lso#:#lso_at_least_one_admin#:#Dieser Lernsequenz muss mindestens eine Person mit der Rolle „Lernsequenzadministration“ zugeordnet sein.
+lso#:#lso_choice_page_headline#:#Welches Objekt möchten Sie als Nächstes bearbeiten?
+lso#:#lso_choice_page_start_label#:#Objekt starten
+lso#:#lso_choice_page_subline#:#Wählen Sie eines der folgenden Objekte aus, um Ihren Weg fortzusetzen.
+lso#:#lso_condition_simple_choice_target#:#Einzelnes Objekt auswählen
+lso#:#lso_condition_simple_multi_target#:#Mehrere Objekte auswählen
 lso#:#lso_edit_permission#:#Rechteeinstellungen ändern
+lso#:#lso_exception_additional_form_no_override#:#%s definiert ein zusätzliches Konfigurationsformular, überschreibt aber applyAdditionalFormData() nicht.
+lso#:#lso_exception_at_least_one_object#:#Mindestens ein Objekt muss ausgewählt werden.
+lso#:#lso_exception_condition_ambiguous#:#Bedingungssuche ist mehrdeutig.
+lso#:#lso_exception_condition_not_exists#:#Bedingung existiert nicht.
+lso#:#lso_exception_logic_gate_condition_id_not_set#:#Logik-Gatter condition_id ist nicht gesetzt.
+lso#:#lso_exception_logic_gate_subtype_not_stored#:#Logik-Gatter-Subtyp ist nicht gespeichert.
+lso#:#lso_exception_lp_condition_ambiguous#:#Lernfortschritts-Bedingungssuche ist mehrdeutig.
+lso#:#lso_exception_lp_target_ref_id_not_set#:#Ziel-Ref-ID des Lernfortschritts ist nicht gesetzt.
+lso#:#lso_exception_lp_target_ref_id_not_stored#:#Ziel-Ref-ID des Lernfortschritts ist nicht gespeichert.
+lso#:#lso_exception_object_ids_invalid#:#Objekt-IDs sind ungültig.
+lso#:#lso_exception_object_ids_not_stored#:#Objekt-IDs sind nicht gespeichert.
+lso#:#lso_exception_points_invalid#:#Punkte sind ungültig.
+lso#:#lso_exception_points_negative#:#Punkte dürfen nicht negativ sein.
+lso#:#lso_exception_subset_exceeds_objects#:#Anzahl der Objekte darf die Anzahl der ausgewählten Objekte nicht überschreiten.
+lso#:#lso_exception_subset_invalid#:#Anzahl der Objekte ist ungültig.
+lso#:#lso_exception_subset_negative#:#Anzahl der Objekte darf nicht negativ sein.
 lso#:#lso_header_delete_members#:#Sie möchten folgende Mitglieder aus der Lernsequenz austragen?
 lso#:#lso_header_edit_members#:#Mitglieder bearbeiten
 lso#:#lso_intropages_deprecationhint#:#Sie können die Einleitungs- und Abschlussseite unter „Inhalt“ editieren.
+lso#:#lso_learning_map_blocked#:#Nicht verfügbar
+lso#:#lso_learning_map_current#:#Aktuelle Position
+lso#:#lso_learning_map_done#:#Erledigt
+lso#:#lso_learning_map_empty#:#Für diese Lernsequenz können noch keine Wege dargestellt werden. Es fehlen Objekte oder ein Start-Objekt.
+lso#:#lso_learning_map_fit#:#Ansicht einpassen
+lso#:#lso_learning_map_focus_current#:#Zu meiner Position springen
+lso#:#lso_learning_map_node_blocked#:#Objekt nicht verfügbar
+lso#:#lso_learning_map_node_open#:#Objekt verfügbar
+lso#:#lso_learning_map_open#:#Verfügbar
+lso#:#lso_learning_map_open_object#:#Öffnen
+lso#:#lso_learning_map_path#:#Bisheriger Pfad
+lso#:#lso_learning_map_reset_zoom#:#Originalgröße, 100 Prozent
+lso#:#lso_learning_map_reset_zoom_label#:#100 %
+lso#:#lso_learning_map_sr_at_current#:#Ansicht bei Ihrer aktuellen Position: %s.
+lso#:#lso_learning_map_sr_blocked_way#:#%s (dieser Weg ist zurzeit nicht verfügbar)
+lso#:#lso_learning_map_sr_current#:#Ihre aktuelle Position
+lso#:#lso_learning_map_sr_end#:#Ende der Lernsequenz
+lso#:#lso_learning_map_sr_fitted#:#Ansicht eingepasst.
+lso#:#lso_learning_map_sr_leads_to#:#Führt zu: %s.
+lso#:#lso_learning_map_sr_leads_to_none#:#Führt zu keinem weiteren Objekt.
+lso#:#lso_learning_map_sr_no_current#:#Es ist keine aktuelle Position bekannt.
+lso#:#lso_learning_map_sr_start#:#Beginn der Lernsequenz
+lso#:#lso_learning_map_sr_state_blocked#:#Status: nicht verfügbar
+lso#:#lso_learning_map_sr_state_done#:#Status: erledigt
+lso#:#lso_learning_map_sr_state_open#:#Status: verfügbar
+lso#:#lso_learning_map_sr_step#:#Objekt %1$s von %2$s
+lso#:#lso_learning_map_sr_summary#:#Lernkarte mit %s Objekten.
+lso#:#lso_learning_map_sr_summary_current#:#Ihre aktuelle Position: %s.
+lso#:#lso_learning_map_sr_summary_end#:#Ende: %s.
+lso#:#lso_learning_map_sr_summary_start#:#Beginn: %s.
+lso#:#lso_learning_map_sr_zoom#:#Zoom %s Prozent.
+lso#:#lso_learning_map_viewport#:#Lernkarte: Darstellung der Objekte und ihrer Reihenfolge
+lso#:#lso_learning_map_zoom_in#:#Vergrößern
+lso#:#lso_learning_map_zoom_in_symbol#:#+
+lso#:#lso_learning_map_zoom_out#:#Verkleinern
+lso#:#lso_learning_map_zoom_out_symbol#:#–
 lso#:#lso_legacy_info#:#Das Objekt öffnet sich in einem neuen Tab Ihres Browsers. Bitte kommen Sie nach Bearbeitung des Inhalts in diesen Tab zurück. Laden Sie die Seite neu, wenn sie den Inhalt bearbeitet haben, aber die „Weiter“-Schaltfläche weiterhin deaktiviert bleibt.
+lso#:#lso_logic_gate_input_not_start_reference#:#Ein NOT-Logikgatter darf das Startobjekt nicht referenzieren.
 lso#:#lso_mail_admission_new_bod#:#Sie sind in die Lernsequenz „%s“ als Mitglied aufgenommen worden.
 lso#:#lso_mail_admission_new_sub#:#Mitgliedschaft in der Lernsequenz „%s“
 lso#:#lso_mail_dismiss_bod#:#Ihre Mitgliedschaft in der Lernsequenz „%s“ wurde beendet.
@@ -11233,6 +11340,14 @@ lso#:#lso_members_deleted#:#Die ausgewählten Mitglieder sind aus der Lernsequen
 lso#:#lso_members_gallery#:#Galerie
 lso#:#lso_members_print_title#:#Lernsequenzmitglieder
 lso#:#lso_min_one_admin#:#Dieser Lernsequenz muss mindestens ein Konto mit der Rolle „Lernsequenzadministration“ zugeordnet sein.
+lso#:#lso_mode#:#Lernmodus
+lso#:#lso_mode_adaptive#:#Adaptiver Modus (Adaptive Mode)
+lso#:#lso_mode_adaptive_info#:#Der Lernpfad passt sich dynamisch an den Fortschritt oder das Vorwissen an.
+lso#:#lso_mode_byline#:#Bestimmt, ob die Inhalte starr nacheinander oder dynamisch basierend auf Nutzerinteraktionen (Adaptivität) angeboten werden.
+lso#:#lso_mode_info#:#Wählen Sie aus, wie die Lernsequenz gesteuert werden soll.
+lso#:#lso_mode_linear#:#Linearer Modus (Sequential Mode)
+lso#:#lso_mode_linear_info#:#Inhalte werden in einer festen, vorgegebenen Reihenfolge nacheinander bearbeitet.
+lso#:#lso_msg_choose_one_object#:#Bitte wählen Sie ein Objekt aus.
 lso#:#lso_msg_member_assigned#:#Benutzer wurde(n) in die Lernsequenz aufgenommen
 lso#:#lso_multidownload_not_available#:#Das Herunterladen verschiedener Objekte ist für Lernsequenz-Objekte derzeit nicht verfügbar.
 lso#:#lso_new_status#:#Ihr neuer Status:
@@ -11241,9 +11356,14 @@ lso#:#lso_notification_explanation_admin#:#Sie erhalten diese Mail, da für Sie 
 lso#:#lso_notify_off#:#Benachrichtigungen über Neuanmeldungen deaktiviert
 lso#:#lso_notify_on#:#Benachrichtigungen über Neuanmeldungen aktiviert
 lso#:#lso_player_abstract#:#Zur Einleitung
+lso#:#lso_player_dead_end_line_1#:#Hey, hier ist der Pfad zu Ende.
+lso#:#lso_player_dead_end_line_2#:#Schaue in die Map, um deinen
+lso#:#lso_player_dead_end_line_3#:#Weg fortzusetzen.
+lso#:#lso_player_dead_end_title#:#Pfad zu Ende
 lso#:#lso_player_extro#:#Zur Abschlussseite
 lso#:#lso_player_finish#:#Beenden
 lso#:#lso_player_next#:#Weiter
+lso#:#lso_player_next_object_blocked#:#Um das nächste Objekt zu beginnen, muss eine Bedingung erfüllt sein.
 lso#:#lso_player_noitems#:#Keine verfügbaren Inhalte in der Lernsequenz
 lso#:#lso_player_previous#:#Zurück
 lso#:#lso_player_resume#:#Lernsequenz wieder aufnehmen
@@ -11251,6 +11371,11 @@ lso#:#lso_player_review#:#Lernsequenz überarbeiten
 lso#:#lso_player_start#:#Lernsequenz starten
 lso#:#lso_player_suspend#:#Unterbrechen
 lso#:#lso_player_viewmodelabel#:#Bearbeitung der Lernsequenz
+lso#:#lso_points_input_missing_output_on_object#:#Dieses Objekt wird von einer Punkte-Input-Condition referenziert, hat aber keine Punkte-Output-Condition.
+lso#:#lso_points_input_points_must_be_greater_zero#:#Die Punkte müssen größer 0 sein.
+lso#:#lso_points_input_source_without_points_output#:#Für folgende referenzierte Objekte ist keine Punktevergabe gesetzt: %s. In dieser Punkte-Bedingung werden sie mit 0 Punkten berücksichtigt.
+lso#:#lso_points_input_source_without_points_output_table#:#Folgende Objekte werden in Punkte-Input-Conditions referenziert, haben aber keine Punktevergabe gesetzt: %s. In diesen Punkte-Bedingungen werden sie mit 0 Punkten berücksichtigt.
+lso#:#lso_points_input_unreachable_threshold#:#Die erforderliche Punktzahl kann mit den derzeit konfigurierten Punktevergaben nicht erreicht werden.
 lso#:#lso_print_list#:#Liste erstellen
 lso#:#lso_read#:#Lesezugriff auf Learning Sequence
 lso#:#lso_search_users#:#Benutzer suchen
@@ -11261,17 +11386,36 @@ lso#:#lso_settings_old_extro#:#Alte Abschlussseite ansehen
 lso#:#lso_settings_old_intro#:#Alte Einleitungsseite ansehen
 lso#:#lso_show_members_info#:#Galerie für Benutzer sichtbar
 lso#:#lso_start_item#:#%s öffnen
+lso#:#lso_static_input_configuration_conflict_detail#:#Dieses Objekt hat eine statische Fehlkonfiguration in seinen Input-Conditions.
+lso#:#lso_static_input_configuration_contradictory_constraints#:#Die Input-Conditions auf diesem Objekt widersprechen sich.
+lso#:#lso_static_input_configuration_missing_references#:#Diese Input-Condition referenziert Objekte, die nicht Teil dieser Lernsequenz sind.
+lso#:#lso_static_input_configuration_referenced_by_objects#:#Referenziert von Objekten
+lso#:#lso_static_input_configuration_referenced_objects#:#Referenzierte Objekte
+lso#:#lso_subset_msg_choose_at_least_one#:#Bitte wählen Sie mindestens ein Objekt aus.
 lso#:#lso_toast_completed_desc#:#Sie haben diese Lernsequenz abgeschlossen. Natürlich können Sie den Inhalt noch weiter durchsehen.
 lso#:#lso_toast_completed_title#:#Herzlichen Glückwunsch
 lso#:#lso_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieser Lernsequenz
 lso#:#mail_lso_roles#:#alle Personen mit folgenden lokalen Rollen. Label is now generalised for all components that support ‘mail to members‘
 lso#:#manage#:#Verwalten
+lso#:#manage_conditions#:#Bedingungen für %s bearbeiten
 lso#:#manage_content_maintab#:#Inhalt
 lso#:#members_gallery#:#Galerie
+lso#:#no_conditions#:#(keine)
 lso#:#no_entries_selected_for_delete#:#Es muss mindestens ein Listeneintrag ausgewählt werden.
 lso#:#not_finished#:#Nicht Abgeschlossen
 lso#:#notification_lso_completed_title#:#Sie haben die Lernsequenz %s abgeschlossen.
+lso#:#output_condition#:#Ausgangsbedingung
+lso#:#output_conditions#:#Ausgangsbedingungen
+lso#:#points_input#:#Erforderliche Punkte
+lso#:#points_input_byline#:#Mindestanzahl an Punkten, die der Nutzer besitzen muss, um dieses Objekt starten zu können.
+lso#:#points_output#:#Erzielte Punkte
+lso#:#points_output_byline#:#Anzahl der Punkte, die dem Nutzer nach erfolgreichem Absolvieren dieses Objekts gutgeschrieben werden.
+lso#:#set_end_object#:#Als Zielpunkt festlegen
+lso#:#set_start_object#:#Als Startpunkt festlegen
 lso#:#show_summary#:#Info
+lso#:#subset#:#Teilmenge
+lso#:#subset_amount#:#Zu erfüllende Mindestanzahl
+lso#:#subset_amount_byline#:#Anzahl der Objekte, die erfolgreich absolviert werden müssen, um dieses Objekt zu starten.
 lso#:#table_actions#:#Aktionen
 lso#:#table_lp_settings#:#Lernfortschrittseinstellungen
 lso#:#table_may_proceed#:#Benutzer darf fortfahren
@@ -11280,6 +11424,8 @@ lso#:#table_position#:#Position
 lso#:#table_sequence_content#:#Inhaltsverwaltung
 lso#:#table_title#:#Titel
 lso#:#unparticipate#:#Mitgliedschaft in der Lernsequenz beenden
+lso#:#unset_end_object#:#Als Zielpunkt entfernen
+lso#:#unset_start_object#:#Als Startpunkt entfernen
 lti#:#act_lti_for_obj_type#:#LTI für diese Objekttypen aktivieren
 lti#:#activity_id#:#Activity-ID
 lti#:#activity_id_info#:#Diese Activity-ID wird vom LTI-Provider verwendet, um Statements zu identifizieren.

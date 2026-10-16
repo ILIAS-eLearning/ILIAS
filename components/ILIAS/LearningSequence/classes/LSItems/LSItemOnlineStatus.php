@@ -51,15 +51,15 @@ class LSItemOnlineStatus
     public function hasChangeableOnlineStatus(int $ref_id): bool
     {
         $obj_type = $this->getObjectTypeFor($ref_id);
-        if(! in_array($obj_type, self::$objs_with_check_for_online_status)) {
+        if (! in_array($obj_type, self::$objs_with_check_for_online_status)) {
             return true;
         }
 
         $obj = $this->getObject($ref_id);
-        if($obj_type === self::S_SURVEY) {
+        if ($obj_type === self::S_SURVEY) {
             return $obj->hasQuestions();
         }
-        if($obj_type === self::S_TEST) {
+        if ($obj_type === self::S_TEST) {
             return count($obj->getQuestions()) > 0;
         }
         return false;

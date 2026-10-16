@@ -55,7 +55,8 @@ class ilLearningSequenceSettingsDB
             "extro" => ["text", $settings->getExtro()],
             "abstract_image" => ["text", $settings->getAbstractImage()],
             "extro_image" => ["text", $settings->getExtroImage()],
-            "gallery" => ["integer", $settings->getMembersGallery()]
+            "gallery" => ["integer", $settings->getMembersGallery()],
+            "lso_mod" => ["integer", $settings->getLSOMod()]
         ];
 
         $this->database->update(static::TABLE_NAME, $values, $where);
@@ -91,7 +92,8 @@ class ilLearningSequenceSettingsDB
                 $data['extro'],
                 $data['abstract_image'],
                 $data['extro_image'],
-                (bool) $data['gallery']
+                (bool) $data['gallery'],
+                (int) ($data['lso_mod'] ?? ilLearningSequenceSettings::MODE_LINEAR)
             );
         }
 
@@ -105,7 +107,7 @@ class ilLearningSequenceSettingsDB
     {
         $ret = [];
         $query =
-              "SELECT abstract, extro, abstract_image, extro_image, gallery" . PHP_EOL
+              "SELECT abstract, extro, abstract_image, extro_image, gallery, lso_mod" . PHP_EOL
             . "FROM " . static::TABLE_NAME . PHP_EOL
             . "WHERE obj_id = " . $this->database->quote($obj_id, "integer") . PHP_EOL
         ;
@@ -126,7 +128,8 @@ class ilLearningSequenceSettingsDB
         string $extro = '',
         ?string $abstract_image = null,
         ?string $extro_image = null,
-        bool $gallery = false
+        bool $gallery = false,
+        int $lso_mod = ilLearningSequenceSettings::MODE_LINEAR
     ): ilLearningSequenceSettings {
         return new ilLearningSequenceSettings(
             $obj_id,
@@ -134,7 +137,8 @@ class ilLearningSequenceSettingsDB
             $extro,
             $abstract_image,
             $extro_image,
-            $gallery
+            $gallery,
+            $lso_mod
         );
     }
 
@@ -144,7 +148,8 @@ class ilLearningSequenceSettingsDB
             "obj_id" => ["integer", $settings->getObjId()],
             "abstract" => ["text", $settings->getAbstract()],
             "extro" => ["text", $settings->getExtro()],
-            "gallery" => ["integer", $settings->getMembersGallery()]
+            "gallery" => ["integer", $settings->getMembersGallery()],
+            "lso_mod" => ["integer", $settings->getLSOMod()]
         ];
         $this->database->insert(static::TABLE_NAME, $values);
     }

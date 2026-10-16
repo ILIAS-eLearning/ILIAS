@@ -30,8 +30,8 @@ class LSSettingsTest extends TestCase
     public const TO_EXTRO = "extro";
     public const TO_ABSTRACT_IMAGE = "abstract/image/path";
     public const TO_EXTRO_IMAGE = "extro/image/path";
-    public const TO_ONLINE = true;
     public const TO_MEMBERS_GALLERY = true;
+    public const TO_MODE = ilLearningSequenceSettings::MODE_ADAPTIVE;
 
     public function testCreate()
     {
@@ -41,8 +41,8 @@ class LSSettingsTest extends TestCase
             self::TO_EXTRO,
             self::TO_ABSTRACT_IMAGE,
             self::TO_EXTRO_IMAGE,
-            self::TO_ONLINE,
-            self::TO_MEMBERS_GALLERY
+            self::TO_MEMBERS_GALLERY,
+            self::TO_MODE
         );
 
         $this->assertEquals($object->getObjId(), self::TO_OBJ_ID);
@@ -51,6 +51,7 @@ class LSSettingsTest extends TestCase
         $this->assertEquals($object->getAbstractImage(), self::TO_ABSTRACT_IMAGE);
         $this->assertEquals($object->getExtroImage(), self::TO_EXTRO_IMAGE);
         $this->assertEquals($object->getMembersGallery(), self::TO_MEMBERS_GALLERY);
+        $this->assertEquals($object->getMode(), self::TO_MODE);
 
         return $object;
     }
@@ -153,5 +154,14 @@ class LSSettingsTest extends TestCase
         $this->assertEquals($new_object->getAbstractImage(), self::TO_ABSTRACT_IMAGE);
         $this->assertEquals($new_object->getExtroImage(), self::TO_EXTRO_IMAGE);
         $this->assertEquals($new_object->getMembersGallery(), false);
+    }
+
+    #[\PHPUnit\Framework\Attributes\Depends('testCreate')]
+    public function testWithMode(ilLearningSequenceSettings $object): void
+    {
+        $new_object = $object->withMode(ilLearningSequenceSettings::MODE_LINEAR);
+
+        $this->assertEquals($object->getMode(), self::TO_MODE);
+        $this->assertEquals($new_object->getMode(), ilLearningSequenceSettings::MODE_LINEAR);
     }
 }

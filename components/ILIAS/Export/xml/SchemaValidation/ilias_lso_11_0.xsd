@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        elementFormDefault="qualified">
+
+    <xs:element name="LearningSequence">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element type="xs:string" name="title" minOccurs="1" maxOccurs="1"/>
+                <xs:element type="xs:string" name="description" minOccurs="0" maxOccurs="1"/>
+                <xs:element type="LPSetting" name="LPSetting" minOccurs="1" maxOccurs="1"/>
+                <xs:element type="ContainerSettings" name="ContainerSettings" minOccurs="1" maxOccurs="1"/>
+                <xs:element type="LSItems" name="LSItems" minOccurs="1" maxOccurs="1"/>
+            </xs:sequence>
+            <xs:attribute name="ref_id" type="xs:string" use="required"/>
+            <xs:attribute name="members_gallery" type="xs:boolean" use="required"/>
+            <xs:attribute name="mode" type="xs:integer" default="0"/>
+            <xs:attribute name="start_ref_id" type="xs:integer" default="0"/>
+            <xs:attribute name="end_ref_id" type="xs:integer" default="0"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="LPSetting">
+        <xs:sequence>
+            <xs:element type="xs:string" name="LPRefId" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string" use="required"/>
+        <xs:attribute name="mode" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="ContainerSettings">
+        <xs:sequence>
+            <xs:element type="ContainerSetting" name="ContainerSetting" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ContainerSetting">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="id" type="xs:string" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="LSItems">
+        <xs:sequence>
+            <xs:element type="LSItem" name="LSItem" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="LSItem">
+        <xs:sequence>
+            <xs:element type="Condition" name="Condition" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="ItemConditions" name="ItemConditions" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+        <xs:attribute name="obj_id" type="xs:string" use="required"/>
+        <xs:attribute name="ref_id" type="xs:string" use="required"/>
+        <xs:attribute name="position" type="xs:string" use="optional"/>
+    </xs:complexType>
+
+    <xs:complexType name="Condition">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="type" type="xs:string" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="ItemConditions">
+        <xs:sequence>
+            <xs:element type="ItemCondition" name="ItemCondition" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ItemCondition">
+        <xs:sequence>
+            <xs:element type="Data" name="Data" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string" use="optional"/>
+        <xs:attribute name="subtype" type="xs:string" use="optional"/>
+    </xs:complexType>
+
+    <xs:complexType name="Data">
+        <xs:sequence>
+            <xs:element type="Table" name="Table" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Table">
+        <xs:sequence>
+            <xs:element type="Fields" name="Fields" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="Rows" name="Rows" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="Fields">
+        <xs:sequence>
+            <xs:element type="Field" name="Field" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Field">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="name" type="xs:string" use="required"/>
+                <xs:attribute name="type" type="xs:string" use="optional"/>
+                <xs:attribute name="length" type="xs:string" use="optional"/>
+                <xs:attribute name="notnull" type="xs:string" use="optional"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="Rows">
+        <xs:sequence>
+            <xs:element type="Row" name="Row" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Row">
+        <xs:sequence>
+            <xs:element type="Col" name="Col" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Col">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="name" type="xs:string" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+</xs:schema>
