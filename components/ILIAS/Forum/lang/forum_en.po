@@ -1,0 +1,714 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: forum\n"
+
+msgid "activate_new_posts"
+msgstr "Approve Posts"
+
+msgid "activate_only_current"
+msgstr "Approve Post"
+
+msgid "activate_post"
+msgstr "Approve"
+
+msgid "activate_post_txt"
+msgstr "Would you really like to approve the current post?"
+
+msgid "add_new_answer"
+msgstr "Add Post"
+
+msgid "add_re_to_subject"
+msgstr "Add ‘Re: ’ to subject on reply"
+
+msgid "adm_autosave_drafts"
+msgstr "Automatically save drafts"
+
+msgid "adm_autosave_drafts_desc"
+msgstr "If activated, drafts are saved automatically during editing."
+
+msgid "adm_autosave_ival"
+msgstr "Interval"
+
+msgid "adm_save_drafts"
+msgstr "Enable Drafts"
+
+msgid "adm_save_drafts_desc"
+msgstr "If enabled, registered users are able to save forum posts as draft."
+
+msgid "allow_file_upload_desc"
+msgstr "If enabled, users are able to attach files to their posts."
+
+msgid "ascending_order"
+msgstr "Latest posts at the bottom"
+
+msgid "autosave_draft_info"
+msgstr "<span class=\"asterisk\">This draft will be saved automatically every %s seconds.</span>"
+
+msgid "autosave_post_draft_info"
+msgstr "<span class=\"asterisk\">This post will be saved automatically as draft every %s seconds.</span>"
+
+msgid "close_topics"
+msgstr "Close"
+
+msgid "content_censored_post"
+msgstr "Content of the censored post:"
+
+msgid "content_deleted_post"
+msgstr "Content of the deleted post:"
+
+msgid "content_deleted_thread"
+msgstr "Content of the deleted thread:"
+
+msgid "content_post_updated"
+msgstr "Content of the edited post:"
+
+msgid "deletePosting"
+msgstr "Delete Post"
+
+msgid "deletePostingDraft"
+msgstr "Delete Draft"
+
+msgid "delete_draft_successfully"
+msgstr "The draft was deleted successfully."
+
+msgid "delete_drafts_successfully"
+msgstr "The drafts were deleted successfully."
+
+msgid "delete_thread"
+msgstr "Delete Thread"
+
+msgid "descending_order"
+msgstr "Latest posts at the top"
+
+msgid "edit_thread_draft"
+msgstr "Edit thread draft posts created in forums."
+
+msgid "empty_subject"
+msgstr "On reply the user has to enter a new title."
+
+msgid "empty_thread"
+msgstr "Empty Thread"
+
+msgid "enable_send_attachments"
+msgstr "Send attachments with forum notifications"
+
+msgid "enable_send_attachments_desc"
+msgstr "Please note that file attachments must be stored separately for each notified user. This can cause a high usage of server disk space."
+
+msgid "enable_thread_ratings"
+msgstr "Thread Rating"
+
+msgid "enable_thread_ratings_info"
+msgstr "If activated users are allowed to rate threads."
+
+msgid "enter_new_subject"
+msgstr "Please enter a new subject"
+
+msgid "error_no_target_selected"
+msgstr "Please select a forum."
+
+msgid "error_reading_file"
+msgstr "There was an error reading the file"
+
+msgid "error_same_thread_ids"
+msgstr "Source and target thread have to be different."
+
+msgid "file_upload_allowed"
+msgstr "Allow Attachments"
+
+msgid "file_upload_allowed_fora"
+msgstr "Attachments"
+
+msgid "file_upload_allowed_fora_desc"
+msgstr "The attachment of files must be enabled in every forum. In new forums the upload of attachments will be disabled by default."
+
+msgid "file_upload_option_allow"
+msgstr "Allow Attachments in All Forums"
+
+msgid "file_upload_option_allow_info"
+msgstr "Files can be attached to posts in all forums."
+
+msgid "file_upload_option_disallow"
+msgstr "Allow Attachments in Selected Forums"
+
+msgid "fmr_copy_threads_info"
+msgstr "You have the possibility to copy single threads. Only the beginning of the chosen threads will be duplicated."
+
+msgid "forum_add_quote"
+msgstr "Add Quotation"
+
+msgid "forums_all_threads_marked_read"
+msgstr "All threads have been marked as read"
+
+msgid "forums_attachments"
+msgstr "Attachments"
+
+msgid "forums_attachments_add"
+msgstr "Add attachment"
+
+msgid "forums_censor_comment"
+msgstr "Comment of Censor"
+
+msgid "forums_count_art"
+msgstr "Number of Posts"
+
+msgid "forums_created_by"
+msgstr "Created by"
+
+msgid "forums_delete_file"
+msgstr "Delete attachment"
+
+msgid "forums_disable_notification"
+msgstr "Disable Notification for this Thread"
+
+msgid "forums_download_attachment"
+msgstr "Download file"
+
+msgid "forums_edit_draft"
+msgstr "Edit Draft"
+
+msgid "forums_edit_post"
+msgstr "Edit Post"
+
+msgid "forums_enable_notification"
+msgstr "Enable Notification for this Thread"
+
+msgid "forums_forum_notification"
+msgstr "Send Forum Notifications"
+
+msgid "forums_forum_notification_desc"
+msgstr "If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail."
+
+msgid "forums_forum_notification_disabled"
+msgstr "You will no longer be notified about new posts in this forum."
+
+msgid "forums_info_censor2_post"
+msgstr "Revoke Censorship?"
+
+msgid "forums_info_censor_post"
+msgstr "Please provide a reason for hiding this post."
+
+msgid "forums_info_delete_draft"
+msgstr "Are you sure, you want to delete this draft?"
+
+msgid "forums_info_delete_post"
+msgstr "Are you sure you want to delete this post including any responses?"
+
+msgid "forums_mark_read"
+msgstr "Mark All as Read"
+
+msgid "forums_new_thread"
+msgstr "New Thread"
+
+msgid "forums_no_posts_available"
+msgstr "This thread has no posts."
+
+msgid "forums_notification_disabled"
+msgstr "Notification disabled"
+
+msgid "forums_notification_enabled"
+msgstr "Notification enabled"
+
+msgid "forums_notification_intro"
+msgstr "This mail was automatically sent to you by the ILIAS installation %s, %s"
+
+msgid "forums_notification_show_frm"
+msgstr "Show forum: %s"
+
+msgid "forums_notification_show_post"
+msgstr "Show post: %s"
+
+msgid "forums_post_activation_mail"
+msgstr "Unless the following post is not activated, it is not visible for other forum users. You receive this e-mail because you are assigned as moderator and have the permission to activate this post."
+
+msgid "forums_post_deleted"
+msgstr "Post has been deleted"
+
+msgid "forums_post_modified"
+msgstr "Post has been modified"
+
+msgid "forums_post_needs_to_be_activated"
+msgstr "A new post has been created, but it needs to be activated by a moderator."
+
+msgid "forums_post_new_entry"
+msgstr "A new post has been created."
+
+msgid "forums_post_was_activated"
+msgstr "The post was activated."
+
+msgid "forums_posts"
+msgstr "All posts"
+
+msgid "forums_posts_not_available"
+msgstr "Posts Not Available"
+
+msgid "forums_print_thread"
+msgstr "Print Thread"
+
+msgid "forums_subject"
+msgstr "Subject"
+
+msgid "forums_the_post"
+msgstr "Post"
+
+msgid "forums_thread"
+msgstr "Thread"
+
+msgid "forums_thread_create_from"
+msgstr "Created from"
+
+msgid "forums_thread_deleted"
+msgstr "The selected thread including all posts have been deleted."
+
+msgid "forums_thread_drafts_deleted"
+msgstr "The selected thread including all posts and drafts have been deleted."
+
+msgid "forums_thread_marked"
+msgstr "The thread has been marked as read."
+
+msgid "forums_thread_new_entry"
+msgstr "New topic has been created"
+
+msgid "forums_threads_deleted"
+msgstr "The selected threads including all posts have been deleted."
+
+msgid "forums_threads_drafts_deleted"
+msgstr "The selected threads including all posts and drafts have been deleted."
+
+msgid "forums_your_reply"
+msgstr "Your Reply"
+
+msgid "frm_action_not_possible_parent_deleted"
+msgstr "Action not possible, the parent post has been deleted."
+
+msgid "frm_action_not_possible_thr_closed"
+msgstr "Action not possible, the thread has been closed."
+
+msgid "frm_action_not_possible_thr_deleted"
+msgstr "Action not possible, the thread has been deleted."
+
+msgid "frm_activation_online_info"
+msgstr "Set the forum online to make it visible and available to other users. If not, only administrators will have access to it."
+
+msgid "frm_adm_sec_default_settings"
+msgstr "Default Object Settings"
+
+msgid "frm_adm_sec_drafts"
+msgstr "Drafts"
+
+msgid "frm_adm_sec_features"
+msgstr "Forum Features"
+
+msgid "frm_adm_sec_notifications"
+msgstr "Notifications"
+
+msgid "frm_all_threads"
+msgstr "All Threads"
+
+msgid "frm_anonymous_posting"
+msgstr "Post with pseudonym"
+
+msgid "frm_anonymous_posting_desc"
+msgstr "If enabled, registered users can post to this forum only by using a pseudonym or without name. If the option \"Mark moderators posts\" is also enabled, moderators can not use a pseudonym."
+
+msgid "frm_at_least_one_moderator"
+msgstr "There has to be at least one moderator."
+
+msgid "frm_censorship"
+msgstr "Censor"
+
+msgid "frm_censorship_applied"
+msgstr "The censorship has been successfully applied."
+
+msgid "frm_censorship_revoked"
+msgstr "The censorship has been successfully revoked."
+
+msgid "frm_copy"
+msgstr "Copy Forum"
+
+msgid "frm_default_view"
+msgstr "Default View"
+
+msgid "frm_edit_title"
+msgstr "Edit Title"
+
+msgid "frm_enable_print_option"
+msgstr "Enable print option"
+
+msgid "frm_enable_print_option_desc"
+msgstr "If disabled, nobody is able to select the print option in Forum."
+
+msgid "frm_forum_push_notification_info"
+msgstr "Forum notifications are sent as push notifications instead of e-mail. If the push notification cannot be delivered, an e-mail will be sent instead."
+
+msgid "frm_mark_as_read"
+msgstr "Mark as read"
+
+msgid "frm_mark_as_unread"
+msgstr "Mark as unread"
+
+msgid "frm_max_notification_age"
+msgstr "Max. Notification Age"
+
+msgid "frm_max_notification_age_info"
+msgstr "Please define the maximum age of posts to send notifications for. It is recommended to choose a higher value than the scheduled interval."
+
+msgid "frm_max_notification_age_unit"
+msgstr "Day(s)"
+
+msgid "frm_merge_src"
+msgstr "Selected Thread: %s"
+
+msgid "frm_merge_target"
+msgstr "Target: %s"
+
+msgid "frm_moderator_f"
+msgstr "Moderator"
+
+msgid "frm_moderator_m"
+msgstr "Moderator"
+
+msgid "frm_moderator_n"
+msgstr "Moderation"
+
+msgid "frm_moderator_role_added_successfully"
+msgstr "The user was added as moderator successfully."
+
+msgid "frm_moderators"
+msgstr "Moderators"
+
+msgid "frm_moderators_detached_role_successfully"
+msgstr "The moderator role was detached for all selected users successfully."
+
+msgid "frm_moderators_not_exist_yet"
+msgstr "Please choose a moderator."
+
+msgid "frm_moderators_select_at_least_one"
+msgstr "Please choose at least one moderator."
+
+msgid "frm_moderators_select_one"
+msgstr "Please choose one user."
+
+msgid "frm_move_invalid_file_type"
+msgstr "The thread \"%s\" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist."
+
+msgid "frm_noti_message"
+msgstr "Message:"
+
+msgid "frm_noti_new_post"
+msgstr "There is a new post in the forum \"%1$s\"."
+
+msgid "frm_noti_obj_crs"
+msgstr "Course"
+
+msgid "frm_noti_obj_grp"
+msgstr "Group"
+
+msgid "frm_noti_subject_act_post"
+msgstr "Activate post in forum \"%1$s\"%2$s, thread \"%3$s\""
+
+msgid "frm_noti_subject_answ_post"
+msgstr "Post answered in forum \"%1$s\"%2$s, thread \"%3$s\""
+
+msgid "frm_noti_subject_cens_post"
+msgstr "Post censored in forum \"%1$s\"%2$s, thread \"%3$s\""
+
+msgid "frm_noti_subject_del_post"
+msgstr "Post deleted in forum \"%1$s\"%2$s, thread \"%3$s\""
+
+msgid "frm_noti_subject_del_thread"
+msgstr "Thread \"%3$s\" deleted in forum \"%1$s\"%2$s"
+
+msgid "frm_noti_subject_new_post"
+msgstr "New post in forum \"%1$s\"%2$s, thread \"%3$s\""
+
+msgid "frm_noti_subject_uncens_post"
+msgstr "Post uncensored in forum \"%1$s\"%2$s, thread \"%3$s\""
+
+msgid "frm_noti_subject_upt_post"
+msgstr "Post modified in forum \"%1$s\"%2$s, thread \"%3$s\""
+
+msgid "frm_notification_activated"
+msgstr "Notification Activated"
+
+msgid "frm_notification_bg_task_title"
+msgstr "Forum notification delivery"
+
+msgid "frm_notification_deactivated"
+msgstr "Notification Deactivated"
+
+msgid "frm_post_not_activated_yet"
+msgstr "Not activated yet."
+
+msgid "frm_posts"
+msgstr "Forum Posts"
+
+msgid "frm_pseudonym"
+msgstr "Pseudonym"
+
+msgid "frm_purifier_not_implemented_for_type_x"
+msgstr "Purifier for type %s not implemented yet."
+
+msgid "frm_rating"
+msgstr "Rating"
+
+msgid "frm_revoke_censorship"
+msgstr "Revoke Censorship"
+
+msgid "frm_search"
+msgstr "Search"
+
+msgid "frm_selected_merge_src"
+msgstr "Selected Thread to Merge: %s"
+
+msgid "frm_settings_form_header"
+msgstr "Forum Settings"
+
+msgid "frm_settings_mod_functions_header"
+msgstr "Moderator Functions"
+
+msgid "frm_settings_privacy_header"
+msgstr "Privacy"
+
+msgid "frm_settings_user_functions_header"
+msgstr "User Functions"
+
+msgid "frm_statistics"
+msgstr "Statistics"
+
+msgid "frm_statistics_disabled_for_participants"
+msgstr "Statistics are disabled for forum members."
+
+msgid "frm_statistics_enabled"
+msgstr "Enable Statistics"
+
+msgid "frm_statistics_enabled_desc"
+msgstr "Enable post statistics for all participants"
+
+msgid "frm_statistics_ranking"
+msgstr "Number of Posts"
+
+msgid "frm_subject_setting"
+msgstr "Subject setting"
+
+msgid "frm_sure_delete_threads"
+msgstr "Are you sure you want to delete the following thread?"
+
+msgid "frm_sure_merge_threads"
+msgstr "Are you sure you want to merge these threads? Warning: This action can not be undone."
+
+msgid "frm_task_publishing_draft_title"
+msgstr "Publishing of Draft \"%s\""
+
+msgid "frm_wizard_page"
+msgstr "Copy Forum (Step 2/2)"
+
+msgid "is_read"
+msgstr "Mark as Read"
+
+msgid "make_topics_non_sticky"
+msgstr "Make Threads Non-Sticky"
+
+msgid "make_topics_sticky"
+msgstr "Make Threads Sticky"
+
+msgid "mark_moderator_posts"
+msgstr "Mark moderator posts"
+
+msgid "mark_moderator_posts_desc"
+msgstr "If activated moderator posts will be highlighted"
+
+msgid "merge"
+msgstr "Merge"
+
+msgid "merge_posts_into_thread"
+msgstr "Merge Posts into other Thread"
+
+msgid "merged_threads_successfully"
+msgstr "The selected threads were merged successfully"
+
+msgid "move_chosen_topics"
+msgstr "Please choose the target forum for thread \"%s\""
+
+msgid "move_thread_to_forum"
+msgstr "Move Thread to other Forum"
+
+msgid "new_post"
+msgstr "New Post"
+
+msgid "new_thread_with_post"
+msgstr "New Thread with Post"
+
+msgid "no_forum_selected"
+msgstr "No forum selected for moving the chosen threads"
+
+msgid "not_allowed_to_merge_into_another_forum"
+msgstr "It is not possible to merge threads of different forums."
+
+msgid "notification_settings"
+msgstr "Notification Settings"
+
+msgid "notify_censored"
+msgstr "Censored Posts"
+
+msgid "notify_modified"
+msgstr "Modified Posts"
+
+msgid "notify_post_deleted"
+msgstr "Deleted Posts"
+
+msgid "notify_thread_deleted"
+msgstr "Deleted Threads"
+
+msgid "notify_uncensored"
+msgstr "Uncensored Posts"
+
+msgid "number_of_threads"
+msgstr "Displayed Number of Threads per Page"
+
+msgid "please_choose_target"
+msgstr "Please choose a thread as merge target."
+
+msgid "post_activation_desc"
+msgstr "Before being published all posts need to be approved by a moderator."
+
+msgid "post_censored_by"
+msgstr "censored post in forum \"%2$s\" by \"%1$s\":"
+
+msgid "post_censored_comment_by_moderator"
+msgstr "Post Censored, Comment by Moderator"
+
+msgid "post_deleted_by"
+msgstr "following post in forum \"%2$s\" was deleted by \"%1$s\":"
+
+msgid "post_draft_info"
+msgstr "This post draft is only visible for you."
+
+msgid "post_reply"
+msgstr "Re:"
+
+msgid "post_reply_count"
+msgstr "Re(%s):"
+
+msgid "post_uncensored_by"
+msgstr "a post was uncensored by \"%1$s\""
+
+msgid "post_updated_by"
+msgstr "subsequently edited post in forum by \"%1$s\": \"%2$s\""
+
+msgid "preset_subject"
+msgstr "Preset subject on reply"
+
+msgid "publish"
+msgstr "Publish"
+
+msgid "relevance"
+msgstr "Relevance"
+
+msgid "reopen_topics"
+msgstr "Reopen"
+
+msgid "reply_to_postings"
+msgstr "Reply"
+
+msgid "reset_limited_view"
+msgstr "Limited view on this post an all posts below it."
+
+msgid "reset_limited_view_button"
+msgstr "Show entire thread"
+
+msgid "reset_limited_view_info"
+msgstr "Limited view on this post and all posts below it."
+
+msgid "restore"
+msgstr "Restore"
+
+msgid "restore_draft_from_autosave"
+msgstr "Restore Draft"
+
+msgid "save_draft_successfully"
+msgstr "The draft was saved successfully."
+
+msgid "sel_threads_already_sticky"
+msgstr "At least one of the selected threads is already sticky."
+
+msgid "sel_threads_already_unsticky"
+msgstr "At least one of the selected threads is not marked as sticky."
+
+msgid "sel_threads_make_sticky"
+msgstr "The selected threads have been marked as sticky."
+
+msgid "sel_threads_make_unsticky"
+msgstr "The selected threads are not marked as sticky anymore."
+
+msgid "select_at_least_one_thread"
+msgstr "Please select at least one thread."
+
+msgid "select_max_one_thread"
+msgstr "Please select one thread only!"
+
+msgid "selected_threads_closed"
+msgstr "The selected threads have been closed."
+
+msgid "selected_threads_reopened"
+msgstr "The selected threads have been reopened."
+
+msgid "sort_by_date"
+msgstr "By Date"
+
+msgid "sort_by_date_desc"
+msgstr "The thread is presented in a flat view. The posts are shown in chronological order of creation."
+
+msgid "sort_by_posts"
+msgstr "By Reply"
+
+msgid "sort_by_posts_desc"
+msgstr "The thread is presented in a tree view. Replies to posts are shown in the order in which they relate to each other."
+
+msgid "sorting"
+msgstr "Sorting"
+
+msgid "sticky"
+msgstr "Sticky"
+
+msgid "sure_delete_drafts"
+msgstr "Are you sure, you want to delete the selected drafts?"
+
+msgid "switch_threads_for_merge"
+msgstr "The selected thread is older than the target thread. To ensure a successful merge, the source and target thread will be switched."
+
+msgid "target_select"
+msgstr "Select post for limited view"
+
+msgid "thema"
+msgstr "Threads"
+
+msgid "thread"
+msgstr "Thread"
+
+msgid "thread_deleted_by"
+msgstr "following thread in forum \"%2$s\"was deleted by \"%1$s\":"
+
+msgid "thread_overview"
+msgstr "Thread-Overview"
+
+msgid "threads_moved_successfully"
+msgstr "The chosen thread was moved to another forum successfully."
+
+msgid "top_thema"
+msgstr "Top-Threads"
+
+msgid "topic_close"
+msgstr "Closed"
+
+msgid "topics_please_select_one_action"
+msgstr "Please select an action."
+
+msgid "user_decides_notification"
+msgstr "Members have to manually activate notifications"

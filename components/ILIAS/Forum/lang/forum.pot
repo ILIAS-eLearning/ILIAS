@@ -1,0 +1,711 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: forum\n"
+
+msgid "activate_new_posts"
+msgstr ""
+
+msgid "activate_only_current"
+msgstr ""
+
+msgid "activate_post"
+msgstr ""
+
+msgid "activate_post_txt"
+msgstr ""
+
+msgid "add_new_answer"
+msgstr ""
+
+msgid "add_re_to_subject"
+msgstr ""
+
+msgid "adm_autosave_drafts"
+msgstr ""
+
+msgid "adm_autosave_drafts_desc"
+msgstr ""
+
+msgid "adm_autosave_ival"
+msgstr ""
+
+msgid "adm_save_drafts"
+msgstr ""
+
+msgid "adm_save_drafts_desc"
+msgstr ""
+
+msgid "allow_file_upload_desc"
+msgstr ""
+
+msgid "ascending_order"
+msgstr ""
+
+msgid "autosave_draft_info"
+msgstr ""
+
+msgid "autosave_post_draft_info"
+msgstr ""
+
+msgid "close_topics"
+msgstr ""
+
+msgid "content_censored_post"
+msgstr ""
+
+msgid "content_deleted_post"
+msgstr ""
+
+msgid "content_deleted_thread"
+msgstr ""
+
+msgid "content_post_updated"
+msgstr ""
+
+msgid "deletePosting"
+msgstr ""
+
+msgid "deletePostingDraft"
+msgstr ""
+
+msgid "delete_draft_successfully"
+msgstr ""
+
+msgid "delete_drafts_successfully"
+msgstr ""
+
+msgid "delete_thread"
+msgstr ""
+
+msgid "descending_order"
+msgstr ""
+
+msgid "edit_thread_draft"
+msgstr ""
+
+msgid "empty_subject"
+msgstr ""
+
+msgid "empty_thread"
+msgstr ""
+
+msgid "enable_send_attachments"
+msgstr ""
+
+msgid "enable_send_attachments_desc"
+msgstr ""
+
+msgid "enable_thread_ratings"
+msgstr ""
+
+msgid "enable_thread_ratings_info"
+msgstr ""
+
+msgid "enter_new_subject"
+msgstr ""
+
+msgid "error_no_target_selected"
+msgstr ""
+
+msgid "error_reading_file"
+msgstr ""
+
+msgid "error_same_thread_ids"
+msgstr ""
+
+msgid "file_upload_allowed"
+msgstr ""
+
+msgid "file_upload_allowed_fora"
+msgstr ""
+
+msgid "file_upload_allowed_fora_desc"
+msgstr ""
+
+msgid "file_upload_option_allow"
+msgstr ""
+
+msgid "file_upload_option_allow_info"
+msgstr ""
+
+msgid "file_upload_option_disallow"
+msgstr ""
+
+msgid "fmr_copy_threads_info"
+msgstr ""
+
+msgid "forum_add_quote"
+msgstr ""
+
+msgid "forums_all_threads_marked_read"
+msgstr ""
+
+msgid "forums_attachments"
+msgstr ""
+
+msgid "forums_attachments_add"
+msgstr ""
+
+msgid "forums_censor_comment"
+msgstr ""
+
+msgid "forums_count_art"
+msgstr ""
+
+msgid "forums_created_by"
+msgstr ""
+
+msgid "forums_delete_file"
+msgstr ""
+
+msgid "forums_disable_notification"
+msgstr ""
+
+msgid "forums_download_attachment"
+msgstr ""
+
+msgid "forums_edit_draft"
+msgstr ""
+
+msgid "forums_edit_post"
+msgstr ""
+
+msgid "forums_enable_notification"
+msgstr ""
+
+msgid "forums_forum_notification"
+msgstr ""
+
+msgid "forums_forum_notification_desc"
+msgstr ""
+
+msgid "forums_forum_notification_disabled"
+msgstr ""
+
+msgid "forums_info_censor2_post"
+msgstr ""
+
+msgid "forums_info_censor_post"
+msgstr ""
+
+msgid "forums_info_delete_draft"
+msgstr ""
+
+msgid "forums_info_delete_post"
+msgstr ""
+
+msgid "forums_mark_read"
+msgstr ""
+
+msgid "forums_new_thread"
+msgstr ""
+
+msgid "forums_no_posts_available"
+msgstr ""
+
+msgid "forums_notification_disabled"
+msgstr ""
+
+msgid "forums_notification_enabled"
+msgstr ""
+
+msgid "forums_notification_intro"
+msgstr ""
+
+msgid "forums_notification_show_frm"
+msgstr ""
+
+msgid "forums_notification_show_post"
+msgstr ""
+
+msgid "forums_post_activation_mail"
+msgstr ""
+
+msgid "forums_post_deleted"
+msgstr ""
+
+msgid "forums_post_modified"
+msgstr ""
+
+msgid "forums_post_needs_to_be_activated"
+msgstr ""
+
+msgid "forums_post_new_entry"
+msgstr ""
+
+msgid "forums_post_was_activated"
+msgstr ""
+
+msgid "forums_posts"
+msgstr ""
+
+msgid "forums_posts_not_available"
+msgstr ""
+
+msgid "forums_print_thread"
+msgstr ""
+
+msgid "forums_subject"
+msgstr ""
+
+msgid "forums_the_post"
+msgstr ""
+
+msgid "forums_thread"
+msgstr ""
+
+msgid "forums_thread_create_from"
+msgstr ""
+
+msgid "forums_thread_deleted"
+msgstr ""
+
+msgid "forums_thread_drafts_deleted"
+msgstr ""
+
+msgid "forums_thread_marked"
+msgstr ""
+
+msgid "forums_thread_new_entry"
+msgstr ""
+
+msgid "forums_threads_deleted"
+msgstr ""
+
+msgid "forums_threads_drafts_deleted"
+msgstr ""
+
+msgid "forums_your_reply"
+msgstr ""
+
+msgid "frm_action_not_possible_parent_deleted"
+msgstr ""
+
+msgid "frm_action_not_possible_thr_closed"
+msgstr ""
+
+msgid "frm_action_not_possible_thr_deleted"
+msgstr ""
+
+msgid "frm_activation_online_info"
+msgstr ""
+
+msgid "frm_adm_sec_default_settings"
+msgstr ""
+
+msgid "frm_adm_sec_drafts"
+msgstr ""
+
+msgid "frm_adm_sec_features"
+msgstr ""
+
+msgid "frm_adm_sec_notifications"
+msgstr ""
+
+msgid "frm_all_threads"
+msgstr ""
+
+msgid "frm_anonymous_posting"
+msgstr ""
+
+msgid "frm_anonymous_posting_desc"
+msgstr ""
+
+msgid "frm_at_least_one_moderator"
+msgstr ""
+
+msgid "frm_censorship"
+msgstr ""
+
+msgid "frm_censorship_applied"
+msgstr ""
+
+msgid "frm_censorship_revoked"
+msgstr ""
+
+msgid "frm_copy"
+msgstr ""
+
+msgid "frm_default_view"
+msgstr ""
+
+msgid "frm_edit_title"
+msgstr ""
+
+msgid "frm_enable_print_option"
+msgstr ""
+
+msgid "frm_enable_print_option_desc"
+msgstr ""
+
+msgid "frm_forum_push_notification_info"
+msgstr ""
+
+msgid "frm_mark_as_read"
+msgstr ""
+
+msgid "frm_mark_as_unread"
+msgstr ""
+
+msgid "frm_max_notification_age"
+msgstr ""
+
+msgid "frm_max_notification_age_info"
+msgstr ""
+
+msgid "frm_max_notification_age_unit"
+msgstr ""
+
+msgid "frm_merge_src"
+msgstr ""
+
+msgid "frm_merge_target"
+msgstr ""
+
+msgid "frm_moderator_f"
+msgstr ""
+
+msgid "frm_moderator_m"
+msgstr ""
+
+msgid "frm_moderator_n"
+msgstr ""
+
+msgid "frm_moderator_role_added_successfully"
+msgstr ""
+
+msgid "frm_moderators"
+msgstr ""
+
+msgid "frm_moderators_detached_role_successfully"
+msgstr ""
+
+msgid "frm_moderators_not_exist_yet"
+msgstr ""
+
+msgid "frm_moderators_select_at_least_one"
+msgstr ""
+
+msgid "frm_moderators_select_one"
+msgstr ""
+
+msgid "frm_move_invalid_file_type"
+msgstr ""
+
+msgid "frm_noti_message"
+msgstr ""
+
+msgid "frm_noti_new_post"
+msgstr ""
+
+msgid "frm_noti_obj_crs"
+msgstr ""
+
+msgid "frm_noti_obj_grp"
+msgstr ""
+
+msgid "frm_noti_subject_act_post"
+msgstr ""
+
+msgid "frm_noti_subject_answ_post"
+msgstr ""
+
+msgid "frm_noti_subject_cens_post"
+msgstr ""
+
+msgid "frm_noti_subject_del_post"
+msgstr ""
+
+msgid "frm_noti_subject_del_thread"
+msgstr ""
+
+msgid "frm_noti_subject_new_post"
+msgstr ""
+
+msgid "frm_noti_subject_uncens_post"
+msgstr ""
+
+msgid "frm_noti_subject_upt_post"
+msgstr ""
+
+msgid "frm_notification_activated"
+msgstr ""
+
+msgid "frm_notification_bg_task_title"
+msgstr ""
+
+msgid "frm_notification_deactivated"
+msgstr ""
+
+msgid "frm_post_not_activated_yet"
+msgstr ""
+
+msgid "frm_posts"
+msgstr ""
+
+msgid "frm_pseudonym"
+msgstr ""
+
+msgid "frm_purifier_not_implemented_for_type_x"
+msgstr ""
+
+msgid "frm_rating"
+msgstr ""
+
+msgid "frm_revoke_censorship"
+msgstr ""
+
+msgid "frm_search"
+msgstr ""
+
+msgid "frm_selected_merge_src"
+msgstr ""
+
+msgid "frm_settings_form_header"
+msgstr ""
+
+msgid "frm_settings_mod_functions_header"
+msgstr ""
+
+msgid "frm_settings_privacy_header"
+msgstr ""
+
+msgid "frm_settings_user_functions_header"
+msgstr ""
+
+msgid "frm_statistics"
+msgstr ""
+
+msgid "frm_statistics_disabled_for_participants"
+msgstr ""
+
+msgid "frm_statistics_enabled"
+msgstr ""
+
+msgid "frm_statistics_enabled_desc"
+msgstr ""
+
+msgid "frm_statistics_ranking"
+msgstr ""
+
+msgid "frm_subject_setting"
+msgstr ""
+
+msgid "frm_sure_delete_threads"
+msgstr ""
+
+msgid "frm_sure_merge_threads"
+msgstr ""
+
+msgid "frm_task_publishing_draft_title"
+msgstr ""
+
+msgid "frm_wizard_page"
+msgstr ""
+
+msgid "is_read"
+msgstr ""
+
+msgid "make_topics_non_sticky"
+msgstr ""
+
+msgid "make_topics_sticky"
+msgstr ""
+
+msgid "mark_moderator_posts"
+msgstr ""
+
+msgid "mark_moderator_posts_desc"
+msgstr ""
+
+msgid "merge"
+msgstr ""
+
+msgid "merge_posts_into_thread"
+msgstr ""
+
+msgid "merged_threads_successfully"
+msgstr ""
+
+msgid "move_chosen_topics"
+msgstr ""
+
+msgid "move_thread_to_forum"
+msgstr ""
+
+msgid "new_post"
+msgstr ""
+
+msgid "new_thread_with_post"
+msgstr ""
+
+msgid "no_forum_selected"
+msgstr ""
+
+msgid "not_allowed_to_merge_into_another_forum"
+msgstr ""
+
+msgid "notification_settings"
+msgstr ""
+
+msgid "notify_censored"
+msgstr ""
+
+msgid "notify_modified"
+msgstr ""
+
+msgid "notify_post_deleted"
+msgstr ""
+
+msgid "notify_thread_deleted"
+msgstr ""
+
+msgid "notify_uncensored"
+msgstr ""
+
+msgid "number_of_threads"
+msgstr ""
+
+msgid "please_choose_target"
+msgstr ""
+
+msgid "post_activation_desc"
+msgstr ""
+
+msgid "post_censored_by"
+msgstr ""
+
+msgid "post_censored_comment_by_moderator"
+msgstr ""
+
+msgid "post_deleted_by"
+msgstr ""
+
+msgid "post_draft_info"
+msgstr ""
+
+msgid "post_reply"
+msgstr ""
+
+msgid "post_reply_count"
+msgstr ""
+
+msgid "post_uncensored_by"
+msgstr ""
+
+msgid "post_updated_by"
+msgstr ""
+
+msgid "preset_subject"
+msgstr ""
+
+msgid "publish"
+msgstr ""
+
+msgid "relevance"
+msgstr ""
+
+msgid "reopen_topics"
+msgstr ""
+
+msgid "reply_to_postings"
+msgstr ""
+
+msgid "reset_limited_view"
+msgstr ""
+
+msgid "reset_limited_view_button"
+msgstr ""
+
+msgid "reset_limited_view_info"
+msgstr ""
+
+msgid "restore"
+msgstr ""
+
+msgid "restore_draft_from_autosave"
+msgstr ""
+
+msgid "save_draft_successfully"
+msgstr ""
+
+msgid "sel_threads_already_sticky"
+msgstr ""
+
+msgid "sel_threads_already_unsticky"
+msgstr ""
+
+msgid "sel_threads_make_sticky"
+msgstr ""
+
+msgid "sel_threads_make_unsticky"
+msgstr ""
+
+msgid "select_at_least_one_thread"
+msgstr ""
+
+msgid "select_max_one_thread"
+msgstr ""
+
+msgid "selected_threads_closed"
+msgstr ""
+
+msgid "selected_threads_reopened"
+msgstr ""
+
+msgid "sort_by_date"
+msgstr ""
+
+msgid "sort_by_date_desc"
+msgstr ""
+
+msgid "sort_by_posts"
+msgstr ""
+
+msgid "sort_by_posts_desc"
+msgstr ""
+
+msgid "sorting"
+msgstr ""
+
+msgid "sticky"
+msgstr ""
+
+msgid "sure_delete_drafts"
+msgstr ""
+
+msgid "switch_threads_for_merge"
+msgstr ""
+
+msgid "target_select"
+msgstr ""
+
+msgid "thema"
+msgstr ""
+
+msgid "thread"
+msgstr ""
+
+msgid "thread_deleted_by"
+msgstr ""
+
+msgid "thread_overview"
+msgstr ""
+
+msgid "threads_moved_successfully"
+msgstr ""
+
+msgid "top_thema"
+msgstr ""
+
+msgid "topic_close"
+msgstr ""
+
+msgid "topics_please_select_one_action"
+msgstr ""
+
+msgid "user_decides_notification"
+msgstr ""

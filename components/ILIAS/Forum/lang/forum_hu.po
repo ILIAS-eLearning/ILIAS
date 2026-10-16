@@ -1,0 +1,716 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: forum\n"
+
+msgid "activate_new_posts"
+msgstr "Új hozzászólások jóváhagyása"
+
+msgid "activate_only_current"
+msgstr "Hozzászólás jóváhagyása"
+
+msgid "activate_post"
+msgstr "Jóváhagyás"
+
+msgid "activate_post_txt"
+msgstr "Biztos, hogy jóváhagyja ezt a hozzászólást?"
+
+msgid "add_new_answer"
+msgstr "Új hozzászólás"
+
+msgid "add_re_to_subject"
+msgstr "‘Re:’ hozzáadása a válasz tárgyához"
+
+msgid "adm_autosave_drafts"
+msgstr "Piszkozatok automatikus mentése"
+
+msgid "adm_autosave_drafts_desc"
+msgstr "A szerkesztés alatt lévő piszkozatokat automatikusan mentjük."
+
+msgid "adm_autosave_ival"
+msgstr "Időköz"
+
+msgid "adm_save_drafts"
+msgstr "Vázlatok bekapcsolása"
+
+msgid "adm_save_drafts_desc"
+msgstr "A regisztrált felhasználók piszkozatként menthetik fórumhozzászólásaikat."
+
+msgid "allow_file_upload_desc"
+msgstr "A felhasználók hozzászólásaikhoz csatolhatnak fájlokat."
+
+msgid "ascending_order"
+msgstr "Legújabb hozzászólás alul"
+
+msgid "autosave_draft_info"
+msgstr "<span class=\"asterisk\">Ezt a piszkozatot automatikusan mentjük %s másodpercenként.</span>"
+
+msgid "autosave_post_draft_info"
+msgstr "<span class=\"asterisk\">Ezt a hozzászólást automatikusan piszkozatként mentjük %s másodpercenként.</span>"
+
+msgid "close_topics"
+msgstr "Lezárás"
+
+msgid "content_censored_post"
+msgstr "A cenzúrázott hozzászólás tartalma:"
+
+msgid "content_deleted_post"
+msgstr "Törölt hozzászólás tartalma:"
+
+msgid "content_deleted_thread"
+msgstr "A törölt téma tartalma:"
+
+msgid "content_post_updated"
+msgstr "A módosított hozzászólás tartalma:"
+
+msgid "deletePosting"
+msgstr "Hozzászólás törlése"
+
+msgid "deletePostingDraft"
+msgstr "Piszkozat törlése"
+
+msgid "delete_draft_successfully"
+msgstr "Piszkozatot sikeresen mentette."
+
+msgid "delete_drafts_successfully"
+msgstr "Piszkozatokat sikeresen törölte."
+
+msgid "delete_thread"
+msgstr "Téma törlése"
+
+msgid "descending_order"
+msgstr "Legújabb hozzászólás felül"
+
+msgid "edit_thread_draft"
+msgstr "Témapiszkozatok módosítása."
+
+msgid "empty_subject"
+msgstr "A válaszban a felhasználónak új címet kell adnia"
+
+msgid "empty_thread"
+msgstr "Üres téma"
+
+msgid "enable_send_attachments"
+msgstr "Csatolmányok küldése fórumértesítésekkel"
+
+msgid "enable_send_attachments_desc"
+msgstr "Megjegyzés: ez nagy tárhelyhasználatot okozhat a szerveren, mert minden csatolt fájlt minden értesítendő felhasználóhoz külön-külön mentünk."
+
+msgid "enable_thread_ratings"
+msgstr "Téma értékelése"
+
+msgid "enable_thread_ratings_info"
+msgstr "A felhasználók értékelhetnek témákat."
+
+msgid "enter_new_subject"
+msgstr "Adjon meg egy új tárgyat."
+
+msgid "error_no_target_selected"
+msgstr "Válasszon egy fórumot."
+
+msgid "error_reading_file"
+msgstr "Hiba történt a fájl olvasása közben"
+
+msgid "error_same_thread_ids"
+msgstr "A kijelölt és a cél témának különböznie kell."
+
+msgid "file_upload_allowed"
+msgstr "Csatolmányok engedélyezése"
+
+msgid "file_upload_allowed_fora"
+msgstr "Csatolmányok"
+
+msgid "file_upload_allowed_fora_desc"
+msgstr "A csatolmányokat fórumonként lehet engedélyezni. Új fórumban a csatolás alapértelmezetten nem lehetséges."
+
+msgid "file_upload_option_allow"
+msgstr "Csatolmányok engedélyezése az összes fórumban"
+
+msgid "file_upload_option_allow_info"
+msgstr "Fájl csatolása az összes fórumban lehetséges."
+
+msgid "file_upload_option_disallow"
+msgstr "Csatolmányok engedélyezése bizonyos fórumokban"
+
+msgid "fmr_copy_threads_info"
+msgstr "Lehetősége van egyszerű hozzászólások másolására. Csak a kiválasztott hozzászólások kezdetét duplázzuk meg."
+
+msgid "forum_add_quote"
+msgstr "Előző hozzászólás beillesztése"
+
+msgid "forums_all_threads_marked_read"
+msgstr "Az összes hozzászólást olvasottként jelölte meg."
+
+msgid "forums_attachments"
+msgstr "Csatolmányok"
+
+msgid "forums_attachments_add"
+msgstr "Csatolmány hozzáadása"
+
+msgid "forums_censor_comment"
+msgstr "A cenzúra megjegyzése"
+
+msgid "forums_count_art"
+msgstr "Hozzászólások száma"
+
+msgid "forums_created_by"
+msgstr "Létrehozta"
+
+msgid "forums_delete_file"
+msgstr "Csatolmány törlése"
+
+msgid "forums_disable_notification"
+msgstr "Értesítés lemondása ehhez a témához"
+
+msgid "forums_download_attachment"
+msgstr "Fájl letöltése"
+
+msgid "forums_edit_draft"
+msgstr "Piszkozat módosítása"
+
+msgid "forums_edit_post"
+msgstr "Hozzászólás módosítása"
+
+msgid "forums_enable_notification"
+msgstr "Értesítés kérése ehhez a témához"
+
+msgid "forums_forum_notification"
+msgstr "Fórumértesítés küldése"
+
+msgid "forums_forum_notification_desc"
+msgstr "Ha bekapcsolja, a felhasználók értesítő levelek kérhetnek az adott fórumban született új bejegyzésről."
+
+msgid "forums_forum_notification_disabled"
+msgstr "Nem kap a továbbiakban értesítést, ha új hozzászólás születik ebben a fórumban."
+
+msgid "forums_info_censor2_post"
+msgstr "Cenzúrázás visszavonása?"
+
+msgid "forums_info_censor_post"
+msgstr "Biztos, hogy elrejti ezt a hozzászólást?"
+
+msgid "forums_info_delete_draft"
+msgstr "Biztos, hogy törli ezt a piszkozatot?"
+
+msgid "forums_info_delete_post"
+msgstr "Biztos, hogy törli ezt a hozzászólást a válaszokkal együtt?"
+
+msgid "forums_mark_read"
+msgstr "Összes megjelölése olvasottként"
+
+msgid "forums_new_thread"
+msgstr "Új téma"
+
+msgid "forums_no_posts_available"
+msgstr "Ennek a témának egy hozzászólása sincs."
+
+msgid "forums_notification_disabled"
+msgstr "Értesítés kikapcsolva"
+
+msgid "forums_notification_enabled"
+msgstr "Értesítés bekapcsolva"
+
+msgid "forums_notification_intro"
+msgstr "%s automatikusan küldte Önnek ezt a levelet, %s"
+
+msgid "forums_notification_show_frm"
+msgstr "‘%s’ fórum megjelenítése"
+
+msgid "forums_notification_show_post"
+msgstr "Link a hozzászólásra: %s"
+
+msgid "forums_post_activation_mail"
+msgstr "csak jóváhagyásuk után látják a fórumfelhasználók az alábbi hozzászólásokat. Mivel Ön a fórum egyik moderátora, jogosult a hozzászólások jóváhagyására."
+
+msgid "forums_post_deleted"
+msgstr "A hozzászólást sikeresen törölte."
+
+msgid "forums_post_modified"
+msgstr "A hozzászólást sikeresen módosította."
+
+msgid "forums_post_needs_to_be_activated"
+msgstr "Sikeresen létrehozott egy új hozzászólást, de azt egy moderátornak jóvá kell hagynia."
+
+msgid "forums_post_new_entry"
+msgstr "Sikeresen létrehozott egy új hozzászólást."
+
+msgid "forums_post_was_activated"
+msgstr "A hozzászólást jóváhagyták."
+
+msgid "forums_posts"
+msgstr "Hozzászólások száma"
+
+msgid "forums_posts_not_available"
+msgstr "A hozzászólások nem elérhetőek"
+
+msgid "forums_print_thread"
+msgstr "Téma nyomtatása"
+
+msgid "forums_subject"
+msgstr "Tárgy"
+
+msgid "forums_the_post"
+msgstr "Hozzászólás"
+
+msgid "forums_thread"
+msgstr "Téma"
+
+msgid "forums_thread_create_from"
+msgstr "Létrehozta:"
+
+msgid "forums_thread_deleted"
+msgstr "A kiválasztott témát annak összes hozzászólásával sikeren törölte."
+
+msgid "forums_thread_drafts_deleted"
+msgstr "A kiválasztott témát az összes hozzászólással és piszkozattal együtt sikeresen töröltük."
+
+msgid "forums_thread_marked"
+msgstr "A hozzászólást olvasottként jelölte meg."
+
+msgid "forums_thread_new_entry"
+msgstr "Új téma jött létre."
+
+msgid "forums_threads_deleted"
+msgstr "A kiválasztott témákat azok összes hozzászólásával sikeren törölte."
+
+msgid "forums_threads_drafts_deleted"
+msgstr "A kiválasztott témákat, annak összes hozzászólásával és piszkozatával sikeresen törölte."
+
+msgid "forums_your_reply"
+msgstr "Az Ön válasza"
+
+msgid "frm_action_not_possible_parent_deleted"
+msgstr "Ez a művelet nem hajtható végre, mert a szülőhozzászólását törölték."
+
+msgid "frm_action_not_possible_thr_closed"
+msgstr "Ez a művelet nem hajtható végre, mert a témát zárolták."
+
+msgid "frm_action_not_possible_thr_deleted"
+msgstr "Ez a művelet nem hajtható végre, mert a témát törölték."
+
+msgid "frm_activation_online_info"
+msgstr "Allítsa online-ra a fórumot, hogy mások számára is látható elérhető legyen. Különben csak Administrator-orok érhetik azt el."
+
+msgid "frm_adm_sec_default_settings"
+msgstr "Alapértelmezett objektumtulajdonságok"
+
+msgid "frm_adm_sec_drafts"
+msgstr "Vázlatok"
+
+msgid "frm_adm_sec_features"
+msgstr "Fórumtulajdonságok"
+
+msgid "frm_adm_sec_notifications"
+msgstr "Értesítések"
+
+msgid "frm_all_threads"
+msgstr "Összes téma"
+
+msgid "frm_anonymous_posting"
+msgstr "Hozzászólás álnéven"
+
+msgid "frm_anonymous_posting_desc"
+msgstr "A regisztrált felhasználók csak álnéven vagy név nélkül szólhatnak hozzá ehhez a fórumhoz. Ha a ‘Moderátor-hozzászólások megjelölése’ be van kapcsolva, a moderátorok nem használhatnak álneveket."
+
+msgid "frm_at_least_one_moderator"
+msgstr "Legalább egy moderátor kell legyen."
+
+msgid "frm_censorship"
+msgstr "Cenzúra"
+
+msgid "frm_censorship_applied"
+msgstr "A cenzúrázást sikeresen végrehajtotta."
+
+msgid "frm_censorship_revoked"
+msgstr "A cenzúrázást sikeresen visszavonta."
+
+msgid "frm_copy"
+msgstr "Fórum másolása"
+
+msgid "frm_default_view"
+msgstr "Alapértelmezett nézet"
+
+msgid "frm_edit_title"
+msgstr "Cím módosítása"
+
+msgid "frm_enable_print_option"
+msgstr "Nyomtatási lehetőség bekapcsolása"
+
+msgid "frm_enable_print_option_desc"
+msgstr "Ha ki van kapcsolva, senki sem tud nyomtatni a fórumból."
+
+#, fuzzy
+msgid "frm_forum_push_notification_info"
+msgstr "Forum notifications are sent as push notifications instead of e-mail. If the push notification cannot be delivered, an e-mail will be sent instead."
+
+msgid "frm_mark_as_read"
+msgstr "Megjelölés olvasottként"
+
+msgid "frm_mark_as_unread"
+msgstr "Megjelölés olvasatlanként"
+
+msgid "frm_max_notification_age"
+msgstr "Max. értesítési életidő"
+
+msgid "frm_max_notification_age_info"
+msgstr "Adja meg azt az időszakot, melynél régebbi hozzászólásokról már ne küldjünk értesítés. Az ütemezett feladat értékénél nagyobbat célszerű választani."
+
+msgid "frm_max_notification_age_unit"
+msgstr "Nap"
+
+msgid "frm_merge_src"
+msgstr "Kijelölt téma: %s"
+
+msgid "frm_merge_target"
+msgstr "Cél: %s"
+
+msgid "frm_moderator_f"
+msgstr "Moderátor"
+
+msgid "frm_moderator_m"
+msgstr "Moderátor"
+
+msgid "frm_moderator_n"
+msgstr "Moderálás"
+
+msgid "frm_moderator_role_added_successfully"
+msgstr "A felhasználót sikeresen felvette a moderátorok közé."
+
+msgid "frm_moderators"
+msgstr "Moderátorok"
+
+msgid "frm_moderators_detached_role_successfully"
+msgstr "A moderátorszerepkört sikeresen elvette minden kiválasztott felhasználótól."
+
+msgid "frm_moderators_not_exist_yet"
+msgstr "Válasszon egy moderátort!"
+
+msgid "frm_moderators_select_at_least_one"
+msgstr "Legalább egy moderátort válasszon!"
+
+msgid "frm_moderators_select_one"
+msgstr "Legalább egy felhasználót válasszon!"
+
+msgid "frm_move_invalid_file_type"
+msgstr "‘%s’ témához tiltott típusú fájlt töltöttek fel. Távolítsa el a fájlt vagy jelezze az üzemeltetőknek, hogy adják hozzá ezt a fájltípust az engedélyezettekhez."
+
+msgid "frm_noti_message"
+msgstr "Üzenet:"
+
+msgid "frm_noti_new_post"
+msgstr "ezúton értesítjük, hogy ‘%1$s’ fórumban új hozzászólás jött létre."
+
+msgid "frm_noti_obj_crs"
+msgstr "kurzus"
+
+msgid "frm_noti_obj_grp"
+msgstr "csoport"
+
+msgid "frm_noti_subject_act_post"
+msgstr "‘%1$s\"%2$s’ fórumban ‘%3$s’ témát aktiválták"
+
+msgid "frm_noti_subject_answ_post"
+msgstr "‘%1$s\"%2$s’ fórumban ‘%3$s’ témában hozzászólásra válasz érkezett"
+
+msgid "frm_noti_subject_cens_post"
+msgstr "‘%1$s\"%2$s’ fórumban ‘%3$s’ témában hozzászólást cenzúráztak"
+
+msgid "frm_noti_subject_del_post"
+msgstr "‘%1$s\"%2$s’ fórumban ‘%3$s’ témában hozzászólást töröltek"
+
+msgid "frm_noti_subject_del_thread"
+msgstr "‘%1$s\"%2$s’ fórumban ‘%3$s’ témát törölték"
+
+msgid "frm_noti_subject_new_post"
+msgstr "‘%1$s\"%2$s’ fórumban ‘%3$s’ témában új hozzászólás"
+
+msgid "frm_noti_subject_uncens_post"
+msgstr "‘%1$s\"%2$s’ fórumban ‘%3$s’ témában hozzászólás cenzúrázását visszavonták"
+
+msgid "frm_noti_subject_upt_post"
+msgstr "‘%1$s\"%2$s’ fórumban ‘%3$s’ témában hozzászólást módosítottak"
+
+msgid "frm_notification_activated"
+msgstr "Értesítés bekapcsolva"
+
+#, fuzzy
+msgid "frm_notification_bg_task_title"
+msgstr "Forum notification delivery"
+
+msgid "frm_notification_deactivated"
+msgstr "Értesítés kikapcsolva"
+
+msgid "frm_post_not_activated_yet"
+msgstr "Még nincs aktiválva."
+
+msgid "frm_posts"
+msgstr "Bejegyzések"
+
+msgid "frm_pseudonym"
+msgstr "Álnév"
+
+msgid "frm_purifier_not_implemented_for_type_x"
+msgstr "Nincs még implementálva a tisztító ehhez a típushoz: %s."
+
+msgid "frm_rating"
+msgstr "Értékelése"
+
+msgid "frm_revoke_censorship"
+msgstr "Cenzúrázás visszavonása"
+
+msgid "frm_search"
+msgstr "Keresés"
+
+msgid "frm_selected_merge_src"
+msgstr "Összevonásra kijelölt téma: %s"
+
+msgid "frm_settings_form_header"
+msgstr "Fórumbeállítások"
+
+msgid "frm_settings_mod_functions_header"
+msgstr "Moderátori funkciók"
+
+msgid "frm_settings_privacy_header"
+msgstr "Adatvédelem"
+
+msgid "frm_settings_user_functions_header"
+msgstr "Felhasználói funkciók"
+
+msgid "frm_statistics"
+msgstr "Statisztika"
+
+msgid "frm_statistics_disabled_for_participants"
+msgstr "A statisztikákat nem tekinthetik meg a fórumtagok. A Beállítások lapon tudja ezt megváltoztatni."
+
+msgid "frm_statistics_enabled"
+msgstr "Statisztika engedélyezése"
+
+msgid "frm_statistics_enabled_desc"
+msgstr "Az összes résztvevő megnézheti a statisztikákat."
+
+msgid "frm_statistics_ranking"
+msgstr "Hozzászólások száma"
+
+msgid "frm_subject_setting"
+msgstr "Tárgy beállításai"
+
+msgid "frm_sure_delete_threads"
+msgstr "Biztos, hogy törli az alábbi témákat?"
+
+msgid "frm_sure_merge_threads"
+msgstr "Biztos, hogy összevonja a témákat? Figyelmeztetés: A folyamat vissza nem fordítható."
+
+msgid "frm_task_publishing_draft_title"
+msgstr "‘%s’ piszkozat közzététele"
+
+msgid "frm_wizard_page"
+msgstr "Fórum másolása (2/2. lépés)"
+
+msgid "is_read"
+msgstr "Megjelölés olvasottként"
+
+msgid "make_topics_non_sticky"
+msgstr "Témák kiemelésének megszüntetése"
+
+msgid "make_topics_sticky"
+msgstr "Témák kiemelése"
+
+msgid "mark_moderator_posts"
+msgstr "Moderátor-hozzászólások megjelölése"
+
+msgid "mark_moderator_posts_desc"
+msgstr "A moderátorszereppel rendelkező felhasználók hozzászólásait színnel kiemeljük."
+
+msgid "merge"
+msgstr "Összevon"
+
+msgid "merge_posts_into_thread"
+msgstr "Hozzászólások áthelyezése másik témába"
+
+msgid "merged_threads_successfully"
+msgstr "Összevonás sikeres."
+
+msgid "move_chosen_topics"
+msgstr "Kiválasztott témák áthelyezése"
+
+msgid "move_thread_to_forum"
+msgstr "Téma áthelyezése másik fórumba"
+
+msgid "new_post"
+msgstr "Új hozzászólás"
+
+msgid "new_thread_with_post"
+msgstr "Új téma hozzászólással"
+
+msgid "no_forum_selected"
+msgstr "Nem választott ki fórumot a kijelölt témák áthelyezéséhez."
+
+msgid "not_allowed_to_merge_into_another_forum"
+msgstr "Különböző fórumok témái nem lehet összevonni."
+
+msgid "notification_settings"
+msgstr "Értesítési beállítások"
+
+msgid "notify_censored"
+msgstr "Censored hozzászólások"
+
+msgid "notify_modified"
+msgstr "Módosított hozzászolások"
+
+msgid "notify_post_deleted"
+msgstr "Törölt hozzászólások"
+
+msgid "notify_thread_deleted"
+msgstr "Törölt témák"
+
+msgid "notify_uncensored"
+msgstr "Uncensored hozzászólások"
+
+msgid "number_of_threads"
+msgstr "Témák oldalankénti száma"
+
+msgid "please_choose_target"
+msgstr "Válasszon témát, melyhez hozzáfűzzük."
+
+msgid "post_activation_desc"
+msgstr "Közzététel előtt minden hozzászólást jóvá kell hagynia egy moderátornak."
+
+msgid "post_censored_by"
+msgstr "ezúton értesítjük, hogy ‘%1$s’ cenzúrázott ‘%2$s’ fórumban hozzászólást:"
+
+msgid "post_censored_comment_by_moderator"
+msgstr "A hozzászólást cenzúrázták, a megjegyzést a moderátor írta."
+
+msgid "post_deleted_by"
+msgstr "ezúton értesítjük, hogy ‘%1$s’ törölt hozzászólást ‘%2$s’ fórumban:"
+
+msgid "post_draft_info"
+msgstr "Ezt a piszkozatot más nem látja."
+
+msgid "post_reply"
+msgstr "Re:"
+
+msgid "post_reply_count"
+msgstr "Válasz(%s):"
+
+msgid "post_uncensored_by"
+msgstr "ezúton értesítjük, hogy ‘%1$s’ cenzúrázott egy hozzászólást."
+
+msgid "post_updated_by"
+msgstr "ezúton értesítjük, hogy ‘%1$s’ módosított ‘%2$s’ fórumban hozzászólást:"
+
+msgid "preset_subject"
+msgstr "Előre beállított téma a válaszban"
+
+msgid "publish"
+msgstr "Közzététel"
+
+msgid "relevance"
+msgstr "Relevancia"
+
+msgid "reopen_topics"
+msgstr "Újra megnyitás"
+
+msgid "reply_to_postings"
+msgstr "Válasz"
+
+msgid "reset_limited_view"
+msgstr "Ennek a hozzászólásnak és az után lévőknek a limitált megjelenítése."
+
+msgid "reset_limited_view_button"
+msgstr "A teljes téma megjelenítése"
+
+msgid "reset_limited_view_info"
+msgstr "Ennek a hozzászólásnak és az után lévőknek a limitált megjelenítése."
+
+msgid "restore"
+msgstr "Visszaállítás"
+
+msgid "restore_draft_from_autosave"
+msgstr "Piszkozat visszaállítása"
+
+msgid "save_draft_successfully"
+msgstr "A piszkozatot sikeresen mentette."
+
+msgid "sel_threads_already_sticky"
+msgstr "Legalább az egyik téma már kiemelt."
+
+msgid "sel_threads_already_unsticky"
+msgstr "Legalább az egyik téma már nem kiemelt."
+
+msgid "sel_threads_make_sticky"
+msgstr "A kiválasztott témákat sikeresen kiemelte."
+
+msgid "sel_threads_make_unsticky"
+msgstr "A kiválasztott témák kiemelését sikeresen megszüntette."
+
+msgid "select_at_least_one_thread"
+msgstr "Válasszon legalább egy témát!"
+
+msgid "select_max_one_thread"
+msgstr "Csak egy szálat válasszon!"
+
+msgid "selected_threads_closed"
+msgstr "A kiválasztott témákat sikeresen lezárta."
+
+msgid "selected_threads_reopened"
+msgstr "A kiválasztott témákat sikeresen újranyitotta."
+
+msgid "sort_by_date"
+msgstr "Dátum szerint"
+
+msgid "sort_by_date_desc"
+msgstr "A témát lapos nézetben jelenítjük meg. A hozzászólásokat létrehozásuk szerint rendezzük."
+
+msgid "sort_by_posts"
+msgstr "Válasz szerint"
+
+msgid "sort_by_posts_desc"
+msgstr "A témát fa nézetben jelenítjük meg. A válaszokat aszerint rendezzük, hogy melyik hozzászóláshoz készültek."
+
+msgid "sorting"
+msgstr "Rendezés"
+
+msgid "sticky"
+msgstr "Kiemelt"
+
+msgid "sure_delete_drafts"
+msgstr "Biztos, hogy törli a kijelölt piszkozatokat?"
+
+msgid "switch_threads_for_merge"
+msgstr "A kijelölt téma régebbi, mint a cél. A sikeres összevon érdekében a kijelölt és a cél témát felcseréljük."
+
+msgid "target_select"
+msgstr "Hozzászólások kiválasztása a limitált megjelenítéshez"
+
+msgid "thema"
+msgstr "Témák"
+
+msgid "thread"
+msgstr "Téma"
+
+msgid "thread_deleted_by"
+msgstr "ezúton értesítjük, hogy ‘%1$s’ törölte ‘%2$s’ fórumban az alábbi témákat:"
+
+msgid "thread_overview"
+msgstr "Témaáttekintő"
+
+msgid "threads_moved_successfully"
+msgstr "A kiválasztott témákat sikeresen áthelyezte másik fórumba."
+
+msgid "top_thema"
+msgstr "Top témák"
+
+msgid "topic_close"
+msgstr "Lezárt"
+
+msgid "topics_please_select_one_action"
+msgstr "Válasszon ki egy tevékenységet!"
+
+msgid "user_decides_notification"
+msgstr "Az értesítéseket a tagok manuálisan kell, hogy aktiválják"

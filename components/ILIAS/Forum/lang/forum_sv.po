@@ -1,0 +1,751 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: forum\n"
+
+msgid "activate_new_posts"
+msgstr "Aktivera nya inlägg"
+
+msgid "activate_only_current"
+msgstr "Lås upp post"
+
+msgid "activate_post"
+msgstr "Lås upp"
+
+msgid "activate_post_txt"
+msgstr "Vill du låsa upp det här inlägget?"
+
+msgid "add_new_answer"
+msgstr "Ny post"
+
+msgid "add_re_to_subject"
+msgstr "Inläggets titel används för svaret som föregås av \"Re"
+
+msgid "adm_autosave_drafts"
+msgstr "Spara utkast automatiskt"
+
+msgid "adm_autosave_drafts_desc"
+msgstr "Om aktiverat sparas utkast automatiskt under redigering."
+
+msgid "adm_autosave_ival"
+msgstr "Spara intervall"
+
+msgid "adm_save_drafts"
+msgstr "Spara utkast"
+
+msgid "adm_save_drafts_desc"
+msgstr "Om den är aktiverad kan inloggade användare spara inlägg i forum som utkast."
+
+msgid "allow_file_upload_desc"
+msgstr "Om aktiverat kan filer bifogas till foruminlägg i detta forum."
+
+msgid "ascending_order"
+msgstr "Nyaste inlägg nedan"
+
+msgid "autosave_draft_info"
+msgstr "<span class=\"asterisk\">Denna design sparas automatiskt var %s sekund.<span/>"
+
+msgid "autosave_post_draft_info"
+msgstr "<span class=\"asterisk\">Detta inlägg sparas automatiskt som ett utkast varje %s av en sekund.<span/>"
+
+msgid "close_topics"
+msgstr "Stäng"
+
+msgid "content_censored_post"
+msgstr "Innehållet i det censurerade inlägget"
+
+msgid "content_deleted_post"
+msgstr "Innehållet i det raderade inlägget"
+
+msgid "content_deleted_thread"
+msgstr "Innehållet i det borttagna ämnet"
+
+msgid "content_post_updated"
+msgstr "Innehållet i den ändrade posten"
+
+msgid "deletePosting"
+msgstr "Ta bort inlägg"
+
+msgid "deletePostingDraft"
+msgstr "Ta bort utkast till inlägg"
+
+msgid "delete_draft_successfully"
+msgstr "Utkastet har raderats framgångsrikt."
+
+msgid "delete_drafts_successfully"
+msgstr "Utkasten har raderats framgångsrikt."
+
+#, fuzzy
+msgid "delete_thread"
+msgstr "Delete Thread"
+
+msgid "descending_order"
+msgstr "Nyaste inlägg ovan"
+
+msgid "edit_thread_draft"
+msgstr "Redigera utkast till tema"
+
+msgid "empty_subject"
+msgstr "Användare måste själva ange titlar."
+
+msgid "empty_thread"
+msgstr "Tomt tema"
+
+msgid "enable_send_attachments"
+msgstr "Bifoga filer till forumaviseringar"
+
+msgid "enable_send_attachments_desc"
+msgstr "Observera att filbilagor måste sparas separat för varje aviserad användare om leveransen också görs som ett internt meddelande. Detta kan orsaka en mycket hög beläggning av hårddiskutrymme på servern."
+
+msgid "enable_thread_ratings"
+msgstr "Rate ämnen"
+
+msgid "enable_thread_ratings_info"
+msgstr "Ämnen i detta forum kan betygsättas av användarna."
+
+msgid "enter_new_subject"
+msgstr "Var god ange en ny titel för inlägget"
+
+msgid "error_no_target_selected"
+msgstr "Vänligen välj ett forum."
+
+msgid "error_reading_file"
+msgstr "Ett fel uppstod vid läsning av filen"
+
+msgid "error_same_thread_ids"
+msgstr "Två olika ämnen måste väljas."
+
+msgid "file_upload_allowed"
+msgstr "Fäst filer"
+
+msgid "file_upload_allowed_fora"
+msgstr "Fäst filer"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "file_upload_allowed_fora_desc"
+msgstr "Att bifoga filer måste vara aktiverat i varje forum. För nya forum är bifogade filer inaktiverade som standard."
+
+msgid "file_upload_option_allow"
+msgstr "Tillåt bifogade filer i alla forum"
+
+msgid "file_upload_option_allow_info"
+msgstr "Filer kan bifogas till inlägg i alla forum."
+
+msgid "file_upload_option_disallow"
+msgstr "Tillåt bifogade filer i utvalda forum"
+
+msgid "fmr_copy_threads_info"
+msgstr "Här kan du välja ämnen som ska kopieras. Endast de ursprungliga inläggen kommer att kopieras, inte deras svar."
+
+msgid "forum_add_quote"
+msgstr "Cite"
+
+msgid "forums_all_threads_marked_read"
+msgstr "Alla ämnen har markerats som lästa."
+
+msgid "forums_attachments"
+msgstr "Filbilagor"
+
+msgid "forums_attachments_add"
+msgstr "Fäst fil"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "forums_censor_comment"
+msgstr "Moderatorns anmärkning"
+
+msgid "forums_count_art"
+msgstr "Antal bidrag"
+
+msgid "forums_created_by"
+msgstr "Skapad av"
+
+msgid "forums_delete_file"
+msgstr "Ta bort bifogad fil"
+
+msgid "forums_disable_notification"
+msgstr "Avsluta anmälan för detta ämne"
+
+msgid "forums_download_attachment"
+msgstr "Ladda ner fil"
+
+msgid "forums_edit_draft"
+msgstr "Redigera utkast"
+
+msgid "forums_edit_post"
+msgstr "Redigera inlägg"
+
+msgid "forums_enable_notification"
+msgstr "Starta anmälan för detta ämne"
+
+#, fuzzy
+msgid "forums_forum_notification"
+msgstr "Send Forum Notifications"
+
+#, fuzzy
+msgid "forums_forum_notification_desc"
+msgstr "If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail."
+
+msgid "forums_forum_notification_disabled"
+msgstr "Du kommer inte längre att meddelas om nya inlägg i detta forum."
+
+msgid "forums_info_censor2_post"
+msgstr "Är du säker på att censuren bör hävas för det här inlägget?"
+
+msgid "forums_info_censor_post"
+msgstr "Giv en anledning till censuren."
+
+msgid "forums_info_delete_draft"
+msgstr "Är du säker på att du vill radera detta utkast?"
+
+msgid "forums_info_delete_post"
+msgstr "Är du säker på att detta inlägg inklusive alla efterföljande inlägg ska raderas?"
+
+msgid "forums_mark_read"
+msgstr "Sätt alla att läsa"
+
+msgid "forums_new_thread"
+msgstr "Nytt ämne"
+
+msgid "forums_no_posts_available"
+msgstr "Detta ämne har inga inlägg ännu."
+
+msgid "forums_notification_disabled"
+msgstr "Notifiering inaktiv"
+
+msgid "forums_notification_enabled"
+msgstr "Notifiering aktiv"
+
+msgid "forums_notification_intro"
+msgstr "Detta e-postmeddelande skickades automatiskt till dig av ILIAS-installationen %s, %s."
+
+msgid "forums_notification_show_frm"
+msgstr "Gå till forumet"
+
+msgid "forums_notification_show_post"
+msgstr "Gå till inlägget"
+
+# Modifierat som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "forums_post_activation_mail"
+msgstr " Följande inlägg skapades i ett forum som modereras av dig. Inlägget förblir osynligt tills du låser upp det."
+
+msgid "forums_post_deleted"
+msgstr "Posten har tagits bort"
+
+msgid "forums_post_modified"
+msgstr "Posten har redigerats"
+
+# Modifierat som en del av jämställdhetsintegreringsaktiviteterna för ILIAS 8
+msgid "forums_post_needs_to_be_activated"
+msgstr " Inlägget har skapats, men måste aktiveras av modereringen. "
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "forums_post_new_entry"
+msgstr "New post has been added."
+
+# Modifierad som en del av jämställdhetsintegreringen för ILIAS 8
+msgid "forums_post_was_activated"
+msgstr "Bidraget har släppts."
+
+msgid "forums_posts"
+msgstr "Alla bidrag"
+
+msgid "forums_posts_not_available"
+msgstr "Inga bidrag tillgängliga"
+
+msgid "forums_print_thread"
+msgstr "Ämne för utskrift"
+
+msgid "forums_subject"
+msgstr "Titel"
+
+msgid "forums_the_post"
+msgstr "Bidrag"
+
+msgid "forums_thread"
+msgstr "Topic"
+
+msgid "forums_thread_create_from"
+msgstr "Skapad av"
+
+msgid "forums_thread_deleted"
+msgstr "Det valda ämnet inklusive alla relaterade inlägg har tagits bort."
+
+msgid "forums_thread_drafts_deleted"
+msgstr "Det valda ämnet, inklusive alla tillhörande inlägg och alla utkast till inlägg, har tagits bort."
+
+msgid "forums_thread_marked"
+msgstr "Alla inlägg har markerats som lästa."
+
+msgid "forums_thread_new_entry"
+msgstr "Nytt ämne har lagts till"
+
+msgid "forums_threads_deleted"
+msgstr "De valda ämnena inklusive alla tillhörande inlägg har tagits bort."
+
+msgid "forums_threads_drafts_deleted"
+msgstr "De valda ämnena, inklusive alla tillhörande inlägg och alla utkast till inlägg, har tagits bort."
+
+msgid "forums_your_reply"
+msgstr "Ditt bidrag"
+
+msgid "frm_action_not_possible_parent_deleted"
+msgstr "Åtgärden kan inte utföras, referensbidraget har tagits bort."
+
+msgid "frm_action_not_possible_thr_closed"
+msgstr "Åtgärden kan inte utföras, ämnet har stängts."
+
+msgid "frm_action_not_possible_thr_deleted"
+msgstr "Åtgärden kan inte utföras, ämnet har tagits bort."
+
+msgid "frm_activation_online_info"
+msgstr "Endast när forumet är online kan användarna komma åt forumet. Om inte, är forumet endast tillgängligt för administratörer."
+
+#, fuzzy
+msgid "frm_adm_sec_default_settings"
+msgstr "Default Object Settings"
+
+#, fuzzy
+msgid "frm_adm_sec_drafts"
+msgstr "Drafts"
+
+#, fuzzy
+msgid "frm_adm_sec_features"
+msgstr "Forum Features"
+
+#, fuzzy
+msgid "frm_adm_sec_notifications"
+msgstr "Notifications"
+
+msgid "frm_all_threads"
+msgstr "Alla ämnen"
+
+msgid "frm_anonymous_posting"
+msgstr "Att skriva med en pseudonym"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteterna för ILIAS 8
+msgid "frm_anonymous_posting_desc"
+msgstr "Inlägg kan skrivas under vilket namn som helst. Om alternativet \"Markera modereringsinlägg\" är aktiverat kan moderatorn inte använda en pseudonym."
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "frm_at_least_one_moderator"
+msgstr "Minst en person måste vara ansvarig för moderering "
+
+msgid "frm_censorship"
+msgstr "Censurering"
+
+msgid "frm_censorship_applied"
+msgstr "Inlägget har censurerats framgångsrikt."
+
+msgid "frm_censorship_revoked"
+msgstr "Censuren för inlägget har upphävts."
+
+msgid "frm_copy"
+msgstr "Kopia #Forum"
+
+msgid "frm_default_view"
+msgstr "Standardvy"
+
+msgid "frm_edit_title"
+msgstr "Redigera titel"
+
+#, fuzzy
+msgid "frm_enable_print_option"
+msgstr "Enable print option"
+
+#, fuzzy
+msgid "frm_enable_print_option_desc"
+msgstr "If disabled, nobody is able to select the print option in Forum."
+
+#, fuzzy
+msgid "frm_forum_push_notification_info"
+msgstr "Forum notifications are sent as push notifications instead of e-mail. If the push notification cannot be delivered, an e-mail will be sent instead."
+
+msgid "frm_mark_as_read"
+msgstr "Markera som läst"
+
+msgid "frm_mark_as_unread"
+msgstr "Markera som oläst"
+
+msgid "frm_max_notification_age"
+msgstr "Tröskelvärde för anmälningar"
+
+msgid "frm_max_notification_age_info"
+msgstr "Ange här den maximala åldern för de inlägg som ska beaktas för aviseringar. Det angivna värdet ska vara större än det valda intervallet i schemat."
+
+msgid "frm_max_notification_age_unit"
+msgstr "Tagg(ar)"
+
+msgid "frm_merge_src"
+msgstr "Valda ämnen"
+
+msgid "frm_merge_target"
+msgstr "Mål"
+
+msgid "frm_moderator_f"
+msgstr "Moderator"
+
+msgid "frm_moderator_m"
+msgstr "Moderator"
+
+msgid "frm_moderator_n"
+msgstr "Moderering"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "frm_moderator_role_added_successfully"
+msgstr "Personen har nu rätt att moderera sig."
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "frm_moderators"
+msgstr "Moderation"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteterna för ILIAS 8
+msgid "frm_moderators_detached_role_successfully"
+msgstr "Rätten att vara moderat togs ifrån de utvalda personerna."
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "frm_moderators_not_exist_yet"
+msgstr "Lägg till en person för moderering."
+
+# Modifierad som en del av jämställdhetsintegreringen för ILIAS 8
+msgid "frm_moderators_select_at_least_one"
+msgstr "Välj minst en person "
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "frm_moderators_select_one"
+msgstr "Välj en användare för moderering "
+
+msgid "frm_move_invalid_file_type"
+msgstr "Det valda temat \"%s\" har en filtyp som inte stöds i filbilagan. Ta bort filen eller kontakta administratören för att lägga till filtypen i positivlistan."
+
+msgid "frm_noti_message"
+msgstr "Meddelande"
+
+msgid "frm_noti_new_post"
+msgstr "ett nytt inlägg har skapats i forumet \"%1$s\"."
+
+msgid "frm_noti_obj_crs"
+msgstr "Kurs"
+
+msgid "frm_noti_obj_grp"
+msgstr "Grupp"
+
+msgid "frm_noti_subject_act_post"
+msgstr "Postat i forumet \"%1$s%2$s om ämnet \"%3$s\" aktiverat"
+
+msgid "frm_noti_subject_answ_post"
+msgstr "Posted i forumet \"%1$s%2$s på ämnet \"%3$s\" svarade"
+
+msgid "frm_noti_subject_cens_post"
+msgstr "Post i forum \"%1$s%2$s på ämne \"%3$s\" censurerad"
+
+msgid "frm_noti_subject_del_post"
+msgstr "Inlägg i forumet \"%1$s\"%2$s om ämnet \"%3$s\" borttaget"
+
+msgid "frm_noti_subject_del_thread"
+msgstr "Topic \"%3$s\" borttaget i forum \"%1$s\"%2$s"
+
+msgid "frm_noti_subject_new_post"
+msgstr "Nytt inlägg i forumet \"%1$s\"%2$s om ämnet \"%3$s\"."
+
+msgid "frm_noti_subject_uncens_post"
+msgstr "Censuren hävd för ett inlägg i forumet \"%1$s\"%2$s om ämnet \"%3$s\"."
+
+msgid "frm_noti_subject_upt_post"
+msgstr "Postat i forumet \"%1$s\"%2$s om ämnet \"%3$s\" ändrat"
+
+msgid "frm_notification_activated"
+msgstr "Notifiering aktiverad"
+
+#, fuzzy
+msgid "frm_notification_bg_task_title"
+msgstr "Forum notification delivery"
+
+msgid "frm_notification_deactivated"
+msgstr "Notifiering avaktiverad"
+
+# Modifierad som en del av jämställdhetsintegreringen för ILIAS 8
+msgid "frm_post_not_activated_yet"
+msgstr " Bidraget har ännu inte publicerats. "
+
+msgid "frm_posts"
+msgstr "Inlägg i forumet"
+
+msgid "frm_pseudonym"
+msgstr "Pseudonym"
+
+msgid "frm_purifier_not_implemented_for_type_x"
+msgstr "Det finns ännu ingen cleaner implementerad för %s-typen."
+
+msgid "frm_rating"
+msgstr "Rating"
+
+msgid "frm_revoke_censorship"
+msgstr "Ta bort censur"
+
+msgid "frm_search"
+msgstr "Sökning"
+
+msgid "frm_selected_merge_src"
+msgstr "Välja tema för sammanslagningen"
+
+msgid "frm_settings_form_header"
+msgstr "Forum inställningar"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "frm_settings_mod_functions_header"
+msgstr "Funktioner för moderering"
+
+msgid "frm_settings_privacy_header"
+msgstr "Skydd av personuppgifter"
+
+msgid "frm_settings_user_functions_header"
+msgstr "Funktioner för deltagare"
+
+msgid "frm_statistics"
+msgstr "Statistik"
+
+msgid "frm_statistics_disabled_for_participants"
+msgstr "Statistiken är inte synlig för vanliga forumanvändare."
+
+msgid "frm_statistics_enabled"
+msgstr "Visa statistik"
+
+msgid "frm_statistics_enabled_desc"
+msgstr "Alla kan se vem som har skrivit hur många inlägg på fliken \"Statistik\"."
+
+msgid "frm_statistics_ranking"
+msgstr "Antal offentliga bidrag"
+
+msgid "frm_subject_setting"
+msgstr "Förvald titel på inlägget"
+
+msgid "frm_sure_delete_threads"
+msgstr "Är du säker på att du vill ta bort följande ämnen?"
+
+msgid "frm_sure_merge_threads"
+msgstr "Är du säker på att du vill slå ihop dessa två ämnen till ett? Uppmärksamhet"
+
+msgid "frm_task_publishing_draft_title"
+msgstr "Publicera utkast \"%s\""
+
+msgid "frm_wizard_page"
+msgstr "Kopiera Forum (Steg 2/2)"
+
+msgid "is_read"
+msgstr "Läs"
+
+msgid "make_topics_non_sticky"
+msgstr "\"Top Topic\" Oklassificerat"
+
+msgid "make_topics_sticky"
+msgstr "Gör theme till en \"toppfråga"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "mark_moderator_posts"
+msgstr "Markera modereringsbidrag"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "mark_moderator_posts_desc"
+msgstr "Moderationens bidrag är markerade i färg "
+
+msgid "merge"
+msgstr "Sammanslagning"
+
+msgid "merge_posts_into_thread"
+msgstr "Mergera inlägg med ett annat ämne"
+
+msgid "merged_threads_successfully"
+msgstr "De utvalda ämnena sammanfördes framgångsrikt"
+
+msgid "move_chosen_topics"
+msgstr "Flytta utvalda ämnen"
+
+msgid "move_thread_to_forum"
+msgstr "Flytta ämnet till ett annat forum"
+
+msgid "new_post"
+msgstr "Ny post"
+
+msgid "new_thread_with_post"
+msgstr "Nytt ämne med inlägg"
+
+# Modifierad som en del av jämställdhetsintegreringen för ILIAS 8
+msgid "no_forum_selected"
+msgstr "Inget forum valt för flyttåtgärden!"
+
+msgid "not_allowed_to_merge_into_another_forum"
+msgstr "Det är inte möjligt att slå ihop ämnen från olika forum."
+
+msgid "notification_settings"
+msgstr "Inställningar för meddelanden"
+
+msgid "notify_censored"
+msgstr "Censurerade inlägg"
+
+msgid "notify_modified"
+msgstr "Modifierade bidrag"
+
+msgid "notify_post_deleted"
+msgstr "Borttagna inlägg"
+
+msgid "notify_thread_deleted"
+msgstr "Borttagna ämnen"
+
+msgid "notify_uncensored"
+msgstr "Ocensurerade inlägg"
+
+msgid "number_of_threads"
+msgstr "Antal ämnen som visas per sida"
+
+msgid "please_choose_target"
+msgstr "Välj ett tema som mål för sammanslagningen."
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteterna för ILIAS 8
+msgid "post_activation_desc"
+msgstr "Alla bidrag måste aktiveras av moderatorn "
+
+msgid "post_censored_by"
+msgstr "följande inlägg i forumet \"%2$s\" censurerades av \"%1$s"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "post_censored_comment_by_moderator"
+msgstr "Inlägget censurerat! Moderatorns anmärkning"
+
+msgid "post_deleted_by"
+msgstr "följande inlägg i forumet \"%2$s\" raderades av \"%1$s"
+
+#, fuzzy
+msgid "post_draft_info"
+msgstr "This posting draft is only visible for you."
+
+msgid "post_reply"
+msgstr "Re"
+
+msgid "post_reply_count"
+msgstr "Re (%s)"
+
+msgid "post_uncensored_by"
+msgstr "för följande inlägg har censuren av \"%1$s\" upphävts"
+
+msgid "post_updated_by"
+msgstr "följande inlägg i forumet \"%2$s\" redigerades av \"%1$s"
+
+msgid "preset_subject"
+msgstr "Inläggets titel övertas automatiskt för svaret."
+
+msgid "publish"
+msgstr "Publicera"
+
+#, fuzzy
+msgid "relevance"
+msgstr "Relevance"
+
+msgid "reopen_topics"
+msgstr "Återöppna"
+
+msgid "reply_to_postings"
+msgstr "Svar"
+
+msgid "reset_limited_view"
+msgstr "Limited view på denna post och alla poster under den"
+
+msgid "reset_limited_view_button"
+msgstr "Visa hela tråden"
+
+msgid "reset_limited_view_info"
+msgstr "Limited view på denna post och alla poster under den"
+
+msgid "restore"
+msgstr "Restaurera"
+
+msgid "restore_draft_from_autosave"
+msgstr "Restore utkast"
+
+msgid "save_draft_successfully"
+msgstr "Designen har sparats framgångsrikt."
+
+msgid "sel_threads_already_sticky"
+msgstr "Minst ett av de valda ämnena är redan markerat som ett toppämne"
+
+msgid "sel_threads_already_unsticky"
+msgstr "Minst ett av de utvalda ämnena är redan inte längre ett toppämne"
+
+msgid "sel_threads_make_sticky"
+msgstr "De utvalda ämnena markerades som toppämnen"
+
+msgid "sel_threads_make_unsticky"
+msgstr "De valda ämnena är inte längre markerade som toppämnen"
+
+msgid "select_at_least_one_thread"
+msgstr "Minst ett ämne måste väljas."
+
+msgid "select_max_one_thread"
+msgstr "Välj endast ett ämne!"
+
+msgid "selected_threads_closed"
+msgstr "De valda ämnena var stängda"
+
+msgid "selected_threads_reopened"
+msgstr "De utvalda temana har öppnats igen"
+
+msgid "sort_by_date"
+msgstr "Sortera efter datum"
+
+msgid "sort_by_date_desc"
+msgstr "Temat presenteras i platt vy. Inläggen visas i den kronologiska ordning som de skapades."
+
+msgid "sort_by_posts"
+msgstr "Sortera efter inlägg"
+
+msgid "sort_by_posts_desc"
+msgstr "Ämnet presenteras i en trädvy. Svar på inlägg visas i den ordning de är relaterade till varandra."
+
+msgid "sorting"
+msgstr "Sortering"
+
+msgid "sticky"
+msgstr "'Top Ämne"
+
+msgid "sure_delete_drafts"
+msgstr "Är du säker på att du vill radera de markerade utkasten?"
+
+msgid "switch_threads_for_merge"
+msgstr "Det valda temat är äldre än måltemat. För att skapa en meningsfull sammanslagning byts käll- och målteman ut."
+
+msgid "target_select"
+msgstr "Välj inlägg för begränsad visning"
+
+#, fuzzy
+msgid "thema"
+msgstr "Threads"
+
+msgid "thread"
+msgstr "Topic"
+
+msgid "thread_deleted_by"
+msgstr "Följande ämne i forumet %2$s har tagits bort av %1$s"
+
+#, fuzzy
+msgid "thread_overview"
+msgstr "Thread-Overview"
+
+msgid "threads_moved_successfully"
+msgstr "De valda ämnena har framgångsrikt flyttats till ett annat forum."
+
+#, fuzzy
+msgid "top_thema"
+msgstr "Top-Threads"
+
+msgid "topic_close"
+msgstr "sluten"
+
+msgid "topics_please_select_one_action"
+msgstr "Vänligen välj en åtgärd."
+
+msgid "user_decides_notification"
+msgstr "Medlemmar måste själva aktivera aviseringar."
