@@ -1,0 +1,156 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: gsfo\n"
+
+msgid "accessibility"
+msgstr "Accessibility"
+
+msgid "confirm_delete"
+msgstr "Do you really want to delete the following Item(s)?"
+
+msgid "confirm_reset"
+msgstr "Resetting the footer will restore all entries to their original state. All customizations and manual entries will be deleted. Do you want to continue?"
+
+msgid "entries_add"
+msgstr "Add Entry"
+
+msgid "entries_edit"
+msgstr "entries_edit"
+
+msgid "entries_parent"
+msgstr "Select Group"
+
+msgid "entries_select_parent"
+msgstr "Move Entry to Group"
+
+msgid "entries_target_group"
+msgstr "Select target group"
+
+msgid "entry_action"
+msgstr "Link"
+
+msgid "entry_action_info"
+msgstr "Provide the full URL including the protocol (e.g. https://www.ilias.de)"
+
+msgid "entry_activation_toggled"
+msgstr "Activation has been toggled"
+
+msgid "entry_active"
+msgstr "Active"
+
+msgid "entry_active_info"
+msgstr "Activate this Entry"
+
+msgid "entry_add"
+msgstr "Add Entry"
+
+msgid "entry_delete"
+msgstr "Delete"
+
+msgid "entry_deleted"
+msgstr "Deleted"
+
+msgid "entry_deleted_failed"
+msgstr "Deletion not possible"
+
+msgid "entry_edit"
+msgstr "Edit"
+
+msgid "entry_external"
+msgstr "Open in new Tab"
+
+msgid "entry_move"
+msgstr "Move"
+
+msgid "entry_moved"
+msgstr "Entry has been moved"
+
+msgid "entry_title"
+msgstr "Title (Default Language)"
+
+msgid "entry_toggle_activation"
+msgstr "(De-)Activate"
+
+msgid "group_activation_toggled"
+msgstr "Activation has been toggled"
+
+msgid "group_active"
+msgstr "Active"
+
+msgid "group_active_info"
+msgstr "Activate this Group"
+
+msgid "group_add"
+msgstr "Add Group"
+
+msgid "group_delete"
+msgstr "Delete"
+
+msgid "group_deleted"
+msgstr "Deleted"
+
+msgid "group_edit"
+msgstr "Edit Group"
+
+msgid "group_edit_entries"
+msgstr "Edit Entries"
+
+msgid "group_items"
+msgstr "Items"
+
+msgid "group_not_empty"
+msgstr "This Group contains entries. Please move or delete them first."
+
+msgid "group_title"
+msgstr "Title (Default Language)"
+
+msgid "group_title_info"
+msgstr "Additional Translations can be added with the Action \"Add Translation\" after saving the Group."
+
+msgid "group_toggle_activation"
+msgstr "(De-)Activate"
+
+msgid "group_translate"
+msgstr "Translate"
+
+msgid "info_not_deletable_core"
+msgstr "Default Items cannot be deleted."
+
+msgid "info_not_deletable_not_empty"
+msgstr "Groups with Entries cannot be deleted."
+
+msgid "item_moved"
+msgstr "Entry moved"
+
+msgid "legal_information"
+msgstr "Legal Information"
+
+msgid "order_saved"
+msgstr "Order saved"
+
+msgid "permanent"
+msgstr "permanent"
+
+msgid "reset_footer"
+msgstr "Reset Footer"
+
+msgid "reset_success"
+msgstr "Footer has been reset successfully"
+
+msgid "services"
+msgstr "Services"
+
+msgid "support"
+msgstr "Support"
+
+msgid "translate"
+msgstr "Translate"
+
+msgid "translations"
+msgstr "Translations"

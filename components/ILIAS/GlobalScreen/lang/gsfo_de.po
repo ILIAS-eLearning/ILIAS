@@ -1,0 +1,156 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: gsfo\n"
+
+msgid "accessibility"
+msgstr "Barrierefreiheit"
+
+msgid "confirm_delete"
+msgstr "Möchten Sie die folgenden Elemente wirklich löschen?"
+
+msgid "confirm_reset"
+msgstr "Durch das Zurücksetzen der Fußzeile werden alle Einträge in ihren ursprünglichen Zustand zurückversetzt. Alle Anpassungen und manuellen Einträge werden gelöscht. Möchten Sie fortfahren?"
+
+msgid "entries_add"
+msgstr "Eintrag hinzufügen"
+
+msgid "entries_edit"
+msgstr "Einträge bearbeiten"
+
+msgid "entries_parent"
+msgstr "Gruppe auswählen"
+
+msgid "entries_select_parent"
+msgstr "Eintrag in Gruppe verschieben"
+
+msgid "entries_target_group"
+msgstr "Ziel wählen"
+
+msgid "entry_action"
+msgstr "Link"
+
+msgid "entry_action_info"
+msgstr "Geben Sie die vollständige URL einschließlich des Protokolls an (z. B. https://www.ilias.de)"
+
+msgid "entry_activation_toggled"
+msgstr "Aktivierung wurde umgeschaltet"
+
+msgid "entry_active"
+msgstr "Aktiv"
+
+msgid "entry_active_info"
+msgstr "Diesen Eintrag aktivieren"
+
+msgid "entry_add"
+msgstr "Eintrag hinzufügen"
+
+msgid "entry_delete"
+msgstr "Löschen"
+
+msgid "entry_deleted"
+msgstr "Gelöscht"
+
+msgid "entry_deleted_failed"
+msgstr "Löschen nicht möglich"
+
+msgid "entry_edit"
+msgstr "Bearbeiten"
+
+msgid "entry_external"
+msgstr "In neuem Tab öffnen"
+
+msgid "entry_move"
+msgstr "Verschieben"
+
+msgid "entry_moved"
+msgstr "Eintrag wurde verschoben"
+
+msgid "entry_title"
+msgstr "Titel (Standardsprache)"
+
+msgid "entry_toggle_activation"
+msgstr "(De-)Aktivieren"
+
+msgid "group_activation_toggled"
+msgstr "Aktivierung wurde umgeschaltet"
+
+msgid "group_active"
+msgstr "Aktiv"
+
+msgid "group_active_info"
+msgstr "Diese Gruppe aktivieren"
+
+msgid "group_add"
+msgstr "Gruppe hinzufügen"
+
+msgid "group_delete"
+msgstr "Löschen"
+
+msgid "group_deleted"
+msgstr "Gelöscht"
+
+msgid "group_edit"
+msgstr "Gruppe bearbeiten"
+
+msgid "group_edit_entries"
+msgstr "Einträge bearbeiten"
+
+msgid "group_items"
+msgstr "Elemente"
+
+msgid "group_not_empty"
+msgstr "Diese Gruppe enthält Einträge. Bitte verschieben oder löschen Sie diese zuerst."
+
+msgid "group_title"
+msgstr "Titel (Standardsprache)"
+
+msgid "group_title_info"
+msgstr "Zusätzliche Übersetzungen können nach dem Speichern der Gruppe mit der Aktion „Übersetzung hinzufügen“ hinzugefügt werden."
+
+msgid "group_toggle_activation"
+msgstr "(De-)Aktivieren"
+
+msgid "group_translate"
+msgstr "Übersetzen"
+
+msgid "info_not_deletable_core"
+msgstr "Standardelemente können nicht gelöscht werden."
+
+msgid "info_not_deletable_not_empty"
+msgstr "Gruppen mit Einträgen können nicht gelöscht werden."
+
+msgid "item_moved"
+msgstr "Eintrag verschoben"
+
+msgid "legal_information"
+msgstr "Rechtliche Informationen"
+
+msgid "order_saved"
+msgstr "Reihenfolge gespeichert"
+
+msgid "permanent"
+msgstr "permanent"
+
+msgid "reset_footer"
+msgstr "Fußzeile zurücksetzen"
+
+msgid "reset_success"
+msgstr "Fußzeile erfolgreich zurückgesetzt"
+
+msgid "services"
+msgstr "Services"
+
+msgid "support"
+msgstr "Support"
+
+msgid "translate"
+msgstr "Übersetzen"
+
+msgid "translations"
+msgstr "Übersetzungen"

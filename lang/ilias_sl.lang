@@ -6048,52 +6048,6 @@ grp#:#grp_wrong_reg_time_limit#:#Preverite vnos obdobja prijave.
 grp#:#reg_grp_max_members#:#Maksimalno število
 grp#:#reg_grp_max_members_short#:#Omejeno število članov
 grp#:#reg_grp_min_members#:#Minimalno število
-gsfo#:#accessibility#:#Accessibility###28 10 2024 new variable
-gsfo#:#confirm_delete#:#Do you really want to delete the following Item(s)?###28 10 2024 new variable
-gsfo#:#confirm_reset#:#Resetting the footer will restore all entries to their original state. All customizations and manual entries will be deleted. Do you want to continue?###28 10 2024 new variable
-gsfo#:#entries_add#:#Add Entry###28 10 2024 new variable
-gsfo#:#entries_edit#:#entries_edit###28 10 2024 new variable
-gsfo#:#entries_parent#:#Select Group###28 10 2024 new variable
-gsfo#:#entries_select_parent#:#Move Entry to Group###28 10 2024 new variable
-gsfo#:#entry_action#:#Link###28 10 2024 new variable
-gsfo#:#entry_action_info#:#Provide the full URL including the protocol (e.g. https://www.ilias.de)###28 10 2024 new variable
-gsfo#:#entry_activation_toggled#:#Activation has been toggled###28 10 2024 new variable
-gsfo#:#entry_active#:#Active###28 10 2024 new variable
-gsfo#:#entry_active_info#:#Activate this Entry###28 10 2024 new variable
-gsfo#:#entry_add#:#Add Entry###28 10 2024 new variable
-gsfo#:#entry_delete#:#Delete###28 10 2024 new variable
-gsfo#:#entry_deleted#:#Deleted###28 10 2024 new variable
-gsfo#:#entry_edit#:#Edit###28 10 2024 new variable
-gsfo#:#entry_external#:#Open in new Tab###28 10 2024 new variable
-gsfo#:#entry_move#:#Move###28 10 2024 new variable
-gsfo#:#entry_moved#:#Entry has been moved###28 10 2024 new variable
-gsfo#:#entry_title#:#Title (Default Language)###28 10 2024 new variable
-gsfo#:#entry_toggle_activation#:#(De-)Activate###28 10 2024 new variable
-gsfo#:#group_activation_toggled#:#Activation has been toggled###28 10 2024 new variable
-gsfo#:#group_active#:#Active###28 10 2024 new variable
-gsfo#:#group_active_info#:#Activate this Group###28 10 2024 new variable
-gsfo#:#group_add#:#Add Group###28 10 2024 new variable
-gsfo#:#group_delete#:#Delete###28 10 2024 new variable
-gsfo#:#group_deleted#:#Deleted###28 10 2024 new variable
-gsfo#:#group_edit#:#Edit Group###28 10 2024 new variable
-gsfo#:#group_edit_entries#:#Edit Entries###28 10 2024 new variable
-gsfo#:#group_items#:#Items###28 10 2024 new variable
-gsfo#:#group_not_empty#:#This Group contains Entries. Please move or delete them first.###28 10 2024 new variable
-gsfo#:#group_title#:#Title (Default Language)###28 10 2024 new variable
-gsfo#:#group_title_info#:#Additional Translations can be added with the Action "Add Translation" after saving the Group.###28 10 2024 new variable
-gsfo#:#group_toggle_activation#:#(De-)Activate###28 10 2024 new variable
-gsfo#:#group_translate#:#Translate###28 10 2024 new variable
-gsfo#:#info_not_deletable_core#:#Default Items cannot be deleted.###28 10 2024 new variable
-gsfo#:#info_not_deletable_not_empty#:#Groups with Entries cannot be deleted.###28 10 2024 new variable
-gsfo#:#legal_information#:#Legal Information###28 10 2024 new variable
-gsfo#:#order_saved#:#Order saved###28 10 2024 new variable
-gsfo#:#permanent#:#permanent###28 10 2024 new variable
-gsfo#:#reset_footer#:#Reset Footer###28 10 2024 new variable
-gsfo#:#reset_success#:#Footer has been reset successfully###28 10 2024 new variable
-gsfo#:#services#:#Services###28 10 2024 new variable
-gsfo#:#support#:#Support###28 10 2024 new variable
-gsfo#:#translate#:#Translate###29 10 2025 new variable
-gsfo#:#translations#:#Translations###29 10 2025 new variable
 impr#:#impr_page_type_impr#:#Imprint
 irss#:#action_download#:#Download###26 08 2024 new variable
 irss#:#action_goto#:#Open Resource###26 08 2024 new variable

@@ -6069,55 +6069,6 @@ grp#:#grp_wrong_reg_time_limit#:#Please check the registration start and finish 
 grp#:#reg_grp_max_members#:#Maximum Number of Members
 grp#:#reg_grp_max_members_short#:#Limited Number of Members
 grp#:#reg_grp_min_members#:#Minimum Number of Members
-gsfo#:#accessibility#:#Accessibility
-gsfo#:#confirm_delete#:#Do you really want to delete the following Item(s)?
-gsfo#:#confirm_reset#:#Resetting the footer will restore all entries to their original state. All customizations and manual entries will be deleted. Do you want to continue?
-gsfo#:#entries_add#:#Add Entry
-gsfo#:#entries_edit#:#entries_edit
-gsfo#:#entries_parent#:#Select Group
-gsfo#:#entries_select_parent#:#Move Entry to Group
-gsfo#:#entries_target_group#:#Select target group
-gsfo#:#entry_action#:#Link
-gsfo#:#entry_action_info#:#Provide the full URL including the protocol (e.g. https://www.ilias.de)
-gsfo#:#entry_activation_toggled#:#Activation has been toggled
-gsfo#:#entry_active#:#Active
-gsfo#:#entry_active_info#:#Activate this Entry
-gsfo#:#entry_add#:#Add Entry
-gsfo#:#entry_delete#:#Delete
-gsfo#:#entry_deleted#:#Deleted
-gsfo#:#entry_deleted_failed#:#Deletion not possible
-gsfo#:#entry_edit#:#Edit
-gsfo#:#entry_external#:#Open in new Tab
-gsfo#:#entry_move#:#Move
-gsfo#:#entry_moved#:#Entry has been moved
-gsfo#:#entry_title#:#Title (Default Language)
-gsfo#:#entry_toggle_activation#:#(De-)Activate
-gsfo#:#group_activation_toggled#:#Activation has been toggled
-gsfo#:#group_active#:#Active
-gsfo#:#group_active_info#:#Activate this Group
-gsfo#:#group_add#:#Add Group
-gsfo#:#group_delete#:#Delete
-gsfo#:#group_deleted#:#Deleted
-gsfo#:#group_edit#:#Edit Group
-gsfo#:#group_edit_entries#:#Edit Entries
-gsfo#:#group_items#:#Items
-gsfo#:#group_not_empty#:#This Group contains entries. Please move or delete them first.
-gsfo#:#group_title#:#Title (Default Language)
-gsfo#:#group_title_info#:#Additional Translations can be added with the Action "Add Translation" after saving the Group.
-gsfo#:#group_toggle_activation#:#(De-)Activate
-gsfo#:#group_translate#:#Translate
-gsfo#:#info_not_deletable_core#:#Default Items cannot be deleted.
-gsfo#:#info_not_deletable_not_empty#:#Groups with Entries cannot be deleted.
-gsfo#:#item_moved#:#Entry moved
-gsfo#:#legal_information#:#Legal Information
-gsfo#:#order_saved#:#Order saved
-gsfo#:#permanent#:#permanent
-gsfo#:#reset_footer#:#Reset Footer
-gsfo#:#reset_success#:#Footer has been reset successfully
-gsfo#:#services#:#Services
-gsfo#:#support#:#Support
-gsfo#:#translate#:#Translate
-gsfo#:#translations#:#Translations
 impr#:#impr_page_type_impr#:#Imprint
 irss#:#action_download#:#Download
 irss#:#action_goto#:#Open Resource

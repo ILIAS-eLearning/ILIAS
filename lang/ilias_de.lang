@@ -6068,55 +6068,6 @@ grp#:#grp_wrong_reg_time_limit#:#Bitte überprüfen Sie Ihre Eingaben zum Anmeld
 grp#:#reg_grp_max_members#:#Maximale Anzahl
 grp#:#reg_grp_max_members_short#:#Begrenzte Mitgliederanzahl
 grp#:#reg_grp_min_members#:#Mindestanzahl
-gsfo#:#accessibility#:#Barrierefreiheit
-gsfo#:#confirm_delete#:#Möchten Sie die folgenden Elemente wirklich löschen?
-gsfo#:#confirm_reset#:#Durch das Zurücksetzen der Fußzeile werden alle Einträge in ihren ursprünglichen Zustand zurückversetzt. Alle Anpassungen und manuellen Einträge werden gelöscht. Möchten Sie fortfahren?
-gsfo#:#entries_add#:#Eintrag hinzufügen
-gsfo#:#entries_edit#:#Einträge bearbeiten
-gsfo#:#entries_parent#:#Gruppe auswählen
-gsfo#:#entries_select_parent#:#Eintrag in Gruppe verschieben
-gsfo#:#entries_target_group#:#Ziel wählen
-gsfo#:#entry_action#:#Link
-gsfo#:#entry_action_info#:#Geben Sie die vollständige URL einschließlich des Protokolls an (z. B. https://www.ilias.de)
-gsfo#:#entry_activation_toggled#:#Aktivierung wurde umgeschaltet
-gsfo#:#entry_active#:#Aktiv
-gsfo#:#entry_active_info#:#Diesen Eintrag aktivieren
-gsfo#:#entry_add#:#Eintrag hinzufügen
-gsfo#:#entry_delete#:#Löschen
-gsfo#:#entry_deleted#:#Gelöscht
-gsfo#:#entry_deleted_failed#:#Löschen nicht möglich
-gsfo#:#entry_edit#:#Bearbeiten
-gsfo#:#entry_external#:#In neuem Tab öffnen
-gsfo#:#entry_move#:#Verschieben
-gsfo#:#entry_moved#:#Eintrag wurde verschoben
-gsfo#:#entry_title#:#Titel (Standardsprache)
-gsfo#:#entry_toggle_activation#:#(De-)Aktivieren
-gsfo#:#group_activation_toggled#:#Aktivierung wurde umgeschaltet
-gsfo#:#group_active#:#Aktiv
-gsfo#:#group_active_info#:#Diese Gruppe aktivieren
-gsfo#:#group_add#:#Gruppe hinzufügen
-gsfo#:#group_delete#:#Löschen
-gsfo#:#group_deleted#:#Gelöscht
-gsfo#:#group_edit#:#Gruppe bearbeiten
-gsfo#:#group_edit_entries#:#Einträge bearbeiten
-gsfo#:#group_items#:#Elemente
-gsfo#:#group_not_empty#:#Diese Gruppe enthält Einträge. Bitte verschieben oder löschen Sie diese zuerst.
-gsfo#:#group_title#:#Titel (Standardsprache)
-gsfo#:#group_title_info#:#Zusätzliche Übersetzungen können nach dem Speichern der Gruppe mit der Aktion „Übersetzung hinzufügen“ hinzugefügt werden.
-gsfo#:#group_toggle_activation#:#(De-)Aktivieren
-gsfo#:#group_translate#:#Übersetzen
-gsfo#:#info_not_deletable_core#:#Standardelemente können nicht gelöscht werden.
-gsfo#:#info_not_deletable_not_empty#:#Gruppen mit Einträgen können nicht gelöscht werden.
-gsfo#:#item_moved#:#Eintrag verschoben
-gsfo#:#legal_information#:#Rechtliche Informationen
-gsfo#:#order_saved#:#Reihenfolge gespeichert
-gsfo#:#permanent#:#permanent
-gsfo#:#reset_footer#:#Fußzeile zurücksetzen
-gsfo#:#reset_success#:#Fußzeile erfolgreich zurückgesetzt
-gsfo#:#services#:#Services
-gsfo#:#support#:#Support
-gsfo#:#translate#:#Übersetzen
-gsfo#:#translations#:#Übersetzungen
 impr#:#impr_page_type_impr#:#Impressum
 irss#:#action_download#:#Herunterladen
 irss#:#action_goto#:#Ressource öffnen

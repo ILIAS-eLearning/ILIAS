@@ -6060,52 +6060,6 @@ grp#:#grp_wrong_reg_time_limit#:#Por favor, compruebe la hora de inicio y fin de
 grp#:#reg_grp_max_members#:#Número máximo de miembros
 grp#:#reg_grp_max_members_short#:#Número limitado de miembros
 grp#:#reg_grp_min_members#:#Número mínimo de miembros
-gsfo#:#accessibility#:#Accesibilidad
-gsfo#:#confirm_delete#:#¿Realmente desea eliminar los siguientes elementos?
-gsfo#:#confirm_reset#:#Al restablecer el pie de página, todas las entradas volverán a su estado original. Todas las personalizaciones y entradas manuales se eliminarán. ¿Desea continuar?
-gsfo#:#entries_add#:#Añadir entrada
-gsfo#:#entries_edit#:#editar_entradas
-gsfo#:#entries_parent#:#Seleccionar grupo
-gsfo#:#entries_select_parent#:#Mover entrada al grupo
-gsfo#:#entry_action#:#Enlace
-gsfo#:#entry_action_info#:#Proporcione la URL completa incluyendo el protocolo (ej. https://www.ilias.de)
-gsfo#:#entry_activation_toggled#:#Se ha conmutado la activación
-gsfo#:#entry_active#:#Activo
-gsfo#:#entry_active_info#:#Activar esta entrada
-gsfo#:#entry_add#:#Añadir entrada
-gsfo#:#entry_delete#:#Eliminar
-gsfo#:#entry_deleted#:#Eliminado
-gsfo#:#entry_edit#:#Editar
-gsfo#:#entry_external#:#Abrir en una nueva pestaña
-gsfo#:#entry_move#:#Mover
-gsfo#:#entry_moved#:#La entrada ha sido movida
-gsfo#:#entry_title#:#Título (Idioma predeterminado)
-gsfo#:#entry_toggle_activation#:#(Des)activar
-gsfo#:#group_activation_toggled#:#La activación se ha alternado
-gsfo#:#group_active#:#Activo
-gsfo#:#group_active_info#:#Activar este grupo
-gsfo#:#group_add#:#Añadir grupo
-gsfo#:#group_delete#:#Eliminar
-gsfo#:#group_deleted#:#Eliminado
-gsfo#:#group_edit#:#Editar grupo
-gsfo#:#group_edit_entries#:#Editar entradas
-gsfo#:#group_items#:#Elementos
-gsfo#:#group_not_empty#:#Este grupo contiene entradas. Por favor, muévalas o elimínelas primero.
-gsfo#:#group_title#:#Título (Idioma predeterminado)
-gsfo#:#group_title_info#:#Se pueden añadir traducciones adicionales con la acción "Añadir traducción" después de guardar el grupo.
-gsfo#:#group_toggle_activation#:#(Des)activar
-gsfo#:#group_translate#:#Traducir
-gsfo#:#info_not_deletable_core#:#Los elementos predeterminados no se pueden eliminar.
-gsfo#:#info_not_deletable_not_empty#:#Los grupos con entradas no se pueden eliminar.
-gsfo#:#legal_information#:#Información legal
-gsfo#:#order_saved#:#Orden guardado
-gsfo#:#permanent#:#permanente
-gsfo#:#reset_footer#:#Restablecer pie de página
-gsfo#:#reset_success#:#El pie de página se ha restablecido correctamente
-gsfo#:#services#:#Servicios
-gsfo#:#support#:#Soporte
-gsfo#:#translate#:#Traducir
-gsfo#:#translations#:#Translations
 impr#:#impr_page_type_impr#:#Pie de imprenta
 irss#:#action_download#:#Descargar
 irss#:#action_goto#:#Abrir recurso
