@@ -1,0 +1,294 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: mme\n"
+
+msgid "add_languages"
+msgstr "言語を追加"
+
+msgid "additional_langs"
+msgstr "追加言語"
+
+msgid "button_save"
+msgstr "保存"
+
+msgid "component_not_active"
+msgstr "コンポーネントがアクティブではありません。"
+
+msgid "confirm_move"
+msgstr "トップアイテムへこのアイテムを移動しますか?"
+
+msgid "deactived_by_configuration"
+msgstr "設定によって無効化されました"
+
+msgid "edit_sub_tems"
+msgstr "エントリーを編集"
+
+msgid "err_uri_not_valid"
+msgstr "有効なURLを提供してください。"
+
+msgid "field_external"
+msgstr "外部リンク"
+
+msgid "field_external_info"
+msgstr "リンクは別ウインドウで開きます。"
+
+msgid "field_ref_id"
+msgstr "ILIAS Reference-ID"
+
+msgid "field_ref_id_info"
+msgstr "リポジトリに希望する ILIAS-オブジェクトの Reference-ID は、オブジェクトのURL内の Reference-ID(...?ref_id=123) に見つかります。"
+
+msgid "field_url"
+msgstr "URL"
+
+msgid "field_url_info"
+msgstr "http(s)://で始まる希望する website へのリンク:"
+
+msgid "flush"
+msgstr "紛失アイテムを削除"
+
+msgid "item_must_be_always_active"
+msgstr "アイテムはアクティブにしなければなりません。"
+
+msgid "item_updated"
+msgstr "アイテムを保存しました"
+
+msgid "main"
+msgstr "メインメニュー"
+
+msgid "mm_translation_lang"
+msgstr "言語"
+
+msgid "mm_translation_trans"
+msgstr "翻訳"
+
+msgid "mme_lost_items"
+msgstr "どこにも割り当てられていません"
+
+msgid "move_to_item"
+msgstr "アイテムへ移動"
+
+msgid "move_to_top_item"
+msgstr "トップアイテムへ移動"
+
+msgid "msg_languages_added"
+msgstr "言語を追加しました"
+
+msgid "msg_moved"
+msgstr "アイテムは正しく移動されました。"
+
+msgid "msg_not_changed"
+msgstr "次のエントリは変更できませんでした: %s"
+
+msgid "msg_not_moved"
+msgstr "アイテムを移動できませんでしたので有効な親を選択してください。"
+
+msgid "msg_ref_id_not_callable"
+msgstr "このレファレンスIDをメインメニューに使用する事はできません。マガジン内のターゲットに限りサポートされます。"
+
+msgid "msg_restore_confirm"
+msgstr "全カスタム項目と翻訳は削除されて全標準項目が工場出荷値へリセットされます。カスタマイズ化全ては消去されます。"
+
+msgid "msg_restored"
+msgstr "メインメニューを完全にリセット"
+
+msgid "msg_subitem_deleted"
+msgstr "アイテムを削除しました。"
+
+msgid "msg_subitem_flushed"
+msgstr "紛失アイテムを削除しました。"
+
+msgid "msg_success"
+msgstr "正しく保存されました"
+
+msgid "msg_topitem_deleted"
+msgstr "アイテムを削除しました。"
+
+msgid "msg_translations_deleted"
+msgstr "翻訳を削除しました"
+
+msgid "msg_translations_saved"
+msgstr "翻訳を保存しました"
+
+msgid "restore"
+msgstr "メインメニュをリセット"
+
+msgid "select_parent"
+msgstr "親を選択"
+
+msgid "sub_actions"
+msgstr "アクション"
+
+msgid "sub_active"
+msgstr "アクティブ"
+
+msgid "sub_active_byline"
+msgstr "全ユーザのこのアイテムを有効化"
+
+msgid "sub_global_roles"
+msgstr "グローバル役割"
+
+msgid "sub_icon"
+msgstr "Icon"
+
+msgid "sub_icon_byline"
+msgstr "この項目用のカスタムアイコンをupload。SVG-Iconは変換されることに注意願います。"
+
+msgid "sub_parent"
+msgstr "トップアイテム"
+
+msgid "sub_position"
+msgstr "ポジション"
+
+msgid "sub_provider"
+msgstr "プロバイダー"
+
+msgid "sub_role_based_visibility"
+msgstr "役割の表示"
+
+msgid "sub_role_based_visibility_byline"
+msgstr "このアイテムを表示可能なグローバル役割を選択。有効にしないとアイテムは常時表示されます。"
+
+msgid "sub_status"
+msgstr "ステータス"
+
+msgid "sub_title"
+msgstr "タイトル"
+
+msgid "sub_title_default"
+msgstr "タイトル(デフォルト言語)"
+
+msgid "sub_title_default_byline"
+msgstr "他の翻訳は翻訳アクションの後で追加することができます。"
+
+msgid "sub_type"
+msgstr "タイプ"
+
+msgid "sub_type_byline"
+msgstr "アイテム追加構成に特定のタイプが必要になる事があります。"
+
+msgid "subitem"
+msgstr "サブアイテム"
+
+msgid "subitem_add"
+msgstr "アイテムを追加"
+
+msgid "subitem_confirm_delete"
+msgstr "本当に次のアイテムを削除しますか?"
+
+msgid "subitem_delete"
+msgstr "削除"
+
+msgid "subitem_edit"
+msgstr "編集"
+
+msgid "subitem_translate"
+msgstr "翻訳"
+
+msgid "subtab_subitems"
+msgstr "アイテム"
+
+msgid "subtab_topitems"
+msgstr "トップアイテム"
+
+msgid "tab_back"
+msgstr "戻る"
+
+msgid "table_show_inactive"
+msgstr "非アクティブを表示"
+
+msgid "topitem_actions"
+msgstr "アクション"
+
+msgid "topitem_active"
+msgstr "アクティブ"
+
+msgid "topitem_active_byline"
+msgstr "全ユーザのこのトップアイテムを有効化"
+
+msgid "topitem_add"
+msgstr "トップアイテムを追加"
+
+msgid "topitem_confirm_delete"
+msgstr "本当に次のアイテムを削除しますか?"
+
+msgid "topitem_delete"
+msgstr "削除"
+
+msgid "topitem_edit"
+msgstr "編集"
+
+msgid "topitem_icon"
+msgstr "Icon"
+
+msgid "topitem_icon_byline"
+msgstr "この項目用のカスタムアイコンをupload。SVG-Iconは変換されることに注意願います。"
+
+msgid "topitem_position"
+msgstr "ポジション"
+
+msgid "topitem_provider"
+msgstr "プロバイダー"
+
+msgid "topitem_subentries"
+msgstr "アイテム"
+
+msgid "topitem_title"
+msgstr "タイトル"
+
+msgid "topitem_title_default"
+msgstr "タイトル(デフォルト言語)"
+
+msgid "topitem_title_default_byline"
+msgstr "他の翻訳は翻訳アクションの後で追加することができます。"
+
+msgid "topitem_translate"
+msgstr "翻訳"
+
+msgid "topitem_type"
+msgstr "タイプ"
+
+msgid "topitem_type_byline"
+msgstr "Topアイテムは直接リンクまたはアイテムを含めることができます。"
+
+msgid "topitem_type_link"
+msgstr "Link"
+
+msgid "topitem_type_parent"
+msgstr "Topアイテム"
+
+msgid "type_complex"
+msgstr "複合"
+
+msgid "type_link"
+msgstr "Link"
+
+msgid "type_link_list"
+msgstr "Linkリスト"
+
+msgid "type_lost"
+msgstr "Lost"
+
+msgid "type_repository_link"
+msgstr "Repository-Link"
+
+msgid "type_separator"
+msgstr "セパレータ"
+
+msgid "type_separator_info"
+msgstr "このアイテムのタイトルはグレイバナーに表示されます。タイトルを未入力の場合は単線が表示されます。"
+
+msgid "type_top_link_item"
+msgstr "Link"
+
+msgid "type_top_parent_item"
+msgstr "コンテナ"
+
+msgid "unable_to_render"
+msgstr " '%s' in '%s'を表示不可"

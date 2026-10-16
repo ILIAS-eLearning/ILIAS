@@ -1,0 +1,322 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: mme\n"
+
+msgid "add_languages"
+msgstr "para ativar a sua conta e confirmar que este endereço de e-mail lhe pertence, clique no link abaixo:"
+
+msgid "additional_langs"
+msgstr "Se estiver ativada, as palavras-passe são automaticamente enviadas para novos utilizadores por e-mail."
+
+msgid "button_save"
+msgstr "Já se registou no ILIAS eLearning e recebeu um e-mail com os dados da sua conta. Agora a sua conta foi ativada por um administrador."
+
+msgid "component_not_active"
+msgstr "Para confirmar este registo, entre na administração de utilizadores ILIAS e ative a conta."
+
+#, fuzzy
+msgid "confirm_move"
+msgstr "Would you like to move this item to Top Items?"
+
+#, fuzzy
+msgid "deactived_by_configuration"
+msgstr "Deactivated by configuration"
+
+#, fuzzy
+msgid "edit_sub_tems"
+msgstr "Edit Entries"
+
+#, fuzzy
+msgid "err_uri_not_valid"
+msgstr "Please provide a valid URL"
+
+msgid "field_external"
+msgstr "Dados de perfil:"
+
+msgid "field_external_info"
+msgstr "o seu perfil mudou!"
+
+msgid "field_ref_id"
+msgstr "O seu pedido de conta será revisto por um administrador e deve ficar ativado em 48 horas. Será informado por e-mail sobre a obtenção da aprovação."
+
+msgid "field_ref_id_info"
+msgstr "Recebe um e-mail de ILIAS porque as notificações sobre novos registos estão ativadas relativamente à sua conta na administração ILIAS."
+
+msgid "field_url"
+msgstr "Registo de novo utilizador"
+
+msgid "field_url_info"
+msgstr "Foi registado um novo utilizador"
+
+#, fuzzy
+msgid "flush"
+msgstr "Remove Lost Items"
+
+msgid "item_must_be_always_active"
+msgstr "Preencha todos os campos."
+
+#, fuzzy
+msgid "item_updated"
+msgstr "Item stored"
+
+msgid "main"
+msgstr "Preencha todos os campos."
+
+msgid "mm_translation_lang"
+msgstr "Notificações"
+
+msgid "mm_translation_trans"
+msgstr "Insira um ou mais Ids de login dos utilizadores (separados por vírgulas) que serão informados por e-mail sobre registos de novos utilizadores."
+
+#, fuzzy
+msgid "mme_lost_items"
+msgstr "Nowhere assigned"
+
+#, fuzzy
+msgid "move_to_item"
+msgstr "Move to Items"
+
+#, fuzzy
+msgid "move_to_top_item"
+msgstr "Move to Top Items"
+
+msgid "msg_languages_added"
+msgstr "Defina os limites de acesso a funções para novos utilizadores registados"
+
+#, fuzzy
+msgid "msg_moved"
+msgstr "Item successfully moved"
+
+#, fuzzy
+msgid "msg_not_changed"
+msgstr "The following entries could not be changed: %s"
+
+#, fuzzy
+msgid "msg_not_moved"
+msgstr "Item could not be moved, please select a valid parent."
+
+#, fuzzy
+msgid "msg_ref_id_not_callable"
+msgstr "This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported."
+
+#, fuzzy
+msgid "msg_restore_confirm"
+msgstr "All Custom Items and Translations will be deleted, all Standard items will be reset to factory default. All customization will be lost."
+
+#, fuzzy
+msgid "msg_restored"
+msgstr "Main Menu completely reset"
+
+msgid "msg_subitem_deleted"
+msgstr "Atribuição de funções"
+
+#, fuzzy
+msgid "msg_subitem_flushed"
+msgstr "Lost Items removed."
+
+#, fuzzy
+msgid "msg_success"
+msgstr "Successfully stored"
+
+msgid "msg_topitem_deleted"
+msgstr "Funções atribuídas"
+
+msgid "msg_translations_deleted"
+msgstr "Funções selecionáveis"
+
+msgid "msg_translations_saved"
+msgstr "Selecione uma entrada."
+
+#, fuzzy
+msgid "restore"
+msgstr "Reset Main Menu"
+
+#, fuzzy
+msgid "select_parent"
+msgstr "Select Parent"
+
+msgid "sub_actions"
+msgstr "Recurso com dependência"
+
+msgid "sub_active"
+msgstr "Nesta área pode criar recursos de aprendizagem e de trabalho para todos os utilizadores. Todos os recursos estão organizados em categorias. As categorias podem refletir a estrutura da sua organização (p. ex. departamentos), uma hierarquia de disciplinas ou classes de uma escola."
+
+msgid "sub_active_byline"
+msgstr "Agrupamento"
+
+#, fuzzy
+msgid "sub_global_roles"
+msgstr "Global Roles"
+
+#, fuzzy
+msgid "sub_icon"
+msgstr "Icon"
+
+#, fuzzy
+msgid "sub_icon_byline"
+msgstr "Upload a custom icon for this Item. Please note that the SVG-Icons will be inverted."
+
+msgid "sub_parent"
+msgstr "Adicionar agrupamento"
+
+msgid "sub_position"
+msgstr "Tem a certeza que quer apagar os seguintes agrupamentos?"
+
+msgid "sub_provider"
+msgstr "Editar agrupamento"
+
+#, fuzzy
+msgid "sub_role_based_visibility"
+msgstr "Visibility for roles"
+
+#, fuzzy
+msgid "sub_role_based_visibility_byline"
+msgstr "Choose global roles which can see this item. If not activated, the item is always shown."
+
+msgid "sub_status"
+msgstr "Menu ‘Adicionar novo item’"
+
+msgid "sub_title"
+msgstr "Período de disponibilidade limitada"
+
+msgid "sub_title_default"
+msgstr "Aceder ao ficheiro ECS"
+
+msgid "sub_title_default_byline"
+msgstr "Aceder ao grupo ECS"
+
+msgid "sub_type"
+msgstr "Aceder ao teste ECS"
+
+msgid "sub_type_byline"
+msgstr "O pacote ZIP SCORM tem de ter sido criado com o editor ILIAS SCORM e tem de ter sido exportado como pacote SCORM 1.2/2004."
+
+#, fuzzy
+msgid "subitem"
+msgstr "Subitem"
+
+msgid "subitem_add"
+msgstr "Definições de novo registo"
+
+msgid "subitem_confirm_delete"
+msgstr "Tipo de registo"
+
+msgid "subitem_delete"
+msgstr "Registo com confirmação de e-mail"
+
+msgid "subitem_edit"
+msgstr "Este tipo permite o autorregisto de utilizadores, mas requer uma confirmação de e-mail para ativar a conta. Isso evita o autorregisto em ILIAS com endereços de e-mail errados ou inexistentes."
+
+msgid "subitem_translate"
+msgstr "As seguintes contas não são válidas:"
+
+msgid "subtab_subitems"
+msgstr "Tempo para acabar"
+
+msgid "subtab_topitems"
+msgstr "Hora para começar"
+
+msgid "tab_back"
+msgstr "Para os e-mails dos participantes nos ecrãs do progresso de aprendizagem de um módulo scorm"
+
+msgid "table_show_inactive"
+msgstr "Objetivos de aprendizagem"
+
+msgid "topitem_actions"
+msgstr "Objetivos de aprendizagem"
+
+msgid "topitem_active"
+msgstr "Alinhamento dos objetivos de aprendizagem"
+
+msgid "topitem_active_byline"
+msgstr "Nome do ficheiro"
+
+msgid "topitem_add"
+msgstr "Exceção geral"
+
+msgid "topitem_confirm_delete"
+msgstr "fúchsia: valor tolerado porque o valor enviado não é rejeitado"
+
+msgid "topitem_delete"
+msgstr "Desativar cache navegador SCORM 2004"
+
+msgid "topitem_edit"
+msgstr "Ativar ferramenta de teste SCORM"
+
+#, fuzzy
+msgid "topitem_icon"
+msgstr "Icon"
+
+#, fuzzy
+msgid "topitem_icon_byline"
+msgstr "Upload a custom icon for this Item. Please note that the SVG-Icons will be inverted."
+
+msgid "topitem_position"
+msgstr "Se estiver ativada, a ferramenta de teste SCORM pode ser ativada para os módulos de aprendizagem pretendidos. Se estiver desativada, a ferramenta de teste é desativada para todos os módulos de aprendizagem."
+
+msgid "topitem_provider"
+msgstr "Pode clicar para ‘Logs’ e descarregar quando reinicia esta ferramenta."
+
+msgid "topitem_subentries"
+msgstr "learner_preference.audio_captioning"
+
+msgid "topitem_title"
+msgstr "learner_preference.audio_level"
+
+msgid "topitem_title_default"
+msgstr "Número de SCOs totalmente completados"
+
+msgid "topitem_title_default_byline"
+msgstr "completion_status"
+
+msgid "topitem_translate"
+msgstr "completion_threshold"
+
+msgid "topitem_type"
+msgstr "ID do capítulo / SCO"
+
+msgid "topitem_type_byline"
+msgstr "crédito"
+
+msgid "topitem_type_link"
+msgstr "entrada"
+
+msgid "topitem_type_parent"
+msgstr "saída"
+
+msgid "type_complex"
+msgstr "learner_preference.language"
+
+msgid "type_link"
+msgstr "localização"
+
+msgid "type_link_list"
+msgstr "score.max"
+
+msgid "type_lost"
+msgstr "score.min"
+
+msgid "type_repository_link"
+msgstr "modo"
+
+msgid "type_separator"
+msgstr "score.raw: pontuação alcançada"
+
+msgid "type_separator_info"
+msgstr "Tipo"
+
+msgid "type_top_link_item"
+msgstr "learner_preference.delivery_speed"
+
+msgid "type_top_parent_item"
+msgstr "Relatório básico para interações"
+
+#, fuzzy
+msgid "unable_to_render"
+msgstr "Unable to show '%s' in '%s'."

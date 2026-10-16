@@ -1,0 +1,322 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: mme\n"
+
+msgid "add_languages"
+msgstr "Přidat jazyk"
+
+msgid "additional_langs"
+msgstr "Další jazyky"
+
+msgid "button_save"
+msgstr "Uložit"
+
+msgid "component_not_active"
+msgstr "Komponenta není aktivována."
+
+#, fuzzy
+msgid "confirm_move"
+msgstr "Would you like to move this item to Top Items?"
+
+#, fuzzy
+msgid "deactived_by_configuration"
+msgstr "Deactivated by configuration"
+
+#, fuzzy
+msgid "edit_sub_tems"
+msgstr "Edit Entries"
+
+#, fuzzy
+msgid "err_uri_not_valid"
+msgstr "Please provide a valid URL"
+
+msgid "field_external"
+msgstr "Externí odkaz"
+
+msgid "field_external_info"
+msgstr "Odkaz bude otevřen v samostatném okně."
+
+msgid "field_ref_id"
+msgstr "Referenční ID ILIAS"
+
+msgid "field_ref_id_info"
+msgstr "Referenční ID požadovaného objektu ILIAS z úložiště, referenční ID najdete v URL objektu (...? Ref_id = 123)"
+
+msgid "field_url"
+msgstr "URL"
+
+msgid "field_url_info"
+msgstr "Odkaz na požadovanou webovou stránku přes http (s): //"
+
+#, fuzzy
+msgid "flush"
+msgstr "Remove Lost Items"
+
+msgid "item_must_be_always_active"
+msgstr "Položka musí být aktivní."
+
+#, fuzzy
+msgid "item_updated"
+msgstr "Item stored"
+
+msgid "main"
+msgstr "Hlavní menu"
+
+msgid "mm_translation_lang"
+msgstr "Jazyk"
+
+msgid "mm_translation_trans"
+msgstr "Překlad"
+
+#, fuzzy
+msgid "mme_lost_items"
+msgstr "Nowhere assigned"
+
+#, fuzzy
+msgid "move_to_item"
+msgstr "Move to Items"
+
+#, fuzzy
+msgid "move_to_top_item"
+msgstr "Move to Top Items"
+
+msgid "msg_languages_added"
+msgstr "Přidané jazyky"
+
+#, fuzzy
+msgid "msg_moved"
+msgstr "Item successfully moved"
+
+#, fuzzy
+msgid "msg_not_changed"
+msgstr "The following entries could not be changed: %s"
+
+#, fuzzy
+msgid "msg_not_moved"
+msgstr "Item could not be moved, please select a valid parent."
+
+#, fuzzy
+msgid "msg_ref_id_not_callable"
+msgstr "This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported."
+
+#, fuzzy
+msgid "msg_restore_confirm"
+msgstr "All Custom Items and Translations will be deleted, all Standard items will be reset to factory default. All customization will be lost."
+
+#, fuzzy
+msgid "msg_restored"
+msgstr "Main Menu completely reset"
+
+msgid "msg_subitem_deleted"
+msgstr "Položka byla smazána."
+
+#, fuzzy
+msgid "msg_subitem_flushed"
+msgstr "Lost Items removed."
+
+#, fuzzy
+msgid "msg_success"
+msgstr "Successfully stored"
+
+msgid "msg_topitem_deleted"
+msgstr "Položka byla smazána."
+
+msgid "msg_translations_deleted"
+msgstr "Překlady byly smazány"
+
+msgid "msg_translations_saved"
+msgstr "Překlady byly uloženy"
+
+#, fuzzy
+msgid "restore"
+msgstr "Reset Main Menu"
+
+#, fuzzy
+msgid "select_parent"
+msgstr "Select Parent"
+
+msgid "sub_actions"
+msgstr "Akce"
+
+msgid "sub_active"
+msgstr "Aktivní"
+
+msgid "sub_active_byline"
+msgstr "Aktivujte tuto položku pro všechny uživatele."
+
+#, fuzzy
+msgid "sub_global_roles"
+msgstr "Global Roles"
+
+#, fuzzy
+msgid "sub_icon"
+msgstr "Icon"
+
+#, fuzzy
+msgid "sub_icon_byline"
+msgstr "Upload a custom icon for this Item. Please note that the SVG-Icons will be inverted."
+
+msgid "sub_parent"
+msgstr "Top položka"
+
+msgid "sub_position"
+msgstr "Pozice"
+
+msgid "sub_provider"
+msgstr "Provider"
+
+#, fuzzy
+msgid "sub_role_based_visibility"
+msgstr "Visibility for roles"
+
+#, fuzzy
+msgid "sub_role_based_visibility_byline"
+msgstr "Choose global roles which can see this item. If not activated, the item is always shown."
+
+msgid "sub_status"
+msgstr "Status"
+
+msgid "sub_title"
+msgstr "Název"
+
+msgid "sub_title_default"
+msgstr "Název (výchozí jazyk)"
+
+msgid "sub_title_default_byline"
+msgstr "Ostatní překlady mohou být přidány pomocí Translation Action později."
+
+msgid "sub_type"
+msgstr "Typ"
+
+msgid "sub_type_byline"
+msgstr "Může být zapotřebí konkrétní typ doplňkové konfigurace položky."
+
+#, fuzzy
+msgid "subitem"
+msgstr "Subitem"
+
+msgid "subitem_add"
+msgstr "Přidat položku"
+
+msgid "subitem_confirm_delete"
+msgstr "Opravdu chcete smazat následující položku?"
+
+msgid "subitem_delete"
+msgstr "Smazat"
+
+msgid "subitem_edit"
+msgstr "Upravit"
+
+msgid "subitem_translate"
+msgstr "Přeložit"
+
+msgid "subtab_subitems"
+msgstr "Položky"
+
+msgid "subtab_topitems"
+msgstr "Top položky"
+
+msgid "tab_back"
+msgstr "Zpět"
+
+msgid "table_show_inactive"
+msgstr "Zobrazit neaktivní"
+
+msgid "topitem_actions"
+msgstr "Akce"
+
+msgid "topitem_active"
+msgstr "Aktivní"
+
+msgid "topitem_active_byline"
+msgstr "Aktivujte tuto Top položku pro všechny uživatele."
+
+msgid "topitem_add"
+msgstr "Přidat Top položku"
+
+msgid "topitem_confirm_delete"
+msgstr "Opravdu chcete smazat následující položku?"
+
+msgid "topitem_delete"
+msgstr "Smazat"
+
+msgid "topitem_edit"
+msgstr "Upravit"
+
+#, fuzzy
+msgid "topitem_icon"
+msgstr "Icon"
+
+#, fuzzy
+msgid "topitem_icon_byline"
+msgstr "Upload a custom icon for this Item. Please note that the SVG-Icons will be inverted."
+
+msgid "topitem_position"
+msgstr "Pozice"
+
+msgid "topitem_provider"
+msgstr "Provider"
+
+msgid "topitem_subentries"
+msgstr "Položky"
+
+msgid "topitem_title"
+msgstr "Název"
+
+msgid "topitem_title_default"
+msgstr "Název (výchozí jazyk)"
+
+msgid "topitem_title_default_byline"
+msgstr "Ostatní překlady mohou být přidány pomocí Translation Action později."
+
+msgid "topitem_translate"
+msgstr "Přeložit"
+
+msgid "topitem_type"
+msgstr "Typ"
+
+msgid "topitem_type_byline"
+msgstr "Top položky mohou být přímé odkazy nebo mohou obsahovat položky."
+
+msgid "topitem_type_link"
+msgstr "Odkaz"
+
+msgid "topitem_type_parent"
+msgstr "Top položka"
+
+msgid "type_complex"
+msgstr "Komplex"
+
+msgid "type_link"
+msgstr "Odkaz"
+
+msgid "type_link_list"
+msgstr "Seznam odkazů"
+
+msgid "type_lost"
+msgstr "Ztracený"
+
+msgid "type_repository_link"
+msgstr "Odkaz na úložiště"
+
+msgid "type_separator"
+msgstr "Oddělovač"
+
+msgid "type_separator_info"
+msgstr "Název této položky se zobrazí v šedém pruhu. Pokud nezadáte žádný název, zobrazí se jednoduchý řádek."
+
+msgid "type_top_link_item"
+msgstr "Odkaz"
+
+msgid "type_top_parent_item"
+msgstr "Kontejner"
+
+#, fuzzy
+msgid "unable_to_render"
+msgstr "Unable to show '%s' in '%s'."

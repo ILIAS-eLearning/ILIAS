@@ -1,0 +1,294 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mme\n"
+
+msgid "add_languages"
+msgstr "Sprache hinzufügen"
+
+msgid "additional_langs"
+msgstr "Zusätzliche Sprachen"
+
+msgid "button_save"
+msgstr "Speichern"
+
+msgid "component_not_active"
+msgstr "Komponente ist nicht aktiviert."
+
+msgid "confirm_move"
+msgstr "Möchten Sie diesen Eintrag zu einem Haupteintrag machen?"
+
+msgid "deactived_by_configuration"
+msgstr "Über Konfiguration deaktiviert"
+
+msgid "edit_sub_tems"
+msgstr "Einträge bearbeiten"
+
+msgid "err_uri_not_valid"
+msgstr "Bitte geben Sie eine gültige URL an."
+
+msgid "field_external"
+msgstr "Externer Link"
+
+msgid "field_external_info"
+msgstr "Link wird in einem neuen Fenster geöffnet."
+
+msgid "field_ref_id"
+msgstr "ILIAS Referenz-ID"
+
+msgid "field_ref_id_info"
+msgstr "Die Referenz-ID des gewünschten ILIAS-Objektes aus dem Magazin. Sie finden die Referenz-ID in der URL eines Objektes (...?ref_id=123)"
+
+msgid "field_url"
+msgstr "URL"
+
+msgid "field_url_info"
+msgstr "Link zu der gewünschten Website, beginnend mit http(s)://"
+
+msgid "flush"
+msgstr "Verlorene Einträge löschen"
+
+msgid "item_must_be_always_active"
+msgstr "Eintrag muss aktiv sein."
+
+msgid "item_updated"
+msgstr "Eintrag gespeichert"
+
+msgid "main"
+msgstr "Hauptmenü"
+
+msgid "mm_translation_lang"
+msgstr "Sprache"
+
+msgid "mm_translation_trans"
+msgstr "Übersetzung"
+
+msgid "mme_lost_items"
+msgstr "Nicht zugeordnet"
+
+msgid "move_to_item"
+msgstr "Zu Einträge verschieben"
+
+msgid "move_to_top_item"
+msgstr "In Haupteinträge verschieben"
+
+msgid "msg_languages_added"
+msgstr "Sprachen hinzugefügt"
+
+msgid "msg_moved"
+msgstr "Eintrag wurde erfolgreich verschoben."
+
+msgid "msg_not_changed"
+msgstr "Die folgenden Einträge konnten nicht geändert werden: %s"
+
+msgid "msg_not_moved"
+msgstr "Eintrag konnte nicht verschoben werden. Entweder ist das ausgewählte übergeordnete Element ungültig oder der Eintrag ist ein Container, der nicht verschoben werden kann."
+
+msgid "msg_ref_id_not_callable"
+msgstr "Diese Referenz-ID kann vom Hauptmenü nicht verwendet werden. Ausgewählt werden können nur Ziele im Magazin."
+
+msgid "msg_restore_confirm"
+msgstr "Alle angelegten Einträge und Übersetzungen werden gelöscht, die Standardeinträge werden auf ihren Ursprungszustand zurückgesetzt. Alle Anpassungen am Hauptmenü gehen verloren."
+
+msgid "msg_restored"
+msgstr "Hauptmenü zurückgesetzt"
+
+msgid "msg_subitem_deleted"
+msgstr "Eintrag gelöscht."
+
+msgid "msg_subitem_flushed"
+msgstr "Verlorene Einträge wurden gelöscht."
+
+msgid "msg_success"
+msgstr "Erfolgreich gespeichert"
+
+msgid "msg_topitem_deleted"
+msgstr "Eintrag gelöscht."
+
+msgid "msg_translations_deleted"
+msgstr "Übersetzungen gelöscht."
+
+msgid "msg_translations_saved"
+msgstr "Übersetzungen gespeichert"
+
+msgid "restore"
+msgstr "Hauptmenü zurücksetzen"
+
+msgid "select_parent"
+msgstr "Zugehörigen Haupteintrag auswählen"
+
+msgid "sub_actions"
+msgstr "Aktionen"
+
+msgid "sub_active"
+msgstr "Aktiv"
+
+msgid "sub_active_byline"
+msgstr "Diesen Eintrag aktivieren"
+
+msgid "sub_global_roles"
+msgstr "Globale Rollen"
+
+msgid "sub_icon"
+msgstr "Icon"
+
+msgid "sub_icon_byline"
+msgstr "Hochgeladene SVG-Icons werden invertiert angezeigt."
+
+msgid "sub_parent"
+msgstr "Haupteintrag"
+
+msgid "sub_position"
+msgstr "Position"
+
+msgid "sub_provider"
+msgstr "Provider"
+
+msgid "sub_role_based_visibility"
+msgstr "Sichtbarkeit für Rollen"
+
+msgid "sub_role_based_visibility_byline"
+msgstr "Globale Rollen wählen, welche dieses Item sehen können. Wenn nicht aktiviert, wird das Item immer angezeigt."
+
+msgid "sub_status"
+msgstr "Bemerkung"
+
+msgid "sub_title"
+msgstr "Titel"
+
+msgid "sub_title_default"
+msgstr "Titel (Standard-Sprache)"
+
+msgid "sub_title_default_byline"
+msgstr "Weitere Sprachen können über den Aktionslink \"Übersetzen\" hinzugefügt werden."
+
+msgid "sub_type"
+msgstr "Typ"
+
+msgid "sub_type_byline"
+msgstr "Typ für den Eintrag auswählen. Je nach Typ sind zusätzliche Angaben nötig."
+
+msgid "subitem"
+msgstr "Eintrag"
+
+msgid "subitem_add"
+msgstr "Eintrag hinzufügen"
+
+msgid "subitem_confirm_delete"
+msgstr "Möchten Sie den folgenden Eintrag wirklich löschen?"
+
+msgid "subitem_delete"
+msgstr "Löschen"
+
+msgid "subitem_edit"
+msgstr "Bearbeiten"
+
+msgid "subitem_translate"
+msgstr "Übersetzen"
+
+msgid "subtab_subitems"
+msgstr "Einträge"
+
+msgid "subtab_topitems"
+msgstr "Haupteinträge"
+
+msgid "tab_back"
+msgstr "Zurück"
+
+msgid "table_show_inactive"
+msgstr "Inaktive anzeigen"
+
+msgid "topitem_actions"
+msgstr "Aktionen"
+
+msgid "topitem_active"
+msgstr "Aktiv"
+
+msgid "topitem_active_byline"
+msgstr "Diesen Haupteintrag aktivieren"
+
+msgid "topitem_add"
+msgstr "Haupteintrag hinzufügen"
+
+msgid "topitem_confirm_delete"
+msgstr "Möchten Sie den folgenden Eintrag wirklich löschen?"
+
+msgid "topitem_delete"
+msgstr "Löschen"
+
+msgid "topitem_edit"
+msgstr "Bearbeiten"
+
+msgid "topitem_icon"
+msgstr "Icon"
+
+msgid "topitem_icon_byline"
+msgstr "Hochgeladene SVG-Icons werden invertiert angezeigt."
+
+msgid "topitem_position"
+msgstr "Position"
+
+msgid "topitem_provider"
+msgstr "Provider"
+
+msgid "topitem_subentries"
+msgstr "Einträge"
+
+msgid "topitem_title"
+msgstr "Title"
+
+msgid "topitem_title_default"
+msgstr "Titel (Standard-Sprache)"
+
+msgid "topitem_title_default_byline"
+msgstr "Weitere Sprachen können über den Aktionslink \"Übersetzen\" hinzugefügt werden."
+
+msgid "topitem_translate"
+msgstr "Übersetzen"
+
+msgid "topitem_type"
+msgstr "Typ"
+
+msgid "topitem_type_byline"
+msgstr "Haupteinträge können weitere Einträge enthalten oder direkt als Link zu einer Seite angelegt werden."
+
+msgid "topitem_type_link"
+msgstr "Link"
+
+msgid "topitem_type_parent"
+msgstr "Haupteintrag"
+
+msgid "type_complex"
+msgstr "Komplex"
+
+msgid "type_link"
+msgstr "Link"
+
+msgid "type_link_list"
+msgstr "Link Liste"
+
+msgid "type_lost"
+msgstr "Lost"
+
+msgid "type_repository_link"
+msgstr "Magazin-Link"
+
+msgid "type_separator"
+msgstr "Trenner"
+
+msgid "type_separator_info"
+msgstr "Der Titel des Trenners wird in einem grauen Bereich angezeigt. Sie erhalten eine Trennlinie, wenn Sie den Titel leer lassen."
+
+msgid "type_top_link_item"
+msgstr "Link"
+
+msgid "type_top_parent_item"
+msgstr "Container"
+
+msgid "unable_to_render"
+msgstr "Der Eintrag '%s' kann nicht in '%s' angezeigt werden."

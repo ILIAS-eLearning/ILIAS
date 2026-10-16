@@ -1,0 +1,294 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: mme\n"
+
+msgid "add_languages"
+msgstr "Añadir idioma"
+
+msgid "additional_langs"
+msgstr "Idiomas adicionales"
+
+msgid "button_save"
+msgstr "Guardar"
+
+msgid "component_not_active"
+msgstr "El componente no está activado."
+
+msgid "confirm_move"
+msgstr "¿Desea mover este elemento a Elementos superiores (Top Items)?"
+
+msgid "deactived_by_configuration"
+msgstr "Deactivated by configuration"
+
+msgid "edit_sub_tems"
+msgstr "Edit Entries"
+
+msgid "err_uri_not_valid"
+msgstr "Por favor, proporcione una URL válida"
+
+msgid "field_external"
+msgstr "Enlace externo"
+
+msgid "field_external_info"
+msgstr "El enlace se abrirá en una ventana separada."
+
+msgid "field_ref_id"
+msgstr "ID de referencia de ILIAS"
+
+msgid "field_ref_id_info"
+msgstr "El ID de referencia del objeto de ILIAS deseado del Repositorio. Puede encontrar el ID de referencia en la URL de un objeto (...?ref_id=123)"
+
+msgid "field_url"
+msgstr "URL"
+
+msgid "field_url_info"
+msgstr "Enlace al sitio web deseado, precedido por http(s)://"
+
+msgid "flush"
+msgstr "Eliminar elementos perdidos"
+
+msgid "item_must_be_always_active"
+msgstr "El elemento debe estar activo."
+
+msgid "item_updated"
+msgstr "Item stored"
+
+msgid "main"
+msgstr "Menú principal"
+
+msgid "mm_translation_lang"
+msgstr "Idioma"
+
+msgid "mm_translation_trans"
+msgstr "Traducción"
+
+msgid "mme_lost_items"
+msgstr "Nowhere assigned"
+
+msgid "move_to_item"
+msgstr "Mover a elementos"
+
+msgid "move_to_top_item"
+msgstr "Mover a elementos superiores"
+
+msgid "msg_languages_added"
+msgstr "Idiomas agregados"
+
+msgid "msg_moved"
+msgstr "Elemento movido con éxito"
+
+msgid "msg_not_changed"
+msgstr "The following entries could not be changed: %s"
+
+msgid "msg_not_moved"
+msgstr "El elemento no pudo ser movido, por favor seleccione un padre válido."
+
+msgid "msg_ref_id_not_callable"
+msgstr "Este ID de referencia no puede ser utilizado por el Menú Principal. Solo se admiten destinos en el Repositorio."
+
+msgid "msg_restore_confirm"
+msgstr "Todos los elementos personalizados y traducciones serán eliminados, todos los elementos estándar se restablecerán a los valores de fábrica. Se perderá toda la personalización."
+
+msgid "msg_restored"
+msgstr "Menú principal restablecido por completo"
+
+msgid "msg_subitem_deleted"
+msgstr "Elemento eliminado."
+
+msgid "msg_subitem_flushed"
+msgstr "Elementos perdidos eliminados."
+
+msgid "msg_success"
+msgstr "Successfully stored"
+
+msgid "msg_topitem_deleted"
+msgstr "Elemento eliminado."
+
+msgid "msg_translations_deleted"
+msgstr "Traducciones eliminadas"
+
+msgid "msg_translations_saved"
+msgstr "Traducciones guardadas"
+
+msgid "restore"
+msgstr "Restablecer el menú principal"
+
+msgid "select_parent"
+msgstr "Seleccionar elemento padre"
+
+msgid "sub_actions"
+msgstr "Acciones"
+
+msgid "sub_active"
+msgstr "Activo"
+
+msgid "sub_active_byline"
+msgstr "Activar este elemento para todos los usuarios."
+
+msgid "sub_global_roles"
+msgstr "Roles globales"
+
+msgid "sub_icon"
+msgstr "Icono"
+
+msgid "sub_icon_byline"
+msgstr "Subir un icono personalizado para este elemento. Tenga en cuenta que los iconos SVG se invertirán."
+
+msgid "sub_parent"
+msgstr "Elemento superior"
+
+msgid "sub_position"
+msgstr "Posición"
+
+msgid "sub_provider"
+msgstr "Proveedor"
+
+msgid "sub_role_based_visibility"
+msgstr "Visibilidad por roles"
+
+msgid "sub_role_based_visibility_byline"
+msgstr "Elija los roles globales que pueden ver este elemento. Si no está activado, el elemento se muestra siempre."
+
+msgid "sub_status"
+msgstr "Estado"
+
+msgid "sub_title"
+msgstr "Título"
+
+msgid "sub_title_default"
+msgstr "Título (Idioma predeterminado)"
+
+msgid "sub_title_default_byline"
+msgstr "Se pueden añadir idiomas adicionales a través del enlace de acción \"Traducir\"."
+
+msgid "sub_type"
+msgstr "Tipo"
+
+msgid "sub_type_byline"
+msgstr "Es posible que se requiera una configuración adicional para el tipo específico de elemento."
+
+msgid "subitem"
+msgstr "Subitem"
+
+msgid "subitem_add"
+msgstr "Añadir elemento"
+
+msgid "subitem_confirm_delete"
+msgstr "¿Realmente desea eliminar el siguiente elemento?"
+
+msgid "subitem_delete"
+msgstr "Eliminar"
+
+msgid "subitem_edit"
+msgstr "Editar"
+
+msgid "subitem_translate"
+msgstr "Traducir"
+
+msgid "subtab_subitems"
+msgstr "Elementos"
+
+msgid "subtab_topitems"
+msgstr "Elementos superiores"
+
+msgid "tab_back"
+msgstr "Volver"
+
+msgid "table_show_inactive"
+msgstr "Mostrar inactivos"
+
+msgid "topitem_actions"
+msgstr "Acciones"
+
+msgid "topitem_active"
+msgstr "Activo"
+
+msgid "topitem_active_byline"
+msgstr "Activar este elemento superior para todos los usuarios."
+
+msgid "topitem_add"
+msgstr "Añadir elemento superior"
+
+msgid "topitem_confirm_delete"
+msgstr "¿Realmente desea eliminar el siguiente elemento?"
+
+msgid "topitem_delete"
+msgstr "Eliminar"
+
+msgid "topitem_edit"
+msgstr "Editar"
+
+msgid "topitem_icon"
+msgstr "Icono"
+
+msgid "topitem_icon_byline"
+msgstr "Cargue un icono personalizado para este elemento. Tenga en cuenta que los iconos SVG se invertirán."
+
+msgid "topitem_position"
+msgstr "Posición"
+
+msgid "topitem_provider"
+msgstr "Proveedor"
+
+msgid "topitem_subentries"
+msgstr "Elementos"
+
+msgid "topitem_title"
+msgstr "Título"
+
+msgid "topitem_title_default"
+msgstr "Título (Idioma predeterminado)"
+
+msgid "topitem_title_default_byline"
+msgstr "Se pueden añadir otras traducciones posteriormente con la acción de traducción."
+
+msgid "topitem_translate"
+msgstr "Traducir"
+
+msgid "topitem_type"
+msgstr "Tipo"
+
+msgid "topitem_type_byline"
+msgstr "Los Elementos Superiores pueden ser enlaces directos o pueden contener otros Elementos."
+
+msgid "topitem_type_link"
+msgstr "Enlace"
+
+msgid "topitem_type_parent"
+msgstr "Elemento Superior"
+
+msgid "type_complex"
+msgstr "Complejo"
+
+msgid "type_link"
+msgstr "Enlace"
+
+msgid "type_link_list"
+msgstr "Lista de enlaces"
+
+msgid "type_lost"
+msgstr "Perdido"
+
+msgid "type_repository_link"
+msgstr "Enlace al Repositorio"
+
+msgid "type_separator"
+msgstr "Separador"
+
+msgid "type_separator_info"
+msgstr "El título de este elemento se mostrará en un banner gris. Si no introduce ningún título, se mostrará una línea simple."
+
+msgid "type_top_link_item"
+msgstr "Enlace"
+
+msgid "type_top_parent_item"
+msgstr "Contenedor"
+
+msgid "unable_to_render"
+msgstr "No se puede mostrar '%s' en '%s'."

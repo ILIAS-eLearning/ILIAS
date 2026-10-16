@@ -1,0 +1,302 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mme\n"
+
+msgid "add_languages"
+msgstr "Lägg till språk"
+
+msgid "additional_langs"
+msgstr "Ytterligare språk"
+
+msgid "button_save"
+msgstr "Spara"
+
+msgid "component_not_active"
+msgstr "Komponenten är inte aktiverad."
+
+msgid "confirm_move"
+msgstr "Vill du göra denna post till en huvudpost?"
+
+#, fuzzy
+msgid "deactived_by_configuration"
+msgstr "Deactivated by configuration"
+
+#, fuzzy
+msgid "edit_sub_tems"
+msgstr "Edit Entries"
+
+msgid "err_uri_not_valid"
+msgstr "Var god ange en giltig URL."
+
+msgid "field_external"
+msgstr "Extern länk"
+
+msgid "field_external_info"
+msgstr "Länken öppnas i ett nytt fönster."
+
+msgid "field_ref_id"
+msgstr "ILIAS Referens-ID"
+
+msgid "field_ref_id_info"
+msgstr "Referens-ID för det önskade ILIAS-objektet från tidningen. Du kan hitta referens-ID:t i objektets URL (...?ref_id=123)"
+
+msgid "field_url"
+msgstr "URL"
+
+msgid "field_url_info"
+msgstr "Länk till önskad webbplats, börjar med http(s)"
+
+msgid "flush"
+msgstr "Radera förlorade poster"
+
+msgid "item_must_be_always_active"
+msgstr "Entry måste vara aktivt."
+
+#, fuzzy
+msgid "item_updated"
+msgstr "Item stored"
+
+msgid "main"
+msgstr "Huvudmeny"
+
+msgid "mm_translation_lang"
+msgstr "Språk"
+
+msgid "mm_translation_trans"
+msgstr "Översättning"
+
+#, fuzzy
+msgid "mme_lost_items"
+msgstr "Nowhere assigned"
+
+msgid "move_to_item"
+msgstr "Flytta till poster"
+
+msgid "move_to_top_item"
+msgstr "Flytta till huvudposter"
+
+msgid "msg_languages_added"
+msgstr "Språk som läggs till"
+
+msgid "msg_moved"
+msgstr "Entry har flyttats framgångsrikt."
+
+#, fuzzy
+msgid "msg_not_changed"
+msgstr "The following entries could not be changed: %s"
+
+msgid "msg_not_moved"
+msgstr "Entry kunde inte flyttas, välj en giltig huvudpost."
+
+msgid "msg_ref_id_not_callable"
+msgstr "Detta referens-ID kan inte användas av Main-Menu. Endast destinationer i tidningen stöds."
+
+msgid "msg_restore_confirm"
+msgstr "Alla skapade poster och översättningar raderas, standardposterna återställs till sitt ursprungliga tillstånd. Alla justeringar av huvudmenyn går förlorade."
+
+msgid "msg_restored"
+msgstr "Återställning av huvudmeny"
+
+msgid "msg_subitem_deleted"
+msgstr "Inmatning raderad."
+
+msgid "msg_subitem_flushed"
+msgstr "Förlorade poster har tagits bort."
+
+#, fuzzy
+msgid "msg_success"
+msgstr "Successfully stored"
+
+msgid "msg_topitem_deleted"
+msgstr "Inmatning raderad."
+
+msgid "msg_translations_deleted"
+msgstr "Översättningar borttagna."
+
+msgid "msg_translations_saved"
+msgstr "Översättningar sparade"
+
+msgid "restore"
+msgstr "Återställ huvudmeny"
+
+msgid "select_parent"
+msgstr "Välj relaterad huvudpost"
+
+msgid "sub_actions"
+msgstr "Åtgärder"
+
+msgid "sub_active"
+msgstr "Aktiv"
+
+msgid "sub_active_byline"
+msgstr " Aktivera denna post"
+
+msgid "sub_global_roles"
+msgstr "Globala roller"
+
+msgid "sub_icon"
+msgstr "Icon"
+
+msgid "sub_icon_byline"
+msgstr "Laddade upp en enskild SVG-ikon."
+
+msgid "sub_parent"
+msgstr "Huvudingång"
+
+msgid "sub_position"
+msgstr "Position"
+
+msgid "sub_provider"
+msgstr "Tillhandahållare"
+
+msgid "sub_role_based_visibility"
+msgstr "Synlighet för hjul"
+
+msgid "sub_role_based_visibility_byline"
+msgstr "Välj globala roller som kan se detta objekt. Om den inte är aktiverad visas objektet alltid."
+
+msgid "sub_status"
+msgstr "Status"
+
+msgid "sub_title"
+msgstr "Titel"
+
+msgid "sub_title_default"
+msgstr "Titel (standardspråk)"
+
+msgid "sub_title_default_byline"
+msgstr "Ytterligare språk kan läggas till via åtgärdslänken \"Översätt\"."
+
+msgid "sub_type"
+msgstr "Typ"
+
+msgid "sub_type_byline"
+msgstr "Välj typ för posten. Beroende på typ krävs ytterligare information."
+
+#, fuzzy
+msgid "subitem"
+msgstr "Subitem"
+
+msgid "subitem_add"
+msgstr "Lägg till post"
+
+msgid "subitem_confirm_delete"
+msgstr "Vill du verkligen ta bort följande post?"
+
+msgid "subitem_delete"
+msgstr "Radera"
+
+msgid "subitem_edit"
+msgstr "Redigera"
+
+msgid "subitem_translate"
+msgstr "Översättning"
+
+msgid "subtab_subitems"
+msgstr "Inträden"
+
+msgid "subtab_topitems"
+msgstr "Huvudposter"
+
+msgid "tab_back"
+msgstr "Tillbaka"
+
+msgid "table_show_inactive"
+msgstr "Visa inaktiv"
+
+msgid "topitem_actions"
+msgstr "Åtgärder"
+
+msgid "topitem_active"
+msgstr "Aktiv"
+
+msgid "topitem_active_byline"
+msgstr "Aktivera denna huvudingång"
+
+msgid "topitem_add"
+msgstr "Lägg till huvudpost"
+
+msgid "topitem_confirm_delete"
+msgstr "Vill du verkligen ta bort följande post?"
+
+msgid "topitem_delete"
+msgstr "Radera"
+
+msgid "topitem_edit"
+msgstr "Redigera"
+
+msgid "topitem_icon"
+msgstr "Icon"
+
+msgid "topitem_icon_byline"
+msgstr "Laddade upp en enskild SVG-ikon."
+
+msgid "topitem_position"
+msgstr "Position"
+
+msgid "topitem_provider"
+msgstr "Tillhandahållare"
+
+msgid "topitem_subentries"
+msgstr "Inträden"
+
+msgid "topitem_title"
+msgstr "Titel"
+
+msgid "topitem_title_default"
+msgstr "Titel (standardspråk)"
+
+msgid "topitem_title_default_byline"
+msgstr "Ytterligare språk kan läggas till via åtgärdslänken \"Översätt\"."
+
+msgid "topitem_translate"
+msgstr "Översättning"
+
+msgid "topitem_type"
+msgstr "Typ"
+
+msgid "topitem_type_byline"
+msgstr "Huvudposter kan innehålla ytterligare poster eller skapas direkt som en länk till en sida."
+
+msgid "topitem_type_link"
+msgstr "Länk"
+
+msgid "topitem_type_parent"
+msgstr "Huvudingång"
+
+msgid "type_complex"
+msgstr "Komplex"
+
+msgid "type_link"
+msgstr "Länk"
+
+msgid "type_link_list"
+msgstr "Lista över länkar"
+
+msgid "type_lost"
+msgstr "Förlorad"
+
+msgid "type_repository_link"
+msgstr "Länk till magasin"
+
+msgid "type_separator"
+msgstr "Separatorer"
+
+msgid "type_separator_info"
+msgstr "Separatorns titel visas i ett grått område. Du får en separatorrad om du lämnar titeln tom."
+
+msgid "type_top_link_item"
+msgstr "Länk"
+
+msgid "type_top_parent_item"
+msgstr "Container"
+
+#, fuzzy
+msgid "unable_to_render"
+msgstr "Unable to show '%s' in '%s'."
