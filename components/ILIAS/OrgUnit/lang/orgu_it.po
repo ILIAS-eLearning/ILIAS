@@ -1,0 +1,364 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: orgu\n"
+
+msgid "Staff"
+msgstr "Staff"
+
+msgid "add_position"
+msgstr "Aggiungi posizione"
+
+msgid "authorities"
+msgstr "Autorità"
+
+msgid "authority"
+msgstr "Autorità"
+
+msgid "backto_staff"
+msgstr "Torna allo staff"
+
+msgid "change_to_employee"
+msgstr "Passa a dipendente"
+
+msgid "change_to_superior"
+msgstr "Passa a superiore"
+
+msgid "confirm_deletion_and_assign"
+msgstr "Elimina e assegna utente"
+
+msgid "confirm_deletion_button"
+msgstr "Elimina"
+
+msgid "deassign_user_successful"
+msgstr "Gli utenti sono stati deassegnati con successo da questo ruolo"
+
+msgid "edit_translations"
+msgstr "Titolo e Descrizione"
+
+msgid "employee"
+msgstr "Dipendente"
+
+msgid "ext_id"
+msgstr "ID Esterno"
+
+msgid "ext_id_updated"
+msgstr "L’ID Esterno è stato aggiornato con successo."
+
+msgid "form_title_org_default_permissions_update"
+msgstr "Permessi predefiniti"
+
+msgid "import_failed"
+msgstr "L'importazione non è riuscita. Assicurati che il tuo file sia nel formato xml e abbia una struttura valida."
+
+msgid "import_successful"
+msgstr "L’importazione è terminata con successo. Creato: %s, modificato/spostato: %s, eliminato: %s."
+
+msgid "import_terminated_with_errors"
+msgstr "Durante l'importazione sono stati rilevati errori,"
+
+msgid "import_terminated_with_warnings"
+msgstr "L’importazione termina con avvisi"
+
+msgid "import_xml_file"
+msgstr "Importazione File"
+
+msgid "local_other_roles"
+msgstr "Ruoli locali aggiuntivi %s"
+
+msgid "local_staff"
+msgstr "Dipendenti %s"
+
+msgid "msg_assignment_to_employee_done"
+msgstr "Assegnazione alla posizione dipendente eseguita"
+
+msgid "msg_confirm_d_ua"
+msgstr "Vuoi assegnare queste persone alla posizione dipendente delle rispettive unità organizzative?"
+
+msgid "msg_confirm_deletion"
+msgstr "Vuoi davvero cancellare la seguente Posizione?"
+
+msgid "msg_confirm_remove_user"
+msgstr "Vuoi davvero rimuovere i seguenti utenti da questa posizione %s?"
+
+msgid "msg_deleted"
+msgstr "Eliminato"
+
+msgid "msg_position_created"
+msgstr "Posizione creata."
+
+#, fuzzy
+msgid "msg_position_delete_fail"
+msgstr "Position wurde nicht gefunden."
+
+msgid "msg_position_updated"
+msgstr "Posizione aggiornata."
+
+msgid "msg_success_permission_saved"
+msgstr "Autorizzazioni salvate."
+
+msgid "no_assignment"
+msgstr "Si prega di controllare il proprio File XML. Non c’è alcuna assegnazione utente."
+
+msgid "no_orgunit"
+msgstr "Si prega di controllare il proprio File XML. Non c’è alcuna unità organizzativa."
+
+msgid "no_roles"
+msgstr "A questo punto non sono presenti ruoli aggiuntivi."
+
+msgid "not_movable_to_subtree"
+msgstr "Un’unità organizzativa non può essere spostata nella propria sottostruttura. Questo porterebbe una riproduzione a ciclo continuo."
+
+msgid "org_op_access_enrolments"
+msgstr "Visualizza iscrizioni"
+
+msgid "org_op_access_results"
+msgstr "Accedi ai risultati"
+
+#, fuzzy
+msgid "org_op_create_employee_talk"
+msgstr "Create talk appointments / edit talk appointments that you have created yourself"
+
+#, fuzzy
+msgid "org_op_edit_employee_talk"
+msgstr "Edit Talk appointments"
+
+msgid "org_op_edit_individual_plan"
+msgstr "Modifica piano individuale"
+
+msgid "org_op_edit_submissions_grades"
+msgstr "Modifica le presentazioni degli altri utenti"
+
+msgid "org_op_manage_members"
+msgstr "Gestisci membri"
+
+#, fuzzy
+msgid "org_op_read_employee_talk"
+msgstr "Read access talk appointments"
+
+msgid "org_op_read_learning_progress"
+msgstr "Visualizza il progresso di apprendimento degli altri utenti"
+
+msgid "org_op_view_certificates"
+msgstr "Visualizza i certificati di altri utenti"
+
+msgid "org_op_view_competences"
+msgstr "Visualizza le competenze di altri utenti"
+
+msgid "org_op_view_individual_plan"
+msgstr "Visualizza piano individuale"
+
+msgid "org_op_view_members"
+msgstr "Visualizza membri"
+
+msgid "org_op_write_learning_progress"
+msgstr "Imposta il progresso di apprendimento degli altri utenti"
+
+msgid "org_unit_not_found"
+msgstr "Unità organizzativa non trovata."
+
+msgid "orgu_add"
+msgstr "Aggiungi unità organizzativa"
+
+msgid "orgu_adv_settings"
+msgstr "Impostazioni avanzate"
+
+msgid "orgu_already_deleted"
+msgstr "L'oggetto è già stato eliminato."
+
+msgid "orgu_enable_my_staff"
+msgstr "Consenti visualizzazione “Staff”"
+
+msgid "orgu_enable_my_staff_info"
+msgstr "La visualizzazione “Staff” mostra il processo di apprendimento di ogni dipendente."
+
+msgid "orgu_global_set_form"
+msgstr "Impostazioni dell'unità organizzativa globale"
+
+msgid "orgu_global_set_positions"
+msgstr "Mostra dati utente in base alle posizioni dell'unità organizzativa"
+
+msgid "orgu_global_set_positions_type_active"
+msgstr "Posizioni in"
+
+msgid "orgu_global_set_type_changeable"
+msgstr "Variabile"
+
+msgid "orgu_global_set_type_changeable_no"
+msgstr "L’impostazione non è variabile"
+
+msgid "orgu_global_set_type_changeable_object"
+msgstr "L’impostazione è variabile a livello di oggetto"
+
+msgid "orgu_global_set_type_default"
+msgstr "Impostazione predefinita"
+
+msgid "orgu_global_set_type_default_info"
+msgstr "Definire l’impostazione predefinita per gli oggetti non configurati"
+
+msgid "orgu_import"
+msgstr "Importa unità organizzativa"
+
+msgid "orgu_new"
+msgstr "Nuova unità organizzativa"
+
+msgid "orgu_orgu_type"
+msgstr "Tipo di unità organizzativa"
+
+msgid "orgu_settings"
+msgstr "Impostazioni dell'unità organizzativa"
+
+msgid "orgu_staff"
+msgstr "Staff"
+
+msgid "orgu_staff_deassign"
+msgstr "Sei sicuro di voler rimuovere questi utenti da questo ruolo?"
+
+msgid "orgu_type"
+msgstr "Tipo di unità organizzativa"
+
+msgid "orgu_type_add"
+msgstr "Aggiungi tipo di unità organizzativa"
+
+msgid "orgu_type_assign_amd_sets"
+msgstr "Serie di metadati avanzati assegnata"
+
+msgid "orgu_type_available_amd_sets"
+msgstr "Serie di metadati avanzati disponibile"
+
+msgid "orgu_type_custom_icon"
+msgstr "Icone personalizzate per questo tipo di unità organizzativa"
+
+msgid "orgu_type_custom_icon_info"
+msgstr "Tutte le unità organizzative che hanno questa tipo di assegnazione utilizzeranno l’icona nella struttura e nell’intestazione."
+
+msgid "orgu_type_edit"
+msgstr "Modifica tipo di unità organizzativa"
+
+msgid "orgu_type_msg_assign_amd_prevented"
+msgstr "Assegnazione della registrazione AMD impedita dai plug-in: %s"
+
+msgid "orgu_type_msg_deassign_amd_prevented"
+msgstr "Disattivazione delle assegnazioni di registrazione AMD impedita dai plug-in: %s"
+
+msgid "orgu_type_msg_deleted"
+msgstr "Tipo di unità organizzativa eliminato"
+
+msgid "orgu_type_msg_deletion_prevented"
+msgstr "Eliminazione di oggetti impediti dai plug-in: %s"
+
+msgid "orgu_type_msg_error_custom_icon"
+msgstr "Non è possibile salvare l’icona personalizzata"
+
+msgid "orgu_type_msg_missing_title"
+msgstr "Deve essere impostato un titolo per la lingua predefinita"
+
+msgid "orgu_type_msg_missing_title_default_language"
+msgstr "Deve essere impostata una lingua predefinita e un titolo per la lingua predefinita"
+
+msgid "orgu_type_msg_setting_default_lang_prevented"
+msgstr "Impostazione '%s' come lingua predefinita impedita dai plug-in: %s"
+
+msgid "orgu_type_msg_setting_member_prevented"
+msgstr "Impostazione '%s' impedita dai plug-in: %s"
+
+msgid "orgu_type_msg_unable_delete"
+msgstr "Non è consentito eliminare questo tipo perché è ancora assegnato alle seguenti unità organizzative: %s"
+
+msgid "orgu_type_msg_updating_prevented"
+msgstr "Aggiornamento dell’oggetto impedito dai plug-in: %s"
+
+msgid "orgu_types"
+msgstr "Tipi"
+
+msgid "orgunit_position_permissions_not_active_for"
+msgstr "Non è possibile ignorare le autorizzazioni specifiche della posizione per il tipo:"
+
+msgid "ou_external_id_exists"
+msgstr "Un'unità con l'ID esterno esiste già su questo sistema o nel cestino."
+
+msgid "ou_id_not_valid"
+msgstr "ID di importazione non trovato."
+
+msgid "ou_more_than_one_match_found"
+msgstr "E' stata trovata più di una corrispondenza"
+
+msgid "ou_parent_id_not_valid"
+msgstr "Il tipo ou_parent_id non è valido. I validi sono: \"reference_id\" o \"external_id\"."
+
+msgid "over"
+msgstr "Oltre"
+
+msgid "over_-1"
+msgstr "Tutte"
+
+msgid "placeholder"
+msgstr "..."
+
+msgid "positions"
+msgstr "Posizioni"
+
+msgid "rec_staff"
+msgstr "Dipendenti %s ricorrenti"
+
+msgid "remove_successful"
+msgstr "L’utente è stato rimosso con successo."
+
+msgid "remove_user"
+msgstr "Rimuovi"
+
+msgid "scope"
+msgstr "In"
+
+msgid "scope_1"
+msgstr "Stessa unità organizzativa"
+
+msgid "scope_2"
+msgstr "Unità organizzative successive"
+
+msgid "scope_3"
+msgstr "Tutte le unità organizzative"
+
+msgid "show_learning_progress"
+msgstr "Mostra il progresso dell'apprendimento"
+
+msgid "simple_import"
+msgstr "Semplice importazione XML"
+
+msgid "simple_user_import"
+msgstr "Assegnazione utente XML"
+
+msgid "simple_xls"
+msgstr "Semplice esportazione Excel"
+
+msgid "simple_xml"
+msgstr "Semplice esportazione XML"
+
+msgid "superior"
+msgstr "Superiore"
+
+msgid "user_assignments"
+msgstr "Assegnazioni utente"
+
+msgid "user_assignments_recursive"
+msgstr "User Assignments Subtree"
+
+msgid "user_changed_successful"
+msgstr "L’utente è stato modificato con successo."
+
+msgid "user_import_successful"
+msgstr "L’importazione è terminata con successo. Assegnato: %s , Rimosso: %s."
+
+msgid "users_successfuly_added"
+msgstr "L’utente è stato aggiunto con successo."
+
+msgid "view_learning_progress"
+msgstr "Visualizza il progresso dell'apprendimento"
+
+msgid "view_learning_progress_rec"
+msgstr "Visualizza il progresso dell'apprendimento in modo ricorrente"

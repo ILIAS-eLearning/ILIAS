@@ -1,0 +1,360 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: orgu\n"
+
+msgid "Staff"
+msgstr "Team"
+
+msgid "add_position"
+msgstr "Position hinzufügen"
+
+msgid "authorities"
+msgstr "Befugnisse"
+
+msgid "authority"
+msgstr "Befugnisse"
+
+msgid "backto_staff"
+msgstr "Zurück zu Personen"
+
+msgid "change_to_employee"
+msgstr "Zu Angestellten wechseln"
+
+msgid "change_to_superior"
+msgstr "Zu Vorgesetzten wechseln"
+
+msgid "confirm_deletion_and_assign"
+msgstr "Löschen und Benutzer zuweisen"
+
+msgid "confirm_deletion_button"
+msgstr "Löschen"
+
+msgid "deassign_user_successful"
+msgstr "Benutzer wurde erfolgreich ausgetragen."
+
+msgid "edit_translations"
+msgstr "Titel und Beschreibung"
+
+msgid "employee"
+msgstr "Teammitglied"
+
+msgid "ext_id"
+msgstr "Externe ID"
+
+msgid "ext_id_updated"
+msgstr "Die externe ID wurde erfolgreich aktualisiert."
+
+msgid "form_title_org_default_permissions_update"
+msgstr "Standardrechte"
+
+msgid "import_failed"
+msgstr "Der Import ist fehlgeschlagen. Stellen Sie sicher, dass die Datei im XML-Format geschrieben ist und eine valide Struktur aufweist."
+
+msgid "import_successful"
+msgstr "Der Import wurde erfolgreich durchgeführt. Neu erstellt: %s, Bearbeitet/Verschoben: %s, Gelöscht: %s."
+
+msgid "import_terminated_with_errors"
+msgstr "Der Import hat Fehler erkannt."
+
+msgid "import_terminated_with_warnings"
+msgstr "Der Import hat Warnungen erzeugt"
+
+msgid "import_xml_file"
+msgstr "Import-Datei"
+
+msgid "local_other_roles"
+msgstr "Weitere lokale Rollen %s"
+
+msgid "local_staff"
+msgstr "Teammitglied %s"
+
+msgid "msg_assignment_to_employee_done"
+msgstr "Zuweisung zur Position Teammitglied durchgeführt"
+
+msgid "msg_confirm_d_ua"
+msgstr "Wollen Sie folgende Personen der Position Teammitglied in ihrer jeweiligen Organisationseinheit zuweisen?"
+
+msgid "msg_confirm_deletion"
+msgstr "Wollen Sie die folgende Position wirklich löschen?"
+
+msgid "msg_confirm_remove_user"
+msgstr "Möchten Sie den folgenden Benutzer wirklich aus der Position %s entfernen?"
+
+msgid "msg_deleted"
+msgstr "Gelöscht"
+
+msgid "msg_position_created"
+msgstr "Position wurde erstellt."
+
+msgid "msg_position_delete_fail"
+msgstr "Position wurde nicht gefunden."
+
+msgid "msg_position_updated"
+msgstr "Position wurde aktualisiert."
+
+msgid "msg_success_permission_saved"
+msgstr "Rechte wurden gespeichert."
+
+msgid "no_assignment"
+msgstr "Bitte prüfen Sie Ihre XML-Datei. Es konnte keine Benutzerzuweisung gefunden werden."
+
+msgid "no_orgunit"
+msgstr "Bitte prüfen Sie Ihre XML-Datei. Es konnte keine Organisationseinheit gefunden werden."
+
+msgid "no_roles"
+msgstr "Es gibt keine weiteren lokalen Rollen an dieser Stelle."
+
+msgid "not_movable_to_subtree"
+msgstr "Eine Organisationseinheit kann nicht in ihre eigenen Untereinheiten eingeteilt werden, dies würde eine Schlaufe bilden."
+
+msgid "org_op_access_enrolments"
+msgstr "Einschreibe-Status einsehen"
+
+msgid "org_op_access_results"
+msgstr "Zugriff auf Ergebnisse"
+
+msgid "org_op_create_employee_talk"
+msgstr "Gespräche erstellen / Gespräche, welche man selbst erstellt hat, bearbeiten"
+
+msgid "org_op_edit_employee_talk"
+msgstr "Gespräche bearbeiten"
+
+msgid "org_op_edit_individual_plan"
+msgstr "Individuellen Plan bearbeiten"
+
+msgid "org_op_edit_submissions_grades"
+msgstr "Abgaben von anderen Benutzern bearbeiten"
+
+msgid "org_op_manage_members"
+msgstr "Mitglieder bearbeiten"
+
+msgid "org_op_read_employee_talk"
+msgstr "Auf Gespräche lesend zugreifen"
+
+msgid "org_op_read_learning_progress"
+msgstr "Lernfortschritt von anderen Benutzern einsehen"
+
+msgid "org_op_view_certificates"
+msgstr "Zertifikate von anderen Benutzern einsehen"
+
+msgid "org_op_view_competences"
+msgstr "Kompetenzen von anderen Benutzern einsehen"
+
+msgid "org_op_view_individual_plan"
+msgstr "Individuellen Plan einsehen"
+
+msgid "org_op_view_members"
+msgstr "Zuweisungen einsehen"
+
+msgid "org_op_write_learning_progress"
+msgstr "Lernfortschritt von anderen Benutzern setzen"
+
+msgid "org_unit_not_found"
+msgstr "Die Organisationseinheit wurde nicht gefunden."
+
+msgid "orgu_add"
+msgstr "Organisationseinheit hinzufügen"
+
+msgid "orgu_adv_settings"
+msgstr "Erweiterte Einstellungen"
+
+msgid "orgu_already_deleted"
+msgstr "Das Objekt wurde bereits gelöscht."
+
+msgid "orgu_enable_my_staff"
+msgstr "Hauptmenüeintrag aktivieren"
+
+msgid "orgu_enable_my_staff_info"
+msgstr "Ein neuer Haupteintrag wird im Hauptmenü angezeigt. Er kann die Einträge Team, Kurse, Zertifikate, Kompetenzen und Gespräche enthalten."
+
+msgid "orgu_global_set_form"
+msgstr "Globale Einstellungen"
+
+msgid "orgu_global_set_positions"
+msgstr "Nutzung von Positionen in Objekttypen"
+
+msgid "orgu_global_set_positions_type_active"
+msgstr "Positionen in:"
+
+msgid "orgu_global_set_type_changeable"
+msgstr "Verhalten neuer Objekte"
+
+msgid "orgu_global_set_type_changeable_no"
+msgstr "Positionen sind im Objekt nicht deaktivierbar"
+
+msgid "orgu_global_set_type_changeable_object"
+msgstr "Änderbare Einstellung im Objekt"
+
+msgid "orgu_global_set_type_default"
+msgstr "Standardwert"
+
+msgid "orgu_global_set_type_default_info"
+msgstr "Positionen sind im Reiter 'Einstellungen' des Objektes standardmäßig aktiviert."
+
+msgid "orgu_import"
+msgstr "Organisationseinheit importieren"
+
+msgid "orgu_new"
+msgstr "Neue Organisationseinheit"
+
+msgid "orgu_orgu_type"
+msgstr "Organisationseinheitentyp"
+
+msgid "orgu_settings"
+msgstr "Organisationseinheiten Einstellungen"
+
+msgid "orgu_staff"
+msgstr "Beschäftigte"
+
+msgid "orgu_staff_deassign"
+msgstr "Diese Benutzer aus der Rolle wirklich entfernen?"
+
+msgid "orgu_type"
+msgstr "Organisationseinheitentyp"
+
+msgid "orgu_type_add"
+msgstr "Organisationseinheitentyp hinzufügen"
+
+msgid "orgu_type_assign_amd_sets"
+msgstr "Benutzerdefinierte Metadaten zuweisen"
+
+msgid "orgu_type_available_amd_sets"
+msgstr "Verfügbare benutzerdefinierte Metadaten"
+
+msgid "orgu_type_custom_icon"
+msgstr "Benutzerdefiniertes Icon für diesen Organisationseinheitentyp"
+
+msgid "orgu_type_custom_icon_info"
+msgstr "Alle Organisationseinheiten mit diesem Typ werden mit diesem Icon dargestellt"
+
+msgid "orgu_type_edit"
+msgstr "Organisationseinheitentyp bearbeiten"
+
+msgid "orgu_type_msg_assign_amd_prevented"
+msgstr "Hinzufügen von Erweiterten Metadaten verhindert durch folgende Plugins: %s"
+
+msgid "orgu_type_msg_deassign_amd_prevented"
+msgstr "Entfernen Erweiterter Metadaten verhindert durch folgende Plugins: %s"
+
+msgid "orgu_type_msg_deleted"
+msgstr "Organisationseinheitentyp wurde gelöscht"
+
+msgid "orgu_type_msg_deletion_prevented"
+msgstr "Löschen verhindert durch folgende Plugins: %s"
+
+msgid "orgu_type_msg_error_custom_icon"
+msgstr "Icon konnte nicht gespeichert werden"
+
+msgid "orgu_type_msg_missing_title"
+msgstr "Es muss ein Titel für die Standardsprache angegeben werden"
+
+msgid "orgu_type_msg_missing_title_default_language"
+msgstr "Standardsprache und der Titel für die Standardsprache müssen ausgefüllt werden"
+
+msgid "orgu_type_msg_setting_default_lang_prevented"
+msgstr "'%' als Standardsprache nicht möglich, verhindert durch folgende Plugins: %s"
+
+msgid "orgu_type_msg_setting_member_prevented"
+msgstr "Zuweisen von „%s“ verhindert durch folgende Plugins: %s"
+
+msgid "orgu_type_msg_unable_delete"
+msgstr "Der Typ kann nicht gelöscht werden, da er noch folgenden Organisationseinheiten zugewiesen ist: %s"
+
+msgid "orgu_type_msg_updating_prevented"
+msgstr "Aktualisieren des Objekts verhindert durch folgende Plugins: %s"
+
+msgid "orgu_types"
+msgstr "Typen"
+
+msgid "orgunit_position_permissions_not_active_for"
+msgstr "Das Überschreiben der Zugriffsregelung für die Positionen darf nicht lokal vorgenommen werden für den Typ:"
+
+msgid "ou_external_id_exists"
+msgstr "Eine Organisationseinheit mit der Externen ID existiert bereits auf ILIAS."
+
+msgid "ou_id_not_valid"
+msgstr "Die Import-ID konnte nicht gefunden werden."
+
+msgid "ou_more_than_one_match_found"
+msgstr "Mehr als ein Treffer wurde gefunden."
+
+msgid "ou_parent_id_not_valid"
+msgstr "Die ou_parent_id konnte nicht gefunden werden."
+
+msgid "over"
+msgstr "über"
+
+msgid "over_-1"
+msgstr "Alle"
+
+msgid "placeholder"
+msgstr "..."
+
+msgid "positions"
+msgstr "Positionen"
+
+msgid "rec_staff"
+msgstr "Teammitglied %s und nachfolgend"
+
+msgid "remove_successful"
+msgstr "Der Benutzer wurde erfolgreich entfernt."
+
+msgid "remove_user"
+msgstr "Entfernen"
+
+msgid "scope"
+msgstr "in"
+
+msgid "scope_1"
+msgstr "eigener Organisationseinheit"
+
+msgid "scope_2"
+msgstr "eigener und untergeordneten Organisationseinheiten"
+
+msgid "scope_3"
+msgstr "allen Organisationseinheiten"
+
+msgid "show_learning_progress"
+msgstr "Zeige Lernfortschritt"
+
+msgid "simple_import"
+msgstr "Einfacher XML-Import"
+
+msgid "simple_user_import"
+msgstr "XML-Benutzerzuweisung"
+
+msgid "simple_xls"
+msgstr "Einfacher Excel-Export"
+
+msgid "simple_xml"
+msgstr "Einfacher XML-Export"
+
+msgid "superior"
+msgstr "Führungskraft"
+
+msgid "user_assignments"
+msgstr "Benutzerzuweisung"
+
+msgid "user_assignments_recursive"
+msgstr "Benutzerzuweisung Teilbaum"
+
+msgid "user_changed_successful"
+msgstr "Der Benutzer wurde erfolgreich umgeschrieben."
+
+msgid "user_import_successful"
+msgstr "Der Import wurde erfolgreich durchgeführt. Neu zugeordnet: %s, Zuordnung entfernt: %s."
+
+msgid "users_successfuly_added"
+msgstr "Der Benutzer wurde erfolgreich eingetragen."
+
+msgid "view_learning_progress"
+msgstr "Lernfortschritt einsehen"
+
+msgid "view_learning_progress_rec"
+msgstr "Lernfortschritt rekursiv einsehen"

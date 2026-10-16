@@ -1,0 +1,367 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: orgu\n"
+
+msgid "Staff"
+msgstr "Zaměstnanci"
+
+msgid "add_position"
+msgstr "Přidat pozici"
+
+msgid "authorities"
+msgstr "Oprávnění"
+
+msgid "authority"
+msgstr "Oprávnění"
+
+msgid "backto_staff"
+msgstr "Zpátky k zaměstnancům"
+
+msgid "change_to_employee"
+msgstr "Změna na zaměstnance"
+
+msgid "change_to_superior"
+msgstr "Změna na nadřazeného"
+
+msgid "confirm_deletion_and_assign"
+msgstr "Smazat a přiřadit uživatele"
+
+msgid "confirm_deletion_button"
+msgstr "Smazat"
+
+msgid "deassign_user_successful"
+msgstr "Uživatelé byli z této role úspěšně odstraněni."
+
+msgid "edit_translations"
+msgstr "Název a popis"
+
+msgid "employee"
+msgstr "Zaměstnanec"
+
+msgid "ext_id"
+msgstr "Externí ID"
+
+msgid "ext_id_updated"
+msgstr "Externí ID bylo úspěšně aktualizováno."
+
+msgid "form_title_org_default_permissions_update"
+msgstr "Výchozí oprávnění"
+
+msgid "import_failed"
+msgstr "Import se nezdařil. Zkontrolujte, zda je soubor ve formátu xml a zda má platnou strukturu."
+
+msgid "import_successful"
+msgstr "Import byl úspěšně ukončen. Vytvořeno: %s, upraveno / přesunuto: %s, smazáno: %s."
+
+msgid "import_terminated_with_errors"
+msgstr "Import byl ukončen s chybami, některé organizační položky nemohly být vytvořeny, upraveny ani odstraněny."
+
+msgid "import_terminated_with_warnings"
+msgstr "Import byl ukončen s výstrahami."
+
+msgid "import_xml_file"
+msgstr "Importovat data"
+
+msgid "local_other_roles"
+msgstr "Další role %s"
+
+msgid "local_staff"
+msgstr "Zaměstnanci %s"
+
+msgid "msg_assignment_to_employee_done"
+msgstr "Přiřazení k pozici zaměstnance provedeno"
+
+msgid "msg_confirm_d_ua"
+msgstr "Chcete tyto osoby přidělit k pozici zaměstnance příslušných organizačních jednotek?"
+
+msgid "msg_confirm_deletion"
+msgstr "Opravdu chcete smazat následující pozici?"
+
+msgid "msg_confirm_remove_user"
+msgstr "Opravdu chcete odstranit následujícího uživatele z pozice %s?"
+
+msgid "msg_deleted"
+msgstr "Smazáno"
+
+msgid "msg_position_created"
+msgstr "Pozice byla vytvořena."
+
+#, fuzzy
+msgid "msg_position_delete_fail"
+msgstr "Position wurde nicht gefunden."
+
+msgid "msg_position_updated"
+msgstr "Pozice byla vytvořena."
+
+msgid "msg_success_permission_saved"
+msgstr "Oprávnění byla uložena."
+
+msgid "no_assignment"
+msgstr "Zkontrolujte prosím soubor XML. Neexistuje žádné přiřazení uživatele."
+
+msgid "no_orgunit"
+msgstr "Zkontrolujte prosím soubor XML. Neexistuje žádná organizační jednotka."
+
+msgid "no_roles"
+msgstr "V tomto bodě neexistují žádné další role."
+
+msgid "not_movable_to_subtree"
+msgstr "Organizační jednotku nelze přesunout do vlastního podstromu. To by vytvořilo smyčku."
+
+msgid "org_op_access_enrolments"
+msgstr "Zobrazit zápisy"
+
+msgid "org_op_access_results"
+msgstr "Přístup k výsledkům"
+
+msgid "org_op_create_employee_talk"
+msgstr "Create talk appointments / edit talk appointments that you have created yourself"
+
+msgid "org_op_edit_employee_talk"
+msgstr "Edit Talk appointments"
+
+#, fuzzy
+msgid "org_op_edit_individual_plan"
+msgstr "Edit Individual Plan"
+
+msgid "org_op_edit_submissions_grades"
+msgstr "Upravit žádosti ostatních uživatelů"
+
+msgid "org_op_manage_members"
+msgstr "Správa členů"
+
+msgid "org_op_read_employee_talk"
+msgstr "Read access talk appointments"
+
+msgid "org_op_read_learning_progress"
+msgstr "Zobrazit pokrok ostatních uživatelů"
+
+#, fuzzy
+msgid "org_op_view_certificates"
+msgstr "View certificates of other users"
+
+#, fuzzy
+msgid "org_op_view_competences"
+msgstr "View competences of other users"
+
+#, fuzzy
+msgid "org_op_view_individual_plan"
+msgstr "View Individual Plan"
+
+#, fuzzy
+msgid "org_op_view_members"
+msgstr "View Members"
+
+msgid "org_op_write_learning_progress"
+msgstr "Nastavení pokroku v učení u jiných uživatelů"
+
+msgid "org_unit_not_found"
+msgstr "Organizační jednotka nenalezena"
+
+msgid "orgu_add"
+msgstr "Přidat organizační jednotku"
+
+msgid "orgu_adv_settings"
+msgstr "Pokročilé nastavení"
+
+msgid "orgu_already_deleted"
+msgstr "Objekt byl již odstraněn."
+
+msgid "orgu_enable_my_staff"
+msgstr "Povolit zobrazení „Zaměstnanců“"
+
+msgid "orgu_enable_my_staff_info"
+msgstr "Zobrazení 'Zaměstnanci' ukazuje průběh učení vlastních zaměstnanců."
+
+msgid "orgu_global_set_form"
+msgstr "Globální nastavení organizační jednotky"
+
+msgid "orgu_global_set_positions"
+msgstr "Zobrazit uživatelská data podle pozic v organizační jednotce"
+
+msgid "orgu_global_set_positions_type_active"
+msgstr "Aktivní pro:"
+
+msgid "orgu_global_set_type_changeable"
+msgstr "Lze měnit"
+
+msgid "orgu_global_set_type_changeable_no"
+msgstr "Nastavení nelze měnit"
+
+msgid "orgu_global_set_type_changeable_object"
+msgstr "Nastavení lze měnit na úrovni objektu"
+
+msgid "orgu_global_set_type_default"
+msgstr "Výchozí nastavení"
+
+msgid "orgu_global_set_type_default_info"
+msgstr "Definujte výchozí nastavení pro nenakonfigurované objekty"
+
+msgid "orgu_import"
+msgstr "Importovat organizační jednotku"
+
+msgid "orgu_new"
+msgstr "Nová organizační jednotka"
+
+msgid "orgu_orgu_type"
+msgstr "Typ organizační jednotky"
+
+msgid "orgu_settings"
+msgstr "Nastavení organizační jednotky"
+
+msgid "orgu_staff"
+msgstr "Zaměstnanci"
+
+msgid "orgu_staff_deassign"
+msgstr "Opravdu chcete tyto uživatele z této role odstranit?"
+
+msgid "orgu_type"
+msgstr "Typ organizační jednotky"
+
+msgid "orgu_type_add"
+msgstr "Přidat typ organizační jednotky"
+
+msgid "orgu_type_assign_amd_sets"
+msgstr "Přiřadit sady pokročilých metadat"
+
+msgid "orgu_type_available_amd_sets"
+msgstr "Sady dostupných pokročilých metadat"
+
+msgid "orgu_type_custom_icon"
+msgstr "Vlastní ikona pro tento typ organizační jednotky"
+
+msgid "orgu_type_custom_icon_info"
+msgstr "Všechny organizační jednotky s tímto přiřazeným typem budou používat ikonu ve stromu a záhlaví."
+
+msgid "orgu_type_edit"
+msgstr "Upravit typ organizační jednotky"
+
+msgid "orgu_type_msg_assign_amd_prevented"
+msgstr "Přiřazení AMDRecord brání pluginy: %s"
+
+msgid "orgu_type_msg_deassign_amd_prevented"
+msgstr "Odstranění AMDRecord brání pluginy: %s"
+
+msgid "orgu_type_msg_deleted"
+msgstr "Zrušený typ organizační jednotky"
+
+msgid "orgu_type_msg_deletion_prevented"
+msgstr "Zrušení objektu brání pluginy: %s"
+
+msgid "orgu_type_msg_error_custom_icon"
+msgstr "Vlastní ikonu nelze uložit"
+
+msgid "orgu_type_msg_missing_title"
+msgstr "Musí být nastaven název výchozího jazyka"
+
+msgid "orgu_type_msg_missing_title_default_language"
+msgstr "Musí být nastaven výchozí jazyk a název výchozího jazyka"
+
+msgid "orgu_type_msg_setting_default_lang_prevented"
+msgstr "Nastavení '%s' jako výchozího jazyka brání pluginy: %s"
+
+msgid "orgu_type_msg_setting_member_prevented"
+msgstr "Nastavení '%s' brání pluginy: %s"
+
+msgid "orgu_type_msg_unable_delete"
+msgstr "Nelze odstranit typ, protože je stále přiřazen následujícím organizačním jednotkám: %s"
+
+msgid "orgu_type_msg_updating_prevented"
+msgstr "Aktualizaci objektu brání pluginy: %s"
+
+msgid "orgu_types"
+msgstr "Typy"
+
+msgid "orgunit_position_permissions_not_active_for"
+msgstr "Nemůžete přepsat oprávnění specifická pro pozici pro typ:"
+
+msgid "ou_external_id_exists"
+msgstr "Jednotka s externím ID již existuje v tomto systému nebo v koši."
+
+msgid "ou_id_not_valid"
+msgstr "ID importu nebylo nalezeno."
+
+msgid "ou_more_than_one_match_found"
+msgstr "Nalezena více než jedna shoda."
+
+msgid "ou_parent_id_not_valid"
+msgstr "Typ ou_parent_id není platný. Platné jsou: \"reference_id\" nebo \"external_id\"."
+
+msgid "over"
+msgstr "Hotovo"
+
+msgid "over_-1"
+msgstr "Každý"
+
+msgid "placeholder"
+msgstr "..."
+
+msgid "positions"
+msgstr "Pozice"
+
+msgid "rec_staff"
+msgstr "Zaměstnanci %s rekurzivně"
+
+msgid "remove_successful"
+msgstr "Uživatel byl úspěšně odebrán."
+
+msgid "remove_user"
+msgstr "Odstranit"
+
+msgid "scope"
+msgstr "V"
+
+msgid "scope_1"
+msgstr "Některá organizační jednotka"
+
+msgid "scope_2"
+msgstr "Následné organizační jednotky"
+
+msgid "scope_3"
+msgstr "Všechny organizační jednotky"
+
+msgid "show_learning_progress"
+msgstr "Zobrazit potup výuky"
+
+msgid "simple_import"
+msgstr "Import jednoho souboru XML"
+
+msgid "simple_user_import"
+msgstr "Přiřazení uživatele XML"
+
+msgid "simple_xls"
+msgstr "Import jednoho souboru Excel"
+
+msgid "simple_xml"
+msgstr "Import jednoho souboru XML"
+
+msgid "superior"
+msgstr "Nadřízený"
+
+msgid "user_assignments"
+msgstr "Uživatelská přiřazení"
+
+#, fuzzy
+msgid "user_assignments_recursive"
+msgstr "User Assignments Subtree"
+
+msgid "user_changed_successful"
+msgstr "Uživatel byl úspěšně změněn."
+
+msgid "user_import_successful"
+msgstr "Import byl úspěšně ukončen. Přiřazeno: %s, Odebráno: %s."
+
+msgid "users_successfuly_added"
+msgstr "Uživatel byl úspěšně přidán."
+
+msgid "view_learning_progress"
+msgstr "Zobrazit potup výuky"
+
+msgid "view_learning_progress_rec"
+msgstr "Zobrazit pokrok v učení rekurzivně"

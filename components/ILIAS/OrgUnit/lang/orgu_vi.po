@@ -1,0 +1,474 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: vi\n"
+"Language-Team: Vietnamese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: orgu\n"
+
+#, fuzzy
+msgid "Staff"
+msgstr "Staff"
+
+#, fuzzy
+msgid "add_position"
+msgstr "Add Position"
+
+#, fuzzy
+msgid "authorities"
+msgstr "Authorities"
+
+#, fuzzy
+msgid "authority"
+msgstr "Authority"
+
+#, fuzzy
+msgid "backto_staff"
+msgstr "Back to staff"
+
+#, fuzzy
+msgid "change_to_employee"
+msgstr "Change to employee"
+
+#, fuzzy
+msgid "change_to_superior"
+msgstr "Change to superior"
+
+#, fuzzy
+msgid "confirm_deletion_and_assign"
+msgstr "Delete and Assign Users"
+
+#, fuzzy
+msgid "confirm_deletion_button"
+msgstr "Delete"
+
+#, fuzzy
+msgid "deassign_user_successful"
+msgstr "Users have been deasigned successfuly from this role."
+
+#, fuzzy
+msgid "edit_translations"
+msgstr "Title and Description"
+
+#, fuzzy
+msgid "employee"
+msgstr "Employee"
+
+#, fuzzy
+msgid "ext_id"
+msgstr "External ID"
+
+#, fuzzy
+msgid "ext_id_updated"
+msgstr "The external ID has been updated successfully."
+
+#, fuzzy
+msgid "form_title_org_default_permissions_update"
+msgstr "Default Permissions"
+
+#, fuzzy
+msgid "import_failed"
+msgstr "The import failed. Make sure your file is in the xml format and is has a valid structure."
+
+#, fuzzy
+msgid "import_successful"
+msgstr "The import terminated successfully. Created: %s, edited/moved: %s, deleted: %s."
+
+#, fuzzy
+msgid "import_terminated_with_errors"
+msgstr "The import terminated with errors, some organisational couldn't be created, edited or deleted."
+
+#, fuzzy
+msgid "import_terminated_with_warnings"
+msgstr "The import terminated with warnings"
+
+#, fuzzy
+msgid "import_xml_file"
+msgstr "Import Datei"
+
+#, fuzzy
+msgid "local_other_roles"
+msgstr "Additional Roles %s"
+
+#, fuzzy
+msgid "local_staff"
+msgstr "Employees %s"
+
+#, fuzzy
+msgid "msg_assignment_to_employee_done"
+msgstr "Zuweisung zur Position Mitarbeiter durchgeführt"
+
+#, fuzzy
+msgid "msg_confirm_d_ua"
+msgstr "Would you like to assign these person to the position Employee of their respective Organisational Units?"
+
+#, fuzzy
+msgid "msg_confirm_deletion"
+msgstr "Would you really like to delete tho following Position?"
+
+#, fuzzy
+msgid "msg_confirm_remove_user"
+msgstr "Would you really like to remove the following User from the Position %s?"
+
+#, fuzzy
+msgid "msg_deleted"
+msgstr "Deleted"
+
+#, fuzzy
+msgid "msg_position_created"
+msgstr "Position created."
+
+#, fuzzy
+msgid "msg_position_delete_fail"
+msgstr "Position wurde nicht gefunden."
+
+#, fuzzy
+msgid "msg_position_updated"
+msgstr "Position updated."
+
+#, fuzzy
+msgid "msg_success_permission_saved"
+msgstr "Permissions saved."
+
+#, fuzzy
+msgid "no_assignment"
+msgstr "Please check your XML-File. There is no User Assignment."
+
+#, fuzzy
+msgid "no_orgunit"
+msgstr "Please check your XML-File. There is no Organisational Unit."
+
+#, fuzzy
+msgid "no_roles"
+msgstr "There are no additional roles at this point."
+
+#, fuzzy
+msgid "not_movable_to_subtree"
+msgstr "An organisational unit cannot be moved into its own subtree. This would create a loop."
+
+#, fuzzy
+msgid "org_op_access_enrolments"
+msgstr "View Enrolments"
+
+#, fuzzy
+msgid "org_op_access_results"
+msgstr "Access Results"
+
+msgid "org_op_create_employee_talk"
+msgstr "Create talk appointments / edit talk appointments that you have created yourself"
+
+msgid "org_op_edit_employee_talk"
+msgstr "Edit Talk appointments"
+
+#, fuzzy
+msgid "org_op_edit_individual_plan"
+msgstr "Edit Individual Plan"
+
+#, fuzzy
+msgid "org_op_edit_submissions_grades"
+msgstr "Edit submissions of other users"
+
+#, fuzzy
+msgid "org_op_manage_members"
+msgstr "Manage Members"
+
+msgid "org_op_read_employee_talk"
+msgstr "Read access talk appointments"
+
+#, fuzzy
+msgid "org_op_read_learning_progress"
+msgstr "View learning progress of other users"
+
+#, fuzzy
+msgid "org_op_view_certificates"
+msgstr "View certificates of other users"
+
+#, fuzzy
+msgid "org_op_view_competences"
+msgstr "View competences of other users"
+
+#, fuzzy
+msgid "org_op_view_individual_plan"
+msgstr "View Individual Plan"
+
+#, fuzzy
+msgid "org_op_view_members"
+msgstr "View Members"
+
+#, fuzzy
+msgid "org_op_write_learning_progress"
+msgstr "Set learning progress of other users"
+
+#, fuzzy
+msgid "org_unit_not_found"
+msgstr "Organisational Unit not found."
+
+#, fuzzy
+msgid "orgu_add"
+msgstr "Add Organisational Unit"
+
+#, fuzzy
+msgid "orgu_adv_settings"
+msgstr "Advanced Settings"
+
+#, fuzzy
+msgid "orgu_already_deleted"
+msgstr "The object was already deleted."
+
+#, fuzzy
+msgid "orgu_enable_my_staff"
+msgstr "Enable View ‘Staff’"
+
+#, fuzzy
+msgid "orgu_enable_my_staff_info"
+msgstr "The View ‘Staff’ shows the Learning Progress of the own Employees."
+
+#, fuzzy
+msgid "orgu_global_set_form"
+msgstr "Global Organisational Unit Settings"
+
+#, fuzzy
+msgid "orgu_global_set_positions"
+msgstr "Show User Data according to Organisational Unit Positions"
+
+#, fuzzy
+msgid "orgu_global_set_positions_type_active"
+msgstr "Active for:"
+
+#, fuzzy
+msgid "orgu_global_set_type_changeable"
+msgstr "Changeable"
+
+#, fuzzy
+msgid "orgu_global_set_type_changeable_no"
+msgstr "Setting is not changeable"
+
+#, fuzzy
+msgid "orgu_global_set_type_changeable_object"
+msgstr "Setting is changeable on object level"
+
+#, fuzzy
+msgid "orgu_global_set_type_default"
+msgstr "Default Setting"
+
+#, fuzzy
+msgid "orgu_global_set_type_default_info"
+msgstr "Define the default for unconfigured objects"
+
+#, fuzzy
+msgid "orgu_import"
+msgstr "Import Organisational Unit"
+
+#, fuzzy
+msgid "orgu_new"
+msgstr "New Organisational Unit"
+
+#, fuzzy
+msgid "orgu_orgu_type"
+msgstr "Organisational Unit Type"
+
+#, fuzzy
+msgid "orgu_settings"
+msgstr "Organisational Unit Settings"
+
+#, fuzzy
+msgid "orgu_staff"
+msgstr "Staff"
+
+#, fuzzy
+msgid "orgu_staff_deassign"
+msgstr "Are you sure you want to deassign these users from this role?"
+
+#, fuzzy
+msgid "orgu_type"
+msgstr "Organisational Unit Type"
+
+#, fuzzy
+msgid "orgu_type_add"
+msgstr "Add Organisational Unit Type"
+
+#, fuzzy
+msgid "orgu_type_assign_amd_sets"
+msgstr "Assign Advanced Metadata sets"
+
+#, fuzzy
+msgid "orgu_type_available_amd_sets"
+msgstr "Available Advanced Metadata sets"
+
+#, fuzzy
+msgid "orgu_type_custom_icon"
+msgstr "Custom Icon for this Organisational Unit Type"
+
+#, fuzzy
+msgid "orgu_type_custom_icon_info"
+msgstr "All Organisational Units having this type assigned will use the icon in the tree and header."
+
+#, fuzzy
+msgid "orgu_type_edit"
+msgstr "Edit Organisational Unit Type"
+
+#, fuzzy
+msgid "orgu_type_msg_assign_amd_prevented"
+msgstr "Assigning AMDRecord prevented by plugins: %s"
+
+#, fuzzy
+msgid "orgu_type_msg_deassign_amd_prevented"
+msgstr "Deassigning AMDRecord prevented by plugins: %s"
+
+#, fuzzy
+msgid "orgu_type_msg_deleted"
+msgstr "Deleted Organisational Unit Type"
+
+#, fuzzy
+msgid "orgu_type_msg_deletion_prevented"
+msgstr "Deletion of object prevented by plugins: %s"
+
+#, fuzzy
+msgid "orgu_type_msg_error_custom_icon"
+msgstr "Could not save the custom icon"
+
+#, fuzzy
+msgid "orgu_type_msg_missing_title"
+msgstr "There must be set a title for the default language"
+
+#, fuzzy
+msgid "orgu_type_msg_missing_title_default_language"
+msgstr "There must be set a default language and a title for the default language"
+
+#, fuzzy
+msgid "orgu_type_msg_setting_default_lang_prevented"
+msgstr "Setting '%s' as default language prevented by plugins: %s"
+
+#, fuzzy
+msgid "orgu_type_msg_setting_member_prevented"
+msgstr "Setting '%s' prevented by plugins: %s"
+
+#, fuzzy
+msgid "orgu_type_msg_unable_delete"
+msgstr "Unable to delete type because it is still assigned to the following Organisational Units: %s"
+
+#, fuzzy
+msgid "orgu_type_msg_updating_prevented"
+msgstr "Updating of object prevented by plugins: %s"
+
+#, fuzzy
+msgid "orgu_types"
+msgstr "Types"
+
+#, fuzzy
+msgid "orgunit_position_permissions_not_active_for"
+msgstr "You cannot override the position specific permissions for the type:"
+
+#, fuzzy
+msgid "ou_external_id_exists"
+msgstr "A unit with the External ID already exists on this system or in trash bin."
+
+#, fuzzy
+msgid "ou_id_not_valid"
+msgstr "Import-ID not found."
+
+#, fuzzy
+msgid "ou_more_than_one_match_found"
+msgstr "More then one match found."
+
+#, fuzzy
+msgid "ou_parent_id_not_valid"
+msgstr "The ou_parent_id type is not valid. Valid are: \"reference_id\" or \"external_id\"."
+
+#, fuzzy
+msgid "over"
+msgstr "Over"
+
+#, fuzzy
+msgid "over_-1"
+msgstr "Everyone"
+
+#, fuzzy
+msgid "placeholder"
+msgstr "..."
+
+#, fuzzy
+msgid "positions"
+msgstr "Positions"
+
+#, fuzzy
+msgid "rec_staff"
+msgstr "Employees %s recursivly"
+
+#, fuzzy
+msgid "remove_successful"
+msgstr "User was removed successfully."
+
+#, fuzzy
+msgid "remove_user"
+msgstr "Remove"
+
+#, fuzzy
+msgid "scope"
+msgstr "In"
+
+#, fuzzy
+msgid "scope_1"
+msgstr "Same Organisational Unit"
+
+#, fuzzy
+msgid "scope_2"
+msgstr "Subsequent Organisational Units"
+
+#, fuzzy
+msgid "scope_3"
+msgstr "All Organisational Units"
+
+#, fuzzy
+msgid "show_learning_progress"
+msgstr "Show Learning Progress"
+
+#, fuzzy
+msgid "simple_import"
+msgstr "Simple XML Import"
+
+#, fuzzy
+msgid "simple_user_import"
+msgstr "XML User Assignment"
+
+#, fuzzy
+msgid "simple_xls"
+msgstr "Simple Excel Export"
+
+#, fuzzy
+msgid "simple_xml"
+msgstr "Simple XML Export"
+
+#, fuzzy
+msgid "superior"
+msgstr "Superior"
+
+#, fuzzy
+msgid "user_assignments"
+msgstr "User Assignments"
+
+#, fuzzy
+msgid "user_assignments_recursive"
+msgstr "User Assignments Subtree"
+
+#, fuzzy
+msgid "user_changed_successful"
+msgstr "The user has been changed successfully."
+
+#, fuzzy
+msgid "user_import_successful"
+msgstr "The import terminated successfully. Assigned: %s, Removed: %s."
+
+#, fuzzy
+msgid "users_successfuly_added"
+msgstr "The user has been added successfully."
+
+#, fuzzy
+msgid "view_learning_progress"
+msgstr "View Learning Progress"
+
+#, fuzzy
+msgid "view_learning_progress_rec"
+msgstr "View Learning Progress Recursivly"
