@@ -1371,15 +1371,9 @@ class ilPageObjectGUI
 
         // get title
         $pg_title = $this->getPresentationTitle();
-        $col_path = '';
-        $row_path = '';
-        $cell_path = '';
         $item_path = '';
         if ($this->getOutputMode() == "edit") {
-            $col_path = ilUtil::getImagePath("object/col.svg");
-            $row_path = ilUtil::getImagePath("object/row.svg");
             $item_path = ilUtil::getImagePath("page_editor/icon_peadl.svg");
-            $cell_path = ilUtil::getImagePath("object/cell.svg");
         }
 
         if ($this->getOutputMode() != "offline") {
@@ -1410,9 +1404,6 @@ class ilPageObjectGUI
         } else {
             $enable_split_next = "n";
         }
-
-        $img_path = ilUtil::getImagePath("", false, $this->getOutputMode(), $this->getOutputMode() == "offline");
-
 
         if ($this->getPageConfig()->getEnablePCType("Tabs")) {
             ilAccordionGUI::addJavaScript();
@@ -1450,10 +1441,7 @@ class ilPageObjectGUI
                          'pg_id' => $this->obj->getId(), 'parent_type' => $this->obj->getParentType(),
                          'pg_title_class' => $pg_title_class,
                          'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path,
-                         'img_col' => $col_path,
-                         'img_row' => $row_path,
-                         'img_cell' => $cell_path,
-                         'img_item' => $item_path,
+                          'img_item' => $item_path,
                          'acc_save_url' => "./ilias.php?baseClass=ilaccordionpropertiesstoragegui&cmd=setOpenedTab" .
                              "&user_id=" . $this->user->getId(),
                          'append_footnotes' => $append_footnotes,
@@ -1463,33 +1451,15 @@ class ilPageObjectGUI
                          'link_params' => $this->link_params,
                          'file_download_link' => $file_download_link,
                          'fullscreen_link' => $fullscreen_link,
-                         'img_path' => $img_path,
-                         'parent_id' => $this->obj->getParentId(),
-                         'download_script' => $this->sourcecode_download_script,
-                         'encoded_download_script' => urlencode($this->sourcecode_download_script),
-                         'enable_rep_objects' => $cfg->getEnablePCType("Resources") ? "y" : "n",
-                         'enable_login_page' => $cfg->getEnablePCType("LoginPageElement") ? "y" : "n",
-                         'enable_map' => ($cfg->getEnablePCType("Map") && ilMapUtil::isActivated()) ? "y" : "n",
-                         'enable_tabs' => $cfg->getEnablePCType("Tabs") ? "y" : "n",
-                         'enable_sa_qst' => $cfg->getEnableSelfAssessment() ? "y" : "n",
-                         'enable_file_list' => $cfg->getEnablePCType("FileList") ? "y" : "n",
-                         'enable_content_includes' => $cfg->getEnablePCType("ContentInclude") ? "y" : "n",
-                         'enable_content_templates' => (count($this->getPageObject()->getContentTemplates()) > 0) ? "y" : "n",
-                         'paste' => $paste ? "y" : "n",
+                          'download_script' => $this->sourcecode_download_script,
+                          'encoded_download_script' => urlencode($this->sourcecode_download_script),
+                          'enable_login_page' => $cfg->getEnablePCType("LoginPageElement") ? "y" : "n",
+                          'paste' => $paste ? "y" : "n",
                          'media_mode' => $media_mode,
                          'javascript' => $sel_js_mode,
                          'paragraph_plugins' => $paragraph_plugin_string,
                          'disable_auto_margins' => $disable_auto_margins,
                          'page_toc' => $cfg->getEnablePageToc() ? "y" : "n",
-                         'enable_profile' => $cfg->getEnablePCType("Profile") ? "y" : "n",
-                         'enable_verification' => $cfg->getEnablePCType("Verification") ? "y" : "n",
-                         'enable_blog' => $cfg->getEnablePCType("Blog") ? "y" : "n",
-                         'enable_skills' => $cfg->getEnablePCType("Skills") ? "y" : "n",
-                         'enable_learning_history' => $cfg->getEnablePCType("LearningHistory") ? "y" : "n",
-                         'enable_qover' => "n",
-                         'enable_consultation_hours' => $cfg->getEnablePCType("ConsultationHours") ? "y" : "n",
-                         'enable_my_courses' => $cfg->getEnablePCType("MyCourses") ? "y" : "n",
-                         'enable_amd_page_list' => $cfg->getEnablePCType("AMDPageList") ? "y" : "n",
                          'current_ts' => $current_ts,
                          'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
                          'page_perma_link' => $this->getPagePermaLink(),
