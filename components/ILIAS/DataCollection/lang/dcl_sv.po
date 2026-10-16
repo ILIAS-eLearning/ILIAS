@@ -1,0 +1,898 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: dcl\n"
+
+msgid "add_value"
+msgstr "Lägg till ny post"
+
+msgid "dcl_activate_notification"
+msgstr "Notifiering"
+
+msgid "dcl_add"
+msgstr "Skapa datainsamling"
+
+msgid "dcl_add_new_field"
+msgstr "Lägg till fält"
+
+msgid "dcl_add_new_record"
+msgstr "Lägg till post"
+
+msgid "dcl_add_new_table"
+msgstr "Lägg till ny tabell"
+
+msgid "dcl_add_new_view"
+msgstr "Lägg till ny vy"
+
+msgid "dcl_add_perm"
+msgstr "Lägg till ny post"
+
+msgid "dcl_add_perm_desc"
+msgstr "Användare kan skapa poster i den här tabellen."
+
+msgid "dcl_all_entries"
+msgstr "Alla poster"
+
+msgid "dcl_any"
+msgstr "Alla"
+
+msgid "dcl_asc"
+msgstr "Stigande ordning (ASC)"
+
+msgid "dcl_boolean"
+msgstr "Kryssruta"
+
+msgid "dcl_boolean_desc"
+msgstr "Valfält för \"tillämplig\"/\"ej tillämplig"
+
+msgid "dcl_cant_delete_last_table"
+msgstr "Tabellen i sig kan inte raderas eftersom det är den enda tabellen i denna datainsamling. Innehållet och strukturen i tabellen raderades dock framgångsrikt."
+
+msgid "dcl_change_notification_dcl_delete_record"
+msgstr "Följande post har tagits bort"
+
+msgid "dcl_change_notification_dcl_new_record"
+msgstr "Följande post har skapats"
+
+msgid "dcl_change_notification_dcl_update_record"
+msgstr "Följande post har uppdaterats"
+
+msgid "dcl_change_notification_link"
+msgstr "Gå till datainsamling"
+
+msgid "dcl_change_notification_subject"
+msgstr "Datainsamlingen \"%s\" har redigerats."
+
+msgid "dcl_changed_by"
+msgstr "Sista ändring av"
+
+msgid "dcl_checked"
+msgstr "Vald"
+
+msgid "dcl_comments"
+msgstr "Kommentarer"
+
+msgid "dcl_comments_desc"
+msgstr "Visar antalet kommentarer per post."
+
+msgid "dcl_confirm_delete_field"
+msgstr "Vill du verkligen ta bort det här fältet?"
+
+msgid "dcl_confirm_delete_fields"
+msgstr "Vill du verkligen ta bort dessa fält?"
+
+msgid "dcl_confirm_delete_record"
+msgstr "Vill du verkligen ta bort den här posten?"
+
+msgid "dcl_confirm_delete_records"
+msgstr "Är du säker på att du vill radera följande poster?"
+
+msgid "dcl_confirm_delete_table"
+msgstr "Vill du verkligen radera denna tabell inklusive innehåll och struktur?"
+
+msgid "dcl_confirm_storing_records"
+msgstr "Kontrollera detaljerna innan du sparar."
+
+msgid "dcl_confirm_storing_records_no_permission"
+msgstr "Du har ingen rätt att redigera inspelningen igen senare."
+
+msgid "dcl_copy"
+msgstr "Kopiering av datainsamling"
+
+#, fuzzy
+msgid "dcl_copy_field"
+msgstr "Copy"
+
+#, fuzzy
+msgid "dcl_copy_field_desc"
+msgstr "Field to copy options stored in a different field of a table."
+
+#, fuzzy
+msgid "dcl_copy_title"
+msgstr "Copy of table and field"
+
+msgid "dcl_create_date"
+msgstr "Datum för skapande"
+
+msgid "dcl_create_entry_rules"
+msgstr "Skapande av ingång"
+
+msgid "dcl_create_field"
+msgstr "Lägg till fält"
+
+msgid "dcl_create_fields"
+msgstr "Klicka på en tabell på fliken \"Tabeller\" och skapa nya fält med knappen \"Lägg till fält\"."
+
+msgid "dcl_creation_date"
+msgstr "Datum för skapande"
+
+msgid "dcl_creation_date_description"
+msgstr "Det datum då denna post skapades."
+
+msgid "dcl_datatype"
+msgstr "Typ av data"
+
+#, fuzzy
+msgid "dcl_date"
+msgstr "Date Entry"
+
+#, fuzzy
+msgid "dcl_date_desc"
+msgstr "Users can enter a date of their choice or select one using a calendar."
+
+msgid "dcl_date_selection"
+msgstr "Meny för val av datum"
+
+msgid "dcl_date_selection_desc"
+msgstr "Ange alternativ för urval (datum)"
+
+msgid "dcl_datetime"
+msgstr "Inmatning av datum"
+
+msgid "dcl_datetime_desc"
+msgstr "Datuminmatning via valmeny eller kalender"
+
+#, fuzzy
+msgid "dcl_datetime_selection"
+msgstr "Datetime Selection"
+
+#, fuzzy
+msgid "dcl_datetime_selection_desc"
+msgstr "Allow a date and time to be chosen from among a predefined selection of datetime options."
+
+msgid "dcl_default_sort_field"
+msgstr "Sortering"
+
+msgid "dcl_default_sort_field_order"
+msgstr "Sorteringsriktning"
+
+#, fuzzy
+msgid "dcl_default_sort_field_order_desc"
+msgstr "Arrange the order of the entries in the table based on this field."
+
+msgid "dcl_delete_fields"
+msgstr "Radera fält"
+
+msgid "dcl_delete_fields_no_selection"
+msgstr "Minst ett fält måste vara markerat för borttagning"
+
+msgid "dcl_delete_perm"
+msgstr "Radera poster"
+
+msgid "dcl_delete_records"
+msgstr "Radera poster"
+
+#, fuzzy
+msgid "dcl_deleted_entries"
+msgstr "Deleted Entries"
+
+msgid "dcl_deleted_records"
+msgstr "%s poster har raderats"
+
+#, fuzzy
+msgid "dcl_deprecated_copy"
+msgstr "(Deprecated)"
+
+msgid "dcl_desc"
+msgstr "Descendent ordning (DESC)"
+
+msgid "dcl_description"
+msgstr "Beskrivning"
+
+msgid "dcl_detailed_view"
+msgstr "Singelutsikt"
+
+msgid "dcl_display_action_menu"
+msgstr "Kopia"
+
+#, fuzzy
+msgid "dcl_display_action_menu_desc"
+msgstr "The object can be copied from the entry."
+
+msgid "dcl_display_record_alt"
+msgstr "Visa denna post"
+
+#, fuzzy
+msgid "dcl_duplicate_non_unique_entries_exist"
+msgstr "This may also concern existing records."
+
+msgid "dcl_edit"
+msgstr "Redigera datainsamling"
+
+msgid "dcl_edit_entry_rules"
+msgstr "Bearbetning av ingångar"
+
+msgid "dcl_edit_field"
+msgstr "Redigera fält"
+
+msgid "dcl_edit_perm"
+msgstr "Redigera poster"
+
+msgid "dcl_edit_table"
+msgstr "Tabellinställningar"
+
+#, fuzzy
+msgid "dcl_edit_view"
+msgstr "Edit Settings of View \"%s\""
+
+msgid "dcl_editable_in_table_gui"
+msgstr "En post kan endast bedömas via tabellvyn."
+
+msgid "dcl_err_formula_field_not_found"
+msgstr "Fält med titeln '%s' existerar inte"
+
+msgid "dcl_error_parsing_expression"
+msgstr "Fel vid utvärdering av uttrycket"
+
+msgid "dcl_export_enabled"
+msgstr "Export tabell"
+
+msgid "dcl_export_enabled_desc"
+msgstr "Alla användare kan exportera data från själva tabellen. För att göra detta måste fälten väljas individuellt som exportbara i översikten \"Fält i den valda tabellen\"."
+
+msgid "dcl_field_datatype"
+msgstr "Fält Datatyp"
+
+msgid "dcl_field_description"
+msgstr "Beskrivning"
+
+#, fuzzy
+msgid "dcl_field_description_desc"
+msgstr "The description will be shown below the input field when making a new entry."
+
+msgid "dcl_field_title_change_warning"
+msgstr "Du har ändrat titeln på fältet. Som ett resultat fungerar motsvarande platshållare i mallen för den individuella vyn inte längre. Du måste fortfarande justera den manuellt."
+
+msgid "dcl_field_title_unique"
+msgstr "Det finns redan ett fält med denna titel. Titeln måste vara unik."
+
+msgid "dcl_field_visible"
+msgstr "Visible"
+
+msgid "dcl_fieldtitle"
+msgstr "Fältets titel"
+
+#, fuzzy
+msgid "dcl_file"
+msgstr "Fileupload"
+
+#, fuzzy
+msgid "dcl_file_desc"
+msgstr "Field to upload arbitrary files. They can be downloaded with a link."
+
+msgid "dcl_file_format_description"
+msgstr "Importfilen måste vara i Excel-format .xlsx, med de data som ska importeras på första sidan. Den första raden måste innehålla de exakta namnen på fälten (inklusive versaler) och de följande raderna värdena för de postposter som ska importeras. Vi rekomme"
+
+msgid "dcl_file_not_readable"
+msgstr "Filen kunde inte läsas. Vänligen använd filformatet .xlsx."
+
+msgid "dcl_filter"
+msgstr "Tillgänglig i filter"
+
+msgid "dcl_filter_changeable"
+msgstr "Filter utbytbart"
+
+msgid "dcl_formula"
+msgstr "Formel"
+
+msgid "dcl_formula_desc"
+msgstr "I likhet med kalkylblad kan poster länkas eller beräknas med en formel."
+
+msgid "dcl_formula_detail_desc"
+msgstr "Poster i detta fält genereras automatiskt. Du kan inte göra en post här."
+
+msgid "dcl_height"
+msgstr "Höjd"
+
+#, fuzzy
+msgid "dcl_height_desc"
+msgstr "The height of the file will be reduced to this value during upload."
+
+msgid "dcl_id"
+msgstr "ID"
+
+msgid "dcl_id_description"
+msgstr "Det interna ID:t."
+
+msgid "dcl_ilias_reference"
+msgstr "Objekt i tidningen"
+
+msgid "dcl_ilias_reference_desc"
+msgstr "Sökfält för att välja och länka ett objekt i ILIAS"
+
+msgid "dcl_ilias_reference_link"
+msgstr "Visas som länk i tabellvy"
+
+msgid "dcl_import_enabled"
+msgstr "Import tabell"
+
+msgid "dcl_import_enabled_desc"
+msgstr "Alla användare kan själva importera data till tabellerna så länge de har rätt skrivbehörighet."
+
+msgid "dcl_import_records .xls"
+msgstr "Excel import"
+
+msgid "dcl_import_terminated"
+msgstr "Importen är slutförd. Antal importerade poster"
+
+msgid "dcl_in_export"
+msgstr "Exportabel"
+
+msgid "dcl_invalid_regex_config"
+msgstr "Det reguljära uttryck som konfigurerats för detta fält är ogiltigt. Kontrollera inställningarna för det här fältet för att åtgärda problemet."
+
+msgid "dcl_last_edit_by"
+msgstr "Senast ändrat av"
+
+msgid "dcl_last_edited_by"
+msgstr "Senast ändrat av"
+
+msgid "dcl_last_edited_by_description"
+msgstr "Den användare som senast ändrade denna post."
+
+msgid "dcl_last_update"
+msgstr "Sista förändringen"
+
+msgid "dcl_last_update_description"
+msgstr "Det datum då denna post senast ändrades."
+
+msgid "dcl_learning_progress"
+msgstr "Visa framsteg i inlärningen"
+
+#, fuzzy
+msgid "dcl_learning_progress_desc"
+msgstr "Show each user their own learning progress for the selected object."
+
+msgid "dcl_legend_placeholders"
+msgstr "platshållare"
+
+msgid "dcl_length"
+msgstr "Längd"
+
+msgid "dcl_length_info"
+msgstr "Antal tecken som användaren kan ange (max 4000). För mer än 200 tecken, aktivera dessutom alternativet \"Flerradigt textinmatningsfält\"."
+
+msgid "dcl_limit_end"
+msgstr "Slut"
+
+msgid "dcl_limit_start"
+msgstr "Start"
+
+msgid "dcl_limited"
+msgstr "Tidsbegränsad bearbetning"
+
+msgid "dcl_limited_desc"
+msgstr "Användare kan bara lägga till, redigera och ta bort poster fram till det valda datumet."
+
+msgid "dcl_link_detail_page"
+msgstr "Länk till enskild vy"
+
+#, fuzzy
+msgid "dcl_link_detail_page_desc"
+msgstr "Additionally, a detailed view template must have been created and activated within the tab ‘Detailed View’."
+
+msgid "dcl_list_fields"
+msgstr "Fält"
+
+msgid "dcl_list_visibility_and_filter"
+msgstr "Översikt"
+
+msgid "dcl_manage"
+msgstr "Hantering"
+
+msgid "dcl_max_digits"
+msgstr "Maximalt antal siffror"
+
+msgid "dcl_max_import"
+msgstr "Det högsta tillåtna antalet importerade poster har överskridits."
+
+msgid "dcl_max_text_length"
+msgstr "Maximal längd"
+
+msgid "dcl_mob"
+msgstr "media objekt"
+
+msgid "dcl_mob_desc"
+msgstr "Möjlighet att ladda upp bild-, ljud- eller videofiler som ska presenteras direkt i datainsamlingen. Tillåtna filtyper"
+
+msgid "dcl_msg_field_modified"
+msgstr "Fältet har uppdaterats"
+
+msgid "dcl_msg_fields_deleted"
+msgstr "Klargjorda fält"
+
+msgid "dcl_msg_mc_to_sc_confirmation"
+msgstr "Om du växlar från flera urval till ett urval kan det leda till dataförlust för befintliga poster. Är du säker på att du vill fortsätta?"
+
+msgid "dcl_msg_no_perm_edit"
+msgstr "Ingen tillåtelse att redigera detta inlägg"
+
+msgid "dcl_msg_no_perm_view"
+msgstr "Ingen tillåtelse att visa detta inlägg"
+
+msgid "dcl_msg_table_created"
+msgstr "Tabell skapad"
+
+msgid "dcl_msg_table_edited"
+msgstr "Bordsinställningarna har sparats."
+
+msgid "dcl_msg_tableview_created"
+msgstr "Visa tillagd"
+
+msgid "dcl_msg_tableview_deleted"
+msgstr "Visa raderade"
+
+msgid "dcl_msg_tableview_updated"
+msgstr "Visa uppdaterad"
+
+msgid "dcl_msg_tableviews_delete_all"
+msgstr "Delete inte möjligt"
+
+msgid "dcl_multiple_selection"
+msgstr "Multipelt urval"
+
+msgid "dcl_new"
+msgstr "Skapa ny datainsamling"
+
+#, fuzzy
+msgid "dcl_new_entries"
+msgstr "New Entries"
+
+msgid "dcl_new_field"
+msgstr "Nytt fält"
+
+msgid "dcl_new_table"
+msgstr "Ny tabell"
+
+#, fuzzy
+msgid "dcl_new_view"
+msgstr "New View"
+
+#, fuzzy
+msgid "dcl_no_entries"
+msgstr "Action not permitted"
+
+msgid "dcl_no_entry"
+msgstr "Ingen post"
+
+#, fuzzy
+msgid "dcl_no_export_async_config"
+msgstr "No SOAP Configuration for asyncronous exports available."
+
+msgid "dcl_no_export_data_available"
+msgstr "Inga data eller fält tillgängliga för export."
+
+msgid "dcl_no_fields_yet"
+msgstr "Inga fält har skapats för denna tabell ännu, så inga poster kan infogas ännu."
+
+msgid "dcl_no_search_results_found_for"
+msgstr "Inga moduler hittades med"
+
+msgid "dcl_no_such_reference"
+msgstr "Följande värde finns inte i referenstabellen"
+
+#, fuzzy
+msgid "dcl_no_table_found"
+msgstr "No table found."
+
+#, fuzzy
+msgid "dcl_no_tableview_found"
+msgstr "No visible tableview found!"
+
+msgid "dcl_not_checked"
+msgstr "Inte vald"
+
+msgid "dcl_not_supported_in_import"
+msgstr "Den här fälttypen stöds inte under import."
+
+#, fuzzy
+msgid "dcl_notification_activate"
+msgstr "Activate Notification for Data Collection"
+
+msgid "dcl_notification_activated"
+msgstr "Notifiering aktiv"
+
+#, fuzzy
+msgid "dcl_notification_deactivate"
+msgstr "Deactivate Notification for Data Collection"
+
+msgid "dcl_notification_deactivated"
+msgstr "Notifiering inaktiv"
+
+msgid "dcl_notification_info"
+msgstr "Aktiverar den individuella meddelandefunktionen för användare."
+
+#, fuzzy
+msgid "dcl_notification_settings"
+msgstr "Notification Settings"
+
+msgid "dcl_noturl_exception"
+msgstr "Ange en länk (som börjar med http"
+
+msgid "dcl_number"
+msgstr "Integers"
+
+msgid "dcl_number_desc"
+msgstr "Inmatningsfält för hela tal (högst 9 siffror). Bråk och decimaltal är inte tillåtna."
+
+msgid "dcl_online_info"
+msgstr "Endast när datainsamlingen är online kan användarna se och använda datainsamlingen."
+
+#, fuzzy
+msgid "dcl_open_detail_view"
+msgstr "Open detail view"
+
+#, fuzzy
+msgid "dcl_open_url"
+msgstr "Open link"
+
+msgid "dcl_order"
+msgstr "Sortering"
+
+#, fuzzy
+msgid "dcl_origin_not_found"
+msgstr "Origin field was not found!"
+
+msgid "dcl_own_entries"
+msgstr "Endast egna poster"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "dcl_owner"
+msgstr "Own entry by "
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "dcl_owner_description"
+msgstr "Own entries always remain visible."
+
+msgid "dcl_owner_name"
+msgstr "Possessed by (namn)"
+
+msgid "dcl_page_type_dclf"
+msgstr "Detaljerad vy"
+
+#, fuzzy
+msgid "dcl_placeholder_info"
+msgstr "To use data from the data collection in this view, please use the corresponding placeholders. These are available in the page element 'Text' and 'Data Table'."
+
+msgid "dcl_please_select"
+msgstr "--- Vänligen välj ---"
+
+msgid "dcl_prop_expression"
+msgstr "Uttryck"
+
+msgid "dcl_prop_expression_info"
+msgstr "Giltiga operatorer"
+
+msgid "dcl_rating"
+msgstr "Rating"
+
+msgid "dcl_rating_desc"
+msgstr "Användare kan betygsätta bidrag med upp till fem stjärnor."
+
+msgid "dcl_record"
+msgstr "inträde"
+
+msgid "dcl_record_deleted"
+msgstr "Ingång raderad"
+
+#, fuzzy
+msgid "dcl_record_settings"
+msgstr "Record Settings"
+
+msgid "dcl_reference"
+msgstr "Hänvisning"
+
+msgid "dcl_reference_desc"
+msgstr "Ange urvalsalternativ som underhålls i ett annat fält i en tabell"
+
+msgid "dcl_reference_link"
+msgstr "Visa som en länk till den refererade posten"
+
+msgid "dcl_reference_link_info"
+msgstr "Mallen för enkelvisning måste vara aktiv i den refererade tabellen."
+
+msgid "dcl_reference_title"
+msgstr "Hänvisning till tabell och fält"
+
+#, fuzzy
+msgid "dcl_reference_title_desc"
+msgstr "The data entries of the selected field will be the selectable options in this field."
+
+msgid "dcl_regex"
+msgstr "Regelbundet uttryck"
+
+msgid "dcl_regex_info"
+msgstr "Inmatning utan separatorsymbol/avgränsare"
+
+msgid "dcl_row_not_found"
+msgstr " - Detta fält hittades inte i tabellen."
+
+msgid "dcl_save_confirmation"
+msgstr "Spara bekräftelse"
+
+msgid "dcl_save_confirmation_desc"
+msgstr "Användaren måste bekräfta inmatningen av nya dataposter"
+
+msgid "dcl_selection_options"
+msgstr "Alternativ"
+
+msgid "dcl_selection_type"
+msgstr "Typ"
+
+msgid "dcl_selection_type_combobox"
+msgstr "Enkelt urval (rullgardinsmeny)"
+
+msgid "dcl_selection_type_multi"
+msgstr "Multipelt urval"
+
+msgid "dcl_selection_type_single"
+msgstr "Enkelt urval (lista)"
+
+msgid "dcl_simulate_import"
+msgstr "Simulera import"
+
+msgid "dcl_simulate_info"
+msgstr "Detta skapar inga dataposter, utan ger bara feedback om fel i importfilen. Detta hjälper dig att undvika felaktiga importer."
+
+msgid "dcl_skipped_delete_records"
+msgstr "%s poster raderades inte på grund av rättighetsinställningarna"
+
+msgid "dcl_status"
+msgstr "Din status"
+
+msgid "dcl_std_field_not_importable"
+msgstr " - Standardfält kan inte importeras."
+
+msgid "dcl_std_filter"
+msgstr "Filter förinställt"
+
+msgid "dcl_supported_filetypes"
+msgstr "Tillåtna filtillägg"
+
+msgid "dcl_supported_filetypes_desc"
+msgstr "Du kan ange kommaseparerade filnamnstillägg här. Till exempel"
+
+msgid "dcl_table"
+msgstr "Tabell"
+
+msgid "dcl_table_id"
+msgstr "Tabeller ID"
+
+#, fuzzy
+msgid "dcl_table_settings"
+msgstr "Table Settings."
+
+msgid "dcl_table_settings_saved"
+msgstr "Bordsinställningarna har sparats."
+
+msgid "dcl_table_title_not_matching"
+msgstr "Titlarna på Excel-arbetsbladet och tabellen i datainsamlingen stämmer inte överens. Byt namn på kalkylbladet för att utföra en korrekt import."
+
+msgid "dcl_table_title_unique"
+msgstr "Det finns redan en tabell med denna titel. Titeln måste vara unik."
+
+msgid "dcl_tables"
+msgstr "Tabeller"
+
+msgid "dcl_tableview"
+msgstr "Visa"
+
+msgid "dcl_tableview_add"
+msgstr "Lägg till ny vy"
+
+msgid "dcl_tableview_confirm_delete"
+msgstr "Är du säker på att du vill ta bort följande vy?"
+
+msgid "dcl_tableview_copy"
+msgstr "Vyn har kopierats framgångsrikt"
+
+msgid "dcl_tableview_default_value"
+msgstr "standardvärde"
+
+msgid "dcl_tableview_default_value_fail"
+msgstr "Vissa numeriska standardvärden kunde inte kopieras eftersom det fanns tecken i dem. Vänligen försök igen."
+
+msgid "dcl_tableview_field_access"
+msgstr "Access rätt"
+
+msgid "dcl_tableview_fieldsettings"
+msgstr "Fältspecifika inställningar"
+
+msgid "dcl_tableview_fieldtitle"
+msgstr "Fältets titel"
+
+msgid "dcl_tableview_locked_visible"
+msgstr "Låst och synligt"
+
+msgid "dcl_tableview_not_visible"
+msgstr "Inte synlig"
+
+msgid "dcl_tableview_required"
+msgstr "Åtagande"
+
+msgid "dcl_tableview_required_visible"
+msgstr "Engagerad och synlig"
+
+msgid "dcl_tableview_visible"
+msgstr "Visible"
+
+msgid "dcl_tableviews"
+msgstr "Vyer"
+
+#, fuzzy
+msgid "dcl_tableviews_of_X"
+msgstr "Views of table %s"
+
+msgid "dcl_text"
+msgstr " Textinmatning"
+
+msgid "dcl_text_desc"
+msgstr "Inmatningsfält för text, länkar eller e-postadresser"
+
+msgid "dcl_text_email_detail_desc"
+msgstr "Var god ange en giltig e-postadress eller URL."
+
+msgid "dcl_text_email_title"
+msgstr "Titel"
+
+msgid "dcl_text_email_title_info"
+msgstr "Titel för URL-adressen eller e-postadressen (valfritt)."
+
+msgid "dcl_text_selection"
+msgstr "Välj menytext"
+
+msgid "dcl_text_selection_desc"
+msgstr "Ange alternativ för urval (text)"
+
+#, fuzzy
+msgid "dcl_title_standard"
+msgstr "Standard"
+
+msgid "dcl_unique"
+msgstr "Förhindra samma inmatningar"
+
+msgid "dcl_unique_desc"
+msgstr "En identisk post kan endast göras en gång i detta fält."
+
+msgid "dcl_unique_exception"
+msgstr "Det angivna värdet används redan av en annan post."
+
+#, fuzzy
+msgid "dcl_unknown"
+msgstr "Unkown"
+
+msgid "dcl_unknown_exception"
+msgstr "Det angivna värdet är inte giltigt."
+
+#, fuzzy
+msgid "dcl_unknown_plugin"
+msgstr "Unknown plugin type"
+
+msgid "dcl_update_field"
+msgstr "Uppdatera fält"
+
+msgid "dcl_update_record"
+msgstr "Uppdatera inmatning"
+
+#, fuzzy
+msgid "dcl_updated_entries"
+msgstr "Updated Entries"
+
+msgid "dcl_url"
+msgstr "URL eller e-post"
+
+msgid "dcl_view_own_records_perm"
+msgstr "Visa endast egna poster"
+
+#, fuzzy
+msgid "dcl_view_own_records_perm_desc"
+msgstr "The entries of other users are not visible."
+
+msgid "dcl_view_viewdefinition"
+msgstr "Mall för enskild vy"
+
+msgid "dcl_visible"
+msgstr "Synlig för alla användare"
+
+msgid "dcl_visible_desc"
+msgstr "Users har tillgång till denna tabell."
+
+msgid "dcl_width"
+msgstr "Bredd"
+
+#, fuzzy
+msgid "dcl_width_desc"
+msgstr "The width of the file will be reduced to this value during upload."
+
+msgid "dcl_wrong_input_type"
+msgstr "Den inmatade texten stämmer inte överens med typen av fält (Fel typ)."
+
+msgid "dcl_wrong_length"
+msgstr "Den angivna texten är för lång."
+
+msgid "dcl_wrong_regex"
+msgstr "Den inmatade texten stämmer inte överens med specifikationen för detta fält (reguljärt uttryck)."
+
+#, fuzzy
+msgid "dcl_xls_async_export"
+msgstr "Asynchronous XLSX-Export"
+
+#, fuzzy
+msgid "disable_comments"
+msgstr "Disable comments"
+
+#, fuzzy
+msgid "disable_visible"
+msgstr "Disable visible"
+
+#, fuzzy
+msgid "duplicate_entries_exist"
+msgstr "The existing records already contain duplicated entries."
+
+#, fuzzy
+msgid "enable_comments"
+msgstr "Enable comments"
+
+#, fuzzy
+msgid "enable_visible"
+msgstr "Enable visible"
+
+#, fuzzy
+msgid "entry_of"
+msgstr "Entry %1$d of %2$d"
+
+msgid "fieldtitle_allow_chars"
+msgstr "Inte tillåtna tecken"
+
+#, fuzzy
+msgid "fileupload_not_migrated"
+msgstr "File has not yet been migration and cannot be displayed. Please contact your System-Administrator."
+
+#, fuzzy
+msgid "role_limitation"
+msgstr "Role-based View Limitation"
+
+#, fuzzy
+msgid "roles"
+msgstr "Roles with Access"
+
+#, fuzzy
+msgid "roles_desc"
+msgstr "Define wich roles have access to the view."
+
+#, fuzzy
+msgid "set_as_default"
+msgstr "Set as default"
+
+#, fuzzy
+msgid "table_not_found"
+msgstr "Table not found!"
+
+#, fuzzy
+msgid "tableview_not_found"
+msgstr "Table view not found!"

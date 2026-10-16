@@ -1,0 +1,840 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: dcl\n"
+
+msgid "add_value"
+msgstr "Add New Entry"
+
+msgid "dcl_activate_notification"
+msgstr "Enable Notification"
+
+msgid "dcl_add"
+msgstr "Create Data Collection"
+
+msgid "dcl_add_new_field"
+msgstr "Add New Field"
+
+msgid "dcl_add_new_record"
+msgstr "Add New Entry"
+
+msgid "dcl_add_new_table"
+msgstr "Add New Table"
+
+msgid "dcl_add_new_view"
+msgstr "Add New View"
+
+msgid "dcl_add_perm"
+msgstr "Add Entries"
+
+msgid "dcl_add_perm_desc"
+msgstr "Users can add entries to this table. If the import of data into this table is allowed, then an Excel import function will also be available."
+
+msgid "dcl_all_entries"
+msgstr "All Entries"
+
+msgid "dcl_any"
+msgstr "Any"
+
+msgid "dcl_asc"
+msgstr "Ascending ↑"
+
+msgid "dcl_boolean"
+msgstr "Checkbox"
+
+msgid "dcl_boolean_desc"
+msgstr "A checkbox that can be selected."
+
+msgid "dcl_cant_delete_last_table"
+msgstr "This table itself cannot be completely deleted, as it is the only table in this data collection. The table’s content and structure have, however, been successfully deleted."
+
+msgid "dcl_change_notification_dcl_delete_record"
+msgstr "The following data entry has been deleted"
+
+msgid "dcl_change_notification_dcl_new_record"
+msgstr "The following data entry has been created"
+
+msgid "dcl_change_notification_dcl_update_record"
+msgstr "The following data entry has been updated"
+
+msgid "dcl_change_notification_link"
+msgstr "Link to the Data Collection"
+
+msgid "dcl_change_notification_subject"
+msgstr "The data collection \"%s\" has been modified"
+
+msgid "dcl_changed_by"
+msgstr "Last change by"
+
+msgid "dcl_checked"
+msgstr "Checked"
+
+msgid "dcl_comments"
+msgstr "Comments"
+
+msgid "dcl_comments_desc"
+msgstr "Displays the number of comments an entry has."
+
+msgid "dcl_confirm_delete_field"
+msgstr "Are you sure you want to delete this field?"
+
+msgid "dcl_confirm_delete_fields"
+msgstr "Are you sure you want to delete these fields?"
+
+msgid "dcl_confirm_delete_record"
+msgstr "Are you sure you want to delete the following entry?"
+
+msgid "dcl_confirm_delete_records"
+msgstr "Are you sure you want to delete the following entries?"
+
+msgid "dcl_confirm_delete_table"
+msgstr "Are you sure you want to delete this table including its content and structure?"
+
+msgid "dcl_confirm_storing_records"
+msgstr "Please check your entry and confirm by clicking on ‘Save Entry’."
+
+msgid "dcl_confirm_storing_records_no_permission"
+msgstr "Please note: you will not be able to edit your entry after saving, due to the current settings of this table."
+
+msgid "dcl_copy"
+msgstr "Copy Data Collection"
+
+msgid "dcl_copy_field"
+msgstr "Copy"
+
+msgid "dcl_copy_field_desc"
+msgstr "A field in which a copy can be made of an entry or entries located in a different field. This other field can be located in a different table. Changes made to the original entry will not affect the copy."
+
+msgid "dcl_copy_title"
+msgstr "Copy: Table and Field"
+
+msgid "dcl_create_date"
+msgstr "Creation Date"
+
+msgid "dcl_create_entry_rules"
+msgstr "Entry Creation"
+
+msgid "dcl_create_field"
+msgstr "Create Field"
+
+msgid "dcl_create_fields"
+msgstr "Click on a table in the tab ‘Tables and create new fields by using the button ‘Add New Field’."
+
+msgid "dcl_creation_date"
+msgstr "Creation Date"
+
+msgid "dcl_creation_date_description"
+msgstr "The date on which the entry was created."
+
+msgid "dcl_datatype"
+msgstr "Type"
+
+msgid "dcl_date"
+msgstr "Date Entry"
+
+msgid "dcl_date_desc"
+msgstr "Users can enter a date of their choice or select one using a calendar."
+
+msgid "dcl_date_selection"
+msgstr "Date Selection"
+
+msgid "dcl_date_selection_desc"
+msgstr "Allow a date to be chosen from among a predefined selection of date options."
+
+msgid "dcl_datetime"
+msgstr "Datetime Entry"
+
+msgid "dcl_datetime_desc"
+msgstr "Users can enter a date and time of their choice or select one using a calendar."
+
+msgid "dcl_datetime_selection"
+msgstr "Datetime Selection"
+
+msgid "dcl_datetime_selection_desc"
+msgstr "Allow a date and time to be chosen from among a predefined selection of datetime options."
+
+msgid "dcl_default_sort_field"
+msgstr "Default sort field"
+
+msgid "dcl_default_sort_field_order"
+msgstr "Order"
+
+msgid "dcl_default_sort_field_order_desc"
+msgstr "Arrange the order of the entries in the table based on this field."
+
+msgid "dcl_delete_fields"
+msgstr "Delete Fields"
+
+msgid "dcl_delete_fields_no_selection"
+msgstr "Please select at least one field that you would like to delete."
+
+msgid "dcl_delete_perm"
+msgstr "Delete Entries"
+
+msgid "dcl_delete_records"
+msgstr "Delete Entries"
+
+msgid "dcl_deleted_entries"
+msgstr "Deleted Entries"
+
+msgid "dcl_deleted_records"
+msgstr "%s entries deleted."
+
+msgid "dcl_deprecated_copy"
+msgstr "(Deprecated)"
+
+msgid "dcl_desc"
+msgstr "Descending ↓"
+
+msgid "dcl_description"
+msgstr "Field Description"
+
+msgid "dcl_detailed_view"
+msgstr "Detailed View"
+
+msgid "dcl_display_action_menu"
+msgstr "Copy"
+
+msgid "dcl_display_action_menu_desc"
+msgstr "The object can be copied from the entry."
+
+msgid "dcl_display_record_alt"
+msgstr "Display this entry"
+
+msgid "dcl_duplicate_non_unique_entries_exist"
+msgstr "Some of the existing values for this field are identical. Please make sure that all existing entries are unique in order to change this setting."
+
+msgid "dcl_edit"
+msgstr "Settings for This Data Collection"
+
+msgid "dcl_edit_entry_rules"
+msgstr "Entry Editing"
+
+msgid "dcl_edit_field"
+msgstr "Edit Field"
+
+msgid "dcl_edit_perm"
+msgstr "Edit Entries"
+
+msgid "dcl_edit_table"
+msgstr "Settings of the Table ‘%s’"
+
+msgid "dcl_edit_view"
+msgstr "Edit Settings of the View \"%s\""
+
+msgid "dcl_editable_in_table_gui"
+msgstr "Entries are rated directly in the overall view of the table."
+
+msgid "dcl_err_formula_field_not_found"
+msgstr "Field with title '%s' not found."
+
+msgid "dcl_error_parsing_expression"
+msgstr "Error parsing expression."
+
+msgid "dcl_export_enabled"
+msgstr "Export Table"
+
+msgid "dcl_export_enabled_desc"
+msgstr "The data in this table can be exported. Please note: Only fields that have the ‘Exportable’ checkbox activated in the ‘Fields’ tab of this table will be included in the export."
+
+msgid "dcl_field_datatype"
+msgstr "Field Type"
+
+msgid "dcl_field_description"
+msgstr "Description"
+
+msgid "dcl_field_description_desc"
+msgstr "The description will be shown below the input field when making a new entry."
+
+msgid "dcl_field_title_change_warning"
+msgstr "You have changed the title of a field. This will also have automatically changed the corresponding placeholder in this table’s detailed view template. If this field is already included in the detailed view template, you will need to manually adjust its placeholder within the body of the template."
+
+msgid "dcl_field_title_unique"
+msgstr "There is already a field with this title. Field titles must be unique."
+
+msgid "dcl_field_visible"
+msgstr "Visible"
+
+msgid "dcl_fieldtitle"
+msgstr "Field Title"
+
+msgid "dcl_file"
+msgstr "File Upload"
+
+msgid "dcl_file_desc"
+msgstr "Allow the upload of a file which can then be downloaded directly from the data collection."
+
+msgid "dcl_file_format_description"
+msgstr "The file needs to be an excel .XLSX file with the data you want to import on the first sheet. The first row needs to contain the exact names of the fields (case sensitive) which you want to import, and the following rows, the values. It is strongly recommended that you simulate your import first. When importing reference or selection fields with multiple entries, commas and/or semicolons can be used as delimiters."
+
+msgid "dcl_file_not_readable"
+msgstr "The file could not be read. Please make sure that the file you upload is an XLSX file."
+
+msgid "dcl_filter"
+msgstr "Available in Filter"
+
+msgid "dcl_filter_changeable"
+msgstr "Filter Changeable"
+
+msgid "dcl_formula"
+msgstr "Formula"
+
+msgid "dcl_formula_desc"
+msgstr "Similar to when using a spreadsheet, entries can be combined or calculated using a formula."
+
+msgid "dcl_formula_detail_desc"
+msgstr "Entries in this field are generated automatically. You cannot enter or edit information in this field."
+
+msgid "dcl_height"
+msgstr "Height in Pixels"
+
+msgid "dcl_height_desc"
+msgstr "The height of the file will be reduced to this value during upload."
+
+msgid "dcl_id"
+msgstr "ID"
+
+msgid "dcl_id_description"
+msgstr "Entry’s internal ID."
+
+msgid "dcl_ilias_reference"
+msgstr "Repository Object"
+
+msgid "dcl_ilias_reference_desc"
+msgstr "Allow users to select an ILIAS object from the repository."
+
+msgid "dcl_ilias_reference_link"
+msgstr "Link to Selected Object"
+
+msgid "dcl_import_enabled"
+msgstr "Import Data Into Table"
+
+msgid "dcl_import_enabled_desc"
+msgstr "Data can be imported into the table via an Excel file."
+
+msgid "dcl_import_records .xls"
+msgstr "Excel Import"
+
+msgid "dcl_import_terminated"
+msgstr "Import completed. Entries added"
+
+msgid "dcl_in_export"
+msgstr "Exportable"
+
+msgid "dcl_invalid_regex_config"
+msgstr "The regular expression configured for this field is invalid. Check the settings of the field to solve the problem."
+
+msgid "dcl_last_edit_by"
+msgstr "Last Edited By"
+
+msgid "dcl_last_edited_by"
+msgstr "Last edited by"
+
+msgid "dcl_last_edited_by_description"
+msgstr "The last user to have edited the entry."
+
+msgid "dcl_last_update"
+msgstr "Last Edited"
+
+msgid "dcl_last_update_description"
+msgstr "The date on which the entry was last edited."
+
+msgid "dcl_learning_progress"
+msgstr "Learning Progress"
+
+msgid "dcl_learning_progress_desc"
+msgstr "Show each user their own learning progress for the selected object."
+
+msgid "dcl_legend_placeholders"
+msgstr "Placeholders"
+
+msgid "dcl_length"
+msgstr "Max. Number of Characters"
+
+msgid "dcl_length_info"
+msgstr "Number of characters a user can enter. If this number is higher than 200, the input field will automatically be multiline."
+
+msgid "dcl_limit_end"
+msgstr "End"
+
+msgid "dcl_limit_start"
+msgstr "Start"
+
+msgid "dcl_limited"
+msgstr "Limited Add / Edit / Delete Period"
+
+msgid "dcl_limited_desc"
+msgstr "Entries can only be added, edited and deleted within the time period specified below."
+
+msgid "dcl_link_detail_page"
+msgstr "Link to Detailed View"
+
+msgid "dcl_link_detail_page_desc"
+msgstr "Additionally, a detailed view template must have been created and activated within the tab ‘Detailed View’."
+
+msgid "dcl_list_fields"
+msgstr "Fields"
+
+msgid "dcl_list_visibility_and_filter"
+msgstr "Overview"
+
+msgid "dcl_manage"
+msgstr "Manage"
+
+msgid "dcl_max_digits"
+msgstr "Maximum number of digits"
+
+msgid "dcl_max_import"
+msgstr "The maximum permitted number of imported entries has been reached."
+
+msgid "dcl_max_text_length"
+msgstr "Maximum Length: %s"
+
+msgid "dcl_mob"
+msgstr "Image, Audio, Video"
+
+msgid "dcl_mob_desc"
+msgstr "Allow users to upload a media file which will be displayed within the data collection. Allowed data types: %s"
+
+msgid "dcl_msg_field_modified"
+msgstr "Field updated."
+
+msgid "dcl_msg_fields_deleted"
+msgstr "Fields deleted."
+
+msgid "dcl_msg_mc_to_sc_confirmation"
+msgstr "Switching from multiple selections to single selection might lead to a loss of data in existing entries. Are you sure you wish to continue?"
+
+msgid "dcl_msg_no_perm_edit"
+msgstr "You do not have the permission necessary to edit this entry."
+
+msgid "dcl_msg_no_perm_view"
+msgstr "You do not have the permission necessary to view this entry."
+
+msgid "dcl_msg_table_created"
+msgstr "Table created."
+
+msgid "dcl_msg_table_edited"
+msgstr "Table settings saved."
+
+msgid "dcl_msg_tableview_created"
+msgstr "View created."
+
+msgid "dcl_msg_tableview_deleted"
+msgstr "View deleted."
+
+msgid "dcl_msg_tableview_updated"
+msgstr "View updated."
+
+msgid "dcl_msg_tableviews_delete_all"
+msgstr "Deletion not possible. There must be at least one view in existence."
+
+msgid "dcl_multiple_selection"
+msgstr "Multiple Selection"
+
+msgid "dcl_new"
+msgstr "Create New Data Collection"
+
+msgid "dcl_new_entries"
+msgstr "New Entries"
+
+msgid "dcl_new_field"
+msgstr "New Field"
+
+msgid "dcl_new_table"
+msgstr "New Table"
+
+msgid "dcl_new_view"
+msgstr "New View"
+
+msgid "dcl_no_entries"
+msgstr "Action not permitted"
+
+msgid "dcl_no_entry"
+msgstr "No Entry"
+
+msgid "dcl_no_export_async_config"
+msgstr "No SOAP configuration for asyncronous exports available."
+
+msgid "dcl_no_export_data_available"
+msgstr "No data or fields available for export."
+
+msgid "dcl_no_fields_yet"
+msgstr "You cannot add any entries to this table as it does not yet have any fields. To create a field, click on a table in the ‘Tables’ tab and and then on the ‘Add New Field’ button."
+
+msgid "dcl_no_search_results_found_for"
+msgstr "No modules have been found for"
+
+msgid "dcl_no_such_reference"
+msgstr "The following value is not available in the reference table:"
+
+msgid "dcl_no_table_found"
+msgstr "No table found."
+
+msgid "dcl_no_tableview_found"
+msgstr "No table view found."
+
+msgid "dcl_not_checked"
+msgstr "Not Checked"
+
+msgid "dcl_not_supported_in_import"
+msgstr "This type of field is not supported in the import."
+
+msgid "dcl_notification_activate"
+msgstr "Activate Notifications"
+
+msgid "dcl_notification_activated"
+msgstr "Notifications activated"
+
+msgid "dcl_notification_deactivate"
+msgstr "Deactivate Notifications"
+
+msgid "dcl_notification_deactivated"
+msgstr "Notifications deactivated"
+
+msgid "dcl_notification_info"
+msgstr "Users can choose for themselves if they wish to activate notifications for their accounts."
+
+msgid "dcl_notification_settings"
+msgstr "Notification Settings"
+
+msgid "dcl_noturl_exception"
+msgstr "Please enter a link (beginning with http:// or www.) or an e-mail address."
+
+msgid "dcl_number"
+msgstr "Integer"
+
+msgid "dcl_number_desc"
+msgstr "Field for integer values (max. 9 digits). Decimals and fractions are not allowed."
+
+msgid "dcl_online_info"
+msgstr "Publish the data collection and enable all users with the permissions ‘Read’ and ‘Add/Edit Entry’ to use it. If not set to ‘Online’, only users with the permission ‘Edit Settings’ can access this object."
+
+msgid "dcl_open_detail_view"
+msgstr "Open Detailed View"
+
+msgid "dcl_open_url"
+msgstr "Open Link"
+
+msgid "dcl_order"
+msgstr "Order"
+
+msgid "dcl_origin_not_found"
+msgstr "Source field could not be found!"
+
+msgid "dcl_own_entries"
+msgstr "Only own entries"
+
+msgid "dcl_owner"
+msgstr "Owner"
+
+msgid "dcl_owner_description"
+msgstr "The owner of the entry."
+
+msgid "dcl_owner_name"
+msgstr "Owner (Name)"
+
+msgid "dcl_page_type_dclf"
+msgstr "Data Collection Detailed View"
+
+msgid "dcl_placeholder_info"
+msgstr "In order for the data from the fields of this table to be shown in this detailed view, please enter the corresponding placeholders for those fields. Those placeholders are listed in the tool bars of the page elements 'Text' and 'Data Table'."
+
+msgid "dcl_please_select"
+msgstr "--- Please select ---"
+
+msgid "dcl_prop_expression"
+msgstr "Expression"
+
+msgid "dcl_prop_expression_info"
+msgstr "Valid operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>‘(’, ‘)’</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>‘The result is ’ & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Allowed fields (click on a title to use as a placeholder within the expression):<br>%s<br><b>(Allowed fields are checkbox, number, text and date that don’t contain any formula-sensitive characters inside their titles)</b>"
+
+msgid "dcl_rating"
+msgstr "Rating"
+
+msgid "dcl_rating_desc"
+msgstr "Existing entries can be rated on a scale of one to five stars."
+
+msgid "dcl_record"
+msgstr "Entry"
+
+msgid "dcl_record_deleted"
+msgstr "Entry deleted."
+
+msgid "dcl_record_settings"
+msgstr "Entry Settings"
+
+msgid "dcl_reference"
+msgstr "Reference"
+
+msgid "dcl_reference_desc"
+msgstr "A field which will display selected entries made in another field. This other field can be located in a different table. Changes made to the original entry will affect the version displayed in this field."
+
+msgid "dcl_reference_link"
+msgstr "Link Referenced Entry"
+
+msgid "dcl_reference_link_info"
+msgstr "Please note: You need to have set up and activated a ‘Detailed View’ template in the table in which the referenced entry is located."
+
+msgid "dcl_reference_title"
+msgstr "Referenced Field"
+
+msgid "dcl_reference_title_desc"
+msgstr "The data entries of the selected field will be the selectable options in this field."
+
+msgid "dcl_regex"
+msgstr "Restrict Text Input"
+
+msgid "dcl_regex_info"
+msgstr "Allow the input of a regular expression without delimiter. Certain entries will the be automatically rejected."
+
+msgid "dcl_row_not_found"
+msgstr " - This field couldn't be found in the table."
+
+msgid "dcl_save_confirmation"
+msgstr "Require Additional Confirmation"
+
+msgid "dcl_save_confirmation_desc"
+msgstr "Users have to confirm new entries into the data collection."
+
+msgid "dcl_selection_options"
+msgstr "Options"
+
+msgid "dcl_selection_type"
+msgstr "Format"
+
+msgid "dcl_selection_type_combobox"
+msgstr "Single selection from drop-down menu"
+
+msgid "dcl_selection_type_multi"
+msgstr "Multiple selections from list"
+
+msgid "dcl_selection_type_single"
+msgstr "Single selection from list"
+
+msgid "dcl_simulate_import"
+msgstr "Simulate Import"
+
+msgid "dcl_simulate_info"
+msgstr "Simulating the import will not make any entries into the data collection, but rather give you feedback regarding any problems with the import file, thus helping you to avoid corrupted entries."
+
+msgid "dcl_skipped_delete_records"
+msgstr "%s Entries were not deleted due to permission settings."
+
+msgid "dcl_status"
+msgstr "Your Status"
+
+msgid "dcl_std_field_not_importable"
+msgstr " - Standard fields are not importable."
+
+msgid "dcl_std_filter"
+msgstr "Filter Preset"
+
+msgid "dcl_supported_filetypes"
+msgstr "Permitted File Types"
+
+msgid "dcl_supported_filetypes_desc"
+msgstr "You can set which file types can be uploaded by entering a comma-separated list of permitted file extensions here, e.g. pdf, docx"
+
+msgid "dcl_table"
+msgstr "Table"
+
+msgid "dcl_table_id"
+msgstr "Table ID"
+
+msgid "dcl_table_settings"
+msgstr "Table Settings"
+
+msgid "dcl_table_settings_saved"
+msgstr "Table settings saved."
+
+msgid "dcl_table_title_not_matching"
+msgstr "The titles of the excel sheet and the data collection table do not match. Please rename the excel sheet in order to guarantee a successful import."
+
+msgid "dcl_table_title_unique"
+msgstr "This data collection already contains a table with this title. Each table needs to have a unique title."
+
+msgid "dcl_tables"
+msgstr "Tables"
+
+msgid "dcl_tableview"
+msgstr "View"
+
+msgid "dcl_tableview_add"
+msgstr "Add New View"
+
+msgid "dcl_tableview_confirm_delete"
+msgstr "Are you sure you want to delete the following view?"
+
+msgid "dcl_tableview_copy"
+msgstr "View copied."
+
+msgid "dcl_tableview_default_value"
+msgstr "Default Value"
+
+msgid "dcl_tableview_default_value_fail"
+msgstr "Some numeric default values couldn't be saved because they contained non-numeric characters. Please try again."
+
+msgid "dcl_tableview_field_access"
+msgstr "Field Access"
+
+msgid "dcl_tableview_fieldsettings"
+msgstr "Field-Specific Settings"
+
+msgid "dcl_tableview_fieldtitle"
+msgstr "Field Title"
+
+msgid "dcl_tableview_locked_visible"
+msgstr "Locked & Visible"
+
+msgid "dcl_tableview_not_visible"
+msgstr "Not Visible"
+
+msgid "dcl_tableview_required"
+msgstr "Required"
+
+msgid "dcl_tableview_required_visible"
+msgstr "Required & Visible"
+
+msgid "dcl_tableview_visible"
+msgstr "Visible"
+
+msgid "dcl_tableviews"
+msgstr "Views"
+
+msgid "dcl_tableviews_of_X"
+msgstr "Views of Table %s"
+
+msgid "dcl_text"
+msgstr "Text Entry"
+
+msgid "dcl_text_desc"
+msgstr "A text field for text, links or e-mail addresses."
+
+msgid "dcl_text_email_detail_desc"
+msgstr "Please enter a valid URL or E-Mail address."
+
+msgid "dcl_text_email_title"
+msgstr "Title"
+
+msgid "dcl_text_email_title_info"
+msgstr "A title for the above URL or E-Mail address (optional)."
+
+msgid "dcl_text_selection"
+msgstr "Text Selection"
+
+msgid "dcl_text_selection_desc"
+msgstr "Allow a text to be chosen from among a predefined selection of text options."
+
+msgid "dcl_title_standard"
+msgstr "Standard"
+
+msgid "dcl_unique"
+msgstr "Unique"
+
+msgid "dcl_unique_desc"
+msgstr "Identical entries are not allowed in this field."
+
+msgid "dcl_unique_exception"
+msgstr "The value you entered has already been used. For this data field, you need to enter a unique value."
+
+msgid "dcl_unknown"
+msgstr "Unkown"
+
+msgid "dcl_unknown_exception"
+msgstr "The value you entered is not valid."
+
+msgid "dcl_unknown_plugin"
+msgstr "Unknown plugin type"
+
+msgid "dcl_update_field"
+msgstr "Update Field"
+
+msgid "dcl_update_record"
+msgstr "Update Entry"
+
+msgid "dcl_updated_entries"
+msgstr "Updated Entries"
+
+msgid "dcl_url"
+msgstr "Mandatory URL or E-Mail"
+
+msgid "dcl_view_own_records_perm"
+msgstr "View Only Own Entries"
+
+msgid "dcl_view_own_records_perm_desc"
+msgstr "The entries of other users are not visible."
+
+msgid "dcl_view_viewdefinition"
+msgstr "Detailed View"
+
+msgid "dcl_visible"
+msgstr "Visible for all users"
+
+msgid "dcl_visible_desc"
+msgstr "Users can access this table."
+
+msgid "dcl_width"
+msgstr "Width in Pixels"
+
+msgid "dcl_width_desc"
+msgstr "The width of the file will be reduced to this value during upload."
+
+msgid "dcl_wrong_input_type"
+msgstr "The value you entered does not match the specifications of this field (Wrong Type)."
+
+msgid "dcl_wrong_length"
+msgstr "The text you entered is too long."
+
+msgid "dcl_wrong_regex"
+msgstr "The text you entered does not fulfil the requirements of this field (Regular Expression)."
+
+msgid "dcl_xls_async_export"
+msgstr "as XLSX (asynchronous)"
+
+msgid "disable_comments"
+msgstr "Disable Comments"
+
+msgid "disable_visible"
+msgstr "Disable Visible"
+
+msgid "duplicate_entries_exist"
+msgstr "Some of the existing values for this field are identical. Please make sure that all existing entries have unique values for this field in order to change this setting."
+
+msgid "enable_comments"
+msgstr "Enable Comments"
+
+msgid "enable_visible"
+msgstr "Enable Visible"
+
+msgid "entry_of"
+msgstr "Entry %1$d of %2$d"
+
+msgid "fieldtitle_allow_chars"
+msgstr "Characters not permitted: %s"
+
+msgid "fileupload_not_migrated"
+msgstr "File has not been migrated yet and cannot therefore be displayed. Please contact your technical support."
+
+msgid "role_limitation"
+msgstr "Role-Based Access"
+
+msgid "roles"
+msgstr "Roles With Access"
+
+msgid "roles_desc"
+msgstr "Only the roles selected above will have access to this view."
+
+msgid "set_as_default"
+msgstr "Set as Default"
+
+msgid "table_not_found"
+msgstr "Table not found!"
+
+msgid "tableview_not_found"
+msgstr "Table view not found!"
