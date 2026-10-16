@@ -894,6 +894,8 @@ assessment#:#mainbar_button_label_questionlist#:#Fragenliste
 assessment#:#maintenance#:#Wartung
 assessment#:#manscoring#:#Bewertung
 assessment#:#manscoring_done#:#Bereits bewertete Teilnehmer
+assessment#:#manscoring_finalized#:#Der Teilnehmer wurde als bewertet markiert. 
+assessment#:#manscoring_finalized_removed#:#Der Status „Bewertet" des Teilnehmers wurde entfernt. 
 assessment#:#manscoring_hint#:#Im Test ist mindestens eine Frage enthalten, die manuell bewertet werden kann. Wenn Sie planen, Testfragen manuell zu bewerten, sollten Sie ein entsprechend spätes Datum für den Zugang der Teilnehmer zu ihren Testergebnissen festlegen, damit Sie vorher die Bewertung noch durchführen können.
 assessment#:#manscoring_none#:#Nicht bewertete Teilnehmer
 assessment#:#manscoring_not_allowed#:#Die Bewertung wurde für keinen Fragetyp aktiviert. Sie können daher diese Funktion nicht verwenden!
@@ -1592,6 +1594,7 @@ assessment#:#tst_man_scoring_finalized_hide#:#Bewertete Antworten ausblenden
 assessment#:#tst_man_scoring_finalized_only#:#Nur bewertete Antworten anzeigen
 assessment#:#tst_man_scoring_only_answered#:#Nur beantwortete
 assessment#:#tst_man_scoring_questionselection#:#Fragen
+assessment#:#tst_man_scoring_users_scored#:#Bewertet
 assessment#:#tst_man_scoring_userselection#:#Teilnehmer
 assessment#:#tst_manage_competence_assigns#:#Kompetenz-Zuordnungen verwalten
 assessment#:#tst_manage_competence_select_skills#:#Kompetenzen auswählen
