@@ -185,6 +185,20 @@ final class MigratedLanguageFilePaths
     }
 
     /**
+     * Whether findShippedTemplates() finds $directory's module (the only way to know it without a build).
+     *
+     * @throws \InvalidArgumentException for a directory with an invalid file name pattern
+     */
+    public static function isFoundWithoutGraph(string $ilias_absolute_path, LanguageFileDirectory $directory): bool
+    {
+        $template = self::shippedTemplatePath($ilias_absolute_path, $directory);
+
+        return basename($template) === $directory->getPrefix() . '.pot'
+            && fnmatch(rtrim($ilias_absolute_path, '/') . '/' . self::SHIPPED_TEMPLATES, $template, FNM_PATHNAME)
+            && is_file($template);
+    }
+
+    /**
      * The file name of the template (`.pot`) for the pattern $pattern of $module: the pattern without "%s" and
      * the separators around it ("tos_%s" -> "tos.pot"), "<module>.pot" if nothing is left. Shared by the
      * conversion tool and the runtime.

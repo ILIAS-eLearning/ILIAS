@@ -569,10 +569,12 @@ class MigratedTranslationsTest extends TestCase
     public function testAModuleIsShippedIfItIsBuiltOrHasATemplateInTheComponents(): void
     {
         $this->assertFalse(MigratedTranslations::isShippedModule('mtr'), 'no build, no template');
+        $this->assertTrue(MigratedTranslations::isShippedModule('tos'), 'without a build: template of the TermsOfService component');
         $this->build();
+        MigratedTranslations::reset();
 
         $this->assertTrue(MigratedTranslations::isShippedModule('mtr'), 'built');
-        $this->assertTrue(MigratedTranslations::isShippedModule('tos'), 'template of the TermsOfService component, without a build of it');
+        $this->assertFalse(MigratedTranslations::isShippedModule('tos'), 'with a build only its recorded contributions count');
         $this->assertFalse(MigratedTranslations::isShippedModule('some_plugin_module'));
     }
 

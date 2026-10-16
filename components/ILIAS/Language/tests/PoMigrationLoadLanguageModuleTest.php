@@ -277,9 +277,9 @@ class PoMigrationLoadLanguageModuleTest extends ilLanguageBaseTestCase
             new ComponentLanguageFileDirectory(new \ILIAS\TermsOfService(), 'tos')
         );
 
-        // a shipped module (lang/poll.pot) without a build for it: no identifiers, never the database
-        $this->expectOutputRegex('/Module "poll" ships a language file for "de" that is not built/');
-        $this->assertSame([], $this->callLoadFromMigratedLanguageFile('poll', 'de'));
+        // a shipped module (lang/poll.pot) without a build: no identifiers, never the database
+        $this->expectOutputRegex('/There is no build of the language files/');
+        $this->assertSame([], MigratedPoFixture::servedTexts('poll', 'de', false));
     }
 
     /** "Migrated for a language" means a shipped `.po` exists: its absence yields no identifiers, not a missing overlay `.mo`. */

@@ -132,9 +132,9 @@ shipped `.po` into `artifacts/language/<build>/`:
 `messages/LC_MESSAGES/<module>.<lang>.mo`, `keys/<module>.php`, a copy of the C
 library's `C.utf8` locale and a manifest (also the hashes of the compiled
 `.po` files, warnings and collisions). `artifacts/language/current.json` names
-the build that is served and its languages per module, nothing else, as every
-request reads it; it is switched only after the new build is complete and
-passed a real lookup through native gettext, and the previous build is kept
+the build that is served, its languages per module and every contributed
+module, nothing else, as every request reads it; it is switched only after the
+new build is complete and passed a real lookup through native gettext, and the previous build is kept
 for running requests.
 
 * **The build aborts** if the PHP extension `gettext` (a precondition of
@@ -158,8 +158,10 @@ for running requests.
 (`MigratedTranslations`, `NativeGettext`): the build with the overlay of the
 local changes on top, never from the database - also in Setup and CLI, where
 the client data directory of the overlay is taken from `ilias.ini.php` until
-`CLIENT_DATA_DIR` is defined. A module counts as shipped if the build lists it
-or a component ships its `lang/<module>.pot`; this needs no component graph.
+`CLIENT_DATA_DIR` is defined. A module counts as shipped if `current.json`
+lists it as contributed, without a build if a component ships its
+`lang/<module>.pot` (the build warns about a contribution without one); this
+needs no component graph.
 Only other modules (plugins) are read from `lng_data`/`lng_modules`.
 
 * Without a build, for a language the build lacks, or for a language that is
