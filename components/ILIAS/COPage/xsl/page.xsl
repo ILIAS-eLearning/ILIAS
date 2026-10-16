@@ -345,82 +345,6 @@
 	</xsl:if>
 </xsl:template>
 
-<!-- Split Menu Items -->
-<xsl:template name="SplitMenuItems">
-	<xsl:param name="hier_id"/>
-
-	<!-- split page to new page -->
-	<xsl:if test = "substring-after($hier_id,'_') = '' and $hier_id != '1' and $enable_split_new = 'y'">
-		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">splitPage</xsl:with-param>
-			<xsl:with-param name="langvar">ed_split_page</xsl:with-param>
-		</xsl:call-template>
-	</xsl:if>
-
-	<!-- split page to next page -->
-	<xsl:if test = "substring-after($hier_id,'_') = '' and $hier_id != '1' and $enable_split_next = 'y'">
-		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">splitPageNext</xsl:with-param>
-			<xsl:with-param name="langvar">ed_split_page_next</xsl:with-param>
-		</xsl:call-template>
-	</xsl:if>
-</xsl:template>
-
-<!-- Align Menu Items -->
-<xsl:template name="EditMenuAlignItems">
-
-	<!-- left align -->
-	<xsl:call-template name="EditMenuItem">
-		<xsl:with-param name="command">leftAlign</xsl:with-param>
-		<xsl:with-param name="langvar">ed_align_left</xsl:with-param>
-	</xsl:call-template>
-
-	<!-- right align -->
-	<xsl:call-template name="EditMenuItem">
-		<xsl:with-param name="command">rightAlign</xsl:with-param>
-		<xsl:with-param name="langvar">ed_align_right</xsl:with-param>
-	</xsl:call-template>
-
-	<!-- center align -->
-	<xsl:call-template name="EditMenuItem">
-		<xsl:with-param name="command">centerAlign</xsl:with-param>
-		<xsl:with-param name="langvar">ed_align_center</xsl:with-param>
-	</xsl:call-template>
-
-	<!-- left float align -->
-	<xsl:call-template name="EditMenuItem">
-		<xsl:with-param name="command">leftFloatAlign</xsl:with-param>
-		<xsl:with-param name="langvar">ed_align_left_float</xsl:with-param>
-	</xsl:call-template>
-
-	<!-- right float align -->
-	<xsl:call-template name="EditMenuItem">
-		<xsl:with-param name="command">rightFloatAlign</xsl:with-param>
-		<xsl:with-param name="langvar">ed_align_right_float</xsl:with-param>
-	</xsl:call-template>
-
-</xsl:template>
-
-
-<!-- Edit Menu Item-->
-<xsl:template name="EditMenuItem">
-	<xsl:param name="command"/>
-	<xsl:param name="langvar"/>
-	<xsl:param name="text"/>
-
-	<xsl:if test = "$javascript = 'enable'">
-		<a href="#" onMouseOver="M_in(this);" onMouseOut="M_out(this);">
-		<xsl:attribute name="onClick">doActionForm('cmd[exec]', 'command', '<xsl:value-of select="$command"/>', '', '<xsl:value-of select="name(.)"/>', '<xsl:value-of select="@Characteristic"/>'); return false;</xsl:attribute>
-		<xsl:if test="$text = ''">
-			<xsl:value-of select="//LVs/LV[@name=$langvar]/@value"/>
-		</xsl:if>
-		<xsl:if test="$text != ''">
-			<xsl:value-of select="$text"/>
-		</xsl:if>
-		</a>
-	</xsl:if>
-</xsl:template>
-
 <!-- Icon -->
 <xsl:template name="Icon">
 	<xsl:param name="img_src"/>
@@ -1272,31 +1196,6 @@
 	</li>
 </xsl:template>
 
-<!-- List Item Menu -->
-<xsl:template name="ListItemMenu">
-
-	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">newItemAfter</xsl:with-param>
-	<xsl:with-param name="langvar">ed_new_item_after</xsl:with-param></xsl:call-template>
-
-	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">newItemBefore</xsl:with-param>
-	<xsl:with-param name="langvar">ed_new_item_before</xsl:with-param></xsl:call-template>
-
-	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">deleteItem</xsl:with-param>
-	<xsl:with-param name="langvar">ed_delete_item</xsl:with-param></xsl:call-template>
-
-	<xsl:variable name="ni"><xsl:number level="single" count="ListItem|FileItem"/></xsl:variable>
-	<xsl:if test= "$ni != 1">
-		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveItemUp</xsl:with-param>
-		<xsl:with-param name="langvar">ed_item_up</xsl:with-param></xsl:call-template>
-	</xsl:if>
-
-	<xsl:if test= "../ListItem[number($ni + 1)] or ../FileItem[number($ni + 1)]">
-		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveItemDown</xsl:with-param>
-		<xsl:with-param name="langvar">ed_item_down</xsl:with-param></xsl:call-template>
-	</xsl:if>
-
-</xsl:template>
-
 <!-- SimpleBulletList -->
 <xsl:template match="SimpleBulletList">
 	<ul class="ilc_list_u_BulletedList">
@@ -1340,41 +1239,6 @@
 	<!-- command selectbox -->
 </xsl:template>
 
-<!-- File List Menu -->
-<xsl:template name="FileListMenu">
-	<xsl:param name="hier_id"/>
-
-	<xsl:call-template name="EditMenuItem">
-		<xsl:with-param name="command">editFiles</xsl:with-param>
-		<xsl:with-param name="langvar">ed_edit_files</xsl:with-param>
-	</xsl:call-template>
-
-	<xsl:call-template name="EditMenuItem">
-		<xsl:with-param name="command">edit</xsl:with-param>
-		<xsl:with-param name="langvar">ed_edit_prop</xsl:with-param>
-	</xsl:call-template>
-
-	<!-- delete -->
-	<xsl:call-template name="EditMenuItem">
-		<xsl:with-param name="command">delete</xsl:with-param>
-		<xsl:with-param name="langvar">ed_delete</xsl:with-param>
-	</xsl:call-template>
-
-	<!-- activate/deactivate -->
-	<xsl:if test = "$javascript = 'enable'">
-		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">deactivate</xsl:with-param>
-			<xsl:with-param name="langvar">de_activate</xsl:with-param>
-		</xsl:call-template>
-	</xsl:if>
-
-	<!-- split page menu items -->
-	<xsl:call-template name="SplitMenuItems">
-		<xsl:with-param name="hier_id" select="$hier_id"/>
-	</xsl:call-template>
-
-</xsl:template>
-
 <!-- FileItem -->
 <xsl:template match="FileItem">
 	<li class="ilc_flist_li_FileListItem">
@@ -1390,11 +1254,6 @@
 					<xsl:with-param name="img_src"><xsl:value-of select="$img_item"/></xsl:with-param>
 					<xsl:with-param name="ed_type">edit-flist-item</xsl:with-param>
 				</xsl:call-template>
-				&amp;nbsp;
-				<div class="il_editmenu ilNoDisplay">
-					<xsl:attribute name="id">contextmenu_i<xsl:value-of select="@HierId"/></xsl:attribute>
-					<xsl:call-template name="ListItemMenu"/>
-				</div>
 			</xsl:if>
 		</xsl:if>
 		<xsl:if test="$mode != 'print'">
@@ -1739,54 +1598,6 @@
 
 		</figure>
 	</xsl:for-each>
-
-	<!-- menu -->
-	<xsl:if test="$mode = 'edit' and $javascript='enable'">
-		<div class="il_editmenu ilNoDisplay">
-			<xsl:attribute name="id">contextmenu_<xsl:value-of select="../../@HierId"/></xsl:attribute>
-			<xsl:call-template name="MOBEditMenu">
-				<xsl:with-param name="hier_id" select="../../@HierId"/>
-			</xsl:call-template>
-		</div>
-	</xsl:if>
-</xsl:template>
-
-
-<!-- MOB edit menu -->
-<xsl:template name="MOBEditMenu">
-	<xsl:param name="hier_id"/>
-
-	<xsl:if test="(../../MediaObject)">
-		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">editAlias</xsl:with-param>
-		<xsl:with-param name="langvar">ed_edit_prop</xsl:with-param></xsl:call-template>
-	</xsl:if>
-
-	<xsl:if test="(../../InteractiveImage)">
-		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">edit</xsl:with-param>
-		<xsl:with-param name="langvar">ed_edit_prop</xsl:with-param></xsl:call-template>
-	</xsl:if>
-
-	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">delete</xsl:with-param>
-	<xsl:with-param name="langvar">ed_delete</xsl:with-param></xsl:call-template>
-
-	<xsl:if test = "$javascript = 'enable'">
-		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">deactivate</xsl:with-param>
-			<xsl:with-param name="langvar">de_activate</xsl:with-param>
-		</xsl:call-template>
-	</xsl:if>
-
-	<!-- split page menu items -->
-	<xsl:call-template name="SplitMenuItems">
-		<xsl:with-param name="hier_id" select="$hier_id"/>
-	</xsl:call-template>
-
-	<xsl:call-template name="EditMenuAlignItems"/>
-
-	<xsl:if test="(../../MediaObject)">
-		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">copyToClipboard</xsl:with-param>
-		<xsl:with-param name="langvar">ed_copy_clip</xsl:with-param></xsl:call-template>
-	</xsl:if>
 
 </xsl:template>
 
@@ -2934,23 +2745,6 @@
 			</xsl:if>
 			<xsl:comment>End of Grid Cell</xsl:comment>
 	</div>
-</xsl:template>
-
-<!-- GridCellMenu -->
-<xsl:template name="GridCellMenu">
-	<xsl:variable name="ni"><xsl:number from="Grid" level="single" count="GridCell"/></xsl:variable>
-	<xsl:if test= "$ni != 1">
-		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveCellLeft</xsl:with-param>
-			<xsl:with-param name="langvar">ed_cell_left</xsl:with-param></xsl:call-template>
-	</xsl:if>
-
-	<xsl:if test= "../GridCell[number($ni + 1)]">
-		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveCellRight</xsl:with-param>
-			<xsl:with-param name="langvar">ed_cell_right</xsl:with-param></xsl:call-template>
-	</xsl:if>
-
-	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">deleteCell</xsl:with-param>
-		<xsl:with-param name="langvar">ed_delete_cell</xsl:with-param></xsl:call-template>
 </xsl:template>
 
 <!-- Plugged -->
