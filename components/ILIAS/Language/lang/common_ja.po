@@ -1,0 +1,7828 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: common\n"
+
+msgid "HH"
+msgstr "HH:MM"
+
+msgid "absolute_path"
+msgstr "絶対Path"
+
+msgid "accept_usr_agreement_btn"
+msgstr "承諾"
+
+msgid "access"
+msgstr "アクセス"
+
+msgid "accessFree"
+msgstr "アクセス制限を解除"
+
+msgid "accessRestrict"
+msgstr "アクセス制限を設定"
+
+msgid "access_expired"
+msgstr "期限切れ"
+
+msgid "access_free_granted"
+msgstr "無期限アクセスの選択ユーザ"
+
+msgid "access_from"
+msgstr "アクセス (from)"
+
+msgid "access_public"
+msgstr "Public"
+
+msgid "access_restricted"
+msgstr "選択したユーザをアクセス制限に設定"
+
+msgid "access_scope"
+msgstr "アクセス"
+
+msgid "access_unlimited"
+msgstr "無期限"
+
+msgid "access_until"
+msgstr "アクセス(期限)"
+
+msgid "access_users"
+msgstr "ログイン中のユーザ"
+
+msgid "accesscount_registered_users"
+msgstr "ILIAS登録済ユーザ読込み数"
+
+msgid "accessibility_control_concept"
+msgstr "Accessibility Control Concept"
+
+msgid "account"
+msgstr "My Account"
+
+msgid "account_expires_body"
+msgstr "アカウントは制限されています。期限が切れる時間"
+
+msgid "account_expires_subject"
+msgstr "アカウントは期限が切れています"
+
+msgid "action"
+msgstr "アクション"
+
+msgid "action_aborted"
+msgstr "失敗したアクション"
+
+msgid "actions"
+msgstr "アクション"
+
+msgid "actions_for"
+msgstr "%sのアクション"
+
+msgid "activate"
+msgstr "アクティブに設定"
+
+msgid "activate_https"
+msgstr "ILIAS(支払、ログイン)の<br/>HTTPS操作"
+
+msgid "activate_tracking"
+msgstr "アクティベーション"
+
+msgid "activation"
+msgstr "期間調整"
+
+msgid "active"
+msgstr "アクティブ"
+
+msgid "add"
+msgstr "追加"
+
+msgid "add_condition"
+msgstr "新しい関連付けを作成"
+
+msgid "add_entry"
+msgstr "追加・エントリー編集"
+
+msgid "add_member"
+msgstr "メンバーを追加"
+
+msgid "add_member_role"
+msgstr "メンバー役割を追加"
+
+msgid "add_new_user_defined_field"
+msgstr "新規カスタムフィールドを追加"
+
+msgid "add_note"
+msgstr "メモを追加"
+
+msgid "add_parameter"
+msgstr "新パラメーター"
+
+msgid "add_remove_edit_entries_of_main_menu"
+msgstr "メインメニューのエントリーを追加、削除、編集する"
+
+msgid "add_role"
+msgstr "役割を追加"
+
+msgid "add_translation"
+msgstr "翻訳追加"
+
+msgid "add_user"
+msgstr "ローカルユーザを追加"
+
+msgid "add_user_defined_field"
+msgstr "新規フィールドを追加"
+
+msgid "added_new_condition"
+msgstr "新規条件を作成"
+
+msgid "additional_info"
+msgstr "追加情報"
+
+msgid "address"
+msgstr "アドレス"
+
+msgid "admin_force_noti"
+msgstr "通知をアクティブ"
+
+msgid "administrate_users"
+msgstr "ローカルユーザ管理"
+
+msgid "administrate_users_headline"
+msgstr "このカテゴリーのローカルILIASアカウント"
+
+msgid "administration"
+msgstr "管理"
+
+msgid "administrator"
+msgstr "管理者"
+
+msgid "adopt"
+msgstr "適用"
+
+msgid "advanced_editing_allow_html_tags"
+msgstr "テキスト編集用に選択したHTMLタグを許可"
+
+msgid "advanced_editing_assessment_settings"
+msgstr "ILIASとアセスメントツール用に許可されたHTMLタグ"
+
+msgid "advanced_editing_frm_post_settings"
+msgstr "掲示板投稿設定"
+
+msgid "advanced_editing_rep_page_editing"
+msgstr "リポジトリ内のコンテンツ編集を有効にする"
+
+msgid "advanced_editing_rep_page_editing_desc"
+msgstr "text/mediaをカテゴリ、コース、グループ、フォルダーのページへ追加可能にする機能です。無効にすると既存のコンテンツは表示されません。"
+
+msgid "advanced_editing_required_tags"
+msgstr "次のHTMLタグは必須:%s"
+
+msgid "advanced_editing_survey_settings"
+msgstr "ILIAS調査ツール用の許可されたHTMLタグ"
+
+msgid "adve_assessment_settings"
+msgstr "テストとアセスメント設定"
+
+msgid "adve_frm_post_settings"
+msgstr "フォーラム投稿"
+
+msgid "adve_general_settings"
+msgstr "全体設定"
+
+msgid "adve_survey_settings"
+msgstr "サーベイ設定"
+
+msgid "agree_date"
+msgstr "承諾日"
+
+msgid "all"
+msgstr "All"
+
+msgid "all_global_roles"
+msgstr "グローバルの役割"
+
+msgid "all_local_roles"
+msgstr "ローカルの役割 (全て)"
+
+msgid "all_objects"
+msgstr "全オブジェクト"
+
+msgid "all_roles"
+msgstr "全役割"
+
+msgid "all_topics"
+msgstr "すべてのトピックス"
+
+msgid "all_users"
+msgstr "全ユーザ"
+
+msgid "allow_assign_users"
+msgstr "ローカル管理者へユーザ割当てを許可"
+
+msgid "allow_override_alert"
+msgstr ".htaccessルールは完全に翻訳されていません。"
+
+msgid "allow_register"
+msgstr "新規ユーザの登録フォームを利用可能"
+
+msgid "allow_user_toggle_noti"
+msgstr "メンバーに通知解除を許可"
+
+msgid "already_delivered_files"
+msgstr "提出済ファイル"
+
+msgid "and"
+msgstr "and"
+
+msgid "angry"
+msgstr "Angry"
+
+msgid "anonymous"
+msgstr "匿名"
+
+msgid "answers"
+msgstr "回答"
+
+msgid "any_language"
+msgstr "いずれか"
+
+msgid "apache_auth"
+msgstr "Apache認証"
+
+msgid "application_completed"
+msgstr "アプリケーションを完了"
+
+msgid "application_date"
+msgstr "アプリケーションデータ"
+
+msgid "applications"
+msgstr "アプリケーション"
+
+msgid "apply"
+msgstr "適用"
+
+msgid "apply_filter"
+msgstr "フィルタ適用"
+
+msgid "appointment"
+msgstr "予定"
+
+msgid "approve_date"
+msgstr "承認日付"
+
+msgid "approve_recipient"
+msgstr "承認者のログインID"
+
+msgid "archive"
+msgstr "アーカイブ"
+
+msgid "archive_broken"
+msgstr "アーカイブは壊れているか空のようです。"
+
+msgid "are_you_sure"
+msgstr "本当ですか?"
+
+msgid "assf_allowed_questiontypes"
+msgstr "利用可能な問題タイプ"
+
+msgid "assf_allowed_questiontypes_desc"
+msgstr "このILIASシステムでは、すべてのチェックされた問題タイプが利用可能です。このシステムで特定の問題タイプの作成を許可したくない場合は、関連するチェックボックスの選択を外す必要があります。"
+
+msgid "assf_questiontypes"
+msgstr "問題設定"
+
+msgid "assign"
+msgstr "割当てる"
+
+msgid "assign_global_role"
+msgstr "グローバル役割を割当てる"
+
+msgid "assign_local_role"
+msgstr "ローカル役割を割当てる"
+
+msgid "assigned_members"
+msgstr "割当てられているメンバー"
+
+msgid "assigned_roles"
+msgstr "割当てられている役割"
+
+msgid "associated_user"
+msgstr "関連するユーザ"
+
+msgid "astounded"
+msgstr "驚愕"
+
+msgid "at_least_one_style"
+msgstr "最低一つのスタイルがアクティブのままでなければなりません。"
+
+msgid "attachment"
+msgstr "添付ファイル"
+
+msgid "attachments"
+msgstr "添付"
+
+msgid "attempts"
+msgstr "試行"
+
+msgid "auth_active_roles"
+msgstr "登録フォームに割り当てるグローバル役割"
+
+msgid "auth_allow_local"
+msgstr "ローカル認証を許可"
+
+msgid "auth_configure"
+msgstr "構成中..."
+
+msgid "auth_create_users"
+msgstr "存在しないユーザを自動的に作成"
+
+msgid "auth_default"
+msgstr "初期設定設定"
+
+msgid "auth_default_mode_changed_to"
+msgstr "初期設定認証モードを変更"
+
+msgid "auth_ecs"
+msgstr "ECS"
+
+msgid "auth_ldap"
+msgstr "LDAP"
+
+msgid "auth_ldap_enable"
+msgstr "LDAPサポートを有効にする"
+
+msgid "auth_ldap_migration"
+msgstr "アカウント移行"
+
+msgid "auth_ldap_migration_info"
+msgstr "このオプションを有効にすると新規ユーザに対して既存ILIASアカウントをLDAP認証へ移行する選択肢を提供します。"
+
+msgid "auth_local"
+msgstr "ILIASデータベース"
+
+msgid "auth_login_instructions"
+msgstr "ログインページに示す手順"
+
+msgid "auth_mode"
+msgstr "認証モード"
+
+msgid "auth_mode_not_changed"
+msgstr "(変更なし)"
+
+msgid "auth_mode_roles_changed"
+msgstr "この役割の認証モードを変更しました"
+
+msgid "auth_new_account_mail_desc"
+msgstr "ユーザを自動作成すると新規アカウントをユーザへemailします。\"ローカル認証を許可\"がオンの場合のみパスワードを生成します。"
+
+msgid "auth_per_default"
+msgstr "初期設定"
+
+msgid "auth_remark_non_local_auth"
+msgstr "ILIASデータベース以外の認証モードを選択すると以降のユーザのログイン名とパスワードを変更できなくなります。"
+
+msgid "auth_role_auth_mode"
+msgstr "認証モード"
+
+msgid "auth_saml"
+msgstr "SAML"
+
+msgid "auth_script"
+msgstr "カスタム"
+
+msgid "auth_select"
+msgstr "認証モードを選択"
+
+msgid "auth_selection"
+msgstr "ログインオプション"
+
+msgid "auth_settings"
+msgstr "認証設定"
+
+msgid "auth_shib"
+msgstr "Shibboleth"
+
+msgid "auth_shib_instructions"
+msgstr "Shibbolethサポート設定に関する手順書はREADMEを必ず読んでください。"
+
+msgid "auth_shib_not_configured"
+msgstr "Shibbolethは未設定です"
+
+msgid "auth_shibboleth"
+msgstr "Shibboleth"
+
+msgid "auth_soap"
+msgstr "SOAP"
+
+msgid "auth_soap_allow_local_desc"
+msgstr "SOAPユーザに対してローカルのILIASユーザ名と、ローカルパスワード認証でアクセスを許可します。"
+
+msgid "auth_soap_auth"
+msgstr "SOAP認証設定"
+
+msgid "auth_soap_auth_desc"
+msgstr "この設定はSOAPベースのユーザ認証のみでILIAS SOAPインターフェースには処理できません。"
+
+msgid "auth_soap_create_users_desc"
+msgstr "ILIASアカウントがない状態でSOAPを正しく認証認証したユーザ用にILIASユーザアカウントを自動作成します。"
+
+msgid "auth_soap_namespace"
+msgstr "ネームスペース"
+
+msgid "auth_soap_namespace_desc"
+msgstr "WSDLに示す通り。NET SOAPスタイルが使用される場合は明記しなければなりません。"
+
+msgid "auth_soap_port_desc"
+msgstr "例 フルSOAPサーバーURIがhttp//auth.yourserver.comの場合は8080"
+
+msgid "auth_soap_server_desc"
+msgstr "例 フルSOAPサーバーURIがhttp//auth.yourserver.comの場合はauth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_settings_saved"
+msgstr "SOAP認証設定の保存"
+
+msgid "auth_soap_uri_desc"
+msgstr "ローカルURI"
+
+msgid "auth_soap_use_dotnet"
+msgstr ".NET SOAP Styleを使用"
+
+msgid "auth_soap_use_https"
+msgstr "HTTPSを使用"
+
+msgid "auth_soap_user_default_role_desc"
+msgstr "この役割は作成されたSOAPユーザへ自動割当てされます。"
+
+msgid "auth_user_default_role"
+msgstr "既定の役割"
+
+msgid "authenticate_ilias"
+msgstr "ILIAS Native認証"
+
+msgid "authentication_settings"
+msgstr "認証"
+
+msgid "author"
+msgstr "作成者"
+
+msgid "authoring_mode"
+msgstr "オーサリングモード"
+
+msgid "authors"
+msgstr "作成者"
+
+msgid "autocomplete_more"
+msgstr "続きを読む"
+
+msgid "available"
+msgstr "利用可能"
+
+msgid "awra"
+msgstr "Who is online?"
+
+msgid "back"
+msgstr "戻る"
+
+msgid "back_to_course"
+msgstr "コースへ戻る"
+
+msgid "back_to_crs_content"
+msgstr "コースコンテンツへ戻る"
+
+msgid "back_to_fold_content"
+msgstr "フォルダコンテンツへ戻る"
+
+msgid "back_to_grp_content"
+msgstr "グループコンテンツへ戻る"
+
+msgid "backto_lua"
+msgstr "ローカルユーザ管理者へ戻る"
+
+msgid "basedn"
+msgstr "BaseDN"
+
+msgid "basic_settings"
+msgstr "基本設定"
+
+msgid "before"
+msgstr "前"
+
+msgid "behind"
+msgstr "後"
+
+msgid "bib_data"
+msgstr "図書目録データ"
+
+msgid "bibl_add"
+msgstr "バイオグラフィーを追加"
+
+msgid "birthday"
+msgstr "誕生日"
+
+msgid "bkm_import"
+msgstr "インポートブックマーク"
+
+msgid "bkm_import_ok"
+msgstr " %d ブックマークと %d ブックマークフォルダを正しくインポートしました。"
+
+msgid "bkm_sendmail"
+msgstr "添付ファイル送付"
+
+msgid "block"
+msgstr "ブロック"
+
+msgid "bm"
+msgstr "ブックマーク"
+
+msgid "bm_add_to_ilias"
+msgstr "ILIASブックマーク"
+
+msgid "bmf"
+msgstr "ブックマークフォルダ"
+
+msgid "bold"
+msgstr "Bold"
+
+msgid "bold_action"
+msgstr "Boldを挿入 - クリックしてbold 文字を挿入"
+
+msgid "bookings"
+msgstr "ブッキング"
+
+msgid "bookmark_added"
+msgstr "ブックマークを作成しました。"
+
+msgid "bookmark_folder_new"
+msgstr "新規ブックマークフォルダ"
+
+msgid "bookmark_new"
+msgstr "新規ブックマーク"
+
+msgid "bookmark_target"
+msgstr "ターゲット"
+
+msgid "bookmarks"
+msgstr "ブックマーク"
+
+msgid "bookmarks_of"
+msgstr "のブックマーク"
+
+msgid "breadcrumb_navigation"
+msgstr "階層リンク ナビゲーション"
+
+msgid "breadcrumbs_aria_label"
+msgstr "パンくずリスト"
+
+msgid "briefcase"
+msgstr "Backgroundタスク"
+
+msgid "btn_add"
+msgstr "追加"
+
+msgid "btn_back"
+msgstr "戻る"
+
+msgid "btn_next"
+msgstr "続ける"
+
+msgid "btn_previous"
+msgstr "戻る"
+
+msgid "btn_remove_system"
+msgstr "システムから削除"
+
+msgid "btn_undelete"
+msgstr "リストア"
+
+msgid "buddy_allow_to_contact_me_no"
+msgstr "コンタクト要求を受信しない"
+
+msgid "buddy_allow_to_contact_me_yes"
+msgstr "コンタクト要求を受信する"
+
+msgid "building_export_file"
+msgstr "エクスポートファイルを生成中..."
+
+msgid "bulletlist_action"
+msgstr "行頭文字 -リストを挿入 - クリックして行頭文字 - リストを挿入"
+
+msgid "by"
+msgstr "By"
+
+msgid "bytes"
+msgstr "バイト"
+
+msgid "cal_from"
+msgstr "いつから:"
+
+msgid "cal_until"
+msgstr "いつまで:"
+
+msgid "calendar"
+msgstr "カレンダー"
+
+msgid "cancel"
+msgstr "キャンセル"
+
+msgid "cancel_file_upload"
+msgstr "本当に全ての保留中のアップロードをキャンセルしますか?"
+
+msgid "cannot_find_xml"
+msgstr "XMLファイルが見つかりません。"
+
+msgid "cannot_uninstall_language_in_use"
+msgstr "現在使用中の言語をアンインストールする事はできません!"
+
+msgid "cannot_uninstall_systemlanguage"
+msgstr "システム言語をアンインストールする事はできません!"
+
+msgid "cannot_unzip_file"
+msgstr "ファイルをunpackできません。"
+
+msgid "cant_deactivate_if_users_assigned"
+msgstr "ユーザ割当てがまだある場合スタイル解除はできません。"
+
+msgid "cat"
+msgstr "カテゴリ"
+
+msgid "cat_add"
+msgstr "カテゴリを追加"
+
+msgid "cat_added"
+msgstr "カテゴリが追加されました"
+
+msgid "cat_copy_threads_info"
+msgstr "どのカテゴリアイテムをコピー、リンクあるいは省略するか決定してください。"
+
+msgid "cat_edit"
+msgstr "カテゴリを編集"
+
+msgid "cat_new"
+msgstr "新規カテゴリ"
+
+msgid "cat_wizard_page"
+msgstr "コピーカテゴリ (Step 2/2)"
+
+msgid "categories"
+msgstr "カテゴリ"
+
+msgid "categories_imported"
+msgstr "カテゴリのインポートを完了"
+
+msgid "catr"
+msgstr "カテゴリリンク"
+
+msgid "catr_add"
+msgstr "カテゴリーリンクを追加"
+
+msgid "catr_edit_info"
+msgstr "新しいリンクを作成するためにカテゴリを一つ選択してください。"
+
+msgid "catr_new"
+msgstr "新しいカテゴリリンクを作成"
+
+msgid "catr_settings"
+msgstr "カテゴリーリンクの設定"
+
+msgid "certificate"
+msgstr "証明書"
+
+msgid "certificate_file_already_exists_error"
+msgstr "証明書ファイルは既にファイルシステムに存在します。"
+
+msgid "certificate_file_input_output_error"
+msgstr "証明書ファイルは見つかりましたが内部エラーにより削除できませんでした。管理者へ連絡願います。"
+
+msgid "certificate_file_not_found_error"
+msgstr "証明書ファイルはファイルシステムにもう存在しまません。"
+
+msgid "certificate_persistent_option"
+msgstr "永続証明書"
+
+msgid "certificate_selection"
+msgstr "証明書発行元"
+
+msgid "certificate_workspace_option"
+msgstr "作業領域証明書"
+
+msgid "certificates"
+msgstr "証明書"
+
+msgid "change"
+msgstr "変更"
+
+msgid "change_assignment"
+msgstr "割当て変更"
+
+msgid "change_header_title"
+msgstr "ヘッダータイトルを編集"
+
+msgid "change_owner"
+msgstr "オーナーを変更"
+
+msgid "change_sort_direction"
+msgstr "並び替え方向を変更"
+
+msgid "changeable"
+msgstr "変更可"
+
+msgid "changed_to"
+msgstr "変更"
+
+msgid "changing_loginname_not_possible_info"
+msgstr "最後の%sにログインした名前を変更しました。次は %s に変更できます。"
+
+msgid "chapter"
+msgstr "章"
+
+msgid "characters"
+msgstr "文字"
+
+msgid "chat_enter_public_room"
+msgstr "パブリックチャット"
+
+msgid "chat_enter_public_room_tooltip"
+msgstr "パブリックチャットに入る"
+
+msgid "chat_users_active"
+msgstr "アクティブユーザ"
+
+msgid "check"
+msgstr "チェック"
+
+msgid "check_all"
+msgstr "全てをチェック"
+
+msgid "check_langfile"
+msgstr "言語ファイルをチェックしてください"
+
+msgid "check_languages"
+msgstr "全ての言語をチェック"
+
+msgid "check_link"
+msgstr "Webリンクのチェック"
+
+msgid "check_link_desc"
+msgstr "ILIASラーニングモジュールへの全ての外部リンクを有効にするとアクティブかどうかがチェックされます。"
+
+msgid "check_user_accounts"
+msgstr "ユーザアカウントをチェック"
+
+msgid "check_user_accounts_desc"
+msgstr "クローンジョブが実行中でこのオプションを有効にすると、アカウント期限切れの全ユーザに対してemailで通知されます。また、email登録確認の後にアカウント確認をしていないユーザは全部削除されます。"
+
+msgid "check_web_resources"
+msgstr "Webリンクをチェック"
+
+msgid "check_web_resources_desc"
+msgstr "全Webリンクを有効にするとアクティブかどうかがチェックされます。"
+
+msgid "checked"
+msgstr "確認済"
+
+msgid "checked_files"
+msgstr "インポート可能なファイル"
+
+msgid "chg_ilias_and_webfolder_password"
+msgstr "ILIASとWebフォルダのパスワードを変更"
+
+msgid "chg_ilias_password"
+msgstr "ILIASのパスワードを変更"
+
+msgid "chg_password"
+msgstr "パスワードを変更"
+
+msgid "choose_language"
+msgstr "言語の選択"
+
+msgid "choose_only_one_language"
+msgstr "言語を一つ選択してください"
+
+msgid "chown_warning"
+msgstr "注意!　オーナーを変更するとこのオブジェクトに対するアクセス権限はなくなります。"
+
+msgid "chta_edit_permission"
+msgstr "アクセス権設定を変更"
+
+msgid "chta_read"
+msgstr "チャットルーム管理の読み込み"
+
+msgid "chta_visible"
+msgstr "チャットルーム管理が表示されます"
+
+msgid "chta_write"
+msgstr "チャットルーム管理を編集"
+
+msgid "chtr_copy"
+msgstr "チャットル－ムをコピー"
+
+msgid "chtr_import"
+msgstr "チャットルームをインポート"
+
+msgid "city"
+msgstr "市区郡、都道府県名"
+
+msgid "cleaned_file"
+msgstr "ファイルは消去されました。"
+
+msgid "cleaning_failed"
+msgstr "消去に失敗しました。"
+
+msgid "clear"
+msgstr "消去"
+
+msgid "clear_clipboard"
+msgstr "クリップボードを消去"
+
+msgid "client"
+msgstr "クライアント"
+
+msgid "client_id"
+msgstr "クライアントのID"
+
+msgid "client_ip"
+msgstr "クライアントのIP"
+
+msgid "clientlist_available_clients"
+msgstr "利用可能なクライアント"
+
+msgid "clientlist_clientlist"
+msgstr "クライアントリスト"
+
+msgid "clientlist_installation_name"
+msgstr "インストール名"
+
+msgid "clientlist_login"
+msgstr "Login"
+
+msgid "clientlist_login_page"
+msgstr "Login page"
+
+msgid "clientlist_public_access"
+msgstr "Public Access"
+
+msgid "clientlist_start_page"
+msgstr "開始ページ"
+
+msgid "clipboard"
+msgstr "クリップボード"
+
+msgid "close"
+msgstr "閉じる"
+
+msgid "cmix"
+msgstr "Object xAPI/cmi5"
+
+msgid "cnt_new"
+msgstr "(%s New)"
+
+msgid "collapse"
+msgstr "畳む"
+
+msgid "collapse_all"
+msgstr "すべて畳む"
+
+msgid "collapse_content"
+msgstr "コンテンツを壊す"
+
+msgid "collapsed"
+msgstr "階層化"
+
+msgid "column_selection"
+msgstr "列の選択"
+
+msgid "columns"
+msgstr "列"
+
+msgid "comma_separated"
+msgstr "カンマ区切り"
+
+msgid "comment"
+msgstr "コメント"
+
+msgid "comments"
+msgstr "コメント"
+
+msgid "compose"
+msgstr "作成"
+
+msgid "concurrent_uploads"
+msgstr "現在のアップロード数"
+
+msgid "concurrent_uploads_info"
+msgstr "アップロードプロセスあたり同時にアップロードできるファイル数の定義"
+
+msgid "cond_ref_handling"
+msgstr "リンク設定"
+
+msgid "cond_ref_shared"
+msgstr "全てのリンクへの共有前提条件"
+
+msgid "cond_ref_unique"
+msgstr "リンクへの独自の前提条件"
+
+msgid "condition"
+msgstr "条件"
+
+msgid "condition_accredited_or_passed"
+msgstr "認定済もしくは通過済"
+
+msgid "condition_already_assigned"
+msgstr "オブジェクトは既に割当て済です。"
+
+msgid "condition_circle_created"
+msgstr "オブジェクトの依存性によりこの関連付けはできません。"
+
+msgid "condition_deleted"
+msgstr "削除された条件"
+
+msgid "condition_finished"
+msgstr "終了済"
+
+msgid "condition_not_finished"
+msgstr "未終了"
+
+msgid "condition_passed"
+msgstr "チェック済み"
+
+msgid "condition_select_object"
+msgstr "オブジェクトを一つ選択してください。"
+
+msgid "conditions_updated"
+msgstr "条件を保存しました"
+
+msgid "configuration"
+msgstr "構成"
+
+msgid "confirm"
+msgstr "確認実行"
+
+msgid "confirm_delete_parameter"
+msgstr "本当にパラメーターを削除しますか?"
+
+msgid "confirmation"
+msgstr "確認"
+
+msgid "conflict_handling"
+msgstr "競合の取扱い"
+
+msgid "cont_iim_content_popups_info"
+msgstr "ベース画像のインタラクティブな部分をユーザがクリックするとコンテンツポップアップを表示します。この画面ではポップアップのみ定義します。コンテンツはメインページ編集画面上で編集可能です。"
+
+msgid "cont_iim_create_info"
+msgstr "インタラクティブイメージ用のメイン下層画像をアップロードしてください。"
+
+msgid "cont_iim_overlay_info"
+msgstr "オーバーレイ画像はマウスをその上にあてた時にベース画像の代用として利用できます。画像をuploadすると\"トリガー\"タブ中で選択できます。"
+
+msgid "contact"
+msgstr "コンタクト"
+
+msgid "contact_data"
+msgstr "連絡先"
+
+msgid "contact_sysadmin"
+msgstr "システム管理者へ連絡"
+
+msgid "container"
+msgstr "コンテナ"
+
+msgid "container_no_items"
+msgstr "教材を利用できません"
+
+msgid "content"
+msgstr "コンテンツ"
+
+msgid "content_frame"
+msgstr "コンテナフレーム"
+
+msgid "content_styles"
+msgstr "コンテンツスタイル"
+
+msgid "context"
+msgstr "状況"
+
+msgid "continue"
+msgstr "続ける"
+
+msgid "continue_work"
+msgstr "続ける"
+
+msgid "contra"
+msgstr "いまいち"
+
+msgid "copa"
+msgstr "コンテンツページ"
+
+msgid "copy"
+msgstr "コピー"
+
+msgid "copyChapter"
+msgstr "コピー"
+
+msgid "copyPage"
+msgstr "コピー"
+
+msgid "copy_all"
+msgstr "全てコピー"
+
+msgid "copy_n_of_suffix"
+msgstr "- コピー (%1$s)"
+
+msgid "copy_of"
+msgstr "コピー"
+
+msgid "copy_of_suffix"
+msgstr "- Copy"
+
+msgid "copy_perma_link"
+msgstr "クリップボードへリンクをコピー"
+
+msgid "copy_selected_items"
+msgstr "コピー"
+
+msgid "count"
+msgstr "カウント"
+
+msgid "counter_novelty"
+msgstr "News"
+
+msgid "counter_status"
+msgstr "Status"
+
+msgid "country"
+msgstr "国"
+
+msgid "country_free_text"
+msgstr "国名(ファイルテキスト入力)"
+
+msgid "country_selection"
+msgstr "国名(ドロップダウン選択)"
+
+msgid "course"
+msgstr "コース"
+
+msgid "courses"
+msgstr "コース"
+
+msgid "create"
+msgstr "作成"
+
+msgid "create_date"
+msgstr "作成日"
+
+msgid "create_export_file"
+msgstr "エクスポートファイルを作成"
+
+msgid "create_stylesheet"
+msgstr "作成スタイル"
+
+msgid "created"
+msgstr "作成日"
+
+msgid "cron_forum_notification"
+msgstr "フォーラム通知を送る"
+
+msgid "cron_forum_notification_crob_desc"
+msgstr "有効にすると掲示板通知を有効にしている全てのユーザは不急に関わらず各投稿に対して新規投稿の全メール通知を毎日受領します。"
+
+msgid "cron_forum_notification_disabled"
+msgstr "Cron jobがアクティブ時は無効化できません。"
+
+msgid "cron_jobs"
+msgstr "Cronジョブ"
+
+msgid "cron_lucene_index"
+msgstr "ライセンス検索インデックスを更新"
+
+msgid "cron_lucene_index_info"
+msgstr "有効にすると、ライセンス検索インデックスが更新されます。ライセンスサーバーを '管理 -> 検索'.から設定してください。"
+
+msgid "cron_mail_notification"
+msgstr "メール通知を送る"
+
+msgid "cron_mail_notification_cron"
+msgstr "cronジョブで定期化"
+
+msgid "cron_mail_notification_desc"
+msgstr "有効にすると、新規メールの情報を得たい全てのユーザへ外部メールで通知されます。この機能を使用するには先にオプション ‘%s’ を有効にして下さい。"
+
+msgid "cron_mail_notification_message"
+msgstr "メール本文付のメール通知を送信します"
+
+msgid "cron_mail_notification_message_info"
+msgstr "ONにすると全ユーザへ外部メールで本分ありのメール通知が送られます。"
+
+msgid "cron_mail_notification_never"
+msgstr "しない"
+
+msgid "cron_users_without_login_del_create_date_thr"
+msgstr "スレッショールド"
+
+msgid "cron_users_without_login_del_create_date_thr_info"
+msgstr "定義前に作成された全てのユーザアカウントは、スレッショールドが検討されます"
+
+msgid "cron_users_without_login_del_role_whitelist"
+msgstr "包含される役割"
+
+msgid "cron_users_without_login_del_role_whitelist_info"
+msgstr "削除は選択の役割の一つでも割当てられたユーザが実行されるのみに限定されます。"
+
+msgid "cronjob_last_start"
+msgstr "前回のCronジョブ開始"
+
+msgid "cronjob_last_start_unknown"
+msgstr "不明"
+
+msgid "crs"
+msgstr "コース"
+
+msgid "crs_activation_start_invalid"
+msgstr "開始と終了時間が有効ではありません。"
+
+msgid "crs_add"
+msgstr "コースを追加"
+
+msgid "crs_added"
+msgstr "コースが追加された"
+
+msgid "crs_archives"
+msgstr "アーカイブ"
+
+msgid "crs_cancel_waiting_list"
+msgstr "本当にコース \"%s\"の待ちリストからあなたを削除しますか?"
+
+msgid "crs_copy_threads_info"
+msgstr "どのコース教材をコピー、リンクあるいは省略するか決定してください。"
+
+msgid "crs_edit"
+msgstr "コースを編集"
+
+msgid "crs_list_reg"
+msgstr "登録"
+
+msgid "crs_list_reg_end"
+msgstr "登録終了日時"
+
+msgid "crs_list_reg_limit_full"
+msgstr "空席なし"
+
+msgid "crs_list_reg_limit_places"
+msgstr "空席あり"
+
+msgid "crs_list_reg_noreg"
+msgstr "自己登録不可"
+
+msgid "crs_list_reg_period"
+msgstr "登録期間"
+
+msgid "crs_list_reg_start"
+msgstr "登録開始"
+
+msgid "crs_member_not_passed"
+msgstr "Not passed(不合格)"
+
+msgid "crs_member_passed"
+msgstr "Passed(合格)"
+
+msgid "crs_members_gallery"
+msgstr "コースメンバーギャラリー"
+
+msgid "crs_new"
+msgstr "新コース"
+
+msgid "crs_removed_from_waiting_list"
+msgstr "コース\"%s\"の待ちリストから外されました。"
+
+msgid "crs_status_blocked"
+msgstr "[アクセス拒否]"
+
+msgid "crs_status_pending"
+msgstr "[登録待ち]"
+
+msgid "crs_subscribers_assigned"
+msgstr "新規ユーザの割当て"
+
+msgid "crs_title"
+msgstr "コースタイトル"
+
+msgid "crs_unsubscribe"
+msgstr "コースから削除"
+
+msgid "crs_wizard_page"
+msgstr "コースをコピー (Step 2/2)"
+
+msgid "crsr"
+msgstr "コースリンク"
+
+msgid "crsr_add"
+msgstr "コースリンクを追加"
+
+msgid "crsr_edit_info"
+msgstr "新規にリンクを作成するにはコースを一つ選択してください。"
+
+msgid "crsr_new"
+msgstr "新コースリンクを作成"
+
+msgid "crsr_settings"
+msgstr "コースリンク設定"
+
+msgid "csv_export"
+msgstr "CSVエクスポート"
+
+msgid "current_ip"
+msgstr "現在のIPアドレス"
+
+msgid "current_ip_alert"
+msgstr "注意： IPを間違って入力するとこのプロファイルでシステムへ二度とアクセスできなくなります。"
+
+msgid "current_password"
+msgstr "現在のパスワード"
+
+msgid "current_user_avatar"
+msgstr "User Avatar"
+
+msgid "currently_used_disk_space"
+msgstr "現時点の使用ディスクスペース"
+
+msgid "customize_page"
+msgstr "カスタムページ"
+
+msgid "cut"
+msgstr "切取り"
+
+msgid "cutPage"
+msgstr "切取り"
+
+msgid "daily"
+msgstr "毎日"
+
+msgid "database"
+msgstr "データベース"
+
+msgid "database_version"
+msgstr "現在のデータベースのバージョン"
+
+msgid "dataset"
+msgstr "アイテム"
+
+msgid "date"
+msgstr "日付"
+
+msgid "date_time"
+msgstr "Date and Time"
+
+msgid "dateplaner"
+msgstr "カレンダー"
+
+msgid "day"
+msgstr "日"
+
+msgid "days"
+msgstr "日"
+
+msgid "db_host"
+msgstr "データベースホスト"
+
+msgid "db_name"
+msgstr "データベース名"
+
+msgid "db_need_update"
+msgstr "Databaseの更新が必要!"
+
+msgid "db_pass"
+msgstr "データベースのパスワード"
+
+msgid "db_type"
+msgstr "データベースのタイプ"
+
+msgid "db_user"
+msgstr "データベースのユーザ"
+
+msgid "db_version"
+msgstr "データベースのバージョン"
+
+msgid "dd_mm_yyyy"
+msgstr "DD.MM.YYYY"
+
+msgid "deactivate"
+msgstr "使用不可"
+
+msgid "decrease_attempts"
+msgstr "試行回数 - 1"
+
+msgid "def_repository_view"
+msgstr "リポジトリ表示初期設定"
+
+msgid "default"
+msgstr "初期設定"
+
+msgid "default_auth_mode"
+msgstr "認証方式初期設定"
+
+msgid "default_auth_mode_info"
+msgstr "ログインページにあらかじめ選択されている認証方式を選択してください。"
+
+msgid "default_language"
+msgstr "言語初期設定"
+
+msgid "default_perm_settings"
+msgstr "アクセス権限初期設定"
+
+msgid "default_role"
+msgstr "役割初期設定"
+
+msgid "default_roles"
+msgstr "役割初期設定"
+
+msgid "default_skin"
+msgstr "スキン初期設定"
+
+msgid "default_skin_style"
+msgstr "スキン /スタイル初期設定"
+
+msgid "default_style"
+msgstr "スタイル初期設定"
+
+msgid "defaults"
+msgstr "初期設定"
+
+msgid "delete"
+msgstr "削除"
+
+msgid "delete_existing_file"
+msgstr "既存ファイルを削除"
+
+msgid "delete_inactivated_user_accounts"
+msgstr "使われていないユーザアカウントを削除する"
+
+msgid "delete_inactivated_user_accounts_desc"
+msgstr "有効にすると解除日に沿ってアカウントは削除されます。"
+
+msgid "delete_inactivated_user_accounts_include_roles"
+msgstr "含む役割"
+
+msgid "delete_inactivated_user_accounts_include_roles_desc"
+msgstr "削除中に参加する役割を定義します。"
+
+msgid "delete_inactivated_user_accounts_period"
+msgstr "解除してからの日数"
+
+msgid "delete_inactivated_user_accounts_period_desc"
+msgstr "解除してからこの期間が過ぎると削除が実行されます。"
+
+msgid "delete_inactive_user_accounts"
+msgstr "ユーザアカウントを削除"
+
+msgid "delete_inactive_user_accounts_desc"
+msgstr "有効にするとユザーアカウントは最後にログインした日付に沿って削除されます。"
+
+msgid "delete_inactive_user_accounts_include_roles"
+msgstr "役割を含む"
+
+msgid "delete_inactive_user_accounts_include_roles_desc"
+msgstr "選択のILIASアカウント役割のどれかのみが削除されます。"
+
+msgid "delete_inactive_user_accounts_period"
+msgstr "前回ログインからの経過日数"
+
+msgid "delete_inactive_user_accounts_period_desc"
+msgstr "所定の期間内にログインしなかった全てのユーザアクントは削除されます。"
+
+msgid "delete_parameter"
+msgstr "パラメーターを削除"
+
+msgid "delete_selected_items"
+msgstr "削除"
+
+msgid "deleted"
+msgstr "削除されました"
+
+msgid "deleted_user"
+msgstr "ユーザは削除されました"
+
+msgid "deleted_users"
+msgstr "削除したユーザ"
+
+msgid "deletion_notification"
+msgstr "%s はセッション \"%s\"　の参加をキャンセルしました。"
+
+msgid "deliver"
+msgstr "配送"
+
+msgid "deny_usr_agreement"
+msgstr "利用規約を承諾しませんか?"
+
+msgid "deny_usr_agreement_btn"
+msgstr "承諾しない"
+
+msgid "department"
+msgstr "部課(学部･学科)名"
+
+msgid "desc"
+msgstr "説明"
+
+msgid "description"
+msgstr "説明"
+
+msgid "desired_password"
+msgstr "変更後のパスワード"
+
+msgid "details"
+msgstr "詳細"
+
+msgid "didactic_template"
+msgstr "Didactic Template"
+
+msgid "disable"
+msgstr "無効"
+
+msgid "disable_check"
+msgstr "チェックを無効"
+
+msgid "disable_ext_lang_maint"
+msgstr "拡張メンテナンスを無効"
+
+msgid "disable_hide_user_toggle"
+msgstr "メンバーは利用解除できます"
+
+msgid "disabled"
+msgstr "無効"
+
+msgid "disclose"
+msgstr "開示"
+
+msgid "dislike"
+msgstr "Dislike"
+
+msgid "domain"
+msgstr "ドメイン"
+
+msgid "down"
+msgstr "下"
+
+msgid "download"
+msgstr "ダウンロード"
+
+msgid "download_all_returned_files"
+msgstr "提出済の全ファイルをダウンロード"
+
+msgid "download_link"
+msgstr "ダウンロードリンク"
+
+msgid "download_multiple_objects"
+msgstr "複数オブジェクトのダウンロード"
+
+msgid "download_selected_items"
+msgstr "ダウンロード"
+
+msgid "downloading_settings"
+msgstr "ダウンロード設定"
+
+msgid "dpro_accept_usr_agreement"
+msgstr "データ保護規約を承諾しますか?"
+
+msgid "dpro_accept_usr_agreement_intro"
+msgstr "新しいデータ保護規約があります。ILIAS利用前に承諾する必要があります。次のドキュメントを十分に読んだ上で 同意または同意しないをページ末へ回答します。"
+
+msgid "dpro_agreed_on"
+msgstr "DoDP承諾日付"
+
+msgid "dpro_force_accept_usr_agreement"
+msgstr "データ保護規約を承諾する必要があります。"
+
+msgid "dpro_no_agreement_description"
+msgstr "このシステム用のデータ保護規約文書がありません。 <a href=\"%1$s\">システム管理者</a>へコンタクトしてください。"
+
+msgid "dpro_refuse_acceptance"
+msgstr "データ保護規約承諾を拒否"
+
+msgid "dpro_usr_agreement"
+msgstr "データ保護規約"
+
+msgid "dpro_usr_agreement_footer_intro"
+msgstr "このデータ保護規約を承諾する事に同意しました。"
+
+msgid "dpro_withdraw_consent_description"
+msgstr "ここで、データ保護規約の承諾を破棄"
+
+msgid "dpro_withdraw_consent_description_external"
+msgstr "データ保護規約承諾破棄処理を完了するにはILIASシステムへ戻って再ログインしてください。"
+
+msgid "dpro_withdraw_consent_description_internal"
+msgstr "データ保護規約承諾破棄を完了するには再ログインしてください。"
+
+msgid "dpro_withdraw_consent_header"
+msgstr "データ保護規約承諾を破棄"
+
+msgid "dpro_withdraw_consent_info"
+msgstr "データ保護規約承諾の破棄"
+
+msgid "dpro_withdraw_consent_info_external"
+msgstr "認証システムの管理者へコンタクトして、データ保護規約破棄の意思を伝えてください。"
+
+msgid "drafts"
+msgstr "ドラフト"
+
+msgid "drag_file_here"
+msgstr "ここへドラッグアンドドロップ"
+
+msgid "drag_files_here"
+msgstr "ここへファイルをドラッグアンドドロップする"
+
+msgid "drag_handle"
+msgstr "ドラッグ可能な要素"
+
+msgid "drop_files_on_repo_obj_info"
+msgstr "このオブジェクトアップロードするにはファイルをここへドロップします。"
+
+msgid "edit"
+msgstr "編集"
+
+msgid "edit_assignments"
+msgstr "割当て編集"
+
+msgid "edit_cat_settings"
+msgstr "詳細カテゴリ設定"
+
+msgid "edit_content"
+msgstr "コンテンツを編集"
+
+msgid "edit_grouping"
+msgstr "メンバーシップの制限を編集"
+
+msgid "edit_metadata"
+msgstr "メタデータを編集"
+
+msgid "edit_operations"
+msgstr "オペレーションを編集"
+
+msgid "edit_page"
+msgstr "ページを編集"
+
+msgid "edit_page_content"
+msgstr "ページコンテンツを編集"
+
+msgid "edit_page_meta"
+msgstr "ページメタデータを編集"
+
+msgid "edit_properties"
+msgstr "プロパティを編集"
+
+msgid "edit_stylesheet"
+msgstr "スタイルを編集"
+
+msgid "edited_on"
+msgstr "編集日"
+
+msgid "editor"
+msgstr "エディター"
+
+msgid "email"
+msgstr "email"
+
+msgid "email_not_valid"
+msgstr "入力したemailアドレスは無効です!"
+
+msgid "enable"
+msgstr "有効にする"
+
+msgid "enable_anonymous_fora"
+msgstr "ペンネームでの投稿を許可"
+
+msgid "enable_anonymous_fora_desc"
+msgstr "無効にすると掲示板における\"ペンネームでの投稿\"機能は以降機能しなくなります。"
+
+msgid "enable_calendar"
+msgstr "カレンダーを有効"
+
+msgid "enable_comments_export"
+msgstr "コンテントのエクスポートを有効にする"
+
+msgid "enable_course_group_notifications"
+msgstr "グループとコースニュース用の日刊メール"
+
+msgid "enable_course_group_notifications_desc"
+msgstr "有効にすると受講者は日刊ニュースサマリーを購読できます。"
+
+msgid "enable_custom_icons"
+msgstr "カスタムアイコンを有効"
+
+msgid "enable_custom_icons_info"
+msgstr "これにより、単一のコンテナオブジェクトとコンテンツページオブジェクトに対してカスタムアイコンを定義することができます。これらのオブジェクトのプロパティセクションでは、画像アップロードダイアログが提供されます。"
+
+msgid "enable_dnd_upload"
+msgstr "ドラッグアンドドロップアップロードを有効にする"
+
+msgid "enable_dnd_upload_info"
+msgstr "有効にするとローカルコンピュータからドラッグアンドドロップでファイルをアップロードできます。"
+
+msgid "enable_download_folder"
+msgstr "ダウンロード用のフォルダを有効"
+
+msgid "enable_download_folder_info"
+msgstr "フォルダーのアクションドロップダウンに「ダウンロード」オプションを追加します。"
+
+msgid "enable_export_scorm_desc"
+msgstr "プロトコルデータ（SCORM）における個人データの表示"
+
+msgid "enable_fora_statistics"
+msgstr "フォーラムの統計を有効にする"
+
+msgid "enable_fora_statistics_desc"
+msgstr "無効にするとフォーラム統計へ誰もアクセスできなくなります。"
+
+msgid "enable_hide_user_toggle"
+msgstr "メンバーは利用解除できません"
+
+msgid "enable_multi_download"
+msgstr "≪複数オブジェクトのダウンロード≫有効化"
+
+msgid "enable_multi_download_info"
+msgstr "複数フォルダ/ファイルがzipアーカイブとしてダウンロードすることが選択できるようにします。"
+
+msgid "enable_password_assistance"
+msgstr "パスワード支援を有効にする"
+
+msgid "enable_preview"
+msgstr "プレビューを有効にする"
+
+msgid "enable_preview_info"
+msgstr "サポートされているファイルタイプのプレビューイメージ表示オプションを有効にします。"
+
+msgid "enable_repository_dnd_upload"
+msgstr "リポジトリ内を有効にする"
+
+msgid "enable_repository_dnd_upload_info"
+msgstr "このオブジェクトへファイルのアップロードを開始するためにコンピュータから直接リポジトリ内のオブジェクトへファイルがドラッグできるようにします。"
+
+msgid "enable_sahs_protocol_data"
+msgstr "プロトコルデータをオンする"
+
+msgid "enable_sahs_protocol_data_desc"
+msgstr "プロトコルデータ(SCORM/AICC)を表示"
+
+msgid "enable_search_engine"
+msgstr "インターネット検索エンジン(例 Google)用のパブリックエリアをオープン。<br />Apacheモジュール \"mod_rewrite\" が機能拡張に必須です。 .htaccess構成を使用して適切なアクセス許可を設定してください。"
+
+msgid "enable_trash"
+msgstr "ごみ箱機能"
+
+msgid "enable_trash_info"
+msgstr "有効にすると削除されたオブジェクトはゴミ箱へ移動されて後で修復可能です。このオプションを非使用にすると、削除されたオブジェクトは不可逆的に削除されます!"
+
+msgid "enable_webdav"
+msgstr "WebDAVアクセスを有効にする"
+
+msgid "enable_webdav_info"
+msgstr "WebDAVクライアントへwebフォルダとしてリポジトリへアクセスを許可。ユーザはリポジトリの\"webフォルダとしてオープン”を使うかまたはWevDAVクライアントの次のアドレスを入力によりwebフォルダをオープンできます。<a href=\"%1$s\" folder=\"%1$s\">%1$s</a>"
+
+msgid "enabled"
+msgstr "有効"
+
+msgid "enlarge"
+msgstr "拡大"
+
+msgid "enter_in_mb_desc"
+msgstr "MBの値を入力します。"
+
+msgid "enter_new_name"
+msgstr "氏名を入力してください"
+
+msgid "entered_notification"
+msgstr "%s はセッション\"%s\"へ参加しました。"
+
+msgid "entry_status"
+msgstr "Entry status"
+
+msgid "err_1_param"
+msgstr "パラメーターの1つだけ!"
+
+msgid "err_2_param"
+msgstr "パラメーターの2つだけ!"
+
+msgid "err_auth_apache_failed"
+msgstr "認証に失敗しました。有効なユーザ証明書がないかスマート カードが挿入されていない可能性があります。"
+
+msgid "err_auth_ldap_no_ilias_user"
+msgstr "ログインに失敗しました。LDAP認証はできましたが対応するILIASユーザが誰もいません。システム管理者へ連絡してください。"
+
+msgid "err_auth_mode_inactive"
+msgstr "認証方式が使用可能になっていません。"
+
+msgid "err_auth_soap_no_ilias_user"
+msgstr "ログイン失敗しました。SOAP認証はできましたが対応するILIASユーザが誰もいません。システム管理者へ連絡してください。"
+
+msgid "err_check_input"
+msgstr "設定は保存されませんでした。入力を確認してください。"
+
+msgid "err_count_param"
+msgstr "理由：パラメーターカウントの間違い"
+
+msgid "err_disabled"
+msgstr " Shibboleth経由のアカウント作成は無効になっています。以降の情報についてはシステム管理者へコンタクトして下さい。"
+
+msgid "err_double_entries"
+msgstr "理由: 重複エントリー"
+
+msgid "err_in_line"
+msgstr "ライン中のエラー"
+
+msgid "err_inactive"
+msgstr "アカウントが使用可能になっていません。アクセスするにはシステム管理者へ連絡してください。"
+
+msgid "err_inactive_login_attempts"
+msgstr "ログイン回数が失敗回数を大きく超えたためにアカウントは無効になっています。管理者へアカウントの再解除が必要であることを通知するには、このページのフッターに記載されている'テクニカルサポートへコンタクト'をクリックします。"
+
+msgid "err_invalid_port"
+msgstr "無効なポート番号"
+
+msgid "err_no_cookies"
+msgstr "ブラウザのセッションcookieを有効にしてください!"
+
+msgid "err_no_langfile_found"
+msgstr "言語ファイルが見つかりません!"
+
+msgid "err_no_param"
+msgstr "パラメーターがありません!"
+
+msgid "err_over_3_param"
+msgstr "3つ以上のパラメーター!"
+
+msgid "err_role_not_assignable"
+msgstr "ユーザをこのロケーションのこの役割へ割当てることはできません"
+
+msgid "err_session_expired"
+msgstr "セッションは期限を過ぎました!"
+
+msgid "err_valid_login_account_creation_disabled"
+msgstr "認証成功しましたが新規ユーザアカウント作成は現在利用不可です。システム管理者へ連絡して下さい。"
+
+msgid "err_wrong_header"
+msgstr "理由：ヘッダー間違い"
+
+msgid "err_wrong_login"
+msgstr "ユーザ名またはパスワードが間違っています"
+
+msgid "err_wrong_password"
+msgstr "パスワードが間違っています"
+
+msgid "error"
+msgstr "エラー"
+
+msgid "error_empty_file_or_folder"
+msgstr "ファイルサイズが0バイトまたはフォルダです。"
+
+msgid "error_extraction_failed"
+msgstr "ディレクトリとアーカイブの解凍に失敗しました。このオブジェクトのフォルダもしくはカテゴリの作成権限がない可能性があります。"
+
+msgid "error_parser"
+msgstr "パーサー開始のエラーです。"
+
+msgid "error_upload_was_zero_bytes"
+msgstr "これはファイルサイズ0バイトもしくはファイル名が途中で変更されたフォルダなのでアップロードに失敗しました。"
+
+msgid "etal_talks"
+msgstr "トーク"
+
+msgid "event_ass_materials_prop"
+msgstr "セッション教材"
+
+msgid "event_assign_files"
+msgstr "ファイル割当て"
+
+msgid "exc"
+msgstr "演習問題"
+
+msgid "exc_add"
+msgstr "演習問題を追加"
+
+msgid "exc_added"
+msgstr "演習問題追加"
+
+msgid "exc_date_not_valid"
+msgstr "日付まちがい"
+
+msgid "exc_deassign_members"
+msgstr "メンバーを削除"
+
+msgid "exc_download_files"
+msgstr "ファイルをダウンロード"
+
+msgid "exc_edit"
+msgstr "新しい演習問題の作成"
+
+msgid "exc_edit_exercise"
+msgstr "演習問題を編集"
+
+msgid "exc_edit_until"
+msgstr "編集期限"
+
+msgid "exc_exercise_sent"
+msgstr "演習問題送信"
+
+msgid "exc_files"
+msgstr "ファイル"
+
+msgid "exc_files_returned"
+msgstr "提出したファイル"
+
+msgid "exc_instruction"
+msgstr "実施要領"
+
+msgid "exc_last_submission"
+msgstr "前回提出"
+
+msgid "exc_member_of_crs_grp"
+msgstr "Course/Groupメンバー"
+
+msgid "exc_members_already_assigned"
+msgstr "これらのユーザはすでにこの演習問題に割当て済です"
+
+msgid "exc_members_assigned"
+msgstr "メンバーの割当て"
+
+msgid "exc_members_comments_saved"
+msgstr "選択したユーザの演習問題コメントを保存しました"
+
+msgid "exc_new"
+msgstr "新しい演習問題"
+
+msgid "exc_next_deadline"
+msgstr "次の期限"
+
+msgid "exc_obj"
+msgstr "演習問題"
+
+msgid "exc_save_changes"
+msgstr "保存"
+
+msgid "exc_schedule"
+msgstr "スケジュール"
+
+msgid "exc_select_one_file"
+msgstr "正確に一つファイルを選択してください。"
+
+msgid "exc_sent"
+msgstr "選択したユーザへ演習問題は送信されました"
+
+msgid "exc_sent_at"
+msgstr "送信時間<br />%s"
+
+msgid "exc_status"
+msgstr "ステータス"
+
+msgid "exc_status_saved"
+msgstr "演習問題の更新"
+
+msgid "exc_submission"
+msgstr "提出"
+
+msgid "exc_time_over_short"
+msgstr "時間を過ぎています。"
+
+msgid "exc_time_to_send"
+msgstr "解答残り時間"
+
+msgid "exc_upload_error"
+msgstr "アップロードファイルのエラー"
+
+msgid "excs"
+msgstr "演習問題"
+
+msgid "execute"
+msgstr "実行"
+
+msgid "exercise_time_over"
+msgstr "この演習問題解答の制限時間を過ぎています。 ファイルを送信することはできません!"
+
+msgid "expand"
+msgstr "展開"
+
+msgid "expand_all"
+msgstr "全てを展開"
+
+msgid "expand_content"
+msgstr "コンテンツを展開"
+
+msgid "expanded"
+msgstr "展開済"
+
+msgid "export"
+msgstr "エクスポート"
+
+msgid "export_format"
+msgstr "エクスポート形式"
+
+msgid "export_html"
+msgstr "HTMLファイルとしてエクスポート"
+
+msgid "ext_cat_settings"
+msgstr "詳細カテゴリ設定を編集"
+
+msgid "ext_link"
+msgstr "リンク"
+
+msgid "extracting"
+msgstr "解凍中…"
+
+msgid "eyeclosed"
+msgstr "目を閉じる - クリックして入力のコンテンツを非表示"
+
+msgid "eyeopened"
+msgstr "目を開ける - クリックして入力のコンテンツを開示"
+
+msgid "failure_message"
+msgstr "失敗メッセージ"
+
+msgid "fax"
+msgstr "Fax"
+
+msgid "feed"
+msgstr "Webフィード"
+
+msgid "feedback"
+msgstr "フィードバック"
+
+msgid "field_name"
+msgstr "フィールド名"
+
+msgid "field_type"
+msgstr "フィールドタイプ"
+
+msgid "file"
+msgstr "ファイル"
+
+msgid "file_add"
+msgstr "ファイルをアップロード"
+
+msgid "file_add_and_metadata"
+msgstr "ファイルのアップロードとメタデータ編集"
+
+msgid "file_added"
+msgstr "ファイルはアップロードされました"
+
+msgid "file_allowed_suffixes"
+msgstr "対応ファイル形式"
+
+msgid "file_confirm_delete_all_versions"
+msgstr "全てのファイルバージョンを選択しました。全ファイルオブジェクトが削除されます。実行しますか?"
+
+msgid "file_confirm_delete_versions"
+msgstr "本当に以下のファイルバージョンを削除しますか?"
+
+msgid "file_created"
+msgstr "ファイルが追加されました。"
+
+msgid "file_edit"
+msgstr "ファイルを編集"
+
+msgid "file_info"
+msgstr "ファイル情報"
+
+msgid "file_is_infected"
+msgstr "ファイルはウィルスに感染しています。"
+
+#, fuzzy
+msgid "file_new"
+msgstr "New File"
+
+msgid "file_no_valid_file_type"
+msgstr "このファイルタイプは受付できません。"
+
+msgid "file_not_found"
+msgstr "ファイルが見つかりません"
+
+msgid "file_not_found_sec"
+msgstr "このファイルは見つからないかセキュリティ上の理由でブロックされました。"
+
+msgid "file_not_valid"
+msgstr "ファイルは無効!"
+
+msgid "file_notice"
+msgstr "画像ファイルの最大サイズ"
+
+msgid "file_objects"
+msgstr "ファイルオブジェクト"
+
+msgid "file_rollback"
+msgstr "これを最新バージョンにする"
+
+msgid "file_rollback_done"
+msgstr "このファイルバージョン%sが現在の最新バージョンです。"
+
+msgid "file_rollback_select_exact_one"
+msgstr "一つのファイルバージョンだけが最新版作成用に選択できます。"
+
+msgid "file_some_invalid_file_types_removed"
+msgstr "ファイルタイプには受け付けられないものがあり削除されます。"
+
+msgid "file_suffix_repl"
+msgstr "ファイル アップロードサフィックス変換"
+
+msgid "file_suffix_repl_info"
+msgstr "(カンマで区切られた)これらのサッフィクスで終わるファイルはWebアップロードされるとサフィックス\".sec\"へ名前変換されます。サフィックスの初期設定として処理されるもの:"
+
+msgid "file_system_clean_temp_dir_cron"
+msgstr "temp directoryをクリーニング"
+
+msgid "file_system_clean_temp_dir_cron_info"
+msgstr "このjobは10日以上経過したtemp directory内のファイルをクリーニングします。これは未使用ファイルの累積を防ぎ結果的にtemp directoryのディスクスペースの増加につながります。"
+
+msgid "file_updated"
+msgstr "ファイルが更新されました。"
+
+msgid "file_upload_pending"
+msgstr "保留ファイル"
+
+msgid "file_valid"
+msgstr "ファイルは有効!"
+
+msgid "file_version"
+msgstr "ファイルへ提供されているバージョン"
+
+msgid "file_version_create"
+msgstr "初期バージョン"
+
+msgid "file_version_intermediate_version"
+msgstr "中間バージョン"
+
+msgid "file_version_new_version"
+msgstr "新バージョン"
+
+msgid "file_version_published_version"
+msgstr "告知バージョン"
+
+msgid "file_version_replace"
+msgstr "全バージョンが更新されました"
+
+msgid "file_version_rollback"
+msgstr "%sから%sへバージョンをロールバック"
+
+msgid "file_versions_deleted"
+msgstr "選択されたファイルバージョンは正しく削除されました。"
+
+msgid "filename"
+msgstr "ファイル名"
+
+msgid "filename_extension_missing"
+msgstr "ファイル名の拡張子の欠落"
+
+msgid "filename_hidden_backup_file"
+msgstr "隠しバックアップ ファイル"
+
+msgid "filename_hidden_unix_file"
+msgstr "隠しUnix ファイル"
+
+msgid "filename_interoperability"
+msgstr "相互利用"
+
+msgid "filename_special_characters"
+msgstr "文字のせいです/ このオブジェクトはWebフォルダ内では見えません"
+
+msgid "filename_special_filename"
+msgstr "名前付きオブジェクト. や.. はWebフォルダ内では見せません"
+
+msgid "filename_visibility"
+msgstr "表示する・しない"
+
+msgid "filename_windows_empty_extension"
+msgstr "名前の終わりにピリオド\".\"が使用されているためこのオブジェクトはWindows Webフォルダ内では表示されません。"
+
+msgid "filename_windows_special_characters"
+msgstr " \\ /： * ? \" < > | のような文字が使用されているためWindows webフォルダ内には表示されません"
+
+msgid "filename_windows_webdav_issue"
+msgstr "文字# が使用されているためのオブジェクトはWindows　Webフォルダ内では表示されません"
+
+msgid "files"
+msgstr "ファイル"
+
+msgid "filesize"
+msgstr "ファイルサイズ"
+
+msgid "filetype"
+msgstr "ファイルタイプ"
+
+msgid "fill_out_all_required_fields"
+msgstr "全ての必須項目を記入してください"
+
+msgid "filter"
+msgstr "フィルタ"
+
+msgid "filter_users_with_access"
+msgstr "アクセスのあるユーザのみ"
+
+msgid "filter_users_with_disk_usage"
+msgstr "ディスクスペースを使用しているユーザのみ"
+
+msgid "filter_users_without_access"
+msgstr "アクセスしていないユーザのみ"
+
+msgid "filter_users_without_disk_usage"
+msgstr "ディスクスペースを使用していないユーザのみ"
+
+msgid "first"
+msgstr "最初"
+
+msgid "firstname"
+msgstr "名"
+
+msgid "flatview"
+msgstr "サイドバーを非表示"
+
+msgid "fold"
+msgstr "フォルダ"
+
+msgid "fold_add"
+msgstr "フォルダを追加"
+
+msgid "fold_added"
+msgstr "フォルダの追加"
+
+msgid "fold_copy_threads_info"
+msgstr "どの材料をコピー、リンク、省略するか確定してください。"
+
+msgid "fold_edit"
+msgstr "フォルダを編集"
+
+msgid "fold_new"
+msgstr "新規フォルダ"
+
+msgid "fold_wizard_page"
+msgstr "フォルダをコピー(Step 2/2)"
+
+msgid "folder"
+msgstr "フォルダ"
+
+msgid "folders"
+msgstr "フォルダ"
+
+msgid "follow_link_to_read_mails"
+msgstr "メールを読むには次のリンクをクリック:"
+
+msgid "forgot_password"
+msgstr "パスワードを忘れた場合は?"
+
+msgid "forgot_username"
+msgstr "ユーザIDを忘れた場合は?"
+
+msgid "form_input_not_valid"
+msgstr "データの一部が未入力もしくは間違っています。フォーム入力を訂正してください。"
+
+msgid "forum"
+msgstr "フォーラム"
+
+msgid "forum_direct_notification"
+msgstr "直接通知"
+
+msgid "forum_notify_me"
+msgstr "返信が投稿されたら通知する"
+
+msgid "forum_post_replied"
+msgstr "フォーラムのエントリーが返信されました。"
+
+msgid "forums"
+msgstr "フォーラム"
+
+msgid "forums_anonymized"
+msgstr "匿名化フォーラム"
+
+msgid "forums_anonymous"
+msgstr "匿名者"
+
+msgid "forums_articles"
+msgstr "記事"
+
+msgid "forums_closed"
+msgstr "クローズ"
+
+msgid "forums_disable_forum_notification"
+msgstr "このフォーラムの通知を無効"
+
+msgid "forums_enable_forum_notification"
+msgstr "このフォーラムの通知を有効"
+
+msgid "forums_forum_notification_enabled"
+msgstr "このフォーラムへの新規メッセージが通知されます。"
+
+msgid "forums_last_post"
+msgstr "最新記事"
+
+msgid "forums_last_posting_asc"
+msgstr "最終投稿昇順"
+
+msgid "forums_last_posting_dsc"
+msgstr "最終投稿降順"
+
+msgid "forums_notification_settings"
+msgstr "フォーラム通知設定"
+
+msgid "forums_rating_asc"
+msgstr "評価昇順"
+
+msgid "forums_rating_dsc"
+msgstr "評価降順"
+
+msgid "forums_thread_sorting_asc"
+msgstr "スレッドタイトル A→Z"
+
+msgid "forums_thread_sorting_dsc"
+msgstr "スレッドタイトル Z→A"
+
+msgid "forums_threads"
+msgstr "トピックス"
+
+msgid "forums_use_alias"
+msgstr "投稿にペンネームを使う事ができます。この欄を空欄にすると投稿は'匿名者'と記入されます。"
+
+msgid "forums_your_name"
+msgstr "名前"
+
+msgid "frm"
+msgstr "フォーラム"
+
+msgid "frm_add"
+msgstr "フォーラムを追加"
+
+msgid "frm_added"
+msgstr "フォーラムの追加"
+
+msgid "frm_edit"
+msgstr "フォーラムを編集"
+
+msgid "frm_import"
+msgstr "掲示板をインポート"
+
+msgid "frm_latest_postings"
+msgstr "最新記事"
+
+#, fuzzy
+msgid "frm_latest_postings_block"
+msgstr "Latest Posts Block"
+
+msgid "frm_new"
+msgstr "新規フォーラム"
+
+msgid "frm_no_threads"
+msgstr "このドキュメントには利用可能なスレッドがありません。"
+
+msgid "from"
+msgstr "From"
+
+msgid "fullname"
+msgstr "フルネーム"
+
+msgid "functions"
+msgstr "機能"
+
+msgid "further_informations"
+msgstr "詳細"
+
+msgid "gdf_add"
+msgstr "定義を追加"
+
+msgid "gdf_new"
+msgstr "新定義"
+
+msgid "gender"
+msgstr "性別"
+
+msgid "gender_f"
+msgstr "Ms."
+
+msgid "gender_m"
+msgstr "Mr."
+
+msgid "gender_n"
+msgstr "性別非表示"
+
+msgid "general"
+msgstr "全般"
+
+msgid "general_settings"
+msgstr "全般設定"
+
+msgid "generate"
+msgstr "生成"
+
+msgid "ghostscript_not_configured"
+msgstr "Ghostscriptが構成されていません。構成するには<a href=\"setup/setup.php?cmd=mastersettings\" target=\"_blank\">Setup</a>を開いてください。"
+
+msgid "glo"
+msgstr "用語集"
+
+msgid "glo_add"
+msgstr "用語集を追加"
+
+msgid "glo_added"
+msgstr "用語集の追加"
+
+msgid "glo_import"
+msgstr "用語集をインポート"
+
+msgid "glo_mode"
+msgstr "モード"
+
+msgid "glo_mode_desc"
+msgstr "バーチャル用語集は通常の用語集のように動作します。また、バーチャル用語集(サブツリー）の位置からリポジトリの下位方向にある全ての用語集のバーチャル用語集(レベル)リポジトリのようなリポシトリの同一レベルにある全ての用語集の用語を含みます"
+
+msgid "glo_mode_normal"
+msgstr "ノーマル"
+
+msgid "glo_new"
+msgstr "新しい用語集"
+
+msgid "global"
+msgstr "グローバル"
+
+msgid "global_default"
+msgstr "グローバル 初期設定"
+
+msgid "global_fixed"
+msgstr "グローバル固定"
+
+msgid "global_role_assignment"
+msgstr "グローバル役割"
+
+msgid "global_settings"
+msgstr "グローバル設定"
+
+msgid "global_user"
+msgstr "グローバルユーザ"
+
+msgid "glossaries"
+msgstr "用語集"
+
+msgid "glossary"
+msgstr "用語集"
+
+msgid "go"
+msgstr "Go"
+
+msgid "grade"
+msgstr "学年"
+
+msgid "group"
+msgstr "グループ"
+
+msgid "group_members"
+msgstr "グループメンバー"
+
+msgid "group_name"
+msgstr "グループ名"
+
+msgid "group_new_registrations"
+msgstr "参加リクエスト"
+
+msgid "group_password_registration_msg"
+msgstr "グループパスワードを知っている場合はグループへ参加できます。パスワードがわからない場合はグループ管理者へ連絡してください。"
+
+msgid "group_registration"
+msgstr "登録"
+
+msgid "group_registration_mode"
+msgstr "登録手順"
+
+msgid "group_registration_time"
+msgstr "登録期限"
+
+msgid "group_req_direct"
+msgstr "直接参加"
+
+msgid "group_req_registration_msg"
+msgstr "このグループのメンバーシップを要求できます。グループ管理者がリクエストに対して承認もしくは拒否するとメッセージを受信します。"
+
+msgid "group_status"
+msgstr "グループです"
+
+msgid "groupings"
+msgstr "メンバーシップの制限"
+
+msgid "groupings_assigned_obj_crs"
+msgstr "割当てたコース"
+
+msgid "groupings_assigned_obj_grp"
+msgstr "割当てたグループ"
+
+msgid "groupings_source"
+msgstr "Source"
+
+msgid "groups"
+msgstr "グループ"
+
+msgid "grp"
+msgstr "グループ"
+
+msgid "grp_add"
+msgstr "グループを追加"
+
+msgid "grp_added"
+msgstr "グループ追加"
+
+msgid "grp_btn_unsubscribe"
+msgstr "グループから登録削除"
+
+msgid "grp_cancel_waiting_list"
+msgstr "本当にグループ\"%s\"の待ちリストから自身を削除しますか?"
+
+msgid "grp_copy_threads_info"
+msgstr "どの教材をコピー、リンクもしくは省略するか決定してください。"
+
+msgid "grp_deleted_export_files"
+msgstr "選択したファイルを削除."
+
+msgid "grp_dismiss_member"
+msgstr "本当にグループから次のメンバーを外しますか?"
+
+msgid "grp_dismiss_myself"
+msgstr "本当にグループから削除しますか?"
+
+msgid "grp_edit"
+msgstr "グループを編集"
+
+msgid "grp_err_administrator_required"
+msgstr "メンバーは削除できません。グループに対して管理者が一人は必要です!"
+
+msgid "grp_header_edit_members"
+msgstr "メンバーを編集"
+
+msgid "grp_list_members"
+msgstr "メンバーを一覧表示"
+
+msgid "grp_list_reg"
+msgstr "登録"
+
+msgid "grp_list_reg_end"
+msgstr "登録終了日時"
+
+msgid "grp_list_reg_limit_full"
+msgstr "空席なし"
+
+msgid "grp_list_reg_limit_places"
+msgstr "空席あり"
+
+msgid "grp_list_reg_noreg"
+msgstr "自己登録不可"
+
+msgid "grp_list_reg_period"
+msgstr "登録期間"
+
+msgid "grp_list_reg_start"
+msgstr "登録開始"
+
+msgid "grp_list_users"
+msgstr "ユーザをリスト"
+
+msgid "grp_mem_change_status"
+msgstr "参加者のステータスを変更"
+
+msgid "grp_mem_send_mail"
+msgstr "メンバーへメッセージを送る"
+
+msgid "grp_members_gallery"
+msgstr "グループメンバーギャラリー"
+
+msgid "grp_msg_applicants_assigned"
+msgstr "グループメンバーとして割当てられた応募者"
+
+msgid "grp_msg_member_assigned"
+msgstr "ユーザはグループメンバーへ割当てられました"
+
+msgid "grp_msg_membership_annulled"
+msgstr "メンバーシップをキャンセルしました。"
+
+msgid "grp_new"
+msgstr "新規グループ"
+
+msgid "grp_registration"
+msgstr "グループへ参加"
+
+msgid "grp_registration_completed"
+msgstr "グループへ参加しました"
+
+msgid "grp_removed_from_waiting_list"
+msgstr "グループ \"%s\"の待ちリストから外されました。"
+
+msgid "grp_select_one_file"
+msgstr "一つファイルを選択してください。"
+
+msgid "grp_wizard_page"
+msgstr "コピーグループ(Step 2/2)"
+
+msgid "grpr"
+msgstr "Group Link"
+
+msgid "grpr_add"
+msgstr "Group Linkを追加"
+
+msgid "grpr_edit"
+msgstr "Group Linkを編集"
+
+msgid "grpr_edit_info"
+msgstr "新しいGroup Link用にグループを一つ選択してください。"
+
+msgid "grpr_new"
+msgstr "Group Linkを作成"
+
+msgid "grpr_settings"
+msgstr "Group Link設定"
+
+msgid "header_action"
+msgstr "ヘッダー挿入 - クリックしてヘッダ挿入"
+
+msgid "header_searchable"
+msgstr "検索可能"
+
+msgid "header_title"
+msgstr "ヘッダータイトル"
+
+msgid "header_visible_registration"
+msgstr "登録の表示"
+
+msgid "header_zip"
+msgstr "Zipアーカイブとして複数ファイルをアップロード"
+
+msgid "height"
+msgstr "高さ"
+
+msgid "help"
+msgstr "ヘルプ"
+
+msgid "hide"
+msgstr "非表示"
+
+msgid "hide_all_details"
+msgstr "全ての詳細を非表示"
+
+msgid "hide_details"
+msgstr "詳細を非表示"
+
+msgid "hide_filter"
+msgstr "フィルタを非表示"
+
+msgid "hide_own_online_status"
+msgstr "My Onlineステータスを非表示"
+
+msgid "hide_visible_sections"
+msgstr "詳細&raquo;を非表示"
+
+msgid "hint"
+msgstr "ヒント"
+
+msgid "history"
+msgstr "履歴"
+
+msgid "hobby"
+msgstr "興味/趣味"
+
+msgid "home"
+msgstr "パブリックエリア"
+
+msgid "host"
+msgstr "ホスト"
+
+msgid "hour"
+msgstr "時間"
+
+msgid "hours"
+msgstr "時間"
+
+msgid "htlm"
+msgstr " HTMLラーニングモジュール"
+
+msgid "htlm_add"
+msgstr "HTMLラーニングモジュールを追加"
+
+msgid "htlm_new"
+msgstr "New HTMLラーニングモジュール"
+
+msgid "http"
+msgstr "HTTP"
+
+msgid "http_not_possible"
+msgstr "このサーバーはhttpsリクエストをサポートしていません。"
+
+msgid "http_path"
+msgstr "Http Path"
+
+msgid "https_not_possible"
+msgstr "このサーバーはHTTPSコネクションをサポートしていません。"
+
+msgid "i2passwd"
+msgstr "ILIAS 2 password"
+
+msgid "iass_import"
+msgstr "個別アセスメントをインポート"
+
+msgid "iass_new"
+msgstr "個別アセスメントを作成"
+
+msgid "icon"
+msgstr "アイコン"
+
+msgid "icon_settings"
+msgstr "アイコン設定"
+
+msgid "id"
+msgstr "ID"
+
+msgid "identifier"
+msgstr "識別子"
+
+msgid "if_no_title_then_filename"
+msgstr "タイトルとしてファイル名を使用するには空白にします。"
+
+msgid "ignore_on_conflict"
+msgstr "競合を無視"
+
+msgid "ignore_required_fields"
+msgstr "要求フィールドを無視"
+
+msgid "ignore_required_fields_info"
+msgstr "アクティブにすると、全必須フィールドを記入しなくても提出する事ができます。新規ユーザは次回ログオン後にパーソナルプロファイル内の不足情報を追記する必要があります。"
+
+msgid "il_astpl_loc_initial"
+msgstr "初期テスト"
+
+msgid "il_astpl_loc_qualified"
+msgstr "資格テスト"
+
+msgid "il_blog_contributor"
+msgstr "ブログ著者"
+
+msgid "il_blog_editor"
+msgstr "ブログ編集者"
+
+msgid "il_chat_moderator"
+msgstr "Chat Moderator"
+
+msgid "il_crs_admin"
+msgstr "Course Administrator"
+
+msgid "il_crs_member"
+msgstr "Course Member"
+
+msgid "il_crs_non_member"
+msgstr "Course non-member"
+
+msgid "il_crs_tutor"
+msgstr "Course Tutor"
+
+msgid "il_frm_moderator"
+msgstr "Forum moderator"
+
+msgid "il_grp_admin"
+msgstr "Group Administrator"
+
+msgid "il_grp_member"
+msgstr "Group Member"
+
+msgid "il_grp_status_closed"
+msgstr "Group closed"
+
+msgid "il_grp_status_open"
+msgstr "Group open"
+
+msgid "il_iass_member"
+msgstr "個別アセスメント受験者"
+
+msgid "il_lso_admin"
+msgstr "Learning Sequence Admin"
+
+msgid "il_lso_member"
+msgstr "Learning Sequence Member"
+
+msgid "il_lti_instructor"
+msgstr "LTI Instructor"
+
+msgid "il_lti_learner"
+msgstr "LTI 学習者"
+
+msgid "il_lti_user"
+msgstr "LTI User"
+
+msgid "il_orgu_employee"
+msgstr "従業員"
+
+msgid "il_orgu_superior"
+msgstr "上司"
+
+msgid "ilias_version"
+msgstr "ILIAS version"
+
+msgid "image"
+msgstr "イメージ"
+
+msgid "import"
+msgstr "インポート"
+
+msgid "import_cat_localrol"
+msgstr "それぞれの新カテゴリのローカル役割を作成"
+
+msgid "import_cat_table"
+msgstr "チェックボックスがオンの場合のみ次の表は意味を持つ"
+
+msgid "import_categories"
+msgstr "インポートカテゴリ"
+
+msgid "import_failure_log"
+msgstr "失敗ログのインポート"
+
+msgid "import_file"
+msgstr "インポートファイル"
+
+msgid "import_file_not_valid_here"
+msgstr "重要ファイルが無効もしくは、含まれたオブジェクトタイプがここへインポートできません。"
+
+msgid "import_finished"
+msgstr "インポートしたメッセージの数です。"
+
+msgid "import_lm"
+msgstr "ILIAS ラーニングモジュールをインポート"
+
+msgid "import_qpl"
+msgstr "テスト問題集をインポート"
+
+msgid "import_questions_into_qpl"
+msgstr "問題集への問題をインポート"
+
+msgid "import_sahs"
+msgstr "SCORM/AICCパッケージをインポート"
+
+msgid "import_sahs_info"
+msgstr "タイプまたはイメージを修正するにはファイルディレクトリ経由で個別ファイルを入れ替えるためにオプションを使用します。ILIASエクスポートファイルではなくここでオーサリングツールからSCORMをエクスポートしてuploadします。ManifestファイルのIDを保持するオーサリングツールであることを確認。注意: 汎用のオーサリングツールは使用できません。問題回答数変更や新規問題挿入をすると、SCORM学習モジュールのようなオーサリングツールは学習者の含まれるデータを破棄します。開始済の学習モジュールが再度呼び込まれた際の達成済の学習状況可能性を確認できるかどうかテストシステムで確認。"
+
+msgid "import_sahs_new"
+msgstr "新しいバージョンのSCORMパッケージをインポート"
+
+msgid "import_svy"
+msgstr "サーベイをインポート"
+
+msgid "import_tst"
+msgstr "テストをインポート"
+
+msgid "import_users"
+msgstr "ユーザをインポート"
+
+msgid "import_warning_log"
+msgstr "警告ログをインポート"
+
+msgid "important"
+msgstr "重要"
+
+msgid "imported"
+msgstr "インポートされました"
+
+msgid "imprint"
+msgstr "Legal Notice"
+
+msgid "in"
+msgstr "in"
+
+msgid "in_use"
+msgstr "ユーザ言語"
+
+msgid "in_use_by"
+msgstr "使用者"
+
+msgid "inactive"
+msgstr "非アクティブ"
+
+msgid "inbox"
+msgstr "受信トレイ"
+
+msgid "include_local"
+msgstr "言語更新時にローカル言語ファイルを含める"
+
+msgid "info"
+msgstr "インフォメーション"
+
+msgid "info_access_and_status_info"
+msgstr "アクセス権限と状況詳細"
+
+msgid "info_access_permissions"
+msgstr "アクセス権限"
+
+msgid "info_activate_sure"
+msgstr "本当にアクティブユーザとして次のユーザのアクセスを許可しますか?"
+
+msgid "info_assign_sure"
+msgstr "本当に次のユーザを割当てますか?"
+
+msgid "info_assigned"
+msgstr "割当て"
+
+msgid "info_available_roles"
+msgstr "利用可能な役割"
+
+msgid "info_change_user_view"
+msgstr "ユーザを変更"
+
+msgid "info_deactivate_sure"
+msgstr "本当に次のアクティブユーザのアクセスを禁止しますか?"
+
+msgid "info_delete_sure"
+msgstr "本当に次のアイテムを削除しますか?"
+
+msgid "info_delete_warning_no_trash"
+msgstr "(警告： 選択されたオブジェクトはシステムから完全に削除されて元に戻す事はできなくなります!)"
+
+msgid "info_deleted"
+msgstr "オブジェクトを削除しました"
+
+msgid "info_err_user_not_exist"
+msgstr "そのログイン名のユーザまたはユーザIDは見つかりません"
+
+msgid "info_from_role"
+msgstr "割当て済みの役割/オーナーシップ"
+
+msgid "info_is_member"
+msgstr "ユーザはメンバーです"
+
+msgid "info_is_not_member"
+msgstr "ユーザはメンバーではありません"
+
+msgid "info_message"
+msgstr "インフォメーションメッセージ"
+
+msgid "info_not_assigned"
+msgstr "割当てられていません"
+
+msgid "info_owner_of_object"
+msgstr "オブジェクトのオーナー"
+
+msgid "info_permission_origin"
+msgstr "オリジナルのポジション"
+
+msgid "info_permission_source"
+msgstr "有効元"
+
+msgid "info_remark_interrupted"
+msgstr "役割を示す位置です。有効な役割のアクセス権限初期設定です。"
+
+msgid "info_remove_sure"
+msgstr "次のアイテムを本当に削除しますか?"
+
+msgid "info_short"
+msgstr "Info"
+
+msgid "info_status_info"
+msgstr "ユーザのアクセス権"
+
+msgid "info_view_of_user"
+msgstr "ユーザ"
+
+msgid "inform_user_mail"
+msgstr "変更情報をメールで通知"
+
+msgid "inline_file_extensions"
+msgstr "Web-有効化ファイル"
+
+msgid "inline_file_extensions_info"
+msgstr "これらの拡張子のファイルはブラウザのウィンドウに表示されます。<br/>例 <b>gif jpg mp3 pdf png</b><br/>その他のファイルはダウンロード用に使用されます。"
+
+msgid "insert"
+msgstr "挿入"
+
+msgid "insert_object_here"
+msgstr "ここにオブジェクトを挿入"
+
+msgid "inst_id"
+msgstr "インストレーションID"
+
+msgid "inst_info"
+msgstr "インストレーションInfo"
+
+msgid "inst_name"
+msgstr "インストレーション名"
+
+msgid "install"
+msgstr "インストール"
+
+msgid "install_local"
+msgstr "ローカル(組織固有)をインストール"
+
+msgid "installation_status"
+msgstr "Installation Status"
+
+msgid "installed"
+msgstr "インストール済"
+
+msgid "installed_local"
+msgstr "ローカル(組織固有)をインストール"
+
+msgid "instant_messengers"
+msgstr "インスタントメッセージ"
+
+msgid "institution"
+msgstr "学校名"
+
+msgid "internal_local_roles_only"
+msgstr "ローカル役割 (自動作成のみ)"
+
+msgid "invalid_visible_required_options_selected"
+msgstr "設定が必須の全ての欄は登録時に表示されるようにする事も必要です。"
+
+msgid "invisible_block"
+msgstr "非表示のブロック"
+
+msgid "invisible_block_mess"
+msgstr "このブロックを見るアクセス権限がありません。"
+
+msgid "ip_address"
+msgstr "IPアドレス"
+
+msgid "is_already_your"
+msgstr "既に"
+
+msgid "italic_action"
+msgstr "イタリックを挿入- クリックしてイタリック文字を挿入"
+
+msgid "item"
+msgstr "アイテム"
+
+msgid "itgr_add"
+msgstr "アイテムグループを追加"
+
+msgid "itgr_new"
+msgstr "新規アイテムグループ"
+
+#, fuzzy
+msgid "java_server"
+msgstr "PDF Configuration"
+
+msgid "java_server_host"
+msgstr "ホスト"
+
+#. Needs to be adapted to new content of German lang file.
+msgid "java_server_info"
+msgstr "オンするとPDFやHTML ファイルとHTML-ラーニングモジュールの検索が可能です。"
+
+msgid "java_server_port"
+msgstr "ポート"
+
+msgid "java_server_readme"
+msgstr "セットアップ情報"
+
+msgid "join"
+msgstr "参加"
+
+msgid "join_session"
+msgstr "参加"
+
+msgid "kb"
+msgstr "KByte"
+
+msgid "keywords"
+msgstr "キーワード"
+
+msgid "label_search_options"
+msgstr "検索エリア"
+
+msgid "lang_dateformat"
+msgstr "Y-m-d"
+
+msgid "lang_path"
+msgstr "言語Path"
+
+msgid "lang_refresh_confirm"
+msgstr "本当に全ての言語を更新しますか?"
+
+msgid "lang_refresh_confirm_info"
+msgstr "拡張言語メンテナンスは現在使用可能です。言語を更新するとILIASのグローバル言語ファイルと設定によってはCustomizingディレクトリからローカル言語ファイルがデータベースへ読込まれます。ローカル言語ファイルが保存された日よりも古い変更は、ローカル言語ファイルで全て手動で上書きされます。"
+
+msgid "lang_refresh_confirm_selected"
+msgstr "本当に選択した言語を更新しますか?"
+
+msgid "lang_sep_decimal"
+msgstr "."
+
+msgid "lang_sep_thousand"
+msgstr ","
+
+msgid "lang_size_bytes"
+msgstr "bytes"
+
+msgid "lang_size_gb"
+msgstr "GB"
+
+msgid "lang_size_kb"
+msgstr "KB"
+
+msgid "lang_size_mb"
+msgstr "MB"
+
+msgid "lang_timeformat"
+msgstr "H:i:s"
+
+msgid "lang_timeformat_no_sec"
+msgstr "H:i"
+
+msgid "lang_uninstall_changes"
+msgstr "ローカル変更をアンインストール"
+
+msgid "lang_uninstall_changes_confirm"
+msgstr "選択した言語の全てのローカル変更と結果を現在のILIASバージョン既定値へ本当にクリヤしますか?"
+
+msgid "lang_uninstall_confirm"
+msgstr "選択した減をを本当にアンインストールしますか?"
+
+msgid "langfile_found"
+msgstr "言語ファイルが見つかりました"
+
+msgid "language"
+msgstr "言語"
+
+msgid "language_not_installed"
+msgstr "はインストールされていません。最初にその言語をインストールしてください"
+
+msgid "languages"
+msgstr "言語"
+
+msgid "languages_already_installed"
+msgstr "選択した言語は既にインストールされています"
+
+msgid "languages_already_uninstalled"
+msgstr "選択した言語は既にアンインストールされています"
+
+msgid "languages_updated"
+msgstr "すべてのインストールされた言語は更新されています"
+
+msgid "last_access"
+msgstr "最終アクセス"
+
+msgid "last_change"
+msgstr "最終変更"
+
+msgid "last_edited_on"
+msgstr "最終編集"
+
+msgid "last_login"
+msgstr "前回ログイン"
+
+msgid "last_refresh"
+msgstr "前回リフレッシュ"
+
+msgid "last_reminder"
+msgstr "前回注意喚起"
+
+msgid "last_update"
+msgstr "前回更新"
+
+msgid "last_visited"
+msgstr "前回訪問"
+
+msgid "lastname"
+msgstr "姓"
+
+msgid "latex_edit_info"
+msgstr "LaTeXコードはデリミタ<code>[tex]</code>と<code>[/tex]</code>の間に入力できます。"
+
+msgid "laugh"
+msgstr "Laugh"
+
+msgid "launch"
+msgstr "着手"
+
+msgid "ldap"
+msgstr "LDAP"
+
+msgid "ldap_basedn"
+msgstr "LDAPベースDN"
+
+msgid "ldap_configure"
+msgstr "LDAP認証の構成"
+
+msgid "ldap_port"
+msgstr "LDAPポート"
+
+msgid "ldap_read"
+msgstr "LDAP設定を読み込む"
+
+msgid "ldap_server"
+msgstr "LDAPサーバーURL"
+
+msgid "ldap_tls"
+msgstr "LDAP TLSを使用"
+
+msgid "ldap_version"
+msgstr "LDAPプロトコルバージョン"
+
+msgid "learning module"
+msgstr "ラーニングモジュール"
+
+msgid "learning_progress"
+msgstr "学習進捗"
+
+msgid "leave_waiting_list"
+msgstr "待ちリストから退室"
+
+msgid "legend"
+msgstr "凡例"
+
+msgid "level"
+msgstr "レベル"
+
+msgid "link"
+msgstr "リンク"
+
+msgid "link_action"
+msgstr "リンクを挿入 - クリクウしてリンクを挿入"
+
+msgid "link_all"
+msgstr "全てをリンク"
+
+msgid "link_check"
+msgstr "Webリンクチェック"
+
+msgid "link_check_message_b"
+msgstr "有効にすると不正なリンクがメール通知されます。"
+
+msgid "link_check_message_disabled"
+msgstr "メッセージ停止"
+
+msgid "link_check_message_enabled"
+msgstr "メッセージ開始"
+
+msgid "link_check_subject"
+msgstr "[ILIAS] Webリンクチェック"
+
+msgid "link_checker_refreshed"
+msgstr "リフレッシュ後のビュー"
+
+msgid "link_selected_items"
+msgstr "リンク"
+
+msgid "links_add_param"
+msgstr "パラメーターを追加:"
+
+msgid "links_dyn_parameter"
+msgstr "ダイナミックパラメーター"
+
+msgid "links_dynamic"
+msgstr "ダイナミックWebリンクパラメーター"
+
+msgid "links_dynamic_info"
+msgstr "有効にするにするとダイナミックパラメーターをWebリンクに追加する事が可能になります。<br /> 例　ILIASユーザIDやユーザ名"
+
+msgid "links_existing_params"
+msgstr "既存のパラメーター"
+
+msgid "links_name"
+msgstr "パラメーター名"
+
+msgid "links_no_name_given"
+msgstr "パラメーター名を選択してください"
+
+msgid "links_no_value_given"
+msgstr "パラメーター値を選択してください"
+
+msgid "links_parameter_deleted"
+msgstr "パラメーター削除"
+
+msgid "links_select_one"
+msgstr "- 一つ選択 -"
+
+msgid "links_session_id"
+msgstr "ILIASセッションid"
+
+msgid "links_user_id"
+msgstr "ILIASユーザid"
+
+msgid "links_user_name"
+msgstr "ILIASユーザ名"
+
+msgid "links_value"
+msgstr "パラメーター値"
+
+msgid "list"
+msgstr "List"
+
+msgid "list_of_questions"
+msgstr "問題リスト"
+
+msgid "list_view"
+msgstr "リスト表示"
+
+msgid "listaction_learning_progress_settings"
+msgstr "学習進捗設定"
+
+msgid "lm"
+msgstr "ILIAS ラーニングモジュール"
+
+msgid "lm_add"
+msgstr "ILIAS ラーニングモジュールを追加"
+
+msgid "lm_added"
+msgstr "ILIAS ラーニングモジュールが追加されました"
+
+msgid "lm_new"
+msgstr "New ILIAS ラーニングモジュール"
+
+msgid "lm_type_scorm"
+msgstr "SCORM 1.2 (Java-RTE)"
+
+msgid "lm_type_scorm2004"
+msgstr "SCORM 2004 3rd Edition (JavaScript-RTE)"
+
+msgid "lm_type_scorm2004_info"
+msgstr "斬新の拡張機能を持つ最新のSCORMバージョンです。学習モジュールがiFrameへ組み込まれます。"
+
+msgid "lm_type_scorm_info"
+msgstr "最も汎用のSCORMバージョンです。学習モジュールがフレームへ組み込まれます。"
+
+msgid "lng"
+msgstr "言語"
+
+msgid "lngf"
+msgstr "言語"
+
+msgid "lo"
+msgstr "学習目標"
+
+msgid "loaded_preview_renderers"
+msgstr "Rendererプレビューをロードしました"
+
+msgid "local"
+msgstr "ローカル"
+
+msgid "local_language_file"
+msgstr "ローカル言語ファイル"
+
+msgid "local_language_files"
+msgstr "ローカル言語ファイル"
+
+msgid "local_languages_already_installed"
+msgstr "選択した言語ファイル(複数)は既にインストールされています"
+
+msgid "local_role_assignment"
+msgstr "ローカル役割"
+
+msgid "location"
+msgstr "ロケーション"
+
+msgid "locator"
+msgstr "ロケーション:"
+
+msgid "log_in"
+msgstr "ログイン"
+
+msgid "log_out"
+msgstr "Logout"
+
+msgid "logic_or"
+msgstr "または"
+
+msgid "login"
+msgstr "ログイン"
+
+msgid "login_as"
+msgstr "ログイン者"
+
+msgid "login_data"
+msgstr "ログイン情報"
+
+msgid "login_exists"
+msgstr "このログイン名は既に使用されています!　他を使用してください。"
+
+msgid "login_invalid"
+msgstr "ログインが正しくありません! 次の文字のみ使用できます。　A-Z a-z 0-9 _.-+*@!$%~(最低3文字)"
+
+msgid "login_to_ilias"
+msgstr "ILIASへログイン"
+
+msgid "login_to_ilias_via_login_form"
+msgstr "ILIASへログイン"
+
+msgid "login_to_ilias_via_saml"
+msgstr "SAML認証経由でILIASへログインする"
+
+msgid "login_to_ilias_via_shibboleth"
+msgstr "経由でILIASへログイン"
+
+msgid "loginname_already_exists"
+msgstr "このログイン名は既に使用されています。"
+
+msgid "loginname_settings"
+msgstr "ログイン名設定"
+
+msgid "logout"
+msgstr "ログアウト"
+
+msgid "logout_text"
+msgstr "ILIASをログオフしました。セッションは終了しています。"
+
+msgid "logs"
+msgstr "ログデータ"
+
+msgid "love"
+msgstr "Love"
+
+msgid "lres"
+msgstr "学習リソース"
+
+msgid "lso_add"
+msgstr "学習シーケンスを追加"
+
+msgid "lso_admin_form_byline"
+msgstr "学習シーケンス用の全般設定"
+
+msgid "lso_admin_form_title"
+msgstr "設定"
+
+msgid "lso_admin_interval_byline"
+msgstr "x秒ごとに学習進捗をポーリングします。注意! 低い値にするとサーバーリクエストが増えて全体システムのパフォーマンスに影響を与えます。できる限り高い値を選択してください。"
+
+msgid "lso_admin_interval_label"
+msgstr "学習進捗ポーリング間隔(秒)"
+
+msgid "lso_copy_threads_info"
+msgstr "どの学習シーケンスの要素をコピー、リンク、省略するか決定してください。"
+
+msgid "lso_edit"
+msgstr "学習シーケンスを編集"
+
+msgid "lso_import"
+msgstr "学習シーケンスを編集"
+
+msgid "lso_new"
+msgstr "新しい学習シーケンス"
+
+msgid "lso_wizard_page"
+msgstr "学習シーケンスをコピー (Step 2/2)"
+
+#, fuzzy
+msgid "lti"
+msgstr "LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_add"
+msgstr "Add LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_new"
+msgstr "New LTI Tool (Consumer)"
+
+msgid "lti_outcome_info"
+msgstr "LTI Tool ConsumerのLTIユーザへ学習進捗を送信します。"
+
+msgid "mail"
+msgstr "メール"
+
+msgid "mail_addressbook"
+msgstr "連絡先"
+
+msgid "mail_at_the_ilias_installation"
+msgstr "ILIASインストレーション%2$sに%1$sの新規メールがあります。"
+
+msgid "mail_attachment"
+msgstr "メール添付"
+
+msgid "mail_b_inbox"
+msgstr "受信トレイ"
+
+msgid "mail_c_trash"
+msgstr "ごみ箱"
+
+msgid "mail_cron_scheduled_mails"
+msgstr "予定されたメールを送信します"
+
+msgid "mail_cron_scheduled_mails_desc"
+msgstr "ユーザーの定義された配信時間に従って、予定されたユーザーメールを送信します"
+
+msgid "mail_d_drafts"
+msgstr "下書き"
+
+msgid "mail_delete_error"
+msgstr "エラーを削除中"
+
+msgid "mail_e_outbox"
+msgstr "送信トレイ"
+
+msgid "mail_e_sent"
+msgstr "送信済"
+
+msgid "mail_edit_permission"
+msgstr "アクセス権限設定を変更"
+
+msgid "mail_f_sent"
+msgstr "送信済"
+
+msgid "mail_folders"
+msgstr "メールフォルダ"
+
+msgid "mail_import_file"
+msgstr "エクスポートファイル"
+
+msgid "mail_mails_of"
+msgstr "メール"
+
+msgid "mail_maxsize_attach"
+msgstr "最大添付ファイルサイズ"
+
+msgid "mail_member"
+msgstr "メンバへメール"
+
+msgid "mail_members"
+msgstr "メンバーへメール"
+
+msgid "mail_message_scheduled"
+msgstr "予定されたメール"
+
+msgid "mail_message_scheduled_info"
+msgstr "メールは、指定された送信時間まで送信トレイに残ります。"
+
+msgid "mail_not_sent"
+msgstr "メールは送信されていません!"
+
+msgid "mail_schedule_error_no_datetime"
+msgstr "メールをスケジュールするには、配送日時を指定する必要があります。"
+
+msgid "mail_schedule_error_past_datetime"
+msgstr "過去のメールをスケジュールすることはできません。"
+
+msgid "mail_schedule_scheduled_datetime"
+msgstr "送信予定時刻"
+
+msgid "mail_scheduled"
+msgstr "メールは後で送信するために送信トレイに保存されました。"
+
+#, fuzzy
+msgid "mail_scheduled_edit_compose_info"
+msgstr "You are editing a scheduled mail. Sending is paused until you schedule the mail again."
+
+#, fuzzy
+msgid "mail_scheduled_edit_moved_info"
+msgstr "This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox."
+
+msgid "mail_search_no"
+msgstr "エントリーが見つかりません。"
+
+msgid "mail_select_one"
+msgstr "メールを一つ選択しなければなりません"
+
+msgid "mail_send_error"
+msgstr "エラー送信メール"
+
+msgid "mail_sent"
+msgstr "メール送信!"
+
+msgid "mail_settings"
+msgstr "メール設定"
+
+msgid "mail_to_global_roles_not_allowed"
+msgstr "グローバル役割へemailを送る事はできません。"
+
+msgid "mail_z_local"
+msgstr "ユーザ フォルダ"
+
+msgid "mails"
+msgstr "メール"
+
+msgid "mails_at_the_ilias_installation"
+msgstr "ILIASインストレーション%2$sに%1$s個の新規メールがあります。"
+
+msgid "mails_pl"
+msgstr "メール"
+
+msgid "main_menu"
+msgstr "メインメニュー"
+
+msgid "mainbar_aria_label"
+msgstr "メインバー"
+
+msgid "mainbar_more_label"
+msgstr "More"
+
+msgid "manage_members"
+msgstr "メンバーを管理"
+
+msgid "matriculation"
+msgstr "学籍番号"
+
+msgid "max_previews_per_object"
+msgstr "ファイルあたりのプレビューイメージ数"
+
+msgid "max_previews_per_object_info"
+msgstr "ファイルあたり作成されるプレビューイメージの最大数を定義します。"
+
+msgid "mcst"
+msgstr "メディアキャスト"
+
+msgid "mcst_add"
+msgstr "メディアキャストを作成追加"
+
+msgid "mcst_new"
+msgstr "新しいメディアキャスト"
+
+msgid "mem_add_to_wl"
+msgstr "待ちリストへ追加"
+
+msgid "mem_alert_no_places"
+msgstr "空席がありません。"
+
+msgid "mem_cron_min_members"
+msgstr "コース/グループ: 最小メンバーチェック"
+
+msgid "mem_cron_min_members_info"
+msgstr "管理者は最小数が合致しない場合に通知します。"
+
+msgid "mem_end"
+msgstr "登録終了日時:"
+
+msgid "mem_free_places"
+msgstr "空席"
+
+msgid "mem_max_users"
+msgstr "最大ユーザの"
+
+msgid "mem_min_users"
+msgstr "最小ユーザ"
+
+msgid "mem_participants"
+msgstr "参加者"
+
+msgid "mem_reg_expired"
+msgstr "登録時間が過ぎています。"
+
+msgid "mem_reg_not_started"
+msgstr "登録は開始していません"
+
+msgid "mem_reg_period"
+msgstr "登録期限"
+
+msgid "mem_reg_type"
+msgstr "登録タイプ"
+
+msgid "mem_start"
+msgstr "登録開始"
+
+msgid "mem_unlimited"
+msgstr "期限なし"
+
+msgid "mem_view_activate"
+msgstr "メンバービューを表示"
+
+msgid "mem_view_close"
+msgstr "メンバービューを閉じる"
+
+msgid "mem_view_long"
+msgstr "メンバービュー"
+
+msgid "mem_waiting_list"
+msgstr "待ちリストのユーザ"
+
+msgid "mem_waiting_list_position"
+msgstr "待ちリスのあなたの位置"
+
+msgid "member"
+msgstr "メンバー"
+
+msgid "member_status"
+msgstr "メンバーステータス"
+
+msgid "members"
+msgstr "メンバー"
+
+msgid "membership_leave"
+msgstr "退室"
+
+msgid "mep"
+msgstr "メディア集"
+
+msgid "mep_add"
+msgstr "メディア集を作成追加"
+
+msgid "mep_edit"
+msgstr "メディア集プロパティを編集"
+
+msgid "mep_new"
+msgstr "新しいメディア集"
+
+msgid "mep_not_insert_already_exist"
+msgstr "次のアイテムはそれらがメディア集の中に既にあるために挿入されません。"
+
+msgid "message"
+msgstr "メッセージ"
+
+msgid "message_content"
+msgstr "メッセージ本文"
+
+msgid "message_no_delivered_files"
+msgstr "ファイル未提出です"
+
+msgid "meta_data"
+msgstr "メタデータ"
+
+msgid "metabar_aria_label"
+msgstr "メタバー"
+
+msgid "mgs_objects_linked_to_the_following_folders_p"
+msgstr "オブジェクトは次のフォルダへリンクされました: %s"
+
+msgid "mgs_objects_linked_to_the_following_folders_s"
+msgstr "オブジェクトは次のフォルダへリンクされました: %s"
+
+msgid "migrate"
+msgstr "移行"
+
+msgid "minimize"
+msgstr "最少化"
+
+msgid "minute"
+msgstr "分"
+
+msgid "minutes"
+msgstr "分"
+
+msgid "missing"
+msgstr "準備中"
+
+msgid "missing_perm"
+msgstr "アクセス権がありません"
+
+msgid "missing_precondition"
+msgstr "前提条件がありません"
+
+msgid "mm_achievements"
+msgstr "実績"
+
+msgid "mm_administration"
+msgstr "管理"
+
+msgid "mm_badges"
+msgstr "バッジ"
+
+msgid "mm_calendar"
+msgstr "カレンダー"
+
+msgid "mm_certificates"
+msgstr "証明書"
+
+msgid "mm_comments"
+msgstr "コメント"
+
+msgid "mm_communication"
+msgstr "通信"
+
+msgid "mm_contacts"
+msgstr "コンタクト"
+
+msgid "mm_dashboard"
+msgstr "Dashboard"
+
+msgid "mm_enrolments"
+msgstr "入会"
+
+msgid "mm_favorites"
+msgstr "お気に入り"
+
+msgid "mm_learning_history"
+msgstr "学習履歴"
+
+msgid "mm_learning_progress"
+msgstr "学習進捗"
+
+msgid "mm_mail"
+msgstr "Mail"
+
+msgid "mm_news"
+msgstr "News"
+
+msgid "mm_notes"
+msgstr "Notes"
+
+msgid "mm_organisation"
+msgstr "組織"
+
+msgid "mm_personal_and_shared_r"
+msgstr "パーソナルと共有リソース"
+
+msgid "mm_personal_workspace"
+msgstr "パーソナルワークスペース"
+
+msgid "mm_portfolio"
+msgstr "ポートフォリオ"
+
+msgid "mm_private_chats"
+msgstr "プライベートチャット"
+
+msgid "mm_repo_tree_view"
+msgstr "ツリー表示"
+
+msgid "mm_repo_tree_view_act"
+msgstr "ツリー表示をアクティブ化"
+
+msgid "mm_repo_tree_view_deact"
+msgstr "ツリー表示を解除"
+
+msgid "mm_repository"
+msgstr "リポジトリ"
+
+msgid "mm_skills"
+msgstr "能力"
+
+msgid "mm_staff_list"
+msgstr "スタッフリスト"
+
+msgid "mm_tags"
+msgstr "タグ"
+
+msgid "mm_task_derived_tasks"
+msgstr "タスク"
+
+msgid "mme_lost_item_reason"
+msgstr "アイテムは提供されません"
+
+msgid "mme_lost_item_title"
+msgstr "割当てなし"
+
+msgid "mob"
+msgstr "メディアオブジェクト"
+
+msgid "moderators"
+msgstr "モデレータ"
+
+msgid "module"
+msgstr "モジュール"
+
+msgid "modules"
+msgstr "モジュール"
+
+msgid "month"
+msgstr "月"
+
+msgid "month_01_long"
+msgstr "1月"
+
+msgid "month_01_short"
+msgstr "Jan"
+
+msgid "month_02_long"
+msgstr "2月"
+
+msgid "month_02_short"
+msgstr "Feb"
+
+msgid "month_03_long"
+msgstr "3月"
+
+msgid "month_03_short"
+msgstr "Mar"
+
+msgid "month_04_long"
+msgstr "4月"
+
+msgid "month_04_short"
+msgstr "Apr"
+
+msgid "month_05_long"
+msgstr "5月"
+
+msgid "month_05_short"
+msgstr "May"
+
+msgid "month_06_long"
+msgstr "6月"
+
+msgid "month_06_short"
+msgstr "Jun"
+
+msgid "month_07_long"
+msgstr "7月"
+
+msgid "month_07_short"
+msgstr "Jul"
+
+msgid "month_08_long"
+msgstr "8月"
+
+msgid "month_08_short"
+msgstr "Aug"
+
+msgid "month_09_long"
+msgstr "9月"
+
+msgid "month_09_short"
+msgstr "Sep"
+
+msgid "month_10_long"
+msgstr "10月"
+
+msgid "month_10_short"
+msgstr "Oct"
+
+msgid "month_11_long"
+msgstr "11月"
+
+msgid "month_11_short"
+msgstr "Nov"
+
+msgid "month_12_long"
+msgstr "12月"
+
+msgid "month_12_short"
+msgstr "Dec"
+
+msgid "monthly"
+msgstr "月間"
+
+msgid "months"
+msgstr "カ月"
+
+msgid "mount_webfolder"
+msgstr "フォルダとして開く"
+
+msgid "move"
+msgstr "移動"
+
+msgid "moveChapter"
+msgstr "移動"
+
+msgid "movePage"
+msgstr "移動"
+
+msgid "move_selected_items"
+msgstr "移動"
+
+msgid "msg_bt_download_started"
+msgstr "ILIASは使用可能なすべてのZIPアーカイブファイルを生成します。右上のNotification Center (bellアイコン)からダウンロードできます。"
+
+msgid "msg_cancel"
+msgstr "アクションキャンセル"
+
+msgid "msg_clear_clipboard"
+msgstr "クリップボードを消去しました"
+
+msgid "msg_cloned"
+msgstr "選択したオブジェクトのコピー"
+
+msgid "msg_copy_clipboard"
+msgstr "選択されたオブジェクトがペーストされる希望の場所を選択して\"貼り付け\"ボタンをクリックしてください。"
+
+msgid "msg_copy_clipboard_container"
+msgstr "選択されたオブジェクトがペーストされる希望の場所を選択して\"継続\"ボタンをクリックしてください。"
+
+msgid "msg_copy_clipboard_source"
+msgstr "選択されたオブジェクトがペーストされる希望の場所を選択して\"次へ\"ボタンをクリックしてください。"
+
+msgid "msg_cut_clipboard"
+msgstr "選択されたオブジェクトがペーストされる希望の場所を選択して\"貼り付け\"ボタンをクリックしてください。"
+
+msgid "msg_cut_copied"
+msgstr "選択したオブジェクトを移動しました。"
+
+msgid "msg_deleted_export_files"
+msgstr "エクスポートファイルを削除しました"
+
+msgid "msg_deleted_role"
+msgstr "役割削除"
+
+msgid "msg_deleted_roles_rolts"
+msgstr "役割と役割テンプレートを削除しました"
+
+msgid "msg_failed"
+msgstr "申し訳ありませんが操作に失敗しました"
+
+msgid "msg_form_save_error"
+msgstr "フォームデータは保存できませんでした。エラーメッセージがないか入力欄をチェックしてください。"
+
+msgid "msg_info_blacklisted"
+msgstr "ファイルはセキュリティ上の理由によりuploadできません。"
+
+msgid "msg_input_char_limit_max"
+msgstr "許容文字数以上が入力されています。"
+
+msgid "msg_input_char_limit_min"
+msgstr "仕様の最少文字数を入力する必要があります。"
+
+msgid "msg_input_does_not_match_regexp"
+msgstr "有効値を提供してください。"
+
+msgid "msg_input_is_required"
+msgstr "入力必須項目です。正しく入力してください。"
+
+msgid "msg_invalid_value_css_rect_input"
+msgstr "入力された値が正しくありません。入力した整数にプラスやマイナスの記号を組み合わせて使用しないでください。入力内容を確認してください。"
+
+msgid "msg_is_last_role"
+msgstr "次のユーザから最後のグローバル役割を削除しました"
+
+msgid "msg_last_role_for_registration"
+msgstr "最低一つの役割は、新規ユーザの登録中に可能にしなければなりません。この役割は現在唯一利用可能です。"
+
+msgid "msg_link_clipboard_p"
+msgstr "ここで選択のオブジェクトがリンクされる希望の位置を選択してボタンをクリックしペーストしてください。"
+
+msgid "msg_link_clipboard_s"
+msgstr "ここで選択のオブジェクトがリンクされる希望の位置を選択してボタンをクリックしペーストしてください。"
+
+msgid "msg_linked"
+msgstr "選択したオブジェクトをリンクしました。"
+
+msgid "msg_may_not_contain"
+msgstr "このオブジェクトにはオブジェクトのタイプが含まれていません"
+
+msgid "msg_min_one_role"
+msgstr "ユーザはグローバル役割を一つは持つ必要があります!"
+
+msgid "msg_multi_language_selected"
+msgstr "同じ言語翻訳を選択しました!"
+
+msgid "msg_no_default_language"
+msgstr "初期設定言語が指定されていません! 初期設定翻訳として一つ翻訳を定義しなければなりません。"
+
+msgid "msg_no_delete_yourself"
+msgstr "自分自身のユーザアカウントは削除できません。"
+
+msgid "msg_no_file"
+msgstr "ファイルを選択していません"
+
+msgid "msg_no_files_selected"
+msgstr "ファイルが選択されていません"
+
+msgid "msg_no_language_selected"
+msgstr "翻訳言語が指定されていません! それぞれの翻訳に言語を定義しなければなりません"
+
+msgid "msg_no_perm_assign_role_to_user"
+msgstr "ユーザの役割割当て変更のアクセス権限がありません"
+
+msgid "msg_no_perm_assign_user_to_role"
+msgstr "ユーザ割当て変更のアクセス権限がありません"
+
+msgid "msg_no_perm_copy"
+msgstr "次のオブジェクトをコピー作成するアクセス権限がありません"
+
+msgid "msg_no_perm_create_rolt"
+msgstr "役割テンプレートを追加するアクセス権限がありません"
+
+msgid "msg_no_perm_cut"
+msgstr "次のオブジェクトを切取るアクセス権限がありません"
+
+msgid "msg_no_perm_delete"
+msgstr "次のオブジェクトの削除権利がありません"
+
+msgid "msg_no_perm_link"
+msgstr "次のオブジェクトからリンクを作成するアクセス権限がありません"
+
+msgid "msg_no_perm_modify_rolt"
+msgstr "役割テンプレート修正のアクセス権限がありません"
+
+msgid "msg_no_perm_modify_user"
+msgstr "ユーザデータ修正のアクセス権限がありません"
+
+msgid "msg_no_perm_paste"
+msgstr "次のオブジェクトを貼り付けるアクセス権限がありません"
+
+msgid "msg_no_perm_paste_object_in_folder"
+msgstr "フォルダ %sの中のオブジェクト%sを貼り付けるアクセス権限がありません。"
+
+msgid "msg_no_perm_perm"
+msgstr "アクセス権限設定の編集アクセス権限がありません"
+
+msgid "msg_no_perm_read"
+msgstr "このアイテムアクセスへのアクセス権限がありません。"
+
+msgid "msg_no_perm_read_item"
+msgstr "アイテム へのアクセス権限がありません。"
+
+msgid "msg_no_perm_read_lm"
+msgstr "このラーニングモジュールを読み込むアクセス権限がありません。"
+
+msgid "msg_no_perm_view_roles_of_user"
+msgstr "このユーザの役割割当を見る権限がありません。"
+
+msgid "msg_no_perm_write"
+msgstr "書込みアクセス権限がありません"
+
+msgid "msg_no_search_result"
+msgstr "エントリーが見つかりません"
+
+msgid "msg_no_search_string"
+msgstr "クエリを入力してください"
+
+msgid "msg_no_title"
+msgstr "タイトル名を入力してください。"
+
+msgid "msg_not_available_for_anon"
+msgstr "選択したページは登録済ユーザのみが利用可能です"
+
+msgid "msg_not_in_itself"
+msgstr "オブジェクト自体を貼り付ける事はできません"
+
+msgid "msg_obj_already_deleted"
+msgstr "オブジェクトはすでに削除されています。"
+
+msgid "msg_obj_created"
+msgstr "オブジェクト作成しました。"
+
+msgid "msg_obj_exists"
+msgstr "オブジェクトがすでにこのフォルダ内にあります"
+
+msgid "msg_obj_exists_in_folder"
+msgstr "オブジェクトがすでにフォルダ %s内にあります。"
+
+msgid "msg_obj_may_not_contain_objects_of_type"
+msgstr "オブジェクト%sはオブジェクトタイプ%sを含まない事があります。"
+
+msgid "msg_obj_modified"
+msgstr "修正が保存されました。"
+
+msgid "msg_obj_no_download"
+msgstr "ダウンロードできません"
+
+msgid "msg_obj_no_link"
+msgstr "リンクを許可されていません"
+
+msgid "msg_obj_perm_download"
+msgstr "以下のオブジェクトをダウンロードする適切な権限がありません。"
+
+msgid "msg_paste_object_not_in_itself"
+msgstr "オブジェクト%s自身を貼付けできません。"
+
+msgid "msg_perm_adopted_from1"
+msgstr "からアクセス権限設定を採用"
+
+msgid "msg_perm_adopted_from2"
+msgstr "(設定は保存されました!)"
+
+msgid "msg_perm_adopted_from_itself"
+msgstr "現在の役割/役割テンプレート自身からアクセス権限設定を適合できません。"
+
+msgid "msg_removed"
+msgstr "オブジェクトはシステムから削除されました。"
+
+msgid "msg_role_reserved_prefix"
+msgstr "拡張子 'il_'は自動的に作成される役割として予約されています。他の名前を選択してください。"
+
+msgid "msg_roleassignment_changed"
+msgstr "役割変更"
+
+msgid "msg_sysrole_not_deletable"
+msgstr "システム役割は削除できません"
+
+msgid "msg_sysrole_not_editable"
+msgstr "システム役割のアクセス権限設定は変更されません。システムの役割はすべてのオブジェクトと機能に割り当てられたユーザへ制限なしのアクセスをすべて許可します。"
+
+msgid "msg_to_many_files"
+msgstr "選択ファイル数が多すぎます、許容ファイル数:"
+
+msgid "msg_trash_empty"
+msgstr "削除されたオブジェクトはありません"
+
+msgid "msg_undeleted"
+msgstr "オブジェクトがリストアされました。"
+
+msgid "msg_unit_is_required"
+msgstr "単位にはこの入力が必須です。正しい値を入力してください。"
+
+msgid "msg_unknown_value"
+msgstr "未知の値がありました。"
+
+msgid "msg_user_last_role1"
+msgstr "次のユーザはこの役割のみに割当てられます"
+
+msgid "msg_user_last_role2"
+msgstr "ユーザを削除するかこの役割を削除するために別の役割へ割当ててください。"
+
+msgid "msg_userassignment_changed"
+msgstr "ユーザ割り当ての変更"
+
+msgid "msg_wrong_filetypes"
+msgstr "Allowed Files-Types:"
+
+msgid "msg_wrong_format"
+msgstr "入力した値は有効形式ではありません。"
+
+msgid "my_bms"
+msgstr "ブックマーク"
+
+msgid "my_certificates"
+msgstr "My Certificates"
+
+msgid "my_contacts"
+msgstr "My Contacts"
+
+msgid "my_courses"
+msgstr "My Course"
+
+msgid "my_courses_groups"
+msgstr "My Courses and Groups"
+
+msgid "my_staff"
+msgstr "スタッフ"
+
+msgid "name"
+msgstr "名前"
+
+msgid "nc_contact_requests_headline"
+msgstr "コンタクト要求"
+
+msgid "nc_contact_requests_number_p"
+msgstr "%s件のコンタクト要求があります。"
+
+msgid "nc_contact_requests_number_s"
+msgstr "%s件のコンタクト要求があります。"
+
+msgid "nc_contact_requests_prop_time"
+msgstr "Time"
+
+msgid "never"
+msgstr "なし"
+
+msgid "new"
+msgstr "新"
+
+msgid "new_language"
+msgstr "新規言語"
+
+msgid "new_pass_equals_old_pass"
+msgstr "新しいパスワードは古いものと同じです。"
+
+msgid "newline"
+msgstr "改行"
+
+msgid "news"
+msgstr "ニュース"
+
+msgid "next"
+msgstr "次へ"
+
+msgid "no"
+msgstr "No"
+
+msgid "no_access_item"
+msgstr "この項目へのアクセス権限がありません。"
+
+msgid "no_access_item_public"
+msgstr "この項目へアクセスするには、ログインして適切なアクセス権限を持っている必要があります。"
+
+msgid "no_accessibility_control_concept_description"
+msgstr "このシステムには現在Accessibility Control Conceptを提供するものがありません。<a href=\"%1$s\">Accessibility Pint</a>へ連絡してして下さい。"
+
+msgid "no_checkbox"
+msgstr "アイテムを最低一つ選択してください。"
+
+msgid "no_condition_selected"
+msgstr "一つ前提条件を選択してください。"
+
+msgid "no_date"
+msgstr "No date"
+
+msgid "no_gallery_users_available"
+msgstr "現在ギャラリー内にユーザはいません。"
+
+msgid "no_global_role_left"
+msgstr "どのユーザにも役割を一つ割当てる必要があります。"
+
+msgid "no_import_file_found"
+msgstr "インポートファイルが見つかりません"
+
+msgid "no_items"
+msgstr "該当なし"
+
+msgid "no_limit"
+msgstr "制限なし"
+
+msgid "no_mkisofs_configured"
+msgstr "ISOエクスポートをするにはILIASセットアップのmkisofsユティリティーを構成する必要があります。"
+
+msgid "no_parent_access"
+msgstr "上位オブジェクトへのアクセス権はありません!"
+
+msgid "no_permission"
+msgstr "必要なアクセス権限がありません。"
+
+msgid "no_roles_user_can_be_assigned_to"
+msgstr "ユーザを割当てできるグローバル役割がありません。従ってユーザ追加はできません。"
+
+msgid "no_start_file"
+msgstr "スタートファイルがありません。"
+
+msgid "no_title"
+msgstr "タイトルなし"
+
+msgid "no_users_selected"
+msgstr "ユーザを一つ選択してください。"
+
+msgid "no_xml_file_found_in_zip"
+msgstr "zip ファイルの中にXMLファイルは見つかりません"
+
+msgid "noc"
+msgstr "Notification Cente"
+
+msgid "non_internal_local_roles_only"
+msgstr "ローカル役割 (ユーザ定義のみ）"
+
+msgid "none"
+msgstr "なし"
+
+msgid "normal"
+msgstr "ノーマル"
+
+msgid "not_available"
+msgstr "利用不可"
+
+msgid "not_implemented_yet"
+msgstr "未適用"
+
+msgid "not_installed"
+msgstr "未インストール"
+
+msgid "not_logged_in"
+msgstr "ログインしていません"
+
+msgid "note"
+msgstr "注意"
+
+msgid "notes"
+msgstr "注意"
+
+msgid "notes_and_comments"
+msgstr "メモとコメント"
+
+msgid "notice"
+msgstr "通知"
+
+msgid "notifications"
+msgstr "通知"
+
+msgid "nr_following_sessions"
+msgstr "%1d に続くセッション..."
+
+msgid "num_of_selected_files"
+msgstr "%sファイルが選択されました"
+
+msgid "num_users"
+msgstr "ユーザ数"
+
+msgid "numberedlist_action"
+msgstr "番号リストを挿入 - クリックして番号リストを挿入"
+
+msgid "obj"
+msgstr "オブジェクト"
+
+msgid "obj_accs"
+msgstr "アクセシビリティ"
+
+msgid "obj_accs_desc"
+msgstr "アクセシビリティー機能の設定"
+
+msgid "obj_adm"
+msgstr "管理"
+
+msgid "obj_adm_desc"
+msgstr "LIASインストレーションを管理する全てのパネルが含まれているメインシステム設定フォルダ"
+
+msgid "obj_adma"
+msgstr "全般設定"
+
+msgid "obj_adma_desc"
+msgstr "インストール全体用の重要な設定"
+
+msgid "obj_adn"
+msgstr "管理通知"
+
+msgid "obj_adve"
+msgstr "編集"
+
+msgid "obj_adve_desc"
+msgstr "ILIASページエディタとTinyMCE用の管理者設定"
+
+msgid "obj_ass"
+msgstr "Asset"
+
+msgid "obj_assf"
+msgstr "テストとアセスメント"
+
+msgid "obj_assf_desc"
+msgstr "テストとアセスメントツールのプラットフォーム設定"
+
+msgid "obj_auth"
+msgstr "認証と登録"
+
+msgid "obj_auth_desc"
+msgstr "認証モード(ローカルLDAP他...)と新規アカウント登録設定をここで構成"
+
+msgid "obj_awra"
+msgstr "`誰がオンラインですか？'ツール"
+
+msgid "obj_awra_desc"
+msgstr "`誰がオンラインですか？’ツールを管理"
+
+msgid "obj_bdga"
+msgstr "バッジ"
+
+msgid "obj_bdga_desc"
+msgstr "タイプ、イメージ、テンプレート、アクティビティバッジを管理"
+
+msgid "obj_bgtk"
+msgstr "Backgroundタスク"
+
+msgid "obj_bibl"
+msgstr "文献目録"
+
+msgid "obj_bibs"
+msgstr "文献目録"
+
+msgid "obj_bibs_desc"
+msgstr "文献目録管理"
+
+msgid "obj_blog"
+msgstr "ブログ"
+
+msgid "obj_blog_duplicate"
+msgstr "ブログをコピー"
+
+msgid "obj_bnmk"
+msgstr "ベンチマーク"
+
+msgid "obj_bnmk_desc"
+msgstr "データベースクエリの実行時間の記録と表示"
+
+msgid "obj_book"
+msgstr "予約集"
+
+msgid "obj_cadm"
+msgstr "コンタクト"
+
+msgid "obj_cadm_desc"
+msgstr "コンタクト管理"
+
+msgid "obj_cals"
+msgstr "カレンダー"
+
+msgid "obj_cals_desc"
+msgstr "カレンダー全般設定"
+
+msgid "obj_cat"
+msgstr "カテゴリ"
+
+msgid "obj_cat_duplicate"
+msgstr "カテゴリをコピー"
+
+msgid "obj_catr"
+msgstr "カテゴリリンク"
+
+msgid "obj_cert"
+msgstr "証明書"
+
+msgid "obj_cert_desc"
+msgstr "証明書設定"
+
+msgid "obj_chap"
+msgstr "章"
+
+msgid "obj_chta"
+msgstr "チャットルーム"
+
+msgid "obj_chtr"
+msgstr "チャットルーム"
+
+msgid "obj_chtr_duplicate"
+msgstr "チャットルームをコピー"
+
+msgid "obj_cmis"
+msgstr "LRS"
+
+msgid "obj_cmis_desc"
+msgstr "ラーニングレコードストアのタイプを構成"
+
+msgid "obj_cmix"
+msgstr "xAPI/cmi5"
+
+msgid "obj_cmps"
+msgstr "プラグイン"
+
+msgid "obj_cmps_desc"
+msgstr "プラグインの全般設定"
+
+msgid "obj_coms"
+msgstr "コメント"
+
+msgid "obj_coms_desc"
+msgstr "コメント設定"
+
+msgid "obj_copa"
+msgstr "Content Page"
+
+msgid "obj_cpad"
+msgstr "Content Pages"
+
+msgid "obj_cpad#_desc"
+msgstr "Content Page 管理"
+
+msgid "obj_cpad_desc"
+msgstr "Content Page 管理"
+
+msgid "obj_cron"
+msgstr "Cron Jobs"
+
+msgid "obj_cron_desc"
+msgstr "Cron Jobの全リスト"
+
+msgid "obj_crs"
+msgstr "コース"
+
+msgid "obj_crs_duplicate"
+msgstr "コースをコピー"
+
+msgid "obj_crsr"
+msgstr "コースリンク"
+
+msgid "obj_crss"
+msgstr "コース"
+
+msgid "obj_crss_desc"
+msgstr "コースの全般設定"
+
+msgid "obj_crsv"
+msgstr "コース証明書"
+
+msgid "obj_dbk"
+msgstr "Digilibブック"
+
+msgid "obj_dcl"
+msgstr "データ収集"
+
+msgid "obj_dcl_duplicate"
+msgstr "データ収集をコピー"
+
+msgid "obj_dpro"
+msgstr "データ保護規約"
+
+msgid "obj_dpro_desc"
+msgstr "データ保護規約設定"
+
+msgid "obj_dshs"
+msgstr "Dashboard"
+
+msgid "obj_dshs_desc"
+msgstr "Dashboard設定"
+
+msgid "obj_ecss"
+msgstr "ECS"
+
+msgid "obj_ecss_desc"
+msgstr "ECS設定全般"
+
+msgid "obj_etal"
+msgstr "Employee Talk"
+
+msgid "obj_exc"
+msgstr "演習問題"
+
+msgid "obj_exc_duplicate"
+msgstr "演習問題をコピー"
+
+msgid "obj_excv"
+msgstr "演習証明"
+
+msgid "obj_facs"
+msgstr "ファイル"
+
+msgid "obj_facs_desc"
+msgstr "ファイルとファイル処理設定"
+
+msgid "obj_file"
+msgstr "ファイル"
+
+msgid "obj_file_duplicate"
+msgstr "重複ファイル"
+
+msgid "obj_file_inline"
+msgstr "ラーニングモジュール ファイル"
+
+msgid "obj_fils"
+msgstr "ファイルサービス"
+
+msgid "obj_fils_desc"
+msgstr "ファイルサービス設定の構成"
+
+msgid "obj_fold"
+msgstr "フォルダ"
+
+msgid "obj_fold_duplicate"
+msgstr "フォルダをコピー"
+
+msgid "obj_frm"
+msgstr "フォーラム"
+
+msgid "obj_frm_duplicate"
+msgstr "フォーラムをコピー"
+
+msgid "obj_frma"
+msgstr "掲示板"
+
+msgid "obj_frma_desc"
+msgstr "グローバル掲示板設定"
+
+msgid "obj_glo"
+msgstr "用語集"
+
+msgid "obj_glo_duplicate"
+msgstr "索引をコピー"
+
+msgid "obj_grp"
+msgstr "グループ"
+
+msgid "obj_grp_duplicate"
+msgstr "グループをコピー"
+
+msgid "obj_grpr"
+msgstr "Group Reference"
+
+msgid "obj_grps"
+msgstr "グループ"
+
+msgid "obj_grps_desc"
+msgstr "グループの全般設定"
+
+msgid "obj_gsfo"
+msgstr "フッター"
+
+msgid "obj_gsfo_desc"
+msgstr "フッターレイアウトとコンテンツ管理"
+
+msgid "obj_hlps"
+msgstr "ヘルプシステム"
+
+msgid "obj_hlps_desc"
+msgstr "オンラインヘルプ設定"
+
+msgid "obj_htlm"
+msgstr "HTMLラーニングモジュール"
+
+msgid "obj_htlm_duplicate"
+msgstr "HTMLラーニングモジュールをコピー"
+
+msgid "obj_iass"
+msgstr "個別アセスメント"
+
+msgid "obj_iass_duplicate"
+msgstr "個別アセスメントをコピー"
+
+msgid "obj_iass_select"
+msgstr "-- 個別アセスメントを一つ選択してください --"
+
+msgid "obj_itgr"
+msgstr "アイテムグループ"
+
+msgid "obj_ldap_desc"
+msgstr "グローバルLDAP設定をここで構成します。"
+
+msgid "obj_lhts"
+msgstr "学習履歴"
+
+msgid "obj_lhts_desc"
+msgstr "学習履歴設定"
+
+msgid "obj_lm"
+msgstr "ILIAS ラーニングモジュール"
+
+msgid "obj_lm_duplicate"
+msgstr "ラーニングモジュールをコピー"
+
+msgid "obj_lng"
+msgstr "言語"
+
+msgid "obj_lngf"
+msgstr "言語"
+
+msgid "obj_lngf_desc"
+msgstr "システム言語をここで管理します。"
+
+msgid "obj_logs"
+msgstr "ロギング"
+
+msgid "obj_logs_desc"
+msgstr "全般ロギング設定"
+
+msgid "obj_lrss"
+msgstr "学習リソース"
+
+msgid "obj_lrss_desc"
+msgstr "ラーニングモジュールの全タイプを構成"
+
+msgid "obj_lso"
+msgstr "学習シーケンス"
+
+msgid "obj_lso_duplicate"
+msgstr "学習シーケンスをコピー"
+
+msgid "obj_lsos"
+msgstr "学習シーケンス"
+
+msgid "obj_lsos_desc"
+msgstr "学習シーケンスの概要設定"
+
+msgid "obj_lti"
+msgstr "LTI Consumer"
+
+msgid "obj_ltis"
+msgstr "LTI"
+
+msgid "obj_ltis_desc"
+msgstr "学習ツール相互運用性(Learning Tools Interoperability)"
+
+msgid "obj_mail"
+msgstr "メール"
+
+msgid "obj_mail_desc"
+msgstr "グローバルメイン設定をここで構成"
+
+msgid "obj_mailr"
+msgstr "既読メール"
+
+msgid "obj_mailu"
+msgstr "未読メール"
+
+msgid "obj_maps"
+msgstr "マップ"
+
+msgid "obj_mcst"
+msgstr "メディアキャスト"
+
+msgid "obj_mcst_duplicate"
+msgstr "メディアキャストをコピー"
+
+msgid "obj_mcts"
+msgstr "メディアキャスト"
+
+msgid "obj_mcts_desc"
+msgstr "メディアキャストの全般設定"
+
+msgid "obj_mep"
+msgstr "メディア集"
+
+msgid "obj_mep_duplicate"
+msgstr "メディア集をコピー"
+
+msgid "obj_mme"
+msgstr "Main Menu"
+
+msgid "obj_mob"
+msgstr "メディア オブジェクト"
+
+msgid "obj_mobs"
+msgstr "メディア オブジェクト・集"
+
+msgid "obj_mobs_desc"
+msgstr "メディア オブジェクトとメディア集の設定"
+
+msgid "obj_not_found"
+msgstr "オブジェクトが見つかりません"
+
+msgid "obj_nota"
+msgstr "通知"
+
+msgid "obj_nota_desc"
+msgstr "通知管理"
+
+msgid "obj_nots"
+msgstr "Notes"
+
+msgid "obj_nots_desc"
+msgstr "Notes設定"
+
+msgid "obj_nwss"
+msgstr "ニュースとWebフィード"
+
+msgid "obj_nwss_desc"
+msgstr "内部ニュースとWebフィードの設定"
+
+msgid "obj_objf"
+msgstr "オブジェクト定義"
+
+msgid "obj_orgu"
+msgstr "組織単位"
+
+msgid "obj_orgu_description"
+msgstr "組織構造の作成と編集"
+
+msgid "obj_page"
+msgstr "ページ"
+
+msgid "obj_peac"
+msgstr "アコーディアオン"
+
+msgid "obj_peadl"
+msgstr "詳細リスト"
+
+msgid "obj_peadt"
+msgstr "詳細表"
+
+msgid "obj_pecd"
+msgstr "コード"
+
+msgid "obj_pech"
+msgstr "相談時間"
+
+msgid "obj_pecl"
+msgstr "列レイアウト"
+
+msgid "obj_peclp"
+msgstr "クリップボード"
+
+msgid "obj_pecom"
+msgstr "能力"
+
+msgid "obj_pecrs"
+msgstr "Course"
+
+msgid "obj_pecrt"
+msgstr "Certificate"
+
+msgid "obj_pecs"
+msgstr "コンテンツスニペット"
+
+msgid "obj_pedt"
+msgstr "データ表"
+
+msgid "obj_pefl"
+msgstr "ファイルリスト"
+
+msgid "obj_peim"
+msgstr "インタラクティブメディヤ"
+
+msgid "obj_pelh"
+msgstr "学習履歴"
+
+msgid "obj_pemed"
+msgstr "Image/Audio/Video"
+
+msgid "obj_pemp"
+msgstr "Map"
+
+msgid "obj_pepd"
+msgstr "パーソナルデータ"
+
+msgid "obj_pepe"
+msgstr "Plugin Element"
+
+msgid "obj_pepl"
+msgstr "Page List"
+
+msgid "obj_peplh"
+msgstr "プレースフォルダ"
+
+msgid "obj_pequ"
+msgstr "問題"
+
+msgid "obj_perl"
+msgstr "リソースリスト"
+
+msgid "obj_pesc"
+msgstr "セクション"
+
+msgid "obj_petmp"
+msgstr "ページテンプレート"
+
+msgid "obj_peusr"
+msgstr "ユーザ"
+
+msgid "obj_pg"
+msgstr "ページ"
+
+msgid "obj_poll"
+msgstr "投票"
+
+msgid "obj_poll_dupliate:"
+msgstr "投票をコピー:"
+
+msgid "obj_poll_duplicate"
+msgstr "投票をコピー"
+
+msgid "obj_prg"
+msgstr "学習プログラム"
+
+msgid "obj_prg_duplicate"
+msgstr "学習プログラムをコピー"
+
+msgid "obj_prg_select"
+msgstr "-- 学習プログラムを一つ選択してください --"
+
+msgid "obj_prgr"
+msgstr "学習プログラムへのリンク"
+
+msgid "obj_prgrs"
+msgstr "学習プログラムへのリンク"
+
+msgid "obj_prgs"
+msgstr "学習プログラム"
+
+msgid "obj_prgs_desc"
+msgstr "学習プログラム管理"
+
+msgid "obj_prss"
+msgstr "パーソナルリソース"
+
+msgid "obj_prss_desc"
+msgstr "パーソナルリソース設定"
+
+msgid "obj_prtf"
+msgstr "ポートフォリオ"
+
+msgid "obj_prtt"
+msgstr "ポートフォリオテンプレート"
+
+msgid "obj_prtt_duplicate"
+msgstr "ポートフォリテンプレートをコピーする"
+
+msgid "obj_ps"
+msgstr "プライバシーとセキュリティ"
+
+msgid "obj_ps_desc"
+msgstr "グローバルプライバシーとセキュリティ設定をここで構成します。"
+
+msgid "obj_qpl"
+msgstr "テスト問題集"
+
+msgid "obj_qpl_duplicate"
+msgstr "テスト問題集をコピーする"
+
+msgid "obj_qpl_select"
+msgstr "-- テスト問題集を一つ選択 --"
+
+msgid "obj_rcat"
+msgstr "ECSカテゴリ"
+
+msgid "obj_rcrs"
+msgstr "コースリンク"
+
+msgid "obj_recf"
+msgstr "リストアされたオブジェクト"
+
+msgid "obj_recf_desc"
+msgstr "リストアされたシステムチェックのオブジェクトが含まれます。"
+
+msgid "obj_rep"
+msgstr "リポジトリ"
+
+msgid "obj_reps"
+msgstr "リポジトリ"
+
+msgid "obj_reps_desc"
+msgstr "リポジトリの全般設定"
+
+msgid "obj_rfil"
+msgstr "ECSファイル"
+
+msgid "obj_rglo"
+msgstr "ECS索引"
+
+msgid "obj_rgrp"
+msgstr "ECSグループ"
+
+msgid "obj_rlm"
+msgstr "ECSラーニングモジュール"
+
+msgid "obj_role"
+msgstr "役割"
+
+msgid "obj_rolf"
+msgstr "役割"
+
+msgid "obj_rolf_desc"
+msgstr "役割をここで管理します。"
+
+msgid "obj_rolf_local"
+msgstr "ローカル役割"
+
+msgid "obj_rolf_local_desc"
+msgstr "オブジェクト番号のローカル役割を含みます。"
+
+msgid "obj_rolt"
+msgstr "役割テンプレート"
+
+msgid "obj_root"
+msgstr "ILIASルートノード"
+
+msgid "obj_rtst"
+msgstr "ECSテスト"
+
+msgid "obj_rwik"
+msgstr "ECS Wiki"
+
+msgid "obj_sahs"
+msgstr "SCORM/AICCラーニングモジュール"
+
+msgid "obj_sahs_duplicate"
+msgstr "ラーニングモジュールをコピー"
+
+msgid "obj_sco"
+msgstr "SCO"
+
+msgid "obj_scov"
+msgstr "SCORM証明書"
+
+msgid "obj_seas"
+msgstr "検索"
+
+msgid "obj_seas_desc"
+msgstr "検索設定をここで管理します。"
+
+msgid "obj_serv"
+msgstr "Server"
+
+msgid "obj_serv_desc"
+msgstr "サーバーの設定"
+
+msgid "obj_sess"
+msgstr "セッション"
+
+msgid "obj_sess_duplicate"
+msgstr "セッションをコピー"
+
+msgid "obj_skmg"
+msgstr "能力管理"
+
+msgid "obj_skmg_desc"
+msgstr "能力と能力カテゴリを管理します。"
+
+msgid "obj_spl"
+msgstr "サーベイ質問集"
+
+msgid "obj_st"
+msgstr "章"
+
+msgid "obj_stus"
+msgstr "ショートリンク"
+
+msgid "obj_stus_desc"
+msgstr "グルーバルショートリンク設定"
+
+msgid "obj_sty"
+msgstr "スタイル"
+
+msgid "obj_stys"
+msgstr "スタイルとレイアウト"
+
+msgid "obj_stys_desc"
+msgstr "システムスキンとスタイル設定をここで管理"
+
+msgid "obj_svy"
+msgstr "サーベイ"
+
+msgid "obj_svy_duplicate"
+msgstr "サーベイをコピー"
+
+msgid "obj_svyf"
+msgstr "サーベイ"
+
+msgid "obj_svyf_desc"
+msgstr "サーベイツール用のプラットフォーム設定"
+
+msgid "obj_sysc"
+msgstr "システムチェック"
+
+msgid "obj_sysc_desc"
+msgstr "システムチェックと修復ツール"
+
+msgid "obj_tags"
+msgstr "タグ付け"
+
+msgid "obj_tags_desc"
+msgstr "タグ付機能を設定"
+
+msgid "obj_tala"
+msgstr "Talkテンプレート"
+
+msgid "obj_tala_desc"
+msgstr "Talkテンプレート"
+
+msgid "obj_tals"
+msgstr "Employeeトークシリーズ"
+
+msgid "obj_talt"
+msgstr "Talkテンプレート"
+
+msgid "obj_task"
+msgstr "タスク"
+
+msgid "obj_tax"
+msgstr "分類基準"
+
+msgid "obj_taxf"
+msgstr "分類基準"
+
+msgid "obj_tool_setting_calendar"
+msgstr "カレンダを表示"
+
+msgid "obj_tool_setting_calendar_active"
+msgstr "カレンダー"
+
+msgid "obj_tool_setting_calendar_active_info"
+msgstr "カレンダーが利用できます。"
+
+msgid "obj_tool_setting_calendar_info"
+msgstr "コンテンツタブ内に\"カレンダ\"ブロックが表示されます。"
+
+msgid "obj_tool_setting_custom_metadata"
+msgstr "カスタムメタデータ"
+
+msgid "obj_tool_setting_custom_metadata_info"
+msgstr "有効にするとメタデータが構成できます。"
+
+msgid "obj_tool_setting_news"
+msgstr "ニュースを表示"
+
+msgid "obj_tool_setting_news_info"
+msgstr "コンテンツタブ内に\"ニュース\"ブロックが表示されます。"
+
+msgid "obj_tos"
+msgstr "サービス使用許諾"
+
+msgid "obj_tos_desc"
+msgstr "サービス使用許諾設定"
+
+msgid "obj_trac"
+msgstr "追跡と学習進捗"
+
+msgid "obj_trac_desc"
+msgstr "統計、学習進捗設定、全般"
+
+msgid "obj_tst"
+msgstr "テスト"
+
+msgid "obj_tst_duplicate"
+msgstr "テストをコピー"
+
+msgid "obj_tstv"
+msgstr "試験証明"
+
+msgid "obj_type"
+msgstr "オブジェクトタイプ"
+
+msgid "obj_user"
+msgstr "ユーザ"
+
+msgid "obj_usr"
+msgstr "ユーザ"
+
+msgid "obj_usrf"
+msgstr "ユーザアカウント"
+
+msgid "obj_usrf_desc"
+msgstr "ユーザアカウントをここで管理します。"
+
+msgid "obj_wbdv"
+msgstr "WebDAV"
+
+msgid "obj_wbdv_desc"
+msgstr "WebDAV設定構成"
+
+msgid "obj_wbrs"
+msgstr "Weblink"
+
+msgid "obj_wbrs_desc"
+msgstr "Webリンクの全般設定"
+
+msgid "obj_webr"
+msgstr "Webリンク"
+
+msgid "obj_webr_duplicate"
+msgstr "Webリンクリストをコピーする"
+
+msgid "obj_wfld"
+msgstr "フォルダ"
+
+msgid "obj_wiki"
+msgstr "Wiki"
+
+msgid "obj_wiki_duplicate"
+msgstr "Wikiをコピー"
+
+msgid "obj_wiks"
+msgstr "Wiki"
+
+msgid "obj_wiks_desc"
+msgstr "グローバルWiki設定"
+
+msgid "object"
+msgstr "オブジェクト"
+
+msgid "object_added"
+msgstr "オブジェクト追加"
+
+msgid "object_copy_in_progress"
+msgstr "コピーが開始されました。"
+
+msgid "object_duplicated"
+msgstr "オブジェクトコピー"
+
+msgid "object_id"
+msgstr "オブジェクトID"
+
+msgid "object_imported"
+msgstr "オブジェクトをインポートしました"
+
+msgid "object_list"
+msgstr "オブジェクトのリスト"
+
+msgid "objects"
+msgstr "オブジェクト"
+
+msgid "objf"
+msgstr "オブジェクト定義"
+
+msgid "objs_bibl"
+msgstr "文献目録"
+
+msgid "objs_blog"
+msgstr "ブログ"
+
+msgid "objs_book"
+msgstr "予約集"
+
+msgid "objs_cat"
+msgstr "カテゴリ"
+
+msgid "objs_catr"
+msgstr "カテゴリリンク"
+
+msgid "objs_chtr"
+msgstr "チャット"
+
+msgid "objs_cmix"
+msgstr "Objects xAPI/cmi5"
+
+msgid "objs_copa"
+msgstr "Content Pages"
+
+msgid "objs_crs"
+msgstr "コース"
+
+msgid "objs_crsr"
+msgstr "コースリンク"
+
+msgid "objs_dcl"
+msgstr "データ収集"
+
+msgid "objs_etal"
+msgstr "Employeeトーク"
+
+msgid "objs_exc"
+msgstr "演習問題"
+
+msgid "objs_file"
+msgstr "ファイル"
+
+msgid "objs_fold"
+msgstr "フォルダ"
+
+msgid "objs_frm"
+msgstr "フォーラム"
+
+msgid "objs_glo"
+msgstr "用語集"
+
+msgid "objs_grp"
+msgstr "グループ"
+
+msgid "objs_grpr"
+msgstr "Group Link"
+
+msgid "objs_htlm"
+msgstr "HTMLラーニングモジュール"
+
+msgid "objs_iass"
+msgstr "個別アセスメント"
+
+msgid "objs_itgr"
+msgstr "アイテムグループ"
+
+msgid "objs_lm"
+msgstr "ILIAS ラーニングモジュール"
+
+msgid "objs_lres"
+msgstr "学習リソース"
+
+msgid "objs_lso"
+msgstr "Learning Sequences"
+
+msgid "objs_lti"
+msgstr "LTI Consumers"
+
+msgid "objs_mail"
+msgstr "メール"
+
+msgid "objs_mcst"
+msgstr "メディアキャスト"
+
+msgid "objs_mep"
+msgstr "メディア集"
+
+msgid "objs_orgu"
+msgstr "組織単位"
+
+msgid "objs_poll"
+msgstr "投票"
+
+msgid "objs_prg"
+msgstr "学習プログラム"
+
+msgid "objs_prgr"
+msgstr "学習プログラムへのリンク"
+
+msgid "objs_prtf"
+msgstr "ポートフォリオ"
+
+msgid "objs_prtt"
+msgstr "ポートフォリオテンプレート"
+
+msgid "objs_qpl"
+msgstr "テスト問題集"
+
+msgid "objs_qst"
+msgstr "問題"
+
+msgid "objs_rcat"
+msgstr "ECSカテゴリ"
+
+msgid "objs_rcrs"
+msgstr "コースリンク"
+
+msgid "objs_rfil"
+msgstr "ECSファイル"
+
+msgid "objs_rglo"
+msgstr "ECS索引"
+
+msgid "objs_rgrp"
+msgstr "ECSグループ"
+
+msgid "objs_rlm"
+msgstr "ECSラーニングモジュール"
+
+msgid "objs_role"
+msgstr "役割"
+
+msgid "objs_rolf"
+msgstr "役割フォルダ"
+
+msgid "objs_rtst"
+msgstr "ECSテスト"
+
+msgid "objs_rwik"
+msgstr "ECS Wiki"
+
+msgid "objs_sahs"
+msgstr "SCORM/AICCラーニングモジュール"
+
+msgid "objs_sess"
+msgstr "セッション"
+
+msgid "objs_skee"
+msgstr "Competence ツリー"
+
+msgid "objs_spl"
+msgstr "サーベイ質問集"
+
+msgid "objs_st"
+msgstr "章"
+
+msgid "objs_svy"
+msgstr "サーベイ"
+
+msgid "objs_tala"
+msgstr "Talkテンプレート"
+
+msgid "objs_talt"
+msgstr "Talkテンプレート"
+
+msgid "objs_tst"
+msgstr "テスト"
+
+msgid "objs_webr"
+msgstr "Webリンク"
+
+msgid "objs_wiki"
+msgstr "Wiki"
+
+msgid "of"
+msgstr "Of"
+
+msgid "offline"
+msgstr "オフライン"
+
+msgid "offline_mode"
+msgstr "オフラインモード"
+
+msgid "ok"
+msgstr "OK"
+
+msgid "old"
+msgstr "旧"
+
+msgid "omit"
+msgstr "省略"
+
+msgid "omit_all"
+msgstr "全てを省略"
+
+msgid "on_waiting_list"
+msgstr "待ちリストに入っています"
+
+msgid "online"
+msgstr "オンライン"
+
+msgid "online_time"
+msgstr "オンライン時間(DD:HH:MM:SS)"
+
+msgid "only_active"
+msgstr "Only Active"
+
+msgid "only_inactive"
+msgstr "Only Inactive"
+
+msgid "open"
+msgstr "Open"
+
+msgid "operation"
+msgstr "操作"
+
+msgid "optimize"
+msgstr "最適化"
+
+msgid "option"
+msgstr "オプション"
+
+msgid "optional_filter_hint"
+msgstr "オプションのフィルタのいずれかをアクティブにしてください。"
+
+msgid "optional_filters"
+msgstr "フィルタオプション"
+
+msgid "options"
+msgstr "オプション"
+
+msgid "order_by"
+msgstr "順番"
+
+msgid "order_by_date"
+msgstr "日付順"
+
+msgid "org_op_access_enrolments"
+msgstr "登録状況を表示"
+
+msgid "org_op_manage_members"
+msgstr "従属メンバーを管理"
+
+msgid "org_op_read_learning_progress"
+msgstr "従属ユーザの学習進捗を表示する"
+
+msgid "org_permission_settings"
+msgstr "組織ユニット内のポジションの権限"
+
+msgid "org_units"
+msgstr "組織ユニット"
+
+msgid "organization"
+msgstr "プロバイダー"
+
+msgid "other"
+msgstr "他"
+
+msgid "overview"
+msgstr "概要"
+
+msgid "overwrite"
+msgstr "上書き"
+
+msgid "owner"
+msgstr "オーナー"
+
+msgid "owner_updated"
+msgstr "オーナーを更新しました。"
+
+msgid "page"
+msgstr "ページ"
+
+msgid "page_count"
+msgstr "ページカウント"
+
+msgid "page_layout"
+msgstr "ページレイアウト"
+
+msgid "page_layouts"
+msgstr "ページレイアウト"
+
+msgid "pagination_label_x_of_y"
+msgstr "Page %1$d of %2$d"
+
+msgid "parameter"
+msgstr "パラメーター"
+
+msgid "parse"
+msgstr "文関係説明"
+
+msgid "participate"
+msgstr "Subscribe"
+
+msgid "passed"
+msgstr "Passed(通過)"
+
+msgid "passwd"
+msgstr "パスワード"
+
+msgid "passwd_generation"
+msgstr "パスワード生成"
+
+msgid "passwd_invalid"
+msgstr "新しいパスワードが間違っています! 次の文字以外は使用できません A-Z a-z 0-9 _.-+?#*@!$%~ (6文字以上)　"
+
+msgid "passwd_not_match"
+msgstr "新しいパスワード入力が一致しません! 新しいパスワードを再入力してください。"
+
+msgid "passwd_wrong"
+msgstr "入力されたパスワードは間違っています!"
+
+msgid "password"
+msgstr "パスワード"
+
+msgid "password_allow_chars"
+msgstr "使用可能文字: %s"
+
+msgid "password_assistance_info"
+msgstr "パスワード支援をオンにするとILIASのログインページに \"パスワードを忘れた場合は?\"のリンク文字が表示されます。ユーザは、システム管理者のアシスタンスなしで自分のアカウントへ新しいパスワードを割当ててリンクする事ができます。"
+
+msgid "password_change_on_first_login_demand"
+msgstr "初期パスワードはILIASのサービス使用開始前に変更しなければなりません。"
+
+msgid "password_contains_invalid_chars"
+msgstr "パスワードに無効な文字があります"
+
+msgid "password_contains_parts_of_login_err"
+msgstr "選択されたパスワードにはユーザ名が含まれます。新しいパスワードを入力してください。"
+
+msgid "password_empty"
+msgstr "パスワードは空 ではいけません。"
+
+msgid "password_expired"
+msgstr "最後の変更から%s 日過ぎてパスワードは失効したので変更しなければなりません。"
+
+msgid "password_multiple_errors"
+msgstr "数箇所に間違いがあります"
+
+msgid "password_must_chars_and_numbers"
+msgstr "パスワードには文字と数字を含まなければなりません。"
+
+msgid "password_must_contain_lcase_chars"
+msgstr "パスワードには少なくとも%sの小文字を含む必要があります。"
+
+msgid "password_must_contain_ucase_chars"
+msgstr "パスワードには少なくとも%sの大文字を含む必要があります。"
+
+msgid "password_must_special_chars"
+msgstr "パスワードには特殊文字を含まなければなりません。"
+
+msgid "password_to_long"
+msgstr "パスワードは%s文字以下でなければいけません。"
+
+msgid "password_to_short"
+msgstr "パスワードは%s文字以上でなければなりません。"
+
+msgid "paste"
+msgstr "貼り付け"
+
+msgid "pasteChapter"
+msgstr "貼り付け"
+
+msgid "pastePage"
+msgstr "貼り付け"
+
+msgid "paste_clipboard_items"
+msgstr "貼り付け"
+
+msgid "path"
+msgstr "Path"
+
+msgid "path_not_set"
+msgstr "Pathがセットされていません"
+
+msgid "path_to_convert"
+msgstr "変換のPath"
+
+msgid "path_to_htmldoc"
+msgstr "HTMLdocのPath"
+
+msgid "path_to_java"
+msgstr "JavaのPath"
+
+msgid "path_to_unzip"
+msgstr "UnzipのPath"
+
+msgid "path_to_zip"
+msgstr "ZipのPath"
+
+msgid "pathes"
+msgstr "Path"
+
+msgid "pd_items_news"
+msgstr "パーソナルアイテムのニュースを含む"
+
+msgid "pdf_export"
+msgstr "PDFエクスポート"
+
+msgid "perm_settings"
+msgstr "アクセス権限"
+
+msgid "perma_link"
+msgstr "Permanent Link"
+
+msgid "perma_link_copied"
+msgstr "このページへのリンクはクリップボードへコピーされました。"
+
+msgid "permission"
+msgstr "許諾"
+
+msgid "permission_denied"
+msgstr "拒否されました"
+
+msgid "permission_settings"
+msgstr "オブジェクトアクセス権限設定"
+
+msgid "person_title"
+msgstr "役職名"
+
+msgid "personal_data"
+msgstr "ユーザ情報"
+
+msgid "personal_picture"
+msgstr "ユーザの画像"
+
+msgid "personal_profile"
+msgstr "ユーザプロファイル"
+
+msgid "personal_resources"
+msgstr "パーソナルリソース"
+
+msgid "personal_settings"
+msgstr "パーソナル設定"
+
+msgid "personalise_date_time"
+msgstr "日付と時刻の設定をカスタマイズ"
+
+msgid "persons"
+msgstr "人々"
+
+msgid "pg_add"
+msgstr "ページを追加"
+
+msgid "pg_new"
+msgstr "新規ページ"
+
+msgid "phone"
+msgstr "電話番号"
+
+msgid "phone_home"
+msgstr "自宅の電話番号"
+
+msgid "phone_mobile"
+msgstr "携帯電話番号"
+
+msgid "phone_office"
+msgstr "会社電話番号"
+
+msgid "phrase"
+msgstr "フレーズ"
+
+msgid "please_choose"
+msgstr "-- 選択 --"
+
+msgid "please_enter_target"
+msgstr "目標を入力してください"
+
+msgid "please_enter_title"
+msgstr "タイトルを入力してください"
+
+msgid "please_select"
+msgstr "-- 選択 --"
+
+msgid "please_select_a_delivered_file_to_delete"
+msgstr "削除する配信済ファイルを最低一つ選択しなければなりません!"
+
+msgid "please_select_a_delivered_file_to_download"
+msgstr "ダウンロードする配信済ファイルを最低一つ選択しなけれななりません!"
+
+msgid "please_wait"
+msgstr "しばらくお待ちください..."
+
+msgid "port"
+msgstr "ポート"
+
+msgid "portfolio"
+msgstr "ポートフォリオ"
+
+msgid "pos_bottom"
+msgstr "下"
+
+msgid "pos_left"
+msgstr "左"
+
+msgid "pos_right"
+msgstr "右"
+
+msgid "pos_top"
+msgstr "トップ"
+
+msgid "position"
+msgstr "位置"
+
+msgid "position_permission_settings"
+msgstr "Orgunit特定のアクセス権限"
+
+msgid "precondition"
+msgstr "前提条件"
+
+msgid "precondition_not_accessible"
+msgstr "このアイテムの前提条件を見るための十分なアクセス権限がありません。"
+
+msgid "precondition_required_itemlist"
+msgstr "必須前提条件"
+
+msgid "precondition_toggle"
+msgstr "このオブジェクトへのアクセスを満足させるために必要な前提条件"
+
+msgid "preconditions"
+msgstr "前提条件"
+
+msgid "preconditions_obligatory_hint"
+msgstr "次の前提条件を遂行してください"
+
+msgid "preconditions_optional_hint"
+msgstr "次の前提条件<b>%s</b>の中から遂行してください"
+
+msgid "predefined_template"
+msgstr "事前定義の役割テンプレート"
+
+msgid "preferences"
+msgstr "プレファレンス"
+
+msgid "presentation_table_more"
+msgstr "詳しく見る"
+
+#, fuzzy
+msgid "presenter"
+msgstr "Presenter"
+
+msgid "preview"
+msgstr "プレビュー"
+
+msgid "preview_create"
+msgstr "プレビューを作成"
+
+msgid "preview_delete"
+msgstr "プレビューを削除"
+
+msgid "preview_image_size"
+msgstr "プレビューイメージのサイズ"
+
+msgid "preview_learner_info"
+msgstr "有効にすると、コースやグループ管理者が学習者の透視コンテンツフォームを表示する可能性があります。"
+
+msgid "preview_loading"
+msgstr "プレビューをロード中…"
+
+msgid "preview_none"
+msgstr "プレビュー(未作成)"
+
+msgid "preview_not_possible"
+msgstr "プレビュー生成は現在できないのでドキュメントを参照してください。"
+
+msgid "preview_renderers"
+msgstr "レンダラーをプレビュー"
+
+msgid "preview_settings"
+msgstr "ファイルプレビュー"
+
+msgid "preview_show"
+msgstr "プレビューを表示"
+
+msgid "preview_status_creating"
+msgstr "プレビューが作成中です。少し時間がかかります。"
+
+msgid "preview_status_deleting"
+msgstr "プレビューを削除中…"
+
+msgid "preview_status_failed"
+msgstr "プレビュー作成に失敗しました。"
+
+msgid "preview_status_missing"
+msgstr "このファイルにはプレビューがありません。"
+
+msgid "preview_status_pending"
+msgstr "まだプレビューが作成されていません。また後にしてください。"
+
+msgid "previous"
+msgstr "戻る"
+
+msgid "prg_copy_threads_info"
+msgstr "どの学習プログラム要素をコピー、リンク、省略するか決めてください。"
+
+msgid "prg_wizard_page"
+msgstr "学習プログラムをコピー (Step 2/2)"
+
+msgid "prgr_add"
+msgstr "学習プログラムリンクを追加"
+
+msgid "prgr_edit_info"
+msgstr "新規リンク作成用の学習プログラムを一つ選択してください。"
+
+msgid "prgr_new"
+msgstr "学習プログラムリンクを作成"
+
+msgid "prgr_settings"
+msgstr "学習プログラムリンクの設定"
+
+msgid "print"
+msgstr "印刷"
+
+msgid "print_view"
+msgstr "印刷表示"
+
+msgid "private_notes"
+msgstr "プライベートメモ"
+
+msgid "pro"
+msgstr "いいね"
+
+msgid "proceed"
+msgstr "続ける"
+
+msgid "profile"
+msgstr "プロファイル"
+
+msgid "profile_changed"
+msgstr "プロファイルが変更されました"
+
+msgid "profile_incomplete"
+msgstr "プロファイル作成が未完了です。必要事項を記入してください"
+
+msgid "profile_of"
+msgstr "プロファイル"
+
+msgid "properties"
+msgstr "プロパティ"
+
+msgid "proxy"
+msgstr "Proxy"
+
+msgid "proxy_connectable"
+msgstr "コネクションを確立しました。"
+
+msgid "proxy_host"
+msgstr "Host"
+
+msgid "proxy_host_info"
+msgstr "ホストを入力してください。"
+
+msgid "proxy_not_connectable"
+msgstr "設定されたproxyに対してILIASは接続できません。"
+
+msgid "proxy_port"
+msgstr "Port"
+
+msgid "proxy_port_info"
+msgstr "ポート番号は\"8080\"の例のように0から65535の間を入力してください。"
+
+msgid "proxy_port_numeric"
+msgstr "入力するポートは数字の0から65535である必要があります。"
+
+msgid "proxy_socket_error"
+msgstr "Socket Error: %s"
+
+msgid "proxy_status"
+msgstr "Proxy"
+
+msgid "proxy_status_info"
+msgstr "ILIASにproxyを利用する(例：webフィードまたはweblinksチェック用)には、上のチェックボックスを有効にしてください。"
+
+msgid "ps_export_scorm"
+msgstr "SCORM追跡データ"
+
+msgid "ps_password_lowercase_chars_num"
+msgstr "小文字"
+
+msgid "ps_password_lowercase_chars_num_info"
+msgstr "パスワードに含めるべき小文字の数を入力してください。0にするとこの要件は機能しません。"
+
+msgid "ps_password_must_not_contain_loginame"
+msgstr "パスワード中のユーザ名を防止"
+
+msgid "ps_password_must_not_contain_loginame_info"
+msgstr "有効にするとパスワードにユーザ名を含めることはできません。"
+
+msgid "ps_password_uppercase_chars_num"
+msgstr "大文字"
+
+msgid "ps_password_uppercase_chars_num_info"
+msgstr "パスワードに含めるべき大文字の数を入力してください。0にすると要件は機能しません。"
+
+msgid "pub_section"
+msgstr "パブリックエリア"
+
+msgid "pub_section_info"
+msgstr "Onにするとシステムのパーツ(例 リポジトリ、ユーザプロファイル)は認証なしでインターネット利用ができるようになります。\"匿名\" の権限ではリポジトリ・リソースへのアクセスが制限されます。"
+
+msgid "public"
+msgstr "パブリック"
+
+msgid "public_notes"
+msgstr "パブリックノート"
+
+msgid "public_profile"
+msgstr "パブリックプロファイル"
+
+msgid "public_room"
+msgstr "パブリックルーム"
+
+msgid "purpose"
+msgstr "目的"
+
+msgid "qpl"
+msgstr "テスト問題集"
+
+msgid "qpl_add"
+msgstr "テスト問題集を追加"
+
+msgid "qpl_new"
+msgstr "新規テスト問題集"
+
+msgid "query_data"
+msgstr "データの問合せ"
+
+msgid "question"
+msgstr "問題"
+
+msgid "question_message"
+msgstr "問題内容"
+
+msgid "quit"
+msgstr "止める"
+
+msgid "quote"
+msgstr "引用文"
+
+msgid "read"
+msgstr "読み込み"
+
+msgid "readcount_anonymous_users"
+msgstr "匿名読込アクセス数"
+
+msgid "readcount_users"
+msgstr "非匿名読込アクセス数"
+
+msgid "recipient"
+msgstr "受信者"
+
+msgid "reference_deleted"
+msgstr "行き先(目的リンク）利用不可"
+
+msgid "reference_of"
+msgstr "参照:"
+
+msgid "referral_comment"
+msgstr "ILIASに関する評判はいかがでしたか?"
+
+msgid "refresh"
+msgstr "リフレッシュ"
+
+msgid "refresh_languages"
+msgstr "全ての言語をリフレッシュ"
+
+msgid "refuse"
+msgstr "拒否"
+
+msgid "reg_account_confirmation_successful"
+msgstr "ユーザアカウントは使用可能になりました。"
+
+msgid "reg_delete_expired_pending_registrations"
+msgstr "期限切れの保留中の登録を削除"
+
+msgid "reg_delete_expired_pending_registrations_desc"
+msgstr "メール確認による登録後に確認されていないすべてのILIASアカウントを削除します。"
+
+msgid "reg_goto_parent_membership_info"
+msgstr "目的のオブジェクトはメンバのみしかアクセスできません。"
+
+msgid "reg_mail_body_2_confirmation"
+msgstr "リンクは%s限定有効でそれを過ぎると最初から再度やり直しとなります。"
+
+msgid "reg_mail_body_3_confirmation"
+msgstr "このメールにお心当たりがないようであれば、誰かが故意または偶然にemailアドレスを入力した可能性がありますのでこのメールを無視してください。"
+
+msgid "reg_mail_body_forgot_password_info"
+msgstr "パスワードを入手するには、ログインスクリーンの \"パスワード忘れた場合は?\"の機能を使ってこのアカウント用の新しいパスワードを要求してください。"
+
+msgid "reg_mail_body_salutation"
+msgstr "こんにちは"
+
+msgid "reg_mail_body_text1"
+msgstr "学習管理システムILIASのご利用ありがとうございます。"
+
+msgid "reg_mail_body_text2"
+msgstr "LIASへアクセスするには次のURIを使用します:"
+
+msgid "reg_mail_body_text3"
+msgstr "詳細情報"
+
+msgid "reg_mail_subject"
+msgstr "アクセス情報"
+
+msgid "reg_mail_subject_confirmation"
+msgstr "リンク 確認用"
+
+msgid "reg_passwd_via_mail"
+msgstr "パスワードは以下のemailアドレスへ送信されます。"
+
+msgid "register"
+msgstr "登録"
+
+msgid "register_notification"
+msgstr "%s がセッション \"%s\"へ適用されました。"
+
+msgid "registered_since"
+msgstr "登録日"
+
+msgid "registered_user"
+msgstr "登録済ユーザ"
+
+msgid "registered_users"
+msgstr "登録済ユーザ"
+
+msgid "registration"
+msgstr "新規アカウント登録"
+
+msgid "related_to"
+msgstr "関係する"
+
+msgid "remove"
+msgstr "削除"
+
+msgid "remove_entries"
+msgstr "履歴を消去"
+
+msgid "remove_translation"
+msgstr "翻訳を消去"
+
+msgid "rename"
+msgstr "名前変更"
+
+msgid "rename_file"
+msgstr "名前変更ファイル"
+
+msgid "renderer_supported_file_types"
+msgstr "サポートされたファイルタイプ"
+
+msgid "renderer_supported_repo_types"
+msgstr "サポートされたILIASオブジェクト"
+
+msgid "renderer_type_builtin"
+msgstr "Built-in"
+
+msgid "rep_main_page"
+msgstr "メインページ"
+
+msgid "rep_main_page_logo_alt"
+msgstr "ILIASのロゴ - 開始ページへ"
+
+msgid "repeat_scan"
+msgstr "ウイルススキャンをリピート中です..."
+
+msgid "repeat_scan_failed"
+msgstr "リピートスキャンは失敗しました。"
+
+msgid "repeat_scan_succeded"
+msgstr "リピートスキャンは成功しました。"
+
+msgid "replace_file"
+msgstr "ファイルを差替え"
+
+msgid "reply"
+msgstr "返信"
+
+msgid "report_accessibility_issue"
+msgstr "Accessibility Issueを報告"
+
+msgid "report_accessibility_link"
+msgstr "リンクを報告しました"
+
+msgid "report_accessibility_link_mailto"
+msgstr "Reported%20Link:"
+
+msgid "repository"
+msgstr "リポジトリ"
+
+msgid "repository_admin"
+msgstr "リポジトリ、ごみ箱、アクセス権限"
+
+msgid "repository_admin_desc"
+msgstr "システムのごみ箱からオブジェクトをリストアまたは削除してリポジトリのアクセス権限を設定します。"
+
+msgid "require_email"
+msgstr "e-mailの入力"
+
+msgid "require_gender"
+msgstr "性の入力"
+
+msgid "require_hobby"
+msgstr "趣味の入力"
+
+msgid "require_matriculation"
+msgstr "学籍番号入力"
+
+msgid "require_referral_comment"
+msgstr "紹介コメントの入力"
+
+msgid "required_field"
+msgstr "は必須項目です"
+
+msgid "res_links"
+msgstr "リポジトリリンク"
+
+msgid "res_links_short"
+msgstr "リンク"
+
+msgid "reset"
+msgstr "リセット"
+
+msgid "reset_filter"
+msgstr "フィルタ－をリセット"
+
+msgid "resources"
+msgstr "リソース"
+
+msgid "right"
+msgstr "右"
+
+msgid "rights"
+msgstr "権利"
+
+msgid "role"
+msgstr "役割"
+
+msgid "role_add_user"
+msgstr "ユーザへ役割を追加"
+
+msgid "role_added"
+msgstr "役割追加"
+
+msgid "role_assignment"
+msgstr "役割"
+
+msgid "role_assignment_updated"
+msgstr "役割は更新されました。"
+
+msgid "role_edit"
+msgstr "役割を追加編集"
+
+msgid "role_mailto"
+msgstr "割当てた全てのユーザへメールする"
+
+msgid "role_new"
+msgstr "新規役割"
+
+msgid "role_new_search"
+msgstr "新規検索"
+
+msgid "role_no_roles_selected"
+msgstr "役割を選択してください。"
+
+msgid "role_protect_permissions"
+msgstr "アクセス権限を保護"
+
+msgid "role_protect_permissions_desc"
+msgstr "これ以上のシステム操作によるオブジェクトのアクセス権限変更はできません。以降は、上位の管理者のみがアクセス権限を変更できます。"
+
+msgid "role_select_one_item"
+msgstr "オブジェクトを一つ選択してください。"
+
+msgid "role_sure_delete_desk_items"
+msgstr "本当に次の役割を削除しますか?"
+
+msgid "role_templates_only"
+msgstr "役割テンプレートのみ"
+
+msgid "roles"
+msgstr "役割"
+
+msgid "roles_of_import_global"
+msgstr "インポートファイルのグローバル役割"
+
+msgid "roles_of_import_local"
+msgstr "インポートファイルのローカル役割"
+
+msgid "rolf"
+msgstr "役割"
+
+msgid "rolf_added"
+msgstr "役割 フォルダ追加"
+
+msgid "rolf_create_role"
+msgstr "新しい役割定義を作成"
+
+msgid "rolf_create_rolt"
+msgstr "新しい役割定義テンプレートを作成"
+
+msgid "rolf_delete"
+msgstr "役割/役割テンプレートを削除"
+
+msgid "rolf_edit_permission"
+msgstr "アクセス権限設定を変更"
+
+msgid "rolf_edit_userassignment"
+msgstr "ユーザの役割を変更"
+
+msgid "rolf_read"
+msgstr "役割/役割テンプレートを読み込む"
+
+msgid "rolf_visible"
+msgstr "役割/役割テンプレートを表示"
+
+msgid "rolf_write"
+msgstr "役割/役割 テンプレートのアクセス権限初期設定を編集"
+
+msgid "rolt"
+msgstr "役割テンプレート"
+
+msgid "rolt_added"
+msgstr "役割テンプレート追加"
+
+msgid "rolt_edit"
+msgstr "役割 テンプレート編集"
+
+msgid "rolt_new"
+msgstr "新規役割 テンプレート"
+
+msgid "row"
+msgstr "行"
+
+msgid "rows"
+msgstr "行"
+
+#, fuzzy
+msgid "rpc_pdf_font"
+msgstr "Fonts"
+
+#, fuzzy
+msgid "rpc_pdf_font_info"
+msgstr "Additional fonts for the generation of PDF files. Other fonts than ‘Helvetica’ and ‘unifont’ must be installed on the ILIAS server."
+
+#, fuzzy
+msgid "rpc_pdf_generation"
+msgstr "Fonts for PDF Generation"
+
+msgid "sad"
+msgstr "Sad"
+
+msgid "sahs"
+msgstr "SCORM/AICCラーニングモジュール"
+
+msgid "sahs_added"
+msgstr "SCORM/AICCラーニングモジュール追加"
+
+msgid "sahs_export_file"
+msgstr "ILIASがエクスポートしたSCORMアーカイブファイル"
+
+msgid "sahs_export_file_info"
+msgstr "ILIASから直接エクスポートされたZIPファイル用のこのオプションを使用。通常ファイルのタイトルは1675257903__4105__sahs_132295.zipのようになります。"
+
+msgid "sahs_insert_chap_from_clip"
+msgstr "クリップボードの章を貼付ける"
+
+msgid "sahs_insert_page_from_clip"
+msgstr "クリップボードのページﾞを貼り付ける"
+
+msgid "sahs_insert_sco_from_clip"
+msgstr "クリップボードのSCOを貼付ける"
+
+msgid "sahs_new"
+msgstr "新しい学習モジュールを作成"
+
+msgid "salutation"
+msgstr "性別"
+
+msgid "salutation_f"
+msgstr "Ms./Mrs."
+
+msgid "salutation_m"
+msgstr "Mr."
+
+msgid "salutation_n"
+msgstr "性別非表示"
+
+msgid "saml_log_in"
+msgstr "ダイレクトログイン"
+
+msgid "saml_login_form_info_txt"
+msgstr "ユーザ名やパスワードの入力なしでダイレクトログインボタン使ってログインすることができます。"
+
+msgid "saml_login_form_txt"
+msgstr "SAML経由でILIASへログインする"
+
+msgid "save"
+msgstr "保存"
+
+msgid "save_and_back"
+msgstr "保存して戻る"
+
+msgid "save_message"
+msgstr "メッセージを保存"
+
+msgid "save_params_for_cron"
+msgstr "Cronジョブ用のパラメーターを保存"
+
+msgid "save_refresh"
+msgstr "保存してリフレッシュ"
+
+msgid "save_return"
+msgstr "保存して戻る"
+
+msgid "save_settings"
+msgstr "設定を保存"
+
+msgid "save_user_related_data"
+msgstr "ユーザに関係するアクセスデータを保存"
+
+msgid "saved_successfully"
+msgstr "正しく保存されました"
+
+msgid "saving"
+msgstr "保存中..."
+
+msgid "scope"
+msgstr "範囲"
+
+msgid "scorm_create_export_file_html"
+msgstr "エクスポート ファイル (HTML)を作成"
+
+msgid "scorm_create_export_file_pdf"
+msgstr "エクスポート ファイル (PDF)を作成"
+
+msgid "scorm_create_export_file_scrom12"
+msgstr "エクスポート ファイル (SCORM 1.2)を作成"
+
+msgid "scorm_create_export_file_scrom2004"
+msgstr "エクスポート ファイル (SCORM 2004 3rd Edition)を作成"
+
+msgid "scorm_create_export_file_scrom2004_4th"
+msgstr "エクスポート ファイル (SCORM 2004 4th Edition)を作成"
+
+msgid "scorm_login_as_learner_id"
+msgstr "SCORM2004: cmi.learner_idをiliasユーザ名に設定"
+
+msgid "scorm_login_as_learner_id_info"
+msgstr "有効にするとユーザIDに代わってユーザ名はcmi.learner_idに設定されます。"
+
+msgid "scorm_lp_auto_activate"
+msgstr "学習進捗の初期設定"
+
+msgid "scorm_lp_auto_activate_info"
+msgstr "一般的に学習進捗が有効の場合新規SCORMラーニングモジュール用の設定は\"SCORMアイテムの収集\"に設定されてSCOは学習進捗決定用に選択されます。もちろん調整は各SCORMラーニングモジュールで可能です。"
+
+msgid "scorm_new"
+msgstr "SCORMラーニングモジュール (オーサリングモード)を作成"
+
+msgid "scorm_without_session"
+msgstr "SCORM2004: セッションなしのデータ保存を有効にする"
+
+msgid "scorm_without_session_info"
+msgstr "ILIASセッションが切れてもSCORM学習データの保存を確保します。"
+
+msgid "search"
+msgstr "検索"
+
+msgid "search_active"
+msgstr "アクティブユーザを含める"
+
+msgid "search_at_current_position"
+msgstr "現在の位置"
+
+msgid "search_engine"
+msgstr "検索エンジン"
+
+msgid "search_for"
+msgstr "検索"
+
+msgid "search_globally"
+msgstr "グローバル"
+
+msgid "search_in"
+msgstr "検索内容"
+
+msgid "search_inactive"
+msgstr "未使用のユーザを含める"
+
+msgid "search_new"
+msgstr "新規検索"
+
+msgid "search_result"
+msgstr "結果を検索"
+
+msgid "search_results"
+msgstr "結果を検索"
+
+msgid "search_user"
+msgstr "ユーザを検索"
+
+msgid "search_users"
+msgstr "ユーザを検索"
+
+msgid "seas_max_hits"
+msgstr "最大ヒット"
+
+msgid "seas_max_hits_info"
+msgstr "検索結果の最大数を入力してください。"
+
+msgid "seas_settings"
+msgstr "検索設定"
+
+msgid "second"
+msgstr "秒"
+
+msgid "second_email"
+msgstr "第2メールアドレス"
+
+msgid "seconds"
+msgstr "秒"
+
+msgid "sel_country"
+msgstr "国"
+
+msgid "select"
+msgstr "選択"
+
+msgid "select_all"
+msgstr "全て選択"
+
+msgid "select_at_least_one_object"
+msgstr "オブジェクトを最低一つ選択してください。"
+
+msgid "select_file"
+msgstr "ファイルを選択"
+
+msgid "select_file_from_computer"
+msgstr "ファイルを選択"
+
+msgid "select_files_from_computer"
+msgstr "コンピュータのファイルを選択"
+
+msgid "select_max_one_item"
+msgstr "アイテムを一つだけ選択してください"
+
+msgid "select_object_to_link"
+msgstr "リンクしたいオブジェクトを選択してください"
+
+msgid "select_one"
+msgstr "一つ選択してください。"
+
+msgid "select_question_pool_info"
+msgstr "インポートファイルが質問を含んでいる以上は、それらの質問は選択された質問集も合わせてインポートされます。"
+
+msgid "select_questionpool"
+msgstr "問題を挿入"
+
+msgid "selected"
+msgstr "選択"
+
+msgid "selected_files"
+msgstr "ファイルを選択"
+
+msgid "selected_items"
+msgstr "パーソナルアイテム"
+
+msgid "selected_items_back"
+msgstr "パーソナルアイテムへ戻る"
+
+msgid "selected_languages_updated"
+msgstr "選択した言語は更新されました。 (インストール済の場合)"
+
+msgid "send"
+msgstr "送信"
+
+msgid "send_mail"
+msgstr "メールを送信"
+
+msgid "sender"
+msgstr "発信者"
+
+msgid "sent"
+msgstr "送信済"
+
+msgid "sequence"
+msgstr "シーケンス"
+
+msgid "sequences"
+msgstr "シーケンス"
+
+msgid "server"
+msgstr "サーバー"
+
+msgid "server_data"
+msgstr "サーバーデータ"
+
+msgid "server_disabled"
+msgstr "チャットはオフです"
+
+msgid "server_software"
+msgstr "サーバーソフトウェア"
+
+msgid "sess"
+msgstr "セッション"
+
+msgid "sess_fixed_duration"
+msgstr "固定のセッション継続時間"
+
+msgid "session_config"
+msgstr "セッション設定"
+
+msgid "session_config_maintenance_disabled"
+msgstr "クライアントによるメンテナンスを禁止する"
+
+msgid "session_mail_subject_deletion"
+msgstr " セッション \"%s\"からユーザ \"%s\"の登録解除"
+
+msgid "session_mail_subject_entered"
+msgstr "セッション \"%s\"内ユーザ\"%s\" の参加"
+
+msgid "session_mail_subject_registered"
+msgstr "セッション \"%s\"のユーザ\"%s\"の登録"
+
+msgid "session_reminder"
+msgstr "セッション警告"
+
+msgid "session_reminder_alert"
+msgstr "セッション%1$sは%2$sに終了します!セッションを継続するにはOKを選択します。キャンセルをクリックすると現在のブラウザセッション中に以降は催促されなくなります。インストールシステム: %3$s。"
+
+msgid "session_reminder_default_lead_time_info"
+msgstr "セッションの期限切れ前にリマインダーを表示するまでの分数を指定してください。<br />値が '%s' の場合、この機能は無効になります。推奨値は %s です。<br />現在のセッションの長さは %s です。"
+
+msgid "session_reminder_input"
+msgstr "セッションリマインダー(分単位)"
+
+msgid "session_reminder_lead_time"
+msgstr "リードタイム"
+
+msgid "session_reminder_lead_time_info"
+msgstr "セッション警告通知のリードタイムを秒数で指定してください。セッション終了前に時間が残っている場合にのみ警告通知を表示します。推奨値は300 (= 5 min.)です。<br / >現在のユーザセッションの長さは%sです。"
+
+msgid "session_reminder_session_duration"
+msgstr "(セッション接続時間:%s)。"
+
+msgid "set"
+msgstr "セット"
+
+msgid "setSystemLanguage"
+msgstr "システム言語設定"
+
+msgid "setUserLanguage"
+msgstr "ユーザ言語設定"
+
+msgid "set_offline"
+msgstr "オフラインに設定"
+
+msgid "set_online"
+msgstr "オンラインに設定"
+
+msgid "set_skin_does_not_exist"
+msgstr "選択のスキンはもうありません。パーソナル設定内のスタイル変更または管理者へ連絡してください。現在の選択:"
+
+msgid "set_style_does_not_exist"
+msgstr "選択のスキンはもうありません。パーソナル設定内のスタイル変更または管理者へ連絡してください。現在の選択:"
+
+msgid "settings"
+msgstr "設定"
+
+msgid "settings_for_all_members"
+msgstr "メンバーへ自動的に通知"
+
+msgid "settings_per_users"
+msgstr "メンバーへ自動的に通知します。各メンバー個々に解除可能です。"
+
+msgid "settings_presentation_header"
+msgstr "プレゼンテーション"
+
+msgid "settings_saved"
+msgstr "設定を保存"
+
+msgid "shib"
+msgstr "Shibboleth"
+
+msgid "shib_active"
+msgstr "Shibborethサポートをオン"
+
+msgid "shib_city"
+msgstr "市区郡の属性"
+
+msgid "shib_country"
+msgstr "国の属性"
+
+msgid "shib_data_conv"
+msgstr "データマニュピレーションAPIの絶対path"
+
+msgid "shib_data_conv_warning"
+msgstr "指定したデータマニュピレーションAPI ファイルを読み込むことができません"
+
+msgid "shib_department"
+msgstr "部署名の属性"
+
+msgid "shib_email"
+msgstr "e-mailアドレスの属性"
+
+msgid "shib_federation_name"
+msgstr "Shibbolethフェデレーションの名前"
+
+msgid "shib_firstname"
+msgstr "名前の属性"
+
+msgid "shib_gender"
+msgstr "性の属性 ('m' または 'f')"
+
+msgid "shib_general_login_instructions"
+msgstr " %s経由でログインするには、ログインボタンをクリックして次のページの組織を選択してください。<br>この件に関する質問は、へお尋ねください。"
+
+msgid "shib_general_wayf_login_instructions"
+msgstr "所属組織がなくこのサーバーにアクセスする必要がある場合には連絡してください。"
+
+msgid "shib_idp_list"
+msgstr "ILIASログインページからユーザへ選択させるようにIDプロバイダー一覧を表示します。<br>各行には、カンマで区切った組の <strong>IdPのプロバイダーID</strong> (Shibbolethメタデータファイルを参照) と <strong>IdP名</strong>がドロップダウンリストに表示される必要があります。<br>オプションの3番目のパラメーターとして、ILIASインストレーションがマルチフェデレーションセットアップの一部である場合に使用されます。<strong>"
+
+msgid "shib_institution"
+msgstr "学校の属性"
+
+msgid "shib_invalid_home_organization"
+msgstr "有効な組織を選択してください!"
+
+msgid "shib_language"
+msgstr "言語の属性"
+
+msgid "shib_lastname"
+msgstr "姓の属性"
+
+msgid "shib_login"
+msgstr "ユニークなShibboleth属性"
+
+msgid "shib_login_button"
+msgstr "Shibboleth構成で指示されているWAYFへリダイレクトするために使用されるShibbolethログインボタンのイメージのpath"
+
+msgid "shib_login_embedded_wayf"
+msgstr "ログイン領域をカスタムデザインする"
+
+msgid "shib_login_embedded_wayf_description"
+msgstr "このオプションを選択すると、ログイン説明テキスト領域の下に HTML コードを書く事ができます。 これは独自のJavaScript WAYF/検出サービスを埋め込むか、またはカスタム仕様デザインのログインの領域を作成するに事に使用できます。"
+
+msgid "shib_login_external_wayf"
+msgstr "外部WAYFサービスを使用する"
+
+msgid "shib_login_internal_wayf"
+msgstr "IILIAS WAYFサービスを使用する"
+
+msgid "shib_login_type"
+msgstr "組織選択"
+
+msgid "shib_matriculation"
+msgstr "学籍番号の属性"
+
+msgid "shib_member_of"
+msgstr "私はメンバー...です。"
+
+msgid "shib_phone_home"
+msgstr "自宅電話番号の属性"
+
+msgid "shib_phone_mobile"
+msgstr "携帯電話番号の属性"
+
+msgid "shib_phone_office"
+msgstr "会社電話番号の属性"
+
+msgid "shib_select_home_organization"
+msgstr "%s経由の認証用にドロップダウンリストから組織を選択してください。"
+
+msgid "shib_settings_saved"
+msgstr "Shibboleth設定が保存されました"
+
+msgid "shib_street"
+msgstr "町名・番地の属性"
+
+msgid "shib_title"
+msgstr "タイトルの属性"
+
+msgid "shib_update"
+msgstr "ログインのこの欄を更新"
+
+msgid "shib_user_default_role"
+msgstr "Shibbolethユーザへ割当てた役割初期設定"
+
+msgid "shib_zipcode"
+msgstr "郵便番号の属性"
+
+msgid "short_inst_name"
+msgstr "ショートタイトル"
+
+msgid "short_inst_name_info"
+msgstr "このタイトルはブラウザヘッダータイトルバーに表示されます。 値がない場合は 'ILIAS'を使用します。"
+
+msgid "show"
+msgstr "表示"
+
+msgid "show_all_details"
+msgstr "全詳細を表示"
+
+msgid "show_content"
+msgstr "コンテンツを表示"
+
+msgid "show_details"
+msgstr "詳細を表示"
+
+msgid "show_filter"
+msgstr "フィルタを表示"
+
+msgid "show_hidden_sections"
+msgstr "詳細を表示  &raquo;"
+
+#, fuzzy
+msgid "show_less"
+msgstr "Show less"
+
+msgid "show_list"
+msgstr "リストを表示"
+
+msgid "show_members"
+msgstr "メンバーを表示"
+
+msgid "show_more"
+msgstr "詳しく表示"
+
+msgid "show_preview"
+msgstr "プレビューを表示"
+
+msgid "show_users_online"
+msgstr "アクティブユーザを表示"
+
+msgid "show_who_is_online"
+msgstr "Who is onlineを表示"
+
+msgid "side_frame"
+msgstr "サイドフレーム"
+
+msgid "signature"
+msgstr "署名"
+
+msgid "size"
+msgstr "サイズ"
+
+msgid "skills"
+msgstr "能力"
+
+msgid "skin_style"
+msgstr "スキン/スタイル初期設定"
+
+msgid "smtp"
+msgstr "SMTP"
+
+msgid "soap_connect_timeout"
+msgstr "コネクションタイムアウト"
+
+msgid "soap_connect_timeout_info"
+msgstr "SOAP-Webサービス中断のために接続しようとするまでの最大秒数"
+
+msgid "soap_user_administration"
+msgstr "SOAP経由の管理"
+
+msgid "soap_user_administration_desc"
+msgstr "オンにするとILIASはSOAP経由で管理できます。"
+
+msgid "soap_wsdl_path"
+msgstr "WSDL Path"
+
+msgid "soap_wsdl_path_info"
+msgstr "サービスで使用されるilias wsdlファイルのpathを入力してください。この欄を空欄にすると次のpathは初期設定:%sが使用されます。"
+
+msgid "sort"
+msgstr "並び替え"
+
+msgid "sort_ascending"
+msgstr "昇順に並び替え"
+
+msgid "sort_ascending_long"
+msgstr "昇順へ並び替えを変更"
+
+msgid "sort_by_this_column"
+msgstr "この列を並び替え"
+
+msgid "sort_descending"
+msgstr "降順に並び替え"
+
+msgid "sort_descending_long"
+msgstr "降順へ並び替えを変更"
+
+msgid "sort_inherit_prefix"
+msgstr "初期設定"
+
+msgid "sorting_asc"
+msgstr "昇順"
+
+msgid "sorting_creation_header"
+msgstr "作成日順"
+
+msgid "sorting_creation_info"
+msgstr "コンテンツアイテムは自動的に作成日で整理されます。"
+
+msgid "sorting_desc"
+msgstr "降順"
+
+msgid "sorting_direction"
+msgstr "ソート順"
+
+msgid "sorting_header"
+msgstr "アイテム並び替えの内容"
+
+msgid "sorting_info_inherit"
+msgstr "並び替えモードは親コースから引き継がれます。"
+
+msgid "sorting_info_manual"
+msgstr "手動並び替えができます"
+
+msgid "sorting_info_title"
+msgstr "タイトルで自動並び替えします"
+
+msgid "sorting_manual_header"
+msgstr "手動並び替え"
+
+msgid "sorting_save"
+msgstr "並び替えを保存"
+
+msgid "sorting_title_header"
+msgstr "タイトルで並び替え"
+
+msgid "spacer"
+msgstr "スペーサー"
+
+msgid "spl"
+msgstr "サーベイ質問集"
+
+msgid "spl_add"
+msgstr "サーベイ質問集を追加"
+
+msgid "spl_import"
+msgstr "サーベイ質問集をインポート"
+
+msgid "spl_new"
+msgstr "新規サーベイ質問集"
+
+msgid "ssl"
+msgstr "SSL (HTTPS)"
+
+msgid "standard_fields"
+msgstr "標準フィールド"
+
+msgid "startpage"
+msgstr "ILIAS ログインページ"
+
+msgid "stat_selected"
+msgstr "選択した"
+
+msgid "statistic"
+msgstr "統計値"
+
+msgid "statistics"
+msgstr "統計値"
+
+msgid "status"
+msgstr "状況"
+
+msgid "status_no_permission"
+msgstr "追加権限なし"
+
+msgid "step"
+msgstr "ステップ"
+
+msgid "street"
+msgstr "町名・番地"
+
+msgid "structure"
+msgstr "建物"
+
+msgid "sty"
+msgstr "スタイル"
+
+msgid "sub_request_deleted"
+msgstr "メンバーシップリクエストを削除しました"
+
+msgid "sub_request_saved"
+msgstr "メンバーシッップリクエストを保存しました"
+
+msgid "subject"
+msgstr "件名"
+
+msgid "submit"
+msgstr "提出"
+
+msgid "subobjects"
+msgstr "サブオブジェクト"
+
+msgid "subscription"
+msgstr "購読"
+
+msgid "subtabs"
+msgstr "サブタブ"
+
+msgid "success_message"
+msgstr "成功メッセージ"
+
+msgid "summary"
+msgstr "サマリー"
+
+msgid "sure_delete_selected_users"
+msgstr "本当に選択したユーザを削除しますか?"
+
+msgid "survey_defaults"
+msgstr "サーベイ用の初期設定"
+
+msgid "survey_unlimited_invitation"
+msgstr "無期限の招待"
+
+msgid "svy"
+msgstr "サーベイ"
+
+msgid "svy_add"
+msgstr "サーベイを追加"
+
+msgid "svy_finished"
+msgstr "サーベイを完了しました"
+
+msgid "svy_new"
+msgstr "新規サーベイ"
+
+msgid "svy_not_finished"
+msgstr "サーベイがまだ完了していません"
+
+msgid "svy_not_started"
+msgstr "このサーベイに参加"
+
+msgid "svy_run"
+msgstr "実行"
+
+msgid "svy_warning_survey_not_complete"
+msgstr "サーベイは未完了"
+
+msgid "switch_language"
+msgstr "言語を切替"
+
+msgid "system"
+msgstr "システム"
+
+msgid "system_check"
+msgstr "システムチェック"
+
+msgid "system_information"
+msgstr "システム情報"
+
+msgid "system_language"
+msgstr "システム言語"
+
+msgid "system_styles"
+msgstr "システムスタイル"
+
+msgid "systemcheck_cron"
+msgstr "Cronジョブのシステムチェックを処理"
+
+msgid "systemcheck_cronform"
+msgstr "Cronジョブのシステムチェックのアクティベーション"
+
+msgid "table_mail_import"
+msgstr "メールインポート"
+
+msgid "tabs"
+msgstr "タブ"
+
+msgid "tagging_my_tags"
+msgstr "My Tags"
+
+msgid "tags"
+msgstr "タグ"
+
+msgid "take_over_structure"
+msgstr "構造を採用する"
+
+msgid "take_over_structure_info"
+msgstr "オンにするとzip ファイルのディレクトリがカテゴリにマップされるか、もしくはグループまたはコースを使ってフォルダへマップされます。"
+
+msgid "tals_etal"
+msgstr "トーク"
+
+msgid "talt_etal"
+msgstr "トーク"
+
+msgid "target"
+msgstr "ターゲット"
+
+msgid "tax"
+msgstr "分類基準"
+
+msgid "tax_add"
+msgstr "分類基準を追加"
+
+msgid "tax_new"
+msgstr "新規分類基準"
+
+msgid "term"
+msgstr "用語"
+
+msgid "test"
+msgstr "テスト"
+
+msgid "tests"
+msgstr "テスト"
+
+msgid "textbox"
+msgstr "テストボックス"
+
+msgid "thread"
+msgstr "スレッド"
+
+msgid "thumbnail"
+msgstr "サムネイル"
+
+msgid "tile_view"
+msgstr "タイル表示"
+
+msgid "time"
+msgstr "Time"
+
+msgid "time_limit"
+msgstr "アクセス"
+
+msgid "time_limit_add_time_limit_for_selected"
+msgstr "選択ユーザの終了時間を入力してください。"
+
+msgid "time_limit_from"
+msgstr "From (期限)"
+
+msgid "time_limit_message"
+msgstr "Message (期限)"
+
+msgid "time_limit_no_users_selected"
+msgstr "ユーザを選択してください。"
+
+msgid "time_limit_not_valid"
+msgstr "期間が有効ではありません。"
+
+msgid "time_limit_reached"
+msgstr "アカウントが無効です。"
+
+msgid "time_limit_unlimited"
+msgstr "Unlimited (期限)"
+
+msgid "time_limit_until"
+msgstr "Until(期限)"
+
+msgid "title"
+msgstr "タイトル"
+
+msgid "title_required"
+msgstr "タイトルを挿入してください。"
+
+msgid "to"
+msgstr "To"
+
+msgid "to_client_list"
+msgstr "クライアント選択"
+
+msgid "today"
+msgstr "今日"
+
+msgid "toggleGlobalDefault"
+msgstr "グローバル 初期設定を切替える"
+
+msgid "toggleGlobalFixed"
+msgstr "ローバル固定を切替える"
+
+msgid "toggle_dropdown"
+msgstr "ドロップダウンを切替える"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_off"
+msgstr "OFF"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_on"
+msgstr "ON"
+
+msgid "tomorrow"
+msgstr "明日"
+
+msgid "toolbar_more_actions"
+msgstr "アクション詳細"
+
+msgid "tools"
+msgstr "ツール"
+
+msgid "top_of_page"
+msgstr "ページのトップ"
+
+msgid "tos_accept_usr_agreement"
+msgstr "利用規約を承諾"
+
+msgid "tos_accept_usr_agreement_intro"
+msgstr "新しい利用規約があります。ILIAS利用に先だってそれを承諾する必要があります。次のドキュメントをよく読んでページ末の承諾または拒否をして下さい。"
+
+msgid "tos_force_accept_usr_agreement"
+msgstr "利用規約を承諾する必要があります。"
+
+msgid "tos_no_agreement_description"
+msgstr "現在このシステムの利用規約ドキュメントは利用できません。 <a href=\"%1$s\">システム管理者</a>へコンタクトしてください。"
+
+msgid "tos_refuse_acceptance"
+msgstr "利用規約承諾を拒否"
+
+msgid "tos_usr_agreement"
+msgstr "利用規約"
+
+msgid "tos_usr_agreement_footer_intro"
+msgstr "この利用規約を承諾する事を宣言しました。"
+
+msgid "tos_withdraw_consent_description"
+msgstr "ここで利用規約承諾を撤回する"
+
+msgid "tos_withdraw_consent_description_external"
+msgstr "利用規約承諾撤回の処理を完了するには、ILIASシステムへ戻り再ログインしてください。"
+
+msgid "tos_withdraw_consent_description_internal"
+msgstr "利用規約承諾撤回処理を完了するには再度ログインしてください。"
+
+msgid "tos_withdraw_consent_header"
+msgstr "利用規約承諾を撤回"
+
+msgid "tos_withdraw_consent_info"
+msgstr "利用規約に承諾を撤回"
+
+msgid "tos_withdraw_consent_info_external"
+msgstr "認証システムの管理者へコンタクトして利用規約承諾の撤回する意思を伝えてください。"
+
+msgid "total"
+msgstr "合計"
+
+msgid "tracking_settings"
+msgstr "追跡設定"
+
+msgid "translation"
+msgstr "翻訳"
+
+msgid "trash"
+msgstr "ごみ箱"
+
+msgid "tree"
+msgstr "ツリー"
+
+msgid "tree_frame"
+msgstr "ツリーフレーム"
+
+msgid "treeview"
+msgstr "サイドバーを表示"
+
+msgid "tst"
+msgstr "テスト"
+
+msgid "tst_add"
+msgstr "テストを追加"
+
+msgid "tst_edit_questions"
+msgstr "問題を編集"
+
+msgid "tst_history_read"
+msgstr "履歴表示"
+
+msgid "tst_new"
+msgstr "新テスト"
+
+msgid "tst_results"
+msgstr "Test テスト結果"
+
+msgid "tst_run"
+msgstr "実行"
+
+msgid "tst_user_not_invited"
+msgstr "このテストをする予定になっていません。"
+
+msgid "tst_warning_test_not_complete"
+msgstr "テストは完了していません!"
+
+msgid "tutors"
+msgstr "指導教員"
+
+msgid "txt_registered"
+msgstr "ILIASへ正しく登録されました。ユーザアカウントでILIASへログインするために下のボタンをクリックしてください。"
+
+msgid "txt_registered_passw_gen"
+msgstr "ILIASへ正しく登録されました。生成したパスワードを記したemailを間もなく受信します。"
+
+msgid "txt_submitted"
+msgstr "ILIASへのアカウントリクエストが送信されました。アカウントリクエストはシステム管理者がレビューして48時間以内に利用可能になります。アカウントが使えるようになるまでログインはできません。"
+
+msgid "typ"
+msgstr "オブジェクトタイプ定義"
+
+msgid "type"
+msgstr "タイプ"
+
+msgid "udf_added_field"
+msgstr "新規フィールドを追加しました。"
+
+msgid "udf_delete_sure"
+msgstr "本当にこの欄と全ての割り当てユーザデータを削除しますか?"
+
+msgid "udf_duplicate_entries"
+msgstr "値はユニークでなければなりません。"
+
+msgid "udf_field_deleted"
+msgstr "欄を削除しました。"
+
+msgid "udf_name_already_exists"
+msgstr "この欄の名称は既に使用されています。別の名前を使用してください。"
+
+msgid "udf_required_requires_visib_reg"
+msgstr "欄が\"必須項目\"に設定されていると、\"登録中表示\"に設定しなければなりません。"
+
+msgid "udf_type_date"
+msgstr "日付"
+
+msgid "udf_type_datetime"
+msgstr "日付と時間"
+
+msgid "udf_type_select"
+msgstr "選択一覧 (ドロップして下へ)"
+
+msgid "udf_type_text"
+msgstr "テキスト欄 (1行)"
+
+msgid "udf_type_textarea"
+msgstr "テキストエリア"
+
+msgid "udf_update_select_field"
+msgstr "選択ボックスを編集"
+
+msgid "udf_update_text_field"
+msgstr "テキスト欄を編集"
+
+msgid "udf_update_wysiwyg_field"
+msgstr "テキスト範囲欄(WYSIWYG)を編集"
+
+msgid "uid"
+msgstr "UID"
+
+msgid "ums_create_new_account"
+msgstr "新規アカウントを作成"
+
+msgid "ums_explanation"
+msgstr "外部アカウントはILIASアカウントへマップできませんでした。ILIASはemailアドレスに複数のアカウントを見つけました。その中の一つがあなたのアカウントであればILIASのパスワードでログインしてください。"
+
+msgid "ums_explanation_2"
+msgstr "これがアカウントではない場合は、'新規アカウントを作成'を押してください。"
+
+msgid "ums_explanation_3"
+msgstr "外部アカウントはILIASアカウントへマップできなかった可能性がありますが、ILIASには複数のアカウントのemailアドレスがありました。その中の一つでもあなたのアカウントであればILIASのパスワードでログインしてください。"
+
+msgid "ums_explanation_4"
+msgstr "どれもあなたのアカウントではない場合は'新規アカウントを作成'を押してください。"
+
+msgid "unambiguousness"
+msgstr "識別マーク"
+
+msgid "uncheck_all"
+msgstr "すべてをチェックしない"
+
+msgid "unchecked"
+msgstr "未チェック"
+
+msgid "uninstall"
+msgstr "アンインストール"
+
+msgid "uninstalled"
+msgstr "アンインストール済"
+
+msgid "unknown"
+msgstr "不明"
+
+msgid "unparticipate"
+msgstr "Unsubscribe"
+
+msgid "unread"
+msgstr "未読"
+
+msgid "unzip"
+msgstr "Unzip"
+
+msgid "up"
+msgstr "Up"
+
+msgid "update"
+msgstr "編集"
+
+msgid "update_applied"
+msgstr "更新適用"
+
+msgid "update_language"
+msgstr "言語を更新"
+
+msgid "update_on_conflict"
+msgstr "競合を更新"
+
+msgid "update_orgunits"
+msgstr "割当ての組織ユニットを更新"
+
+msgid "update_orgunits_desc"
+msgstr "有効にすると'組織ユニット'フィールドは全てのユーザアカウント用に更新されます。"
+
+msgid "upload"
+msgstr "アップロード"
+
+msgid "upload_error_file_not_found"
+msgstr "アップロードエラー：ファイルが見つかりません。"
+
+msgid "upload_ok"
+msgstr "アップロードは成功しました。"
+
+msgid "upload_pending"
+msgstr "保留"
+
+msgid "upload_settings"
+msgstr "アップロード設定"
+
+msgid "upload_svg_rejection_message"
+msgstr "アップロードされたSVGファイルには悪性コードの可能性があり処理できません。"
+
+msgid "upload_svg_rejection_message_base64"
+msgstr "base64でコード化されたコンテンツがファイルに含まれます。"
+
+msgid "upload_svg_rejection_message_elements"
+msgstr "要素または許可されないまたは不明の属性がファイルに含まれます。"
+
+msgid "upload_svg_rejection_message_foreign_object"
+msgstr "そのファイルには異物が含まれています。"
+
+msgid "upload_svg_rejection_message_script"
+msgstr "スクリプト-エレメントがファイルに含まれます。"
+
+msgid "uploaded_and_checked"
+msgstr "ファイルはアップロードされてチェックされましたので、これからインポートを開始できます。"
+
+msgid "uploading"
+msgstr "アップロード中…"
+
+msgid "uri"
+msgstr "URI"
+
+msgid "url"
+msgstr "URL"
+
+msgid "url_not_found"
+msgstr "ファイルが見つかりません"
+
+msgid "use_customized_instructions"
+msgstr "カスタマイズされた説明書を使用"
+
+msgid "use_default_instructions"
+msgstr "初期設定の説明書を使用します。"
+
+msgid "user"
+msgstr "ユーザ"
+
+msgid "user_activated"
+msgstr "ユーザは承認されました"
+
+msgid "user_added"
+msgstr "ユーザ追加"
+
+msgid "user_assignment"
+msgstr "ユーザ割り当て"
+
+msgid "user_avatar"
+msgstr "User Avatar"
+
+msgid "user_avatar_of"
+msgstr "User Avatar of"
+
+msgid "user_cant_receive_mail"
+msgstr "ユーザはメールシステムの使用禁止"
+
+msgid "user_comment"
+msgstr "ユーザコメント"
+
+msgid "user_deactivated"
+msgstr "ユーザの利用は禁止されました"
+
+msgid "user_defined_fields"
+msgstr "カスタムフィールド"
+
+msgid "user_defined_list"
+msgstr "カスタムユーザプロファイルフィールド"
+
+msgid "user_deleted"
+msgstr "ユーザ削除"
+
+msgid "user_detail"
+msgstr "詳細データ"
+
+msgid "user_ext_account"
+msgstr "外部アカウント"
+
+msgid "user_ext_account_desc"
+msgstr "外部認証(CAS, SOAP, LDAP またはRadius認証)に使用されるアカウント"
+
+msgid "user_image"
+msgstr "ユーザイメージ"
+
+msgid "user_import_failed"
+msgstr "ユーザインポートに失敗しました。"
+
+msgid "user_imported"
+msgstr "ユーザインポートは完了しました。"
+
+msgid "user_imported_with_warnings"
+msgstr "警告ありでユーザインポートは完了しました。"
+
+msgid "user_language"
+msgstr "ユーザ言語"
+
+msgid "user_never_logged_in"
+msgstr "ログインなしのユーザアカウントを削除"
+
+msgid "user_never_logged_in_info"
+msgstr "全てのログインなしユーザは削除されます。"
+
+msgid "user_never_logged_in_info_threshold_err_num"
+msgstr "正の非十進数に限り受付られます。"
+
+msgid "user_new_account_mail"
+msgstr "新規アカウントメール"
+
+msgid "user_new_account_mail_desc"
+msgstr "新規ユーザ用の通知メール"
+
+msgid "user_not_found"
+msgstr "ユーザが見つかりません"
+
+msgid "user_not_found_to_delete"
+msgstr "削除するユーザが見つかりませんでした。"
+
+msgid "user_not_known"
+msgstr "正しいユーザ名を挿入してください。"
+
+msgid "user_profile_other"
+msgstr "その他の情報"
+
+msgid "user_send_new_account_mail"
+msgstr "新規アカウントemailを送信"
+
+msgid "user_status"
+msgstr "ユーザステータス"
+
+msgid "user_toggle_noti"
+msgstr "メンバー は通知解除を禁止"
+
+msgid "userfolder_export_csv"
+msgstr "CSV形式"
+
+msgid "userfolder_export_excel_x86"
+msgstr "Microsoft Excel"
+
+msgid "userfolder_export_file"
+msgstr "ファイル"
+
+msgid "userfolder_export_file_size"
+msgstr "ファイルサイズ"
+
+msgid "userfolder_export_files"
+msgstr "ファイル"
+
+msgid "userfolder_export_xml"
+msgstr "XML"
+
+msgid "username"
+msgstr "ユーザ名"
+
+msgid "username_assistance"
+msgstr "ユーザ名支援"
+
+msgid "users"
+msgstr "ユーザ"
+
+msgid "users_not_imported"
+msgstr "次のユーザは存在しないので、メッセージはインポートできません"
+
+msgid "users_online"
+msgstr "利用中のユーザ"
+
+msgid "usr"
+msgstr "ユーザ"
+
+msgid "usr_account_inactive"
+msgstr "アクティブ化されていないアカウント"
+
+msgid "usr_active_only"
+msgstr "アクティブユーザのみ"
+
+msgid "usr_add"
+msgstr "ユーザを追加"
+
+msgid "usr_edit"
+msgstr "ユーザを編集"
+
+msgid "usr_field_change_components_listening"
+msgstr "変更した構成の中で興味のあるコンポーネントが一つはあります。以下の発表要素結果で変更確認を行いますか？"
+
+msgid "usr_filter_coursemember"
+msgstr "コースメンバー"
+
+msgid "usr_filter_groupmember"
+msgstr "グループメンバー"
+
+msgid "usr_filter_lastlogin"
+msgstr "ユーザの最後のログイン"
+
+msgid "usr_filter_role"
+msgstr "割当て済みの役割"
+
+msgid "usr_inactive_only"
+msgstr "非アクティブユーザ限定"
+
+msgid "usr_limited_access_only"
+msgstr "制限付きアクセスユーザ限定"
+
+msgid "usr_name_undisclosed"
+msgstr "未公開"
+
+msgid "usr_new"
+msgstr "新規ユーザ"
+
+msgid "usr_settings_changeable_lua"
+msgstr "ローカルユーザ管理の中で変更可能"
+
+msgid "usr_settings_explanation_profile"
+msgstr " '表示'をチェックすると、登録フォームの欄とパーソナルデスクトップ上のパーソナルユーザプロファイルを表示します。'変更可'をチェックすると、ユーザはパーソナルプロファイルの値を変更できるようになります。 表示欄は登録フォームから常時入力できる事を了承願います。 登録フォームとパーソナルユーザプロファイルには必須項目の欄が必要です。これらの設定に関係なくユーザ管理からすべてのデータを変更可能です。"
+
+msgid "usr_settings_header_profile"
+msgstr "標準ユーザ プロファイルフィールド"
+
+msgid "usr_settings_saved"
+msgstr "グローバル ユーザ設定は正しく保存されました!"
+
+msgid "usr_settings_visib_lua"
+msgstr "ローカルユーザ管理の中に表示"
+
+msgid "usr_skin_style"
+msgstr "スキン / スタイル"
+
+msgid "usr_without_courses"
+msgstr " コース未割当てユーザ"
+
+msgid "usrf"
+msgstr "ユーザ アカウント"
+
+msgid "usrf_profile_link"
+msgstr "ユーザプロファイルへリンクします"
+
+msgid "usrimport_action_ignored"
+msgstr "アクション %1$sを無視しました。"
+
+msgid "usrimport_action_replaced"
+msgstr "アクション %1$s by %2$sを入れ替えました。"
+
+msgid "usrimport_cant_delete"
+msgstr "削除アクションを実行できません。データベースにそのようなユーザはいません。"
+
+msgid "usrimport_cant_insert"
+msgstr "挿入アクションを実行できません。 データベースに既にユーザが存在します。"
+
+msgid "usrimport_cant_update"
+msgstr " \"更新\" アクションを実行できません。データベースにそのようなユーザはいません。"
+
+msgid "usrimport_conflict_handling_info"
+msgstr "競合を無視が選択されている時は、実行できないと(例　データベース内に同じログインユーザが存在すると\"挿入\"アクションは実行されない）ILIASはアクションを無視します。\"競合を更新\"が選択されている時は、アクションを実行できなくても(例　データベース内に同じログインユーザが存在すると\"挿入\"アクションは\"更新\"アクションに置き換えられる）、ILIASはデータベースを更新します。"
+
+msgid "usrimport_form_not_evaluabe"
+msgstr "フォームデータを読込む事ができませんでした。"
+
+msgid "usrimport_global_role_for_action_required"
+msgstr "最低一つグローバル 役割が\"%1$s\"アクションとして指定されていなければなりません。"
+
+msgid "usrimport_ignore_role"
+msgstr "役割を無視"
+
+msgid "usrimport_login_is_not_unique"
+msgstr "ログインがユニークではありません。"
+
+msgid "usrimport_no_insert_ext_account_exists"
+msgstr "挿入アクションを実行できません。外部アカウントが既に存在します。"
+
+msgid "usrimport_no_update_ext_account_exists"
+msgstr "更新アクションが実行できません。外部アカウントが既に存在します。"
+
+msgid "usrimport_with_specified_role_not_permitted"
+msgstr "指定した役割のインポートはアクセス許可されません。"
+
+msgid "usrimport_wrong_file_count"
+msgstr "インポートフォルダーにたくさんファイルがありすぎます。もう一度やり直してください。"
+
+msgid "usrimport_xml_anonymous_or_root_not_allowed"
+msgstr "システムアカウントでもanonymousアカウントでもないのはインポートを通して変更可能です。"
+
+msgid "usrimport_xml_attribute_missing"
+msgstr "要素 \"%1$s\" の属性 \"%2$s\" がありません。"
+
+msgid "usrimport_xml_attribute_value_illegal"
+msgstr "要素 \"%1$s\" の属性 \"%2$s\" の値 \"%3$s\" がありません。"
+
+msgid "usrimport_xml_attribute_value_inapplicable"
+msgstr "要素\"%1$s\"の属性 \"%2$s\"の値\"%3$s\"はアクション\"%4$s\"には不適切です。"
+
+msgid "usrimport_xml_element_content_illegal"
+msgstr "要素 \"%1$s \"のコンテンツ \"%2$s\" は不正です。"
+
+msgid "usrimport_xml_element_for_action_required"
+msgstr "要素 \"%1$s\" は \"%2$s\" アクション用に指定しなければなりません。"
+
+msgid "usrimport_xml_element_inapplicable"
+msgstr "要素 \"%1$s\" は \"%2$s\" アクションには不適当です。"
+
+msgid "valid"
+msgstr "有効"
+
+msgid "validate"
+msgstr "有効にする"
+
+msgid "value"
+msgstr "値"
+
+msgid "vcard"
+msgstr "訪問カード"
+
+msgid "vcard_download"
+msgstr "訪問カードをダウンロード"
+
+msgid "verification_failed"
+msgstr "確認に失敗しました"
+
+msgid "verification_failure_log"
+msgstr "確認失敗ログ"
+
+msgid "verification_warning_log"
+msgstr "確認ログ警告"
+
+msgid "version"
+msgstr "バージョン"
+
+msgid "versions"
+msgstr "バージョン"
+
+msgid "view"
+msgstr "表示"
+
+msgid "view_content"
+msgstr "内容の表示"
+
+msgid "view_learning_progress"
+msgstr "学習進捗を閲覧"
+
+msgid "view_learning_progress_rec"
+msgstr "Unit incl. Subunitsの学習進捗を閲覧"
+
+msgid "visible"
+msgstr "表示"
+
+msgid "visible_registration"
+msgstr "登録中表示"
+
+msgid "visitor"
+msgstr "ビジター"
+
+msgid "visitors"
+msgstr "ビジター"
+
+msgid "visits"
+msgstr "訪問"
+
+msgid "web_resources"
+msgstr "Webリンク"
+
+msgid "webdav"
+msgstr "WebDAV"
+
+msgid "webdav_add_instructions_btn_label"
+msgstr "マウント手順書を追加"
+
+msgid "webdav_chosen_language_already_used"
+msgstr "選択の言語に関連するドキュメントがすでに他にあります。"
+
+msgid "webdav_doc_delete"
+msgstr "WebDavマウント手順書を削除"
+
+msgid "webdav_docs_mount_instructions"
+msgstr "マウント手順書"
+
+msgid "webdav_duplicate_detected_title"
+msgstr "同じタイトルのオブジェクトがすでに表示されているので次のオブジェクトを表示することができませんでした。"
+
+msgid "webdav_forbidden_chars_title"
+msgstr "禁止文字 (\\<>/:*?\"|#)が一つ以上含まているため次のファイルを表示できません:"
+
+msgid "webdav_form_document"
+msgstr "手順書"
+
+msgid "webdav_form_document_info"
+msgstr "txtまたはhtmlファイルをここへupload。 Uploadされたファイルは解析されて処理されます。詳細"
+
+msgid "webdav_form_document_title"
+msgstr "Title"
+
+msgid "webdav_form_document_title_info"
+msgstr "マウント手順が公開されるとモーダルのタイトルとしてこのタイトルが表示されます。"
+
+msgid "webdav_form_edit_doc_head"
+msgstr "マウント手順を編集"
+
+msgid "webdav_form_new_doc_head"
+msgstr "新しいマウント手順書を作成"
+
+msgid "webdav_general_settings"
+msgstr "概要設定"
+
+msgid "webdav_missing_lang"
+msgstr "WebDAVマウント手順の英語版はありません。"
+
+msgid "webdav_mount_instructions"
+msgstr "マウント手順"
+
+msgid "webdav_problem_free_container"
+msgstr "このコンテナで障害となるオブジェクトはありません。"
+
+msgid "webdav_problem_info_duplicate"
+msgstr "Infoファイルとして同じタイトルのファイルはありません。ble"
+
+msgid "webdav_pwd_instruction"
+msgstr "Webフォルダ用のリポジトリを開くためのローカルパスワードの作成をお勧めします。<br />パスワードはWebフォルダ機能の利用に必要です。"
+
+msgid "webdav_pwd_instruction_success"
+msgstr "新しいローカルパスワードが作成されました。Webフォルダのリポジトリを開くことができます。"
+
+msgid "webdav_sure_delete_documents_s"
+msgstr "次のタイトルのマウント手順を本当に削除しますか:"
+
+msgid "webdav_tbl_docs_head_title"
+msgstr "ドキュメントタイトル"
+
+msgid "webdav_tbl_docs_title"
+msgstr "uploadされたWebDAV Mount手順リスト"
+
+msgid "webdav_upload_instructions"
+msgstr "手順書をupload"
+
+msgid "webfolder_dir_info"
+msgstr "ブラウザがWebフォルダを開く事ができません。<a href=\"%1$s\">Webフォルダを開くに関する説明</a>を読んでください。"
+
+msgid "webfolder_index_of"
+msgstr "%1$sのインデックス"
+
+msgid "webfolder_instructions"
+msgstr "Webフォルダ説明書"
+
+msgid "webfolder_instructions_info"
+msgstr "Webフォルダを直接開くことができないというWebフォルダの説明がブラウザに表示されます。HTMLコードと次のプレースフォルダを使用できます。<b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>. 初期設定の指示にするには欄をクリヤします。"
+
+msgid "webfolder_instructions_text"
+msgstr "<p>Webフォルダ<b>[WEBFOLDER_TITLE]</b>を開くには次の手順で行います。</p>[IF_WINDOWS]<h3>Windows Vista用</h3><ol><li>Windows+Eのキーを合わせて押しWindows Explorerを開く。</li><li>ツールバーの'ネットワークプレースを追加する'をクリック。<br/>'新しいネットワークプレース'ウィザードが開く。</li><li>'Webサイトへ接続'のリンクをクリック。</li><li>別のネットワークの場所'選択に続けて'次へ'を選択。<li>'インターネットまたはネットワークアドレス'の欄に<b><br/>[WEBFOLDER_URI]</b><br/>を入力して'次へ'を選択。</li><li>ログインパスワードを入力して'OK'を選択する。<br/>次のダイアログ窓が出るまでこの手順を繰返す。</li><li>Webフォルダ名を入力して'次へ'を選択する。</li><li>ログインパスワードを入力して'OK'を選択する。<br/>次のダイアログ窓が出るまでこの手順を繰返す。</li><li>'完了'を選択。</li><li>スタートメニューの'コンピュータ'からWebフォルダへのアクセスが可能。</li></ol><h3>Windows XPの場合</h3><ol><li>Windows+Eのキーを合わせて押しWindowsのエクスプローラを開く。</li><li>\"ツール\"から'ネットワークドライブの割当て'を選択。<br/>’ネットワークプレース追加'のウィザードが開く。</li><li>'Webサイトへ接続...'のリンクをクリック。<br/>小窓が開く。</li><li>'次へ'を選択。</li><li>'別のネットワークの場所'選択に続けて'次へ'を選択。<li>'インターネットまたはネットワークアドレス'の欄に<br/><b>[WEBFOLDER_URI]</b><br/>を入力して'次へ'を選択。</li><li>ログインパスワードを入力して'OK'を選択する。<li>Webフォルダの名前を入力して'次へ'を選択。<li>ログインパスワードを入力して'OK'を選択する。</li><li>'完了'を選択。</li><li>これでWebフォルダが開く。後でスタートメニューの'ネットワークプレース'からWebフォルダへ再度アクセスする事も可能。</li></ol>[/IF_WINDOWS][IF_MAC]<h3>Mac OS Xの場合</h3><ol><li>ファインダーを選択</li><li>Go &gt; サーバへ接続...'メニューを選択する。<br/>'サーバへ接続'が開く。</li><li>アドレス欄には次のアドレスを入力する。"
+
+msgid "webfolder_instructions_titletext"
+msgstr "Webフォルダ %1$s として開く"
+
+msgid "webfolder_mount_dir_with"
+msgstr "Webフォルダ<a href=\"%1$s\">Internet Explorerでこのページを開く</a>, <a href=\"%2$s\">Konqueror</a>, <a href=\"%3$s\">Nautilus</a>, <a href=\"%4$s\">other Browser</a>."
+
+msgid "webr"
+msgstr "Webリンク"
+
+msgid "webr_active"
+msgstr "アクティブ"
+
+msgid "webr_add"
+msgstr "Webリンクを追加"
+
+msgid "webr_deleted_items"
+msgstr "Webリンクを削除しました"
+
+msgid "webr_edit"
+msgstr "Webリンクを編集"
+
+msgid "webr_sure_delete_items"
+msgstr "本当に次のWebリンクを削除しますか?"
+
+msgid "webservices"
+msgstr "Webサービス"
+
+msgid "week"
+msgstr "週"
+
+msgid "weekly"
+msgstr "週間"
+
+msgid "weeks"
+msgstr "週間"
+
+msgid "welcome"
+msgstr "Welcome"
+
+msgid "width"
+msgstr "幅"
+
+msgid "wiki"
+msgstr "Wiki"
+
+msgid "wiki_add"
+msgstr "Wikiに追加"
+
+msgid "wiki_new"
+msgstr "新規Wiki"
+
+msgid "with"
+msgstr "with"
+
+msgid "withdraw_consent"
+msgstr "承諾を取り消す"
+
+msgid "withdraw_consent_info_internal"
+msgstr "ここで確認するとアカウントは削除されます。"
+
+msgid "withdraw_usr_agreement"
+msgstr "取り消し"
+
+msgid "withdrawal_complete"
+msgstr "完全に承諾を取り下げます。"
+
+msgid "withdrawal_complete_deleted"
+msgstr "完全に承諾を取り下げてアカウントを削除します。"
+
+msgid "withdrawal_complete_redirect"
+msgstr "完全に承諾を取り下げます。 アカウントを削除するには組織へコンタクトして下さい。"
+
+msgid "withdrawal_mail_info"
+msgstr "取り下げ確認後に以下のメールが管理者へ送られます。:[BR][BR]"
+
+msgid "withdrawal_mail_subject"
+msgstr "利用規約承諾の取り下げ"
+
+msgid "withdrawal_mail_text"
+msgstr "担当の方へ,[BR][BR]ILIASシステムの利用規約をここに取り下げます。適時アカウントの更新または削除をお願いします。[BR][BR]名前: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]早々[BR]%1$s"
+
+msgid "withdrawal_sure_account"
+msgstr "承諾を本当に取り下げますか?"
+
+msgid "withdrawal_sure_account_deletion"
+msgstr "承諾を本当に取り下げますか? アカウントは取り消し不可能で削除されます。"
+
+msgid "withdrawal_sure_account_deletion_no_consent_yet"
+msgstr "本当に使用許諾を承認しませんか? ユーザアカウントは取消不可で削除されます。"
+
+msgid "withdrawal_sure_account_no_consent_yet"
+msgstr "本当に使用許諾を承認しませんか?"
+
+msgid "wizard_search_list"
+msgstr "検索の結果次のヒットがありました。どれか一つ選択してください。"
+
+msgid "wizard_title_info"
+msgstr "複製したいオブジェクトのタイトルを入力してください。"
+
+msgid "write"
+msgstr "書込み"
+
+msgid "year"
+msgstr "年"
+
+msgid "yearly"
+msgstr "年間"
+
+msgid "years"
+msgstr "年間"
+
+msgid "yes"
+msgstr "Yes"
+
+msgid "yesterday"
+msgstr "昨日"
+
+msgid "zip"
+msgstr "郵便番号"
+
+msgid "zip_structure_error"
+msgstr "アーカイブに同一 ファイル名が含まれます。アップロードは中止されました。"
+
+msgid "zip_test_failed"
+msgstr "郵便番号テストに失敗しました。ILIAS 管理者へ連絡してください。"
+
+msgid "zipcode"
+msgstr "郵便番号"

@@ -1,0 +1,8330 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: et\n"
+"Language-Team: Estonian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: common\n"
+
+msgid "HH"
+msgstr "HH:MM"
+
+msgid "absolute_path"
+msgstr "Absoluuttee"
+
+#, fuzzy
+msgid "accept_usr_agreement_btn"
+msgstr "Accept"
+
+msgid "access"
+msgstr "Ligipääs"
+
+msgid "accessFree"
+msgstr "Eemalda piiratud ligipääs"
+
+msgid "accessRestrict"
+msgstr "Sea piiratud ligipääs"
+
+msgid "access_expired"
+msgstr "aegunud"
+
+msgid "access_free_granted"
+msgstr "Set the selected user(s) to unlimited access"
+
+msgid "access_from"
+msgstr "Ligipääs (from)"
+
+msgid "access_public"
+msgstr "Vaba juurdepääs"
+
+msgid "access_restricted"
+msgstr "Set the selected user(s) to limited access"
+
+msgid "access_scope"
+msgstr "Ligipääs"
+
+msgid "access_unlimited"
+msgstr "Piiramata"
+
+msgid "access_until"
+msgstr "Ligipääs kuni"
+
+msgid "access_users"
+msgstr "Sisseloginud kasutajad"
+
+msgid "accesscount_registered_users"
+msgstr "Erinevaid kasutajaid"
+
+#, fuzzy
+msgid "accessibility_control_concept"
+msgstr "Accessibility Control Concept"
+
+#, fuzzy
+msgid "account"
+msgstr "My Account"
+
+msgid "account_expires_body"
+msgstr "Teie juurdepääs on piiratud, see aegub:"
+
+msgid "account_expires_subject"
+msgstr "[ILIAS] Teie konto aegub"
+
+msgid "action"
+msgstr "Tegevus"
+
+msgid "action_aborted"
+msgstr "Toiming on lõpetatud"
+
+msgid "actions"
+msgstr "Tegevused"
+
+#, fuzzy
+msgid "actions_for"
+msgstr "Actions for %s"
+
+msgid "activate"
+msgstr "Muuda aktiivseks"
+
+msgid "activate_https"
+msgstr "HTTPS handling by ILIAS<br>(Payment, Login)"
+
+msgid "activate_tracking"
+msgstr "Aktiveerimine"
+
+msgid "activation"
+msgstr "Aktiveerimine"
+
+msgid "active"
+msgstr "Aktiivne"
+
+msgid "add"
+msgstr "Lisa"
+
+msgid "add_condition"
+msgstr "Loo uus seos"
+
+msgid "add_entry"
+msgstr "Add/Edit entry"
+
+msgid "add_member"
+msgstr "Lisa kasutaja"
+
+#, fuzzy
+msgid "add_member_role"
+msgstr "Add Member Role"
+
+msgid "add_new_user_defined_field"
+msgstr "Lisa uus kohandatav väli"
+
+msgid "add_note"
+msgstr "Lisa märge"
+
+msgid "add_parameter"
+msgstr "Uus parameeter"
+
+#, fuzzy
+msgid "add_remove_edit_entries_of_main_menu"
+msgstr "Add, remove or edit entries of the main menu"
+
+#, fuzzy
+msgid "add_role"
+msgstr "Add Role"
+
+msgid "add_translation"
+msgstr "Lisa tõlge"
+
+msgid "add_user"
+msgstr "Lisa kohalik kasutaja"
+
+msgid "add_user_defined_field"
+msgstr "Lisa uus väli"
+
+msgid "added_new_condition"
+msgstr "Uus eeltingimus loodud."
+
+msgid "additional_info"
+msgstr "Lisaks"
+
+msgid "address"
+msgstr "Aadress"
+
+msgid "admin_force_noti"
+msgstr "Teavitus aktiivne"
+
+msgid "administrate_users"
+msgstr "Kohaliku kasutaja haldus"
+
+#, fuzzy
+msgid "administrate_users_headline"
+msgstr "Local ILIAS Accounts of this Category"
+
+msgid "administration"
+msgstr "Administreerimine"
+
+msgid "administrator"
+msgstr "Administraator"
+
+msgid "adopt"
+msgstr "Kinnita"
+
+msgid "advanced_editing_allow_html_tags"
+msgstr "Võimalda teksti redigeerimiseks HTML märgendid"
+
+msgid "advanced_editing_assessment_settings"
+msgstr "lubatud HTML märgendid ILIASe testi ja hindamise tööriistale"
+
+msgid "advanced_editing_frm_post_settings"
+msgstr "Foorumi postituste seaded"
+
+msgid "advanced_editing_rep_page_editing"
+msgstr "Võimalda varamus sisu muutmine"
+
+msgid "advanced_editing_rep_page_editing_desc"
+msgstr "See funktsioon lubab lisada teksti/meediat kategooriasse, kursusesse, gruppi ja kausta lehtedele."
+
+msgid "advanced_editing_required_tags"
+msgstr "The following HTML tags are required: %s"
+
+msgid "advanced_editing_survey_settings"
+msgstr "Lubatud HTML märgendid ILIASe küsitluse vahendis"
+
+msgid "adve_assessment_settings"
+msgstr "Testimise&hindamise seaded"
+
+msgid "adve_frm_post_settings"
+msgstr "Foorumi postitused"
+
+msgid "adve_general_settings"
+msgstr "Üldised seaded"
+
+msgid "adve_survey_settings"
+msgstr "Küsitluse seaded"
+
+msgid "agree_date"
+msgstr "Nõustunud kasutustingimustega"
+
+#, fuzzy
+msgid "all"
+msgstr "All"
+
+msgid "all_global_roles"
+msgstr "Üldised rollid"
+
+msgid "all_local_roles"
+msgstr "Kohalikud rollid (kõik)"
+
+msgid "all_objects"
+msgstr "Kõik objektid"
+
+msgid "all_roles"
+msgstr "Kõik rollid"
+
+msgid "all_topics"
+msgstr "Kõik teemad"
+
+msgid "all_users"
+msgstr "Kõik kasutajad"
+
+msgid "allow_assign_users"
+msgstr "Luba kohalikele administraatoritele kasutajate määramist."
+
+msgid "allow_override_alert"
+msgstr "Rules for .htaccess are not interpreted correctly."
+
+msgid "allow_register"
+msgstr "Nähtav uute kasutajate registreerimisvormis"
+
+msgid "allow_user_toggle_noti"
+msgstr "Liikmed võivad teavitused deaktiveerida"
+
+msgid "already_delivered_files"
+msgstr "Saadetud failid"
+
+msgid "and"
+msgstr "ja"
+
+#, fuzzy
+msgid "angry"
+msgstr "Angry"
+
+msgid "anonymous"
+msgstr "Anonüümne"
+
+msgid "answers"
+msgstr "vastused"
+
+msgid "any_language"
+msgstr "Kõik keeled"
+
+msgid "apache_auth"
+msgstr "<img src=\"assets/images/idkaart.gif\" alt=\"Log with id card\" onclick=\"setTimeout('document.forms[\\'formlogin\\'].submit()',1250);\">"
+
+msgid "application_completed"
+msgstr "Rakendus on valmis"
+
+msgid "application_date"
+msgstr "Rakenduse kuupäev"
+
+msgid "applications"
+msgstr "Rakendused"
+
+msgid "apply"
+msgstr "Lisa"
+
+msgid "apply_filter"
+msgstr "Otsi"
+
+msgid "appointment"
+msgstr "Kohtumine"
+
+msgid "approve_date"
+msgstr "Aktiveeritud"
+
+msgid "approve_recipient"
+msgstr "Login ID of approver"
+
+msgid "archive"
+msgstr "Arhiiv"
+
+msgid "archive_broken"
+msgstr "Säilituskoopia on kas katkine või ei sisalda midagi"
+
+msgid "are_you_sure"
+msgstr "Oled kindel?"
+
+msgid "assf_allowed_questiontypes"
+msgstr "Võimalikud küsimusetüübid"
+
+msgid "assf_allowed_questiontypes_desc"
+msgstr "Kõik valitud küsimuste tüübid on antud ILIASe installatsioonis kättesaadavad. Kui te ei taha lubada teatud tüüpi küsimuste loomist selles installatsioonis, eemaldage linnuke vastavast valikukastist."
+
+msgid "assf_questiontypes"
+msgstr "Küsimuse seaded"
+
+msgid "assign"
+msgstr "Luba"
+
+msgid "assign_global_role"
+msgstr "Lisa üldisele rollile"
+
+msgid "assign_local_role"
+msgstr "Lisa kohalikule rollile"
+
+msgid "assigned_members"
+msgstr "Määratud liikmed"
+
+msgid "assigned_roles"
+msgstr "Omistatud rollid"
+
+msgid "associated_user"
+msgstr "seotud kasutaja"
+
+#, fuzzy
+msgid "astounded"
+msgstr "Astounded"
+
+msgid "at_least_one_style"
+msgstr "Vähemalt üks kujunduslaad peab olema aktiivne."
+
+msgid "attachment"
+msgstr "Manus"
+
+msgid "attachments"
+msgstr "Manused:"
+
+msgid "attempts"
+msgstr "Üritusi"
+
+msgid "auth_active_roles"
+msgstr "Registreerumisankeedil võimalikud üldised rollid"
+
+msgid "auth_allow_local"
+msgstr "Võimalda kohalikku autentimist"
+
+msgid "auth_configure"
+msgstr "konfigureeri..."
+
+msgid "auth_create_users"
+msgstr "Create non-existing users automatically"
+
+msgid "auth_default"
+msgstr "Vaikimisi seadmine"
+
+msgid "auth_default_mode_changed_to"
+msgstr "Autentimisviis muudetud:"
+
+msgid "auth_ecs"
+msgstr "ECS"
+
+msgid "auth_ldap"
+msgstr "LDAP"
+
+msgid "auth_ldap_enable"
+msgstr "Enable LDAP support"
+
+msgid "auth_ldap_migration"
+msgstr "Kasutajakontode migratsioon"
+
+msgid "auth_ldap_migration_info"
+msgstr "Activate this option to give new users the possibility to migrate their existing ILIAS accounts to LDAP authentication."
+
+msgid "auth_local"
+msgstr "ILIASe andmebaas"
+
+msgid "auth_login_instructions"
+msgstr "Tutvustust näidatakse esilehel"
+
+msgid "auth_mode"
+msgstr "Autentimine"
+
+msgid "auth_mode_not_changed"
+msgstr "(muudatusi pole)"
+
+msgid "auth_mode_roles_changed"
+msgstr "Changed authentication mode for this Role"
+
+msgid "auth_new_account_mail_desc"
+msgstr "Send new account mail to user, if user is generated automatically. A password will only be generated, if \"Allow Local Authentication\" is also activated."
+
+msgid "auth_per_default"
+msgstr "Vaikimisi"
+
+msgid "auth_remark_non_local_auth"
+msgstr "Valides ILIASe asemel muu autentimissüsteemi, võib kaduda võimalus muuta kasutajanime ja parooli."
+
+msgid "auth_role_auth_mode"
+msgstr "Autentimisviis"
+
+#, fuzzy
+msgid "auth_saml"
+msgstr "SAML"
+
+msgid "auth_script"
+msgstr "Kohandatud"
+
+msgid "auth_select"
+msgstr "Vali autentimissüsteem"
+
+msgid "auth_selection"
+msgstr "Vali sobiv viis"
+
+msgid "auth_settings"
+msgstr "Autentimise seaded"
+
+msgid "auth_shib"
+msgstr "Shibboleth"
+
+msgid "auth_shib_instructions"
+msgstr "Be sure to read the README for instructions on how to configure Shibboleth support for ILIAS."
+
+msgid "auth_shib_not_configured"
+msgstr "Shibboleth is not configured yet"
+
+msgid "auth_shibboleth"
+msgstr "Shibboleth"
+
+msgid "auth_soap"
+msgstr "SOAP"
+
+msgid "auth_soap_allow_local_desc"
+msgstr "This allows SOAP users to authenticate with their local ILIAS username and a local password."
+
+msgid "auth_soap_auth"
+msgstr "Configure SOAP Authentication"
+
+msgid "auth_soap_auth_desc"
+msgstr "This settings deal only with SOAP based user authentication, not with the ILIAS SOAP interface."
+
+msgid "auth_soap_create_users_desc"
+msgstr "Creates automatically an ILIAS user account, for users that successfully authenticated against SOAP, without having an ILIAS account yet."
+
+msgid "auth_soap_namespace"
+msgstr "Nimeväli"
+
+msgid "auth_soap_namespace_desc"
+msgstr "As defined in WSDL. Must be specified, if .NET SOAP style is used."
+
+msgid "auth_soap_port_desc"
+msgstr "E.g. 8080 if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_server_desc"
+msgstr "E.g. auth.yourserver.com if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_settings_saved"
+msgstr "SOAP authentication settings saved"
+
+msgid "auth_soap_uri_desc"
+msgstr "Local URI, e.g. dir/server.php if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_use_dotnet"
+msgstr "Use .NET SOAP Style"
+
+msgid "auth_soap_use_https"
+msgstr "Kasuta HTTPS"
+
+msgid "auth_soap_user_default_role_desc"
+msgstr "This role is assigned to automatically created SOAP users."
+
+msgid "auth_user_default_role"
+msgstr "Roll vaikimisi"
+
+msgid "authenticate_ilias"
+msgstr "ILIASe kasutajanimi"
+
+msgid "authentication_settings"
+msgstr "Autentimine"
+
+msgid "author"
+msgstr "Autor"
+
+msgid "authoring_mode"
+msgstr "Loomeviis"
+
+msgid "authors"
+msgstr "Autorid"
+
+msgid "autocomplete_more"
+msgstr "more"
+
+msgid "available"
+msgstr "Kättesaadavad"
+
+#, fuzzy
+msgid "awra"
+msgstr "Who is online?"
+
+msgid "back"
+msgstr "Tagasi"
+
+#, fuzzy
+msgid "back_to_course"
+msgstr "Back to Course"
+
+msgid "back_to_crs_content"
+msgstr "Tagasi kursuse sisu juurde"
+
+msgid "back_to_fold_content"
+msgstr "Tagasi kausta sisu juurde"
+
+msgid "back_to_grp_content"
+msgstr "Tagasi grupi sisu juurde"
+
+msgid "backto_lua"
+msgstr "Tagasi kohaliku kasutaja haldusesse"
+
+msgid "basedn"
+msgstr "BaseDN"
+
+msgid "basic_settings"
+msgstr "Põhiseaded"
+
+msgid "before"
+msgstr "enne"
+
+msgid "behind"
+msgstr "Behind"
+
+msgid "bib_data"
+msgstr "Bibliograafilised andmed"
+
+#, fuzzy
+msgid "bibl_add"
+msgstr "Add Bibliography"
+
+msgid "birthday"
+msgstr "Sünnipäev"
+
+msgid "bkm_import"
+msgstr "Impordi veebiaadressid"
+
+msgid "bkm_import_ok"
+msgstr "Edukalt on imporditud %d järjehoidjat ja  %d järjehoidjate kausta."
+
+msgid "bkm_sendmail"
+msgstr "Saada manusena"
+
+msgid "block"
+msgstr "Plokk"
+
+msgid "bm"
+msgstr "Veebiaadress"
+
+msgid "bm_add_to_ilias"
+msgstr "Lisa ILIASe järjehoidjatesse"
+
+msgid "bmf"
+msgstr "Veebilehtede kaust"
+
+msgid "bold"
+msgstr "Rasvane"
+
+#, fuzzy
+msgid "bold_action"
+msgstr "Insert Bold - Click to insert bold text."
+
+msgid "bookings"
+msgstr "Broneeringud"
+
+msgid "bookmark_added"
+msgstr "Järjehoidja on loodud."
+
+msgid "bookmark_folder_new"
+msgstr "Uus veebilehtede kaust"
+
+msgid "bookmark_new"
+msgstr "Uus veebileht"
+
+msgid "bookmark_target"
+msgstr "Aadress"
+
+msgid "bookmarks"
+msgstr "Minu veebilehed"
+
+msgid "bookmarks_of"
+msgstr "Järjehoidjad"
+
+msgid "breadcrumb_navigation"
+msgstr "Jäljerida"
+
+#, fuzzy
+msgid "breadcrumbs_aria_label"
+msgstr "Breadcrumbs"
+
+#, fuzzy
+msgid "briefcase"
+msgstr "Background Tasks"
+
+msgid "btn_add"
+msgstr "Lisa"
+
+msgid "btn_back"
+msgstr "Tagasi"
+
+msgid "btn_next"
+msgstr "Jätka"
+
+msgid "btn_previous"
+msgstr "Tagasi"
+
+msgid "btn_remove_system"
+msgstr "Eemalda süsteemist"
+
+msgid "btn_undelete"
+msgstr "Taasta"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_no"
+msgstr "Doesn`t Receive Contact Requests"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_yes"
+msgstr "Receives Contact Requests"
+
+#, fuzzy
+msgid "building_export_file"
+msgstr "Building Export File..."
+
+#, fuzzy
+msgid "bulletlist_action"
+msgstr "Insert Bulletpoint-List - Click to insert a bulletpoint-list."
+
+msgid "by"
+msgstr "By"
+
+msgid "bytes"
+msgstr "baiti"
+
+msgid "cal_from"
+msgstr "Alates:"
+
+msgid "cal_until"
+msgstr "Kuni:"
+
+msgid "calendar"
+msgstr "Kalender"
+
+msgid "cancel"
+msgstr "Tühista"
+
+msgid "cancel_file_upload"
+msgstr "Do you really want to cancel all pending uploads?"
+
+msgid "cannot_find_xml"
+msgstr "XML-faili ei leitud."
+
+msgid "cannot_uninstall_language_in_use"
+msgstr "You cannot uninstall the language currently in use!"
+
+msgid "cannot_uninstall_systemlanguage"
+msgstr "You cannot uninstall the system language!"
+
+msgid "cannot_unzip_file"
+msgstr "Faili ei saa lahti pakkida."
+
+msgid "cant_deactivate_if_users_assigned"
+msgstr "Sa ei saa stiili deaktiveerida, kui sellel on veel kasutajaid."
+
+msgid "cat"
+msgstr "Kategooria"
+
+msgid "cat_add"
+msgstr "Lisa liigitus"
+
+msgid "cat_added"
+msgstr "Kategooria lisatud"
+
+msgid "cat_copy_threads_info"
+msgstr "Please decide which category items should be copied, linked or even omitted."
+
+msgid "cat_edit"
+msgstr "Muuda liigitust"
+
+msgid "cat_new"
+msgstr "Uus kategooria"
+
+msgid "cat_wizard_page"
+msgstr "Kopeeri kategooria (Aste 2/2)"
+
+msgid "categories"
+msgstr "Liigitus"
+
+msgid "categories_imported"
+msgstr "Liigituse import puudulik."
+
+msgid "catr"
+msgstr "Kategooria viide"
+
+#, fuzzy
+msgid "catr_add"
+msgstr "Add Category Link"
+
+msgid "catr_edit_info"
+msgstr "Uue viite loomiseks vali üks liigitus."
+
+msgid "catr_new"
+msgstr "Loo uus kategooria viide"
+
+#, fuzzy
+msgid "catr_settings"
+msgstr "Category Link Settings"
+
+msgid "certificate"
+msgstr "Tunnistus"
+
+#, fuzzy
+msgid "certificate_file_already_exists_error"
+msgstr "The certificate file already exists in the file system."
+
+#, fuzzy
+msgid "certificate_file_input_output_error"
+msgstr "The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator."
+
+#, fuzzy
+msgid "certificate_file_not_found_error"
+msgstr "The certificate file doesn't exist in the file system anymore. Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden."
+
+#, fuzzy
+msgid "certificate_persistent_option"
+msgstr "Certificates of Achievements"
+
+#, fuzzy
+msgid "certificate_selection"
+msgstr "Origin of Certificates"
+
+#, fuzzy
+msgid "certificate_workspace_option"
+msgstr "Certificates of Personal Resources"
+
+#, fuzzy
+msgid "certificates"
+msgstr "Certificates"
+
+msgid "change"
+msgstr "Muuda"
+
+msgid "change_assignment"
+msgstr "Muuda omistust"
+
+msgid "change_header_title"
+msgstr "Muuda päise pealkirja"
+
+msgid "change_owner"
+msgstr "Muuda omanikku"
+
+msgid "change_sort_direction"
+msgstr "Muuda suunda"
+
+msgid "changeable"
+msgstr "Muudetav"
+
+msgid "changed_to"
+msgstr "muudetud:"
+
+msgid "changing_loginname_not_possible_info"
+msgstr "Sa muutsid oma kasutajanime viimati %s. Jälle saad oma kasutajanime muuta %s."
+
+msgid "chapter"
+msgstr "Peatükk"
+
+msgid "characters"
+msgstr "kirjamärgid"
+
+msgid "chat_enter_public_room"
+msgstr "Avalik jututuba"
+
+msgid "chat_enter_public_room_tooltip"
+msgstr "Avalik jututuba"
+
+msgid "chat_users_active"
+msgstr "Aktiivsed kasutajad"
+
+msgid "check"
+msgstr "Kontrolli"
+
+msgid "check_all"
+msgstr "Märgi kõik"
+
+msgid "check_langfile"
+msgstr "Palun kontrolli oma keelefaili"
+
+msgid "check_languages"
+msgstr "Kontrolli kõiki keeli"
+
+msgid "check_link"
+msgstr "Lingikontroll"
+
+msgid "check_link_desc"
+msgstr "Kui võimaldatud, kontrollitakse ILIASe õppemoodulis kõikide süsteemiväliste linkide aktiivust."
+
+msgid "check_user_accounts"
+msgstr "Kontrolli kasutajakontosid"
+
+msgid "check_user_accounts_desc"
+msgstr "If cron jobs are activated and this option is enabled, all users whose account expires will be informed by email."
+
+msgid "check_web_resources"
+msgstr "Kontrolli veebiallikaid"
+
+msgid "check_web_resources_desc"
+msgstr "Kui võimaldatud, kontrollitakse kõikide veebiallikate aktiivsust."
+
+msgid "checked"
+msgstr "Kontrollitud"
+
+msgid "checked_files"
+msgstr "Imporditavad failid"
+
+msgid "chg_ilias_and_webfolder_password"
+msgstr "Change ILIAS and Webfolder Password"
+
+msgid "chg_ilias_password"
+msgstr "Muuda ILIASe parool"
+
+msgid "chg_password"
+msgstr " Muuda salasõna"
+
+msgid "choose_language"
+msgstr "Vali keel"
+
+msgid "choose_only_one_language"
+msgstr "Vali üks keel"
+
+msgid "chown_warning"
+msgstr "Ettevaatust, sa võid kaotada ligipääsu õigused sellele objektile, kui oled omaniku vahetanud."
+
+msgid "chta_edit_permission"
+msgstr "Change Permission Settings"
+
+msgid "chta_read"
+msgstr "Read access to Chatroom Administration"
+
+msgid "chta_visible"
+msgstr "Chatroom Administration is visible"
+
+msgid "chta_write"
+msgstr "Edit Chatroom Administration"
+
+msgid "chtr_copy"
+msgstr "Copy Chatroom"
+
+#, fuzzy
+msgid "chtr_import"
+msgstr "Import Chatroom"
+
+msgid "city"
+msgstr "Linn"
+
+msgid "cleaned_file"
+msgstr "Fail on puhastatud."
+
+msgid "cleaning_failed"
+msgstr "Puhastamine ebaõnnestus."
+
+msgid "clear"
+msgstr "Tühista"
+
+msgid "clear_clipboard"
+msgstr "Tühjenda puhver"
+
+msgid "client"
+msgstr "Klient"
+
+msgid "client_id"
+msgstr "Kliendi ID"
+
+msgid "client_ip"
+msgstr "Kliendi IP"
+
+#, fuzzy
+msgid "clientlist_available_clients"
+msgstr "Available Clients"
+
+#, fuzzy
+msgid "clientlist_clientlist"
+msgstr "Client List"
+
+#, fuzzy
+msgid "clientlist_installation_name"
+msgstr "Installation Name"
+
+#, fuzzy
+msgid "clientlist_login"
+msgstr "Login"
+
+#, fuzzy
+msgid "clientlist_login_page"
+msgstr "Login page"
+
+#, fuzzy
+msgid "clientlist_public_access"
+msgstr "Public Access"
+
+#, fuzzy
+msgid "clientlist_start_page"
+msgstr "Start page"
+
+msgid "clipboard"
+msgstr "Puhver"
+
+msgid "close"
+msgstr "Sule"
+
+#, fuzzy
+msgid "cmix"
+msgstr "Object xAPI/cmi5"
+
+msgid "cnt_new"
+msgstr "(%s uut)"
+
+msgid "collapse"
+msgstr "Sule"
+
+msgid "collapse_all"
+msgstr "Sule kõik"
+
+#, fuzzy
+msgid "collapse_content"
+msgstr "Collapse Content"
+
+msgid "collapsed"
+msgstr "Suletud"
+
+#, fuzzy
+msgid "column_selection"
+msgstr "Column Selection"
+
+msgid "columns"
+msgstr "Veerud"
+
+msgid "comma_separated"
+msgstr "Eralda komaga"
+
+msgid "comment"
+msgstr "kommentaar"
+
+#, fuzzy
+msgid "comments"
+msgstr "Comments"
+
+msgid "compose"
+msgstr "Uus kiri"
+
+msgid "concurrent_uploads"
+msgstr "Number of concurrent uploads"
+
+msgid "concurrent_uploads_info"
+msgstr "Defines the number of files that can be uploaded per upload process at the same time."
+
+msgid "cond_ref_handling"
+msgstr "Lingi seaded"
+
+msgid "cond_ref_shared"
+msgstr "Kõikidele linkidele kehtivad eeltingimused"
+
+msgid "cond_ref_unique"
+msgstr "Linkidele kehtivad eraldi eeltingimused"
+
+msgid "condition"
+msgstr "Staatus"
+
+#, fuzzy
+msgid "condition_accredited_or_passed"
+msgstr "Accredited or Passed"
+
+msgid "condition_already_assigned"
+msgstr "Objekt on juba määratud"
+
+msgid "condition_circle_created"
+msgstr "This association is not possible, since the objects would interdepend."
+
+msgid "condition_deleted"
+msgstr "Eeltingimus kustutatud."
+
+msgid "condition_finished"
+msgstr "Lõpetatud"
+
+msgid "condition_not_finished"
+msgstr "Lõpetamata"
+
+msgid "condition_passed"
+msgstr "Läbitud"
+
+msgid "condition_select_object"
+msgstr "Palun vali üks objekt."
+
+msgid "conditions_updated"
+msgstr "Tingimused salvestatud"
+
+#, fuzzy
+msgid "configuration"
+msgstr "Configuration"
+
+msgid "confirm"
+msgstr "Kinnita"
+
+msgid "confirm_delete_parameter"
+msgstr "Do you really want to delete the parameter?"
+
+msgid "confirmation"
+msgstr "Kinnitus"
+
+msgid "conflict_handling"
+msgstr "Konflikti haldus"
+
+msgid "cont_iim_content_popups_info"
+msgstr "Content popups appear, when the user clicks on interactive parts of the base image. On this screen you only define the popups. Their content can be edited on the main page editing screen."
+
+msgid "cont_iim_create_info"
+msgstr "Please upload the main underlying picuture for the interactive image."
+
+msgid "cont_iim_overlay_info"
+msgstr "Overlay images are used to alter (e.g. highlight) parts of the base image when the mouse hovers over them. After uploading the images, you can select them in the \"Triggers\" tab."
+
+msgid "contact"
+msgstr "Kontakt"
+
+msgid "contact_data"
+msgstr "Kontaktandmed"
+
+msgid "contact_sysadmin"
+msgstr "Saada kiri süsteemiadministraatorile"
+
+msgid "container"
+msgstr "Konteiner"
+
+msgid "container_no_items"
+msgstr "Kättesaadavaid materjale pole"
+
+msgid "content"
+msgstr "Sisu"
+
+msgid "content_frame"
+msgstr "Sisu raam"
+
+msgid "content_styles"
+msgstr "Sisu stiilid"
+
+msgid "context"
+msgstr "Kontekst"
+
+msgid "continue"
+msgstr "continue"
+
+msgid "continue_work"
+msgstr "Jätka"
+
+msgid "contra"
+msgstr "Vastu!"
+
+#, fuzzy
+msgid "copa"
+msgstr "Content Page"
+
+msgid "copy"
+msgstr "Koopia"
+
+msgid "copyChapter"
+msgstr "Kopeeri"
+
+msgid "copyPage"
+msgstr "Kopeeri"
+
+msgid "copy_all"
+msgstr "Kopeeri kõik"
+
+msgid "copy_n_of_suffix"
+msgstr "- Koopia (%1$s)"
+
+msgid "copy_of"
+msgstr "Koopia:"
+
+msgid "copy_of_suffix"
+msgstr "- Koopia"
+
+#, fuzzy
+msgid "copy_perma_link"
+msgstr "Copy link to clipboard"
+
+msgid "copy_selected_items"
+msgstr "Kopeeri"
+
+msgid "count"
+msgstr "Kasutuskordi"
+
+#, fuzzy
+msgid "counter_novelty"
+msgstr "News"
+
+#, fuzzy
+msgid "counter_status"
+msgstr "Status"
+
+msgid "country"
+msgstr "Riik"
+
+msgid "country_free_text"
+msgstr "Riik (tekstiväli)"
+
+msgid "country_selection"
+msgstr "Riik (rippmenüü)"
+
+msgid "course"
+msgstr "Kursus"
+
+msgid "courses"
+msgstr "Kursused"
+
+msgid "create"
+msgstr "Loo uus"
+
+msgid "create_date"
+msgstr "Loonud"
+
+msgid "create_export_file"
+msgstr "Loo eksportfail"
+
+msgid "create_stylesheet"
+msgstr "Loo kujunduslaad"
+
+msgid "created"
+msgstr "Loodud"
+
+msgid "cron_forum_notification"
+msgstr "Saada foorumi märguandeid"
+
+msgid "cron_forum_notification_crob_desc"
+msgstr "If enabled, all users who have enabled forum notifications will get a daily mail about all new posts but no immediate notification for each submitted posting."
+
+#, fuzzy
+msgid "cron_forum_notification_disabled"
+msgstr "Can't be disabled when the Cron Job is active."
+
+msgid "cron_jobs"
+msgstr "Cron jobs"
+
+msgid "cron_lucene_index"
+msgstr "Update Lucene search index"
+
+msgid "cron_lucene_index_info"
+msgstr "If enabled, the lucene search index will be updated. Please configure the lucene server at 'Administration -> Search'."
+
+msgid "cron_mail_notification"
+msgstr "Saada e-kirja märguanded"
+
+msgid "cron_mail_notification_cron"
+msgstr "regularly per cron job"
+
+msgid "cron_mail_notification_desc"
+msgstr "Kui võimaldatud, saavad kõik kasutajad, kes soovivad uutest kirjadest teada, märguande välisele e-posti aadressile."
+
+msgid "cron_mail_notification_message"
+msgstr "Send Mail Notifications with Mail-Message"
+
+msgid "cron_mail_notification_message_info"
+msgstr "If enabled, all users will get notifications with complete mail message by external mail."
+
+msgid "cron_mail_notification_never"
+msgstr "Mitte kunagi"
+
+#, fuzzy
+msgid "cron_users_without_login_del_create_date_thr"
+msgstr "Thresholt"
+
+#, fuzzy
+msgid "cron_users_without_login_del_create_date_thr_info"
+msgstr "All user accounts created before the defined threshold will be taken into consideration."
+
+#, fuzzy
+msgid "cron_users_without_login_del_role_whitelist"
+msgstr "Included Roles"
+
+#, fuzzy
+msgid "cron_users_without_login_del_role_whitelist_info"
+msgstr "The deletion will only processed for users assigned to at least one of the selected roles"
+
+msgid "cronjob_last_start"
+msgstr "Last Start of the Cron Job"
+
+msgid "cronjob_last_start_unknown"
+msgstr "Kindlaksmääramata"
+
+msgid "crs"
+msgstr "Kursus"
+
+msgid "crs_activation_start_invalid"
+msgstr "Algus- ja lõpuaeg pole saadaval."
+
+msgid "crs_add"
+msgstr "Lisa kursus"
+
+msgid "crs_added"
+msgstr "Kursus on lisatud"
+
+msgid "crs_archives"
+msgstr "Arhiiv"
+
+msgid "crs_cancel_waiting_list"
+msgstr "Kas soovid tõesti ennast eemaldada kursuse \"%s\" ootejärjekorrast?"
+
+msgid "crs_copy_threads_info"
+msgstr "Please decide which course materials should be copied, linked or even omitted."
+
+msgid "crs_edit"
+msgstr "Muuda kursust"
+
+#, fuzzy
+msgid "crs_list_reg"
+msgstr "Registration"
+
+msgid "crs_list_reg_end"
+msgstr "Registration End"
+
+msgid "crs_list_reg_limit_full"
+msgstr "No places left"
+
+msgid "crs_list_reg_limit_places"
+msgstr "Free places"
+
+msgid "crs_list_reg_noreg"
+msgstr "No Registration Possible"
+
+msgid "crs_list_reg_period"
+msgstr "Registration Period"
+
+msgid "crs_list_reg_start"
+msgstr "Registration Begin"
+
+msgid "crs_member_not_passed"
+msgstr "Läbimata"
+
+msgid "crs_member_passed"
+msgstr "Läbitud"
+
+msgid "crs_members_gallery"
+msgstr "Kursuse liikmete galerii"
+
+msgid "crs_new"
+msgstr "Uus kursus"
+
+msgid "crs_removed_from_waiting_list"
+msgstr "You have been detached from the waiting list of course \"%s\"."
+
+msgid "crs_status_blocked"
+msgstr "[juurdepääs puudub]"
+
+msgid "crs_status_pending"
+msgstr "[registreerumise ootel]"
+
+msgid "crs_subscribers_assigned"
+msgstr "Lisatud uus kasutaja(d)"
+
+msgid "crs_title"
+msgstr "Kursuse pealkiri"
+
+msgid "crs_unsubscribe"
+msgstr "Tühista tellimus"
+
+msgid "crs_wizard_page"
+msgstr "Kursuse kopeerimine (aste 2/2)"
+
+msgid "crsr"
+msgstr "Kursuse link"
+
+#, fuzzy
+msgid "crsr_add"
+msgstr "Add Course Link"
+
+msgid "crsr_edit_info"
+msgstr "Please choose one course, for creating a new reference."
+
+msgid "crsr_new"
+msgstr "Loo uus kursuse link"
+
+#, fuzzy
+msgid "crsr_settings"
+msgstr "Course Link Settings"
+
+msgid "csv_export"
+msgstr "CSV-eksport"
+
+msgid "current_ip"
+msgstr "Current IP:"
+
+msgid "current_ip_alert"
+msgstr "Märkus: kui sisestate vale ip aadressi ei saa te enam selle profiiliga süsteemi siseneda."
+
+msgid "current_password"
+msgstr " Kehtiv salasõna"
+
+#, fuzzy
+msgid "current_user_avatar"
+msgstr "Your User Avatar"
+
+msgid "currently_used_disk_space"
+msgstr "Currently used disk space"
+
+#, fuzzy
+msgid "customize_page"
+msgstr "Customize Page"
+
+msgid "cut"
+msgstr "Lõika"
+
+msgid "cutPage"
+msgstr "Lõika"
+
+msgid "daily"
+msgstr "iga päev"
+
+msgid "database"
+msgstr "Andmebaas"
+
+msgid "database_version"
+msgstr "Current Database Version"
+
+msgid "dataset"
+msgstr "Üksus"
+
+msgid "date"
+msgstr "aeg"
+
+#, fuzzy
+msgid "date_time"
+msgstr "Date and Time"
+
+msgid "dateplaner"
+msgstr "Kalender"
+
+msgid "day"
+msgstr "päev"
+
+msgid "days"
+msgstr "päeva"
+
+msgid "db_host"
+msgstr "Database Host"
+
+msgid "db_name"
+msgstr "Andmebaasi nimi"
+
+msgid "db_need_update"
+msgstr "Andmebaasi on vaja uuendada!"
+
+msgid "db_pass"
+msgstr "Andmebaasi parool"
+
+msgid "db_type"
+msgstr "Andmebaasi tüüp"
+
+msgid "db_user"
+msgstr "Andmebaas kasutaja"
+
+msgid "db_version"
+msgstr "Andmebaas versioon"
+
+msgid "dd_mm_yyyy"
+msgstr "DD.MM.YYYY"
+
+msgid "deactivate"
+msgstr "Muuda mitteaktiivseks"
+
+msgid "decrease_attempts"
+msgstr "üritusi - 1"
+
+msgid "def_repository_view"
+msgstr "Vaikimisi varamu vaade"
+
+msgid "default"
+msgstr "Vaikimisi"
+
+msgid "default_auth_mode"
+msgstr "Vaikimisi autentimismeetod"
+
+msgid "default_auth_mode_info"
+msgstr "Please choose the authentication method that is preselected on the login page."
+
+msgid "default_language"
+msgstr "Keel vaikimisi"
+
+msgid "default_perm_settings"
+msgstr "Vaikimisi antud õigused"
+
+msgid "default_role"
+msgstr "Kasutaja tüüp"
+
+msgid "default_roles"
+msgstr "Kasutajarollid"
+
+msgid "default_skin"
+msgstr "Taust"
+
+msgid "default_skin_style"
+msgstr "Taust"
+
+msgid "default_style"
+msgstr "Vaikimisi stiil"
+
+msgid "defaults"
+msgstr "Vaikevalikud"
+
+msgid "delete"
+msgstr "Kustuta"
+
+msgid "delete_existing_file"
+msgstr "Kustuta see pildifail"
+
+msgid "delete_inactivated_user_accounts"
+msgstr "Delete inactivated user accounts"
+
+msgid "delete_inactivated_user_accounts_desc"
+msgstr "If enabled, user accounts will be deleted depending on the date of inactivation."
+
+msgid "delete_inactivated_user_accounts_include_roles"
+msgstr "Included roles"
+
+msgid "delete_inactivated_user_accounts_include_roles_desc"
+msgstr "Defines the roles that will participate in the deletion."
+
+msgid "delete_inactivated_user_accounts_period"
+msgstr "Days past since the inactivation"
+
+msgid "delete_inactivated_user_accounts_period_desc"
+msgstr "Deletion will be executed if this period of time has past since the inactivation."
+
+msgid "delete_inactive_user_accounts"
+msgstr "Kustuta kasutajakontod"
+
+msgid "delete_inactive_user_accounts_desc"
+msgstr "If enabled, user accounts will be deleted depending on the date of the last login."
+
+msgid "delete_inactive_user_accounts_include_roles"
+msgstr "Included roles"
+
+msgid "delete_inactive_user_accounts_include_roles_desc"
+msgstr "Defines the roles that will participate in the deletion."
+
+msgid "delete_inactive_user_accounts_period"
+msgstr "Päevi viimasest logimisest"
+
+msgid "delete_inactive_user_accounts_period_desc"
+msgstr "Deletion will be executed if this period of time has past since the last login."
+
+msgid "delete_parameter"
+msgstr "Kustuta parameeter"
+
+msgid "delete_selected_items"
+msgstr "Kustuta valitud objektid"
+
+msgid "deleted"
+msgstr "Kustutatud"
+
+msgid "deleted_user"
+msgstr "Kasutaja on kustutatud"
+
+msgid "deleted_users"
+msgstr "Kustutatud kasutajad"
+
+#, fuzzy
+msgid "deletion_notification"
+msgstr "\"%s\" has canceled the attendance of session \"%s\"."
+
+msgid "deliver"
+msgstr "Saada ülesande vastus"
+
+#, fuzzy
+msgid "deny_usr_agreement"
+msgstr "Do Not Accept Terms of Service?"
+
+#, fuzzy
+msgid "deny_usr_agreement_btn"
+msgstr "Do Not Accept"
+
+msgid "department"
+msgstr "Osakond/rühm"
+
+msgid "desc"
+msgstr "Kirjeldus"
+
+msgid "description"
+msgstr "Kirjeldus"
+
+msgid "desired_password"
+msgstr "Uus salasõna"
+
+msgid "details"
+msgstr "Detailid"
+
+#, fuzzy
+msgid "didactic_template"
+msgstr "Didactic Template"
+
+msgid "disable"
+msgstr "ära võimalda"
+
+msgid "disable_check"
+msgstr "Disable check"
+
+msgid "disable_ext_lang_maint"
+msgstr "Keela laiendatud haldus"
+
+msgid "disable_hide_user_toggle"
+msgstr "Liikmed võivad deaktiveerida"
+
+msgid "disabled"
+msgstr "Eemaldatud"
+
+#, fuzzy
+msgid "disclose"
+msgstr "Disclose"
+
+#, fuzzy
+msgid "dislike"
+msgstr "Dislike"
+
+msgid "domain"
+msgstr "Domeen"
+
+msgid "down"
+msgstr "Alla"
+
+msgid "download"
+msgstr "Lae alla"
+
+msgid "download_all_returned_files"
+msgstr "Lae alla kõik saadetud failid"
+
+msgid "download_link"
+msgstr "Download Link"
+
+msgid "download_multiple_objects"
+msgstr "Download Multiple Objects"
+
+msgid "download_selected_items"
+msgstr "Download"
+
+msgid "downloading_settings"
+msgstr "Allalaadimise seaded"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement"
+msgstr "Accept Declaration of Data Protection?"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement_intro"
+msgstr "There is a new Declaration of Data Protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page."
+
+#, fuzzy
+msgid "dpro_agreed_on"
+msgstr "DoDP agreed to on"
+
+#, fuzzy
+msgid "dpro_force_accept_usr_agreement"
+msgstr "You must accept the Declaration of Data Protection!"
+
+#, fuzzy
+msgid "dpro_no_agreement_description"
+msgstr "There is currently no Declaration of Data Protection document available for this installation. Please contact the <a href=\"%1$s\">system administrator</a>."
+
+#, fuzzy
+msgid "dpro_refuse_acceptance"
+msgstr "Refuse to Accept the Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_usr_agreement"
+msgstr "Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_usr_agreement_footer_intro"
+msgstr "You have declared your consent to this Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description"
+msgstr "Withdraw your consent to our Declaration of Data Protection here."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description_external"
+msgstr "Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description_internal"
+msgstr "Please log in again to complete the process of withdrawing your consent to the Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_header"
+msgstr "Withdraw to Consent of Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_withdraw_consent_info"
+msgstr "Withdraw your consent to our Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_info_external"
+msgstr "Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Declaration of Data Protection."
+
+msgid "drafts"
+msgstr "Mustand"
+
+#, fuzzy
+msgid "drag_file_here"
+msgstr "Drag-and-drop your file here"
+
+msgid "drag_files_here"
+msgstr "Drag-and-drop your files here"
+
+#, fuzzy
+msgid "drag_handle"
+msgstr "Draggable element"
+
+msgid "drop_files_on_repo_obj_info"
+msgstr "Drop the files here to upload them into this object."
+
+msgid "edit"
+msgstr "Muuda"
+
+msgid "edit_assignments"
+msgstr "Edit Assignments"
+
+msgid "edit_cat_settings"
+msgstr "Täiustatud liigituse seaded"
+
+msgid "edit_content"
+msgstr "Muuda sisu"
+
+msgid "edit_grouping"
+msgstr "Muuda liikmestaatuse piiranguid"
+
+#, fuzzy
+msgid "edit_metadata"
+msgstr "Edit Metadata"
+
+msgid "edit_operations"
+msgstr "Muuda tegevusi"
+
+msgid "edit_page"
+msgstr "Muuda lehte"
+
+msgid "edit_page_content"
+msgstr "Muuda lehe sisu"
+
+#, fuzzy
+msgid "edit_page_meta"
+msgstr "Edit Page Metadata"
+
+msgid "edit_properties"
+msgstr "Muuda seadeid"
+
+msgid "edit_stylesheet"
+msgstr "Muuda stiili"
+
+msgid "edited_on"
+msgstr "Edited on"
+
+msgid "editor"
+msgstr "SCORM toimeti"
+
+msgid "email"
+msgstr "E-post (soovitavalt ametialane)"
+
+msgid "email_not_valid"
+msgstr "Sisestatud e-kirja aadress on kehtetu!"
+
+msgid "enable"
+msgstr "Võimalda"
+
+msgid "enable_anonymous_fora"
+msgstr "Võimalda pseudonüümiga postitusi"
+
+msgid "enable_anonymous_fora_desc"
+msgstr "Kui pole võimaldatud, on \"pseudonüümiga postitamise\" funktsioon foorumites suletud."
+
+msgid "enable_calendar"
+msgstr "Võimalda kalender"
+
+#, fuzzy
+msgid "enable_comments_export"
+msgstr "Enable Comments Export"
+
+msgid "enable_course_group_notifications"
+msgstr "Daily Mail for Groups and Course News"
+
+msgid "enable_course_group_notifications_desc"
+msgstr "If enabled, Participants can subscribe to a daily summary of news."
+
+msgid "enable_custom_icons"
+msgstr "Võimalda kohandatud ikoone"
+
+msgid "enable_custom_icons_info"
+msgstr "This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog."
+
+msgid "enable_dnd_upload"
+msgstr "Enable drag-and-drop upload"
+
+msgid "enable_dnd_upload_info"
+msgstr "Files can be uploaded with drag-and-drop from the local computer if enabled."
+
+msgid "enable_download_folder"
+msgstr "Võimalda kaustade allalaadimine"
+
+msgid "enable_download_folder_info"
+msgstr "Võimalda kausta, koos alamkaustadega, alla laadimist zip failina."
+
+msgid "enable_export_scorm_desc"
+msgstr "allow Export of User Data of SCORM-Learning Modules"
+
+msgid "enable_fora_statistics"
+msgstr "Võimalda foorumi statistika"
+
+msgid "enable_fora_statistics_desc"
+msgstr "Kui pole võimaldatud, puudub ligipääs foorumi statistikasse."
+
+msgid "enable_hide_user_toggle"
+msgstr "Liikmeid pole lubatud aktiveerida"
+
+msgid "enable_multi_download"
+msgstr "«Download multiple objects» enabled"
+
+msgid "enable_multi_download_info"
+msgstr "Enables that multiple folders/files can be selected to download them as zip archive."
+
+msgid "enable_password_assistance"
+msgstr "Võimalda salasõna assisteerimine"
+
+msgid "enable_preview"
+msgstr "Enable Preview"
+
+msgid "enable_preview_info"
+msgstr "Enable this option to display preview images on supported file types."
+
+msgid "enable_repository_dnd_upload"
+msgstr "Enable in Repository"
+
+msgid "enable_repository_dnd_upload_info"
+msgstr "Enables that files can be dragged from the computer directly onto an object in the repository to start uploading the files into this object."
+
+msgid "enable_sahs_protocol_data"
+msgstr "Activate Protocol Data"
+
+msgid "enable_sahs_protocol_data_desc"
+msgstr "Show Protocol Data (SCORM/AICC)"
+
+msgid "enable_search_engine"
+msgstr "Ava avatud ala interneti otsimootoritele (nt Google)."
+
+msgid "enable_trash"
+msgstr "Võimalda prügi"
+
+msgid "enable_trash_info"
+msgstr "Kui on võimaldatud, liigutatakse kustutatud objektid prügikasti ja need on hiljem taastatavad. Deaktiveerimise korral eemaldatakse kustutatud objektid süsteemist pöördumatult!"
+
+msgid "enable_webdav"
+msgstr "Enable WebDAV access"
+
+msgid "enable_webdav_info"
+msgstr "Allows WebDAV clients to access the repository as a webfolder. Users can open webfolders using the \"open as webfolder\" action in the repository, or by entering the following address in a WebDAV client: <a href=\"%1$s\" folder=\"%1$s\">%1$s</a>"
+
+msgid "enabled"
+msgstr "Võimaldatud"
+
+#, fuzzy
+msgid "enlarge"
+msgstr "Enlarge"
+
+msgid "enter_in_mb_desc"
+msgstr "Enter a value in MB."
+
+#, fuzzy
+msgid "enter_new_name"
+msgstr "Please enter a name"
+
+#, fuzzy
+msgid "entered_notification"
+msgstr "\"%s\" has joined the session \"%s\"."
+
+#, fuzzy
+msgid "entry_status"
+msgstr "Entry status"
+
+msgid "err_1_param"
+msgstr "Only 1 parameter!"
+
+msgid "err_2_param"
+msgstr "Only 2 parameter!"
+
+msgid "err_auth_apache_failed"
+msgstr "Autentimine ebaõnnestus. Sinu sertifikaat võib olla aegunud või ID-kaart sisestamata."
+
+msgid "err_auth_ldap_no_ilias_user"
+msgstr "Login failed. LDAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator."
+
+msgid "err_auth_mode_inactive"
+msgstr "Your authentication method is deactivated."
+
+msgid "err_auth_soap_no_ilias_user"
+msgstr "Sisselogimine ebaõnnestus. SOAP autentimine õnnestus, ent puudub vastav  ILIASe kasutaja. Palun kontakteeru oma süsteemiadministraatoriga."
+
+msgid "err_check_input"
+msgstr "Seadeid ei saa salvestada. Palun kontrollige sisestatut."
+
+msgid "err_count_param"
+msgstr "Reason: Wrong parameter count"
+
+#, fuzzy
+msgid "err_disabled"
+msgstr "Account creation via Shibboleth has been disabled. Please contact the system administrator for further information."
+
+#, fuzzy
+msgid "err_double_entries"
+msgstr "Reason: Duplicate Entries"
+
+msgid "err_in_line"
+msgstr "Error in line"
+
+msgid "err_inactive"
+msgstr "See kasutajanimi pole aktiveeritud. Palun kontakteeru ligipääsuks süsteemiadministraatoriga."
+
+#, fuzzy
+msgid "err_inactive_login_attempts"
+msgstr "Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account. "
+
+msgid "err_invalid_port"
+msgstr "Invalid port number"
+
+msgid "err_no_cookies"
+msgstr "Võimalda veebisirvijal küpsised!"
+
+msgid "err_no_langfile_found"
+msgstr "Keelefaili ei leitud!"
+
+msgid "err_no_param"
+msgstr "Parameeter puudub!"
+
+msgid "err_over_3_param"
+msgstr "Rohkem kui 3 parameetrit!"
+
+msgid "err_role_not_assignable"
+msgstr "You cannot assign users to this role at this location"
+
+msgid "err_session_expired"
+msgstr "Sinu sessioon on aegunud!"
+
+#, fuzzy
+msgid "err_valid_login_account_creation_disabled"
+msgstr "Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator."
+
+msgid "err_wrong_header"
+msgstr "Põhjus: vale päis."
+
+msgid "err_wrong_login"
+msgstr "Vale kasutajanimi või salasõna!"
+
+msgid "err_wrong_password"
+msgstr "Vale parool"
+
+msgid "error"
+msgstr "Viga"
+
+msgid "error_empty_file_or_folder"
+msgstr "The file size is 0 bytes or it is a folder."
+
+msgid "error_extraction_failed"
+msgstr "The extraction of the archive and its directories failed. Probably because you don't have the rights to create folders or categories within this object."
+
+msgid "error_parser"
+msgstr "Error starting the parser."
+
+msgid "error_upload_was_zero_bytes"
+msgstr "The upload failed as this is a folder, the file size is 0 bytes or the file was renamed meanwhile."
+
+msgid "etal_talks"
+msgstr "Talks"
+
+msgid "event_ass_materials_prop"
+msgstr "Sessiooni materjalid"
+
+msgid "event_assign_files"
+msgstr "Määratud fail"
+
+msgid "exc"
+msgstr "Ülesanne/harjutus"
+
+msgid "exc_add"
+msgstr "Lisa ülesanne/harjutus"
+
+msgid "exc_added"
+msgstr "Ülesanne/harjutus on lisatud"
+
+msgid "exc_date_not_valid"
+msgstr "Aeg ei ole õige"
+
+msgid "exc_deassign_members"
+msgstr "Kustuta liikmed"
+
+msgid "exc_download_files"
+msgstr "Lae failid alla"
+
+msgid "exc_edit"
+msgstr "Uus ülesanne/harjutus lisatud"
+
+msgid "exc_edit_exercise"
+msgstr "Muuda ülesannet"
+
+msgid "exc_edit_until"
+msgstr "Tähtaeg"
+
+msgid "exc_exercise_sent"
+msgstr "Saatmisaeg"
+
+msgid "exc_files"
+msgstr "Failid"
+
+msgid "exc_files_returned"
+msgstr "Saadetud failid"
+
+msgid "exc_instruction"
+msgstr "Tööjuhised"
+
+msgid "exc_last_submission"
+msgstr "Viimane postitus"
+
+#, fuzzy
+msgid "exc_member_of_crs_grp"
+msgstr "Member in Course/Group"
+
+msgid "exc_members_already_assigned"
+msgstr "Sellele ülesandele on kasutaja juba määratud"
+
+msgid "exc_members_assigned"
+msgstr "Liikmed määratud"
+
+msgid "exc_members_comments_saved"
+msgstr "Harjutuse kommentaarid valitud kasutajale on salvestatud"
+
+msgid "exc_new"
+msgstr "Uus ülesanne/harjutus"
+
+msgid "exc_next_deadline"
+msgstr "Järgmine tähtaeg"
+
+msgid "exc_obj"
+msgstr "Ülesanne"
+
+msgid "exc_save_changes"
+msgstr "Salvesta"
+
+msgid "exc_schedule"
+msgstr "Ajakava"
+
+msgid "exc_select_one_file"
+msgstr "Palun märgista vaid üks fail."
+
+msgid "exc_sent"
+msgstr "Ülesanne on saadetud valitud kasutajatele"
+
+msgid "exc_sent_at"
+msgstr "Saadetud: <br />%s"
+
+msgid "exc_status"
+msgstr "Staatus"
+
+msgid "exc_status_saved"
+msgstr "Ülesanne värskendatud"
+
+msgid "exc_submission"
+msgstr "Sooritus"
+
+msgid "exc_time_over_short"
+msgstr "Aeg on läbi"
+
+msgid "exc_time_to_send"
+msgstr "Aega saatmiseni"
+
+msgid "exc_upload_error"
+msgstr "Faili üleslaadimise viga"
+
+msgid "excs"
+msgstr "Ülesanded"
+
+msgid "execute"
+msgstr "OK"
+
+msgid "exercise_time_over"
+msgstr "Oled ületanud tähtaja, sa ei saa enam faile saata!"
+
+msgid "expand"
+msgstr "Laienda"
+
+msgid "expand_all"
+msgstr "Ava kõik"
+
+#, fuzzy
+msgid "expand_content"
+msgstr "Expand Content"
+
+msgid "expanded"
+msgstr "Laiendatud"
+
+msgid "export"
+msgstr "Eksport"
+
+msgid "export_format"
+msgstr "Ekspordi formaat"
+
+msgid "export_html"
+msgstr "Ekspordi HTML failina"
+
+msgid "ext_cat_settings"
+msgstr "Muuda täiendatud liigituse seadeid"
+
+msgid "ext_link"
+msgstr "Link"
+
+msgid "extracting"
+msgstr "Extracting..."
+
+#, fuzzy
+msgid "eyeclosed"
+msgstr "Eye Closed - Click to hide the input's contents"
+
+#, fuzzy
+msgid "eyeopened"
+msgstr "Eye Open - Click to reveal the input's contents"
+
+msgid "failure_message"
+msgstr "Ebaõnnestumise sõnum"
+
+msgid "fax"
+msgstr "Faks"
+
+msgid "feed"
+msgstr "Uudistevoog (RSS)"
+
+msgid "feedback"
+msgstr "Kiire tagasiside"
+
+msgid "field_name"
+msgstr "Välja nimi"
+
+msgid "field_type"
+msgstr "Välja tüüp"
+
+msgid "file"
+msgstr "Fail"
+
+msgid "file_add"
+msgstr "Lae fail üles"
+
+msgid "file_add_and_metadata"
+msgstr "Lae fail üles ja muuda metaandmeid"
+
+msgid "file_added"
+msgstr "Fail on olemas."
+
+msgid "file_allowed_suffixes"
+msgstr "Lubatud failitüübid:"
+
+msgid "file_confirm_delete_all_versions"
+msgstr "You selected all file versions. This will delete the whole file object. Do you want to continue?"
+
+msgid "file_confirm_delete_versions"
+msgstr "Are you sure to delete the following file versions?"
+
+msgid "file_created"
+msgstr "Uus fail on lisatud."
+
+msgid "file_edit"
+msgstr "Muuda faili"
+
+msgid "file_info"
+msgstr "Faili informatsioon"
+
+msgid "file_is_infected"
+msgstr "Fail sisaldab viirust."
+
+#, fuzzy
+msgid "file_new"
+msgstr "New File"
+
+#, fuzzy
+msgid "file_no_valid_file_type"
+msgstr "This file type is not allowed."
+
+msgid "file_not_found"
+msgstr "Faili ei leitud"
+
+#, fuzzy
+msgid "file_not_found_sec"
+msgstr "This file cannot be found in ILIAS or has been blocked due to security reasons."
+
+msgid "file_not_valid"
+msgstr "Fail ei ole kehtiv!"
+
+msgid "file_notice"
+msgstr "Lubatud failisuurus:"
+
+#, fuzzy
+msgid "file_objects"
+msgstr "File Objects"
+
+msgid "file_rollback"
+msgstr "Make this the current version"
+
+msgid "file_rollback_done"
+msgstr "File version %s is now the current version."
+
+msgid "file_rollback_select_exact_one"
+msgstr "Only one file version can be selected to make it the current version."
+
+#, fuzzy
+msgid "file_some_invalid_file_types_removed"
+msgstr "Some file types are not allowed and have been removed."
+
+msgid "file_suffix_repl"
+msgstr "File Upload Suffix Replacement"
+
+msgid "file_suffix_repl_info"
+msgstr "Files ending with these suffixes (separated by comma) will be renamed with a suffix \".sec\" if uploaded into the webspace. This is done per default for the suffixes:"
+
+#, fuzzy
+msgid "file_system_clean_temp_dir_cron"
+msgstr "Clean temp directory"
+
+#, fuzzy
+msgid "file_system_clean_temp_dir_cron_info"
+msgstr "This job cleans the ILIAS temp-directory of files, which are older than 10 days. This counteracts the accumulation of unused files and therefore prevents an increased use of disk space by the temp directory."
+
+msgid "file_updated"
+msgstr "Faili on uuendatud."
+
+msgid "file_upload_pending"
+msgstr "Pending file"
+
+msgid "file_valid"
+msgstr "Fail on kehtiv!"
+
+msgid "file_version"
+msgstr "Version Provided in File"
+
+msgid "file_version_create"
+msgstr "Initial version"
+
+#, fuzzy
+msgid "file_version_intermediate_version"
+msgstr "Intermediate Version"
+
+msgid "file_version_new_version"
+msgstr "New version"
+
+#, fuzzy
+msgid "file_version_published_version"
+msgstr "Published Version"
+
+msgid "file_version_replace"
+msgstr "All versions replaced"
+
+#, fuzzy
+msgid "file_version_rollback"
+msgstr "Rollback to version %s from %s"
+
+msgid "file_versions_deleted"
+msgstr "The selected file versions were successfully deleted."
+
+msgid "filename"
+msgstr "Faili nimi"
+
+msgid "filename_extension_missing"
+msgstr "Puudub faili laiend"
+
+msgid "filename_hidden_backup_file"
+msgstr "Hidden backup file"
+
+msgid "filename_hidden_unix_file"
+msgstr "Hidden Unix file"
+
+msgid "filename_interoperability"
+msgstr "Koostöövõime"
+
+msgid "filename_special_characters"
+msgstr "Due to the character / this object is not visible in webfolders"
+
+msgid "filename_special_filename"
+msgstr "Olemid nimedega . ja .. pole veebikaustas nähtavad"
+
+msgid "filename_visibility"
+msgstr "Nähtavus"
+
+msgid "filename_windows_empty_extension"
+msgstr "Due to the character . at the end of the name this object is not visible in Windows webfolders"
+
+msgid "filename_windows_special_characters"
+msgstr "Due to one of the characters \\ / : * ? \" < > | this object is not visible in Windows webfolders"
+
+msgid "filename_windows_webdav_issue"
+msgstr "Due to the character # this object is not visible in Windows webfolders"
+
+msgid "files"
+msgstr "Failid"
+
+msgid "filesize"
+msgstr "Faili suurus"
+
+msgid "filetype"
+msgstr "Failitüüp"
+
+msgid "fill_out_all_required_fields"
+msgstr "Palun täida kõik nõutud väljad"
+
+msgid "filter"
+msgstr "Filter"
+
+msgid "filter_users_with_access"
+msgstr "Ainult juurdepääsuga kasutajad"
+
+msgid "filter_users_with_disk_usage"
+msgstr "Only users with disk space used"
+
+msgid "filter_users_without_access"
+msgstr "Ainult juurdepääsuta kasutajad"
+
+msgid "filter_users_without_disk_usage"
+msgstr "Only users with no disk space used"
+
+msgid "first"
+msgstr "First"
+
+msgid "firstname"
+msgstr "Eesnimi"
+
+msgid "flatview"
+msgstr "Tasapinnaline vaade"
+
+msgid "fold"
+msgstr "Kaust"
+
+msgid "fold_add"
+msgstr "Lisa kaust"
+
+msgid "fold_added"
+msgstr "Kaust lisatud"
+
+#, fuzzy
+msgid "fold_copy_threads_info"
+msgstr "Please decide which materials should be copied, linked or even omitted."
+
+msgid "fold_edit"
+msgstr "Muuda kausta"
+
+msgid "fold_new"
+msgstr "Uus kaust"
+
+#, fuzzy
+msgid "fold_wizard_page"
+msgstr "Copy Folder (Step 2/2)"
+
+msgid "folder"
+msgstr "Kaust"
+
+msgid "folders"
+msgstr "Kaustad"
+
+msgid "follow_link_to_read_mails"
+msgstr "click the following link to read these mails:"
+
+msgid "forgot_password"
+msgstr "Salasõna abi"
+
+msgid "forgot_username"
+msgstr "Kasutajanime (ja salasõna) abi"
+
+msgid "form_input_not_valid"
+msgstr "Mõned andmed on puudu või valed. Palun kontrolli sisestust."
+
+msgid "forum"
+msgstr "Foorum"
+
+msgid "forum_direct_notification"
+msgstr "Otsemärguanne"
+
+msgid "forum_notify_me"
+msgstr "Anna märku, kui vastus on postitatud"
+
+msgid "forum_post_replied"
+msgstr "Teie foorumi kirjele vastati."
+
+msgid "forums"
+msgstr "Foorumid"
+
+msgid "forums_anonymized"
+msgstr "Foorum muudetud anonüümseks"
+
+msgid "forums_anonymous"
+msgstr "anonüümne"
+
+msgid "forums_articles"
+msgstr "Postitused"
+
+#, fuzzy
+msgid "forums_closed"
+msgstr "closed"
+
+msgid "forums_disable_forum_notification"
+msgstr "Keela foorumi märguanne"
+
+msgid "forums_enable_forum_notification"
+msgstr "Võimalda foorumi märguanne"
+
+msgid "forums_forum_notification_enabled"
+msgstr "Teid teavitatakse kui antud foorumisse ilmuvad uued postitused."
+
+msgid "forums_last_post"
+msgstr "Viimane postitus"
+
+#, fuzzy
+msgid "forums_last_posting_asc"
+msgstr "Last Post Ascending"
+
+#, fuzzy
+msgid "forums_last_posting_dsc"
+msgstr "Last Post Descending"
+
+msgid "forums_notification_settings"
+msgstr "Foorumi teavituste seaded"
+
+#, fuzzy
+msgid "forums_rating_asc"
+msgstr "Rating Ascending"
+
+#, fuzzy
+msgid "forums_rating_dsc"
+msgstr "Rating Descending"
+
+#, fuzzy
+msgid "forums_thread_sorting_asc"
+msgstr "Thread Title A→Z"
+
+#, fuzzy
+msgid "forums_thread_sorting_dsc"
+msgstr "Thread Title Z→A"
+
+msgid "forums_threads"
+msgstr "Teemad"
+
+msgid "forums_use_alias"
+msgstr "Võite postitada pseudonüümi all. Jättes antud välja tühjaks, esitatakse postitus 'anonym' poolt."
+
+msgid "forums_your_name"
+msgstr "Sinu nimi"
+
+msgid "frm"
+msgstr "Foorum"
+
+msgid "frm_add"
+msgstr "Lisa foorum"
+
+msgid "frm_added"
+msgstr "Foorum on lisatud"
+
+msgid "frm_edit"
+msgstr "Muuda foorumit"
+
+msgid "frm_import"
+msgstr "Import Forum"
+
+msgid "frm_latest_postings"
+msgstr "Viimased sissekanded"
+
+#, fuzzy
+msgid "frm_latest_postings_block"
+msgstr "Latest Posts Block"
+
+msgid "frm_new"
+msgstr "Uus foorum"
+
+#, fuzzy
+msgid "frm_no_threads"
+msgstr "There are no threads available at the moment."
+
+msgid "from"
+msgstr "->-"
+
+msgid "fullname"
+msgstr "Täisnimi"
+
+msgid "functions"
+msgstr "Funktsioonid"
+
+msgid "further_informations"
+msgstr "Edasine informatsioon"
+
+msgid "gdf_add"
+msgstr "Lisa definitsioon"
+
+msgid "gdf_new"
+msgstr "Uus definitsioon"
+
+msgid "gender"
+msgstr "Sugu"
+
+msgid "gender_f"
+msgstr "Naine"
+
+msgid "gender_m"
+msgstr "Mees"
+
+#, fuzzy
+msgid "gender_n"
+msgstr "No salutation desired"
+
+#, fuzzy
+msgid "general"
+msgstr "General"
+
+msgid "general_settings"
+msgstr "Üldised seaded"
+
+msgid "generate"
+msgstr "Genereerima"
+
+msgid "ghostscript_not_configured"
+msgstr "Ghostscript is not configured. Please open the <a href=\"cli/setup.php?cmd=mastersettings\" target=\"_blank\">Setup</a> to configure it."
+
+msgid "glo"
+msgstr "Sõnastik"
+
+msgid "glo_add"
+msgstr "Lisa sõnastik"
+
+msgid "glo_added"
+msgstr "Sõnastik on lisatud"
+
+msgid "glo_import"
+msgstr "Import Glossary"
+
+msgid "glo_mode"
+msgstr "Olek"
+
+msgid "glo_mode_desc"
+msgstr "Virtuaalne sõnastik toimib nagu tavaline sõnastik. Lisaks sisaldab see mõisteid kõikidest sõnastikest, mis asuvad varamus samal tasemel virtuaalse sõnastikuga (ainult see tase), kõiki sellest tasemest allapoole jäävaid mõisteid sisaldab virtuaalne sõnastik (allpuu)."
+
+msgid "glo_mode_normal"
+msgstr "tavaline"
+
+msgid "glo_new"
+msgstr "Uus sõnastik"
+
+msgid "global"
+msgstr "Üldine"
+
+msgid "global_default"
+msgstr "Üldine vaikimisi"
+
+msgid "global_fixed"
+msgstr "Parandatud üldiselt"
+
+#, fuzzy
+msgid "global_role_assignment"
+msgstr "Globale Rollenzuweisung"
+
+msgid "global_settings"
+msgstr "Üldised seaded"
+
+msgid "global_user"
+msgstr "Üldised kasutajad"
+
+msgid "glossaries"
+msgstr "Sõnastikud"
+
+msgid "glossary"
+msgstr "Sõnastik"
+
+msgid "go"
+msgstr "Mine"
+
+#, fuzzy
+msgid "grade"
+msgstr "Grade"
+
+msgid "group"
+msgstr "Grupp"
+
+msgid "group_members"
+msgstr "Grupi liikmed"
+
+msgid "group_name"
+msgstr "Grupi nimi"
+
+msgid "group_new_registrations"
+msgstr "Liitumistaotlused"
+
+msgid "group_password_registration_msg"
+msgstr "Kui sul on salasõnaolemas, saad liituda grupiga. salasõnasaamiseks pöördu grupi administraatori või õppejõu poole."
+
+msgid "group_registration"
+msgstr "Registreerumine"
+
+msgid "group_registration_mode"
+msgstr "Registreerumise viis"
+
+msgid "group_registration_time"
+msgstr "Registreerumisaeg"
+
+msgid "group_req_direct"
+msgstr "Liitu kohe"
+
+msgid "group_req_registration_msg"
+msgstr "Sa võid taodelda selle grupi liikmeks saamist. Sulle saadetakse teada, kui grupi administrator on sind liikmeks võtnud või keeldunud."
+
+msgid "group_status"
+msgstr "Grupp on"
+
+msgid "groupings"
+msgstr "Liikmelisuse piirangud"
+
+msgid "groupings_assigned_obj_crs"
+msgstr "Määratud kursused"
+
+msgid "groupings_assigned_obj_grp"
+msgstr "Määratud grupid"
+
+#, fuzzy
+msgid "groupings_source"
+msgstr "Source"
+
+msgid "groups"
+msgstr "Grupid"
+
+msgid "grp"
+msgstr "Grupp"
+
+msgid "grp_add"
+msgstr "Lisa grupp"
+
+msgid "grp_added"
+msgstr "Grupp lisatud"
+
+msgid "grp_btn_unsubscribe"
+msgstr "Loobu sellest grupist"
+
+msgid "grp_cancel_waiting_list"
+msgstr "Kas soovid tõesti ennast eemaldada grupi \"%s\" ootejärjekorrast?"
+
+msgid "grp_copy_threads_info"
+msgstr "Palun otsusta, millised materjalid peaks kopeerima, linkima või üldse vahele jätma."
+
+msgid "grp_deleted_export_files"
+msgstr "Kustutatud failid"
+
+msgid "grp_dismiss_member"
+msgstr "Kas tahad kindlasti järgmisi liikmeid grupist vabastada?"
+
+msgid "grp_dismiss_myself"
+msgstr "Kas tahad kindlasti grupist  lahkuda?"
+
+msgid "grp_edit"
+msgstr "Muuda gruppi"
+
+msgid "grp_err_administrator_required"
+msgstr "Liiget ei saa eemaldada, grupi kohta peab olema vähemalt üks administraator!"
+
+msgid "grp_header_edit_members"
+msgstr "Muuda liikmeid"
+
+#, fuzzy
+msgid "grp_list_members"
+msgstr "List members"
+
+#, fuzzy
+msgid "grp_list_reg"
+msgstr "Registration"
+
+msgid "grp_list_reg_end"
+msgstr "Registration End"
+
+msgid "grp_list_reg_limit_full"
+msgstr "No places left"
+
+msgid "grp_list_reg_limit_places"
+msgstr "Free places"
+
+msgid "grp_list_reg_noreg"
+msgstr "No Registration Possible"
+
+msgid "grp_list_reg_period"
+msgstr "Registration Period"
+
+msgid "grp_list_reg_start"
+msgstr "Registration Begin"
+
+msgid "grp_list_users"
+msgstr "Kasutajate nimestik"
+
+msgid "grp_mem_change_status"
+msgstr "Muuda liikme staatust"
+
+msgid "grp_mem_send_mail"
+msgstr "Saada liikmele sõnum"
+
+msgid "grp_members_gallery"
+msgstr "Grupi liikmete galerii"
+
+msgid "grp_msg_applicants_assigned"
+msgstr "Kandideerija(d) on kinnitatud grupi liikmeks."
+
+msgid "grp_msg_member_assigned"
+msgstr "Kasutaja(d) on kinnitatud grupi liikmeks."
+
+msgid "grp_msg_membership_annulled"
+msgstr "Liikmelisus on tühistatud."
+
+msgid "grp_new"
+msgstr "Lisa uus grupp"
+
+msgid "grp_registration"
+msgstr "Liitu grupiga"
+
+msgid "grp_registration_completed"
+msgstr "Sa oled liitunud grupiga"
+
+msgid "grp_removed_from_waiting_list"
+msgstr "You have been detached from the waiting list of group \"%s\"."
+
+msgid "grp_select_one_file"
+msgstr "Palun vali üks fail."
+
+msgid "grp_wizard_page"
+msgstr "Kopeeri grupp (aste 2/2)"
+
+#, fuzzy
+msgid "grpr"
+msgstr "Group Reference"
+
+#, fuzzy
+msgid "grpr_add"
+msgstr "Add Group Link"
+
+#, fuzzy
+msgid "grpr_edit"
+msgstr "Edit Group Reference"
+
+#, fuzzy
+msgid "grpr_edit_info"
+msgstr "Please choose one group, for creating a new reference."
+
+#, fuzzy
+msgid "grpr_new"
+msgstr "Create Group Reference"
+
+#, fuzzy
+msgid "grpr_settings"
+msgstr "Group Link Settings"
+
+#, fuzzy
+msgid "header_action"
+msgstr "Insert Heading - Click to insert a heading."
+
+msgid "header_searchable"
+msgstr "Otsitav"
+
+msgid "header_title"
+msgstr "Päise nimetus"
+
+msgid "header_visible_registration"
+msgstr "Nähtav registreerumisel"
+
+msgid "header_zip"
+msgstr "Zip-arhiiv üleslaadimiseks"
+
+msgid "height"
+msgstr "Kõrgus"
+
+msgid "help"
+msgstr "Abi"
+
+msgid "hide"
+msgstr "peida"
+
+msgid "hide_all_details"
+msgstr "Hide all details"
+
+msgid "hide_details"
+msgstr "Peida detailid"
+
+msgid "hide_filter"
+msgstr "Peida filter"
+
+msgid "hide_own_online_status"
+msgstr "Ära näita, et olen sees"
+
+msgid "hide_visible_sections"
+msgstr "Hide More Information &raquo;"
+
+msgid "hint"
+msgstr "Vihje"
+
+msgid "history"
+msgstr "Ajalugu"
+
+msgid "hobby"
+msgstr "Huvialad/hobid"
+
+msgid "home"
+msgstr "Avatud ala"
+
+msgid "host"
+msgstr "Võõrustaja"
+
+msgid "hour"
+msgstr "tund"
+
+msgid "hours"
+msgstr "tund(i)"
+
+msgid "htlm"
+msgstr "HTML õppemoodul"
+
+msgid "htlm_add"
+msgstr "Lisa HTML õppemoodul"
+
+msgid "htlm_new"
+msgstr "Uus HTML õppemoodul"
+
+msgid "http"
+msgstr "HTTP"
+
+msgid "http_not_possible"
+msgstr "See server ei toeta http päringuid."
+
+msgid "http_path"
+msgstr "Http teekond"
+
+msgid "https_not_possible"
+msgstr "See server ei toeta  HTTPS ühendusi."
+
+msgid "i2passwd"
+msgstr "ILIAS 2 parool"
+
+#, fuzzy
+msgid "iass_import"
+msgstr "Import Individual Assessment"
+
+#, fuzzy
+msgid "iass_new"
+msgstr "Create Individual Assessment"
+
+msgid "icon"
+msgstr "Ikoon"
+
+msgid "icon_settings"
+msgstr "Ikooniseaded"
+
+msgid "id"
+msgstr "ID"
+
+msgid "identifier"
+msgstr "tuvastaja"
+
+msgid "if_no_title_then_filename"
+msgstr "Jäta tühjaks faili nime kuvamiseks"
+
+msgid "ignore_on_conflict"
+msgstr "Ignoreeri konflikti"
+
+msgid "ignore_required_fields"
+msgstr "Ignore required fields"
+
+msgid "ignore_required_fields_info"
+msgstr "If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login."
+
+msgid "il_astpl_loc_initial"
+msgstr "Initial Test"
+
+msgid "il_astpl_loc_qualified"
+msgstr "Qualifying Test"
+
+msgid "il_blog_contributor"
+msgstr "Blog Contributor"
+
+#, fuzzy
+msgid "il_blog_editor"
+msgstr "Blog-Editor"
+
+msgid "il_chat_moderator"
+msgstr "Jututoa moderaator"
+
+msgid "il_crs_admin"
+msgstr "Kursuse administraator"
+
+msgid "il_crs_member"
+msgstr "Kursuse liige"
+
+msgid "il_crs_non_member"
+msgstr "Mitte kursuse liikmed"
+
+msgid "il_crs_tutor"
+msgstr "Kursuse tuutor"
+
+msgid "il_frm_moderator"
+msgstr "Foorumi moderaator"
+
+msgid "il_grp_admin"
+msgstr "Grupi administraator"
+
+msgid "il_grp_member"
+msgstr "Grupi liige"
+
+msgid "il_grp_status_closed"
+msgstr "Grupp suletud"
+
+msgid "il_grp_status_open"
+msgstr "Grupp avatud"
+
+#, fuzzy
+msgid "il_iass_member"
+msgstr "Participant"
+
+#, fuzzy
+msgid "il_lso_admin"
+msgstr "Learning Sequence Admin"
+
+#, fuzzy
+msgid "il_lso_member"
+msgstr "Learning Sequence Member"
+
+#, fuzzy
+msgid "il_lti_instructor"
+msgstr "LTI Instructor"
+
+#, fuzzy
+msgid "il_lti_learner"
+msgstr "LTI Learner"
+
+#, fuzzy
+msgid "il_lti_user"
+msgstr "LTI User"
+
+#, fuzzy
+msgid "il_orgu_employee"
+msgstr "Employee"
+
+#, fuzzy
+msgid "il_orgu_superior"
+msgstr "Superior"
+
+msgid "ilias_version"
+msgstr "ILIASe versioon"
+
+msgid "image"
+msgstr "Pilt"
+
+msgid "import"
+msgstr "Impordi"
+
+msgid "import_cat_localrol"
+msgstr "Loo igale uuele kategooriale kohalik roll"
+
+msgid "import_cat_table"
+msgstr "The following table is only meaningful if the checkbox is set"
+
+msgid "import_categories"
+msgstr "Impordi liigitus"
+
+msgid "import_failure_log"
+msgstr "Import failure log"
+
+msgid "import_file"
+msgstr "Impordi fail"
+
+msgid "import_file_not_valid_here"
+msgstr "Impordifaili pole kehtiv."
+
+msgid "import_finished"
+msgstr "Imporditud sõnumite arv."
+
+msgid "import_lm"
+msgstr "Impordi ILIAS õppemoodul"
+
+msgid "import_qpl"
+msgstr "Impordi küsimustevaramu"
+
+msgid "import_questions_into_qpl"
+msgstr "Impordi küsimus(ed) küsimustevaramusse"
+
+msgid "import_sahs"
+msgstr "Impordi SCORM/AICC pakett"
+
+#, fuzzy
+msgid "import_sahs_info"
+msgstr "To correct typos or images, use the option to replace individual files via the file directory. Upload a SCORM export from your authoring tool here and not an ILIAS export file. Make sure that your authoring tool has retained the IDs in the manifest file. Attention: Even popular authoring tools cannot do this. SCORM learning modules of certain authoring tools discard learner data obtained if you change the number of answer options of questions or insert new questions. Check in a test installation whether learning statuses that have already been achieved are possible when learning modules that have already been started are called up again."
+
+#, fuzzy
+msgid "import_sahs_new"
+msgstr "Import New Version of SCORM Package"
+
+msgid "import_svy"
+msgstr "Impordi küsitlus"
+
+msgid "import_tst"
+msgstr "Impordi test"
+
+msgid "import_users"
+msgstr "Impordi kasutajad"
+
+msgid "import_warning_log"
+msgstr "Import warning log"
+
+msgid "important"
+msgstr "Tähtis!"
+
+msgid "imported"
+msgstr "imported"
+
+msgid "imprint"
+msgstr "Imprint"
+
+msgid "in"
+msgstr "in"
+
+msgid "in_use"
+msgstr "Kasutaja keel"
+
+msgid "in_use_by"
+msgstr "Kasutusel (poolt)"
+
+msgid "inactive"
+msgstr "Mitteaktiivne"
+
+msgid "inbox"
+msgstr "Inbox"
+
+msgid "include_local"
+msgstr "include local"
+
+msgid "info"
+msgstr "Informatsioon"
+
+msgid "info_access_and_status_info"
+msgstr "Juurdepääsu- ja oleku informatsioon"
+
+msgid "info_access_permissions"
+msgstr "Ligipääsu õigused"
+
+msgid "info_activate_sure"
+msgstr "Are you sure that you want to approve the following user(s) as active user(s)?"
+
+msgid "info_assign_sure"
+msgstr "Kas oled kindel, et soovid määrata järgmisi kasutajaid?"
+
+msgid "info_assigned"
+msgstr "määratud"
+
+msgid "info_available_roles"
+msgstr "Võimalikud rollid"
+
+msgid "info_change_user_view"
+msgstr "Muuda kasutajat"
+
+msgid "info_deactivate_sure"
+msgstr "Are you sure that you want to disapprove the following user(s) as active user(s)?"
+
+msgid "info_delete_sure"
+msgstr "Oled kindel, et tahad järgmise(d) objekti(d) kustutada?"
+
+msgid "info_delete_warning_no_trash"
+msgstr "(HOIATUS: valitud objektid eemaldatakse süsteemist jäädavalt ja ei pruugi olla hiljem taastatavad!)"
+
+msgid "info_deleted"
+msgstr "Objekt(id) kustutatud"
+
+msgid "info_err_user_not_exist"
+msgstr "User with that login name or user_id does not exists"
+
+msgid "info_from_role"
+msgstr "Tagatud rolliga/omandusega"
+
+msgid "info_is_member"
+msgstr "Kasutaja on liige"
+
+msgid "info_is_not_member"
+msgstr "Kasutaja pole liige"
+
+msgid "info_message"
+msgstr "Infosõnum"
+
+msgid "info_not_assigned"
+msgstr "pole määratud"
+
+msgid "info_owner_of_object"
+msgstr "Objekti omanik"
+
+msgid "info_permission_origin"
+msgstr "Original position"
+
+msgid "info_permission_source"
+msgstr "Kehtiv alates*"
+
+msgid "info_remark_interrupted"
+msgstr "Roll on selles asukohas katkestatud. Rolli vaikeõigused asuvad tegelikult selles asukohas. Kas oled kindel, et soovid järgmise(d) üksuse(d) kustutada?"
+
+#, fuzzy
+msgid "info_remove_sure"
+msgstr "Are you sure that you want to remove the following item(s)?"
+
+msgid "info_short"
+msgstr "Info"
+
+msgid "info_status_info"
+msgstr "Kasutaja õigused"
+
+msgid "info_view_of_user"
+msgstr "Kasutaja"
+
+msgid "inform_user_mail"
+msgstr "Saada kasutajale kiri teavitusega muudatustest"
+
+msgid "inline_file_extensions"
+msgstr "Web-enabled files"
+
+msgid "inline_file_extensions_info"
+msgstr "Selliste laienditega failid kuvatakse brauseriaknas.<br/>Näiteks: <b>gif jpg mp3 pdf png</b><br/> Kõiki teisi faile on võimalik alla laadida."
+
+msgid "insert"
+msgstr "Sisesta"
+
+msgid "insert_object_here"
+msgstr "lisa siia objekt"
+
+msgid "inst_id"
+msgstr "Installatsiooni ID"
+
+msgid "inst_info"
+msgstr "Installatsiooni info"
+
+msgid "inst_name"
+msgstr "Installatsiooni nimi"
+
+msgid "install"
+msgstr "Installeeri"
+
+msgid "install_local"
+msgstr "Istalleeri kohalikuga"
+
+#, fuzzy
+msgid "installation_status"
+msgstr "Installation Status"
+
+msgid "installed"
+msgstr "Installed"
+
+msgid "installed_local"
+msgstr "Installeeritud kohalikuga"
+
+msgid "instant_messengers"
+msgstr "Vahetu sõnumside"
+
+msgid "institution"
+msgstr "Struktuuriüksus"
+
+msgid "internal_local_roles_only"
+msgstr "Kohalikud rollid (ainult autogenereeritud)"
+
+msgid "invalid_visible_required_options_selected"
+msgstr "All fields set to required has to be set to visible in registration, too."
+
+msgid "invisible_block"
+msgstr "Nähtamatu plokk"
+
+msgid "invisible_block_mess"
+msgstr "Puuduvad õigused selle ploki vaatamiseks."
+
+msgid "ip_address"
+msgstr "IP aadress"
+
+msgid "is_already_your"
+msgstr "is already your"
+
+#, fuzzy
+msgid "italic_action"
+msgstr "Insert Italic - Click to insert italic text."
+
+msgid "item"
+msgstr "Objekt"
+
+msgid "itgr_add"
+msgstr "Add Item Group"
+
+msgid "itgr_new"
+msgstr "New Item Group"
+
+msgid "java_server"
+msgstr "Java-Server"
+
+msgid "java_server_host"
+msgstr "Host"
+
+#. Needs to be adapted to new content of German lang file.
+msgid "java_server_info"
+msgstr "Kui aktiveeritud, on võimalik otsida PDF-, HTML-failide ja HTML-õppemoodulitest"
+
+msgid "java_server_port"
+msgstr "Port"
+
+msgid "java_server_readme"
+msgstr "Seadistuse informatsioon"
+
+msgid "join"
+msgstr "Liitu"
+
+msgid "join_session"
+msgstr "Liitu"
+
+msgid "kb"
+msgstr "KByte"
+
+msgid "keywords"
+msgstr "Võtmesõnad"
+
+#, fuzzy
+msgid "label_search_options"
+msgstr "Search Area"
+
+msgid "lang_dateformat"
+msgstr "A-k-p"
+
+msgid "lang_path"
+msgstr "Keele tee"
+
+msgid "lang_refresh_confirm"
+msgstr "Kas soovid tõesti värskendada kõiki keeli?"
+
+msgid "lang_refresh_confirm_info"
+msgstr "Extended language maintenance is currently activated. Refreshing the languages will read the global language files of ILIAS and probably the local language files from the Customizing directory to the database. Global language files will not affect your manual changes. A local langage file will overwrite all manual changes that are older than the saving date of the local language file."
+
+msgid "lang_refresh_confirm_selected"
+msgstr "Kas soovid tõesti värksendada valitud keeli?"
+
+msgid "lang_sep_decimal"
+msgstr "."
+
+msgid "lang_sep_thousand"
+msgstr ","
+
+msgid "lang_size_bytes"
+msgstr "baidid"
+
+msgid "lang_size_gb"
+msgstr "GB"
+
+msgid "lang_size_kb"
+msgstr "KB"
+
+msgid "lang_size_mb"
+msgstr "MB"
+
+msgid "lang_timeformat"
+msgstr "H:i:s"
+
+msgid "lang_timeformat_no_sec"
+msgstr "H:i"
+
+#, fuzzy
+msgid "lang_uninstall_changes"
+msgstr "Uninstall Local Changes"
+
+#, fuzzy
+msgid "lang_uninstall_changes_confirm"
+msgstr "Do you really want to clear all local changes of the selected languages and reset them to the default of the current ILIAS version?"
+
+#, fuzzy
+msgid "lang_uninstall_confirm"
+msgstr "Do you really want to uninstall the selected languages?"
+
+msgid "langfile_found"
+msgstr "Keelefail leitud"
+
+msgid "language"
+msgstr "Keel"
+
+msgid "language_not_installed"
+msgstr "pole installeeritud. Palun installeeri kõigepealt see keel."
+
+msgid "languages"
+msgstr "Keeled"
+
+msgid "languages_already_installed"
+msgstr "Valitud keel(ed) on juba installeeritud."
+
+msgid "languages_already_uninstalled"
+msgstr "Selected language(s) are already uninstalled"
+
+msgid "languages_updated"
+msgstr "Kõik installeeritud keeled on uuendatud"
+
+msgid "last_access"
+msgstr "Viimane sisenemine:"
+
+msgid "last_change"
+msgstr "Viimati muudetud"
+
+msgid "last_edited_on"
+msgstr "Viimati muudetud:"
+
+msgid "last_login"
+msgstr "Viimane külastus"
+
+msgid "last_refresh"
+msgstr "Viimane värskendus"
+
+msgid "last_reminder"
+msgstr "Viimane meeldetuletus"
+
+msgid "last_update"
+msgstr "Viimane uuendus"
+
+msgid "last_visited"
+msgstr "Viimati külastatud"
+
+msgid "lastname"
+msgstr "Perekonnanimi"
+
+#, fuzzy
+msgid "latex_edit_info"
+msgstr "You can enter LaTeX code in the delimiters <code>[tex]</code> and <code>[/tex]</code>."
+
+#, fuzzy
+msgid "laugh"
+msgstr "Laugh"
+
+msgid "launch"
+msgstr "Käivitama"
+
+msgid "ldap"
+msgstr "LDAP"
+
+msgid "ldap_basedn"
+msgstr "LDAP BaseDN"
+
+msgid "ldap_configure"
+msgstr "Configure LDAP Authentication"
+
+msgid "ldap_port"
+msgstr "LDAP Port"
+
+msgid "ldap_read"
+msgstr "Lugemisõigused to LDAP settings"
+
+msgid "ldap_server"
+msgstr "LDAP Server URL"
+
+msgid "ldap_tls"
+msgstr "Use LDAP TLS"
+
+msgid "ldap_version"
+msgstr "LDAP protokoll version"
+
+msgid "learning module"
+msgstr "Õpimoodul"
+
+msgid "learning_progress"
+msgstr "Edasijõudmine"
+
+msgid "leave_waiting_list"
+msgstr "Lahku ootejrjekorrast"
+
+msgid "legend"
+msgstr "Legend"
+
+msgid "level"
+msgstr "Tasemed"
+
+msgid "link"
+msgstr "Lingi"
+
+#, fuzzy
+msgid "link_action"
+msgstr "Insert Link - Click to insert a link."
+
+msgid "link_all"
+msgstr "Lingi kõik"
+
+msgid "link_check"
+msgstr "Lingikontroll"
+
+msgid "link_check_message_b"
+msgstr "Kui võimaldatud, teavitatakse sind vigastest linkidest e-posti teel."
+
+msgid "link_check_message_disabled"
+msgstr "Sõnumid keelatud"
+
+msgid "link_check_message_enabled"
+msgstr "Sõnumid võimaldatud"
+
+msgid "link_check_subject"
+msgstr "[ILIAS]Lingikontroll"
+
+msgid "link_checker_refreshed"
+msgstr "Värskendatud vaade"
+
+msgid "link_selected_items"
+msgstr "Lingi valitud üksused"
+
+msgid "links_add_param"
+msgstr "Lisa parameeter:"
+
+msgid "links_dyn_parameter"
+msgstr "Dünaamilised parameetrid"
+
+msgid "links_dynamic"
+msgstr "Veebilingi dünaamilised parameetrid"
+
+msgid "links_dynamic_info"
+msgstr "If enabled, it is possible to append dynamic parameters to Web Links. E.g. the ILIAS user id or the username."
+
+msgid "links_existing_params"
+msgstr "Olemasolevad parameetrid:"
+
+msgid "links_name"
+msgstr "Parameetri nimi"
+
+msgid "links_no_name_given"
+msgstr "Vali parameetri nimi."
+
+msgid "links_no_value_given"
+msgstr "Vali parameetri väärtus."
+
+msgid "links_parameter_deleted"
+msgstr "Parameeter kustutatud."
+
+msgid "links_select_one"
+msgstr "- Vali üks -"
+
+msgid "links_session_id"
+msgstr "ILIAS kohtumise id"
+
+msgid "links_user_id"
+msgstr "ILIAS kasutaja id"
+
+msgid "links_user_name"
+msgstr "ILIASe kasutajanimi"
+
+msgid "links_value"
+msgstr "Parameter value"
+
+msgid "list"
+msgstr "Nimestik"
+
+msgid "list_of_questions"
+msgstr "Küsimuste loend"
+
+#, fuzzy
+msgid "list_view"
+msgstr "List View"
+
+#, fuzzy
+msgid "listaction_learning_progress_settings"
+msgstr "Learning Progress Settings"
+
+msgid "lm"
+msgstr "ILIASe õppemoodul"
+
+msgid "lm_add"
+msgstr "Lisa ILIAS õpiobjekt"
+
+msgid "lm_added"
+msgstr "ILIAS õpiobjekt lisatud"
+
+msgid "lm_new"
+msgstr "Uus ILIASe õpimoodul"
+
+msgid "lm_type_scorm"
+msgstr "SCORM"
+
+msgid "lm_type_scorm2004"
+msgstr "SCORM 2004 3rd Edition (JavaScript-RTE)"
+
+#, fuzzy
+msgid "lm_type_scorm2004_info"
+msgstr "These are newer versions of SCORM with significantly enhanced functionality. The learning module is launched in an iFrame."
+
+#, fuzzy
+msgid "lm_type_scorm_info"
+msgstr "This is the most widely used version of SCORM. The learning module is launched in a frame."
+
+msgid "lng"
+msgstr "Keel"
+
+msgid "lngf"
+msgstr "Keeled"
+
+msgid "lo"
+msgstr "Õpiobjekt"
+
+msgid "loaded_preview_renderers"
+msgstr "Loaded Preview Renderers"
+
+msgid "local"
+msgstr "Kohalik"
+
+msgid "local_language_file"
+msgstr "kohalik keelefail"
+
+msgid "local_language_files"
+msgstr "kohalikud keelefailid"
+
+msgid "local_languages_already_installed"
+msgstr "Selected local language file(s) are already installed"
+
+#, fuzzy
+msgid "local_role_assignment"
+msgstr "Lokale Rollenzuweisung"
+
+msgid "location"
+msgstr "Asukoht"
+
+msgid "locator"
+msgstr "Asukoht:"
+
+msgid "log_in"
+msgstr "Logi sisse"
+
+#, fuzzy
+msgid "log_out"
+msgstr "Logout"
+
+msgid "logic_or"
+msgstr "või"
+
+msgid "login"
+msgstr "Kasutajanimi"
+
+msgid "login_as"
+msgstr "Kasutaja"
+
+msgid "login_data"
+msgstr "Kasutajaandmed"
+
+msgid "login_exists"
+msgstr "Sellise kasutajanimega kasutaja on juba olemas! Palun vali teine kasutajanimi."
+
+msgid "login_invalid"
+msgstr "Valitud kasutajanimi ei sobi! Lubatud on järgmised tähemärgid (minimaalselt 4 tähemärki): A-Z a-z 0-9 _.-+*@!$%~"
+
+msgid "login_to_ilias"
+msgstr "Logi sisse"
+
+#, fuzzy
+msgid "login_to_ilias_via_login_form"
+msgstr "Login to ILIAS"
+
+#, fuzzy
+msgid "login_to_ilias_via_saml"
+msgstr "Login to ILIAS via SAML Authentification"
+
+msgid "login_to_ilias_via_shibboleth"
+msgstr "Login to ILIAS via Shibboleth"
+
+msgid "loginname_already_exists"
+msgstr "See kasutajanimi juba eksisteerib."
+
+msgid "loginname_settings"
+msgstr "Kasutajanime seaded"
+
+msgid "logout"
+msgstr "Välju"
+
+msgid "logout_text"
+msgstr "Väljusid EKV e-õppe portaalist"
+
+msgid "logs"
+msgstr "Logimise andmed"
+
+#, fuzzy
+msgid "love"
+msgstr "Love"
+
+msgid "lres"
+msgstr "Õpiressursid"
+
+#, fuzzy
+msgid "lso_add"
+msgstr "Add Learning Sequence"
+
+#, fuzzy
+msgid "lso_admin_form_byline"
+msgstr "General Settings for Learning Sequences"
+
+#, fuzzy
+msgid "lso_admin_form_title"
+msgstr "Settings"
+
+#, fuzzy
+msgid "lso_admin_interval_byline"
+msgstr "Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!"
+
+#, fuzzy
+msgid "lso_admin_interval_label"
+msgstr "Learning Progress Polling Interval (seconds)"
+
+#, fuzzy
+msgid "lso_copy_threads_info"
+msgstr "Please decide which elements of the Learning Sequence should be copied, linked or omitted."
+
+#, fuzzy
+msgid "lso_edit"
+msgstr "Edit Learning Sequence"
+
+#, fuzzy
+msgid "lso_import"
+msgstr "Import Learning Sequence"
+
+#, fuzzy
+msgid "lso_new"
+msgstr "New Learning Sequence"
+
+#, fuzzy
+msgid "lso_wizard_page"
+msgstr "Copy Learning Sequence (Step 2/2)"
+
+#, fuzzy
+msgid "lti"
+msgstr "LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_add"
+msgstr "Add LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_new"
+msgstr "New LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_outcome_info"
+msgstr "Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI Tool Consumer."
+
+msgid "mail"
+msgstr "E-post"
+
+msgid "mail_addressbook"
+msgstr "Kontaktid"
+
+msgid "mail_at_the_ilias_installation"
+msgstr "You received %1$s new mail at the ILIAS-Installation %2$s"
+
+msgid "mail_attachment"
+msgstr "Manus"
+
+msgid "mail_b_inbox"
+msgstr "Sissetulnud kirjad"
+
+msgid "mail_c_trash"
+msgstr "Prügi"
+
+#, fuzzy
+msgid "mail_cron_scheduled_mails"
+msgstr "Send scheduled mails."
+
+#, fuzzy
+msgid "mail_cron_scheduled_mails_desc"
+msgstr "Sends scheduled user mails according to their defined delivery times"
+
+msgid "mail_d_drafts"
+msgstr "Mustandid"
+
+msgid "mail_delete_error"
+msgstr "Viga kustutamisel"
+
+#, fuzzy
+msgid "mail_e_outbox"
+msgstr "Outbox"
+
+msgid "mail_e_sent"
+msgstr "Saadetud"
+
+msgid "mail_edit_permission"
+msgstr "Muuda õiguste seadeid"
+
+#, fuzzy
+msgid "mail_f_sent"
+msgstr "Sent"
+
+msgid "mail_folders"
+msgstr "Kirjade kaustad"
+
+msgid "mail_import_file"
+msgstr "Ekspordi fail"
+
+msgid "mail_mails_of"
+msgstr "Postkast"
+
+msgid "mail_maxsize_attach"
+msgstr "Maksimaalne manuse suurus"
+
+msgid "mail_member"
+msgstr "Mail to Member"
+
+msgid "mail_members"
+msgstr "Kiri liikmetele"
+
+#, fuzzy
+msgid "mail_message_scheduled"
+msgstr "Scheduled mail"
+
+#, fuzzy
+msgid "mail_message_scheduled_info"
+msgstr "Mails remain in the outbox until the scheduled sending time."
+
+msgid "mail_not_sent"
+msgstr "Kirja ei saadetud!"
+
+#, fuzzy
+msgid "mail_schedule_error_no_datetime"
+msgstr "To schedule a mail, a delivery date and time must be specified."
+
+#, fuzzy
+msgid "mail_schedule_error_past_datetime"
+msgstr "You cannot schedule emails in the past."
+
+#, fuzzy
+msgid "mail_schedule_scheduled_datetime"
+msgstr "Scheduled Send Time"
+
+#, fuzzy
+msgid "mail_scheduled"
+msgstr "Mail stored in outbox for later delivery."
+
+#, fuzzy
+msgid "mail_scheduled_edit_compose_info"
+msgstr "You are editing a scheduled mail. Sending is paused until you schedule the mail again."
+
+#, fuzzy
+msgid "mail_scheduled_edit_moved_info"
+msgstr "This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox."
+
+msgid "mail_search_no"
+msgstr "Üksused puuduvad"
+
+msgid "mail_select_one"
+msgstr "Sa pead valima vähemalt ühe kirja"
+
+msgid "mail_send_error"
+msgstr "Viga kirja saatmisel"
+
+msgid "mail_sent"
+msgstr "Kiri saadetud!"
+
+msgid "mail_settings"
+msgstr "E-posti seaded"
+
+msgid "mail_to_global_roles_not_allowed"
+msgstr "It is not allowed to send emails to global roles"
+
+msgid "mail_z_local"
+msgstr "Kasutajate kaustad"
+
+msgid "mails"
+msgstr "Postkast"
+
+msgid "mails_at_the_ilias_installation"
+msgstr "You received %1$s new mails at the ILIAS-Installation %2$s"
+
+msgid "mails_pl"
+msgstr "Kirjad"
+
+msgid "main_menu"
+msgstr "Põhimenüü"
+
+#, fuzzy
+msgid "mainbar_aria_label"
+msgstr "Mainbar"
+
+#, fuzzy
+msgid "mainbar_more_label"
+msgstr "More"
+
+#, fuzzy
+msgid "manage_members"
+msgstr "Manage Members"
+
+msgid "matriculation"
+msgstr "Matrikli number"
+
+msgid "max_previews_per_object"
+msgstr "Number of preview images per file"
+
+msgid "max_previews_per_object_info"
+msgstr "Defines the maximum number of preview images that are created per file."
+
+msgid "mcst"
+msgstr "Meedialevi"
+
+msgid "mcst_add"
+msgstr "Lisa meedialevi"
+
+msgid "mcst_new"
+msgstr "Uus meedialevi"
+
+msgid "mem_add_to_wl"
+msgstr "Lisatud ootejärjekorda"
+
+msgid "mem_alert_no_places"
+msgstr "Vabu kohti pole."
+
+#, fuzzy
+msgid "mem_cron_min_members"
+msgstr "Course/Group: Minimum Members Check"
+
+#, fuzzy
+msgid "mem_cron_min_members_info"
+msgstr "The administrators will be notified if the minimum number is not met."
+
+msgid "mem_end"
+msgstr "Registreerumine lõpeb:"
+
+msgid "mem_free_places"
+msgstr "Vabad kohad"
+
+msgid "mem_max_users"
+msgstr "Suurim kasutajate arv:"
+
+#, fuzzy
+msgid "mem_min_users"
+msgstr "Minimum of Users"
+
+msgid "mem_participants"
+msgstr "Osalejad"
+
+msgid "mem_reg_expired"
+msgstr "Registreerimisperiood on aegunud."
+
+msgid "mem_reg_not_started"
+msgstr "Registreerumine pole alanud"
+
+msgid "mem_reg_period"
+msgstr "Registreerimisperiood:"
+
+msgid "mem_reg_type"
+msgstr "Registreerimistüüp:"
+
+msgid "mem_start"
+msgstr "Registreerumine algab:"
+
+msgid "mem_unlimited"
+msgstr "Piiramatu"
+
+msgid "mem_view_activate"
+msgstr "Aktiveeri õppuri vaade"
+
+msgid "mem_view_close"
+msgstr "Sule õppuri vaade"
+
+msgid "mem_view_long"
+msgstr "Õppuri vaade"
+
+msgid "mem_waiting_list"
+msgstr "Ootejärjekorras olevad kasutajad:"
+
+msgid "mem_waiting_list_position"
+msgstr "Olete ootejärjekorras:"
+
+msgid "member"
+msgstr "Liige"
+
+msgid "member_status"
+msgstr "Liikme staatus"
+
+msgid "members"
+msgstr "Liikmed"
+
+msgid "membership_leave"
+msgstr "välju"
+
+msgid "mep"
+msgstr "Meediavaramu"
+
+msgid "mep_add"
+msgstr "Lisa meediavaramu"
+
+msgid "mep_edit"
+msgstr "Muuda meediavaramu seadeid"
+
+msgid "mep_new"
+msgstr "Uus meediavaramu"
+
+msgid "mep_not_insert_already_exist"
+msgstr "Järgnevaid ei lisatud kuna on meediavaramus juba olemas:"
+
+msgid "message"
+msgstr "Teade"
+
+msgid "message_content"
+msgstr "Teate sisu"
+
+msgid "message_no_delivered_files"
+msgstr "Sa ei ole faili saatnud!"
+
+msgid "meta_data"
+msgstr "Metaandmed"
+
+#, fuzzy
+msgid "metabar_aria_label"
+msgstr "Metabar"
+
+#, fuzzy
+msgid "mgs_objects_linked_to_the_following_folders_p"
+msgstr "The objects were linked to the following folder(s): %s"
+
+#, fuzzy
+msgid "mgs_objects_linked_to_the_following_folders_s"
+msgstr "The object was linked to the following folder(s): %s"
+
+msgid "migrate"
+msgstr "Siirda"
+
+#, fuzzy
+msgid "minimize"
+msgstr "Minimize"
+
+msgid "minute"
+msgstr "minut"
+
+msgid "minutes"
+msgstr "minutit"
+
+msgid "missing"
+msgstr "Puudub"
+
+msgid "missing_perm"
+msgstr "Missing Permission"
+
+msgid "missing_precondition"
+msgstr "Puuduv eeltingimus"
+
+#, fuzzy
+msgid "mm_achievements"
+msgstr "Achievements"
+
+#, fuzzy
+msgid "mm_administration"
+msgstr "Administration"
+
+#, fuzzy
+msgid "mm_badges"
+msgstr "Badges"
+
+#, fuzzy
+msgid "mm_calendar"
+msgstr "Calendar"
+
+#, fuzzy
+msgid "mm_certificates"
+msgstr "Certificates"
+
+#, fuzzy
+msgid "mm_comments"
+msgstr "Comments"
+
+#, fuzzy
+msgid "mm_communication"
+msgstr "Communication"
+
+#, fuzzy
+msgid "mm_contacts"
+msgstr "Contacts"
+
+#, fuzzy
+msgid "mm_dashboard"
+msgstr "Dashboard"
+
+#, fuzzy
+msgid "mm_enrolments"
+msgstr "Enrolments"
+
+#, fuzzy
+msgid "mm_favorites"
+msgstr "Favourites"
+
+#, fuzzy
+msgid "mm_learning_history"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "mm_learning_progress"
+msgstr "Learning Progress"
+
+#, fuzzy
+msgid "mm_mail"
+msgstr "Mail"
+
+#, fuzzy
+msgid "mm_news"
+msgstr "News"
+
+#, fuzzy
+msgid "mm_notes"
+msgstr "Notes"
+
+#, fuzzy
+msgid "mm_organisation"
+msgstr "Organisation"
+
+#, fuzzy
+msgid "mm_personal_and_shared_r"
+msgstr "Personal and Shared Resources"
+
+#, fuzzy
+msgid "mm_personal_workspace"
+msgstr "Personal Workspace"
+
+#, fuzzy
+msgid "mm_portfolio"
+msgstr "Portfolio"
+
+#, fuzzy
+msgid "mm_private_chats"
+msgstr "Private Chats"
+
+#, fuzzy
+msgid "mm_repo_tree_view"
+msgstr "Tree View"
+
+#, fuzzy
+msgid "mm_repo_tree_view_act"
+msgstr "Activate Tree"
+
+#, fuzzy
+msgid "mm_repo_tree_view_deact"
+msgstr "Deactivate Tree"
+
+#, fuzzy
+msgid "mm_repository"
+msgstr "Repository"
+
+#, fuzzy
+msgid "mm_skills"
+msgstr "Competences"
+
+#, fuzzy
+msgid "mm_staff_list"
+msgstr "Staff List"
+
+#, fuzzy
+msgid "mm_tags"
+msgstr "Tags"
+
+#, fuzzy
+msgid "mm_task_derived_tasks"
+msgstr "Tasks"
+
+#, fuzzy
+msgid "mme_lost_item_reason"
+msgstr "Item is no longer provided."
+
+#, fuzzy
+msgid "mme_lost_item_title"
+msgstr "No assignment"
+
+msgid "mob"
+msgstr "Meediaobjekt"
+
+msgid "moderators"
+msgstr "Moderators"
+
+msgid "module"
+msgstr "moodul"
+
+msgid "modules"
+msgstr "Moodulid"
+
+msgid "month"
+msgstr "kuu"
+
+msgid "month_01_long"
+msgstr "jaanuar"
+
+msgid "month_01_short"
+msgstr "jaan."
+
+msgid "month_02_long"
+msgstr "veebruar"
+
+msgid "month_02_short"
+msgstr "Veb"
+
+msgid "month_03_long"
+msgstr "märts"
+
+msgid "month_03_short"
+msgstr "märts"
+
+msgid "month_04_long"
+msgstr "aprill"
+
+msgid "month_04_short"
+msgstr "Apr."
+
+msgid "month_05_long"
+msgstr "mai"
+
+msgid "month_05_short"
+msgstr "Mai"
+
+msgid "month_06_long"
+msgstr "juuni"
+
+msgid "month_06_short"
+msgstr "juuni"
+
+msgid "month_07_long"
+msgstr "juuli"
+
+msgid "month_07_short"
+msgstr "Jul"
+
+msgid "month_08_long"
+msgstr "august"
+
+msgid "month_08_short"
+msgstr "aug"
+
+msgid "month_09_long"
+msgstr "september"
+
+msgid "month_09_short"
+msgstr "Sep"
+
+msgid "month_10_long"
+msgstr "oktoober"
+
+msgid "month_10_short"
+msgstr "okt"
+
+msgid "month_11_long"
+msgstr "november"
+
+msgid "month_11_short"
+msgstr "nov"
+
+msgid "month_12_long"
+msgstr "detsember"
+
+msgid "month_12_short"
+msgstr "dets"
+
+msgid "monthly"
+msgstr "igakuiselt"
+
+msgid "months"
+msgstr "kuud"
+
+msgid "mount_webfolder"
+msgstr "Ava veebikaustana"
+
+msgid "move"
+msgstr "Tõsta ümber"
+
+msgid "moveChapter"
+msgstr "Tõsta ümber"
+
+msgid "movePage"
+msgstr "Tõsta ümber"
+
+msgid "move_selected_items"
+msgstr "Tõsta valitud objektid ümber"
+
+#, fuzzy
+msgid "msg_bt_download_started"
+msgstr "ILIAS is generating a ZIP archive of all available files. You can download them from the Notification Center (bell icon) on top right."
+
+msgid "msg_cancel"
+msgstr "Käsk tühistatud."
+
+msgid "msg_clear_clipboard"
+msgstr "Puhver on tühi"
+
+msgid "msg_cloned"
+msgstr "Valitud objekt(id) on kopeeritud."
+
+msgid "msg_copy_clipboard"
+msgstr "Valitud objekt(id) on puhvris (tegevus: kopeerimine)"
+
+msgid "msg_copy_clipboard_container"
+msgstr "Now, please select the desired location, where the selected objects should be pasted into and click the button \"Continue\"."
+
+msgid "msg_copy_clipboard_source"
+msgstr "Nüüd vali palun kursus, mille sisu soovid kopeerida, ja klikka nupul \"Edasi\"."
+
+msgid "msg_cut_clipboard"
+msgstr "Valitud objekt(id) on paigutatud puhvrisse (Action: cut)"
+
+msgid "msg_cut_copied"
+msgstr "Valitud objekt(id) on ümber tõstetud."
+
+msgid "msg_deleted_export_files"
+msgstr "Eksporditud fail(id) kustutatud"
+
+msgid "msg_deleted_role"
+msgstr "Roll on kustutatud"
+
+msgid "msg_deleted_roles_rolts"
+msgstr "Rollid ja rolli mallid on kustutatud"
+
+msgid "msg_failed"
+msgstr "Vabandust, tegevus ebaõnnestus"
+
+msgid "msg_form_save_error"
+msgstr "Vormi andmeid ei õnnestu salvestada. Palun kontrolli sisestusi võimalike veasõnumite suhtes."
+
+#, fuzzy
+msgid "msg_info_blacklisted"
+msgstr "The files cannot be uploaded due to security reasons."
+
+#, fuzzy
+msgid "msg_input_char_limit_max"
+msgstr "You have entered more characters than allowed."
+
+#, fuzzy
+msgid "msg_input_char_limit_min"
+msgstr "You have to enter the minimum of characters specified."
+
+msgid "msg_input_does_not_match_regexp"
+msgstr "Andke lubatav väärtus."
+
+msgid "msg_input_is_required"
+msgstr "Selle välja täitmine on kohustuslik. Palun täida tekstiväli."
+
+#, fuzzy
+msgid "msg_invalid_value_css_rect_input"
+msgstr "The entered value is incorrect, do not use any plus or minus symbols in combination with the entered integer. Please check your input."
+
+msgid "msg_is_last_role"
+msgstr "Sa eemaldasid järgmistelt kasutajatelt viimase üldise rolli"
+
+msgid "msg_last_role_for_registration"
+msgstr "At least one role must be available in the registration form for new users. This role is currently the only one available."
+
+#, fuzzy
+msgid "msg_link_clipboard_p"
+msgstr "Now, please select the desired location, where the selected objects should be linked to and click the button Paste."
+
+#, fuzzy
+msgid "msg_link_clipboard_s"
+msgstr "Now, please select the desired location, where the selected object should be linked to and click the button Paste."
+
+msgid "msg_linked"
+msgstr "Valitud objekt(id) on lingitud."
+
+msgid "msg_may_not_contain"
+msgstr "Selles objektis ei saa olla järgmist tüüpi olemeid:"
+
+msgid "msg_min_one_role"
+msgstr "Igal kasutajal peab olema vähemalt üks üldine roll!"
+
+msgid "msg_multi_language_selected"
+msgstr "You selected the same language for different translations!"
+
+msgid "msg_no_default_language"
+msgstr "Keelt pole vaikimisi määratud! Määra üks keel tõlkele vaikimisi keeleks."
+
+msgid "msg_no_delete_yourself"
+msgstr "Sa ei saa kustutada oma kasutajanime."
+
+msgid "msg_no_file"
+msgstr "sa ei valinud faili"
+
+#, fuzzy
+msgid "msg_no_files_selected"
+msgstr "No files selected"
+
+msgid "msg_no_language_selected"
+msgstr "No translation language specified! You must define a language for each translation"
+
+msgid "msg_no_perm_assign_role_to_user"
+msgstr "You have no permission to change user's role assignment"
+
+msgid "msg_no_perm_assign_user_to_role"
+msgstr "You have no permission to change the user assignment"
+
+msgid "msg_no_perm_copy"
+msgstr "Sul pole õigusi järgmiste objektide kopeerimiseks:"
+
+msgid "msg_no_perm_create_rolt"
+msgstr "You have no permission to add role templates"
+
+msgid "msg_no_perm_cut"
+msgstr "You have no permission to cut the following object(s):"
+
+msgid "msg_no_perm_delete"
+msgstr "Sul ei ole piisavalt õigusi järgmis(t)e objekti(de) kustutamiseks:"
+
+msgid "msg_no_perm_link"
+msgstr "You have no permission to create a link from the following object(s):"
+
+msgid "msg_no_perm_modify_rolt"
+msgstr "You have no permission to modify role templates"
+
+msgid "msg_no_perm_modify_user"
+msgstr "You have no permission to modify user data"
+
+msgid "msg_no_perm_paste"
+msgstr "You have no permission to paste the following object(s):"
+
+msgid "msg_no_perm_paste_object_in_folder"
+msgstr "You have no permission to paste the object %s in the folder %s."
+
+msgid "msg_no_perm_perm"
+msgstr "You have no permission to edit permission settings"
+
+msgid "msg_no_perm_read"
+msgstr "Sul ei ole piisavalt õigusi sellesse üksusesse sisenemiseks."
+
+msgid "msg_no_perm_read_item"
+msgstr "Puuduvad juurdepääsuõigused."
+
+msgid "msg_no_perm_read_lm"
+msgstr "Puuduvad õigused vaadata seda õppemoodulit!"
+
+#, fuzzy
+msgid "msg_no_perm_view_roles_of_user"
+msgstr "You have no permission to view the role assignment of this user"
+
+msgid "msg_no_perm_write"
+msgstr "Sul puudub õigus kirjutada"
+
+msgid "msg_no_search_result"
+msgstr "Kirjeid ei leitud"
+
+msgid "msg_no_search_string"
+msgstr "Sisesta oma päring"
+
+msgid "msg_no_title"
+msgstr "Lisa pealkiri."
+
+msgid "msg_not_available_for_anon"
+msgstr "Valitud leht on kättesaadav ainult registreeritud kasutajatele."
+
+msgid "msg_not_in_itself"
+msgstr "Objekti pole võimalik iseenese sisse kleepidal"
+
+msgid "msg_obj_already_deleted"
+msgstr "The object has already been deleted."
+
+msgid "msg_obj_created"
+msgstr "Objekt on loodud."
+
+msgid "msg_obj_exists"
+msgstr "See objekt on juba kaustas"
+
+msgid "msg_obj_exists_in_folder"
+msgstr "Objekt %s on juba kaustas %s olemas."
+
+msgid "msg_obj_may_not_contain_objects_of_type"
+msgstr "The object %s may not contain objects of type: %s."
+
+msgid "msg_obj_modified"
+msgstr "Muudatused on salvestatud"
+
+msgid "msg_obj_no_download"
+msgstr "cannot be downloaded."
+
+msgid "msg_obj_no_link"
+msgstr "pole lubatud linkida"
+
+msgid "msg_obj_perm_download"
+msgstr "You do not have sufficient rights to download the following objects:"
+
+msgid "msg_paste_object_not_in_itself"
+msgstr "Objekti %s pole võimalik iseenese sisse kleepida"
+
+msgid "msg_perm_adopted_from1"
+msgstr "Permission settings adopted from"
+
+msgid "msg_perm_adopted_from2"
+msgstr "(Seaded salvestatud!)"
+
+msgid "msg_perm_adopted_from_itself"
+msgstr "You cannot adopt permission settings from the current role/role template itself."
+
+msgid "msg_removed"
+msgstr "Objekt(id) süsteemist eemaldatud."
+
+msgid "msg_role_reserved_prefix"
+msgstr "Eesliide 'il_'on reserveeritud automaatselt genereeritud rollidele. Palun vali teine nimi"
+
+msgid "msg_roleassignment_changed"
+msgstr "Määratud roll on muudetud"
+
+msgid "msg_sysrole_not_deletable"
+msgstr "Süsteemirolli ei saa kustutada"
+
+msgid "msg_sysrole_not_editable"
+msgstr "Süsteemirolli õiguste seadeid ei saa muuta. Süsteemi roll garanteerib kõikidele määratud kasutajatele ligipääsu kõikidele objektidele ja funktsioonidele."
+
+#, fuzzy
+msgid "msg_to_many_files"
+msgstr "Too many files selected, allowed amount of files:"
+
+msgid "msg_trash_empty"
+msgstr "Kustutatud objekte pole"
+
+msgid "msg_undeleted"
+msgstr "Objekt(id) on taastatud."
+
+msgid "msg_unit_is_required"
+msgstr "This input requires a unit. Please enter a correct value."
+
+#, fuzzy
+msgid "msg_unknown_value"
+msgstr "An unknown value has been passed."
+
+msgid "msg_user_last_role1"
+msgstr "Sellele rollile on lisatud vaid need kasutajad:"
+
+msgid "msg_user_last_role2"
+msgstr "Please delete the users or assign them to another role in order to delete this role."
+
+msgid "msg_userassignment_changed"
+msgstr "Kasutaja rolli on muudetud"
+
+#, fuzzy
+msgid "msg_wrong_filetypes"
+msgstr "Allowed Files-Types:"
+
+msgid "msg_wrong_format"
+msgstr "Sisestatud väärtus ei ole kõlbulik formaat."
+
+msgid "my_bms"
+msgstr "Minu järjehoidjad"
+
+#, fuzzy
+msgid "my_certificates"
+msgstr "My Certificates"
+
+#, fuzzy
+msgid "my_contacts"
+msgstr "My Contact"
+
+msgid "my_courses"
+msgstr "Minu kursused"
+
+msgid "my_courses_groups"
+msgstr "Minu kursused ja grupid"
+
+#, fuzzy
+msgid "my_staff"
+msgstr "Staff"
+
+msgid "name"
+msgstr "Nimi"
+
+#, fuzzy
+msgid "nc_contact_requests_headline"
+msgstr "Contact Requests"
+
+#, fuzzy
+msgid "nc_contact_requests_number_p"
+msgstr "You have %s Contact Requests."
+
+#, fuzzy
+msgid "nc_contact_requests_number_s"
+msgstr "You have %s Contact Request."
+
+#, fuzzy
+msgid "nc_contact_requests_prop_time"
+msgstr "Time"
+
+msgid "never"
+msgstr "Mitte kunagi"
+
+msgid "new"
+msgstr "Uus"
+
+msgid "new_language"
+msgstr "Uus keel"
+
+msgid "new_pass_equals_old_pass"
+msgstr "Uus parool ei erine vanast."
+
+msgid "newline"
+msgstr "Uus rida"
+
+msgid "news"
+msgstr "Uudised"
+
+msgid "next"
+msgstr "edasi"
+
+msgid "no"
+msgstr "Ei"
+
+msgid "no_access_item"
+msgstr "Sul ei ole piisavalt õigusi sellesse üksusesse sisenemiseks."
+
+msgid "no_access_item_public"
+msgstr "Antud üksusele avalikul alal juurdepääs puudub."
+
+#, fuzzy
+msgid "no_accessibility_control_concept_description"
+msgstr "There is currently no Accessibility Control Concept provided with this installation. Please contact the <a href=\"%1$s\">Accessibility Point of Contact</a>."
+
+msgid "no_checkbox"
+msgstr "Märkeruutu pole märgistatud!"
+
+msgid "no_condition_selected"
+msgstr "Vali üks eeldtingimus."
+
+msgid "no_date"
+msgstr "Pole sisenenud"
+
+#, fuzzy
+msgid "no_gallery_users_available"
+msgstr "There are currently no users in the gallery."
+
+msgid "no_global_role_left"
+msgstr "Igal kasutajal peab olema vähemalt üks roll."
+
+msgid "no_import_file_found"
+msgstr "Faile impordiks ei leitud"
+
+msgid "no_items"
+msgstr "Pole üksusi"
+
+msgid "no_limit"
+msgstr "Piiramatu"
+
+msgid "no_mkisofs_configured"
+msgstr "You have to configure mkisofs utility in ILIAS setup to run ISO export"
+
+msgid "no_parent_access"
+msgstr "No access to a superordinated object!"
+
+msgid "no_permission"
+msgstr "Sul pole vajalikke õigusi."
+
+msgid "no_roles_user_can_be_assigned_to"
+msgstr "Pole üldisi rolle, mida kasutajatele määrata. Seepärast pole sul võimalik kasutajaid lisada."
+
+msgid "no_start_file"
+msgstr "Pole algusfaili."
+
+msgid "no_title"
+msgstr "Pole pealkirja"
+
+msgid "no_users_selected"
+msgstr "Palun vali üks kasutaja."
+
+msgid "no_xml_file_found_in_zip"
+msgstr "XML file within zip file not found:"
+
+#, fuzzy
+msgid "noc"
+msgstr "Notification Center"
+
+msgid "non_internal_local_roles_only"
+msgstr "Kohalikud rollid (ainult käsitsi loodud)"
+
+msgid "none"
+msgstr "=0"
+
+msgid "normal"
+msgstr "Tavaline"
+
+msgid "not_available"
+msgstr "Pole saadaval"
+
+msgid "not_implemented_yet"
+msgstr "Not implemented yet"
+
+msgid "not_installed"
+msgstr "Pole installeeritud"
+
+msgid "not_logged_in"
+msgstr "Sa ei ole sisse loginud"
+
+msgid "note"
+msgstr "Märge"
+
+msgid "notes"
+msgstr "Minu märkmed"
+
+msgid "notes_and_comments"
+msgstr "Märkmed ja kommentaarid"
+
+msgid "notice"
+msgstr "Märkus"
+
+msgid "notifications"
+msgstr "Märguanded"
+
+msgid "nr_following_sessions"
+msgstr "%1d järgnev(aid) sessioon(e)..."
+
+msgid "num_of_selected_files"
+msgstr "%s file(s) selected"
+
+msgid "num_users"
+msgstr "Kasutajate arv"
+
+#, fuzzy
+msgid "numberedlist_action"
+msgstr "Insert Numbered List - Click to insert a numbered list."
+
+msgid "obj"
+msgstr "Objekt"
+
+msgid "obj_accs"
+msgstr "Juurdepääs"
+
+msgid "obj_accs_desc"
+msgstr "Settings for accessibility features."
+
+msgid "obj_adm"
+msgstr "Haldamine"
+
+msgid "obj_adm_desc"
+msgstr "Põhisüsteemi seadete kaust sisaldab kõiki paneele sinu ILIASe installatsiooni administreerimiseks."
+
+#, fuzzy
+msgid "obj_adma"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "obj_adma_desc"
+msgstr "Important settings for the whole installation"
+
+#, fuzzy
+msgid "obj_adn"
+msgstr "Administrative Notifications"
+
+msgid "obj_adve"
+msgstr "Täpsem redigeerimine"
+
+msgid "obj_adve_desc"
+msgstr "Administreerimisseaded täpsemate muutmisviiside jaoks nagu Rikastekst, LaTex tugi jne..."
+
+msgid "obj_ass"
+msgstr "Teadmiseks"
+
+msgid "obj_assf"
+msgstr "Test ja enesekontroll"
+
+msgid "obj_assf_desc"
+msgstr "Testi&enesekontrolli logi seaded."
+
+msgid "obj_auth"
+msgstr "Autentimine"
+
+msgid "obj_auth_desc"
+msgstr "Konfigureeri oma autentimise režiim(kohalik, LDAP, ...)"
+
+#, fuzzy
+msgid "obj_awra"
+msgstr "‘Who is online?’-Tool"
+
+#, fuzzy
+msgid "obj_awra_desc"
+msgstr "Manage ‘Who is online?’-Tool"
+
+#, fuzzy
+msgid "obj_bdga"
+msgstr "Badges"
+
+#, fuzzy
+msgid "obj_bdga_desc"
+msgstr "Administrate types, image templates and activity badges"
+
+#, fuzzy
+msgid "obj_bgtk"
+msgstr "Background Task"
+
+msgid "obj_bibl"
+msgstr "Bibliography"
+
+msgid "obj_bibs"
+msgstr "Bibliography"
+
+msgid "obj_bibs_desc"
+msgstr "Bibliography Administration"
+
+msgid "obj_blog"
+msgstr "Ajaveeb"
+
+msgid "obj_blog_duplicate"
+msgstr "Copy Blog"
+
+#, fuzzy
+msgid "obj_bnmk"
+msgstr "Benchmarking"
+
+#, fuzzy
+msgid "obj_bnmk_desc"
+msgstr "Recording and display of database query durations"
+
+msgid "obj_book"
+msgstr "Registreerimisala"
+
+#, fuzzy
+msgid "obj_cadm"
+msgstr "Contacts"
+
+#, fuzzy
+msgid "obj_cadm_desc"
+msgstr "Contacts Administration"
+
+msgid "obj_cals"
+msgstr "Kalender"
+
+msgid "obj_cals_desc"
+msgstr "Kalendri põhiseaded"
+
+msgid "obj_cat"
+msgstr "Liigitus"
+
+msgid "obj_cat_duplicate"
+msgstr "Kopeeri kategooria"
+
+msgid "obj_catr"
+msgstr "Kategooria viide"
+
+msgid "obj_cert"
+msgstr "Sertifikaadid"
+
+msgid "obj_cert_desc"
+msgstr "Sertifikaadi seaded"
+
+msgid "obj_chap"
+msgstr "Peatükk"
+
+msgid "obj_chta"
+msgstr "Jututoad"
+
+msgid "obj_chtr"
+msgstr "Jututuba"
+
+#, fuzzy
+msgid "obj_chtr_duplicate"
+msgstr "Copy Chat Room"
+
+#, fuzzy
+msgid "obj_cmis"
+msgstr "xAPI/cmi5"
+
+#, fuzzy
+msgid "obj_cmis_desc"
+msgstr "Learning Record Store Types Configuration"
+
+#, fuzzy
+msgid "obj_cmix"
+msgstr "xAPI/cmi5"
+
+msgid "obj_cmps"
+msgstr "Moodulid, teenused ja pluginad"
+
+msgid "obj_cmps_desc"
+msgstr "Varamu moodulite, teenuste ja pluginate põhiseaded"
+
+#, fuzzy
+msgid "obj_coms"
+msgstr "Comments"
+
+#, fuzzy
+msgid "obj_coms_desc"
+msgstr "Comments settings"
+
+#, fuzzy
+msgid "obj_copa"
+msgstr "Content Page"
+
+#, fuzzy
+msgid "obj_cpad"
+msgstr "Content Pages"
+
+#, fuzzy
+msgid "obj_cpad#_desc"
+msgstr "Content Page Administration"
+
+#, fuzzy
+msgid "obj_cpad_desc"
+msgstr "Content Page Administration"
+
+#, fuzzy
+msgid "obj_cron"
+msgstr "Cron Jobs"
+
+#, fuzzy
+msgid "obj_cron_desc"
+msgstr "List of all Cron Jobs"
+
+msgid "obj_crs"
+msgstr "Kursus"
+
+msgid "obj_crs_duplicate"
+msgstr "Kursuse kopeerimine"
+
+msgid "obj_crsr"
+msgstr "Kursuse viide"
+
+msgid "obj_crss"
+msgstr "Course"
+
+msgid "obj_crss_desc"
+msgstr "General settings for Courses"
+
+msgid "obj_crsv"
+msgstr "Course Certificate"
+
+msgid "obj_dbk"
+msgstr "Digilib-raamat"
+
+msgid "obj_dcl"
+msgstr "Data Collection"
+
+msgid "obj_dcl_duplicate"
+msgstr "Copy Data Collection"
+
+#, fuzzy
+msgid "obj_dpro"
+msgstr "Declaration of Data Protection"
+
+#, fuzzy
+msgid "obj_dpro_desc"
+msgstr "Declaration of Data Protection Settings"
+
+#, fuzzy
+msgid "obj_dshs"
+msgstr "Dashboard"
+
+#, fuzzy
+msgid "obj_dshs_desc"
+msgstr "Dashboard settings"
+
+msgid "obj_ecss"
+msgstr "ECS"
+
+msgid "obj_ecss_desc"
+msgstr "General ECS Settings"
+
+msgid "obj_etal"
+msgstr "Employee Talk"
+
+msgid "obj_exc"
+msgstr "Harjutus"
+
+#, fuzzy
+msgid "obj_exc_duplicate"
+msgstr "Copy Exercise"
+
+msgid "obj_excv"
+msgstr "Exercise Certificate"
+
+msgid "obj_facs"
+msgstr "Failid ja kaustad"
+
+msgid "obj_facs_desc"
+msgstr "Konfigureeri ligipääs failidele ja kaustaobjektidele."
+
+msgid "obj_file"
+msgstr "Fail"
+
+#, fuzzy
+msgid "obj_file_duplicate"
+msgstr "Duplicate File"
+
+msgid "obj_file_inline"
+msgstr "Õppemooduli fail"
+
+#, fuzzy
+msgid "obj_fils"
+msgstr "File Services"
+
+#, fuzzy
+msgid "obj_fils_desc"
+msgstr "Configuration of File Service Settings."
+
+msgid "obj_fold"
+msgstr "Kaust"
+
+#, fuzzy
+msgid "obj_fold_duplicate"
+msgstr "Copy Folder"
+
+msgid "obj_frm"
+msgstr "Foorum"
+
+msgid "obj_frm_duplicate"
+msgstr "Kopeeri foorum"
+
+msgid "obj_frma"
+msgstr "Forum"
+
+msgid "obj_frma_desc"
+msgstr "Global Forum Settings"
+
+msgid "obj_glo"
+msgstr "Sõnastik"
+
+msgid "obj_glo_duplicate"
+msgstr "Copy Glossary"
+
+msgid "obj_grp"
+msgstr "Grupp"
+
+msgid "obj_grp_duplicate"
+msgstr "Kopeeri grupp"
+
+#, fuzzy
+msgid "obj_grpr"
+msgstr "Group Reference"
+
+msgid "obj_grps"
+msgstr "Group"
+
+msgid "obj_grps_desc"
+msgstr "General settings for Groups"
+
+#, fuzzy
+msgid "obj_gsfo"
+msgstr "Footer"
+
+#, fuzzy
+msgid "obj_gsfo_desc"
+msgstr "Administrate Footer Layout and Content"
+
+msgid "obj_hlps"
+msgstr "Help System"
+
+msgid "obj_hlps_desc"
+msgstr "Settings for the online help"
+
+msgid "obj_htlm"
+msgstr "HTML õppemoodul"
+
+msgid "obj_htlm_duplicate"
+msgstr "Copy HTML Learning Module"
+
+#, fuzzy
+msgid "obj_iass"
+msgstr "Individual Assessment"
+
+#, fuzzy
+msgid "obj_iass_duplicate"
+msgstr "Copy Individual Assessment"
+
+#, fuzzy
+msgid "obj_iass_select"
+msgstr "-- Please select one individual assessment --"
+
+msgid "obj_itgr"
+msgstr "Item Group"
+
+msgid "obj_ldap_desc"
+msgstr "Configure global LDAP Settings here."
+
+#, fuzzy
+msgid "obj_lhts"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "obj_lhts_desc"
+msgstr "Learning history settings"
+
+msgid "obj_lm"
+msgstr "ILIASe õppemoodul"
+
+msgid "obj_lm_duplicate"
+msgstr "Copy Learning Module"
+
+msgid "obj_lng"
+msgstr "Keel"
+
+msgid "obj_lngf"
+msgstr "Keeled"
+
+msgid "obj_lngf_desc"
+msgstr "Halda oma süsteemi keeli siin."
+
+#, fuzzy
+msgid "obj_logs"
+msgstr "Logging"
+
+#, fuzzy
+msgid "obj_logs_desc"
+msgstr "General Logging Settings"
+
+msgid "obj_lrss"
+msgstr "Õpiressursid"
+
+msgid "obj_lrss_desc"
+msgstr "Konfigureeri kõiki õppemoodulite liike."
+
+#, fuzzy
+msgid "obj_lso"
+msgstr "Learning Sequence"
+
+#, fuzzy
+msgid "obj_lso_duplicate"
+msgstr "Copy Learning Sequence"
+
+#, fuzzy
+msgid "obj_lsos"
+msgstr "Learning Sequences"
+
+#, fuzzy
+msgid "obj_lsos_desc"
+msgstr "General settings for Learning Sequences"
+
+#, fuzzy
+msgid "obj_lti"
+msgstr "LTI Consumer"
+
+#, fuzzy
+msgid "obj_ltis"
+msgstr "LTI"
+
+#, fuzzy
+msgid "obj_ltis_desc"
+msgstr "Learning Tools Interoperability"
+
+msgid "obj_mail"
+msgstr "E-post"
+
+msgid "obj_mail_desc"
+msgstr "Konfigureeri siin üldised e-posti seade."
+
+#, fuzzy
+msgid "obj_mailr"
+msgstr "Read Mail"
+
+#, fuzzy
+msgid "obj_mailu"
+msgstr "Unread Mail"
+
+#, fuzzy
+msgid "obj_maps"
+msgstr "Maps"
+
+msgid "obj_mcst"
+msgstr "Meedialevi"
+
+msgid "obj_mcst_duplicate"
+msgstr "Copy Mediacast"
+
+msgid "obj_mcts"
+msgstr "Meedialevi"
+
+msgid "obj_mcts_desc"
+msgstr "Mediacasti põhiseaded"
+
+msgid "obj_mep"
+msgstr "Meediavaramu"
+
+msgid "obj_mep_duplicate"
+msgstr "Copy Media Pool"
+
+#, fuzzy
+msgid "obj_mme"
+msgstr "Main Menu"
+
+msgid "obj_mob"
+msgstr "Meediaobjekt"
+
+msgid "obj_mobs"
+msgstr "Meediaobjektid/varamud"
+
+msgid "obj_mobs_desc"
+msgstr "Meediaobjektide ja meediavaramute seaded"
+
+msgid "obj_not_found"
+msgstr "Objekti ei leitud"
+
+#, fuzzy
+msgid "obj_nota"
+msgstr "Notifications"
+
+#, fuzzy
+msgid "obj_nota_desc"
+msgstr "Notification Administration"
+
+#, fuzzy
+msgid "obj_nots"
+msgstr "Notes"
+
+#, fuzzy
+msgid "obj_nots_desc"
+msgstr "Notes settings"
+
+msgid "obj_nwss"
+msgstr "Uudiste ja veebivoogude seaded"
+
+msgid "obj_nwss_desc"
+msgstr "Süsteemisiseste uudiste ja väliste veebivoogude seaded."
+
+msgid "obj_objf"
+msgstr "Objektide definitsioonid"
+
+msgid "obj_orgu"
+msgstr "Organisational Unit"
+
+#, fuzzy
+msgid "obj_orgu_description"
+msgstr "Creating and editing organisational structure"
+
+msgid "obj_page"
+msgstr "Leht"
+
+#, fuzzy
+msgid "obj_peac"
+msgstr "Accordion"
+
+#, fuzzy
+msgid "obj_peadl"
+msgstr "Advanced List"
+
+#, fuzzy
+msgid "obj_peadt"
+msgstr "Advanced Table"
+
+#, fuzzy
+msgid "obj_pecd"
+msgstr "Code"
+
+#, fuzzy
+msgid "obj_pech"
+msgstr "Consultation Hour"
+
+#, fuzzy
+msgid "obj_pecl"
+msgstr "Column Layout"
+
+#, fuzzy
+msgid "obj_peclp"
+msgstr "Clipboard"
+
+#, fuzzy
+msgid "obj_pecom"
+msgstr "Competences"
+
+#, fuzzy
+msgid "obj_pecrs"
+msgstr "Course"
+
+#, fuzzy
+msgid "obj_pecrt"
+msgstr "Certificate"
+
+#, fuzzy
+msgid "obj_pecs"
+msgstr "Content Snippet"
+
+#, fuzzy
+msgid "obj_pedt"
+msgstr "Data Table"
+
+#, fuzzy
+msgid "obj_pefl"
+msgstr "File List"
+
+#, fuzzy
+msgid "obj_peim"
+msgstr "interactive Media"
+
+#, fuzzy
+msgid "obj_pelh"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "obj_pemed"
+msgstr "Image/Audio/Video"
+
+#, fuzzy
+msgid "obj_pemp"
+msgstr "Map"
+
+#, fuzzy
+msgid "obj_pepd"
+msgstr "Personal Data"
+
+#, fuzzy
+msgid "obj_pepe"
+msgstr "Plugin Element"
+
+#, fuzzy
+msgid "obj_pepl"
+msgstr "Page List"
+
+#, fuzzy
+msgid "obj_peplh"
+msgstr "Placeholder"
+
+#, fuzzy
+msgid "obj_pequ"
+msgstr "Questions"
+
+#, fuzzy
+msgid "obj_perl"
+msgstr "Ressource List"
+
+#, fuzzy
+msgid "obj_pesc"
+msgstr "Section"
+
+#, fuzzy
+msgid "obj_petmp"
+msgstr "Page Template"
+
+#, fuzzy
+msgid "obj_peusr"
+msgstr "User"
+
+msgid "obj_pg"
+msgstr "Leht"
+
+msgid "obj_poll"
+msgstr "Poll"
+
+msgid "obj_poll_dupliate:"
+msgstr "Copy Poll"
+
+msgid "obj_poll_duplicate"
+msgstr "Copy Poll"
+
+#, fuzzy
+msgid "obj_prg"
+msgstr "Study Programme"
+
+#, fuzzy
+msgid "obj_prg_duplicate"
+msgstr "Copy Study Programme"
+
+#, fuzzy
+msgid "obj_prg_select"
+msgstr "-- Please select one Study Programme --"
+
+#, fuzzy
+msgid "obj_prgr"
+msgstr "Link to Study Programme"
+
+#, fuzzy
+msgid "obj_prgrs"
+msgstr "Links to Study Programmes"
+
+#, fuzzy
+msgid "obj_prgs"
+msgstr "Study Programmes"
+
+#, fuzzy
+msgid "obj_prgs_desc"
+msgstr "Study Programme Administration"
+
+#, fuzzy
+msgid "obj_prss"
+msgstr "Personal Resources"
+
+#, fuzzy
+msgid "obj_prss_desc"
+msgstr "Personal resources settings"
+
+msgid "obj_prtf"
+msgstr "Portfolio"
+
+msgid "obj_prtt"
+msgstr "Portfolio Template"
+
+msgid "obj_prtt_duplicate"
+msgstr "Copy Portfolio Template"
+
+msgid "obj_ps"
+msgstr "Privaatsus ja turvalisus"
+
+msgid "obj_ps_desc"
+msgstr "Konfigureeri siin üldised privaatsuse ja turvalisuse seaded"
+
+msgid "obj_qpl"
+msgstr "Testiküsimuste varamu"
+
+msgid "obj_qpl_duplicate"
+msgstr "Kopeeri testiküsimuste varamu"
+
+msgid "obj_qpl_select"
+msgstr "-- Palun vali üks Testiküsimuste varamu --"
+
+msgid "obj_rcat"
+msgstr "ECS Category"
+
+msgid "obj_rcrs"
+msgstr "Kursuse-link"
+
+msgid "obj_recf"
+msgstr "Taastatud objektid"
+
+msgid "obj_recf_desc"
+msgstr "Contains restored Objects from System Check."
+
+#, fuzzy
+msgid "obj_rep"
+msgstr "Repository"
+
+msgid "obj_reps"
+msgstr "Repository"
+
+msgid "obj_reps_desc"
+msgstr "General settings for the Repository"
+
+msgid "obj_rfil"
+msgstr "ECS File"
+
+msgid "obj_rglo"
+msgstr "ECS Glossary"
+
+msgid "obj_rgrp"
+msgstr "ECS Group"
+
+msgid "obj_rlm"
+msgstr "ECS Learning Module"
+
+msgid "obj_role"
+msgstr "Roll"
+
+msgid "obj_rolf"
+msgstr "Rollid"
+
+msgid "obj_rolf_desc"
+msgstr "Halda oma rolle siin."
+
+msgid "obj_rolf_local"
+msgstr "Kohalikud rollid"
+
+msgid "obj_rolf_local_desc"
+msgstr "Contains local roles of object no."
+
+msgid "obj_rolt"
+msgstr "Rolli mall"
+
+msgid "obj_root"
+msgstr "ILIASe juurtipp"
+
+msgid "obj_rtst"
+msgstr "ECS Test"
+
+msgid "obj_rwik"
+msgstr "ECS Wiki"
+
+msgid "obj_sahs"
+msgstr "SCORM/AICC õppemoodul"
+
+msgid "obj_sahs_duplicate"
+msgstr "Copy Learning Module"
+
+msgid "obj_sco"
+msgstr "SCO"
+
+msgid "obj_scov"
+msgstr "SCORM Certificate"
+
+msgid "obj_seas"
+msgstr "Otsing"
+
+msgid "obj_seas_desc"
+msgstr "Halda otsinguseadeid siin."
+
+#, fuzzy
+msgid "obj_serv"
+msgstr "Server"
+
+#, fuzzy
+msgid "obj_serv_desc"
+msgstr "Settings of the sever"
+
+msgid "obj_sess"
+msgstr "Kohtumine"
+
+msgid "obj_sess_duplicate"
+msgstr "Kopeeri kohtumine"
+
+msgid "obj_skmg"
+msgstr "Pädevuste haldus"
+
+msgid "obj_skmg_desc"
+msgstr "Halda pädevusi ja nende kategooriaid."
+
+msgid "obj_spl"
+msgstr "Küsitluse varamu"
+
+msgid "obj_st"
+msgstr "Peatükk"
+
+#, fuzzy
+msgid "obj_stus"
+msgstr "Shortlinks"
+
+#, fuzzy
+msgid "obj_stus_desc"
+msgstr "Global Shortlinks Settings"
+
+msgid "obj_sty"
+msgstr "Stiil"
+
+msgid "obj_stys"
+msgstr "Stiili seaded"
+
+msgid "obj_stys_desc"
+msgstr "Halda süsteemi graafilist kasutajaliidest (skin) ja stiili seadeid siin"
+
+msgid "obj_svy"
+msgstr "Küsitlus"
+
+msgid "obj_svy_duplicate"
+msgstr "Kopeeri küsitlus"
+
+msgid "obj_svyf"
+msgstr "Küsitlus"
+
+msgid "obj_svyf_desc"
+msgstr "Küsitluse platvormi seaded"
+
+msgid "obj_sysc"
+msgstr "System Check"
+
+msgid "obj_sysc_desc"
+msgstr "System Check and Repair Tools"
+
+msgid "obj_tags"
+msgstr "Sildistamine"
+
+msgid "obj_tags_desc"
+msgstr "Sildistamise seaded"
+
+msgid "obj_tala"
+msgstr "Talk Templates"
+
+msgid "obj_tala_desc"
+msgstr "Talk Templates"
+
+msgid "obj_tals"
+msgstr "Employee Talk Series"
+
+msgid "obj_talt"
+msgstr "Talk Template"
+
+#, fuzzy
+msgid "obj_task"
+msgstr "Task"
+
+msgid "obj_tax"
+msgstr "Taksonoomia"
+
+msgid "obj_taxf"
+msgstr "Taksonoomiad"
+
+msgid "obj_tool_setting_calendar"
+msgstr "Show Calendar"
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_active"
+msgstr "Calendar"
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_active_info"
+msgstr "A calendar is available."
+
+msgid "obj_tool_setting_calendar_info"
+msgstr "The \"Calendar\" block will be displayed inside the \"Content\" tab."
+
+#, fuzzy
+msgid "obj_tool_setting_custom_metadata"
+msgstr "Custom Metadata"
+
+#, fuzzy
+msgid "obj_tool_setting_custom_metadata_info"
+msgstr "If activated metadata can be configured."
+
+msgid "obj_tool_setting_news"
+msgstr "Show News"
+
+msgid "obj_tool_setting_news_info"
+msgstr "The \"News\" block will be displayed inside the \"Content\" tab."
+
+msgid "obj_tos"
+msgstr "Terms of Service"
+
+msgid "obj_tos_desc"
+msgstr "Terms of Service Settings"
+
+msgid "obj_trac"
+msgstr "Kasutajate jälgimine ja õppeprogress"
+
+msgid "obj_trac_desc"
+msgstr "Kasutajate jälgimisandmed"
+
+msgid "obj_tst"
+msgstr "Test"
+
+msgid "obj_tst_duplicate"
+msgstr "Kopeeri test"
+
+msgid "obj_tstv"
+msgstr "Test Certificate"
+
+msgid "obj_type"
+msgstr "Objekti tüüp"
+
+msgid "obj_user"
+msgstr "Kasutaja"
+
+msgid "obj_usr"
+msgstr "Kasutaja"
+
+msgid "obj_usrf"
+msgstr "Kasutajad"
+
+msgid "obj_usrf_desc"
+msgstr "Halda kasutajakontosid siin."
+
+#, fuzzy
+msgid "obj_wbdv"
+msgstr "WebDAV"
+
+#, fuzzy
+msgid "obj_wbdv_desc"
+msgstr "Configuration of WebDAV Settings."
+
+msgid "obj_wbrs"
+msgstr "Weblink"
+
+msgid "obj_wbrs_desc"
+msgstr "General settings for Web Links"
+
+msgid "obj_webr"
+msgstr "veebiallikas"
+
+msgid "obj_webr_duplicate"
+msgstr "Kopeeri veebiallikas"
+
+msgid "obj_wfld"
+msgstr "Folder"
+
+msgid "obj_wiki"
+msgstr "Wiki"
+
+msgid "obj_wiki_duplicate"
+msgstr "Copy Wiki"
+
+msgid "obj_wiks"
+msgstr "Wiki"
+
+msgid "obj_wiks_desc"
+msgstr "Global Wiki Settings"
+
+msgid "object"
+msgstr "Objekt"
+
+msgid "object_added"
+msgstr "Objekt on lisatud"
+
+msgid "object_copy_in_progress"
+msgstr "Kopeerimine algas."
+
+msgid "object_duplicated"
+msgstr "Objekt on duplitseeritud"
+
+msgid "object_id"
+msgstr "Objekti ID"
+
+msgid "object_imported"
+msgstr "Objekt on imporditud"
+
+#, fuzzy
+msgid "object_list"
+msgstr "List of Objects"
+
+msgid "objects"
+msgstr "Objektid"
+
+msgid "objf"
+msgstr "Objekti definitsioonid"
+
+msgid "objs_bibl"
+msgstr "Bibliographies"
+
+msgid "objs_blog"
+msgstr "Blogs"
+
+msgid "objs_book"
+msgstr "Broneerimise varamu"
+
+msgid "objs_cat"
+msgstr "Liigitus"
+
+msgid "objs_catr"
+msgstr "Kategooria viited"
+
+msgid "objs_chtr"
+msgstr "Jututoad"
+
+#, fuzzy
+msgid "objs_cmix"
+msgstr "Objects xAPI/cmi5"
+
+#, fuzzy
+msgid "objs_copa"
+msgstr "Content Pages"
+
+msgid "objs_crs"
+msgstr "Kursused"
+
+msgid "objs_crsr"
+msgstr "Kursuse lingid"
+
+msgid "objs_dcl"
+msgstr "Data Collections"
+
+msgid "objs_etal"
+msgstr "Employee Talks"
+
+msgid "objs_exc"
+msgstr "Ülesanded"
+
+msgid "objs_file"
+msgstr "Failid"
+
+msgid "objs_fold"
+msgstr "Kaustad"
+
+msgid "objs_frm"
+msgstr "Foorumid"
+
+msgid "objs_glo"
+msgstr "Sõnastikud"
+
+msgid "objs_grp"
+msgstr "Grupid"
+
+#, fuzzy
+msgid "objs_grpr"
+msgstr "Group References"
+
+msgid "objs_htlm"
+msgstr "HTML õppemoodulid"
+
+#, fuzzy
+msgid "objs_iass"
+msgstr "Individual Assessments"
+
+msgid "objs_itgr"
+msgstr "Item Groups"
+
+msgid "objs_lm"
+msgstr "ILIAS õppemoodulid"
+
+msgid "objs_lres"
+msgstr "Õppevarad"
+
+#, fuzzy
+msgid "objs_lso"
+msgstr "Learning Sequences"
+
+#, fuzzy
+msgid "objs_lti"
+msgstr "LTI Consumers"
+
+msgid "objs_mail"
+msgstr "MPostkastail"
+
+msgid "objs_mcst"
+msgstr "Meediavood"
+
+msgid "objs_mep"
+msgstr "Meediavaramud"
+
+msgid "objs_orgu"
+msgstr "Organisational Unit"
+
+msgid "objs_poll"
+msgstr "Polls"
+
+#, fuzzy
+msgid "objs_prg"
+msgstr "Study Programmes"
+
+#, fuzzy
+msgid "objs_prgr"
+msgstr "Links to Study Programmes"
+
+#, fuzzy
+msgid "objs_prtf"
+msgstr "Portfolios"
+
+msgid "objs_prtt"
+msgstr "Portfolio Templates"
+
+msgid "objs_qpl"
+msgstr "Küsimuste varamu (test)"
+
+msgid "objs_qst"
+msgstr "Küsimused"
+
+msgid "objs_rcat"
+msgstr "ECS Categories"
+
+msgid "objs_rcrs"
+msgstr "Kursuse lingid"
+
+msgid "objs_rfil"
+msgstr "ECS Files"
+
+msgid "objs_rglo"
+msgstr "ECS Glossaries"
+
+msgid "objs_rgrp"
+msgstr "ECS Groups"
+
+msgid "objs_rlm"
+msgstr "ECS Learning Modules"
+
+msgid "objs_role"
+msgstr "Rollid"
+
+#, fuzzy
+msgid "objs_rolf"
+msgstr "Role Folders"
+
+msgid "objs_rtst"
+msgstr "ECS Tests"
+
+msgid "objs_rwik"
+msgstr "ECS Wikis"
+
+msgid "objs_sahs"
+msgstr "SCORM/AICC õppemoodulid"
+
+msgid "objs_sess"
+msgstr "Kohtumised"
+
+#, fuzzy
+msgid "objs_skee"
+msgstr "Competence Trees"
+
+msgid "objs_spl"
+msgstr "Küsimuste varamud (küsitlus)"
+
+msgid "objs_st"
+msgstr "Peatükid"
+
+msgid "objs_svy"
+msgstr "Küsitlused"
+
+msgid "objs_tala"
+msgstr "Talk Templates"
+
+msgid "objs_talt"
+msgstr "Talk Templates"
+
+msgid "objs_tst"
+msgstr "Testid"
+
+msgid "objs_webr"
+msgstr "Veebiallikad"
+
+msgid "objs_wiki"
+msgstr "Wikid"
+
+msgid "of"
+msgstr "/"
+
+msgid "offline"
+msgstr "Pole võrgus"
+
+msgid "offline_mode"
+msgstr "Offline-Mode"
+
+msgid "ok"
+msgstr "OK"
+
+msgid "old"
+msgstr "Vana"
+
+msgid "omit"
+msgstr "Jäta vahele"
+
+msgid "omit_all"
+msgstr "Jäta kõik vahele"
+
+msgid "on_waiting_list"
+msgstr "You are on the waiting list"
+
+msgid "online"
+msgstr "Võrgus"
+
+msgid "online_time"
+msgstr "Kasutamisaeg (PP:TT:MM:SS)"
+
+#, fuzzy
+msgid "only_active"
+msgstr "Only Active"
+
+#, fuzzy
+msgid "only_inactive"
+msgstr "Only Inactive"
+
+#, fuzzy
+msgid "open"
+msgstr "Open"
+
+msgid "operation"
+msgstr "Operation"
+
+msgid "optimize"
+msgstr "Optimeeri"
+
+msgid "option"
+msgstr "Valik"
+
+msgid "optional_filter_hint"
+msgstr "Palun aktiveeri üks valikfiltritest."
+
+msgid "optional_filters"
+msgstr "Valikfiltrid"
+
+msgid "options"
+msgstr "Valikud"
+
+msgid "order_by"
+msgstr "Järjestatud mille järgi:"
+
+msgid "order_by_date"
+msgstr "Järjesta aja järgi"
+
+#, fuzzy
+msgid "org_op_access_enrolments"
+msgstr "View Enrolment-Status"
+
+#, fuzzy
+msgid "org_op_manage_members"
+msgstr "Manage Subordinate Members"
+
+#, fuzzy
+msgid "org_op_read_learning_progress"
+msgstr "View Learning Progress of Subordinate Users"
+
+#, fuzzy
+msgid "org_permission_settings"
+msgstr "Permissions of Positions in Organisational Units"
+
+#, fuzzy
+msgid "org_units"
+msgstr "Organisational Units"
+
+msgid "organization"
+msgstr "Organisatsioon"
+
+msgid "other"
+msgstr "Muu"
+
+msgid "overview"
+msgstr "Ülevaade"
+
+msgid "overwrite"
+msgstr "Kirjuta üle"
+
+msgid "owner"
+msgstr "Omanik"
+
+msgid "owner_updated"
+msgstr "Omanik uuendatud"
+
+msgid "page"
+msgstr "Leht"
+
+#, fuzzy
+msgid "page_count"
+msgstr "Page Count"
+
+msgid "page_layout"
+msgstr "Lehe kujundus"
+
+msgid "page_layouts"
+msgstr "Lehe kujundused"
+
+#, fuzzy
+msgid "pagination_label_x_of_y"
+msgstr "Page %1$d of %2$d"
+
+msgid "parameter"
+msgstr "Parameter"
+
+msgid "parse"
+msgstr "Liigenda"
+
+#, fuzzy
+msgid "participate"
+msgstr "Subscribe"
+
+msgid "passed"
+msgstr "Läbitud"
+
+msgid "passwd"
+msgstr "Salasõna"
+
+msgid "passwd_generation"
+msgstr "Salasõna genereerimine"
+
+msgid "passwd_invalid"
+msgstr "Uus salasõna ei sobi! Lubatud on vaid järgmised sümbolid ja tähemärgid (minimaalselt 6 tähemärki): A-Z a-z 0-9 _.-+?#*@!$%~"
+
+msgid "passwd_not_match"
+msgstr "Sinu sisestused uue salasõna osas ei kattu! Palun sisesta oma uus salasõna uesti."
+
+msgid "passwd_wrong"
+msgstr "Sisestasite vale parooli!"
+
+msgid "password"
+msgstr "Salasõna"
+
+msgid "password_allow_chars"
+msgstr "Lubatud kirjamärgid: %s"
+
+msgid "password_assistance_info"
+msgstr "Kui salasõna assisteerimine on võimaldatud, on ILIASe esilehel näha link tekstiga \"Salasõna abi\". Kasutajad saavad seda linki kasutada uue salasõna loomiseks, ilma et oleks vajalik süsteemi administraatori sekkumine."
+
+msgid "password_change_on_first_login_demand"
+msgstr "Sinu esialgne salasõna peab olema muudetud enne ILIASe teenuste kasutamist"
+
+msgid "password_contains_invalid_chars"
+msgstr "The password contains invalid characters"
+
+msgid "password_contains_parts_of_login_err"
+msgstr "The chosen password contains your username. Please insert a new password."
+
+msgid "password_empty"
+msgstr "Salasõna ei tohi olla tühi."
+
+msgid "password_expired"
+msgstr "Sinu salasõna on aegunud ja tuleb muuta, kuna viimane muudatus oli %s päev(a) tagasi."
+
+msgid "password_multiple_errors"
+msgstr "Multiple criterias are not satisfied:"
+
+msgid "password_must_chars_and_numbers"
+msgstr "Parool peab sisaldama erimärke ja numbreid."
+
+msgid "password_must_contain_lcase_chars"
+msgstr "The password must contain at least %s lower case letters."
+
+msgid "password_must_contain_ucase_chars"
+msgstr "The password must contain at least %s capital letters."
+
+msgid "password_must_special_chars"
+msgstr "Parool peab sisaldama erimärke."
+
+msgid "password_to_long"
+msgstr "The password must have at most a size of %s characters."
+
+msgid "password_to_short"
+msgstr "Paroolis peab olema vähemalt %s tähemärki!"
+
+msgid "paste"
+msgstr "Kleebi"
+
+msgid "pasteChapter"
+msgstr "Kleebi"
+
+msgid "pastePage"
+msgstr "Kleebi"
+
+msgid "paste_clipboard_items"
+msgstr "Kleebi"
+
+msgid "path"
+msgstr "Koht"
+
+msgid "path_not_set"
+msgstr "Teekond pole seatud"
+
+msgid "path_to_convert"
+msgstr "Path to Convert"
+
+msgid "path_to_htmldoc"
+msgstr "Path to HTMLdoc"
+
+msgid "path_to_java"
+msgstr "Path to Java"
+
+msgid "path_to_unzip"
+msgstr "Path to Unzip"
+
+msgid "path_to_zip"
+msgstr "Path to Zip"
+
+msgid "pathes"
+msgstr "Kohad"
+
+msgid "pd_items_news"
+msgstr "Include News of Personal Items"
+
+msgid "pdf_export"
+msgstr "PDF eksport"
+
+msgid "perm_settings"
+msgstr "Õigused"
+
+msgid "perma_link"
+msgstr "Püsilink"
+
+#, fuzzy
+msgid "perma_link_copied"
+msgstr "Link to this page has been copied to the clipboard."
+
+msgid "permission"
+msgstr "Õigus"
+
+msgid "permission_denied"
+msgstr "Ligipääs keelatud"
+
+msgid "permission_settings"
+msgstr "Objekti õiguste seaded"
+
+msgid "person_title"
+msgstr "Auaste/tiitel"
+
+msgid "personal_data"
+msgstr "Minu informatsioon"
+
+msgid "personal_picture"
+msgstr "Minu pilt"
+
+msgid "personal_profile"
+msgstr "Minu andmed"
+
+#, fuzzy
+msgid "personal_resources"
+msgstr "Personal Resources"
+
+msgid "personal_settings"
+msgstr "Personaalsed seaded"
+
+#, fuzzy
+msgid "personalise_date_time"
+msgstr "Personalise Date and Time Settings"
+
+msgid "persons"
+msgstr "Isikud"
+
+msgid "pg_add"
+msgstr "Lisa leht"
+
+msgid "pg_new"
+msgstr "Uus leht"
+
+msgid "phone"
+msgstr "Telefon"
+
+msgid "phone_home"
+msgstr "Telefon kodus"
+
+msgid "phone_mobile"
+msgstr "Mobiiltelefon"
+
+msgid "phone_office"
+msgstr "Telefon tööl"
+
+msgid "phrase"
+msgstr "Skaala"
+
+msgid "please_choose"
+msgstr "-- Tee valik --"
+
+msgid "please_enter_target"
+msgstr "Palun sisesta sihtkoht"
+
+msgid "please_enter_title"
+msgstr "Sisesta pealkiri"
+
+msgid "please_select"
+msgstr "-- vali --"
+
+msgid "please_select_a_delivered_file_to_delete"
+msgstr "You must select at least one delivered file to delete it!"
+
+msgid "please_select_a_delivered_file_to_download"
+msgstr "Vähemalt üks fail peab olema valitud, et saaks alla laadida!"
+
+msgid "please_wait"
+msgstr "Palun oota..."
+
+msgid "port"
+msgstr "Port"
+
+msgid "portfolio"
+msgstr "Portfoolio"
+
+msgid "pos_bottom"
+msgstr "Jalus"
+
+msgid "pos_left"
+msgstr "Vasak"
+
+msgid "pos_right"
+msgstr "Parem"
+
+msgid "pos_top"
+msgstr "Päis"
+
+msgid "position"
+msgstr "Jrk"
+
+#, fuzzy
+msgid "position_permission_settings"
+msgstr "Orgunit-Specific Permissions"
+
+msgid "precondition"
+msgstr "Eeltingimused"
+
+msgid "precondition_not_accessible"
+msgstr "Sul ei ole õigusi selle üksuse vaatamiseks."
+
+msgid "precondition_required_itemlist"
+msgstr "Nõutud eeltingimus"
+
+msgid "precondition_toggle"
+msgstr "Eeltingimused, mis peavad olema täidetud sellesse objekti sisenemiseks"
+
+msgid "preconditions"
+msgstr "Eeltingimused"
+
+msgid "preconditions_obligatory_hint"
+msgstr "Palun muuda järgmisi eeltingimusi"
+
+msgid "preconditions_optional_hint"
+msgstr "Please edit one of the following preconditions"
+
+msgid "predefined_template"
+msgstr "Predefined role template"
+
+msgid "preferences"
+msgstr "Kasutaja eelistused"
+
+#, fuzzy
+msgid "presentation_table_more"
+msgstr "more"
+
+#, fuzzy
+msgid "presenter"
+msgstr "Presenter"
+
+msgid "preview"
+msgstr "Preview"
+
+msgid "preview_create"
+msgstr "Create Preview"
+
+msgid "preview_delete"
+msgstr "Delete Preview"
+
+#, fuzzy
+msgid "preview_image_size"
+msgstr "Size of Preview Images"
+
+msgid "preview_learner_info"
+msgstr "Kui võimaldatud, on kursuse ja grupi administraatoritel võimalik vaadata sisu õppuri vaatepunktist."
+
+msgid "preview_loading"
+msgstr "Loading Preview..."
+
+msgid "preview_none"
+msgstr "Preview (not created yet)"
+
+#, fuzzy
+msgid "preview_not_possible"
+msgstr "Creation of Previews is currently not possible, please read the documentation in %s."
+
+#, fuzzy
+msgid "preview_renderers"
+msgstr "Preview Renderers"
+
+msgid "preview_settings"
+msgstr "File Preview"
+
+msgid "preview_show"
+msgstr "Show Preview"
+
+msgid "preview_status_creating"
+msgstr "The preview gets created. This may take some time..."
+
+msgid "preview_status_deleting"
+msgstr "The preview gets deleted..."
+
+msgid "preview_status_failed"
+msgstr "Failed to create the preview."
+
+msgid "preview_status_missing"
+msgstr "No preview exists for this file."
+
+msgid "preview_status_pending"
+msgstr "The preview has not been created yet. Please try again later."
+
+msgid "previous"
+msgstr "eelmine"
+
+#, fuzzy
+msgid "prg_copy_threads_info"
+msgstr "Please decide which Study Program elements should be copied, linked or even omitted."
+
+#, fuzzy
+msgid "prg_wizard_page"
+msgstr "Copy Study Program (Step 2/2)"
+
+#, fuzzy
+msgid "prgr_add"
+msgstr "Add Study Programme Link"
+
+#, fuzzy
+msgid "prgr_edit_info"
+msgstr "Please choose one Study Programme for creating a new link."
+
+#, fuzzy
+msgid "prgr_new"
+msgstr "Create Study Programme Link"
+
+#, fuzzy
+msgid "prgr_settings"
+msgstr "Settings of Study Programme Link"
+
+msgid "print"
+msgstr "Trüki"
+
+msgid "print_view"
+msgstr "Trükivaade"
+
+msgid "private_notes"
+msgstr "Minu märkmed"
+
+msgid "pro"
+msgstr "Poolt!"
+
+msgid "proceed"
+msgstr "Kinnita"
+
+msgid "profile"
+msgstr "Kasutajaandmed"
+
+msgid "profile_changed"
+msgstr "Sinu andmed on muudetud."
+
+msgid "profile_incomplete"
+msgstr "Sinu profiil on lõpetamata. Palun täida kõik nõutud väljad."
+
+msgid "profile_of"
+msgstr "Profiil:"
+
+msgid "properties"
+msgstr "Seaded"
+
+msgid "proxy"
+msgstr "Proxy"
+
+msgid "proxy_connectable"
+msgstr "Ühendus loodud."
+
+msgid "proxy_host"
+msgstr "Host"
+
+msgid "proxy_host_info"
+msgstr "Please enter a host."
+
+msgid "proxy_not_connectable"
+msgstr "ILIAS could not build a connection to the defined proxy."
+
+msgid "proxy_port"
+msgstr "Port"
+
+msgid "proxy_port_info"
+msgstr "Please enter a port between 0 and 65535, e.g.8080."
+
+msgid "proxy_port_numeric"
+msgstr "The entered port has to be a numeric value between 0 and 65535"
+
+#, fuzzy
+msgid "proxy_socket_error"
+msgstr "Socket Error: %s"
+
+msgid "proxy_status"
+msgstr "Proxy"
+
+msgid "proxy_status_info"
+msgstr "To use a proxy in ILIAS (e.g. for web feeds or to check weblinks) please activate the checkbox above."
+
+msgid "ps_export_scorm"
+msgstr "SCORM Tracking Data"
+
+msgid "ps_password_lowercase_chars_num"
+msgstr "Lower Case Letters"
+
+msgid "ps_password_lowercase_chars_num_info"
+msgstr "Please insert the number of lower case letters a password must contain. Enter 0 to disable this requirement."
+
+msgid "ps_password_must_not_contain_loginame"
+msgstr "Prevent Username in Password"
+
+msgid "ps_password_must_not_contain_loginame_info"
+msgstr "If activated, a password must not contain the username."
+
+msgid "ps_password_uppercase_chars_num"
+msgstr "Capital Letters"
+
+msgid "ps_password_uppercase_chars_num_info"
+msgstr "Please insert the number of capital letters a password must contain. Enter 0 to disable this requirement."
+
+msgid "pub_section"
+msgstr "Avatud ala"
+
+msgid "pub_section_info"
+msgstr "Kui võimaldatud, on võimalik osa süsteemist (nt varamu, kasutajaprofiilid) teha internetis nähtavak ilma autentimiseta. \"Anonüümse\" roll kontrollib ligipääsu varamu üksustele."
+
+msgid "public"
+msgstr "avalik/nähtav"
+
+msgid "public_notes"
+msgstr "Avalikud märkmed"
+
+msgid "public_profile"
+msgstr "Kasutajaandmete avalikustamine"
+
+msgid "public_room"
+msgstr "Avalik jututuba"
+
+msgid "purpose"
+msgstr "eesmärk"
+
+msgid "qpl"
+msgstr "Testiküsimuste varamu"
+
+msgid "qpl_add"
+msgstr "Lisa küsimustevaramu testi jaoks"
+
+msgid "qpl_new"
+msgstr "Uus testiküsimuste varamu"
+
+msgid "query_data"
+msgstr "Päringuandmed"
+
+msgid "question"
+msgstr "Küsimus"
+
+msgid "question_message"
+msgstr "Küsimus"
+
+msgid "quit"
+msgstr "Katkesta"
+
+msgid "quote"
+msgstr "Tsitaat"
+
+msgid "read"
+msgstr "Lugemine"
+
+msgid "readcount_anonymous_users"
+msgstr "Anonüümsete külastuste arv"
+
+msgid "readcount_users"
+msgstr "Mitteanonüümseid külastusi"
+
+msgid "recipient"
+msgstr "Adressaat"
+
+msgid "reference_deleted"
+msgstr "Sihtkoht pole kättesaadav"
+
+msgid "reference_of"
+msgstr "Soovitus:"
+
+msgid "referral_comment"
+msgstr "Miks soovite hakata EKV e-õppe portaali kasutajaks?"
+
+msgid "refresh"
+msgstr "Värskenda"
+
+msgid "refresh_languages"
+msgstr "Värskenda keeli"
+
+msgid "refuse"
+msgstr "Keeldu"
+
+msgid "reg_account_confirmation_successful"
+msgstr "Sinu kasutajakonto on aktiveeritud."
+
+#, fuzzy
+msgid "reg_delete_expired_pending_registrations"
+msgstr "Delete Expired Pending Registrations"
+
+#, fuzzy
+msgid "reg_delete_expired_pending_registrations_desc"
+msgstr "Deletes all ILIAS accounts that have not been confirmed after a registration with e-mail confirmation."
+
+msgid "reg_goto_parent_membership_info"
+msgstr "Only members can access the target object."
+
+msgid "reg_mail_body_2_confirmation"
+msgstr "The link will only be good for %s, after that you will have to try again from the beginning."
+
+msgid "reg_mail_body_3_confirmation"
+msgstr "If this email means nothing to you, then it is possible that somebody else has entered your email address either deliberately or accidentally, so please ignore this email."
+
+msgid "reg_mail_body_forgot_password_info"
+msgstr "Parooli saamiseks antud kasutajanimele kasutage keskkonna logimislehel funktsiooni « Parooli abi »."
+
+msgid "reg_mail_body_salutation"
+msgstr "Austatud"
+
+msgid "reg_mail_body_text1"
+msgstr "teretulemast e-õppe keskkonda ILIAS!"
+
+msgid "reg_mail_body_text2"
+msgstr "ILIASesse sisenemiseks kasuta järgnevaid andmeid:"
+
+msgid "reg_mail_body_text3"
+msgstr "Muu isiklik info:"
+
+msgid "reg_mail_subject"
+msgstr "ILIAS - sinu salasõna"
+
+msgid "reg_mail_subject_confirmation"
+msgstr "Your Confirmation Link"
+
+msgid "reg_passwd_via_mail"
+msgstr "Sinu salasõna saadetakse sinu e-posti aadressile - seetõttu peab e-posti aadress olema korrektselt sisestatud. NB! Hot.ee, hotmail.com, mail.ee, gmail.com jm e-posti rakendused võivad ILIASe süsteemi kirju spämmiks lugeda ja need kustutada. Palume võimalusel kasutada ametiaadressi."
+
+msgid "register"
+msgstr "Registreeru"
+
+#, fuzzy
+msgid "register_notification"
+msgstr "\"%s\" has applied for session \"%s\"."
+
+msgid "registered_since"
+msgstr "Registreerunud alates"
+
+msgid "registered_user"
+msgstr "registreeritud kasutaja"
+
+msgid "registered_users"
+msgstr "registreeritud kasutajad"
+
+msgid "registration"
+msgstr "Registreeru kasutajaks"
+
+msgid "related_to"
+msgstr "Seotus:"
+
+msgid "remove"
+msgstr "Eemalda"
+
+msgid "remove_entries"
+msgstr "Remove Entries"
+
+msgid "remove_translation"
+msgstr "Eemalda tõlge"
+
+msgid "rename"
+msgstr "Nimeta ümber"
+
+msgid "rename_file"
+msgstr "Nimeta fail ümber"
+
+msgid "renderer_supported_file_types"
+msgstr "Supported File Types"
+
+msgid "renderer_supported_repo_types"
+msgstr "Supported ILIAS Objects"
+
+msgid "renderer_type_builtin"
+msgstr "Built-in"
+
+msgid "rep_main_page"
+msgstr "Avaleht"
+
+#, fuzzy
+msgid "rep_main_page_logo_alt"
+msgstr "Logo ILIAS - to the start page"
+
+msgid "repeat_scan"
+msgstr "Korda viiruste skaneerimist..."
+
+msgid "repeat_scan_failed"
+msgstr "Korduv skaneerimine ebaõnnestus."
+
+msgid "repeat_scan_succeded"
+msgstr "Korduv skaneerimine õnnestus."
+
+msgid "replace_file"
+msgstr "Asenda fail"
+
+msgid "reply"
+msgstr "Vasta"
+
+#, fuzzy
+msgid "report_accessibility_issue"
+msgstr "Report Accessibility Issue"
+
+#, fuzzy
+msgid "report_accessibility_link"
+msgstr "Reported Link:"
+
+#, fuzzy
+msgid "report_accessibility_link_mailto"
+msgstr "Reported%20Link:"
+
+msgid "repository"
+msgstr "Varamu"
+
+msgid "repository_admin"
+msgstr "Varamu, prügi ja õigused"
+
+msgid "repository_admin_desc"
+msgstr "Set permissions for repository items, restore or remove objects from system trash"
+
+msgid "require_email"
+msgstr "E-post nõutav"
+
+msgid "require_gender"
+msgstr "Sugu nõutav"
+
+msgid "require_hobby"
+msgstr "Hobi nõutav"
+
+msgid "require_matriculation"
+msgstr "Require matriculation number"
+
+msgid "require_referral_comment"
+msgstr "Require referral comment"
+
+msgid "required_field"
+msgstr "Nõutud"
+
+msgid "res_links"
+msgstr "Varamu lingid"
+
+msgid "res_links_short"
+msgstr "Links"
+
+msgid "reset"
+msgstr "Nulli"
+
+msgid "reset_filter"
+msgstr "Nulli filter"
+
+msgid "resources"
+msgstr "Allikad"
+
+msgid "right"
+msgstr "Paremale"
+
+msgid "rights"
+msgstr "Õigused"
+
+msgid "role"
+msgstr "Roll"
+
+msgid "role_add_user"
+msgstr "Lisa rollile kasutaja(d)"
+
+msgid "role_added"
+msgstr "Roll on lisatud"
+
+msgid "role_assignment"
+msgstr "Rolliomistus"
+
+msgid "role_assignment_updated"
+msgstr "Rollile määrangud uuendatud."
+
+msgid "role_edit"
+msgstr "Muuda rolli"
+
+msgid "role_mailto"
+msgstr "Kiri kõikidele määratud kasutajatele"
+
+msgid "role_new"
+msgstr "Uus roll"
+
+msgid "role_new_search"
+msgstr "Uus otsing"
+
+msgid "role_no_roles_selected"
+msgstr "Palun vali roll"
+
+msgid "role_protect_permissions"
+msgstr "Kaitse õiguseid"
+
+msgid "role_protect_permissions_desc"
+msgstr "Objekti õigusi ei saa enam süsteemioperatsioonidega muuta. Edaspidi saab ainult kõrgema taseme administraator õigusi muuta."
+
+msgid "role_select_one_item"
+msgstr "Palun vali üks objekt."
+
+msgid "role_sure_delete_desk_items"
+msgstr "Kas oled kindel, et soovid järgmised määrangud kustutada??"
+
+msgid "role_templates_only"
+msgstr "Ainult rolli mallid"
+
+msgid "roles"
+msgstr "Rollid"
+
+msgid "roles_of_import_global"
+msgstr "Importfaili üldised rollid"
+
+msgid "roles_of_import_local"
+msgstr "Importfaili kohalikud rollid"
+
+msgid "rolf"
+msgstr "Rollid"
+
+msgid "rolf_added"
+msgstr "Rolli kaust lisatud"
+
+msgid "rolf_create_role"
+msgstr "Loo uue rolli definitsioon"
+
+msgid "rolf_create_rolt"
+msgstr "Loo uue rolli definitsiooni mall"
+
+msgid "rolf_delete"
+msgstr "Rollide/ Rolli mallide kustutamine"
+
+msgid "rolf_edit_permission"
+msgstr "Muuda õiguste seadeid"
+
+msgid "rolf_edit_userassignment"
+msgstr "Muuda kasutajate rolle"
+
+msgid "rolf_read"
+msgstr "Rollide ja rolli mallide lugemisõigused"
+
+msgid "rolf_visible"
+msgstr "Rollid/Rolli mallid on nähtavad"
+
+msgid "rolf_write"
+msgstr "Muuda rollide ja rolli mallide vaikeseadeid"
+
+msgid "rolt"
+msgstr "Rolli mall"
+
+msgid "rolt_added"
+msgstr "Lisatud rollimall"
+
+msgid "rolt_edit"
+msgstr "Muuda rolli malli"
+
+msgid "rolt_new"
+msgstr "Uus rolli mall"
+
+msgid "row"
+msgstr "Rida"
+
+msgid "rows"
+msgstr "Read"
+
+msgid "rpc_pdf_font"
+msgstr "Fonts"
+
+msgid "rpc_pdf_font_info"
+msgstr "Additional fonts for the generation of PDF files. Other fonts than \"Helvetica\" and \"unifont\" must be installed on the ILIAS server."
+
+msgid "rpc_pdf_generation"
+msgstr "PDF-Generation"
+
+#, fuzzy
+msgid "sad"
+msgstr "Sad"
+
+msgid "sahs"
+msgstr "SCORM/AICC õppemoodul"
+
+msgid "sahs_added"
+msgstr "SCORM/AICC õppemoodul on lisatud"
+
+#, fuzzy
+msgid "sahs_export_file"
+msgstr "ILIAS exported SCORM archive file"
+
+#, fuzzy
+msgid "sahs_export_file_info"
+msgstr "Use this option for a ZIP file that was exported directly from ILIAS. The file typically has titles such as 1675257903__4105__sahs_132295.zip."
+
+msgid "sahs_insert_chap_from_clip"
+msgstr "Kleebi lõikepuhvrist peatükid"
+
+msgid "sahs_insert_page_from_clip"
+msgstr "Kleebi lehed puhvrist"
+
+msgid "sahs_insert_sco_from_clip"
+msgstr "Kleebi SCOd vahemälust"
+
+#, fuzzy
+msgid "sahs_new"
+msgstr "Create New Learning Module"
+
+msgid "salutation"
+msgstr "Tervitus"
+
+msgid "salutation_f"
+msgstr "Pr"
+
+msgid "salutation_m"
+msgstr "Mr."
+
+#, fuzzy
+msgid "salutation_n"
+msgstr "No salutation desired"
+
+#, fuzzy
+msgid "saml_log_in"
+msgstr "Direct login"
+
+#, fuzzy
+msgid "saml_login_form_info_txt"
+msgstr "You can log in using the “Direct Login” button without having to enter your username or password."
+
+#, fuzzy
+msgid "saml_login_form_txt"
+msgstr "Login to ILIAS via SAML"
+
+msgid "save"
+msgstr "Salvesta"
+
+msgid "save_and_back"
+msgstr "Salvesta ja tagasi"
+
+msgid "save_message"
+msgstr "Salvesta sõnum"
+
+msgid "save_params_for_cron"
+msgstr "Save Parameter for Cronjob"
+
+msgid "save_refresh"
+msgstr "Salvesta ja värskenda"
+
+msgid "save_return"
+msgstr "Salvesta ja tagasi"
+
+msgid "save_settings"
+msgstr "Salvesta seaded"
+
+msgid "save_user_related_data"
+msgstr "Salvesta kasutaja juurdepääsu andmed"
+
+msgid "saved_successfully"
+msgstr "Salvestatud!"
+
+msgid "saving"
+msgstr "Salvestan..."
+
+#, fuzzy
+msgid "scope"
+msgstr "Scope"
+
+msgid "scorm_create_export_file_html"
+msgstr "Loo eksportfail (HTML)"
+
+msgid "scorm_create_export_file_pdf"
+msgstr "Loo eksportfail  (PDF)"
+
+msgid "scorm_create_export_file_scrom12"
+msgstr "Loo eksportfail  (SCORM 1.2)"
+
+msgid "scorm_create_export_file_scrom2004"
+msgstr "Loo eksportfail  (SCORM 2004)"
+
+msgid "scorm_create_export_file_scrom2004_4th"
+msgstr "Loo eksportfail  (SCORM 2004 4th Edition)"
+
+msgid "scorm_login_as_learner_id"
+msgstr "SCORM 2004: set ILIAS User Name as cmi.learner_id"
+
+msgid "scorm_login_as_learner_id_info"
+msgstr "If enabled, the User Name instead of the User ID is set for cmi.learner_id."
+
+msgid "scorm_lp_auto_activate"
+msgstr "default settings for learning progress"
+
+msgid "scorm_lp_auto_activate_info"
+msgstr "If learning progress is activated in general, the settings for new SCORM learning modules are set to 'Collection of SCORM Items' and all SCOs are selected for learning progress determination. Adjustments are still possible for every SCORM learning module."
+
+msgid "scorm_new"
+msgstr "Uus SCORM/IACC õppemoodul"
+
+msgid "scorm_without_session"
+msgstr "SCORM 2004: enable storing data without session"
+
+msgid "scorm_without_session_info"
+msgstr "This ensures the storage of SCORM learning data even if ILIAS session expired"
+
+msgid "search"
+msgstr "Otsing"
+
+msgid "search_active"
+msgstr "K.a aktiivsed kasutajad"
+
+msgid "search_at_current_position"
+msgstr "At Current Position"
+
+msgid "search_engine"
+msgstr "Otsimootorid"
+
+msgid "search_for"
+msgstr "Otsi"
+
+msgid "search_globally"
+msgstr "Globally"
+
+msgid "search_in"
+msgstr "Otsi (siit:)"
+
+msgid "search_inactive"
+msgstr "K.a mitteaktiivsed kasutajad"
+
+msgid "search_new"
+msgstr "Uus otsing"
+
+msgid "search_result"
+msgstr "Otsingu tulemused"
+
+msgid "search_results"
+msgstr "Otsingutulemused"
+
+msgid "search_user"
+msgstr "Otsi kasutajat"
+
+#, fuzzy
+msgid "search_users"
+msgstr "Look Up Users"
+
+msgid "seas_max_hits"
+msgstr "Maksimaalselt vastuseid"
+
+msgid "seas_max_hits_info"
+msgstr "Sisestage suurim arv otsingutulemuste kirjete jaoks."
+
+msgid "seas_settings"
+msgstr "Otsingu seaded"
+
+msgid "second"
+msgstr "sekund"
+
+#, fuzzy
+msgid "second_email"
+msgstr "Second Email"
+
+msgid "seconds"
+msgstr "sekundit"
+
+msgid "sel_country"
+msgstr "Riik"
+
+msgid "select"
+msgstr "Vali"
+
+msgid "select_all"
+msgstr "Vali kõik"
+
+msgid "select_at_least_one_object"
+msgstr "Vali vähemalt üks objekt."
+
+msgid "select_file"
+msgstr "Vali fail"
+
+#, fuzzy
+msgid "select_file_from_computer"
+msgstr "Select File"
+
+msgid "select_files_from_computer"
+msgstr "Select the files from your computer"
+
+msgid "select_max_one_item"
+msgstr "Vali üks artikkel"
+
+msgid "select_object_to_link"
+msgstr "Palun vali objekt, mida soovid linkida"
+
+msgid "select_one"
+msgstr "Palun vali üks."
+
+#, fuzzy
+msgid "select_question_pool_info"
+msgstr "As long as the import file contains questions, these questions will be imported to the selected questionpool as well."
+
+msgid "select_questionpool"
+msgstr "Testi küsimustevaramu"
+
+msgid "selected"
+msgstr "Valitud"
+
+msgid "selected_files"
+msgstr "Selected files"
+
+msgid "selected_items"
+msgstr "Minu asjad"
+
+msgid "selected_items_back"
+msgstr "Tagasi töölauale"
+
+msgid "selected_languages_updated"
+msgstr "The selected languages have been updated (if installed):"
+
+msgid "send"
+msgstr "Saada"
+
+msgid "send_mail"
+msgstr "Saada e-kiri"
+
+msgid "sender"
+msgstr "Saatja"
+
+msgid "sent"
+msgstr "Saadetud"
+
+msgid "sequence"
+msgstr "Järjestus"
+
+msgid "sequences"
+msgstr "Sequences"
+
+msgid "server"
+msgstr "Server"
+
+msgid "server_data"
+msgstr "Serveri andmed"
+
+msgid "server_disabled"
+msgstr "The Chat is Disabled"
+
+msgid "server_software"
+msgstr "Serveri tarkvara"
+
+msgid "sess"
+msgstr "Kohtumine"
+
+msgid "sess_fixed_duration"
+msgstr "Fikseeritud kestvus sessioonile"
+
+msgid "session_config"
+msgstr "Kohtumise seaded"
+
+msgid "session_config_maintenance_disabled"
+msgstr "Hooldus pole lubatud klientide kaupa"
+
+#, fuzzy
+msgid "session_mail_subject_deletion"
+msgstr "Deregistration of user \"%s\" from session \"%s\""
+
+#, fuzzy
+msgid "session_mail_subject_entered"
+msgstr "Joining of user \"%s\" in session \"%s\""
+
+#, fuzzy
+msgid "session_mail_subject_registered"
+msgstr "Registration of user \"%s\" for session \"%s\""
+
+msgid "session_reminder"
+msgstr "Sessiooni meeldetuletus"
+
+msgid "session_reminder_alert"
+msgstr "Sinu sessioon aegub 5 minuti pärast. Palun vali OK sessiooni jätkamiseks."
+
+#, fuzzy
+msgid "session_reminder_default_lead_time_info"
+msgstr "Please specify how many minutes before the expiration of a session a reminder should be shown.<br / >The function is deactivated when the value is '%s'. The recommended value is %s.<br / >The current length of a session is %s."
+
+#, fuzzy
+msgid "session_reminder_input"
+msgstr "Session Reminder (in Minutes)"
+
+msgid "session_reminder_lead_time"
+msgstr "Hoiatusaeg"
+
+msgid "session_reminder_lead_time_info"
+msgstr "Palun täpsusta, kui mitu sekundit enne sessiooni aegumist sa hoiatust soovid. Praegu on sessiooni pikkus %s."
+
+msgid "session_reminder_session_duration"
+msgstr "(sessiooni kestus: %s)."
+
+msgid "set"
+msgstr "Määra"
+
+msgid "setSystemLanguage"
+msgstr "Määra süsteemikeel"
+
+msgid "setUserLanguage"
+msgstr "Määra kasutaja keel"
+
+msgid "set_offline"
+msgstr "Lülita välja"
+
+msgid "set_online"
+msgstr "Määra onlain"
+
+#, fuzzy
+msgid "set_skin_does_not_exist"
+msgstr "Your selected skin does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:"
+
+#, fuzzy
+msgid "set_style_does_not_exist"
+msgstr "Your selected system style does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:"
+
+msgid "settings"
+msgstr "Seaded"
+
+msgid "settings_for_all_members"
+msgstr "Üldised seaded kõigile kursuse/grupi liikmetele"
+
+msgid "settings_per_users"
+msgstr "Seaded kursuse/grupiliikmete kaupa"
+
+#, fuzzy
+msgid "settings_presentation_header"
+msgstr "Presentation"
+
+msgid "settings_saved"
+msgstr "Seaded salvestatud"
+
+msgid "shib"
+msgstr "Shibboleth"
+
+msgid "shib_active"
+msgstr "Enable Shibboleth support"
+
+msgid "shib_city"
+msgstr "Attribute for city"
+
+msgid "shib_country"
+msgstr "Attribute for country"
+
+msgid "shib_data_conv"
+msgstr "Absolute path to data manipulation API"
+
+msgid "shib_data_conv_warning"
+msgstr "The data manipulation API file you specified cannot be read"
+
+msgid "shib_department"
+msgstr "Attribute for department"
+
+msgid "shib_email"
+msgstr "Attribute for email address"
+
+msgid "shib_federation_name"
+msgstr "Name of your Shibboleth federation"
+
+msgid "shib_firstname"
+msgstr "Attribute for firstname"
+
+msgid "shib_gender"
+msgstr "Attribute for gender (must be 'm' or 'f')"
+
+msgid "shib_general_login_instructions"
+msgstr "To log in via %s, please click on the login button and choose your organization of the following page.<br>If you have questions concerning this, please ask the"
+
+msgid "shib_general_wayf_login_instructions"
+msgstr "In case you are not associated with the given organizations and you need access to a course on this server, please contact the"
+
+msgid "shib_idp_list"
+msgstr "Provide a list of Identity Providers to let the user choose from on the ILIAS login page.<br>On each line there must be a comma-separated tuple for <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as it shall be displayed in the drow-down list.<br>As an optional third parameter you can add the <strong>location of a Shibboleth session initiator</strong> that shall be used in case your ILIAS installation is part of a multi federation setup."
+
+msgid "shib_institution"
+msgstr "Attribute for institution"
+
+msgid "shib_invalid_home_organization"
+msgstr "Vali kehtiv korraldus!"
+
+msgid "shib_language"
+msgstr "Attribute for language"
+
+msgid "shib_lastname"
+msgstr "Attribute for lastname"
+
+msgid "shib_login"
+msgstr "Unique Shibboleth attribute"
+
+msgid "shib_login_button"
+msgstr "Path to Shibboleth login button"
+
+msgid "shib_login_embedded_wayf"
+msgstr "Design custom login area"
+
+msgid "shib_login_embedded_wayf_description"
+msgstr "If this option is chosen, you can provide any HTML code in the login instructions text area below. This can for example be used to embed an own JavaScript WAYF/Discovery Service or create a custom-tailored design of the login area."
+
+msgid "shib_login_external_wayf"
+msgstr "Use external WAYF service"
+
+msgid "shib_login_internal_wayf"
+msgstr "Use ILIAS WAYF service"
+
+msgid "shib_login_type"
+msgstr "Korralduse valikud"
+
+msgid "shib_matriculation"
+msgstr "Attribute for Matriculation Number"
+
+msgid "shib_member_of"
+msgstr "I'm a member of ..."
+
+msgid "shib_phone_home"
+msgstr "Attribute for home phone number"
+
+msgid "shib_phone_mobile"
+msgstr "Attribute for mobile phone number"
+
+msgid "shib_phone_office"
+msgstr "Attribute for office phone number"
+
+msgid "shib_select_home_organization"
+msgstr "For authentication via %s, please select your organization from the drop down list."
+
+msgid "shib_settings_saved"
+msgstr "The Shibboleth settings were saved"
+
+msgid "shib_street"
+msgstr "Attribute for street"
+
+msgid "shib_title"
+msgstr "Attribute for title"
+
+msgid "shib_update"
+msgstr "Uuenda välja logimisel"
+
+msgid "shib_user_default_role"
+msgstr "Default role assigned to Shibboleth users"
+
+msgid "shib_zipcode"
+msgstr "Attribute for zipcode"
+
+msgid "short_inst_name"
+msgstr "Lühinimetus"
+
+msgid "short_inst_name_info"
+msgstr "See pealkiri ilmub brauseri päiseribale. Kui sisestus puudub, on vaikepealkirjaks 'ILIAS'."
+
+msgid "show"
+msgstr "Näita"
+
+msgid "show_all_details"
+msgstr "Show all details"
+
+#, fuzzy
+msgid "show_content"
+msgstr "Show Content"
+
+msgid "show_details"
+msgstr "Vaata rohkem"
+
+msgid "show_filter"
+msgstr "Näita filtrit"
+
+msgid "show_hidden_sections"
+msgstr "Show More Information &raquo;"
+
+#, fuzzy
+msgid "show_less"
+msgstr "Show less"
+
+msgid "show_list"
+msgstr "Näita nimekirja"
+
+msgid "show_members"
+msgstr "Näita kasutajaid"
+
+#, fuzzy
+msgid "show_more"
+msgstr "Show More"
+
+#, fuzzy
+msgid "show_preview"
+msgstr "Show Preview"
+
+msgid "show_users_online"
+msgstr "Näita aktiivseid kasutajaid"
+
+#, fuzzy
+msgid "show_who_is_online"
+msgstr "Show who is online"
+
+msgid "side_frame"
+msgstr "Küljepaneel"
+
+msgid "signature"
+msgstr "Allkiri"
+
+msgid "size"
+msgstr "Suurus"
+
+msgid "skills"
+msgstr "Pädevused"
+
+msgid "skin_style"
+msgstr "Vaikimisi taust/stiil"
+
+msgid "smtp"
+msgstr "SMTP"
+
+msgid "soap_connect_timeout"
+msgstr "Connection Timeout"
+
+msgid "soap_connect_timeout_info"
+msgstr "The maximum time in seconds until a connect attempt to the SOAP-Webservice is interrupted."
+
+msgid "soap_user_administration"
+msgstr "External user administration (SOAP)"
+
+msgid "soap_user_administration_desc"
+msgstr "If enabled, all user accounts can be administrated by an external SOAP-Client."
+
+msgid "soap_wsdl_path"
+msgstr "WSDL teekond"
+
+msgid "soap_wsdl_path_info"
+msgstr "Please enter the path to the ilias wsdl file which should be used for the webservice. If you leave this field blank, the following path will be used per default:%s"
+
+#, fuzzy
+msgid "sort"
+msgstr "Sort"
+
+#, fuzzy
+msgid "sort_ascending"
+msgstr "Sort Ascending"
+
+#, fuzzy
+msgid "sort_ascending_long"
+msgstr "Change Sort Direction to Ascending"
+
+msgid "sort_by_this_column"
+msgstr "Sordi selle veeru järgi"
+
+#, fuzzy
+msgid "sort_descending"
+msgstr "Sort Descending"
+
+#, fuzzy
+msgid "sort_descending_long"
+msgstr "Change Sort Direction to Descending"
+
+msgid "sort_inherit_prefix"
+msgstr "Vaikimisi"
+
+msgid "sorting_asc"
+msgstr "Ascending"
+
+msgid "sorting_creation_header"
+msgstr "By Creation Date"
+
+msgid "sorting_creation_info"
+msgstr "Content items are arranged automatically by their creation date."
+
+msgid "sorting_desc"
+msgstr "Descendent"
+
+msgid "sorting_direction"
+msgstr "Sorting Direction"
+
+msgid "sorting_header"
+msgstr "Sisuüksuste sorteerimine"
+
+msgid "sorting_info_inherit"
+msgstr "Sorteerimisviis on sama mis kursusel."
+
+msgid "sorting_info_manual"
+msgstr "See olek võimaldab üksuseid käsitsi sortida."
+
+msgid "sorting_info_title"
+msgstr "Vali see olek automaatseks sortimiseks pealkirja järgi."
+
+msgid "sorting_manual_header"
+msgstr "Sordi käsitsi"
+
+msgid "sorting_save"
+msgstr "Salvesta sorteerimine"
+
+msgid "sorting_title_header"
+msgstr "Sordi pealkirja järgi"
+
+msgid "spacer"
+msgstr "Spacer"
+
+msgid "spl"
+msgstr "Küsitluse varamu"
+
+msgid "spl_add"
+msgstr "Lisa küsitluse varamu"
+
+msgid "spl_import"
+msgstr "Import Question Pool Survey"
+
+msgid "spl_new"
+msgstr "Uus küsitluse varamu"
+
+msgid "ssl"
+msgstr "SSL (HTTPS)"
+
+msgid "standard_fields"
+msgstr "Standardväljad"
+
+msgid "startpage"
+msgstr "Algusleht"
+
+msgid "stat_selected"
+msgstr "Valitud"
+
+msgid "statistic"
+msgstr "Statistika"
+
+msgid "statistics"
+msgstr "Statistika"
+
+msgid "status"
+msgstr "Staatus"
+
+msgid "status_no_permission"
+msgstr "Õigused puuduvad"
+
+msgid "step"
+msgstr "Aste"
+
+msgid "street"
+msgstr "Tänav"
+
+msgid "structure"
+msgstr "Ülesehitus"
+
+msgid "sty"
+msgstr "Stiil"
+
+msgid "sub_request_deleted"
+msgstr "Liikmestaatuse taotlus kustutatud"
+
+msgid "sub_request_saved"
+msgstr "Liikmelisuse taotlused salvestatud"
+
+msgid "subject"
+msgstr "Pealkiri"
+
+msgid "submit"
+msgstr "Valmis"
+
+msgid "subobjects"
+msgstr "Alamobjektid"
+
+msgid "subscription"
+msgstr "Subscription"
+
+msgid "subtabs"
+msgstr "Alamsakid"
+
+msgid "success_message"
+msgstr "Edusõnum"
+
+msgid "summary"
+msgstr "Kokkuvõte"
+
+msgid "sure_delete_selected_users"
+msgstr "Kas oled kindel, et soovid valitud kasutaja(d) kustutada?"
+
+msgid "survey_defaults"
+msgstr "Küsitluste vaikimisi seaded"
+
+msgid "survey_unlimited_invitation"
+msgstr "Lõputu kutse"
+
+msgid "svy"
+msgstr "Küsitlus"
+
+msgid "svy_add"
+msgstr "Lisa küsitlus"
+
+msgid "svy_finished"
+msgstr "Lõpetatud"
+
+msgid "svy_new"
+msgstr "Uus küsitlus"
+
+msgid "svy_not_finished"
+msgstr "pole lõpetatud"
+
+msgid "svy_not_started"
+msgstr "pole alustatud"
+
+msgid "svy_run"
+msgstr "Käivita"
+
+msgid "svy_warning_survey_not_complete"
+msgstr "Küsitlus pole lõpetatud!"
+
+#, fuzzy
+msgid "switch_language"
+msgstr "Switch Language"
+
+msgid "system"
+msgstr "System"
+
+msgid "system_check"
+msgstr "System Check"
+
+msgid "system_information"
+msgstr "Süsteemi info"
+
+msgid "system_language"
+msgstr "Süsteemi keel"
+
+msgid "system_styles"
+msgstr "Süsteemistiilid"
+
+msgid "systemcheck_cron"
+msgstr "Process System Check in Cronjob"
+
+msgid "systemcheck_cronform"
+msgstr "Activation of System Check in Cronjob"
+
+msgid "table_mail_import"
+msgstr "E-posti import"
+
+msgid "tabs"
+msgstr "Sakid"
+
+msgid "tagging_my_tags"
+msgstr "Minu sildid"
+
+#, fuzzy
+msgid "tags"
+msgstr "Tags"
+
+msgid "take_over_structure"
+msgstr "Kinnita struktuur"
+
+msgid "take_over_structure_info"
+msgstr "Kui on aktiveeritud, on kataloogid zip-failis jaotatud kategooriatesse, gruppides-kursustes kasutamise puhul kaustadesse."
+
+msgid "tals_etal"
+msgstr "Talk"
+
+msgid "talt_etal"
+msgstr "Talk"
+
+msgid "target"
+msgstr "Sihtkoht"
+
+msgid "tax"
+msgstr "Taksonoomia"
+
+msgid "tax_add"
+msgstr "Lisa taksonoomia"
+
+msgid "tax_new"
+msgstr "Uus taksonoomia"
+
+msgid "term"
+msgstr "Mõiste"
+
+msgid "test"
+msgstr "Test"
+
+msgid "tests"
+msgstr "Testid"
+
+msgid "textbox"
+msgstr "Tekstiväli"
+
+msgid "thread"
+msgstr "Lõim"
+
+msgid "thumbnail"
+msgstr "Pisipilt"
+
+#, fuzzy
+msgid "tile_view"
+msgstr "Tile View"
+
+msgid "time"
+msgstr "Aeg"
+
+msgid "time_limit"
+msgstr "Ligipääs"
+
+msgid "time_limit_add_time_limit_for_selected"
+msgstr "Sisesta valitud kasutaja(te)le ajavahemik."
+
+msgid "time_limit_from"
+msgstr "Alates (ajapiirang)"
+
+msgid "time_limit_message"
+msgstr "Sõnum (ajapiirang)"
+
+msgid "time_limit_no_users_selected"
+msgstr "Palun vali kasutaja."
+
+msgid "time_limit_not_valid"
+msgstr "See ajavahemik pole saadaval."
+
+msgid "time_limit_reached"
+msgstr "Sinu kasutajanimi on veel aktiveerimata või juba aegunud!"
+
+msgid "time_limit_unlimited"
+msgstr "Piiramatu (ajalimiit)"
+
+msgid "time_limit_until"
+msgstr "Kuni (ajapiirang)"
+
+msgid "title"
+msgstr "Nimetus"
+
+msgid "title_required"
+msgstr "Sisestage pealkiri"
+
+msgid "to"
+msgstr "->-"
+
+msgid "to_client_list"
+msgstr "Kliendi valikusse"
+
+msgid "today"
+msgstr "Täna"
+
+msgid "toggleGlobalDefault"
+msgstr "Lülita üldine vaikimisi"
+
+msgid "toggleGlobalFixed"
+msgstr "Lülita fikseeritud"
+
+#, fuzzy
+msgid "toggle_dropdown"
+msgstr "Toggle Dropdown"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_off"
+msgstr "OFF"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_on"
+msgstr "ON"
+
+msgid "tomorrow"
+msgstr "Homme"
+
+#, fuzzy
+msgid "toolbar_more_actions"
+msgstr "More Actions"
+
+#, fuzzy
+msgid "tools"
+msgstr "Tools"
+
+msgid "top_of_page"
+msgstr "Top of page"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement"
+msgstr "Accept Terms of Service?"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement_intro"
+msgstr "There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page."
+
+#, fuzzy
+msgid "tos_force_accept_usr_agreement"
+msgstr "You must accept the Terms of Service!"
+
+#, fuzzy
+msgid "tos_no_agreement_description"
+msgstr "There is currently no Terms of Service document available for this installation. Please contact the <a href=\"%1$s\">system administrator</a>."
+
+#, fuzzy
+msgid "tos_refuse_acceptance"
+msgstr "Refuse to Accept Terms of Service"
+
+#, fuzzy
+msgid "tos_usr_agreement"
+msgstr "Terms of Service"
+
+#, fuzzy
+msgid "tos_usr_agreement_footer_intro"
+msgstr "You have declared your consent to these terms of service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description"
+msgstr "Withdraw your consent to our Terms of Service here."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description_external"
+msgstr "Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description_internal"
+msgstr "Please log in again to complete the process of withdrawing your consent to the Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_header"
+msgstr "Withdraw Terms of Service Consent"
+
+#, fuzzy
+msgid "tos_withdraw_consent_info"
+msgstr "Withdraw your consent to our Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_info_external"
+msgstr "Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Terms of Service."
+
+msgid "total"
+msgstr "Kokku"
+
+msgid "tracking_settings"
+msgstr "Monitooringu seaded"
+
+msgid "translation"
+msgstr "Tõlge"
+
+msgid "trash"
+msgstr "Prügi"
+
+msgid "tree"
+msgstr "Puu"
+
+msgid "tree_frame"
+msgstr "Puu"
+
+msgid "treeview"
+msgstr "Puu vaade"
+
+msgid "tst"
+msgstr "Test"
+
+msgid "tst_add"
+msgstr "Lisa test"
+
+msgid "tst_edit_questions"
+msgstr "Muuda küsimusi"
+
+#, fuzzy
+msgid "tst_history_read"
+msgstr "View History"
+
+msgid "tst_new"
+msgstr "Uus test"
+
+#, fuzzy
+msgid "tst_results"
+msgstr "Test Results"
+
+msgid "tst_run"
+msgstr "Käivita"
+
+msgid "tst_user_not_invited"
+msgstr "Sa ei pea seda testi tegema."
+
+msgid "tst_warning_test_not_complete"
+msgstr "Test pole valmis!"
+
+msgid "tutors"
+msgstr "Tuutorid"
+
+msgid "txt_registered"
+msgstr "Oled ILIASesse edukalt registreerunud. Oma kasutajakontoga ILIASesse sisenemiseks klikka palun allool olevat nuppu."
+
+msgid "txt_registered_passw_gen"
+msgstr "Oled ILIASesse edukalt registreerunud. Peatselt saad e-kirja koos salasõnaga."
+
+msgid "txt_submitted"
+msgstr "Sinu avaldus on edukalt sisestatud ja vaadatakse ILIASe administraatorite poolt 48 tunni jooksul läbi. Kuni konto pole aktiveeritud, pole süsteemi sisselogimine võimalik."
+
+msgid "typ"
+msgstr "Objekti tüübi kirjeldus"
+
+msgid "type"
+msgstr "Tüüp"
+
+msgid "udf_added_field"
+msgstr "Uus väli on lisatud."
+
+msgid "udf_delete_sure"
+msgstr "Kas oled kindel, et soovid kustutada selle välja ja kõigi määratud kasutajate andmed?"
+
+msgid "udf_duplicate_entries"
+msgstr "Väärtus peab olema unikaalne."
+
+msgid "udf_field_deleted"
+msgstr "Väli kustutatud."
+
+msgid "udf_name_already_exists"
+msgstr "Antud nimega väli on juba olemas. Palun vali teistsugune nimi."
+
+msgid "udf_required_requires_visib_reg"
+msgstr "Muutes välja täitmise \"kohustuslikuks\" peate valima \"registreerimisel nähtav\""
+
+msgid "udf_type_date"
+msgstr "Kuupäev"
+
+msgid "udf_type_datetime"
+msgstr "Kuupäev ja kellaaeg"
+
+msgid "udf_type_select"
+msgstr "Valikukast (ripploend)"
+
+msgid "udf_type_text"
+msgstr "Tekstiväli (üherealine)"
+
+msgid "udf_type_textarea"
+msgstr "Tekstiala (WYSIWYG)"
+
+msgid "udf_update_select_field"
+msgstr "Muuda valikukasti"
+
+msgid "udf_update_text_field"
+msgstr "Muuda tekstivälja"
+
+msgid "udf_update_wysiwyg_field"
+msgstr "Tekstiala (WYSIWYG) väli"
+
+msgid "uid"
+msgstr "UID"
+
+msgid "ums_create_new_account"
+msgstr "Loo uus konto"
+
+msgid "ums_explanation"
+msgstr "Your external account could not be mapped to an ILIAS account. But ILIAS has found an account with your e-mail address. If this is your account, please login with your ILIAS password."
+
+msgid "ums_explanation_2"
+msgstr "Kui see pole Teie konto, klikkige 'Loo uus konto'."
+
+msgid "ums_explanation_3"
+msgstr "Your external account could not be mapped to an ILIAS account. But ILIAS has found multiple accounts with your e-mail address. If one of those is your account, please login with your ILIAS password."
+
+msgid "ums_explanation_4"
+msgstr "Kui ükski neist pole Teie konto, klikkige 'Loo uus konto'."
+
+msgid "unambiguousness"
+msgstr "Tunnus"
+
+msgid "uncheck_all"
+msgstr "Nulli märgistus"
+
+msgid "unchecked"
+msgstr "Märgistamata"
+
+msgid "uninstall"
+msgstr "Deinstalleeri"
+
+msgid "uninstalled"
+msgstr "deinstalleeritud."
+
+msgid "unknown"
+msgstr "TEADMATA"
+
+#, fuzzy
+msgid "unparticipate"
+msgstr "Unsubscribe"
+
+msgid "unread"
+msgstr "lugemata"
+
+msgid "unzip"
+msgstr "Paki lahti"
+
+msgid "up"
+msgstr "Üles"
+
+msgid "update"
+msgstr "Muuda"
+
+msgid "update_applied"
+msgstr "Uuendus lisatud"
+
+msgid "update_language"
+msgstr "Uuenda keeli"
+
+msgid "update_on_conflict"
+msgstr "Uuenda konflikti korral"
+
+#, fuzzy
+msgid "update_orgunits"
+msgstr "Update assigned organisational units"
+
+#, fuzzy
+msgid "update_orgunits_desc"
+msgstr "If enabled, the field 'Organisational Units' will be updated for all user accounts."
+
+msgid "upload"
+msgstr "Lae üles"
+
+msgid "upload_error_file_not_found"
+msgstr "Viga üleslaadimisel: faili ei leitud."
+
+#, fuzzy
+msgid "upload_ok"
+msgstr "The upload was successful"
+
+msgid "upload_pending"
+msgstr "Pending"
+
+msgid "upload_settings"
+msgstr "Uploading Settings"
+
+#, fuzzy
+msgid "upload_svg_rejection_message"
+msgstr "An uploaded SVG file contains possibily malicious code and cannot be processed."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_base64"
+msgstr "The file contains base64 encoded content."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_elements"
+msgstr "The file contains elements or attributes which are not allowed or known."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_foreign_object"
+msgstr "The file contains foreign objects."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_script"
+msgstr "The file contains script-Elements."
+
+msgid "uploaded_and_checked"
+msgstr "Fail on üles laetud ja kontrollitud. Võid selle nüüd importida."
+
+msgid "uploading"
+msgstr "Uploading..."
+
+msgid "uri"
+msgstr "URI"
+
+msgid "url"
+msgstr "URL"
+
+msgid "url_not_found"
+msgstr "Faili ei leitud"
+
+msgid "use_customized_instructions"
+msgstr "Kasuta kohandatud juhendeid:"
+
+msgid "use_default_instructions"
+msgstr "Kasuta vaikimisi juhendeid."
+
+msgid "user"
+msgstr "Kasutaja"
+
+msgid "user_activated"
+msgstr "Kasutajakonto on aktiveeritud"
+
+msgid "user_added"
+msgstr "Kasutaja lisatud"
+
+msgid "user_assignment"
+msgstr "User Assignment"
+
+#, fuzzy
+msgid "user_avatar"
+msgstr "User Avatar"
+
+#, fuzzy
+msgid "user_avatar_of"
+msgstr "User Avatar of"
+
+msgid "user_cant_receive_mail"
+msgstr "kasutajal ei ole õigusi e-posti süsteemi kasutamiseks"
+
+msgid "user_comment"
+msgstr "Kasutaja kommentaar"
+
+msgid "user_deactivated"
+msgstr "Kasutajakontot ei aktiveeritud"
+
+msgid "user_defined_fields"
+msgstr "Kohandatud väljad"
+
+msgid "user_defined_list"
+msgstr "Kohandatud kasutajaandmete väljad"
+
+msgid "user_deleted"
+msgstr "Kasutajanimi on kustutatud"
+
+msgid "user_detail"
+msgstr "Detailsed andmed"
+
+msgid "user_ext_account"
+msgstr "Välised kontod"
+
+msgid "user_ext_account_desc"
+msgstr "Account used for external authentication. (SOAP authentication)"
+
+msgid "user_image"
+msgstr "Kasutaja pilt"
+
+msgid "user_import_failed"
+msgstr "Kasutaja import ebaõnnestus."
+
+msgid "user_imported"
+msgstr "Kasutaja import valmis."
+
+msgid "user_imported_with_warnings"
+msgstr "Kasutajate import lõpule viidud koos hoiatusteadetega."
+
+msgid "user_language"
+msgstr "Kasutaja keel"
+
+#, fuzzy
+msgid "user_never_logged_in"
+msgstr "Delete user accounts without login"
+
+#, fuzzy
+msgid "user_never_logged_in_info"
+msgstr "All user accounts without login at all be deleted."
+
+#, fuzzy
+msgid "user_never_logged_in_info_threshold_err_num"
+msgstr "Only positive non decimal numbers are accepted."
+
+msgid "user_new_account_mail"
+msgstr "Uue konto loomise kiri"
+
+msgid "user_new_account_mail_desc"
+msgstr "See kiri saadetakse kui kasutaja on ise registreerunud ILIASe kasutajaks."
+
+msgid "user_not_found"
+msgstr "Kasutajat ei leitud"
+
+#, fuzzy
+msgid "user_not_found_to_delete"
+msgstr "A user could not be found to delete."
+
+msgid "user_not_known"
+msgstr "Lisa olemasolev kasutajanimi."
+
+msgid "user_profile_other"
+msgstr "Lisainfo"
+
+msgid "user_send_new_account_mail"
+msgstr "Saad uus kiri konto kohta"
+
+msgid "user_status"
+msgstr "Kasutaja staatus"
+
+msgid "user_toggle_noti"
+msgstr "Liikmel ei lubata teavitust tühistada"
+
+msgid "userfolder_export_csv"
+msgstr "Eralda väärtused komaga"
+
+msgid "userfolder_export_excel_x86"
+msgstr "Microsoft Excel"
+
+msgid "userfolder_export_file"
+msgstr "Fail"
+
+msgid "userfolder_export_file_size"
+msgstr "Faili suurus"
+
+msgid "userfolder_export_files"
+msgstr "Failid"
+
+msgid "userfolder_export_xml"
+msgstr "XML"
+
+msgid "username"
+msgstr "Kasutajanimi"
+
+#, fuzzy
+msgid "username_assistance"
+msgstr "Username Assistance"
+
+msgid "users"
+msgstr "Kasutajad"
+
+msgid "users_not_imported"
+msgstr "Järgnevaid kasutajaid ei esine, seega nende sõnumeid ei saa importida"
+
+msgid "users_online"
+msgstr "Kes on sees"
+
+msgid "usr"
+msgstr "Kasutaja"
+
+msgid "usr_account_inactive"
+msgstr "Inactive Account"
+
+msgid "usr_active_only"
+msgstr "Näita aktiivseid kasutajaid"
+
+msgid "usr_add"
+msgstr "Lisa kasutaja"
+
+msgid "usr_edit"
+msgstr "Muuda kasutajat"
+
+#, fuzzy
+msgid "usr_field_change_components_listening"
+msgstr "There is at least one component which is interested in the changed configuration. Would you like to confirm the changes with the consequences the component(s) announced below?"
+
+msgid "usr_filter_coursemember"
+msgstr "Kursuse liige"
+
+msgid "usr_filter_groupmember"
+msgstr "Grupi liige"
+
+msgid "usr_filter_lastlogin"
+msgstr "Viimane kasutaja külastus"
+
+msgid "usr_filter_role"
+msgstr "Määratud roll"
+
+msgid "usr_inactive_only"
+msgstr "Näita mitteaktiivseid kasutajaid"
+
+msgid "usr_limited_access_only"
+msgstr "Piiratud ligipääsuga kasutajad"
+
+#, fuzzy
+msgid "usr_name_undisclosed"
+msgstr "Undisclosed"
+
+msgid "usr_new"
+msgstr "Uus kasutaja"
+
+msgid "usr_settings_changeable_lua"
+msgstr "Muudetav kohaliku kasutaja halduses"
+
+msgid "usr_settings_explanation_profile"
+msgstr "Märgi `Nähtav`väljade näitamiseks registreerimisankeedis ja isiklikus profiilis töölaual. Märgi 'Muudetav' isiklike andmete muutmiseks oma profiilis. Pane tähele, et nähtavaid välju on alati võimalik registreerumisankeeti lisada. Nõutud väljad on kohustuslikud reg.ankeedis ja kasutaja isiklikus profiilis. Kõiki andmeid saab administreerimispaneelis muuta hoolimata nendest seadetest."
+
+msgid "usr_settings_header_profile"
+msgstr "Kasutajaandmete seadmine"
+
+msgid "usr_settings_saved"
+msgstr "Üldised kasutajaseaded on edukalt salvestatud!"
+
+msgid "usr_settings_visib_lua"
+msgstr "Nähtav kohaliku kasutaja admin-is"
+
+msgid "usr_skin_style"
+msgstr "Taust"
+
+msgid "usr_without_courses"
+msgstr "Ilma kursusteta kasutajad"
+
+msgid "usrf"
+msgstr "Kasutajad"
+
+msgid "usrf_profile_link"
+msgstr "Link kasutaja profiilile"
+
+msgid "usrimport_action_ignored"
+msgstr "Ignored action %1$s."
+
+msgid "usrimport_action_replaced"
+msgstr "Replaced action %1$s by %2$s."
+
+msgid "usrimport_cant_delete"
+msgstr "Kustutamine pole võimalik. Kasutaja andmebaasist puudub"
+
+msgid "usrimport_cant_insert"
+msgstr "Kuna kasutaja on juba andmebaasis, ei saa lisada."
+
+msgid "usrimport_cant_update"
+msgstr "Uuendada ei saa. Andmebaasis pole sellist kasutajat."
+
+msgid "usrimport_conflict_handling_info"
+msgstr "When \"Ignore on conflict\" is selected, ILIAS ignores an action, if it can not be performed (e. g. an \"Insert\" action is not done, if there is already a user with the same login in the database.)\\nWhen \"Update on conflict\" is selected, ILIAS updates the database if an action can not be performed. (e. g. an \"Insert\" action is replaced by an \"Update\" action, if a user with the same login exists in the database)."
+
+#, fuzzy
+msgid "usrimport_form_not_evaluabe"
+msgstr "The form data couldn't be read."
+
+msgid "usrimport_global_role_for_action_required"
+msgstr "At least one global role must be specified for \"%1$s\" action."
+
+msgid "usrimport_ignore_role"
+msgstr "Ignore role"
+
+msgid "usrimport_login_is_not_unique"
+msgstr "Login is not unique."
+
+msgid "usrimport_no_insert_ext_account_exists"
+msgstr "Lisada ei saa. Väline konto on juba olemas."
+
+msgid "usrimport_no_update_ext_account_exists"
+msgstr "Uuendada ei saa. Väline konto juba olemas."
+
+msgid "usrimport_with_specified_role_not_permitted"
+msgstr "Import with specified role not permitted."
+
+#, fuzzy
+msgid "usrimport_wrong_file_count"
+msgstr "Too many files in import-folder. Please try again."
+
+#, fuzzy
+msgid "usrimport_xml_anonymous_or_root_not_allowed"
+msgstr "Neither the system-account nor the anonymous account can be changed through the import."
+
+msgid "usrimport_xml_attribute_missing"
+msgstr "Attribute \"%2$s\" in element \"%1$s\" is missing."
+
+msgid "usrimport_xml_attribute_value_illegal"
+msgstr "Value \"%3$s\" of attribute \"%2$s\" in element \"%1$s\" is illegal."
+
+msgid "usrimport_xml_attribute_value_inapplicable"
+msgstr "Value \"%3$s\" of attribute \"%2$s\" in element \"%1$s\" is inapplicable for \"%4$s\" action."
+
+msgid "usrimport_xml_element_content_illegal"
+msgstr "Content \"%2$s\" of element \"%1$s\" is illegal."
+
+msgid "usrimport_xml_element_for_action_required"
+msgstr "Element \"%1$s\" must be specified for \"%2$s\" action."
+
+msgid "usrimport_xml_element_inapplicable"
+msgstr "Element \"%1$s\" is inapplicable for \"%2$s\" action."
+
+msgid "valid"
+msgstr "Kehtivus"
+
+msgid "validate"
+msgstr "Valideeri"
+
+msgid "value"
+msgstr "Väärtus"
+
+msgid "vcard"
+msgstr "Visiitkaart"
+
+msgid "vcard_download"
+msgstr "Lae visiitkaart alla"
+
+msgid "verification_failed"
+msgstr "Verification failed"
+
+msgid "verification_failure_log"
+msgstr "Verification failure log"
+
+msgid "verification_warning_log"
+msgstr "Verification warning log"
+
+msgid "version"
+msgstr "Versioon"
+
+msgid "versions"
+msgstr "Versioonid"
+
+msgid "view"
+msgstr "Vaade"
+
+msgid "view_content"
+msgstr "Vaata sisu"
+
+#, fuzzy
+msgid "view_learning_progress"
+msgstr "View Learning Progress"
+
+#, fuzzy
+msgid "view_learning_progress_rec"
+msgstr "View Learning Progress of Unit incl. Subunits"
+
+msgid "visible"
+msgstr "Nähtav"
+
+msgid "visible_registration"
+msgstr "Registreerimisel nähtav"
+
+msgid "visitor"
+msgstr "Külastaja"
+
+msgid "visitors"
+msgstr "Külastajad"
+
+msgid "visits"
+msgstr "Külastused"
+
+msgid "web_resources"
+msgstr "Veebiallikad"
+
+msgid "webdav"
+msgstr "WebDAV"
+
+#, fuzzy
+msgid "webdav_add_instructions_btn_label"
+msgstr "Add Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_chosen_language_already_used"
+msgstr "There already is another document associated with the chosen language"
+
+#, fuzzy
+msgid "webdav_doc_delete"
+msgstr "Delete WebDav Mount Instructions"
+
+#, fuzzy
+msgid "webdav_docs_mount_instructions"
+msgstr "Mount Instructions Documents"
+
+#, fuzzy
+msgid "webdav_duplicate_detected_title"
+msgstr "Following objects could not be displayed, because an object with the same Title is already being shown:"
+
+#, fuzzy
+msgid "webdav_forbidden_chars_title"
+msgstr "Following files cannot be displayed, because they contain one or more forbidden characters (\\<>/:*?\"|#):"
+
+#, fuzzy
+msgid "webdav_form_document"
+msgstr "Instructions Document"
+
+#, fuzzy
+msgid "webdav_form_document_info"
+msgstr "Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information"
+
+#, fuzzy
+msgid "webdav_form_document_title"
+msgstr "Title"
+
+#, fuzzy
+msgid "webdav_form_document_title_info"
+msgstr "This title will be dislayed as the title of the modal when the Mount Instructions are opened"
+
+#, fuzzy
+msgid "webdav_form_edit_doc_head"
+msgstr "Edit Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_form_new_doc_head"
+msgstr "Create new Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_general_settings"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "webdav_missing_lang"
+msgstr "There is no english version of the WebDAV Mount Instructions"
+
+#, fuzzy
+msgid "webdav_mount_instructions"
+msgstr "Mount Instructions"
+
+#, fuzzy
+msgid "webdav_problem_free_container"
+msgstr "There are no objects that cause problems in this container."
+
+#, fuzzy
+msgid "webdav_problem_info_duplicate"
+msgstr "There is a file with the same title as the info file."
+
+msgid "webdav_pwd_instruction"
+msgstr "We suggest to create a local password for opening the repository as webfolder.<br />This password is only required for the webfolder functionalities."
+
+msgid "webdav_pwd_instruction_success"
+msgstr "Uus kohalik salasõna on loodud. Võid nüüd varamu avada kui veebikausta."
+
+#, fuzzy
+msgid "webdav_sure_delete_documents_s"
+msgstr "Are you sure you want to delete the Mount Instructions with the following title:"
+
+#, fuzzy
+msgid "webdav_tbl_docs_head_title"
+msgstr "Dokument title"
+
+#, fuzzy
+msgid "webdav_tbl_docs_title"
+msgstr "List of uploaded WebDAV Mount Instructions"
+
+#, fuzzy
+msgid "webdav_upload_instructions"
+msgstr "Upload Instructions"
+
+msgid "webfolder_dir_info"
+msgstr "You got here, because your browser can't open webfolders. Read the <a href=\"%1$s\">instructions for opening webfolders</a>."
+
+msgid "webfolder_index_of"
+msgstr "Index of %1$s"
+
+msgid "webfolder_instructions"
+msgstr "Webfolder instructions"
+
+msgid "webfolder_instructions_info"
+msgstr "The webfolder instructions are shown on browsers, which can not open a webfolder directly. You can use HTML code, and the following placeholders: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[WINDOWS]</b>...<b>[/WINDOWS]</b>, <b>[MAC]</b>...<b>[/MAC]</b>, <b>[LINUX]</b>...<b>[/LINUX]</b>. Clear the field to get the default instructions."
+
+msgid "webfolder_instructions_text"
+msgstr "<p>Follow the instructions below, to open <b>[WEBFOLDER_TITLE]</b> as a webfolder:</p>[WINDOWS]<h3>Instructions for Windows XP with Internet Explorer</h3><ol><li>Start Internet Explorer</li><li>Choose the menu 'File &gt; Open...'</li><li>In the 'Open' field enter the following address:<br/><b>[WEBFOLDER_URI]</b></li><li>Select the 'Open as web-folder' option, then select 'OK'.</li><li>Enter your login and password, and select 'OK'.</li></ol><h3>Instructions for Windows XP without Internet Explorer</h3><ol><li>Double-click the 'My Network Places' icon on the Desktop.</li><li>Click on 'Add Network Place' from the 'Network Tasks' menu on the left side of the window.</li><li>The 'Add a Network Place' wizard will open, select 'Next'.</li><li>Select the 'Choose Another Network Location' option, and select 'Next'.<li>In the 'Internet or Network Address' field enter<br/><b>[WEBFOLDER_URI]</b><br/>then select 'Next'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/WINDOWS][MAC]<h3>Instructions for Mac OS X</h3><ol><li>Open the Finder</li><li>Choose the menu 'Go &gt; Connect to server...'</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI]</b>, and select 'Connect'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/MAC][LINUX]<h3>Instructions for Linux with Konqueror</h3><ol><li>Start the Konqueror browser</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>Press the Enter key.</li><li>Enter your login and password, and select 'OK'.</li></ol><h3>Instructions for Linux with Nautilus</h3><ol><li>Start the Nautilus browser</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>Press the Enter key.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/LINUX]<p>If opening the webfolder does not work, please contact <a href=\\\"mailto:[ADMIN_MAIL]\\\">[ADMIN_MAIL]</a>.</p>"
+
+msgid "webfolder_instructions_titletext"
+msgstr "Open as webfolder"
+
+msgid "webfolder_mount_dir_with"
+msgstr "Open this page as a Webfolder with <a href=\"%1$s\">Internet Explorer 6</a>, <a href=\"%2$s\">Konqueror</a>, <a href=\"%3$s\">Nautilus</a>, <a href=\"%4$s\">other Browser</a>."
+
+msgid "webr"
+msgstr "Veebiallikas"
+
+msgid "webr_active"
+msgstr "Aktiivne"
+
+msgid "webr_add"
+msgstr "Lisa veebiallikas"
+
+msgid "webr_deleted_items"
+msgstr "Kustutatud veebiallikas"
+
+msgid "webr_edit"
+msgstr "Muuda veebiallikat"
+
+msgid "webr_sure_delete_items"
+msgstr "Kas soovid kindlasti kustutada järgmise(d) veebiallika(d)?"
+
+msgid "webservices"
+msgstr "Veebiteenused"
+
+msgid "week"
+msgstr "nädal"
+
+msgid "weekly"
+msgstr "iganädalane"
+
+msgid "weeks"
+msgstr "nädalat"
+
+msgid "welcome"
+msgstr "Tere tulemast"
+
+msgid "width"
+msgstr "laius"
+
+msgid "wiki"
+msgstr "Wiki"
+
+msgid "wiki_add"
+msgstr "Lisa wiki"
+
+msgid "wiki_new"
+msgstr "Uus wiki"
+
+msgid "with"
+msgstr "koos"
+
+#, fuzzy
+msgid "withdraw_consent"
+msgstr "Withdraw Consent"
+
+#, fuzzy
+msgid "withdraw_consent_info_internal"
+msgstr "If you click on ‘Withdraw Consent’, your account will be deleted."
+
+#, fuzzy
+msgid "withdraw_usr_agreement"
+msgstr "Withdraw Consent"
+
+#, fuzzy
+msgid "withdrawal_complete"
+msgstr "Withdrawal of consent complete."
+
+#, fuzzy
+msgid "withdrawal_complete_deleted"
+msgstr "Withdrawal of consent complete, account deleted."
+
+#, fuzzy
+msgid "withdrawal_complete_redirect"
+msgstr "Withdrawal of consent complete. To have your account deleted, please contact your organisation."
+
+#, fuzzy
+msgid "withdrawal_mail_info"
+msgstr "The following email will be sent to an administrator after confirming the withdrawal of your consent:[BR][BR]"
+
+#, fuzzy
+msgid "withdrawal_mail_subject"
+msgstr "Withdrawal of Consent to Terms of Service"
+
+#, fuzzy
+msgid "withdrawal_mail_text"
+msgstr "Dear Sir/Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installation’s Terms of Service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Yours faithfully[BR]%1$s"
+
+#, fuzzy
+msgid "withdrawal_sure_account"
+msgstr "Are you sure you want to confirm the withdrawal of your consent?"
+
+#, fuzzy
+msgid "withdrawal_sure_account_deletion"
+msgstr "Are you sure you want to confirm the withdrawal of your consent? This will result in your user account being irrevocably deleted."
+
+#, fuzzy
+msgid "withdrawal_sure_account_deletion_no_consent_yet"
+msgstr "Are you sure that you do not want to accept the Terms of Service? This will result in your user account being irrevocably deleted."
+
+#, fuzzy
+msgid "withdrawal_sure_account_no_consent_yet"
+msgstr "Are you sure that you do not want to accept the Terms of Service?"
+
+msgid "wizard_search_list"
+msgstr "Sinu otsing andis järgmised vastused. Palun vali neist üks."
+
+msgid "wizard_title_info"
+msgstr "Palun sisesta selle objekti nimi, mida duplitseerida soovid."
+
+msgid "write"
+msgstr "Kirjutama"
+
+msgid "year"
+msgstr "aasta"
+
+msgid "yearly"
+msgstr "igal aastal"
+
+msgid "years"
+msgstr "Aastad"
+
+msgid "yes"
+msgstr "Jah"
+
+msgid "yesterday"
+msgstr "Eile"
+
+msgid "zip"
+msgstr "Postiindeks"
+
+msgid "zip_structure_error"
+msgstr "Archive contains same filenames. Upload aborted."
+
+msgid "zip_test_failed"
+msgstr "Zip-test ebaõnnestus. Võtke ühendust ILIASe administraatoriga."
+
+msgid "zipcode"
+msgstr "Postiindeks"

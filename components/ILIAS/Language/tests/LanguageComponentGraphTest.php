@@ -183,7 +183,7 @@ class LanguageComponentGraphTest extends TestCase
             array_filter($directories, static fn(object $d): bool => $d instanceof ComponentLanguageFileDirectory)
         );
         sort($modules);
-        self::assertSame(['lng'], $modules);
+        self::assertSame(['common', 'lng'], $modules);
         self::assertCount(count($main) + count($modules), $directories, 'only Main and component directories');
 
         $this->contributedSetupAgent();

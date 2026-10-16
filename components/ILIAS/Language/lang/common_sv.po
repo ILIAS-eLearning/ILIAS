@@ -1,0 +1,7968 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: common\n"
+
+msgid "HH"
+msgstr "SS"
+
+msgid "absolute_path"
+msgstr "Absolut väg"
+
+msgid "accept_usr_agreement_btn"
+msgstr "Agree"
+
+msgid "access"
+msgstr "Tillgång"
+
+msgid "accessFree"
+msgstr "Ta bort tidsbegränsningen för åtkomst"
+
+msgid "accessRestrict"
+msgstr "Begränsa åtkomst"
+
+msgid "access_expired"
+msgstr "expired"
+
+msgid "access_free_granted"
+msgstr " Aktivera obegränsad åtkomst för de valda användarna."
+
+msgid "access_from"
+msgstr "Åtkomst från"
+
+msgid "access_public"
+msgstr "Offentlig"
+
+msgid "access_restricted"
+msgstr "Inaktivera obegränsad åtkomst för de valda användarna."
+
+msgid "access_scope"
+msgstr "Tillgång"
+
+msgid "access_unlimited"
+msgstr "obegränsad"
+
+msgid "access_until"
+msgstr "Tillfällig tillgång"
+
+msgid "access_users"
+msgstr "Inloggade användare"
+
+msgid "accesscount_registered_users"
+msgstr "Läst av användare (antal)"
+
+msgid "accessibility_control_concept"
+msgstr "Info om tillgänglighet"
+
+msgid "account"
+msgstr "Mitt konto"
+
+msgid "account_expires_body"
+msgstr "Ditt konto %s på ILIAS-installationen %s upphör att gälla den %s. Efter detta datum kommer det inte längre att vara möjligt att komma åt ILIAS med detta konto. För att skydda dina personliga dokument och certifikat, ladda ner dem i tid."
+
+msgid "account_expires_subject"
+msgstr "Ditt ILIAS-konto är på väg att gå ut!"
+
+msgid "action"
+msgstr "Åtgärder"
+
+msgid "action_aborted"
+msgstr "Aktion avbruten"
+
+msgid "actions"
+msgstr "Åtgärder"
+
+msgid "actions_for"
+msgstr "Aktioner för %s"
+
+msgid "activate"
+msgstr "Aktivera"
+
+msgid "activate_https"
+msgstr "Aktivera HTTPS (inloggning)"
+
+msgid "activate_tracking"
+msgstr "Aktivera spårning"
+
+msgid "activation"
+msgstr "Tillgänglighet"
+
+msgid "active"
+msgstr "Aktiv"
+
+msgid "add"
+msgstr "Add"
+
+msgid "add_condition"
+msgstr "Skapa nytt förhandsvillkor"
+
+msgid "add_entry"
+msgstr "Anmäl dig"
+
+msgid "add_member"
+msgstr "Lägg till medlem"
+
+msgid "add_member_role"
+msgstr "Lägg till medlemsroll"
+
+msgid "add_new_user_defined_field"
+msgstr "Skapa nytt anpassat fält"
+
+msgid "add_note"
+msgstr "Lägg till anteckning"
+
+msgid "add_parameter"
+msgstr "Ny parameter"
+
+msgid "add_remove_edit_entries_of_main_menu"
+msgstr "Lägg till, ta bort eller redigera objekt i huvudmenyn"
+
+msgid "add_role"
+msgstr "Lägg till roll"
+
+msgid "add_translation"
+msgstr "Lägg till översättning"
+
+msgid "add_user"
+msgstr "Lägg till lokal användare"
+
+msgid "add_user_defined_field"
+msgstr "Skapa nytt fält"
+
+msgid "added_new_condition"
+msgstr "En ny förutsättning skapades."
+
+msgid "additional_info"
+msgstr "Ytterligare information"
+
+msgid "address"
+msgstr "Adress"
+
+msgid "admin_force_noti"
+msgstr "Notifiering aktiv"
+
+msgid "administrate_users"
+msgstr "Lokala konton"
+
+msgid "administrate_users_headline"
+msgstr "Lokala ILIAS-konton i denna kategori"
+
+msgid "administration"
+msgstr "Administration"
+
+msgid "administrator"
+msgstr "Administratör"
+
+msgid "adopt"
+msgstr "Takeover"
+
+msgid "advanced_editing_allow_html_tags"
+msgstr "Tillåt den valda HTML-markeringen i textfält"
+
+msgid "advanced_editing_assessment_settings"
+msgstr " Tillåtna HTML-markeringar för test- och utvärderingsverktyget"
+
+msgid "advanced_editing_frm_post_settings"
+msgstr "Inställningar Foruminlägg"
+
+msgid "advanced_editing_rep_page_editing"
+msgstr "Aktivera redigering av sidor i tidningen"
+
+msgid "advanced_editing_rep_page_editing_desc"
+msgstr "Med den här funktionen kan du lägga till text och media till en kategori, mapp och innehållssidor för kurser och grupper. Om funktionen avaktiveras kommer redan befintliga texter/media inte längre att visas."
+
+msgid "advanced_editing_required_tags"
+msgstr "Följande HTML-markeringar är obligatoriska för detta område"
+
+msgid "advanced_editing_survey_settings"
+msgstr "Tillåten HTML-markering för enkätverktyget"
+
+msgid "adve_assessment_settings"
+msgstr "Inställningar för test och bedömning"
+
+msgid "adve_frm_post_settings"
+msgstr "Inlägg i forumet"
+
+msgid "adve_general_settings"
+msgstr "Allmänna inställningar"
+
+msgid "adve_survey_settings"
+msgstr "Inställningar för undersökningar"
+
+#, fuzzy
+msgid "agree_date"
+msgstr "Agreed on"
+
+msgid "all"
+msgstr "Alla"
+
+msgid "all_global_roles"
+msgstr "Globala roller"
+
+msgid "all_local_roles"
+msgstr "Lokala roller (alla)"
+
+msgid "all_objects"
+msgstr "Alla objekt"
+
+msgid "all_roles"
+msgstr "Alla roller"
+
+msgid "all_topics"
+msgstr "Alla ämnen"
+
+msgid "all_users"
+msgstr "Alla användare"
+
+msgid "allow_assign_users"
+msgstr "Tillåt användartilldelning för lokala administratörer"
+
+msgid "allow_override_alert"
+msgstr "Reglerna i .htaccess-filen kan inte utvärderas."
+
+msgid "allow_register"
+msgstr "Tillgänglig i registreringsformuläret"
+
+msgid "allow_user_toggle_noti"
+msgstr "Medlem kan avaktivera avisering"
+
+msgid "already_delivered_files"
+msgstr "Filer redan inlämnade"
+
+msgid "and"
+msgstr "och"
+
+msgid "angry"
+msgstr "Angry"
+
+msgid "anonymous"
+msgstr "Anonym"
+
+msgid "answers"
+msgstr "Svar"
+
+msgid "any_language"
+msgstr "Alla språk"
+
+msgid "apache_auth"
+msgstr "Logga in via Apache-autentisering"
+
+msgid "application_completed"
+msgstr "Tillträde har begärts."
+
+msgid "application_date"
+msgstr "Datum för ansökan"
+
+msgid "applications"
+msgstr "Tillämpningar"
+
+msgid "apply"
+msgstr "Takeover"
+
+msgid "apply_filter"
+msgstr "Applicera filter"
+
+msgid "appointment"
+msgstr "Datum"
+
+msgid "approve_date"
+msgstr "Släppt på"
+
+msgid "approve_recipient"
+msgstr "E-postavisering för (inloggnings-ID)"
+
+msgid "archive"
+msgstr "Arkiv"
+
+msgid "archive_broken"
+msgstr "Arkivet verkar vara skadat eller tomt."
+
+msgid "are_you_sure"
+msgstr "Är du säker?"
+
+msgid "assf_allowed_questiontypes"
+msgstr "Tillgängliga frågetyper"
+
+msgid "assf_allowed_questiontypes_desc"
+msgstr "Alla valda frågetyper kommer att vara tillgängliga för denna ILIAS-installation. Om du vill förhindra skapandet av vissa frågetyper måste du avmarkera dessa frågetyper."
+
+msgid "assf_questiontypes"
+msgstr "Inställningar för frågor"
+
+msgid "assign"
+msgstr "Assign"
+
+msgid "assign_global_role"
+msgstr "Att tilldelas en global roll"
+
+msgid "assign_local_role"
+msgstr " Tilldela lokal roll"
+
+msgid "assigned_members"
+msgstr "Tilldelade deltagare"
+
+msgid "assigned_roles"
+msgstr "Tilldelade roller"
+
+msgid "associated_user"
+msgstr "Medlem"
+
+msgid "astounded"
+msgstr "Förvånad"
+
+msgid "at_least_one_style"
+msgstr "Minst en stil måste vara aktiverad."
+
+msgid "attachment"
+msgstr "Tillägg"
+
+msgid "attachments"
+msgstr "Attachments"
+
+msgid "attempts"
+msgstr "Prövningar"
+
+msgid "auth_active_roles"
+msgstr "Tillgängliga globala roller på registreringsformuläret"
+
+msgid "auth_allow_local"
+msgstr "Tillåt lokal autentisering"
+
+msgid "auth_configure"
+msgstr "konfigurera..."
+
+msgid "auth_create_users"
+msgstr "Automatiskt skapa användare som ännu inte har registrerats."
+
+msgid "auth_default"
+msgstr "Standardinställning"
+
+msgid "auth_default_mode_changed_to"
+msgstr "Standard autentiseringsläge ändrat till"
+
+msgid "auth_ecs"
+msgstr "ECS"
+
+msgid "auth_ldap"
+msgstr "LDAP"
+
+msgid "auth_ldap_enable"
+msgstr "Aktivera LDAP-stöd"
+
+msgid "auth_ldap_migration"
+msgstr "Migrering av konto"
+
+msgid "auth_ldap_migration_info"
+msgstr "Aktivera den här inställningen för att tillåta nya användare att byta befintliga ILIAS-inloggningskonton till LDAP-autentisering."
+
+msgid "auth_local"
+msgstr "ILIAS Auth"
+
+msgid "auth_login_instructions"
+msgstr "Instruktioner på inloggningsskärmen"
+
+msgid "auth_mode"
+msgstr "Autentiseringsläge"
+
+msgid "auth_mode_not_changed"
+msgstr "(Ingen förändring)"
+
+msgid "auth_mode_roles_changed"
+msgstr "Autentiseringsläge ändrat för den här rollen"
+
+msgid "auth_new_account_mail_desc"
+msgstr "Mail för nya användare."
+
+msgid "auth_per_default"
+msgstr "standardvärde"
+
+msgid "auth_remark_non_local_auth"
+msgstr "För alla autentiseringsmetoder som inte använder ILIAS-databasen kan inloggningsnamn och lösenord inte längre ändras."
+
+msgid "auth_role_auth_mode"
+msgstr "Autentiseringsmetod"
+
+msgid "auth_saml"
+msgstr "SAML"
+
+msgid "auth_script"
+msgstr "Användare definierad"
+
+msgid "auth_select"
+msgstr "Välj autentiseringsmetod"
+
+msgid "auth_selection"
+msgstr "Typ av registrering"
+
+msgid "auth_settings"
+msgstr "Inställningar"
+
+msgid "auth_shib"
+msgstr "Shibboleth"
+
+msgid "auth_shib_instructions"
+msgstr "Läs anvisningarna (README) om hur du konfigurerar Shibboleth-stödet för ILIAS."
+
+msgid "auth_shib_not_configured"
+msgstr "Shibboleth har ännu inte ställts in"
+
+msgid "auth_shibboleth"
+msgstr "Shibboleth"
+
+msgid "auth_soap"
+msgstr "SOAP"
+
+msgid "auth_soap_allow_local_desc"
+msgstr "Tillåter personer med SOAP-konton att autentisera/logga in med sitt lokala ILIAS-inloggningsnamn och lösenord."
+
+msgid "auth_soap_auth"
+msgstr "Konfigurera SOAP-autentisering"
+
+msgid "auth_soap_auth_desc"
+msgstr "Dessa inställningar påverkar endast den SOAP-baserade användarautentiseringen, men inte ILIAS SOAP-gränssnitt."
+
+msgid "auth_soap_create_users_desc"
+msgstr "Automatiskt skapar ett ILIAS-konto för personer som har autentiserats mot SOAP men ännu inte har ett ILIAS-konto."
+
+msgid "auth_soap_namespace"
+msgstr "Namnrymd"
+
+msgid "auth_soap_namespace_desc"
+msgstr "Enligt definition i WSDL. Måste anges om .NET SOAP-stil används."
+
+msgid "auth_soap_port_desc"
+msgstr "Till exempel \"8080\" om SOAP-serverns absoluta URI är http"
+
+msgid "auth_soap_server_desc"
+msgstr "Till exempel \"auth.yourserver.com\" om den absoluta URI:n för SOAP-servern är http"
+
+msgid "auth_soap_settings_saved"
+msgstr "Sparade inställningar för SOAP-autentisering!"
+
+msgid "auth_soap_uri_desc"
+msgstr "Lokal URI, t.ex. \"dir/server.php\", om den absoluta SOAP-serverns URI är http"
+
+msgid "auth_soap_use_dotnet"
+msgstr "Använd .NET SOAP-stil"
+
+msgid "auth_soap_use_https"
+msgstr "Använd HTTPS"
+
+msgid "auth_soap_user_default_role_desc"
+msgstr "Den här rollen ges till användare som autentiserats mot SOAP."
+
+msgid "auth_user_default_role"
+msgstr "Standardroll"
+
+msgid "authenticate_ilias"
+msgstr "Logga in direkt via ILIAS-databasen"
+
+msgid "authentication_settings"
+msgstr "Autentisering"
+
+msgid "author"
+msgstr "Författare"
+
+msgid "authoring_mode"
+msgstr "Författarläge"
+
+msgid "authors"
+msgstr "Författare"
+
+msgid "autocomplete_more"
+msgstr "Mer"
+
+msgid "available"
+msgstr "Tillgänglig"
+
+msgid "awra"
+msgstr "Vem är online?"
+
+msgid "back"
+msgstr "Tillbaka"
+
+msgid "back_to_course"
+msgstr "Tillbaka till kursen"
+
+msgid "back_to_crs_content"
+msgstr "Tillbaka till kursinnehållet"
+
+msgid "back_to_fold_content"
+msgstr "Tillbaka till innehållet i mappen"
+
+msgid "back_to_grp_content"
+msgstr "Tillbaka till innehållet i gruppen"
+
+msgid "backto_lua"
+msgstr "Tillbaka till lokala konton"
+
+msgid "basedn"
+msgstr "BaseDN"
+
+msgid "basic_settings"
+msgstr "Grundläggande inställningar"
+
+msgid "before"
+msgstr "före"
+
+msgid "behind"
+msgstr "Efter"
+
+msgid "bib_data"
+msgstr "Bibliografiska uppgifter"
+
+msgid "bibl_add"
+msgstr "Skapa litteraturlista"
+
+msgid "birthday"
+msgstr "Födelsedag"
+
+msgid "bkm_import"
+msgstr "Importera bokmärken"
+
+msgid "bkm_import_ok"
+msgstr "%d bokmärken och %d bokmärkesmappar importerades framgångsrikt."
+
+msgid "bkm_sendmail"
+msgstr "Skicka som bilaga"
+
+msgid "block"
+msgstr "Blockera"
+
+msgid "bm"
+msgstr "Bokmärke"
+
+msgid "bm_add_to_ilias"
+msgstr "Lägg till ILIAS bokmärken"
+
+msgid "bmf"
+msgstr "Bokmärk mappen"
+
+msgid "bold"
+msgstr "Fet stil"
+
+#, fuzzy
+msgid "bold_action"
+msgstr "Insert Bold - Click to insert bold text."
+
+msgid "bookings"
+msgstr "Beställningar"
+
+msgid "bookmark_added"
+msgstr "Bokmärke har skapats!"
+
+msgid "bookmark_folder_new"
+msgstr "Ny bokmärkesmapp"
+
+msgid "bookmark_new"
+msgstr "Lägg till Bokmärke"
+
+msgid "bookmark_target"
+msgstr "Mål"
+
+msgid "bookmarks"
+msgstr "Bokmärken"
+
+msgid "bookmarks_of"
+msgstr "Bokmärken från"
+
+msgid "breadcrumb_navigation"
+msgstr "Breadcrumb-navigering"
+
+msgid "breadcrumbs_aria_label"
+msgstr "Brödsmulor"
+
+msgid "briefcase"
+msgstr "Bakgrundsprocesser"
+
+msgid "btn_add"
+msgstr "Add"
+
+msgid "btn_back"
+msgstr "Tillbaka"
+
+msgid "btn_next"
+msgstr "Fortsättning"
+
+msgid "btn_previous"
+msgstr "Tillbaka"
+
+msgid "btn_remove_system"
+msgstr "Ta bort från systemet"
+
+msgid "btn_undelete"
+msgstr "Restaurera"
+
+msgid "buddy_allow_to_contact_me_no"
+msgstr "Tar inte emot kontaktförfrågningar"
+
+msgid "buddy_allow_to_contact_me_yes"
+msgstr "Tar emot förfrågningar om kontakt"
+
+msgid "building_export_file"
+msgstr " Skapa exportfil..."
+
+#, fuzzy
+msgid "bulletlist_action"
+msgstr "Insert Bulletpoint-List - Click to insert a bulletpoint-list."
+
+msgid "by"
+msgstr "genomgång"
+
+msgid "bytes"
+msgstr "Bytes"
+
+msgid "cal_from"
+msgstr "Från"
+
+msgid "cal_until"
+msgstr "Till"
+
+msgid "calendar"
+msgstr "Kalender"
+
+msgid "cancel"
+msgstr "Avbryt"
+
+msgid "cancel_file_upload"
+msgstr "Vill du avbryta uppladdningen av de väntande filerna?"
+
+msgid "cannot_find_xml"
+msgstr "Kan inte hitta en XML-fil."
+
+msgid "cannot_uninstall_language_in_use"
+msgstr "Du kan inte avinstallera ett språk som används för närvarande!"
+
+msgid "cannot_uninstall_systemlanguage"
+msgstr "Du kan inte avinstallera systemspråket."
+
+msgid "cannot_unzip_file"
+msgstr "Kan inte packa upp den uppladdade filen."
+
+msgid "cant_deactivate_if_users_assigned"
+msgstr "Du kan inte avaktivera en stil om användare fortfarande är tilldelade den."
+
+msgid "cat"
+msgstr "Kategori"
+
+msgid "cat_add"
+msgstr "Skapa kategori"
+
+msgid "cat_added"
+msgstr "Kategori skapad"
+
+msgid "cat_copy_threads_info"
+msgstr "Välj vilka material i kategorin som ska kopieras, länkas eller utelämnas från kopieringsprocessen."
+
+msgid "cat_edit"
+msgstr "Inställningar för kategorier"
+
+msgid "cat_new"
+msgstr "Skapa ny kategori"
+
+msgid "cat_wizard_page"
+msgstr "Kopieringskategori (steg 2/2)"
+
+msgid "categories"
+msgstr "Kategorier"
+
+msgid "categories_imported"
+msgstr "Kategoriimport slutförd."
+
+msgid "catr"
+msgstr "Kategorilänk"
+
+msgid "catr_add"
+msgstr "Skapa kategorilänk"
+
+msgid "catr_edit_info"
+msgstr "Vänligen välj den kategori för vilken du vill skapa en länk."
+
+msgid "catr_new"
+msgstr "Skapa ny kategorilänk"
+
+msgid "catr_settings"
+msgstr "Inställningar för kategorilänkar"
+
+msgid "certificate"
+msgstr "Certifikat"
+
+msgid "certificate_file_already_exists_error"
+msgstr "Certifikatfilen finns redan i filsystemet."
+
+msgid "certificate_file_input_output_error"
+msgstr "Certifikatfilen hittades i filsystemet men kunde inte tas bort på grund av fel. Kontakta din administratör."
+
+msgid "certificate_file_not_found_error"
+msgstr "Certifikatfilen hittades inte längre i filsystemet."
+
+msgid "certificate_persistent_option"
+msgstr "Certifikat från läranderesultaten"
+
+msgid "certificate_selection"
+msgstr "Intygens ursprung"
+
+msgid "certificate_workspace_option"
+msgstr "Intyg från personliga resurser"
+
+msgid "certificates"
+msgstr "Certifikat"
+
+msgid "change"
+msgstr "Förändring"
+
+msgid "change_assignment"
+msgstr "Ändra uppdrag"
+
+msgid "change_header_title"
+msgstr "Redigera rubrik för installation"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "change_owner"
+msgstr "Save"
+
+msgid "change_sort_direction"
+msgstr "Ändra sorteringsriktning"
+
+msgid "changeable"
+msgstr "Kan ändras av användaren själv i profilen"
+
+msgid "changed_to"
+msgstr "ändrad till"
+
+msgid "changing_loginname_not_possible_info"
+msgstr "Du ändrade senast ditt inloggningsnamn den %s. Nästa ändring kan endast göras på %s."
+
+msgid "chapter"
+msgstr "Kapitel"
+
+msgid "characters"
+msgstr "karaktärer"
+
+msgid "chat_enter_public_room"
+msgstr "Publik chatt"
+
+msgid "chat_enter_public_room_tooltip"
+msgstr "Gå in i det offentliga chattrummet."
+
+msgid "chat_users_active"
+msgstr "Aktiva användare"
+
+msgid "check"
+msgstr "Test"
+
+msgid "check_all"
+msgstr "Välj alla"
+
+msgid "check_langfile"
+msgstr "Var god kontrollera språkfilen!"
+
+msgid "check_languages"
+msgstr "Kontrollera alla språk"
+
+msgid "check_link"
+msgstr "Kontrollera externa länkar"
+
+msgid "check_link_desc"
+msgstr "Om den är påslagen kontrolleras alla ILIAS inlärningsmoduler för ogiltiga externa länkar."
+
+msgid "check_user_accounts"
+msgstr "Kontrollera ILIAS-konton"
+
+msgid "check_user_accounts_desc"
+msgstr "Personer vars ILIAS-konton är tidsbegränsade kommer att informeras via e-post två veckor före tidsfristen att deras konto är på väg att löpa ut. Dessutom raderar cronjobbet alla ILIAS-konton för vilka bekräftelselänken i e-postmeddelandet inte klickades"
+
+msgid "check_web_resources"
+msgstr "Kontrollera Webblänkar"
+
+msgid "check_web_resources_desc"
+msgstr "Om den är påslagen kontrolleras alla webblänkar för ogiltiga externa länkar och inaktiveras vid behov."
+
+msgid "checked"
+msgstr "Vald"
+
+msgid "checked_files"
+msgstr "Omportabla filer"
+
+msgid "chg_ilias_and_webfolder_password"
+msgstr "Ändra lösenord för webbmapp"
+
+msgid "chg_ilias_password"
+msgstr "Ändra #ILIAS lösenord"
+
+msgid "chg_password"
+msgstr "Ändra lösenord"
+
+msgid "choose_language"
+msgstr "Välj ditt språk!"
+
+msgid "choose_only_one_language"
+msgstr "Välj endast ett språk!"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "chown_warning"
+msgstr "Åtgärd! Om du ändrar posten kan den här personen förlora alla åtkomsträttigheter till objektet."
+
+msgid "chta_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "chta_read"
+msgstr "Läsa åtkomst till administration av chattrum"
+
+msgid "chta_visible"
+msgstr "Chatroom administration synlig"
+
+msgid "chta_write"
+msgstr "Redigera chatroom administration"
+
+msgid "chtr_copy"
+msgstr "Kopiera chattrum"
+
+msgid "chtr_import"
+msgstr "Chattrum för import"
+
+msgid "city"
+msgstr "Plats"
+
+msgid "cleaned_file"
+msgstr "Filen har rengjorts."
+
+msgid "cleaning_failed"
+msgstr "Viruset kunde inte tas bort från filen."
+
+msgid "clear"
+msgstr "Avbryt"
+
+msgid "clear_clipboard"
+msgstr "Klart klippbord"
+
+msgid "client"
+msgstr "Klient"
+
+msgid "client_id"
+msgstr "Klient-ID"
+
+msgid "client_ip"
+msgstr "Klient-IP"
+
+msgid "clientlist_available_clients"
+msgstr "Urval av kunder"
+
+msgid "clientlist_clientlist"
+msgstr "Urval av kunder"
+
+msgid "clientlist_installation_name"
+msgstr "Kunder"
+
+msgid "clientlist_login"
+msgstr "Logga in"
+
+msgid "clientlist_login_page"
+msgstr "Logga in"
+
+msgid "clientlist_public_access"
+msgstr "Offentligt område"
+
+msgid "clientlist_start_page"
+msgstr "Offentligt område"
+
+msgid "clipboard"
+msgstr "Klipptavla"
+
+msgid "close"
+msgstr "Stäng"
+
+#, fuzzy
+msgid "cmix"
+msgstr "Object xAPI/cmi5"
+
+msgid "cnt_new"
+msgstr "(%s Ny)"
+
+msgid "collapse"
+msgstr "Fold i"
+
+msgid "collapse_all"
+msgstr "Vik ihop dem alla"
+
+msgid "collapse_content"
+msgstr "Kollapsa innehåll"
+
+msgid "collapsed"
+msgstr "Stängd"
+
+#, fuzzy
+msgid "column_selection"
+msgstr "Column Selection"
+
+msgid "columns"
+msgstr "Kolumner"
+
+msgid "comma_separated"
+msgstr " Kommatecken separerade"
+
+msgid "comment"
+msgstr "Kommentar"
+
+msgid "comments"
+msgstr "Kommentarer"
+
+msgid "compose"
+msgstr "Skapa"
+
+msgid "concurrent_uploads"
+msgstr "Antal samtidiga uppladdningar"
+
+msgid "concurrent_uploads_info"
+msgstr "Ställer in antalet filer som laddas upp samtidigt per process."
+
+msgid "cond_ref_handling"
+msgstr "Inställningar för länkar"
+
+msgid "cond_ref_shared"
+msgstr "Lika förutsättningar för alla länkar"
+
+msgid "cond_ref_unique"
+msgstr "Olika förutsättningar för länkar"
+
+msgid "condition"
+msgstr "Kondition"
+
+msgid "condition_accredited_or_passed"
+msgstr "Ackrediterad eller godkänd"
+
+msgid "condition_already_assigned"
+msgstr "Detta objekt har redan tilldelats."
+
+msgid "condition_circle_created"
+msgstr "Den här tilldelningen är inte möjlig eftersom objekten skulle vara beroende av varandra"
+
+msgid "condition_deleted"
+msgstr "Förutsättningen har tagits bort."
+
+msgid "condition_finished"
+msgstr "Färdig"
+
+msgid "condition_not_finished"
+msgstr "Inte färdig"
+
+msgid "condition_passed"
+msgstr "Bekräftad"
+
+msgid "condition_select_object"
+msgstr "Välj det objekt som ska användas för förhandsvillkoret."
+
+msgid "conditions_updated"
+msgstr "Villkoren har sparats."
+
+#, fuzzy
+msgid "configuration"
+msgstr "Configuration"
+
+msgid "confirm"
+msgstr "Bekräfta"
+
+msgid "confirm_delete_parameter"
+msgstr "Vill du verkligen ta bort parametern?"
+
+msgid "confirmation"
+msgstr "Bekräfta åtgärd"
+
+msgid "conflict_handling"
+msgstr "Konflikthantering"
+
+msgid "cont_iim_content_popups_info"
+msgstr "Content pop-ups visas när användare klickar på de interaktiva delarna av den underliggande basbilden. På den här sidan definierar du bara popup-fönstren. Deras innehåll redigeras på huvudsidan."
+
+msgid "cont_iim_create_info"
+msgstr "Ladda upp den underliggande bildfilen för den interaktiva bilden."
+
+msgid "cont_iim_overlay_info"
+msgstr "En overlay-bild visas när användaren flyttar muspekaren över det definierade området i den underliggande bilden. Du tilldelar respektive overlay-bild till det tillhörande triggerområdet på fliken \"Trigger\" efter uppladdningen."
+
+msgid "contact"
+msgstr "Kontakt"
+
+msgid "contact_data"
+msgstr "Kontaktuppgifter"
+
+msgid "contact_sysadmin"
+msgstr "Kontakta teknisk support"
+
+msgid "container"
+msgstr "Container"
+
+msgid "container_no_items"
+msgstr "Inga objekt hittades"
+
+msgid "content"
+msgstr "Innehåll"
+
+msgid "content_frame"
+msgstr "Frame Innehåll"
+
+msgid "content_styles"
+msgstr "Stilar för innehåll"
+
+msgid "context"
+msgstr "Kontext"
+
+msgid "continue"
+msgstr "Fortsättning"
+
+msgid "continue_work"
+msgstr "Fortsättning"
+
+msgid "contra"
+msgstr "Contra"
+
+#, fuzzy
+msgid "copa"
+msgstr "Content Page"
+
+msgid "copy"
+msgstr "Kopia"
+
+msgid "copyChapter"
+msgstr "Kopia"
+
+msgid "copyPage"
+msgstr "Kopia"
+
+msgid "copy_all"
+msgstr "Kopiera alla"
+
+msgid "copy_n_of_suffix"
+msgstr "- Kopie (%1$s)"
+
+msgid "copy_of"
+msgstr "Kopia från"
+
+msgid "copy_of_suffix"
+msgstr "- Kopia"
+
+#, fuzzy
+msgid "copy_perma_link"
+msgstr "Copy link to clipboard"
+
+msgid "copy_selected_items"
+msgstr "Kopia"
+
+msgid "count"
+msgstr "Nummer"
+
+#, fuzzy
+msgid "counter_novelty"
+msgstr "News"
+
+#, fuzzy
+msgid "counter_status"
+msgstr "Status"
+
+msgid "country"
+msgstr "Land"
+
+msgid "country_free_text"
+msgstr "Country (fri text)"
+
+msgid "country_selection"
+msgstr "Land (urvalslista)"
+
+msgid "course"
+msgstr "Kurs"
+
+msgid "courses"
+msgstr "Kurser"
+
+msgid "create"
+msgstr "Skapa"
+
+msgid "create_date"
+msgstr "Skapad på"
+
+msgid "create_export_file"
+msgstr "Skapa exportfil"
+
+msgid "create_stylesheet"
+msgstr "Skapa Stil"
+
+msgid "created"
+msgstr "Skapad på"
+
+msgid "cron_forum_notification"
+msgstr "Skicka Forums-aviseringar"
+
+msgid "cron_forum_notification_crob_desc"
+msgstr "Om aktiverat skickar ILIAS dagliga meddelanden till användare som vill bli meddelade om nya och ändrade inlägg i utvalda forum eller forumämnen. Vänligen observera"
+
+#, fuzzy
+msgid "cron_forum_notification_disabled"
+msgstr "Can't be disabled when the Cron Job is active."
+
+msgid "cron_jobs"
+msgstr "Cron jobb"
+
+msgid "cron_lucene_index"
+msgstr "Uppdatera Lucene sökindex"
+
+msgid "cron_lucene_index_info"
+msgstr "Om den är påslagen uppdateras sökindexet för Lucene. Konfigurera Lucene-servern i förväg i administrationen under \"Sök och hitta \" Sök\", flik \"Lucene\"."
+
+msgid "cron_mail_notification"
+msgstr "Skicka e-postaviseringar för nya meddelanden"
+
+msgid "cron_mail_notification_cron"
+msgstr "Regelbundet via cron-jobb"
+
+msgid "cron_mail_notification_desc"
+msgstr "ILIAS skickar e-postmeddelanden om nya e-postmeddelanden på begäran. I motsats till omedelbar vidarebefordran av alla e-postmeddelanden samlar detta cronjob in e-postmeddelanden från en dag och levererar dem som ett paket. Aktivera alternativet '%s' för"
+
+msgid "cron_mail_notification_message"
+msgstr "Mail innehåll som en del av e-postmeddelandet"
+
+msgid "cron_mail_notification_message_info"
+msgstr "E-postmeddelanden innehåller det fullständiga innehållet i de e-postmeddelanden som tas emot i ILIAS. Detta innebär att de kan läsas utan att behöva logga in igen."
+
+msgid "cron_mail_notification_never"
+msgstr "Nie"
+
+msgid "cron_users_without_login_del_create_date_thr"
+msgstr "Tröskelvärde"
+
+msgid "cron_users_without_login_del_create_date_thr_info"
+msgstr "Alla inloggningskonton som skapats för längre sedan än det tröskelvärde som definieras här kommer att övervägas för radering."
+
+msgid "cron_users_without_login_del_role_whitelist"
+msgstr "Roller som beaktas"
+
+msgid "cron_users_without_login_del_role_whitelist_info"
+msgstr "Endast användare med en av de valda globala rollerna kommer att raderas. Om en användare har en av de icke-valda rollerna kommer ILIAS-kontot att fortsätta att existera."
+
+msgid "cronjob_last_start"
+msgstr "Sista start av cron-jobbet"
+
+msgid "cronjob_last_start_unknown"
+msgstr "Kan inte fastställas"
+
+msgid "crs"
+msgstr "Kurs"
+
+msgid "crs_activation_start_invalid"
+msgstr "Start- och slutdatum är inte giltiga."
+
+msgid "crs_add"
+msgstr "Skapa kurs"
+
+msgid "crs_added"
+msgstr "Kurs skapad"
+
+msgid "crs_archives"
+msgstr "Arkiv"
+
+msgid "crs_cancel_waiting_list"
+msgstr "Är du säker på att du vill avregistrera dig från väntelistan för kursen \"%s\"?"
+
+msgid "crs_copy_threads_info"
+msgstr "Välj vilka kursmaterial som ska kopieras, länkas eller utelämnas från kopieringsprocessen."
+
+msgid "crs_edit"
+msgstr "Kursinställningar"
+
+msgid "crs_list_reg"
+msgstr "Registrering"
+
+msgid "crs_list_reg_end"
+msgstr "Filing slut"
+
+msgid "crs_list_reg_limit_full"
+msgstr "Inga lediga platser tillgängliga"
+
+msgid "crs_list_reg_limit_places"
+msgstr "Fria platser"
+
+msgid "crs_list_reg_noreg"
+msgstr "Ingen registrering möjlig"
+
+msgid "crs_list_reg_period"
+msgstr "Ansökningsperiod"
+
+msgid "crs_list_reg_start"
+msgstr "Registrering börjar"
+
+msgid "crs_member_not_passed"
+msgstr "Misslyckad"
+
+msgid "crs_member_passed"
+msgstr "Bekräftad"
+
+msgid "crs_members_gallery"
+msgstr "Medlemmarnas galleri"
+
+msgid "crs_new"
+msgstr "Skapa ny kurs"
+
+msgid "crs_removed_from_waiting_list"
+msgstr "Du har tagits bort från väntelistan för kursen \"%s\"."
+
+msgid "crs_status_blocked"
+msgstr "[Åtkomst blockerad]"
+
+msgid "crs_status_pending"
+msgstr "[Begäran behandlas]"
+
+msgid "crs_subscribers_assigned"
+msgstr "En ny användare har lagts till."
+
+msgid "crs_title"
+msgstr "Kursens titel"
+
+msgid "crs_unsubscribe"
+msgstr "Avbryt medlemskap i kursen"
+
+msgid "crs_wizard_page"
+msgstr "Kopiera kurs (steg 2/2)"
+
+msgid "crsr"
+msgstr "Kurslänk"
+
+msgid "crsr_add"
+msgstr "Skapa kurslänk"
+
+msgid "crsr_edit_info"
+msgstr "Välj den kurs som du vill skapa en länk för."
+
+msgid "crsr_new"
+msgstr "Create ny kurslänk"
+
+msgid "crsr_settings"
+msgstr "Inställningar för kurslänk"
+
+msgid "csv_export"
+msgstr "CSV export"
+
+msgid "current_ip"
+msgstr "Aktuell IP"
+
+msgid "current_ip_alert"
+msgstr "Varning"
+
+msgid "current_password"
+msgstr "Aktuellt lösenord"
+
+msgid "current_user_avatar"
+msgstr "Din profilbild"
+
+msgid "currently_used_disk_space"
+msgstr "Aktuell minnesförbrukning"
+
+#, fuzzy
+msgid "customize_page"
+msgstr "Customize Page"
+
+msgid "cut"
+msgstr "Cutting out"
+
+msgid "cutPage"
+msgstr "Cutting out"
+
+msgid "daily"
+msgstr "Dagligen"
+
+msgid "database"
+msgstr "Databas"
+
+msgid "database_version"
+msgstr "Din databasversion"
+
+msgid "dataset"
+msgstr "inträde"
+
+msgid "date"
+msgstr "Datum"
+
+#, fuzzy
+msgid "date_time"
+msgstr "Date and Time"
+
+msgid "dateplaner"
+msgstr "Kalender"
+
+msgid "day"
+msgstr "Tag"
+
+msgid "days"
+msgstr "dagar"
+
+msgid "db_host"
+msgstr "Databasens värd"
+
+msgid "db_name"
+msgstr "Databasens namn"
+
+#, fuzzy
+msgid "db_need_update"
+msgstr "Database needs an update!"
+
+msgid "db_pass"
+msgstr "Lösenord för databas"
+
+msgid "db_type"
+msgstr "Typ av databas"
+
+msgid "db_user"
+msgstr "Databasanvändare"
+
+msgid "db_version"
+msgstr "Version av databas"
+
+msgid "dd_mm_yyyy"
+msgstr "DD.MM.ÅÅÅÅ"
+
+msgid "deactivate"
+msgstr "Avaktivera"
+
+msgid "decrease_attempts"
+msgstr "Antal försök - 1"
+
+msgid "def_repository_view"
+msgstr "Standardvy för magasin"
+
+msgid "default"
+msgstr "Standard"
+
+msgid "default_auth_mode"
+msgstr "Förvald autentiseringsmetod"
+
+msgid "default_auth_mode_info"
+msgstr "Du kan här ange vilken autentiseringsmetod som är förvald på inloggningssidan."
+
+msgid "default_language"
+msgstr "Standardspråk"
+
+msgid "default_perm_settings"
+msgstr "rättigheter standardvärden"
+
+msgid "default_role"
+msgstr "Standardroll"
+
+msgid "default_roles"
+msgstr "Standardroller"
+
+msgid "default_skin"
+msgstr "Standard användargränssnitt"
+
+msgid "default_skin_style"
+msgstr "Standard hud/stil"
+
+msgid "default_style"
+msgstr "Standard formatmall"
+
+msgid "defaults"
+msgstr "Standardinställningar"
+
+msgid "delete"
+msgstr "Radera"
+
+msgid "delete_existing_file"
+msgstr "Ta bort befintlig fil"
+
+msgid "delete_inactivated_user_accounts"
+msgstr "Ta bort inaktiva ILIAS-konton"
+
+msgid "delete_inactivated_user_accounts_desc"
+msgstr "ILIAS-konton raderas %s dagar efter att de inaktiverats."
+
+msgid "delete_inactivated_user_accounts_include_roles"
+msgstr "Roller som beaktas"
+
+msgid "delete_inactivated_user_accounts_include_roles_desc"
+msgstr "Endast inaktiva konton med en av de valda globala rollerna kommer att raderas. Om ett konto (även) har tilldelats en av de ovalda rollerna kommer ILIAS-kontot att fortsätta att existera."
+
+msgid "delete_inactivated_user_accounts_period"
+msgstr "Senaste dagar sedan inaktivering"
+
+msgid "delete_inactivated_user_accounts_period_desc"
+msgstr "ILIAS-kontot raderas om detta antal dagar har förflutit sedan det inaktiverades."
+
+msgid "delete_inactive_user_accounts"
+msgstr "Radera ILIAS-konton med inloggningar från för länge sedan"
+
+msgid "delete_inactive_user_accounts_desc"
+msgstr "ILIAS-konton raderas beroende på tidpunkten för den senaste inloggningen."
+
+msgid "delete_inactive_user_accounts_include_roles"
+msgstr "Roller som beaktas"
+
+msgid "delete_inactive_user_accounts_include_roles_desc"
+msgstr "Endast inaktiverade konton med en av de valda globala rollerna kommer att raderas. Om ett konto (även) har tilldelats en av de ovalda rollerna kommer ILIAS-kontot att fortsätta att existera."
+
+msgid "delete_inactive_user_accounts_period"
+msgstr "Senaste dagar sedan senaste inloggning"
+
+msgid "delete_inactive_user_accounts_period_desc"
+msgstr "ILIAS-kontot kommer att raderas om detta antal dagar har förflutit sedan den senaste inloggningen."
+
+msgid "delete_parameter"
+msgstr "Radera parameter"
+
+msgid "delete_selected_items"
+msgstr "Radera"
+
+msgid "deleted"
+msgstr "Borttagen"
+
+msgid "deleted_user"
+msgstr "ILIAS-kontot har tagits bort."
+
+msgid "deleted_users"
+msgstr "ILIAS-kontona har tagits bort."
+
+msgid "deletion_notification"
+msgstr "\"%s\" har loggat ut från sessionen \"%s\"."
+
+msgid "deliver"
+msgstr "Fördela träning"
+
+msgid "deny_usr_agreement"
+msgstr "Avvisa överenskommelse?"
+
+msgid "deny_usr_agreement_btn"
+msgstr "Avvisa"
+
+msgid "department"
+msgstr "Avdelning"
+
+msgid "desc"
+msgstr "Beskrivning"
+
+msgid "description"
+msgstr "Beskrivning"
+
+msgid "desired_password"
+msgstr "Nytt lösenord"
+
+msgid "details"
+msgstr "Detaljer"
+
+msgid "didactic_template"
+msgstr "Didaktisk mall"
+
+msgid "disable"
+msgstr "Stäng av"
+
+msgid "disable_check"
+msgstr "Kontrollera inte"
+
+msgid "disable_ext_lang_maint"
+msgstr "Inaktivera avancerad språkhantering"
+
+msgid "disable_hide_user_toggle"
+msgstr "Medlem kan avaktivera avisering"
+
+msgid "disabled"
+msgstr "Avstängd"
+
+msgid "disclose"
+msgstr "Avslöja"
+
+msgid "dislike"
+msgstr "Dislike"
+
+msgid "domain"
+msgstr "Domän"
+
+msgid "down"
+msgstr "Nedåt"
+
+msgid "download"
+msgstr "Ladda ner"
+
+msgid "download_all_returned_files"
+msgstr "Ladda ner alla avgifter"
+
+msgid "download_link"
+msgstr "Länk för nedladdning"
+
+msgid "download_multiple_objects"
+msgstr "Ladda ner flera objekt"
+
+msgid "download_selected_items"
+msgstr "Ladda ner"
+
+msgid "downloading_settings"
+msgstr "Inställningar"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement"
+msgstr "Accept Declaration of Data Protection?"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement_intro"
+msgstr "There is a new data protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page."
+
+#, fuzzy
+msgid "dpro_agreed_on"
+msgstr "DoDP agreed to on"
+
+#, fuzzy
+msgid "dpro_force_accept_usr_agreement"
+msgstr "You must accept the Data Protection!"
+
+#, fuzzy
+msgid "dpro_no_agreement_description"
+msgstr "There is currently no Declaration of Data Protection document available for this installation. Please contact the <a href=\"%1$s\">system administrator</a>."
+
+#, fuzzy
+msgid "dpro_refuse_acceptance"
+msgstr "Refuse to Accept Data Protection"
+
+#, fuzzy
+msgid "dpro_usr_agreement"
+msgstr "Data Protection"
+
+#, fuzzy
+msgid "dpro_usr_agreement_footer_intro"
+msgstr "You have declared your consent to this Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description"
+msgstr "Withdraw your consent to our Declaration of Data Protection here."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description_external"
+msgstr "Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description_internal"
+msgstr "Please log in again to complete the process of withdrawing your consent to the Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_header"
+msgstr "Withdraw to Consent of Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_withdraw_consent_info"
+msgstr "Withdraw your consent to our Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_info_external"
+msgstr "Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Data Protection."
+
+msgid "drafts"
+msgstr "Designs"
+
+msgid "drag_file_here"
+msgstr "Dra filen till detta område"
+
+msgid "drag_files_here"
+msgstr "Dra filerna till detta område"
+
+#, fuzzy
+msgid "drag_handle"
+msgstr "Draggable element"
+
+msgid "drop_files_on_repo_obj_info"
+msgstr "Dra filerna hit för att ladda upp dem till detta objekt."
+
+msgid "edit"
+msgstr "Redigera"
+
+msgid "edit_assignments"
+msgstr "Redigera träningsenheter"
+
+msgid "edit_cat_settings"
+msgstr "Avancerade inställningar"
+
+msgid "edit_content"
+msgstr "Redigera innehåll"
+
+msgid "edit_grouping"
+msgstr "Redigera begränsning av medlemskap"
+
+msgid "edit_metadata"
+msgstr "Redigera metadata"
+
+msgid "edit_operations"
+msgstr "Redigera operationer"
+
+msgid "edit_page"
+msgstr "Redigera sida"
+
+msgid "edit_page_content"
+msgstr "Redigera sidans innehåll"
+
+msgid "edit_page_meta"
+msgstr "Redigera metadata för sidan"
+
+msgid "edit_properties"
+msgstr "Egenskaper"
+
+msgid "edit_stylesheet"
+msgstr "Redigera stil"
+
+msgid "edited_on"
+msgstr "Editerad på"
+
+msgid "editor"
+msgstr "Redaktör"
+
+msgid "email"
+msgstr "E-post"
+
+msgid "email_not_valid"
+msgstr "Den e-postadress du angav är inte giltig!"
+
+msgid "enable"
+msgstr "Aktivera"
+
+msgid "enable_anonymous_fora"
+msgstr "Skriver i forum \"med en pseudonym"
+
+msgid "enable_anonymous_fora_desc"
+msgstr "Måste aktiveras för att funktionen \"skriv med pseudonym\" ska vara tillgänglig i forum."
+
+msgid "enable_calendar"
+msgstr "Aktivera kalender"
+
+msgid "enable_comments_export"
+msgstr "Kommentarer om export"
+
+msgid "enable_course_group_notifications"
+msgstr "Daglig post om nyheter från grupper och kurser"
+
+msgid "enable_course_group_notifications_desc"
+msgstr "När den aktiveras kan deltagarna prenumerera på en nyhetssammanfattning."
+
+msgid "enable_custom_icons"
+msgstr "Aktivera anpassningsbara symboler"
+
+msgid "enable_custom_icons_info"
+msgstr "Med detta kan du definiera dina egna symboler (ikoner) för enskilda containerobjekt och innehållssidan. Du laddar upp motsvarande bildfiler i objektens egenskaper."
+
+msgid "enable_dnd_upload"
+msgstr "Aktivera drag-och-släpp-uppladdning"
+
+msgid "enable_dnd_upload_info"
+msgstr "Om den är aktiverad kan filer laddas upp med dra-och-släpp."
+
+msgid "enable_download_folder"
+msgstr " Aktivera åtgärden \"Hämta\" för mapp"
+
+msgid "enable_download_folder_info"
+msgstr "Aktiverar alternativet \"Ladda ner\" i rullgardinsmenyn för åtgärder i mappar."
+
+msgid "enable_export_scorm_desc"
+msgstr "Visning av personuppgifter i loggdata (SCORM)"
+
+msgid "enable_fora_statistics"
+msgstr "Aktivera forumstatistik"
+
+msgid "enable_fora_statistics_desc"
+msgstr "Endast när detta är aktiverat kan du få tillgång till forumstatistiken."
+
+msgid "enable_hide_user_toggle"
+msgstr "Medlem får inte avaktivera anmälan"
+
+msgid "enable_multi_download"
+msgstr "Activate \"Ladda ner flera objekt"
+
+msgid "enable_multi_download_info"
+msgstr "Om det är aktiverat kan flera mappar eller filer väljas samtidigt för att ladda ner dem som ett zip-arkiv."
+
+msgid "enable_password_assistance"
+msgstr "Aktivera stöd för lösenord"
+
+msgid "enable_preview"
+msgstr "Aktivera förhandsgranskning"
+
+msgid "enable_preview_info"
+msgstr "Om aktiverat visas miniatyrbilder med de filer som stöds."
+
+msgid "enable_repository_dnd_upload"
+msgstr "Tillåt i tidningen"
+
+msgid "enable_repository_dnd_upload_info"
+msgstr "Gör det möjligt att dra filer från datorn direkt till ett tidningsobjekt för uppladdning."
+
+msgid "enable_sahs_protocol_data"
+msgstr " Aktivera loggdata"
+
+msgid "enable_sahs_protocol_data_desc"
+msgstr "Visning av loggdata (SCORM)"
+
+msgid "enable_search_engine"
+msgstr "Dela offentliga områden med sökmotorer (t.ex. Google).<br />Observera att Apache-modulen \"rewrite\" krävs för denna inställning och att .htaccess-konfigurationer måste användas."
+
+msgid "enable_trash"
+msgstr "Använd papperskorgen"
+
+msgid "enable_trash_info"
+msgstr "Raderade objekt flyttas till papperskorgen och kan återställas senare. Om papperskorgen är avaktiverad tas objekten direkt och oåterkalleligt bort från systemet när de raderas!"
+
+msgid "enable_webdav"
+msgstr "Aktivera åtkomst till WebDAV"
+
+msgid "enable_webdav_info"
+msgstr " Tillåter WebDAV-klienter att komma åt tidningen via en webbmapp. Användare kan öppna webbmappar genom att utföra åtgärden \"Öppna som webbmapp\" i tidningen eller genom att ange följande adress i en WebDAV-klient"
+
+msgid "enabled"
+msgstr "Kopplad på"
+
+#, fuzzy
+msgid "enlarge"
+msgstr "Enlarge"
+
+msgid "enter_in_mb_desc"
+msgstr " Ange en storlek i MB."
+
+msgid "enter_new_name"
+msgstr "Var god ange ett namn"
+
+msgid "entered_notification"
+msgstr "\"%s\" har gått med i sessionen \"%s\"."
+
+msgid "entry_status"
+msgstr "Status för inresa"
+
+msgid "err_1_param"
+msgstr "Endast 1 parameter!"
+
+msgid "err_2_param"
+msgstr "Endast 2 parametrar!"
+
+msgid "err_auth_apache_failed"
+msgstr "Autentiseringen har misslyckats."
+
+msgid "err_auth_ldap_no_ilias_user"
+msgstr "Logon misslyckades! LDAP-autentiseringen lyckades, men det finns ingen motsvarande ILIAS-användare. Kontakta din systemadministratör."
+
+msgid "err_auth_mode_inactive"
+msgstr "Tyvärr är registrering inte möjlig för tillfället."
+
+msgid "err_auth_soap_no_ilias_user"
+msgstr "Logon misslyckades! SOAP-autentiseringen lyckades, men det finns ingen motsvarande ILIAS-användare. Kontakta din systemadministratör."
+
+msgid "err_check_input"
+msgstr "Inställningarna kunde inte sparas. Vänligen kontrollera dina poster."
+
+msgid "err_count_param"
+msgstr "Anledning"
+
+#, fuzzy
+msgid "err_disabled"
+msgstr "Account creation via Shibboleth has been disabled. Please contact the system administrator for further information."
+
+#, fuzzy
+msgid "err_double_entries"
+msgstr "Reason: Duplicate Entries"
+
+msgid "err_in_line"
+msgstr "Fel i raden"
+
+msgid "err_inactive"
+msgstr "Detta ILIAS-konto är inte aktivt eller har inte aktiverats ännu. Kontakta teknisk support (se länk nedan) för ytterligare hjälp."
+
+msgid "err_inactive_login_attempts"
+msgstr "Ditt ILIAS-konto har avaktiverats på grund av felaktiga inloggningsförsök. Klicka på \"Kontakta teknisk support\" längst ned på denna sida för att informera administratörerna om att återaktivera ditt ILIAS-konto."
+
+msgid "err_invalid_port"
+msgstr " Ogiltigt portnummer"
+
+msgid "err_no_cookies"
+msgstr "Vänligen aktivera sessionscookies i din webbläsare!"
+
+msgid "err_no_langfile_found"
+msgstr "Inga språkfiler hittades!"
+
+msgid "err_no_param"
+msgstr "Inga parametrar!"
+
+msgid "err_over_3_param"
+msgstr "Fler än 3 parametrar!"
+
+msgid "err_role_not_assignable"
+msgstr "Inga användare kan tilldelas rollen vid denna position."
+
+msgid "err_session_expired"
+msgstr "Din session har löpt ut!"
+
+msgid "err_valid_login_account_creation_disabled"
+msgstr "Autentiseringen lyckades, men det är inte tillåtet att skapa nya inloggningskonton. Kontakta din systemadministratör."
+
+msgid "err_wrong_header"
+msgstr "Anledning"
+
+msgid "err_wrong_login"
+msgstr "Inloggningsnamnet eller lösenordet är ogiltigt."
+
+msgid "err_wrong_password"
+msgstr "Fel lösenord"
+
+msgid "error"
+msgstr "Fel"
+
+msgid "error_empty_file_or_folder"
+msgstr "Filen är antingen 0 byte stor eller så är den en mapp."
+
+msgid "error_extraction_failed"
+msgstr "Uppackningen av arkivet och dess mappstruktur misslyckades. Du har förmodligen inte rätt att skapa mappar eller kategorier i det här objektet."
+
+msgid "error_parser"
+msgstr "Fel vid start av parsern."
+
+msgid "error_upload_was_zero_bytes"
+msgstr "Upload failed because this is either a folder, the file is 0 bytes, the max. upload size is exceeded or the file has been deleted or renamed in the meantime."
+
+msgid "etal_talks"
+msgstr "Talks"
+
+msgid "event_ass_materials_prop"
+msgstr "Material för sessionen"
+
+msgid "event_assign_files"
+msgstr " Tilldela filer"
+
+msgid "exc"
+msgstr "Träning"
+
+msgid "exc_add"
+msgstr "Skapa träning"
+
+msgid "exc_added"
+msgstr "En ny övning har skapats"
+
+msgid "exc_date_not_valid"
+msgstr "Datumet är inte giltigt"
+
+msgid "exc_deassign_members"
+msgstr "Ta bort medlem(mar)"
+
+msgid "exc_download_files"
+msgstr "Ladda ner filer"
+
+msgid "exc_edit"
+msgstr "En ny övning har skapats"
+
+msgid "exc_edit_exercise"
+msgstr "Redigera övning"
+
+msgid "exc_edit_until"
+msgstr "Förfallodag"
+
+msgid "exc_exercise_sent"
+msgstr "Träning skickas"
+
+msgid "exc_files"
+msgstr "Filer"
+
+msgid "exc_files_returned"
+msgstr "Levererade filer"
+
+msgid "exc_instruction"
+msgstr "Arbetsinstruktion"
+
+msgid "exc_last_submission"
+msgstr "Datum för senaste inlämning"
+
+#, fuzzy
+msgid "exc_member_of_crs_grp"
+msgstr "Member in Course/Group"
+
+msgid "exc_members_already_assigned"
+msgstr "De valda användarna är redan medlemmar i denna övningsenhet."
+
+msgid "exc_members_assigned"
+msgstr "Användarna har tilldelats till övningen"
+
+msgid "exc_members_comments_saved"
+msgstr "Kommentarerna till de utvalda användarnas övningar har sparats."
+
+msgid "exc_new"
+msgstr "Skapa ny övning"
+
+msgid "exc_next_deadline"
+msgstr "Nästa tidsfrist"
+
+msgid "exc_obj"
+msgstr "Träning"
+
+msgid "exc_save_changes"
+msgstr "Spara förändringar"
+
+msgid "exc_schedule"
+msgstr "Tidsplan"
+
+msgid "exc_select_one_file"
+msgstr "Välj exakt en fil."
+
+msgid "exc_sent"
+msgstr "Övningen skickades till de utvalda medlemmarna"
+
+msgid "exc_sent_at"
+msgstr "Sänt på <br />%s"
+
+msgid "exc_status"
+msgstr "Status"
+
+msgid "exc_status_saved"
+msgstr "Ändringarna har sparats"
+
+msgid "exc_submission"
+msgstr "Inlämning"
+
+msgid "exc_time_over_short"
+msgstr "Tiden är ute."
+
+msgid "exc_time_to_send"
+msgstr "Resterande bearbetningstid"
+
+msgid "exc_upload_error"
+msgstr "Fel vid uppladdning av filen"
+
+msgid "excs"
+msgstr "Övningar"
+
+msgid "execute"
+msgstr "Utför"
+
+msgid "exercise_time_over"
+msgstr "Du har nått slutet av behandlingstiden för denna övning. Du kan inte längre skicka in en lösning!"
+
+msgid "expand"
+msgstr "Foldout"
+
+msgid "expand_all"
+msgstr "Expandera alla"
+
+msgid "expand_content"
+msgstr "Expandera innehåll"
+
+msgid "expanded"
+msgstr "Öppnad"
+
+msgid "export"
+msgstr "Export"
+
+msgid "export_format"
+msgstr "Exportformat"
+
+msgid "export_html"
+msgstr "Exportera som HTML-fil"
+
+msgid "ext_cat_settings"
+msgstr "Redigera avancerade inställningar"
+
+msgid "ext_link"
+msgstr "Länk"
+
+msgid "extracting"
+msgstr "Unpack..."
+
+msgid "eyeclosed"
+msgstr "Closed eye - klicka för att dölja innehållet i inmatningsfältet"
+
+msgid "eyeopened"
+msgstr "Open eye - klicka för att se innehållet i inmatningen"
+
+msgid "failure_message"
+msgstr "Felmeddelande"
+
+msgid "fax"
+msgstr "Fax"
+
+msgid "feed"
+msgstr "Webfeed"
+
+msgid "feedback"
+msgstr "Återkoppling"
+
+msgid "field_name"
+msgstr "Fältets namn"
+
+msgid "field_type"
+msgstr "Fält typ"
+
+msgid "file"
+msgstr "Fil"
+
+msgid "file_add"
+msgstr "Ladda upp fil"
+
+msgid "file_add_and_metadata"
+msgstr "Ladda upp fil och redigera metadata"
+
+msgid "file_added"
+msgstr "Filen uppladdad"
+
+msgid "file_allowed_suffixes"
+msgstr "Tillåtna filtyper"
+
+msgid "file_confirm_delete_all_versions"
+msgstr "Du har valt alla filversioner. Därför raderas hela filobjektet. Vill du fortsätta?"
+
+msgid "file_confirm_delete_versions"
+msgstr "Är du säker på att följande filversioner ska tas bort?"
+
+msgid "file_created"
+msgstr "Filen har lagts till."
+
+msgid "file_edit"
+msgstr "Redigera filinställningar"
+
+msgid "file_info"
+msgstr "Filinformation"
+
+msgid "file_is_infected"
+msgstr "Filen är infekterad av ett virus."
+
+#, fuzzy
+msgid "file_new"
+msgstr "New File"
+
+msgid "file_no_valid_file_type"
+msgstr "Den här filtypen är inte tillåten."
+
+msgid "file_not_found"
+msgstr "Filen hittades inte"
+
+msgid "file_not_found_sec"
+msgstr "Den här filen hittades inte i ILIAS eller har låsts av säkerhetsskäl."
+
+msgid "file_not_valid"
+msgstr "Filen är ogiltig!"
+
+msgid "file_notice"
+msgstr "Maximalt tillåten uppladdningsstorlek"
+
+msgid "file_objects"
+msgstr "Fil-objekt"
+
+msgid "file_rollback"
+msgstr "Gör den aktuella versionen"
+
+msgid "file_rollback_done"
+msgstr "Filversion %s är nu den aktuella versionen."
+
+msgid "file_rollback_select_exact_one"
+msgstr "Endast en filversion kan väljas för att göra den till den aktuella versionen."
+
+msgid "file_some_invalid_file_types_removed"
+msgstr "Vissa filtyper är inte tillåtna och har tagits bort."
+
+msgid "file_suffix_repl"
+msgstr "Ersätta filnamnstilläggen för uppladdade filer"
+
+msgid "file_suffix_repl_info"
+msgstr " Ange här, kommaseparerade, alla filtyper med deras filändelse som ska ges filändelsen \".sec\" när de laddas upp till webbutrymmet. Detta förhindrar att de körs direkt. Detta sker ändå automatiskt för filer med följande filändelser"
+
+msgid "file_system_clean_temp_dir_cron"
+msgstr "Städa upp i tillfällig katalog"
+
+msgid "file_system_clean_temp_dir_cron_info"
+msgstr "Det här cronjobbet rensar upp i ILIAS temp-katalog och tar bort filer som är äldre än 10 dagar. Detta förhindrar en ansamling av oanvända filer och en motsvarande ökning av lagringsutrymmet som förbrukas av temp-katalogen."
+
+msgid "file_updated"
+msgstr "Filen har uppdaterats."
+
+msgid "file_upload_pending"
+msgstr "Uppladdad fil"
+
+msgid "file_valid"
+msgstr "Filen är giltig!"
+
+msgid "file_version"
+msgstr "Tillgänglig version"
+
+msgid "file_version_create"
+msgstr "Initial version"
+
+#, fuzzy
+msgid "file_version_intermediate_version"
+msgstr "Intermediate Version"
+
+msgid "file_version_new_version"
+msgstr "Ny version"
+
+#, fuzzy
+msgid "file_version_published_version"
+msgstr "Published Version"
+
+msgid "file_version_replace"
+msgstr "Alla versioner ersatta"
+
+msgid "file_version_rollback"
+msgstr "Återgå till version %s av %s"
+
+msgid "file_versions_deleted"
+msgstr "De valda filversionerna raderades framgångsrikt."
+
+msgid "filename"
+msgstr "Filenamn"
+
+msgid "filename_extension_missing"
+msgstr "Filtillägg saknas"
+
+msgid "filename_hidden_backup_file"
+msgstr "Gömd backup-fil"
+
+msgid "filename_hidden_unix_file"
+msgstr "Dold Unix-fil"
+
+msgid "filename_interoperability"
+msgstr "Interoperabilitet"
+
+msgid "filename_special_characters"
+msgstr "På grund av karaktären / detta objekt är inte synligt i webbmappar"
+
+msgid "filename_special_filename"
+msgstr "Objekt med namnen . och ... är inte synliga i webbmappar"
+
+msgid "filename_visibility"
+msgstr "Synlighet"
+
+msgid "filename_windows_empty_extension"
+msgstr "På grund av tecknet . i slutet av namnet är detta objekt inte synligt i Windows webbmappar."
+
+msgid "filename_windows_special_characters"
+msgstr "På grund av en av karaktärerna \\ /"
+
+msgid "filename_windows_webdav_issue"
+msgstr "På grund av #-tecknet är detta objekt inte synligt i Windows webbmappar."
+
+msgid "files"
+msgstr "Filer"
+
+msgid "filesize"
+msgstr "Filens storlek"
+
+msgid "filetype"
+msgstr "Filtyp"
+
+msgid "fill_out_all_required_fields"
+msgstr "Välkomna att fylla i alla obligatoriska fält"
+
+msgid "filter"
+msgstr "Filter"
+
+msgid "filter_users_with_access"
+msgstr "Endast användare med åtkomst"
+
+msgid "filter_users_with_disk_usage"
+msgstr "Endast användare som upptar minnesutrymme"
+
+msgid "filter_users_without_access"
+msgstr "Endast användare utan åtkomst"
+
+msgid "filter_users_without_disk_usage"
+msgstr "Endast användare som inte upptar minnesutrymme"
+
+msgid "first"
+msgstr "Till början"
+
+msgid "firstname"
+msgstr "Förnamn"
+
+msgid "flatview"
+msgstr "Trädvy av"
+
+msgid "fold"
+msgstr "Folder"
+
+msgid "fold_add"
+msgstr " Skapa mapp"
+
+msgid "fold_added"
+msgstr "Folder skapad"
+
+msgid "fold_copy_threads_info"
+msgstr "Vänligen välj vilka material som ska kopieras, länkas eller utelämnas under kopieringsprocessen."
+
+msgid "fold_edit"
+msgstr "Redigera mapp"
+
+msgid "fold_new"
+msgstr " Skapa ny mapp"
+
+msgid "fold_wizard_page"
+msgstr "Kopiera mapp (steg 2/2)"
+
+msgid "folder"
+msgstr "Folder"
+
+msgid "folders"
+msgstr "Folder"
+
+msgid "follow_link_to_read_mails"
+msgstr "För att läsa dessa e-postmeddelanden, klicka på följande länk"
+
+msgid "forgot_password"
+msgstr "Lösenord glömt?"
+
+msgid "forgot_username"
+msgstr "Har du glömt ditt inloggningsnamn?"
+
+msgid "form_input_not_valid"
+msgstr "Vissa uppgifter är ofullständiga eller ogiltiga. Vänligen korrigera din post."
+
+msgid "forum"
+msgstr "Forum"
+
+msgid "forum_direct_notification"
+msgstr "Notifiering"
+
+msgid "forum_notify_me"
+msgstr "Jag vill bli meddelad när personer svarar direkt på detta inlägg. Notifiering av alla nya inlägg i detta ämne eller forum kan aktiveras i menyn Åtgärder längst upp till höger."
+
+msgid "forum_post_replied"
+msgstr "Ditt foruminlägg har besvarats."
+
+msgid "forums"
+msgstr "Forum"
+
+msgid "forums_anonymized"
+msgstr "Forum anonymiserat"
+
+msgid "forums_anonymous"
+msgstr "Anonym"
+
+msgid "forums_articles"
+msgstr "Bidrag"
+
+#, fuzzy
+msgid "forums_closed"
+msgstr "closed"
+
+msgid "forums_disable_forum_notification"
+msgstr "Stoppmeddelande för hela forumet"
+
+msgid "forums_enable_forum_notification"
+msgstr "Startmeddelande för hela forumet"
+
+msgid "forums_forum_notification_enabled"
+msgstr "Du kommer att meddelas om nya inlägg i detta forum."
+
+msgid "forums_last_post"
+msgstr "Sista inlägget"
+
+#, fuzzy
+msgid "forums_last_posting_asc"
+msgstr "Last Posting Ascending"
+
+#, fuzzy
+msgid "forums_last_posting_dsc"
+msgstr "Last Posting Descending"
+
+msgid "forums_notification_settings"
+msgstr "Notifiering om nya och ändrade foruminlägg"
+
+#, fuzzy
+msgid "forums_rating_asc"
+msgstr "Rating Ascending"
+
+#, fuzzy
+msgid "forums_rating_dsc"
+msgstr "Rating Descending"
+
+#, fuzzy
+msgid "forums_thread_sorting_asc"
+msgstr "Thread Title A→Z"
+
+#, fuzzy
+msgid "forums_thread_sorting_dsc"
+msgstr "Thread Title Z→A"
+
+msgid "forums_threads"
+msgstr "Ämnen"
+
+msgid "forums_use_alias"
+msgstr "Du kan ange en pseudonym här som du vill använda för det här inlägget. Om du lämnar fältet tomt kommer ditt inlägg att markeras som skrivet av \"%s\"."
+
+msgid "forums_your_name"
+msgstr "Ditt namn"
+
+msgid "frm"
+msgstr "Forum"
+
+msgid "frm_add"
+msgstr "Skapa Forum"
+
+msgid "frm_added"
+msgstr "Forum skapat"
+
+msgid "frm_edit"
+msgstr "Edit forum"
+
+msgid "frm_import"
+msgstr "Importforum"
+
+msgid "frm_latest_postings"
+msgstr "Sista bidrag"
+
+#, fuzzy
+msgid "frm_latest_postings_block"
+msgstr "Latest Posts Block"
+
+msgid "frm_new"
+msgstr "Skapa nytt forum"
+
+#, fuzzy
+msgid "frm_no_threads"
+msgstr "There are no threads available at the moment."
+
+msgid "from"
+msgstr "Från"
+
+msgid "fullname"
+msgstr "Fullständigt namn"
+
+msgid "functions"
+msgstr "Funktioner"
+
+msgid "further_informations"
+msgstr "Ytterligare information"
+
+msgid "gdf_add"
+msgstr "Lägg till definition"
+
+msgid "gdf_new"
+msgstr "Ny definition"
+
+msgid "gender"
+msgstr "Adress"
+
+msgid "gender_f"
+msgstr "Kvinna"
+
+msgid "gender_m"
+msgstr "Mr"
+
+msgid "gender_n"
+msgstr "Ingen hälsning"
+
+msgid "general"
+msgstr "Allmänt"
+
+msgid "general_settings"
+msgstr "Allmänna inställningar"
+
+msgid "generate"
+msgstr "generera"
+
+msgid "ghostscript_not_configured"
+msgstr "Ghostscript är inte konfigurerat. Vänligen öppna <a href=\"setup/setup.php?cmd=mastersettings\" target=\"_blank\">installationen</a> för att konfigurera Ghostscript."
+
+msgid "glo"
+msgstr "Ordlista"
+
+msgid "glo_add"
+msgstr "Skapa ordlista"
+
+msgid "glo_added"
+msgstr "Glossar skapade"
+
+msgid "glo_import"
+msgstr "Importera ordlista"
+
+msgid "glo_mode"
+msgstr "Mode"
+
+msgid "glo_mode_desc"
+msgstr "En kollektiv ordlista fungerar som en vanlig ordlista. Dessutom innehåller den alla definitioner av termer från alla ordlistor som finns på samma nivå i tidningen (endast denna nivå) eller alla definitioner av termer från ordlistor som också finns på eft"
+
+msgid "glo_mode_normal"
+msgstr "Normal ordlista"
+
+msgid "glo_new"
+msgstr "Skapa ny ordlista"
+
+msgid "global"
+msgstr "Global"
+
+msgid "global_default"
+msgstr "Standardformatmall (global)"
+
+msgid "global_fixed"
+msgstr "Enhetsformatmall (global)"
+
+msgid "global_role_assignment"
+msgstr "Global rolltilldelning"
+
+msgid "global_settings"
+msgstr "Globala inställningar"
+
+msgid "global_user"
+msgstr "Globala användare"
+
+msgid "glossaries"
+msgstr "Glossarier"
+
+msgid "glossary"
+msgstr "Ordlista"
+
+msgid "go"
+msgstr "Los"
+
+msgid "grade"
+msgstr "Rating"
+
+msgid "group"
+msgstr "Grupp"
+
+msgid "group_members"
+msgstr "Medlemmar"
+
+msgid "group_name"
+msgstr "Gruppens namn"
+
+msgid "group_new_registrations"
+msgstr "Tillämpningar av acceptans"
+
+msgid "group_password_registration_msg"
+msgstr "Om en gruppadministratör har gett dig grupplösenordet kan du gå med i gruppen."
+
+msgid "group_registration"
+msgstr "Gå med i en grupp"
+
+msgid "group_registration_mode"
+msgstr "Förfarande för anslutning"
+
+msgid "group_registration_time"
+msgstr "Tidsperiod"
+
+msgid "group_req_direct"
+msgstr "Direkt anslutning"
+
+msgid "group_req_registration_msg"
+msgstr "Du måste skicka in en ansökan för att gå med i gruppen. Beskriv varför du vill gå med i gruppen i fältet Meddelande. När din ansökan har godkänts eller avslagits får du ett meddelande."
+
+msgid "group_status"
+msgstr "Gruppen är"
+
+msgid "groupings"
+msgstr "Begränsning av medlemskap"
+
+msgid "groupings_assigned_obj_crs"
+msgstr " Tilldelade kurser"
+
+msgid "groupings_assigned_obj_grp"
+msgstr "Associerade grupper"
+
+#, fuzzy
+msgid "groupings_source"
+msgstr "Source"
+
+msgid "groups"
+msgstr "Grupper"
+
+msgid "grp"
+msgstr "Grupp"
+
+msgid "grp_add"
+msgstr "Skapa grupp"
+
+msgid "grp_added"
+msgstr "Grupp skapad"
+
+msgid "grp_btn_unsubscribe"
+msgstr "Avsluta gruppmedlemskap"
+
+msgid "grp_cancel_waiting_list"
+msgstr "Är du säker på att du vill avsluta prenumerationen på %s-gruppens väntelista?"
+
+msgid "grp_copy_threads_info"
+msgstr "Vänligen välj vilka material som ska kopieras, länkas eller utelämnas från kopieringsprocessen."
+
+msgid "grp_deleted_export_files"
+msgstr "Den valda filen har raderats."
+
+msgid "grp_dismiss_member"
+msgstr "Du vill avregistrera följande medlemmar från gruppen?"
+
+msgid "grp_dismiss_myself"
+msgstr "Är du säker på att du vill avsluta ditt medlemskap i den här gruppen?"
+
+msgid "grp_edit"
+msgstr "Inställningar för gruppen"
+
+msgid "grp_err_administrator_required"
+msgstr "Gruppmedlem har inte tagits bort, minst en administratör per grupp krävs."
+
+msgid "grp_header_edit_members"
+msgstr "Redigera medlemmar"
+
+msgid "grp_list_members"
+msgstr "Lista deltagare"
+
+msgid "grp_list_reg"
+msgstr "Accession"
+
+msgid "grp_list_reg_end"
+msgstr "Filing slut"
+
+msgid "grp_list_reg_limit_full"
+msgstr "Inga lediga platser tillgängliga"
+
+msgid "grp_list_reg_limit_places"
+msgstr "Fria platser"
+
+msgid "grp_list_reg_noreg"
+msgstr "Ingen registrering möjlig"
+
+msgid "grp_list_reg_period"
+msgstr "Anslutningsperiod"
+
+msgid "grp_list_reg_start"
+msgstr "Registrering börjar"
+
+msgid "grp_list_users"
+msgstr "Lista användare"
+
+msgid "grp_mem_change_status"
+msgstr "Ändra status för medlem"
+
+msgid "grp_mem_send_mail"
+msgstr "Skicka ett mail till en medlem"
+
+msgid "grp_members_gallery"
+msgstr "Medlemmarnas galleri"
+
+msgid "grp_msg_applicants_assigned"
+msgstr "Deltagaren har accepterats i gruppen."
+
+msgid "grp_msg_member_assigned"
+msgstr "Deltagaren har accepterats i gruppen."
+
+msgid "grp_msg_membership_annulled"
+msgstr "Membership has been cancelled"
+
+msgid "grp_new"
+msgstr "Skapa ny grupp"
+
+msgid "grp_registration"
+msgstr "Gå med i gruppen"
+
+msgid "grp_registration_completed"
+msgstr "Du har gått med i gruppen"
+
+msgid "grp_removed_from_waiting_list"
+msgstr "Du har tagits bort från väntelistan för gruppen \"%s\"."
+
+msgid "grp_select_one_file"
+msgstr "Välj en fil."
+
+msgid "grp_wizard_page"
+msgstr "Kopiera grupp (steg 2/2)"
+
+msgid "grpr"
+msgstr "Grupplänk"
+
+msgid "grpr_add"
+msgstr "Skapa grupplänk"
+
+msgid "grpr_edit"
+msgstr "Redigera grupplänk"
+
+msgid "grpr_edit_info"
+msgstr "Vänligen välj den grupp som du vill skapa en länk för."
+
+msgid "grpr_new"
+msgstr "Skapa ny grupplänk"
+
+msgid "grpr_settings"
+msgstr "Inställningar för grupplänken"
+
+#, fuzzy
+msgid "header_action"
+msgstr "Insert Heading - Click to insert a heading."
+
+msgid "header_searchable"
+msgstr "Sökbar"
+
+msgid "header_title"
+msgstr "Installationsrubrik"
+
+msgid "header_visible_registration"
+msgstr "Synlig i registreringsformuläret"
+
+msgid "header_zip"
+msgstr "Ladda upp flera filer som ett ZIP-arkiv"
+
+msgid "height"
+msgstr "Höjd"
+
+msgid "help"
+msgstr "Hjälp"
+
+msgid "hide"
+msgstr "Dölj"
+
+msgid "hide_all_details"
+msgstr "Dölj alla detaljer"
+
+msgid "hide_details"
+msgstr "Dölj detaljer"
+
+msgid "hide_filter"
+msgstr " Dölj filter"
+
+msgid "hide_own_online_status"
+msgstr "Visa inte din egen online-status"
+
+msgid "hide_visible_sections"
+msgstr " Dölj ytterligare information \""
+
+msgid "hint"
+msgstr "Note"
+
+msgid "history"
+msgstr "Framsteg"
+
+msgid "hobby"
+msgstr "Intressen/Hobbies"
+
+msgid "home"
+msgstr "Till det offentliga området"
+
+msgid "host"
+msgstr "Host"
+
+msgid "hour"
+msgstr "timme"
+
+msgid "hours"
+msgstr "Timmar"
+
+msgid "htlm"
+msgstr "Lärmodul HTML"
+
+msgid "htlm_add"
+msgstr "Skapa HTML utbildningsmodul"
+
+msgid "htlm_new"
+msgstr "Skapa en ny HTML-lärmodul"
+
+msgid "http"
+msgstr "HTTP"
+
+msgid "http_not_possible"
+msgstr "Den här servern stöder inte HTTP-förfrågningar."
+
+msgid "http_path"
+msgstr "HTTP sökväg"
+
+msgid "https_not_possible"
+msgstr "Den här servern stöder inte HTTPS-anslutningar."
+
+msgid "i2passwd"
+msgstr "ILIAS_2-Lösenord"
+
+msgid "iass_import"
+msgstr "Viktigt med individuell bedömning"
+
+msgid "iass_new"
+msgstr "Skapa en ny individuell rating"
+
+msgid "icon"
+msgstr "Symbol"
+
+msgid "icon_settings"
+msgstr "Icon"
+
+msgid "id"
+msgstr "ID"
+
+msgid "identifier"
+msgstr "Identifierare"
+
+msgid "if_no_title_then_filename"
+msgstr "Om du inte anger en titel visas filnamnet istället."
+
+msgid "ignore_on_conflict"
+msgstr "Ignorera i konflikt"
+
+msgid "ignore_required_fields"
+msgstr "Ignorera obligatoriska användarfält"
+
+msgid "ignore_required_fields_info"
+msgstr "Om aktiverat kommer obligatoriska uppgifter inte längre att kontrolleras när du skickar in det här formuläret (om möjligt). Effekten av detta är att användaren måste slutföra sin profil efter nästa inloggning."
+
+msgid "il_astpl_loc_initial"
+msgstr "Ingångstest"
+
+msgid "il_astpl_loc_qualified"
+msgstr "Kvalificerande test"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "il_blog_contributor"
+msgstr "Blog Authorship"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "il_blog_editor"
+msgstr "Blog Editorial"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "il_chat_moderator"
+msgstr "Chatmoderation"
+
+msgid "il_crs_admin"
+msgstr "Kursadministratör"
+
+msgid "il_crs_member"
+msgstr "Kursmedlem"
+
+msgid "il_crs_non_member"
+msgstr "Ingen kursmedlem"
+
+msgid "il_crs_tutor"
+msgstr "Kurshandledare"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "il_frm_moderator"
+msgstr "Forum Moderation"
+
+msgid "il_grp_admin"
+msgstr "Gruppadministratör"
+
+msgid "il_grp_member"
+msgstr "Gruppmedlem"
+
+msgid "il_grp_status_closed"
+msgstr "Sluten grupp"
+
+msgid "il_grp_status_open"
+msgstr "Öppen grupp"
+
+#, fuzzy
+msgid "il_iass_member"
+msgstr "Participant"
+
+msgid "il_lso_admin"
+msgstr "Administratör för inlärningssekvenser"
+
+msgid "il_lso_member"
+msgstr "Lärande Sekvens Medlem"
+
+msgid "il_lti_instructor"
+msgstr "LTI Instruktör"
+
+msgid "il_lti_learner"
+msgstr "LTI Lärare"
+
+#, fuzzy
+msgid "il_lti_user"
+msgstr "LTI User"
+
+msgid "il_orgu_employee"
+msgstr "Anställda"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "il_orgu_superior"
+msgstr "Supervisor Manager"
+
+msgid "ilias_version"
+msgstr "ILIAS version"
+
+msgid "image"
+msgstr "Image"
+
+msgid "import"
+msgstr "Import"
+
+msgid "import_cat_localrol"
+msgstr "Skapa en ny lokal roll för varje ny kategori"
+
+msgid "import_cat_table"
+msgstr "Var god notera att följande tabell endast visas om kryssrutan är aktiverad."
+
+msgid "import_categories"
+msgstr "Importkategorier"
+
+msgid "import_failure_log"
+msgstr "Import av fellogg"
+
+msgid "import_file"
+msgstr "Importera fil"
+
+msgid "import_file_not_valid_here"
+msgstr "Importfilen är inte giltig."
+
+msgid "import_finished"
+msgstr "Antal importerade e-postmeddelanden"
+
+msgid "import_lm"
+msgstr "Import ILIAS utbildningsmodul"
+
+msgid "import_qpl"
+msgstr "Importera frågepool för tester"
+
+msgid "import_questions_into_qpl"
+msgstr "Importera frågor till frågepoolen"
+
+msgid "import_sahs"
+msgstr "Importera SCORM utbildningsmodul"
+
+#, fuzzy
+msgid "import_sahs_info"
+msgstr "To correct typos or images, use the option to replace individual files via the file directory. Upload a SCORM export from your authoring tool here and not an ILIAS export file. Make sure that your authoring tool has retained the IDs in the manifest file. Attention: Even popular authoring tools cannot do this. SCORM learning modules of certain authoring tools discard learner data obtained if you change the number of answer options of questions or insert new questions. Check in a test installation whether learning statuses that have already been achieved are possible when learning modules that have already been started are called up again."
+
+#, fuzzy
+msgid "import_sahs_new"
+msgstr "Import New Version of SCORM Package"
+
+msgid "import_svy"
+msgstr "Importundersökning"
+
+msgid "import_tst"
+msgstr "Import test"
+
+msgid "import_users"
+msgstr "Importera användare"
+
+msgid "import_warning_log"
+msgstr "Importera varningslogg"
+
+msgid "important"
+msgstr "Viktigt"
+
+msgid "imported"
+msgstr "importerad"
+
+msgid "imprint"
+msgstr "Imprint"
+
+msgid "in"
+msgstr "i"
+
+msgid "in_use"
+msgstr "Användarspråk"
+
+msgid "in_use_by"
+msgstr "I process av"
+
+msgid "inactive"
+msgstr "Inaktiv"
+
+msgid "inbox"
+msgstr "Inkorg"
+
+msgid "include_local"
+msgstr "include lokal"
+
+msgid "info"
+msgstr "Information"
+
+msgid "info_access_and_status_info"
+msgstr "Information om åtkomst och status"
+
+msgid "info_access_permissions"
+msgstr "Tillgångsrättigheter"
+
+msgid "info_activate_sure"
+msgstr "Är du säker på att du vill bekräfta följande användare som aktiva användare?"
+
+msgid "info_assign_sure"
+msgstr " Är du säker på att du vill inkludera följande användare?"
+
+msgid "info_assigned"
+msgstr "tilldelad"
+
+msgid "info_available_roles"
+msgstr "Tillgängliga roller"
+
+msgid "info_change_user_view"
+msgstr "Visa rättigheter för denna användare"
+
+msgid "info_deactivate_sure"
+msgstr "Är du säker på att du vill inaktivera följande användare?"
+
+msgid "info_delete_sure"
+msgstr "Är du säker på att följande objekt ska tas bort?"
+
+msgid "info_delete_warning_no_trash"
+msgstr "<b>#Attention</b>"
+
+msgid "info_deleted"
+msgstr "Objekt(en) borttagna"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "info_err_user_not_exist"
+msgstr "Ingen person med detta inloggningsnamn hittades."
+
+msgid "info_from_role"
+msgstr "Tilldelad genom roll medlemskap/ägande"
+
+msgid "info_is_member"
+msgstr "User är medlem"
+
+msgid "info_is_not_member"
+msgstr "Användaren är inte medlem"
+
+msgid "info_message"
+msgstr "Informationsmeddelande"
+
+msgid "info_not_assigned"
+msgstr "ej tilldelad"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "info_owner_of_object"
+msgstr "Objekt ägs av"
+
+msgid "info_permission_origin"
+msgstr "Absolut position"
+
+msgid "info_permission_source"
+msgstr "effektiv från"
+
+msgid "info_remark_interrupted"
+msgstr "Role avbröts vid denna position. De fastställda rättighetsspecifikationerna vid denna position gäller för denna roll."
+
+msgid "info_remove_sure"
+msgstr "Är du säker på att följande objekt ska tas bort?"
+
+msgid "info_short"
+msgstr "Info"
+
+msgid "info_status_info"
+msgstr "Vem har vilka rättigheter här?"
+
+msgid "info_view_of_user"
+msgstr "Användare"
+
+msgid "inform_user_mail"
+msgstr "Informera användarna om ändringar via e-post"
+
+msgid "inline_file_extensions"
+msgstr "Filer som kan visas i webbläsaren"
+
+msgid "inline_file_extensions_info"
+msgstr "Filer med dessa tillägg visas direkt i webbläsaren.<br/>Till exempel"
+
+msgid "insert"
+msgstr "Insert"
+
+msgid "insert_object_here"
+msgstr "Insätt objekt här"
+
+msgid "inst_id"
+msgstr "NIC ID"
+
+msgid "inst_info"
+msgstr "Installationsinformation"
+
+msgid "inst_name"
+msgstr "Installationens namn"
+
+msgid "install"
+msgstr "Installera"
+
+msgid "install_local"
+msgstr "Installera med anpassad språkfil"
+
+msgid "installation_status"
+msgstr "Status Installation"
+
+msgid "installed"
+msgstr "Installerad"
+
+msgid "installed_local"
+msgstr "Installerad med anpassad språkfil"
+
+msgid "instant_messengers"
+msgstr "Instant Messenger"
+
+msgid "institution"
+msgstr "Institution"
+
+msgid "internal_local_roles_only"
+msgstr "Lokala roller (endast automatiskt skapade)"
+
+msgid "invalid_visible_required_options_selected"
+msgstr "Alla fält som har alternativet \"Obligatorisk information\" måste också ha alternativet \"Synlig i registreringsformuläret\" inställt."
+
+msgid "invisible_block"
+msgstr "Osynligt block"
+
+msgid "invisible_block_mess"
+msgstr "Du har inte rätt att se detta block."
+
+msgid "ip_address"
+msgstr "IP-adress"
+
+msgid "is_already_your"
+msgstr "är redan din"
+
+#, fuzzy
+msgid "italic_action"
+msgstr "Insert Italic - Click to insert italic text."
+
+msgid "item"
+msgstr "Term"
+
+msgid "itgr_add"
+msgstr "Skapa objektblock"
+
+msgid "itgr_new"
+msgstr "Skapa nytt objektblock"
+
+msgid "java_server"
+msgstr "Java-server"
+
+msgid "java_server_host"
+msgstr "Host"
+
+#. Needs to be adapted to new content of German lang file.
+msgid "java_server_info"
+msgstr "Denna indexbaserade söktyp söker både i ILIAS-databasen och i filer. Den rekommenderas för större ILIAS-installationer. För att använda Lucene-sökningen i ILIAS måste den JAVA-baserade ilServer installeras och konfigureras (se fliken \"Lucene\")."
+
+msgid "java_server_port"
+msgstr "Port"
+
+msgid "java_server_readme"
+msgstr "Till installationshandboken"
+
+msgid "join"
+msgstr "Join"
+
+msgid "join_session"
+msgstr "Logga in"
+
+msgid "kb"
+msgstr "KByte"
+
+msgid "keywords"
+msgstr "nyckelord"
+
+msgid "label_search_options"
+msgstr "Sökningsområde"
+
+msgid "lang_dateformat"
+msgstr "d.m.Y"
+
+msgid "lang_path"
+msgstr "Sökväg till språkfiler"
+
+msgid "lang_refresh_confirm"
+msgstr "Bör alla språk verkligen uppdateras?"
+
+msgid "lang_refresh_confirm_info"
+msgstr "ILIAS har hittat ändrade språkvariabler. När du uppdaterar ett språk laddas alla data från dess standardspråkfil och eventuellt från en anpassad språkfil in i databasen. Dina ändringar skrivs inte över när standardspråksfilen laddas. En anpassad språkfil"
+
+msgid "lang_refresh_confirm_selected"
+msgstr "Vill du verkligen uppdatera de valda språken?"
+
+msgid "lang_sep_decimal"
+msgstr ","
+
+msgid "lang_sep_thousand"
+msgstr "."
+
+msgid "lang_size_bytes"
+msgstr "Bytes"
+
+msgid "lang_size_gb"
+msgstr "GB"
+
+msgid "lang_size_kb"
+msgstr "KB"
+
+msgid "lang_size_mb"
+msgstr "MB"
+
+msgid "lang_timeformat"
+msgstr "H"
+
+msgid "lang_timeformat_no_sec"
+msgstr "H"
+
+msgid "lang_uninstall_changes"
+msgstr "Ta bort lokala ändringar"
+
+msgid "lang_uninstall_changes_confirm"
+msgstr "Vill du verkligen radera alla lokala ändringar i de valda språken och återställa dem till standardinställningen i den aktuella ILIAS-versionen?"
+
+msgid "lang_uninstall_confirm"
+msgstr "Vill du verkligen avinstallera de valda språken? Detta innebär också att alla lokala ändringar i respektive språk oåterkalleligen går förlorade om de inte har sparats eller exporterats i förväg."
+
+msgid "langfile_found"
+msgstr "Språkfilen hittades"
+
+msgid "language"
+msgstr "Språk"
+
+msgid "language_not_installed"
+msgstr "är inte installerat. Vänligen installera språket först."
+
+msgid "languages"
+msgstr "Språk"
+
+msgid "languages_already_installed"
+msgstr "Valda språk är redan installerade"
+
+msgid "languages_already_uninstalled"
+msgstr "Valda språk är redan avinstallerade"
+
+msgid "languages_updated"
+msgstr "Alla installerade språk har uppdaterats"
+
+msgid "last_access"
+msgstr "Sista åtkomst"
+
+msgid "last_change"
+msgstr "Sista förändringen"
+
+msgid "last_edited_on"
+msgstr "Last edited on"
+
+msgid "last_login"
+msgstr "Sista inloggning"
+
+msgid "last_refresh"
+msgstr "Sista uppdateringen"
+
+msgid "last_reminder"
+msgstr "Sista minnet"
+
+msgid "last_update"
+msgstr "Uppdaterad"
+
+msgid "last_visited"
+msgstr "Sista besöket"
+
+msgid "lastname"
+msgstr "Efternamn"
+
+#, fuzzy
+msgid "latex_edit_info"
+msgstr "You can enter LaTeX code in the delimiters <code>[tex]</code> and <code>[/tex]</code>."
+
+msgid "laugh"
+msgstr "Laugh"
+
+msgid "launch"
+msgstr "Start"
+
+msgid "ldap"
+msgstr "LDAP"
+
+msgid "ldap_basedn"
+msgstr "LDAP BasDN"
+
+msgid "ldap_configure"
+msgstr "Konfigurera LDAP-autentisering"
+
+msgid "ldap_port"
+msgstr "LDAP Port"
+
+msgid "ldap_read"
+msgstr "Läsa åtkomst till LDAP-inställningar"
+
+msgid "ldap_server"
+msgstr "URL till server"
+
+msgid "ldap_tls"
+msgstr "Använd TLS"
+
+msgid "ldap_version"
+msgstr "Protokollversion"
+
+msgid "learning module"
+msgstr "inlärningsmodul"
+
+msgid "learning_progress"
+msgstr "Framsteg inom lärande"
+
+msgid "leave_waiting_list"
+msgstr "Avregistrera dig från väntelistan"
+
+msgid "legend"
+msgstr "Legend"
+
+msgid "level"
+msgstr "Scen"
+
+msgid "link"
+msgstr "Länk"
+
+#, fuzzy
+msgid "link_action"
+msgstr "Insert Link - Click to insert a link."
+
+msgid "link_all"
+msgstr "Länk alla"
+
+msgid "link_check"
+msgstr "Kontrollera externa länkar"
+
+msgid "link_check_message_b"
+msgstr "Notification active<br />Om detta alternativ är markerat kommer du att meddelas via e-post om ogiltiga externa länkar. Förutsättningen är dock att motsvarande cron-jobb har aktiverats i administrationen."
+
+msgid "link_check_message_disabled"
+msgstr "Sändningen av e-postmeddelanden är avaktiverad."
+
+msgid "link_check_message_enabled"
+msgstr "Sändning av e-postmeddelanden är aktiverat."
+
+msgid "link_check_subject"
+msgstr "[ILIAS] Kontrollera webblänk"
+
+msgid "link_checker_refreshed"
+msgstr "Vyn har uppdaterats."
+
+msgid "link_selected_items"
+msgstr "Länk"
+
+msgid "links_add_param"
+msgstr "Lägg till parameter"
+
+msgid "links_dyn_parameter"
+msgstr "Dynamiska parametrar"
+
+msgid "links_dynamic"
+msgstr "Dynamiska parametrar"
+
+# Modifierad som en del av jämställdhetsintegreringen för ILIAS 8
+msgid "links_dynamic_info"
+msgstr "Dynamiska parametrar kan läggas till i webblänken, t.ex. inloggningsnamn eller ID för ILIAS-kontot "
+
+msgid "links_existing_params"
+msgstr "Befintliga parametrar"
+
+msgid "links_name"
+msgstr "Parameternamn"
+
+msgid "links_no_name_given"
+msgstr "Var god ange ett parameternamn."
+
+msgid "links_no_value_given"
+msgstr "Välj ett parametervärde."
+
+msgid "links_parameter_deleted"
+msgstr "Parametern har tagits bort."
+
+msgid "links_select_one"
+msgstr "- Gör ett urval - tack"
+
+msgid "links_session_id"
+msgstr "ILIAS Session ID"
+
+msgid "links_user_id"
+msgstr "ID för ILIAS-kontot"
+
+msgid "links_user_name"
+msgstr "ILIAS inloggningsnamn"
+
+msgid "links_value"
+msgstr "Parametervärde"
+
+msgid "list"
+msgstr "Lista"
+
+msgid "list_of_questions"
+msgstr "Frågelista"
+
+#, fuzzy
+msgid "list_view"
+msgstr "List View"
+
+#, fuzzy
+msgid "listaction_learning_progress_settings"
+msgstr "Learning Progress Settings"
+
+msgid "lm"
+msgstr "inlärningsmodul ILIAS"
+
+msgid "lm_add"
+msgstr "Skapa utbildningsmodul för ILIAS"
+
+msgid "lm_added"
+msgstr "ILIAS utbildningsmodul skapad"
+
+msgid "lm_new"
+msgstr "Skapa en ny ILIAS-inlärningsmodul"
+
+msgid "lm_type_scorm"
+msgstr "SCORM 1.2"
+
+msgid "lm_type_scorm2004"
+msgstr "SCORM 2004 3:e/4:e upplagan"
+
+#, fuzzy
+msgid "lm_type_scorm2004_info"
+msgstr "These are newer versions of SCORM with significantly enhanced functionality. The learning module is launched in an iFrame."
+
+#, fuzzy
+msgid "lm_type_scorm_info"
+msgstr "This is the most widely used version of SCORM. The learning module is launched in a frame."
+
+msgid "lng"
+msgstr "Språk"
+
+msgid "lngf"
+msgstr "Språk"
+
+msgid "lo"
+msgstr "inlärningsmodul"
+
+msgid "loaded_preview_renderers"
+msgstr "Tillgängliga förhandsgranskare"
+
+msgid "local"
+msgstr "Lokalt"
+
+msgid "local_language_file"
+msgstr "Anpassad språkfil"
+
+msgid "local_language_files"
+msgstr "Anpassade språkfiler"
+
+msgid "local_languages_already_installed"
+msgstr "Väljda anpassade språkfiler är redan installerade"
+
+msgid "local_role_assignment"
+msgstr "Lokal rolltilldelning"
+
+msgid "location"
+msgstr "Egen plats"
+
+msgid "locator"
+msgstr "Position"
+
+msgid "log_in"
+msgstr "Logga in"
+
+msgid "log_out"
+msgstr "Logga ut"
+
+msgid "logic_or"
+msgstr "eller"
+
+msgid "login"
+msgstr "Login namn"
+
+msgid "login_as"
+msgstr "Registrerad som"
+
+msgid "login_data"
+msgstr "Registreringsuppgifter"
+
+msgid "login_exists"
+msgstr "Detta inloggningsnamn är redan upptaget. Vänligen välj ett annat inloggningsnamn."
+
+msgid "login_invalid"
+msgstr "Ditt inloggningsnamn måste vara minst tre tecken långt och får endast innehålla följande tecken"
+
+msgid "login_to_ilias"
+msgstr "Logga in på ILIAS"
+
+#, fuzzy
+msgid "login_to_ilias_via_login_form"
+msgstr "Login to ILIAS"
+
+msgid "login_to_ilias_via_saml"
+msgstr "Logga in på ILIAS via SAML-autentisering"
+
+msgid "login_to_ilias_via_shibboleth"
+msgstr "Logga in på ILIAS via"
+
+msgid "loginname_already_exists"
+msgstr "Detta inloggningsnamn är redan upptaget. Vänligen välj ett annat inloggningsnamn."
+
+msgid "loginname_settings"
+msgstr "Inställningar Inloggningsnamn"
+
+msgid "logout"
+msgstr "Logga ut"
+
+msgid "logout_text"
+msgstr "Du är nu utloggad. Din session har stängts."
+
+msgid "logs"
+msgstr "Protokolluppgifter"
+
+msgid "love"
+msgstr "Kärlek"
+
+msgid "lres"
+msgstr "läromedel"
+
+msgid "lso_add"
+msgstr "Skapa en inlärningssekvens"
+
+msgid "lso_admin_form_byline"
+msgstr "Generella inställningar för inlärningssekvenser"
+
+msgid "lso_admin_form_title"
+msgstr "Inställningar"
+
+msgid "lso_admin_interval_byline"
+msgstr "Var x:e sekund efterfrågas inlärningsförloppet för ej helt integrerade objekt. Observera! Ju lägre värde, desto oftare utförs en fråga. Detta kan ha en mycket negativ effekt på systembelastningen; därför bör värdet väljas så högt som möjligt."
+
+msgid "lso_admin_interval_label"
+msgstr "Query intervall inlärningsförlopp (sekunder)"
+
+msgid "lso_copy_threads_info"
+msgstr "Välj vilka material i inlärningssekvensen som ska kopieras, länkas eller utelämnas under kopieringsprocessen."
+
+msgid "lso_edit"
+msgstr "Redigera inlärningssekvens"
+
+msgid "lso_import"
+msgstr "Import av inlärningssekvens"
+
+msgid "lso_new"
+msgstr "Skapa en ny inlärningssekvens"
+
+msgid "lso_wizard_page"
+msgstr "Kopiera inlärningssekvensen (steg 2/2)"
+
+#, fuzzy
+msgid "lti"
+msgstr "LTI konsument"
+
+#, fuzzy
+msgid "lti_add"
+msgstr "Add LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_new"
+msgstr "New LTI Tool (Consumer)"
+
+msgid "lti_outcome_info"
+msgstr "Sänder status för inlärningsframsteg för LTI-användare till LTI Tool Consumer / LTI Platform."
+
+msgid "mail"
+msgstr "E-post"
+
+msgid "mail_addressbook"
+msgstr "Kontakter"
+
+msgid "mail_at_the_ilias_installation"
+msgstr "På ILIAS-installationen %2$s har du fått %1$s nya mail(s)"
+
+msgid "mail_attachment"
+msgstr " e-postbilaga"
+
+msgid "mail_b_inbox"
+msgstr "Inkorg"
+
+msgid "mail_c_trash"
+msgstr "Avfallskorg"
+
+#, fuzzy
+msgid "mail_cron_scheduled_mails"
+msgstr "Send scheduled mails."
+
+#, fuzzy
+msgid "mail_cron_scheduled_mails_desc"
+msgstr "Sends scheduled user mails according to their defined delivery times"
+
+msgid "mail_d_drafts"
+msgstr "Designs"
+
+msgid "mail_delete_error"
+msgstr "Fel vid radering"
+
+#, fuzzy
+msgid "mail_e_outbox"
+msgstr "Outbox"
+
+msgid "mail_e_sent"
+msgstr "Sänt"
+
+msgid "mail_edit_permission"
+msgstr "Ändra rättighetsinställningarna för e-postadministrationen"
+
+#, fuzzy
+msgid "mail_f_sent"
+msgstr "Sent"
+
+msgid "mail_folders"
+msgstr "E-postmapp"
+
+msgid "mail_import_file"
+msgstr "Exportera fil"
+
+msgid "mail_mails_of"
+msgstr "E-post"
+
+msgid "mail_maxsize_attach"
+msgstr "Maximal storlek på e-postbilagan"
+
+msgid "mail_member"
+msgstr "Mail till medlem"
+
+msgid "mail_members"
+msgstr "Mail till medlemmar"
+
+#, fuzzy
+msgid "mail_message_scheduled"
+msgstr "Scheduled mail"
+
+#, fuzzy
+msgid "mail_message_scheduled_info"
+msgstr "Mails remain in the outbox until the scheduled sending time."
+
+msgid "mail_not_sent"
+msgstr "Din e-post kunde inte skickas"
+
+#, fuzzy
+msgid "mail_schedule_error_no_datetime"
+msgstr "To schedule a mail, a delivery date and time must be specified."
+
+#, fuzzy
+msgid "mail_schedule_error_past_datetime"
+msgstr "You cannot schedule emails in the past."
+
+#, fuzzy
+msgid "mail_schedule_scheduled_datetime"
+msgstr "Scheduled Send Time"
+
+#, fuzzy
+msgid "mail_scheduled"
+msgstr "Mail stored in outbox for later delivery."
+
+#, fuzzy
+msgid "mail_scheduled_edit_compose_info"
+msgstr "You are editing a scheduled mail. Sending is paused until you schedule the mail again."
+
+#, fuzzy
+msgid "mail_scheduled_edit_moved_info"
+msgstr "This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox."
+
+msgid "mail_search_no"
+msgstr "Inga matchande resultat hittades"
+
+msgid "mail_select_one"
+msgstr "Du måste välja minst en post"
+
+msgid "mail_send_error"
+msgstr "Fel vid sändning av e-post"
+
+msgid "mail_sent"
+msgstr "Din e-post har skickats"
+
+msgid "mail_settings"
+msgstr "Inställningar för e-post"
+
+msgid "mail_to_global_roles_not_allowed"
+msgstr "%1$s (att skicka till globala roller är inte tillåtet)"
+
+msgid "mail_z_local"
+msgstr "Own folders"
+
+msgid "mails"
+msgstr "Mails"
+
+msgid "mails_at_the_ilias_installation"
+msgstr "På ILIAS-installationen %2$s har du fått %1$s nya mail(s)"
+
+msgid "mails_pl"
+msgstr "Mail(s)"
+
+msgid "main_menu"
+msgstr "Huvudmeny"
+
+msgid "mainbar_aria_label"
+msgstr "Mainbar"
+
+msgid "mainbar_more_label"
+msgstr "Mer"
+
+msgid "manage_members"
+msgstr "Hantera medlemmar"
+
+msgid "matriculation"
+msgstr "Matrikulering antal"
+
+msgid "max_previews_per_object"
+msgstr "Antal miniatyrer per fil"
+
+msgid "max_previews_per_object_info"
+msgstr "Ställer in antalet miniatyrbilder som genereras per fil."
+
+msgid "mcst"
+msgstr "Mediacast"
+
+msgid "mcst_add"
+msgstr "Skapa Mediacast"
+
+msgid "mcst_new"
+msgstr "Skapa ny mediacast"
+
+msgid "mem_add_to_wl"
+msgstr "Skriva upp sig på väntelista"
+
+msgid "mem_alert_no_places"
+msgstr "Det finns inga lediga platser tillgängliga."
+
+msgid "mem_cron_min_members"
+msgstr "Kurs/Grupp"
+
+msgid "mem_cron_min_members_info"
+msgstr "Administratörerna kommer att meddelas om minimiantalet inte uppnås."
+
+msgid "mem_end"
+msgstr "Filing slut"
+
+msgid "mem_free_places"
+msgstr "Fria platser"
+
+msgid "mem_max_users"
+msgstr "Maximalt antal deltagare"
+
+msgid "mem_min_users"
+msgstr "Minsta antal deltagare"
+
+msgid "mem_participants"
+msgstr "Deltagare"
+
+msgid "mem_reg_expired"
+msgstr "Registreringstiden har löpt ut."
+
+msgid "mem_reg_not_started"
+msgstr "Registreringen har ännu inte påbörjats."
+
+msgid "mem_reg_period"
+msgstr "Ansökningsperiod"
+
+msgid "mem_reg_type"
+msgstr "Förfarande för inspelning"
+
+msgid "mem_start"
+msgstr "Registrering börjar"
+
+msgid "mem_unlimited"
+msgstr "Obegränsad"
+
+msgid "mem_view_activate"
+msgstr "Aktivera förhandsgranskning som medlem"
+
+msgid "mem_view_close"
+msgstr "Stäng förhandsgranskning som medlem"
+
+msgid "mem_view_long"
+msgstr "Förhandsgranska som medlem"
+
+msgid "mem_waiting_list"
+msgstr "Personer på väntelistan"
+
+msgid "mem_waiting_list_position"
+msgstr "Din position på väntelistan"
+
+msgid "member"
+msgstr "Medlem"
+
+msgid "member_status"
+msgstr "Status för medlemskap"
+
+msgid "members"
+msgstr "Medlemmar"
+
+msgid "membership_leave"
+msgstr "Logga ut"
+
+msgid "mep"
+msgstr "media pool"
+
+msgid "mep_add"
+msgstr "Skapa en mediapool"
+
+msgid "mep_edit"
+msgstr "Redigera egenskaper för mediapoolen"
+
+msgid "mep_new"
+msgstr "Skapa en ny mediapool"
+
+msgid "mep_not_insert_already_exist"
+msgstr "Följande objekt lades inte till eftersom de redan ingår i mediapoolen."
+
+msgid "message"
+msgstr "Meddelande"
+
+msgid "message_content"
+msgstr "Innehåll"
+
+msgid "message_no_delivered_files"
+msgstr "Du har ännu inte skickat in någon fil."
+
+msgid "meta_data"
+msgstr "Metadata"
+
+msgid "metabar_aria_label"
+msgstr "Metallstång"
+
+msgid "mgs_objects_linked_to_the_following_folders_p"
+msgstr "Objekten har kopplats till följande områden."
+
+msgid "mgs_objects_linked_to_the_following_folders_s"
+msgstr "Objektet har länkats till följande områden."
+
+msgid "migrate"
+msgstr "Migrera"
+
+msgid "minimize"
+msgstr "Reduce"
+
+msgid "minute"
+msgstr "Minut"
+
+msgid "minutes"
+msgstr "minuter"
+
+msgid "missing"
+msgstr "Inte tillgänglig"
+
+msgid "missing_perm"
+msgstr "Missande godkännande"
+
+msgid "missing_precondition"
+msgstr "Frånvarande förutsättning"
+
+msgid "mm_achievements"
+msgstr "lärande framgångar"
+
+msgid "mm_administration"
+msgstr "Administration"
+
+msgid "mm_badges"
+msgstr "Badges"
+
+msgid "mm_calendar"
+msgstr "Kalender"
+
+msgid "mm_certificates"
+msgstr "Certifikat"
+
+msgid "mm_comments"
+msgstr "Kommentarer"
+
+msgid "mm_communication"
+msgstr "Kommunikation"
+
+msgid "mm_contacts"
+msgstr "Kontakter"
+
+msgid "mm_dashboard"
+msgstr "Dashboard"
+
+msgid "mm_enrolments"
+msgstr "Anmälningar"
+
+msgid "mm_favorites"
+msgstr "Favoriter"
+
+msgid "mm_learning_history"
+msgstr "Framsteg inom lärande"
+
+msgid "mm_learning_progress"
+msgstr "Framsteg inom lärande"
+
+msgid "mm_mail"
+msgstr "E-post"
+
+msgid "mm_news"
+msgstr "Nyheter"
+
+msgid "mm_notes"
+msgstr "Noter"
+
+msgid "mm_organisation"
+msgstr "Organisation"
+
+msgid "mm_personal_and_shared_r"
+msgstr "Personliga och gemensamma resurser"
+
+msgid "mm_personal_workspace"
+msgstr "Personlig arbetsyta"
+
+msgid "mm_portfolio"
+msgstr "Portfölj"
+
+msgid "mm_private_chats"
+msgstr "Privata chattar"
+
+msgid "mm_repo_tree_view"
+msgstr "Trädvy"
+
+msgid "mm_repo_tree_view_act"
+msgstr "Trädutsikt på"
+
+msgid "mm_repo_tree_view_deact"
+msgstr "Trädvy av"
+
+msgid "mm_repository"
+msgstr "Magasin"
+
+msgid "mm_skills"
+msgstr "Kompetens"
+
+msgid "mm_staff_list"
+msgstr "Lista över anställda"
+
+msgid "mm_tags"
+msgstr "Etiketter"
+
+msgid "mm_task_derived_tasks"
+msgstr "Att göra"
+
+msgid "mme_lost_item_reason"
+msgstr "Entry erbjuds inte längre."
+
+msgid "mme_lost_item_title"
+msgstr "Ingen tilldelning"
+
+msgid "mob"
+msgstr "media objekt"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "moderators"
+msgstr "Moderation"
+
+msgid "module"
+msgstr "Modul"
+
+msgid "modules"
+msgstr "Moduler"
+
+msgid "month"
+msgstr "Månad"
+
+msgid "month_01_long"
+msgstr "Januari"
+
+msgid "month_01_short"
+msgstr "Jan"
+
+msgid "month_02_long"
+msgstr "Februari"
+
+msgid "month_02_short"
+msgstr "Feb"
+
+msgid "month_03_long"
+msgstr "Mars"
+
+msgid "month_03_short"
+msgstr "Mär"
+
+msgid "month_04_long"
+msgstr "April"
+
+msgid "month_04_short"
+msgstr "Apr"
+
+msgid "month_05_long"
+msgstr "Maj"
+
+msgid "month_05_short"
+msgstr "Maj"
+
+msgid "month_06_long"
+msgstr "Juni"
+
+msgid "month_06_short"
+msgstr "Jun"
+
+msgid "month_07_long"
+msgstr "Juli"
+
+msgid "month_07_short"
+msgstr "Jul"
+
+msgid "month_08_long"
+msgstr "Augusti"
+
+msgid "month_08_short"
+msgstr "Aug"
+
+msgid "month_09_long"
+msgstr "September"
+
+msgid "month_09_short"
+msgstr "Sep"
+
+msgid "month_10_long"
+msgstr "Oktober"
+
+msgid "month_10_short"
+msgstr "Okt"
+
+msgid "month_11_long"
+msgstr "November"
+
+msgid "month_11_short"
+msgstr "Nov"
+
+msgid "month_12_long"
+msgstr "December"
+
+msgid "month_12_short"
+msgstr "Dec"
+
+msgid "monthly"
+msgstr "Månadsvis"
+
+msgid "months"
+msgstr "Månader"
+
+msgid "mount_webfolder"
+msgstr "Öppna som webbmapp"
+
+msgid "move"
+msgstr "Shift"
+
+msgid "moveChapter"
+msgstr "Shift"
+
+msgid "movePage"
+msgstr "Shift"
+
+msgid "move_selected_items"
+msgstr "Shift"
+
+msgid "msg_bt_download_started"
+msgstr "Ett ZIP-arkiv med alla nedladdningsfiler skapas nu i bakgrunden. Du kan se status för dina bakgrundsprocesser längst upp till höger i meddelandecentret. Du kan också ladda ner ZIP-arkivet där."
+
+msgid "msg_cancel"
+msgstr "Aktion avbruten"
+
+msgid "msg_clear_clipboard"
+msgstr "Klipptavla borttagen"
+
+msgid "msg_cloned"
+msgstr "Objekt som kopierats."
+
+msgid "msg_copy_clipboard"
+msgstr "Välj nu önskad plats där de markerade objekten ska kopieras. Klicka slutligen på knappen Klistra in."
+
+msgid "msg_copy_clipboard_container"
+msgstr "Välj nu önskad plats där de kopierade objekten ska klistras in. Klicka slutligen på knappen Nästa."
+
+msgid "msg_copy_clipboard_source"
+msgstr "Välj nu den kurs eller grupp vars innehåll ska kopieras. Klicka sedan på knappen Nästa."
+
+msgid "msg_cut_clipboard"
+msgstr "Välj nu önskad plats där de markerade objekten ska infogas. Slutligen klickar du på knappen Infoga."
+
+msgid "msg_cut_copied"
+msgstr "Objekt som flyttats."
+
+msgid "msg_deleted_export_files"
+msgstr "Exportfil(er) raderad(e)"
+
+msgid "msg_deleted_role"
+msgstr "Roll borttagen"
+
+msgid "msg_deleted_roles_rolts"
+msgstr "Roller och rollmallar raderade"
+
+msgid "msg_failed"
+msgstr "Aktion misslyckad"
+
+msgid "msg_form_save_error"
+msgstr "Formuläruppgifterna kunde inte sparas. Kontrollera formulärfälten för detaljerade felmeddelanden."
+
+msgid "msg_info_blacklisted"
+msgstr "Vänligen ursäkta mig!  Av säkerhetsskäl är det inte tillåtet att ladda upp filen."
+
+msgid "msg_input_char_limit_max"
+msgstr "Du måste respektera det maximala antalet tecken. Ditt bidrag är för långt."
+
+msgid "msg_input_char_limit_min"
+msgstr "Du måste ange det minsta antal tecken som anges. Din post är för kort."
+
+msgid "msg_input_does_not_match_regexp"
+msgstr "Var god ange ett giltigt värde."
+
+msgid "msg_input_is_required"
+msgstr "Detta fält måste fyllas i. Vänligen ange något."
+
+#, fuzzy
+msgid "msg_invalid_value_css_rect_input"
+msgstr "The entered value is incorrect, do not use any plus or minus symbols in combination with the entered integer. Please check your input."
+
+msgid "msg_is_last_role"
+msgstr "Du har berövat följande användare deras sista uppdrag till en global roll"
+
+msgid "msg_last_role_for_registration"
+msgstr "Minst en roll måste vara tillgänglig i registreringsformuläret för nya användare. Denna roll är för närvarande den enda tillgängliga rollen."
+
+msgid "msg_link_clipboard_p"
+msgstr "Välj nu önskad plats till vilken de valda objekten ska länkas. Klicka slutligen på knappen Infoga."
+
+msgid "msg_link_clipboard_s"
+msgstr "Välj nu önskad plats till vilken det valda objektet ska länkas. Klicka slutligen på knappen Infoga."
+
+msgid "msg_linked"
+msgstr "Objekt kopplade till"
+
+msgid "msg_may_not_contain"
+msgstr "Detta objekt får inte innehålla objekt av följande typ"
+
+msgid "msg_min_one_role"
+msgstr "Varje användare måste tilldelas minst en global roll!"
+
+msgid "msg_multi_language_selected"
+msgstr "Det är inte möjligt att välja samma språk för flera översättningar"
+
+msgid "msg_no_default_language"
+msgstr "Ingen standardöversättning definierad! Du måste definiera ett språk som standardöversättning."
+
+msgid "msg_no_delete_yourself"
+msgstr "Du kan inte radera ditt eget inloggningskonto."
+
+msgid "msg_no_file"
+msgstr "Du har inte valt en fil eller den valda filen var för stor."
+
+msgid "msg_no_files_selected"
+msgstr "Inga filer valda"
+
+msgid "msg_no_language_selected"
+msgstr "Angivande av översättningsspråk saknas! Du måste ange ett språk för alla översättningar"
+
+msgid "msg_no_perm_assign_role_to_user"
+msgstr "Du har inte behörighet att ändra rolltilldelningen för användaren."
+
+msgid "msg_no_perm_assign_user_to_role"
+msgstr "Du har inte behörighet att ändra användartilldelningen"
+
+msgid "msg_no_perm_copy"
+msgstr "Du har inte tillräcklig behörighet att kopiera följande objekt"
+
+msgid "msg_no_perm_create_rolt"
+msgstr "Du har inte tillräcklig behörighet för att skapa nya rollmallar!"
+
+msgid "msg_no_perm_cut"
+msgstr "Du har inte tillräckligt tillstånd för att klippa ut följande objekt"
+
+msgid "msg_no_perm_delete"
+msgstr "Du har inte tillräcklig behörighet för att radera följande objekt"
+
+msgid "msg_no_perm_link"
+msgstr "Du har inte tillräcklig behörighet att skapa en länk för följande objekt"
+
+msgid "msg_no_perm_modify_rolt"
+msgstr "Du har inte tillräcklig behörighet för att ändra rollmallar!"
+
+msgid "msg_no_perm_modify_user"
+msgstr "Du har inte tillräcklig behörighet att ändra användardata!"
+
+msgid "msg_no_perm_paste"
+msgstr "Du har inte tillräckligt tillstånd för att infoga följande objekt"
+
+msgid "msg_no_perm_paste_object_in_folder"
+msgstr "Du har inte tillräcklig behörighet för att infoga objektet %s i mappen %s."
+
+msgid "msg_no_perm_perm"
+msgstr "Du har inte tillräcklig behörighet för att komma åt rättighetsinställningarna!"
+
+msgid "msg_no_perm_read"
+msgstr "Du har inte tillräcklig behörighet för att komma åt detta objekt."
+
+msgid "msg_no_perm_read_item"
+msgstr "Du har inte behörighet att komma åt objektet."
+
+msgid "msg_no_perm_read_lm"
+msgstr "Du har inte tillräcklig behörighet för att visa denna utbildningsmodul."
+
+#, fuzzy
+msgid "msg_no_perm_view_roles_of_user"
+msgstr "You have no permission to view the role assignment of this user"
+
+msgid "msg_no_perm_write"
+msgstr "Du har inte skrivtillstånd!"
+
+msgid "msg_no_search_result"
+msgstr "Inga poster hittades"
+
+msgid "msg_no_search_string"
+msgstr "Var god ange en sökterm"
+
+msgid "msg_no_title"
+msgstr "Välkomna att ange en titel"
+
+msgid "msg_not_available_for_anon"
+msgstr "Den sida du har valt är endast tillgänglig för inloggade användare"
+
+msgid "msg_not_in_itself"
+msgstr "Det är inte möjligt att infoga följande objekt i sig själv"
+
+msgid "msg_obj_already_deleted"
+msgstr "Objektet har redan tagits bort."
+
+msgid "msg_obj_created"
+msgstr "Objekt skapat"
+
+msgid "msg_obj_exists"
+msgstr "Det här objektet finns redan i den här mappen!"
+
+msgid "msg_obj_exists_in_folder"
+msgstr "Objektet %s finns redan i mappen %s."
+
+msgid "msg_obj_may_not_contain_objects_of_type"
+msgstr "Objektet %s får inte innehålla objekt av följande typ"
+
+msgid "msg_obj_modified"
+msgstr "Ändringar sparade"
+
+msgid "msg_obj_no_download"
+msgstr "kan inte laddas ner."
+
+msgid "msg_obj_no_link"
+msgstr "Av tekniska skäl är det tyvärr inte möjligt att länka containerobjekt som kategorier, kurser, grupper och mappar. Länka istället de enskilda objekten i behållarna till önskad plats eller använd objekttyperna kategorilänk, kurslänk eller grupplänk."
+
+msgid "msg_obj_perm_download"
+msgstr "Du har inte tillräcklig behörighet för att ladda ner följande objekt"
+
+msgid "msg_paste_object_not_in_itself"
+msgstr "Det är inte möjligt att infoga objektet \"%s\" i sig självt."
+
+msgid "msg_perm_adopted_from1"
+msgstr "Rättsinställningar hämtade från"
+
+msgid "msg_perm_adopted_from2"
+msgstr "(Inställningarna har sparats!)"
+
+msgid "msg_perm_adopted_from_itself"
+msgstr "Det är inte möjligt att ta över rättighetsinställningarna från den aktuella rollen eller rollmallen själv."
+
+msgid "msg_removed"
+msgstr "Objekt som avlägsnats från systemet"
+
+msgid "msg_role_reserved_prefix"
+msgstr "Prefixet 'il_' är reserverat för automatiskt genererade roller. Vänligen välj ett annat namn!"
+
+msgid "msg_roleassignment_changed"
+msgstr "Rolltilldelning ändrad"
+
+msgid "msg_sysrole_not_deletable"
+msgstr "Systemrollen kan inte tas bort"
+
+msgid "msg_sysrole_not_editable"
+msgstr "Rättighetsinställningarna för systemrollen kan inte ändras. Systemrollen ger de tilldelade användarna obegränsad åtkomst till alla objekt och funktioner."
+
+msgid "msg_to_many_files"
+msgstr "För många filer valda, tillåtet antal filer"
+
+msgid "msg_trash_empty"
+msgstr "Det finns inga borttagna objekt i den här mappen!"
+
+msgid "msg_undeleted"
+msgstr "Föremål återställda!"
+
+msgid "msg_unit_is_required"
+msgstr "Det är nödvändigt att ange en enhet här. Vänligen ange ett korrekt värde."
+
+msgid "msg_unknown_value"
+msgstr "Ett okänt värde skickades."
+
+msgid "msg_user_last_role1"
+msgstr "Följande användare är endast tilldelade denna roll"
+
+msgid "msg_user_last_role2"
+msgstr "Ta bort användarna eller tilldela dem en annan roll."
+
+msgid "msg_userassignment_changed"
+msgstr "Användartilldelning ändrad"
+
+msgid "msg_wrong_filetypes"
+msgstr "Tillåtna filtillägg"
+
+msgid "msg_wrong_format"
+msgstr "Det värde du angav uppfyller inte det angivna formatet."
+
+msgid "my_bms"
+msgstr "Mina bokmärken"
+
+msgid "my_certificates"
+msgstr "Mina certifikat"
+
+msgid "my_contacts"
+msgstr "Mina kontakter"
+
+msgid "my_courses"
+msgstr "Mina kurser"
+
+msgid "my_courses_groups"
+msgstr "Mina kurser och grupper"
+
+msgid "my_staff"
+msgstr "Anställda"
+
+msgid "name"
+msgstr "Namn"
+
+msgid "nc_contact_requests_headline"
+msgstr "Kontaktförfrågningar"
+
+msgid "nc_contact_requests_number_p"
+msgstr "Du har %s kontaktförfrågningar."
+
+msgid "nc_contact_requests_number_s"
+msgstr "Du har en kontaktförfrågan."
+
+msgid "nc_contact_requests_prop_time"
+msgstr "Tid"
+
+msgid "never"
+msgstr "Nie"
+
+msgid "new"
+msgstr "Ny"
+
+msgid "new_language"
+msgstr "Nytt språk"
+
+msgid "new_pass_equals_old_pass"
+msgstr "Det nya lösenordet är identiskt med det gamla lösenordet."
+
+msgid "newline"
+msgstr "Linjeavbrott"
+
+msgid "news"
+msgstr "Nyheter"
+
+msgid "next"
+msgstr "vidare"
+
+msgid "no"
+msgstr "Nej"
+
+msgid "no_access_item"
+msgstr "Du har inte tillräcklig behörighet för att komma åt detta objekt."
+
+msgid "no_access_item_public"
+msgstr "För att kunna använda detta objekt måste du vara inloggad och ha lämpliga åtkomsträttigheter."
+
+msgid "no_accessibility_control_concept_description"
+msgstr "För närvarande finns ingen information om tillgänglighet i den här installationen. Kontakta <a href=\"%1$s\">kontaktpunkten</a> för tillgänglighet för mer information."
+
+msgid "no_checkbox"
+msgstr "Du har inte gjort något val."
+
+msgid "no_condition_selected"
+msgstr "Du har inte valt något förhandsvillkor."
+
+msgid "no_date"
+msgstr "Inget datum"
+
+msgid "no_gallery_users_available"
+msgstr "Det finns för närvarande inga användare i galleriet."
+
+msgid "no_global_role_left"
+msgstr "Varje användare måste tilldelas minst en global roll."
+
+msgid "no_import_file_found"
+msgstr "Ingen importfil hittades"
+
+msgid "no_items"
+msgstr "Inga poster"
+
+msgid "no_limit"
+msgstr "Ingen gräns"
+
+msgid "no_mkisofs_configured"
+msgstr "Du måste konfigurera verktyget mkisofs i ILIAS-installationen för att kunna utföra ISO-exporten."
+
+msgid "no_parent_access"
+msgstr "Ingen åtkomst till ett överordnat objekt!"
+
+msgid "no_permission"
+msgstr "Du har inte rätt åtkomsträttigheter!"
+
+msgid "no_roles_user_can_be_assigned_to"
+msgstr "Du har inte tillgång till globala roller, därför kan du inte skapa lokala användare."
+
+msgid "no_start_file"
+msgstr "Ingen startfil"
+
+msgid "no_title"
+msgstr "Ingen titel"
+
+msgid "no_users_selected"
+msgstr "Vänligen välj minst en användare."
+
+msgid "no_xml_file_found_in_zip"
+msgstr " XML-filen kunde inte hittas i ZIP-filen"
+
+msgid "noc"
+msgstr "Nyhetsrum"
+
+msgid "non_internal_local_roles_only"
+msgstr "Lokala roller (endast självskapade)"
+
+msgid "none"
+msgstr "Ingen"
+
+msgid "normal"
+msgstr "Normal"
+
+msgid "not_available"
+msgstr "Inte tillgänglig"
+
+msgid "not_implemented_yet"
+msgstr "I utveckling"
+
+msgid "not_installed"
+msgstr "Inte installerad"
+
+msgid "not_logged_in"
+msgstr "Du är inte inloggad"
+
+msgid "note"
+msgstr "Note"
+
+msgid "notes"
+msgstr "Noter"
+
+msgid "notes_and_comments"
+msgstr "Noteringar och kommentarer"
+
+msgid "notice"
+msgstr "Note"
+
+msgid "notifications"
+msgstr "Notifieringar"
+
+msgid "nr_following_sessions"
+msgstr "%1d följande session(er)...."
+
+msgid "num_of_selected_files"
+msgstr "%s fil(er) vald(a)"
+
+msgid "num_users"
+msgstr "Antal användare"
+
+#, fuzzy
+msgid "numberedlist_action"
+msgstr "Insert Numbered List - Click to insert a numbered list."
+
+msgid "obj"
+msgstr "Objekt"
+
+msgid "obj_accs"
+msgstr "Tillgänglighet"
+
+msgid "obj_accs_desc"
+msgstr "Inställningar för tillgänglighet"
+
+msgid "obj_adm"
+msgstr "Administration"
+
+msgid "obj_adm_desc"
+msgstr "Innehåller alla administrationsverktyg för din ILIAS-installation."
+
+#, fuzzy
+msgid "obj_adma"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "obj_adma_desc"
+msgstr "Important settings for the whole installation"
+
+msgid "obj_adn"
+msgstr "Meddelanden"
+
+msgid "obj_adve"
+msgstr "Redaktör"
+
+msgid "obj_adve_desc"
+msgstr "Administrationsinställningar för ILIAS-editorn och TinyMCE."
+
+msgid "obj_ass"
+msgstr "Asset"
+
+msgid "obj_assf"
+msgstr "Test och bedömning"
+
+msgid "obj_assf_desc"
+msgstr "Inställningar och administration av testet och bedömningsverktyget"
+
+msgid "obj_auth"
+msgstr "Autentisering / Ny registrering"
+
+msgid "obj_auth_desc"
+msgstr "Konfigurera typen av användarautentisering (lokal, LDAP, ...) och de nya inloggningarna här."
+
+msgid "obj_awra"
+msgstr "\"Vem är online?\" display"
+
+msgid "obj_awra_desc"
+msgstr "\"Vem är online?\"-Administratörens display"
+
+msgid "obj_bdga"
+msgstr "Badges"
+
+msgid "obj_bdga_desc"
+msgstr "Hantering av typer, bildmallar och aktivitetsmärken"
+
+msgid "obj_bgtk"
+msgstr "Bakgrundsuppgift"
+
+msgid "obj_bibl"
+msgstr "Litteraturlista"
+
+msgid "obj_bibs"
+msgstr "Litteraturlista"
+
+msgid "obj_bibs_desc"
+msgstr "Litteratur Lista Administration"
+
+msgid "obj_blog"
+msgstr "Blogg"
+
+msgid "obj_blog_duplicate"
+msgstr "Copy blogg"
+
+#, fuzzy
+msgid "obj_bnmk"
+msgstr "Benchmarking"
+
+#, fuzzy
+msgid "obj_bnmk_desc"
+msgstr "Recording and display of database query durations"
+
+msgid "obj_book"
+msgstr "Bokning av pool"
+
+msgid "obj_cadm"
+msgstr "Användarkontakter"
+
+msgid "obj_cadm_desc"
+msgstr "Administration för användarkontakter"
+
+msgid "obj_cals"
+msgstr "Kalender"
+
+msgid "obj_cals_desc"
+msgstr "Innehåller globala inställningar för kalendern."
+
+msgid "obj_cat"
+msgstr "Kategori"
+
+msgid "obj_cat_duplicate"
+msgstr "Kopieringskategori"
+
+msgid "obj_catr"
+msgstr "Kategorilänk"
+
+msgid "obj_cert"
+msgstr "Certifikat"
+
+msgid "obj_cert_desc"
+msgstr "Inställningar för certifikat"
+
+msgid "obj_chap"
+msgstr "Kapitel"
+
+msgid "obj_chta"
+msgstr "Chatt"
+
+msgid "obj_chtr"
+msgstr "chatroom"
+
+msgid "obj_chtr_duplicate"
+msgstr "Kopiera chattrum"
+
+msgid "obj_cmis"
+msgstr "LRS"
+
+msgid "obj_cmis_desc"
+msgstr "Konfigurera olika typer av Learning Record Stores"
+
+msgid "obj_cmix"
+msgstr "xAPI/cmi5"
+
+msgid "obj_cmps"
+msgstr "Plugins"
+
+msgid "obj_cmps_desc"
+msgstr "Generella inställningar för plugins"
+
+msgid "obj_coms"
+msgstr "Kommentarer"
+
+msgid "obj_coms_desc"
+msgstr "Administera kommentarfunktionen"
+
+msgid "obj_copa"
+msgstr "Innehållssida"
+
+msgid "obj_cpad"
+msgstr "Innehållssidor"
+
+msgid "obj_cpad#_desc"
+msgstr "Innehållssidor för administration"
+
+msgid "obj_cpad_desc"
+msgstr "Administration av innehållssidorna"
+
+#, fuzzy
+msgid "obj_cron"
+msgstr "Cron Jobs"
+
+#, fuzzy
+msgid "obj_cron_desc"
+msgstr "List of all Cron Jobs"
+
+msgid "obj_crs"
+msgstr "Kurs"
+
+msgid "obj_crs_duplicate"
+msgstr "Kopiera kurs"
+
+msgid "obj_crsr"
+msgstr "Kurslänk"
+
+msgid "obj_crss"
+msgstr "Kurs"
+
+msgid "obj_crss_desc"
+msgstr "Generella inställningar för kurser"
+
+msgid "obj_crsv"
+msgstr "Kursintyg"
+
+msgid "obj_dbk"
+msgstr "Digilib bok"
+
+msgid "obj_dcl"
+msgstr "Insamling av data"
+
+msgid "obj_dcl_duplicate"
+msgstr "Kopiering av datainsamling"
+
+#, fuzzy
+msgid "obj_dpro"
+msgstr "Data Protection"
+
+#, fuzzy
+msgid "obj_dpro_desc"
+msgstr "Data Protection Settings"
+
+msgid "obj_dshs"
+msgstr "Dashboard"
+
+msgid "obj_dshs_desc"
+msgstr "Administrera instrumentpanelen"
+
+msgid "obj_ecss"
+msgstr "ECS"
+
+msgid "obj_ecss_desc"
+msgstr "Innehåller globala inställningar för E-Learning Community Server"
+
+msgid "obj_etal"
+msgstr "Samtal med anställda"
+
+msgid "obj_exc"
+msgstr "Träning"
+
+msgid "obj_exc_duplicate"
+msgstr "Kopieringsövning"
+
+msgid "obj_excv"
+msgstr "Träningscertifikat"
+
+msgid "obj_facs"
+msgstr "Filer"
+
+msgid "obj_facs_desc"
+msgstr "Inställningar för filer och filhantering."
+
+msgid "obj_file"
+msgstr "Fil"
+
+msgid "obj_file_duplicate"
+msgstr "Kopiera fil"
+
+msgid "obj_file_inline"
+msgstr "Inline-fil"
+
+msgid "obj_fils"
+msgstr "Filtjänster"
+
+msgid "obj_fils_desc"
+msgstr "Konfigurera inställningarna för filservicen."
+
+msgid "obj_fold"
+msgstr "Folder"
+
+msgid "obj_fold_duplicate"
+msgstr "Kopiera mapp"
+
+msgid "obj_frm"
+msgstr "Forum"
+
+msgid "obj_frm_duplicate"
+msgstr "Kopia Forum"
+
+msgid "obj_frma"
+msgstr "Forum"
+
+msgid "obj_frma_desc"
+msgstr "Globala inställningar för forumet"
+
+msgid "obj_glo"
+msgstr "Ordlista"
+
+msgid "obj_glo_duplicate"
+msgstr "Kopiera ordlista"
+
+msgid "obj_grp"
+msgstr "Grupp"
+
+msgid "obj_grp_duplicate"
+msgstr "Kopiera grupp"
+
+msgid "obj_grpr"
+msgstr "Grupplänk"
+
+msgid "obj_grps"
+msgstr "Grupp"
+
+msgid "obj_grps_desc"
+msgstr "Generella inställningar för grupper"
+
+#, fuzzy
+msgid "obj_gsfo"
+msgstr "Footer"
+
+#, fuzzy
+msgid "obj_gsfo_desc"
+msgstr "Administrate Footer Layout and Content"
+
+msgid "obj_hlps"
+msgstr "Online hjälp"
+
+msgid "obj_hlps_desc"
+msgstr "Inställningar för onlinehjälp"
+
+msgid "obj_htlm"
+msgstr "Lärmodul HTML"
+
+msgid "obj_htlm_duplicate"
+msgstr "Kopiera HTML utbildningsmodul"
+
+msgid "obj_iass"
+msgstr "Individuell bedömning"
+
+msgid "obj_iass_duplicate"
+msgstr "Kopiera individuell utvärdering"
+
+msgid "obj_iass_select"
+msgstr "-- Välj ett individuellt betyg --."
+
+msgid "obj_itgr"
+msgstr "Objektblock"
+
+msgid "obj_ldap_desc"
+msgstr "Global LDAP-konfiguration"
+
+msgid "obj_lhts"
+msgstr "Framsteg inom lärande"
+
+msgid "obj_lhts_desc"
+msgstr "Administrera lärande"
+
+msgid "obj_lm"
+msgstr "inlärningsmodul ILIAS"
+
+msgid "obj_lm_duplicate"
+msgstr "Kopiera utbildningsmodul"
+
+msgid "obj_lng"
+msgstr "Språk"
+
+msgid "obj_lngf"
+msgstr "Språk"
+
+msgid "obj_lngf_desc"
+msgstr "Systemspråk kan hanteras här."
+
+msgid "obj_logs"
+msgstr "Protocolling"
+
+msgid "obj_logs_desc"
+msgstr "Innehåller globala inställningar för ILIAS-loggning"
+
+msgid "obj_lrss"
+msgstr "Lärande moduler"
+
+msgid "obj_lrss_desc"
+msgstr "Konfigurera utbildningsmoduler etc."
+
+msgid "obj_lso"
+msgstr "Lärande sekvens"
+
+msgid "obj_lso_duplicate"
+msgstr "Kopiera inlärningssekvens"
+
+msgid "obj_lsos"
+msgstr "Lärande sekvenser"
+
+msgid "obj_lsos_desc"
+msgstr "Generella inställningar för inlärningssekvenser"
+
+msgid "obj_lti"
+msgstr "LTI konsument"
+
+msgid "obj_ltis"
+msgstr "LTI"
+
+msgid "obj_ltis_desc"
+msgstr "Inlärningsverktyg Interoperabilitet"
+
+msgid "obj_mail"
+msgstr "E-post"
+
+msgid "obj_mail_desc"
+msgstr "Globala inställningar för e-post"
+
+#, fuzzy
+msgid "obj_mailr"
+msgstr "Read Mail"
+
+#, fuzzy
+msgid "obj_mailu"
+msgstr "Unread Mail"
+
+#, fuzzy
+msgid "obj_maps"
+msgstr "Maps"
+
+msgid "obj_mcst"
+msgstr "Mediacast"
+
+msgid "obj_mcst_duplicate"
+msgstr "Kopiera Mediacast"
+
+msgid "obj_mcts"
+msgstr "Mediacast"
+
+msgid "obj_mcts_desc"
+msgstr "Generella inställningar för mediacast"
+
+msgid "obj_mep"
+msgstr "media pool"
+
+msgid "obj_mep_duplicate"
+msgstr "Kopiera Mediapool"
+
+msgid "obj_mme"
+msgstr "Huvudmeny"
+
+msgid "obj_mob"
+msgstr "media objekt"
+
+msgid "obj_mobs"
+msgstr "Mediaobjekt och pooler"
+
+msgid "obj_mobs_desc"
+msgstr "Inställningar för mediaobjekt och pooler"
+
+msgid "obj_not_found"
+msgstr "Inget objekt hittat"
+
+msgid "obj_nota"
+msgstr "Notifieringar"
+
+msgid "obj_nota_desc"
+msgstr "Administration av meddelanden"
+
+msgid "obj_nots"
+msgstr "Noter"
+
+msgid "obj_nots_desc"
+msgstr "Administrera notfunktion"
+
+msgid "obj_nwss"
+msgstr "Nyheter och webbflöden"
+
+msgid "obj_nwss_desc"
+msgstr "Inställningar för interna nyheter och externa webbflöden"
+
+msgid "obj_objf"
+msgstr "Definitioner av objekt"
+
+msgid "obj_orgu"
+msgstr "Organisatorisk enhet"
+
+msgid "obj_orgu_description"
+msgstr "Skapande och förvaltning av organisationsstrukturen"
+
+msgid "obj_page"
+msgstr "Sida"
+
+msgid "obj_peac"
+msgstr "Accordion"
+
+msgid "obj_peadl"
+msgstr "Utökad lista"
+
+msgid "obj_peadt"
+msgstr "Utökad tabell"
+
+msgid "obj_pecd"
+msgstr "Kod"
+
+msgid "obj_pech"
+msgstr "Samråd"
+
+msgid "obj_pecl"
+msgstr "Kolumnlayout"
+
+msgid "obj_peclp"
+msgstr "Klipptavla"
+
+msgid "obj_pecom"
+msgstr "Kompetens"
+
+msgid "obj_pecrs"
+msgstr "Kurs"
+
+msgid "obj_pecrt"
+msgstr "Certifikat"
+
+msgid "obj_pecs"
+msgstr "Innehållsmodul"
+
+msgid "obj_pedt"
+msgstr "Datatabell"
+
+msgid "obj_pefl"
+msgstr " Lista över filer"
+
+msgid "obj_peim"
+msgstr "Interaktiv bild"
+
+msgid "obj_pelh"
+msgstr "Framsteg inom lärande"
+
+msgid "obj_pemed"
+msgstr "Image/Audio/Video"
+
+msgid "obj_pemp"
+msgstr "Karta"
+
+msgid "obj_pepd"
+msgstr "Personuppgifter"
+
+msgid "obj_pepe"
+msgstr "Plugin-element"
+
+msgid "obj_pepl"
+msgstr "Lista över sidor"
+
+msgid "obj_peplh"
+msgstr "platshållare"
+
+msgid "obj_pequ"
+msgstr "Fråga"
+
+msgid "obj_perl"
+msgstr "Lista över material"
+
+msgid "obj_pesc"
+msgstr "Blockera"
+
+msgid "obj_petmp"
+msgstr "SidaTemplate"
+
+msgid "obj_peusr"
+msgstr "Användare"
+
+msgid "obj_pg"
+msgstr "Sida"
+
+msgid "obj_poll"
+msgstr "Röstning"
+
+#, fuzzy
+msgid "obj_poll_dupliate:"
+msgstr "Copy Poll"
+
+msgid "obj_poll_duplicate"
+msgstr "Kopiera omröstning"
+
+msgid "obj_prg"
+msgstr "Studieprogram"
+
+msgid "obj_prg_duplicate"
+msgstr "Kopiera studieprogram"
+
+msgid "obj_prg_select"
+msgstr "-- Vänligen välj ett studieprogram --."
+
+msgid "obj_prgr"
+msgstr "Länk till studieprogrammet"
+
+msgid "obj_prgrs"
+msgstr "Länkar till studieprogram"
+
+msgid "obj_prgs"
+msgstr "Studieprogram"
+
+msgid "obj_prgs_desc"
+msgstr "Administration av studieprogram"
+
+msgid "obj_prss"
+msgstr "Personliga resurser"
+
+msgid "obj_prss_desc"
+msgstr "Administrera personliga resurser"
+
+msgid "obj_prtf"
+msgstr "Portfölj"
+
+msgid "obj_prtt"
+msgstr "Mall för portfölj"
+
+msgid "obj_prtt_duplicate"
+msgstr "Mall för portfölj med kopior"
+
+msgid "obj_ps"
+msgstr "Dataskydd och serversäkerhet"
+
+msgid "obj_ps_desc"
+msgstr "Globala inställningar för integritet och säkerhet"
+
+msgid "obj_qpl"
+msgstr "Frågepool för tester"
+
+msgid "obj_qpl_duplicate"
+msgstr "Kopiera frågebanken för tester"
+
+msgid "obj_qpl_select"
+msgstr "-- Vänligen välj en pool av frågor för tester --."
+
+msgid "obj_rcat"
+msgstr "Kategori ECS"
+
+msgid "obj_rcrs"
+msgstr "Kursen ECS"
+
+msgid "obj_recf"
+msgstr "Återvunna föremål"
+
+msgid "obj_recf_desc"
+msgstr "Innehåller återställda objekt från systemkontroll"
+
+msgid "obj_rep"
+msgstr "Magasin"
+
+msgid "obj_reps"
+msgstr "Magasin"
+
+msgid "obj_reps_desc"
+msgstr "Generella inställningar för tidningen"
+
+msgid "obj_rfil"
+msgstr "ECS-fil"
+
+msgid "obj_rglo"
+msgstr "ECS Ordlista"
+
+msgid "obj_rgrp"
+msgstr "ECS-gruppen"
+
+msgid "obj_rlm"
+msgstr "ECS utbildningsmodul"
+
+msgid "obj_role"
+msgstr "Roll"
+
+msgid "obj_rolf"
+msgstr "Rolls"
+
+msgid "obj_rolf_desc"
+msgstr "Rollhantering"
+
+msgid "obj_rolf_local"
+msgstr "Lokala roller"
+
+msgid "obj_rolf_local_desc"
+msgstr "Innehåller lokala roller för objekt nr."
+
+msgid "obj_rolt"
+msgstr "rollmall"
+
+msgid "obj_root"
+msgstr "Magazine - Ingångssida"
+
+msgid "obj_rtst"
+msgstr "ECS-test"
+
+msgid "obj_rwik"
+msgstr "ECS Wiki"
+
+msgid "obj_sahs"
+msgstr "Lärande modul SCORM"
+
+msgid "obj_sahs_duplicate"
+msgstr "Kopiera utbildningsmoduler"
+
+msgid "obj_sco"
+msgstr "SCO"
+
+msgid "obj_scov"
+msgstr "SCORM certifikat"
+
+msgid "obj_seas"
+msgstr "Sökning"
+
+msgid "obj_seas_desc"
+msgstr "Konfigurera sökningen här."
+
+#, fuzzy
+msgid "obj_serv"
+msgstr "Server"
+
+#, fuzzy
+msgid "obj_serv_desc"
+msgstr "Settings of the sever"
+
+msgid "obj_sess"
+msgstr "Session"
+
+msgid "obj_sess_duplicate"
+msgstr "Kopiera session"
+
+msgid "obj_skmg"
+msgstr "Kompetenshantering"
+
+msgid "obj_skmg_desc"
+msgstr "Hantera kompetenser och kategorier"
+
+msgid "obj_spl"
+msgstr "Frågepool för enkäter"
+
+msgid "obj_st"
+msgstr "Kapitel"
+
+#, fuzzy
+msgid "obj_stus"
+msgstr "Shortlinks"
+
+#, fuzzy
+msgid "obj_stus_desc"
+msgstr "Global Shortlinks Settings"
+
+msgid "obj_sty"
+msgstr "Stil för innehåll"
+
+msgid "obj_stys"
+msgstr "Layout"
+
+msgid "obj_stys_desc"
+msgstr "Inställningar för installationens utseende och för stilar för vissa innehållsobjekt"
+
+msgid "obj_svy"
+msgstr "Undersökning"
+
+msgid "obj_svy_duplicate"
+msgstr "Kopiundersökning"
+
+msgid "obj_svyf"
+msgstr "Undersökningar"
+
+msgid "obj_svyf_desc"
+msgstr "Systemövergripande inställningar för undersökningar"
+
+msgid "obj_sysc"
+msgstr "Systemkontroll"
+
+msgid "obj_sysc_desc"
+msgstr "Verktyg för systemkontroll och felsökning"
+
+msgid "obj_tags"
+msgstr "Märkning"
+
+msgid "obj_tags_desc"
+msgstr "Inställningar för taggning"
+
+msgid "obj_tala"
+msgstr "Tala mallar"
+
+msgid "obj_tala_desc"
+msgstr "Tala mallar"
+
+msgid "obj_tals"
+msgstr "Staff Talk Series"
+
+msgid "obj_talt"
+msgstr "Talk mall"
+
+msgid "obj_task"
+msgstr "Att göra"
+
+msgid "obj_tax"
+msgstr "Taxonomi"
+
+msgid "obj_taxf"
+msgstr "Taxonomi mapp"
+
+msgid "obj_tool_setting_calendar"
+msgstr "Kalenderblock"
+
+msgid "obj_tool_setting_calendar_active"
+msgstr "Kalender"
+
+msgid "obj_tool_setting_calendar_active_info"
+msgstr "Kalendern är aktiverad."
+
+msgid "obj_tool_setting_calendar_info"
+msgstr "Blocket \"Kalender\" visas på fliken \"Innehåll\"."
+
+msgid "obj_tool_setting_custom_metadata"
+msgstr "Användardefinierade metadata"
+
+msgid "obj_tool_setting_custom_metadata_info"
+msgstr "Dataposter kan hanteras på fliken \"Metadata\". Här kan du ange ytterligare information om objektet och beskriva det mer detaljerat."
+
+msgid "obj_tool_setting_news"
+msgstr "Nyheter"
+
+msgid "obj_tool_setting_news_info"
+msgstr "Blocket \"Nyheter\" visas på fliken \"Innehåll\"."
+
+msgid "obj_tos"
+msgstr "Använda avtal"
+
+msgid "obj_tos_desc"
+msgstr "Hantera användaravtal"
+
+msgid "obj_trac"
+msgstr "Statistik om åtkomst och framsteg i lärandet"
+
+msgid "obj_trac_desc"
+msgstr "Statistik och inlärningsframsteg inställningar och översikt"
+
+msgid "obj_tst"
+msgstr "Test"
+
+msgid "obj_tst_duplicate"
+msgstr "Kopiera test"
+
+msgid "obj_tstv"
+msgstr "Testa certifikat"
+
+msgid "obj_type"
+msgstr "Objekttyp"
+
+msgid "obj_user"
+msgstr "Användare"
+
+msgid "obj_usr"
+msgstr "Användare"
+
+msgid "obj_usrf"
+msgstr "ILIAS räkenskaper"
+
+msgid "obj_usrf_desc"
+msgstr "Hantering av ILIAS-konton"
+
+msgid "obj_wbdv"
+msgstr "WebDAV"
+
+msgid "obj_wbdv_desc"
+msgstr "Konfiguration av WebDAV-inställningarna."
+
+msgid "obj_wbrs"
+msgstr "Webblänk"
+
+msgid "obj_wbrs_desc"
+msgstr "Generella inställningar för webblänkar"
+
+msgid "obj_webr"
+msgstr "Webblänk"
+
+msgid "obj_webr_duplicate"
+msgstr "Kopiera Webblänk insamling"
+
+msgid "obj_wfld"
+msgstr "Folder"
+
+msgid "obj_wiki"
+msgstr "Wiki"
+
+msgid "obj_wiki_duplicate"
+msgstr "Kopiera Wiki"
+
+msgid "obj_wiks"
+msgstr "Wiki"
+
+msgid "obj_wiks_desc"
+msgstr "Globala wiki-inställningar"
+
+msgid "object"
+msgstr "Objekt"
+
+msgid "object_added"
+msgstr "Objekt tillagt"
+
+msgid "object_copy_in_progress"
+msgstr "Kopieringsprocessen har påbörjats."
+
+msgid "object_duplicated"
+msgstr "Objekt kopierat"
+
+msgid "object_id"
+msgstr "Objekt-ID"
+
+msgid "object_imported"
+msgstr "Objekt importerat"
+
+#, fuzzy
+msgid "object_list"
+msgstr "List of Objects"
+
+msgid "objects"
+msgstr "Objekt"
+
+msgid "objf"
+msgstr "Definitioner av objekt"
+
+msgid "objs_bibl"
+msgstr "Listor över litteratur"
+
+msgid "objs_blog"
+msgstr "Bloggar"
+
+msgid "objs_book"
+msgstr "Bokning av pooler"
+
+msgid "objs_cat"
+msgstr "Kategorier"
+
+msgid "objs_catr"
+msgstr "Kategorilänkar"
+
+msgid "objs_chtr"
+msgstr "chatrooms"
+
+msgid "objs_cmix"
+msgstr "Objekt xAPI/cmi5"
+
+msgid "objs_copa"
+msgstr "Innehållssidor"
+
+msgid "objs_crs"
+msgstr "Kurser"
+
+msgid "objs_crsr"
+msgstr "Kurslänkar"
+
+msgid "objs_dcl"
+msgstr "Insamling av data"
+
+msgid "objs_etal"
+msgstr "Samtal med anställda"
+
+msgid "objs_exc"
+msgstr "Övningar"
+
+msgid "objs_file"
+msgstr "Filer"
+
+msgid "objs_fold"
+msgstr "Folder"
+
+msgid "objs_frm"
+msgstr "Forum"
+
+msgid "objs_glo"
+msgstr "Glossarier"
+
+msgid "objs_grp"
+msgstr "Grupper"
+
+msgid "objs_grpr"
+msgstr "Grupplänkar"
+
+msgid "objs_htlm"
+msgstr "HTML utbildningsmoduler"
+
+msgid "objs_iass"
+msgstr "Individuella bedömningar"
+
+msgid "objs_itgr"
+msgstr "Objektblock"
+
+msgid "objs_lm"
+msgstr "ILIAS utbildningsmoduler"
+
+msgid "objs_lres"
+msgstr "läromedel"
+
+msgid "objs_lso"
+msgstr "Lärande sekvenser"
+
+msgid "objs_lti"
+msgstr "LTI konsumenter"
+
+msgid "objs_mail"
+msgstr "E-post"
+
+msgid "objs_mcst"
+msgstr "Mediakaster"
+
+msgid "objs_mep"
+msgstr "mediepooler"
+
+msgid "objs_orgu"
+msgstr "Organisatoriska enheter"
+
+msgid "objs_poll"
+msgstr "Omröstningar"
+
+msgid "objs_prg"
+msgstr "Studieprogram"
+
+msgid "objs_prgr"
+msgstr "Länkar till studieprogram"
+
+msgid "objs_prtf"
+msgstr "Portföljer"
+
+msgid "objs_prtt"
+msgstr "Mallar för portföljer"
+
+msgid "objs_qpl"
+msgstr "Frågeställning frågepooler"
+
+msgid "objs_qst"
+msgstr "Frågor och svar"
+
+msgid "objs_rcat"
+msgstr "ECS-kategorier"
+
+msgid "objs_rcrs"
+msgstr "Kursen ECS"
+
+msgid "objs_rfil"
+msgstr "ECS-filer"
+
+msgid "objs_rglo"
+msgstr "ECS ordlistor"
+
+msgid "objs_rgrp"
+msgstr "ECS-grupper"
+
+msgid "objs_rlm"
+msgstr "ECS utbildningsmoduler"
+
+msgid "objs_role"
+msgstr "Rolls"
+
+#, fuzzy
+msgid "objs_rolf"
+msgstr "Role Folders"
+
+msgid "objs_rtst"
+msgstr "ECS-tester"
+
+msgid "objs_rwik"
+msgstr "ECS wikis"
+
+msgid "objs_sahs"
+msgstr "SCORM utbildningsmoduler"
+
+msgid "objs_sess"
+msgstr "Sessioner"
+
+#, fuzzy
+msgid "objs_skee"
+msgstr "Competence Trees"
+
+msgid "objs_spl"
+msgstr "Pooler med enkätfrågor"
+
+msgid "objs_st"
+msgstr "Kapitel"
+
+msgid "objs_svy"
+msgstr "Undersökningar"
+
+msgid "objs_tala"
+msgstr "Tala mallar"
+
+msgid "objs_talt"
+msgstr "Tala mallar"
+
+msgid "objs_tst"
+msgstr "Test"
+
+msgid "objs_webr"
+msgstr "Webblänkar"
+
+msgid "objs_wiki"
+msgstr "Wikis"
+
+msgid "of"
+msgstr "från"
+
+msgid "offline"
+msgstr "Offline"
+
+msgid "offline_mode"
+msgstr "Offlineläge"
+
+msgid "ok"
+msgstr "OK"
+
+msgid "old"
+msgstr "Alt"
+
+msgid "omit"
+msgstr "Uppdrag"
+
+msgid "omit_all"
+msgstr "Lämna ut dem alla"
+
+msgid "on_waiting_list"
+msgstr "Antecknad på väntelistan"
+
+msgid "online"
+msgstr "Online"
+
+msgid "online_time"
+msgstr "Total tid online (DD"
+
+msgid "only_active"
+msgstr "Endast aktiv"
+
+msgid "only_inactive"
+msgstr "Endast inaktiv"
+
+msgid "open"
+msgstr "Öppen"
+
+msgid "operation"
+msgstr "Operation"
+
+msgid "optimize"
+msgstr "Optimise"
+
+msgid "option"
+msgstr "Alternativ"
+
+msgid "optional_filter_hint"
+msgstr "Välkomna att aktivera ett av de valfria filtren."
+
+msgid "optional_filters"
+msgstr "Alternativa filter"
+
+msgid "options"
+msgstr "Inställningar"
+
+msgid "order_by"
+msgstr "Sortera efter"
+
+msgid "order_by_date"
+msgstr "Sortera efter datum"
+
+msgid "org_op_access_enrolments"
+msgstr "Visa status för inskrivning"
+
+msgid "org_op_manage_members"
+msgstr "Hantera underordnade medlemmar"
+
+msgid "org_op_read_learning_progress"
+msgstr "Visa inlärningsframstegen för underordnade användare"
+
+msgid "org_permission_settings"
+msgstr "Rättigheter för positioner i organisatoriska enheter"
+
+msgid "org_units"
+msgstr "Organisatoriska enheter"
+
+msgid "organization"
+msgstr "Tillhandahållare"
+
+msgid "other"
+msgstr "Andra"
+
+msgid "overview"
+msgstr "Översikt"
+
+msgid "overwrite"
+msgstr "Överskrivning"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "owner"
+msgstr "Owned by"
+
+msgid "owner_updated"
+msgstr "Uppgifterna har uppdaterats."
+
+msgid "page"
+msgstr "Sida"
+
+msgid "page_count"
+msgstr "Antal sidor"
+
+msgid "page_layout"
+msgstr "Sidans layout"
+
+msgid "page_layouts"
+msgstr "Sidlayouter"
+
+msgid "pagination_label_x_of_y"
+msgstr "Sida %1$d av %2$d"
+
+msgid "parameter"
+msgstr "Parametrar"
+
+msgid "parse"
+msgstr "Parsen"
+
+msgid "participate"
+msgstr "Logga in"
+
+msgid "passed"
+msgstr "Bekräftad"
+
+msgid "passwd"
+msgstr " Lösenord"
+
+msgid "passwd_generation"
+msgstr "Generering av lösenord"
+
+msgid "passwd_invalid"
+msgstr "Det nya lösenordet är inte tillåtet! Lösenordet måste innehålla minst sex tecken och får endast innehålla följande tecken"
+
+msgid "passwd_not_match"
+msgstr "Dina uppgifter om det nya lösenordet stämmer inte överens! Ange det nya lösenordet igen."
+
+msgid "passwd_wrong"
+msgstr "Lösenordet du angav är fel!"
+
+msgid "password"
+msgstr " Lösenord"
+
+msgid "password_allow_chars"
+msgstr "Tillåtna tecken"
+
+msgid "password_assistance_info"
+msgstr "Om lösenordssupport är aktiverat kommer en länk med namnet \"Glömt ditt lösenord?\" att visas på ILIAS inloggningssida. Användare kan använda denna funktion för att automatiskt få ett nytt lösenord."
+
+msgid "password_change_on_first_login_demand"
+msgstr "Ditt lösenord måste ändras innan du kan använda ILIAS."
+
+msgid "password_contains_invalid_chars"
+msgstr "Lösenordet innehåller ogiltiga tecken."
+
+msgid "password_contains_parts_of_login_err"
+msgstr "Lösenordet du har valt innehåller delar av ditt inloggningsnamn. Vänligen ange ett annat lösenord."
+
+msgid "password_empty"
+msgstr "Lösenordet får inte vara tomt."
+
+msgid "password_expired"
+msgstr "Ditt lösenord har gått ut och måste ändras eftersom det senast ändrades för %s dag(ar) sedan."
+
+msgid "password_multiple_errors"
+msgstr "Flera lösenordskriterier är inte uppfyllda"
+
+msgid "password_must_chars_and_numbers"
+msgstr "Lösenordet måste innehålla bokstäver och siffror."
+
+msgid "password_must_contain_lcase_chars"
+msgstr "Lösenordet måste innehålla minst %s gemena bokstäver."
+
+msgid "password_must_contain_ucase_chars"
+msgstr "Lösenordet måste innehålla minst %s stora bokstäver."
+
+msgid "password_must_special_chars"
+msgstr "Lösenordet måste innehålla specialtecken."
+
+msgid "password_to_long"
+msgstr "Lösenordet får inte vara längre än %s tecken."
+
+msgid "password_to_short"
+msgstr "Lösenordet måste vara minst %s tecken långt."
+
+msgid "paste"
+msgstr "Insert"
+
+msgid "pasteChapter"
+msgstr "Insert"
+
+msgid "pastePage"
+msgstr "Insert"
+
+msgid "paste_clipboard_items"
+msgstr "Insert"
+
+msgid "path"
+msgstr "Stig"
+
+msgid "path_not_set"
+msgstr "Sökväg ej angiven"
+
+msgid "path_to_convert"
+msgstr "CONVERT kommandorad"
+
+msgid "path_to_htmldoc"
+msgstr "HTMLdoc kommandorad"
+
+msgid "path_to_java"
+msgstr "JAVA-kommandoraden"
+
+msgid "path_to_unzip"
+msgstr "UNZIP kommandorad"
+
+msgid "path_to_zip"
+msgstr "ZIP kommandorad"
+
+msgid "pathes"
+msgstr "Vägar"
+
+msgid "pd_items_news"
+msgstr "Inkluderar nyheter om de utvalda objekten"
+
+msgid "pdf_export"
+msgstr "PDF-export"
+
+msgid "perm_settings"
+msgstr "Rättigheter"
+
+msgid "perma_link"
+msgstr "Länk till denna sida"
+
+#, fuzzy
+msgid "perma_link_copied"
+msgstr "Link to this page has been copied to the clipboard."
+
+msgid "permission"
+msgstr "Lagstiftning"
+
+msgid "permission_denied"
+msgstr "Ingen åtkomsträtt"
+
+msgid "permission_settings"
+msgstr "Inställningar för rättigheter"
+
+msgid "person_title"
+msgstr "Titel"
+
+msgid "personal_data"
+msgstr "Personuppgifter"
+
+msgid "personal_picture"
+msgstr "Profilbild"
+
+msgid "personal_profile"
+msgstr "Profil- och dataskydd"
+
+msgid "personal_resources"
+msgstr "Personliga resurser"
+
+msgid "personal_settings"
+msgstr "Inställningar"
+
+#, fuzzy
+msgid "personalise_date_time"
+msgstr "Personalise Date and Time Settings"
+
+msgid "persons"
+msgstr "Människor"
+
+msgid "pg_add"
+msgstr "Skapa sida"
+
+msgid "pg_new"
+msgstr "Ny sida"
+
+msgid "phone"
+msgstr "Telefon"
+
+msgid "phone_home"
+msgstr "Telefon Privat"
+
+msgid "phone_mobile"
+msgstr "Telefon Mobil"
+
+msgid "phone_office"
+msgstr "Telefonarbete"
+
+msgid "phrase"
+msgstr "Fras"
+
+msgid "please_choose"
+msgstr "-- Vänligen välj --."
+
+msgid "please_enter_target"
+msgstr "Var god ange en destination."
+
+msgid "please_enter_title"
+msgstr "Vänligen ange en titel."
+
+msgid "please_select"
+msgstr "-- Vänligen välj --."
+
+msgid "please_select_a_delivered_file_to_delete"
+msgstr "Du måste markera minst en inskickad redigering för att kunna ta bort den!"
+
+msgid "please_select_a_delivered_file_to_download"
+msgstr "Du måste välja minst en inskickad redigering för att kunna ladda ner den!"
+
+msgid "please_wait"
+msgstr "Vänligen vänta..."
+
+msgid "port"
+msgstr "Port"
+
+msgid "portfolio"
+msgstr "Portfölj"
+
+msgid "pos_bottom"
+msgstr "Botten"
+
+msgid "pos_left"
+msgstr "Länkar"
+
+msgid "pos_right"
+msgstr "Höger"
+
+msgid "pos_top"
+msgstr "Topp"
+
+msgid "position"
+msgstr "Position"
+
+msgid "position_permission_settings"
+msgstr "Rättigheter enligt positioner"
+
+msgid "precondition"
+msgstr "Förkunskapskrav"
+
+msgid "precondition_not_accessible"
+msgstr "Detta villkor kan inte visas på grund av avsaknad av tillstånd."
+
+msgid "precondition_required_itemlist"
+msgstr "Krävd förutsättning"
+
+msgid "precondition_toggle"
+msgstr "Förutsättningar som måste uppfyllas för tillgång"
+
+msgid "preconditions"
+msgstr "Förutsättningar"
+
+msgid "preconditions_obligatory_hint"
+msgstr "Välkomna att uppfylla följande villkor"
+
+msgid "preconditions_optional_hint"
+msgstr "Var vänlig uppfyll minst <b>%s av</b> följande förhandsvillkor"
+
+msgid "predefined_template"
+msgstr "Fördefinierad rollmall"
+
+msgid "preferences"
+msgstr "Användardefinierade inställningar"
+
+msgid "presentation_table_more"
+msgstr "Visa mer"
+
+#, fuzzy
+msgid "presenter"
+msgstr "Presenter"
+
+msgid "preview"
+msgstr "Förhandsgranskning"
+
+msgid "preview_create"
+msgstr "Skapa förhandsvisning"
+
+msgid "preview_delete"
+msgstr "Ta bort förhandsgranskning"
+
+#, fuzzy
+msgid "preview_image_size"
+msgstr "Size of Preview Images"
+
+msgid "preview_learner_info"
+msgstr "Om den är aktiverad erbjuds kurs- och gruppadministratörer möjligheten att se kursen eller gruppen ur en fiktiv kurs- eller gruppmedlems perspektiv."
+
+msgid "preview_loading"
+msgstr "Ladda ner förhandsgranskning..."
+
+msgid "preview_none"
+msgstr "Preview (ännu ej tillgänglig)"
+
+#, fuzzy
+msgid "preview_not_possible"
+msgstr "Creation of Previews is currently not possible, please read the documentation in %s."
+
+msgid "preview_renderers"
+msgstr " Rendering av förhandsgranskning"
+
+msgid "preview_settings"
+msgstr "Fil förhandsgranskning"
+
+msgid "preview_show"
+msgstr "Förhandsgranskning av display"
+
+msgid "preview_status_creating"
+msgstr "Förhandsgranskningen håller på att skapas. Detta kan ta lite tid..."
+
+msgid "preview_status_deleting"
+msgstr "Förhandsvisningen är borttagen..."
+
+msgid "preview_status_failed"
+msgstr "Förhandsgranskningen kunde inte skapas."
+
+msgid "preview_status_missing"
+msgstr "Det finns ingen förhandsgranskning tillgänglig för den här filen."
+
+msgid "preview_status_pending"
+msgstr "Förhandsgranskningen har inte skapats ännu. Vänligen försök igen senare."
+
+msgid "previous"
+msgstr "Tillbaka"
+
+msgid "prg_copy_threads_info"
+msgstr "Välj vilka delar av studieprogrammet som ska kopieras, länkas eller utelämnas från kopieringsprocessen."
+
+msgid "prg_wizard_page"
+msgstr "Kopiera studieprogram (steg 2/2)"
+
+msgid "prgr_add"
+msgstr "Skapa länk till studieprogram"
+
+msgid "prgr_edit_info"
+msgstr "Välj det studieprogram som du vill skapa en länk till."
+
+msgid "prgr_new"
+msgstr "Skapa en ny länk till ett studieprogram"
+
+msgid "prgr_settings"
+msgstr "Inställningar för länken till studieprogrammet"
+
+msgid "print"
+msgstr "Utskrift"
+
+msgid "print_view"
+msgstr " Skriv ut vy"
+
+msgid "private_notes"
+msgstr "Privata anteckningar"
+
+msgid "pro"
+msgstr "Pro"
+
+msgid "proceed"
+msgstr "Fortsättning"
+
+msgid "profile"
+msgstr "Profil"
+
+msgid "profile_changed"
+msgstr "ILIAS eLearning - Dina profiluppgifter har ändrats"
+
+msgid "profile_incomplete"
+msgstr "Din profil är inte komplett. Ange alla obligatoriska uppgifter."
+
+msgid "profile_of"
+msgstr "Profil från"
+
+msgid "properties"
+msgstr "Egenskaper"
+
+msgid "proxy"
+msgstr "Proxy"
+
+msgid "proxy_connectable"
+msgstr "Anslutning gjord."
+
+msgid "proxy_host"
+msgstr "Host"
+
+msgid "proxy_host_info"
+msgstr "Ange en värd här."
+
+msgid "proxy_not_connectable"
+msgstr "ILIAS kan inte upprätta en anslutning till proxyn."
+
+msgid "proxy_port"
+msgstr "Port"
+
+msgid "proxy_port_info"
+msgstr " Ange en port i intervallet 0 till 65535, t.ex. 8080."
+
+msgid "proxy_port_numeric"
+msgstr "Porten får endast bestå av numeriska tecken och måste ha ett värde mellan 0 och 65535."
+
+msgid "proxy_socket_error"
+msgstr "Fel i uttaget"
+
+msgid "proxy_status"
+msgstr "Proxy"
+
+msgid "proxy_status_info"
+msgstr "För att använda en proxy i ILIAS (t.ex. för webbflöden och kontroll av webblänkar), vänligen aktivera denna bock."
+
+msgid "ps_export_scorm"
+msgstr "Personuppgifter i loggdata"
+
+msgid "ps_password_lowercase_chars_num"
+msgstr "Låga bokstäver"
+
+msgid "ps_password_lowercase_chars_num_info"
+msgstr "Ange antalet gemener som måste ingå i ett användarlösenord. Om värdet 0 anges är det inte obligatoriskt med små bokstäver i lösenordet."
+
+msgid "ps_password_must_not_contain_loginame"
+msgstr "Förhindra inloggningsnamn i lösenord"
+
+msgid "ps_password_must_not_contain_loginame_info"
+msgstr "ILIAS förhindrar att inloggningsnamnet används som en del av lösenordet."
+
+msgid "ps_password_uppercase_chars_num"
+msgstr "Stora bokstäver"
+
+msgid "ps_password_uppercase_chars_num_info"
+msgstr "Ange antalet versaler som måste ingå i ett användarlösenord. Om värdet 0 anges är det inte obligatoriskt med stora bokstäver i lösenordet."
+
+msgid "pub_section"
+msgstr "Anonym tillgång"
+
+msgid "pub_section_info"
+msgstr "Alternativet gör det möjligt att göra delar av systemet allmänt tillgängliga utan autentisering. Behörigheterna för rollen \"Anonym\" avgör hur resurser är offentligt tillgängliga."
+
+msgid "public"
+msgstr "offentlig"
+
+msgid "public_notes"
+msgstr "Publika anteckningar"
+
+msgid "public_profile"
+msgstr "Profil"
+
+msgid "public_room"
+msgstr "Publikt chattrum"
+
+msgid "purpose"
+msgstr "Använda"
+
+msgid "qpl"
+msgstr "Frågepool för tester"
+
+msgid "qpl_add"
+msgstr "Skapa en frågepool"
+
+msgid "qpl_new"
+msgstr "Skapa ny frågebank för tester"
+
+msgid "query_data"
+msgstr "Visa data"
+
+msgid "question"
+msgstr "Fråga"
+
+msgid "question_message"
+msgstr "Fråga"
+
+msgid "quit"
+msgstr "Logga ut"
+
+msgid "quote"
+msgstr "Citat"
+
+msgid "read"
+msgstr "Läsbehörighet"
+
+msgid "readcount_anonymous_users"
+msgstr "Läsa åtkomster av anonyma användare"
+
+msgid "readcount_users"
+msgstr "Läsa åtkomster för registrerade användare"
+
+msgid "recipient"
+msgstr "An"
+
+msgid "reference_deleted"
+msgstr "Mål inte tillgängligt"
+
+msgid "reference_of"
+msgstr "Länk till"
+
+msgid "referral_comment"
+msgstr "Hur känner du till ILIAS?"
+
+msgid "refresh"
+msgstr "Uppdatera"
+
+msgid "refresh_languages"
+msgstr "Uppdatera alla språk"
+
+msgid "refuse"
+msgstr "Avvisa ansökan"
+
+msgid "reg_account_confirmation_successful"
+msgstr "ILIAS-kontot har bekräftats och aktiverats."
+
+#, fuzzy
+msgid "reg_delete_expired_pending_registrations"
+msgstr "Delete Expired Pending Registrations"
+
+#, fuzzy
+msgid "reg_delete_expired_pending_registrations_desc"
+msgstr "Deletes all ILIAS accounts that have not been confirmed after a registration with e-mail confirmation."
+
+msgid "reg_goto_parent_membership_info"
+msgstr "Endast medlemmar kan komma åt målobjektet."
+
+msgid "reg_mail_body_2_confirmation"
+msgstr "Länken är bara giltig i %s, därefter måste du registrera dig igen."
+
+msgid "reg_mail_body_3_confirmation"
+msgstr "Om du har fått detta e-postmeddelande oväntat, är det möjligt att någon annan har angett din e-postadress av misstag eller avsiktligt. I detta fall, vänligen ignorera detta mail."
+
+msgid "reg_mail_body_forgot_password_info"
+msgstr "För att begära ett nytt lösenord för detta användarkonto, använd funktionen \"Har du glömt ditt lösenord?\" på inloggningssidan."
+
+msgid "reg_mail_body_salutation"
+msgstr "Hello"
+
+msgid "reg_mail_body_text1"
+msgstr "Välkommen till eLearning-plattformen ILIAS!"
+
+msgid "reg_mail_body_text2"
+msgstr "Dina åtkomstuppgifter"
+
+msgid "reg_mail_body_text3"
+msgstr "Övriga personuppgifter"
+
+msgid "reg_mail_subject"
+msgstr "ILIAS eLearning - Dina åtkomstdata"
+
+msgid "reg_mail_subject_confirmation"
+msgstr "ILIAS eLearning - Din bekräftelselänk"
+
+msgid "reg_passwd_via_mail"
+msgstr "Lösenordet kommer att skickas till den e-postadress som anges nedan."
+
+msgid "register"
+msgstr "Registrera"
+
+msgid "register_notification"
+msgstr "\"%s\" har begärt att få delta i mötet \"%s\"."
+
+msgid "registered_since"
+msgstr "Registrerad sedan"
+
+msgid "registered_user"
+msgstr "registrerad användare"
+
+msgid "registered_users"
+msgstr "registrerade användare"
+
+msgid "registration"
+msgstr "Registrera nytt ILIAS-konto"
+
+msgid "related_to"
+msgstr "Relaterar till"
+
+msgid "remove"
+msgstr "Remove"
+
+msgid "remove_entries"
+msgstr "Radera poster"
+
+msgid "remove_translation"
+msgstr "Ta bort översättning"
+
+msgid "rename"
+msgstr "Rename"
+
+msgid "rename_file"
+msgstr " Namnge filen"
+
+msgid "renderer_supported_file_types"
+msgstr "Filtyper som stöds"
+
+msgid "renderer_supported_repo_types"
+msgstr "ILIAS-objekt som stöds"
+
+msgid "renderer_type_builtin"
+msgstr "Inbyggd i"
+
+msgid "rep_main_page"
+msgstr "Inledande sida"
+
+#, fuzzy
+msgid "rep_main_page_logo_alt"
+msgstr "Logo ILIAS - to the start page"
+
+msgid "repeat_scan"
+msgstr "Upprepa virussökning..."
+
+msgid "repeat_scan_failed"
+msgstr " Upprepad sökning misslyckades."
+
+msgid "repeat_scan_succeded"
+msgstr " Upprepad skanning lyckades."
+
+msgid "replace_file"
+msgstr "Byt ut filen"
+
+msgid "reply"
+msgstr "Svar"
+
+msgid "report_accessibility_issue"
+msgstr "Rapportera barriär"
+
+msgid "report_accessibility_link"
+msgstr "Messenger-länk"
+
+msgid "report_accessibility_link_mailto"
+msgstr "Meddelad%20länk"
+
+msgid "repository"
+msgstr "Magasin"
+
+msgid "repository_admin"
+msgstr "Tidning och papperskorg"
+
+msgid "repository_admin_desc"
+msgstr "Ställa in rättighetsinställningar för magasinsobjekt, ta bort eller återställa objekt i papperskorgen"
+
+msgid "require_email"
+msgstr "Obligatorisk inmatning av e-post"
+
+msgid "require_gender"
+msgstr "Obligatoriskt införande av hälsning"
+
+msgid "require_hobby"
+msgstr "Obligatorisk input Hobby"
+
+msgid "require_matriculation"
+msgstr "Obligatorisk registrering av matrikelnummer"
+
+msgid "require_referral_comment"
+msgstr "Obligatorisk post info kommentar"
+
+msgid "required_field"
+msgstr "Krävd specifikation"
+
+msgid "res_links"
+msgstr "Länkar i tidningen"
+
+msgid "res_links_short"
+msgstr "Länkar"
+
+msgid "reset"
+msgstr "Återställ"
+
+msgid "reset_filter"
+msgstr "Återställ filter"
+
+msgid "resources"
+msgstr "Resurser"
+
+msgid "right"
+msgstr "Lagstiftning"
+
+msgid "rights"
+msgstr "Rättigheter"
+
+msgid "role"
+msgstr "Roll"
+
+msgid "role_add_user"
+msgstr "Lägg till användare"
+
+msgid "role_added"
+msgstr "Roll skapad"
+
+msgid "role_assignment"
+msgstr "Rolltilldelning"
+
+msgid "role_assignment_updated"
+msgstr "Rolltilldelningen har ändrats."
+
+msgid "role_edit"
+msgstr "Redigera roll"
+
+msgid "role_mailto"
+msgstr "Mail till alla tilldelade användare"
+
+msgid "role_new"
+msgstr "Skapa ny roll"
+
+msgid "role_new_search"
+msgstr "Ny sökning"
+
+msgid "role_no_roles_selected"
+msgstr "Du har inte valt en roll"
+
+msgid "role_protect_permissions"
+msgstr "Skydda rättigheter"
+
+msgid "role_protect_permissions_desc"
+msgstr "Objekträttigheterna för den här rollen ändras inte längre av systemoperationer. Dessutom kan endast administratörer på högre nivå justera rättigheterna."
+
+msgid "role_select_one_item"
+msgstr "Välj minst ett objekt."
+
+msgid "role_sure_delete_desk_items"
+msgstr "Är du säker på att du vill att detta uppdrag ska tas bort?"
+
+msgid "role_templates_only"
+msgstr "Endast mallar för roller"
+
+msgid "roles"
+msgstr "Rolls"
+
+msgid "roles_of_import_global"
+msgstr "Globala roller i importfilen"
+
+msgid "roles_of_import_local"
+msgstr "Lokala roller i importfilen"
+
+msgid "rolf"
+msgstr "Rollinnehavare"
+
+msgid "rolf_added"
+msgstr "Rollmapp skapad"
+
+msgid "rolf_create_role"
+msgstr "Skapa ny roll"
+
+msgid "rolf_create_rolt"
+msgstr "Skapa ny rollmall"
+
+msgid "rolf_delete"
+msgstr "Ta bort roller/rollmallar"
+
+msgid "rolf_edit_permission"
+msgstr "Åtkomst till rättighetsinställningar för roller/rollmallar"
+
+msgid "rolf_edit_userassignment"
+msgstr "Ändra användartilldelning till roller"
+
+msgid "rolf_read"
+msgstr "Läsbehörighet till roller/rollmallar"
+
+msgid "rolf_visible"
+msgstr "Roller/rollmallar är synliga"
+
+msgid "rolf_write"
+msgstr "Redigera rättighetsmallar för roller/rollmallar"
+
+msgid "rolt"
+msgstr "rollmall"
+
+msgid "rolt_added"
+msgstr "Rollmall skapad"
+
+msgid "rolt_edit"
+msgstr "Redigera rollmall"
+
+msgid "rolt_new"
+msgstr "Ny rollmall"
+
+msgid "row"
+msgstr "Linje"
+
+msgid "rows"
+msgstr "linjer"
+
+msgid "rpc_pdf_font"
+msgstr "Fonts"
+
+msgid "rpc_pdf_font_info"
+msgstr "Ytterligare teckensnitt för skapande av PDF-filer. Alla ytterligare angivna teckensnitt måste installeras på serversidan eller göras kända för Java-servern vid start."
+
+msgid "rpc_pdf_generation"
+msgstr "Skapande av PDF"
+
+msgid "sad"
+msgstr "Sad"
+
+msgid "sahs"
+msgstr "Lärande modul SCORM"
+
+msgid "sahs_added"
+msgstr "SCORM utbildningsmodul skapad"
+
+msgid "sahs_export_file"
+msgstr "SCORM arkivfil exporterad från ILIAS"
+
+#, fuzzy
+msgid "sahs_export_file_info"
+msgstr "Use this option for a ZIP file that was exported directly from ILIAS. The file typically has titles such as 1675257903__4105__sahs_132295.zip."
+
+msgid "sahs_insert_chap_from_clip"
+msgstr "Insätt kapitel från urklipp"
+
+msgid "sahs_insert_page_from_clip"
+msgstr "Insätt sidor från Urklipp"
+
+msgid "sahs_insert_sco_from_clip"
+msgstr "Insert SCOs från urklipp"
+
+#, fuzzy
+msgid "sahs_new"
+msgstr "Create New Learning Module"
+
+msgid "salutation"
+msgstr "Adress"
+
+msgid "salutation_f"
+msgstr "Kvinna"
+
+msgid "salutation_m"
+msgstr "Mr"
+
+msgid "salutation_n"
+msgstr "Ingen specifikation"
+
+msgid "saml_log_in"
+msgstr "Logga in"
+
+msgid "saml_login_form_info_txt"
+msgstr "För att logga in via SAML, klicka på knappen \"Logga in\"."
+
+msgid "saml_login_form_txt"
+msgstr "Logga in på ILIAS via SAML"
+
+msgid "save"
+msgstr "Spara"
+
+msgid "save_and_back"
+msgstr "Spara och återvänd"
+
+msgid "save_message"
+msgstr "Spara som utkast"
+
+msgid "save_params_for_cron"
+msgstr "Spara parametrar för cron-jobb"
+
+msgid "save_refresh"
+msgstr "Spara och uppdatera"
+
+msgid "save_return"
+msgstr "Spara och återvänd"
+
+msgid "save_settings"
+msgstr "Spara inställningar"
+
+msgid "save_user_related_data"
+msgstr "Spara användarspecifika åtkomstdata"
+
+msgid "saved_successfully"
+msgstr "Dina ändringar har sparats"
+
+msgid "saving"
+msgstr "Säker..."
+
+#, fuzzy
+msgid "scope"
+msgstr "Scope"
+
+msgid "scorm_create_export_file_html"
+msgstr "Skapa HTML exportfil"
+
+msgid "scorm_create_export_file_pdf"
+msgstr "Skapa PDF-exportfil"
+
+msgid "scorm_create_export_file_scrom12"
+msgstr "Skapa exportfil för SCORM 1.2"
+
+msgid "scorm_create_export_file_scrom2004"
+msgstr "Skapa exportfil för SCORM 2004"
+
+msgid "scorm_create_export_file_scrom2004_4th"
+msgstr "Skapa exportfil för SCORM 2004-4th_edition"
+
+msgid "scorm_login_as_learner_id"
+msgstr "SCORM 2004"
+
+msgid "scorm_login_as_learner_id_info"
+msgstr "I stället för ILIAS-användar-ID anges ILIAS-inloggningsnamnet för cmi.learner_id."
+
+msgid "scorm_lp_auto_activate"
+msgstr "Standardinställningar för inlärningsframsteg"
+
+msgid "scorm_lp_auto_activate_info"
+msgstr "När inlärningsstatus är allmänt aktiverad, för nya SCORM-lärmoduler, bestäms den övergripande statusen för inlärningsstatus av valda SCORM-material (SCO) och alla SCO väljs för bestämning av inlärningsstatus. Anpassningar är fortfarande möjliga för varje"
+
+msgid "scorm_new"
+msgstr "Skapa en ny SCORM-lärmodul"
+
+msgid "scorm_without_session"
+msgstr "Aktivera lagring av SCORM 2004 utan session"
+
+msgid "scorm_without_session_info"
+msgstr "Detta säkerställer lagring av SCORM 2004-inlärningsnivådata även om ILIAS-sessionen har löpt ut. Med SCORM 1.2 är sparande utan session alltid aktiverat."
+
+msgid "search"
+msgstr "Sökning"
+
+msgid "search_active"
+msgstr "Aktiva användare"
+
+msgid "search_at_current_position"
+msgstr "På den aktuella positionen"
+
+msgid "search_engine"
+msgstr "Läsbara .html-URL:er"
+
+msgid "search_for"
+msgstr "Sökning"
+
+msgid "search_globally"
+msgstr "I hela tidningen"
+
+msgid "search_in"
+msgstr "Sökning i"
+
+msgid "search_inactive"
+msgstr "Inaktiva användare"
+
+msgid "search_new"
+msgstr "Ny sökning"
+
+msgid "search_result"
+msgstr "Sökresultat"
+
+msgid "search_results"
+msgstr "Sökresultat"
+
+msgid "search_user"
+msgstr "Sök användare"
+
+#, fuzzy
+msgid "search_users"
+msgstr "Look Up Users"
+
+msgid "seas_max_hits"
+msgstr "Maximalt antal träffar"
+
+msgid "seas_max_hits_info"
+msgstr "Ställ in det maximala antalet sökresultat som ska visas efter en sökfråga. Ju lägre antal, desto snabbare laddas sidan."
+
+msgid "seas_settings"
+msgstr "Sökinställningar"
+
+msgid "second"
+msgstr "Sekund"
+
+msgid "second_email"
+msgstr "Andra e-postmeddelandet"
+
+msgid "seconds"
+msgstr "Sekunder"
+
+msgid "sel_country"
+msgstr "Land"
+
+msgid "select"
+msgstr "Välj"
+
+msgid "select_all"
+msgstr "Välj alla"
+
+msgid "select_at_least_one_object"
+msgstr "Välj minst ett objekt."
+
+msgid "select_file"
+msgstr "Välj fil"
+
+#, fuzzy
+msgid "select_file_from_computer"
+msgstr "Select File"
+
+msgid "select_files_from_computer"
+msgstr "Välj filer"
+
+msgid "select_max_one_item"
+msgstr "Välj endast ett objekt."
+
+msgid "select_object_to_link"
+msgstr "Välj objektet som ska länkas."
+
+msgid "select_one"
+msgstr "Vänligen gör ett urval."
+
+msgid "select_question_pool_info"
+msgstr "Om importfilen innehåller frågor kommer dessa också att importeras till den valda frågepoolen."
+
+msgid "select_questionpool"
+msgstr "Insätt frågor i"
+
+msgid "selected"
+msgstr "Vald"
+
+msgid "selected_files"
+msgstr "Utvalda filer"
+
+msgid "selected_items"
+msgstr "Utvalda erbjudanden"
+
+msgid "selected_items_back"
+msgstr "Tillbaka till erbjudanden"
+
+msgid "selected_languages_updated"
+msgstr "De valda språken har uppdaterats (om installerat)"
+
+msgid "send"
+msgstr "Skicka"
+
+msgid "send_mail"
+msgstr "Skicka e-post"
+
+msgid "sender"
+msgstr "Sändare"
+
+msgid "sent"
+msgstr "Sänt"
+
+msgid "sequence"
+msgstr "Sekvens"
+
+msgid "sequences"
+msgstr "Sekvenser"
+
+msgid "server"
+msgstr "Server"
+
+msgid "server_data"
+msgstr "Server-info"
+
+msgid "server_disabled"
+msgstr "Chatten är avaktiverad"
+
+msgid "server_software"
+msgstr "Serverprogramvara"
+
+msgid "sess"
+msgstr "Session"
+
+msgid "sess_fixed_duration"
+msgstr "Fixerad sessionslängd"
+
+msgid "session_config"
+msgstr "Inställningar för sessionen"
+
+msgid "session_config_maintenance_disabled"
+msgstr "Ändringar i klienten inte tillåtna"
+
+msgid "session_mail_subject_deletion"
+msgstr "Logga ut användaren \"%s\" från sessionen \"%s\"."
+
+msgid "session_mail_subject_entered"
+msgstr "Accession av användaren \"%s\" till sessionen \"%s"
+
+msgid "session_mail_subject_registered"
+msgstr "Registrering av användaren \"%s\" för sessionen \"%s"
+
+msgid "session_reminder"
+msgstr "Session-Påminnelse"
+
+msgid "session_reminder_alert"
+msgstr "Din session kommer att löpa ut i %1$s av %2$s!  Klicka på OK för att förlänga sessionen! Om du däremot inte längre vill bli påmind i den aktuella webbläsarsessionen väljer du Avbryt.  Berörd installation"
+
+#, fuzzy
+msgid "session_reminder_default_lead_time_info"
+msgstr "Please specify how many minutes before the expiration of a session a reminder should be shown.<br / >The function is deactivated when the value is '%s'. The recommended value is %s.<br / >The current length of a session is %s."
+
+#, fuzzy
+msgid "session_reminder_input"
+msgstr "Session Reminder (in Minutes)"
+
+msgid "session_reminder_lead_time"
+msgstr "Tid för ledning"
+
+msgid "session_reminder_lead_time_info"
+msgstr "Här kan du definiera när ILIAS ska varna dig innan din session löper ut. Du kommer då att få ett meddelande och kan enkelt förlänga sessionen med ett musklick. Ange ett värde i minuter. Rekommenderat är 5 minuter.<br />Det aktuella värdet för hur länge e"
+
+msgid "session_reminder_session_duration"
+msgstr "(Aktuell sessions varaktighet"
+
+msgid "set"
+msgstr "Set"
+
+msgid "setSystemLanguage"
+msgstr "Ändra systemets språk"
+
+msgid "setUserLanguage"
+msgstr "Ändra användarspråk"
+
+msgid "set_offline"
+msgstr "Ställ in Offline"
+
+msgid "set_online"
+msgstr "Puta online"
+
+msgid "set_skin_does_not_exist"
+msgstr "Valt skin finns inte längre. Ett nytt skin kan aktiveras i de personliga inställningarna eller så kan en administratör kontaktas. Aktuellt val"
+
+msgid "set_style_does_not_exist"
+msgstr "Den valda systemstilen finns inte längre. En ny systemstil kan aktiveras i de personliga inställningarna eller så kan en administratör kontaktas. Aktuellt val"
+
+msgid "settings"
+msgstr "Inställningar"
+
+msgid "settings_for_all_members"
+msgstr "Medlemmar kommer att meddelas automatiskt"
+
+msgid "settings_per_users"
+msgstr "Medlemmar meddelas automatiskt. För varje medlem kan det definieras individuellt om de får avaktivera aviseringen."
+
+msgid "settings_presentation_header"
+msgstr "Presentation"
+
+msgid "settings_saved"
+msgstr "Inställningarna har sparats."
+
+msgid "shib"
+msgstr "Shibboleth"
+
+msgid "shib_active"
+msgstr "Aktivera autentisering av shibboleth"
+
+msgid "shib_city"
+msgstr "Attribut för stad"
+
+msgid "shib_country"
+msgstr "Attribut för land"
+
+msgid "shib_data_conv"
+msgstr "Stig till API för datamanipulering"
+
+msgid "shib_data_conv_warning"
+msgstr "Det angivna API:et för datamanipulering kan inte läsas."
+
+msgid "shib_department"
+msgstr "Attribut för avdelning"
+
+msgid "shib_email"
+msgstr "Attribut för e-postadress"
+
+msgid "shib_federation_name"
+msgstr "Namn på Shibboleth-federationen"
+
+msgid "shib_firstname"
+msgstr "Attribut för förnamn"
+
+msgid "shib_gender"
+msgstr "Attribut för tilltal (måste vara 'n', 'm' eller 'f')"
+
+msgid "shib_general_login_instructions"
+msgstr "För att registrera dig via %s, klicka på registreringsknappen och välj din organisation på följande sida.<br />Om du har några frågor om detta, vänligen kontakta %s"
+
+msgid "shib_general_wayf_login_instructions"
+msgstr "Om du inte tillhör någon av de listade organisationerna och behöver tillgång till en kurs på denna server, vänligen kontakta %s"
+
+msgid "shib_idp_list"
+msgstr "Please provide a list of identity providers from which the user can choose on the ILIAS login page.<br />På varje rad måste det finnas en kommaseparerad tupel som består av providerID för en<strong>IdP</strong> (se Shibboleth-metadata) och <strong>namnet"
+
+msgid "shib_institution"
+msgstr "Attribut för institutionen"
+
+msgid "shib_invalid_home_organization"
+msgstr "Välkomna att välja en giltig organisation"
+
+msgid "shib_language"
+msgstr "Attribut för språk"
+
+msgid "shib_lastname"
+msgstr "Attribut för efternamn"
+
+msgid "shib_login"
+msgstr "Unikt Shibboleth-attribut"
+
+msgid "shib_login_button"
+msgstr "Stig till Shibboleths inloggningsknapp"
+
+msgid "shib_login_embedded_wayf"
+msgstr "Design ditt eget registreringsområde"
+
+msgid "shib_login_embedded_wayf_description"
+msgstr "Med den här inställningen kan du ange valfri HTML-kod i textfältet för inloggningsinstruktioner. På så sätt kan du t.ex. använda din egen JavaScript-inbäddade WAYF/Discovery-tjänst eller utforma inloggningsområdet själv."
+
+msgid "shib_login_external_wayf"
+msgstr "Använd en extern WAYF-tjänst"
+
+msgid "shib_login_internal_wayf"
+msgstr "Användning av ILIAS WAYF-tjänsten"
+
+msgid "shib_login_type"
+msgstr "Val av organisation"
+
+msgid "shib_matriculation"
+msgstr "Attribut för matrikulationsnummer"
+
+msgid "shib_member_of"
+msgstr "Jag är medlem i ..."
+
+msgid "shib_phone_home"
+msgstr "Attribut för privat telefonnummer"
+
+msgid "shib_phone_mobile"
+msgstr "Attribut för mobiltelefonnummer"
+
+msgid "shib_phone_office"
+msgstr "Attribut för telefonnummer till företag"
+
+msgid "shib_select_home_organization"
+msgstr "För att logga in via %s, välj den organisation du tillhör från rullgardinsmenyn"
+
+msgid "shib_settings_saved"
+msgstr "Inställningarna för Shibboleth har sparats"
+
+msgid "shib_street"
+msgstr "Attribut för gata"
+
+msgid "shib_title"
+msgstr "Attribut för titel"
+
+msgid "shib_update"
+msgstr "Uppdatera detta fält varje gång du loggar in"
+
+msgid "shib_user_default_role"
+msgstr "Allmän roll för Shibboleth-användare"
+
+msgid "shib_zipcode"
+msgstr "Attribut för postnummer"
+
+msgid "short_inst_name"
+msgstr "Kort titel"
+
+msgid "short_inst_name_info"
+msgstr "Den här texten visas tillsammans med sidans titel som titel på webbläsarfliken. Om inget skrivs in här visas 'ILIAS'."
+
+msgid "show"
+msgstr "Display"
+
+msgid "show_all_details"
+msgstr "Visa alla detaljer"
+
+msgid "show_content"
+msgstr "Visa innehåll"
+
+msgid "show_details"
+msgstr "Visa detaljer"
+
+msgid "show_filter"
+msgstr "Visa filter"
+
+msgid "show_hidden_sections"
+msgstr "Visa mer information \""
+
+#, fuzzy
+msgid "show_less"
+msgstr "Show less"
+
+msgid "show_list"
+msgstr "Visa lista"
+
+msgid "show_members"
+msgstr "Visa medlemmar"
+
+msgid "show_more"
+msgstr "Visa mer"
+
+#, fuzzy
+msgid "show_preview"
+msgstr "Show Preview"
+
+msgid "show_users_online"
+msgstr "Visa aktiva användare"
+
+msgid "show_who_is_online"
+msgstr "Visa vem som är online"
+
+msgid "side_frame"
+msgstr "Frame Trädvy"
+
+msgid "signature"
+msgstr "Signatur"
+
+msgid "size"
+msgstr "Storlek"
+
+msgid "skills"
+msgstr "Kompetens"
+
+msgid "skin_style"
+msgstr "Standard hud/stil"
+
+msgid "smtp"
+msgstr "SMTP"
+
+msgid "soap_connect_timeout"
+msgstr "Timeout för upprättande av anslutning"
+
+msgid "soap_connect_timeout_info"
+msgstr "Den maximala tiden i sekunder att vänta tills en anslutning till SOAP-webbtjänsten kan upprättas."
+
+msgid "soap_user_administration"
+msgstr "Administration via SOAP"
+
+msgid "soap_user_administration_desc"
+msgstr "Om den är påslagen kan ILIAS hanteras via SOAP-gränssnittet."
+
+msgid "soap_wsdl_path"
+msgstr "WSDL-väg"
+
+msgid "soap_wsdl_path_info"
+msgstr "Här kan du ange sökvägen till den WSDL-fil som ska användas av ILIAS för webbtjänsten. Om du lämnar fältet tomt kommer följande sökväg att användas som standard"
+
+#, fuzzy
+msgid "sort"
+msgstr "Sort"
+
+msgid "sort_ascending"
+msgstr "Sortera stigande"
+
+msgid "sort_ascending_long"
+msgstr "Ändra sortering till stigande"
+
+msgid "sort_by_this_column"
+msgstr "Sortera efter denna kolumn"
+
+msgid "sort_descending"
+msgstr "Sortera fallande"
+
+msgid "sort_descending_long"
+msgstr "Ändra sorteringsordning till fallande"
+
+msgid "sort_inherit_prefix"
+msgstr "Bestäms av kurs/grupp"
+
+msgid "sorting_asc"
+msgstr "Ascending"
+
+msgid "sorting_creation_header"
+msgstr "Efter skapelsedatum"
+
+msgid "sorting_creation_info"
+msgstr "Innehållna objekt sorteras automatiskt efter deras skapelsedatum."
+
+msgid "sorting_desc"
+msgstr "Descending"
+
+msgid "sorting_direction"
+msgstr "Sorteringsriktning"
+
+msgid "sorting_header"
+msgstr "Sortering"
+
+msgid "sorting_info_inherit"
+msgstr "Om sorteringen av den överordnade kursen eller gruppen ändras, ändras även denna sortering."
+
+msgid "sorting_info_manual"
+msgstr "Befintliga objekt kan placeras i önskad ordning. Definiera dessutom var nya objekt ska sättas in och i vilken ordning och orientering de ska arrangeras."
+
+msgid "sorting_info_title"
+msgstr "Innehållna objekt sorteras automatiskt efter titel."
+
+msgid "sorting_manual_header"
+msgstr "Handbok"
+
+msgid "sorting_save"
+msgstr "Spara sortering"
+
+msgid "sorting_title_header"
+msgstr "Alfabetiskt efter titel"
+
+msgid "spacer"
+msgstr "Separatorer"
+
+msgid "spl"
+msgstr "Frågepool för enkäter"
+
+msgid "spl_add"
+msgstr "Skapa en frågepool"
+
+msgid "spl_import"
+msgstr "Import frågepool för undersökningar"
+
+msgid "spl_new"
+msgstr "Skapa en ny frågepool för undersökningar"
+
+msgid "ssl"
+msgstr "SSL (HTTPS)"
+
+msgid "standard_fields"
+msgstr "Standardfält"
+
+msgid "startpage"
+msgstr "ILIAS registreringssida"
+
+msgid "stat_selected"
+msgstr "Vald"
+
+msgid "statistic"
+msgstr "Statistik"
+
+msgid "statistics"
+msgstr "Statistik"
+
+msgid "status"
+msgstr "Status"
+
+msgid "status_no_permission"
+msgstr "Ingen åtkomst beviljad."
+
+msgid "step"
+msgstr "Steg"
+
+msgid "street"
+msgstr "Gata"
+
+msgid "structure"
+msgstr "Översikt"
+
+msgid "sty"
+msgstr "Stylesheet"
+
+msgid "sub_request_deleted"
+msgstr "Din ansökan om antagning har tagits bort"
+
+msgid "sub_request_saved"
+msgstr "Din ansökan om antagning har uppdaterats"
+
+msgid "subject"
+msgstr "Ämne"
+
+msgid "submit"
+msgstr "Skicka"
+
+msgid "subobjects"
+msgstr "Subobjekt"
+
+msgid "subscription"
+msgstr "Prenumeration"
+
+msgid "subtabs"
+msgstr "Subpunkter"
+
+msgid "success_message"
+msgstr "Bekräftelsemeddelande"
+
+msgid "summary"
+msgstr "Sammanfattning"
+
+msgid "sure_delete_selected_users"
+msgstr "Är du säker på att de valda ILIAS-kontona ska raderas?"
+
+msgid "survey_defaults"
+msgstr "Standardinställningar för undersökningar"
+
+msgid "survey_unlimited_invitation"
+msgstr "Obegränsad inbjudan"
+
+msgid "svy"
+msgstr "Undersökning"
+
+msgid "svy_add"
+msgstr "Skapa undersökning"
+
+msgid "svy_finished"
+msgstr "Du har redan deltagit i denna undersökning"
+
+msgid "svy_new"
+msgstr "Skapa ny undersökning"
+
+msgid "svy_not_finished"
+msgstr "Du har påbörjat denna undersökning men ännu inte slutfört den"
+
+msgid "svy_not_started"
+msgstr "Du har ännu inte deltagit i denna undersökning"
+
+msgid "svy_run"
+msgstr "Utför"
+
+msgid "svy_warning_survey_not_complete"
+msgstr "Undersökningen är ofullständig"
+
+msgid "switch_language"
+msgstr "Ändra språk"
+
+msgid "system"
+msgstr "System"
+
+msgid "system_check"
+msgstr "Systemkontroll"
+
+msgid "system_information"
+msgstr "Systeminformation"
+
+msgid "system_language"
+msgstr "Systemets språk"
+
+msgid "system_styles"
+msgstr "Systemets stilar"
+
+msgid "systemcheck_cron"
+msgstr "Systemkontroll via cron-jobb"
+
+msgid "systemcheck_cronform"
+msgstr "Aktivering av systemkontrollen i cron-jobbet"
+
+msgid "table_mail_import"
+msgstr "Importera e-post"
+
+msgid "tabs"
+msgstr "Rider"
+
+msgid "tagging_my_tags"
+msgstr "Mina taggar"
+
+msgid "tags"
+msgstr "Etiketter"
+
+msgid "take_over_structure"
+msgstr "Ta över arkivets mappstruktur"
+
+msgid "take_over_structure_info"
+msgstr "Om aktiverat övertas kataloger i arkivet som kategorier eller mappar."
+
+msgid "tals_etal"
+msgstr "Talk"
+
+msgid "talt_etal"
+msgstr "Talk"
+
+msgid "target"
+msgstr "Mål"
+
+msgid "tax"
+msgstr "Taxonomi"
+
+msgid "tax_add"
+msgstr "Skapa taxonomi"
+
+msgid "tax_new"
+msgstr "Ny taxonomi"
+
+msgid "term"
+msgstr "Term"
+
+msgid "test"
+msgstr "Test"
+
+msgid "tests"
+msgstr "Test"
+
+msgid "textbox"
+msgstr "Textruta"
+
+msgid "thread"
+msgstr "Topic"
+
+msgid "thumbnail"
+msgstr "Miniatyrbild"
+
+#, fuzzy
+msgid "tile_view"
+msgstr "Tile View"
+
+msgid "time"
+msgstr "Tid"
+
+msgid "time_limit"
+msgstr "Tillgång"
+
+msgid "time_limit_add_time_limit_for_selected"
+msgstr "Var god ange en tidsperiod för de valda användarna."
+
+msgid "time_limit_from"
+msgstr "From (tidsgräns)"
+
+msgid "time_limit_message"
+msgstr "Meddelande (tidsbegränsning)"
+
+msgid "time_limit_no_users_selected"
+msgstr "Du har inte valt några användare."
+
+msgid "time_limit_not_valid"
+msgstr "De tider du har angett är inte giltiga."
+
+msgid "time_limit_reached"
+msgstr "Din behörighet är inte aktiv."
+
+msgid "time_limit_unlimited"
+msgstr "Unlimited (tidsbegränsning)"
+
+msgid "time_limit_until"
+msgstr "To (tidsbegränsning)"
+
+msgid "title"
+msgstr "Titel"
+
+msgid "title_required"
+msgstr "Vänligen ange en titel."
+
+msgid "to"
+msgstr "Till"
+
+msgid "to_client_list"
+msgstr "Till kundurvalet"
+
+msgid "today"
+msgstr "Idag"
+
+msgid "toggleGlobalDefault"
+msgstr "Byt standardformatmall"
+
+msgid "toggleGlobalFixed"
+msgstr "Byt stilmall för enhet"
+
+msgid "toggle_dropdown"
+msgstr "Toggle rullgardinsmeny"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_off"
+msgstr "OFF## Översätt inte denna etikett för att undvika visningsproblem med växlingsknappen!"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_on"
+msgstr "ON## Översätt inte denna etikett för att undvika visningsproblem med växlingsknappen!"
+
+msgid "tomorrow"
+msgstr "I morgon"
+
+msgid "toolbar_more_actions"
+msgstr "Fler åtgärder"
+
+msgid "tools"
+msgstr "Verktyg"
+
+msgid "top_of_page"
+msgstr "Sidan börjar"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement"
+msgstr "Accept Terms of Service?"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement_intro"
+msgstr "There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page."
+
+#, fuzzy
+msgid "tos_force_accept_usr_agreement"
+msgstr "You must accept the Terms of Service!"
+
+#, fuzzy
+msgid "tos_no_agreement_description"
+msgstr "There is currently no Terms of Service document available for this installation. Please contact the <a href=\"%1$s\">system administrator</a>."
+
+#, fuzzy
+msgid "tos_refuse_acceptance"
+msgstr "Refuse to Accept Terms of Service"
+
+#, fuzzy
+msgid "tos_usr_agreement"
+msgstr "Terms of Service"
+
+#, fuzzy
+msgid "tos_usr_agreement_footer_intro"
+msgstr "You have declared your consent to these terms of service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description"
+msgstr "Withdraw your consent to our Terms of Service here."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description_external"
+msgstr "Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description_internal"
+msgstr "Please log in again to complete the process of withdrawing your consent to the Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_header"
+msgstr "Withdraw Terms of Service Consent"
+
+#, fuzzy
+msgid "tos_withdraw_consent_info"
+msgstr "Withdraw your consent to our Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_info_external"
+msgstr "Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Terms of Service."
+
+msgid "total"
+msgstr "Totalt"
+
+msgid "tracking_settings"
+msgstr "Inställningar"
+
+msgid "translation"
+msgstr "Översättning"
+
+msgid "trash"
+msgstr "Avfallskorg"
+
+msgid "tree"
+msgstr "Träd"
+
+msgid "tree_frame"
+msgstr "Trädvy"
+
+msgid "treeview"
+msgstr "Trädutsikt på"
+
+msgid "tst"
+msgstr "Test"
+
+msgid "tst_add"
+msgstr "Skapa test"
+
+msgid "tst_edit_questions"
+msgstr "Redigera frågor"
+
+#, fuzzy
+msgid "tst_history_read"
+msgstr "View History"
+
+msgid "tst_new"
+msgstr "Skapa nytt test"
+
+msgid "tst_results"
+msgstr "Testresultat"
+
+msgid "tst_run"
+msgstr "Utför"
+
+msgid "tst_user_not_invited"
+msgstr "Du får inte göra detta onlineprov."
+
+msgid "tst_warning_test_not_complete"
+msgstr "Testet är inte slutfört!"
+
+msgid "tutors"
+msgstr "Tutorer"
+
+msgid "txt_registered"
+msgstr "Du har framgångsrikt registrerat dig hos ILIAS. Klicka på knappen nedan för att komma till ILIAS."
+
+msgid "txt_registered_passw_gen"
+msgstr "Du har framgångsrikt registrerat dig hos ILIAS. Du kommer att få ett e-postmeddelande med ditt lösenord inom kort."
+
+msgid "txt_submitted"
+msgstr "Du har framgångsrikt registrerat dig hos ILIAS. Ditt konto måste fortfarande frigöras av systemadministrationen. Vi ber om ditt tålamod."
+
+msgid "typ"
+msgstr " Definition av objekttyp"
+
+msgid "type"
+msgstr "Typ"
+
+msgid "udf_added_field"
+msgstr "Ett nytt fält har skapats."
+
+msgid "udf_delete_sure"
+msgstr "Är du säker på att du vill ta bort detta fält och alla relaterade poster?"
+
+msgid "udf_duplicate_entries"
+msgstr "Värdena måste vara unika."
+
+msgid "udf_field_deleted"
+msgstr "Fältet har tagits bort."
+
+msgid "udf_name_already_exists"
+msgstr "Ett fält med detta namn finns redan. Vänligen välj ett annat fältnamn."
+
+msgid "udf_required_requires_visib_reg"
+msgstr "Inställningen \"Obligatorisk specifikation\" kräver inställningen \"Synlig i registreringsformuläret\"."
+
+msgid "udf_type_date"
+msgstr "Datum"
+
+msgid "udf_type_datetime"
+msgstr "Datum och tid"
+
+msgid "udf_type_select"
+msgstr "Urvalslista (enstaka urval)"
+
+msgid "udf_type_text"
+msgstr "Text (fri inmatning)"
+
+msgid "udf_type_textarea"
+msgstr "Textområde (WYSIWYG)"
+
+msgid "udf_update_select_field"
+msgstr "Redigera urvalslista"
+
+msgid "udf_update_text_field"
+msgstr "Redigera textfält"
+
+msgid "udf_update_wysiwyg_field"
+msgstr "Redigera fält för textområde (WYSIWYG)"
+
+msgid "uid"
+msgstr "UID"
+
+msgid "ums_create_new_account"
+msgstr "Create nytt ILIAS-konto"
+
+msgid "ums_explanation"
+msgstr "Ditt externa åtkomst-ID kunde inte tilldelas någon personlig åtkomstdata i ILIAS. Ett ILIAS-konto med din e-postadress upptäcktes dock. Om detta är ditt konto, vänligen logga in med ditt ILIAS-lösenord."
+
+msgid "ums_explanation_2"
+msgstr "Om inget av dessa ILIAS-konton tillhör dig, klicka på \"Skapa nytt ILIAS-konto\"."
+
+msgid "ums_explanation_3"
+msgstr "Ditt externa åtkomst-ID kunde inte tilldelas någon personlig åtkomstdata i ILIAS. Din e-postadress används av flera ILIAS-konton. Om ett av dem är ditt konto, logga in med ditt ILIAS-lösenord."
+
+msgid "ums_explanation_4"
+msgstr "Om detta inte är ditt konto, klicka på \"Skapa nytt ILIAS-konto\"."
+
+msgid "unambiguousness"
+msgstr "Underskiljande funktion"
+
+msgid "uncheck_all"
+msgstr "Avmarkera"
+
+msgid "unchecked"
+msgstr "Inte vald"
+
+msgid "uninstall"
+msgstr "Avinstallera"
+
+msgid "uninstalled"
+msgstr " oinstallerad."
+
+msgid "unknown"
+msgstr "UNBEKANNT"
+
+msgid "unparticipate"
+msgstr "Logga ut"
+
+msgid "unread"
+msgstr "Oläst"
+
+msgid "unzip"
+msgstr "Unzipping"
+
+msgid "up"
+msgstr "Hög"
+
+msgid "update"
+msgstr "Takeover"
+
+msgid "update_applied"
+msgstr "Uppdatering av databas framgångsrik"
+
+msgid "update_language"
+msgstr "Uppdatera språk"
+
+msgid "update_on_conflict"
+msgstr "Uppdatera i händelse av konflikt"
+
+msgid "update_orgunits"
+msgstr "Uppdatera användarfältet \"Organisatoriska enheter"
+
+msgid "update_orgunits_desc"
+msgstr "Om den är påslagen uppdateras fältet 'Organisational units' för alla användare och eventuella fel korrigeras."
+
+msgid "upload"
+msgstr "Ladda upp"
+
+msgid "upload_error_file_not_found"
+msgstr "Fel under uppladdning"
+
+#, fuzzy
+msgid "upload_ok"
+msgstr "The upload was successful"
+
+msgid "upload_pending"
+msgstr "Utgående"
+
+msgid "upload_settings"
+msgstr "Inställningar för uppladdning"
+
+#, fuzzy
+msgid "upload_svg_rejection_message"
+msgstr "An uploaded SVG file contains possibily malicious code and cannot be processed."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_base64"
+msgstr "The file contains base64 encoded content."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_elements"
+msgstr "The file contains elements or attributes which are not allowed or known."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_foreign_object"
+msgstr "The file contains foreign objects."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_script"
+msgstr "The file contains script-Elements."
+
+msgid "uploaded_and_checked"
+msgstr "Filen har laddats upp och kontrollerats, du kan nu importera den."
+
+msgid "uploading"
+msgstr "Ladda upp..."
+
+msgid "uri"
+msgstr "URI"
+
+msgid "url"
+msgstr "URL"
+
+msgid "url_not_found"
+msgstr "Filen hittades inte"
+
+msgid "use_customized_instructions"
+msgstr "Använd anpassad vägledningstext"
+
+msgid "use_default_instructions"
+msgstr "Använd standardinstruktionstext."
+
+msgid "user"
+msgstr "Användare"
+
+msgid "user_activated"
+msgstr "Användaren har bekräftats."
+
+msgid "user_added"
+msgstr "Användare skapad"
+
+msgid "user_assignment"
+msgstr "Användartilldelning"
+
+msgid "user_avatar"
+msgstr "Profilbild"
+
+msgid "user_avatar_of"
+msgstr "Profilbild från"
+
+msgid "user_cant_receive_mail"
+msgstr "%1$s - Användaren har inte behörighet att använda e-postsystemet."
+
+msgid "user_comment"
+msgstr "Användarkommentar"
+
+msgid "user_deactivated"
+msgstr "De valda användarna har avaktiverats."
+
+msgid "user_defined_fields"
+msgstr "Användardefinierade fält"
+
+msgid "user_defined_list"
+msgstr "Oversikt över användardefinierade fält"
+
+msgid "user_deleted"
+msgstr "ILIAS-konto raderat"
+
+msgid "user_detail"
+msgstr "Detaljer"
+
+msgid "user_ext_account"
+msgstr "Externt inloggningskonto"
+
+msgid "user_ext_account_desc"
+msgstr "Logonkonto som används för extern autentisering. (SOAP- eller LDAP-autentisering)"
+
+msgid "user_image"
+msgstr "Användarbild"
+
+msgid "user_import_failed"
+msgstr "User import misslyckades."
+
+msgid "user_imported"
+msgstr "User import slutförd."
+
+msgid "user_imported_with_warnings"
+msgstr "User import slutförd med varningar."
+
+msgid "user_language"
+msgstr "Användarspråk"
+
+msgid "user_never_logged_in"
+msgstr "Radera ILIAS-konton utan att logga in"
+
+msgid "user_never_logged_in_info"
+msgstr "ILIAS-konton raderas om ingen någonsin har loggat in på ILIAS med dem."
+
+msgid "user_never_logged_in_info_threshold_err_num"
+msgstr "Tröskelvärdet måste vara ett positivt heltal."
+
+msgid "user_new_account_mail"
+msgstr "Notifiering om ny registrering"
+
+msgid "user_new_account_mail_desc"
+msgstr "Detta e-postmeddelande skickas efter att ett ILIAS-konto har skapats. Om kontot skapades av den tekniska förvaltningen kommer ILIAS endast att skicka ett e-postmeddelande om alternativet \"Informera användare om ändringar via e-post\" aktiverades när konto"
+
+msgid "user_not_found"
+msgstr "Användaren hittades inte"
+
+msgid "user_not_found_to_delete"
+msgstr "En användare som ska raderas kunde inte hittas."
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "user_not_known"
+msgstr "Var god ange ett giltigt inloggningsnamn."
+
+msgid "user_profile_other"
+msgstr "Ytterligare information"
+
+msgid "user_send_new_account_mail"
+msgstr "Skicka välkomstmail"
+
+msgid "user_status"
+msgstr "Användarstatus"
+
+msgid "user_toggle_noti"
+msgstr "Notifieringar kan inte avaktiveras."
+
+msgid "userfolder_export_csv"
+msgstr "Kommaseparerade värden (CSV)"
+
+msgid "userfolder_export_excel_x86"
+msgstr "Microsoft Excel"
+
+msgid "userfolder_export_file"
+msgstr "Fil"
+
+msgid "userfolder_export_file_size"
+msgstr "Filens storlek"
+
+msgid "userfolder_export_files"
+msgstr "Filer"
+
+msgid "userfolder_export_xml"
+msgstr "XML"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "username"
+msgstr "Login name"
+
+#, fuzzy
+msgid "username_assistance"
+msgstr "Username Assistance"
+
+msgid "users"
+msgstr "Användare"
+
+msgid "users_not_imported"
+msgstr "Följande användare existerar inte. Därför kan deras e-postmeddelanden inte importeras"
+
+msgid "users_online"
+msgstr "Aktiva användare"
+
+msgid "usr"
+msgstr "Användare"
+
+msgid "usr_account_inactive"
+msgstr "Inaktiv användare"
+
+msgid "usr_active_only"
+msgstr "Endast aktiva användare"
+
+msgid "usr_add"
+msgstr "Ny användare"
+
+msgid "usr_edit"
+msgstr "Redigera användare"
+
+msgid "usr_field_change_components_listening"
+msgstr "Det finns minst en komponent som är intresserad av de förändringar som gjorts. Vill du slutligen genomföra ändringarna tillsammans med de konsekvenser som beskrivs av komponenterna?"
+
+msgid "usr_filter_coursemember"
+msgstr "Medlem i en kurs"
+
+msgid "usr_filter_groupmember"
+msgstr "Medlem i en grupp"
+
+msgid "usr_filter_lastlogin"
+msgstr "Sista inloggning för en användare"
+
+msgid "usr_filter_role"
+msgstr "Tilldelad roll"
+
+msgid "usr_inactive_only"
+msgstr "Endast icke-aktiva användare"
+
+msgid "usr_limited_access_only"
+msgstr "Endast användare med åtkomstbegränsning"
+
+msgid "usr_name_undisclosed"
+msgstr "Inte släppt"
+
+msgid "usr_new"
+msgstr "Ny användare"
+
+msgid "usr_settings_changeable_lua"
+msgstr "Ändringsbar till \"Lokala konton\" i kategorier"
+
+msgid "usr_settings_explanation_profile"
+msgstr "Per datafält, åtkomst kan konfigureras i profil, medlemsflikar och lokala konton."
+
+msgid "usr_settings_header_profile"
+msgstr "Inställningar för inloggningskonton"
+
+msgid "usr_settings_saved"
+msgstr "De globala användarinställningarna har sparats och är nu aktiverade!"
+
+msgid "usr_settings_visib_lua"
+msgstr "Visible i \"Lokala konton\" i kategorier"
+
+msgid "usr_skin_style"
+msgstr "Hud/Stil"
+
+msgid "usr_without_courses"
+msgstr "User tilldelad utan kurser"
+
+msgid "usrf"
+msgstr "Registreringskonton"
+
+msgid "usrf_profile_link"
+msgstr "Länk till ILIAS-konto"
+
+msgid "usrimport_action_ignored"
+msgstr "Aktion %1$s ignorerad."
+
+msgid "usrimport_action_replaced"
+msgstr "Aktion %1$s ersatt av %2$s."
+
+msgid "usrimport_cant_delete"
+msgstr "Kan inte utföra åtgärden \"Radera\". Inget matchande ILIAS-konto i databasen."
+
+msgid "usrimport_cant_insert"
+msgstr "Kan inte utföra åtgärden \"Infoga\". ILIAS-kontot finns redan i databasen."
+
+msgid "usrimport_cant_update"
+msgstr "Kan inte utföra åtgärden \"Uppdatera\". Inget lämpligt ILIAS-konto finns tillgängligt i databasen."
+
+msgid "usrimport_conflict_handling_info"
+msgstr "Om \"Ignorera vid konflikt\", hoppar ILIAS över alla data som inte kan importeras utan problem. I det här fallet skulle till exempel en \"Insert\"-åtgärd inte utföras om ett konto med samma inloggningsnamn redan finns i databasen. Du kommer att få en felrapp"
+
+msgid "usrimport_form_not_evaluabe"
+msgstr "Formuläret kunde inte läsas."
+
+msgid "usrimport_global_role_for_action_required"
+msgstr "För åtgärden \"%1$s\" måste minst en global roll anges."
+
+msgid "usrimport_ignore_role"
+msgstr "Ignorera roll"
+
+# Modifierad som en del av jämställdhetsintegreringen för ILIAS 8
+msgid "usrimport_login_is_not_unique"
+msgstr "Login-namnet är inte unikt "
+
+msgid "usrimport_no_insert_ext_account_exists"
+msgstr "Import inte möjlig. Externt inloggningskonto finns redan."
+
+msgid "usrimport_no_update_ext_account_exists"
+msgstr "Uppdatering ej möjlig. Externt inloggningskonto finns redan."
+
+msgid "usrimport_with_specified_role_not_permitted"
+msgstr "Du har inte behörighet att importera användare med den angivna rollen."
+
+msgid "usrimport_wrong_file_count"
+msgstr "För många filer i importmappen. Vänligen försök igen."
+
+msgid "usrimport_xml_anonymous_or_root_not_allowed"
+msgstr "Varken systemkontot eller det anonyma kontot kan ändras med importen."
+
+msgid "usrimport_xml_attribute_missing"
+msgstr "Attributet \"%2$s\" saknas i elementet \"%1$s\"."
+
+msgid "usrimport_xml_attribute_value_illegal"
+msgstr "Värdet \"%3$s\" för attributet \"%2$s\" i elementet \"%1$s\" är ogiltigt."
+
+msgid "usrimport_xml_attribute_value_inapplicable"
+msgstr "Värdet \"%3$s\" för attributet \"%2$s\" i elementet \"%1$s\" är inte tillämpligt för åtgärden \"%4$s\"."
+
+msgid "usrimport_xml_element_content_illegal"
+msgstr "Innehållet \"%2$s\" i elementet \"%1$s\" är ogiltigt."
+
+msgid "usrimport_xml_element_for_action_required"
+msgstr "Elementet \"%1$s\" måste anges för åtgärden \"%2$s\"."
+
+msgid "usrimport_xml_element_inapplicable"
+msgstr "Elementet \"%1$s\" är inte tillämpligt för åtgärden \"%2$s\"."
+
+msgid "valid"
+msgstr "Validerad"
+
+msgid "validate"
+msgstr "Validera"
+
+msgid "value"
+msgstr "Värde"
+
+msgid "vcard"
+msgstr "Visitkort"
+
+msgid "vcard_download"
+msgstr "Ladda ner visitkort"
+
+msgid "verification_failed"
+msgstr "Review misslyckad"
+
+msgid "verification_failure_log"
+msgstr "Granska fellogg"
+
+msgid "verification_warning_log"
+msgstr "Review Varningslogg"
+
+msgid "version"
+msgstr "Version"
+
+msgid "versions"
+msgstr "Versioner"
+
+msgid "view"
+msgstr "Show"
+
+msgid "view_content"
+msgstr "Innehåll"
+
+msgid "view_learning_progress"
+msgstr "Visa framsteg i inlärningen"
+
+msgid "view_learning_progress_rec"
+msgstr "Se lärandets framsteg rekursivt"
+
+msgid "visible"
+msgstr "Display"
+
+msgid "visible_registration"
+msgstr "I registreringsformuläret"
+
+msgid "visitor"
+msgstr "Besökare"
+
+msgid "visitors"
+msgstr "Besökare"
+
+msgid "visits"
+msgstr "Besök"
+
+msgid "web_resources"
+msgstr "Webblänkar"
+
+msgid "webdav"
+msgstr "WebDAV"
+
+msgid "webdav_add_instructions_btn_label"
+msgstr "Lägg till WebDAV Instruktion"
+
+msgid "webdav_chosen_language_already_used"
+msgstr "Det finns redan en WebDAV-guide för det valda språket."
+
+msgid "webdav_doc_delete"
+msgstr "Radera WebDAV Instruktion"
+
+msgid "webdav_docs_mount_instructions"
+msgstr "Fil med WevDAV-instruktion"
+
+msgid "webdav_duplicate_detected_title"
+msgstr "Följande objekt kunde inte visas, eftersom ett objekt med samma titel redan visas."
+
+msgid "webdav_forbidden_chars_title"
+msgstr "Följande objekt kunde inte visas eftersom de innehåller förbjudna tecken (\\&lt;&gt;/"
+
+msgid "webdav_form_document"
+msgstr "Handledning för WebDAV"
+
+msgid "webdav_form_document_info"
+msgstr "Ladda upp ett txt- eller html-dokument med instruktioner om hur du ansluter WebDAV till de system du väljer."
+
+msgid "webdav_form_document_title"
+msgstr "Titel"
+
+msgid "webdav_form_document_title_info"
+msgstr "Den här titeln visas i modellen med WebDAV-instruktionerna"
+
+msgid "webdav_form_edit_doc_head"
+msgstr "Redigera WebDAV-instruktioner"
+
+msgid "webdav_form_new_doc_head"
+msgstr "Lägg till ett nytt dokument"
+
+msgid "webdav_general_settings"
+msgstr "Allmänna inställningar"
+
+msgid "webdav_missing_lang"
+msgstr "Det finns ingen tysk version av WebDAV-instruktionerna."
+
+msgid "webdav_mount_instructions"
+msgstr "WebDAV instruktioner"
+
+msgid "webdav_problem_free_container"
+msgstr "Inga objekt som orsakar problem hittades i den här mappen."
+
+msgid "webdav_problem_info_duplicate"
+msgstr "Det finns en fil med samma titel som infofilen."
+
+msgid "webdav_pwd_instruction"
+msgstr "För att öppna ILIAS-tidningen som en webbmapp utanför den aktuella sessionen rekommenderar vi att du skapar ett lokalt lösenord.<br />Detta lösenord krävs endast för webbmappsfunktionerna, ILIAS-inloggningen görs fortfarande med ditt vanliga lösenord."
+
+msgid "webdav_pwd_instruction_success"
+msgstr "Ett nytt lokalt lösenord har skapats. Du kan nu öppna tidningen som en webbmapp."
+
+msgid "webdav_sure_delete_documents_s"
+msgstr "Ska WebDAV-instruktionen med följande titel verkligen tas bort"
+
+msgid "webdav_tbl_docs_head_title"
+msgstr "Titel"
+
+msgid "webdav_tbl_docs_title"
+msgstr "Lista över uppladdade WebDAV-instruktioner"
+
+msgid "webdav_upload_instructions"
+msgstr "Instruktioner för uppladdning av WebDAV"
+
+msgid "webfolder_dir_info"
+msgstr "Du har hamnat här eftersom din webbläsare inte kan öppna webbmappar. Läs <a href=\"%1$s\">instruktionerna om hur du öppnar den här webbmappen</a>."
+
+msgid "webfolder_index_of"
+msgstr "Innehåll i %1$s"
+
+msgid "webfolder_instructions"
+msgstr "Instruktion för webbmappar"
+
+msgid "webfolder_instructions_info"
+msgstr "Instruktionerna för webbmappar visas i webbläsare som inte kan öppna webbmappar direkt. Du kan använda HTML-kod.<br/>Platshållare som kan användas"
+
+msgid "webfolder_instructions_text"
+msgstr "[WINDOWS<h3>]Instruktioner för anslutning med Windows</h3>"
+
+msgid "webfolder_instructions_titletext"
+msgstr "Öppna som webbmapp"
+
+msgid "webfolder_mount_dir_with"
+msgstr "Öppna denna sida som en webbmapp med <a href=\"%1$s\">Internet Explorer 6</a>, <a href=\"%2$s\">Konqueror</a>, <a href=\"%3$s\">Nautilus</a> eller <a href=\"%4$s\">annan webbläsare</a>."
+
+msgid "webr"
+msgstr "Webblänk"
+
+msgid "webr_active"
+msgstr "Aktiv"
+
+msgid "webr_add"
+msgstr "Skapa webblänk"
+
+msgid "webr_deleted_items"
+msgstr "Webblänken (länkarna) har tagits bort."
+
+msgid "webr_edit"
+msgstr "Redigera webblänk"
+
+msgid "webr_sure_delete_items"
+msgstr "Är du säker på att du vill ta bort följande webblänkar?"
+
+msgid "webservices"
+msgstr "SOAP"
+
+msgid "week"
+msgstr "Vecka"
+
+msgid "weekly"
+msgstr "Veckovis"
+
+msgid "weeks"
+msgstr "Veckor"
+
+msgid "welcome"
+msgstr "Välkommen"
+
+msgid "width"
+msgstr "Bredd"
+
+msgid "wiki"
+msgstr "Wiki"
+
+msgid "wiki_add"
+msgstr "Skapa wiki"
+
+msgid "wiki_new"
+msgstr "Skapa ny wiki"
+
+msgid "with"
+msgstr "med"
+
+msgid "withdraw_consent"
+msgstr "Återkalla samtycke"
+
+msgid "withdraw_consent_info_internal"
+msgstr "Om du bekräftar här kommer ditt ILIAS-konto att raderas."
+
+msgid "withdraw_usr_agreement"
+msgstr "Återkalla"
+
+msgid "withdrawal_complete"
+msgstr "Annulleringsprocessen avslutad."
+
+msgid "withdrawal_complete_deleted"
+msgstr "Revokationsprocessen är slutförd. ILIAS-kontot har tagits bort."
+
+msgid "withdrawal_complete_redirect"
+msgstr "Annulleringsprocessen är slutförd. För att avsluta ILIAS-kontot, vänligen kontakta din organisation."
+
+msgid "withdrawal_mail_info"
+msgstr "Följande meddelande kommer att skickas för din räkning när du bekräftar"
+
+msgid "withdrawal_mail_subject"
+msgstr "Återkallande av samtycke till att använda avtal"
+
+msgid "withdrawal_mail_text"
+msgstr "Good day,[BR][BR]Jag återkallar härmed mitt samtycke till användaravtalet för din ILIAS-installation. Vänligen vidta lämpliga åtgärder.[BR][BR]Namn"
+
+msgid "withdrawal_sure_account"
+msgstr "Är du säker på att du vill återkalla ditt samtycke till att använda avtal?"
+
+msgid "withdrawal_sure_account_deletion"
+msgstr "Är du säker på att du vill återkalla ditt samtycke till användaravtalen? Ditt ILIAS-konto kommer oåterkalleligen att raderas som ett resultat."
+
+msgid "withdrawal_sure_account_deletion_no_consent_yet"
+msgstr "Är du säker på att du inte vill ge ditt samtycke till användaravtalen? Ditt ILIAS-konto kommer att raderas oåterkalleligt som ett resultat."
+
+msgid "withdrawal_sure_account_no_consent_yet"
+msgstr "Är du säker på att du inte vill ge ditt samtycke till användaravtalen?"
+
+msgid "wizard_search_list"
+msgstr "Din sökning gav följande resultat. Välj ett av dessa."
+
+msgid "wizard_title_info"
+msgstr "Ange titeln för att söka efter det objekt du vill kopiera. Delar av titeln är också tillräckligt. Klicka på \"Sök\" för att få träffarna visade."
+
+msgid "write"
+msgstr "Skrivande"
+
+msgid "year"
+msgstr "År"
+
+msgid "yearly"
+msgstr "årlig"
+
+msgid "years"
+msgstr "År"
+
+msgid "yes"
+msgstr "Ja"
+
+msgid "yesterday"
+msgstr "Igår"
+
+msgid "zip"
+msgstr "PLZ"
+
+msgid "zip_structure_error"
+msgstr "Arkivet innehåller samma filnamn. Uppladdning avbruten"
+
+msgid "zip_test_failed"
+msgstr "ZIP-testet har misslyckats. Vänligen kontakta din ILIAS-administratör."
+
+msgid "zipcode"
+msgstr "Postnummer"

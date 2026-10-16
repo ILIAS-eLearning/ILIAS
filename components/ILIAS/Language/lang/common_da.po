@@ -1,0 +1,8638 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: da\n"
+"Language-Team: Danish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: common\n"
+
+msgid "HH"
+msgstr "TT:MM"
+
+msgid "absolute_path"
+msgstr "Fulde sti"
+
+#, fuzzy
+msgid "accept_usr_agreement_btn"
+msgstr "Accept"
+
+msgid "access"
+msgstr "Adgang"
+
+msgid "accessFree"
+msgstr "Fjern begrænset adgang"
+
+msgid "accessRestrict"
+msgstr "Sæt begrænset adgang"
+
+msgid "access_expired"
+msgstr "udløbet"
+
+msgid "access_free_granted"
+msgstr "Sæt valgte bruger(e) til ubegrænset adgang"
+
+msgid "access_from"
+msgstr "Adgang (fra)"
+
+msgid "access_public"
+msgstr "Offentlig"
+
+msgid "access_restricted"
+msgstr "Sæt valgte brugere(e) til begrænset adgang"
+
+msgid "access_scope"
+msgstr "Adgang"
+
+msgid "access_unlimited"
+msgstr "ubegrænset"
+
+msgid "access_until"
+msgstr "Adgang til"
+
+msgid "access_users"
+msgstr "Indloggede brugere"
+
+msgid "accesscount_registered_users"
+msgstr "Læst af antal unikke ILIAS brugere"
+
+#, fuzzy
+msgid "accessibility_control_concept"
+msgstr "Accessibility Control Concept"
+
+#, fuzzy
+msgid "account"
+msgstr "My Account"
+
+msgid "account_expires_body"
+msgstr "Du har begrænset adgang, den vil udløbe:"
+
+msgid "account_expires_subject"
+msgstr "[ILIAS] Din konto udløber"
+
+msgid "action"
+msgstr "Handling"
+
+msgid "action_aborted"
+msgstr "Handling afbrudt"
+
+msgid "actions"
+msgstr "Handlinger"
+
+#, fuzzy
+msgid "actions_for"
+msgstr "Actions for %s"
+
+msgid "activate"
+msgstr "Set aktiv"
+
+msgid "activate_https"
+msgstr "HTTPS håndtering af ILIAShandling <br/>(Betaling, brugernavn)"
+
+msgid "activate_tracking"
+msgstr "Aktiver sporing"
+
+msgid "activation"
+msgstr "Aktivering"
+
+msgid "active"
+msgstr "Aktiv"
+
+msgid "add"
+msgstr "Tilføj"
+
+msgid "add_condition"
+msgstr "Opret betingelse"
+
+#, fuzzy
+msgid "add_entry"
+msgstr "Add/Edit entry"
+
+msgid "add_member"
+msgstr "Tilføj medlem"
+
+#, fuzzy
+msgid "add_member_role"
+msgstr "Add Member Role"
+
+msgid "add_new_user_defined_field"
+msgstr "Lav brugerdefineret felt"
+
+msgid "add_note"
+msgstr "Tilføj note"
+
+msgid "add_parameter"
+msgstr "Nyt parameter"
+
+#, fuzzy
+msgid "add_remove_edit_entries_of_main_menu"
+msgstr "Add, remove or edit entries of the main menu"
+
+#, fuzzy
+msgid "add_role"
+msgstr "Add Role"
+
+msgid "add_translation"
+msgstr "Tilføj oversættelse"
+
+msgid "add_user"
+msgstr "Tilføj lokal bruger"
+
+msgid "add_user_defined_field"
+msgstr "Tilføj nyt felt"
+
+msgid "added_new_condition"
+msgstr "Tilføjet ny tilstand."
+
+msgid "additional_info"
+msgstr "Yderligere information"
+
+msgid "address"
+msgstr "Adresse"
+
+msgid "admin_force_noti"
+msgstr "Advisering aktiv"
+
+msgid "administrate_users"
+msgstr "Lokal brugeradministration"
+
+#, fuzzy
+msgid "administrate_users_headline"
+msgstr "Local ILIAS Accounts of this Category"
+
+msgid "administration"
+msgstr "Administration"
+
+msgid "administrator"
+msgstr "Administrator"
+
+# Bruges f.eks ved filer/mail
+msgid "adopt"
+msgstr "Vedhæft"
+
+msgid "advanced_editing_allow_html_tags"
+msgstr "Tillad valgte HTML tags i tekstredigering"
+
+msgid "advanced_editing_assessment_settings"
+msgstr "Allowed HTML Tags for the ILIAS Test&Assessment tool"
+
+msgid "advanced_editing_frm_post_settings"
+msgstr "Indstillinger for indlæg i fora"
+
+msgid "advanced_editing_rep_page_editing"
+msgstr "Brug indholdsredigering i oversigten"
+
+msgid "advanced_editing_rep_page_editing_desc"
+msgstr "Dette aktiverer CMS funktionaliteten der gør det muligt at lave tekst/grafik i kategorier, kurser, grupper og mapper."
+
+msgid "advanced_editing_required_tags"
+msgstr "Følgene HTML tags kræves: %s"
+
+msgid "advanced_editing_survey_settings"
+msgstr "Tilladte HTML tags i ILIAS afstemingsværktøj"
+
+msgid "adve_assessment_settings"
+msgstr "Test & evalueringsindstillinger"
+
+msgid "adve_frm_post_settings"
+msgstr "Forumindlæg"
+
+msgid "adve_general_settings"
+msgstr "Generelle indstillinger"
+
+msgid "adve_survey_settings"
+msgstr "Afstemningsindstillinger"
+
+msgid "agree_date"
+msgstr "Accepteret den"
+
+#, fuzzy
+msgid "all"
+msgstr "All"
+
+msgid "all_global_roles"
+msgstr "Globale roller"
+
+msgid "all_local_roles"
+msgstr "Lokale roller (alle)"
+
+msgid "all_objects"
+msgstr "Alle objekter"
+
+msgid "all_roles"
+msgstr "Alle roller"
+
+msgid "all_topics"
+msgstr "Alle emner"
+
+msgid "all_users"
+msgstr "Alle brugere"
+
+msgid "allow_assign_users"
+msgstr "Tillad Bruger tilmeldelse til lokal administrator."
+
+msgid "allow_override_alert"
+msgstr "Regler for .htaccess fortolkes ikke korrekt"
+
+msgid "allow_register"
+msgstr "Tilgængelig i registration formularen for nye brugere"
+
+#, fuzzy
+msgid "allow_user_toggle_noti"
+msgstr "Member is allowed to deactivate notification"
+
+msgid "already_delivered_files"
+msgstr "Filer der er leveret"
+
+msgid "and"
+msgstr "og"
+
+#, fuzzy
+msgid "angry"
+msgstr "Angry"
+
+msgid "anonymous"
+msgstr "Anonym"
+
+msgid "answers"
+msgstr "Svar"
+
+msgid "any_language"
+msgstr "alle slags sprog"
+
+#, fuzzy
+msgid "apache_auth"
+msgstr "Apache Authentication"
+
+msgid "application_completed"
+msgstr "Formularen er udført"
+
+msgid "application_date"
+msgstr "Formulardato"
+
+msgid "applications"
+msgstr "Ansøgninger"
+
+msgid "apply"
+msgstr "Send"
+
+msgid "apply_filter"
+msgstr "Anvend filter"
+
+msgid "appointment"
+msgstr "Aftale"
+
+msgid "approve_date"
+msgstr "Godkendt den"
+
+msgid "approve_recipient"
+msgstr "Login ID på administratoren"
+
+msgid "archive"
+msgstr "Arkiver"
+
+msgid "archive_broken"
+msgstr "Arkivfilen ser ud til at være korrupt eller tom."
+
+msgid "are_you_sure"
+msgstr "Er du sikker?"
+
+msgid "assf_allowed_questiontypes"
+msgstr "Tilgængelige spørgsmålstyper"
+
+msgid "assf_allowed_questiontypes_desc"
+msgstr "Alle afkrydsede spørgsmålstyper er tilgængelige i ILIAS installationen. Hvis du ikke ønsker bestemte spørgsmålstyper skal være tilgængelige skal du fjerne afkrydsningen."
+
+msgid "assf_questiontypes"
+msgstr "Spørgsmålsindstillinger"
+
+msgid "assign"
+msgstr "Tildel"
+
+msgid "assign_global_role"
+msgstr "Tildel en global rolle"
+
+msgid "assign_local_role"
+msgstr "Tildel en lokal rolle"
+
+msgid "assigned_members"
+msgstr "Medlemmer"
+
+msgid "assigned_roles"
+msgstr "Tildelte roller"
+
+msgid "associated_user"
+msgstr "Tilknyttet bruger"
+
+#, fuzzy
+msgid "astounded"
+msgstr "Astounded"
+
+msgid "at_least_one_style"
+msgstr "Mindst et stilark skal være aktivt."
+
+msgid "attachment"
+msgstr "Vedhæft"
+
+msgid "attachments"
+msgstr "Vedhæftede"
+
+msgid "attempts"
+msgstr "Forsøg"
+
+msgid "auth_active_roles"
+msgstr "Globale roller aktiveret i oprettelse"
+
+msgid "auth_allow_local"
+msgstr "Tillad lokal autentificering"
+
+msgid "auth_configure"
+msgstr "Konfigurer..."
+
+msgid "auth_create_users"
+msgstr "Opret automatisk ikke-eksisterende brugere"
+
+msgid "auth_default"
+msgstr "Standardinstillinger"
+
+msgid "auth_default_mode_changed_to"
+msgstr "Standard autentificerings metode ændret til"
+
+#, fuzzy
+msgid "auth_ecs"
+msgstr "ECS"
+
+msgid "auth_ldap"
+msgstr "LDAP"
+
+msgid "auth_ldap_enable"
+msgstr "Aktiver LDAP"
+
+#, fuzzy
+msgid "auth_ldap_migration"
+msgstr "Account Migration"
+
+#, fuzzy
+msgid "auth_ldap_migration_info"
+msgstr "Activate this option to give new users the possibility to migrate their existing ILIAS accounts to LDAP authentication."
+
+msgid "auth_local"
+msgstr "ILIAS database"
+
+msgid "auth_login_instructions"
+msgstr "Instruktioner der vises på login-skærmen."
+
+msgid "auth_mode"
+msgstr "Verifikationstilstand"
+
+msgid "auth_mode_not_changed"
+msgstr "(intet er ændret)"
+
+msgid "auth_mode_roles_changed"
+msgstr "Changed authentication mode for this Role"
+
+msgid "auth_new_account_mail_desc"
+msgstr "Send mail til bruger omkring den nye konto, hvis brugeren er automatisk oprettet. Der generes kun et password hvis \"Tillad lokal autentificering\" også er aktiveret."
+
+msgid "auth_per_default"
+msgstr "Som standard"
+
+msgid "auth_remark_non_local_auth"
+msgstr "Når man vælger en anden verifikationstilstand end standarden bliver brugerlogin og passwords slået fra og der kan ikke oprettes nye brugere"
+
+msgid "auth_role_auth_mode"
+msgstr "Autoriseringstilstand"
+
+#, fuzzy
+msgid "auth_saml"
+msgstr "SAML"
+
+msgid "auth_script"
+msgstr "Brugervalgte"
+
+msgid "auth_select"
+msgstr "Vælg verifikationstilstand"
+
+#, fuzzy
+msgid "auth_selection"
+msgstr "Login to"
+
+msgid "auth_settings"
+msgstr "Authentificeringsindstilliger"
+
+msgid "auth_shib"
+msgstr "Shibboleth"
+
+#, fuzzy
+msgid "auth_shib_instructions"
+msgstr "Be sure to read the README for instructions on how to configure Shibboleth support for ILIAS."
+
+msgid "auth_shib_not_configured"
+msgstr "Shibboleth er endnu ikke konfigureret"
+
+msgid "auth_shibboleth"
+msgstr "Shibboleth"
+
+msgid "auth_soap"
+msgstr "SOAP"
+
+msgid "auth_soap_allow_local_desc"
+msgstr "This allows SOAP users to authenticate with their local ILIAS username and a local password."
+
+msgid "auth_soap_auth"
+msgstr "Configure SOAP Authentication"
+
+msgid "auth_soap_auth_desc"
+msgstr "This settings deal only with SOAP based user authentication, not with the ILIAS SOAP interface."
+
+msgid "auth_soap_create_users_desc"
+msgstr "Creates automatically an ILIAS user account, for users that successfully authenticated against SOAP, without having an ILIAS account yet."
+
+msgid "auth_soap_namespace"
+msgstr "Namespace"
+
+msgid "auth_soap_namespace_desc"
+msgstr "As defined in WSDL. Must be specified, if .NET SOAP style is used."
+
+msgid "auth_soap_port_desc"
+msgstr "E.g. 8080 if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_server_desc"
+msgstr "E.g. auth.yourserver.com if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_settings_saved"
+msgstr "SOAP authentication settings saved"
+
+msgid "auth_soap_uri_desc"
+msgstr "Local URI, e.g. dir/server.php if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_use_dotnet"
+msgstr "Use .NET SOAP Style"
+
+msgid "auth_soap_use_https"
+msgstr "Use HTTPS"
+
+msgid "auth_soap_user_default_role_desc"
+msgstr "This role is assigned to automatically created SOAP users."
+
+msgid "auth_user_default_role"
+msgstr "Standardrolle"
+
+msgid "authenticate_ilias"
+msgstr "Login på ILIAS"
+
+msgid "authentication_settings"
+msgstr "Autentificering"
+
+msgid "author"
+msgstr "Forfatter"
+
+msgid "authoring_mode"
+msgstr "Forfattervisning"
+
+msgid "authors"
+msgstr "Forfattere"
+
+#, fuzzy
+msgid "autocomplete_more"
+msgstr "more"
+
+msgid "available"
+msgstr "Tilgængelig"
+
+#, fuzzy
+msgid "awra"
+msgstr "Who is online?"
+
+msgid "back"
+msgstr "Tilbage"
+
+#, fuzzy
+msgid "back_to_course"
+msgstr "Back to Course"
+
+msgid "back_to_crs_content"
+msgstr "Tilbage til kursusindhold"
+
+msgid "back_to_fold_content"
+msgstr "Tilbage til folderindhold"
+
+msgid "back_to_grp_content"
+msgstr "Tilbage til gruppeindhold"
+
+#, fuzzy
+msgid "backto_lua"
+msgstr "Back to Local User Administration"
+
+msgid "basedn"
+msgstr "BaseDN"
+
+msgid "basic_settings"
+msgstr "Almindelige indstillinger"
+
+msgid "before"
+msgstr "før"
+
+#, fuzzy
+msgid "behind"
+msgstr "Behind"
+
+msgid "bib_data"
+msgstr "Bibliografisk data"
+
+#, fuzzy
+msgid "bibl_add"
+msgstr "Add Bibliography"
+
+msgid "birthday"
+msgstr "Fødselsdag"
+
+msgid "bkm_import"
+msgstr "Importer foretrukne"
+
+msgid "bkm_import_ok"
+msgstr "Der blev importeret %d foretrukne og %d mapper."
+
+msgid "bkm_sendmail"
+msgstr "Send som vedhæftet"
+
+msgid "block"
+msgstr "Blok"
+
+msgid "bm"
+msgstr "Foretrukne"
+
+msgid "bm_add_to_ilias"
+msgstr "Føj til ILIAS bogmærker"
+
+msgid "bmf"
+msgstr "Mappe til foretrukne"
+
+msgid "bold"
+msgstr "Fed"
+
+#, fuzzy
+msgid "bold_action"
+msgstr "Insert Bold - Click to insert bold text."
+
+msgid "bookings"
+msgstr "Ordrer"
+
+#, fuzzy
+msgid "bookmark_added"
+msgstr "The Bookmark has been created."
+
+msgid "bookmark_folder_new"
+msgstr "Ny mappe til foretrukne"
+
+msgid "bookmark_new"
+msgstr "Nye foretrukne"
+
+msgid "bookmark_target"
+msgstr "Mål"
+
+msgid "bookmarks"
+msgstr "Foretrukne"
+
+msgid "bookmarks_of"
+msgstr "Til foretrukne"
+
+msgid "breadcrumb_navigation"
+msgstr "Brødkrumme-navigation"
+
+#, fuzzy
+msgid "breadcrumbs_aria_label"
+msgstr "Breadcrumbs"
+
+#, fuzzy
+msgid "briefcase"
+msgstr "Background Tasks"
+
+msgid "btn_add"
+msgstr "Tilføj"
+
+msgid "btn_back"
+msgstr "Tilbage"
+
+msgid "btn_next"
+msgstr "Fortsæt"
+
+msgid "btn_previous"
+msgstr "Tilbage"
+
+msgid "btn_remove_system"
+msgstr "Fjern fra system"
+
+msgid "btn_undelete"
+msgstr "Ikke slettet"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_no"
+msgstr "Doesn`t Receive Contact Requests"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_yes"
+msgstr "Receives Contact Requests"
+
+#, fuzzy
+msgid "building_export_file"
+msgstr "Building Export File..."
+
+#, fuzzy
+msgid "bulletlist_action"
+msgstr "Insert Bulletpoint-List - Click to insert a bulletpoint-list."
+
+msgid "by"
+msgstr "Af"
+
+msgid "bytes"
+msgstr "Bytes"
+
+msgid "cal_from"
+msgstr "Fra:"
+
+msgid "cal_until"
+msgstr "Indtil:"
+
+msgid "calendar"
+msgstr "Kalender"
+
+msgid "cancel"
+msgstr "Afbryd"
+
+#, fuzzy
+msgid "cancel_file_upload"
+msgstr "Do you really want to cancel all pending uploads?"
+
+msgid "cannot_find_xml"
+msgstr "Kan ikke finde XML-filer."
+
+msgid "cannot_uninstall_language_in_use"
+msgstr "Du kan ikke afinstallere et sprog der er i brug!"
+
+msgid "cannot_uninstall_systemlanguage"
+msgstr "Du kan ikke afinstallere systemsproget!"
+
+msgid "cannot_unzip_file"
+msgstr "Kan ikke udpakke fil."
+
+msgid "cant_deactivate_if_users_assigned"
+msgstr "Du kan ikke deaktivere et stilark når der stadig er brugere der anvender det."
+
+msgid "cat"
+msgstr "Kategori"
+
+msgid "cat_add"
+msgstr "Tilføj kategori"
+
+msgid "cat_added"
+msgstr "Kategori tilføjet"
+
+#, fuzzy
+msgid "cat_copy_threads_info"
+msgstr "Please decide which category items should be copied, linked or even omitted."
+
+msgid "cat_edit"
+msgstr "Rediger kategori"
+
+msgid "cat_new"
+msgstr "Ny kategori"
+
+msgid "cat_wizard_page"
+msgstr "Kopier kategori (Skridt 2/2)"
+
+msgid "categories"
+msgstr "Kategorier"
+
+msgid "categories_imported"
+msgstr "Import af kategorier er gennemført"
+
+msgid "catr"
+msgstr "Kategorireference"
+
+#, fuzzy
+msgid "catr_add"
+msgstr "Add Category Link"
+
+msgid "catr_edit_info"
+msgstr "Vælg en kategori for at lave en ny reference"
+
+msgid "catr_new"
+msgstr "Lav ny katgegorireference"
+
+#, fuzzy
+msgid "catr_settings"
+msgstr "Category Link Settings"
+
+msgid "certificate"
+msgstr "Certifikat"
+
+#, fuzzy
+msgid "certificate_file_already_exists_error"
+msgstr "The certificate file already exists in the file system."
+
+#, fuzzy
+msgid "certificate_file_input_output_error"
+msgstr "The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator."
+
+#, fuzzy
+msgid "certificate_file_not_found_error"
+msgstr "The certificate file doesn't exist in the file system anymore. Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden."
+
+#, fuzzy
+msgid "certificate_persistent_option"
+msgstr "Certificates of Achievements"
+
+#, fuzzy
+msgid "certificate_selection"
+msgstr "Origin of Certificates"
+
+#, fuzzy
+msgid "certificate_workspace_option"
+msgstr "Certificates of Personal Resources"
+
+#, fuzzy
+msgid "certificates"
+msgstr "Certificates"
+
+msgid "change"
+msgstr "Ret"
+
+msgid "change_assignment"
+msgstr "Skift tildelinger"
+
+msgid "change_header_title"
+msgstr "Rediger overskift"
+
+msgid "change_owner"
+msgstr "Skift ejer"
+
+msgid "change_sort_direction"
+msgstr "Rediger sti"
+
+msgid "changeable"
+msgstr "Redigerbar"
+
+msgid "changed_to"
+msgstr "ændret Til"
+
+#, fuzzy
+msgid "changing_loginname_not_possible_info"
+msgstr "You changed your login name at last at %s. The next change can be performed at %s."
+
+msgid "chapter"
+msgstr "Kapitel"
+
+msgid "characters"
+msgstr "karakterer"
+
+msgid "chat_enter_public_room"
+msgstr "Chat"
+
+msgid "chat_enter_public_room_tooltip"
+msgstr "Gå til chat"
+
+msgid "chat_users_active"
+msgstr "Aktive brugere"
+
+msgid "check"
+msgstr "Afkryds"
+
+msgid "check_all"
+msgstr "Afkryds alle"
+
+msgid "check_langfile"
+msgstr "Check venligst din sprogfil"
+
+msgid "check_languages"
+msgstr "Kontroller sprog"
+
+msgid "check_link"
+msgstr "Linkcheck"
+
+msgid "check_link_desc"
+msgstr "Hvis aktiveret, vil alle eksterne links i ILIAS læremoduler blive checket om de er aktiveret"
+
+msgid "check_user_accounts"
+msgstr "Check brugerkonti"
+
+msgid "check_user_accounts_desc"
+msgstr "Hvis cron jobs er aktiverede og denne funktion er aktiveret vil brugers hvis konto udløber blive informeret pr. mail."
+
+msgid "check_web_resources"
+msgstr "Check webresurser"
+
+msgid "check_web_resources_desc"
+msgstr "Hvis sat til, vil alle webresurser blive checket om de er aktiveret"
+
+msgid "checked"
+msgstr "Afkrydset"
+
+msgid "checked_files"
+msgstr "Importerbare filer"
+
+msgid "chg_ilias_and_webfolder_password"
+msgstr "Ret ILIAS og webfolder password"
+
+msgid "chg_ilias_password"
+msgstr "Ret ILIAS password"
+
+msgid "chg_password"
+msgstr "Skift password"
+
+msgid "choose_language"
+msgstr "Vælg dit sprog"
+
+msgid "choose_only_one_language"
+msgstr "Vælg venligst kun et sprog"
+
+msgid "chown_warning"
+msgstr "Obs, du kan miste adgangsrettigheder til dette objekt efter ændring af ejer."
+
+#, fuzzy
+msgid "chta_edit_permission"
+msgstr "Change Permission Settings"
+
+#, fuzzy
+msgid "chta_read"
+msgstr "Read access to Chatroom Administration"
+
+#, fuzzy
+msgid "chta_visible"
+msgstr "Chatroom Administration is visible"
+
+#, fuzzy
+msgid "chta_write"
+msgstr "Edit Chatroom Administration"
+
+#, fuzzy
+msgid "chtr_copy"
+msgstr "Copy Chatroom"
+
+#, fuzzy
+msgid "chtr_import"
+msgstr "Import Chatroom"
+
+msgid "city"
+msgstr "By"
+
+msgid "cleaned_file"
+msgstr "Filen er renset."
+
+msgid "cleaning_failed"
+msgstr "Rensning fejlede."
+
+msgid "clear"
+msgstr "Ryd"
+
+msgid "clear_clipboard"
+msgstr "Tom udklipsholder"
+
+msgid "client"
+msgstr "Klient"
+
+msgid "client_id"
+msgstr "Klient ID"
+
+msgid "client_ip"
+msgstr "Klient IP"
+
+#, fuzzy
+msgid "clientlist_available_clients"
+msgstr "Available Clients"
+
+#, fuzzy
+msgid "clientlist_clientlist"
+msgstr "Client List"
+
+#, fuzzy
+msgid "clientlist_installation_name"
+msgstr "Installation Name"
+
+#, fuzzy
+msgid "clientlist_login"
+msgstr "Login"
+
+#, fuzzy
+msgid "clientlist_login_page"
+msgstr "Login page"
+
+#, fuzzy
+msgid "clientlist_public_access"
+msgstr "Public Access"
+
+#, fuzzy
+msgid "clientlist_start_page"
+msgstr "Start page"
+
+msgid "clipboard"
+msgstr "Udklipsholder"
+
+msgid "close"
+msgstr "Luk"
+
+#, fuzzy
+msgid "cmix"
+msgstr "Object xAPI/cmi5"
+
+msgid "cnt_new"
+msgstr "(%s nye)"
+
+msgid "collapse"
+msgstr "Fold sammen"
+
+msgid "collapse_all"
+msgstr "Fold alle sammen"
+
+#, fuzzy
+msgid "collapse_content"
+msgstr "Collapse Content"
+
+msgid "collapsed"
+msgstr "Sammenfoldet"
+
+#, fuzzy
+msgid "column_selection"
+msgstr "Column Selection"
+
+msgid "columns"
+msgstr "Kolonner"
+
+msgid "comma_separated"
+msgstr "Kommasepareret"
+
+msgid "comment"
+msgstr "Kommentar"
+
+#, fuzzy
+msgid "comments"
+msgstr "Comments"
+
+msgid "compose"
+msgstr "Ny mail"
+
+#, fuzzy
+msgid "concurrent_uploads"
+msgstr "Number of concurrent uploads"
+
+#, fuzzy
+msgid "concurrent_uploads_info"
+msgstr "Defines the number of files that can be uploaded per upload process at the same time."
+
+msgid "cond_ref_handling"
+msgstr "Link indstillinger"
+
+msgid "cond_ref_shared"
+msgstr "Delte forudsætninger for alle links"
+
+#, fuzzy
+msgid "cond_ref_unique"
+msgstr "Unique Preconditions for Links"
+
+msgid "condition"
+msgstr "Tilstand"
+
+#, fuzzy
+msgid "condition_accredited_or_passed"
+msgstr "Accredited or Passed"
+
+msgid "condition_already_assigned"
+msgstr "Objekt er allerede tildelt."
+
+msgid "condition_circle_created"
+msgstr "Denne sammensætning er ikke mulig, siden objekterne ikke er uafhængige."
+
+msgid "condition_deleted"
+msgstr "Tilstand slettet."
+
+msgid "condition_finished"
+msgstr "Afsluttet"
+
+msgid "condition_not_finished"
+msgstr "Ikke afsluttet"
+
+msgid "condition_passed"
+msgstr "Bestået"
+
+msgid "condition_select_object"
+msgstr "Vælg venligst en forudsætning"
+
+msgid "conditions_updated"
+msgstr "Conditions er Gemt"
+
+#, fuzzy
+msgid "configuration"
+msgstr "Configuration"
+
+msgid "confirm"
+msgstr "Bekræft"
+
+#, fuzzy
+msgid "confirm_delete_parameter"
+msgstr "Do you really want to delete the parameter?"
+
+msgid "confirmation"
+msgstr "Bekræftelse"
+
+msgid "conflict_handling"
+msgstr "Konflikthåndtering"
+
+#, fuzzy
+msgid "cont_iim_content_popups_info"
+msgstr "Content popups appear, when the user clicks on interactive parts of the base image. On this screen you only define the popups. Their content can be edited on the main page editing screen."
+
+#, fuzzy
+msgid "cont_iim_create_info"
+msgstr "Please upload the main underlying picuture for the interactive image."
+
+#, fuzzy
+msgid "cont_iim_overlay_info"
+msgstr "Overlay images are used to alter (e.g. highlight) parts of the base image when the mouse hovers over them. After uploading the images, you can select them in the \"Triggers\" tab."
+
+msgid "contact"
+msgstr "Kontakt"
+
+msgid "contact_data"
+msgstr "Kontaktinformation"
+
+msgid "contact_sysadmin"
+msgstr "Kontakt systemadministrator"
+
+msgid "container"
+msgstr "Container"
+
+msgid "container_no_items"
+msgstr "Ingen tilgængelige materialer"
+
+msgid "content"
+msgstr "Indhold"
+
+msgid "content_frame"
+msgstr "Indholdsramme"
+
+msgid "content_styles"
+msgstr "Indholds stilark"
+
+msgid "context"
+msgstr "Kontekst"
+
+msgid "continue"
+msgstr "fortsæt"
+
+msgid "continue_work"
+msgstr "Fortsæt"
+
+msgid "contra"
+msgstr "Kontra"
+
+#, fuzzy
+msgid "copa"
+msgstr "Content Page"
+
+msgid "copy"
+msgstr "Kopier"
+
+msgid "copyChapter"
+msgstr "Kopier"
+
+msgid "copyPage"
+msgstr "Kopier"
+
+msgid "copy_all"
+msgstr "Kopier alle"
+
+msgid "copy_n_of_suffix"
+msgstr "- kopi nr %1$s"
+
+msgid "copy_of"
+msgstr "Kopi af"
+
+msgid "copy_of_suffix"
+msgstr "- kopi"
+
+#, fuzzy
+msgid "copy_perma_link"
+msgstr "Copy link to clipboard"
+
+msgid "copy_selected_items"
+msgstr "Kopier"
+
+msgid "count"
+msgstr "Tæl"
+
+#, fuzzy
+msgid "counter_novelty"
+msgstr "News"
+
+#, fuzzy
+msgid "counter_status"
+msgstr "Status"
+
+msgid "country"
+msgstr "Land"
+
+msgid "country_free_text"
+msgstr "Land (fritekst indtastning)"
+
+msgid "country_selection"
+msgstr "Land (valg fra rullemenu)"
+
+msgid "course"
+msgstr "Kursus"
+
+msgid "courses"
+msgstr "Kurser"
+
+msgid "create"
+msgstr "Opret"
+
+msgid "create_date"
+msgstr "Oprettet på"
+
+msgid "create_export_file"
+msgstr "Opret eksportfil"
+
+msgid "create_stylesheet"
+msgstr "Opret layout"
+
+msgid "created"
+msgstr "Opret dato"
+
+msgid "cron_forum_notification"
+msgstr "Send forum advisering"
+
+#, fuzzy
+msgid "cron_forum_notification_crob_desc"
+msgstr "If enabled, all users who have enabled forum notifications will get a daily mail about all new posts but no immediate notification for each submitted posting."
+
+#, fuzzy
+msgid "cron_forum_notification_disabled"
+msgstr "Can't be disabled when the Cron Job is active."
+
+msgid "cron_jobs"
+msgstr "Cron job"
+
+msgid "cron_lucene_index"
+msgstr "Updater Lucene-søgeindeks"
+
+msgid "cron_lucene_index_info"
+msgstr "Hvis aktiv vil lucenesøgeindekset blive opdateret.Konfigurer luceneserveren via: Administration -> Search'. Hvis slået til vil indekssøgesiden blive opdateret."
+
+msgid "cron_mail_notification"
+msgstr "Send mail advisering"
+
+msgid "cron_mail_notification_cron"
+msgstr "I forbindelse med cron job"
+
+msgid "cron_mail_notification_desc"
+msgstr "Hvis aktiveret sendes en (ekstern) email til brugere der ønsker advisering om ny post."
+
+#, fuzzy
+msgid "cron_mail_notification_message"
+msgstr "Send Mail Notifications with Mail-Message"
+
+#, fuzzy
+msgid "cron_mail_notification_message_info"
+msgstr "If enabled, all users will get notifications with complete mail message by external mail."
+
+msgid "cron_mail_notification_never"
+msgstr "Aldrig"
+
+#, fuzzy
+msgid "cron_users_without_login_del_create_date_thr"
+msgstr "Thresholt"
+
+#, fuzzy
+msgid "cron_users_without_login_del_create_date_thr_info"
+msgstr "All user accounts created before the defined threshold will be taken into consideration."
+
+#, fuzzy
+msgid "cron_users_without_login_del_role_whitelist"
+msgstr "Included Roles"
+
+#, fuzzy
+msgid "cron_users_without_login_del_role_whitelist_info"
+msgstr "The deletion will only processed for users assigned to at least one of the selected roles"
+
+#, fuzzy
+msgid "cronjob_last_start"
+msgstr "Last Start of the Cron Job"
+
+#, fuzzy
+msgid "cronjob_last_start_unknown"
+msgstr "Indeterminate"
+
+msgid "crs"
+msgstr "Kursus"
+
+msgid "crs_activation_start_invalid"
+msgstr "Start og sluttid er ikke gyldig."
+
+msgid "crs_add"
+msgstr "Tilføj kursus"
+
+msgid "crs_added"
+msgstr "Kursus tilføjet"
+
+msgid "crs_archives"
+msgstr "Arkiver"
+
+msgid "crs_cancel_waiting_list"
+msgstr "Vil du tages af ventelisten til dette kursut \"%s\"?"
+
+#, fuzzy
+msgid "crs_copy_threads_info"
+msgstr "Please decide which course materials should be copied, linked or even omitted."
+
+msgid "crs_edit"
+msgstr "Rediger Kursus"
+
+#, fuzzy
+msgid "crs_list_reg"
+msgstr "Registration"
+
+msgid "crs_list_reg_end"
+msgstr "Registrering slutter"
+
+#, fuzzy
+msgid "crs_list_reg_limit_full"
+msgstr "No places left"
+
+#, fuzzy
+msgid "crs_list_reg_limit_places"
+msgstr "Free places"
+
+msgid "crs_list_reg_noreg"
+msgstr "Ingen registrering mulig"
+
+msgid "crs_list_reg_period"
+msgstr "Registreringsperiode"
+
+msgid "crs_list_reg_start"
+msgstr "Registrering begynder"
+
+msgid "crs_member_not_passed"
+msgstr "Ikke Bestået"
+
+msgid "crs_member_passed"
+msgstr "Bestået"
+
+msgid "crs_members_gallery"
+msgstr "Galleri"
+
+msgid "crs_new"
+msgstr "Nyt kursus"
+
+msgid "crs_removed_from_waiting_list"
+msgstr "Du er blevet fjernet fra ventelisten i kurset \"%s\"."
+
+msgid "crs_status_blocked"
+msgstr "[Adgang Nægtet]"
+
+msgid "crs_status_pending"
+msgstr "[Venter på Registrering]"
+
+msgid "crs_subscribers_assigned"
+msgstr "Tilmeldte nye bruger(e)"
+
+msgid "crs_title"
+msgstr "Kursustitel"
+
+msgid "crs_unsubscribe"
+msgstr "Afmeld"
+
+msgid "crs_wizard_page"
+msgstr "Kopier kursus (skridt 2/2)"
+
+msgid "crsr"
+msgstr "Kursusreferencer"
+
+#, fuzzy
+msgid "crsr_add"
+msgstr "Add Course Link"
+
+msgid "crsr_edit_info"
+msgstr "Vælg et kursus for at lave en ny reference"
+
+msgid "crsr_new"
+msgstr "Lav ny kursusreference"
+
+#, fuzzy
+msgid "crsr_settings"
+msgstr "Course Link Settings"
+
+msgid "csv_export"
+msgstr "CSV-eksport"
+
+msgid "current_ip"
+msgstr "Nuværende IP:"
+
+msgid "current_ip_alert"
+msgstr "Obs: hvis du angiver en forkert ip vil du ikke længere kunne få adgang til systemet med denne profil."
+
+msgid "current_password"
+msgstr "Nuværende password"
+
+#, fuzzy
+msgid "current_user_avatar"
+msgstr "Your User Avatar"
+
+#, fuzzy
+msgid "currently_used_disk_space"
+msgstr "Currently used disk space"
+
+#, fuzzy
+msgid "customize_page"
+msgstr "Customize Page"
+
+msgid "cut"
+msgstr "Klip"
+
+msgid "cutPage"
+msgstr "Klip"
+
+msgid "daily"
+msgstr "dagligt"
+
+msgid "database"
+msgstr "Database"
+
+msgid "database_version"
+msgstr "Nuværende databaseversion"
+
+msgid "dataset"
+msgstr "Ting"
+
+msgid "date"
+msgstr "Dato"
+
+#, fuzzy
+msgid "date_time"
+msgstr "Date and Time"
+
+msgid "dateplaner"
+msgstr "Kalender"
+
+msgid "day"
+msgstr "Dag"
+
+msgid "days"
+msgstr "Dage"
+
+msgid "db_host"
+msgstr "Databaseudbyder"
+
+msgid "db_name"
+msgstr "Databasenavn"
+
+msgid "db_need_update"
+msgstr "Databasen behøver en opdatering!"
+
+msgid "db_pass"
+msgstr "Databasepassword"
+
+msgid "db_type"
+msgstr "Databasetype"
+
+msgid "db_user"
+msgstr "Databasebruger"
+
+msgid "db_version"
+msgstr "Databaseversion"
+
+#, fuzzy
+msgid "dd_mm_yyyy"
+msgstr "DD.MM.ÅÅÅÅ"
+
+msgid "deactivate"
+msgstr "Set inaktiv"
+
+msgid "decrease_attempts"
+msgstr "Førsøg-1"
+
+msgid "def_repository_view"
+msgstr "Standardoversigt"
+
+msgid "default"
+msgstr "Standard"
+
+msgid "default_auth_mode"
+msgstr "Standard autentificeringsmetode"
+
+#, fuzzy
+msgid "default_auth_mode_info"
+msgstr "Please choose the authentication method that is preselected on the login page."
+
+msgid "default_language"
+msgstr "Standardsprog"
+
+msgid "default_perm_settings"
+msgstr "Standardrettigheder"
+
+msgid "default_role"
+msgstr "Standardrolle"
+
+msgid "default_roles"
+msgstr "Standardroller"
+
+msgid "default_skin"
+msgstr "Standarddesign"
+
+msgid "default_skin_style"
+msgstr "Standard"
+
+msgid "default_style"
+msgstr "Standardlayout"
+
+msgid "defaults"
+msgstr "Standarder"
+
+msgid "delete"
+msgstr "Slet"
+
+msgid "delete_existing_file"
+msgstr "Slet eksisterende fil"
+
+#, fuzzy
+msgid "delete_inactivated_user_accounts"
+msgstr "Delete inactivated user accounts"
+
+#, fuzzy
+msgid "delete_inactivated_user_accounts_desc"
+msgstr "If enabled, user accounts will be deleted depending on the date of inactivation."
+
+#, fuzzy
+msgid "delete_inactivated_user_accounts_include_roles"
+msgstr "Included roles"
+
+#, fuzzy
+msgid "delete_inactivated_user_accounts_include_roles_desc"
+msgstr "Defines the roles that will participate in the deletion."
+
+#, fuzzy
+msgid "delete_inactivated_user_accounts_period"
+msgstr "Days past since the inactivation"
+
+#, fuzzy
+msgid "delete_inactivated_user_accounts_period_desc"
+msgstr "Deletion will be executed if this period of time has past since the inactivation."
+
+#, fuzzy
+msgid "delete_inactive_user_accounts"
+msgstr "Delete user accounts"
+
+#, fuzzy
+msgid "delete_inactive_user_accounts_desc"
+msgstr "If enabled, user accounts will be deleted depending on the date of the last login."
+
+#, fuzzy
+msgid "delete_inactive_user_accounts_include_roles"
+msgstr "Included roles"
+
+#, fuzzy
+msgid "delete_inactive_user_accounts_include_roles_desc"
+msgstr "Defines the roles that will participate in the deletion."
+
+#, fuzzy
+msgid "delete_inactive_user_accounts_period"
+msgstr "Days past since the last login"
+
+#, fuzzy
+msgid "delete_inactive_user_accounts_period_desc"
+msgstr "Deletion will be executed if this period of time has past since the last login."
+
+msgid "delete_parameter"
+msgstr "Slet parameter"
+
+msgid "delete_selected_items"
+msgstr "Slet valgte"
+
+msgid "deleted"
+msgstr "Slettet"
+
+msgid "deleted_user"
+msgstr "Brugeren er blever slettet"
+
+msgid "deleted_users"
+msgstr "Slettede brugere"
+
+#, fuzzy
+msgid "deletion_notification"
+msgstr "\"%s\" has canceled the attendance of session \"%s\"."
+
+msgid "deliver"
+msgstr "Aflever øvelse"
+
+#, fuzzy
+msgid "deny_usr_agreement"
+msgstr "Do Not Accept Terms of Service?"
+
+#, fuzzy
+msgid "deny_usr_agreement_btn"
+msgstr "Do Not Accept"
+
+msgid "department"
+msgstr "Afdeling"
+
+msgid "desc"
+msgstr "Beskrivelse"
+
+msgid "description"
+msgstr "Beskrivelse"
+
+msgid "desired_password"
+msgstr "Ønsket password"
+
+msgid "details"
+msgstr "Detaljer"
+
+#, fuzzy
+msgid "didactic_template"
+msgstr "Didactic Template"
+
+msgid "disable"
+msgstr "deaktiver"
+
+msgid "disable_check"
+msgstr "deaktiver kontrol"
+
+msgid "disable_ext_lang_maint"
+msgstr "Deaktiver udvidet vedligeholdelse"
+
+msgid "disable_hide_user_toggle"
+msgstr "Medlemmet har ikke rettigheder til at deaktivere"
+
+msgid "disabled"
+msgstr "Ikke tilsluttet"
+
+#, fuzzy
+msgid "disclose"
+msgstr "Disclose"
+
+#, fuzzy
+msgid "dislike"
+msgstr "Dislike"
+
+msgid "domain"
+msgstr "Domæne"
+
+msgid "down"
+msgstr "Nede"
+
+msgid "download"
+msgstr "Download"
+
+msgid "download_all_returned_files"
+msgstr "Download alle returnerede filer"
+
+#, fuzzy
+msgid "download_link"
+msgstr "Download Link"
+
+#, fuzzy
+msgid "download_multiple_objects"
+msgstr "Download Multiple Objects"
+
+#, fuzzy
+msgid "download_selected_items"
+msgstr "Download"
+
+msgid "downloading_settings"
+msgstr "Henter indstillinger"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement"
+msgstr "Accept Declaration of Data Protection?"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement_intro"
+msgstr "There is a new Declaration of Data Protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page."
+
+#, fuzzy
+msgid "dpro_agreed_on"
+msgstr "DoDP agreed to on"
+
+#, fuzzy
+msgid "dpro_force_accept_usr_agreement"
+msgstr "You must accept the Declaration of Data Protection!"
+
+#, fuzzy
+msgid "dpro_no_agreement_description"
+msgstr "There is currently no Declaration of Data Protection document available for this installation. Please contact the <a href=\"%1$s\">system administrator</a>."
+
+#, fuzzy
+msgid "dpro_refuse_acceptance"
+msgstr "Refuse to Accept the Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_usr_agreement"
+msgstr "Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_usr_agreement_footer_intro"
+msgstr "You have declared your consent to this Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description"
+msgstr "Withdraw your consent to our Declaration of Data Protection here."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description_external"
+msgstr "Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description_internal"
+msgstr "Please log in again to complete the process of withdrawing your consent to the Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_header"
+msgstr "Withdraw to Consent of Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_withdraw_consent_info"
+msgstr "Withdraw your consent to our Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_info_external"
+msgstr "Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Declaration of Data Protection."
+
+msgid "drafts"
+msgstr "Kladder"
+
+#, fuzzy
+msgid "drag_file_here"
+msgstr "Drag-and-drop your file here"
+
+#, fuzzy
+msgid "drag_files_here"
+msgstr "Drag-and-drop your files here"
+
+#, fuzzy
+msgid "drag_handle"
+msgstr "Draggable element"
+
+#, fuzzy
+msgid "drop_files_on_repo_obj_info"
+msgstr "Drop the files here to upload them into this object."
+
+msgid "edit"
+msgstr "Rediger"
+
+#, fuzzy
+msgid "edit_assignments"
+msgstr "Edit Assignments"
+
+msgid "edit_cat_settings"
+msgstr "Avancerede indstillinger for kategori"
+
+msgid "edit_content"
+msgstr "Rediger indhold"
+
+msgid "edit_grouping"
+msgstr "Ret medlemsbegrænsninger"
+
+#, fuzzy
+msgid "edit_metadata"
+msgstr "Edit Metadata"
+
+msgid "edit_operations"
+msgstr "Rediger Operationer"
+
+msgid "edit_page"
+msgstr "Rediger side"
+
+msgid "edit_page_content"
+msgstr "Rediger sideindhold"
+
+#, fuzzy
+msgid "edit_page_meta"
+msgstr "Edit Page Metadata"
+
+msgid "edit_properties"
+msgstr "Egenskaber"
+
+msgid "edit_stylesheet"
+msgstr "Rediger Stil"
+
+msgid "edited_on"
+msgstr "Redigeret"
+
+msgid "editor"
+msgstr "Redigeret af"
+
+msgid "email"
+msgstr "email"
+
+msgid "email_not_valid"
+msgstr "Den indtastede emailadresse er ikke gyldig!"
+
+msgid "enable"
+msgstr "Aktiver"
+
+#, fuzzy
+msgid "enable_anonymous_fora"
+msgstr "Allow posting with pseudonym"
+
+#, fuzzy
+msgid "enable_anonymous_fora_desc"
+msgstr "If this option is disabled, the feature \"Posting with pseudonym\" is not available in forums anymore."
+
+msgid "enable_calendar"
+msgstr "Aktiver kalender"
+
+#, fuzzy
+msgid "enable_comments_export"
+msgstr "Enable Comments Export"
+
+#, fuzzy
+msgid "enable_course_group_notifications"
+msgstr "Daily Mail for Groups and Course News"
+
+#, fuzzy
+msgid "enable_course_group_notifications_desc"
+msgstr "If enabled, Participants can subscribe to a daily summary of news."
+
+msgid "enable_custom_icons"
+msgstr "Brugervalgte ikoner"
+
+msgid "enable_custom_icons_info"
+msgstr "Tillader at der kan uploades brugervalgte ikoner i specifikke kategorier, kurser og grupper."
+
+#, fuzzy
+msgid "enable_dnd_upload"
+msgstr "Enable drag-and-drop upload"
+
+#, fuzzy
+msgid "enable_dnd_upload_info"
+msgstr "Files can be uploaded with drag-and-drop from the local computer if enabled."
+
+msgid "enable_download_folder"
+msgstr "Aktiver download af foldere"
+
+msgid "enable_download_folder_info"
+msgstr "Tillader download af foldere inklusiv understrukturer leveret i en pakket zip-fil."
+
+#, fuzzy
+msgid "enable_export_scorm_desc"
+msgstr "allow Export of User Data of SCORM-Learning Modules"
+
+msgid "enable_fora_statistics"
+msgstr "Aktiver statistik i fora"
+
+msgid "enable_fora_statistics_desc"
+msgstr "Hvis deaktiveret har ingen adgang til forumstatistik."
+
+msgid "enable_hide_user_toggle"
+msgstr "Medlemmer tillades ikke at deaktivere"
+
+#, fuzzy
+msgid "enable_multi_download"
+msgstr "«Download multiple objects» enabled"
+
+#, fuzzy
+msgid "enable_multi_download_info"
+msgstr "Enables that multiple folders/files can be selected to download them as zip archive."
+
+msgid "enable_password_assistance"
+msgstr "Aktiver passwordhjælp"
+
+#, fuzzy
+msgid "enable_preview"
+msgstr "Enable Preview"
+
+#, fuzzy
+msgid "enable_preview_info"
+msgstr "Enable this option to display preview images on supported file types."
+
+#, fuzzy
+msgid "enable_repository_dnd_upload"
+msgstr "Enable in Repository"
+
+#, fuzzy
+msgid "enable_repository_dnd_upload_info"
+msgstr "Enables that files can be dragged from the computer directly onto an object in the repository to start uploading the files into this object."
+
+#, fuzzy
+msgid "enable_sahs_protocol_data"
+msgstr "Activate Protocol Data"
+
+#, fuzzy
+msgid "enable_sahs_protocol_data_desc"
+msgstr "Show Protocol Data (SCORM/AICC)"
+
+msgid "enable_search_engine"
+msgstr "Åben det offentlige område overfor søgemaskiner, så som Google."
+
+msgid "enable_trash"
+msgstr "Aktiver skrald"
+
+msgid "enable_trash_info"
+msgstr "If enabled, deleted Objects are moved into Trash and may be recovered later. When deactivating this option deleted Objects are removed irreversibly from the System!"
+
+msgid "enable_webdav"
+msgstr "Aktiver WebDAV adgang"
+
+msgid "enable_webdav_info"
+msgstr "Tillader WebDAV klienter at tilgå oversigten som en webfolder. Brugere kan åbne webfoldere ved at vælge \"åben som webfolder\" i oversigten eller ved at indtaste adressen direkte i en WebDAV klient: <a href=\"%1$s\" folder=\"%1$s\">%1$s</a>"
+
+msgid "enabled"
+msgstr "Aktiveret"
+
+#, fuzzy
+msgid "enlarge"
+msgstr "Enlarge"
+
+msgid "enter_in_mb_desc"
+msgstr "Indtast værdi i mb."
+
+#, fuzzy
+msgid "enter_new_name"
+msgstr "Please enter a name"
+
+#, fuzzy
+msgid "entered_notification"
+msgstr "\"%s\" has joined the session \"%s\"."
+
+#, fuzzy
+msgid "entry_status"
+msgstr "Entry status"
+
+msgid "err_1_param"
+msgstr "Kun 1 parameter!"
+
+msgid "err_2_param"
+msgstr "Kun 2 parametre!"
+
+#, fuzzy
+msgid "err_auth_apache_failed"
+msgstr "The authentication has failed. Maybe you have no valid user certificate or your smartcard is not inserted."
+
+#, fuzzy
+msgid "err_auth_ldap_no_ilias_user"
+msgstr "Login failed. LDAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator."
+
+msgid "err_auth_mode_inactive"
+msgstr "Din authentificeringsmetode er deaktiveret"
+
+msgid "err_auth_soap_no_ilias_user"
+msgstr "Login failed. SOAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator."
+
+msgid "err_check_input"
+msgstr "Rettelserne kunne ikke gemmes. Kontroller det indtastede og prøv igen."
+
+msgid "err_count_param"
+msgstr "Grund: Forkert antal parametre"
+
+#, fuzzy
+msgid "err_disabled"
+msgstr "Account creation via Shibboleth has been disabled. Please contact the system administrator for further information."
+
+#, fuzzy
+msgid "err_double_entries"
+msgstr "Reason: Duplicate Entries"
+
+msgid "err_in_line"
+msgstr "Fejl i linje"
+
+msgid "err_inactive"
+msgstr "Denne konto er ikke blevet aktiveret. Kontakt venligst systemadministratoren for at få adgang."
+
+#, fuzzy
+msgid "err_inactive_login_attempts"
+msgstr "Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account. "
+
+msgid "err_invalid_port"
+msgstr "Ugyldigt portnummer"
+
+msgid "err_no_cookies"
+msgstr "Slå venligst cookies til i din browser"
+
+msgid "err_no_langfile_found"
+msgstr "Ingen sprogfil er fundet!"
+
+msgid "err_no_param"
+msgstr "Intet parameter!"
+
+msgid "err_over_3_param"
+msgstr "Mere end 3 parametre!"
+
+msgid "err_role_not_assignable"
+msgstr "Du kan ikke tilmelde brugere til denne rolle på dette sted"
+
+msgid "err_session_expired"
+msgstr "Din adgang er udløbet!"
+
+#, fuzzy
+msgid "err_valid_login_account_creation_disabled"
+msgstr "Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator."
+
+msgid "err_wrong_header"
+msgstr "Grund: forkert header."
+
+msgid "err_wrong_login"
+msgstr "Forkert brugernavn eller password"
+
+msgid "err_wrong_password"
+msgstr "Forkert password"
+
+msgid "error"
+msgstr "Fejl"
+
+#, fuzzy
+msgid "error_empty_file_or_folder"
+msgstr "The file size is 0 bytes or it is a folder."
+
+#, fuzzy
+msgid "error_extraction_failed"
+msgstr "The extraction of the archive and its directories failed. Probably because you don't have the rights to create folders or categories within this object."
+
+msgid "error_parser"
+msgstr "Fejl starter parseren."
+
+#, fuzzy
+msgid "error_upload_was_zero_bytes"
+msgstr "The upload failed as this is a folder, the file size is 0 bytes or the file was renamed meanwhile."
+
+msgid "etal_talks"
+msgstr "Talks"
+
+msgid "event_ass_materials_prop"
+msgstr "Materialer til session"
+
+msgid "event_assign_files"
+msgstr "Relevante filer"
+
+msgid "exc"
+msgstr "Øvelser"
+
+msgid "exc_add"
+msgstr "Tilføj øvelse"
+
+msgid "exc_added"
+msgstr "øvelse er tilføjet"
+
+msgid "exc_date_not_valid"
+msgstr "Datoen er ikke gyldig"
+
+msgid "exc_deassign_members"
+msgstr "Slet medlem(mer)"
+
+msgid "exc_download_files"
+msgstr "Download filer"
+
+msgid "exc_edit"
+msgstr "Ny øvelse er blevet oprettet"
+
+msgid "exc_edit_exercise"
+msgstr "Rediger øvelse"
+
+msgid "exc_edit_until"
+msgstr "Rediger indtil"
+
+msgid "exc_exercise_sent"
+msgstr "Exercise Sent"
+
+msgid "exc_files"
+msgstr "Filer"
+
+msgid "exc_files_returned"
+msgstr "Returnerede filer"
+
+msgid "exc_instruction"
+msgstr "Arbejdsinstruktioner"
+
+msgid "exc_last_submission"
+msgstr "Last Submission"
+
+#, fuzzy
+msgid "exc_member_of_crs_grp"
+msgstr "Member in Course/Group"
+
+msgid "exc_members_already_assigned"
+msgstr "Disse brugere er allerede tildelt denne øvelse"
+
+msgid "exc_members_assigned"
+msgstr "Medlemmer der er tildelt"
+
+msgid "exc_members_comments_saved"
+msgstr "The exercise comments for the selected user have been saved"
+
+msgid "exc_new"
+msgstr "Ny øvelse"
+
+msgid "exc_next_deadline"
+msgstr "Næste deadline"
+
+msgid "exc_obj"
+msgstr "øvelser"
+
+msgid "exc_save_changes"
+msgstr "Gem"
+
+msgid "exc_schedule"
+msgstr "Schedule"
+
+msgid "exc_select_one_file"
+msgstr "Vælg venligst kun en fil."
+
+msgid "exc_sent"
+msgstr "Øvelsen er blevet sendt til de valgte brugere"
+
+msgid "exc_sent_at"
+msgstr "Sent at <br />%s"
+
+msgid "exc_status"
+msgstr "Status"
+
+msgid "exc_status_saved"
+msgstr "Øvelse er blevet opdateret"
+
+msgid "exc_submission"
+msgstr "Submission"
+
+msgid "exc_time_over_short"
+msgstr "Tiden er gået."
+
+msgid "exc_time_to_send"
+msgstr "Tilbageværende arbejdstid"
+
+msgid "exc_upload_error"
+msgstr "Fejl i upload af fil"
+
+msgid "excs"
+msgstr "Øvelser"
+
+msgid "execute"
+msgstr "Udfør"
+
+msgid "exercise_time_over"
+msgstr "Du har nået sluttidspunktet. Du kan ikke længere aflevere."
+
+msgid "expand"
+msgstr "Udvid"
+
+msgid "expand_all"
+msgstr "Fold alle ud"
+
+#, fuzzy
+msgid "expand_content"
+msgstr "Expand Content"
+
+#, fuzzy
+msgid "expanded"
+msgstr "Expanded"
+
+msgid "export"
+msgstr "Eksport"
+
+msgid "export_format"
+msgstr "Eksportformat"
+
+msgid "export_html"
+msgstr "Eksporter som HTMLfil"
+
+msgid "ext_cat_settings"
+msgstr "Rediger avancerede kategori indstillinger"
+
+msgid "ext_link"
+msgstr "Link"
+
+#, fuzzy
+msgid "extracting"
+msgstr "Extracting..."
+
+#, fuzzy
+msgid "eyeclosed"
+msgstr "Eye Closed - Click to hide the input's contents"
+
+#, fuzzy
+msgid "eyeopened"
+msgstr "Eye Open - Click to reveal the input's contents"
+
+msgid "failure_message"
+msgstr "Fejlbesked"
+
+msgid "fax"
+msgstr "Fax"
+
+msgid "feed"
+msgstr "Nyheds feed"
+
+msgid "feedback"
+msgstr "Tilbagemelding"
+
+msgid "field_name"
+msgstr "Feltnavn"
+
+msgid "field_type"
+msgstr "Felttype"
+
+msgid "file"
+msgstr "Fil"
+
+msgid "file_add"
+msgstr "Upload Fil"
+
+msgid "file_add_and_metadata"
+msgstr "Upload fil og rediger metadata"
+
+msgid "file_added"
+msgstr "Filen er  uploaded"
+
+msgid "file_allowed_suffixes"
+msgstr "Tilladte filtyper:"
+
+#, fuzzy
+msgid "file_confirm_delete_all_versions"
+msgstr "You selected all file versions. This will delete the whole file object. Do you want to continue?"
+
+#, fuzzy
+msgid "file_confirm_delete_versions"
+msgstr "Are you sure to delete the following file versions?"
+
+msgid "file_created"
+msgstr "Ny fil tilføjet"
+
+msgid "file_edit"
+msgstr "Rediger fil"
+
+msgid "file_info"
+msgstr "Fil information"
+
+msgid "file_is_infected"
+msgstr "Denne fil er inficeret med en virus."
+
+#, fuzzy
+msgid "file_new"
+msgstr "New File"
+
+#, fuzzy
+msgid "file_no_valid_file_type"
+msgstr "This file type is not allowed."
+
+msgid "file_not_found"
+msgstr "Filen er ikke fundet"
+
+#, fuzzy
+msgid "file_not_found_sec"
+msgstr "This file cannot be found in ILIAS or has been blocked due to security reasons."
+
+msgid "file_not_valid"
+msgstr "Filen er ikke gyldig!"
+
+msgid "file_notice"
+msgstr "Bemærk at den maksimale størrelse er"
+
+#, fuzzy
+msgid "file_objects"
+msgstr "File Objects"
+
+#, fuzzy
+msgid "file_rollback"
+msgstr "Make this the current version"
+
+#, fuzzy
+msgid "file_rollback_done"
+msgstr "File version %s is now the current version."
+
+#, fuzzy
+msgid "file_rollback_select_exact_one"
+msgstr "Only one file version can be selected to make it the current version."
+
+#, fuzzy
+msgid "file_some_invalid_file_types_removed"
+msgstr "Some file types are not allowed and have been removed."
+
+msgid "file_suffix_repl"
+msgstr "Erstatning af filendelser"
+
+msgid "file_suffix_repl_info"
+msgstr "Filer med disse endelser (separeret af komma) vil blive omdøbt til \".sec\" når de uploades i webspace. Dette gøres som standard for endelser:"
+
+#, fuzzy
+msgid "file_system_clean_temp_dir_cron"
+msgstr "Clean temp directory"
+
+#, fuzzy
+msgid "file_system_clean_temp_dir_cron_info"
+msgstr "This job cleans the ILIAS temp-directory of files, which are older than 10 days. This counteracts the accumulation of unused files and therefore prevents an increased use of disk space by the temp directory."
+
+msgid "file_updated"
+msgstr "Filen er blevet opdateret"
+
+#, fuzzy
+msgid "file_upload_pending"
+msgstr "Pending file"
+
+msgid "file_valid"
+msgstr "Filen er gyldig!"
+
+msgid "file_version"
+msgstr "Version er vist i Filen"
+
+#, fuzzy
+msgid "file_version_create"
+msgstr "Initial version"
+
+#, fuzzy
+msgid "file_version_intermediate_version"
+msgstr "Intermediate Version"
+
+#, fuzzy
+msgid "file_version_new_version"
+msgstr "New version"
+
+#, fuzzy
+msgid "file_version_published_version"
+msgstr "Published Version"
+
+#, fuzzy
+msgid "file_version_replace"
+msgstr "All versions replaced"
+
+#, fuzzy
+msgid "file_version_rollback"
+msgstr "Rollback to version %s from %s"
+
+#, fuzzy
+msgid "file_versions_deleted"
+msgstr "The selected file versions were successfully deleted."
+
+msgid "filename"
+msgstr "Filnavn"
+
+msgid "filename_extension_missing"
+msgstr "Filnavns endelse (extension) mangler"
+
+msgid "filename_hidden_backup_file"
+msgstr "Skjult backupfil"
+
+msgid "filename_hidden_unix_file"
+msgstr "Skjult Unixfil"
+
+#, fuzzy
+msgid "filename_interoperability"
+msgstr "Interoperability"
+
+msgid "filename_special_characters"
+msgstr "/ er ikke tilladt i filnavne"
+
+msgid "filename_special_filename"
+msgstr ". og .. er reserverede filnavne"
+
+msgid "filename_visibility"
+msgstr "Synlighed"
+
+msgid "filename_windows_empty_extension"
+msgstr ". i slutningen af et filnavn er ikke tilladt på Windows"
+
+msgid "filename_windows_special_characters"
+msgstr "\\/:*?\"<>| er ikke tilladt i Windows filnavne"
+
+msgid "filename_windows_webdav_issue"
+msgstr "# er ikke understøttet i en Windows webfolder"
+
+msgid "files"
+msgstr "Filer"
+
+msgid "filesize"
+msgstr "Filstørrelse"
+
+msgid "filetype"
+msgstr "Filtype"
+
+msgid "fill_out_all_required_fields"
+msgstr "Udfyld venligst alle de påkrævede felter"
+
+msgid "filter"
+msgstr "Filter:"
+
+msgid "filter_users_with_access"
+msgstr "Kun brugere med adgang"
+
+#, fuzzy
+msgid "filter_users_with_disk_usage"
+msgstr "Only users with disk space used"
+
+msgid "filter_users_without_access"
+msgstr "Kun brugere uden adgang"
+
+#, fuzzy
+msgid "filter_users_without_disk_usage"
+msgstr "Only users with no disk space used"
+
+msgid "first"
+msgstr "Første"
+
+msgid "firstname"
+msgstr "Fornavn"
+
+msgid "flatview"
+msgstr "Flad visning"
+
+msgid "fold"
+msgstr "Mappe"
+
+msgid "fold_add"
+msgstr "Tilføj Mappe"
+
+msgid "fold_added"
+msgstr "Mappen er tilføjet"
+
+#, fuzzy
+msgid "fold_copy_threads_info"
+msgstr "Please decide which materials should be copied, linked or even omitted."
+
+msgid "fold_edit"
+msgstr "Rediger mappe"
+
+msgid "fold_new"
+msgstr "Ny mappe"
+
+#, fuzzy
+msgid "fold_wizard_page"
+msgstr "Copy Folder (Step 2/2)"
+
+msgid "folder"
+msgstr "Mappe"
+
+msgid "folders"
+msgstr "Mapper"
+
+#, fuzzy
+msgid "follow_link_to_read_mails"
+msgstr "click the following link to read these mails:"
+
+msgid "forgot_password"
+msgstr "Glemt password?"
+
+msgid "forgot_username"
+msgstr "Glemt brugernavn?"
+
+msgid "form_input_not_valid"
+msgstr "Nogle af informationerne er ufuldstændige eller ugyldige. Ret venligst disse før du fortsætter."
+
+msgid "forum"
+msgstr "Forum"
+
+msgid "forum_direct_notification"
+msgstr "Direkte advisering"
+
+msgid "forum_notify_me"
+msgstr "Kontakt mig når der kommer et svar"
+
+msgid "forum_post_replied"
+msgstr "Dit indlæg i forum er blevet besvaret."
+
+msgid "forums"
+msgstr "Fora"
+
+msgid "forums_anonymized"
+msgstr "Forum anonymiseret"
+
+msgid "forums_anonymous"
+msgstr "anonym"
+
+msgid "forums_articles"
+msgstr "Indlæg"
+
+#, fuzzy
+msgid "forums_closed"
+msgstr "closed"
+
+msgid "forums_disable_forum_notification"
+msgstr "Deaktiver advisering for dette forum"
+
+msgid "forums_enable_forum_notification"
+msgstr "Aktiver advisering for dette forum"
+
+msgid "forums_forum_notification_enabled"
+msgstr "Du vil blive adviseret om nye indlæg i dette forum."
+
+msgid "forums_last_post"
+msgstr "Seneste indlæg"
+
+#, fuzzy
+msgid "forums_last_posting_asc"
+msgstr "Last Post Ascending"
+
+#, fuzzy
+msgid "forums_last_posting_dsc"
+msgstr "Last Post Descending"
+
+msgid "forums_notification_settings"
+msgstr "Forum adviseringsindstillinger"
+
+#, fuzzy
+msgid "forums_rating_asc"
+msgstr "Rating Ascending"
+
+#, fuzzy
+msgid "forums_rating_dsc"
+msgstr "Rating Descending"
+
+#, fuzzy
+msgid "forums_thread_sorting_asc"
+msgstr "Thread Title A→Z"
+
+#, fuzzy
+msgid "forums_thread_sorting_dsc"
+msgstr "Thread Title Z→A"
+
+msgid "forums_threads"
+msgstr "Emner"
+
+msgid "forums_use_alias"
+msgstr "Du må bruge dette alias til dit indlæg. Hvis du efterlader feltet blank bliver dit indlæg markeret som anonymt."
+
+msgid "forums_your_name"
+msgstr "Dit navn"
+
+msgid "frm"
+msgstr "Forum"
+
+msgid "frm_add"
+msgstr "Tilføj forum"
+
+msgid "frm_added"
+msgstr "Forum er tilføjet"
+
+msgid "frm_edit"
+msgstr "Rediger Forum"
+
+#, fuzzy
+msgid "frm_import"
+msgstr "Import Forum"
+
+msgid "frm_latest_postings"
+msgstr "Seneste indlæg"
+
+#, fuzzy
+msgid "frm_latest_postings_block"
+msgstr "Latest Posts Block"
+
+msgid "frm_new"
+msgstr "Nyt forum"
+
+#, fuzzy
+msgid "frm_no_threads"
+msgstr "There are no threads available at the moment."
+
+msgid "from"
+msgstr "Fra"
+
+msgid "fullname"
+msgstr "Fulde navn"
+
+msgid "functions"
+msgstr "Funktioner"
+
+msgid "further_informations"
+msgstr "Yderligere information"
+
+msgid "gdf_add"
+msgstr "Tilføj definitation"
+
+msgid "gdf_new"
+msgstr "Ny Defination"
+
+msgid "gender"
+msgstr "Køn"
+
+msgid "gender_f"
+msgstr "Kvinde"
+
+msgid "gender_m"
+msgstr "Mand"
+
+#, fuzzy
+msgid "gender_n"
+msgstr "No salutation desired"
+
+#, fuzzy
+msgid "general"
+msgstr "General"
+
+msgid "general_settings"
+msgstr "Generelle indstillinger"
+
+msgid "generate"
+msgstr "lav"
+
+#, fuzzy
+msgid "ghostscript_not_configured"
+msgstr "Ghostscript is not configured. Please open the <a href=\"cli/setup.php?cmd=mastersettings\" target=\"_blank\">Setup</a> to configure it."
+
+msgid "glo"
+msgstr "Ordbog"
+
+msgid "glo_add"
+msgstr "TIlføj ordbog"
+
+msgid "glo_added"
+msgstr "Ordbog er tilføjet"
+
+#, fuzzy
+msgid "glo_import"
+msgstr "Import Glossary"
+
+msgid "glo_mode"
+msgstr "Mode"
+
+msgid "glo_mode_desc"
+msgstr "A virtual glossary works like a normal glossary. Additionally it contains the terms from all glossaries that are located on the same level in the repository like the virtual glossary (level) respectively from all glossaries that are located downwards in t"
+
+msgid "glo_mode_normal"
+msgstr "Normal"
+
+msgid "glo_new"
+msgstr "Ny ordbog"
+
+msgid "global"
+msgstr "Global"
+
+msgid "global_default"
+msgstr "Global standard"
+
+msgid "global_fixed"
+msgstr "Rettet globalt"
+
+#, fuzzy
+msgid "global_role_assignment"
+msgstr "Globale Rollenzuweisung"
+
+msgid "global_settings"
+msgstr "Globale rettigheder"
+
+msgid "global_user"
+msgstr "Global bruger"
+
+msgid "glossaries"
+msgstr "ordbøger"
+
+msgid "glossary"
+msgstr "Ordbog"
+
+msgid "go"
+msgstr "Kør"
+
+#, fuzzy
+msgid "grade"
+msgstr "Grade"
+
+msgid "group"
+msgstr "Gruppe"
+
+msgid "group_members"
+msgstr "Gruppemedlemmer"
+
+msgid "group_name"
+msgstr "Gruppenavn"
+
+msgid "group_new_registrations"
+msgstr "Nye ansøgninger"
+
+msgid "group_password_registration_msg"
+msgstr "For at blive medlem af denne gruppe skal du indtaste et kodeord.<br />Hvis kodeordet er korrekt blvier du automatisk medlem af gruppen."
+
+msgid "group_registration"
+msgstr "Indmeldelse"
+
+msgid "group_registration_mode"
+msgstr "Tilmeldingsmetode"
+
+msgid "group_registration_time"
+msgstr "Indmeldelsesperiode"
+
+msgid "group_req_direct"
+msgstr "Direkte tilmelding"
+
+msgid "group_req_registration_msg"
+msgstr "For at blive medlem at gruppen skal du skrive en anmodning, hvorefter administrator i gruppen kan gøre dig til medlem. <br />Du vil derefter modtage en besked-"
+
+msgid "group_status"
+msgstr "Gruppen er"
+
+msgid "groupings"
+msgstr "Begrænsninger på medlemsskab"
+
+msgid "groupings_assigned_obj_crs"
+msgstr "Tilmeldte kurser"
+
+msgid "groupings_assigned_obj_grp"
+msgstr "Tilmeldte grupper"
+
+#, fuzzy
+msgid "groupings_source"
+msgstr "Source"
+
+msgid "groups"
+msgstr "Grupper"
+
+msgid "grp"
+msgstr "Gruppe"
+
+msgid "grp_add"
+msgstr "Opret gruppe"
+
+msgid "grp_added"
+msgstr "Gruppen er tilføjet"
+
+msgid "grp_btn_unsubscribe"
+msgstr "Afmeld gruppe"
+
+msgid "grp_cancel_waiting_list"
+msgstr "Vil du tages af ventelisten til gruppen \"%s\"?"
+
+#, fuzzy
+msgid "grp_copy_threads_info"
+msgstr "Please decide which materials should be copied, linked or even omitted."
+
+msgid "grp_deleted_export_files"
+msgstr "Slet valgte filer."
+
+msgid "grp_dismiss_member"
+msgstr "Er du sikker på at du vil afmelde den følgende bruger(e) fra gruppen"
+
+msgid "grp_dismiss_myself"
+msgstr "Er du sikker på du vil udmelde dig af gruppen?"
+
+msgid "grp_edit"
+msgstr "Rediger gruppe"
+
+msgid "grp_err_administrator_required"
+msgstr "Bruger kunne ikke blive fjernet, en administrator per gruppe er nødvendig!"
+
+msgid "grp_header_edit_members"
+msgstr "ændre medlem"
+
+#, fuzzy
+msgid "grp_list_members"
+msgstr "List members"
+
+#, fuzzy
+msgid "grp_list_reg"
+msgstr "Registration"
+
+msgid "grp_list_reg_end"
+msgstr "Indmeldelse slutter"
+
+msgid "grp_list_reg_limit_full"
+msgstr "Ingen ledige pladser"
+
+msgid "grp_list_reg_limit_places"
+msgstr "Ledige pladser"
+
+msgid "grp_list_reg_noreg"
+msgstr "Indmeldelse ikke mulig"
+
+msgid "grp_list_reg_period"
+msgstr "Indmeldelses periode"
+
+msgid "grp_list_reg_start"
+msgstr "Indmeldelse begynder"
+
+msgid "grp_list_users"
+msgstr "List brugere"
+
+msgid "grp_mem_change_status"
+msgstr "Rediger status for medlemmer"
+
+msgid "grp_mem_send_mail"
+msgstr "Send medlem en besked"
+
+msgid "grp_members_gallery"
+msgstr "Persongalleri"
+
+msgid "grp_msg_applicants_assigned"
+msgstr "Ansøger(e) er blevet medlem af gruppen"
+
+msgid "grp_msg_member_assigned"
+msgstr "Bruger(e) er blevet medlem(er) af gruppen."
+
+msgid "grp_msg_membership_annulled"
+msgstr "Medlemsskab annulleret"
+
+msgid "grp_new"
+msgstr "Ny gruppe"
+
+msgid "grp_registration"
+msgstr "Tilmeld"
+
+msgid "grp_registration_completed"
+msgstr "Registreringen er gennemført"
+
+msgid "grp_removed_from_waiting_list"
+msgstr "Du er blevet frameldt ventelisten i gruppen \"%s\"."
+
+msgid "grp_select_one_file"
+msgstr "Vælg en fil."
+
+msgid "grp_wizard_page"
+msgstr "Kopier gruppe (Skridt 2/2)"
+
+#, fuzzy
+msgid "grpr"
+msgstr "Group Reference"
+
+#, fuzzy
+msgid "grpr_add"
+msgstr "Add Group Link"
+
+#, fuzzy
+msgid "grpr_edit"
+msgstr "Edit Group Reference"
+
+#, fuzzy
+msgid "grpr_edit_info"
+msgstr "Please choose one group, for creating a new reference."
+
+#, fuzzy
+msgid "grpr_new"
+msgstr "Create Group Reference"
+
+#, fuzzy
+msgid "grpr_settings"
+msgstr "Group Link Settings"
+
+#, fuzzy
+msgid "header_action"
+msgstr "Insert Heading - Click to insert a heading."
+
+msgid "header_searchable"
+msgstr "Søgbar"
+
+msgid "header_title"
+msgstr "Overskrift"
+
+msgid "header_visible_registration"
+msgstr "Synlig i brugeroprettelse"
+
+msgid "header_zip"
+msgstr "Upload zip-arkiv"
+
+msgid "height"
+msgstr "højde"
+
+msgid "help"
+msgstr "Hjælp"
+
+msgid "hide"
+msgstr "skjul"
+
+#, fuzzy
+msgid "hide_all_details"
+msgstr "Hide all details"
+
+msgid "hide_details"
+msgstr "Skjul detaljer"
+
+msgid "hide_filter"
+msgstr "Skjul filter"
+
+msgid "hide_own_online_status"
+msgstr "Skjul min onlinestatus"
+
+#, fuzzy
+msgid "hide_visible_sections"
+msgstr "Hide More Information &raquo;"
+
+msgid "hint"
+msgstr "Tip"
+
+msgid "history"
+msgstr "Historik"
+
+msgid "hobby"
+msgstr "Interesser/Hobbyer"
+
+msgid "home"
+msgstr "Hjem"
+
+msgid "host"
+msgstr "Udbyder"
+
+msgid "hour"
+msgstr "Hour"
+
+msgid "hours"
+msgstr "time(r)"
+
+msgid "htlm"
+msgstr "Læremodul HTML"
+
+msgid "htlm_add"
+msgstr "Tilføj HTML Læremodul"
+
+msgid "htlm_new"
+msgstr "Nyt HTML Læremodul"
+
+msgid "http"
+msgstr "HTTP"
+
+msgid "http_not_possible"
+msgstr "Denne server understøtter ikke http Forespørgelser."
+
+msgid "http_path"
+msgstr "Http Sti"
+
+msgid "https_not_possible"
+msgstr "Denne server understøtter ikke HTTPS forbindelser."
+
+msgid "i2passwd"
+msgstr "ILIAS 2 password"
+
+#, fuzzy
+msgid "iass_import"
+msgstr "Import Individual Assessment"
+
+#, fuzzy
+msgid "iass_new"
+msgstr "Create Individual Assessment"
+
+msgid "icon"
+msgstr "Ikon"
+
+msgid "icon_settings"
+msgstr "Ikoner"
+
+msgid "id"
+msgstr "ID"
+
+msgid "identifier"
+msgstr "Identifikation"
+
+msgid "if_no_title_then_filename"
+msgstr "Lad den forblive blank for at få vist filnavnet"
+
+msgid "ignore_on_conflict"
+msgstr "Ignorer ved konflikt"
+
+#, fuzzy
+msgid "ignore_required_fields"
+msgstr "Ignore required fields"
+
+msgid "ignore_required_fields_info"
+msgstr "Hvis afkrydset godkendes formularen, selvom ikke alle krævede felter er udfyldt. Brugeren skal så selv udfylde felterne ved næste login."
+
+#, fuzzy
+msgid "il_astpl_loc_initial"
+msgstr "Initial Test"
+
+#, fuzzy
+msgid "il_astpl_loc_qualified"
+msgstr "Qualifying Test"
+
+msgid "il_blog_contributor"
+msgstr "Blog bidragsyder"
+
+#, fuzzy
+msgid "il_blog_editor"
+msgstr "Blog-Editor"
+
+msgid "il_chat_moderator"
+msgstr "Chat moderator"
+
+msgid "il_crs_admin"
+msgstr "Kursusadministrator"
+
+msgid "il_crs_member"
+msgstr "Medlem"
+
+msgid "il_crs_non_member"
+msgstr "Kursus ikke-medlem"
+
+msgid "il_crs_tutor"
+msgstr "Hjælpeinstruktør"
+
+msgid "il_frm_moderator"
+msgstr "Moderator"
+
+msgid "il_grp_admin"
+msgstr "Administrator"
+
+msgid "il_grp_member"
+msgstr "Medlem"
+
+msgid "il_grp_status_closed"
+msgstr "Gruppen er lukket"
+
+msgid "il_grp_status_open"
+msgstr "Gruppen er åben"
+
+#, fuzzy
+msgid "il_iass_member"
+msgstr "Participant"
+
+#, fuzzy
+msgid "il_lso_admin"
+msgstr "Learning Sequence Admin"
+
+#, fuzzy
+msgid "il_lso_member"
+msgstr "Learning Sequence Member"
+
+#, fuzzy
+msgid "il_lti_instructor"
+msgstr "LTI Instructor"
+
+#, fuzzy
+msgid "il_lti_learner"
+msgstr "LTI Learner"
+
+#, fuzzy
+msgid "il_lti_user"
+msgstr "LTI User"
+
+#, fuzzy
+msgid "il_orgu_employee"
+msgstr "Employee"
+
+#, fuzzy
+msgid "il_orgu_superior"
+msgstr "Superior"
+
+msgid "ilias_version"
+msgstr "ILIAS version"
+
+msgid "image"
+msgstr "billede"
+
+msgid "import"
+msgstr "Import"
+
+msgid "import_cat_localrol"
+msgstr "Opret lokal rolle for hver ny kategori."
+
+msgid "import_cat_table"
+msgstr "Nedenstående tabel giver kun mening hvis afkrydsningsboksen er udfyldt."
+
+msgid "import_categories"
+msgstr "Importer kategorier"
+
+msgid "import_failure_log"
+msgstr "Import af log fejlede"
+
+msgid "import_file"
+msgstr "Importer fil"
+
+msgid "import_file_not_valid_here"
+msgstr "Den importerede fil er ikke gyldig."
+
+msgid "import_finished"
+msgstr "Antal importerede beskeder."
+
+msgid "import_lm"
+msgstr "Importer ILIAS Læremodul"
+
+msgid "import_qpl"
+msgstr "Importer spørgsmålssamling til test"
+
+msgid "import_questions_into_qpl"
+msgstr "Importer spørgsmål til spørgsmålsbibliotek"
+
+msgid "import_sahs"
+msgstr "Importer SCORM/AICC moduler"
+
+#, fuzzy
+msgid "import_sahs_info"
+msgstr "To correct typos or images, use the option to replace individual files via the file directory. Upload a SCORM export from your authoring tool here and not an ILIAS export file. Make sure that your authoring tool has retained the IDs in the manifest file. Attention: Even popular authoring tools cannot do this. SCORM learning modules of certain authoring tools discard learner data obtained if you change the number of answer options of questions or insert new questions. Check in a test installation whether learning statuses that have already been achieved are possible when learning modules that have already been started are called up again."
+
+#, fuzzy
+msgid "import_sahs_new"
+msgstr "Import New Version of SCORM Package"
+
+msgid "import_svy"
+msgstr "Importer undersøgelse"
+
+msgid "import_tst"
+msgstr "Importer test"
+
+msgid "import_users"
+msgstr "Importer brugere"
+
+msgid "import_warning_log"
+msgstr "Advarsler i forbindelse med import"
+
+msgid "important"
+msgstr "Vigtigt"
+
+msgid "imported"
+msgstr "importerede"
+
+#, fuzzy
+msgid "imprint"
+msgstr "Imprint"
+
+msgid "in"
+msgstr "i"
+
+msgid "in_use"
+msgstr "Bruger Sprog"
+
+msgid "in_use_by"
+msgstr "Bruges af"
+
+msgid "inactive"
+msgstr "Inaktiv"
+
+msgid "inbox"
+msgstr "Indbakke"
+
+msgid "include_local"
+msgstr "Inkluder lokal"
+
+msgid "info"
+msgstr "Information"
+
+msgid "info_access_and_status_info"
+msgstr "Adgangs og rettighedsinformationer"
+
+msgid "info_access_permissions"
+msgstr "Adgangsindstillinger"
+
+msgid "info_activate_sure"
+msgstr "Er du sikker på du vil godkende følgende bruger(e) som aktive?"
+
+msgid "info_assign_sure"
+msgstr "Er du sikker på at du vil tildele følgende brugere"
+
+msgid "info_assigned"
+msgstr "tildelt"
+
+msgid "info_available_roles"
+msgstr "Mulige roller"
+
+msgid "info_change_user_view"
+msgstr "Opdater rettighedsvisningen"
+
+#, fuzzy
+msgid "info_deactivate_sure"
+msgstr "Are you sure that you want to disapprove the following user(s) as active user(s)?"
+
+msgid "info_delete_sure"
+msgstr "Er du sikker på at du vil slette disse objekter?"
+
+msgid "info_delete_warning_no_trash"
+msgstr "(ADVARSEL: Valgte objekter bliver uigenkaldeligt fjernet fra systemet og kan ikke genskabes!)"
+
+msgid "info_deleted"
+msgstr "Objekt(er) slettet"
+
+msgid "info_err_user_not_exist"
+msgstr "Det indtastede kontonavn eller bruger-id eksisterer ikke."
+
+msgid "info_from_role"
+msgstr "Tildelt af rolle"
+
+msgid "info_is_member"
+msgstr "Bruger er medlem"
+
+msgid "info_is_not_member"
+msgstr "Brugeren er ikke medlem"
+
+msgid "info_message"
+msgstr "Information"
+
+msgid "info_not_assigned"
+msgstr "ikke tildelt"
+
+msgid "info_owner_of_object"
+msgstr "Objektets ejer"
+
+msgid "info_permission_origin"
+msgstr "Oprindelig position"
+
+msgid "info_permission_source"
+msgstr "gældende fra"
+
+msgid "info_remark_interrupted"
+msgstr "Rollen er blevet afbrudt i denne position. Rollens aktive standardadgangsrettigheder kan lokaliseres i den position"
+
+#, fuzzy
+msgid "info_remove_sure"
+msgstr "Are you sure that you want to remove the following item(s)?"
+
+msgid "info_short"
+msgstr "Info"
+
+msgid "info_status_info"
+msgstr "Rettighedsvisning"
+
+msgid "info_view_of_user"
+msgstr "Bruger"
+
+msgid "inform_user_mail"
+msgstr "Send email for at informere brugere om ændringer"
+
+msgid "inline_file_extensions"
+msgstr "Web-aktiverede filer"
+
+msgid "inline_file_extensions_info"
+msgstr "Filer med disse endelser vises i browservinduet. <br/>Eksempler: <b>gif jpg mp3 pdf png</b><br/>Alle andre filer tilbydes som download."
+
+msgid "insert"
+msgstr "Indsæt"
+
+msgid "insert_object_here"
+msgstr "Insæt objekt her"
+
+msgid "inst_id"
+msgstr "Installations ID"
+
+msgid "inst_info"
+msgstr "Installationsinfo"
+
+msgid "inst_name"
+msgstr "Installationsnavn"
+
+msgid "install"
+msgstr "Installer"
+
+msgid "install_local"
+msgstr "Installer med lokal"
+
+#, fuzzy
+msgid "installation_status"
+msgstr "Installation Status"
+
+msgid "installed"
+msgstr "Installeret"
+
+msgid "installed_local"
+msgstr "Installeret med lokalt sprog"
+
+msgid "instant_messengers"
+msgstr "Programmer til øjebliksbeskeder"
+
+msgid "institution"
+msgstr "Institution"
+
+msgid "internal_local_roles_only"
+msgstr "Lokale roller (kun autogenereret)"
+
+msgid "invalid_visible_required_options_selected"
+msgstr "Alle krævede felter skal være synlige i brugeroprettelsen."
+
+msgid "invisible_block"
+msgstr "Usynlig blok"
+
+msgid "invisible_block_mess"
+msgstr "Du har ikke rettigheder til at se denne blok."
+
+msgid "ip_address"
+msgstr "IP-adresse"
+
+msgid "is_already_your"
+msgstr "er allerede din"
+
+#, fuzzy
+msgid "italic_action"
+msgstr "Insert Italic - Click to insert italic text."
+
+msgid "item"
+msgstr "Ting"
+
+#, fuzzy
+msgid "itgr_add"
+msgstr "Add Item Group"
+
+#, fuzzy
+msgid "itgr_new"
+msgstr "New Item Group"
+
+msgid "java_server"
+msgstr "Java-Server"
+
+msgid "java_server_host"
+msgstr "Host"
+
+#. Needs to be adapted to new content of German lang file.
+msgid "java_server_info"
+msgstr "Hvis aktiveret er det muligt at søge i PDF, HTML filer og HTML-læremoduler."
+
+msgid "java_server_port"
+msgstr "Port"
+
+msgid "java_server_readme"
+msgstr "Opsætnings information"
+
+msgid "join"
+msgstr "Tilmeld"
+
+msgid "join_session"
+msgstr "Tilmeld"
+
+msgid "kb"
+msgstr "KByte"
+
+msgid "keywords"
+msgstr "Nøgleord"
+
+#, fuzzy
+msgid "label_search_options"
+msgstr "Search Area"
+
+msgid "lang_dateformat"
+msgstr "d-m-Y"
+
+msgid "lang_path"
+msgstr "sprog ski"
+
+msgid "lang_refresh_confirm"
+msgstr "Er du sikker på du vil opdatere alle sprog?"
+
+msgid "lang_refresh_confirm_info"
+msgstr "Udviddet vedligeholdelse af sprog er pt. aktiveret. Hvis du fortsætter hentes alle tekster fra ILIAS-filerne ind i databasen. Lokale ændringer (i databasen) vil blive overskrevet."
+
+msgid "lang_refresh_confirm_selected"
+msgstr "Er du sikker up du vil opdatere de valgte sprog?"
+
+msgid "lang_sep_decimal"
+msgstr ","
+
+msgid "lang_sep_thousand"
+msgstr "."
+
+msgid "lang_size_bytes"
+msgstr "bytes"
+
+msgid "lang_size_gb"
+msgstr "GB"
+
+msgid "lang_size_kb"
+msgstr "KB"
+
+msgid "lang_size_mb"
+msgstr "MB"
+
+msgid "lang_timeformat"
+msgstr "H:i:s"
+
+msgid "lang_timeformat_no_sec"
+msgstr "H:i"
+
+#, fuzzy
+msgid "lang_uninstall_changes"
+msgstr "Uninstall Local Changes"
+
+#, fuzzy
+msgid "lang_uninstall_changes_confirm"
+msgstr "Do you really want to clear all local changes of the selected languages and reset them to the default of the current ILIAS version?"
+
+#, fuzzy
+msgid "lang_uninstall_confirm"
+msgstr "Do you really want to uninstall the selected languages?"
+
+msgid "langfile_found"
+msgstr "Sprogfil fundet"
+
+msgid "language"
+msgstr "Sprog"
+
+msgid "language_not_installed"
+msgstr "er ikke installeret. Installer venligst sproget først"
+
+msgid "languages"
+msgstr "Sprog"
+
+msgid "languages_already_installed"
+msgstr "De valgte Sprog er allerede installeret"
+
+msgid "languages_already_uninstalled"
+msgstr "De valgte sprog er allerede afinstalleret"
+
+msgid "languages_updated"
+msgstr "Alle installerede sprog blev opdateret."
+
+msgid "last_access"
+msgstr "Sidste adgang:"
+
+msgid "last_change"
+msgstr "Sidste ændring"
+
+msgid "last_edited_on"
+msgstr "Sidst redigeret"
+
+msgid "last_login"
+msgstr "Sidste login"
+
+msgid "last_refresh"
+msgstr "Sidste indlæsning"
+
+msgid "last_reminder"
+msgstr "Sidste påmindelse"
+
+msgid "last_update"
+msgstr "Sidste opdatering"
+
+msgid "last_visited"
+msgstr "Sidst besøgt"
+
+msgid "lastname"
+msgstr "Efternavn"
+
+#, fuzzy
+msgid "latex_edit_info"
+msgstr "You can enter LaTeX code in the delimiters <code>[tex]</code> and <code>[/tex]</code>."
+
+#, fuzzy
+msgid "laugh"
+msgstr "Laugh"
+
+msgid "launch"
+msgstr "Kør"
+
+msgid "ldap"
+msgstr "LDAP"
+
+msgid "ldap_basedn"
+msgstr "LDAP BaseDN"
+
+msgid "ldap_configure"
+msgstr "Konfigurer LDAP Authentication"
+
+msgid "ldap_port"
+msgstr "LDAP Port"
+
+msgid "ldap_read"
+msgstr "Læse adgang til LDAP indstillinger"
+
+msgid "ldap_server"
+msgstr "LDAP server URL"
+
+msgid "ldap_tls"
+msgstr "Brug LDAP TLS"
+
+msgid "ldap_version"
+msgstr "LDAP protokol version"
+
+msgid "learning module"
+msgstr "Læremodul"
+
+msgid "learning_progress"
+msgstr "Læringsfremskridt"
+
+msgid "leave_waiting_list"
+msgstr "Forlad ventelisten"
+
+msgid "legend"
+msgstr "Legend"
+
+msgid "level"
+msgstr "Niveau"
+
+msgid "link"
+msgstr "Link"
+
+#, fuzzy
+msgid "link_action"
+msgstr "Insert Link - Click to insert a link."
+
+msgid "link_all"
+msgstr "Link alle"
+
+msgid "link_check"
+msgstr "Linkcheck"
+
+msgid "link_check_message_b"
+msgstr "Hvis aktiveret, vil du blive informeret om ugyldige links via din email"
+
+msgid "link_check_message_disabled"
+msgstr "Besked ikke aktiv"
+
+msgid "link_check_message_enabled"
+msgstr "Besked aktiv"
+
+msgid "link_check_subject"
+msgstr "[ILIAS] Link check"
+
+msgid "link_checker_refreshed"
+msgstr "Opdateret visning"
+
+msgid "link_selected_items"
+msgstr "Link til valgte"
+
+msgid "links_add_param"
+msgstr "Add parameter:"
+
+msgid "links_dyn_parameter"
+msgstr "Dynamiske parametre"
+
+msgid "links_dynamic"
+msgstr "Dynamiske parametre"
+
+msgid "links_dynamic_info"
+msgstr "Hvis aktiveret, er det muligt at tilføje dynamiske parametre til weblinks, f.eks. bruger id eller brugernavn."
+
+msgid "links_existing_params"
+msgstr "Existing parameters:"
+
+msgid "links_name"
+msgstr "Parameternavn"
+
+msgid "links_no_name_given"
+msgstr "Vælg venligst parameternavn"
+
+msgid "links_no_value_given"
+msgstr "Please choose a parameter value."
+
+msgid "links_parameter_deleted"
+msgstr "Parameter deleted."
+
+msgid "links_select_one"
+msgstr "- vælg en -"
+
+msgid "links_session_id"
+msgstr "ILIAS sessions id"
+
+msgid "links_user_id"
+msgstr "ILIAS bruger id"
+
+msgid "links_user_name"
+msgstr "ILIAS brugernavn"
+
+msgid "links_value"
+msgstr "Parameterværdi"
+
+msgid "list"
+msgstr "Liste"
+
+msgid "list_of_questions"
+msgstr "Spørgsmålsliste"
+
+#, fuzzy
+msgid "list_view"
+msgstr "List View"
+
+#, fuzzy
+msgid "listaction_learning_progress_settings"
+msgstr "Learning Progress Settings"
+
+msgid "lm"
+msgstr "ILIAS læremodul"
+
+msgid "lm_add"
+msgstr "Tilføj ILIAS Læremodul"
+
+msgid "lm_added"
+msgstr "ILIAS Læremodul er tilføjet"
+
+msgid "lm_new"
+msgstr "Nyt ILIAS Læremodul"
+
+msgid "lm_type_scorm"
+msgstr "SCORM"
+
+msgid "lm_type_scorm2004"
+msgstr "SCORM 2004"
+
+#, fuzzy
+msgid "lm_type_scorm2004_info"
+msgstr "These are newer versions of SCORM with significantly enhanced functionality. The learning module is launched in an iFrame."
+
+#, fuzzy
+msgid "lm_type_scorm_info"
+msgstr "This is the most widely used version of SCORM. The learning module is launched in a frame."
+
+msgid "lng"
+msgstr "Sprog"
+
+msgid "lngf"
+msgstr "Sprog"
+
+msgid "lo"
+msgstr "Lærerobjekt"
+
+#, fuzzy
+msgid "loaded_preview_renderers"
+msgstr "Loaded Preview Renderers"
+
+msgid "local"
+msgstr "Lokal"
+
+msgid "local_language_file"
+msgstr "Lokal sprogfil"
+
+msgid "local_language_files"
+msgstr "Lokale sprogfiler"
+
+msgid "local_languages_already_installed"
+msgstr "Den valgte sprogfil er allerede installeret"
+
+#, fuzzy
+msgid "local_role_assignment"
+msgstr "Lokale Rollenzuweisung"
+
+msgid "location"
+msgstr "Placering"
+
+msgid "locator"
+msgstr "Placering:"
+
+msgid "log_in"
+msgstr "Login"
+
+#, fuzzy
+msgid "log_out"
+msgstr "Logout"
+
+msgid "logic_or"
+msgstr "eller"
+
+msgid "login"
+msgstr "Login"
+
+msgid "login_as"
+msgstr "Logget ind som"
+
+msgid "login_data"
+msgstr "Login data"
+
+msgid "login_exists"
+msgstr "Der er allerede en med dette navn! Vælg venligst et andet brugernavn."
+
+msgid "login_invalid"
+msgstr "Det valgte brugernavn er ugyldigt! Kun følgende karaktere er gyldige (minimum 4 karaktere): A-Z a-z 0-9 _.-+*@!$%~"
+
+msgid "login_to_ilias"
+msgstr "Log ind på ILIAS"
+
+#, fuzzy
+msgid "login_to_ilias_via_login_form"
+msgstr "Login to ILIAS"
+
+#, fuzzy
+msgid "login_to_ilias_via_saml"
+msgstr "Login to ILIAS via SAML Authentification"
+
+msgid "login_to_ilias_via_shibboleth"
+msgstr "Login til ILIAS via Shibboleth"
+
+msgid "loginname_already_exists"
+msgstr "Det valgte brugernavn eksisterer i forvejen og kan derfor ikke anvendes."
+
+msgid "loginname_settings"
+msgstr "Brugernavne"
+
+msgid "logout"
+msgstr "Log af"
+
+msgid "logout_text"
+msgstr "Du er logget af ILIAS. Tak for besøget."
+
+msgid "logs"
+msgstr "Log data"
+
+#, fuzzy
+msgid "love"
+msgstr "Love"
+
+msgid "lres"
+msgstr "Læreresurser"
+
+#, fuzzy
+msgid "lso_add"
+msgstr "Add Learning Sequence"
+
+#, fuzzy
+msgid "lso_admin_form_byline"
+msgstr "General Settings for Learning Sequences"
+
+#, fuzzy
+msgid "lso_admin_form_title"
+msgstr "Settings"
+
+#, fuzzy
+msgid "lso_admin_interval_byline"
+msgstr "Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!"
+
+#, fuzzy
+msgid "lso_admin_interval_label"
+msgstr "Learning Progress Polling Interval (seconds)"
+
+#, fuzzy
+msgid "lso_copy_threads_info"
+msgstr "Please decide which elements of the Learning Sequence should be copied, linked or omitted."
+
+#, fuzzy
+msgid "lso_edit"
+msgstr "Edit Learning Sequence"
+
+#, fuzzy
+msgid "lso_import"
+msgstr "Import Learning Sequence"
+
+#, fuzzy
+msgid "lso_new"
+msgstr "New Learning Sequence"
+
+#, fuzzy
+msgid "lso_wizard_page"
+msgstr "Copy Learning Sequence (Step 2/2)"
+
+#, fuzzy
+msgid "lti"
+msgstr "LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_add"
+msgstr "Add LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_new"
+msgstr "New LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_outcome_info"
+msgstr "Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI Tool Consumer."
+
+msgid "mail"
+msgstr "Mail"
+
+msgid "mail_addressbook"
+msgstr "Adressebog"
+
+#, fuzzy
+msgid "mail_at_the_ilias_installation"
+msgstr "You received %1$s new mail at the ILIAS-Installation %2$s"
+
+msgid "mail_attachment"
+msgstr "Vedhæftning"
+
+msgid "mail_b_inbox"
+msgstr "Indboks"
+
+msgid "mail_c_trash"
+msgstr "Papirkurv"
+
+#, fuzzy
+msgid "mail_cron_scheduled_mails"
+msgstr "Send scheduled mails."
+
+#, fuzzy
+msgid "mail_cron_scheduled_mails_desc"
+msgstr "Sends scheduled user mails according to their defined delivery times"
+
+msgid "mail_d_drafts"
+msgstr "Kladder"
+
+msgid "mail_delete_error"
+msgstr "Fejl ved sletning"
+
+#, fuzzy
+msgid "mail_e_outbox"
+msgstr "Outbox"
+
+msgid "mail_e_sent"
+msgstr "Sendt"
+
+msgid "mail_edit_permission"
+msgstr "Ændre rettighedsindstillinger"
+
+#, fuzzy
+msgid "mail_f_sent"
+msgstr "Sent"
+
+msgid "mail_folders"
+msgstr "Mail Mapper"
+
+msgid "mail_import_file"
+msgstr "Exporter fil"
+
+msgid "mail_mails_of"
+msgstr "Mail"
+
+msgid "mail_maxsize_attach"
+msgstr "Max vedhæftet størrelse"
+
+msgid "mail_member"
+msgstr "Mail til medlem"
+
+msgid "mail_members"
+msgstr "Mail til medlemmer"
+
+#, fuzzy
+msgid "mail_message_scheduled"
+msgstr "Scheduled mail"
+
+#, fuzzy
+msgid "mail_message_scheduled_info"
+msgstr "Mails remain in the outbox until the scheduled sending time."
+
+msgid "mail_not_sent"
+msgstr "Mail ikke sendt!"
+
+#, fuzzy
+msgid "mail_schedule_error_no_datetime"
+msgstr "To schedule a mail, a delivery date and time must be specified."
+
+#, fuzzy
+msgid "mail_schedule_error_past_datetime"
+msgstr "You cannot schedule emails in the past."
+
+#, fuzzy
+msgid "mail_schedule_scheduled_datetime"
+msgstr "Scheduled Send Time"
+
+#, fuzzy
+msgid "mail_scheduled"
+msgstr "Mail stored in outbox for later delivery."
+
+#, fuzzy
+msgid "mail_scheduled_edit_compose_info"
+msgstr "You are editing a scheduled mail. Sending is paused until you schedule the mail again."
+
+#, fuzzy
+msgid "mail_scheduled_edit_moved_info"
+msgstr "This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox."
+
+msgid "mail_search_no"
+msgstr "Ingen indgange fundet"
+
+msgid "mail_select_one"
+msgstr "Du skal vælge en mail"
+
+msgid "mail_send_error"
+msgstr "Fejl ved afsendelse af mail"
+
+msgid "mail_sent"
+msgstr "Mail sendt!"
+
+msgid "mail_settings"
+msgstr "Besked indstillinger"
+
+#, fuzzy
+msgid "mail_to_global_roles_not_allowed"
+msgstr "It is not allowed to send emails to global roles"
+
+msgid "mail_z_local"
+msgstr "Brugermappe"
+
+msgid "mails"
+msgstr "Mail"
+
+#, fuzzy
+msgid "mails_at_the_ilias_installation"
+msgstr "You received %1$s new mails at the ILIAS-Installation %2$s"
+
+msgid "mails_pl"
+msgstr "Mail(s)"
+
+msgid "main_menu"
+msgstr "Hovedmenu"
+
+#, fuzzy
+msgid "mainbar_aria_label"
+msgstr "Mainbar"
+
+#, fuzzy
+msgid "mainbar_more_label"
+msgstr "More"
+
+#, fuzzy
+msgid "manage_members"
+msgstr "Manage Members"
+
+msgid "matriculation"
+msgstr "Matrikuleringsnummer"
+
+#, fuzzy
+msgid "max_previews_per_object"
+msgstr "Number of preview images per file"
+
+#, fuzzy
+msgid "max_previews_per_object_info"
+msgstr "Defines the maximum number of preview images that are created per file."
+
+msgid "mcst"
+msgstr "MediaCast"
+
+msgid "mcst_add"
+msgstr "Tilføj mediaCast"
+
+msgid "mcst_new"
+msgstr "Ny mediaCast"
+
+msgid "mem_add_to_wl"
+msgstr "Put på venteliste"
+
+msgid "mem_alert_no_places"
+msgstr "Der er ingen gratis pladser frie."
+
+#, fuzzy
+msgid "mem_cron_min_members"
+msgstr "Course/Group: Minimum Members Check"
+
+#, fuzzy
+msgid "mem_cron_min_members_info"
+msgstr "The administrators will be notified if the minimum number is not met."
+
+msgid "mem_end"
+msgstr "Indmeldelses slut:"
+
+msgid "mem_free_places"
+msgstr "Gratis pladser:"
+
+msgid "mem_max_users"
+msgstr "Maks brugere:"
+
+#, fuzzy
+msgid "mem_min_users"
+msgstr "Minimum of Users"
+
+msgid "mem_participants"
+msgstr "Deltagere"
+
+msgid "mem_reg_expired"
+msgstr "Indmeldelsesperioden er udløbet."
+
+msgid "mem_reg_not_started"
+msgstr "Indmeldelsesperioden er ikke begyndt"
+
+msgid "mem_reg_period"
+msgstr "Indmeldelses perioder"
+
+msgid "mem_reg_type"
+msgstr "Indmeldelsestype"
+
+msgid "mem_start"
+msgstr "Indmeldelses start:"
+
+msgid "mem_unlimited"
+msgstr "Ubegrænset"
+
+msgid "mem_view_activate"
+msgstr "Aktiver deltagervisning"
+
+msgid "mem_view_close"
+msgstr "Luk deltagervisning"
+
+msgid "mem_view_long"
+msgstr "Deltagervisning"
+
+msgid "mem_waiting_list"
+msgstr "Brugere på venteliste:"
+
+msgid "mem_waiting_list_position"
+msgstr "Din position på ventelisten:"
+
+msgid "member"
+msgstr "Medlem"
+
+msgid "member_status"
+msgstr "Medlemsstatus"
+
+msgid "members"
+msgstr "Medlemmer"
+
+msgid "membership_leave"
+msgstr "Forlad"
+
+msgid "mep"
+msgstr "Mediebeholder"
+
+msgid "mep_add"
+msgstr "tilføj Mediebeholder"
+
+msgid "mep_edit"
+msgstr "Rediger mediebeholder indstillinger"
+
+msgid "mep_new"
+msgstr "Ny mediebeholder"
+
+msgid "mep_not_insert_already_exist"
+msgstr "De følgende objekter er ikke blevet indsat fordi de allerede findes i mediebiblioteket:"
+
+msgid "message"
+msgstr "Besked"
+
+msgid "message_content"
+msgstr "Indhold"
+
+msgid "message_no_delivered_files"
+msgstr "Du har ikke vedhæftet en fil!"
+
+msgid "meta_data"
+msgstr "Metadata"
+
+#, fuzzy
+msgid "metabar_aria_label"
+msgstr "Metabar"
+
+#, fuzzy
+msgid "mgs_objects_linked_to_the_following_folders_p"
+msgstr "The objects were linked to the following folder(s): %s"
+
+#, fuzzy
+msgid "mgs_objects_linked_to_the_following_folders_s"
+msgstr "The object was linked to the following folder(s): %s"
+
+msgid "migrate"
+msgstr "Migrer"
+
+#, fuzzy
+msgid "minimize"
+msgstr "Minimize"
+
+msgid "minute"
+msgstr "Minute"
+
+msgid "minutes"
+msgstr "minutter"
+
+msgid "missing"
+msgstr "Mangler"
+
+#, fuzzy
+msgid "missing_perm"
+msgstr "Missing Permission"
+
+#, fuzzy
+msgid "missing_precondition"
+msgstr "Missing Precondition"
+
+#, fuzzy
+msgid "mm_achievements"
+msgstr "Achievements"
+
+#, fuzzy
+msgid "mm_administration"
+msgstr "Administration"
+
+#, fuzzy
+msgid "mm_badges"
+msgstr "Badges"
+
+#, fuzzy
+msgid "mm_calendar"
+msgstr "Calendar"
+
+#, fuzzy
+msgid "mm_certificates"
+msgstr "Certificates"
+
+#, fuzzy
+msgid "mm_comments"
+msgstr "Comments"
+
+#, fuzzy
+msgid "mm_communication"
+msgstr "Communication"
+
+#, fuzzy
+msgid "mm_contacts"
+msgstr "Contacts"
+
+#, fuzzy
+msgid "mm_dashboard"
+msgstr "Dashboard"
+
+#, fuzzy
+msgid "mm_enrolments"
+msgstr "Enrolments"
+
+msgid "mm_favorites"
+msgstr "Favoritter"
+
+#, fuzzy
+msgid "mm_learning_history"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "mm_learning_progress"
+msgstr "Learning Progress"
+
+#, fuzzy
+msgid "mm_mail"
+msgstr "Mail"
+
+#, fuzzy
+msgid "mm_news"
+msgstr "News"
+
+#, fuzzy
+msgid "mm_notes"
+msgstr "Notes"
+
+#, fuzzy
+msgid "mm_organisation"
+msgstr "Organisation"
+
+#, fuzzy
+msgid "mm_personal_and_shared_r"
+msgstr "Personal and Shared Resources"
+
+#, fuzzy
+msgid "mm_personal_workspace"
+msgstr "Personal Workspace"
+
+#, fuzzy
+msgid "mm_portfolio"
+msgstr "Portfolio"
+
+#, fuzzy
+msgid "mm_private_chats"
+msgstr "Private Chats"
+
+msgid "mm_repo_tree_view"
+msgstr "Trævisning"
+
+msgid "mm_repo_tree_view_act"
+msgstr "Aktiver trævisning"
+
+msgid "mm_repo_tree_view_deact"
+msgstr "Deaktiver trævisning"
+
+msgid "mm_repository"
+msgstr "Arkiv"
+
+#, fuzzy
+msgid "mm_skills"
+msgstr "Competences"
+
+#, fuzzy
+msgid "mm_staff_list"
+msgstr "Staff List"
+
+#, fuzzy
+msgid "mm_tags"
+msgstr "Tags"
+
+#, fuzzy
+msgid "mm_task_derived_tasks"
+msgstr "Tasks"
+
+#, fuzzy
+msgid "mme_lost_item_reason"
+msgstr "Item is no longer provided."
+
+#, fuzzy
+msgid "mme_lost_item_title"
+msgstr "No assignment"
+
+msgid "mob"
+msgstr "Medie objekter"
+
+msgid "moderators"
+msgstr "Moderatorer"
+
+msgid "module"
+msgstr "modul"
+
+msgid "modules"
+msgstr "Moduler"
+
+msgid "month"
+msgstr "Måned"
+
+msgid "month_01_long"
+msgstr "Januar"
+
+msgid "month_01_short"
+msgstr "jan"
+
+msgid "month_02_long"
+msgstr "Februar"
+
+msgid "month_02_short"
+msgstr "feb"
+
+msgid "month_03_long"
+msgstr "Marts"
+
+msgid "month_03_short"
+msgstr "mar"
+
+msgid "month_04_long"
+msgstr "April"
+
+msgid "month_04_short"
+msgstr "apr"
+
+msgid "month_05_long"
+msgstr "Maj"
+
+msgid "month_05_short"
+msgstr "Maj"
+
+msgid "month_06_long"
+msgstr "Juni"
+
+msgid "month_06_short"
+msgstr "jun"
+
+msgid "month_07_long"
+msgstr "Juli"
+
+msgid "month_07_short"
+msgstr "jul"
+
+msgid "month_08_long"
+msgstr "August"
+
+msgid "month_08_short"
+msgstr "Aug"
+
+msgid "month_09_long"
+msgstr "September"
+
+msgid "month_09_short"
+msgstr "Sep"
+
+msgid "month_10_long"
+msgstr "Oktober"
+
+msgid "month_10_short"
+msgstr "Okt"
+
+msgid "month_11_long"
+msgstr "November"
+
+msgid "month_11_short"
+msgstr "Nov"
+
+msgid "month_12_long"
+msgstr "December"
+
+msgid "month_12_short"
+msgstr "Dec"
+
+msgid "monthly"
+msgstr "månedligt"
+
+msgid "months"
+msgstr "Måneder"
+
+msgid "mount_webfolder"
+msgstr "Åben som webfolder"
+
+msgid "move"
+msgstr "Flyt"
+
+msgid "moveChapter"
+msgstr "Flyt"
+
+msgid "movePage"
+msgstr "Flyt"
+
+msgid "move_selected_items"
+msgstr "Flyt valgte"
+
+#, fuzzy
+msgid "msg_bt_download_started"
+msgstr "ILIAS is generating a ZIP archive of all available files. You can download them from the Notification Center (bell icon) on top right."
+
+msgid "msg_cancel"
+msgstr "Handling annulleret"
+
+msgid "msg_clear_clipboard"
+msgstr "Udklipsholder er tømt"
+
+msgid "msg_cloned"
+msgstr "Valgte object(er) er kopierede"
+
+msgid "msg_copy_clipboard"
+msgstr "Valgte objekt(er) er gemt i udklipsholder (Handling: kopier)"
+
+#, fuzzy
+msgid "msg_copy_clipboard_container"
+msgstr "Now, please select the desired location, where the selected objects should be pasted into and click the button \"Continue\"."
+
+msgid "msg_copy_clipboard_source"
+msgstr "Vælg nu hvilket kursus hvorfra du ønsker indhold kopieret og tryk på 'Fortsæt'"
+
+msgid "msg_cut_clipboard"
+msgstr "Valgte objekt(er) er gemt i udklipsholder (Handling: klip)"
+
+msgid "msg_cut_copied"
+msgstr "Valgte objekter er flyttet."
+
+msgid "msg_deleted_export_files"
+msgstr "Eksportfil(er) slettet"
+
+msgid "msg_deleted_role"
+msgstr "Rolle er slettet"
+
+msgid "msg_deleted_roles_rolts"
+msgstr "Roller og rolleskabeloner er slettet"
+
+msgid "msg_failed"
+msgstr "Undskyld, Handlingen fejlede"
+
+#, fuzzy
+msgid "msg_form_save_error"
+msgstr "The form data could not be saved. Please check the input fields for any error messages."
+
+#, fuzzy
+msgid "msg_info_blacklisted"
+msgstr "The files cannot be uploaded due to security reasons."
+
+#, fuzzy
+msgid "msg_input_char_limit_max"
+msgstr "You have entered more characters than allowed."
+
+#, fuzzy
+msgid "msg_input_char_limit_min"
+msgstr "You have to enter the minimum of characters specified."
+
+#, fuzzy
+msgid "msg_input_does_not_match_regexp"
+msgstr "Please provide a valid value."
+
+msgid "msg_input_is_required"
+msgstr "Indtastning i dette felt er krævet."
+
+#, fuzzy
+msgid "msg_invalid_value_css_rect_input"
+msgstr "The entered value is incorrect, do not use any plus or minus symbols in combination with the entered integer. Please check your input."
+
+msgid "msg_is_last_role"
+msgstr "Du har fjernet den sidste globale rolle fra de følgende brugere"
+
+msgid "msg_last_role_for_registration"
+msgstr "Mindst en rolle skal være aktiv til brugere På nuværende tidspunkt er dette den eneste aktive rolle."
+
+#, fuzzy
+msgid "msg_link_clipboard_p"
+msgstr "Now, please select the desired location, where the selected objects should be linked to and click the button Paste."
+
+#, fuzzy
+msgid "msg_link_clipboard_s"
+msgstr "Now, please select the desired location, where the selected object should be linked to and click the button Paste."
+
+msgid "msg_linked"
+msgstr "Valgte objekter linked."
+
+msgid "msg_may_not_contain"
+msgstr "dette objekt må ikke indeholde følgende typer:"
+
+msgid "msg_min_one_role"
+msgstr "hver bruger skal have mindst en global rolle!"
+
+msgid "msg_multi_language_selected"
+msgstr "du valgte det samme sprog for forskellige oversættelser!"
+
+msgid "msg_no_default_language"
+msgstr "Ingen standard valgt! Du skal vælge en standard oversættelse."
+
+msgid "msg_no_delete_yourself"
+msgstr "du kan ikke slette din egen bruger konto."
+
+msgid "msg_no_file"
+msgstr "du valgte ikke en fil"
+
+#, fuzzy
+msgid "msg_no_files_selected"
+msgstr "No files selected"
+
+msgid "msg_no_language_selected"
+msgstr "intet sprog valgt! Du skal vælge et sprog for hver oversættelse"
+
+msgid "msg_no_perm_assign_role_to_user"
+msgstr "Du har ikke ret til at skifte rettigheder"
+
+msgid "msg_no_perm_assign_user_to_role"
+msgstr "Du mangler rettigheder til at ændre brugerens roller."
+
+msgid "msg_no_perm_copy"
+msgstr "Du har ikke rettigheder til at lave en kopi af følgende objekt:"
+
+msgid "msg_no_perm_create_rolt"
+msgstr "Du har ikke rettigheder til at lave rolleskabeloner"
+
+msgid "msg_no_perm_cut"
+msgstr "du har ikke rettigheder til at klippe følgende objekt:"
+
+msgid "msg_no_perm_delete"
+msgstr "du har ingen rettigheder til at slette følgende objekter:"
+
+msgid "msg_no_perm_link"
+msgstr "du har ikke retighedder til at lave et link fra følgende objekt:"
+
+msgid "msg_no_perm_modify_rolt"
+msgstr "du har ikke rettigheder til at ændre regler"
+
+msgid "msg_no_perm_modify_user"
+msgstr "du har ikke rettigneder til at ændre bruger data"
+
+msgid "msg_no_perm_paste"
+msgstr "Du har ikke rettigheder til at indsætte følgende objekt"
+
+#, fuzzy
+msgid "msg_no_perm_paste_object_in_folder"
+msgstr "You have no permission to paste the object %s in the folder %s."
+
+msgid "msg_no_perm_perm"
+msgstr "Du har ikke rettigheder til at ændre rettighedsindstillinger"
+
+msgid "msg_no_perm_read"
+msgstr "Du har ikke rettigheder til adgang af objekterne"
+
+msgid "msg_no_perm_read_item"
+msgstr "You have no permission to access the object."
+
+msgid "msg_no_perm_read_lm"
+msgstr "du har ingen rettigheder læse dette læringsmodul."
+
+#, fuzzy
+msgid "msg_no_perm_view_roles_of_user"
+msgstr "You have no permission to view the role assignment of this user"
+
+msgid "msg_no_perm_write"
+msgstr "Du har ikke skriverettigheder"
+
+msgid "msg_no_search_result"
+msgstr "Ingen stier fundet"
+
+msgid "msg_no_search_string"
+msgstr "Indtast din forespørgsel"
+
+msgid "msg_no_title"
+msgstr "Angiv en titel."
+
+msgid "msg_not_available_for_anon"
+msgstr "Den side du har valgt er kun tilgængelig for registrerede brugere"
+
+msgid "msg_not_in_itself"
+msgstr "Det er ikke muligt at kopiere et object ind i sig selv"
+
+#, fuzzy
+msgid "msg_obj_already_deleted"
+msgstr "The object has already been deleted."
+
+msgid "msg_obj_created"
+msgstr "Objekt oprettet."
+
+msgid "msg_obj_exists"
+msgstr "Objektet eksisterer allerede i denne mappe."
+
+#, fuzzy
+msgid "msg_obj_exists_in_folder"
+msgstr "The object %s already exists in the folder %s."
+
+#, fuzzy
+msgid "msg_obj_may_not_contain_objects_of_type"
+msgstr "The object %s may not contain objects of type: %s."
+
+msgid "msg_obj_modified"
+msgstr "Ændringerne er gemt."
+
+#, fuzzy
+msgid "msg_obj_no_download"
+msgstr "cannot be downloaded."
+
+msgid "msg_obj_no_link"
+msgstr "er ikke tilladt at blive linket til"
+
+#, fuzzy
+msgid "msg_obj_perm_download"
+msgstr "You do not have sufficient rights to download the following objects:"
+
+#, fuzzy
+msgid "msg_paste_object_not_in_itself"
+msgstr "It's not possible to paste the object %s in itself."
+
+msgid "msg_perm_adopted_from1"
+msgstr "rettigheder er arvet fra"
+
+msgid "msg_perm_adopted_from2"
+msgstr "(Indstillinger er blevet gemt!)"
+
+msgid "msg_perm_adopted_from_itself"
+msgstr "Du kan ikke arve rettighedsindstillinger med din nuværende rolle."
+
+msgid "msg_removed"
+msgstr "Objekt(er) er fjernet fra systemet."
+
+msgid "msg_role_reserved_prefix"
+msgstr "følgende prefix 'il_' er reseveret til automatisk at lave regler, vælg venligst et andet navn"
+
+msgid "msg_roleassignment_changed"
+msgstr "Rolletildeling er ændret"
+
+msgid "msg_sysrole_not_deletable"
+msgstr "Systemrollen kan ikke fjernes"
+
+msgid "msg_sysrole_not_editable"
+msgstr "Rettigheder for systemrollen kan ikke ændres. Systemrollen sikrer alle tilknyttede brugere ubegrænset tilgang til alle objekter og funktioner."
+
+#, fuzzy
+msgid "msg_to_many_files"
+msgstr "Too many files selected, allowed amount of files:"
+
+msgid "msg_trash_empty"
+msgstr "Der er ingen slettede objekter"
+
+msgid "msg_undeleted"
+msgstr "Objekt(er) reetableret."
+
+#, fuzzy
+msgid "msg_unit_is_required"
+msgstr "This input requires a unit. Please enter a correct value."
+
+#, fuzzy
+msgid "msg_unknown_value"
+msgstr "An unknown value has been passed."
+
+msgid "msg_user_last_role1"
+msgstr "Følgende brugere er kun tildelt denne rolle:"
+
+msgid "msg_user_last_role2"
+msgstr "Du skal slette brugerne eller tildele dem en anden rolle før du kan slette den nuværende rolle."
+
+msgid "msg_userassignment_changed"
+msgstr "Rolletildeling ændret"
+
+#, fuzzy
+msgid "msg_wrong_filetypes"
+msgstr "Allowed Files-Types:"
+
+msgid "msg_wrong_format"
+msgstr "Den indtastede værdi er ikke i et gyldigt format"
+
+msgid "my_bms"
+msgstr "Mine foretrukne"
+
+#, fuzzy
+msgid "my_certificates"
+msgstr "My Certificates"
+
+#, fuzzy
+msgid "my_contacts"
+msgstr "My Contact"
+
+msgid "my_courses"
+msgstr "Mine kurser"
+
+msgid "my_courses_groups"
+msgstr "Mine kurser og grupper"
+
+#, fuzzy
+msgid "my_staff"
+msgstr "Staff"
+
+msgid "name"
+msgstr "Navn"
+
+#, fuzzy
+msgid "nc_contact_requests_headline"
+msgstr "Contact Requests"
+
+#, fuzzy
+msgid "nc_contact_requests_number_p"
+msgstr "You have %s Contact Requests."
+
+#, fuzzy
+msgid "nc_contact_requests_number_s"
+msgstr "You have %s Contact Request."
+
+#, fuzzy
+msgid "nc_contact_requests_prop_time"
+msgstr "Time"
+
+msgid "never"
+msgstr "aldrig"
+
+msgid "new"
+msgstr "Ny"
+
+msgid "new_language"
+msgstr "Nyt sprog"
+
+msgid "new_pass_equals_old_pass"
+msgstr "Det nye password er identisk med det tidligere."
+
+msgid "newline"
+msgstr "Ny linje"
+
+msgid "news"
+msgstr "Nyheder"
+
+msgid "next"
+msgstr "næste"
+
+msgid "no"
+msgstr "Nej"
+
+msgid "no_access_item"
+msgstr "Du har ikke rettigheder til adgang af objekterne."
+
+msgid "no_access_item_public"
+msgstr "Log på for at få adgang til dette indhold"
+
+#, fuzzy
+msgid "no_accessibility_control_concept_description"
+msgstr "There is currently no Accessibility Control Concept provided with this installation. Please contact the <a href=\"%1$s\">Accessibility Point of Contact</a>."
+
+msgid "no_checkbox"
+msgstr "Ingen box er krydset af!"
+
+msgid "no_condition_selected"
+msgstr "Vælg venligst en forudsætning"
+
+msgid "no_date"
+msgstr "Ingen dato"
+
+#, fuzzy
+msgid "no_gallery_users_available"
+msgstr "There are currently no users in the gallery."
+
+msgid "no_global_role_left"
+msgstr "Alle brugere skal være tildelt mindst en rolle."
+
+msgid "no_import_file_found"
+msgstr "Ingen importeret fil fundet"
+
+msgid "no_items"
+msgstr "Antal emner"
+
+msgid "no_limit"
+msgstr "Ubegrænset"
+
+#, fuzzy
+msgid "no_mkisofs_configured"
+msgstr "You have to configure mkisofs utility in ILIAS setup to run ISO export"
+
+msgid "no_parent_access"
+msgstr "Der er ikke adgang til et objekt på højere niveau"
+
+msgid "no_permission"
+msgstr "Du har ikke de nødvendige rettigheder."
+
+msgid "no_roles_user_can_be_assigned_to"
+msgstr "Du kan ikke oprette brugere, da der ikke findes globale roller som kan tildeles disse."
+
+msgid "no_start_file"
+msgstr "Ingen startfil"
+
+msgid "no_title"
+msgstr "Ingen Titel"
+
+msgid "no_users_selected"
+msgstr "Vælg venligst en bruger."
+
+msgid "no_xml_file_found_in_zip"
+msgstr "XML fil i zip filen er ikke fundet:"
+
+#, fuzzy
+msgid "noc"
+msgstr "Notification Center"
+
+msgid "non_internal_local_roles_only"
+msgstr "Lokale brugerdefinerede roller"
+
+msgid "none"
+msgstr "Ingen"
+
+msgid "normal"
+msgstr "Normal"
+
+msgid "not_available"
+msgstr "Ikke tilgængelig"
+
+msgid "not_implemented_yet"
+msgstr "Ikke implementeret endnu"
+
+msgid "not_installed"
+msgstr "Ikke installeret"
+
+msgid "not_logged_in"
+msgstr "Du er ikke logget ind"
+
+msgid "note"
+msgstr "Note"
+
+msgid "notes"
+msgstr "Noter"
+
+msgid "notes_and_comments"
+msgstr "Noter og kommentarer"
+
+#, fuzzy
+msgid "notice"
+msgstr "Notice"
+
+msgid "notifications"
+msgstr "Adviseringer"
+
+#, fuzzy
+msgid "nr_following_sessions"
+msgstr "%1d following session(s)..."
+
+#, fuzzy
+msgid "num_of_selected_files"
+msgstr "%s file(s) selected"
+
+msgid "num_users"
+msgstr "Antal  brugere"
+
+#, fuzzy
+msgid "numberedlist_action"
+msgstr "Insert Numbered List - Click to insert a numbered list."
+
+msgid "obj"
+msgstr "Objekt"
+
+msgid "obj_accs"
+msgstr "Tilgængelighed"
+
+msgid "obj_accs_desc"
+msgstr "Indstillinger for tilgængelighed til gavn for brugere med handicap."
+
+msgid "obj_adm"
+msgstr "Administration"
+
+msgid "obj_adm_desc"
+msgstr "hoved system indstillingers mappe indeholder alle ting til at administrerer din ILIAS installation."
+
+#, fuzzy
+msgid "obj_adma"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "obj_adma_desc"
+msgstr "Important settings for the whole installation"
+
+#, fuzzy
+msgid "obj_adn"
+msgstr "Administrative Notifications"
+
+msgid "obj_adve"
+msgstr "Avanceret redigering"
+
+msgid "obj_adve_desc"
+msgstr "Administrationsindstillinger for avanceret redigering, så som JavaScript baserede Rich Text editors, LaTeX understøttelse osv."
+
+#, fuzzy
+msgid "obj_ass"
+msgstr "Asset"
+
+msgid "obj_assf"
+msgstr "Test&Evaluering"
+
+msgid "obj_assf_desc"
+msgstr "Test&Evaluering logindstillinger"
+
+msgid "obj_auth"
+msgstr "Autentificering"
+
+msgid "obj_auth_desc"
+msgstr "Konfigurer din verifikation (lokal, LDAP, ...)"
+
+#, fuzzy
+msgid "obj_awra"
+msgstr "‘Who is online?’-Tool"
+
+#, fuzzy
+msgid "obj_awra_desc"
+msgstr "Manage ‘Who is online?’-Tool"
+
+#, fuzzy
+msgid "obj_bdga"
+msgstr "Badges"
+
+#, fuzzy
+msgid "obj_bdga_desc"
+msgstr "Administrate types, image templates and activity badges"
+
+#, fuzzy
+msgid "obj_bgtk"
+msgstr "Background Task"
+
+#, fuzzy
+msgid "obj_bibl"
+msgstr "Bibliography"
+
+#, fuzzy
+msgid "obj_bibs"
+msgstr "Bibliography"
+
+#, fuzzy
+msgid "obj_bibs_desc"
+msgstr "Bibliography Administration"
+
+msgid "obj_blog"
+msgstr "Blog"
+
+msgid "obj_blog_duplicate"
+msgstr "Kopier blog"
+
+#, fuzzy
+msgid "obj_bnmk"
+msgstr "Benchmarking"
+
+#, fuzzy
+msgid "obj_bnmk_desc"
+msgstr "Recording and display of database query durations"
+
+#, fuzzy
+msgid "obj_book"
+msgstr "Booking Pool"
+
+#, fuzzy
+msgid "obj_cadm"
+msgstr "Contacts"
+
+#, fuzzy
+msgid "obj_cadm_desc"
+msgstr "Contacts Administration"
+
+msgid "obj_cals"
+msgstr "Kalender"
+
+msgid "obj_cals_desc"
+msgstr "Generelle kalenderindstillinger"
+
+msgid "obj_cat"
+msgstr "Kategori"
+
+msgid "obj_cat_duplicate"
+msgstr "Kopier kategori"
+
+msgid "obj_catr"
+msgstr "Kategorireference"
+
+msgid "obj_cert"
+msgstr "Certifikater"
+
+msgid "obj_cert_desc"
+msgstr "Certifikatindstillinger"
+
+msgid "obj_chap"
+msgstr "Kapitel"
+
+msgid "obj_chta"
+msgstr "Chatrum"
+
+msgid "obj_chtr"
+msgstr "Chatrum"
+
+#, fuzzy
+msgid "obj_chtr_duplicate"
+msgstr "Copy Chat Room"
+
+#, fuzzy
+msgid "obj_cmis"
+msgstr "xAPI/cmi5"
+
+#, fuzzy
+msgid "obj_cmis_desc"
+msgstr "Learning Record Store Types Configuration"
+
+#, fuzzy
+msgid "obj_cmix"
+msgstr "xAPI/cmi5"
+
+msgid "obj_cmps"
+msgstr "Moduler, services og plugins"
+
+msgid "obj_cmps_desc"
+msgstr "Generelle indstillinger for Oversigtsmodiler, services og plugins"
+
+#, fuzzy
+msgid "obj_coms"
+msgstr "Comments"
+
+#, fuzzy
+msgid "obj_coms_desc"
+msgstr "Comments settings"
+
+#, fuzzy
+msgid "obj_copa"
+msgstr "Content Page"
+
+#, fuzzy
+msgid "obj_cpad"
+msgstr "Content Pages"
+
+#, fuzzy
+msgid "obj_cpad#_desc"
+msgstr "Content Page Administration"
+
+#, fuzzy
+msgid "obj_cpad_desc"
+msgstr "Content Page Administration"
+
+#, fuzzy
+msgid "obj_cron"
+msgstr "Cron Jobs"
+
+#, fuzzy
+msgid "obj_cron_desc"
+msgstr "List of all Cron Jobs"
+
+msgid "obj_crs"
+msgstr "Kursus"
+
+msgid "obj_crs_duplicate"
+msgstr "Kopier kursus"
+
+msgid "obj_crsr"
+msgstr "Kursusreference"
+
+#, fuzzy
+msgid "obj_crss"
+msgstr "Course"
+
+#, fuzzy
+msgid "obj_crss_desc"
+msgstr "General settings for Courses"
+
+#, fuzzy
+msgid "obj_crsv"
+msgstr "Course Certificate"
+
+msgid "obj_dbk"
+msgstr "Digilibbog"
+
+msgid "obj_dcl"
+msgstr "Datasamling"
+
+msgid "obj_dcl_duplicate"
+msgstr "Kopier datasamling"
+
+#, fuzzy
+msgid "obj_dpro"
+msgstr "Declaration of Data Protection"
+
+#, fuzzy
+msgid "obj_dpro_desc"
+msgstr "Declaration of Data Protection Settings"
+
+#, fuzzy
+msgid "obj_dshs"
+msgstr "Dashboard"
+
+#, fuzzy
+msgid "obj_dshs_desc"
+msgstr "Dashboard settings"
+
+#, fuzzy
+msgid "obj_ecss"
+msgstr "ECS"
+
+#, fuzzy
+msgid "obj_ecss_desc"
+msgstr "General ECS Settings"
+
+msgid "obj_etal"
+msgstr "Employee Talk"
+
+msgid "obj_exc"
+msgstr "øvelse"
+
+#, fuzzy
+msgid "obj_exc_duplicate"
+msgstr "Copy Exercise"
+
+#, fuzzy
+msgid "obj_excv"
+msgstr "Exercise Certificate"
+
+msgid "obj_facs"
+msgstr "Filadgang"
+
+msgid "obj_facs_desc"
+msgstr "Konfigurer adgang til filobjekter"
+
+msgid "obj_file"
+msgstr "Fil"
+
+#, fuzzy
+msgid "obj_file_duplicate"
+msgstr "Duplicate File"
+
+msgid "obj_file_inline"
+msgstr "Læremodul fil"
+
+#, fuzzy
+msgid "obj_fils"
+msgstr "File Services"
+
+#, fuzzy
+msgid "obj_fils_desc"
+msgstr "Configuration of File Service Settings."
+
+msgid "obj_fold"
+msgstr "Mappe"
+
+#, fuzzy
+msgid "obj_fold_duplicate"
+msgstr "Copy Folder"
+
+msgid "obj_frm"
+msgstr "Forum"
+
+msgid "obj_frm_duplicate"
+msgstr "Kopier forum"
+
+#, fuzzy
+msgid "obj_frma"
+msgstr "Forum"
+
+#, fuzzy
+msgid "obj_frma_desc"
+msgstr "Global Forum Settings"
+
+msgid "obj_glo"
+msgstr "Ordbog"
+
+#, fuzzy
+msgid "obj_glo_duplicate"
+msgstr "Copy Glossary"
+
+msgid "obj_grp"
+msgstr "Gruppe"
+
+msgid "obj_grp_duplicate"
+msgstr "Kopier gruppe"
+
+#, fuzzy
+msgid "obj_grpr"
+msgstr "Group Reference"
+
+#, fuzzy
+msgid "obj_grps"
+msgstr "Group"
+
+#, fuzzy
+msgid "obj_grps_desc"
+msgstr "General settings for Groups"
+
+#, fuzzy
+msgid "obj_gsfo"
+msgstr "Footer"
+
+#, fuzzy
+msgid "obj_gsfo_desc"
+msgstr "Administrate Footer Layout and Content"
+
+msgid "obj_hlps"
+msgstr "Hjælpesystem"
+
+msgid "obj_hlps_desc"
+msgstr "Indstillinger for onlinehjælp"
+
+msgid "obj_htlm"
+msgstr "Læremodul HTML"
+
+#, fuzzy
+msgid "obj_htlm_duplicate"
+msgstr "Copy HTML Learning Module"
+
+#, fuzzy
+msgid "obj_iass"
+msgstr "Individual Assessment"
+
+#, fuzzy
+msgid "obj_iass_duplicate"
+msgstr "Copy Individual Assessment"
+
+#, fuzzy
+msgid "obj_iass_select"
+msgstr "-- Please select one individual assessment --"
+
+#, fuzzy
+msgid "obj_itgr"
+msgstr "Item Group"
+
+msgid "obj_ldap_desc"
+msgstr "Konfigurer globale LDAP indstillinger her."
+
+#, fuzzy
+msgid "obj_lhts"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "obj_lhts_desc"
+msgstr "Learning history settings"
+
+msgid "obj_lm"
+msgstr "Læremodul ILIAS"
+
+#, fuzzy
+msgid "obj_lm_duplicate"
+msgstr "Copy Learning Module"
+
+msgid "obj_lng"
+msgstr "Sprog"
+
+msgid "obj_lngf"
+msgstr "Sprog"
+
+msgid "obj_lngf_desc"
+msgstr "Administration af system- og brugersprog."
+
+#, fuzzy
+msgid "obj_logs"
+msgstr "Logging"
+
+#, fuzzy
+msgid "obj_logs_desc"
+msgstr "General Logging Settings"
+
+msgid "obj_lrss"
+msgstr "Læreresurser"
+
+msgid "obj_lrss_desc"
+msgstr "Opsætning af alle typer af læremoduler."
+
+#, fuzzy
+msgid "obj_lso"
+msgstr "Learning Sequence"
+
+#, fuzzy
+msgid "obj_lso_duplicate"
+msgstr "Copy Learning Sequence"
+
+#, fuzzy
+msgid "obj_lsos"
+msgstr "Learning Sequences"
+
+#, fuzzy
+msgid "obj_lsos_desc"
+msgstr "General settings for Learning Sequences"
+
+#, fuzzy
+msgid "obj_lti"
+msgstr "LTI Consumer"
+
+#, fuzzy
+msgid "obj_ltis"
+msgstr "LTI"
+
+#, fuzzy
+msgid "obj_ltis_desc"
+msgstr "Learning Tools Interoperability"
+
+msgid "obj_mail"
+msgstr "Mailindstillinger"
+
+msgid "obj_mail_desc"
+msgstr "Konfigurer globale mailindstillinger her"
+
+#, fuzzy
+msgid "obj_mailr"
+msgstr "Read Mail"
+
+#, fuzzy
+msgid "obj_mailu"
+msgstr "Unread Mail"
+
+#, fuzzy
+msgid "obj_maps"
+msgstr "Maps"
+
+msgid "obj_mcst"
+msgstr "MediaCast"
+
+msgid "obj_mcst_duplicate"
+msgstr "Kopier mediecast"
+
+msgid "obj_mcts"
+msgstr "Mediacast"
+
+msgid "obj_mcts_desc"
+msgstr "Almindelige indstillinger for mediacast."
+
+msgid "obj_mep"
+msgstr "Mediebeholder"
+
+#, fuzzy
+msgid "obj_mep_duplicate"
+msgstr "Copy Media Pool"
+
+#, fuzzy
+msgid "obj_mme"
+msgstr "Main Menu"
+
+msgid "obj_mob"
+msgstr "Medie objekt"
+
+#, fuzzy
+msgid "obj_mobs"
+msgstr "Media Objects/Pools"
+
+#, fuzzy
+msgid "obj_mobs_desc"
+msgstr "Settings for media objects and media pools."
+
+msgid "obj_not_found"
+msgstr "Objekt ikke fundet"
+
+#, fuzzy
+msgid "obj_nota"
+msgstr "Notifications"
+
+#, fuzzy
+msgid "obj_nota_desc"
+msgstr "Notification Administration"
+
+#, fuzzy
+msgid "obj_nots"
+msgstr "Notes"
+
+#, fuzzy
+msgid "obj_nots_desc"
+msgstr "Notes settings"
+
+msgid "obj_nwss"
+msgstr "Nyheds og web feed indstillinger"
+
+msgid "obj_nwss_desc"
+msgstr "Indstillinger for interne nyheder og eksterne web feeds."
+
+msgid "obj_objf"
+msgstr "Objekt definitation"
+
+#, fuzzy
+msgid "obj_orgu"
+msgstr "Organisational Unit"
+
+#, fuzzy
+msgid "obj_orgu_description"
+msgstr "Creating and editing organisational structure"
+
+msgid "obj_page"
+msgstr "Side"
+
+#, fuzzy
+msgid "obj_peac"
+msgstr "Accordion"
+
+#, fuzzy
+msgid "obj_peadl"
+msgstr "Advanced List"
+
+#, fuzzy
+msgid "obj_peadt"
+msgstr "Advanced Table"
+
+#, fuzzy
+msgid "obj_pecd"
+msgstr "Code"
+
+#, fuzzy
+msgid "obj_pech"
+msgstr "Consultation Hour"
+
+#, fuzzy
+msgid "obj_pecl"
+msgstr "Column Layout"
+
+#, fuzzy
+msgid "obj_peclp"
+msgstr "Clipboard"
+
+#, fuzzy
+msgid "obj_pecom"
+msgstr "Competences"
+
+#, fuzzy
+msgid "obj_pecrs"
+msgstr "Course"
+
+#, fuzzy
+msgid "obj_pecrt"
+msgstr "Certificate"
+
+#, fuzzy
+msgid "obj_pecs"
+msgstr "Content Snippet"
+
+#, fuzzy
+msgid "obj_pedt"
+msgstr "Data Table"
+
+#, fuzzy
+msgid "obj_pefl"
+msgstr "File List"
+
+#, fuzzy
+msgid "obj_peim"
+msgstr "interactive Media"
+
+#, fuzzy
+msgid "obj_pelh"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "obj_pemed"
+msgstr "Image/Audio/Video"
+
+#, fuzzy
+msgid "obj_pemp"
+msgstr "Map"
+
+#, fuzzy
+msgid "obj_pepd"
+msgstr "Personal Data"
+
+#, fuzzy
+msgid "obj_pepe"
+msgstr "Plugin Element"
+
+#, fuzzy
+msgid "obj_pepl"
+msgstr "Page List"
+
+#, fuzzy
+msgid "obj_peplh"
+msgstr "Placeholder"
+
+#, fuzzy
+msgid "obj_pequ"
+msgstr "Questions"
+
+#, fuzzy
+msgid "obj_perl"
+msgstr "Ressource List"
+
+#, fuzzy
+msgid "obj_pesc"
+msgstr "Section"
+
+#, fuzzy
+msgid "obj_petmp"
+msgstr "Page Template"
+
+#, fuzzy
+msgid "obj_peusr"
+msgstr "User"
+
+msgid "obj_pg"
+msgstr "Side"
+
+msgid "obj_poll"
+msgstr "Afstemning"
+
+msgid "obj_poll_dupliate:"
+msgstr "Kopier afstemning"
+
+msgid "obj_poll_duplicate"
+msgstr "Kopier afstemning"
+
+#, fuzzy
+msgid "obj_prg"
+msgstr "Study Programme"
+
+#, fuzzy
+msgid "obj_prg_duplicate"
+msgstr "Copy Study Programme"
+
+#, fuzzy
+msgid "obj_prg_select"
+msgstr "-- Please select one Study Programme --"
+
+#, fuzzy
+msgid "obj_prgr"
+msgstr "Link to Study Programme"
+
+#, fuzzy
+msgid "obj_prgrs"
+msgstr "Links to Study Programmes"
+
+#, fuzzy
+msgid "obj_prgs"
+msgstr "Study Programmes"
+
+#, fuzzy
+msgid "obj_prgs_desc"
+msgstr "Study Programme Administration"
+
+#, fuzzy
+msgid "obj_prss"
+msgstr "Personal Resources"
+
+#, fuzzy
+msgid "obj_prss_desc"
+msgstr "Personal resources settings"
+
+msgid "obj_prtf"
+msgstr "Portfolio"
+
+#, fuzzy
+msgid "obj_prtt"
+msgstr "Portfolio Template"
+
+#, fuzzy
+msgid "obj_prtt_duplicate"
+msgstr "Copy Portfolio Template"
+
+msgid "obj_ps"
+msgstr "Privatliv og sikkerhed"
+
+msgid "obj_ps_desc"
+msgstr "Konfigurer globale privatlivs og sikkerhedsindstillinger her."
+
+msgid "obj_qpl"
+msgstr "Spørgsmålsbibliotek"
+
+msgid "obj_qpl_duplicate"
+msgstr "Kopier spørgsmål til test"
+
+msgid "obj_qpl_select"
+msgstr "-- Vælg spørgsmål til test --"
+
+#, fuzzy
+msgid "obj_rcat"
+msgstr "ECS Category "
+
+msgid "obj_rcrs"
+msgstr "Kursuslink"
+
+msgid "obj_recf"
+msgstr "Gendannede objekter"
+
+msgid "obj_recf_desc"
+msgstr "Indeholder gendannede objekter fra systemcheck."
+
+msgid "obj_rep"
+msgstr "Arkiv"
+
+msgid "obj_reps"
+msgstr "Arkiv"
+
+#, fuzzy
+msgid "obj_reps_desc"
+msgstr "General settings for the Repository"
+
+#, fuzzy
+msgid "obj_rfil"
+msgstr "ECS File"
+
+#, fuzzy
+msgid "obj_rglo"
+msgstr "ECS Glossary"
+
+#, fuzzy
+msgid "obj_rgrp"
+msgstr "ECS Group"
+
+#, fuzzy
+msgid "obj_rlm"
+msgstr "ECS Learning Module"
+
+msgid "obj_role"
+msgstr "Rolle"
+
+msgid "obj_rolf"
+msgstr "Roller"
+
+msgid "obj_rolf_desc"
+msgstr "Administrer dine roller her."
+
+msgid "obj_rolf_local"
+msgstr "Lokale roller"
+
+msgid "obj_rolf_local_desc"
+msgstr "Indeholder lokale roller fra objekter."
+
+msgid "obj_rolt"
+msgstr "Rolleskabelon"
+
+msgid "obj_root"
+msgstr "ILIAS systemnode"
+
+#, fuzzy
+msgid "obj_rtst"
+msgstr "ECS Test"
+
+#, fuzzy
+msgid "obj_rwik"
+msgstr "ECS Wiki"
+
+msgid "obj_sahs"
+msgstr "Læremodul SCORM/AICC"
+
+msgid "obj_sahs_duplicate"
+msgstr "Kopier Læremodul"
+
+#, fuzzy
+msgid "obj_sco"
+msgstr "SCO"
+
+#, fuzzy
+msgid "obj_scov"
+msgstr "SCORM Certificate"
+
+msgid "obj_seas"
+msgstr "Søgning"
+
+msgid "obj_seas_desc"
+msgstr "Administration af søgeindstillinger,"
+
+#, fuzzy
+msgid "obj_serv"
+msgstr "Server"
+
+#, fuzzy
+msgid "obj_serv_desc"
+msgstr "Settings of the sever"
+
+msgid "obj_sess"
+msgstr "Session"
+
+msgid "obj_sess_duplicate"
+msgstr "Kopier session"
+
+msgid "obj_skmg"
+msgstr "Færdigheder"
+
+#, fuzzy
+msgid "obj_skmg_desc"
+msgstr "Manage skills and skill categories."
+
+msgid "obj_spl"
+msgstr "Spørgsmålsbibliotek til undersøgelser"
+
+msgid "obj_st"
+msgstr "Kapitel"
+
+#, fuzzy
+msgid "obj_stus"
+msgstr "Shortlinks"
+
+#, fuzzy
+msgid "obj_stus_desc"
+msgstr "Global Shortlinks Settings"
+
+msgid "obj_sty"
+msgstr "Stilark"
+
+msgid "obj_stys"
+msgstr "Layoutopsætning"
+
+msgid "obj_stys_desc"
+msgstr "Administrer layoutopsætning her"
+
+msgid "obj_svy"
+msgstr "Undersøgelse"
+
+msgid "obj_svy_duplicate"
+msgstr "Kopier eksisterende undersøgelse"
+
+msgid "obj_svyf"
+msgstr "Afstemning"
+
+msgid "obj_svyf_desc"
+msgstr "Platformsindstilling for afstemningsværktøjet"
+
+#, fuzzy
+msgid "obj_sysc"
+msgstr "System Check"
+
+#, fuzzy
+msgid "obj_sysc_desc"
+msgstr "System Check and Repair Tools"
+
+msgid "obj_tags"
+msgstr "Tagging"
+
+msgid "obj_tags_desc"
+msgstr "Indstillinger for tagging funktionalitet"
+
+msgid "obj_tala"
+msgstr "Talk Templates"
+
+msgid "obj_tala_desc"
+msgstr "Talk Templates"
+
+msgid "obj_tals"
+msgstr "Employee Talk Series"
+
+msgid "obj_talt"
+msgstr "Talk Template"
+
+#, fuzzy
+msgid "obj_task"
+msgstr "Task"
+
+msgid "obj_tax"
+msgstr "Taksonomi"
+
+msgid "obj_taxf"
+msgstr "Taksonomier"
+
+msgid "obj_tool_setting_calendar"
+msgstr "Vis kalender"
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_active"
+msgstr "Calendar"
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_active_info"
+msgstr "A calendar is available."
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_info"
+msgstr "The \"Calendar\" block will be displayed inside the \"Content\" tab."
+
+#, fuzzy
+msgid "obj_tool_setting_custom_metadata"
+msgstr "Custom Metadata"
+
+#, fuzzy
+msgid "obj_tool_setting_custom_metadata_info"
+msgstr "If activated metadata can be configured."
+
+msgid "obj_tool_setting_news"
+msgstr "Vis nyheder"
+
+#, fuzzy
+msgid "obj_tool_setting_news_info"
+msgstr "The \"News\" block will be displayed inside the \"Content\" tab."
+
+#, fuzzy
+msgid "obj_tos"
+msgstr "Terms of Service"
+
+#, fuzzy
+msgid "obj_tos_desc"
+msgstr "Terms of Service Settings"
+
+msgid "obj_trac"
+msgstr "Brugersporing"
+
+msgid "obj_trac_desc"
+msgstr "Sporing/Overvågning af brugere"
+
+msgid "obj_tst"
+msgstr "Test"
+
+msgid "obj_tst_duplicate"
+msgstr "Kopier test"
+
+#, fuzzy
+msgid "obj_tstv"
+msgstr "Test Certificate"
+
+msgid "obj_type"
+msgstr "Objekt type"
+
+msgid "obj_user"
+msgstr "Bruger"
+
+msgid "obj_usr"
+msgstr "bruger"
+
+msgid "obj_usrf"
+msgstr "Brugerkonti"
+
+msgid "obj_usrf_desc"
+msgstr "Administrer dine brugerkonti her."
+
+#, fuzzy
+msgid "obj_wbdv"
+msgstr "WebDAV"
+
+#, fuzzy
+msgid "obj_wbdv_desc"
+msgstr "Configuration of WebDAV Settings."
+
+#, fuzzy
+msgid "obj_wbrs"
+msgstr "Weblink"
+
+#, fuzzy
+msgid "obj_wbrs_desc"
+msgstr "General settings for Web Links"
+
+msgid "obj_webr"
+msgstr "Webresurse"
+
+msgid "obj_webr_duplicate"
+msgstr "Kopier webresurse"
+
+msgid "obj_wfld"
+msgstr "Mappe"
+
+msgid "obj_wiki"
+msgstr "Wiki"
+
+msgid "obj_wiki_duplicate"
+msgstr "Kopier Wiki"
+
+#, fuzzy
+msgid "obj_wiks"
+msgstr "Wiki"
+
+#, fuzzy
+msgid "obj_wiks_desc"
+msgstr "Global Wiki Settings"
+
+msgid "object"
+msgstr "Objekt"
+
+msgid "object_added"
+msgstr "Objekt er tilføjet"
+
+msgid "object_copy_in_progress"
+msgstr "Kopiering begyndt"
+
+msgid "object_duplicated"
+msgstr "Objekt kopieret"
+
+msgid "object_id"
+msgstr "Objekt-Id"
+
+msgid "object_imported"
+msgstr "Objekt importeret"
+
+#, fuzzy
+msgid "object_list"
+msgstr "List of Objects"
+
+msgid "objects"
+msgstr "Objekter"
+
+msgid "objf"
+msgstr "Objektdefinitioner"
+
+#, fuzzy
+msgid "objs_bibl"
+msgstr "Bibliographies"
+
+msgid "objs_blog"
+msgstr "Blogs"
+
+#, fuzzy
+msgid "objs_book"
+msgstr "Booking Pools"
+
+msgid "objs_cat"
+msgstr "Kategorier"
+
+msgid "objs_catr"
+msgstr "Kategorireferencer"
+
+msgid "objs_chtr"
+msgstr "Chater"
+
+#, fuzzy
+msgid "objs_cmix"
+msgstr "Objects xAPI/cmi5"
+
+#, fuzzy
+msgid "objs_copa"
+msgstr "Content Pages"
+
+msgid "objs_crs"
+msgstr "Kurser"
+
+msgid "objs_crsr"
+msgstr "Kursusreference"
+
+msgid "objs_dcl"
+msgstr "Datasamlinger"
+
+msgid "objs_etal"
+msgstr "Employee Talks"
+
+msgid "objs_exc"
+msgstr "Øvelser"
+
+msgid "objs_file"
+msgstr "Filer"
+
+msgid "objs_fold"
+msgstr "Mapper"
+
+msgid "objs_frm"
+msgstr "Fora"
+
+msgid "objs_glo"
+msgstr "Ordbøger"
+
+msgid "objs_grp"
+msgstr "Grupper"
+
+#, fuzzy
+msgid "objs_grpr"
+msgstr "Group References"
+
+msgid "objs_htlm"
+msgstr "HTML Læremoduler"
+
+#, fuzzy
+msgid "objs_iass"
+msgstr "Individual Assessments"
+
+#, fuzzy
+msgid "objs_itgr"
+msgstr "Item Groups"
+
+msgid "objs_lm"
+msgstr "ILIAS Læremoduler"
+
+msgid "objs_lres"
+msgstr "Læreresurser"
+
+#, fuzzy
+msgid "objs_lso"
+msgstr "Learning Sequences"
+
+#, fuzzy
+msgid "objs_lti"
+msgstr "LTI Consumers"
+
+msgid "objs_mail"
+msgstr "Mail"
+
+msgid "objs_mcst"
+msgstr "MediaCasts"
+
+msgid "objs_mep"
+msgstr "Mediebeholdere"
+
+#, fuzzy
+msgid "objs_orgu"
+msgstr "Organisational Unit"
+
+msgid "objs_poll"
+msgstr "Afstemninger"
+
+#, fuzzy
+msgid "objs_prg"
+msgstr "Study Programmes"
+
+#, fuzzy
+msgid "objs_prgr"
+msgstr "Links to Study Programmes"
+
+#, fuzzy
+msgid "objs_prtf"
+msgstr "Portfolios"
+
+#, fuzzy
+msgid "objs_prtt"
+msgstr "Portfolio Templates"
+
+msgid "objs_qpl"
+msgstr "Spørgsmål til Test"
+
+msgid "objs_qst"
+msgstr "Spørgsmål"
+
+#, fuzzy
+msgid "objs_rcat"
+msgstr "ECS Categories"
+
+msgid "objs_rcrs"
+msgstr "Kursuslinks"
+
+#, fuzzy
+msgid "objs_rfil"
+msgstr "ECS Files"
+
+#, fuzzy
+msgid "objs_rglo"
+msgstr "ECS Glossaries"
+
+#, fuzzy
+msgid "objs_rgrp"
+msgstr "ECS Groups"
+
+#, fuzzy
+msgid "objs_rlm"
+msgstr "ECS Learning Modules"
+
+msgid "objs_role"
+msgstr "Roller"
+
+#, fuzzy
+msgid "objs_rolf"
+msgstr "Role Folders"
+
+#, fuzzy
+msgid "objs_rtst"
+msgstr "ECS Tests"
+
+#, fuzzy
+msgid "objs_rwik"
+msgstr "ECS Wikis"
+
+msgid "objs_sahs"
+msgstr "SCORM/AICC Læremoduler"
+
+msgid "objs_sess"
+msgstr "Sessioner"
+
+#, fuzzy
+msgid "objs_skee"
+msgstr "Competence Trees"
+
+msgid "objs_spl"
+msgstr "Spørgsmål til undersøgelse"
+
+msgid "objs_st"
+msgstr "Kapitler"
+
+msgid "objs_svy"
+msgstr "Undersøgelser"
+
+msgid "objs_tala"
+msgstr "Talk Templates"
+
+msgid "objs_talt"
+msgstr "Talk Templates"
+
+msgid "objs_tst"
+msgstr "Tests"
+
+msgid "objs_webr"
+msgstr "Webresurser"
+
+msgid "objs_wiki"
+msgstr "Wikier"
+
+msgid "of"
+msgstr "Af"
+
+msgid "offline"
+msgstr "offline"
+
+#, fuzzy
+msgid "offline_mode"
+msgstr "Offline-Mode"
+
+msgid "ok"
+msgstr "OK"
+
+msgid "old"
+msgstr "Gammel"
+
+msgid "omit"
+msgstr "Udelad"
+
+msgid "omit_all"
+msgstr "Udelad alle"
+
+msgid "on_waiting_list"
+msgstr "Du er på ventelisten"
+
+msgid "online"
+msgstr "Online"
+
+msgid "online_time"
+msgstr "Time online (DD:HH:MM:SS)"
+
+#, fuzzy
+msgid "only_active"
+msgstr "Only Active"
+
+#, fuzzy
+msgid "only_inactive"
+msgstr "Only Inactive"
+
+#, fuzzy
+msgid "open"
+msgstr "Open"
+
+msgid "operation"
+msgstr "Operation"
+
+msgid "optimize"
+msgstr "Optimer"
+
+msgid "option"
+msgstr "Mulighed"
+
+msgid "optional_filter_hint"
+msgstr "Anvend filter (valgfrit)"
+
+msgid "optional_filters"
+msgstr "Valgfrie filtre"
+
+# Faneblad i mail
+msgid "options"
+msgstr "Indstillinger"
+
+msgid "order_by"
+msgstr "List efter"
+
+msgid "order_by_date"
+msgstr "Sorter efter dato"
+
+#, fuzzy
+msgid "org_op_access_enrolments"
+msgstr "View Enrolment-Status"
+
+#, fuzzy
+msgid "org_op_manage_members"
+msgstr "Manage Subordinate Members"
+
+#, fuzzy
+msgid "org_op_read_learning_progress"
+msgstr "View Learning Progress of Subordinate Users"
+
+#, fuzzy
+msgid "org_permission_settings"
+msgstr "Permissions of Positions in Organisational Units"
+
+#, fuzzy
+msgid "org_units"
+msgstr "Organisational Units"
+
+#, fuzzy
+msgid "organization"
+msgstr "Provider"
+
+msgid "other"
+msgstr "Andre"
+
+msgid "overview"
+msgstr "Overblik"
+
+msgid "overwrite"
+msgstr "Overskriv"
+
+msgid "owner"
+msgstr "Ejer"
+
+msgid "owner_updated"
+msgstr "Ejer opdateret"
+
+msgid "page"
+msgstr "side"
+
+#, fuzzy
+msgid "page_count"
+msgstr "Page Count"
+
+msgid "page_layout"
+msgstr "Side stilark"
+
+msgid "page_layouts"
+msgstr "Side stilark"
+
+#, fuzzy
+msgid "pagination_label_x_of_y"
+msgstr "Page %1$d of %2$d"
+
+msgid "parameter"
+msgstr "Parameter"
+
+#, fuzzy
+msgid "parse"
+msgstr "Parse"
+
+#, fuzzy
+msgid "participate"
+msgstr "Subscribe"
+
+msgid "passed"
+msgstr "Bestået"
+
+msgid "passwd"
+msgstr "Adgangskode"
+
+msgid "passwd_generation"
+msgstr "Password generering"
+
+msgid "passwd_invalid"
+msgstr "Det nye password er ugyldigt! Kun gyldige karakterer er gyldige (minimum 6 karaktere): A-Z a-z 0-9 _.-+*@!$%~"
+
+msgid "passwd_not_match"
+msgstr "Dine indtastninger for et nyt password matcher ikke. Venligst indtast påny."
+
+msgid "passwd_wrong"
+msgstr "Det password du har indtastet er forkert!"
+
+msgid "password"
+msgstr "Adgangskode"
+
+msgid "password_allow_chars"
+msgstr "Tilladte karakterer: %s"
+
+msgid "password_assistance_info"
+msgstr "Hvis passwordhjælp er aktiveret vil et link med teksten <i>Glemt password</i> blive vist på loginbilledet til ILIAS. Brugere kan bruge dette link til at angive et nyt password til deres brugerkonto uden hjælp fra systemadministrator."
+
+msgid "password_change_on_first_login_demand"
+msgstr "Du skal vælge et nyt password før du kan begynde at anvende ILIAS."
+
+#, fuzzy
+msgid "password_contains_invalid_chars"
+msgstr "The password contains invalid characters"
+
+#, fuzzy
+msgid "password_contains_parts_of_login_err"
+msgstr "The chosen password contains your username. Please insert a new password."
+
+msgid "password_empty"
+msgstr "Password på ikke være tomt."
+
+msgid "password_expired"
+msgstr "Dit password er udløbet og skal ændres fordi du sidst ændrede det for %s dage siden."
+
+#, fuzzy
+msgid "password_multiple_errors"
+msgstr "Multiple criterias are not satisfied:"
+
+msgid "password_must_chars_and_numbers"
+msgstr "Password skal indeholde karakterer og tal."
+
+#, fuzzy
+msgid "password_must_contain_lcase_chars"
+msgstr "The password must contain at least %s lower case letters."
+
+#, fuzzy
+msgid "password_must_contain_ucase_chars"
+msgstr "The password must contain at least %s capital letters."
+
+msgid "password_must_special_chars"
+msgstr "Dit password skal indeholde specielle karakterer."
+
+msgid "password_to_long"
+msgstr "Dit password må højst være %s karakterer langt."
+
+msgid "password_to_short"
+msgstr "Dit password skal være mindst %s karakterer."
+
+msgid "paste"
+msgstr "Indsæt"
+
+msgid "pasteChapter"
+msgstr "Indsæt"
+
+msgid "pastePage"
+msgstr "Indsæt"
+
+msgid "paste_clipboard_items"
+msgstr "Indsæt fra udklipsholder"
+
+msgid "path"
+msgstr "Sti"
+
+msgid "path_not_set"
+msgstr "Sti er ikke angivet"
+
+msgid "path_to_convert"
+msgstr "Sti til Konvertering"
+
+msgid "path_to_htmldoc"
+msgstr "Sti til HTMLdokument"
+
+msgid "path_to_java"
+msgstr "Sti til Java"
+
+msgid "path_to_unzip"
+msgstr "Sti til udpakning"
+
+msgid "path_to_zip"
+msgstr "Sti til pakning"
+
+msgid "pathes"
+msgstr "stier"
+
+#, fuzzy
+msgid "pd_items_news"
+msgstr "Include News of Personal Items"
+
+msgid "pdf_export"
+msgstr "PDF Export"
+
+msgid "perm_settings"
+msgstr "Rettigheder"
+
+msgid "perma_link"
+msgstr "Link hertil"
+
+#, fuzzy
+msgid "perma_link_copied"
+msgstr "Link to this page has been copied to the clipboard."
+
+msgid "permission"
+msgstr "rettighed"
+
+msgid "permission_denied"
+msgstr "adgang Nægtet"
+
+msgid "permission_settings"
+msgstr "Adgangsindstillinger"
+
+msgid "person_title"
+msgstr "Titel"
+
+msgid "personal_data"
+msgstr "Personlig information"
+
+msgid "personal_picture"
+msgstr "Mit billede"
+
+msgid "personal_profile"
+msgstr "Min profil"
+
+#, fuzzy
+msgid "personal_resources"
+msgstr "Personal Resources"
+
+msgid "personal_settings"
+msgstr "Personlige indstillinger"
+
+#, fuzzy
+msgid "personalise_date_time"
+msgstr "Personalise Date and Time Settings"
+
+msgid "persons"
+msgstr "Personer"
+
+msgid "pg_add"
+msgstr "Tilføj side"
+
+msgid "pg_new"
+msgstr "Ny Side"
+
+msgid "phone"
+msgstr "Telefon"
+
+msgid "phone_home"
+msgstr "Hjemmetelefon"
+
+msgid "phone_mobile"
+msgstr "Mobiltelefon"
+
+msgid "phone_office"
+msgstr "Arbejdstelefon"
+
+msgid "phrase"
+msgstr "Motto"
+
+msgid "please_choose"
+msgstr "-- vælg --"
+
+msgid "please_enter_target"
+msgstr "indtast en destination"
+
+msgid "please_enter_title"
+msgstr "indtast en titel"
+
+msgid "please_select"
+msgstr "-- Vælg --"
+
+msgid "please_select_a_delivered_file_to_delete"
+msgstr "Du skal vælge mindst en leveret fil for at slette den."
+
+msgid "please_select_a_delivered_file_to_download"
+msgstr "Du skal vælge mindst en leveret fil for at downloade den!"
+
+msgid "please_wait"
+msgstr "Vent venligst..."
+
+msgid "port"
+msgstr "Port"
+
+#, fuzzy
+msgid "portfolio"
+msgstr "Portfolio"
+
+msgid "pos_bottom"
+msgstr "Bund"
+
+msgid "pos_left"
+msgstr "Venstre"
+
+msgid "pos_right"
+msgstr "Højre"
+
+#, fuzzy
+msgid "pos_top"
+msgstr "Top"
+
+msgid "position"
+msgstr "Position"
+
+#, fuzzy
+msgid "position_permission_settings"
+msgstr "Orgunit-Specific Permissions"
+
+msgid "precondition"
+msgstr "Forudsætning"
+
+msgid "precondition_not_accessible"
+msgstr "Du har ikke rettigheder til at se forhåndsbetingelserne for dette objekt."
+
+msgid "precondition_required_itemlist"
+msgstr "Krævet betingelse"
+
+msgid "precondition_toggle"
+msgstr "Forudsætninger der skal være opfyldt for at få adgang til læreresursen"
+
+msgid "preconditions"
+msgstr "Betingelser"
+
+#, fuzzy
+msgid "preconditions_obligatory_hint"
+msgstr "Please edit the following preconditions"
+
+#, fuzzy
+msgid "preconditions_optional_hint"
+msgstr "Please edit one of the following preconditions"
+
+msgid "predefined_template"
+msgstr "Fordefineret rolleskabelon"
+
+msgid "preferences"
+msgstr "Brugerdefinerede ønsker"
+
+#, fuzzy
+msgid "presentation_table_more"
+msgstr "more"
+
+#, fuzzy
+msgid "presenter"
+msgstr "Presenter"
+
+#, fuzzy
+msgid "preview"
+msgstr "Preview"
+
+#, fuzzy
+msgid "preview_create"
+msgstr "Create Preview"
+
+#, fuzzy
+msgid "preview_delete"
+msgstr "Delete Preview"
+
+#, fuzzy
+msgid "preview_image_size"
+msgstr "Size of Preview Images"
+
+msgid "preview_learner_info"
+msgstr "Hvis aktiveret har kursus- og gruppeadministratorer mulighed for at se indholdet som almindelige deltagerne ser det."
+
+#, fuzzy
+msgid "preview_loading"
+msgstr "Loading Preview..."
+
+#, fuzzy
+msgid "preview_none"
+msgstr "Preview (not created yet)"
+
+#, fuzzy
+msgid "preview_not_possible"
+msgstr "Creation of Previews is currently not possible, please read the documentation in %s."
+
+#, fuzzy
+msgid "preview_renderers"
+msgstr "Preview Renderers"
+
+#, fuzzy
+msgid "preview_settings"
+msgstr "File Preview"
+
+#, fuzzy
+msgid "preview_show"
+msgstr "Show Preview"
+
+#, fuzzy
+msgid "preview_status_creating"
+msgstr "The preview gets created. This may take some time..."
+
+#, fuzzy
+msgid "preview_status_deleting"
+msgstr "The preview gets deleted..."
+
+#, fuzzy
+msgid "preview_status_failed"
+msgstr "Failed to create the preview."
+
+#, fuzzy
+msgid "preview_status_missing"
+msgstr "No preview exists for this file."
+
+#, fuzzy
+msgid "preview_status_pending"
+msgstr "The preview has not been created yet. Please try again later."
+
+msgid "previous"
+msgstr "sidste"
+
+#, fuzzy
+msgid "prg_copy_threads_info"
+msgstr "Please decide which Study Program elements should be copied, linked or even omitted."
+
+#, fuzzy
+msgid "prg_wizard_page"
+msgstr "Copy Study Program (Step 2/2)"
+
+#, fuzzy
+msgid "prgr_add"
+msgstr "Add Study Programme Link"
+
+#, fuzzy
+msgid "prgr_edit_info"
+msgstr "Please choose one Study Programme for creating a new link."
+
+#, fuzzy
+msgid "prgr_new"
+msgstr "Create Study Programme Link"
+
+#, fuzzy
+msgid "prgr_settings"
+msgstr "Settings of Study Programme Link"
+
+msgid "print"
+msgstr "Udskriv"
+
+msgid "print_view"
+msgstr "Udskriftsvisning"
+
+msgid "private_notes"
+msgstr "Private noter"
+
+#, fuzzy
+msgid "pro"
+msgstr "Pro"
+
+msgid "proceed"
+msgstr "Fortsæt"
+
+msgid "profile"
+msgstr "Profil"
+
+msgid "profile_changed"
+msgstr "Din profil er blevet ændret"
+
+msgid "profile_incomplete"
+msgstr "Din profil er ikke komplet. Udfyld venligt de manglende informationer."
+
+msgid "profile_of"
+msgstr "Profil af"
+
+msgid "properties"
+msgstr "Egenskaber"
+
+#, fuzzy
+msgid "proxy"
+msgstr "Proxy"
+
+#, fuzzy
+msgid "proxy_connectable"
+msgstr "Connection established."
+
+#, fuzzy
+msgid "proxy_host"
+msgstr "Host"
+
+#, fuzzy
+msgid "proxy_host_info"
+msgstr "Please enter a host."
+
+#, fuzzy
+msgid "proxy_not_connectable"
+msgstr "ILIAS could not build a connection to the defined proxy."
+
+#, fuzzy
+msgid "proxy_port"
+msgstr "Port"
+
+#, fuzzy
+msgid "proxy_port_info"
+msgstr "Please enter a port between 0 and 65535, e.g.8080."
+
+#, fuzzy
+msgid "proxy_port_numeric"
+msgstr "The entered port has to be a numeric value between 0 and 65535"
+
+#, fuzzy
+msgid "proxy_socket_error"
+msgstr "Socket Error: %s"
+
+#, fuzzy
+msgid "proxy_status"
+msgstr "Proxy"
+
+#, fuzzy
+msgid "proxy_status_info"
+msgstr "To use a proxy in ILIAS (e.g. for web feeds or to check weblinks) please activate the checkbox above."
+
+#, fuzzy
+msgid "ps_export_scorm"
+msgstr "SCORM Tracking Data"
+
+#, fuzzy
+msgid "ps_password_lowercase_chars_num"
+msgstr "Lower Case Letters"
+
+#, fuzzy
+msgid "ps_password_lowercase_chars_num_info"
+msgstr "Please insert the number of lower case letters a password must contain. Enter 0 to disable this requirement."
+
+#, fuzzy
+msgid "ps_password_must_not_contain_loginame"
+msgstr "Prevent Username in Password"
+
+#, fuzzy
+msgid "ps_password_must_not_contain_loginame_info"
+msgstr "If activated, a password must not contain the username."
+
+#, fuzzy
+msgid "ps_password_uppercase_chars_num"
+msgstr "Capital Letters"
+
+#, fuzzy
+msgid "ps_password_uppercase_chars_num_info"
+msgstr "Please insert the number of capital letters a password must contain. Enter 0 to disable this requirement."
+
+msgid "pub_section"
+msgstr "Åben sektion"
+
+#, fuzzy
+msgid "pub_section_info"
+msgstr "If enabled, parts of the system (e.g. repository, user profiles) can be made available to the internet without authentification. The permissions of the \"Anonymous\" role will control the access to repository resources."
+
+msgid "public"
+msgstr "Åbent"
+
+msgid "public_notes"
+msgstr "Offentlige noter"
+
+msgid "public_profile"
+msgstr "Offentlig profil"
+
+#, fuzzy
+msgid "public_room"
+msgstr "Public room"
+
+msgid "purpose"
+msgstr "Formål"
+
+msgid "qpl"
+msgstr "Spørgsmål til test"
+
+msgid "qpl_add"
+msgstr "tilføj spørgsmål til test"
+
+msgid "qpl_new"
+msgstr "Ny spørgsmål til test"
+
+msgid "query_data"
+msgstr "Vis resultat"
+
+msgid "question"
+msgstr "Spørgsmål"
+
+msgid "question_message"
+msgstr "Spørgsmål"
+
+msgid "quit"
+msgstr "Afbryd"
+
+msgid "quote"
+msgstr "Citat"
+
+msgid "read"
+msgstr "Læs"
+
+msgid "readcount_anonymous_users"
+msgstr "Antal anonyme læsninger"
+
+msgid "readcount_users"
+msgstr "Antal ikke-anonyme læsninger"
+
+msgid "recipient"
+msgstr "Modtager"
+
+msgid "reference_deleted"
+msgstr "Målet er ikke tilgængeligt"
+
+msgid "reference_of"
+msgstr "Reference af:"
+
+msgid "referral_comment"
+msgstr "Hvordan hørte du om ILIAS?"
+
+msgid "refresh"
+msgstr "Opdater"
+
+msgid "refresh_languages"
+msgstr "Opdater sprog"
+
+msgid "refuse"
+msgstr "Nægt"
+
+msgid "reg_account_confirmation_successful"
+msgstr "Din brugerkonto er nu blevet aktiveret og du kan logge på."
+
+#, fuzzy
+msgid "reg_delete_expired_pending_registrations"
+msgstr "Delete Expired Pending Registrations"
+
+#, fuzzy
+msgid "reg_delete_expired_pending_registrations_desc"
+msgstr "Deletes all ILIAS accounts that have not been confirmed after a registration with e-mail confirmation."
+
+#, fuzzy
+msgid "reg_goto_parent_membership_info"
+msgstr "Only members can access the target object."
+
+msgid "reg_mail_body_2_confirmation"
+msgstr "Linket er kun gyldigt i %s, hvorefter du må tilbage og starte forfra."
+
+msgid "reg_mail_body_3_confirmation"
+msgstr "Hvis denne email er irrelevant for dig er det muligt nogen fejlagtigt har indtastet din emailadresse. Du kan i så fald blot ignorere den."
+
+#, fuzzy
+msgid "reg_mail_body_forgot_password_info"
+msgstr "To get your password, please use the function « Forgot password? » at the login screen to request a new password for this account."
+
+msgid "reg_mail_body_salutation"
+msgstr "Kære"
+
+msgid "reg_mail_body_text1"
+msgstr "Du er blevet oprettet som bruger."
+
+msgid "reg_mail_body_text2"
+msgstr "Klik på linket for at logge dig på"
+
+msgid "reg_mail_body_text3"
+msgstr "Du er opretet med nedenstående informationer"
+
+msgid "reg_mail_subject"
+msgstr "Din ILIAS brugerkonto"
+
+msgid "reg_mail_subject_confirmation"
+msgstr "ILIAS - bekræftelseslink"
+
+msgid "reg_passwd_via_mail"
+msgstr "Dit password vil blive sendt til din email du har angivet herunder."
+
+msgid "register"
+msgstr "Registrer"
+
+#, fuzzy
+msgid "register_notification"
+msgstr "\"%s\" has applied for session \"%s\"."
+
+msgid "registered_since"
+msgstr "Registreret siden"
+
+msgid "registered_user"
+msgstr "Registeret bruger"
+
+msgid "registered_users"
+msgstr "registerede brugere"
+
+msgid "registration"
+msgstr "Opret ny konto"
+
+msgid "related_to"
+msgstr "Relateret til"
+
+msgid "remove"
+msgstr "Fjern"
+
+msgid "remove_entries"
+msgstr "Ryd listen"
+
+msgid "remove_translation"
+msgstr "Fjern Oversættelse"
+
+msgid "rename"
+msgstr "Omdøb"
+
+msgid "rename_file"
+msgstr "Omdøb fil"
+
+#, fuzzy
+msgid "renderer_supported_file_types"
+msgstr "Supported File Types"
+
+#, fuzzy
+msgid "renderer_supported_repo_types"
+msgstr "Supported ILIAS Objects"
+
+#, fuzzy
+msgid "renderer_type_builtin"
+msgstr "Built-in"
+
+msgid "rep_main_page"
+msgstr "Forside"
+
+#, fuzzy
+msgid "rep_main_page_logo_alt"
+msgstr "Logo ILIAS - to the start page"
+
+msgid "repeat_scan"
+msgstr "Gentager scanning"
+
+msgid "repeat_scan_failed"
+msgstr "Scangentagelse fejlede."
+
+msgid "repeat_scan_succeded"
+msgstr "Scangentagelse lykkedes."
+
+msgid "replace_file"
+msgstr "Overskriv fil"
+
+msgid "reply"
+msgstr "Svar"
+
+#, fuzzy
+msgid "report_accessibility_issue"
+msgstr "Report Accessibility Issue"
+
+#, fuzzy
+msgid "report_accessibility_link"
+msgstr "Reported Link:"
+
+#, fuzzy
+msgid "report_accessibility_link_mailto"
+msgstr "Reported%20Link:"
+
+msgid "repository"
+msgstr "Oversigt"
+
+msgid "repository_admin"
+msgstr "Overblik, skrald og rettigheder"
+
+msgid "repository_admin_desc"
+msgstr "Sæt rettigheder for objekter i oversigten, genskab og fjern indholdet i skraldespanden."
+
+msgid "require_email"
+msgstr "Kræver email"
+
+msgid "require_gender"
+msgstr "Kræver Køn"
+
+msgid "require_hobby"
+msgstr "Kræver hobby"
+
+msgid "require_matriculation"
+msgstr "Kræv matrikulationsnummer"
+
+msgid "require_referral_comment"
+msgstr "Kræver kommentar"
+
+msgid "required_field"
+msgstr "Krævet"
+
+msgid "res_links"
+msgstr "Oversigts links"
+
+msgid "res_links_short"
+msgstr "Links"
+
+msgid "reset"
+msgstr "Reset"
+
+#, fuzzy
+msgid "reset_filter"
+msgstr "Reset filter"
+
+msgid "resources"
+msgstr "Resourcer"
+
+msgid "right"
+msgstr "Højre"
+
+msgid "rights"
+msgstr "Rettigheder"
+
+msgid "role"
+msgstr "Rolle"
+
+msgid "role_add_user"
+msgstr "Tilføj Brug(ere) til en rolle"
+
+msgid "role_added"
+msgstr "Rolle tilføjet"
+
+msgid "role_assignment"
+msgstr "Rolletildeling"
+
+msgid "role_assignment_updated"
+msgstr "Rolletildeling er blevet opdateret"
+
+msgid "role_edit"
+msgstr "Rediger Rolle"
+
+msgid "role_mailto"
+msgstr "Mail til alle tildelte brugere"
+
+msgid "role_new"
+msgstr "Ny rolle"
+
+msgid "role_new_search"
+msgstr "Ny søgning"
+
+msgid "role_no_roles_selected"
+msgstr "Vælg en rolle"
+
+msgid "role_protect_permissions"
+msgstr "Lås rettigheder"
+
+msgid "role_protect_permissions_desc"
+msgstr "Rettighederne til objektet kan ikke længere ændres. Kun administratorer på et højere niveau må ændre disse indstillinger."
+
+msgid "role_select_one_item"
+msgstr "Vælg venligst et objekt."
+
+msgid "role_sure_delete_desk_items"
+msgstr "Er du sikker på du ønsker at SLETTE de følgende opgaver?"
+
+msgid "role_templates_only"
+msgstr "Kun rolleskabeloner"
+
+msgid "roles"
+msgstr "Roller"
+
+msgid "roles_of_import_global"
+msgstr "Globale regler for importeret fil"
+
+msgid "roles_of_import_local"
+msgstr "Lokale regler for filer."
+
+msgid "rolf"
+msgstr "Regler"
+
+msgid "rolf_added"
+msgstr "regl mappe ændret"
+
+msgid "rolf_create_role"
+msgstr "Lav ny regeldefinition"
+
+msgid "rolf_create_rolt"
+msgstr "Lav ny rolle definition skabelon"
+
+msgid "rolf_delete"
+msgstr "Slet rolle/skabelon"
+
+msgid "rolf_edit_permission"
+msgstr "Skift rettighedsindstillinger"
+
+msgid "rolf_edit_userassignment"
+msgstr "Skift brugermedlemsskab"
+
+msgid "rolf_read"
+msgstr "Skriverettigheder til rolleskabeloner"
+
+msgid "rolf_visible"
+msgstr "Rolleskabelon er synlig"
+
+msgid "rolf_write"
+msgstr "Ændre standardrettigheder for følgende roller/skabeloner"
+
+msgid "rolt"
+msgstr "Rolleskabelon"
+
+msgid "rolt_added"
+msgstr "Rolleskabelon tilføjet"
+
+msgid "rolt_edit"
+msgstr "Rediger rolleskabelon"
+
+msgid "rolt_new"
+msgstr "Ny rolleskabelon"
+
+msgid "row"
+msgstr "Række"
+
+msgid "rows"
+msgstr "Rækker"
+
+#, fuzzy
+msgid "rpc_pdf_font"
+msgstr "Fonts"
+
+#, fuzzy
+msgid "rpc_pdf_font_info"
+msgstr "Additional fonts for the generation of PDF files. Other fonts than \"Helvetica\" and \"unifont\" must be installed on the ILIAS server."
+
+#, fuzzy
+msgid "rpc_pdf_generation"
+msgstr "PDF-Generation"
+
+#, fuzzy
+msgid "sad"
+msgstr "Sad"
+
+msgid "sahs"
+msgstr "Læremodul SCORM/AICC"
+
+msgid "sahs_added"
+msgstr "SCORM/AICC Læremodul tilføjet"
+
+#, fuzzy
+msgid "sahs_export_file"
+msgstr "ILIAS exported SCORM archive file"
+
+#, fuzzy
+msgid "sahs_export_file_info"
+msgstr "Use this option for a ZIP file that was exported directly from ILIAS. The file typically has titles such as 1675257903__4105__sahs_132295.zip."
+
+msgid "sahs_insert_chap_from_clip"
+msgstr "Indsæt kapitler fra udklipsholder"
+
+msgid "sahs_insert_page_from_clip"
+msgstr "Indsæt sider fra udklipsholder"
+
+msgid "sahs_insert_sco_from_clip"
+msgstr "Indsæt SCOer fra udklipsholder"
+
+#, fuzzy
+msgid "sahs_new"
+msgstr "Create New Learning Module"
+
+msgid "salutation"
+msgstr "Titulering"
+
+msgid "salutation_f"
+msgstr "frk/fru"
+
+msgid "salutation_m"
+msgstr "Hr."
+
+#, fuzzy
+msgid "salutation_n"
+msgstr "No salutation desired"
+
+#, fuzzy
+msgid "saml_log_in"
+msgstr "Direct login"
+
+#, fuzzy
+msgid "saml_login_form_info_txt"
+msgstr "You can log in using the “Direct Login” button without having to enter your username or password."
+
+#, fuzzy
+msgid "saml_login_form_txt"
+msgstr "Login to ILIAS via SAML"
+
+msgid "save"
+msgstr "Gem"
+
+msgid "save_and_back"
+msgstr "Gem og gå tilbage"
+
+msgid "save_message"
+msgstr "Gem besked"
+
+#, fuzzy
+msgid "save_params_for_cron"
+msgstr "Save Parameter for Cronjob"
+
+msgid "save_refresh"
+msgstr "Gem og opdater"
+
+msgid "save_return"
+msgstr "Gem og gå tilbage"
+
+msgid "save_settings"
+msgstr "Gem indstillinger"
+
+msgid "save_user_related_data"
+msgstr "Gemt bruger relaterede adgangsdata"
+
+msgid "saved_successfully"
+msgstr "Gemt"
+
+msgid "saving"
+msgstr "Gemmer..."
+
+#, fuzzy
+msgid "scope"
+msgstr "Scope"
+
+msgid "scorm_create_export_file_html"
+msgstr "Lav eksportfil (HTML)"
+
+msgid "scorm_create_export_file_pdf"
+msgstr "Lav eksportfil (PDF)"
+
+msgid "scorm_create_export_file_scrom12"
+msgstr "Lav eksportfil (SCORM 1.2)"
+
+msgid "scorm_create_export_file_scrom2004"
+msgstr "Lav eksportfil (SCORM 2004)"
+
+msgid "scorm_create_export_file_scrom2004_4th"
+msgstr "Lav eksportfil (SCORM 2004 4th Edition)"
+
+#, fuzzy
+msgid "scorm_login_as_learner_id"
+msgstr "SCORM 2004: set ILIAS User Name as cmi.learner_id"
+
+#, fuzzy
+msgid "scorm_login_as_learner_id_info"
+msgstr "If enabled, the User Name instead of the User ID is set for cmi.learner_id."
+
+#, fuzzy
+msgid "scorm_lp_auto_activate"
+msgstr "default settings for learning progress"
+
+#, fuzzy
+msgid "scorm_lp_auto_activate_info"
+msgstr "If learning progress is activated in general, the settings for new SCORM learning modules are set to 'Collection of SCORM Items' and all SCOs are selected for learning progress determination. Adjustments are still possible for every SCORM learning module."
+
+msgid "scorm_new"
+msgstr "Nyt SCORM/IACC læremodul"
+
+#, fuzzy
+msgid "scorm_without_session"
+msgstr "SCORM 2004: enable storing data without session"
+
+#, fuzzy
+msgid "scorm_without_session_info"
+msgstr "This ensures the storage of SCORM learning data even if ILIAS session expired"
+
+msgid "search"
+msgstr "Søg"
+
+msgid "search_active"
+msgstr "Inkluder aktive brugere"
+
+msgid "search_at_current_position"
+msgstr "Fra nuværende position"
+
+msgid "search_engine"
+msgstr "Søgemaskiner"
+
+msgid "search_for"
+msgstr "Søg efter"
+
+msgid "search_globally"
+msgstr "Globalt"
+
+msgid "search_in"
+msgstr "Søg i"
+
+msgid "search_inactive"
+msgstr "Inkluder alle inaktive brugere"
+
+msgid "search_new"
+msgstr "Ny søgning"
+
+msgid "search_result"
+msgstr "Søgeresultater"
+
+msgid "search_results"
+msgstr "Søgeresultater"
+
+msgid "search_user"
+msgstr "Søg efter bruger"
+
+#, fuzzy
+msgid "search_users"
+msgstr "Look Up Users"
+
+msgid "seas_max_hits"
+msgstr "Maks hits"
+
+msgid "seas_max_hits_info"
+msgstr "Vælg det maksimale antal resultater der skal returneres til brugeren efter en søgning."
+
+msgid "seas_settings"
+msgstr "Søgeopsætning"
+
+msgid "second"
+msgstr "Second"
+
+#, fuzzy
+msgid "second_email"
+msgstr "Second Email"
+
+msgid "seconds"
+msgstr "Sekunder"
+
+msgid "sel_country"
+msgstr "Land"
+
+msgid "select"
+msgstr "vælg"
+
+msgid "select_all"
+msgstr "Vælg alle"
+
+#, fuzzy
+msgid "select_at_least_one_object"
+msgstr "Please choose at least one object."
+
+msgid "select_file"
+msgstr "Vælg fil"
+
+#, fuzzy
+msgid "select_file_from_computer"
+msgstr "Select File"
+
+#, fuzzy
+msgid "select_files_from_computer"
+msgstr "Select the files from your computer"
+
+msgid "select_max_one_item"
+msgstr "Vælg venligst kun en"
+
+msgid "select_object_to_link"
+msgstr "vælg venligst det objekt du vil linke til"
+
+msgid "select_one"
+msgstr "Vælg en"
+
+#, fuzzy
+msgid "select_question_pool_info"
+msgstr "As long as the import file contains questions, these questions will be imported to the selected questionpool as well."
+
+msgid "select_questionpool"
+msgstr "Spørgsmålsbibliotek til tests"
+
+msgid "selected"
+msgstr "Valgte"
+
+#, fuzzy
+msgid "selected_files"
+msgstr "Selected files"
+
+msgid "selected_items"
+msgstr "Personlige ting"
+
+msgid "selected_items_back"
+msgstr "Tilbage til skrivebord"
+
+msgid "selected_languages_updated"
+msgstr "De valgte installerede sprog er blevet opdateret"
+
+msgid "send"
+msgstr "Send"
+
+msgid "send_mail"
+msgstr "Send email"
+
+msgid "sender"
+msgstr "Afsender"
+
+msgid "sent"
+msgstr "Sendt"
+
+msgid "sequence"
+msgstr "Sekvens"
+
+msgid "sequences"
+msgstr "Sekvenser"
+
+msgid "server"
+msgstr "Server"
+
+msgid "server_data"
+msgstr "Serverdata"
+
+msgid "server_disabled"
+msgstr "Chatten er deaktiveret"
+
+msgid "server_software"
+msgstr "Serversoftware"
+
+msgid "sess"
+msgstr "Session"
+
+#, fuzzy
+msgid "sess_fixed_duration"
+msgstr "Fixed Session Duration"
+
+msgid "session_config"
+msgstr "Session indstillinger"
+
+#, fuzzy
+msgid "session_config_maintenance_disabled"
+msgstr "Maintenance by client not allowed"
+
+#, fuzzy
+msgid "session_mail_subject_deletion"
+msgstr "Deregistration of user \"%s\" from session \"%s\""
+
+#, fuzzy
+msgid "session_mail_subject_entered"
+msgstr "Joining of user \"%s\" in session \"%s\""
+
+#, fuzzy
+msgid "session_mail_subject_registered"
+msgstr "Registration of user \"%s\" for session \"%s\""
+
+msgid "session_reminder"
+msgstr "Sessions påmindelse"
+
+#, fuzzy
+msgid "session_reminder_alert"
+msgstr "Your session expires in %1$s at %2$s!\\n\\nChoose OK to continue your session.\\nIf you click Cancel you will not be reminded during the current browser session anymore.\\n\\nInstallation: %3$s."
+
+#, fuzzy
+msgid "session_reminder_default_lead_time_info"
+msgstr "Please specify how many minutes before the expiration of a session a reminder should be shown.<br / >The function is deactivated when the value is '%s'. The recommended value is %s.<br / >The current length of a session is %s."
+
+#, fuzzy
+msgid "session_reminder_input"
+msgstr "Session Reminder (in Minutes)"
+
+#, fuzzy
+msgid "session_reminder_lead_time"
+msgstr "Leadtime"
+
+#, fuzzy
+msgid "session_reminder_lead_time_info"
+msgstr "Please specify, how much seconds before the session expires you want the session reminder to display a warning. The current value for a user session is %s."
+
+msgid "session_reminder_session_duration"
+msgstr "(Session varighed: %s)."
+
+msgid "set"
+msgstr "Sæt"
+
+msgid "setSystemLanguage"
+msgstr "Sæt systemsprog"
+
+msgid "setUserLanguage"
+msgstr "Sæt brugersprog"
+
+msgid "set_offline"
+msgstr "Sæt til Offline"
+
+msgid "set_online"
+msgstr "Sæt til Online"
+
+#, fuzzy
+msgid "set_skin_does_not_exist"
+msgstr "Your selected skin does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:"
+
+#, fuzzy
+msgid "set_style_does_not_exist"
+msgstr "Your selected system style does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:"
+
+msgid "settings"
+msgstr "Indstillinger"
+
+msgid "settings_for_all_members"
+msgstr "Globale indstillinger for alle kursus/gruppe medlemmer"
+
+msgid "settings_per_users"
+msgstr "Indstillinger pr. kursus/gruppe medlem"
+
+#, fuzzy
+msgid "settings_presentation_header"
+msgstr "Presentation"
+
+msgid "settings_saved"
+msgstr "Indstillingerne blev gemt"
+
+msgid "shib"
+msgstr "Shibboleth"
+
+msgid "shib_active"
+msgstr "Aktiver shibbolethsupport"
+
+#, fuzzy
+msgid "shib_city"
+msgstr "Attribute for city"
+
+#, fuzzy
+msgid "shib_country"
+msgstr "Attribute for country"
+
+#, fuzzy
+msgid "shib_data_conv"
+msgstr "Absolute path to data manipulation API"
+
+#, fuzzy
+msgid "shib_data_conv_warning"
+msgstr "The data manipulation API file you specified cannot be read"
+
+#, fuzzy
+msgid "shib_department"
+msgstr "Attribute for department"
+
+#, fuzzy
+msgid "shib_email"
+msgstr "Attribute for email address"
+
+msgid "shib_federation_name"
+msgstr "Name of your Shibboleth federation"
+
+#, fuzzy
+msgid "shib_firstname"
+msgstr "Attribute for firstname"
+
+#, fuzzy
+msgid "shib_gender"
+msgstr "Attribute for gender (must be 'm' or 'f')"
+
+msgid "shib_general_login_instructions"
+msgstr "To log in via %s, please click on the login button and choose your organization of the following page.<br>If you have questions concerning this, please ask the"
+
+msgid "shib_general_wayf_login_instructions"
+msgstr "In case you are not associated with the given organizations and you need access to a course on this server, please contact the"
+
+msgid "shib_idp_list"
+msgstr "Provide a list of Identity Providers to let the user choose from on the ILIAS login page.<br>On each line there must be a comma-separated tuple for <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as it shall be displayed in the drow-down list.<br>As an optional third parameter you can add the <strong>location of a Shibboleth session initiator</strong> that shall be used in case your ILIAS installation is part of a multi federation setup."
+
+#, fuzzy
+msgid "shib_institution"
+msgstr "Attribute for institution"
+
+msgid "shib_invalid_home_organization"
+msgstr "Vælg venligst en gyldig organisation!"
+
+#, fuzzy
+msgid "shib_language"
+msgstr "Attribute for language"
+
+#, fuzzy
+msgid "shib_lastname"
+msgstr "Attribute for lastname"
+
+#, fuzzy
+msgid "shib_login"
+msgstr "Unique Shibboleth attribute"
+
+#, fuzzy
+msgid "shib_login_button"
+msgstr "Path to Shibboleth login button"
+
+#, fuzzy
+msgid "shib_login_embedded_wayf"
+msgstr "Design custom login area"
+
+#, fuzzy
+msgid "shib_login_embedded_wayf_description"
+msgstr "If this option is chosen, you can provide any HTML code in the login instructions text area below. This can for example be used to embed an own JavaScript WAYF/Discovery Service or create a custom-tailored design of the login area."
+
+msgid "shib_login_external_wayf"
+msgstr "Use external WAYF service"
+
+msgid "shib_login_internal_wayf"
+msgstr "Use ILIAS WAYF service"
+
+msgid "shib_login_type"
+msgstr "Organization selection"
+
+#, fuzzy
+msgid "shib_matriculation"
+msgstr "Attribute for Matriculation Number"
+
+msgid "shib_member_of"
+msgstr "I'm a member of ..."
+
+#, fuzzy
+msgid "shib_phone_home"
+msgstr "Attribute for home phone number"
+
+#, fuzzy
+msgid "shib_phone_mobile"
+msgstr "Attribute for mobile phone number"
+
+#, fuzzy
+msgid "shib_phone_office"
+msgstr "Attribute for office phone number"
+
+msgid "shib_select_home_organization"
+msgstr "For authentication via %s, please select your organization from the drop down list."
+
+#, fuzzy
+msgid "shib_settings_saved"
+msgstr "The Shibboleth settings were saved"
+
+#, fuzzy
+msgid "shib_street"
+msgstr "Attribute for street"
+
+#, fuzzy
+msgid "shib_title"
+msgstr "Attribute for title"
+
+msgid "shib_update"
+msgstr "Opdater dette felt ved login"
+
+#, fuzzy
+msgid "shib_user_default_role"
+msgstr "Default role assigned to Shibboleth users"
+
+msgid "shib_zipcode"
+msgstr "Attribut for postnummer"
+
+msgid "short_inst_name"
+msgstr "Kort titel"
+
+msgid "short_inst_name_info"
+msgstr "Denne titel er synlig i browserens header. Hvis blank anvendes 'ILIAS'"
+
+msgid "show"
+msgstr "Vis"
+
+#, fuzzy
+msgid "show_all_details"
+msgstr "Show all details"
+
+#, fuzzy
+msgid "show_content"
+msgstr "Show Content"
+
+msgid "show_details"
+msgstr "Vis detaljer"
+
+msgid "show_filter"
+msgstr "Vis filter"
+
+#, fuzzy
+msgid "show_hidden_sections"
+msgstr "Show More Information &raquo;"
+
+#, fuzzy
+msgid "show_less"
+msgstr "Show less"
+
+msgid "show_list"
+msgstr "Vis liste"
+
+msgid "show_members"
+msgstr "Vis medlemmer"
+
+#, fuzzy
+msgid "show_more"
+msgstr "Show More"
+
+#, fuzzy
+msgid "show_preview"
+msgstr "Show Preview"
+
+msgid "show_users_online"
+msgstr "Visning af onlinebrugere"
+
+#, fuzzy
+msgid "show_who_is_online"
+msgstr "Show who is online"
+
+msgid "side_frame"
+msgstr "Sideramme"
+
+msgid "signature"
+msgstr "Signatur"
+
+msgid "size"
+msgstr "Størrelse"
+
+#, fuzzy
+msgid "skills"
+msgstr "Skills"
+
+msgid "skin_style"
+msgstr "Standardudseende"
+
+msgid "smtp"
+msgstr "SMTP"
+
+#, fuzzy
+msgid "soap_connect_timeout"
+msgstr "Connection Timeout"
+
+#, fuzzy
+msgid "soap_connect_timeout_info"
+msgstr "The maximum time in seconds until a connect attempt to the SOAP-Webservice is interrupted."
+
+msgid "soap_user_administration"
+msgstr "Ekstern brugeradministration (SOAP)"
+
+msgid "soap_user_administration_desc"
+msgstr "Hvis sat til, kan alle brugerkonti blive administreret af en ekstern SOAP-klient"
+
+msgid "soap_wsdl_path"
+msgstr "WSDL sti"
+
+#, fuzzy
+msgid "soap_wsdl_path_info"
+msgstr "Please enter the path to the ilias wsdl file which should be used for the webservice. If you leave this field blank, the following path will be used per default:%s"
+
+#, fuzzy
+msgid "sort"
+msgstr "Sort"
+
+#, fuzzy
+msgid "sort_ascending"
+msgstr "Sort Ascending"
+
+#, fuzzy
+msgid "sort_ascending_long"
+msgstr "Change Sort Direction to Ascending"
+
+msgid "sort_by_this_column"
+msgstr "Sorter efter denne kolonne"
+
+#, fuzzy
+msgid "sort_descending"
+msgstr "Sort Descending"
+
+#, fuzzy
+msgid "sort_descending_long"
+msgstr "Change Sort Direction to Descending"
+
+msgid "sort_inherit_prefix"
+msgstr "Standard"
+
+#, fuzzy
+msgid "sorting_asc"
+msgstr "Ascending"
+
+#, fuzzy
+msgid "sorting_creation_header"
+msgstr "By Creation Date"
+
+#, fuzzy
+msgid "sorting_creation_info"
+msgstr "Content items are arranged automatically by their creation date."
+
+#, fuzzy
+msgid "sorting_desc"
+msgstr "Descendent"
+
+#, fuzzy
+msgid "sorting_direction"
+msgstr "Sorting Direction"
+
+msgid "sorting_header"
+msgstr "Sortering"
+
+#, fuzzy
+msgid "sorting_info_inherit"
+msgstr "The sorting mode is adpated from a parent course."
+
+msgid "sorting_info_manual"
+msgstr "Denne indstilling gør det muligt at sortere elementerne manuelt"
+
+msgid "sorting_info_title"
+msgstr "Vælg denne indstilling for at sortere emner automatisk efter deres titeler."
+
+msgid "sorting_manual_header"
+msgstr "Manuel"
+
+msgid "sorting_save"
+msgstr "Gem sortering"
+
+msgid "sorting_title_header"
+msgstr "Efter titel"
+
+msgid "spacer"
+msgstr "Mellemrum"
+
+msgid "spl"
+msgstr "Spørgsmål til afstemninger/undersøgelser"
+
+msgid "spl_add"
+msgstr "Opret spørgsmålssamling"
+
+#, fuzzy
+msgid "spl_import"
+msgstr "Import Question Pool Survey"
+
+msgid "spl_new"
+msgstr "Ny spørgsmålssamling til undersøgelse"
+
+msgid "ssl"
+msgstr "SSL (HTTPS)"
+
+msgid "standard_fields"
+msgstr "Standardfelter"
+
+msgid "startpage"
+msgstr "Startside"
+
+msgid "stat_selected"
+msgstr "Valgt"
+
+msgid "statistic"
+msgstr "Statistik"
+
+msgid "statistics"
+msgstr "Statistik"
+
+msgid "status"
+msgstr "Status"
+
+msgid "status_no_permission"
+msgstr "Ingen adgang."
+
+msgid "step"
+msgstr "Skridt"
+
+msgid "street"
+msgstr "Gade"
+
+msgid "structure"
+msgstr "Struktur"
+
+msgid "sty"
+msgstr "Stilark"
+
+msgid "sub_request_deleted"
+msgstr "Slettede anmodning om medlemsskab"
+
+msgid "sub_request_saved"
+msgstr "Anmodning om medlemsskab gemt"
+
+msgid "subject"
+msgstr "Emne"
+
+msgid "submit"
+msgstr "Udfør"
+
+msgid "subobjects"
+msgstr "Under Objekter"
+
+msgid "subscription"
+msgstr "Tilmelding"
+
+msgid "subtabs"
+msgstr "Underblade"
+
+msgid "success_message"
+msgstr "Succesbesked"
+
+msgid "summary"
+msgstr "Gennemgang"
+
+msgid "sure_delete_selected_users"
+msgstr "Er du sikker på at du vil slettet følgende brugere"
+
+msgid "survey_defaults"
+msgstr "Standardindstillinger for afstemninger"
+
+msgid "survey_unlimited_invitation"
+msgstr "Ubegrænset invitationer"
+
+msgid "svy"
+msgstr "Undersøgelse"
+
+msgid "svy_add"
+msgstr "Opret undersøgelse"
+
+msgid "svy_finished"
+msgstr "Afsluttet"
+
+msgid "svy_new"
+msgstr "Ny undersøgelse"
+
+msgid "svy_not_finished"
+msgstr "ikke afsluttet"
+
+msgid "svy_not_started"
+msgstr "Ikke påbegyndt"
+
+msgid "svy_run"
+msgstr "Kør"
+
+msgid "svy_warning_survey_not_complete"
+msgstr "Spørgeskemaet er ikke færdigt!"
+
+#, fuzzy
+msgid "switch_language"
+msgstr "Switch Language"
+
+msgid "system"
+msgstr "System"
+
+msgid "system_check"
+msgstr "Systemcheck"
+
+msgid "system_information"
+msgstr "Systeminformation"
+
+msgid "system_language"
+msgstr "System sprog"
+
+msgid "system_styles"
+msgstr "System stilark"
+
+#, fuzzy
+msgid "systemcheck_cron"
+msgstr "Process System Check in Cronjob"
+
+#, fuzzy
+msgid "systemcheck_cronform"
+msgstr "Activation of System Check in Cronjob"
+
+msgid "table_mail_import"
+msgstr "Mailimport"
+
+msgid "tabs"
+msgstr "Faneblade"
+
+msgid "tagging_my_tags"
+msgstr "Mine tags"
+
+#, fuzzy
+msgid "tags"
+msgstr "Tags"
+
+msgid "take_over_structure"
+msgstr "Brug struktur"
+
+msgid "take_over_structure_info"
+msgstr "Hvis aktiveret bliver folderne i zip-filen mappet til kategorier eller (hvis brugt i grupper eller kurser) til foldere."
+
+msgid "tals_etal"
+msgstr "Talk"
+
+msgid "talt_etal"
+msgstr "Talk"
+
+msgid "target"
+msgstr "Mål"
+
+msgid "tax"
+msgstr "Taksonomi"
+
+msgid "tax_add"
+msgstr "tilføj skatteafgift"
+
+msgid "tax_new"
+msgstr "Ny skatteafgift"
+
+#, fuzzy
+msgid "term"
+msgstr "Term"
+
+msgid "test"
+msgstr "Test"
+
+msgid "tests"
+msgstr "Tests"
+
+msgid "textbox"
+msgstr "Textboks"
+
+msgid "thread"
+msgstr "Thread"
+
+msgid "thumbnail"
+msgstr "Galleri"
+
+#, fuzzy
+msgid "tile_view"
+msgstr "Tile View"
+
+msgid "time"
+msgstr "Tid"
+
+msgid "time_limit"
+msgstr "Adgang"
+
+msgid "time_limit_add_time_limit_for_selected"
+msgstr "Venligst angiv en tidsperiode for de valgte brugere."
+
+msgid "time_limit_from"
+msgstr "Fra (tidsgrænse)"
+
+msgid "time_limit_message"
+msgstr "Besked (tidsbegrænsning)"
+
+msgid "time_limit_no_users_selected"
+msgstr "Vælg venligst en bruger."
+
+msgid "time_limit_not_valid"
+msgstr "Perioden er ikke gyldig."
+
+msgid "time_limit_reached"
+msgstr "Din adgangsperiode er udløbet."
+
+msgid "time_limit_unlimited"
+msgstr "Ubegrænset (tidsgrænse)"
+
+#, fuzzy
+msgid "time_limit_until"
+msgstr "Indtil (time limit)"
+
+msgid "title"
+msgstr "Titel"
+
+msgid "title_required"
+msgstr "Indtastning af titel er krævet."
+
+msgid "to"
+msgstr "Til"
+
+msgid "to_client_list"
+msgstr "Til valg af klient"
+
+msgid "today"
+msgstr "Idag"
+
+msgid "toggleGlobalDefault"
+msgstr "Skift global standard"
+
+#, fuzzy
+msgid "toggleGlobalFixed"
+msgstr "Toggle Global Fixed"
+
+#, fuzzy
+msgid "toggle_dropdown"
+msgstr "Toggle Dropdown"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_off"
+msgstr "OFF"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_on"
+msgstr "ON"
+
+msgid "tomorrow"
+msgstr "I morgen"
+
+#, fuzzy
+msgid "toolbar_more_actions"
+msgstr "More Actions"
+
+#, fuzzy
+msgid "tools"
+msgstr "Tools"
+
+#, fuzzy
+msgid "top_of_page"
+msgstr "Top of page"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement"
+msgstr "Accept Terms of Service?"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement_intro"
+msgstr "There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page."
+
+#, fuzzy
+msgid "tos_force_accept_usr_agreement"
+msgstr "You must accept the Terms of Service!"
+
+#, fuzzy
+msgid "tos_no_agreement_description"
+msgstr "There is currently no Terms of Service document available for this installation. Please contact the <a href=\"%1$s\">system administrator</a>."
+
+#, fuzzy
+msgid "tos_refuse_acceptance"
+msgstr "Refuse to Accept Terms of Service"
+
+#, fuzzy
+msgid "tos_usr_agreement"
+msgstr "Terms of Service"
+
+#, fuzzy
+msgid "tos_usr_agreement_footer_intro"
+msgstr "You have declared your consent to these terms of service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description"
+msgstr "Withdraw your consent to our Terms of Service here."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description_external"
+msgstr "Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description_internal"
+msgstr "Please log in again to complete the process of withdrawing your consent to the Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_header"
+msgstr "Withdraw Terms of Service Consent"
+
+#, fuzzy
+msgid "tos_withdraw_consent_info"
+msgstr "Withdraw your consent to our Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_info_external"
+msgstr "Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Terms of Service."
+
+#, fuzzy
+msgid "total"
+msgstr "Total"
+
+msgid "tracking_settings"
+msgstr "Sporing af lærefremskridt"
+
+msgid "translation"
+msgstr "Oversættelse"
+
+msgid "trash"
+msgstr "Slettede ting/skrald"
+
+msgid "tree"
+msgstr "Træ"
+
+msgid "tree_frame"
+msgstr "Oversigstræ"
+
+msgid "treeview"
+msgstr "Træoversigt"
+
+msgid "tst"
+msgstr "Prøve"
+
+msgid "tst_add"
+msgstr "Lav test"
+
+msgid "tst_edit_questions"
+msgstr "Ret spørgsmål"
+
+#, fuzzy
+msgid "tst_history_read"
+msgstr "View History"
+
+msgid "tst_new"
+msgstr "Ny test"
+
+#, fuzzy
+msgid "tst_results"
+msgstr "Test Results"
+
+msgid "tst_run"
+msgstr "Kør"
+
+msgid "tst_user_not_invited"
+msgstr "Du ikke en af de studerende der skal tage denne test"
+
+msgid "tst_warning_test_not_complete"
+msgstr "Testen er endnu ikke færdiggjort"
+
+msgid "tutors"
+msgstr "Hjælpeinstruktøter"
+
+msgid "txt_registered"
+msgstr "Din ILIAS-konto er nu oprettet. Klik på knappen nedenfor for at logge ind."
+
+msgid "txt_registered_passw_gen"
+msgstr "Du har nu oprettet en konto på ILIAS. I løbet af kort tid modtager du en email med det genererede password."
+
+msgid "txt_submitted"
+msgstr "Du har succesfuldt sendt en ansøgning om en konto til ILIAS. Din forespørgsel vil set på af en system administrator, og vil blive aktiveret indenfor 48 timer, Du har ikke mulighed for at logge ind før din konto er aktiveret."
+
+msgid "typ"
+msgstr "Objekt typedefinition"
+
+msgid "type"
+msgstr "Type"
+
+msgid "udf_added_field"
+msgstr "Nyt felt tilføjet."
+
+msgid "udf_delete_sure"
+msgstr "Er du sikker på du vil SLETTE dette felt og alle indtastede brugerdata?"
+
+msgid "udf_duplicate_entries"
+msgstr "Værdierne skal være unikke"
+
+msgid "udf_field_deleted"
+msgstr "Det brugerdefinerede felt blev slettet."
+
+msgid "udf_name_already_exists"
+msgstr "Feltnavnet eksisterer i forvejen, så du skal vælge et andet."
+
+msgid "udf_required_requires_visib_reg"
+msgstr "Når en feltindtastning er krævet skal det være synligt i brugeroprettelsen."
+
+msgid "udf_type_date"
+msgstr "Datofelt"
+
+msgid "udf_type_datetime"
+msgstr "Dato og tid"
+
+msgid "udf_type_select"
+msgstr "Rummemenu (begrænsede valgmuligheder)"
+
+msgid "udf_type_text"
+msgstr "Tekstfelt (valgfrie værdier)"
+
+msgid "udf_type_textarea"
+msgstr "Fritekst (WYSIWYG)"
+
+msgid "udf_update_select_field"
+msgstr "Ret rullemenu"
+
+msgid "udf_update_text_field"
+msgstr "Ret tekstfelt"
+
+msgid "udf_update_wysiwyg_field"
+msgstr "Ret (WYSIWYG) tekstområde felt"
+
+msgid "uid"
+msgstr "UID"
+
+msgid "ums_create_new_account"
+msgstr "Lav ny konto"
+
+msgid "ums_explanation"
+msgstr "Your external account could not be mapped to an ILIAS account. But ILIAS has found an account with your e-mail address. If this is your account, please login with your ILIAS password."
+
+msgid "ums_explanation_2"
+msgstr "Tryk venligst på 'Opret ny konto' hvis dette ikke er din konto."
+
+msgid "ums_explanation_3"
+msgstr "Your external account could not be mapped to an ILIAS account. But ILIAS has found multiple accounts with your e-mail address. If one of those is your account, please login with your ILIAS password."
+
+msgid "ums_explanation_4"
+msgstr "Hvis ingen af disse er din konto, så tryk på 'Opret ny konto'."
+
+msgid "unambiguousness"
+msgstr "Entydig id"
+
+msgid "uncheck_all"
+msgstr "Fjern krydser"
+
+msgid "unchecked"
+msgstr "Ikke afkrydset"
+
+msgid "uninstall"
+msgstr "Afinstaller"
+
+msgid "uninstalled"
+msgstr "afinstalleret."
+
+msgid "unknown"
+msgstr "Ukendt"
+
+#, fuzzy
+msgid "unparticipate"
+msgstr "Unsubscribe"
+
+msgid "unread"
+msgstr "ulæst"
+
+msgid "unzip"
+msgstr "Unzip"
+
+msgid "up"
+msgstr "Op"
+
+msgid "update"
+msgstr "Rediger"
+
+msgid "update_applied"
+msgstr "Opdatering gennemført"
+
+msgid "update_language"
+msgstr "Opdater sprog"
+
+msgid "update_on_conflict"
+msgstr "Opdater ved konflikt"
+
+#, fuzzy
+msgid "update_orgunits"
+msgstr "Update assigned organisational units"
+
+#, fuzzy
+msgid "update_orgunits_desc"
+msgstr "If enabled, the field 'Organisational Units' will be updated for all user accounts."
+
+msgid "upload"
+msgstr "Upload"
+
+msgid "upload_error_file_not_found"
+msgstr "Upload fejl: Fil ikke fundet."
+
+#, fuzzy
+msgid "upload_ok"
+msgstr "The upload was successful"
+
+#, fuzzy
+msgid "upload_pending"
+msgstr "Pending"
+
+#, fuzzy
+msgid "upload_settings"
+msgstr "Uploading Settings"
+
+#, fuzzy
+msgid "upload_svg_rejection_message"
+msgstr "An uploaded SVG file contains possibily malicious code and cannot be processed."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_base64"
+msgstr "The file contains base64 encoded content."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_elements"
+msgstr "The file contains elements or attributes which are not allowed or known."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_foreign_object"
+msgstr "The file contains foreign objects."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_script"
+msgstr "The file contains script-Elements."
+
+msgid "uploaded_and_checked"
+msgstr "Filen er blevet uploadet og checket, Du kan nu importere filen."
+
+#, fuzzy
+msgid "uploading"
+msgstr "Uploading..."
+
+msgid "uri"
+msgstr "URI"
+
+msgid "url"
+msgstr "URL"
+
+msgid "url_not_found"
+msgstr "Fil ikke fundet"
+
+msgid "use_customized_instructions"
+msgstr "Brug tilpassede instruktioner"
+
+msgid "use_default_instructions"
+msgstr "Brug standard instruktioner"
+
+msgid "user"
+msgstr "Bruger"
+
+msgid "user_activated"
+msgstr "Brugeren er blevet godkendt."
+
+msgid "user_added"
+msgstr "Bruger tilføjet"
+
+msgid "user_assignment"
+msgstr "Tildelte brugere"
+
+#, fuzzy
+msgid "user_avatar"
+msgstr "User Avatar"
+
+#, fuzzy
+msgid "user_avatar_of"
+msgstr "User Avatar of"
+
+msgid "user_cant_receive_mail"
+msgstr "Bruger har ikke adgang til mail systemet"
+
+msgid "user_comment"
+msgstr "Brugerkommentar"
+
+msgid "user_deactivated"
+msgstr "Brugeren er ikke godkendt."
+
+msgid "user_defined_fields"
+msgstr "Brugerdefinerede felter"
+
+msgid "user_defined_list"
+msgstr "Liste over brugerdefinerede felter"
+
+msgid "user_deleted"
+msgstr "Bruger er slettet"
+
+msgid "user_detail"
+msgstr "Detaljerede data"
+
+msgid "user_ext_account"
+msgstr "External Account"
+
+msgid "user_ext_account_desc"
+msgstr "Konto til brug for ekstern autentificering (SOAP)"
+
+msgid "user_image"
+msgstr "Brugerbillede"
+
+msgid "user_import_failed"
+msgstr "Brugerimport mislykkedes"
+
+msgid "user_imported"
+msgstr "Brugerimport er gennemført."
+
+msgid "user_imported_with_warnings"
+msgstr "Brugerimport er gennemført med advarsel"
+
+msgid "user_language"
+msgstr "Brugersprog"
+
+#, fuzzy
+msgid "user_never_logged_in"
+msgstr "Delete user accounts without login"
+
+#, fuzzy
+msgid "user_never_logged_in_info"
+msgstr "All user accounts without login at all be deleted."
+
+#, fuzzy
+msgid "user_never_logged_in_info_threshold_err_num"
+msgstr "Only positive non decimal numbers are accepted."
+
+msgid "user_new_account_mail"
+msgstr "Post til nye konti"
+
+msgid "user_new_account_mail_desc"
+msgstr "Nedenstående besked kan sendes når en ILIAS bruger oprettes på andre måder end af brugeren selv."
+
+#, fuzzy
+msgid "user_not_found"
+msgstr "User not found"
+
+#, fuzzy
+msgid "user_not_found_to_delete"
+msgstr "A user could not be found to delete."
+
+msgid "user_not_known"
+msgstr "Angiv venligst et gyldigt brugernavn."
+
+msgid "user_profile_other"
+msgstr "Andre oplysninger"
+
+msgid "user_send_new_account_mail"
+msgstr "Send kontoinformation til ny bruger"
+
+msgid "user_status"
+msgstr "Brugerstatus"
+
+msgid "user_toggle_noti"
+msgstr "Medlemmet har ikke rettigheder til at afbryde advisering"
+
+msgid "userfolder_export_csv"
+msgstr "Kommaseparerede værdier"
+
+msgid "userfolder_export_excel_x86"
+msgstr "Microsoft Excel"
+
+msgid "userfolder_export_file"
+msgstr "Fil"
+
+msgid "userfolder_export_file_size"
+msgstr "Filstørrelse"
+
+msgid "userfolder_export_files"
+msgstr "Filer"
+
+msgid "userfolder_export_xml"
+msgstr "XML"
+
+msgid "username"
+msgstr "Brugernavn"
+
+#, fuzzy
+msgid "username_assistance"
+msgstr "Username Assistance"
+
+msgid "users"
+msgstr "Brugere"
+
+msgid "users_not_imported"
+msgstr "Følgende brugere eksisterer ikke, Deres beskeder kan ikke importeres"
+
+msgid "users_online"
+msgstr "Brugere online"
+
+msgid "usr"
+msgstr "Bruger"
+
+#, fuzzy
+msgid "usr_account_inactive"
+msgstr "Inactive Account"
+
+msgid "usr_active_only"
+msgstr "Aktive brugere"
+
+msgid "usr_add"
+msgstr "Tilføj bruger"
+
+msgid "usr_edit"
+msgstr "Rediger Bruger"
+
+#, fuzzy
+msgid "usr_field_change_components_listening"
+msgstr "There is at least one component which is interested in the changed configuration. Would you like to confirm the changes with the consequences the component(s) announced below?"
+
+msgid "usr_filter_coursemember"
+msgstr "Medlem af kursus"
+
+msgid "usr_filter_groupmember"
+msgstr "Medlem af gruppe"
+
+msgid "usr_filter_lastlogin"
+msgstr "Brugerens sidste login"
+
+msgid "usr_filter_role"
+msgstr "Tilknyttet rolle."
+
+msgid "usr_inactive_only"
+msgstr "Kun inaktive brugere"
+
+msgid "usr_limited_access_only"
+msgstr "Kun brugere med begrænset adgang"
+
+#, fuzzy
+msgid "usr_name_undisclosed"
+msgstr "Undisclosed"
+
+msgid "usr_new"
+msgstr "Ny bruger"
+
+#, fuzzy
+msgid "usr_settings_changeable_lua"
+msgstr "Changeable in Local User Administration"
+
+msgid "usr_settings_explanation_profile"
+msgstr "Check de mulige checkbokse for at skjule eller slå de personlige profilopsætninger fra for alle brugere i den personlige profiltabel. Alle profilopsætninger som er skjult eller slået fra kan kun redigeres ved brug af administration"
+
+msgid "usr_settings_header_profile"
+msgstr "Brugerprofilopsætninger"
+
+msgid "usr_settings_saved"
+msgstr "de globale brugeropsætninger er gemt korrekt."
+
+#, fuzzy
+msgid "usr_settings_visib_lua"
+msgstr "Visible in Local User Administration"
+
+msgid "usr_skin_style"
+msgstr "Design / Layout"
+
+msgid "usr_without_courses"
+msgstr "Brugere uden kurser"
+
+msgid "usrf"
+msgstr "Brugerkonti"
+
+#, fuzzy
+msgid "usrf_profile_link"
+msgstr "Link to user profile"
+
+msgid "usrimport_action_ignored"
+msgstr "Ignorerede %1$s handling(er)."
+
+msgid "usrimport_action_replaced"
+msgstr "Erstattede '%1$s'-handlingen med '%2$s'-handlingen."
+
+msgid "usrimport_cant_delete"
+msgstr "Kunne ikke udføre \"Delete\", da brugeren ikke findes i databasen."
+
+msgid "usrimport_cant_insert"
+msgstr "Kunne ikke udføre \"Insert\", da brugeren findes i forvejen."
+
+msgid "usrimport_cant_update"
+msgstr "Kunne ikke udføre \"Update\", da brugeren ikke findes i forvejen."
+
+msgid "usrimport_conflict_handling_info"
+msgstr "Når \"ignorer ved konflikt\" er valgt springer ILIAS blot over handlinger der ikke kan udføres, f.eks. hvis en bruger findes i databasen i forvejen i forbindelse med indsætning.\\nNær \"Opdater ved konflikt\" er valgt vil ILIAS i stedet opdatere databasen med de nye informationer."
+
+#, fuzzy
+msgid "usrimport_form_not_evaluabe"
+msgstr "The form data couldn't be read."
+
+msgid "usrimport_global_role_for_action_required"
+msgstr "Mindst en global rolle skal angives for \"%1$s\" handlingen."
+
+msgid "usrimport_ignore_role"
+msgstr "Ignorer rolle"
+
+msgid "usrimport_login_is_not_unique"
+msgstr "Login er ikke unikt"
+
+msgid "usrimport_no_insert_ext_account_exists"
+msgstr "Kan ikke udføre \"Insert\". Ekstern konto eksisterer i forvejen."
+
+msgid "usrimport_no_update_ext_account_exists"
+msgstr "Kan ikke udføre \"Update\". Ekstern konto eksisterer i forvejen."
+
+msgid "usrimport_with_specified_role_not_permitted"
+msgstr "Import med den specifikke rolle er ikke tiladt"
+
+#, fuzzy
+msgid "usrimport_wrong_file_count"
+msgstr "Too many files in import-folder. Please try again."
+
+#, fuzzy
+msgid "usrimport_xml_anonymous_or_root_not_allowed"
+msgstr "Neither the system-account nor the anonymous account can be changed through the import."
+
+msgid "usrimport_xml_attribute_missing"
+msgstr "Attributten \"%2$s\" i elementet \"%1$s\" mangler"
+
+msgid "usrimport_xml_attribute_value_illegal"
+msgstr "Værdien %3$s af attribut %2$s i element %1$s er ulovlig"
+
+msgid "usrimport_xml_attribute_value_inapplicable"
+msgstr "Værdien %3$s af attribut %2$s i element %1$s kan ikke tildeles %4$s handling."
+
+msgid "usrimport_xml_element_content_illegal"
+msgstr "Indhold \"%2$s\" i elementet \"%1$s\" er ikke korrekt"
+
+msgid "usrimport_xml_element_for_action_required"
+msgstr "Element \"%1$s\" skal angives for \"%2$s\" handlingen"
+
+msgid "usrimport_xml_element_inapplicable"
+msgstr "Element '%1$s' er uanvendelig til '%2$s' handling"
+
+msgid "valid"
+msgstr "Gyldig"
+
+msgid "validate"
+msgstr "Valider"
+
+msgid "value"
+msgstr "Værdi"
+
+msgid "vcard"
+msgstr "Visitkort"
+
+msgid "vcard_download"
+msgstr "Download visitkort"
+
+msgid "verification_failed"
+msgstr "Verifikation af filen mislykkedes"
+
+msgid "verification_failure_log"
+msgstr "Konstaterede fejl"
+
+msgid "verification_warning_log"
+msgstr "Verificeringsadvarsel!"
+
+msgid "version"
+msgstr "Version"
+
+msgid "versions"
+msgstr "Versioner"
+
+msgid "view"
+msgstr "Vis"
+
+msgid "view_content"
+msgstr "Vis indhold"
+
+#, fuzzy
+msgid "view_learning_progress"
+msgstr "View Learning Progress"
+
+#, fuzzy
+msgid "view_learning_progress_rec"
+msgstr "View Learning Progress of Unit incl. Subunits"
+
+msgid "visible"
+msgstr "Synlig"
+
+msgid "visible_registration"
+msgstr "Synlig i brugeroprettelse"
+
+msgid "visitor"
+msgstr "Besøgende"
+
+msgid "visitors"
+msgstr "Flere besøgende"
+
+msgid "visits"
+msgstr "Besøg"
+
+msgid "web_resources"
+msgstr "Webresurser"
+
+msgid "webdav"
+msgstr "WebDAV"
+
+#, fuzzy
+msgid "webdav_add_instructions_btn_label"
+msgstr "Add Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_chosen_language_already_used"
+msgstr "There already is another document associated with the chosen language"
+
+#, fuzzy
+msgid "webdav_doc_delete"
+msgstr "Delete WebDav Mount Instructions"
+
+#, fuzzy
+msgid "webdav_docs_mount_instructions"
+msgstr "Mount Instructions Documents"
+
+#, fuzzy
+msgid "webdav_duplicate_detected_title"
+msgstr "Following objects could not be displayed, because an object with the same Title is already being shown:"
+
+#, fuzzy
+msgid "webdav_forbidden_chars_title"
+msgstr "Following files cannot be displayed, because they contain one or more forbidden characters (\\<>/:*?\"|#):"
+
+#, fuzzy
+msgid "webdav_form_document"
+msgstr "Instructions Document"
+
+#, fuzzy
+msgid "webdav_form_document_info"
+msgstr "Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information"
+
+#, fuzzy
+msgid "webdav_form_document_title"
+msgstr "Title"
+
+#, fuzzy
+msgid "webdav_form_document_title_info"
+msgstr "This title will be dislayed as the title of the modal when the Mount Instructions are opened"
+
+#, fuzzy
+msgid "webdav_form_edit_doc_head"
+msgstr "Edit Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_form_new_doc_head"
+msgstr "Create new Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_general_settings"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "webdav_missing_lang"
+msgstr "There is no english version of the WebDAV Mount Instructions"
+
+#, fuzzy
+msgid "webdav_mount_instructions"
+msgstr "Mount Instructions"
+
+#, fuzzy
+msgid "webdav_problem_free_container"
+msgstr "There are no objects that cause problems in this container."
+
+#, fuzzy
+msgid "webdav_problem_info_duplicate"
+msgstr "There is a file with the same title as the info file."
+
+#, fuzzy
+msgid "webdav_pwd_instruction"
+msgstr "We suggest to create a local password for opening the repository as webfolder.<br />This password is only required for the webfolder functionalities."
+
+#, fuzzy
+msgid "webdav_pwd_instruction_success"
+msgstr "A new local password has been created. You can now open the repository as webfolder."
+
+#, fuzzy
+msgid "webdav_sure_delete_documents_s"
+msgstr "Are you sure you want to delete the Mount Instructions with the following title:"
+
+#, fuzzy
+msgid "webdav_tbl_docs_head_title"
+msgstr "Dokument title"
+
+#, fuzzy
+msgid "webdav_tbl_docs_title"
+msgstr "List of uploaded WebDAV Mount Instructions"
+
+#, fuzzy
+msgid "webdav_upload_instructions"
+msgstr "Upload Instructions"
+
+msgid "webfolder_dir_info"
+msgstr "Du endte her fordi din browser ikke kan åbne webfoldere. Læs <a href=\"%1$s\">instruktioner i at åbne webfoldere</a>."
+
+#, fuzzy
+msgid "webfolder_index_of"
+msgstr "Index af %1$s"
+
+msgid "webfolder_instructions"
+msgstr "Webfolder instruktioner"
+
+#, fuzzy
+msgid "webfolder_instructions_info"
+msgstr "The webfolder instructions are shown on browsers, which can not open a webfolder directly. You can use HTML code, and the following placeholders: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[WINDOWS]</b>...<b>[/WINDOWS]</b>, <b>[MAC]</b>...<b>[/MAC]</b>, <b>[LINUX]</b>...<b>[/LINUX]</b>. Clear the field to get the default instructions."
+
+#, fuzzy
+msgid "webfolder_instructions_text"
+msgstr "<p>Følg instruktionerne nedenfor for at åbne <b>[WEBFOLDER_TITLE]</b> som en webmappe:</p>[WINDOWS]<h3>Instruktioner til Windows XP med Internet Explorer</h3><ol><li>Start Internet Explorer</li><li>Vælg i menuen'Fil &gt; Åben...'</li><li>I 'Åben' fentet indtaster du følgende adresse:<br/><b>[WEBFOLDER_URI]</b></li><li>Vælg 'Åben som webmappe' muligheden, tryk 'OK'.</li><li>Indtast brugernavn og kodeord, tryk 'OK'.</li></ol><h3>Instructions for Windows XP without Internet Explorer</h3><ol><li>Double-click the 'My Network Places' icon on the Desktop.</li><li>Click on 'Add Network Place' from the 'Network Tasks' menu on the left side of the window.</li><li>The 'Add a Network Place' wizard will open, select 'Next'.</li><li>Select the 'Choose Another Network Location' option, and select 'Next'.<li>In the 'Internet or Network Address' field enter<br/><b>[WEBFOLDER_URI]</b><br/>then select 'Next'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/WINDOWS][MAC]<h3>Instructions for Mac OS X</h3><ol><li>Open the Finder</li><li>Choose the menu 'Go &gt; Connect to server...'</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI]</b>, and select 'Connect'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/MAC][LINUX]<h3>Instructions for Linux with Konqueror</h3><ol><li>Start the Konqueror browser</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>Press the Enter key.</li><li>Enter your login and password, and select 'OK'.</li></ol><h3>Instructions for Linux with Nautilus</h3><ol><li>Start the Nautilus browser</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>Press the Enter key.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/LINUX]<p>If opening the webfolder does not work, please contact <a href=\"mailto:[ADMIN_MAIL]\">[ADMIN_MAIL]</a>.</p>"
+
+msgid "webfolder_instructions_titletext"
+msgstr "Åben som webfolder"
+
+msgid "webfolder_mount_dir_with"
+msgstr "Åben denne side som en webmappe med <a href=\"%1$s\">Internet Explorer</a>, <a href=\"%2$s\">Konqueror</a>, <a href=\"%3$s\">anden browser</a>."
+
+msgid "webr"
+msgstr "Webresurse"
+
+msgid "webr_active"
+msgstr "Aktiv"
+
+msgid "webr_add"
+msgstr "Tilføj webresurse"
+
+msgid "webr_deleted_items"
+msgstr "Fjernede webresurse(r)"
+
+msgid "webr_edit"
+msgstr "Rediger webresurse"
+
+msgid "webr_sure_delete_items"
+msgstr "Er du sikker på at du vil fjerne de(n) følgende webresurse(r) ?"
+
+msgid "webservices"
+msgstr "Webservices"
+
+msgid "week"
+msgstr "Uge"
+
+msgid "weekly"
+msgstr "Ugentlig"
+
+msgid "weeks"
+msgstr "Uger"
+
+msgid "welcome"
+msgstr "Velkommen"
+
+msgid "width"
+msgstr "bredde"
+
+msgid "wiki"
+msgstr "Wiki"
+
+msgid "wiki_add"
+msgstr "Tilføj Wiki"
+
+msgid "wiki_new"
+msgstr "Ny Wiki"
+
+msgid "with"
+msgstr "Med"
+
+#, fuzzy
+msgid "withdraw_consent"
+msgstr "Withdraw Consent"
+
+#, fuzzy
+msgid "withdraw_consent_info_internal"
+msgstr "If you click on ‘Withdraw Consent’, your account will be deleted."
+
+#, fuzzy
+msgid "withdraw_usr_agreement"
+msgstr "Withdraw Consent"
+
+#, fuzzy
+msgid "withdrawal_complete"
+msgstr "Withdrawal of consent complete."
+
+#, fuzzy
+msgid "withdrawal_complete_deleted"
+msgstr "Withdrawal of consent complete, account deleted."
+
+#, fuzzy
+msgid "withdrawal_complete_redirect"
+msgstr "Withdrawal of consent complete. To have your account deleted, please contact your organisation."
+
+#, fuzzy
+msgid "withdrawal_mail_info"
+msgstr "The following email will be sent to an administrator after confirming the withdrawal of your consent:[BR][BR]"
+
+#, fuzzy
+msgid "withdrawal_mail_subject"
+msgstr "Withdrawal of Consent to Terms of Service"
+
+#, fuzzy
+msgid "withdrawal_mail_text"
+msgstr "Dear Sir/Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installation’s Terms of Service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Yours faithfully[BR]%1$s"
+
+#, fuzzy
+msgid "withdrawal_sure_account"
+msgstr "Are you sure you want to confirm the withdrawal of your consent?"
+
+#, fuzzy
+msgid "withdrawal_sure_account_deletion"
+msgstr "Are you sure you want to confirm the withdrawal of your consent? This will result in your user account being irrevocably deleted."
+
+#, fuzzy
+msgid "withdrawal_sure_account_deletion_no_consent_yet"
+msgstr "Are you sure that you do not want to accept the Terms of Service? This will result in your user account being irrevocably deleted."
+
+#, fuzzy
+msgid "withdrawal_sure_account_no_consent_yet"
+msgstr "Are you sure that you do not want to accept the Terms of Service?"
+
+msgid "wizard_search_list"
+msgstr "Din søgning matchede nedenstående. Vælg en af resultaterne."
+
+msgid "wizard_title_info"
+msgstr "Indtast titlen på det objekt du ønsker at kopiere."
+
+msgid "write"
+msgstr "Skriv"
+
+msgid "year"
+msgstr "Year"
+
+msgid "yearly"
+msgstr "årligt"
+
+msgid "years"
+msgstr "Years"
+
+msgid "yes"
+msgstr "Ja"
+
+msgid "yesterday"
+msgstr "I går"
+
+msgid "zip"
+msgstr "Postnummer"
+
+msgid "zip_structure_error"
+msgstr "Arkivet indeholder identiske filnavne. Upload er afbrudt."
+
+msgid "zip_test_failed"
+msgstr "Zip-testen fejlede. Du kan evt. kontakte systemadministrator."
+
+msgid "zipcode"
+msgstr "Postnummer"

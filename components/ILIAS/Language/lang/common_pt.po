@@ -1,0 +1,8199 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: common\n"
+
+msgid "HH"
+msgstr "HH:MM"
+
+msgid "absolute_path"
+msgstr "Caminho absoluto"
+
+#, fuzzy
+msgid "accept_usr_agreement_btn"
+msgstr "Accept"
+
+msgid "access"
+msgstr "Contar"
+
+msgid "accessFree"
+msgstr "País (entrada de texto livre"
+
+msgid "accessRestrict"
+msgstr "Curso"
+
+msgid "access_expired"
+msgstr "expirado"
+
+msgid "access_free_granted"
+msgstr "Definir o(s) utilizador(es) selecionado(s) para acesso ilimitado"
+
+msgid "access_from"
+msgstr "Cursos"
+
+msgid "access_public"
+msgstr "Público"
+
+msgid "access_restricted"
+msgstr "Definir o(s) utilizador(es) selecionado(s) para acesso imitado"
+
+msgid "access_scope"
+msgstr "Criar"
+
+msgid "access_unlimited"
+msgstr "Data de criação"
+
+msgid "access_until"
+msgstr "Criado a"
+
+msgid "access_users"
+msgstr "Registado em utilizadores"
+
+msgid "accesscount_registered_users"
+msgstr "País"
+
+#, fuzzy
+msgid "accessibility_control_concept"
+msgstr "Accessibility Control Concept"
+
+#, fuzzy
+msgid "account"
+msgstr "My Account"
+
+msgid "account_expires_body"
+msgstr "A sua conta é limitada, vai expirar a:"
+
+msgid "account_expires_subject"
+msgstr "Criar estilo"
+
+msgid "action"
+msgstr "Se estiver ativado, todos os utilizadores que ativaram as notificações para certos fóruns ou grupos de fóruns receberão diariamente um e-mail de notificação sobre todos os posts novos ou alterados, mas nenhuma notificação imediata para cada posting submetido."
+
+msgid "action_aborted"
+msgstr "Se estiver ativado, o índice de procura lucene será atualizado. Configure o servidor lucene em ’Administração -> Procura’."
+
+msgid "actions"
+msgstr "Se estiver ativado, todos os utilizadores que querem ser informados sobre novos posts em grupos de fóruns especificados, receberão notificações por correio."
+
+#, fuzzy
+msgid "actions_for"
+msgstr "Actions for %s"
+
+msgid "activate"
+msgstr "Definir ativo"
+
+msgid "activate_https"
+msgstr "Se estiver ativado, todos os utilizadores, que querem ser informados sobre o novo correio, receberão notificações por correio externo. Ative a opção ‘%s’ antes de usar esta função."
+
+msgid "activate_tracking"
+msgstr "Curso"
+
+msgid "activation"
+msgstr "Link do curso"
+
+msgid "active"
+msgstr "Escolha um curso para criar um novo link."
+
+msgid "add"
+msgstr "Criar link de curso"
+
+msgid "add_condition"
+msgstr "Editar curso"
+
+msgid "add_entry"
+msgstr "Adicionar/Editar entrada"
+
+msgid "add_member"
+msgstr "Galeria dos membros do curso"
+
+#, fuzzy
+msgid "add_member_role"
+msgstr "Add Member Role"
+
+msgid "add_new_user_defined_field"
+msgstr "Reprovado"
+
+msgid "add_note"
+msgstr "Novo curso"
+
+msgid "add_parameter"
+msgstr "Novo parâmetro"
+
+msgid "add_remove_edit_entries_of_main_menu"
+msgstr "[Acesso negado]"
+
+#, fuzzy
+msgid "add_role"
+msgstr "Add Role"
+
+msgid "add_translation"
+msgstr "Titulo do curso"
+
+msgid "add_user"
+msgstr "Adicionar utilizador local"
+
+msgid "add_user_defined_field"
+msgstr "Adicionar novo campo"
+
+msgid "added_new_condition"
+msgstr "Novo condição criado."
+
+msgid "additional_info"
+msgstr "Adicionar curso"
+
+msgid "address"
+msgstr "Curso adicionado"
+
+msgid "admin_force_noti"
+msgstr "Notificação ativa"
+
+msgid "administrate_users"
+msgstr "Administração de utilizadores local"
+
+#, fuzzy
+msgid "administrate_users_headline"
+msgstr "Local ILIAS Accounts of this Category"
+
+msgid "administration"
+msgstr "Cancelar a inscrição do curso"
+
+msgid "administrator"
+msgstr "Palavra-passe atual"
+
+msgid "adopt"
+msgstr "Cortar"
+
+msgid "advanced_editing_allow_html_tags"
+msgstr "Autorizar os tags HTML selecionados para a edição de texto"
+
+msgid "advanced_editing_assessment_settings"
+msgstr "Cortar"
+
+msgid "advanced_editing_frm_post_settings"
+msgstr "Definições de posts de fóruns"
+
+msgid "advanced_editing_rep_page_editing"
+msgstr "Ativar edição de conteúdo no repositório"
+
+msgid "advanced_editing_rep_page_editing_desc"
+msgstr "Base de dados"
+
+msgid "advanced_editing_required_tags"
+msgstr "São preciso os seguintes tags HTML: %s"
+
+msgid "advanced_editing_survey_settings"
+msgstr "Tags HTML permitidos para a ferramenta de inquérito ILIAS"
+
+msgid "adve_assessment_settings"
+msgstr "Versão atual da base de dados"
+
+msgid "adve_frm_post_settings"
+msgstr "Posts de fóruns"
+
+msgid "adve_general_settings"
+msgstr "Definições gerais"
+
+msgid "adve_survey_settings"
+msgstr "Data"
+
+msgid "agree_date"
+msgstr "Acordado"
+
+msgid "all"
+msgstr "Calendário"
+
+msgid "all_global_roles"
+msgstr "Funções globais"
+
+msgid "all_local_roles"
+msgstr "Funções locais (todas)"
+
+msgid "all_objects"
+msgstr "Host da base de dados"
+
+msgid "all_roles"
+msgstr "Todas as funções"
+
+msgid "all_topics"
+msgstr "Todos os tópicos"
+
+msgid "all_users"
+msgstr "Nome da base de dados"
+
+msgid "allow_assign_users"
+msgstr "Autoriza a atribuição de utilizador para administradores locais."
+
+msgid "allow_override_alert"
+msgstr "As regras para .htaccess não são corretamente interpretadas."
+
+msgid "allow_register"
+msgstr "Dia"
+
+msgid "allow_user_toggle_noti"
+msgstr "Dias"
+
+msgid "already_delivered_files"
+msgstr "A base de dados necessita de uma atualização!"
+
+msgid "and"
+msgstr "Palavra-passe da base de dados"
+
+msgid "angry"
+msgstr "Tipo de base de dados"
+
+msgid "anonymous"
+msgstr "Anónimo"
+
+msgid "answers"
+msgstr "Utilizador da base de dados"
+
+msgid "any_language"
+msgstr "Versão da base de dados"
+
+msgid "apache_auth"
+msgstr "Autenticação Apache"
+
+msgid "application_completed"
+msgstr "Definir para inativo"
+
+msgid "application_date"
+msgstr "Predefinição"
+
+msgid "applications"
+msgstr "Aplicações"
+
+msgid "apply"
+msgstr "Aplicar"
+
+msgid "apply_filter"
+msgstr "Idioma predefinido"
+
+msgid "appointment"
+msgstr "Permissões predefinidas"
+
+msgid "approve_date"
+msgstr "Aprovado em"
+
+msgid "approve_recipient"
+msgstr "ID de login do aprovador"
+
+msgid "archive"
+msgstr "Função predefinida"
+
+msgid "archive_broken"
+msgstr "O arquivo parece estar partido ou vazio."
+
+msgid "are_you_sure"
+msgstr "Funções predefinidas"
+
+msgid "assf_allowed_questiontypes"
+msgstr "Tipos de perguntas disponíveis"
+
+msgid "assf_allowed_questiontypes_desc"
+msgstr "Todos os tipos de perguntas selecionados estarão disponíveis nesta instalação de ILIAS. Se não quiser autorizar a criação de certo tipo de pergunta nesta instalação, tem de retirar a seleção no quadrado associado."
+
+msgid "assf_questiontypes"
+msgstr "Definições de perguntas"
+
+msgid "assign"
+msgstr "Apagar"
+
+msgid "assign_global_role"
+msgstr "Apagado"
+
+msgid "assign_local_role"
+msgstr "Atribuir à função local"
+
+msgid "assigned_members"
+msgstr "Membros atribuídos"
+
+msgid "assigned_roles"
+msgstr "Funções atribuídas"
+
+msgid "associated_user"
+msgstr "Utilizador associado"
+
+msgid "astounded"
+msgstr "Se estiver ativado, as contas do utilizador serão apagadas %s dias após inativação."
+
+msgid "at_least_one_style"
+msgstr "Pelo menos um estilo tem de permanecer ativado."
+
+msgid "attachment"
+msgstr "Dias passados desde a inativação"
+
+msgid "attachments"
+msgstr "As contas serão apagadas quando tiver passado este período de tempo desde a inativação."
+
+msgid "attempts"
+msgstr "Tentativas"
+
+msgid "auth_active_roles"
+msgstr "Apagar"
+
+msgid "auth_allow_local"
+msgstr "Autorizar autenticação local"
+
+msgid "auth_configure"
+msgstr "a configurar..."
+
+msgid "auth_create_users"
+msgstr "Criar automaticamente utilizadores inexistentes"
+
+msgid "auth_default"
+msgstr "Definição padrão"
+
+msgid "auth_default_mode_changed_to"
+msgstr "Modo de autenticação predefinido alterado para"
+
+msgid "auth_ecs"
+msgstr "ECS"
+
+msgid "auth_ldap"
+msgstr "LDAP"
+
+msgid "auth_ldap_enable"
+msgstr "Ativar suporte LDAP"
+
+msgid "auth_ldap_migration"
+msgstr "Migração de conta"
+
+msgid "auth_ldap_migration_info"
+msgstr "Ative esta opção para permitir aos utilizadores migrar as suas contas ILIAS existentes para a autenticação LDAP."
+
+msgid "auth_local"
+msgstr "Entregar"
+
+msgid "auth_login_instructions"
+msgstr "Instruções apresentadas na página de login"
+
+msgid "auth_mode"
+msgstr "Modo de autenticação"
+
+msgid "auth_mode_not_changed"
+msgstr "(Nada mudou)"
+
+msgid "auth_mode_roles_changed"
+msgstr "Modo de autenticação alterado para esta função"
+
+msgid "auth_new_account_mail_desc"
+msgstr "Departamento"
+
+msgid "auth_per_default"
+msgstr "Descrição"
+
+msgid "auth_remark_non_local_auth"
+msgstr "Descrição"
+
+msgid "auth_role_auth_mode"
+msgstr "Modo de autenticação"
+
+msgid "auth_saml"
+msgstr "SAML"
+
+msgid "auth_script"
+msgstr "Personalizado"
+
+msgid "auth_select"
+msgstr "Selecionar modo de autenticação"
+
+msgid "auth_selection"
+msgstr "Palavra-passe desejada"
+
+msgid "auth_settings"
+msgstr "Definições de autenticação"
+
+msgid "auth_shib"
+msgstr "Shibboleth"
+
+msgid "auth_shib_instructions"
+msgstr "Certifique-se que lê README relativamente às instruções sobre como configurar o suporte Shibboleth para ILIAS."
+
+msgid "auth_shib_not_configured"
+msgstr "Shibboleth ainda não está configurado"
+
+msgid "auth_shibboleth"
+msgstr "Shibboleth"
+
+msgid "auth_soap"
+msgstr "SOAP"
+
+msgid "auth_soap_allow_local_desc"
+msgstr "Isto permite aos utilizadores SOAP autenticarem-se com o seu nome de utilizador ILIAS local e uma palavra-passe local."
+
+msgid "auth_soap_auth"
+msgstr "Configurar autenticação SOAP"
+
+msgid "auth_soap_auth_desc"
+msgstr "Esta definição trata apenas de SOAP baseado na autenticação do utilizador, e não da interface SOAP de ILIAS."
+
+msgid "auth_soap_create_users_desc"
+msgstr "Cria automaticamente uma conta de utilizador ILIAS, para utilizadores autenticados com sucesso contra SOAP, sem ter ainda uma conta ILIAS."
+
+msgid "auth_soap_namespace"
+msgstr "Espaço para o nome"
+
+msgid "auth_soap_namespace_desc"
+msgstr "Conforme definido em WSDL. Tem de estar especificado, se for usado o estilo .NET SOAP."
+
+msgid "auth_soap_port_desc"
+msgstr "P. ex. 8080 se o URI de servidor inteiro SOAP for http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_server_desc"
+msgstr "P. ex. auth.yourserver.com se o URI de servidor inteiro SOAP for http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_settings_saved"
+msgstr "Definições de autenticação SOAP guardadas"
+
+msgid "auth_soap_uri_desc"
+msgstr "Local URI, e.g. dir/server.php se o URI de servidor inteiro SOAP for http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_use_dotnet"
+msgstr "Usar o estilo .NET SOAP"
+
+msgid "auth_soap_use_https"
+msgstr "Usar HTTPS"
+
+msgid "auth_soap_user_default_role_desc"
+msgstr "Esta função é atribuída a utilizadores SOAP automaticamente criados."
+
+msgid "auth_user_default_role"
+msgstr "Detalhes"
+
+msgid "authenticate_ilias"
+msgstr "Apagar contas de utilizador inativas"
+
+msgid "authentication_settings"
+msgstr "Autenticação"
+
+msgid "author"
+msgstr "Dias passados desde o último login"
+
+msgid "authoring_mode"
+msgstr "Modo de autorização"
+
+msgid "authors"
+msgstr "Todas as contas do utilizador sem login durante o período de tempo definido serão apagadas."
+
+msgid "autocomplete_more"
+msgstr "mais"
+
+msgid "available"
+msgstr "Desativado"
+
+#, fuzzy
+msgid "awra"
+msgstr "Who is online?"
+
+msgid "back"
+msgstr "Desativar manutenção prolongada"
+
+#, fuzzy
+msgid "back_to_course"
+msgstr "Back to Course"
+
+msgid "back_to_crs_content"
+msgstr "Voltar ao conteúdo do curso"
+
+msgid "back_to_fold_content"
+msgstr "Voltar ao conteúdo da pasta"
+
+msgid "back_to_grp_content"
+msgstr "Voltar ao conteúdo do grupo"
+
+msgid "backto_lua"
+msgstr "Voltar à administração de utilizadores local"
+
+msgid "basedn"
+msgstr "BaseDN"
+
+msgid "basic_settings"
+msgstr "Definições básicas"
+
+msgid "before"
+msgstr "antes"
+
+msgid "behind"
+msgstr "Atrás"
+
+msgid "bib_data"
+msgstr "Dados bibliográficos"
+
+#, fuzzy
+msgid "bibl_add"
+msgstr "Add Bibliography"
+
+msgid "birthday"
+msgstr "Baixo"
+
+msgid "bkm_import"
+msgstr "Download"
+
+msgid "bkm_import_ok"
+msgstr "Favoritos e %d pastas de favoritos %d importados com sucesso."
+
+msgid "bkm_sendmail"
+msgstr "Definições de download"
+
+msgid "block"
+msgstr "Download todos os ficheiros devolvidos"
+
+msgid "bm"
+msgstr "Rascunhos"
+
+msgid "bm_add_to_ilias"
+msgstr "Editar conteúdo"
+
+msgid "bmf"
+msgstr "Editar"
+
+msgid "bold"
+msgstr "Editar limitação da adesão"
+
+#, fuzzy
+msgid "bold_action"
+msgstr "Insert Bold - Click to insert bold text."
+
+msgid "bookings"
+msgstr "Reservas"
+
+msgid "bookmark_added"
+msgstr "O favorito foi criado."
+
+msgid "bookmark_folder_new"
+msgstr "Editar conteúdo da página"
+
+msgid "bookmark_new"
+msgstr "Editar propriedades"
+
+msgid "bookmark_target"
+msgstr "Editar estilo"
+
+msgid "bookmarks"
+msgstr "Editar operações"
+
+msgid "bookmarks_of"
+msgstr "Editar página"
+
+msgid "breadcrumb_navigation"
+msgstr "O endereço de email que inseriu é inválido!"
+
+#, fuzzy
+msgid "breadcrumbs_aria_label"
+msgstr "Breadcrumbs"
+
+#, fuzzy
+msgid "briefcase"
+msgstr "Background Tasks"
+
+msgid "btn_add"
+msgstr "Ativar"
+
+msgid "btn_back"
+msgstr "Ativado"
+
+msgid "btn_next"
+msgstr "Continuar"
+
+msgid "btn_previous"
+msgstr "Se esta opção estiver desativada, a funcionalidade ‘Posting com pseudónimo’ deixa de estar disponível em fóruns."
+
+msgid "btn_remove_system"
+msgstr "Isto permite-lhe definir ícones personalizados para categorias individuais, cursos e grupos. A secção das propriedades das categorias, cursos e grupos fornece uma caixa de diálogo para carregar imagens."
+
+msgid "btn_undelete"
+msgstr "Permite descarregar uma pasta incluindo subestruturas como ficheiro zip."
+
+msgid "buddy_allow_to_contact_me_no"
+msgstr "Não recebe pedidos de contacto"
+
+msgid "buddy_allow_to_contact_me_yes"
+msgstr "Recebe pedidos de contacto"
+
+msgid "building_export_file"
+msgstr "A criar ficheiro de exportação..."
+
+#, fuzzy
+msgid "bulletlist_action"
+msgstr "Insert Bulletpoint-List - Click to insert a bulletpoint-list."
+
+msgid "by"
+msgstr "Permite a exportação dos dados do utilizador dos módulos de aprendizagem SCORM"
+
+msgid "bytes"
+msgstr "Bytes"
+
+msgid "cal_from"
+msgstr "De:"
+
+msgid "cal_until"
+msgstr "Até:"
+
+msgid "calendar"
+msgstr "Dá aos autores a oportunidade de adicionar comentários ao registo do histórico das páginas."
+
+msgid "cancel"
+msgstr "Ativar ajuda de palavra-passe"
+
+msgid "cancel_file_upload"
+msgstr "Tem a certeza que quer cancelar todos os uploads pendentes?"
+
+msgid "cannot_find_xml"
+msgstr "Mostrar dados do protocolo (SCORM)"
+
+msgid "cannot_uninstall_language_in_use"
+msgstr "Área pública aberta para motores de busca da Internet (p. ex Google).<br />O módulo Apache ‘mod_rewrite’ é necessário para esta extensão. Certifique-se que tem as permissões apropriadas para usar as configurações .htaccess."
+
+msgid "cannot_uninstall_systemlanguage"
+msgstr "Ativar lixo"
+
+msgid "cannot_unzip_file"
+msgstr "Permite aos clientes WebDAV aceder ao repositório como uma pasta web. Os utilizadores podem abrir pastas da web usando a ação ‘Abrir como pasta web’ no repositório ou se introduzirem o seguinte endereço num cliente WebDAV: <a href=\"%1$s\" folder=\"%1$s\">%1$s</a>"
+
+msgid "cant_deactivate_if_users_assigned"
+msgstr "Não pode desativar um estilo, se ainda houver utilizadores atribuídos a ele."
+
+msgid "cat"
+msgstr "A extração do arquivo e respetivos diretórios falhou. Provavelmente porque não tem a permissão para criar pastas ou categorias dentro deste objeto."
+
+msgid "cat_add"
+msgstr "A autenticação falhou. Talvez não tenha um certificado de utilizador válido ou o seu smart card não está inserido."
+
+msgid "cat_added"
+msgstr "Razão: Contagem de parâmetros errada"
+
+msgid "cat_copy_threads_info"
+msgstr "Decida que itens da categoria devem ser copiados, associados ou até omitidos."
+
+msgid "cat_edit"
+msgstr "Erro na linha"
+
+msgid "cat_new"
+msgstr "Nenhum ficheiro de idioma encontrado!"
+
+msgid "cat_wizard_page"
+msgstr "Copiar categoria (passo 2/2)"
+
+msgid "categories"
+msgstr "Erro a iniciar o analisador."
+
+msgid "categories_imported"
+msgstr "Erro de destinatário"
+
+msgid "catr"
+msgstr "O carregamento falhou, pois esta é uma pasta, o tamanho do ficheiro é 0 bytes ou excedeu o tamanho máx. de carregamento ou o ficheiro entretanto mudou de nome."
+
+#, fuzzy
+msgid "catr_add"
+msgstr "Add Category Link"
+
+msgid "catr_edit_info"
+msgstr "Apenas 1 parâmetro!"
+
+msgid "catr_new"
+msgstr "Apenas 2 parâmetro!"
+
+#, fuzzy
+msgid "catr_settings"
+msgstr "Category Link Settings"
+
+msgid "certificate"
+msgstr "Certificado"
+
+msgid "certificate_file_already_exists_error"
+msgstr "Nenhum parâmetro!"
+
+msgid "certificate_file_input_output_error"
+msgstr "Mais de 3 parâmetros!"
+
+msgid "certificate_file_not_found_error"
+msgstr "Você não pode atribuir utilizadores a esta função nesta localização"
+
+msgid "certificate_persistent_option"
+msgstr "A sua sessão expirou!"
+
+msgid "certificate_selection"
+msgstr "Razão: Cabeçalho errado."
+
+msgid "certificate_workspace_option"
+msgstr "Login ou palavra-passe errada"
+
+#, fuzzy
+msgid "certificates"
+msgstr "Certificates"
+
+msgid "change"
+msgstr "Palavra-passe errada"
+
+msgid "change_assignment"
+msgstr "Adicionar exercício"
+
+msgid "change_header_title"
+msgstr "Editar título do cabeçalho"
+
+msgid "change_owner"
+msgstr "Mudar proprietário"
+
+msgid "change_sort_direction"
+msgstr "Exercício adicionado"
+
+msgid "changeable"
+msgstr "Exercício"
+
+msgid "changed_to"
+msgstr "Exercícios"
+
+msgid "changing_loginname_not_possible_info"
+msgstr "Mudou o seu nome de login pela última vez em %s. A próxima alteração pode ser realizada em %s."
+
+msgid "chapter"
+msgstr "A data não é válida"
+
+msgid "characters"
+msgstr "caracteres"
+
+msgid "chat_enter_public_room"
+msgstr "Chat público"
+
+msgid "chat_enter_public_room_tooltip"
+msgstr "Introduzir chat público."
+
+msgid "chat_users_active"
+msgstr "Utilizadores ativos"
+
+msgid "check"
+msgstr "Remover participante(s)"
+
+msgid "check_all"
+msgstr "Marcar todos"
+
+msgid "check_langfile"
+msgstr "Editar exercício"
+
+msgid "check_languages"
+msgstr "Editar até"
+
+msgid "check_link"
+msgstr "Ficheiros"
+
+msgid "check_link_desc"
+msgstr "Ficheiros submetidos"
+
+msgid "check_user_accounts"
+msgstr "Instruções de trabalho"
+
+msgid "check_user_accounts_desc"
+msgstr "Última submissão"
+
+msgid "check_web_resources"
+msgstr "Estes utilizadores já estão atribuídos à tarefa"
+
+msgid "check_web_resources_desc"
+msgstr "Membros atribuídos"
+
+msgid "checked"
+msgstr "Marcado"
+
+msgid "checked_files"
+msgstr "Novo exercício criado"
+
+msgid "chg_ilias_and_webfolder_password"
+msgstr "Novo exercício"
+
+msgid "chg_ilias_password"
+msgstr "Exercício"
+
+msgid "chg_password"
+msgstr "Guardar"
+
+msgid "choose_language"
+msgstr "Selecione exatamente um ficheiro."
+
+msgid "choose_only_one_language"
+msgstr "O exercício foi enviado aos utilizadores selecionados"
+
+msgid "chown_warning"
+msgstr "Atenção, pode perder as autorizações de acesso relativamente a este objeto depois de mudar o proprietário."
+
+msgid "chta_edit_permission"
+msgstr "Mudar definições de permissões"
+
+msgid "chta_read"
+msgstr "Enviado a <br />%s"
+
+msgid "chta_visible"
+msgstr "Exercício atualizado"
+
+msgid "chta_write"
+msgstr "O tempo acabou."
+
+msgid "chtr_copy"
+msgstr "Erro ao carregar o ficheiro"
+
+msgid "chtr_import"
+msgstr "Importar sala de chat"
+
+msgid "city"
+msgstr "Executar"
+
+msgid "cleaned_file"
+msgstr "O ficheiro foi limpo."
+
+msgid "cleaning_failed"
+msgstr "Limpeza falhou."
+
+msgid "clear"
+msgstr "O tempo concedido para completar este exercício terminou. Já não é possível enviar ficheiros!"
+
+msgid "clear_clipboard"
+msgstr "Exportar"
+
+msgid "client"
+msgstr "Exportar como ficheiro HTML"
+
+msgid "client_id"
+msgstr "Web Feed"
+
+msgid "client_ip"
+msgstr "Feedback"
+
+msgid "clientlist_available_clients"
+msgstr "Clientes disponíveis"
+
+msgid "clientlist_clientlist"
+msgstr "Lista de clientes"
+
+msgid "clientlist_installation_name"
+msgstr "Nome da instalação"
+
+msgid "clientlist_login"
+msgstr "Login"
+
+msgid "clientlist_login_page"
+msgstr "Página de login"
+
+msgid "clientlist_public_access"
+msgstr "Acesso público"
+
+msgid "clientlist_start_page"
+msgstr "Página inicial"
+
+msgid "clipboard"
+msgstr "Área de transferência"
+
+msgid "close"
+msgstr "Feedback destinatário"
+
+#, fuzzy
+msgid "cmix"
+msgstr "Object xAPI/cmi5"
+
+msgid "cnt_new"
+msgstr "Ficheiro"
+
+msgid "collapse"
+msgstr "Colapsar"
+
+msgid "collapse_all"
+msgstr "Colapsar tudo"
+
+#, fuzzy
+msgid "collapse_content"
+msgstr "Collapse Content"
+
+msgid "collapsed"
+msgstr "Nome do ficheiro"
+
+#, fuzzy
+msgid "column_selection"
+msgstr "Column Selection"
+
+msgid "columns"
+msgstr "Falta extensão do nome do ficheiro"
+
+msgid "comma_separated"
+msgstr "Devido ao caractere / este objeto não está visível em pastas web"
+
+msgid "comment"
+msgstr "Objetos com nomes . e .. não estão visíveis em pastas web"
+
+#, fuzzy
+msgid "comments"
+msgstr "Comments"
+
+msgid "compose"
+msgstr "Devido ao caractere . no fim do nome este objeto não está visível nas pastas da web do Windows"
+
+msgid "concurrent_uploads"
+msgstr "Número de uploads concorrentes"
+
+msgid "concurrent_uploads_info"
+msgstr "Define o número de ficheiros que podem ser carregados por processo de upload ao mesmo tempo."
+
+msgid "cond_ref_handling"
+msgstr "Definições de ligações"
+
+msgid "cond_ref_shared"
+msgstr "Pré-condições partilhadas para todas as ligações"
+
+msgid "cond_ref_unique"
+msgstr "Pré-condições únicas para ligações"
+
+msgid "condition"
+msgstr "Condição"
+
+msgid "condition_accredited_or_passed"
+msgstr "Acreditado ou aprovado"
+
+msgid "condition_already_assigned"
+msgstr "Objeto já atribuído."
+
+msgid "condition_circle_created"
+msgstr "Esta associação não é possível, uma vez que os objetos iram interdepender."
+
+msgid "condition_deleted"
+msgstr "Condição apagada."
+
+msgid "condition_finished"
+msgstr "Terminado"
+
+msgid "condition_not_finished"
+msgstr "Não terminado"
+
+msgid "condition_passed"
+msgstr "Aprovado"
+
+msgid "condition_select_object"
+msgstr "Selecione um objeto."
+
+msgid "conditions_updated"
+msgstr "Condições guardadas"
+
+#, fuzzy
+msgid "configuration"
+msgstr "Configuration"
+
+msgid "confirm"
+msgstr "Devido a um dos caracteres \\ / : * ? \" < > | este objeto não está visível em pastas da web da Windows"
+
+msgid "confirm_delete_parameter"
+msgstr "Tem a certeza que quer apagar o parâmetro?"
+
+msgid "confirmation"
+msgstr "Confirmação"
+
+msgid "conflict_handling"
+msgstr "Manuseamento de conflito"
+
+msgid "cont_iim_content_popups_info"
+msgstr "Ficheiro não encontrado"
+
+msgid "cont_iim_create_info"
+msgstr "Ficheiro inválido!"
+
+msgid "cont_iim_overlay_info"
+msgstr "Insira tipos de ficheiros com sufixo (separados por vírgula) que devem mudar de nome para ‘.sec’ quando são carregados para um espaço da web para evitar a execução deste ficheiro. Isso é feito por defeito para esses sufixos:"
+
+msgid "contact"
+msgstr "Devido ao caractere"
+
+msgid "contact_data"
+msgstr "Carregar ficheiro"
+
+msgid "contact_sysadmin"
+msgstr "Ficheiro carregado"
+
+msgid "container"
+msgstr "Recipiente"
+
+msgid "container_no_items"
+msgstr "Nenhuns materiais disponíveis"
+
+msgid "content"
+msgstr "O ficheiro foi adicionado."
+
+msgid "content_frame"
+msgstr "Moldura de conteúdo"
+
+msgid "content_styles"
+msgstr "Editar ficheiro e carregar nova versão"
+
+msgid "context"
+msgstr "Tamanho máximo para carregar:"
+
+msgid "continue"
+msgstr "continuar"
+
+msgid "continue_work"
+msgstr "Continuar"
+
+msgid "contra"
+msgstr "Contra"
+
+#, fuzzy
+msgid "copa"
+msgstr "Content Page"
+
+msgid "copy"
+msgstr "Ficheiro é válido!"
+
+msgid "copyChapter"
+msgstr "Versão fornecida no ficheiro"
+
+msgid "copyPage"
+msgstr "Preencha todos os campos necessários"
+
+msgid "copy_all"
+msgstr "Filtrar"
+
+msgid "copy_n_of_suffix"
+msgstr "Nome"
+
+msgid "copy_of"
+msgstr "Ocultar barra lateral"
+
+msgid "copy_of_suffix"
+msgstr "Pasta"
+
+#, fuzzy
+msgid "copy_perma_link"
+msgstr "Copy Link to Clipboard"
+
+msgid "copy_selected_items"
+msgstr "Pasta"
+
+msgid "count"
+msgstr "Pastas"
+
+#, fuzzy
+msgid "counter_novelty"
+msgstr "News"
+
+#, fuzzy
+msgid "counter_status"
+msgstr "Status"
+
+msgid "country"
+msgstr "Adicionar pasta"
+
+msgid "country_free_text"
+msgstr "Pasta adicionada"
+
+msgid "country_selection"
+msgstr "País (seleção dropdown)"
+
+msgid "course"
+msgstr "Nova pasta"
+
+msgid "courses"
+msgstr "Tem de aceitar os Termos de serviço!"
+
+msgid "create"
+msgstr "Esqueceu-se da palavra-passe?"
+
+msgid "create_date"
+msgstr "Alguns dados estão incompletos ou inválidos. Corrija as entradas no formulário."
+
+msgid "create_export_file"
+msgstr "Criar ficheiro de exportação"
+
+msgid "create_stylesheet"
+msgstr "Fórum"
+
+msgid "created"
+msgstr "Esqueceu-se do nome de utilizador?"
+
+msgid "cron_forum_notification"
+msgstr "Enviar notificações de fóruns"
+
+msgid "cron_forum_notification_crob_desc"
+msgstr "Fóruns"
+
+#, fuzzy
+msgid "cron_forum_notification_disabled"
+msgstr "Can't be disabled when the Cron Job is active."
+
+msgid "cron_jobs"
+msgstr "Cron jobs"
+
+msgid "cron_lucene_index"
+msgstr "Atualizar índice de pesquisa Lucene"
+
+msgid "cron_lucene_index_info"
+msgstr "Último artigo"
+
+msgid "cron_mail_notification"
+msgstr "Novos artigos"
+
+msgid "cron_mail_notification_cron"
+msgstr "regularmente por cron job"
+
+msgid "cron_mail_notification_desc"
+msgstr "Definições de notificações de fóruns"
+
+msgid "cron_mail_notification_message"
+msgstr "Enviar notificações de mail com mensagem de correio"
+
+msgid "cron_mail_notification_message_info"
+msgstr "Se estiver ativado, todos os utilizadores recebem notificações com mensagem de correio completa por correio externo."
+
+msgid "cron_mail_notification_never"
+msgstr "nunca"
+
+#, fuzzy
+msgid "cron_users_without_login_del_create_date_thr"
+msgstr "Thresholt"
+
+#, fuzzy
+msgid "cron_users_without_login_del_create_date_thr_info"
+msgstr "All user accounts created before the defined threshold will be taken into consideration."
+
+#, fuzzy
+msgid "cron_users_without_login_del_role_whitelist"
+msgstr "Included Roles"
+
+#, fuzzy
+msgid "cron_users_without_login_del_role_whitelist_info"
+msgstr "The deletion will only processed for users assigned to at least one of the selected roles"
+
+msgid "cronjob_last_start"
+msgstr "Último arranque do Cron Job"
+
+msgid "cronjob_last_start_unknown"
+msgstr "Indeterminado"
+
+msgid "crs"
+msgstr "Tópicos"
+
+msgid "crs_activation_start_invalid"
+msgstr "Notifica-me quando foi dada uma resposta direta a este posting. A notificação sobre qualquer posting neste tópico ou fórum pode ser ativada no menu de Ações na parte superior direita."
+
+msgid "crs_add"
+msgstr "Responderam à sua entrada no fórum."
+
+msgid "crs_added"
+msgstr "Fórum"
+
+msgid "crs_archives"
+msgstr "Arquivos"
+
+msgid "crs_cancel_waiting_list"
+msgstr "Tem a certeza que quer sair da lista de espera do curso \"%s\"?"
+
+msgid "crs_copy_threads_info"
+msgstr "Decida que materiais do curso devem ser copiados, associados ou até omitidos."
+
+msgid "crs_edit"
+msgstr "Adicionar fórum"
+
+msgid "crs_list_reg"
+msgstr "Registo"
+
+msgid "crs_list_reg_end"
+msgstr "Fim do registo"
+
+msgid "crs_list_reg_limit_full"
+msgstr "Nenhum lugar livre"
+
+msgid "crs_list_reg_limit_places"
+msgstr "Lugares livres"
+
+msgid "crs_list_reg_noreg"
+msgstr "Nenhum registo possível"
+
+msgid "crs_list_reg_period"
+msgstr "Período de registo"
+
+msgid "crs_list_reg_start"
+msgstr "Início do registo"
+
+msgid "crs_member_not_passed"
+msgstr "Editar fórum"
+
+msgid "crs_member_passed"
+msgstr "Aprovado"
+
+msgid "crs_members_gallery"
+msgstr "Fórum adicionado"
+
+msgid "crs_new"
+msgstr "Novo fórum"
+
+msgid "crs_removed_from_waiting_list"
+msgstr "Foi retirado da lista de espera do curso \"%s\"."
+
+msgid "crs_status_blocked"
+msgstr "De"
+
+msgid "crs_status_pending"
+msgstr "[À espera do registo]"
+
+msgid "crs_subscribers_assigned"
+msgstr "Atribuído novo(s) utilizador(es)"
+
+msgid "crs_title"
+msgstr "Nome completo"
+
+msgid "crs_unsubscribe"
+msgstr "Funções"
+
+msgid "crs_wizard_page"
+msgstr "Copiar curso (passo 2/2)"
+
+msgid "crsr"
+msgstr "Pode usar um pseudónimo para o seu posting. Se deixar este campo vazio, o seu posting será marcado como escrito por ‘Anónimo’."
+
+#, fuzzy
+msgid "crsr_add"
+msgstr "Add Course Link"
+
+msgid "crsr_edit_info"
+msgstr "O seu Nome"
+
+msgid "crsr_new"
+msgstr "Notificação"
+
+#, fuzzy
+msgid "crsr_settings"
+msgstr "Course Link Settings"
+
+msgid "csv_export"
+msgstr "Exportação CSV"
+
+msgid "current_ip"
+msgstr "IP atual:"
+
+msgid "current_ip_alert"
+msgstr "Nota: se inserir um ip errado, deixa de poder aceder ao sistema com este perfil."
+
+msgid "current_password"
+msgstr "Mais informações"
+
+#, fuzzy
+msgid "current_user_avatar"
+msgstr "Your User Avatar"
+
+msgid "currently_used_disk_space"
+msgstr "Espaço de disco atualmente usado"
+
+#, fuzzy
+msgid "customize_page"
+msgstr "Customize Page"
+
+msgid "cut"
+msgstr "Adicionar definição"
+
+msgid "cutPage"
+msgstr "Nova definição"
+
+msgid "daily"
+msgstr "diariamente"
+
+msgid "database"
+msgstr "Forma de tratamento"
+
+msgid "database_version"
+msgstr "Sra."
+
+msgid "dataset"
+msgstr "Item"
+
+msgid "date"
+msgstr "Sr."
+
+#, fuzzy
+msgid "date_time"
+msgstr "Date and Time"
+
+msgid "dateplaner"
+msgstr "Definições gerais"
+
+msgid "day"
+msgstr "Gerar"
+
+msgid "days"
+msgstr "Glossário"
+
+msgid "db_host"
+msgstr "Predefinição global"
+
+msgid "db_name"
+msgstr "Global fixada"
+
+#, fuzzy
+msgid "db_need_update"
+msgstr "Database needs an update!"
+
+msgid "db_pass"
+msgstr "Utilizadores globais"
+
+msgid "db_type"
+msgstr "Glossários"
+
+msgid "db_user"
+msgstr "Glossário"
+
+msgid "db_version"
+msgstr "Adicionar glossário"
+
+msgid "dd_mm_yyyy"
+msgstr "DD.MM.YYYY"
+
+msgid "deactivate"
+msgstr "Glossário adicionado"
+
+msgid "decrease_attempts"
+msgstr "Tentativas - 1"
+
+msgid "def_repository_view"
+msgstr "Se conhecer a palavra-passe do grupo, pode juntar-se a este grupo. Entre em contacto com um administrador do grupo, se não souber a palavra-passe."
+
+msgid "default"
+msgstr "Importar glossário"
+
+msgid "default_auth_mode"
+msgstr "Método de autenticação predefinido"
+
+msgid "default_auth_mode_info"
+msgstr "Escolha o método de autenticação que está pré-selecionado na página de login."
+
+msgid "default_language"
+msgstr "Novo glossário"
+
+msgid "default_perm_settings"
+msgstr "Limitações de adesão"
+
+msgid "default_role"
+msgstr "Cursos atribuídos"
+
+msgid "default_roles"
+msgstr "Grupos"
+
+msgid "default_skin"
+msgstr "Membros do grupo"
+
+msgid "default_skin_style"
+msgstr "Nome do grupo"
+
+msgid "default_style"
+msgstr "Pedidos de inscrição"
+
+msgid "defaults"
+msgstr "Predefinições"
+
+msgid "delete"
+msgstr "Procedimento de inscrição"
+
+msgid "delete_existing_file"
+msgstr "Apagar ficheiro existente"
+
+msgid "delete_inactivated_user_accounts"
+msgstr "Apagar contas de utilizador inativadas"
+
+msgid "delete_inactivated_user_accounts_desc"
+msgstr "Tem de solicitar a adesão para aceder a este grupo. Descreva o seu interesse em tornar-se membro no formulário de mensagens. Será notificado assim que um administrador tiver aceite ou recusado o seu pedido."
+
+msgid "delete_inactivated_user_accounts_include_roles"
+msgstr "Funções incluídas"
+
+msgid "delete_inactivated_user_accounts_include_roles_desc"
+msgstr "Define as funções que vão participar na eliminação."
+
+msgid "delete_inactivated_user_accounts_period"
+msgstr "Grupo é"
+
+msgid "delete_inactivated_user_accounts_period_desc"
+msgstr "Grupo"
+
+msgid "delete_inactive_user_accounts"
+msgstr "Link do grupo"
+
+msgid "delete_inactive_user_accounts_desc"
+msgstr "Se estiver ativado, as contas de utilizador serão apagadas em função da data do último login."
+
+msgid "delete_inactive_user_accounts_include_roles"
+msgstr "Funções incluídas"
+
+msgid "delete_inactive_user_accounts_include_roles_desc"
+msgstr "Define as funções que vão participar na eliminação."
+
+msgid "delete_inactive_user_accounts_period"
+msgstr "Editar link do grupo"
+
+msgid "delete_inactive_user_accounts_period_desc"
+msgstr "Escolha um grupo para criar um novo link de grupo."
+
+msgid "delete_parameter"
+msgstr "Apagar parâmetro"
+
+msgid "delete_selected_items"
+msgstr "Criar link de grupo"
+
+msgid "deleted"
+msgstr "Inscrever-se diretamente"
+
+msgid "deleted_user"
+msgstr "O utilizador foi apagado"
+
+msgid "deleted_users"
+msgstr "Utilizadores apagados"
+
+#, fuzzy
+msgid "deletion_notification"
+msgstr "\"%s\" has canceled the attendance of session \"%s\"."
+
+msgid "deliver"
+msgstr "Adicionar grupo"
+
+#, fuzzy
+msgid "deny_usr_agreement"
+msgstr "Do not accept terms of service?"
+
+#, fuzzy
+msgid "deny_usr_agreement_btn"
+msgstr "Not Accept"
+
+msgid "department"
+msgstr "Grupo adicionado"
+
+msgid "desc"
+msgstr "Cancelar a inscrição do grupo"
+
+msgid "description"
+msgstr "Tem a certeza que quer cancelar a seguinte inscrição no grupo?"
+
+msgid "desired_password"
+msgstr "Tem a certeza que quer cancelar a inscrição neste grupo?"
+
+msgid "details"
+msgstr "Editar grupo"
+
+#, fuzzy
+msgid "didactic_template"
+msgstr "Didactic Template"
+
+msgid "disable"
+msgstr "desativar"
+
+msgid "disable_check"
+msgstr "Desativar seleção"
+
+msgid "disable_ext_lang_maint"
+msgstr "Mudar estado do participante"
+
+msgid "disable_hide_user_toggle"
+msgstr "O membro está autorizado a desativar"
+
+msgid "disabled"
+msgstr "Não é possível remover o membro, é necessário pelo menos um administrador por grupo !"
+
+#, fuzzy
+msgid "disclose"
+msgstr "Disclose"
+
+msgid "dislike"
+msgstr "Inscrição anulada."
+
+msgid "domain"
+msgstr "Novo grupo"
+
+msgid "down"
+msgstr "Inscrever-se no grupo"
+
+msgid "download"
+msgstr "Inscreveu-se no grupo"
+
+msgid "download_all_returned_files"
+msgstr "Ajuda"
+
+msgid "download_link"
+msgstr "Link para download"
+
+msgid "download_multiple_objects"
+msgstr "Descarregar múltiplos objetos"
+
+msgid "download_selected_items"
+msgstr "Download"
+
+msgid "downloading_settings"
+msgstr "Carregar múltiplos ficheiros como arquivo Zip"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement"
+msgstr "Accept Declaration of Data Protection?"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement_intro"
+msgstr "There is a new Declaration of Data Protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page."
+
+#, fuzzy
+msgid "dpro_agreed_on"
+msgstr "DoDP agreed to on"
+
+#, fuzzy
+msgid "dpro_force_accept_usr_agreement"
+msgstr "You must accept the Declaration of Data Protection!"
+
+#, fuzzy
+msgid "dpro_no_agreement_description"
+msgstr "There is currently no Declaration of Data Protection document available for this installation. Please contact the <a href=\"%1$s\">system administrator</a>."
+
+#, fuzzy
+msgid "dpro_refuse_acceptance"
+msgstr "Refuse to Accept the Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_usr_agreement"
+msgstr "Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_usr_agreement_footer_intro"
+msgstr "You have declared your consent to this Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description"
+msgstr "Withdraw your consent to our Declaration of Data Protection here."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description_external"
+msgstr "Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description_internal"
+msgstr "Please log in again to complete the process of withdrawing your consent to the Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_header"
+msgstr "Withdraw to Consent of Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_withdraw_consent_info"
+msgstr "Withdraw your consent to our Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_info_external"
+msgstr "Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Declaration of Data Protection."
+
+msgid "drafts"
+msgstr "Ocultar detalhes"
+
+msgid "drag_file_here"
+msgstr "Arraste o seu ficheiro para aqui"
+
+msgid "drag_files_here"
+msgstr "Arraste os seus ficheiros para aqui"
+
+#, fuzzy
+msgid "drag_handle"
+msgstr "Draggable element"
+
+msgid "drop_files_on_repo_obj_info"
+msgstr "Largue os ficheiros aqui para carregá-los para este objeto."
+
+msgid "edit"
+msgstr "Ocultar filtro"
+
+msgid "edit_assignments"
+msgstr "Editar atribuições"
+
+msgid "edit_cat_settings"
+msgstr "Definições de categoria avançadas"
+
+msgid "edit_content"
+msgstr "Ocultar O meu estado online"
+
+msgid "edit_grouping"
+msgstr "Adicionado novo weblink com titulo:\"%1\""
+
+msgid "edit_metadata"
+msgstr "Editar metadados"
+
+msgid "edit_operations"
+msgstr "Weblink apagado com título: \"%1\""
+
+msgid "edit_page"
+msgstr "Weblink modificado com título: \"%1\""
+
+msgid "edit_page_content"
+msgstr "Entradas/página"
+
+msgid "edit_page_meta"
+msgstr "Editar metadados da página"
+
+msgid "edit_properties"
+msgstr "Interesses/Passatempos"
+
+msgid "edit_stylesheet"
+msgstr "Área pública"
+
+msgid "edited_on"
+msgstr "Editado a"
+
+msgid "editor"
+msgstr "Editor"
+
+msgid "email"
+msgstr "E-mail"
+
+msgid "email_not_valid"
+msgstr "Host"
+
+msgid "enable"
+msgstr "Horas"
+
+msgid "enable_anonymous_fora"
+msgstr "Autorizar posting com pseudónimo"
+
+msgid "enable_anonymous_fora_desc"
+msgstr "Este servidor não suporta conexões HTTPS."
+
+msgid "enable_calendar"
+msgstr "Ativar calendário"
+
+#, fuzzy
+msgid "enable_comments_export"
+msgstr "Enable Comments Export"
+
+msgid "enable_course_group_notifications"
+msgstr "Mail diário para notícias de grupos e cursos"
+
+msgid "enable_course_group_notifications_desc"
+msgstr "Se estiver ativado, os participantes podem subscrever um resumo diário das notícias."
+
+msgid "enable_custom_icons"
+msgstr "Ativar ícones personalizados"
+
+msgid "enable_custom_icons_info"
+msgstr "Caminho HTTP"
+
+msgid "enable_dnd_upload"
+msgstr "Ativar drag-and-drop upload"
+
+msgid "enable_dnd_upload_info"
+msgstr "Os ficheiros podem ser carregados arrastando-os do computador local, se estiver ativado."
+
+msgid "enable_download_folder"
+msgstr "Ativar Descarregar pastas"
+
+msgid "enable_download_folder_info"
+msgstr "ILIAS 2 palavra-passe"
+
+msgid "enable_export_scorm_desc"
+msgstr "Ícone"
+
+msgid "enable_fora_statistics"
+msgstr "Ativar estatísticas em fórum"
+
+msgid "enable_fora_statistics_desc"
+msgstr "Se estiver ativado, ninguém consegue aceder às estatísticas do fórum."
+
+msgid "enable_hide_user_toggle"
+msgstr "O membro não está autorizado a desativar"
+
+msgid "enable_multi_download"
+msgstr "Ativar «Descarregar múltiplos objetos»"
+
+msgid "enable_multi_download_info"
+msgstr "Ativa o facto de as pastas/ficheiros múltiplos poderem ser selecionados para descarregá-los como arquivo zip."
+
+msgid "enable_password_assistance"
+msgstr "Identificador"
+
+msgid "enable_preview"
+msgstr "Ativar pré-visualização"
+
+msgid "enable_preview_info"
+msgstr "Ativar esta opção para mostrar imagens de pré-visualização em tipos de ficheiros suportados."
+
+msgid "enable_repository_dnd_upload"
+msgstr "Ativar no repositório"
+
+msgid "enable_repository_dnd_upload_info"
+msgstr "Permite que os ficheiros possam ser arrastados do computador diretamente para um objeto no repositório para iniciar o uploading dos ficheiros para este objeto."
+
+msgid "enable_sahs_protocol_data"
+msgstr "Ativar dados de protocolo"
+
+msgid "enable_sahs_protocol_data_desc"
+msgstr "Deixar em branco para usar nome do ficheiro como título"
+
+msgid "enable_search_engine"
+msgstr "Versão ILIAS"
+
+msgid "enable_trash"
+msgstr "Autor do blog"
+
+msgid "enable_trash_info"
+msgstr "Se estiver ativado, os objetos apagados são movidos para o lixo e podem ser recuperados mais tarde. Se desativar esta opção, os objetos apagados são removidos irreversivelmente do sistema!"
+
+msgid "enable_webdav"
+msgstr "Ativar acesso WebDAV"
+
+msgid "enable_webdav_info"
+msgstr "Editor do blog"
+
+msgid "enabled"
+msgstr "Módulo de aprendizagem HTML"
+
+#, fuzzy
+msgid "enlarge"
+msgstr "Enlarge"
+
+msgid "enter_in_mb_desc"
+msgstr "Introduzir um valor em MB."
+
+msgid "enter_new_name"
+msgstr "Introduza um nome"
+
+#, fuzzy
+msgid "entered_notification"
+msgstr "\"%s\" has joined the session \"%s\"."
+
+msgid "entry_status"
+msgstr "Administrador do curso"
+
+msgid "err_1_param"
+msgstr "Membro do grupo"
+
+msgid "err_2_param"
+msgstr "Imagem"
+
+msgid "err_auth_apache_failed"
+msgstr "Importar"
+
+msgid "err_auth_ldap_no_ilias_user"
+msgstr "Login falhou. A autenticação LDAP foi bem-sucedida, mas não existe um utilizador ILIAS correspondente. Entre em contacto com o administrador do seu sistema."
+
+msgid "err_auth_mode_inactive"
+msgstr "O seu método de autenticação foi desativado."
+
+msgid "err_auth_soap_no_ilias_user"
+msgstr "Login falhou. A autenticação SOAP foi bem-sucedida, mas não existe um utilizador ILIAS correspondente. Entre em contacto com o administrador do seu sistema."
+
+msgid "err_check_input"
+msgstr "Não foi possível guardar as definições. Verifique a sua entrada."
+
+msgid "err_count_param"
+msgstr "Importante"
+
+#, fuzzy
+msgid "err_disabled"
+msgstr "Account creation via Shibboleth has been disabled. Please contact the system administrator for further information."
+
+#, fuzzy
+msgid "err_double_entries"
+msgstr "Reason: Duplicate Entries"
+
+msgid "err_in_line"
+msgstr "Importar categorias"
+
+msgid "err_inactive"
+msgstr "Esta conta não foi desativada. Entre em contacto com o administrador do sistema para efeitos de acesso."
+
+msgid "err_inactive_login_attempts"
+msgstr "A conta de utilizador foi desativada devido a muitas tentativas de login falhadas. Clique em 'Contactar a Assistência Técnica' no rodapé desta página para notificar o administrador da necessidade de reativar a sua conta."
+
+msgid "err_invalid_port"
+msgstr "Número de porta inválido"
+
+msgid "err_no_cookies"
+msgstr "Ative os cookies de sessão no seu navegador!"
+
+msgid "err_no_langfile_found"
+msgstr "Importar ficheiro"
+
+msgid "err_no_param"
+msgstr "O ficheiro de importação não é válido."
+
+msgid "err_over_3_param"
+msgstr "Número de mensagens importadas."
+
+msgid "err_role_not_assignable"
+msgstr "Importar módulo de aprendizagem ILIAS"
+
+msgid "err_session_expired"
+msgstr "Importar teste do banco de perguntas"
+
+#, fuzzy
+msgid "err_valid_login_account_creation_disabled"
+msgstr "Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator."
+
+msgid "err_wrong_header"
+msgstr "Importar pergunta(s) para o banco de perguntas"
+
+msgid "err_wrong_login"
+msgstr "Importar pacote SCORM"
+
+msgid "err_wrong_password"
+msgstr "Importar utilizadores"
+
+msgid "error"
+msgstr "Erro"
+
+msgid "error_empty_file_or_folder"
+msgstr "O tamanho do ficheiro é 0 bytes ou é uma pasta."
+
+msgid "error_extraction_failed"
+msgstr "Membro do curso"
+
+msgid "error_parser"
+msgstr "Tutor do curso"
+
+msgid "error_upload_was_zero_bytes"
+msgstr "Administrador do grupo"
+
+#, fuzzy
+msgid "etal_talks"
+msgstr "Talks"
+
+msgid "event_ass_materials_prop"
+msgstr "Materiais de sessão"
+
+msgid "event_assign_files"
+msgstr "Atribuição de ficheiro"
+
+msgid "exc"
+msgstr "Aviso legal"
+
+msgid "exc_add"
+msgstr "Inativo"
+
+msgid "exc_added"
+msgstr "Caixa de entrada"
+
+msgid "exc_date_not_valid"
+msgstr "inclui ficheiros de idioma personalizado quando atualizar o idioma"
+
+msgid "exc_deassign_members"
+msgstr "Enviar mail para informar o utilizador das alterações"
+
+msgid "exc_download_files"
+msgstr "Download ficheiros"
+
+msgid "exc_edit"
+msgstr "Informação de acesso e de estado"
+
+msgid "exc_edit_exercise"
+msgstr "atribuído"
+
+msgid "exc_edit_until"
+msgstr "Tem a certeza que quer atribuir o(s) seguinte(s) utilizador(es)?"
+
+msgid "exc_exercise_sent"
+msgstr "Exercício enviado"
+
+msgid "exc_files"
+msgstr "Mudar utilizador"
+
+msgid "exc_files_returned"
+msgstr "Tem a certeza que quer desativar o(s) seguinte(s) utilizador(es)?"
+
+msgid "exc_instruction"
+msgstr "Objeto(s) apagado(s)"
+
+msgid "exc_last_submission"
+msgstr "Tem a certeza que quer apagar o(s) seguinte(s) item(itens)?"
+
+#, fuzzy
+msgid "exc_member_of_crs_grp"
+msgstr "Member in Course/Group"
+
+msgid "exc_members_already_assigned"
+msgstr "Não existe utilizador com esse nome de login ou id de utilizador"
+
+msgid "exc_members_assigned"
+msgstr "Concedido por função/posse"
+
+msgid "exc_members_comments_saved"
+msgstr "Os comentários do exercício para o utilizador selecionado foram guardadas"
+
+msgid "exc_new"
+msgstr "Mensagem de informação"
+
+msgid "exc_next_deadline"
+msgstr "Próximo prazo"
+
+msgid "exc_obj"
+msgstr "Permissões do utilizador"
+
+msgid "exc_save_changes"
+msgstr "Utilizador"
+
+msgid "exc_schedule"
+msgstr "Marcação"
+
+msgid "exc_select_one_file"
+msgstr "Inserir"
+
+msgid "exc_sent"
+msgstr "Inserir na posição atual"
+
+msgid "exc_sent_at"
+msgstr "Instalar"
+
+msgid "exc_status"
+msgstr "Estado"
+
+msgid "exc_status_saved"
+msgstr "Instalado"
+
+msgid "exc_submission"
+msgstr "Submissão"
+
+msgid "exc_time_over_short"
+msgstr "Instalado com ficheiro personalizado"
+
+msgid "exc_time_to_send"
+msgstr "Tempo de trabalho restante"
+
+msgid "exc_upload_error"
+msgstr "Instalar com ficheiro personalizado"
+
+msgid "excs"
+msgstr "em"
+
+msgid "execute"
+msgstr "Mensageiros instantâneos"
+
+msgid "exercise_time_over"
+msgstr "Instituição"
+
+msgid "expand"
+msgstr "Expandir"
+
+msgid "expand_all"
+msgstr "Expandir tudo"
+
+#, fuzzy
+msgid "expand_content"
+msgstr "Expand Content"
+
+msgid "expanded"
+msgstr "Expandido"
+
+msgid "export"
+msgstr "ID de instalação"
+
+msgid "export_format"
+msgstr "Exportar formato"
+
+msgid "export_html"
+msgstr "Informações da instalação"
+
+msgid "ext_cat_settings"
+msgstr "Editar Definições de categoria avançadas"
+
+msgid "ext_link"
+msgstr "Link"
+
+msgid "extracting"
+msgstr "A extrair..."
+
+#, fuzzy
+msgid "eyeclosed"
+msgstr "Eye Closed - Click to hide the input's contents"
+
+#, fuzzy
+msgid "eyeopened"
+msgstr "Eye Open - Click to reveal the input's contents"
+
+msgid "failure_message"
+msgstr "Mensagem de falha"
+
+msgid "fax"
+msgstr "Fax"
+
+msgid "feed"
+msgstr "Nome da instalação"
+
+msgid "feedback"
+msgstr "Funções locais (apenas automaticamente criadas)"
+
+msgid "field_name"
+msgstr "Nome do campo"
+
+msgid "field_type"
+msgstr "Tipo de campo"
+
+msgid "file"
+msgstr "A ser utilizador por"
+
+msgid "file_add"
+msgstr "Idioma"
+
+msgid "file_add_and_metadata"
+msgstr "Carregar ficheiro e editar metadados"
+
+msgid "file_added"
+msgstr "Idiomas"
+
+msgid "file_allowed_suffixes"
+msgstr "Tipos de ficheiro permitidos:"
+
+msgid "file_confirm_delete_all_versions"
+msgstr "Selecionou todas as versões de ficheiro. Assim vai apagar todo o objeto do ficheiro. Deseja continuar?"
+
+msgid "file_confirm_delete_versions"
+msgstr "Tem a certeza que quer apagar as seguintes versões de ficheiro?"
+
+msgid "file_created"
+msgstr "O(s) idioma(s) selecionado(s) já está(estão) instalado(s)"
+
+msgid "file_edit"
+msgstr "O(s) idioma(s) selecionado(s) já está(estão) desinstalado(s)"
+
+msgid "file_info"
+msgstr "Informação sobre o ficheiro"
+
+msgid "file_is_infected"
+msgstr "O ficheiro foi infetado por um vírus."
+
+#, fuzzy
+msgid "file_new"
+msgstr "New File"
+
+msgid "file_no_valid_file_type"
+msgstr "Este tipo de ficheiro não está autorizado."
+
+msgid "file_not_found"
+msgstr "não está instalado. Por favor instale este idioma primeiro"
+
+#, fuzzy
+msgid "file_not_found_sec"
+msgstr "This file cannot be found in ILIAS or has been blocked due to security reasons."
+
+msgid "file_not_valid"
+msgstr "Caminho do idioma"
+
+msgid "file_notice"
+msgstr "Todos os idiomas instalados foram atualizados"
+
+#, fuzzy
+msgid "file_objects"
+msgstr "File Objects"
+
+msgid "file_rollback"
+msgstr "Faça desta a versão atual"
+
+msgid "file_rollback_done"
+msgstr "A versão do ficheiro %s é agora a versão atual."
+
+msgid "file_rollback_select_exact_one"
+msgstr "Apenas uma das versões do ficheiro pode ser selecionada para torná-la na versão atual."
+
+msgid "file_some_invalid_file_types_removed"
+msgstr "Alguns tipos de ficheiros não estão autorizados e foram removidos."
+
+msgid "file_suffix_repl"
+msgstr "Substituição do sufixo do uploads do ficheiro"
+
+msgid "file_suffix_repl_info"
+msgstr "ILIAS encontrou variáveis de idioma alteradas. A atualização do idioma vai ler o ficheiros de idioma padrão e provavelmente um ficheiros de idioma personalizado para a base de dados. Um ficheiro padrão não afeta as suas alterações. Um ficheiro personalizado vai sobrescrever as suas alterações com data mais antigas do que a data do ficheiro."
+
+#, fuzzy
+msgid "file_system_clean_temp_dir_cron"
+msgstr "Clean Temp Directory"
+
+#, fuzzy
+msgid "file_system_clean_temp_dir_cron_info"
+msgstr "This cron job cleans the ILIAS temp-directory of files which are older than 10 days. This prevents the accumulation of unused files which would otherwise lead to the temp directory taking up too much disk space."
+
+msgid "file_updated"
+msgstr "O ficheiro foi atualizado."
+
+msgid "file_upload_pending"
+msgstr "Ficheiro pendente"
+
+msgid "file_valid"
+msgstr "Deseja realmente atualizar os idiomas selecionados?"
+
+msgid "file_version"
+msgstr "Apelido"
+
+msgid "file_version_create"
+msgstr "Versão inicial"
+
+#, fuzzy
+msgid "file_version_intermediate_version"
+msgstr "Intermediate Version"
+
+msgid "file_version_new_version"
+msgstr "Nova versão"
+
+#, fuzzy
+msgid "file_version_published_version"
+msgstr "Published Version"
+
+msgid "file_version_replace"
+msgstr "Todas as versões substituídas"
+
+msgid "file_version_rollback"
+msgstr "Retroceder à versão %s de %s"
+
+msgid "file_versions_deleted"
+msgstr "As versões de ficheiro selecionadas foram apagadas com sucesso."
+
+msgid "filename"
+msgstr "Endereço IP"
+
+msgid "filename_extension_missing"
+msgstr "já é o seu"
+
+msgid "filename_hidden_backup_file"
+msgstr "Ficheiro backup oculto"
+
+msgid "filename_hidden_unix_file"
+msgstr "Ficheiro Unix oculto"
+
+msgid "filename_interoperability"
+msgstr "Interoperabilidade"
+
+msgid "filename_special_characters"
+msgstr "Informação da instalação"
+
+msgid "filename_special_filename"
+msgstr "Juntar-se"
+
+msgid "filename_visibility"
+msgstr "Visibilidade"
+
+msgid "filename_windows_empty_extension"
+msgstr "Frequentar"
+
+msgid "filename_windows_special_characters"
+msgstr "Palavras-chave"
+
+msgid "filename_windows_webdav_issue"
+msgstr "Ficheiro de idioma encontrado"
+
+msgid "files"
+msgstr "Ficheiros"
+
+msgid "filesize"
+msgstr "Tamanho do ficheiro"
+
+msgid "filetype"
+msgstr "Tipo de ficheiro"
+
+msgid "fill_out_all_required_fields"
+msgstr "Último acesso"
+
+msgid "filter"
+msgstr "Última modificação"
+
+msgid "filter_users_with_access"
+msgstr "Apenas utilizadores com acesso"
+
+msgid "filter_users_with_disk_usage"
+msgstr "Apenas utilizadores com espaço usado no disco"
+
+msgid "filter_users_without_access"
+msgstr "Apenas utilizadores sem acesso"
+
+msgid "filter_users_without_disk_usage"
+msgstr "Apenas utilizadores sem espaço usado no disco"
+
+msgid "first"
+msgstr "Primeiro"
+
+msgid "firstname"
+msgstr "Último login"
+
+msgid "flatview"
+msgstr "Última atualização"
+
+msgid "fold"
+msgstr "Atualizado"
+
+msgid "fold_add"
+msgstr "Acesso de leitura às definições LDAP"
+
+msgid "fold_added"
+msgstr "Progresso de aprendizagem"
+
+msgid "fold_copy_threads_info"
+msgstr "Decida que materiais devem ser copiados, associados ou até omitidos."
+
+msgid "fold_edit"
+msgstr "Editar pasta"
+
+msgid "fold_new"
+msgstr "Nível"
+
+msgid "fold_wizard_page"
+msgstr "Copiar pasta (passo 2/2)"
+
+msgid "folder"
+msgstr "Última visita"
+
+msgid "folders"
+msgstr "Lançar"
+
+msgid "follow_link_to_read_mails"
+msgstr "clicar no seguinte link para ler estes mails:"
+
+msgid "forgot_password"
+msgstr "Parâmetros de weblink dinâmicos"
+
+msgid "forgot_username"
+msgstr "Se estiver ativado, é possível anexar parâmetros dinâmicos aos links da web.<br /> P. ex. o ID do utilizador ILIAS ou o nome do utilizador."
+
+msgid "form_input_not_valid"
+msgstr "Verificação do weblink"
+
+msgid "forum"
+msgstr "Se estiver ativado, será informado sobre links inválidos por mail."
+
+msgid "forum_direct_notification"
+msgstr "SCORM 1.2"
+
+msgid "forum_notify_me"
+msgstr "SCORM 2004 3ª/4ª Edição"
+
+msgid "forum_post_replied"
+msgstr "Idioma"
+
+msgid "forums"
+msgstr "Mensagens desativadas"
+
+msgid "forums_anonymized"
+msgstr "Fórum anonimizado"
+
+msgid "forums_anonymous"
+msgstr "anónimo"
+
+msgid "forums_articles"
+msgstr "[ILIAS] Verificação do weblink"
+
+#, fuzzy
+msgid "forums_closed"
+msgstr "closed"
+
+msgid "forums_disable_forum_notification"
+msgstr "Desativar notificação para este fórum"
+
+msgid "forums_enable_forum_notification"
+msgstr "Ativar notificação para este fórum"
+
+msgid "forums_forum_notification_enabled"
+msgstr "Será notificado sobre novas mensagens neste fórum."
+
+msgid "forums_last_post"
+msgstr "Link"
+
+#, fuzzy
+msgid "forums_last_posting_asc"
+msgstr "Last Post Ascending"
+
+#, fuzzy
+msgid "forums_last_posting_dsc"
+msgstr "Last Post Descending"
+
+msgid "forums_notification_settings"
+msgstr "Módulo de aprendizagem ILIAS"
+
+#, fuzzy
+msgid "forums_rating_asc"
+msgstr "Rating Ascending"
+
+#, fuzzy
+msgid "forums_rating_dsc"
+msgstr "Rating Descending"
+
+#, fuzzy
+msgid "forums_thread_sorting_asc"
+msgstr "Thread Title A→Z"
+
+#, fuzzy
+msgid "forums_thread_sorting_dsc"
+msgstr "Thread Title Z→A"
+
+msgid "forums_threads"
+msgstr "Adicionar módulo de aprendizagem ILIAS"
+
+msgid "forums_use_alias"
+msgstr "Módulo de aprendizagem ILIAS adicionado"
+
+msgid "forums_your_name"
+msgstr "Novo módulo de aprendizagem ILIAS"
+
+msgid "frm"
+msgstr "Idiomas"
+
+msgid "frm_add"
+msgstr "Objeto de aprendizagem"
+
+msgid "frm_added"
+msgstr "O(s) idioma(s) personalizado(s) selecionado(s) já está(estão) instalado(s)"
+
+msgid "frm_edit"
+msgstr "Ficheiros de idioma personalizado"
+
+msgid "frm_import"
+msgstr "Importar fórum"
+
+msgid "frm_latest_postings"
+msgstr "Últimos artigos"
+
+#, fuzzy
+msgid "frm_latest_postings_block"
+msgstr "Latest Posts Block"
+
+msgid "frm_new"
+msgstr "Ficheiros de idioma personalizados"
+
+#, fuzzy
+msgid "frm_no_threads"
+msgstr "There are no threads available at the moment."
+
+msgid "from"
+msgstr "Localização"
+
+msgid "fullname"
+msgstr "Localização:"
+
+msgid "functions"
+msgstr "Login"
+
+msgid "further_informations"
+msgstr "Definições do nome do login"
+
+msgid "gdf_add"
+msgstr "Entrou como"
+
+msgid "gdf_new"
+msgstr "Dados do login"
+
+msgid "gender"
+msgstr "Já existe um utilizador com este nome de login! Por favor escolha outro."
+
+msgid "gender_f"
+msgstr "O login escolhido é inválido! Apenas os seguintes caracteres são permitidos (mínimo de 3 caracteres): A-Z a-z 0-9 _.-+*@!$%~"
+
+msgid "gender_m"
+msgstr "Acesso ao ILIAS"
+
+msgid "gender_n"
+msgstr "Não requer forma de tratamento"
+
+#, fuzzy
+msgid "general"
+msgstr "General"
+
+msgid "general_settings"
+msgstr "Acesso ao ILIAS por Serviço de Autenticação Central"
+
+msgid "generate"
+msgstr "Acesso ao ILIAS por"
+
+msgid "ghostscript_not_configured"
+msgstr "Ghostscript não está configurado. Abra o <a href=\"setup/setup.php?cmd=mastersettings\" target=\"_blank\">Setup</a> para configurá-lo."
+
+msgid "glo"
+msgstr "Logout"
+
+msgid "glo_add"
+msgstr "Lixo"
+
+msgid "glo_added"
+msgstr "Erro durante a eliminação"
+
+msgid "glo_import"
+msgstr "Rascunhos"
+
+msgid "glo_mode"
+msgstr "Modo"
+
+msgid "glo_mode_desc"
+msgstr "Um glossário virtual funciona como um glossário normal. Além disso, ele contém os termos de todos os glossários que estão ao mesmo nível no repositório, como o glossário virtual (nível) respetivamente de todos os glossários que se encontram para baixo no repositório a partir da posição do glossário virtual (subárvore)."
+
+msgid "glo_mode_normal"
+msgstr "normal"
+
+msgid "glo_new"
+msgstr "O utilizador pode mudar definições de permissões na administração do correio"
+
+msgid "global"
+msgstr "Global"
+
+msgid "global_default"
+msgstr "Você saiu do ILIAS. A sua sessão foi fechada."
+
+msgid "global_fixed"
+msgstr "Correio"
+
+#, fuzzy
+msgid "global_role_assignment"
+msgstr "Globale Rollenzuweisung"
+
+msgid "global_settings"
+msgstr "Correios"
+
+msgid "global_user"
+msgstr "Correio(s)"
+
+msgid "glossaries"
+msgstr "Contactos"
+
+msgid "glossary"
+msgstr "Caixa de entrada"
+
+msgid "go"
+msgstr "Ir"
+
+msgid "grade"
+msgstr "Classificação"
+
+msgid "group"
+msgstr "Grupo"
+
+msgid "group_members"
+msgstr "Correio"
+
+msgid "group_name"
+msgstr "Max. tamanho anexo"
+
+msgid "group_new_registrations"
+msgstr "E-mail aos membros"
+
+msgid "group_password_registration_msg"
+msgstr "Mail não enviado!"
+
+msgid "group_registration"
+msgstr "Registo"
+
+msgid "group_registration_mode"
+msgstr "Nenhuma entrada encontrada."
+
+msgid "group_registration_time"
+msgstr "Período de registo"
+
+msgid "group_req_direct"
+msgstr "Você tem de selecionar um mail"
+
+msgid "group_req_registration_msg"
+msgstr "Erro a enviar mail"
+
+msgid "group_status"
+msgstr "Mail enviado!"
+
+msgid "groupings"
+msgstr "Enviado"
+
+msgid "groupings_assigned_obj_crs"
+msgstr "Pastas de correio"
+
+msgid "groupings_assigned_obj_grp"
+msgstr "Grupos atribuídos"
+
+#, fuzzy
+msgid "groupings_source"
+msgstr "Source"
+
+msgid "groups"
+msgstr "Exportar ficheiro"
+
+msgid "grp"
+msgstr "Definições de correio"
+
+msgid "grp_add"
+msgstr "Número de matricula"
+
+msgid "grp_added"
+msgstr "Membro"
+
+msgid "grp_btn_unsubscribe"
+msgstr "Membros"
+
+msgid "grp_cancel_waiting_list"
+msgstr "Tem a certeza que quer sair da lista de espera do grupo \"%s\"?"
+
+msgid "grp_copy_threads_info"
+msgstr "Decida que materiais devem ser copiados, associados ou até omitidos."
+
+msgid "grp_deleted_export_files"
+msgstr "Ficheiros selecionados apagados."
+
+msgid "grp_dismiss_member"
+msgstr "Estado do membro"
+
+msgid "grp_dismiss_myself"
+msgstr "Adicionar à lista de espera"
+
+msgid "grp_edit"
+msgstr "Lugares livres"
+
+msgid "grp_err_administrator_required"
+msgstr "Ilimitado"
+
+msgid "grp_header_edit_members"
+msgstr "Editar membros"
+
+#, fuzzy
+msgid "grp_list_members"
+msgstr "List members"
+
+msgid "grp_list_reg"
+msgstr "Registo"
+
+msgid "grp_list_reg_end"
+msgstr "Fim do registo"
+
+msgid "grp_list_reg_limit_full"
+msgstr "Nenhum lugar livre"
+
+msgid "grp_list_reg_limit_places"
+msgstr "Lugares livres"
+
+msgid "grp_list_reg_noreg"
+msgstr "Nenhum registo possível"
+
+msgid "grp_list_reg_period"
+msgstr "Período de registo"
+
+msgid "grp_list_reg_start"
+msgstr "Início do registo"
+
+msgid "grp_list_users"
+msgstr "Listar utilizadores"
+
+msgid "grp_mem_change_status"
+msgstr "Mostrar vista de membros"
+
+msgid "grp_mem_send_mail"
+msgstr "Banco de media"
+
+msgid "grp_members_gallery"
+msgstr "Galeria dos membros do grupo"
+
+msgid "grp_msg_applicants_assigned"
+msgstr "Candidato(s) atribuído(s) como membro(s) do grupo"
+
+msgid "grp_msg_member_assigned"
+msgstr "Utilizador(es) atribuído(s) como membro(s) do grupo"
+
+msgid "grp_msg_membership_annulled"
+msgstr "Adicionar banco de media"
+
+msgid "grp_new"
+msgstr "Editar propriedades do banco de media"
+
+msgid "grp_registration"
+msgstr "Novo banco de media"
+
+msgid "grp_registration_completed"
+msgstr "Mensagem"
+
+msgid "grp_removed_from_waiting_list"
+msgstr "Foi retirado da lista de espera do grupo \"%s\"."
+
+msgid "grp_select_one_file"
+msgstr "Selecione um ficheiro."
+
+msgid "grp_wizard_page"
+msgstr "Copiar grupo (passo 2/2)"
+
+msgid "grpr"
+msgstr "%1$s (não é permitido enviar mails para funções globais)"
+
+#, fuzzy
+msgid "grpr_add"
+msgstr "Add Group Link"
+
+msgid "grpr_edit"
+msgstr "Pastas do utilizador"
+
+msgid "grpr_edit_info"
+msgstr "Menu principal"
+
+msgid "grpr_new"
+msgstr "Entradas marcadas"
+
+#, fuzzy
+msgid "grpr_settings"
+msgstr "Group Link Settings"
+
+#, fuzzy
+msgid "header_action"
+msgstr "Insert Heading - Click to insert a heading."
+
+msgid "header_searchable"
+msgstr "Pesquisável"
+
+msgid "header_title"
+msgstr "Título do cabeçalho"
+
+msgid "header_visible_registration"
+msgstr "Visível no registo"
+
+msgid "header_zip"
+msgstr "Conteúdo da mensagem"
+
+msgid "height"
+msgstr "Altura"
+
+msgid "help"
+msgstr "Não enviou qualquer ficheiro."
+
+msgid "hide"
+msgstr "ocultar"
+
+msgid "hide_all_details"
+msgstr "Ocultar todos os detalhes"
+
+msgid "hide_details"
+msgstr "Metadados"
+
+msgid "hide_filter"
+msgstr "Migrar"
+
+msgid "hide_own_online_status"
+msgstr "Ausente"
+
+msgid "hide_visible_sections"
+msgstr "Ocultar mais informação &raquo;"
+
+msgid "hint"
+msgstr "Sugestão"
+
+msgid "history"
+msgstr "Histórico"
+
+msgid "hobby"
+msgstr "Janeiro"
+
+msgid "home"
+msgstr "Fevereiro"
+
+msgid "host"
+msgstr "Fev"
+
+msgid "hour"
+msgstr "Hora"
+
+msgid "hours"
+msgstr "Março"
+
+msgid "htlm"
+msgstr "Abril"
+
+msgid "htlm_add"
+msgstr "Adicionar módulo de aprendizagem HTML"
+
+msgid "htlm_new"
+msgstr "Novo módulo de aprendizagem HTML"
+
+msgid "http"
+msgstr "HTTP"
+
+msgid "http_not_possible"
+msgstr "Este servidor não suporta pedidos http."
+
+msgid "http_path"
+msgstr "Maio"
+
+msgid "https_not_possible"
+msgstr "Abr"
+
+msgid "i2passwd"
+msgstr "Mai"
+
+msgid "iass_import"
+msgstr "Importar avaliação individual"
+
+msgid "iass_new"
+msgstr "Criar avaliação individual"
+
+msgid "icon"
+msgstr "Junho"
+
+msgid "icon_settings"
+msgstr "Julho"
+
+msgid "id"
+msgstr "ID"
+
+msgid "identifier"
+msgstr "Agosto"
+
+msgid "if_no_title_then_filename"
+msgstr "Ago"
+
+msgid "ignore_on_conflict"
+msgstr "Ignorar em conflito"
+
+msgid "ignore_required_fields"
+msgstr "Ignorar campos pedidos"
+
+msgid "ignore_required_fields_info"
+msgstr "Se estiver ativado, pode submeter este formulário sem preencher todos os campos obrigatórios. O novo utilizador tem de adicionar a informação que falta sobre o perfil pessoal após o próximo login."
+
+msgid "il_astpl_loc_initial"
+msgstr "Teste inicial"
+
+msgid "il_astpl_loc_qualified"
+msgstr "Teste de qualificação"
+
+msgid "il_blog_contributor"
+msgstr "Set"
+
+msgid "il_blog_editor"
+msgstr "Outubro"
+
+msgid "il_chat_moderator"
+msgstr "Moderador de chat"
+
+msgid "il_crs_admin"
+msgstr "Out"
+
+msgid "il_crs_member"
+msgstr "Novembro"
+
+msgid "il_crs_non_member"
+msgstr "Não membro do curso"
+
+msgid "il_crs_tutor"
+msgstr "Dezembro"
+
+msgid "il_frm_moderator"
+msgstr "Dez"
+
+msgid "il_grp_admin"
+msgstr "Mover"
+
+msgid "il_grp_member"
+msgstr "Mover"
+
+msgid "il_grp_status_closed"
+msgstr "Grupo fechado"
+
+msgid "il_grp_status_open"
+msgstr "Grupo aberto"
+
+msgid "il_iass_member"
+msgstr "Examinado de avaliação individual"
+
+msgid "il_lso_admin"
+msgstr "Mover"
+
+msgid "il_lso_member"
+msgstr "Mover"
+
+#, fuzzy
+msgid "il_lti_instructor"
+msgstr "LTI Instructor"
+
+#, fuzzy
+msgid "il_lti_learner"
+msgstr "LTI Learner"
+
+#, fuzzy
+msgid "il_lti_user"
+msgstr "LTI User"
+
+msgid "il_orgu_employee"
+msgstr "Funcionário"
+
+msgid "il_orgu_superior"
+msgstr "Superior"
+
+msgid "ilias_version"
+msgstr "Setembro"
+
+msgid "image"
+msgstr "Ação cancelada"
+
+msgid "import"
+msgstr "Área de transferência limpa"
+
+msgid "import_cat_localrol"
+msgstr "Criar função local para cada nova categoria"
+
+msgid "import_cat_table"
+msgstr "A seguinte tabela só faz sentido se o quadrado estiver selecionado"
+
+msgid "import_categories"
+msgstr "Agora selecione a localização pretendida, para onde os objetos selecionados devem ser copiados e clique no botão ‘Colar’."
+
+msgid "import_failure_log"
+msgstr "Importar registo de falha"
+
+msgid "import_file"
+msgstr "Agora selecione a localização pretendida, para onde os objetos selecionados devem ser copiados e clique no botão ‘Continuar’."
+
+#, fuzzy
+msgid "import_file_not_valid_here"
+msgstr "The import file is not valid or the contained object type cannot be imported here."
+
+msgid "import_finished"
+msgstr "Agora selecione a localização pretendida, para onde os objetos selecionados devem ser copiados e clique no botão ‘Colar’."
+
+msgid "import_lm"
+msgstr "Objeto(s) selecionados movido(s)"
+
+msgid "import_qpl"
+msgstr "Função apagada"
+
+msgid "import_questions_into_qpl"
+msgstr "Funções e modelos de funções apagados"
+
+msgid "import_sahs"
+msgstr "Infelizmente, a ação falhou"
+
+#, fuzzy
+msgid "import_sahs_info"
+msgstr "To correct typos or images, use the option to replace individual files via the file directory. Upload a SCORM export from your authoring tool here and not an ILIAS export file. Make sure that your authoring tool has retained the IDs in the manifest file. Attention: Even popular authoring tools cannot do this. SCORM learning modules of certain authoring tools discard learner data obtained if you change the number of answer options of questions or insert new questions. Check in a test installation whether learning statuses that have already been achieved are possible when learning modules that have already been started are called up again."
+
+#, fuzzy
+msgid "import_sahs_new"
+msgstr "Import New Version of SCORM Package"
+
+msgid "import_svy"
+msgstr "Importar inquérito"
+
+msgid "import_tst"
+msgstr "Importar teste"
+
+msgid "import_users"
+msgstr "Esta entrada é necessária. Por favor insira um valor."
+
+msgid "import_warning_log"
+msgstr "Importar registo de aviso"
+
+msgid "important"
+msgstr "Objeto(s) selecionados copiados"
+
+msgid "imported"
+msgstr "importado"
+
+msgid "imprint"
+msgstr "Removeu a última função global dos seguintes utilizadores"
+
+msgid "in"
+msgstr "Objeto(s) selecionados conectado(s)"
+
+msgid "in_use"
+msgstr "Definições de permissões adotadas de"
+
+msgid "in_use_by"
+msgstr "(As definições foram guardadas!)"
+
+msgid "inactive"
+msgstr "Este objeto pode não conter objetos do tipo:"
+
+msgid "inbox"
+msgstr "Cada utilizador tem de ter pelo menos uma função global!"
+
+msgid "include_local"
+msgstr "Selecionou o mesmo idioma para diferentes traduções!"
+
+msgid "info"
+msgstr "Informação"
+
+msgid "info_access_and_status_info"
+msgstr "Não é possível colar o objeto em si mesmo"
+
+msgid "info_access_permissions"
+msgstr "Autorizações de acesso"
+
+msgid "info_activate_sure"
+msgstr "Tem a certeza que quer aprovar o(s) seguinte(s) utilizador(es) como utilizador(es) ativo(s)?"
+
+msgid "info_assign_sure"
+msgstr "Não pode apagar a sua própria conta de utilizador."
+
+msgid "info_assigned"
+msgstr "Nenhum idioma por padrão especificado! Tem de definir uma tradução como tradução predefinida."
+
+msgid "info_available_roles"
+msgstr "Funções disponíveis"
+
+msgid "info_change_user_view"
+msgstr "Não escolheu um ficheiro, ou o ficheiro selecionado era demasiado grande."
+
+msgid "info_deactivate_sure"
+msgstr "Nenhum idioma de tradução especificado! Tem de definir um idioma para cada tradução"
+
+msgid "info_delete_sure"
+msgstr "Não tem permissão para criar uma cópia do(s) seguinte(s) objeto(s):"
+
+msgid "info_delete_warning_no_trash"
+msgstr "(AVISO: Os objetos selecionados serão removidos de forma irreversível do sistema e poderão não ser recuperados!)"
+
+msgid "info_deleted"
+msgstr "Não tem permissão para mudar a atribuição da função do utilizador"
+
+msgid "info_err_user_not_exist"
+msgstr "Não tem permissão para adicionar modelos de funções"
+
+msgid "info_from_role"
+msgstr "Não tem permissão para cortar o(s) seguinte(s) objeto(s):"
+
+msgid "info_is_member"
+msgstr "Utilizador é membro"
+
+msgid "info_is_not_member"
+msgstr "Utilizador não é membro"
+
+msgid "info_message"
+msgstr "Não tem permissão para apagar o(s) seguinte(s) objeto(s):"
+
+msgid "info_not_assigned"
+msgstr "não atribuído"
+
+msgid "info_owner_of_object"
+msgstr "Proprietário do objeto"
+
+msgid "info_permission_origin"
+msgstr "Posição original"
+
+msgid "info_permission_source"
+msgstr "efetivo desde*"
+
+msgid "info_remark_interrupted"
+msgstr "A função está ininterrupta nesta posição. As definições de autorização predefinidas da função encontram-se, de facto, nessa posição."
+
+msgid "info_remove_sure"
+msgstr "Tem a certeza que quer remover o(s) seguinte(s) item(itens)?"
+
+msgid "info_short"
+msgstr "Informação"
+
+msgid "info_status_info"
+msgstr "Não tem permissão para criar um link a partir do(s) seguinte(s) objeto(s):"
+
+msgid "info_view_of_user"
+msgstr "Não tem permissão para modificar modelos de funções"
+
+msgid "inform_user_mail"
+msgstr "A página que escolheu apenas é acessível por utilizadores registados"
+
+msgid "inline_file_extensions"
+msgstr "Ficheiros autorizados para web"
+
+msgid "inline_file_extensions_info"
+msgstr "Os ficheiros com estas extensões são apresentados na janela do navegador.<br/>Por exemplo: <b>gif jpg mp3 pdf png</b><br/> Todos os outros ficheiros são oferecidos para download."
+
+msgid "insert"
+msgstr "Não tem permissão para modificar os dados do utilizador"
+
+msgid "insert_object_here"
+msgstr "Não tem permissão para colar o(s) seguinte(s) objeto(s):"
+
+msgid "inst_id"
+msgstr "Este objeto já existe nesta pasta"
+
+msgid "inst_info"
+msgstr "Modificações guardadas."
+
+msgid "inst_name"
+msgstr "Não é possível conectar objetos de recipientes, como categorias, cursos, grupos ou pastas, por razões técnicas. Em vez disso, pode conectar vários objetos individuais dentro desse recipiente a outras áreas ou criar um link de categoria, link de curso ou link de grupo."
+
+msgid "install"
+msgstr "Não tem permissão para editar definições de permissões"
+
+msgid "install_local"
+msgstr "Nenhuma entrada encontrada"
+
+#, fuzzy
+msgid "installation_status"
+msgstr "Installation Status"
+
+msgid "installed"
+msgstr "Não tem permissão para aceder ao item '%s’."
+
+msgid "installed_local"
+msgstr "Não tem permissão para escrever"
+
+msgid "instant_messengers"
+msgstr "Insira a sua consulta"
+
+msgid "institution"
+msgstr "Objeto criado."
+
+msgid "internal_local_roles_only"
+msgstr "Não é possível colar o objeto \"%s\" em si mesmo."
+
+msgid "invalid_visible_required_options_selected"
+msgstr "Todos os campos definidos como necessários têm também de estar definidos como visíveis no registo."
+
+msgid "invisible_block"
+msgstr "Bloco invisível"
+
+msgid "invisible_block_mess"
+msgstr "Não tem autorização para ver este bloco."
+
+msgid "ip_address"
+msgstr "Não pode adotar definições de permissões da próprio função/modelo de função atual."
+
+msgid "is_already_your"
+msgstr "Objeto(s) removido(s) do sistema."
+
+#, fuzzy
+msgid "italic_action"
+msgstr "Insert Italic - Click to insert italic text."
+
+msgid "item"
+msgstr "Item"
+
+msgid "itgr_add"
+msgstr "Adicionar item grupo"
+
+msgid "itgr_new"
+msgstr "Novo item grupo"
+
+#, fuzzy
+msgid "java_server"
+msgstr "PDF Configuration"
+
+msgid "java_server_host"
+msgstr "Host"
+
+#. Needs to be adapted to new content of German lang file.
+msgid "java_server_info"
+msgstr "Se estiver ativado, é possível pesquisar em ficheiros PDF, HTML e módulos de aprendizagem HTML"
+
+msgid "java_server_port"
+msgstr "Porta"
+
+msgid "java_server_readme"
+msgstr "A atribuição da função mudou"
+
+msgid "join"
+msgstr "O prefixo 'il_' está reservado a funções automaticamente criadas. Escolha outro nome"
+
+msgid "join_session"
+msgstr "A função do sistema não pode ser apagada"
+
+msgid "kb"
+msgstr "KByte"
+
+msgid "keywords"
+msgstr "As definições de permissões da função do sistema não podem ser mudadas. A função do sistema dá a todos os utilizadores atribuídos acesso ilimitado a todos os objetos e funções."
+
+#, fuzzy
+msgid "label_search_options"
+msgstr "Search Area"
+
+msgid "lang_dateformat"
+msgstr "Y-m-d"
+
+msgid "lang_path"
+msgstr "Os meus cursos"
+
+msgid "lang_refresh_confirm"
+msgstr "Tem a certeza que quer atualizar todos os idiomas?"
+
+msgid "lang_refresh_confirm_info"
+msgstr "Cursos e grupos"
+
+msgid "lang_refresh_confirm_selected"
+msgstr "Nome"
+
+msgid "lang_sep_decimal"
+msgstr "."
+
+msgid "lang_sep_thousand"
+msgstr ","
+
+msgid "lang_size_bytes"
+msgstr "bytes"
+
+msgid "lang_size_gb"
+msgstr "GB"
+
+msgid "lang_size_kb"
+msgstr "KB"
+
+msgid "lang_size_mb"
+msgstr "MB"
+
+msgid "lang_timeformat"
+msgstr "H:i:s"
+
+msgid "lang_timeformat_no_sec"
+msgstr "H:i"
+
+msgid "lang_uninstall_changes"
+msgstr "Desinstalar alterações locais"
+
+msgid "lang_uninstall_changes_confirm"
+msgstr "Tem a certeza que quer limpar todas as alterações locais dos idiomas selecionados e repô-las no padrão da versão ILIAS atual?"
+
+msgid "lang_uninstall_confirm"
+msgstr "Tem a certeza que quer desinstalar os idiomas selecionados?"
+
+msgid "langfile_found"
+msgstr "Não existem objetos apagados"
+
+msgid "language"
+msgstr "Objeto(s) recuperado(s)."
+
+msgid "language_not_installed"
+msgstr "Os meus contactos"
+
+msgid "languages"
+msgstr "A atribuição do utilizador mudou"
+
+msgid "languages_already_installed"
+msgstr "Os seguintes utilizadores estão atribuídos apenas a esta função:"
+
+msgid "languages_already_uninstalled"
+msgstr "Apague os utilizadores ou atribua-os a outra função para apagar esta função."
+
+msgid "languages_updated"
+msgstr "Favoritos"
+
+msgid "last_access"
+msgstr "Novidades"
+
+msgid "last_change"
+msgstr "Novo idioma"
+
+msgid "last_edited_on"
+msgstr "Última edição a"
+
+msgid "last_login"
+msgstr "Próximo"
+
+msgid "last_refresh"
+msgstr "Não"
+
+msgid "last_reminder"
+msgstr "Último lembrete"
+
+msgid "last_update"
+msgstr "Nenhum"
+
+msgid "last_visited"
+msgstr "Funções locais (apenas definidas para o utilizador)"
+
+msgid "lastname"
+msgstr "Novo"
+
+#, fuzzy
+msgid "latex_edit_info"
+msgstr "You can enter LaTeX code in the delimiters <code>[tex]</code> and <code>[/tex]</code>."
+
+msgid "laugh"
+msgstr "Nota"
+
+msgid "launch"
+msgstr "Notas"
+
+msgid "ldap"
+msgstr "LDAP"
+
+msgid "ldap_basedn"
+msgstr "LDAP BaseDN"
+
+msgid "ldap_configure"
+msgstr "Configurar autenticação LDAP"
+
+msgid "ldap_port"
+msgstr "Porta LDAP"
+
+msgid "ldap_read"
+msgstr "Notas e comentários"
+
+msgid "ldap_server"
+msgstr "URL servidor LDAP"
+
+msgid "ldap_tls"
+msgstr "Usar LDAP TLS"
+
+msgid "ldap_version"
+msgstr "Versão de protocolo LDAP"
+
+msgid "learning module"
+msgstr "Módulo de aprendizagem"
+
+msgid "learning_progress"
+msgstr "Não instalado"
+
+msgid "leave_waiting_list"
+msgstr "Sair da lista de espera"
+
+msgid "legend"
+msgstr "Legenda"
+
+msgid "level"
+msgstr "Não iniciou sessão"
+
+msgid "link"
+msgstr "Link"
+
+#, fuzzy
+msgid "link_action"
+msgstr "Insert Link - Click to insert a link."
+
+msgid "link_all"
+msgstr "Ligar tudo"
+
+msgid "link_check"
+msgstr "Este objeto está vazio e não contém itens."
+
+msgid "link_check_message_b"
+msgstr "Sem limite"
+
+msgid "link_check_message_disabled"
+msgstr "Não há funções globais para atribuir ao utilizador. Portanto, não está autorizado para adicionar utilizadores."
+
+msgid "link_check_message_enabled"
+msgstr "Mensagens ativadas"
+
+msgid "link_check_subject"
+msgstr "Nenhum título"
+
+msgid "link_checker_refreshed"
+msgstr "Vista atualizada"
+
+msgid "link_selected_items"
+msgstr "Objeto"
+
+msgid "links_add_param"
+msgstr "Atualmente não existe um texto dos termos de serviço fornecido com esta instalação. Entre em contacto com o <a href=\"%1$s\">administrador do sistema</a>."
+
+msgid "links_dyn_parameter"
+msgstr "Parâmetros dinâmicos"
+
+msgid "links_dynamic"
+msgstr "Não selecionou nenhum item!"
+
+msgid "links_dynamic_info"
+msgstr "Nenhuma data"
+
+msgid "links_existing_params"
+msgstr "Parâmetros existentes:"
+
+msgid "links_name"
+msgstr "Nome do parâmetro"
+
+msgid "links_no_name_given"
+msgstr "Escolha um nome de parâmetro."
+
+msgid "links_no_value_given"
+msgstr "Escolha um valor de parâmetro."
+
+msgid "links_parameter_deleted"
+msgstr "Parâmetro apagado."
+
+msgid "links_select_one"
+msgstr "- Selecionar um -"
+
+msgid "links_session_id"
+msgstr "Id de sessão ILIAS"
+
+msgid "links_user_id"
+msgstr "Id de utilizador ILIAS"
+
+msgid "links_user_name"
+msgstr "Nome de utilizador ILIAS"
+
+msgid "links_value"
+msgstr "Valor de parâmetro"
+
+msgid "list"
+msgstr "Lista"
+
+msgid "list_of_questions"
+msgstr "Objetos"
+
+#, fuzzy
+msgid "list_view"
+msgstr "List View"
+
+#, fuzzy
+msgid "listaction_learning_progress_settings"
+msgstr "Learning Progress Settings"
+
+msgid "lm"
+msgstr "Objeto adicionado"
+
+msgid "lm_add"
+msgstr "Objeto copiado"
+
+msgid "lm_added"
+msgstr "Definições de objeto"
+
+msgid "lm_new"
+msgstr "Bancos de reservas"
+
+msgid "lm_type_scorm"
+msgstr "Categorias"
+
+msgid "lm_type_scorm2004"
+msgstr "Link de categoria"
+
+#, fuzzy
+msgid "lm_type_scorm2004_info"
+msgstr "These are newer versions of SCORM with significantly enhanced functionality. The learning module is launched in an iFrame."
+
+#, fuzzy
+msgid "lm_type_scorm_info"
+msgstr "This is the most widely used version of SCORM. The learning module is launched in a frame."
+
+msgid "lng"
+msgstr "Sala de chat"
+
+msgid "lngf"
+msgstr "Cursos"
+
+msgid "lo"
+msgstr "Link do curso"
+
+msgid "loaded_preview_renderers"
+msgstr "Processador de pré-visualização carregado"
+
+msgid "local"
+msgstr "Local"
+
+msgid "local_language_file"
+msgstr "Ficheiros"
+
+msgid "local_language_files"
+msgstr "Pastas"
+
+msgid "local_languages_already_installed"
+msgstr "Exercícios"
+
+#, fuzzy
+msgid "local_role_assignment"
+msgstr "Lokale Rollenzuweisung"
+
+msgid "location"
+msgstr "Fóruns"
+
+msgid "locator"
+msgstr "Glossários"
+
+msgid "log_in"
+msgstr "Login"
+
+#, fuzzy
+msgid "log_out"
+msgstr "Logout"
+
+msgid "logic_or"
+msgstr "ou"
+
+msgid "login"
+msgstr "Grupos"
+
+msgid "login_as"
+msgstr "Módulos de aprendizagem HTML"
+
+msgid "login_data"
+msgstr "Módulos de aprendizagem ILIAS"
+
+msgid "login_exists"
+msgstr "Recursos de aprendizagem"
+
+msgid "login_invalid"
+msgstr "Mediacasts"
+
+msgid "login_to_ilias"
+msgstr "Bancos de media"
+
+#, fuzzy
+msgid "login_to_ilias_via_login_form"
+msgstr "Login to ILIAS"
+
+msgid "login_to_ilias_via_saml"
+msgstr "Login para ILIAS via autenticação SAML"
+
+msgid "login_to_ilias_via_shibboleth"
+msgstr "Teste bancos de perguntas"
+
+msgid "loginname_already_exists"
+msgstr "Este nome de login já existe."
+
+msgid "loginname_settings"
+msgstr "Links do grupo"
+
+msgid "logout"
+msgstr "Cursos ECS"
+
+msgid "logout_text"
+msgstr "Funções"
+
+msgid "logs"
+msgstr "Dados de registo"
+
+msgid "love"
+msgstr "Módulos de aprendizagem SCORM"
+
+msgid "lres"
+msgstr "Recursos de aprendizagem"
+
+msgid "lso_add"
+msgstr "Sessões"
+
+#, fuzzy
+msgid "lso_admin_form_byline"
+msgstr "General Settings for Learning Sequences"
+
+#, fuzzy
+msgid "lso_admin_form_title"
+msgstr "Settings"
+
+#, fuzzy
+msgid "lso_admin_interval_byline"
+msgstr "Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible! "
+
+#, fuzzy
+msgid "lso_admin_interval_label"
+msgstr "Learning Progress Polling Interval (seconds)"
+
+msgid "lso_copy_threads_info"
+msgstr "Capítulos"
+
+msgid "lso_edit"
+msgstr "Inquéritos"
+
+msgid "lso_import"
+msgstr "Testes"
+
+msgid "lso_new"
+msgstr "Weblinks"
+
+msgid "lso_wizard_page"
+msgstr "Administração"
+
+#, fuzzy
+msgid "lti"
+msgstr "LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_add"
+msgstr "Add LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_new"
+msgstr "New LTI Tool (Consumer)"
+
+msgid "lti_outcome_info"
+msgstr "Envia o estado do progresso da aprendizagem dos utilizadores LTI ao LTI Tool Consumer."
+
+msgid "mail"
+msgstr "Principal pasta de definições do sistema contendo todos os painéis para administrar a sua instalação do ILIAS."
+
+msgid "mail_addressbook"
+msgstr "Teste e avaliação"
+
+msgid "mail_at_the_ilias_installation"
+msgstr "Recebeu %1$s novo mail na instalação ILIAS %2$s"
+
+msgid "mail_attachment"
+msgstr "Anexo do mail"
+
+msgid "mail_b_inbox"
+msgstr "Definições de plataforma para a ferramenta de teste e avaliação"
+
+msgid "mail_c_trash"
+msgstr "Autenticação e registo"
+
+#, fuzzy
+msgid "mail_cron_scheduled_mails"
+msgstr "Send scheduled mails."
+
+#, fuzzy
+msgid "mail_cron_scheduled_mails_desc"
+msgstr "Sends scheduled user mails according to their defined delivery times"
+
+msgid "mail_d_drafts"
+msgstr "Banco de reservas"
+
+msgid "mail_delete_error"
+msgstr "Configurar o seu modo de autenticação (local, LDAP, ...) e novas definições de registo de conta aqui."
+
+#, fuzzy
+msgid "mail_e_outbox"
+msgstr "Outbox"
+
+msgid "mail_e_sent"
+msgstr "Link de categoria"
+
+msgid "mail_edit_permission"
+msgstr "Categoria"
+
+#, fuzzy
+msgid "mail_f_sent"
+msgstr "Sent"
+
+msgid "mail_folders"
+msgstr "Sala de chat"
+
+msgid "mail_import_file"
+msgstr "Sala de chat"
+
+msgid "mail_mails_of"
+msgstr "Plugins"
+
+msgid "mail_maxsize_attach"
+msgstr "Definições gerais para plugins"
+
+msgid "mail_member"
+msgstr "Mail ao membro"
+
+msgid "mail_members"
+msgstr "Curso"
+
+#, fuzzy
+msgid "mail_message_scheduled"
+msgstr "Scheduled mail"
+
+#, fuzzy
+msgid "mail_message_scheduled_info"
+msgstr "Scheduled mails remain in the outbox until the chosen sending time. When editing, they are temporarily moved to drafts so they are not sent while you are editing. After scheduling again, they reappear in the outbox."
+
+msgid "mail_not_sent"
+msgstr "Link do curso"
+
+#, fuzzy
+msgid "mail_schedule_error_no_datetime"
+msgstr "To schedule a mail, a delivery date and time must be specified."
+
+#, fuzzy
+msgid "mail_schedule_error_past_datetime"
+msgstr "You cannot schedule emails in the past."
+
+#, fuzzy
+msgid "mail_schedule_scheduled_datetime"
+msgstr "Scheduled Send Time"
+
+#, fuzzy
+msgid "mail_scheduled"
+msgstr "Mail stored in outbox for later delivery."
+
+#, fuzzy
+msgid "mail_scheduled_edit_compose_info"
+msgstr "You are editing a scheduled mail. Sending is paused until you schedule the mail again."
+
+#, fuzzy
+msgid "mail_scheduled_edit_moved_info"
+msgstr "This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox."
+
+msgid "mail_search_no"
+msgstr "Livro Digilib"
+
+msgid "mail_select_one"
+msgstr "Exercício"
+
+msgid "mail_send_error"
+msgstr "Ficheiros"
+
+msgid "mail_sent"
+msgstr "Definições para ficheiros e tratamento de ficheiros"
+
+msgid "mail_settings"
+msgstr "Web Feed"
+
+msgid "mail_to_global_roles_not_allowed"
+msgstr "Ficheiro"
+
+msgid "mail_z_local"
+msgstr "Ficheiro módulo de aprendizagem"
+
+msgid "mails"
+msgstr "Editar"
+
+msgid "mails_at_the_ilias_installation"
+msgstr "Recebeu %1$s novos mails na instalação ILIAS %2$s"
+
+msgid "mails_pl"
+msgstr "Definições de administração para editor de páginas ILIAS e TinyMCE."
+
+msgid "main_menu"
+msgstr "Pasta"
+
+#, fuzzy
+msgid "mainbar_aria_label"
+msgstr "Mainbar"
+
+#, fuzzy
+msgid "mainbar_more_label"
+msgstr "More"
+
+msgid "manage_members"
+msgstr "Gerir membros"
+
+msgid "matriculation"
+msgstr "Glossário"
+
+msgid "max_previews_per_object"
+msgstr "Número de imagens de pré-visualização por ficheiro"
+
+msgid "max_previews_per_object_info"
+msgstr "Define o número máximo de imagens de pré-visualização que são criadas por ficheiro."
+
+msgid "mcst"
+msgstr "MediaCast"
+
+msgid "mcst_add"
+msgstr "Adicionar MediaCast"
+
+msgid "mcst_new"
+msgstr "Novo MediaCast"
+
+msgid "mem_add_to_wl"
+msgstr "Módulo de aprendizagem HTML"
+
+msgid "mem_alert_no_places"
+msgstr "Não há lugares livres disponíveis."
+
+msgid "mem_cron_min_members"
+msgstr "Curso/Grupo: Controlo do mínimo de membros"
+
+msgid "mem_cron_min_members_info"
+msgstr "Os administradores serão notificados se o número mínimo não for alcançado."
+
+msgid "mem_end"
+msgstr "Fim do registo:"
+
+msgid "mem_free_places"
+msgstr "Configure aqui as definições globais de LDAP."
+
+msgid "mem_max_users"
+msgstr "Mínimo de utilizadores:"
+
+msgid "mem_min_users"
+msgstr "Mínimo de utilizadores"
+
+msgid "mem_participants"
+msgstr "Participantes"
+
+msgid "mem_reg_expired"
+msgstr "O tempo de registo expirou"
+
+msgid "mem_reg_not_started"
+msgstr "O registo não iniciou"
+
+msgid "mem_reg_period"
+msgstr "Período de registo"
+
+msgid "mem_reg_type"
+msgstr "Tipo de registo"
+
+msgid "mem_start"
+msgstr "Início do registo:"
+
+msgid "mem_unlimited"
+msgstr "Módulo de aprendizagem ILIAS"
+
+msgid "mem_view_activate"
+msgstr "Idioma"
+
+msgid "mem_view_close"
+msgstr "Fechar vista de membros"
+
+msgid "mem_view_long"
+msgstr "Vista de membros"
+
+msgid "mem_waiting_list"
+msgstr "Utilizadores na lista de espera:"
+
+msgid "mem_waiting_list_position"
+msgstr "A sua posição na lista de espera:"
+
+msgid "member"
+msgstr "Grupo"
+
+msgid "member_status"
+msgstr "Copiar grupo"
+
+msgid "members"
+msgstr "Link do grupo"
+
+msgid "membership_leave"
+msgstr "Sair"
+
+msgid "mep"
+msgstr "Idiomas"
+
+msgid "mep_add"
+msgstr "Gerir aqui seus idiomas do sistema."
+
+msgid "mep_edit"
+msgstr "Recursos de aprendizagem"
+
+msgid "mep_new"
+msgstr "Correio"
+
+msgid "mep_not_insert_already_exist"
+msgstr "Os seguintes itens não foram inseridos porque já estão no banco de media:"
+
+msgid "message"
+msgstr "Configure aqui as definições globais do correio."
+
+msgid "message_content"
+msgstr "Mediacast"
+
+msgid "message_no_delivered_files"
+msgstr "Banco de media"
+
+msgid "meta_data"
+msgstr "Objeto de media"
+
+#, fuzzy
+msgid "metabar_aria_label"
+msgstr "Metabar"
+
+msgid "mgs_objects_linked_to_the_following_folders_p"
+msgstr "Os objetos foram associados à(s) seguinte(s) pasta(s): %s"
+
+msgid "mgs_objects_linked_to_the_following_folders_s"
+msgstr "O objeto foi associados à(s) seguinte(s) pasta(s): %s"
+
+msgid "migrate"
+msgstr "Objetos e bancos de media"
+
+#, fuzzy
+msgid "minimize"
+msgstr "Minimize"
+
+msgid "minute"
+msgstr "Minuto"
+
+msgid "minutes"
+msgstr "Minutos"
+
+msgid "missing"
+msgstr "Objeto não encontrado"
+
+msgid "missing_perm"
+msgstr "Falta autorização"
+
+msgid "missing_precondition"
+msgstr "Falta pré-condição"
+
+#, fuzzy
+msgid "mm_achievements"
+msgstr "Achievements"
+
+#, fuzzy
+msgid "mm_administration"
+msgstr "Administration"
+
+#, fuzzy
+msgid "mm_badges"
+msgstr "Badges"
+
+#, fuzzy
+msgid "mm_calendar"
+msgstr "Calendar"
+
+#, fuzzy
+msgid "mm_certificates"
+msgstr "Certificates"
+
+#, fuzzy
+msgid "mm_comments"
+msgstr "Comments"
+
+#, fuzzy
+msgid "mm_communication"
+msgstr "Communication"
+
+#, fuzzy
+msgid "mm_contacts"
+msgstr "Contacts"
+
+#, fuzzy
+msgid "mm_dashboard"
+msgstr "Dashboard"
+
+#, fuzzy
+msgid "mm_enrolments"
+msgstr "Enrolments"
+
+#, fuzzy
+msgid "mm_favorites"
+msgstr "Favourites"
+
+#, fuzzy
+msgid "mm_learning_history"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "mm_learning_progress"
+msgstr "Learning Progress"
+
+#, fuzzy
+msgid "mm_mail"
+msgstr "Mail"
+
+#, fuzzy
+msgid "mm_news"
+msgstr "News"
+
+#, fuzzy
+msgid "mm_notes"
+msgstr "Notes"
+
+#, fuzzy
+msgid "mm_organisation"
+msgstr "Organisation"
+
+#, fuzzy
+msgid "mm_personal_and_shared_r"
+msgstr "Personal and Shared Resources"
+
+#, fuzzy
+msgid "mm_personal_workspace"
+msgstr "Personal Workspace"
+
+#, fuzzy
+msgid "mm_portfolio"
+msgstr "Portfolio"
+
+#, fuzzy
+msgid "mm_private_chats"
+msgstr "Private Chats"
+
+#, fuzzy
+msgid "mm_repo_tree_view"
+msgstr "Tree View"
+
+#, fuzzy
+msgid "mm_repo_tree_view_act"
+msgstr "Activate Tree"
+
+#, fuzzy
+msgid "mm_repo_tree_view_deact"
+msgstr "Deactivate Tree"
+
+#, fuzzy
+msgid "mm_repository"
+msgstr "Repository"
+
+#, fuzzy
+msgid "mm_skills"
+msgstr "Competences"
+
+#, fuzzy
+msgid "mm_staff_list"
+msgstr "Staff List"
+
+#, fuzzy
+msgid "mm_tags"
+msgstr "Tags"
+
+#, fuzzy
+msgid "mm_task_derived_tasks"
+msgstr "Tasks"
+
+msgid "mme_lost_item_reason"
+msgstr "Novidades e Web Feeds"
+
+msgid "mme_lost_item_title"
+msgstr "Definições de objeto"
+
+msgid "mob"
+msgstr "Gerir tipos e permissões de objetos ILIAS. (apenas para especialistas!)"
+
+msgid "moderators"
+msgstr "Moderadores"
+
+msgid "module"
+msgstr "Computador pessoal"
+
+msgid "modules"
+msgstr "Página"
+
+msgid "month"
+msgstr "Portefólio"
+
+msgid "month_01_long"
+msgstr "Privacidade e segurança"
+
+msgid "month_01_short"
+msgstr "Jan"
+
+msgid "month_02_long"
+msgstr "Teste bancos de perguntas"
+
+msgid "month_02_short"
+msgstr "Categoria ECS"
+
+msgid "month_03_long"
+msgstr "Curso ECS"
+
+msgid "month_03_short"
+msgstr "Mar"
+
+msgid "month_04_long"
+msgstr "Objetos restaurados"
+
+msgid "month_04_short"
+msgstr "Contém objetos restaurados da verificação do sistema."
+
+msgid "month_05_long"
+msgstr "Função"
+
+msgid "month_05_short"
+msgstr "Funções"
+
+msgid "month_06_long"
+msgstr "Pode gerir aqui as suas funções."
+
+msgid "month_06_short"
+msgstr "Jun"
+
+msgid "month_07_long"
+msgstr "Funções locais"
+
+msgid "month_07_short"
+msgstr "Jul"
+
+msgid "month_08_long"
+msgstr "Contém funções locais do n.º do objeto."
+
+msgid "month_08_short"
+msgstr "Modelo de função"
+
+msgid "month_09_long"
+msgstr "Repositório - Home"
+
+msgid "month_09_short"
+msgstr "Módulo de aprendizagem SCORM"
+
+msgid "month_10_long"
+msgstr "Gestão de competências"
+
+msgid "month_10_short"
+msgstr "Gerir competências e categorias de competências."
+
+msgid "month_11_long"
+msgstr "Inquérito bancos de perguntas"
+
+msgid "month_11_short"
+msgstr "Nov"
+
+msgid "month_12_long"
+msgstr "Capítulo"
+
+msgid "month_12_short"
+msgstr "Layout e estilos"
+
+msgid "monthly"
+msgstr "mensalmente"
+
+msgid "months"
+msgstr "Meses"
+
+msgid "mount_webfolder"
+msgstr "Abrir como pasta da web"
+
+msgid "move"
+msgstr "Inquérito"
+
+msgid "moveChapter"
+msgstr "Copiar inquérito"
+
+msgid "movePage"
+msgstr "Identificação"
+
+msgid "move_selected_items"
+msgstr "Definições para funcionalidade de identificação."
+
+#, fuzzy
+msgid "msg_bt_download_started"
+msgstr "ILIAS is generating a ZIP archive of all available files. You can download them from the Notification Center (bell icon) on top right."
+
+msgid "msg_cancel"
+msgstr "Calendário"
+
+msgid "msg_clear_clipboard"
+msgstr "O bloco \"Calendário\" aparece dentro do separador \"Conteúdo\"."
+
+msgid "msg_cloned"
+msgstr "Novidades"
+
+msgid "msg_copy_clipboard"
+msgstr "O bloco \"Novidades\" aparece dentro do separador \"Conteúdo\"."
+
+msgid "msg_copy_clipboard_container"
+msgstr "Estatística e progresso de aprendizagem"
+
+msgid "msg_copy_clipboard_source"
+msgstr "Definições e vista geral da estatística e progresso de aprendizagem"
+
+msgid "msg_cut_clipboard"
+msgstr "Teste"
+
+msgid "msg_cut_copied"
+msgstr "Copiar teste"
+
+msgid "msg_deleted_export_files"
+msgstr "Exportar ficheiro(s) apagado(s)"
+
+msgid "msg_deleted_role"
+msgstr "Tipo de objeto"
+
+msgid "msg_deleted_roles_rolts"
+msgstr "Utilizador"
+
+msgid "msg_failed"
+msgstr "Gestão de utilizador"
+
+msgid "msg_form_save_error"
+msgstr "Não foi possível guardar os dados do formulário. Verifique os campos de entrada quanto a mensagens de erro."
+
+#, fuzzy
+msgid "msg_info_blacklisted"
+msgstr "The files cannot be uploaded due to security reasons."
+
+#, fuzzy
+msgid "msg_input_char_limit_max"
+msgstr "You have entered more characters than allowed."
+
+#, fuzzy
+msgid "msg_input_char_limit_min"
+msgstr "You have to enter the minimum of characters specified."
+
+msgid "msg_input_does_not_match_regexp"
+msgstr "Forneça um valor válido."
+
+msgid "msg_input_is_required"
+msgstr "Gira aqui as contas do utilizador."
+
+#, fuzzy
+msgid "msg_invalid_value_css_rect_input"
+msgstr "The entered value is incorrect, do not use any plus or minus symbols in combination with the entered integer. Please check your input."
+
+msgid "msg_is_last_role"
+msgstr "Weblink"
+
+msgid "msg_last_role_for_registration"
+msgstr "Pelo menos uma função tem de estar disponível no formulário de registo para novos utilizadores. Esta função é atualmente a única disponível."
+
+msgid "msg_link_clipboard_p"
+msgstr "Agora selecione a localização pretendida, à qual os objetos selecionados devem ser associados e clique no botão Colar."
+
+msgid "msg_link_clipboard_s"
+msgstr "Agora selecione a localização pretendida, à qual o objeto selecionado deve ser associado e clique no botão Colar."
+
+msgid "msg_linked"
+msgstr "Copiar lista dos links da web"
+
+msgid "msg_may_not_contain"
+msgstr "De"
+
+msgid "msg_min_one_role"
+msgstr "Offline"
+
+msgid "msg_multi_language_selected"
+msgstr "Uso offline"
+
+msgid "msg_no_default_language"
+msgstr "Operação"
+
+msgid "msg_no_delete_yourself"
+msgstr "Otimizar"
+
+msgid "msg_no_file"
+msgstr "Opções"
+
+#, fuzzy
+msgid "msg_no_files_selected"
+msgstr "No files selected"
+
+msgid "msg_no_language_selected"
+msgstr "Encomenda de"
+
+msgid "msg_no_perm_assign_role_to_user"
+msgstr "Outros"
+
+msgid "msg_no_perm_assign_user_to_role"
+msgstr "Não tem permissão para mudar a atribuição do utilizador"
+
+msgid "msg_no_perm_copy"
+msgstr "Vista geral"
+
+msgid "msg_no_perm_create_rolt"
+msgstr "Dono"
+
+msgid "msg_no_perm_cut"
+msgstr "Página"
+
+msgid "msg_no_perm_delete"
+msgstr "Páginas"
+
+msgid "msg_no_perm_link"
+msgstr "Layout página"
+
+msgid "msg_no_perm_modify_rolt"
+msgstr "Layouts página"
+
+msgid "msg_no_perm_modify_user"
+msgstr "Parâmetro"
+
+msgid "msg_no_perm_paste"
+msgstr "Analisar"
+
+msgid "msg_no_perm_paste_object_in_folder"
+msgstr "Não tem permissão para colar o objeto %s para a pasta %s."
+
+msgid "msg_no_perm_perm"
+msgstr "Palavra-passe"
+
+msgid "msg_no_perm_read"
+msgstr "Não tem permissão para aceder a este item."
+
+msgid "msg_no_perm_read_item"
+msgstr "A nova palavra-passe é inválida! Apenas são permitidos os seguintes caracteres (mínimo de 6 caracteres): A-Z a-z 0-9 _.-+?"
+
+msgid "msg_no_perm_read_lm"
+msgstr "Não tem permissão para ler este módulo de aprendizagem."
+
+#, fuzzy
+msgid "msg_no_perm_view_roles_of_user"
+msgstr "You have no permission to view the role assignment of this user"
+
+msgid "msg_no_perm_write"
+msgstr "As suas entradas para a nova palavra-passe não correspondem! Volte a inserir a sua nova palavra-passe."
+
+msgid "msg_no_search_result"
+msgstr "A palavra-passe introduzida está errada!"
+
+msgid "msg_no_search_string"
+msgstr "Palavra-passe"
+
+msgid "msg_no_title"
+msgstr "Insira um título."
+
+msgid "msg_not_available_for_anon"
+msgstr "Antigo"
+
+msgid "msg_not_in_itself"
+msgstr "Tempo online (DD:HH:MM:SS)"
+
+msgid "msg_obj_already_deleted"
+msgstr "O objeto já foi apagado."
+
+msgid "msg_obj_created"
+msgstr "Caracteres permitidos: %s"
+
+msgid "msg_obj_exists"
+msgstr "Se estiver ativada a ajuda para palavra-passe, aparece um link ‘Esqueceu-se da palavra-passe?’ na página de login de ILIAS. Os utilizadores podem usar este link para definir uma nova palavra-passe para a sua conta de utilizador sem necessidade de assistência de um administrador de sistema."
+
+msgid "msg_obj_exists_in_folder"
+msgstr "O objeto %s já existe na pasta %s."
+
+msgid "msg_obj_may_not_contain_objects_of_type"
+msgstr "O objeto %s pode não conter objetos do tipo: %s."
+
+msgid "msg_obj_modified"
+msgstr "Tem de mudar a sua palavra-passe inicial antes de poder começar a usar os serviços ILIAS."
+
+msgid "msg_obj_no_download"
+msgstr "não pode ser descarregado."
+
+msgid "msg_obj_no_link"
+msgstr "O campo da palavra-passe não pode estar vazio."
+
+msgid "msg_obj_perm_download"
+msgstr "Não tem direitos suficientes para descarregar os seguintes objetos:"
+
+msgid "msg_paste_object_not_in_itself"
+msgstr "A sua palavra-passe caducou e tem de ser mudada, pois a última vez que foi alterada foi há %s dia(s)."
+
+msgid "msg_perm_adopted_from1"
+msgstr "Os critérios múltiplos não estão cumpridos:"
+
+msgid "msg_perm_adopted_from2"
+msgstr "Colar"
+
+msgid "msg_perm_adopted_from_itself"
+msgstr "Colar"
+
+msgid "msg_removed"
+msgstr "Colar"
+
+msgid "msg_role_reserved_prefix"
+msgstr "Caminho"
+
+msgid "msg_roleassignment_changed"
+msgstr "Colar"
+
+msgid "msg_sysrole_not_deletable"
+msgstr "Caminhos"
+
+msgid "msg_sysrole_not_editable"
+msgstr "Caminho não definido"
+
+#, fuzzy
+msgid "msg_to_many_files"
+msgstr "Too many files selected, allowed amount of files:"
+
+msgid "msg_trash_empty"
+msgstr "Caminho para o Convert"
+
+msgid "msg_undeleted"
+msgstr "Caminho para o HTMLdoc"
+
+msgid "msg_unit_is_required"
+msgstr "Esta entrada requer uma unidade. Insira um valor correto."
+
+#, fuzzy
+msgid "msg_unknown_value"
+msgstr "An unknown value has been passed."
+
+msgid "msg_user_last_role1"
+msgstr "Caminho para o Unzip"
+
+msgid "msg_user_last_role2"
+msgstr "Caminho para o Zip"
+
+msgid "msg_userassignment_changed"
+msgstr "Caminho para o Java"
+
+msgid "msg_wrong_filetypes"
+msgstr "Exportar PDF"
+
+msgid "msg_wrong_format"
+msgstr "O valor que inseriu não é um formato válido."
+
+msgid "my_bms"
+msgstr "Ativar Chat viewer"
+
+msgid "my_certificates"
+msgstr "Link permanente"
+
+msgid "my_contacts"
+msgstr "Permissão"
+
+msgid "my_courses"
+msgstr "Permissão negada"
+
+msgid "my_courses_groups"
+msgstr "Definições de permissões de objetos"
+
+msgid "my_staff"
+msgstr "Pessoal"
+
+msgid "name"
+msgstr "Permissões"
+
+#, fuzzy
+msgid "nc_contact_requests_headline"
+msgstr "Contact Requests"
+
+#, fuzzy
+msgid "nc_contact_requests_number_p"
+msgstr "You have %s Contact Requests."
+
+#, fuzzy
+msgid "nc_contact_requests_number_s"
+msgstr "You have %s Contact Request."
+
+#, fuzzy
+msgid "nc_contact_requests_prop_time"
+msgstr "Time"
+
+msgid "never"
+msgstr "nunca"
+
+msgid "new"
+msgstr "Dados pessoais"
+
+msgid "new_language"
+msgstr "Avatar"
+
+msgid "new_pass_equals_old_pass"
+msgstr "A nova palavra-passe é igual à antiga."
+
+msgid "newline"
+msgstr "Nova linha"
+
+msgid "news"
+msgstr "Computador pessoal"
+
+msgid "next"
+msgstr "Dados pessoais e perfis"
+
+msgid "no"
+msgstr "Definições"
+
+msgid "no_access_item"
+msgstr "Não tem permissão para aceder a este item."
+
+msgid "no_access_item_public"
+msgstr "Telefone, Telemóvel"
+
+#, fuzzy
+msgid "no_accessibility_control_concept_description"
+msgstr "There is currently no Accessibility Control Concept provided with this installation. Please contact the <a href=\"%1$s\">Accessibility Point of Contact</a>."
+
+msgid "no_checkbox"
+msgstr "Frase"
+
+msgid "no_condition_selected"
+msgstr "Selecione uma pré-condição."
+
+msgid "no_date"
+msgstr "-- Selecione --"
+
+msgid "no_gallery_users_available"
+msgstr "Atualmente não há utilizadores na galeria."
+
+msgid "no_global_role_left"
+msgstr "Cada utilizador tem de ser atribuído a uma função."
+
+msgid "no_import_file_found"
+msgstr "Nenhum ficheiro de importação encontrado"
+
+msgid "no_items"
+msgstr "Insira um destino"
+
+msgid "no_limit"
+msgstr "Insira um título"
+
+msgid "no_mkisofs_configured"
+msgstr "Tem de configurar o serviço mkisofs na instalação ILIAS para executar a exportação ISO"
+
+msgid "no_parent_access"
+msgstr "Nenhum acesso a um objeto superordenado!"
+
+msgid "no_permission"
+msgstr "Não tem a necessária autorização."
+
+msgid "no_roles_user_can_be_assigned_to"
+msgstr "--- Selecione ---"
+
+msgid "no_start_file"
+msgstr "Nenhum ficheiro de arranque."
+
+msgid "no_title"
+msgstr "Porta"
+
+msgid "no_users_selected"
+msgstr "Selecione apenas um utilizador."
+
+msgid "no_xml_file_found_in_zip"
+msgstr "Ficheiro XML dentro do ficheiro zip não encontrado:"
+
+#, fuzzy
+msgid "noc"
+msgstr "Notification Center"
+
+msgid "non_internal_local_roles_only"
+msgstr "Pessoas"
+
+msgid "none"
+msgstr "Espaço de trabalho"
+
+msgid "normal"
+msgstr "Normal"
+
+msgid "not_available"
+msgstr "Indisponível"
+
+msgid "not_implemented_yet"
+msgstr "Não implementado ainda"
+
+msgid "not_installed"
+msgstr "Telefone"
+
+msgid "not_logged_in"
+msgstr "Telefone, Casa"
+
+msgid "note"
+msgstr "Título"
+
+msgid "notes"
+msgstr "Adicionar página"
+
+msgid "notes_and_comments"
+msgstr "Nova página"
+
+msgid "notice"
+msgstr "Nota"
+
+msgid "notifications"
+msgstr "Notificações"
+
+msgid "nr_following_sessions"
+msgstr "%1d seguinte(s) sessão(sessões)..."
+
+msgid "num_of_selected_files"
+msgstr "%s ficheiro(s) selecionado(s)"
+
+msgid "num_users"
+msgstr "Número de utilizadores"
+
+#, fuzzy
+msgid "numberedlist_action"
+msgstr "Insert Numbered List - Click to insert a numbered list."
+
+msgid "obj"
+msgstr "Posição"
+
+msgid "obj_accs"
+msgstr "Acessibilidade"
+
+msgid "obj_accs_desc"
+msgstr "Definições para funcionalidade de acessibilidade."
+
+msgid "obj_adm"
+msgstr "utilizador registado"
+
+msgid "obj_adm_desc"
+msgstr "utilizadores registados"
+
+#, fuzzy
+msgid "obj_adma"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "obj_adma_desc"
+msgstr "Important settings for the whole installation"
+
+#, fuzzy
+msgid "obj_adn"
+msgstr "Administrative Notifications"
+
+msgid "obj_adve"
+msgstr "Registo de nova conta"
+
+msgid "obj_adve_desc"
+msgstr "A sua conta de utilizador foi ativada."
+
+msgid "obj_ass"
+msgstr "Recurso"
+
+msgid "obj_assf"
+msgstr "O link será válido por apenas %s, após esse período terá que tentar novamente desde o início."
+
+msgid "obj_assf_desc"
+msgstr "Se este e-mail não significar nada para si, é possível que alguém tenha entrado no seu endereço de e-mail deliberadamente ou acidentalmente, e deve ignorar este e-mail."
+
+msgid "obj_auth"
+msgstr "Olá"
+
+msgid "obj_auth_desc"
+msgstr "Bem-vindo ao ILIAS eLearning!"
+
+msgid "obj_awra"
+msgstr "Ferramenta ‘Who is online?’ (Quem está online?)"
+
+msgid "obj_awra_desc"
+msgstr "Gerir ferramenta ‘Who is online?’ (Quem está online?)"
+
+msgid "obj_bdga"
+msgstr "Badges"
+
+msgid "obj_bdga_desc"
+msgstr "Administrar tipos, modelos de imagem e badges de atividade"
+
+#, fuzzy
+msgid "obj_bgtk"
+msgstr "Background Task"
+
+msgid "obj_bibl"
+msgstr "Bibliografia"
+
+msgid "obj_bibs"
+msgstr "Bibliografia"
+
+msgid "obj_bibs_desc"
+msgstr "Administração de bibliografia"
+
+msgid "obj_blog"
+msgstr "Blog"
+
+msgid "obj_blog_duplicate"
+msgstr "Copiar blog"
+
+#, fuzzy
+msgid "obj_bnmk"
+msgstr "Benchmarking"
+
+#, fuzzy
+msgid "obj_bnmk_desc"
+msgstr "Recording and display of database query durations"
+
+msgid "obj_book"
+msgstr "Para aceder a ILIAS utilize os seguintes dados:"
+
+msgid "obj_cadm"
+msgstr "Contactos"
+
+msgid "obj_cadm_desc"
+msgstr "Administração de contactos"
+
+msgid "obj_cals"
+msgstr "Calendário"
+
+msgid "obj_cals_desc"
+msgstr "Definições gerais de calendário."
+
+msgid "obj_cat"
+msgstr "Informações pessoais adicionais:"
+
+msgid "obj_cat_duplicate"
+msgstr "Copiar categoria"
+
+msgid "obj_catr"
+msgstr "Os seus dados de acesso"
+
+msgid "obj_cert"
+msgstr "Certificados"
+
+msgid "obj_cert_desc"
+msgstr "Definições para certificados"
+
+msgid "obj_chap"
+msgstr "Capítulo"
+
+msgid "obj_chta"
+msgstr "O seu link de confirmação"
+
+msgid "obj_chtr"
+msgstr "A sua palavra-passe será enviada para o seu endereço de e-mail em baixo."
+
+#, fuzzy
+msgid "obj_chtr_duplicate"
+msgstr "Copy Chat Room"
+
+#, fuzzy
+msgid "obj_cmis"
+msgstr "xAPI/cmi5"
+
+#, fuzzy
+msgid "obj_cmis_desc"
+msgstr "Learning Record Store Types Configuration"
+
+#, fuzzy
+msgid "obj_cmix"
+msgstr "xAPI/cmi5"
+
+msgid "obj_cmps"
+msgstr "Remover"
+
+msgid "obj_cmps_desc"
+msgstr "Remover tradução"
+
+#, fuzzy
+msgid "obj_coms"
+msgstr "Comments"
+
+#, fuzzy
+msgid "obj_coms_desc"
+msgstr "Comments settings"
+
+msgid "obj_copa"
+msgstr "Mudar nome"
+
+#, fuzzy
+msgid "obj_cpad"
+msgstr "Content Pages"
+
+#, fuzzy
+msgid "obj_cpad#_desc"
+msgstr "Content Page Administration"
+
+#, fuzzy
+msgid "obj_cpad_desc"
+msgstr "Content Page Administration"
+
+#, fuzzy
+msgid "obj_cron"
+msgstr "Cron Jobs"
+
+#, fuzzy
+msgid "obj_cron_desc"
+msgstr "List of all Cron Jobs"
+
+msgid "obj_crs"
+msgstr "O scan repetido falhou."
+
+msgid "obj_crs_duplicate"
+msgstr "Copiar curso"
+
+msgid "obj_crsr"
+msgstr "O scan repetido foi bem-sucedido."
+
+msgid "obj_crss"
+msgstr "Curso"
+
+msgid "obj_crss_desc"
+msgstr "Definições gerais para cursos"
+
+msgid "obj_crsv"
+msgstr "Certificado de curso"
+
+msgid "obj_dbk"
+msgstr "Responder"
+
+msgid "obj_dcl"
+msgstr "Coleção de dados"
+
+msgid "obj_dcl_duplicate"
+msgstr "Copiar coleção de dados"
+
+#, fuzzy
+msgid "obj_dpro"
+msgstr "Declaration of Data Protection"
+
+#, fuzzy
+msgid "obj_dpro_desc"
+msgstr "Declaration of Data Protection Settings"
+
+#, fuzzy
+msgid "obj_dshs"
+msgstr "Dashboard"
+
+#, fuzzy
+msgid "obj_dshs_desc"
+msgstr "Dashboard settings"
+
+msgid "obj_ecss"
+msgstr "ECS"
+
+msgid "obj_ecss_desc"
+msgstr "Definições gerais ECS"
+
+#, fuzzy
+msgid "obj_etal"
+msgstr "Employee Talk"
+
+msgid "obj_exc"
+msgstr "Repositório"
+
+msgid "obj_exc_duplicate"
+msgstr "Copiar exercício"
+
+msgid "obj_excv"
+msgstr "Certificado de exercício"
+
+msgid "obj_facs"
+msgstr "Repositório lixo e permissões"
+
+msgid "obj_facs_desc"
+msgstr "Página principal"
+
+msgid "obj_file"
+msgstr "Requer e-mail"
+
+msgid "obj_file_duplicate"
+msgstr "Ficheiro duplicado"
+
+msgid "obj_file_inline"
+msgstr "Requer forma de tratamento"
+
+#, fuzzy
+msgid "obj_fils"
+msgstr "File Services"
+
+#, fuzzy
+msgid "obj_fils_desc"
+msgstr "Configuration of File Service Settings."
+
+msgid "obj_fold"
+msgstr "Requer passatempo"
+
+msgid "obj_fold_duplicate"
+msgstr "Copiar pasta"
+
+msgid "obj_frm"
+msgstr "Requer número de matricula"
+
+msgid "obj_frm_duplicate"
+msgstr "Copiar fórum"
+
+msgid "obj_frma"
+msgstr "Fórum"
+
+msgid "obj_frma_desc"
+msgstr "Definições globais do fórum"
+
+msgid "obj_glo"
+msgstr "Repor"
+
+msgid "obj_glo_duplicate"
+msgstr "Copiar glossário"
+
+msgid "obj_grp"
+msgstr "Repor filtro"
+
+msgid "obj_grp_duplicate"
+msgstr "Ligações repositório"
+
+msgid "obj_grpr"
+msgstr "Recursos"
+
+msgid "obj_grps"
+msgstr "Grupo"
+
+msgid "obj_grps_desc"
+msgstr "Definições gerais para grupos"
+
+#, fuzzy
+msgid "obj_gsfo"
+msgstr "Footer"
+
+#, fuzzy
+msgid "obj_gsfo_desc"
+msgstr "Administrate Footer Layout and Content"
+
+msgid "obj_hlps"
+msgstr "Sistema de ajuda"
+
+msgid "obj_hlps_desc"
+msgstr "Definições para ajuda online"
+
+msgid "obj_htlm"
+msgstr "Direito"
+
+msgid "obj_htlm_duplicate"
+msgstr "Copiar módulo de aprendizagem HTML"
+
+msgid "obj_iass"
+msgstr "Avaliação individual"
+
+msgid "obj_iass_duplicate"
+msgstr "Copiar avaliação individual"
+
+msgid "obj_iass_select"
+msgstr "-- Selecione uma avaliação individual --"
+
+msgid "obj_itgr"
+msgstr "Grupo de itens"
+
+msgid "obj_ldap_desc"
+msgstr "Direitos"
+
+#, fuzzy
+msgid "obj_lhts"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "obj_lhts_desc"
+msgstr "Learning history settings"
+
+msgid "obj_lm"
+msgstr "Função"
+
+msgid "obj_lm_duplicate"
+msgstr "Copiar módulo de aprendizagem"
+
+msgid "obj_lng"
+msgstr "Funções"
+
+msgid "obj_lngf"
+msgstr "Função adicionada"
+
+msgid "obj_lngf_desc"
+msgstr "Adicionar utilizador(es) à função"
+
+msgid "obj_logs"
+msgstr "Logging"
+
+msgid "obj_logs_desc"
+msgstr "Definições gerais Logging"
+
+msgid "obj_lrss"
+msgstr "Atribuição de funções"
+
+msgid "obj_lrss_desc"
+msgstr "Configurar todos os tipos de módulos de aprendizagem."
+
+msgid "obj_lso"
+msgstr "Editar função"
+
+msgid "obj_lso_duplicate"
+msgstr "Nova função"
+
+#, fuzzy
+msgid "obj_lsos"
+msgstr "Learning Sequences"
+
+#, fuzzy
+msgid "obj_lsos_desc"
+msgstr "General settings for Learning Sequences"
+
+#, fuzzy
+msgid "obj_lti"
+msgstr "LTI Consumer"
+
+msgid "obj_ltis"
+msgstr "LTI"
+
+msgid "obj_ltis_desc"
+msgstr "Interoperabilidade das ferramentas de aprendizagem"
+
+msgid "obj_mail"
+msgstr "Nova pesquisa"
+
+msgid "obj_mail_desc"
+msgstr "Proteger permissões"
+
+#, fuzzy
+msgid "obj_mailr"
+msgstr "Read Mail"
+
+#, fuzzy
+msgid "obj_mailu"
+msgstr "Unread Mail"
+
+#, fuzzy
+msgid "obj_maps"
+msgstr "Maps"
+
+msgid "obj_mcst"
+msgstr "Funções"
+
+msgid "obj_mcst_duplicate"
+msgstr "Copiar Mediacast"
+
+msgid "obj_mcts"
+msgstr "Mediacast"
+
+msgid "obj_mcts_desc"
+msgstr "Definições gerais para mediacast."
+
+msgid "obj_mep"
+msgstr "Pasta de função adicionada"
+
+msgid "obj_mep_duplicate"
+msgstr "Copiar banco de media"
+
+msgid "obj_mme"
+msgstr "Criar nova função"
+
+msgid "obj_mob"
+msgstr "Criar novo modelo de função"
+
+msgid "obj_mobs"
+msgstr "Apagar funções/modelos de funções"
+
+msgid "obj_mobs_desc"
+msgstr "Definições para objetos de media e bancos de media."
+
+msgid "obj_not_found"
+msgstr "Mudar definições de permissões"
+
+#, fuzzy
+msgid "obj_nota"
+msgstr "Notifications"
+
+#, fuzzy
+msgid "obj_nota_desc"
+msgstr "Notifications Administration"
+
+#, fuzzy
+msgid "obj_nots"
+msgstr "Notes"
+
+#, fuzzy
+msgid "obj_nots_desc"
+msgstr "Notes settings"
+
+msgid "obj_nwss"
+msgstr "Mudar atribuição de funções ao utilizador"
+
+msgid "obj_nwss_desc"
+msgstr "Definições para notícias internas e web feeds externos."
+
+msgid "obj_objf"
+msgstr "Acesso de leitura a funções/modelos de funções"
+
+msgid "obj_orgu"
+msgstr "Unidade organizacional"
+
+msgid "obj_orgu_description"
+msgstr "Criar e editar estrutura organizacional"
+
+msgid "obj_page"
+msgstr "Página"
+
+#, fuzzy
+msgid "obj_peac"
+msgstr "Accordion"
+
+#, fuzzy
+msgid "obj_peadl"
+msgstr "Advanced List"
+
+#, fuzzy
+msgid "obj_peadt"
+msgstr "Advanced Table"
+
+#, fuzzy
+msgid "obj_pecd"
+msgstr "Code"
+
+#, fuzzy
+msgid "obj_pech"
+msgstr "Consultation Hour"
+
+#, fuzzy
+msgid "obj_pecl"
+msgstr "Column Layout"
+
+#, fuzzy
+msgid "obj_peclp"
+msgstr "Clipboard"
+
+#, fuzzy
+msgid "obj_pecom"
+msgstr "Competences"
+
+#, fuzzy
+msgid "obj_pecrs"
+msgstr "Course"
+
+#, fuzzy
+msgid "obj_pecrt"
+msgstr "Certificate"
+
+#, fuzzy
+msgid "obj_pecs"
+msgstr "Content Snippet"
+
+#, fuzzy
+msgid "obj_pedt"
+msgstr "Data Table"
+
+#, fuzzy
+msgid "obj_pefl"
+msgstr "File List"
+
+#, fuzzy
+msgid "obj_peim"
+msgstr "interactive Media"
+
+#, fuzzy
+msgid "obj_pelh"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "obj_pemed"
+msgstr "Image/Audio/Video"
+
+#, fuzzy
+msgid "obj_pemp"
+msgstr "Map"
+
+#, fuzzy
+msgid "obj_pepd"
+msgstr "Personal Data"
+
+#, fuzzy
+msgid "obj_pepe"
+msgstr "Plugin Element"
+
+#, fuzzy
+msgid "obj_pepl"
+msgstr "Page List"
+
+#, fuzzy
+msgid "obj_peplh"
+msgstr "Placeholder"
+
+#, fuzzy
+msgid "obj_pequ"
+msgstr "Questions"
+
+#, fuzzy
+msgid "obj_perl"
+msgstr "Ressource List"
+
+#, fuzzy
+msgid "obj_pesc"
+msgstr "Section"
+
+#, fuzzy
+msgid "obj_petmp"
+msgstr "Page Template"
+
+#, fuzzy
+msgid "obj_peusr"
+msgstr "User"
+
+msgid "obj_pg"
+msgstr "Modelo de função"
+
+msgid "obj_poll"
+msgstr "Sondagem"
+
+msgid "obj_poll_dupliate:"
+msgstr "Copy Poll"
+
+msgid "obj_poll_duplicate"
+msgstr "Copiar sondagem"
+
+msgid "obj_prg"
+msgstr "Programa de estudo"
+
+msgid "obj_prg_duplicate"
+msgstr "Copiar programa de estudo"
+
+msgid "obj_prg_select"
+msgstr "-- Selecione um programa de estudo --"
+
+#, fuzzy
+msgid "obj_prgr"
+msgstr "Link to Study Programme"
+
+#, fuzzy
+msgid "obj_prgrs"
+msgstr "Links to Study Programmes"
+
+msgid "obj_prgs"
+msgstr "Programas de estudo"
+
+msgid "obj_prgs_desc"
+msgstr "Administração de programas de estudo"
+
+#, fuzzy
+msgid "obj_prss"
+msgstr "Personal Resources"
+
+#, fuzzy
+msgid "obj_prss_desc"
+msgstr "Personal resources settings"
+
+msgid "obj_prtf"
+msgstr "Modelo de função adicionado"
+
+msgid "obj_prtt"
+msgstr "Modelo de portefólio"
+
+msgid "obj_prtt_duplicate"
+msgstr "Copiar modelo de portefólio"
+
+msgid "obj_ps"
+msgstr "Editar modelo de função"
+
+msgid "obj_ps_desc"
+msgstr "Configurar definições de privacidade e segurança aqui."
+
+msgid "obj_qpl"
+msgstr "Novo modelo de função"
+
+msgid "obj_qpl_duplicate"
+msgstr "Copiar teste banco de perguntas"
+
+msgid "obj_qpl_select"
+msgstr "-- Selecione um teste banco de perguntas --"
+
+msgid "obj_rcat"
+msgstr "Linhas"
+
+msgid "obj_rcrs"
+msgstr "Fontes adicionais para a criação de ficheiros PDF. Outras fontes diferentes de ‘Helvetica’ e ‘unifont’ devem ser instaladas no servidor ILIAS."
+
+msgid "obj_recf"
+msgstr "Módulo de aprendizagem SCORM"
+
+msgid "obj_recf_desc"
+msgstr "Módulo de aprendizagem SCORM adicionado"
+
+#, fuzzy
+msgid "obj_rep"
+msgstr "Repository"
+
+msgid "obj_reps"
+msgstr "Repositório"
+
+msgid "obj_reps_desc"
+msgstr "Definições gerais para o repositório"
+
+msgid "obj_rfil"
+msgstr "Ficheiro ECS"
+
+msgid "obj_rglo"
+msgstr "Glossário ECS"
+
+msgid "obj_rgrp"
+msgstr "Grupo ECS"
+
+msgid "obj_rlm"
+msgstr "Módulo de aprendizagem ECS"
+
+msgid "obj_role"
+msgstr "Forma de tratamento"
+
+msgid "obj_rolf"
+msgstr "Sr./Sra."
+
+msgid "obj_rolf_desc"
+msgstr "Sr."
+
+msgid "obj_rolf_local"
+msgstr "Guardar"
+
+msgid "obj_rolf_local_desc"
+msgstr "Guardado com sucesso"
+
+msgid "obj_rolt"
+msgstr "Guardar e voltar"
+
+msgid "obj_root"
+msgstr "Guardar como esboço"
+
+msgid "obj_rtst"
+msgstr "Teste ECS"
+
+msgid "obj_rwik"
+msgstr "Wiki ECS"
+
+msgid "obj_sahs"
+msgstr "Guardar parâmetro para Cron Job"
+
+msgid "obj_sahs_duplicate"
+msgstr "Copiar módulo de aprendizagem"
+
+msgid "obj_sco"
+msgstr "SCO"
+
+msgid "obj_scov"
+msgstr "Certificado SCORM"
+
+msgid "obj_seas"
+msgstr "Pesquisa"
+
+msgid "obj_seas_desc"
+msgstr "Gerir aqui as definições de pesquisa."
+
+#, fuzzy
+msgid "obj_serv"
+msgstr "Server"
+
+#, fuzzy
+msgid "obj_serv_desc"
+msgstr "Status of Server, Settings and PDF Configuration"
+
+msgid "obj_sess"
+msgstr "Sessão"
+
+msgid "obj_sess_duplicate"
+msgstr "Copiar sessão"
+
+msgid "obj_skmg"
+msgstr "Guardar e atualizar"
+
+msgid "obj_skmg_desc"
+msgstr "Guardar e voltar"
+
+msgid "obj_spl"
+msgstr "Guardar definições"
+
+msgid "obj_st"
+msgstr "Criar ficheiro de exportação (SCORM 2004 3.ª edição)"
+
+#, fuzzy
+msgid "obj_stus"
+msgstr "Shortlinks"
+
+#, fuzzy
+msgid "obj_stus_desc"
+msgstr "Global Shortlinks Settings"
+
+msgid "obj_sty"
+msgstr "Estilo"
+
+msgid "obj_stys"
+msgstr "SCORM 2004: define nome de utilizador ILIAS como cmi.learner_id"
+
+msgid "obj_stys_desc"
+msgstr "Gerir definições de película e estilo aqui"
+
+msgid "obj_svy"
+msgstr "Se estiver ativado, o nome de utilizador é definido para o id cmi.learner_em vez do ID do utilizador."
+
+msgid "obj_svy_duplicate"
+msgstr "Definição padrão para progresso de aprendizagem"
+
+msgid "obj_svyf"
+msgstr "Inquérito"
+
+msgid "obj_svyf_desc"
+msgstr "Definições de plataforma para a ferramenta de inquérito"
+
+msgid "obj_sysc"
+msgstr "Verificação do sistema"
+
+msgid "obj_sysc_desc"
+msgstr "Verificação do sistema e ferramentas de reparação"
+
+msgid "obj_tags"
+msgstr "Se o progresso de aprendizagem estiver ativado em geral, os novos módulos de aprendizagem SCORM são definidos para ‘Recolha de itens SCORM’ e todos os SCOs são selecionados para determinar o progresso de aprendizagem. Os ajustes continuam a ser possíveis para cada módulo de aprendizagem SCORM."
+
+msgid "obj_tags_desc"
+msgstr "Criar módulo de aprendizagem SCORM (modo de autoria)"
+
+#, fuzzy
+msgid "obj_tala"
+msgstr "Talk Templates"
+
+#, fuzzy
+msgid "obj_tala_desc"
+msgstr "Talk Templates"
+
+#, fuzzy
+msgid "obj_tals"
+msgstr "Employee Talk Series"
+
+#, fuzzy
+msgid "obj_talt"
+msgstr "Talk Template"
+
+#, fuzzy
+msgid "obj_task"
+msgstr "Task"
+
+msgid "obj_tax"
+msgstr "Taxonomia"
+
+msgid "obj_taxf"
+msgstr "Taxonomias"
+
+msgid "obj_tool_setting_calendar"
+msgstr "SCORM: permitir dados de armazenamento sem sessão"
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_active"
+msgstr "Calendar"
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_active_info"
+msgstr "A calendar is available."
+
+msgid "obj_tool_setting_calendar_info"
+msgstr "Pesquisa"
+
+msgid "obj_tool_setting_custom_metadata"
+msgstr "Metadados personalizados"
+
+msgid "obj_tool_setting_custom_metadata_info"
+msgstr "Se estiver ativado, os metadados podem ser configurados."
+
+msgid "obj_tool_setting_news"
+msgstr "URLs .html de leitura"
+
+msgid "obj_tool_setting_news_info"
+msgstr "Pesquisar"
+
+msgid "obj_tos"
+msgstr "Termos de serviço"
+
+msgid "obj_tos_desc"
+msgstr "Definições de termos de serviço"
+
+msgid "obj_trac"
+msgstr "Pesquisar em"
+
+msgid "obj_trac_desc"
+msgstr "Nova pesquisa"
+
+msgid "obj_tst"
+msgstr "Resultado da pesquisa"
+
+msgid "obj_tst_duplicate"
+msgstr "Procurar utilizador"
+
+msgid "obj_tstv"
+msgstr "Certificado de teste"
+
+msgid "obj_type"
+msgstr "Segundos"
+
+msgid "obj_user"
+msgstr "Utilizador"
+
+msgid "obj_usr"
+msgstr "Segundo e-mail"
+
+msgid "obj_usrf"
+msgstr "Selecionar"
+
+msgid "obj_usrf_desc"
+msgstr "Selecionado"
+
+#, fuzzy
+msgid "obj_wbdv"
+msgstr "WebDAV"
+
+#, fuzzy
+msgid "obj_wbdv_desc"
+msgstr "Configuration of WebDAV Settings."
+
+msgid "obj_wbrs"
+msgstr "Weblink"
+
+msgid "obj_wbrs_desc"
+msgstr "Definições gerais para web links"
+
+msgid "obj_webr"
+msgstr "Selecionar tudo"
+
+msgid "obj_webr_duplicate"
+msgstr "Selecionar ficheiro"
+
+msgid "obj_wfld"
+msgstr "Pasta"
+
+msgid "obj_wiki"
+msgstr "Wiki"
+
+msgid "obj_wiki_duplicate"
+msgstr "Copiar wiki"
+
+msgid "obj_wiks"
+msgstr "Wiki"
+
+msgid "obj_wiks_desc"
+msgstr "Definições globais wiki"
+
+msgid "object"
+msgstr "Objeto"
+
+msgid "object_added"
+msgstr "Superior"
+
+msgid "object_copy_in_progress"
+msgstr "Início da cópia."
+
+msgid "object_duplicated"
+msgstr "Tem de preencher todos os pré-requisitos que se seguem"
+
+msgid "object_id"
+msgstr "ID de objeto"
+
+msgid "object_imported"
+msgstr "Objeto importado"
+
+#, fuzzy
+msgid "object_list"
+msgstr "List of Objects"
+
+msgid "objects"
+msgstr "Inferior"
+
+msgid "objf"
+msgstr "Tem de preencher <b>%s</b> dos seguintes pré-requisitos"
+
+msgid "objs_bibl"
+msgstr "Bibliografias"
+
+msgid "objs_blog"
+msgstr "Blogs"
+
+msgid "objs_book"
+msgstr "Pré-requisitos que devem ser cumpridos para aceder a este objeto"
+
+msgid "objs_cat"
+msgstr "Preferências"
+
+msgid "objs_catr"
+msgstr "Anterior"
+
+msgid "objs_chtr"
+msgstr "Imprimir"
+
+#, fuzzy
+msgid "objs_cmix"
+msgstr "Objects xAPI/cmi5"
+
+msgid "objs_copa"
+msgstr "Vista da impressão"
+
+msgid "objs_crs"
+msgstr "Novas privadas"
+
+msgid "objs_crsr"
+msgstr "Per"
+
+msgid "objs_dcl"
+msgstr "Coleções de dados"
+
+#, fuzzy
+msgid "objs_etal"
+msgstr "Employee Talks"
+
+msgid "objs_exc"
+msgstr "Perfil"
+
+msgid "objs_file"
+msgstr "O seu perfil mudou"
+
+msgid "objs_fold"
+msgstr "O seu perfil está incompleto. Preencha todos os dados necessários."
+
+msgid "objs_frm"
+msgstr "Perfil de"
+
+msgid "objs_glo"
+msgstr "Propriedades"
+
+msgid "objs_grp"
+msgstr "Servidor Proxy"
+
+msgid "objs_grpr"
+msgstr "Para usar um proxy em ILIAS (p. ex. para web feeds ou para verificar links da web) ative a caixa de seleção em cima."
+
+msgid "objs_htlm"
+msgstr "Perfil"
+
+msgid "objs_iass"
+msgstr "Avaliações individuais"
+
+msgid "objs_itgr"
+msgstr "Grupos de item"
+
+msgid "objs_lm"
+msgstr "Acesso anónimo"
+
+msgid "objs_lres"
+msgstr "Se estiver ativado, algumas partes do sistema (p. ex. repositório, espaço de trabalho, perfis de utilizador) podem ficar disponíveis na internet sem autenticação. As permissões da função ‘Anónimo’ controlarão o acesso aos recursos do repositório."
+
+msgid "objs_lso"
+msgstr "Teste banco de perguntas"
+
+#, fuzzy
+msgid "objs_lti"
+msgstr "LTI Consumers"
+
+msgid "objs_mail"
+msgstr "Correio"
+
+msgid "objs_mcst"
+msgstr "Adicionar teste banco de perguntas"
+
+msgid "objs_mep"
+msgstr "Novo teste banco de perguntas"
+
+msgid "objs_orgu"
+msgstr "Pergunta"
+
+msgid "objs_poll"
+msgstr "Sondagens"
+
+msgid "objs_prg"
+msgstr "Programas de estudo"
+
+#, fuzzy
+msgid "objs_prgr"
+msgstr "Links to Study Programmes"
+
+msgid "objs_prtf"
+msgstr "Portefólios"
+
+msgid "objs_prtt"
+msgstr "Modelos de portefólio"
+
+msgid "objs_qpl"
+msgstr "Desistir"
+
+msgid "objs_qst"
+msgstr "Perguntas"
+
+msgid "objs_rcat"
+msgstr "Categorias ECS"
+
+msgid "objs_rcrs"
+msgstr "Citar"
+
+msgid "objs_rfil"
+msgstr "Ficheiros ECS"
+
+msgid "objs_rglo"
+msgstr "Glossários ECS"
+
+msgid "objs_rgrp"
+msgstr "Grupos ECS"
+
+msgid "objs_rlm"
+msgstr "Módulos de aprendizagem ECS"
+
+msgid "objs_role"
+msgstr "Ler"
+
+#, fuzzy
+msgid "objs_rolf"
+msgstr "Role Folders"
+
+msgid "objs_rtst"
+msgstr "Testes ECS"
+
+msgid "objs_rwik"
+msgstr "Wikis ECS"
+
+msgid "objs_sahs"
+msgstr "Quantidade de acessos de leitura não-anónimos"
+
+msgid "objs_sess"
+msgstr "Destinatário"
+
+#, fuzzy
+msgid "objs_skee"
+msgstr "Competence Trees"
+
+msgid "objs_spl"
+msgstr "Como ficou a saber do ILIAS?"
+
+msgid "objs_st"
+msgstr "Atualizar"
+
+msgid "objs_svy"
+msgstr "Atualizar todos os idiomas"
+
+#, fuzzy
+msgid "objs_tala"
+msgstr "Talk Templates"
+
+#, fuzzy
+msgid "objs_talt"
+msgstr "Talk Templates"
+
+msgid "objs_tst"
+msgstr "Registar"
+
+msgid "objs_webr"
+msgstr "Registado desde"
+
+msgid "objs_wiki"
+msgstr "Wikis"
+
+msgid "of"
+msgstr "Selecionar ficheiros"
+
+msgid "offline"
+msgstr "Inserir perguntas em"
+
+msgid "offline_mode"
+msgstr "País"
+
+msgid "ok"
+msgstr "OK"
+
+msgid "old"
+msgstr "Enviar"
+
+msgid "omit"
+msgstr "Omitir"
+
+msgid "omit_all"
+msgstr "Omitir tudo"
+
+msgid "on_waiting_list"
+msgstr "Está na lista de espera"
+
+msgid "online"
+msgstr "Online"
+
+msgid "online_time"
+msgstr "Remetente"
+
+msgid "only_active"
+msgstr "Enviar mensagem"
+
+msgid "only_inactive"
+msgstr "Enviado"
+
+msgid "open"
+msgstr "Sequência"
+
+msgid "operation"
+msgstr "Sequências"
+
+msgid "optimize"
+msgstr "Servidor"
+
+msgid "option"
+msgstr "Opção"
+
+msgid "optional_filter_hint"
+msgstr "Ative um dos filtros opcionais."
+
+msgid "optional_filters"
+msgstr "Filtros opcionais"
+
+msgid "options"
+msgstr "Informação do servidor"
+
+msgid "order_by"
+msgstr "Software do servidor"
+
+msgid "order_by_date"
+msgstr "Ordenar por data"
+
+msgid "org_op_access_enrolments"
+msgstr "Ver estado da inscrição"
+
+msgid "org_op_manage_members"
+msgstr "Gerir membros subordinados"
+
+msgid "org_op_read_learning_progress"
+msgstr "Ver progresso de aprendizagem dos utilizadores subordinados"
+
+msgid "org_permission_settings"
+msgstr "Autorizações de posições em unidades organizacionais"
+
+msgid "org_units"
+msgstr "Unidades organizacionais"
+
+msgid "organization"
+msgstr "Fornecedor"
+
+msgid "other"
+msgstr "Define o número máximo de sessões que podem ser criadas em simultâneo. Definir isto para ‘0’ desativa a funcionalidade."
+
+msgid "overview"
+msgstr "Aviso de sessão"
+
+msgid "overwrite"
+msgstr "Substituir"
+
+msgid "owner"
+msgstr "Se estiver ativado, recebe um aviso a antes de a sessão online do seu motor de busca expirar."
+
+msgid "owner_updated"
+msgstr "Proprietário atualizado."
+
+msgid "page"
+msgstr "Prazo de aviso"
+
+msgid "page_count"
+msgstr "Contagem de páginas"
+
+msgid "page_layout"
+msgstr "Definir"
+
+msgid "page_layouts"
+msgstr "Definir idioma do sistema"
+
+#, fuzzy
+msgid "pagination_label_x_of_y"
+msgstr "Page %1$d of %2$d"
+
+msgid "parameter"
+msgstr "Definições"
+
+msgid "parse"
+msgstr "Os membros serão notificados automaticamente"
+
+msgid "participate"
+msgstr "Os membros serão notificados automaticamente. É permitido desativar notificações para cada membro individualmente."
+
+msgid "passed"
+msgstr "Aprovado"
+
+msgid "passwd"
+msgstr "Definições guardadas"
+
+msgid "passwd_generation"
+msgstr "Criação de palavra-passe"
+
+msgid "passwd_invalid"
+msgstr "Definir idioma do utilizador"
+
+msgid "passwd_not_match"
+msgstr "Definir offline"
+
+msgid "passwd_wrong"
+msgstr "Definir online"
+
+msgid "password"
+msgstr "Atributo para endereço de e-mail"
+
+msgid "password_allow_chars"
+msgstr "Atributo para o nome próprio"
+
+msgid "password_assistance_info"
+msgstr "Atributo para forma de tratamento (tem de ser 'm' ou 'f')"
+
+msgid "password_change_on_first_login_demand"
+msgstr "Fornece uma lista de Fornecedores de Identidades para que o utilizador possa escolher a partir da página de login ILIAS.<br>Em cada linha deve haver um tuplo separado por vírgulas para <strong>providerID de IdP</strong> (ver o ficheiro Shibboleth metadados) e <strong>Nome de IdP</strong> tal como deve ser exibido na lista drop-down.<br>Como terceiro parâmetro opcional pode adicionar a <strong>localização de um iniciador de sessão Shibboleth</strong> esse deve ser usado no caso de a sua instalação ILIAS fazer parte de uma instalação de múltiplas federações."
+
+msgid "password_contains_invalid_chars"
+msgstr "A palavra-passe contém caracteres inválidos"
+
+msgid "password_contains_parts_of_login_err"
+msgstr "A palavra-passe escolhida contém o seu nome de utilizador. Insira uma nova palavra-passe."
+
+msgid "password_empty"
+msgstr "Caminho para a imagem de um botão login Shibboleth que é usado para redirecionar utilizadores para o WAYF especificado na configuração de Shibboleth"
+
+msgid "password_expired"
+msgstr "Sou um membro de..."
+
+msgid "password_multiple_errors"
+msgstr "Este título vai aparecer na barra de títulos do cabeçalho do motor de busca. Se não houver nenhum valor, é usado ‘ILIAS’."
+
+msgid "password_must_chars_and_numbers"
+msgstr "A palavra-passe tem de incluir caracteres e números."
+
+msgid "password_must_contain_lcase_chars"
+msgstr "A palavra-passe tem de incluir pelo menos %s minúsculas."
+
+msgid "password_must_contain_ucase_chars"
+msgstr "A palavra-passe tem de incluir pelo menos %s maiúsculas."
+
+msgid "password_must_special_chars"
+msgstr "A palavra-passe tem de incluir caracteres especiais."
+
+msgid "password_to_long"
+msgstr "A palavra-passe tem de ter no máximo um tamanho de %s caracteres."
+
+msgid "password_to_short"
+msgstr "A palavra-passe tem de ter no mínimo um tamanho de %s caracteres."
+
+msgid "paste"
+msgstr "Mostrar"
+
+msgid "pasteChapter"
+msgstr "Mostrar detalhes"
+
+msgid "pastePage"
+msgstr "Mostrar filtro"
+
+msgid "paste_clipboard_items"
+msgstr "Mostrar lista"
+
+msgid "path"
+msgstr "Mostrar membros"
+
+msgid "path_not_set"
+msgstr "Mensagens do sistema"
+
+msgid "path_to_convert"
+msgstr "Mostrar utilizadores ativos"
+
+msgid "path_to_htmldoc"
+msgstr "Assinatura"
+
+msgid "path_to_java"
+msgstr "Tamanho"
+
+msgid "path_to_unzip"
+msgstr "Competências"
+
+msgid "path_to_zip"
+msgstr "Película/estilo predefinido"
+
+msgid "pathes"
+msgstr "Mostrar dono"
+
+msgid "pd_items_news"
+msgstr "Inclui notícias de itens pessoais"
+
+msgid "pdf_export"
+msgstr "Administração via SOAP"
+
+msgid "perm_settings"
+msgstr "Títulos por ordem alfabética"
+
+msgid "perma_link"
+msgstr "O modo de ordenação é adotado de um curso/grupo familiar."
+
+#, fuzzy
+msgid "perma_link_copied"
+msgstr "Link to this page has been copied to the clipboard."
+
+msgid "permission"
+msgstr "Os itens do conteúdo podem ser dispostos manualmente pela ordem que preferir. Deve ainda definir a ordenação padrão para objetos novos."
+
+msgid "permission_denied"
+msgstr "Os itens do conteúdo são dispostos automaticamente por título por ordem alfabética."
+
+msgid "permission_settings"
+msgstr "Manualmente"
+
+msgid "person_title"
+msgstr "Passo"
+
+msgid "personal_data"
+msgstr "Ordenar por esta coluna"
+
+msgid "personal_picture"
+msgstr "Adicionar inquérito banco de perguntas"
+
+msgid "personal_profile"
+msgstr "Novo inquérito banco de perguntas"
+
+#, fuzzy
+msgid "personal_resources"
+msgstr "Personal Resources"
+
+msgid "personal_settings"
+msgstr "Página login ILIAS"
+
+#, fuzzy
+msgid "personalise_date_time"
+msgstr "Personalise Date and Time Settings"
+
+msgid "persons"
+msgstr "Nenhuma permissão concedida"
+
+msgid "pg_add"
+msgstr "Rua"
+
+msgid "pg_new"
+msgstr "Estrutura"
+
+msgid "phone"
+msgstr "Assunto"
+
+msgid "phone_home"
+msgstr "Submeter"
+
+msgid "phone_mobile"
+msgstr "Sub-objetos"
+
+msgid "phone_office"
+msgstr "Subscrição"
+
+msgid "phrase"
+msgstr "Sumário"
+
+msgid "please_choose"
+msgstr "Adicionar inquérito"
+
+msgid "please_enter_target"
+msgstr "Completou o inquérito"
+
+msgid "please_enter_title"
+msgstr "O inquérito ainda não foi concluído"
+
+msgid "please_select"
+msgstr "Não participou neste inquérito"
+
+msgid "please_select_a_delivered_file_to_delete"
+msgstr "Tem de selecionar pelo menos um ficheiro entregue para o eliminar!"
+
+msgid "please_select_a_delivered_file_to_download"
+msgstr "Tem de selecionar pelo menos um ficheiro entregue para o descarregar!"
+
+msgid "please_wait"
+msgstr "Por favor, aguarde..."
+
+msgid "port"
+msgstr "O inquérito está incompleto"
+
+msgid "portfolio"
+msgstr "Portefólio"
+
+msgid "pos_bottom"
+msgstr "Processar verificação do sistema em Cron Job"
+
+msgid "pos_left"
+msgstr "Esquerda"
+
+msgid "pos_right"
+msgstr "Direita"
+
+msgid "pos_top"
+msgstr "Ativação da verificação do sistema em Cron Job"
+
+msgid "position"
+msgstr "Sistema"
+
+msgid "position_permission_settings"
+msgstr "Permissões específicas Orgunit"
+
+msgid "precondition"
+msgstr "Pré-condição"
+
+msgid "precondition_not_accessible"
+msgstr "Não tem autorização suficiente para ver a ou as pré-condições deste item."
+
+msgid "precondition_required_itemlist"
+msgstr "Pré-condição exigida"
+
+msgid "precondition_toggle"
+msgstr "Mensagens do sistema"
+
+msgid "preconditions"
+msgstr "Pré-condições"
+
+msgid "preconditions_obligatory_hint"
+msgstr "Verificação do Sistema"
+
+msgid "preconditions_optional_hint"
+msgstr "Idioma do sistema"
+
+msgid "predefined_template"
+msgstr "Modelo de função predefinido"
+
+msgid "preferences"
+msgstr "Importar mail"
+
+msgid "presentation_table_more"
+msgstr "Os meus Tags"
+
+#, fuzzy
+msgid "presenter"
+msgstr "Presenter"
+
+msgid "preview"
+msgstr "Pré-visualização"
+
+msgid "preview_create"
+msgstr "Criar pré-visualização"
+
+msgid "preview_delete"
+msgstr "Apagar pré-visualização"
+
+#, fuzzy
+msgid "preview_image_size"
+msgstr "Size of Preview Images"
+
+msgid "preview_learner_info"
+msgstr "Se estiver ativado, os administrador do grupo e do curso têm a possibilidade de ver o conteúdo do ponto de vista de um aluno."
+
+msgid "preview_loading"
+msgstr "A carregar pré-visualização..."
+
+msgid "preview_none"
+msgstr "Pré-visualização (não criada ainda)"
+
+#, fuzzy
+msgid "preview_not_possible"
+msgstr "Creation of Previews is currently not possible, please read the documentation in %s."
+
+#, fuzzy
+msgid "preview_renderers"
+msgstr "Preview Renderers"
+
+msgid "preview_settings"
+msgstr "Pré-visualização de ficheiro"
+
+msgid "preview_show"
+msgstr "Mostrar pré-visualização"
+
+msgid "preview_status_creating"
+msgstr "A pré-visualização está a ser criada. Isso pode demorar algum tempo."
+
+msgid "preview_status_deleting"
+msgstr "A pré-visualização está a ser apagada."
+
+msgid "preview_status_failed"
+msgstr "Falhou a criação da pré-visualização."
+
+msgid "preview_status_missing"
+msgstr "Não existe uma pré-visualização para este ficheiro."
+
+msgid "preview_status_pending"
+msgstr "A pré-visualização ainda não foi criada. Tente novamente mais tarde."
+
+msgid "previous"
+msgstr "Adicionar taxonomia"
+
+msgid "prg_copy_threads_info"
+msgstr "Decida que elementos do programa de estudo devem ser copiados, associados ou até omitidos."
+
+msgid "prg_wizard_page"
+msgstr "Copiar programa de estudo (passo 2/2)"
+
+#, fuzzy
+msgid "prgr_add"
+msgstr "Add Study Programme Link"
+
+#, fuzzy
+msgid "prgr_edit_info"
+msgstr "Please choose one Study Programme for creating a new link."
+
+#, fuzzy
+msgid "prgr_new"
+msgstr "Create Study Programme Link"
+
+#, fuzzy
+msgid "prgr_settings"
+msgstr "Settings of Study Programme Link"
+
+msgid "print"
+msgstr "Termo"
+
+msgid "print_view"
+msgstr "Testes"
+
+msgid "private_notes"
+msgstr "Tempo"
+
+msgid "pro"
+msgstr "Acesso"
+
+msgid "proceed"
+msgstr "Proceder"
+
+msgid "profile"
+msgstr "Insira um período de tempo para o(s) utilizador(es) selecionado(s)."
+
+msgid "profile_changed"
+msgstr "Selecione um utilizador."
+
+msgid "profile_incomplete"
+msgstr "A sua conta de utilizador não está ativa."
+
+msgid "profile_of"
+msgstr "Título"
+
+msgid "properties"
+msgstr "Insira um título."
+
+msgid "proxy"
+msgstr "Para"
+
+msgid "proxy_connectable"
+msgstr "Ligação estabelecida"
+
+msgid "proxy_host"
+msgstr "Host"
+
+msgid "proxy_host_info"
+msgstr "Insira um host."
+
+msgid "proxy_not_connectable"
+msgstr "ILIAS não conseguiu criar uma ligação ao proxy definido."
+
+msgid "proxy_port"
+msgstr "Porta"
+
+msgid "proxy_port_info"
+msgstr "Insira uma porta entre 0 e 65535, p. ex.8080."
+
+msgid "proxy_port_numeric"
+msgstr "A porta introduzida tem de ter um valor numérico entre 0 e 65535"
+
+msgid "proxy_socket_error"
+msgstr "Erro base: %s"
+
+msgid "proxy_status"
+msgstr "Proxy"
+
+msgid "proxy_status_info"
+msgstr "Hoje"
+
+msgid "ps_export_scorm"
+msgstr "Dados de rastreio SCORM"
+
+msgid "ps_password_lowercase_chars_num"
+msgstr "Minúsculas"
+
+msgid "ps_password_lowercase_chars_num_info"
+msgstr "Insira o número de minúsculas que uma palavra-passe tem de incluir. Insira 0 para desativar este requisito."
+
+msgid "ps_password_must_not_contain_loginame"
+msgstr "Evitar nome de utilizador na palavra-passe"
+
+msgid "ps_password_must_not_contain_loginame_info"
+msgstr "Se estiver ativado, uma palavra-passe não pode incluir o nome de utilizador."
+
+msgid "ps_password_uppercase_chars_num"
+msgstr "Maiúsculas"
+
+msgid "ps_password_uppercase_chars_num_info"
+msgstr "Insira o número de maiúsculas que uma palavra-passe tem de incluir. Insira 0 para desativar este requisito."
+
+msgid "pub_section"
+msgstr "Alternar global fixa"
+
+msgid "pub_section_info"
+msgstr "Amanhã"
+
+msgid "public"
+msgstr "público"
+
+msgid "public_notes"
+msgstr "Notas públicas"
+
+msgid "public_profile"
+msgstr "Alternar predefinição global"
+
+msgid "public_room"
+msgstr "Sala pública"
+
+msgid "purpose"
+msgstr "Propósito"
+
+msgid "qpl"
+msgstr "Topo da página"
+
+msgid "qpl_add"
+msgstr "Seleção de clientes"
+
+msgid "qpl_new"
+msgstr "Adicionar ao desktop"
+
+msgid "query_data"
+msgstr "Dados de consulta"
+
+msgid "question"
+msgstr "Definições do progresso de aprendizagem"
+
+msgid "question_message"
+msgstr "Pergunta"
+
+msgid "quit"
+msgstr "Tradução"
+
+msgid "quote"
+msgstr "Lixo"
+
+msgid "read"
+msgstr "Árvore"
+
+msgid "readcount_anonymous_users"
+msgstr "Quantidade de acessos de leitura anónimos"
+
+msgid "readcount_users"
+msgstr "Vista barra lateral"
+
+msgid "recipient"
+msgstr "Quadro de árvore"
+
+msgid "reference_deleted"
+msgstr "Destino indisponível"
+
+msgid "reference_of"
+msgstr "Referência de:"
+
+msgid "referral_comment"
+msgstr "Teste"
+
+msgid "refresh"
+msgstr "Adicionar teste"
+
+msgid "refresh_languages"
+msgstr "Novo teste"
+
+msgid "refuse"
+msgstr "Recusar"
+
+msgid "reg_account_confirmation_successful"
+msgstr "Definição do tipo de objeto"
+
+#, fuzzy
+msgid "reg_delete_expired_pending_registrations"
+msgstr "Delete Expired Pending Registrations"
+
+#, fuzzy
+msgid "reg_delete_expired_pending_registrations_desc"
+msgstr "Deletes all ILIAS accounts that have not been confirmed after a registration with e-mail confirmation."
+
+msgid "reg_goto_parent_membership_info"
+msgstr "Apenas os membros podem aceder ao objeto de destino."
+
+msgid "reg_mail_body_2_confirmation"
+msgstr "Tipo"
+
+msgid "reg_mail_body_3_confirmation"
+msgstr "Novo campo adicionado."
+
+msgid "reg_mail_body_forgot_password_info"
+msgstr "Para obter a sua palavra-passe, use a função « Esqueci-me da palavra-passe » no ecrã de login para pedir uma nova palavra-passe para esta conta."
+
+msgid "reg_mail_body_salutation"
+msgstr "Quando o campo está definido para ‘exigido’, deve ser definido para ‘visível no registo’"
+
+msgid "reg_mail_body_text1"
+msgstr "Data"
+
+msgid "reg_mail_body_text2"
+msgstr "Lista de seleção (escolha única)"
+
+msgid "reg_mail_body_text3"
+msgstr "Campo de texto (uma linha)"
+
+msgid "reg_mail_subject"
+msgstr "Se esta não for a sua conta, pressione ‘Criar nova conta’."
+
+msgid "reg_mail_subject_confirmation"
+msgstr "Se nenhuma destas for a sua conta, pressione ‘Criar nova conta’."
+
+msgid "reg_passwd_via_mail"
+msgstr "Marca distinta"
+
+msgid "register"
+msgstr "Estatística"
+
+#, fuzzy
+msgid "register_notification"
+msgstr "\"%s\" has applied for session \"%s\"."
+
+msgid "registered_since"
+msgstr "Estatística"
+
+msgid "registered_user"
+msgstr "Não é suposto fazer este teste."
+
+msgid "registered_users"
+msgstr "Tutores"
+
+msgid "registration"
+msgstr "Registou-se com sucesso no ILIAS. Clique no botão em baixo para entrar no ILIAS com a sua conta de utilizador."
+
+msgid "related_to"
+msgstr "Relacionado com"
+
+msgid "remove"
+msgstr "Desinstalar"
+
+msgid "remove_entries"
+msgstr "Remover entradas"
+
+msgid "remove_translation"
+msgstr "desinstalado."
+
+msgid "rename"
+msgstr "DESCONHECIDO"
+
+msgid "rename_file"
+msgstr "Mudar o nome ao ficheiro"
+
+msgid "renderer_supported_file_types"
+msgstr "Tipos de ficheiro suportados"
+
+msgid "renderer_supported_repo_types"
+msgstr "Objetos ILIAS suportados"
+
+msgid "renderer_type_builtin"
+msgstr "Integrado"
+
+msgid "rep_main_page"
+msgstr "Carregar"
+
+#, fuzzy
+msgid "rep_main_page_logo_alt"
+msgstr "Logo ILIAS - to the start page"
+
+msgid "repeat_scan"
+msgstr "A repetir scan de vírus..."
+
+msgid "repeat_scan_failed"
+msgstr "Não lido"
+
+msgid "repeat_scan_succeded"
+msgstr "Remover do desktop"
+
+msgid "replace_file"
+msgstr "Substituir ficheiro"
+
+msgid "reply"
+msgstr "Cima"
+
+#, fuzzy
+msgid "report_accessibility_issue"
+msgstr "Report Accessibility Issue"
+
+#, fuzzy
+msgid "report_accessibility_link"
+msgstr "Reported Link:"
+
+#, fuzzy
+msgid "report_accessibility_link_mailto"
+msgstr "Reported%20Link:"
+
+msgid "repository"
+msgstr "Atualização aplicada"
+
+msgid "repository_admin"
+msgstr "Atualizar idioma"
+
+msgid "repository_admin_desc"
+msgstr "Definir permissões para itens de repositório, recuperar ou remover objetos do lixo do sistema"
+
+msgid "require_email"
+msgstr "Carregar definições"
+
+msgid "require_gender"
+msgstr "Utilizador"
+
+msgid "require_hobby"
+msgstr "Dados do utilizador"
+
+msgid "require_matriculation"
+msgstr "Nome de utilizador"
+
+msgid "require_referral_comment"
+msgstr "Requer comentário de referência"
+
+msgid "required_field"
+msgstr "O ficheiro foi carregado e verificado, agora pode começar a importá-lo."
+
+msgid "res_links"
+msgstr "Utilizador adicionado"
+
+msgid "res_links_short"
+msgstr "Links"
+
+msgid "reset"
+msgstr "Utilizadores"
+
+msgid "reset_filter"
+msgstr "Os seguintes utilizadores não existem, as suas mensagens não podem ser importadas"
+
+msgid "resources"
+msgstr "Utilizadores ativos"
+
+msgid "right"
+msgstr "Atribuição de utilizador"
+
+msgid "rights"
+msgstr "%1$s (o utilizador não está autorizado a usar o sistema de correio)"
+
+msgid "role"
+msgstr "Campos personalizados"
+
+msgid "role_add_user"
+msgstr "Conta usada para autenticação externa. (CAS, SOAP, LDAP ou autenticação Radius)"
+
+msgid "role_added"
+msgstr "Utilizador apagado"
+
+msgid "role_assignment"
+msgstr "Importação de utilizador completa."
+
+msgid "role_assignment_updated"
+msgstr "A atribuição de funções foi atualizada."
+
+msgid "role_edit"
+msgstr "Idioma do utilizador"
+
+msgid "role_mailto"
+msgstr "Mail para todos os utilizadores atribuídos"
+
+msgid "role_new"
+msgstr "Este mail é enviado automaticamente aos utilizadores que se autorregistaram ou aos que foram registados por um administrador com definição ativada ‘Enviar mail para informar o utilizador das alterações’."
+
+msgid "role_new_search"
+msgstr "Enviar novo e-mail da conta"
+
+msgid "role_no_roles_selected"
+msgstr "Selecione uma função"
+
+msgid "role_protect_permissions"
+msgstr "O membro não está autorizado a desativar a notificação"
+
+msgid "role_protect_permissions_desc"
+msgstr "As permissões de objeto já não podem ser mudadas pelas operações do sistema. Além disso, apenas os administradores de níveis superiores é que podem mudar as permissões."
+
+msgid "role_select_one_item"
+msgstr "Selecione um objeto."
+
+msgid "role_sure_delete_desk_items"
+msgstr "Tem a certeza que quer apagar as seguintes atribuições?"
+
+msgid "role_templates_only"
+msgstr "Apenas modelos de funções"
+
+msgid "roles"
+msgstr "Campos de dados do utilizador personalizados"
+
+msgid "roles_of_import_global"
+msgstr "Funções globais do ficheiro de importação"
+
+msgid "roles_of_import_local"
+msgstr "Funções locais do ficheiro de importação"
+
+msgid "rolf"
+msgstr "Utilizador"
+
+msgid "rolf_added"
+msgstr "Contas de utilizador"
+
+msgid "rolf_create_role"
+msgstr "Não pode executar a ação ‘Apagar’. Nenhum utilizador desses na base de dados."
+
+msgid "rolf_create_rolt"
+msgstr "Não pode executar a ação ‘Inserir’. O utilizador já está na base de dados."
+
+msgid "rolf_delete"
+msgstr "Não pode executar a ação ‘Atualizar’. Nenhum utilizador desses na base de dados."
+
+msgid "rolf_edit_permission"
+msgstr "Quando está selecionado ‘Ignorar um conflito’, o ILIAS ignora uma ação, se não puder ser executada (p. ex. uma ação de ‘Inserir’ não é executada, se já houver um utilizador com o mesmo login na base de dados.)\\nQuando está selecionado ‘Atualizar em caso de conflito’, o ILIAS atualiza a base de dados se uma ação não puder ser executada. (p. ex. uma ação de ‘Inserir’ é substituída por uma ação de ‘Atualizar’, se existir um utilizador com o mesmo login na base de dados)."
+
+msgid "rolf_edit_userassignment"
+msgstr "Não pode executar a ação ‘Inserir’. A conta externa já existe."
+
+msgid "rolf_read"
+msgstr "Não pode executar a ação ‘Atualizar’. A conta externa já existe."
+
+msgid "rolf_visible"
+msgstr "Adicionar utilizador"
+
+msgid "rolf_write"
+msgstr "Termos de serviço"
+
+msgid "rolt"
+msgstr "Editar utilizador"
+
+msgid "rolt_added"
+msgstr "Novo utilizador"
+
+msgid "rolt_edit"
+msgstr "Marque ‘Visível’ para mostrar campos no formulário de registo e dados pessoais no computador pessoal. Marque ‘Modificável’ para permitir que o utilizador mude o valor nos dados pessoais. Note que os campos visíveis podem sempre ser introduzidos no formulário de registo. Os campos obrigatórios são exigidos no formulário de registo e os dados pessoais. Todos os dados podem ser mudados na administração de utilizadores independentemente dessas definições."
+
+msgid "rolt_new"
+msgstr "Campos de dados do utilizador padrão"
+
+msgid "row"
+msgstr "Linha"
+
+msgid "rows"
+msgstr "Película/estilo"
+
+#, fuzzy
+msgid "rpc_pdf_font"
+msgstr "Fonts"
+
+#, fuzzy
+msgid "rpc_pdf_font_info"
+msgstr "Additional fonts for the generation of PDF files. Other fonts than ‘Helvetica’ and ‘unifont’ must be installed on the ILIAS server."
+
+#, fuzzy
+msgid "rpc_pdf_generation"
+msgstr "Fonts for PDF Generation"
+
+msgid "sad"
+msgstr "Valor"
+
+msgid "sahs"
+msgstr "Cartão de visita"
+
+msgid "sahs_added"
+msgstr "Descarregar cartão de visita"
+
+msgid "sahs_export_file"
+msgstr "Ficheiro de arquivo SCORM exportado de ILIAS"
+
+#, fuzzy
+msgid "sahs_export_file_info"
+msgstr "Use this option for a ZIP file that was exported directly from ILIAS. The file typically has titles such as 1675257903__4105__sahs_132295.zip."
+
+msgid "sahs_insert_chap_from_clip"
+msgstr "Colar capítulos a partir da área de transferência"
+
+msgid "sahs_insert_page_from_clip"
+msgstr "Colar páginas a partir da área de transferência"
+
+msgid "sahs_insert_sco_from_clip"
+msgstr "Colar SCOs a partir da área de transferência"
+
+#, fuzzy
+msgid "sahs_new"
+msgstr "Create New Learning Module"
+
+msgid "salutation"
+msgstr "Versão"
+
+msgid "salutation_f"
+msgstr "Versões"
+
+msgid "salutation_m"
+msgstr "Ver"
+
+msgid "salutation_n"
+msgstr "Ver conteúdo"
+
+msgid "saml_log_in"
+msgstr "Login direto"
+
+msgid "saml_login_form_info_txt"
+msgstr "Pode fazer login usando o botão “Login direto” sem ter de inserir o seu nome de utilizador ou palavra-passe."
+
+msgid "saml_login_form_txt"
+msgstr "Login para ILIAS via SAML"
+
+msgid "save"
+msgstr "Visível"
+
+msgid "save_and_back"
+msgstr "Sugerimos criar uma palavra-passe local para abrir o repositório como pasta web.<br />Esta palavra-passe é apenas exigida para a funcionalidade da pasta web."
+
+msgid "save_message"
+msgstr "Salvar Mensagem"
+
+msgid "save_params_for_cron"
+msgstr "Abra esta página como uma pasta da web com <a href=\"%1$s\">Internet Explorer 6</a>, <a href=\"%2$s\">Konqueror</a>, <a href=\"%3$s\">Nautilus</a>, <a href=\"%4$s\">outros motores de busca</a>."
+
+msgid "save_refresh"
+msgstr "Weblink"
+
+msgid "save_return"
+msgstr "Adicionar weblink"
+
+msgid "save_settings"
+msgstr "Webkink(s) apagado(s)."
+
+msgid "save_user_related_data"
+msgstr "Guardar dados de acesso relacionados com o utilizador"
+
+msgid "saved_successfully"
+msgstr "Visitas"
+
+msgid "saving"
+msgstr "A guardar..."
+
+#, fuzzy
+msgid "scope"
+msgstr "Scope"
+
+msgid "scorm_create_export_file_html"
+msgstr "Criar ficheiro de exportação (HTML)"
+
+msgid "scorm_create_export_file_pdf"
+msgstr "Criar ficheiro de exportação (PDF)"
+
+msgid "scorm_create_export_file_scrom12"
+msgstr "Criar ficheiro de exportação (SCORM 1.2)"
+
+msgid "scorm_create_export_file_scrom2004"
+msgstr "Desativar validação"
+
+msgid "scorm_create_export_file_scrom2004_4th"
+msgstr "Criar ficheiro de exportação (SCORM 2004 4.ª edição)"
+
+msgid "scorm_login_as_learner_id"
+msgstr "Editar weblink"
+
+msgid "scorm_login_as_learner_id_info"
+msgstr "Tem a certeza que quer apagar o(s) seguinte(s) link(s) da web?"
+
+msgid "scorm_lp_auto_activate"
+msgstr "SOAP"
+
+msgid "scorm_lp_auto_activate_info"
+msgstr "Weblinks"
+
+msgid "scorm_new"
+msgstr "Semana"
+
+msgid "scorm_without_session"
+msgstr "Bem-vindo"
+
+msgid "scorm_without_session_info"
+msgstr "Isso garante o armazenamento dos dados de aprendizagem SCORM mesmo se a sessão ILIAS expirou"
+
+msgid "search"
+msgstr "Adicionar wiki"
+
+msgid "search_active"
+msgstr "Incluir utilizadores ativos"
+
+msgid "search_at_current_position"
+msgstr "Na posição atual"
+
+msgid "search_engine"
+msgstr "com"
+
+msgid "search_for"
+msgstr "A sua procura obteve as seguintes entradas. Selecione uma delas."
+
+msgid "search_globally"
+msgstr "Globalmente"
+
+msgid "search_in"
+msgstr "Escrever"
+
+msgid "search_inactive"
+msgstr "Incluir utilizadores inativos"
+
+msgid "search_new"
+msgstr "O seu acesso é recusado devido a um ip errado de cliente.<br>Atualmente está a usar este endereço IP: %s<br>Entre em contacto com o administrador do sistema."
+
+msgid "search_result"
+msgstr "Ano"
+
+msgid "search_results"
+msgstr "Resultados da pesquisa"
+
+msgid "search_user"
+msgstr "anual"
+
+#, fuzzy
+msgid "search_users"
+msgstr "Look Up Users"
+
+msgid "seas_max_hits"
+msgstr "Máx. número de entradas"
+
+msgid "seas_max_hits_info"
+msgstr "Insira um número máximo de resultado da pesquisa."
+
+msgid "seas_settings"
+msgstr "Definições da pesquisa"
+
+msgid "second"
+msgstr "Segundo"
+
+msgid "second_email"
+msgstr "Ontem"
+
+msgid "seconds"
+msgstr "Sim"
+
+msgid "sel_country"
+msgstr "Citar"
+
+msgid "select"
+msgstr "Código Postal"
+
+msgid "select_all"
+msgstr "O arquivo contém os mesmos nomes de ficheiro. Carregamento cancelado."
+
+msgid "select_at_least_one_object"
+msgstr "Selecione pelo menos um objeto."
+
+msgid "select_file"
+msgstr "Adicionar entrada de menu"
+
+#, fuzzy
+msgid "select_file_from_computer"
+msgstr "Select File"
+
+msgid "select_files_from_computer"
+msgstr "Todos"
+
+msgid "select_max_one_item"
+msgstr "Selecione apenas um item"
+
+msgid "select_object_to_link"
+msgstr "Selecione o objeto que quer associar"
+
+msgid "select_one"
+msgstr "Selecione um."
+
+msgid "select_question_pool_info"
+msgstr "Acesso para utilizadores não registados"
+
+msgid "select_questionpool"
+msgstr "Módulos inteiros de aprendizagem"
+
+msgid "selected"
+msgstr "Código Postal"
+
+msgid "selected_files"
+msgstr "Ficheiros selecionados"
+
+msgid "selected_items"
+msgstr "Itens pessoais"
+
+msgid "selected_items_back"
+msgstr "Voltar aos itens pessoais"
+
+msgid "selected_languages_updated"
+msgstr "Os idiomas selecionados foram atualizados (se instalados):"
+
+msgid "send"
+msgstr "Citar de..."
+
+msgid "send_mail"
+msgstr "Citar para..."
+
+msgid "sender"
+msgstr "Citar esta página"
+
+msgid "sent"
+msgstr "Pelo menos bloqueado até"
+
+msgid "sequence"
+msgstr "Painel adicionado."
+
+msgid "sequences"
+msgstr "Termo adicionado"
+
+msgid "server"
+msgstr "Informação adicional"
+
+msgid "server_data"
+msgstr "Adicionar área"
+
+msgid "server_disabled"
+msgstr "O chat está desativado"
+
+msgid "server_software"
+msgstr "Adicionar definição"
+
+msgid "sess"
+msgstr "Sessão"
+
+msgid "sess_fixed_duration"
+msgstr "Duração fixa da sessão"
+
+msgid "session_config"
+msgstr "Definições de sessão"
+
+msgid "session_config_maintenance_disabled"
+msgstr "Manutenção pelo cliente não autorizada"
+
+#, fuzzy
+msgid "session_mail_subject_deletion"
+msgstr "Deregistration of user \"%s\" from session \"%s\""
+
+#, fuzzy
+msgid "session_mail_subject_entered"
+msgstr "Joining of user \"%s\" in session \"%s\""
+
+#, fuzzy
+msgid "session_mail_subject_registered"
+msgstr "Registration of user \"%s\" for session \"%s\""
+
+msgid "session_reminder"
+msgstr "Correto!"
+
+msgid "session_reminder_alert"
+msgstr "A sua sessão expira em %1$s a %2$s!\\n\\nClique OK para continuar a sua sessão.\\nSe clicar Cancelar deixará de ser lembrado durante a atual sessão do navegador.\\n\\nInstalação: %3$s."
+
+#, fuzzy
+msgid "session_reminder_default_lead_time_info"
+msgstr "Please specify how many minutes before the expiration of a session a reminder should be shown.<br / >The function is deactivated when the value is '%s'. The recommended value is %s.<br / >The current length of a session is %s."
+
+#, fuzzy
+msgid "session_reminder_input"
+msgstr "Session Reminder (in Minutes)"
+
+msgid "session_reminder_lead_time"
+msgstr "Alfabético A, B, ..."
+
+msgid "session_reminder_lead_time_info"
+msgstr "Alfabético a, b, ..."
+
+msgid "session_reminder_session_duration"
+msgstr "(Duração da sessão: %s)."
+
+msgid "set"
+msgstr "Áreas do mapa apagadas."
+
+msgid "setSystemLanguage"
+msgstr "Atribuir ecrã Inteiro"
+
+msgid "setUserLanguage"
+msgstr "Esta opção é para módulos de aprendizagem SCORM que suportam SCORM 2004 de um modo inadequado ao não enviarem valores apropriados para cmi.exit<br />Isso assegurará que os dados de rastreio são guardados independentemente de o utilizador fechar corretamente o módulo, por exemplo fechando simplesmente o motor de busca."
+
+msgid "set_offline"
+msgstr "Voltar"
+
+msgid "set_online"
+msgstr "Imagem de fundo"
+
+msgid "set_skin_does_not_exist"
+msgstr "A película que escolheu já não existe. Pode mudar o seu estilo nas definições pessoais ou contactar o seu administrador. Seleção atual:"
+
+msgid "set_style_does_not_exist"
+msgstr "O estilo que escolheu já não existe. Pode mudar o seu estilo nas definições pessoais ou contactar o seu administrador. Seleção atual:"
+
+msgid "settings"
+msgstr "Atribuir padrão"
+
+msgid "settings_for_all_members"
+msgstr "Continuar com o último capítulo visitado"
+
+msgid "settings_per_users"
+msgstr "Aos utilizadores é apresentado o SCO/recurso que mais recentemente visitaram, quando abriram novamente o módulo de aprendizagem."
+
+#, fuzzy
+msgid "settings_presentation_header"
+msgstr "Presentation"
+
+msgid "settings_saved"
+msgstr "Proteger dados de rastreio"
+
+msgid "shib"
+msgstr "Shibboleth"
+
+msgid "shib_active"
+msgstr "Ativar suporte Shibboleth"
+
+msgid "shib_city"
+msgstr "Atributo para cidade"
+
+msgid "shib_country"
+msgstr "Atributo para país"
+
+msgid "shib_data_conv"
+msgstr "Caminho absoluto para manipulação de dados API"
+
+msgid "shib_data_conv_warning"
+msgstr "O ficheiro API de manipulação de dados que especificou não pode ser lido"
+
+msgid "shib_department"
+msgstr "Atributo para departamento"
+
+msgid "shib_email"
+msgstr "Inferior"
+
+msgid "shib_federation_name"
+msgstr "Nome da sua federação Shibboleth"
+
+msgid "shib_firstname"
+msgstr "A eliminação do ficheiro de ecrã inteiro não é possível."
+
+msgid "shib_gender"
+msgstr "A eliminação do ficheiro de vista padrão não é possível."
+
+msgid "shib_general_login_instructions"
+msgstr "Para se registar via %s, clique no botão de login e escolha a sua organização da seguinte página.<br>Se tiver perguntas relativas a isso, pergunte a"
+
+msgid "shib_general_wayf_login_instructions"
+msgstr "No caso de não estar associado às organizações indicadas e precisar de aceder a um curso neste servidor, entre em contacto com"
+
+msgid "shib_idp_list"
+msgstr "Legenda"
+
+msgid "shib_institution"
+msgstr "Atributo para instituição"
+
+msgid "shib_invalid_home_organization"
+msgstr "Escolha uma organização válida!"
+
+msgid "shib_language"
+msgstr "Atributo para idioma"
+
+msgid "shib_lastname"
+msgstr "Atributo para apelido"
+
+msgid "shib_login"
+msgstr "Atributo único Shibboleth"
+
+msgid "shib_login_button"
+msgstr "Mudar tipo"
+
+msgid "shib_login_embedded_wayf"
+msgstr "Design personalizado da área de login"
+
+msgid "shib_login_embedded_wayf_description"
+msgstr "Se esta opção estiver ativada, pode fornecer qualquer código HTML na área do texto das instruções de login em baixo. Isso pode ser usado, por exemplo, para incorporar um próprio JavaScript WAYF/serviço de descoberta ou criar um design personalizado da área de login."
+
+msgid "shib_login_external_wayf"
+msgstr "Usar serviço WAYF externo"
+
+msgid "shib_login_internal_wayf"
+msgstr "Usar serviço WAYF ILIAS"
+
+msgid "shib_login_type"
+msgstr "Seleção da organização"
+
+msgid "shib_matriculation"
+msgstr "Atributo para número de matricula"
+
+msgid "shib_member_of"
+msgstr "Capítulos"
+
+msgid "shib_phone_home"
+msgstr "Atributo para número de telefone de casa"
+
+msgid "shib_phone_mobile"
+msgstr "Atributo para número de telemóvel"
+
+msgid "shib_phone_office"
+msgstr "Atributo para número de telefone do escritório"
+
+msgid "shib_select_home_organization"
+msgstr "Para autenticação via %s, selecione a sua organização da lista drop down."
+
+msgid "shib_settings_saved"
+msgstr "As definições Shibboleth foram guardadas"
+
+msgid "shib_street"
+msgstr "Atributo para rua"
+
+msgid "shib_title"
+msgstr "Atributo para título"
+
+msgid "shib_update"
+msgstr "Atualizar este campo aquando o login"
+
+msgid "shib_user_default_role"
+msgstr "Função predefinida atribuída a utilizadores de Shibboleth"
+
+msgid "shib_zipcode"
+msgstr "Atributo para código postal"
+
+msgid "short_inst_name"
+msgstr "Título curto"
+
+msgid "short_inst_name_info"
+msgstr "Note que as páginas têm de preceder todos os subcapítulos do mesmo nível."
+
+msgid "show"
+msgstr "Capítulos e páginas"
+
+msgid "show_all_details"
+msgstr "Mostrar todos os detalhes"
+
+#, fuzzy
+msgid "show_content"
+msgstr "Show Content"
+
+msgid "show_details"
+msgstr "Capítulo marcado para mover. Selecione destino agora."
+
+msgid "show_filter"
+msgstr "Classe de estilo"
+
+msgid "show_hidden_sections"
+msgstr "Mostrar mais informação &raquo;"
+
+#, fuzzy
+msgid "show_less"
+msgstr "Show less"
+
+msgid "show_list"
+msgstr "Verificar valores enviados a partir de SCO"
+
+msgid "show_members"
+msgstr "Círculo"
+
+#, fuzzy
+msgid "show_more"
+msgstr "Show More"
+
+#, fuzzy
+msgid "show_preview"
+msgstr "Show Preview"
+
+msgid "show_users_online"
+msgstr "Clique no canto inferior direito da área desejada."
+
+#, fuzzy
+msgid "show_who_is_online"
+msgstr "Show who is online"
+
+msgid "side_frame"
+msgstr "Moldura lateral"
+
+msgid "signature"
+msgstr "Clique no centro da área desejada."
+
+msgid "size"
+msgstr "Clique num ponto circular da área desejada."
+
+msgid "skills"
+msgstr "Clique no próximo ponto do polígono ou guarde a área. (Não é necessário clicar outra vez no ponto inicial deste polígono!)"
+
+msgid "skin_style"
+msgstr "Clique no próximo ponto do polígono."
+
+msgid "smtp"
+msgstr "SMTP"
+
+msgid "soap_connect_timeout"
+msgstr "Tempo esgotado da ligação"
+
+msgid "soap_connect_timeout_info"
+msgstr "O tempo máximo em segundos até ser interrompida uma tentativa de ligação ao webservice SOAP."
+
+msgid "soap_user_administration"
+msgstr "Clique no ponto inicial do polígono."
+
+msgid "soap_user_administration_desc"
+msgstr "Clique no canto superior esquerdo da área desejada."
+
+msgid "soap_wsdl_path"
+msgstr "Caminho WSDL"
+
+msgid "soap_wsdl_path_info"
+msgstr "Insira o caminho para o ficheiro wsdl de ilias que deve ser usado para o webservice. Se deixar este campo vazio, será usado o seguinte caminho por defeito:%s"
+
+#, fuzzy
+msgid "sort"
+msgstr "Sort"
+
+#, fuzzy
+msgid "sort_ascending"
+msgstr "Sort Ascending"
+
+#, fuzzy
+msgid "sort_ascending_long"
+msgstr "Change Sort Direction to Ascending"
+
+msgid "sort_by_this_column"
+msgstr "Note que as mesmas formatações não são suportadas em módulos de conteúdo."
+
+#, fuzzy
+msgid "sort_descending"
+msgstr "Sort Descending"
+
+#, fuzzy
+msgid "sort_descending_long"
+msgstr "Change Sort Direction to Descending"
+
+msgid "sort_inherit_prefix"
+msgstr "Predefinição"
+
+msgid "sorting_asc"
+msgstr "Ascendente"
+
+msgid "sorting_creation_header"
+msgstr "Por data de criação"
+
+msgid "sorting_creation_info"
+msgstr "Os itens do conteúdo são dispostos automaticamente pela sua data de criação."
+
+msgid "sorting_desc"
+msgstr "Descendente"
+
+msgid "sorting_direction"
+msgstr "Ordenar direção"
+
+msgid "sorting_header"
+msgstr "Ordenar item de conteúdo"
+
+msgid "sorting_info_inherit"
+msgstr "Guardar comentários"
+
+msgid "sorting_info_manual"
+msgstr "Tem a certeza que quer apagar este(s) item(itens)?"
+
+msgid "sorting_info_title"
+msgstr "Conteúdo"
+
+msgid "sorting_manual_header"
+msgstr "Coordenadas"
+
+msgid "sorting_save"
+msgstr "Guarda ordenação"
+
+msgid "sorting_title_header"
+msgstr "Ver acima a solução correta."
+
+msgid "spacer"
+msgstr "Espaçador"
+
+msgid "spl"
+msgstr "Criar objeto de media"
+
+msgid "spl_add"
+msgstr "Classificar estado do rastreio"
+
+msgid "spl_import"
+msgstr "Importar inquérito banco de perguntas"
+
+msgid "spl_new"
+msgstr "Estado do rastreio não classificado"
+
+msgid "ssl"
+msgstr "SSL (HTTPS)"
+
+msgid "standard_fields"
+msgstr "Campos padrão"
+
+msgid "startpage"
+msgstr "Classificar estado do rastreio (aprovado ou reprovado)"
+
+msgid "stat_selected"
+msgstr "Selecionado"
+
+msgid "statistic"
+msgstr "Estatística"
+
+msgid "statistics"
+msgstr "Tamanho fixo"
+
+msgid "status"
+msgstr "Estado"
+
+msgid "status_no_permission"
+msgstr "adlcp:datafromlms"
+
+msgid "step"
+msgstr "Desativado"
+
+msgid "street"
+msgstr "Ativar ferramenta de teste"
+
+msgid "structure"
+msgstr "Será exibida uma ferramenta de teste no modo de apresentação do módulo de aprendizagem. Com base nos dados fornecidos por ele, é possível avaliar a interação do módulo de aprendizagem e de ILIAS. Para usar a ferramenta de teste, a árvore de navegação tem de ser ligada."
+
+msgid "sty"
+msgstr "Estilo"
+
+msgid "sub_request_deleted"
+msgstr "Pedido de adesão apagado"
+
+msgid "sub_request_saved"
+msgstr "Pedido de adesão guardado"
+
+msgid "subject"
+msgstr "A ferramenta de teste está atualmente desativada de modo global na administração ILIAS (administração » recursos de aprendizagem)."
+
+msgid "submit"
+msgstr "Definição"
+
+msgid "subobjects"
+msgstr "Definições"
+
+msgid "subscription"
+msgstr "Layout predefinido"
+
+msgid "subtabs"
+msgstr "Subseparadores"
+
+msgid "success_message"
+msgstr "Mensagem de sucesso"
+
+msgid "summary"
+msgstr "Registar dados de rastreio"
+
+msgid "sure_delete_selected_users"
+msgstr "Tem a certeza que quer apagar o(s) utilizador(es) selecionado(s)?"
+
+msgid "survey_defaults"
+msgstr "Definições padrão para inquéritos"
+
+msgid "survey_unlimited_invitation"
+msgstr "Convite ilimitado"
+
+msgid "svy"
+msgstr "Inquérito"
+
+msgid "svy_add"
+msgstr "predefinição"
+
+msgid "svy_finished"
+msgstr "Dependências"
+
+msgid "svy_new"
+msgstr "Novo inquérito"
+
+msgid "svy_not_finished"
+msgstr "(Des)ativar"
+
+msgid "svy_not_started"
+msgstr "Diretório/Ficheiro"
+
+msgid "svy_run"
+msgstr "Funcionar"
+
+msgid "svy_warning_survey_not_complete"
+msgstr "Ativar download"
+
+#, fuzzy
+msgid "switch_language"
+msgstr "Switch Language"
+
+msgid "system"
+msgstr "Oferece todos os ficheiros de exportação públicos para download (p. ex. para uso offline ou importação)."
+
+msgid "system_check"
+msgstr "Arraste e largue o elemento para a posição pretendida. De seguida, 'Guardar'."
+
+msgid "system_information"
+msgstr "Informação do sistema"
+
+msgid "system_language"
+msgstr "Editar imagem de fundo"
+
+msgid "system_styles"
+msgstr "Estilos do sistema"
+
+msgid "systemcheck_cron"
+msgstr "O download não estará disponível aos utilizadores, uma vez que a funcionalidade de download não está ativada."
+
+msgid "systemcheck_cronform"
+msgstr "O download não estará disponível aos utilizadores, uma vez que o menu do módulo de aprendizagem não está ativado."
+
+msgid "table_mail_import"
+msgstr "Editar objeto de media"
+
+msgid "tabs"
+msgstr "Separadores"
+
+msgid "tagging_my_tags"
+msgstr "Editar propriedades da instância de objeto de media"
+
+#, fuzzy
+msgid "tags"
+msgstr "Tags"
+
+msgid "take_over_structure"
+msgstr "Adotar estrutura"
+
+msgid "take_over_structure_info"
+msgstr "Se estiver ativado, os diretórios no ficheiro zip serão mapeados para categorias ou, se for usado em grupos ou cursos, para pastas."
+
+#, fuzzy
+msgid "tals_etal"
+msgstr "Talk"
+
+#, fuzzy
+msgid "talt_etal"
+msgstr "Talk"
+
+msgid "target"
+msgstr "Meta"
+
+msgid "tax"
+msgstr "Taxonomia"
+
+msgid "tax_add"
+msgstr "Editar texto"
+
+msgid "tax_new"
+msgstr "Nova taxonomia"
+
+msgid "term"
+msgstr "Editar termo"
+
+msgid "test"
+msgstr "Teste"
+
+msgid "tests"
+msgstr "Alinhar: centro"
+
+msgid "textbox"
+msgstr "Caixa de teste"
+
+msgid "thread"
+msgstr "Tópico"
+
+msgid "thumbnail"
+msgstr "Miniatura"
+
+#, fuzzy
+msgid "tile_view"
+msgstr "Tile View"
+
+msgid "time"
+msgstr "Alinhar: esquerda"
+
+msgid "time_limit"
+msgstr "Alinhar: esquerda flutuante"
+
+msgid "time_limit_add_time_limit_for_selected"
+msgstr "Alinhar: direita"
+
+msgid "time_limit_from"
+msgstr "De (tempo limite)"
+
+msgid "time_limit_message"
+msgstr "Mensagem (tempo limite)"
+
+msgid "time_limit_no_users_selected"
+msgstr "Alinhar: direita flutuante"
+
+msgid "time_limit_not_valid"
+msgstr "O período não é válido."
+
+msgid "time_limit_reached"
+msgstr "Estilo"
+
+msgid "time_limit_unlimited"
+msgstr "Ilimitado (tempo limite)"
+
+msgid "time_limit_until"
+msgstr "Até (tempo limite)"
+
+msgid "title"
+msgstr "Mover coluna esquerda"
+
+msgid "title_required"
+msgstr "Mover coluna direita"
+
+msgid "to"
+msgstr "Copiar"
+
+msgid "to_client_list"
+msgstr "Eliminar linha"
+
+msgid "today"
+msgstr "Copiar para a área de transferência"
+
+msgid "toggleGlobalDefault"
+msgstr "Cortar"
+
+msgid "toggleGlobalFixed"
+msgstr "Apagar"
+
+msgid "toggle_dropdown"
+msgstr "Alternar Dropdown"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_off"
+msgstr "OFF"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_on"
+msgstr "ON"
+
+msgid "tomorrow"
+msgstr "Eliminar coluna"
+
+#, fuzzy
+msgid "toolbar_more_actions"
+msgstr "More Actions"
+
+#, fuzzy
+msgid "tools"
+msgstr "Tools"
+
+msgid "top_of_page"
+msgstr "Eliminar item"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement"
+msgstr "Accept Terms of Service?"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement_intro"
+msgstr "There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page."
+
+#, fuzzy
+msgid "tos_force_accept_usr_agreement"
+msgstr "You must accept the Terms of Service!"
+
+#, fuzzy
+msgid "tos_no_agreement_description"
+msgstr "There is currently no Terms of Service document available for this installation. Please contact the <a href=\"%1$s\">system administrator</a>."
+
+#, fuzzy
+msgid "tos_refuse_acceptance"
+msgstr "Refuse to Accept Terms of Service"
+
+#, fuzzy
+msgid "tos_usr_agreement"
+msgstr "Terms of Service"
+
+#, fuzzy
+msgid "tos_usr_agreement_footer_intro"
+msgstr "You have declared your consent to these terms of service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description"
+msgstr "Withdraw your consent to our Terms of Service here."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description_external"
+msgstr "Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description_internal"
+msgstr "Please log in again to complete the process of withdrawing your consent to the Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_header"
+msgstr "Withdraw Terms of Service Consent"
+
+#, fuzzy
+msgid "tos_withdraw_consent_info"
+msgstr "Withdraw your consent to our Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_info_external"
+msgstr "Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Terms of Service."
+
+msgid "total"
+msgstr "Total"
+
+msgid "tracking_settings"
+msgstr "Editar dados"
+
+msgid "translation"
+msgstr "Editar ficheiros"
+
+msgid "trash"
+msgstr "Editar sequência parágrafo"
+
+msgid "tree"
+msgstr "Editar propriedades"
+
+msgid "tree_frame"
+msgstr "Ir"
+
+msgid "treeview"
+msgstr "(Des)ativar elementos"
+
+msgid "tst"
+msgstr "A largura da coluna pode abranger múltiplas unidades 1/12 da linha e depende do tamanho geral do ecrã. Os dispositivos são dados como exemplos. O tamanho do seu ecrã determina o comportamento concreto. 12/12 igual a 100% da largura."
+
+msgid "tst_add"
+msgstr "Inserir tabela avançada"
+
+msgid "tst_edit_questions"
+msgstr "Editar perguntas"
+
+#, fuzzy
+msgid "tst_history_read"
+msgstr "View History"
+
+msgid "tst_new"
+msgstr "Inserir blog"
+
+msgid "tst_results"
+msgstr "Inserir código"
+
+msgid "tst_run"
+msgstr "Funcionar"
+
+msgid "tst_user_not_invited"
+msgstr "Inserir imagem interativa"
+
+msgid "tst_warning_test_not_complete"
+msgstr "O teste não está completo!"
+
+msgid "tutors"
+msgstr "Inserir fragmento do conteúdo"
+
+msgid "txt_registered"
+msgstr "Inserir lista de avançada"
+
+msgid "txt_registered_passw_gen"
+msgstr "Registou-se com sucesso em ILIAS. Deve receber um e-mail que inclui a sua palavra-passe brevemente criada."
+
+msgid "txt_submitted"
+msgstr "Submeteu com sucesso um pedido de conta para ILIAS. O seu pedido de conta será revisto pelos administradores do sistema e deverá estar ativada em 48 horas. Não poderá fazer login enquanto a sua conta não estar ativada."
+
+msgid "typ"
+msgstr "Inserir elemento página de login"
+
+msgid "type"
+msgstr "Inserir mapa"
+
+msgid "udf_added_field"
+msgstr "Inserir imagem/media"
+
+msgid "udf_delete_sure"
+msgstr "Tem a certeza que quer apagar este campo e todos os dados do utilizador atribuído?"
+
+msgid "udf_duplicate_entries"
+msgstr "Os valores têm de ser únicos."
+
+msgid "udf_field_deleted"
+msgstr "Campo apagado."
+
+msgid "udf_name_already_exists"
+msgstr "Este nome de campo já existe. Escolha um nome diferente."
+
+msgid "udf_required_requires_visib_reg"
+msgstr "Inserir texto"
+
+msgid "udf_type_date"
+msgstr "Inserir pergunta"
+
+msgid "udf_type_datetime"
+msgstr "Data e hora"
+
+msgid "udf_type_select"
+msgstr "Inserir espaço"
+
+msgid "udf_type_text"
+msgstr "Inserir dados pessoais"
+
+#, fuzzy
+msgid "udf_type_textarea"
+msgstr "Text Area"
+
+msgid "udf_update_select_field"
+msgstr "Editar caixa de seleção"
+
+msgid "udf_update_text_field"
+msgstr "Editar campo de texto"
+
+msgid "udf_update_wysiwyg_field"
+msgstr "Editar área de texto (WYSIWYG) campo"
+
+msgid "uid"
+msgstr "UID"
+
+msgid "ums_create_new_account"
+msgstr "Criar nova conta"
+
+msgid "ums_explanation"
+msgstr "Não foi possível mapear a sua conta externa com uma conta ILIAS. Mas ILIAS encontrou uma conta com o seu endereço de e-mail. Se esta conta for sua, faça login com a sua palavra-passe ILIAS."
+
+msgid "ums_explanation_2"
+msgstr "Inserir vista geral de perguntas"
+
+msgid "ums_explanation_3"
+msgstr "Não foi possível mapear a sua conta externa com uma conta ILIAS. Mas ILIAS encontrou múltiplas contas com o seu endereço de e-mail. Se um destas contas for sua, faça login com a sua palavra-passe ILIAS."
+
+msgid "ums_explanation_4"
+msgstr "Inserir lista de recursos"
+
+msgid "unambiguousness"
+msgstr "Inserir seção"
+
+msgid "uncheck_all"
+msgstr "Desmarcar tudo"
+
+msgid "unchecked"
+msgstr "Desmarcado"
+
+msgid "uninstall"
+msgstr "Inserir competências"
+
+msgid "uninstalled"
+msgstr "Inserir Accordion"
+
+msgid "unknown"
+msgstr "Inserir certificado"
+
+msgid "unparticipate"
+msgstr "Mover item para baixo"
+
+msgid "unread"
+msgstr "Mover item para cima"
+
+msgid "unzip"
+msgstr "Deszipar"
+
+msgid "up"
+msgstr "Mover antes"
+
+msgid "update"
+msgstr "Editar"
+
+msgid "update_applied"
+msgstr "Nova coluna depois"
+
+msgid "update_language"
+msgstr "Nova coluna antes"
+
+msgid "update_on_conflict"
+msgstr "Atualizar em conflito"
+
+msgid "update_orgunits"
+msgstr "Atualizar unidades organizacionais atribuídas"
+
+msgid "update_orgunits_desc"
+msgstr "Se estiver ativado, o campo 'Unidades organizacionais' será atualizado para todas as contas de utilizador."
+
+msgid "upload"
+msgstr "Novo item depois"
+
+msgid "upload_error_file_not_found"
+msgstr "Erro de upload: Ficheiro não encontrado."
+
+#, fuzzy
+msgid "upload_ok"
+msgstr "The upload was successful"
+
+msgid "upload_pending"
+msgstr "Pendente"
+
+msgid "upload_settings"
+msgstr "Nova linha depois"
+
+#, fuzzy
+msgid "upload_svg_rejection_message"
+msgstr "An uploaded SVG file contains possibily malicious code and cannot be processed."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_base64"
+msgstr "The file contains base64 encoded content."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_elements"
+msgstr "The file contains elements or attributes which are not allowed or known."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_foreign_object"
+msgstr "The file contains foreign objects."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_script"
+msgstr "The file contains script-Elements."
+
+msgid "uploaded_and_checked"
+msgstr "Novo item antes"
+
+msgid "uploading"
+msgstr "A carregar..."
+
+msgid "uri"
+msgstr "URI"
+
+msgid "url"
+msgstr "URL"
+
+msgid "url_not_found"
+msgstr "Ficheiro não encontrado"
+
+msgid "use_customized_instructions"
+msgstr "Usar instruções personalizadas:"
+
+msgid "use_default_instructions"
+msgstr "Usar instruções predefinidas."
+
+msgid "user"
+msgstr "Nova linha antes"
+
+msgid "user_activated"
+msgstr "Utilizador foi aprovado"
+
+msgid "user_added"
+msgstr "Passar para a página seguinte"
+
+msgid "user_assignment"
+msgstr "Largura"
+
+#, fuzzy
+msgid "user_avatar"
+msgstr "User Avatar"
+
+#, fuzzy
+msgid "user_avatar_of"
+msgstr "User Avatar of"
+
+msgid "user_cant_receive_mail"
+msgstr "A edição da pergunta não foi concluída. Clique e edite ou apague a pergunta."
+
+msgid "user_comment"
+msgstr "Comentário do utilizador"
+
+msgid "user_deactivated"
+msgstr "Utilizador não foi aprovado"
+
+msgid "user_defined_fields"
+msgstr "Guarda versões mais antigas das páginas e permite recuar até versões mais antigas."
+
+msgid "user_defined_list"
+msgstr "Exemplo"
+
+msgid "user_deleted"
+msgstr "Ficheiro"
+
+msgid "user_detail"
+msgstr "Dados de detalhe"
+
+msgid "user_ext_account"
+msgstr "Conta externa"
+
+msgid "user_ext_account_desc"
+msgstr "Ficheiros"
+
+msgid "user_image"
+msgstr "Imagem de utilizador"
+
+msgid "user_import_failed"
+msgstr "Importação de utilizador falhou."
+
+msgid "user_imported"
+msgstr "Ficheiro do espaço de trabalho"
+
+msgid "user_imported_with_warnings"
+msgstr "Importação de utilizador completa com avisos."
+
+msgid "user_language"
+msgstr "Primeiro painel aberto"
+
+#, fuzzy
+msgid "user_never_logged_in"
+msgstr "Delete user accounts without login"
+
+#, fuzzy
+msgid "user_never_logged_in_info"
+msgstr "All user accounts without login at all be deleted."
+
+#, fuzzy
+msgid "user_never_logged_in_info_threshold_err_num"
+msgstr "Only positive non decimal numbers are accepted."
+
+msgid "user_new_account_mail"
+msgstr "Novo mail da conta"
+
+msgid "user_new_account_mail_desc"
+msgstr "Primeira linha classe de estilo"
+
+msgid "user_not_found"
+msgstr "Utilizador não encontrado"
+
+msgid "user_not_found_to_delete"
+msgstr "Não foi possível encontrar um utilizador para apagar."
+
+msgid "user_not_known"
+msgstr "Insira um nome de utilizador válido."
+
+msgid "user_profile_other"
+msgstr "Outras informações"
+
+msgid "user_send_new_account_mail"
+msgstr "Formato"
+
+msgid "user_status"
+msgstr "Estado do utilizador"
+
+msgid "user_toggle_noti"
+msgstr "SCORM 2004 4.ª edição oferece algumas vantagens comparativamente com a 3.ª edição: Os dados podem ser transportados entre SCOs. Atualmente poucos módulos de aprendizagem usam esta funcionalidade e ela tem um impacto negativo sobre o desempenho."
+
+msgid "userfolder_export_csv"
+msgstr "Valores separados por vírgulas"
+
+msgid "userfolder_export_excel_x86"
+msgstr "Microsoft Excel"
+
+msgid "userfolder_export_file"
+msgstr "Ficheiro"
+
+msgid "userfolder_export_file_size"
+msgstr "Tamanho do ficheiro"
+
+msgid "userfolder_export_files"
+msgstr "Ficheiros"
+
+msgid "userfolder_export_xml"
+msgstr "XML"
+
+msgid "username"
+msgstr "Colar a partir da área de transferência"
+
+#, fuzzy
+msgid "username_assistance"
+msgstr "Username Assistance"
+
+msgid "users"
+msgstr "Mover linha para baixo"
+
+msgid "users_not_imported"
+msgstr "Mover linha para cima"
+
+msgid "users_online"
+msgstr "Passar para a página seguinte"
+
+msgid "usr"
+msgstr "Ecrã inteiro"
+
+msgid "usr_account_inactive"
+msgstr "Conta inativa"
+
+msgid "usr_active_only"
+msgstr "Apenas utilizadores ativos"
+
+msgid "usr_add"
+msgstr "Reduz problemas com a apresentação de módulos de aprendizagem SCORM mais antigos que foram otimizados para o Internet Explorer. Se o modo de compatibilidade estiver desligado em versões mais recentes do Internet Explorer, esta definição não é eficaz."
+
+msgid "usr_edit"
+msgstr "Os módulos de aprendizagem com muitos enquadramentos ou iFrames serão apresentados corretamente depois de processar o conteúdo mais uma vez."
+
+#, fuzzy
+msgid "usr_field_change_components_listening"
+msgstr "There is at least one component which is interested in the changed configuration. Would you like to confirm the changes with the consequences the component(s) announced below?"
+
+msgid "usr_filter_coursemember"
+msgstr "Membro do curso"
+
+msgid "usr_filter_groupmember"
+msgstr "Membro do grupo"
+
+msgid "usr_filter_lastlogin"
+msgstr "Último login do utilizador"
+
+msgid "usr_filter_role"
+msgstr "Função atribuída"
+
+msgid "usr_inactive_only"
+msgstr "Apenas utilizadores inativos"
+
+msgid "usr_limited_access_only"
+msgstr "Apenas utilizadores com acesso limitado"
+
+msgid "usr_name_undisclosed"
+msgstr "Não divulgado"
+
+msgid "usr_new"
+msgstr "Mapa de imagem"
+
+msgid "usr_settings_changeable_lua"
+msgstr "Alterável na administração de utilizadores local"
+
+msgid "usr_settings_explanation_profile"
+msgstr "Identificador"
+
+msgid "usr_settings_header_profile"
+msgstr "Ocorreram alguns erros durante a validação do módulo de aprendizagem. A apresentação do módulo de aprendizagem pode estar ok, mas é provável que não seja capaz de editar as páginas que contêm erros."
+
+msgid "usr_settings_saved"
+msgstr "Definições gerais de utilizadores guardadas com sucesso!"
+
+msgid "usr_settings_visib_lua"
+msgstr "Visível na administração de utilizadores local"
+
+msgid "usr_skin_style"
+msgstr "Inserir um subcapítulo"
+
+msgid "usr_without_courses"
+msgstr "Utilizadores sem cursos atribuídos"
+
+msgid "usrf"
+msgstr "Impossível eliminar. O ficheiro de ecrã inteiro está no diretório."
+
+msgid "usrf_profile_link"
+msgstr "Link para perfil de utilizador"
+
+msgid "usrimport_action_ignored"
+msgstr "Ação ignorada %1$s."
+
+msgid "usrimport_action_replaced"
+msgstr "Ação substituída %1$s por %2$s."
+
+msgid "usrimport_cant_delete"
+msgstr "obter ligação"
+
+msgid "usrimport_cant_insert"
+msgstr "Altura em pixel"
+
+msgid "usrimport_cant_update"
+msgstr "Ocultar árvore de navegação"
+
+msgid "usrimport_conflict_handling_info"
+msgstr "A árvore de navegação no lado esquerdo pode ser ocultada, se o módulo de aprendizagem SCORM incluir funções suficientes para navegar entre secções do conteúdo, ou se a barra superior de navegação for exibida."
+
+#, fuzzy
+msgid "usrimport_form_not_evaluabe"
+msgstr "The form data couldn't be read."
+
+msgid "usrimport_global_role_for_action_required"
+msgstr "Pelo menos uma função global tem de ser especificada para a ação\"%1$s\"."
+
+msgid "usrimport_ignore_role"
+msgstr "Ignorar função"
+
+msgid "usrimport_login_is_not_unique"
+msgstr "Login não é único."
+
+msgid "usrimport_no_insert_ext_account_exists"
+msgstr "Permite manter IDs extra para módulos de aprendizagem ILIAS que são usados para designar ficheiros HTML quando a exportação HTML está executada."
+
+msgid "usrimport_no_update_ext_account_exists"
+msgstr "identifierref"
+
+msgid "usrimport_with_specified_role_not_permitted"
+msgstr "Não é permitido importar com função especificada."
+
+#, fuzzy
+msgid "usrimport_wrong_file_count"
+msgstr "Too many files in import-folder. Please try again."
+
+#, fuzzy
+msgid "usrimport_xml_anonymous_or_root_not_allowed"
+msgstr "Neither the system-account nor the anonymous account can be changed through the import."
+
+msgid "usrimport_xml_attribute_missing"
+msgstr "Falta o atributo \"%2$s\" no elemento \"%1$s\"."
+
+msgid "usrimport_xml_attribute_value_illegal"
+msgstr "O valor \"%3$s\" do atributo \"%2$s\" no elemento \"%1$s\" é ilegal."
+
+msgid "usrimport_xml_attribute_value_inapplicable"
+msgstr "O valor \"%3$s\" do atributo \"%2$s\" no elemento \"%1$s\" não é aplicável à ação \"%4$s\"."
+
+msgid "usrimport_xml_element_content_illegal"
+msgstr "O conteúdo \"%2$s\" do elemento \"%1$s\" é ilegal."
+
+msgid "usrimport_xml_element_for_action_required"
+msgstr "O elemento \"%1$s\" tem de ser especificado para a ação \"%2$s\"."
+
+msgid "usrimport_xml_element_inapplicable"
+msgstr "O elemento \"%1$s\" não é aplicável à ação \"%2$s\"."
+
+msgid "valid"
+msgstr "Válido"
+
+msgid "validate"
+msgstr "Adicionar posting de blog"
+
+msgid "value"
+msgstr "Inserir item de ficheiro"
+
+msgid "vcard"
+msgstr "Inserir lista de ficheiros"
+
+msgid "vcard_download"
+msgstr "Inserir lista de avançada"
+
+msgid "verification_failed"
+msgstr "Verificação falhou"
+
+msgid "verification_failure_log"
+msgstr "Registo de falha da verificação"
+
+msgid "verification_warning_log"
+msgstr "Registo de aviso da verificação"
+
+msgid "version"
+msgstr "Inserir objeto de media"
+
+msgid "versions"
+msgstr "Inserir texto"
+
+msgid "view"
+msgstr "Publicar dados pessoais"
+
+msgid "view_content"
+msgstr "Inserir competência"
+
+msgid "view_learning_progress"
+msgstr "Ver progresso de aprendizagem"
+
+msgid "view_learning_progress_rec"
+msgstr "Ver progresso de aprendizagem da unidade incl. subunidades"
+
+msgid "visible"
+msgstr "Inserir subcapítulo"
+
+msgid "visible_registration"
+msgstr "Visível no registo"
+
+msgid "visitor"
+msgstr "Visitante"
+
+msgid "visitors"
+msgstr "Visitantes"
+
+msgid "visits"
+msgstr "Colar subcapítulos a partir da área de transferência"
+
+msgid "web_resources"
+msgstr "Propriedades da lista"
+
+msgid "webdav"
+msgstr "WebDAV"
+
+#, fuzzy
+msgid "webdav_add_instructions_btn_label"
+msgstr "Add Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_chosen_language_already_used"
+msgstr "There already is another document associated with the chosen language"
+
+#, fuzzy
+msgid "webdav_doc_delete"
+msgstr "Delete WebDav Mount Instructions"
+
+#, fuzzy
+msgid "webdav_docs_mount_instructions"
+msgstr "Mount Instructions Documents"
+
+#, fuzzy
+msgid "webdav_duplicate_detected_title"
+msgstr "Following objects could not be displayed, because an object with the same Title is already being shown:"
+
+#, fuzzy
+msgid "webdav_forbidden_chars_title"
+msgstr "Following files cannot be displayed, because they contain one or more forbidden characters (\\<>/:*?\"|#):"
+
+#, fuzzy
+msgid "webdav_form_document"
+msgstr "Instructions Document"
+
+#, fuzzy
+msgid "webdav_form_document_info"
+msgstr "Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information"
+
+#, fuzzy
+msgid "webdav_form_document_title"
+msgstr "Title"
+
+#, fuzzy
+msgid "webdav_form_document_title_info"
+msgstr "This title will be dislayed as the title of the modal when the Mount Instructions are opened"
+
+#, fuzzy
+msgid "webdav_form_edit_doc_head"
+msgstr "Edit Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_form_new_doc_head"
+msgstr "Create new Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_general_settings"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "webdav_missing_lang"
+msgstr "There is no english version of the WebDAV Mount Instructions"
+
+#, fuzzy
+msgid "webdav_mount_instructions"
+msgstr "Mount Instructions"
+
+#, fuzzy
+msgid "webdav_problem_free_container"
+msgstr "There are no objects that cause problems in this container."
+
+#, fuzzy
+msgid "webdav_problem_info_duplicate"
+msgstr "There is a file with the same title as the info file."
+
+msgid "webdav_pwd_instruction"
+msgstr "Adicionar certificado"
+
+msgid "webdav_pwd_instruction_success"
+msgstr "Foi criada uma nova palavra-passe local. Pode abrir agora o repositório como pasta da web."
+
+#, fuzzy
+msgid "webdav_sure_delete_documents_s"
+msgstr "Are you sure you want to delete the Mount Instructions with the following title:"
+
+#, fuzzy
+msgid "webdav_tbl_docs_head_title"
+msgstr "Dokument title"
+
+#, fuzzy
+msgid "webdav_tbl_docs_title"
+msgstr "List of uploaded WebDAV Mount Instructions"
+
+#, fuzzy
+msgid "webdav_upload_instructions"
+msgstr "Upload Instructions"
+
+msgid "webfolder_dir_info"
+msgstr "Chegou aqui porque o seu navegador não pode abrir pastas da web. Ler as <a href=\"%1$s\">instruções para abrir pastas da web</a>."
+
+msgid "webfolder_index_of"
+msgstr "Índice de %1$s"
+
+msgid "webfolder_instructions"
+msgstr "Instruções relativas a pastas da web"
+
+msgid "webfolder_instructions_info"
+msgstr "As instruções relativas a pastas da web são exibidas nos navegadores que não conseguem abrir diretamente uma pastas da web. Pode usar o código HTML e as seguintes variáveis: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>. Limpe o campo para obter as instruções predefinidas."
+
+msgid "webfolder_instructions_text"
+msgstr "Guardar resultados de interações"
+
+msgid "webfolder_instructions_titletext"
+msgstr "Abrir %1$s como pasta da web"
+
+msgid "webfolder_mount_dir_with"
+msgstr "link interno"
+
+msgid "webr"
+msgstr "é visível"
+
+msgid "webr_active"
+msgstr "Ativo"
+
+msgid "webr_add"
+msgstr "Permite definir layouts individuais para cada página. Isto ativa também automaticamente a definição ‘Sincronizar molduras’."
+
+msgid "webr_deleted_items"
+msgstr "Link (externo)"
+
+msgid "webr_edit"
+msgstr "Link interno"
+
+msgid "webr_sure_delete_items"
+msgstr "Link para página Wiki (inserir parênteses)"
+
+msgid "webservices"
+msgstr "Tipo de link"
+
+msgid "week"
+msgstr "Capítulo"
+
+msgid "weekly"
+msgstr "semanal"
+
+msgid "weeks"
+msgstr "Semanas"
+
+msgid "welcome"
+msgstr "Capítulo (nova moldura)"
+
+msgid "width"
+msgstr "Largura"
+
+msgid "wiki"
+msgstr "Wiki"
+
+msgid "wiki_add"
+msgstr "Media (moldura FAQ)"
+
+msgid "wiki_new"
+msgstr "Nova wiki"
+
+msgid "with"
+msgstr "Media (em linha)"
+
+#, fuzzy
+msgid "withdraw_consent"
+msgstr "Withdraw Acceptance"
+
+#, fuzzy
+msgid "withdraw_consent_info_internal"
+msgstr "If you confirm here, your account will be deleted."
+
+#, fuzzy
+msgid "withdraw_usr_agreement"
+msgstr "Withdraw"
+
+#, fuzzy
+msgid "withdrawal_complete"
+msgstr "Withdrawal of consent complete."
+
+#, fuzzy
+msgid "withdrawal_complete_deleted"
+msgstr "Withdrawal of consent complete, account deleted."
+
+#, fuzzy
+msgid "withdrawal_complete_redirect"
+msgstr "Withdrawal of consent complete. To have the account deleted, please contact your organisation."
+
+#, fuzzy
+msgid "withdrawal_mail_info"
+msgstr "The following email will be sent to an administrator after confirming the withdrawal:[BR][BR]"
+
+#, fuzzy
+msgid "withdrawal_mail_subject"
+msgstr "Withdrawal of Consent to Terms of Service"
+
+#, fuzzy
+msgid "withdrawal_mail_text"
+msgstr "Dear Sir or Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installations terms of service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Kind regards[BR]%1$s"
+
+#, fuzzy
+msgid "withdrawal_sure_account"
+msgstr "Are you sure you want to confirm the withdrawal of consent?"
+
+#, fuzzy
+msgid "withdrawal_sure_account_deletion"
+msgstr "Are you sure you want to confirm the withdrawal of consent? Your user account will be irrevocably deleted."
+
+#, fuzzy
+msgid "withdrawal_sure_account_deletion_no_consent_yet"
+msgstr "Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted."
+
+#, fuzzy
+msgid "withdrawal_sure_account_no_consent_yet"
+msgstr "Are you sure you do not want to accept the terms of service?"
+
+msgid "wizard_search_list"
+msgstr "Media (moldura media)"
+
+msgid "wizard_title_info"
+msgstr "Insira o título do objeto que quer duplicar."
+
+msgid "write"
+msgstr "Media (moldura nova)"
+
+msgid "year"
+msgstr "Página (moldura FAQ)"
+
+msgid "yearly"
+msgstr "Página (moldura nova)"
+
+msgid "years"
+msgstr "Anos"
+
+msgid "yes"
+msgstr "Termo do glossário"
+
+msgid "yesterday"
+msgstr "Termo do glossário (moldura nova)"
+
+msgid "zip"
+msgstr "Definições do módulo de aprendizagem"
+
+msgid "zip_structure_error"
+msgstr "Definições"
+
+msgid "zip_test_failed"
+msgstr "Teste Zip falhou. Entre em contacto com o seu administrador ILIAS."
+
+msgid "zipcode"
+msgstr "Idioma usado para textos predefinidos, p. ex. \"Anterior\" e \"Próximo\"."
