@@ -1,0 +1,2780 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ka\n"
+"Language-Team: Georgian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: meta\n"
+
+#, fuzzy
+msgid "adt_error_max_length"
+msgstr "Please enter a shorter text."
+
+#, fuzzy
+msgid "md_adn_int_error_no_default"
+msgstr "Please select on activated language as \"Default-Language\"."
+
+msgid "md_adv_active"
+msgstr "აქტიური"
+
+msgid "md_adv_added_new_record"
+msgstr "ახალი მოდემი დამატებულია"
+
+#, fuzzy
+msgid "md_adv_col_presentation_ordering"
+msgstr "Position"
+
+#, fuzzy
+msgid "md_adv_confirm_definition"
+msgstr "Please confirm the new definition settings."
+
+#, fuzzy
+msgid "md_adv_confirm_definition_select_option"
+msgstr "Deleted Option"
+
+#, fuzzy
+msgid "md_adv_confirm_definition_select_option_all"
+msgstr "Handle all existing entries the same"
+
+#, fuzzy
+msgid "md_adv_confirm_definition_select_option_all_action"
+msgstr "New Value"
+
+#, fuzzy
+msgid "md_adv_confirm_definition_select_option_overwrite"
+msgstr "Set value to"
+
+#, fuzzy
+msgid "md_adv_confirm_definition_select_option_remove"
+msgstr "Remove value"
+
+#, fuzzy
+msgid "md_adv_confirm_definition_select_option_single"
+msgstr "Decide for each existing entry"
+
+#, fuzzy
+msgid "md_adv_confirm_definition_select_section"
+msgstr "Migration of the deleted options"
+
+msgid "md_adv_create_field"
+msgstr "ახალი ველი"
+
+msgid "md_adv_create_record"
+msgstr "ახალი მოდემი"
+
+msgid "md_adv_delete_fields_sure"
+msgstr "ნამდვილად გსურთ შემდეგი ველების განსაზღვრებების წაშლა?"
+
+msgid "md_adv_delete_files_sure"
+msgstr "ნამდვილად გსურთ შემდეგი საექსპორტო ფაილების წაშლა?"
+
+msgid "md_adv_delete_record_sure"
+msgstr "ნამდვილად გსურთ შემდეგი მოდემების წაშლა?"
+
+#, fuzzy
+msgid "md_adv_deleted_fields"
+msgstr "The fields have been deleted."
+
+msgid "md_adv_deleted_files"
+msgstr "საექსპორტო ფაილების წაშლა"
+
+msgid "md_adv_deleted_records"
+msgstr "წაშლილი მოდემი"
+
+msgid "md_adv_desc_show"
+msgstr "აღწერის ჩვენება"
+
+#, fuzzy
+msgid "md_adv_edit_complex_option"
+msgstr "Edit Option Properties"
+
+msgid "md_adv_edit_field"
+msgstr "ველის რედაქტირება"
+
+msgid "md_adv_edit_record"
+msgstr "მოდემის რედაქტირება"
+
+msgid "md_adv_field_fields"
+msgstr "ველები"
+
+#, fuzzy
+msgid "md_adv_field_filter_warning"
+msgstr "The field types %s are currently not supported as table filters."
+
+#, fuzzy
+msgid "md_adv_field_list"
+msgstr "Fields"
+
+msgid "md_adv_field_names"
+msgstr "ველების სახელები"
+
+msgid "md_adv_field_table"
+msgstr "ველების რედაქტიება"
+
+msgid "md_adv_fields_show"
+msgstr "ველების სახელების ჩვენება"
+
+msgid "md_adv_file_list"
+msgstr "ფაილების ექსპორტი"
+
+msgid "md_adv_import_record"
+msgstr "მეტა მონაცემების დაყენების გადმოდანა"
+
+#, fuzzy
+msgid "md_adv_int_current"
+msgstr "Current Language:"
+
+#, fuzzy
+msgid "md_adv_int_default"
+msgstr "Default Language:"
+
+#, fuzzy
+msgid "md_adv_int_translation_info"
+msgstr "Translation:"
+
+msgid "md_adv_no_fields"
+msgstr "ველები არ არის განსაზღვრული"
+
+#, fuzzy
+msgid "md_adv_number_decimals"
+msgstr "Decimals"
+
+#, fuzzy
+msgid "md_adv_number_max"
+msgstr "Maximum Value"
+
+#, fuzzy
+msgid "md_adv_number_min"
+msgstr "Minimum Value"
+
+#, fuzzy
+msgid "md_adv_number_suffix"
+msgstr "Suffix"
+
+#, fuzzy
+msgid "md_adv_presentation"
+msgstr "Presentation"
+
+#, fuzzy
+msgid "md_adv_record_activate_languages"
+msgstr "Activate Languages"
+
+msgid "md_adv_record_list"
+msgstr "მოდემები და პრეზენტაცია"
+
+#, fuzzy
+msgid "md_adv_record_lng_table"
+msgstr "Language Managment"
+
+#, fuzzy
+msgid "md_adv_record_lng_table_active"
+msgstr "Active"
+
+#, fuzzy
+msgid "md_adv_record_lng_table_default"
+msgstr "Default"
+
+#, fuzzy
+msgid "md_adv_record_lng_table_inst"
+msgstr "Installed"
+
+#, fuzzy
+msgid "md_adv_record_lng_table_lng"
+msgstr "Language"
+
+msgid "md_adv_records"
+msgstr "მოდემების ჩართვით"
+
+msgid "md_adv_records_exported"
+msgstr "ახალი საექსპორტო ფაილი შექმნილია"
+
+#, fuzzy
+msgid "md_adv_scope"
+msgstr "Scope"
+
+#, fuzzy
+msgid "md_adv_scope_info"
+msgstr "Usage of this custom metadata set will be limited to selected parts of the repository."
+
+#, fuzzy
+msgid "md_adv_scope_list_header"
+msgstr "Limited to:"
+
+#, fuzzy
+msgid "md_adv_scope_objects"
+msgstr "Data Set Effective From"
+
+msgid "md_adv_searchable"
+msgstr "ძიებადი"
+
+msgid "md_adv_select_one_file"
+msgstr "გთხოვთ აირჩიოთ ერთი ფაილი"
+
+msgid "md_adv_show"
+msgstr "ჩვენება"
+
+msgid "md_adv_substitution_table"
+msgstr "პრეზენტაცია საცავში/პირად მაგიდაზე"
+
+#, fuzzy
+msgid "md_adv_text_max_length"
+msgstr "Maximum Length"
+
+#, fuzzy
+msgid "md_adv_text_multi"
+msgstr "Multiline"
+
+#, fuzzy
+msgid "md_adv_text_multi_val"
+msgstr "Multilingual Values"
+
+#, fuzzy
+msgid "md_adv_text_multi_val_info"
+msgstr "Allow multilingual field values for this data field. Deactivating this option is recommended for texts that do not need translating, such as personal names."
+
+msgid "md_advanced"
+msgstr "გაუმჯობესებული მეტა მონაცემები"
+
+#, fuzzy
+msgid "md_aria_language_selection"
+msgstr "Language Selection"
+
+msgid "md_copyright"
+msgstr "საავტორო უფლება"
+
+msgid "md_copyright_add"
+msgstr "საავტორო უფლებების პრეზენტაციის დამატება"
+
+#, fuzzy
+msgid "md_copyright_admin_tab"
+msgstr "Copyright & OER"
+
+#, fuzzy
+msgid "md_copyright_alt_text"
+msgstr "Text Representation"
+
+#, fuzzy
+msgid "md_copyright_alt_text_info"
+msgstr "Used for image ‘alt’ attribute"
+
+#, fuzzy
+msgid "md_copyright_default"
+msgstr "Default"
+
+msgid "md_copyright_edit"
+msgstr "საავტორო უფლებების პრეზენტაციის რედაქტირება"
+
+msgid "md_copyright_enable_info"
+msgstr "აირჩიეთ ეს პარამეტრი გასაზრვრული საავტორო უფლებების მონიშვნის შესათავაზებლად"
+
+msgid "md_copyright_enabled"
+msgstr "საავტორო უფლების მონიშვნის გააქტიურება"
+
+#, fuzzy
+msgid "md_copyright_full_name"
+msgstr "Full Name"
+
+#, fuzzy
+msgid "md_copyright_image"
+msgstr "Image"
+
+#, fuzzy
+msgid "md_copyright_image_file"
+msgstr "File"
+
+#, fuzzy
+msgid "md_copyright_image_is_file"
+msgstr "Upload File"
+
+#, fuzzy
+msgid "md_copyright_image_is_link"
+msgstr "Enter URL"
+
+#, fuzzy
+msgid "md_copyright_image_link"
+msgstr "URL"
+
+#, fuzzy
+msgid "md_copyright_link"
+msgstr "URL"
+
+#, fuzzy
+msgid "md_copyright_link_info"
+msgstr "Link to the licence"
+
+msgid "md_copyright_preview"
+msgstr "საავტორო უფლების (წინასწარი ხედვა)"
+
+msgid "md_copyright_selection"
+msgstr "საავტორო უფლებების ჩვენება"
+
+msgid "md_copyright_value"
+msgstr "საავტორო უფლება"
+
+msgid "md_copyrights_deleted"
+msgstr "წაშლილი საავტორო უფლებები"
+
+msgid "md_days"
+msgstr "დღეები:"
+
+msgid "md_delete_cp_sure"
+msgstr "ნამდვილად გსურთ შემდეგი შენატანების წაშლა?"
+
+msgid "md_delimiter"
+msgstr "საზღვრების დამდგენი"
+
+msgid "md_delimiter_info"
+msgstr "საზღვრების დამდგენი გამოიყენება  სწრაფი რედაქტირების ფანჯარაში საკვანძო სიტყვებისა და ავტორების გამოყოფისას. შტანდარტი არის\",\"."
+
+#, fuzzy
+msgid "md_editor_custom_input"
+msgstr "Custom"
+
+#, fuzzy
+msgid "md_editor_from_vocab_input"
+msgstr "From Vocabulary"
+
+#, fuzzy
+msgid "md_editor_value"
+msgstr "Value"
+
+msgid "md_fields"
+msgstr "ველები"
+
+#, fuzzy
+msgid "md_import_file_vocab"
+msgstr "Import File"
+
+#, fuzzy
+msgid "md_import_vocab"
+msgstr "Import"
+
+#, fuzzy
+msgid "md_import_vocab_modal"
+msgstr "Import From File"
+
+msgid "md_months"
+msgstr "თვე:"
+
+#, fuzzy
+msgid "md_oai_contact_mail"
+msgstr "Contact E-Mail"
+
+#, fuzzy
+msgid "md_oai_identifier_prefix"
+msgstr "OAI Prefix"
+
+#, fuzzy
+msgid "md_oai_identifier_prefix_info"
+msgstr "This prefix is used as a namespace in the identifiers of returned OER records."
+
+#, fuzzy
+msgid "md_oai_pmh_enabled"
+msgstr "Allow Querying via OAI-PMH Interface"
+
+#, fuzzy
+msgid "md_oai_pmh_enabled_info"
+msgstr "If enabled, harvested OER can be queried by external interested parties, e.g. OER referatories."
+
+#, fuzzy
+msgid "md_oai_repository_name"
+msgstr "Repository Name"
+
+#, fuzzy
+msgid "md_oai_repository_name_info"
+msgstr "This is returned as the name of this ILIAS installation when queried."
+
+msgid "md_obj_types"
+msgstr "დანიშნული ობიექტები"
+
+#, fuzzy
+msgid "md_publishing"
+msgstr "Publishing"
+
+#, fuzzy
+msgid "md_publishing_action_accept"
+msgstr "Accept for Publishing"
+
+#, fuzzy
+msgid "md_publishing_action_block"
+msgstr "Block From Publishing"
+
+#, fuzzy
+msgid "md_publishing_action_publish"
+msgstr "Publish"
+
+#, fuzzy
+msgid "md_publishing_action_reject"
+msgstr "Reject"
+
+#, fuzzy
+msgid "md_publishing_action_submit"
+msgstr "Submit for Publishing"
+
+#, fuzzy
+msgid "md_publishing_action_unblock"
+msgstr "Unblock"
+
+#, fuzzy
+msgid "md_publishing_action_withdraw"
+msgstr "Withdraw"
+
+#, fuzzy
+msgid "md_publishing_center_title"
+msgstr "OER Publishing"
+
+#, fuzzy
+msgid "md_publishing_confirmation_accept"
+msgstr "Accept for Publishing"
+
+#, fuzzy
+msgid "md_publishing_confirmation_info_accept"
+msgstr "Are you sure you want to publish this object?"
+
+#, fuzzy
+msgid "md_publishing_confirmation_info_reject"
+msgstr "Are you sure you want to reject this object for publishing?"
+
+#, fuzzy
+msgid "md_publishing_confirmation_info_withdraw"
+msgstr "Are you sure you want to withdraw this object from publishing?"
+
+#, fuzzy
+msgid "md_publishing_confirmation_reject"
+msgstr "Reject for Publishing"
+
+#, fuzzy
+msgid "md_publishing_confirmation_withdraw"
+msgstr "Withdraw From Publishing"
+
+#, fuzzy
+msgid "md_publishing_control_center"
+msgstr "OER Publishing"
+
+#, fuzzy
+msgid "md_publishing_current_status"
+msgstr "Publishing this object as OER: <strong>%s</strong>"
+
+#, fuzzy
+msgid "md_publishing_info_blocked"
+msgstr "This object is blocked from being automatically published."
+
+#, fuzzy
+msgid "md_publishing_info_published"
+msgstr "This object has been published as an Open Educational Resource."
+
+#, fuzzy
+msgid "md_publishing_info_under_review"
+msgstr "This object was submitted for publishing, and is currently being reviewed by the editorial team."
+
+#, fuzzy
+msgid "md_publishing_info_unpublished"
+msgstr "This object can be published as an Open Educational Resource."
+
+#, fuzzy
+msgid "md_publishing_info_wrong_copyright"
+msgstr "To publish this object as an Open Educational Resource, please close this dialog and select an eligible licence:%s"
+
+#, fuzzy
+msgid "md_publishing_last_reference_info"
+msgstr "Please note that this object will not be removed, because there are no other references to it in the repository."
+
+#, fuzzy
+msgid "md_publishing_status_blocked"
+msgstr "Blocked"
+
+#, fuzzy
+msgid "md_publishing_status_published"
+msgstr "Published"
+
+#, fuzzy
+msgid "md_publishing_status_under_review"
+msgstr "Under Review"
+
+#, fuzzy
+msgid "md_publishing_status_unpublished"
+msgstr "Unpublished"
+
+#, fuzzy
+msgid "md_publishing_success_accept"
+msgstr "Object successfully published."
+
+#, fuzzy
+msgid "md_publishing_success_block"
+msgstr "Object successfully blocked from publishing."
+
+#, fuzzy
+msgid "md_publishing_success_publish"
+msgstr "Object successfully published."
+
+#, fuzzy
+msgid "md_publishing_success_reject"
+msgstr "Object successfully rejected."
+
+#, fuzzy
+msgid "md_publishing_success_submit"
+msgstr "Object successfully submitted for review."
+
+#, fuzzy
+msgid "md_publishing_success_unblock"
+msgstr "Object successfully unblocked."
+
+#, fuzzy
+msgid "md_publishing_success_withdraw"
+msgstr "Object successfully withdrawn."
+
+#, fuzzy
+msgid "md_publishing_workflow"
+msgstr "Publishing Workflow"
+
+#, fuzzy
+msgid "md_publishing_workflow_automatic"
+msgstr "Automatic"
+
+#, fuzzy
+msgid "md_publishing_workflow_automatic_info"
+msgstr "Eligible objects are automatically published by the OER Harvester cron job."
+
+#, fuzzy
+msgid "md_publishing_workflow_manual"
+msgstr "Manual"
+
+#, fuzzy
+msgid "md_publishing_workflow_manual_info"
+msgstr "Add an option to the LOM of objects to publish them with the click of a button."
+
+#, fuzzy
+msgid "md_publishing_workflow_mode"
+msgstr "Enable Publishing"
+
+#, fuzzy
+msgid "md_publishing_workflow_mode_info"
+msgstr "When an object is published, it is added to a predefined category and an export file is generated for it. Additionally, a record is compiled that (if activated) can be read out via an OAI-PMH interface."
+
+msgid "md_record_export_table"
+msgstr "საექსპორტო ფაილები"
+
+msgid "md_record_list_table"
+msgstr "შესაძლებელი მეტა მონაცემების დაყენება"
+
+msgid "md_separated_by"
+msgstr "გამოყოფილი \"%s\"თი"
+
+#, fuzzy
+msgid "md_settings"
+msgstr "Settings"
+
+#, fuzzy
+msgid "md_settings_harvester"
+msgstr "OER Harvester"
+
+#, fuzzy
+msgid "md_settings_licence"
+msgstr "Terms of Usage"
+
+#, fuzzy
+msgid "md_settings_publishing"
+msgstr "Querying by Repositories"
+
+msgid "md_time"
+msgstr "დრო:"
+
+#, fuzzy
+msgid "md_unknown_vocabulary_flag"
+msgstr "(unknown vocabulary)"
+
+msgid "md_used"
+msgstr "გამოყენება"
+
+#, fuzzy
+msgid "md_vocab_activate_action"
+msgstr "Activate"
+
+#, fuzzy
+msgid "md_vocab_active_column"
+msgstr "Active"
+
+#, fuzzy
+msgid "md_vocab_all_values_title"
+msgstr "Values for %s (%s)"
+
+#, fuzzy
+msgid "md_vocab_allow_custom_input_action"
+msgstr "Allow Custom Input"
+
+#, fuzzy
+msgid "md_vocab_custom_input_column"
+msgstr "Custom Input Allowed"
+
+#, fuzzy
+msgid "md_vocab_deactivate_action"
+msgstr "Deactivate"
+
+#, fuzzy
+msgid "md_vocab_delete_action"
+msgstr "Delete"
+
+#, fuzzy
+msgid "md_vocab_delete_confirmation_text"
+msgstr "Are you sure you want to delete the vocabulary for %s (%s) with the following values?"
+
+#, fuzzy
+msgid "md_vocab_delete_confirmation_title"
+msgstr "Delete Vocabulary"
+
+#, fuzzy
+msgid "md_vocab_deletion_successful"
+msgstr "Vocabulary successfully deleted."
+
+#, fuzzy
+msgid "md_vocab_disallow_custom_input_action"
+msgstr "Disallow Custom Input"
+
+#, fuzzy
+msgid "md_vocab_element_column"
+msgstr "Element"
+
+#, fuzzy
+msgid "md_vocab_element_with_condition"
+msgstr "%s where %s is %s"
+
+#, fuzzy
+msgid "md_vocab_import_invalid"
+msgstr "The import file is invalid:<br/>%s"
+
+#, fuzzy
+msgid "md_vocab_import_successful"
+msgstr "Vocabulary successfully imported."
+
+#, fuzzy
+msgid "md_vocab_import_upload_failed"
+msgstr "Upload of the import file failed."
+
+#, fuzzy
+msgid "md_vocab_preview_column"
+msgstr "Preview"
+
+#, fuzzy
+msgid "md_vocab_show_all_action"
+msgstr "Show All Values"
+
+#, fuzzy
+msgid "md_vocab_source_column"
+msgstr "Source"
+
+#, fuzzy
+msgid "md_vocab_table_title"
+msgstr "Vocabularies"
+
+#, fuzzy
+msgid "md_vocab_type_column"
+msgstr "Type"
+
+#, fuzzy
+msgid "md_vocab_type_controlled_string"
+msgstr "Controlled Text"
+
+#, fuzzy
+msgid "md_vocab_type_controlled_vocab_value"
+msgstr "Controlled Selection"
+
+#, fuzzy
+msgid "md_vocab_type_copyright"
+msgstr "Copyright"
+
+#, fuzzy
+msgid "md_vocab_type_standard"
+msgstr "Standard"
+
+#, fuzzy
+msgid "md_vocab_update_successful"
+msgstr "Vocabulary successfully updated."
+
+#, fuzzy
+msgid "md_vocabularies_config"
+msgstr "LOM Vocabularies"
+
+#, fuzzy
+msgid "meta_1"
+msgstr "1"
+
+#, fuzzy
+msgid "meta_2"
+msgstr "2"
+
+#, fuzzy
+msgid "meta_3"
+msgstr "3"
+
+#, fuzzy
+msgid "meta_4"
+msgstr "4"
+
+msgid "meta_accessibility_restrictions"
+msgstr "შესვლის შეზღუდვები"
+
+msgid "meta_active"
+msgstr "აქტიური"
+
+msgid "meta_add"
+msgstr "დამატება"
+
+#, fuzzy
+msgid "meta_add_element"
+msgstr "Add %s"
+
+#, fuzzy
+msgid "meta_add_element_success"
+msgstr "Element added successfully"
+
+#, fuzzy
+msgid "meta_advmd_add_field"
+msgstr "Add New Field"
+
+#, fuzzy
+msgid "meta_advmd_select_delete_option"
+msgstr "Delete This Entry"
+
+#, fuzzy
+msgid "meta_advmd_select_first_position_identifier"
+msgstr "First"
+
+#, fuzzy
+msgid "meta_advmd_select_new_option"
+msgstr "Add New Entry"
+
+#, fuzzy
+msgid "meta_advmd_select_option_position"
+msgstr "Position"
+
+#, fuzzy
+msgid "meta_advmd_select_option_value"
+msgstr "Value"
+
+#, fuzzy
+msgid "meta_advmd_select_options"
+msgstr "Entries"
+
+#, fuzzy
+msgid "meta_advmd_select_options_edit"
+msgstr "Edit Entries"
+
+#, fuzzy
+msgid "meta_advmd_select_position_identifier"
+msgstr "After %s"
+
+#, fuzzy
+msgid "meta_aggregation_level"
+msgstr "Aggregation Level"
+
+#, fuzzy
+msgid "meta_amaya"
+msgstr "Amaya"
+
+msgid "meta_annotation"
+msgstr "ანოტაცია"
+
+#, fuzzy
+msgid "meta_annotation_plural"
+msgstr "Annotations"
+
+#, fuzzy
+msgid "meta_any"
+msgstr "Any"
+
+msgid "meta_atomic"
+msgstr "ატომური"
+
+msgid "meta_author"
+msgstr "ავტორი"
+
+#, fuzzy
+msgid "meta_authors"
+msgstr "Authors"
+
+msgid "meta_browser"
+msgstr "ბრაუზერი"
+
+#, fuzzy
+msgid "meta_button_to_full_editor_label"
+msgstr "Edit the Full Learning Object Metadata"
+
+msgid "meta_c_AD"
+msgstr "ანდორა"
+
+msgid "meta_c_AE"
+msgstr "გაერთიანებული არაბული ემირატები"
+
+msgid "meta_c_AF"
+msgstr "ავღანეთი"
+
+msgid "meta_c_AG"
+msgstr "ანტიგუა და ბარბუდა"
+
+msgid "meta_c_AI"
+msgstr "ანგვილა"
+
+msgid "meta_c_AL"
+msgstr "ალბანეთი"
+
+msgid "meta_c_AM"
+msgstr "სომხეთი"
+
+msgid "meta_c_AN"
+msgstr "ნიდერლანდების ანტილები"
+
+msgid "meta_c_AO"
+msgstr "ანგოლა"
+
+msgid "meta_c_AQ"
+msgstr "ანტარქტიკა"
+
+msgid "meta_c_AR"
+msgstr "არგენტინა"
+
+msgid "meta_c_AS"
+msgstr "ამერიკული სამოა"
+
+msgid "meta_c_AT"
+msgstr "ავსტრია"
+
+msgid "meta_c_AU"
+msgstr "ავსტრალია"
+
+msgid "meta_c_AW"
+msgstr "არუბა"
+
+msgid "meta_c_AX"
+msgstr "ალანდის კუნძულები"
+
+msgid "meta_c_AZ"
+msgstr "აზერბაიჯანი"
+
+msgid "meta_c_BA"
+msgstr "ბოსნია და ჰერცეგოვინა"
+
+msgid "meta_c_BB"
+msgstr "ბარბადოსი"
+
+msgid "meta_c_BD"
+msgstr "ბანგლადეში"
+
+msgid "meta_c_BE"
+msgstr "ბელგია"
+
+msgid "meta_c_BF"
+msgstr "ბურკინა ფასო"
+
+msgid "meta_c_BG"
+msgstr "ბულგარეთი"
+
+msgid "meta_c_BH"
+msgstr "ბაჰრეინი"
+
+msgid "meta_c_BI"
+msgstr "ბურუნდი"
+
+msgid "meta_c_BJ"
+msgstr "ბენინი"
+
+#, fuzzy
+msgid "meta_c_BL"
+msgstr "Saint Barthélemy"
+
+msgid "meta_c_BM"
+msgstr "ბერმუდა"
+
+msgid "meta_c_BN"
+msgstr "ბრუნეი დარუსალამი"
+
+msgid "meta_c_BO"
+msgstr "ბოლივია"
+
+msgid "meta_c_BR"
+msgstr "ბრაზილია"
+
+msgid "meta_c_BS"
+msgstr "ბაჰამა"
+
+msgid "meta_c_BT"
+msgstr "ბრუტანი"
+
+msgid "meta_c_BV"
+msgstr "ბუვეტის კუნძული"
+
+msgid "meta_c_BW"
+msgstr "ბოტსვანა"
+
+msgid "meta_c_BY"
+msgstr "ბელორუსია"
+
+msgid "meta_c_BZ"
+msgstr "ბელიზი"
+
+msgid "meta_c_CA"
+msgstr "კანადა"
+
+msgid "meta_c_CC"
+msgstr "კოკოს კუნძულები"
+
+msgid "meta_c_CF"
+msgstr "აფრიკის ცენტრალური რესპუბლიკა"
+
+msgid "meta_c_CG"
+msgstr "კონგო"
+
+msgid "meta_c_CH"
+msgstr "შვეიცარია"
+
+msgid "meta_c_CI"
+msgstr "კოტ-დ'ივუარი"
+
+msgid "meta_c_CK"
+msgstr "კუკის კუნძულები"
+
+msgid "meta_c_CL"
+msgstr "ჩილე"
+
+msgid "meta_c_CM"
+msgstr "კამერუნი"
+
+msgid "meta_c_CN"
+msgstr "ჩინეთი"
+
+msgid "meta_c_CO"
+msgstr "კოლუმბია"
+
+msgid "meta_c_CR"
+msgstr "კოსტა რიკა"
+
+msgid "meta_c_CU"
+msgstr "კუბა"
+
+msgid "meta_c_CV"
+msgstr "კაპე ვერდე"
+
+msgid "meta_c_CX"
+msgstr "შობის კუნძული"
+
+msgid "meta_c_CY"
+msgstr "კვიპროსი"
+
+msgid "meta_c_CZ"
+msgstr "ჩეხეთი"
+
+msgid "meta_c_DE"
+msgstr "გერმანია"
+
+msgid "meta_c_DJ"
+msgstr "ჯიბუტი"
+
+msgid "meta_c_DK"
+msgstr "დენმარკი"
+
+msgid "meta_c_DM"
+msgstr "დომინიკა"
+
+msgid "meta_c_DO"
+msgstr "დომინიკის რესპუბლიკა"
+
+msgid "meta_c_DZ"
+msgstr "ალჟირი"
+
+msgid "meta_c_EC"
+msgstr "ეკვადორი"
+
+msgid "meta_c_EE"
+msgstr "ესტონეთი"
+
+msgid "meta_c_EG"
+msgstr "ეგვიპტე"
+
+msgid "meta_c_EH"
+msgstr "დასავლეთის საჰარა"
+
+msgid "meta_c_ER"
+msgstr "ერიტრეა"
+
+msgid "meta_c_ES"
+msgstr "ესაპანეთი"
+
+msgid "meta_c_ET"
+msgstr "ეთიოპია"
+
+msgid "meta_c_FI"
+msgstr "ფინეთი"
+
+msgid "meta_c_FJ"
+msgstr "ფიჯი"
+
+msgid "meta_c_FK"
+msgstr "ფოლკლენდის კუნძულები"
+
+msgid "meta_c_FM"
+msgstr "მიკრონეზია"
+
+msgid "meta_c_FO"
+msgstr "ფაროეს კუნძულები"
+
+msgid "meta_c_FR"
+msgstr "საფრანგეთი"
+
+msgid "meta_c_FX"
+msgstr "საფრანგეთი, მეტროპოლიტენი"
+
+msgid "meta_c_GA"
+msgstr "გაბონი"
+
+msgid "meta_c_GB"
+msgstr "გაერთიანებული სამეფო"
+
+msgid "meta_c_GD"
+msgstr "გრენადა"
+
+msgid "meta_c_GE"
+msgstr "გიორგია"
+
+msgid "meta_c_GF"
+msgstr "ფრანგული გაიანა"
+
+#, fuzzy
+msgid "meta_c_GG"
+msgstr "Guernsey"
+
+msgid "meta_c_GH"
+msgstr "განა"
+
+msgid "meta_c_GI"
+msgstr "გიბრალტარი"
+
+msgid "meta_c_GL"
+msgstr "გრენლანდია"
+
+msgid "meta_c_GM"
+msgstr "გამბია"
+
+msgid "meta_c_GN"
+msgstr "გვინეა"
+
+msgid "meta_c_GP"
+msgstr "გვადალუპე"
+
+msgid "meta_c_GQ"
+msgstr "ეკვადორის გვინეა"
+
+msgid "meta_c_GR"
+msgstr "საბერძნეთი"
+
+msgid "meta_c_GS"
+msgstr "სამხრეთ ჯორჯია და სამხრეთ სენდვიჩის კუნძულები"
+
+msgid "meta_c_GT"
+msgstr "გვატემალა"
+
+msgid "meta_c_GU"
+msgstr "გუამი"
+
+msgid "meta_c_GW"
+msgstr "გვინეა-ბისაუ"
+
+msgid "meta_c_GY"
+msgstr "გაიანა"
+
+#, fuzzy
+msgid "meta_c_HK"
+msgstr "Hong Kong"
+
+msgid "meta_c_HM"
+msgstr "ჰარდი და ნიკ დონალდის კუნძულები"
+
+msgid "meta_c_HN"
+msgstr "ჰონდურასი"
+
+msgid "meta_c_HR"
+msgstr "ხორვატია"
+
+msgid "meta_c_HT"
+msgstr "ჰაიტი"
+
+msgid "meta_c_HU"
+msgstr "უნგრეთი"
+
+msgid "meta_c_ID"
+msgstr "ინდონეზია"
+
+msgid "meta_c_IE"
+msgstr "ირლანდია"
+
+msgid "meta_c_IL"
+msgstr "იზრაელი"
+
+#, fuzzy
+msgid "meta_c_IM"
+msgstr "Isle of Man"
+
+msgid "meta_c_IN"
+msgstr "ინდოეთი"
+
+msgid "meta_c_IO"
+msgstr "ბრიტანულ ინდური ოკეანის ტერიტორია"
+
+msgid "meta_c_IQ"
+msgstr "ერაყი"
+
+msgid "meta_c_IR"
+msgstr "ირანი"
+
+msgid "meta_c_IS"
+msgstr "ისლანდია"
+
+msgid "meta_c_IT"
+msgstr "იტალია"
+
+msgid "meta_c_JE"
+msgstr "ჯერსი"
+
+msgid "meta_c_JM"
+msgstr "იამაიკა"
+
+msgid "meta_c_JO"
+msgstr "იორდანია"
+
+msgid "meta_c_JP"
+msgstr "იაპონია"
+
+msgid "meta_c_KE"
+msgstr "კენია"
+
+msgid "meta_c_KG"
+msgstr "ყირგიზეთი"
+
+msgid "meta_c_KH"
+msgstr "კამბოჯა"
+
+#, fuzzy
+msgid "meta_c_KI"
+msgstr "Kiribati"
+
+msgid "meta_c_KM"
+msgstr "კომორი"
+
+msgid "meta_c_KN"
+msgstr "წმინდა კიტი და ნევისი"
+
+msgid "meta_c_KP"
+msgstr "ჩრდილოეთ კორეა ( კორეის ხალხის რესპუბლიკა)"
+
+msgid "meta_c_KR"
+msgstr "სამხრეთ კორეა ( კორეის რესპუბლიკა)"
+
+msgid "meta_c_KW"
+msgstr "კუვეიტი"
+
+msgid "meta_c_KY"
+msgstr "კაიმანის კუნძულები"
+
+msgid "meta_c_KZ"
+msgstr "ყაზახეთი"
+
+msgid "meta_c_LA"
+msgstr "ლაოს ხალხის რესპუბლიკა"
+
+msgid "meta_c_LB"
+msgstr "ლიბანი"
+
+msgid "meta_c_LC"
+msgstr "წმინდა ლუჩია"
+
+msgid "meta_c_LI"
+msgstr "ლიხტენშტეინი"
+
+msgid "meta_c_LK"
+msgstr "შრი ლანკა"
+
+msgid "meta_c_LR"
+msgstr "ლიბერია"
+
+msgid "meta_c_LS"
+msgstr "ლესოტო"
+
+msgid "meta_c_LT"
+msgstr "ლიტვა"
+
+msgid "meta_c_LU"
+msgstr "ლუქსემბურგი"
+
+msgid "meta_c_LV"
+msgstr "ლატვია"
+
+#, fuzzy
+msgid "meta_c_LY"
+msgstr "Libya"
+
+msgid "meta_c_MA"
+msgstr "მოროკო"
+
+msgid "meta_c_MC"
+msgstr "მონაკო"
+
+msgid "meta_c_MD"
+msgstr "მოლდოვა"
+
+msgid "meta_c_ME"
+msgstr "მონტენეგრო"
+
+msgid "meta_c_MF"
+msgstr "წმინდა მარტინი ( ფრანგული ნაწილი)"
+
+msgid "meta_c_MG"
+msgstr "მადაგასკარი"
+
+msgid "meta_c_MH"
+msgstr "მარშალის კუნძულები"
+
+msgid "meta_c_MK"
+msgstr "მაკედონია"
+
+msgid "meta_c_ML"
+msgstr "მალი"
+
+msgid "meta_c_MM"
+msgstr "მიანმარი"
+
+msgid "meta_c_MN"
+msgstr "მონღოლეთი"
+
+msgid "meta_c_MO"
+msgstr "მაკაო"
+
+msgid "meta_c_MP"
+msgstr "ჩრდილოეთ მარიანას კუნძულები"
+
+msgid "meta_c_MQ"
+msgstr "მარტინიკა"
+
+msgid "meta_c_MR"
+msgstr "მავრიტანია"
+
+msgid "meta_c_MS"
+msgstr "მონსერატი"
+
+msgid "meta_c_MT"
+msgstr "მალტა"
+
+msgid "meta_c_MU"
+msgstr "მავრიკი"
+
+msgid "meta_c_MV"
+msgstr "მალდივი"
+
+msgid "meta_c_MW"
+msgstr "მალავი"
+
+msgid "meta_c_MX"
+msgstr "მეხიკო"
+
+msgid "meta_c_MY"
+msgstr "მცირე აზია"
+
+msgid "meta_c_MZ"
+msgstr "მოზამბიკა"
+
+msgid "meta_c_NA"
+msgstr "ნამიბია"
+
+msgid "meta_c_NC"
+msgstr "ახალი კალედონია"
+
+msgid "meta_c_NE"
+msgstr "ნიგერია"
+
+msgid "meta_c_NF"
+msgstr "ნოფოლკის კუნძული"
+
+msgid "meta_c_NG"
+msgstr "ნიგერია"
+
+msgid "meta_c_NI"
+msgstr "ნიკარაგუა"
+
+msgid "meta_c_NL"
+msgstr "ნიდერლადები"
+
+msgid "meta_c_NO"
+msgstr "ნორვეგია"
+
+msgid "meta_c_NP"
+msgstr "ნეპალი"
+
+msgid "meta_c_NR"
+msgstr "ნაურუ"
+
+msgid "meta_c_NU"
+msgstr "ნიუე"
+
+msgid "meta_c_NZ"
+msgstr "ახალი ზელანდია"
+
+msgid "meta_c_OM"
+msgstr "ომანი"
+
+msgid "meta_c_PA"
+msgstr "პანამა"
+
+msgid "meta_c_PE"
+msgstr "პერუ"
+
+msgid "meta_c_PF"
+msgstr "ფრანგული პოლინეზია"
+
+msgid "meta_c_PG"
+msgstr "პაპუა ახალი გვინეა"
+
+msgid "meta_c_PH"
+msgstr "ფილიპინები"
+
+msgid "meta_c_PK"
+msgstr "პაკისტანი"
+
+msgid "meta_c_PL"
+msgstr "პოლონეთი"
+
+msgid "meta_c_PM"
+msgstr "წმინდა პიერი და მიქელონი"
+
+#, fuzzy
+msgid "meta_c_PN"
+msgstr "Pitcairn Islands"
+
+msgid "meta_c_PR"
+msgstr "პუერტო რიკო"
+
+msgid "meta_c_PS"
+msgstr "პალესტინის ტერიტორიები ( ოკუპირებული)"
+
+msgid "meta_c_PT"
+msgstr "პორტუგალია"
+
+msgid "meta_c_PW"
+msgstr "პალაუ"
+
+msgid "meta_c_PY"
+msgstr "პარაგვაი"
+
+msgid "meta_c_QA"
+msgstr "კატარი"
+
+msgid "meta_c_RE"
+msgstr "რეიუნიონი"
+
+msgid "meta_c_RO"
+msgstr "რუმინეთი"
+
+msgid "meta_c_RS"
+msgstr "სერბეთი"
+
+msgid "meta_c_RU"
+msgstr "რუსეთის ფედერაცია"
+
+msgid "meta_c_RW"
+msgstr "რვანდა"
+
+msgid "meta_c_SA"
+msgstr "საუდის არაბეთი"
+
+msgid "meta_c_SB"
+msgstr "სოლომონის კუნძულები"
+
+msgid "meta_c_SC"
+msgstr "სეიშელის სახელმწიფო"
+
+msgid "meta_c_SD"
+msgstr "სუდანი"
+
+msgid "meta_c_SE"
+msgstr "შვედეთი"
+
+msgid "meta_c_SG"
+msgstr "სინგაპური"
+
+msgid "meta_c_SH"
+msgstr "წმინდა ჰელენა"
+
+msgid "meta_c_SI"
+msgstr "სლოვენია"
+
+msgid "meta_c_SJ"
+msgstr "სვალბადის და იან მაიენის კუნძულები"
+
+msgid "meta_c_SK"
+msgstr "სლოვაკეთი"
+
+msgid "meta_c_SL"
+msgstr "სიერა ლეონი"
+
+msgid "meta_c_SM"
+msgstr "სან მარინო"
+
+msgid "meta_c_SN"
+msgstr "სენეგალი"
+
+msgid "meta_c_SO"
+msgstr "სომალი"
+
+msgid "meta_c_SR"
+msgstr "სურინამი"
+
+msgid "meta_c_ST"
+msgstr "საო ტომი და პრინციპი"
+
+msgid "meta_c_SV"
+msgstr "ელ სალვადორი"
+
+msgid "meta_c_SY"
+msgstr "სირიის არაბული რესპუბლიკა"
+
+#, fuzzy
+msgid "meta_c_SZ"
+msgstr "Swaziland"
+
+msgid "meta_c_TC"
+msgstr "თურქთა და კაიკოს კუნძUლები"
+
+msgid "meta_c_TD"
+msgstr "ჩადი"
+
+msgid "meta_c_TF"
+msgstr "საფრანგეთის სამხრეთის ტერიტორიები"
+
+msgid "meta_c_TG"
+msgstr "ტოგო"
+
+msgid "meta_c_TH"
+msgstr "ტაილანდი"
+
+msgid "meta_c_TJ"
+msgstr "ტაჯიკეთი"
+
+msgid "meta_c_TK"
+msgstr "ტოკელაუ"
+
+msgid "meta_c_TL"
+msgstr "ტიმორ ლესტე"
+
+msgid "meta_c_TM"
+msgstr "თურქმენეთი"
+
+msgid "meta_c_TN"
+msgstr "ტუნისი"
+
+msgid "meta_c_TO"
+msgstr "ტონგა"
+
+msgid "meta_c_TR"
+msgstr "თურქეთი"
+
+msgid "meta_c_TT"
+msgstr "ტრინიდადი და ტობაგო"
+
+msgid "meta_c_TV"
+msgstr "ტუვალუ"
+
+msgid "meta_c_TW"
+msgstr "ტაივანი"
+
+msgid "meta_c_TZ"
+msgstr "ტანზანია"
+
+msgid "meta_c_UA"
+msgstr "უკრაინა"
+
+msgid "meta_c_UG"
+msgstr "უგანდა"
+
+msgid "meta_c_UM"
+msgstr "შეერთებული შტატების მცირე დაშორებული კუნძულები"
+
+msgid "meta_c_US"
+msgstr "ამერიკის შეერთებული შტატები"
+
+msgid "meta_c_UY"
+msgstr "ურუგვაი"
+
+msgid "meta_c_UZ"
+msgstr "უზბეკეთი"
+
+msgid "meta_c_VA"
+msgstr "ვატიკანის ქალაქი სახელმწიფო"
+
+msgid "meta_c_VC"
+msgstr "ქმინდა ვინსენტი და გრენადინები"
+
+msgid "meta_c_VE"
+msgstr "ვენესუელა"
+
+msgid "meta_c_VG"
+msgstr "ვირგინიის კუნძულები ( ბრიტანული)"
+
+msgid "meta_c_VI"
+msgstr "ვირგინიის კუნძულები ( შეერთებული შტატები)"
+
+msgid "meta_c_VN"
+msgstr "ვიეტნამი"
+
+msgid "meta_c_VU"
+msgstr "ვანუატუ"
+
+msgid "meta_c_WF"
+msgstr "ვალისი და ფუტუნას კუნძულები"
+
+msgid "meta_c_WS"
+msgstr "სამოა"
+
+#, fuzzy
+msgid "meta_c_XK"
+msgstr "Kosovo"
+
+msgid "meta_c_YE"
+msgstr "იემენი"
+
+msgid "meta_c_YT"
+msgstr "მაიოტე"
+
+msgid "meta_c_ZA"
+msgstr "სამხრეთ აფრიკა"
+
+msgid "meta_c_ZM"
+msgstr "ზამბია"
+
+msgid "meta_c_ZW"
+msgstr "ზიმბაბვე"
+
+msgid "meta_catalog"
+msgstr "კატალოგი"
+
+msgid "meta_classification"
+msgstr "კლასიფიკაცია"
+
+#, fuzzy
+msgid "meta_classification_plural"
+msgstr "Classifications"
+
+msgid "meta_collection"
+msgstr "კოლექცია"
+
+msgid "meta_competency"
+msgstr "კომპეტენცია"
+
+msgid "meta_contentprovider"
+msgstr "შინაარსის მომწოდებელი"
+
+msgid "meta_context"
+msgstr "კონტექსტი"
+
+#, fuzzy
+msgid "meta_context_plural"
+msgstr "Contexts"
+
+msgid "meta_contribute"
+msgstr "წვლილის შეტანა"
+
+#, fuzzy
+msgid "meta_contribute_plural"
+msgstr "Contribute"
+
+msgid "meta_copyright"
+msgstr "საავტორო უფლება"
+
+msgid "meta_copyright_and_other_restrictions"
+msgstr "საავტორო უფლებები და სხვა შეზღუდვები"
+
+#, fuzzy
+msgid "meta_copyright_change_info"
+msgstr "You are going to change the licence assigned to this content. This should only be done in accordance with the copyright owner. Please continue only if the new licence is not more restrictive than the one used before."
+
+#, fuzzy
+msgid "meta_copyright_change_oer_info"
+msgstr "The copyright licence you have selected makes this object eligible to be harvested as an Open Educational Resource. If you continue, it might be listed as such along with an export file, and it might get published beyond this platform."
+
+#, fuzzy
+msgid "meta_copyright_change_warning_title"
+msgstr "Modification of Copyright Settings"
+
+#, fuzzy
+msgid "meta_copyright_in_use"
+msgstr "In use"
+
+#, fuzzy
+msgid "meta_copyright_outdated"
+msgstr "Outdated"
+
+#, fuzzy
+msgid "meta_copyright_outdated_error"
+msgstr "The chosen copyright is outdated and no longer in use."
+
+#, fuzzy
+msgid "meta_copyright_show_usages"
+msgstr "Show usages"
+
+#, fuzzy
+msgid "meta_copyright_status"
+msgstr "Status"
+
+#, fuzzy
+msgid "meta_copyright_sub_items"
+msgstr "Sub Items"
+
+#, fuzzy
+msgid "meta_copyright_usage"
+msgstr "Usage"
+
+msgid "meta_cost"
+msgstr "საფასური"
+
+msgid "meta_coverage"
+msgstr "დაფარვა"
+
+#, fuzzy
+msgid "meta_coverage_plural"
+msgstr "Coverage"
+
+msgid "meta_cp_own"
+msgstr "პირადი საავტორო უფლებების ინფორმაცია"
+
+msgid "meta_creator"
+msgstr "შემქნელი"
+
+msgid "meta_current_value"
+msgstr "მიმდინარე ღირებულება"
+
+msgid "meta_date"
+msgstr "თარიღი"
+
+#, fuzzy
+msgid "meta_date_time"
+msgstr "Date"
+
+msgid "meta_delete"
+msgstr "წაშლა"
+
+#, fuzzy
+msgid "meta_delete_confirm"
+msgstr "Are you sure you want to delete this element and its content?"
+
+#, fuzzy
+msgid "meta_delete_element"
+msgstr "Delete %s"
+
+#, fuzzy
+msgid "meta_delete_element_success"
+msgstr "Element deleted successfully"
+
+#, fuzzy
+msgid "meta_delete_this_element"
+msgstr "Delete This Element"
+
+msgid "meta_description"
+msgstr "აღწერა"
+
+#, fuzzy
+msgid "meta_description_plural"
+msgstr "Descriptions"
+
+msgid "meta_diagramm"
+msgstr "დიაგრამა"
+
+msgid "meta_difficult"
+msgstr "რთული"
+
+msgid "meta_difficulty"
+msgstr "სირთულე"
+
+#, fuzzy
+msgid "meta_discipline"
+msgstr "Discipline"
+
+msgid "meta_draft"
+msgstr "მონახაზი"
+
+msgid "meta_duration"
+msgstr "მიმდინარეობა"
+
+msgid "meta_easy"
+msgstr "იოლი"
+
+#, fuzzy
+msgid "meta_edit_element"
+msgstr "Edit %s"
+
+#, fuzzy
+msgid "meta_edit_element_success"
+msgstr "Element edited successfully"
+
+msgid "meta_editor"
+msgstr "რედაქტორი"
+
+msgid "meta_education"
+msgstr "განათლება"
+
+msgid "meta_educational"
+msgstr "სასწავლო"
+
+msgid "meta_educational_level"
+msgstr "სასწავლო დონე"
+
+msgid "meta_educational_objective"
+msgstr "სასწავლო მიზანი"
+
+#, fuzzy
+msgid "meta_educational_plural"
+msgstr "Educational"
+
+msgid "meta_educationalvalidator"
+msgstr "სასწავლო შემმოწმებელი"
+
+msgid "meta_entity"
+msgstr "ობიექტი"
+
+#, fuzzy
+msgid "meta_entity_plural"
+msgstr "Entities"
+
+msgid "meta_entry"
+msgstr "შენატანი"
+
+#, fuzzy
+msgid "meta_error_empty_input"
+msgstr "Please make sure that at least one of the following input fields is not empty."
+
+msgid "meta_exam"
+msgstr "გამოცდა"
+
+msgid "meta_exercise"
+msgstr "სავარჯიშო"
+
+msgid "meta_experiment"
+msgstr "ექსპერიმენტი"
+
+msgid "meta_expositive"
+msgstr "აღწერილობითი"
+
+msgid "meta_figure"
+msgstr "ფიგურა"
+
+msgid "meta_final"
+msgstr "ფინალი"
+
+#, fuzzy
+msgid "meta_first_author"
+msgstr "First Author"
+
+msgid "meta_format"
+msgstr "ფორმატი"
+
+#, fuzzy
+msgid "meta_format_plural"
+msgstr "Formats"
+
+#, fuzzy
+msgid "meta_full_editor_navigation_info"
+msgstr "To navigate and edit this metadata set, use the ‘LOM’-tree in the ‘Tools’ entry of the main menu."
+
+msgid "meta_general"
+msgstr "ზოგადი"
+
+#, fuzzy
+msgid "meta_global"
+msgstr "Global"
+
+msgid "meta_graph"
+msgstr "გრაფა"
+
+msgid "meta_graphicaldesigner"
+msgstr "გრაფიკული დიზაინერი"
+
+msgid "meta_has_format"
+msgstr "აქვს ფორმატი"
+
+msgid "meta_has_part"
+msgstr "აქვს ნაწილი"
+
+msgid "meta_has_version"
+msgstr "აქვს ვერსია"
+
+msgid "meta_hierarchical"
+msgstr "იერარქია"
+
+msgid "meta_high"
+msgstr "მაღალი"
+
+msgid "meta_higher_education"
+msgstr "უმაღლესი განათლება"
+
+msgid "meta_id"
+msgstr "აი დი"
+
+msgid "meta_idea"
+msgstr "იდეა"
+
+msgid "meta_identifier"
+msgstr "იდენტიფიკატორი"
+
+#, fuzzy
+msgid "meta_identifier_plural"
+msgstr "Identifiers"
+
+msgid "meta_index"
+msgstr "ინდექსი"
+
+#, fuzzy
+msgid "meta_info_licence_section"
+msgstr "Licence and Use"
+
+#, fuzzy
+msgid "meta_info_only_repository_objects"
+msgstr "Only repository objects are listed below (and no media objects or LM pages)."
+
+msgid "meta_initiator"
+msgstr "ინიციატორი"
+
+msgid "meta_installation_remarks"
+msgstr "დაყენების შენიშვნები"
+
+msgid "meta_instructionaldesigner"
+msgstr "ინსტრუქიული დიზაინერი"
+
+msgid "meta_intended_end_user_role"
+msgstr "მომხმარებლის პასუხისმგებლობის განზრახული დასრულება"
+
+#, fuzzy
+msgid "meta_intended_end_user_role_plural"
+msgstr "Intended End User Roles"
+
+msgid "meta_interactivity_level"
+msgstr "ინტერაქტივობის დონე"
+
+msgid "meta_interactivity_type"
+msgstr "ინტერაქტივობის სახეობა"
+
+msgid "meta_is_based_on"
+msgstr "დაფუძვნებულია"
+
+msgid "meta_is_basis_for"
+msgstr "ფუძეა"
+
+msgid "meta_is_format_of"
+msgstr "ფორმატია"
+
+msgid "meta_is_part_of"
+msgstr "ნაწილია"
+
+msgid "meta_is_referenced_by"
+msgstr "შემოთავაზებულია"
+
+msgid "meta_is_required_by"
+msgstr "მოთხოვნილია"
+
+msgid "meta_is_version_of"
+msgstr "ვერსიაა"
+
+msgid "meta_keyword"
+msgstr "საკვანძო სიტყვა"
+
+#, fuzzy
+msgid "meta_keyword_plural"
+msgstr "Keywords"
+
+msgid "meta_kind"
+msgstr "სახეობა"
+
+msgid "meta_l_aa"
+msgstr "დაშორებით"
+
+msgid "meta_l_ab"
+msgstr "აბხაზი"
+
+msgid "meta_l_af"
+msgstr "აფრიკელები"
+
+msgid "meta_l_am"
+msgstr "ამჰარული"
+
+msgid "meta_l_ar"
+msgstr "არაბული"
+
+msgid "meta_l_as"
+msgstr "ასამური"
+
+msgid "meta_l_ay"
+msgstr "აიმარა"
+
+msgid "meta_l_az"
+msgstr "აზერბაიჯანი"
+
+msgid "meta_l_ba"
+msgstr "ბაშკირი"
+
+msgid "meta_l_be"
+msgstr "ბელორუსიული"
+
+msgid "meta_l_bg"
+msgstr "ბულგარული"
+
+msgid "meta_l_bh"
+msgstr "ბიჰარი"
+
+msgid "meta_l_bi"
+msgstr "ბისლამა"
+
+msgid "meta_l_bn"
+msgstr "ბენგალი;ბანგლა"
+
+msgid "meta_l_bo"
+msgstr "ტიბეტური"
+
+msgid "meta_l_br"
+msgstr "ბრეტონ"
+
+msgid "meta_l_ca"
+msgstr "კატალონიის"
+
+msgid "meta_l_co"
+msgstr "კორსიკული"
+
+msgid "meta_l_cs"
+msgstr "ჩეხური"
+
+msgid "meta_l_cy"
+msgstr "უელსის"
+
+msgid "meta_l_da"
+msgstr "დანიური"
+
+msgid "meta_l_de"
+msgstr "გერმანული"
+
+msgid "meta_l_dz"
+msgstr "ბუტანი"
+
+msgid "meta_l_el"
+msgstr "ბერძნული"
+
+msgid "meta_l_en"
+msgstr "ინგლისური"
+
+msgid "meta_l_eo"
+msgstr "ესპერანტო"
+
+msgid "meta_l_es"
+msgstr "ესპანური"
+
+msgid "meta_l_et"
+msgstr "ესტონური"
+
+msgid "meta_l_eu"
+msgstr "ბასკური"
+
+msgid "meta_l_fa"
+msgstr "სპარსეთის ( ფარსი)"
+
+msgid "meta_l_fi"
+msgstr "ფინური"
+
+msgid "meta_l_fj"
+msgstr "ფიჯი"
+
+msgid "meta_l_fo"
+msgstr "ფარერელი"
+
+msgid "meta_l_fr"
+msgstr "ფრანგული"
+
+msgid "meta_l_fy"
+msgstr "ფრიზული"
+
+msgid "meta_l_ga"
+msgstr "ირლანდიური"
+
+msgid "meta_l_gd"
+msgstr "შვედური კელტური ენა"
+
+msgid "meta_l_gl"
+msgstr "გალისიური"
+
+msgid "meta_l_gn"
+msgstr "გუარანი"
+
+msgid "meta_l_gu"
+msgstr "გუჯარატი"
+
+msgid "meta_l_ha"
+msgstr "ჰაუსა"
+
+msgid "meta_l_he"
+msgstr "ებრაული"
+
+msgid "meta_l_hi"
+msgstr "ინდური"
+
+msgid "meta_l_hr"
+msgstr "ხორვატული"
+
+msgid "meta_l_hu"
+msgstr "უნგრული"
+
+msgid "meta_l_hy"
+msgstr "სომხური"
+
+msgid "meta_l_ia"
+msgstr "ინტერლინგუალური"
+
+msgid "meta_l_id"
+msgstr "ინდონეზიური"
+
+msgid "meta_l_ie"
+msgstr "ინტერლინგი"
+
+#, fuzzy
+msgid "meta_l_ik"
+msgstr "Inupiak"
+
+msgid "meta_l_is"
+msgstr "ისლანდიური"
+
+msgid "meta_l_it"
+msgstr "იტალიური"
+
+#, fuzzy
+msgid "meta_l_iu"
+msgstr "Inuktitut"
+
+msgid "meta_l_ja"
+msgstr "იაპონური"
+
+msgid "meta_l_jv"
+msgstr "იავური"
+
+msgid "meta_l_ka"
+msgstr "ქართული"
+
+msgid "meta_l_kk"
+msgstr "ყაზახური"
+
+msgid "meta_l_kl"
+msgstr "გრენლანდიური"
+
+msgid "meta_l_km"
+msgstr "კამბოჯიური"
+
+msgid "meta_l_kn"
+msgstr "კანადა"
+
+msgid "meta_l_ko"
+msgstr "კორეული"
+
+msgid "meta_l_ks"
+msgstr "ქაშმირი"
+
+msgid "meta_l_ku"
+msgstr "ქურთული"
+
+msgid "meta_l_ky"
+msgstr "ყირგიზეთი"
+
+msgid "meta_l_la"
+msgstr "ლათინური"
+
+msgid "meta_l_ln"
+msgstr "ლინგალა"
+
+msgid "meta_l_lo"
+msgstr "ლაოსური"
+
+msgid "meta_l_lt"
+msgstr "ლიტვური"
+
+msgid "meta_l_lv"
+msgstr "ლატვიური"
+
+msgid "meta_l_mg"
+msgstr "მალაგაში"
+
+msgid "meta_l_mi"
+msgstr "მაორი"
+
+msgid "meta_l_mk"
+msgstr "მაკედოიური"
+
+msgid "meta_l_ml"
+msgstr "მალაიალამი"
+
+msgid "meta_l_mn"
+msgstr "მონღოლური"
+
+msgid "meta_l_mo"
+msgstr "მოლდოვური"
+
+msgid "meta_l_mr"
+msgstr "მარათი"
+
+msgid "meta_l_ms"
+msgstr "მალაი"
+
+msgid "meta_l_mt"
+msgstr "მალტური"
+
+msgid "meta_l_my"
+msgstr "ბირმული"
+
+msgid "meta_l_na"
+msgstr "ნაურუ"
+
+msgid "meta_l_ne"
+msgstr "ნეპალი"
+
+msgid "meta_l_nl"
+msgstr "ჰოლანდიური"
+
+msgid "meta_l_no"
+msgstr "ნორვეგიული"
+
+msgid "meta_l_oc"
+msgstr "ოციტანური"
+
+#, fuzzy
+msgid "meta_l_om"
+msgstr "Oromo; Afaan Oromoo"
+
+msgid "meta_l_or"
+msgstr "ორია"
+
+msgid "meta_l_pa"
+msgstr "პენჯაბი"
+
+msgid "meta_l_pl"
+msgstr "პოლონური"
+
+msgid "meta_l_ps"
+msgstr "პუშტუ"
+
+msgid "meta_l_pt"
+msgstr "პორტუგალიური"
+
+msgid "meta_l_qu"
+msgstr "კეჩუა"
+
+#, fuzzy
+msgid "meta_l_rm"
+msgstr "Rhaeto-romance"
+
+#, fuzzy
+msgid "meta_l_rn"
+msgstr "Kirundi"
+
+msgid "meta_l_ro"
+msgstr "რუმინული"
+
+msgid "meta_l_ru"
+msgstr "რუსული"
+
+msgid "meta_l_rw"
+msgstr "კინიარვანდა"
+
+msgid "meta_l_sa"
+msgstr "სანსკრიტი"
+
+msgid "meta_l_sd"
+msgstr "სინდური"
+
+msgid "meta_l_sg"
+msgstr "სანგო"
+
+msgid "meta_l_sh"
+msgstr "სერბო-ხორვატიული"
+
+msgid "meta_l_si"
+msgstr "სინჰალური"
+
+msgid "meta_l_sk"
+msgstr "სლოვაკური"
+
+msgid "meta_l_sl"
+msgstr "სლოვენური"
+
+msgid "meta_l_sm"
+msgstr "სამოა"
+
+msgid "meta_l_sn"
+msgstr "შონა"
+
+msgid "meta_l_so"
+msgstr "სომალი"
+
+msgid "meta_l_sq"
+msgstr "ალბანური"
+
+msgid "meta_l_sr"
+msgstr "სერბული"
+
+msgid "meta_l_ss"
+msgstr "სისვატი"
+
+msgid "meta_l_st"
+msgstr "სესოთო"
+
+#, fuzzy
+msgid "meta_l_su"
+msgstr "Sundanese"
+
+msgid "meta_l_sv"
+msgstr "შვედური"
+
+msgid "meta_l_sw"
+msgstr "სუაჰილი"
+
+msgid "meta_l_ta"
+msgstr "ტამილი"
+
+#, fuzzy
+msgid "meta_l_te"
+msgstr "Telugu"
+
+msgid "meta_l_tg"
+msgstr "ტაჯიკიური"
+
+msgid "meta_l_th"
+msgstr "თაი"
+
+#, fuzzy
+msgid "meta_l_ti"
+msgstr "Tigrinya"
+
+msgid "meta_l_tk"
+msgstr "თურქმენეთი"
+
+msgid "meta_l_tl"
+msgstr "ფილიპინური"
+
+#, fuzzy
+msgid "meta_l_tn"
+msgstr "Setswana"
+
+msgid "meta_l_to"
+msgstr "ტონგასა"
+
+msgid "meta_l_tr"
+msgstr "თურქული"
+
+#, fuzzy
+msgid "meta_l_ts"
+msgstr "Tsonga"
+
+msgid "meta_l_tt"
+msgstr "თათრული"
+
+msgid "meta_l_tw"
+msgstr "თუი"
+
+#, fuzzy
+msgid "meta_l_ug"
+msgstr "Uyghur"
+
+msgid "meta_l_uk"
+msgstr "უკრაინული"
+
+msgid "meta_l_ur"
+msgstr "ურდუ"
+
+msgid "meta_l_uz"
+msgstr "უზბეკური"
+
+msgid "meta_l_vi"
+msgstr "ვიეტნამური"
+
+#, fuzzy
+msgid "meta_l_vo"
+msgstr "Volapük"
+
+#, fuzzy
+msgid "meta_l_wo"
+msgstr "Wolof"
+
+msgid "meta_l_xh"
+msgstr "ქსოზა"
+
+#, fuzzy
+msgid "meta_l_xx"
+msgstr "none"
+
+msgid "meta_l_yi"
+msgstr "იდიში"
+
+msgid "meta_l_yo"
+msgstr "იორუბა"
+
+#, fuzzy
+msgid "meta_l_za"
+msgstr "Zhuang"
+
+msgid "meta_l_zh"
+msgstr "ჩინური"
+
+msgid "meta_l_zu"
+msgstr "ზულუ"
+
+msgid "meta_language"
+msgstr "ენა"
+
+#, fuzzy
+msgid "meta_language_plural"
+msgstr "Languages"
+
+msgid "meta_learner"
+msgstr "მოსწავლე"
+
+msgid "meta_learning_resource_type"
+msgstr "სასწავლო რერურსის სახეობა"
+
+#, fuzzy
+msgid "meta_learning_resource_type_plural"
+msgstr "Learning Resource Types"
+
+msgid "meta_lecture"
+msgstr "ლექტორი"
+
+msgid "meta_lifecycle"
+msgstr "სიცოცხლის ციკლი"
+
+msgid "meta_linear"
+msgstr "წრფივი"
+
+#, fuzzy
+msgid "meta_local"
+msgstr "Local"
+
+msgid "meta_location"
+msgstr "ადგილმდებარეობა"
+
+#, fuzzy
+msgid "meta_location_plural"
+msgstr "Locations"
+
+#, fuzzy
+msgid "meta_lom"
+msgstr "Learning Object Metadata"
+
+#, fuzzy
+msgid "meta_lom_short"
+msgstr "LOM"
+
+msgid "meta_low"
+msgstr "დაბალი"
+
+#, fuzzy
+msgid "meta_macos"
+msgstr "MAC-OS"
+
+msgid "meta_manager"
+msgstr "მენეჯერი"
+
+msgid "meta_maximum_version"
+msgstr "მაქსიმალური ვერსია"
+
+msgid "meta_medium"
+msgstr "მედიუმი"
+
+msgid "meta_meta_metadata"
+msgstr "მეტა მონაცემები"
+
+msgid "meta_metadatascheme"
+msgstr "მეტა მონაცემების სქემა"
+
+#, fuzzy
+msgid "meta_metadatascheme_plural"
+msgstr "Metadata Schemas"
+
+msgid "meta_minimum_version"
+msgstr "მინიმალური ვერსია"
+
+msgid "meta_mixed"
+msgstr "შერეული"
+
+#, fuzzy
+msgid "meta_ms-internet_explorer"
+msgstr "MS-Internet Explorer"
+
+#, fuzzy
+msgid "meta_ms-windows"
+msgstr "MS-Windows"
+
+#, fuzzy
+msgid "meta_multi-os"
+msgstr "Multi-OS"
+
+msgid "meta_name"
+msgstr "სახელი"
+
+msgid "meta_narrative_text"
+msgstr "თხრობითი ტექსტი"
+
+#, fuzzy
+msgid "meta_netscape_communicator"
+msgstr "Netscape Communicator"
+
+msgid "meta_networked"
+msgstr "ქსელური"
+
+msgid "meta_new_element"
+msgstr "ახალი ელემენტი"
+
+msgid "meta_no"
+msgstr "არა"
+
+#, fuzzy
+msgid "meta_none"
+msgstr "None"
+
+#, fuzzy
+msgid "meta_obj_type_active"
+msgstr "Dataset offered"
+
+#, fuzzy
+msgid "meta_obj_type_inactive"
+msgstr "Not Used"
+
+#, fuzzy
+msgid "meta_obj_type_mandatory"
+msgstr "Mandatory"
+
+#, fuzzy
+msgid "meta_obj_type_optional"
+msgstr "Optional"
+
+#, fuzzy
+msgid "meta_oer_copyright_selection"
+msgstr "Lizenzauswahl"
+
+#, fuzzy
+msgid "meta_oer_copyright_selection_info"
+msgstr "Nur Objekte, die unter den/der ausgewählten Lizenz veröffentlicht sind, werden in die OER-Kategorie verknüpft."
+
+#, fuzzy
+msgid "meta_oer_editorial_category"
+msgstr "Editorial Category"
+
+#, fuzzy
+msgid "meta_oer_editorial_step_info"
+msgstr "Add a step in the publishing workflow where objects can be checked by an editorial team before being published. Objects are first submitted to the Editorial Category. Only after being accepted are they moved to the category for published OER content, and records for the OAI-PMH interface are compiled."
+
+#, fuzzy
+msgid "meta_oer_editorial_step_toggle"
+msgstr "Enable Editorial Step"
+
+#, fuzzy
+msgid "meta_oer_exposed_source"
+msgstr "Category for Published OER Content"
+
+#, fuzzy
+msgid "meta_oer_harvested_licences"
+msgstr "Licences for Harvesting"
+
+#, fuzzy
+msgid "meta_oer_harvested_types"
+msgstr "Types of Objects to be Harvested"
+
+#, fuzzy
+msgid "meta_oer_harvester"
+msgstr "OER Harvester"
+
+#, fuzzy
+msgid "meta_oer_harvester_desc"
+msgstr "OER Harvester"
+
+#, fuzzy
+msgid "meta_oer_object_type_selection"
+msgstr "Harvested Object Types"
+
+#, fuzzy
+msgid "meta_opera"
+msgstr "Opera"
+
+msgid "meta_operating_system"
+msgstr "ოპერატიული სისტემა"
+
+msgid "meta_or_composite"
+msgstr "ან შექმენით"
+
+#, fuzzy
+msgid "meta_or_composite_plural"
+msgstr "Or Composites"
+
+#, fuzzy
+msgid "meta_order"
+msgstr "Order"
+
+msgid "meta_other"
+msgstr "სხვა"
+
+msgid "meta_other_plattform_requirements"
+msgstr "სხვა პლატფორმის მოთხოვნები"
+
+#, fuzzy
+msgid "meta_pc-dos"
+msgstr "PC-DOS"
+
+msgid "meta_pointofcontact"
+msgstr "კონტაქტის ქულები"
+
+msgid "meta_prerequisite"
+msgstr "საწინდრები"
+
+msgid "meta_problem_statement"
+msgstr "პრობლემის უწყება"
+
+msgid "meta_publisher"
+msgstr "გამომცემელი"
+
+#, fuzzy
+msgid "meta_publishing_config_cp"
+msgstr "Copyright Selection: <strong>%s</strong>"
+
+#, fuzzy
+msgid "meta_publishing_config_cron_job_admin"
+msgstr "Cron Job Administration"
+
+#, fuzzy
+msgid "meta_publishing_config_disabled"
+msgstr "Disabled"
+
+#, fuzzy
+msgid "meta_publishing_config_enabled"
+msgstr "Enabled"
+
+#, fuzzy
+msgid "meta_publishing_config_harvester"
+msgstr "OER Harvester: <strong>%s</strong>"
+
+#, fuzzy
+msgid "meta_publishing_config_status"
+msgstr "For publishing to function, copyright selection and the OER Harvester cron job have to be enabled."
+
+msgid "meta_purpose"
+msgstr "მიზანი"
+
+msgid "meta_questionnaire"
+msgstr "კითხვარი"
+
+msgid "meta_references"
+msgstr "წყაროები"
+
+msgid "meta_relation"
+msgstr "მიმართება"
+
+#, fuzzy
+msgid "meta_relation_plural"
+msgstr "Relations"
+
+msgid "meta_requirement"
+msgstr "მოთხოვნა"
+
+#, fuzzy
+msgid "meta_requirement_plural"
+msgstr "Requirements"
+
+msgid "meta_requires"
+msgstr "მოითხოვს"
+
+msgid "meta_resource"
+msgstr "რესურსი"
+
+msgid "meta_revised"
+msgstr "შესწორებული"
+
+msgid "meta_rights"
+msgstr "უფლებები"
+
+msgid "meta_role"
+msgstr "პასუხისმგებლობა"
+
+#, fuzzy
+msgid "meta_save_order"
+msgstr "Save Order"
+
+msgid "meta_school"
+msgstr "სკოლა"
+
+msgid "meta_scriptwriter"
+msgstr "სცენარისტი"
+
+#, fuzzy
+msgid "meta_second_author"
+msgstr "Second Author"
+
+#, fuzzy
+msgid "meta_section"
+msgstr "Section"
+
+msgid "meta_security_level"
+msgstr "უსაფრთხოების დონე"
+
+msgid "meta_self_assessment"
+msgstr "თვით შეფასება"
+
+msgid "meta_semantic_density"
+msgstr "სემანტიკის სიხშირე"
+
+msgid "meta_simulation"
+msgstr "სიმულაცია"
+
+msgid "meta_size"
+msgstr "ზომა"
+
+msgid "meta_skill_level"
+msgstr "კომპეტენციის დონე"
+
+msgid "meta_slide"
+msgstr "სლაიდი"
+
+msgid "meta_source"
+msgstr "წყარო"
+
+msgid "meta_status"
+msgstr "სტატუსი"
+
+#, fuzzy
+msgid "meta_string"
+msgstr "Text"
+
+msgid "meta_structure"
+msgstr "სტრუქტურა"
+
+#, fuzzy
+msgid "meta_tab_advmd"
+msgstr "Custom Metadata"
+
+#, fuzzy
+msgid "meta_tab_advmd_def"
+msgstr "Custom Metadata Definition"
+
+#, fuzzy
+msgid "meta_tab_lom"
+msgstr "LOM"
+
+msgid "meta_table"
+msgstr "მაგიდა"
+
+msgid "meta_taxon"
+msgstr "ტაქსონი"
+
+msgid "meta_taxon_path"
+msgstr "ტაქსონომიური მდებარეობა"
+
+#, fuzzy
+msgid "meta_taxon_path_plural"
+msgstr "Taxon Paths"
+
+#, fuzzy
+msgid "meta_taxon_plural"
+msgstr "Taxons"
+
+msgid "meta_teacher"
+msgstr "მასწავლებელი"
+
+msgid "meta_technical"
+msgstr "ტექნიკური"
+
+msgid "meta_technicalimplementer"
+msgstr "ტექნიკური შემსრულებელი"
+
+msgid "meta_technicalvalidator"
+msgstr "ტექნიკური შემმოწმებელი"
+
+msgid "meta_terminator"
+msgstr "ტერმინატორი"
+
+#, fuzzy
+msgid "meta_third_author"
+msgstr "Third Author"
+
+msgid "meta_title"
+msgstr "დასახელება"
+
+msgid "meta_training"
+msgstr "ტრეინინგი"
+
+msgid "meta_type"
+msgstr "სახეობა"
+
+msgid "meta_typical_age_range"
+msgstr "ტიპიური ასაკობრივი ზღვარი"
+
+#, fuzzy
+msgid "meta_typical_age_range_plural"
+msgstr "Typical Age Ranges"
+
+msgid "meta_typical_learning_time"
+msgstr "ტიპიური სასწავლო დრო"
+
+msgid "meta_unavailable"
+msgstr "არ არის ხელმისაწვდომი"
+
+#, fuzzy
+msgid "meta_unix"
+msgstr "Unix"
+
+msgid "meta_unknown"
+msgstr "უცნობი"
+
+msgid "meta_validator"
+msgstr "საკონტროლო პარამეტრი"
+
+msgid "meta_value"
+msgstr "ღირებულება"
+
+msgid "meta_version"
+msgstr "ვერსია"
+
+msgid "meta_very_difficult"
+msgstr "ვერსიის სირთულე"
+
+msgid "meta_very_easy"
+msgstr "ძალიან იოლი"
+
+msgid "meta_very_high"
+msgstr "ძალიან მაღალი"
+
+msgid "meta_very_low"
+msgstr "ძალიან დაბალი"
+
+msgid "meta_yes"
+msgstr "დიახ"
+
+#, fuzzy
+msgid "udf_type_address"
+msgstr "Address"
+
+#, fuzzy
+msgid "udf_type_externallink"
+msgstr "External Link"
+
+#, fuzzy
+msgid "udf_type_float"
+msgstr "Float"
+
+#, fuzzy
+msgid "udf_type_integer"
+msgstr "Integer"
+
+#, fuzzy
+msgid "udf_type_internallink"
+msgstr "Internal Link"
+
+#, fuzzy
+msgid "udf_type_location"
+msgstr "Location"
+
+#, fuzzy
+msgid "udf_type_selectmulti"
+msgstr "Selection List (Checkboxes)"
