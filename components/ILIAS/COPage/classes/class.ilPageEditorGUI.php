@@ -167,11 +167,50 @@ class ilPageEditorGUI
     protected function isMatchingContentObjectGUI(string $next_class, string $ctype): bool
     {
         $pc_def = $this->pc_definition->getPCDefinitionByType($ctype);
-        if (is_array($pc_def) && strtolower($pc_def["pc_gui_class"]) === $next_class) {
-            return true;
+        return is_array($pc_def) && strtolower($pc_def["pc_gui_class"]) === $next_class;
+    }
+
+    private function resolveHierId(string $next_class): string
+    {
+        $new_hier_id = $this->request->getString("new_hier_id");
+        $hier_id = $new_hier_id !== "" ? $new_hier_id : $this->requested_hier_id;
+
+        if ($next_class === "ilpcplaceholdergui" && $hier_id === "" && $this->requested_pl_pc_id !== "") {
+            $hier_ids = $this->page->getHierIdsForPCIds([$this->requested_pl_pc_id]);
+            $hier_id = $hier_ids[$this->requested_pl_pc_id];
         }
 
-        return !str_starts_with($next_class, "ilpc");
+        return $hier_id;
+    }
+
+    private function resolveRequestedComponentTarget(): array
+    {
+        $ctype = $this->requested_ctype;
+        if ($this->requested_cname !== "") {
+            $pc_def = $this->pc_definition->getPCDefinitionByName($this->requested_cname);
+            $ctype = $pc_def["pc_type"];
+        }
+
+        return [$ctype, $this->requested_hier_id, $this->requested_pc_id];
+    }
+
+    private function getContentObjectForTarget(
+        string $next_class,
+        string $cmd,
+        string $hier_id,
+        string $pc_id
+    ): ?ilPageContent {
+        if (!$this->pc_definition->isPCGUIClassName($next_class, true) || $this->isNewComponentCommand($cmd)) {
+            return null;
+        }
+
+        $cont_obj = $this->page->getContentObject($hier_id, $pc_id);
+        if (!is_object($cont_obj)) {
+            $this->log->debug("returnToParent");
+            $this->ctrl->returnToParent($this);
+        }
+
+        return $cont_obj;
     }
 
     /**
@@ -183,76 +222,36 @@ class ilPageEditorGUI
         $ilHelp = $this->help;
         $this->log->debug("begin =========================");
         $ctype = "";
-        $cont_obj = null;
-
         $ret = "";
-        $add_type = $this->request->getString("pluginName");
 
-        // Step BC (basic command determination)
-        // determine cmd, cmdClass, hier_id and pc_id
         $cmd = $this->ctrl->getCmd("displayPage");
-        $cmdClass = strtolower($this->ctrl->getCmdClass());
-        $hier_id = $this->requested_hier_id;
+        $has_requested_component = $this->hasRequestedComponent();
         $pc_id = $this->requested_pc_id;
-        $new_hier_id = $this->request->getString("new_hier_id");
-        if ($new_hier_id != "") {
-            $hier_id = $new_hier_id;
-        }
-
-        $this->log->debug("step BC: cmd:$cmd, hier_id: $hier_id, pc_id: $pc_id");
-
-        // Step B (build dom, and ids in XML)
         $this->page->buildDom();
         $this->page->addHierIDs();
 
-
-        // Step NC (determine next class)
         $next_class = $this->ctrl->getNextClass($this);
-        $this->log->debug("step NC: next class: " . $next_class);
-
-        // Step PH (placeholder handling, placeholders from preview mode come without hier_id)
-        if ($next_class == "ilpcplaceholdergui" && $hier_id == "" && $this->requested_pl_pc_id != "") {
-            $hid = $this->page->getHierIdsForPCIds(array($this->requested_pl_pc_id));
-            $hier_id = $hid[$this->requested_pl_pc_id];
+        $hier_id = $this->resolveHierId($next_class);
+        if ($has_requested_component) {
+            [$ctype, $hier_id, $pc_id] = $this->resolveRequestedComponentTarget();
         }
-        $this->log->debug("step PH: next class: " . $next_class);
-        $this->log->debug("step LM: cmd: " . $cmd . ", cmdClass: " . $cmdClass);
-
-        // Step PR (get content object for PC GUI)
-        $this->log->debug("before PR: nextClass: $next_class" .
-            ", hier_id: " . $hier_id . ", pc_id: " . $pc_id . ")");
-        if ($this->hasRequestedComponent()) {
-            $ctype = $this->requested_ctype;
-            if ($this->requested_cname != "") {
-                $pc_def = $this->pc_definition->getPCDefinitionByName($this->requested_cname);
-                $ctype = $pc_def["pc_type"];
-            }
-            $pc_id = $this->requested_pc_id;
-            $hier_id = $this->requested_hier_id;
-        }
-        if ($this->pc_definition->isPCGUIClassName($next_class, true) && !$this->isNewComponentCommand($cmd)) {
-            $cont_obj = $this->page->getContentObject($hier_id, $pc_id);
-            if (!is_object($cont_obj)) {
-                $this->log->debug("returnToParent");
-                $ilCtrl->returnToParent($this);
-            }
+        $cont_obj = $this->getContentObjectForTarget($next_class, $cmd, $hier_id, $pc_id);
+        if (is_object($cont_obj)) {
             $ctype = $cont_obj->getType();
         }
         // this fixes e.g. #31214
         if ($pc_id != "" && $hier_id == "") {
             $hier_id = $this->page->getHierIdForPcId($pc_id);
         }
-        if ($ctype != "media" || !is_object($cont_obj)) {
-            if ($this->getHeader() != "") {
-                $this->tpl->setTitle($this->getHeader());
-            }
+        if (($ctype !== "media" || !is_object($cont_obj)) && $this->getHeader() !== "") {
+            $this->tpl->setTitle($this->getHeader());
         }
 
         $this->cont_obj = $cont_obj;
 
         $this->ctrl->setParameter($this, "hier_id", $hier_id);
         $this->ctrl->setParameter($this, "pc_id", $pc_id);
-        if ($this->hasRequestedComponent()) {
+        if ($has_requested_component) {
             $this->ctrl->setParameter($this, "ctype", $ctype);
         }
 
@@ -346,7 +345,7 @@ class ilPageEditorGUI
                     $this->page,
                     $cont_obj,
                     $hier_id,
-                    $add_type,
+                    $this->request->getString("pluginName"),
                     $pc_id
                 );
                 $ret = $this->ctrl->forwardCommand($plugged_gui);
