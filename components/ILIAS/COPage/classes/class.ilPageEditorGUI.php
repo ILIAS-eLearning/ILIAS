@@ -154,6 +154,67 @@ class ilPageEditorGUI
         $this->page_back_title = $a_title;
     }
 
+    private function hasRequestedComponent(): bool
+    {
+        return $this->requested_ctype !== "" || $this->requested_cname !== "";
+    }
+
+    private static function isNewComponentCommand(string $cmd): bool
+    {
+        return in_array($cmd, ["insert", "create", "upload"], true);
+    }
+
+    private static function isPageLevelCommand(string $cmd): bool
+    {
+        return in_array($cmd, [
+            "insertFromClipboard",
+            "pasteFromClipboard",
+            "setMediaMode",
+            "copyLinkedMediaToClipboard",
+            "activatePage",
+            "deactivatePage",
+            "copyLinkedMediaToMediaPool",
+            "showSnippetInfo",
+            "delete",
+            "paste",
+            "cancelDeleteSelected",
+            "confirmedDeleteSelected",
+            "copy",
+            "cut",
+            "activate",
+            "characteristic",
+            "assignCharacteristic",
+            "cancelCreate",
+            "popup"
+        ], true);
+    }
+
+    protected function requiresContentObject(
+        bool $has_requested_component,
+        string $cmd,
+        string $cmd_class,
+        string $next_class,
+        bool $has_imagemap_forwarding
+    ): bool {
+        if ($has_requested_component || self::isNewComponentCommand($cmd) || self::isPageLevelCommand($cmd)) {
+            return false;
+        }
+
+        if ($cmd === "displayPage" && !$has_imagemap_forwarding && $cmd_class !== "ilcontainerresourcegui") {
+            return false;
+        }
+
+        if (in_array($cmd_class, [
+            "ilrepositoryselector2inputgui",
+            "ilpageeditorserveradaptergui",
+            "ileditclipboardgui"
+        ], true)) {
+            return false;
+        }
+
+        return $cmd_class !== "ilinternallinkgui" || $next_class === "ilpcmediaobjectgui";
+    }
+
     /**
      * execute command
      */
@@ -202,25 +263,13 @@ class ilPageEditorGUI
         // Step PR (get content object and return to parent)
         $this->log->debug("before PR: cmdClass: $cmdClass, nextClass: $next_class" .
             ", hier_id: " . $hier_id . ", pc_id: " . $pc_id . ")");
-        // note: ilinternallinkgui for page: no cont_obj is received
-        // ilinternallinkgui for mob: cont_obj is received
-        if ($this->requested_ctype == "" && $this->requested_cname == "" &&
-            $cmd != "insert" && $cmd != "create" && $cmd != "upload" &&
-            $cmd != "insertFromClipboard" && $cmd != "pasteFromClipboard" &&
-            $cmd != "setMediaMode" && $cmd != "copyLinkedMediaToClipboard" &&
-            $cmd != "activatePage" && $cmd != "deactivatePage" &&
-            $cmd != "copyLinkedMediaToMediaPool" && $cmd != "showSnippetInfo" &&
-            $cmd != "delete" && $cmd != "paste" &&
-            $cmd != "cancelDeleteSelected" && $cmd != "confirmedDeleteSelected" &&
-            $cmd != "copy" && $cmd != "cut" &&
-            ($cmd != "displayPage" || $this->request->getString("editImagemapForward_x") != "" || $cmdClass == "ilcontainerresourcegui") &&
-            $cmd != "activate" && $cmd != "characteristic" &&
-            $cmd != "assignCharacteristic" &&
-            $cmdClass != "ilrepositoryselector2inputgui" &&
-            $cmdClass != "ilpageeditorserveradaptergui" &&
-            $cmd != "cancelCreate" && $cmd != "popup" &&
-            $cmdClass != "ileditclipboardgui" && $cmd != "addChangeComment" &&
-            ($cmdClass != "ilinternallinkgui" || ($next_class == "ilpcmediaobjectgui"))) {
+        if ($this->requiresContentObject(
+            $this->hasRequestedComponent(),
+            $cmd,
+            $cmdClass,
+            $next_class,
+            $this->request->getString("editImagemapForward_x") !== ""
+        )) {
             $cont_obj = $this->page->getContentObject($hier_id, $pc_id);
             if (!is_object($cont_obj)) {
                 $this->log->debug("returnToParent");
@@ -229,7 +278,7 @@ class ilPageEditorGUI
             $ctype = $cont_obj->getType();
         }
         // Step NC (handle empty next class)
-        if ($this->requested_ctype != "" || $this->requested_cname != "") {
+        if ($this->hasRequestedComponent()) {
             $ctype = $this->requested_ctype;
             if ($this->requested_cname != "") {
                 $pc_def = $this->pc_definition->getPCDefinitionByName($this->requested_cname);
@@ -237,7 +286,7 @@ class ilPageEditorGUI
             }
             $pc_id = $this->requested_pc_id;
             $hier_id = $this->requested_hier_id;
-            if (!in_array($cmd, ["insert", "create", "upload"])) {
+            if (!self::isNewComponentCommand($cmd)) {
                 $cont_obj = $this->page->getContentObject($hier_id, $pc_id);
             }
         }
@@ -255,7 +304,7 @@ class ilPageEditorGUI
 
         $this->ctrl->setParameter($this, "hier_id", $hier_id);
         $this->ctrl->setParameter($this, "pc_id", $pc_id);
-        if ($this->requested_ctype != "" || $this->requested_cname != "") {
+        if ($this->hasRequestedComponent()) {
             $this->ctrl->setParameter($this, "ctype", $ctype);
         }
 
