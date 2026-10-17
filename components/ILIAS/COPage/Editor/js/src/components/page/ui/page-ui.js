@@ -395,6 +395,10 @@ export default class PageUI {
     return this.uiModel.pcDefinition.types[name];
   }
 
+  getPCFormAction(name) {
+    return this.uiModel.pcFormActions[name];
+  }
+
   getPCNameForType(type) {
     return this.uiModel.pcDefinition.names[type];
   }

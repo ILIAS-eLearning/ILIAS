@@ -159,60 +159,19 @@ class ilPageEditorGUI
         return $this->requested_ctype !== "" || $this->requested_cname !== "";
     }
 
-    private static function isNewComponentCommand(string $cmd): bool
+    private function isNewComponentCommand(string $cmd): bool
     {
         return in_array($cmd, ["insert", "create", "upload"], true);
     }
 
-    private static function isPageLevelCommand(string $cmd): bool
+    protected function isMatchingContentObjectGUI(string $next_class, string $ctype): bool
     {
-        return in_array($cmd, [
-            "insertFromClipboard",
-            "pasteFromClipboard",
-            "setMediaMode",
-            "copyLinkedMediaToClipboard",
-            "activatePage",
-            "deactivatePage",
-            "copyLinkedMediaToMediaPool",
-            "showSnippetInfo",
-            "delete",
-            "paste",
-            "cancelDeleteSelected",
-            "confirmedDeleteSelected",
-            "copy",
-            "cut",
-            "activate",
-            "characteristic",
-            "assignCharacteristic",
-            "cancelCreate",
-            "popup"
-        ], true);
-    }
-
-    protected function requiresContentObject(
-        bool $has_requested_component,
-        string $cmd,
-        string $cmd_class,
-        string $next_class,
-        bool $has_imagemap_forwarding
-    ): bool {
-        if ($has_requested_component || self::isNewComponentCommand($cmd) || self::isPageLevelCommand($cmd)) {
-            return false;
+        $pc_def = $this->pc_definition->getPCDefinitionByType($ctype);
+        if (is_array($pc_def) && strtolower($pc_def["pc_gui_class"]) === $next_class) {
+            return true;
         }
 
-        if ($cmd === "displayPage" && !$has_imagemap_forwarding && $cmd_class !== "ilcontainerresourcegui") {
-            return false;
-        }
-
-        if (in_array($cmd_class, [
-            "ilrepositoryselector2inputgui",
-            "ilpageeditorserveradaptergui",
-            "ileditclipboardgui"
-        ], true)) {
-            return false;
-        }
-
-        return $cmd_class !== "ilinternallinkgui" || $next_class === "ilpcmediaobjectgui";
+        return !str_starts_with($next_class, "ilpc");
     }
 
     /**
@@ -233,7 +192,6 @@ class ilPageEditorGUI
         // determine cmd, cmdClass, hier_id and pc_id
         $cmd = $this->ctrl->getCmd("displayPage");
         $cmdClass = strtolower($this->ctrl->getCmdClass());
-
         $hier_id = $this->requested_hier_id;
         $pc_id = $this->requested_pc_id;
         $new_hier_id = $this->request->getString("new_hier_id");
@@ -241,7 +199,7 @@ class ilPageEditorGUI
             $hier_id = $new_hier_id;
         }
 
-        $this->log->debug("step BC: cmd:$cmd, cmdClass:$cmdClass, hier_id: $hier_id, pc_id: $pc_id");
+        $this->log->debug("step BC: cmd:$cmd, hier_id: $hier_id, pc_id: $pc_id");
 
         // Step B (build dom, and ids in XML)
         $this->page->buildDom();
@@ -260,24 +218,9 @@ class ilPageEditorGUI
         $this->log->debug("step PH: next class: " . $next_class);
         $this->log->debug("step LM: cmd: " . $cmd . ", cmdClass: " . $cmdClass);
 
-        // Step PR (get content object and return to parent)
-        $this->log->debug("before PR: cmdClass: $cmdClass, nextClass: $next_class" .
+        // Step PR (get content object for PC GUI)
+        $this->log->debug("before PR: nextClass: $next_class" .
             ", hier_id: " . $hier_id . ", pc_id: " . $pc_id . ")");
-        if ($this->requiresContentObject(
-            $this->hasRequestedComponent(),
-            $cmd,
-            $cmdClass,
-            $next_class,
-            $this->request->getString("editImagemapForward_x") !== ""
-        )) {
-            $cont_obj = $this->page->getContentObject($hier_id, $pc_id);
-            if (!is_object($cont_obj)) {
-                $this->log->debug("returnToParent");
-                $ilCtrl->returnToParent($this);
-            }
-            $ctype = $cont_obj->getType();
-        }
-        // Step NC (handle empty next class)
         if ($this->hasRequestedComponent()) {
             $ctype = $this->requested_ctype;
             if ($this->requested_cname != "") {
@@ -286,9 +229,14 @@ class ilPageEditorGUI
             }
             $pc_id = $this->requested_pc_id;
             $hier_id = $this->requested_hier_id;
-            if (!self::isNewComponentCommand($cmd)) {
-                $cont_obj = $this->page->getContentObject($hier_id, $pc_id);
+        }
+        if ($this->pc_definition->isPCGUIClassName($next_class, true) && !$this->isNewComponentCommand($cmd)) {
+            $cont_obj = $this->page->getContentObject($hier_id, $pc_id);
+            if (!is_object($cont_obj)) {
+                $this->log->debug("returnToParent");
+                $ilCtrl->returnToParent($this);
             }
+            $ctype = $cont_obj->getType();
         }
         // this fixes e.g. #31214
         if ($pc_id != "" && $hier_id == "") {
@@ -308,19 +256,9 @@ class ilPageEditorGUI
             $this->ctrl->setParameter($this, "ctype", $ctype);
         }
 
-        if ($next_class == "") {
-            $pc_def = $this->pc_definition->getPCDefinitionByType($ctype);
-            if (is_array($pc_def)) {
-                if ($ctype === "plug") {
-                    $this->ctrl->setParameterByClass(
-                        $pc_def["pc_gui_class"],
-                        "pluginName",
-                        $this->request->getString("pluginName")
-                    );
-                }
-                $this->ctrl->redirectByClass($pc_def["pc_gui_class"], $this->ctrl->getCmd());
-            }
-            $next_class = $this->ctrl->getNextClass($this);
+        if (is_object($cont_obj) && !$this->isMatchingContentObjectGUI($next_class, $ctype)) {
+            $this->log->debug("returnToParent due to mismatching content object GUI");
+            $ilCtrl->returnToParent($this);
         }
         $this->log->debug("step NC2: next_class: $next_class");
 

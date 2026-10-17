@@ -140,7 +140,7 @@ export default class PlaceHolderUIActionHandler {
           params.cname,
           params.pcid,
           params.hierid,
-        ));
+        ), this.pageUi.getPCFormAction(params.cname));
         // form_sent = true;
       }
     }

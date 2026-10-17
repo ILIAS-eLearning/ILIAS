@@ -99,7 +99,7 @@ export default class PageUIActionHandler {
             params.pcid,
             params.hierid,
             params.pluginName,
-          ));
+          ), this.ui.getPCFormAction(params.cname));
           form_sent = true;
         }
         // generic
@@ -142,7 +142,7 @@ export default class PageUIActionHandler {
             params.cname,
             params.pcid,
             params.hierid,
-          ));
+          ), this.ui.getPCFormAction(params.cname));
           form_sent = true;
         }
         break;
@@ -159,7 +159,7 @@ export default class PageUIActionHandler {
           params.cname,
           params.pcid,
           params.hierid,
-        ));
+        ), this.ui.getPCFormAction(params.cname));
         form_sent = true;
         break;
 

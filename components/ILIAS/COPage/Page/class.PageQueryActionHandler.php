@@ -96,9 +96,11 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $o->errorMessage = $this->getErrorMessage();
         $o->errorModalMessage = $this->getErrorModalMessage();
         $o->config = $this->getConfig();
-        $o->components = $this->getComponentsEditorUI();
+        $components = $this->getComponentsEditorUI();
+        $o->components = $components;
         $o->pcModel = $this->getPCModel();
         $o->pcDefinition = $this->getComponentsDefinitions();
+        $o->pcFormActions = $this->getPCFormActions($components);
         $o->formatSelection = $this->getFormatSelection();
         $o->modal = $this->getModalTemplate();
         $o->confirmation = $this->getConfirmationTemplate();
@@ -638,6 +640,20 @@ class PageQueryActionHandler implements Server\QueryActionHandler
             $pcdef["txt"][$def["pc_type"]] = $this->lng->txt("cont_" . "pc_" . $def["pc_type"]);
         }
         return $pcdef;
+    }
+
+    protected function getPCFormActions(array $components): array
+    {
+        $actions = [];
+        $component_names = array_unique([...array_keys($components), "Plugged"]);
+        foreach ($component_names as $name) {
+            $def = $this->pc_definition->getPCDefinitionByName($name);
+            $actions[$def["name"]] = $this->ctrl->getFormActionByClass(
+                [\ilPageEditorGUI::class, $def["pc_gui_class"]],
+                ""
+            );
+        }
+        return $actions;
     }
 
     public function getModalTemplate(): array
