@@ -166,7 +166,7 @@ class InternalDomainService
         return $this->DIC->testQuestion();
     }
 
-    public function componentFactory(): \ilComponentRepository
+    public function componentFactory(): \ilComponentFactory
     {
         return $this->DIC['component.factory'];
     }

@@ -87,11 +87,6 @@ abstract class ilPageComponentPluginGUI
         string $plugin_version
     ): string;
 
-    public function create_plug(): void
-    {
-        $this->create();
-    }
-
     public function createElement(array $a_properties): bool
     {
         return $this->getPCGUI()->createElement($a_properties);
@@ -131,6 +126,6 @@ abstract class ilPageComponentPluginGUI
     {
         $lng = $this->lng;
 
-        $a_form->addCommandButton("create_plug", $lng->txt("save"));
+        $a_form->addCommandButton("create", $lng->txt("save"));
     }
 }

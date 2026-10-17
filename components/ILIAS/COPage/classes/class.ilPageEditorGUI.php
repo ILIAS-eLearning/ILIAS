@@ -166,7 +166,7 @@ class ilPageEditorGUI
         $cont_obj = null;
 
         $ret = "";
-        $add_type = "";
+        $add_type = $this->request->getString("pluginName");
 
         // Step BC (basic command determination)
         // determine cmd, cmdClass, hier_id and pc_id
@@ -187,15 +187,6 @@ class ilPageEditorGUI
         $this->page->addHierIDs();
 
 
-        // Step CS (strip base command)
-        $com = null;
-        if ($cmdClass != "ilcontainerresourcegui") {
-            $com = explode("_", $cmd);
-            $cmd = $com[0];
-        }
-        $this->log->debug("step CS: cmd:$cmd");
-
-
         // Step NC (determine next class)
         $next_class = $this->ctrl->getNextClass($this);
         $this->log->debug("step NC: next class: " . $next_class);
@@ -206,47 +197,36 @@ class ilPageEditorGUI
             $hier_id = $hid[$this->requested_pl_pc_id];
         }
         $this->log->debug("step PH: next class: " . $next_class);
-        if (!is_null($com) && ($com[0] == "insert" || $com[0] == "create")) {
-            // Step CM (creation mode handling)
-            $cmd = $com[0];
-            $ctype = $com[1] ?? "";				// note ctype holds type if cmdclass is empty, but also subcommands if not (e.g. applyFilter in ilpcmediaobjectgui)
-            $add_type = $this->request->getString("pluginName");
-            if ($ctype == "mob") {
-                $ctype = "media";
-            }
+        $this->log->debug("step LM: cmd: " . $cmd . ", cmdClass: " . $cmdClass);
 
-            $this->log->debug("step CM: cmd: " . $cmd . ", ctype: " . $ctype . ", add_type: " . $add_type);
-        } else {
-            $this->log->debug("step LM: cmd: " . $cmd . ", cmdClass: " . $cmdClass);
-
-            // Step PR (get content object and return to parent)
-            $this->log->debug("before PR: cmdClass: $cmdClass, nextClass: $next_class" .
-                ", hier_id: " . $hier_id . ", pc_id: " . $pc_id . ")");
-            // note: ilinternallinkgui for page: no cont_obj is received
-            // ilinternallinkgui for mob: cont_obj is received
-            if ($this->requested_ctype == "" && $this->requested_cname == "" &&
-                $cmd != "insertFromClipboard" && $cmd != "pasteFromClipboard" &&
-                $cmd != "setMediaMode" && $cmd != "copyLinkedMediaToClipboard" &&
-                $cmd != "activatePage" && $cmd != "deactivatePage" &&
-                $cmd != "copyLinkedMediaToMediaPool" && $cmd != "showSnippetInfo" &&
-                $cmd != "delete" && $cmd != "paste" &&
-                $cmd != "cancelDeleteSelected" && $cmd != "confirmedDeleteSelected" &&
-                $cmd != "copy" && $cmd != "cut" &&
-                ($cmd != "displayPage" || $this->request->getString("editImagemapForward_x") != "" || $cmdClass == "ilcontainerresourcegui") &&
-                $cmd != "activate" && $cmd != "characteristic" &&
-                $cmd != "assignCharacteristic" &&
-                $cmdClass != "ilrepositoryselector2inputgui" &&
-                $cmdClass != "ilpageeditorserveradaptergui" &&
-                $cmd != "cancelCreate" && $cmd != "popup" &&
-                $cmdClass != "ileditclipboardgui" && $cmd != "addChangeComment" &&
-                ($cmdClass != "ilinternallinkgui" || ($next_class == "ilpcmediaobjectgui"))) {
-                $cont_obj = $this->page->getContentObject($hier_id, $pc_id);
-                if (!is_object($cont_obj)) {
-                    $this->log->debug("returnToParent");
-                    $ilCtrl->returnToParent($this);
-                }
-                $ctype = $cont_obj->getType();
+        // Step PR (get content object and return to parent)
+        $this->log->debug("before PR: cmdClass: $cmdClass, nextClass: $next_class" .
+            ", hier_id: " . $hier_id . ", pc_id: " . $pc_id . ")");
+        // note: ilinternallinkgui for page: no cont_obj is received
+        // ilinternallinkgui for mob: cont_obj is received
+        if ($this->requested_ctype == "" && $this->requested_cname == "" &&
+            $cmd != "insert" && $cmd != "create" && $cmd != "upload" &&
+            $cmd != "insertFromClipboard" && $cmd != "pasteFromClipboard" &&
+            $cmd != "setMediaMode" && $cmd != "copyLinkedMediaToClipboard" &&
+            $cmd != "activatePage" && $cmd != "deactivatePage" &&
+            $cmd != "copyLinkedMediaToMediaPool" && $cmd != "showSnippetInfo" &&
+            $cmd != "delete" && $cmd != "paste" &&
+            $cmd != "cancelDeleteSelected" && $cmd != "confirmedDeleteSelected" &&
+            $cmd != "copy" && $cmd != "cut" &&
+            ($cmd != "displayPage" || $this->request->getString("editImagemapForward_x") != "" || $cmdClass == "ilcontainerresourcegui") &&
+            $cmd != "activate" && $cmd != "characteristic" &&
+            $cmd != "assignCharacteristic" &&
+            $cmdClass != "ilrepositoryselector2inputgui" &&
+            $cmdClass != "ilpageeditorserveradaptergui" &&
+            $cmd != "cancelCreate" && $cmd != "popup" &&
+            $cmdClass != "ileditclipboardgui" && $cmd != "addChangeComment" &&
+            ($cmdClass != "ilinternallinkgui" || ($next_class == "ilpcmediaobjectgui"))) {
+            $cont_obj = $this->page->getContentObject($hier_id, $pc_id);
+            if (!is_object($cont_obj)) {
+                $this->log->debug("returnToParent");
+                $ilCtrl->returnToParent($this);
             }
+            $ctype = $cont_obj->getType();
         }
         // Step NC (handle empty next class)
         if ($this->requested_ctype != "" || $this->requested_cname != "") {
@@ -275,6 +255,9 @@ class ilPageEditorGUI
 
         $this->ctrl->setParameter($this, "hier_id", $hier_id);
         $this->ctrl->setParameter($this, "pc_id", $pc_id);
+        if ($this->requested_ctype != "" || $this->requested_cname != "") {
+            $this->ctrl->setParameter($this, "ctype", $ctype);
+        }
 
         if ($next_class == "") {
             $pc_def = $this->pc_definition->getPCDefinitionByType($ctype);

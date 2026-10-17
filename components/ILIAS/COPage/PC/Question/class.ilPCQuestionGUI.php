@@ -81,10 +81,6 @@ class ilPCQuestionGUI extends ilPageContentGUI
                     $cmd = $this->sub_command;
                 }
 
-                if ($cmd === 'create_pcqst') {
-                    return $this->create();
-                }
-
                 $ret = $this->$cmd();
         }
 
@@ -191,7 +187,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
         if ($a_mode == "edit_empty") {
             $this->form_gui->addCommandButton("edit", $lng->txt("save"));
         } else {
-            $this->form_gui->addCommandButton("create_pcqst", $lng->txt("save"));
+            $this->form_gui->addCommandButton("create", $lng->txt("save"));
             $this->form_gui->addCommandButton("cancelCreate", $lng->txt("cancel"));
         }
 

@@ -187,7 +187,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         // save and cancel commands
         if ($a_mode == "create") {
             $form->setTitle($lng->txt("cont_ed_insert_iim"));
-            $form->addCommandButton("create_iim", $lng->txt("save"));
+            $form->addCommandButton("create", $lng->txt("save"));
             $form->addCommandButton("cancelCreate", $lng->txt("cancel"));
         } else {
             // get caption
