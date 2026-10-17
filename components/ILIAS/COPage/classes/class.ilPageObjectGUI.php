@@ -1253,19 +1253,6 @@ class ilPageObjectGUI
                 $this->getPageObject(),
                 $this->getPageObject()->getDomDoc()
             );
-            if (count($snippets) > 0) {
-                foreach ($snippets as $s) {
-                    $sn_arr[$s["id"]] = ilMediaPoolPage::lookupTitle($s["id"]);
-                }
-                $tpl->setCurrentBlock("med_link");
-                $tpl->setVariable("TXT_CONTENT_SNIPPETS_USED", $this->lng->txt("cont_snippets_used"));
-                $tpl->setVariable(
-                    "SEL_SNIPPETS",
-                    ilLegacyFormElementsUtil::formSelect(0, "ci_id", $sn_arr, false, true)
-                );
-                $tpl->setVariable("TXT_SHOW_INFO", $this->lng->txt("cont_show_info"));
-                $tpl->parseCurrentBlock();
-            }
 
             // scheduled activation?
             if (!$this->getPageObject()->getActive() &&

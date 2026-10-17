@@ -44,6 +44,26 @@ class PCContentIncludeTest extends COPageTestBase
         );
     }
 
+    public function testCreateSingleUsesSelectedId(): void
+    {
+        $gui = new class () extends ilPCContentIncludeGUI {
+            public ?array $created_ids = null;
+
+            public function __construct()
+            {
+            }
+
+            public function create(?array $ids = null): void
+            {
+                $this->created_ids = $ids;
+            }
+        };
+
+        $gui->createSingle(123);
+
+        $this->assertSame([123], $gui->created_ids);
+    }
+
     public function testContentId(): void
     {
         $page = $this->getEmptyPageWithDom();

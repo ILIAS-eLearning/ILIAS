@@ -53,7 +53,6 @@ class ilPageEditorGUI
     public ilGlobalTemplateInterface $tpl;
     public ilLanguage $lng;
     public ilCtrl $ctrl;
-    public ilObjectDefinition $objDefinition;
     public ilPageObject $page;
     public string $target_script = "";
     public string $return_location = "";
@@ -83,7 +82,6 @@ class ilPageEditorGUI
         $this->access = $DIC->access();
         $tpl = $DIC["tpl"];
         $lng = $DIC->language();
-        $objDefinition = $DIC["objDefinition"];
         $ilCtrl = $DIC->ctrl();
         $ilTabs = $DIC->tabs();
 
@@ -106,7 +104,6 @@ class ilPageEditorGUI
         $this->ctrl = $ilCtrl;
         $this->tpl = $tpl;
         $this->lng = $lng;
-        $this->objDefinition = $objDefinition;
         $this->tabs_gui = $ilTabs;
         $this->page = $a_page_object;
         $this->page_gui = $a_page_object_gui;
@@ -381,18 +378,7 @@ class ilPageEditorGUI
                     $pc_gui->setPageConfig($this->page_gui->getPageConfig());
                     $ret = $this->ctrl->forwardCommand($pc_gui);
                 } else {
-                    $this->log->debug("Call ilPageEditorGUI command.");
-                    // cmd belongs to ilPageEditorGUI
-
-                    if ($cmd == "pasteFromClipboard") {
-                        //$ret = $this->pasteFromClipboard($hier_id);
-                        $this->pasteFromClipboard($hier_id);
-                    } elseif ($cmd == "paste") {
-                        //$ret = $this->paste($hier_id);
-                        $this->paste($hier_id);
-                    } else {
-                        $ret = $this->$cmd();
-                    }
+                    $ret = $this->$cmd();
                 }
                 break;
         }
@@ -413,32 +399,6 @@ class ilPageEditorGUI
     }
 
     /**
-     * set media and editing mode
-     */
-    public function setMediaMode(): void
-    {
-        $ilUser = $this->user;
-
-        $ilUser->writePref(
-            "ilPageEditor_MediaMode",
-            $this->request->getString("media_mode")
-        );
-        $ilUser->writePref(
-            "ilPageEditor_HTMLMode",
-            $this->request->getString("html_mode")
-        );
-        $js_mode = $this->request->getString("js_mode");
-        $ilUser->writePref("ilPageEditor_JavaScript", $js_mode);
-
-        // again not so nice...
-        if ($this->page->getParentType() == "lm") {
-            $this->ctrl->redirectByClass("illmpageobjectgui", "edit");
-        } else {
-            $this->ctrl->returnToParent($this);
-        }
-    }
-
-    /**
      * copy linked media object to clipboard
      */
     public function copyLinkedMediaToClipboard(): void
@@ -452,255 +412,6 @@ class ilPageEditorGUI
             ilObject::_lookupTitle($this->requested_mob_id)
         );
         $this->ctrl->returnToParent($this);
-    }
-
-    /**
-     * copy linked media object to media pool
-     */
-    public function copyLinkedMediaToMediaPool(): void
-    {
-        $this->ctrl->setParameterByClass("ilmediapooltargetselector", "mob_id", $this->requested_mob_id);
-        $this->ctrl->redirectByClass("ilmediapooltargetselector", "listPools");
-    }
-
-    /**
-     * Confirm
-     */
-    public function delete(): void
-    {
-        $ilCtrl = $this->ctrl;
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-
-        $targets = $this->request->getIds();
-
-        if (count($targets) == 0) {
-            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
-            $this->ctrl->returnToParent($this);
-        } else {
-            $cgui = new ilConfirmationGUI();
-            $cgui->setFormAction($ilCtrl->getFormAction($this));
-            $cgui->setHeaderText($lng->txt("copg_confirm_el_deletion"));
-            $cgui->setCancel($lng->txt("cancel"), "cancelDeleteSelected");
-            $cgui->setConfirm($lng->txt("confirm"), "confirmedDeleteSelected");
-            foreach ($targets as $t) {
-                $cgui->addHiddenItem("ids[]", $t);
-            }
-
-            $tpl->setContent($cgui->getHTML());
-        }
-    }
-
-    public function cancelDeleteSelected(): void
-    {
-        $this->ctrl->returnToParent($this);
-    }
-
-    public function confirmedDeleteSelected(): void
-    {
-        $targets = $this->request->getIds();
-        if (count($targets) > 0) {
-            $updated = $this->page->deleteContents(
-                $targets,
-                true,
-                $this->page_gui->getPageConfig()->getEnableSelfAssessment()
-            );
-            if ($updated !== true) {
-                $this->edit_repo->setPageError($updated);
-            } else {
-                $this->edit_repo->clearPageError();
-            }
-        }
-        $this->ctrl->returnToParent($this);
-    }
-
-    /**
-     * Copy selected items
-     */
-    public function copy(): void
-    {
-        $lng = $this->lng;
-
-        $ids = $this->request->getIds();
-        if (count($ids) > 0) {
-            $this->page->copyContents($ids);
-            $this->tpl->setOnScreenMessage('success', $lng->txt("cont_sel_el_copied_use_paste"), true);
-        }
-        $this->ctrl->returnToParent($this);
-    }
-
-    /**
-     * Cut selected items
-     */
-    public function cut(): void
-    {
-        $lng = $this->lng;
-
-        $ids = $this->request->getIds();
-        if (count($ids)) {
-            $updated = $this->page->cutContents($ids);
-            if ($updated !== true) {
-                $this->edit_repo->setPageError($updated);
-            } else {
-                $this->edit_repo->clearPageError();
-            }
-            $this->tpl->setOnScreenMessage('success', $lng->txt("cont_sel_el_cut_use_paste"), true);
-        }
-        $this->ctrl->returnToParent($this);
-    }
-
-    /**
-     * paste from clipboard (redirects to clipboard)
-     */
-    public function paste(string $a_hier_id): void
-    {
-        $this->page->pasteContents($a_hier_id, $this->page_gui->getPageConfig()->getEnableSelfAssessment());
-        //ilEditClipboard::setAction("");
-        $this->ctrl->returnToParent($this);
-    }
-
-    /**
-     * (de-)activate selected items
-     */
-    public function activate(): void
-    {
-        $ids = $this->request->getIds();
-        if (count($ids) > 0) {
-            $updated = $this->page->switchEnableMultiple(
-                $ids,
-                true,
-                $this->page_gui->getPageConfig()->getEnableSelfAssessment()
-            );
-            if ($updated !== true) {
-                $this->edit_repo->setPageError($updated);
-            } else {
-                $this->edit_repo->clearPageError();
-            }
-        }
-        $this->ctrl->returnToParent($this);
-    }
-
-    /**
-     * Assign characeristic to text blocks/sections
-     */
-    public function characteristic(): void
-    {
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-
-        $ids = $this->request->getIds();
-        if (count($ids) > 0) {
-            $types = array();
-
-            // check what content element types have been selected
-            foreach ($ids as $t) {
-                $tarr = explode(":", $t);
-                $cont_obj = $this->page->getContentObject($tarr[0], $tarr[1]);
-                if (is_object($cont_obj) && $cont_obj->getType() == "par") {
-                    $types["par"] = "par";
-                }
-                if (is_object($cont_obj) && $cont_obj->getType() == "sec") {
-                    $types["sec"] = "sec";
-                }
-            }
-
-            if (count($types) == 0) {
-                $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_select_par_or_section"), true);
-                $this->ctrl->returnToParent($this);
-            } else {
-                $this->initCharacteristicForm($ids, $types);
-                $tpl->setContent($this->form->getHTML());
-            }
-        } else {
-            $this->ctrl->returnToParent($this);
-        }
-    }
-
-    /**
-     * Init map creation/update form
-     */
-    public function initCharacteristicForm(
-        array $a_target,
-        array $a_types
-    ): void {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-
-
-        // edit form
-        $this->form = new ilPropertyFormGUI();
-        $this->form->setTitle($this->lng->txt("cont_choose_characteristic"));
-
-        if ($a_types["par"] == "par") {
-            $select_prop = new ilSelectInputGUI(
-                $this->lng->txt("cont_choose_characteristic_text"),
-                "char_par"
-            );
-            $options = ilPCParagraphGUI::_getCharacteristics($this->page_gui->getStyleId());
-            $select_prop->setOptions($options);
-            $this->form->addItem($select_prop);
-        }
-        if ($a_types["sec"] == "sec") {
-            $select_prop = new ilSelectInputGUI(
-                $this->lng->txt("cont_choose_characteristic_section"),
-                "char_sec"
-            );
-            $options = ilPCSectionGUI::_getCharacteristics($this->page_gui->getStyleId());
-            $select_prop->setOptions($options);
-            $this->form->addItem($select_prop);
-        }
-
-        foreach ($a_target as $t) {
-            $hidden = new ilHiddenInputGUI("target[]");
-            $hidden->setValue($t);
-            $this->form->addItem($hidden);
-        }
-
-        $this->form->setFormAction($ilCtrl->getFormAction($this));
-        $this->form->addCommandButton("assignCharacteristic", $lng->txt("save"));
-        $this->form->addCommandButton("showPage", $lng->txt("cancel"));
-    }
-
-    public function assignCharacteristic(): void
-    {
-        $char_par = $this->request->getString("char_par");
-        $char_sec = $this->request->getString("char_sec");
-
-        $updated = $this->page->assignCharacteristic(
-            $this->request->getStringArray("target"),
-            $char_par,
-            $char_sec,
-            ""
-        );
-        if ($updated !== true) {
-            $this->edit_repo->setPageError($updated);
-        } else {
-            $this->edit_repo->clearPageError();
-        }
-        $this->ctrl->returnToParent($this);
-    }
-
-    /**
-     * paste from clipboard (redirects to clipboard)
-     */
-    public function pasteFromClipboard(string $a_hier_id): void
-    {
-        $ilCtrl = $this->ctrl;
-        //var_dump($a_hier_id);
-        $ilCtrl->setParameter($this, "hier_id", $a_hier_id);
-        $ilCtrl->setParameterByClass(
-            "ilEditClipboardGUI",
-            "returnCommand",
-            rawurlencode($ilCtrl->getLinkTarget(
-                $this,
-                "insertFromClipboard",
-                "",
-                false,
-                false
-            ))
-        );
-        //echo ":".$ilCtrl->getLinkTarget($this, "insertFromClipboard").":";
-        $ilCtrl->redirectByClass("ilEditClipboardGUI", "getObject");
     }
 
     /**
@@ -745,53 +456,5 @@ class ilPageEditorGUI
     public function displayPage(): void
     {
         $this->ctrl->returnToParent($this);
-    }
-
-    /**
-     * Show snippet info
-     */
-    public function showSnippetInfo(): void
-    {
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-        $ilAccess = $this->access;
-        $ilCtrl = $this->ctrl;
-
-        $stpl = new ilTemplate("tpl.snippet_info.html", true, true, "components/ILIAS/COPage");
-
-        $mep_pools = ilMediaPoolItem::getPoolForItemId(
-            $this->request->getString("ci_id")
-        );
-        foreach ($mep_pools as $mep_id) {
-            $ref_ids = ilObject::_getAllReferences($mep_id);
-            $edit_link = false;
-            foreach ($ref_ids as $rid) {
-                if (!$edit_link && $ilAccess->checkAccess("write", "", $rid)) {
-                    $stpl->setCurrentBlock("edit_link");
-                    $stpl->setVariable("TXT_EDIT", $lng->txt("edit"));
-                    $stpl->setVariable(
-                        "HREF_EDIT",
-                        "./goto.php?target=mep_" . $rid
-                    );
-                    $stpl->parseCurrentBlock();
-                }
-            }
-            $stpl->setCurrentBlock("pool");
-            $stpl->setVariable("TXT_MEDIA_POOL", $lng->txt("obj_mep"));
-            $stpl->setVariable("VAL_MEDIA_POOL", ilObject::_lookupTitle($mep_id));
-            $stpl->parseCurrentBlock();
-        }
-
-        $stpl->setVariable("TXT_TITLE", $lng->txt("title"));
-        $stpl->setVariable(
-            "VAL_TITLE",
-            ilMediaPoolPage::lookupTitle($this->request->getString("ci_id"))
-        );
-        $stpl->setVariable("TXT_BACK", $lng->txt("back"));
-        $stpl->setVariable(
-            "HREF_BACK",
-            $ilCtrl->getLinkTarget($this->page_gui, "edit")
-        );
-        $tpl->setContent($stpl->get());
     }
 }

@@ -645,7 +645,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     protected function getPCFormActions(array $components): array
     {
         $actions = [];
-        $component_names = array_unique([...array_keys($components), "Plugged"]);
+        $component_names = array_unique([...array_keys($components), "Plugged", "ContentInclude"]);
         foreach ($component_names as $name) {
             $def = $this->pc_definition->getPCDefinitionByName($name);
             $actions[$def["name"]] = $this->ctrl->getFormActionByClass(
