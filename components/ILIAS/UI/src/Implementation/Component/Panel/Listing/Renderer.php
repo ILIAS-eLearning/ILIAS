@@ -22,64 +22,70 @@ namespace ILIAS\UI\Implementation\Component\Panel\Listing;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
-use ILIAS\UI\Component as C;
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Panel\Listing\Standard as ListingStandard;
 use ILIAS\UI\Component\Item\Group;
-use ILIAS\UI\Implementation\Render\Template as Template;
+use ILIAS\UI\Component\Item\Standard as ItemStandard;
+use ILIAS\UI\Implementation\Component\Panel\HasExpandableRenderer;
 
 class Renderer extends AbstractComponentRenderer
 {
+    use HasExpandableRenderer;
+
     /**
      * @inheritdoc
      */
-    public function render(C\Component $component, RendererInterface $default_renderer): string
+    public function render(Component $component, RendererInterface $default_renderer): string
     {
-        if ($component instanceof C\Panel\Listing\Standard) {
-            return $this->renderStandard($component, $default_renderer);
-        }
-        $this->cannotHandleComponent($component);
+        return match (true) {
+            $component instanceof ListingStandard => $this->renderStandard($component, $default_renderer),
+            default => $this->cannotHandleComponent($component),
+        };
     }
 
-    protected function renderStandard(C\Panel\Listing\Listing $component, RendererInterface $default_renderer): string
+    protected function renderStandard(ListingStandard $component, RendererInterface $default_renderer): string
     {
-        $tpl = $this->getTemplate("tpl.listing_standard.html", true, true);
+        $tpl = $this->getTemplate('tpl.listing_standard.html', true, true);
 
-        $tpl = $this->parseHeader($component, $default_renderer, $tpl);
+        if ($component->isExpandable()) {
+            $component = $this->parseActions($component);
+        }
+
+        $id = $this->bindJavaScript($component) ?? $this->createId();
+        $tpl->setVariable('ID', $id);
+
+        $tpl->setVariable(
+            'HEADING',
+            $this->parseHeading(
+                $component,
+                $id,
+                $default_renderer,
+                $this->getUIFactory(),
+                4
+            )->get()
+        );
+
+        if ($component->isExpandable()) {
+            $tpl = $this->declareExpandable($component, $id, $tpl);
+        }
 
         foreach ($component->getItemGroups() as $group) {
-            if ($group instanceof Group) {
-                $tpl->setCurrentBlock("group");
-                $tpl->setVariable("ITEM_GROUP", $default_renderer->render($group));
-                $tpl->parseCurrentBlock();
+            if (!$group instanceof Group) {
+                continue;
             }
+
+            $group = $group->withHeadingLevel(5);
+            $items = [];
+            foreach ($group->getItems() as $item) {
+                $items[] = $item instanceof ItemStandard ? $item->withHeadingLevel(6) : $item;
+            }
+            $group = $group->withItems($items);
+
+            $tpl->setCurrentBlock('group');
+            $tpl->setVariable('ITEM_GROUP', $default_renderer->render($group));
+            $tpl->parseCurrentBlock();
         }
 
         return $tpl->get();
-    }
-
-    protected function parseHeader(
-        C\Panel\Listing\Standard $component,
-        RendererInterface $default_renderer,
-        Template $tpl
-    ): Template {
-        $title = $component->getTitle();
-        $actions = $component->getActions();
-        $view_controls = $component->getViewControls();
-
-        if ($title !== "" || $actions || $view_controls) {
-            $tpl->setVariable("TITLE", $title);
-            if ($actions) {
-                $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
-            }
-            if ($view_controls) {
-                foreach ($view_controls as $view_control) {
-                    $tpl->setCurrentBlock("view_controls");
-                    $tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));
-                    $tpl->parseCurrentBlock();
-                }
-            }
-            $tpl->setCurrentBlock("heading");
-            $tpl->parseCurrentBlock();
-        }
-        return $tpl;
     }
 }
