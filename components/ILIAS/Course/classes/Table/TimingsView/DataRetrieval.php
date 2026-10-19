@@ -131,7 +131,19 @@ class DataRetrieval implements DataRetrievalInterface
         mixed $filter_data,
         mixed $additional_parameters
     ): Generator {
-        foreach ($this->rows as $row) {
+        [$column_name, $direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
+        $comparator = match ($column_name) {
+            HandlerInterface::TABLE_COL_TITLE => fn(array $a, array $b) => strcmp($a[self::KEY_TITLE], $b[self::KEY_TITLE]),
+            HandlerInterface::TABLE_COL_TIMINGS_PLANNED, HandlerInterface::TABLE_COL_SUGGESTION => fn(array $a, array $b) => $a[self::KEY_PLANNED][0]->getTimestamp() <=> $b[self::KEY_PLANNED][0]->getTimestamp(),
+            default => fn(array $a, array $b) => 0
+        };
+        $rows = $this->rows;
+        uasort($rows, $comparator);
+        if ($direction === "DESC") {
+            $rows = array_reverse($rows, true);
+        }
+        $rows = array_slice($rows, $range->getStart(), $range->getLength(), true);
+        foreach ($rows as $row) {
             yield $row_builder->buildDataRow(
                 $row[self::KEY_ROW_ID] . '',
                 [
