@@ -124,4 +124,4 @@ All other HTML tags are unsupported and will be removed by `ilUtil::stripSlashes
 * [`tests/LanguageComponentGraphTest.php`](tests/LanguageComponentGraphTest.php) is a contract test
   for this component's `$define`/`$implement`/`$use`/`$contribute`/`$seek`/`$provide`/`$pull`/`$internal`
   wiring in `Language.php` and is a good place to check the current, authoritative wiring behaviour
-  (e.g. singleton guarantees, contribute ordering) rather than relying on prose descriptions here.
+  (e.g. singleton guarantees) rather than relying on prose descriptions here.

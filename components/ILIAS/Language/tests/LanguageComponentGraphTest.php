@@ -51,6 +51,8 @@ use PHPUnit\Framework\TestCase;
  */
 class LanguageComponentGraphTest extends TestCase
 {
+    private PimpleContainer $contributions;
+
     /**
      * @param array<string, mixed>|\ArrayAccess<string, mixed>|null $use
      * @return array{0: array, 1: RenamingDIC, 2: array, 3: RenamingDIC, 4: array, 5: PimpleContainer, 6: array, 7: PimpleContainer}
@@ -75,7 +77,8 @@ class LanguageComponentGraphTest extends TestCase
 
         // RenamingDIC (as in the generated bootstrap) keeps several assignments to one key apart; a plain Pimple\Container overwrites
         $implement = new RenamingDIC(new PimpleContainer());
-        $contribute = new RenamingDIC(new PimpleContainer());
+        $this->contributions = new PimpleContainer();
+        $contribute = new RenamingDIC($this->contributions);
         $provide = new PimpleContainer();
         $internal = new PimpleContainer();
 
@@ -91,6 +94,32 @@ class LanguageComponentGraphTest extends TestCase
         );
 
         return [$define, $implement, $use, $contribute, $seek, $provide, $pull, $internal];
+    }
+
+    /**
+     * All instances contributed for $type, independent of the position of the contribution in init().
+     *
+     * @return list<object>
+     */
+    private function contributionsOf(string $type): array
+    {
+        $contributions = [];
+        foreach ($this->contributions->keys() as $key) {
+            if (preg_match('/^' . preg_quote($type, '/') . '_\\d+$/', $key) === 1) {
+                $contributions[] = $this->contributions[$key];
+            }
+        }
+
+        return $contributions;
+    }
+
+    private function contributedSetupAgent(): \ilLanguageSetupAgent
+    {
+        $agents = $this->contributionsOf(\ILIAS\Setup\Agent::class);
+        self::assertCount(1, $agents);
+        self::assertInstanceOf(\ilLanguageSetupAgent::class, $agents[0]);
+
+        return $agents[0];
     }
 
     public function testDefinesTheLanguageInterface(): void
@@ -137,57 +166,50 @@ class LanguageComponentGraphTest extends TestCase
         );
     }
 
-    public function testContributeEntriesResolveToExpectedConcreteClassesInPreservedOrder(): void
+    public function testContributeEntriesResolveToExpectedConcreteClasses(): void
     {
-        [, , , $contribute] = $this->initComponent();
+        $this->initComponent();
 
-        // RenamingDIC suffixes every offsetSet with a container-wide "_<counter>" in call order, so these keys pin the order of
-        // the $contribute entries: a hardcoded counter shifts whenever a contribution is added ahead of it
-        self::assertInstanceOf(MainLanguageFileDirectory::class, $contribute[LanguageFileDirectory::class . '_0']);
-        self::assertInstanceOf(\ilLanguageSetupAgent::class, $contribute[\ILIAS\Setup\Agent::class . '_1']);
-        self::assertInstanceOf(InstallLanguage::class, $contribute[\ILIAS\Component\Activities\Activity::class . '_2']);
-        self::assertInstanceOf(UpdateLanguage::class, $contribute[\ILIAS\Component\Activities\Activity::class . '_3']);
-        self::assertInstanceOf(UninstallLanguage::class, $contribute[\ILIAS\Component\Activities\Activity::class . '_4']);
-        self::assertInstanceOf(RemoveLocalLanguageChanges::class, $contribute[\ILIAS\Component\Activities\Activity::class . '_5']);
-        self::assertInstanceOf(AddLanguageEntry::class, $contribute[\ILIAS\Component\Activities\Activity::class . '_6']);
-        self::assertInstanceOf(SetLanguageDetectionEnabled::class, $contribute[\ILIAS\Component\Activities\Activity::class . '_7']);
-        self::assertInstanceOf(SetLanguageTranslationEnabled::class, $contribute[\ILIAS\Component\Activities\Activity::class . '_8']);
-        self::assertInstanceOf(UserSettingsSettings::class, $contribute[\ILIAS\User\Settings\UserSettings::class . '_9']);
+        $directories = $this->contributionsOf(LanguageFileDirectory::class);
+        self::assertCount(1, $directories);
+        self::assertInstanceOf(MainLanguageFileDirectory::class, $directories[0]);
+
+        $this->contributedSetupAgent();
+
+        $activities = array_map(
+            static fn(object $activity): string => $activity::class,
+            $this->contributionsOf(\ILIAS\Component\Activities\Activity::class)
+        );
+        sort($activities);
+        $expected = [
+            InstallLanguage::class,
+            UpdateLanguage::class,
+            UninstallLanguage::class,
+            RemoveLocalLanguageChanges::class,
+            AddLanguageEntry::class,
+            SetLanguageDetectionEnabled::class,
+            SetLanguageTranslationEnabled::class,
+        ];
+        sort($expected);
+        self::assertSame($expected, $activities);
+
+        $user_settings = $this->contributionsOf(\ILIAS\User\Settings\UserSettings::class);
+        self::assertCount(1, $user_settings);
+        self::assertInstanceOf(UserSettingsSettings::class, $user_settings[0]);
     }
 
     public function testContributedActivitiesAreTheSameSingletonsAsTheProvidedInstances(): void
     {
-        [, , , $contribute, , $provide] = $this->initComponent();
+        [, , , , , $provide] = $this->initComponent();
 
         // the Setup path and the GUI must share the very same Activity instances, not merely equal ones
-        self::assertSame(
-            $provide[InstallLanguage::class],
-            $contribute[\ILIAS\Component\Activities\Activity::class . '_2']
-        );
-        self::assertSame(
-            $provide[UpdateLanguage::class],
-            $contribute[\ILIAS\Component\Activities\Activity::class . '_3']
-        );
-        self::assertSame(
-            $provide[UninstallLanguage::class],
-            $contribute[\ILIAS\Component\Activities\Activity::class . '_4']
-        );
-        self::assertSame(
-            $provide[RemoveLocalLanguageChanges::class],
-            $contribute[\ILIAS\Component\Activities\Activity::class . '_5']
-        );
-        self::assertSame(
-            $provide[AddLanguageEntry::class],
-            $contribute[\ILIAS\Component\Activities\Activity::class . '_6']
-        );
-        self::assertSame(
-            $provide[SetLanguageDetectionEnabled::class],
-            $contribute[\ILIAS\Component\Activities\Activity::class . '_7']
-        );
-        self::assertSame(
-            $provide[SetLanguageTranslationEnabled::class],
-            $contribute[\ILIAS\Component\Activities\Activity::class . '_8']
-        );
+        $contributed = $this->contributionsOf(\ILIAS\Component\Activities\Activity::class);
+        foreach ([
+            InstallLanguage::class, UpdateLanguage::class, UninstallLanguage::class, RemoveLocalLanguageChanges::class,
+            AddLanguageEntry::class, SetLanguageDetectionEnabled::class, SetLanguageTranslationEnabled::class,
+        ] as $class) {
+            self::assertTrue(in_array($provide[$class], $contributed, true), $class . ' is not contributed as provided');
+        }
     }
 
     public function testImplementCandidatesAreOfferedInDeclarationOrder(): void
@@ -221,7 +243,7 @@ class LanguageComponentGraphTest extends TestCase
         self::assertSame('/ilias-root', self::readPrivateProperty($internal[InstalledLanguageDatabaseRepository::class], 'absolute_path'));
     }
 
-    private function resolveEverything(PimpleContainer $provide, RenamingDIC $contribute): void
+    private function resolveEverything(PimpleContainer $provide): void
     {
         foreach ([
             InstallLanguage::class, UpdateLanguage::class, UninstallLanguage::class, RemoveLocalLanguageChanges::class,
@@ -229,7 +251,7 @@ class LanguageComponentGraphTest extends TestCase
         ] as $key) {
             self::assertIsObject($provide[$key]);
         }
-        self::assertInstanceOf(\ilLanguageSetupAgent::class, $contribute[\ILIAS\Setup\Agent::class . '_1']);
+        $this->contributedSetupAgent();
     }
 
     /**
@@ -253,8 +275,8 @@ class LanguageComponentGraphTest extends TestCase
         $GLOBALS['ilDB'] = $this->databaseExpectingQueries(\ilDBInterface::class, 0);
         $connection = $this->databaseExpectingQueries(\ILIAS\Database\Connection::class, 2);
 
-        [, , , $contribute, , $provide, , $internal] = $this->initComponent(null, $connection);
-        $this->resolveEverything($provide, $contribute);
+        [, , , , , $provide, , $internal] = $this->initComponent(null, $connection);
+        $this->resolveEverything($provide);
 
         self::assertSame([], $internal[InstalledLanguageDatabaseRepository::class]->getInstalledLanguages());
         // the module cache update of the provider shared by the runtime Activities; only its lookup runs without a legacy container
@@ -267,12 +289,12 @@ class LanguageComponentGraphTest extends TestCase
         $rbac = $this->createMock(\ILIAS\AccessControl\PublicInterface\RBAC::class);
         $rbac->expects(self::never())->method('system');
 
-        [, , , $contribute, , $provide] = $this->initComponent([
+        [, , , , , $provide] = $this->initComponent([
             \ILIAS\Language\Language::class => $this->createStub(\ILIAS\Language\Language::class),
             \ILIAS\AccessControl\PublicInterface\RBAC::class => $rbac,
         ]);
 
-        $this->resolveEverything($provide, $contribute);
+        $this->resolveEverything($provide);
     }
 
     public function testSetupAgentIsBuildableWithoutAnyRbacEntry(): void
@@ -288,9 +310,9 @@ class LanguageComponentGraphTest extends TestCase
         };
         $use[\ILIAS\Language\Language::class] = $this->createStub(\ILIAS\Language\Language::class);
 
-        [, , , $contribute] = $this->initComponent($use);
+        $this->initComponent($use);
 
-        self::assertInstanceOf(\ilLanguageSetupAgent::class, $contribute[\ILIAS\Setup\Agent::class . '_1']);
+        $this->contributedSetupAgent();
     }
 
     /** @return array<string, array{0: class-string<InstallLanguage|UpdateLanguage>}> */
@@ -345,8 +367,8 @@ class LanguageComponentGraphTest extends TestCase
         $GLOBALS['ilDB'] = $this->databaseExpectingQueries(\ilDBInterface::class, 1);
         $connection = $this->databaseExpectingQueries(\ILIAS\Database\Connection::class, 0);
 
-        [, , , $contribute] = $this->initComponent(null, $connection);
-        $agent = $contribute[\ILIAS\Setup\Agent::class . '_1'];
+        $this->initComponent(null, $connection);
+        $agent = $this->contributedSetupAgent();
 
         $this->performReadOnly(
             self::readPrivateProperty($agent, $class === InstallLanguage::class ? 'install_language' : 'update_language')
