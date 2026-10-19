@@ -63,7 +63,7 @@ class Language implements Component\Component
             new InstalledLanguageDatabaseRepository(
                 $pull[\ILIAS\Database\Connection::class],
                 $internal[LanguageFileDirectoryManager::class],
-                $use[Directories::class]->getRoot()
+                new Language\Setup\DirectoriesInstallationRoot($use[Directories::class])
             );
 
         // Setup hands in its own database via setDbHandler() instead of the Connection

@@ -240,7 +240,24 @@ class LanguageComponentGraphTest extends TestCase
             \ILIAS\Environment\Configuration\Installation\Directories::class => $this->createDirectories('/ilias-root'),
         ]);
 
-        self::assertSame('/ilias-root', self::readPrivateProperty($internal[InstalledLanguageDatabaseRepository::class], 'absolute_path'));
+        self::assertSame(
+            '/ilias-root',
+            self::readPrivateProperty($internal[InstalledLanguageDatabaseRepository::class], 'installation_root')->getPath()
+        );
+    }
+
+    public function testRepositoryDoesNotReadTheRootWhileWiring(): void
+    {
+        $directories = $this->createMock(\ILIAS\Environment\Configuration\Installation\Directories::class);
+        $directories->expects(self::never())->method('getRoot');
+
+        [, , , , , , , $internal] = $this->initComponent([
+            \ILIAS\Language\Language::class => $this->createStub(\ILIAS\Language\Language::class),
+            \ILIAS\AccessControl\PublicInterface\RBAC::class => $this->createStub(\ILIAS\AccessControl\PublicInterface\RBAC::class),
+            \ILIAS\Environment\Configuration\Installation\Directories::class => $directories,
+        ]);
+
+        self::assertInstanceOf(InstalledLanguageDatabaseRepository::class, $internal[InstalledLanguageDatabaseRepository::class]);
     }
 
     private function resolveEverything(PimpleContainer $provide): void

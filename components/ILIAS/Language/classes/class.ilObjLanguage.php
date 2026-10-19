@@ -25,6 +25,7 @@ use ILIAS\Language\Setup\InstalledLanguageRepository;
 use ILIAS\Language\Setup\InstalledLanguageDatabaseRepository;
 use ILIAS\Language\Setup\LanguageInstallationManager;
 use ILIAS\Language\Setup\TranslationCacheLegacyProxy;
+use ILIAS\Language\Setup\FixedInstallationRoot;
 
 /**
  * Class ilObjLanguage
@@ -89,7 +90,7 @@ class ilObjLanguage extends ilObject
         $this->repository = new InstalledLanguageDatabaseRepository(
             $DIC->database(),
             $this->language_file_directory_manager,
-            $this->absolute_path
+            new FixedInstallationRoot($this->absolute_path)
         );
         $this->manager = new LanguageInstallationManager(
             $DIC->database(),
