@@ -24,6 +24,7 @@ use ILIAS\Language\ComponentTranslation\CustomizingLanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\MainLanguageFileDirectory;
 use ILIAS\Language\Setup\InstalledLanguageRepository;
 use ILIAS\Language\Setup\LanguageInstallationManager;
+use ILIAS\Language\Setup\TranslationCache;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -840,6 +841,70 @@ class LanguageInstallationManagerTest extends TestCase
                 return false;
             }
         };
+    }
+
+    public function testInsertLanguageInvalidatesTheTranslationCache(): void
+    {
+        $root = $this->createTempInstallationRoot();
+        $this->writeLangFile($root . '/lang/ilias_de.lang', [['common', 'test', 'Global Value']]);
+
+        try {
+            $db = $this->createDatabaseMock();
+            $db->method('in')->willReturn("module IN ('common')");
+
+            $repository = $this->createMock(InstalledLanguageRepository::class);
+            $repository->method('getLocalChanges')->willReturn([]);
+
+            $cache = $this->createMock(TranslationCache::class);
+            $cache->expects($this->once())->method('invalidate')->with('de');
+
+            $manager = new LanguageInstallationManager(
+                $db,
+                new LanguageFileDirectoryManager(new CustomizingLanguageFileDirectory(), new MainLanguageFileDirectory()),
+                $root,
+                $repository,
+                null,
+                $cache
+            );
+
+            $manager->insertLanguageForInstallation('de');
+        } finally {
+            $this->removeDirectory($root);
+        }
+    }
+
+    public function testFlushLanguageForUninstallationInvalidatesTheTranslationCache(): void
+    {
+        $cache = $this->createMock(TranslationCache::class);
+        $cache->expects($this->once())->method('invalidate')->with('de');
+
+        $manager = new LanguageInstallationManager(
+            $this->createDatabaseMock(),
+            new LanguageFileDirectoryManager(new CustomizingLanguageFileDirectory(), new MainLanguageFileDirectory()),
+            (string) realpath(__DIR__ . '/../../../../../'),
+            $this->createMock(InstalledLanguageRepository::class),
+            null,
+            $cache
+        );
+
+        $manager->flushLanguageForUninstallation('de');
+    }
+
+    public function testFlushLanguageForInstallationKeepsTheTranslationCache(): void
+    {
+        $cache = $this->createMock(TranslationCache::class);
+        $cache->expects($this->never())->method('invalidate');
+
+        $manager = new LanguageInstallationManager(
+            $this->createDatabaseMock(),
+            new LanguageFileDirectoryManager(new CustomizingLanguageFileDirectory(), new MainLanguageFileDirectory()),
+            (string) realpath(__DIR__ . '/../../../../../'),
+            $this->createMock(InstalledLanguageRepository::class),
+            null,
+            $cache
+        );
+
+        $manager->flushLanguageForInstallation('de');
     }
 
     private function createTempInstallationRoot(): string

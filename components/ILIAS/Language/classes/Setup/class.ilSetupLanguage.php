@@ -25,6 +25,8 @@ use ILIAS\Language\ComponentTranslation\CustomizingLanguageFileDirectory;
 use ILIAS\Language\Setup\InstalledLanguageRepository;
 use ILIAS\Language\Setup\InstalledLanguageDatabaseRepository;
 use ILIAS\Language\Setup\LanguageInstallationManager;
+use ILIAS\Language\Setup\TranslationCache;
+use ILIAS\Language\Setup\NullTranslationCache;
 
 /**
  * language handling for setup
@@ -62,6 +64,7 @@ class ilSetupLanguage extends ilLanguage
         string $a_lang_key,
         private ?LanguageFileDirectoryManager $language_file_directory_manager = null,
         private readonly ?ilDBInterface $connection = null,
+        private readonly TranslationCache $translation_cache = new NullTranslationCache(),
     ) {
         $this->lang_key = $a_lang_key ?: $this->lang_default;
         $this->absolute_path = (string) realpath(__DIR__ . "/../../../../../");
@@ -100,7 +103,9 @@ class ilSetupLanguage extends ilLanguage
             $this->db() ?? throw new LogicException("No database available for " . self::class . "."),
             $this->language_file_directory_manager,
             $this->absolute_path,
-            $this->repository()
+            $this->repository(),
+            null,
+            $this->translation_cache
         );
     }
 
