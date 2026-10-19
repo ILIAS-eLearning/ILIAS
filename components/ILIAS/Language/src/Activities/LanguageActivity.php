@@ -73,11 +73,25 @@ abstract class LanguageActivity extends ActivityImpl
             );
         }
 
+        if (!$this->isKnownUser($usr_id)) {
+            return false;
+        }
+
         return $this->rbac->system()->checkAccessOfUser(
             $usr_id,
             'write',
             $this->language_folder->getRefId()
         );
+    }
+
+    /** Never the anonymous user, regardless of its RBAC roles. */
+    private function isKnownUser(int $usr_id): bool
+    {
+        if ($usr_id <= 0) {
+            return false;
+        }
+
+        return !defined('ANONYMOUS_USER_ID') || $usr_id !== ANONYMOUS_USER_ID;
     }
 
     public function maybePerformAs(InputFactory $input_factory, int $usr_id, array $raw_parameters): Result
@@ -93,10 +107,8 @@ abstract class LanguageActivity extends ActivityImpl
                 );
             }
 
-            // array_merge(), not `+`: the trusted usr_id must win over a spoofed form key
-            return new Result\Ok(
-                $this->perform(array_merge($parameters, $this->additionalPerformParameters($usr_id)))
-            );
+            // usr_id last: the trusted value wins over a spoofed form key
+            return new Result\Ok($this->perform([...$parameters, 'usr_id' => $usr_id]));
         } catch (\Throwable $e) {
             return new Result\Error(Failure::of($e));
         }
@@ -104,15 +116,4 @@ abstract class LanguageActivity extends ActivityImpl
 
     /** @return array<string, mixed> */
     abstract protected function normalizeParameters(array $grind_result): array;
-
-    /**
-     * Hook for trusted, server-resolved extras (e.g. `usr_id`) for perform(); they win over
-     * same-named keys of normalizeParameters(), see maybePerformAs().
-     *
-     * @return array<string, mixed>
-     */
-    protected function additionalPerformParameters(int $usr_id): array
-    {
-        return [];
-    }
 }

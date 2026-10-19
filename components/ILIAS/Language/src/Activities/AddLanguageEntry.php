@@ -180,7 +180,7 @@ MARKDOWN
     }
 
     /**
-     * @param mixed $parameters may carry a trusted `usr_id` (int), see additionalPerformParameters();
+     * @param mixed $parameters may carry a trusted `usr_id` (int), set by maybePerformAs();
      *        it is recorded as the author of the local change, without it no author is attributed.
      */
     public function perform(mixed $parameters): array
@@ -256,16 +256,6 @@ MARKDOWN
             'added_language_keys' => $added_language_keys,
             'skipped_empty_language_keys' => $skipped_empty_language_keys,
         ];
-    }
-
-    /**
-     * Threads the trusted `usr_id` into perform(); wins over a form key, see LanguageActivity::maybePerformAs().
-     *
-     * @return array{usr_id: int}
-     */
-    protected function additionalPerformParameters(int $usr_id): array
-    {
-        return ['usr_id' => $usr_id];
     }
 
     /**
