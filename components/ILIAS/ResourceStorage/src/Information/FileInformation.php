@@ -33,6 +33,12 @@ class FileInformation implements Information
     protected string $mime_type = '';
     protected int $size = 0;
     protected ?\DateTimeImmutable $creation_date = null;
+    private MimeTypeSanitizer $mime_type_sanitizer;
+
+    public function __construct()
+    {
+        $this->mime_type_sanitizer = new MimeTypeSanitizer();
+    }
 
     public function getTitle(): string
     {
@@ -65,7 +71,7 @@ class FileInformation implements Information
 
     public function setMimeType(string $mime_type): self
     {
-        $this->mime_type = $mime_type;
+        $this->mime_type = $this->mime_type_sanitizer->sanitize($mime_type);
 
         return $this;
     }
