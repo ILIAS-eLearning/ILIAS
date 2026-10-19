@@ -40,9 +40,10 @@ class LanguageActivityTest extends ilLanguageBaseTestCase
     use RealFieldsUiFactory;
 
     /**
-     * A \Throwable while building the input description must come back as a Result\Error, without reaching rbac.
+     * A defect while building the input description comes back masked as 500 (original only as previous),
+     * without reaching rbac.
      */
-    public function testExceptionWhileBuildingTheInputDescriptionIsTurnedIntoAResultErrorNotPropagated(): void
+    public function testExceptionWhileBuildingTheInputDescriptionIsMaskedAsA500ResultError(): void
     {
         $rbac = $this->createMock(\ilRbacSystem::class);
         $rbac->expects($this->never())->method('checkAccessOfUser');
@@ -59,34 +60,46 @@ class LanguageActivityTest extends ilLanguageBaseTestCase
         $this->assertTrue($result->isError());
         $error = $result->error();
         $this->assertInstanceOf(\RuntimeException::class, $error);
-        $this->assertSame('simulated failure while building the input description', $error->getMessage());
+        $this->assertSame(500, $error->getCode());
+        $this->assertSame('The activity could not be performed.', $error->getMessage());
+        $this->assertInstanceOf(\RuntimeException::class, $error->getPrevious());
+        $this->assertSame('simulated failure while building the input description', $error->getPrevious()->getMessage());
     }
 
-    /**
-     * A non-\Exception \Throwable (\TypeError) must arrive wrapped in a \RuntimeException, since Result\Error
-     * accepts only string|\Exception.
-     */
-    public function testATypeErrorWhileBuildingTheInputDescriptionIsWrappedInARuntimeExceptionResultError(): void
+    /** A non-\Exception \Throwable (\TypeError) is masked as well. */
+    public function testATypeErrorWhileBuildingTheInputDescriptionIsMaskedAsA500ResultError(): void
     {
-        $rbac = $this->createMock(\ilRbacSystem::class);
-        $rbac->expects($this->never())->method('checkAccessOfUser');
-
         $activity = new LanguageActivityThrowingInputDescriptionTestDouble(
             $this->createMock(RefineryFactory::class),
             $this->createMock(Language::class),
-            $this->rbacOf($rbac),
+            $this->rbacOf($this->createMock(\ilRbacSystem::class)),
             $this->languageFolder(),
             throw_type_error: true,
         );
 
-        $result = $activity->maybePerformAs($this->createRealFieldsUiFactory()->input(), 6, []);
+        $error = $activity->maybePerformAs($this->createRealFieldsUiFactory()->input(), 6, [])->error();
 
-        $this->assertTrue($result->isError());
-        $error = $result->error();
         $this->assertInstanceOf(\RuntimeException::class, $error);
-        $this->assertNotInstanceOf(\TypeError::class, $error);
-        $this->assertSame('simulated TypeError while building the input description', $error->getMessage());
+        $this->assertSame(500, $error->getCode());
+        $this->assertStringNotContainsString('TypeError', $error->getMessage());
         $this->assertInstanceOf(\TypeError::class, $error->getPrevious());
+    }
+
+    /** grind() throws on a defect (FormInput without InputInternal); maybePerformAs() must mask it as 500. */
+    public function testADefectThrownByGrindIsMaskedAsA500ResultError(): void
+    {
+        $activity = new LanguageActivityMergePrecedenceTestDouble(
+            $this->createMock(RefineryFactory::class),
+            $this->createMock(Language::class),
+            $this->rbacOf($this->createMock(\ilRbacSystem::class)),
+            $this->languageFolder(),
+            $this->createMock(FormInput::class),
+        );
+
+        $error = $activity->maybePerformAs($this->createRealFieldsUiFactory()->input(), 6, [])->error();
+
+        $this->assertSame(500, $error->getCode());
+        $this->assertInstanceOf(\LogicException::class, $error->getPrevious());
     }
 
     /**
@@ -167,6 +180,16 @@ final class LanguageActivityThrowingInputDescriptionTestDouble extends LanguageA
  */
 final class LanguageActivityMergePrecedenceTestDouble extends LanguageActivity
 {
+    public function __construct(
+        RefineryFactory $refinery,
+        Language $language,
+        RBAC $rbac,
+        LanguageFolder $language_folder,
+        private readonly ?FormInput $description = null,
+    ) {
+        parent::__construct($refinery, $language, $rbac, $language_folder);
+    }
+
     public function getDescription(): Text\SimpleDocumentMarkdown
     {
         return $this->markdown('Test double for maybePerformAs() array_merge() precedence.');
@@ -174,7 +197,7 @@ final class LanguageActivityMergePrecedenceTestDouble extends LanguageActivity
 
     public function getInputDescription(FieldFactory $f): FormInput
     {
-        return $f->group([]);
+        return $this->description ?? $f->group([]);
     }
 
     public function getOutputDescription(Description\Factory $f): Description\Description

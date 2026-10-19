@@ -529,7 +529,7 @@ class ilObjLanguageExtGUITest extends TestCase
     }
 
     /**
-     * Regression test: a SafeToDisplayActivityError (e.g. AddLanguageEntry's
+     * Regression test: an input error (4xx other than 403, e.g. AddLanguageEntry's
      * InvalidInputException for a missing/blank mandatory "de"/"en" value)
      * must NOT redirect - unlike a generic internal failure (see
      * testSaveNewEntryObjectShowsGenericFailureMessageAndRedirectsToViewOnThrowableError()
@@ -537,7 +537,7 @@ class ilObjLanguageExtGUITest extends TestCase
      * filled in ($form->setValuesByPost(), then addNewEntryObject($form)),
      * exactly like the existing $form->checkInput() === false branch does.
      */
-    public function testSaveNewEntryObjectDoesNotRedirectAndReshowsTheFormWithPostedValuesOnASafeToDisplayError(): void
+    public function testSaveNewEntryObjectDoesNotRedirectAndReshowsTheFormWithPostedValuesOnAnInputError(): void
     {
         $user = $this->createMock(ilObjUser::class);
         $user->method('getId')->willReturn(6);

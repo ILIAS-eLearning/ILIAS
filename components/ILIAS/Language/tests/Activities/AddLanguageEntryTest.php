@@ -23,7 +23,6 @@ namespace ILIAS\Language\Tests\Activities;
 use ILIAS\Language\Tests\Activities\ActivityContractTestCase;
 use ILIAS\Language\Activities\AddLanguageEntry;
 use ILIAS\Language\Activities\InvalidInputException;
-use ILIAS\Language\Activities\SafeToDisplayActivityError;
 use ILIAS\Language\Language;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
@@ -299,7 +298,7 @@ class AddLanguageEntryTest extends ActivityContractTestCase
 
         $this->assertTrue($result->isError());
         $this->assertInstanceOf(InvalidInputException::class, $result->error());
-        $this->assertInstanceOf(SafeToDisplayActivityError::class, $result->error());
+        $this->assertSame(400, $result->error()->getCode());
         $this->assertArrayNotHasKey('replace', $calls);
         $this->assertArrayNotHasKey('cache', $calls);
     }
@@ -708,7 +707,7 @@ class AddLanguageEntryTest extends ActivityContractTestCase
     // maybePerformAs()
     // -----------------------------------------------------------------
 
-    public function testPermissionDeniedBeforePerformNeverCallsWriteClosuresAndReturnsResultErrorWithNoPermMessage(): void
+    public function testPermissionDeniedBeforePerformNeverCallsWriteClosuresAndReturnsA403ResultError(): void
     {
         $rbac = $this->createMock(\ilRbacSystem::class);
         $rbac->expects($this->once())
@@ -738,7 +737,8 @@ class AddLanguageEntryTest extends ActivityContractTestCase
         ]);
 
         $this->assertTrue($result->isError());
-        $this->assertSame('no write permission', $result->error());
+        $this->assertInstanceOf(\DomainException::class, $result->error());
+        $this->assertSame(403, $result->error()->getCode());
         $this->assertArrayNotHasKey('replace', $calls);
     }
 
@@ -791,7 +791,7 @@ class AddLanguageEntryTest extends ActivityContractTestCase
         $this->assertSame([6], $login_calls);
     }
 
-    public function testThrowableFromWithinPerformIsTurnedIntoAResultError(): void
+    public function testDefectFromWithinPerformIsMaskedAsA500ResultErrorKeepingTheOriginal(): void
     {
         $rbac = $this->createMock(\ilRbacSystem::class);
         $rbac->method('checkAccessOfUser')->willReturn(true);
@@ -814,73 +814,9 @@ class AddLanguageEntryTest extends ActivityContractTestCase
 
         $this->assertTrue($result->isError());
         $error = $result->error();
-        $this->assertInstanceOf(\RuntimeException::class, $error);
-        $this->assertSame('database write failed', $error->getMessage());
-    }
-
-    /**
-     * AddLanguageEntry inherits LanguageActivity::maybePerformAs()'s catch block unchanged; this
-     * exercises it with a real \TypeError (not an \Exception) from within perform() - `new
-     * Result\Error($e)` only accepts string|\Exception, so it must arrive wrapped in a
-     * \RuntimeException rather than crash maybePerformAs() itself.
-     */
-    public function testAThrowableThatIsNotAnExceptionFromWithinPerformIsWrappedInARuntimeExceptionResultError(): void
-    {
-        $rbac = $this->createMock(\ilRbacSystem::class);
-        $rbac->method('checkAccessOfUser')->willReturn(true);
-
-        $replace_lang_entry = static function (): bool {
-            throw new \TypeError('simulated TypeError, not an \Exception');
-        };
-
-        $activity = $this->createActivity(
-            ['de'],
-            rbac: $rbac,
-            replace_lang_entry: $replace_lang_entry
-        );
-
-        $result = $activity->maybePerformAs($this->createRealFieldsUiFactory()->input(), 6, [
-            'module' => 'common',
-            'identifier' => 'new_topic',
-            'translations' => ['de' => 'Hallo'],
-        ]);
-
-        $this->assertTrue($result->isError());
-        $error = $result->error();
-        $this->assertInstanceOf(\RuntimeException::class, $error);
-        $this->assertNotInstanceOf(\TypeError::class, $error);
-        $this->assertSame('simulated TypeError, not an \Exception', $error->getMessage());
-        $this->assertInstanceOf(\TypeError::class, $error->getPrevious());
-    }
-
-    /**
-     * Same inherited try/catch (LanguageActivity::maybePerformAs()) as above, but triggered via
-     * AddLanguageEntry's real getInputDescription() - here failing inside
-     * `$this->lng->txt('meta_l_' . $lang_key)`. The rbac system must never be reached, since the
-     * failure happens before grinding/permission-checking.
-     */
-    public function testExceptionWhileBuildingTheInputDescriptionItselfIsTurnedIntoAResultErrorNotPropagated(): void
-    {
-        $rbac = $this->createMock(\ilRbacSystem::class);
-        $rbac->expects($this->never())->method('checkAccessOfUser');
-
-        $language = $this->createMock(Language::class);
-        $language->method('txt')->willThrowException(
-            new \RuntimeException('simulated failure while building the translation field label')
-        );
-
-        $activity = $this->createActivity(['de'], rbac: $rbac, language: $language);
-
-        $result = $activity->maybePerformAs($this->createRealFieldsUiFactory()->input(), 6, [
-            'module' => 'common',
-            'identifier' => 'new_topic',
-            'translations' => ['de' => 'Hallo'],
-        ]);
-
-        $this->assertTrue($result->isError());
-        $error = $result->error();
-        $this->assertInstanceOf(\RuntimeException::class, $error);
-        $this->assertSame('simulated failure while building the translation field label', $error->getMessage());
+        $this->assertSame(500, $error->getCode());
+        $this->assertStringNotContainsString('database', $error->getMessage());
+        $this->assertSame('database write failed', $error->getPrevious()?->getMessage());
     }
 
     // grind() already rejects a missing 'module', so rbac must never be touched
@@ -927,7 +863,7 @@ class AddLanguageEntryTest extends ActivityContractTestCase
         $this->assertTrue($result->isError());
         $error = $result->error();
         $this->assertInstanceOf(InvalidInputException::class, $error);
-        $this->assertInstanceOf(SafeToDisplayActivityError::class, $error);
+        $this->assertSame(400, $error->getCode());
         $this->assertStringContainsString('Unknown key(s) for translations: xx', $error->getMessage());
         $this->assertArrayNotHasKey('replace', $calls);
         $this->assertArrayNotHasKey('cache', $calls);
@@ -1001,7 +937,7 @@ class AddLanguageEntryTest extends ActivityContractTestCase
 
         $this->assertTrue($result->isError());
         $this->assertInstanceOf(InvalidInputException::class, $result->error());
-        $this->assertInstanceOf(SafeToDisplayActivityError::class, $result->error());
+        $this->assertSame(400, $result->error()->getCode());
     }
 
     public function testNormalizeParametersTrimsModuleAndIdentifierButKeepsTranslationsAsGiven(): void

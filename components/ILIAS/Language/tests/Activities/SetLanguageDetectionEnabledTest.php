@@ -17,7 +17,6 @@ namespace ILIAS\Language\Tests\Activities;
 
 use ILIAS\Language\Tests\Activities\ActivityContractTestCase;
 use ILIAS\Language\Activities\InvalidInputException;
-use ILIAS\Language\Activities\SafeToDisplayActivityError;
 use ILIAS\Language\Activities\SetLanguageDetectionEnabled;
 use ILIAS\Language\Language;
 use ILIAS\UI\Component\Input\Field\Checkbox;
@@ -207,13 +206,7 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
         $this->assertTrue($result->isError());
     }
 
-    /**
-     * A Throwable raised from within perform() (or normalizeParameters())
-     * must be turned into a Result\Error rather than propagating - this is
-     * the whole point of maybePerformAs() wrapping perform() in a
-     * try/catch.
-     */
-    public function testMaybePerformAsTurnsAThrowableFromNormalizeParametersIntoAResultError(): void
+    public function testMaybePerformAsRejectsAnEnabledValueOutsideTheCheckboxWhitelistAsA400WithoutTouchingSettings(): void
     {
         $rbac = $this->createMock(\ilRbacSystem::class);
         $rbac->method('checkAccessOfUser')->willReturn(true);
@@ -227,7 +220,7 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
         $this->assertTrue($result->isError());
         // outside the whitelist of normalizeCheckboxRawValue(): grind() turns it into an InvalidInputException
         $this->assertInstanceOf(InvalidInputException::class, $result->error());
-        $this->assertInstanceOf(SafeToDisplayActivityError::class, $result->error());
+        $this->assertSame(400, $result->error()->getCode());
     }
 
     /**
@@ -345,7 +338,7 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
 
         $this->assertTrue($result->isError());
         $this->assertInstanceOf(InvalidInputException::class, $result->error());
-        $this->assertInstanceOf(SafeToDisplayActivityError::class, $result->error());
+        $this->assertSame(400, $result->error()->getCode());
     }
 
     public function testInputDescriptionBuildsAGroupWithASingleEnabledCheckboxField(): void

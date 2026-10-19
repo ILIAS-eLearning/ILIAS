@@ -83,15 +83,14 @@ abstract class LanguageActivity extends ActivityImpl
     public function maybePerformAs(InputFactory $input_factory, int $usr_id, array $raw_parameters): Result
     {
         try {
-            // inside the try: getInputDescription() may throw too and must end up as Result\Error
-            $grind_result = $this->grind($this->getInputDescription($input_factory->field()), $raw_parameters);
-            if ($grind_result->isError()) {
-                return new Result\Error($grind_result->error());
-            }
-
-            $parameters = $this->normalizeParameters($grind_result->value());
+            // inside the try: getInputDescription() may throw too; value() throws grind's input error
+            $parameters = $this->normalizeParameters(
+                $this->grind($this->getInputDescription($input_factory->field()), $raw_parameters)->value()
+            );
             if (!$this->isAllowedToPerform($usr_id, $parameters)) {
-                return new Result\Error($this->lng->txt('msg_no_perm_write'));
+                return new Result\Error(
+                    new \DomainException('You are not allowed to manage the languages of this installation.', 403)
+                );
             }
 
             // array_merge(), not `+`: the trusted usr_id must win over a spoofed form key
@@ -99,9 +98,7 @@ abstract class LanguageActivity extends ActivityImpl
                 $this->perform(array_merge($parameters, $this->additionalPerformParameters($usr_id)))
             );
         } catch (\Throwable $e) {
-            return new Result\Error(
-                $e instanceof \Exception ? $e : new \RuntimeException($e->getMessage(), 0, $e)
-            );
+            return new Result\Error(Failure::of($e));
         }
     }
 

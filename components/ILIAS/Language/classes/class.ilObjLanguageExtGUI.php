@@ -24,7 +24,6 @@ use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Language\Activities\AddLanguageEntry;
 use ILIAS\Language\Activities\SetLanguageTranslationEnabled;
-use ILIAS\Language\Activities\SafeToDisplayActivityError;
 use ILIAS\Language\RendersActivityErrors;
 
 /**
@@ -1072,7 +1071,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                 $error = $result->error();
                 $error_message = $this->activityErrorMessage($error);
 
-                if ($error instanceof SafeToDisplayActivityError) {
+                if ($this->isActivityInputError($error)) {
                     // input rejection (e.g. blank "de"/"en"): re-render the form, keeping the entered values
                     $this->tpl->setOnScreenMessage('failure', $error_message);
                     $form->setValuesByPost();

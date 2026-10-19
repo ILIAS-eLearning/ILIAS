@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Language;
 
-use ILIAS\Language\Activities\SafeToDisplayActivityError;
-
 /**
  * Shared activityErrorMessage() for the GUI classes calling an Activity's maybePerformAs().
  * The using class must assign `$this->activity_error_logger` once in its constructor and provide `$this->lng`.
@@ -32,17 +30,17 @@ trait RendersActivityErrors
 
     /**
      * Turns a maybePerformAs() error into text for setOnScreenMessage() (which renders HTML unescaped):
-     *  - string: an already localized, trusted message of the Activity, returned as-is
-     *  - SafeToDisplayActivityError: may embed caller-controlled data, so this is the one place that escapes it
-     *  - any other \Throwable: may carry raw SQL, so only its cause chain is logged and a generic message shown
+     *  - code 403: the localized "no permission" message
+     *  - other 4xx: an answer to the call that may embed caller-controlled data, so this is the one place that escapes it
+     *  - anything else: may carry raw SQL, so only its cause chain is logged and a generic message shown
      */
-    private function activityErrorMessage(\Throwable|string $error): string
+    private function activityErrorMessage(\Throwable $error): string
     {
-        if (is_string($error)) {
-            return $error;
+        if ($error->getCode() === 403) {
+            return $this->lng->txt('msg_no_perm_write');
         }
 
-        if ($error instanceof SafeToDisplayActivityError) {
+        if ($this->isActivityInputError($error)) {
             // ENT_SUBSTITUTE: invalid UTF-8 would make htmlspecialchars() return an empty string
             return htmlspecialchars($error->getMessage(), ENT_QUOTES | ENT_SUBSTITUTE);
         }
@@ -50,6 +48,12 @@ trait RendersActivityErrors
         $this->activity_error_logger->error($this->describeThrowableChain($error));
 
         return $this->lng->txt('action_aborted');
+    }
+
+    /** A 4xx other than 403: the call itself was rejected, its message is meant for the caller. */
+    private function isActivityInputError(\Throwable $error): bool
+    {
+        return $error->getCode() >= 400 && $error->getCode() < 500 && $error->getCode() !== 403;
     }
 
     /**
