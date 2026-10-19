@@ -27,50 +27,22 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * ilObjLanguageExtGUI is bound tightly to the legacy $DIC/ilObjectGUI
- * bootstrap, exactly like ilObjLanguageFolderGUI (see
- * ilObjLanguageFolderGUITest's class docblock for the general technique this
- * file reuses: ReflectionClass::newInstanceWithoutConstructor() plus
- * reflection-injected collaborators).
- *
- * saveSettingsObject()/saveNewEntryObject() both unconditionally build a
- * legacy ilPropertyFormGUI at some point (initNewSettingsForm()/
- * initAddNewEntryForm()) - and ilPropertyFormGUI's own constructor reaches
- * into `global $DIC` for $DIC->language()/$DIC->ctrl() unconditionally. Since
- * building that form is not what these tests are about (the actual
- * behaviour under test is the Activity dispatch and the GUI's handling of
- * its Result), initNewSettingsForm()/initAddNewEntryForm() are stubbed out
- * via a partial mock of the GUI itself instead - the exact same technique
- * ilObjLanguageFolderGUITest uses for checkPermission().
+ * Built like ilObjLanguageFolderGUITest (newInstanceWithoutConstructor plus reflection-injected collaborators).
+ * The ilPropertyFormGUI builders are stubbed via a partial mock: the form constructor needs `global $DIC`.
  */
 class ilObjLanguageExtGUITest extends TestCase
 {
-    /**
-     * $GLOBALS['DIC'] is genuinely global state shared by every test in this
-     * (single) PHP process - see ilObjLanguageFolderGUITest::tearDown() for
-     * the same reasoning/pattern.
-     */
+    /** $GLOBALS['DIC'] is global state shared by all tests of the process. */
     protected function tearDown(): void
     {
         unset($GLOBALS['DIC']);
         $this->stubbed_activity_error_logger = null;
     }
 
-    /**
-     * Holds whatever stubLoggerLangError() built for the currently running
-     * test, so the createGuiFor*() factories below can attach it to the
-     * GUI instance's `activity_error_logger` property (see
-     * RendersActivityErrors) instead of a plain permissive stub. Reset in
-     * tearDown() so it never leaks between tests.
-     */
+    /** Set by stubLoggerLangError(), attached to the GUI's `activity_error_logger`; reset in tearDown(). */
     private ?\ilLogger $stubbed_activity_error_logger = null;
 
-    /**
-     * The logger to wire onto a GUI instance's `activity_error_logger`
-     * property while building it for a test: whatever stubLoggerLangError()
-     * set up for this test, or - for tests that never expect a Throwable
-     * to be logged - a permissive stub.
-     */
+    /** The logger of stubLoggerLangError(), or a permissive stub for tests expecting no logging. */
     private function activityErrorLoggerForGui(): \ilLogger
     {
         return $this->stubbed_activity_error_logger ?? $this->createMock(\ilLogger::class);
@@ -82,17 +54,7 @@ class ilObjLanguageExtGUITest extends TestCase
         $property->setValue($object, $value);
     }
 
-    /**
-     * maybePerformAs() now takes the calling GUI's `ILIAS\UI\Factory::input()`
-     * as its (unused by these Activities, see LanguageActivity) first
-     * argument, so every reflection-/mock-builder-constructed GUI instance
-     * that reaches a maybePerformAs() call needs a `ui_factory` (a typed,
-     * non-nullable property on the ilObjectGUI ancestor) - otherwise PHP
-     * fatals with "must not be accessed before initialization" before the
-     * mocked Activity is ever reached. What input() actually returns is
-     * irrelevant to any of these tests (the Activities never use it), so a
-     * bare mock is enough.
-     */
+    /** Every GUI reaching maybePerformAs() needs a `ui_factory` (typed property of ilObjectGUI); a bare mock suffices. */
     private function stubUiFactoryForMaybePerformAs(): \ILIAS\UI\Factory&MockObject
     {
         $ui_factory = $this->createMock(\ILIAS\UI\Factory::class);
@@ -103,15 +65,7 @@ class ilObjLanguageExtGUITest extends TestCase
         return $ui_factory;
     }
 
-    /**
-     * add_language_entry/set_language_translation_enabled are `private
-     * readonly` properties declared directly on ilObjLanguageExtGUI (not an
-     * ancestor) - on a PHPUnit mock subclass, plain `new
-     * ReflectionProperty($gui, name)` cannot locate a *readonly* property
-     * declared on the leaf class this way, so it must be looked up via the
-     * exact declaring class instead (see ilObjLanguageFolderGUITest's
-     * identical helper for 'current_user_id').
-     */
+    /** `private readonly` properties of the leaf class are not found on a PHPUnit mock subclass by a plain ReflectionProperty. */
     private function setReadonlyPropertyDeclaredOnGuiClass(
         ilObjLanguageExtGUI $gui,
         string $property_name,
@@ -132,15 +86,8 @@ class ilObjLanguageExtGUITest extends TestCase
     }
 
     /**
-     * activityErrorMessage() logs `get_class($error) . ': ' .
-     * $error->getMessage() . "\n" . $error->getTraceAsString()` via
-     * `$this->activity_error_logger` (see RendersActivityErrors) - the
-     * trace itself is environment-dependent (absolute file paths, line
-     * numbers), so only the "<class>: <message>\n" prefix is asserted
-     * here, not the full logged string. The built mock is stashed so the
-     * createGuiFor*() factories below can wire it onto the instance under
-     * test (see ilObjLanguageFolderGUITest::stubLoggerLangError() for the
-     * identical reasoning/pattern).
+     * Only the "<class>: <message>\n" prefix of the logged string is asserted, the trace is environment-dependent.
+     * The mock is wired onto the GUI by the createGuiFor*() factories.
      *
      * @param non-empty-string $expected_logged_message
      * @param class-string<\Throwable> $expected_exception_class
@@ -180,10 +127,6 @@ class ilObjLanguageExtGUITest extends TestCase
 
         return $object;
     }
-
-    // -----------------------------------------------------------------
-    // saveSettingsObject()
-    // -----------------------------------------------------------------
 
     /**
      * @return ilObjLanguageExtGUI&MockObject
@@ -225,12 +168,7 @@ class ilObjLanguageExtGUITest extends TestCase
         return $gui;
     }
 
-    /**
-     * A non-empty, non-'' "translation" POST value means the checkbox was
-     * submitted (checked) - see saveSettingsObject()'s own docblock on the
-     * production class. This also pins down that the parameters are built
-     * from $this->object->key, not some other source.
-     */
+    /** A non-empty "translation" POST value means the checkbox was checked; parameters come from $this->object->key. */
     public function testSaveSettingsObjectBuildsEnabledTrueFromANonEmptyTranslationPostValue(): void
     {
         $user = $this->createMock(ilObjUser::class);
@@ -252,11 +190,7 @@ class ilObjLanguageExtGUITest extends TestCase
         $gui->saveSettingsObject();
     }
 
-    /**
-     * An unchecked HTML checkbox is not submitted at all - a missing
-     * "translation" POST key must build enabled=false, exactly like an
-     * explicit empty string does.
-     */
+    /** An unchecked HTML checkbox is not submitted: a missing "translation" key builds enabled=false. */
     public function testSaveSettingsObjectBuildsEnabledFalseWhenTranslationPostKeyIsMissing(): void
     {
         $user = $this->createMock(ilObjUser::class);
@@ -300,11 +234,7 @@ class ilObjLanguageExtGUITest extends TestCase
         $gui->saveSettingsObject();
     }
 
-    /**
-     * Only shown if the value actually changed - exactly reproducing the
-     * extracted code's original behaviour (see the 'changed' field's own
-     * description in SetLanguageTranslationEnabled::getOutputDescription()).
-     */
+    /** Only shown if the value changed (see 'changed' in SetLanguageTranslationEnabled::getOutputDescription()). */
     public function testSaveSettingsObjectShowsNoMessageWhenResultReportsChangedFalse(): void
     {
         $user = $this->createMock(ilObjUser::class);
@@ -327,13 +257,7 @@ class ilObjLanguageExtGUITest extends TestCase
         $gui->saveSettingsObject();
     }
 
-    /**
-     * Unlike ilObjLanguageFolderGUI's write-command methods, saveSettingsObject()
-     * never redirects - it renders the settings form directly with a
-     * non-persisted message. A \Throwable error must still go through
-     * activityErrorMessage() (logged, generic message shown), never the raw
-     * message.
-     */
+    /** saveSettingsObject() never redirects; a \Throwable still goes through activityErrorMessage(). */
     public function testSaveSettingsObjectShowsGenericFailureMessageAndNeverRedirectsOnThrowableError(): void
     {
         $this->stubLoggerLangError('boom');
@@ -357,16 +281,9 @@ class ilObjLanguageExtGUITest extends TestCase
             $this->createLanguageMockReturningTopicAsIs()
         );
 
-        // saveSettingsObject() has no $ctrl collaborator injected at all
-        // here - if it ever tried to redirect, this would fatally error
-        // (Reflection-constructed instance, $ctrl never set), rather than
-        // silently passing.
+        // no $ctrl injected: a redirect would fatally error instead of silently passing
         $gui->saveSettingsObject();
     }
-
-    // -----------------------------------------------------------------
-    // saveNewEntryObject()
-    // -----------------------------------------------------------------
 
     /**
      * @return ilObjLanguageExtGUI&MockObject
@@ -413,12 +330,7 @@ class ilObjLanguageExtGUITest extends TestCase
         return $form;
     }
 
-    /**
-     * Exercises the full parameter build-up: 'module'/'identifier' straight
-     * from the form, and 'translations' as an array keyed by every
-     * installed language (via $this->lng->getInstalledLanguages()), each
-     * value trimmed from the form's own "trans_<lang_key>" field.
-     */
+    /** 'translations' is keyed by every installed language, values trimmed from the form's "trans_<lang_key>". */
     public function testSaveNewEntryObjectBuildsModuleIdentifierAndTranslationsFromFormAcrossAllInstalledLanguages(): void
     {
         $user = $this->createMock(ilObjUser::class);
@@ -484,12 +396,7 @@ class ilObjLanguageExtGUITest extends TestCase
         $gui->saveNewEntryObject();
     }
 
-    /**
-     * A \Throwable error must show the generic, logged message (via
-     * activityErrorMessage()) and redirect to "view", exactly like
-     * ilObjLanguageFolderGUI's write commands - and must not crash/continue
-     * to the success path.
-     */
+    /** A \Throwable shows the generic logged message and redirects to "view" without reaching the success path. */
     public function testSaveNewEntryObjectShowsGenericFailureMessageAndRedirectsToViewOnThrowableError(): void
     {
         $this->stubLoggerLangError('boom');
@@ -520,23 +427,11 @@ class ilObjLanguageExtGUITest extends TestCase
             $this->createLanguageMockReturningTopicAsIs(['de'])
         );
 
-        // If the `return` after the redirect were ever dropped, execution
-        // would fall through past the error branch to the success path,
-        // which would call setOnScreenMessage('success', ...) a second
-        // time and $ctrl->redirect() a second time too - both `once()`
-        // expectations above would then fail rather than silently passing.
+        // a dropped `return` after the redirect would run the success path too and fail the once() expectations
         $gui->saveNewEntryObject();
     }
 
-    /**
-     * Regression test: an input error (4xx other than 403, e.g. AddLanguageEntry's
-     * InvalidInputException for a missing/blank mandatory "de"/"en" value)
-     * must NOT redirect - unlike a generic internal failure (see
-     * testSaveNewEntryObjectShowsGenericFailureMessageAndRedirectsToViewOnThrowableError()
-     * above), the form is re-shown with the already-entered values still
-     * filled in ($form->setValuesByPost(), then addNewEntryObject($form)),
-     * exactly like the existing $form->checkInput() === false branch does.
-     */
+    /** An input error (4xx other than 403) re-shows the form with the entered values instead of redirecting. */
     public function testSaveNewEntryObjectDoesNotRedirectAndReshowsTheFormWithPostedValuesOnAnInputError(): void
     {
         $user = $this->createMock(ilObjUser::class);
@@ -553,18 +448,13 @@ class ilObjLanguageExtGUITest extends TestCase
             'A value is required for: en.'
         );
 
-        // No `true` (persisted) argument, and no redirect() at all - the
-        // form is re-rendered directly in this same request.
+        // no redirect: the form is re-rendered in this request
         $ctrl = $this->createMock(ilCtrl::class);
         $ctrl->expects($this->never())->method('redirect');
 
         $form = $this->mockCheckedFormWithInputs(['mod' => 'common', 'id' => 'sometopic']);
         $form->expects($this->once())->method('setValuesByPost');
-        // addNewEntryObject($form) (unmocked - it is the actual re-render
-        // path this test verifies is taken) calls `global $DIC["tpl"]` and
-        // renders $form->getHTML() into it - unrelated to this test's own
-        // concern (which is that saveNewEntryObject() takes this path and
-        // never redirects), so both are stubbed to harmless no-ops.
+        // addNewEntryObject($form) is the re-render path under test; its `global $DIC["tpl"]` access is stubbed
         $form->method('getHTML')->willReturn('');
         $GLOBALS['DIC'] = new \ILIAS\DI\Container();
         $GLOBALS['DIC']['tpl'] = $this->createMock(ilGlobalTemplateInterface::class);
@@ -577,10 +467,7 @@ class ilObjLanguageExtGUITest extends TestCase
             $form,
             $this->createLanguageMockReturningTopicAsIs(['de', 'en'])
         );
-        // addNewEntryObject($form) also unconditionally checks
-        // $this->http->wrapper()->query()->has("eid") before falling
-        // through to the given $form - unrelated to this test's concern,
-        // stubbed to "no such query parameter".
+        // addNewEntryObject() also checks the "eid" query parameter: stubbed as absent
         $query_wrapper = $this->createMock(\ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper::class);
         $query_wrapper->method('has')->willReturn(false);
         $wrapper_factory = $this->createMock(\ILIAS\HTTP\Wrapper\WrapperFactory::class);

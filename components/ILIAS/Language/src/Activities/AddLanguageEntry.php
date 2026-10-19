@@ -56,17 +56,14 @@ MARKDOWN
     }
 
     /**
-     * Must keep exactly `Activity::getInputDescription(FieldFactory $f): FormInput`'s signature: an
-     * optional extra parameter here would make a subclass using the plain signature a variance fatal.
-     * So the installed languages are resolved here, and may differ from perform()'s snapshot if a
-     * language is (un)installed in between; perform() fails closed for "de"/"en", no partial data.
+     * Signature must stay exactly the Activity's (no extra parameter), so the installed languages
+     * are resolved here and may differ from perform()'s snapshot; perform() then fails closed.
      */
     public function getInputDescription(FieldFactory $f): FormInput
     {
         $installed_language_keys = $this->repository->getInstalledLanguages();
 
-        // labels need the "meta" module loaded by the caller (not loaded here: it would clobber keys
-        // of other modules in the shared $lng); otherwise the placeholder "-meta_l_de-" shows
+        // labels need the "meta" module loaded by the caller; loading it here would clobber keys in the shared $lng
         $module = $f->text(
             'Module',
             'Name of the language module the new entry belongs to.'

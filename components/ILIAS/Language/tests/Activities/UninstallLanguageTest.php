@@ -44,13 +44,6 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
         return ['language_keys' => 'de'];
     }
 
-    // -----------------------------------------------------------------
-    // maybePerformAs() turning a \Throwable from perform() into a
-    // Result\Error (m5) - here, the new ambiguous-title \RuntimeException
-    // from resolveObjIdsByLanguageKey() (see below) doubles as the concrete
-    // \Throwable this class' perform() can actually raise.
-    // -----------------------------------------------------------------
-
     public function testThrowableFromWithinPerformIsTurnedIntoAResultErrorByMaybePerformAs(): void
     {
         $rbac = $this->createMock(\ilRbacSystem::class);
@@ -70,13 +63,6 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $this->assertTrue($result->isError());
         $this->assertInstanceOf(\RuntimeException::class, $result->error());
     }
-
-    // -----------------------------------------------------------------
-    // resolveObjIdsByLanguageKey() ambiguous-title guard (m1): two "lng"
-    // objects sharing the same title must reject the whole request for
-    // that title rather than silently resolving to whichever one happened
-    // to be enumerated last.
-    // -----------------------------------------------------------------
 
     public function testAmbiguousTitleRejectsTheRequestAndNeverCallsTheObjectFactoryForIt(): void
     {
@@ -102,37 +88,7 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
         }
     }
 
-    /**
-     * Regression test: the AmbiguousLanguageTitleException message embeds
-     * the ambiguous title RAW/unescaped - escaping HTML-significant
-     * characters for safe display is deliberately no longer this domain
-     * layer's job (see UninstallLanguage::perform()'s own docblock/comment
-     * above the throw), only \ILIAS\Language\RendersActivityErrors::
-     * activityErrorMessage()'s. If this message were pre-escaped here, it
-     * would end up double-escaped once it reaches that single seam.
-     *
-     * NOTE (found while adding format validation coverage for
-     * ParsesLanguageKeyList::toLanguageKeyList()): this test originally used
-     * an HTML/XSS payload ('<script>alert(1)</script>&"quoted"') as BOTH the
-     * ambiguous objects' title AND the requested 'language_keys' value -
-     * $language_keys must equal an object's title verbatim for
-     * resolveObjIdsByLanguageKey()'s ambiguity map to ever be consulted
-     * (perform() intersects the requested, already-parsed $language_keys
-     * against that map's keys). Since toLanguageKeyList() now rejects any
-     * value that is not exactly two lowercase ASCII letters BEFORE that
-     * intersection is even computed, such a value now throws
-     * InvalidInputException immediately and never reaches
-     * AmbiguousLanguageTitleException at all - this test would otherwise
-     * fail with that InvalidInputException instead of the expected
-     * AmbiguousLanguageTitleException. The dangerous-title scenario is
-     * therefore no longer reachable through perform()'s public parameter
-     * surface at all (a real, if incidental, hardening side effect of the
-     * new format check) - only a title that happens to already be a
-     * plausible two-letter language key can ever become "ambiguous" via a
-     * real request. The title/key below is changed accordingly; the
-     * "no HTML-escaping happens" assertions are kept for continuity, even
-     * though a two-letter title trivially satisfies them.
-     */
+    /** The ambiguous title is embedded raw: escaping is RendersActivityErrors' job, doing it here would double-escape. */
     public function testAmbiguousTitleExceptionMessageContainsTheRawUnescapedTitle(): void
     {
         $ambiguous_title = 'de';
@@ -156,11 +112,7 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
         }
     }
 
-    /**
-     * Via maybePerformAs(), the same ambiguous-title \RuntimeException must
-     * surface as a Result\Error, not propagate as an uncaught exception -
-     * and, again, the object factory must never be reached for it.
-     */
+    /** Via maybePerformAs() the ambiguity surfaces as Result\Error and the object factory is never reached. */
     public function testAmbiguousTitleViaMaybePerformAsReturnsResultErrorAndNeverCallsTheObjectFactory(): void
     {
         $rbac = $this->createMock(\ilRbacSystem::class);
@@ -184,12 +136,7 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $this->assertSame([], $factory_calls);
     }
 
-    /**
-     * An ambiguous title must not poison unrelated, unambiguous titles in
-     * the same $lng_objects() world/request - a genuinely unique language
-     * key coexisting with an ambiguous one must still resolve and uninstall
-     * normally.
-     */
+    /** An ambiguous title does not poison unrelated, unambiguous ones. */
     public function testUnambiguousLanguageKeyStillWorksAlongsideAnAmbiguousOneInTheSameLngObjectsList(): void
     {
         $lng_objects = static fn(): array => [
@@ -214,21 +161,7 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $this->assertSame(1, $fr->uninstallCallCount());
     }
 
-    /**
-     * Regression test for the ambiguity check being moved OUT of the
-     * per-key foreach loop and performed for ALL requested keys BEFORE any
-     * uninstall() call (see the comment directly above the
-     * AmbiguousLanguageTitleException throw in UninstallLanguage::perform():
-     * "Checked upfront, for all requested keys at once, so a request naming
-     * both an unambiguous and an ambiguous key never uninstalls the
-     * unambiguous one before rejecting the whole call"). A request naming
-     * an unambiguous key ('de') FIRST and an ambiguous one ('fr') SECOND
-     * must reject the whole request and must NOT have already uninstalled
-     * 'de' by the time 'fr' is reached - before this fix, the ambiguity
-     * check ran inline inside the loop, so 'de' (processed first) would
-     * already have been uninstalled for real before the loop reached the
-     * ambiguous 'fr' and threw.
-     */
+    /** The ambiguity check covers all requested keys before any uninstall: 'de' must stay installed when 'fr' is ambiguous. */
     public function testAnUnambiguousKeyBeforeAnAmbiguousOneIsNeverUninstalledOnceTheWholeRequestIsRejected(): void
     {
         $de = new FakeLanguageObject(is_system_language: false, is_user_language: false, is_installed: true);
@@ -251,26 +184,18 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $activity = $this->createActivity($lng_objects, $obj_language_factory);
 
         try {
-            // 'de' listed BEFORE the ambiguous 'fr' on purpose - this is the
-            // exact ordering the regression above (see this test's own
-            // docblock) requires: were the ambiguity check still inline in
-            // the per-key loop, 'de' being processed first would already
-            // have been uninstalled before 'fr' was ever reached.
+            // 'de' first on purpose
             $activity->perform(['language_keys' => 'de,fr']);
             $this->fail('Expected an AmbiguousLanguageTitleException to be thrown.');
         } catch (AmbiguousLanguageTitleException $e) {
             $this->assertStringContainsString('"fr"', $e->getMessage());
-            // 'de' was never resolved to a factory call, let alone
-            // uninstalled - the ambiguity check ran BEFORE the per-key loop.
+            // 'de' was never resolved, the check ran before the per-key loop
             $this->assertSame([], $factory_calls);
             $this->assertSame(0, $de->uninstallCallCount());
         }
     }
 
-    /**
-     * Same regression, exercised end-to-end through maybePerformAs(): the
-     * Result\Error must surface without 'de' having been uninstalled.
-     */
+    /** Same, end-to-end through maybePerformAs(). */
     public function testMaybePerformAsNeverUninstallsAnUnambiguousKeyWhenAnotherRequestedKeyIsAmbiguous(): void
     {
         $rbac = $this->createMock(\ilRbacSystem::class);
@@ -300,12 +225,7 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
     }
 
     /**
-     * @param array<string, array{system?: bool, user?: bool, installed?: bool, uninstall_return?: string}> $language_objects
-     *        Keyed by language key; each entry becomes a fake object with
-     *        the given isSystemLanguage()/isUserLanguage()/isInstalled()
-     *        answers (default false/false/true) and uninstall() return
-     *        value (default 'uninstalled') reachable from the
-     *        corresponding obj_id (assigned in iteration order, starting at 1).
+     * @param array<string, array{system?: bool, user?: bool, installed?: bool, uninstall_return?: string}> $language_objects keyed by language key
      * @return array{0: array<int, FakeLanguageObject>, 1: \Closure, 2: \Closure}
      *         [obj id => fake object, lng_objects closure, obj_language_factory closure]
      */
@@ -383,12 +303,7 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $this->assertSame(0, $fakes[1]->uninstallCallCount());
     }
 
-    /**
-     * isSystemLanguage() takes priority: a language that is somehow flagged
-     * as both the system language and the language currently in use must be
-     * reported as the system language, not as "in use" - the two branches
-     * are checked in that order in perform().
-     */
+    /** isSystemLanguage() takes priority over "in use" when both flags are set. */
     public function testSystemLanguageTakesPriorityOverUserLanguage(): void
     {
         [$fakes, $lng_objects, $obj_language_factory] = $this->buildFakeLanguageWorld([
@@ -420,17 +335,7 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $this->assertSame(0, $fakes[1]->uninstallCallCount());
     }
 
-    /**
-     * Regression test: uninstall() itself is the authority on whether the
-     * uninstallation actually happened, not merely the three outer guards
-     * (isSystemLanguage()/isUserLanguage()/isInstalled()). A language that
-     * passes all three guards (so perform() does call uninstall()) but
-     * whose uninstall() nonetheless returns '' (e.g. because a future,
-     * additional internal guard inside \ilObjLanguage::uninstall() itself
-     * rejects it) must be reported as not_installed_language_keys, never
-     * as uninstalled_language_keys - anything else would misreport a
-     * rejected uninstallation as a success.
-     */
+    /** uninstall() returning '' is the authority: reported as not_installed_language_keys, never as uninstalled. */
     public function testLanguageWhereUninstallItselfRejectsIsReportedAsNotInstalled(): void
     {
         [$fakes, $lng_objects, $obj_language_factory] = $this->buildFakeLanguageWorld([
@@ -449,12 +354,7 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $this->assertSame(1, $fakes[1]->uninstallCallCount());
     }
 
-    /**
-     * A language key with no corresponding "lng" object at all must be
-     * reported as not installed - and, crucially, $obj_language_factory
-     * must never even be invoked for it (there is no obj_id to construct it
-     * from in the first place).
-     */
+    /** A key without a "lng" object is not installed, and the object factory is never invoked for it. */
     public function testUnknownLanguageKeyIsReportedAsNotInstalledWithoutTouchingTheObjectFactory(): void
     {
         $lng_objects = static fn(): array => [];
@@ -538,14 +438,7 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $this->createActivity(static fn(): array => [], static fn(int $id) => null)->perform($parameters);
     }
 
-    /**
-     * Regression test for the perform()-parameter-type-check unification
-     * (see UninstallLanguage::perform()): a non-array $parameters must now
-     * raise the concrete InvalidInputException - not just the more general
-     * \InvalidArgumentException it extends - since perform() was switched
-     * from a plain \InvalidArgumentException to InvalidInputException for
-     * this check, matching every other Activity in this component.
-     */
+    /** Pins InvalidInputException, not just its parent \InvalidArgumentException. */
     public function testNonArrayParametersAreRejected(): void
     {
         $this->expectException(InvalidInputException::class);
@@ -629,21 +522,7 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $this->assertSame(1, $fakes[1]->uninstallCallCount());
     }
 
-    /**
-     * Contract test: a real GUI caller (class.ilObjLanguageFolderGUI.php)
-     * always builds 'language_keys' as a PHP array of strings, never a
-     * comma-separated string - and GrindsFormInput::grind(), via
-     * collectRawValues()'s call to joinListOfStringsRawValue() (see that
-     * method's own docblock: "Returns $raw_value joined into a single
-     * comma-separated string if every one of its items is a string;
-     * otherwise returns $raw_value unchanged, in whatever shape the caller
-     * passed"), must join that array into the same shape a real HTML text
-     * input would carry BEFORE it reaches the declared Text field, rather
-     * than rejecting it. This is exercised through the REAL
-     * getInputDescription()/grind() pipeline (createRealFieldsUiFactory(),
-     * not a mocked FormInput) via maybePerformAs() - the previously
-     * blocking regression this test guards against.
-     */
+    /** ilObjLanguageFolderGUI sends 'language_keys' as array of strings; the real grind() pipeline must join it. */
     public function testMaybePerformAsAcceptsAnArrayOfLanguageKeysAndUninstallsEachOne(): void
     {
         $rbac = $this->createMock(\ilRbacSystem::class);
@@ -679,24 +558,14 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
 }
 
 /**
- * Minimal stand-in for \ilObjLanguage: that class cannot be constructed or
- * meaningfully mocked in a unit test (its constructor requires the global
- * $DIC), so tests substitute this fake via UninstallLanguage's
- * $obj_language_factory closure instead. Counts uninstall() invocations so
- * tests can assert it was never called for a bucket other than
- * "uninstalled".
+ * Stand-in for \ilObjLanguage (see above); counts uninstall() calls.
  */
 final class FakeLanguageObject
 {
     private int $uninstall_calls = 0;
 
     /**
-     * @param string $uninstall_return_value What uninstall() returns - a
-     *        non-empty string mimics a real, successful uninstall; ''
-     *        mimics \ilObjLanguage::uninstall() internally rejecting the
-     *        call despite the three outer guards (isSystemLanguage()/
-     *        isUserLanguage()/isInstalled()) having let it through - e.g. a
-     *        future additional guard added inside uninstall() itself.
+     * @param string $uninstall_return_value '' mimics uninstall() rejecting the call despite the outer guards
      */
     public function __construct(
         private readonly bool $is_system_language,

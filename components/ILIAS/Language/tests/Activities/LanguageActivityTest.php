@@ -168,9 +168,6 @@ class LanguageActivityTest extends ilLanguageBaseTestCase
     }
 }
 
-/**
- * LanguageActivity whose getInputDescription() always throws; every other abstract method throws too.
- */
 final class LanguageActivityThrowingInputDescriptionTestDouble extends LanguageActivity
 {
     public function __construct(

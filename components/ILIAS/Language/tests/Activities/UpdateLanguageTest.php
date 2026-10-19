@@ -105,13 +105,7 @@ class UpdateLanguageTest extends ActivityWithPerformResultContractTestCase
         $this->assertSame(['fr'], $result['not_installed_language_keys']);
     }
 
-    /**
-     * getAvailableLanguagesForInstallation() (the $known_languages/$db_languages
-     * argument) and getLocalLanguages() ($local_language_keys) must be passed
-     * to registerInstalledLanguage() in exactly this order - both empty (or
-     * equal) values would make a swap of the two arguments invisible, so
-     * this test deliberately uses distinguishable shapes for each.
-     */
+    /** registerInstalledLanguage() gets the available and the local languages in this order; distinguishable shapes expose a swap. */
     public function testRegisterInstalledLanguageReceivesKnownLanguagesAndLocalLanguageKeysInTheCorrectOrder(): void
     {
         $setup_language = $this->createSetupLanguageMock(
@@ -252,12 +246,7 @@ class UpdateLanguageTest extends ActivityWithPerformResultContractTestCase
         $this->createActivity($this->createSetupLanguageMock([], [], []))->perform($parameters);
     }
 
-    /**
-     * Regression test for the perform()-parameter-type-check unification
-     * (see UpdateLanguage::perform()): a non-array $parameters must now
-     * raise the concrete InvalidInputException - not just the more general
-     * \InvalidArgumentException it extends.
-     */
+    /** Pins InvalidInputException, not just its parent \InvalidArgumentException. */
     public function testNonArrayParametersAreRejected(): void
     {
         $this->expectException(InvalidInputException::class);
@@ -339,19 +328,7 @@ class UpdateLanguageTest extends ActivityWithPerformResultContractTestCase
         $this->assertSame(['de'], $result->value()['updated_language_keys']);
     }
 
-    /**
-     * Contract test: a real GUI caller (class.ilObjLanguageFolderGUI.php)
-     * always builds 'language_keys' as a PHP array of strings, never a
-     * comma-separated string - and GrindsFormInput::grind() (via its
-     * private joinListOfStringsRawValue() helper - see that method's own
-     * docblock) must join that array into the same shape a real HTML text
-     * input would carry BEFORE
-     * it reaches the declared Text field, rather than rejecting it. This
-     * is exercised through the REAL getInputDescription()/grind() pipeline
-     * (createRealFieldsUiFactory(), not a mocked FormInput) via
-     * maybePerformAs() - the previously blocking regression this test
-     * guards against.
-     */
+    /** ilObjLanguageFolderGUI sends 'language_keys' as array of strings; the real grind() pipeline must join it. */
     public function testMaybePerformAsAcceptsAnArrayOfLanguageKeysAndUpdatesEachOne(): void
     {
         $rbac = $this->createMock(\ilRbacSystem::class);
