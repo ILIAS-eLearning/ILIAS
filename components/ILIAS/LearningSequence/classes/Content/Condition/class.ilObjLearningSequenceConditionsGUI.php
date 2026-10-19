@@ -222,7 +222,7 @@ class ilObjLearningSequenceConditionsGUI implements ilCtrlSecurityInterface
     private function buildConditionsTable(): Panel
     {
         $df = new Factory();
-        $af = new \ILIAS\UI\Implementation\Component\Table\Action\Factory();
+        $af = $this->ui_factory->table()->action();
 
         // single action - edit
         $this->ctrl->setParameterByClass(
