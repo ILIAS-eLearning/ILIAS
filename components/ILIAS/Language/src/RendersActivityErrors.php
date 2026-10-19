@@ -53,7 +53,9 @@ trait RendersActivityErrors
     /** A 4xx other than 403: the call itself was rejected, its message is meant for the caller. */
     private function isActivityInputError(\Throwable $error): bool
     {
-        return $error->getCode() >= 400 && $error->getCode() < 500 && $error->getCode() !== 403;
+        $code = $error->getCode();
+
+        return is_int($code) && $code >= 400 && $code < 500 && $code !== 403;
     }
 
     /**

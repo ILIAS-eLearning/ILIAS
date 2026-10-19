@@ -28,7 +28,9 @@ final class Failure
 {
     public static function of(\Throwable $e): \Exception
     {
-        if ($e instanceof \Exception && $e->getCode() >= 400 && $e->getCode() < 500) {
+        // is_int(): a PDOException carries its SQLSTATE as string, and '42S02' compares as 4xx
+        $code = $e->getCode();
+        if ($e instanceof \Exception && is_int($code) && $code >= 400 && $code < 500) {
             return $e;
         }
 

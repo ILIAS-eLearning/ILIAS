@@ -99,20 +99,20 @@ class LanguageActivityTest extends ilLanguageBaseTestCase
         $this->assertInstanceOf(\LogicException::class, $error->getPrevious());
     }
 
-    /** @return array<string, array{0: int}> */
+    /** @return array<string, array{0: ?int}> */
     public static function unknownUserIdProvider(): array
     {
-        return ['zero' => [0], 'negative' => [-1], 'anonymous' => [13]];
+        return ['zero' => [0], 'negative' => [-1], 'anonymous' => [null]];
     }
 
-    /** No RBAC lookup for a non-user: the anonymous user (13 in ILIAS) must not pass on its roles. */
+    /** No RBAC lookup for a non-user: the anonymous user (null: ANONYMOUS_USER_ID) must not pass on its roles. */
     #[DataProvider('unknownUserIdProvider')]
-    public function testIsAllowedToPerformRefusesNonUsersWithoutAskingRbac(int $usr_id): void
+    public function testIsAllowedToPerformRefusesNonUsersWithoutAskingRbac(?int $usr_id): void
     {
         if (!defined('ANONYMOUS_USER_ID')) {
             define('ANONYMOUS_USER_ID', 13);
         }
-        $this->assertSame(13, ANONYMOUS_USER_ID);
+        $usr_id ??= ANONYMOUS_USER_ID;
 
         $rbac_system = $this->createMock(\ilRbacSystem::class);
         $rbac_system->expects($this->never())->method('checkAccessOfUser');
@@ -184,7 +184,7 @@ final class LanguageActivityThrowingInputDescriptionTestDouble extends LanguageA
 
     public function getDescription(): Text\SimpleDocumentMarkdown
     {
-        return $this->markdown('Test double for LanguageActivity::maybePerformAs().');
+        return $this->data->text()->markdown()->simpleDocument('Test double for LanguageActivity::maybePerformAs().');
     }
 
     public function getInputDescription(FieldFactory $f): FormInput
@@ -229,7 +229,7 @@ final class LanguageActivityPerformEchoTestDouble extends LanguageActivity
 
     public function getDescription(): Text\SimpleDocumentMarkdown
     {
-        return $this->markdown('Test double for the usr_id precedence in maybePerformAs().');
+        return $this->data->text()->markdown()->simpleDocument('Test double for the usr_id precedence in maybePerformAs().');
     }
 
     public function getInputDescription(FieldFactory $f): FormInput

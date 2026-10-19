@@ -25,14 +25,8 @@ use ILIAS\UI\Component\Input\Factory as InputFactory;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
- * UninstallLanguage has no ilSetupLanguage collaborator (unlike
- * InstallLanguage/UpdateLanguage) - instead it resolves language keys to
- * objects via two closures, $lng_objects and $obj_language_factory. The
- * object returned by $obj_language_factory must behave like \ilObjLanguage
- * (isSystemLanguage(), isUserLanguage(), isInstalled(), uninstall()), but
- * \ilObjLanguage itself cannot be constructed or meaningfully mocked in a
- * unit test (its constructor needs the global $DIC) - so tests use a small
- * fake object instead, injected through $obj_language_factory.
+ * UninstallLanguage works on language objects behind a mocked RepositoryProvider, answering from small fake
+ * objects (\ilObjLanguage needs the global $DIC) via LanguageObjectRepositoryProvider.
  */
 class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
 {

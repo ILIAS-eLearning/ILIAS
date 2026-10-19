@@ -56,7 +56,21 @@ class FailureTest extends TestCase
             'above 4xx (600)' => [new \RuntimeException('secret', 600)],
             'Error with 4xx code' => [new \TypeError('secret', 400)],
             'plain Error' => [new \Error('secret')],
+            'PDOException, SQLSTATE 42S02 as string code' => [self::pdoExceptionWithSqlState('42S02')],
+            'PDOException, SQLSTATE 42S22 as string code' => [self::pdoExceptionWithSqlState('42S22')],
         ];
+    }
+
+    /** PDOException carries its SQLSTATE as string code, which compares numerically against 400..499 in PHP 8. */
+    private static function pdoExceptionWithSqlState(string $sql_state): \PDOException
+    {
+        return new class ('SQLSTATE: secret table', $sql_state) extends \PDOException {
+            public function __construct(string $message, string $sql_state)
+            {
+                parent::__construct($message);
+                $this->code = $sql_state;
+            }
+        };
     }
 
     #[DataProvider('defectProvider')]
