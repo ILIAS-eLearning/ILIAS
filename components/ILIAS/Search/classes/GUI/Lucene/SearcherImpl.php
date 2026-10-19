@@ -27,6 +27,7 @@ use ilGlobalTemplateInterface;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Search\Presentation\Result\ResultPresenter;
 use ILIAS\UICore\GlobalTemplate;
+use ILIAS\Refinery\Factory as Refinery;
 use ilLanguage;
 use ilSearchSettings;
 use ilLuceneSearchResultFilter;
@@ -44,7 +45,8 @@ class SearcherImpl implements Searcher
         protected ilGlobalTemplateInterface $tpl,
         protected UIRenderer $ui_renderer,
         protected ResultPresenter $presenter,
-        protected ilLanguage $lng
+        protected ilLanguage $lng,
+        protected Refinery $refinery
     ) {
     }
 
@@ -182,7 +184,7 @@ class SearcherImpl implements Searcher
                 GlobalTemplate::MESSAGE_TYPE_INFO,
                 sprintf(
                     $this->lng->txt('search_no_match_hint'),
-                    $term
+                    $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform($term)
                 )
             );
         } else {
