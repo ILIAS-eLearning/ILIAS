@@ -1205,6 +1205,11 @@ class ilObjLanguageExt extends ilObjLanguage
         $shipped_migrated = self::readShippedMigratedModules($a_lang_key);
         $a_values = self::withPluralFormKeys($a_values, $shipped_migrated, $lng->separator);
         $a_remarks = self::withPluralFormKeys($a_remarks, $shipped_migrated, $lng->separator);
+        $skipped_modules = [];
+        if ($merge_onto_current_content) {
+            $a_values = self::withoutUnreadableModules($a_lang_key, $a_values, $lng->separator, $skipped_modules);
+            $a_remarks = self::withoutUnreadableModules($a_lang_key, $a_remarks, $lng->separator, $skipped_modules);
+        }
         [$file_values, $file_comments] = self::shippedValuesAndComments(
             ilLanguageFile::_getGlobalLanguageFile($a_lang_key),
             $shipped_migrated
@@ -1333,7 +1338,7 @@ class ilObjLanguageExt extends ilObjLanguage
         ));
 
         // save the serialized module entries in lng_modules
-        $modules_with_unwritten_overlay = [];
+        $modules_with_unwritten_overlay = $skipped_modules;
         foreach ($save_array as $module => $entries) {
             $module = (string) $module;
             $module_plural_rows = $plural_rows[$module] ?? [];
@@ -1555,10 +1560,9 @@ class ilObjLanguageExt extends ilObjLanguage
     }
 
     /**
-     * The content a partial save/delete is applied to, as served by ilLanguage: for a module maintained in PO files
-     * its shipped state plus overlay delta (see MigratedLanguageFileSync::loadEditableModuleTranslations()), never
-     * its database rows - `null` (reported) if that cannot be read, applying a partial change to nothing would
-     * reset every not saved entry to shipped. For other modules the lng_modules row, `[]` if none.
+     * The content a partial save/delete is applied to: for a PO module its shipped state plus overlay, never its
+     * DB rows; `null` (reported) if unreadable, as applying to nothing would reset every unsaved entry.
+     * Other modules: the lng_modules row, `[]` if none.
      *
      * Must be called under the module's overlay lock (see withModuleLock()).
      *
@@ -1575,7 +1579,8 @@ class ilObjLanguageExt extends ilObjLanguage
                     $a_lang_key,
                     $module,
                     MigratedLanguageFilePaths::resolveClientDataDir(ILIAS_ABSOLUTE_PATH),
-                    ILIAS_ABSOLUTE_PATH
+                    ILIAS_ABSOLUTE_PATH,
+                    true
                 );
             } catch (\Throwable $t) {
                 MigratedTranslations::reportProblem(sprintf(
@@ -1609,6 +1614,37 @@ class ilObjLanguageExt extends ilObjLanguage
             : null;
 
         return is_array($content) ? $content : [];
+    }
+
+    /**
+     * Drops the entries of modules whose content cannot be read (see currentModuleContent()), before anything is
+     * written.
+     *
+     * @param array<string, mixed> $entries module.separator.identifier => value or remark
+     * @param list<string> $skipped_modules gets the dropped modules
+     * @return array<string, mixed>
+     */
+    private static function withoutUnreadableModules(string $a_lang_key, array $entries, string $separator, array &$skipped_modules): array
+    {
+        $modules = [];
+        foreach (array_keys($entries) as $key) {
+            $keys = explode($separator, (string) $key);
+            if (count($keys) === 2) {
+                $modules[$keys[0]] = true;
+            }
+        }
+        foreach (array_keys($modules) as $module) {
+            $module = (string) $module;
+            if (!in_array($module, $skipped_modules, true) && self::currentModuleContent($a_lang_key, $module) === null) {
+                $skipped_modules[] = $module;
+            }
+        }
+
+        return array_filter(
+            $entries,
+            static fn(string|int $key): bool => !in_array(explode($separator, (string) $key)[0], $skipped_modules, true),
+            ARRAY_FILTER_USE_KEY
+        );
     }
 
     /**
@@ -1648,6 +1684,7 @@ class ilObjLanguageExt extends ilObjLanguage
 
         $delete_array = array();
         $modules_with_unwritten_overlay = [];
+        $a_values = self::withoutUnreadableModules($a_lang_key, $a_values, $lng->separator, $modules_with_unwritten_overlay);
         $shipped_migrated = null;
         $shipped_by_module = [];
         $plural_rows = [];

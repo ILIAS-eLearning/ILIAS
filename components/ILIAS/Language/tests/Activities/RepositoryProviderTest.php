@@ -151,10 +151,9 @@ class RepositoryProviderTest extends \ilLanguageBaseTestCase
         }
     }
 
-    /** An unreadable overlay is reported and the shipped values are the base, not the database. */
-    public function testAnUnreadableOverlayLeavesTheShippedValuesAsBase(): void
+    /** The lookup reads strictly: an unreadable overlay must not silently fall back to the shipped values. */
+    public function testAnUnreadableOverlayMakesTheLookupFailInsteadOfFallingBack(): void
     {
-        $this->expectErrorLog();
         $fixture_dir = $this->shippedPoDirectory('common', ['existing' => 'Veraltet']);
         $client_data_dir = sys_get_temp_dir() . '/ilias_provider_test_' . bin2hex(random_bytes(4));
         $overlay_dir = $client_data_dir . '/lang/common/de';
@@ -162,10 +161,10 @@ class RepositoryProviderTest extends \ilLanguageBaseTestCase
         file_put_contents($overlay_dir . '/common_de.po', "msgid \"kaputt\n");
 
         try {
-            $db = $this->dbFetching(null, [['identifier' => 'existing', 'value' => 'aus lng_data']]);
-            $provider = $this->provider(db: $db, manager: $this->managerFor($fixture_dir, 'common'));
+            $provider = $this->provider(db: $this->dbNeverQueried(), manager: $this->managerFor($fixture_dir, 'common'));
 
-            $this->assertSame(['existing' => 'Veraltet'], $this->currentModuleEntries($provider, $client_data_dir));
+            $this->expectException(\RuntimeException::class);
+            $this->currentModuleEntries($provider, $client_data_dir);
         } finally {
             \MigratedPoFixture::removeDirectory($fixture_dir);
             \MigratedPoFixture::removeDirectory($client_data_dir);
@@ -194,6 +193,55 @@ class RepositoryProviderTest extends \ilLanguageBaseTestCase
         } finally {
             \MigratedPoFixture::removeDirectory($fixture_dir);
         }
+    }
+
+    /** @return array<string, array{0: bool, 1: bool}> */
+    public static function unreadableContentCases(): array
+    {
+        return [
+            'readable shipped po and no overlay' => [false, false],
+            'unreadable shipped po' => [true, false],
+            'unreadable overlay' => [false, true],
+        ];
+    }
+
+    /** A module maintained in PO files with an unreadable shipped `.po` or overlay must not be written; it is reported. */
+    #[DataProvider('unreadableContentCases')]
+    public function testHasUnreadableContentIsTrueAndReportedOnlyForAnUnreadablePoOrOverlay(bool $broken_po, bool $broken_overlay): void
+    {
+        if ($broken_po || $broken_overlay) {
+            $this->expectErrorLog();
+        }
+        $fixture_dir = $this->shippedPoDirectory('common', ['existing' => 'Veraltet']);
+        $client_data_dir = sys_get_temp_dir() . '/ilias_provider_test_' . bin2hex(random_bytes(4));
+        if ($broken_po) {
+            file_put_contents($fixture_dir . '/common_de.po', "msgid \"kaputt\n");
+        }
+        if ($broken_overlay) {
+            mkdir($client_data_dir . '/lang/common/de', 0775, true);
+            file_put_contents($client_data_dir . '/lang/common/de/common_de.po', "msgid \"kaputt\n");
+        }
+
+        try {
+            $provider = $this->provider(
+                manager: $this->managerFor($fixture_dir, 'common'),
+                client_data_dir_resolver: static fn(): string => $client_data_dir
+            );
+
+            $unreadable = $broken_po || $broken_overlay;
+            $this->assertSame($unreadable, $provider->hasUnreadableContent('de', 'common'));
+            $log_file = (string) ini_get('error_log');
+            $logged = is_file($log_file) ? (string) file_get_contents($log_file) : '';
+            $this->assertSame($unreadable, str_contains($logged, 'cannot be read, the new entry is not added'));
+        } finally {
+            \MigratedPoFixture::removeDirectory($fixture_dir);
+            \MigratedPoFixture::removeDirectory($client_data_dir);
+        }
+    }
+
+    public function testHasUnreadableContentIsFalseForAModuleNotMaintainedInPoFiles(): void
+    {
+        $this->assertFalse($this->provider()->hasUnreadableContent('de', 'common'));
     }
 
     /**

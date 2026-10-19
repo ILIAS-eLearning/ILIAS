@@ -118,6 +118,34 @@ class AddLanguageEntryWritesTest extends \ilLanguageBaseTestCase
     }
 
     /**
+     * A language whose module content cannot be read is skipped before anything is written (not even lng_data) and
+     * reported as unwritten instead of added; the other languages are written.
+     */
+    public function testALanguageWithUnreadableModuleContentIsReportedUnwrittenAndNeverWritten(): void
+    {
+        $calls = [];
+        $activity = $this->createActivity(
+            ['de', 'en', 'fr'],
+            replace_lang_entry: $this->spyReplaceLangEntry($calls),
+            update_module_cache: $this->spyUpdateModuleCache($calls),
+            has_unreadable_content: static fn(string $lang_key, string $module): bool => $lang_key === 'en'
+        );
+
+        $result = $activity->perform([
+            'module' => 'common',
+            'identifier' => 'new_topic',
+            'translations' => ['de' => 'Hallo', 'en' => 'Hello', 'fr' => ''],
+            'usr_id' => 6,
+        ]);
+
+        $this->assertSame(['de'], $result['added_language_keys']);
+        $this->assertSame(['fr'], $result['skipped_empty_language_keys']);
+        $this->assertSame(['en'], $result['overlay_write_failed_language_keys']);
+        $this->assertSame(['de'], array_column($calls['replace'], 2));
+        $this->assertSame(['de'], array_column($calls['cache'], 0));
+    }
+
+    /**
      * A skipped language never reaches update_module_cache(), so it is never listed as unwritten.
      */
     public function testASkippedLanguageIsNeverListedAsHavingAnUnwrittenOverlay(): void

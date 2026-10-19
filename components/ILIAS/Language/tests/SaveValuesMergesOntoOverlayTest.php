@@ -258,9 +258,11 @@ class SaveValuesMergesOntoOverlayTest extends ilLanguageBaseTestCase
             }
         );
 
-        ilObjLanguageExt::_deleteValues('de', ['ctest2' . $lng->separator . 'greeting' => 'irrelevant']);
+        $unwritten = ilObjLanguageExt::_deleteValues('de', ['ctest2' . $lng->separator . 'greeting' => 'irrelevant']);
 
-        $this->assertSame(['farewell' => 'Tschüss'], $captured);
+        // not onto the shipped content alone either: that would drop the overlay's other local changes
+        $this->assertNull($captured);
+        $this->assertSame(['ctest2'], $unwritten);
     }
 
     /**

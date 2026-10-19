@@ -328,6 +328,31 @@ class RepositoryProvider
         $this->settings->setPageTranslationEnabled($lang_key, $enabled);
     }
 
+    /** Reports a module whose shipped `.po` or overlay cannot be read; nothing may be written for it then. */
+    public function hasUnreadableContent(string $lang_key, string $module): bool
+    {
+        try {
+            MigratedLanguageFileSync::loadEditableModuleTranslations(
+                $this->language_file_directory_manager,
+                $lang_key,
+                $module,
+                ($this->client_data_dir_resolver)(),
+                $this->installation_root->getPath(),
+                true
+            );
+        } catch (\Throwable $t) {
+            MigratedTranslations::reportProblem(sprintf(
+                'The language file of module "%s" for "%s" cannot be read, the new entry is not added to it: %s',
+                $module,
+                $lang_key,
+                $t->getMessage()
+            ));
+            return true;
+        }
+
+        return false;
+    }
+
     private function shippedModuleFile(string $lang_key, string $module): ?string
     {
         return MigratedLanguageFileSync::findShippedModuleFiles(
@@ -363,7 +388,8 @@ class RepositoryProvider
             $lang_key,
             $module,
             $client_data_dir,
-            $this->installation_root->getPath()
+            $this->installation_root->getPath(),
+            true
         );
         if ($content !== null) {
             return array_map(static fn(array $entry): string => $entry['value'], $content);
