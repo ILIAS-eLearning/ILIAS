@@ -433,8 +433,9 @@ class ShippedTranslationsBuildTest extends TestCase
             'written before the list existed' => [[], null],
             'null' => [['shipped' => null], null],
             'invalid and non-string entries are dropped' => [['shipped' => ['mpa', 'Bad Name', 5, '../x', 'mpb']], ['mpa', 'mpb']],
-            'not a list' => [['shipped' => ['a' => 'mpa']], 'invalid'],
-            'a string' => [['shipped' => 'mpa'], 'invalid'],
+            // only the list is lost: the runtime falls back to the templates
+            'not a list' => [['shipped' => ['a' => 'mpa']], null],
+            'a string' => [['shipped' => 'mpa'], null],
         ];
     }
 
