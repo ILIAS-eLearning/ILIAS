@@ -27,6 +27,7 @@ use ILIAS\Language\Setup\InstalledLanguageDatabaseRepository;
 use ILIAS\Language\Setup\LanguageInstallationManager;
 use ILIAS\Language\Setup\TranslationCache;
 use ILIAS\Language\Setup\NullTranslationCache;
+use ILIAS\Language\Setup\FixedInstallationRoot;
 
 /**
  * language handling for setup
@@ -93,7 +94,7 @@ class ilSetupLanguage extends ilLanguage
         return new InstalledLanguageDatabaseRepository(
             $this->db(),
             $this->language_file_directory_manager,
-            $this->absolute_path
+            new FixedInstallationRoot($this->absolute_path)
         );
     }
 

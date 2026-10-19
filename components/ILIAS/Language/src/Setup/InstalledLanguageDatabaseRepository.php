@@ -38,7 +38,7 @@ class InstalledLanguageDatabaseRepository implements InstalledLanguageRepository
     public function __construct(
         private readonly ?\ilDBInterface $db,
         private readonly LanguageFileDirectoryManager $language_file_directory_manager,
-        private readonly string $absolute_path,
+        private readonly InstallationRoot $installation_root,
     ) {
     }
 
@@ -148,7 +148,7 @@ class InstalledLanguageDatabaseRepository implements InstalledLanguageRepository
         // chdir() must be undone even on exceptions, see LanguageInstallationManager::insertLanguage()
         try {
             foreach ($this->language_file_directory_manager->getCustomizingDirectories() as $directory) {
-                $path = $this->absoluteDirectoryPath($this->absolute_path, $directory);
+                $path = $this->absoluteDirectoryPath($this->installation_root->getPath(), $directory);
                 if (is_dir($path)) {
                     $d = dir($path);
                     chdir($path);
@@ -176,7 +176,7 @@ class InstalledLanguageDatabaseRepository implements InstalledLanguageRepository
         // chdir() must be undone even on exceptions, see LanguageInstallationManager::insertLanguage()
         try {
             foreach ($this->language_file_directory_manager->getDirectories() as $directory) {
-                $path = $this->absoluteDirectoryPath($this->absolute_path, $directory);
+                $path = $this->absoluteDirectoryPath($this->installation_root->getPath(), $directory);
                 if (is_dir($path)) {
                     $d = dir($path);
                     chdir($path);
@@ -202,7 +202,7 @@ class InstalledLanguageDatabaseRepository implements InstalledLanguageRepository
         $language_keys = array_values(array_unique($language_keys));
 
         foreach ($this->language_file_directory_manager->getCustomizingDirectories() as $directory) {
-            $path = $this->absoluteDirectoryPath($this->absolute_path, $directory);
+            $path = $this->absoluteDirectoryPath($this->installation_root->getPath(), $directory);
             if (!is_dir($path)) {
                 continue;
             }
@@ -269,7 +269,7 @@ class InstalledLanguageDatabaseRepository implements InstalledLanguageRepository
     ): bool {
         $working_dir = getcwd();
         $lang_file = "ilias_" . $lang_key . ".lang" . $directory->getSuffix();
-        $path = $this->absoluteDirectoryPath($this->absolute_path, $directory);
+        $path = $this->absoluteDirectoryPath($this->installation_root->getPath(), $directory);
 
         try {
             if (!is_dir($path)) {

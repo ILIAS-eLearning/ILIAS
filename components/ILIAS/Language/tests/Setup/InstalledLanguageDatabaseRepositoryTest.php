@@ -22,6 +22,7 @@ use ILIAS\Language\ComponentTranslation\CustomizingLanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
 use ILIAS\Language\ComponentTranslation\MainLanguageFileDirectory;
 use ILIAS\Language\Setup\InstalledLanguageDatabaseRepository;
+use ILIAS\Language\Setup\FixedInstallationRoot;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -77,7 +78,7 @@ class InstalledLanguageDatabaseRepositoryTest extends TestCase
         return new InstalledLanguageDatabaseRepository(
             $db,
             new LanguageFileDirectoryManager(new CustomizingLanguageFileDirectory(), new MainLanguageFileDirectory()),
-            $absolute_path
+            new FixedInstallationRoot($absolute_path)
         );
     }
 
@@ -443,7 +444,7 @@ class InstalledLanguageDatabaseRepositoryTest extends TestCase
         $repository = new InstalledLanguageDatabaseRepository(
             $this->createReadDatabaseMock(),
             $manager,
-            '/does/not/matter/for/this/test'
+            new FixedInstallationRoot('/does/not/matter/for/this/test')
         );
 
         $this->assertFalse($repository->checkLocalLanguageFile('de'));
