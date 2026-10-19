@@ -36,7 +36,7 @@ copyright_custom#:#Custom
 copyright_custom_info#:#Choose a custom copyright which will be applied to all unzipped files of this archive.
 copyright_inherited#:#Inherited
 copyright_inherited_info#:#Apply the copyright of the zip archive to its unzipped files. <br \>Copyright of zip archive: %s.
-could_not_create_file_objs#:#An error occurred while creating your file objects. Please contact the administrators of this platform.
+could_not_create_file_objs#:#An error occurred while creating your file objects. Please contact this installation's technical support.
 de_activate_icon#:#Activate / Deactivate
 download_ascii_filename#:#Allow Only ASCII Characters in Downloaded Filenames
 download_ascii_filename_info#:#Downloaded files should only have ASCII-characters in their filename. Deactivate to use all characters.
