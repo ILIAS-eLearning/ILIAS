@@ -36,7 +36,7 @@ copyright_custom#:#Benutzerdefiniert
 copyright_custom_info#:#Lizenz auswählen, welche auf alle entpackten Dateien dieses Archivs angewandt wird.
 copyright_inherited#:#Vererbt
 copyright_inherited_info#:#Lizenz des Zip-Archivs auf seine entpackten Dateien anwenden. <br \>Lizenz des Zip-Archivs: %s.
-could_not_create_file_objs#:#Beim Erstellen der Dateiobjekte ist ein Fehler aufgetreten, wenden Sie sich an die Administrierenden der Plattform.
+could_not_create_file_objs#:#Beim Erstellen der Dateiobjekte ist ein Fehler aufgetreten. Bitte wenden Sie sich an die technische Betreuung dieser Installation.
 de_activate_icon#:#(De-)Aktivieren
 download_ascii_filename#:#Nur ASCII-Zeichen im Download
 download_ascii_filename_info#:#Die Namen heruntergeladener Dateien enthalten nur ASCII-Zeichen und können so auf allen Systemen problemlos genutzt werden. Andere Zeichen werden durch Unterstriche ersetzt. Auf Installationen, die Dateinamen mit nicht-lateinischen Schriftzeichen nutzen, muss diese Option deaktiviert werden.
