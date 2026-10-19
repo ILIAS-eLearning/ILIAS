@@ -20,7 +20,6 @@ use ILIAS\Language\Activities\InstallLanguage;
 use ILIAS\Language\Activities\InvalidInputException;
 use ILIAS\UI\Component\Input\Field\Text;
 use ILIAS\UI\Component\Input\Field\Select;
-use ILIAS\Language\Language;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -558,13 +557,9 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
 
         $setup_language = $this->createSetupLanguageMock([], [], []);
         $setup_language->expects($this->never())->method('getAvailableLanguagesForInstallation');
-        $language = $this->createMock(Language::class);
-        $language->method('txt')->with('msg_no_perm_write')->willReturn('no write permission');
-
         $result = $this->createActivity(
             $setup_language,
-            $rbac,
-            $language
+            $rbac
         )->maybePerformAs($this->createRealFieldsUiFactory()->input(), 6, ['language_keys' => 'de', 'mode' => InstallLanguage::MODE_INSTALL]);
 
         $this->assertTrue($result->isError());
@@ -573,10 +568,8 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
     private function createActivity(
         ilSetupLanguage $setup_language,
         ?\ilRbacSystem $rbac = null,
-        ?Language $language = null
     ): InstallLanguage {
         return new InstallLanguage(
-            $language ?? $this->createMock(Language::class),
             $this->rbacOf($rbac ?? $this->createMock(\ilRbacSystem::class)),
             $setup_language,
             $this->languageFolder()

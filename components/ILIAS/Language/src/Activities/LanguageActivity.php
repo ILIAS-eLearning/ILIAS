@@ -25,7 +25,6 @@ use ILIAS\Component\Activities\ActivityImpl;
 use ILIAS\Component\Activities\ActivityType;
 use ILIAS\Data\Result;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Language\Language;
 use ILIAS\Language\LanguageFolder;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 
@@ -33,16 +32,12 @@ abstract class LanguageActivity extends ActivityImpl
 {
     use GrindsFormInput;
 
-    protected Language $lng;
-
     /** @param RBAC|null $rbac null only for forSetup(); isAllowedToPerform() then throws. */
     public function __construct(
-        Language $language,
         private readonly ?RBAC $rbac,
         private readonly LanguageFolder $language_folder,
         protected readonly DataFactory $data = new DataFactory(),
     ) {
-        $this->lng = $language;
     }
 
     public function getType(): ActivityType

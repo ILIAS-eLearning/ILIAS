@@ -24,7 +24,6 @@ use ILIAS\AccessControl\PublicInterface\RBAC;
 use ILIAS\Data\Description;
 use ILIAS\Data\Text;
 use ILIAS\Language\Activities\LanguageActivity;
-use ILIAS\Language\Language;
 use ILIAS\Language\LanguageFolder;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
@@ -49,7 +48,6 @@ class LanguageActivityTest extends ilLanguageBaseTestCase
         $rbac->expects($this->never())->method('checkAccessOfUser');
 
         $activity = new LanguageActivityThrowingInputDescriptionTestDouble(
-            $this->createMock(Language::class),
             $this->rbacOf($rbac),
             $this->languageFolder()
         );
@@ -69,7 +67,6 @@ class LanguageActivityTest extends ilLanguageBaseTestCase
     public function testATypeErrorWhileBuildingTheInputDescriptionIsMaskedAsA500ResultError(): void
     {
         $activity = new LanguageActivityThrowingInputDescriptionTestDouble(
-            $this->createMock(Language::class),
             $this->rbacOf($this->createMock(\ilRbacSystem::class)),
             $this->languageFolder(),
             throw_type_error: true,
@@ -87,7 +84,6 @@ class LanguageActivityTest extends ilLanguageBaseTestCase
     public function testADefectThrownByGrindIsMaskedAsA500ResultError(): void
     {
         $activity = new LanguageActivityPerformEchoTestDouble(
-            $this->createMock(Language::class),
             $this->rbacOf($this->createMock(\ilRbacSystem::class)),
             $this->languageFolder(),
             $this->createMock(FormInput::class),
@@ -118,7 +114,6 @@ class LanguageActivityTest extends ilLanguageBaseTestCase
         $rbac_system->expects($this->never())->method('checkAccessOfUser');
 
         $activity = new LanguageActivityPerformEchoTestDouble(
-            $this->createMock(Language::class),
             $this->rbacOf($rbac_system),
             $this->languageFolder()
         );
@@ -132,7 +127,6 @@ class LanguageActivityTest extends ilLanguageBaseTestCase
         $rbac_system->expects($this->never())->method('checkAccessOfUser');
 
         $activity = new LanguageActivityPerformEchoTestDouble(
-            $this->createMock(Language::class),
             $this->rbacOf($rbac_system),
             $this->languageFolder()
         );
@@ -152,7 +146,6 @@ class LanguageActivityTest extends ilLanguageBaseTestCase
         $rbac->method('checkAccessOfUser')->willReturn(true);
 
         $activity = new LanguageActivityPerformEchoTestDouble(
-            $this->createMock(Language::class),
             $this->rbacOf($rbac),
             $this->languageFolder()
         );
@@ -171,12 +164,11 @@ class LanguageActivityTest extends ilLanguageBaseTestCase
 final class LanguageActivityThrowingInputDescriptionTestDouble extends LanguageActivity
 {
     public function __construct(
-        Language $language,
         RBAC $rbac,
         LanguageFolder $language_folder,
         private readonly bool $throw_type_error = false,
     ) {
-        parent::__construct($language, $rbac, $language_folder);
+        parent::__construct($rbac, $language_folder);
     }
 
     public function getDescription(): Text\SimpleDocumentMarkdown
@@ -216,12 +208,11 @@ final class LanguageActivityThrowingInputDescriptionTestDouble extends LanguageA
 final class LanguageActivityPerformEchoTestDouble extends LanguageActivity
 {
     public function __construct(
-        Language $language,
         RBAC $rbac,
         LanguageFolder $language_folder,
         private readonly ?FormInput $description = null,
     ) {
-        parent::__construct($language, $rbac, $language_folder);
+        parent::__construct($rbac, $language_folder);
     }
 
     public function getDescription(): Text\SimpleDocumentMarkdown

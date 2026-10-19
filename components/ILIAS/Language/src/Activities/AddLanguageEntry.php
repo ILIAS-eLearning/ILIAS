@@ -31,12 +31,12 @@ use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 class AddLanguageEntry extends LanguageActivity
 {
     public function __construct(
-        Language $language,
+        private readonly Language $lng,
         RBAC $rbac,
         LanguageFolder $language_folder,
         private readonly RepositoryProvider $repository,
     ) {
-        parent::__construct($language, $rbac, $language_folder);
+        parent::__construct($rbac, $language_folder);
     }
 
     public function getDescription(): Text\SimpleDocumentMarkdown

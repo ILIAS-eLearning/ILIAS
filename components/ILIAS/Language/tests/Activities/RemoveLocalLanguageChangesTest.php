@@ -19,7 +19,6 @@ use ILIAS\Language\Tests\Activities\ActivityWithPerformResultContractTestCase;
 use ILIAS\Language\Activities\AmbiguousLanguageTitleException;
 use ILIAS\Language\Activities\InvalidInputException;
 use ILIAS\Language\Activities\RemoveLocalLanguageChanges;
-use ILIAS\Language\Language;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -240,7 +239,6 @@ class RemoveLocalLanguageChangesTest extends ActivityWithPerformResultContractTe
             static fn(): array => [],
             static fn(int $id) => null,
             $rbac,
-            null,
             42
         );
 
@@ -442,14 +440,10 @@ class RemoveLocalLanguageChangesTest extends ActivityWithPerformResultContractTe
         [$fakes, $lng_objects, $obj_language_factory] = $this->buildFakeLanguageWorld([
             'de' => [],
         ]);
-        $language = $this->createMock(Language::class);
-        $language->method('txt')->with('msg_no_perm_write')->willReturn('no write permission');
-
         $result = $this->createActivity(
             $lng_objects,
             $obj_language_factory,
-            $rbac,
-            $language
+            $rbac
         )->maybePerformAs($this->createRealFieldsUiFactory()->input(), 6, ['language_keys' => 'de']);
 
         $this->assertTrue($result->isError());
@@ -538,11 +532,9 @@ class RemoveLocalLanguageChangesTest extends ActivityWithPerformResultContractTe
         \Closure $lng_objects,
         \Closure $obj_language_factory,
         ?\ilRbacSystem $rbac = null,
-        ?Language $language = null,
         int $language_folder_ref_id = 0
     ): RemoveLocalLanguageChanges {
         return new RemoveLocalLanguageChanges(
-            $language ?? $this->createMock(Language::class),
             $this->rbacOf($rbac ?? $this->createMock(\ilRbacSystem::class)),
             $this->languageFolder($language_folder_ref_id),
             $this->languageObjectProvider($lng_objects, $obj_language_factory)

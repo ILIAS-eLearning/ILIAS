@@ -20,7 +20,6 @@ use ILIAS\Language\Activities\AmbiguousLanguageTitleException;
 use ILIAS\Language\Activities\InvalidInputException;
 use ILIAS\Language\Activities\UninstallLanguage;
 use ILIAS\UI\Component\Input\Field\Text;
-use ILIAS\Language\Language;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -488,14 +487,10 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
         [$fakes, $lng_objects, $obj_language_factory] = $this->buildFakeLanguageWorld([
             'de' => [],
         ]);
-        $language = $this->createMock(Language::class);
-        $language->method('txt')->with('msg_no_perm_write')->willReturn('no write permission');
-
         $result = $this->createActivity(
             $lng_objects,
             $obj_language_factory,
-            $rbac,
-            $language
+            $rbac
         )->maybePerformAs($this->createRealFieldsUiFactory()->input(), 6, ['language_keys' => 'de']);
 
         $this->assertTrue($result->isError());
@@ -546,10 +541,8 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
         \Closure $lng_objects,
         \Closure $obj_language_factory,
         ?\ilRbacSystem $rbac = null,
-        ?Language $language = null
     ): UninstallLanguage {
         return new UninstallLanguage(
-            $language ?? $this->createMock(Language::class),
             $this->rbacOf($rbac ?? $this->createMock(\ilRbacSystem::class)),
             $this->languageFolder(),
             $this->languageObjectProvider($lng_objects, $obj_language_factory)

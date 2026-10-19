@@ -82,7 +82,6 @@ class Language implements Component\Component
 
         $internal[InstallLanguage::class] = static fn() =>
             new InstallLanguage(
-                $use[\ILIAS\Language\Language::class],
                 $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 $runtime_setup_language(),
                 $internal[Language\LanguageFolder::class]
@@ -90,7 +89,6 @@ class Language implements Component\Component
 
         $internal[UpdateLanguage::class] = static fn() =>
             new UpdateLanguage(
-                $use[\ILIAS\Language\Language::class],
                 $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 $runtime_setup_language(),
                 $internal[Language\LanguageFolder::class]
@@ -105,7 +103,6 @@ class Language implements Component\Component
 
         $internal[UninstallLanguage::class] = static fn() =>
             new UninstallLanguage(
-                $use[\ILIAS\Language\Language::class],
                 $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 $internal[Language\LanguageFolder::class],
                 $internal[RepositoryProvider::class],
@@ -113,7 +110,6 @@ class Language implements Component\Component
 
         $internal[RemoveLocalLanguageChanges::class] = static fn() =>
             new RemoveLocalLanguageChanges(
-                $use[\ILIAS\Language\Language::class],
                 $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 $internal[Language\LanguageFolder::class],
                 $internal[RepositoryProvider::class],
@@ -129,7 +125,6 @@ class Language implements Component\Component
 
         $internal[SetLanguageDetectionEnabled::class] = static fn() =>
             new SetLanguageDetectionEnabled(
-                $use[\ILIAS\Language\Language::class],
                 $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 $internal[Language\LanguageFolder::class],
                 $internal[RepositoryProvider::class],
@@ -137,7 +132,6 @@ class Language implements Component\Component
 
         $internal[SetLanguageTranslationEnabled::class] = static fn() =>
             new SetLanguageTranslationEnabled(
-                $use[\ILIAS\Language\Language::class],
                 $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 $internal[Language\LanguageFolder::class],
                 $internal[RepositoryProvider::class],

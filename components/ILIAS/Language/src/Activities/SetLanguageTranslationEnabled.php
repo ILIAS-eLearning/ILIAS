@@ -23,7 +23,6 @@ namespace ILIAS\Language\Activities;
 use ILIAS\AccessControl\PublicInterface\RBAC;
 use ILIAS\Data\Description;
 use ILIAS\Data\Text;
-use ILIAS\Language\Language;
 use ILIAS\Language\LanguageFolder;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
@@ -31,12 +30,11 @@ use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 class SetLanguageTranslationEnabled extends LanguageActivity
 {
     public function __construct(
-        Language $language,
         RBAC $rbac,
         LanguageFolder $language_folder,
         private readonly RepositoryProvider $repository,
     ) {
-        parent::__construct($language, $rbac, $language_folder);
+        parent::__construct($rbac, $language_folder);
     }
 
     public function getDescription(): Text\SimpleDocumentMarkdown

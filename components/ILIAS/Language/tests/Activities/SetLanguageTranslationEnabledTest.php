@@ -18,7 +18,6 @@ namespace ILIAS\Language\Tests\Activities;
 use ILIAS\Language\Tests\Activities\ActivityContractTestCase;
 use ILIAS\Language\Activities\InvalidInputException;
 use ILIAS\Language\Activities\SetLanguageTranslationEnabled;
-use ILIAS\Language\Language;
 use ILIAS\UI\Component\Input\Field\Text;
 use ILIAS\UI\Component\Input\Field\Checkbox;
 use ILIAS\Language\Activities\RepositoryProvider;
@@ -204,10 +203,7 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
         $repository->expects($this->never())->method('isPageTranslationEnabled');
         $repository->expects($this->never())->method('setPageTranslationEnabled');
 
-        $language = $this->createMock(Language::class);
-        $language->method('txt')->with('msg_no_perm_write')->willReturn('no write permission');
-
-        $result = $this->createActivity(rbac_system: $rbac, repository: $repository, language: $language)
+        $result = $this->createActivity(rbac_system: $rbac, repository: $repository)
             ->maybePerformAs($this->createRealFieldsUiFactory()->input(), 6, ['language_key' => 'de', 'enabled' => true]);
 
         $this->assertTrue($result->isError());
@@ -528,7 +524,6 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
     private function createActivity(
         ?\ilRbacSystem $rbac_system = null,
         ?RepositoryProvider $repository = null,
-        ?Language $language = null,
         int $language_folder_ref_id = 0,
         array $installed_languages = ['de', 'fr'],
     ): SetLanguageTranslationEnabled {
@@ -536,7 +531,6 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
         $repository->method('getInstalledLanguages')->willReturn($installed_languages);
 
         return new SetLanguageTranslationEnabled(
-            $language ?? $this->createMock(Language::class),
             $this->rbacOf($rbac_system ?? $this->createMock(\ilRbacSystem::class)),
             $this->languageFolder($language_folder_ref_id),
             $repository,
