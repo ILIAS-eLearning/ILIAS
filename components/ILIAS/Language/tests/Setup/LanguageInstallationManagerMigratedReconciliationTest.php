@@ -62,6 +62,9 @@ class LanguageInstallationManagerMigratedReconciliationTest extends LanguageInst
         $this->assertSame($expected_value, $this->lngModules()[self::MODULE]['greeting']);
         if ($expected_row_written_as_shipped) {
             $this->assertSame(['value' => $shipped, 'local_change' => null], $this->lngData()['pilot|greeting']);
+        } elseif ($original !== null) {
+            // with an overlay it is the only source: the row is written from it, never read from lng_data
+            $this->assertSame($expected_value, $this->lngData()['pilot|greeting']['value']);
         } else {
             $this->assertArrayNotHasKey('pilot|greeting', $this->lngData(), 'the local lng_data row is kept as it is');
         }
@@ -355,9 +358,10 @@ class LanguageInstallationManagerMigratedReconciliationTest extends LanguageInst
     }
 
     /**
-     * A corrupt overlay `.po` must not block an update: it is ignored (logged) and rebuilt afterwards.
+     * A corrupt overlay `.po` must not block an update: the module is left out (reported), its overlay stays and
+     * nothing is taken from lng_data.
      */
-    public function testACorruptOverlayIsIgnoredAndRebuiltOnUpdate(): void
+    public function testACorruptOverlayLeavesItsModuleUnchangedOnUpdate(): void
     {
         $this->expectManagerWarning();
         $this->shipPo(['greeting' => 'Hallo', 'farewell' => 'Tschüss']);
@@ -365,14 +369,14 @@ class LanguageInstallationManagerMigratedReconciliationTest extends LanguageInst
         file_put_contents($this->overlayBase() . '.po', "msgid \"kaputt\n");
         $this->db_local_changes = [self::MODULE => ['farewell' => 'Pfiat di']];
 
-        $this->manager()->insertLanguageForInstallation('de');
+        $manager = $this->manager();
+        $manager->insertLanguageForInstallation('de');
 
-        $this->assertSame(['farewell' => 'Pfiat di', 'greeting' => 'Hallo'], $this->lngModules()[self::MODULE]);
-        $overlay = $this->overlayPo();
-        $this->assertSame('Pfiat di', $overlay->find(null, 'farewell')->getTranslation());
-        $this->assertSame('Tschüss', LocalChangeComments::getOriginal($overlay->find(null, 'farewell')));
-        // "greeting" carries the shipped value and is not written
-        $this->assertSame(['farewell' => 'Pfiat di'], MigratedPoFixture::readMo(MigratedPoFixture::overlayMo($this->overlayBase())));
-        $this->assertStringContainsString('Could not read the overlay of migrated module "pilot"', $this->loggedWarnings());
+        $this->assertArrayNotHasKey(self::MODULE, $this->lngModules());
+        $this->assertArrayNotHasKey('pilot|farewell', $this->lngData());
+        $this->assertSame("msgid \"kaputt\n", file_get_contents($this->overlayBase() . '.po'), 'the overlay stays as it is');
+        $this->assertSame(['de' => [self::MODULE]], $manager->getSkippedUnreadableOverlays());
+        $this->assertNotContains(self::MODULE, MigratedLanguageFileSync::modulesWithLocalChangesTakenOver($this->root . '/client-data', 'de'));
+        $this->assertStringContainsString('cannot be read: they are left unchanged', $this->loggedWarnings());
     }
 }

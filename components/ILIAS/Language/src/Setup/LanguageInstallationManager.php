@@ -46,6 +46,11 @@ class LanguageInstallationManager
      * @var array<string, array<string, list<string>>> see getSkippedInvalidMarkupEntries()
      */
     private array $skipped_invalid_markup_entries = [];
+
+    /**
+     * @var array<string, list<string>> language key => modules, see getSkippedUnreadableOverlays()
+     */
+    private array $skipped_unreadable_overlays = [];
     private ?TranslationMarkupPolicy $markup_policy = null;
 
     /**
@@ -88,6 +93,16 @@ class LanguageInstallationManager
     public function getSkippedInvalidMarkupEntries(): array
     {
         return $this->skipped_invalid_markup_entries;
+    }
+
+    /**
+     * The migrated modules left out of the insertLanguageFor...() calls because their overlay cannot be read.
+     *
+     * @return array<string, list<string>> language key => modules
+     */
+    public function getSkippedUnreadableOverlays(): array
+    {
+        return $this->skipped_unreadable_overlays;
     }
 
     private function markupPolicy(): TranslationMarkupPolicy
@@ -226,6 +241,7 @@ class LanguageInstallationManager
     private function removeOverlays(string $lang_key): void
     {
         $client_data_dir = $this->clientDataDir();
+        MigratedLanguageFileSync::forgetLocalChangesTakenOver($client_data_dir, $lang_key);
         foreach ($this->language_file_directory_manager->getDirectories() as $directory) {
             $module = $directory->getPrefix();
             try {
@@ -419,7 +435,7 @@ class LanguageInstallationManager
         bool $delete_unchanged_migrated_rows = false
     ): array {
         // Reported per call (see getSkippedInvalidMarkupEntries()): only what this run left out
-        unset($this->skipped_invalid_markup_entries[$lang_key]);
+        unset($this->skipped_invalid_markup_entries[$lang_key], $this->skipped_unreadable_overlays[$lang_key]);
         $client_data_dir = $this->clientDataDir();
         $shipped_migrated_modules = $merge_shipped_migrated_modules
             ? MigratedLanguageFileSync::loadShippedModules(
@@ -444,6 +460,34 @@ class LanguageInstallationManager
         // which differs between entry points: other orders would deadlock (flock() has no timeout)
         sort($locked_modules, SORT_STRING);
 
+        // lng_data changes are taken over once; with an overlay, or once taken over, it is their only source.
+        // A module with an unreadable overlay is left out completely.
+        $taken_over = MigratedLanguageFileSync::modulesWithLocalChangesTakenOver($client_data_dir, $lang_key);
+        $overlay_only_modules = [];
+        $skipped_modules = [];
+        foreach (array_keys($shipped_migrated_modules) as $module) {
+            $module = (string) $module;
+            $has_overlay = in_array($module, $locked_modules, true);
+            if ($has_overlay && !$this->isReadableOverlay($lang_key, $module, $client_data_dir)) {
+                $skipped_modules[] = $module;
+                unset($lang_array[$module]);
+            } elseif ($has_overlay || in_array($module, $taken_over, true)) {
+                $overlay_only_modules[] = $module;
+                if (isset($lang_array[$module])) {
+                    $lang_array[$module] = [];
+                }
+            }
+        }
+        if ($skipped_modules !== []) {
+            $this->skipped_unreadable_overlays[$lang_key] = $skipped_modules;
+            $this->logWarning(sprintf(
+                'The overlay of the modules %s of language "%s" cannot be read: they are left unchanged, their local changes are only served again once the overlay is repaired; until then their rollback copy in lng_data/lng_modules is incomplete.',
+                implode(', ', $skipped_modules),
+                $lang_key
+            ));
+            $shipped_migrated_modules = array_diff_key($shipped_migrated_modules, array_flip($skipped_modules));
+        }
+
         $write = fn(): array => $this->writeLanguage(
             $lang_key,
             $directories,
@@ -452,7 +496,9 @@ class LanguageInstallationManager
             $locked_modules,
             $keep_local_changes,
             $delete_unchanged_migrated_rows,
-            $client_data_dir
+            $client_data_dir,
+            $overlay_only_modules,
+            $skipped_modules
         );
         // Built inside out, so the outermost closure acquires the first lock of $locked_modules
         foreach (array_reverse($locked_modules) as $module) {
@@ -467,7 +513,26 @@ class LanguageInstallationManager
             );
         }
 
-        return $write();
+        $failed_modules = $write();
+        // not recorded, so taken over again next run: overlay not written, or an entry left out for its markup
+        $not_taken_over = $failed_modules;
+        foreach (array_keys($this->skipped_invalid_markup_entries[$lang_key] ?? []) as $key) {
+            $not_taken_over[] = explode(self::SEPARATOR, (string) $key, 2)[0];
+        }
+        if ($client_data_dir !== null && $shipped_migrated_modules !== []) {
+            try {
+                MigratedLanguageFileSync::markLocalChangesTakenOver(
+                    $client_data_dir,
+                    $lang_key,
+                    array_values(array_diff(array_map('strval', array_keys($shipped_migrated_modules)), $not_taken_over))
+                );
+            } catch (\Throwable $t) {
+                // taken over again next time, from the overlay written now
+                $this->logWarning(sprintf('Could not record the taken over local changes of language "%s": %s', $lang_key, $t->getMessage()));
+            }
+        }
+
+        return $failed_modules;
     }
 
     /**
@@ -477,6 +542,8 @@ class LanguageInstallationManager
      * @param array<string, array<string, string>> $lang_array
      * @param array<string, array<string, string>> $shipped_migrated_modules
      * @param list<string> $locked_modules
+     * @param list<string> $overlay_only_modules migrated modules whose lng_data rows are never read
+     * @param list<string> $skipped_modules migrated modules of which nothing is written
      * @return list<string> see insertLanguage()
      */
     private function writeLanguage(
@@ -487,7 +554,9 @@ class LanguageInstallationManager
         array $locked_modules,
         bool $keep_local_changes,
         bool $delete_unchanged_migrated_rows,
-        ?string $client_data_dir
+        ?string $client_data_dir,
+        array $overlay_only_modules = [],
+        array $skipped_modules = []
     ): array {
         $ilDB = $this->db;
         $working_dir = getcwd();
@@ -566,10 +635,19 @@ class LanguageInstallationManager
                 $newer_db_changes = [];
                 if ($is_local) {
                     // a local file overwrites unless the database holds a newer change for the entry
-                    $newer_db_changes = $this->repository->getLocalChanges(
-                        $lang_key,
-                        $this->utcTimestamp(filemtime($lang_file))
+                    $newer_db_changes = array_diff_key(
+                        $this->repository->getLocalChanges($lang_key, $this->utcTimestamp(filemtime($lang_file))),
+                        array_flip($overlay_only_modules)
                     );
+                    // of those modules from their overlay instead
+                    foreach ($overlay_only_modules as $module) {
+                        foreach ($this->loadOverlay($lang_key, $module, $client_data_dir) ?? [] as $identifier => $state) {
+                            // without a date it counts as newer: the file must not overwrite it
+                            if ($state['local_change'] && ($state['local_change_date'] === null || $state['local_change_date'] >= $this->utcTimestamp(filemtime($lang_file)))) {
+                                $newer_db_changes[$module][(string) $identifier] = $state['value'];
+                            }
+                        }
+                    }
                     $change_date = $this->utcTimestamp();
                 }
 
@@ -594,6 +672,9 @@ class LanguageInstallationManager
                     $module = $separated[0];
                     $identifier = $separated[1];
                     $value = $separated[2];
+                    if (in_array($module, $skipped_modules, true)) {
+                        continue;
+                    }
 
                     if (isset($seen_in_file[$module][$identifier])) {
                         $duplicates[] = $path . $lang_file . ': ' . $module . self::SEPARATOR . $identifier;
@@ -662,7 +743,7 @@ class LanguageInstallationManager
 
             // remarks of migrated modules (also kept in their overlay); later ones win: lng_data, overlay, customizing file
             $migrated_remarks = $keep_local_changes
-                ? $this->migratedModuleRemarks($lang_key, $shipped_migrated_modules, $customized_remarks, $shipped_line_comments, $client_data_dir)
+                ? $this->migratedModuleRemarks($lang_key, $shipped_migrated_modules, $customized_remarks, $shipped_line_comments, $client_data_dir, $overlay_only_modules)
                 : [];
 
             $dropped_identifiers = [];
@@ -914,6 +995,23 @@ class LanguageInstallationManager
         return $local_entries;
     }
 
+    private function isReadableOverlay(string $lang_key, string $module, ?string $client_data_dir): bool
+    {
+        try {
+            MigratedLanguageFileSync::loadLocalChanges(
+                $this->language_file_directory_manager,
+                $lang_key,
+                $module,
+                $client_data_dir,
+                $this->absolute_path
+            );
+        } catch (\Throwable) {
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * The overlay state of a migrated module, or null. An unreadable overlay is reported and treated as
      * absent, so it cannot abort a reinstall whose data was already flushed; sync() rewrites it afterwards.
@@ -1015,6 +1113,7 @@ class LanguageInstallationManager
      * @param array<string, array<string, string>> $customized_remarks
      * @param array<string, array<string, string>> $shipped_line_comments module => identifier =>
      *        "###" comment of the shipped `.lang` lines
+     * @param list<string> $overlay_only_modules their lng_data remarks are not read, see insertLanguage()
      * @return array<string, array<string, string>>
      */
     private function migratedModuleRemarks(
@@ -1022,7 +1121,8 @@ class LanguageInstallationManager
         array $shipped_migrated_modules,
         array $customized_remarks,
         array $shipped_line_comments,
-        ?string $client_data_dir
+        ?string $client_data_dir,
+        array $overlay_only_modules = []
     ): array {
         if ($shipped_migrated_modules === []) {
             return [];
@@ -1039,6 +1139,7 @@ class LanguageInstallationManager
                 $database_remarks[(string) $row['module']][(string) $row['identifier']] = (string) $row['remarks'];
             }
         }
+        $database_remarks = array_diff_key($database_remarks, array_flip($overlay_only_modules));
 
         $shipped_files = MigratedLanguageFileSync::findShippedModuleFiles(
             $this->language_file_directory_manager,

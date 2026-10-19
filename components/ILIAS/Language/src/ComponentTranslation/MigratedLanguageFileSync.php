@@ -1886,9 +1886,8 @@ final class MigratedLanguageFileSync
     }
 
     /**
-     * The content of $module/$lang_key the administration shows or edits, never taken from the database: that
-     * of loadModuleTranslations(), without $client_data_dir the shipped `.po` alone. `null` where
-     * loadModuleTranslations() returns `null` for another reason.
+     * The content the administration shows or edits, never from the database: that of loadModuleTranslations(),
+     * without $client_data_dir the shipped `.po` alone. `null` where loadModuleTranslations() returns `null`.
      *
      * @param string|null $ilias_absolute_path see loadModuleTranslations()
      * @param bool $for_writing an unreadable overlay throws: a write onto the shipped values alone would drop
@@ -2233,6 +2232,68 @@ final class MigratedLanguageFileSync
         }
 
         return ($mode & 0003) === 0003;
+    }
+
+    /**
+     * The modules whose overlay is the only source of local changes (see markLocalChangesTakenOver()).
+     * An unreadable file counts as none: the rows are taken over again rather than lost.
+     *
+     * @return list<string>
+     */
+    public static function modulesWithLocalChangesTakenOver(?string $client_data_dir, string $lang_key): array
+    {
+        if ($client_data_dir === null || !MigratedLanguageFilePaths::isValidLanguageKey($lang_key)) {
+            return [];
+        }
+        $file = MigratedLanguageFilePaths::takenOverFile($client_data_dir, $lang_key);
+        $content = is_file($file) && !is_link($file) ? @file_get_contents($file) : false;
+        $modules = $content === false ? null : json_decode($content, true);
+
+        return is_array($modules) && array_is_list($modules)
+            ? array_values(array_filter($modules, static fn($module): bool => is_string($module) && MigratedLanguageFilePaths::isValidModule($module)))
+            : [];
+    }
+
+    /**
+     * Records that the lng_data local changes of $modules are in their overlays, so lng_data is not read again.
+     *
+     * @param list<string> $modules
+     * @throws RuntimeException if the file cannot be written
+     */
+    public static function markLocalChangesTakenOver(string $client_data_dir, string $lang_key, array $modules): void
+    {
+        $root = self::overlayRoot($client_data_dir);
+        if (!is_dir($root) && !@mkdir($root, 0755, true) && !is_dir($root)) {
+            throw new RuntimeException(sprintf('Could not create directory "%s".', $root));
+        }
+        // two runs for the same language (Setup, administration) must not lose each other's modules
+        self::runWithLockFile(
+            MigratedLanguageFilePaths::takenOverLockFile($client_data_dir, $lang_key),
+            $client_data_dir,
+            static function () use ($client_data_dir, $lang_key, $modules, $root): void {
+                $known = self::modulesWithLocalChangesTakenOver($client_data_dir, $lang_key);
+                $all = array_values(array_unique([...$known, ...$modules]));
+                sort($all, SORT_STRING);
+                if ($all !== $known) {
+                    AtomicFileWriter::write(MigratedLanguageFilePaths::takenOverFile($client_data_dir, $lang_key), json_encode($all, JSON_THROW_ON_ERROR) . "\n", $root);
+                }
+            },
+            false
+        );
+    }
+
+    /**
+     * Forgets markLocalChangesTakenOver() for $lang_key (e.g. when uninstalled).
+     */
+    public static function forgetLocalChangesTakenOver(?string $client_data_dir, string $lang_key): void
+    {
+        if ($client_data_dir === null || !MigratedLanguageFilePaths::isValidLanguageKey($lang_key)) {
+            return;
+        }
+        $file = MigratedLanguageFilePaths::takenOverFile($client_data_dir, $lang_key);
+        if (is_file($file) && !is_link($file)) {
+            @unlink($file);
+        }
     }
 
     /**

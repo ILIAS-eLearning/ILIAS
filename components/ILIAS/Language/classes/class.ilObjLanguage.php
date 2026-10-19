@@ -247,6 +247,7 @@ class ilObjLanguage extends ilObject
         /** @var LanguageFileDirectoryManager $manager */
         $manager = $DIC[LanguageFileDirectoryManager::class];
         $client_data_dir = MigratedLanguageFilePaths::resolveClientDataDir(ILIAS_ABSOLUTE_PATH);
+        MigratedLanguageFileSync::forgetLocalChangesTakenOver($client_data_dir, $a_key);
 
         $failed_modules = [];
         foreach ($manager->getDirectories() as $directory) {

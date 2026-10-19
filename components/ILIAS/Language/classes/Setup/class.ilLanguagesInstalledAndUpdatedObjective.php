@@ -148,6 +148,14 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
         $this->informAboutUnwritableOverlayDirectories($environment, $language_keys);
         $this->informAboutUnwrittenOverlays($environment, $this->installLanguages($language_keys));
         $this->informAboutSkippedInvalidMarkupEntries($environment);
+        foreach ($this->il_setup_language->getSkippedUnreadableOverlays() as $language_key => $modules) {
+            $this->inform($environment, PlainLogText::of(
+                'WARNING: The overlay (local changes) of language ' . $language_key . ' cannot be read for the modules '
+                . implode(', ', $modules) . ': they were left unchanged, their local changes are only served again '
+                . 'once the overlay below <client data dir>/lang is repaired. Until then their rollback copy in '
+                . 'lng_data/lng_modules is incomplete.'
+            ));
+        }
         $this->informAboutInvalidMarkupInLocalChanges($environment, $language_keys);
 
         return $environment;
@@ -184,15 +192,23 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
         foreach ($language_keys as $language_key) {
             $values = [];
             try {
-                foreach ($this->il_setup_language->getLocalChanges($language_key) as $module => $entries) {
-                    foreach ($entries as $identifier => $value) {
-                        $values[$module . '#:#' . $identifier] = (string) $value;
-                    }
-                }
+                // a module with an overlay, or whose lng_data was taken over, is checked in its overlay only
+                $overlay_only = array_fill_keys(MigratedLanguageFileSync::modulesWithLocalChangesTakenOver($client_data_dir, $language_key), true);
                 foreach ($manager->getDirectories() as $directory) {
                     $module = $directory->getPrefix();
+                    if (MigratedLanguageFileSync::hasOverlay($manager, $language_key, $module, $client_data_dir)) {
+                        $overlay_only[$module] = true;
+                    }
                     foreach (MigratedLanguageFileSync::loadLocalChanges($manager, $language_key, $module, $client_data_dir) ?? [] as $identifier => $entry) {
                         $values[$module . '#:#' . $identifier] = $entry['value'];
+                    }
+                }
+                foreach ($this->il_setup_language->getLocalChanges($language_key) as $module => $entries) {
+                    if (isset($overlay_only[$module])) {
+                        continue;
+                    }
+                    foreach ($entries as $identifier => $value) {
+                        $values[$module . '#:#' . $identifier] ??= (string) $value;
                     }
                 }
             } catch (\Throwable $t) {
