@@ -34,10 +34,10 @@ use PHPUnit\Framework\TestCase;
 class LanguageInstallationManagerMigratedDroppedKeysTest extends LanguageInstallationManagerMigratedModulesTestCase
 {
     /**
-     * A no-longer-shipped entry whose local value equals the previously shipped one must be dropped from lng_data,
-     * lng_modules and the overlay (resolveMigratedModule()'s local-entries loop); via an update.
+     * A no-longer-shipped entry that is no local change in the overlay (its only source, lng_data is not read) must
+     * be dropped from lng_modules and the overlay; via an update.
      */
-    public function testAKeyDroppedFromTheShippedPoIsRemovedWhenItsLocalValueMatchesTheOriginal(): void
+    public function testAKeyDroppedFromTheShippedPoWithoutALocalChangeInTheOverlayIsRemoved(): void
     {
         $this->shipPo(['farewell' => 'Tschüss']); // 'greeting' is no longer shipped
         $this->seedOverlay(['greeting' => ['value' => 'Hallo', 'original' => 'Hallo']]);
@@ -107,10 +107,10 @@ class LanguageInstallationManagerMigratedDroppedKeysTest extends LanguageInstall
     }
 
     /**
-     * MigratedLanguageFileSync::sync() must preserve "original" for an entry the `.po` currently lacks; without O,
-     * the three-way decision once the key ships again would keep the stale local value.
+     * MigratedLanguageFileSync::sync() must preserve the local change of an entry the `.po` currently lacks: once the
+     * key ships again, the overlay (not a changed lng_data row) decides.
      */
-    public function testAKeyThatReturnsAfterBeingUnshippedUsesThePreservedOriginalOnUpdate(): void
+    public function testAKeyThatReturnsAfterBeingUnshippedKeepsTheLocalChangeOfTheOverlay(): void
     {
         $this->shipPo(['farewell' => 'Tschüss']); // 'greeting' not shipped this run
         $this->seedOverlay(['greeting' => [

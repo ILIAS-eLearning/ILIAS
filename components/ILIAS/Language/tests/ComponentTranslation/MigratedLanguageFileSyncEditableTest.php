@@ -31,14 +31,15 @@ class MigratedLanguageFileSyncEditableTest extends MigratedLanguageFileSyncTestC
     /**
      * @return array<string, string>|null identifier => value
      */
-    private function editable(?string $client_data_dir = 'default', string $module = self::MODULE, string $lang_key = 'de'): ?array
+    private function editable(?string $client_data_dir = 'default', string $module = self::MODULE, string $lang_key = 'de', bool $for_writing = false): ?array
     {
         $content = MigratedLanguageFileSync::loadEditableModuleTranslations(
             $this->manager,
             $lang_key,
             $module,
             $client_data_dir === 'default' ? $this->client_data_dir : $client_data_dir,
-            $this->ilias_root
+            $this->ilias_root,
+            $for_writing
         );
 
         return $content === null ? null : array_map(static fn(array $entry): string => $entry['value'], $content);
@@ -60,6 +61,25 @@ class MigratedLanguageFileSyncEditableTest extends MigratedLanguageFileSyncTestC
 
         $this->expectOutputRegex('/The local changes of module "stest" for "de" cannot be read, the shipped values are used/');
         $this->assertSame(['greeting' => 'Hallo'], $this->editable());
+    }
+
+    /** For writing, the shipped values alone would drop the other local changes of the overlay: it throws instead. */
+    public function testAnUnreadableOverlayThrowsForWritingAndIsNotReportedAsUsable(): void
+    {
+        $this->seedShipped(['greeting' => 'Hallo']);
+        $this->seedOverlay(['greeting' => 'Moin']);
+        file_put_contents($this->overlayBase() . '.po', "msgid \"kaputt\n");
+
+        $this->expectException(\RuntimeException::class);
+        $this->editable('default', self::MODULE, 'de', true);
+    }
+
+    public function testForWritingAReadableOverlayIsMergedAsForDisplay(): void
+    {
+        $this->seedShipped(['greeting' => 'Hallo', 'farewell' => 'Tschüss']);
+        $this->seedOverlay(['greeting' => 'Moin']);
+
+        $this->assertSame(['greeting' => 'Moin', 'farewell' => 'Tschüss'], $this->editable('default', self::MODULE, 'de', true));
     }
 
     public function testWithoutClientDataDirectoryTheShippedPoAloneIsReturned(): void

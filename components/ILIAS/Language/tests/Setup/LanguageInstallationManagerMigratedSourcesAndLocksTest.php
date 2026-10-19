@@ -84,7 +84,7 @@ class LanguageInstallationManagerMigratedSourcesAndLocksTest extends LanguageIns
     /**
      * An installation without local changes writes no overlay file: the shipped state is served as is.
      */
-    public function testInstallWithoutLocalChangesWritesNoOverlay(): void
+    public function testInstallWithoutLocalChangesWritesNoOverlayOnlyTheTakenOverRecord(): void
     {
         $this->shipPo(['greeting' => ['value' => 'Hello', 'fuzzy' => true]]);
 

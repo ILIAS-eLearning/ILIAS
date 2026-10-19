@@ -42,7 +42,8 @@ class LanguageInstallationManagerMigratedRemarksTest extends LanguageInstallatio
     private function callMigratedModuleRemarks(
         array $shipped_migrated_modules,
         array $customized_remarks = [],
-        array $shipped_line_comments = []
+        array $shipped_line_comments = [],
+        array $overlay_only_modules = []
     ): array {
         $manager = $this->manager();
         $method = new ReflectionMethod(LanguageInstallationManager::class, 'migratedModuleRemarks');
@@ -53,7 +54,8 @@ class LanguageInstallationManagerMigratedRemarksTest extends LanguageInstallatio
             $shipped_migrated_modules,
             $customized_remarks,
             $shipped_line_comments,
-            $this->root . '/client-data'
+            $this->root . '/client-data',
+            $overlay_only_modules
         );
     }
 
@@ -109,6 +111,26 @@ class LanguageInstallationManagerMigratedRemarksTest extends LanguageInstallatio
         $remarks = $this->callMigratedModuleRemarks([self::MODULE => ['greeting' => 'Hallo']]);
 
         $this->assertSame(['greeting' => 'DB-Bemerkung'], $remarks[self::MODULE]);
+    }
+
+    /** A module whose overlay is the only source: its lng_data remarks are not read, the overlay and the customizing file are. */
+    public function testMigratedModuleRemarksOfAnOverlayOnlyModuleIgnoreLngData(): void
+    {
+        $this->shipPo(['greeting' => 'Hallo', 'farewell' => 'Tschüss']);
+        $this->seedOverlayWithRemark('greeting', 'Hallo', 'Overlay-Bemerkung');
+        $this->collation_rows = [
+            ['module' => self::MODULE, 'identifier' => 'greeting', 'remarks' => 'DB-Bemerkung'],
+            ['module' => self::MODULE, 'identifier' => 'farewell', 'remarks' => 'DB-Bemerkung 2'],
+        ];
+
+        $remarks = $this->callMigratedModuleRemarks(
+            [self::MODULE => ['greeting' => 'Hallo', 'farewell' => 'Tschüss']],
+            [self::MODULE => ['customized' => 'Customizing-Bemerkung']],
+            [],
+            [self::MODULE]
+        );
+
+        $this->assertSame(['greeting' => 'Overlay-Bemerkung', 'customized' => 'Customizing-Bemerkung'], $remarks[self::MODULE]);
     }
 
     public function testMigratedModuleRemarksIsEmptyWithoutAnyRemarkAnywhere(): void

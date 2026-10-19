@@ -229,67 +229,47 @@ class SaveValuesMergesOntoOverlayTest extends ilLanguageBaseTestCase
         );
     }
 
-    /** An unreadable overlay: the shipped content without the deleted key is kept, never the dual-written lng_data rows. */
-    public function testDeleteValuesWithAnUnreadableOverlayKeepsTheShippedContentAndNeverLngData(): void
-    {
-        $directory = $this->seedShippedAndOverlay('ctest2', ['greeting' => 'Shipped', 'farewell' => 'Tschüss'], ['greeting' => 'Lokal']);
-        file_put_contents(
-            rtrim(CLIENT_DATA_DIR, '/') . '/lang/ctest2/de/ctest2_de.po',
-            "msgid \"kaputt\n"
-        );
-        $this->registerDirectoryManager($directory);
-        $lng = $this->stubLng();
-        $logger_factory = $this->createStub(ilLoggerFactory::class);
-        $logger_factory->method('getComponentLogger')->willReturn($this->createStub(ilLogger::class));
-        $this->setGlobalVariable('ilLoggerFactory', $logger_factory);
-
-        $db = $this->mockDatabaseForWrites(null, [
-            ['identifier' => 'greeting', 'value' => 'Aus lng_data'],
-            ['identifier' => 'extra', 'value' => 'Nur in lng_data'],
-        ]);
-
-        $captured = null;
-        $db->method('insert')->willReturnCallback(
-            static function (string $table, array $values) use (&$captured): int {
-                if ($table === 'lng_modules') {
-                    $captured = unserialize($values['lang_array'][1] ?? '', ['allowed_classes' => false]);
-                }
-                return 1;
-            }
-        );
-
-        $unwritten = ilObjLanguageExt::_deleteValues('de', ['ctest2' . $lng->separator . 'greeting' => 'irrelevant']);
-
-        // not onto the shipped content alone either: that would drop the overlay's other local changes
-        $this->assertNull($captured);
-        $this->assertSame(['ctest2'], $unwritten);
-    }
-
     /**
-     * A shipped `.po` that cannot be read: the change is neither written to lng_modules nor to the overlay, the
-     * module is reported as unwritten. A non-shipped module (plugin) is written as before.
+     * A module whose shipped `.po` or overlay cannot be read: nothing of its change is written - no lng_data, no
+     * lng_modules, the overlay stays byte-equal - and it is listed as unwritten; a second readable module of the same
+     * call is written normally.
      */
-    #[DataProvider('writingOperations')]
-    public function testAnUnreadableShippedPoBlocksLngModulesAndOverlayAndReportsTheModuleAsUnwritten(string $operation): void
+    #[DataProvider('writingOperationsOnUnreadableContent')]
+    public function testAnUnreadableModuleIsLeftOutCompletelyAndAReadableOneIsWrittenNormally(string $operation, string $broken): void
     {
         $directory = $this->seedShippedAndOverlay('ctest4', ['greeting' => 'Shipped'], ['greeting' => 'Lokal']);
+        $this->seedShippedAndOverlay('ctest5', ['greeting' => 'Shipped', 'farewell' => 'Tschüss'], ['greeting' => 'Lokal']);
         $overlay_po = rtrim(CLIENT_DATA_DIR, '/') . '/lang/ctest4/de/ctest4_de.po';
+        if ($broken === 'overlay') {
+            file_put_contents($overlay_po, "msgid \"kaputt\n");
+        } else {
+            file_put_contents(
+                constant('ILIAS_ABSOLUTE_PATH') . '/components/ILIAS/Language/tests/' . $this->fixture_directory . '/ctest4_de.po',
+                "msgid \"kaputt\n"
+            );
+        }
         $overlay_before = (string) file_get_contents($overlay_po);
-        file_put_contents(
-            constant('ILIAS_ABSOLUTE_PATH') . '/components/ILIAS/Language/tests/' . $this->fixture_directory . '/ctest4_de.po',
-            "msgid \"kaputt\n"
-        );
-        $this->registerDirectoryManager($directory);
+        $this->registerDirectoryManager($directory, MigratedPoFixture::directory('ctest5', 'components/ILIAS/Language/tests/' . $this->fixture_directory . '/'));
         $lng = $this->stubLng();
         $this->seedEmptyGlobalLanguageFile('de');
         $db = $this->mockDatabaseForWrites(['greeting' => 'Aus lng_modules']);
-        $tables = [];
-        $db->method('insert')->willReturnCallback(static function (string $table) use (&$tables): int {
-            $tables[] = $table;
+        $inserted_modules = [];
+        $db->method('insert')->willReturnCallback(static function (string $table, array $values) use (&$inserted_modules): int {
+            $inserted_modules[] = $table . ':' . ($values['module'][1] ?? '');
             return 1;
         });
-
-        $key = 'ctest4' . $lng->separator . 'greeting';
+        $lng_data_writes = [];
+        $db->method('replace')->willReturnCallback(static function (string $table, array $keys) use (&$lng_data_writes): int {
+            $lng_data_writes[] = $table . ':' . ($keys['module'][1] ?? '');
+            return 1;
+        });
+        $deleted = [];
+        $db->method('manipulate')->willReturnCallback(static function (string $sql) use (&$deleted): int {
+            if (str_starts_with($sql, 'DELETE FROM lng_data')) {
+                $deleted[] = $sql;
+            }
+            return 0;
+        });
         $warnings = [];
         $logger = $this->createStub(ilLogger::class);
         $logger->method('warning')->willReturnCallback(static function (string $message) use (&$warnings): void {
@@ -299,22 +279,83 @@ class SaveValuesMergesOntoOverlayTest extends ilLanguageBaseTestCase
         $logger_factory->method('getComponentLogger')->willReturn($logger);
         $this->setGlobalVariable('ilLoggerFactory', $logger_factory);
 
+        $values = ['ctest4' . $lng->separator . 'greeting' => 'Neu', 'ctest5' . $lng->separator . 'greeting' => 'Neu'];
         $unwritten = $operation === 'save'
-            ? ilObjLanguageExt::_saveValues('de', [$key => 'Neu'])
-            : ilObjLanguageExt::_deleteValues('de', [$key => 'irrelevant']);
+            ? ilObjLanguageExt::_saveValues('de', $values)
+            : ilObjLanguageExt::_deleteValues('de', $values);
 
         $this->assertSame(['ctest4'], $unwritten);
-        $this->assertMatchesRegularExpression('/module "ctest4" for "de" cannot be read, the changes are not saved/', implode("\n", $warnings));
-        $this->assertNotContains('lng_modules', $tables);
+        $this->assertMatchesRegularExpression('/module "ctest4" for "de" cannot be read/', implode("\n", $warnings));
+        $this->assertSame(['lng_modules:ctest5'], $inserted_modules, 'only the readable module is written');
+        $this->assertSame($operation === 'save' ? ['lng_data:ctest5'] : [], $lng_data_writes);
+        $this->assertCount($operation === 'delete' ? 1 : 0, $deleted);
         $this->assertSame($overlay_before, (string) file_get_contents($overlay_po));
     }
 
     /**
-     * @return array<string, array{0: string}>
+     * @return array<string, array{0: string, 1: string}>
      */
-    public static function writingOperations(): array
+    public static function writingOperationsOnUnreadableContent(): array
     {
-        return ['save' => ['save'], 'delete' => ['delete']];
+        return [
+            'save, shipped po' => ['save', 'shipped'],
+            'save, overlay' => ['save', 'overlay'],
+            'delete, shipped po' => ['delete', 'shipped'],
+            'delete, overlay' => ['delete', 'overlay'],
+        ];
+    }
+
+    /** "delete"-mode import: the entries are the complete new content, nothing is read first - written as before. */
+    public function testAnImportWithoutMergingNeverChecksTheCurrentContent(): void
+    {
+        $directory = $this->seedShippedAndOverlay('ctest6', ['greeting' => 'Shipped'], ['greeting' => 'Lokal']);
+        file_put_contents(rtrim(CLIENT_DATA_DIR, '/') . '/lang/ctest6/de/ctest6_de.po', "msgid \"kaputt\n");
+        $this->registerDirectoryManager($directory);
+        $lng = $this->stubLng();
+        $this->seedEmptyGlobalLanguageFile('de');
+        $db = $this->mockDatabaseForWrites(null);
+        $logger_factory = $this->createStub(ilLoggerFactory::class);
+        $logger_factory->method('getComponentLogger')->willReturn($this->createStub(ilLogger::class));
+        $this->setGlobalVariable('ilLoggerFactory', $logger_factory);
+        $captured = null;
+        $db->method('insert')->willReturnCallback(static function (string $table, array $values) use (&$captured): int {
+            if ($table === 'lng_modules') {
+                $captured = unserialize($values['lang_array'][1] ?? '', ['allowed_classes' => false]);
+            }
+            return 1;
+        });
+
+        $this->callSaveValues('de', ['ctest6' . $lng->separator . 'greeting' => 'Neu'], [], false);
+
+        $this->assertSame(['greeting' => 'Neu'], $captured);
+    }
+
+    /** A readable overlay: the local change of another key stays when one key is saved. */
+    public function testSavingOneKeyKeepsTheOverlaysLocalChangeOfAnotherKey(): void
+    {
+        $directory = $this->seedShippedAndOverlay('ctest7', ['greeting' => 'Shipped', 'farewell' => 'Tschüss'], ['farewell' => 'Pfiat di']);
+        $this->registerDirectoryManager($directory);
+        $lng = $this->stubLng();
+        $this->seedEmptyGlobalLanguageFile('de');
+        $db = $this->mockDatabaseForWrites(null);
+        $logger_factory = $this->createStub(ilLoggerFactory::class);
+        $logger_factory->method('getComponentLogger')->willReturn($this->createStub(ilLogger::class));
+        $this->setGlobalVariable('ilLoggerFactory', $logger_factory);
+        $captured = null;
+        $db->method('insert')->willReturnCallback(static function (string $table, array $values) use (&$captured): int {
+            if ($table === 'lng_modules') {
+                $captured = unserialize($values['lang_array'][1] ?? '', ['allowed_classes' => false]);
+            }
+            return 1;
+        });
+
+        $unwritten = ilObjLanguageExt::_saveValues('de', ['ctest7' . $lng->separator . 'greeting' => 'Neu']);
+
+        $this->assertSame([], $unwritten);
+        $this->assertSame(['greeting' => 'Neu', 'farewell' => 'Pfiat di'], $captured);
+        $overlay = MigratedPoFixture::readPo(rtrim(CLIENT_DATA_DIR, '/') . '/lang/ctest7/de/ctest7_de.po');
+        $this->assertSame('Pfiat di', $overlay->find(null, 'farewell')?->getTranslation());
+        $this->assertSame('Neu', $overlay->find(null, 'greeting')?->getTranslation());
     }
 
     /**
