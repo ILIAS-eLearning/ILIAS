@@ -35,7 +35,11 @@ trait GrindsFormInput
 {
     // private on purpose: subclasses influence perform()'s arguments via
     // LanguageActivity::additionalPerformParameters()
-    /** @param array<mixed> $raw_parameters */
+    /**
+     * Result\Error only for invalid input; any other throwable is a defect and propagates to maybePerformAs().
+     *
+     * @param array<mixed> $raw_parameters
+     */
     private function grind(FormInput $description, array $raw_parameters): Result
     {
         try {
@@ -57,11 +61,7 @@ trait GrindsFormInput
             return new Result\Error($e);
         } catch (\InvalidArgumentException $e) {
             // a malformed request value, never an internal misconfiguration: safe to show the user
-            return new Result\Error(new InvalidInputException($e->getMessage(), 0, $e));
-        } catch (\Throwable $e) {
-            return new Result\Error(
-                $e instanceof \Exception ? $e : new \RuntimeException($e->getMessage(), 0, $e)
-            );
+            return new Result\Error(new InvalidInputException($e->getMessage(), previous: $e));
         }
     }
 

@@ -23,7 +23,6 @@ namespace ILIAS\Language\Tests\Activities;
 use ILIAS\Language\Tests\Activities\RealFieldsUiFactory;
 use ILIAS\Language\Tests\Activities\GrindsFormInputTestHost;
 use ILIAS\Language\Activities\InvalidInputException;
-use ILIAS\Language\Activities\SafeToDisplayActivityError;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -40,18 +39,12 @@ class GrindsFormInputTest extends TestCase
         return new GrindsFormInputTestHost();
     }
 
-    /**
-     * getInputDescription() returns FormInput, which doesn't guarantee InputInternal: a FormInput lacking it must
-     * give a clean Result\Error, never a TypeError.
-     */
-    public function testGrindReturnsResultErrorInsteadOfCrashingWhenDescriptionIsNotInputInternal(): void
+    /** A defect (here: a FormInput lacking InputInternal) is no input error: grind() throws, maybePerformAs() masks it. */
+    public function testGrindThrowsInsteadOfReturningAResultErrorWhenDescriptionIsNotInputInternal(): void
     {
-        $description = $this->createMock(FormInput::class);
+        $this->expectException(\LogicException::class);
 
-        $result = $this->host()->callGrind($description, []);
-
-        $this->assertTrue($result->isError());
-        $this->assertInstanceOf(\LogicException::class, $result->error());
+        $this->host()->callGrind($this->createMock(FormInput::class), []);
     }
 
     public static function checkboxWhitelistAcceptsRawValueProvider(): array
@@ -108,7 +101,7 @@ class GrindsFormInputTest extends TestCase
     }
 
     /**
-     * Values outside the whitelist must become an InvalidInputException (SafeToDisplayActivityError), which
+     * Values outside the whitelist must become an InvalidInputException (code 400), which
      * RendersActivityErrors shows to the user instead of logging an internal failure.
      */
     #[DataProvider('checkboxWhitelistRejectsRawValueProvider')]
@@ -119,7 +112,7 @@ class GrindsFormInputTest extends TestCase
         $this->assertTrue($result->isError());
         $error = $result->error();
         $this->assertInstanceOf(InvalidInputException::class, $error);
-        $this->assertInstanceOf(SafeToDisplayActivityError::class, $error);
+        $this->assertSame(400, $error->getCode());
     }
 
     /**
@@ -139,7 +132,7 @@ class GrindsFormInputTest extends TestCase
         $this->assertTrue($result->isError());
         $error = $result->error();
         $this->assertInstanceOf(InvalidInputException::class, $error);
-        $this->assertInstanceOf(SafeToDisplayActivityError::class, $error);
+        $this->assertSame(400, $error->getCode());
     }
 
     /**
@@ -159,7 +152,7 @@ class GrindsFormInputTest extends TestCase
         $this->assertTrue($result->isError());
         $error = $result->error();
         $this->assertInstanceOf(InvalidInputException::class, $error);
-        $this->assertInstanceOf(SafeToDisplayActivityError::class, $error);
+        $this->assertSame(400, $error->getCode());
         $this->assertStringStartsWith('language_key: ', $error->getMessage());
         $this->assertNotSame('language_key: ', $error->getMessage());
     }
@@ -229,7 +222,7 @@ class GrindsFormInputTest extends TestCase
         $this->assertTrue($result->isError());
         $error = $result->error();
         $this->assertInstanceOf(InvalidInputException::class, $error);
-        $this->assertInstanceOf(SafeToDisplayActivityError::class, $error);
+        $this->assertSame(400, $error->getCode());
         $this->assertStringContainsString('Unknown key(s) for translations: ' . $dangerous_unknown_key, $error->getMessage());
         $this->assertStringContainsString('<script>alert(1)</script>', $error->getMessage());
     }
@@ -265,7 +258,7 @@ class GrindsFormInputTest extends TestCase
         $this->assertTrue($result->isError());
         $error = $result->error();
         $this->assertInstanceOf(InvalidInputException::class, $error);
-        $this->assertInstanceOf(SafeToDisplayActivityError::class, $error);
+        $this->assertSame(400, $error->getCode());
         $this->assertStringContainsString(
             'Expected an array of values (or none at all) for translations, got: ' . get_debug_type($raw_value),
             $error->getMessage()

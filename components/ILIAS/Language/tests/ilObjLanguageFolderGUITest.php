@@ -567,14 +567,13 @@ class ilObjLanguageFolderGUITest extends TestCase
         $gui->uninstallObject([]);
     }
 
-    public function testUninstallObjectEmbedsAPlainStringErrorFromAnErrorResultIntoTheFailureMessage(): void
+    public function testUninstallObjectShowsTheNoPermissionMessageForA403ErrorResult(): void
     {
-        // ILIAS\Data\Result\Error also accepts a plain string (not just a
-        // Throwable) - the "$error instanceof \Throwable ? ... : $error"
-        // branch for that case must be covered too.
-        $error_string = 'permission denied';
+        $error_string = 'msg_no_perm_write';
         $uninstall_language = $this->createMock(UninstallLanguage::class);
-        $uninstall_language->method('maybePerformAs')->willReturn(new ResultError($error_string));
+        $uninstall_language->method('maybePerformAs')->willReturn(
+            new ResultError(new \DomainException('internal wording', 403))
+        );
 
         $tpl = $this->createMock(ilGlobalTemplateInterface::class);
         $tpl->expects($this->once())
@@ -888,14 +887,13 @@ class ilObjLanguageFolderGUITest extends TestCase
         $gui->uninstallChangesObject([]);
     }
 
-    public function testUninstallChangesObjectEmbedsAPlainStringErrorFromAnErrorResultIntoTheFailureMessage(): void
+    public function testUninstallChangesObjectShowsTheNoPermissionMessageForA403ErrorResult(): void
     {
-        // ILIAS\Data\Result\Error also accepts a plain string (not just a
-        // Throwable) - the "$error instanceof \Throwable ? ... : $error"
-        // branch for that case must be covered too.
-        $error_string = 'permission denied';
+        $error_string = 'msg_no_perm_write';
         $remove_local_language_changes = $this->createMock(RemoveLocalLanguageChanges::class);
-        $remove_local_language_changes->method('maybePerformAs')->willReturn(new ResultError($error_string));
+        $remove_local_language_changes->method('maybePerformAs')->willReturn(
+            new ResultError(new \DomainException('internal wording', 403))
+        );
 
         $tpl = $this->createMock(ilGlobalTemplateInterface::class);
         $tpl->expects($this->once())
@@ -1338,7 +1336,7 @@ class ilObjLanguageFolderGUITest extends TestCase
         // checkPermission() never being invoked, not about the outcome of
         // the permission check itself.
         $set_language_detection_enabled->method('maybePerformAs')->willReturn(
-            new ResultError('no write permission')
+            new ResultError(new \DomainException('no write permission', 403))
         );
         $this->setReadonlyPropertyDeclaredOnGuiClass(
             $gui,

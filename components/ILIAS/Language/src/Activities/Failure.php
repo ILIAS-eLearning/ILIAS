@@ -20,6 +20,18 @@ declare(strict_types=1);
 
 namespace ILIAS\Language\Activities;
 
-interface SafeToDisplayActivityError extends \Throwable
+/**
+ * Error of maybePerformAs(): 4xx exceptions answer the call and pass unchanged, anything else is
+ * a defect whose message may leak internals, so it is masked and kept as previous.
+ */
+final class Failure
 {
+    public static function of(\Throwable $e): \Exception
+    {
+        if ($e instanceof \Exception && $e->getCode() >= 400 && $e->getCode() < 500) {
+            return $e;
+        }
+
+        return new \RuntimeException('The activity could not be performed.', 500, $e);
+    }
 }

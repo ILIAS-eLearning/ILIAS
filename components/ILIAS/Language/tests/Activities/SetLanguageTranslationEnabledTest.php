@@ -17,7 +17,6 @@ namespace ILIAS\Language\Tests\Activities;
 
 use ILIAS\Language\Tests\Activities\ActivityContractTestCase;
 use ILIAS\Language\Activities\InvalidInputException;
-use ILIAS\Language\Activities\SafeToDisplayActivityError;
 use ILIAS\Language\Activities\SetLanguageTranslationEnabled;
 use ILIAS\Language\Language;
 use ILIAS\UI\Component\Input\Field\Text;
@@ -251,7 +250,8 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
             ->maybePerformAs($this->createRealFieldsUiFactory()->input(), 6, ['language_key' => 'de', 'enabled' => true]);
 
         $this->assertTrue($result->isError());
-        $this->assertSame('no write permission', $result->error());
+        $this->assertInstanceOf(\DomainException::class, $result->error());
+        $this->assertSame(403, $result->error()->getCode());
     }
 
     /**
@@ -260,7 +260,7 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
      * rather than propagating - this is the whole point of maybePerformAs()
      * wrapping perform() in a try/catch.
      */
-    public function testThrowableFromWithinPerformIsTurnedIntoAResultError(): void
+    public function testDefectFromWithinPerformIsMaskedAsA500ResultError(): void
     {
         $rbac = $this->createMock(\ilRbacSystem::class);
         $rbac->method('checkAccessOfUser')->willReturn(true);
@@ -274,8 +274,8 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
 
         $this->assertTrue($result->isError());
         $error = $result->error();
-        $this->assertInstanceOf(\RuntimeException::class, $error);
-        $this->assertSame('database write failed', $error->getMessage());
+        $this->assertSame(500, $error->getCode());
+        $this->assertSame('database write failed', $error->getPrevious()?->getMessage());
     }
 
     /**
@@ -353,7 +353,7 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
 
         $this->assertTrue($result->isError());
         $this->assertInstanceOf(InvalidInputException::class, $result->error());
-        $this->assertInstanceOf(SafeToDisplayActivityError::class, $result->error());
+        $this->assertSame(400, $result->error()->getCode());
     }
 
     /**
@@ -408,7 +408,7 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
 
         $this->assertTrue($result->isError());
         $this->assertInstanceOf(InvalidInputException::class, $result->error());
-        $this->assertInstanceOf(SafeToDisplayActivityError::class, $result->error());
+        $this->assertSame(400, $result->error()->getCode());
     }
 
     public static function tolerantlyAcceptedTruthyEnabledValuesProvider(): array
@@ -548,7 +548,7 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
 
         $this->assertTrue($result->isError());
         $this->assertInstanceOf(InvalidInputException::class, $result->error());
-        $this->assertInstanceOf(SafeToDisplayActivityError::class, $result->error());
+        $this->assertSame(400, $result->error()->getCode());
     }
 
     /**

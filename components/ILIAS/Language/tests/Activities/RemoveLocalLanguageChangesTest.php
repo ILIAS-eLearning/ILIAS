@@ -19,7 +19,6 @@ use ILIAS\Language\Tests\Activities\ActivityWithPerformResultContractTestCase;
 use ILIAS\Language\Activities\AmbiguousLanguageTitleException;
 use ILIAS\Language\Activities\InvalidInputException;
 use ILIAS\Language\Activities\RemoveLocalLanguageChanges;
-use ILIAS\Language\Activities\SafeToDisplayActivityError;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
@@ -545,8 +544,7 @@ class RemoveLocalLanguageChangesTest extends ActivityWithPerformResultContractTe
      * exception class, not just \InvalidArgumentException (which
      * InvalidInputException extends, and against which this assertion would
      * therefore have kept passing silently even after the behaviour change -
-     * see RendersActivityErrors, which treats InvalidInputException/
-     * SafeToDisplayActivityError specially).
+     * see RendersActivityErrors, which treats 4xx specially).
      */
     public function testNonArrayParametersAreRejected(): void
     {
@@ -666,7 +664,7 @@ class RemoveLocalLanguageChangesTest extends ActivityWithPerformResultContractTe
 
         $this->assertTrue($result->isError());
         $this->assertInstanceOf(InvalidInputException::class, $result->error());
-        $this->assertInstanceOf(SafeToDisplayActivityError::class, $result->error());
+        $this->assertSame(400, $result->error()->getCode());
     }
 
     /**

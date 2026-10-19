@@ -629,48 +629,6 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $this->assertTrue($result->isError());
     }
 
-    /**
-     * Regression test for LanguageActivity::maybePerformAs()'s generic
-     * catch(\Throwable) block (InstallLanguage itself does not override
-     * maybePerformAs() - this exercises the base class implementation):
-     * a \Throwable that is NOT an \Exception (here a \TypeError, the other
-     * half of the \Throwable hierarchy) raised from within perform() must
-     * still come back as a Result\Error carrying an \Exception instance
-     * (here a \RuntimeException wrapping the original \TypeError as its
-     * "previous"), per the Activity::maybePerformAs() contract ("Wraps the
-     * result and possible errors in the Result type"). Before the fix,
-     * `new Result\Error($e)` itself raised an uncaught
-     * \InvalidArgumentException for such a $e (Result\Error::__construct()
-     * only accepts string|\Exception), so maybePerformAs() aborted instead
-     * of returning a Result at all.
-     */
-    public function testAThrowableThatIsNotAnExceptionFromWithinPerformIsWrappedInARuntimeExceptionResultError(): void
-    {
-        $rbac = $this->createMock(\ilRbacSystem::class);
-        $rbac->method('checkAccessOfUser')->willReturn(true);
-
-        $setup_language = $this->createSetupLanguageMock([], [], []);
-        // raised inside perform()'s loop, after isAllowedToPerform() succeeded
-        $setup_language->method('checkLanguageForInstallation')->willReturnCallback(
-            static function (): bool {
-                throw new \TypeError('simulated TypeError, not an \Exception');
-            }
-        );
-
-        $result = $this->createActivity($setup_language, $rbac)->maybePerformAs(
-            $this->createRealFieldsUiFactory()->input(),
-            6,
-            ['language_keys' => ['de'], 'mode' => InstallLanguage::MODE_INSTALL]
-        );
-
-        $this->assertTrue($result->isError());
-        $error = $result->error();
-        $this->assertInstanceOf(\RuntimeException::class, $error);
-        $this->assertNotInstanceOf(\TypeError::class, $error);
-        $this->assertSame('simulated TypeError, not an \Exception', $error->getMessage());
-        $this->assertInstanceOf(\TypeError::class, $error->getPrevious());
-    }
-
     private function createActivity(
         ilSetupLanguage $setup_language,
         ?\ilRbacSystem $rbac = null,

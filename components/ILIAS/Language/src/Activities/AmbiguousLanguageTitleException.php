@@ -20,6 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\Language\Activities;
 
-class AmbiguousLanguageTitleException extends \RuntimeException implements SafeToDisplayActivityError
+class AmbiguousLanguageTitleException extends \RuntimeException
 {
+    public function __construct(string $message = '', int $code = 409, ?\Throwable $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+    }
 }
