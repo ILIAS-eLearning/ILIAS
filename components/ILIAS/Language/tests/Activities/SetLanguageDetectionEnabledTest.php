@@ -60,12 +60,7 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
         $this->assertFalse($activity->isAllowedToPerform(6, ['enabled' => true]));
     }
 
-    /**
-     * isAllowedToPerform() must be a pure permission check: it must never
-     * touch the Setting collaborator (and therefore never write
-     * "lang_detection") - unlike perform(), which is the only place
-     * allowed to have side effects.
-     */
+    /** isAllowedToPerform() is a pure permission check: no Setting access. */
     public function testIsAllowedToPerformNeverTouchesSettings(): void
     {
         $repository = $this->createMock(RepositoryProvider::class);
@@ -121,12 +116,7 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
         $this->createActivity(repository: $repository)->perform('not-an-array');
     }
 
-    /**
-     * Boundary/type-juggling regression: perform() must require a strict
-     * bool for 'enabled' and must never silently cast a truthy/falsy
-     * look-alike (string "1"/"0"/"true", int 1, etc.) - unlike PHP's own
-     * loose comparison rules, which would happily accept any of these.
-     */
+    /** perform() requires a strict bool for 'enabled'; truthy/falsy look-alikes ("1", 1, ...) are rejected. */
     #[DataProvider('nonBooleanEnabledValuesProvider')]
     public function testPerformRejectsNonStrictBooleanEnabledValues(mixed $value): void
     {
@@ -169,19 +159,7 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
         $this->assertSame(['enabled' => true], $result->value());
     }
 
-    /**
-     * Core security regression test: before this extraction,
-     * enableLanguageDetectionObject()/disableLanguageDetectionObject()
-     * performed no RBAC check of their own at all - a request forged
-     * directly against the corresponding ilCtrl
-     * commands by a user with only "read" access on the language folder
-     * would still have flipped "lang_detection". isAllowedToPerform() now
-     * enforces a "write" check, and this must actually cause
-     * maybePerformAs() to reject the request (Result\Error) *and* leave the
-     * Setting collaborator completely untouched - a permission check that
-     * merely rejected the outcome without preventing the side effect would
-     * not close the gap at all.
-     */
+    /** The permission check is a real gate: a denied "write" yields a Result\Error and leaves the Setting untouched. */
     public function testMaybePerformAsWithDeniedPermissionReturnsErrorAndNeverWritesTheSetting(): void
     {
         $rbac = $this->createMock(\ilRbacSystem::class);
@@ -219,17 +197,7 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
         $this->assertSame(400, $result->error()->getCode());
     }
 
-    /**
-     * The 'enabled' Checkbox field is not required, so - now that
-     * maybePerformAs() actually grinds $raw_parameters through
-     * getInputDescription() (see GrindsFormInput) - a completely missing
-     * 'enabled' key is no longer rejected: it defaults to false, exactly
-     * like an unchecked, and therefore never submitted, HTML checkbox
-     * would. This is a deliberate behavioural change from the old
-     * (pre-grinding) normalizeParameters(), which used to reject a missing
-     * key outright. Unlike before, the request now actually reaches
-     * isAllowedToPerform()/perform().
-     */
+    /** A missing 'enabled' defaults to false like an unchecked HTML checkbox, and still reaches perform(). */
     public function testMaybePerformAsWithMissingEnabledKeyDefaultsToFalseAndStillPerformsTheWrite(): void
     {
         $rbac = $this->createMock(\ilRbacSystem::class);
@@ -266,14 +234,7 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
         ];
     }
 
-    /**
-     * Grinding tolerance (see GrindsFormInput::normalizeCheckboxRawValue()):
-     * unlike perform() itself (which still requires a strict bool, see
-     * testPerformRejectsNonStrictBooleanEnabledValues), maybePerformAs()
-     * now accepts the common primitive representations of "true" a generic
-     * (non-HTML) caller might reasonably send, and writes the setting
-     * accordingly.
-     */
+    /** Unlike perform(), maybePerformAs() accepts common primitive representations of "true". */
     #[DataProvider('tolerantlyAcceptedTruthyEnabledValuesProvider')]
     public function testMaybePerformAsToleratesCommonPrimitiveTruthyRepresentationsAndWritesEnabledTrue(mixed $value): void
     {
@@ -290,9 +251,7 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
         $this->assertSame(['enabled' => true], $result->value());
     }
 
-    /**
-     * Same tolerance for the common representations of "false".
-     */
+    /** Same for "false". */
     #[DataProvider('tolerantlyAcceptedFalsyEnabledValuesProvider')]
     public function testMaybePerformAsToleratesCommonPrimitiveFalsyRepresentationsAndWritesEnabledFalse(mixed $value): void
     {

@@ -98,11 +98,7 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
 
     public function testNewLanguageWithCustomFileIsReportedAsInstalledWithLocalFile(): void
     {
-        // Even a language that was not installed before must be classified
-        // by "has a customizing/local file", not "was newly installed" - a
-        // fresh language that already ships a local file is still more
-        // accurately described as "installed with custom file" than as a
-        // plain install.
+        // classified by "has a customizing/local file", not "was newly installed"
         $setup_language = $this->createSetupLanguageMock(
             [],
             ['de'],
@@ -126,14 +122,7 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $this->assertSame([], $result['not_installed_language_keys']);
     }
 
-    /**
-     * This is the central bugfix regression test: mode "install" used to
-     * unconditionally (re-)install and (re-)apply the customizing/local file
-     * of an already installed language on every call. It must now be a
-     * complete no-op instead - not even checkLanguageForInstallation may run
-     * for it, since (re-)applying a customizing file is exclusively mode
-     * "install_local"'s job now.
-     */
+    /** Mode "install" on an installed language is a complete no-op: re-applying the local file is "install_local"'s job. */
     public function testInstallModeIsNoOpForAlreadyInstalledLanguageEvenWithACustomFile(): void
     {
         $setup_language = $this->createSetupLanguageMock(
@@ -172,10 +161,7 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $setup_language->expects($this->once())
             ->method('insertLanguageForApplyingLocalChanges')
             ->with('de');
-        // The object_data bookkeeping itself is delegated to
-        // ilSetupLanguage::registerInstalledLanguage() (shared with
-        // installLanguages()) - see ilSetupLanguageTest for coverage of the
-        // actual INSERT/UPDATE SQL it builds.
+        // object_data bookkeeping is delegated to ilSetupLanguage::registerInstalledLanguage() (see ilSetupLanguageTest)
         $setup_language->expects($this->once())
             ->method('registerInstalledLanguage')
             ->with(
@@ -196,13 +182,7 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $this->assertSame([], $result['invalid_local_language_files']);
     }
 
-    /**
-     * "install_local" still runs its write methods for an already installed
-     * language even when no customizing/local file actually exists for it
-     * (there is simply nothing for them to write) - but the *result* must
-     * report this as "already installed", not as "installed with local
-     * file", since nothing observable actually changed.
-     */
+    /** "install_local" without a local file is reported as "already installed": nothing changed. */
     public function testInstallLocalModeOnAlreadyInstalledLanguageWithoutCustomFileIsReportedAsAlreadyInstalled(): void
     {
         $setup_language = $this->createSetupLanguageMock(
@@ -229,11 +209,7 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $this->assertSame([], $result['not_installed_language_keys']);
     }
 
-    /**
-     * "install_local" on a language that is not installed at all must be a
-     * complete no-op - there is nothing installed yet to apply local
-     * changes on top of.
-     */
+    /** "install_local" on a language that is not installed is a no-op. */
     public function testInstallLocalModeOnNotInstalledLanguageIsCompleteNoOp(): void
     {
         $setup_language = $this->createSetupLanguageMock([], [], []);
@@ -254,12 +230,7 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $this->assertSame(['de'], $result['not_installed_language_keys']);
     }
 
-    /**
-     * When every requested language turns out to be a no-op (given the
-     * chosen mode and each language's install status), perform() must not
-     * even read the available/local languages or scan for invalid local
-     * files - there is nothing left to do that would need them.
-     */
+    /** If every language is a no-op, perform() must not read the available/local languages or scan local files. */
     public function testAllRequestedLanguagesBeingNoOpsSkipsLanguageAndFileLookupsEntirely(): void
     {
         $setup_language = $this->createMock(ilSetupLanguage::class);
@@ -285,11 +256,7 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $this->assertSame([], $result['invalid_local_language_files']);
     }
 
-    /**
-     * A single request can carry languages in every possible state at once;
-     * each must land in its own bucket, and only the ones actually affected
-     * may trigger any write method - under mode "install".
-     */
+    /** Every state in one request lands in its own bucket; only affected ones trigger a write (mode "install"). */
     public function testBulkRequestUnderInstallModePartitionsEachKeyIntoTheCorrectBucket(): void
     {
         $setup_language = $this->createSetupLanguageMock(
@@ -309,8 +276,7 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $setup_language->expects($this->exactly(2))->method('registerInstalledLanguage');
         $setup_language->expects($this->once())
             ->method('getInvalidLocalLanguageFiles')
-            // Only the two languages actually being (fully) installed are
-            // relevant - the already-installed 'de' is untouched.
+            // the already-installed 'de' is untouched
             ->with(['en', 'fr']);
 
         $result = $this->createActivity($setup_language)->perform([
@@ -324,12 +290,7 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $this->assertSame([], $result['not_installed_language_keys']);
     }
 
-    /**
-     * The same idea, but under mode "install_local": no key may ever trigger
-     * checkLanguageForInstallation/flushLanguageForInstallation/
-     * insertLanguageForInstallation - only insertLanguageForApplyingLocalChanges,
-     * and only for the already-installed keys.
-     */
+    /** Mode "install_local": only insertLanguageForApplyingLocalChanges, only for already-installed keys. */
     public function testBulkRequestUnderInstallLocalModePartitionsEachKeyIntoTheCorrectBucket(): void
     {
         $setup_language = $this->createSetupLanguageMock(
@@ -349,8 +310,7 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $setup_language->expects($this->exactly(2))->method('registerInstalledLanguage');
         $setup_language->expects($this->once())
             ->method('getInvalidLocalLanguageFiles')
-            // Only the two already-installed languages are affected - the
-            // not-installed 'fr' is left untouched.
+            // the not-installed 'fr' is left untouched
             ->with(['de', 'en']);
 
         $result = $this->createActivity($setup_language)->perform([
@@ -555,12 +515,7 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $this->createActivity($this->createSetupLanguageMock([], [], []))->perform($parameters);
     }
 
-    /**
-     * Regression test for the perform()-parameter-type-check unification
-     * (see InstallLanguage::perform()): a non-array $parameters must now
-     * raise the concrete InvalidInputException - not just the more general
-     * \InvalidArgumentException it extends.
-     */
+    /** Pins InvalidInputException, not just its parent \InvalidArgumentException. */
     public function testNonArrayParametersAreRejected(): void
     {
         $this->expectException(InvalidInputException::class);
@@ -568,19 +523,7 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $this->createActivity($this->createSetupLanguageMock([], [], []))->perform('not-an-array');
     }
 
-    /**
-     * Contract test: a real GUI caller (class.ilObjLanguageFolderGUI.php)
-     * always builds 'language_keys' as a PHP array of strings, never a
-     * comma-separated string - and GrindsFormInput::grind() (via its
-     * private joinListOfStringsRawValue() helper - see that method's own
-     * docblock) must join that array into the same shape a real HTML text
-     * input would carry BEFORE
-     * it reaches the declared Text field, rather than rejecting it. This
-     * is exercised through the REAL getInputDescription()/grind() pipeline
-     * (createRealFieldsUiFactory(), not a mocked FormInput) via
-     * maybePerformAs() - the previously blocking regression this test
-     * guards against.
-     */
+    /** ilObjLanguageFolderGUI sends 'language_keys' as array of strings; the real grind() pipeline must join it. */
     public function testMaybePerformAsAcceptsAnArrayOfLanguageKeysAndInstallsEachOne(): void
     {
         $rbac = $this->createMock(\ilRbacSystem::class);

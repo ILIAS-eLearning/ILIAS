@@ -24,9 +24,6 @@ use ILIAS\Language\Activities\InstallLanguage;
 use ILIAS\Language\Activities\UpdateLanguage;
 use ILIAS\Setup\Objective\NullObjective;
 
-/**
- * Class ilLanguageSetupAgentTest
- */
 class ilLanguageSetupAgentTest extends ilLanguageBaseTestCase
 {
     /**

@@ -59,10 +59,7 @@ abstract class ActivityContractTestCase extends ilLanguageBaseTestCase
         $this->assertNotSame('', $this->createDefaultActivity()->getDescription()->getRawRepresentation());
     }
 
-    /**
-     * No extra parameter, even an optional one: a parent declaring more parameters than a subclass with the
-     * plain interface signature is a PHP variance fatal error at class-load time.
-     */
+    /** An extra parameter, even optional, is a variance fatal error at class-load time. */
     public function testGetInputDescriptionSignatureExactlyMatchesTheActivityInterfaceSignature(): void
     {
         $activity = $this->createDefaultActivity();
@@ -91,9 +88,8 @@ abstract class ActivityContractTestCase extends ilLanguageBaseTestCase
 }
 
 /**
- * A RepositoryProvider mock answering per obj_id from small fake language objects (the legacy \ilObjLanguage
- * cannot be built without $DIC). The factory is only asked when the Activity actually touches an object, so
- * a factory that throws proves an object was never reached.
+ * RepositoryProvider mock answering per obj_id from fake language objects (\ilObjLanguage needs $DIC).
+ * The factory is only asked on access, so a throwing factory proves no object was reached.
  */
 trait LanguageObjectRepositoryProvider
 {

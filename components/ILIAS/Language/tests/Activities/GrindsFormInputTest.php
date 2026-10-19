@@ -27,9 +27,6 @@ use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * GrindsFormInput in isolation from any concrete Activity, via GrindsFormInputTestHost.
- */
 class GrindsFormInputTest extends TestCase
 {
     use RealFieldsUiFactory;
@@ -100,10 +97,7 @@ class GrindsFormInputTest extends TestCase
         ];
     }
 
-    /**
-     * Values outside the whitelist must become an InvalidInputException (code 400), which
-     * RendersActivityErrors shows to the user instead of logging an internal failure.
-     */
+    /** Becomes an InvalidInputException (400), shown to the user instead of logged. */
     #[DataProvider('checkboxWhitelistRejectsRawValueProvider')]
     public function testGrindRejectsRawValueOutsideTheCheckboxWhitelist(mixed $raw_value): void
     {
@@ -115,9 +109,7 @@ class GrindsFormInputTest extends TestCase
         $this->assertSame(400, $error->getCode());
     }
 
-    /**
-     * Same conversion, reached via Text::isClientSideValueOk() instead of normalizeCheckboxRawValue().
-     */
+    /** Same conversion, reached via Text::isClientSideValueOk(). */
     public function testGrindConvertsAUiFrameworkInvalidArgumentExceptionFromANonStringTextValueIntoInvalidInputException(): void
     {
         $text = $this->createRealFieldsUiFactory()->input()->field()->text('Language key', '')
@@ -135,9 +127,7 @@ class GrindsFormInputTest extends TestCase
         $this->assertSame(400, $error->getCode());
     }
 
-    /**
-     * A validation failure must read "<field>: <error>", not Group::withInput()'s generic "ui_error_in_group".
-     */
+    /** Must read "<field>: <error>", not Group::withInput()'s generic "ui_error_in_group". */
     public function testGrindReportsAFieldAttributedInvalidInputExceptionOnValidationFailure(): void
     {
         $language_key = $this->createRealFieldsUiFactory()->input()->field()->text('Language key', '')
@@ -157,10 +147,7 @@ class GrindsFormInputTest extends TestCase
         $this->assertNotSame('language_key: ', $error->getMessage());
     }
 
-    /**
-     * A raw array of strings (as sent by class.ilObjLanguageFolderGUI.php for 'language_keys') is joined into one
-     * comma-separated string.
-     */
+    /** ilObjLanguageFolderGUI sends 'language_keys' as array of strings: joined with commas. */
     public function testGrindJoinsAnArrayOfStringsRawValueForATextFieldIntoACommaSeparatedString(): void
     {
         $language_keys = $this->createRealFieldsUiFactory()->input()->field()->text('Language keys', '')
@@ -175,9 +162,7 @@ class GrindsFormInputTest extends TestCase
         $this->assertSame('de,fr', $result->value()['language_keys']);
     }
 
-    /**
-     * The outermost group does not enforce known keys: an unrelated top-level key is ignored.
-     */
+    /** The outermost group does not enforce known keys. */
     public function testGrindSilentlyIgnoresAnUnknownKeyAtTheTopLevelOfRawParameters(): void
     {
         $name = $this->createRealFieldsUiFactory()->input()->field()->text('Name', '')
@@ -236,10 +221,7 @@ class GrindsFormInputTest extends TestCase
         ];
     }
 
-    /**
-     * A group value that is neither null nor an array must be rejected; degrading it to an empty array would mask
-     * it as a misleading required-field error.
-     */
+    /** Degrading it to an empty array would mask it as a misleading required-field error. */
     #[DataProvider('nonArrayNonNullGroupRawValueProvider')]
     public function testGrindRejectsANonArrayNonNullRawValueForANestedGroupInsteadOfSilentlyDegradingToEmptyArray(
         mixed $raw_value

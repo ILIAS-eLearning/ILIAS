@@ -58,9 +58,7 @@ trait RendersActivityErrors
         return is_int($code) && $code >= 400 && $code < 500 && $code !== 403;
     }
 
-    /**
-     * Renders $error and every exception it was caused by (getPrevious()), so a wrapper never hides the original.
-     */
+    /** Includes every getPrevious(), so a wrapper never hides the original. */
     private function describeThrowableChain(\Throwable $error): string
     {
         $descriptions = [];

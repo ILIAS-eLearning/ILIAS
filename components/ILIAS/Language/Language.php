@@ -49,9 +49,7 @@ class Language implements Component\Component
     ): void {
         $define[] = \ILIAS\Language\Language::class;
 
-        // --- $internal: wiring local to this component -----------------
-        // Ordered so each entry's dependencies are declared above it.
-
+        // each entry's dependencies are declared above it
         $internal[Language\LanguageFolder::class] = static fn() =>
             new Language\LanguageFolderLegacyProxy();
 
@@ -61,9 +59,6 @@ class Language implements Component\Component
                 ...$seek[LanguageFileDirectory::class]
             );
 
-        // Read access to the language installation domain, extracted from
-        // ilSetupLanguage per docs/development/repository-pattern.md - see that
-        // class' docblock.
         $internal[InstalledLanguageDatabaseRepository::class] = static fn() =>
             new InstalledLanguageDatabaseRepository(
                 $pull[\ILIAS\Database\Connection::class],
@@ -71,8 +66,7 @@ class Language implements Component\Component
                 $use[Directories::class]->getRoot()
             );
 
-        // Setup instance: Setup hands in its own database via setDbHandler()
-        // instead of the Connection (see components/ILIAS/Database/ROADMAP.md).
+        // Setup hands in its own database via setDbHandler() instead of the Connection
         $internal[\ilSetupLanguage::class] = static fn() =>
             new \ilSetupLanguage(
                 "en",
@@ -102,7 +96,7 @@ class Language implements Component\Component
                 $internal[Language\LanguageFolder::class]
             );
 
-        // runtime-only Activities (no Setup counterpart): all their legacy access goes through this provider
+        // runtime-only Activities route all legacy access through this provider
         $internal[RepositoryProvider::class] = static fn() =>
             new RepositoryProvider(
                 $internal[InstalledLanguageDatabaseRepository::class],
@@ -149,47 +143,21 @@ class Language implements Component\Component
                 $internal[RepositoryProvider::class],
             );
 
-        // LanguageLegacyInitialisationAdapter has no constructor of its own,
-        // so it never needs the LanguageFileDirectoryManager argument -
-        // it purely proxies to $DIC->language() at call time. This slot used
-        // to be misleadingly named $internal[\ilLanguage::class] even though
-        // it never held an \ilLanguage instance.
+        // only proxies to $DIC->language() at call time, hence no constructor arguments
         $internal[Language\LanguageLegacyInitialisationAdapter::class] = static fn() =>
             new Language\LanguageLegacyInitialisationAdapter();
 
-        // --- $implement --------------------------------------------------
-
-        // This component registers TWO candidate implementations for
-        // \ILIAS\Language\Language. Both assignments below are intentional -
-        // ILIAS\Component\Dependencies\Reader::cacheImplement() collects every
-        // $implement[...] assignment into a list rather than overwriting a
-        // plain array key, and the generated RenamingDIC keeps each candidate
-        // under its own offset, so neither line is dead code.
-        // Consumers that $use[\ILIAS\Language\Language::class] (e.g. UI.php,
-        // Setup.php, Refinery.php) are disambiguated per bootstrap entry point:
-        //   - components/ILIAS/Setup/resources/dependency_resolution.php -> ilSetupLanguage
-        //   - components/ILIAS/Init/resources/dependency_resolution.php  -> LanguageLegacyInitialisationAdapter
-        // See docs/development/components-and-directories.md and cli/build_bootstrap.php.
+        // Two candidates on purpose, neither line is dead: every $implement assignment is collected,
+        // and each bootstrap entry point picks one in its resources/dependency_resolution.php
+        // (Setup: ilSetupLanguage, Init: LanguageLegacyInitialisationAdapter).
         $implement[\ILIAS\Language\Language::class] = static fn() =>
             $internal[\ilSetupLanguage::class];
 
         $implement[\ILIAS\Language\Language::class] = static fn() =>
             $internal[Language\LanguageLegacyInitialisationAdapter::class];
 
-        // --- $provide: services made available to the rest of the system -
-
-        // Make the resolved language services available outside this component.
         $provide[LanguageFileDirectoryManager::class] = static fn() =>
             $internal[LanguageFileDirectoryManager::class];
-
-        // --- $contribute: contributions to other components' collection
-        //     points. Relative order preserved from before this file's
-        //     reorganisation, since components may in general add multiple
-        //     contributions to the same collection point sequentially (see
-        //     docs/development/components-and-directories.md, "Contribute to
-        //     Service or Functionality") - which the seven
-        //     \ILIAS\Component\Activities\Activity::class entries below
-        //     actually do, one per Activity this component offers.
 
         $contribute[LanguageFileDirectory::class] = static fn() => new MainLanguageFileDirectory();
 
@@ -202,32 +170,10 @@ class Language implements Component\Component
                 UpdateLanguage::forSetup($internal[\ilSetupLanguage::class])
             );
 
-        // The seven Activities this component offers are both provided under
-        // their own concrete class (so components/ILIAS/Init/Init.php can
-        // pull each one specifically - AllModernComponents.php then
-        // re-exposes that same resolved instance under the matching legacy
-        // $DIC[<Activity>::class] key, which is what every GUI class in
-        // this component reads) and contributed generically to
-        // \ILIAS\Component\Activities\Activity::class (so the
-        // cross-component Repository can discover them too) - see
-        // docs/development/components-and-directories.md, "Contribute to
-        // Service or Functionality". Because Init.php pulls these concrete
-        // classes (not an interface), none of the seven may become final - both
-        // ilObjLanguageFolderGUITest and ilObjLanguageExtGUITest build a
-        // PHPUnit mock of several of them directly (createMock(InstallLanguage::class)
-        // and siblings), which requires PHPUnit to generate a subclass at
-        // runtime - impossible for a final class.
-        //
-        // Kept as one combined loop rather than seven repeated
-        // $provide[...]/$contribute[...] pairs. Order matters for the
-        // $contribute side only (RenamingDIC assigns a shared, container-wide
-        // "_<counter>" suffix in call order to disambiguate the repeated
-        // \ILIAS\Component\Activities\Activity::class key - see
-        // LanguageComponentGraphTest::testContributeEntriesResolveToExpectedConcreteClassesInPreservedOrder());
-        // this list's order must therefore match $activities' declaration
-        // order exactly, and this loop must stay exactly here: after the two
-        // preceding $contribute entries (LanguageFileDirectory, Setup\Agent)
-        // and before the following one (UserSettings).
+        // Provided under the concrete class because Init.php pulls it, so none may become final
+        // (the GUI tests mock them). The $contribute order is the declaration order below and must
+        // stay between the Setup\Agent and the UserSettings entry: RenamingDIC numbers the repeated
+        // Activity key in call order (see LanguageComponentGraphTest).
         $activities = [
             InstallLanguage::class,
             UpdateLanguage::class,
