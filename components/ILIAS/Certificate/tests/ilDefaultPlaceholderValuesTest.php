@@ -37,10 +37,7 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
                     'getBirthday',
                     'getInstitution',
                     'getDepartment',
-                    'getStreet',
-                    'getCity',
-                    'getZipcode',
-                    'getCountry',
+                    'getProfileData',
                     'getMatriculation'
                 ]
             )
@@ -83,20 +80,13 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
             ->willReturn('');
 
         $objectMock->expects($this->once())
-            ->method('getStreet')
-            ->willReturn('');
-
-        $objectMock->expects($this->once())
-            ->method('getCity')
-            ->willReturn('');
-
-        $objectMock->expects($this->once())
-            ->method('getZipcode')
-            ->willReturn('');
-
-        $objectMock->expects($this->once())
-            ->method('getCountry')
-            ->willReturn('');
+            ->method('getProfileData')
+            ->willReturn(new ILIAS\User\Profile\Data(
+                postal_address: new ILIAS\Data\Privacy\Types\PostalAddress(
+                    new ILIAS\Data\Privacy\Types\PostalAddressValue(' Main Street 1 ', 'Bern', '3000', 'CH'),
+                    new ILIAS\Data\Privacy\Source\Sources()->user()->postalAddress()
+                )
+            ));
 
         $objectMock->expects($this->once())
             ->method('getMatriculation')
@@ -164,7 +154,9 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
             $utilHelper,
             $userDefinePlaceholderMock,
             $uuid_factory_mock,
-            2
+            2,
+            new ILIAS\Data\Privacy\TechnicalRequirement\TechnicalRequirements(),
+            new ILIAS\Certificate\Privacy\CertificateSources()
         );
         $placeHolderObject->setUserLanguage($language);
 
@@ -182,10 +174,10 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
                 'USER_BIRTHDAY' => '2018-09-10',
                 'USER_INSTITUTION' => '',
                 'USER_DEPARTMENT' => '',
-                'USER_STREET' => '',
-                'USER_CITY' => '',
-                'USER_ZIPCODE' => '',
-                'USER_COUNTRY' => '',
+                'USER_STREET' => 'Main Street 1',
+                'USER_CITY' => 'Bern',
+                'USER_ZIPCODE' => '3000',
+                'USER_COUNTRY' => 'CH',
                 'USER_MATRICULATION' => '',
                 'DATE_COMPLETED' => '',
                 'DATETIME_COMPLETED' => '',
@@ -253,7 +245,9 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
             $utilHelper,
             $userDefinePlaceholderMock,
             $uuid_factory_mock,
-            2
+            2,
+            new ILIAS\Data\Privacy\TechnicalRequirement\TechnicalRequirements(),
+            new ILIAS\Certificate\Privacy\CertificateSources()
         );
 
         $result = $placeHolderObject->getPlaceholderValuesForPreview(
