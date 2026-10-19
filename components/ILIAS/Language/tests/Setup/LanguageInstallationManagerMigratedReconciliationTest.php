@@ -34,11 +34,13 @@ use PHPUnit\Framework\TestCase;
 class LanguageInstallationManagerMigratedReconciliationTest extends LanguageInstallationManagerMigratedModulesTestCase
 {
     /**
+     * L comes from the overlay if there is one (its only source), else once from lng_data.
+     *
      * @param ?string $local L from the database seed (null = no local change)
      * @param ?string $original O, the overlay's "original" (null = no overlay entry)
      */
     #[DataProvider('threeWayCases')]
-    public function testThreeWayReconciliationOfADatabaseLocalChange(
+    public function testALocalChangeIsReconciledWithTheShippedValue(
         ?string $local,
         ?string $original,
         string $shipped,

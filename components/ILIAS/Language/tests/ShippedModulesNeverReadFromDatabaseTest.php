@@ -132,7 +132,7 @@ class ShippedModulesNeverReadFromDatabaseTest extends ilLanguageBaseTestCase
         $this->assertSame('Overlay', ilLanguage::_lookupEntry('de', 'zzs', 'greeting'));
     }
 
-    public function testTheClientDataDirectoryIsLookedForAgainWhileMissingAndKeptOnceFoundUntilReset(): void
+    public function testTheClientDataDirectoryIsResolvedOncePerResetAlsoWhenMissing(): void
     {
         rmdir($this->client_data_dir);
         $this->assertNull(MigratedTranslations::clientDataDir());
@@ -145,6 +145,24 @@ class ShippedModulesNeverReadFromDatabaseTest extends ilLanguageBaseTestCase
 
         rmdir($this->client_data_dir);
         $this->assertSame($this->client_data_dir, MigratedTranslations::clientDataDir(), 'a found one is kept');
+    }
+
+    /** Decided once per module and language until reset(); next to the template without a directory, else at the directory's path. */
+    public function testWhetherAPoIsShippedWithoutABuildIsDecidedOncePerReset(): void
+    {
+        $this->buildShippedModule(false);
+        $directory = MigratedPoFixture::directory('zzs', self::LANG_DIRECTORY);
+        $this->assertTrue(MigratedTranslations::shipsPoWithoutBuild('zzs', 'de', null));
+        $this->assertTrue(MigratedTranslations::shipsPoWithoutBuild('zzs', 'de', $directory));
+        $this->assertFalse(MigratedTranslations::shipsPoWithoutBuild('zzs', 'fr', $directory));
+        $this->assertFalse(MigratedTranslations::shipsPoWithoutBuild('zzs', '../de', null), 'no path');
+
+        unlink($this->root . '/' . self::LANG_DIRECTORY . 'zzs_de.po');
+        $this->assertTrue(MigratedTranslations::shipsPoWithoutBuild('zzs', 'de', null), 'remembered');
+
+        MigratedTranslations::reset();
+        $this->assertFalse(MigratedTranslations::shipsPoWithoutBuild('zzs', 'de', null));
+        $this->assertFalse(MigratedTranslations::shipsPoWithoutBuild('zzs', 'de', $directory));
     }
 
     public function testResetForgetsWhichModulesAreShipped(): void

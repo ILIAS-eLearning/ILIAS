@@ -483,6 +483,40 @@ class ShippedTranslationsBuildTest extends TestCase
         );
     }
 
+    private function directoryWithPattern(string $path, string $pattern): LanguageFileDirectory
+    {
+        return new class ($path, $pattern) implements LanguageFileDirectory, NamesShippedLanguageFiles {
+            public function __construct(private string $path, private string $pattern)
+            {
+            }
+
+            public function getPrefix(): string
+            {
+                return 'mtp';
+            }
+
+            public function getPath(): string
+            {
+                return $this->path;
+            }
+
+            public function getSuffix(): string
+            {
+                return '';
+            }
+
+            public function isLocal(): bool
+            {
+                return false;
+            }
+
+            public function getShippedFileNamePattern(): string
+            {
+                return $this->pattern;
+            }
+        };
+    }
+
     /**
      * @return array<string, array{0: string, 1: ?string, 2: string, 3: bool}> directory, pattern of the .po files,
      *         template to create, whether a warning is expected
@@ -513,36 +547,7 @@ class ShippedTranslationsBuildTest extends TestCase
         }
         $directory = $pattern === null
             ? MigratedPoFixture::directory('mtp', $path)
-            : new class ($path, $pattern) implements LanguageFileDirectory, NamesShippedLanguageFiles {
-                public function __construct(private string $path, private string $pattern)
-                {
-                }
-
-                public function getPrefix(): string
-                {
-                    return 'mtp';
-                }
-
-                public function getPath(): string
-                {
-                    return $this->path;
-                }
-
-                public function getSuffix(): string
-                {
-                    return '';
-                }
-
-                public function isLocal(): bool
-                {
-                    return false;
-                }
-
-                public function getShippedFileNamePattern(): string
-                {
-                    return $this->pattern;
-                }
-            };
+            : $this->directoryWithPattern($path, $pattern);
         $messages = [];
 
         (new ShippedTranslationsBuild(
@@ -558,6 +563,23 @@ class ShippedTranslationsBuildTest extends TestCase
             $expect_warning ? ['WARNING: Module "mtp" has no template "components/<Vendor>/<Component>/lang/mtp.pot" - without a build Setup and CLI do not recognise it as shipped.'] : [],
             $warnings
         );
+    }
+
+    /** The file name pattern is invalid, so nothing is compiled - the module is still recorded as shipped (never read from the database). */
+    public function testAContributionWithAnInvalidFileNamePatternIsStillRecordedAsShipped(): void
+    {
+        $messages = [];
+
+        (new ShippedTranslationsBuild(
+            new LanguageFileDirectoryManager(new CustomizingLanguageFileDirectory(), $this->directoryWithPattern('mtp/', '%s_%s')),
+            $this->root,
+            new ShippedTranslations()
+        ))->run(static function (string $message) use (&$messages): void {
+            $messages[] = $message;
+        });
+
+        $this->assertNotEmpty(array_filter($messages, static fn(string $m): bool => str_contains($m, 'The language files of module "mtp" are not compiled')));
+        $this->assertSame(['mtp'], ShippedTranslationsBuild::readPointer($this->artifacts)['shipped'] ?? null);
     }
 
     public function testReadPointerIgnoresFieldsAFormerVersionWroteIntoCurrentJson(): void

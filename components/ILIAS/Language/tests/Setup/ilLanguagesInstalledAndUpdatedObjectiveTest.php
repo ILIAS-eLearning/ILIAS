@@ -23,6 +23,7 @@ use ILIAS\Language\ComponentTranslation\CustomizingLanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
 use ILIAS\Language\ComponentTranslation\MainLanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\MigratedLanguageFileSync;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\Stub;
@@ -520,6 +521,24 @@ class ilLanguagesInstalledAndUpdatedObjectiveTest extends TestCase
         );
     }
 
+    /** Modules left out because their overlay cannot be read are named per language; without any there is no such warning. */
+    public function testAchieveWarnsAboutModulesWithAnUnreadableOverlayPerLanguage(): void
+    {
+        $flushed = [];
+        $setup_language = $this->createAchievableSetupLanguage(['de', 'fr'], [], $flushed);
+        $setup_language->method('getSkippedUnreadableOverlays')->willReturn(['de' => ['common', 'tos']]);
+        $messages = [];
+
+        (new ilLanguagesInstalledAndUpdatedObjective($setup_language))->achieve($this->informCollectingEnvironment($messages));
+
+        $warnings = array_values(array_filter($messages, static fn(string $m): bool => str_contains($m, 'cannot be read for the modules')));
+        $this->assertCount(1, $warnings);
+        $this->assertStringStartsWith('WARNING:', $warnings[0]);
+        $this->assertStringContainsString('language de', $warnings[0]);
+        $this->assertStringContainsString('common, tos', $warnings[0]);
+        $this->assertStringContainsString('rollback copy in lng_data/lng_modules is incomplete', $warnings[0]);
+    }
+
     /**
      * Legacy local changes written before the markup check are never modified or removed, only reported once per run
      * as a WARNING naming the entry.
@@ -545,6 +564,71 @@ class ilLanguagesInstalledAndUpdatedObjectiveTest extends TestCase
         $this->assertCount(1, $warnings);
         $this->assertStringContainsString('common#:#greeting', $warnings[0]);
         $this->assertStringContainsString('de', $warnings[0]);
+    }
+
+    /**
+     * @return array<string, array{0: string, 1: string, 2: string, 3: bool}> module of the lng_data change, source
+     *         ("overlay": readable overlay, "record": taken over, none), value of the overlay entry, whether it is reported
+     */
+    public static function markupCheckSources(): array
+    {
+        return [
+            'module with a readable overlay: lng_data is not read' => ['pilot', 'overlay', 'Hallo', false],
+            'module taken over: lng_data is not read' => ['pilot', 'record', 'Hallo', false],
+            'the overlay itself holds disallowed markup' => ['pilot', 'overlay', '<script>x</script>', true],
+            'module before the takeover: lng_data counts' => ['pilot', 'none', 'Hallo', true],
+            'module of no component: lng_data counts' => ['rep_robj_xtst', 'none', 'Hallo', true],
+        ];
+    }
+
+    /** Disallowed markup in lng_data only counts for modules before the takeover and for plugins; otherwise the overlay is checked. */
+    #[DataProvider('markupCheckSources')]
+    public function testTheMarkupCheckOfLocalChangesReadsLngDataOnlyWhereItIsStillTheSource(
+        string $lng_data_module,
+        string $source,
+        string $overlay_value,
+        bool $expect_warning
+    ): void {
+        if ($expect_warning) {
+            $this->expectErrorLog();
+        }
+        $root = (string) realpath(__DIR__ . '/../../../../../');
+        $relative = 'components/ILIAS/Language/tests/Setup/tmp-markup-' . bin2hex(random_bytes(4)) . '/';
+        $client_data_dir = sys_get_temp_dir() . '/ilias_markup_check_' . bin2hex(random_bytes(4));
+        mkdir($client_data_dir, 0775, true);
+        $directory = MigratedPoFixture::directory('pilot', $relative);
+        $manager = new LanguageFileDirectoryManager(new CustomizingLanguageFileDirectory(), $directory);
+        try {
+            MigratedPoFixture::writePo($root . '/' . $relative . 'pilot_de.po', MigratedPoFixture::catalog('pilot', ['greeting' => 'Hallo']));
+            if ($source === 'overlay') {
+                MigratedPoFixture::writePair(
+                    MigratedPoFixture::overlayBase($client_data_dir, $directory, 'de'),
+                    MigratedPoFixture::catalog('pilot', ['greeting' => ['value' => $overlay_value, 'original' => 'Hallo', 'local_change' => '2025-05-05T05:05:05Z']])
+                );
+            } elseif ($source === 'record') {
+                MigratedLanguageFileSync::markLocalChangesTakenOver($client_data_dir, 'de', ['pilot']);
+            }
+            $flushed = [];
+            $setup_language = $this->createAchievableSetupLanguage(['de'], [], $flushed);
+            $setup_language->method('getSkippedInvalidMarkupEntries')->willReturn([]);
+            $setup_language->method('getClientDataDir')->willReturn($client_data_dir);
+            $setup_language->method('getLanguageFileDirectoryManager')->willReturn($manager);
+            $setup_language->method('getLocalChanges')->willReturn([$lng_data_module => ['farewell' => '<script>alert(1)</script>']]);
+            $messages = [];
+
+            (new ilLanguagesInstalledAndUpdatedObjective($setup_language))->achieve($this->informCollectingEnvironment($messages));
+
+            $warnings = array_values(array_filter($messages, static fn(string $m): bool => str_contains($m, 'Local changes')));
+            $this->assertCount($expect_warning ? 1 : 0, $warnings);
+            if ($expect_warning) {
+                // the overlay's own entry, or the lng_data row of a module without overlay and record
+                $this->assertStringContainsString($source === 'overlay' ? 'pilot#:#greeting' : $lng_data_module . '#:#farewell', $warnings[0]);
+                $this->assertSame($source !== 'overlay', str_contains($warnings[0], '#:#farewell'));
+            }
+        } finally {
+            MigratedPoFixture::removeDirectory($root . '/' . $relative);
+            MigratedPoFixture::removeDirectory($client_data_dir);
+        }
     }
 
     /**

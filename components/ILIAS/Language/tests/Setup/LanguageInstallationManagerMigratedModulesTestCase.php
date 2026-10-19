@@ -46,6 +46,8 @@ abstract class LanguageInstallationManagerMigratedModulesTestCase extends TestCa
 
     protected string $root;
     protected LanguageFileDirectory $directory;
+    /** @var list<LanguageFileDirectory> further contributed modules, see shipSecondModule() */
+    protected array $further_directories = [];
 
     /** @var list<mixed> */
     protected array $quoted = [];
@@ -62,6 +64,8 @@ abstract class LanguageInstallationManagerMigratedModulesTestCase extends TestCa
     protected array $db_local_changes = [];
     /** @var array<string, array<string, string>> */
     protected array $db_entries = [];
+    /** @var array<string, array{obj_id: int, status: string}> */
+    protected array $available_languages = [];
     /** @var list<string> */
     protected array $logged_warnings = [];
     private bool $expects_manager_warning = false;
@@ -135,6 +139,7 @@ abstract class LanguageInstallationManagerMigratedModulesTestCase extends TestCa
             fn(string $lang_key, string $min_date = ''): array => $min_date === '' ? $this->db_local_changes : []
         );
         $repository->method('getLanguageEntries')->willReturnCallback(fn(): array => $this->db_entries);
+        $repository->method('getAvailableLanguages')->willReturnCallback(fn(): array => $this->available_languages);
 
         return $repository;
     }
@@ -152,7 +157,8 @@ abstract class LanguageInstallationManagerMigratedModulesTestCase extends TestCa
             new LanguageFileDirectoryManager(
                 new CustomizingLanguageFileDirectory(),
                 new MainLanguageFileDirectory(),
-                $this->directory
+                $this->directory,
+                ...$this->further_directories
             ),
             $this->root,
             $this->repository(),
@@ -204,6 +210,17 @@ abstract class LanguageInstallationManagerMigratedModulesTestCase extends TestCa
             $this->root . '/components/pilot/lang/pilot_' . $lang_key . '.po',
             MigratedPoFixture::catalog(self::MODULE, $entries)
         );
+    }
+
+    /**
+     * A second migrated module "pilot2" next to "pilot".
+     *
+     * @param array<string, string|array<string, mixed>> $entries
+     */
+    protected function shipSecondModule(array $entries): void
+    {
+        $this->further_directories = [MigratedPoFixture::directory('pilot2', 'components/pilot2/lang/')];
+        MigratedPoFixture::writePo($this->root . '/components/pilot2/lang/pilot2_de.po', MigratedPoFixture::catalog('pilot2', $entries));
     }
 
     /**
