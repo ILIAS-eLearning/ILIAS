@@ -20,9 +20,12 @@ grid-based layout
 	display: grid;
 	grid-gap: 0px;
     grid-template-columns: auto 1fr;
-    grid-template-rows: auto $il-standard-page-header-height 1fr;
+    // The mainbar must not expand the content row beyond the viewport. Otherwise
+    // fragment navigation can scroll an overflowing grid under the header.
+    grid-template-rows: auto $il-standard-page-header-height minmax(0, 1fr);
     height: 100%;
-	overflow: hidden;
+	// Unlike hidden, clip also prevents fragment navigation from scrolling this grid.
+	overflow: clip;
 	width: 100%;
 	hyphens: auto;
 	-webkit-hyphens: auto;
