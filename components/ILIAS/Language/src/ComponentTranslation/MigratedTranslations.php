@@ -68,6 +68,12 @@ final class MigratedTranslations
     private static array $shipped_modules = [];
 
     private static ?string $client_data_dir = null;
+    private static bool $client_data_dir_resolved = false;
+
+    /**
+     * @var array<string, bool>
+     */
+    private static array $shipped_without_build = [];
 
     /**
      * Per "<module>|<lang>", `null` for a module not migrated for the language.
@@ -103,9 +109,8 @@ final class MigratedTranslations
     }
 
     /**
-     * Whether $module belongs to the ILIAS components: never served from lng_data/lng_modules then. Known
-     * without the component graph, so also in the Setup: from the contributions the build recorded, without a
-     * build (or one that did not record them) from the shipped templates.
+     * Whether $module belongs to the ILIAS components (never served from lng_data then). Works without the
+     * component graph: from the build's recorded contributions, else from the shipped templates.
      */
     public static function isShippedModule(string $module): bool
     {
@@ -121,8 +126,7 @@ final class MigratedTranslations
     }
 
     /**
-     * Whether the template directory of $module has a `.po` for $lang_key named by the default pattern
-     * ("<module>_<lang>.po").
+     * Whether the template directory of $module has a `<module>_<lang>.po`.
      */
     public static function shipsPoFor(string $module, string $lang_key): bool
     {
@@ -134,20 +138,41 @@ final class MigratedTranslations
     }
 
     /**
-     * CLIENT_DATA_DIR, before it is defined (Setup, CLI) MigratedLanguageFilePaths::resolveClientDataDir();
-     * a found directory is kept until reset(), a missing one is looked for again.
+     * CLIENT_DATA_DIR, before it is defined (Setup, CLI) resolveClientDataDir(); cached until reset().
      */
     public static function clientDataDir(): ?string
     {
         if (defined('CLIENT_DATA_DIR')) {
             return (string) CLIENT_DATA_DIR;
         }
+        if (!self::$client_data_dir_resolved) {
+            self::$client_data_dir = MigratedLanguageFilePaths::resolveClientDataDir(self::iliasDirectory());
+            self::$client_data_dir_resolved = true;
+        }
 
-        return self::$client_data_dir ??= MigratedLanguageFilePaths::resolveClientDataDir(self::iliasDirectory());
+        return self::$client_data_dir;
     }
 
     /**
-     * Reports (fatal) that there is no build; `false` if there is one.
+     * Whether $module ships a `.po` for $lang_key that the build does not serve; cached until reset().
+     */
+    public static function shipsPoWithoutBuild(string $module, string $lang_key, ?LanguageFileDirectory $directory): bool
+    {
+        if (!isset(self::$shipped_without_build[$module . '|' . $lang_key])) {
+            try {
+                self::$shipped_without_build[$module . '|' . $lang_key] = $directory === null
+                    ? self::shipsPoFor($module, $lang_key)
+                    : is_file(MigratedLanguageFilePaths::shippedBasePath(self::iliasDirectory(), $directory, $lang_key) . '.po');
+            } catch (\InvalidArgumentException) {
+                self::$shipped_without_build[$module . '|' . $lang_key] = false;
+            }
+        }
+
+        return self::$shipped_without_build[$module . '|' . $lang_key];
+    }
+
+    /**
+     * Reports (fatal) a missing build; `false` if there is one.
      */
     public static function reportMissingBuild(): bool
     {
@@ -301,6 +326,8 @@ final class MigratedTranslations
         self::$shipped_templates = null;
         self::$shipped_modules = [];
         self::$client_data_dir = null;
+        self::$client_data_dir_resolved = false;
+        self::$shipped_without_build = [];
     }
 
     /**

@@ -138,13 +138,13 @@ class ShippedModulesNeverReadFromDatabaseTest extends ilLanguageBaseTestCase
         $this->assertNull(MigratedTranslations::clientDataDir());
 
         mkdir($this->client_data_dir, 0775, true);
-        $this->assertSame($this->client_data_dir, MigratedTranslations::clientDataDir(), 'the missing directory was not remembered');
+        $this->assertNull(MigratedTranslations::clientDataDir(), 'a missing directory is kept until reset(): no ilias.ini.php per call');
+
+        MigratedTranslations::reset();
+        $this->assertSame($this->client_data_dir, MigratedTranslations::clientDataDir());
 
         rmdir($this->client_data_dir);
         $this->assertSame($this->client_data_dir, MigratedTranslations::clientDataDir(), 'a found one is kept');
-
-        MigratedTranslations::reset();
-        $this->assertNull(MigratedTranslations::clientDataDir());
     }
 
     public function testResetForgetsWhichModulesAreShipped(): void
