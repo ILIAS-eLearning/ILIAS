@@ -76,13 +76,13 @@ class ActivityInputSectionTest extends \ilLanguageBaseTestCase
         $repository = $this->createMock(RepositoryProvider::class);
 
         return match ($name) {
-            'install' => new InstallLanguage($language, $rbac, $setup_language, $folder),
-            'update' => new UpdateLanguage($language, $rbac, $setup_language, $folder),
-            'uninstall' => new UninstallLanguage($language, $rbac, $folder, $repository),
-            'remove' => new RemoveLocalLanguageChanges($language, $rbac, $folder, $repository),
+            'install' => new InstallLanguage($rbac, $setup_language, $folder),
+            'update' => new UpdateLanguage($rbac, $setup_language, $folder),
+            'uninstall' => new UninstallLanguage($rbac, $folder, $repository),
+            'remove' => new RemoveLocalLanguageChanges($rbac, $folder, $repository),
             'add' => new AddLanguageEntry($language, $rbac, $folder, $repository),
-            'detection' => new SetLanguageDetectionEnabled($language, $rbac, $folder, $repository),
-            'translation' => new SetLanguageTranslationEnabled($language, $rbac, $folder, $repository),
+            'detection' => new SetLanguageDetectionEnabled($rbac, $folder, $repository),
+            'translation' => new SetLanguageTranslationEnabled($rbac, $folder, $repository),
             default => throw new \InvalidArgumentException($name),
         };
     }

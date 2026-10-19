@@ -18,7 +18,6 @@ namespace ILIAS\Language\Tests\Activities;
 use ILIAS\Language\Tests\Activities\ActivityContractTestCase;
 use ILIAS\Language\Activities\InvalidInputException;
 use ILIAS\Language\Activities\SetLanguageDetectionEnabled;
-use ILIAS\Language\Language;
 use ILIAS\UI\Component\Input\Field\Checkbox;
 use ILIAS\Data\Description\Description;
 use ILIAS\Language\Activities\RepositoryProvider;
@@ -171,10 +170,7 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
         $repository = $this->createMock(RepositoryProvider::class);
         $repository->expects($this->never())->method('setLanguageDetectionEnabled');
 
-        $language = $this->createMock(Language::class);
-        $language->method('txt')->with('msg_no_perm_write')->willReturn('no write permission');
-
-        $result = $this->createActivity(rbac_system: $rbac, repository: $repository, language: $language)
+        $result = $this->createActivity(rbac_system: $rbac, repository: $repository)
             ->maybePerformAs($this->createRealFieldsUiFactory()->input(), 6, ['enabled' => true]);
 
         $this->assertTrue($result->isError());
@@ -342,11 +338,9 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
     private function createActivity(
         ?\ilRbacSystem $rbac_system = null,
         ?RepositoryProvider $repository = null,
-        ?Language $language = null,
         int $language_folder_ref_id = 0
     ): SetLanguageDetectionEnabled {
         return new SetLanguageDetectionEnabled(
-            $language ?? $this->createMock(Language::class),
             $this->rbacOf($rbac_system ?? $this->createMock(\ilRbacSystem::class)),
             $this->languageFolder($language_folder_ref_id),
             $repository ?? $this->createMock(RepositoryProvider::class)

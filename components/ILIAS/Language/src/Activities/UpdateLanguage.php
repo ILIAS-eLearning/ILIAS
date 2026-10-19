@@ -23,7 +23,6 @@ namespace ILIAS\Language\Activities;
 use ILIAS\AccessControl\PublicInterface\RBAC;
 use ILIAS\Data\Description;
 use ILIAS\Data\Text;
-use ILIAS\Language\Language;
 use ILIAS\Language\LanguageFolder;
 use ILIAS\Language\LanguageFolderLegacyProxy;
 
@@ -32,18 +31,16 @@ class UpdateLanguage extends LanguageActivity
     use DeclaresLanguageKeysOnlyInput;
 
     public function __construct(
-        Language $language,
         ?RBAC $rbac,
         private readonly \ilSetupLanguage $setup_language,
         LanguageFolder $language_folder,
     ) {
-        parent::__construct($language, $rbac, $language_folder);
+        parent::__construct($rbac, $language_folder);
     }
 
     public static function forSetup(\ilSetupLanguage $setup_language): self
     {
         return new self(
-            $setup_language,
             null,
             $setup_language,
             // never read: without RBAC, isAllowedToPerform() throws first

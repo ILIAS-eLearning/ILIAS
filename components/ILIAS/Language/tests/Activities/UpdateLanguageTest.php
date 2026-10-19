@@ -19,7 +19,6 @@ use ILIAS\Language\Tests\Activities\ActivityWithPerformResultContractTestCase;
 use ILIAS\Language\Activities\InvalidInputException;
 use ILIAS\Language\Activities\UpdateLanguage;
 use ILIAS\UI\Component\Input\Field\Text;
-use ILIAS\Language\Language;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -299,13 +298,9 @@ class UpdateLanguageTest extends ActivityWithPerformResultContractTestCase
         $setup_language = $this->createSetupLanguageMock([], [], ['de']);
         $setup_language->expects($this->never())->method('getInstalledLanguages');
         $setup_language->expects($this->never())->method('flushLanguageForInstallation');
-        $language = $this->createMock(Language::class);
-        $language->method('txt')->with('msg_no_perm_write')->willReturn('no write permission');
-
         $result = $this->createActivity(
             $setup_language,
-            $rbac,
-            $language
+            $rbac
         )->maybePerformAs($this->createRealFieldsUiFactory()->input(), 6, ['language_keys' => 'de']);
 
         $this->assertTrue($result->isError());
@@ -347,10 +342,8 @@ class UpdateLanguageTest extends ActivityWithPerformResultContractTestCase
     private function createActivity(
         ilSetupLanguage $setup_language,
         ?\ilRbacSystem $rbac = null,
-        ?Language $language = null
     ): UpdateLanguage {
         return new UpdateLanguage(
-            $language ?? $this->createMock(Language::class),
             $this->rbacOf($rbac ?? $this->createMock(\ilRbacSystem::class)),
             $setup_language,
             $this->languageFolder()

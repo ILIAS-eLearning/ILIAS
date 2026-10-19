@@ -62,7 +62,6 @@ class LanguageActivitySetupVariantTest extends \ilLanguageBaseTestCase
         $rbac->expects(self::once())->method('system')->willReturn($system);
 
         $activity = new InstallLanguage(
-            $this->createStub(\ILIAS\Language\Language::class),
             $rbac,
             $this->createStub(\ilSetupLanguage::class),
             $this->languageFolder(77)
