@@ -33,8 +33,7 @@ use ILIAS\UI\Component\Input\Input;
  */
 trait GrindsFormInput
 {
-    // private on purpose: subclasses influence perform()'s arguments via
-    // LanguageActivity::additionalPerformParameters()
+    // private on purpose: perform()'s arguments are shaped by normalizeParameters(), not by grinding
     /**
      * Result\Error only for invalid input; any other throwable is a defect and propagates to maybePerformAs().
      *

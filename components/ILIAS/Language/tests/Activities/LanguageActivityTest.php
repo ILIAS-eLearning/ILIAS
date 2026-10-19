@@ -30,6 +30,7 @@ use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ilLanguageBaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Targets LanguageActivity::maybePerformAs() directly via throwing test doubles, for behaviour no concrete
@@ -88,7 +89,7 @@ class LanguageActivityTest extends ilLanguageBaseTestCase
     /** grind() throws on a defect (FormInput without InputInternal); maybePerformAs() must mask it as 500. */
     public function testADefectThrownByGrindIsMaskedAsA500ResultError(): void
     {
-        $activity = new LanguageActivityMergePrecedenceTestDouble(
+        $activity = new LanguageActivityPerformEchoTestDouble(
             $this->createMock(RefineryFactory::class),
             $this->createMock(Language::class),
             $this->rbacOf($this->createMock(\ilRbacSystem::class)),
@@ -102,16 +103,61 @@ class LanguageActivityTest extends ilLanguageBaseTestCase
         $this->assertInstanceOf(\LogicException::class, $error->getPrevious());
     }
 
+    /** @return array<string, array{0: int}> */
+    public static function unknownUserIdProvider(): array
+    {
+        return ['zero' => [0], 'negative' => [-1], 'anonymous' => [13]];
+    }
+
+    /** No RBAC lookup for a non-user: the anonymous user (13 in ILIAS) must not pass on its roles. */
+    #[DataProvider('unknownUserIdProvider')]
+    public function testIsAllowedToPerformRefusesNonUsersWithoutAskingRbac(int $usr_id): void
+    {
+        if (!defined('ANONYMOUS_USER_ID')) {
+            define('ANONYMOUS_USER_ID', 13);
+        }
+        $this->assertSame(13, ANONYMOUS_USER_ID);
+
+        $rbac_system = $this->createMock(\ilRbacSystem::class);
+        $rbac_system->expects($this->never())->method('checkAccessOfUser');
+
+        $activity = new LanguageActivityPerformEchoTestDouble(
+            $this->createMock(RefineryFactory::class),
+            $this->createMock(Language::class),
+            $this->rbacOf($rbac_system),
+            $this->languageFolder()
+        );
+
+        $this->assertFalse($activity->isAllowedToPerform($usr_id, []));
+    }
+
+    public function testMaybePerformAsAnswers403ForANonUserAndNeverPerforms(): void
+    {
+        $rbac_system = $this->createMock(\ilRbacSystem::class);
+        $rbac_system->expects($this->never())->method('checkAccessOfUser');
+
+        $activity = new LanguageActivityPerformEchoTestDouble(
+            $this->createMock(RefineryFactory::class),
+            $this->createMock(Language::class),
+            $this->rbacOf($rbac_system),
+            $this->languageFolder()
+        );
+
+        $error = $activity->maybePerformAs($this->createRealFieldsUiFactory()->input(), 0, [])->error();
+
+        $this->assertSame(403, $error->getCode());
+    }
+
     /**
-     * additionalPerformParameters() must win over a same-named key from normalizeParameters() in maybePerformAs()'s
-     * array_merge(). Needs a dedicated double, as AddLanguageEntry never collects a 'usr_id' field.
+     * perform() gets the usr_id of maybePerformAs(), not the spoofed one from normalizeParameters(). Needs a
+     * dedicated double, as no real Activity collects a 'usr_id' field.
      */
-    public function testAdditionalPerformParametersWinsOverANormalizeParametersKeyCollisionInMaybePerformAs(): void
+    public function testMaybePerformAsPassesTheTrustedUsrIdToPerformOverASpoofedFormKey(): void
     {
         $rbac = $this->createMock(\ilRbacSystem::class);
         $rbac->method('checkAccessOfUser')->willReturn(true);
 
-        $activity = new LanguageActivityMergePrecedenceTestDouble(
+        $activity = new LanguageActivityPerformEchoTestDouble(
             $this->createMock(RefineryFactory::class),
             $this->createMock(Language::class),
             $this->rbacOf($rbac),
@@ -178,7 +224,7 @@ final class LanguageActivityThrowingInputDescriptionTestDouble extends LanguageA
  * normalizeParameters() always returns a colliding 'usr_id' (spoofed form input); perform() returns $parameters
  * unchanged so the test can inspect the merge.
  */
-final class LanguageActivityMergePrecedenceTestDouble extends LanguageActivity
+final class LanguageActivityPerformEchoTestDouble extends LanguageActivity
 {
     public function __construct(
         RefineryFactory $refinery,
@@ -192,7 +238,7 @@ final class LanguageActivityMergePrecedenceTestDouble extends LanguageActivity
 
     public function getDescription(): Text\SimpleDocumentMarkdown
     {
-        return $this->markdown('Test double for maybePerformAs() array_merge() precedence.');
+        return $this->markdown('Test double for the usr_id precedence in maybePerformAs().');
     }
 
     public function getInputDescription(FieldFactory $f): FormInput
@@ -215,15 +261,7 @@ final class LanguageActivityMergePrecedenceTestDouble extends LanguageActivity
      */
     protected function normalizeParameters(array $grind_result): array
     {
-        // spoofed 'usr_id' that must lose against additionalPerformParameters()
+        // spoofed 'usr_id' that must lose against the one maybePerformAs() passes
         return ['usr_id' => 'SPOOFED-VALUE', 'source' => 'form'];
-    }
-
-    /**
-     * @return array{usr_id: int}
-     */
-    protected function additionalPerformParameters(int $usr_id): array
-    {
-        return ['usr_id' => $usr_id];
     }
 }
