@@ -27,17 +27,32 @@ use PHPUnit\Framework\TestCase;
  */
 class ContentModeManagerTest extends TestCase
 {
-    protected \ILIAS\Container\Content\ViewManager $manager;
+    protected \ILIAS\Container\Content\ModeManager $manager;
+    protected \ILIAS\Container\Content\ModeSessionRepository $mode_repo;
 
     protected function setUp(): void
     {
-        /*    parent::setUp();
-            $view_repo = new \ILIAS\Container\Content\ModeSessionRepository();
-            $this->manager = new \ILIAS\Container\Content\ModeManager($view_repo);*/
+        parent::setUp();
+
+        if (!defined('ANONYMOUS_USER_ID')) {
+            define('ANONYMOUS_USER_ID', 13);
+        }
+
+        $this->mode_repo = new \ILIAS\Container\Content\ModeSessionRepository();
+        $this->mode_repo->setContentMode();
+        $this->manager = new \ILIAS\Container\Content\ModeManager(
+            $this->createStub(\ilContainer::class),
+            $this->mode_repo,
+            $this->createStub(\ILIAS\Repository\Clipboard\ClipboardManager::class),
+            1
+        );
     }
 
     protected function tearDown(): void
     {
+        $this->mode_repo->setContentMode();
+
+        parent::tearDown();
     }
 
     /**
@@ -45,8 +60,6 @@ class ContentModeManagerTest extends TestCase
      */
     public function testAdminView(): void
     {
-        $this->markTestSkipped('SetUp for this case fails.');
-
         $manager = $this->manager;
 
         $manager->setAdminMode();
@@ -66,8 +79,6 @@ class ContentModeManagerTest extends TestCase
      */
     public function testContentView(): void
     {
-        $this->markTestSkipped('SetUp for this case fails.');
-
         $manager = $this->manager;
 
         $manager->setContentMode();
