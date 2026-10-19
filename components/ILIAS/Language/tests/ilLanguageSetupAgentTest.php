@@ -39,14 +39,12 @@ class ilLanguageSetupAgentTest extends ilLanguageBaseTestCase
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
         $setup_language = $this->createMock(ilSetupLanguage::class);
         $install_language = new InstallLanguage(
-            $refinery,
             $this->createMock(\ILIAS\Language\Language::class),
             $this->createStub(\ILIAS\AccessControl\PublicInterface\RBAC::class),
             $setup_language,
             $this->languageFolder()
         );
         $update_language = new UpdateLanguage(
-            $refinery,
             $this->createMock(\ILIAS\Language\Language::class),
             $this->createStub(\ILIAS\AccessControl\PublicInterface\RBAC::class),
             $setup_language,

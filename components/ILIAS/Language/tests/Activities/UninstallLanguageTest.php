@@ -20,9 +20,7 @@ use ILIAS\Language\Activities\AmbiguousLanguageTitleException;
 use ILIAS\Language\Activities\InvalidInputException;
 use ILIAS\Language\Activities\UninstallLanguage;
 use ILIAS\UI\Component\Input\Field\Text;
-use ILIAS\UI\Component\Input\Field\Group;
 use ILIAS\Language\Language;
-use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -576,10 +574,10 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
         // no mode parameter: the select field must never be built
         $field->expects($this->never())->method('select');
 
-        $group = $this->createMock(Group::class);
+        $group = $this->createMock(\ILIAS\UI\Component\Input\Field\Section::class);
         $field->expects($this->once())
-            ->method('group')
-            ->with(['language_keys' => $text])
+            ->method('section')
+            ->with(['language_keys' => $text], $this->anything())
             ->willReturn($group);
 
         $activity = $this->createActivity(
@@ -676,7 +674,6 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
         ?Language $language = null
     ): UninstallLanguage {
         return new UninstallLanguage(
-            $this->createMock(RefineryFactory::class),
             $language ?? $this->createMock(Language::class),
             $this->rbacOf($rbac ?? $this->createMock(\ilRbacSystem::class)),
             $this->languageFolder(),

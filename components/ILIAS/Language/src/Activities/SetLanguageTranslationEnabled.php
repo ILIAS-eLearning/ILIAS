@@ -27,7 +27,6 @@ use ILIAS\Data\Text;
 use ILIAS\Language\Language;
 use ILIAS\Language\LanguageFolder;
 use ILIAS\Language\Setup\InstalledLanguageRepository;
-use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 
@@ -36,14 +35,13 @@ class SetLanguageTranslationEnabled extends LanguageActivity
     private readonly \Closure $settings;
 
     public function __construct(
-        RefineryFactory $refinery,
         Language $language,
         RBAC $rbac,
         Setting|\Closure $settings,
         private readonly InstalledLanguageRepository $installed_language_repository,
         LanguageFolder $language_folder,
     ) {
-        parent::__construct($refinery, $language, $rbac, $language_folder);
+        parent::__construct($language, $rbac, $language_folder);
         $this->settings = $settings instanceof \Closure
             ? $settings
             : static fn(): Setting => $settings;
@@ -51,7 +49,7 @@ class SetLanguageTranslationEnabled extends LanguageActivity
 
     public function getDescription(): Text\SimpleDocumentMarkdown
     {
-        return $this->markdown(
+        return $this->data->text()->markdown()->simpleDocument(
             <<<'MARKDOWN'
 Enables or disables the "page translation" feature for one specific
 language. This is a per-language on/off flag, not a system-wide setting -
@@ -73,25 +71,27 @@ MARKDOWN
             'Whether page translation should be enabled for this language.'
         )->withDedicatedName('enabled');
 
-        return $f->group([
+        return $f->section([
             'language_key' => $language_key,
             'enabled' => $enabled,
-        ]);
+        ], 'Enable or disable page translation');
     }
 
     public function getOutputDescription(Description\Factory $f): Description\Description
     {
+        $text = $this->data->text()->markdown();
+
         return $f->object(
-            $this->markdown('Result of changing the page translation setting.'),
+            $text->simpleDocument('Result of changing the page translation setting.'),
             [
                 'language_key' => $f->string(
-                    $this->markdown('Language key the page translation setting was changed for.')
+                    $text->simpleDocument('Language key the page translation setting was changed for.')
                 ),
                 'enabled' => $f->bool(
-                    $this->markdown('The page translation setting for this language after this change.')
+                    $text->simpleDocument('The page translation setting for this language after this change.')
                 ),
                 'changed' => $f->bool(
-                    $this->markdown(
+                    $text->simpleDocument(
                         'Whether the setting actually differed from its previously stored value - ' .
                         'false if the requested value already matched the stored one, in which case ' .
                         'nothing was written.'

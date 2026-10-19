@@ -25,7 +25,6 @@ use ILIAS\Data\Description;
 use ILIAS\Data\Text;
 use ILIAS\Language\Language;
 use ILIAS\Language\LanguageFolder;
-use ILIAS\Refinery\Factory as RefineryFactory;
 
 class UninstallLanguage extends LanguageActivity
 {
@@ -40,14 +39,13 @@ class UninstallLanguage extends LanguageActivity
      * @param \Closure|null $obj_language_factory (int $obj_id): \ilObjLanguage
      */
     public function __construct(
-        RefineryFactory $refinery,
         Language $language,
         RBAC $rbac,
         LanguageFolder $language_folder,
         ?\Closure $lng_objects = null,
         ?\Closure $obj_language_factory = null,
     ) {
-        parent::__construct($refinery, $language, $rbac, $language_folder);
+        parent::__construct($language, $rbac, $language_folder);
         $this->lng_objects = $lng_objects
             ?? static fn(): array => \ilObject::_getObjectsByType('lng');
         $this->obj_language_factory = $obj_language_factory
@@ -56,7 +54,7 @@ class UninstallLanguage extends LanguageActivity
 
     public function getDescription(): Text\SimpleDocumentMarkdown
     {
-        return $this->markdown(
+        return $this->data->text()->markdown()->simpleDocument(
             <<<'MARKDOWN'
 Uninstalls one or more already installed languages, flushing their base data
 (and any customizing/local data) and resetting the status of the according
@@ -71,37 +69,44 @@ MARKDOWN
         );
     }
 
+    protected function inputSectionTitle(): string
+    {
+        return 'Uninstall languages';
+    }
+
     public function getOutputDescription(Description\Factory $f): Description\Description
     {
+        $text = $this->data->text()->markdown();
+
         return $f->object(
-            $this->markdown('Result of the language uninstallation.'),
+            $text->simpleDocument('Result of the language uninstallation.'),
             [
                 'uninstalled_language_keys' => $f->list(
-                    $this->markdown('Languages that were uninstalled.'),
-                    $f->string($this->markdown('Language key of an uninstalled language.'))
+                    $text->simpleDocument('Languages that were uninstalled.'),
+                    $f->string($text->simpleDocument('Language key of an uninstalled language.'))
                 ),
                 'system_language_keys' => $f->list(
-                    $this->markdown(
+                    $text->simpleDocument(
                         'Requested languages that were left untouched because they are the ' .
                         'current system language - the system language can never be uninstalled.'
                     ),
-                    $f->string($this->markdown('Language key of the system language.'))
+                    $f->string($text->simpleDocument('Language key of the system language.'))
                 ),
                 'user_language_keys' => $f->list(
-                    $this->markdown(
+                    $text->simpleDocument(
                         'Requested languages that were left untouched because they are the ' .
                         'language currently in use by the acting session - a language currently ' .
                         'in use can never be uninstalled.'
                     ),
-                    $f->string($this->markdown('Language key of the language currently in use.'))
+                    $f->string($text->simpleDocument('Language key of the language currently in use.'))
                 ),
                 'not_installed_language_keys' => $f->list(
-                    $this->markdown(
+                    $text->simpleDocument(
                         'Requested languages that were left untouched because they are not ' .
                         'installed (or not a known language key at all) - there is nothing to ' .
                         'uninstall for them.'
                     ),
-                    $f->string($this->markdown('Language key of a not-installed language.'))
+                    $f->string($text->simpleDocument('Language key of a not-installed language.'))
                 ),
             ]
         );

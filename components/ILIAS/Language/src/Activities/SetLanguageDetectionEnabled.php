@@ -26,7 +26,6 @@ use ILIAS\Data\Description;
 use ILIAS\Data\Text;
 use ILIAS\Language\Language;
 use ILIAS\Language\LanguageFolder;
-use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 
@@ -35,13 +34,12 @@ class SetLanguageDetectionEnabled extends LanguageActivity
     private readonly \Closure $settings;
 
     public function __construct(
-        RefineryFactory $refinery,
         Language $language,
         RBAC $rbac,
         Setting|\Closure $settings,
         LanguageFolder $language_folder,
     ) {
-        parent::__construct($refinery, $language, $rbac, $language_folder);
+        parent::__construct($language, $rbac, $language_folder);
         $this->settings = $settings instanceof \Closure
             ? $settings
             : static fn(): Setting => $settings;
@@ -49,7 +47,7 @@ class SetLanguageDetectionEnabled extends LanguageActivity
 
     public function getDescription(): Text\SimpleDocumentMarkdown
     {
-        return $this->markdown(
+        return $this->data->text()->markdown()->simpleDocument(
             <<<'MARKDOWN'
 Enables or disables the system-wide automatic language detection from the
 browser's Accept-Language header. This is a single on/off flag for the
@@ -65,18 +63,20 @@ MARKDOWN
             'Whether automatic language detection from the browser should be enabled.'
         )->withDedicatedName('enabled');
 
-        return $f->group([
+        return $f->section([
             'enabled' => $enabled,
-        ]);
+        ], 'Enable or disable language detection');
     }
 
     public function getOutputDescription(Description\Factory $f): Description\Description
     {
+        $text = $this->data->text()->markdown();
+
         return $f->object(
-            $this->markdown('Result of changing the language detection setting.'),
+            $text->simpleDocument('Result of changing the language detection setting.'),
             [
                 'enabled' => $f->bool(
-                    $this->markdown('The language detection setting after this change.')
+                    $text->simpleDocument('The language detection setting after this change.')
                 ),
             ]
         );

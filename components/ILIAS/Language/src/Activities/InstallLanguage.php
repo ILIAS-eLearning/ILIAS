@@ -26,7 +26,6 @@ use ILIAS\Data\Text;
 use ILIAS\Language\Language;
 use ILIAS\Language\LanguageFolder;
 use ILIAS\Language\LanguageFolderLegacyProxy;
-use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 
@@ -38,19 +37,17 @@ class InstallLanguage extends LanguageActivity
     public const string MODE_INSTALL_LOCAL = 'install_local';
 
     public function __construct(
-        RefineryFactory $refinery,
         Language $language,
         ?RBAC $rbac,
         private readonly \ilSetupLanguage $setup_language,
         LanguageFolder $language_folder,
     ) {
-        parent::__construct($refinery, $language, $rbac, $language_folder);
+        parent::__construct($language, $rbac, $language_folder);
     }
 
     public static function forSetup(\ilSetupLanguage $setup_language): self
     {
         return new self(
-            new RefineryFactory(new \ILIAS\Data\Factory(), $setup_language),
             $setup_language,
             null,
             $setup_language,
@@ -61,7 +58,7 @@ class InstallLanguage extends LanguageActivity
 
     public function getDescription(): Text\SimpleDocumentMarkdown
     {
-        return $this->markdown(
+        return $this->data->text()->markdown()->simpleDocument(
             <<<'MARKDOWN'
 Installs one or more languages in the ILIAS system, or applies just their
 customizing/local language file, depending on the chosen mode.
@@ -94,50 +91,52 @@ MARKDOWN
             'installation.'
         )->withRequired(true)->withDedicatedName('mode');
 
-        return $f->group([
+        return $f->section([
             'language_keys' => $language_keys,
             'mode' => $mode,
-        ]);
+        ], 'Install languages');
     }
 
     public function getOutputDescription(Description\Factory $f): Description\Description
     {
+        $text = $this->data->text()->markdown();
+
         return $f->object(
-            $this->markdown('Result of the language installation.'),
+            $text->simpleDocument('Result of the language installation.'),
             [
                 'installed_language_keys' => $f->list(
-                    $this->markdown('Newly installed languages without a custom language file.'),
-                    $f->string($this->markdown('Language key of a newly installed language.'))
+                    $text->simpleDocument('Newly installed languages without a custom language file.'),
+                    $f->string($text->simpleDocument('Language key of a newly installed language.'))
                 ),
                 'installed_with_local_language_keys' => $f->list(
-                    $this->markdown(
+                    $text->simpleDocument(
                         'Languages for which a custom/local language file was (re-)installed - ' .
                         'either as part of a fresh installation (mode "install"), or applied on ' .
                         'top of an already installed language (mode "install_local").'
                     ),
-                    $f->string($this->markdown('Language key of a language with an installed custom language file.'))
+                    $f->string($text->simpleDocument('Language key of a language with an installed custom language file.'))
                 ),
                 'already_installed_language_keys' => $f->list(
-                    $this->markdown(
+                    $text->simpleDocument(
                         'Languages for which this run changed nothing: mode "install" was ' .
                         'requested for a language that was already installed (a no-op by design ' .
                         '- use mode "install_local" to (re-)apply a customizing file instead), ' .
                         'or mode "install_local" was requested for an installed language that ' .
                         'has no customizing/local file to apply.'
                     ),
-                    $f->string($this->markdown('Language key of an already installed language.'))
+                    $f->string($text->simpleDocument('Language key of an already installed language.'))
                 ),
                 'not_installed_language_keys' => $f->list(
-                    $this->markdown(
+                    $text->simpleDocument(
                         'Languages requested with mode "install_local" that are not installed - ' .
                         'skipped entirely, since there is nothing installed yet to apply local ' .
                         'changes on top of.'
                     ),
-                    $f->string($this->markdown('Language key of a not-yet-installed language.'))
+                    $f->string($text->simpleDocument('Language key of a not-yet-installed language.'))
                 ),
                 'invalid_local_language_files' => $f->list(
-                    $this->markdown('Local language files with an invalid file name.'),
-                    $f->string($this->markdown('File name of an invalid local language file.'))
+                    $text->simpleDocument('Local language files with an invalid file name.'),
+                    $f->string($text->simpleDocument('File name of an invalid local language file.'))
                 ),
             ]
         );
