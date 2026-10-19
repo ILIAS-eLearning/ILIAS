@@ -169,9 +169,7 @@ class Language implements Component\Component
             );
 
         // Provided under the concrete class because Init.php pulls it, so none may become final
-        // (the GUI tests mock them). The $contribute order is the declaration order below and must
-        // stay between the Setup\Agent and the UserSettings entry: RenamingDIC numbers the repeated
-        // Activity key in call order (see LanguageComponentGraphTest).
+        // (the GUI tests mock them).
         $activities = [
             InstallLanguage::class,
             UpdateLanguage::class,
