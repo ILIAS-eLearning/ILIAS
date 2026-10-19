@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\Language\Activities;
 
 use ILIAS\AccessControl\PublicInterface\RBAC;
-use ILIAS\Administration\Setting;
 use ILIAS\Data\Description;
 use ILIAS\Data\Text;
 use ILIAS\Language\Language;
@@ -31,18 +30,13 @@ use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 
 class SetLanguageDetectionEnabled extends LanguageActivity
 {
-    private readonly \Closure $settings;
-
     public function __construct(
         Language $language,
         RBAC $rbac,
-        Setting|\Closure $settings,
         LanguageFolder $language_folder,
+        private readonly RepositoryProvider $repository,
     ) {
         parent::__construct($language, $rbac, $language_folder);
-        $this->settings = $settings instanceof \Closure
-            ? $settings
-            : static fn(): Setting => $settings;
     }
 
     public function getDescription(): Text\SimpleDocumentMarkdown
@@ -90,7 +84,7 @@ MARKDOWN
 
         $enabled = $parameters['enabled'];
 
-        ($this->settings)()->set('lang_detection', $enabled ? '1' : '0');
+        $this->repository->setLanguageDetectionEnabled($enabled);
 
         return ['enabled' => $enabled];
     }

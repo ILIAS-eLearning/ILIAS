@@ -25,69 +25,18 @@ use ILIAS\Data\Description;
 use ILIAS\Data\Text;
 use ILIAS\Language\Language;
 use ILIAS\Language\LanguageFolder;
-use ILIAS\Language\Setup\InstalledLanguageRepository;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 
 class AddLanguageEntry extends LanguageActivity
 {
-    private readonly \Closure $replace_lang_entry;
-    private readonly \Closure $update_module_cache;
-    private readonly \Closure $user_login;
-
-    /**
-     * @param \Closure|null $replace_lang_entry (string $module, string $identifier, string $lang_key,
-     *        string $value, string $local_change, string $remarks): bool
-     * @param \Closure|null $update_module_cache (string $lang_key, string $module, string $identifier,
-     *        string $value): void
-     * @param \Closure|null $user_login (int $usr_id): string
-     */
     public function __construct(
         Language $language,
         RBAC $rbac,
-        private readonly InstalledLanguageRepository $installed_language_repository,
-        \ilDBInterface $db,
         LanguageFolder $language_folder,
-        ?\Closure $replace_lang_entry = null,
-        ?\Closure $update_module_cache = null,
-        ?\Closure $user_login = null,
+        private readonly RepositoryProvider $repository,
     ) {
         parent::__construct($language, $rbac, $language_folder);
-        $this->replace_lang_entry = $replace_lang_entry
-            ?? static fn(
-                string $module,
-                string $identifier,
-                string $lang_key,
-                string $value,
-                string $local_change,
-                string $remarks
-            ): bool => \ilObjLanguage::replaceLangEntry($module, $identifier, $lang_key, $value, $local_change, $remarks);
-        $this->update_module_cache = $update_module_cache
-            ?? static function (
-                string $lang_key,
-                string $module,
-                string $identifier,
-                string $value
-            ) use ($db): void {
-                $set = $db->query(
-                    'SELECT lang_array FROM lng_modules WHERE lang_key = '
-                    . $db->quote($lang_key, 'text') . ' AND module = ' . $db->quote($module, 'text')
-                );
-                $row = $db->fetchAssoc($set);
-                if ($row === null || !is_string($row['lang_array'] ?? null)) {
-                    return;
-                }
-
-                $entries = unserialize($row['lang_array'], ['allowed_classes' => false]);
-                if (!is_array($entries)) {
-                    return;
-                }
-
-                $entries[$identifier] = $value;
-                \ilObjLanguage::replaceLangModule($lang_key, $module, $entries);
-            };
-        $this->user_login = $user_login
-            ?? static fn(int $usr_id): string => \ilObjUser::_lookupLogin($usr_id);
     }
 
     public function getDescription(): Text\SimpleDocumentMarkdown
@@ -114,7 +63,7 @@ MARKDOWN
      */
     public function getInputDescription(FieldFactory $f): FormInput
     {
-        $installed_language_keys = $this->installed_language_repository->getInstalledLanguages();
+        $installed_language_keys = $this->repository->getInstalledLanguages();
 
         // labels need the "meta" module loaded by the caller (not loaded here: it would clobber keys
         // of other modules in the shared $lng); otherwise the placeholder "-meta_l_de-" shows
@@ -204,7 +153,7 @@ MARKDOWN
             );
         }
 
-        $installed_language_keys = $this->installed_language_repository->getInstalledLanguages();
+        $installed_language_keys = $this->repository->getInstalledLanguages();
 
         $missing_mandatory_language_keys = [];
         foreach (['de', 'en'] as $mandatory_lang_key) {
@@ -227,7 +176,7 @@ MARKDOWN
         }
 
         // '' (no usr_id) means "no remarks" for replaceLangEntry()
-        $login = is_int($usr_id) ? ($this->user_login)($usr_id) : '';
+        $login = is_int($usr_id) ? $this->repository->lookupLogin($usr_id) : '';
         $local_change = gmdate('Y-m-d H:i:s');
 
         $added_language_keys = [];
@@ -244,8 +193,8 @@ MARKDOWN
                 continue;
             }
 
-            ($this->replace_lang_entry)($module, $identifier, $lang_key, $value, $local_change, $login);
-            ($this->update_module_cache)($lang_key, $module, $identifier, $value);
+            $this->repository->replaceLangEntry($module, $identifier, $lang_key, $value, $local_change, $login);
+            $this->repository->updateModuleCache($lang_key, $module, $identifier, $value);
 
             $added_language_keys[] = $lang_key;
         }

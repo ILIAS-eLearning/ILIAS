@@ -21,30 +21,22 @@ declare(strict_types=1);
 namespace ILIAS\Language\Activities;
 
 use ILIAS\AccessControl\PublicInterface\RBAC;
-use ILIAS\Administration\Setting;
 use ILIAS\Data\Description;
 use ILIAS\Data\Text;
 use ILIAS\Language\Language;
 use ILIAS\Language\LanguageFolder;
-use ILIAS\Language\Setup\InstalledLanguageRepository;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 
 class SetLanguageTranslationEnabled extends LanguageActivity
 {
-    private readonly \Closure $settings;
-
     public function __construct(
         Language $language,
         RBAC $rbac,
-        Setting|\Closure $settings,
-        private readonly InstalledLanguageRepository $installed_language_repository,
         LanguageFolder $language_folder,
+        private readonly RepositoryProvider $repository,
     ) {
         parent::__construct($language, $rbac, $language_folder);
-        $this->settings = $settings instanceof \Closure
-            ? $settings
-            : static fn(): Setting => $settings;
     }
 
     public function getDescription(): Text\SimpleDocumentMarkdown
@@ -118,20 +110,18 @@ MARKDOWN
         $language_key = trim($parameters['language_key']);
         $enabled = $parameters['enabled'];
 
-        if (!in_array($language_key, $this->installed_language_repository->getInstalledLanguages(), true)) {
+        if (!in_array($language_key, $this->repository->getInstalledLanguages(), true)) {
             throw new InvalidInputException(
                 'Unknown language key "' . $language_key . '" - not an installed language.'
             );
         }
 
-        $translate_key = 'lang_translate_' . $language_key;
-
-        $currently_enabled = (bool) ($this->settings)()->get($translate_key, '0');
+        $currently_enabled = $this->repository->isPageTranslationEnabled($language_key);
         // strict comparison of booleans, a loose `!=` on raw strings misjudges some values (see the test)
         $changed = $currently_enabled !== $enabled;
 
         if ($changed) {
-            ($this->settings)()->set($translate_key, $enabled ? '1' : '0');
+            $this->repository->setPageTranslationEnabled($language_key, $enabled);
         }
 
         return [

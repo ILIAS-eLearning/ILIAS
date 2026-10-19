@@ -21,17 +21,16 @@ declare(strict_types=1);
 
 namespace ILIAS\Language\Tests\Activities;
 
-use ILIAS\Administration\Setting;
 use ILIAS\Language\Activities\AddLanguageEntry;
 use ILIAS\Language\Activities\InstallLanguage;
 use ILIAS\Language\Activities\LanguageActivity;
 use ILIAS\Language\Activities\RemoveLocalLanguageChanges;
+use ILIAS\Language\Activities\RepositoryProvider;
 use ILIAS\Language\Activities\SetLanguageDetectionEnabled;
 use ILIAS\Language\Activities\SetLanguageTranslationEnabled;
 use ILIAS\Language\Activities\UninstallLanguage;
 use ILIAS\Language\Activities\UpdateLanguage;
 use ILIAS\Language\Language;
-use ILIAS\Language\Setup\InstalledLanguageRepository;
 use ILIAS\UI\Component\Input\Field\Section;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -74,17 +73,16 @@ class ActivityInputSectionTest extends \ilLanguageBaseTestCase
         $rbac = $this->rbacOf($this->createMock(\ilRbacSystem::class));
         $folder = $this->languageFolder();
         $setup_language = $this->createMock(\ilSetupLanguage::class);
-        $settings = $this->createMock(Setting::class);
-        $repository = $this->createMock(InstalledLanguageRepository::class);
+        $repository = $this->createMock(RepositoryProvider::class);
 
         return match ($name) {
             'install' => new InstallLanguage($language, $rbac, $setup_language, $folder),
             'update' => new UpdateLanguage($language, $rbac, $setup_language, $folder),
-            'uninstall' => new UninstallLanguage($language, $rbac, $folder),
-            'remove' => new RemoveLocalLanguageChanges($language, $rbac, $folder),
-            'add' => new AddLanguageEntry($language, $rbac, $repository, $this->createMock(\ilDBInterface::class), $folder),
-            'detection' => new SetLanguageDetectionEnabled($language, $rbac, $settings, $folder),
-            'translation' => new SetLanguageTranslationEnabled($language, $rbac, $settings, $repository, $folder),
+            'uninstall' => new UninstallLanguage($language, $rbac, $folder, $repository),
+            'remove' => new RemoveLocalLanguageChanges($language, $rbac, $folder, $repository),
+            'add' => new AddLanguageEntry($language, $rbac, $folder, $repository),
+            'detection' => new SetLanguageDetectionEnabled($language, $rbac, $folder, $repository),
+            'translation' => new SetLanguageTranslationEnabled($language, $rbac, $folder, $repository),
             default => throw new \InvalidArgumentException($name),
         };
     }

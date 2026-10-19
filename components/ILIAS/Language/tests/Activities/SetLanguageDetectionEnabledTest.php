@@ -21,12 +21,12 @@ use ILIAS\Language\Activities\SetLanguageDetectionEnabled;
 use ILIAS\Language\Language;
 use ILIAS\UI\Component\Input\Field\Checkbox;
 use ILIAS\Data\Description\Description;
-use ILIAS\Administration\Setting;
+use ILIAS\Language\Activities\RepositoryProvider;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
- * SetLanguageDetectionEnabled wraps a single \ILIAS\Administration\Setting ("lang_detection"), which is a plain
+ * SetLanguageDetectionEnabled writes the "lang_detection" setting through the RepositoryProvider, which is a plain
  * interface and can be mocked directly, unlike \ilObjLanguage on the sibling Activities. A denied permission must
  * yield a Result\Error and leave the Setting untouched.
  */
@@ -68,59 +68,57 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
      */
     public function testIsAllowedToPerformNeverTouchesSettings(): void
     {
-        $settings = $this->createMock(Setting::class);
-        $settings->expects($this->never())->method('set');
+        $repository = $this->createMock(RepositoryProvider::class);
+        $repository->expects($this->never())->method('setLanguageDetectionEnabled');
 
         $rbac = $this->createMock(\ilRbacSystem::class);
         $rbac->method('checkAccessOfUser')->willReturn(true);
 
-        $activity = $this->createActivity(rbac_system: $rbac, settings: $settings);
+        $activity = $this->createActivity(rbac_system: $rbac, repository: $repository);
 
         $this->assertTrue($activity->isAllowedToPerform(6, ['enabled' => true]));
     }
 
     public function testPerformWithEnabledTrueWritesOneIntoLangDetectionSettingAndReturnsEnabledTrue(): void
     {
-        $settings = $this->createMock(Setting::class);
-        $settings->expects($this->once())
-            ->method('set')
-            ->with('lang_detection', '1');
+        $repository = $this->createMock(RepositoryProvider::class);
+        $repository->expects($this->once())
+            ->method('setLanguageDetectionEnabled')->with(true);
 
-        $result = $this->createActivity(settings: $settings)->perform(['enabled' => true]);
+        $result = $this->createActivity(repository: $repository)->perform(['enabled' => true]);
 
         $this->assertSame(['enabled' => true], $result);
     }
 
     public function testPerformWithEnabledFalseWritesZeroIntoLangDetectionSettingAndReturnsEnabledFalse(): void
     {
-        $settings = $this->createMock(Setting::class);
-        $settings->expects($this->once())
-            ->method('set')
-            ->with('lang_detection', '0');
+        $repository = $this->createMock(RepositoryProvider::class);
+        $repository->expects($this->once())
+            ->method('setLanguageDetectionEnabled')->with(false);
 
-        $result = $this->createActivity(settings: $settings)->perform(['enabled' => false]);
+        $result = $this->createActivity(repository: $repository)->perform(['enabled' => false]);
 
         $this->assertSame(['enabled' => false], $result);
     }
 
     public function testPerformRejectsMissingParametersArray(): void
     {
-        $settings = $this->createMock(Setting::class);
-        $settings->expects($this->never())->method('set');
+        $repository = $this->createMock(RepositoryProvider::class);
+        $repository->expects($this->never())->method('setLanguageDetectionEnabled');
 
         $this->expectException(InvalidInputException::class);
 
-        $this->createActivity(settings: $settings)->perform([]);
+        $this->createActivity(repository: $repository)->perform([]);
     }
 
     public function testPerformRejectsNonArrayParameters(): void
     {
-        $settings = $this->createMock(Setting::class);
-        $settings->expects($this->never())->method('set');
+        $repository = $this->createMock(RepositoryProvider::class);
+        $repository->expects($this->never())->method('setLanguageDetectionEnabled');
 
         $this->expectException(InvalidInputException::class);
 
-        $this->createActivity(settings: $settings)->perform('not-an-array');
+        $this->createActivity(repository: $repository)->perform('not-an-array');
     }
 
     /**
@@ -132,12 +130,12 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
     #[DataProvider('nonBooleanEnabledValuesProvider')]
     public function testPerformRejectsNonStrictBooleanEnabledValues(mixed $value): void
     {
-        $settings = $this->createMock(Setting::class);
-        $settings->expects($this->never())->method('set');
+        $repository = $this->createMock(RepositoryProvider::class);
+        $repository->expects($this->never())->method('setLanguageDetectionEnabled');
 
         $this->expectException(InvalidInputException::class);
 
-        $this->createActivity(settings: $settings)->perform(['enabled' => $value]);
+        $this->createActivity(repository: $repository)->perform(['enabled' => $value]);
     }
 
     public static function nonBooleanEnabledValuesProvider(): array
@@ -161,10 +159,10 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
         $rbac = $this->createMock(\ilRbacSystem::class);
         $rbac->method('checkAccessOfUser')->willReturn(true);
 
-        $settings = $this->createMock(Setting::class);
-        $settings->expects($this->once())->method('set')->with('lang_detection', '1');
+        $repository = $this->createMock(RepositoryProvider::class);
+        $repository->expects($this->once())->method('setLanguageDetectionEnabled')->with(true);
 
-        $result = $this->createActivity(rbac_system: $rbac, settings: $settings)
+        $result = $this->createActivity(rbac_system: $rbac, repository: $repository)
             ->maybePerformAs($this->createRealFieldsUiFactory()->input(), 6, ['enabled' => true]);
 
         $this->assertFalse($result->isError());
@@ -192,13 +190,13 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
             ->with(6, 'write', $this->anything())
             ->willReturn(false);
 
-        $settings = $this->createMock(Setting::class);
-        $settings->expects($this->never())->method('set');
+        $repository = $this->createMock(RepositoryProvider::class);
+        $repository->expects($this->never())->method('setLanguageDetectionEnabled');
 
         $language = $this->createMock(Language::class);
         $language->method('txt')->with('msg_no_perm_write')->willReturn('no write permission');
 
-        $result = $this->createActivity(rbac_system: $rbac, settings: $settings, language: $language)
+        $result = $this->createActivity(rbac_system: $rbac, repository: $repository, language: $language)
             ->maybePerformAs($this->createRealFieldsUiFactory()->input(), 6, ['enabled' => true]);
 
         $this->assertTrue($result->isError());
@@ -209,10 +207,10 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
         $rbac = $this->createMock(\ilRbacSystem::class);
         $rbac->method('checkAccessOfUser')->willReturn(true);
 
-        $settings = $this->createMock(Setting::class);
-        $settings->expects($this->never())->method('set');
+        $repository = $this->createMock(RepositoryProvider::class);
+        $repository->expects($this->never())->method('setLanguageDetectionEnabled');
 
-        $result = $this->createActivity(rbac_system: $rbac, settings: $settings)
+        $result = $this->createActivity(rbac_system: $rbac, repository: $repository)
             ->maybePerformAs($this->createRealFieldsUiFactory()->input(), 6, ['enabled' => 'not-a-bool']);
 
         $this->assertTrue($result->isError());
@@ -239,10 +237,10 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
             ->method('checkAccessOfUser')
             ->willReturn(true);
 
-        $settings = $this->createMock(Setting::class);
-        $settings->expects($this->once())->method('set')->with('lang_detection', '0');
+        $repository = $this->createMock(RepositoryProvider::class);
+        $repository->expects($this->once())->method('setLanguageDetectionEnabled')->with(false);
 
-        $result = $this->createActivity(rbac_system: $rbac, settings: $settings)->maybePerformAs($this->createRealFieldsUiFactory()->input(), 6, []);
+        $result = $this->createActivity(rbac_system: $rbac, repository: $repository)->maybePerformAs($this->createRealFieldsUiFactory()->input(), 6, []);
 
         $this->assertFalse($result->isError());
         $this->assertSame(['enabled' => false], $result->value());
@@ -282,10 +280,10 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
         $rbac = $this->createMock(\ilRbacSystem::class);
         $rbac->method('checkAccessOfUser')->willReturn(true);
 
-        $settings = $this->createMock(Setting::class);
-        $settings->expects($this->once())->method('set')->with('lang_detection', '1');
+        $repository = $this->createMock(RepositoryProvider::class);
+        $repository->expects($this->once())->method('setLanguageDetectionEnabled')->with(true);
 
-        $result = $this->createActivity(rbac_system: $rbac, settings: $settings)
+        $result = $this->createActivity(rbac_system: $rbac, repository: $repository)
             ->maybePerformAs($this->createRealFieldsUiFactory()->input(), 6, ['enabled' => $value]);
 
         $this->assertFalse($result->isError());
@@ -301,10 +299,10 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
         $rbac = $this->createMock(\ilRbacSystem::class);
         $rbac->method('checkAccessOfUser')->willReturn(true);
 
-        $settings = $this->createMock(Setting::class);
-        $settings->expects($this->once())->method('set')->with('lang_detection', '0');
+        $repository = $this->createMock(RepositoryProvider::class);
+        $repository->expects($this->once())->method('setLanguageDetectionEnabled')->with(false);
 
-        $result = $this->createActivity(rbac_system: $rbac, settings: $settings)
+        $result = $this->createActivity(rbac_system: $rbac, repository: $repository)
             ->maybePerformAs($this->createRealFieldsUiFactory()->input(), 6, ['enabled' => $value]);
 
         $this->assertFalse($result->isError());
@@ -328,10 +326,10 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
         $rbac = $this->createMock(\ilRbacSystem::class);
         $rbac->method('checkAccessOfUser')->willReturn(true);
 
-        $settings = $this->createMock(Setting::class);
-        $settings->expects($this->never())->method('set');
+        $repository = $this->createMock(RepositoryProvider::class);
+        $repository->expects($this->never())->method('setLanguageDetectionEnabled');
 
-        $result = $this->createActivity(rbac_system: $rbac, settings: $settings)
+        $result = $this->createActivity(rbac_system: $rbac, repository: $repository)
             ->maybePerformAs($this->createRealFieldsUiFactory()->input(), 6, ['enabled' => $value]);
 
         $this->assertTrue($result->isError());
@@ -384,15 +382,15 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
 
     private function createActivity(
         ?\ilRbacSystem $rbac_system = null,
-        ?Setting $settings = null,
+        ?RepositoryProvider $repository = null,
         ?Language $language = null,
         int $language_folder_ref_id = 0
     ): SetLanguageDetectionEnabled {
         return new SetLanguageDetectionEnabled(
             $language ?? $this->createMock(Language::class),
             $this->rbacOf($rbac_system ?? $this->createMock(\ilRbacSystem::class)),
-            $settings ?? $this->createMock(Setting::class),
-            $this->languageFolder($language_folder_ref_id)
+            $this->languageFolder($language_folder_ref_id),
+            $repository ?? $this->createMock(RepositoryProvider::class)
         );
     }
 }

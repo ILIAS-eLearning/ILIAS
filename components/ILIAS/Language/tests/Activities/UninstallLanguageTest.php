@@ -36,6 +36,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
  */
 class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
 {
+    use LanguageObjectRepositoryProvider;
+
     protected function createDefaultActivity(): UninstallLanguage
     {
         [, $lng_objects, $obj_language_factory] = $this->buildFakeLanguageWorld(['de' => []]);
@@ -677,8 +679,7 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
             $language ?? $this->createMock(Language::class),
             $this->rbacOf($rbac ?? $this->createMock(\ilRbacSystem::class)),
             $this->languageFolder(),
-            $lng_objects,
-            $obj_language_factory
+            $this->languageObjectProvider($lng_objects, $obj_language_factory)
         );
     }
 }
