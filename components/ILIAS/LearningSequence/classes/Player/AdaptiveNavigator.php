@@ -73,15 +73,10 @@ class AdaptiveNavigator implements LSNavigator
      */
     protected array $can_enter_ignoring_edges_cache = [];
 
-    /**
-     * Creates an adaptive navigator with the supplied or default condition services.
-     */
     public function __construct(
-        ?ConditionFactory $condition_factory = null
+        ConditionFactory $condition_factory
     ) {
-        global $DIC;
-        $this->condition_factory = $condition_factory
-            ?? new ConditionFactory($DIC['lso.condition_types'], $DIC->database());
+        $this->condition_factory = $condition_factory;
     }
 
     /**

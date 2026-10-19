@@ -52,19 +52,13 @@ class LSOLearningMapRenderer
     private const H_GAP = 26;
     private const V_GAP = 96;
 
-    /**
-     * Provides localized Learning Map labels.
-     */
-    private \ilLanguage $lng;
-
     public function __construct(
         private \ILIAS\UI\Factory $ui_factory,
         private \ILIAS\UI\Renderer $ui_renderer,
         private \ilGlobalTemplateInterface $tpl,
+        private \ilLanguage $lng,
         private bool $sequential = false
     ) {
-        global $DIC;
-        $this->lng = $DIC->language();
     }
 
     /**

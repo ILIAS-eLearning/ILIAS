@@ -28,8 +28,6 @@ use ILIAS\LearningSequence\LearningMap\LSOLearningMapDataBuilder;
 use ILIAS\LearningSequence\LearningMap\LSOLearningMapSequentialNavigator;
 use ILIAS\LearningSequence\LearningMap\LSOLearningMapSequentialPosition;
 use ILIAS\LearningSequence\Player\LSChoicePageBuilder;
-use ILIAS\LearningSequence\Content\Adaptive\LSOItemPath;
-use ILIAS\LearningSequence\Content\Adaptive\LSOAdaptiveBoundaries;
 
 /**
  * @author   Nils Haagen <nils.haagen@concepts-and-training.de>
@@ -231,11 +229,11 @@ class ilLSLocalDI extends Container
         $this["player"] = function ($c) use ($dic, $lsdic, $object): ilLSPlayer {
             $mode = $lsdic["db.settings"]->getSettingsFor($c["obj.obj_id"])->getMode();
             $navigator = ($mode === ilLearningSequenceSettings::MODE_ADAPTIVE)
-                ? new AdaptiveNavigator()
+                ? new AdaptiveNavigator($lsdic["conditions.factory"])
                 : new LinearNavigator();
 
-            $item_path = new LSOItemPath($dic["ilDB"]);
-            $boundaries = new LSOAdaptiveBoundaries($dic["ilDB"]);
+            $item_path = $lsdic["db.item_path"];
+            $boundaries = $lsdic["db.boundaries"];
 
             // Position ("where is the learner in the LSO") and the reusable
             // choice-page template are injected so that both can be reused
@@ -250,6 +248,7 @@ class ilLSLocalDI extends Container
             );
             $choice_page_builder = new LSChoicePageBuilder(
                 $dic["ui.factory"],
+                $dic["lng"],
                 $c["player.urlbuilder"],
                 ilLSPlayer::LSO_CMD_GOTO
             );
@@ -294,9 +293,11 @@ class ilLSLocalDI extends Container
             $is_adaptive = $lsdic["db.settings"]->getSettingsFor($c["obj.obj_id"])->getMode()
                 === ilLearningSequenceSettings::MODE_ADAPTIVE;
 
-            $navigator = $is_adaptive ? new AdaptiveNavigator() : new LSOLearningMapSequentialNavigator();
-            $item_path = new LSOItemPath($dic["ilDB"]);
-            $boundaries = new LSOAdaptiveBoundaries($dic["ilDB"]);
+            $navigator = $is_adaptive
+                ? new AdaptiveNavigator($lsdic["conditions.factory"])
+                : new LSOLearningMapSequentialNavigator();
+            $item_path = $lsdic["db.item_path"];
+            $boundaries = $lsdic["db.boundaries"];
 
             $lso_obj_id = $c["obj.obj_id"];
             $ref_id = $c["obj.ref_id"];

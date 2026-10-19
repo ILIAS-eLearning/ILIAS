@@ -45,17 +45,12 @@ class LSChoicePageBuilder
     public const SUBLINE = 'lso_choice_page_subline';
     public const START_LABEL = 'lso_choice_page_start_label';
 
-    protected ilLanguage $lang;
-
     public function __construct(
         protected Factory $ui_factory,
+        protected ilLanguage $lang,
         protected \LSUrlBuilder $url_builder,
         protected string $goto_command
     ) {
-        global $DIC;
-
-        /** @var \ILIAS\DI\Container $DIC */
-        $this->lang = $DIC->language();
     }
 
     /**

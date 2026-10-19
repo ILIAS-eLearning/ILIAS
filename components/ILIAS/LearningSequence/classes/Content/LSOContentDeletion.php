@@ -66,18 +66,18 @@ trait LSOContentDeletion
             $this->ctrl->redirect($this->parent_gui, \ilObjLearningSequenceContentGUI::CMD_MANAGE_CONTENT);
         }
 
-        $condition_handler = new \ILIAS\LearningSequence\Content\Condition\ConditionHandler();
+        /** @var \ilObjLearningSequence $lso */
+        $lso = \ilObjLearningSequence::getInstanceByRefId($this->ref_id);
+
+        $condition_handler = $lso->getDI()["conditions.handler"];
         foreach ($ref_ids as $ref_id) {
             $condition_handler->deleteConditionsByRefId($this->ref_id, $ref_id);
         }
 
         \ilRepUtil::deleteObjects($this->ref_id, $ref_ids);
 
-        /** @var \ilObjLearningSequence $lso */
-        $lso = \ilObjLearningSequence::getInstanceByRefId($this->ref_id);
         if ($lso->getLSSettings()->getMode() === \ilLearningSequenceSettings::MODE_ADAPTIVE) {
-            global $DIC;
-            $boundaries = new \ILIAS\LearningSequence\Content\Adaptive\LSOAdaptiveBoundaries($DIC->database());
+            $boundaries = $lso->getDI()["db.boundaries"];
 
             $boundaries_changed = false;
             foreach ($ref_ids as $ref_id) {
@@ -113,9 +113,7 @@ trait LSOContentDeletion
             return false;
         }
 
-        global $DIC;
-        $boundaries = new \ILIAS\LearningSequence\Content\Adaptive\LSOAdaptiveBoundaries($DIC->database());
-        $current = $boundaries->getBoundariesFor($lso->getId());
+        $current = $lso->getDI()["db.boundaries"]->getBoundariesFor($lso->getId());
         if ($current['start_ref_id'] > 0 && $current['end_ref_id'] > 0) {
             return false;
         }

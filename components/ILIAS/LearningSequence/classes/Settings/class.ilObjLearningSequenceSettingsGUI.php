@@ -258,9 +258,7 @@ class ilObjLearningSequenceSettingsGUI
 
         $has_start_and_end = true;
         if ($new_mode === ilLearningSequenceSettings::MODE_ADAPTIVE) {
-            global $DIC;
-            $boundaries = new \ILIAS\LearningSequence\Content\Adaptive\LSOAdaptiveBoundaries($DIC->database());
-            $b = $boundaries->getBoundariesFor($lso->getId());
+            $b = $lso->getDI()["db.boundaries"]->getBoundariesFor($lso->getId());
             $has_start_and_end = ((int) $b['start_ref_id'] > 0 && (int) $b['end_ref_id'] > 0);
         }
 

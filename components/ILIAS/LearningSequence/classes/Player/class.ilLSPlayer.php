@@ -817,8 +817,7 @@ class ilLSPlayer
 
     protected function txt(string $key): string
     {
-        global $DIC;
-        return $DIC->language()->txt($key);
+        return $this->lng->txt($key);
     }
 
     protected function getAdaptiveDeadEndSvg(): string

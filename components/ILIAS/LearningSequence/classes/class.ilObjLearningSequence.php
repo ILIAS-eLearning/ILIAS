@@ -23,9 +23,6 @@ use ILIAS\ILIASObject\LocalDIC;
 use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\AvailabilityPeriod\AvailabilityPeriod;
 use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\CachedRepository as ReferencePropertiesRepository;
 use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\ObjectReferenceProperties;
-use ILIAS\LearningSequence\Content\Adaptive\LSOAdaptiveBoundaries;
-use ILIAS\LearningSequence\Content\Condition\ConditionFactory;
-use ILIAS\LearningSequence\Content\Condition\ConditionHandler;
 use ILIAS\LearningSequence\Content\Condition\SubtypeAwareInterface;
 use ILIAS\LearningSequence\LearningMap\LSOLearningMapDataBuilder;
 use ILIAS\LearningSequence\LearningMap\LSOLearningMapRenderer;
@@ -58,7 +55,6 @@ class ilObjLearningSequence extends ilContainer
     protected ilConditionHandler $il_condition_handler;
     protected ReferencePropertiesRepository $repo_ref_props;
     protected ?ObjectReferenceProperties $ref_props = null;
-    private ConditionFactory $condition_factory;
 
     public function __construct(int $id = 0, bool $call_by_reference = true)
     {
@@ -78,11 +74,6 @@ class ilObjLearningSequence extends ilContainer
         parent::__construct($id, $call_by_reference);
 
         $this->lng->loadLanguageModule('rbac');
-
-        $this->condition_factory = new ConditionFactory(
-            $this->dic['lso.condition_types'],
-            $this->dic->database()
-        );
     }
 
     public static function getInstanceByRefId(int $ref_id): ?ilObject
@@ -142,7 +133,7 @@ class ilObjLearningSequence extends ilContainer
         ilLearningSequenceParticipants::_deleteAllEntries($this->getId());
         $this->getSettingsDB()->delete($this->getId());
         $this->getStateDB()->deleteFor($lso_ref_id);
-        (new ConditionHandler())->deleteConditionsByLSORefId($lso_ref_id);
+        $this->getDI()["conditions.handler"]->deleteConditionsByLSORefId($lso_ref_id);
 
         $this->raiseEvent(self::E_DELETE);
 
@@ -223,7 +214,7 @@ class ilObjLearningSequence extends ilContainer
         $settings = $settings->withMode($this->getLSSettings()->getMode());
         $new_obj->updateSettings($settings);
 
-        $boundaries = new LSOAdaptiveBoundaries($this->dic->database());
+        $boundaries = $this->getDI()["db.boundaries"];
         ['start_ref_id' => $source_start_ref_id, 'end_ref_id' => $source_end_ref_id] = $boundaries
             ->getBoundariesFor($this->getId());
         $new_start_ref_id = self::mapCopiedRefId($source_start_ref_id, $mapping);
@@ -246,6 +237,7 @@ class ilObjLearningSequence extends ilContainer
     private function cloneConditions(int $target_id, int $copy_id): bool
     {
         $mapping = self::getCopyWizardRefIdMapping($copy_id);
+        $condition_factory = $this->getDI()["conditions.factory"];
 
         foreach ($this->getLSItems() as $ls_item) {
             $item_ref_id = $ls_item->getRefId();
@@ -254,14 +246,14 @@ class ilObjLearningSequence extends ilContainer
                 continue;
             }
 
-            $conditions = $this->condition_factory->getConditionIdsForItem($item_ref_id);
+            $conditions = $condition_factory->getConditionIdsForItem($item_ref_id);
             foreach ($conditions as $condition_id) {
                 $created = false;
-                $condition = $this->condition_factory->getConditionInstanceById($condition_id);
+                $condition = $condition_factory->getConditionInstanceById($condition_id);
                 $condition_name = $condition->getIdentifierForClass($condition::class);
 
                 try {
-                    $new_condition = $this->condition_factory->getConditionInstanceByName($condition_name);
+                    $new_condition = $condition_factory->getConditionInstanceByName($condition_name);
                     $new_condition->setLsoRefId($target_id);
                     $new_condition->setObjRefId($new_item_ref_id);
                     if ($condition instanceof SubtypeAwareInterface) {
@@ -680,6 +672,7 @@ class ilObjLearningSequence extends ilContainer
             $DIC['ui.factory'],
             $DIC['ui.renderer'],
             $DIC['tpl'],
+            $this->lng,
             $sequential
         );
         $map_data = $data_builder

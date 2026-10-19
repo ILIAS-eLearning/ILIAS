@@ -21,10 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\LearningSequence\Content\Adaptive;
 
 use ilCtrl;
-use ilDBInterface;
 use ilGlobalTemplateInterface;
 use ILIAS\LearningSequence\Content\Condition\AbstractCondition;
-use ILIAS\LearningSequence\Content\Condition\ConditionHandler;
 use ILIAS\LearningSequence\Content\Condition\ConditionTypes;
 use ILIAS\LearningSequence\Content\Condition\StaticInputConfigurationAnalyzer;
 use ILIAS\LearningSequence\Content\Condition\StaticInputConfigurationIssue;
@@ -66,8 +64,6 @@ class LSOAdaptiveContent implements LSOContentController
     protected ServerRequestInterface $request;
     /** Global template. */
     protected ilGlobalTemplateInterface $tpl;
-    /** Database connection. */
-    protected ilDBInterface $db;
     /** Learning sequence repository reference ID. */
     protected int $ref_id;
     /** Learning sequence object ID. */
@@ -87,7 +83,6 @@ class LSOAdaptiveContent implements LSOContentController
         int $ref_id,
         int $obj_id
     ) {
-        global $DIC;
         $this->parent_gui = $parent_gui;
         $this->ui_factory = $ui_factory;
         $this->ui_renderer = $ui_renderer;
@@ -97,7 +92,6 @@ class LSOAdaptiveContent implements LSOContentController
         $this->tpl = $tpl;
         $this->ref_id = $ref_id;
         $this->obj_id = $obj_id;
-        $this->db = $DIC->database();
     }
 
     /**
@@ -129,7 +123,7 @@ class LSOAdaptiveContent implements LSOContentController
         /** @var ilObjLearningSequence $lso */
         $lso = ilObjLearningSequence::getInstanceByRefId($this->ref_id);
         $items = $lso->getLSItems();
-        $navigator = new AdaptiveNavigator();
+        $navigator = new AdaptiveNavigator($lso->getDI()["conditions.factory"]);
         $navigator->preload($items);
         $structural_successors = [];
         foreach ($items as $item) {
@@ -161,7 +155,7 @@ class LSOAdaptiveContent implements LSOContentController
             $issue_details_by_ref_id
         );
 
-        $boundaries_db = new LSOAdaptiveBoundaries($this->db);
+        $boundaries_db = $this->getBoundaries();
         $boundary_data = $boundaries_db->getBoundariesFor($this->obj_id);
 
         $missing_hints = [];
@@ -254,7 +248,7 @@ class LSOAdaptiveContent implements LSOContentController
         array $misconfigured_ref_ids,
         array $issue_details_by_ref_id
     ): array {
-        $boundaries_db = new LSOAdaptiveBoundaries($this->db);
+        $boundaries_db = $this->getBoundaries();
         $boundary_data = $boundaries_db->getBoundariesFor($this->obj_id);
         $start_ref_id = $boundary_data['start_ref_id'];
         $end_ref_id = $boundary_data['end_ref_id'];
@@ -288,7 +282,7 @@ class LSOAdaptiveContent implements LSOContentController
             return $a->getOrderNumber() <=> $b->getOrderNumber();
         });
 
-        $condition_handler = new ConditionHandler();
+        $condition_handler = $this->getLSO()->getDI()["conditions.handler"];
         $lso_ref_id = $this->ref_id;
 
         $data = [];
@@ -439,8 +433,19 @@ class LSOAdaptiveContent implements LSOContentController
 
     private function getConditionTypes(): ConditionTypes
     {
-        global $DIC;
-        return $DIC['lso.condition_types'];
+        return $this->getLSO()->getDI()["conditions.types"];
+    }
+
+    private function getBoundaries(): LSOAdaptiveBoundaries
+    {
+        return $this->getLSO()->getDI()["db.boundaries"];
+    }
+
+    private function getLSO(): ilObjLearningSequence
+    {
+        /** @var ilObjLearningSequence $lso */
+        $lso = ilObjLearningSequence::getInstanceByRefId($this->ref_id);
+        return $lso;
     }
 
     /**
@@ -535,10 +540,9 @@ class LSOAdaptiveContent implements LSOContentController
      */
     public function setStartObject(): void
     {
-        global $DIC;
         $ref_id = $this->parent_gui->extractItemRefId();
         if ($ref_id > 0) {
-            $boundaries = new LSOAdaptiveBoundaries($DIC->database());
+            $boundaries = $this->getBoundaries();
             $current = $boundaries->getBoundariesFor($this->obj_id);
             if ((int) $current['end_ref_id'] === $ref_id) {
                 // An object must never be start and end object at the same time.
@@ -560,8 +564,7 @@ class LSOAdaptiveContent implements LSOContentController
      */
     public function unsetStartObject(): void
     {
-        global $DIC;
-        $boundaries = new LSOAdaptiveBoundaries($DIC->database());
+        $boundaries = $this->getBoundaries();
         $boundaries->unsetStartRefId($this->obj_id);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
 
@@ -576,10 +579,9 @@ class LSOAdaptiveContent implements LSOContentController
      */
     public function setEndObject(): void
     {
-        global $DIC;
         $ref_id = $this->parent_gui->extractItemRefId();
         if ($ref_id > 0) {
-            $boundaries = new LSOAdaptiveBoundaries($DIC->database());
+            $boundaries = $this->getBoundaries();
             $current = $boundaries->getBoundariesFor($this->obj_id);
             if ((int) $current['start_ref_id'] === $ref_id) {
                 // An object must never be start and end object at the same time.
@@ -601,8 +603,7 @@ class LSOAdaptiveContent implements LSOContentController
      */
     public function unsetEndObject(): void
     {
-        global $DIC;
-        $boundaries = new LSOAdaptiveBoundaries($DIC->database());
+        $boundaries = $this->getBoundaries();
         $boundaries->unsetEndRefId($this->obj_id);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
 

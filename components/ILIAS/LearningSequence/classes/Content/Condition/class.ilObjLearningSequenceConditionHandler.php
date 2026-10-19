@@ -22,26 +22,12 @@ namespace ILIAS\LearningSequence\Content\Condition;
 
 class ConditionHandler
 {
-    protected ?\ilDBInterface $db = null;
-    protected ?\ilLanguage $lng = null;
-    protected ConditionTypes $condition_types;
-    private ConditionFactory $condition_factory;
-
-    public function __construct(?\ilDBInterface $db = null)
-    {
-        global $DIC;
-        $this->db = $db;
-        if ($this->db === null && isset($DIC) && $DIC instanceof \ILIAS\DI\Container) {
-            $this->db = $DIC->database();
-        }
-        if (isset($DIC) && $DIC instanceof \ILIAS\DI\Container) {
-            $this->lng = $DIC->language();
-        }
-        $this->condition_types = $DIC['lso.condition_types'];
-        $this->condition_factory = new ConditionFactory(
-            $this->condition_types,
-            $this->db,
-        );
+    public function __construct(
+        protected \ilDBInterface $db,
+        protected \ilLanguage $lng,
+        protected ConditionTypes $condition_types,
+        private ConditionFactory $condition_factory
+    ) {
     }
 
     /**
@@ -77,10 +63,6 @@ class ConditionHandler
      */
     public function deleteConditionsByRefId(int $lso_ref_id, int $obj_ref_id): void
     {
-        if ($this->db === null) {
-            return;
-        }
-
         $res = $this->db->queryF(
             "SELECT condition_id, type_id FROM lso_conditions WHERE lso_ref_id = %s AND obj_ref_id = %s",
             ['integer', 'integer'],
@@ -109,10 +91,6 @@ class ConditionHandler
      */
     public function deleteConditionsByLSORefId(int $lso_ref_id): void
     {
-        if ($this->db === null) {
-            return;
-        }
-
         $condition_ids = [];
         $res = $this->db->queryF(
             'SELECT condition_id FROM lso_conditions WHERE lso_ref_id = %s',
@@ -150,10 +128,6 @@ class ConditionHandler
      */
     public function deleteCondition(int $condition_id): void
     {
-        if ($this->db === null) {
-            return;
-        }
-
         $this->db->manipulateF(
             'DELETE FROM lso_conditions WHERE condition_id = %s',
             ['integer'],
@@ -167,10 +141,6 @@ class ConditionHandler
      */
     protected function formatConditionsForGui(array $db_conditions): array
     {
-        if ($this->db === null) {
-            return [];
-        }
-
         $result = [];
         foreach ($db_conditions as $db_cond) {
             $type_id = $db_cond['type_id'];
@@ -206,10 +176,6 @@ class ConditionHandler
      */
     protected function getConditionsFromDb(int $lso_ref_id, int $obj_ref_id, array $available_classes): array
     {
-        if ($this->db === null) {
-            return [];
-        }
-
         $names = [];
         foreach ($available_classes as $class) {
             try {

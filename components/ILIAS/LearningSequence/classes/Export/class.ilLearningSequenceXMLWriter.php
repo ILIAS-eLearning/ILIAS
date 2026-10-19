@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\LearningSequence\Content\Adaptive\LSOAdaptiveBoundaries;
 use ILIAS\LearningSequence\Content\Condition\ConditionFactory;
 use ILIAS\LearningSequence\Content\Condition\SubtypeAwareInterface;
 
@@ -39,21 +38,15 @@ class ilLearningSequenceXMLWriter extends ilXmlWriter
 
     protected ilLearningSequenceSettings $ls_settings;
     private ConditionFactory $condition_factory;
-    private ilDBInterface $database;
 
     public function __construct(
         protected ilObjLearningSequence $ls_object,
         protected ilSetting $settings,
         protected ilLPObjSettings $lp_settings
     ) {
-        global $DIC;
         parent::__construct();
-        $this->database = $DIC->database();
         $this->ls_settings = $ls_object->getLSSettings();
-        $this->condition_factory = new ConditionFactory(
-            $DIC['lso.condition_types'],
-            $this->database,
-        );
+        $this->condition_factory = $ls_object->getDI()["conditions.factory"];
     }
 
     public function getXml(): string
@@ -87,7 +80,7 @@ class ilLearningSequenceXMLWriter extends ilXmlWriter
 
     protected function writeLearningSequence(): void
     {
-        $boundaries = new LSOAdaptiveBoundaries($this->database)
+        $boundaries = $this->ls_object->getDI()["db.boundaries"]
             ->getBoundariesFor($this->ls_object->getId());
 
         $attributes = [

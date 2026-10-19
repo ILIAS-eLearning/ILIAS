@@ -19,9 +19,6 @@
 declare(strict_types=1);
 
 use ILIAS\COPage\Page\PageManagerInterface;
-use ILIAS\LearningSequence\Content\Adaptive\LSOAdaptiveBoundaries;
-use ILIAS\LearningSequence\Content\Condition\ConditionFactory;
-use ILIAS\LearningSequence\Content\Condition\ConditionHandler;
 use ILIAS\LearningSequence\Content\Condition\SubtypeAwareInterface;
 
 class ilLearningSequenceImporter extends ilXmlImporter
@@ -192,12 +189,8 @@ class ilLearningSequenceImporter extends ilXmlImporter
      */
     protected function buildItemConditions(array $ls_data, ilImportMapping $mapping): void
     {
-        global $DIC;
-
-        $db = $DIC->database();
-
-        $factory = new ConditionFactory($DIC['lso.condition_types'], $db);
-        $handler = new ConditionHandler($db);
+        $factory = $this->obj->getDI()["conditions.factory"];
+        $handler = $this->obj->getDI()["conditions.handler"];
 
         $new_lso_ref_id = $this->obj->getRefId();
 
@@ -269,7 +262,6 @@ class ilLearningSequenceImporter extends ilXmlImporter
 
     protected function buildSettings(array $ls_settings, ilImportMapping $mapping): void
     {
-        global $DIC;
         $settings = $this->obj->getLSSettings();
         $settings = $settings
             ->withMembersGallery($ls_settings["members_gallery"] === 'true' ? true : false)
@@ -286,7 +278,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
         $new_start_ref_id = (!empty($new_start_ref_id)) ? (int) $new_start_ref_id : 0;
         $new_end_ref_id = (!empty($new_end_ref_id)) ? (int) $new_end_ref_id : 0;
         if ($new_start_ref_id > 0 || $new_end_ref_id > 0) {
-            $boundaries = new LSOAdaptiveBoundaries($DIC->database());
+            $boundaries = $this->obj->getDI()["db.boundaries"];
             $boundaries->setStartRefId($this->obj->getId(), $new_start_ref_id);
             $boundaries->setEndRefId($this->obj->getId(), $new_end_ref_id);
         }
