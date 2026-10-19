@@ -82,6 +82,13 @@ class ilMMItemTranslationTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable('ID', $translation->getId());
         $this->tpl->setVariable('LANGUAGE', $this->lng->txt("meta_l_" . $translation->getLanguageKey()));
-        $this->tpl->setVariable('TEXT', $translation->getTranslation());
+        $this->tpl->setVariable(
+            'TEXT',
+            htmlspecialchars(
+                $translation->getTranslation(),
+                ENT_QUOTES | ENT_SUBSTITUTE,
+                'UTF-8'
+            )
+        );
     }
 }

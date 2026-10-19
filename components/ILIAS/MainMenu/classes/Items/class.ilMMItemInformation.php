@@ -88,7 +88,9 @@ class ilMMItemInformation implements ItemInformation
         if ($item instanceof hasTitle && isset($this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"])
             && $this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"] !== ''
         ) {
-            $item = $item->withTitle((string) $this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"]);
+            $item = $item->withTitle(
+                strip_tags((string) $this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"])
+            );
         }
 
         return $item;
