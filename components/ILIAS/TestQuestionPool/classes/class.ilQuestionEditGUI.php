@@ -58,7 +58,7 @@ class ilQuestionEditGUI
     private ?int $defaultnroftries = null;
     private ?ilPageConfig $page_config = null;
 
-    public function __construct()
+    public function __construct(private readonly ilPageObjectGUI $parent_gui)
     {
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
@@ -130,9 +130,7 @@ class ilQuestionEditGUI
             default:
                 $question_gui = assQuestion::instantiateQuestionGUI($this->getQuestionId());
                 if (!$question_gui instanceof assQuestionGUI) {
-                    $previous_class = $this->ctrl->getCurrentClassPath()[count($this->ctrl->getCurrentClassPath()) - 2];
-                    $this->ctrl->saveParameterByClass($previous_class, ['ref_id', 'obj_id']);
-                    $this->ctrl->redirectByClass($previous_class);
+                    $this->ctrl->redirect($this->parent_gui, 'edit');
                 }
 
                 $question = $question_gui->getObject();

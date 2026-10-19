@@ -213,18 +213,17 @@ class ilPCQuestion extends ilPageContent
             if (count($q_ids)) {
                 foreach ($q_ids as $q_id) {
                     $q_gui = assQuestion::instantiateQuestionGUI($q_id);
-                    if ($q_gui instanceof assQuestionGUI) {
+
+                    // object check due to #16557
+                    if (!$q_gui instanceof assQuestionGUI || $q_gui->getObject()->isComplete()) {
                         continue;
                     }
 
-                    // object check due to #16557
-                    if (!$q_gui->getObject()->isComplete()) {
-                        $a_output = str_replace(
-                            "{{{{{Question;il__qst_" . $q_id . "}}}}}",
-                            "<i>" . $lng->txt("cont_empty_question") . "</i>",
-                            $a_output
-                        );
-                    }
+                    $a_output = str_replace(
+                        "{{{{{Question;il__qst_" . $q_id . "}}}}}",
+                        "<i>" . $lng->txt("cont_empty_question") . "</i>",
+                        $a_output
+                    );
                 }
 
                 // this exports the questions which is needed below
