@@ -45,6 +45,7 @@ class LanguageInstallationManager
         private readonly string $absolute_path,
         private readonly InstalledLanguageRepository $repository,
         private readonly ?\Closure $now = null,
+        private readonly TranslationCache $translation_cache = new NullTranslationCache(),
     ) {
     }
 
@@ -171,6 +172,7 @@ class LanguageInstallationManager
         if ($mode === "all") {
             $this->db->manipulate("DELETE FROM lng_modules WHERE lang_key = " .
                 $this->db->quote($lang_key, "text"));
+            $this->translation_cache->invalidate($lang_key);
         }
     }
 
@@ -383,6 +385,7 @@ class LanguageInstallationManager
                 . implode(',', $modulesValuesSql)
                 . ";";
             $ilDB->manipulate($query);
+            $this->translation_cache->invalidate($lang_key);
         } finally {
             chdir($working_dir);
         }

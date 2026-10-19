@@ -73,11 +73,15 @@ class Language implements Component\Component
                 $internal[LanguageFileDirectoryManager::class]
             );
 
+        $internal[Language\Setup\TranslationCache::class] = static fn() =>
+            new Language\Setup\TranslationCacheLegacyProxy();
+
         $runtime_setup_language = static fn(): \ilSetupLanguage =>
             new \ilSetupLanguage(
                 "en",
                 $internal[LanguageFileDirectoryManager::class],
-                $pull[\ILIAS\Database\Connection::class]
+                $pull[\ILIAS\Database\Connection::class],
+                $internal[Language\Setup\TranslationCache::class]
             );
 
         $internal[InstallLanguage::class] = static fn() =>
