@@ -260,31 +260,32 @@ class assClozeTestImport extends assQuestionImport
         foreach ($gaps as $gapidx => $gap) {
             $gapcontent = [];
             $clozegap = new assClozeGap($gap['type']);
-            $answer_minnumber = (string) ($gap['minnumber'] ?? '');
-            $answer_maxnumber = (string) ($gap['maxnumber'] ?? '');
 
             foreach ($gap['answers'] as $answer) {
-                $answer_text = (string) $answer['answertext'];
-                $answer_gap_size = (int) ($gap['gap_size'] ?? 0);
+                $answer_text = is_string($answer['answertext']) ? $answer['answertext'] : '';
 
                 $gapanswer = new assAnswerCloze(
                     $answer_text,
                     (float) $answer['points'],
                     (int) $answer['answerorder']
                 );
-                $gapanswer->setGapSize($answer_gap_size);
+
+                if (isset($gap['gap_size'])) {
+                    $gap_size = (int) $gap['gap_size'];
+                    $gapanswer->setGapSize($gap_size);
+                    $clozegap->setGapSize($gap_size);
+                }
 
                 switch ($clozegap->getType()) {
                     case assClozeGap::TYPE_SELECT:
-                        $clozegap->setShuffle((bool) ($answer['shuffle'] ?? true));
+                        $clozegap->setShuffle($answer['shuffle'] === '1' || $answer['shuffle'] === 1);
                         break;
                     case assClozeGap::TYPE_NUMERIC:
-                        $gapanswer->setLowerBound($answer_minnumber);
-                        $gapanswer->setUpperBound($answer_maxnumber);
+                        $gapanswer->setLowerBound((string) ($gap['minnumber'] ?? ''));
+                        $gapanswer->setUpperBound((string) ($gap['maxnumber'] ?? ''));
                         break;
                 }
 
-                $clozegap->setGapSize($answer_gap_size);
                 $clozegap->addItem($gapanswer);
 
                 $gapcontent[] = $answer_text;
