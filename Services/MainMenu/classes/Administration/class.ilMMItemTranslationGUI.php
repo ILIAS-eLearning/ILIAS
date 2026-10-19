@@ -89,7 +89,7 @@ class ilMMItemTranslationGUI
              * @var $translation ilMMItemTranslationStorage
              */
             $translation = ilMMItemTranslationStorage::find($id);
-            $translation->setTranslation($data['translation']);
+            $translation->setTranslation(strip_tags((string) ($data['translation'] ?? '')));
             $translation->update();
         }
         $this->repository->clearCache();

@@ -46,7 +46,7 @@ class ilMMItemTranslationStorage extends CachedActiveRecord
             $mt->create();
         }
 
-        $mt->setTranslation($translation);
+        $mt->setTranslation(strip_tags($translation));
         $mt->setLanguageKey($language_key);
         $mt->update();
 
@@ -78,7 +78,7 @@ class ilMMItemTranslationStorage extends CachedActiveRecord
          * @var $item self
          */
         if ($item = self::find($key)) {
-            return $item->getTranslation();
+            return strip_tags($item->getTranslation());
         }
 
         return "";
