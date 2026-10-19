@@ -86,7 +86,8 @@ class Service
             $this->dic->ui()->mainTemplate(),
             $this->dic->ui()->renderer(),
             $this->presentation_service->result(),
-            $this->dic->language()
+            $this->dic->language(),
+            $this->dic->refinery()
         );
     }
 
@@ -97,7 +98,8 @@ class Service
             $this->dic->ui()->mainTemplate(),
             $this->dic->ui()->renderer(),
             $this->presentation_service->result(),
-            $this->dic->language()
+            $this->dic->language(),
+            $this->dic->refinery()
         );
     }
 
