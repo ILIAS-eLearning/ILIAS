@@ -123,8 +123,7 @@ class ilLearningSequenceSetupAgent implements Setup\Agent
             new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new \ilLearningSequenceStreamlinePermissionsDBUpdateSteps()),
             new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new \ilLearningSequenceItemBoundariesDBUpdateSteps()),
             new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new \ilLearningSequenceItemPathDBUpdateSteps()),
-            new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new \ilLearningSequenceItemVisitsDBUpdateSteps()),
-            new ilLearningSequenceConditionsSyncedObjective($this->condition_types)
+            new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new \ilLearningSequenceItemVisitsDBUpdateSteps())
         );
     }
 
