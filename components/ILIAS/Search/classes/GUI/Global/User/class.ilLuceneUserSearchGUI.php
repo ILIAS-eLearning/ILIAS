@@ -249,7 +249,7 @@ class ilLuceneUserSearchGUI
                 GlobalTemplate::MESSAGE_TYPE_INFO,
                 sprintf(
                     $this->lng->txt('search_no_match_hint'),
-                    $term
+                    $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform($term)
                 )
             );
         } else {
