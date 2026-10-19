@@ -202,7 +202,7 @@ final class PointsInputCondition extends AbstractCondition implements
      */
     public function getAdditionalForm(): FormStandard
     {
-        $multi_select = new LSOObjectPicker((int) $this->lso_ref_id, (int) $this->getObjRefId())->getPicker(
+        $multi_select = new LSOObjectPicker($this->ui_factory, (int) $this->lso_ref_id, (int) $this->getObjRefId())->getPicker(
             $this->lang->txt('lso_condition_simple_multi_target'),
             true
         )
