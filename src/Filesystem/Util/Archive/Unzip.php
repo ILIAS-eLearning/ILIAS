@@ -41,6 +41,7 @@ class Unzip
     protected string $path_to_zip;
     private int $amount_of_entries = 0;
     private ?bool $within_limits = null;
+    private ExecutableNeutralizer $neutralizer;
 
     public function __construct(
         protected UnzipOptions $options,
@@ -48,6 +49,7 @@ class Unzip
     ) {
         $this->path_to_zip = $this->stream->getMetadata(self::URI);
         $this->zip = new \ZipArchive();
+        $this->neutralizer = new ExecutableNeutralizer();
         try {
             $this->zip->open($this->path_to_zip, \ZipArchive::RDONLY);
             $this->amount_of_entries = $this->zip->count();
@@ -291,6 +293,13 @@ class Unzip
                         continue; // Skip directories
                     }
                     $file_name = Util::sanitizeFileName($destination_path . self::DIRECTORY_SEPARATOR . basename((string) $uri));
+                    if ($this->neutralizer->isExecutable($file_name)) {
+                        $file_name = $this->neutralizer->neutralize($file_name);
+                        // a former executable never replaces existing content, e.g. ".htaccess" -> ".sec"
+                        if (file_exists($file_name)) {
+                            continue;
+                        }
+                    }
                     file_put_contents(
                         $file_name,
                         $stream->getContents()
@@ -299,9 +308,60 @@ class Unzip
                 return true; // Stop here
         }
 
-        $this->zip->extractTo($destination_path, iterator_to_array($this->getPaths()));
+        // executable entries must never be written under their original name, not even for a
+        // moment: the request may be aborted (e.g. memory_limit) before a later clean-up runs.
+        $paths = [];
+        $executables = [];
+        foreach ($this->getPaths() as $path) {
+            if ($this->neutralizer->isExecutable($path)) {
+                $executables[] = $path;
+            } else {
+                $paths[] = $path;
+            }
+        }
+
+        if ($paths !== []) {
+            $this->zip->extractTo($destination_path, $paths);
+        }
+        foreach ($executables as $path) {
+            $this->extractNeutralized($path, $destination_path);
+        }
 
         return true;
+    }
+
+    /**
+     * Writes an executable entry under its neutralised name. The regular entries have already
+     * been extracted, so a neutralised name which is already taken is skipped: otherwise an
+     * archive containing ".htaccess" and ".sec" would end up with an active ".htaccess".
+     */
+    private function extractNeutralized(string $path, string $destination_path): void
+    {
+        $normalized = str_replace(self::DS_WIN, self::DS_UNIX, $path);
+        if (str_starts_with($normalized, self::DS_UNIX)
+            || str_contains($normalized, "\0")
+            || in_array('..', explode(self::DS_UNIX, $normalized), true)
+        ) {
+            return;
+        }
+
+        $target = $destination_path . self::DIRECTORY_SEPARATOR . $this->neutralizer->neutralize($normalized);
+        $target_directory = dirname($target);
+        if (!is_dir($target_directory) && !mkdir($target_directory, 0777, true) && !is_dir($target_directory)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $target_directory));
+        }
+
+        // "x" fails if the file already exists
+        $target_resource = @fopen($target, 'xb');
+        if ($target_resource === false) {
+            return;
+        }
+        $source_resource = $this->zip->getStream($path);
+        if ($source_resource !== false) {
+            stream_copy_to_stream($source_resource, $target_resource);
+            fclose($source_resource);
+        }
+        fclose($target_resource);
     }
 
     public function hasZipReadingError(): bool

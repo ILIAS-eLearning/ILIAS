@@ -318,6 +318,140 @@ class UnzipTest extends TestCase
         $this->assertSame(6, $options->getRatioCheckMinUncompressedSize());
     }
 
+    public static function directoryHandlingWithStructureProvider(): \Iterator
+    {
+        yield 'keep structure' => [ZipDirectoryHandling::KEEP_STRUCTURE];
+        yield 'ensure single top dir' => [ZipDirectoryHandling::ENSURE_SINGLE_TOP_DIR];
+    }
+
+    /**
+     * @dataProvider directoryHandlingWithStructureProvider
+     */
+    public function testExtractNeverWritesExecutables(ZipDirectoryHandling $directory_handling): void
+    {
+        $archive = $this->createArchive('content', [
+            'content/index.html' => 'html',
+            'content/shell.php' => 'php',
+            'content/sub/evil.phtml' => 'phtml',
+            'content/trailing.php.' => 'trailing dot',
+            'content/UPPER.PHP' => 'upper case',
+        ]);
+        $out = $this->unzips_dir . uniqid('executables', true);
+
+        $unzip = new Unzip(
+            (new UnzipOptions())->withZipOutputPath($out)->withDirectoryHandling($directory_handling),
+            Streams::ofResource(fopen($archive, 'rb'))
+        );
+        $this->assertTrue($unzip->extract());
+
+        $this->assertSame(
+            [
+                'content/',
+                'content/UPPER.sec',
+                'content/index.html',
+                'content/shell.sec',
+                'content/sub/',
+                'content/sub/evil.sec',
+                'content/trailing.sec',
+            ],
+            $this->directoryToArray($out)
+        );
+        $this->assertSame('php', file_get_contents($out . '/content/shell.sec'));
+
+        $this->assertTrue($this->recurseRmdir($out));
+        $this->assertTrue($this->recurseRmdir(dirname($archive)));
+    }
+
+    /**
+     * @dataProvider directoryHandlingWithStructureProvider
+     */
+    public function testNeutralisedExecutableDoesNotReplaceAnEntryOfTheArchive(
+        ZipDirectoryHandling $directory_handling
+    ): void {
+        $archive = $this->createArchive('content', [
+            'content/.htaccess' => 'AddType application/x-httpd-php .sec',
+            'content/.sec' => '<?php echo "payload";',
+            'content/a.php' => 'php',
+            'content/a.sec' => 'sec',
+        ]);
+        $out = $this->unzips_dir . uniqid('htaccess', true);
+
+        $unzip = new Unzip(
+            (new UnzipOptions())->withZipOutputPath($out)->withDirectoryHandling($directory_handling),
+            Streams::ofResource(fopen($archive, 'rb'))
+        );
+        $this->assertTrue($unzip->extract());
+
+        $this->assertSame(['content/', 'content/.sec', 'content/a.sec'], $this->directoryToArray($out));
+        $this->assertSame('<?php echo "payload";', file_get_contents($out . '/content/.sec'));
+        $this->assertSame('sec', file_get_contents($out . '/content/a.sec'));
+
+        $this->assertTrue($this->recurseRmdir($out));
+        $this->assertTrue($this->recurseRmdir(dirname($archive)));
+    }
+
+    public function testFlatExtractNeverWritesExecutables(): void
+    {
+        $archive = $this->createArchive('flat', [
+            'content/.htaccess' => 'AddType application/x-httpd-php .sec',
+            'content/.sec' => 'sec',
+            'content/index.html' => 'html',
+            'content/sub/shell.php' => 'php',
+        ]);
+        $out = $this->unzips_dir . uniqid('flat', true);
+
+        $unzip = new Unzip(
+            (new UnzipOptions())->withZipOutputPath($out)->withDirectoryHandling(ZipDirectoryHandling::FLAT_STRUCTURE),
+            Streams::ofResource(fopen($archive, 'rb'))
+        );
+        $this->assertTrue($unzip->extract());
+
+        $this->assertSame(['.sec', 'index.html', 'shell.sec'], $this->directoryToArray($out));
+        $this->assertSame('sec', file_get_contents($out . '/.sec'));
+
+        $this->assertTrue($this->recurseRmdir($out));
+        $this->assertTrue($this->recurseRmdir(dirname($archive)));
+    }
+
+    public function testExecutableIsNotWrittenOutsideOfTheDestination(): void
+    {
+        $archive = $this->createArchive('traversal', [
+            'content/index.html' => 'html',
+            '../escaped.php' => 'php',
+        ]);
+        $parent = $this->unzips_dir . uniqid('traversal', true);
+        $out = $parent . '/out';
+
+        $unzip = new Unzip(
+            (new UnzipOptions())->withZipOutputPath($out),
+            Streams::ofResource(fopen($archive, 'rb'))
+        );
+        $this->assertTrue($unzip->extract());
+
+        $this->assertSame(['out/', 'out/content/', 'out/content/index.html'], $this->directoryToArray($parent));
+
+        $this->assertTrue($this->recurseRmdir($parent));
+        $this->assertTrue($this->recurseRmdir(dirname($archive)));
+    }
+
+    /**
+     * @param array<string, string> $entries
+     */
+    private function createArchive(string $name, array $entries): string
+    {
+        $directory = sys_get_temp_dir() . '/' . uniqid('unzip_source', true);
+        mkdir($directory);
+        $archive = $directory . '/' . $name . '.zip';
+        $zip = new \ZipArchive();
+        $zip->open($archive, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+        foreach ($entries as $entry => $content) {
+            $zip->addFromString($entry, $content);
+        }
+        $zip->close();
+
+        return $archive;
+    }
+
     private function recurseRmdir(string $path_to_directory): bool
     {
         $files = array_diff(scandir($path_to_directory), ['.', '..']);

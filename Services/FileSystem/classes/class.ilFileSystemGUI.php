@@ -859,7 +859,10 @@ class ilFileSystemGUI
 
         if (is_file($a_file)) {
             $cur_files = array_keys(ilFileUtils::getDir($cur_dir));
-            $cur_files_r = iterator_to_array(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($cur_dir)));
+            $cur_files_r = [];
+            foreach ($this->yieldFilePaths($cur_dir) as $f) {
+                $cur_files_r[$f] = true;
+            }
 
             $this->unzip->unzip(
                 $a_file,
@@ -869,16 +872,19 @@ class ilFileSystemGUI
                 false
             );
 
-            $new_files = array_keys(ilFileUtils::getDir($cur_dir));
-            $new_files_r = iterator_to_array(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($cur_dir)));
+            // neutralise executables right after extracting, before anything that may abort the request
+            ilFileUtils::renameExecutables($this->main_absolute_dir);
 
+            $new_files = array_keys(ilFileUtils::getDir($cur_dir));
             $diff = array_diff($new_files, $cur_files);
-            $diff_r = array_diff($new_files_r, $cur_files_r);
 
             // unlink forbidden file types
-            foreach ($diff_r as $f => $d) {
+            foreach ($this->yieldFilePaths($cur_dir) as $f) {
+                if (isset($cur_files_r[$f])) {
+                    continue;
+                }
                 $pi = pathinfo($f);
-                if (!is_dir($f) && !$this->isValidSuffix(strtolower($pi["extension"] ?? ''))) {
+                if (!$this->isValidSuffix(strtolower($pi["extension"] ?? ''))) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("file_some_invalid_file_types_removed") . " (" . $pi["extension"] . ")", true);
                     unlink($f);
                 }
@@ -910,11 +916,25 @@ class ilFileSystemGUI
             }
         }
 
-        ilFileUtils::renameExecutables($this->main_absolute_dir);
-
         $this->ctrl->saveParameter($this, self::PARAMETER_CDIR);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("cont_file_unzipped"), true);
         $this->ctrl->redirect($this, "listFiles");
+    }
+
+    /**
+     * Yields the paths of all files below the directory without keeping the whole tree in memory.
+     * @return \Generator<string>
+     */
+    private function yieldFilePaths(string $dir): \Generator
+    {
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS)
+        );
+        foreach ($iterator as $path => $file_info) {
+            if ($file_info->isFile()) {
+                yield $path;
+            }
+        }
     }
 
     public function downloadFile(string $a_file): void
