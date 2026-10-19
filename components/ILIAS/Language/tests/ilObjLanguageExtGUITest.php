@@ -24,16 +24,20 @@ use ILIAS\UI\URLBuilderToken;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ServerRequestInterface;
+
+require_once __DIR__ . '/../../UI/tests/UITestHelper.php';
 
 class ilObjLanguageExtGUITest extends TestCase
 {
     use RestoresProcessState;
 
+    use UITestHelper;
     use ilObjLanguageExtGUITestFixture {
         tearDown as private tearDownGuiTestSupport;
     }
 
-    /** The resetEntriesTableRangeIfRequested() tests write into $_SESSION via the static ilSession. */
+    /** The real, static ilSession writes into $_SESSION. */
     protected function tearDown(): void
     {
         $_SESSION = [];
@@ -202,174 +206,719 @@ class ilObjLanguageExtGUITest extends TestCase
     }
 
     // -----------------------------------------------------------------
-    // editSelectedObject()
+    // edit modal: editSelectedObject(), buildEditEntriesModal(), saveEditedEntriesObject()
     //
-    // The ALL_OBJECTS resolution branch (`in_array('ALL_OBJECTS', $names,
-    // true)`) additionally calls `$this->initFilter()` - a *private* method
-    // that unconditionally builds a real ILIAS\UI\Component\Input\Container\
-    // Filter\Filter via `$DIC->uiService()->filter()->standard(...)`. Being
-    // private, it cannot be stubbed away via a partial mock (PHP does not
-    // allow overriding private methods from a subclass), and building the
-    // real filter service is exactly the kind of brittle
-    // session-/request-state coupling the task description already
-    // anticipates for initFilter()/viewObject(). This branch is therefore a
-    // deliberate coverage gap (see final report) - only the two branches
-    // that do NOT go through initFilter() are covered here. The
-    // ALL_OBJECTS -> getFilteredEntryNames() *translation logic itself* is
-    // still covered, at the ilLanguageEntriesTable level (see
-    // ilLanguageEntriesTableTest), which is the part that is actually
-    // reachable in isolation.
+    // Real KS factory (UITestHelper); initFilter()/resolveFilterData() are private, so they run for real
+    // against a deactivated filter, the entries table is a mock.
     // -----------------------------------------------------------------
 
     private function invokeProtectedMethod(object $object, string $method_name, array $args = []): mixed
     {
-        // ReflectionMethod::setAccessible() has had no effect (and has been
-        // deprecated) since PHP 8.1 - invoke() already bypasses visibility.
         return (new ReflectionMethod($object, $method_name))->invoke($object, ...$args);
     }
 
+    private static function maxInputVarsLimit(): int
+    {
+        $configured_limit = ini_get('max_input_vars');
+
+        return ($configured_limit === false || $configured_limit === '') ? 1000 : (int) $configured_limit;
+    }
+
+    /** @var list<\ILIAS\UI\Component\Component> components handed to the renderer's renderAsync() */
+    private array $rendered_async = [];
+    private (ilDBInterface&MockObject)|null $edit_db = null;
+    private (ilGlobalTemplateInterface&MockObject)|null $edit_tpl = null;
+    private (ilCtrl&MockObject)|null $edit_ctrl = null;
+    private (ServerRequestInterface&MockObject)|null $edit_request = null;
+    private (ilLanguageEntriesTable&MockObject)|null $edit_table = null;
+
     /**
-     * @return ilObjLanguageExtGUI&MockObject
+     * @param array<string, string> $values entry name => translation of the edited language
+     * @param array<string, string> $remarks entry name => DB remark
+     * @param array<string, string> $compare_values entry name => value of the compare language
+     * @param array<string, list<string>> $session_selections stored edit selections: token => entry names
+     * @param string|null $token edit selection token of the save request's query
+     * @param array<string, mixed> $post parsed body of the save request
      */
-    private function createGuiForEditSelected(
-        ilGlobalTemplateInterface $tpl,
-        ilCtrl $ctrl,
-        ilLanguage $lng,
-        ?ilPropertyFormGUI $form = null
+    private function createGuiForEditModal(
+        bool $langmode,
+        array $values,
+        array $remarks = [],
+        array $compare_values = [],
+        array $session_selections = [],
+        ?string $token = null,
+        array $post = [],
+        array $filtered_names = []
     ): ilObjLanguageExtGUI {
+        $_SESSION['lang_ext_edit_selection'] = $session_selections;
+        $dic = $this->init();
+        $GLOBALS['DIC'] = $dic;
+
+        $query_wrapper = $this->createMock(\ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper::class);
+        $query_wrapper->method('has')->willReturn(false);
+        $wrapper_factory = $this->createMock(\ILIAS\HTTP\Wrapper\WrapperFactory::class);
+        $wrapper_factory->method('query')->willReturn($query_wrapper);
+
+        $this->edit_request = $this->createMock(ServerRequestInterface::class);
+        $this->edit_request->method('getParsedBody')->willReturn($post);
+        $this->edit_request->method('getQueryParams')->willReturn([]);
+        $this->edit_request->method('getUri')->willReturn($this->createMock(\Psr\Http\Message\UriInterface::class));
+
+        $response = $this->createMock(\Psr\Http\Message\ResponseInterface::class);
+        $response->method('withBody')->willReturnSelf();
+        $http = $this->createMock(\ILIAS\HTTP\Services::class);
+        $http->method('wrapper')->willReturn($wrapper_factory);
+        $http->method('request')->willReturn($this->edit_request);
+        $http->method('response')->willReturn($response);
+        $http->method('close')->willThrowException(new RuntimeException('http closed'));
+        $dic['http'] = $http;
+
+        $this->edit_db = $this->createMock(ilDBInterface::class);
+        // only ilObjLanguageExt::_getModules() (the filter's module options) gets a row
+        $this->edit_db->method('query')->willReturnCallback(function (string $sql): ilDBStatement {
+            $statement = $this->createMock(ilDBStatement::class);
+            $statement->method('fetchRow')->willReturnOnConsecutiveCalls(
+                ...(str_contains($sql, 'SELECT DISTINCT module') ? [['module' => 'administration'], false] : [false])
+            );
+            return $statement;
+        });
+        // the check after a lng_modules write reads the row back with queryF()
+        $written_module_statement = $this->createMock(ilDBStatement::class);
+        $this->edit_db->method('queryF')->willReturn($written_module_statement);
+        $this->edit_db->method('fetchAssoc')->willReturnCallback(
+            static fn(ilDBStatement $statement): ?array => $statement === $written_module_statement
+                ? ['lang_array' => serialize([])]
+                : null
+        );
+        $this->edit_db->method('quote')->willReturnCallback(static fn($value, string $type): string => "'" . $value . "'");
+        $dic['ilDB'] = $this->edit_db;
+        // only the "module not found" warning of _saveValues() is logged
+        $dic['ilLoggerFactory'] = new class ($this->createMock(ilLogger::class)) {
+            public function __construct(private readonly ilLogger $logger)
+            {
+            }
+
+            public function getRootLogger(): ilLogger
+            {
+                return $this->logger;
+            }
+
+            public function getComponentLogger(string $component_id): ilLogger
+            {
+                return $this->logger;
+            }
+        };
+
+        $lng = $this->createLanguageMockReturningTopicAsIs(['en', 'de']);
+        $lng->method('getLangKey')->willReturn('de');
+        $lng->method('getDefaultLanguage')->willReturn('en');
+
+        $object = $this->createFakeLanguageObjectMock('de');
+        $object->method('getAllValues')->willReturn($values);
+        $object->method('getAllRemarks')->willReturn($remarks);
+
+        $this->edit_table = $this->createMock(ilLanguageEntriesTable::class);
+        $this->edit_table->method('getCompareTitle')->willReturn('English');
+        $this->edit_table->method('getCompareValues')->willReturn($compare_values);
+        $this->edit_table->method('effectiveRemarkOf')->willReturnCallback(
+            static fn(string $name): string => (string) ($remarks[$name] ?? '')
+        );
+        $this->edit_table->method('getFilteredEntryNames')->willReturn($filtered_names ?: array_keys($values));
+
+        $ui_renderer = $this->createMock(\ILIAS\UI\Renderer::class);
+        $ui_renderer->method('render')->willReturn('rendered');
+        $ui_renderer->method('renderAsync')->willReturnCallback(function ($component): string {
+            $this->rendered_async[] = $component;
+            return 'rendered';
+        });
+        $this->rendered_async = [];
+
+        $this->edit_tpl = $this->createMock(ilGlobalTemplateInterface::class);
+        $this->edit_ctrl = $this->createMock(ilCtrl::class);
+        $this->edit_ctrl->method('getFormAction')->willReturn('ilias.php?cmd=saveEditedEntries');
+        $this->edit_ctrl->method('getLinkTarget')->willReturn('ilias.php?cmd=view');
+
+        $request_wrapper = $this->createMock(RequestWrapper::class);
+        $request_wrapper->method('has')->willReturnCallback(
+            static fn(string $name): bool => $token !== null && $name === 'lang_entries_edit_selection'
+        );
+        $request_wrapper->method('retrieve')->willReturn($token);
+
         $gui = $this->getMockBuilder(ilObjLanguageExtGUI::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['initEditEntriesForm'])
+            ->onlyMethods([])
             ->getMock();
-
-        if ($form !== null) {
-            $gui->method('initEditEntriesForm')->willReturn($form);
-        } else {
-            $gui->expects($this->never())->method('initEditEntriesForm');
-        }
-
-        $this->inject($gui, 'ui_factory', $this->createMock(\ILIAS\UI\Factory::class));
-        $this->inject($gui, 'tpl', $tpl);
-        $this->inject($gui, 'ctrl', $ctrl);
+        $this->inject($gui, 'object', $object);
         $this->inject($gui, 'lng', $lng);
+        $this->inject($gui, 'ctrl', $this->edit_ctrl);
+        $this->inject($gui, 'ui_factory', $this->createMock(\ILIAS\UI\Factory::class));
+        $this->inject($gui, 'tpl', $this->edit_tpl);
+        $this->inject($gui, 'http', $http);
+        $this->inject($gui, 'request', $this->edit_request);
+        $this->inject($gui, 'request_wrapper', $request_wrapper);
+        $this->inject($gui, 'refinery', $dic['refinery']);
+        $this->inject($gui, 'ui_factory', $this->factory());
+        $this->inject($gui, 'ui_renderer', $ui_renderer);
+        $declaring = new ReflectionClass(ilObjLanguageExtGUI::class);
+        $declaring->getProperty('langmode')->setValue($gui, $langmode ? '1' : '0');
+        $declaring->getProperty('entries_table')->setValue($gui, $this->edit_table);
 
         return $gui;
     }
 
-    /**
-     * Regression test for the "empty selection" guard: it must fire BEFORE
-     * initEditEntriesForm() is ever built, showing the established
-     * 'no_checkbox' failure message and redirecting to "view".
-     */
-    public function testEditSelectedObjectWithEmptyNamesShowsNoCheckboxMessageAndRedirectsToView(): void
+    /** editSelectedObject() ends the request via http->close(), which the mock turns into an exception. */
+    private function editSelected(ilObjLanguageExtGUI $gui, array $names): void
     {
-        $tpl = $this->createMock(ilGlobalTemplateInterface::class);
-        $tpl->expects($this->once())
-            ->method('setOnScreenMessage')
-            ->with('failure', 'no_checkbox', true);
-
-        $ctrl = $this->createMock(ilCtrl::class);
-        $ctrl->expects($this->once())->method('redirect')->with(
-            $this->isInstanceOf(ilObjLanguageExtGUI::class),
-            'view'
-        );
-
-        $gui = $this->createGuiForEditSelected(
-            $tpl,
-            $ctrl,
-            $this->createLanguageMockReturningTopicAsIs()
-        );
-
-        $this->invokeProtectedMethod($gui, 'editSelectedObject', [[]]);
+        try {
+            $this->invokeProtectedMethod($gui, 'editSelectedObject', [$names]);
+            self::fail('The async answer must close the response.');
+        } catch (RuntimeException $e) {
+            self::assertSame('http closed', $e->getMessage());
+        }
     }
 
     /**
-     * A non-empty, non-ALL_OBJECTS selection is rendered directly (no
-     * redirect) via initEditEntriesForm() - this pins down both that the
-     * exact given $names reach initEditEntriesForm() unchanged, and that the
-     * resulting HTML is what gets set as the page content.
+     * @return array<string, \ILIAS\UI\Implementation\Component\Input\Field\FormInput>
      */
-    public function testEditSelectedObjectWithNonEmptyNamesRendersTheEditFormWithoutRedirecting(): void
+    private function inputsOf(\ILIAS\UI\Implementation\Component\Modal\RoundTrip $modal): array
     {
-        $tpl = $this->createMock(ilGlobalTemplateInterface::class);
-        $tpl->expects($this->once())->method('setContent')->with('<form>the edit form</form>');
-        $tpl->expects($this->never())->method('setOnScreenMessage');
-
-        $ctrl = $this->createMock(ilCtrl::class);
-        $ctrl->expects($this->never())->method('redirect');
-
-        $form = $this->createMock(ilPropertyFormGUI::class);
-        $form->method('getHTML')->willReturn('<form>the edit form</form>');
-
-        $gui = $this->createGuiForEditSelected(
-            $tpl,
-            $ctrl,
-            $this->createLanguageMockReturningTopicAsIs(),
-            $form
-        );
-        $gui->expects($this->once())
-            ->method('initEditEntriesForm')
-            ->with(['common#:#access', 'common#:#other'])
-            ->willReturn($form);
-
-        $this->invokeProtectedMethod(
-            $gui,
-            'editSelectedObject',
-            [['common#:#access', 'common#:#other']]
-        );
-    }
-
-    /**
-     * Regression test for exceedsMaxInputVars(): a $names selection large
-     * enough that initEditEntriesForm() would render more POST fields than
-     * this environment's actual max_input_vars allows must abort BEFORE the
-     * form is ever built - same failure message/redirect as the empty-
-     * selection guard, but for a structurally different reason.
-     *
-     * ini_get('max_input_vars') is a PHP_INI_PERDIR directive - it cannot be
-     * changed at runtime via ini_set() for this test, so the entry count is
-     * derived from the ACTUAL value in this environment (falling back to the
-     * same 1000 exceedsMaxInputVars() itself falls back to) rather than a
-     * fixed literal: a hardcoded count like 400 would silently fail to
-     * trigger the guard in an environment configured with a higher
-     * max_input_vars than the one this test happened to be written against.
-     */
-    public function testEditSelectedObjectAbortsBeforeBuildingTheFormWhenSelectionExceedsMaxInputVars(): void
-    {
-        $configured_limit = ini_get('max_input_vars');
-        $limit = ($configured_limit === false || $configured_limit === '') ? 1000 : (int) $configured_limit;
-        // exceedsMaxInputVars() trips when ($entry_count * 3 + 1) > $limit -
-        // comfortably overshoot rather than sit right at the boundary, so
-        // this test is robust against off-by-one differences in how the
-        // real max_input_vars value is reported across environments.
-        $entry_count = $limit + 10;
-
-        $names = [];
-        for ($i = 0; $i < $entry_count; $i++) {
-            $names[] = 'common#:#entry' . $i;
+        $inputs = [];
+        foreach ($modal->getInputs() as $key => $input) {
+            self::assertInstanceOf(\ILIAS\UI\Implementation\Component\Input\Field\FormInput::class, $input);
+            $inputs[$key] = $input;
         }
 
-        $tpl = $this->createMock(ilGlobalTemplateInterface::class);
-        $tpl->expects($this->once())
-            ->method('setOnScreenMessage')
-            ->with('failure', 'language_too_many_entries_selected', true);
-        $tpl->expects($this->never())->method('setContent');
+        return $inputs;
+    }
 
-        $ctrl = $this->createMock(ilCtrl::class);
-        $ctrl->expects($this->once())->method('redirect')->with(
-            $this->isInstanceOf(ilObjLanguageExtGUI::class),
-            'view'
+    private function renderedModal(int $index): \ILIAS\UI\Implementation\Component\Modal\RoundTrip
+    {
+        self::assertInstanceOf(\ILIAS\UI\Implementation\Component\Modal\RoundTrip::class, $this->rendered_async[$index]);
+
+        return $this->rendered_async[$index];
+    }
+
+    private function buildModal(
+        ilObjLanguageExtGUI $gui,
+        array $names,
+        string $token = 'tok',
+        bool $with_bylines = true
+    ): \ILIAS\UI\Implementation\Component\Modal\RoundTrip {
+        return $this->invokeProtectedMethod($gui, 'buildEditEntriesModal', [$names, $token, $with_bylines]);
+    }
+
+    /**
+     * Post body for a modal: input name => value, addressed by the field keys of buildEditEntriesModal().
+     *
+     * @param array<string, string> $values field key => value
+     */
+    private function postBodyFor(\ILIAS\UI\Implementation\Component\Modal\RoundTrip $modal, array $values): array
+    {
+        $body = [];
+        foreach ($this->inputsOf($modal) as $key => $input) {
+            if (array_key_exists($key, $values)) {
+                $body[$input->getName()] = $values[$key];
+            }
+        }
+
+        return $body;
+    }
+
+    /**
+     * Stands in for the static collaborators of ilObjLanguageExt::_saveValues() (global file, language cache).
+     *
+     * @return callable restores the static caches
+     */
+    private function stubSaveValuesStatics(): callable
+    {
+        if (!defined('ILIAS_ABSOLUTE_PATH')) {
+            define('ILIAS_ABSOLUTE_PATH', realpath(__DIR__ . '/../../../../'));
+        }
+        $global_file = $this->createMock(ilLanguageFile::class);
+        $global_file->method('getAllValues')->willReturn([]);
+        $global_file->method('getAllComments')->willReturn([]);
+
+        $files = new ReflectionProperty(ilLanguageFile::class, 'global_file_objects');
+        $instances = new ReflectionProperty(ilCachedLanguage::class, 'instances');
+        $files->setValue(null, ['de' => $global_file]);
+        $instances->setValue(null, ['de' => $this->createMock(ilCachedLanguage::class)]);
+
+        return static function () use ($files, $instances): void {
+            $files->setValue(null, []);
+            $instances->setValue(null, []);
+        };
+    }
+
+    /**
+     * Creates a GUI for a save request: the modal of $names built like the save does, filled with $fields.
+     *
+     * @param array<string, string> $fields field key => posted value
+     * @param array<string, string> $values entries that exist
+     * @param array<string, list<string>> $selections stored selections: token => names
+     * @return array{0: ilObjLanguageExtGUI, 1: ArrayObject<string, array<string, array<int, mixed>>>} the GUI and the lng_data rows written, name => replace() data
+     */
+    private function createGuiForSave(
+        bool $langmode,
+        array $values,
+        array $selections,
+        ?string $token,
+        array $fields,
+        array $remarks = [],
+        ?array $modal_names = null
+    ): array {
+        $factory = fn(array $post): ilObjLanguageExtGUI => $this->createGuiForEditModal(
+            $langmode,
+            $values,
+            $remarks,
+            [],
+            $selections,
+            $token,
+            $post
+        );
+        $names = $modal_names ?? array_values(array_intersect($selections[$token] ?? [], array_keys($values)));
+        $gui = $factory($this->postBodyFor($this->buildModal($factory([]), $names, '', false), $fields));
+
+        /** @var ArrayObject<string, array<string, array<int, mixed>>> $replaced */
+        $replaced = new ArrayObject();
+        $this->edit_db->method('replace')->willReturnCallback(
+            function (string $table, array $pk, array $data) use ($replaced): int {
+                /** @var array<string, array<int, mixed>> $data */
+                if ($table === 'lng_data') {
+                    $replaced[$pk['module'][1] . '#:#' . $pk['identifier'][1]] = $data;
+                }
+                return 1;
+            }
         );
 
-        // No $form given -> createGuiForEditSelected() wires
-        // $gui->expects($this->never())->method('initEditEntriesForm') itself.
-        $gui = $this->createGuiForEditSelected(
-            $tpl,
-            $ctrl,
-            $this->createLanguageMockReturningTopicAsIs()
+        return [$gui, $replaced];
+    }
+
+    private function expectSaveRefused(ilObjLanguageExtGUI $gui, string $message_key): void
+    {
+        $this->edit_db->expects($this->never())->method('replace');
+        $this->edit_tpl->expects($this->once())->method('setOnScreenMessage')->with('failure', $message_key, true);
+        $this->edit_ctrl->expects($this->once())->method('redirect')->with($gui, 'view');
+    }
+
+    public function testEditSelectedObjectStoresTheExistingEntriesUnderATokenAndAnswersWithTheModal(): void
+    {
+        $gui = $this->createGuiForEditModal(false, ['common#:#access' => 'A', 'common#:#other' => 'B']);
+
+        $this->editSelected($gui, ['common#:#access', 'forged#:#<b>x</b>', 'common#:#other']);
+
+        self::assertCount(1, $this->rendered_async);
+        $modal = $this->rendered_async[0];
+        self::assertInstanceOf(\ILIAS\UI\Component\Modal\RoundTrip::class, $modal);
+        self::assertSame(
+            ['translation_0', 'translation_1', 'expected_entry_count'],
+            array_keys($modal->getInputs())
+        );
+        $stored = $_SESSION['lang_ext_edit_selection'];
+        self::assertCount(1, $stored);
+        self::assertSame(['common#:#access', 'common#:#other'], reset($stored));
+        self::assertStringEndsWith('&lang_entries_edit_selection=' . key($stored), $modal->getPostURL());
+        self::assertStringNotContainsString('forged', $modal->getPostURL());
+    }
+
+    public function testEditSelectedObjectAnswersWithAFailureBoxWhenNoExistingEntryIsLeft(): void
+    {
+        $gui = $this->createGuiForEditModal(false, ['common#:#access' => 'A']);
+
+        $this->editSelected($gui, ['forged#:#nonexistent']);
+
+        self::assertCount(1, $this->rendered_async);
+        self::assertInstanceOf(\ILIAS\UI\Component\MessageBox\MessageBox::class, $this->rendered_async[0]);
+        self::assertSame('failure', $this->rendered_async[0]->getType());
+        self::assertSame('no_checkbox', $this->rendered_async[0]->getMessageText());
+        self::assertSame([], $_SESSION['lang_ext_edit_selection']);
+    }
+
+    public function testEditSelectedObjectResolvesAllObjectsAgainstTheFilteredEntries(): void
+    {
+        $gui = $this->createGuiForEditModal(
+            false,
+            ['common#:#access' => 'A', 'common#:#other' => 'B'],
+            filtered_names: ['common#:#other', 'gone#:#entry']
+        );
+        $this->edit_table->expects($this->once())->method('getFilteredEntryNames');
+
+        $this->editSelected($gui, ['ALL_OBJECTS']);
+
+        self::assertSame([['common#:#other']], array_values($_SESSION['lang_ext_edit_selection']));
+        self::assertSame(['translation_0', 'expected_entry_count'], array_keys($this->renderedModal(0)->getInputs()));
+    }
+
+    public function testEditSelectedObjectKeepsOnlyTheTenNewestSelections(): void
+    {
+        $gui = $this->createGuiForEditModal(false, ['common#:#access' => 'A']);
+
+        for ($i = 0; $i < 11; $i++) {
+            $this->editSelected($gui, ['common#:#access']);
+        }
+
+        self::assertCount(10, $_SESSION['lang_ext_edit_selection']);
+        $newest = array_key_last($_SESSION['lang_ext_edit_selection']);
+        self::assertStringEndsWith($newest, $this->renderedModal(10)->getPostURL());
+    }
+
+    /**
+     * @return array<string, array{0: bool, 1: int, 2: bool}> langmode, entry count, too many
+     */
+    public static function maxInputVarsProvider(): array
+    {
+        $limit = self::maxInputVarsLimit();
+
+        return [
+            'far above the limit' => [false, $limit + 10, true],
+            'langmode needs two fields per entry' => [true, intdiv($limit, 2) + 1, true],
+            'same count fits without langmode' => [false, intdiv($limit, 2) + 1, false],
+        ];
+    }
+
+    #[DataProvider('maxInputVarsProvider')]
+    public function testEditSelectedObjectRefusesSelectionsThatCannotBeSubmittedBack(
+        bool $langmode,
+        int $entry_count,
+        bool $too_many
+    ): void {
+        $names = [];
+        for ($i = 0; $i < $entry_count; $i++) {
+            $names['common#:#entry' . $i] = 'v';
+        }
+        $gui = $this->createGuiForEditModal($langmode, $names);
+
+        $this->editSelected($gui, array_keys($names));
+
+        self::assertCount(1, $this->rendered_async);
+        if ($too_many) {
+            self::assertInstanceOf(\ILIAS\UI\Component\MessageBox\MessageBox::class, $this->rendered_async[0]);
+            self::assertSame('language_too_many_entries_selected', $this->rendered_async[0]->getMessageText());
+            self::assertSame([], $_SESSION['lang_ext_edit_selection']);
+        } else {
+            self::assertInstanceOf(\ILIAS\UI\Component\Modal\RoundTrip::class, $this->rendered_async[0]);
+        }
+    }
+
+    public function testBuildEditEntriesModalShowsTheEscapedCompareValueAsBylineOnlyWhenThereIsOne(): void
+    {
+        $gui = $this->createGuiForEditModal(
+            false,
+            ['common#:#access' => 'A', 'common#:#empty' => 'B', 'common#:#missing' => 'C', 'common#:#lines' => 'D'],
+            [],
+            [
+                'common#:#access' => '<b>Zugang</b> & "Co"',
+                'common#:#empty' => '',
+                'common#:#lines' => "one<br />two<br/>three<br>four",
+            ]
         );
 
-        $this->invokeProtectedMethod($gui, 'editSelectedObject', [$names]);
+        $inputs = $this->inputsOf(
+            $this->buildModal($gui, ['common#:#access', 'common#:#empty', 'common#:#missing', 'common#:#lines'])
+        );
+
+        self::assertSame(
+            'English: &lt;b&gt;Zugang&lt;/b&gt; &amp; &quot;Co&quot;',
+            $inputs['translation_0']->getByline()
+        );
+        self::assertSame('common / access', $inputs['translation_0']->getLabel());
+        self::assertNull($inputs['translation_1']->getByline());
+        self::assertNull($inputs['translation_2']->getByline());
+        self::assertSame('English: one two three four', $inputs['translation_3']->getByline());
+    }
+
+    public function testBuildEditEntriesModalLoadsNoCompareValuesWithoutBylines(): void
+    {
+        $gui = $this->createGuiForEditModal(false, ['common#:#access' => 'A'], [], ['common#:#access' => 'Zugang']);
+        $this->edit_table->expects($this->never())->method('getCompareValues');
+        $this->edit_table->expects($this->never())->method('getCompareTitle');
+
+        $inputs = $this->inputsOf($this->buildModal($gui, ['common#:#access'], 'tok', false));
+
+        self::assertNull($inputs['translation_0']->getByline());
+    }
+
+    public function testBuildEditEntriesModalHasCommentFieldsOnlyInLangmodeAndEndsWithTheEntryCount(): void
+    {
+        foreach ([true, false] as $langmode) {
+            $gui = $this->createGuiForEditModal($langmode, ['common#:#access' => 'A'], ['common#:#access' => 'Remark']);
+
+            $inputs = $this->inputsOf($this->buildModal($gui, ['common#:#access']));
+
+            if ($langmode) {
+                self::assertSame(['translation_0', 'comment_0', 'expected_entry_count'], array_keys($inputs));
+                self::assertSame('Remark', $inputs['comment_0']->getValue());
+            } else {
+                self::assertSame(['translation_0', 'expected_entry_count'], array_keys($inputs));
+            }
+            self::assertSame('1', $inputs['expected_entry_count']->getValue());
+        }
+    }
+
+    public function testBuildEditEntriesModalPrefillsTheRemarkAsOneLineOfAtMost250CharactersWithoutByteLimit(): void
+    {
+        $gui = $this->createGuiForEditModal(
+            true,
+            ['a#:#lines' => 'A', 'a#:#long' => 'B'],
+            ["a#:#lines" => " first\r\nsecond\nthird ", 'a#:#long' => str_repeat('ж', 300)]
+        );
+
+        $inputs = $this->inputsOf($this->buildModal($gui, ['a#:#lines', 'a#:#long']));
+
+        self::assertInstanceOf(\ILIAS\UI\Component\Input\Field\Text::class, $inputs['comment_0']);
+        self::assertNull($inputs['comment_0']->getMaxLength());
+        self::assertSame('first second third', $inputs['comment_0']->getValue());
+        self::assertSame(str_repeat('ж', 250), $inputs['comment_1']->getValue());
+    }
+
+    public function testTheTranslationsAreLoadedOnlyOncePerGui(): void
+    {
+        $gui = $this->createGuiForEditModal(false, ['common#:#access' => 'A']);
+        $object = (new ReflectionProperty($gui, 'object'))->getValue($gui);
+        $object->expects($this->once())->method('getAllValues');
+
+        $this->editSelected($gui, ['common#:#access']);
+        $this->buildModal($gui, ['common#:#access']);
+    }
+
+    /**
+     * Outside langmode the form has no comment field: the existing remark is written back unchanged.
+     */
+    public function testSaveEditedEntriesObjectKeepsTheExistingRemarksOutsideLangmode(): void
+    {
+        $restore = $this->stubSaveValuesStatics();
+        try {
+            [$gui, $replaced] = $this->createGuiForSave(
+                false,
+                ['zztest#:#access' => 'Old'],
+                ['t' => ['zztest#:#access']],
+                't',
+                ['translation_0' => 'New', 'expected_entry_count' => '1'],
+                ['zztest#:#access' => 'Keep me']
+            );
+            $this->edit_table->expects($this->never())->method('getCompareValues');
+            $this->edit_ctrl->expects($this->once())->method('redirect')->with($gui, 'view');
+            $this->edit_tpl->expects($this->once())->method('setOnScreenMessage')
+                ->with('success', 'language_variables_saved', true);
+
+            $gui->saveEditedEntriesObject();
+
+            self::assertSame(['zztest#:#access'], array_keys($replaced->getArrayCopy()));
+            self::assertSame('New', $replaced['zztest#:#access']['value'][1]);
+            self::assertSame('Keep me', $replaced['zztest#:#access']['remarks'][1]);
+        } finally {
+            $restore();
+        }
+    }
+
+    public function testSaveEditedEntriesObjectSavesOnlyTheSelectionOfTheGivenToken(): void
+    {
+        $restore = $this->stubSaveValuesStatics();
+        try {
+            [$gui, $replaced] = $this->createGuiForSave(
+                false,
+                ['a#:#one' => 'Old1', 'a#:#two' => 'Old2'],
+                ['A' => ['a#:#one'], 'B' => ['a#:#two']],
+                'A',
+                ['translation_0' => 'New', 'expected_entry_count' => '1']
+            );
+
+            $gui->saveEditedEntriesObject();
+
+            self::assertSame(['a#:#one'], array_keys($replaced->getArrayCopy()));
+        } finally {
+            $restore();
+        }
+    }
+
+    /**
+     * @return array<string, array{0: string, 1: string}> posted remark, remark reaching the database
+     */
+    public static function remarkProvider(): array
+    {
+        return [
+            'plain' => ['Remark', 'Remark'],
+            'line break becomes a space' => ["first\nsecond", 'first second'],
+            '130 multibyte characters (260 bytes) are kept' => [str_repeat('ж', 130), str_repeat('ж', 130)],
+            '300 multibyte characters are cut to 250' => [str_repeat('ж', 300), str_repeat('ж', 250)],
+        ];
+    }
+
+    #[DataProvider('remarkProvider')]
+    public function testSaveEditedEntriesObjectTakesTheNormalizedRemarkFromTheFormInLangmode(
+        string $posted,
+        string $expected
+    ): void {
+        $restore = $this->stubSaveValuesStatics();
+        try {
+            [$gui, $replaced] = $this->createGuiForSave(
+                true,
+                ['zztest#:#access' => 'Old'],
+                ['t' => ['zztest#:#access']],
+                't',
+                ['translation_0' => 'New', 'comment_0' => $posted, 'expected_entry_count' => '1'],
+                ['zztest#:#access' => 'Old remark']
+            );
+
+            $gui->saveEditedEntriesObject();
+
+            self::assertSame($expected, $replaced['zztest#:#access']['remarks'][1]);
+        } finally {
+            $restore();
+        }
+    }
+
+    /**
+     * @return array<string, array{0: ?string}> token of the request
+     */
+    public static function unusableTokenProvider(): array
+    {
+        return [
+            'no token' => [null],
+            'unknown token' => ['other'],
+        ];
+    }
+
+    #[DataProvider('unusableTokenProvider')]
+    public function testSaveEditedEntriesObjectRefusesARequestWithoutAStoredSelection(?string $token): void
+    {
+        [$gui] = $this->createGuiForSave(
+            false,
+            ['zztest#:#access' => 'A'],
+            ['t' => ['zztest#:#access']],
+            $token,
+            ['translation_0' => 'X', 'expected_entry_count' => '1'],
+            modal_names: ['zztest#:#access']
+        );
+        $this->expectSaveRefused($gui, 'no_checkbox');
+
+        $gui->saveEditedEntriesObject();
+    }
+
+    public function testSaveEditedEntriesObjectRefusesASelectionWhoseEntryWasDeletedMeanwhile(): void
+    {
+        [$gui] = $this->createGuiForSave(
+            false,
+            ['a#:#one' => 'A'],
+            ['t' => ['a#:#gone', 'a#:#one']],
+            't',
+            ['translation_0' => 'X', 'expected_entry_count' => '1'],
+            modal_names: ['a#:#one']
+        );
+        $this->expectSaveRefused($gui, 'msg_form_save_error');
+
+        $gui->saveEditedEntriesObject();
+    }
+
+    /**
+     * @return array<string, array{0: string, 1: string}> posted translation, stored value
+     */
+    public static function postedMarkupProvider(): array
+    {
+        return [
+            'carriage return and line feed become one br' => ["one\r\ntwo", 'one<br />two'],
+        ];
+    }
+
+    #[DataProvider('postedMarkupProvider')]
+    public function testSaveEditedEntriesObjectKeepsAllowedMarkupAndLineBreaksOfTheTranslation(
+        string $posted,
+        string $expected
+    ): void {
+        $restore = $this->stubSaveValuesStatics();
+        try {
+            [$gui, $replaced] = $this->createGuiForSave(
+                false,
+                ['zztest#:#access' => 'Old'],
+                ['t' => ['zztest#:#access']],
+                't',
+                ['translation_0' => $posted, 'expected_entry_count' => '1']
+            );
+
+            $gui->saveEditedEntriesObject();
+
+            self::assertSame($expected, $replaced['zztest#:#access']['value'][1]);
+        } finally {
+            $restore();
+        }
+    }
+
+    /** @return array<string, array{0: array<string, mixed>}> */
+    public static function arrayInsteadOfTextProvider(): array
+    {
+        return [
+            'translation as array' => [['translation_0' => ['x'], 'expected_entry_count' => '1']],
+            'comment as array' => [['translation_0' => 'New', 'comment_0' => ['y'], 'expected_entry_count' => '1']],
+        ];
+    }
+
+    /** @param array<string, mixed> $post */
+    #[DataProvider('arrayInsteadOfTextProvider')]
+    public function testSaveEditedEntriesObjectRefusesAValueOrCommentSentAsArrayWithoutWarnings(array $post): void
+    {
+        [$gui] = $this->createGuiForSave(
+            true,
+            ['zztest#:#access' => 'Old'],
+            ['t' => ['zztest#:#access']],
+            't',
+            $post
+        );
+        $this->expectSaveRefused($gui, 'msg_form_save_error');
+        $warnings = [];
+        set_error_handler(static function (int $number, string $message) use (&$warnings): bool {
+            $warnings[] = $message;
+            return true;
+        });
+        try {
+            $gui->saveEditedEntriesObject();
+        } finally {
+            restore_error_handler();
+        }
+
+        self::assertSame([], $warnings);
+    }
+
+
+    public function testSaveEditedEntriesObjectRefusesAnEntryCountThatDiffersFromTheSelection(): void
+    {
+        [$gui] = $this->createGuiForSave(
+            false,
+            ['a#:#one' => 'A', 'a#:#two' => 'B'],
+            ['t' => ['a#:#one', 'a#:#two']],
+            't',
+            ['translation_0' => 'X', 'translation_1' => 'Y', 'expected_entry_count' => '3']
+        );
+        $this->expectSaveRefused($gui, 'msg_form_save_error');
+
+        $gui->saveEditedEntriesObject();
+    }
+
+    /**
+     * @return array<string, array{0: list<string>}> field keys that survive a POST cut off by max_input_vars
+     */
+    public static function truncatedPostProvider(): array
+    {
+        return [
+            'only the count is lost' => [['translation_0', 'translation_1']],
+            'tail of the entries is lost too' => [['translation_0']],
+        ];
+    }
+
+    /**
+     * @param list<string> $surviving_fields
+     */
+    #[DataProvider('truncatedPostProvider')]
+    public function testSaveEditedEntriesObjectRefusesATruncatedPost(array $surviving_fields): void
+    {
+        [$gui] = $this->createGuiForSave(
+            false,
+            ['a#:#one' => 'A', 'a#:#two' => 'B'],
+            ['t' => ['a#:#one', 'a#:#two']],
+            't',
+            array_fill_keys($surviving_fields, 'X')
+        );
+        $this->expectSaveRefused($gui, 'msg_form_save_error');
+
+        $gui->saveEditedEntriesObject();
     }
 
     // -----------------------------------------------------------------
@@ -626,448 +1175,6 @@ class ilObjLanguageExtGUITest extends TestCase
         $gui->expects($this->once())->method('editSelectedObject')->with([]);
 
         $gui->executeCommand();
-    }
-
-    // -----------------------------------------------------------------
-    // initEditEntriesForm()
-    //
-    // initEditEntriesForm() is `protected` and builds a REAL
-    // ilPropertyFormGUI (not mocked) - both ilPropertyFormGUI's own
-    // constructor and every ilFormPropertyGUI-derived item's constructor
-    // (ilHiddenInputGUI/ilTextAreaInputGUI) unconditionally reach into
-    // `global $DIC->ctrl()`/`$DIC->language()` (see class.ilPropertyFormGUI.php/
-    // class.ilFormPropertyGUI.php), independently of the GUI instance's OWN
-    // $ctrl/$lng properties used elsewhere in this test class - hence
-    // stubDicForRealFormConstruction() below, on top of the usual
-    // inject() wiring.
-    // -----------------------------------------------------------------
-
-    private function stubDicForRealFormConstruction(): void
-    {
-        $GLOBALS['DIC'] = new \ILIAS\DI\Container();
-        $GLOBALS['DIC']['lng'] = $this->createMock(ilLanguage::class);
-        $GLOBALS['DIC']['ilCtrl'] = $this->createMock(ilCtrl::class);
-        // ilTextAreaInputGUI's own constructor (used for the visible
-        // translation/comment fields) unconditionally reads $DIC->user()
-        // too, on top of language()/ctrl().
-        $GLOBALS['DIC']['ilUser'] = $this->createMock(ilObjUser::class);
-    }
-
-    /**
-     * @return ilObjLanguageExtGUI&MockObject
-     */
-    private function createGuiForInitEditEntriesForm(
-        ilObjLanguageExt $object,
-        ilLanguage $lng,
-        bool $langmode,
-        ilCtrl $ctrl
-    ): ilObjLanguageExtGUI {
-        $gui = $this->getMockBuilder(ilObjLanguageExtGUI::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods([])
-            ->getMock();
-
-        $this->inject($gui, 'object', $object);
-        $this->inject($gui, 'lng', $lng);
-        $this->inject($gui, 'ctrl', $ctrl);
-        $this->inject($gui, 'langmode', $langmode);
-        $this->inject($gui, 'entries_table', $this->entriesTableFor($object, $lng));
-
-        return $gui;
-    }
-
-    private function findItemByPostVar(ilPropertyFormGUI $form, string $post_var): ?ilFormPropertyGUI
-    {
-        foreach ($form->getItems() as $item) {
-            if (method_exists($item, 'getPostVar') && $item->getPostVar() === $post_var) {
-                return $item;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Regression test for the data-loss blocker: outside langmode,
-     * initEditEntriesForm() used to not build a "comment[$idx]" field at
-     * all, which made saveEditedEntriesObject() overwrite the entry's
-     * existing remark with '' on every save. It must now still carry the
-     * existing remark - unchanged - as a hidden field.
-     */
-    public function testInitEditEntriesFormNonLangmodeCarriesTheExistingRemarkAsAHiddenFieldInsteadOfLosingIt(): void
-    {
-        $this->stubDicForRealFormConstruction();
-
-        $object = $this->createFakeLanguageObject('de');
-        $object->method('getAllValues')->willReturn(['common#:#access' => 'Access']);
-        $object->method('getEffectiveRemarks')->willReturn(['common#:#access' => 'Existing remark']);
-
-        $gui = $this->createGuiForInitEditEntriesForm(
-            $object,
-            $this->createLanguageMockReturningTopicAsIs(),
-            false,
-            $this->createMock(ilCtrl::class)
-        );
-
-        $form = $this->invokeProtectedMethod($gui, 'initEditEntriesForm', [['common#:#access']]);
-
-        $comment_item = $this->findItemByPostVar($form, 'comment[0]');
-        self::assertInstanceOf(ilHiddenInputGUI::class, $comment_item);
-        self::assertSame('Existing remark', $comment_item->getValue());
-    }
-
-    /**
-     * Control case: in langmode, the comment is still edited via a visible
-     * field - not silently turned into a hidden field too. Regression test
-     * for the reverted comment-field type: a single-line ilTextInputGUI
-     * (matching ilObjLanguage::replaceLangEntry()'s own 250-char truncation,
-     * see initEditEntriesForm()'s own docblock), NOT a multi-line
-     * ilTextAreaInputGUI - a comment containing a line break would break
-     * ilLanguageFile's strictly line-based format on export/merge. The
-     * translation field itself is unaffected by this and remains a
-     * multi-line ilTextAreaInputGUI.
-     */
-    public function testInitEditEntriesFormLangmodeUsesAVisibleSingleLineTextInputWithMaxLength250ForTheComment(): void
-    {
-        $this->stubDicForRealFormConstruction();
-
-        $object = $this->createFakeLanguageObject('de');
-        $object->method('getAllValues')->willReturn(['common#:#access' => 'Access']);
-        $object->method('getEffectiveRemarks')->willReturn(['common#:#access' => 'Existing remark']);
-
-        $gui = $this->createGuiForInitEditEntriesForm(
-            $object,
-            $this->createLanguageMockReturningTopicAsIs(),
-            true,
-            $this->createMock(ilCtrl::class)
-        );
-
-        $form = $this->invokeProtectedMethod($gui, 'initEditEntriesForm', [['common#:#access']]);
-
-        $comment_item = $this->findItemByPostVar($form, 'comment[0]');
-        self::assertInstanceOf(ilTextInputGUI::class, $comment_item);
-        // Not an ilTextAreaInputGUI - ilTextInputGUI is not a subclass of it,
-        // so this instanceof check is a genuinely distinct assertion, not a
-        // tautology of the check above.
-        self::assertNotInstanceOf(ilTextAreaInputGUI::class, $comment_item);
-        self::assertSame(250, $comment_item->getMaxLength());
-        self::assertSame('Existing remark', $comment_item->getValue());
-
-        $translation_item = $this->findItemByPostVar($form, 'translation[0]');
-        self::assertInstanceOf(ilTextAreaInputGUI::class, $translation_item);
-        self::assertSame('Access', $translation_item->getValue());
-    }
-
-    /**
-     * Regression test for the reflected-XSS blocker: a forged/nonexistent
-     * name in $names (e.g. a query value that never went through
-     * getFilteredEntryNames()) must be silently dropped BEFORE anything is
-     * rendered - it must not produce a field/title of its own, and it must
-     * not count towards "expected_entry_count" either (that count is read
-     * back verbatim by saveEditedEntriesObject()'s own guard, so it must
-     * reflect the FILTERED, not the raw, selection).
-     */
-    public function testInitEditEntriesFormSilentlyDropsNamesThatDoNotExistInTranslations(): void
-    {
-        $this->stubDicForRealFormConstruction();
-
-        $object = $this->createFakeLanguageObject('de');
-        $object->method('getAllValues')->willReturn([
-            'common#:#access' => 'Access',
-            'common#:#other' => 'Other',
-        ]);
-        $object->method('getEffectiveRemarks')->willReturn([]);
-
-        $gui = $this->createGuiForInitEditEntriesForm(
-            $object,
-            $this->createLanguageMockReturningTopicAsIs(),
-            false,
-            $this->createMock(ilCtrl::class)
-        );
-
-        $form = $this->invokeProtectedMethod($gui, 'initEditEntriesForm', [[
-            'common#:#access',
-            'forged#:#nonexistent',
-            'common#:#other',
-        ]]);
-
-        // expected_entry_count (1 item) + 3 items per surviving name (hidden
-        // entry_name, translation textarea, comment hidden) x 2 surviving
-        // names = 7 - the forged name must not add any item of its own.
-        self::assertCount(1 + 3 * 2, $form->getItems());
-
-        $entry_name_values = [];
-        foreach ($form->getItems() as $item) {
-            if (method_exists($item, 'getPostVar') && str_starts_with($item->getPostVar(), 'entry_name[')) {
-                $entry_name_values[] = $item->getValue();
-            }
-        }
-        self::assertSame(['common#:#access', 'common#:#other'], $entry_name_values);
-
-        $expected_count_item = $this->findItemByPostVar($form, 'expected_entry_count');
-        self::assertSame('2', $expected_count_item->getValue());
-    }
-
-    // -----------------------------------------------------------------
-    // saveEditedEntriesObject()
-    //
-    // ilObjLanguageExt::_saveValues() (called only on the SUCCESS path,
-    // after the guard below passes) is a hard-coded static call
-    // (`ilObjLanguageExt::_saveValues(...)`, not `static::`) - it cannot be
-    // intercepted via a subclass/partial mock, and it transitively reaches
-    // into several further static collaborators (ilLanguageFile disk I/O,
-    // ilCachedLanguage's global cache, ilObjLanguage::replaceLangEntry's own
-    // DB calls) that would need a very heavy, unrelated fixture to exercise
-    // safely. Both tests below therefore exercise only the guard itself
-    // (the ACTUAL new behaviour being regression-tested here) - they rely on
-    // $GLOBALS['DIC'] being deliberately left unset: if the guard ever
-    // failed to abort and execution fell through to _saveValues(), that call
-    // would fatal-error (undefined global $DIC) rather than silently pass,
-    // which is exactly the safety net a positive/control test would
-    // otherwise need real DB/file fixtures for. See this file's final test
-    // report for the explicitly acknowledged coverage gap this leaves open.
-    //
-    // INVESTIGATED (Review Round 3): a genuine positive/control test - a
-    // matching entry_name/translation/comment/expected_entry_count selection
-    // actually reaching ilObjLanguageExt::_saveValues() with the correctly
-    // built $save_array/$remarks_array (in particular: an UNCHANGED remark
-    // from a hidden "comment[$idx]" field surviving the round-trip, the
-    // actual regression this component's earlier review round was originally
-    // about) - is NOT practicably writable against the current production
-    // code, for two independent reasons:
-    //
-    // 1. Non-interceptability: `ilObjLanguageExt::_saveValues(...)` is a
-    //    hard, fully-qualified static call, not `static::_saveValues(...)`.
-    //    PHPUnit mocks work by subclassing; a subclass cannot override a
-    //    call another method resolves via its own literal class name, so no
-    //    partial mock of ilObjLanguageExtGUI or of ilObjLanguageExt can
-    //    intercept or observe this particular call site at all.
-    // 2. No cross-class checkpoint to fall back on either: $save_array and
-    //    $remarks_array (the very values the task asks to verify) are local
-    //    variables built entirely INSIDE saveEditedEntriesObject() and handed
-    //    straight to _saveValues() in the same statement - unlike, say,
-    //    initEditEntriesForm()'s $names filtering (which is observable via
-    //    the returned ilPropertyFormGUI's items), there is no return value,
-    //    property, or collaborator call in between to assert against. The
-    //    only way to observe them is to let _saveValues() itself actually
-    //    run - which pulls in the full chain below.
-    //
-    // Actually letting _saveValues() run (rather than intercepting it) was
-    // also investigated and rejected as impractical for a unit test: reading
-    // its body (class.ilObjLanguageExt.php) shows it (a) resolves and reads a
-    // REAL global .lang file from disk via ilLanguageFile::_getGlobalLanguageFile(),
-    // (b) issues two further real DB reads of its own (self::_getValues()/
-    // _getRemarks()), (c) calls the static ilObjLanguage::replaceLangEntry()/
-    // replaceLangModule() (each with their own further DB calls and exact SQL
-    // this test would have to reproduce faithfully in a mock ilDBInterface to
-    // avoid a silent no-op), and (d) flushes ilCachedLanguage's global,
-    // process-wide cache. Faking all of this correctly would amount to
-    // re-implementing large parts of the language persistence layer inside
-    // the test itself - fragile, and testing far more than this GUI change.
-    //
-    // Suggested follow-up (out of this test-engineer's scope to implement
-    // here): extract the "persist these values" step behind an injectable
-    // collaborator - e.g. a small `SaveLanguageValues`-style
-    // Activity/service, analogous to how AddLanguageEntry/
-    // SetLanguageTranslationEnabled already replaced other direct static
-    // calls in this same GUI class (see the constructor's own docblock) -
-    // so ilObjLanguageExtGUI depends on an interface it actually receives in
-    // its constructor rather than a hard-coded static class name. That alone
-    // would make both the interception problem (1) and the round-trip
-    // verification (2) straightforward: a mocked collaborator could then
-    // assert directly on the $save_array/$remarks_array it was called with.
-    // -----------------------------------------------------------------
-
-    /**
-     * @return ilObjLanguageExtGUI&MockObject
-     */
-    private function createGuiForSaveEditedEntries(
-        \ILIAS\HTTP\GlobalHttpState $http,
-        ilGlobalTemplateInterface $tpl,
-        ilCtrl $ctrl,
-        ilLanguage $lng,
-        ilObjLanguageExt $object
-    ): ilObjLanguageExtGUI {
-        $gui = $this->getMockBuilder(ilObjLanguageExtGUI::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods([])
-            ->getMock();
-
-        $this->inject($gui, 'http', $http);
-        $this->inject($gui, 'ui_factory', $this->createMock(\ILIAS\UI\Factory::class));
-        $this->inject($gui, 'tpl', $tpl);
-        $this->inject($gui, 'ctrl', $ctrl);
-        $this->inject($gui, 'lng', $lng);
-        $this->inject($gui, 'object', $object);
-
-        return $gui;
-    }
-
-    public function testSaveEditedEntriesObjectAbortsWithFailureMessageAndRedirectsWhenEntryCountDoesNotMatchExpectedCount(): void
-    {
-        $tpl = $this->createMock(ilGlobalTemplateInterface::class);
-        $tpl->expects($this->once())->method('setOnScreenMessage')->with(
-            'failure',
-            'language_too_many_entries_selected',
-            true
-        );
-
-        $ctrl = $this->createMock(ilCtrl::class);
-        $ctrl->expects($this->once())->method('redirect')->with(
-            $this->isInstanceOf(ilObjLanguageExtGUI::class),
-            'view'
-        );
-
-        $http = $this->mockHttpWithParsedBody([
-            'entry_name' => ['common#:#access', 'common#:#other'],
-            'translation' => ['A', 'B'],
-            'comment' => ['', ''],
-            // 2 real entries, but the form claims to have rendered 3 -
-            // exactly the max_input_vars truncation scenario this guard
-            // protects against.
-            'expected_entry_count' => '3',
-        ]);
-
-        $gui = $this->createGuiForSaveEditedEntries(
-            $http,
-            $tpl,
-            $ctrl,
-            $this->createLanguageMockReturningTopicAsIs(),
-            $this->createFakeLanguageObject('de')
-        );
-
-        $gui->saveEditedEntriesObject();
-    }
-
-    /**
-     * A completely missing "expected_entry_count" (e.g. a hand-crafted POST,
-     * or an older cached form) must default to -1, which can never equal a
-     * real (>= 0) entry count - so this aborts exactly like an explicit
-     * mismatch does, rather than silently proceeding to save.
-     */
-    public function testSaveEditedEntriesObjectAbortsWhenExpectedEntryCountIsMissingFromThePost(): void
-    {
-        $tpl = $this->createMock(ilGlobalTemplateInterface::class);
-        $tpl->expects($this->once())->method('setOnScreenMessage')->with(
-            'failure',
-            'language_too_many_entries_selected',
-            true
-        );
-
-        $ctrl = $this->createMock(ilCtrl::class);
-        $ctrl->expects($this->once())->method('redirect')->with(
-            $this->isInstanceOf(ilObjLanguageExtGUI::class),
-            'view'
-        );
-
-        $http = $this->mockHttpWithParsedBody([
-            'entry_name' => ['common#:#access'],
-            'translation' => ['A'],
-            'comment' => [''],
-            // no 'expected_entry_count' key at all
-        ]);
-
-        $gui = $this->createGuiForSaveEditedEntries(
-            $http,
-            $tpl,
-            $ctrl,
-            $this->createLanguageMockReturningTopicAsIs(),
-            $this->createFakeLanguageObject('de')
-        );
-
-        $gui->saveEditedEntriesObject();
-    }
-
-    /**
-     * Boundary/regression test: count($entry_names) must count actual array
-     * ELEMENTS, not (highest key + 1) - a POST with gapped array indices
-     * (e.g. produced by a partially-truncated max_input_vars submission)
-     * has exactly 2 real entries at keys 0 and 5. Comparing against 6 (what
-     * a max-index-based miscount would produce) must still be treated as a
-     * mismatch, proving the guard is not fooled by index gaps in either
-     * direction.
-     */
-    public function testSaveEditedEntriesObjectCountGuardCountsArrayElementsNotTheHighestIndexWhenKeysHaveGaps(): void
-    {
-        $tpl = $this->createMock(ilGlobalTemplateInterface::class);
-        $tpl->expects($this->once())->method('setOnScreenMessage')->with(
-            'failure',
-            'language_too_many_entries_selected',
-            true
-        );
-
-        $ctrl = $this->createMock(ilCtrl::class);
-        $ctrl->expects($this->once())->method('redirect');
-
-        $http = $this->mockHttpWithParsedBody([
-            'entry_name' => [0 => 'common#:#access', 5 => 'common#:#other'],
-            'translation' => [0 => 'A', 5 => 'B'],
-            'comment' => [0 => '', 5 => ''],
-            'expected_entry_count' => '6',
-        ]);
-
-        $gui = $this->createGuiForSaveEditedEntries(
-            $http,
-            $tpl,
-            $ctrl,
-            $this->createLanguageMockReturningTopicAsIs(),
-            $this->createFakeLanguageObject('de')
-        );
-
-        $gui->saveEditedEntriesObject();
-    }
-
-    /**
-     * Regression test: the count guard checks entry_name/translation/comment
-     * INDEPENDENTLY - not merely all three against each other, and not just
-     * entry_name against expected_entry_count. A POST where exactly ONE of
-     * the three arrays is short (here: "translation" has only 2 elements
-     * while "entry_name"/"comment" both have the full 3, matching
-     * expected_entry_count) must still abort - the max_input_vars truncation
-     * scenario this guard protects against can just as well cut the POST off
-     * in the middle of "translation[$idx]" while "entry_name[$idx]" and a
-     * LATER "comment[$idx]" (per initEditEntriesForm()'s own field order:
-     * entry_name, translation, comment - all three per entry, but truncation
-     * can hit anywhere) still made it through.
-     */
-    public function testSaveEditedEntriesObjectAbortsWhenOnlyOneOfTheThreePostArraysIsShorterThanExpected(): void
-    {
-        $tpl = $this->createMock(ilGlobalTemplateInterface::class);
-        $tpl->expects($this->once())->method('setOnScreenMessage')->with(
-            'failure',
-            'language_too_many_entries_selected',
-            true
-        );
-
-        $ctrl = $this->createMock(ilCtrl::class);
-        $ctrl->expects($this->once())->method('redirect')->with(
-            $this->isInstanceOf(ilObjLanguageExtGUI::class),
-            'view'
-        );
-
-        $http = $this->mockHttpWithParsedBody([
-            'entry_name' => ['common#:#access', 'common#:#other', 'common#:#third'],
-            // Only 2 elements - short by exactly one, while entry_name/
-            // comment both match expected_entry_count (3).
-            'translation' => ['A', 'B'],
-            'comment' => ['', '', ''],
-            'expected_entry_count' => '3',
-        ]);
-
-        // $GLOBALS['DIC'] is deliberately left unset (see this section's own
-        // docblock above) - if the guard failed to catch this mismatch and
-        // fell through to ilObjLanguageExt::_saveValues(), that call would
-        // fatal-error (undefined global $DIC) rather than silently save a
-        // truncated/misaligned selection.
-        $gui = $this->createGuiForSaveEditedEntries(
-            $http,
-            $tpl,
-            $ctrl,
-            $this->createLanguageMockReturningTopicAsIs(),
-            $this->createFakeLanguageObject('de')
-        );
-
-        $gui->saveEditedEntriesObject();
     }
 
     // -----------------------------------------------------------------

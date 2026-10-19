@@ -148,7 +148,8 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
 
     private function createTable(
         ilObjLanguageExt $object,
-        ilLanguage $lng
+        ilLanguage $lng,
+        bool $langmode = false
     ): ilLanguageEntriesTable {
         return new ilLanguageEntriesTable(
             $object,
@@ -156,7 +157,8 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
             $this->createMock(\ILIAS\UI\Factory::class),
             $this->createMock(URLBuilder::class),
             $this->createMock(URLBuilderToken::class),
-            $this->createMock(URLBuilderToken::class)
+            $this->createMock(URLBuilderToken::class),
+            $langmode
         );
     }
 
@@ -1228,7 +1230,7 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
         ]);
         $object->method('getShippedValues')->willReturn([]);
 
-        $table = $this->createTable($object, $this->createLng(default_language: 'de'));
+        $table = $this->createTable($object, $this->createLng(default_language: 'de'), true);
 
         $captured = [];
         $row_builder = $this->createMock(DataRowBuilder::class);
@@ -1251,6 +1253,178 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
 
         self::assertTrue($captured['common#:#access']);
         self::assertFalse($captured['common#:#other']);
+    }
+
+    // -----------------------------------------------------------------
+    // langmode: "commented" column and "comment" filter
+    // -----------------------------------------------------------------
+
+    public function testCommentedColumnAndRecordFieldExistOnlyInLangmode(): void
+    {
+        $this->setIsPageTranslation(false);
+
+        foreach ([true, false] as $langmode) {
+            $captured_titles = [];
+            [$ui_factory] = $this->stubUiFactoryCapturingColumnTitles($captured_titles);
+            $object = $this->createObject('de');
+            $object->method('getAllValues')->willReturn(['common#:#access' => 'Access']);
+            if ($langmode) {
+                $object->method('getEffectiveRemarks')->willReturn(['common#:#access' => 'remark']);
+            } else {
+                $object->expects($this->never())->method('getEffectiveRemarks');
+            }
+            $object->method('getShippedValues')->willReturn([]);
+
+            $table = new ilLanguageEntriesTable(
+                $object,
+                $this->createLng(),
+                $ui_factory,
+                $this->createMock(URLBuilder::class),
+                $this->createMock(URLBuilderToken::class),
+                $this->createMock(URLBuilderToken::class),
+                $langmode
+            );
+
+            $filter_data = $this->filterData(['compare' => 'de']);
+            $columns = $this->invokeProtectedMethod($table, 'getColumns', [$filter_data]);
+
+            $record = null;
+            $row_builder = $this->createMock(DataRowBuilder::class);
+            $row_builder->method('buildDataRow')->willReturnCallback(
+                function (string $id, array $r) use (&$record) {
+                    $record = $r;
+                    return $this->createMock(DataRow::class);
+                }
+            );
+            iterator_to_array($table->getRows(
+                $row_builder,
+                [],
+                new Range(0, 10),
+                new Order('module', Order::ASC),
+                null,
+                $filter_data,
+                null
+            ));
+
+            $expected = $langmode
+                ? ['module', 'topic', 'translation', 'default', 'commented']
+                : ['module', 'topic', 'translation', 'default'];
+            self::assertSame($expected, array_keys($columns), 'columns, langmode=' . var_export($langmode, true));
+            self::assertSame($expected, array_keys($record), 'record, langmode=' . var_export($langmode, true));
+        }
+    }
+
+    /**
+     * @return array<string, array{0: string, 1: list<string>}>
+     */
+    public static function commentFilterProvider(): array
+    {
+        return [
+            'substring hit' => ['remark', ['a#:#one', 'a#:#three']],
+            'case-insensitive' => ['REMARK', ['a#:#one', 'a#:#three']],
+            'umlaut case-insensitive' => ['ärger', ['a#:#two']],
+            'surrounding whitespace trimmed' => ['  remark ', ['a#:#one', 'a#:#three']],
+            'no hit' => ['nothing', []],
+            'empty is no filter' => ['', ['a#:#one', 'a#:#two', 'a#:#three', 'a#:#four']],
+        ];
+    }
+
+    /**
+     * @param list<string> $expected
+     */
+    #[DataProvider('commentFilterProvider')]
+    public function testCommentFilterMatchesTheDatabaseRemarkInLangmode(string $needle, array $expected): void
+    {
+        $this->setIsPageTranslation(false);
+
+        $object = $this->createObject();
+        $object->method('getAllValues')->willReturn([
+            'a#:#one' => '1',
+            'a#:#two' => '2',
+            'a#:#three' => '3',
+            'a#:#four' => '4',
+        ]);
+        $object->method('getEffectiveRemarks')->willReturn([
+            'a#:#one' => 'Some remark',
+            'a#:#two' => 'viel Ärger',
+            'a#:#three' => 'another REMARK here',
+        ]);
+
+        $table = $this->createTable($object, $this->createLng(), true);
+
+        self::assertSame($expected, $table->getFilteredEntryNames($this->filterData(['comment' => $needle])));
+    }
+
+    public function testCommentFilterIsIgnoredOutsideLangmode(): void
+    {
+        $this->setIsPageTranslation(false);
+
+        $object = $this->createObject();
+        $object->method('getAllValues')->willReturn(['a#:#one' => '1', 'a#:#two' => '2']);
+        $object->expects($this->never())->method('getEffectiveRemarks');
+
+        $table = $this->createTable($object, $this->createLng(), false);
+
+        self::assertSame(['a#:#one', 'a#:#two'], $table->getFilteredEntryNames($this->filterData(['comment' => 'x'])));
+    }
+
+    public function testCommentFilterIsIgnoredInPageTranslationMode(): void
+    {
+        $this->setIsPageTranslation(true);
+        $this->setSavedModulesAndTopics(['zztest'], ['access']);
+        $this->mockDatabaseReturningRows([['module' => 'zztest', 'identifier' => 'access', 'value' => 'A']]);
+
+        $object = $this->createObject();
+        $object->expects($this->never())->method('getEffectiveRemarks');
+
+        $table = $this->createTable($object, $this->createLng(), true);
+
+        self::assertSame(
+            ['zztest#:#access'],
+            $table->getFilteredEntryNames($this->filterData(['comment' => 'xyz']))
+        );
+    }
+
+    // -----------------------------------------------------------------
+    // getCompareTitle() / getCompareValues()
+    // -----------------------------------------------------------------
+
+    public function testGetCompareTitleAddsTheHintOnlyWhenTheCompareLanguageIsTheObjectsOwn(): void
+    {
+        $table = $this->createTable($this->createObject('de'), $this->createLng());
+
+        self::assertSame('meta_l_de language_default_entries', $table->getCompareTitle($this->filterData(['compare' => 'de'])));
+        self::assertSame('meta_l_en', $table->getCompareTitle($this->filterData(['compare' => 'en'])));
+    }
+
+    public function testGetCompareTitleFallsBackToTheDefaultLanguageWithoutCompareField(): void
+    {
+        $table = $this->createTable($this->createObject('de'), $this->createLng('fr'));
+
+        self::assertSame('meta_l_fr', $table->getCompareTitle($this->filterData([])));
+    }
+
+    public function testGetCompareValuesReturnsTheShippedValuesForTheObjectsOwnLanguage(): void
+    {
+        $this->setIsPageTranslation(false);
+        $object = $this->createObject('de');
+        $object->method('getShippedValues')->willReturn(['common#:#access' => 'Zugang']);
+
+        $table = $this->createTable($object, $this->createLng());
+
+        self::assertSame(['common#:#access' => 'Zugang'], $table->getCompareValues($this->filterData(['compare' => 'de'])));
+    }
+
+    public function testGetCompareValuesReturnsTheDatabaseValuesOfAnotherLanguage(): void
+    {
+        $this->setIsPageTranslation(false);
+        $this->mockDatabaseReturningRows([['module' => 'zztest', 'identifier' => 'access', 'value' => 'Access']]);
+        $object = $this->createObject('de');
+        $object->expects($this->never())->method('getShippedValues');
+
+        $table = $this->createTable($object, $this->createLng());
+
+        self::assertSame(['zztest#:#access' => 'Access'], $table->getCompareValues($this->filterData(['compare' => 'en'])));
     }
 
     // -----------------------------------------------------------------
@@ -1484,7 +1658,8 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
             $ui_factory,
             $this->createMock(URLBuilder::class),
             $this->createMock(URLBuilderToken::class),
-            $this->createMock(URLBuilderToken::class)
+            $this->createMock(URLBuilderToken::class),
+            false
         );
 
         $this->invokeProtectedMethod($table, 'getColumns', [$this->filterData(['compare' => 'de'])]);
@@ -1505,7 +1680,8 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
             $ui_factory,
             $this->createMock(URLBuilder::class),
             $this->createMock(URLBuilderToken::class),
-            $this->createMock(URLBuilderToken::class)
+            $this->createMock(URLBuilderToken::class),
+            false
         );
 
         $this->invokeProtectedMethod($table, 'getColumns', [$this->filterData(['compare' => 'en'])]);
@@ -1516,8 +1692,7 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
     // -----------------------------------------------------------------
     // tableId() / getTable() - table/filter id keyed on
     // _isPageTranslation() (see initFilter()'s equivalent use on the GUI
-    // side) - langmode played no part in this even before it was removed
-    // as a dead constructor parameter (see class docblock on tableId()).
+    // side); langmode plays no part in the id.
     // -----------------------------------------------------------------
 
     /**
@@ -1563,7 +1738,8 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
             $ui_factory,
             $this->createMock(URLBuilder::class),
             $this->createMock(URLBuilderToken::class),
-            $this->createMock(URLBuilderToken::class)
+            $this->createMock(URLBuilderToken::class),
+            false
         );
 
         $table->getTable($this->filterData([]));
@@ -1583,7 +1759,8 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
             $ui_factory,
             $this->createMock(URLBuilder::class),
             $this->createMock(URLBuilderToken::class),
-            $this->createMock(URLBuilderToken::class)
+            $this->createMock(URLBuilderToken::class),
+            false
         );
 
         $table->getTable($this->filterData([]));

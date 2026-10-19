@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -40,6 +41,15 @@ trait ilObjLanguageExtGUITestFixture
     {
         /** @var ilObjLanguageExt&Stub $object */
         $object = $this->createStub(ilObjLanguageExt::class);
+        $object->key = $key;
+
+        return $object;
+    }
+
+    private function createFakeLanguageObjectMock(string $key): ilObjLanguageExt&MockObject
+    {
+        /** @var ilObjLanguageExt&MockObject $object */
+        $object = $this->createMock(ilObjLanguageExt::class);
         $object->key = $key;
 
         return $object;

@@ -18,8 +18,8 @@
   `ILIAS\Language\ComponentTranslation\PluralForms` (pilot modules `tos` and `poll`, see
   [Translations Maintained in PO Files](README.md#translations-maintained-in-po-files))
 * Replaced the deprecated `ilLanguageExtTableGUI` (`ilTable2GUI`) with a read-only KS Data Table
-  (`ilLanguageEntriesTable`) plus a separate `ilPropertyFormGUI` edit screen for the selected entries (KS Data Table
-  has no editable column type)
+  (`ilLanguageEntriesTable`) plus a KS Round-Trip modal for editing the selected entries, with the compare
+  language's value as byline (KS Data Table has no editable column type); comment column and filter only in langmode
 
 ## Short Term
 

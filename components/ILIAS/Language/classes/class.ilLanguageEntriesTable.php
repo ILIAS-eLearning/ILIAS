@@ -27,7 +27,7 @@ use ILIAS\UI\URLBuilderToken;
 
 /**
  * Read-only KS Data Table of the entries of one language, KS has no editable column type.
- * Editing happens in ilObjLanguageExtGUI::initEditEntriesForm().
+ * Editing happens in the Round-Trip modal of ilObjLanguageExtGUI::buildEditEntriesModal().
  */
 class ilLanguageEntriesTable implements DataTable\DataRetrieval
 {
@@ -44,7 +44,8 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
         protected ILIAS\UI\Factory $ui_factory,
         protected URLBuilder $url_builder,
         protected URLBuilderToken $action_token,
-        protected URLBuilderToken $row_id_token
+        protected URLBuilderToken $row_id_token,
+        protected bool $langmode
     ) {
     }
 
@@ -66,7 +67,7 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
                     $this->lng->txt('edit'),
                     $this->url_builder->withParameter($this->action_token, 'edit'),
                     $this->row_id_token
-                ),
+                )->withAsync(),
             ]);
     }
 
@@ -75,17 +76,17 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
     {
         $f = $this->ui_factory->table()->column();
 
-        $compare = (string) $this->filterValue($filter_data, 'compare', $this->lng->getDefaultLanguage());
-        $default_title = $this->lng->txt('meta_l_' . $compare);
-        if ($compare === $this->object->key) {
-            $default_title .= ' ' . $this->lng->txt('language_default_entries');
-        }
-
-        return [
+        $columns = [
             'module' => $f->text(ucfirst($this->lng->txt('module'))),
             'topic' => $f->text(ucfirst($this->lng->txt('identifier'))),
             'translation' => $f->text($this->lng->txt('meta_l_' . $this->object->key)),
-            'default' => $f->text($default_title),
+            'default' => $f->text($this->getCompareTitle($filter_data)),
+        ];
+        if (!$this->langmode) {
+            return $columns;
+        }
+
+        return $columns + [
             'commented' => $f->boolean(
                 $this->lng->txt('comment'),
                 $this->ui_factory->symbol()->icon()->custom(
@@ -100,6 +101,34 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
                 )
             )->withIsSortable(false),
         ];
+    }
+
+    public function getCompareTitle(mixed $filter_data): string
+    {
+        $compare = $this->getCompareLanguage($filter_data);
+        $title = $this->lng->txt('meta_l_' . $compare);
+        if ($compare === $this->object->key) {
+            $title .= ' ' . $this->lng->txt('language_default_entries');
+        }
+
+        return $title;
+    }
+
+    /**
+     * The compare language's values for the current filter scope, as shown in the "default" column.
+     *
+     * @return array<string, string>
+     */
+    public function getCompareValues(mixed $filter_data): array
+    {
+        [$modules, $topics] = $this->resolveModulesAndTopics($filter_data);
+
+        return $this->getCompareContent($filter_data, $modules, $topics);
+    }
+
+    private function getCompareLanguage(mixed $filter_data): string
+    {
+        return (string) $this->filterValue($filter_data, 'compare', $this->lng->getDefaultLanguage());
     }
 
     /**
@@ -159,13 +188,17 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
         foreach ($names as $name) {
             $keys = explode($this->lng->separator, $name);
 
-            yield $row_builder->buildDataRow($name, [
+            $record = [
                 'module' => $keys[0] ?? '',
                 'topic' => $keys[1] ?? '',
                 'translation' => $entries[$name] ?? '',
                 'default' => $compare_content[$name] ?? '',
-                'commented' => $this->effectiveRemarkOf($name) !== '',
-            ]);
+            ];
+            if ($this->langmode) {
+                $record['commented'] = $this->effectiveRemarkOf($name) !== '';
+            }
+
+            yield $row_builder->buildDataRow($name, $record);
         }
     }
 
@@ -212,9 +245,33 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
             return $this->filtered_entries_cache;
         }
 
-        return $this->filtered_entries_cache = $this->filterByIdentifier(
-            $this->computeFilteredEntries($filter_data),
+        return $this->filtered_entries_cache = $this->filterByComment(
+            $this->filterByIdentifier($this->computeFilteredEntries($filter_data), $filter_data),
             $filter_data
+        );
+    }
+
+    /**
+     * Case-insensitive substring match on the remark shown and edited in langmode, see effectiveRemarkOf().
+     *
+     * @param array<string, string> $entries
+     * @return array<string, string>
+     */
+    private function filterByComment(array $entries, mixed $filter_data): array
+    {
+        if (!$this->langmode || ilObjLanguageAccess::_isPageTranslation()) {
+            return $entries;
+        }
+
+        $needle = trim((string) $this->filterValue($filter_data, 'comment', ''));
+        if ($needle === '') {
+            return $entries;
+        }
+
+        return array_filter(
+            $entries,
+            fn(int|string $name): bool => mb_stripos($this->effectiveRemarkOf((string) $name), $needle) !== false,
+            ARRAY_FILTER_USE_KEY
         );
     }
 
@@ -344,7 +401,7 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
             return $this->compare_content_cache;
         }
 
-        $compare = (string) $this->filterValue($filter_data, 'compare', $this->lng->getDefaultLanguage());
+        $compare = $this->getCompareLanguage($filter_data);
 
         if ($compare === $this->object->key) {
             return $this->compare_content_cache = $this->object->getShippedValues();
