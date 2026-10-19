@@ -20,19 +20,17 @@ declare(strict_types=1);
 
 namespace ILIAS\Language\Activities;
 
-use ILIAS\Administration\Setting;
 use ILIAS\Language\Setup\InstalledLanguageRepository;
 
 /**
- * Every legacy and repository access of the runtime language activities. No component offers the
- * settings yet, so they are resolved from the legacy container on first use.
+ * Every legacy and repository access of the runtime language activities.
  */
 class RepositoryProvider
 {
     public function __construct(
         private readonly InstalledLanguageRepository $installed_language_repository,
         private readonly \ilDBInterface $db,
-        private ?Setting $settings = null,
+        private readonly LanguageSettings $settings,
     ) {
     }
 
@@ -120,32 +118,21 @@ class RepositoryProvider
 
     public function setLanguageDetectionEnabled(bool $enabled): void
     {
-        $this->settings()->set('lang_detection', $enabled ? '1' : '0');
+        $this->settings->setLanguageDetectionEnabled($enabled);
     }
 
     public function isPageTranslationEnabled(string $lang_key): bool
     {
-        return (bool) $this->settings()->get('lang_translate_' . $lang_key, '0');
+        return $this->settings->isPageTranslationEnabled($lang_key);
     }
 
     public function setPageTranslationEnabled(string $lang_key, bool $enabled): void
     {
-        $this->settings()->set('lang_translate_' . $lang_key, $enabled ? '1' : '0');
+        $this->settings->setPageTranslationEnabled($lang_key, $enabled);
     }
 
     private function languageObject(int $obj_id): \ilObjLanguage
     {
         return new \ilObjLanguage($obj_id);
-    }
-
-    private function settings(): Setting
-    {
-        if (!$this->settings instanceof Setting) {
-            global $DIC;
-
-            $this->settings = $DIC->settings();
-        }
-
-        return $this->settings;
     }
 }

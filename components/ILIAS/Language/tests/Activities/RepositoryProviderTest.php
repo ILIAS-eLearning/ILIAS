@@ -21,7 +21,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Language\Tests\Activities;
 
-use ILIAS\Administration\Setting;
+use ILIAS\Language\Activities\LanguageSettings;
 use ILIAS\Language\Activities\RepositoryProvider;
 use ILIAS\Language\Setup\InstalledLanguageRepository;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -39,7 +39,7 @@ class RepositoryProviderTest extends TestCase
         $installed = $this->createMock(InstalledLanguageRepository::class);
         $installed->expects($this->once())->method('getInstalledLanguages')->willReturn(['de', 'en']);
 
-        $provider = new RepositoryProvider($installed, $this->createMock(\ilDBInterface::class));
+        $provider = new RepositoryProvider($installed, $this->createMock(\ilDBInterface::class), $this->createMock(LanguageSettings::class));
 
         $this->assertSame(['de', 'en'], $provider->getInstalledLanguages());
     }
@@ -75,7 +75,7 @@ class RepositoryProviderTest extends TestCase
         // unserialize() reports broken input as a notice, which is not what this test is about
         set_error_handler(static fn(): bool => true, E_NOTICE | E_WARNING);
         try {
-            (new RepositoryProvider($this->createMock(InstalledLanguageRepository::class), $db))
+            (new RepositoryProvider($this->createMock(InstalledLanguageRepository::class), $db, $this->createMock(LanguageSettings::class)))
                 ->updateModuleCache('de', 'common', 'topic', 'value');
         } finally {
             restore_error_handler();
@@ -95,54 +95,24 @@ class RepositoryProviderTest extends TestCase
         );
         $db->method('fetchAssoc')->willReturn(null);
 
-        (new RepositoryProvider($this->createMock(InstalledLanguageRepository::class), $db))
+        (new RepositoryProvider($this->createMock(InstalledLanguageRepository::class), $db, $this->createMock(LanguageSettings::class)))
             ->updateModuleCache('de', "co'mmon", 'topic', 'value');
     }
 
-    /** @return array<string, array{0: string, 1: bool}> */
-    public static function storedFlagProvider(): array
+    public function testSettingsAreDelegatedToTheLanguageSettings(): void
     {
-        return ['"1"' => ['1', true], '"0"' => ['0', false], 'empty string' => ['', false]];
-    }
+        $settings = $this->createMock(LanguageSettings::class);
+        $settings->expects($this->once())->method('setLanguageDetectionEnabled')->with(true);
+        $settings->expects($this->once())->method('isPageTranslationEnabled')->with('fr')->willReturn(true);
+        $settings->expects($this->once())->method('setPageTranslationEnabled')->with('de', false);
 
-    /** Falsy cast of the stored string, like ilObjLanguageAccess::_checkTranslate(), under the per-language key. */
-    #[DataProvider('storedFlagProvider')]
-    public function testIsPageTranslationEnabledCastsTheStoredValueUnderThePerLanguageKey(string $stored, bool $expected): void
-    {
-        $settings = $this->createMock(Setting::class);
-        $settings->expects($this->once())->method('get')->with('lang_translate_fr', '0')->willReturn($stored);
-
-        $this->assertSame($expected, $this->providerWith($settings)->isPageTranslationEnabled('fr'));
-    }
-
-    public function testSettingsAreWrittenAsOneAndZeroUnderTheirKeys(): void
-    {
-        $written = [];
-        $settings = $this->createMock(Setting::class);
-        $settings->method('set')->willReturnCallback(
-            static function (string $key, string $value) use (&$written): void {
-                $written[] = [$key, $value];
-            }
-        );
-
-        $provider = $this->providerWith($settings);
-        $provider->setLanguageDetectionEnabled(true);
-        $provider->setLanguageDetectionEnabled(false);
-        $provider->setPageTranslationEnabled('de', true);
-        $provider->setPageTranslationEnabled('de', false);
-
-        $this->assertSame(
-            [['lang_detection', '1'], ['lang_detection', '0'], ['lang_translate_de', '1'], ['lang_translate_de', '0']],
-            $written
-        );
-    }
-
-    private function providerWith(Setting $settings): RepositoryProvider
-    {
-        return new RepositoryProvider(
+        $provider = new RepositoryProvider(
             $this->createMock(InstalledLanguageRepository::class),
             $this->createMock(\ilDBInterface::class),
             $settings
         );
+        $provider->setLanguageDetectionEnabled(true);
+        $this->assertTrue($provider->isPageTranslationEnabled('fr'));
+        $provider->setPageTranslationEnabled('de', false);
     }
 }
