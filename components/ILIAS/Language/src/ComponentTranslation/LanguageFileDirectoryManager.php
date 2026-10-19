@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Language\ComponentTranslation;
 
 /**
+ * @internal
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 class LanguageFileDirectoryManager
