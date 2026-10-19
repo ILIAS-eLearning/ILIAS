@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
-class LearningSequence implements Component\Component
+class LearningSequence implements \ILIAS\Component\Component
 {
     public function init(
         array | \ArrayAccess &$define,
@@ -72,12 +72,12 @@ class LearningSequence implements Component\Component
                 \ILIAS\LearningSequence\Content\Condition\OutputCondition\LearningProgressOutputConditions\LearningProgressOutputAwareCondition::class
             );
 
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "js/lso_learning_map.js");
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentCSS($this, "css/lso_learning_map.css");
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentCSS($this, "css/lso_player.css");
+        $contribute[\ILIAS\Component\Resource\PublicAsset::class] = fn() =>
+            new \ILIAS\Component\Resource\ComponentJS($this, "js/lso_learning_map.js");
+        $contribute[\ILIAS\Component\Resource\PublicAsset::class] = fn() =>
+            new \ILIAS\Component\Resource\ComponentCSS($this, "css/lso_learning_map.css");
+        $contribute[\ILIAS\Component\Resource\PublicAsset::class] = fn() =>
+            new \ILIAS\Component\Resource\ComponentCSS($this, "css/lso_player.css");
 
         $internal[\ILIAS\LearningSequence\Content\Condition\ConditionTypeRegistry::class] = static fn() =>
             new \ILIAS\LearningSequence\Content\Condition\ConditionTypeRegistry(
