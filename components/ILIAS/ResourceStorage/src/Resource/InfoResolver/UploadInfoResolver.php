@@ -22,6 +22,7 @@ namespace ILIAS\ResourceStorage\Resource\InfoResolver;
 
 use DateTimeImmutable;
 use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\ResourceStorage\Information\MimeTypeSanitizer;
 
 /**
  * Class UploadInfoResolver
@@ -47,7 +48,7 @@ class UploadInfoResolver extends AbstractInfoResolver implements InfoResolver
         parent::__construct($next_version_number, $revision_owner_id, $revision_title);
         $this->file_name = $upload->getName();
         $this->suffix = pathinfo($this->file_name, PATHINFO_EXTENSION);
-        $this->mime_type = $upload->getMimeType();
+        $this->mime_type = (new MimeTypeSanitizer())->sanitize($upload->getMimeType());
         $this->creation_date = new \DateTimeImmutable();
     }
 
