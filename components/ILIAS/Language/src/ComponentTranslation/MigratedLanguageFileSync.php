@@ -1886,20 +1886,23 @@ final class MigratedLanguageFileSync
     }
 
     /**
-     * The content of $module/$lang_key the administration edits, never taken from the database: that of
-     * loadModuleTranslations(), without $client_data_dir or with an unreadable overlay (reported) the shipped
-     * `.po` alone. `null` where loadModuleTranslations() returns `null` for another reason.
+     * The content of $module/$lang_key the administration shows or edits, never taken from the database: that
+     * of loadModuleTranslations(), without $client_data_dir the shipped `.po` alone. `null` where
+     * loadModuleTranslations() returns `null` for another reason.
      *
      * @param string|null $ilias_absolute_path see loadModuleTranslations()
+     * @param bool $for_writing an unreadable overlay throws: a write onto the shipped values alone would drop
+     *        its other local changes; otherwise (display) it is reported and the shipped `.po` alone returned
      * @return array<string, array{value: string, local_change: bool, local_change_date: ?string, original: ?string}>|null
-     * @throws RuntimeException if the shipped `.po` cannot be read
+     * @throws RuntimeException if the shipped `.po` (or for writing the overlay) cannot be read
      */
     public static function loadEditableModuleTranslations(
         LanguageFileDirectoryManager $language_file_directory_manager,
         string $lang_key,
         string $module,
         ?string $client_data_dir,
-        ?string $ilias_absolute_path = null
+        ?string $ilias_absolute_path = null,
+        bool $for_writing = false
     ): ?array {
         $directory = self::findDirectory($language_file_directory_manager, $module);
         if ($directory === null || !MigratedLanguageFilePaths::isValidLanguageKey($lang_key)) {
@@ -1914,6 +1917,9 @@ final class MigratedLanguageFileSync
             try {
                 return self::loadModuleTranslations($language_file_directory_manager, $lang_key, $module, $client_data_dir, $ilias_absolute_path);
             } catch (\Throwable $t) {
+                if ($for_writing) {
+                    throw $t instanceof RuntimeException ? $t : new RuntimeException($t->getMessage(), 0, $t);
+                }
                 MigratedTranslations::reportProblem(sprintf(
                     'The local changes of module "%s" for "%s" cannot be read, the shipped values are used: %s',
                     $module,

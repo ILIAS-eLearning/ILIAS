@@ -68,6 +68,7 @@ trait AddLanguageEntryTestFixture
      * @param list<string> $installed_languages
      * @param \Closure|null $languages_without_plural_form (string $module, string $identifier, array $lang_keys): list<string>
      * @param \Closure|null $duplicates_of (string $module, string $identifier): list<string>
+     * @param \Closure|null $has_unreadable_content (string $lang_key, string $module): bool
      */
     protected function createActivity(
         array $installed_languages,
@@ -80,6 +81,7 @@ trait AddLanguageEntryTestFixture
         ?\Closure $user_login = null,
         ?\Closure $languages_without_plural_form = null,
         ?\Closure $duplicates_of = null,
+        ?\Closure $has_unreadable_content = null,
     ): AddLanguageEntry {
         // no-op defaults; tests proving a closure is never called pass a throwing one
         $replace_lang_entry ??= static fn(
@@ -100,6 +102,7 @@ trait AddLanguageEntryTestFixture
         $user_login ??= static fn(int $usr_id): string => 'default-login';
         $languages_without_plural_form ??= static fn(string $module, string $identifier, array $lang_keys): array => [];
         $duplicates_of ??= static fn(string $module, string $identifier): array => [];
+        $has_unreadable_content ??= static fn(string $lang_key, string $module): bool => false;
         $installed_language_repository ??= new FakeInstalledLanguageRepository(static fn(): array => $installed_languages);
 
         $repository = $this->createStub(RepositoryProvider::class);
@@ -117,6 +120,7 @@ trait AddLanguageEntryTestFixture
             ): bool => $update_module_cache($lang_key, $module, $identifier, $value, $remarks) ?? true
         );
         $repository->method('lookupLogin')->willReturnCallback($user_login);
+        $repository->method('hasUnreadableContent')->willReturnCallback($has_unreadable_content);
         $repository->method('languagesWithoutPluralForm')->willReturnCallback($languages_without_plural_form);
         $repository->method('findDuplicatesOf')->willReturnCallback($duplicates_of);
 

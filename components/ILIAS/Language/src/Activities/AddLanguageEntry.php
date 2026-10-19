@@ -229,6 +229,11 @@ MARKDOWN
                 continue;
             }
 
+            // before anything is written, so lng_data does not get the entry either
+            if ($this->repository->hasUnreadableContent($lang_key, $module)) {
+                $overlay_write_failed_language_keys[] = $lang_key;
+                continue;
+            }
             $this->repository->replaceLangEntry($module, $identifier, $lang_key, $value, $local_change, $login);
             if (!$this->repository->updateModuleCache($lang_key, $module, $identifier, $value, $login)) {
                 $overlay_write_failed_language_keys[] = $lang_key;
