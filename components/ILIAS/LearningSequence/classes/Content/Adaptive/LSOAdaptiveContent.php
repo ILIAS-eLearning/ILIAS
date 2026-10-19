@@ -25,7 +25,7 @@ use ilDBInterface;
 use ilGlobalTemplateInterface;
 use ILIAS\LearningSequence\Content\Condition\AbstractCondition;
 use ILIAS\LearningSequence\Content\Condition\ConditionHandler;
-use ILIAS\LearningSequence\Content\Condition\ilObjLearningSequenceConditionDiscover;
+use ILIAS\LearningSequence\Content\Condition\ConditionTypes;
 use ILIAS\LearningSequence\Content\Condition\StaticInputConfigurationAnalyzer;
 use ILIAS\LearningSequence\Content\Condition\StaticInputConfigurationIssue;
 use ILIAS\LearningSequence\Content\Condition\StaticInputConfigurationIssueDetail;
@@ -421,7 +421,7 @@ class LSOAdaptiveContent implements LSOContentController
     protected function getInputConditionOptions(): array
     {
         return $this->buildConditionOptions(
-            $this->getConditionDiscover()->getAllInputConditions()
+            $this->getConditionTypes()->getAllInputConditions()
         );
     }
 
@@ -433,20 +433,18 @@ class LSOAdaptiveContent implements LSOContentController
     protected function getOutputConditionOptions(): array
     {
         return $this->buildConditionOptions(
-            $this->getConditionDiscover()->getAllOutputConditions()
+            $this->getConditionTypes()->getAllOutputConditions()
         );
     }
 
-    /**
-     * Gets the condition discover service.
-     */
-    private function getConditionDiscover(): ilObjLearningSequenceConditionDiscover
+    private function getConditionTypes(): ConditionTypes
     {
-        return new ilObjLearningSequenceConditionDiscover();
+        global $DIC;
+        return $DIC['lso.condition_types'];
     }
 
     /**
-     * Builds the multiselect options for the filter from the discovered
+     * Builds the multiselect options for the filter from the contributed
      * condition classes. The option key is the condition's internal name (as
      * used when filtering the rows) and the value is its human readable title.
      *

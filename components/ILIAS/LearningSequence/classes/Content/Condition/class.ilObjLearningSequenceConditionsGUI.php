@@ -22,7 +22,7 @@ use ILIAS\Data\Factory;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\LearningSequence\Content\Condition\AbstractCondition;
 use ILIAS\LearningSequence\Content\Condition\ConditionFactory;
-use ILIAS\LearningSequence\Content\Condition\ilObjLearningSequenceConditionDiscover;
+use ILIAS\LearningSequence\Content\Condition\ConditionTypes;
 use ILIAS\UI\Component\Menu\Drilldown;
 use ILIAS\UI\Component\Modal\Roundtrip;
 use ILIAS\UI\Component\Panel\Panel;
@@ -43,7 +43,7 @@ class ilObjLearningSequenceConditionsGUI implements ilCtrlSecurityInterface
     protected int $lso_ref_id;
     /** @var int LSO content object */
     protected int $item_ref_id;
-    private ilObjLearningSequenceConditionDiscover $discoverer;
+    private ConditionTypes $condition_types;
     private ConditionFactory $condition_factory;
 
     public function __construct(
@@ -62,8 +62,8 @@ class ilObjLearningSequenceConditionsGUI implements ilCtrlSecurityInterface
         global $DIC;
         $this->lso_ref_id = $this->query_wrapper->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
         $this->item_ref_id = $this->query_wrapper->retrieve('item_ref_id', $DIC->refinery()->kindlyTo()->int());
-        $this->discoverer = new ilObjLearningSequenceConditionDiscover();
-        $this->condition_factory = new ConditionFactory($this->discoverer, $DIC->database());
+        $this->condition_types = $DIC['lso.condition_types'];
+        $this->condition_factory = new ConditionFactory($this->condition_types, $DIC->database());
     }
 
     /**
@@ -174,7 +174,7 @@ class ilObjLearningSequenceConditionsGUI implements ilCtrlSecurityInterface
                 $condition->setLsoRefId($this->lso_ref_id);
                 return $condition->setupSteps();
             },
-            $this->discoverer->getAllInputConditions()
+            $this->condition_types->getAllInputConditions()
         );
 
         $output_conditions_steps = array_map(
@@ -184,7 +184,7 @@ class ilObjLearningSequenceConditionsGUI implements ilCtrlSecurityInterface
                 $condition->setLsoRefId($this->lso_ref_id);
                 return $condition->setupSteps();
             },
-            $this->discoverer->getAllOutputConditions()
+            $this->condition_types->getAllOutputConditions()
         );
 
         return $this->ui_factory->menu()->drilldown(
@@ -375,7 +375,7 @@ class ilObjLearningSequenceConditionsGUI implements ilCtrlSecurityInterface
         $condition_ids = $this->query_wrapper->retrieve('delete_ids', $string_list);
 
         if (in_array('ALL_OBJECTS', $condition_ids, true)) {
-            $conditions_to_delete = $this->discoverer->getAllConditionIdsForItem($this->item_ref_id);
+            $conditions_to_delete = $this->condition_factory->getConditionIdsForItem($this->item_ref_id);
         } else {
             $conditions_to_delete = array_map('intval', $condition_ids);
         }

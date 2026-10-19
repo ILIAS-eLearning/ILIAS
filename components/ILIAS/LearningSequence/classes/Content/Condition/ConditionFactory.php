@@ -29,17 +29,81 @@ class ConditionFactory
 {
     /**
      * Maps the short class name of a condition to its fully qualified name.
-     * Building this map requires reflection over all discovered condition
-     * classes, which never change within a request.
      *
      * @var array<string, string>|null
      */
-    private static ?array $class_map = null;
+    private ?array $class_map = null;
+
+    /**
+     * @var array<int, int[]> cache for the condition-ids per item ref_id
+     */
+    private array $condition_ids_by_item = [];
 
     public function __construct(
-        private ilObjLearningSequenceConditionDiscover $discover,
+        private ConditionTypes $condition_types,
         private ilDBInterface $db
     ) {
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getConditionIdsForItem(int $item_ref_id): array
+    {
+        if (isset($this->condition_ids_by_item[$item_ref_id])) {
+            return $this->condition_ids_by_item[$item_ref_id];
+        }
+
+        $query = $this->db->queryF(
+            'SELECT condition_id FROM lso_conditions WHERE obj_ref_id = %s',
+            ['integer'],
+            [$item_ref_id],
+        );
+
+        $conditions = [];
+        while ($record = $this->db->fetchAssoc($query)) {
+            $conditions[] = (int) $record['condition_id'];
+        }
+
+        $this->condition_ids_by_item[$item_ref_id] = $conditions;
+        return $conditions;
+    }
+
+    /**
+     * Loads the condition-ids for many items with a single query instead of
+     * one query per item. Subsequent calls to getConditionIdsForItem() for
+     * the given items are served from the cache.
+     *
+     * @param int[] $item_ref_ids
+     * @return array<int, int[]> condition-ids per item ref_id
+     */
+    public function preloadConditionIdsForItems(array $item_ref_ids): array
+    {
+        $item_ref_ids = array_values(array_unique(array_map('intval', $item_ref_ids)));
+        $missing = array_values(array_filter(
+            $item_ref_ids,
+            fn(int $ref_id): bool => !isset($this->condition_ids_by_item[$ref_id])
+        ));
+
+        if ($missing !== []) {
+            foreach ($missing as $ref_id) {
+                $this->condition_ids_by_item[$ref_id] = [];
+            }
+
+            $query = $this->db->query(
+                'SELECT condition_id, obj_ref_id FROM lso_conditions WHERE '
+                . $this->db->in('obj_ref_id', $missing, false, 'integer')
+            );
+            while ($record = $this->db->fetchAssoc($query)) {
+                $this->condition_ids_by_item[(int) $record['obj_ref_id']][] = (int) $record['condition_id'];
+            }
+        }
+
+        $result = [];
+        foreach ($item_ref_ids as $ref_id) {
+            $result[$ref_id] = $this->condition_ids_by_item[$ref_id];
+        }
+        return $result;
     }
 
     /**
@@ -123,17 +187,17 @@ class ConditionFactory
      */
     private function getClassMap(): array
     {
-        if (self::$class_map !== null) {
-            return self::$class_map;
+        if ($this->class_map !== null) {
+            return $this->class_map;
         }
 
         $map = [];
-        foreach ($this->discover->getAllConditions() as $class) {
+        foreach ($this->condition_types->getAllConditions() as $class) {
             $map[new ReflectionClass($class)->getShortName()] = $class;
             $map[$class] = $class;
         }
 
-        self::$class_map = $map;
+        $this->class_map = $map;
         return $map;
     }
 }

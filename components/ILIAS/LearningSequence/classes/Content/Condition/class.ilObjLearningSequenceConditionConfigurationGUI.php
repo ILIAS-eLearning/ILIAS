@@ -22,7 +22,6 @@ use ILIAS\DI\Container;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\LearningSequence\Content\Condition\AbstractCondition;
 use ILIAS\LearningSequence\Content\Condition\ConditionFactory;
-use ILIAS\LearningSequence\Content\Condition\ilObjLearningSequenceConditionDiscover;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -38,7 +37,6 @@ class ilObjLearningSequenceConditionConfigurationGUI implements ilCtrlSecurityIn
     protected bool $create = true;
     private ArrayBasedRequestWrapper $query;
     private Container $dic;
-    private ilObjLearningSequenceConditionDiscover $discoverer;
     private ConditionFactory $condition_factory;
 
     public function __construct(
@@ -56,8 +54,7 @@ class ilObjLearningSequenceConditionConfigurationGUI implements ilCtrlSecurityIn
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->query = $DIC->http()->wrapper()->query();
-        $this->discoverer = new ilObjLearningSequenceConditionDiscover();
-        $this->condition_factory = new ConditionFactory($this->discoverer, $DIC->database());
+        $this->condition_factory = new ConditionFactory($DIC['lso.condition_types'], $DIC->database());
     }
 
     public const string CMD_CREATE_CONDITION = "createCondition";
@@ -224,7 +221,7 @@ class ilObjLearningSequenceConditionConfigurationGUI implements ilCtrlSecurityIn
             return;
         }
 
-        $condition_ids = $this->discoverer->getAllConditionIdsForItem($this->item_ref_id);
+        $condition_ids = $this->condition_factory->getConditionIdsForItem($this->item_ref_id);
         foreach ($condition_ids as $condition_id) {
             $any_condition_of_object = $this->condition_factory->getConditionInstanceById($condition_id);
             if (

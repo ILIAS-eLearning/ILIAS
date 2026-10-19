@@ -21,9 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\LearningSequence\Content\Condition\InputCondition;
 
 /**
- * Marker interface for discoverable input conditions in the Learning Sequence condition system.
+ * Marker interface for input conditions in the Learning Sequence condition system.
  *
- * It is used to classify and discover condition classes as "input conditions".
+ * It is used to classify the contributed condition classes as "input conditions".
  * Runtime behavior (persistence, setup steps, checks) is defined by AbstractCondition.
  */
 interface InputConditionInterface

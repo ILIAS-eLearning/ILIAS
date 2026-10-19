@@ -23,7 +23,7 @@ namespace ILIAS\LearningSequence\Setup;
 use ILIAS\Setup;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Objective;
-use ILIAS\LearningSequence\Content\Condition\ilObjLearningSequenceConditionDiscover;
+use ILIAS\LearningSequence\Content\Condition\ConditionTypes;
 use ilDBInterface;
 use ilDatabaseInitializedObjective;
 use ilDatabaseUpdateStepsExecutedObjective;
@@ -38,16 +38,8 @@ use ILIAS\LearningSequence\Content\Condition\AbstractCondition;
 class ilLearningSequenceConditionsSyncedObjective implements Objective
 {
     public function __construct(
-        protected ?ilObjLearningSequenceConditionDiscover $discoverer = null
+        protected ConditionTypes $condition_types
     ) {
-    }
-
-    protected function getDiscoverer(): ilObjLearningSequenceConditionDiscover
-    {
-        if ($this->discoverer === null) {
-            $this->discoverer = new ilObjLearningSequenceConditionDiscover();
-        }
-        return $this->discoverer;
     }
 
     public function getLabel(): string
@@ -66,8 +58,7 @@ class ilLearningSequenceConditionsSyncedObjective implements Objective
             return false;
         }
 
-        $discoverer = $this->getDiscoverer();
-        $conditions = $discoverer->getAllConditions();
+        $conditions = $this->condition_types->getAllConditions();
 
         $expected_names = [];
         $expected_tables = [];
@@ -168,8 +159,7 @@ class ilLearningSequenceConditionsSyncedObjective implements Objective
             $db->createSequence('lso_conditions');
         }
 
-        $discoverer = $this->getDiscoverer();
-        $conditions = $discoverer->getAllConditions();
+        $conditions = $this->condition_types->getAllConditions();
 
         $expected_names = [];
         $expected_tables = [];

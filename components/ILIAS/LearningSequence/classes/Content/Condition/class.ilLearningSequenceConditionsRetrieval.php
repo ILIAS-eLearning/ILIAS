@@ -23,7 +23,6 @@ use ILIAS\Data\Range;
 use ILIAS\LearningSequence\Content\Condition\AbstractCondition;
 use ILIAS\LearningSequence\Content\Condition\ConditionFactory;
 use ILIAS\LearningSequence\Content\Condition\SubtypeAwareInterface;
-use ILIAS\LearningSequence\Content\Condition\ilObjLearningSequenceConditionDiscover;
 use ILIAS\LearningSequence\Content\Condition\InputCondition\InputConditionInterface;
 use ILIAS\UI\Component\Table\DataRetrieval;
 use ILIAS\UI\Component\Table\DataRowBuilder;
@@ -40,9 +39,8 @@ class ilLearningSequenceConditionsRetrieval implements DataRetrieval
     ) {
         global $DIC;
         $this->lng = $DIC->language();
-        $discover = new ilObjLearningSequenceConditionDiscover();
-        $this->conditions = $discover->getAllConditionIdsForItem($this->item_ref_id);
-        $this->condition_factory = new ConditionFactory($discover, $DIC->database());
+        $this->condition_factory = new ConditionFactory($DIC['lso.condition_types'], $DIC->database());
+        $this->conditions = $this->condition_factory->getConditionIdsForItem($this->item_ref_id);
     }
 
     /**

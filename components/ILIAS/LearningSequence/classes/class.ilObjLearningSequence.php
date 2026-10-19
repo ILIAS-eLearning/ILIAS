@@ -26,7 +26,6 @@ use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\ObjectReferenceProper
 use ILIAS\LearningSequence\Content\Adaptive\LSOAdaptiveBoundaries;
 use ILIAS\LearningSequence\Content\Condition\ConditionFactory;
 use ILIAS\LearningSequence\Content\Condition\ConditionHandler;
-use ILIAS\LearningSequence\Content\Condition\ilObjLearningSequenceConditionDiscover;
 use ILIAS\LearningSequence\Content\Condition\SubtypeAwareInterface;
 use ILIAS\LearningSequence\LearningMap\LSOLearningMapDataBuilder;
 use ILIAS\LearningSequence\LearningMap\LSOLearningMapRenderer;
@@ -59,7 +58,6 @@ class ilObjLearningSequence extends ilContainer
     protected ilConditionHandler $il_condition_handler;
     protected ReferencePropertiesRepository $repo_ref_props;
     protected ?ObjectReferenceProperties $ref_props = null;
-    private ilObjLearningSequenceConditionDiscover $discover;
     private ConditionFactory $condition_factory;
 
     public function __construct(int $id = 0, bool $call_by_reference = true)
@@ -81,9 +79,8 @@ class ilObjLearningSequence extends ilContainer
 
         $this->lng->loadLanguageModule('rbac');
 
-        $this->discover = new ilObjLearningSequenceConditionDiscover();
         $this->condition_factory = new ConditionFactory(
-            $this->discover,
+            $this->dic['lso.condition_types'],
             $this->dic->database()
         );
     }
@@ -257,7 +254,7 @@ class ilObjLearningSequence extends ilContainer
                 continue;
             }
 
-            $conditions = $this->discover->getAllConditionIdsForItem($item_ref_id);
+            $conditions = $this->condition_factory->getConditionIdsForItem($item_ref_id);
             foreach ($conditions as $condition_id) {
                 $created = false;
                 $condition = $this->condition_factory->getConditionInstanceById($condition_id);

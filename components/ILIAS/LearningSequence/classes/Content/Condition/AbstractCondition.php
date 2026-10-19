@@ -562,7 +562,7 @@ abstract class AbstractCondition
                 continue;
             }
 
-            $factory ??= new ConditionFactory(new ilObjLearningSequenceConditionDiscover(), $db);
+            $factory ??= new ConditionFactory($this->dic['lso.condition_types'], $db);
             try {
                 $other = $factory->getConditionInstanceById($condition_id);
             } catch (ilException) {

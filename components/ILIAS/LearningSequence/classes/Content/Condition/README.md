@@ -2,7 +2,7 @@
 
 This directory contains the condition system used by Learning Sequences.
 
-A **condition** is a PHP class that is discovered automatically and attached to a Learning Sequence item:
+A **condition** is a PHP class that is contributed to the Learning Sequence component and attached to a Learning Sequence item:
 
 - an **input condition** decides whether a learner may enter an item
 - an **output condition** decides whether an item contributes some state after it has been visited or completed
@@ -24,7 +24,7 @@ Real examples in this component:
 
 ## Table of contents
 
-- [1. How discovery and registration work](#1-how-discovery-and-registration-work)
+- [1. How registration works](#1-how-registration-works)
 - [2. The base class contract](#2-the-base-class-contract)
 - [3. Naming conventions](#3-naming-conventions)
 - [4. Minimal output condition](#4-minimal-output-condition)
@@ -39,26 +39,35 @@ Real examples in this component:
 - [13. Recommended implementation checklist](#13-recommended-implementation-checklist)
 - [14. Which built-in class should I copy from?](#14-which-built-in-class-should-i-copy-from)
 
-## 1. How discovery and registration work
+## 1. How registration works
 
-Conditions are discovered by `ilObjLearningSequenceConditionDiscover`.
+Condition classes are contributed through the component bootstrap mechanism. Every condition type is a
+`ConditionType` contribution, usually a `ConditionTypeDefinition` naming the condition class:
 
-- Any instantiable class below this directory that implements `InputConditionInterface` is treated as an input condition.
-- Any instantiable class below this directory that implements `OutputConditionInterface` is treated as an output condition.
+```php
+// in the init() method of your component (e.g. LearningSequence.php)
+$contribute[\ILIAS\LearningSequence\Content\Condition\ConditionType::class] = static fn() =>
+    new \ILIAS\LearningSequence\Content\Condition\ConditionTypeDefinition(
+        \Your\Namespace\YourCondition::class
+    );
+```
 
-You do **not** manually register a new condition in a PHP array somewhere.
+The `ConditionTypeRegistry` seeks all contributions and implements `ConditionTypes`, which is available as
+`$DIC['lso.condition_types']` in the legacy environment.
 
-Instead, the setup objective `Setup/class.ilLearningSequenceConditionsSyncedObjective.php` does three things:
+- A contributed class that implements `InputConditionInterface` is treated as an input condition.
+- A contributed class that implements `OutputConditionInterface` is treated as an output condition.
+
+The setup objective `Setup/class.ilLearningSequenceConditionsSyncedObjective.php` receives the same
+`ConditionTypes` and does three things:
 
 1. ensures the generic tables `lso_condition_types` and `lso_conditions` exist
-2. discovers all condition classes
+2. registers all contributed condition classes in `lso_condition_types`
 3. creates the condition-specific `lso_c_*` tables returned by `YourCondition::migrate()`
-
-It also keeps `lso_condition_types` in sync with discovered condition classes.
 
 The generic table layout is:
 
-- `lso_condition_types`: maps discovered condition names to a `type_id`
+- `lso_condition_types`: maps contributed condition names to a `type_id`
 - `lso_conditions`: one generic row per attached condition with `condition_id`, `lso_ref_id`, `obj_ref_id`, `type_id`
 
 Your custom payload goes into one or more dedicated `lso_c_*` tables keyed by `condition_id`.
@@ -105,7 +114,7 @@ There are three different names involved:
 
 1. **Class name**  
    Example: `PointsInputCondition`
-2. **Discovered condition type name**  
+2. **Condition type name**  
    Derived from the class name by removing the `Condition` suffix, e.g. `PointsInput`  
    This is what gets stored in `lso_condition_types.condition_name`.
 3. **UI/language key name**  
@@ -296,7 +305,7 @@ Important details:
 The GUI flow is:
 
 1. `ilObjLearningSequenceConditionsGUI` builds the add-condition drilldown
-2. each discovered condition contributes one or more links via `setupSteps()`
+2. each contributed condition adds one or more links via `setupSteps()`
 3. `AbstractCondition::buildStep()` routes either to:
    - `createCondition` directly, or
    - `configure` first, if `requiresConfiguration()` is `true`
@@ -727,20 +736,21 @@ When adding a new condition, go through this checklist:
 3. Implement the correct marker interface:
    - `InputConditionInterface`, or
    - `OutputConditionInterface`
-4. Add `protected const NAME = '...'`.
-5. Implement `check()`.
-6. If you need payload tables, return them from `migrate()`.
-7. If you need configuration:
+4. Contribute the class as `ConditionType` in the `init()` method of your component (see section 1).
+5. Add `protected const NAME = '...'`.
+6. Implement `check()`.
+7. If you need payload tables, return them from `migrate()`.
+8. If you need configuration:
    - return `true` from `requiresConfiguration()`
    - implement `getAdditionalForm()`
    - implement `applyAdditionalFormData()`
    - implement `createConditionData()`, `editConditionData()`, `deleteConditionData()`
-8. If editing needs current values, make sure your getters can lazy-load them from the database.
-9. If duplicates should be blocked, return `false` from `allowMultipleConditionsOfSameType()`.
-10. If the condition references other items, consider `InputConditionNavigationAwareInterface`.
-11. If the condition can be statically broken, implement `getStaticInputConfigurationIssues()`.
-12. Add language variables for labels, errors, and issue texts.
-13. Add or update PHPUnit coverage next to the existing Learning Sequence condition tests.
+9. If editing needs current values, make sure your getters can lazy-load them from the database.
+10. If duplicates should be blocked, return `false` from `allowMultipleConditionsOfSameType()`.
+11. If the condition references other items, consider `InputConditionNavigationAwareInterface`.
+12. If the condition can be statically broken, implement `getStaticInputConfigurationIssues()`.
+13. Add language variables for labels, errors, and issue texts.
+14. Add or update PHPUnit coverage next to the existing Learning Sequence condition tests.
 
 ## 14. Which built-in class should I copy from?
 

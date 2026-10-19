@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\LearningSequence\Content\Condition\AbstractCondition;
 use ILIAS\LearningSequence\Content\Condition\ConditionFactory;
-use ILIAS\LearningSequence\Content\Condition\ilObjLearningSequenceConditionDiscover;
 use ILIAS\LearningSequence\Content\Condition\InputCondition\LogicGateInputAwareCondition;
 use ILIAS\LearningSequence\Content\Condition\OutputCondition\OutputConditionInterface;
 use PHPUnit\Framework\TestCase;
@@ -36,19 +35,18 @@ class LogicGateInputAwareConditionTest extends TestCase
 
         $this->injectDependencies(
             $condition,
-            new class () extends ilObjLearningSequenceConditionDiscover {
-                public function getAllConditionIdsForItem(int $item_ref_id): array
+            new class () extends ConditionFactory {
+                public function __construct()
+                {
+                }
+
+                public function getConditionIdsForItem(int $item_ref_id): array
                 {
                     return match ($item_ref_id) {
                         151 => [1],
                         152 => [2],
                         default => [],
                     };
-                }
-            },
-            new class () extends ConditionFactory {
-                public function __construct()
-                {
                 }
 
                 public function getConditionInstanceById(int $condition_id): AbstractCondition
@@ -119,12 +117,8 @@ class LogicGateInputAwareConditionTest extends TestCase
 
     private function injectDependencies(
         LogicGateInputAwareCondition $condition,
-        ilObjLearningSequenceConditionDiscover $discoverer,
         ConditionFactory $factory
     ): void {
-        $discover_property = new ReflectionProperty($condition, 'discover');
-        $discover_property->setValue($condition, $discoverer);
-
         $factory_property = new ReflectionProperty($condition, 'condition_factory');
         $factory_property->setValue($condition, $factory);
     }

@@ -24,7 +24,7 @@ class ConditionHandler
 {
     protected ?\ilDBInterface $db = null;
     protected ?\ilLanguage $lng = null;
-    protected ilObjLearningSequenceConditionDiscover $discoverer;
+    protected ConditionTypes $condition_types;
     private ConditionFactory $condition_factory;
 
     public function __construct(?\ilDBInterface $db = null)
@@ -37,9 +37,9 @@ class ConditionHandler
         if (isset($DIC) && $DIC instanceof \ILIAS\DI\Container) {
             $this->lng = $DIC->language();
         }
-        $this->discoverer = new ilObjLearningSequenceConditionDiscover();
+        $this->condition_types = $DIC['lso.condition_types'];
         $this->condition_factory = new ConditionFactory(
-            $this->discoverer,
+            $this->condition_types,
             $this->db,
         );
     }
@@ -49,7 +49,7 @@ class ConditionHandler
      */
     public function getInputConditionsByRefId(int $lso_ref_id, int $obj_ref_id): array
     {
-        $db_conditions = $this->getConditionsFromDb($lso_ref_id, $obj_ref_id, $this->discoverer->getAllInputConditions());
+        $db_conditions = $this->getConditionsFromDb($lso_ref_id, $obj_ref_id, $this->condition_types->getAllInputConditions());
         return $this->formatConditionsForGui($db_conditions);
     }
 
@@ -58,7 +58,7 @@ class ConditionHandler
      */
     public function getOutputConditionsByRefId(int $lso_ref_id, int $obj_ref_id): array
     {
-        $db_conditions = $this->getConditionsFromDb($lso_ref_id, $obj_ref_id, $this->discoverer->getAllOutputConditions());
+        $db_conditions = $this->getConditionsFromDb($lso_ref_id, $obj_ref_id, $this->condition_types->getAllOutputConditions());
         return $this->formatConditionsForGui($db_conditions);
     }
 
@@ -171,7 +171,6 @@ class ConditionHandler
             return [];
         }
 
-        $condition_factory = new ConditionFactory($this->discoverer, $this->db);
         $result = [];
         foreach ($db_conditions as $db_cond) {
             $type_id = $db_cond['type_id'];
@@ -182,10 +181,10 @@ class ConditionHandler
             );
             $row = $this->db->fetchAssoc($res);
             if ($row) {
-                $class = $this->discoverer->getConditionByName($row['condition_name']);
+                $class = $this->condition_types->getConditionByName($row['condition_name']);
                 if ($class) {
                     try {
-                        $condition = $condition_factory->getConditionInstanceById((int) $db_cond['condition_id']);
+                        $condition = $this->condition_factory->getConditionInstanceById((int) $db_cond['condition_id']);
                         $result[] = [
                             'title' => $this->lng->txt((string) $condition->getName()),
                             'value' => $condition instanceof SubtypeAwareInterface

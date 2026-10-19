@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\LearningSequence\Content\Adaptive\LSOAdaptiveBoundaries;
 use ILIAS\LearningSequence\Content\Condition\ConditionFactory;
-use ILIAS\LearningSequence\Content\Condition\ilObjLearningSequenceConditionDiscover;
 use ILIAS\LearningSequence\Content\Condition\SubtypeAwareInterface;
 
 class ilLearningSequenceXMLWriter extends ilXmlWriter
@@ -39,7 +38,6 @@ class ilLearningSequenceXMLWriter extends ilXmlWriter
     public const string TAG_CONTAINERSETTING = 'ContainerSetting';
 
     protected ilLearningSequenceSettings $ls_settings;
-    private ilObjLearningSequenceConditionDiscover $discover;
     private ConditionFactory $condition_factory;
     private ilDBInterface $database;
 
@@ -52,9 +50,8 @@ class ilLearningSequenceXMLWriter extends ilXmlWriter
         parent::__construct();
         $this->database = $DIC->database();
         $this->ls_settings = $ls_object->getLSSettings();
-        $this->discover = new ilObjLearningSequenceConditionDiscover();
         $this->condition_factory = new ConditionFactory(
-            $this->discover,
+            $DIC['lso.condition_types'],
             $this->database,
         );
     }
@@ -242,7 +239,7 @@ class ilLearningSequenceXMLWriter extends ilXmlWriter
     {
         $all_conditions = [];
 
-        $condition_ids = $this->discover->getAllConditionIdsForItem($ls_item->getRefId());
+        $condition_ids = $this->condition_factory->getConditionIdsForItem($ls_item->getRefId());
         foreach ($condition_ids as $condition_id) {
             try {
                 $condition = $this->condition_factory->getConditionInstanceById($condition_id);

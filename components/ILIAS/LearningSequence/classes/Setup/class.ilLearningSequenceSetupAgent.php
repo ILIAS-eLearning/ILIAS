@@ -22,6 +22,7 @@ use ILIAS\Setup;
 use ILIAS\Refinery;
 use ILIAS\LearningSequence\Setup\InitLOMForLearningSequenceMigration;
 use ILIAS\LearningSequence\Setup\ilLearningSequenceConditionsSyncedObjective;
+use ILIAS\LearningSequence\Content\Condition\ConditionTypes;
 
 class ilLearningSequenceSetupAgent implements Setup\Agent
 {
@@ -29,8 +30,10 @@ class ilLearningSequenceSetupAgent implements Setup\Agent
 
     protected Refinery\Factory $refinery;
 
-    public function __construct(Refinery\Factory $refinery)
-    {
+    public function __construct(
+        Refinery\Factory $refinery,
+        protected ConditionTypes $condition_types
+    ) {
         $this->refinery = $refinery;
     }
 
@@ -94,7 +97,7 @@ class ilLearningSequenceSetupAgent implements Setup\Agent
             new \ilDatabaseUpdateStepsExecutedObjective(
                 new \ilLearningSequenceItemVisitsDBUpdateSteps()
             ),
-            new ilLearningSequenceConditionsSyncedObjective()
+            new ilLearningSequenceConditionsSyncedObjective($this->condition_types)
         );
     }
 
@@ -121,7 +124,7 @@ class ilLearningSequenceSetupAgent implements Setup\Agent
             new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new \ilLearningSequenceItemBoundariesDBUpdateSteps()),
             new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new \ilLearningSequenceItemPathDBUpdateSteps()),
             new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new \ilLearningSequenceItemVisitsDBUpdateSteps()),
-            new ilLearningSequenceConditionsSyncedObjective()
+            new ilLearningSequenceConditionsSyncedObjective($this->condition_types)
         );
     }
 

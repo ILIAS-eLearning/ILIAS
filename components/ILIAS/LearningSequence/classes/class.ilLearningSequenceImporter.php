@@ -22,7 +22,6 @@ use ILIAS\COPage\Page\PageManagerInterface;
 use ILIAS\LearningSequence\Content\Adaptive\LSOAdaptiveBoundaries;
 use ILIAS\LearningSequence\Content\Condition\ConditionFactory;
 use ILIAS\LearningSequence\Content\Condition\ConditionHandler;
-use ILIAS\LearningSequence\Content\Condition\ilObjLearningSequenceConditionDiscover;
 use ILIAS\LearningSequence\Content\Condition\SubtypeAwareInterface;
 
 class ilLearningSequenceImporter extends ilXmlImporter
@@ -197,8 +196,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
 
         $db = $DIC->database();
 
-        $discover = new ilObjLearningSequenceConditionDiscover();
-        $factory = new ConditionFactory($discover, $db);
+        $factory = new ConditionFactory($DIC['lso.condition_types'], $db);
         $handler = new ConditionHandler($db);
 
         $new_lso_ref_id = $this->obj->getRefId();

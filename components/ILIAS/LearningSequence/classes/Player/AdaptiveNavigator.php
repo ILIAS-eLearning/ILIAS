@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\LearningSequence\Player;
 
 use ILIAS\LearningSequence\Content\Condition\AbstractCondition;
-use ILIAS\LearningSequence\Content\Condition\ilObjLearningSequenceConditionDiscover;
 use ILIAS\LearningSequence\Content\Condition\ConditionFactory;
 use ILIAS\LearningSequence\Content\Condition\InputCondition\AccruedValueInputConditionInterface;
 use ILIAS\LearningSequence\Content\Condition\InputCondition\InputConditionNavigationAwareInterface;
@@ -36,10 +35,6 @@ use ILIAS\LearningSequence\Content\Condition\InputCondition\LearningProgressInpu
  */
 class AdaptiveNavigator implements LSNavigator
 {
-    /**
-     * Discovers the conditions assigned to learning-sequence items.
-     */
-    protected ilObjLearningSequenceConditionDiscover $discoverer;
     /**
      * Creates condition instances from their identifiers.
      */
@@ -82,13 +77,11 @@ class AdaptiveNavigator implements LSNavigator
      * Creates an adaptive navigator with the supplied or default condition services.
      */
     public function __construct(
-        ?ilObjLearningSequenceConditionDiscover $discoverer = null,
         ?ConditionFactory $condition_factory = null
     ) {
         global $DIC;
-        $this->discoverer = $discoverer ?? new ilObjLearningSequenceConditionDiscover();
         $this->condition_factory = $condition_factory
-            ?? new ConditionFactory($this->discoverer, $DIC->database());
+            ?? new ConditionFactory($DIC['lso.condition_types'], $DIC->database());
     }
 
     /**
@@ -120,7 +113,7 @@ class AdaptiveNavigator implements LSNavigator
         }
 
         if ($missing_ref_ids !== []) {
-            $ids_per_item = $this->discoverer->preloadConditionIdsForItems($missing_ref_ids);
+            $ids_per_item = $this->condition_factory->preloadConditionIdsForItems($missing_ref_ids);
 
             foreach ($ids_per_item as $ref_id => $ids) {
                 $conditions = [];
@@ -720,7 +713,7 @@ class AdaptiveNavigator implements LSNavigator
         }
 
         $conditions = [];
-        foreach ($this->discoverer->getAllConditionIdsForItem($item_ref_id) as $condition_id) {
+        foreach ($this->condition_factory->getConditionIdsForItem($item_ref_id) as $condition_id) {
             try {
                 $conditions[] = $this->condition_factory->getConditionInstanceById($condition_id);
             } catch (\Throwable $t) {
