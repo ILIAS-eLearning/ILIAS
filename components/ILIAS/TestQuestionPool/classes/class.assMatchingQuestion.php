@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
+use ILIAS\TestQuestionPool\Scoring\DecimalSum;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\Refinery\Random\Seed\RandomSeed;
@@ -1224,16 +1225,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      */
     private function sumMatchingQuestionPoints(array $points): float
     {
-        if ($points === []) {
-            return 0.0;
-        }
-
-        $sum = '0';
-        foreach ($points as $point) {
-            $sum = ilMath::_add($sum, $point);
-        }
-
-        return (float) $sum;
+        return (new DecimalSum())->sum($points);
     }
 
     public function getOperators(string $expression): array
