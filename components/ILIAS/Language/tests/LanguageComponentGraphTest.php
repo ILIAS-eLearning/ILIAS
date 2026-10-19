@@ -24,6 +24,7 @@ use ILIAS\Language\Activities\UpdateLanguage;
 use ILIAS\Language\Activities\UninstallLanguage;
 use ILIAS\Language\Activities\RemoveLocalLanguageChanges;
 use ILIAS\Language\Activities\AddLanguageEntry;
+use ILIAS\Language\Activities\RepositoryProvider;
 use ILIAS\Language\Activities\SetLanguageDetectionEnabled;
 use ILIAS\Language\Activities\SetLanguageTranslationEnabled;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
@@ -244,7 +245,7 @@ class LanguageComponentGraphTest extends TestCase
         return $db;
     }
 
-    /** Repository and AddLanguageEntry query the pulled connection, never $GLOBALS['ilDB']. */
+    /** Repository and RepositoryProvider query the pulled connection, never $GLOBALS['ilDB']. */
     public function testDatabaseConsumersGetThePulledConnectionNotTheGlobals(): void
     {
         $dic = new \ILIAS\DI\Container();
@@ -256,8 +257,8 @@ class LanguageComponentGraphTest extends TestCase
         $this->resolveEverything($provide, $contribute);
 
         self::assertSame([], $internal[InstalledLanguageDatabaseRepository::class]->getInstalledLanguages());
-        // default of AddLanguageEntry's module cache update, whose public path also calls the static ilObjLanguage::replaceLangEntry()
-        self::readPrivateProperty($internal[AddLanguageEntry::class], 'update_module_cache')('de', 'common', 'x', 'y');
+        // the module cache update of the provider shared by the runtime Activities; only its lookup runs without a legacy container
+        $internal[RepositoryProvider::class]->updateModuleCache('de', 'common', 'x', 'y');
         self::assertSame($dic, $GLOBALS['DIC']);
     }
 

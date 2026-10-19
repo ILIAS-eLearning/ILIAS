@@ -31,25 +31,13 @@ class UninstallLanguage extends LanguageActivity
     use DeclaresLanguageKeysOnlyInput;
     use ResolvesLanguageKeysToObjIds;
 
-    private readonly \Closure $lng_objects;
-    private readonly \Closure $obj_language_factory;
-
-    /**
-     * @param \Closure|null $lng_objects (): list<array{obj_id: int, title: string}>
-     * @param \Closure|null $obj_language_factory (int $obj_id): \ilObjLanguage
-     */
     public function __construct(
         Language $language,
         RBAC $rbac,
         LanguageFolder $language_folder,
-        ?\Closure $lng_objects = null,
-        ?\Closure $obj_language_factory = null,
+        private readonly RepositoryProvider $repository,
     ) {
         parent::__construct($language, $rbac, $language_folder);
-        $this->lng_objects = $lng_objects
-            ?? static fn(): array => \ilObject::_getObjectsByType('lng');
-        $this->obj_language_factory = $obj_language_factory
-            ?? static fn(int $obj_id): \ilObjLanguage => new \ilObjLanguage($obj_id);
     }
 
     public function getDescription(): Text\SimpleDocumentMarkdown
@@ -145,18 +133,18 @@ MARKDOWN
                 continue;
             }
 
-            $language_object = ($this->obj_language_factory)($obj_id_by_language_key[$language_key]);
+            $obj_id = $obj_id_by_language_key[$language_key];
 
-            if ($language_object->isSystemLanguage()) {
+            if ($this->repository->isSystemLanguage($obj_id)) {
                 $system_language_keys[] = $language_key;
-            } elseif ($language_object->isUserLanguage()) {
+            } elseif ($this->repository->isUserLanguage($obj_id)) {
                 // compares against this request's session language, not $usr_id: another user's
                 // language is not protected
                 $user_language_keys[] = $language_key;
-            } elseif (!$language_object->isInstalled()) {
+            } elseif (!$this->repository->isInstalled($obj_id)) {
                 $not_installed_language_keys[] = $language_key;
-            } elseif ($language_object->uninstall() !== '') {
-                // uninstall() re-checks the guards and returns "" if one applies: its result decides
+            } elseif ($this->repository->uninstall($obj_id)) {
+                // uninstall() re-checks the guards: its result decides
                 $uninstalled_language_keys[] = $language_key;
             } else {
                 $not_installed_language_keys[] = $language_key;

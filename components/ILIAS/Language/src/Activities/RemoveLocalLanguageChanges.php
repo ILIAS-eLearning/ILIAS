@@ -31,25 +31,13 @@ class RemoveLocalLanguageChanges extends LanguageActivity
     use DeclaresLanguageKeysOnlyInput;
     use ResolvesLanguageKeysToObjIds;
 
-    private readonly \Closure $lng_objects;
-    private readonly \Closure $obj_language_factory;
-
-    /**
-     * @param \Closure|null $lng_objects (): list<array{obj_id: int, title: string}>
-     * @param \Closure|null $obj_language_factory (int $obj_id): \ilObjLanguage
-     */
     public function __construct(
         Language $language,
         RBAC $rbac,
         LanguageFolder $language_folder,
-        ?\Closure $lng_objects = null,
-        ?\Closure $obj_language_factory = null,
+        private readonly RepositoryProvider $repository,
     ) {
         parent::__construct($language, $rbac, $language_folder);
-        $this->lng_objects = $lng_objects
-            ?? static fn(): array => \ilObject::_getObjectsByType('lng');
-        $this->obj_language_factory = $obj_language_factory
-            ?? static fn(int $obj_id): \ilObjLanguage => new \ilObjLanguage($obj_id, false);
     }
 
     public function getDescription(): Text\SimpleDocumentMarkdown
@@ -138,16 +126,16 @@ MARKDOWN
                 continue;
             }
 
-            $language_object = ($this->obj_language_factory)($obj_id_by_language_key[$language_key]);
+            $obj_id = $obj_id_by_language_key[$language_key];
 
-            if (!$language_object->isInstalled()) {
+            if (!$this->repository->isInstalled($obj_id)) {
                 $not_installed_language_keys[] = $language_key;
                 continue;
             }
 
             // removeLocalChanges() also validates the language file: false here means invalid
             // (not installed is excluded above)
-            if ($language_object->removeLocalChanges()) {
+            if ($this->repository->removeLocalChanges($obj_id)) {
                 $removed_local_changes_language_keys[] = $language_key;
             } else {
                 $invalid_language_file_keys[] = $language_key;

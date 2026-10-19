@@ -28,16 +28,16 @@ use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Text;
 use ILIAS\Data\Description\Factory as DescriptionFactory;
+use ILIAS\Language\Activities\RepositoryProvider;
 use ILIAS\Language\Setup\InstalledLanguageRepository;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 
 /**
- * AddLanguageEntry reads installed languages via an injected InstalledLanguageRepository (a fake
- * here) and writes entries via $replace_lang_entry/$update_module_cache closures; a $user_login
- * closure resolves the acting user's login for the audit trail. No test here touches a real
- * database or lang file - every collaborator is a fake/closure/mock.
+ * AddLanguageEntry reads installed languages, writes entries and resolves the acting user's login (audit trail)
+ * through the RepositoryProvider, mocked here and answering from the closures of createActivity(). No test touches
+ * a real database or lang file.
  */
 class AddLanguageEntryTest extends ActivityContractTestCase
 {
@@ -1001,12 +1001,14 @@ class AddLanguageEntryTest extends ActivityContractTestCase
         $language = $this->createMock(Language::class);
         $language->method('txt')->willReturnCallback(static fn(string $k): string => $k);
 
+        $repository = $this->createMock(RepositoryProvider::class);
+        $repository->method('getInstalledLanguages')->willReturn(['de']);
+
         $activity = new class (
-            language: $language,
-            rbac: $this->rbacOf($this->createMock(\ilRbacSystem::class)),
-            installed_language_repository: new FakeInstalledLanguageRepository(static fn(): array => ['de']),
-            db: $this->createUnusedDb(),
-            language_folder: $this->languageFolder(),
+            $language,
+            $this->rbacOf($this->createMock(\ilRbacSystem::class)),
+            $this->languageFolder(),
+            $repository,
         ) extends AddLanguageEntry {
             public function getInputDescription(FieldFactory $f): FormInput
             {
@@ -1133,133 +1135,8 @@ class AddLanguageEntryTest extends ActivityContractTestCase
     }
 
     // -----------------------------------------------------------------
-    // $db / default update_module_cache() guard clauses
-    //
-    // Every other test overrides update_module_cache with a no-op/spy, so the constructor's own
-    // $db-backed default (querying lng_modules) is otherwise never exercised. These tests inject a
-    // real \ilDBInterface mock to pin down the is_string() guard around unserialize(). Only "de"
-    // is installed, just enough to reach update_module_cache() once without ever reaching the real
-    // \ilObjLanguage::replaceLangModule() write.
-    // -----------------------------------------------------------------
-
-    private function createActivityWithRealUpdateModuleCacheDefault(\ilDBInterface $db): AddLanguageEntry
-    {
-        return new AddLanguageEntry(
-            language: $this->createMock(Language::class),
-            rbac: $this->rbacOf($this->createMock(\ilRbacSystem::class)),
-            installed_language_repository: new FakeInstalledLanguageRepository(static fn(): array => ['de']),
-            language_folder: $this->languageFolder(),
-            replace_lang_entry: static fn(
-                string $module,
-                string $identifier,
-                string $lang_key,
-                string $value,
-                string $local_change,
-                string $remarks
-            ): bool => true,
-            // $update_module_cache deliberately left null - the whole point
-            // of these tests is exercising the constructor's own default.
-            update_module_cache: null,
-            user_login: static fn(int $usr_id): string => 'default-login',
-            db: $db,
-        );
-    }
-
-    private function mockDbFetchingRow(?array $row): \ilDBInterface
-    {
-        $statement = $this->createMock(\ilDBStatement::class);
-
-        $db = $this->createMock(\ilDBInterface::class);
-        $db->method('quote')->willReturnCallback(
-            static fn(mixed $value, string $type): string => "'" . (string) $value . "'"
-        );
-        $db->method('query')->willReturn($statement);
-        $db->method('fetchAssoc')->with($statement)->willReturn($row);
-
-        return $db;
-    }
-
-    public function testDefaultUpdateModuleCacheDoesNothingWhenNoLngModulesRowIsFound(): void
-    {
-        $db = $this->mockDbFetchingRow(null);
-
-        $activity = $this->createActivityWithRealUpdateModuleCacheDefault($db);
-
-        // A missing row is normal and silently ignored - no exception must surface.
-        $result = $activity->perform([
-            'module' => 'common',
-            'identifier' => 'new_topic',
-            'translations' => ['de' => 'Hallo'],
-            'usr_id' => 6,
-        ]);
-
-        $this->assertSame(['de'], $result['added_language_keys']);
-    }
-
-    public function testDefaultUpdateModuleCacheDoesNothingWhenLangArrayColumnIsNull(): void
-    {
-        // Without the is_string() guard, unserialize(null, ...) throws a \TypeError under
-        // strict_types - this pins down the guard that prevents that.
-        $db = $this->mockDbFetchingRow(['lang_array' => null]);
-
-        $activity = $this->createActivityWithRealUpdateModuleCacheDefault($db);
-
-        $result = $activity->perform([
-            'module' => 'common',
-            'identifier' => 'new_topic',
-            'translations' => ['de' => 'Hallo'],
-            'usr_id' => 6,
-        ]);
-
-        $this->assertSame(['de'], $result['added_language_keys']);
-    }
-
-    public function testDefaultUpdateModuleCacheDoesNothingWhenLangArrayColumnIsNotAString(): void
-    {
-        $db = $this->mockDbFetchingRow(['lang_array' => 42]);
-
-        $activity = $this->createActivityWithRealUpdateModuleCacheDefault($db);
-
-        $result = $activity->perform([
-            'module' => 'common',
-            'identifier' => 'new_topic',
-            'translations' => ['de' => 'Hallo'],
-            'usr_id' => 6,
-        ]);
-
-        $this->assertSame(['de'], $result['added_language_keys']);
-    }
-
-    public function testDefaultUpdateModuleCacheDoesNothingWhenLangArrayColumnDeserializesToANonArray(): void
-    {
-        // A syntactically valid serialized string that decodes to something
-        // other than an array (e.g. a plain scalar) leaves nothing to merge
-        // the new entry into - silently do nothing, same as a missing row.
-        $db = $this->mockDbFetchingRow(['lang_array' => serialize('not-an-array')]);
-
-        $activity = $this->createActivityWithRealUpdateModuleCacheDefault($db);
-
-        $result = $activity->perform([
-            'module' => 'common',
-            'identifier' => 'new_topic',
-            'translations' => ['de' => 'Hallo'],
-            'usr_id' => 6,
-        ]);
-
-        $this->assertSame(['de'], $result['added_language_keys']);
-    }
-
-    // -----------------------------------------------------------------
     // Test helpers
     // -----------------------------------------------------------------
-
-    private function createUnusedDb(): \ilDBInterface
-    {
-        $db = $this->createMock(\ilDBInterface::class);
-        $db->expects(self::never())->method(self::anything());
-
-        return $db;
-    }
 
     /**
      * @param array<string, array> $calls
@@ -1302,7 +1179,6 @@ class AddLanguageEntryTest extends ActivityContractTestCase
         ?\ilRbacSystem $rbac = null,
         ?Language $language = null,
         ?InstalledLanguageRepository $installed_language_repository = null,
-        ?\ilDBInterface $db = null,
         int $language_folder_ref_id = 0,
         ?\Closure $replace_lang_entry = null,
         ?\Closure $update_module_cache = null,
@@ -1327,20 +1203,21 @@ class AddLanguageEntryTest extends ActivityContractTestCase
         ): void {
         };
         $user_login ??= static fn(int $usr_id): string => 'default-login';
-        // Must never be called: every test above overrides update_module_cache.
-        $db ??= $this->createUnusedDb();
+        $installed_language_repository ??= new FakeInstalledLanguageRepository(static fn(): array => $installed_languages);
+
+        $repository = $this->createMock(RepositoryProvider::class);
+        $repository->method('getInstalledLanguages')->willReturnCallback(
+            static fn(): array => $installed_language_repository->getInstalledLanguages()
+        );
+        $repository->method('replaceLangEntry')->willReturnCallback($replace_lang_entry);
+        $repository->method('updateModuleCache')->willReturnCallback($update_module_cache);
+        $repository->method('lookupLogin')->willReturnCallback($user_login);
 
         return new AddLanguageEntry(
-            language: $language ?? $this->createMock(Language::class),
-            rbac: $this->rbacOf($rbac ?? $this->createMock(\ilRbacSystem::class)),
-            installed_language_repository: $installed_language_repository ?? new FakeInstalledLanguageRepository(
-                static fn(): array => $installed_languages
-            ),
-            language_folder: $this->languageFolder($language_folder_ref_id),
-            replace_lang_entry: $replace_lang_entry,
-            update_module_cache: $update_module_cache,
-            user_login: $user_login,
-            db: $db,
+            $language ?? $this->createMock(Language::class),
+            $this->rbacOf($rbac ?? $this->createMock(\ilRbacSystem::class)),
+            $this->languageFolder($language_folder_ref_id),
+            $repository,
         );
     }
 }

@@ -22,8 +22,7 @@ namespace ILIAS\Language\Activities;
 
 trait ResolvesLanguageKeysToObjIds
 {
-    // the using class declares `private readonly \Closure $lng_objects`
-    // ((): list<array{obj_id: int, title: string}>), as its default differs per Activity
+    // the using class declares `private readonly RepositoryProvider $repository`
 
     /**
      * Language keys (titles) shared by more than one "lng" object are excluded from the first
@@ -33,7 +32,7 @@ trait ResolvesLanguageKeysToObjIds
      */
     private function resolveObjIdsByLanguageKey(): array
     {
-        $lng_objects = ($this->lng_objects)();
+        $lng_objects = $this->repository->listLanguageObjects();
 
         $title_occurrences = [];
         foreach ($lng_objects as $lng_object) {

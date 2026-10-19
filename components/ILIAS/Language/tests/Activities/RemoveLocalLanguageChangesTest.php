@@ -35,6 +35,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
  */
 class RemoveLocalLanguageChangesTest extends ActivityWithPerformResultContractTestCase
 {
+    use LanguageObjectRepositoryProvider;
+
     protected function createDefaultActivity(): RemoveLocalLanguageChanges
     {
         [, $lng_objects, $obj_language_factory] = $this->buildFakeLanguageWorld(['de' => []]);
@@ -703,8 +705,7 @@ class RemoveLocalLanguageChangesTest extends ActivityWithPerformResultContractTe
             $language ?? $this->createMock(Language::class),
             $this->rbacOf($rbac ?? $this->createMock(\ilRbacSystem::class)),
             $this->languageFolder($language_folder_ref_id),
-            $lng_objects,
-            $obj_language_factory
+            $this->languageObjectProvider($lng_objects, $obj_language_factory)
         );
     }
 }
