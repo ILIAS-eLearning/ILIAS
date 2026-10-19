@@ -80,6 +80,10 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
     /**
      * @readonly
      */
+    private ilObjUser $user;
+    /**
+     * @readonly
+     */
     private ilLanguage $language;
     /**
      * @readonly
@@ -114,6 +118,7 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
         $this->http_wrapper = $DIC->http()->wrapper();
         $this->refinery = $DIC->refinery();
         $this->access = $DIC->access();
+        $this->user = $DIC->user();
         $this->language = $DIC->language();
         $this->language->loadLanguageModule('file');
 
@@ -226,6 +231,10 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
 
     protected function isAccessGranted(): bool
     {
+        // generating previews processes the file, this is never offered to anonymous users
+        if ($this->user->getId() === 0 || $this->user->isAnonymous()) {
+            return false;
+        }
         // if object_id is set, we can check the access using it's ref_ids
         if ($this->object_id !== null) {
             foreach (ilObject::_getAllReferences($this->object_id) as $ref_id) {
