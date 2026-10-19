@@ -44,7 +44,7 @@ use RuntimeException;
  * - `<build>/manifest.json`: size and hash of every file, to tell an intact build, the hash of each built `.po`
  *   (see servesShippedPo()), the warnings and collisions;
  * - `current.json`: the build the runtime serves, its languages per module and every contributed module
- *   ("shipped", never read from the database) - read on every request, so nothing else.
+ *   ("shipped") - read on every request, so nothing else.
  *
  * The build id fingerprints everything that determines the build: the shipped files, the compiling code (see
  * FORMAT_VERSION) and the locale. An intact build with the same id (its manifest also keeps its warnings) is
@@ -230,10 +230,8 @@ final class ShippedTranslationsBuild
             ));
         }
 
-        $shipped = $data['shipped'] ?? null;
-        if ($shipped !== null && (!is_array($shipped) || !array_is_list($shipped))) {
-            return null;
-        }
+        // an invalid list only loses itself: the runtime falls back to the templates
+        $shipped = is_array($data['shipped'] ?? null) && array_is_list($data['shipped']) ? $data['shipped'] : null;
         if ($shipped !== null) {
             $shipped = array_values(array_filter(
                 $shipped,
@@ -557,6 +555,8 @@ final class ShippedTranslationsBuild
                 $inform(sprintf('WARNING: Module "%s" is contributed twice - only "%s" is compiled.', $module, $modules[$module]['directory']->getPath()));
                 continue;
             }
+            // also with an invalid file name pattern
+            $contributed[$module] = $module;
             try {
                 $pattern = MigratedLanguageFilePaths::shippedFileNamePattern($directory);
                 $shipped_files = MigratedLanguageFilePaths::findShippedPoFiles($this->ilias_absolute_path, $directory);
@@ -565,7 +565,6 @@ final class ShippedTranslationsBuild
                 $inform(sprintf('WARNING: The language files of module "%s" are not compiled: %s', $module, $e->getMessage()));
                 continue;
             }
-            $contributed[$module] = $module;
             if (!MigratedLanguageFilePaths::isFoundWithoutGraph($this->ilias_absolute_path, $directory)) {
                 $inform(sprintf(
                     'WARNING: Module "%s" has no template "components/<Vendor>/<Component>/lang/%s.pot" - without a build Setup and CLI do not recognise it as shipped.',

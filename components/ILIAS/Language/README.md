@@ -134,8 +134,8 @@ library's `C.utf8` locale and a manifest (also the hashes of the compiled
 `.po` files, warnings and collisions). `artifacts/language/current.json` names
 the build that is served, its languages per module and every contributed
 module, nothing else, as every request reads it; it is switched only after the
-new build is complete and passed a real lookup through native gettext, and the previous build is kept
-for running requests.
+new build is complete and passed a real lookup through native gettext, and the
+previous build is kept for running requests.
 
 * **The build aborts** if the PHP extension `gettext` (a precondition of
   `setup build`) or `C.utf8` is missing.
