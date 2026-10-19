@@ -274,6 +274,14 @@ class ilSetupLanguage extends ilLanguage
     }
 
     /**
+     * @return array<string, list<string>> see LanguageInstallationManager::getSkippedUnreadableOverlays()
+     */
+    public function getSkippedUnreadableOverlays(): array
+    {
+        return $this->manager?->getSkippedUnreadableOverlays() ?? [];
+    }
+
+    /**
      * @return list<string> the migrated modules whose overlay could not be written
      */
     public function insertLanguageForInstallation(string $lang_key): array

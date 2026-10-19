@@ -224,7 +224,8 @@ compiled revisions `r-<hash>/` that `current` names.
   shipped one, keys that are not shipped (customizing file, "add new
   variable") and remarks. Setting an entry back to the shipped value, or to an
   empty value, removes it; an empty overlay is deleted. Installing a language
-  without local changes writes no file.
+  without local changes writes no overlay (only the record of the
+  [Setup](#setup) that `lng_data` was taken over).
 * `lng_data`/`lng_modules` are still written on every path (with the cleaned
   shipped values and the default form of plural messages) as fallback for a
   rollback. They must not be dropped as long as code outside of this component
@@ -244,6 +245,13 @@ compiled revisions `r-<hash>/` that `current` names.
   not change ownership: it warns, naming the directories and the `chown`
   command. The administration shows a warning whenever an overlay could not be
   written or removed.
+* An overlay that cannot be read (e.g. edited by hand) is reported: at runtime
+  the module serves its shipped values, Setup leaves the module unchanged
+  (nothing written, nothing taken from `lng_data`) and saving in the
+  administration is refused for it. Its local changes are only served again
+  once the overlay is repaired. Until then the rollback copy of the module in
+  `lng_data`/`lng_modules` is incomplete: Setup's flush removed its rows that
+  are not local changes, `lng_modules` keeps its former row.
 * Uninstalling a language removes its overlays.
 
 ### Markup Policy
@@ -321,9 +329,17 @@ Where the rules apply:
 
 ### Setup
 `setup update` (and "update" in the administration) reconciles each entry of a
-migrated module three-way: L = the local value (`lng_data`, overlay or
-customizing file), O = the shipped value recorded in the overlay (`original`),
-S = the new shipped value.
+migrated module three-way: L = the local value (overlay or customizing file),
+O = the shipped value recorded in the overlay (`original`), S = the new shipped
+value.
+
+The local changes in `lng_data` (e.g. of an upgrade from ILIAS 10/11) are taken
+over into the overlay once, while a module has no overlay for the language yet.
+Afterwards (recorded in `<client data dir>/lang/taken-over.<lang>.json`, also
+for a module without any local change) and whenever an overlay exists, the
+overlay is the only source of local changes and remarks: `lng_data` is no longer
+read for the module. Uninstalling a language forgets the record. Plugin modules
+are read from `lng_data` as before.
 
 | Case | Result |
 |---|---|

@@ -57,7 +57,7 @@ final class MigratedLanguageFilePaths
      *
      * In a fully initialised request the CLIENT_DATA_DIR constant wins. Elsewhere (CLI Setup, objectives
      * without a Setup environment) it is composed like ilInitialisation does from ilias.ini.php:
-     * `[clients] datadir` . '/' . CLIENT_ID (if defined, else `[clients] default`); never guessed from the data
+     * `[clients] datadir` . '/' . CLIENT_ID (if defined, else `[clients] default`); never guessed from the
      * directory contents, which holds further entries (e.g. "logs").
      *
      * A client directory that does not exist yet (fresh installation) yields `null`: the next `setup update`
@@ -166,8 +166,7 @@ final class MigratedLanguageFilePaths
     }
 
     /**
-     * The modules with a template in the `lang/` directory of a component (`<module>.pot`, see templateFileName())
-     * => that directory; without the component graph, e.g. in the Setup.
+     * Module => `lang/` directory of its `<module>.pot`; works without the component graph (Setup).
      *
      * @return array<string, string>
      */
@@ -185,7 +184,7 @@ final class MigratedLanguageFilePaths
     }
 
     /**
-     * Whether findShippedTemplates() finds $directory's module (the only way to know it without a build).
+     * Whether findShippedTemplates() finds $directory's module.
      *
      * @throws \InvalidArgumentException for a directory with an invalid file name pattern
      */
@@ -434,6 +433,31 @@ final class MigratedLanguageFilePaths
     public static function overlayKeysFile(string $revision_directory): string
     {
         return rtrim($revision_directory, '/') . '/keys.json';
+    }
+
+    /**
+     * Record of the modules whose lng_data changes were taken over (see markLocalChangesTakenOver()):
+     * `<client data dir>/lang/taken-over.<lang>.json`, which no module name can collide with (no ".").
+     *
+     * @throws \InvalidArgumentException for an invalid language key
+     */
+    public static function takenOverFile(string $client_data_dir, string $lang_key): string
+    {
+        self::assertValidLanguageKey($lang_key);
+
+        return rtrim($client_data_dir, '/') . '/lang/taken-over.' . $lang_key . '.json';
+    }
+
+    /**
+     * Lock for the read-modify-write of takenOverFile().
+     *
+     * @throws \InvalidArgumentException for an invalid language key
+     */
+    public static function takenOverLockFile(string $client_data_dir, string $lang_key): string
+    {
+        self::assertValidLanguageKey($lang_key);
+
+        return rtrim($client_data_dir, '/') . '/lang/.locks/taken-over.' . $lang_key . '.lock';
     }
 
     /**

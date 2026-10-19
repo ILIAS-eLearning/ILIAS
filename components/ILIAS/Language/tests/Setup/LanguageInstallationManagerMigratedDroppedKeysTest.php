@@ -46,7 +46,8 @@ class LanguageInstallationManagerMigratedDroppedKeysTest extends LanguageInstall
         $this->manager()->insertLanguageForInstallation('de');
 
         $this->assertArrayNotHasKey('greeting', $this->lngModules()[self::MODULE]);
-        $this->assertSame(['greeting'], $this->droppedIdentifiers(self::MODULE));
+        // the overlay is the only source and holds no local change: nothing local to drop, lng_data is not read
+        $this->assertSame([], $this->droppedIdentifiers(self::MODULE));
         // nothing local is left, so the overlay is removed completely
         $this->assertFileDoesNotExist($this->overlayBase() . '.po', 'dropped from the overlay as well');
     }
@@ -72,9 +73,9 @@ class LanguageInstallationManagerMigratedDroppedKeysTest extends LanguageInstall
     }
 
     /**
-     * A corrupt overlay must not be treated as L === O: no three-way decision is possible, so the entry stays.
+     * A corrupt overlay must not be treated as L === O: no three-way decision is possible, so the module is left out.
      */
-    public function testAKeyDroppedFromTheShippedPoWithACorruptOverlayIsKept(): void
+    public function testAKeyDroppedFromTheShippedPoWithACorruptOverlayLeavesItsModuleUnchanged(): void
     {
         $this->expectManagerWarning();
         $this->shipPo(['farewell' => 'Tschüss']);
@@ -84,7 +85,7 @@ class LanguageInstallationManagerMigratedDroppedKeysTest extends LanguageInstall
 
         $this->manager()->insertLanguageForInstallation('de');
 
-        $this->assertSame('Hallo', $this->lngModules()[self::MODULE]['greeting']);
+        $this->assertArrayNotHasKey(self::MODULE, $this->lngModules(), 'nothing of the module is written');
         $this->assertSame([], $this->droppedIdentifiers(self::MODULE));
     }
 
@@ -133,11 +134,11 @@ class LanguageInstallationManagerMigratedDroppedKeysTest extends LanguageInstall
         $this->manager()->insertLanguageForInstallation('de');
 
         $this->assertSame(
-            'Neu',
+            'Angepasst',
             $this->lngModules()[self::MODULE]['greeting'],
-            'L === preserved O, only S changed -> S wins, thanks to the original surviving the unshipped run'
+            'the overlay is the only source: the revert in lng_data is not read, its local change stays'
         );
-        $this->assertSame(['value' => 'Neu', 'local_change' => null], $this->lngData()['pilot|greeting']);
+        $this->assertSame('Angepasst', $this->lngData()['pilot|greeting']['value']);
     }
 
     /**

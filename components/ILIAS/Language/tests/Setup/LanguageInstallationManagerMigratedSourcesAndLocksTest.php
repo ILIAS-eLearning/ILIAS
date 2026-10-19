@@ -90,7 +90,8 @@ class LanguageInstallationManagerMigratedSourcesAndLocksTest extends LanguageIns
 
         $this->manager()->insertLanguageForInstallation('de');
 
-        $this->assertDirectoryDoesNotExist($this->root . '/client-data/lang');
+        // only the record that the lng_data local changes were taken over (there were none)
+        $this->assertSame(['.locks', 'taken-over.de.json'], array_values(array_diff(scandir($this->root . '/client-data/lang'), ['.', '..'])));
         $this->assertSame(
             ['greeting' => ['value' => 'Hello', 'local_change' => false, 'local_change_date' => null, 'original' => 'Hello']],
             $this->effective()
