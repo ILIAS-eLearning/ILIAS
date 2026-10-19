@@ -105,6 +105,17 @@ class RendersActivityErrorsTest extends TestCase
         $this->assertStringEndsWith('&quot;: bad input.', $message);
     }
 
+    private static function pdoExceptionWithSqlState(string $sql_state, string $message): \PDOException
+    {
+        return new class ($message, $sql_state) extends \PDOException {
+            public function __construct(string $message, string $sql_state)
+            {
+                parent::__construct($message);
+                $this->code = $sql_state;
+            }
+        };
+    }
+
     /** @return array<string, array<int, mixed>>|list<array<int, mixed>> */
     public static function nonClientErrorProvider(): array
     {
@@ -112,6 +123,8 @@ class RendersActivityErrorsTest extends TestCase
             'code 0' => [new \RuntimeException('boom')],
             'code 399' => [new \RuntimeException('boom', 399)],
             'code 500' => [new \RuntimeException('boom', 500)],
+            'PDOException, SQLSTATE 42S02 as string code' => [self::pdoExceptionWithSqlState('42S02', 'boom')],
+            'PDOException, SQLSTATE 42S22 as string code' => [self::pdoExceptionWithSqlState('42S22', 'boom')],
         ];
     }
 
@@ -151,6 +164,13 @@ class RendersActivityErrorsTest extends TestCase
     public static function inputErrorCodeProvider(): array
     {
         return [[399, false], [400, true], [403, false], [404, true], [409, true], [499, true], [500, false]];
+    }
+
+    public function testIsActivityInputErrorIsFalseForAStringSqlStateCode(): void
+    {
+        $host = $this->host($this->createMock(\ilLogger::class), $this->languageMockReturningTopicAsIs());
+
+        $this->assertFalse($host->callIsActivityInputError(self::pdoExceptionWithSqlState('42S02', 'x')));
     }
 
     #[DataProvider('inputErrorCodeProvider')]
