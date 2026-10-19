@@ -90,7 +90,6 @@ class Language implements Component\Component
 
         $internal[InstallLanguage::class] = static fn() =>
             new InstallLanguage(
-                $pull[\ILIAS\Refinery\Factory::class],
                 $use[\ILIAS\Language\Language::class],
                 $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 $runtime_setup_language(),
@@ -99,7 +98,6 @@ class Language implements Component\Component
 
         $internal[UpdateLanguage::class] = static fn() =>
             new UpdateLanguage(
-                $pull[\ILIAS\Refinery\Factory::class],
                 $use[\ILIAS\Language\Language::class],
                 $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 $runtime_setup_language(),
@@ -114,7 +112,6 @@ class Language implements Component\Component
         // code used directly before.
         $internal[UninstallLanguage::class] = static fn() =>
             new UninstallLanguage(
-                $pull[\ILIAS\Refinery\Factory::class],
                 $use[\ILIAS\Language\Language::class],
                 $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 $internal[Language\LanguageFolder::class]
@@ -128,7 +125,6 @@ class Language implements Component\Component
         // before.
         $internal[RemoveLocalLanguageChanges::class] = static fn() =>
             new RemoveLocalLanguageChanges(
-                $pull[\ILIAS\Refinery\Factory::class],
                 $use[\ILIAS\Language\Language::class],
                 $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 $internal[Language\LanguageFolder::class]
@@ -143,7 +139,6 @@ class Language implements Component\Component
         // inside AddLanguageEntry itself.
         $internal[AddLanguageEntry::class] = static fn() =>
             new AddLanguageEntry(
-                $pull[\ILIAS\Refinery\Factory::class],
                 $use[\ILIAS\Language\Language::class],
                 $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 $internal[InstalledLanguageDatabaseRepository::class],
@@ -163,7 +158,6 @@ class Language implements Component\Component
         // $this->settings).
         $internal[SetLanguageDetectionEnabled::class] = static fn() =>
             new SetLanguageDetectionEnabled(
-                $pull[\ILIAS\Refinery\Factory::class],
                 $use[\ILIAS\Language\Language::class],
                 $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 $settings,
@@ -181,7 +175,6 @@ class Language implements Component\Component
         // that the given language_key is actually installed.
         $internal[SetLanguageTranslationEnabled::class] = static fn() =>
             new SetLanguageTranslationEnabled(
-                $pull[\ILIAS\Refinery\Factory::class],
                 $use[\ILIAS\Language\Language::class],
                 $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 $settings,

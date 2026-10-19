@@ -19,9 +19,7 @@ use ILIAS\Language\Tests\Activities\ActivityWithPerformResultContractTestCase;
 use ILIAS\Language\Activities\InvalidInputException;
 use ILIAS\Language\Activities\UpdateLanguage;
 use ILIAS\UI\Component\Input\Field\Text;
-use ILIAS\UI\Component\Input\Field\Group;
 use ILIAS\Language\Language;
-use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -284,10 +282,10 @@ class UpdateLanguageTest extends ActivityWithPerformResultContractTestCase
         // no mode parameter: the select field must never be built
         $field->expects($this->never())->method('select');
 
-        $group = $this->createMock(Group::class);
+        $group = $this->createMock(\ILIAS\UI\Component\Input\Field\Section::class);
         $field->expects($this->once())
-            ->method('group')
-            ->with(['language_keys' => $text])
+            ->method('section')
+            ->with(['language_keys' => $text], $this->anything())
             ->willReturn($group);
 
         $activity = $this->createActivity(
@@ -375,7 +373,6 @@ class UpdateLanguageTest extends ActivityWithPerformResultContractTestCase
         ?Language $language = null
     ): UpdateLanguage {
         return new UpdateLanguage(
-            $this->createMock(RefineryFactory::class),
             $language ?? $this->createMock(Language::class),
             $this->rbacOf($rbac ?? $this->createMock(\ilRbacSystem::class)),
             $setup_language,

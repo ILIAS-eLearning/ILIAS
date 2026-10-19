@@ -24,9 +24,6 @@ use ILIAS\UI\Component\Input\Field\Checkbox;
 use ILIAS\Administration\Setting;
 use ILIAS\Data\Description\Factory as DescriptionFactory;
 use ILIAS\Language\Setup\InstalledLanguageRepository;
-use ILIAS\Refinery\Factory as RefineryFactory;
-use ILIAS\Refinery\String\Group as StringGroup;
-use ILIAS\Refinery\String\MarkdownFormattingToHTML;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -603,10 +600,10 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
             )
             ->willReturn($checkbox);
 
-        $group = $this->createMock(\ILIAS\UI\Component\Input\Field\Group::class);
+        $group = $this->createMock(\ILIAS\UI\Component\Input\Field\Section::class);
         $field->expects($this->once())
-            ->method('group')
-            ->with(['language_key' => $text, 'enabled' => $checkbox])
+            ->method('section')
+            ->with(['language_key' => $text, 'enabled' => $checkbox], $this->anything())
             ->willReturn($group);
 
         $activity = $this->createActivity();
@@ -624,14 +621,7 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
      */
     public function testOutputDescriptionDescribesTheThreeDocumentedFieldsInOrder(): void
     {
-        $string_group = $this->createMock(StringGroup::class);
-        $string_group->method('markdown')->willReturn(
-            $this->createMock(MarkdownFormattingToHTML::class)
-        );
-        $refinery = $this->createMock(RefineryFactory::class);
-        $refinery->method('string')->willReturn($string_group);
-
-        $activity = $this->createActivity(refinery: $refinery);
+        $activity = $this->createActivity();
 
         $description = $activity->getOutputDescription(new DescriptionFactory());
 
@@ -648,11 +638,9 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
         ?Setting $settings = null,
         ?Language $language = null,
         int $language_folder_ref_id = 0,
-        ?RefineryFactory $refinery = null,
         ?InstalledLanguageRepository $installed_language_repository = null,
     ): SetLanguageTranslationEnabled {
         return new SetLanguageTranslationEnabled(
-            $refinery ?? $this->createMock(RefineryFactory::class),
             $language ?? $this->createMock(Language::class),
             $this->rbacOf($rbac_system ?? $this->createMock(\ilRbacSystem::class)),
             $settings ?? $this->createMock(Setting::class),

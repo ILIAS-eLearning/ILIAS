@@ -27,6 +27,8 @@ trait DeclaresLanguageKeysOnlyInput
 {
     use ParsesLanguageKeyList;
 
+    abstract protected function inputSectionTitle(): string;
+
     public function getInputDescription(FieldFactory $f): FormInput
     {
         $language_keys = $f->text(
@@ -34,9 +36,9 @@ trait DeclaresLanguageKeysOnlyInput
             'Comma-separated list of language keys, e.g. de, fr, it.'
         )->withRequired(true)->withDedicatedName('language_keys');
 
-        return $f->group([
+        return $f->section([
             'language_keys' => $language_keys,
-        ]);
+        ], $this->inputSectionTitle());
     }
 
     /**

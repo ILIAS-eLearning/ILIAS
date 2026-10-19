@@ -20,7 +20,6 @@ use ILIAS\Language\Activities\AmbiguousLanguageTitleException;
 use ILIAS\Language\Activities\InvalidInputException;
 use ILIAS\Language\Activities\RemoveLocalLanguageChanges;
 use ILIAS\Language\Language;
-use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -701,7 +700,6 @@ class RemoveLocalLanguageChangesTest extends ActivityWithPerformResultContractTe
         int $language_folder_ref_id = 0
     ): RemoveLocalLanguageChanges {
         return new RemoveLocalLanguageChanges(
-            $this->createMock(RefineryFactory::class),
             $language ?? $this->createMock(Language::class),
             $this->rbacOf($rbac ?? $this->createMock(\ilRbacSystem::class)),
             $this->languageFolder($language_folder_ref_id),

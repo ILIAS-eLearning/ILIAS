@@ -26,7 +26,6 @@ use ILIAS\Data\Text;
 use ILIAS\Language\Language;
 use ILIAS\Language\LanguageFolder;
 use ILIAS\Language\Setup\InstalledLanguageRepository;
-use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 
@@ -44,7 +43,6 @@ class AddLanguageEntry extends LanguageActivity
      * @param \Closure|null $user_login (int $usr_id): string
      */
     public function __construct(
-        RefineryFactory $refinery,
         Language $language,
         RBAC $rbac,
         private readonly InstalledLanguageRepository $installed_language_repository,
@@ -54,7 +52,7 @@ class AddLanguageEntry extends LanguageActivity
         ?\Closure $update_module_cache = null,
         ?\Closure $user_login = null,
     ) {
-        parent::__construct($refinery, $language, $rbac, $language_folder);
+        parent::__construct($language, $rbac, $language_folder);
         $this->replace_lang_entry = $replace_lang_entry
             ?? static fn(
                 string $module,
@@ -94,7 +92,7 @@ class AddLanguageEntry extends LanguageActivity
 
     public function getDescription(): Text\SimpleDocumentMarkdown
     {
-        return $this->markdown(
+        return $this->data->text()->markdown()->simpleDocument(
             <<<'MARKDOWN'
 Adds one new "adjust language variables" entry (a module/identifier pair) to
 every currently installed language for which a value was given. An installed
@@ -147,33 +145,35 @@ MARKDOWN
             'and simply skipped if left blank.'
         )->withDedicatedName('translations');
 
-        return $f->group([
+        return $f->section([
             'module' => $module,
             'identifier' => $identifier,
             'translations' => $translations,
-        ]);
+        ], 'Add a language entry');
     }
 
     public function getOutputDescription(Description\Factory $f): Description\Description
     {
+        $text = $this->data->text()->markdown();
+
         return $f->object(
-            $this->markdown('Result of adding the language entry.'),
+            $text->simpleDocument('Result of adding the language entry.'),
             [
-                'module' => $f->string($this->markdown('Language module the new entry was added to.')),
-                'identifier' => $f->string($this->markdown('Identifier of the new language entry.')),
+                'module' => $f->string($text->simpleDocument('Language module the new entry was added to.')),
+                'identifier' => $f->string($text->simpleDocument('Identifier of the new language entry.')),
                 'added_language_keys' => $f->list(
-                    $this->markdown(
+                    $text->simpleDocument(
                         'Installed languages for which a non-blank value was given - the entry was ' .
                         'written for them.'
                     ),
-                    $f->string($this->markdown('Language key of a language the entry was added for.'))
+                    $f->string($text->simpleDocument('Language key of a language the entry was added for.'))
                 ),
                 'skipped_empty_language_keys' => $f->list(
-                    $this->markdown(
+                    $text->simpleDocument(
                         'Installed languages for which no value (or only a blank one) was given - ' .
                         'left completely untouched, since there is nothing to write for them.'
                     ),
-                    $f->string($this->markdown('Language key of a language with no given value.'))
+                    $f->string($text->simpleDocument('Language key of a language with no given value.'))
                 ),
             ]
         );

@@ -26,26 +26,23 @@ use ILIAS\Data\Text;
 use ILIAS\Language\Language;
 use ILIAS\Language\LanguageFolder;
 use ILIAS\Language\LanguageFolderLegacyProxy;
-use ILIAS\Refinery\Factory as RefineryFactory;
 
 class UpdateLanguage extends LanguageActivity
 {
     use DeclaresLanguageKeysOnlyInput;
 
     public function __construct(
-        RefineryFactory $refinery,
         Language $language,
         ?RBAC $rbac,
         private readonly \ilSetupLanguage $setup_language,
         LanguageFolder $language_folder,
     ) {
-        parent::__construct($refinery, $language, $rbac, $language_folder);
+        parent::__construct($language, $rbac, $language_folder);
     }
 
     public static function forSetup(\ilSetupLanguage $setup_language): self
     {
         return new self(
-            new RefineryFactory(new \ILIAS\Data\Factory(), $setup_language),
             $setup_language,
             null,
             $setup_language,
@@ -56,7 +53,7 @@ class UpdateLanguage extends LanguageActivity
 
     public function getDescription(): Text\SimpleDocumentMarkdown
     {
-        return $this->markdown(
+        return $this->data->text()->markdown()->simpleDocument(
             <<<'MARKDOWN'
 Refreshes one or more already installed languages, re-seeding their base
 data (plus a customizing/local file if one exists) from the current
@@ -66,25 +63,32 @@ MARKDOWN
         );
     }
 
+    protected function inputSectionTitle(): string
+    {
+        return 'Update languages';
+    }
+
     public function getOutputDescription(Description\Factory $f): Description\Description
     {
+        $text = $this->data->text()->markdown();
+
         return $f->object(
-            $this->markdown('Result of the language update.'),
+            $text->simpleDocument('Result of the language update.'),
             [
                 'updated_language_keys' => $f->list(
-                    $this->markdown(
+                    $text->simpleDocument(
                         'Already installed languages that were refreshed from the current ' .
                         'language files (base data, plus a customizing/local file if one exists).'
                     ),
-                    $f->string($this->markdown('Language key of a refreshed language.'))
+                    $f->string($text->simpleDocument('Language key of a refreshed language.'))
                 ),
                 'not_installed_language_keys' => $f->list(
-                    $this->markdown(
+                    $text->simpleDocument(
                         'Requested languages that are not installed - skipped entirely, since ' .
                         'there is nothing installed yet to refresh. Use InstallLanguage to ' .
                         'install them first.'
                     ),
-                    $f->string($this->markdown('Language key of a not-yet-installed language.'))
+                    $f->string($text->simpleDocument('Language key of a not-yet-installed language.'))
                 ),
             ]
         );

@@ -20,9 +20,7 @@ use ILIAS\Language\Activities\InstallLanguage;
 use ILIAS\Language\Activities\InvalidInputException;
 use ILIAS\UI\Component\Input\Field\Text;
 use ILIAS\UI\Component\Input\Field\Select;
-use ILIAS\UI\Component\Input\Field\Group;
 use ILIAS\Language\Language;
-use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -508,10 +506,10 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
             self::callback(static fn(mixed $value): bool => is_string($value))
         )->willReturn($select);
 
-        $group = $this->createMock(Group::class);
+        $group = $this->createMock(\ILIAS\UI\Component\Input\Field\Section::class);
         $field->expects($this->once())
-            ->method('group')
-            ->with(['language_keys' => $text, 'mode' => $select])
+            ->method('section')
+            ->with(['language_keys' => $text, 'mode' => $select], $this->anything())
             ->willReturn($group);
 
         $activity = $this->createActivity(
@@ -635,7 +633,6 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
         ?Language $language = null
     ): InstallLanguage {
         return new InstallLanguage(
-            $this->createMock(RefineryFactory::class),
             $language ?? $this->createMock(Language::class),
             $this->rbacOf($rbac ?? $this->createMock(\ilRbacSystem::class)),
             $setup_language,

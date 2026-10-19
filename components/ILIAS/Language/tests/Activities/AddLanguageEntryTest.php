@@ -29,9 +29,6 @@ use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Text;
 use ILIAS\Data\Description\Factory as DescriptionFactory;
 use ILIAS\Language\Setup\InstalledLanguageRepository;
-use ILIAS\Refinery\Factory as RefineryFactory;
-use ILIAS\Refinery\String\Group as StringGroup;
-use ILIAS\Refinery\String\MarkdownFormattingToHTML;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
@@ -1005,7 +1002,6 @@ class AddLanguageEntryTest extends ActivityContractTestCase
         $language->method('txt')->willReturnCallback(static fn(string $k): string => $k);
 
         $activity = new class (
-            refinery: $this->createMock(RefineryFactory::class),
             language: $language,
             rbac: $this->rbacOf($this->createMock(\ilRbacSystem::class)),
             installed_language_repository: new FakeInstalledLanguageRepository(static fn(): array => ['de']),
@@ -1068,7 +1064,7 @@ class AddLanguageEntryTest extends ActivityContractTestCase
         $translations_group = $this->createMock(\ILIAS\UI\Component\Input\Field\Group::class);
         $translations_group->method('withDedicatedName')->with('translations')->willReturnSelf();
 
-        $outer_group = $this->createMock(\ILIAS\UI\Component\Input\Field\Group::class);
+        $outer_section = $this->createMock(\ILIAS\UI\Component\Input\Field\Section::class);
 
         $group_calls = [];
         $field->method('group')->willReturnCallback(
@@ -1078,17 +1074,24 @@ class AddLanguageEntryTest extends ActivityContractTestCase
                 $fr_text,
                 $module_text,
                 $identifier_text,
-                $translations_group,
-                $outer_group
+                $translations_group
             ) {
                 $group_calls[] = $fields;
                 if ($fields === ['de' => $de_text, 'fr' => $fr_text]) {
                     return $translations_group;
                 }
-                if ($fields === ['module' => $module_text, 'identifier' => $identifier_text, 'translations' => $translations_group]) {
-                    return $outer_group;
-                }
                 throw new \LogicException('unexpected group() call');
+            }
+        );
+
+        $section_calls = [];
+        $field->method('section')->willReturnCallback(
+            function (array $fields, string $label) use (&$section_calls, $module_text, $identifier_text, $translations_group, $outer_section) {
+                $section_calls[] = [$fields, $label];
+                if ($fields === ['module' => $module_text, 'identifier' => $identifier_text, 'translations' => $translations_group]) {
+                    return $outer_section;
+                }
+                throw new \LogicException('unexpected section() call');
             }
         );
 
@@ -1100,7 +1103,8 @@ class AddLanguageEntryTest extends ActivityContractTestCase
             language: $language
         );
 
-        $this->assertSame($outer_group, $activity->getInputDescription($field));
+        $this->assertSame($outer_section, $activity->getInputDescription($field));
+        $this->assertSame('Add a language entry', $section_calls[0][1]);
         $this->assertSame(['Module', 'Identifier', 'meta_l_de', 'meta_l_fr'], $text_calls);
         // only 'de' is required among translations
         $this->assertTrue($de_required);
@@ -1113,14 +1117,7 @@ class AddLanguageEntryTest extends ActivityContractTestCase
 
     public function testOutputDescriptionDeclaresTheExpectedFourFields(): void
     {
-        $string_group = $this->createMock(StringGroup::class);
-        $string_group->method('markdown')->willReturn(
-            $this->createMock(MarkdownFormattingToHTML::class)
-        );
-        $refinery = $this->createMock(RefineryFactory::class);
-        $refinery->method('string')->willReturn($string_group);
-
-        $activity = $this->createActivity(['de'], refinery: $refinery);
+        $activity = $this->createActivity(['de']);
 
         $description = $activity->getOutputDescription(new DescriptionFactory());
 
@@ -1148,7 +1145,6 @@ class AddLanguageEntryTest extends ActivityContractTestCase
     private function createActivityWithRealUpdateModuleCacheDefault(\ilDBInterface $db): AddLanguageEntry
     {
         return new AddLanguageEntry(
-            refinery: $this->createMock(RefineryFactory::class),
             language: $this->createMock(Language::class),
             rbac: $this->rbacOf($this->createMock(\ilRbacSystem::class)),
             installed_language_repository: new FakeInstalledLanguageRepository(static fn(): array => ['de']),
@@ -1311,7 +1307,6 @@ class AddLanguageEntryTest extends ActivityContractTestCase
         ?\Closure $replace_lang_entry = null,
         ?\Closure $update_module_cache = null,
         ?\Closure $user_login = null,
-        ?RefineryFactory $refinery = null,
     ): AddLanguageEntry {
         // Safe no-op defaults (never the real \ilObjLanguage-backed closures, which need global
         // $DIC). user_login() runs unconditionally in perform(), so it always needs one too.
@@ -1336,7 +1331,6 @@ class AddLanguageEntryTest extends ActivityContractTestCase
         $db ??= $this->createUnusedDb();
 
         return new AddLanguageEntry(
-            refinery: $refinery ?? $this->createMock(RefineryFactory::class),
             language: $language ?? $this->createMock(Language::class),
             rbac: $this->rbacOf($rbac ?? $this->createMock(\ilRbacSystem::class)),
             installed_language_repository: $installed_language_repository ?? new FakeInstalledLanguageRepository(

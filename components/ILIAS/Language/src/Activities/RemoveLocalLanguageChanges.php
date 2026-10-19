@@ -25,7 +25,6 @@ use ILIAS\Data\Description;
 use ILIAS\Data\Text;
 use ILIAS\Language\Language;
 use ILIAS\Language\LanguageFolder;
-use ILIAS\Refinery\Factory as RefineryFactory;
 
 class RemoveLocalLanguageChanges extends LanguageActivity
 {
@@ -40,14 +39,13 @@ class RemoveLocalLanguageChanges extends LanguageActivity
      * @param \Closure|null $obj_language_factory (int $obj_id): \ilObjLanguage
      */
     public function __construct(
-        RefineryFactory $refinery,
         Language $language,
         RBAC $rbac,
         LanguageFolder $language_folder,
         ?\Closure $lng_objects = null,
         ?\Closure $obj_language_factory = null,
     ) {
-        parent::__construct($refinery, $language, $rbac, $language_folder);
+        parent::__construct($language, $rbac, $language_folder);
         $this->lng_objects = $lng_objects
             ?? static fn(): array => \ilObject::_getObjectsByType('lng');
         $this->obj_language_factory = $obj_language_factory
@@ -56,7 +54,7 @@ class RemoveLocalLanguageChanges extends LanguageActivity
 
     public function getDescription(): Text\SimpleDocumentMarkdown
     {
-        return $this->markdown(
+        return $this->data->text()->markdown()->simpleDocument(
             <<<'MARKDOWN'
 Removes all local changes of one or more already installed languages - both
 entries edited directly via the "adjust language variables" table and any
@@ -70,32 +68,39 @@ MARKDOWN
         );
     }
 
+    protected function inputSectionTitle(): string
+    {
+        return 'Remove local language changes';
+    }
+
     public function getOutputDescription(Description\Factory $f): Description\Description
     {
+        $text = $this->data->text()->markdown();
+
         return $f->object(
-            $this->markdown('Result of removing local language changes.'),
+            $text->simpleDocument('Result of removing local language changes.'),
             [
                 'removed_local_changes_language_keys' => $f->list(
-                    $this->markdown(
+                    $text->simpleDocument(
                         'Already installed languages whose local changes were removed - they were ' .
                         'reinstalled purely from the global/component language files.'
                     ),
-                    $f->string($this->markdown('Language key of a language whose local changes were removed.'))
+                    $f->string($text->simpleDocument('Language key of a language whose local changes were removed.'))
                 ),
                 'invalid_language_file_keys' => $f->list(
-                    $this->markdown(
+                    $text->simpleDocument(
                         'Requested languages that were left untouched because their underlying ' .
                         'language file failed validation.'
                     ),
-                    $f->string($this->markdown('Language key of a language with an invalid language file.'))
+                    $f->string($text->simpleDocument('Language key of a language with an invalid language file.'))
                 ),
                 'not_installed_language_keys' => $f->list(
-                    $this->markdown(
+                    $text->simpleDocument(
                         'Requested languages that were left untouched because they are not ' .
                         'installed (or not a known language key at all) - there is nothing to ' .
                         'remove local changes from for them.'
                     ),
-                    $f->string($this->markdown('Language key of a not-installed language.'))
+                    $f->string($text->simpleDocument('Language key of a not-installed language.'))
                 ),
             ]
         );

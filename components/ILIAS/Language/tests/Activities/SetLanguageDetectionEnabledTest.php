@@ -20,10 +20,8 @@ use ILIAS\Language\Activities\InvalidInputException;
 use ILIAS\Language\Activities\SetLanguageDetectionEnabled;
 use ILIAS\Language\Language;
 use ILIAS\UI\Component\Input\Field\Checkbox;
-use ILIAS\UI\Component\Input\Field\Group;
 use ILIAS\Data\Description\Description;
 use ILIAS\Administration\Setting;
-use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -358,10 +356,10 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
             )
             ->willReturn($checkbox);
 
-        $group = $this->createMock(Group::class);
+        $group = $this->createMock(\ILIAS\UI\Component\Input\Field\Section::class);
         $field->expects($this->once())
-            ->method('group')
-            ->with(['enabled' => $checkbox])
+            ->method('section')
+            ->with(['enabled' => $checkbox], $this->anything())
             ->willReturn($group);
 
         $activity = $this->createActivity();
@@ -391,7 +389,6 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
         int $language_folder_ref_id = 0
     ): SetLanguageDetectionEnabled {
         return new SetLanguageDetectionEnabled(
-            $this->createMock(RefineryFactory::class),
             $language ?? $this->createMock(Language::class),
             $this->rbacOf($rbac_system ?? $this->createMock(\ilRbacSystem::class)),
             $settings ?? $this->createMock(Setting::class),

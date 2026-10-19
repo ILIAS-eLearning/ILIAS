@@ -24,44 +24,30 @@ use ILIAS\AccessControl\PublicInterface\RBAC;
 use ILIAS\Component\Activities\ActivityImpl;
 use ILIAS\Component\Activities\ActivityType;
 use ILIAS\Data\Result;
-use ILIAS\Data\Text;
-use ILIAS\Data\Text\Shape\SimpleDocumentMarkdown as SimpleDocumentMarkdownShape;
+use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Language\Language;
 use ILIAS\Language\LanguageFolder;
-use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 
 abstract class LanguageActivity extends ActivityImpl
 {
     use GrindsFormInput;
 
-    protected readonly RefineryFactory $refinery;
     protected Language $lng;
 
     /** @param RBAC|null $rbac null only for forSetup(); isAllowedToPerform() then throws. */
     public function __construct(
-        RefineryFactory $refinery,
         Language $language,
         private readonly ?RBAC $rbac,
         private readonly LanguageFolder $language_folder,
+        protected readonly DataFactory $data = new DataFactory(),
     ) {
-        $this->refinery = $refinery;
         $this->lng = $language;
     }
 
     public function getType(): ActivityType
     {
         return ActivityType::Command;
-    }
-
-    protected function markdown(string $raw): Text\SimpleDocumentMarkdown
-    {
-        return new Text\SimpleDocumentMarkdown(
-            new SimpleDocumentMarkdownShape(
-                $this->refinery->string()->markdown()
-            ),
-            $raw
-        );
     }
 
     public function isAllowedToPerform(int $usr_id, mixed $parameters): bool
