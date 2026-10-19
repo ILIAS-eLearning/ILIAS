@@ -99,10 +99,14 @@ class Language implements Component\Component
             );
 
         // runtime-only Activities route all legacy access through this provider
+        $internal[Language\Activities\LanguageSettings::class] = static fn() =>
+            new Language\Activities\LanguageSettingsLegacyProxy();
+
         $internal[RepositoryProvider::class] = static fn() =>
             new RepositoryProvider(
                 $internal[InstalledLanguageDatabaseRepository::class],
                 $pull[\ILIAS\Database\Connection::class],
+                $internal[Language\Activities\LanguageSettings::class],
             );
 
         $internal[UninstallLanguage::class] = static fn() =>
