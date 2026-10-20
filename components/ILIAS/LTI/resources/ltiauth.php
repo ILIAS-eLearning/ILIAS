@@ -68,10 +68,5 @@ if ($connection === null || !$connection->isRedirectionUri((string) (Util::$requ
     ilLTIAdvantageResponse::send(400, '', '');
 }
 
-// the answer goes to the site of the tool, and the next launch or login of the same user may come from there too
-if (!$DIC->user()->isAnonymous()) {
-    ilLTISessionCookie::allowCrossSite();
-}
-
 register_shutdown_function($connection->logAuthenticationAnswer(...));
 $connection->handleRequest();

@@ -232,6 +232,8 @@ class ilLTIAdvantagePlatformConnection extends Platform
      */
     protected function onAuthenticate(): void
     {
+        global $DIC;
+
         $parameters = Util::getRequestParameters();
         $hint = (string) ($parameters['lti_message_hint'] ?? '');
         $login = self::getLogins()->get($hint);
@@ -249,6 +251,13 @@ class ilLTIAdvantagePlatformConnection extends Platform
         }
 
         self::getLogins()->take($hint);
+
+        // the answer goes to the site of the tool, and the next launch or login of the same user may come from
+        // there too; only an accepted request renews the cookie, before the library sends the answer
+        if (!$DIC->user()->isAnonymous()) {
+            ilLTISessionCookie::allowCrossSite();
+        }
+
         Tool::$defaultTool->messageUrl = $login['message_url'];
         $this->messageParameters = $login['params'];
         // the library tells the tool again where the platform storage is, with the id_token
