@@ -78,6 +78,10 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
             cursor: pointer;
         }
 
+        .il-table-presentation-row-header-tags {
+            margin-bottom: $il-margin-xlarge-vertical;
+        }
+
         @include brk.on-screen-size('small') {
             order: 1;
         }
