@@ -57,7 +57,7 @@ class TermUsagesTable
         $table = $this->ui_fac->table()
                               ->data($data_retrieval, $this->lng->txt("cont_usage"), $columns)
                               ->withId(
-                                  self::class . "_" .
+                                  str_replace('\\', '', self::class) . "_" .
                                   $glo_id . "_" .
                                   $this->term_id
                               )

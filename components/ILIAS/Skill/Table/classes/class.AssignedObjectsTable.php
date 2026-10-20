@@ -70,7 +70,7 @@ class AssignedObjectsTable
         $table = $this->ui_fac->table()
                               ->data($data_retrieval, $this->lng->txt("skmg_assigned_objects"), $columns)
                               ->withId(
-                                  self::class . "_" .
+                                  str_replace('\\', '', self::class) . "_" .
                                   $this->parent_obj::class . "_" .
                                   $this->skill_id . "_" .
                                   $this->tref_id . "_" .
