@@ -70,16 +70,16 @@ class ilLTI1p1ConsumerResult
 
         $res = $DIC->database()->query($query);
         if ($row = $DIC->database()->fetchAssoc($res)) {
-            $resObj = new ilLTI1p1ConsumerResult();
-            $resObj->fillData($row);
-            return $resObj;
+            $res_obj = new ilLTI1p1ConsumerResult();
+            $res_obj->fillData($row);
+            return $res_obj;
         } elseif ($a_create) {
-            $resObj = new ilLTI1p1ConsumerResult();
-            $resObj->obj_id = $a_obj_id;
-            $resObj->usr_id = $a_usr_id;
-            $resObj->result = null;
-            $resObj->save();
-            return $resObj;
+            $res_obj = new ilLTI1p1ConsumerResult();
+            $res_obj->obj_id = $a_obj_id;
+            $res_obj->usr_id = $a_usr_id;
+            $res_obj->result = null;
+            $res_obj->save();
+            return $res_obj;
         } else {
             return null;
         }

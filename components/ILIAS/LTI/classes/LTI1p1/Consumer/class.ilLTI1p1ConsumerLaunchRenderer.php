@@ -43,6 +43,7 @@ final class ilLTI1p1ConsumerLaunchRenderer
                 $gui_object,
                 ilLTIToolLaunchGUI::CMD_SHOW_EMBEDDED
             ));
+            $tpl->setVariable("EMBEDDED_IFRAME_TITLE", htmlspecialchars($object->getTitle()));
             $dic->ui()->mainTemplate()->setContent($tpl->get());
         } else {
             $dic->toolbar()->addText(self::renderStartButton($object, $gui_object, $dic, $lng));
