@@ -33,14 +33,16 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
         $links = [];
         if ($field->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
             $url = $value['link'];
-            $value = $value['title'] ?: $this->shortenLink($url);
-            if ($link) {
-                if (substr($url, 0, 3) === 'www') {
-                    $url = 'https://' . $url;
-                } elseif (filter_var($url, FILTER_VALIDATE_EMAIL)) {
-                    $url = "mailto:" . $url;
+            if ($url !== "") {
+                $value = $value['title'] ?: $this->shortenLink($url);
+                if ($link) {
+                    if (substr($url, 0, 3) === 'www') {
+                        $url = 'https://' . $url;
+                    } elseif (filter_var($url, FILTER_VALIDATE_EMAIL)) {
+                        $url = "mailto:" . $url;
+                    }
+                    $links['dcl_open_url'] = $url;
                 }
-                $links['dcl_open_url'] = $url;
             }
         }
         if ($field->hasProperty(ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT) && $link) {
