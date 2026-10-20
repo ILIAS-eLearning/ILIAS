@@ -52,6 +52,33 @@ class ilTestQuestionHeaderBlockBuilderTest extends ilTestBaseTestCase
         $this->assertEquals($questionTitle, $this->testObj->getQuestionTitle());
     }
 
+    public function testGetHTMLEncodesQuestionTitle(): void
+    {
+        $this->testObj->setQuestionTitle('A \'b\' "c" & <script>alert(1)</script>');
+
+        $this->testObj->setHeaderMode(1);
+        $this->assertStringContainsString(
+            ' - A &#039;b&#039; &quot;c&quot; &amp; &lt;script&gt;alert(1)&lt;/script&gt;',
+            $this->testObj->getHTML()
+        );
+        $this->assertStringNotContainsString('<script>', $this->testObj->getHTML());
+
+        $this->testObj->setHeaderMode(0);
+        $this->assertStringContainsString(
+            ' - A &#039;b&#039; &quot;c&quot; &amp; &lt;script&gt;alert(1)&lt;/script&gt;',
+            $this->testObj->getHTML()
+        );
+        $this->assertStringNotContainsString('<script>', $this->testObj->getHTML());
+    }
+
+    public function testPresentationTitleIsNotEncoded(): void
+    {
+        $questionTitle = 'A \'b\' "c" & <d>';
+        $this->testObj->setQuestionTitle($questionTitle);
+        $this->testObj->setHeaderMode(0);
+        $this->assertEquals($questionTitle, $this->testObj->getPresentationTitle());
+    }
+
     public function testQuestionPoints(): void
     {
         $questionPoints = 20.5;
