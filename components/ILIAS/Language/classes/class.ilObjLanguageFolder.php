@@ -18,6 +18,11 @@
 
 declare(strict_types=1);
 
+use ILIAS\Language\ComponentTranslation\Catalog\TranslationCatalog;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
+use ILIAS\Language\ComponentTranslation\MigratedLanguageFilePaths;
+use ILIAS\Language\ComponentTranslation\MigratedLanguageFileSync;
+
 /**
 * Class ilObjLanguageFolder
 * contains all function to manage language support for ILIAS3
@@ -251,7 +256,7 @@ class ilObjLanguageFolder extends ilObject
         while ($entry = $d->read()) {
             if (is_file($entry) && (preg_match("~(^ilias_.{2}\.lang\z)~", $entry))) {
                 // textmeldung, wenn langfile gefunden wurde
-                $output .= "<br/><br/>" . $this->lng->txt("langfile_found") . ": " . $entry;
+                $output .= "<br/><br/>" . $this->lng->txt("langfile_found") . ": " . $this->escape($entry);
                 $content = file($entry);
                 $lines_full = count($content);
                 $found = true;
@@ -276,21 +281,21 @@ class ilObjLanguageFolder extends ilObject
                                     if (empty($separated[0])) {
                                         $output .= "<br/>" . $this->lng->txt("err_no_param") . " " . $this->lng->txt("check_langfile");
                                     } else {
-                                        $output .= $this->lng->txt("module") . ": " . $separated[0];
+                                        $output .= $this->lng->txt("module") . ": " . $this->escape($separated[0]);
                                         $output .= "<br/>" . $this->lng->txt("err_1_param") . " " . $this->lng->txt("check_langfile");
                                     }
                                     break;
 
                                 case 2:
-                                    $output .= $this->lng->txt("module") . ": " . $separated[0];
-                                    $output .= ", " . $this->lng->txt("identifier") . ": " . $separated[1];
+                                    $output .= $this->lng->txt("module") . ": " . $this->escape($separated[0]);
+                                    $output .= ", " . $this->lng->txt("identifier") . ": " . $this->escape($separated[1]);
                                     $output .= "<br/>" . $this->lng->txt("err_2_param") . " " . $this->lng->txt("check_langfile");
                                     break;
 
                                 default:
-                                    $output .= $this->lng->txt("module") . ": " . $separated[0];
-                                    $output .= ", " . $this->lng->txt("identifier") . ": " . $separated[1];
-                                    $output .= ", " . $this->lng->txt("value") . ": " . $separated[2];
+                                    $output .= $this->lng->txt("module") . ": " . $this->escape($separated[0]);
+                                    $output .= ", " . $this->lng->txt("identifier") . ": " . $this->escape($separated[1]);
+                                    $output .= ", " . $this->lng->txt("value") . ": " . $this->escape($separated[2]);
                                     $output .= "<br/>" . $this->lng->txt("err_over_3_param") . " " . $this->lng->txt("check_langfile");
                                     break;
                             }
@@ -300,9 +305,9 @@ class ilObjLanguageFolder extends ilObject
                             $error_double = true;
 
                             $output .= "<br/><b/>" . $this->lng->txt("err_in_line") . " " . $double_checker[strtolower($separated[0])][strtolower($separated[1])] . " " . $this->lng->txt("and") . " " . $line . " !</b>&nbsp;&nbsp;";
-                            $output .= $this->lng->txt("module") . ": " . $separated[0];
-                            $output .= ", " . $this->lng->txt("identifier") . ": " . $separated[1];
-                            $output .= ", " . $this->lng->txt("value") . ": " . $separated[2];
+                            $output .= $this->lng->txt("module") . ": " . $this->escape($separated[0]);
+                            $output .= ", " . $this->lng->txt("identifier") . ": " . $this->escape($separated[1]);
+                            $output .= ", " . $this->lng->txt("value") . ": " . $this->escape($separated[2]);
                         }
                         $double_checker[strtolower($separated[0])][strtolower($separated[1])] = $line;
                     }
@@ -322,6 +327,11 @@ class ilObjLanguageFolder extends ilObject
                 } else {
                     $output .= "<br/>" . $this->lng->txt("file_not_valid") . " " . $this->lng->txt("err_wrong_header");
                 }
+                $lang_key = substr($entry, 6, 2);
+                // the .po lookup throws for a key that cannot be part of a file name
+                if (MigratedLanguageFilePaths::isValidLanguageKey($lang_key)) {
+                    $output .= $this->checkShippedPoFiles($lang_key);
+                }
             }
         }
 
@@ -333,5 +343,38 @@ class ilObjLanguageFolder extends ilObject
 
         chdir($tmpPath);
         return $output;
+    }
+
+    /** The shipped `.po` files of $lang_key that installing or refreshing the language would refuse. */
+    private function checkShippedPoFiles(string $lang_key): string
+    {
+        global $DIC;
+        if (!$DIC->offsetExists(LanguageFileDirectoryManager::class)) {
+            return '';
+        }
+
+        $output = '';
+        $root = ILIAS_ABSOLUTE_PATH . '/';
+        $shipped_files = MigratedLanguageFileSync::findShippedModuleFiles(
+            $DIC[LanguageFileDirectoryManager::class],
+            ILIAS_ABSOLUTE_PATH,
+            $lang_key
+        );
+        foreach ($shipped_files as $shipped_po) {
+            try {
+                TranslationCatalog::fromPoFile($shipped_po);
+            } catch (\RuntimeException $e) {
+                $output .= "<br/><b>" . $this->lng->txt("file_not_valid") . ": "
+                    . $this->escape(str_replace($root, '', $shipped_po)) . "</b> "
+                    . $this->escape(str_replace($root, '', $e->getMessage()));
+            }
+        }
+
+        return $output;
+    }
+
+    private function escape(string $text): string
+    {
+        return htmlspecialchars($text, ENT_QUOTES | ENT_SUBSTITUTE);
     }
 } // END class.LanguageFolderObject
