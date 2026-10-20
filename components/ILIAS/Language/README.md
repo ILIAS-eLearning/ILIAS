@@ -101,6 +101,11 @@ or updating a language.
   `lang/` directory. A 4th constructor argument may name the files differently
   (e.g. `'ilias_%s'` for `ilias_<lang>.po`; exactly one `%s`, no `/` or `..`).
   Build artifacts and overlays are always named after the module.
+* Several modules of one component share its `lang/` directory and are told
+  apart by their file names only: `LanguageFileDirectoryManager` refuses two
+  directories that ship the same files. An `ilias_<lang>.lang` must not be put
+  there: it is read once per contributed directory, so its lines would end up
+  in every module of that folder.
 * `msgid` is the language key (`txt()` is unchanged). There is no `msgctxt`: an
   entry without context belongs to the module of its directory, an entry with
   the module as context is read as well, every other context (also
