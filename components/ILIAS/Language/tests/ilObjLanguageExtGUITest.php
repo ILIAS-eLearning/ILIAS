@@ -139,4 +139,41 @@ class ilObjLanguageExtGUITest extends TestCase
     {
         $this->assertSame('', $this->callRemarkOf(['pilot#:#item' => 'Bemerkung'], 'pilot#:#greeting'));
     }
+
+    /** @return array<string, array{0: string|int, 1: string, 2: string}> topic, expected eid parameter, expected list text */
+    public static function missingTopicProvider(): array
+    {
+        return [
+            'HTML' => ['<b>x</b>', '%3Cb%3Ex%3C%2Fb%3E', '&lt;b&gt;x&lt;/b&gt;'],
+            'quote, ampersand, space and hash' => ['a"b&c d#e', 'a%22b%26c%20d%23e', 'a&quot;b&amp;c d#e'],
+            'a numeric topic arrives as int' => [123, '123', '123'],
+        ];
+    }
+
+    /** The list text is HTML-escaped, the "eid" parameter URL-encoded and the link target safe inside the href attribute. */
+    #[DataProvider('missingTopicProvider')]
+    public function testBuildMissingEntriesEscapesTheTopicForTextParameterAndLink(string|int $topic, string $eid, string $text): void
+    {
+        $parameters = [];
+        $ctrl = $this->createStub(ilCtrl::class);
+        $ctrl->method('setParameter')->willReturnCallback(
+            static function (object $gui, string $name, mixed $value) use (&$parameters): void {
+                $parameters[] = [$name, $value];
+            }
+        );
+        $ctrl->method('getLinkTarget')->willReturn('ilias.php?a=1&b="2"');
+        $GLOBALS['DIC'] = new \ILIAS\DI\Container();
+        $GLOBALS['DIC']['ilCtrl'] = $ctrl;
+        $gui = $this->newGuiWithoutConstructor(ilObjLanguageExtGUI::class);
+        $this->inject($gui, 'lng', $this->createLanguageMockReturningTopicAsIs());
+        $this->inject($gui, 'refinery', new \ILIAS\Refinery\Factory(
+            $this->createStub(\ILIAS\Data\Factory::class),
+            $this->createStub(\ILIAS\Language\Language::class)
+        ));
+
+        $html = (new ReflectionMethod(ilObjLanguageExtGUI::class, 'buildMissingEntries'))->invoke($gui, [$topic]);
+
+        $this->assertSame([['eid', $eid], ['eid', '']], $parameters);
+        $this->assertStringContainsString('<li>' . $text . ' <a href="ilias.php&#x3F;a&#x3D;1&amp;b&#x3D;&quot;2&quot;">', $html);
+    }
 }

@@ -195,6 +195,76 @@ class RepositoryProviderTest extends \ilLanguageBaseTestCase
         $this->assertSame([], $this->provider()->languagesWithoutPluralForm('poll', 'item [2]', ['de']));
     }
 
+    // lng_data answers case-insensitively, so the rows include the other spellings
+    public function testFindDuplicatesOfListsOtherModulesAndOtherSpellings(): void
+    {
+        $db = $this->dbFetching(null, [
+            ['module' => 'mme', 'identifier' => 'login'],
+            ['module' => 'common', 'identifier' => 'Login'],
+            ['module' => 'mme', 'identifier' => 'login'],
+        ]);
+
+        $this->assertSame(['common: Login', 'mme: login'], $this->provider(db: $db)->findDuplicatesOf('common', 'login'));
+    }
+
+    public function testFindDuplicatesOfAcceptsAnOldCollisionOnceTheModuleHoldsTheIdentifierInThisSpelling(): void
+    {
+        $db = $this->dbFetching(null, [
+            ['module' => 'mme', 'identifier' => 'login'],
+            ['module' => 'COMMON', 'identifier' => 'login'],
+        ]);
+
+        $this->assertSame([], $this->provider(db: $db)->findDuplicatesOf('common', 'login'));
+    }
+
+    public function testFindDuplicatesOfAcceptsAFormKeyWhenTheModuleHoldsItsPluralMessage(): void
+    {
+        $db = $this->dbFetching(null, [['module' => 'mme', 'identifier' => 'item'], ['module' => 'poll', 'identifier' => 'item']]);
+
+        $this->assertSame([], $this->provider(db: $db)->findDuplicatesOf('poll', 'item [2]'));
+    }
+
+    public function testFilterAddableOffersATopicIfAtLeastOneChosenModuleAcceptsIt(): void
+    {
+        $rows = [
+            'free' => [],
+            'taken' => [['module' => 'mme', 'identifier' => 'taken']],
+            'old' => [['module' => 'mme', 'identifier' => 'old'], ['module' => 'common', 'identifier' => 'old']],
+        ];
+        $current = [];
+        $db = $this->createStub(\ilDBInterface::class);
+        $db->method('in')->willReturnCallback(static function (string $field, array $values) use (&$current, $rows): string {
+            $current = $rows[$values[0]];
+            return '';
+        });
+        $db->method('fetchAssoc')->willReturnCallback(static function () use (&$current): ?array {
+            return array_shift($current);
+        });
+
+        $this->assertSame(['free', 'old'], RepositoryProvider::filterAddable($db, ['common'], ['free', 'taken', 'old']));
+        $this->assertSame(['free', 'taken', 'old'], RepositoryProvider::filterAddable($db, ['common', 'mme'], ['free', 'taken', 'old']));
+        $this->assertSame([], RepositoryProvider::filterAddable($db, [], ['free']));
+    }
+
+    public function testFilterAddableAcceptsANumericTopicGivenAsInt(): void
+    {
+        $db = $this->dbFetching(null, []);
+
+        $this->assertSame(['123'], RepositoryProvider::filterAddable($db, ['common'], [123]));
+    }
+
+    public function testFindDuplicatesOfAlsoLooksUpThePluralMessageOfAFormKey(): void
+    {
+        $db = $this->createMock(\ilDBInterface::class);
+        $db->expects($this->once())->method('in')
+            ->with('identifier', ['item [2]', 'item'], false, 'text')
+            ->willReturn('identifier IN (…)');
+        $db->method('query')->willReturn($this->createStub(\ilDBStatement::class));
+        $db->method('fetchAssoc')->willReturnOnConsecutiveCalls(['module' => 'poll', 'identifier' => 'item'], null);
+
+        $this->assertSame([], $this->provider(db: $db)->findDuplicatesOf('poll', 'item [2]'));
+    }
+
     public function testLogWarningWritesThroughTheInjectedLogger(): void
     {
         $logger = $this->createMock(LoggerInterface::class);
