@@ -123,6 +123,36 @@ class AddLanguageEntryValidationTest extends \ilLanguageBaseTestCase
         }
     }
 
+    public function testAnIdentifierExistingInAnotherModuleRejectsTheRequestBeforeAnyWrite(): void
+    {
+        $calls = [];
+        $asked = [];
+        $activity = $this->createActivity(
+            ['de', 'en'],
+            replace_lang_entry: $this->spyReplaceLangEntry($calls),
+            update_module_cache: $this->spyUpdateModuleCache($calls),
+            duplicates_of: static function (string $module, string $identifier) use (&$asked): array {
+                $asked[] = [$module, $identifier];
+                return ['mme: component_not_active'];
+            }
+        );
+
+        try {
+            $activity->perform([
+                'module' => 'common',
+                'identifier' => 'component_not_active',
+                'translations' => ['de' => 'Inaktiv', 'en' => 'Inactive'],
+            ]);
+            $this->fail('Expected an InvalidInputException to be thrown.');
+        } catch (InvalidInputException $e) {
+            $this->assertStringContainsString('mme: component_not_active', $e->getMessage());
+            $this->assertSame(400, $e->getCode());
+            $this->assertSame([['common', 'component_not_active']], $asked);
+            $this->assertArrayNotHasKey('replace', $calls);
+            $this->assertArrayNotHasKey('cache', $calls);
+        }
+    }
+
     // same de/en rule as the perform() test above, via maybePerformAs()
     public function testMaybePerformAsRejectsWholeRequestAndWritesNothingWhenEnIsBlankWhileDeIsValid(): void
     {

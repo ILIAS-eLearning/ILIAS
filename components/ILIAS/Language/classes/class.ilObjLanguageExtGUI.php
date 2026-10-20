@@ -27,6 +27,7 @@ use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Language\Activities\AddLanguageEntry;
 use ILIAS\Language\Activities\RemoveLocalLanguageChanges;
+use ILIAS\Language\Activities\RepositoryProvider;
 use ILIAS\Language\Activities\SetLanguageTranslationEnabled;
 use ILIAS\Language\RendersActivityErrors;
 
@@ -274,6 +275,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
                 $db_found[] = PluralFormKey::parse($keys[1])[0] ?? $keys[1];
             }
             $missing_entries = array_diff($topics, $db_found);
+            // only offer what AddLanguageEntry accepts, a topic of another module would be a duplicate
+            $missing_entries = RepositoryProvider::filterAddable($DIC->database(), $modules, array_values($missing_entries));
         } else { // normal view mode:
             // - the table is filtered manually by module, mode and pattern
             $filter_mode = $table_gui->getFilterItemByPostVar("mode")->getValue();
@@ -1186,9 +1189,12 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         $res = array("<h3>" . $this->lng->txt("adm_missing_entries") . "</h3>", "<ul>");
 
         foreach ($a_missing as $entry) {
-            $ilCtrl->setParameter($this, "eid", $entry);
-            $res[] = '<li>' . $entry .
-                ' <a href="' . $ilCtrl->getLinkTarget($this, "addNewEntry") .
+            $entry = (string) $entry;
+            // ilCtrl only escapes "&" of a parameter value
+            $ilCtrl->setParameter($this, "eid", $this->refinery->encode()->url()->transform($entry));
+            $link = $this->refinery->encode()->htmlAttributeValue()->transform($ilCtrl->getLinkTarget($this, "addNewEntry"));
+            $res[] = '<li>' . $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform($entry) .
+                ' <a href="' . $link .
                 '">' . $this->lng->txt("adm_missing_entry_add_action") . '</a></li>';
             $ilCtrl->setParameter($this, "eid", "");
         }

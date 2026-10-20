@@ -52,6 +52,9 @@ completely untouched.
 "de" and "en" are mandatory whenever they are installed: a missing or blank
 value for either rejects the request as a whole - nothing is written for any
 language, not even ones with a perfectly valid value given.
+
+An identifier that already exists in another module or in another spelling
+is rejected as well, unless the module already holds it in this spelling.
 MARKDOWN
         );
     }
@@ -149,6 +152,14 @@ MARKDOWN
         ) {
             throw new InvalidInputException(
                 'The module, identifier and translations parameters are required; usr_id, if given, must be an int.'
+            );
+        }
+
+        $duplicates = $this->repository->findDuplicatesOf($module, $identifier);
+        if ($duplicates !== []) {
+            throw new InvalidInputException(
+                'The identifier must be unique across all modules, it already exists in another module or in another spelling: '
+                . implode(', ', $duplicates) . '.'
             );
         }
 

@@ -67,6 +67,7 @@ trait AddLanguageEntryTestFixture
      *
      * @param list<string> $installed_languages
      * @param \Closure|null $languages_without_plural_form (string $module, string $identifier, array $lang_keys): list<string>
+     * @param \Closure|null $duplicates_of (string $module, string $identifier): list<string>
      */
     protected function createActivity(
         array $installed_languages,
@@ -78,6 +79,7 @@ trait AddLanguageEntryTestFixture
         ?\Closure $update_module_cache = null,
         ?\Closure $user_login = null,
         ?\Closure $languages_without_plural_form = null,
+        ?\Closure $duplicates_of = null,
     ): AddLanguageEntry {
         // no-op defaults; tests proving a closure is never called pass a throwing one
         $replace_lang_entry ??= static fn(
@@ -97,6 +99,7 @@ trait AddLanguageEntryTestFixture
         ): bool => true;
         $user_login ??= static fn(int $usr_id): string => 'default-login';
         $languages_without_plural_form ??= static fn(string $module, string $identifier, array $lang_keys): array => [];
+        $duplicates_of ??= static fn(string $module, string $identifier): array => [];
         $installed_language_repository ??= new FakeInstalledLanguageRepository(static fn(): array => $installed_languages);
 
         $repository = $this->createStub(RepositoryProvider::class);
@@ -115,6 +118,7 @@ trait AddLanguageEntryTestFixture
         );
         $repository->method('lookupLogin')->willReturnCallback($user_login);
         $repository->method('languagesWithoutPluralForm')->willReturnCallback($languages_without_plural_form);
+        $repository->method('findDuplicatesOf')->willReturnCallback($duplicates_of);
 
         return new AddLanguageEntry(
             $language ?? $this->createStub(Language::class),

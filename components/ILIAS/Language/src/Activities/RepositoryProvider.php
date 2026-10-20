@@ -225,6 +225,78 @@ class RepositoryProvider
         return $languages;
     }
 
+    /** @return list<string> "<module>: <identifier>" of the entries that would duplicate it (language.md rule 2) */
+    public function findDuplicatesOf(string $module, string $identifier): array
+    {
+        return self::duplicatesIn(self::lngDataEntriesOf($this->db, $identifier), $module, $identifier);
+    }
+
+    /**
+     * @param list<string> $modules
+     * @param list<string|int> $identifiers
+     * @return list<string> identifiers findDuplicatesOf() accepts for at least one module
+     */
+    public static function filterAddable(\ilDBInterface $db, array $modules, array $identifiers): array
+    {
+        $addable = [];
+        foreach ($identifiers as $identifier) {
+            // session topics are array keys, so a numeric topic arrives as int
+            $identifier = (string) $identifier;
+            $entries = self::lngDataEntriesOf($db, $identifier);
+            foreach ($modules as $module) {
+                if (self::duplicatesIn($entries, $module, $identifier) === []) {
+                    $addable[] = $identifier;
+                    break;
+                }
+            }
+        }
+
+        return $addable;
+    }
+
+    /**
+     * An existing entry of its own (same module, same spelling) keeps an old collision editable.
+     * @param list<array{module: string, identifier: string}> $entries
+     * @return list<string>
+     */
+    private static function duplicatesIn(array $entries, string $module, string $identifier): array
+    {
+        $candidates = self::candidatesOf($identifier);
+        $duplicates = [];
+        foreach ($entries as $entry) {
+            if (strcasecmp($entry['module'], $module) === 0 && in_array($entry['identifier'], $candidates, true)) {
+                return [];
+            }
+            $duplicates[$entry['module'] . ': ' . $entry['identifier']] = true;
+        }
+        $duplicates = array_keys($duplicates);
+        sort($duplicates);
+
+        return $duplicates;
+    }
+
+    /** @return list<array{module: string, identifier: string}> */
+    private static function lngDataEntriesOf(\ilDBInterface $db, string $identifier): array
+    {
+        // relies on migrated modules being written to lng_data as well, the ci collation matches other spellings
+        $set = $db->query(
+            'SELECT module, identifier FROM lng_data WHERE '
+            . $db->in('identifier', self::candidatesOf($identifier), false, 'text')
+        );
+        $entries = [];
+        while ($row = $db->fetchAssoc($set)) {
+            $entries[] = ['module' => (string) $row['module'], 'identifier' => (string) $row['identifier']];
+        }
+
+        return $entries;
+    }
+
+    /** @return list<string> $identifier and, for a form key, the identifier of its plural message */
+    private static function candidatesOf(string $identifier): array
+    {
+        return array_values(array_unique([$identifier, PluralFormKey::parse($identifier)[0] ?? $identifier]));
+    }
+
     public function lookupLogin(int $usr_id): string
     {
         return \ilObjUser::_lookupLogin($usr_id);
