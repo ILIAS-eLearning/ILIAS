@@ -4537,9 +4537,8 @@ common#:#lso_import#:#Importa sequenza di apprendimento
 common#:#lso_new#:#Nuova Sequenza di Apprendimento
 common#:#lso_wizard_page#:#Copia sequenza di apprendimento (Step 2/2)
 common#:#lti#:#Consumer LTI###14 10 2026 new variable
-common#:#lti_add#:#Add LTI Consumer###22 09 2026 new variable
-common#:#lti_new#:#New LTI Consumer###22 09 2026 new variable
-common#:#lti_outcome#:#LTI Notifica progresso dell’apprendimento
+common#:#lti_add#:#Add LTI Tool (Consumer)###22 09 2026 new variable
+common#:#lti_new#:#New LTI Tool (Consumer)###22 09 2026 new variable
 common#:#lti_outcome_info#:#Invia lo stato di progresso dell’apprendimento degli utenti LTI a Strumento del consumatore LTI.
 common#:#mail#:#Posta
 common#:#mail_addressbook#:#Rubrica
@@ -11223,7 +11222,6 @@ lti#:#highscore_own_table_description#:#I partecipanti visualizzano la propria p
 lti#:#highscore_percentage#:#Percentuale
 lti#:#highscore_percentage_description#:#Una colonna contenente il punteggio come percentuale sarà inclusa nella classifica.
 lti#:#highscore_score#:#Punteggio
-lti#:#highscore_score_description#:#Una colonna contenente il punteggio sarà inclusa nella classifica.
 lti#:#highscore_top_num#:#Numero di voci dei migliori risultati
 lti#:#highscore_top_num_description#:#Specifica quanti punteggi devono essere inclusi nella classifica dei migliori risultati.
 lti#:#highscore_top_num_unit#:#voci

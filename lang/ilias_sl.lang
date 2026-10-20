@@ -4538,9 +4538,8 @@ common#:#lso_import#:#Uvozi učno zaporedje
 common#:#lso_new#:#Novo učno zaporedje
 common#:#lso_wizard_page#:#Kopiraj učno zaporedje (2/2 korak)
 common#:#lti#:#LTI Tool (Consumer)###14 10 2026 new variable
-common#:#lti_add#:#Add LTI Consumer###22 09 2026 new variable
-common#:#lti_new#:#New LTI Consumer###22 09 2026 new variable
-common#:#lti_outcome#:#Obveščanje o učnem napredku v LTI
+common#:#lti_add#:#Add LTI Tool (Consumer)###22 09 2026 new variable
+common#:#lti_new#:#New LTI Tool (Consumer)###22 09 2026 new variable
 common#:#lti_outcome_info#:#Uporabnikom orodja LTI pošlje status učnega napredka uporabnikov LTI.
 common#:#mail#:#E-pošta
 common#:#mail_addressbook#:#Stiki
@@ -11220,7 +11219,6 @@ lti#:#highscore_own_table_description#:#Participants are advised of their own po
 lti#:#highscore_percentage#:#Percentage
 lti#:#highscore_percentage_description#:#A column containing the score as percentage will be included in the ranking.
 lti#:#highscore_score#:#Score
-lti#:#highscore_score_description#:#A column containing the score will be included in the ranking.
 lti#:#highscore_top_num#:#Length of Top Ranking
 lti#:#highscore_top_num_description#:#Specify how many ranks are to be included in the top ranking list.
 lti#:#highscore_top_num_unit#:#entries

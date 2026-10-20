@@ -4596,9 +4596,8 @@ common#:#lso_import#:#Tanulási sor importálása
 common#:#lso_new#:#Új tanulási sor
 common#:#lso_wizard_page#:#Tanulási sor másolása (2/2 lépés)
 common#:#lti#:#LTI-Fogyasztó###14 10 2026 new variable
-common#:#lti_add#:#Add LTI Consumer###22 09 2026 new variable
-common#:#lti_new#:#New LTI Consumer###22 09 2026 new variable
-common#:#lti_outcome#:#LTI Tanulási haladási értesítő
+common#:#lti_add#:#Add LTI Tool (Consumer)###22 09 2026 new variable
+common#:#lti_new#:#New LTI Tool (Consumer)###22 09 2026 new variable
 common#:#lti_outcome_info#:#LTI-felhasználó tanulási haladási állapotának megküldése LTI-eszközfogyasztó / LTI-Platform részére..
 common#:#mail#:#Levelek
 common#:#mail_addressbook#:#Címtár
@@ -11249,8 +11248,6 @@ lti#:#conf_privacy_ident_il_uuid_login#:#Az ILIAS felhasználónév és az egyed
 lti#:#conf_privacy_ident_il_uuid_login_info#:#A felhasználónevet küldjük. Ez azonosítja az összes hívást, de esetleg következtetni enged az ILIAS felhasználóra.
 lti#:#conf_privacy_ident_il_uuid_random#:#Véletlen id és az egyedi ILIAS platform_id e-mail cím formátumban.
 lti#:#conf_privacy_ident_il_uuid_random_info#:#Az összes ILIAS objektum és az összes ILIAS felhasználó számára egy véletlen azonosítót generálunk minden híváskor, így a felhasználóval kapcsolatos következtetések nagyon korlátozottak lesznek, mert gyakorlatilag lehetetlen objektumokra hivatkozó felhasználói profilokat létrehozni.
-lti#:#conf_privacy_ident_il_uuid_sha256#:#Hash és az egyedi ILIAS platform_id e-mail cím formátumban.
-lti#:#conf_privacy_ident_il_uuid_sha256_info#:#Ez azonosítja az összes hívást, de nem lehet belőle következtetni felhasználóra.
 lti#:#conf_privacy_ident_il_uuid_sha256url#:#Hash és az egyedi ILIAS domainnel e-mail cím formátumban.
 lti#:#conf_privacy_ident_il_uuid_sha256url_info#:#Ez azonosítja az összes hívást, legfeljebb 80 karakterrel lényegesen rövidebb, mint az ILIAS platformazonosítójú változat, és csak nagyon korlátozott következtetéseket tesz lehetővé a felhasználóról.
 lti#:#conf_privacy_ident_il_uuid_user_id#:#Az ILIAS user_id és az egyedi ILIAS platform_id e-mail cím formátumban.
@@ -11297,7 +11294,6 @@ lti#:#highscore_own_table_description#:#A résztvevők láthatják a rangsorban 
 lti#:#highscore_percentage#:#Százalék
 lti#:#highscore_percentage_description#:#A rangsorban megjelenik a százalékos eredményeket tartalmazó oszlop.
 lti#:#highscore_score#:#Pontszám
-lti#:#highscore_score_description#:#A rangsorban megjelenik a pontszámokat tartalmazó oszlop.
 lti#:#highscore_top_num#:#Legjobb helyezések száma
 lti#:#highscore_top_num_description#:#A legjobbak rangsorában megjelenő résztvevők számát határozza meg.
 lti#:#highscore_top_num_unit#:#bejegyzések

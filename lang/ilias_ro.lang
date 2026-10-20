@@ -4538,9 +4538,8 @@ common#:#lso_import#:#Import Learning Sequence###10 11 2018 new variable
 common#:#lso_new#:#New Learning Sequence###10 11 2018 new variable
 common#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)###07 02 2020 new variable
 common#:#lti#:#LTI Tool (Consumer)###14 10 2026 new variable
-common#:#lti_add#:#Add LTI Consumer###22 09 2026 new variable
-common#:#lti_new#:#New LTI Consumer###22 09 2026 new variable
-common#:#lti_outcome#:#LTI Lernfortschritt Benachrichtigung###31 08 2017 new variable
+common#:#lti_add#:#Add LTI Tool (Consumer)###22 09 2026 new variable
+common#:#lti_new#:#New LTI Tool (Consumer)###22 09 2026 new variable
 common#:#lti_outcome_info#:#Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI Tool Consumer.###31 08 2017 new variable
 common#:#mail#:#Mail
 common#:#mail_addressbook#:#Agenda
@@ -11220,7 +11219,6 @@ lti#:#highscore_own_table_description#:#Participants are advised of their own po
 lti#:#highscore_percentage#:#Percentage###07 02 2020 new variable
 lti#:#highscore_percentage_description#:#A column containing the score as percentage will be included in the ranking.###07 02 2020 new variable
 lti#:#highscore_score#:#Score###07 02 2020 new variable
-lti#:#highscore_score_description#:#A column containing the score will be included in the ranking.###07 02 2020 new variable
 lti#:#highscore_top_num#:#Length of Top Ranking###07 02 2020 new variable
 lti#:#highscore_top_num_description#:#Specify how many ranks are to be included in the top ranking list.###07 02 2020 new variable
 lti#:#highscore_top_num_unit#:#entries###07 02 2020 new variable

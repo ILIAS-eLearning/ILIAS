@@ -4550,7 +4550,6 @@ common#:#lso_wizard_page#:#Copiar Secuencia de Aprendizaje (Paso 2/2)
 common#:#lti#:#Herramienta LTI (consumidor)###14 10 2026 new variable
 common#:#lti_add#:#Añadir herramienta LTI (consumidor)###22 09 2026 new variable
 common#:#lti_new#:#Nueva herramienta LTI (consumidor)###22 09 2026 new variable
-common#:#lti_outcome#:#Notificación de progreso de aprendizaje LTI
 common#:#lti_outcome_info#:#Envía el estado del progreso de aprendizaje de los usuarios LTI al Consumidor de Herramientas LTI.
 common#:#mail#:#Correo
 common#:#mail_addressbook#:#Contactos
@@ -11273,7 +11272,6 @@ lti#:#highscore_own_table_description#:#Se informa a los participantes de su pro
 lti#:#highscore_percentage#:#Porcentaje
 lti#:#highscore_percentage_description#:#Se incluirá una columna con la puntuación como porcentaje en el ranking.
 lti#:#highscore_score#:#Puntuación
-lti#:#highscore_score_description#:#Se incluirá una columna con la puntuación en el ranking.
 lti#:#highscore_top_num#:#Longitud del ranking de los mejores
 lti#:#highscore_top_num_description#:#Especifique cuántos rangos deben incluirse en la lista del ranking de los mejores.
 lti#:#highscore_top_num_unit#:#entradas

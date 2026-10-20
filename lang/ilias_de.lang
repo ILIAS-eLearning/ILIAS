@@ -4598,7 +4598,6 @@ common#:#lso_wizard_page#:#Lernsequenz kopieren (Schritt 2/2)
 common#:#lti#:#LTI-Tool (Konsument)###14 10 2026 new variable
 common#:#lti_add#:#LTI-Tool (Konsument) anlegen###22 09 2026 new variable
 common#:#lti_new#:#Neues LTI-Tool (Konsument)###22 09 2026 new variable
-common#:#lti_outcome#:#Benachrichtigung über LTI-Lernfortschritt
 common#:#lti_outcome_info#:#Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI-Tool-Consumer.
 common#:#mail#:#Mail
 common#:#mail_addressbook#:#Kontakte
@@ -11342,7 +11341,6 @@ lti#:#highscore_own_table_description#:#Teilnehmern wird eine Tabelle mit ihrem 
 lti#:#highscore_percentage#:#Prozentsatz
 lti#:#highscore_percentage_description#:#Eine Spalte mit der Punktzahl als Prozentsatz wird in die Platzierungen aufgenommen.
 lti#:#highscore_score#:#Punktzahl
-lti#:#highscore_score_description#:#Eine Spalte mit der Punktzahl wird in die Platzierungen aufgenommen.
 lti#:#highscore_top_num#:#Länge der Bestenliste
 lti#:#highscore_top_num_description#:#Bestimmt, wie viele Einträge in der Bestenliste angezeigt werden.
 lti#:#highscore_top_num_unit#:#Platzierungen

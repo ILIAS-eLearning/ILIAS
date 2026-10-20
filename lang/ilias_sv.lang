@@ -4538,9 +4538,8 @@ common#:#lso_import#:#Import av inlärningssekvens
 common#:#lso_new#:#Skapa en ny inlärningssekvens
 common#:#lso_wizard_page#:#Kopiera inlärningssekvensen (steg 2/2)
 common#:#lti#:#LTI konsument###14 10 2026 new variable
-common#:#lti_add#:#Add LTI Consumer###22 09 2026 new variable
-common#:#lti_new#:#New LTI Consumer###22 09 2026 new variable
-common#:#lti_outcome#:#Notifiering om LTI-inlärningsframsteg
+common#:#lti_add#:#Add LTI Tool (Consumer)###22 09 2026 new variable
+common#:#lti_new#:#New LTI Tool (Consumer)###22 09 2026 new variable
 common#:#lti_outcome_info#:#Sänder status för inlärningsframsteg för LTI-användare till LTI Tool Consumer / LTI Platform.
 common#:#mail#:#E-post
 common#:#mail_addressbook#:#Kontakter
@@ -11220,7 +11219,6 @@ lti#:#highscore_own_table_description#:#Deltagarna visas i en tabell med sin ran
 lti#:#highscore_percentage#:#Procent
 lti#:#highscore_percentage_description#:#En kolumn med poängen i procent ingår i rankingen.
 lti#:#highscore_score#:#Score
-lti#:#highscore_score_description#:#En kolumn med poängen ingår i rankingen.
 lti#:#highscore_top_num#:#Bästa listlängd
 lti#:#highscore_top_num_description#:#Bestämmer hur många poster som visas i topplistan.
 lti#:#highscore_top_num_unit#:#Placeringar
