@@ -1694,36 +1694,20 @@ Components are listed alphabetically by their folder name in `components/ILIAS/`
 [//]: # (END Logging)
 
 
-[//]: # (BEGIN LTIConsumer)
+[//]: # (BEGIN LTI)
 
-#### [LTIConsumer](https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/components/ILIAS/LTIConsumer)
+#### [LTI](https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/components/ILIAS/LTI)
 
 *Belongs to:* [LTI](https://docu.ilias.de/go/wiki/wpage_4335_1357)
 
 * Authority to Sign off on Conceptual Changes: [Saaweel](https://docu.ilias.de/go/usr/105654)
-* Authority to Sign off on Code Changes: [Zallax](https://docu.ilias.de/go/usr/101102), [Saaweel](https://docu.ilias.de/go/usr/105654)
+* Authority to Sign off on Code Changes: [ZallaxDev](https://docu.ilias.de/go/usr/101102), [Saaweel](https://docu.ilias.de/go/usr/105654), [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 * Authority to Curate Test Cases: [jcopado](https://docu.ilias.de/go/usr/30511)
 * Authority to (De-)Assign Authorities: [jcopado](https://docu.ilias.de/go/usr/30511)
 * Assignee for Issues: [jcopado](https://docu.ilias.de/go/usr/30511)
 * Assignee for Security Reports: [jcopado](https://docu.ilias.de/go/usr/30511)
 
-[//]: # (END LTIConsumer)
-
-
-[//]: # (BEGIN LTIProvider)
-
-#### [LTIProvider](https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/components/ILIAS/LTIProvider)
-
-*Belongs to:* [LTI](https://docu.ilias.de/go/wiki/wpage_4335_1357)
-
-* Authority to Sign off on Conceptual Changes: [Saaweel](https://docu.ilias.de/go/usr/105654)
-* Authority to Sign off on Code Changes: [Zallax](https://docu.ilias.de/go/usr/101102), [Saaweel](https://docu.ilias.de/go/usr/105654), [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-* Authority to Curate Test Cases: [jcopado](https://docu.ilias.de/go/usr/30511)
-* Authority to (De-)Assign Authorities: [jcopado](https://docu.ilias.de/go/usr/30511)
-* Assignee for Issues: [jcopado](https://docu.ilias.de/go/usr/30511)
-* Assignee for Security Reports: [jcopado](https://docu.ilias.de/go/usr/30511)
-
-[//]: # (END LTIProvider)
+[//]: # (END LTI)
 
 
 [//]: # (BEGIN Mail)
