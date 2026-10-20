@@ -175,12 +175,16 @@ class LanguageComponentGraphTest extends TestCase
     {
         $this->initComponent();
 
-        $directories = array_map(
-            static fn(object $directory): string => $directory::class,
-            $this->contributionsOf(LanguageFileDirectory::class)
+        $directories = $this->contributionsOf(LanguageFileDirectory::class);
+        $main = array_filter($directories, static fn(object $d): bool => $d instanceof MainLanguageFileDirectory);
+        self::assertCount(1, $main);
+        $modules = array_map(
+            static fn(ComponentLanguageFileDirectory $d): string => $d->getPrefix(),
+            array_filter($directories, static fn(object $d): bool => $d instanceof ComponentLanguageFileDirectory)
         );
-        sort($directories);
-        self::assertSame([ComponentLanguageFileDirectory::class, MainLanguageFileDirectory::class], $directories);
+        sort($modules);
+        self::assertSame(['lng'], $modules);
+        self::assertCount(count($main) + count($modules), $directories, 'only Main and component directories');
 
         $this->contributedSetupAgent();
 
