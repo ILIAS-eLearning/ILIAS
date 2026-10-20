@@ -55,6 +55,7 @@ class LanguageFileDirectoryManager
         }
         $main_files = 0;
         $prefixes = [];
+        $shipped_files = [];
         foreach ($this->directories as $d) {
             switch (true) {
                 case $d instanceof MainLanguageFileDirectory:
@@ -83,6 +84,21 @@ class LanguageFileDirectoryManager
                         throw new \InvalidArgumentException("LanguageFileDirectory must have a non-empty prefix");
                     }
                     break;
+            }
+            // modules sharing a folder are told apart by their file names only
+            if ($d->getPrefix() !== '') {
+                try {
+                    $files = rtrim($d->getPath(), '/') . '/' . MigratedLanguageFilePaths::shippedFileNamePattern($d);
+                } catch (\InvalidArgumentException) {
+                    // an invalid pattern only warns in the build, see ShippedTranslationsBuild
+                    continue;
+                }
+                if (isset($shipped_files[$files])) {
+                    throw new \InvalidArgumentException(
+                        "There must not be two LanguageFileDirectory shipping the same files " . $files
+                    );
+                }
+                $shipped_files[$files] = true;
             }
         }
     }
