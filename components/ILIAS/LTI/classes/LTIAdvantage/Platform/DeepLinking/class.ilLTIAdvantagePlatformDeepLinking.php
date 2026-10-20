@@ -176,8 +176,11 @@ final class ilLTIAdvantagePlatformDeepLinking
      */
     public static function sendTopRedirect(string $url): never
     {
+        global $DIC;
+
         $escaped = htmlspecialchars($url, ENT_QUOTES);
-        $page = '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>ILIAS</title></head><body>'
+        $lang = htmlspecialchars($DIC->language()->getLangKey(), ENT_QUOTES);
+        $page = '<!DOCTYPE html><html lang="' . $lang . '"><head><meta charset="utf-8"><title>ILIAS</title></head><body>'
             . '<script>window.top.location.replace(' . json_encode($url, JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) . ');</script>'
             . '<a href="' . $escaped . '" target="_top">' . $escaped . '</a></body></html>';
 
