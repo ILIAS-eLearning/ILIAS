@@ -120,7 +120,7 @@ class ilObjLTIToolVerificationGUI extends ilObject2GUI implements DataRetrieval
             $this->ctrl->setParameter($this, self::OBJECT_PARAM, $obj_id);
             yield $row_builder->buildDataRow((string) $obj_id, [
                 'title' => $this->ui_factory->link()->standard(
-                    $certificate->getObjectTitle(),
+                    htmlspecialchars($certificate->getObjectTitle()),
                     $this->ctrl->getLinkTarget($this, 'save')
                 ),
                 'passed' => $this->lng->txt('yes'),

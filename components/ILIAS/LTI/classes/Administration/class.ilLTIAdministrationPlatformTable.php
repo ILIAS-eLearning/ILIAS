@@ -56,10 +56,12 @@ class ilLTIAdministrationPlatformTable implements DataRetrieval
         private readonly ilGlobalTemplateInterface $tpl,
         private readonly ilCtrlInterface $ctrl,
         private readonly ServerRequestInterface $request,
-        private readonly bool $writable
+        private readonly bool $writable,
+        string $action_url
     ) {
         $this->lng->loadLanguageModule("rbac");
-        $this->url_builder = new URLBuilder(new DataFactory()->uri((string) $this->request->getUri()));
+        // the actions go to a command that ilCtrl protects with its CSRF token
+        $this->url_builder = new URLBuilder(new DataFactory()->uri($action_url));
         [$this->url_builder, $this->action_token, $this->id_token] = $this->url_builder->acquireParameters(
             ["lti", "platform"],
             "action",
@@ -69,6 +71,7 @@ class ilLTIAdministrationPlatformTable implements DataRetrieval
 
     /**
      * Executes the table action of the current request, if any, and redirects to the given commands.
+     * Must only be called from the command of the action URL, which ilCtrl protects against CSRF.
      * @throws ilCtrlException
      */
     public function handleAction(object $gui, string $return_cmd, string $edit_cmd): void
@@ -241,7 +244,7 @@ class ilLTIAdministrationPlatformTable implements DataRetrieval
         $items = [];
         $result = $this->db->query("SELECT id, title FROM lti_ext_consumer WHERE " . $this->db->in("id", $ids, false, "integer"));
         while ($row = $this->db->fetchAssoc($result)) {
-            $items[] = $this->ui_factory->modal()->interruptiveItem()->standard((string) $row["id"], (string) $row["title"]);
+            $items[] = $this->ui_factory->modal()->interruptiveItem()->standard((string) $row["id"], htmlspecialchars((string) $row["title"]));
         }
         $delete_url = $this->url_builder
             ->withParameter($this->action_token, self::ACTION_DELETE)

@@ -30,13 +30,16 @@ use ILIAS\UI\Component\Component;
  * @ilCtrl_isCalledBy ilObjLTIAdministrationGUI: ilAdministrationGUI
  * @ilCtrl_Calls      ilObjLTIAdministrationGUI: ilPermissionGUI
  */
-class ilObjLTIAdministrationGUI extends ilObjectGUI
+class ilObjLTIAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityInterface
 {
     private const string CMD_LIST_PLATFORMS = "listPlatforms";
     private const string CMD_CREATE_PLATFORM = "createPlatform";
     private const string CMD_EDIT_PLATFORM = "editPlatform";
     private const string CMD_SAVE_PLATFORM = "savePlatform";
     private const string CMD_CREATE_USER_ROLE = "createLtiUserRole";
+    private const string CMD_PLATFORM_ACTIONS = "handlePlatformActions";
+    private const string CMD_GLOBAL_TOOL_ACTIONS = "handleGlobalToolActions";
+    private const string CMD_USER_TOOL_ACTIONS = "handleUserToolActions";
     private const string CMD_SHOW_RELEASED_OBJECTS = "releasedObjects";
     private const string CMD_SHOW_GLOBAL_TOOLS = "showGlobalTools";
     private const string CMD_SHOW_USER_TOOLS = "showUserTools";
@@ -75,6 +78,9 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
                     self::CMD_CREATE_PLATFORM, self::CMD_EDIT_PLATFORM => $this->showPlatformForm(),
                     self::CMD_SAVE_PLATFORM => $this->savePlatform(),
                     self::CMD_CREATE_USER_ROLE => $this->createLtiUserRole(),
+                    self::CMD_PLATFORM_ACTIONS => $this->handlePlatformActions(),
+                    self::CMD_GLOBAL_TOOL_ACTIONS => $this->handleToolActions(true),
+                    self::CMD_USER_TOOL_ACTIONS => $this->handleToolActions(false),
                     self::CMD_SHOW_RELEASED_OBJECTS => $this->showReleasedObjects(),
                     self::CMD_SHOW_GLOBAL_TOOLS => $this->showTools(true),
                     self::CMD_SHOW_USER_TOOLS => $this->showTools(false),
@@ -84,6 +90,21 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
                     default => $this->showPlatforms(),
                 };
         }
+    }
+
+    public function getUnsafeGetCommands(): array
+    {
+        return [
+            self::CMD_CREATE_USER_ROLE,
+            self::CMD_PLATFORM_ACTIONS,
+            self::CMD_GLOBAL_TOOL_ACTIONS,
+            self::CMD_USER_TOOL_ACTIONS,
+        ];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
     }
 
     /**
@@ -120,18 +141,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
         $this->activatePlatformSubTab("consumers");
 
-        $table = new ilLTIAdministrationPlatformTable(
-            $DIC->database(),
-            $this->lng,
-            $DIC->ui()->factory(),
-            $DIC->ui()->renderer(),
-            $this->tpl,
-            $this->ctrl,
-            $this->request,
-            $this->checkPermissionBool("write")
-        );
-        $table->handleAction($this, self::CMD_LIST_PLATFORMS, self::CMD_EDIT_PLATFORM);
-
+        $table = $this->getPlatformTable();
         $content = [];
         if ($this->checkPermissionBool("write")) {
             $this->toolbar->addComponent($this->getCreateDropdown("lti_create_consumer", self::CMD_CREATE_PLATFORM));
@@ -148,6 +158,35 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         $content[] = $table->getTable();
 
         $this->tpl->setContent($DIC->ui()->renderer()->render($content));
+    }
+
+    /**
+     * @throws ilCtrlException
+     */
+    private function handlePlatformActions(): void
+    {
+        $this->getPlatformTable()->handleAction($this, self::CMD_LIST_PLATFORMS, self::CMD_EDIT_PLATFORM);
+        $this->ctrl->redirect($this, self::CMD_LIST_PLATFORMS);
+    }
+
+    /**
+     * @throws ilCtrlException
+     */
+    private function getPlatformTable(): ilLTIAdministrationPlatformTable
+    {
+        global $DIC;
+
+        return new ilLTIAdministrationPlatformTable(
+            $DIC->database(),
+            $this->lng,
+            $DIC->ui()->factory(),
+            $DIC->ui()->renderer(),
+            $this->tpl,
+            $this->ctrl,
+            $this->request,
+            $this->checkPermissionBool("write"),
+            ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, self::CMD_PLATFORM_ACTIONS)
+        );
     }
 
     /**
@@ -423,8 +462,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         $cmd = $global ? self::CMD_SHOW_GLOBAL_TOOLS : self::CMD_SHOW_USER_TOOLS;
         $this->activateToolSubTab($global ? "global_provider" : "user_provider");
 
-        $table = ilLTIToolTable::forAdministration($global, $this->checkPermissionBool("write"));
-        $table->handleAction($this, $cmd, self::CMD_EDIT_TOOL);
+        $table = $this->getToolTable($global);
 
         if ($global && $this->checkPermissionBool("write")) {
             $this->toolbar->addComponent($this->getCreateDropdown("lti_add_global_provider", self::CMD_CREATE_TOOL));
@@ -432,6 +470,31 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
         $filter = $table->getFilter($this->ctrl->getLinkTarget($this, $cmd));
         $this->tpl->setContent($DIC->ui()->renderer()->render([$filter, $table->getTable($filter)]));
+    }
+
+    /**
+     * @throws ilCtrlException
+     */
+    private function handleToolActions(bool $global): void
+    {
+        $cmd = $global ? self::CMD_SHOW_GLOBAL_TOOLS : self::CMD_SHOW_USER_TOOLS;
+        $this->getToolTable($global)->handleAction($this, $cmd, self::CMD_EDIT_TOOL);
+        $this->ctrl->redirect($this, $cmd);
+    }
+
+    /**
+     * @throws ilCtrlException
+     */
+    private function getToolTable(bool $global): ilLTIToolTable
+    {
+        return ilLTIToolTable::forAdministration(
+            $global,
+            $this->checkPermissionBool("write"),
+            ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget(
+                $this,
+                $global ? self::CMD_GLOBAL_TOOL_ACTIONS : self::CMD_USER_TOOL_ACTIONS
+            )
+        );
     }
 
     /**

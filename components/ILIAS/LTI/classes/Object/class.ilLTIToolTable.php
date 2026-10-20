@@ -64,7 +64,8 @@ class ilLTIToolTable implements DataRetrieval
         private readonly int $scope,
         private readonly bool $writable,
         private readonly ?object $select_gui = null,
-        private readonly string $select_cmd = ''
+        private readonly string $select_cmd = '',
+        string $action_url = ''
     ) {
         global $DIC;
 
@@ -77,7 +78,10 @@ class ilLTIToolTable implements DataRetrieval
         $this->ctrl = $DIC->ctrl();
         $this->request = $DIC->http()->request();
         $this->lng->loadLanguageModule("rep");
-        $this->url_builder = new URLBuilder(new DataFactory()->uri((string) $this->request->getUri()));
+        // the actions go to a command that ilCtrl protects with its CSRF token
+        $this->url_builder = new URLBuilder(new DataFactory()->uri(
+            $action_url !== '' ? $action_url : (string) $this->request->getUri()
+        ));
         [$this->url_builder, $this->action_token, $this->id_token] = $this->url_builder->acquireParameters(
             ["lti", "tool"],
             "action",
@@ -85,9 +89,13 @@ class ilLTIToolTable implements DataRetrieval
         );
     }
 
-    public static function forAdministration(bool $global, bool $writable): self
+    /**
+     * The actions of the table go to the given absolute URL, which must point to a command that
+     * ilCtrl protects against CSRF and that calls handleAction().
+     */
+    public static function forAdministration(bool $global, bool $writable, string $action_url): self
     {
-        return new self($global ? ilLTITool::SCOPE_GLOBAL : ilLTITool::SCOPE_USER, $writable);
+        return new self($global ? ilLTITool::SCOPE_GLOBAL : ilLTITool::SCOPE_USER, $writable, null, '', $action_url);
     }
 
     /**
@@ -311,7 +319,7 @@ class ilLTIToolTable implements DataRetrieval
     {
         $items = [];
         foreach (ilLTITool::lookupTitles($ids) as $id => $title) {
-            $items[] = $this->ui_factory->modal()->interruptiveItem()->standard((string) $id, $title);
+            $items[] = $this->ui_factory->modal()->interruptiveItem()->standard((string) $id, htmlspecialchars($title));
         }
         $delete_url = $this->url_builder
             ->withParameter($this->action_token, self::ACTION_DELETE)
@@ -381,7 +389,7 @@ class ilLTIToolTable implements DataRetrieval
         $this->ctrl->setParameter($this->select_gui, "tool_id", $id);
 
         return $this->ui_factory->link()->standard(
-            $title,
+            htmlspecialchars($title),
             $this->ctrl->getLinkTarget($this->select_gui, $this->select_cmd)
         );
     }

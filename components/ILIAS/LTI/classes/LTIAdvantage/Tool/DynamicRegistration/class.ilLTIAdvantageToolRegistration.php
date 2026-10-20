@@ -203,7 +203,7 @@ final class ilLTIAdvantageToolRegistration extends Tool
         $row = ilLTIPlatform::lookupAdministrationRow($this->platform_id);
         ilLTIPlatform::saveRegistration(
             $this->platform_id,
-            (string) ($row['title'] ?? $platform->name),
+            (string) ($row['title'] ?? strip_tags((string) $platform->name)),
             (bool) ($row['active'] ?? false),
             [
                 'platform_id' => $platform->platformId,

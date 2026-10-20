@@ -207,8 +207,8 @@ final class ilLTIAdvantagePlatformDeepLinking
             }
 
             $items[] = [
-                'title' => ilStr::subStr(trim((string) ($item['title'] ?? '')), 0, self::MAX_TITLE_LENGTH),
-                'description' => trim((string) ($item['text'] ?? '')),
+                'title' => ilStr::subStr(trim(strip_tags((string) ($item['title'] ?? ''))), 0, self::MAX_TITLE_LENGTH),
+                'description' => trim(strip_tags((string) ($item['text'] ?? ''))),
                 'custom_params' => ilObjLTITool::buildCustomParams($custom_params),
             ];
         }

@@ -126,7 +126,7 @@ readonly class ilLTIAdministrationToolUsageTable implements DataRetrieval
             yield $row_builder->buildDataRow((string) $row["ref_id"], [
                 "title" => htmlspecialchars((string) $row["title"]),
                 "trashed" => (bool) $row["trashed"],
-                "used_by" => $this->ui_factory->link()->standard((string) $row["used_by"], $link),
+                "used_by" => $this->ui_factory->link()->standard(htmlspecialchars((string) $row["used_by"]), $link),
                 "version" => $versions[$row["lti_version"]] ?? (string) $row["lti_version"],
             ]);
         }

@@ -400,10 +400,12 @@ final class ilLTIAdvantagePlatformGradeService
     private function withChanges(array $line_item, array $data, array $objects): array
     {
         if (array_key_exists('label', $data)) {
-            if (!is_string($data['label']) || trim($data['label']) === '') {
+            // the label is the title of an object, shown as plain text
+            $label = is_string($data['label']) ? trim(strip_tags($data['label'])) : '';
+            if ($label === '') {
                 throw new DomainException('Invalid label', 400);
             }
-            $line_item['label'] = $data['label'];
+            $line_item['label'] = $label;
         }
         if (array_key_exists('scoreMaximum', $data)) {
             $maximum = $this->toNumber($data['scoreMaximum']);

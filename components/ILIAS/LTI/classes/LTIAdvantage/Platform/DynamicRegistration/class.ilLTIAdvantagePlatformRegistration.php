@@ -180,7 +180,7 @@ final class ilLTIAdvantagePlatformRegistration
 
         return match (true) {
             ($configuration['application_type'] ?? 'web') !== 'web' => 'application_type must be web.',
-            !self::isFilled($configuration['client_name'] ?? null, 255) => 'client_name is missing or too long.',
+            !self::isFilled(self::stripTags($configuration['client_name'] ?? null), 255) => 'client_name is missing or too long.',
             !in_array('id_token', (array) ($configuration['response_types'] ?? []), true) => 'response_types must include id_token.',
             array_diff(['implicit', 'client_credentials'], (array) ($configuration['grant_types'] ?? [])) !== [] =>
                 'grant_types must include implicit and client_credentials.',
@@ -213,8 +213,8 @@ final class ilLTIAdvantagePlatformRegistration
         $scores = in_array(Score::$SCOPE, $granted, true);
 
         return ilLTITool::create([
-            'title' => ['text', $configuration['client_name']],
-            'description' => ['text', ilStr::subStr(is_string($tool_configuration['description'] ?? null) ? $tool_configuration['description'] : '', 0, 4000)],
+            'title' => ['text', trim(strip_tags($configuration['client_name']))],
+            'description' => ['text', ilStr::subStr(strip_tags(is_string($tool_configuration['description'] ?? null) ? $tool_configuration['description'] : ''), 0, 4000)],
             'lti_version' => ['text', ilLTITool::VERSION_ADVANTAGE],
             'availability' => ['integer', ilLTITool::AVAILABILITY_CREATE],
             'provider_url' => ['text', $tool_configuration['target_link_uri']],
@@ -266,6 +266,14 @@ final class ilLTIAdvantagePlatformRegistration
         }
 
         return null;
+    }
+
+    /**
+     * Names and descriptions sent by the tool are shown as plain text.
+     */
+    private static function stripTags(mixed $value): mixed
+    {
+        return is_string($value) ? strip_tags($value) : $value;
     }
 
     private static function isFilled(mixed $value, int $length): bool

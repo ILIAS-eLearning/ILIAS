@@ -90,7 +90,7 @@ readonly class ilLTIAdministrationReleasedObjectTable implements DataRetrieval
             $link = (string) $this->static_url->builder()->build((string) $row["type"], new ReferenceId((int) $row["ref_id"]));
             yield $row_builder->buildDataRow($row["ref_id"] . "_" . $row["ext_consumer_id"], [
                 "type" => $this->ui_factory->symbol()->icon()->standard((string) $row["type"], (string) $row["type"], Icon::SMALL),
-                "title" => $this->ui_factory->link()->standard((string) $row["title"], $link),
+                "title" => $this->ui_factory->link()->standard(htmlspecialchars((string) $row["title"]), $link),
                 "consumer" => htmlspecialchars((string) $row["consumer"]),
             ]);
         }
