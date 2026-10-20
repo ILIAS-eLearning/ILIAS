@@ -27,11 +27,13 @@ use ILIAS\Blog\Access\BlogAccess;
 use ilRepositorySearchGUI;
 use ilObjNotificationSettingsGUI;
 use ILIAS\Blog\Settings\SettingsGUI;
+use ILIAS\Blog\Exercise\BlogExercise;
 
 class BlogCmdPermission extends CmdPermission
 {
     protected const BLOG = "blog";
     protected const POSTING = "posting";
+    protected const BLOG_ASSIGNMENT = "blog_assignment";
     protected \ilAccessHandler|\ilWorkspaceAccessHandler $access;
 
     public function __construct(
@@ -39,10 +41,35 @@ class BlogCmdPermission extends CmdPermission
         protected PermissionManager $perm_manager,
         ?\ilGlobalTemplateInterface $tpl = null,
         protected ?\ilCtrlInterface $ctrl = null,
-        protected ?StandardGUIRequest $request = null
+        protected ?StandardGUIRequest $request = null,
+        protected ?BlogExercise $blog_exercise = null
     ) {
         parent::__construct($lng, $tpl, $ctrl);
         $this->access = $perm_manager->getAccessHandler();
+    }
+
+    public function postingsBelongToBlog(array $posting_ids): bool
+    {
+        foreach ($posting_ids as $posting_id) {
+            if (!$this->perm_manager->postingIdMatches($posting_id)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function assignmentBelongsToBlog(int $assignment_id): bool
+    {
+        if ($this->blog_exercise === null) {
+            return false;
+        }
+
+        foreach ($this->blog_exercise->getAssignmentsOfBlog() as $assignment) {
+            if ($assignment["ass_id"] === $assignment_id) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public function isCommandPermitted(
@@ -56,6 +83,8 @@ class BlogCmdPermission extends CmdPermission
                 return $this->hasBlogCmdPerm($cmd, $node_id);
             case self::POSTING:
                 return $this->hasPostingCmdPerm($cmd, $node_id, (int) $entity_id);
+            case self::BLOG_ASSIGNMENT:
+                return $this->hasBlogAssignmentCmdPerm($cmd, $node_id, (int) $entity_id);
         }
         return false;
     }
@@ -88,8 +117,7 @@ class BlogCmdPermission extends CmdPermission
         // read permission
         if (in_array($cmd, [
             "render", "preview", "addToDesk", "removeFromDesk", "renderFullscreen",
-            "setNotification",
-            "printViewSelection", "printPostings"
+            "setNotification", "printViewSelection"
         ])) {
             return $this->access->checkAccess("read", "", $node_id);
         }
@@ -107,12 +135,27 @@ class BlogCmdPermission extends CmdPermission
 
     protected function hasPostingCmdPerm(string $cmd, int $node_id, int $posting_id): bool
     {
+        if (in_array($cmd, ["printViewSelection", "printPostings"])) {
+            return $this->access->checkAccess("read", "", $node_id) &&
+                $this->perm_manager->postingIdMatches($posting_id);
+        }
+
         // redact or write permission
         if (in_array($cmd, [
             "approve",
             "deactivateAdmin"
         ])) {
             return $this->perm_manager->canApprove($posting_id);
+        }
+
+        return false;
+    }
+
+    protected function hasBlogAssignmentCmdPerm(string $cmd, int $node_id, int $assignment_id): bool
+    {
+        if (in_array($cmd, ["downloadExcAssFile", "downloadExcSubFile", "finalize"])) {
+            return $this->access->checkAccess("read", "", $node_id) &&
+                $this->assignmentBelongsToBlog($assignment_id);
         }
 
         return false;
@@ -137,8 +180,20 @@ class BlogCmdPermission extends CmdPermission
                     (string) $posting_id
                 );
             }
+            if (in_array($this->ctrl->getCmd(), ["printViewSelection", "printPostings"])) {
+                $posting_ids = $this->request->getObjIds();
+                if ($posting_ids !== []) {
+                    return $this->cmdEntity(self::POSTING, $posting_ids);
+                }
+            }
             return $this->cmdEntity(
                 self::BLOG
+            );
+        }
+        if ($this->isClass(\ilBlogExerciseGUI::class)) {
+            return $this->cmdEntity(
+                self::BLOG_ASSIGNMENT,
+                (string) $this->request->getAssId()
             );
         }
         return null;
@@ -194,9 +249,15 @@ class BlogCmdPermission extends CmdPermission
             // can act on multiple source ids
             if (in_array($to_class, [
                 \ilObjectCopyGUI::class,
-                \ilBlogExerciseGUI::class,
             ])) {
                 return $this->access->checkAccess("read", "", $node_id);
+            }
+
+            if ($to_class === \ilBlogExerciseGUI::class) {
+                $assignment_id = $this->request?->getAssId() ?? 0;
+                return $assignment_id === 0
+                    ? $this->access->checkAccess("read", "", $node_id)
+                    : $this->isRequestCommandPermitted();
             }
 
             // visible

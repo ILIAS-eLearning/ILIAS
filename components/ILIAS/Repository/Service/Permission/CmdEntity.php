@@ -24,7 +24,7 @@ class CmdEntity
 {
     public function __construct(
         protected string $type,
-        protected string $id
+        protected string|array $id
     ) {
     }
 
@@ -33,7 +33,7 @@ class CmdEntity
         return $this->type;
     }
 
-    public function getId(): string
+    public function getId(): string|array
     {
         return $this->id;
     }
