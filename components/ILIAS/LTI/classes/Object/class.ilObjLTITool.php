@@ -385,11 +385,14 @@ class ilObjLTITool extends ilObject2
         global $DIC;
 
         $db = $DIC->database();
-        $db->manipulateF(
-            'DELETE FROM ' . self::TABLE_NAME . ' WHERE obj_id = %s',
-            ['integer'],
-            [$this->getId()]
-        );
+        // the scores and results of the users go with the object
+        foreach ([self::TABLE_NAME, 'lti_consumer_results', 'lti_consumer_grades'] as $table) {
+            $db->manipulateF(
+                'DELETE FROM ' . $table . ' WHERE obj_id = %s',
+                ['integer'],
+                [$this->getId()]
+            );
+        }
     }
 
     /**
