@@ -34,12 +34,25 @@ abstract class CmdPermission implements CmdPermissionInterface
         if (is_null($this->ctrl)) {
             return false;
         }
+        if ($this->isRequestMultiCommand()) {
+            return $this->isCommandPermittedMulti(
+                $this->getRequestCommand(),
+                $this->getRequestNodeId(),
+                (string) $this?->getRequestEntity()->getType(),
+                (array) $this?->getRequestEntity()->getId()
+            );
+        }
         return $this->isCommandPermitted(
             $this->getRequestCommand(),
             $this->getRequestNodeId(),
             (string) $this?->getRequestEntity()->getType(),
             (string) $this?->getRequestEntity()->getId()
         );
+    }
+
+    public function isRequestMultiCommand(): bool
+    {
+        return is_array($this?->getRequestEntity()->getId());
     }
 
     public function isTableCommandPermitted(string $cmd, string $entity_id): bool
@@ -53,6 +66,20 @@ abstract class CmdPermission implements CmdPermissionInterface
             (string) $this?->getRequestEntity()->getType(),
             $entity_id
         );
+    }
+
+    public function isCommandPermittedMulti(
+        string $cmd,
+        int $node_id,
+        string $entity,
+        array $entity_ids
+    ): bool {
+        foreach ($entity_ids as $entity_id) {
+            if (!$this->isCommandPermitted($cmd, $node_id, $entity, (string) $entity_id)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public function getPermittedCommand(): string
@@ -95,7 +122,7 @@ abstract class CmdPermission implements CmdPermissionInterface
 
     protected function cmdEntity(
         string $type,
-        string $id = ""
+        string|array $id = ""
     ): CmdEntity {
         return new CmdEntity(
             $type,

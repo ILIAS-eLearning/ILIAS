@@ -176,7 +176,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         );
         $this->profile = $domain->profile();
         $this->profile_gui = $gui->profile();
-        $this->cmd_perm = $gui->cmdPerm($this->blog_access);
+        $this->cmd_perm = $gui->cmdPerm($this->blog_access, $this->node_id);
     }
 
     public function getType(): string
@@ -546,7 +546,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
             case "ilblogexercisegui":
                 $this->ctrl->setReturn($this, "render");
-                $gui = $this->gui->exercise()->ilBlogExerciseGUI($this->node_id);
+                $gui = $this->gui->exercise()->ilBlogExerciseGUI($this->node_id, $this->cmd_perm);
                 $this->cmd_perm->forwardPermitted($this, $gui);
                 break;
 
@@ -634,7 +634,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     protected function triggerAssignmentTool(): void
     {
         $be = $this->domain->exercise($this->node_id);
-        $be_gui = $this->gui->exercise()->ilBlogExerciseGUI($this->node_id);
+        $be_gui = $this->gui->exercise()->ilBlogExerciseGUI($this->node_id, $this->cmd_perm);
         $assignments = $be->getAssignmentsOfBlog();
         if (count($assignments) > 0) {
             $ass_ids = array_map(static function ($i) {

@@ -119,14 +119,15 @@ class InternalGUIService
             );
     }
 
-    public function cmdPerm(BlogAccess $blog_access): BlogCmdPermission
+    public function cmdPerm(BlogAccess $blog_access, int $node_id): BlogCmdPermission
     {
         return new BlogCmdPermission(
             $this->domain_service->lng(),
             $blog_access,
             $this->ui()->mainTemplate(),
             $this->ctrl(),
-            $this->standardRequest()
+            $this->standardRequest(),
+            $this->domain_service->exercise($node_id)
         );
     }
 

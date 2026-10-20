@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Blog\StandardGUIRequest;
+use ILIAS\Blog\Permission\BlogCmdPermission;
 use ILIAS\Exercise\Submission\SubmissionManager;
 use ILIAS\Exercise\Submission\Submission;
 
@@ -42,6 +43,7 @@ class ilBlogExerciseGUI
     public function __construct(
         int $a_node_id,
         \ILIAS\Blog\Exercise\BlogExercise $blog_exercise,
+        protected BlogCmdPermission $cmd_perm,
         ilLanguage $lng,
         ilObjUser $user,
         \ILIAS\Blog\InternalGUIService $gui
@@ -70,14 +72,17 @@ class ilBlogExerciseGUI
 
         if (!$this->ass_id) {
             $this->ctrl->returnToParent($this);
+            return;
         }
 
         $next_class = $ilCtrl->getNextClass($this);
-        $cmd = $ilCtrl->getCmd();
+        $cmd = $this->cmd_perm->getPermittedCommand();
 
         switch ($next_class) {
             default:
-                $this->$cmd();
+                if ($cmd !== "") {
+                    $this->$cmd();
+                }
                 break;
         }
     }
