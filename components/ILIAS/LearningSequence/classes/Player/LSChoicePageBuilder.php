@@ -24,16 +24,17 @@ use ILIAS\UI\Factory;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Card\Card;
 use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\ILIASObject\Properties\CoreProperties\TileImage\TileImage;
 use ilLanguage;
 
 /**
  * Reusable "template" for the adaptive branch-selection page.
  *
  * When the learner reaches a branch (more than one allowed successor), this
- * builder renders one card ("box") per selectable object using ILIAS UI
- * (Kitchen Sink) components: the object icon, its title, its description and a
- * button that starts the object. The cards are laid out as a responsive deck
- * underneath a short, friendly headline.
+ * builder renders a deck with one repository object card per selectable
+ * object, like the tiles in the repository: the tile image with the object
+ * icon, the title, the description and a button that starts the object.
  *
  * The rendering is deliberately encapsulated here (and not in the player) so it
  * can be reused later, e.g. by the map view or wherever an object choice needs
@@ -42,19 +43,19 @@ use ilLanguage;
 class LSChoicePageBuilder
 {
     public const HEADLINE = 'lso_choice_page_headline';
-    public const SUBLINE = 'lso_choice_page_subline';
     public const START_LABEL = 'lso_choice_page_start_label';
 
     public function __construct(
         protected Factory $ui_factory,
         protected ilLanguage $lang,
+        protected \ilObjectDataCache $obj_data_cache,
         protected \LSUrlBuilder $url_builder,
         protected string $goto_command
     ) {
     }
 
     /**
-     * The friendly statement shown above the boxes; usable as page title.
+     * The friendly statement shown above the cards; usable as page title.
      */
     public function getHeadline(): string
     {
@@ -62,109 +63,111 @@ class LSChoicePageBuilder
     }
 
     /**
-     * Builds the choice page content: a short lead text followed by a deck of
-     * one card per selectable successor.
+     * Builds the choice page content: a deck with one card per selectable
+     * successor.
      *
      * @param \LSLearnerItem[] $successors
      * @return Component[]
      */
     public function build(array $successors): array
     {
-        $cards = [];
-        foreach ($successors as $successor) {
-            $cards[] = $this->buildCard($successor);
-        }
-
-        $deck = $this->ui_factory->deck($cards)->withNormalCardsSize();
+        $this->preloadObjects($successors);
 
         return [
-            $this->ui_factory->legacy()->content(
-                '<div class="lso-choice-page"><p class="lead">'
-                . htmlspecialchars($this->lang->txt(self::SUBLINE)) . '</p>'
-            ),
-            $deck,
-            $this->ui_factory->legacy()->content('</div>')
+            $this->ui_factory->deck(array_map(
+                fn(\LSLearnerItem $successor): Card => $this->buildCard($successor),
+                $successors
+            ))->withSmallCardsSize()
         ];
     }
 
     /**
-     * Builds a single "box" (card) for one selectable object.
+     * Builds the card for one selectable object.
      */
     public function buildCard(\LSLearnerItem $item): Card
     {
+        $start_url = $this->getStartUrl($item);
+
+        return $this->ui_factory->card()->repositoryObject(
+            htmlspecialchars($item->getTitle()),
+            $this->getTileImage($item)->withAction($start_url)
+        )->withObjectIcon(
+            $this->getObjectIcon($item)
+        )->withTitleAction(
+            $start_url
+        )->withSections(
+            $this->getSections($item, $start_url)
+        );
+    }
+
+    protected function getStartUrl(\LSLearnerItem $item): string
+    {
+        return $this->url_builder->getHref(
+            $this->goto_command,
+            $this->obj_data_cache->lookupObjId($item->getRefId())
+        );
+    }
+
+    /**
+     * @return Component[]
+     */
+    protected function getSections(\LSLearnerItem $item, string $start_url): array
+    {
         $sections = [];
-        $tile_image = $this->getTileImage($item);
+        $description = trim($item->getDescription());
+        if ($description !== '') {
+            $sections[] = $this->ui_factory->listing()->property()
+                ->withProperty($this->lang->txt('description'), $description, false);
+        }
+        $sections[] = $this->ui_factory->button()->standard($this->lang->txt(self::START_LABEL), $start_url);
 
-        $sections[] = $this->ui_factory->legacy()->content(
-            $this->buildTitleSection($item, $tile_image !== null)
+        return $sections;
+    }
+
+    protected function getObjectIcon(\LSLearnerItem $item): Icon
+    {
+        $label = $this->lang->txt('obj_' . $item->getType());
+        if ($item->getIconPath() !== '') {
+            return $this->ui_factory->symbol()->icon()->custom($item->getIconPath(), $label, Icon::MEDIUM);
+        }
+
+        return $this->ui_factory->symbol()->icon()->standard($item->getType(), $label, Icon::MEDIUM);
+    }
+
+    /**
+     * @param \LSLearnerItem[] $successors
+     */
+    protected function preloadObjects(array $successors): void
+    {
+        $this->obj_data_cache->preloadReferenceCache(
+            array_map(static fn(\LSLearnerItem $successor): int => $successor->getRefId(), $successors)
         );
-        $description = preg_replace('/\s+/u', ' ', trim($item->getDescription())) ?? '';
-        $sections[] = $this->ui_factory->legacy()->content(
-            '<p class="lso-choice-card__description"'
-            . ($description !== '' ? ' title="' . htmlspecialchars($description, ENT_QUOTES) . '"' : '')
-            . '>'
-            . ($description !== '' ? htmlspecialchars($description) : '&nbsp;')
-            . '</p>'
-        );
+    }
 
-        $sections[] = $this->ui_factory->button()->standard(
-            $this->lang->txt(self::START_LABEL),
-            $this->url_builder->getHref(
-                $this->goto_command,
-                \ilObject::_lookupObjId($item->getRefId())
-            )
-        );
-
-        $card = $this->ui_factory->card()->standard($item->getTitle());
-
+    /**
+     * The object's tile image, or the default tile of the object type, as in
+     * the tiles of the repository.
+     */
+    protected function getTileImage(\LSLearnerItem $item): Image
+    {
+        $tile_image = $this->getObjectTileImage($item);
         if ($tile_image !== null) {
-            $card = $card->withImage($tile_image);
-        } elseif ($item->getIconPath() !== '') {
-            $card = $card->withImage(
-                $this->ui_factory->image()->standard($item->getIconPath(), $item->getTitle())
-            );
+            return $tile_image->getImage($this->ui_factory->image())->withAlt($item->getTitle());
         }
 
-        return $card->withSections($sections);
+        $path = \ilUtil::getImagePath('cont_tile/cont_tile_default_' . $item->getType() . '.svg');
+        if (!is_file($path)) {
+            $path = \ilUtil::getImagePath('cont_tile/cont_tile_default.svg');
+        }
+
+        return $this->ui_factory->image()->responsive($path, $item->getTitle());
     }
 
-    protected function buildTitleSection(\LSLearnerItem $item, bool $has_tile_image): string
+    protected function getObjectTileImage(\LSLearnerItem $item): ?TileImage
     {
-        $icon = '';
-        if ($has_tile_image && $item->getIconPath() !== '') {
-            $icon = '<img class="lso-choice-card__title-icon" src="'
-                . htmlspecialchars($item->getIconPath(), ENT_QUOTES)
-                . '" alt="">';
-        }
+        $obj_id = $this->obj_data_cache->lookupObjId($item->getRefId());
+        $object = $obj_id > 0 ? \ilObjectFactory::getInstanceByObjId($obj_id, false) : null;
 
-        $title = htmlspecialchars($item->getTitle());
-        $title_attribute = htmlspecialchars($item->getTitle(), ENT_QUOTES);
-
-        return '<div class="lso-choice-card__title-row">'
-            . '<span class="lso-choice-card__title" title="' . $title_attribute . '">' . $title . '</span>'
-            . $icon
-            . '</div>';
-    }
-
-    protected function getTileImage(\LSLearnerItem $item): ?Image
-    {
-        $obj_id = \ilObject::_lookupObjId($item->getRefId());
-        if ($obj_id <= 0) {
-            return null;
-        }
-
-        $object = \ilObjectFactory::getInstanceByObjId($obj_id, false);
-        if ($object === null) {
-            return null;
-        }
-
-        $tile_image = $object->getObjectProperties()
-            ->getPropertyTileImage()
-            ->getTileImage();
-        if ($tile_image === null || $tile_image->getRid() === null || $tile_image->getRid() === '') {
-            return null;
-        }
-
-        return $tile_image->getImage($this->ui_factory->image())->withAlt($item->getTitle());
+        return $object?->getObjectProperties()->getPropertyTileImage()->getTileImage();
     }
 }

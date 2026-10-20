@@ -11261,7 +11261,6 @@ lso#:#lso_adaptive_start_info#:#Dies ist das Startobjekt der Lernsequenz. Hier b
 lso#:#lso_at_least_one_admin#:#Dieser Lernsequenz muss mindestens eine Person mit der Rolle „Lernsequenzadministration“ zugeordnet sein.
 lso#:#lso_choice_page_headline#:#Welches Objekt möchten Sie als Nächstes bearbeiten?
 lso#:#lso_choice_page_start_label#:#Objekt starten
-lso#:#lso_choice_page_subline#:#Wählen Sie eines der folgenden Objekte aus, um Ihren Weg fortzusetzen.
 lso#:#lso_condition_simple_choice_target#:#Einzelnes Objekt auswählen
 lso#:#lso_condition_simple_multi_target#:#Mehrere Objekte auswählen
 lso#:#lso_condition_unknown_type#:#Unbekannter Bedingungstyp

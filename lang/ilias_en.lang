@@ -11233,7 +11233,6 @@ lso#:#lso_adaptive_start_info#:#This is the start object of the learning sequenc
 lso#:#lso_at_least_one_admin#:#There has to be at least one learning sequence administrator.
 lso#:#lso_choice_page_headline#:#Which object would you like to edit next?
 lso#:#lso_choice_page_start_label#:#Start object
-lso#:#lso_choice_page_subline#:#Select one of the following objects to continue your path.
 lso#:#lso_condition_simple_choice_target#:#Select Single Object
 lso#:#lso_condition_simple_multi_target#:#Select Multiple Objects
 lso#:#lso_condition_unknown_type#:#Unknown Condition Type
