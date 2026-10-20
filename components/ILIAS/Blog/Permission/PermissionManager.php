@@ -145,7 +145,7 @@ class PermissionManager
         return $this->page_manager->lookupActive($posting_id, "blp");
     }
 
-    protected function postingIdMatches(int $posting_id): bool
+    public function postingIdMatches(int $posting_id): bool
     {
         if ($this->id_type === \ilObject2GUI::WORKSPACE_NODE_ID) {
             $obj_id = $this->ws_tree->lookupObjectId($this->node_id);

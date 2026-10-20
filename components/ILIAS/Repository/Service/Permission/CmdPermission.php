@@ -34,12 +34,26 @@ abstract class CmdPermission implements CmdPermissionInterface
         if (is_null($this->ctrl)) {
             return false;
         }
-        return $this->isCommandPermitted(
-            $this->getRequestCommand(),
-            $this->getRequestNodeId(),
-            (string) $this?->getRequestEntity()->getType(),
-            (string) $this?->getRequestEntity()->getId()
-        );
+        if (!$this->isRequestMultiCommand()) {
+            return $this->isCommandPermitted(
+                $this->getRequestCommand(),
+                $this->getRequestNodeId(),
+                (string) $this?->getRequestEntity()->getType(),
+                (string) $this?->getRequestEntity()->getId()
+            );
+        } else {
+            return $this->isCommandPermittedMulti(
+                $this->getRequestCommand(),
+                $this->getRequestNodeId(),
+                (string) $this?->getRequestEntity()->getType(),
+                (array) $this?->getRequestEntity()->getId()
+            );
+        }
+    }
+
+    public function isRequestMultiCommand(): bool
+    {
+        return is_array($this?->getRequestEntity()->getId());
     }
 
     public function isTableCommandPermitted(string $cmd, string $entity_id): bool
@@ -54,6 +68,19 @@ abstract class CmdPermission implements CmdPermissionInterface
             $entity_id
         );
     }
+
+    public function isCommandPermittedMulti(
+        string $cmd,
+        int $node_id,
+        string $entity,
+        array $entity_ids
+    ): bool {
+        return array_all(
+            $entity_ids,
+            fn($entity_id) => $this->isCommandPermitted($cmd, $node_id, $entity, $entity_id)
+        );
+    }
+
 
     public function getPermittedCommand(): string
     {
@@ -95,7 +122,7 @@ abstract class CmdPermission implements CmdPermissionInterface
 
     protected function cmdEntity(
         string $type,
-        string $id = ""
+        string|array $id = ""
     ): CmdEntity {
         return new CmdEntity(
             $type,
