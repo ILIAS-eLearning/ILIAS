@@ -223,14 +223,14 @@ class ilBackgroundTasksDBHotfixes10 implements ilDatabaseUpdateSteps
                 'UPDATE ' . self::TABLE_BUCKET . ' b'
                 . ' LEFT JOIN ' . self::TABLE_TASK . ' rt ON rt.id = b.root_task_id'
                 . ' SET b.root_task_id = NULL'
-                . ' WHERE b.root_task_id IS NOT NULL AND b.root_task_id != 0 AND rt.id IS NULL'
+                . ' WHERE b.root_task_id IS NOT NULL AND rt.id IS NULL'
             );
 
             $this->db->manipulate(
                 'UPDATE ' . self::TABLE_BUCKET . ' b'
                 . ' LEFT JOIN ' . self::TABLE_TASK . ' ct ON ct.id = b.current_task_id'
                 . ' SET b.current_task_id = NULL'
-                . ' WHERE b.current_task_id IS NOT NULL AND b.current_task_id != 0 AND ct.id IS NULL'
+                . ' WHERE b.current_task_id IS NOT NULL AND ct.id IS NULL'
             );
         }
     }
