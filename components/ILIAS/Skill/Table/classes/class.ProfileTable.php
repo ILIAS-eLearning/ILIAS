@@ -124,13 +124,14 @@ class ProfileTable
     protected function getColumns(): array
     {
         $columns = [
-            "title" => $this->ui_fac->table()->column()->link($this->lng->txt("title")),
+            "title" => $this->ui_fac->table()->column()->link($this->lng->txt("title"))
+                ->withIsSortable(true),
             "context" => $this->ui_fac->table()->column()->text($this->lng->txt("context"))
-                                      ->withIsSortable(false),
+                ->withIsSortable(false),
             "users" => $this->ui_fac->table()->column()->text($this->lng->txt("users"))
-                                    ->withIsSortable(false),
+                ->withIsSortable(false),
             "roles" => $this->ui_fac->table()->column()->text($this->lng->txt("roles"))
-                                    ->withIsSortable(false),
+                ->withIsSortable(false),
         ];
 
         return $columns;
