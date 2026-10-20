@@ -1050,6 +1050,93 @@ interface Factory
      * ---
      * description:
      *   purpose: >
+     *     A Proof of Work input collects a client-generated proof that a challenge
+     *     was solved, so a form can reject automated submissions without asking
+     *     the user to solve a puzzle.
+     *   composition: >
+     *     The input shows a text label that states the purpose of the check.
+     *     The proof itself is carried as the field value and is not presented as
+     *     editable text. The challenge is loaded from a URL supplied by the consumer.
+     *   effect: >
+     *     When the user operates the control or submits the form, the client fetches
+     *     a challenge from the given URL, solves it, and stores the proof as the
+     *     value of this input. Submitting the form sends that proof to the server.
+     *     This input does not decide whether the proof is valid.
+     *   rivals:
+     *     Hidden Input: >
+     *       Transmits a value the developer sets. It does not ask the client to
+     *       produce a proof.
+     *     Text Input: >
+     *       Collects text the user types, including a code copied from an image.
+     *     Checkbox Input: >
+     *       Records a confirmation. It does not produce a cryptographic proof.
+     *
+     * background: >
+     *   Image and audio CAPTCHAs were removed from ILIAS because they exclude users.
+     *   This input replaces that idea with a client-side proof of work: the browser
+     *   performs a cryptographic challenge, and the user does not solve a puzzle.
+     *   A concrete widget may implement the challenge later. The Kitchen Sink
+     *   contract is the proof string and the challenge URL, not a specific product.
+     *
+     * context:
+     *   - Public UI forms that need to deter automated submissions, such as login, self-registration, or password assistance.
+     *
+     * rules:
+     *   usage:
+     *     1: >
+     *       Proof of Work MUST be used when a form needs a client-side proof that
+     *       a challenge was solved before the submission is accepted.
+     *     2: >
+     *       Proof of Work MUST NOT be used to collect a secret, a password, or a
+     *       code the user has to read and type.
+     *     3: >
+     *       The consumer MUST verify the submitted proof on the server. This input
+     *       does not verify it.
+     *     4: >
+     *       The consumer MUST provide another way to complete the process for users
+     *       who cannot operate this input, for example because JavaScript is
+     *       unavailable.
+     *   composition:
+     *     1: >
+     *       The challenge URL MUST address an endpoint controlled by the consumer
+     *       that issues a fresh challenge.
+     *   interaction:
+     *     1: >
+     *       The client MUST solve a challenge fetched from the given URL and write
+     *       the resulting proof into the field value.
+     *     2: >
+     *       The user MUST NOT be asked to solve a visual or auditory puzzle.
+     *   wording:
+     *     1: >
+     *       The label MUST describe the purpose of the check in plain language.
+     *       It MUST NOT ask the user to decipher a puzzle.
+     *   accessibility:
+     *     1: >
+     *       The purpose of the check MUST be available as text, not only as an
+     *       image or icon.
+     *     2: >
+     *       The input MUST be operable by keyboard and exposed to assistive
+     *       technologies.
+     *     3: >
+     *       The input depends on JavaScript. If JavaScript is unavailable, the
+     *       input cannot be completed. Consumers MUST NOT make this input the only
+     *       way to finish an essential process.
+     * ---
+     * @param string      $challenge_url URL that issues a fresh challenge
+     * @param string      $label
+     * @param string|null $byline
+     * @return \ILIAS\UI\Component\Input\Field\ProofOfWork
+     */
+    public function proofOfWork(
+        string $challenge_url,
+        string $label,
+        ?string $byline = null,
+    ): ProofOfWork;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
      *     A Node is used by the Tree (Multi) Select Field to visualise different types of nodes
      *     inside the tree. A Node consists of a unique identifier, name and optional Icon and can
      *     represent any kind of data.

@@ -26,6 +26,7 @@ use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field as I;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\NotImplementedException;
 use ILIAS\Language\Language;
 use ILIAS\Data\ImagePurpose;
 
@@ -226,6 +227,16 @@ class Factory implements I\Factory
             $label,
             $byline,
         );
+    }
+
+    public function proofOfWork(string $challenge_url, string $label, ?string $byline = null): I\ProofOfWork
+    {
+        throw new NotImplementedException(sprintf(
+            'proofOfWork is not implemented yet (challenge URL: %s, label: %s, byline: %s).',
+            $challenge_url,
+            $label,
+            $byline ?? ''
+        ));
     }
 
     public function node(): Node\Factory
