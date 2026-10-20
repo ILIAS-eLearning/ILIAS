@@ -583,6 +583,10 @@ class ilObjFileGUI extends ilObject2GUI
      */
     public function update(): void
     {
+        if (!$this->capabilities->get(Capabilities::EDIT_SETTINGS)->isUnlocked()) {
+            $this->error->raiseError($this->lng->txt("msg_no_perm_write"), $this->error->WARNING);
+        }
+
         $data = [];
         $form = $this->initPropertiesForm();
         $form = $form->withRequest($this->request);
@@ -639,11 +643,8 @@ class ilObjFileGUI extends ilObject2GUI
 
     public function edit(): void
     {
-        global $DIC;
-        $ilErr = $DIC['ilErr'];
-
         if (!$this->capabilities->get(Capabilities::EDIT_SETTINGS)->isUnlocked()) {
-            $ilErr->raiseError($this->lng->txt("msg_no_perm_write"));
+            $this->error->raiseError($this->lng->txt("msg_no_perm_write"), $this->error->WARNING);
         }
 
         $this->initSettingsTab();
