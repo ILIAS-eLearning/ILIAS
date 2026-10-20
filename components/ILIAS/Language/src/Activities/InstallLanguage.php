@@ -180,7 +180,8 @@ MARKDOWN
         }
 
         if ($error_language_keys !== []) {
-            throw new \RuntimeException(
+            // a 4xx, so the GUI names the languages instead of "action aborted"
+            throw new InvalidInputException(
                 'Invalid language files: ' . implode(', ', $error_language_keys)
             );
         }

@@ -78,7 +78,8 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $setup_language->expects($this->never())->method('flushLanguageForInstallation');
         $setup_language->expects($this->never())->method('insertLanguageForInstallation');
 
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(InvalidInputException::class);
+        $this->expectExceptionCode(400);
         $this->createActivity($setup_language)->perform([
             'language_keys' => 'xx',
             'mode' => InstallLanguage::MODE_INSTALL,
@@ -97,7 +98,8 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $setup_language->expects($this->never())->method('flushLanguageForInstallation');
         $setup_language->expects($this->never())->method('insertLanguageForInstallation');
 
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(InvalidInputException::class);
+        $this->expectExceptionCode(400);
         $this->createActivity($setup_language)->perform([
             'language_keys' => 'de,xx',
             'mode' => InstallLanguage::MODE_INSTALL,
