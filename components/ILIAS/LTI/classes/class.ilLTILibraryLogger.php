@@ -67,9 +67,10 @@ final class ilLTILibraryLogger extends AbstractLogger
             default => LogLevel::None,
         };
         HttpMessage::setHttpClient(new ilLTIHttpClient(HttpMessage::getHttpClient(), $logger));
+        $request = isset($DIC['http']) ? $DIC->http()->request() : null;
         $logger->debug('LTI request {method} {uri} on ILIAS {ilias}, celtic/lti {library}, PHP {php}', [
-            'method' => (string) ($_SERVER['REQUEST_METHOD'] ?? 'CLI'),
-            'uri' => self::hideSecrets((string) ($_SERVER['REQUEST_URI'] ?? '')),
+            'method' => $request?->getMethod() ?? 'CLI',
+            'uri' => self::hideSecrets((string) $request?->getUri()),
             'ilias' => ILIAS_VERSION,
             'library' => Util::$version,
             'php' => PHP_VERSION,
