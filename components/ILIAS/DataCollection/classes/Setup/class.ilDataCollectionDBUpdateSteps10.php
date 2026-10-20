@@ -48,13 +48,12 @@ class ilDataCollectionDBUpdateSteps10 implements ilDatabaseUpdateSteps
                     'value' => [ilDBConstants::T_TEXT, ($row['text_area'] === '1') ? '4000' : '200'],
                 ]
             );
+            $this->db->manipulateF(
+                "DELETE FROM il_dcl_field_prop WHERE name = %s AND field_id = %s",
+                [ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER],
+                ['text_area', $row['id']]
+            );
         }
-
-        $this->db->manipulateF(
-            "DELETE FROM il_dcl_field_prop WHERE name = %s",
-            [ilDBConstants::T_TEXT],
-            ['text_area']
-        );
     }
 
     public function step_2(): void
@@ -81,6 +80,27 @@ class ilDataCollectionDBUpdateSteps10 implements ilDatabaseUpdateSteps
                     ['id' => [ilDBConstants::T_INTEGER, $row['id']]],
                 );
             }
+        }
+    }
+
+    public function step_3(): void
+    {
+        $stmt = $this->db->queryF(
+            'SELECT lenght.id as lenght_id, area.id As text_id, area.value As text_area FROM il_dcl_field ' .
+            'LEFT JOIN il_dcl_field_prop AS lenght ON il_dcl_field.id = lenght.field_id AND lenght.name = %s' .
+            'LEFT JOIN il_dcl_field_prop AS area ON il_dcl_field.id = area.field_id AND area.name = %s' .
+            'WHERE il_dcl_field.datatype_id = %s AND lenght.value = ""',
+            [ilDBConstants::T_TEXT, ilDbConstants::T_TEXT, ilDbConstants::T_INTEGER],
+            [ilDclBaseFieldModel::PROP_LENGTH, 'text_area', ilDclDatatype::INPUTFORMAT_TEXT]
+        );
+
+        while ($row = $this->db->fetchAssoc($stmt)) {
+            $this->db->update(
+                'il_dcl_field_prop',
+                ['value' => [ilDBConstants::T_TEXT, ($row['text_area'] === '1') ? '4000' : '200']],
+                ['id' => [ilDBConstants::T_INTEGER, $row['lenght_id']],]
+            );
+            $this->db->manipulateF("DELETE FROM il_dcl_field_prop WHERE id = %s", [ilDBConstants::T_INTEGER], [$row['text_id']]);
         }
     }
 }
