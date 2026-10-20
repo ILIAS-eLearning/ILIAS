@@ -47,13 +47,13 @@ class BucketContainer extends \ActiveRecord
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected int $root_task_id = 0;
+    protected ?int $root_task_id = null;
     /**
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected int $current_task_id = 0;
+    protected ?int $current_task_id = null;
     /**
      * @con_has_field  true
      * @con_fieldtype  integer
@@ -110,7 +110,7 @@ class BucketContainer extends \ActiveRecord
         $this->user_id = $user_id;
     }
 
-    public function getRootTaskid(): int
+    public function getRootTaskid(): ?int
     {
         return $this->root_task_id;
     }
@@ -120,7 +120,7 @@ class BucketContainer extends \ActiveRecord
         $this->root_task_id = $root_task_id;
     }
 
-    public function getCurrentTaskid(): int
+    public function getCurrentTaskid(): ?int
     {
         return $this->current_task_id;
     }

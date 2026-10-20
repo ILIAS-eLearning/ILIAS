@@ -397,7 +397,13 @@ class BasicPersistence implements Persistence
         $bucket->setDescription($bucketContainer->getDescription());
         $bucket->setOverallPercentage($bucketContainer->getPercentage());
         $bucket->setLastHeartbeat($bucketContainer->getLastHeartbeat());
-        $bucket->setTask($this->loadTask($bucketContainer->getRootTaskid(), $bucket, $bucketContainer));
+        $root_task_id = $bucketContainer->getRootTaskid();
+        if ($root_task_id === null) {
+            throw new SerializationException(
+                "The requested bucket with container id $bucket_container_id has no root task."
+            );
+        }
+        $bucket->setTask($this->loadTask($root_task_id, $bucket, $bucketContainer));
 
         $this->bucketHashToObserverContainerId[$bucket] = $bucket_container_id;
 
