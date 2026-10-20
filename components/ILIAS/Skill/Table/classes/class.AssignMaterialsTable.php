@@ -82,7 +82,7 @@ class AssignMaterialsTable
         $table = $this->ui_fac->table()
                               ->data($data_retrieval, $title, $columns)
                               ->withId(
-                                  self::class . "_" .
+                                  str_replace('\\', '', self::class) . "_" .
                                   $this->top_skill_id . "_" .
                                   $this->tref_id . "_" .
                                   $this->basic_skill_id

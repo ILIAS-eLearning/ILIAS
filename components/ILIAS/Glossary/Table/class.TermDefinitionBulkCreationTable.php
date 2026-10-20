@@ -55,7 +55,7 @@ class TermDefinitionBulkCreationTable
         $table = $this->ui_fac->table()
                               ->data($data_retrieval, $this->lng->txt("glo_term_definition_pairs"), $columns)
                               ->withId(
-                                  self::class . "_" .
+                                  str_replace('\\', '', self::class) . "_" .
                                   $this->glossary->getRefId()
                               )
                               ->withRequest($this->request);
