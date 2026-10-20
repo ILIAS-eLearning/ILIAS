@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-use ceLTIc\LTI\DataConnector\DataConnector;
 use ceLTIc\LTI\OAuth\OAuthRequest;
 use ceLTIc\LTI\OAuth\OAuthServer;
 use ceLTIc\LTI\OAuth\OAuthSignatureMethod_HMAC_SHA1;
@@ -95,8 +94,9 @@ class ilLTIConsumerResultService
 
             global $DIC;
             $logger = $DIC->logger()->forComponent('lti');
-            // get the request as xml
-            $xml = simplexml_load_file('php://input');
+            // get the request as xml; the raw body is signed through oauth_body_hash
+            $raw_body = (string) file_get_contents('php://input');
+            $xml = simplexml_load_string($raw_body);
             $this->message_ref_id = (string) $xml->imsx_POXHeader->imsx_POXRequestHeaderInfo->imsx_messageIdentifier;
             $children = (array) $xml->imsx_POXBody->children();
             $request = current($children);
@@ -139,7 +139,7 @@ class ilLTIConsumerResultService
             // Verify the signature
             $this->readFields($this->result->obj_id);
             try {
-                $this->checkSignature($this->fields['KEY'], $this->fields['SECRET']);
+                $this->checkSignature($this->fields['KEY'], $this->fields['SECRET'], $raw_body);
             } catch (Exception $e) {
                 $logger->warning('LTI Basic Outcomes request for the object {obj_id} refused: {reason}', [
                     'obj_id' => $this->result->obj_id,
@@ -387,13 +387,13 @@ class ilLTIConsumerResultService
     }
 
     /**
-     * Check the request signature
+     * Check the request signature, its nonce and the hash of its body
      * @throws Exception in case of failure
      */
-    private function checkSignature(string $a_key, string $a_secret): void
+    private function checkSignature(string $a_key, string $a_secret, string $raw_body): void
     {
-        // checking the signature only needs the key, the secret and the record of the platform
-        $platform = new Platform(DataConnector::getDataConnector());
+        // the nonces of the requests are kept per object, so that a request cannot be replayed
+        $platform = new Platform(new ilLTIDataConnector());
 
         $platform->setKey($a_key);
         $platform->secret = $a_secret;
@@ -412,6 +412,12 @@ class ilLTIConsumerResultService
         }
         $request = OAuthRequest::from_request(null, null, $parameters ?? []);
         $server->verify_request($request);
+
+        // the body hash is one of the signed parameters of the header
+        $body_hash = (string) $request->get_parameter('oauth_body_hash');
+        if ($body_hash === '' || !hash_equals(base64_encode(sha1($raw_body, true)), $body_hash)) {
+            throw new Exception('Missing or invalid oauth_body_hash');
+        }
     }
 
     protected function updateLP(): void
