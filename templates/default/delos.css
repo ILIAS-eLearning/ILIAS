@@ -393,7 +393,6 @@
 }
 
 .dropdown-menu {
-  width: 320px;
   position: absolute;
   top: 100%;
   z-index: 1000;
@@ -13255,7 +13254,23 @@ tr.c-table-data__row.c-table-data__row--drag-settle {
 }
 
 .il-viewcontrol-fieldselection .dropdown-menu {
+  width: max-content;
+  max-width: 320px;
   padding: 15px 9px;
+}
+.il-viewcontrol-fieldselection .dropdown-menu .dropdown-menu-list > li {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+.il-viewcontrol-fieldselection .dropdown-menu .dropdown-menu-list > li > input[type=checkbox] {
+  flex: none;
+  margin-top: 0.25em;
+}
+.il-viewcontrol-fieldselection .dropdown-menu .dropdown-menu-list > li > label {
+  min-width: 0;
+  margin-bottom: 0;
+  overflow-wrap: anywhere;
 }
 
 .il-viewcontrol-sortation .dropdown-toggle .caret,
