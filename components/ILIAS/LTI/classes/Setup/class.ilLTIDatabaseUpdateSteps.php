@@ -23,11 +23,14 @@ declare(strict_types=1);
  *
  * Steps 1-9 were written for LTIProvider and must keep their class name and numbers:
  * il_db_steps records executed steps per class, and existing installations already ran them.
- * Steps 10-29 are the former ilLTIConsumerDatabaseUpdateSteps 1-20, step 30 is the first LTIAdvantage step.
+ * Steps 10-29 are the former ilLTIConsumerDatabaseUpdateSteps 1-20, copied unchanged when LTIConsumer and
+ * LTIProvider were merged into this component. Installations coming from an older release already ran them
+ * under the old class name and run them again here without effect. Steps 31-34 are new in this component.
  * Every step checks the current schema first, so running one again changes nothing.
  *
  * New steps are only appended at the end and must check the schema as well.
- * Never renumber the steps or rename this class.
+ * Never renumber the steps or rename this class. Older releases still have this class with steps 1-9 only:
+ * a step needed there goes into a class of its own, never into step_10 or later of this class.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
@@ -440,35 +443,6 @@ class ilLTIDatabaseUpdateSteps implements ilDatabaseUpdateSteps
                 'notnull' => false
             ]);
         }
-    }
-
-    public function step_30(): void
-    {
-        if ($this->db->tableExists('lti2_tool')) {
-            return;
-        }
-
-        $this->db->createTable('lti2_tool', [
-            'tool_pk' => ['type' => 'integer', 'length' => 4, 'notnull' => true],
-            'name' => ['type' => 'text', 'length' => 255, 'notnull' => true],
-            'consumer_key' => ['type' => 'text', 'length' => 255, 'notnull' => false],
-            'secret' => ['type' => 'text', 'length' => 255, 'notnull' => false],
-            'message_url' => ['type' => 'text', 'length' => 255, 'notnull' => false],
-            'initiate_login_url' => ['type' => 'text', 'length' => 255, 'notnull' => false],
-            'redirection_uris' => ['type' => 'clob', 'notnull' => false],
-            'public_key' => ['type' => 'clob', 'notnull' => false],
-            'lti_version' => ['type' => 'text', 'length' => 10, 'notnull' => false],
-            'signature_method' => ['type' => 'text', 'length' => 15, 'notnull' => false],
-            'settings' => ['type' => 'clob', 'notnull' => false],
-            'enabled' => ['type' => 'integer', 'length' => 1, 'notnull' => true, 'default' => 0],
-            'enable_from' => ['type' => 'timestamp', 'notnull' => false],
-            'enable_until' => ['type' => 'timestamp', 'notnull' => false],
-            'last_access' => ['type' => 'date', 'notnull' => false],
-            'created' => ['type' => 'timestamp', 'notnull' => true],
-            'updated' => ['type' => 'timestamp', 'notnull' => true],
-        ]);
-        $this->db->addPrimaryKey('lti2_tool', ['tool_pk']);
-        $this->db->createSequence('lti2_tool');
     }
 
     /**

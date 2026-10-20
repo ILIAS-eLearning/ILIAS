@@ -248,14 +248,19 @@ it. Any further exception MUST be explained here.
 
 All schema changes are in `classes/Setup/class.ilLTIDatabaseUpdateSteps.php`:
 
-* Steps 1–9 come from `LTIProvider`, steps 10–29 from `LTIConsumer`, step 30 onwards belongs to LTI Advantage
-  (32: the option of a tool to read the members, 33: the optional fields of the line items tools create,
-  34: the option of a platform to have its members read).
-* Step 31 is the one data change: it renames the placeholder class the certificate queue stores,
-  as Certificate itself does for courses and exercises.
+* Steps 1–9 come from `LTIProvider` and keep their class name and numbers.
+* Steps 10–29 are the steps 1–20 of `ilLTIConsumerDatabaseUpdateSteps`, copied unchanged when `LTIConsumer` and
+  `LTIProvider` were merged. An installation coming from an earlier release ran them under the old class name and
+  runs them again here without effect, because every step checks the schema first. Step 25 (former 16) also fills the
+  new column it adds.
+* Steps 31–34 are new: 31 renames the placeholder class the certificate queue stores, as Certificate itself does for
+  courses and exercises; 32 adds the option of a tool to read the members; 33 the optional fields of the line items
+  tools create; 34 the option of a platform to have its members read. There is no step 30.
 * New steps MUST be appended and MUST check the current schema before changing it.
 * The class MUST NOT be renamed and its steps MUST NOT be renumbered: `il_db_steps` stores
   the executed steps by class name, so updated installations would run them again.
+* Earlier releases have this class with steps 1–9 only. A step needed in an earlier release goes into a class of its
+  own and never into `step_10` or later of this class, so that the same step number never means two changes.
 
 ## Compatibility
 
@@ -294,7 +299,8 @@ Installations updated from an earlier release MUST keep working:
 
 What administrators of an updated installation may notice:
 
-* The database update steps 32 to 34 have to run (`setup update`).
+* `setup update` runs the database update steps 10 to 34. Steps 10 to 29 change nothing on an installation that
+  ran them before the update.
 * The tools defined before the update do not get the Names and Role Provisioning Services: the option is off
   until it is switched on in the tool, or a tool asks for the scope when it registers again. As tool, ILIAS reads
   the members of no platform until the option is switched on in the platform.
