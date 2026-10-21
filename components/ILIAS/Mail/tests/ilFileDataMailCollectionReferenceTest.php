@@ -40,7 +40,7 @@ class ilFileDataMailCollectionReferenceTest extends ilMailBaseTestCase
     private function isReferenced(?string $pool_rcid, string $rcid): bool
     {
         $queries = [];
-        $db = $this->createMock(ilDBInterface::class);
+        $db = $this->createStub(ilDBInterface::class);
         $db->method('queryF')->willReturnCallback(
             function (string $sql, array $types, array $values) use (&$queries): ilDBStatement {
                 $queries[] = [$sql, $values];

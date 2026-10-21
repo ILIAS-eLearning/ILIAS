@@ -50,10 +50,10 @@ class FileDataRCHandlingFormUploadTest extends ilMailBaseTestCase
     private function createSubject(): FileDataRCHandlingFormUploadTestSubject
     {
         return new FileDataRCHandlingFormUploadTestSubject(
-            $this->createMock(ilFileDataMail::class),
-            $this->createMock(ilMailFormUploadHandlerGUI::class),
-            $this->createMock(ilLanguage::class),
-            $this->createMock(Services::class)
+            $this->createStub(ilFileDataMail::class),
+            $this->createStub(ilMailFormUploadHandlerGUI::class),
+            $this->createStub(ilLanguage::class),
+            $this->createStub(Services::class)
         );
     }
 }

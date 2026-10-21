@@ -29,15 +29,15 @@ use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 
 class ilFileDataMailSourceReleaseTest extends ilMailBaseTestCase
 {
-    private Manager&MockObject $manage;
-    private ilDBInterface&MockObject $db;
+    private Manager $manage;
+    private ilDBInterface $db;
 
     public function testKeepsReferencedCollection(): void
     {
         $rcid = new ResourceCollectionIdentification('assigned-rcid');
-        $sut = $this->createSut(referenced: true);
+        $sut = $this->createSut(referenced: true, mock_manager: true);
         $sut->expects($this->never())->method('removeCollection');
-        $this->manage->expects($this->never())->method('remove');
+        $this->managerMock()->expects($this->never())->method('remove');
 
         $sut->releaseSourceCollectionAfterDelivery($rcid);
     }
@@ -54,9 +54,9 @@ class ilFileDataMailSourceReleaseTest extends ilMailBaseTestCase
     public function testKeepsForeignStakeholderCollection(): void
     {
         $rcid = new ResourceCollectionIdentification('exercise-rcid');
-        $sut = $this->createSut(stakeholders: [$this->foreignStakeholder()], rids: ['exercise-rid']);
+        $sut = $this->createSut(stakeholders: [$this->foreignStakeholder()], rids: ['exercise-rid'], mock_manager: true);
         $sut->expects($this->never())->method('removeCollection');
-        $this->manage->expects($this->never())->method('remove');
+        $this->managerMock()->expects($this->never())->method('remove');
 
         $sut->releaseSourceCollectionAfterDelivery($rcid);
     }
@@ -64,10 +64,10 @@ class ilFileDataMailSourceReleaseTest extends ilMailBaseTestCase
     public function testRemovesCollectionAndUnsharedResources(): void
     {
         $rcid = new ResourceCollectionIdentification('calendar-rcid');
-        $sut = $this->createSut(stakeholders: [new ilMailAttachmentStakeholder()], rids: ['ics-rid']);
+        $sut = $this->createSut(stakeholders: [new ilMailAttachmentStakeholder()], rids: ['ics-rid'], mock_manager: true);
         $this->db->method('numRows')->willReturn(0);
         $sut->expects($this->once())->method('removeCollection')->with($rcid);
-        $this->manage->expects($this->once())->method('remove');
+        $this->managerMock()->expects($this->once())->method('remove');
 
         $sut->releaseSourceCollectionAfterDelivery($rcid);
     }
@@ -75,11 +75,11 @@ class ilFileDataMailSourceReleaseTest extends ilMailBaseTestCase
     public function testResourcesStillInOtherCollectionsSurvive(): void
     {
         $rcid = new ResourceCollectionIdentification('stage-rcid');
-        $sut = $this->createSut(stakeholders: [new ilMailAttachmentStakeholder()], rids: ['pool-rid']);
+        $sut = $this->createSut(stakeholders: [new ilMailAttachmentStakeholder()], rids: ['pool-rid'], mock_manager: true);
         // The resource is still assigned to e.g. the user's pool
         $this->db->method('numRows')->willReturn(1);
         $sut->expects($this->once())->method('removeCollection')->with($rcid);
-        $this->manage->expects($this->never())->method('remove');
+        $this->managerMock()->expects($this->never())->method('remove');
 
         $sut->releaseSourceCollectionAfterDelivery($rcid);
     }
@@ -101,10 +101,13 @@ class ilFileDataMailSourceReleaseTest extends ilMailBaseTestCase
         bool $collection_exists = true,
         array $stakeholders = [],
         bool $referenced = false,
-        array $rids = []
+        array $rids = [],
+        bool $mock_manager = false
     ): ilFileDataMail&MockObject {
-        $this->manage = $this->createMock(Manager::class);
-        $this->db = $this->createMock(ilDBInterface::class);
+        $this->manage = $mock_manager
+            ? $this->createMock(Manager::class)
+            : $this->createStub(Manager::class);
+        $this->db = $this->createStub(ilDBInterface::class);
         $this->db->method('queryF')->willReturn($this->createStub(ilDBStatement::class));
         $this->db->method('fetchAssoc')->willReturn(null);
 
@@ -139,6 +142,15 @@ class ilFileDataMailSourceReleaseTest extends ilMailBaseTestCase
         $reflection->getProperty('stakeholder')->setValue($sut, new ilMailAttachmentStakeholder());
 
         return $sut;
+    }
+
+    private function managerMock(): Manager&MockObject
+    {
+        if (!$this->manage instanceof MockObject) {
+            throw new LogicException('This test configures no expectations on the manager.');
+        }
+
+        return $this->manage;
     }
 
     private function foreignStakeholder(): ResourceStakeholder

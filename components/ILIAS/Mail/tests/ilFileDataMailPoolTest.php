@@ -21,38 +21,29 @@ declare(strict_types=1);
 use ILIAS\ResourceStorage\Manager\Manager;
 use ILIAS\Mail\Attachments\MailAttachments;
 use ILIAS\ResourceStorage\Services as IRSS;
-use PHPUnit\Framework\MockObject\MockObject;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 class ilFileDataMailPoolTest extends ilMailBaseTestCase
 {
-    private MockObject&ilFileDataMail $file_data_mail;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->file_data_mail = $this->getMockBuilder(ilFileDataMail::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['migrateLegacyPoolFilenameToResource'])
-            ->getMock();
-    }
-
     public function testLegacyPoolItemIdentifier(): void
     {
+        $file_data_mail = $this->newFileDataMail();
+
         $this->assertTrue(
-            $this->file_data_mail->isLegacyPoolItemIdentifier('legacy:chef-man-cap-svgrepo-com.svg')
+            $file_data_mail->isLegacyPoolItemIdentifier('legacy:chef-man-cap-svgrepo-com.svg')
         );
         $this->assertFalse(
-            $this->file_data_mail->isLegacyPoolItemIdentifier('657497dc-5079-4f95-b19d-aecdaf81ff1a')
+            $file_data_mail->isLegacyPoolItemIdentifier('657497dc-5079-4f95-b19d-aecdaf81ff1a')
         );
     }
 
     public function testLegacyPoolFilenameFromIdentifier(): void
     {
+        $file_data_mail = $this->newFileDataMail();
+
         $this->assertSame(
             'pepper-svgrepo-com.svg',
-            $this->file_data_mail->legacyPoolFilenameFromIdentifier('legacy:pepper-svgrepo-com.svg')
+            $file_data_mail->legacyPoolFilenameFromIdentifier('legacy:pepper-svgrepo-com.svg')
         );
     }
 
@@ -61,18 +52,22 @@ class ilFileDataMailPoolTest extends ilMailBaseTestCase
         $legacy_rid = new ResourceIdentification('legacy-rid');
         $irss_rid = new ResourceIdentification('irss-rid');
 
-        $this->file_data_mail
+        $file_data_mail = $this->getMockBuilder(ilFileDataMail::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['migrateLegacyPoolFilenameToResource'])
+            ->getMock();
+        $file_data_mail
             ->expects($this->once())
             ->method('migrateLegacyPoolFilenameToResource')
             ->with('old.svg')
             ->willReturn($legacy_rid);
 
-        $irss = $this->createIrssMock([
+        $irss = $this->createIrssStub([
             'irss-rid' => $irss_rid,
         ]);
-        $this->injectIrss($irss);
+        $this->injectIrss($irss, $file_data_mail);
 
-        $resolved = $this->file_data_mail->resolvePoolIdentifiersToResources([
+        $resolved = $file_data_mail->resolvePoolIdentifiersToResources([
             'legacy:old.svg',
             'irss-rid',
             'unknown-rid',
@@ -123,25 +118,30 @@ class ilFileDataMailPoolTest extends ilMailBaseTestCase
     /**
      * @param array<string, ResourceIdentification> $known_rids
      */
-    private function createIrssMock(array $known_rids): IRSS&MockObject
+    private function createIrssStub(array $known_rids): IRSS
     {
-        $manage = $this->createMock(Manager::class);
+        $manage = $this->createStub(Manager::class);
         $manage->method('find')->willReturnCallback(
             static function (string $rid) use ($known_rids): ?ResourceIdentification {
                 return $known_rids[$rid] ?? null;
             }
         );
 
-        $irss = $this->getMockBuilder(IRSS::class)->disableOriginalConstructor()->getMock();
+        $irss = $this->createStub(IRSS::class);
         $irss->method('manage')->willReturn($manage);
 
         return $irss;
     }
 
-    private function injectIrss(IRSS $irss): void
+    private function newFileDataMail(): ilFileDataMail
+    {
+        return (new ReflectionClass(ilFileDataMail::class))->newInstanceWithoutConstructor();
+    }
+
+    private function injectIrss(IRSS $irss, ilFileDataMail $file_data_mail): void
     {
         $reflection = new ReflectionClass(ilFileDataMail::class);
         $property = $reflection->getProperty('irss');
-        $property->setValue($this->file_data_mail, $irss);
+        $property->setValue($file_data_mail, $irss);
     }
 }

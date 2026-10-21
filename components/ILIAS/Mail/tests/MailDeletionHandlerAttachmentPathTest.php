@@ -30,7 +30,7 @@ class MailDeletionHandlerAttachmentPathTest extends ilMailBaseTestCase
     public function testEmptyPathsAreNeverDeletable(): void
     {
         $captured_sql = '';
-        $db = $this->createMock(ilDBInterface::class);
+        $db = $this->createStub(ilDBInterface::class);
         $db->method('prepare')->willReturn($this->createStub(ilDBStatement::class));
         $db->method('in')->willReturn('mail_id IN (1,2)');
         $db->method('query')->willReturnCallback(

@@ -95,7 +95,7 @@ class FileDataRCHandlingAttachmentsSizeTest extends ilMailBaseTestCase
         $infos = [];
         $resource_identifications = [];
         foreach ($files as $file) {
-            $info = $this->createMock(FileInfoResult::class);
+            $info = $this->createStub(FileInfoResult::class);
             $info->method('getFileIdentifier')->willReturn($file['id']);
             $info->method('getSize')->willReturn($file['size']);
             $info->method('getName')->willReturn($file['id']);
@@ -125,15 +125,15 @@ class FileDataRCHandlingAttachmentsSizeTest extends ilMailBaseTestCase
             $manager->expects($this->never())->method('find');
         }
 
-        $storage = $this->createMock(Services::class);
+        $storage = $this->createStub(Services::class);
         $storage->method('manage')->willReturn($manager);
 
-        $upload_handler = $this->createMock(ilMailFormUploadHandlerGUI::class);
+        $upload_handler = $this->createStub(ilMailFormUploadHandlerGUI::class);
         $upload_handler->method('getInfoResult')->willReturnCallback(
             static fn(string $id): FileInfoResult => $infos[$id]
         );
 
-        $lng = $this->createMock(ilLanguage::class);
+        $lng = $this->createStub(ilLanguage::class);
         $lng->method('txt')->willReturnArgument(0);
         $this->setGlobalVariable('lng', $lng);
 

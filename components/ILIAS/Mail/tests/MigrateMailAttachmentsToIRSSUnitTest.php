@@ -31,8 +31,8 @@ use ILIAS\ResourceStorage\Manager\Manager;
 class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
 {
     private MigrateMailAttachmentsToIRSS $migration;
-    private MockObject&ilResourceStorageMigrationHelper $helper;
-    private MockObject&ilDBInterface $db;
+    private ilResourceStorageMigrationHelper $helper;
+    private ilDBInterface $db;
     /** @var list<string> */
     private array $messages = [];
     private string $tmp_dir;
@@ -49,31 +49,80 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
         mkdir($this->tmp_dir . '/mail', 0775, true);
 
         $this->migration = new MigrateMailAttachmentsToIRSS();
-        $this->db = $this->createMock(ilDBInterface::class);
-        $this->db->method('quote')->willReturnCallback(static fn(mixed $value): string => "'" . $value . "'");
-        $this->db->method('supportsTransactions')->willReturn(true);
+        $this->db = $this->createDatabaseDouble();
+        $this->helper = $this->createHelperDouble(false);
 
-        $this->helper = $this->getMockBuilder(ilResourceStorageMigrationHelper::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods([
-                'getDatabase',
-                'getClientDataDir',
-                'moveFilesOfPathToCollection',
-                'movePathToStorage',
-                'getCollectionBuilder',
-                'getManager',
-            ])
-            ->getMock();
-        $this->helper->method('getDatabase')->willReturn($this->db);
-        $this->helper->method('getClientDataDir')->willReturn($this->tmp_dir);
-
-        $io = $this->createMock(AdminInteraction::class);
+        $io = $this->createStub(AdminInteraction::class);
         $io->method('inform')->willReturnCallback(function (string $message): void {
             $this->messages[] = $message;
         });
 
+        $this->injectCollaborators($this->helper, $io);
+    }
+
+    private function createDatabaseDouble(bool $mock = false): ilDBInterface
+    {
+        $db = $mock
+            ? $this->createMock(ilDBInterface::class)
+            : $this->createStub(ilDBInterface::class);
+        $db->method('quote')->willReturnCallback(static fn(mixed $value): string => "'" . $value . "'");
+        $db->method('supportsTransactions')->willReturn(true);
+
+        return $db;
+    }
+
+    private function useDatabaseMock(): ilDBInterface&MockObject
+    {
+        $db = $this->createDatabaseDouble(true);
+        $this->db = $db;
+        assert($db instanceof MockObject);
+
+        return $db;
+    }
+
+    private function createHelperDouble(bool $mock): ilResourceStorageMigrationHelper
+    {
+        $methods = [
+            'getDatabase',
+            'getClientDataDir',
+            'moveFilesOfPathToCollection',
+            'movePathToStorage',
+            'getCollectionBuilder',
+            'getManager',
+        ];
+        if ($mock) {
+            $helper = $this->getMockBuilder(ilResourceStorageMigrationHelper::class)
+                ->disableOriginalConstructor()
+                ->onlyMethods($methods)
+                ->getMock();
+        } else {
+            $helper = $this->getStubBuilder(ilResourceStorageMigrationHelper::class)
+                ->disableOriginalConstructor()
+                ->onlyMethods($methods)
+                ->getStub();
+        }
+        $helper->method('getDatabase')->willReturnCallback(fn(): ilDBInterface => $this->db);
+        $helper->method('getClientDataDir')->willReturn($this->tmp_dir);
+
+        return $helper;
+    }
+
+    private function useHelperMock(): ilResourceStorageMigrationHelper&MockObject
+    {
+        $helper = $this->createHelperDouble(true);
+        $this->helper = $helper;
+        new ReflectionClass($this->migration)->getProperty('helper')->setValue($this->migration, $helper);
+        assert($helper instanceof MockObject);
+
+        return $helper;
+    }
+
+    private function injectCollaborators(
+        ilResourceStorageMigrationHelper $helper,
+        AdminInteraction $io
+    ): void {
         $reflection = new ReflectionClass($this->migration);
-        $reflection->getProperty('helper')->setValue($this->migration, $this->helper);
+        $reflection->getProperty('helper')->setValue($this->migration, $helper);
         $reflection->getProperty('io')->setValue($this->migration, $io);
     }
 
@@ -98,15 +147,16 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
     public function testPathsOfTheMostRecentlySentMailsAreMigratedFirst(): void
     {
         $captured_sql = '';
-        $this->db->expects($this->once())->method('setLimit')->with(25);
-        $this->db->method('query')->willReturnCallback(
+        $db = $this->useDatabaseMock();
+        $db->expects($this->once())->method('setLimit')->with(25);
+        $db->method('query')->willReturnCallback(
             function (string $sql) use (&$captured_sql): ilDBStatement {
                 $captured_sql = $sql;
 
                 return $this->createStub(ilDBStatement::class);
             }
         );
-        $this->db->method('fetchAssoc')->willReturnOnConsecutiveCalls(['path' => 'newest'], ['path' => 'older'], null);
+        $db->method('fetchAssoc')->willReturnOnConsecutiveCalls(['path' => 'newest'], ['path' => 'older'], null);
 
         $paths = $this->invokePrivate('nextUnmigratedPaths', []);
 
@@ -121,15 +171,16 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
     public function testDraftsOfTheMostRecentlySentMailsAreMigratedFirstAndNeverMailsWithDirectory(): void
     {
         $captured_sql = '';
-        $this->db->expects($this->once())->method('setLimit')->with(50);
-        $this->db->method('query')->willReturnCallback(
+        $db = $this->useDatabaseMock();
+        $db->expects($this->once())->method('setLimit')->with(50);
+        $db->method('query')->willReturnCallback(
             function (string $sql) use (&$captured_sql): ilDBStatement {
                 $captured_sql = $sql;
 
                 return $this->createStub(ilDBStatement::class);
             }
         );
-        $this->db->method('fetchAssoc')->willReturn(null);
+        $db->method('fetchAssoc')->willReturn(null);
 
         $this->invokePrivate('migrateSerializedMailAttachments', []);
 
@@ -141,6 +192,7 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
     public function testDirectoryIsMigratedWithTheIrssHelper(): void
     {
         $dir = $this->createDirectory('6_100', ['a.pdf' => '1234']);
+        $helper = $this->useHelperMock();
         $this->db->method('query')->willReturn($this->createStub(ilDBStatement::class));
         $this->db->method('queryF')->willReturn($this->createStub(ilDBStatement::class));
         $this->db->method('in')->willReturn('mail_id IN (1,2)');
@@ -156,13 +208,13 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
         );
         $rcid = new ResourceCollectionIdentification('dir-rcid');
         $resource_id = new ResourceIdentification('dir-rid');
-        $collection = $this->createMock(ResourceCollection::class);
+        $collection = $this->createStub(ResourceCollection::class);
         $collection->method('getResourceIdentifications')->willReturn([$resource_id]);
         $collection_builder = $this->createMock(CollectionBuilder::class);
         $collection_builder->expects($this->once())->method('get')->with($rcid)->willReturn($collection);
-        $this->helper->method('getCollectionBuilder')->willReturn($collection_builder);
+        $helper->method('getCollectionBuilder')->willReturn($collection_builder);
         $this->expectConfidential($resource_id);
-        $this->helper->expects($this->once())
+        $helper->expects($this->once())
             ->method('moveFilesOfPathToCollection')
             ->willReturnCallback(function (
                 string $path,
@@ -193,16 +245,18 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
 
     public function testMissingDirectoryIsSkippedAndReported(): void
     {
-        $this->db->method('query')->willReturn($this->createStub(ilDBStatement::class));
-        $this->db->method('queryF')->willReturn($this->createStub(ilDBStatement::class));
-        $this->db->method('fetchAssoc')->willReturnOnConsecutiveCalls(
+        $db = $this->useDatabaseMock();
+        $helper = $this->useHelperMock();
+        $db->method('query')->willReturn($this->createStub(ilDBStatement::class));
+        $db->method('queryF')->willReturn($this->createStub(ilDBStatement::class));
+        $db->method('fetchAssoc')->willReturnOnConsecutiveCalls(
             ['path' => '6_104'],
             null,
             ['mail_id' => 1],
             null
         );
-        $this->helper->expects($this->never())->method('moveFilesOfPathToCollection');
-        $this->db->expects($this->once())->method('manipulateF')->with(
+        $helper->expects($this->never())->method('moveFilesOfPathToCollection');
+        $db->expects($this->once())->method('manipulateF')->with(
             'UPDATE mail_attachment SET rcid = %s WHERE path = %s',
             [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
             ['-', '6_104']
@@ -216,15 +270,16 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
     public function testPoolFilesAreCopiedWithTheirNameWithoutTheUserPrefix(): void
     {
         file_put_contents($this->tmp_dir . '/mail/6_Übung 1.pdf', '%PDF');
+        $helper = $this->useHelperMock();
         $collection = $this->createMock(ResourceCollection::class);
         $collection->expects($this->once())->method('add');
         $collection->method('count')->willReturn(1);
         $collection->method('getIdentification')->willReturn(new ResourceCollectionIdentification('draft-rcid'));
-        $collection_builder = $this->createMock(CollectionBuilder::class);
+        $collection_builder = $this->createStub(CollectionBuilder::class);
         $collection_builder->method('new')->willReturn($collection);
         $collection_builder->method('store')->willReturn(true);
-        $this->helper->method('getCollectionBuilder')->willReturn($collection_builder);
-        $this->helper->expects($this->once())
+        $helper->method('getCollectionBuilder')->willReturn($collection_builder);
+        $helper->expects($this->once())
             ->method('movePathToStorage')
             ->willReturnCallback(function (
                 string $path,
@@ -254,21 +309,22 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
     public function testDraftGetsItsCollectionAndAMailAttachmentRow(): void
     {
         file_put_contents($this->tmp_dir . '/mail/6_exists.pdf', '%PDF');
-        $collection = $this->createMock(ResourceCollection::class);
+        $db = $this->useDatabaseMock();
+        $collection = $this->createStub(ResourceCollection::class);
         $collection->method('count')->willReturn(1);
         $collection->method('getIdentification')->willReturn(new ResourceCollectionIdentification('draft-rcid'));
-        $collection_builder = $this->createMock(CollectionBuilder::class);
+        $collection_builder = $this->createStub(CollectionBuilder::class);
         $collection_builder->method('new')->willReturn($collection);
         $collection_builder->method('store')->willReturn(true);
         $this->helper->method('getCollectionBuilder')->willReturn($collection_builder);
         $this->helper->method('movePathToStorage')->willReturn(new ResourceIdentification('rid'));
         $this->expectConfidential(new ResourceIdentification('rid'));
-        $this->db->expects($this->once())->method('manipulateF')->with(
+        $db->expects($this->once())->method('manipulateF')->with(
             'INSERT INTO mail_attachment (mail_id, path, rcid) VALUES (%s, %s, %s)',
             $this->anything(),
             [42, '', 'draft-rcid']
         );
-        $this->db->expects($this->once())->method('update')->with(
+        $db->expects($this->once())->method('update')->with(
             'mail',
             ['attachments' => [ilDBConstants::T_CLOB, 'draft-rcid']],
             ['mail_id' => [ilDBConstants::T_INTEGER, 42]]
@@ -279,7 +335,8 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
 
     public function testBrokenDraftValueIsClearedAndReported(): void
     {
-        $this->db->expects($this->once())->method('update')->with(
+        $db = $this->useDatabaseMock();
+        $db->expects($this->once())->method('update')->with(
             'mail',
             ['attachments' => [ilDBConstants::T_CLOB, '']],
             ['mail_id' => [ilDBConstants::T_INTEGER, 43]]
@@ -296,10 +353,11 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
 
     public function testRepairRestoresEmptiedAttachmentColumns(): void
     {
-        $this->db->expects($this->once())->method('setLimit')->with(100);
-        $this->db->method('query')->willReturn($this->createStub(ilDBStatement::class));
-        $this->db->method('fetchAssoc')->willReturnOnConsecutiveCalls(['mail_id' => 7, 'rcid' => 'dir-rcid'], null);
-        $this->db->expects($this->once())->method('update')->with(
+        $db = $this->useDatabaseMock();
+        $db->expects($this->once())->method('setLimit')->with(100);
+        $db->method('query')->willReturn($this->createStub(ilDBStatement::class));
+        $db->method('fetchAssoc')->willReturnOnConsecutiveCalls(['mail_id' => 7, 'rcid' => 'dir-rcid'], null);
+        $db->expects($this->once())->method('update')->with(
             'mail',
             ['attachments' => [ilDBConstants::T_CLOB, 'dir-rcid']],
             ['mail_id' => [ilDBConstants::T_INTEGER, 7]]

@@ -29,7 +29,7 @@ class ilMailFolderGUIAttachmentHashesTest extends ilMailBaseTestCase
 {
     public function testIrssAttachmentHashesAreTakenFromTheListing(): void
     {
-        $mail_file_data = $this->createMock(ilFileDataMail::class);
+        $mail_file_data = $this->createStub(ilFileDataMail::class);
         $mail_file_data->method('getAttachmentListing')->willReturn([
             'a.pdf' => ['md5' => md5('a.pdf'), 'name' => 'a.pdf', 'size' => 1, 'ctime' => ''],
             'b.pdf' => ['md5' => md5('b.pdf'), 'name' => 'b.pdf', 'size' => 1, 'ctime' => ''],
