@@ -32,7 +32,7 @@ use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 
 class ilFileDataMail extends ilFileData
 {
-    private const string POOL_RCID_PREF_KEY = 'mail_attachment_pool_rcid';
+    public const string POOL_RCID_PREF_KEY = 'mail_attachment_pool_rcid';
     public const string LEGACY_POOL_ITEM_PREFIX = 'legacy:';
 
     public string $mail_path;
