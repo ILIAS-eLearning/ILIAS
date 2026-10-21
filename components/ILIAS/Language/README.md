@@ -363,6 +363,8 @@ shipped `.po` is removed unless it carries a real local change.
   collation of `lng_data`/`lng_modules`).
 * Warnings are printed for skipped customizing entries, local changes with
   markup that is not allowed, overlay directories that are not writable, a
+  record of taken over local changes that cannot be written (taken over again
+  by the next update), overlays or records of modules that are not shipped, a
   Setup not running as owner of the client data directory, and a missing
   client data directory (the overlay is then written by the next update; until
   then migrated modules show their shipped values without local changes).
@@ -397,7 +399,12 @@ files, it never writes data back.
   the migration commit), run `composer dump-autoload` (rebuilds the component
   graph and the build) and `php cli/setup.php update`. Local changes of plural
   forms other than the default form are lost, values merged into the `.po` must
-  be added to the `.lang` files.
+  be added to the `.lang` files. The module's overlay and its entry in
+  `taken-over.<lang>.json` are kept (Setup reports them on every update):
+  remove both before migrating the module again, otherwise they win over the
+  changes made in `lng_data` in the meantime. Setup only reports this if at
+  least one `setup update` runs between the revert and the new migration,
+  otherwise these changes are lost without notice.
 * Per language: not by removing its shipped `.po` - the module then shows
   `-identifier-` for that language, never its database rows; revert the module
   instead.

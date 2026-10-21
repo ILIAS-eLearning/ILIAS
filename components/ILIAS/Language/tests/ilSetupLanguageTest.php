@@ -469,6 +469,35 @@ class ilSetupLanguageTest extends ilLanguageBaseTestCase
         $this->assertSame($manager, $setup_language->getLanguageFileDirectoryManager());
     }
 
+    private function withManagerReporting(ilSetupLanguage $setup_language): void
+    {
+        $manager = $this->createStub(\ILIAS\Language\Setup\LanguageInstallationManager::class);
+        $manager->method('getOverlaysOfUnshippedModules')->willReturn(['de' => ['ghost']]);
+        $manager->method('getUnrecordedTakenOverModules')->willReturn(['de' => ['pilot']]);
+        (new ReflectionProperty(ilSetupLanguage::class, 'manager'))->setValue($setup_language, $manager);
+    }
+
+    public function testOverlaysOfUnshippedModulesAreOnlyReportedWithContributedDirectories(): void
+    {
+        $default = new ilSetupLanguage('de');
+        $this->withManagerReporting($default);
+        $injected = new ilSetupLanguage('de', new LanguageFileDirectoryManager(new CustomizingLanguageFileDirectory(), new MainLanguageFileDirectory()));
+        $this->withManagerReporting($injected);
+
+        $this->assertSame([], $default->getOverlaysOfUnshippedModules());
+        $this->assertSame(['de' => ['ghost']], $injected->getOverlaysOfUnshippedModules());
+        $this->assertSame(['de' => ['pilot']], $default->getUnrecordedTakenOverModules());
+        $this->assertSame(['de' => ['pilot']], $injected->getUnrecordedTakenOverModules());
+    }
+
+    public function testNothingIsReportedBeforeAManagerExists(): void
+    {
+        $setup_language = new ilSetupLanguage('de', new LanguageFileDirectoryManager(new CustomizingLanguageFileDirectory()));
+
+        $this->assertSame([], $setup_language->getOverlaysOfUnshippedModules());
+        $this->assertSame([], $setup_language->getUnrecordedTakenOverModules());
+    }
+
     private function managerOf(ilSetupLanguage $setup_language): \ILIAS\Language\Setup\LanguageInstallationManager
     {
         $setup_language->setDbHandler($this->createStub(ilDBInterface::class));
