@@ -96,4 +96,21 @@ class MailAttachmentsTest extends TestCase
         $attachments = MailAttachments::fromLegacyFilenames(['a.pdf', 'b.png']);
         $this->assertSame(serialize(['a.pdf', 'b.png']), $attachments->toDb());
     }
+
+    public function testLegacyFilenamesDropNonStrings(): void
+    {
+        $parsed = MailAttachments::fromDb(serialize(['file.pdf', 1, ['nested'], null, 'image.png']));
+
+        $this->assertNotNull($parsed);
+        $this->assertTrue($parsed->isLegacy());
+        $this->assertSame(['file.pdf', 'image.png'], $parsed->legacyFilenames());
+    }
+
+    public function testLegacyFilenamesWithOnlyNonStringsAreEmpty(): void
+    {
+        $parsed = MailAttachments::fromDb(serialize([1, ['nested']]));
+
+        $this->assertNotNull($parsed);
+        $this->assertTrue($parsed->isEmpty());
+    }
 }

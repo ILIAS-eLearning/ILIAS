@@ -45,15 +45,25 @@ final class MailAttachments
     }
 
     /**
-     * @param list<string> $filenames
+     * Legacy rows come from unserialize() and may contain non-strings.
+     * Those entries are dropped so one bad value does not abort the migration.
+     *
+     * @param array<array-key, mixed> $filenames
      */
     public static function fromLegacyFilenames(array $filenames): self
     {
-        if ($filenames === []) {
+        $names = [];
+        foreach ($filenames as $filename) {
+            if (is_string($filename)) {
+                $names[] = $filename;
+            }
+        }
+
+        if ($names === []) {
             return self::empty();
         }
 
-        return new self(null, array_values($filenames));
+        return new self(null, $names);
     }
 
     public static function fromDb(?string $raw): ?self
