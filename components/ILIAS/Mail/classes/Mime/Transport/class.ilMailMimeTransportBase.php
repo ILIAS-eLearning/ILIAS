@@ -220,10 +220,22 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
             return false;
         }
 
-        $stream = $this->irss->consume()->stream($resource_identification)->getStream();
+        try {
+            $bytes = $this->irss->consume()->stream($resource_identification)->getStream()->getContents();
+        } catch (\Throwable $exception) {
+            ilLoggerFactory::getLogger('mail')->warning(
+                'Could not read IRSS mail attachment {rid}: {error}',
+                [
+                    'rid' => $resource_identification->serialize(),
+                    'error' => $exception->getMessage(),
+                ]
+            );
+
+            return false;
+        }
 
         return $this->getMailer()->addStringAttachment(
-            (string) $stream,
+            $bytes,
             $attachment->getDisplayName() !== ''
                 ? $attachment->getDisplayName()
                 : $resource_identification->serialize(),
