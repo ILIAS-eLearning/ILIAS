@@ -17,131 +17,59 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
+use ILIAS\Data\Order;
+use ILIAS\Repository\Table\TableAdapterGUI;
+use ILIAS\UI\Component\Table\Column\Column;
+use ILIAS\UI\Implementation\Component\Table\Data as TableData;
+
 /**
  * Class ilSCORMTrackingItemsTableGUI
  *
  * @author Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  * @ingroup components\ILIASScormAicc
  */
-class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
+class ilSCORMTrackingItemsTableGUI
 {
     private int $obj_id;
-    private int $user_id = 0;
     private bool $bySCO = false;
     private array $scosSelected;
     private array $userSelected;
     private bool $allowExportPrivacy = false;
     private string $lmTitle = "";
     private string $report;
+    private ilLanguage $lng;
+    private ?TableAdapterGUI $table = null;
+    private ?array $items = null;
 
-    /**
-     * @throws ilCtrlException
-     */
-    public function __construct(int $a_obj_id, ?object $a_parent_obj, string $a_parent_cmd, array $a_userSelected, array $a_scosSelected, string $a_report)
-    {
+    public function __construct(
+        int $a_obj_id,
+        ?object $a_parent_obj,
+        string $a_parent_cmd,
+        array $a_userSelected,
+        array $a_scosSelected,
+        string $a_report
+    ) {
         global $DIC;
-        $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
-        $rbacsystem = $DIC->rbac();
-        $lng->loadLanguageModule("scormtrac");
+        if ($a_parent_obj === null) {
+            throw new ilException('Missing parent object');
+        }
+
+        $this->lng = $DIC->language();
+        $this->lng->loadLanguageModule("scormtrac");
+        $this->lng->loadLanguageModule("trac");
 
         $this->obj_id = $a_obj_id;
         $this->report = $a_report;
         $this->scosSelected = $a_scosSelected;
         $this->userSelected = $a_userSelected;
-        if ($a_parent_cmd === "showTrackingItemsBySco") {
-            $this->bySCO = true;
-        }
-        if ($a_parent_obj !== null) {
-            $this->lmTitle = $a_parent_obj->getObject()->getTitle();
-        }
+        $this->bySCO = ($a_parent_cmd === "showTrackingItemsBySco");
+        $this->lmTitle = $a_parent_obj->getObject()->getTitle();
 
-        $this->setId('AICC' . $this->report);
-        parent::__construct($a_parent_obj, $a_parent_cmd);
         $privacy = ilPrivacySettings::getInstance();
         $this->allowExportPrivacy = $privacy->enabledExportSCORM();
 
-
-        // if($a_print_view)
-        // {
-        // $this->setPrintMode(true);
-        // }
-
-
-        foreach ($this->getSelectedColumns() as $c) {
-            $l = $c;
-            if (in_array($l, array("status", "time", "score"))) {
-                $l = "cont_" . $l;
-                // } else {
-                // $l =
-            }
-            $s = $this->lng->txt($l);
-            if (substr($l, 0, 14) === "interaction_id") {
-                $s = $this->lng->txt(substr($l, 0, 14)) . ' ' . substr($l, 14);
-            }
-            if (substr($l, 0, 17) === "interaction_value") {
-                $s = sprintf($this->lng->txt(substr($l, 0, 17)), substr($l, 17, (strpos($l, ' ') - 17))) . substr($l, strpos($l, ' '));
-            }
-            if (substr($l, 0, 23) === "interaction_description") {
-                $s = $this->lng->txt(substr($l, 0, 23)) . ' ' . substr($l, 23);
-            }
-            $this->addColumn($this->escapeOutputForTemplate((string) $s), $c);
-        }
-
-        $this->setRowTemplate('tpl.scorm_tracking_items.html', 'components/ILIAS/ScormAicc');
-        $this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
-
-        $this->setExternalSorting(true);
-        //		$this->setExternalSegmentation(true);
-        $this->setEnableHeader(true);
-        $this->setEnableTitle(true);
-        //		$this->setDefaultOrderField("cp_node_id, user_id");
-        $this->setDefaultOrderField("");
-        $this->setDefaultOrderDirection("asc");
-
-        $this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
-        //		$this->initFilter();
-        $this->getItems();
-    }
-
-    /**
-     * @return array<string, array<string, mixed>>
-     */
-    public function getSelectableColumns(): array
-    {
-        // default fields
-        $cols = array();
-
-        switch ($this->report) {
-            case "exportSelectedCore":
-                $cols = ilSCORMTrackingItems::exportSelectedCoreColumns($this->bySCO, $this->allowExportPrivacy);
-                break;
-            case "exportSelectedRaw":
-                $cols = ilSCORMTrackingItems::exportSelectedRawColumns();
-                break;
-            case "exportSelectedInteractions":
-                $cols = ilSCORMTrackingItems::exportSelectedInteractionsColumns();
-                break;
-            case "exportSelectedObjectives":
-                $cols = ilSCORMTrackingItems::exportSelectedObjectivesColumns();
-                break;
-                //            case "tracInteractionItem":
-                //                $cols = ilSCORMTrackingItems::tracInteractionItemColumns($this->bySCO, $this->allowExportPrivacy);
-                //            break;
-                //            case "tracInteractionUser":
-                //                $cols = ilSCORMTrackingItems::tracInteractionUserColumns($this->bySCO, $this->allowExportPrivacy);
-                //            break;
-                //            case "tracInteractionUserAnswers":
-                //                $cols = ilSCORMTrackingItems::tracInteractionUserAnswersColumns($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
-                //            break;
-            case "exportSelectedSuccess":
-                $cols = ilSCORMTrackingItems::exportSelectedSuccessColumns();
-                break;
-        }
-
-        return $cols;
+        $this->initTable($a_parent_obj, $a_parent_cmd);
     }
 
     public function getObjId(): int
@@ -149,148 +77,439 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         return $this->obj_id;
     }
 
-    public function getItems(): void
+    public function getHTML(): string
     {
-        global $DIC;
-        $lng = $DIC->language();
-
-        $this->determineOffsetAndOrder(true);
-        $this->determineLimit();
-
-        $ilSCORMTrackingItems = new ilSCORMTrackingItems();
-        switch ($this->report) {
-            case "exportSelectedCore":
-                $tr_data = $ilSCORMTrackingItems->exportSelectedCore($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
-                break;
-            case "exportSelectedRaw":
-                $tr_data = $ilSCORMTrackingItems->exportSelectedRaw($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
-                break;
-            case "exportSelectedInteractions":
-                $tr_data = $ilSCORMTrackingItems->exportSelectedInteractions($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
-                break;
-            case "exportSelectedObjectives":
-                $tr_data = $ilSCORMTrackingItems->exportSelectedObjectives($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
-                break;
-            case "tracInteractionItem":
-                $tr_data = $ilSCORMTrackingItems->tracInteractionItem($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
-                break;
-            case "tracInteractionUser":
-                $tr_data = $ilSCORMTrackingItems->tracInteractionUser($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
-                break;
-            case "tracInteractionUserAnswers":
-                $tr_data = $ilSCORMTrackingItems->tracInteractionUserAnswers($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
-                break;
-            case "exportSelectedSuccess":
-                $tr_data = $ilSCORMTrackingItems->exportSelectedSuccess($this->userSelected, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
-                break;
-        }
-        //        $this->setMaxCount($tr_data["cnt"]);
-        if (ilUtil::stripSlashes($this->getOrderField()) != "") {
-            $tr_data = ilArrayUtil::stableSortArray(
-                $tr_data,
-                ilUtil::stripSlashes($this->getOrderField()),
-                ilUtil::stripSlashes($this->getOrderDirection())
-            );
-        }
-
-        $this->setData($tr_data);
+        return $this->table?->render() ?? '';
     }
 
-    protected function parseValue(string $id, string|float|int|null $value, string $type): string|float|int|null
+    public function sendExportCSV(): void
+    {
+        $columns = $this->getColumnsForExport();
+        $rows = $this->getRowsForExport();
+
+        $csv = new ilCSVWriter();
+        $csv->setSeparator(';');
+
+        foreach ($columns as $column) {
+            $csv->addColumn($this->getExportColumnLabel($column));
+        }
+        $csv->addRow();
+
+        foreach ($rows as $row) {
+            foreach ($columns as $column) {
+                $value = $this->exportValue($column, $row[$column] ?? null);
+                $csv->addColumn((string) ($value ?? ''));
+            }
+            $csv->addRow();
+        }
+
+        $tmp_file = ilFileUtils::ilTempnam();
+        if (file_put_contents($tmp_file, $csv->getCSVString()) === false) {
+            throw new ilException('Unable to create CSV export file.');
+        }
+
+        ilFileDelivery::deliverFileAttached($tmp_file, $this->buildExportFilename('csv'), null, true);
+        exit;
+    }
+
+    public function sendExportExcel(): void
+    {
+        $columns = $this->getColumnsForExport();
+        $rows = $this->getRowsForExport();
+
+        $excel = new ilExcel();
+        $excel->addSheet($this->lng->txt("cont_tracking_items"));
+
+        $row_idx = 1;
+        $col_idx = 0;
+        foreach ($columns as $column) {
+            $excel->setCell($row_idx, $col_idx, $this->getExportColumnLabel($column));
+            $col_idx++;
+        }
+
+        $row_idx++;
+        foreach ($rows as $row) {
+            $col_idx = 0;
+            foreach ($columns as $column) {
+                $excel->setCell($row_idx, $col_idx, $this->exportValue($column, $row[$column] ?? null));
+                $col_idx++;
+            }
+            $row_idx++;
+        }
+
+        $excel->sendToClient($this->buildExportFilename('xlsx'));
+        exit;
+    }
+
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    public function getSelectableColumns(): array
+    {
+        return match ($this->report) {
+            "exportSelectedCore" => ilSCORMTrackingItems::exportSelectedCoreColumns(
+                $this->bySCO,
+                $this->allowExportPrivacy
+            ),
+            "exportSelectedRaw" => ilSCORMTrackingItems::exportSelectedRawColumns(),
+            "exportSelectedInteractions" => ilSCORMTrackingItems::exportSelectedInteractionsColumns(),
+            "exportSelectedObjectives" => ilSCORMTrackingItems::exportSelectedObjectivesColumns(),
+            "exportSelectedSuccess" => ilSCORMTrackingItems::exportSelectedSuccessColumns(),
+            default => []
+        };
+    }
+
+    private function initTable(object $a_parent_obj, string $a_parent_cmd): void
+    {
+        $rows = [];
+        $available_columns = $this->getAvailableColumns();
+        $default_columns = $this->getDefaultColumns();
+        $numeric_columns = $this->getNumericColumns();
+        $numeric_table_keys = ['id'];
+
+        foreach ($this->getItems() as $index => $row) {
+            $mapped = ['id' => $index + 1];
+            foreach ($available_columns as $column) {
+                $table_key = $this->tableColumnKey($column);
+                $mapped[$table_key] = $this->parseValue($column, $row[$column] ?? null);
+
+                if (
+                    in_array($column, $numeric_columns, true)
+                    && !in_array($table_key, $numeric_table_keys, true)
+                ) {
+                    $numeric_table_keys[] = $table_key;
+                }
+            }
+            $rows[] = $mapped;
+        }
+
+        $this->table = new TableAdapterGUI(
+            'AICC' . $this->report,
+            '',
+            new ilSCORMTrackingTableRetrieval($rows, $numeric_table_keys),
+            $a_parent_obj,
+            $a_parent_cmd
+        );
+
+        foreach ($available_columns as $column) {
+            $this->table->column(
+                $this->tableColumnKey($column),
+                $this->buildColumn(
+                    $column,
+                    in_array($column, $default_columns, true)
+                )
+            );
+        }
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private function getAvailableColumns(): array
+    {
+        return array_keys($this->getSelectableColumns());
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private function getDefaultColumns(): array
+    {
+        $selectable = $this->getSelectableColumns();
+        $defaults = [];
+
+        foreach ($selectable as $key => $definition) {
+            if (($definition['default'] ?? false) === true) {
+                $defaults[] = $key;
+            }
+        }
+
+        if ($defaults === []) {
+            return array_keys($selectable);
+        }
+
+        return $defaults;
+    }
+
+    private function buildColumn(string $column, bool $is_initially_visible): Column
     {
         global $DIC;
-        $lng = $DIC->language();
-        $lng->loadLanguageModule("trac");
-        if ($id === "status") {
-            $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SCORM);
-            $path = $icons->getImagePathForStatus((int) $value);
-            $text = ilLearningProgressBaseGUI::_getStatusText((int) $value);
-            $value = ilUtil::img($path, $text);
+
+        return $DIC->ui()->factory()->table()->column()->text($this->getColumnTitle($column))
+            ->withIsSortable(true)
+            ->withIsOptional(true, $is_initially_visible);
+    }
+
+    private function tableColumnKey(string $column): string
+    {
+        return 'col_' . $column;
+    }
+
+    private function getColumnTitle(string $column): string
+    {
+        $lookup = $column;
+        if (in_array($lookup, ["status", "time", "score"], true)) {
+            $lookup = "cont_" . $lookup;
         }
-        //BLUM round
+
+        if (str_starts_with($lookup, "interaction_id")) {
+            $base = substr($lookup, 0, 14);
+            return $this->lng->txt($base) . ' ' . substr($lookup, 14);
+        }
+
+        if (str_starts_with($lookup, "interaction_value")) {
+            $base = substr($lookup, 0, 17);
+            $space = strpos($lookup, ' ');
+            if ($space === false) {
+                return $this->lng->txt($base);
+            }
+            return sprintf($this->lng->txt($base), substr($lookup, 17, $space - 17)) . substr($lookup, $space);
+        }
+
+        if (str_starts_with($lookup, "interaction_description")) {
+            $base = substr($lookup, 0, 23);
+            return $this->lng->txt($base) . ' ' . substr($lookup, 23);
+        }
+
+        return $this->lng->txt($lookup);
+    }
+
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    public function getItems(): array
+    {
+        if ($this->items !== null) {
+            return $this->items;
+        }
+
+        $tracking_items = new ilSCORMTrackingItems();
+
+        $this->items = match ($this->report) {
+            "exportSelectedCore" => $tracking_items->exportSelectedCore(
+                $this->userSelected,
+                $this->scosSelected,
+                $this->bySCO,
+                $this->allowExportPrivacy,
+                $this->getObjId(),
+                $this->lmTitle
+            ),
+            "exportSelectedRaw" => $tracking_items->exportSelectedRaw(
+                $this->userSelected,
+                $this->scosSelected,
+                $this->bySCO,
+                $this->allowExportPrivacy,
+                $this->getObjId(),
+                $this->lmTitle
+            ),
+            "exportSelectedInteractions" => $tracking_items->exportSelectedInteractions(
+                $this->userSelected,
+                $this->scosSelected,
+                $this->bySCO,
+                $this->allowExportPrivacy,
+                $this->getObjId(),
+                $this->lmTitle
+            ),
+            "exportSelectedObjectives" => $tracking_items->exportSelectedObjectives(
+                $this->userSelected,
+                $this->scosSelected,
+                $this->bySCO,
+                $this->allowExportPrivacy,
+                $this->getObjId(),
+                $this->lmTitle
+            ),
+            "exportSelectedSuccess" => $tracking_items->exportSelectedSuccess(
+                $this->userSelected,
+                $this->allowExportPrivacy,
+                $this->getObjId(),
+                $this->lmTitle
+            ),
+            default => []
+        };
+
+        return $this->items;
+    }
+
+    protected function parseValue(string $id, string|float|int|null $value): string|float|int|null
+    {
+        if ($id === "status") {
+            return ilLearningProgressBaseGUI::_getStatusText((int) $value);
+        }
+
         if ($id === "launch_data" || $id === "suspend_data") {
             return $value;
         }
+
         if (is_numeric($value)) {
             return round((float) $value, 2);
         }
+
         return $value;
     }
 
     /**
-     * Fill table row
-     * @throws ilTemplateException
+     * @return array<int, array<string, mixed>>
      */
-    protected function fillRow(array $a_set): void
+    private function getRowsForExport(): array
     {
-        foreach ($this->getSelectedColumns() as $c) {
-            $this->tpl->setCurrentBlock("user_field");
-            $val = $this->parseValue($c, $a_set[$c], "scormtrac");
-            if ($c !== "status") {
-                $val = $this->escapeOutputForTemplate((string) ($val ?? ""));
+        $rows = $this->getItems();
+        [$order_column, $order_direction] = $this->readOrderFromTableStorage();
+
+        if ($order_column !== null && $order_direction !== null) {
+            $rows = ilArrayUtil::stableSortArray($rows, $order_column, $order_direction);
+        }
+
+        return $rows;
+    }
+
+    /**
+     * @return array{0: string|null, 1: string|null}
+     */
+    private function readOrderFromTableStorage(): array
+    {
+        foreach ($this->getTableStorageData() as $value) {
+            if (!is_array($value) || count($value) !== 2) {
+                continue;
             }
-            $this->tpl->setVariable("VAL_UF", $val);
-            $this->tpl->parseCurrentBlock();
-        }
-    }
 
-    private function escapeOutputForTemplate(string $value): string
-    {
-        $value = htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, "utf-8");
-        return str_replace(["{", "}"], ["&#123;", "&#125;"], $value);
-    }
-
-    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row): void
-    {
-        $labels = $this->getSelectableColumns();
-        $cnt = 0;
-        foreach ($this->getSelectedColumns() as $c) {
-            $a_excel->setCell($a_row, $cnt, $labels[$c]["txt"]);
-            $cnt++;
-        }
-    }
-
-    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set): void
-    {
-        global $DIC;
-        $lng = $DIC->language();
-        $lng->loadLanguageModule("trac");
-        $cnt = 0;
-        foreach ($this->getSelectedColumns() as $c) {
-            if ($c !== 'status') {
-                $val = $this->parseValue($c, $a_set[$c], "user");
-            } else {
-                $val = ilLearningProgressBaseGUI::_getStatusText((int) $a_set[$c]);
+            $order_value = array_values($value);
+            if (
+                !is_string($order_value[0])
+                || !str_starts_with($order_value[0], 'col_')
+                || !is_string($order_value[1])
+            ) {
+                continue;
             }
-            $a_excel->setCell($a_row, $cnt, $val);
-            $cnt++;
-        }
-    }
 
-    protected function fillHeaderCSV(ilCSVWriter $a_csv): void
-    {
-        $labels = $this->getSelectableColumns();
-        foreach ($this->getSelectedColumns() as $c) {
-            $a_csv->addColumn($labels[$c]["txt"]);
-        }
+            $column = substr($order_value[0], 4);
+            $direction = strtoupper($order_value[1]);
 
-        $a_csv->addRow();
-    }
-
-    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set): void
-    {
-        global $DIC;
-        $lng = $DIC->language();
-        $lng->loadLanguageModule("trac");
-        foreach ($this->getSelectedColumns() as $c) {
-            if ($c !== 'status') {
-                $val = $this->parseValue($c, $a_set[$c], "user");
-            } else {
-                $val = ilLearningProgressBaseGUI::_getStatusText((int) $a_set[$c]);
+            if (
+                !in_array($direction, [Order::ASC, Order::DESC], true)
+                || !array_key_exists($column, $this->getSelectableColumns())
+            ) {
+                continue;
             }
-            $a_csv->addColumn($val);
+
+            return [$column, strtolower($direction)];
         }
 
-        $a_csv->addRow();
+        return [null, null];
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private function getColumnsForExport(): array
+    {
+        $selected_columns = $this->readSelectedColumnsFromTableStorage();
+        if ($selected_columns !== []) {
+            return $selected_columns;
+        }
+
+        return $this->getDefaultColumns();
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private function readSelectedColumnsFromTableStorage(): array
+    {
+        $available = array_flip($this->getAvailableColumns());
+
+        foreach ($this->getTableStorageData() as $value) {
+            if (!is_array($value) || $value === []) {
+                continue;
+            }
+
+            $candidate = [];
+            foreach ($value as $entry) {
+                if (!is_string($entry)) {
+                    continue;
+                }
+
+                if ($entry === '') {
+                    continue;
+                }
+
+                if (!str_starts_with($entry, 'col_')) {
+                    $candidate = [];
+                    break;
+                }
+
+                $column = substr($entry, 4);
+                if (isset($available[$column])) {
+                    $candidate[] = $column;
+                }
+            }
+
+            if ($candidate !== []) {
+                return array_values(array_unique($candidate));
+            }
+        }
+
+        return [];
+    }
+
+    private function getTableStorageData(): array
+    {
+        $storage_id = TableData::STORAGE_ID_PREFIX . 'AICC' . $this->report;
+        $stored_values = ilSession::get($storage_id);
+
+        return is_array($stored_values) ? $stored_values : [];
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private function getNumericColumns(): array
+    {
+        return [
+            "lm_id",
+            "sco_id",
+            "counter",
+            "c_max",
+            "c_min",
+            "c_raw",
+            "LearningModuleId",
+            "LearningModuleVersion",
+            "Percentage",
+            "Attempts",
+            "existingSCOs",
+            "startedSCOs",
+            "completedSCOs",
+            "passedSCOs",
+            "roundedTotal_timeSeconds"
+        ];
+    }
+
+    private function getExportColumnLabel(string $column): string
+    {
+        $selectable = $this->getSelectableColumns();
+        if (isset($selectable[$column]['txt']) && is_string($selectable[$column]['txt'])) {
+            return $selectable[$column]['txt'];
+        }
+
+        return $this->getColumnTitle($column);
+    }
+
+    private function exportValue(string $column, string|float|int|null $value): string|float|int|null
+    {
+        if ($column === 'status') {
+            return ilLearningProgressBaseGUI::_getStatusText((int) $value);
+        }
+
+        return $this->parseValue($column, $value);
+    }
+
+    private function buildExportFilename(string $extension): string
+    {
+        return sprintf(
+            'scorm_tracking_items_%d_%s_%s.%s',
+            $this->obj_id,
+            strtolower($this->report),
+            date('Ymd_His'),
+            $extension
+        );
     }
 }

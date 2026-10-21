@@ -18,6 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\DI\Container;
+use ILIAS\Repository\Filter\FilterAdapterGUI;
+use ILIAS\UI\Component\Dropdown\Standard as DropdownStandard;
+
 /**
 * Class ilObjSCORMLearningModuleGUI
 *
@@ -27,7 +31,7 @@ declare(strict_types=1);
 * @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilLearningProgressGUI, ilContainerResourceGUI
 * @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilInfoScreenGUI
 * @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilCertificateGUI
-* @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilSCORMTrackingItemsPerScoFilterGUI, ilSCORMTrackingItemsPerUserFilterGUI, ilSCORMTrackingItemsTableGUI
+* @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilSCORMTrackingItemsTableGUI
 * @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilLTIProviderObjectSettingGUI
 *
 * @ingroup components\ILIASScormAicc
@@ -35,7 +39,11 @@ declare(strict_types=1);
 class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 {
     private ilPropertyFormGUI $form;
-    protected \ILIAS\DI\Container $dic;
+    protected Container $dic;
+    protected const EXPORT_BY_SCO = 'by_sco';
+    protected const EXPORT_BY_USER = 'by_user';
+    protected const TRACKING_FILTER_BY_SCO = 'sahs_tracking_by_sco_';
+    protected const TRACKING_FILTER_BY_USER = 'sahs_tracking_by_user_';
 
     protected int $refId;
     protected ilCtrl $ctrl;
@@ -650,34 +658,37 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     {
         global $DIC;
         $ilTabs = $DIC->tabs();
+        $ilAccess = $DIC->access();
+
+        $ilTabs->setTabActive("cont_tracking_data");
+
+        if (!$ilAccess->checkAccess("read_learning_progress", "", $this->refId)) {
+            if ($ilAccess->checkAccess("edit_learning_progress", "", $this->refId)) {
+                $this->modifyTrackingItems();
+            }
+            return true;
+        }
 
         $this->setSubTabs();
-        $ilTabs->setTabActive("cont_tracking_data");
         $ilTabs->setSubTabActive("cont_tracking_bysco");
 
-        $reports = array('exportSelectedCore','exportSelectedInteractions','exportSelectedObjectives','exportSelectedRaw');//,'tracInteractionItem','tracInteractionUser','tracInteractionUserAnswers'
-        $scoSelected = "all";
-        if ($this->dic->http()->wrapper()->query()->has('scoSelected')) {
-            $scoSelected = ilUtil::stripSlashes($this->dic->http()->wrapper()->query()->retrieve('scoSelected', $this->dic->refinery()->kindlyTo()->string()));
-        }
-        if ($this->dic->http()->wrapper()->post()->has('scoSelected')) {
-            $scoSelected = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('scoSelected', $this->dic->refinery()->kindlyTo()->string()));
-        }
-        $this->ctrl->setParameter($this, 'scoSelected', $scoSelected);
+        $reports = ['exportSelectedCore', 'exportSelectedInteractions', 'exportSelectedObjectives', 'exportSelectedRaw'];
+        [$filter, $filter_data] = $this->buildTrackingFilter(
+            self::TRACKING_FILTER_BY_SCO . $this->object->getId(),
+            'showTrackingItemsBySco',
+            'scoSelected',
+            $this->lng->txt('chapter'),
+            $this->getTrackingScoOptions(),
+            $reports
+        );
 
-        $report = "choose";
-        if ($this->dic->http()->wrapper()->query()->has('report')) {
-            $report = ilUtil::stripSlashes($this->dic->http()->wrapper()->query()->retrieve('report', $this->dic->refinery()->kindlyTo()->string()));
-        }
-        if ($this->dic->http()->wrapper()->post()->has('report')) {
-            $report = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('report', $this->dic->refinery()->kindlyTo()->string()));
-        }
+        $scoSelected = $filter_data['scoSelected'];
+        $report = $filter_data['report'];
+        $this->ctrl->setParameter($this, 'scoSelected', $scoSelected);
         $this->ctrl->setParameter($this, 'report', $report);
-        $filter = new ilSCORMTrackingItemsPerScoFilterGUI($this, 'showTrackingItemsBySco');
-        $filter->parse($scoSelected, $report, $reports);
-        if ($report === "choose") {
-            $this->tpl->setContent($filter->form->getHTML());
-        } else {
+
+        $content = $filter->render();
+        if ($report !== "choose") {
             $scosSelected = array();
             if ($scoSelected !== "all") {
                 $scosSelected[] = $scoSelected;
@@ -689,8 +700,12 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             }
             $a_users = ilTrQuery::getParticipantsForObject($this->ref_id);
             $tbl = new ilSCORMTrackingItemsTableGUI($this->object->getId(), $this, 'showTrackingItemsBySco', $a_users, $scosSelected, $report);
-            $this->tpl->setContent($filter->form->getHTML() . $tbl->getHTML());
+            $content .= $this->renderTrackingTableWithExportActions(
+                $tbl->getHTML(),
+                self::EXPORT_BY_SCO
+            );
         }
+        $this->tpl->setContent($content);
         return true;
     }
 
@@ -710,30 +725,23 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             $this->setSubTabs();
             $ilTabs->setSubTabActive('cont_tracking_byuser');
 
-            $reports = array('exportSelectedSuccess','exportSelectedCore','exportSelectedInteractions','exportSelectedObjectives','exportSelectedRaw');
+            $reports = ['exportSelectedSuccess', 'exportSelectedCore', 'exportSelectedInteractions', 'exportSelectedObjectives', 'exportSelectedRaw'];
+            [$filter, $filter_data] = $this->buildTrackingFilter(
+                self::TRACKING_FILTER_BY_USER . $this->object->getId(),
+                'showTrackingItems',
+                'userSelected',
+                $this->lng->txt('user'),
+                $this->getTrackingUserOptions(),
+                $reports
+            );
 
-            $userSelected = "all";
-            if ($this->dic->http()->wrapper()->query()->has('userSelected')) {
-                $userSelected = ilUtil::stripSlashes($this->dic->http()->wrapper()->query()->retrieve('userSelected', $this->dic->refinery()->kindlyTo()->string()));
-            }
-            if ($this->dic->http()->wrapper()->post()->has('userSelected')) {
-                $userSelected = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('userSelected', $this->dic->refinery()->kindlyTo()->string()));
-            }
+            $userSelected = $filter_data['userSelected'];
+            $report = $filter_data['report'];
             $this->ctrl->setParameter($this, 'userSelected', $userSelected);
-
-            $report = "choose";
-            if ($this->dic->http()->wrapper()->query()->has('report')) {
-                $report = ilUtil::stripSlashes($this->dic->http()->wrapper()->query()->retrieve('report', $this->dic->refinery()->kindlyTo()->string()));
-            }
-            if ($this->dic->http()->wrapper()->post()->has('report')) {
-                $report = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('report', $this->dic->refinery()->kindlyTo()->string()));
-            }
             $this->ctrl->setParameter($this, 'report', $report);
-            $filter = new ilSCORMTrackingItemsPerUserFilterGUI($this, 'showTrackingItems');
-            $filter->parse($userSelected, $report, $reports);
-            if ($report === "choose") {
-                $this->tpl->setContent($filter->form->getHTML());
-            } else {
+
+            $content = $filter->render();
+            if ($report !== "choose") {
                 $usersSelected = array();
                 if ($userSelected !== "all") {
                     $usersSelected[] = $userSelected;
@@ -751,12 +759,330 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
                     $scosSelected[] = (int) $row->getId();
                 }
                 $tbl = new ilSCORMTrackingItemsTableGUI($this->object->getId(), $this, 'showTrackingItems', $usersSelected, $scosSelected, $report);
-                $this->tpl->setContent($filter->form->getHTML() . $tbl->getHTML());
+                $content .= $this->renderTrackingTableWithExportActions(
+                    $tbl->getHTML(),
+                    self::EXPORT_BY_USER
+                );
             }
+            $this->tpl->setContent($content);
         } elseif ($ilAccess->checkAccess("edit_learning_progress", "", $this->refId)) {
             $this->modifyTrackingItems();
         }
         return true;
+    }
+
+    /**
+     * @param array<int, string> $reports
+     * @param array<string, string> $scope_options
+     * @return array{0: FilterAdapterGUI, 1: array<string, string>}
+     */
+    protected function buildTrackingFilter(
+        string $filter_id,
+        string $cmd,
+        string $scope_key,
+        string $scope_label,
+        array $scope_options,
+        array $reports
+    ): array {
+        $this->lng->loadLanguageModule("scormtrac");
+
+        $report_options = $this->getTrackingReportOptions($reports);
+        $default_scope = array_key_exists('all', $scope_options)
+            ? 'all'
+            : (string) (array_key_first($scope_options) ?? 'all');
+
+        $filter = new FilterAdapterGUI($filter_id, [get_class($this)], $cmd, true, true);
+        $filter
+            ->select($scope_key, $scope_label, $scope_options, true, $default_scope, true)
+            ->select('report', $this->lng->txt('report'), $report_options, true, 'choose', true);
+
+        $raw = $filter->getData() ?? [];
+
+        $scope_value = (string) ($raw[$scope_key] ?? $default_scope);
+        if (!array_key_exists($scope_value, $scope_options)) {
+            $scope_value = $default_scope;
+        }
+
+        $report_value = (string) ($raw['report'] ?? 'choose');
+        if (!array_key_exists($report_value, $report_options)) {
+            $report_value = 'choose';
+        }
+
+        return [$filter, [$scope_key => $scope_value, 'report' => $report_value]];
+    }
+
+    /**
+     * @param array<int, string> $reports
+     * @return array<string, string>
+     */
+    protected function getTrackingReportOptions(array $reports): array
+    {
+        $options = ["choose" => $this->lng->txt("please_choose")];
+        foreach ($reports as $value) {
+            $options[$value] = $this->lng->txt(strtolower($value));
+        }
+
+        return $options;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    protected function getTrackingUserOptions(): array
+    {
+        $options = ["all" => $this->lng->txt("all")];
+        $users = ilTrQuery::getParticipantsForObject($this->getRefId());
+        $privacy = ilPrivacySettings::getInstance();
+        $allowExportPrivacy = $privacy->enabledExportSCORM();
+
+        if ($users && count($users) > 0) {
+            foreach ($users as $usr) {
+                $user = (int) $usr;
+                if (ilObject::_exists($user) && ilObject::_lookUpType($user) === 'usr') {
+                    if ($allowExportPrivacy) {
+                        $e_user = new ilObjUser($user);
+                        $options[(string) $user] = $e_user->getLastname() . ", " . $e_user->getFirstname();
+                    } else {
+                        $options[(string) $user] = 'User Id: ' . $user;
+                    }
+                }
+            }
+        } else {
+            $options = ["-1" => $this->lng->txt("no_items")];
+        }
+
+        return $options;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    protected function getTrackingScoOptions(): array
+    {
+        $options = ["all" => $this->lng->txt("all")];
+        $scos = $this->object->getTrackedItems();
+
+        foreach ($scos as $row) {
+            $options[(string) $row->getId()] = $row->getTitle();
+        }
+
+        return $options;
+    }
+
+    protected function renderTrackingTableWithExportActions(string $table_html, string $export_mode): string
+    {
+        $factory = $this->dic->ui()->factory();
+        $renderer = $this->dic->ui()->renderer();
+
+        $panel = $factory->panel()->standard(
+            $this->lng->txt('cont_tracking_items'),
+            $factory->legacy()->content($table_html)
+        )->withActions($this->buildTrackingItemsActionsDropdown($export_mode));
+
+        return $renderer->render($panel);
+    }
+
+    protected function buildTrackingItemsActionsDropdown(string $export_mode): DropdownStandard
+    {
+        $factory = $this->dic->ui()->factory();
+
+        switch ($export_mode) {
+            case self::EXPORT_BY_SCO:
+                $csv_cmd = 'exportTrackingItemsCsvBySco';
+                $excel_cmd = 'exportTrackingItemsExcelBySco';
+                break;
+
+            case self::EXPORT_BY_USER:
+                $csv_cmd = 'exportTrackingItemsCsvByUser';
+                $excel_cmd = 'exportTrackingItemsExcelByUser';
+                break;
+
+            default:
+                throw new \InvalidArgumentException(
+                    sprintf('Unsupported export mode "%s".', $export_mode)
+                );
+        }
+
+        $actions = [
+            $factory->link()->standard(
+                $this->lng->txt('export') . ' CSV',
+                $this->ctrl->getLinkTarget($this, $csv_cmd)
+            ),
+            $factory->link()->standard(
+                $this->lng->txt('export') . ' Excel',
+                $this->ctrl->getLinkTarget($this, $excel_cmd)
+            ),
+        ];
+
+        return $factory->dropdown()->standard($actions)->withLabel($this->lng->txt('export'));
+    }
+
+    protected function buildModifyTrackingDataActionsDropdown(): DropdownStandard
+    {
+        $factory = $this->dic->ui()->factory();
+
+        $actions = [
+            $factory->link()->standard(
+                $this->lng->txt('import'),
+                $this->ctrl->getLinkTarget($this, 'trackingImportForm')
+            ),
+            $factory->link()->standard(
+                $this->lng->txt('cont_export_all'),
+                $this->ctrl->getLinkTarget($this, 'exportAll')
+            ),
+        ];
+
+        return $factory->dropdown()->standard($actions)->withLabel(
+            $this->lng->txt('import') . ' / ' . $this->lng->txt('export')
+        );
+    }
+
+    protected function exportTrackingItemsCsvByUser(): void
+    {
+        $this->exportTrackingItems(false, false);
+    }
+
+    protected function exportTrackingItemsExcelByUser(): void
+    {
+        $this->exportTrackingItems(false, true);
+    }
+
+    protected function exportTrackingItemsCsvBySco(): void
+    {
+        $this->exportTrackingItems(true, false);
+    }
+
+    protected function exportTrackingItemsExcelBySco(): void
+    {
+        $this->exportTrackingItems(true, true);
+    }
+
+    private function exportTrackingItems(bool $by_sco, bool $as_excel): void
+    {
+        global $DIC;
+        $ilAccess = $DIC->access();
+        $ilErr = $DIC["ilErr"];
+
+        if (!$ilAccess->checkAccess("read_learning_progress", "", $this->refId)) {
+            $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+        }
+
+        $report = $this->readTrackingReport();
+        $valid_reports = $by_sco
+            ? [
+                'exportSelectedCore',
+                'exportSelectedInteractions',
+                'exportSelectedObjectives',
+                'exportSelectedRaw'
+            ]
+            : [
+                'exportSelectedSuccess',
+                'exportSelectedCore',
+                'exportSelectedInteractions',
+                'exportSelectedObjectives',
+                'exportSelectedRaw'
+            ];
+        if (!in_array($report, $valid_reports, true)) {
+            $report = "choose";
+        }
+        if ($report === "choose") {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("please_choose"), true);
+            $this->ctrl->redirect($this, $by_sco ? 'showTrackingItemsBySco' : 'showTrackingItems');
+            return;
+        }
+
+        if ($by_sco) {
+            $sco_selected = $this->readTrackingScoSelection();
+            $scos_selected = [];
+            if ($sco_selected !== "all") {
+                $scos_selected[] = $sco_selected;
+            } else {
+                $scos = $this->object->getTrackedItems();
+                foreach ($scos as $row) {
+                    $scos_selected[] = (int) $row->getId();
+                }
+            }
+            $users_selected = ilTrQuery::getParticipantsForObject($this->ref_id);
+
+            $table = new ilSCORMTrackingItemsTableGUI(
+                $this->object->getId(),
+                $this,
+                'showTrackingItemsBySco',
+                $users_selected,
+                $scos_selected,
+                $report
+            );
+        } else {
+            $user_selected = $this->readTrackingUserSelection();
+            $users_selected = [];
+            if ($user_selected !== "all") {
+                $users_selected[] = $user_selected;
+            } else {
+                $users = ilTrQuery::getParticipantsForObject($this->ref_id);
+                foreach ($users as $user) {
+                    if (ilObject::_exists((int) $user) && ilObject::_lookUpType((int) $user) === 'usr') {
+                        $users_selected[] = (int) $user;
+                    }
+                }
+            }
+
+            $scos_selected = [];
+            $scos = $this->object->getTrackedItems();
+            foreach ($scos as $row) {
+                $scos_selected[] = (int) $row->getId();
+            }
+
+            $table = new ilSCORMTrackingItemsTableGUI(
+                $this->object->getId(),
+                $this,
+                'showTrackingItems',
+                $users_selected,
+                $scos_selected,
+                $report
+            );
+        }
+
+        if ($as_excel) {
+            $table->sendExportExcel();
+            return;
+        }
+        $table->sendExportCSV();
+    }
+
+    private function readTrackingReport(): string
+    {
+        $report = "choose";
+        if ($this->dic->http()->wrapper()->query()->has('report')) {
+            $report = $this->dic->http()->wrapper()->query()->retrieve('report', $this->dic->refinery()->kindlyTo()->string());
+        }
+        if ($this->dic->http()->wrapper()->post()->has('report')) {
+            $report = $this->dic->http()->wrapper()->post()->retrieve('report', $this->dic->refinery()->kindlyTo()->string());
+        }
+        return $report;
+    }
+
+    private function readTrackingUserSelection(): string
+    {
+        $user_selected = "all";
+        if ($this->dic->http()->wrapper()->query()->has('userSelected')) {
+            $user_selected = $this->dic->http()->wrapper()->query()->retrieve('userSelected', $this->dic->refinery()->kindlyTo()->string());
+        }
+        if ($this->dic->http()->wrapper()->post()->has('userSelected')) {
+            $user_selected = $this->dic->http()->wrapper()->post()->retrieve('userSelected', $this->dic->refinery()->kindlyTo()->string());
+        }
+        return $user_selected;
+    }
+
+    private function readTrackingScoSelection(): string
+    {
+        $sco_selected = "all";
+        if ($this->dic->http()->wrapper()->query()->has('scoSelected')) {
+            $sco_selected = $this->dic->http()->wrapper()->query()->retrieve('scoSelected', $this->dic->refinery()->kindlyTo()->string());
+        }
+        if ($this->dic->http()->wrapper()->post()->has('scoSelected')) {
+            $sco_selected = $this->dic->http()->wrapper()->post()->retrieve('scoSelected', $this->dic->refinery()->kindlyTo()->string());
+        }
+        return $sco_selected;
     }
 
     /**
@@ -775,22 +1101,29 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
             global $DIC;
             $ilTabs = $DIC->tabs();
-            $ilToolbar = $DIC->toolbar();
-            $ilToolbar->addButton(
-                $this->lng->txt('import'),
-                $this->ctrl->getLinkTarget($this, 'trackingImportForm')
-            );
-            $ilToolbar->addButton(
-                $this->lng->txt('cont_export_all'),
-                $this->ctrl->getLinkTarget($this, 'exportAll')
-            );
 
             $this->setSubTabs();
             $ilTabs->setTabActive('cont_tracking_data');
             $ilTabs->setSubTabActive('cont_tracking_modify');
-            $tbl = new ilSCORMTrackingUsersTableGUI($this->object->getId(), $this, 'modifytrackingItems');
+            $tbl = new ilSCORMTrackingUsersTableGUI($this->object->getId(), $this, 'modifyTrackingItems');
             $tbl->parse();
-            $this->tpl->setContent($tbl->getHTML());
+            if ($tbl->handleCommand()) {
+                return;
+            }
+
+            $factory = $this->dic->ui()->factory();
+            $renderer = $this->dic->ui()->renderer();
+            $panel = $factory->panel()->standard(
+                $this->lng->txt('cont_tracking_items'),
+                $factory->legacy()->content($tbl->getTableHTML())
+            )->withActions(
+                $this->buildModifyTrackingDataActionsDropdown()
+            );
+
+            $this->tpl->setContent(
+                $tbl->getFilterHTML()
+                . $renderer->render($panel)
+            );
         }
     }
 
@@ -799,10 +1132,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
      */
     protected function applyUserTableFilter(): void
     {
-        $tbl = new ilSCORMTrackingUsersTableGUI($this->object->getId(), $this, 'modifytrackingItems');
-        $tbl->writeFilterToSession();
-        $tbl->resetOffset();
-        $this->modifyTrackingItems();
+        $this->ctrl->redirect($this, 'modifyTrackingItems');
     }
 
     /**
@@ -811,22 +1141,34 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
      */
     protected function resetUserTableFilter(): void
     {
-        $tbl = new ilSCORMTrackingUsersTableGUI($this->object->getId(), $this, 'modifytrackingItems');
-        $tbl->resetFilter();
-        $tbl->resetOffset();
-        $this->modifyTrackingItems();
+        $this->ctrl->redirect($this, 'modifyTrackingItems');
     }
 
     /**
      * display deletion confirmation screen
      * @throws ilCtrlException
      */
-    public function deleteTrackingForUser(): void
+    public function deleteTrackingForUser(?array $user_ids = null): void
     {
         global $DIC;
         $ilErr = $DIC["ilErr"];
+        $DIC->tabs()->clearSubTabs();
 
-        if (!$DIC->http()->wrapper()->post()->has('user')) {
+        if ($user_ids === null) {
+            if (!$DIC->http()->wrapper()->post()->has('user')) {
+                $ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
+            }
+            $user_ids = $DIC->http()->wrapper()->post()->retrieve(
+                'user',
+                $DIC->refinery()->kindlyTo()->listOf($DIC->refinery()->kindlyTo()->int())
+            );
+        }
+
+        if (($user_ids[0] ?? null) === 'ALL_OBJECTS') {
+            $user_ids = $this->getTrackedUserIdsByCurrentModifyFilter();
+        }
+
+        if (count($user_ids) === 0) {
             $ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
         }
 
@@ -836,7 +1178,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $cgui->setHeaderText($this->lng->txt("info_delete_sure"));
         $cgui->setCancel($this->lng->txt("cancel"), "cancelDeleteTracking");
         $cgui->setConfirm($this->lng->txt("confirm"), "confirmedDeleteTracking");
-        foreach ($DIC->http()->wrapper()->post()->retrieve('user', $DIC->refinery()->kindlyTo()->listOf($DIC->refinery()->kindlyTo()->int())) as $id) {
+        foreach ($user_ids as $id) {
             if (ilObject::_exists((int) $id) && ilObject::_lookUpType((int) $id) === "usr") {
                 $user = new ilObjUser((int) $id);
 
@@ -953,16 +1295,60 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
      * Export selection for selected users
      * @throws ilCtrlException
      */
-    protected function exportSelectionUsers(): void
+    public function exportSelectionUsers(?array $user_ids = null): void
     {
-        if (!$this->post_wrapper->has('user')) {
-            //was if (!count((array) $_POST['user'])) {
-            //ilUtil::sendFailure($this->lng->txt('select_one'),true);
+        if ($user_ids === null) {
+            if (!$this->post_wrapper->has('user')) {
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_checkbox"), true);
+                $this->ctrl->redirect($this, 'modifyTrackingItems');
+            }
+            $user_ids = $this->post_wrapper->retrieve(
+                'user',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            );
+        }
+
+        if (($user_ids[0] ?? null) === 'ALL_OBJECTS') {
+            $user_ids = $this->getTrackedUserIdsByCurrentModifyFilter();
+        }
+
+        if (count($user_ids) === 0) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, 'modifyTrackingItems');
-        } else {
-            $this->object->exportSelected(false, $this->post_wrapper->retrieve('user', $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())));
         }
+
+        $this->object->exportSelected(false, array_map('intval', $user_ids));
+    }
+
+    /**
+     * @return array<int, int>
+     */
+    private function getTrackedUserIdsByCurrentModifyFilter(): array
+    {
+        $filter = new FilterAdapterGUI(
+            'sco_tr_usrs_' . $this->object->getId(),
+            [get_class($this)],
+            'modifyTrackingItems'
+        );
+        $filter->text('login_filter', $this->lng->txt('login'));
+        $filter->text('firstname_filter', $this->lng->txt('firstname'));
+        $filter->text('lastname_filter', $this->lng->txt('lastname'));
+        $filter->text('email_filter', $this->lng->txt('email'));
+
+        $filter_data = $filter->getData() ?? [];
+        $users = $this->object->getTrackedUsers([
+            'lastname_filter' => trim((string) ($filter_data['lastname_filter'] ?? '')),
+            'firstname_filter' => trim((string) ($filter_data['firstname_filter'] ?? '')),
+            'login_filter' => trim((string) ($filter_data['login_filter'] ?? '')),
+            'email_filter' => trim((string) ($filter_data['email_filter'] ?? '')),
+        ]);
+
+        $user_ids = array_map(
+            static fn(array $user): int => (int) ($user['user_id'] ?? 0),
+            $users
+        );
+
+        return array_values(array_filter($user_ids, static fn(int $id): bool => $id > 0));
     }
 
 
