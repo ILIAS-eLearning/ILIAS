@@ -1150,6 +1150,7 @@ assessment#:#qst_nested_nested_answers_on#:#Mit Einrückung
 assessment#:#qst_nr_of_tries#:#Anzahl der Versuche
 assessment#:#qst_preview_reset_msg#:#Die Vorschau wurde zurückgesetzt.
 assessment#:#qst_use_nested_answers#:#Einrückung in Antworten verwenden
+assessment#:#qst_use_nested_answers_info#:#Nach dem Auswählen von „Einrückung in Antworten verwenden“ müssen Sie die Frage speichern. Anschließend erscheint oben der neue Unterreiter „Einrückung“, in dem Sie die Antwortelemente nach Wunsch zu einer Hierarchie anordnen können.
 assessment#:#que_contains_unused_var#:#Im Fragen-Text sind Variablen enthalten, die in keiner Formel verwendet werden.
 assessment#:#question_browse_area_info#:#Wählen Sie bitte ein Objekt, aus dem sie Fragen importieren wollen.
 assessment#:#question_complete_title#:#Vollständig

@@ -1145,11 +1145,12 @@ assessment#:#qst_lifecycle_outdated#:#Outdated
 assessment#:#qst_lifecycle_rejected#:#Rejected
 assessment#:#qst_lifecycle_review#:#To be Reviewed
 assessment#:#qst_lifecycle_sharable#:#Shareable
-assessment#:#qst_nested_nested_answers_off#:#No indents, just order
-assessment#:#qst_nested_nested_answers_on#:#Use indents in answers
+assessment#:#qst_nested_nested_answers_off#:#Deactivated: Sequential order only
+assessment#:#qst_nested_nested_answers_on#:#Activated: Answer elements can be nested (hierarchical order)
 assessment#:#qst_nr_of_tries#:#Number of Tries
 assessment#:#qst_preview_reset_msg#:#The preview has been reset.
-assessment#:#qst_use_nested_answers#:#Nested answers
+assessment#:#qst_use_nested_answers#:#Nested Answers
+assessment#:#qst_use_nested_answers_info#:#After selecting 'Nested Answers', you will need to save the question. A new 'Nesting' subtab will then appear at the top of the screen, where you can arrange the answer elements into a hierarchy of your choice.
 assessment#:#que_contains_unused_var#:#The question text contains a variable, that is not used in any result formula!
 assessment#:#question_browse_area_info#:#Please select an object from which you want to import questions.
 assessment#:#question_complete_title#:#Complete
