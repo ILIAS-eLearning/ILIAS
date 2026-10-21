@@ -125,4 +125,60 @@ class ilServicesAdministrativeNotificationTest extends TestCase
 
         $this->assertFalse($notification->isVisibleForUser($user_mock));
     }
+
+    /**
+     * Event dates are optional, see https://mantis.ilias.de/view.php?id=48295
+     */
+    public function testDateConfigurationWithOptionalEvent(): void
+    {
+        $now = new DateTimeImmutable();
+        $dates = static fn(?string $display_start, ?string $display_end, ?string $event_start, ?string $event_end): array => [
+            ilADNNotificationUIFormGUI::F_DISPLAY_DATE_START => $display_start === null ? null : $now->modify($display_start),
+            ilADNNotificationUIFormGUI::F_DISPLAY_DATE_END => $display_end === null ? null : $now->modify($display_end),
+            ilADNNotificationUIFormGUI::F_EVENT_DATE_START => $event_start === null ? null : $now->modify($event_start),
+            ilADNNotificationUIFormGUI::F_EVENT_DATE_END => $event_end === null ? null : $now->modify($event_end),
+        ];
+
+        $this->assertTrue(ilADNNotificationUIFormGUI::isValidDateConfiguration(null));
+        // no event at all
+        $this->assertTrue(ilADNNotificationUIFormGUI::isValidDateConfiguration($dates('+0 days', '+1 day', null, null)));
+        // event within the display time
+        $this->assertTrue(
+            ilADNNotificationUIFormGUI::isValidDateConfiguration($dates('+0 days', '+3 hours', '+1 hour', '+2 hours'))
+        );
+        // display time is required to have a duration
+        $this->assertFalse(ilADNNotificationUIFormGUI::isValidDateConfiguration($dates('+0 days', '+0 days', null, null)));
+        // only one event date
+        $this->assertFalse(ilADNNotificationUIFormGUI::isValidDateConfiguration($dates('+0 days', '+1 day', '+1 hour', null)));
+        $this->assertFalse(ilADNNotificationUIFormGUI::isValidDateConfiguration($dates('+0 days', '+1 day', null, '+1 hour')));
+        // event without duration or outside of the display time
+        $this->assertFalse(
+            ilADNNotificationUIFormGUI::isValidDateConfiguration($dates('+0 days', '+1 day', '+1 hour', '+1 hour'))
+        );
+        $this->assertFalse(
+            ilADNNotificationUIFormGUI::isValidDateConfiguration($dates('+0 days', '+1 day', '-1 hour', '+1 hour'))
+        );
+        $this->assertFalse(
+            ilADNNotificationUIFormGUI::isValidDateConfiguration($dates('+0 days', '+1 day', '+1 hour', '+2 days'))
+        );
+    }
+
+    /**
+     * Without event dates, the form stores an event without duration, which must never be active.
+     */
+    public function testEventWithoutDurationIsNeverActive(): void
+    {
+        $notification = new ilADNNotification();
+        $notification->setPermanent(false);
+        $notification->setType(ilADNNotification::TYPE_WARNING);
+        $notification->setTypeDuringEvent(ilADNNotification::TYPE_ERROR);
+        $display_start = new DateTimeImmutable('-1 hours');
+        $notification->setDisplayStart($display_start);
+        $notification->setDisplayEnd(new DateTimeImmutable('+1 hours'));
+        $notification->setEventStart($display_start);
+        $notification->setEventEnd($display_start);
+
+        $this->assertFalse($notification->isDuringEvent());
+        $this->assertSame(ilADNNotification::TYPE_WARNING, $notification->getActiveType());
+    }
 }
