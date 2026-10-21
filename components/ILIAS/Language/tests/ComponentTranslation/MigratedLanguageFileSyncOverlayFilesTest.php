@@ -47,7 +47,7 @@ class MigratedLanguageFileSyncOverlayFilesTest extends MigratedLanguageFileSyncT
         $mo_before = file_get_contents(MigratedPoFixture::overlayMo($this->overlayBase()));
         $po_inode = fileinode($this->overlayBase() . '.po');
         $mo_inode = fileinode(MigratedPoFixture::overlayMo($this->overlayBase()));
-        $cache = new ReflectionProperty(\ILIAS\Language\ComponentTranslation\MigratedTranslations::class, 'states');
+        $cache = new ReflectionProperty(\ILIAS\Language\ComponentTranslation\TranslationGettextRepository::class, 'states');
         $cache->setValue(null, [self::MODULE . '|de' => ['greeting' => 'cached']]);
 
         try {
@@ -98,7 +98,7 @@ class MigratedLanguageFileSyncOverlayFilesTest extends MigratedLanguageFileSyncT
         $po_inode = fileinode($this->overlayBase() . '.po');
         $mo_before = file_get_contents(MigratedPoFixture::overlayMo($this->overlayBase()));
         file_put_contents(MigratedPoFixture::overlayMo($this->overlayBase()), $stale_content($mo_before));
-        $cache = new ReflectionProperty(\ILIAS\Language\ComponentTranslation\MigratedTranslations::class, 'states');
+        $cache = new ReflectionProperty(\ILIAS\Language\ComponentTranslation\TranslationGettextRepository::class, 'states');
         $cache->setValue(null, [self::MODULE . '|de' => ['greeting' => 'stale']]);
 
         try {
@@ -179,7 +179,7 @@ class MigratedLanguageFileSyncOverlayFilesTest extends MigratedLanguageFileSyncT
     public function testASyncInvalidatesTheIlLanguageReadCache(): void
     {
         $this->seedShipped(['greeting' => 'Hallo']);
-        $cache = new ReflectionProperty(\ILIAS\Language\ComponentTranslation\MigratedTranslations::class, 'states');
+        $cache = new ReflectionProperty(\ILIAS\Language\ComponentTranslation\TranslationGettextRepository::class, 'states');
         $cache->setValue(null, [self::MODULE . '|de' => ['greeting' => 'stale'], 'other|de' => ['x' => 'y']]);
 
         try {

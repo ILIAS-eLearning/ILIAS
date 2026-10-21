@@ -25,6 +25,7 @@ use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
 use ILIAS\Language\ComponentTranslation\LocalChangeComments;
 use ILIAS\Language\ComponentTranslation\MigratedLanguageFilePaths;
 use ILIAS\Language\ComponentTranslation\MigratedTranslations;
+use ILIAS\Language\ComponentTranslation\TranslationGettextRepository;
 use ILIAS\Language\ComponentTranslation\NativeGettext;
 use ILIAS\Language\ComponentTranslation\PluralForms;
 use ILIAS\Language\ComponentTranslation\ShippedTranslations;
@@ -303,13 +304,14 @@ final class MigratedPoFixture
         if ($build && isset($DIC) && $DIC->offsetExists(LanguageFileDirectoryManager::class)) {
             self::build($DIC[LanguageFileDirectoryManager::class], (string) ILIAS_ABSOLUTE_PATH);
         }
-        $keys = (new ReflectionMethod(ilLanguage::class, 'migratedKeysOf'))->invoke(null, $module, $lang_key);
+        $translations = new TranslationGettextRepository();
+        $keys = (new ReflectionMethod(ilLanguage::class, 'migratedKeysOf'))->invoke(null, $translations, $module, $lang_key);
         if ($keys === null) {
             return null;
         }
         $texts = [];
         foreach (array_keys($keys) as $key) {
-            $value = MigratedTranslations::text($module, $lang_key, (string) $key, defined('CLIENT_DATA_DIR') ? (string) CLIENT_DATA_DIR : null);
+            $value = $translations->getText($module, $lang_key, (string) $key, defined('CLIENT_DATA_DIR') ? (string) CLIENT_DATA_DIR : null);
             if ($value !== null) {
                 $texts[(string) $key] = $value;
             }

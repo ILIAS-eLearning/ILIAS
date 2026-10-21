@@ -156,8 +156,9 @@ previous build is kept for running requests.
 * Only Setup builds. The web server never writes into `artifacts/`.
 
 ### Runtime
-`ilLanguage` serves a module shipped by a component only through native gettext
-(`MigratedTranslations`, `NativeGettext`): the build with the overlay of the
+`ilLanguage` serves a module shipped by a component only through a
+`TranslationRepository`, by default `TranslationGettextRepository` (native
+gettext, see `NativeGettext`): the build with the overlay of the
 local changes on top, never from the database - also in Setup and CLI, where
 the client data directory of the overlay is taken from `ilias.ini.php` until
 `CLIENT_DATA_DIR` is defined. A module counts as shipped if `current.json`
@@ -179,6 +180,12 @@ Only other modules (plugins) are read from `lng_data`/`lng_modules`.
   translate gives `-identifier-`, not the value of a module loaded before.
 * `txt()` with a `LanguageIdentifier` reads from exactly its module, see
   [above](#language-identifier-enums).
+* Another `TranslationRepository` (e.g. in unit tests) is handed to
+  `new ilLanguage($lang_key, $translations)`. The static methods
+  (`_lookupEntry()`, the invalidation after a write) always use
+  `TranslationGettextRepository`. Its state is static, so every instance
+  shares it, like native gettext its domains. Build status and problems stay
+  in `MigratedTranslations`.
 * Apart from these lookups, `.po`/`.mo` files are read and written with the
   library `gettext/gettext`, only through the adapter in
   `src/ComponentTranslation/Catalog/` (`TranslationCatalog`,

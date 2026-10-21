@@ -30,7 +30,7 @@ namespace ILIAS\Language\ComponentTranslation;
  *   path relative to the component directory (usually `lang/`); entries of two parts (like plugins before).
  *
  * A contributed ComponentLanguageFileDirectory is also how a module opts into the PO/MO migration (see
- * MigratedLanguageFileSync, ShippedTranslationsBuild, MigratedTranslations): getPath() then also locates its
+ * MigratedLanguageFileSync, ShippedTranslationsBuild, TranslationGettextRepository): getPath() then also locates its
  * shipped `<prefix>.pot`/`<prefix>_<lang>.po`, the per-installation overlay lives in CLIENT_DATA_DIR
  * `lang/<prefix>/<lang>/` (see MigratedLanguageFilePaths). The same directory object serves both conventions.
  */

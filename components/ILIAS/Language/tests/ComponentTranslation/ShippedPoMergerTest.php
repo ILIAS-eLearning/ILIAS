@@ -25,7 +25,7 @@ use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
 use ILIAS\Language\ComponentTranslation\MigratedLanguageFilePaths;
 use ILIAS\Language\ComponentTranslation\MigratedLanguageFileSync;
-use ILIAS\Language\ComponentTranslation\MigratedTranslations;
+use ILIAS\Language\ComponentTranslation\TranslationGettextRepository;
 use ILIAS\Language\ComponentTranslation\ShippedPoMerger;
 use PHPUnit\Framework\TestCase;
 
@@ -690,7 +690,7 @@ class ShippedPoMergerTest extends TestCase
         $this->assertSame($current_before, (string) file_get_contents(MigratedPoFixture::overlayCurrent($this->overlayBase())));
         $this->assertSame(
             'A (lokal)',
-            MigratedTranslations::text(self::MODULE, self::LANG, 'aaa', $this->client_data_dir),
+            (new TranslationGettextRepository())->getText(self::MODULE, self::LANG, 'aaa', $this->client_data_dir),
             'served from the overlay until the next setup build/update'
         );
     }
@@ -711,8 +711,8 @@ class ShippedPoMergerTest extends TestCase
 
         $overlay = MigratedPoFixture::readPo($this->overlayBase() . '.po');
         $this->assertSame('A (lokal)', $overlay->find(null, 'aaa')?->getTranslation(), 'kept although it equals the shipped value now');
-        $this->assertSame('A (lokal)', MigratedTranslations::text(self::MODULE, self::LANG, 'aaa', $this->client_data_dir));
-        $this->assertSame('B (lokal)', MigratedTranslations::text(self::MODULE, self::LANG, 'bbb', $this->client_data_dir));
+        $this->assertSame('A (lokal)', (new TranslationGettextRepository())->getText(self::MODULE, self::LANG, 'aaa', $this->client_data_dir));
+        $this->assertSame('B (lokal)', (new TranslationGettextRepository())->getText(self::MODULE, self::LANG, 'bbb', $this->client_data_dir));
 
         // "setup build", then "setup update" (a reconciling write)
         MigratedPoFixture::build($this->manager, ILIAS_ABSOLUTE_PATH);
@@ -729,7 +729,7 @@ class ShippedPoMergerTest extends TestCase
         $overlay = MigratedPoFixture::readPo($this->overlayBase() . '.po');
         $this->assertNull($overlay->find(null, 'aaa'), 'served by the build now');
         $this->assertSame('B (lokal)', $overlay->find(null, 'bbb')?->getTranslation());
-        $this->assertSame('A (lokal)', MigratedTranslations::text(self::MODULE, self::LANG, 'aaa', $this->client_data_dir));
+        $this->assertSame('A (lokal)', (new TranslationGettextRepository())->getText(self::MODULE, self::LANG, 'aaa', $this->client_data_dir));
     }
 
     /**
@@ -754,15 +754,15 @@ class ShippedPoMergerTest extends TestCase
         $overlay_entry = MigratedPoFixture::readPo($this->overlayBase() . '.po')->find(null, 'items');
         $this->assertNotNull($overlay_entry, 'kept although it equals the shipped message now');
         $this->assertSame(['Ein Ding', 'Dinge'], $overlay_entry->getPluralTranslations());
-        $this->assertSame('Ein Ding', MigratedTranslations::pluralText(self::MODULE, self::LANG, 'items', 1, $this->client_data_dir));
-        $this->assertSame('Dinge', MigratedTranslations::pluralText(self::MODULE, self::LANG, 'items', 2, $this->client_data_dir));
+        $this->assertSame('Ein Ding', (new TranslationGettextRepository())->getPluralText(self::MODULE, self::LANG, 'items', 1, $this->client_data_dir));
+        $this->assertSame('Dinge', (new TranslationGettextRepository())->getPluralText(self::MODULE, self::LANG, 'items', 2, $this->client_data_dir));
 
         MigratedPoFixture::build($this->manager, ILIAS_ABSOLUTE_PATH);
         $this->reconcile($local);
 
         $this->assertFileDoesNotExist($this->overlayBase() . '.po', 'served by the build now, nothing left to keep');
-        $this->assertSame('Ein Ding', MigratedTranslations::pluralText(self::MODULE, self::LANG, 'items', 1, $this->client_data_dir));
-        $this->assertSame('Dinge', MigratedTranslations::pluralText(self::MODULE, self::LANG, 'items', 2, $this->client_data_dir));
+        $this->assertSame('Ein Ding', (new TranslationGettextRepository())->getPluralText(self::MODULE, self::LANG, 'items', 1, $this->client_data_dir));
+        $this->assertSame('Dinge', (new TranslationGettextRepository())->getPluralText(self::MODULE, self::LANG, 'items', 2, $this->client_data_dir));
     }
 
     public function testTheMarkOfAPluralMessageIsDroppedOnceTheBuildServesTheWrittenPoAndTheMessageIsChangedAgain(): void
@@ -799,7 +799,7 @@ class ShippedPoMergerTest extends TestCase
         $entry = MigratedPoFixture::readPo($this->overlayBase() . '.po')->find(null, 'aaa');
         $this->assertSame('A (dritte)', $entry?->getTranslation());
         $this->assertFalse(\ILIAS\Language\ComponentTranslation\LocalChangeComments::isMergedIntoShipped($entry), 'a changed value is no taken over one any more - already before the build');
-        $this->assertSame('A (dritte)', MigratedTranslations::text(self::MODULE, self::LANG, 'aaa', $this->client_data_dir));
+        $this->assertSame('A (dritte)', (new TranslationGettextRepository())->getText(self::MODULE, self::LANG, 'aaa', $this->client_data_dir));
 
         MigratedPoFixture::build($this->manager, ILIAS_ABSOLUTE_PATH);
         $this->reconcile(['aaa' => 'A (dritte)']);
@@ -807,7 +807,7 @@ class ShippedPoMergerTest extends TestCase
         $entry = MigratedPoFixture::readPo($this->overlayBase() . '.po')->find(null, 'aaa');
         $this->assertSame('A (dritte)', $entry?->getTranslation(), 'still a local change against the written shipped value');
         $this->assertFalse(\ILIAS\Language\ComponentTranslation\LocalChangeComments::isMergedIntoShipped($entry), 'the mark is gone once the build serves the written .po');
-        $this->assertSame('A (dritte)', MigratedTranslations::text(self::MODULE, self::LANG, 'aaa', $this->client_data_dir));
+        $this->assertSame('A (dritte)', (new TranslationGettextRepository())->getText(self::MODULE, self::LANG, 'aaa', $this->client_data_dir));
     }
 
     public function testMarkMergedIntoShippedMarksOnlyTheNamedEntriesAndChangesNothingServed(): void

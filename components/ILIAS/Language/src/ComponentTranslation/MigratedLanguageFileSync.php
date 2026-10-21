@@ -35,7 +35,7 @@ use RuntimeException;
  * - the shipped `.po` is the only source of the shipped values (the legacy `.lang` files are not consulted,
  *   see LanguageInstallationManager);
  * - the overlay (see MigratedLanguageFilePaths, `<client data dir>/lang/<module>/<lang>/`) holds the delta to
- *   the shipped state (see sync()), which MigratedTranslations serves on top at runtime; it only exists where
+ *   the shipped state (see sync()), which TranslationGettextRepository serves on top at runtime; it only exists where
  *   there are local changes. Its `.po` carries per entry the value in use plus the LocalChangeComments
  *   bookkeeping ("original" = shipped value it is tracked against, "local_change" = when changed locally).
  *   Every change of the `.po` is compiled into a new revision `r-<hash>/` (catalog and `keys.json`, see

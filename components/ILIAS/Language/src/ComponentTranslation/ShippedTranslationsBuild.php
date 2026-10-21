@@ -25,7 +25,7 @@ use ILIAS\Language\ComponentTranslation\Catalog\TranslationEntry;
 use RuntimeException;
 
 /**
- * Builds what native gettext serves for the migrated modules (see MigratedTranslations) from every shipped
+ * Builds what native gettext serves for the migrated modules (see TranslationGettextRepository) from every shipped
  * `.po` of every contributed LanguageFileDirectory; run by Setup's build (ShippedLanguageFilesCompiledObjective)
  * only, never by the web server (it does not write `artifacts/`; "merge" only writes the shipped `.po`, see
  * ShippedPoMerger).
