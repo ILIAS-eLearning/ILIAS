@@ -79,7 +79,7 @@ class MigratedLanguageFileSyncRevisionTest extends TestCase
 
     private function served(string $key = 'greeting'): ?string
     {
-        return MigratedTranslations::text(self::MODULE, 'de', $key, $this->client_data_dir);
+        return (new TranslationGettextRepository())->getText(self::MODULE, 'de', $key, $this->client_data_dir);
     }
 
     /**

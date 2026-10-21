@@ -249,7 +249,7 @@ class LanguageInstallationManagerMigratedRemarksTest extends LanguageInstallatio
         $this->assertSame('Servus', $shipped?->getTranslation());
         $this->assertSame(['Merk'], $shipped->getTranslatorComments());
         $this->assertSame('Servus', $this->lngModules()[self::MODULE]['greeting']);
-        $this->assertSame('Servus', \ILIAS\Language\ComponentTranslation\MigratedTranslations::text(self::MODULE, 'de', 'greeting', $this->root . '/client-data'));
+        $this->assertSame('Servus', (new \ILIAS\Language\ComponentTranslation\TranslationGettextRepository())->getText(self::MODULE, 'de', 'greeting', $this->root . '/client-data'));
     }
 
     /**

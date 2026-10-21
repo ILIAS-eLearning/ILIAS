@@ -37,7 +37,7 @@ use RuntimeException;
  *   (PluralForms::defaultValueOf());
  * - with $mark_identity, "IDENTITY_CONTEXT\x04<identifier>" => "1" for every message whose value is its
  *   identifier: gettext answers a missing translation with the identifier, this tells "translated as
- *   itself" from "not translated" (see MigratedTranslations).
+ *   itself" from "not translated" (see TranslationGettextRepository).
  * The charset is always UTF-8; "Plural-Forms" is the rule PluralForms reads from the source (Germanic for
  * a missing or invalid header), so gettext and PluralForms agree. Untranslated messages are left out,
  * fuzzy ones compiled (see TranslationCatalog::toMoString()).
@@ -126,7 +126,7 @@ final class ShippedTranslations
         foreach ($source->getHeaders() as $name => $value) {
             $catalog->setHeader($name, $value);
         }
-        // never an empty header: MigratedTranslations tells a readable catalog by it, and the C
+        // never an empty header: TranslationGettextRepository tells a readable catalog by it, and the C
         // library takes the charset from it (TranslationCatalog only reads UTF-8)
         $catalog->setHeader('Content-Type', 'text/plain; charset=UTF-8');
 

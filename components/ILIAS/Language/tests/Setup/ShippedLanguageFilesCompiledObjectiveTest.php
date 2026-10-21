@@ -642,11 +642,11 @@ class ShippedLanguageFilesCompiledObjectiveTest extends TestCase
 
     public function testAchieveMakesTheNewBuildVisibleToTheRuntimeOfTheSameProcess(): void
     {
-        $this->assertNull(\ILIAS\Language\ComponentTranslation\MigratedTranslations::keysOf('itest', 'de', null), 'reads (and remembers) that there is no build');
+        $this->assertNull((new \ILIAS\Language\ComponentTranslation\TranslationGettextRepository())->getKeys('itest', 'de', null), 'reads (and remembers) that there is no build');
         $this->writeShippedPo('itest/', 'itest', 'de', ['greeting' => 'Hallo']);
 
         $this->achieve($this->directoryManager(MigratedPoFixture::directory('itest', 'itest/')));
 
-        $this->assertSame(['greeting'], array_keys((array) \ILIAS\Language\ComponentTranslation\MigratedTranslations::keysOf('itest', 'de', null)));
+        $this->assertSame(['greeting'], array_keys((array) (new \ILIAS\Language\ComponentTranslation\TranslationGettextRepository())->getKeys('itest', 'de', null)));
     }
 }

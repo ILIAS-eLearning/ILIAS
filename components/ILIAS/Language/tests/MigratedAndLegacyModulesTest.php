@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Language\ComponentTranslation\CustomizingLanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
+use ILIAS\Language\ComponentTranslation\TranslationGettextRepository;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\PreserveGlobalState;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
@@ -165,16 +166,16 @@ class MigratedAndLegacyModulesTest extends ilLanguageBaseTestCase
         $migrated_keys_of = new ReflectionMethod(ilLanguage::class, 'migratedKeysOf');
         MigratedPoFixture::writeShippedPo($this->relative_path, 'mig_a', 'it', MigratedPoFixture::catalog('mig_a', ['shared' => 'Mig A it']));
 
-        $this->assertSame([], $migrated_keys_of->invoke(null, 'mig_a', 'it'), 'shipped, not built: migrated without any identifier');
-        $this->assertSame([], $migrated_keys_of->invoke(null, 'mig_a', 'fr'), 'not shipped for fr: no identifiers, not reported, never the database');
+        $this->assertSame([], $migrated_keys_of->invoke(null, new TranslationGettextRepository(), 'mig_a', 'it'), 'shipped, not built: migrated without any identifier');
+        $this->assertSame([], $migrated_keys_of->invoke(null, new TranslationGettextRepository(), 'mig_a', 'fr'), 'not shipped for fr: no identifiers, not reported, never the database');
         $this->assertCount(1, $this->warnings);
         $this->assertStringContainsString('ships a language file for "it" that is not built', $this->warnings[0]);
 
         MigratedPoFixture::writeShippedPo($this->relative_path, 'mig_a', 'fr', MigratedPoFixture::catalog('mig_a', ['shared' => 'Mig A fr']));
         unlink(ILIAS_ABSOLUTE_PATH . '/' . $this->relative_path . 'mig_a_it.po');
 
-        $this->assertSame([], $migrated_keys_of->invoke(null, 'mig_a', 'fr'), 'decided before the file appeared');
-        $this->assertSame([], $migrated_keys_of->invoke(null, 'mig_a', 'it'), 'decided before the file vanished');
+        $this->assertSame([], $migrated_keys_of->invoke(null, new TranslationGettextRepository(), 'mig_a', 'fr'), 'decided before the file appeared');
+        $this->assertSame([], $migrated_keys_of->invoke(null, new TranslationGettextRepository(), 'mig_a', 'it'), 'decided before the file vanished');
         $this->assertCount(1, $this->warnings, 'reported once');
     }
 

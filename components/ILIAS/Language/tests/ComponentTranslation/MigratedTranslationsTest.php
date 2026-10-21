@@ -108,7 +108,7 @@ class MigratedTranslationsTest extends TestCase
 
     private function text(string $key, string $module = 'mtr', string $lang_key = 'de'): ?string
     {
-        return MigratedTranslations::text($module, $lang_key, $key, $this->client_data_dir);
+        return (new TranslationGettextRepository())->getText($module, $lang_key, $key, $this->client_data_dir);
     }
 
     /**
@@ -116,7 +116,7 @@ class MigratedTranslationsTest extends TestCase
      */
     private function keys(string $module = 'mtr', string $lang_key = 'de'): ?array
     {
-        return MigratedTranslations::keysOf($module, $lang_key, $this->client_data_dir);
+        return (new TranslationGettextRepository())->getKeys($module, $lang_key, $this->client_data_dir);
     }
 
     public function testServesTheBuildAndTellsTranslatedAsItselfFromNotTranslated(): void
@@ -149,10 +149,10 @@ class MigratedTranslationsTest extends TestCase
         $this->build();
 
         $this->assertSame('Einträge', $this->text('item'), 'the default form of a plural message is the last one (see PluralForms)');
-        $this->assertSame('Eintrag', MigratedTranslations::pluralText('mtr', 'de', 'item', 1, $this->client_data_dir));
-        $this->assertSame('Einträge', MigratedTranslations::pluralText('mtr', 'de', 'item', 0, $this->client_data_dir));
-        $this->assertNull(MigratedTranslations::pluralText('mtr', 'de', 'greeting', 2, $this->client_data_dir), 'no plural message');
-        $this->assertNull(MigratedTranslations::pluralText('mtr', 'de', 'unknown', 2, $this->client_data_dir));
+        $this->assertSame('Eintrag', (new TranslationGettextRepository())->getPluralText('mtr', 'de', 'item', 1, $this->client_data_dir));
+        $this->assertSame('Einträge', (new TranslationGettextRepository())->getPluralText('mtr', 'de', 'item', 0, $this->client_data_dir));
+        $this->assertNull((new TranslationGettextRepository())->getPluralText('mtr', 'de', 'greeting', 2, $this->client_data_dir), 'no plural message');
+        $this->assertNull((new TranslationGettextRepository())->getPluralText('mtr', 'de', 'unknown', 2, $this->client_data_dir));
     }
 
     public function testTheOverlayWinsAndBringsItsOwnIdentifiers(): void
@@ -167,7 +167,7 @@ class MigratedTranslationsTest extends TestCase
         $this->assertContains('extra', array_keys($this->keys() ?? []));
         $this->assertSame('Datensatz', $this->text('item'));
         $this->assertNull(
-            MigratedTranslations::pluralText('mtr', 'de', 'item', 5, $this->client_data_dir),
+            (new TranslationGettextRepository())->getPluralText('mtr', 'de', 'item', 5, $this->client_data_dir),
             'a singular value in the overlay replaces the plural message'
         );
         $this->assertSame([], $this->warnings);
@@ -308,10 +308,10 @@ class MigratedTranslationsTest extends TestCase
     public function testAPluralMessageIsServedAgainAfterAForeignReset(): void
     {
         $this->build();
-        $this->assertSame('Eintrag', MigratedTranslations::pluralText('mtr', 'de', 'item', 1, $this->client_data_dir), 'precondition');
+        $this->assertSame('Eintrag', (new TranslationGettextRepository())->getPluralText('mtr', 'de', 'item', 1, $this->client_data_dir), 'precondition');
         setlocale(LC_MESSAGES, 'C');
 
-        $this->assertSame('Einträge', MigratedTranslations::pluralText('mtr', 'de', 'item', 5, $this->client_data_dir));
+        $this->assertSame('Einträge', (new TranslationGettextRepository())->getPluralText('mtr', 'de', 'item', 5, $this->client_data_dir));
         $this->assertSame([], $this->warnings);
     }
 
@@ -331,7 +331,7 @@ class MigratedTranslationsTest extends TestCase
         MigratedPoFixture::writeOverlayRevision($overlay_directory . '/mtr_de', $plural);
         $this->assertSame('Servus', $this->text('greeting'), 'precondition');
         $this->assertSame('same', $this->text('same'), 'precondition');
-        $this->assertSame('Datensätze', MigratedTranslations::pluralText('mtr', 'de', 'item', 5, $this->client_data_dir), 'precondition');
+        $this->assertSame('Datensätze', (new TranslationGettextRepository())->getPluralText('mtr', 'de', 'item', 5, $this->client_data_dir), 'precondition');
         // another part of the request resets LC_MESSAGES, and the locale cannot be activated again
         setlocale(LC_MESSAGES, 'C');
         MigratedPoFixture::removeDirectory(MigratedLanguageFilePaths::buildLocaleDirectory($this->build_directory) . '/' . NativeGettext::LOCALE_NAME);
@@ -339,7 +339,7 @@ class MigratedTranslationsTest extends TestCase
         $this->assertNull($this->text('greeting'), 'overlay value');
         $this->assertNull($this->text('same'), 'overlay value equal to its identifier');
         $this->assertNull($this->text('other', 'mtz'), 'shipped value of a module read for the first time only now');
-        $this->assertNull(MigratedTranslations::pluralText('mtr', 'de', 'item', 5, $this->client_data_dir));
+        $this->assertNull((new TranslationGettextRepository())->getPluralText('mtr', 'de', 'item', 5, $this->client_data_dir));
 
         $problem = MigratedTranslations::getProblem($this->client_data_dir);
         $this->assertNotNull($problem);
@@ -364,7 +364,7 @@ class MigratedTranslationsTest extends TestCase
     {
         $this->build();
 
-        $this->assertSame('Hallo', MigratedTranslations::text('mtr', 'de', 'greeting', null));
+        $this->assertSame('Hallo', (new TranslationGettextRepository())->getText('mtr', 'de', 'greeting', null));
         $this->assertSame('Hallo', $this->text('greeting'), 'no overlay of this module and language: no current file');
         $this->assertSame([], $this->warnings);
     }
@@ -375,7 +375,7 @@ class MigratedTranslationsTest extends TestCase
 
         foreach (['Servus', 'Moin', 'Grüß Gott', 'Servus'] as $value) {
             $this->writeOverlay(['greeting' => $value]);
-            MigratedTranslations::invalidate('mtr', 'de');
+            (new TranslationGettextRepository())->invalidateModule('mtr', 'de');
 
             $this->assertSame($value, $this->text('greeting'));
         }
@@ -391,7 +391,7 @@ class MigratedTranslationsTest extends TestCase
         $this->writeOverlay(['greeting' => 'Moin']);
         $this->writeOverlay(['greeting' => 'Cheers'], 'mtr', 'en');
 
-        MigratedTranslations::forgetLanguage('de');
+        (new TranslationGettextRepository())->invalidateLanguage('de');
 
         $this->assertSame('Moin', $this->text('greeting'));
         $this->assertSame('Hello', $this->text('greeting', 'mtr', 'en'), 'en was not forgotten (its overlay is not read again)');
@@ -548,8 +548,8 @@ class MigratedTranslationsTest extends TestCase
         $this->build();
         $this->writeOverlay(['greeting' => 'Overlay']);
 
-        $this->assertSame('Hallo', MigratedTranslations::text('mtr', 'de', 'greeting', null), 'Setup before the client data directory is known');
-        $this->assertSame('Hallo', MigratedTranslations::text('mtr', 'de', 'greeting', null), 'still unknown on the next call');
+        $this->assertSame('Hallo', (new TranslationGettextRepository())->getText('mtr', 'de', 'greeting', null), 'Setup before the client data directory is known');
+        $this->assertSame('Hallo', (new TranslationGettextRepository())->getText('mtr', 'de', 'greeting', null), 'still unknown on the next call');
         $this->assertSame('Overlay', $this->text('greeting'));
         $this->assertSame([], $this->warnings);
     }
@@ -562,8 +562,27 @@ class MigratedTranslationsTest extends TestCase
         $this->writeOverlay(['greeting' => 'Late']);
 
         $this->assertSame('Hallo', $this->text('greeting'), 'not looked at again without invalidate()');
-        MigratedTranslations::invalidate('mtr', 'de');
+        (new TranslationGettextRepository())->invalidateModule('mtr', 'de');
         $this->assertSame('Late', $this->text('greeting'));
+    }
+
+    /** The state is static: what one instance read is dropped by the invalidation of another (ilLanguage creates its own instances). */
+    public function testInvalidationThroughOneInstanceReachesTheOtherInstances(): void
+    {
+        $this->build();
+        $reader = new TranslationGettextRepository();
+        $invalidator = new TranslationGettextRepository();
+
+        $this->assertSame('Hallo', $reader->getText('mtr', 'de', 'greeting', $this->client_data_dir));
+        $this->writeOverlay(['greeting' => 'Late']);
+        $this->assertSame('Hallo', $reader->getText('mtr', 'de', 'greeting', $this->client_data_dir), 'cached');
+
+        $invalidator->invalidateModule('mtr', 'de');
+        $this->assertSame('Late', $reader->getText('mtr', 'de', 'greeting', $this->client_data_dir));
+
+        $this->writeOverlay(['greeting' => 'Later']);
+        $invalidator->invalidateLanguage('de');
+        $this->assertSame('Later', $reader->getText('mtr', 'de', 'greeting', $this->client_data_dir));
     }
 
     public function testAModuleIsShippedIfItIsBuiltOrHasATemplateInTheComponents(): void

@@ -191,7 +191,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
     }
 
     /**
-     * Whether the migrated modules can be served through native gettext (see MigratedTranslations): a failure box
+     * Whether the migrated modules can be served through native gettext (see TranslationGettextRepository): a failure box
      * for a problem concerning every migrated module (no gettext, no build), an info box for one concerning a single
      * module, language or overlay, and one in a thread-safe PHP (the locale settings apply to every thread there).
      * Paths are shown relative, the log has the full ones.

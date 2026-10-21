@@ -22,6 +22,8 @@ use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
 use ILIAS\Language\ComponentTranslation\MigratedLanguageFilePaths;
 use ILIAS\Language\ComponentTranslation\MigratedTranslations;
+use ILIAS\Language\ComponentTranslation\TranslationGettextRepository;
+use ILIAS\Language\ComponentTranslation\TranslationRepository;
 use ILIAS\Language\LanguageIdentifier;
 
 /**
@@ -34,7 +36,7 @@ use ILIAS\Language\LanguageIdentifier;
  * e.g. $lng->txt("user_updated");
  * you can translate a lang-topic into the actual language
  *
- * ILIAS modules come from the build plus overlay (see MigratedTranslations), never from the DB; plugin modules
+ * ILIAS modules come from a TranslationRepository (the build plus overlay), never from the DB; plugin modules
  * are read from lng_data/lng_modules.
  * Values of a migrated module do not go into $text: loadLanguageModule() records its identifiers in
  * $migrated_key_modules and txt() looks them up on demand.
@@ -72,6 +74,8 @@ class ilLanguage implements \ILIAS\Language\Language
      */
     protected array $migrated_key_modules = [];
 
+    private ?TranslationRepository $translations = null;
+
     private static ?LanguageFileDirectoryManager $indexed_manager = null;
 
     /**
@@ -102,9 +106,10 @@ class ilLanguage implements \ILIAS\Language\Language
      * $a_lang_key    language code (two characters), e.g. "de", "en", "in"
      * Return false if reading failed, otherwise true
      */
-    public function __construct(string $a_lang_key)
+    public function __construct(string $a_lang_key, ?TranslationRepository $translations = null)
     {
         global $DIC;
+        $this->translations = $translations;
         $client_ini = $DIC->clientIni();
 
         $this->log = $DIC->logger()->forComponent('lang');
@@ -186,6 +191,7 @@ class ilLanguage implements \ILIAS\Language\Language
     /**
      * gets the text for a given topic in a given language
      * if the topic is not in the list, the topic itself with "-" will be returned
+     * Another language than this one is always read via gettext (_lookupEntry()), never from the injected repository.
      */
     public function txtlng(string $a_module, string $a_topic, string $a_language): string
     {
@@ -261,7 +267,7 @@ class ilLanguage implements \ILIAS\Language\Language
         if ($module === null) {
             return null;
         }
-        $value = MigratedTranslations::pluralText($module, $this->migratedLangKey(), $a_topic, $n, self::clientDataDir());
+        $value = $this->translations()->getPluralText($module, $this->migratedLangKey(), $a_topic, $n, self::clientDataDir());
         if ($value === null || $value === '') {
             return null;
         }
@@ -316,12 +322,13 @@ class ilLanguage implements \ILIAS\Language\Language
         if (!MigratedLanguageFilePaths::isValidLanguageKey($lang_key)) {
             return null;
         }
-        if (self::migratedKeysOf($module, $lang_key) !== null) {
+        $translations = $this->translations();
+        if (self::migratedKeysOf($translations, $module, $lang_key) !== null) {
             $translation = $n === null
                 ? null
-                : MigratedTranslations::pluralText($module, $lang_key, $a_topic, $n, self::clientDataDir());
+                : $translations->getPluralText($module, $lang_key, $a_topic, $n, self::clientDataDir());
             if ($translation === null || $translation === '') {
-                $translation = MigratedTranslations::text($module, $lang_key, $a_topic, self::clientDataDir());
+                $translation = $translations->getText($module, $lang_key, $a_topic, self::clientDataDir());
             }
         } elseif ($lang_key === $this->migratedLangKey()) {
             $translation = $this->moduleTexts($module, $lang_key)[$a_topic] ?? null;
@@ -398,7 +405,7 @@ class ilLanguage implements \ILIAS\Language\Language
 
         // Must run before the cached_modules check: ilCachedLanguage::isActive() is always true, and migrated
         // modules keep a DB row on purpose (dual-write, see ilObjLanguage::syncMigratedLanguageFile()).
-        $migrated_keys = self::migratedKeysOf($a_module, $lang_key);
+        $migrated_keys = self::migratedKeysOf($this->translations(), $a_module, $lang_key);
         if ($migrated_keys !== null) {
             // the module loaded last is responsible for its identifiers
             $this->migrated_key_modules = $migrated_keys + $this->migrated_key_modules;
@@ -446,7 +453,13 @@ class ilLanguage implements \ILIAS\Language\Language
 
     private function migratedText(string $module, string $a_topic): ?string
     {
-        return MigratedTranslations::text($module, $this->migratedLangKey(), $a_topic, self::clientDataDir());
+        return $this->translations()->getText($module, $this->migratedLangKey(), $a_topic, self::clientDataDir());
+    }
+
+    /** The default repository has static state, so all instances and the static methods share it. */
+    private function translations(): TranslationRepository
+    {
+        return $this->translations ??= new TranslationGettextRepository();
     }
 
     private function migratedLangKey(): string
@@ -471,7 +484,7 @@ class ilLanguage implements \ILIAS\Language\Language
         if (self::$installed_languages !== null) {
             self::$installed_languages = array_values(array_diff(self::$installed_languages, [$lang_key]));
         }
-        MigratedTranslations::forgetLanguage($lang_key);
+        (new TranslationGettextRepository())->invalidateLanguage($lang_key);
     }
 
     /**
@@ -479,16 +492,17 @@ class ilLanguage implements \ILIAS\Language\Language
      */
     public static function invalidateMigratedLanguageFileCache(string $a_module, string $lang_key): void
     {
-        MigratedTranslations::invalidate($a_module, $lang_key);
+        (new TranslationGettextRepository())->invalidateModule($a_module, $lang_key);
     }
 
     /**
      * `null` only for a module the components do not ship (a plugin's): the caller reads lng_modules.
      * A shipped module without a build has no identifiers (reported if its `.po` exists), no DB fallback.
+     * Whether $a_module goes through $translations is decided by isShippedModule() and isInstalledLanguage(), not by it.
      *
      * @return array<string, string>|null
      */
-    private static function migratedKeysOf(string $a_module, string $lang_key): ?array
+    private static function migratedKeysOf(TranslationRepository $translations, string $a_module, string $lang_key): ?array
     {
         if (!self::isShippedModule($a_module)) {
             return null;
@@ -496,7 +510,7 @@ class ilLanguage implements \ILIAS\Language\Language
         if (!MigratedLanguageFilePaths::isValidLanguageKey($lang_key) || !self::isInstalledLanguage($lang_key)) {
             return [];
         }
-        $keys = MigratedTranslations::keysOf($a_module, $lang_key, self::clientDataDir());
+        $keys = $translations->getKeys($a_module, $lang_key, self::clientDataDir());
         if ($keys !== null || MigratedTranslations::reportMissingBuild() || !self::isShippedWithoutBuild($a_module, $lang_key)) {
             return $keys ?? [];
         }
@@ -579,10 +593,11 @@ class ilLanguage implements \ILIAS\Language\Language
 
     public static function _lookupEntry(string $a_lang_key, string $a_mod, string $a_id): string
     {
-        $migrated_keys = self::migratedKeysOf($a_mod, $a_lang_key);
+        $translations = new TranslationGettextRepository();
+        $migrated_keys = self::migratedKeysOf($translations, $a_mod, $a_lang_key);
         if ($migrated_keys !== null) {
             $value = isset($migrated_keys[$a_id])
-                ? MigratedTranslations::text($a_mod, $a_lang_key, $a_id, self::clientDataDir())
+                ? $translations->getText($a_mod, $a_lang_key, $a_id, self::clientDataDir())
                 : null;
             if ($value === null || $value === '') {
                 return "-" . $a_id . "-";
