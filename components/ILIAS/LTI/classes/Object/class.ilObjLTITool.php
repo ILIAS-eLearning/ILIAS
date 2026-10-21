@@ -380,6 +380,26 @@ class ilObjLTITool extends ilObject2
         );
     }
 
+    /**
+     * The copy keeps the tool, the settings and the learning progress mode; the scores and results of the
+     * users stay with the original.
+     */
+    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null): void
+    {
+        global $DIC;
+
+        $this->cloneMetaData($new_obj);
+
+        $DIC->database()->update(
+            self::TABLE_NAME,
+            $this->getDbFields(),
+            ['obj_id' => ['integer', $new_obj->getId()]]
+        );
+        $new_obj->read();
+
+        (new ilLPObjSettings($this->getId()))->cloneSettings($new_obj->getId());
+    }
+
     protected function doDelete(): void
     {
         global $DIC;
