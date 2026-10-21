@@ -47,6 +47,7 @@ class ilMail
     private bool $append_installation_signature = false;
     private bool $append_user_signature = false;
     private bool $share_attachments = true;
+    private bool $keep_attachment_source = false;
     private ?MailAttachments $shared_delivery_attachments = null;
     private ?string $context_id = null;
     private array $context_parameters = [];
@@ -190,10 +191,18 @@ class ilMail
         }
 
         $copied_rcid = $this->mail_file_data->copyCollectionForDelivery($source->rcid());
+        if ($copied_rcid === null) {
+            $this->keep_attachment_source = true;
 
-        return $copied_rcid !== null
-            ? MailAttachments::fromIrss($copied_rcid)
-            : MailAttachments::empty();
+            return MailAttachments::empty();
+        }
+
+        return MailAttachments::fromIrss($copied_rcid);
+    }
+
+    private function irssAttachmentsWereLost(MailAttachments $source, MailAttachments $prepared): bool
+    {
+        return $source->isIrss() && !$source->isEmpty() && !$prepared->isIrss();
     }
 
     private function readMailObjectReferenceId(): void
@@ -831,6 +840,11 @@ class ilMail
             $recipient_inbox_id = $mbox->getInboxFolder();
 
             $delivery_attachments = $this->getDeliveryAttachments($mail_data->getAttachments());
+            if ($this->keep_attachment_source) {
+                $this->logger->error('Could not copy mail attachments for delivery');
+
+                break;
+            }
             if ($external_attachments === null) {
                 $external_attachments = $delivery_attachments;
             }
@@ -861,7 +875,7 @@ class ilMail
             );
         }
 
-        if ($usr_id_to_external_email_addresses_map === []) {
+        if ($usr_id_to_external_email_addresses_map === [] || $this->keep_attachment_source) {
             return;
         }
 
@@ -1181,6 +1195,11 @@ class ilMail
         // The queued mail gets its own collection, so callers may release their stage or draft right away
         $source_attachment = $a_attachment;
         $a_attachment = $this->createQueueSnapshot($source_attachment);
+        if ($this->irssAttachmentsWereLost($source_attachment, $a_attachment)) {
+            $this->logger->error('Could not snapshot mail attachments before queueing');
+
+            return [new ilMailError('mail_error_reading_attachment')];
+        }
         $this->releaseSourceAttachments($source_attachment);
 
         $task_factory = $DIC->backgroundTasks()->taskFactory();
@@ -1238,10 +1257,16 @@ class ilMail
         }
         $mail_data = $mail_data->withAttachments($normalized['attachments']);
         $this->shared_delivery_attachments = null;
+        $this->keep_attachment_source = false;
 
         $source_attachments = $mail_data->getAttachments();
         try {
-            $sentbox_attachments = $this->getDeliveryAttachments($mail_data->getAttachments());
+            $sentbox_attachments = $this->getDeliveryAttachments($source_attachments);
+            if ($this->keep_attachment_source) {
+                $this->logger->error('Could not copy mail attachments for delivery');
+
+                return [new ilMailError('mail_error_reading_attachment')];
+            }
             $internal_message_id = $this->saveInSentbox(
                 $sentbox_attachments,
                 $mail_data->getTo(),
@@ -1295,12 +1320,17 @@ class ilMail
             if (!$this->distributeMail($mail_data)) {
                 $errors['mail_send_error'] = new ilMailError('mail_send_error');
             }
+            if ($this->keep_attachment_source) {
+                $errors['mail_error_reading_attachment'] = new ilMailError('mail_error_reading_attachment');
+            }
 
             if (!$this->getSaveInSentbox()) {
                 $this->deleteMails([$internal_message_id]);
             }
         } finally {
-            $this->releaseSourceAttachments($source_attachments);
+            if (!$this->keep_attachment_source) {
+                $this->releaseSourceAttachments($source_attachments);
+            }
         }
 
         if ($this->isSystemMail()) {
@@ -1323,8 +1353,11 @@ class ilMail
         }
 
         $snapshot_rcid = $this->mail_file_data->createCollectionReferencingResourcesOf($attachments->rcid());
+        if ($snapshot_rcid === null) {
+            return MailAttachments::empty();
+        }
 
-        return $snapshot_rcid !== null ? MailAttachments::fromIrss($snapshot_rcid) : MailAttachments::empty();
+        return MailAttachments::fromIrss($snapshot_rcid);
     }
 
     private function releaseSourceAttachments(MailAttachments $source): void
