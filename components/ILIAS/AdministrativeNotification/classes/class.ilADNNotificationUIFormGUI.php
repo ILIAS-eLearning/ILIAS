@@ -171,33 +171,42 @@ class ilADNNotificationUIFormGUI
                                           return $v;
                                       })
                                   );
+        // the event is optional: without event dates, an event without duration at the display start
+        // is stored, which is never active, see https://mantis.ilias.de/view.php?id=48295
+        $has_event = $this->notification->getId() > 0
+            && $this->notification->getEventStart()->getTimestamp() < $this->notification->getEventEnd()->getTimestamp();
         $event_date_start = $field->dateTime($this->txt(self::F_EVENT_DATE_START))
                                   ->withUseTime(true)
                                   ->withFormat($format)
-                                  ->withValue($this->notification->getEventStart()->format($str))
+                                  ->withValue($has_event ? $this->notification->getEventStart()->format($str) : null)
                                   ->withAdditionalTransformation(
                                       $custom_trafo(function (?DateTimeImmutable $v): ?\DateTimeImmutable {
-                                          $this->notification->setEventStart($v ?? new DateTimeImmutable());
+                                          if ($v !== null) {
+                                              $this->notification->setEventStart($v);
+                                          }
                                           return $v;
                                       })
                                   );
         $event_date_end = $field->dateTime($this->txt(self::F_EVENT_DATE_END))
                                 ->withUseTime(true)
                                 ->withFormat($format)
-                                ->withValue($this->notification->getEventEnd()->format($str))
+                                ->withValue($has_event ? $this->notification->getEventEnd()->format($str) : null)
                                 ->withAdditionalTransformation(
                                     $custom_trafo(function (?DateTimeImmutable $v): ?\DateTimeImmutable {
-                                        $this->notification->setEventEnd($v ?? new DateTimeImmutable());
+                                        if ($v !== null) {
+                                            $this->notification->setEventEnd($v);
+                                        }
                                         return $v;
                                     })
                                 );
 
         $type_during_event = $field->select($this->txt(self::F_TYPE_DURING_EVENT), $types)
-                                   ->withRequired(true)
                                    ->withValue($this->notification->getTypeDuringEvent())
                                    ->withAdditionalTransformation(
                                        $custom_trafo(function ($v): void {
-                                           $this->notification->setTypeDuringEvent((int) $v);
+                                           if ($v !== null && $v !== '') {
+                                               $this->notification->setTypeDuringEvent((int) $v);
+                                           }
                                        })
                                    );
 
@@ -222,31 +231,21 @@ class ilADNNotificationUIFormGUI
                                $custom_trafo(function ($v) {
                                    $permanent = isset($v[0]) && $v[0] === self::F_PERMANENT . '_yes';
                                    $this->notification->setPermanent($permanent);
+                                   if (!$permanent
+                                       && ($v[1][self::F_EVENT_DATE_START] ?? null) === null
+                                       && ($v[1][self::F_EVENT_DATE_END] ?? null) === null
+                                   ) {
+                                       $this->notification->setEventStart($this->notification->getDisplayStart());
+                                       $this->notification->setEventEnd($this->notification->getDisplayStart());
+                                   }
                                    return $permanent ? null : $v[1];
                                })
                            )
                            ->withAdditionalTransformation(
-                               $custom_constraint(static function ($v): bool {
-                                   if (is_null($v)) {
-                                       return true;
-                                   }
-                                   /** @var DateTimeImmutable[] $v */
-                                   $display_start = $v[self::F_DISPLAY_DATE_START] ?? null;
-                                   $display_end = $v[self::F_DISPLAY_DATE_END] ?? null;
-                                   $event_start = $v[self::F_EVENT_DATE_START] ?? null;
-                                   $event_end = $v[self::F_EVENT_DATE_END] ?? null;
-
-                                   if ($display_start >= $display_end) {
-                                       return false;
-                                   }
-                                   if ($event_start >= $event_end) {
-                                       return false;
-                                   }
-                                   if ($event_start < $display_start) {
-                                       return false;
-                                   }
-                                   return $event_end <= $display_end;
-                               }, $this->txt('error_false_date_configuration'))
+                               $custom_constraint(
+                                   static fn($v): bool => self::isValidDateConfiguration($v),
+                                   $this->txt('error_false_date_configuration')
+                               )
                            );
 
         // DISMISSABLE
@@ -384,5 +383,36 @@ class ilADNNotificationUIFormGUI
         }
 
         return $opt;
+    }
+
+    /**
+     * Display dates are required, event dates are optional (both empty), but if given, the event
+     * must be within the display time, see https://mantis.ilias.de/view.php?id=48295
+     *
+     * @param DateTimeImmutable[]|null $v
+     */
+    public static function isValidDateConfiguration(?array $v): bool
+    {
+        if (is_null($v)) {
+            return true;
+        }
+        $display_start = $v[self::F_DISPLAY_DATE_START] ?? null;
+        $display_end = $v[self::F_DISPLAY_DATE_END] ?? null;
+        $event_start = $v[self::F_EVENT_DATE_START] ?? null;
+        $event_end = $v[self::F_EVENT_DATE_END] ?? null;
+
+        if ($display_start >= $display_end) {
+            return false;
+        }
+        if ($event_start === null && $event_end === null) {
+            return true;
+        }
+        if ($event_start === null || $event_end === null || $event_start >= $event_end) {
+            return false;
+        }
+        if ($event_start < $display_start) {
+            return false;
+        }
+        return $event_end <= $display_end;
     }
 }
