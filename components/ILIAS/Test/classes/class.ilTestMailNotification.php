@@ -104,7 +104,7 @@ class ilTestMailNotification extends ilMailNotification
 
         $attachments = MailAttachments::empty();
         if ($file_names !== []) {
-            $file_data_mail = new ilFileDataMail(ANONYMOUS_USER_ID);
+            $file_data_mail = $this->initFileDataMail();
             $rcid = $file_data_mail->createCollectionFromPoolFilenames($file_names);
             if ($rcid !== null) {
                 $attachments = MailAttachments::fromIrss($rcid);

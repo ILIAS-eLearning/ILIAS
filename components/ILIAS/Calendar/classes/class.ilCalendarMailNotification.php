@@ -461,7 +461,7 @@ class ilCalendarMailNotification extends ilMailNotification
 
         $ics_filename = 'appointment_' . (new DateTimeImmutable('now'))->format('Ymd_His_u') . '.ics';
 
-        $attachment = new ilFileDataMail($this->getSender());
+        $attachment = $this->initFileDataMail();
         $rcid = $attachment->createCollectionFromContent(
             $ics_filename,
             $export->getExportString()

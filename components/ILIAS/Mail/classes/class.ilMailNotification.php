@@ -254,6 +254,11 @@ abstract class ilMailNotification
         return $this->mail = new ilMail($this->getSender());
     }
 
+    protected function initFileDataMail(): ilFileDataMail
+    {
+        return new ilFileDataMail($this->getSender());
+    }
+
     protected function getMail(): ilMail
     {
         return is_object($this->mail) ? $this->mail : $this->initMail();
