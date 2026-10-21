@@ -27,6 +27,8 @@ use ILIAS\ResourceStorage\Revision\RevisionStatus;
  */
 class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract implements ilObjFileImplementationInterface
 {
+    use ilObjFileSecureString;
+
     protected Services $storage;
 
     /**
@@ -101,7 +103,9 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
         } else {
             $revision = $this->resource->getCurrentRevision();
         }
-        $consumer->overrideFileName($revision->getTitle())->disableCaching()->run();
+        $consumer->overrideFileName(
+            $this->ensureSuffixForDelivery($revision->getTitle(), $revision->getInformation()->getSuffix())
+        )->disableCaching()->run();
     }
 
     public function deleteVersions(?array $a_hist_entry_ids = null): void
