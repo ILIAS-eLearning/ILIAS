@@ -125,18 +125,20 @@ class MigrateMailAttachmentsToIRSS implements Migration
                 continue;
             }
 
-            $owner_id = $this->resolveOwnerIdForPath($relative_path);
-            $rcid = $this->helper->moveFilesOfPathToCollection(
-                $absolute_path,
-                $owner_id,
-                $owner_id,
-                null,
-                // The revision title is the hash Mail uses to identify a single attachment
-                static fn(string $file_name): string => md5($file_name)
-            );
-
-            if ($rcid === null) {
+            $filenames = $this->listDirectoryFiles($absolute_path);
+            if ($filenames === []) {
                 $this->skipPath($relative_path, 'No file of the directory could be stored');
+
+                continue;
+            }
+
+            $owner_id = $this->resolveOwnerIdForPath($relative_path);
+            $rcid = $this->copyDirectoryToCollection($absolute_path, $filenames, $owner_id);
+            if ($rcid === null) {
+                $this->warning('Directory was not migrated because not every file could be stored', [
+                    'path' => $relative_path,
+                    'files' => count($filenames),
+                ]);
 
                 continue;
             }
@@ -144,8 +146,70 @@ class MigrateMailAttachmentsToIRSS implements Migration
             $this->markCollectionResourcesConfidential($rcid);
             $this->assignRcidToPath($relative_path, $rcid);
             $this->updateMailAttachmentFields($relative_path, $rcid);
+            $this->deleteMigratedDirectory($absolute_path);
             $this->count('directories_migrated');
         }
+    }
+
+    /**
+     * Files stay on disk until the collection is stored and the mail rows point at it.
+     * A rerun can therefore still read them when this step stops in between.
+     *
+     * @param list<string> $filenames
+     */
+    private function copyDirectoryToCollection(
+        string $absolute_path,
+        array $filenames,
+        int $owner_id
+    ): ?ResourceCollectionIdentification {
+        $collection = $this->helper->getCollectionBuilder()->new($owner_id);
+        foreach ($filenames as $file_name) {
+            $resource_id = $this->helper->movePathToStorage(
+                $absolute_path . '/' . $file_name,
+                $owner_id,
+                null,
+                static fn(string $name): string => md5($name),
+                true
+            );
+            if (!$resource_id instanceof ResourceIdentification) {
+                return null;
+            }
+            $collection->add($resource_id);
+        }
+
+        if ($collection->count() !== count($filenames)) {
+            return null;
+        }
+        if (!$this->helper->getCollectionBuilder()->store($collection)) {
+            return null;
+        }
+
+        return $collection->getIdentification();
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function listDirectoryFiles(string $absolute_path): array
+    {
+        $filenames = [];
+        foreach (new \DirectoryIterator($absolute_path) as $file_info) {
+            if (!$file_info->isFile()) {
+                continue;
+            }
+            $filenames[] = $file_info->getFilename();
+        }
+        sort($filenames);
+
+        return $filenames;
+    }
+
+    private function deleteMigratedDirectory(string $absolute_path): void
+    {
+        foreach ($this->listDirectoryFiles($absolute_path) as $file_name) {
+            unlink($absolute_path . '/' . $file_name);
+        }
+        rmdir($absolute_path);
     }
 
     /**

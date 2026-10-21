@@ -208,26 +208,33 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
         );
         $rcid = new ResourceCollectionIdentification('dir-rcid');
         $resource_id = new ResourceIdentification('dir-rid');
-        $collection = $this->createStub(ResourceCollection::class);
+        $collection = $this->createMock(ResourceCollection::class);
+        $collection->expects($this->once())->method('add')->with($resource_id);
+        $collection->method('count')->willReturn(1);
+        $collection->method('getIdentification')->willReturn($rcid);
         $collection->method('getResourceIdentifications')->willReturn([$resource_id]);
         $collection_builder = $this->createMock(CollectionBuilder::class);
+        $collection_builder->expects($this->once())->method('new')->with(6)->willReturn($collection);
+        $collection_builder->expects($this->once())->method('store')->with($collection)->willReturn(true);
         $collection_builder->expects($this->once())->method('get')->with($rcid)->willReturn($collection);
         $helper->method('getCollectionBuilder')->willReturn($collection_builder);
         $this->expectConfidential($resource_id);
         $helper->expects($this->once())
-            ->method('moveFilesOfPathToCollection')
+            ->method('movePathToStorage')
             ->willReturnCallback(function (
                 string $path,
-                int $resource_owner,
-                int $collection_owner,
+                int $owner,
                 ?Closure $file_name,
-                Closure $revision_title
-            ) use ($dir, $rcid): ResourceCollectionIdentification {
-                $this->assertSame($dir, $path);
-                $this->assertSame(6, $resource_owner);
+                Closure $revision_title,
+                bool $copy
+            ) use ($dir, $resource_id): ResourceIdentification {
+                $this->assertSame($dir . '/a.pdf', $path);
+                $this->assertSame(6, $owner);
+                $this->assertNull($file_name);
                 $this->assertSame(md5('a.pdf'), $revision_title('a.pdf'));
+                $this->assertTrue($copy);
 
-                return $rcid;
+                return $resource_id;
             });
         $statements = [];
         $this->db->method('manipulateF')->willReturnCallback(
@@ -241,6 +248,41 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
 
         $this->assertSame(['UPDATE mail_attachment SET rcid = %s WHERE path = %s', ['dir-rcid', '6_100']], $statements[0]);
         $this->assertSame(['UPDATE mail SET attachments = %s WHERE mail_id IN (1,2)', ['dir-rcid']], $statements[1]);
+        $this->assertDirectoryDoesNotExist($dir);
+    }
+
+    public function testIncompleteDirectoryCopyIsNotMarkedMigratedAndKeepsTheFiles(): void
+    {
+        $dir = $this->createDirectory('6_100', ['a.pdf' => '1234', 'b.pdf' => '5678']);
+        $helper = $this->useHelperMock();
+        $db = $this->useDatabaseMock();
+        $db->method('query')->willReturn($this->createStub(ilDBStatement::class));
+        $db->method('queryF')->willReturn($this->createStub(ilDBStatement::class));
+        $db->method('fetchAssoc')->willReturnOnConsecutiveCalls(
+            ['path' => '6_100'],
+            null,
+            ['sender_id' => 6]
+        );
+        $db->expects($this->never())->method('manipulateF');
+        $collection = $this->createStub(ResourceCollection::class);
+        $collection_builder = $this->createMock(CollectionBuilder::class);
+        $collection_builder->method('new')->willReturn($collection);
+        $collection_builder->expects($this->never())->method('store');
+        $helper->method('getCollectionBuilder')->willReturn($collection_builder);
+        $copied = 0;
+        $helper->expects($this->exactly(2))
+            ->method('movePathToStorage')
+            ->willReturnCallback(function () use (&$copied): ?ResourceIdentification {
+                $copied++;
+
+                return $copied === 1 ? new ResourceIdentification('dir-rid') : null;
+            });
+
+        $this->invokePrivate('migrateSentAttachmentDirectories', []);
+
+        $this->assertFileExists($dir . '/a.pdf');
+        $this->assertFileExists($dir . '/b.pdf');
+        $this->assertReported('WARNING', 'not every file could be stored');
     }
 
     public function testMissingDirectoryIsSkippedAndReported(): void
@@ -255,7 +297,7 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
             ['mail_id' => 1],
             null
         );
-        $helper->expects($this->never())->method('moveFilesOfPathToCollection');
+        $helper->expects($this->never())->method('movePathToStorage');
         $db->expects($this->once())->method('manipulateF')->with(
             'UPDATE mail_attachment SET rcid = %s WHERE path = %s',
             [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
