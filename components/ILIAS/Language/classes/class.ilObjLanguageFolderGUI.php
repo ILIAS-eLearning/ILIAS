@@ -605,9 +605,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
         $this->checkPermission("write");
         $this->lng->loadLanguageModule("meta");
 
-        #require_once "./Services/User/classes/class.ilObjUser.php";
-
-
         if (count($ids) !== 1) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("choose_only_one_language") . "<br/>" . $this->lng->txt("action_aborted"), true);
             $this->ctrl->redirect($this, "view");
@@ -1033,8 +1030,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
         );
         $this->toolbar->addComponent($button);
 
-        include_once "./Services/Language/classes/class.ilLangDeprecated.php";
-
         $d = new ilLangDeprecated();
         $res = "";
         foreach ($d->getDeprecatedLangVars() as $key => $mod) {
@@ -1049,7 +1044,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
      */
     public function downloadDeprecatedObject(): void
     {
-        include_once "./Services/Language/classes/class.ilLangDeprecated.php";
         $d = new ilLangDeprecated();
         $res = "";
         foreach ($d->getDeprecatedLangVars() as $key => $mod) {
