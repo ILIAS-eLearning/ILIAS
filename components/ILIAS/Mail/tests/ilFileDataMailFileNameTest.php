@@ -23,6 +23,8 @@ use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Information\FileInformation;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
+use ILIAS\ResourceStorage\Resource\Repository\CollectionDBRepository;
 
 class ilFileDataMailFileNameTest extends ilMailBaseTestCase
 {
@@ -66,5 +68,52 @@ class ilFileDataMailFileNameTest extends ilMailBaseTestCase
         $reflection->getProperty('irss')->setValue($sut, $irss);
 
         $reflection->getMethod('applyResourceFileName')->invoke($sut, new ResourceIdentification('ics-rid'), '');
+    }
+
+    public function testAttachmentListingKeepsEqualDisplayTitles(): void
+    {
+        $info_a = new FileInformation();
+        $info_a->setTitle('report.pdf');
+        $info_b = new FileInformation();
+        $info_b->setTitle('report.pdf');
+
+        $revision_a = $this->createStub(Revision::class);
+        $revision_a->method('getInformation')->willReturn($info_a);
+        $revision_a->method('getTitle')->willReturn('hash-a');
+        $revision_b = $this->createStub(Revision::class);
+        $revision_b->method('getInformation')->willReturn($info_b);
+        $revision_b->method('getTitle')->willReturn('hash-b');
+
+        $manage = $this->createStub(Manager::class);
+        $manage->method('find')->willReturnCallback(
+            static fn(string $rid): ResourceIdentification => new ResourceIdentification($rid)
+        );
+        $manage->method('getCurrentRevision')->willReturnCallback(
+            static fn(ResourceIdentification $identification): Revision => $identification->serialize() === 'rid-a'
+                ? $revision_a
+                : $revision_b
+        );
+
+        $irss = $this->createStub(IRSS::class);
+        $irss->method('manage')->willReturn($manage);
+
+        $db = $this->createStub(ilDBInterface::class);
+        $db->method('queryF')->willReturn($this->createStub(ilDBStatement::class));
+        $db->method('fetchAssoc')->willReturnOnConsecutiveCalls(
+            [CollectionDBRepository::R_IDENTIFICATION => 'rid-a'],
+            [CollectionDBRepository::R_IDENTIFICATION => 'rid-b'],
+            null
+        );
+
+        $reflection = new ReflectionClass(ilFileDataMail::class);
+        $sut = $reflection->newInstanceWithoutConstructor();
+        $reflection->getProperty('irss')->setValue($sut, $irss);
+        $reflection->getProperty('db')->setValue($sut, $db);
+
+        $listing = $sut->getAttachmentListing(new ResourceCollectionIdentification('rcid'));
+
+        $this->assertSame(['rid-a', 'rid-b'], array_keys($listing));
+        $this->assertSame(['hash-a', 'hash-b'], array_column($listing, 'md5'));
+        $this->assertSame(['report.pdf', 'report.pdf'], array_column($listing, 'name'));
     }
 }

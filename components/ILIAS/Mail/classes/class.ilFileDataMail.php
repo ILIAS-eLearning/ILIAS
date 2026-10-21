@@ -1498,6 +1498,8 @@ class ilFileDataMail extends ilFileData
     }
 
     /**
+     * Keyed by resource id. Equal display titles must not collapse two download hashes.
+     *
      * @return array<string, array{md5: string, name: string, size: int, ctime: string}>
      */
     public function getAttachmentListing(ResourceCollectionIdentification $rcid): array
@@ -1512,7 +1514,7 @@ class ilFileDataMail extends ilFileData
             $revision = $this->irss->manage()->getCurrentRevision($resource_identification);
             $info = $revision->getInformation();
             $file_title = $info->getTitle();
-            $files[$file_title] = [
+            $files[$resource_identification->serialize()] = [
                 'md5' => $revision->getTitle(),
                 'name' => $file_title,
                 'size' => $info->getSize(),
