@@ -11284,7 +11284,7 @@ lso#:#table_title#:#Titel
 lso#:#unparticipate#:#Mitgliedschaft in der Lernsequenz beenden
 lti#:#act_lti_for_obj_type#:#LTI für diese Objekttypen aktivieren
 lti#:#activity_id#:#Activity-ID
-lti#:#activity_id_info#:#Diese Activity-ID wird vom LTI-Provider verwendet, um Statements zu identifizieren.
+lti#:#activity_id_info#:#Diese Activity-ID wird vom LTI-Tool verwendet, um Statements zu identifizieren.
 lti#:#auth_lti#:#LTI Auth
 lti#:#conf_privacy_ident#:#Identifikation der Person
 lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
@@ -11369,7 +11369,7 @@ lti#:#lti_1p1_deprecated_link#:#1EdTech: Sicherheitsupdate und Abkündigungszeit
 lti#:#lti_action_accept_provider_as_global#:#Den Provider als globalen Provider für alle Benutzer übernehmen.
 lti#:#lti_action_reset_provider_to_user_scope#:#Globalen Provider bzw. Tool zu lokalem Provider bzw. Tool ändern
 lti#:#lti_add_global_provider#:#Globalen Provider für alle Benutzer hinzufügen
-lti#:#lti_add_own_provider#:#Provider-Einstellungen anlegen
+lti#:#lti_add_own_provider#:#Tool-Einstellungen anlegen
 lti#:#lti_admin#:#LTI-Rolle „Administrator“
 lti#:#lti_at_least_one_not_acceptable_as_global#:#Mindestens eines der ausgewählten Tools kann nicht als globales Tool übernommen werden, da es keinen Ersteller hat oder bereits global ist.###17 09 2026 new variable
 lti#:#lti_at_least_one_not_resetable_to_usr_def#:#Mindestens eines der ausgewählten Tools kann nicht auf ein benutzerdefiniertes Tool zurückgesetzt werden, da es keinen Ersteller hat oder bereits benutzerdefiniert ist.###17 09 2026 new variable
@@ -11457,7 +11457,7 @@ lti#:#lti_create_consumer#:#Konsumenten hinzufügen
 lti#:#lti_create_lti_user_role#:#Empfohlene globale Rolle für LTI-User anlegen
 lti#:#lti_cron_title#:#LTI Grade Service
 lti#:#lti_cron_title_desc#:#Überträgt den seit dem letzten Lauf geänderten Lernfortschritt von LTI-Benutzern erneut an ihre Plattform, damit eine Bewertung, die die Plattform damals nicht annehmen konnte, z. B. weil sie nicht erreichbar war, sie dennoch erreicht. Bewertungen, die die Plattform bereits hat, werden nicht erneut gesendet.
-lti#:#lti_custom_new#:#Eigene Provider-Einstellungen anlegen
+lti#:#lti_custom_new#:#Eigene Tool-Einstellungen anlegen
 lti#:#lti_deep_linking_expired#:#Diese Auswahl ist abgelaufen. Starten Sie die Inhaltsauswahl in der Plattform erneut.###29 09 2026 new variable
 lti#:#lti_deep_linking_failed#:#Die im Tool ausgewählten Inhalte konnten nicht hinzugefügt werden. Bitte versuchen Sie es erneut.###29 09 2026 new variable
 lti#:#lti_deep_linking_no_content#:#Das Tool hat keine Inhalte gesendet, die als LTI-Objekt hinzugefügt werden können.###29 09 2026 new variable
@@ -11483,8 +11483,8 @@ lti#:#lti_exited_info#:#Die LTI-Sitzung wurde erfolgreich beendet.
 lti#:#lti_form_provider_create#:#Provider-Einstellungen anlegen
 lti#:#lti_form_provider_edit#:#Provider-Einstellungen bearbeiten
 lti#:#lti_form_section_appearance#:#Optionen für den Start
-lti#:#lti_info_external_provider_info#:#Der verwendete Provider ist ein externer Provider. Auf externe Provider haben Sie als Betreiber der ILIAS-Installation möglicherweise nur begrenzten Einfluss auf den Umgang mit Daten, zum Beispiel wenn es keine Rechte zum Löschen von Daten gibt.
-lti#:#lti_info_external_provider_label#:#Zusätzliche Informationen über diesen Provider
+lti#:#lti_info_external_provider_info#:#Das verwendete Tool ist ein externes Tool. Auf externe Tools haben Sie als Betreiber der ILIAS-Installation möglicherweise nur begrenzten Einfluss auf den Umgang mit Daten, zum Beispiel wenn es keine Rechte zum Löschen von Daten gibt.
+lti#:#lti_info_external_provider_label#:#Zusätzliche Informationen über dieses Tool
 lti#:#lti_info_learning_progress_section#:#Info zur Ermittlung des Lernfortschritts
 lti#:#lti_info_privacy_section#:#Informationen über personenbezogene Daten, die beim Start an den Provider übermittelt wurden.
 lti#:#lti_launch_url#:#URL
@@ -11498,11 +11498,11 @@ lti#:#lti_platform_registration_incomplete#:#Füllen Sie alle Felder der Registr
 lti#:#lti_platform_registration_info#:#Wird ausgefüllt, wenn die Plattform ILIAS über die dynamische Registrierung registriert. Andernfalls geben Sie die Daten ein, die die Plattform für ILIAS angibt.###28 09 2026 new variable
 lti#:#lti_platform_registration_taken#:#Mit dieser Plattform-ID, Client-ID und Deployment-ID ist bereits eine andere Plattform registriert.###29 09 2026 new variable
 lti#:#lti_provider#:#LTI-Freigaben
-lti#:#lti_provider_not_avail_msg#:#LTI-Provider ist auf „Nicht verfügbar“ gesetzt.
-lti#:#lti_provider_not_set_msg#:#LTI-Provider/-tool ist noch nicht vollständig konfiguriert.
+lti#:#lti_provider_not_avail_msg#:#LTI-Tool ist auf „Nicht verfügbar“ gesetzt.
+lti#:#lti_provider_not_set_msg#:#LTI-Tool ist noch nicht vollständig konfiguriert.
 lti#:#lti_providing_tab#:#ILIAS als LTI-Provider
 lti#:#lti_released_objects#:#Objekt-Freigaben
-lti#:#lti_select_provider#:#Provider auswählen
+lti#:#lti_select_provider#:#Tool auswählen
 lti#:#lti_settings#:#LTI-Einstellungen
 lti#:#lti_settings_form#:#Objekteinstellungen
 lti#:#lti_success_accept_as_global#:#Erfolgreich als Global-Provider für alle Anwender übernommen
@@ -11518,12 +11518,12 @@ lti#:#mastery_score_info#:#Bei aktiviertem Lernfortschritt gilt das Objekt als a
 lti#:#obj_tile_image_info#:#Ein Bild im quadratischen Format verwenden
 lti#:#online_info#:#Dadurch wird das Objekt für die Benutzer sichtbar und nutzbar.
 lti#:#prefix#:#Prefix
-lti#:#provider_info#:#Benutzter Provider
+lti#:#provider_info#:#Benutztes Tool
 lti#:#settings_subtab#:#Einstellungen
 lti#:#show_statements#:#Lernerfahrungen anzeigen
 lti#:#show_statements_info#:#Die Lernerfahrungen anderer Benutzer können angezeigt werden, wenn das Recht 'Lernerfahrungen anderer Benutzer anzeigen' gesetzt ist.
 lti#:#subtab_object_settings#:#Objekteinstellungen
-lti#:#subtab_provider_settings#:#LTI-Provider-Einstellungen
+lti#:#subtab_provider_settings#:#LTI-Tool-Einstellungen
 lti#:#tab_content#:#Inhalt
 lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
@@ -11557,7 +11557,7 @@ lti#:#tbl_provider_usage_header#:#LTI-Provider
 lti#:#title_info#:#Geben Sie dem Objekt einen Titel!
 lti#:#usage_subtab#:#Verwendung
 lti#:#use_xapi#:#xAPI-Unterstützung verwenden
-lti#:#use_xapi_info#:#Dieser LTI-Provider unterstützt die Abfrage von xAPI-Statements.
+lti#:#use_xapi_info#:#Dieses LTI-Tool unterstützt die Abfrage von xAPI-Statements.
 lti#:#user_lng#:#Sprache
 lti#:#user_provider_subtab#:#Lokal definierte Provider bzw. Tools
 ltiv#:#ltiv_create#:#Zertifikat für LTI-Konsument-Objekt erstellen

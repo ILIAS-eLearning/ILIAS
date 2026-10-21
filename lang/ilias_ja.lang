@@ -11191,7 +11191,7 @@ lso#:#table_title#:#タイトル
 lso#:#unparticipate#:#未購読
 lti#:#act_lti_for_obj_type#:#オブジェクトタイプ用のLTIをアクティブにする。
 lti#:#activity_id#:#アクティビティID
-lti#:#activity_id_info#:#このアクティビティIDはステートメント識別用にLTIプロバイダが使用します。
+lti#:#activity_id_info#:#このアクティビティIDはステートメント識別用にLTIツールが使用します。
 lti#:#auth_lti#:#LTI Auth
 lti#:#conf_privacy_ident#:#ユーザID
 lti#:#conf_privacy_ident_il_uuid_SHA256#:#ハッシュは、Eメールアドレス形式でフォーマットされたユニークなILIASプラットフォームIDと組み合わされます
@@ -11276,7 +11276,7 @@ lti#:#lti_1p1_deprecated_link#:#1EdTech: Security Update and Deprecation Schedul
 lti#:#lti_action_accept_provider_as_global#:#全ユーザ用のグローバルプロバイダーとしてプロバイダを承認
 lti#:#lti_action_reset_provider_to_user_scope#:#ユーザ定義のプロバイダーとしてプロバイダーをリセット
 lti#:#lti_add_global_provider#:#全ユーザ用のグローバルプロバイダーを追加
-lti#:#lti_add_own_provider#:#自身のプロバイダー(全ユーザ用ではない)を追加
+lti#:#lti_add_own_provider#:#自身のツール(全ユーザ用ではない)を追加
 lti#:#lti_admin#:#LTI管理者
 lti#:#lti_at_least_one_not_acceptable_as_global#:#At least one of the selected tools cannot be accepted as global tool, because it has no creator or is already global.###17 09 2026 new variable
 lti#:#lti_at_least_one_not_resetable_to_usr_def#:#At least one of the selected tools cannot be reset to user defined tool, because it has no creator or is already user defined.###17 09 2026 new variable
@@ -11364,7 +11364,7 @@ lti#:#lti_create_consumer#:#Consumerを作成
 lti#:#lti_create_lti_user_role#:#LTI ユーザ用の推奨グローバル役割を作成
 lti#:#lti_cron_title#:#LTI Grade Service###06 10 2026 changed variable
 lti#:#lti_cron_title_desc#:#Sends the learning progress of LTI users that changed since the last run to their platform again, so that a score the platform could not take at the time, e.g. because it was not reachable, still reaches it. Scores the platform has already are not sent again.###06 10 2026 changed variable
-lti#:#lti_custom_new#:#自身のプロバイダー設定を作成
+lti#:#lti_custom_new#:#自身のツール設定を作成
 lti#:#lti_deep_linking_expired#:#This selection has expired. Start the content selection in the platform again.###29 09 2026 new variable
 lti#:#lti_deep_linking_failed#:#The content selected in the tool could not be added. Please try again.###29 09 2026 new variable
 lti#:#lti_deep_linking_no_content#:#The tool did not send any content that can be added as an LTI object.###29 09 2026 new variable
@@ -11390,8 +11390,8 @@ lti#:#lti_exited_info#:#LTIセッションは正しくクローズしました
 lti#:#lti_form_provider_create#:#プロバイダー設定を作成
 lti#:#lti_form_provider_edit#:#プロバイダー設定を編集
 lti#:#lti_form_section_appearance#:#起動のオプション
-lti#:#lti_info_external_provider_info#:#使用されたプロバイダーは外部プロバイダーです。外部プロバイダーはILIASシステのオペレータによりプロバーダーの不十分な影響と特徴化されます。これは、削除するデータの権利がないような場合です。
-lti#:#lti_info_external_provider_label#:#このプロバイダーに関する追加情報
+lti#:#lti_info_external_provider_info#:#使用されたツールは外部ツールです。外部ツールはILIASシステムのオペレータによりツールへの不十分な影響と特徴化されます。これは、削除するデータの権利がないような場合です。
+lti#:#lti_info_external_provider_label#:#このツールに関する追加情報
 lti#:#lti_info_learning_progress_section#:#学習進捗の確定に関するInfo
 lti#:#lti_info_privacy_section#:#起動時にプロバイダーへ送信されるパーソナルデータに関する情報
 lti#:#lti_launch_url#:#Url
@@ -11405,11 +11405,11 @@ lti#:#lti_platform_registration_incomplete#:#Fill in all fields of the registrat
 lti#:#lti_platform_registration_info#:#Filled in when the platform registers ILIAS through Dynamic Registration. Otherwise, enter the data the platform gives for ILIAS.###28 09 2026 new variable
 lti#:#lti_platform_registration_taken#:#Another platform is already registered with this platform ID, client ID and deployment ID.###29 09 2026 new variable
 lti#:#lti_provider#:#LTI Releases
-lti#:#lti_provider_not_avail_msg#:#LTI Providerを'利用不可'に設定する
-lti#:#lti_provider_not_set_msg#:#LTIプロバイダー / ツール構成が完全に終了していません。
+lti#:#lti_provider_not_avail_msg#:#LTIツールを'利用不可'に設定する
+lti#:#lti_provider_not_set_msg#:#LTIツール構成が完全に終了していません。
 lti#:#lti_providing_tab#:#LTI ProviderとしてのILIAS
 lti#:#lti_released_objects#:#Object Releases
-lti#:#lti_select_provider#:#プロバイダーを選択
+lti#:#lti_select_provider#:#ツールを選択
 lti#:#lti_settings#:#LTI設定
 lti#:#lti_settings_form#:#オブジェクト設定
 lti#:#lti_success_accept_as_global#:#全ユーザへグローバルプロバイダーとして正しく承認されました。
@@ -11421,16 +11421,16 @@ lti#:#lti_user_role_info#:#LTIユーザの推奨グローバル役割がこの�
 lti#:#lti_version_1p1_deprecated#:#LTI 1.1 (Deprecated)###17 09 2026 new variable
 lti#:#lti_version_advantage#:#LTI 1.3 (LTI Advantage)###17 09 2026 new variable
 lti#:#mastery_score#:#習熟度スコア
-lti#:#mastery_score_info#:#学習進捗はProvider Outcome Serviceと習熟度スコアスレッショールドから評価されます。
+lti#:#mastery_score_info#:#学習進捗はTool Outcome Serviceと習熟度スコアスレッショールドから評価されます。
 lti#:#obj_tile_image_info#:#四角形のイメージを使用
 lti#:#online_info#:#これはユーザーへオブジェクトを表示して利用可能にします。
 lti#:#prefix#:#Prefix
-lti#:#provider_info#:#使用したプロバイダー
+lti#:#provider_info#:#使用したツール
 lti#:#settings_subtab#:#設定
 lti#:#show_statements#:#学習履歴を表示
 lti#:#show_statements_info#:#'他のユーザの学習履歴を表示'権利が設定されていると他のユーザの学習履歴が表示される可能性があります。
 lti#:#subtab_object_settings#:#オブジェクト設定
-lti#:#subtab_provider_settings#:#LTI Provider設定
+lti#:#subtab_provider_settings#:#LTIツール設定
 lti#:#tab_content#:#コンテンツ
 lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
@@ -11464,7 +11464,7 @@ lti#:#tbl_provider_usage_header#:#LTI Provider
 lti#:#title_info#:#タイトルをオブジェクトにする
 lti#:#usage_subtab#:#用法
 lti#:#use_xapi#:#xAPI-Supportを使用
-lti#:#use_xapi_info#:#このLTI ProviderはxAPI-Statementsをサポートします。
+lti#:#use_xapi_info#:#このLTIツールはxAPI-Statementsをサポートします。
 lti#:#user_lng#:#User言語
 lti#:#user_provider_subtab#:#ユーザ別プロバイダー定義
 ltiv#:#ltiv_create#:#LTI Consumerオブジェクト用の証明書を作成

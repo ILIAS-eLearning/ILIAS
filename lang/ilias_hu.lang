@@ -11237,7 +11237,7 @@ lso#:#table_title#:#Cím
 lso#:#unparticipate#:#Leiratkozás
 lti#:#act_lti_for_obj_type#:#Objektumtípusra LTI aktiválása
 lti#:#activity_id#:#AktivításID
-lti#:#activity_id_info#:#Ezt az AktivításID-t használja az LTI Kiszolgáló, hogy azonosítsa a Statement-eket.
+lti#:#activity_id_info#:#Ezt az AktivításID-t használja az LTI Eszköz, hogy azonosítsa a Statement-eket.
 lti#:#auth_lti#:#LTI-hitelesítés
 lti#:#conf_privacy_ident#:#Felhasználói azonosítás
 lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash és az egyedi ILIAS platform_id e-mail cím formátumban.
@@ -11322,7 +11322,7 @@ lti#:#lti_1p1_deprecated_link#:#1EdTech: Security Update and Deprecation Schedul
 lti#:#lti_action_accept_provider_as_global#:#A Kiszolgáló elfogadás mint Global Kiszolgáló az összes felhasználó számára
 lti#:#lti_action_reset_provider_to_user_scope#:#Reset Kiszolgáló as User Defined Kiszolgáló
 lti#:#lti_add_global_provider#:#Globális Kiszolgáló hozzáadása az összes felhasználónak
-lti#:#lti_add_own_provider#:#Saját Kiszolgáló létrehozása (nem az összes felhasználónak)
+lti#:#lti_add_own_provider#:#Saját Eszköz létrehozása (nem az összes felhasználónak)
 lti#:#lti_admin#:#LTI-rendszergazda
 lti#:#lti_at_least_one_not_acceptable_as_global#:#At least one of the selected tools cannot be accepted as global tool, because it has no creator or is already global.###17 09 2026 new variable
 lti#:#lti_at_least_one_not_resetable_to_usr_def#:#At least one of the selected tools cannot be reset to user defined tool, because it has no creator or is already user defined.###17 09 2026 new variable
@@ -11410,7 +11410,7 @@ lti#:#lti_create_consumer#:#Fogyasztó létrehozása
 lti#:#lti_create_lti_user_role#:#LTI-felhasználónak ajánlott globális szerepkör létrehozása
 lti#:#lti_cron_title#:#LTI Grade Service###06 10 2026 changed variable
 lti#:#lti_cron_title_desc#:#Sends the learning progress of LTI users that changed since the last run to their platform again, so that a score the platform could not take at the time, e.g. because it was not reachable, still reaches it. Scores the platform has already are not sent again.###06 10 2026 changed variable
-lti#:#lti_custom_new#:#Create Own Settings for Provider resp. Tool
+lti#:#lti_custom_new#:#Saját Eszköz-beállítások létrehozása
 lti#:#lti_deep_linking_expired#:#This selection has expired. Start the content selection in the platform again.###29 09 2026 new variable
 lti#:#lti_deep_linking_failed#:#The content selected in the tool could not be added. Please try again.###29 09 2026 new variable
 lti#:#lti_deep_linking_no_content#:#The tool did not send any content that can be added as an LTI object.###29 09 2026 new variable
@@ -11436,8 +11436,8 @@ lti#:#lti_exited_info#:#LTI-munkamenet sikeresen lezárult
 lti#:#lti_form_provider_create#:#Kiszolgáló beállításainak létrehozása
 lti#:#lti_form_provider_edit#:#Kiszolgáló beállításainak módosítása
 lti#:#lti_form_section_appearance#:#Indítás beállításai
-lti#:#lti_info_external_provider_info#:#A használatban lévő Kiszolgáló egy külső Kiszolgáló. A külső Kiszolgálót az jellemzi, hogy az ILIAS-telepítés üzemeltetője nem tud kellőképpen befolyást gyakorolni a Kiszolgálóra. Az ilyen esetben péládul nincs jogosultság az adatok törlésére.
-lti#:#lti_info_external_provider_label#:#A Kiszolgáló kiegészítő információi
+lti#:#lti_info_external_provider_info#:#A használatban lévő Eszköz egy külső Eszköz. A külső Eszközt az jellemzi, hogy az ILIAS-telepítés üzemeltetője nem tud kellőképpen befolyást gyakorolni az Eszközre. Az ilyen esetben például nincs jogosultság az adatok törlésére.
+lti#:#lti_info_external_provider_label#:#Az Eszköz kiegészítő információi
 lti#:#lti_info_learning_progress_section#:#Információ a tanulási haladás meghatározásáról
 lti#:#lti_info_privacy_section#:#Tájékoztatás a szolgáltatónak induláskor továbbított személyes adatokról
 lti#:#lti_launch_url#:#Url
@@ -11451,11 +11451,11 @@ lti#:#lti_platform_registration_incomplete#:#Fill in all fields of the registrat
 lti#:#lti_platform_registration_info#:#Filled in when the platform registers ILIAS through Dynamic Registration. Otherwise, enter the data the platform gives for ILIAS.###28 09 2026 new variable
 lti#:#lti_platform_registration_taken#:#Another platform is already registered with this platform ID, client ID and deployment ID.###29 09 2026 new variable
 lti#:#lti_provider#:#LTI-megosztások
-lti#:#lti_provider_not_avail_msg#:#Az LTI-kiszolgáló / -Eszköz értéke ‘Nem érhető el’
-lti#:#lti_provider_not_set_msg#:#Az LTI-kiszolgáló / -eszköz beállítása még nem teljes.
+lti#:#lti_provider_not_avail_msg#:#Az LTI-eszköz értéke ‘Nem érhető el’
+lti#:#lti_provider_not_set_msg#:#Az LTI-eszköz beállítása még nem teljes.
 lti#:#lti_providing_tab#:#Az ILIAS, mint LTI-Kiszolgáló
 lti#:#lti_released_objects#:#Megosztott objektumok
-lti#:#lti_select_provider#:#Válasszon Kiszolgáló resp. Eszközt
+lti#:#lti_select_provider#:#Válasszon Eszközt
 lti#:#lti_settings#:#LTI beállítások
 lti#:#lti_settings_form#:#Objektum beállításai
 lti#:#lti_success_accept_as_global#:#Sikeresen elfogadta mint a Globális Kiszolgálót az összes felhasználó számára
@@ -11467,16 +11467,16 @@ lti#:#lti_user_role_info#:#Ajánlott globális szerepkör még nem létezik az L
 lti#:#lti_version_1p1_deprecated#:#LTI 1.1 (Deprecated)###17 09 2026 new variable
 lti#:#lti_version_advantage#:#LTI 1.3 (LTI Advantage)###17 09 2026 new variable
 lti#:#mastery_score#:#Kötelező pontszám
-lti#:#mastery_score_info#:#A tanulási haladást a Kiszolgáló kimeneti szolgáltatása és a kötelező pontszám határozza meg.
+lti#:#mastery_score_info#:#A tanulási haladást az Eszköz kimeneti szolgáltatása és a kötelező pontszám határozza meg.
 lti#:#obj_tile_image_info#:#Kép használata négyzet formában
 lti#:#online_info#:#Ez a lehetőség a felhasználók számárá láthatóvá és elérhetővé teszi az objektumot.
 lti#:#prefix#:#Előtag
-lti#:#provider_info#:#Haszánaltban lévő Kiszolgáló
+lti#:#provider_info#:#Használatban lévő Eszköz
 lti#:#settings_subtab#:#Beállítások
 lti#:#show_statements#:#Tanulási tapasztalatok megjelenítése
 lti#:#show_statements_info#:#A többi felhasználó tanulási tapasztalat akkor jelenik meg, ha az ‘A többi felhasználó tanulási tapasztalatának megtekintése’ jogosultsággal rendelkezik.
 lti#:#subtab_object_settings#:#Objektum beállításai
-lti#:#subtab_provider_settings#:#Kiszolgáló resp. Eszköz beállításai
+lti#:#subtab_provider_settings#:#LTI-eszköz beállításai
 lti#:#tab_content#:#Tartalom
 lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
@@ -11510,7 +11510,7 @@ lti#:#tbl_provider_usage_header#:#LTI-Kiszolgáló / Eszköz
 lti#:#title_info#:#Adjon az objektumnak címet
 lti#:#usage_subtab#:#Használatban
 lti#:#use_xapi#:#Use xAPI-Support
-lti#:#use_xapi_info#:#Ez az LTI-Kiszolgáló támogatja az xAPI-Nyilatkozatokat.
+lti#:#use_xapi_info#:#Ez az LTI-Eszköz támogatja az xAPI-Nyilatkozatokat.
 lti#:#user_lng#:#Felhasználó nyelve
 lti#:#user_provider_subtab#:#Felhasználó által definiált Kiszolgálók
 ltiv#:#ltiv_create#:#Az LTI-Fogyasztóobjektumoknak tanúsítvány létrehozása

@@ -11256,7 +11256,7 @@ lso#:#table_title#:#Title
 lso#:#unparticipate#:#Unsubscribe
 lti#:#act_lti_for_obj_type#:#Activate LTI for Type of Object
 lti#:#activity_id#:#Activity ID
-lti#:#activity_id_info#:#This Activity ID is used by the LTI Provider to identify Statements.
+lti#:#activity_id_info#:#This Activity ID is used by the LTI Tool to identify Statements.
 lti#:#auth_lti#:#LTI Auth
 lti#:#conf_privacy_ident#:#User identification
 lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address
@@ -11341,7 +11341,7 @@ lti#:#lti_1p1_deprecated_link#:#1EdTech: Security Update and Deprecation Schedul
 lti#:#lti_action_accept_provider_as_global#:#Accept Tool as Global Tool for all Users
 lti#:#lti_action_reset_provider_to_user_scope#:#Reset Tool to User Defined Tool
 lti#:#lti_add_global_provider#:#Add Global Tool for all Users
-lti#:#lti_add_own_provider#:#Add Own Provider (not for all Users)
+lti#:#lti_add_own_provider#:#Add Own Tool (not for all Users)
 lti#:#lti_admin#:#LTI Administrator
 lti#:#lti_at_least_one_not_acceptable_as_global#:#At least one of the selected tools cannot be accepted as global tool, because it has no creator or is already global.###17 09 2026 new variable
 lti#:#lti_at_least_one_not_resetable_to_usr_def#:#At least one of the selected tools cannot be reset to user defined tool, because it has no creator or is already user defined.###17 09 2026 new variable
@@ -11429,7 +11429,7 @@ lti#:#lti_create_consumer#:#Add Platform
 lti#:#lti_create_lti_user_role#:#Create recommended global role for LTI users
 lti#:#lti_cron_title#:#LTI Grade Service
 lti#:#lti_cron_title_desc#:#Sends the learning progress of LTI users that changed since the last run to their platform again, so that a score the platform could not take at the time, e.g. because it was not reachable, still reaches it. Scores the platform has already are not sent again.
-lti#:#lti_custom_new#:#Create Own Provider Settings
+lti#:#lti_custom_new#:#Create Own Tool Settings
 lti#:#lti_deep_linking_expired#:#This selection has expired. Start the content selection in the platform again.###29 09 2026 new variable
 lti#:#lti_deep_linking_failed#:#The content selected in the tool could not be added. Please try again.###29 09 2026 new variable
 lti#:#lti_deep_linking_no_content#:#The tool did not send any content that can be added as an LTI object.###29 09 2026 new variable
@@ -11455,8 +11455,8 @@ lti#:#lti_exited_info#:#LTI Session successfully closed
 lti#:#lti_form_provider_create#:#Create Tool Settings
 lti#:#lti_form_provider_edit#:#Edit Tool Settings
 lti#:#lti_form_section_appearance#:#Options for launch
-lti#:#lti_info_external_provider_info#:#The used Provider is an external Provider. An external Provider is characterized by insufficient influence on the Provider by the operator of the ILIAS-Installation. This is the case e.g. if there are no rights to delete data.
-lti#:#lti_info_external_provider_label#:#Additional Info about this Provider
+lti#:#lti_info_external_provider_info#:#The used Tool is an external Tool. An external Tool is characterized by insufficient influence on the Tool by the operator of the ILIAS-Installation. This is the case e.g. if there are no rights to delete data.
+lti#:#lti_info_external_provider_label#:#Additional Info about this Tool
 lti#:#lti_info_learning_progress_section#:#Info about Determination of the Learning Progress
 lti#:#lti_info_privacy_section#:#Info about personal data transmitted to the provider at launch
 lti#:#lti_launch_url#:#Url
@@ -11470,11 +11470,11 @@ lti#:#lti_platform_registration_incomplete#:#Fill in all fields of the registrat
 lti#:#lti_platform_registration_info#:#Filled in when the platform registers ILIAS through Dynamic Registration. Otherwise, enter the data the platform gives for ILIAS.###28 09 2026 new variable
 lti#:#lti_platform_registration_taken#:#Another platform is already registered with this platform ID, client ID and deployment ID.###29 09 2026 new variable
 lti#:#lti_provider#:#LTI Releases
-lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'
-lti#:#lti_provider_not_set_msg#:#Configuration of LTI Provider / tool is not completely finished.
+lti#:#lti_provider_not_avail_msg#:#LTI Tool is set to 'Not Available'
+lti#:#lti_provider_not_set_msg#:#Configuration of the LTI Tool is not completely finished.
 lti#:#lti_providing_tab#:#ILIAS as LTI Tool (Provider)
 lti#:#lti_released_objects#:#Object Releases
-lti#:#lti_select_provider#:#Select Provider
+lti#:#lti_select_provider#:#Select Tool
 lti#:#lti_settings#:#LTI Settings
 lti#:#lti_settings_form#:#Object Settings
 lti#:#lti_success_accept_as_global#:#Successfully accepted as Global Tool for all Users
@@ -11486,16 +11486,16 @@ lti#:#lti_user_role_info#:#The recommended global role for LTI users has not yet
 lti#:#lti_version_1p1_deprecated#:#LTI 1.1 (Deprecated)###17 09 2026 new variable
 lti#:#lti_version_advantage#:#LTI 1.3 (LTI Advantage)###17 09 2026 new variable
 lti#:#mastery_score#:#Mastery Score
-lti#:#mastery_score_info#:#The Learning Progress will be evaluated from the Provider Outcome Service and the mastery score threshold.
+lti#:#mastery_score_info#:#The Learning Progress will be evaluated from the Tool Outcome Service and the mastery score threshold.
 lti#:#obj_tile_image_info#:#Use an Image in Square Format
 lti#:#online_info#:#This makes the object visible and usable for the users.
 lti#:#prefix#:#Prefix
-lti#:#provider_info#:#Used Provider
+lti#:#provider_info#:#Used Tool
 lti#:#settings_subtab#:#Settings
 lti#:#show_statements#:#Display Learning Experiences
 lti#:#show_statements_info#:#The Learning Experiences of other users could be displayed if the right 'View learning experiences of other users' is set.
 lti#:#subtab_object_settings#:#Object Settings
-lti#:#subtab_provider_settings#:#LTI Provider Settings
+lti#:#subtab_provider_settings#:#LTI Tool Settings
 lti#:#tab_content#:#Content
 lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
@@ -11529,7 +11529,7 @@ lti#:#tbl_provider_usage_header#:#LTI Tool Usages
 lti#:#title_info#:#Give the object a title.
 lti#:#usage_subtab#:#Usage
 lti#:#use_xapi#:#Use xAPI-Support
-lti#:#use_xapi_info#:#This LTI Provider supports xAPI-Statements.
+lti#:#use_xapi_info#:#This LTI Tool supports xAPI-Statements.
 lti#:#user_lng#:#User Languague
 lti#:#user_provider_subtab#:#Tools Defined by Users
 ltiv#:#ltiv_create#:#Create Certificate for LTI Consumer Object

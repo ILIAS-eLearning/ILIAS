@@ -11162,7 +11162,7 @@ lso#:#table_title#:#Titel
 lso#:#unparticipate#:#Avsluta inlärningssekvensen
 lti#:#act_lti_for_obj_type#:#Aktivera LTI för dessa objekttyper
 lti#:#activity_id#:#Aktivitets-ID
-lti#:#activity_id_info#:#Detta aktivitets-ID används av LTI-leverantören eller verktyget för att identifiera uttalanden.
+lti#:#activity_id_info#:#Detta aktivitets-ID används av LTI-verktyget för att identifiera uttalanden.
 lti#:#auth_lti#:#LTI Auth
 lti#:#conf_privacy_ident#:#Identifiering av användare
 lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###21 11 2023 new variable
@@ -11247,7 +11247,7 @@ lti#:#lti_1p1_deprecated_link#:#1EdTech: Security Update and Deprecation Schedul
 lti#:#lti_action_accept_provider_as_global#:#Tillämpa leverantören eller verktyget globalt för alla användare.
 lti#:#lti_action_reset_provider_to_user_scope#:#Återställ leverantör eller verktyg enligt användardefinition
 lti#:#lti_add_global_provider#:#Lägg till leverantör eller verktyg globalt för alla användare
-lti#:#lti_add_own_provider#:#Skapa inställningar för leverantör eller verktyg
+lti#:#lti_add_own_provider#:#Skapa inställningar för verktyg
 lti#:#lti_admin#:#LTI Rolladministratör
 lti#:#lti_at_least_one_not_acceptable_as_global#:#At least one of the selected tools cannot be accepted as global tool, because it has no creator or is already global.###17 09 2026 new variable
 lti#:#lti_at_least_one_not_resetable_to_usr_def#:#At least one of the selected tools cannot be reset to user defined tool, because it has no creator or is already user defined.###17 09 2026 new variable
@@ -11335,7 +11335,7 @@ lti#:#lti_create_consumer#:#Lägg till konsumenter
 lti#:#lti_create_lti_user_role#:#Skapa rekommenderad global roll för LTI-användare
 lti#:#lti_cron_title#:#LTI Grade Service###06 10 2026 changed variable
 lti#:#lti_cron_title_desc#:#Sends the learning progress of LTI users that changed since the last run to their platform again, so that a score the platform could not take at the time, e.g. because it was not reachable, still reaches it. Scores the platform has already are not sent again.###06 10 2026 changed variable
-lti#:#lti_custom_new#:#Skapa din egen leverantör eller verktygsinställningar
+lti#:#lti_custom_new#:#Skapa dina egna verktygsinställningar
 lti#:#lti_deep_linking_expired#:#This selection has expired. Start the content selection in the platform again.###29 09 2026 new variable
 lti#:#lti_deep_linking_failed#:#The content selected in the tool could not be added. Please try again.###29 09 2026 new variable
 lti#:#lti_deep_linking_no_content#:#The tool did not send any content that can be added as an LTI object.###29 09 2026 new variable
@@ -11361,8 +11361,8 @@ lti#:#lti_exited_info#:#LTI-sessionen slutfördes framgångsrikt.
 lti#:#lti_form_provider_create#:#Skapa inställningar för en leverantör eller ett verktyg
 lti#:#lti_form_provider_edit#:#Redigera inställningar för leverantören eller verktyget
 lti#:#lti_form_section_appearance#:#Alternativ för lanseringen
-lti#:#lti_info_external_provider_info#:#Den leverantör eller det verktyg som används betraktas som "extern". Här kan personer som ansvarar för denna ILIAS-installation endast ha begränsat inflytande på hanteringen av data - till exempel om det inte finns några rättigheter att radera data.###Mo
-lti#:#lti_info_external_provider_label#:#Ytterligare information om denna leverantör eller detta verktyg
+lti#:#lti_info_external_provider_info#:#Det verktyg som används betraktas som "externt". Här kan personer som ansvarar för denna ILIAS-installation endast ha begränsat inflytande på hanteringen av data - till exempel om det inte finns några rättigheter att radera data.###Mo
+lti#:#lti_info_external_provider_label#:#Ytterligare information om detta verktyg
 lti#:#lti_info_learning_progress_section#:#Information för att fastställa inlärningsframsteg
 lti#:#lti_info_privacy_section#:#Information om personuppgifter som överförs till leverantören eller verktyget vid start ###Modifierad som en del av jämställdhetsintegreringsaktiviteterna för ILIAS 8
 lti#:#lti_launch_url#:#URL
@@ -11376,11 +11376,11 @@ lti#:#lti_platform_registration_incomplete#:#Fill in all fields of the registrat
 lti#:#lti_platform_registration_info#:#Filled in when the platform registers ILIAS through Dynamic Registration. Otherwise, enter the data the platform gives for ILIAS.###28 09 2026 new variable
 lti#:#lti_platform_registration_taken#:#Another platform is already registered with this platform ID, client ID and deployment ID.###29 09 2026 new variable
 lti#:#lti_provider#:#LTI-utgåvor
-lti#:#lti_provider_not_avail_msg#:#LTI leverantör eller verktyg är inställt på "Ej tillgängligt".
-lti#:#lti_provider_not_set_msg#:#Configuration of LTI Provider / tool is not completely finished.###29 10 2025 new variable
+lti#:#lti_provider_not_avail_msg#:#LTI-verktyget är inställt på "Ej tillgängligt".
+lti#:#lti_provider_not_set_msg#:#Konfigurationen av LTI-verktyget är inte helt klar.###29 10 2025 new variable
 lti#:#lti_providing_tab#:#ILIAS som LTI-leverantör/verktyg
 lti#:#lti_released_objects#:#Utsläpp av objekt
-lti#:#lti_select_provider#:#Välj leverantör eller verktyg
+lti#:#lti_select_provider#:#Välj verktyg
 lti#:#lti_settings#:#LTI-inställningar
 lti#:#lti_settings_form#:#Inställningar för objekt
 lti#:#lti_success_accept_as_global#:#Framgångsrikt införd som global leverantör/verktyg för alla användare
@@ -11396,12 +11396,12 @@ lti#:#mastery_score_info#:#När inlärningsprocessen är aktiverad anses objekte
 lti#:#obj_tile_image_info#:#Använd en bild i kvadratiskt format
 lti#:#online_info#:#Detta gör objektet synligt och användbart för användarna.
 lti#:#prefix#:#Prefix
-lti#:#provider_info#:#Leverantör eller verktyg
+lti#:#provider_info#:#Verktyg
 lti#:#settings_subtab#:#Inställningar
 lti#:#show_statements#:#Visa upp erfarenheter av lärande
 lti#:#show_statements_info#:#Andra användares erfarenheter av lärande kan visas om höger 'Visa andra användares erfarenheter av lärande' är inställd.
 lti#:#subtab_object_settings#:#Inställningar för objekt
-lti#:#subtab_provider_settings#:#Inställningar för leverantör eller verktyg
+lti#:#subtab_provider_settings#:#Inställningar för LTI-verktyg
 lti#:#tab_content#:#Innehåll
 lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
@@ -11435,7 +11435,7 @@ lti#:#tbl_provider_usage_header#:#LTI leverantör/verktyg
 lti#:#title_info#:#Ge objektet en titel!
 lti#:#usage_subtab#:#Använda
 lti#:#use_xapi#:#Använd xAPI-stöd
-lti#:#use_xapi_info#:#LTI-leverantör eller verktyg stöder förfrågan av xAPI-uttalanden.
+lti#:#use_xapi_info#:#LTI-verktyget stöder förfrågan av xAPI-uttalanden.
 lti#:#user_lng#:#Användarspråk
 lti#:#user_provider_subtab#:#Leverantörer eller verktyg definieras av användarna
 ltiv#:#ltiv_create#:#Skapa certifikat för LTI-konsumentobjekt

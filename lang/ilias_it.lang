@@ -11165,7 +11165,7 @@ lso#:#table_title#:#Titolo
 lso#:#unparticipate#:#Annulla l'iscrizione
 lti#:#act_lti_for_obj_type#:#Attiva LTI per tipo di oggetto
 lti#:#activity_id#:#ID attività
-lti#:#activity_id_info#:#Questo ID attività viene utilizzato dal provider LTI per identificare gli statements.
+lti#:#activity_id_info#:#Questo ID attività viene utilizzato dallo strumento LTI per identificare gli statements.
 lti#:#auth_lti#:#Auth LTI
 lti#:#conf_privacy_ident#:#User identification###28 11 2025 new variable
 lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###28 11 2025 new variable
@@ -11250,7 +11250,7 @@ lti#:#lti_1p1_deprecated_link#:#1EdTech: Security Update and Deprecation Schedul
 lti#:#lti_action_accept_provider_as_global#:#Accetta fornitori come globali per tutti gli utenti
 lti#:#lti_action_reset_provider_to_user_scope#:#Resetta il fornitore come fornitore definito dall'utente
 lti#:#lti_add_global_provider#:#Aggiungi fornitore globale per tutti gli utenti
-lti#:#lti_add_own_provider#:#Aggiungi fornitore personale (non per tutti gli utenti)
+lti#:#lti_add_own_provider#:#Aggiungi strumento personale (non per tutti gli utenti)
 lti#:#lti_admin#:#Amministratore LTI
 lti#:#lti_at_least_one_not_acceptable_as_global#:#At least one of the selected tools cannot be accepted as global tool, because it has no creator or is already global.###17 09 2026 new variable
 lti#:#lti_at_least_one_not_resetable_to_usr_def#:#At least one of the selected tools cannot be reset to user defined tool, because it has no creator or is already user defined.###17 09 2026 new variable
@@ -11338,7 +11338,7 @@ lti#:#lti_create_consumer#:#Crea consumatore
 lti#:#lti_create_lti_user_role#:#Crea un ruolo globale raccomandato per gli utenti LTI
 lti#:#lti_cron_title#:#LTI Grade Service###06 10 2026 changed variable
 lti#:#lti_cron_title_desc#:#Sends the learning progress of LTI users that changed since the last run to their platform again, so that a score the platform could not take at the time, e.g. because it was not reachable, still reaches it. Scores the platform has already are not sent again.###06 10 2026 changed variable
-lti#:#lti_custom_new#:#Impostazioni di creazione fornitore personale
+lti#:#lti_custom_new#:#Crea impostazioni dello strumento personale
 lti#:#lti_deep_linking_expired#:#This selection has expired. Start the content selection in the platform again.###29 09 2026 new variable
 lti#:#lti_deep_linking_failed#:#The content selected in the tool could not be added. Please try again.###29 09 2026 new variable
 lti#:#lti_deep_linking_no_content#:#The tool did not send any content that can be added as an LTI object.###29 09 2026 new variable
@@ -11364,8 +11364,8 @@ lti#:#lti_exited_info#:#Sessione LTI chiusa con successo
 lti#:#lti_form_provider_create#:#Impostazioni di creazione fornitore
 lti#:#lti_form_provider_edit#:#Modifica impostazioni del fornitore
 lti#:#lti_form_section_appearance#:#Opzioni di avvio
-lti#:#lti_info_external_provider_info#:#Il fornitore utilizzato è un fornitore esterno. Un fornitore esterno è caratterizzato da una scarsa influenza sul fornitore da parte di ILIAS. Questo è il caso se non ci sono ad esempio i permessi di cancellare i dati.
-lti#:#lti_info_external_provider_label#:#Informazioni aggiuntive su questo fornitore
+lti#:#lti_info_external_provider_info#:#Lo strumento utilizzato è uno strumento esterno. Uno strumento esterno è caratterizzato da una scarsa influenza sullo strumento da parte di ILIAS. Questo è il caso se non ci sono ad esempio i permessi di cancellare i dati.
+lti#:#lti_info_external_provider_label#:#Informazioni aggiuntive su questo strumento
 lti#:#lti_info_learning_progress_section#:#Informazioni sulla determinazione dei progressi didattici
 lti#:#lti_info_privacy_section#:#Informazioni sui dati personali trasmessi all'avvio al fornitore
 lti#:#lti_launch_url#:#Url
@@ -11379,11 +11379,11 @@ lti#:#lti_platform_registration_incomplete#:#Fill in all fields of the registrat
 lti#:#lti_platform_registration_info#:#Filled in when the platform registers ILIAS through Dynamic Registration. Otherwise, enter the data the platform gives for ILIAS.###28 09 2026 new variable
 lti#:#lti_platform_registration_taken#:#Another platform is already registered with this platform ID, client ID and deployment ID.###29 09 2026 new variable
 lti#:#lti_provider#:#Versioni LTI
-lti#:#lti_provider_not_avail_msg#:#Il fornitore è impostato come 'Non disponibile'
-lti#:#lti_provider_not_set_msg#:#Configuration of LTI Provider / tool is not completely finished.###08 07 2025 new variable
+lti#:#lti_provider_not_avail_msg#:#Lo strumento è impostato come 'Non disponibile'
+lti#:#lti_provider_not_set_msg#:#La configurazione dello strumento LTI non è completa.###08 07 2025 new variable
 lti#:#lti_providing_tab#:#ILIAS come fornitore LTI
 lti#:#lti_released_objects#:#Versioni degli Oggetti
-lti#:#lti_select_provider#:#Seleziona un fornitore
+lti#:#lti_select_provider#:#Seleziona uno strumento
 lti#:#lti_settings#:#Impostazioni LTI
 lti#:#lti_settings_form#:#Impostazioni oggetto
 lti#:#lti_success_accept_as_global#:#Accettato con successo come fornitore globale per tutti gli utenti
@@ -11395,16 +11395,16 @@ lti#:#lti_user_role_info#:#Il ruolo globale raccomandato per gli utenti LTI non 
 lti#:#lti_version_1p1_deprecated#:#LTI 1.1 (Deprecated)###17 09 2026 new variable
 lti#:#lti_version_advantage#:#LTI 1.3 (LTI Advantage)###17 09 2026 new variable
 lti#:#mastery_score#:#Punteggio di padronanza
-lti#:#mastery_score_info#:#Il progresso dell'apprendimento sarà valutato in base al servizio di risultato del fornitore e alla soglia del punteggio di padronanza.
+lti#:#mastery_score_info#:#Il progresso dell'apprendimento sarà valutato in base al servizio di risultato dello strumento e alla soglia del punteggio di padronanza.
 lti#:#obj_tile_image_info#:#Utilizzare un'immagine quadrata
 lti#:#online_info#:#Questo rende l'oggetto visibile e utilizzabile per gli utenti.
 lti#:#prefix#:#Prefisso
-lti#:#provider_info#:#Fornitore utilizzato
+lti#:#provider_info#:#Strumento utilizzato
 lti#:#settings_subtab#:#Impostazioni
 lti#:#show_statements#:#Mostra esperienze di apprendimento
 lti#:#show_statements_info#:#Le esperienze di apprendimento di altri utenti potrebbero essere visualizzate se è impostata correttamente "Visualizza esperienze di apprendimento di altri utenti".
 lti#:#subtab_object_settings#:#Impostazioni oggetto
-lti#:#subtab_provider_settings#:#Impostazioni fornitore LTI
+lti#:#subtab_provider_settings#:#Impostazioni strumento LTI
 lti#:#tab_content#:#Contenuto
 lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
@@ -11438,7 +11438,7 @@ lti#:#tbl_provider_usage_header#:#Fornitore LTI
 lti#:#title_info#:#Dai un titolo all'oggetto.
 lti#:#usage_subtab#:#Utilizzi
 lti#:#use_xapi#:#Utilizza il supporto alle xAPI
-lti#:#use_xapi_info#:#Questo fornitore LTI supporta gli statements xAPI.
+lti#:#use_xapi_info#:#Questo strumento LTI supporta gli statements xAPI.
 lti#:#user_lng#:#Lingua utente
 lti#:#user_provider_subtab#:#Fornitori definiti dagli utenti
 ltiv#:#ltiv_create#:#Crea certificato per Oggetto consumatore LTI.
