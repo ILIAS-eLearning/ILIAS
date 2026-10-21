@@ -332,6 +332,10 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
             $this->attachments[$attachment['path']] = $attachment['name'];
         }
 
+        if ($this->attachments === []) {
+            return;
+        }
+
         $rcid_string = $this->objPost->getRCID();
         if ($rcid_string === '' || $rcid_string === ilForumPost::NO_RCID) {
             return;

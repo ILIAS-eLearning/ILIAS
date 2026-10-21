@@ -118,6 +118,10 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
             $this->attachments[] = $attachment['name'];
         }
 
+        if ($this->attachments === []) {
+            return;
+        }
+
         $post = new ilForumPost($this->getPostId());
         $rcid_string = $post->getRCID();
         if ($rcid_string === '' || $rcid_string === ilForumPost::NO_RCID) {
