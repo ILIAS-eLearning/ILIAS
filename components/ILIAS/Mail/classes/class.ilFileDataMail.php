@@ -286,6 +286,37 @@ class ilFileDataMail extends ilFileData
         return $rcid;
     }
 
+    private function resolveStageRcid(): ?ResourceCollectionIdentification
+    {
+        $res = $this->db->queryF(
+            'SELECT attachments FROM mail_saved WHERE user_id = %s',
+            [ilDBConstants::T_INTEGER],
+            [$this->user_id]
+        );
+        $row = $this->db->fetchAssoc($res);
+        if (!is_array($row)) {
+            return null;
+        }
+
+        $stage = MailAttachments::fromDb(is_string($row['attachments'] ?? null) ? $row['attachments'] : null);
+        if ($stage === null || !$stage->isIrss()) {
+            return null;
+        }
+
+        return $stage->rcid();
+    }
+
+    private function collectionContainsResource(
+        ?ResourceCollectionIdentification $rcid,
+        ResourceIdentification $identification
+    ): bool {
+        if ($rcid === null) {
+            return false;
+        }
+
+        return in_array($identification->serialize(), $this->getAssignedRidStrings($rcid), true);
+    }
+
     /**
      * @return \Generator<int, ResourceIdentification>
      */
@@ -1021,6 +1052,27 @@ class ilFileDataMail extends ilFileData
     public function getStakeholder(): ilMailAttachmentStakeholder
     {
         return $this->stakeholder;
+    }
+
+    /**
+     * A compose form may only attach the user's pool, the compose stage, or a file
+     * this user just stored with the mail stakeholder.
+     */
+    public function canUseResourceInCompose(ResourceIdentification $identification): bool
+    {
+        if ($this->collectionContainsResource($this->resolveUserPoolRcid(), $identification)
+            || $this->collectionContainsResource($this->resolveStageRcid(), $identification)) {
+            return true;
+        }
+
+        try {
+            $revision = $this->irss->manage()->getCurrentRevision($identification);
+        } catch (Throwable) {
+            return false;
+        }
+
+        return $revision->getOwnerId() === $this->user_id
+            && $this->resourceHasOnlyMailStakeholder($identification);
     }
 
     public function streamFromPath(string $absolute_path, ?string $revision_title = null): ResourceIdentification

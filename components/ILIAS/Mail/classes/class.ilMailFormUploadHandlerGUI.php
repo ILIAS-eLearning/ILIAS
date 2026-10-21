@@ -34,6 +34,7 @@ class ilMailFormUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     private readonly ilMailAttachmentStakeholder $stakeholder;
     private readonly ilLanguage $lng;
     private readonly int $user_id;
+    private ?ilFileDataMail $mail_files = null;
 
     public function __construct()
     {
@@ -69,9 +70,9 @@ class ilMailFormUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 
     protected function getRemoveResult(string $identifier): HandlerResultInterface
     {
-        $id = $this->storage->manage()->find($identifier);
+        $id = $this->acceptedComposeResource($identifier);
         if ($id !== null) {
-            new ilFileDataMail($this->user_id)->removeResourceIfNotInAnyCollection($id);
+            $this->mailFiles()->removeResourceIfNotInAnyCollection($id);
             return new BasicHandlerResult($this->getFileIdentifierParameterName(), HandlerResultInterface::STATUS_OK, $identifier, 'file deleted');
         }
 
@@ -80,7 +81,7 @@ class ilMailFormUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 
     public function getInfoResult(string $identifier): FileInfoResult
     {
-        $id = $this->storage->manage()->find($identifier);
+        $id = $this->acceptedComposeResource($identifier);
         if ($id === null) {
             return new BasicFileInfoResult($this->getFileIdentifierParameterName(), 'unknown', 'unknown', 0, 'unknown');
         }
@@ -93,7 +94,7 @@ class ilMailFormUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     {
         $infos = [];
         foreach ($file_ids as $file_id) {
-            $id = $this->storage->manage()->find($file_id);
+            $id = $this->acceptedComposeResource($file_id);
             if ($id === null) {
                 continue;
             }
@@ -107,7 +108,7 @@ class ilMailFormUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 
     public function getInlineConsumer(string $identifier): InlineConsumer
     {
-        return $this->storage->consume()->inline(new ResourceIdentification($identifier));
+        return $this->storage->consume()->inline($this->requireComposeResource($identifier));
     }
 
     public function removeFileForIdentifier(string $identifier): HandlerResultInterface
@@ -117,6 +118,31 @@ class ilMailFormUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 
     public function getStreamConsumer(string $identifier): FileStreamConsumer
     {
-        return $this->storage->consume()->stream(new ResourceIdentification($identifier));
+        return $this->storage->consume()->stream($this->requireComposeResource($identifier));
+    }
+
+    private function mailFiles(): ilFileDataMail
+    {
+        return $this->mail_files ??= new ilFileDataMail($this->user_id);
+    }
+
+    private function acceptedComposeResource(string $identifier): ?ResourceIdentification
+    {
+        $id = $this->storage->manage()->find($identifier);
+        if ($id === null || !$this->mailFiles()->canUseResourceInCompose($id)) {
+            return null;
+        }
+
+        return $id;
+    }
+
+    private function requireComposeResource(string $identifier): ResourceIdentification
+    {
+        $id = $this->acceptedComposeResource($identifier);
+        if ($id === null) {
+            throw new RuntimeException('Mail attachment is not available.');
+        }
+
+        return $id;
     }
 }

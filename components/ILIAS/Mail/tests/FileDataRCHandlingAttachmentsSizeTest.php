@@ -105,6 +105,7 @@ class FileDataRCHandlingAttachmentsSizeTest extends ilMailBaseTestCase
 
         $fdm = $this->createMock(ilFileDataMail::class);
         $fdm->method('getAttachmentsTotalSizeLimit')->willReturn($limit);
+        $fdm->method('canUseResourceInCompose')->willReturn(true);
         if ($expect_collection) {
             $fdm->expects($this->once())
                 ->method('createCollectionFromResourceIdentifications')

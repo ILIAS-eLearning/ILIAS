@@ -62,7 +62,7 @@ trait FileDataRCHandling
         $resource_identifications = [];
         foreach ($form_attachment_rids as $attachment) {
             $found = $this->storage->manage()->find($attachment);
-            if ($found === null) {
+            if ($found === null || !$this->fdm->canUseResourceInCompose($found)) {
                 continue;
             }
             $resource_identifications[] = $found;
@@ -112,7 +112,7 @@ trait FileDataRCHandling
                 continue;
             }
             $found = $this->storage->manage()->find($attachment);
-            if ($found === null) {
+            if ($found === null || !$this->fdm->canUseResourceInCompose($found)) {
                 throw new Exception("File '" . $info->getName() . "' could not be found in IRSS");
             }
             $resource_identifications[] = $found;
