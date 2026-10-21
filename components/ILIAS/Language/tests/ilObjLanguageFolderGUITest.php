@@ -1382,4 +1382,112 @@ class ilObjLanguageFolderGUITest extends TestCase
 
         $gui->confirmUninstallChangesObject();
     }
+
+    public function testOnlyTheStateChangingCommandsAreUnsafeGetCommandsSoTheCsrfTokenIsRequired(): void
+    {
+        $gui = (new ReflectionClass(ilObjLanguageFolderGUI::class))->newInstanceWithoutConstructor();
+        $this->assertInstanceOf(ilCtrlSecurityInterface::class, $gui);
+
+        $this->assertEqualsCanonicalizing(
+            ['executeTableAction', 'enableLanguageDetection', 'disableLanguageDetection'],
+            $gui->getUnsafeGetCommands()
+        );
+        $this->assertSame([], $gui->getSafePostCommands());
+    }
+
+    /**
+     * @param list<non-empty-string> $methods
+     * @return ilObjLanguageFolderGUI&\PHPUnit\Framework\MockObject\MockObject
+     */
+    private function createDispatchGui(string $cmd, ?string $table_action, array $methods): ilObjLanguageFolderGUI
+    {
+        $gui = $this->getMockBuilder(ilObjLanguageFolderGUI::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(array_merge(['checkPermission', 'prepareOutput'], $methods))
+            ->getMock();
+
+        $request_wrapper = $this->createStub(\ILIAS\HTTP\Wrapper\RequestWrapper::class);
+        $request_wrapper->method('has')->willReturn($table_action !== null);
+        $request_wrapper->method('retrieve')->willReturn($table_action);
+        $ctrl = $this->createStub(ilCtrl::class);
+        $ctrl->method('getNextClass')->willReturn('');
+        $ctrl->method('getCmd')->willReturn($cmd);
+        $lng = $this->createStub(ilLanguage::class);
+
+        foreach ([
+            'action_token' => new \ILIAS\UI\URLBuilderToken(['language_folder'], 'action'),
+            'request_wrapper' => $request_wrapper,
+            'refinery' => $this->createStub(\ILIAS\Refinery\Factory::class),
+            'ctrl' => $ctrl,
+            'lng' => $lng,
+            'ui_renderer' => $this->createStub(\ILIAS\UI\Renderer::class),
+            'tabs_gui' => $this->createStub(ilTabsGUI::class),
+            'type' => 'lngf',
+            'ref_id' => 1,
+        ] as $name => $value) {
+            (new ReflectionProperty(ilObjLanguageFolderGUI::class, $name))->setValue($gui, $value);
+        }
+
+        return $gui;
+    }
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('commandsThatMustFallBackToView')]
+    public function testExecuteCommandOnlyShowsTheViewForCommandsOutsideTheExactAllowlist(string $cmd): void
+    {
+        $gui = $this->createDispatchGui(
+            $cmd,
+            'checkLanguage',
+            ['viewObject', 'executeTableActionObject', 'enableLanguageDetectionObject', 'saveObject', 'checkLanguageObject']
+        );
+        $gui->expects($this->once())->method('viewObject');
+        $gui->expects($this->never())->method('executeTableActionObject');
+        $gui->expects($this->never())->method('enableLanguageDetectionObject');
+        $gui->expects($this->never())->method('saveObject');
+        $gui->expects($this->never())->method('checkLanguageObject');
+
+        $gui->executeCommand();
+    }
+
+    /** @return array<string, array{string}> */
+    public static function commandsThatMustFallBackToView(): array
+    {
+        return [
+            'upper case first letter' => ['ExecuteTableAction'],
+            'lower case' => ['executetableaction'],
+            'detection with upper case' => ['EnableLanguageDetection'],
+            'inherited save' => ['save'],
+            'empty' => [''],
+        ];
+    }
+
+    public function testExecuteCommandDispatchesTheExactTableActionCommandToTheTableAction(): void
+    {
+        $gui = $this->createDispatchGui('executeTableAction', null, ['viewObject', 'executeTableActionObject']);
+        $gui->expects($this->once())->method('executeTableActionObject');
+        $gui->expects($this->never())->method('viewObject');
+
+        $gui->executeCommand();
+    }
+
+    public function testTableActionCheckLanguageIsDispatchedToCheckLanguageObject(): void
+    {
+        $gui = $this->createDispatchGui('executeTableAction', 'checkLanguage', ['viewObject', 'checkLanguageObject']);
+        $gui->expects($this->once())->method('checkLanguageObject');
+
+        $this->invokeTableAction($gui);
+    }
+
+    public function testUnknownTableActionOnlyShowsTheView(): void
+    {
+        $gui = $this->createDispatchGui('executeTableAction', 'doesNotExist', ['viewObject', 'checkLanguageObject']);
+        $gui->expects($this->once())->method('viewObject');
+        $gui->expects($this->never())->method('checkLanguageObject');
+
+        $this->invokeTableAction($gui);
+    }
+
+    private function invokeTableAction(ilObjLanguageFolderGUI $gui): void
+    {
+        (new ReflectionMethod(ilObjLanguageFolderGUI::class, 'executeTableActionObject'))->invoke($gui);
+    }
 }
