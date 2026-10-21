@@ -354,6 +354,7 @@ class ilFileDataMail extends ilFileData
         }
 
         $rid = $this->streamFromPath($path, md5($filename));
+        $this->applyResourceFileName($rid, $filename);
         try {
             $rid = $this->addResourceToPool($rid);
         } catch (RuntimeException) {
@@ -1107,12 +1108,14 @@ class ilFileDataMail extends ilFileData
                 continue;
             }
 
-            $hash = md5(basename($path));
+            $hash = md5($filename);
             if ($this->resourceIdByHashInCollection($collection, $hash) !== null) {
                 continue;
             }
 
-            $collection->add($this->streamFromPath($path, $hash));
+            $resource_identification = $this->streamFromPath($path, $hash);
+            $this->applyResourceFileName($resource_identification, $filename);
+            $collection->add($resource_identification);
             $added = true;
         }
 

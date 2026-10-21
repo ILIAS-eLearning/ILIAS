@@ -23,6 +23,8 @@ use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Information\FileInformation;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Collection\Collections;
+use ILIAS\ResourceStorage\Collection\ResourceCollection;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use ILIAS\ResourceStorage\Resource\Repository\CollectionDBRepository;
 
@@ -115,5 +117,57 @@ class ilFileDataMailFileNameTest extends ilMailBaseTestCase
         $this->assertSame(['rid-a', 'rid-b'], array_keys($listing));
         $this->assertSame(['hash-a', 'hash-b'], array_column($listing, 'md5'));
         $this->assertSame(['report.pdf', 'report.pdf'], array_column($listing, 'name'));
+    }
+
+    public function testAdoptedPoolFileKeepsTheNameWithoutTheUserPrefix(): void
+    {
+        $dir = sys_get_temp_dir() . '/mail-pool-name-' . uniqid('', true);
+        mkdir($dir);
+        file_put_contents($dir . '/6_report.pdf', '%PDF');
+
+        $rid = new ResourceIdentification('pool-rid');
+        $info = new FileInformation();
+        $revision = $this->createMock(Revision::class);
+        $revision->method('getInformation')->willReturn($info);
+        $revision->expects($this->once())->method('setInformation')->with($info);
+
+        $manage = $this->createMock(Manager::class);
+        $manage->expects($this->once())->method('stream')->willReturnCallback(
+            function (mixed $stream, mixed $stakeholder, ?string $title) use ($rid): ResourceIdentification {
+                $this->assertSame(md5('report.pdf'), $title);
+
+                return $rid;
+            }
+        );
+        $manage->expects($this->once())->method('getCurrentRevision')->with($rid)->willReturn($revision);
+        $manage->expects($this->once())->method('updateRevision')->with($revision);
+
+        $collection = $this->createMock(ResourceCollection::class);
+        $collection->method('getResourceIdentifications')->willReturn([]);
+        $collection->expects($this->once())->method('add')->with($rid);
+        $collection->method('getIdentification')->willReturn(new ResourceCollectionIdentification('pool-rcid'));
+        $collections = $this->createMock(Collections::class);
+        $collections->method('id')->willReturn(new ResourceCollectionIdentification('pool-rcid'));
+        $collections->method('get')->willReturn($collection);
+        $collections->expects($this->once())->method('store')->willReturn(true);
+
+        $irss = $this->createStub(IRSS::class);
+        $irss->method('manage')->willReturn($manage);
+        $irss->method('collection')->willReturn($collections);
+
+        $reflection = new ReflectionClass(ilFileDataMail::class);
+        $sut = $reflection->newInstanceWithoutConstructor();
+        $sut->user_id = 6;
+        $sut->mail_path = $dir;
+        $reflection->getProperty('irss')->setValue($sut, $irss);
+        $reflection->getProperty('stakeholder')->setValue($sut, new ilMailAttachmentStakeholder(6));
+
+        $stored = $sut->adoptPoolFilenamesToCollection(null, ['report.pdf']);
+
+        $this->assertNotNull($stored);
+        $this->assertSame('report.pdf', $info->getTitle());
+        $this->assertFileExists($dir . '/6_report.pdf');
+        unlink($dir . '/6_report.pdf');
+        rmdir($dir);
     }
 }
