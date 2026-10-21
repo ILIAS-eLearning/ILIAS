@@ -28,7 +28,7 @@ trait ilObjFileSecureString
 
     protected function extractSuffixFromFilename(string $filename): string
     {
-        if (!preg_match('/^(.+?)(?<!\s)\.([^.]*$|$)/', $filename, $matches)) {
+        if (!preg_match('/^(.+?)\.([^.]*$|$)/', $filename, $matches)) {
             return '';
         }
         return $this->secure($matches[2]);
@@ -51,10 +51,27 @@ trait ilObjFileSecureString
         $suffix ??= $this->extractSuffixFromFilename($title);
 
         if ($suffix !== null && strrpos((string) $title, "." . $suffix) === false) {
-            $title .= "." . $suffix;
+            // no whitespace in front of the suffix, "name .pdf" becomes "name.pdf",
+            // see https://mantis.ilias.de/view.php?id=47801
+            $title = rtrim((string) $title) . "." . $suffix;
         }
 
         return $this->secure(rtrim((string) $title, "."));
+    }
+
+    /**
+     * Titles stored before https://mantis.ilias.de/view.php?id=47801 may have lost their suffix
+     * (e.g. "name " for "name .pdf"). Without it, browsers save the delivered file without a type.
+     * Not secured, since the result is used as plain file name for the delivery.
+     */
+    protected function ensureSuffixForDelivery(string $title, string $suffix): string
+    {
+        $title = trim($title);
+        if ($suffix === '' || str_ends_with(strtolower($title), '.' . strtolower($suffix))) {
+            return $title;
+        }
+
+        return $title . '.' . $suffix;
     }
 
     /**
