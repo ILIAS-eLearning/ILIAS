@@ -61,6 +61,7 @@ class FileParameter
     public function __construct(
         private readonly TempFileStore $files,
         private readonly PreProcessorManager $processors,
+        private readonly Parameter $parameter,
         private readonly ?GlobalUploadLimit $upload_limit = null,
         private readonly string $content_name = self::DEFAULT_CONTENT_NAME,
         private readonly string $filename_name = self::DEFAULT_FILENAME_NAME,
@@ -77,6 +78,7 @@ class FileParameter
         return new self(
             $this->files,
             $this->processors,
+            $this->parameter,
             $this->upload_limit,
             $content_name,
             $filename_name,
@@ -94,6 +96,7 @@ class FileParameter
         return new self(
             $this->files,
             $this->processors,
+            $this->parameter,
             $this->upload_limit,
             $this->content_name,
             $this->filename_name,
@@ -115,6 +118,7 @@ class FileParameter
         return new self(
             $this->files,
             $this->processors,
+            $this->parameter,
             $this->upload_limit,
             $this->content_name,
             $this->filename_name,
@@ -163,7 +167,7 @@ class FileParameter
      */
     public function read(array $raw_parameters): FileContent
     {
-        $filename = trim((string) ($raw_parameters[$this->filename_name] ?? ''));
+        $filename = (string) $this->parameter->string($raw_parameters, $this->filename_name);
 
         if ($filename === '') {
             throw new \InvalidArgumentException('A file name is required.', 400);
@@ -222,16 +226,21 @@ class FileParameter
      */
     private function process(FileContent $file): void
     {
-        $status = $this->processors->process(
-            $file->stream(),
-            new Metadata($file->filename, $file->size, $file->mime_type)
-        );
+        $stream = $file->stream();
 
-        if (in_array($status->getCode(), [ProcessingStatus::REJECTED, ProcessingStatus::DENIED], true)) {
-            throw new \InvalidArgumentException(
-                "The file has been rejected: {$status->getMessage()}",
-                400
+        try {
+            $status = $this->processors->process(
+                $stream,
+                new Metadata($file->filename, $file->size, $file->mime_type)
             );
+        } finally {
+            $stream->close();
+        }
+
+        // the reason stays inside, as in the GUI: a processor that failed hands
+        // out the message of its exception, which may name paths of the server
+        if (in_array($status->getCode(), [ProcessingStatus::REJECTED, ProcessingStatus::DENIED], true)) {
+            throw new \InvalidArgumentException('The file has been rejected.', 400);
         }
 
         if ($this->accepted_mime_types !== [] && !in_array($file->mime_type, $this->accepted_mime_types, true)) {

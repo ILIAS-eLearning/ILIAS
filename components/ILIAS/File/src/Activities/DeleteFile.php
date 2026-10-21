@@ -28,21 +28,24 @@ use ILIAS\Data\Result;
 use ILIAS\Data\Text\SimpleDocumentMarkdown;
 use ILIAS\FileUpload\Activities\AccessCheck;
 use ILIAS\FileUpload\Activities\Failure;
+use ILIAS\FileUpload\Activities\Parameter;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 
 /**
- * Move a file object to the trash.
+ * Delete a file object.
  *
- * The first destructive activity, and it is deliberately not destructive: this
- * does what the GUI does, the object goes to the trash and an administrator can
- * bring it back. Removing it for good is an administrative act, not an API call.
+ * This does exactly what the GUI does: the object goes to the trash and an
+ * administrator can bring it back - unless the installation has no trash, then
+ * it is gone for good, as it would be in the GUI. The answer says which of the
+ * two happened, a client must not assume it can be undone.
  */
 class DeleteFile extends ActivityImpl
 {
     public function __construct(
         private readonly RepositoryProvider $repository,
+        private readonly Parameter $parameter,
         private readonly DataFactory $data = new DataFactory(),
     ) {
     }
@@ -55,9 +58,10 @@ class DeleteFile extends ActivityImpl
     public function getDescription(): SimpleDocumentMarkdown
     {
         return $this->data->text()->markdown()->simpleDocument(
-            "Moves a file object to the trash of the repository.\n\n"
-            . "Nothing is destroyed: the object can be restored by an administrator, exactly like a "
-            . "deletion in the user interface. The user needs the permission to delete the object."
+            "Deletes a file object, exactly like a deletion in the user interface.\n\n"
+            . "If the trash of the installation is enabled, the object is moved there and can be "
+            . "restored by an administrator; otherwise it is removed for good. `in_trash` tells which "
+            . "of the two happened. The user needs the permission to delete the object."
         );
     }
 
@@ -78,11 +82,13 @@ class DeleteFile extends ActivityImpl
         $text = $this->data->text()->markdown();
 
         return $f->object(
-            $text->simpleDocument('What has been moved to the trash.'),
+            $text->simpleDocument('What has been deleted.'),
             [
                 'ref_id' => $f->int($text->simpleDocument('Reference id of the deleted object.')),
                 'title' => $f->string($text->simpleDocument('Title of the deleted object.')),
-                'in_trash' => $f->bool($text->simpleDocument('Always true - the object is recoverable.')),
+                'in_trash' => $f->bool($text->simpleDocument(
+                    'Whether the object went to the trash and can be restored; false means it is gone for good.'
+                )),
             ]
         );
     }
@@ -92,7 +98,9 @@ class DeleteFile extends ActivityImpl
      */
     public function isAllowedToPerform(int $usr_id, mixed $parameters): bool
     {
-        if (!AccessCheck::isKnownUser($usr_id)) {
+        // the legacy code doing the work acts as the user of the session, so
+        // the check has to be about that one - see RepositoryProvider::isActingUser()
+        if (!AccessCheck::isKnownUser($usr_id) || !$this->repository->isActingUser($usr_id)) {
             return false;
         }
 
@@ -118,9 +126,9 @@ class DeleteFile extends ActivityImpl
             throw new \OutOfBoundsException("There is no file object {$ref_id}.", 404);
         }
 
-        $this->repository->moveToTrash($ref_id);
+        $in_trash = $this->repository->delete($ref_id);
 
-        return new DeletedObject($ref_id, $entry->title, true);
+        return new DeletedObject($ref_id, $entry->title, $in_trash);
     }
 
     /**
@@ -153,11 +161,7 @@ class DeleteFile extends ActivityImpl
      */
     private function toParameters(array $raw_parameters): array
     {
-        $ref_id = (int) ($raw_parameters['ref_id'] ?? 0);
-
-        if ($ref_id <= 0) {
-            throw new \InvalidArgumentException('A file object is required.', 400);
-        }
+        $ref_id = $this->parameter->id($raw_parameters, 'ref_id', 'A file object is required.');
 
         return ['ref_id' => $ref_id];
     }

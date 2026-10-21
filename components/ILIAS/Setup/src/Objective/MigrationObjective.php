@@ -112,11 +112,10 @@ class MigrationObjective implements Setup\Objective
         $remaining = $this->migration->getRemainingAmountOfSteps();
         if ($remaining == 0) {
             $io->inform("Migration '{$key}' has no remaining steps left.");
-        }
-        else {
+        } else {
             $io->inform("{$remaining} step(s) remaining. Run again to proceed.");
         }
-        
+
         return $environment;
     }
 

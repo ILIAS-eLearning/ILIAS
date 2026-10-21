@@ -31,7 +31,7 @@ class ilAdministrationCommandGUI
     protected ilSetting $settings;
     protected ilErrorHandling $error;
     protected ilTree $tree;
-    protected ilObjectDefinition$obj_definition;
+    protected ilObjectDefinition $obj_definition;
     protected ?ilCtrl $ctrl = null;
     protected ?ilLanguage $lng = null;
     private ilAdministrationCommandHandling $container;

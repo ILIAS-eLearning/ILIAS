@@ -73,7 +73,7 @@ class Entrypoint implements \ILIAS\Component\EntryPoint
 
         $this->request_translation->setup();
 
-        if(!$this->config->isActive()) {
+        if (!$this->config->isActive()) {
             return 0;
         }
 

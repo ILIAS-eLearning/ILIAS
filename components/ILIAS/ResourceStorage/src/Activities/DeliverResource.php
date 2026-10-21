@@ -29,6 +29,7 @@ use ILIAS\FileDelivery\Activities\FilePayload;
 use ILIAS\FileDelivery\Activities\FilePayloadFactory;
 use ILIAS\FileUpload\Activities\AccessCheck;
 use ILIAS\FileUpload\Activities\Failure;
+use ILIAS\FileUpload\Activities\Parameter;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
@@ -64,6 +65,7 @@ class DeliverResource extends Query
     public function __construct(
         private readonly ServiceProvider $storage,
         private readonly FilePayloadFactory $payloads,
+        private readonly Parameter $parameter,
         private readonly DataFactory $data = new DataFactory(),
     ) {
     }
@@ -170,7 +172,7 @@ class DeliverResource extends Query
      */
     private function toParameters(array $raw_parameters): array
     {
-        $rid = trim((string) ($raw_parameters['rid'] ?? ''));
+        $rid = (string) $this->parameter->string($raw_parameters, 'rid');
 
         if ($rid === '') {
             throw new \InvalidArgumentException('A resource identification is required.', 400);

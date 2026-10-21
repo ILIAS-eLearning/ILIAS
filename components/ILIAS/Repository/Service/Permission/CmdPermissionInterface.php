@@ -51,6 +51,15 @@ interface CmdPermissionInterface
         string $entity_id = ""
     ): bool;
 
+    public function isCommandPermittedMulti(
+        string $cmd,                // derived or from table
+        int $node_id,
+        string $entity,
+        array $entity_ids
+    ): bool;
+
+    public function isRequestMultiCommand(): bool;
+
     public function checkCommand(
         string $cmd,
         int $node_id,

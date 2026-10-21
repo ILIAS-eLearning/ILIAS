@@ -89,9 +89,36 @@ class TempFileStoreTest extends TestCase
                 'some content'
             );
 
+        $filesystem->method('has')->willReturn(true);
+
         $handle = $store->store('notes.txt', 'some content');
 
         $this->assertSame('notes.txt', $store->getFilename($handle));
+    }
+
+    /**
+     * The filesystems of ILIAS rename a file whose suffix the installation does
+     * not accept (`t.exe` becomes `texe.sec`) instead of refusing it. Such a
+     * file is no file of ours: it is removed with its folder, nothing is left
+     * behind in the temp storage, and the caller learns why.
+     */
+    public function testAFileTheInstallationDoesNotAcceptLeavesNothingBehind(): void
+    {
+        $filesystem = $this->createMock(Filesystem::class);
+        $store = new TempFileStore($filesystem);
+
+        $filesystem->expects($this->once())->method('put');
+        $filesystem->method('has')->willReturn(false);
+        $filesystem->expects($this->once())->method('deleteDir')
+            ->with($this->matchesRegularExpression('/^' . TempFileStore::DIRECTORY . '\/[a-f0-9]{16}$/'));
+
+        try {
+            $store->store('t.exe', 'MZ');
+            $this->fail('A file the installation renamed must not be stored.');
+        } catch (\InvalidArgumentException $e) {
+            $this->assertSame(400, $e->getCode());
+            $this->assertSame('Files of this type are not accepted.', $e->getMessage());
+        }
     }
 
     public function testDeletingRemovesTheFileAndItsFolder(): void

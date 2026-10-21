@@ -164,7 +164,7 @@ class EntityTest extends ILIAS_UI_TestBase
             public function listing(): I\Listing\Factory
             {
                 return new I\Listing\Factory(
-                    new I\Listing\Workflow\Factory,
+                    new I\Listing\Workflow\Factory(),
                     $this->characteristic_value_factory,
                     new I\Listing\Entity\Factory(),
                 );

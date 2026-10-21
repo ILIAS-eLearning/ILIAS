@@ -59,7 +59,7 @@ class ilPRGUserInformation
     }
     public function isActive(): bool
     {
-        return (bool)$this->user_data['active'];
+        return (bool) $this->user_data['active'];
     }
     public function getEmail(): string
     {

@@ -97,7 +97,7 @@ abstract class TableTestBase extends ILIAS_UI_TestBase
             }
             public function offsetGet(mixed $offset): mixed
             {
-                if(!$this->offsetExists($offset)) {
+                if (!$this->offsetExists($offset)) {
                     return null;
                 }
                 return $this->data[$offset];

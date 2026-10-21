@@ -352,10 +352,10 @@ class ComponentEntry extends AbstractEntryPart implements JsonSerializable
     {
         if (!$this->examples_path) {
             $path_components = str_replace(
-                    "/Factory",
-                    "",
-                    str_replace("Component", "examples", $this->getPath())
-                )
+                "/Factory",
+                "",
+                str_replace("Component", "examples", $this->getPath())
+            )
                 . "/" . str_replace(" ", "", $this->getTitle());
             $path_array = self::array_iunique(explode("/", $path_components));
             if ($path_array[4] !== "examples") {

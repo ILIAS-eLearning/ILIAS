@@ -19,6 +19,10 @@ declare(strict_types=1);
 
 namespace ILIAS\File\Activities;
 
+use ILIAS\FileUpload\Activities\Parameter;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Language\Language;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\FileDelivery\Activities\FilePayloadFactory;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\Activities\ServiceProvider;
@@ -41,9 +45,15 @@ class DeliverFileVersionTest extends TestCase
 
     protected function setUp(): void
     {
+        // the activities refuse every user as long as they cannot tell the
+        // anonymous one, see AccessCheck
+        if (!defined('ANONYMOUS_USER_ID')) {
+            define('ANONYMOUS_USER_ID', 13);
+        }
+
         $this->repository = $this->createMock(RepositoryProvider::class);
         $this->storage = $this->createMock(ServiceProvider::class);
-        $this->activity = new DeliverFileVersion($this->repository, $this->storage, new FilePayloadFactory());
+        $this->activity = new DeliverFileVersion($this->repository, $this->storage, new FilePayloadFactory(), new Parameter(new Refinery(new DataFactory(), $this->createStub(Language::class))));
     }
 
     /**
@@ -54,7 +64,7 @@ class DeliverFileVersionTest extends TestCase
     {
         $rid = new ResourceIdentification(self::SOME_RID);
 
-        $this->givenAReadableFile();
+        $this->givenAWritableFile();
         $this->storage->method('find')->willReturn($rid);
         $this->storage->expects($this->once())->method('getRevision')
             ->with($rid, 1)
@@ -76,7 +86,7 @@ class DeliverFileVersionTest extends TestCase
 
     public function testAVersionThatDoesNotExistIsNotFound(): void
     {
-        $this->givenAReadableFile();
+        $this->givenAWritableFile();
         $this->storage->method('find')->willReturn(new ResourceIdentification(self::SOME_RID));
         $this->storage->method('getRevision')->willReturn(null);
         $this->storage->expects($this->never())->method('readStream');
@@ -90,10 +100,10 @@ class DeliverFileVersionTest extends TestCase
         $this->assertSame(404, $result->error()->getCode());
     }
 
-    public function testWithoutReadNothingIsDelivered(): void
+    public function testWithoutWriteNothingIsDelivered(): void
     {
         $this->repository->method('lookupType')->willReturn('file');
-        $this->repository->expects($this->once())->method('mayRead')->willReturn(false);
+        $this->repository->expects($this->once())->method('mayWrite')->willReturn(false);
         $this->storage->expects($this->never())->method('readStream');
 
         $result = $this->activity->maybePerformAs($this->inputFactory(), self::SOME_USER, [
@@ -106,7 +116,7 @@ class DeliverFileVersionTest extends TestCase
 
     public function testAVersionIsRequired(): void
     {
-        $this->repository->expects($this->never())->method('mayRead');
+        $this->repository->expects($this->never())->method('mayWrite');
         $this->storage->expects($this->never())->method('readStream');
 
         $result = $this->activity->maybePerformAs($this->inputFactory(), self::SOME_USER, [
@@ -119,7 +129,7 @@ class DeliverFileVersionTest extends TestCase
 
     public function testAnonymousRequestsGetNothing(): void
     {
-        $this->repository->expects($this->never())->method('mayRead');
+        $this->repository->expects($this->never())->method('mayWrite');
         $this->storage->expects($this->never())->method('readStream');
 
         $result = $this->activity->maybePerformAs($this->inputFactory(), 0, [
@@ -130,10 +140,10 @@ class DeliverFileVersionTest extends TestCase
         $this->assertTrue($result->isError());
     }
 
-    private function givenAReadableFile(): void
+    private function givenAWritableFile(): void
     {
         $this->repository->method('lookupType')->willReturn('file');
-        $this->repository->expects($this->once())->method('mayRead')
+        $this->repository->expects($this->once())->method('mayWrite')
             ->with(self::SOME_USER, self::SOME_FILE, 'file')
             ->willReturn(true);
         $this->repository->method('lookupResourceId')->willReturn(self::SOME_RID);

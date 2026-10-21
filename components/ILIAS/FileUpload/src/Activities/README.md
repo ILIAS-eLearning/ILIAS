@@ -168,7 +168,9 @@ On top of what an activity declares, a file read this way gets what every upload
   smaller of both limits applies;
 - the **preprocessors** other components contribute to FileUpload (`$seek[PreProcessor::class]`) -
   the virus scanner, the checks for insecure file names and for SVGs carrying script among them. A
-  file they reject or deny is released again and the call fails with 400.
+  file they reject or deny is released again and the call fails with 400. The reason stays inside,
+  as in the GUI: a processor that failed reports the message of its exception, which may name paths
+  of the server.
 
 Without them a webservice would be the door around every check an upload through the GUI passes.
 The blacklist of suffixes needs nothing of ours: the ResourceStorage applies it when the content is
@@ -191,6 +193,12 @@ the temp filesystem (`TempFileStore`) and `FileContent` reads its stream from th
 
 That store is scratch space for the duration of the request. Its handle stays inside the activity,
 and `release()` removes the file and its folder again.
+
+Only a request that dies on the way - the memory limit, a timeout - leaves its folder behind under
+`activities/` in the temp filesystem, since no `finally` runs then. Those leftovers are removed by
+the cron job *Clean temp directory* (`ilFileSystemCleanTempDirCron`, everything older than ten
+days), which is not active by default and should be on an installation that offers activities over
+a webservice.
 
 ## What this is deliberately not
 

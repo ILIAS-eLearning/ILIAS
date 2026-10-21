@@ -215,8 +215,7 @@ class ilCommonActionDispatcherGUI
                     }
                 }
                 /* this is different to the info screen but we need this
-                   for sub-object action menus, e.g. wiki page */
-                elseif ($this->sub_id) {
+                   for sub-object action menus, e.g. wiki page */ elseif ($this->sub_id) {
                     $note_gui->enablePublicNotes();
                 }
 

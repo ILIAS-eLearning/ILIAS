@@ -168,8 +168,8 @@ class ilStudyProgrammeProgressListGUI
         }
 
         return ilContainerObjectiveGUI::renderProgressBar(
-            (int)$current_percent,
-            (int)$required_percent,
+            (int) $current_percent,
+            (int) $required_percent,
             $css_class,
             $progress_status,
             null,

@@ -20,6 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\File\Activities;
 
+use ILIAS\FileUpload\Activities\Parameter;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Language\Language;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Component\Activities\ActivityType;
 use ILIAS\FileUpload\Activities\FileContent;
 use ILIAS\FileUpload\Activities\FileParameter;
@@ -37,18 +41,28 @@ class ReplaceFileContentTest extends TestCase
     private FileParameter&MockObject $file;
     private TempFileStore $files;
     private RepositoryProvider&MockObject $repository;
+    private bool $acting = true;
     private ReplaceFileContent $activity;
 
     protected function setUp(): void
     {
+        // the activities refuse every user as long as they cannot tell the
+        // anonymous one, see AccessCheck
+        if (!defined('ANONYMOUS_USER_ID')) {
+            define('ANONYMOUS_USER_ID', 13);
+        }
+
         $this->file = $this->createMock(FileParameter::class);
         // only the tests watching the release of the content need a mock
         $this->files = $this->createStub(TempFileStore::class);
         $this->repository = $this->createMock(RepositoryProvider::class);
+        // over a webservice the user asked about is the user of the session
+        $this->repository->method('isActingUser')->willReturnCallback(fn(): bool => $this->acting);
 
         $this->activity = new ReplaceFileContent(
             $this->file,
             $this->repository,
+            new Parameter(new Refinery(new DataFactory(), $this->createStub(Language::class))),
         );
     }
 
@@ -96,6 +110,24 @@ class ReplaceFileContentTest extends TestCase
         );
 
         $this->assertTrue($result->isOK());
+    }
+
+    /**
+     * Dropping the history cannot be undone, so only a clear "no" does it - a
+     * value that means nothing is refused rather than taken as one.
+     */
+    public function testAnUnclearAnswerDropsNothing(): void
+    {
+        $this->expectNothingToHappen();
+
+        $result = $this->activity->maybePerformAs(
+            $this->inputFactory(),
+            self::SOME_USER,
+            [...$this->request(), 'keep_previous_version' => 'ja']
+        );
+
+        $this->assertTrue($result->isError());
+        $this->assertSame(400, $result->error()->getCode());
     }
 
     public function testWithoutTheWritePermissionNothingIsReadAtAll(): void

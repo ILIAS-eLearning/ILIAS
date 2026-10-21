@@ -96,7 +96,9 @@ class FileServicesPolicy implements FileNamePolicy
     public function prepareFileNameForConsumer(string $filename_with_extension): string
     {
         $this->init();
-        $filename = $this->sanitizer->sanitize(basename($filename_with_extension));
+        // the title is no path: basename() dropped everything up to a slash in it ("2027/28.pptx"
+        // became "28.pptx"), see https://mantis.ilias.de/view.php?id=47801
+        $filename = $this->sanitizer->sanitize(str_replace(['/', '\\'], '_', $filename_with_extension));
         if ($this->as_ascii) {
             $filename = $this->ascii($filename);
         }

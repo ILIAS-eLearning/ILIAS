@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Component\Component;
 use ILIAS\FileUpload\Activities\FileParameter;
+use ILIAS\FileUpload\Activities\Parameter;
 use ILIAS\FileUpload\Activities\TempFileStore;
 use ILIAS\FileUpload\FileUpload as FileUploadInterface;
 use ILIAS\FileUpload\FileUploadImpl;
@@ -33,6 +34,7 @@ use ILIAS\UI\Component\Input\Field\GlobalUploadLimit;
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\Filesystem\FileSystems\FilesystemTemp;
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
 
 class FileUpload implements Component
 {
@@ -66,6 +68,14 @@ class FileUpload implements Component
         );
 
         /**
+         * How an activity reads its other parameters: strictly, with the
+         * Refinery, so that no cast makes an answer of a wrong question.
+         */
+        $internal[Parameter::class] = static fn() => new Parameter(
+            $pull[Refinery::class],
+        );
+
+        /**
          * How an activity takes a file: the description of the parameters and
          * the reading of them. Uploading is no activity of its own - a user does
          * not want a handle, they want a file somewhere - so the bytes travel
@@ -75,10 +85,12 @@ class FileUpload implements Component
         $internal[FileParameter::class] = static fn() => new FileParameter(
             $internal[TempFileStore::class],
             $internal[PreProcessorManagerImpl::class],
+            $internal[Parameter::class],
             $use[GlobalUploadLimit::class],
         );
 
         $provide[FileParameter::class] = static fn() => $internal[FileParameter::class];
         $provide[TempFileStore::class] = static fn() => $internal[TempFileStore::class];
+        $provide[Parameter::class] = static fn() => $internal[Parameter::class];
     }
 }

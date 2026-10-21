@@ -7321,6 +7321,7 @@ content#:#help_assign_help_ids#:#Chapter/Screen-IDs Assignment
 content#:#htlm_import#:#Import HTML Learning Module
 content#:#import_sco_object#:#Import SCO
 content#:#info_stop_offline_mode_sure#:#Note: The learning progress achieved in offline mode are lost. Are you sure?
+content#:#infobox_files_not_migrated#:#The files of this learning module have not yet been migrated to the Resource Storage Service and can therefore not be edited.
 content#:#lm_activate_rating#:#Activate Rating For Pages
 content#:#lm_editing_view#:#Editing View
 content#:#lm_import#:#Import ILIAS Learning Module
@@ -15274,9 +15275,14 @@ sahs#:#sahs_choose_pages_chap_scos_ass_only#:#Please select either pages, SCOs, 
 sahs#:#sahs_choose_special_page#:#Choose Special Page
 sahs#:#sahs_copy#:#Copy SCORM Learning Module
 sahs#:#sahs_desc_objectives#:#Description/Objectives
+sahs#:#sahs_file_import_from_upload_dir_failed#:#File from Upload-Directory not imported
+sahs#:#sahs_file_imported_from_upload_dir#:#File imported from Upload-Directory
 sahs#:#sahs_glo_info#:#Please note that internal links in glossary terms are not supported.
 sahs#:#sahs_hide_objectives_page#:#Hide Description/Objectives Page
 sahs#:#sahs_hide_objectives_page_info#:#If checked, the SCO description and objectives page will not be included in the presentation.
+sahs#:#sahs_import_from_upload_dir#:#Import from Upload-Directory
+sahs#:#sahs_import_from_upload_dir_file_name#:#Filename
+sahs#:#sahs_import_from_upload_dir_info#:#Please select file for import
 sahs#:#sahs_import_sequencing#:#Import Sequencing
 sahs#:#sahs_import_sequencing_info#:#Import sequencing information from package (Sequencing Expert Mode).
 sahs#:#sahs_insert_ass#:#Insert Asset

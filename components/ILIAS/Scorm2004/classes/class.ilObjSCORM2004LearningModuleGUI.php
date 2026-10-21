@@ -26,7 +26,7 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
  * @author Hendrik Holtmann <holtmann@mac.com>
  * @author Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  *
- * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilLearningProgressGUI
+ * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilLearningProgressGUI, ilContainerResourceGUI
  * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilInfoScreenGUI
  * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilObjStyleSheetGUI, ilNoteGUI
  * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilCommonActionDispatcherGUI

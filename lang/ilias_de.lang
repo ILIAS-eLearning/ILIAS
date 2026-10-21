@@ -15311,9 +15311,14 @@ sahs#:#sahs_choose_pages_chap_scos_ass_only#:#Bitte wählen Sie nur entweder Sei
 sahs#:#sahs_choose_special_page#:#Spezialseite auswählen
 sahs#:#sahs_copy#:#SCORM-Lernmodul kopieren
 sahs#:#sahs_desc_objectives#:#Beschreibung/Ziele
+sahs#:#sahs_file_import_from_upload_dir_failed#:#Datei aus Uploadverzeichnis nicht importiert
+sahs#:#sahs_file_imported_from_upload_dir#:#Datei aus Uploadverzeichnis importiert
 sahs#:#sahs_glo_info#:#Bitte beachten Sie, dass interne Links in Glossarbegriffen nicht unterstützt werden.
 sahs#:#sahs_hide_objectives_page#:#Beschreibungs-/Lernziel-Seite ausblenden
 sahs#:#sahs_hide_objectives_page_info#:#Wenn aktiviert werden SCO-Beschreibung und Lernziele nicht in der Präsentationsansicht angezeigt.
+sahs#:#sahs_import_from_upload_dir#:#Import aus Uploadverzeichnis
+sahs#:#sahs_import_from_upload_dir_file_name#:#Dateiname
+sahs#:#sahs_import_from_upload_dir_info#:#Bitte Datei zur Übernahme auswählen
 sahs#:#sahs_import_sequencing#:#Sequencing-Informationen importieren
 sahs#:#sahs_import_sequencing_info#:#Es werden die Sequencing-Informationen des SCORM-Packages importiert (Sequencing-Expertenmodus)
 sahs#:#sahs_insert_ass#:#Asset einfügen

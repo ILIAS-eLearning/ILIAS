@@ -48,13 +48,21 @@ readonly class FilePayloadFactory
         );
     }
 
+    /**
+     * The stream is read completely and closed: it is handed over for exactly
+     * this, and an archive delivers hundreds of files in one request.
+     */
     public function fromStream(string $filename, string $mime_type, FileStream $stream): FilePayload
     {
-        if ($stream->isSeekable()) {
-            $stream->rewind();
-        }
+        try {
+            if ($stream->isSeekable()) {
+                $stream->rewind();
+            }
 
-        return $this->fromString($filename, $mime_type, $stream->getContents());
+            return $this->fromString($filename, $mime_type, $stream->getContents());
+        } finally {
+            $stream->close();
+        }
     }
 
     /**

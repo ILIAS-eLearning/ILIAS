@@ -29,6 +29,7 @@ use ILIAS\FileDelivery\Activities\FilePayload;
 use ILIAS\FileDelivery\Activities\FilePayloadFactory;
 use ILIAS\FileUpload\Activities\AccessCheck;
 use ILIAS\FileUpload\Activities\Failure;
+use ILIAS\FileUpload\Activities\Parameter;
 use ILIAS\ResourceStorage\Activities\ServiceProvider;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
@@ -37,8 +38,11 @@ use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 /**
  * Deliver an earlier version of a file object.
  *
- * Same rule as for the current content: the read permission on the object
- * decides, not who once uploaded that version.
+ * Earlier versions are for those who manage the file: it needs the write
+ * permission, the same as `ListFileVersions` and the versions tab of the GUI.
+ * Reading is not enough - the versions are numbered, so a reader could fetch
+ * any earlier content by counting. The current content stays with
+ * `DeliverFileObject` and the read permission.
  */
 class DeliverFileVersion extends Query
 {
@@ -46,6 +50,7 @@ class DeliverFileVersion extends Query
         private readonly RepositoryProvider $repository,
         private readonly ServiceProvider $storage,
         private readonly FilePayloadFactory $payloads,
+        private readonly Parameter $parameter,
         private readonly DataFactory $data = new DataFactory(),
     ) {
     }
@@ -54,7 +59,8 @@ class DeliverFileVersion extends Query
     {
         return $this->data->text()->markdown()->simpleDocument(
             "Delivers a specific version of a file object.\n\n"
-            . "The user needs the permission to read the object. The content is returned base64 encoded."
+            . "The user needs the permission to write the object, as for the versions in the user "
+            . "interface. The content is returned base64 encoded."
         );
     }
 
@@ -93,7 +99,7 @@ class DeliverFileVersion extends Query
             return false;
         }
 
-        return $this->repository->mayRead($usr_id, $ref_id, 'file');
+        return $this->repository->mayWrite($usr_id, $ref_id, 'file');
     }
 
     /**
@@ -137,7 +143,7 @@ class DeliverFileVersion extends Query
 
             if (!$this->isAllowedToPerform($usr_id, $parameters)) {
                 return $this->data->error(
-                    new \DomainException('You are not allowed to read this file.', 403)
+                    new \DomainException('You are not allowed to see the versions of this file.', 403)
                 );
             }
 
@@ -154,16 +160,8 @@ class DeliverFileVersion extends Query
      */
     private function toParameters(array $raw_parameters): array
     {
-        $ref_id = (int) ($raw_parameters['ref_id'] ?? 0);
-        $version = (int) ($raw_parameters['version'] ?? 0);
-
-        if ($ref_id <= 0) {
-            throw new \InvalidArgumentException('A file object is required.', 400);
-        }
-
-        if ($version <= 0) {
-            throw new \InvalidArgumentException('A version is required.', 400);
-        }
+        $ref_id = $this->parameter->id($raw_parameters, 'ref_id', 'A file object is required.');
+        $version = $this->parameter->id($raw_parameters, 'version', 'A version is required.');
 
         return ['ref_id' => $ref_id, 'version' => $version];
     }

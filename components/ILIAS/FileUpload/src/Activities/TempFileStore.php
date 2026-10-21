@@ -50,6 +50,15 @@ class TempFileStore
 
         $this->filesystem->put($this->pathOf($handle), $content);
 
+        // the filesystems of ILIAS do not refuse a suffix the installation does
+        // not accept, they rename the file (t.exe becomes texe.sec) - which is
+        // then neither where the handle points nor anything we may keep
+        if (!$this->filesystem->has($this->pathOf($handle))) {
+            $this->filesystem->deleteDir(self::DIRECTORY . '/' . $this->folderOf($handle));
+
+            throw new \InvalidArgumentException('Files of this type are not accepted.', 400);
+        }
+
         return $handle;
     }
 

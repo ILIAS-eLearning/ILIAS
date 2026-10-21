@@ -20,6 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\FileUpload\Activities;
 
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Language\Language;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\Processor\PreProcessorManager;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
@@ -45,7 +49,7 @@ class FileParameterTest extends TestCase
         $this->processors->method('process')->willReturnCallback(
             static fn(): ProcessingStatus => new ProcessingStatus(ProcessingStatus::OK, 'fine')
         );
-        $this->parameter = new FileParameter($this->files, $this->processors);
+        $this->parameter = new FileParameter($this->files, $this->processors, $this->strictly());
     }
 
     public function testTheFileIsWhatTheStoreMadeOfIt(): void
@@ -162,16 +166,38 @@ class FileParameterTest extends TestCase
     {
         $processors = $this->createMock(PreProcessorManager::class);
         $processors->expects($this->once())->method('process')
-            ->willReturn(new ProcessingStatus(ProcessingStatus::REJECTED, 'a virus'));
-        $parameter = new FileParameter($this->files, $processors);
+            ->willReturn(new ProcessingStatus(
+                ProcessingStatus::REJECTED,
+                'Processor failed with exception message "/var/iliasdata/ilias/default/temp/x not found"'
+            ));
+        $parameter = new FileParameter($this->files, $processors, $this->strictly());
 
         $this->givenTheStoreAccepts('notes.txt', 'text/plain', 12);
         $this->files->method('has')->willReturn(true);
         $this->files->expects($this->once())->method('delete')->with(self::SOME_HANDLE);
 
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('a virus');
+        try {
+            $parameter->read([
+                'filename' => 'notes.txt',
+                'content' => base64_encode('some content'),
+            ]);
+            $this->fail('A rejected file must not be read.');
+        } catch (\InvalidArgumentException $e) {
+            // the reason stays inside, as in the GUI
+            $this->assertSame('The file has been rejected.', $e->getMessage());
+            $this->assertSame(400, $e->getCode());
+        }
+    }
 
+    public function testTheStreamThePreprocessorsReadIsClosedAgain(): void
+    {
+        $stream = $this->createMock(FileStream::class);
+        $stream->expects($this->once())->method('close');
+
+        $this->givenTheStoreAccepts('notes.txt', 'text/plain', 12);
+        $this->files->method('readStream')->willReturn($stream);
+
+        $parameter = new FileParameter($this->files, $this->processors, $this->strictly());
         $parameter->read([
             'filename' => 'notes.txt',
             'content' => base64_encode('some content'),
@@ -182,7 +208,7 @@ class FileParameterTest extends TestCase
     {
         $limit = $this->createStub(GlobalUploadLimit::class);
         $limit->method('getGlobalUploadLimitInBytes')->willReturn(10);
-        $parameter = new FileParameter($this->files, $this->processors, $limit);
+        $parameter = new FileParameter($this->files, $this->processors, $this->strictly(), $limit);
 
         $this->files->expects($this->never())->method('store');
         $this->expectException(\InvalidArgumentException::class);
@@ -197,7 +223,7 @@ class FileParameterTest extends TestCase
     {
         $limit = $this->createStub(GlobalUploadLimit::class);
         $limit->method('getGlobalUploadLimitInBytes')->willReturn(1024);
-        $parameter = (new FileParameter($this->files, $this->processors, $limit))->withMaxFileSize(10);
+        $parameter = (new FileParameter($this->files, $this->processors, $this->strictly(), $limit))->withMaxFileSize(10);
 
         $this->files->expects($this->never())->method('store');
         $this->expectException(\InvalidArgumentException::class);
@@ -256,5 +282,10 @@ class FileParameterTest extends TestCase
         $factory->method('textarea')->willReturn($textarea);
 
         return $factory;
+    }
+
+    private function strictly(): Parameter
+    {
+        return new Parameter(new Refinery(new DataFactory(), $this->createStub(Language::class)));
     }
 }

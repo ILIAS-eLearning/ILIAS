@@ -24,7 +24,6 @@ use ILIAS\UI\Component\Listing\Workflow as W;
 
 class Factory implements W\Factory
 {
-
     public function step(string $label, string $description = '', $action = null): Step
     {
         return new Step($label, $description, $action);

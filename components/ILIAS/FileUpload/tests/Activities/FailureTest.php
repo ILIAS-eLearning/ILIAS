@@ -53,7 +53,20 @@ class FailureTest extends TestCase
             'an exception without a code' => [new \RuntimeException('SELECT * FROM il_resource WHERE rid = 1')],
             'a server error' => [new \RuntimeException('File "storage/fsv2/some/path" not found.', 500)],
             'an error' => [new \TypeError('Argument #1 must be of type int')],
+            'a database error with its SQLSTATE' => [
+                self::withCode(new \PDOException("SQLSTATE[42S22]: Unknown column 'x' in SELECT x FROM usr_data"), '42S22')
+            ],
         ];
+    }
+
+    /**
+     * PDO sets its SQLSTATE as the code, the constructor only takes an int.
+     */
+    private static function withCode(\Exception $e, string $code): \Exception
+    {
+        (new \ReflectionProperty(\Exception::class, 'code'))->setValue($e, $code);
+
+        return $e;
     }
 
     #[DataProvider('defects')]

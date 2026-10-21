@@ -109,7 +109,7 @@ class ProfileUserAssignmentTable
         $table = $this->ui_fac->table()
                               ->data($data_retrieval, $this->lng->txt("skmg_assigned_users"), $columns)
                               ->withId(
-                                  self::class . "_" .
+                                  str_replace('\\', '', self::class) . "_" .
                                   $this->profile->getId()
                               )
                               ->withActions($actions)

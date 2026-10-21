@@ -28,6 +28,7 @@ use ILIAS\Data\Result;
 use ILIAS\Data\Text\SimpleDocumentMarkdown;
 use ILIAS\FileUpload\Activities\AccessCheck;
 use ILIAS\FileUpload\Activities\Failure;
+use ILIAS\FileUpload\Activities\Parameter;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
@@ -44,6 +45,7 @@ class CopyFile extends ActivityImpl
 {
     public function __construct(
         private readonly RepositoryProvider $repository,
+        private readonly Parameter $parameter,
         private readonly DataFactory $data = new DataFactory(),
     ) {
     }
@@ -102,7 +104,9 @@ class CopyFile extends ActivityImpl
      */
     public function isAllowedToPerform(int $usr_id, mixed $parameters): bool
     {
-        if (!AccessCheck::isKnownUser($usr_id)) {
+        // the legacy code doing the work acts as the user of the session, so
+        // the check has to be about that one - see RepositoryProvider::isActingUser()
+        if (!AccessCheck::isKnownUser($usr_id) || !$this->repository->isActingUser($usr_id)) {
             return false;
         }
 
@@ -162,12 +166,8 @@ class CopyFile extends ActivityImpl
      */
     private function toParameters(array $raw_parameters): array
     {
-        $ref_id = (int) ($raw_parameters['ref_id'] ?? 0);
-        $target_ref_id = (int) ($raw_parameters['target_ref_id'] ?? 0);
-
-        if ($ref_id <= 0 || $target_ref_id <= 0) {
-            throw new \InvalidArgumentException('A file object and a target container are required.', 400);
-        }
+        $ref_id = $this->parameter->id($raw_parameters, 'ref_id', 'A file object is required.');
+        $target_ref_id = $this->parameter->id($raw_parameters, 'target_ref_id', 'A target container is required.');
 
         if ($ref_id === $target_ref_id) {
             throw new \InvalidArgumentException('An object cannot be copied into itself.', 400);

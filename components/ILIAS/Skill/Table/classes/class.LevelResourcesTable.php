@@ -130,7 +130,7 @@ class LevelResourcesTable
         $table = $this->ui_fac->table()
                               ->data($data_retrieval, $this->lng->txt("skmg_suggested_resources"), $columns)
                               ->withId(
-                                  self::class . "_" .
+                                  str_replace('\\', '', self::class) . "_" .
                                   $this->base_skill_id . "_" .
                                   $this->tref_id . "_" .
                                   $this->requested_level_id

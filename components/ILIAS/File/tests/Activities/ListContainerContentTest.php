@@ -20,6 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\File\Activities;
 
+use ILIAS\FileUpload\Activities\Parameter;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Language\Language;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Component\Activities\ActivityType;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -35,8 +39,14 @@ class ListContainerContentTest extends TestCase
 
     protected function setUp(): void
     {
+        // the activities refuse every user as long as they cannot tell the
+        // anonymous one, see AccessCheck
+        if (!defined('ANONYMOUS_USER_ID')) {
+            define('ANONYMOUS_USER_ID', 13);
+        }
+
         $this->repository = $this->createMock(RepositoryProvider::class);
-        $this->activity = new ListContainerContent($this->repository);
+        $this->activity = new ListContainerContent($this->repository, new Parameter(new Refinery(new DataFactory(), $this->createStub(Language::class))));
     }
 
     public function testListingIsAQuery(): void

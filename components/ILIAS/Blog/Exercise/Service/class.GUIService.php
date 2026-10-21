@@ -23,6 +23,7 @@ namespace ILIAS\Blog\Exercise;
 use ILIAS\Blog\InternalDataService;
 use ILIAS\Blog\InternalDomainService;
 use ILIAS\Blog\InternalGUIService;
+use ILIAS\Blog\Permission\BlogCmdPermission;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -43,11 +44,14 @@ class GUIService
         $this->gui = $gui;
     }
 
-    public function ilBlogExerciseGUI(int $a_node_id): \ilBlogExerciseGUI
-    {
+    public function ilBlogExerciseGUI(
+        int $a_node_id,
+        BlogCmdPermission $cmd_perm
+    ): \ilBlogExerciseGUI {
         return new \ilBlogExerciseGUI(
             $a_node_id,
             $this->domain_service->exercise($a_node_id),
+            $cmd_perm,
             $this->domain_service->lng(),
             $this->domain_service->user(),
             $this->gui

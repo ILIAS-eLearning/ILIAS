@@ -36,6 +36,12 @@ final class AccessCheck
             return false;
         }
 
-        return !defined('ANONYMOUS_USER_ID') || $usr_id !== ANONYMOUS_USER_ID;
+        // without the id of the anonymous user there is no telling it apart, and a
+        // check that lacks what it needs refuses rather than lets through
+        if (!defined('ANONYMOUS_USER_ID')) {
+            return false;
+        }
+
+        return $usr_id !== (int) ANONYMOUS_USER_ID;
     }
 }

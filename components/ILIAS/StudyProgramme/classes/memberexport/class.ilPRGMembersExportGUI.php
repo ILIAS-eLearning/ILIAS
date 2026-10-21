@@ -203,7 +203,7 @@ class ilPRGMembersExportGUI extends ilMemberExportGUI
             if (md5($file['name']) == $hash) {
                 $contents = $this->fss_export->getMemberExportFile($file['name']);
                 $fts = $file['timest'];
-                $dat = date('Y_m_d_H-i', (int)$fts);
+                $dat = date('Y_m_d_H-i', (int) $fts);
                 $down_name = str_replace($fts, $dat, $file['name']);
 
                 $mime = 'text/csv';

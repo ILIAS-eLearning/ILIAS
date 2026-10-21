@@ -63,7 +63,7 @@ class GlossaryForeignTermTable
                                   $columns,
                               )
                               ->withId(
-                                  self::class . "_" .
+                                  str_replace('\\', '', self::class) . "_" .
                                   $this->glossary->getRefId() . "_" .
                                   $this->foreign_glossary->getRefId()
                               )

@@ -608,7 +608,7 @@ class HTML_Template_IT
         // we don't need it any more
         $this->template = '';
 
-        if (($blockvariables = $this->variable_cache->get($this->real_filename))!==null) {
+        if (($blockvariables = $this->variable_cache->get($this->real_filename)) !== null) {
             $this->blockvariables = $blockvariables;
         } else {
             $this->buildBlockvariablelist();

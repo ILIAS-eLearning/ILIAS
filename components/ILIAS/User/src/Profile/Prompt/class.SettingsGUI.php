@@ -25,7 +25,6 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\Refinery\Factory as Refinery;
-
 use Psr\Http\Message\ServerRequestInterface;
 
 class SettingsGUI

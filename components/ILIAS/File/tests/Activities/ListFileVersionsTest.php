@@ -19,6 +19,10 @@ declare(strict_types=1);
 
 namespace ILIAS\File\Activities;
 
+use ILIAS\FileUpload\Activities\Parameter;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Language\Language;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\ResourceStorage\Activities\ResourceVersion;
 use ILIAS\ResourceStorage\Activities\ServiceProvider;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
@@ -40,16 +44,22 @@ class ListFileVersionsTest extends TestCase
 
     protected function setUp(): void
     {
+        // the activities refuse every user as long as they cannot tell the
+        // anonymous one, see AccessCheck
+        if (!defined('ANONYMOUS_USER_ID')) {
+            define('ANONYMOUS_USER_ID', 13);
+        }
+
         $this->repository = $this->createMock(RepositoryProvider::class);
         $this->storage = $this->createMock(ServiceProvider::class);
-        $this->activity = new ListFileVersions($this->repository, $this->storage);
+        $this->activity = new ListFileVersions($this->repository, $this->storage, new Parameter(new Refinery(new DataFactory(), $this->createStub(Language::class))));
     }
 
-    public function testTheVersionsOfAReadableFileAreListed(): void
+    public function testTheVersionsOfAWritableFileAreListed(): void
     {
         $rid = new ResourceIdentification(self::SOME_RID);
 
-        $this->givenAReadableFile();
+        $this->givenAWritableFile();
         $this->storage->expects($this->once())->method('find')->with(self::SOME_RID)->willReturn($rid);
         $this->storage->expects($this->once())->method('getRevisions')->with($rid)->willReturn([
             $this->revision(1, 'first.txt', 6),
@@ -67,10 +77,15 @@ class ListFileVersionsTest extends TestCase
         $this->assertSame('2026-01-02T03:04:05+00:00', $versions[0]->created);
     }
 
-    public function testWithoutReadNothingIsListed(): void
+    /**
+     * The list names who uploaded each version - reading the file is not
+     * enough for that, as in the versions tab of the GUI.
+     */
+    public function testReadingIsNotEnoughToSeeTheVersions(): void
     {
         $this->repository->method('lookupType')->willReturn('file');
-        $this->repository->expects($this->once())->method('mayRead')->willReturn(false);
+        $this->repository->method('mayRead')->willReturn(true);
+        $this->repository->expects($this->once())->method('mayWrite')->willReturn(false);
         $this->storage->expects($this->never())->method('getRevisions');
 
         $result = $this->activity->maybePerformAs($this->inputFactory(), self::SOME_USER, ['ref_id' => self::SOME_FILE]);
@@ -81,7 +96,7 @@ class ListFileVersionsTest extends TestCase
     public function testOnlyFilesHaveVersions(): void
     {
         $this->repository->method('lookupType')->willReturn('crs');
-        $this->repository->expects($this->never())->method('mayRead');
+        $this->repository->expects($this->never())->method('mayWrite');
         $this->storage->expects($this->never())->method('getRevisions');
 
         $result = $this->activity->maybePerformAs($this->inputFactory(), self::SOME_USER, ['ref_id' => self::SOME_FILE]);
@@ -92,7 +107,7 @@ class ListFileVersionsTest extends TestCase
     public function testAFileWithoutContentHasNoVersions(): void
     {
         $this->repository->method('lookupType')->willReturn('file');
-        $this->repository->method('mayRead')->willReturn(true);
+        $this->repository->method('mayWrite')->willReturn(true);
         $this->repository->expects($this->once())->method('lookupResourceId')->willReturn('');
         $this->storage->expects($this->never())->method('getRevisions');
 
@@ -104,16 +119,16 @@ class ListFileVersionsTest extends TestCase
 
     public function testAnonymousRequestsListNothing(): void
     {
-        $this->repository->expects($this->never())->method('mayRead');
+        $this->repository->expects($this->never())->method('mayWrite');
         $this->storage->expects($this->never())->method('getRevisions');
 
         $this->assertTrue($this->activity->maybePerformAs($this->inputFactory(), 0, ['ref_id' => self::SOME_FILE])->isError());
     }
 
-    private function givenAReadableFile(): void
+    private function givenAWritableFile(): void
     {
         $this->repository->method('lookupType')->willReturn('file');
-        $this->repository->expects($this->once())->method('mayRead')
+        $this->repository->expects($this->once())->method('mayWrite')
             ->with(self::SOME_USER, self::SOME_FILE, 'file')
             ->willReturn(true);
         $this->repository->method('lookupResourceId')->willReturn(self::SOME_RID);

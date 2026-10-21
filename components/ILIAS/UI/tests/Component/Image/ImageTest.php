@@ -113,7 +113,7 @@ class ImageTest extends ILIAS_UI_TestBase
         ];
         $f = $this->getImageFactory();
         $i = $f->standard("source", "alt");
-        foreach($additional_sources as $min_width_in_pixels => $source) {
+        foreach ($additional_sources as $min_width_in_pixels => $source) {
             $i = $i->withAdditionalHighResSource($source, $min_width_in_pixels);
         }
         $this->assertEquals($additional_sources, $i->getAdditionalHighResSources());

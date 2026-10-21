@@ -28,6 +28,7 @@ use ILIAS\Data\Result;
 use ILIAS\Data\Text\SimpleDocumentMarkdown;
 use ILIAS\FileUpload\Activities\AccessCheck;
 use ILIAS\FileUpload\Activities\Failure;
+use ILIAS\FileUpload\Activities\Parameter;
 use ILIAS\FileUpload\Activities\FileContent;
 use ILIAS\FileUpload\Activities\FileParameter;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
@@ -51,6 +52,7 @@ class ReplaceFileContent extends ActivityImpl
     public function __construct(
         private readonly FileParameter $file,
         private readonly RepositoryProvider $repository,
+        private readonly Parameter $parameter,
         private readonly DataFactory $data = new DataFactory(),
     ) {
     }
@@ -115,7 +117,9 @@ class ReplaceFileContent extends ActivityImpl
      */
     public function isAllowedToPerform(int $usr_id, mixed $parameters): bool
     {
-        if (!AccessCheck::isKnownUser($usr_id)) {
+        // the legacy code doing the work acts as the user of the session, so
+        // the check has to be about that one - see RepositoryProvider::isActingUser()
+        if (!AccessCheck::isKnownUser($usr_id) || !$this->repository->isActingUser($usr_id)) {
             return false;
         }
 
@@ -185,18 +189,13 @@ class ReplaceFileContent extends ActivityImpl
      */
     private function toParameters(array $raw_parameters): array
     {
-        $ref_id = (int) ($raw_parameters['ref_id'] ?? 0);
+        $ref_id = $this->parameter->id($raw_parameters, 'ref_id', 'A file object is required.');
 
-        if ($ref_id <= 0) {
-            throw new \InvalidArgumentException('A file object is required.', 400);
-        }
-
-        // keeping the history is the default, it has to be switched off explicitly
-        $keep = $raw_parameters['keep_previous_version'] ?? true;
-
+        // keeping the history is the default, it has to be switched off explicitly -
+        // anything that is not clearly a "no" must never drop it
         return [
             'ref_id' => $ref_id,
-            'keep_previous_version' => filter_var($keep, FILTER_VALIDATE_BOOL),
+            'keep_previous_version' => $this->parameter->flag($raw_parameters, 'keep_previous_version', true),
         ];
     }
 }

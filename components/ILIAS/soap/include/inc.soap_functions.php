@@ -84,11 +84,10 @@ class ilSoapFunctions
         int $course_id,
         int $user_id,
         string $type,
-        ?bool $notification =  null,
+        ?bool $notification = null,
         ?bool $contact_person = null,
         ?bool $blocked = null
-    )
-    {
+    ) {
         $sca = new ilSoapCourseAdministration();
         return $sca->assignCourseMember($sid, $course_id, $user_id, $type, $notification, $contact_person, $blocked);
     }

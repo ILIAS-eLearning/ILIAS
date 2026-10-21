@@ -65,7 +65,7 @@ class TreeTable
 
         $table = $this->ui_fac->table()
                               ->data($data_retrieval, $this->lng->txt("skmg_skill_trees"), $columns)
-                              ->withId(self::class)
+                              ->withId(str_replace('\\', '', self::class))
                               ->withActions($actions)
                               ->withRequest($this->request);
 

@@ -90,7 +90,7 @@ class GlossaryAutoLinkTable
         $table = $this->ui_fac->table()
                               ->data($data_retrieval, $this->lng->txt("cont_auto_glossaries"), $columns)
                               ->withId(
-                                  self::class . "_" .
+                                  str_replace('\\', '', self::class) . "_" .
                                   $this->glossary->getRefId()
                               )
                               ->withActions($actions)
