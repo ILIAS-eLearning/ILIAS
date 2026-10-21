@@ -848,10 +848,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
                 $ids = $this->getIdsFromQueryToken();
                 $this->setUserLanguageObject($ids);
                 break;
-            case 'edit':
-                $ids = $this->getIdsFromQueryToken();
-                $this->editFolderObject($ids);
-                break;
         }
         $this->viewObject();
     }
@@ -882,104 +878,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
             }
         }
         return $ids;
-    }
-
-    public function confirmRefreshSelectedObject(array $a_ids = []): void
-    {
-        $this->checkPermission("write");
-        $this->lng->loadLanguageModule("meta");
-
-        $header = '';
-        $ids = [];
-        if (!empty($a_ids)) {
-            $ids = $a_ids;
-            $header = $this->lng->txt("lang_refresh_confirm");
-        } elseif (!empty($post_id = $this->getIdsFromQueryToken())) {
-            $ids = $post_id;
-            $header = $this->lng->txt("lang_refresh_confirm_selected");
-        } else {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
-            $this->ctrl->redirect($this, "view");
-        }
-
-        if ($this->abortIfAnyIdIsNotALanguageObject($ids)) {
-            return;
-        }
-
-        $conf_screen = new ilConfirmationGUI();
-        $some_changed = false;
-        foreach ($ids as $id) {
-            $lang_key = ilObject::_lookupTitle((int) $id);
-            $lang_title = $this->lng->txt("meta_l_" . $lang_key);
-            $last_change = ilObjLanguage::_getLastLocalChange($lang_key);
-            if (!empty($last_change)) {
-                $some_changed = true;
-                $lang_title .= " (" . $this->lng->txt("last_change") . " "
-                    . ilDatePresentation::formatDate(new ilDateTime($last_change, IL_CAL_DATETIME)) . ")";
-            }
-            $conf_screen->addItem("id[]", (string) $id, $lang_title);
-        }
-
-        $conf_screen->setFormAction($this->ctrl->getFormAction($this));
-        if ($some_changed) {
-            $header .= "<br />" . $this->lng->txt("lang_refresh_confirm_info");
-        }
-        $conf_screen->setHeaderText($header);
-        $conf_screen->setCancel($this->lng->txt("cancel"), "view");
-        $conf_screen->setConfirm($this->lng->txt("ok"), "refreshSelected");
-        $this->tpl->setContent($conf_screen->getHTML());
-    }
-
-    public function confirmUninstallObject(): void
-    {
-        $this->checkPermission("write");
-
-        $this->lng->loadLanguageModule("meta");
-
-        $ids = $this->getIdsFromQueryToken();
-        if ($this->abortIfAnyIdIsNotALanguageObject($ids)) {
-            return;
-        }
-
-        $conf_screen = new ilConfirmationGUI();
-        $conf_screen->setFormAction($this->ctrl->getFormAction($this));
-        $conf_screen->setHeaderText($this->lng->txt("lang_uninstall_confirm"));
-        foreach ($ids as $id) {
-            $lang_title = ilObject::_lookupTitle((int) $id);
-            $conf_screen->addItem("id[]", $id, $this->lng->txt("meta_l_" . $lang_title));
-        }
-        $conf_screen->setCancel($this->lng->txt("cancel"), "view");
-        $conf_screen->setConfirm($this->lng->txt("ok"), "uninstall");
-        $this->tpl->setContent($conf_screen->getHTML());
-    }
-
-    public function confirmUninstallChangesObject(): void
-    {
-        $this->checkPermission('write');
-
-        $this->lng->loadLanguageModule("meta");
-
-        $ids = $this->getIdsFromQueryToken();
-        if ($this->abortIfAnyIdIsNotALanguageObject($ids)) {
-            return;
-        }
-
-        $conf_screen = new ilConfirmationGUI();
-        $conf_screen->setFormAction($this->ctrl->getFormAction($this));
-        $conf_screen->setHeaderText($this->lng->txt("lang_uninstall_changes_confirm"));
-        foreach ($ids as $id) {
-            $lang_title = ilObject::_lookupTitle($id);
-            $conf_screen->addItem("id[]", (string) $id, $this->lng->txt("meta_l_" . $lang_title));
-        }
-        $conf_screen->setCancel($this->lng->txt("cancel"), "view");
-        $conf_screen->setConfirm($this->lng->txt("ok"), "uninstallChanges");
-        $this->tpl->setContent($conf_screen->getHTML());
-    }
-
-    protected function editFolderObject(array $ids): void
-    {
-        $this->ctrl->setParameterByClass("ilobjlanguageextgui", "obj_id", current($ids));
-        $this->ctrl->redirectByClass("ilobjlanguageextgui");
     }
 
     protected function disableLanguageDetectionObject(): void
