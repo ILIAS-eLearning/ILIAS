@@ -1009,26 +1009,42 @@ abstract class AbstractCondition
     /**
      * Default import for payload exported by exportPayload().
      * $new_condition_id must already be created in lso_conditions.
+     *
+     * The payload comes from an uploaded file and is untrusted: only the tables
+     * and columns declared in migrate() of this condition are written, and the
+     * column types are taken from these definitions, never from the payload.
+     *
+     * @throws \RuntimeException if the payload references a table this condition does not own
      */
     protected function importPayload(array $payload, int $new_condition_id): void
     {
         $db = $this->getDatabase();
         $ref_mapping = $this->import_mapping;
 
+        $definitions = [];
+        foreach (static::migrate() as $def) {
+            $definitions[$def->tableName] = $def;
+        }
+
         foreach ($payload as $tableData) {
             $table = (string) ($tableData['table'] ?? '');
-            $fields = (array) ($tableData['fields'] ?? []);
             $rows = is_array($tableData['rows'] ?? null) ? $tableData['rows'] : [];
 
+            if (!isset($definitions[$table])) {
+                throw new \RuntimeException(
+                    "Table '{$table}' is not defined for condition '" . static::class . "'."
+                );
+            }
+
             $field_map = [];
-            foreach ($fields as $col_name => $field_def) {
+            foreach ($definitions[$table]->fields as $col_name => $field_def) {
                 $field_map[$col_name] = [
                     'type' => $field_def['type'] ?? 'text',
                     'nullable' => !($field_def['notnull'] ?? true),
                 ];
             }
 
-            if ($table === '' || !$db->tableExists($table)) {
+            if (!$db->tableExists($table)) {
                 continue;
             }
 
@@ -1057,12 +1073,12 @@ abstract class AbstractCondition
                         continue;
                     }
 
-                    // Only import columns that actually exist in the target table
-                    if (!$db->tableColumnExists($table, $col)) {
+                    // Only import declared columns that actually exist in the target table
+                    if (!isset($field_map[$col]) || !$db->tableColumnExists($table, $col)) {
                         continue;
                     }
 
-                    $field_info = $field_map[$col] ?? null;
+                    $field_info = $field_map[$col];
 
                     // Remap ref_id values using the container refs mapping
                     if ($col === 'item_ref_id') {
@@ -1077,16 +1093,11 @@ abstract class AbstractCondition
 
                     // Handle NULL values based on field definition
                     if ($value === null) {
-                        if ($field_info && ($field_info['nullable'] ?? false)) {
-                            $insert[$col] = [$field_info['type'], null];
-                        } else {
-                            $insert[$col] = [$field_info ? $field_info['type'] : 'text', ''];
-                        }
+                        $insert[$col] = [$field_info['type'], $field_info['nullable'] ? null : ''];
                         continue;
                     }
 
-                    $type = $field_info ? $field_info['type'] : (is_int($value) ? 'integer' : 'text');
-                    $insert[$col] = [$type, $value];
+                    $insert[$col] = [$field_info['type'], $value];
                 }
 
                 $db->insert($table, $insert);
