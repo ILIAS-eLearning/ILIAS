@@ -19,6 +19,10 @@
 declare(strict_types=1);
 
 use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
+use ILIAS\components\ResourceStorage\Container\View\ActionBuilder\TopAction;
+use ILIAS\components\ResourceStorage\Container\View\Configuration as ContainerViewConfiguration;
+use ILIAS\components\ResourceStorage\Container\View\Mode as ContainerViewMode;
+use ILIAS\Filesystem\Stream\Streams;
 
 /**
 * SCORM Learning Modules
@@ -33,6 +37,7 @@ use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
 */
 class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 {
+    public const CMD_IMPORT_FROM_UPLOAD_DIR = 'importFromUploadDir';
     private ilPropertyFormGUI $form;
     private $archives;
 
@@ -46,13 +51,14 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $lng = $DIC->language();
         $rbacsystem = $DIC->access();
         $lng->loadLanguageModule("content");
+        $lng->loadLanguageModule("sahs");
         $this->type = "sahs";
         parent::__construct($data, $id, $call_by_reference, false);
     }
 
     /**
-     * List files tab: forward to the read-only container view once migrated,
-     * otherwise show an info box. On-disk file editing is no longer offered.
+     * List files tab: forward to the container view once migrated,
+     * otherwise show an info box.
      */
     public function listFiles(): void
     {
@@ -66,6 +72,132 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             $this->lng->txt('infobox_files_not_migrated')
         );
         $this->tpl->setContent($DIC->ui()->renderer()->render([$message_box]));
+    }
+
+    public function importFromUploadDir(): void
+    {
+        global $DIC;
+        if (!$DIC->access()->checkAccess("write", "", $this->object->getRefId())) {
+            $DIC->ui()->mainTemplate()->setOnScreenMessage(
+                'failure',
+                $this->lng->txt("msg_no_perm_write"),
+                true
+            );
+            ilObjectGUI::_gotoRepositoryRoot();
+            return;
+        }
+
+        $resource = $this->object->getResource();
+        if ($resource === null) {
+            $DIC->ui()->mainTemplate()->setOnScreenMessage(
+                'failure',
+                $this->lng->txt('permission_denied'),
+                true
+            );
+            $this->ctrl->redirect($this, "listFiles");
+            return;
+        }
+
+        $file = '';
+        if ($DIC->http()->wrapper()->post()->has('form/input_0')) {
+            $file = $DIC->http()->wrapper()->post()->retrieve(
+                'form/input_0',
+                $DIC->refinery()->kindlyTo()->string()
+            );
+        }
+
+        $upload_directory = $this->getUploadDirectory();
+        $path = $upload_directory . DIRECTORY_SEPARATOR . $file;
+        $real_path = realpath($path);
+        $upload_directory_prefix = rtrim($upload_directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        $is_upload_file = $upload_directory !== ''
+            && $real_path !== false
+            && is_readable($real_path)
+            && str_starts_with($real_path, $upload_directory_prefix);
+
+        if ($file === '') {
+            $DIC->ui()->mainTemplate()->setOnScreenMessage(
+                'failure',
+                $this->lng->txt('sahs_import_from_upload_dir_info'),
+                true
+            );
+        } elseif ($is_upload_file) {
+            $stream_resource = fopen($real_path, 'rb');
+            if ($stream_resource === false) {
+                $DIC->ui()->mainTemplate()->setOnScreenMessage(
+                    'failure',
+                    $this->lng->txt('sahs_file_import_from_upload_dir_failed'),
+                    true
+                );
+            } else {
+                try {
+                    $success = $DIC->resourceStorage()->manageContainer()->addStreamToContainer(
+                        $resource->getIdentification(),
+                        Streams::ofResource($stream_resource),
+                        $file
+                    );
+                } finally {
+                    fclose($stream_resource);
+                }
+                if ($success) {
+                    $DIC->ui()->mainTemplate()->setOnScreenMessage(
+                        'success',
+                        $this->lng->txt('sahs_file_imported_from_upload_dir'),
+                        true
+                    );
+                } else {
+                    $DIC->ui()->mainTemplate()->setOnScreenMessage(
+                        'failure',
+                        $this->lng->txt('sahs_file_import_from_upload_dir_failed'),
+                        true
+                    );
+                }
+            }
+        } else {
+            $DIC->ui()->mainTemplate()->setOnScreenMessage(
+                'failure',
+                $this->lng->txt('sahs_file_import_from_upload_dir_failed'),
+                true
+            );
+        }
+
+        $this->ctrl->redirect($this, "listFiles");
+    }
+
+    public function getUploadDirectory(): string
+    {
+        $import_file_factory = new ilImportDirectoryFactory();
+        try {
+            $import_directory = $import_file_factory->getInstanceForComponent(ilImportDirectoryFactory::TYPE_SAHS);
+        } catch (InvalidArgumentException) {
+            return '';
+        }
+        return $import_directory->getAbsolutePath();
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getUploadFiles(): array
+    {
+        $upload_dir = $this->getUploadDirectory();
+        if ($upload_dir === '') {
+            return [];
+        }
+        $handle = opendir($upload_dir);
+        if ($handle === false) {
+            return [];
+        }
+        $files = [];
+        while (false !== ($file = readdir($handle))) {
+            $full_path = $upload_dir . "/" . $file;
+            if (is_file($full_path) && is_readable($full_path)) {
+                $files[] = $file;
+            }
+        }
+        closedir($handle);
+        sort($files);
+        return $files;
     }
 
     /**
@@ -146,15 +278,50 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 }
                 $ilTabs->setTabActive('cont_list_files');
                 $check_access = $ilAccess->checkAccess('write', '', $this->object->getRefId());
-                $view_config = new \ILIAS\components\ResourceStorage\Container\View\Configuration(
+                $view_config = new ContainerViewConfiguration(
                     $this->object->getResource(),
                     new ilSAHSStakeholder(),
-                    $this->lng->txt('cont_list_files'),
-                    \ILIAS\components\ResourceStorage\Container\View\Mode::DATA_TABLE,
+                    $this->lng->txt('files'),
+                    ContainerViewMode::DATA_TABLE,
                     250,
                     $check_access,
                     $check_access
                 );
+                if ($check_access) {
+                    $upload_files = $this->getUploadFiles();
+                    if ($upload_files !== []) {
+                        $options = [];
+                        foreach ($upload_files as $file) {
+                            $options[$file] = $file;
+                        }
+
+                        $modal = $DIC->ui()->factory()->modal()->roundtrip(
+                            $this->lng->txt('sahs_import_from_upload_dir'),
+                            [],
+                            [
+                                $DIC->ui()->factory()->input()->field()->select(
+                                    $this->lng->txt('sahs_import_from_upload_dir_file_name'),
+                                    $options,
+                                    $this->lng->txt('sahs_import_from_upload_dir_info')
+                                )->withRequired(true)
+                            ],
+                            $this->ctrl->getFormAction(
+                                $this,
+                                self::CMD_IMPORT_FROM_UPLOAD_DIR
+                            )
+                        );
+
+                        $top_action = new TopAction(
+                            $this->lng->txt('sahs_import_from_upload_dir'),
+                            $modal->getShowSignal()
+                        );
+                        $view_config = $view_config->withExternalTopAction(
+                            'sahs_import_from_upload_dir',
+                            $top_action,
+                            $modal
+                        );
+                    }
+                }
                 $container_gui = new ilContainerResourceGUI($view_config);
                 $this->ctrl->forwardCommand($container_gui);
                 break;

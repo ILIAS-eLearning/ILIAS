@@ -18,7 +18,13 @@
 
 declare(strict_types=1);
 
+use ILIAS\Filesystem\Stream\Streams as FilesystemStreams;
+use ILIAS\Filesystem\Util\Archive\UnzipOptions;
+use ILIAS\Filesystem\Util\Archive\Zip;
+use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
+use ILIAS\Filesystem\Util\Archive\ZipOptions;
 use ILIAS\ResourceStorage\Resource\StorableContainerResource;
+use ILIAS\ResourceStorage\Services as IRSS;
 
 //require_once "components/ILIAS/MetaData/classes/class.ilMDLanguageItem.php";
 /** @defgroup ModulesScormAicc Modules/ScormAicc
@@ -318,7 +324,7 @@ class ilObjSAHSLearningModule extends ilObject
         $this->rid = $rid;
     }
 
-    protected function getIrss(): \ILIAS\ResourceStorage\Services
+    protected function getIrss(): IRSS
     {
         global $DIC;
         return $DIC->resourceStorage();
@@ -437,7 +443,7 @@ class ilObjSAHSLearningModule extends ilObject
         }
         $this->getIrss()->manage()->appendNewRevisionFromStream(
             $resource->getIdentification(),
-            \ILIAS\Filesystem\Stream\Streams::ofResource($handle),
+            FilesystemStreams::ofResource($handle),
             new ilSAHSStakeholder(),
             $revision_title ?? basename($absolute_zip_path)
         );
@@ -456,9 +462,9 @@ class ilObjSAHSLearningModule extends ilObject
         if (!is_dir($dir)) {
             return false;
         }
-        $zip = new \ILIAS\Filesystem\Util\Archive\Zip(
-            (new \ILIAS\Filesystem\Util\Archive\ZipOptions())
-                ->withDirectoryHandling(\ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling::KEEP_STRUCTURE)
+        $zip = new Zip(
+            (new ZipOptions())
+                ->withDirectoryHandling(ZipDirectoryHandling::KEEP_STRUCTURE)
         );
         $zip->addDirectory($dir);
         try {
@@ -493,7 +499,7 @@ class ilObjSAHSLearningModule extends ilObject
             return false;
         }
         $this->createDataDirectory();
-        $options = (new \ILIAS\Filesystem\Util\Archive\UnzipOptions())
+        $options = (new UnzipOptions())
             ->withZipOutputPath($this->getDataDirectory())
             ->withOverwrite(true);
 
