@@ -51,6 +51,16 @@ class LanguageInstallationManager
      * @var array<string, list<string>> language key => modules, see getSkippedUnreadableOverlays()
      */
     private array $skipped_unreadable_overlays = [];
+
+    /**
+     * @var array<string, list<string>> language key => modules
+     */
+    private array $overlays_of_unshipped_modules = [];
+
+    /**
+     * @var array<string, list<string>> language key => modules
+     */
+    private array $unrecorded_taken_over_modules = [];
     private ?TranslationMarkupPolicy $markup_policy = null;
 
     /**
@@ -103,6 +113,27 @@ class LanguageInstallationManager
     public function getSkippedUnreadableOverlays(): array
     {
         return $this->skipped_unreadable_overlays;
+    }
+
+    /**
+     * Modules no longer shipped for the language that still have an overlay or a taken-over record. Only reported:
+     * once migrated again, they would win over lng_data changes made in between.
+     *
+     * @return array<string, list<string>> language key => modules
+     */
+    public function getOverlaysOfUnshippedModules(): array
+    {
+        return $this->overlays_of_unshipped_modules;
+    }
+
+    /**
+     * Modules whose taken-over record could not be written: they are taken over again by the next run.
+     *
+     * @return array<string, list<string>> language key => modules
+     */
+    public function getUnrecordedTakenOverModules(): array
+    {
+        return $this->unrecorded_taken_over_modules;
     }
 
     private function markupPolicy(): TranslationMarkupPolicy
@@ -435,8 +466,14 @@ class LanguageInstallationManager
         bool $delete_unchanged_migrated_rows = false
     ): array {
         // Reported per call (see getSkippedInvalidMarkupEntries()): only what this run left out
-        unset($this->skipped_invalid_markup_entries[$lang_key], $this->skipped_unreadable_overlays[$lang_key]);
+        unset(
+            $this->skipped_invalid_markup_entries[$lang_key],
+            $this->skipped_unreadable_overlays[$lang_key],
+            $this->overlays_of_unshipped_modules[$lang_key],
+            $this->unrecorded_taken_over_modules[$lang_key]
+        );
         $client_data_dir = $this->clientDataDir();
+        $modules_with_local_changes = array_map('strval', array_keys(array_filter($lang_array)));
         $shipped_migrated_modules = $merge_shipped_migrated_modules
             ? MigratedLanguageFileSync::loadShippedModules(
                 $this->language_file_directory_manager,
@@ -444,6 +481,11 @@ class LanguageInstallationManager
                 $lang_key
             )
             : [];
+        $this->findOverlaysOfUnshippedModules(
+            $lang_key,
+            $client_data_dir,
+            $merge_shipped_migrated_modules ? array_map('strval', array_keys($shipped_migrated_modules)) : null
+        );
 
         $locked_modules = [];
         foreach (array_keys($shipped_migrated_modules) as $module) {
@@ -520,19 +562,50 @@ class LanguageInstallationManager
             $not_taken_over[] = explode(self::SEPARATOR, (string) $key, 2)[0];
         }
         if ($client_data_dir !== null && $shipped_migrated_modules !== []) {
+            $taken_over_now = array_values(array_diff(array_map('strval', array_keys($shipped_migrated_modules)), $not_taken_over));
             try {
-                MigratedLanguageFileSync::markLocalChangesTakenOver(
-                    $client_data_dir,
-                    $lang_key,
-                    array_values(array_diff(array_map('strval', array_keys($shipped_migrated_modules)), $not_taken_over))
-                );
+                MigratedLanguageFileSync::markLocalChangesTakenOver($client_data_dir, $lang_key, $taken_over_now);
             } catch (\Throwable $t) {
-                // taken over again next time, from the overlay written now
+                // taken over again next run; only modules with lng_data local changes are reported
+                $unrecorded = array_values(array_intersect(array_diff($taken_over_now, $taken_over), $modules_with_local_changes));
+                if ($unrecorded !== []) {
+                    $this->unrecorded_taken_over_modules[$lang_key] = $unrecorded;
+                }
                 $this->logWarning(sprintf('Could not record the taken over local changes of language "%s": %s', $lang_key, $t->getMessage()));
             }
         }
 
         return $failed_modules;
+    }
+
+    /**
+     * @param list<string>|null $shipped_modules `null`: looked up here
+     */
+    private function findOverlaysOfUnshippedModules(string $lang_key, ?string $client_data_dir, ?array $shipped_modules): void
+    {
+        if ($client_data_dir === null) {
+            return;
+        }
+        try {
+            $modules = array_diff(
+                array_unique([
+                    ...MigratedLanguageFileSync::modulesWithLocalChangesTakenOver($client_data_dir, $lang_key),
+                    ...MigratedLanguageFileSync::findModulesWithOverlay($client_data_dir, $lang_key),
+                ]),
+                $shipped_modules ?? array_map('strval', array_keys(MigratedLanguageFileSync::findShippedModuleFiles(
+                    $this->language_file_directory_manager,
+                    $this->absolute_path,
+                    $lang_key
+                )))
+            );
+        } catch (\Throwable $t) {
+            $this->logWarning(sprintf('Could not look for overlays of modules not shipped for language "%s": %s', $lang_key, $t->getMessage()));
+            return;
+        }
+        if ($modules !== []) {
+            sort($modules, SORT_STRING);
+            $this->overlays_of_unshipped_modules[$lang_key] = $modules;
+        }
     }
 
     /**

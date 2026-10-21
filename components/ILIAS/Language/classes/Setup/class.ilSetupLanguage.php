@@ -282,6 +282,27 @@ class ilSetupLanguage extends ilLanguage
     }
 
     /**
+     * @return array<string, list<string>>
+     */
+    public function getOverlaysOfUnshippedModules(): array
+    {
+        // without the contributed directories every overlay looks unshipped
+        if ($this->uses_default_language_file_directories) {
+            return [];
+        }
+
+        return $this->manager?->getOverlaysOfUnshippedModules() ?? [];
+    }
+
+    /**
+     * @return array<string, list<string>>
+     */
+    public function getUnrecordedTakenOverModules(): array
+    {
+        return $this->manager?->getUnrecordedTakenOverModules() ?? [];
+    }
+
+    /**
      * @return list<string> the migrated modules whose overlay could not be written
      */
     public function insertLanguageForInstallation(string $lang_key): array

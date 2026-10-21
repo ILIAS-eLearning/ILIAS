@@ -539,6 +539,38 @@ class ilLanguagesInstalledAndUpdatedObjectiveTest extends TestCase
         $this->assertStringContainsString('rollback copy in lng_data/lng_modules is incomplete', $warnings[0]);
     }
 
+    public function testAchieveWarnsAboutOverlaysOfUnshippedModulesPerLanguage(): void
+    {
+        $flushed = [];
+        $setup_language = $this->createAchievableSetupLanguage(['de', 'fr'], [], $flushed);
+        $setup_language->method('getOverlaysOfUnshippedModules')->willReturn(['de' => ['common', 'tos']]);
+        $messages = [];
+
+        (new ilLanguagesInstalledAndUpdatedObjective($setup_language))->achieve($this->informCollectingEnvironment($messages));
+
+        $this->assertCount(1, $messages);
+        $this->assertStringStartsWith('WARNING:', $messages[0]);
+        $this->assertStringContainsString('common, tos', $messages[0]);
+        $this->assertStringContainsString('language de', $messages[0]);
+        $this->assertStringContainsString('taken-over.de.json', $messages[0]);
+    }
+
+    public function testAchieveWarnsAboutUnrecordedTakenOverModulesPerLanguage(): void
+    {
+        $flushed = [];
+        $setup_language = $this->createAchievableSetupLanguage(['de', 'fr'], [], $flushed);
+        $setup_language->method('getUnrecordedTakenOverModules')->willReturn(['fr' => ['common']]);
+        $messages = [];
+
+        (new ilLanguagesInstalledAndUpdatedObjective($setup_language))->achieve($this->informCollectingEnvironment($messages));
+
+        $this->assertCount(1, $messages);
+        $this->assertStringStartsWith('WARNING:', $messages[0]);
+        $this->assertStringContainsString('language fr', $messages[0]);
+        $this->assertStringContainsString('modules common', $messages[0]);
+        $this->assertStringContainsString('taken-over.fr.json', $messages[0]);
+    }
+
     /**
      * Legacy local changes written before the markup check are never modified or removed, only reported once per run
      * as a WARNING naming the entry.

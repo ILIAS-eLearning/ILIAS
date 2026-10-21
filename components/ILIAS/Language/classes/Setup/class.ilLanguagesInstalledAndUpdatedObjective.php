@@ -156,6 +156,8 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
                 . 'lng_data/lng_modules is incomplete.'
             ));
         }
+        $this->informAboutOverlaysOfUnshippedModules($environment);
+        $this->informAboutUnrecordedTakenOverModules($environment);
         $this->informAboutInvalidMarkupInLocalChanges($environment, $language_keys);
 
         return $environment;
@@ -175,6 +177,32 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
                     . PlainLogText::keyList(array_map('strval', array_keys($entries)))
                 )
             );
+        }
+    }
+
+    protected function informAboutOverlaysOfUnshippedModules(Setup\Environment $environment): void
+    {
+        foreach ($this->il_setup_language->getOverlaysOfUnshippedModules() as $language_key => $modules) {
+            $this->inform($environment, PlainLogText::of(
+                'WARNING: The modules ' . implode(', ', $modules) . ' have no shipped .po for language '
+                . $language_key . ', but an overlay below <client data dir>/lang or an entry in <client data '
+                . 'dir>/lang/taken-over.' . $language_key . '.json. Remove the overlay directory <client data '
+                . 'dir>/lang/<module>/' . $language_key . ' and the entry before the module is shipped again (or '
+                . 'if it no longer exists) - otherwise they win over the local changes in lng_data.'
+            ));
+        }
+    }
+
+    protected function informAboutUnrecordedTakenOverModules(Setup\Environment $environment): void
+    {
+        foreach ($this->il_setup_language->getUnrecordedTakenOverModules() as $language_key => $modules) {
+            $this->inform($environment, PlainLogText::of(
+                'WARNING: Could not record in <client data dir>/lang/taken-over.' . $language_key . '.json that the '
+                . 'local changes of language ' . $language_key . ' in lng_data were taken over for the modules '
+                . implode(', ', $modules) . ' (see the PHP error log for details). They are taken over again by the '
+                . 'next "setup update" - <client data dir>/lang (including .locks and the record file) must be '
+                . 'writable for the user running Setup.'
+            ));
         }
     }
 

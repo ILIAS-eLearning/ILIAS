@@ -745,6 +745,43 @@ final class MigratedLanguageFileSync
     }
 
     /**
+     * Modules with an overlay for $lang_key, contributed or not (see hasOverlay()). Symbolic links are not followed.
+     *
+     * @return list<string> sorted
+     */
+    public static function findModulesWithOverlay(?string $client_data_dir, string $lang_key): array
+    {
+        if ($client_data_dir === null || !MigratedLanguageFilePaths::isValidLanguageKey($lang_key)) {
+            return [];
+        }
+        $root = self::overlayRoot($client_data_dir);
+        $modules = [];
+        $entries = is_dir($root) ? @scandir($root) : false;
+        foreach ($entries === false ? [] : $entries as $module) {
+            if (!MigratedLanguageFilePaths::isValidModule($module) || is_link($root . '/' . $module)) {
+                continue;
+            }
+            $directory = MigratedLanguageFilePaths::overlayDirectory($client_data_dir, $module, $lang_key);
+            if (!is_dir($directory) || is_link($directory)) {
+                continue;
+            }
+            $current = MigratedLanguageFilePaths::overlayCurrentFile($directory);
+            $names = file_exists($current) || is_link($current) ? ['current'] : @scandir($directory);
+            // unreadable: counted as overlay, it may hold local changes
+            if (
+                $names === false
+                || in_array('current', $names, true)
+                || array_filter($names, static fn(string $name): bool => str_ends_with($name, '.po')) !== []
+            ) {
+                $modules[] = $module;
+            }
+        }
+        sort($modules, SORT_STRING);
+
+        return $modules;
+    }
+
+    /**
      * The entries of $catalog that belong to $module: those with the module as context (msgctxt) and those
      * without any context (a file of a single module need not repeat its name, e.g. a plugin's `.po`, which
      * must survive the plugin's move to a component with another module name unchanged). An explicit empty
