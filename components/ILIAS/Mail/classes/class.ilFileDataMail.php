@@ -412,6 +412,9 @@ class ilFileDataMail extends ilFileData
                 );
             } else {
                 $resource_identification = $this->irss->manage()->find($identifier);
+                if ($resource_identification !== null && !$this->isInUserPool($resource_identification)) {
+                    $resource_identification = null;
+                }
             }
 
             if ($resource_identification !== null) {
@@ -420,6 +423,11 @@ class ilFileDataMail extends ilFileData
         }
 
         return $resource_identifications;
+    }
+
+    public function isInUserPool(ResourceIdentification $identification): bool
+    {
+        return $this->collectionContainsResource($this->resolveUserPoolRcid(), $identification);
     }
 
     /**

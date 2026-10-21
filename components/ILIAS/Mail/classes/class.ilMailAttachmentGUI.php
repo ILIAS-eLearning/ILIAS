@@ -209,7 +209,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
         foreach ($files as $rid_string) {
             $title = (string) $rid_string;
             $rid = $this->storage->manage()->find($title);
-            if ($rid !== null) {
+            if ($rid !== null && $this->fdm->isInUserPool($rid)) {
                 $title = $this->storage->manage()->getCurrentRevision($rid)->getInformation()->getTitle();
             }
 
@@ -407,7 +407,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
     public function getInfoResult(string $identifier): ?FileInfoResult
     {
         $rid = $this->storage->manage()->find($identifier);
-        if ($rid === null) {
+        if ($rid === null || !$this->fdm->isInUserPool($rid)) {
             return new BasicFileInfoResult($this->getFileIdentifierParameterName(), 'unknown', 'unknown', 0, 'unknown');
         }
 

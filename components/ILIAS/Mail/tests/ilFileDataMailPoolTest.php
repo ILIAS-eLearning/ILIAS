@@ -54,13 +54,18 @@ class ilFileDataMailPoolTest extends ilMailBaseTestCase
 
         $file_data_mail = $this->getMockBuilder(ilFileDataMail::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['migrateLegacyPoolFilenameToResource'])
+            ->onlyMethods(['migrateLegacyPoolFilenameToResource', 'isInUserPool'])
             ->getMock();
         $file_data_mail
             ->expects($this->once())
             ->method('migrateLegacyPoolFilenameToResource')
             ->with('old.svg')
             ->willReturn($legacy_rid);
+        $file_data_mail
+            ->expects($this->once())
+            ->method('isInUserPool')
+            ->with($irss_rid)
+            ->willReturn(true);
 
         $irss = $this->createIrssStub([
             'irss-rid' => $irss_rid,
@@ -76,6 +81,28 @@ class ilFileDataMailPoolTest extends ilMailBaseTestCase
         $this->assertCount(2, $resolved);
         $this->assertSame('legacy-rid', $resolved[0]->serialize());
         $this->assertSame('irss-rid', $resolved[1]->serialize());
+    }
+
+    public function testResolvePoolIdentifiersRejectsResourcesOutsideThePool(): void
+    {
+        $foreign_rid = new ResourceIdentification('foreign-rid');
+
+        $file_data_mail = $this->getMockBuilder(ilFileDataMail::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['migrateLegacyPoolFilenameToResource', 'isInUserPool'])
+            ->getMock();
+        $file_data_mail
+            ->expects($this->never())
+            ->method('migrateLegacyPoolFilenameToResource');
+        $file_data_mail
+            ->expects($this->once())
+            ->method('isInUserPool')
+            ->with($foreign_rid)
+            ->willReturn(false);
+
+        $this->injectIrss($this->createIrssStub(['foreign-rid' => $foreign_rid]), $file_data_mail);
+
+        $this->assertSame([], $file_data_mail->resolvePoolIdentifiersToResources(['foreign-rid']));
     }
 
     public function testMigrateLegacyPoolAttachmentsReturnsIrssWhenAlreadyMigrated(): void
