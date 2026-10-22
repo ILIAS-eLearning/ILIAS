@@ -40,7 +40,7 @@ use ILIAS\UI\Factory as UIFactory;
 
 class Text extends Type
 {
-    private const TextMatchingOptions DEFAULT_TECT_MATCHING_METHOD = TextMatchingOptions::CaseInsensitive;
+    private const TextMatchingOptions DEFAULT_TEXT_MATCHING_METHOD = TextMatchingOptions::CaseInsensitive;
 
     #[\Override]
     public function getIdentifier(): string
@@ -102,7 +102,7 @@ class Text extends Type
                 $environment->getLanguage()->txt('text_matching_method'),
                 TextMatchingOptions::buildOptionsList($environment->getLanguage())
             )->withRequired(true)
-            ->withValue($gap->getTextMatchingMethod()?->value ?? self::DEFAULT_TECT_MATCHING_METHOD->value),
+            ->withValue($gap->getTextMatchingMethod()?->value ?? self::DEFAULT_TEXT_MATCHING_METHOD->value),
             'max_chars' => $ff->numeric(
                 $environment->getLanguage()->txt('max_characters'),
             )->withValue($gap->getMaxChars())
@@ -162,7 +162,7 @@ class Text extends Type
             fn(array $vs): Gap => $gap->withMaxChars($vs['max_chars'])
                 ->withTextMatchingMethod(
                     TextMatchingOptions::tryFrom($vs['matching_method'])
-                        ?? self::DEFAULT_TECT_MATCHING_METHOD
+                        ?? self::DEFAULT_TEXT_MATCHING_METHOD
                 )->withAnswerOptions(
                     $gap->getAnswerOptions()->withAnswerOptionsFromTags(
                         $vs['answer_options']
@@ -205,10 +205,13 @@ class Text extends Type
         Gap $gap,
         Uuid|string|null $response
     ): float {
-
         $answer_option = array_filter(
             $gap->getAnswerOptions()->getAnswerOptionsAwardingPoints(),
-            fn(AnswerOption $v): bool => $response === $v->getTextValue()
+            fn(AnswerOption $v): bool => $gap->getTextMatchingMethod()->determineEquivalence(
+                $this->refinery,
+                $v->getTextValue(),
+                $response
+            )
         );
 
         if ($answer_option === []) {

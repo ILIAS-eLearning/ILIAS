@@ -457,7 +457,7 @@ class Gap implements Clonable
             $persistence_factory->value(FieldDefinition::T_TEXT, $this->type->getIdentifier()),
             $persistence_factory->value(FieldDefinition::T_INTEGER, $this->max_chars),
             $persistence_factory->value(FieldDefinition::T_FLOAT, $this->step_size),
-            $persistence_factory->value(FieldDefinition::T_INTEGER, $this->text_matching_method?->value),
+            $persistence_factory->value(FieldDefinition::T_TEXT, $this->text_matching_method?->value),
             $persistence_factory->value(FieldDefinition::T_INTEGER, $this->min_autocomplete),
             $persistence_factory->value(
                 FieldDefinition::T_INTEGER,
