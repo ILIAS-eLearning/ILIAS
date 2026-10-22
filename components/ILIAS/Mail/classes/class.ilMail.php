@@ -32,8 +32,6 @@ use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 
 class ilMail
 {
-    use FileDataRCHandling;
-
     public const string ILIAS_HOST = 'ilias';
     public const string PROP_CONTEXT_SUBJECT_PREFIX = 'subject_prefix';
     private MailSignatureService $signature_service;

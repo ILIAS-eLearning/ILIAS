@@ -186,14 +186,6 @@ class ilFileDataMail extends ilFileData
     /**
      * @return list<array{name: string, size: int, ctime: int}>
      */
-    public function getUserFilesData(): array
-    {
-        return $this->getUnsentFiles();
-    }
-
-    /**
-     * @return list<array{name: string, size: int, ctime: int}>
-     */
     private function getUnsentFiles(): array
     {
         $files = [];
@@ -216,14 +208,6 @@ class ilFileDataMail extends ilFileData
         }
 
         return $files;
-    }
-
-    /**
-     * @deprecated legacy pool write; use uploadToPool() instead
-     */
-    public function storeUploadedFile(UploadResult $result): string
-    {
-        return $this->uploadToPool($result)->serialize();
     }
 
     public function uploadToPool(UploadResult $result): ResourceIdentification
@@ -708,17 +692,6 @@ class ilFileDataMail extends ilFileData
         return new ResourceCollectionIdentification($rcid);
     }
 
-    public function countMailsReferencingRcid(string $rcid): int
-    {
-        $res = $this->db->queryF(
-            'SELECT COUNT(mail_id) cnt FROM mail_attachment WHERE rcid = %s',
-            ['text'],
-            [$rcid]
-        );
-
-        return (int) $this->db->fetchObject($res)->cnt;
-    }
-
     public function deassignAttachmentFromDirectory(int $a_mail_id): bool
     {
         $res = $this->db->query(
@@ -1186,26 +1159,6 @@ class ilFileDataMail extends ilFileData
         $this->irss->collection()->store($collection);
 
         return $collection->getIdentification();
-    }
-
-    /**
-     * @param list<string> $absolute_paths
-     */
-    public function createCollectionFromPaths(array $absolute_paths): ?ResourceCollectionIdentification
-    {
-        $resource_identifications = [];
-        foreach ($absolute_paths as $absolute_path) {
-            if (!is_file($absolute_path)) {
-                continue;
-            }
-            $resource_identifications[] = $this->streamFromPath($absolute_path);
-        }
-
-        if ($resource_identifications === []) {
-            return null;
-        }
-
-        return $this->createCollectionFromResourceIdentifications($resource_identifications);
     }
 
     /**
