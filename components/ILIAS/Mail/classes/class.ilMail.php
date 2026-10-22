@@ -457,6 +457,10 @@ class ilMail
             return $row;
         }
 
+        if ($mail_id !== null && !$this->isPoolReferencingFolder((int) ($row['folder_id'] ?? 0))) {
+            return $row;
+        }
+
         $migrated = $this->mail_file_data->migrateLegacyPoolAttachments($row['attachments']);
         if ($migrated === null) {
             return $row;
@@ -475,6 +479,13 @@ class ilMail
         }
 
         return $row;
+    }
+
+    private function isPoolReferencingFolder(int $folder_id): bool
+    {
+        $folder = $this->mailbox->getFolderData($folder_id);
+
+        return $folder !== null && ($folder->isDrafts() || $folder->isOutbox());
     }
 
     public function getNewDraftId(int $folder_id): int

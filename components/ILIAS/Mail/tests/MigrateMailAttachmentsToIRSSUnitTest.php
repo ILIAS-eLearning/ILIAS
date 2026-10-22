@@ -186,6 +186,7 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
 
         $this->assertStringContainsString('LEFT JOIN mail_attachment ma ON ma.mail_id = m.mail_id', $captured_sql);
         $this->assertStringContainsString('WHERE ma.mail_id IS NULL', $captured_sql);
+        $this->assertStringContainsString('LEFT JOIN mail_obj_data fo ON fo.obj_id = m.folder_id', $captured_sql);
         $this->assertStringContainsString('ORDER BY m.send_time DESC, m.mail_id DESC', $captured_sql);
     }
 
@@ -372,7 +373,26 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
             ['mail_id' => [ilDBConstants::T_INTEGER, 42]]
         );
 
-        $this->invokePrivate('migrateSerializedMail', [42, 6, serialize(['exists.pdf']), $this->tmp_dir . '/mail']);
+        $this->invokePrivate('migrateSerializedMail', [42, 6, serialize(['exists.pdf']), $this->tmp_dir . '/mail', true]);
+    }
+
+    public function testMailOutsideDraftsAndOutboxNeverTakesFilesOfThePool(): void
+    {
+        file_put_contents($this->tmp_dir . '/mail/6_exists.pdf', '%PDF');
+        $helper = $this->useHelperMock();
+        $helper->expects($this->never())->method('movePathToStorage');
+        $db = $this->useDatabaseMock();
+        $db->expects($this->never())->method('manipulateF');
+        $db->expects($this->once())->method('update')->with(
+            'mail',
+            ['attachments' => [ilDBConstants::T_CLOB, '']],
+            ['mail_id' => [ilDBConstants::T_INTEGER, 44]]
+        );
+
+        $this->invokePrivate('migrateSerializedMail', [44, 6, serialize(['exists.pdf']), $this->tmp_dir . '/mail', false]);
+
+        $this->assertFileExists($this->tmp_dir . '/mail/6_exists.pdf');
+        $this->assertReported('WARNING', 'outside drafts and outbox');
     }
 
     public function testBrokenDraftValueIsClearedAndReported(): void
@@ -384,7 +404,7 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
             ['mail_id' => [ilDBConstants::T_INTEGER, 43]]
         );
 
-        $this->invokePrivate('migrateSerializedMail', [43, 6, 'a:1:{broken', $this->tmp_dir . '/mail']);
+        $this->invokePrivate('migrateSerializedMail', [43, 6, 'a:1:{broken', $this->tmp_dir . '/mail', true]);
 
         $this->assertReported('WARNING', 'could not be read');
     }

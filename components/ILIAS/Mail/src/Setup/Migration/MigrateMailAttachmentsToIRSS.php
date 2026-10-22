@@ -27,7 +27,10 @@ use ILIAS\Setup\Environment;
 use ILIAS\Setup\AdminInteraction;
 use ilMailAttachmentStakeholder;
 use ilResourceStorageMigrationHelper;
+use ilDatabaseUpdateStepsExecutedObjective;
+use ILIAS\Mail\Folder\MailFolderType;
 use ILIAS\Mail\Attachments\MailAttachments;
+use ILIAS\Mail\Setup\Database\V12\MailDBUpdateSteps12;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 
@@ -62,7 +65,10 @@ class MigrateMailAttachmentsToIRSS implements Migration
 
     public function getPreconditions(Environment $environment): array
     {
-        return ilResourceStorageMigrationHelper::getPreconditions();
+        return array_merge(
+            ilResourceStorageMigrationHelper::getPreconditions(),
+            [new ilDatabaseUpdateStepsExecutedObjective(new MailDBUpdateSteps12())]
+        );
     }
 
     public function prepare(Environment $environment): void
@@ -282,8 +288,9 @@ class MigrateMailAttachmentsToIRSS implements Migration
         $db = $this->helper->getDatabase();
         $db->setLimit(self::MAILS_PER_STEP);
         $res = $db->query(
-            'SELECT m.mail_id, m.user_id, m.attachments FROM mail m
+            'SELECT m.mail_id, m.user_id, m.attachments, fo.m_type FROM mail m
              LEFT JOIN mail_attachment ma ON ma.mail_id = m.mail_id
+             LEFT JOIN mail_obj_data fo ON fo.obj_id = m.folder_id
              WHERE ma.mail_id IS NULL
              AND m.attachments LIKE ' . $db->quote('a:%', ilDBConstants::T_TEXT) . '
              ORDER BY m.send_time DESC, m.mail_id DESC'
@@ -295,13 +302,23 @@ class MigrateMailAttachmentsToIRSS implements Migration
                 (int) $row['mail_id'],
                 (int) $row['user_id'],
                 (string) $row['attachments'],
-                $mail_path
+                $mail_path,
+                in_array(
+                    $row['m_type'] ?? null,
+                    [MailFolderType::DRAFTS->value, MailFolderType::OUTBOX->value],
+                    true
+                )
             );
         }
     }
 
-    private function migrateSerializedMail(int $mail_id, int $user_id, string $raw_attachments, string $mail_path): void
-    {
+    private function migrateSerializedMail(
+        int $mail_id,
+        int $user_id,
+        string $raw_attachments,
+        string $mail_path,
+        bool $references_pool
+    ): void {
         $attachments = MailAttachments::fromDb($raw_attachments);
         if ($attachments === null || !$attachments->isLegacy()) {
             if ($attachments === null) {
@@ -310,6 +327,17 @@ class MigrateMailAttachmentsToIRSS implements Migration
                     'value' => substr($raw_attachments, 0, 200),
                 ]);
             }
+            $this->clearMailAttachmentsColumn($mail_id);
+
+            return;
+        }
+
+        // Sent and received mails reference a directory. Without one, files of the owner's pool must not be attached.
+        if (!$references_pool) {
+            $this->warning('Mail outside drafts and outbox has no attachment directory, its attachments have been removed', [
+                'mail_id' => $mail_id,
+                'files' => $attachments->legacyFilenames(),
+            ]);
             $this->clearMailAttachmentsColumn($mail_id);
 
             return;

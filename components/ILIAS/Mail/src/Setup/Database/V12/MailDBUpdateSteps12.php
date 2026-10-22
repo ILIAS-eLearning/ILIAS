@@ -59,4 +59,17 @@ class MailDBUpdateSteps12 implements ilDatabaseUpdateSteps
             $this->db->addIndex('mail_attachment', ['rcid'], 'rci');
         }
     }
+
+    /**
+     * Mails without attachments stored an empty serialized list, which the attachment migration
+     * would otherwise have to visit row by row
+     */
+    public function step_3(): void
+    {
+        $this->db->manipulateF(
+            'UPDATE mail SET attachments = NULL WHERE attachments = %s',
+            [ilDBConstants::T_TEXT],
+            [serialize([])]
+        );
+    }
 }

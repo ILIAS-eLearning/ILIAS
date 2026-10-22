@@ -1215,10 +1215,9 @@ class ilFileDataMail extends ilFileData
      */
     public function createStageFromLegacyMailAttachments(int $mail_id, array $filenames): MailAttachments
     {
+        // Without a directory the files are gone, the names must not resolve to the forwarding user's pool
         if (!$this->hasLegacyAttachmentDirectory($mail_id)) {
-            $rcid = $this->createCollectionFromPoolFilenames($filenames);
-
-            return $rcid !== null ? MailAttachments::fromIrss($rcid) : MailAttachments::empty();
+            return MailAttachments::empty();
         }
 
         $resource_identifications = [];
