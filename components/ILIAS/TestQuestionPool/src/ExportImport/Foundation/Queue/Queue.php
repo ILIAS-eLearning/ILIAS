@@ -42,10 +42,12 @@ final class Queue implements \IteratorAggregate
 
     public function get(string $class): Processor
     {
-        $matches = array_values(array_filter(
-            $this->processors,
-            static fn(Processor $processor): bool => $processor instanceof $class
-        ));
+        $matches = array_values(
+            array_filter(
+                $this->processors,
+                static fn(Processor $processor): bool => $processor instanceof $class
+            )
+        );
 
         if (count($matches) !== 1) {
             throw new \InvalidArgumentException(

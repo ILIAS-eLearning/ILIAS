@@ -42,7 +42,10 @@ class UserImportResolver
         if (!$this->db->tableColumnExists('usr_data', $criteria->value)) {
             $this->log->error("User criteria field {$criteria->value} does not exist in usr_data table, using anonymous user ID for all users");
 
-            return array_fill_keys(array_keys($users), ANONYMOUS_USER_ID);
+            return array_fill_keys(
+                array_keys($users),
+                ANONYMOUS_USER_ID
+            );
         }
 
         $in_clause = $this->db->in(
