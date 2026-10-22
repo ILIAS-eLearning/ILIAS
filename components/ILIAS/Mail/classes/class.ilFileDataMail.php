@@ -1490,19 +1490,33 @@ class ilFileDataMail extends ilFileData
             return null;
         }
 
+        // Mails whose column still lists legacy filenames address their files by the hashed name (revision title)
+        $title_match = null;
         foreach ($this->getAssignedRidStrings($rcid) as $rid) {
             $resource_identification = $this->irss->manage()->find($rid);
             if ($resource_identification === null) {
                 continue;
             }
 
-            $revision = $this->irss->manage()->getCurrentRevision($resource_identification);
-            if ($revision->getTitle() === $hash) {
+            if ($this->attachmentHash($resource_identification) === $hash) {
                 return $resource_identification;
+            }
+
+            if ($title_match === null
+                && $this->irss->manage()->getCurrentRevision($resource_identification)->getTitle() === $hash) {
+                $title_match = $resource_identification;
             }
         }
 
-        return null;
+        return $title_match;
+    }
+
+    /**
+     * Unique per resource: equal file names in one collection must stay distinguishable
+     */
+    private function attachmentHash(ResourceIdentification $identification): string
+    {
+        return md5($identification->serialize());
     }
 
     private function resourceIdByHashInCollection(ResourceCollection $collection, string $hash): ?ResourceIdentification
@@ -1577,7 +1591,7 @@ class ilFileDataMail extends ilFileData
             $info = $revision->getInformation();
             $file_title = $info->getTitle();
             $files[$resource_identification->serialize()] = [
-                'md5' => $revision->getTitle(),
+                'md5' => $this->attachmentHash($resource_identification),
                 'name' => $file_title,
                 'size' => $info->getSize(),
                 'ctime' => $info->getCreationDate()->format('Y-m-d H:i:s'),

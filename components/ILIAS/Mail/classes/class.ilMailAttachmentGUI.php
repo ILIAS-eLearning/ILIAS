@@ -296,18 +296,16 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
 
         $mail_data = $this->umail->retrieveFromStage();
         $stage_attachments = $mail_data['attachments'] ?? null;
-        $adopted_pool_hashes = [];
+        $adopted_pool_rids = [];
         if ($stage_attachments instanceof MailAttachments && $stage_attachments->isIrss()) {
-            foreach ($this->fdm->getAttachmentListing($stage_attachments->rcid()) as $file) {
-                $adopted_pool_hashes[$file['md5']] = true;
-            }
+            $adopted_pool_rids = $this->fdm->getAttachmentListing($stage_attachments->rcid());
         }
 
         $files = $this->fdm->getUserPoolFilesData();
         $records = [];
         $checked_items = [];
         foreach ($files as $file) {
-            if (isset($adopted_pool_hashes[$file['md5']])) {
+            if (isset($adopted_pool_rids[$file['rid']])) {
                 $checked_items[] = $file['rid'];
             }
 

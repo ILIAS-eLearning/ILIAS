@@ -81,10 +81,10 @@ class ilFileDataMailFileNameTest extends ilMailBaseTestCase
 
         $revision_a = $this->createStub(Revision::class);
         $revision_a->method('getInformation')->willReturn($info_a);
-        $revision_a->method('getTitle')->willReturn('hash-a');
+        $revision_a->method('getTitle')->willReturn(md5('report.pdf'));
         $revision_b = $this->createStub(Revision::class);
         $revision_b->method('getInformation')->willReturn($info_b);
-        $revision_b->method('getTitle')->willReturn('hash-b');
+        $revision_b->method('getTitle')->willReturn(md5('report.pdf'));
 
         $manage = $this->createStub(Manager::class);
         $manage->method('find')->willReturnCallback(
@@ -115,8 +115,65 @@ class ilFileDataMailFileNameTest extends ilMailBaseTestCase
         $listing = $sut->getAttachmentListing(new ResourceCollectionIdentification('rcid'));
 
         $this->assertSame(['rid-a', 'rid-b'], array_keys($listing));
-        $this->assertSame(['hash-a', 'hash-b'], array_column($listing, 'md5'));
+        $this->assertSame([md5('rid-a'), md5('rid-b')], array_column($listing, 'md5'));
         $this->assertSame(['report.pdf', 'report.pdf'], array_column($listing, 'name'));
+    }
+
+    public function testEqualFileNamesResolveToTheirOwnResource(): void
+    {
+        $sut = $this->createSutWithEqualTitles(['rid-a', 'rid-b'], md5('report.pdf'));
+
+        $this->assertSame(
+            'rid-b',
+            $sut->getResourceIdByHash(new ResourceCollectionIdentification('rcid'), md5('rid-b'))?->serialize()
+        );
+    }
+
+    public function testLegacyNameHashStillResolvesTheFirstMatchingResource(): void
+    {
+        $sut = $this->createSutWithEqualTitles(['rid-a', 'rid-b'], md5('report.pdf'));
+
+        $this->assertSame(
+            'rid-a',
+            $sut->getResourceIdByHash(new ResourceCollectionIdentification('rcid'), md5('report.pdf'))?->serialize()
+        );
+    }
+
+    /**
+     * @param list<string> $rids
+     */
+    private function createSutWithEqualTitles(array $rids, string $revision_title): ilFileDataMail
+    {
+        $revision = $this->createStub(Revision::class);
+        $revision->method('getTitle')->willReturn($revision_title);
+
+        $manage = $this->createStub(Manager::class);
+        $manage->method('find')->willReturnCallback(
+            static fn(string $rid): ResourceIdentification => new ResourceIdentification($rid)
+        );
+        $manage->method('getCurrentRevision')->willReturn($revision);
+
+        $collections = $this->createStub(Collections::class);
+        $collections->method('exists')->willReturn(true);
+
+        $irss = $this->createStub(IRSS::class);
+        $irss->method('manage')->willReturn($manage);
+        $irss->method('collection')->willReturn($collections);
+
+        $rows = array_map(
+            static fn(string $rid): array => [CollectionDBRepository::R_IDENTIFICATION => $rid],
+            $rids
+        );
+        $db = $this->createStub(ilDBInterface::class);
+        $db->method('queryF')->willReturn($this->createStub(ilDBStatement::class));
+        $db->method('fetchAssoc')->willReturnOnConsecutiveCalls(...[...$rows, null]);
+
+        $reflection = new ReflectionClass(ilFileDataMail::class);
+        $sut = $reflection->newInstanceWithoutConstructor();
+        $reflection->getProperty('irss')->setValue($sut, $irss);
+        $reflection->getProperty('db')->setValue($sut, $db);
+
+        return $sut;
     }
 
     public function testAdoptedPoolFileKeepsTheNameWithoutTheUserPrefix(): void
