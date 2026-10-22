@@ -150,15 +150,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
         }
 
         try {
-            $mail_data = $this->umail->retrieveFromStage();
-            $stage_attachments = $mail_data['attachments'] ?? null;
-            $existing_rcid = ($stage_attachments instanceof MailAttachments && $stage_attachments->isIrss())
-                ? $stage_attachments->rcid()
-                : null;
-
-            // A new collection is built instead of mutating the current stage collection,
-            // because the stage may share it with a draft or a scheduled mail
-            $rcid = $this->fdm->createStageCollectionWithPoolSelection($existing_rcid, $resource_identifications);
+            $rcid = $this->fdm->applyPoolSelectionToStage($resource_identifications);
             if ($rcid === null) {
                 throw new RuntimeException($this->lng->txt('mail_error_reading_attachment'));
             }
@@ -298,7 +290,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
         $stage_attachments = $mail_data['attachments'] ?? null;
         $adopted_pool_rids = [];
         if ($stage_attachments instanceof MailAttachments && $stage_attachments->isIrss()) {
-            $adopted_pool_rids = $this->fdm->getAttachmentListing($stage_attachments->rcid());
+            $adopted_pool_rids = array_flip($this->fdm->getPoolResourcesInStage($stage_attachments->rcid()));
         }
 
         $files = $this->fdm->getUserPoolFilesData();

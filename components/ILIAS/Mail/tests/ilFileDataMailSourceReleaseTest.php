@@ -61,25 +61,11 @@ class ilFileDataMailSourceReleaseTest extends ilMailBaseTestCase
         $sut->releaseSourceCollectionAfterDelivery($rcid);
     }
 
-    public function testRemovesCollectionAndUnsharedResources(): void
+    public function testRemovesCollectionTogetherWithItsResources(): void
     {
         $rcid = new ResourceCollectionIdentification('calendar-rcid');
-        $sut = $this->createSut(stakeholders: [new ilMailAttachmentStakeholder()], rids: ['ics-rid'], mock_manager: true);
-        $this->db->method('numRows')->willReturn(0);
-        $sut->expects($this->once())->method('removeCollection')->with($rcid);
-        $this->managerMock()->expects($this->once())->method('remove');
-
-        $sut->releaseSourceCollectionAfterDelivery($rcid);
-    }
-
-    public function testResourcesStillInOtherCollectionsSurvive(): void
-    {
-        $rcid = new ResourceCollectionIdentification('stage-rcid');
-        $sut = $this->createSut(stakeholders: [new ilMailAttachmentStakeholder()], rids: ['pool-rid'], mock_manager: true);
-        // The resource is still assigned to e.g. the user's pool
-        $this->db->method('numRows')->willReturn(1);
-        $sut->expects($this->once())->method('removeCollection')->with($rcid);
-        $this->managerMock()->expects($this->never())->method('remove');
+        $sut = $this->createSut(stakeholders: [new ilMailAttachmentStakeholder()], rids: ['ics-rid']);
+        $sut->expects($this->once())->method('removeCollection')->with($rcid, true);
 
         $sut->releaseSourceCollectionAfterDelivery($rcid);
     }

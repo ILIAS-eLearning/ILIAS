@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\Mail\Attachments\MailAttachments;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 trait FileDataRCHandling
 {
@@ -33,14 +32,14 @@ trait FileDataRCHandling
     }
 
     /**
+     * Uploaded files are already part of the compose stage. The stage is reduced to the files
+     * of the submitted form, no files in the form means no attachments.
+     *
      * @param list<string> $form_attachment_rids
      * @throws ilMailAttachmentsTotalSizeLimitExceededException
      */
-    protected function attachmentsFromFormUpload(
-        array $form_attachment_rids,
-        ?MailAttachments $stage_attachments = null
-    ): MailAttachments {
-        // The submitted form is the single source of truth: no files in the form means no attachments
+    protected function attachmentsFromFormUpload(array $form_attachment_rids): MailAttachments
+    {
         if ($form_attachment_rids === []) {
             return MailAttachments::empty();
         }
@@ -59,72 +58,16 @@ trait FileDataRCHandling
             );
         }
 
-        $resource_identifications = [];
-        foreach ($form_attachment_rids as $attachment) {
-            $found = $this->storage->manage()->find($attachment);
-            if ($found === null || !$this->fdm->canUseResourceInCompose($found)) {
-                continue;
-            }
-            $resource_identifications[] = $found;
-        }
+        $stage_rcid = $this->fdm->restrictStageTo($form_attachment_rids);
 
-        if ($resource_identifications === []) {
-            return MailAttachments::empty();
-        }
-
-        $stage_rcid = ($stage_attachments instanceof MailAttachments && $stage_attachments->isIrss())
-            ? $stage_attachments->rcid()
-            : null;
-
-        if ($stage_rcid !== null && $this->fdm->collectionContainsResources($stage_rcid, $resource_identifications)) {
-            return MailAttachments::fromIrss($stage_rcid);
-        }
-
-        return MailAttachments::fromIrss(
-            $this->fdm->createCollectionFromResourceIdentifications($resource_identifications)
-        );
+        return $stage_rcid !== null
+            ? MailAttachments::fromIrss($stage_rcid)
+            : MailAttachments::empty();
     }
 
     /**
-     * @param array<string, mixed> $attachments
-     * @throws ilMailAttachmentsTotalSizeLimitExceededException
+     * Drafts, scheduled and forwarded mails keep their collection, the compose stage works on a copy
      */
-    protected function handleAttachments(array $attachments): ResourceCollectionIdentification
-    {
-        $limit = $this->fdm->getAttachmentsTotalSizeLimit();
-        $total_size = 0;
-        foreach ($attachments as $attachment) {
-            $info = $this->upload_handler->getInfoResult($attachment);
-            if ($info->getFileIdentifier() !== 'unknown') {
-                $total_size += $info->getSize();
-            }
-        }
-        if ($limit !== null && $total_size > $limit) {
-            throw new ilMailAttachmentsTotalSizeLimitExceededException(
-                $this->lng->txt('mail_max_size_attachments_total_error') . ' ' . ilUtil::formatSize((int) $limit)
-            );
-        }
-
-        $resource_identifications = [];
-        foreach ($attachments as $attachment) {
-            $info = $this->upload_handler->getInfoResult($attachment);
-            if ($info->getFileIdentifier() === 'unknown') {
-                continue;
-            }
-            $found = $this->storage->manage()->find($attachment);
-            if ($found === null || !$this->fdm->canUseResourceInCompose($found)) {
-                throw new Exception("File '" . $info->getName() . "' could not be found in IRSS");
-            }
-            $resource_identifications[] = $found;
-        }
-
-        if ($resource_identifications === []) {
-            throw new Exception('No attachments could be stored');
-        }
-
-        return $this->fdm->createCollectionFromResourceIdentifications($resource_identifications);
-    }
-
     protected function stageAttachmentsFromMailAttachments(MailAttachments $attachments): MailAttachments
     {
         if ($attachments->isEmpty()) {
@@ -132,7 +75,7 @@ trait FileDataRCHandling
         }
 
         if ($attachments->isIrss()) {
-            $stage_rcid = $this->fdm->createCollectionReferencingResourcesOf($attachments->rcid());
+            $stage_rcid = $this->fdm->copyCollection($attachments->rcid());
 
             return $stage_rcid !== null
                 ? MailAttachments::fromIrss($stage_rcid)

@@ -18,8 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\Mail\Attachments\MailAttachments;
+use ILIAS\ResourceStorage\Services as ResourceStorage;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\ResourceStorage\Resource\Repository\CollectionDBRepository;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 use ILIAS\ResourceStorage\Stakeholder\ConfidentialStakeholder;
 
@@ -53,69 +55,94 @@ class ilMailAttachmentStakeholder extends AbstractResourceStakeholder implements
             return false;
         }
 
-        $user_id = $DIC->user()->getId();
-        $db = $DIC->database();
-        $rid = $identification->serialize();
-
-        if ($this->mailboxContainsResource($db, $rid, $user_id)) {
-            return true;
+        if (!$DIC->isDependencyAvailable('resourceStorage')) {
+            return false;
         }
 
-        if ($DIC->isDependencyAvailable('resourceStorage')) {
+        $user_id = $DIC->user()->getId();
+        $irss = $DIC->resourceStorage();
+
+        try {
+            if ($irss->manage()->getCurrentRevision($identification)->getOwnerId() === $user_id) {
+                return true;
+            }
+        } catch (Throwable) {
+        }
+
+        return $this->anyCollectionContains(
+            $irss,
+            $this->collectionsOfUser($DIC->database(), $user_id),
+            $identification
+        );
+    }
+
+    /**
+     * @return list<string> Collections of the user's mails, attachment pool and compose stage
+     */
+    private function collectionsOfUser(ilDBInterface $db, int $user_id): array
+    {
+        $rcids = [];
+
+        $res = $db->queryF(
+            'SELECT DISTINCT ma.rcid FROM mail_attachment ma
+             INNER JOIN mail m ON m.mail_id = ma.mail_id
+             WHERE m.user_id = %s AND ma.rcid IS NOT NULL',
+            [ilDBConstants::T_INTEGER],
+            [$user_id]
+        );
+        while ($row = $db->fetchAssoc($res)) {
+            $rcids[] = (string) $row['rcid'];
+        }
+
+        $res = $db->queryF(
+            'SELECT value FROM usr_pref WHERE usr_id = %s AND keyword = %s',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT],
+            [$user_id, ilFileDataMail::POOL_RCID_PREF_KEY]
+        );
+        while ($row = $db->fetchAssoc($res)) {
+            $rcids[] = (string) $row['value'];
+        }
+
+        $res = $db->queryF(
+            'SELECT attachments FROM mail_saved WHERE user_id = %s',
+            [ilDBConstants::T_INTEGER],
+            [$user_id]
+        );
+        while ($row = $db->fetchAssoc($res)) {
+            $stage = MailAttachments::fromDb(is_string($row['attachments'] ?? null) ? $row['attachments'] : null);
+            if ($stage !== null && $stage->isIrss()) {
+                $rcids[] = $stage->rcid()->serialize();
+            }
+        }
+
+        return array_values(array_unique(array_filter(
+            $rcids,
+            static fn(string $rcid): bool => $rcid !== '' && $rcid !== '-'
+        )));
+    }
+
+    /**
+     * @param list<string> $rcids
+     */
+    private function anyCollectionContains(
+        ResourceStorage $irss,
+        array $rcids,
+        ResourceIdentification $identification
+    ): bool {
+        if ($rcids === []) {
+            return false;
+        }
+
+        $irss->preloadCollections($rcids);
+        foreach ($rcids as $rcid) {
             try {
-                $owner_id = $DIC->resourceStorage()->manage()->getCurrentRevision($identification)->getOwnerId();
-                if ($owner_id === $user_id) {
+                if ($irss->collection()->get(new ResourceCollectionIdentification($rcid))->isIn($identification)) {
                     return true;
                 }
             } catch (Throwable) {
             }
         }
 
-        return $this->poolOrStageContainsResource($db, $rid, $user_id);
-    }
-
-    private function mailboxContainsResource(ilDBInterface $db, string $rid, int $user_id): bool
-    {
-        $db->setLimit(1, 0);
-        $res = $db->queryF(
-            'SELECT 1 FROM ' . CollectionDBRepository::COLLECTION_ASSIGNMENT_TABLE_NAME . ' rca
-             INNER JOIN mail_attachment ma ON ma.rcid = rca.' . CollectionDBRepository::C_IDENTIFICATION . '
-             INNER JOIN mail m ON m.mail_id = ma.mail_id
-             WHERE rca.' . CollectionDBRepository::R_IDENTIFICATION . ' = %s AND m.user_id = %s',
-            [ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER],
-            [$rid, $user_id]
-        );
-
-        return $db->numRows($res) > 0;
-    }
-
-    private function poolOrStageContainsResource(ilDBInterface $db, string $rid, int $user_id): bool
-    {
-        $assignment = CollectionDBRepository::COLLECTION_ASSIGNMENT_TABLE_NAME;
-        $resource_column = CollectionDBRepository::R_IDENTIFICATION;
-        $collection_column = CollectionDBRepository::C_IDENTIFICATION;
-
-        $db->setLimit(1, 0);
-        $res = $db->queryF(
-            'SELECT 1 FROM usr_pref p
-             INNER JOIN ' . $assignment . ' rca ON rca.' . $collection_column . ' = p.value
-             WHERE p.usr_id = %s AND p.keyword = %s AND rca.' . $resource_column . ' = %s',
-            [ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
-            [$user_id, ilFileDataMail::POOL_RCID_PREF_KEY, $rid]
-        );
-        if ($db->numRows($res) > 0) {
-            return true;
-        }
-
-        $db->setLimit(1, 0);
-        $res = $db->queryF(
-            'SELECT 1 FROM mail_saved ms
-             INNER JOIN ' . $assignment . ' rca ON rca.' . $collection_column . ' = ms.attachments
-             WHERE ms.user_id = %s AND rca.' . $resource_column . ' = %s',
-            [ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT],
-            [$user_id, $rid]
-        );
-
-        return $db->numRows($res) > 0;
+        return false;
     }
 }

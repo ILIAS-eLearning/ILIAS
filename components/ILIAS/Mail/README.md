@@ -380,14 +380,21 @@ There are two ways to attach files:
 2. Files that only exist for the message (e.g. an iCal file) are stored
    in a collection of the mail system with
    `\ilFileDataMail::createCollectionFromContent()`.
-   This collection is handed over to the mail system: it is released
-   as soon as the message has been queued (in cron context: delivered). It MUST NOT be passed
+   This collection is handed over to the mail system: it becomes the collection
+   of the queued message and is removed together with its files once the last
+   mail referencing it has been deleted. It MUST NOT be passed
    to a second `enqueue()` call and MUST NOT be removed by the consumer.
    A `\DomainException` is thrown if the content exceeds the upload limit.
 
 A collection without any resource MUST NOT be passed, use
 `MailAttachments::empty()` instead. Otherwise the message is rejected
 with the error `mail_error_reading_attachment`.
+
+Internally every file of the mail system belongs to exactly one collection:
+the attachment pool, the compose stage, a draft, a scheduled mail, or a sent mail.
+A sent mail and all its received copies share one collection, which is removed
+when the last of these mails is deleted. Whenever files change hands (opening a draft,
+forwarding, queueing, choosing files of the pool) they are copied.
 
 ```php
 use ILIAS\Mail\Attachments\MailAttachments;

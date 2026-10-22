@@ -30,7 +30,7 @@ class ilMailCopyOnSendTest extends TestCase
     public function testDeliveryAttachmentsReturnsLegacyUnchanged(): void
     {
         $mail = $this->createMailInstance();
-        $this->mail_file_data->expects($this->never())->method('copyCollectionForDelivery');
+        $this->mail_file_data->expects($this->never())->method('copyCollection');
 
         $legacy = MailAttachments::fromLegacyFilenames(['file.pdf']);
         $result = $this->invokeDeliveryAttachments($legacy, $mail);
@@ -41,7 +41,7 @@ class ilMailCopyOnSendTest extends TestCase
     public function testDeliveryAttachmentsReturnsEmptyUnchanged(): void
     {
         $mail = $this->createMailInstance();
-        $this->mail_file_data->expects($this->never())->method('copyCollectionForDelivery');
+        $this->mail_file_data->expects($this->never())->method('copyCollection');
 
         $empty = MailAttachments::empty();
         $result = $this->invokeDeliveryAttachments($empty, $mail);
@@ -58,7 +58,7 @@ class ilMailCopyOnSendTest extends TestCase
 
         $this->mail_file_data
             ->expects($this->exactly(2))
-            ->method('copyCollectionForDelivery')
+            ->method('copyCollection')
             ->with($source)
             ->willReturnOnConsecutiveCalls($copy_a, $copy_b);
 
@@ -77,7 +77,7 @@ class ilMailCopyOnSendTest extends TestCase
         $source = new ResourceCollectionIdentification('source-rcid');
         $this->mail_file_data
             ->expects($this->once())
-            ->method('copyCollectionForDelivery')
+            ->method('copyCollection')
             ->willReturn(null);
 
         $result = $this->invokeDeliveryAttachments(MailAttachments::fromIrss($source), $mail);
@@ -93,7 +93,7 @@ class ilMailCopyOnSendTest extends TestCase
 
         $this->mail_file_data
             ->expects($this->once())
-            ->method('copyCollectionForDelivery')
+            ->method('copyCollection')
             ->with($source)
             ->willReturn($shared);
 
@@ -113,7 +113,7 @@ class ilMailCopyOnSendTest extends TestCase
 
         $this->mail_file_data
             ->expects($this->once())
-            ->method('copyCollectionForDelivery')
+            ->method('copyCollection')
             ->willReturn(new ResourceCollectionIdentification('shared-copy'));
 
         $first = $this->invokeDeliveryAttachments(MailAttachments::fromIrss($source), $mail);
@@ -127,11 +127,35 @@ class ilMailCopyOnSendTest extends TestCase
         $mail = $this->createMailInstance(exclusively_owned: true);
         $source = MailAttachments::fromIrss(new ResourceCollectionIdentification('queued-snapshot'));
 
-        $this->mail_file_data->expects($this->never())->method('copyCollectionForDelivery');
+        $this->mail_file_data->expects($this->never())->method('copyCollection');
 
         $result = $this->invokeDeliveryAttachments($source, $mail);
 
         $this->assertSame('queued-snapshot', $result->rcid()->serialize());
+    }
+
+    public function testQueueSnapshotTakesOverAFreeCollectionOfTheMailSystem(): void
+    {
+        $mail = $this->createMailInstance(exclusively_owned: true);
+        $this->mail_file_data->expects($this->never())->method('copyCollection');
+        $source = MailAttachments::fromIrss(new ResourceCollectionIdentification('calendar-ics'));
+
+        $this->assertSame($source, $this->invokeQueueSnapshot($mail, $source));
+    }
+
+    public function testQueueSnapshotCopiesStageDraftsAndForeignCollections(): void
+    {
+        $mail = $this->createMailInstance();
+        $source = new ResourceCollectionIdentification('stage-rcid');
+        $this->mail_file_data
+            ->expects($this->once())
+            ->method('copyCollection')
+            ->with($source)
+            ->willReturn(new ResourceCollectionIdentification('snapshot-rcid'));
+
+        $snapshot = $this->invokeQueueSnapshot($mail, MailAttachments::fromIrss($source));
+
+        $this->assertSame('snapshot-rcid', $snapshot->rcid()->serialize());
     }
 
     public function testReleaseSourceAttachmentsIgnoresEmptyAndLegacy(): void
@@ -178,7 +202,7 @@ class ilMailCopyOnSendTest extends TestCase
         $this->mail_file_data = $this->getMockBuilder(ilFileDataMail::class)
             ->disableOriginalConstructor()
             ->onlyMethods([
-                'copyCollectionForDelivery',
+                'copyCollection',
                 'releaseSourceCollectionAfterDelivery',
                 'isCollectionExclusivelyOwnedByMail',
             ])
@@ -196,6 +220,11 @@ class ilMailCopyOnSendTest extends TestCase
     private function invokeReleaseSourceAttachments(ilMail $mail, MailAttachments $source): void
     {
         new ReflectionClass($mail)->getMethod('releaseSourceAttachments')->invoke($mail, $source);
+    }
+
+    private function invokeQueueSnapshot(ilMail $mail, MailAttachments $source): MailAttachments
+    {
+        return new ReflectionClass($mail)->getMethod('createQueueSnapshot')->invoke($mail, $source);
     }
 
     private function invokeDeliveryAttachments(MailAttachments $source, ilMail $mail): MailAttachments

@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\ResourceStorage\Services;
-use ILIAS\Mail\Attachments\MailAttachments;
+use ILIAS\FileUpload\Handler\FileInfoResult;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 
 class FileDataRCHandlingFormUploadTest extends ilMailBaseTestCase
@@ -30,28 +30,45 @@ class FileDataRCHandlingFormUploadTest extends ilMailBaseTestCase
      */
     public function testFormUploadWithoutFilesIgnoresStageAttachments(): void
     {
-        $stage = MailAttachments::fromIrss(new ResourceCollectionIdentification('stage-rcid'));
-        $subject = $this->createSubject();
+        $fdm = $this->createMock(ilFileDataMail::class);
+        $fdm->expects($this->never())->method('restrictStageTo');
 
-        $result = $subject->fromFormUpload([], $stage);
-
-        $this->assertTrue($result->isEmpty());
+        $this->assertTrue($this->createSubject($fdm)->fromFormUpload([])->isEmpty());
     }
 
-    public function testFormUploadWithoutNewFilesAndWithoutStageReturnsEmpty(): void
+    public function testStageReducedToNothingMeansNoAttachments(): void
     {
-        $subject = $this->createSubject();
+        $fdm = $this->createMock(ilFileDataMail::class);
+        $fdm->method('getAttachmentsTotalSizeLimit')->willReturn(null);
+        $fdm->expects($this->once())->method('restrictStageTo')->with(['gone-rid'])->willReturn(null);
 
-        $result = $subject->fromFormUpload([], null);
-
-        $this->assertTrue($result->isEmpty());
+        $this->assertTrue($this->createSubject($fdm)->fromFormUpload(['gone-rid'])->isEmpty());
     }
 
-    private function createSubject(): FileDataRCHandlingFormUploadTestSubject
+    public function testFormUploadKeepsTheRestrictedStage(): void
     {
+        $fdm = $this->createMock(ilFileDataMail::class);
+        $fdm->method('getAttachmentsTotalSizeLimit')->willReturn(null);
+        $fdm->expects($this->once())
+            ->method('restrictStageTo')
+            ->with(['rid-a'])
+            ->willReturn(new ResourceCollectionIdentification('stage-rcid'));
+
+        $result = $this->createSubject($fdm)->fromFormUpload(['rid-a']);
+
+        $this->assertSame('stage-rcid', $result->rcid()->serialize());
+    }
+
+    private function createSubject(ilFileDataMail $fdm): FileDataRCHandlingFormUploadTestSubject
+    {
+        $info = $this->createStub(FileInfoResult::class);
+        $info->method('getFileIdentifier')->willReturn('unknown');
+        $upload_handler = $this->createStub(ilMailFormUploadHandlerGUI::class);
+        $upload_handler->method('getInfoResult')->willReturn($info);
+
         return new FileDataRCHandlingFormUploadTestSubject(
-            $this->createStub(ilFileDataMail::class),
-            $this->createStub(ilMailFormUploadHandlerGUI::class),
+            $fdm,
+            $upload_handler,
             $this->createStub(ilLanguage::class),
             $this->createStub(Services::class)
         );

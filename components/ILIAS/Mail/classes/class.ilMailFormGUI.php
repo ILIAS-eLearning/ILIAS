@@ -216,12 +216,8 @@ class ilMailFormGUI
 
     public function saveMessageToOutbox(array $form_values, Form $form): void
     {
-        $stage = $this->umail->retrieveFromStage();
-        $stage_attachments = ($stage['attachments'] ?? null) instanceof MailAttachments
-            ? $stage['attachments']
-            : null;
         try {
-            $attachments = $this->attachmentsFromFormUpload($form_values['attachments'], $stage_attachments);
+            $attachments = $this->attachmentsFromFormUpload($form_values['attachments']);
         } catch (ilMailAttachmentsTotalSizeLimitExceededException $e) {
             $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $e->getMessage());
             $this->showForm($form);
@@ -321,12 +317,8 @@ class ilMailFormGUI
             return;
         }
 
-        $stage = $this->umail->retrieveFromStage();
-        $stage_attachments = ($stage['attachments'] ?? null) instanceof MailAttachments
-            ? $stage['attachments']
-            : null;
         try {
-            $attachments = $this->attachmentsFromFormUpload($value['attachments'], $stage_attachments);
+            $attachments = $this->attachmentsFromFormUpload($value['attachments']);
         } catch (ilMailAttachmentsTotalSizeLimitExceededException $e) {
             $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $e->getMessage());
             $this->showForm($form);
@@ -425,12 +417,8 @@ class ilMailFormGUI
         if ($value['m_subject'] === '') {
             $value['m_subject'] = $this->lng->txt('mail_no_subject');
         }
-        $stage = $this->umail->retrieveFromStage();
-        $stage_attachments = ($stage['attachments'] ?? null) instanceof MailAttachments
-            ? $stage['attachments']
-            : null;
         try {
-            $attachments = $this->attachmentsFromFormUpload($value['attachments'], $stage_attachments);
+            $attachments = $this->attachmentsFromFormUpload($value['attachments']);
         } catch (ilMailAttachmentsTotalSizeLimitExceededException $e) {
             $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $e->getMessage());
             $this->showForm($form);
@@ -1053,12 +1041,12 @@ class ilMailFormGUI
     }
 
     /**
-     * @param array<string, mixed> $attachments
+     * @param list<string> $attachments
      */
     protected function tryHandleAttachments(array $attachments, ?Form $form = null): ?MailAttachments
     {
         try {
-            return MailAttachments::fromIrss($this->handleAttachments($attachments));
+            return $this->attachmentsFromFormUpload($attachments);
         } catch (ilMailAttachmentsTotalSizeLimitExceededException $e) {
             $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $e->getMessage());
             $this->showForm($form);

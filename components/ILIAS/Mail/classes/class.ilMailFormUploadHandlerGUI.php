@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\Mail\Attachments\MailAttachments;
 use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;
 use ILIAS\FileUpload\Handler\BasicFileInfoResult;
 use ILIAS\FileUpload\Handler\BasicHandlerResult;
@@ -56,6 +57,9 @@ class ilMailFormUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         $result = end($array);
         if ($result instanceof UploadResult && $result->isOK()) {
             $i = $this->storage->manage()->upload($result, $this->stakeholder);
+            (new ilFormatMail($this->user_id))->saveAttachments(
+                MailAttachments::fromIrss($this->mailFiles()->addResourceToStage($i))
+            );
             $status = HandlerResultInterface::STATUS_OK;
             $identifier = $i->serialize();
             $message = $this->lng->txt('upload_ok');
@@ -71,8 +75,7 @@ class ilMailFormUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     protected function getRemoveResult(string $identifier): HandlerResultInterface
     {
         $id = $this->acceptedComposeResource($identifier);
-        if ($id !== null) {
-            $this->mailFiles()->removeResourceIfNotInAnyCollection($id);
+        if ($id !== null && $this->mailFiles()->removeFromStage($id)) {
             return new BasicHandlerResult($this->getFileIdentifierParameterName(), HandlerResultInterface::STATUS_OK, $identifier, 'file deleted');
         }
 

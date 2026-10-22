@@ -27,9 +27,13 @@ use ILIAS\FileDelivery\Delivery as FileDelivery;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
 use ILIAS\ResourceStorage\Information\FileInformation;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\ResourceStorage\Resource\Repository\CollectionDBRepository;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 
+/**
+ * Every resource of the mail stakeholder belongs to exactly one collection (pool, compose stage,
+ * draft, scheduled or sent mail). Collections are copied when they change hands, so releasing a
+ * collection that no mail, stage or pool references removes its resources as well.
+ */
 class ilFileDataMail extends ilFileData
 {
     public const string POOL_RCID_PREF_KEY = 'mail_attachment_pool_rcid';
@@ -248,7 +252,7 @@ class ilFileDataMail extends ilFileData
 
         $updated_rcid = $this->adoptPoolResourcesToCollection($pool_rcid, [$rid]);
         if ($updated_rcid === null) {
-            $this->removeResourceIfUnreferenced($rid);
+            $this->deleteResource($rid);
             throw new RuntimeException('Could not store mail attachment in pool.');
         }
 
@@ -280,8 +284,6 @@ class ilFileDataMail extends ilFileData
         if (!$this->collectionIsKnown($rcid)) {
             return null;
         }
-
-        $this->repairCollectionHeaderIfNeeded($rcid);
 
         return $rcid;
     }
@@ -322,8 +324,6 @@ class ilFileDataMail extends ilFileData
      */
     private function iteratePoolResourceIdentifications(ResourceCollectionIdentification $pool_rcid): Generator
     {
-        $this->repairCollectionHeaderIfNeeded($pool_rcid);
-
         foreach ($this->getAssignedRidStrings($pool_rcid) as $rid_string) {
             $resource_identification = $this->irss->manage()->find($rid_string);
             if ($resource_identification !== null) {
@@ -478,7 +478,7 @@ class ilFileDataMail extends ilFileData
         $collection->remove($rid);
         $this->irss->collection()->store($collection);
 
-        $this->removeResourceIfUnreferenced($rid);
+        $this->deleteResource($rid);
     }
 
     public function poolResourceHash(ResourceIdentification $rid): string
@@ -539,8 +539,7 @@ class ilFileDataMail extends ilFileData
     }
 
     /**
-     * Removes a Mail collection nobody references anymore. Its resources are only deleted if
-     * no other collection (pool, stage, other mails) still contains them.
+     * Removes a Mail collection nobody references anymore, together with its resources.
      * Collections containing resources of other components are never touched.
      */
     public function releaseCollectionIfUnreferenced(ResourceCollectionIdentification $rcid): void
@@ -554,55 +553,25 @@ class ilFileDataMail extends ilFileData
             return;
         }
 
-        $resource_identifications = [];
         foreach ($this->getRidsFromCollection($rcid) as $rid_string) {
             $resource_identification = $this->irss->manage()->find($rid_string);
-            if ($resource_identification === null) {
-                continue;
-            }
-
-            if (!$this->resourceHasOnlyMailStakeholder($resource_identification)) {
+            if ($resource_identification !== null
+                && !$this->resourceHasOnlyMailStakeholder($resource_identification)) {
                 return;
             }
-
-            $resource_identifications[] = $resource_identification;
         }
 
-        $this->removeCollection($rcid);
-
-        foreach ($resource_identifications as $resource_identification) {
-            $this->removeResourceIfUnreferenced($resource_identification);
-        }
+        $this->removeCollection($rcid, true);
     }
 
-    public function removeResourceIfNotInAnyCollection(ResourceIdentification $rid): void
+    private function deleteResource(ResourceIdentification $rid): void
     {
-        $this->removeResourceIfUnreferenced($rid);
-    }
-
-    private function removeResourceIfUnreferenced(ResourceIdentification $rid): void
-    {
-        $this->db->setLimit(1, 0);
-        $res = $this->db->queryF(
-            'SELECT 1 FROM ' . CollectionDBRepository::COLLECTION_ASSIGNMENT_TABLE_NAME .
-            ' WHERE ' . CollectionDBRepository::R_IDENTIFICATION . ' = %s',
-            [ilDBConstants::T_TEXT],
-            [$rid->serialize()]
-        );
-        if ($this->db->numRows($res) > 0) {
-            return;
-        }
-
-        if (!$this->resourceHasOnlyMailStakeholder($rid)) {
-            return;
-        }
-
         $this->irss->manage()->remove($rid, $this->stakeholder);
     }
 
     /**
      * True if the collection can be handed over to delivered mails without copying it:
-     * it is Mail-owned, nobody references it and none of its resources is shared.
+     * it is Mail-owned and nobody references it.
      */
     public function isCollectionExclusivelyOwnedByMail(ResourceCollectionIdentification $rcid): bool
     {
@@ -617,33 +586,13 @@ class ilFileDataMail extends ilFileData
 
         foreach ($rid_strings as $rid_string) {
             $resource_identification = $this->irss->manage()->find($rid_string);
-            if ($resource_identification === null ||
-                !$this->resourceHasOnlyMailStakeholder($resource_identification) ||
-                $this->isResourceReferencedOutsideCollection($resource_identification, $rcid)) {
+            if ($resource_identification === null
+                || !$this->resourceHasOnlyMailStakeholder($resource_identification)) {
                 return false;
             }
         }
 
         return true;
-    }
-
-    private function isResourceReferencedOutsideCollection(
-        ResourceIdentification $rid,
-        ResourceCollectionIdentification $collection_identification
-    ): bool {
-        $res = $this->db->queryF(
-            'SELECT rcid FROM il_resource_rca WHERE rid = %s',
-            [ilDBConstants::T_TEXT],
-            [$rid->serialize()]
-        );
-
-        while ($row = $this->db->fetchObject($res)) {
-            if ($row->rcid !== $collection_identification->serialize()) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     public function unlinkFile(string $a_filename): bool
@@ -1063,24 +1012,75 @@ class ilFileDataMail extends ilFileData
     }
 
     /**
-     * A compose form may only attach the user's pool, the compose stage, or a file
-     * this user just stored with the mail stakeholder.
+     * The compose form only shows files of the user's compose stage
      */
     public function canUseResourceInCompose(ResourceIdentification $identification): bool
     {
-        if ($this->collectionContainsResource($this->resolveUserPoolRcid(), $identification)
-            || $this->collectionContainsResource($this->resolveStageRcid(), $identification)) {
-            return true;
-        }
+        return $this->collectionContainsResource($this->resolveStageRcid(), $identification);
+    }
 
-        try {
-            $revision = $this->irss->manage()->getCurrentRevision($identification);
-        } catch (Throwable) {
+    /**
+     * Adds a just uploaded resource to the compose stage. The returned collection must be
+     * persisted as stage if it was created.
+     */
+    public function addResourceToStage(ResourceIdentification $identification): ResourceCollectionIdentification
+    {
+        $stage_rcid = $this->resolveStageRcid();
+        $collection = $stage_rcid !== null && $this->collectionIsKnown($stage_rcid)
+            ? $this->getCollection($stage_rcid)
+            : $this->irss->collection()->get($this->irss->collection()->id(null, $this->user_id));
+
+        $collection->add($identification);
+        $this->irss->collection()->store($collection);
+
+        return $collection->getIdentification();
+    }
+
+    public function removeFromStage(ResourceIdentification $identification): bool
+    {
+        $stage_rcid = $this->resolveStageRcid();
+        if (!$this->collectionContainsResource($stage_rcid, $identification)) {
             return false;
         }
 
-        return $revision->getOwnerId() === $this->user_id
-            && $this->resourceHasOnlyMailStakeholder($identification);
+        $collection = $this->getCollection($stage_rcid);
+        $collection->remove($identification);
+        $this->irss->collection()->store($collection);
+        $this->deleteResource($identification);
+
+        return true;
+    }
+
+    /**
+     * Removes all files from the compose stage which are not part of the submitted form.
+     *
+     * @param list<string> $rid_strings
+     */
+    public function restrictStageTo(array $rid_strings): ?ResourceCollectionIdentification
+    {
+        $stage_rcid = $this->resolveStageRcid();
+        if ($stage_rcid === null || !$this->collectionIsKnown($stage_rcid)) {
+            return null;
+        }
+
+        $kept = array_flip($rid_strings);
+        $collection = $this->getCollection($stage_rcid);
+        $removed = [];
+        foreach ($collection->getResourceIdentifications() as $identification) {
+            if (!isset($kept[$identification->serialize()])) {
+                $collection->remove($identification);
+                $removed[] = $identification;
+            }
+        }
+
+        if ($removed !== []) {
+            $this->irss->collection()->store($collection);
+            foreach ($removed as $identification) {
+                $this->deleteResource($identification);
+            }
+        }
+
+        return $collection->count() > 0 ? $collection->getIdentification() : null;
     }
 
     public function streamFromPath(string $absolute_path, ?string $revision_title = null): ResourceIdentification
@@ -1104,9 +1104,9 @@ class ilFileDataMail extends ilFileData
     }
 
     /**
-     * @param list<ResourceIdentification> $resource_identifications
+     * @param list<ResourceIdentification> $resource_identifications Resources not yet part of any collection
      */
-    public function createCollectionFromResourceIdentifications(
+    private function createCollectionFromResourceIdentifications(
         array $resource_identifications
     ): ResourceCollectionIdentification {
         $rcid = $this->irss->collection()->id(null, $this->user_id);
@@ -1229,7 +1229,7 @@ class ilFileDataMail extends ilFileData
             }
 
             if (isset($file['rcid']) && $file['rcid'] instanceof ResourceCollectionIdentification) {
-                $rcid = $this->createCollectionReferencingResourcesOf($file['rcid']);
+                $rcid = $this->copyCollection($file['rcid']);
 
                 return $rcid !== null ? MailAttachments::fromIrss($rcid) : MailAttachments::empty();
             }
@@ -1273,139 +1273,125 @@ class ilFileDataMail extends ilFileData
     }
 
     /**
-     * Creates a new collection header for the resources of the passed collection.
-     * Mail-owned resources are shared (no file copy), foreign resources are copied.
+     * Copies all files of the passed collection (of the mail system or of another component)
+     * into a new collection of the mail system. The source stays untouched.
      */
-    public function createCollectionReferencingResourcesOf(
-        ResourceCollectionIdentification $source
-    ): ?ResourceCollectionIdentification {
+    public function copyCollection(ResourceCollectionIdentification $source): ?ResourceCollectionIdentification
+    {
         if (!$this->collectionIsKnown($source)) {
             return null;
         }
 
-        $mail_resources = [];
-        $foreign_resources = [];
-        foreach ($this->getRidsFromCollection($source) as $rid_string) {
-            $resource_identification = $this->irss->manage()->find($rid_string);
-            if ($resource_identification === null) {
-                continue;
-            }
-
-            if ($this->resourceHasOnlyMailStakeholder($resource_identification)) {
-                $mail_resources[] = $resource_identification;
-            } else {
-                $foreign_resources[] = $resource_identification;
-            }
-        }
-
-        if ($foreign_resources !== []) {
-            $copied_rcid = $this->createCollectionFromForeignResources($foreign_resources);
-            if ($copied_rcid !== null) {
-                foreach ($this->getRidsFromCollection($copied_rcid) as $rid_string) {
-                    $copied = $this->irss->manage()->find($rid_string);
-                    if ($copied !== null) {
-                        $mail_resources[] = $copied;
-                    }
-                }
-                $this->removeCollection($copied_rcid);
-            }
-        }
-
-        if ($mail_resources === []) {
+        $copies = $this->copyResources(array_values($this->getCollection($source)->getResourceIdentifications()));
+        if ($copies === []) {
             return null;
         }
 
-        return $this->createCollectionFromResourceIdentifications($mail_resources);
+        return $this->createCollectionFromResourceIdentifications($copies);
     }
 
     /**
-     * Builds the stage collection after a selection in the attachment pool: Non-pool attachments of the
-     * current stage are kept, pool files are exactly the selected ones.
+     * Applies a selection of the attachment pool to the compose stage: pool files are matched by their
+     * hashed name, selected files missing in the stage are copied into it, deselected ones are removed.
      *
      * @param list<ResourceIdentification> $selected_pool_resources
      */
-    public function createStageCollectionWithPoolSelection(
-        ?ResourceCollectionIdentification $stage_rcid,
-        array $selected_pool_resources
-    ): ?ResourceCollectionIdentification {
-        $pool_rids = [];
-        $pool_rcid = $this->resolveUserPoolRcid();
-        if ($pool_rcid !== null) {
-            foreach ($this->getAssignedRidStrings($pool_rcid) as $rid_string) {
-                $pool_rids[$rid_string] = true;
-            }
+    public function applyPoolSelectionToStage(array $selected_pool_resources): ?ResourceCollectionIdentification
+    {
+        $pool_hashes = [];
+        foreach ($this->getUserPoolResources() as $pool_resource) {
+            $pool_hashes[$this->poolResourceHash($pool_resource)] = true;
         }
 
-        $resources = [];
-        $hashes = [];
-        if ($stage_rcid !== null && $this->collectionIsKnown($stage_rcid)) {
-            foreach ($this->getRidsFromCollection($stage_rcid) as $rid_string) {
-                if (isset($pool_rids[$rid_string])) {
-                    continue;
-                }
-                $resource_identification = $this->irss->manage()->find($rid_string);
-                if ($resource_identification !== null) {
-                    $resources[$rid_string] = $resource_identification;
-                    $hashes[$this->poolResourceHash($resource_identification)] = true;
-                }
-            }
+        $selected = [];
+        foreach ($selected_pool_resources as $pool_resource) {
+            $selected[$this->poolResourceHash($pool_resource)] = $pool_resource;
         }
 
-        foreach ($selected_pool_resources as $resource_identification) {
-            $hash = $this->poolResourceHash($resource_identification);
-            if (isset($hashes[$hash])) {
+        $stage_rcid = $this->resolveStageRcid();
+        $collection = $stage_rcid !== null && $this->collectionIsKnown($stage_rcid)
+            ? $this->getCollection($stage_rcid)
+            : $this->irss->collection()->get($this->irss->collection()->id(null, $this->user_id));
+
+        $removed = [];
+        foreach ($collection->getResourceIdentifications() as $identification) {
+            $hash = $this->poolResourceHash($identification);
+            if (isset($pool_hashes[$hash]) && !isset($selected[$hash])) {
+                $collection->remove($identification);
+                $removed[] = $identification;
                 continue;
             }
-            $resources[$resource_identification->serialize()] = $resource_identification;
-            $hashes[$hash] = true;
+            unset($selected[$hash]);
         }
 
-        if ($resources === []) {
-            return null;
+        foreach ($this->copyResources(array_values($selected)) as $copy) {
+            $collection->add($copy);
         }
 
-        return $this->createCollectionFromResourceIdentifications(array_values($resources));
+        $this->irss->collection()->store($collection);
+        foreach ($removed as $identification) {
+            $this->deleteResource($identification);
+        }
+
+        return $collection->count() > 0 ? $collection->getIdentification() : null;
     }
 
-    public function copyCollectionForDelivery(
-        ResourceCollectionIdentification $source
-    ): ?ResourceCollectionIdentification {
-        if (!$this->collectionIsKnown($source)) {
-            return null;
+    /**
+     * @return list<string> Resource ids of the pool files the compose stage contains a copy of
+     */
+    public function getPoolResourcesInStage(ResourceCollectionIdentification $stage_rcid): array
+    {
+        $stage_hashes = [];
+        foreach ($this->getRidsFromCollection($stage_rcid) as $rid_string) {
+            $identification = $this->irss->manage()->find($rid_string);
+            if ($identification !== null) {
+                $stage_hashes[$this->poolResourceHash($identification)] = true;
+            }
         }
 
-        $resource_identifications = iterator_to_array(
-            $this->getCollection($source)->getResourceIdentifications(),
-            false
-        );
+        $pool_resources = [];
+        foreach ($this->getUserPoolResources() as $pool_resource) {
+            if (isset($stage_hashes[$this->poolResourceHash($pool_resource)])) {
+                $pool_resources[] = $pool_resource->serialize();
+            }
+        }
 
-        return $this->createCollectionFromForeignResources($resource_identifications);
+        return $pool_resources;
+    }
+
+    /**
+     * @return list<ResourceIdentification>
+     */
+    private function getUserPoolResources(): array
+    {
+        $pool_rcid = $this->resolveUserPoolRcid();
+        if ($pool_rcid === null) {
+            return [];
+        }
+
+        return iterator_to_array($this->iteratePoolResourceIdentifications($pool_rcid), false);
     }
 
     /**
      * @param list<ResourceIdentification> $resource_identifications
+     * @return list<ResourceIdentification>
      */
-    public function createCollectionFromForeignResources(
-        array $resource_identifications
-    ): ?ResourceCollectionIdentification {
-        if ($resource_identifications === []) {
-            return null;
-        }
-
-        $mail_resources = [];
+    private function copyResources(array $resource_identifications): array
+    {
+        $copies = [];
         foreach ($resource_identifications as $source) {
             $revision = $this->irss->manage()->getCurrentRevision($source);
             $stream = $this->irss->consume()->stream($source);
-            $copied = $this->irss->manage()->stream(
+            $copy = $this->irss->manage()->stream(
                 $stream->getStream(),
                 $this->stakeholder,
                 $revision->getTitle()
             );
-            $this->applyResourceFileName($copied, $revision->getInformation()->getTitle());
-            $mail_resources[] = $copied;
+            $this->applyResourceFileName($copy, $revision->getInformation()->getTitle());
+            $copies[] = $copy;
         }
 
-        return $this->createCollectionFromResourceIdentifications($mail_resources);
+        return $copies;
     }
 
     public function getCollection(ResourceCollectionIdentification $rcid): ResourceCollection
@@ -1416,7 +1402,6 @@ class ilFileDataMail extends ilFileData
             );
         }
 
-        $this->repairCollectionHeaderIfNeeded($rcid);
         $this->irss->preloadCollections([$rcid->serialize()]);
 
         return $this->irss->collection()->get($rcid, $this->user_id);
@@ -1425,7 +1410,6 @@ class ilFileDataMail extends ilFileData
     private function loadPoolCollectionForMutation(?ResourceCollectionIdentification $pool_rcid): ResourceCollection
     {
         if ($pool_rcid !== null && $this->collectionIsKnown($pool_rcid)) {
-            $this->repairCollectionHeaderIfNeeded($pool_rcid);
             $this->irss->preloadCollections([$pool_rcid->serialize()]);
 
             return $this->irss->collection()->get($pool_rcid, $this->user_id);
@@ -1441,45 +1425,19 @@ class ilFileDataMail extends ilFileData
      */
     private function getAssignedRidStrings(ResourceCollectionIdentification $rcid): array
     {
-        $res = $this->db->queryF(
-            'SELECT ' . CollectionDBRepository::R_IDENTIFICATION .
-            ' FROM ' . CollectionDBRepository::COLLECTION_ASSIGNMENT_TABLE_NAME .
-            ' WHERE ' . CollectionDBRepository::C_IDENTIFICATION . ' = %s ORDER BY position ASC',
-            [ilDBConstants::T_TEXT],
-            [$rcid->serialize()]
-        );
-
-        $rids = [];
-        while ($row = $this->db->fetchAssoc($res)) {
-            $rids[] = (string) $row[CollectionDBRepository::R_IDENTIFICATION];
+        if (!$this->collectionIsKnown($rcid)) {
+            return [];
         }
 
-        return $rids;
+        return array_values(array_map(
+            static fn(ResourceIdentification $identification): string => $identification->serialize(),
+            $this->irss->collection()->get($rcid)->getResourceIdentifications()
+        ));
     }
 
     private function collectionIsKnown(ResourceCollectionIdentification $rcid): bool
     {
-        return $this->irss->collection()->exists($rcid->serialize()) ||
-            $this->getAssignedRidStrings($rcid) !== [];
-    }
-
-    private function repairCollectionHeaderIfNeeded(ResourceCollectionIdentification $rcid): void
-    {
-        if ($this->irss->collection()->exists($rcid->serialize()) ||
-            $this->getAssignedRidStrings($rcid) === []) {
-            return;
-        }
-
-        $this->db->replace(
-            CollectionDBRepository::COLLECTION_TABLE_NAME,
-            [
-                CollectionDBRepository::C_IDENTIFICATION => [ilDBConstants::T_TEXT, $rcid->serialize()],
-            ],
-            [
-                'title' => [ilDBConstants::T_TEXT, ''],
-                'owner_id' => [ilDBConstants::T_INTEGER, $this->user_id],
-            ]
-        );
+        return $this->irss->collection()->exists($rcid->serialize());
     }
 
     public function getResourceIdByHash(
@@ -1547,33 +1505,6 @@ class ilFileDataMail extends ilFileData
     }
 
     /**
-     * @param list<ResourceIdentification> $resource_identifications
-     */
-    public function collectionContainsResources(
-        ResourceCollectionIdentification $rcid,
-        array $resource_identifications
-    ): bool {
-        if ($resource_identifications === []) {
-            return true;
-        }
-
-        $collection_serials = [];
-        foreach ($this->getCollection($rcid)->getResourceIdentifications() as $resource_identification) {
-            $collection_serials[] = $resource_identification->serialize();
-        }
-
-        $expected_serials = [];
-        foreach ($resource_identifications as $resource_identification) {
-            $expected_serials[] = $resource_identification->serialize();
-        }
-
-        sort($collection_serials);
-        sort($expected_serials);
-
-        return $collection_serials === $expected_serials;
-    }
-
-    /**
      * Keyed by resource id. Equal display titles must not collapse two download hashes.
      *
      * @return array<string, array{md5: string, name: string, size: int, ctime: string}>
@@ -1622,12 +1553,11 @@ class ilFileDataMail extends ilFileData
     }
 
     /**
-     * Removes the collection header and its assignments. Resources are only deleted if
-     * explicitly requested; prefer releaseCollectionIfUnreferenced() which respects shared resources.
+     * Removes the collection. Resources are only deleted if explicitly requested;
+     * prefer releaseCollectionIfUnreferenced() which respects references of mails, stage and pool.
      */
     public function removeCollection(ResourceCollectionIdentification $rcid, bool $delete_resources = false): void
     {
-        $this->repairCollectionHeaderIfNeeded($rcid);
         if (!$this->irss->collection()->exists($rcid->serialize())) {
             return;
         }
@@ -1642,7 +1572,7 @@ class ilFileDataMail extends ilFileData
     /**
      * Drops the source collection after it has been delivered.
      * Foreign collections (Exercise, Test, …), the user pool and collections still referenced
-     * by mails or a compose stage stay untouched. Shared resources survive.
+     * by mails or a compose stage stay untouched.
      */
     public function releaseSourceCollectionAfterDelivery(ResourceCollectionIdentification $rcid): void
     {

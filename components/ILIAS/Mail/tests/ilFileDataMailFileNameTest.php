@@ -26,7 +26,6 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Collection\Collections;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
-use ILIAS\ResourceStorage\Resource\Repository\CollectionDBRepository;
 
 class ilFileDataMailFileNameTest extends ilMailBaseTestCase
 {
@@ -98,19 +97,11 @@ class ilFileDataMailFileNameTest extends ilMailBaseTestCase
 
         $irss = $this->createStub(IRSS::class);
         $irss->method('manage')->willReturn($manage);
-
-        $db = $this->createStub(ilDBInterface::class);
-        $db->method('queryF')->willReturn($this->createStub(ilDBStatement::class));
-        $db->method('fetchAssoc')->willReturnOnConsecutiveCalls(
-            [CollectionDBRepository::R_IDENTIFICATION => 'rid-a'],
-            [CollectionDBRepository::R_IDENTIFICATION => 'rid-b'],
-            null
-        );
+        $irss->method('collection')->willReturn($this->collectionsContaining(['rid-a', 'rid-b']));
 
         $reflection = new ReflectionClass(ilFileDataMail::class);
         $sut = $reflection->newInstanceWithoutConstructor();
         $reflection->getProperty('irss')->setValue($sut, $irss);
-        $reflection->getProperty('db')->setValue($sut, $db);
 
         $listing = $sut->getAttachmentListing(new ResourceCollectionIdentification('rcid'));
 
@@ -153,27 +144,36 @@ class ilFileDataMailFileNameTest extends ilMailBaseTestCase
         );
         $manage->method('getCurrentRevision')->willReturn($revision);
 
-        $collections = $this->createStub(Collections::class);
-        $collections->method('exists')->willReturn(true);
-
         $irss = $this->createStub(IRSS::class);
         $irss->method('manage')->willReturn($manage);
-        $irss->method('collection')->willReturn($collections);
-
-        $rows = array_map(
-            static fn(string $rid): array => [CollectionDBRepository::R_IDENTIFICATION => $rid],
-            $rids
-        );
-        $db = $this->createStub(ilDBInterface::class);
-        $db->method('queryF')->willReturn($this->createStub(ilDBStatement::class));
-        $db->method('fetchAssoc')->willReturnOnConsecutiveCalls(...[...$rows, null]);
+        $irss->method('collection')->willReturn($this->collectionsContaining($rids));
 
         $reflection = new ReflectionClass(ilFileDataMail::class);
         $sut = $reflection->newInstanceWithoutConstructor();
         $reflection->getProperty('irss')->setValue($sut, $irss);
-        $reflection->getProperty('db')->setValue($sut, $db);
 
         return $sut;
+    }
+
+    /**
+     * @param list<string> $rids
+     */
+    private function collectionsContaining(array $rids): Collections
+    {
+        $collection = new ResourceCollection(
+            new ResourceCollectionIdentification('rcid'),
+            ResourceCollection::NO_SPECIFIC_OWNER,
+            ''
+        );
+        foreach ($rids as $rid) {
+            $collection->add(new ResourceIdentification($rid));
+        }
+
+        $collections = $this->createStub(Collections::class);
+        $collections->method('exists')->willReturn(true);
+        $collections->method('get')->willReturn($collection);
+
+        return $collections;
     }
 
     public function testAdoptedPoolFileKeepsTheNameWithoutTheUserPrefix(): void

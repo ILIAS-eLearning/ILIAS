@@ -190,7 +190,7 @@ class ilMail
             return $source;
         }
 
-        $copied_rcid = $this->mail_file_data->copyCollectionForDelivery($source->rcid());
+        $copied_rcid = $this->mail_file_data->copyCollection($source->rcid());
         if ($copied_rcid === null) {
             $this->keep_attachment_source = true;
 
@@ -1218,7 +1218,8 @@ class ilMail
             return $this->sendMail($mail_data);
         }
 
-        // The queued mail gets its own collection, so callers may release their stage or draft right away
+        // The queued mail gets its own collection: a free collection of the mail system is taken over,
+        // any other (stage, draft, collection of another component) is copied and stays with its owner
         $source_attachment = $a_attachment;
         $a_attachment = $this->createQueueSnapshot($source_attachment);
         if ($this->irssAttachmentsWereLost($source_attachment, $a_attachment)) {
@@ -1226,7 +1227,6 @@ class ilMail
 
             return [new ilMailError('mail_error_reading_attachment')];
         }
-        $this->releaseSourceAttachments($source_attachment);
 
         $task_factory = $DIC->backgroundTasks()->taskFactory();
         $task_manager = $DIC->backgroundTasks()->taskManager();
@@ -1378,7 +1378,11 @@ class ilMail
             return $attachments;
         }
 
-        $snapshot_rcid = $this->mail_file_data->createCollectionReferencingResourcesOf($attachments->rcid());
+        if ($this->mail_file_data->isCollectionExclusivelyOwnedByMail($attachments->rcid())) {
+            return $attachments;
+        }
+
+        $snapshot_rcid = $this->mail_file_data->copyCollection($attachments->rcid());
         if ($snapshot_rcid === null) {
             return MailAttachments::empty();
         }
