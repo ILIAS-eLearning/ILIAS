@@ -89,10 +89,13 @@ class ImplementationOfAgentFinder implements AgentFinder, \ILIAS\Component\Entry
     }
 
     /**
-     * Get a agent from a specific plugin.
+     * Get the agent for one legacy plugin.
      *
-     * If there is no plugin agent, this would the default agent.
-     * If the plugin contains multiple agents, these will be collected.
+     * Contributed agents are added to the default agent, unless one of them
+     * already extends ilPluginDefaultAgent. The default agent installs, updates
+     * and, on installation, activates the plugin. A single remaining agent is
+     * returned directly. Several agents are collected under their short class
+     * names.
      *
      * @param string $name of the plugin to get the agent from
      */
@@ -114,16 +117,24 @@ class ImplementationOfAgentFinder implements AgentFinder, \ILIAS\Component\Entry
         }
 
         $agents = [];
+        $has_default_agent = false;
         foreach ($agent_classes as $class_name) {
-            $agents[] = new $class_name(
+            $agent = new $class_name(
                 $this->refinery,
                 $this->data_factory,
                 $this->lng
             );
+            $has_default_agent = $has_default_agent || $agent instanceof \ilPluginDefaultAgent;
+            $agents[(new \ReflectionClass($class_name))->getShortName()] = $agent;
+        }
+
+        if (!$has_default_agent) {
+            $agents = [$name => new class ($name) extends \ilPluginDefaultAgent {
+            }] + $agents;
         }
 
         if (count($agents) === 1) {
-            return $agents[0];
+            return array_values($agents)[0];
         }
 
         return new AgentCollection(
