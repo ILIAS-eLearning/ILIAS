@@ -60,6 +60,10 @@ class ilMailAttachmentStakeholder extends AbstractResourceStakeholder implements
         }
 
         $user_id = $DIC->user()->getId();
+        // Notifications are sent by the anonymous user, a visitor must not own their attachments
+        if ($user_id === ANONYMOUS_USER_ID) {
+            return false;
+        }
         $irss = $DIC->resourceStorage();
 
         try {
