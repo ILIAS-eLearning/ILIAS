@@ -42,12 +42,10 @@ class MigrateMailAttachmentsToIRSS implements Migration
 {
     private const int PATHS_PER_STEP = 25;
     private const int MAILS_PER_STEP = 50;
-    private const int REPAIRS_PER_STEP = 100;
     private const string SKIPPED_MARKER = '-';
 
     private ?ilResourceStorageMigrationHelper $helper = null;
     private ?AdminInteraction $io = null;
-    private bool $repair_done = false;
     private int $step_number = 0;
 
     /** @var array<string, int> */
@@ -89,7 +87,6 @@ class MigrateMailAttachmentsToIRSS implements Migration
 
         try {
             $this->migrateSentAttachmentDirectories();
-            $this->repairAttachmentColumnsOfMigratedDirectories();
             $this->migrateSerializedMailAttachments();
         } catch (Throwable $e) {
             $this->error('Migration aborted', ['step' => $this->step_number], $e);
@@ -462,55 +459,6 @@ class MigrateMailAttachmentsToIRSS implements Migration
         );
     }
 
-    // -----------------------------------------------------------------------------------------------------------
-    // Repair of earlier runs
-    // -----------------------------------------------------------------------------------------------------------
-
-    /**
-     * Earlier versions of this migration could empty the `attachments` column of mails whose directory
-     * was migrated afterwards. The collection is restored from the `mail_attachment` row.
-     */
-    private function repairAttachmentColumnsOfMigratedDirectories(): void
-    {
-        if ($this->repair_done) {
-            return;
-        }
-
-        $db = $this->helper->getDatabase();
-        $db->setLimit(self::REPAIRS_PER_STEP);
-        $res = $db->query($this->buildRepairQuery('m.mail_id, ma.rcid'));
-
-        $rows = 0;
-        while ($row = $db->fetchAssoc($res)) {
-            $rows++;
-            $db->update(
-                'mail',
-                [
-                    'attachments' => [ilDBConstants::T_CLOB, (string) $row['rcid']],
-                ],
-                [
-                    'mail_id' => [ilDBConstants::T_INTEGER, (int) $row['mail_id']],
-                ]
-            );
-        }
-
-        if ($rows > 0) {
-            $this->count('columns_repaired', $rows);
-        }
-
-        // Directories migrated by this version never empty the column, so nothing new can show up
-        $this->repair_done = $rows < self::REPAIRS_PER_STEP;
-    }
-
-    private function buildRepairQuery(string $select): string
-    {
-        return 'SELECT ' . $select . ' FROM mail_attachment ma
-             INNER JOIN mail m ON m.mail_id = ma.mail_id
-             WHERE ma.rcid IS NOT NULL AND ma.rcid != "" AND ma.rcid != "' . self::SKIPPED_MARKER . '"
-             AND ma.path IS NOT NULL AND ma.path != ""
-             AND (m.attachments IS NULL OR m.attachments = "")';
-    }
-
     public function getRemainingAmountOfSteps(): int
     {
         $db = $this->helper->getDatabase();
@@ -532,20 +480,14 @@ class MigrateMailAttachmentsToIRSS implements Migration
             )
         )['cnt'];
 
-        $repair_count = (int) $db->fetchAssoc(
-            $db->query($this->buildRepairQuery('COUNT(*) cnt'))
-        )['cnt'];
-
         $remaining = max(
             (int) ceil($path_count / self::PATHS_PER_STEP),
-            (int) ceil($mail_count / self::MAILS_PER_STEP),
-            (int) ceil($repair_count / self::REPAIRS_PER_STEP)
+            (int) ceil($mail_count / self::MAILS_PER_STEP)
         );
 
         $this->info('Remaining', [
             'directories' => $path_count,
             'drafts' => $mail_count,
-            'columns_to_repair' => $repair_count,
             'steps' => $remaining,
         ]);
 

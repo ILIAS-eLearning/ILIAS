@@ -419,25 +419,8 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
     }
 
     // ---------------------------------------------------------------------------------------------------------
-    // Repair, abort, reporting
+    // Abort, reporting
     // ---------------------------------------------------------------------------------------------------------
-
-    public function testRepairRestoresEmptiedAttachmentColumns(): void
-    {
-        $db = $this->useDatabaseMock();
-        $db->expects($this->once())->method('setLimit')->with(100);
-        $db->method('query')->willReturn($this->createStub(ilDBStatement::class));
-        $db->method('fetchAssoc')->willReturnOnConsecutiveCalls(['mail_id' => 7, 'rcid' => 'dir-rcid'], null);
-        $db->expects($this->once())->method('update')->with(
-            'mail',
-            ['attachments' => [ilDBConstants::T_CLOB, 'dir-rcid']],
-            ['mail_id' => [ilDBConstants::T_INTEGER, 7]]
-        );
-
-        $this->invokePrivate('repairAttachmentColumnsOfMigratedDirectories', []);
-        // nothing left: the repair query is not executed again
-        $this->invokePrivate('repairAttachmentColumnsOfMigratedDirectories', []);
-    }
 
     public function testAbortIsReportedWithItsCauseAndRethrown(): void
     {
