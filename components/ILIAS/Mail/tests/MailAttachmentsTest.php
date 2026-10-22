@@ -24,22 +24,26 @@ use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 
 class MailAttachmentsTest extends TestCase
 {
+    private const string RCID = '657497dc-5079-4f95-b19d-aecdaf81ff1a';
+
     public function testParseRcidString(): void
     {
-        $rcid = new ResourceCollectionIdentification('rcid-123');
-        $parsed = MailAttachments::fromDb($rcid->serialize());
+        $parsed = MailAttachments::fromDb(self::RCID);
 
         $this->assertInstanceOf(MailAttachments::class, $parsed);
         $this->assertTrue($parsed->isIrss());
-        $this->assertSame('rcid-123', $parsed->rcid()->serialize());
+        $this->assertSame(self::RCID, $parsed->rcid()->serialize());
     }
 
-    public function testValueContainingSerializationMarkerLaterIsNotTreatedAsLegacy(): void
+    public function testValueContainingSerializationMarkerLaterIsNoCollection(): void
     {
-        $parsed = MailAttachments::fromDb('rcid-with-a:-inside');
+        $this->assertNull(MailAttachments::fromDb('rcid-with-a:-inside'));
+    }
 
-        $this->assertTrue($parsed->isIrss());
-        $this->assertSame('rcid-with-a:-inside', $parsed->rcid()->serialize());
+    public function testOtherSerializedValuesAreNoCollection(): void
+    {
+        $this->assertNull(MailAttachments::fromDb('N;'));
+        $this->assertNull(MailAttachments::fromDb(serialize('file.pdf')));
     }
 
     public function testParseLegacyArray(): void

@@ -26,6 +26,7 @@ use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 final class MailAttachments
 {
     public const string SERIALIZED_RCID_KEY = '__irss_rcid';
+    private const string RCID_PATTERN = '/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/';
 
     private function __construct(
         private readonly ?ResourceCollectionIdentification $rcid,
@@ -85,6 +86,11 @@ final class MailAttachments
             }
 
             return self::fromLegacyFilenames($unserialized);
+        }
+
+        // Very old rows may contain other serialized values (e.g. "N;"), which are no collection
+        if (preg_match(self::RCID_PATTERN, $raw) !== 1) {
+            return null;
         }
 
         return self::fromIrss(new ResourceCollectionIdentification($raw));

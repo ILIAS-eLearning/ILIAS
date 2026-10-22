@@ -42,7 +42,7 @@ class ilFileDataMailStageTest extends ilMailBaseTestCase
 
         $rcid = $sut->restrictStageTo(['rid-a']);
 
-        $this->assertSame('stage-rcid', $rcid?->serialize());
+        $this->assertSame('33333333-3333-4333-8333-333333333333', $rcid?->serialize());
         $this->assertSame(['rid-a'], $this->stageRids());
     }
 
@@ -52,7 +52,7 @@ class ilFileDataMailStageTest extends ilMailBaseTestCase
         $this->collections->expects($this->never())->method('store');
         $this->manage->expects($this->never())->method('remove');
 
-        $this->assertSame('stage-rcid', $sut->restrictStageTo(['rid-a', 'rid-b'])?->serialize());
+        $this->assertSame('33333333-3333-4333-8333-333333333333', $sut->restrictStageTo(['rid-a', 'rid-b'])?->serialize());
     }
 
     public function testWithoutStageNothingIsRestricted(): void
@@ -95,7 +95,7 @@ class ilFileDataMailStageTest extends ilMailBaseTestCase
 
     private function createSut(bool $has_stage): ilFileDataMail
     {
-        $this->stage = new ResourceCollection(new ResourceCollectionIdentification('stage-rcid'), 6, '');
+        $this->stage = new ResourceCollection(new ResourceCollectionIdentification('33333333-3333-4333-8333-333333333333'), 6, '');
         $this->stage->add(new ResourceIdentification('rid-a'));
         $this->stage->add(new ResourceIdentification('rid-b'));
 
@@ -111,7 +111,7 @@ class ilFileDataMailStageTest extends ilMailBaseTestCase
 
         $db = $this->createStub(ilDBInterface::class);
         $db->method('queryF')->willReturn($this->createStub(ilDBStatement::class));
-        $db->method('fetchAssoc')->willReturn($has_stage ? ['attachments' => 'stage-rcid'] : null);
+        $db->method('fetchAssoc')->willReturn($has_stage ? ['attachments' => '33333333-3333-4333-8333-333333333333'] : null);
 
         $reflection = new ReflectionClass(ilFileDataMail::class);
         $sut = $reflection->newInstanceWithoutConstructor();

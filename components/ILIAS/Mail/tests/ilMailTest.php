@@ -654,15 +654,15 @@ class ilMailTest extends ilMailBaseTestCase
         $mock_statement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->mock_database->method('queryF')->willReturn($mock_statement);
         $this->mock_database->method('fetchAssoc')->willReturnOnConsecutiveCalls(
-            ['attachments' => 'old-stage-rcid'],
-            ['attachments' => 'new-stage-rcid', 'rcp_to' => '']
+            ['attachments' => '11111111-1111-4111-8111-111111111111'],
+            ['attachments' => '22222222-2222-4222-8222-222222222222', 'rcp_to' => '']
         );
 
         $this->mock_mail_file_data
             ->expects($this->once())
             ->method('releaseCollectionIfUnreferenced')
             ->with($this->callback(
-                static fn(ResourceCollectionIdentification $rcid): bool => $rcid->serialize() === 'old-stage-rcid'
+                static fn(ResourceCollectionIdentification $rcid): bool => $rcid->serialize() === '11111111-1111-4111-8111-111111111111'
             ));
 
         $instance->persistToStage(
@@ -672,7 +672,7 @@ class ilMailTest extends ilMailBaseTestCase
             '',
             '',
             '',
-            MailAttachments::fromIrss(new ResourceCollectionIdentification('new-stage-rcid'))
+            MailAttachments::fromIrss(new ResourceCollectionIdentification('22222222-2222-4222-8222-222222222222'))
         );
     }
 
@@ -682,7 +682,7 @@ class ilMailTest extends ilMailBaseTestCase
         $instance = $this->create(789, $usr_id);
         $mock_statement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->mock_database->method('queryF')->willReturn($mock_statement);
-        $this->mock_database->method('fetchAssoc')->willReturn(['attachments' => 'stage-rcid', 'rcp_to' => '']);
+        $this->mock_database->method('fetchAssoc')->willReturn(['attachments' => '33333333-3333-4333-8333-333333333333', 'rcp_to' => '']);
 
         $this->mock_mail_file_data->expects($this->never())->method('releaseCollectionIfUnreferenced');
 
@@ -693,7 +693,7 @@ class ilMailTest extends ilMailBaseTestCase
             '',
             '',
             '',
-            MailAttachments::fromIrss(new ResourceCollectionIdentification('stage-rcid'))
+            MailAttachments::fromIrss(new ResourceCollectionIdentification('33333333-3333-4333-8333-333333333333'))
         );
     }
 
