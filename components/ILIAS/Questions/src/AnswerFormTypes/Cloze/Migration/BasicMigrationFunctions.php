@@ -237,11 +237,11 @@ trait BasicMigrationFunctions
         return match($old_text_rating) {
             \assClozeGap::TEXTGAP_RATING_CASEINSENSITIVE => TextMatchingOptions::CaseInsensitive,
             \assClozeGap::TEXTGAP_RATING_CASESENSITIVE => TextMatchingOptions::CaseSensitive,
-            \assClozeGap::TEXTGAP_RATING_LEVENSHTEIN1 => TextMatchingOptions::Levenstein1,
-            \assClozeGap::TEXTGAP_RATING_LEVENSHTEIN2 => TextMatchingOptions::Levenstein2,
-            \assClozeGap::TEXTGAP_RATING_LEVENSHTEIN3 => TextMatchingOptions::Levenstein3,
-            \assClozeGap::TEXTGAP_RATING_LEVENSHTEIN4 => TextMatchingOptions::Levenstein4,
-            \assClozeGap::TEXTGAP_RATING_LEVENSHTEIN5 => TextMatchingOptions::Levenstein5
+            \assClozeGap::TEXTGAP_RATING_LEVENSHTEIN1 => TextMatchingOptions::Levenshtein1,
+            \assClozeGap::TEXTGAP_RATING_LEVENSHTEIN2 => TextMatchingOptions::Levenshtein2,
+            \assClozeGap::TEXTGAP_RATING_LEVENSHTEIN3 => TextMatchingOptions::Levenshtein3,
+            \assClozeGap::TEXTGAP_RATING_LEVENSHTEIN4 => TextMatchingOptions::Levenshtein4,
+            \assClozeGap::TEXTGAP_RATING_LEVENSHTEIN5 => TextMatchingOptions::Levenshtein5
         };
     }
 

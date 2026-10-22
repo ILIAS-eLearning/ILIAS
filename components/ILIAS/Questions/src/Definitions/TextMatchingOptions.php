@@ -21,16 +21,17 @@ declare(strict_types=1);
 namespace ILIAS\Questions\Definitions;
 
 use ILIAS\Language\Language;
+use ILIAS\Refinery\Factory as Refinery;
 
 enum TextMatchingOptions: string
 {
     case CaseInsensitive = 'case_insensitive';
     case CaseSensitive = 'case_sensitive';
-    case Levenstein1 = '1';
-    case Levenstein2 = '2';
-    case Levenstein3 = '3';
-    case Levenstein4 = '4';
-    case Levenstein5 = '5';
+    case Levenshtein1 = '1';
+    case Levenshtein2 = '2';
+    case Levenshtein3 = '3';
+    case Levenshtein4 = '4';
+    case Levenshtein5 = '5';
 
     public function getLabel(
         Language $lng
@@ -52,5 +53,36 @@ enum TextMatchingOptions: string
             },
             []
         );
+    }
+
+    public function determineEquivalence(
+        Refinery $refinery,
+        string $predefined_text,
+        string $response_text
+    ): bool {
+        return match ($this) {
+            self::CaseInsensitive => strtolower($predefined_text) === strtolower($response_text),
+            self::CaseSensitive => $predefined_text === $response_text,
+            self::Levenshtein1 => $refinery->string()->levenshtein()->standard(
+                $predefined_text,
+                1
+            )->transform($response_text) >= 0,
+            self::Levenshtein2 => $refinery->string()->levenshtein()->standard(
+                $predefined_text,
+                2
+            )->transform($response_text) >= 0,
+            self::Levenshtein3 => $refinery->string()->levenshtein()->standard(
+                $predefined_text,
+                3
+            )->transform($response_text) >= 0,
+            self::Levenshtein4 => $refinery->string()->levenshtein()->standard(
+                $predefined_text,
+                4
+            )->transform($response_text) >= 0,
+            self::Levenshtein5 => $refinery->string()->levenshtein()->standard(
+                $predefined_text,
+                5
+            )->transform($response_text) >= 0
+        };
     }
 }
