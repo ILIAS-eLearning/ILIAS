@@ -100,7 +100,7 @@ class ilFileDataMail extends ilFileData
      */
     public function getAttachmentPathAndFilenameByMd5Hash(string $md5FileHash, int $mail_id): array
     {
-        $rcid = $this->getRcidForMail($mail_id);
+        $rcid = $this->getRcidForMailOfUser($mail_id);
         if ($rcid !== null) {
             $resource_identification = $this->getResourceIdByHash($rcid, $md5FileHash);
             if ($resource_identification === null) {
@@ -669,6 +669,21 @@ class ilFileDataMail extends ilFileData
         if ($previous_rcid !== null) {
             $this->releaseCollectionIfUnreferenced($previous_rcid);
         }
+    }
+
+    private function getRcidForMailOfUser(int $mail_id): ?ResourceCollectionIdentification
+    {
+        $res = $this->db->queryF(
+            'SELECT mail_attachment.rcid FROM mail_attachment
+             INNER JOIN mail ON mail.mail_id = mail_attachment.mail_id
+             WHERE mail_attachment.mail_id = %s AND mail.user_id = %s',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
+            [$mail_id, $this->user_id]
+        );
+        $row = $this->db->fetchAssoc($res);
+        $rcid = is_array($row) ? (string) ($row['rcid'] ?? '') : '';
+
+        return $rcid !== '' && $rcid !== '-' ? new ResourceCollectionIdentification($rcid) : null;
     }
 
     public function getRcidForMail(int $mail_id): ?ResourceCollectionIdentification
