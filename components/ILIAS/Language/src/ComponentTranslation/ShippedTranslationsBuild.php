@@ -592,7 +592,7 @@ final class ShippedTranslationsBuild
         ksort($modules, SORT_STRING);
         sort($contributed, SORT_STRING);
 
-        return [$modules, array_values($contributed)];
+        return [$modules, $contributed];
     }
 
     /**

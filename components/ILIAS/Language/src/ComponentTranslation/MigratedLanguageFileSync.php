@@ -465,7 +465,8 @@ final class MigratedLanguageFileSync
      * it is if its rule selects the same forms (see PluralForms::selectsSameFormsAs()).
      *
      * @param list<string>|null $not_taken_over set to the form keys (see PluralFormKey, the previous
-     *        forms) of the local values that are in no form of the result
+     *        forms) of the local values that are in no form of the result (nullable: callers pass an unset variable)
+     * @param-out list<string> $not_taken_over
      */
     public static function withPluralRuleOf(
         TranslationCatalog $overlay,
@@ -988,6 +989,9 @@ final class MigratedLanguageFileSync
      *
      * @param array{directory: string, po: string, lock: string, current: string} $overlay
      * @param array<string, string> $delta see deltaOf()
+     * @param array<string, string>|null $remarks see sync()
+     * @param array<string|int, string>|null $keep_merged_with the caller's values, see withMergedEntries()
+     * @param array<string, string> $local_change_dates see sync()
      */
     private static function syncLocked(
         TranslationCatalog $shipped,
@@ -1266,6 +1270,7 @@ final class MigratedLanguageFileSync
      *
      * @param list<string> $identifiers
      * @throws RuntimeException if the overlay cannot be read or written
+     * @throws \InvalidArgumentException see overlayIfShipped()
      */
     public static function markMergedIntoShipped(
         LanguageFileDirectoryManager $language_file_directory_manager,
@@ -1504,7 +1509,7 @@ final class MigratedLanguageFileSync
     {
         $notes = [];
         foreach (self::moduleEntries(self::readShippedPo($shipped_po), $module) as $identifier => $entry) {
-            $notes[(string) $identifier] = array_values(array_map('trim', self::shippedNotesOf($entry)));
+            $notes[(string) $identifier] = array_map('trim', self::shippedNotesOf($entry));
         }
 
         return $notes;
@@ -2042,6 +2047,7 @@ final class MigratedLanguageFileSync
      * not shipped for $lang_key).
      *
      * @return array{directory: string, po: string, lock: string, current: string}|null
+     * @throws \InvalidArgumentException for an invalid language key or file name pattern of the directory
      */
     private static function overlayIfShipped(
         LanguageFileDirectoryManager $language_file_directory_manager,
