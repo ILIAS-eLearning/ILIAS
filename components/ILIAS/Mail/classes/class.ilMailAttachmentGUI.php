@@ -34,8 +34,6 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
     ilCtrlSecurityInterface,
     MailAttachmentCommands
 {
-    use FileDataRCHandling;
-
     private readonly ilGlobalTemplateInterface $tpl;
     private readonly ilLanguage $lng;
     private readonly ilObjUser $user;
