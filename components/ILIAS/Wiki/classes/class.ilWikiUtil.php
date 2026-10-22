@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Mail\Attachments\MailAttachments;
+
 /**
  * Wiki link / page title handling:
  *
@@ -30,8 +32,6 @@
  *
  */
 // From include/Unicode/UtfNormal.php
-use ILIAS\Mail\Attachments\MailAttachments;
-
 if (!defined('UTF8_REPLACEMENT')) {
     define('UTF8_REPLACEMENT', "\xef\xbf\xbd" /*codepointToUtf8( UNICODE_REPLACEMENT )*/);
 }
@@ -630,7 +630,7 @@ class ilWikiUtil
                     "",
                     $subject,
                     $message,
-                    MailAttachments::empty()
+                    array()
                 );*/
                 $message .= ilMail::_getInstallationSignature();
                 $mails[] = new ilMailValueObject(

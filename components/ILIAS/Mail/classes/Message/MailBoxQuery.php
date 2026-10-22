@@ -52,8 +52,9 @@ class MailBoxQuery
     private string $order_direction = self::DEFAULT_ORDER_DIRECTION;
     private ?bool $scheduled_only = null;
 
-    public function __construct(private readonly int $user_id)
-    {
+    public function __construct(
+        private readonly int $user_id,
+    ) {
         global $DIC;
         $this->db = $DIC->database();
     }
