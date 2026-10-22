@@ -222,7 +222,7 @@ trait BasicMigrationFunctions
     }
 
     private function buildScoringIdenticalFromOld(
-        int $scoring_identical
+        string $scoring_identical
     ): ScoringIdentical {
         if ($scoring_identical === '1') {
             return ScoringIdentical::ScoreAll;
