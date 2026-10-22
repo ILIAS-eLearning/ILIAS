@@ -165,18 +165,27 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             exit;
         }
 
-        $cmd = $this->ctrl->getCmd("view") . "Object";
-        $this->$cmd();
+        $cmd = $this->ctrl->getCmd("view");
+        // exact match: ilCtrl compares the unsafe commands case-sensitively, PHP method calls are not
+        match ($cmd) {
+            'applyFilter',
+            'resetFilter',
+            'save',
+            'import',
+            'upload',
+            'export',
+            'download',
+            'maintain',
+            'maintainExecute',
+            'settings',
+            'saveSettings',
+            'statistics',
+            'addNewEntry',
+            'saveNewEntry' => $this->{$cmd . 'Object'}(),
+            default => $this->viewObject(),
+        };
 
         $ilHelp->setScreenIdComponent("lng");
-    }
-
-    /**
-    * Cancel the current action
-    */
-    public function cancelObject(): void
-    {
-        $this->viewObject();
     }
 
     /**
