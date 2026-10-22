@@ -725,8 +725,8 @@ class ilMailFormGUI
                 break;
 
             case self::MAIL_FORM_TYPE_DRAFT:
+                $mail_data = $this->getOwnMailOrRedirect($mail_id);
                 ilSession::set('draft', $mail_id);
-                $mail_data = $this->umail->getMail($mail_id);
 
                 if ($mail_data['attachments'] instanceof MailAttachments && !$mail_data['attachments']->isEmpty()) {
                     $stage_attachments = $this->stageAttachmentsFromMailAttachments($mail_data['attachments']);
@@ -752,8 +752,8 @@ class ilMailFormGUI
                 break;
 
             case self::MAIL_FORM_TYPE_OUTBOX:
+                $mail_data = $this->getOwnMailOrRedirect($mail_id);
                 ilSession::set('outbox', $mail_id);
-                $mail_data = $this->umail->getMail($mail_id);
 
                 if ($mail_data['attachments'] instanceof MailAttachments && !$mail_data['attachments']->isEmpty()) {
                     $stage_attachments = $this->stageAttachmentsFromMailAttachments($mail_data['attachments']);
@@ -936,6 +936,24 @@ class ilMailFormGUI
         $this->tpl->setVariable('FORM', $this->ui_renderer->render($form));
         $this->tpl->addJavaScript('assets/js/ilMailComposeFunctions.js');
         $this->tpl->printToStdout();
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function getOwnMailOrRedirect(int $mail_id): array
+    {
+        $mail_data = $this->umail->getMail($mail_id);
+        if ($mail_data === null) {
+            $this->tpl->setOnScreenMessage(
+                ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
+                $this->lng->txt('permission_denied'),
+                true
+            );
+            $this->ctrl->redirectByClass(ilMailGUI::class);
+        }
+
+        return $mail_data;
     }
 
     public function lookupRecipientAsync(): void

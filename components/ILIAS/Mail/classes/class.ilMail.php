@@ -481,6 +481,17 @@ class ilMail
         return $row;
     }
 
+    private function isMailOwnedBy(int $mail_id, int $user_id): bool
+    {
+        $res = $this->db->queryF(
+            "SELECT 1 FROM $this->table_mail WHERE mail_id = %s AND user_id = %s",
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
+            [$mail_id, $user_id]
+        );
+
+        return $this->db->numRows($res) === 1;
+    }
+
     private function isPoolReferencingFolder(int $folder_id): bool
     {
         $folder = $this->mailbox->getFolderData($folder_id);
@@ -515,6 +526,10 @@ class ilMail
         ?string $a_tpl_context_id = null,
         array $a_tpl_context_params = []
     ): int {
+        if (!$this->isMailOwnedBy($a_draft_id, $this->user_id)) {
+            return $a_draft_id;
+        }
+
         $this->db->update(
             $this->table_mail,
             [
@@ -579,12 +594,12 @@ class ilMail
             'schedule_timezone' => [ilDBConstants::T_TEXT, $mail_data->getScheduleDatetime()->getTimezone()->getName()],
         ];
 
-        if (!$mail_data->getMailDeliveryData()->getInternalMailId()) {
+        $outbox_id = (int) $mail_data->getMailDeliveryData()->getInternalMailId();
+        if ($outbox_id === 0 || !$this->isMailOwnedBy($outbox_id, $sender_usr_id)) {
             $outbox_id = $this->db->nextId($this->table_mail);
             $mail_values['mail_id'] = [ilDBConstants::T_INTEGER, $outbox_id];
             $this->db->insert($this->table_mail, $mail_values);
         } else {
-            $outbox_id = $mail_data->getMailDeliveryData()->getInternalMailId();
             $this->db->update($this->table_mail, $mail_values, [
                 'mail_id' => [ilDBConstants::T_INTEGER, $outbox_id],
             ]);

@@ -462,6 +462,8 @@ class ilMailTest extends ilMailBaseTestCase
         $params = [];
         $draft_id = 78;
 
+        $this->mock_database->method('queryF')->willReturn($this->createStub(ilDBStatement::class));
+        $this->mock_database->method('numRows')->willReturn(1);
         $this->mock_database->expects($this->once())->method('update')->with('mail', [
             'folder_id' => ['integer', $folder_id],
             'attachments' => [ilDBConstants::T_CLOB, serialize([])],
@@ -497,6 +499,20 @@ class ilMailTest extends ilMailBaseTestCase
                 $context_id,
                 $params,
             )
+        );
+    }
+
+    public function testUpdateDraftLeavesMailsOfOtherUsersUntouched(): void
+    {
+        $instance = $this->create();
+        $this->mock_database->method('queryF')->willReturn($this->createStub(ilDBStatement::class));
+        $this->mock_database->method('numRows')->willReturn(0);
+        $this->mock_database->expects($this->never())->method('update');
+        $this->mock_mail_file_data->expects($this->never())->method('replaceMailAttachmentCollection');
+
+        $this->assertSame(
+            4711,
+            $instance->updateDraft(7890, MailAttachments::empty(), 'abc', '', '', 'subject', 'message', 4711)
         );
     }
 
