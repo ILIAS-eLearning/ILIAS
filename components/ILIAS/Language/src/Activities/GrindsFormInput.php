@@ -60,7 +60,7 @@ trait GrindsFormInput
             return new Result\Error($e);
         } catch (\InvalidArgumentException $e) {
             // a malformed request value, never an internal misconfiguration: safe to show the user
-            return new Result\Error(new InvalidInputException($e->getMessage(), previous: $e));
+            return new Result\Error(new InvalidInputException($e->getMessage(), 400, $e));
         }
     }
 
