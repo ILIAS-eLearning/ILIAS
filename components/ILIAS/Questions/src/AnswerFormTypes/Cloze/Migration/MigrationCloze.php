@@ -153,7 +153,7 @@ class MigrationCloze implements Migration
                         $this->table_definitions->getTableSubNameSpace()
                     ),
                     $answer_form_id,
-                    $this->buildScoringIdenticalFromOld((int) $db_row->identical_scoring),
+                    $this->buildScoringIdenticalFromOld($db_row->identical_scoring),
                     $db_row->combinations_enabled
                 )
             )->withAdditionalInsert(
