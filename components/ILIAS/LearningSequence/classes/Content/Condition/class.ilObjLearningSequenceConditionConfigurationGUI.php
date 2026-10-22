@@ -37,7 +37,6 @@ class ilObjLearningSequenceConditionConfigurationGUI implements ilCtrlSecurityIn
     protected bool $create = true;
     private ArrayBasedRequestWrapper $query;
     private Container $dic;
-    private ConditionFactory $condition_factory;
 
     public function __construct(
         protected ilCtrl $ctrl,
@@ -48,13 +47,13 @@ class ilObjLearningSequenceConditionConfigurationGUI implements ilCtrlSecurityIn
         protected ILIAS\UI\Factory $ui_factory,
         protected ILIAS\UI\Renderer $ui_renderer,
         protected ServerRequestInterface $request,
+        private ConditionFactory $condition_factory,
     ) {
         global $DIC;
         $this->dic = $DIC;
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->query = $DIC->http()->wrapper()->query();
-        $this->condition_factory = new ConditionFactory($DIC['lso.condition_types'], $DIC->database());
     }
 
     public const string CMD_CREATE_CONDITION = "createCondition";

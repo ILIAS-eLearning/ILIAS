@@ -174,7 +174,9 @@ class ConditionFactory
             if (isset($class_map[$candidate])) {
                 $class = $class_map[$candidate];
                 /** @var AbstractCondition $condition */
-                return new $class();
+                $condition = new $class();
+                $condition->setConditionFactory($this);
+                return $condition;
             }
         }
 

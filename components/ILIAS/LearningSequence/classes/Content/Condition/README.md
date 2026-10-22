@@ -53,7 +53,7 @@ $contribute[\ILIAS\LearningSequence\Content\Condition\ConditionType::class] = st
 ```
 
 The `ConditionTypeRegistry` seeks all contributions and implements `ConditionTypes`, which is available as
-`$DIC['lso.condition_types']` in the legacy environment.
+`$DIC[ConditionTypes::class]` in the legacy environment.
 
 - A contributed class that implements `InputConditionInterface` is treated as an input condition.
 - A contributed class that implements `OutputConditionInterface` is treated as an output condition.

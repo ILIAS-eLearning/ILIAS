@@ -3,7 +3,7 @@
 ## Component Revision
 
 The condition types are contributed via the component bootstrap (`ConditionType`, `ConditionTypes`) and
-exposed as `$DIC['lso.condition_types']` for the legacy environment. The repositories for boundaries, item path,
+exposed as `$DIC[ConditionTypes::class]` for the legacy environment. The repositories for boundaries, item path,
 visits and the condition services are provided by `ilLSDI`. The following steps are still open:
 
 ### Conditions without service location

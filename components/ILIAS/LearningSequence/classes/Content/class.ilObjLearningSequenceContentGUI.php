@@ -161,6 +161,7 @@ class ilObjLearningSequenceContentGUI implements ilCtrlSecurityInterface
             return false;
         }
 
+        $lso_di = $this->parent_gui->getObject()->getDI();
         $gui = new ilObjLearningSequenceConditionsGUI(
             $this,
             $this->ctrl,
@@ -173,6 +174,8 @@ class ilObjLearningSequenceContentGUI implements ilCtrlSecurityInterface
             $this->ui_renderer,
             $this->request,
             $this->refinery,
+            $lso_di["conditions.types"],
+            $lso_di["conditions.factory"],
         );
         $this->ctrl->forwardCommand($gui);
 

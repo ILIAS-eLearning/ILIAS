@@ -43,8 +43,6 @@ class ilObjLearningSequenceConditionsGUI implements ilCtrlSecurityInterface
     protected int $lso_ref_id;
     /** @var int LSO content object */
     protected int $item_ref_id;
-    private ConditionTypes $condition_types;
-    private ConditionFactory $condition_factory;
 
     public function __construct(
         protected ilObjLearningSequenceGUI|ilObjLearningSequenceContentGUI $parent_gui,
@@ -58,12 +56,12 @@ class ilObjLearningSequenceConditionsGUI implements ilCtrlSecurityInterface
         protected ILIAS\UI\Renderer $ui_renderer,
         protected ServerRequestInterface $request,
         protected \ILIAS\Refinery\Factory $refinery,
+        private ConditionTypes $condition_types,
+        private ConditionFactory $condition_factory,
     ) {
         global $DIC;
         $this->lso_ref_id = $this->query_wrapper->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
         $this->item_ref_id = $this->query_wrapper->retrieve('item_ref_id', $DIC->refinery()->kindlyTo()->int());
-        $this->condition_types = $DIC['lso.condition_types'];
-        $this->condition_factory = new ConditionFactory($this->condition_types, $DIC->database());
     }
 
     /**
@@ -91,6 +89,7 @@ class ilObjLearningSequenceConditionsGUI implements ilCtrlSecurityInterface
                     $this->ui_factory,
                     $this->ui_renderer,
                     $this->request,
+                    $this->condition_factory,
                 ));
                 break;
             default:
@@ -267,7 +266,7 @@ class ilObjLearningSequenceConditionsGUI implements ilCtrlSecurityInterface
         )->withAsync();
 
         $table = $this->ui_factory->table()->data(
-            new ilLearningSequenceConditionsRetrieval($this->lso_ref_id, $this->item_ref_id),
+            new ilLearningSequenceConditionsRetrieval($this->lso_ref_id, $this->item_ref_id, $this->condition_factory),
             '',
             [
                 'type' => $this->ui_factory->table()->column()->text(

@@ -30,16 +30,15 @@ use ILIAS\UI\Component\Table\DataRowBuilder;
 class ilLearningSequenceConditionsRetrieval implements DataRetrieval
 {
     private array $conditions = [];
-    private ConditionFactory $condition_factory;
     private ilLanguage $lng;
 
     public function __construct(
         protected int $lso_ref_id,
-        protected int $item_ref_id
+        protected int $item_ref_id,
+        private ConditionFactory $condition_factory
     ) {
         global $DIC;
         $this->lng = $DIC->language();
-        $this->condition_factory = new ConditionFactory($DIC['lso.condition_types'], $DIC->database());
         $this->conditions = $this->condition_factory->getConditionIdsForItem($this->item_ref_id);
     }
 

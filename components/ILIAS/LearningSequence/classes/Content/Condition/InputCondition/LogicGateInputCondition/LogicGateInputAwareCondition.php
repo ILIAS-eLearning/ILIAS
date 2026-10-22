@@ -23,7 +23,6 @@ namespace ILIAS\LearningSequence\Content\Condition\InputCondition;
 use ilCtrlException;
 use ilException;
 use ILIAS\LearningSequence\Content\Condition\AbstractCondition;
-use ILIAS\LearningSequence\Content\Condition\ConditionFactory;
 use ILIAS\LearningSequence\Content\Condition\InputCondition\InputConditionNavigationAwareInterface;
 use ILIAS\LearningSequence\Content\Condition\SubtypeAwareInterface;
 use ILIAS\LearningSequence\Content\Condition\LSOObjectPicker;
@@ -50,17 +49,6 @@ class LogicGateInputAwareCondition extends AbstractCondition implements
     private const string SUBTYPE_OR = 'logic_gate_or';
     private const string SUBTYPE_NOT = 'logic_gate_not';
     private array $items = [];
-    private ConditionFactory $condition_factory;
-
-    public function __construct(?int $condition_id = null)
-    {
-        parent::__construct($condition_id);
-
-        $this->condition_factory = new ConditionFactory(
-            $this->dic['lso.condition_types'],
-            $this->dic->database(),
-        );
-    }
 
     /**
      * @return void
@@ -283,10 +271,10 @@ class LogicGateInputAwareCondition extends AbstractCondition implements
      */
     private function isItemCompleted(int $item_ref_id): bool
     {
-        $conditions_of_item = $this->condition_factory->getConditionIdsForItem($item_ref_id);
+        $conditions_of_item = $this->getConditionFactory()->getConditionIdsForItem($item_ref_id);
 
         $conditions = array_map(
-            fn($condition_id) => $this->condition_factory->getConditionInstanceById($condition_id),
+            fn($condition_id) => $this->getConditionFactory()->getConditionInstanceById($condition_id),
             $conditions_of_item
         );
 
