@@ -15588,7 +15588,7 @@ search#:#search_created_after#:#後に作成されたオブジェクト
 search#:#search_created_before#:#. . .以前に作成されたオブジェクト
 search#:#search_created_on#:#. . .に作成されたオブジェクト. . .
 search#:#search_crs_title#:#コース名
-search#:#search_detailed_results_title#:#「%s」の詳細な結果 
+search#:#search_detailed_results_title#:#「%s」の詳細な結果
 search#:#search_details_info#:#詳細検索。1つまたは複数のリソースの種類を選択してください。
 search#:#search_direct#:#ダイレクト検索
 search#:#search_err_user_not_exist#:#そのログイン名のユーザは存在しません。
