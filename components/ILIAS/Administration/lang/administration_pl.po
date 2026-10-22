@@ -418,6 +418,7 @@ msgstr "Zarządzanie wersją językową"
 msgid "language_merge_local_changes"
 msgstr "Dodaj lokalne zmiany do standardowego pliku językowego"
 
+#, fuzzy
 msgid "language_merge_local_changes_info"
 msgstr "Łączy wszystkie zmiany lokalne lub uzupełnienia w domyślnym pliku językowym lang/ilias_%s.lang. Serwer internetowy musi posiadać prawo pisania dla tego pliku."
 

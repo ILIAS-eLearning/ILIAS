@@ -408,7 +408,7 @@ msgid "language_merge_local_changes"
 msgstr "Lokale Änderungen in die Standard-Sprachdatei einfügen"
 
 msgid "language_merge_local_changes_info"
-msgstr "Mischt alle lokalen Änderungen oder Ergänzungen in die Standard-Sprachdatei lang/ilias_%s.lang. Der Web-Server muss Schreibrecht auf dieser Datei besitzen."
+msgstr "Mischt alle lokalen Änderungen oder Ergänzungen in die Standard-Sprachdatei lang/ilias_%s.lang und, für die in PO-Dateien gepflegten Module, in deren .po-Dateien in den lang/-Ordnern der Komponenten. Der Web-Server muss Schreibrecht auf diesen Dateien besitzen."
 
 msgid "language_merged_global"
 msgstr "Die lokalen Änderungen wurden in die Standard-Sprachdatei eingefügt."

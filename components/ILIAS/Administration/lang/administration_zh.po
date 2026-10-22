@@ -440,7 +440,7 @@ msgstr "合并本地更改到全局语言文件中"
 
 #, fuzzy
 msgid "language_merge_local_changes_info"
-msgstr "Merge all local changes and additions alphabetically into the standard language file lang/ilias_%s.lang. The web server must have write permission on this file."
+msgstr "Merge all local changes and additions alphabetically into the standard language file lang/ilias_%s.lang and, for the modules maintained in PO files, into their .po files in the lang/ directories of the components. The web server must have write permission on these files."
 
 msgid "language_merged_global"
 msgstr "本地更改已经合并到全局语言文件中。"

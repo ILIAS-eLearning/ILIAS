@@ -407,6 +407,7 @@ msgstr "Nyelv karbantartása"
 msgid "language_merge_local_changes"
 msgstr "Helyi változatok összefésülése a standard nyelvi fájllal"
 
+#, fuzzy
 msgid "language_merge_local_changes_info"
 msgstr "A összes helyi és egyéb változat összeolvasztása a lang/customizing/ilias_%s.lang standard nyelvi fájlba betűrendben. A webszerver futtatójának írási jog szükséges a fájlhoz."
 

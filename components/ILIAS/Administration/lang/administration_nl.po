@@ -431,6 +431,7 @@ msgstr "Taalonderhoud"
 msgid "language_merge_local_changes"
 msgstr "Toevoegingen van veranderingen in de algemene taal file"
 
+#, fuzzy
 msgid "language_merge_local_changes_info"
 msgstr "Voeg alle lokale wijzigingen en toevoegingen toe aan het standaard taalbestand lang/ilias_%s.lang. De webserver moet schrijftoegang hebben tot dit bestand."
 

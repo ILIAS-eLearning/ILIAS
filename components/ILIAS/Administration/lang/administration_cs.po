@@ -418,6 +418,7 @@ msgstr "Údržba jazyka"
 msgid "language_merge_local_changes"
 msgstr "Přpojit lokální změny ke globálnímu jazykovému souboru."
 
+#, fuzzy
 msgid "language_merge_local_changes_info"
 msgstr "Spojte všechny lokální změny a přírůstky abecedně do standardního jazykového souboru lang/ilias_%s.lang. Webový server musí mít oprávnění k zápisu do tohoto souboru."
 

@@ -407,6 +407,7 @@ msgstr "Mantenimiento del idioma"
 msgid "language_merge_local_changes"
 msgstr "Fusionar cambios locales en el archivo de idioma estándar"
 
+#, fuzzy
 msgid "language_merge_local_changes_info"
 msgstr "Fusionar todos los cambios locales y adiciones alfabéticamente en el archivo de idioma estándar lang/ilias_%s.lang. El servidor web debe tener permiso de escritura en este archivo."
 
