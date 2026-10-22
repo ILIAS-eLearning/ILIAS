@@ -41,7 +41,6 @@ class DataRetrieval implements DataRetrievalInterface
     protected const string KEY_SUGGESTION = 'suggestion';
     protected const string KEY_PLANNED = 'planned';
     protected const string KEY_ROW_ID = 'row_id';
-    protected const string KEY_TYPE = 'type';
     protected const string KEY_TITLE_LINK = 'title_link';
     protected const string KEY_TITLE = 'title';
     protected const string ITEM_GROUP_TYPE = 'itgr';
@@ -88,7 +87,7 @@ class DataRetrieval implements DataRetrievalInterface
                 : $item['title'];
 
             # Title Link
-            $title_link = (in_array($item[self::KEY_TYPE], ['fold', 'grp', 'sess']))
+            $title_link = (in_array($item['type'], ['fold', 'grp', 'sess']))
                 ? ilLink::_getLink($item['ref_id'], $item['type'])
                 : '';
 
