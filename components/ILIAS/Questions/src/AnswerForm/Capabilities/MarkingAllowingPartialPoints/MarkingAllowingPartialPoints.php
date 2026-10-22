@@ -25,12 +25,17 @@ use ILIAS\Questions\AnswerForm\Capabilities\TypeSpecification;
 use ILIAS\Questions\Presentation\Layout\Tools\InputsBuilderSession;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Refinery\Custom\Transformation as CustomTransformation;
+use ILIAS\UI\Component\Panel\Standard as StandardPanel;
 
 abstract class MarkingAllowingPartialPoints implements Marking, TypeSpecification
 {
     abstract public function getEditFormInputsBuilder(
         Environment $environment
     ): InputsBuilderSession;
+
+    abstract public function getContentBeforeForm(
+        Environment $environment
+    ): ?StandardPanel;
 
     abstract public function getCarryPropertiesFromCarryTransformation(
         Environment $environment

@@ -55,6 +55,7 @@ class AdditionalFormStepAction
         private readonly Capability $capability,
         private readonly string $lang_var,
         private readonly \Closure $retrieve_inputs_builder,
+        private readonly \Closure $retrieve_content_before_form,
         private readonly \Closure $retrieve_properties_from_carry_transformation
     ) {
     }
@@ -161,8 +162,7 @@ class AdditionalFormStepAction
         DefaultEnvironment $environment,
         InputsBuilderSession $inputs_builder
     ): EditForm {
-        $properties = $environment->getAnswerFormProperties();
-        return $environment->getPresentationFactory()->getEditForm(
+        $edit_form = $environment->getPresentationFactory()->getEditForm(
             $inputs_builder,
             $environment->withSubActionParameter(
                 self::SUB_ACTION_SAVE
@@ -172,14 +172,17 @@ class AdditionalFormStepAction
                 : $environment->withSubActionParameter(
                     self::SUB_ACTION_BACK
                 )->getUrlBuilder()
-        )->withIsFinalStep(true)
-        ->withContentBeforeForm(
-            $properties->getClozeText()->buildPanelForEditing(
-                $environment->getUIFactory(),
-                $environment->getLanguage(),
-                $properties->getGaps(),
-                $properties->getLegacyClozeText()
-            )
+        )->withIsFinalStep(true);
+
+        $content_before_form = $this->retrieve_content_before_form->__invoke(
+            $environment
+        );
+        if ($content_before_form === null) {
+            return $edit_form;
+        }
+
+        return $edit_form->withContentBeforeForm(
+            $content_before_form
         );
     }
 

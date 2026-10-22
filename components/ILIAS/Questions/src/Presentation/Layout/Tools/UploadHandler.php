@@ -24,6 +24,7 @@ use ILIAS\Questions\Presentation\Definitions\Actor;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
 use ILIAS\Filesystem\Filesystem;
+use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\FileUpload\Handler\BasicHandlerResult;
@@ -49,7 +50,7 @@ class UploadHandler implements UploadHandlerInterface, Actor
         private readonly IRSS $irss,
         private readonly Filesystem $temp_filesystem,
         private readonly FileUpload $upload,
-        private readonly \ilFileServicesFilenameSanitizer $sanitizer,
+        private readonly FilenameSanitizer $sanitizer,
         private readonly ResourceStakeholder $stakeholder,
         private readonly Environment $environment
     ) {
