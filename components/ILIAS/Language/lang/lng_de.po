@@ -23,6 +23,9 @@ msgstr "Automatische Spracherkennung aktivieren"
 msgid "lng_error_clear_shipped_po_unreadable"
 msgstr "Die lokalen Änderungen wurden nicht gelöscht: Die ausgelieferten PO-Dateien folgender Module können nicht gelesen werden: %s. Details stehen im Log."
 
+msgid "lng_identifier_not_unique"
+msgstr "Die Schlüssel folgender Einträge gibt es bereits in einem anderen Modul oder in anderer Schreibweise: %s"
+
 msgid "lng_invalid_language_files"
 msgstr "Die Sprachdateien folgender Sprachen sind ungültig: %s"
 

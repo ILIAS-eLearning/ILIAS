@@ -55,6 +55,8 @@ class ImportUsesShippedValuesOfMigratedModulesTest extends ilLanguageBaseTestCas
     private array $db_rows = [];
     /** @var list<string> every writing database call (manipulate/insert/replace), in call order */
     private array $writes = [];
+    /** @var list<array{module: string, identifier: string}> what the duplicate lookup of lng_data finds (findDuplicatesAmong()) */
+    private array $duplicate_rows = [];
     /** Whether the "SELECT lang_array FROM lng_modules" lookup of _deleteValues() answers with $lng_modules_row */
     private bool $answer_lng_modules_lookup = false;
     /** @var array{lang_array: mixed}|null the lng_modules row that lookup returns (null = no row) */
@@ -136,7 +138,11 @@ class ImportUsesShippedValuesOfMigratedModulesTest extends ilLanguageBaseTestCas
         $db->method('quote')->willReturnCallback(static fn($value): string => "'" . (string) $value . "'");
         $db->method('in')->willReturn('1 = 1');
         $lng_modules_lookup = $this->createStub(ilDBStatement::class);
-        $db->method('query')->willReturnCallback(function (string $sql) use ($lng_modules_lookup): ilDBStatement {
+        $duplicate_lookup = $this->createStub(ilDBStatement::class);
+        $db->method('query')->willReturnCallback(function (string $sql) use ($lng_modules_lookup, $duplicate_lookup): ilDBStatement {
+            if (str_starts_with($sql, /** @lang text */ 'SELECT DISTINCT module, identifier FROM lng_data')) {
+                return $duplicate_lookup;
+            }
             if ($this->answer_lng_modules_lookup && str_starts_with($sql, /** @lang text */ 'SELECT lang_array FROM lng_modules')) {
                 return $lng_modules_lookup;
             }
@@ -156,6 +162,7 @@ class ImportUsesShippedValuesOfMigratedModulesTest extends ilLanguageBaseTestCas
             fn(ilDBStatement $statement): ?array => match ($statement) {
                 $self_check => ['lang_array' => $this->last_lang_array],
                 $lng_modules_lookup => $this->lng_modules_row,
+                $duplicate_lookup => array_shift($this->duplicate_rows),
                 default => null,
             }
         );
@@ -730,6 +737,76 @@ class ImportUsesShippedValuesOfMigratedModulesTest extends ilLanguageBaseTestCas
         $skipped = $object->getSkippedInvalidMarkupValues();
         $this->assertArrayHasKey('common#:#bad', $skipped);
         $this->assertNotEmpty($skipped['common#:#bad']);
+    }
+
+    /** @return string the upload file: a free entry and one whose identifier "dup" exists in the module "other" */
+    private function writeUploadFileWithOneDuplicateEntry(): string
+    {
+        $file = $this->fixture_directory . '/ilias_duplicate_' . self::LANG . '.lang';
+        file_put_contents(
+            $file,
+            "/* header */\n<!-- language file start -->\n"
+            . "common#:#yes#:#Ja\n"
+            . "common#:#dup#:#Doppelt\n"
+        );
+        $this->duplicate_rows = [['module' => 'other', 'identifier' => 'dup']];
+
+        return $file;
+    }
+
+    #[DataProvider('importModes')]
+    public function testADuplicateIdentifierAbortsBeforeAnyChangeIncludingTheDeleteModeWipe(string $mode): void
+    {
+        $this->seedGlobalLanguageFile([]);
+        $file = $this->writeUploadFileWithOneDuplicateEntry();
+
+        try {
+            $this->languageObject()->importLanguageFile($file, $mode);
+            $this->fail('Expected an ilLanguageDuplicateIdentifierException');
+        } catch (ilLanguageDuplicateIdentifierException $e) {
+            $this->assertSame(['common#:#dup' => ['other: dup']], $e->getDuplicates());
+        }
+
+        $this->assertSame([], $this->writes);
+        $this->assertSame([], $this->lng_modules);
+    }
+
+    public function testSkipInvalidEntriesImportsTheOtherEntriesAndReportsTheDuplicate(): void
+    {
+        $this->seedGlobalLanguageFile([]);
+        $file = $this->writeUploadFileWithOneDuplicateEntry();
+
+        $object = $this->languageObject();
+        $object->importLanguageFile($file, 'replace', true);
+
+        $this->assertSame(['yes' => 'Ja'], $this->lng_modules['common']);
+        $this->assertSame(['common#:#dup' => ['other: dup']], $object->getSkippedDuplicateValues());
+        $this->assertSame([], $object->getSkippedInvalidMarkupValues());
+    }
+
+    public function testTheSkippedDuplicatesAreResetByTheNextImport(): void
+    {
+        $this->seedGlobalLanguageFile([]);
+        $object = $this->languageObject();
+        $object->importLanguageFile($this->writeUploadFileWithOneDuplicateEntry(), 'replace', true);
+        $this->assertNotSame([], $object->getSkippedDuplicateValues(), 'precondition');
+
+        $object->importLanguageFile($this->upload_file, 'replace', true);
+
+        $this->assertSame([], $object->getSkippedDuplicateValues());
+    }
+
+    public function testAKeptKeyIsNotCheckedForDuplicates(): void
+    {
+        $this->seedGlobalLanguageFile(['common#:#dup' => 'Doppelt']);
+        $this->db_rows = [['module' => 'common', 'identifier' => 'dup', 'value' => 'Aus der Datenbank']];
+        $file = $this->writeUploadFileWithOneDuplicateEntry();
+
+        $object = $this->languageObject();
+        $object->importLanguageFile($file, 'keepall');
+
+        $this->assertSame([], $object->getSkippedDuplicateValues());
+        $this->assertSame(['yes' => 'Ja'], $this->lng_modules['common']);
     }
 
     /** In "keepall"/"keepnew" a kept key must not block the import because the file carries a disallowed value for it: that value is never applied. */
