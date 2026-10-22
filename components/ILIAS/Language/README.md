@@ -317,7 +317,11 @@ Where the rules apply:
   mode. A line without `###` comment keeps the stored remark. "delete" first
   deletes the language's database rows and then writes every module anew; a
   remark that is not in the file is removed from the overlay as well. Markup is
-  checked before anything is deleted.
+  checked before anything is deleted. So are identifiers that exist in another
+  module or in another spelling (as for "add new variable", an entry the module
+  already holds stays importable): an uploaded file is rejected as a whole, the
+  maintenance action "load" leaves such entries out; both name them
+  (`lng_identifier_not_unique`).
 * "Remove local changes" and the maintenance action "clear" are the same
   activity (`RemoveLocalLanguageChanges`): values, locally added keys and
   remarks are removed from database and overlay, the shipped state is

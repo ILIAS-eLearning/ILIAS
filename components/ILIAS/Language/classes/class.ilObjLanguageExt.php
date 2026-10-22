@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Language\ComponentTranslation\IdentifierUniqueness;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
 use ILIAS\Language\ComponentTranslation\MigratedLanguageFilePaths;
 use ILIAS\Language\ComponentTranslation\MigratedLanguageFileSync;
@@ -51,6 +52,11 @@ class ilObjLanguageExt extends ilObjLanguage
      * @var array<string, list<string>> see getSkippedInvalidMarkupValues()
      */
     private array $skipped_invalid_markup_values = [];
+
+    /**
+     * @var array<string, list<string>> see getSkippedDuplicateValues()
+     */
+    private array $skipped_duplicate_values = [];
 
     /**
     * Read and get the global language file as an object
@@ -650,13 +656,23 @@ class ilObjLanguageExt extends ilObjLanguage
     }
 
     /**
-     * The values the last importLanguageFile() with $skipInvalidMarkup left out.
+     * The values the last importLanguageFile() with $skipInvalidEntries left out for their markup.
      *
      * @return array<string, list<string>> module.separator.identifier => violations
      */
     public function getSkippedInvalidMarkupValues(): array
     {
         return $this->skipped_invalid_markup_values;
+    }
+
+    /**
+     * The values the last importLanguageFile() with $skipInvalidEntries left out as duplicates of another module.
+     *
+     * @return array<string, list<string>> module.separator.identifier => "<module>: <identifier>" it would duplicate
+     */
+    public function getSkippedDuplicateValues(): array
+    {
+        return $this->skipped_duplicate_values;
     }
 
     /**
@@ -676,17 +692,19 @@ class ilObjLanguageExt extends ilObjLanguage
     *
     * $a_mode_existing      handling of existing values
     *                       ('keepall','keepnew','replace','delete')
-    * $skipInvalidMarkup    `false` (an upload): one value with disallowed markup rejects the whole import
-    *                       (ilLanguageInvalidMarkupException). `true` (the customizing file): such values are left
-    *                       out, see getSkippedInvalidMarkupValues().
+    * $skipInvalidEntries   `false` (an upload): one value with disallowed markup (ilLanguageInvalidMarkupException) or
+    *                       whose identifier exists in another module or spelling (ilLanguageDuplicateIdentifierException,
+    *                       language.md rule 2) rejects the whole import. `true` (the customizing file): such values
+    *                       are left out, see getSkippedInvalidMarkupValues() and getSkippedDuplicateValues().
     *
     * @return list<string> the modules whose PO/MO overlay could not be written (the database was written regardless)
-    * @throws ilLanguageInvalidMarkupException before anything is changed, see $skipInvalidMarkup
+    * @throws ilLanguageInvalidMarkupException|ilLanguageDuplicateIdentifierException before anything is changed,
+    *         see $skipInvalidEntries
     */
     public function importLanguageFile(
         string $a_file,
         string $a_mode_existing = "keepnew",
-        bool $skipInvalidMarkup = false
+        bool $skipInvalidEntries = false
     ): array {
         global $DIC;
         $ilDB = $DIC->database();
@@ -704,6 +722,7 @@ class ilObjLanguageExt extends ilObjLanguage
         $file_comments = self::withPluralFormKeys($import_file_obj->getAllComments(), $this->shippedMigratedModules(), $this->separator);
 
         $this->skipped_invalid_markup_values = [];
+        $this->skipped_duplicate_values = [];
         // only values the import changes (neither current nor shipped value) and the mode does not keep are checked,
         // so an exported file imported again is not rejected for shipped texts
         $invalid_values = [];
@@ -718,10 +737,19 @@ class ilObjLanguageExt extends ilObjLanguage
         if ($candidates !== []) {
             $invalid_values = $policy->findInvalidChangedValues($candidates, $this->getAllValues(), $this->getShippedValues());
         }
-        if ($invalid_values !== [] && !$skipInvalidMarkup) {
+        if ($invalid_values !== [] && !$skipInvalidEntries) {
             throw new ilLanguageInvalidMarkupException($invalid_values);
         }
         $this->skipped_invalid_markup_values = $invalid_values;
+
+        // a kept value is already an entry of its module
+        $duplicates = (new IdentifierUniqueness($ilDB))->findDuplicatesAmong(
+            $this->moduleEntriesOf(array_diff_key($written, $invalid_values))
+        );
+        if ($duplicates !== [] && !$skipInvalidEntries) {
+            throw new ilLanguageDuplicateIdentifierException($duplicates);
+        }
+        $this->skipped_duplicate_values = $duplicates;
 
         // only "delete" wipes the whole language up front; the other modes always re-write a module's DB row in the
         // same request, so they cannot drift from the .po/.mo mirror
@@ -755,7 +783,7 @@ class ilObjLanguageExt extends ilObjLanguage
                 return [];
         }
 
-        $import_values = array_diff_key($file_values, $invalid_values);
+        $import_values = array_diff_key($file_values, $invalid_values, $duplicates);
 
         // process the values of the import file
         $to_save = array();
@@ -781,6 +809,23 @@ class ilObjLanguageExt extends ilObjLanguage
         }
 
         return array_values(array_unique($modules_with_unwritten_overlay));
+    }
+
+    /**
+     * @param array<string, string> $values module.separator.identifier => value
+     * @return array<string, array{module: string, identifier: string}>
+     */
+    private function moduleEntriesOf(array $values): array
+    {
+        $entries = [];
+        foreach (array_keys($values) as $key) {
+            $parts = explode($this->separator, (string) $key);
+            if (count($parts) === 2) {
+                $entries[$key] = ['module' => $parts[0], 'identifier' => $parts[1]];
+            }
+        }
+
+        return $entries;
     }
 
     /**

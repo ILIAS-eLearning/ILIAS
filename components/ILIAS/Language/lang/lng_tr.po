@@ -29,6 +29,10 @@ msgid "lng_error_clear_shipped_po_unreadable"
 msgstr "The local changes were not cleared: the shipped PO files of the following modules cannot be read: %s. See the log for details."
 
 #, fuzzy
+msgid "lng_identifier_not_unique"
+msgstr "The identifiers of the following entries already exist in another module or in another spelling: %s"
+
+#, fuzzy
 msgid "lng_invalid_language_files"
 msgstr "The language files of the following languages are invalid: %s"
 

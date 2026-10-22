@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Language\ComponentTranslation\PlainLogText;
+use ILIAS\Language\ComponentTranslation\DuplicateIdentifierMessage;
 use ILIAS\Language\ComponentTranslation\InvalidMarkupMessage;
 use ILIAS\Language\ComponentTranslation\PluralFormKey;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
@@ -683,14 +684,15 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
                 }
 
 
+                // code 400: shown escaped by activityErrorMessage()
                 if (!$upload->hasUploads()) {
-                    throw new ilException($DIC->language()->txt("upload_error_file_not_found"));
+                    throw new ilException($DIC->language()->txt("upload_error_file_not_found"), 400);
                 }
                 $UploadResult = $upload->getResults()[$_FILES["userfile"]["tmp_name"]];
 
                 $ProcessingStatus = $UploadResult->getStatus();
                 if ($ProcessingStatus->getCode() === ProcessingStatus::REJECTED) {
-                    throw new ilException($ProcessingStatus->getMessage());
+                    throw new ilException($ProcessingStatus->getMessage(), 400);
                 }
 
                 // todo: refactor when importLanguageFile() is able to work with the new Filesystem service
@@ -705,8 +707,12 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             } catch (ilLanguageInvalidMarkupException $e) {
                 $this->tpl->setOnScreenMessage('failure', $this->invalidMarkupMessage($e->getInvalidValues()), true);
                 $this->ctrl->redirect($this, 'import');
+            } catch (ilLanguageDuplicateIdentifierException $e) {
+                $this->tpl->setOnScreenMessage('failure', $this->duplicateIdentifierMessage($e->getDuplicates()), true);
+                $this->ctrl->redirect($this, 'import');
             } catch (Exception $e) {
-                $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+                // anything else may carry SQL: logged, a generic message shown
+                $this->tpl->setOnScreenMessage('failure', $this->activityErrorMessage($e), true);
                 $this->ctrl->redirect($this, 'import');
             }
 
@@ -740,6 +746,22 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         )));
 
         return InvalidMarkupMessage::of($this->lng, $this->refinery, $invalid_values);
+    }
+
+    /**
+     * Names each entry with the entries it would duplicate, the full list goes to the log.
+     *
+     * @param array<string, list<string>> $duplicates key => "<module>: <identifier>"
+     */
+    private function duplicateIdentifierMessage(array $duplicates): string
+    {
+        $entries = [];
+        foreach ($duplicates as $key => $existing) {
+            $entries[] = DuplicateIdentifierMessage::entry((string) $key, $existing);
+        }
+        $this->activity_error_logger->warning(DuplicateIdentifierMessage::forLog($entries));
+
+        return DuplicateIdentifierMessage::of($this->lng, $this->refinery, $entries);
     }
 
     /**
@@ -917,19 +939,25 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             case "load":
                 $lang_file = $this->object->getCustLangPath() . "/ilias_" . $this->object->key . ".lang.local";
                 if (is_file($lang_file) and is_readable($lang_file)) {
-                    // like at installation: values with disallowed markup are left out (and named)
+                    // values with disallowed markup (like at installation) and duplicates are left out and named
                     $modules_with_unwritten_overlay = $this->object->importLanguageFile($lang_file, "replace", true);
                     $this->object->setLocal(true);
-                    $skipped = $this->object->getSkippedInvalidMarkupValues();
+                    $skipped = [];
+                    if ($this->object->getSkippedInvalidMarkupValues() !== []) {
+                        $skipped[] = $this->invalidMarkupMessage($this->object->getSkippedInvalidMarkupValues());
+                    }
+                    if ($this->object->getSkippedDuplicateValues() !== []) {
+                        $skipped[] = $this->duplicateIdentifierMessage($this->object->getSkippedDuplicateValues());
+                    }
                     if ($skipped !== [] && $modules_with_unwritten_overlay === []) {
                         $this->tpl->setOnScreenMessage('success', $this->lng->txt("language_loaded_local"), true);
-                        $this->tpl->setOnScreenMessage('failure', $this->invalidMarkupMessage($skipped), true);
+                        $this->tpl->setOnScreenMessage('failure', implode('<br />', $skipped), true);
                     } elseif ($skipped !== []) {
                         // one failure box only: overlay warning and left-out entries together
                         $this->tpl->setOnScreenMessage('failure', implode('<br />', [
                             $this->lng->txt("language_loaded_local"),
                             $this->overlayNotWrittenMessage($modules_with_unwritten_overlay),
-                            $this->invalidMarkupMessage($skipped),
+                            ...$skipped,
                         ]), true);
                     } else {
                         $this->setSuccessOrOverlayWarning($this->lng->txt("language_loaded_local"), $modules_with_unwritten_overlay);

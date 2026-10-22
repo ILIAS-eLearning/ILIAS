@@ -194,6 +194,89 @@ class ilObjLanguageExtGUIMaintenanceTest extends TestCase
         $this->assertSame([['failure', 'language_loaded_local<br />lng_po_overlay_not_written: pilot, tos']], $messages);
     }
 
+    /** invalidMarkupMessage() still logs through the logger of the "lang" component of the container. */
+    private function useLangLogger(): void
+    {
+        $logging = $this->createStub(\ILIAS\DI\LoggingServices::class);
+        $logging->method('forComponent')->willReturn($this->createStub(\ilLogger::class));
+        $dic = $this->createStub(\ILIAS\DI\Container::class);
+        $dic->method('logger')->willReturn($logging);
+        $GLOBALS['DIC'] = $dic;
+    }
+
+    public function testLoadNamesTheEntriesLeftOutAsDuplicatesOfAnotherModule(): void
+    {
+        $logger = $this->createMock(\ilLogger::class);
+        $logger->expects($this->once())->method('warning')->with($this->stringContains('mme#:#login (common: login)'));
+        $this->stubbed_activity_error_logger = $logger;
+        $object = $this->maintenanceLanguageObject();
+        $object->expects($this->once())->method('importLanguageFile')->willReturn([]);
+        $object->method('getSkippedDuplicateValues')->willReturn(['mme#:#login' => ['common: login']]);
+        $messages = [];
+
+        $this->runMaintenance('load', $object, $messages);
+
+        $this->assertSame(
+            [['success', 'language_loaded_local'], ['failure', 'lng_identifier_not_unique: mme#:#login (common: login)']],
+            $messages
+        );
+    }
+
+    public function testLoadWithAnUnwrittenOverlayCombinesAllLeftOutEntriesInOneFailure(): void
+    {
+        $this->useLangLogger();
+        $object = $this->maintenanceLanguageObject();
+        $object->expects($this->once())->method('importLanguageFile')->willReturn(['pilot']);
+        $object->method('getSkippedInvalidMarkupValues')->willReturn(['common#:#bad' => []]);
+        $object->method('getSkippedDuplicateValues')->willReturn(['mme#:#login' => ['common: login']]);
+        $messages = [];
+
+        $this->runMaintenance('load', $object, $messages);
+
+        $this->assertSame(
+            [['failure', implode('<br />', [
+                'language_loaded_local',
+                'lng_po_overlay_not_written: pilot',
+                'lng_markup_not_allowed: common#:#bad',
+                'lng_identifier_not_unique: mme#:#login (common: login)',
+            ])]],
+            $messages
+        );
+    }
+
+    public function testLoadNamesOnlyTheKindOfLeftOutEntriesThereAre(): void
+    {
+        $this->useLangLogger();
+        $object = $this->maintenanceLanguageObject();
+        $object->expects($this->once())->method('importLanguageFile')->willReturn([]);
+        $object->method('getSkippedInvalidMarkupValues')->willReturn(['common#:#bad' => []]);
+        $messages = [];
+
+        $this->runMaintenance('load', $object, $messages);
+
+        $this->assertSame(
+            [['success', 'language_loaded_local'], ['failure', 'lng_markup_not_allowed: common#:#bad']],
+            $messages
+        );
+    }
+
+    public function testDuplicateIdentifierMessageEscapesTheKeysAndListsWhatTheyDuplicate(): void
+    {
+        $logger = $this->createMock(\ilLogger::class);
+        $logger->expects($this->once())->method('warning')->with($this->stringContains('a#:#<b> (x: <b>, y: <B>)'));
+        $gui = $this->newGuiWithoutConstructor(ilObjLanguageExtGUI::class);
+        $this->inject($gui, 'lng', $this->createLanguageMockWithFormatStrings());
+        $this->inject($gui, 'activity_error_logger', $logger);
+        $this->inject($gui, 'refinery', new \ILIAS\Refinery\Factory(
+            $this->createStub(\ILIAS\Data\Factory::class),
+            $this->createStub(\ILIAS\Language\Language::class)
+        ));
+
+        $message = (new ReflectionMethod($gui, 'duplicateIdentifierMessage'))->invoke($gui, ['a#:#<b>' => ['x: <b>', 'y: <B>']]);
+
+        $this->assertSame('lng_identifier_not_unique: a#:#&lt;b&gt; (x: &lt;b&gt;, y: &lt;B&gt;)', $message);
+    }
+
     /** "merge" names the skipped PO-file modules in an additional failure message (an error, not an intended skip). */
     public function testMergeReportsTheSkippedModulesMaintainedInPoFiles(): void
     {
