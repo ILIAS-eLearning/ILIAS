@@ -22,7 +22,7 @@ namespace ILIAS\Test\ExportImport;
 
 use ILIAS\DI\Container;
 use ILIAS\Test\TestDIC;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\FoundationNormalizerRegistration;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\NormalizerRegistration;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Normalizer\Registry;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Processors\DenormalizingProcessor;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Processors\FinalizeNormalizing;
@@ -75,7 +75,7 @@ final class TransformationsBuilder
             ])
         );
 
-        (new FoundationNormalizerRegistration($this->global_dic))
+        (new NormalizerRegistration($this->global_dic))
             ->register($registry, $transformations);
         (new QuestionPoolNormalizerRegistration($this->global_dic))
             ->register($registry, $transformations);

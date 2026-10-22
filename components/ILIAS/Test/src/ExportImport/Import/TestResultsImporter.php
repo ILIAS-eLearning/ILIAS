@@ -74,7 +74,6 @@ class TestResultsImporter
             // The mapping processor replaces ActiveID and QuestionIDs
             $sequence = $tt->denormalize($normalized, \ilTestSequence::class);
             $sequence->saveToDb();
-            $this->log->debug("Stored test sequence in database: {$sequence->getActiveId()} (Active ID), {$sequence->getPass()} (Pass)");
         }
     }
 
@@ -100,7 +99,6 @@ class TestResultsImporter
                     'tstamp' => [\ilDBConstants::T_INTEGER, time()],
                 ]
             );
-            $this->log->debug("Stored attempt in database: {$next_id}");
         }
     }
 
@@ -125,7 +123,6 @@ class TestResultsImporter
                     'step' => [\ilDBConstants::T_INTEGER, $result->step],
                 ]
             );
-            $this->log->debug("Stored question result in database: {$next_id}");
         }
     }
     private function importAttemptResults(array $list, Transformations $tt): void
@@ -149,7 +146,6 @@ class TestResultsImporter
                     'tstamp' => [\ilDBConstants::T_INTEGER, time()],
                 ]
             );
-            $this->log->debug("Stored attempt result in database: {$attempt->getActiveId()} (Active ID), {$attempt->getAttempt()} (Pass)");
         }
     }
 
@@ -177,7 +173,6 @@ class TestResultsImporter
                 'tstamp' => [\ilDBConstants::T_INTEGER, time()],
             ]
         );
-        $this->log->debug("Stored test result in database: {$result->getActiveId()} (Active ID), {$result->getAttempt()} (Pass)");
     }
 
     private function importWorkingTimes(array $list, Transformations $tt): void
@@ -198,7 +193,6 @@ class TestResultsImporter
                     'tstamp' => [\ilDBConstants::T_INTEGER, time()],
                 ]
             );
-            $this->log->debug("Stored working time in database: {$next_id}");
         }
     }
 
@@ -223,7 +217,6 @@ class TestResultsImporter
                     'tstamp' => [\ilDBConstants::T_INTEGER, time()],
                 ]
             );
-            $this->log->debug("Stored manual feedback in database: {$next_id}");
         }
     }
 
@@ -233,7 +226,6 @@ class TestResultsImporter
         $active_id = $tt->denormalize($normalized['active_id'], Id::class)->getId();
 
         (new TestManScoringDoneHelper())->setDone($active_id, $tt->bool($normalized['done']));
-        $this->log->debug("Stored manual scoring in database: {$active_id} (Active ID)");
     }
 
     public function importAdditionalWorkingTimes(array $list, Transformations $tt): void
@@ -251,7 +243,6 @@ class TestResultsImporter
                     'tstamp' => [\ilDBConstants::T_TIMESTAMP, $time->timestamp],
                 ]
             );
-            $this->log->debug("Stored additional working time in database: {$time->user_id->getId()} (User ID)");
         }
     }
 
@@ -274,7 +265,6 @@ class TestResultsImporter
                     'src_pool_def_fi' => [\ilDBConstants::T_INTEGER, $question->src_pool_def_id->getId()],
                 ]
             );
-            $this->log->debug("Stored random test question in database: {$next_id}");
         }
     }
 }

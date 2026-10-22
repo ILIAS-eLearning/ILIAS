@@ -78,7 +78,6 @@ class UploadValidationStage implements ImportStage
         $handle = fopen($context->fileToImport(), 'r');
         $unzip = $this->archives->unzip(Streams::ofResource($handle), $options);
         $unzip->extract();
-        $this->log->info("Extracted import file: {$context->fileToImport()} -> {$import_base_dir}");
 
         $manifest = new \ilManifestParser($import_base_dir . DIRECTORY_SEPARATOR . 'manifest.xml');
         $export_file = array_find(
@@ -92,8 +91,6 @@ class UploadValidationStage implements ImportStage
         }
 
         $component_import_file = $import_base_dir . DIRECTORY_SEPARATOR . $export_file['path'];
-        $this->log->info("Found export file for {$this->component}: -> {$component_import_file}");
-        $this->log->info("Found valid export file from installation: {$manifest->getInstallId()}");
 
         return StageResult::advance(
             $context

@@ -44,10 +44,9 @@ class CollectResources implements Processor
     private array $import_mapping = [];
 
     public function __construct(
-        private readonly IRSS            $irss,
+        private readonly IRSS $irss,
         private readonly LoggerInterface $log
-    )
-    {
+    ) {
     }
 
     /**

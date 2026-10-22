@@ -85,7 +85,6 @@ class SkillAssignmentsImporter
             );
             $assignment->setSkillBaseId($skill_data['skill_id']);
             $assignment->setSkillTrefId($skill_data['tref_id']);
-            $this->log->debug("Found skill assignment: {$assignment->getSkillBaseId()}/{$assignment->getSkillTrefId()} -> {$skill_data['skill_id']}/{$skill_data['tref_id']}");
 
             $assignment->initSolutionComparisonExpressionList();
             foreach ($assignment->getSolutionComparisonExpressionList()->get() as $expression) {
@@ -95,7 +94,6 @@ class SkillAssignmentsImporter
 
             $assignment->saveToDb();
             $assignment->saveComparisonExpressions();
-            $this->log->debug("Saved skill assignment: {$assignment->getSkillBaseId()}/{$assignment->getSkillTrefId()}");
 
             $this->skill_usage_service->addUsage(
                 $assignment->getParentObjId(),

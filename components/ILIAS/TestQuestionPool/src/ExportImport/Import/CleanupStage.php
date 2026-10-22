@@ -31,7 +31,8 @@ use Psr\Log\LoggerInterface;
  */
 class CleanupStage implements ImportStage
 {
-    public function __construct(private readonly LoggerInterface $log) {
+    public function __construct(private readonly LoggerInterface $log)
+    {
     }
 
     public function getIdentifier(): string
@@ -55,7 +56,6 @@ class CleanupStage implements ImportStage
             $temp_dir = dirname($context->fileToImport());
             if ($temp_dir !== '' && file_exists($temp_dir) && is_dir($temp_dir)) {
                 $this->removeDirectory($temp_dir);
-                $this->log->info("Removed temporary import directory: {$temp_dir}");
             } else {
                 $this->log->warning("Temporary import directory does not exist: {$temp_dir}");
             }
@@ -63,7 +63,6 @@ class CleanupStage implements ImportStage
 
         if ($context->hasImportBaseDir() && is_dir($context->importBaseDir())) {
             $this->removeDirectory($context->importBaseDir());
-            $this->log->info("Removed import target base directory: {$context->importBaseDir()}");
         } else {
             $this->log->warning("Import target base directory does not exist: {$context->importBaseDir()}");
         }

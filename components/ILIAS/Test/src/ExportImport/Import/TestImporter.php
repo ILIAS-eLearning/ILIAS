@@ -194,24 +194,17 @@ class TestImporter
             }
         );
 
-        $this->log->info('Importing users and resources mappings...');
         $this->importMappings($mapping, $resource_collector, $context);
-        $this->log->info('...Finished importing users and resources mappings');
 
-        $this->log->info('Importing test export file...');
         $deserializer->process();
-        $this->log->info('...Finished importing test export file');
 
-        $this->log->info('Importing question images...');
         $this->questions_importer->importQuestionImages(
             $test_object->getId(),
             $mapping,
             $context,
             $question_images_collector
         );
-        $this->log->info('...Finished importing question images');
 
-        $this->log->info("Finished importing test {$test_object->getTestId()} (Test ID), {$test_object->getId()} (Object ID)");
         return $context->withTestObjId($test_object->getId())->withTestRefId($test_object->getRefId());
     }
 
@@ -222,10 +215,8 @@ class TestImporter
      */
     public function finalize(\ilImportMapping $mapping): void
     {
-        $this->log->info('Finalizing test import...');
         $this->questions_importer->finalizeQuestionPages($mapping);
         $this->random_test_config_importer->finalizeTaxonomyFilters($mapping);
-        $this->log->info('...Finished finalizing test');
     }
 
 
@@ -236,16 +227,13 @@ class TestImporter
     ): void {
         $user_mapping = $context->userMappings();
 
-        $this->log->info('Importing user mappings...');
         $user_resolver = new UserImportResolver($this->database, $this->log);
         $imported_users = $user_resolver->resolve(
             UserIdentifiers::from($user_mapping['identifier']),
             $user_mapping['mapping']
         );
         $user_resolver->store($imported_users, $mapping);
-        $this->log->info('...Finished importing user mappings');
 
-        $this->log->info('Importing resources and storing mappings...');
         $import_dir = dirname($context->componentImportFile()) . '/expDir_1';
         foreach ($context->resourceMappings() as $resource) {
             $clean_id = str_replace(['-', '_'], '', $resource['id']);
@@ -261,9 +249,7 @@ class TestImporter
                 $resource['title']
             );
             $resource_collector->storeMapping($resource['id'], $new_id);
-            $this->log->debug("Imported resource: {$resource_path} -> {$new_id->serialize()}");
         }
-        $this->log->info('...Finished importing resources and storing mappings');
     }
 
     private function importTest(
@@ -280,18 +266,16 @@ class TestImporter
         $test_object->setTitle($test_object->getTitle());
         $new_obj_id = $test_object->create();
         $test_object->saveToDb(true);
-        $this->log->debug("Created new test object: {$old_test_id} -> {$test_object->getTestId()} (Test ID), {$old_obj_id} -> {$new_obj_id} (Object ID)");
 
         $test_object->createReference();
         $test_object->putInTree($parent_id->toInt());
         $test_object->setPermissions($parent_id->toInt());
-        $this->log->debug("Stored test object in tree: {$parent_id->toInt()} (Parent Ref) -> {$test_object->getRefId()} (Test Ref)");
 
         $mapping->addMapping('components/ILIAS/Test', 'tst', (string) $old_test_id, (string) $test_object->getTestId());
         $mapping->addMapping('components/ILIAS/Test', 'object', (string) $old_obj_id, (string) $new_obj_id);
         $mapping->addMapping('components/ILIAS/MetaData', 'md', "{$old_obj_id}:0:tst", "{$new_obj_id}:0:tst");
         $mapping->addMapping('components/ILIAS/Tracking', 'lpsettings', (string) $old_obj_id, (string) $new_obj_id);
-        
+
         return $test_object;
     }
 
@@ -313,7 +297,6 @@ class TestImporter
             $main_settings = $main_settings->withIntroductionSettings(
                 $main_settings->getIntroductionSettings()->withIntroductionPageId($new_page_id)
             );
-            $this->log->debug("Imported introduction page: {$intro_page_id} -> {$new_page_id}");
         }
 
         $concluding_page_id = $main_settings->getFinishingSettings()->getConcludingRemarksPageId();
@@ -322,13 +305,11 @@ class TestImporter
             $main_settings = $main_settings->withFinishingSettings(
                 $main_settings->getFinishingSettings()->withConcludingRemarksPageId($new_page_id)
             );
-            $this->log->debug("Imported concluding remarks page: {$concluding_page_id} -> {$new_page_id}");
         }
 
         $test_object->getMainSettingsRepository()->store($main_settings);
         $test_object->getScoreSettingsRepository()->store($scoring_settings);
         $this->marks_repository->storeMarkSchema($mark_schema);
-        $this->log->debug("Imported test settings and mark schema: {$settings_id} (Settings ID)");
     }
 
     private function createPage(int $imported_page_id, int $parent_id, \ilImportMapping $mapping): int
@@ -356,9 +337,9 @@ class TestImporter
     ): void {
         foreach ($list as $normalized) {
             $question = $this->questions_importer->importQuestion(
-                $normalized, 
-                $transformations, 
-                $mapping, 
+                $normalized,
+                $transformations,
+                $mapping,
                 $context->selectedQuestionIds()
             );
             if (!($question instanceof \assQuestion) || $normalized['sequence'] === null) {
@@ -367,11 +348,9 @@ class TestImporter
 
             $sequence = $transformations->int($normalized['sequence']);
             $test_object->questions[$sequence] = $question->getId();
-            $this->log->debug("Stored question {$question->getId()} at sequence {$sequence} in test");
         }
 
         $test_object->saveQuestionsToDb();
-        $this->log->debug('Saved test questions to database');
     }
 
     private function importQuestionSetConfig(
@@ -398,7 +377,6 @@ class TestImporter
             $old_active_id = $transformations->denormalize($normalized['active_id'], Id::class)->getId();
             $new_active_id = $this->database->nextId('tst_active');
             $mapping->addMapping('components/ILIAS/Test', 'participant', (string) $old_active_id, (string) $new_active_id);
-            $this->log->debug("Stored participant/test session mapping: {$old_active_id} -> {$new_active_id}");
 
             // The mapping processor replaces TestID, UserID and ActiveID
             $participant = $transformations->denormalize($normalized, Participant::class);
@@ -422,7 +400,6 @@ class TestImporter
                     'start_lock' => [\ilDBConstants::T_TEXT, $transformations->nullableString($normalized['start_lock'])],
                 ]
             );
-            $this->log->debug("Stored test session in database: {$new_active_id} (Active ID)");
         }
     }
 
@@ -441,6 +418,5 @@ class TestImporter
                 'tstamp' => [\ilDBConstants::T_INTEGER, $participant->getInvitationDate()],
             ]
         );
-        $this->log->debug("Stored invited participant in database: {$participant->getUserId()} (User ID), {$participant->getTestId()} (Test ID)");
     }
 }

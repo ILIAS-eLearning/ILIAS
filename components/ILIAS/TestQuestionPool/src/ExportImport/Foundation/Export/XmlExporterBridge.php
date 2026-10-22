@@ -52,17 +52,13 @@ trait XmlExporterBridge
         $state = $this->state_holder->get();
 
         if ($state->getStep()->value < ExportStep::PREPARE->value) {
-            $this->logger->debug("Preparing export for component {$state->target()->getComponent()}...");
             $state->setLogger($this->logger);
             $this->exporter->prepare($state);
-            $this->logger->debug('...Finished preparing export');
         }
 
         if ($state->getStep()->value < ExportStep::PROCESS->value) {
-            $this->logger->debug("Processing export for component {$state->target()->getComponent()}...");
             $state->setSerializer(XmlSerializer::inMemory());
             $this->exporter->process($state);
-            $this->logger->debug('...Finished processing export');
         }
 
         $this->state_holder->set($state);
@@ -81,9 +77,7 @@ trait XmlExporterBridge
             $state->setPathInfo($this->createPathInfo());
             $state->setWriter($this->exp->getExportWriter());
 
-            $this->logger->debug("Writing export for component {$state->target()->getComponent()}...");
             $this->exporter->write($state);
-            $this->logger->debug('...Finished writing export');
         }
 
         $this->state_holder->clear();
@@ -110,16 +104,6 @@ trait XmlExporterBridge
             $this->export_handler->consumer()->exportConfig()->collection(),
             $option
         );
-
-        $this->logger->debug(sprintf(
-            'Export state created for component %s with release %s, type %s, class %s, object ids %s, option %s',
-            $target->getComponent(),
-            $target->getTargetRelease(),
-            $target->getType(),
-            $target->getClassname(),
-            implode(', ', $object_ids),
-            $option
-        ));
 
         return $state;
     }
