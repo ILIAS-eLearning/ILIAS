@@ -165,12 +165,4 @@ class Agent implements SetupAgent
     ): Objective {
         return new NullObjective();
     }
-
-
-    #[\Override]
-    public function getNamedObjectives(
-        ?Config $config = null
-    ): array {
-        return new NullObjective();
-    }
 }
