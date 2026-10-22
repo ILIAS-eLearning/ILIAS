@@ -22,7 +22,6 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
 use ILIAS\Questions\AnswerForm\Response;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
 use ILIAS\Questions\Attempt\AdditionalAttemptData;
@@ -396,10 +395,40 @@ class Gap implements Clonable
 
     public function toTableRow(
         DataRowBuilder $row_builder,
-        Language $lng
+        UIFactory $ui_factory,
+        Language $lng,
+        bool $marking_required,
+        bool $used_in_combination
     ): DataRow {
-        $max_points = 0;
-        $answer_options_list = '';
+        $columns = [
+            'gap' => $this->buildShortenedGapName(),
+            'type' => $lng->txt("{$this->type->getIdentifier()}_gap")
+        ];
+
+        if (!$marking_required) {
+            return $row_builder->buildDataRow(
+                $this->answer_input_id->toString(),
+                $columns
+            );
+        }
+
+        $columns['answers_options_awarding_points'] = $ui_factory->listing()
+            ->unordered([$lng->txt('gap_used_in_combination')]);
+        if (!$used_in_combination) {
+            $columns = array_merge($columns, $this->buildPointsColumns($ui_factory));
+        }
+
+        return $row_builder->buildDataRow(
+            $this->answer_input_id->toString(),
+            $columns
+        );
+    }
+
+    private function buildPointsColumns(
+        UIFactory $ui_factory
+    ): array {
+        $max_points = 0.0;
+        $answer_options_list = [];
         foreach ($this->answer_options->getAnswerOptionsAwardingPoints() as $option) {
             $max_points = max($max_points, $option->getAvailablePoints());
 
@@ -408,18 +437,14 @@ class Gap implements Clonable
                 $gap_text = $option->getLowerlimit();
             }
 
-            $answer_options_list .= "{$gap_text} ({$option->getAvailablePoints()})<br>";
+            $answer_options_list[] = "{$gap_text} ({$option->getAvailablePoints()})<br>";
         }
 
-        return $row_builder->buildDataRow(
-            $this->answer_input_id->toString(),
-            [
-                'gap' => $this->buildShortenedGapName(),
-                'type' => $lng->txt("{$this->type->getIdentifier()}_gap"),
-                'answers_options_awarding_points' => $answer_options_list,
-                'available_points' => $max_points
-            ]
-        );
+        return [
+            'answers_options_awarding_points' => $ui_factory->listing()
+                ->unordered($answer_options_list),
+            'available_points' => $max_points
+        ];
     }
 
     private function buildValuesForGapReplace(

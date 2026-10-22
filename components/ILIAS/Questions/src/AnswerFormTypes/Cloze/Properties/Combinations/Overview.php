@@ -83,6 +83,7 @@ class Overview implements Viewable, DataRetrieval
     ): \Generator {
         yield from $this->environment->getAnswerFormProperties()
             ->getCombinations()->toTableRows(
+                $this->environment->getUIFactory(),
                 $this->environment->getLanguage(),
                 $row_builder
             );
@@ -122,8 +123,8 @@ class Overview implements Viewable, DataRetrieval
     {
         $cf = $this->environment->getUIFactory()->table()->column();
         return [
-            'gaps' => $cf->text($this->environment->getLanguage()->txt('gaps')),
-            'values' => $cf->text($this->environment->getLanguage()->txt('values')),
+            'gaps' => $cf->listing($this->environment->getLanguage()->txt('gaps')),
+            'values' => $cf->listing($this->environment->getLanguage()->txt('values')),
             'available_points' => $cf->number($this->environment->getLanguage()->txt('points'))->withDecimals(2)
         ];
     }

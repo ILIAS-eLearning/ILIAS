@@ -61,8 +61,10 @@ class OverviewTable implements DataRetrieval
         yield from $this->environment->getAnswerFormProperties()->getGaps()
             ->toTableRows(
                 $row_builder,
+                $this->environment->getUIFactory(),
                 $this->environment->getLanguage(),
-                $this->environment->isMarkingRequired()
+                $this->environment->isMarkingRequired(),
+                $this->environment->getAnswerFormProperties()->getCombinations()->getAllGapIdsUsedInCombinations()
             );
     }
 
@@ -92,7 +94,7 @@ class OverviewTable implements DataRetrieval
         if ($this->environment->isMarkingRequired()) {
             $columns = [
                 ...$columns,
-                'answers_options_awarding_points' => $f->text(
+                'answers_options_awarding_points' => $f->listing(
                     $this->environment->getLanguage()->txt('answer_options_awarding_points')
                 )->withIsSortable(false),
                 'available_points' => $f->number(

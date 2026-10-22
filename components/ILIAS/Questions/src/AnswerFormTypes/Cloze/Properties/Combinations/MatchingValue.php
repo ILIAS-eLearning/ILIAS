@@ -73,12 +73,7 @@ class MatchingValue implements Clonable
             return $this->in_range->getLabel($lng);
         }
 
-        $value = $this->answer_option->getTextValue();
-        if (strlen($value) < 11) {
-            return $value;
-        }
-
-        return mb_substr($value, 0, 10) . '...';
+        return $this->answer_option->getTextValue();
     }
 
     public function clone(

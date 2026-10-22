@@ -99,6 +99,24 @@ class Gaps implements Clonable
         );
     }
 
+    public function getAvailablePointsFromGaps(
+        array $gaps_to_ignore
+    ): float {
+        return array_reduce(
+            $this->gaps,
+            function (float $c, Gap $v) use ($gaps_to_ignore): float {
+                $points_from_options = $v->getAnswerOptions()->getMaxAvailablePoints();
+                if (in_array($v->getAnswerInputId(), $gaps_to_ignore)
+                    || $points_from_options === null) {
+                    return $c;
+                }
+
+                return $c + $points_from_options;
+            },
+            0.0
+        );
+    }
+
     public function getGapById(
         Uuid $gap_id
     ): ?Gap {
@@ -533,12 +551,18 @@ class Gaps implements Clonable
 
     public function toTableRows(
         DataRowBuilder $row_builder,
-        Language $lng
+        UIFactory $ui_factory,
+        Language $lng,
+        bool $is_marking_required,
+        array $gaps_in_combinations
     ): \Generator {
         foreach ($this->orderGapsByPosition($this->gaps) as $gap) {
             yield $gap->toTableRow(
                 $row_builder,
-                $lng
+                $ui_factory,
+                $lng,
+                $is_marking_required,
+                in_array($gap->getAnswerInputId(), $gaps_in_combinations)
             );
         }
     }

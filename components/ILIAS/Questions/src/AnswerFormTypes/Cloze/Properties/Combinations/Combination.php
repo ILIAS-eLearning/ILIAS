@@ -38,8 +38,10 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Group;
 use ILIAS\UI\Component\Input\Field\Section;
+use ILIAS\UI\Component\Listing\Unordered as UnorderedListing;
 use ILIAS\UI\Component\Table\DataRow;
 use ILIAS\UI\Component\Table\DataRowBuilder;
+use ILIAS\UI\Factory as UIFactory;
 
 class Combination implements Clonable
 {
@@ -68,29 +70,26 @@ class Combination implements Clonable
         return $this->available_points;
     }
 
-    public function getValuePresentation(
-        Language $lng
-    ): string {
-        return implode(
-            '<br>',
-            array_map(
-                fn(MatchingValue $v): string => $v->buildPresentationString($lng),
-                $this->matching_values
-            )
+    public function getCombinedGapIds(): array
+    {
+        return array_map(
+            fn(MatchingValue $v): Uuid => $v->getGap()->getAnswerInputId(),
+            $this->matching_values
         );
     }
 
-    public function containsAnswerOptionsExactly(
-        array $vs
+    public function isDefinedBy(
+        array $answer_options
     ): bool {
         return array_diff(
-            $vs,
+            $answer_options,
             array_map(
                 fn(MatchingValue $v): string => $v->getAnswerOption()->getAnswerOptionId()->toString(),
                 $this->matching_values
             )
         ) === [];
     }
+
 
     #[\Override]
     public function clone(
@@ -227,25 +226,40 @@ class Combination implements Clonable
     }
 
     public function toTableRow(
+        UIFactory $ui_factory,
         Language $lng,
         DataRowBuilder $data_row_builder
     ): DataRow {
         return $data_row_builder->buildDataRow(
             $this->id->toString(),
             [
-                'gaps' => $this->buildGapsString(),
-                'values' => $this->getValuePresentation($lng),
+                'gaps' => $this->buildGapsColumnValue($ui_factory),
+                'values' => $this->buildValuesColumnValue($ui_factory, $lng),
                 'available_points' => $this->getAvailablePoints()
             ]
         );
     }
 
-    public function buildGapsString(): string
-    {
-        return implode(
-            '<br>',
+    private function buildGapsColumnValue(
+        UIFactory $ui_factory
+    ): UnorderedListing {
+        return $ui_factory->listing()->unordered(
             array_map(
                 fn(MatchingValue $v): string => $v->getGap()->buildShortenedGapRepresentation(),
+                $this->matching_values
+            )
+        );
+    }
+
+
+
+    private function buildValuesColumnValue(
+        UIFactory $ui_factory,
+        Language $lng
+    ): UnorderedListing {
+        return $ui_factory->listing()->unordered(
+            array_map(
+                fn(MatchingValue $v): string => $v->buildPresentationString($lng),
                 $this->matching_values
             )
         );
