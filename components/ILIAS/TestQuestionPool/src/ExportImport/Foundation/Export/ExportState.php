@@ -169,10 +169,14 @@ class ExportState
             ];
         }
 
-        $this->dependencies[$key]['ids'] = array_values(array_unique(array_merge(
-            $this->dependencies[$key]['ids'],
-            $ids
-        )));
+        $this->dependencies[$key]['ids'] = array_values(
+            array_unique(
+                array_merge(
+                    $this->dependencies[$key]['ids'],
+                    $ids
+                )
+            )
+        );
     }
 
     public function getContent(): string

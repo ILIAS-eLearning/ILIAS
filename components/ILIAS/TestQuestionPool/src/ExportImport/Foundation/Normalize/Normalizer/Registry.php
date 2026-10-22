@@ -78,11 +78,13 @@ final class Registry
     /** @return list<class-string> */
     private function candidateTypes(string $type): array
     {
-        $candidates = array_values(array_filter(
-            array_keys($this->type_map),
-            static fn(string $registered_type): bool =>
-                $type === $registered_type || is_subclass_of($type, $registered_type)
-        ));
+        $candidates = array_values(
+            array_filter(
+                array_keys($this->type_map),
+                static fn(string $registered_type): bool =>
+                    $type === $registered_type || is_subclass_of($type, $registered_type)
+            )
+        );
 
         usort($candidates, static function (string $a, string $b): int {
             if ($a === $b) {
