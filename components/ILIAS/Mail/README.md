@@ -17,6 +17,7 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
       * [Syntax Rules](#syntax-rules)
       * [Semantics](#semantics)
   * [Subject and Body](#subject-and-body)
+  * [Attachments](#attachments)
 * [ilMimeMail](#ilmimemail)
   * [Sender](#sender)
   * [Transport](#transport)
@@ -150,6 +151,8 @@ as well but not intended to be used by consumers.
 Simple Example:
 
 ```php
+use ILIAS\Mail\Attachments\MailAttachments;
+
 global $DIC;
 
 $senderUserId = $DIC->user()->getId();
@@ -360,22 +363,39 @@ is applied afterwards on the originally passed message body.
 
 ### Attachments
 
-The `$attachments` can be passed as an array of file names.
-Each file MUST have been assigned to the sending user account
-in a prior step.
-This can be done as described in the following examples:
+Since ILIAS 12 attachments are stored in the IRSS. The `$attachments`
+argument of `enqueue()` MUST be an instance of
+`ILIAS\Mail\Attachments\MailAttachments`, arrays of file names
+are not accepted anymore. The same applies to `\ilMailValueObject`,
+`\MailDeliveryData` and `\ilMailNotification::setAttachments()`.
+`MailAttachments::empty()` MUST be passed if a message has no attachments.
+
+There are two ways to attach files:
+
+1. Files your component already stores in the IRSS are passed as
+   collection of your component: `MailAttachments::fromIrss($rcid)`.
+   The mail system copies these resources into its own collections.
+   Your collection and its resources are never changed or removed by
+   the mail system, so the same collection MAY be passed for several messages.
+2. Files that only exist for the message (e.g. an iCal file) are stored
+   in a collection of the mail system with
+   `\ilFileDataMail::createCollectionFromContent()`.
+   This collection is handed over to the mail system: it is released
+   as soon as the message has been queued (in cron context: delivered). It MUST NOT be passed
+   to a second `enqueue()` call and MUST NOT be removed by the consumer.
+   A `\DomainException` is thrown if the content exceeds the upload limit.
+
+A collection without any resource MUST NOT be passed, use
+`MailAttachments::empty()` instead. Otherwise the message is rejected
+with the error `mail_error_reading_attachment`.
 
 ```php
-$attachment = new \ilFileDataMail($senderUserId);
+use ILIAS\Mail\Attachments\MailAttachments;
 
-$attachment_filename = $attachment->storeAsAttachment(
+$mail_file_data = new \ilFileDataMail($sender_usr_id);
+$rcid = $mail_file_data->createCollectionFromContent(
     'appointment.ics',
     $some_ical_string
-);
-
-$attachment->copyAttachmentFile(
-    '/temp/hello.jpg',
-    'HelloWorld.jpg'
 );
 
 $mail = new \ilMail($sender_usr_id);
@@ -385,20 +405,26 @@ $mail->enqueue(
     $bc,
     $subject,
     $message,
-    MailAttachments::fromLegacyFilenames([
-        $attachment_filename,
-        'HelloWorld.jpg'
-    ])
+    $rcid !== null ? MailAttachments::fromIrss($rcid) : MailAttachments::empty()
 );
 
-// or $attachment->unlinkFiles(['HelloWorld.jpg', $attachment_filename]);
-$attachment->unlinkFile('HelloWorld.jpg');
-$attachment->unlinkFile($attachment_filename);
+// Files of your own component
+$mail->enqueue(
+    $to,
+    $cc,
+    $bc,
+    $subject,
+    $message,
+    MailAttachments::fromIrss($collection_identification_of_your_component)
+);
 ```
 
-As outlined above attachments have to be removed
-manually by the consumer after the transport of an
-email has been delegated to the mail system.
+Derivatives of `\ilMailNotification` SHOULD use `initFileDataMail()`,
+so the files belong to the sender of the notification.
+
+`MailAttachments::fromLegacyFilenames()` only exists for files in the legacy
+attachment pool of the sender (stored as `<user_id>_<file name>` in the mail
+directory of the client) and MUST NOT be used for new code.
 
 ## ilMimeMail
 
@@ -450,9 +476,18 @@ $mailer->Attach(
     'inline',
     'AnotherComposer.json'
 );
+$mailer->AttachResource(
+    $resource_identification,
+    'Report.pdf',
+    'application/pdf',
+    'attachment'
+);
 
 $mailer->Send();
 ```
+
+Resources attached with `AttachResource()` are read from the IRSS when the
+email is sent. A resource that cannot be read is skipped and logged.
 
 Subject and body MUST be of type plain text and MUST NOT contain any HTML fragments.
 When preparing the email transport `\ilMimeMail` wraps an HTML structure around
