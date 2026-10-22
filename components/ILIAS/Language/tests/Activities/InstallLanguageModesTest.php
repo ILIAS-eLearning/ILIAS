@@ -106,6 +106,7 @@ class InstallLanguageModesTest extends \ilLanguageBaseTestCase
             ['de', 'en'],
             ['de', 'en']
         );
+        $setup_language->method('checkLanguageForInstallation')->willReturn(true);
         $setup_language->expects($this->exactly(2))->method('insertLanguageForApplyingLocalChanges')->willReturnMap([
             ['de', []],
             ['en', ['pilot']],
@@ -229,7 +230,7 @@ class InstallLanguageModesTest extends \ilLanguageBaseTestCase
             ['de'],
             ['de']
         );
-        $setup_language->expects($this->never())->method('checkLanguageForInstallation');
+        $setup_language->expects($this->once())->method('checkLanguageForInstallation')->with('de')->willReturn(true);
         $setup_language->expects($this->never())->method('flushLanguageForInstallation');
         $setup_language->expects($this->never())->method('insertLanguageForInstallation');
         $setup_language->expects($this->once())
@@ -263,6 +264,7 @@ class InstallLanguageModesTest extends \ilLanguageBaseTestCase
             ['de'],
             ['de']
         );
+        $setup_language->method('checkLanguageForInstallation')->willReturn(true);
         $calls = [];
         $setup_language->expects($this->once())
             ->method('insertLanguageForApplyingLocalChanges')
@@ -290,7 +292,7 @@ class InstallLanguageModesTest extends \ilLanguageBaseTestCase
             [], // no customizing/local file exists for 'de'
             ['de']
         );
-        $setup_language->expects($this->never())->method('checkLanguageForInstallation');
+        $setup_language->expects($this->once())->method('checkLanguageForInstallation')->with('de')->willReturn(true);
         $setup_language->expects($this->never())->method('flushLanguageForInstallation');
         $setup_language->expects($this->never())->method('insertLanguageForInstallation');
         $setup_language->expects($this->once())
@@ -409,7 +411,7 @@ class InstallLanguageModesTest extends \ilLanguageBaseTestCase
             ['de'], // only 'de' has a pending customizing/local file
             ['de', 'en']
         );
-        $setup_language->expects($this->never())->method('checkLanguageForInstallation');
+        $setup_language->expects($this->exactly(2))->method('checkLanguageForInstallation')->willReturn(true);
         $setup_language->expects($this->never())->method('flushLanguageForInstallation');
         $setup_language->expects($this->never())->method('insertLanguageForInstallation');
         $setup_language->expects($this->exactly(2))
