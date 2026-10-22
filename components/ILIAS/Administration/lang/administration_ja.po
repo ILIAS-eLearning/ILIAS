@@ -407,6 +407,7 @@ msgstr "言語メンテナンス"
 msgid "language_merge_local_changes"
 msgstr "ローカル変更をグローバル言語ファイルへ統合"
 
+#, fuzzy
 msgid "language_merge_local_changes_info"
 msgstr "全てのローカル変更と追加をlang/ilias_%s.langの標準言語ファイルへアルファベット順にマージします。Webサーバはこのファイルの書き込み権が必須です。"
 

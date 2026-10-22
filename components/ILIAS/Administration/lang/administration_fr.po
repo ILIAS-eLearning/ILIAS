@@ -409,6 +409,7 @@ msgstr "Langage de maintenance"
 msgid "language_merge_local_changes"
 msgstr "Fusionner les modifications locale dans le fichier de langage global"
 
+#, fuzzy
 msgid "language_merge_local_changes_info"
 msgstr "Fusionner toutes les ajouts et modifications locales par ordre alphabétique dans le fichier de langue standard lang/ilias_%s.lang. Le serveur web doit avoir la permission d’écriture pour ce fichier."
 

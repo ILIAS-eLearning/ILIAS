@@ -409,6 +409,7 @@ msgstr "Språkhantering"
 msgid "language_merge_local_changes"
 msgstr "Införa lokala ändringar i standardspråkfilen"
 
+#, fuzzy
 msgid "language_merge_local_changes_info"
 msgstr "Mixar alla lokala ändringar eller tillägg till standardspråksfilen lang/ilias_%s.lang. Webbservern måste ha skrivrättigheter till denna fil."
 
