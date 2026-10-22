@@ -66,6 +66,9 @@ installed language completely untouched. Mode "install_local" instead
 (re-)applies only the customizing/local file on top of an already installed
 language, without touching its base data, and leaves a not-yet-installed
 language completely untouched.
+
+In both modes, invalid language files (including a shipped `.po`) reject the
+request as a whole before anything is written.
 MARKDOWN
         );
     }
@@ -173,7 +176,8 @@ MARKDOWN
         }
 
         $error_language_keys = [];
-        foreach ($to_fully_install as $language_key) {
+        // "install_local" merges the shipped .po as well, so an invalid one is refused before writing too
+        foreach (array_merge($to_fully_install, $to_apply_local_changes) as $language_key) {
             if (!$this->setup_language->checkLanguageForInstallation($language_key)) {
                 $error_language_keys[] = $language_key;
             }
@@ -182,7 +186,7 @@ MARKDOWN
         if ($error_language_keys !== []) {
             // a language without a language file is the caller's mistake, an invalid file the server's
             $unknown_language_keys = array_values(array_diff(
-                $error_language_keys,
+                array_intersect($error_language_keys, $to_fully_install),
                 $this->setup_language->getInstallableLanguagesForInstallation()
             ));
             if ($unknown_language_keys !== []) {

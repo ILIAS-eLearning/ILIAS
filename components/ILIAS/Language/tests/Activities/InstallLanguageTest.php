@@ -154,6 +154,35 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
         }
     }
 
+    /**
+     * "install_local" merges the shipped files too: an invalid one of an installed language rejects the request (409)
+     * before anything is written, languages that are not installed are not checked.
+     */
+    public function testInstallLocalModeWithAnInvalidLanguageFileIsReportedAsActivityErrorWithoutWriting(): void
+    {
+        $setup_language = $this->createSetupLanguageMock([], [], ['de', 'fr']);
+        $setup_language->expects($this->exactly(2))
+            ->method('checkLanguageForInstallation')
+            ->willReturnMap([
+                ['de', false],
+                ['fr', true],
+            ]);
+        $setup_language->method('getInstallableLanguagesForInstallation')->willReturn(['fr']);
+        $setup_language->expects($this->never())->method('insertLanguageForApplyingLocalChanges');
+        $setup_language->expects($this->never())->method('registerInstalledLanguage');
+
+        try {
+            $this->createActivity($setup_language)->perform([
+                'language_keys' => 'de,fr,qq',
+                'mode' => InstallLanguage::MODE_INSTALL_LOCAL,
+            ]);
+            $this->fail('InvalidLanguageFilesException expected');
+        } catch (InvalidLanguageFilesException $e) {
+            $this->assertSame(409, $e->getCode());
+            $this->assertSame(['de'], $e->getLanguageKeys());
+        }
+    }
+
     public function testMissingModeParameterIsRejected(): void
     {
         $this->expectException(InvalidInputException::class);
