@@ -57,7 +57,7 @@ class ilMailFormUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         $result = end($array);
         if ($result instanceof UploadResult && $result->isOK()) {
             $i = $this->storage->manage()->upload($result, $this->stakeholder);
-            (new ilFormatMail($this->user_id))->saveAttachments(
+            new ilFormatMail($this->user_id)->saveAttachments(
                 MailAttachments::fromIrss($this->mailFiles()->addResourceToStage($i))
             );
             $status = HandlerResultInterface::STATUS_OK;

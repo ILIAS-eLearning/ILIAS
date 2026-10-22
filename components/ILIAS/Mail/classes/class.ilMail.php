@@ -442,7 +442,7 @@ class ilMail
 
     public function fetchMailData(?array $row): ?array
     {
-        $row = (new MailRecordMapper())->normalizeRow($row);
+        $row = new MailRecordMapper()->normalizeRow($row);
         if ($row === null) {
             return null;
         }

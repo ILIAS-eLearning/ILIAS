@@ -438,7 +438,7 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
 
     public function testMailAttachmentsAreConfidential(): void
     {
-        $this->assertTrue((new ilMailAttachmentStakeholder(6))->areNewResourcesConfidential());
+        $this->assertTrue(new ilMailAttachmentStakeholder(6)->areNewResourcesConfidential());
     }
 
     public function testResolveOwnerIdForPathUsesSenderIdAndFallsBackToSystemUser(): void

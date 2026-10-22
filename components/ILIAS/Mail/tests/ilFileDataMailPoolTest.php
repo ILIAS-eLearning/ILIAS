@@ -162,7 +162,7 @@ class ilFileDataMailPoolTest extends ilMailBaseTestCase
 
     private function newFileDataMail(): ilFileDataMail
     {
-        return (new ReflectionClass(ilFileDataMail::class))->newInstanceWithoutConstructor();
+        return new ReflectionClass(ilFileDataMail::class)->newInstanceWithoutConstructor();
     }
 
     private function injectIrss(IRSS $irss, ilFileDataMail $file_data_mail): void
