@@ -2103,6 +2103,22 @@ Components are listed alphabetically by their folder name in `components/ILIAS/`
 [//]: # (END PrivacySecurity)
 
 
+[//]: # (BEGIN Questions)
+
+#### [Questions](https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/components/ILIAS/Questions)
+
+*Belongs to:* [Test & Assessment](https://docu.ilias.de/go/wiki/wpage_26_1357)
+
+* Authority to Sign off on Conceptual Changes: [dstrassner](https://docu.ilias.de/go/usr/48931)
+* Authority to Sign off on Code Changes: [skergomard](https://docu.ilias.de/go/usr/44474), [dstrassner](https://docu.ilias.de/go/usr/48931), [thojou](https://docu.ilias.de/go/usr/103745)
+* Authority to Curate Test Cases: [dstrassner](https://docu.ilias.de/go/usr/48931)
+* Authority to (De-)Assign Authorities: [dstrassner](https://docu.ilias.de/go/usr/48931)
+* Assignee for Issues: [dstrassner](https://docu.ilias.de/go/usr/48931)
+* Assignee for Security Reports: [dstrassner](https://docu.ilias.de/go/usr/48931)
+
+[//]: # (END Questions)
+
+
 [//]: # (BEGIN Rating)
 
 #### [Rating](https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/components/ILIAS/Rating)
