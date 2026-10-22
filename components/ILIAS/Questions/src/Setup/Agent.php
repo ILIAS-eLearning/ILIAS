@@ -58,7 +58,7 @@ class Agent implements SetupAgent
 
     public function getArrayToConfigTransformation(): Transformation
     {
-        throw new LogicException(self::class . ' has no Config.');
+        throw new \LogicException(self::class . ' has no Config.');
     }
 
     #[\Override]
