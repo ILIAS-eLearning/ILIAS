@@ -22,6 +22,8 @@ namespace ILIAS\Language\Setup;
 
 /**
  * A root determined by the caller, for the classes which are not wired by the component bootstrap.
+ *
+ * @internal Only the Language component shall provide an instance of this.
  */
 final readonly class FixedInstallationRoot implements InstallationRoot
 {

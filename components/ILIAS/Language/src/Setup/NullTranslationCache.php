@@ -22,6 +22,8 @@ namespace ILIAS\Language\Setup;
 
 /**
  * The Setup has no global cache, hence there is nothing to invalidate.
+ *
+ * @internal Only the Language component shall provide an instance of this.
  */
 final class NullTranslationCache implements TranslationCache
 {

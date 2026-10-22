@@ -24,6 +24,8 @@ use ILIAS\Administration\Setting;
 
 /**
  * No component offers the settings yet, so they are taken from the legacy container on every call.
+ *
+ * @internal Only the Language component shall provide an instance of this.
  */
 final class LanguageSettingsLegacyProxy implements LanguageSettings
 {
