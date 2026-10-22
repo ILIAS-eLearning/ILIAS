@@ -201,10 +201,6 @@ php components/ILIAS/Language/tools/po-migration/scan_shipped_markup.php > marku
 * `scan_shipped_case_duplicates.php`: identifiers of one module that occur in
   one file in spellings differing only in case (or accents). The primary key of
   `lng_data` is case-insensitive, so such a pair shares one row.
-* `scan_shipped_cross_module_duplicates.php`: identifiers that occur in more
-  than one module, with the kind of difference and the number of literal
-  callers. `txt()` serves the value of the module loaded last; for two migrated
-  modules `setup build` lists such identifiers as well.
 
 Their results are reported as issues to the maintainers of the language files,
 not kept in the repository.
