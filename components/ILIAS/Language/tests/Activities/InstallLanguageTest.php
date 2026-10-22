@@ -22,6 +22,7 @@ namespace ILIAS\Language\Tests\Activities;
 
 use ILIAS\Language\Activities\InstallLanguage;
 use ILIAS\Language\Activities\InvalidInputException;
+use ILIAS\Language\Activities\InvalidLanguageFilesException;
 use ILIAS\UI\Component\Input\Field\Text;
 use ILIAS\UI\Component\Input\Field\Select;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -75,11 +76,12 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
             ->method('checkLanguageForInstallation')
             ->with('xx')
             ->willReturn(false);
+        $setup_language->method('getInstallableLanguagesForInstallation')->willReturn(['xx']);
         $setup_language->expects($this->never())->method('flushLanguageForInstallation');
         $setup_language->expects($this->never())->method('insertLanguageForInstallation');
 
-        $this->expectException(InvalidInputException::class);
-        $this->expectExceptionCode(400);
+        $this->expectException(InvalidLanguageFilesException::class);
+        $this->expectExceptionCode(409);
         $this->createActivity($setup_language)->perform([
             'language_keys' => 'xx',
             'mode' => InstallLanguage::MODE_INSTALL,
@@ -95,15 +97,61 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
                 ['de', true],
                 ['xx', false],
             ]);
+        $setup_language->method('getInstallableLanguagesForInstallation')->willReturn(['de', 'xx']);
         $setup_language->expects($this->never())->method('flushLanguageForInstallation');
         $setup_language->expects($this->never())->method('insertLanguageForInstallation');
 
-        $this->expectException(InvalidInputException::class);
-        $this->expectExceptionCode(400);
+        $this->expectException(InvalidLanguageFilesException::class);
+        $this->expectExceptionCode(409);
         $this->createActivity($setup_language)->perform([
             'language_keys' => 'de,xx',
             'mode' => InstallLanguage::MODE_INSTALL,
         ]);
+    }
+
+    public function testUnknownLanguageIsRejectedAsInvalidInputWithoutMutation(): void
+    {
+        $setup_language = $this->createSetupLanguageMock([], [], []);
+        $setup_language->method('checkLanguageForInstallation')->willReturn(false);
+        $setup_language->method('getInstallableLanguagesForInstallation')->willReturn(['de']);
+        $setup_language->expects($this->never())->method('flushLanguageForInstallation');
+        $setup_language->expects($this->never())->method('insertLanguageForInstallation');
+
+        try {
+            $this->createActivity($setup_language)->perform([
+                'language_keys' => 'qq',
+                'mode' => InstallLanguage::MODE_INSTALL,
+            ]);
+            $this->fail('InvalidInputException expected');
+        } catch (InvalidInputException $e) {
+            $this->assertSame(400, $e->getCode());
+            $this->assertSame('Unknown languages: qq', $e->getMessage());
+        }
+    }
+
+    /** The unknown language decides: the caller has to fix its input first. Only unknown keys are named. */
+    public function testUnknownAndInvalidLanguagesTogetherAreRejectedAsInvalidInput(): void
+    {
+        $setup_language = $this->createSetupLanguageMock([], [], []);
+        $setup_language->method('checkLanguageForInstallation')->willReturnMap([
+            ['de', true],
+            ['xx', false],
+            ['qq', false],
+        ]);
+        $setup_language->method('getInstallableLanguagesForInstallation')->willReturn(['de', 'xx']);
+        $setup_language->expects($this->never())->method('flushLanguageForInstallation');
+        $setup_language->expects($this->never())->method('insertLanguageForInstallation');
+
+        try {
+            $this->createActivity($setup_language)->perform([
+                'language_keys' => 'de,xx,qq',
+                'mode' => InstallLanguage::MODE_INSTALL,
+            ]);
+            $this->fail('InvalidInputException expected');
+        } catch (InvalidInputException $e) {
+            $this->assertSame(400, $e->getCode());
+            $this->assertSame('Unknown languages: qq', $e->getMessage());
+        }
     }
 
     public function testMissingModeParameterIsRejected(): void
@@ -155,7 +203,7 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
             self::callback(static fn(mixed $value): bool => is_string($value))
         )->willReturn($select);
 
-        $group = $this->createMock(\ILIAS\UI\Component\Input\Field\Section::class);
+        $group = $this->createStub(\ILIAS\UI\Component\Input\Field\Section::class);
         $field->expects($this->once())
             ->method('section')
             ->with(['language_keys' => $text, 'mode' => $select], $this->anything())

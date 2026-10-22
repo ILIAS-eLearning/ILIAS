@@ -180,10 +180,15 @@ MARKDOWN
         }
 
         if ($error_language_keys !== []) {
-            // a 4xx, so the GUI names the languages instead of "action aborted"
-            throw new InvalidInputException(
-                'Invalid language files: ' . implode(', ', $error_language_keys)
-            );
+            // a language without a language file is the caller's mistake, an invalid file the server's
+            $unknown_language_keys = array_values(array_diff(
+                $error_language_keys,
+                $this->setup_language->getInstallableLanguagesForInstallation()
+            ));
+            if ($unknown_language_keys !== []) {
+                throw new InvalidInputException('Unknown languages: ' . implode(', ', $unknown_language_keys));
+            }
+            throw new InvalidLanguageFilesException($error_language_keys);
         }
 
         $installed_language_keys = [];

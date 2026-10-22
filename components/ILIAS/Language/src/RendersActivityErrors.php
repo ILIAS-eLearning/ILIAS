@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Language;
 
+use ILIAS\Language\Activities\InvalidLanguageFilesException;
+
 /**
  * Shared activityErrorMessage() for the GUI classes calling an Activity's maybePerformAs().
  * The using class must assign `$this->activity_error_logger` once in its constructor and provide `$this->lng`.
@@ -31,6 +33,7 @@ trait RendersActivityErrors
     /**
      * Turns a maybePerformAs() error into text for setOnScreenMessage() (which renders HTML unescaped):
      *  - code 403: the localized "no permission" message
+     *  - invalid language files: the localized message naming the languages
      *  - other 4xx: an answer to the call that may embed caller-controlled data, so this is the one place that escapes it
      *  - anything else: may carry raw SQL, so only its cause chain is logged and a generic message shown
      */
@@ -38,6 +41,13 @@ trait RendersActivityErrors
     {
         if ($error->getCode() === 403) {
             return $this->lng->txt('msg_no_perm_write');
+        }
+
+        if ($error instanceof InvalidLanguageFilesException) {
+            return sprintf(
+                $this->lng->txt('lng_invalid_language_files'),
+                htmlspecialchars(implode(', ', $error->getLanguageKeys()), ENT_QUOTES | ENT_SUBSTITUTE)
+            );
         }
 
         if ($this->isActivityInputError($error)) {

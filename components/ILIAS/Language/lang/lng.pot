@@ -20,6 +20,9 @@ msgstr ""
 msgid "lng_error_clear_shipped_po_unreadable"
 msgstr ""
 
+msgid "lng_invalid_language_files"
+msgstr ""
+
 msgid "lng_markup_not_allowed"
 msgstr ""
 

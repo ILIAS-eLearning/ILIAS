@@ -17,6 +17,7 @@ namespace ILIAS\Language\Tests\Activities;
 
 use ILIAS\Language\Tests\Activities\ActivityWithPerformResultContractTestCase;
 use ILIAS\Language\Activities\InvalidInputException;
+use ILIAS\Language\Activities\InvalidLanguageFilesException;
 use ILIAS\Language\Activities\RepositoryProvider;
 use ILIAS\Language\Activities\UpdateLanguage;
 use ILIAS\UI\Component\Input\Field\Text;
@@ -224,8 +225,8 @@ class UpdateLanguageTest extends ActivityWithPerformResultContractTestCase
         $setup_language->expects($this->never())->method('insertLanguageForInstallation');
         $setup_language->expects($this->never())->method('registerInstalledLanguage');
 
-        $this->expectException(InvalidInputException::class);
-        $this->expectExceptionCode(400);
+        $this->expectException(InvalidLanguageFilesException::class);
+        $this->expectExceptionCode(409);
         $this->expectExceptionMessage('Invalid language files: de');
 
         $this->createActivity($setup_language)->perform([
@@ -249,8 +250,8 @@ class UpdateLanguageTest extends ActivityWithPerformResultContractTestCase
         $setup_language->expects($this->never())->method('insertLanguageForInstallation');
         $setup_language->expects($this->never())->method('registerInstalledLanguage');
 
-        $this->expectException(InvalidInputException::class);
-        $this->expectExceptionCode(400);
+        $this->expectException(InvalidLanguageFilesException::class);
+        $this->expectExceptionCode(409);
         $this->expectExceptionMessage('Invalid language files: de, xx');
 
         $this->createActivity($setup_language)->perform([

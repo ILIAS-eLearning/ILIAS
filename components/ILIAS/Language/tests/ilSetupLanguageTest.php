@@ -202,6 +202,15 @@ class ilSetupLanguageTest extends ilLanguageBaseTestCase
         self::assertTrue($setup_language->checkLanguageForInstallation('en'));
     }
 
+    public function testInstallableLanguagesAreTheKeysWithAMainLanguageFile(): void
+    {
+        $installable = (new ilSetupLanguage('en'))->getInstallableLanguagesForInstallation();
+
+        $this->assertContains('en', $installable);
+        $this->assertContains('de', $installable);
+        $this->assertNotContains('qq', $installable);
+    }
+
     /**
      * @return array<string, array{0: Closure(ilSetupLanguage): mixed}>
      */
