@@ -389,8 +389,8 @@ class ilObjLanguageExt extends ilObjLanguage
 
     /**
      * The "merge" maintenance action of the developer mode (LANGMODE):
-     * - modules not maintained in PO files go into the global language file, the lines of modules maintained in PO
-     *   files stay as read (see ilLanguageFile::keepOriginalLines());
+     * - modules not maintained in PO files go into the global language file (not if $write_global_file is false), the
+     *   lines of modules maintained in PO files stay as read (see ilLanguageFile::keepOriginalLines());
      * - modules maintained in PO files with local changes go into their shipped .po (new entries into the .pot, see
      *   ShippedPoMerger), after a backup into the customizing directory. The lng_data rows of taken over entries lose
      *   local_change, and their remarks where these became comments of the .po (see mergeIntoDatabase()).
@@ -408,7 +408,38 @@ class ilObjLanguageExt extends ilObjLanguage
      *   values not taken over; not_merged - module.separator.identifier of entries not taken over (logged);
      *   unwritten_database - modules whose lng_data rows could not be updated (logged; their files are written)
      */
-    public function mergeLocalChangesIntoGlobalLanguageFile(): array
+    public function mergeLocalChangesIntoGlobalLanguageFile(bool $write_global_file = true): array
+    {
+        if ($write_global_file) {
+            $this->writeLocalChangesIntoGlobalLanguageFile();
+        }
+
+        $result = $this->mergeLocalChangesIntoShippedPoFiles();
+        $this->shipped_migrated_modules = null;
+
+        return $result;
+    }
+
+    /**
+     * Whether "merge" has something to write into the global language file: a local change (a changed remark sets
+     * local_change as well, see _saveValues()) of a module outside the PO files. Shipped comments do not count.
+     */
+    public function hasLocalChangesOutsidePoModules(): bool
+    {
+        global $DIC;
+        $ilDB = $DIC->database();
+
+        $ilDB->setLimit(1, 0);
+        $result = $ilDB->query(
+            "SELECT 1 FROM lng_data WHERE lang_key = " . $ilDB->quote($this->key, "text")
+            . " AND local_change IS NOT NULL"
+            . " AND " . $ilDB->in("module", $this->getModulesMaintainedInPoFiles(), true, "text")
+        );
+
+        return $ilDB->fetchAssoc($result) !== null;
+    }
+
+    private function writeLocalChangesIntoGlobalLanguageFile(): void
     {
         $po_modules = $this->getModulesMaintainedInPoFiles();
         $global_file_obj = $this->getGlobalLanguageFile();
@@ -427,11 +458,6 @@ class ilObjLanguageExt extends ilObjLanguage
             self::withoutModules($global_values, $po_modules, $this->separator)
         )));
         $global_file_obj->write();
-
-        $result = $this->mergeLocalChangesIntoShippedPoFiles();
-        $this->shipped_migrated_modules = null;
-
-        return $result;
     }
 
     /**

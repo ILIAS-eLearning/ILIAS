@@ -950,20 +950,23 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
                 }
                 break;
 
-                // merge local changes back to the global language file (langmode only)
+                // merge local changes into the global language file and the shipped .po (langmode only)
             case "merge":
                 $orig_file = $this->object->getLangPath() . "/ilias_" . $this->object->key . ".lang";
                 $copy_file = $this->object->getCustLangPath() . "/ilias_" . $this->object->key . ".lang";
 
-                if (is_file($orig_file) and is_writable($orig_file)) {
-                    // save a copy of the global language file
+                // ShippedPoMerger checks the shipped .po itself and reports the modules it cannot write
+                $global_file_writable = is_file($orig_file) && is_writable($orig_file);
+                if ($global_file_writable) {
                     @copy($orig_file, $copy_file);
-
-                    // the shipped .po of PO modules is merged only on a single-client installation: it is shared by every client
-                    $this->mergeMessages($this->object->mergeLocalChangesIntoGlobalLanguageFile());
-                } else {
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("language_error_write_global"), true);
                 }
+                $result = $this->object->mergeLocalChangesIntoGlobalLanguageFile($global_file_writable);
+                $this->mergeMessages(
+                    $result,
+                    $global_file_writable,
+                    // a read-only global file is only an error if there was something to write into it
+                    !$global_file_writable && $this->object->hasLocalChangesOutsidePoModules()
+                );
                 break;
 
                 // remove the local language file (langmode only)
@@ -1351,23 +1354,26 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
 
     /**
      * Success, plus everything that failed or was left out in one failure message (setOnScreenMessage() keeps one
-     * per type); details are in the log.
+     * per type), or an info if nothing was written at all; details are in the log.
      *
      * @param array{written: list<string>, skipped: list<string>, invalid_markup: array<string, list<string>>, not_merged: list<string>, unwritten_database: list<string>} $result
+     * @param bool $global_file_not_written the global language file had local changes to take but is not writable
      */
-    private function mergeMessages(array $result): void
+    private function mergeMessages(array $result, bool $global_file_written, bool $global_file_not_written): void
     {
         $escape = fn(string $text): string => $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform($text);
-        $success = $this->lng->txt("language_merged_global");
+        $successes = $global_file_written ? [$this->lng->txt("language_merged_global")] : [];
         if ($result['written'] !== []) {
-            $success .= '<br />' . sprintf(
+            $successes[] = sprintf(
                 $this->lng->txt("lng_merged_po_modules"),
                 $escape(implode(', ', $result['written']))
             );
         }
-        $this->tpl->setOnScreenMessage('success', $success, true);
+        if ($successes !== []) {
+            $this->tpl->setOnScreenMessage('success', implode('<br />', $successes), true);
+        }
 
-        $failures = [];
+        $failures = $global_file_not_written ? [$this->lng->txt("language_error_write_global")] : [];
         if ($result['skipped'] !== []) {
             // not written at all (e.g. no write permission): an error, not an intended skip
             $failures[] = sprintf(
@@ -1389,6 +1395,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         }
         if ($failures !== []) {
             $this->tpl->setOnScreenMessage('failure', implode('<br />', $failures), true);
+        } elseif ($successes === []) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("lng_merge_nothing_to_merge"), true);
         }
     }
 

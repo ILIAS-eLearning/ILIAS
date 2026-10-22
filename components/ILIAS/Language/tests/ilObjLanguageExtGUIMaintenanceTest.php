@@ -254,6 +254,148 @@ class ilObjLanguageExtGUIMaintenanceTest extends TestCase
         );
     }
 
+    /**
+     * @param list<string> $written
+     * @param list<array{0: string, 1: string}> $expected_messages
+     */
+    #[DataProvider('unwritableGlobalLanguageFile')]
+    public function testMergeWithoutAWritableGlobalLanguageFileStillMergesThePoFilesAndReportsTheFailure(
+        bool $file_exists,
+        array $written,
+        array $expected_messages
+    ): void {
+        $object = $this->maintenanceLanguageObject();
+        $global_file = $this->maintenance_directory . '/ilias_zz.lang';
+        if ($file_exists) {
+            $this->makeTheGlobalLanguageFileReadOnly($global_file);
+        } else {
+            unlink($global_file);
+        }
+        $object->method('hasLocalChangesOutsidePoModules')->willReturn(true);
+        $object->expects($this->once())->method('mergeLocalChangesIntoGlobalLanguageFile')->with(false)->willReturn([
+            'written' => $written,
+            'skipped' => [],
+            'invalid_markup' => [],
+            'not_merged' => [],
+            'unwritten_database' => [],
+        ]);
+        $messages = [];
+
+        $this->runMaintenance('merge', $object, $messages);
+
+        $this->assertSame($expected_messages, $messages);
+    }
+
+    /** @return array<string, array<int, mixed>>|list<array<int, mixed>> */
+    public static function unwritableGlobalLanguageFile(): array
+    {
+        return [
+            'read-only, a .po written' => [
+                true,
+                ['some/shipped.po'],
+                [['success', 'lng_merged_po_modules: some/shipped.po'], ['failure', 'language_error_write_global']],
+            ],
+            'missing, no .po written' => [false, [], [['failure', 'language_error_write_global']]],
+        ];
+    }
+
+    private function makeTheGlobalLanguageFileReadOnly(string $global_file): void
+    {
+        // root writes to a file with mode 0444 anyway
+        if (function_exists('posix_geteuid') && posix_geteuid() === 0) {
+            MigratedPoFixture::removeDirectory((string) $this->maintenance_directory);
+            $this->markTestSkipped('A read-only file is still writable for root.');
+        }
+        chmod($global_file, 0444);
+    }
+
+    /**
+     * An unwritable global file is no error if there is nothing outside the PO modules to write into it.
+     *
+     * @param list<string> $written
+     * @param list<array{0: string, 1: string}> $expected_messages
+     */
+    #[DataProvider('unwritableGlobalLanguageFileWithoutChangesOutsideThePoModules')]
+    public function testMergeWithoutAWritableGlobalLanguageFileButWithoutChangesOutsideThePoModulesReportsNoError(
+        bool $file_exists,
+        array $written,
+        array $expected_messages
+    ): void {
+        $object = $this->maintenanceLanguageObject();
+        $global_file = $this->maintenance_directory . '/ilias_zz.lang';
+        if ($file_exists) {
+            $this->makeTheGlobalLanguageFileReadOnly($global_file);
+        } else {
+            unlink($global_file);
+        }
+        $object->method('hasLocalChangesOutsidePoModules')->willReturn(false);
+        $object->expects($this->once())->method('mergeLocalChangesIntoGlobalLanguageFile')->with(false)->willReturn([
+            'written' => $written,
+            'skipped' => [],
+            'invalid_markup' => [],
+            'not_merged' => [],
+            'unwritten_database' => [],
+        ]);
+        $messages = [];
+
+        $this->runMaintenance('merge', $object, $messages);
+
+        $this->assertSame($expected_messages, $messages);
+    }
+
+    /** @return array<string, array<int, mixed>>|list<array<int, mixed>> */
+    public static function unwritableGlobalLanguageFileWithoutChangesOutsideThePoModules(): array
+    {
+        return [
+            'read-only, a .po written' => [
+                true,
+                ['some/shipped.po'],
+                [['success', 'lng_merged_po_modules: some/shipped.po']],
+            ],
+            'missing, no .po written: nothing to merge' => [false, [], [['info', 'lng_merge_nothing_to_merge: %s']]],
+            'read-only, no .po written: nothing to merge' => [true, [], [['info', 'lng_merge_nothing_to_merge: %s']]],
+        ];
+    }
+
+    /** "Nothing to merge" is no answer to an error: a skipped .po module is reported as failure only. */
+    public function testMergeWithNothingWrittenButASkippedPoModuleShowsNoNothingToMergeInfo(): void
+    {
+        $object = $this->maintenanceLanguageObject();
+        $object->method('hasLocalChangesOutsidePoModules')->willReturn(false);
+        $object->expects($this->once())->method('mergeLocalChangesIntoGlobalLanguageFile')->with(true)->willReturn([
+            'written' => [],
+            'skipped' => ['pilot'],
+            'invalid_markup' => [],
+            'not_merged' => [],
+            'unwritten_database' => [],
+        ]);
+        $messages = [];
+
+        $this->runMaintenance('merge', $object, $messages);
+
+        $this->assertSame(
+            [['success', 'language_merged_global'], ['failure', 'lng_merge_po_not_written: pilot']],
+            $messages
+        );
+    }
+
+    public function testMergeWithAWritableGlobalLanguageFileWritesItAndKeepsTheSuccessMessage(): void
+    {
+        $object = $this->maintenanceLanguageObject();
+        $object->expects($this->once())->method('mergeLocalChangesIntoGlobalLanguageFile')->with(true)->willReturn([
+            'written' => [],
+            'skipped' => [],
+            'invalid_markup' => [],
+            'not_merged' => [],
+            'unwritten_database' => [],
+        ]);
+        $messages = [];
+
+        $this->runMaintenance('merge', $object, $messages);
+
+        $this->assertSame([['success', 'language_merged_global']], $messages);
+    }
+
     /** "merge" (like "delete_added"/"remove_local_file") needs LANGMODE: without it the request is refused before the language object is touched. */
     #[DataProvider('langmodeOnlyMaintenanceActions')]
     public function testMaintenanceActionsRequiringLangmodeAreRefusedWithoutIt(string $action): void

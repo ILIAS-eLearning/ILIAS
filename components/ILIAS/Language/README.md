@@ -319,7 +319,9 @@ Where the rules apply:
 * "merge" (translation mode only, checked on the server) writes the global
   `.lang` file for modules that are not migrated, and the local changes of
   migrated modules into their shipped `.po` (new keys also into the `.pot`;
-  remarks become an additional `# ` line). The previous files are copied to
+  remarks become an additional `# ` line); a read-only global `.lang` file does
+  not stop the merge into the `.po` and is only reported if unmigrated modules
+  have local changes. The previous files are copied to
   `lang/customizing/` (ignored by git), the written files belong to the web
   server user. Values with markup that is not allowed are not taken over. The
   overlay keeps serving the merged values until `php cli/setup.php build` and

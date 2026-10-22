@@ -29,6 +29,9 @@ msgstr "Nicht erlaubtes Markup in folgenden Einträgen: %s"
 msgid "lng_merge_database_not_updated"
 msgstr "Die ausgelieferten PO-Dateien folgender Module wurden geschrieben, ihre Einträge in der Datenbank konnten aber nicht aktualisiert werden (siehe Log): %s"
 
+msgid "lng_merge_nothing_to_merge"
+msgstr "Es gibt keine lokalen Änderungen zum Übernehmen."
+
 msgid "lng_merge_po_not_written"
 msgstr "Die lokalen Änderungen folgender Module konnten nicht in ihre ausgelieferten PO-Dateien übernommen werden (siehe Log): %s"
 
