@@ -18,6 +18,14 @@
 
 declare(strict_types=1);
 
+use ILIAS\FileUpload\MimeType;
+use ILIAS\ResourceStorage\Services;
+use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
+use ILIAS\UI\Component\Input\Container\Form\Standard;
+
+/**
+ * @ilCtrl_Calls ilDclRecordListGUI: ilDataCollectionUploadHandlerGUI
+ */
 class ilDclRecordListGUI
 {
     public const GET_TABLE_ID = 'table_id';
@@ -31,15 +39,12 @@ class ilDclRecordListGUI
     public const CMD_CANCEL_DELETE = 'cancelDelete';
     public const CMD_DELETE_RECORDS = 'deleteRecords';
     public const CMD_SHOW_IMPORT_EXCEL = 'showImportExcel';
+    public const CMD_DOWNLOAD_IMPORT_TEMPLATE = 'downloadImportTemplate';
 
     private ilAccessHandler $access;
     private ilGlobalTemplateInterface $tpl;
     protected \ILIAS\UI\Factory $ui_factory;
     protected \ILIAS\UI\Renderer $renderer;
-
-    /**
-     * Stores current mode active
-     */
     protected string $mode = self::MODE_VIEW;
     protected ilDclTable $table_obj;
     protected ?int $table_id;
@@ -55,10 +60,9 @@ class ilDclRecordListGUI
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
     protected bool $filter_changed = false;
+    private Services $irss;
+    private AbstractResourceStakeholder $stakeholder;
 
-    /**
-     * @throws ilCtrlException
-     */
     public function __construct(ilObjDataCollectionGUI $a_parent_obj, int $table_id, int $tableview_id)
     {
         global $DIC;
@@ -73,6 +77,8 @@ class ilDclRecordListGUI
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->ui_factory = $DIC->ui()->factory();
         $this->renderer = $DIC->ui()->renderer();
+        $this->irss = $DIC->resourceStorage();
+        $this->stakeholder = new ilDataCollectionStakeholder();
 
         $this->table_id = $table_id;
         $this->tableview_id = $tableview_id;
@@ -106,12 +112,14 @@ class ilDclRecordListGUI
         return $this->parent_obj->getObject()->getId();
     }
 
-    /**
-     * execute command
-     * @throws ilCtrlException
-     */
     public function executeCommand(): void
     {
+        $next_class = $this->ctrl->getNextClass($this);
+        if ($next_class === strtolower(ilDataCollectionUploadHandlerGUI::class)) {
+            $this->ctrl->forwardCommand(new ilDataCollectionUploadHandlerGUI());
+            return;
+        }
+
         if (!ilObjDataCollectionAccess::hasAccessTo($this->getRefId(), $this->table_id, $this->tableview_id)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             return;
@@ -135,11 +143,6 @@ class ilDclRecordListGUI
             case self::CMD_DELETE_RECORDS:
                 $this->deleteRecords();
                 break;
-            case self::CMD_SHOW_IMPORT_EXCEL:
-                $this->tabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this));
-                $this->$cmd();
-                break;
-
             default:
                 $this->$cmd();
                 break;
@@ -169,7 +172,8 @@ class ilDclRecordListGUI
             $this->toolbar->addStickyItem($add_new);
         }
 
-        if ($permission_to_add_or_import && $this->table_obj->getImportEnabled()) {
+        if ($permission_to_add_or_import && $this->table_obj->getImportEnabled()
+            && $this->hasImportableFields($this->table_obj)) {
             $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, "record_id", null);
 
             $import_button = $this->ui_factory->button()->standard(
@@ -205,43 +209,50 @@ class ilDclRecordListGUI
         $this->tpl->setContent($desc . $list->getHTML());
     }
 
-    public function showImportExcel(?ilPropertyFormGUI $form = null): void
+    public function showImportExcel(?Standard $form = null): void
     {
+        $this->denyImportAccessUnlessGranted();
+
+        $this->tabs->clearTargets();
+        $this->tabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, self::CMD_LIST_RECORDS));
+        $this->ctrl->saveParameter($this, self::GET_TABLE_ID);
+        $this->ctrl->saveParameter($this, self::GET_TABLEVIEW_ID);
+        $this->tabs->addTab('import', $this->lng->txt('import'), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_IMPORT_EXCEL));
+        $this->tabs->activateTab('import');
+
         if (!$form) {
             $form = $this->initImportForm();
         }
-        $this->tpl->setContent($form->getHTML());
+
+        $message_box = $this->ui_factory->messageBox()->info($this->lng->txt('dcl_file_format_description'))
+            ->withButtons([$this->ui_factory->button()->standard(
+                $this->lng->txt('dcl_download_import_template'),
+                $this->ctrl->getLinkTarget($this, self::CMD_DOWNLOAD_IMPORT_TEMPLATE)
+            )]);
+
+        $this->tpl->setContent($this->renderer->render([$message_box]) . $this->renderer->render($form));
     }
 
-    /**
-     * Init form
-     */
-    public function initImportForm(): ilPropertyFormGUI
+    public function downloadImportTemplate(): void
     {
-        $form = new ilPropertyFormGUI();
+        $this->denyImportAccessUnlessGranted();
 
-        $item = new ilCustomInputGUI();
-        $item->setHtml($this->lng->txt('dcl_file_format_description'));
-        $item->setTitle("Info");
-        $form->addItem($item);
-
-        $file = new ilFileInputGUI($this->lng->txt("import_file"), "import_file");
-        $file->setSuffixes(['xlsx']);
-        $file->setRequired(true);
-        $form->addItem($file);
-
-        $cb = new ilCheckboxInputGUI($this->lng->txt("dcl_simulate_import"), "simulate");
-        $cb->setInfo($this->lng->txt("dcl_simulate_info"));
-        $form->addItem($cb);
-
-        $form->addCommandButton("importExcel", $this->lng->txt("import"));
-
-        return $form;
+        new ilDclContentImporter($this->parent_obj->object->getRefId(), $this->table_id)->sendImportTemplate();
     }
 
-    /**
-     * Import Data from Excel sheet
-     */
+    public function initImportForm(): Standard
+    {
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'importExcel'),
+            [
+                'import_file' => $this->ui_factory->input()->field()->file(new ilDataCollectionUploadHandlerGUI(), $this->lng->txt('import_file'))
+                    ->withAcceptedMimeTypes([MimeType::APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET])
+                    ->withRequired(true),
+                'simulate' => $this->ui_factory->input()->field()->checkbox($this->lng->txt('dcl_simulate_import'), $this->lng->txt('dcl_simulate_import_info'))
+            ]
+        )->withSubmitLabel($this->lng->txt('import'));
+    }
+
     public function importExcel(): void
     {
         if (!(ilObjDataCollectionAccess::hasPermissionToAddRecord(
@@ -250,32 +261,43 @@ class ilDclRecordListGUI
         )) || !$this->table_obj->getImportEnabled()) {
             throw new ilDclException($this->lng->txt("access_denied"));
         }
-        $form = $this->initImportForm();
-        if ($form->checkInput()) {
-            $file = $form->getInput("import_file");
-            $file_location = $file["tmp_name"];
-            $simulate = $form->getInput("simulate");
-            $this->importRecords($file_location, (bool) $simulate);
+        $form = $this->initImportForm()->withRequest($this->http->request());
+        $data = $form->getData();
+        if ($data !== null) {
+            $this->importRecords($data['import_file'][0], $data['simulate']);
         } else {
             $this->showImportExcel($form);
         }
     }
 
-    /**
-     * Import records from Excel file
-     */
-    private function importRecords(string $file, bool $simulate = false): void
+    protected function denyImportAccessUnlessGranted(): void
     {
-        $importer = new ilDclContentImporter($this->parent_obj->object->getRefId(), $this->table_id);
-        $result = $importer->import($file, $simulate);
+        if (!$this->hasImportableFields($this->table_obj)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_import_template_no_fields'), true);
+            $this->ctrl->redirect($this, self::CMD_LIST_RECORDS);
+        }
+    }
 
+    private function hasImportableFields(ilDclTable $table): bool
+    {
+        foreach ($table->getRecordFields() as $field) {
+            if (in_array($field->getDatatypeId(), ilDclContentImporter::SUPPORTED_IMPORT_DATATYPES, true)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function importRecords(string $rid, bool $simulate = false): void
+    {
+        $identification = $this->irss->manage()->find($rid);
+        $result = new ilDclContentImporter($this->parent_obj->object->getRefId(), $this->table_id)
+            ->import($this->irss->consume()->stream($identification)->getStream()->getMetadata('uri'), $simulate);
+        $this->irss->manage()->remove($identification, $this->stakeholder);
         $this->endImport($result['line'], $result['warnings']);
     }
 
-    /**
-     * End import
-     * @throws ilTemplateException
-     */
     public function endImport(int $i, array $warnings): void
     {
         $output = new ilTemplate("tpl.dcl_import_terminated.html", true, true, "components/ILIAS/DataCollection");
@@ -291,9 +313,6 @@ class ilDclRecordListGUI
         $this->tpl->setContent($output->get());
     }
 
-    /**
-     * @throws ilCtrlException
-     */
     protected function applyFilter(): void
     {
         $table = new ilDclRecordListTableGUI($this, "listRecords", $this->table_obj, $this->tableview_id);
@@ -304,9 +323,6 @@ class ilDclRecordListGUI
         $this->listRecords();
     }
 
-    /**
-     * @throws ilCtrlException
-     */
     protected function resetFilter(): void
     {
         $table = new ilDclRecordListTableGUI($this, "show", $this->table_obj, $this->tableview_id);
@@ -317,9 +333,6 @@ class ilDclRecordListGUI
         $this->listRecords();
     }
 
-    /**
-     * Confirm deletion of multiple records
-     */
     public function confirmDeleteRecords(): void
     {
         $this->tabs->clearTargets();
@@ -357,9 +370,6 @@ class ilDclRecordListGUI
         $this->tpl->setContent($conf->getHTML());
     }
 
-    /**
-     * Delete multiple records
-     */
     public function deleteRecords(): void
     {
         $has_record_ids = $this->http->wrapper()->post()->has('record_ids');
