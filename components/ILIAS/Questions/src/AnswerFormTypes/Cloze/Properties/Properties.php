@@ -267,6 +267,7 @@ class Properties implements PropertiesInterface
         );
     }
 
+    #[\Override]
     public function toCarry(): string
     {
         return json_encode([

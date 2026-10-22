@@ -25,6 +25,7 @@ use ILIAS\Questions\Presentation\Layout\Tools\InputsBuilder;
 use ILIAS\Questions\Presentation\Layout\Tools\InputsBuilderSession;
 use ILIAS\Questions\Presentation\Layout\Tools\UploadHandler;
 use ILIAS\Filesystem\Filesystem;
+use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\HTTP\Services as HttpService;
 use ILIAS\Language\Language;
@@ -48,7 +49,7 @@ class Factory
         private readonly IRSS $irss,
         private readonly Filesystem $temp_filesystem,
         private readonly FileUpload $upload,
-        private readonly \ilFileServicesFilenameSanitizer $sanitizer,
+        private readonly FilenameSanitizer $sanitizer,
     ) {
     }
 
