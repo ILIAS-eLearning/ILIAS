@@ -20,7 +20,8 @@ declare(strict_types=1);
 
 /**
  * The result a tool reported for a user of an LTI object, as the learning progress and the certificate
- * read it. The LTI versions write it through their own classes; this one only reads.
+ * read it. The LTI versions write the result through their own classes; this one only reads it and
+ * keeps the launches.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
@@ -50,6 +51,27 @@ class ilLTIToolResult
         }
 
         return new self($row['result'] === null ? null : (float) $row['result']);
+    }
+
+    /**
+     * A launch starts the attempt of the user, in progress until the tool reports a result. The learning
+     * progress is updated at once, the read event of the object was tracked before the launch.
+     */
+    public static function start(int $obj_id, int $usr_id): void
+    {
+        global $DIC;
+
+        $db = $DIC->database();
+        if (self::getByKeys($obj_id, $usr_id) === null) {
+            $db->insert(self::TABLE_NAME, [
+                'id' => ['integer', $db->nextId(self::TABLE_NAME)],
+                'obj_id' => ['integer', $obj_id],
+                'usr_id' => ['integer', $usr_id],
+                'result' => ['float', null],
+                'attended' => ['integer', 0],
+            ]);
+        }
+        ilLPStatusWrapper::_updateStatus($obj_id, $usr_id);
     }
 
     /**

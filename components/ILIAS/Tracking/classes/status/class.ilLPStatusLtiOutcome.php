@@ -147,7 +147,8 @@ class ilLPStatusLtiOutcome extends ilLPStatus
         if ($ltiResult instanceof ilLTIToolResult) {
             $object = $this->ensureObject($a_obj_id, $a_obj);
             $ltiMasteryScore = $object->getMasteryScore();
-            if ($ltiResult->getResult() >= $ltiMasteryScore) {
+            // a launch without a result yet is in progress, also with a mastery score of 0
+            if ($ltiResult->getResult() !== null && $ltiResult->getResult() >= $ltiMasteryScore) {
                 return self::LP_STATUS_COMPLETED_NUM;
             }
             return self::LP_STATUS_IN_PROGRESS_NUM;

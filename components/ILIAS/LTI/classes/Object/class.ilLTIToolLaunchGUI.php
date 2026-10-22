@@ -102,6 +102,7 @@ class ilLTIToolLaunchGUI
         $return_url = !$this->object->isLaunchMethodOwnWin() ? '' : ilLTIEndpoint::getBaseUrl() . '/'
             . $this->dic->ctrl()->getLinkTarget($this, self::CMD_LAUNCH, '');
 
+        ilLTIToolResult::start($this->object->getId(), $this->dic->user()->getId());
         ilLTIAdvantagePlatformLaunchRenderer::sendLaunchPage($this->object, $this->getCmixUser(), $return_url, $this->dic);
     }
 

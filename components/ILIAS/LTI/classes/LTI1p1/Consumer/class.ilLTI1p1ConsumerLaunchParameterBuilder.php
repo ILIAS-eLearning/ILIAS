@@ -109,7 +109,7 @@ final class ilLTI1p1ConsumerLaunchParameterBuilder
             $user_id_lti = strstr($email_primary, '@' . ilCmiXapiUser::getIliasUuid(), true);
         }
 
-        ilLTI1p1ConsumerResult::getByKeys($obj_id, $DIC->user()->getId(), true);
+        ilLTIToolResult::start($obj_id, $DIC->user()->getId());
 
         $tool_custom_params = $tool->getCustomParamsArray();
         $merged_params = array_merge($tool_custom_params, $custom_params_array);
