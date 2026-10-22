@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Language\ComponentTranslation;
 
+use ILIAS\Language\ComponentTranslation\Catalog\TranslationCatalog;
+use ILIAS\Language\ComponentTranslation\Catalog\TranslationEntry;
 use MigratedPoFixture;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -801,6 +803,46 @@ class ShippedTranslationsBuildTest extends TestCase
         $this->breakPo('mfa', 'de');
 
         $this->assertMfaIsNotServed();
+    }
+
+    /** Control of the tests above: with nothing manipulated the catalog of the former build is taken over. */
+    public function testTheCatalogOfAFormerBuildOfTheSameCodeIsTakenOver(): void
+    {
+        [$good] = $this->formerBuildWithMovedArtifacts();
+        $this->breakPo('mfa', 'de');
+
+        $result = $this->build(['mfa', 'mfb']);
+
+        $this->assertCount(1, $result['warnings']);
+        $this->assertStringContainsString($good, $result['warnings'][0], 'names the build it is served from');
+        $this->assertSame(['mfa' => ['de'], 'mfb' => ['de']], ShippedTranslationsBuild::readPointer($this->artifacts)['modules'] ?? null);
+        $this->assertSame(['greeting' => 'Hallo'], $this->servedValues((string) $result['build'], 'mfa', 'de'));
+    }
+
+    /** The value a build writes into its manifest covers the format version and the files of the classes that make up a catalog. */
+    public function testTheCompatibilityOfABuildHashesTheFormatVersionAndTheCatalogClasses(): void
+    {
+        $this->ship('mfa', 'de', ['greeting' => 'Hallo']);
+        $build = (string) $this->build(['mfa'])['build'];
+
+        $reflection = new \ReflectionClass(ShippedTranslationsBuild::class);
+        $classes = $reflection->getReflectionConstant('CATALOG_CLASSES')->getValue();
+        $hashes = array_map(
+            static fn(string $class): string => hash_file('sha256', (string) (new \ReflectionClass($class))->getFileName()),
+            $classes
+        );
+        $expected = hash('sha256', $reflection->getReflectionConstant('FORMAT_VERSION')->getValue() . '|' . hash('sha256', implode('|', $hashes)));
+
+        $this->assertSame($expected, $this->manifest($build)['compatibility']);
+    }
+
+    public function testTheCatalogClassesIncludeThoseThatDetermineTheBytesOfACatalog(): void
+    {
+        $classes = (new \ReflectionClass(ShippedTranslationsBuild::class))->getReflectionConstant('CATALOG_CLASSES')->getValue();
+
+        foreach ([TranslationCatalog::class, TranslationEntry::class, PluralForms::class, ShippedTranslations::class, TranslationMarkupPolicy::class] as $class) {
+            $this->assertContains($class, $classes);
+        }
     }
 
     public function testACatalogOfABuildWithoutACompatibilityValueIsNotTakenOver(): void

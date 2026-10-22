@@ -73,6 +73,19 @@ final class ShippedTranslationsBuild
      */
     private const int FORMAT_VERSION = 4;
 
+    /**
+     * The classes that determine the bytes of a compiled catalog (MigratedLanguageFileSync: moduleEntries()).
+     */
+    private const array CATALOG_CLASSES = [
+        ShippedTranslations::class,
+        TranslationMarkupPolicy::class,
+        TranslationCatalog::class,
+        TranslationEntry::class,
+        PluralForms::class,
+        PluralFormKey::class,
+        MigratedLanguageFileSync::class,
+    ];
+
     private const string MANIFEST_FILE = 'manifest.json';
     private const string MARKUP_WARNING = 'Markup not allowed in a language value';
 
@@ -456,13 +469,7 @@ final class ShippedTranslationsBuild
      */
     private static function catalogCompatibility(): string
     {
-        $parts = [(string) self::FORMAT_VERSION];
-        foreach ([ShippedTranslations::class, TranslationMarkupPolicy::class] as $class) {
-            $file = (new \ReflectionClass($class))->getFileName();
-            $parts[] = is_string($file) ? (string) @hash_file('sha256', $file) : '';
-        }
-
-        return hash('sha256', implode('|', $parts));
+        return hash('sha256', self::FORMAT_VERSION . '|' . self::classesFingerprint(self::CATALOG_CLASSES));
     }
 
     /**
@@ -651,8 +658,21 @@ final class ShippedTranslationsBuild
      */
     private function codeFingerprint(): string
     {
+        return self::classesFingerprint([
+            self::class,
+            MigratedLanguageFilePaths::class,
+            NativeGettext::class,
+            ...self::CATALOG_CLASSES,
+        ]);
+    }
+
+    /**
+     * @param list<class-string> $classes
+     */
+    private static function classesFingerprint(array $classes): string
+    {
         $parts = [];
-        foreach ([self::class, ShippedTranslations::class, TranslationMarkupPolicy::class, TranslationCatalog::class, TranslationEntry::class, MigratedLanguageFileSync::class, MigratedLanguageFilePaths::class, PluralForms::class, PluralFormKey::class, NativeGettext::class] as $class) {
+        foreach ($classes as $class) {
             $file = (new \ReflectionClass($class))->getFileName();
             $parts[] = is_string($file) ? (string) @hash_file('sha256', $file) : '';
         }
