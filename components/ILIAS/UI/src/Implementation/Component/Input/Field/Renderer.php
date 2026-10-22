@@ -919,7 +919,9 @@ class Renderer extends AbstractComponentRenderer
     ): Template {
         $template->setCurrentBlock('block_file_preview');
         $template->setVariable('REMOVAL_GLYPH', $default_renderer->render(
-            $this->getUIFactory()->symbol()->glyph()->close()->withAction("#")
+            $this->getUIFactory()->button()->shy('', '#')
+                ->withSymbol($this->getUIFactory()->symbol()->glyph()->close())
+                ->withAriaLabel('close')
         ));
 
         if (null !== $file_info) {
