@@ -595,7 +595,7 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
 
         $panel_html = "";
         $modals = "";
-        $tab_html = "";
+        $table_html = "";
         if ($this->object->isVirtual()) {
             $this->showToolbarForCollection();
             $panel = $this->showSelectedGlossariesForCollection();
@@ -604,12 +604,12 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
         } else {
             $this->showToolbarForStandard();
             $table = $this->domain->table()->getTermListTable($this->getGlossary(), $this->tax_node)->getComponent();
-            $tab_html = $this->ui_ren->render($table);
+            $table_html = $this->ui_ren->render($table);
         }
 
         $this->tabs->activateTab("content");
 
-        $this->tpl->setContent($panel_html . $modals . $tab_html);
+        $this->tpl->setContent($panel_html . $modals . $table_html);
     }
 
     /**

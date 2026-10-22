@@ -58,6 +58,7 @@ class TermDefinitionBulkCreationTable
                                   str_replace('\\', '', self::class) . "_" .
                                   $this->glossary->getRefId()
                               )
+                              ->withRange(new Data\Range(0, PHP_INT_MAX))
                               ->withRequest($this->request);
 
         return $table;
