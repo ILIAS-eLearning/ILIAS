@@ -3092,9 +3092,6 @@ msgstr "d.m.R"
 msgid "lang_path"
 msgstr "Ścieżka języka"
 
-msgid "lang_refresh_confirm"
-msgstr "Czy na pewno chcesz odświeżyć wszystkie języki?"
-
 msgid "lang_refresh_confirm_info"
 msgstr "Rozszerzone zarządzanie językiem jest aktualnie włączone. Odświeżanie języków ładuje wszystkie dane języka z plików językowych ILIAS do bazy danych. Lokalne zmiany (w bazie danych) mogą być nadpisane, jeśli nie zostały wcześnie wyeksportowane. Nie ma to żadnego wpływu na plik \"*. lang.local\" w katalogu Customizing (dotyczy personalizacji)."
 

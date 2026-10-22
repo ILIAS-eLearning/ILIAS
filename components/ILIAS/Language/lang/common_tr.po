@@ -3175,9 +3175,6 @@ msgstr "Ymd"
 msgid "lang_path"
 msgstr "Dil Yolu"
 
-msgid "lang_refresh_confirm"
-msgstr "Eğer gerçekten tüm dillerde yenilemek istiyor musunuz?"
-
 msgid "lang_refresh_confirm_info"
 msgstr "Genişletilmiş dil bakım anda devreye girer. Canlandırıcı dilleri ILIAS küresel dil dosyaları ve muhtemelen veritabanına Özelleştirme dizininden yerel dil dosyaları okuyacaktır. Küresel dil dosyaları manuel değişiklikleri etkilemez. Yerel langage dosyası yerel dil dosya kaydetme tarihinden daha eski olan tüm manuel değişikliklerin üzerine yazılır."
 

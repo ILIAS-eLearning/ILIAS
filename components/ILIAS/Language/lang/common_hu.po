@@ -2989,9 +2989,6 @@ msgstr "Y-m-d"
 msgid "lang_path"
 msgstr "Nyelv elérési útja"
 
-msgid "lang_refresh_confirm"
-msgstr "Biztos, hogy frissíti az összes nyelvet?"
-
 msgid "lang_refresh_confirm_info"
 msgstr "ILIAS nyelvi változói módosultak. Egy nyelv frissítésekor a standard nyelvi fájl és az esetleges egyéni nyelvi fájl értékeit töltjük be az adatbázisba. A standard nyelvi fájl nem írja felül módosításait. Az egyéni nyelvi fájl értékeivel felülírjuk azokat a módosításait, amelyek régebbiek, mint a fájl utolsó mentésének dátuma."
 

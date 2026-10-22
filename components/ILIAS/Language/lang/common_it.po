@@ -3056,9 +3056,6 @@ msgstr "Y-m-d"
 msgid "lang_path"
 msgstr "Percorso lingue"
 
-msgid "lang_refresh_confirm"
-msgstr "Vuoi veramente aggiornare tutte le lingue?"
-
 msgid "lang_refresh_confirm_info"
 msgstr "La manutenzione linguistica estesa è attualmente attivata. L'aggiornamento delle lingue carica tutti i dati di lingua dai file di lingua ILIAS nel database. Le modifiche locali (nel database) possono essere sovrascritte, se non esportate in precedenza. Ciò non influisce sui file \"* .lang.local\" nella directory di personalizzazione."
 

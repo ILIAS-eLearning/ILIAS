@@ -3083,9 +3083,6 @@ msgstr "G-m-d"
 msgid "lang_path"
 msgstr "Put jezične datoteke"
 
-msgid "lang_refresh_confirm"
-msgstr "Želite li stvarno ažurirati sve jezike?"
-
 msgid "lang_refresh_confirm_info"
 msgstr "ILIAS je pronašao promijenjene jezične varijable. Ažuriranjem jezika, u bazu podataka učitat će se sve datoteka sa standardnim jezikom i vjerojatno datoteka s prilagođenim jezikom. Standardna datoteka neće utjecati na vaše promjene. Prilagođena datoteka prepisat će vaše promjene starije od datuma datoteke."
 

@@ -3630,10 +3630,6 @@ msgid "lang_path"
 msgstr "Path catre limba"
 
 #, fuzzy
-msgid "lang_refresh_confirm"
-msgstr "Do you really want to refresh all languages?"
-
-#, fuzzy
 msgid "lang_refresh_confirm_info"
 msgstr "Extended language maintenance is currently activated. Refreshing the languages loads all language data from the ILIAS language files into the database. Local changes (in the database) may be overwritten, if not exported before. This does not affect any \"*.lang.local\" files in the Customizing directory."
 

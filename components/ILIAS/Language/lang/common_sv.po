@@ -3046,9 +3046,6 @@ msgstr "d.m.Y"
 msgid "lang_path"
 msgstr "Sökväg till språkfiler"
 
-msgid "lang_refresh_confirm"
-msgstr "Bör alla språk verkligen uppdateras?"
-
 msgid "lang_refresh_confirm_info"
 msgstr "ILIAS har hittat ändrade språkvariabler. När du uppdaterar ett språk laddas alla data från dess standardspråkfil och eventuellt från en anpassad språkfil in i databasen. Dina ändringar skrivs inte över när standardspråksfilen laddas. En anpassad språkfil"
 

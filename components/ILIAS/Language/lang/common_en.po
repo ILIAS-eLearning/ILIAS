@@ -2985,9 +2985,6 @@ msgstr "Y-m-d"
 msgid "lang_path"
 msgstr "Language Path"
 
-msgid "lang_refresh_confirm"
-msgstr "Do you really want to refresh all languages?"
-
 msgid "lang_refresh_confirm_info"
 msgstr "ILIAS found changed language variables. Refreshing a language will read the standard language file and probably a custom language file to the database. A standard file will not affect your changes. A custom file will overwrite your changes that are older than the file date."
 
