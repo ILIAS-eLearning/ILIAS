@@ -107,6 +107,7 @@ class ConditionFactory
     }
 
     /**
+     * @throws UnknownConditionTypeException if the type of the condition is not contributed
      * @throws ilException|ReflectionException
      */
     public function getConditionInstanceById(int $condition_id): AbstractCondition
@@ -164,7 +165,8 @@ class ConditionFactory
     }
 
     /**
-     * @throws ilException|ReflectionException
+     * @throws UnknownConditionTypeException if no contributed condition type has this name
+     * @throws ReflectionException
      */
     public function getConditionInstanceByName(string $condition_name): AbstractCondition
     {
@@ -180,7 +182,7 @@ class ConditionFactory
             }
         }
 
-        throw new ilException("Condition class for '{$condition_name}' not found.");
+        throw new UnknownConditionTypeException($condition_name);
     }
 
     /**

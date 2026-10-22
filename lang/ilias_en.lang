@@ -11236,6 +11236,7 @@ lso#:#lso_choice_page_start_label#:#Start object
 lso#:#lso_choice_page_subline#:#Select one of the following objects to continue your path.
 lso#:#lso_condition_simple_choice_target#:#Select Single Object
 lso#:#lso_condition_simple_multi_target#:#Select Multiple Objects
+lso#:#lso_condition_unknown_type#:#Unknown Condition Type
 lso#:#lso_edit_permission#:#User can change permission settings
 lso#:#lso_exception_additional_form_no_override#:#%s defines an additional configuration form but does not override applyAdditionalFormData().
 lso#:#lso_exception_at_least_one_object#:#At least one object must be selected.

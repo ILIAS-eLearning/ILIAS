@@ -24,6 +24,7 @@ use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\AvailabilityPeriod\Av
 use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\CachedRepository as ReferencePropertiesRepository;
 use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\ObjectReferenceProperties;
 use ILIAS\LearningSequence\Content\Condition\SubtypeAwareInterface;
+use ILIAS\LearningSequence\Content\Condition\UnknownConditionTypeException;
 use ILIAS\LearningSequence\LearningMap\LSOLearningMapDataBuilder;
 use ILIAS\LearningSequence\LearningMap\LSOLearningMapRenderer;
 use ILIAS\LearningSequence\LearningMap\LSOLearningMapViewMode;
@@ -249,7 +250,14 @@ class ilObjLearningSequence extends ilContainer
             $conditions = $condition_factory->getConditionIdsForItem($item_ref_id);
             foreach ($conditions as $condition_id) {
                 $created = false;
-                $condition = $condition_factory->getConditionInstanceById($condition_id);
+                try {
+                    $condition = $condition_factory->getConditionInstanceById($condition_id);
+                } catch (UnknownConditionTypeException $e) {
+                    $this->log->warning(
+                        'Condition ' . $condition_id . ' is not copied: ' . $e->getMessage()
+                    );
+                    continue;
+                }
                 $condition_name = $condition->getIdentifierForClass($condition::class);
 
                 try {

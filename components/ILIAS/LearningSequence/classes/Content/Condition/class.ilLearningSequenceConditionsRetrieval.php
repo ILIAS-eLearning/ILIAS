@@ -23,6 +23,7 @@ use ILIAS\Data\Range;
 use ILIAS\LearningSequence\Content\Condition\AbstractCondition;
 use ILIAS\LearningSequence\Content\Condition\ConditionFactory;
 use ILIAS\LearningSequence\Content\Condition\SubtypeAwareInterface;
+use ILIAS\LearningSequence\Content\Condition\UnknownConditionTypeException;
 use ILIAS\LearningSequence\Content\Condition\InputCondition\InputConditionInterface;
 use ILIAS\UI\Component\Table\DataRetrieval;
 use ILIAS\UI\Component\Table\DataRowBuilder;
@@ -57,9 +58,15 @@ class ilLearningSequenceConditionsRetrieval implements DataRetrieval
     ): Generator {
         $input_conditions = [];
         $output_conditions = [];
+        $unknown_conditions = [];
 
         foreach ($this->conditions as $condition_id) {
-            $condition = $this->condition_factory->getConditionInstanceById($condition_id);
+            try {
+                $condition = $this->condition_factory->getConditionInstanceById($condition_id);
+            } catch (UnknownConditionTypeException $e) {
+                $unknown_conditions[(int) $condition_id] = $e->getConditionName();
+                continue;
+            }
 
             if ($condition instanceof InputConditionInterface) {
                 $input_conditions[(int) $condition_id] = $condition;
@@ -89,6 +96,20 @@ class ilLearningSequenceConditionsRetrieval implements DataRetrieval
 
                 yield $row;
             }
+        }
+
+        // Conditions of a type which is not contributed (anymore) can only be deleted.
+        ksort($unknown_conditions, SORT_NUMERIC);
+        foreach ($unknown_conditions as $condition_id => $condition_name) {
+            yield $row_builder->buildDataRow(
+                (string) $condition_id,
+                [
+                    'type' => $this->lng->txt('lso_condition_unknown_type'),
+                    'name' => htmlspecialchars($condition_name, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'),
+                    'subtype' => '',
+                    'details' => '',
+                ]
+            )->withDisabledAction('edit');
         }
     }
 

@@ -22,7 +22,9 @@ use ILIAS\Data\Factory;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\LearningSequence\Content\Condition\AbstractCondition;
 use ILIAS\LearningSequence\Content\Condition\ConditionFactory;
+use ILIAS\LearningSequence\Content\Condition\ConditionHandler;
 use ILIAS\LearningSequence\Content\Condition\ConditionTypes;
+use ILIAS\LearningSequence\Content\Condition\UnknownConditionTypeException;
 use ILIAS\UI\Component\Menu\Drilldown;
 use ILIAS\UI\Component\Modal\Roundtrip;
 use ILIAS\UI\Component\Panel\Panel;
@@ -58,6 +60,7 @@ class ilObjLearningSequenceConditionsGUI implements ilCtrlSecurityInterface
         protected \ILIAS\Refinery\Factory $refinery,
         private ConditionTypes $condition_types,
         private ConditionFactory $condition_factory,
+        private ConditionHandler $condition_handler,
     ) {
         global $DIC;
         $this->lso_ref_id = $this->query_wrapper->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
@@ -386,6 +389,12 @@ class ilObjLearningSequenceConditionsGUI implements ilCtrlSecurityInterface
                     'condition_' . $condition_id,
                     $this->lng->txt($this->condition_factory->getConditionInstanceById($condition_id)->getName()),
                 );
+            } catch (UnknownConditionTypeException $e) {
+                $affected_items[] = $this->ui_factory->modal()->interruptiveItem()->standard(
+                    'condition_' . $condition_id,
+                    $this->lng->txt('lso_condition_unknown_type') . ': '
+                    . htmlspecialchars($e->getConditionName(), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'),
+                );
             } catch (Exception $e) {
                 // condition not found
             }
@@ -418,7 +427,13 @@ class ilObjLearningSequenceConditionsGUI implements ilCtrlSecurityInterface
 
         foreach ($condition_to_delete as $condition) {
             $condition_id = (int) str_replace('condition_', '', $condition);
-            $condition = $this->condition_factory->getConditionInstanceById($condition_id);
+            try {
+                $condition = $this->condition_factory->getConditionInstanceById($condition_id);
+            } catch (UnknownConditionTypeException) {
+                // The payload tables of an unknown type are not known, only the condition itself is removed.
+                $this->condition_handler->deleteCondition($condition_id);
+                continue;
+            }
             $condition->delete();
         }
 

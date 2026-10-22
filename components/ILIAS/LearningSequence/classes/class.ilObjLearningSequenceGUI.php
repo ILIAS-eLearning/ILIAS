@@ -611,6 +611,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             $this->refinery,
             $this->object->getDI()["conditions.types"],
             $this->object->getDI()["conditions.factory"],
+            $this->object->getDI()["conditions.handler"],
         );
     }
 

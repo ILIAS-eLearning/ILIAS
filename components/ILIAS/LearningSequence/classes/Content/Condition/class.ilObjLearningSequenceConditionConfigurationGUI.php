@@ -22,6 +22,7 @@ use ILIAS\DI\Container;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\LearningSequence\Content\Condition\AbstractCondition;
 use ILIAS\LearningSequence\Content\Condition\ConditionFactory;
+use ILIAS\LearningSequence\Content\Condition\UnknownConditionTypeException;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -222,7 +223,11 @@ class ilObjLearningSequenceConditionConfigurationGUI implements ilCtrlSecurityIn
 
         $condition_ids = $this->condition_factory->getConditionIdsForItem($this->item_ref_id);
         foreach ($condition_ids as $condition_id) {
-            $any_condition_of_object = $this->condition_factory->getConditionInstanceById($condition_id);
+            try {
+                $any_condition_of_object = $this->condition_factory->getConditionInstanceById($condition_id);
+            } catch (UnknownConditionTypeException) {
+                continue;
+            }
             if (
                 $condition->getTypeId() === $any_condition_of_object->getTypeId()
                 && !$condition->allowMultipleConditionsOfSameType()

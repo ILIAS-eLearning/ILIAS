@@ -30,6 +30,7 @@ use ILIAS\LearningSequence\Content\Condition\OutputCondition\OutputConditionInte
 use ILIAS\LearningSequence\Content\Condition\StaticInputConfigurationIssue;
 use ILIAS\LearningSequence\Content\Condition\StaticInputConfigurationIssueDetail;
 use ILIAS\LearningSequence\Content\Condition\TableDefinition;
+use ILIAS\LearningSequence\Content\Condition\UnknownConditionTypeException;
 use ILIAS\UI\Component\Input\Container\Form\Standard as FormStandard;
 use ILIAS\UI\Component\Link\Bulky;
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
@@ -264,19 +265,23 @@ class LogicGateInputAwareCondition extends AbstractCondition implements
      *
      * If an item defines output conditions, all of them must be fulfilled, mirroring
      * the navigator's canLeave() semantics. Without output conditions we fall back to
-     * the item's regular learning-progress completion state.
+     * the item's regular learning-progress completion state. Conditions of a type
+     * which is not contributed (anymore) cannot be evaluated and are skipped, like
+     * the navigator does.
      *
      * @throws ReflectionException
      * @throws ilException
      */
     private function isItemCompleted(int $item_ref_id): bool
     {
-        $conditions_of_item = $this->getConditionFactory()->getConditionIdsForItem($item_ref_id);
-
-        $conditions = array_map(
-            fn($condition_id) => $this->getConditionFactory()->getConditionInstanceById($condition_id),
-            $conditions_of_item
-        );
+        $conditions = [];
+        foreach ($this->getConditionFactory()->getConditionIdsForItem($item_ref_id) as $condition_id) {
+            try {
+                $conditions[] = $this->getConditionFactory()->getConditionInstanceById($condition_id);
+            } catch (UnknownConditionTypeException) {
+                continue;
+            }
+        }
 
         $output_conditions = array_filter(
             $conditions,
