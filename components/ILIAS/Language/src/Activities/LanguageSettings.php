@@ -22,6 +22,8 @@ namespace ILIAS\Language\Activities;
 
 /**
  * The settings of the language administration changed by the Activities.
+ *
+ * @internal
  */
 interface LanguageSettings
 {

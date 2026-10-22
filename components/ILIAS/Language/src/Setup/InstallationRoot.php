@@ -22,6 +22,8 @@ namespace ILIAS\Language\Setup;
 
 /**
  * The root directory of the ILIAS installation, which the language file directories are relative to.
+ *
+ * @internal
  */
 interface InstallationRoot
 {

@@ -22,6 +22,8 @@ namespace ILIAS\Language\Setup;
 
 /**
  * Cache of the translations of a language, which must be invalidated whenever lng_modules changes.
+ *
+ * @internal
  */
 interface TranslationCache
 {

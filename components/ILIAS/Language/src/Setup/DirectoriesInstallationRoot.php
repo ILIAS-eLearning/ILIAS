@@ -24,6 +24,8 @@ use ILIAS\Environment\Configuration\Installation\Directories;
 
 /**
  * Reads the root from the Directories of the installation on every call, never at construction.
+ *
+ * @internal Only the Language component shall provide an instance of this.
  */
 final readonly class DirectoriesInstallationRoot implements InstallationRoot
 {

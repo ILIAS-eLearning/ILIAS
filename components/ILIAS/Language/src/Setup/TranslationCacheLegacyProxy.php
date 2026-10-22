@@ -22,6 +22,8 @@ namespace ILIAS\Language\Setup;
 
 /**
  * Delegates to ilCachedLanguage at call time, so it can be built at build time without the global cache.
+ *
+ * @internal Only the Language component shall provide an instance of this.
  */
 final class TranslationCacheLegacyProxy implements TranslationCache
 {
