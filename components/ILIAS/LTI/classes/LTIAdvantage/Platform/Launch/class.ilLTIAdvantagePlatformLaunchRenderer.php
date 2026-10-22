@@ -149,6 +149,6 @@ final class ilLTIAdvantagePlatformLaunchRenderer
         // session, so the cookie is sent again as SameSite=None, as ilStartUpGUI does for LTI sessions.
         ilLTISessionCookie::allowCrossSite();
 
-        ilLTIAdvantageResponse::html($page, $status);
+        ilLTIResponse::html($page, $status);
     }
 }

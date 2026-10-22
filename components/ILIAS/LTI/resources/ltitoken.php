@@ -40,7 +40,7 @@ global $DIC;
 $log = $DIC->logger()->forComponent('lti');
 $refuse = static function (int $status, string $error, string $reason) use ($log): never {
     $log->warning('LTI Advantage access token refused: ' . $reason);
-    ilLTIAdvantageResponse::json($status, ['error' => $error], ['Cache-Control' => 'no-store']);
+    ilLTIResponse::json($status, ['error' => $error], ['Cache-Control' => 'no-store']);
 };
 
 $request = $DIC->http()->request();

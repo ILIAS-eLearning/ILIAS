@@ -61,4 +61,4 @@ if ($status === 200) {
     $log->warning('LTI Advantage tool registration refused: ' . ($answer['error_description'] ?? $answer['error']));
 }
 
-ilLTIAdvantageResponse::json($status, $answer, ['Cache-Control' => 'no-store']);
+ilLTIResponse::json($status, $answer, ['Cache-Control' => 'no-store']);

@@ -77,7 +77,7 @@ final class ilLTI1p1ConsumerLaunchParameterBuilder
         }
 
         $document_target = "window";
-        if ($launch_method == ilObjLTITool::LAUNCH_METHOD_EMBEDDED) {
+        if ($launch_method === ilObjLTITool::LAUNCH_METHOD_EMBEDDED) {
             $document_target = "iframe";
         }
 
@@ -105,7 +105,7 @@ final class ilLTI1p1ConsumerLaunchParameterBuilder
         $user_id_lti = ilCmiXapiUser::getIdentAsId($tool->getPrivacyIdent(), $DIC->user());
 
         $email_primary = $cmix_user->getUsrIdent();
-        if ($tool->getPrivacyIdent() == ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_RANDOM) {
+        if ($tool->getPrivacyIdent() === ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_RANDOM) {
             $user_id_lti = strstr($email_primary, '@' . ilCmiXapiUser::getIliasUuid(), true);
         }
 

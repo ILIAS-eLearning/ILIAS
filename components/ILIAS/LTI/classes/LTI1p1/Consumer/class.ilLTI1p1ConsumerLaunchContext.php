@@ -42,20 +42,20 @@ class ilLTI1p1ConsumerLaunchContext
      * @param array|null $a_valid_types  list of valid types
      * @return array|null  context array ("ref_id", "title", "type")
      */
-    public function getContext(?array $a_valid_types = array('crs', 'grp', 'cat', 'root')): ?array
+    public function getContext(?array $a_valid_types = ['crs', 'grp', 'cat', 'root']): ?array
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $tree = $DIC->repositoryTree();
 
         if (!isset($this->context)) {
-            $this->context = array();
+            $this->context = [];
 
             // check fromm inner to outer
             $path = array_reverse($tree->getPathFull($this->ref_id));
             foreach ($path as $row) {
-                if (in_array($row['type'], $a_valid_types)) {
+                if (in_array($row['type'], $a_valid_types, true)) {
                     // take an existing inner context outside a course
-                    if (in_array($row['type'], array('cat', 'root')) && !empty($this->context)) {
+                    if (in_array($row['type'], ['cat', 'root'], true) && !empty($this->context)) {
                         break;
                     }
 

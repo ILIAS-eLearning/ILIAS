@@ -54,4 +54,4 @@ $page = '<!DOCTYPE html><html lang="' . htmlspecialchars($lng->getLangKey(), ENT
     . '<button type="button" onclick="(window.opener || window.parent).postMessage({subject: \'org.imsglobal.lti.close\'}, \'*\');">'
     . $close . '</button></body></html>';
 
-ilLTIAdvantageResponse::send($registered ? 200 : 400, ilLTIAdvantageResponse::CONTENT_TYPE_HTML, $page, ['Cache-Control' => 'no-store']);
+ilLTIResponse::send($registered ? 200 : 400, ilLTIResponse::CONTENT_TYPE_HTML, $page, ['Cache-Control' => 'no-store']);

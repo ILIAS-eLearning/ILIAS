@@ -65,7 +65,7 @@ if ($connection === null || !$connection->isRedirectionUri((string) (Util::$requ
             'hint' => Util::$requestParameters['lti_message_hint'] ?? null,
         ]),
     ]);
-    ilLTIAdvantageResponse::send(400, '', '');
+    ilLTIResponse::send(400, '', '');
 }
 
 register_shutdown_function($connection->logAuthenticationAnswer(...));

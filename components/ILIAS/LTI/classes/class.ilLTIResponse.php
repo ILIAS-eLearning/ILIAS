@@ -22,15 +22,17 @@ use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Response\ResponseHeader;
 
 /**
- * The answer to a request of LTI Advantage that ends the request: the endpoints of ILIAS and the pages that
- * post a message to the other side.
+ * The answer that ends a request of LTI: the endpoints of ILIAS, the pages that post a message to the other
+ * side and the modals the tables load asynchronously.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-final class ilLTIAdvantageResponse
+final class ilLTIResponse
 {
     public const string CONTENT_TYPE_JSON = 'application/json; charset=utf-8';
     public const string CONTENT_TYPE_HTML = 'text/html; charset=utf-8';
+    public const string CONTENT_TYPE_XML = 'application/xml; charset=utf-8';
+    public const string CONTENT_TYPE_TEXT = 'text/plain; charset=utf-8';
 
     /**
      * @param string $content_type none when empty

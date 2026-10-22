@@ -47,4 +47,4 @@ try {
     [$status, $headers, $body] = [500, ['Content-Type' => 'application/json; charset=utf-8'], '{"error":"server_error"}'];
 }
 
-ilLTIAdvantageResponse::send($status, '', $body, ['Cache-Control' => 'no-store'] + $headers);
+ilLTIResponse::send($status, '', $body, ['Cache-Control' => 'no-store'] + $headers);

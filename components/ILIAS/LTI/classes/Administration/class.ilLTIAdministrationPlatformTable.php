@@ -109,7 +109,6 @@ class ilLTIAdministrationPlatformTable implements DataRetrieval
 
             case self::ACTION_CONFIRM_DELETE:
                 $this->showDeleteModal($ids);
-                exit();
 
             case self::ACTION_DELETE:
                 // the released objects go with the platform
@@ -239,7 +238,7 @@ class ilLTIAdministrationPlatformTable implements DataRetrieval
     /**
      * @param array $ids
      */
-    private function showDeleteModal(array $ids): void
+    private function showDeleteModal(array $ids): never
     {
         $items = [];
         $result = $this->db->query("SELECT id, title FROM lti_ext_consumer WHERE " . $this->db->in("id", $ids, false, "integer"));
@@ -251,12 +250,12 @@ class ilLTIAdministrationPlatformTable implements DataRetrieval
             ->withParameter($this->id_token, array_map("strval", $ids))
             ->buildURI();
 
-        echo $this->ui_renderer->renderAsync(
+        ilLTIResponse::html($this->ui_renderer->renderAsync(
             $this->ui_factory->modal()->interruptive(
                 $this->lng->txt("confirm"),
                 $this->lng->txt("info_delete_sure"),
                 (string) $delete_url
             )->withAffectedItems($items)
-        );
+        ));
     }
 }

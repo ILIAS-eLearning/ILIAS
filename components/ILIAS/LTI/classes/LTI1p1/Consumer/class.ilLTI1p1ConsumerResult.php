@@ -94,7 +94,7 @@ class ilLTI1p1ConsumerResult
         $this->id = (int) $data['id'];
         $this->obj_id = (int) $data['obj_id'];
         $this->usr_id = (int) $data['usr_id'];
-        $this->result = $data['result'] == null ? null : (float) $data['result'];
+        $this->result = $data['result'] === null ? null : (float) $data['result'];
         $this->attended = (bool) $data['attended'];
     }
 
@@ -114,15 +114,15 @@ class ilLTI1p1ConsumerResult
 
         $DIC->database()->replace(
             'lti_consumer_results',
-            array(
-                'id' => array('integer', $this->id)
-            ),
-            array(
-                'obj_id' => array('integer', $this->obj_id),
-                'usr_id' => array('integer', $this->usr_id),
-                'result' => array('float', $this->result),
-                'attended' => array('integer', $this->attended)
-            )
+            [
+                'id' => ['integer', $this->id]
+            ],
+            [
+                'obj_id' => ['integer', $this->obj_id],
+                'usr_id' => ['integer', $this->usr_id],
+                'result' => ['float', $this->result],
+                'attended' => ['integer', $this->attended]
+            ]
         );
         return true;
     }

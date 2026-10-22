@@ -77,8 +77,7 @@ final class ilLTI1p1ConsumerLaunchRenderer
         $tpl->setVariable("LOADER_ICON_SRC", ilUtil::getImagePath("media/loader.svg"));
         $tpl->setVariable('LAUNCH_URL', $object->getTool()->getUrl());
 
-        echo $tpl->get();
-        exit; //TODO: no exit
+        ilLTIResponse::html($tpl->get());
     }
 
     /**
@@ -94,7 +93,7 @@ final class ilLTI1p1ConsumerLaunchRenderer
         if (
             $object->getOfflineStatus() ||
             $object->isLaunchMethodEmbedded() ||
-            $object->getTool()->getAvailability() == ilLTITool::AVAILABILITY_NONE
+            $object->getTool()->getAvailability() === ilLTITool::AVAILABILITY_NONE
         ) {
             return "";
         }
@@ -119,7 +118,7 @@ final class ilLTI1p1ConsumerLaunchRenderer
 
         $launch_parameters = self::resolveLaunchParameters($object, $cmix_user, $dic, $return_url);
 
-        $target = $object->getLaunchMethod() == "newWin" ? "_blank" : "_self";
+        $target = $object->getLaunchMethod() === ilObjLTITool::LAUNCH_METHOD_NEW_WIN ? "_blank" : "_self";
         $button = '<input class="btn btn-default ilPre" type="button" onClick="ltilaunch()" value = "' . $lng->txt("show_content") . '" />';
         $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $object->getTool()->getUrl() . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
         foreach ($launch_parameters as $field => $value) {

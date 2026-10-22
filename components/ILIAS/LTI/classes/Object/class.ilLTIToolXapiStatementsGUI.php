@@ -301,12 +301,11 @@ class ilLTIToolXapiStatementsGUI implements DataRetrieval
         $raw = (array) ilSession::get(self::SESSION_RAW);
         $factory = $this->dic->ui()->factory();
 
-        echo $this->dic->ui()->renderer()->renderAsync(
+        ilLTIResponse::html($this->dic->ui()->renderer()->renderAsync(
             $factory->modal()->roundtrip(
                 $this->dic->language()->txt('tbl_action_raw_data'),
                 $factory->legacy()->content('<pre>' . htmlspecialchars((string) ($raw[$id] ?? '')) . '</pre>')
             )->withCancelButtonLabel($this->dic->language()->txt('close'))
-        );
-        exit();
+        ));
     }
 }

@@ -50,7 +50,7 @@ class ilLTIConsumerResultService
     /**
      * @var Array fields: name => value
      */
-    protected array $fields = array();
+    protected array $fields = [];
 
     /**
      * @var string the message reference id
@@ -60,6 +60,11 @@ class ilLTIConsumerResultService
      * @var string  the requested operation
      */
     protected string $operation = '';
+
+    /**
+     * @var array{int, string, string}|null the answer sent once the request is handled: status, content type, body
+     */
+    private ?array $response = null;
 
 
     public function getMasteryScore(): float
@@ -79,16 +84,23 @@ class ilLTIConsumerResultService
 
     public function isAvailable(): bool
     {
-        if ($this->availability == 0) {
+        if ($this->availability === ilLTITool::AVAILABILITY_NONE) {
             return false;
         }
         return true;
     }
 
     /**
-     * Handle an incoming request from the LTI tool provider
+     * Handle an incoming request from the LTI tool provider and end it with the answer
      */
-    public function handleRequest(): void
+    public function handleRequest(): never
+    {
+        $this->processRequest();
+
+        ilLTIResponse::send(...($this->response ?? [400, ilLTIResponse::CONTENT_TYPE_TEXT, '']));
+    }
+
+    private function processRequest(): void
     {
         try {
 
@@ -115,7 +127,7 @@ class ilLTIConsumerResultService
             ]);
 
             $this->result = ilLTI1p1ConsumerResult::getByKeys($token->getObjId(), $token->getUsrId());
-            if (empty($this->result)) {
+            if ($this->result === null) {
                 $logger->warning('LTI Basic Outcomes request refused: the object {obj_id} has no result of the user {usr_id}', [
                     'obj_id' => $token->getObjId(),
                     'usr_id' => $token->getUsrId(),
@@ -174,7 +186,10 @@ class ilLTIConsumerResultService
             }
         } catch (Exception $exception) {
             $DIC->logger()->forComponent('lti')->warning('LTI Basic Outcomes request refused: ' . $exception->getMessage());
-            $this->respondBadRequest($exception->getMessage());
+            // an operation already answered keeps its answer, only the learning progress failed after it
+            if ($this->response === null) {
+                $this->respondBadRequest($exception->getMessage());
+            }
         }
     }
 
@@ -256,7 +271,7 @@ class ilLTIConsumerResultService
     }
 
     /**
-     * Sends a response template, with the placeholders every response shares and the given ones replaced.
+     * Answers with a response template, with the placeholders every response shares and the given ones replaced.
      *
      * @param string $a_name
      * @param array $replacements
@@ -264,13 +279,16 @@ class ilLTIConsumerResultService
     private function respond(string $a_name, array $replacements = []): void
     {
         $replacements = array_merge([
-            '{message_id}' => md5((string) rand(0, 999_999_999)),
+            '{message_id}' => bin2hex(random_bytes(16)),
             '{message_ref_id}' => $this->message_ref_id,
             '{operation}' => $this->operation,
         ], $replacements);
 
-        header('Content-type: application/xml');
-        echo str_replace(array_keys($replacements), array_values($replacements), $this->loadResponse($a_name));
+        $this->response = [
+            200,
+            ilLTIResponse::CONTENT_TYPE_XML,
+            str_replace(array_keys($replacements), array_values($replacements), $this->loadResponse($a_name)),
+        ];
     }
 
 
@@ -296,13 +314,11 @@ class ilLTIConsumerResultService
      */
     protected function respondBadRequest(?string $message = null): void
     {
-        header('HTTP/1.1 400 Bad Request');
-        header('Content-type: text/plain');
-        if (isset($message)) {
-            echo $message;
-        } else {
-            echo 'This is not a well-formed LTI Basic Outcomes Service request.';
-        }
+        $this->response = [
+            400,
+            ilLTIResponse::CONTENT_TYPE_TEXT,
+            $message ?? 'This is not a well-formed LTI Basic Outcomes Service request.',
+        ];
     }
 
     /**
@@ -311,13 +327,11 @@ class ilLTIConsumerResultService
      */
     protected function respondUnauthorized(?string $message = null): void
     {
-        header('HTTP/1.1 401 Unauthorized');
-        header('Content-type: text/plain');
-        if (isset($message)) {
-            echo $message;
-        } else {
-            echo 'This request could not be authorized.';
-        }
+        $this->response = [
+            401,
+            ilLTIResponse::CONTENT_TYPE_TEXT,
+            $message ?? 'This request could not be authorized.',
+        ];
     }
 
     /**
@@ -334,7 +348,7 @@ class ilLTIConsumerResultService
 			AND lti_consumer_settings.obj_id = %s
 		";
 
-        $res = $DIC->database()->queryF($query, array('integer'), array($a_obj_id));
+        $res = $DIC->database()->queryF($query, ['integer'], [$a_obj_id]);
 
         if ($row = $DIC->database()->fetchAssoc($res)) {
             $this->setAvailability((int) $row['availability']);
@@ -356,7 +370,7 @@ class ilLTIConsumerResultService
 			AND lti_consumer_settings.obj_id = %s
 		";
 
-        $res = $DIC->database()->queryF($query, array('integer'), array($a_obj_id));
+        $res = $DIC->database()->queryF($query, ['integer'], [$a_obj_id]);
 
         while ($row = $DIC->database()->fetchAssoc($res)) {
             if (strlen($row["launch_key"]) > 0) {

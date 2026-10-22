@@ -174,7 +174,7 @@ final class ilLTIAdvantageToolDeepLinking extends Tool
             ]),
         ]);
 
-        ilLTIAdvantageResponse::html($page);
+        ilLTIResponse::html($page);
     }
 
     /**

@@ -36,8 +36,7 @@ $client_id = $DIC->http()->wrapper()->query()->retrieve(
 
 if ($client_id === '') {
     $DIC->logger()->forComponent('lti')->warning('LTI Basic Outcomes request refused: no client id in the URL');
-    header('HTTP/1.1 401 Authorization Required');
-    exit;
+    ilLTIResponse::send(401, ilLTIResponse::CONTENT_TYPE_TEXT, 'This request could not be authorized.');
 }
 
 ilContext::init(ilContext::CONTEXT_SCORM);

@@ -184,7 +184,7 @@ final class ilLTIAdvantagePlatformDeepLinking
             . '<script>window.top.location.replace(' . json_encode($url, JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) . ');</script>'
             . '<a href="' . $escaped . '" target="_top">' . $escaped . '</a></body></html>';
 
-        ilLTIAdvantageResponse::html($page);
+        ilLTIResponse::html($page);
     }
 
     /**

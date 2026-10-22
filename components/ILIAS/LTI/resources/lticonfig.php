@@ -29,4 +29,4 @@ entry_point('ILIAS Legacy Initialisation Adapter');
 
 ilContext::init(ilContext::CONTEXT_SCORM);
 
-ilLTIAdvantageResponse::json(200, ilLTIAdvantagePlatformRegistration::getOpenidConfiguration());
+ilLTIResponse::json(200, ilLTIAdvantagePlatformRegistration::getOpenidConfiguration());

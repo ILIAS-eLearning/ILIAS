@@ -40,4 +40,4 @@ try {
     $body = ['error' => 'server_error'];
 }
 
-ilLTIAdvantageResponse::json($status, $body);
+ilLTIResponse::json($status, $body);

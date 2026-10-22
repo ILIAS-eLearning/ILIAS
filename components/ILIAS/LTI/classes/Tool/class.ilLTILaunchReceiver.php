@@ -106,7 +106,7 @@ class ilLTILaunchReceiver extends Tool
             Util::redirect($this->redirectUrl);
         }
         if ($this->output !== null) {
-            ilLTIAdvantageResponse::html($this->output);
+            ilLTIResponse::html($this->output);
         }
     }
 

@@ -152,7 +152,6 @@ class ilLTIToolTable implements DataRetrieval
 
             case self::ACTION_CONFIRM_DELETE:
                 $this->showDeleteModal($ids);
-                exit();
 
             case self::ACTION_DELETE:
                 if (ilLTITool::countUsages($ids) > 0) {
@@ -315,7 +314,7 @@ class ilLTIToolTable implements DataRetrieval
         ];
     }
 
-    private function showDeleteModal(array $ids): void
+    private function showDeleteModal(array $ids): never
     {
         $items = [];
         foreach (ilLTITool::lookupTitles($ids) as $id => $title) {
@@ -326,13 +325,13 @@ class ilLTIToolTable implements DataRetrieval
             ->withParameter($this->id_token, array_map("strval", $ids))
             ->buildURI();
 
-        echo $this->ui_renderer->renderAsync(
+        ilLTIResponse::html($this->ui_renderer->renderAsync(
             $this->ui_factory->modal()->interruptive(
                 $this->lng->txt("confirm"),
                 $this->lng->txt("lti_confirm_delete_providers"),
                 (string) $delete_url
             )->withAffectedItems($items)
-        );
+        ));
     }
 
     /**

@@ -114,9 +114,10 @@ the endpoints:
 * **Addresses:** `ilLTIEndpoint` builds every URL ILIAS gives the other side, from the base URL of the request,
   which is also the issuer of ILIAS, and the instance guid of earlier releases (client id, path and host). Only the
   URLs of `ltiservices.php` come from the configured HTTP path, because under that script the base URL of the
-  request ends in the script and its path. `ilLTIAdvantageResponse` ends the requests of the endpoints and the pages
-  that post a message to the other side, and `ilLTIAdvantagePendingRequests` keeps in the session what waits to be
-  answered: a login, a Deep Linking request, a Dynamic Registration.
+  request ends in the script and its path. `ilLTIResponse` ends the requests of the endpoints, of the pages
+  that post a message to the other side and of the modals the tables load asynchronously, and
+  `ilLTIAdvantagePendingRequests` keeps in the session what waits to be answered: a login, a Deep Linking
+  request, a Dynamic Registration.
 * **ILIAS as tool:** `lti.php` takes the OpenID Connect login and the id_token of a platform as well as an
   LTI 1.1 launch. `ilLTIDataConnector` finds the platform by issuer, client id and deployment id, keeps the
   key the library fetched from the key set of the platform and the access tokens of its services. The
