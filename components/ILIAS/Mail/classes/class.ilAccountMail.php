@@ -174,7 +174,7 @@ class ilAccountMail
                 $rid = $this->irss->manage()->find($amail->getAttachmentRid());
                 if ($rid instanceof ResourceIdentification) {
                     $filename = $this->irss->manage()->getCurrentRevision($rid)->getInformation()->getTitle();
-                    $mmail->AttachResource($rid, $filename);
+                    $mmail->AttachResource($rid, $filename, '', 'attachment');
                 }
             } else {
                 $attachment = $amail->getAttachment($this->irss);
