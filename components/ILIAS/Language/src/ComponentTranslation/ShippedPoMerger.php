@@ -75,7 +75,7 @@ final class ShippedPoMerger
      *     not_merged: array<string, list<string>>,
      *     unwritten_database: array<string, string>,
      *     unmarked_overlay: array<string, string>
-     *   written: module => path of the written shipped `.po`; skipped: module => reason; invalid_markup:
+     * } written: module => path of the written shipped `.po`; skipped: module => reason; invalid_markup:
      *   module => identifier (a form key for a plural form) => violations; not_merged: module =>
      *   identifiers that could not be taken over; unwritten_database: module => reason, $after_module
      *   failed (the files are written); unmarked_overlay: module => reason, the taken-over entries could

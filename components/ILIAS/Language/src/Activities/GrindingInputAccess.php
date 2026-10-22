@@ -60,7 +60,6 @@ final class GrindingInputAccess
     {
         self::assertInternal($named, 'withInput()');
 
-        /** @var InputInternal&FormInput $named */
         return $named->withInput(new ArrayInputData($flat_raw_values));
     }
 
@@ -68,7 +67,6 @@ final class GrindingInputAccess
     {
         self::assertInternal($with_input, 'getContent()');
 
-        /** @var InputInternal $with_input */
         return $with_input->getContent();
     }
 
@@ -102,6 +100,7 @@ final class GrindingInputAccess
             : null;
     }
 
+    /** @phpstan-assert InputInternal $input */
     private static function assertInternal(FormInput $input, string $needed_for): void
     {
         if (!$input instanceof InputInternal) {

@@ -92,7 +92,7 @@ class RepositoryProvider
             return null;
         }
 
-        return array_values($language->getModulesWithUnwrittenOverlay());
+        return $language->getModulesWithUnwrittenOverlay();
     }
 
     /**
@@ -106,7 +106,7 @@ class RepositoryProvider
             return null;
         }
 
-        return array_values($language->getModulesWithUnwrittenOverlay());
+        return $language->getModulesWithUnwrittenOverlay();
     }
 
     /**
