@@ -242,6 +242,14 @@ class ilSetupLanguage extends ilLanguage
         return $this->repository()->getAvailableLanguages();
     }
 
+    /**
+     * @return list<string> the keys with a main language file
+     */
+    public function getInstallableLanguagesForInstallation(): array
+    {
+        return array_values($this->repository()->getInstallableLanguages());
+    }
+
     public function checkLanguageForInstallation(string $lang_key): bool
     {
         return $this->repository()->checkLanguage($lang_key);

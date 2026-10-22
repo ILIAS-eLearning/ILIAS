@@ -125,10 +125,7 @@ MARKDOWN
         }
 
         if ($error_language_keys !== []) {
-            // a 4xx, so the GUI names the languages instead of "action aborted"
-            throw new InvalidInputException(
-                'Invalid language files: ' . implode(', ', $error_language_keys)
-            );
+            throw new InvalidLanguageFilesException($error_language_keys);
         }
 
         $overlay_write_failed_language_keys = [];
