@@ -217,10 +217,7 @@ class ShippedLanguageFilesCompiledObjectiveTest extends TestCase
         $this->assertStringNotContainsString('<script', $translations['greeting']);
     }
 
-    /**
-     * A markup warning is repeated on every run until the `.po` is fixed.
-     */
-    public function testRepeatsTheMarkupWarningOnASubsequentUnchangedRun(): void
+    public function testCountsTheMarkupWarningOnASubsequentUnchangedRun(): void
     {
         $this->writeShippedPo('itest/', 'itest', 'de', ['greeting' => '<script>x</script>Hallo']);
         $directory = MigratedPoFixture::directory('itest', 'itest/');
@@ -231,7 +228,34 @@ class ShippedLanguageFilesCompiledObjectiveTest extends TestCase
         $io = $this->informer($messages);
         $this->achieve($manager, $io);
 
-        $this->assertStringContainsString('WARNING: Markup not allowed', implode("\n", $messages));
+        $output = implode("\n", $messages);
+        $this->assertStringContainsString('WARNING: 1 markup warning(s), 0 key collision(s), see ', $output);
+        $this->assertStringNotContainsString('WARNING: Markup not allowed', $output);
+    }
+
+    public function testGroupsCollisionsOfAWrittenBuildAndCountsThemOnAnUnchangedRun(): void
+    {
+        $this->writeShippedPo('ita/', 'ita', 'de', ['one' => 'A1', 'two' => 'A2']);
+        $this->writeShippedPo('itb/', 'itb', 'de', ['one' => 'B1', 'two' => 'B2']);
+        $manager = $this->directoryManager(
+            MigratedPoFixture::directory('ita', 'ita/'),
+            MigratedPoFixture::directory('itb', 'itb/')
+        );
+
+        $first = [];
+        $this->achieve($manager, $this->informer($first));
+        $second = [];
+        $this->achieve($manager, $this->informer($second));
+
+        $grouped = array_values(array_filter($first, static fn(string $m): bool => str_contains($m, 'different values')));
+        $this->assertCount(1, $grouped, 'two keys of the same modules: one line');
+        $this->assertStringContainsString('WARNING: 2 key(s) with different values in the modules ita, itb', $grouped[0]);
+        $this->assertStringEndsWith(': one, two', $grouped[0]);
+
+        $this->assertSame([], array_filter($second, static fn(string $m): bool => str_contains($m, 'different values')));
+        $counted = array_values(array_filter($second, static fn(string $m): bool => str_contains($m, 'key collision(s)')));
+        $this->assertCount(1, $counted);
+        $this->assertMatchesRegularExpression('~^WARNING: 0 markup warning\(s\), 2 key collision\(s\), see \S+/manifest\.json\.$~', $counted[0]);
     }
 
     /**
