@@ -29,6 +29,7 @@ use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Tools\InputsBuilderSession;
 use ILIAS\Refinery\Custom\Transformation as CustomTransformation;
 use ILIAS\UI\Component\Input\Field\Section;
+use ILIAS\UI\Component\Panel\Standard as StandardPanel;
 
 class MarkingAllowingPartialPoints extends MarkingAllowingPartialPointsInterface
 {
@@ -75,6 +76,19 @@ class MarkingAllowingPartialPoints extends MarkingAllowingPartialPointsInterface
                         );
                 }
             )
+        );
+    }
+
+    #[\Override]
+    public function getContentBeforeForm(
+        Environment $environment
+    ): StandardPanel {
+        $properties = $environment->getAnswerFormProperties();
+        return $properties->getClozeText()->buildPanelForEditing(
+            $environment->getUIFactory(),
+            $environment->getLanguage(),
+            $properties->getGaps(),
+            $properties->getLegacyClozeText()
         );
     }
 

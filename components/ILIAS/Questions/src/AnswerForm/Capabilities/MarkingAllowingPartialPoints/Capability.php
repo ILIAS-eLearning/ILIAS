@@ -29,6 +29,7 @@ use ILIAS\Questions\AnswerForm\Properties;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Tools\InputsBuilderSession;
 use ILIAS\Data\UUID\Factory as UuidFactory;
+use ILIAS\UI\Component\Panel\Standard as StandardPanel;
 
 class Capability implements CapabilityInterface, AdditionalStepProvider, MarkingProvider
 {
@@ -64,6 +65,11 @@ class Capability implements CapabilityInterface, AdditionalStepProvider, Marking
                     ->getDefinition()
                     ->getCapability(self::getIdentifier())
                     ->getEditFormInputsBuilder($v),
+            fn(Environment $v): ?StandardPanel
+                => $v->getAnswerFormProperties()
+                    ->getDefinition()
+                    ->getCapability(self::getIdentifier())
+                    ->getContentBeforeForm($v),
             fn(Environment $v) => $v->getAnswerFormProperties()
                     ->getDefinition()
                     ->getCapability(self::getIdentifier())

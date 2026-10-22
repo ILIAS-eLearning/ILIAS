@@ -36,6 +36,16 @@ interface Properties extends Storable, Clonable
 
     public function getTypeGenericProperties(): TypeGenericProperties;
 
+    /**
+     * This function MUST return a string that can be carried accross requests
+     * by any means necessary and from which these properties can be rebuilt
+     * without giving an opportunity for an attack. The function MUST especially
+     * NOT use `serialize()`.
+     *
+     * @return string
+     */
+    public function toCarry(): string;
+
     public function getBasicPropertiesForListing(
         Environment $lng
     ): array;

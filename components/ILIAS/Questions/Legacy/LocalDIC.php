@@ -39,6 +39,8 @@ use ILIAS\Questions\UserSettings\CreateMode;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\DI\Container as ILIASContainer;
+use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
+use ILIAS\Filesystem\Security\Sanitizing\DefaultFilenameSanitizer;
 use Mustache\Engine as MustacheEngine;
 use Pimple\Container as PimpleContainer;
 
@@ -62,8 +64,8 @@ class LocalDIC extends PimpleContainer
         $dic[UuidFactory::class] = static fn($c): UuidFactory => new UuidFactory();
         $dic[MustacheEngine::class] = static fn($c): MustacheEngine
                 => new MustacheEngine(['escape' => static fn($v) => $v]);
-        $dic[\ilFileServicesFilenameSanitizer::class] = static fn($c): \ilFileServicesFilenameSanitizer
-            => new \ilFileServicesFilenameSanitizer(
+        $dic[FilenameSanitizer::class] = static fn($c): FilenameSanitizer
+            => new DefaultFilenameSanitizer(
                 $DIC->fileServiceSettings()
             );
 
@@ -187,7 +189,7 @@ class LocalDIC extends PimpleContainer
                 $DIC['resource_storage'],
                 $DIC['filesystem']->temp(),
                 $DIC['upload'],
-                $c[\ilFileServicesFilenameSanitizer::class]
+                $c[FilenameSanitizer::class]
             );
         $dic[Cloze\Properties\ClozeText\Factory::class] = static fn($c): Cloze\Properties\ClozeText\Factory
             => new Cloze\Properties\ClozeText\Factory(
