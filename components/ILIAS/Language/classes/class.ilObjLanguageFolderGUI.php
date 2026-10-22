@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Language\ComponentTranslation\MigratedTranslations;
 use ILIAS\Language\ComponentTranslation\NativeGettext;
+use ILIAS\Language\ComponentTranslation\DuplicateIdentifierMessage;
 use ILIAS\Language\ComponentTranslation\InvalidMarkupMessage;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
@@ -430,6 +431,9 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
         if (($invalid_markup = $value['invalid_markup_customizing_entries'] ?? []) !== []) {
             $failure_messages[] = $this->invalidMarkupCustomizingMessage($invalid_markup);
         }
+        if (($duplicates = $value['duplicate_customizing_entries'] ?? []) !== []) {
+            $failure_messages[] = $this->duplicateCustomizingMessage($duplicates);
+        }
         if ($failure_messages !== []) {
             $this->tpl->setOnScreenMessage(
                 'failure',
@@ -656,6 +660,9 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
         if (($invalid_markup = $value['invalid_markup_customizing_entries'] ?? []) !== []) {
             $failure_messages[] = $this->invalidMarkupCustomizingMessage($invalid_markup);
         }
+        if (($duplicates = $value['duplicate_customizing_entries'] ?? []) !== []) {
+            $failure_messages[] = $this->duplicateCustomizingMessage($duplicates);
+        }
         if ($failure_messages !== []) {
             $this->tpl->setOnScreenMessage('failure', implode('<br />', $failure_messages), true);
         }
@@ -672,6 +679,17 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
     private function invalidMarkupCustomizingMessage(array $entries): string
     {
         return InvalidMarkupMessage::of($this->lng, $this->refinery, array_fill_keys($entries, []));
+    }
+
+    /**
+     * Customizing entries not applied as duplicates of another module: "lng_identifier_not_unique" with the escaped,
+     * shortened list of the Activity output.
+     *
+     * @param list<string> $entries
+     */
+    private function duplicateCustomizingMessage(array $entries): string
+    {
+        return DuplicateIdentifierMessage::of($this->lng, $this->refinery, $entries);
     }
 
     /**

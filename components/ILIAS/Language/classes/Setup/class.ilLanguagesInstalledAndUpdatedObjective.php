@@ -148,6 +148,7 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
         $this->informAboutUnwritableOverlayDirectories($environment, $language_keys);
         $this->informAboutUnwrittenOverlays($environment, $this->installLanguages($language_keys));
         $this->informAboutSkippedInvalidMarkupEntries($environment);
+        $this->informAboutSkippedDuplicateEntries($environment);
         foreach ($this->il_setup_language->getSkippedUnreadableOverlays() as $language_key => $modules) {
             $this->inform($environment, PlainLogText::of(
                 'WARNING: The overlay (local changes) of language ' . $language_key . ' cannot be read for the modules '
@@ -174,6 +175,21 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
                 PlainLogText::of(
                     'WARNING: Customizing entries of language ' . $language_key . ' were not applied, their '
                     . 'value contains HTML that is not allowed in language texts: '
+                    . PlainLogText::keyList(array_map('strval', array_keys($entries)))
+                )
+            );
+        }
+    }
+
+    /** A warning only: the languages are installed regardless. */
+    protected function informAboutSkippedDuplicateEntries(Setup\Environment $environment): void
+    {
+        foreach ($this->il_setup_language->getSkippedDuplicateEntries() as $language_key => $entries) {
+            $this->inform(
+                $environment,
+                PlainLogText::of(
+                    'WARNING: Customizing entries of language ' . $language_key . ' were not applied, their '
+                    . 'identifier already exists in another module or in another spelling: '
                     . PlainLogText::keyList(array_map('strval', array_keys($entries)))
                 )
             );

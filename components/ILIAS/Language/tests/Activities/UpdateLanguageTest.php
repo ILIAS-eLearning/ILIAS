@@ -83,6 +83,21 @@ class UpdateLanguageTest extends ActivityWithPerformResultContractTestCase
         $this->assertSame(['fr'], $result['overlay_write_failed_language_keys']);
     }
 
+    public function testListsTheDuplicateCustomizingEntriesOfTheUpdatedLanguagesOnly(): void
+    {
+        $setup_language = $this->createSetupLanguageStub([], [], ['de', 'fr']);
+        $setup_language->method('checkLanguageForInstallation')->willReturn(true);
+        $setup_language->method('insertLanguageForInstallation')->willReturn([]);
+        $setup_language->method('getSkippedDuplicateEntries')->willReturn([
+            'de' => ['common#:#dup' => ['mme: dup']],
+            'fr' => ['common#:#dup' => ['mme: dup']],
+        ]);
+
+        $result = $this->createActivity($setup_language)->perform(['language_keys' => 'de']);
+
+        $this->assertSame(['de: common#:#dup (mme: dup)'], $result['duplicate_customizing_entries']);
+    }
+
     public function testNothingIsListedWhenEveryOverlayWasWritten(): void
     {
         $setup_language = $this->createSetupLanguageMock([], [], ['de']);

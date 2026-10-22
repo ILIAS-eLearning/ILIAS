@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\Language\Setup;
 
 use ILIAS\Language\ComponentTranslation\Catalog\TranslationEntry;
+use ILIAS\Language\ComponentTranslation\DuplicateIdentifierMessage;
+use ILIAS\Language\ComponentTranslation\IdentifierUniqueness;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
 use ILIAS\Language\ComponentTranslation\LegacyFuzzyMarker;
@@ -46,6 +48,11 @@ class LanguageInstallationManager
      * @var array<string, array<string, list<string>>> see getSkippedInvalidMarkupEntries()
      */
     private array $skipped_invalid_markup_entries = [];
+
+    /**
+     * @var array<string, array<string, list<string>>> see getSkippedDuplicateEntries()
+     */
+    private array $skipped_duplicate_entries = [];
 
     /**
      * @var array<string, list<string>> language key => modules, see getSkippedUnreadableOverlays()
@@ -106,6 +113,18 @@ class LanguageInstallationManager
     }
 
     /**
+     * Entries the insertLanguageFor...() calls left out: their identifier exists in another module or spelling
+     * (language.md rule 2).
+     *
+     * @return array<string, array<string, list<string>>> language key => module#:#identifier => "<module>: <identifier>"
+     *         it would duplicate
+     */
+    public function getSkippedDuplicateEntries(): array
+    {
+        return $this->skipped_duplicate_entries;
+    }
+
+    /**
      * The migrated modules left out of the insertLanguageFor...() calls because their overlay cannot be read.
      *
      * @return array<string, list<string>> language key => modules
@@ -154,6 +173,36 @@ class LanguageInstallationManager
             $current === null ? [] : ['value' => $current],
             $shipped === null ? [] : ['value' => $shipped]
         )['value'] ?? [];
+    }
+
+    /**
+     * @param list<string> $content lines of a customizing file, without header
+     * @param list<array<string, array<string, mixed>>> $existing module => identifier => … this run writes besides
+     *        lng_data, which a flush before an installation has emptied for this language
+     * @return array<string, list<string>> see IdentifierUniqueness::findDuplicatesAmong()
+     */
+    private function duplicatesOfCustomizingLines(array $content, string $prefix, array $existing): array
+    {
+        $entries = [];
+        foreach ($content as $line) {
+            $separated = explode(self::SEPARATOR, trim($line));
+            if ($prefix !== '') {
+                array_unshift($separated, $prefix);
+            }
+            if (count($separated) >= 2) {
+                $entries[$separated[0] . self::SEPARATOR . $separated[1]] = ['module' => $separated[0], 'identifier' => $separated[1]];
+            }
+        }
+        $known = [];
+        foreach ($existing as $modules) {
+            foreach ($modules as $module => $identifiers) {
+                foreach (array_keys($identifiers) as $identifier) {
+                    $known[] = ['module' => (string) $module, 'identifier' => (string) $identifier];
+                }
+            }
+        }
+
+        return (new IdentifierUniqueness($this->db))->findDuplicatesAmong($entries, $known);
     }
 
     private function clientDataDir(): ?string
@@ -468,6 +517,7 @@ class LanguageInstallationManager
         // Reported per call (see getSkippedInvalidMarkupEntries()): only what this run left out
         unset(
             $this->skipped_invalid_markup_entries[$lang_key],
+            $this->skipped_duplicate_entries[$lang_key],
             $this->skipped_unreadable_overlays[$lang_key],
             $this->overlays_of_unshipped_modules[$lang_key],
             $this->unrecorded_taken_over_modules[$lang_key]
@@ -556,9 +606,9 @@ class LanguageInstallationManager
         }
 
         $failed_modules = $write();
-        // not recorded, so taken over again next run: overlay not written, or an entry left out for its markup
+        // not recorded, so taken over again next run: overlay not written, or an entry left out
         $not_taken_over = $failed_modules;
-        foreach (array_keys($this->skipped_invalid_markup_entries[$lang_key] ?? []) as $key) {
+        foreach (array_keys(($this->skipped_invalid_markup_entries[$lang_key] ?? []) + ($this->skipped_duplicate_entries[$lang_key] ?? [])) as $key) {
             $not_taken_over[] = explode(self::SEPARATOR, (string) $key, 2)[0];
         }
         if ($client_data_dir !== null && $shipped_migrated_modules !== []) {
@@ -723,6 +773,9 @@ class LanguageInstallationManager
                     }
                     $change_date = $this->utcTimestamp();
                 }
+                $duplicate_entries = $is_local
+                    ? $this->duplicatesOfCustomizingLines($content, $prefix, [$lang_array, $shipped_line_values, $shipped_migrated_modules])
+                    : [];
 
                 $seen_in_file = [];
                 foreach ($content as $line) {
@@ -772,6 +825,10 @@ class LanguageInstallationManager
                     } elseif (isset($newer_db_changes[$module][$identifier])) {
                         $lang_array[$module][$identifier] = $newer_db_changes[$module][$identifier];
                         continue;
+                    } elseif (isset($duplicate_entries[$module . self::SEPARATOR . $identifier])) {
+                        $this->skipped_duplicate_entries[$lang_key][$module . self::SEPARATOR . $identifier]
+                            = $duplicate_entries[$module . self::SEPARATOR . $identifier];
+                        continue;
                     } elseif (($violations = $this->invalidMarkupOfCustomizingValue(
                         $value,
                         $current_values[$module][$identifier] ?? null,
@@ -802,6 +859,15 @@ class LanguageInstallationManager
                     $lang_key,
                     implode(', ', array_keys($skipped_for_language))
                 )));
+            }
+
+            $skipped_duplicates = $this->skipped_duplicate_entries[$lang_key] ?? [];
+            if ($skipped_duplicates !== []) {
+                $entries = [];
+                foreach ($skipped_duplicates as $key => $existing) {
+                    $entries[] = $lang_key . ': ' . DuplicateIdentifierMessage::entry((string) $key, $existing);
+                }
+                $this->logWarning(DuplicateIdentifierMessage::forLog($entries));
             }
 
             if ($duplicates !== []) {

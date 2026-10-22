@@ -282,6 +282,14 @@ class ilSetupLanguage extends ilLanguage
     }
 
     /**
+     * @return array<string, array<string, list<string>>> see LanguageInstallationManager::getSkippedDuplicateEntries()
+     */
+    public function getSkippedDuplicateEntries(): array
+    {
+        return $this->manager?->getSkippedDuplicateEntries() ?? [];
+    }
+
+    /**
      * @return array<string, list<string>> see LanguageInstallationManager::getSkippedUnreadableOverlays()
      */
     public function getSkippedUnreadableOverlays(): array

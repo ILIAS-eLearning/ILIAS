@@ -521,6 +521,24 @@ class ilLanguagesInstalledAndUpdatedObjectiveTest extends TestCase
         );
     }
 
+    public function testAchieveWarnsAboutSkippedDuplicateEntriesPerLanguage(): void
+    {
+        $flushed = [];
+        $setup_language = $this->createAchievableSetupLanguage(['de', 'fr'], [], $flushed);
+        $setup_language->method('getSkippedDuplicateEntries')->willReturn([
+            'de' => ['common#:#greeting' => ['mme: greeting'], 'tos#:#x' => ['mme: x']],
+        ]);
+        $messages = [];
+
+        (new ilLanguagesInstalledAndUpdatedObjective($setup_language))->achieve($this->informCollectingEnvironment($messages));
+
+        $warnings = array_values(array_filter($messages, static fn(string $m): bool => str_contains($m, 'were not applied')));
+        $this->assertCount(1, $warnings);
+        $this->assertStringStartsWith('WARNING: Customizing entries of language de ', $warnings[0]);
+        $this->assertStringContainsString('common#:#greeting, tos#:#x', $warnings[0]);
+        $this->assertStringContainsString('another module', $warnings[0]);
+    }
+
     /** Modules left out because their overlay cannot be read are named per language; without any there is no such warning. */
     public function testAchieveWarnsAboutModulesWithAnUnreadableOverlayPerLanguage(): void
     {
