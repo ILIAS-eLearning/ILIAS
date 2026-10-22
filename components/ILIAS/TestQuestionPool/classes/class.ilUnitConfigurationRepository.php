@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,12 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilUnitConfigurationRepository
  */
 class ilUnitConfigurationRepository
 {
-    protected int $consumer_id = 0;
+    protected ?int $consumer_id = null;
     protected ilLanguage $lng;
     protected ilDBInterface $db;
     /** @var assFormulaQuestionUnit[] */
@@ -31,7 +31,7 @@ class ilUnitConfigurationRepository
     /** @var assFormulaQuestionUnit[]|assFormulaQuestionUnitCategory[]  */
     private array $categorizedUnits = [];
 
-    public function __construct(int $consumer_id)
+    public function __construct(?int $consumer_id = null)
     {
         global $DIC;
 
@@ -42,12 +42,12 @@ class ilUnitConfigurationRepository
         $this->lng = $lng;
     }
 
-    public function setConsumerId(int $consumer_id): void
+    public function setConsumerId(?int $consumer_id): void
     {
         $this->consumer_id = $consumer_id;
     }
 
-    public function getConsumerId(): int
+    public function getConsumerId(): ?int
     {
         return $this->consumer_id;
     }
@@ -264,6 +264,11 @@ class ilUnitConfigurationRepository
      */
     public function getCategorizedUnits(): array
     {
+        $consumer_id = $this->consumer_id;
+        if ($consumer_id === null) {
+            return [];
+        }
+
         if (count($this->categorizedUnits) === 0) {
             $result = $this->db->queryF(
                 "
@@ -274,7 +279,7 @@ class ilUnitConfigurationRepository
 				WHERE	units.question_fi = %s
 				ORDER BY il_qpl_qst_fq_ucat.category, units.sequence",
                 ['integer'],
-                [$this->getConsumerId()]
+                [$consumer_id]
             );
 
             if ($this->db->numRows($result) > 0) {
