@@ -103,7 +103,6 @@ class PersistStage implements ImportStage
         });
 
         $deserializer->process();
-        $this->log->info("Processed mappings file: {$mappings_file}");
 
         $this->session->setContext($context);
         return null;

@@ -254,7 +254,6 @@ class TestExporter implements Exporter
                 $file['from'],
                 "{$export_dir}/" . $file['to']
             );
-            $state->logger()->debug("Copied question image {$file['from']} to {$export_dir}/{$file['to']}");
         }
 
         foreach ($resource_collector->getResources() as $id => $resource) {
@@ -265,7 +264,6 @@ class TestExporter implements Exporter
                 $id,
                 "{$export_dir}/resources/{$file}"
             );
-            $state->logger()->debug("Copied resource {$id} to {$export_dir}/resources/{$file}");
         }
 
         $this->writeMappings(
@@ -273,7 +271,6 @@ class TestExporter implements Exporter
             $state->transformations(),
             $state
         );
-        $state->logger()->debug('Stored test export mappings');
 
         $state->logger()->info('...Finished writing test export (3/3)');
     }

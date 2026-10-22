@@ -309,7 +309,6 @@ class TestDIC extends ServiceContainer
         $dic['exportimport.random_test_config_importer'] = static fn($c): RandomTestConfigImporter =>
             new RandomTestConfigImporter(
                 $DIC->database(),
-                $c['exportimport.logging'](),
                 new DataFactory()
             );
 

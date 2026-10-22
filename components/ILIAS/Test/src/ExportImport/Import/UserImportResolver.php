@@ -39,8 +39,6 @@ class UserImportResolver
      */
     public function resolve(UserIdentifiers $criteria, array $users): array
     {
-        $this->log->debug("Resolving user import for criteria {$criteria->value}");
-
         if (!$this->db->tableColumnExists('usr_data', $criteria->value)) {
             $this->log->error("User criteria field {$criteria->value} does not exist in usr_data table, using anonymous user ID for all users");
 
@@ -64,7 +62,6 @@ class UserImportResolver
                 $mapping[$original_id] = ANONYMOUS_USER_ID;
             }
 
-            $this->log->debug("User identifier {$identifier} found, mapping user {$original_id} to {$db_mapping[$identifier]}");
             $mapping[$original_id] = $db_mapping[$identifier];
         }
 

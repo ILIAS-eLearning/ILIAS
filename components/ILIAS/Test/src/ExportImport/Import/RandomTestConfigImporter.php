@@ -22,7 +22,6 @@ namespace ILIAS\Test\ExportImport\Import;
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Test\ExportImport\Normalize\Envelopes\QuestionSetConfig;
-use Psr\Log\LoggerInterface;
 
 /**
  * Imports the random question set config and its related data. It also remaps the taxonomy IDs in the mapped_taxonomy_filter
@@ -32,7 +31,6 @@ class RandomTestConfigImporter
 {
     public function __construct(
         private readonly \ilDBInterface $database,
-        private readonly LoggerInterface $log,
         private readonly DataFactory $data_factory
     ) {
     }
@@ -51,7 +49,6 @@ class RandomTestConfigImporter
         }
 
         $config->getConfig()->saveToDb();
-        $this->log->debug("Imported random question set config for test {$test_object->getTestId()}");
 
         foreach ($config->getStagingPools() as $pool_id => $questions) {
             $this->importRandomQuestionStagingPool($pool_id, $questions, $mapping, $test_object);
@@ -75,7 +72,6 @@ class RandomTestConfigImporter
             (string) $old_pool_id,
             (string) $new_pool_id
         );
-        $this->log->debug("Imported random question staging pool: {$old_pool_id} -> {$new_pool_id}");
 
         // QuestionID was mapped during question set config denormalization
         foreach ($questions as $question_id) {
@@ -84,7 +80,6 @@ class RandomTestConfigImporter
             $question->setPoolId($new_pool_id);
             $question->setQuestionId($question_id);
             $question->saveQuestionStaging();
-            $this->log->debug("Imported random question staging question: {$question_id}");
         }
     }
 
@@ -101,14 +96,12 @@ class RandomTestConfigImporter
             $ref_ids = $this->data_factory->objId($new_pool_id)->toReferenceIds();
             if ($ref_ids !== []) {
                 $definition->setPoolRefId(current($ref_ids)->toInt());
-                $this->log->debug("Derived source pool definition from Object ID: {$old_pool_id} -> {$definition->getPoolRefId()}");
             }
         }
 
         $old_definition_id = $definition->getId();
         $definition->setId(0);
         $definition->saveToDb();
-        $this->log->debug("Imported source pool definition: {$old_definition_id} -> {$definition->getId()}");
 
         $mapping->addMapping(
             'components/ILIAS/Test',
@@ -150,7 +143,6 @@ class RandomTestConfigImporter
 
                 $definition->setMappedTaxonomyFilter($this->remapTaxonomyFilter($mapping, $mapped_filter));
                 $definition->saveToDb();
-                $this->log->debug("Remapped taxonomy filter for definition {$definition->getId()}");
             }
         }
     }

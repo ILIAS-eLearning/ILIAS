@@ -142,7 +142,6 @@ class QuestionSelectionStage implements ImportStage
         $deserializer->process();
 
         $count = count($options);
-        $this->log->info("Found {$count} questions in import file");
 
         return $options;
     }
@@ -164,9 +163,6 @@ class QuestionSelectionStage implements ImportStage
         foreach ($parser->getFoundItems() as $item) {
             $options[$item['ident']] = "{$item['title']} ({$this->getLabelForQuestionType($item['type'])})";
         }
-
-        $count = count($options);
-        $this->log->info("Found {$count} questions in legacy import file");
 
         return $options;
     }

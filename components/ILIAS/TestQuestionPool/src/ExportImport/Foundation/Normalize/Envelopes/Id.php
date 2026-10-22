@@ -20,31 +20,24 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Envelopes;
 
+use ILIAS\Data\UUID\Uuid;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Envelope;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\NormalizingException;
 
 /**
- * Wrapper object for an id (int, string, uuid, ...) and an optional object type the id belongs to. The wrapper can be
- * used to detect ids within the normalization and denormalization pipes.
- *
- * @template T
+ * Wrapper object for an object identifier and an optional object type the identifier belongs to.
+ * The wrapper can be used to detect ids within the normalization and denormalization pipes.
  */
 class Id implements Envelope
 {
-    /**
-     * @param T $id
-     */
     public function __construct(
-        private mixed $id = null,
+        private int|Uuid|null $id = null,
         private string $object = ''
     ) {
     }
 
-    /**
-     * @return T
-     */
-    public function getId(): mixed
+    public function getId(): int|Uuid|null
     {
         return $this->id;
     }
@@ -57,19 +50,12 @@ class Id implements Envelope
     #[\Override]
     public function unpack(Transformations $tt): array
     {
-        if (is_object($this->id)) {
-            return [
-                'id' => $tt->normalize($this->id),
-                'type' => get_class($this->id),
-                'object' => $this->object,
-            ];
-        }
-
         return [
-            'id' => (string) $this->id,
-            'type' => gettype($this->id),
+            'id' => $tt->normalize($this->id),
+            'type' => $this->id instanceof Uuid ? Uuid::class : gettype($this->id),
             'object' => $this->object,
         ];
+
     }
 
     #[\Override]
@@ -78,15 +64,9 @@ class Id implements Envelope
         $raw_id = $value['id'];
         $type = $value['type'];
 
-        if (class_exists($type)) {
-            return new Id($tt->denormalize($raw_id, $type), $value['object']);
-        }
-
         $id = match ($type) {
+            Uuid::class => $tt->denormalize($raw_id, Uuid::class),
             'integer' => (int) $raw_id,
-            'string' => (string) $raw_id,
-            'float' => (float) $raw_id,
-            'bool' => (bool) $raw_id,
             'null' => null,
             default => throw new NormalizingException("Invalid type for id: {$type}")
         };
