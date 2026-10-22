@@ -208,16 +208,6 @@ class ilLTIConsumerResultService
             $this->result->setAttended(true);
             $this->result->save();
 
-            if ($result >= $this->getMasteryScore()) {
-                $lp_status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
-            } else {
-                $lp_status = ilLPStatus::LP_STATUS_FAILED_NUM;
-            }
-            $lp_percentage = (int) round(100 * $result);
-
-            //            Mantis #37080
-            ilLPStatus::writeStatus($this->result->obj_id, $this->result->usr_id, $lp_status, $lp_percentage, true);
-
             $code = "success";
             $severity = "status";
             $description = sprintf("Score for %s is now %s", $this->result->id, $this->result->result);
@@ -244,10 +234,6 @@ class ilLTIConsumerResultService
         $this->result->result = null;
         $this->result->setAttended(false);
         $this->result->save();
-
-        $lp_status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
-        $lp_percentage = 0;
-        ilLPStatus::writeStatus($this->result->obj_id, $this->result->usr_id, $lp_status, $lp_percentage, true);
 
         global $DIC;
         $DIC->logger()->forComponent('lti')->info('LTI Basic Outcomes result of the user {usr_id} in the object {obj_id} deleted', [
