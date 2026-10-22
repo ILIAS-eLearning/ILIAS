@@ -25,7 +25,6 @@ class ConditionHandler
     public function __construct(
         protected \ilDBInterface $db,
         protected \ilLanguage $lng,
-        protected ConditionTypes $condition_types,
         private ConditionFactory $condition_factory
     ) {
     }
@@ -35,7 +34,7 @@ class ConditionHandler
      */
     public function getInputConditionsByRefId(int $lso_ref_id, int $obj_ref_id): array
     {
-        $db_conditions = $this->getConditionsFromDb($lso_ref_id, $obj_ref_id, $this->condition_types->getAllInputConditions());
+        $db_conditions = $this->getConditionsFromDb($lso_ref_id, $obj_ref_id, $this->condition_factory->getConditionTypes()->getAllInputConditions());
         return $this->formatConditionsForGui($db_conditions);
     }
 
@@ -44,7 +43,7 @@ class ConditionHandler
      */
     public function getOutputConditionsByRefId(int $lso_ref_id, int $obj_ref_id): array
     {
-        $db_conditions = $this->getConditionsFromDb($lso_ref_id, $obj_ref_id, $this->condition_types->getAllOutputConditions());
+        $db_conditions = $this->getConditionsFromDb($lso_ref_id, $obj_ref_id, $this->condition_factory->getConditionTypes()->getAllOutputConditions());
         return $this->formatConditionsForGui($db_conditions);
     }
 
@@ -151,7 +150,7 @@ class ConditionHandler
             );
             $row = $this->db->fetchAssoc($res);
             if ($row) {
-                $class = $this->condition_types->getConditionByName($row['condition_name']);
+                $class = $this->condition_factory->getConditionTypes()->getConditionByName($row['condition_name']);
                 if ($class) {
                     try {
                         $condition = $this->condition_factory->getConditionInstanceById((int) $db_cond['condition_id']);

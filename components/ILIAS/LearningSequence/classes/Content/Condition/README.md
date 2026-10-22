@@ -403,7 +403,7 @@ final class CompletedItemInputCondition extends AbstractCondition implements
 
     public function getAdditionalForm(): FormStandard
     {
-        $picker = new LSOObjectPicker((int) $this->lso_ref_id, (int) $this->getObjRefId())->getPicker(
+        $picker = new LSOObjectPicker($this->ui_factory, (int) $this->lso_ref_id, (int) $this->getObjRefId())->getPicker(
             $this->lang->txt('lso_condition_simple_choice_target'),
             false
         );

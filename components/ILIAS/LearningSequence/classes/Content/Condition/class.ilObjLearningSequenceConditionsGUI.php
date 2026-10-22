@@ -23,7 +23,6 @@ use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\LearningSequence\Content\Condition\AbstractCondition;
 use ILIAS\LearningSequence\Content\Condition\ConditionFactory;
 use ILIAS\LearningSequence\Content\Condition\ConditionHandler;
-use ILIAS\LearningSequence\Content\Condition\ConditionTypes;
 use ILIAS\LearningSequence\Content\Condition\UnknownConditionTypeException;
 use ILIAS\UI\Component\Menu\Drilldown;
 use ILIAS\UI\Component\Modal\Roundtrip;
@@ -58,7 +57,6 @@ class ilObjLearningSequenceConditionsGUI implements ilCtrlSecurityInterface
         protected ILIAS\UI\Renderer $ui_renderer,
         protected ServerRequestInterface $request,
         protected \ILIAS\Refinery\Factory $refinery,
-        private ConditionTypes $condition_types,
         private ConditionFactory $condition_factory,
         private ConditionHandler $condition_handler,
     ) {
@@ -176,7 +174,7 @@ class ilObjLearningSequenceConditionsGUI implements ilCtrlSecurityInterface
                 $condition->setLsoRefId($this->lso_ref_id);
                 return $condition->setupSteps();
             },
-            $this->condition_types->getAllInputConditions()
+            $this->condition_factory->getConditionTypes()->getAllInputConditions()
         );
 
         $output_conditions_steps = array_map(
@@ -186,7 +184,7 @@ class ilObjLearningSequenceConditionsGUI implements ilCtrlSecurityInterface
                 $condition->setLsoRefId($this->lso_ref_id);
                 return $condition->setupSteps();
             },
-            $this->condition_types->getAllOutputConditions()
+            $this->condition_factory->getConditionTypes()->getAllOutputConditions()
         );
 
         return $this->ui_factory->menu()->drilldown(

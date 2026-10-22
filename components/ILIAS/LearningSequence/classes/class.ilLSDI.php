@@ -77,7 +77,6 @@ class ilLSDI extends Container
             return new ConditionHandler(
                 $dic["ilDB"],
                 $dic["lng"],
-                $c["conditions.types"],
                 $c["conditions.factory"]
             );
         };

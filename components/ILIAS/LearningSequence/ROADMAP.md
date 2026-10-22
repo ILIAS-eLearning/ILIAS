@@ -11,7 +11,7 @@ visits and the condition services are provided by `ilLSDI`. The following steps 
 `AbstractCondition` retrieves the whole `ILIAS\DI\Container` via `global $DIC` in its constructor, stores it in
 `$this->dic` and reads from the database as soon as an id is given. All concrete conditions depend on it
 (database, user, ctrl, refinery, language, UI factory). Conditions are instantiated by `ConditionFactory` with
-`new $class()`, so nothing can be injected.
+`new $class()`, so nothing can be injected; only the factory itself is passed via `setConditionFactory()`.
 
 * Separate the persistence of a condition (generic `lso_conditions` row and payload tables) from the condition
   itself and move it into repositories.
@@ -36,7 +36,8 @@ The conditions and the learning map evaluate the learning progress via `ilLPStat
 Still located via `global $DIC`, among others:
 
 * `ilObjLearningSequenceConditionsGUI`, `ilObjLearningSequenceConditionConfigurationGUI`,
-  `ilLearningSequenceConditionsRetrieval` (condition types, database, refinery, tabs, toolbar)
+  `ilLearningSequenceConditionsRetrieval` (database, refinery, language, ctrl, template, query, tabs, toolbar);
+  the condition types, the condition factory and the condition handler are already passed in
 * `ilObjLearningSequence::renderLearningMap()` (UI factory, renderer, template)
 * `ilLSPlayer` (access check for the rating)
 * the classes which already existed before the adaptive mode (`ilObjLearningSequenceGUI`, members, importer,
@@ -69,6 +70,9 @@ therefore not be expressed.
 * Define how payload tables of contributed condition types are created and updated in a versioned way.
 * Add indices on `lso_conditions.lso_ref_id` / `obj_ref_id` and a unique index on
   `lso_condition_types.condition_name`.
+* The setup never removes condition types or payload tables which are not contributed anymore. Conditions of
+  such a type are skipped where they are evaluated and can be deleted in the conditions table, but their payload
+  rows stay. Removing or renaming a condition type needs a deliberate, versioned update step.
 
 ### Duplicated code
 

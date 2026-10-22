@@ -174,7 +174,6 @@ class ilObjLearningSequenceContentGUI implements ilCtrlSecurityInterface
             $this->ui_renderer,
             $this->request,
             $this->refinery,
-            $lso_di["conditions.types"],
             $lso_di["conditions.factory"],
             $lso_di["conditions.handler"],
         );

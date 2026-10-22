@@ -46,6 +46,14 @@ class ConditionFactory
     }
 
     /**
+     * Gets the condition types this factory creates conditions of.
+     */
+    public function getConditionTypes(): ConditionTypes
+    {
+        return $this->condition_types;
+    }
+
+    /**
      * @return int[]
      */
     public function getConditionIdsForItem(int $item_ref_id): array

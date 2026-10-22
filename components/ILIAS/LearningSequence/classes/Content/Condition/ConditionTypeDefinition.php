@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\LearningSequence\Content\Condition;
 
+/**
+ * A condition type which is defined by the name of its condition class.
+ */
 final readonly class ConditionTypeDefinition implements ConditionType
 {
     /**

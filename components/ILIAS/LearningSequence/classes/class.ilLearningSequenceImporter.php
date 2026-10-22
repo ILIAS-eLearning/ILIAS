@@ -27,7 +27,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
     protected ilObjUser $user;
     protected ilRbacAdmin $rbac_admin;
     protected ilLogger $log;
-    protected ilObject $obj;
+    protected ilObjLearningSequence $obj;
     protected array $data;
 
     public function __construct()
@@ -48,7 +48,11 @@ class ilLearningSequenceImporter extends ilXmlImporter
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
         if ($new_id = $a_mapping->getMapping("components/ILIAS/Container", "objs", $a_id)) {
-            $this->obj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
+            $obj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
+            if (!$obj instanceof ilObjLearningSequence) {
+                throw new ilImportException('Learning sequence ' . $new_id . ' to import into not found.');
+            }
+            $this->obj = $obj;
         } else {
             $this->obj = new ilObjLearningSequence();
             $this->obj->create();

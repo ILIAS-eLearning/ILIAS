@@ -68,6 +68,8 @@ class LSOAdaptiveContent implements LSOContentController
     protected int $ref_id;
     /** Learning sequence object ID. */
     protected int $obj_id;
+    /** Learning sequence object, loaded on first use. */
+    private ?ilObjLearningSequence $lso = null;
 
     /**
      * Creates the adaptive content controller.
@@ -120,8 +122,7 @@ class LSOAdaptiveContent implements LSOContentController
         // objects can be created directly from the content management view.
         $this->parent_gui->showPossibleSubObjects();
 
-        /** @var ilObjLearningSequence $lso */
-        $lso = ilObjLearningSequence::getInstanceByRefId($this->ref_id);
+        $lso = $this->getLSO();
         $items = $lso->getLSItems();
         $navigator = new AdaptiveNavigator($lso->getDI()["conditions.factory"]);
         $navigator->preload($items);
@@ -431,21 +432,35 @@ class LSOAdaptiveContent implements LSOContentController
         );
     }
 
+    /**
+     * Gets the condition types contributed to the learning sequence.
+     */
     private function getConditionTypes(): ConditionTypes
     {
         return $this->getLSO()->getDI()["conditions.types"];
     }
 
+    /**
+     * Gets the repository of the start and end objects.
+     */
     private function getBoundaries(): LSOAdaptiveBoundaries
     {
         return $this->getLSO()->getDI()["db.boundaries"];
     }
 
+    /**
+     * Gets the learning sequence. It is loaded only once per instance of this
+     * controller, since loading it reads the object, its settings and its
+     * properties from the database.
+     */
     private function getLSO(): ilObjLearningSequence
     {
-        /** @var ilObjLearningSequence $lso */
-        $lso = ilObjLearningSequence::getInstanceByRefId($this->ref_id);
-        return $lso;
+        if ($this->lso === null) {
+            /** @var ilObjLearningSequence $lso */
+            $lso = ilObjLearningSequence::getInstanceByRefId($this->ref_id);
+            $this->lso = $lso;
+        }
+        return $this->lso;
     }
 
     /**
@@ -568,9 +583,7 @@ class LSOAdaptiveContent implements LSOContentController
         $boundaries->unsetStartRefId($this->obj_id);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
 
-        /** @var ilObjLearningSequence $lso */
-        $lso = ilObjLearningSequence::getInstanceByRefId($this->ref_id);
-        $this->enforceOfflineForMissingBoundaries($lso);
+        $this->enforceOfflineForMissingBoundaries($this->getLSO());
         $this->ctrl->redirect($this->parent_gui, ilObjLearningSequenceContentGUI::CMD_MANAGE_CONTENT);
     }
 
@@ -607,9 +620,7 @@ class LSOAdaptiveContent implements LSOContentController
         $boundaries->unsetEndRefId($this->obj_id);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
 
-        /** @var ilObjLearningSequence $lso */
-        $lso = ilObjLearningSequence::getInstanceByRefId($this->ref_id);
-        $this->enforceOfflineForMissingBoundaries($lso);
+        $this->enforceOfflineForMissingBoundaries($this->getLSO());
         $this->ctrl->redirect($this->parent_gui, ilObjLearningSequenceContentGUI::CMD_MANAGE_CONTENT);
     }
 }

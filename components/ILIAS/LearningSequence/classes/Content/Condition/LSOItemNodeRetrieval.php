@@ -27,7 +27,7 @@ use ILIAS\UI\Component\Symbol\Icon\Factory as IconFactory;
 /**
  * Provides the objects of a learning sequence as flat list of nodes for tree selects.
  */
-class LSOItemNodeRetrieval implements NodeRetrieval
+final class LSOItemNodeRetrieval implements NodeRetrieval
 {
     /**
      * @param \LSItem[] $items
