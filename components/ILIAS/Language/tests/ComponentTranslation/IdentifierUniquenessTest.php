@@ -229,6 +229,23 @@ class IdentifierUniquenessTest extends TestCase
         $this->assertLessThan(5.0, $seconds);
     }
 
+    public function testKnownEntriesCountLikeRowsOfTheDatabase(): void
+    {
+        $known = [
+            ['module' => 'mme', 'identifier' => 'login'],
+            ['module' => 'common', 'identifier' => 'own'],
+            ['module' => 'mme', 'identifier' => 'unrelated'],
+        ];
+
+        $this->assertSame(
+            ['common#:#Login' => ['mme: login']],
+            $this->uniqueness()->findDuplicatesAmong([
+                'common#:#Login' => ['module' => 'common', 'identifier' => 'Login'],
+                'common#:#own' => ['module' => 'common', 'identifier' => 'own'],
+            ], $known)
+        );
+    }
+
     public function testFindDuplicatesOfAndFilterAddableDelegateTheSameRule(): void
     {
         $uniqueness = $this->uniqueness([['module' => 'mme', 'identifier' => 'login'], ['module' => 'common', 'identifier' => 'yes']]);

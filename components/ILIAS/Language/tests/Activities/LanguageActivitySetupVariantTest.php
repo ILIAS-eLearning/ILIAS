@@ -83,6 +83,7 @@ class LanguageActivitySetupVariantTest extends \ilLanguageBaseTestCase
                 'not_installed_language_keys' => ['fr'],
                 'overlay_write_failed_language_keys' => [],
                 'invalid_markup_customizing_entries' => [],
+                'duplicate_customizing_entries' => [],
             ],
             $result
         );

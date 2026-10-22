@@ -236,6 +236,38 @@ class ilObjLanguageFolderGUITest extends TestCase
     }
 
     #[AllowMockObjectsWithoutExpectations]
+    public function testInstallObjectNamesTheDuplicateCustomizingEntriesInTheFailureMessage(): void
+    {
+        $this->stubObjDataCache([5 => 'lng'], [5 => 'de']);
+        $install_language = $this->createStub(InstallLanguage::class);
+        $install_language->method('maybePerformAs')->willReturn(new ResultOk([
+            'installed_language_keys' => ['de'],
+            'overlay_write_failed_language_keys' => ['de'],
+            'duplicate_customizing_entries' => ['de: common#:#<dup> (mme: <dup>)'],
+        ] + $this->emptyPerformResult()));
+        $messages = [];
+        $tpl = $this->messageCollectingTemplate($messages);
+
+        $gui = $this->createGuiWithCollaborators(
+            $install_language,
+            $tpl,
+            $this->createStub(ilCtrl::class),
+            $this->createLanguageMockWithFormatStrings()
+        );
+        $this->inject($gui, 'refinery', new \ILIAS\Refinery\Factory(
+            $this->createStub(\ILIAS\Data\Factory::class),
+            $this->createStub(\ILIAS\Language\Language::class)
+        ));
+        $gui->installObject(['5'], InstallLanguage::MODE_INSTALL);
+
+        $failures = array_values(array_filter($messages, static fn(array $m): bool => $m[0] === 'failure'));
+        $this->assertSame(
+            [['failure', 'lng_po_overlay_not_written_languages: meta_l_de<br />lng_identifier_not_unique: de: common#:#&lt;dup&gt; (mme: &lt;dup&gt;)']],
+            $failures
+        );
+    }
+
+    #[AllowMockObjectsWithoutExpectations]
     public function testInstallObjectShowsNoFailureWhenEveryOverlayWasWritten(): void
     {
         $this->stubObjDataCache([5 => 'lng'], [5 => 'de']);

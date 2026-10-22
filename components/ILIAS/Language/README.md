@@ -321,7 +321,12 @@ Where the rules apply:
   module or in another spelling (as for "add new variable", an entry the module
   already holds stays importable): an uploaded file is rejected as a whole, the
   maintenance action "load" leaves such entries out; both name them
-  (`lng_identifier_not_unique`).
+  (`lng_identifier_not_unique`). Installing, updating and "install local" leave
+  such entries of the customizing file out as well and name them (Activity
+  output `duplicate_customizing_entries`, setup output). The check reads
+  `lng_data` of all languages: after a key moved to another module, `setup
+  update` may report a customizing line as a duplicate as long as a language
+  updated later in the same run still holds the old row. The next run applies it.
 * "Remove local changes" and the maintenance action "clear" are the same
   activity (`RemoveLocalLanguageChanges`): values, locally added keys and
   remarks are removed from database and overlay, the shipped state is

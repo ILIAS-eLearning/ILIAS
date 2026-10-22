@@ -121,6 +121,39 @@ class InstallLanguageModesTest extends \ilLanguageBaseTestCase
         $this->assertSame(['en'], $result['overlay_write_failed_language_keys']);
     }
 
+    /**
+     * @param list<string> $installed
+     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('modesThatApplyTheCustomizingFile')]
+    public function testListsTheDuplicateCustomizingEntriesOfTheAffectedLanguagesOnly(string $mode, array $installed): void
+    {
+        $setup_language = $this->createSetupLanguageStub(
+            ['de' => ['obj_id' => 1, 'status' => 'installed']],
+            [],
+            $installed
+        );
+        $setup_language->method('checkLanguageForInstallation')->willReturn(true);
+        $setup_language->method('insertLanguageForInstallation')->willReturn([]);
+        $setup_language->method('insertLanguageForApplyingLocalChanges')->willReturn([]);
+        $setup_language->method('getSkippedDuplicateEntries')->willReturn([
+            'de' => ['common#:#dup' => ['mme: dup']],
+            'fr' => ['common#:#dup' => ['mme: dup']],
+        ]);
+
+        $result = $this->createActivity($setup_language)->perform(['language_keys' => 'de', 'mode' => $mode]);
+
+        $this->assertSame(['de: common#:#dup (mme: dup)'], $result['duplicate_customizing_entries']);
+    }
+
+    /** @return array<string, array{string, list<string>}> */
+    public static function modesThatApplyTheCustomizingFile(): array
+    {
+        return [
+            'install' => [InstallLanguage::MODE_INSTALL, []],
+            'install_local' => [InstallLanguage::MODE_INSTALL_LOCAL, ['de']],
+        ];
+    }
+
     public function testNothingIsListedWhenEveryOverlayWasWrittenOrNothingWasInstalled(): void
     {
         $setup_language = $this->createSetupLanguageMock(

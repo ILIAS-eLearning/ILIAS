@@ -57,6 +57,8 @@ abstract class LanguageInstallationManagerMigratedModulesTestCase extends TestCa
     protected ?array $collation_rows = null;
     /** @var list<array<string, string>> */
     protected array $pending_rows = [];
+    /** @var list<array<string, string>> rows of "SELECT DISTINCT module, identifier FROM lng_data", the duplicate lookup */
+    protected array $duplicate_rows = [];
     /** @var list<array<string, string>> rows of "SELECT module, identifier, local_change FROM lng_data" */
     protected array $local_change_rows = [];
 
@@ -116,6 +118,10 @@ abstract class LanguageInstallationManagerMigratedModulesTestCase extends TestCa
             $this->queries[] = $query;
             if (str_starts_with($query, 'SELECT module, identifier, local_change FROM lng_data')) {
                 $this->pending_rows = $this->local_change_rows;
+                return $statement;
+            }
+            if (str_starts_with($query, 'SELECT DISTINCT module, identifier FROM lng_data')) {
+                $this->pending_rows = $this->duplicate_rows;
                 return $statement;
             }
             $this->pending_rows = $this->collation_rows ?? array_map(

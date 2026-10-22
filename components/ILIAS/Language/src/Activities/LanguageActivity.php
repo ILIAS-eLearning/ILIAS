@@ -26,6 +26,7 @@ use ILIAS\Component\Activities\ActivityType;
 use ILIAS\Data\Description;
 use ILIAS\Data\Result;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Language\ComponentTranslation\DuplicateIdentifierMessage;
 use ILIAS\Language\ComponentTranslation\TranslationMarkupPolicy;
 use ILIAS\Language\LanguageFolder;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
@@ -79,6 +80,41 @@ abstract class LanguageActivity extends ActivityImpl
                 '"<language>: <module>#:#<identifier>").'
             ))
         );
+    }
+
+    protected function duplicateCustomizingOutputField(Description\Factory $f): Description\Description
+    {
+        $text = $this->data->text()->markdown();
+
+        return $f->list(
+            $text->simpleDocument(
+                'Entries of the customizing/local language files that were not applied because their ' .
+                'identifier already exists in another module or in another spelling - the languages ' .
+                'were installed regardless.'
+            ),
+            $f->string($text->simpleDocument(
+                'Language key and entry, followed by the entries it would duplicate ' .
+                '("<language>: <module>#:#<identifier> (<module>: <identifier>, ...)").'
+            ))
+        );
+    }
+
+    /**
+     * @param array<string, array<string, list<string>>> $skipped see
+     *        \ILIAS\Language\Setup\LanguageInstallationManager::getSkippedDuplicateEntries()
+     * @param list<string> $language_keys
+     * @return list<string> the value of duplicateCustomizingOutputField()
+     */
+    protected function duplicateCustomizingEntries(array $skipped, array $language_keys): array
+    {
+        $entries = [];
+        foreach ($language_keys as $language_key) {
+            foreach ($skipped[$language_key] ?? [] as $entry => $existing) {
+                $entries[] = $language_key . ': ' . DuplicateIdentifierMessage::entry((string) $entry, $existing);
+            }
+        }
+
+        return $entries;
     }
 
     /**

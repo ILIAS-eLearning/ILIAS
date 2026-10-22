@@ -186,6 +186,24 @@ class LanguageActivityTest extends ilLanguageBaseTestCase
             $activity->entries($skipped, ['en', 'de', 'it'])
         );
     }
+
+    public function testDuplicateCustomizingEntriesNameWhatEachEntryWouldDuplicate(): void
+    {
+        $skipped = [
+            'de' => ['tos#:#x' => ['common: x', 'pilot: X'], 'tos#:#y' => ['mme: y']],
+            'en' => ['tos#:#z' => ['mme: z']],
+            'fr' => ['tos#:#z' => ['mme: z']],
+        ];
+        $activity = new LanguageActivityInvalidMarkupTestDouble(
+            $this->rbacOf($this->createStub(\ilRbacSystem::class)),
+            $this->languageFolder()
+        );
+
+        $this->assertSame(
+            ['en: tos#:#z (mme: z)', 'de: tos#:#x (common: x, pilot: X)', 'de: tos#:#y (mme: y)'],
+            $activity->duplicateEntries($skipped, ['en', 'de', 'it'])
+        );
+    }
 }
 
 final class LanguageActivityThrowingInputDescriptionTestDouble extends LanguageActivity
@@ -285,6 +303,16 @@ final class LanguageActivityInvalidMarkupTestDouble extends LanguageActivity
     public function entries(array $skipped, array $language_keys): array
     {
         return $this->invalidMarkupCustomizingEntries($skipped, $language_keys);
+    }
+
+    /**
+     * @param array<string, array<string, list<string>>> $skipped
+     * @param list<string> $language_keys
+     * @return list<string>
+     */
+    public function duplicateEntries(array $skipped, array $language_keys): array
+    {
+        return $this->duplicateCustomizingEntries($skipped, $language_keys);
     }
 
     public function getDescription(): Text\SimpleDocumentMarkdown

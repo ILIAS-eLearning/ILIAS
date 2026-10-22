@@ -92,6 +92,7 @@ MARKDOWN
                 ),
                 'overlay_write_failed_language_keys' => $this->overlayWriteFailedOutputField($f),
                 'invalid_markup_customizing_entries' => $this->invalidMarkupCustomizingOutputField($f),
+                'duplicate_customizing_entries' => $this->duplicateCustomizingOutputField($f),
             ]
         );
     }
@@ -151,6 +152,10 @@ MARKDOWN
             'overlay_write_failed_language_keys' => $overlay_write_failed_language_keys,
             'invalid_markup_customizing_entries' => $this->invalidMarkupCustomizingEntries(
                 $this->setup_language->getSkippedInvalidMarkupEntries(),
+                $to_update
+            ),
+            'duplicate_customizing_entries' => $this->duplicateCustomizingEntries(
+                $this->setup_language->getSkippedDuplicateEntries(),
                 $to_update
             ),
         ];
