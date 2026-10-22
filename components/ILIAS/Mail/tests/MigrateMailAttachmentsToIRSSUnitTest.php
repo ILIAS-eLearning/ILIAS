@@ -89,6 +89,7 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
             'movePathToStorage',
             'getCollectionBuilder',
             'getManager',
+            'getStakeholder',
         ];
         if ($mock) {
             $helper = $this->getMockBuilder(ilResourceStorageMigrationHelper::class)
@@ -278,6 +279,14 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
 
                 return $copied === 1 ? new ResourceIdentification('dir-rid') : null;
             });
+        $stakeholder = new ilMailAttachmentStakeholder(6);
+        $helper->method('getStakeholder')->willReturn($stakeholder);
+        $manager = $this->createMock(Manager::class);
+        $manager->expects($this->once())->method('remove')->with(
+            $this->callback(static fn(ResourceIdentification $rid): bool => $rid->serialize() === 'dir-rid'),
+            $stakeholder
+        );
+        $helper->method('getManager')->willReturn($manager);
 
         $this->invokePrivate('migrateSentAttachmentDirectories', []);
 

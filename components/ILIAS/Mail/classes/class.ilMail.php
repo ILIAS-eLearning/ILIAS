@@ -47,7 +47,7 @@ class ilMail
     private bool $append_installation_signature = false;
     private bool $append_user_signature = false;
     private bool $share_attachments = true;
-    private bool $keep_attachment_source = false;
+    private bool $attachment_copy_failed = false;
     private ?MailAttachments $shared_delivery_attachments = null;
     private ?string $context_id = null;
     private array $context_parameters = [];
@@ -192,7 +192,7 @@ class ilMail
 
         $copied_rcid = $this->mail_file_data->copyCollection($source->rcid());
         if ($copied_rcid === null) {
-            $this->keep_attachment_source = true;
+            $this->attachment_copy_failed = true;
 
             return MailAttachments::empty();
         }
@@ -866,7 +866,7 @@ class ilMail
             $recipient_inbox_id = $mbox->getInboxFolder();
 
             $delivery_attachments = $this->getDeliveryAttachments($mail_data->getAttachments());
-            if ($this->keep_attachment_source) {
+            if ($this->attachment_copy_failed) {
                 $this->logger->error('Could not copy mail attachments for delivery');
 
                 break;
@@ -901,7 +901,7 @@ class ilMail
             );
         }
 
-        if ($usr_id_to_external_email_addresses_map === [] || $this->keep_attachment_source) {
+        if ($usr_id_to_external_email_addresses_map === [] || $this->attachment_copy_failed) {
             return;
         }
 
@@ -1177,27 +1177,26 @@ class ilMail
         }
         $a_attachment = $normalized['attachments'];
 
-        $errors = $this->checkMail($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject);
-        if ($errors !== []) {
-            return $errors;
-        }
-
-        $errors = $this->validateRecipients($a_rcp_to, $a_rcp_cc, $a_rcp_bcc);
-        if ($errors !== []) {
-            return $errors;
-        }
-
         $rcp_to = $a_rcp_to;
         $rcp_cc = $a_rcp_cc;
         $rcp_bcc = $a_rcp_bcc;
 
-        $number_of_external_addresses = $this->getCountRecipients($rcp_to, $rcp_cc, $rcp_bcc);
-        if (
-            $number_of_external_addresses > 0 &&
-            !$this->isSystemMail() &&
-            !$DIC->rbac()->system()->checkAccessOfUser($this->user_id, 'smtp_mail', $this->mail_obj_ref_id)
+        $errors = $this->checkMail($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject);
+        if ($errors === []) {
+            $errors = $this->validateRecipients($a_rcp_to, $a_rcp_cc, $a_rcp_bcc);
+        }
+        if ($errors === []
+            && $this->getCountRecipients($rcp_to, $rcp_cc, $rcp_bcc) > 0
+            && !$this->isSystemMail()
+            && !$DIC->rbac()->system()->checkAccessOfUser($this->user_id, 'smtp_mail', $this->mail_obj_ref_id)
         ) {
-            return [new ilMailError('mail_no_permissions_write_smtp')];
+            $errors = [new ilMailError('mail_no_permissions_write_smtp')];
+        }
+        if ($errors !== []) {
+            // A collection handed over by the consumer is gone with the rejected message, a stage or draft stays
+            $this->releaseSourceAttachments($a_attachment);
+
+            return $errors;
         }
 
         if ($this->appendInstallationSignature()) {
@@ -1283,12 +1282,12 @@ class ilMail
         }
         $mail_data = $mail_data->withAttachments($normalized['attachments']);
         $this->shared_delivery_attachments = null;
-        $this->keep_attachment_source = false;
+        $this->attachment_copy_failed = false;
 
         $source_attachments = $mail_data->getAttachments();
         try {
             $sentbox_attachments = $this->getDeliveryAttachments($source_attachments);
-            if ($this->keep_attachment_source) {
+            if ($this->attachment_copy_failed) {
                 $this->logger->error('Could not copy mail attachments for delivery');
 
                 return [new ilMailError('mail_error_reading_attachment')];
@@ -1346,7 +1345,7 @@ class ilMail
             if (!$this->distributeMail($mail_data)) {
                 $errors['mail_send_error'] = new ilMailError('mail_send_error');
             }
-            if ($this->keep_attachment_source) {
+            if ($this->attachment_copy_failed) {
                 $errors['mail_error_reading_attachment'] = new ilMailError('mail_error_reading_attachment');
             }
 
@@ -1354,9 +1353,7 @@ class ilMail
                 $this->deleteMails([$internal_message_id]);
             }
         } finally {
-            if (!$this->keep_attachment_source) {
-                $this->releaseSourceAttachments($source_attachments);
-            }
+            $this->releaseSourceAttachments($source_attachments);
         }
 
         if ($this->isSystemMail()) {

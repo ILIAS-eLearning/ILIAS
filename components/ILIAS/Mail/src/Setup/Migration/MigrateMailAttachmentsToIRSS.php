@@ -169,6 +169,7 @@ class MigrateMailAttachmentsToIRSS implements Migration
         int $owner_id
     ): ?ResourceCollectionIdentification {
         $collection = $this->helper->getCollectionBuilder()->new($owner_id);
+        $copies = [];
         foreach ($filenames as $file_name) {
             $resource_id = $this->helper->movePathToStorage(
                 $absolute_path . '/' . $file_name,
@@ -178,19 +179,34 @@ class MigrateMailAttachmentsToIRSS implements Migration
                 true
             );
             if (!$resource_id instanceof ResourceIdentification) {
+                $this->discardResources($copies);
+
                 return null;
             }
+            $copies[] = $resource_id;
             $collection->add($resource_id);
         }
 
-        if ($collection->count() !== count($filenames)) {
-            return null;
-        }
-        if (!$this->helper->getCollectionBuilder()->store($collection)) {
+        if ($collection->count() !== count($filenames)
+            || !$this->helper->getCollectionBuilder()->store($collection)) {
+            $this->discardResources($copies);
+
             return null;
         }
 
         return $collection->getIdentification();
+    }
+
+    /**
+     * Copies of a directory that could not be migrated completely are removed, the next run copies it again
+     *
+     * @param list<ResourceIdentification> $resource_ids
+     */
+    private function discardResources(array $resource_ids): void
+    {
+        foreach ($resource_ids as $resource_id) {
+            $this->helper->getManager()->remove($resource_id, $this->helper->getStakeholder());
+        }
     }
 
     /**
@@ -413,6 +429,8 @@ class MigrateMailAttachmentsToIRSS implements Migration
         }
 
         if (!$this->helper->getCollectionBuilder()->store($collection)) {
+            $this->discardResources(array_values($collection->getResourceIdentifications()));
+
             return null;
         }
 
