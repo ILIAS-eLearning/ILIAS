@@ -152,6 +152,7 @@ class ilLTIToolTable implements DataRetrieval
 
             case self::ACTION_CONFIRM_DELETE:
                 $this->showDeleteModal($ids);
+                // no break
 
             case self::ACTION_DELETE:
                 if (ilLTITool::countUsages($ids) > 0) {

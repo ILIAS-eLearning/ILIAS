@@ -109,6 +109,7 @@ class ilLTIAdministrationPlatformTable implements DataRetrieval
 
             case self::ACTION_CONFIRM_DELETE:
                 $this->showDeleteModal($ids);
+                // no break
 
             case self::ACTION_DELETE:
                 // the released objects go with the platform
