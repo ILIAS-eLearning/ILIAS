@@ -258,6 +258,21 @@ class ilPageEditorGUI
         }
         $this->log->debug("step NC2: next_class: $next_class");
 
+        if ($next_class == "") {
+            $pc_def = $this->pc_definition->getPCDefinitionByType($ctype);
+            if (is_array($pc_def)) {
+                if ($ctype === "plug") {
+                    $this->ctrl->setParameterByClass(
+                        $pc_def["pc_gui_class"],
+                        "pluginName",
+                        $this->request->getString("pluginName")
+                    );
+                }
+                $this->ctrl->redirectByClass($pc_def["pc_gui_class"], $this->ctrl->getCmd());
+            }
+            $next_class = $this->ctrl->getNextClass($this);
+        }
+
         // ... do not do this while imagemap editing is ongoing
         // Step IM (handle image map editing)
         if ($cmd == "displayPage" && $next_class !== "ilpcmediaobjectgui" &&

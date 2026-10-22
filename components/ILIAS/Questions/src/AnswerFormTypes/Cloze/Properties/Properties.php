@@ -497,7 +497,9 @@ class Properties implements PropertiesInterface
             return $this->gaps->getTotalAvailablePoints();
         }
 
-        return 1.1;
+        return $this->combinations->getAvailablePoints(
+            $this->gaps
+        );
     }
 
     private function buildReplaceClonedGapsInTextsClosure(

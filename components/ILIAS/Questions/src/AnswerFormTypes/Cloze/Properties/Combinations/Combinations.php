@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations;
 
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gaps;
 use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
 use ILIAS\Questions\Definitions\Clonable;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
@@ -29,6 +30,7 @@ use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
 use ILIAS\UI\Component\Table\DataRowBuilder;
+use ILIAS\UI\Factory as UIFactory;
 
 class Combinations implements Clonable
 {
@@ -93,11 +95,44 @@ class Combinations implements Clonable
         array $vs
     ): bool {
         foreach ($this->combinations as $combination) {
-            if ($combination->containsAnswerOptionsExactly($vs)) {
+            if ($combination->isDefinedBy($vs)) {
                 return true;
             }
         }
         return false;
+    }
+
+    public function getAvailablePoints(
+        Gaps $gaps
+    ): float {
+        $gaps_in_combinations = [];
+        $gap_combinations = [];
+
+        /** @var Combination $combination */
+        foreach ($this->combinations as $combination) {
+            $gaps_in_combination = $combination->getCombinedGapIds();
+            $identifier = implode('', array_keys($gaps_in_combination));
+
+            if (!array_key_exists($identifier, $gap_combinations)) {
+                $gap_combinations[$identifier] = $combination->getAvailablePoints();
+                $gaps_in_combinations += $gaps_in_combination;
+                continue;
+            }
+            if ($combination->getAvailablePoints() > $gaps_in_combination[$identifier]) {
+                $gap_combinations[$identifier] = $combination->getAvailablePoints();
+            }
+        }
+
+        return array_sum($gap_combinations) + $gaps->getAvailablePointsFromGaps($gaps_in_combinations);
+    }
+
+    public function getAllGapIdsUsedInCombinations(): array
+    {
+        return array_reduce(
+            $this->combinations,
+            fn(array $c, Combination $v): array => $c + $v->getCombinedGapIds(),
+            []
+        );
     }
 
     public function getEditView(): Edit
@@ -172,11 +207,16 @@ class Combinations implements Clonable
     }
 
     public function toTableRows(
+        UIFactory $ui_factory,
         Language $lng,
         DataRowBuilder $row_builder,
     ): \Generator {
         foreach ($this->combinations as $combination) {
-            yield $combination->toTableRow($lng, $row_builder);
+            yield $combination->toTableRow(
+                $ui_factory,
+                $lng,
+                $row_builder
+            );
         }
     }
 
