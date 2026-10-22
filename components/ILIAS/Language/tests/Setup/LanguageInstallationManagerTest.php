@@ -417,7 +417,7 @@ class LanguageInstallationManagerTest extends TestCase
             });
 
             $repository = $this->createMock(InstalledLanguageRepository::class);
-            $repository->method('getLanguageEntries')->with('de')->willReturn([
+            $repository->expects($this->once())->method('getLanguageEntries')->with('de')->willReturn([
                 'common' => [
                     'overridden' => 'Old Value',
                     'untouched_by_customizing' => 'Still Here',
@@ -467,7 +467,7 @@ class LanguageInstallationManagerTest extends TestCase
             });
 
             $repository = $this->createMock(InstalledLanguageRepository::class);
-            $repository->method('checkLanguage')->with('de')->willReturn(true);
+            $repository->expects($this->once())->method('checkLanguage')->with('de')->willReturn(true);
             $repository->method('getAvailableLanguages')->willReturn([]);
             $repository->method('getLocalLanguages')->willReturn([]);
             $repository->method('getLocalChanges')->willReturn([]);

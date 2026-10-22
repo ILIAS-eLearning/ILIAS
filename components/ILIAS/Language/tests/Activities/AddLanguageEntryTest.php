@@ -944,12 +944,12 @@ class AddLanguageEntryTest extends ActivityContractTestCase
     public function testInputDescriptionBuildsModuleIdentifierAndPerLanguageTranslationFields(): void
     {
         $module_text = $this->createMock(Text::class);
-        $module_text->method('withRequired')->with(true)->willReturnSelf();
-        $module_text->method('withDedicatedName')->with('module')->willReturnSelf();
+        $module_text->expects($this->once())->method('withRequired')->with(true)->willReturnSelf();
+        $module_text->expects($this->once())->method('withDedicatedName')->with('module')->willReturnSelf();
 
         $identifier_text = $this->createMock(Text::class);
-        $identifier_text->method('withRequired')->with(true)->willReturnSelf();
-        $identifier_text->method('withDedicatedName')->with('identifier')->willReturnSelf();
+        $identifier_text->expects($this->once())->method('withRequired')->with(true)->willReturnSelf();
+        $identifier_text->expects($this->once())->method('withDedicatedName')->with('identifier')->willReturnSelf();
 
         $de_text = $this->createMock(Text::class);
         $de_required = null;
@@ -957,7 +957,7 @@ class AddLanguageEntryTest extends ActivityContractTestCase
             $de_required = $required;
             return $de_text;
         });
-        $de_text->method('withDedicatedName')->with('de')->willReturnSelf();
+        $de_text->expects($this->once())->method('withDedicatedName')->with('de')->willReturnSelf();
 
         $fr_text = $this->createMock(Text::class);
         $fr_required = null;
@@ -965,7 +965,7 @@ class AddLanguageEntryTest extends ActivityContractTestCase
             $fr_required = $required;
             return $fr_text;
         });
-        $fr_text->method('withDedicatedName')->with('fr')->willReturnSelf();
+        $fr_text->expects($this->once())->method('withDedicatedName')->with('fr')->willReturnSelf();
 
         $text_calls = [];
         $field = $this->createMock(\ILIAS\UI\Component\Input\Field\Factory::class);
@@ -983,7 +983,7 @@ class AddLanguageEntryTest extends ActivityContractTestCase
         );
 
         $translations_group = $this->createMock(\ILIAS\UI\Component\Input\Field\Group::class);
-        $translations_group->method('withDedicatedName')->with('translations')->willReturnSelf();
+        $translations_group->expects($this->once())->method('withDedicatedName')->with('translations')->willReturnSelf();
 
         $outer_section = $this->createMock(\ILIAS\UI\Component\Input\Field\Section::class);
 

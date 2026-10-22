@@ -94,7 +94,8 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
         ?bool $expected_written_value
     ): void {
         $repository = $this->createMock(RepositoryProvider::class);
-        $repository->method('isPageTranslationEnabled')
+        $repository->expects($this->once())
+            ->method('isPageTranslationEnabled')
             ->with('de')
             ->willReturn($stored_value);
 
@@ -129,7 +130,7 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
     public function testPerformTrimsLanguageKeyForBothTheSettingKeyAndTheReturnedValue(): void
     {
         $repository = $this->createMock(RepositoryProvider::class);
-        $repository->method('isPageTranslationEnabled')->with('de')->willReturn(false);
+        $repository->expects($this->once())->method('isPageTranslationEnabled')->with('de')->willReturn(false);
         $repository->expects($this->once())->method('setPageTranslationEnabled')->with('de', true);
 
         $result = $this->createActivity(repository: $repository)
@@ -177,7 +178,7 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
         $rbac->method('checkAccessOfUser')->willReturn(true);
 
         $repository = $this->createMock(RepositoryProvider::class);
-        $repository->method('isPageTranslationEnabled')->with('de')->willReturn(false);
+        $repository->expects($this->once())->method('isPageTranslationEnabled')->with('de')->willReturn(false);
         $repository->expects($this->once())->method('setPageTranslationEnabled')->with('de', true);
 
         $result = $this->createActivity(rbac_system: $rbac, repository: $repository)
@@ -306,7 +307,7 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
         $rbac->expects($this->once())->method('checkAccessOfUser')->willReturn(true);
 
         $repository = $this->createMock(RepositoryProvider::class);
-        $repository->method('isPageTranslationEnabled')->with('de')->willReturn(true);
+        $repository->expects($this->once())->method('isPageTranslationEnabled')->with('de')->willReturn(true);
         $repository->expects($this->once())->method('setPageTranslationEnabled')->with('de', false);
 
         $result = $this->createActivity(rbac_system: $rbac, repository: $repository)
@@ -365,7 +366,7 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
         $rbac->method('checkAccessOfUser')->willReturn(true);
 
         $repository = $this->createMock(RepositoryProvider::class);
-        $repository->method('isPageTranslationEnabled')->with('de')->willReturn(false);
+        $repository->expects($this->once())->method('isPageTranslationEnabled')->with('de')->willReturn(false);
         $repository->expects($this->once())->method('setPageTranslationEnabled')->with('de', true);
 
         $result = $this->createActivity(rbac_system: $rbac, repository: $repository)
@@ -386,7 +387,7 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
         $rbac->method('checkAccessOfUser')->willReturn(true);
 
         $repository = $this->createMock(RepositoryProvider::class);
-        $repository->method('isPageTranslationEnabled')->with('de')->willReturn(true);
+        $repository->expects($this->once())->method('isPageTranslationEnabled')->with('de')->willReturn(true);
         $repository->expects($this->once())->method('setPageTranslationEnabled')->with('de', false);
 
         $result = $this->createActivity(rbac_system: $rbac, repository: $repository)
@@ -457,7 +458,7 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
         $rbac->method('checkAccessOfUser')->willReturn(true);
 
         $repository = $this->createMock(RepositoryProvider::class);
-        $repository->method('isPageTranslationEnabled')->with('de')->willReturn(false);
+        $repository->expects($this->once())->method('isPageTranslationEnabled')->with('de')->willReturn(false);
         $repository->expects($this->once())->method('setPageTranslationEnabled')->with('de', true);
 
         $result = $this->createActivity(rbac_system: $rbac, repository: $repository)
