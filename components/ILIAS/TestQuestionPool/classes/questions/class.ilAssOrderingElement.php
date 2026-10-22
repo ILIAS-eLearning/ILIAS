@@ -448,10 +448,7 @@ class ilAssOrderingElement implements ToNormalized, FromNormalized
     }
 
     #[\Override]
-    public function toNormalized(
-        Transformations $transformations,
-        array $context = []
-    ): array|float|bool|int|string|null
+    public function toNormalized(Transformations $transformations, array $context = []): array|float|bool|int|string|null
     {
         return [
             'id' => $transformations->normalize(new Id($this->id, 'ordering')),
@@ -466,10 +463,7 @@ class ilAssOrderingElement implements ToNormalized, FromNormalized
     }
 
     #[\Override]
-    public function fromNormalized(
-        array $normalized,
-        Transformations $transformations
-    ): self
+    public function fromNormalized(array $normalized, Transformations $transformations): self
     {
         $clone = $this->withRandomIdentifier($transformations->int($normalized['random_identifier']))
                     ->withSolutionIdentifier($transformations->int($normalized['solution_identifier']))
