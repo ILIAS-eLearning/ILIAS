@@ -18,8 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\LearningSequence\Content\Condition\AbstractCondition;
 use ILIAS\LearningSequence\Content\Condition\ConditionTypeDefinition;
 use ILIAS\LearningSequence\Content\Condition\ConditionTypeRegistry;
+use ILIAS\LearningSequence\Content\Condition\InputCondition\InputConditionInterface;
 use ILIAS\LearningSequence\Content\Condition\InputCondition\PointsInputCondition\PointsInputCondition;
 use ILIAS\LearningSequence\Content\Condition\InputCondition\SubsetInputCondition\SubsetInputCondition;
 use ILIAS\LearningSequence\Content\Condition\OutputCondition\AlwaysOutputCondition\AlwaysOutputCondition;
@@ -81,5 +83,62 @@ class ConditionTypeRegistryTest extends TestCase
         $this->assertSame([], $registry->getAllConditions());
         $this->assertSame([], $registry->getAllInputConditions());
         $this->assertSame([], $registry->getAllOutputConditions());
+    }
+
+    public static function invalidContributions(): array
+    {
+        return [
+            'missing class' => ['ILIAS\\LearningSequence\\DoesNotExistCondition', 'does not exist'],
+            'no condition' => [stdClass::class, 'does not extend'],
+            'abstract condition' => [ConditionTypeRegistryTestAbstractCondition::class, 'cannot be instantiated'],
+            'neither input nor output' => [
+                ConditionTypeRegistryTestUndirectedCondition::class,
+                'neither an input nor an output condition'
+            ],
+        ];
+    }
+
+    #[PHPUnit\Framework\Attributes\DataProvider('invalidContributions')]
+    public function testInvalidContributionIsRejected(string $class, string $message): void
+    {
+        $registry = new ConditionTypeRegistry([new ConditionTypeDefinition($class)]);
+
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage($message);
+        $registry->getAllConditions();
+    }
+
+    public function testContributionsSharingTheNameAreRejected(): void
+    {
+        $alias = 'ILIAS\\LearningSequence\\Tests\\Fixture\\PointsInputCondition';
+        if (!class_exists($alias, false)) {
+            class_alias(PointsInputCondition::class, $alias);
+        }
+        $registry = new ConditionTypeRegistry([
+            new ConditionTypeDefinition(PointsInputCondition::class),
+            new ConditionTypeDefinition($alias),
+        ]);
+
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage("share the name 'PointsInput'");
+        $registry->getAllInputConditions();
+    }
+}
+
+/**
+ * Fixture: a condition which cannot be instantiated.
+ */
+abstract class ConditionTypeRegistryTestAbstractCondition extends AbstractCondition implements InputConditionInterface
+{
+}
+
+/**
+ * Fixture: a condition which is neither an input nor an output condition.
+ */
+class ConditionTypeRegistryTestUndirectedCondition extends AbstractCondition
+{
+    public function check(): bool
+    {
+        return true;
     }
 }
