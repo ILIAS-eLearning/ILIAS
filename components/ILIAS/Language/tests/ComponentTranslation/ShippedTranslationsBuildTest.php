@@ -61,7 +61,7 @@ class ShippedTranslationsBuildTest extends TestCase
     /**
      * @param list<string> $modules
      * @param list<string> $messages filled with what the build informs about
-     * @return array{build: ?string, compiled: int, unchanged: bool, removed: int, warnings: list<string>, collisions: list<string>}
+     * @return array{build: ?string, compiled: int, unchanged: bool, rebuilt: bool, removed: int, warnings: list<string>, collisions: list<string>, collision_summary: list<string>, manifest: ?string}
      */
     private function build(array $modules, ?string $locale_source = null, array &$messages = [], ?\Closure $on_inform = null): array
     {
@@ -149,6 +149,44 @@ class ShippedTranslationsBuildTest extends TestCase
         $this->assertSame($expected, $first['collisions'], '"same" has one value everywhere, "only_a" is in one module only');
         $this->assertSame($expected, $second['collisions'], 'listed again by an unchanged build, not only by the one that wrote it');
         $this->assertSame($expected, $this->manifest((string) $first['build'])['collisions'] ?? null, 'kept in the manifest of the build');
+    }
+
+    public function testCollisionsAreSummarizedPerSetOfModulesOnlyByTheRunThatWritesTheBuild(): void
+    {
+        $this->ship('mca', 'de', ['one' => 'A1', 'two' => 'A2', 'three' => 'A3']);
+        $this->ship('mcb', 'de', ['one' => 'B1', 'two' => 'B2']);
+        $this->ship('mcc', 'de', ['three' => 'C3']);
+
+        $first = $this->build(['mca', 'mcb', 'mcc']);
+        $second = $this->build(['mca', 'mcb', 'mcc']);
+
+        $this->assertTrue($first['rebuilt']);
+        $this->assertCount(3, $first['collisions']);
+        $this->assertSame([
+            '2 key(s) with different values in the modules mca, mcb - txt() serves the one of the module loaded last: one, two',
+            '1 key(s) with different values in the modules mca, mcc - txt() serves the one of the module loaded last: three',
+        ], $first['collision_summary']);
+
+        $this->assertFalse($second['rebuilt']);
+        $this->assertSame([], $second['collision_summary']);
+        $this->assertSame($first['collisions'], $second['collisions']);
+        $this->assertSame($this->buildDirectory((string) $first['build']) . '/manifest.json', $second['manifest']);
+        $this->assertFileExists((string) $second['manifest']);
+    }
+
+    public function testCountsTheMarkupWarningsOfABuildApartFromTheOthers(): void
+    {
+        $this->ship('mca', 'de', ['greeting' => '<script>x</script>Hallo']);
+        $this->ship('mcb', 'de', ['plain' => 'Hallo']);
+        $this->breakPo('mcb', 'de');
+
+        $result = $this->build(['mca', 'mcb']);
+
+        $markup = array_values(array_diff($result['warnings'], $result['other_warnings']));
+        $this->assertSame(1, $result['markup_warnings']);
+        $this->assertCount(1, $markup);
+        $this->assertStringContainsString('(module "mca", key "greeting")', $markup[0]);
+        $this->assertGreaterThan(count($markup), count($result['warnings']), 'the broken .po warning is no markup warning');
     }
 
     public function testOnlyFilesOfNoModuleInTheSameDirectoryAreReportedAsWithoutLanguageKey(): void

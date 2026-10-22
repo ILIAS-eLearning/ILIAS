@@ -142,7 +142,9 @@ previous build is kept for running requests.
 * Not aborting, but reported on every build: values with markup that is not
   allowed (compiled cleaned, see [Markup Policy](#markup-policy)), a `.po` that
   cannot be compiled (e.g. merge conflict markers) and identifiers that two
-  migrated modules ship with different values. For a `.po` that cannot be
+  migrated modules ship with different values (grouped by modules). A reused,
+  unchanged build lists only the `.po` files that cannot be compiled and counts
+  the rest; the details stay in its `manifest.json`. For a `.po` that cannot be
   compiled the language keeps the catalog of the served (or previous) build,
   if that build was made by the same compiler and its catalog is intact and
   passes the markup policy; otherwise the module is not served for that

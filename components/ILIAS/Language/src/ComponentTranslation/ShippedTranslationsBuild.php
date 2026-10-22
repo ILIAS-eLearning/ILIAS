@@ -56,7 +56,8 @@ use RuntimeException;
  * A `.po` that cannot be compiled is reported and served with the catalog of the served (or else the previous)
  * build, so a broken file never turns a working language into `-identifier-`; without such a catalog the module is
  * not served for that language. Values with disallowed markup are compiled cleaned and reported; identifiers with different values in several modules (txt() serves the one loaded last) are
- * listed. All of that repeats on every build until fixed.
+ * listed, grouped by modules (collision_summary) when the build is written. All of that stays in the manifest until
+ * fixed.
  *
  * Files are written without fsync(): a build can be repeated any time, and the manifest reveals a build
  * damaged by a crash.
@@ -73,6 +74,7 @@ final class ShippedTranslationsBuild
     private const int FORMAT_VERSION = 4;
 
     private const string MANIFEST_FILE = 'manifest.json';
+    private const string MARKUP_WARNING = 'Markup not allowed in a language value';
 
     private const string LOCK_FILE = 'build.lock';
 
@@ -106,9 +108,12 @@ final class ShippedTranslationsBuild
 
     /**
      * @param callable(string $message): void $inform progress and warnings
-     * @return array{build: ?string, compiled: int, unchanged: bool, removed: int, warnings: list<string>, collisions: list<string>}
+     * @return array{build: ?string, compiled: int, unchanged: bool, rebuilt: bool, removed: int, warnings: list<string>, collisions: list<string>, collision_summary: list<string>, manifest: ?string, markup_warnings: int, other_warnings: list<string>}
      *         build: the id now served (`null` without any migrated module); compiled: `.po` files
-     *         compiled (0 for an unchanged build); removed: files and directories of former builds
+     *         compiled (0 for an unchanged build); rebuilt: the build was written now, not reused; removed: files
+     *         and directories of former builds; collision_summary: the collisions grouped by modules, only if
+     *         rebuilt; manifest: the manifest of the served build, relative to the ILIAS directory;
+     *         markup_warnings: how many of the warnings are about disallowed markup; other_warnings: the rest
      * @throws RuntimeException if the build cannot be written, the locale is missing, or native gettext
      *         does not serve it - `current.json` is left unchanged then
      */
@@ -132,7 +137,7 @@ final class ShippedTranslationsBuild
 
     /**
      * @param callable(string $message): void $inform
-     * @return array{build: ?string, compiled: int, unchanged: bool, removed: int, warnings: list<string>, collisions: list<string>}
+     * @return array{build: ?string, compiled: int, unchanged: bool, rebuilt: bool, removed: int, warnings: list<string>, collisions: list<string>, collision_summary: list<string>, manifest: ?string, markup_warnings: int, other_warnings: list<string>}
      */
     private function runLocked(string $artifact_directory, callable $inform): array
     {
@@ -145,9 +150,14 @@ final class ShippedTranslationsBuild
                 'build' => null,
                 'compiled' => 0,
                 'unchanged' => ($pointer['build'] ?? null) === null,
+                'rebuilt' => false,
                 'removed' => $this->removeObsolete($artifact_directory, []),
                 'warnings' => [],
                 'collisions' => [],
+                'collision_summary' => [],
+                'manifest' => null,
+                'markup_warnings' => 0,
+                'other_warnings' => [],
             ];
         }
 
@@ -156,12 +166,13 @@ final class ShippedTranslationsBuild
         $build_directory = MigratedLanguageFilePaths::buildDirectory($artifact_directory, $build_id);
         $manifest = self::readManifest($build_directory);
         $compiled = 0;
+        $collision_summary = null;
         if ($manifest === null || !$this->isIntact($build_directory, $manifest)) {
             $former_builds = array_values(array_diff(
                 array_filter([$pointer['build'] ?? null, $pointer['previous'] ?? null], 'is_string'),
                 [$build_id]
             ));
-            [$manifest, $compiled] = $this->write($artifact_directory, $build_directory, $build_id, $modules, $locale_source, $former_builds);
+            [$manifest, $compiled, $collision_summary] = $this->write($artifact_directory, $build_directory, $build_id, $modules, $locale_source, $former_builds);
         }
 
         try {
@@ -187,13 +198,23 @@ final class ShippedTranslationsBuild
             $this->writePointer($artifact_directory, $new_pointer);
         }
 
+        $other_warnings = array_values(array_filter(
+            $manifest['warnings'],
+            static fn(string $warning): bool => !str_starts_with($warning, self::MARKUP_WARNING)
+        ));
+
         return [
             'build' => $build_id,
             'compiled' => $compiled,
             'unchanged' => $unchanged && $compiled === 0,
+            'rebuilt' => $collision_summary !== null,
             'removed' => $this->removeObsolete($artifact_directory, array_values(array_filter([$build_id, $previous]))),
             'warnings' => $manifest['warnings'],
             'collisions' => $manifest['collisions'],
+            'collision_summary' => $collision_summary ?? [],
+            'manifest' => $this->relativePath($build_directory . '/' . self::MANIFEST_FILE),
+            'markup_warnings' => count($manifest['warnings']) - count($other_warnings),
+            'other_warnings' => $other_warnings,
         ];
     }
 
@@ -252,7 +273,8 @@ final class ShippedTranslationsBuild
      *
      * @param array<string, array{directory: LanguageFileDirectory, languages: array<string, string>, template: ?string}> $modules
      * @param list<string> $former_builds where the catalog of a `.po` that cannot be compiled is taken from
-     * @return array{0: Manifest, 1: int} the manifest of the build and the number of compiled `.po` files
+     * @return array{0: Manifest, 1: int, 2: list<string>} the manifest of the build, the number of compiled `.po`
+     *         files and the collisions grouped by modules (see findCollisions())
      */
     private function write(
         string $artifact_directory,
@@ -283,7 +305,7 @@ final class ShippedTranslationsBuild
                             $shipped_po,
                             $module,
                             static function (string $identifier, array $violations) use (&$warnings, $source, $module): void {
-                                $warnings[] = sprintf('Markup not allowed in a language value, %s (module "%s", key "%s"): removed %s', $source, $module, $identifier, implode(', ', $violations));
+                                $warnings[] = sprintf('%s, %s (module "%s", key "%s"): removed %s', self::MARKUP_WARNING, $source, $module, $identifier, implode(', ', $violations));
                             },
                             static function (string $message) use (&$warnings, $source, $module): void {
                                 $warnings[] = sprintf('%s (module "%s"): %s', $source, $module, $message);
@@ -343,13 +365,14 @@ final class ShippedTranslationsBuild
 
             $this->copyLocale($locale_source, MigratedLanguageFilePaths::buildLocaleDirectory($temporary) . '/' . NativeGettext::LOCALE_NAME, $temporary, $files);
             ksort($files, SORT_STRING);
+            [$collisions, $collision_summary] = $this->findCollisions($values_per_language);
             $manifest = [
                 'files' => $files,
                 'sample' => $sample,
                 'languages' => $languages,
                 'hashes' => $hashes,
                 'warnings' => $warnings,
-                'collisions' => $this->findCollisions($values_per_language),
+                'collisions' => $collisions,
                 'compatibility' => self::catalogCompatibility(),
             ];
             $this->writeFile($temporary . '/' . self::MANIFEST_FILE, json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR) . "\n");
@@ -364,7 +387,7 @@ final class ShippedTranslationsBuild
             throw $t instanceof RuntimeException ? $t : new RuntimeException($t->getMessage(), 0, $t);
         }
 
-        return [$manifest, $compiled];
+        return [$manifest, $compiled, $collision_summary];
     }
 
     /**
@@ -469,7 +492,8 @@ final class ShippedTranslationsBuild
      * The identifiers with different values in several modules, per language.
      *
      * @param array<string, array<string, array<string, string>>> $values_per_language lang => module => identifier => value
-     * @return list<string>
+     * @return array{0: list<string>, 1: list<string>} one line per identifier (for the manifest), and one per set of
+     *         modules naming its identifiers (for the output)
      */
     private function findCollisions(array $values_per_language): array
     {
@@ -491,13 +515,20 @@ final class ShippedTranslationsBuild
         ksort($collisions, SORT_STRING);
 
         $list = [];
+        $identifiers_of = [];
         foreach ($collisions as $key => $lang_keys) {
             [$identifier, $modules] = explode("\0", (string) $key, 2);
             sort($lang_keys, SORT_STRING);
             $list[] = sprintf('Key "%s" has different values in the modules %s (languages: %s) - txt() serves the one of the module loaded last.', $identifier, $modules, implode(', ', $lang_keys));
+            $identifiers_of[$modules][] = $identifier;
+        }
+        ksort($identifiers_of, SORT_STRING);
+        $summary = [];
+        foreach ($identifiers_of as $modules => $identifiers) {
+            $summary[] = sprintf('%d key(s) with different values in the modules %s - txt() serves the one of the module loaded last: %s', count($identifiers), $modules, implode(', ', $identifiers));
         }
 
-        return $list;
+        return [$list, $summary];
     }
 
     /**

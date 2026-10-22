@@ -33,8 +33,9 @@ use ILIAS\Setup;
  * from every shipped `.po` into `artifacts/language/`, see ShippedTranslationsBuild.
  *
  * Disallowed markup, uncompilable `.po` files (served from a former build if possible, else not served) and
- * identifier collisions are warnings on every build. The build is aborted (Setup\UnachievableException) if it
- * cannot be written or native gettext does not serve it.
+ * identifier collisions (grouped by modules) are warnings when the build is written. A reused build repeats only
+ * the uncompilable files and counts the rest, the details stay in its manifest. The build is aborted
+ * (Setup\UnachievableException) if it cannot be written or native gettext does not serve it.
  */
 final class ShippedLanguageFilesCompiledObjective implements Setup\Objective
 {
@@ -105,11 +106,19 @@ final class ShippedLanguageFilesCompiledObjective implements Setup\Objective
         // the language objectives after it in this process serve the new build
         MigratedTranslations::reset();
 
-        foreach ($result['warnings'] as $warning) {
+        foreach ($result['rebuilt'] ? $result['warnings'] : $result['other_warnings'] as $warning) {
             $inform('WARNING: ' . $warning);
         }
-        foreach ($result['collisions'] as $collision) {
+        foreach ($result['collision_summary'] as $collision) {
             $inform('WARNING: ' . $collision);
+        }
+        if (!$result['rebuilt'] && ($result['markup_warnings'] > 0 || $result['collisions'] !== [])) {
+            $inform(sprintf(
+                'WARNING: %d markup warning(s), %d key collision(s), see %s.',
+                $result['markup_warnings'],
+                count($result['collisions']),
+                $result['manifest']
+            ));
         }
         $inform(sprintf(
             'Shipped language files: %s, %d compiled, %d obsolete removed.',
