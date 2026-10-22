@@ -2979,9 +2979,6 @@ msgstr "d.m.Y"
 msgid "lang_path"
 msgstr "Sprachdateien-Pfad"
 
-msgid "lang_refresh_confirm"
-msgstr "Sollen wirklich alle Sprachen aktualisiert werden?"
-
 msgid "lang_refresh_confirm_info"
 msgstr "ILIAS hat geänderte Sprachvariablen gefunden. Die Aktualisierung einer Sprache lädt alle Daten aus ihrer Standard-Sprachdatei und eventuell aus einer Custom-Sprachdatei in die Datenbank. Ihre Änderungen werden durch das Laden der Standard-Sprachdatei nicht überschrieben. Eine Custom-Sprachdatei überschreibt nur Änderungen, die älter sind als ihr eigenes Speicherdatum."
 

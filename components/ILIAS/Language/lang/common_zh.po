@@ -3167,9 +3167,6 @@ msgstr "Y-m-d"
 msgid "lang_path"
 msgstr "语言路径"
 
-msgid "lang_refresh_confirm"
-msgstr "您真的要刷新所有语言吗？"
-
 msgid "lang_refresh_confirm_info"
 msgstr "扩展语言维护当前处于激活状态。刷新语言从ILIAS语言文件装载所有语言数据到数据库中。如果之前没有事先导出，则本地改变(在数据库中)可能被覆盖。这并不影响自定义目录中的任何“*.lang.local”文件。"
 

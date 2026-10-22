@@ -3048,9 +3048,6 @@ msgstr "d.m.L"
 msgid "lang_path"
 msgstr "Pot jezikovne datoteke"
 
-msgid "lang_refresh_confirm"
-msgstr "Ali res želite posodobiti vse jezike?"
-
 msgid "lang_refresh_confirm_info"
 msgstr "ILIAS je našel spremenjene jezikovne spremenljivke. S posodobitvijo jezika bodo v bazo podatkov naloženi vsi podatki iz vaše privzete jezikovne datoteke in po možnosti iz jezikovne datoteke po meri. Z nalaganjem privzete jezikovne datoteke vaše spremembe ne bodo prepisane. Jezikovna datoteka po meri bo prepisala samo spremembe, ki so starejše od vašega datuma shranjevanja."
 

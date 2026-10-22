@@ -2976,9 +2976,6 @@ msgstr ""
 msgid "lang_path"
 msgstr ""
 
-msgid "lang_refresh_confirm"
-msgstr ""
-
 msgid "lang_refresh_confirm_info"
 msgstr ""
 

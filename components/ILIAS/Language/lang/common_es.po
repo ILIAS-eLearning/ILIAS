@@ -2979,9 +2979,6 @@ msgstr "d-m-Y"
 msgid "lang_path"
 msgstr "Ruta de idioma"
 
-msgid "lang_refresh_confirm"
-msgstr "¿Realmente desea actualizar todos los idiomas?"
-
 msgid "lang_refresh_confirm_info"
 msgstr "ILIAS ha detectado cambios en las variables de idioma. Al actualizar un idioma, se leerá el archivo de idioma estándar y, probablemente, un archivo de idioma personalizado en la base de datos. Un archivo estándar no afectará a sus cambios. Un archivo personalizado sobrescribirá sus cambios que sean anteriores a la fecha del archivo."
 

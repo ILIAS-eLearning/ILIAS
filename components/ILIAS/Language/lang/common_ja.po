@@ -2980,9 +2980,6 @@ msgstr "Y-m-d"
 msgid "lang_path"
 msgstr "言語Path"
 
-msgid "lang_refresh_confirm"
-msgstr "本当に全ての言語を更新しますか?"
-
 msgid "lang_refresh_confirm_info"
 msgstr "拡張言語メンテナンスは現在使用可能です。言語を更新するとILIASのグローバル言語ファイルと設定によってはCustomizingディレクトリからローカル言語ファイルがデータベースへ読込まれます。ローカル言語ファイルが保存された日よりも古い変更は、ローカル言語ファイルで全て手動で上書きされます。"
 

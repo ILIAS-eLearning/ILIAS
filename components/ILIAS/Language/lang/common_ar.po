@@ -3167,9 +3167,6 @@ msgstr "Y-m-d"
 msgid "lang_path"
 msgstr "مسار اللغة"
 
-msgid "lang_refresh_confirm"
-msgstr "هل تريد حقا تحديث كافة اللغات؟"
-
 msgid "lang_refresh_confirm_info"
 msgstr "Extended language maintenance is currently activated. Refreshing the languages will read the global language files of ILIAS and probably the local language files from the Customizing directory to the database. Global language files will not affect your manual changes. A local langage file will overwrite all manual changes that are older than the saving date of the local language file."
 
