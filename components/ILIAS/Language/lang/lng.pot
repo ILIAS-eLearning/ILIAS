@@ -26,6 +26,9 @@ msgstr ""
 msgid "lng_merge_database_not_updated"
 msgstr ""
 
+msgid "lng_merge_nothing_to_merge"
+msgstr ""
+
 msgid "lng_merge_po_not_written"
 msgstr ""
 

@@ -37,6 +37,10 @@ msgid "lng_merge_database_not_updated"
 msgstr "The shipped PO files of the following modules were written, but their database entries could not be updated (see the log): %s"
 
 #, fuzzy
+msgid "lng_merge_nothing_to_merge"
+msgstr "There are no local changes to merge."
+
+#, fuzzy
 msgid "lng_merge_po_not_written"
 msgstr "The local changes of the following modules could not be merged into their shipped PO files (see the log): %s"
 

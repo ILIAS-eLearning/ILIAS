@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Language\ComponentTranslation\CustomizingLanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
 use ILIAS\Language\ComponentTranslation\LocalChangeComments;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\PreserveGlobalState;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
@@ -47,6 +48,8 @@ class ShippedValuesOfMigratedModulesTest extends ilLanguageBaseTestCase
     private array $value_rows = [];
     /** @var list<array{module: string, identifier: string, remarks: ?string}> */
     private array $remark_rows = [];
+    /** @var list<string> modules of the lng_data rows with a local_change, for the "SELECT 1" of hasLocalChangesOutsidePoModules() */
+    private array $local_change_modules = [];
     /** @var array<int, list<array<string, ?string>>> rows fetchAssoc() hands out per statement */
     private array $statement_rows = [];
     /** @var list<string> every manipulate() SQL string, in call order */
@@ -166,10 +169,21 @@ class ShippedValuesOfMigratedModulesTest extends ilLanguageBaseTestCase
     {
         $db = $this->createStub(ilDBInterface::class);
         $db->method('quote')->willReturnCallback(static fn($value): string => "'" . (string) $value . "'");
-        $db->method('in')->willReturn('1 = 1');
+        // a negated "in" keeps its values so the fake can evaluate it, the others stay "1 = 1"
+        $db->method('in')->willReturnCallback(
+            static fn(string $field, array $values, bool $negate = false): string => $negate
+                ? $field . ' NOT IN (' . implode(',', $values) . ')'
+                : '1 = 1'
+        );
         $db->method('query')->willReturnCallback(function (string $sql): ilDBStatement {
             $value_rows = str_starts_with($sql, /** @lang text */ 'SELECT module, identifier, value FROM lng_data') ? $this->value_rows : [];
             $statement = $this->createStub(ilDBStatement::class);
+            if (str_starts_with($sql, /** @lang text */ 'SELECT 1 FROM lng_data') && str_contains($sql, 'local_change IS NOT NULL')) {
+                preg_match('/module NOT IN \(([^)]*)\)/', $sql, $excluded);
+                $outside = array_diff($this->local_change_modules, explode(',', $excluded[1] ?? ''));
+                $this->statement_rows[spl_object_id($statement)] = $outside === [] ? [] : [['1' => '1']];
+                return $statement;
+            }
             $statement->method('fetchRow')->willReturnCallback(static function () use (&$value_rows): ?array {
                 return array_shift($value_rows);
             });
@@ -531,5 +545,58 @@ class ShippedValuesOfMigratedModulesTest extends ilLanguageBaseTestCase
             ],
             $this->manipulate_calls
         );
+    }
+
+    public function testMergeWithoutWritingTheGlobalFileStillWritesThePoAndResetsLngData(): void
+    {
+        $overlay = MigratedPoFixture::catalog('itest', ['greeting' => 'Lokal geändert']);
+        LocalChangeComments::setRemark($overlay->find('itest', 'greeting'), 'lokale Bemerkung');
+        MigratedPoFixture::writePair(
+            rtrim(CLIENT_DATA_DIR, '/') . '/lang/itest/' . self::LANG . '/itest_' . self::LANG,
+            $overlay
+        );
+        $this->value_rows = [
+            ['module' => 'common', 'identifier' => 'yes', 'value' => 'Jawohl'],
+            ['module' => 'common', 'identifier' => 'new', 'value' => 'Neu'],
+        ];
+        $this->remark_rows = [['module' => 'common', 'identifier' => 'yes', 'remarks' => 'lokale Bemerkung']];
+        $logger_factory = $this->createStub(ilLoggerFactory::class);
+        $logger_factory->method('getComponentLogger')->willReturn($this->createStub(ilLogger::class));
+        $this->setGlobalVariable('ilLoggerFactory', $logger_factory);
+        $lines_before = $this->entryLinesOfTheGlobalFile();
+        $content_before = file_get_contents($this->global_file);
+
+        $result = $this->languageObject()->mergeLocalChangesIntoGlobalLanguageFile(false);
+
+        $this->assertSame($content_before, file_get_contents($this->global_file));
+        $this->assertSame($lines_before, $this->entryLinesOfTheGlobalFile());
+        $this->assertNotSame([], $result['written'], 'the shipped .po was written');
+        $this->assertSame(
+            [
+                "UPDATE lng_data SET local_change = NULL WHERE lang_key = 'zz' AND module = 'itest' AND 1 = 1",
+                "UPDATE lng_data SET remarks = NULL WHERE lang_key = 'zz' AND module = 'itest' AND 1 = 1",
+            ],
+            $this->manipulate_calls
+        );
+    }
+
+    /** @param list<string> $local_change_modules modules of the lng_data rows with a local_change */
+    #[DataProvider('localChangeModulesAndWhetherTheyAreOutsideThePoModules')]
+    public function testLocalChangesOutsideThePoModulesAreDetected(array $local_change_modules, bool $expected): void
+    {
+        $this->local_change_modules = $local_change_modules;
+
+        $this->assertSame($expected, $this->languageObject()->hasLocalChangesOutsidePoModules());
+    }
+
+    /** @return array<string, array{0: list<string>, 1: bool}> */
+    public static function localChangeModulesAndWhetherTheyAreOutsideThePoModules(): array
+    {
+        return [
+            'no row with a local change (e.g. only a shipped remark)' => [[], false],
+            'only a module maintained in PO files' => [['itest'], false],
+            'a module outside the PO files' => [['common'], true],
+            'both kinds' => [['itest', 'common'], true],
+        ];
     }
 }
