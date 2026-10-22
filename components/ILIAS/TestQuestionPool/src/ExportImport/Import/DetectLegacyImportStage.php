@@ -58,11 +58,9 @@ class DetectLegacyImportStage implements ImportStage
         $qti_file = $context->importBaseDir() . DIRECTORY_SEPARATOR . str_replace(['_qpl_', '_tst_'], '_qti_', $import_name) . '.xml';
 
         if (!file_exists($qti_file) || !file_exists($xml_file)) {
-            $this->log->debug("No legacy import files found for {$import_name}");
             return StageResult::advance($context);
         }
 
-        $this->log->info("Detected legacy import files for {$import_name}");
         return StageResult::advance(
             $context->withLegacyQtiFile($qti_file)->withLegacyXmlFile($xml_file)
         );

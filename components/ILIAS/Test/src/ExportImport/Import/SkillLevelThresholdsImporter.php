@@ -69,7 +69,6 @@ class SkillLevelThresholdsImporter
                 $result['failed'][] = $this->buildResultData($threshold);
                 continue;
             }
-            $this->log->debug("Found skill level id mapping for threshold: {$threshold->getSkillLevelId()} -> {$local_level_id}");
 
             $mapping->addMapping(
                 $this->component,
@@ -84,7 +83,6 @@ class SkillLevelThresholdsImporter
         }
 
         $threshold_list->saveToDb();
-        $this->log->debug('Saved skill level thresholds');
 
         return $result;
     }

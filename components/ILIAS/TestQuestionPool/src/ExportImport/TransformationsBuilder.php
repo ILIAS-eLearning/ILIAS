@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\TestQuestionPool\ExportImport;
 
 use ILIAS\DI\Container;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\FoundationNormalizerRegistration;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\NormalizerRegistration;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Normalizer\Registry;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Processors\DenormalizingProcessor;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Processors\FinalizeNormalizing;
@@ -32,7 +32,8 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Queue\Queue;
 
 final class TransformationsBuilder
 {
-    public function __construct(private readonly Container $dic) {
+    public function __construct(private readonly Container $dic)
+    {
     }
 
     public function forExport(Processor ...$runtime_processors): Transformations
@@ -70,7 +71,7 @@ final class TransformationsBuilder
             ])
         );
 
-        (new FoundationNormalizerRegistration($this->dic))
+        (new NormalizerRegistration($this->dic))
             ->register($registry, $transformations);
         (new QuestionPoolNormalizerRegistration($this->dic))
             ->register($registry, $transformations);

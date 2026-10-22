@@ -35,9 +35,10 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Normalizer\Resource
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Normalizer\TransformationNormalizer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Normalizer\UUIDNormalizer;
 
-final class FoundationNormalizerRegistration
+final class NormalizerRegistration
 {
-    public function __construct(private readonly Container $dic) {
+    public function __construct(private readonly Container $dic)
+    {
     }
 
     public function register(Registry $registry, Transformations $transformations): void

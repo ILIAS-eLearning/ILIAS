@@ -133,13 +133,11 @@ class QuestionPoolExporter implements Exporter
             throw new \LogicException('Unexpected question image processor');
         }
 
-        $state->logger()->debug("Copying question images to export directory {$export_dir}");
         foreach ($question_image_collector->getFiles() as $file) {
             $state->writer()->writeFileByFilePath(
                 $file['from'],
                 "{$export_dir}/" . $file['to']
             );
-            $state->logger()->debug("Copied question image {$file['from']} to {$export_dir}/{$file['to']}");
         }
 
         $state->logger()->info('...Finished writing question pool export (3/3)');
