@@ -4735,7 +4735,7 @@ common#:#mm_personal_workspace#:#Personal Workspace###07 02 2020 new variable
 common#:#mm_portfolio#:#Portfolio###07 02 2020 new variable
 common#:#mm_private_chats#:#Private Chats###29 07 2022 new variable
 common#:#mm_repo_tree_view#:#Trævisning
-common#:#mm_repo_tree_view_act#:#Aktiver trævisning 
+common#:#mm_repo_tree_view_act#:#Aktiver trævisning
 common#:#mm_repo_tree_view_deact#:#Deaktiver trævisning
 common#:#mm_repository#:#Arkiv
 common#:#mm_skills#:#Competences###07 02 2020 new variable
@@ -15183,7 +15183,7 @@ rep#:#rep_fav_intro1#:#Du har endnu ikke valgt nogen favoritter. For at gøre de
 rep#:#rep_fav_intro2#:#Klik på '%s' og vælg et læringsobjekt fra de tilgængelige muligheder, f.eks. et læringsmodul eller et forum.
 rep#:#rep_fav_intro3#:#Hvis du finder noget, der interesserer dig, kan du nemt tilføje det til dine favoritter. For det ønskede element skal du vælge "Føj til favoritter" i menuen Handlinger.
 rep#:#rep_favourites#:#Favoritter
-rep#:#rep_favourites_info#:#Brugere kan markere enkelte repository-elementer som favoritter. En "Favoritter"-liste kan aktiveres for dashboardet og hovedmenuen. 
+rep#:#rep_favourites_info#:#Brugere kan markere enkelte repository-elementer som favoritter. En "Favoritter"-liste kan aktiveres for dashboardet og hovedmenuen.
 rep#:#rep_input_not_empty#:#This field must not be empty, please provide a value.###29 10 2025 new variable
 rep#:#rep_intro#:#Velkommen til oversigten!
 rep#:#rep_intro1#:#I dette område kan du oprette læring og arbejdsresurser til alle brugere. Alle resurser er organiseret i kategorier. Kategorier kan afspejle strukturen af din organisation (f.eks. afdelinger), et hieraki af discipliner eller klasser i en skole.

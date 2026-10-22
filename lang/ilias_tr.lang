@@ -7774,7 +7774,7 @@ crs#:#crs_members_map#:#Ders Üyeler Harita
 crs#:#crs_members_print_title#:#Ders üyeleri
 crs#:#crs_min_one_admin#:#Bunun ders atanmış en az bir yönetici olmalıdır.
 crs#:#crs_msg_no_self_registration_period_if_self_enrolment_disabled#:#The limited registration period can not be defined if the "No Self-enrolment" setting is active.###26 08 2024 new variable
-crs#:#crs_my_courses_groups_enabled#:#Kurslarım ve Gruplarım 
+crs#:#crs_my_courses_groups_enabled#:#Kurslarım ve Gruplarım
 crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###26 08 2024 new variable
 crs#:#crs_new_status#:#Yeni durumu:
 crs#:#crs_new_subscription#:#Kullanıcı kursu "% s" için tescil
