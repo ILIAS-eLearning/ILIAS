@@ -101,7 +101,7 @@ class ilMailMimeTest extends ilMailBaseTestCase
             'raise',
         ])->getMock();
 
-        $irss = $this->getMockBuilder(ILIAS\ResourceStorage\Services::class)->disableOriginalConstructor()->getMock();
+        $irss = $this->createStub(ILIAS\ResourceStorage\Services::class);
 
         $factory = new ilMailMimeTransportFactory($settings, $event_handler, $irss);
         $this->assertInstanceOf(ilMailMimeTransportNull::class, $factory->getTransport());
@@ -120,7 +120,7 @@ class ilMailMimeTest extends ilMailBaseTestCase
             'raise',
         ])->getMock();
 
-        $irss = $this->getMockBuilder(ILIAS\ResourceStorage\Services::class)->disableOriginalConstructor()->getMock();
+        $irss = $this->createStub(ILIAS\ResourceStorage\Services::class);
 
         $factory = new ilMailMimeTransportFactory($settings, $event_handler, $irss);
         $this->assertInstanceOf(ilMailMimeTransportSmtp::class, $factory->getTransport());
@@ -151,7 +151,7 @@ class ilMailMimeTest extends ilMailBaseTestCase
             'raise',
         ])->getMock();
 
-        $irss = $this->getMockBuilder(ILIAS\ResourceStorage\Services::class)->disableOriginalConstructor()->getMock();
+        $irss = $this->createStub(ILIAS\ResourceStorage\Services::class);
 
         $factory = new ilMailMimeTransportFactory($settings, $event_handler, $irss);
         $this->assertInstanceOf(ilMailMimeTransportSendmail::class, $factory->getTransport());

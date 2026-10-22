@@ -651,7 +651,7 @@ class ilMailTest extends ilMailBaseTestCase
     {
         $usr_id = 897;
         $instance = $this->create(789, $usr_id);
-        $mock_statement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
+        $mock_statement = $this->createStub(ilDBStatement::class);
         $this->mock_database->method('queryF')->willReturn($mock_statement);
         $this->mock_database->method('fetchAssoc')->willReturnOnConsecutiveCalls(
             ['attachments' => '11111111-1111-4111-8111-111111111111'],
@@ -680,7 +680,7 @@ class ilMailTest extends ilMailBaseTestCase
     {
         $usr_id = 897;
         $instance = $this->create(789, $usr_id);
-        $mock_statement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
+        $mock_statement = $this->createStub(ilDBStatement::class);
         $this->mock_database->method('queryF')->willReturn($mock_statement);
         $this->mock_database->method('fetchAssoc')->willReturn(['attachments' => '33333333-3333-4333-8333-333333333333', 'rcp_to' => '']);
 
@@ -704,7 +704,7 @@ class ilMailTest extends ilMailBaseTestCase
             new ResourceCollectionIdentification('657497dc-5079-4f95-b19d-aecdaf81ff1a')
         );
         $instance = $this->create(789, $usr_id);
-        $mock_statement = $this->getMockBuilder(ilDBStatement::class)->getMock();
+        $mock_statement = $this->createStub(ilDBStatement::class);
 
         $this->mock_database->expects($this->exactly(3))->method('queryF')->willReturnCallback(
             $this->queryCallback($mock_statement, ['integer'], [$usr_id])
