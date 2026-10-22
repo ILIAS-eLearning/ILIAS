@@ -117,7 +117,17 @@ class Agent implements SetupAgent
                 $storage,
                 new ClozeQuestionTables(
                     new SetupTableNameBuilder(
-                        new TableSubNameSpaceCore('cloze')
+                        new TableSubNameSpace(
+                            'ILIAS',
+                            'cloze'
+                        )
+                    ),
+                    new ClozeTableDefinitions(
+                        $this->persistence_factory,
+                        new TableSubNameSpace(
+                            'ILIAS',
+                            'cloze'
+                        )
                     )
                 )
             )
