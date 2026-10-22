@@ -220,10 +220,9 @@ main commands to manage ILIAS installations:
 
 `install` and `update` also supply switches and options for a granular control of the inclusion of plugins:
 
-* `--skip-legacy-plugin
-* There are also named objectives for **import** and **export**. <plugin name>` will exclude the named legacy plugin from the command
-* `--no-legacy-plugins` will exclude all plugins from the command
-* `install <legacy plugin name>` (or `update <legacy plugin name>` respectively) will update or install the specified legacy plugin
+* `--legacy-plugin=<plugin name>` runs the command for that legacy plugin only
+* `--skip-legacy-plugin=<plugin name>` excludes the named legacy plugin from the command; the option can be repeated
+* `--no-legacy-plugins` excludes all legacy plugins from the command
 
 `install` requires a [configuration file](#about-the-config-file) to do the job.
 `update` can be used without this file for updating the installation only, but is
@@ -265,12 +264,20 @@ from the original config will be overwritten with `XYZ`. This allows to use one
 configuration for multiple setups and overwrite it from the CLI or even share
 configs without secrets.
 
-The setup will also install plugins of the installation, unless the plugin explicitely
+The setup will also install plugins of the installation, unless the plugin explicitly
 defines that it cannot be installed via CLI setup. If you still want to skip a plugin
 for installation, use the skip-option: `php cli/setup.php install --skip-legacy-plugin <plugin name> config.json`.
 The option can be repeated to cover multiple plugins. If you want to skip plugins
-alltogether, use the `--no-legacy-plugins` option. If you only want to install a specific
-plugin, use `php cli/setup.php install config.json <plugin name>`.
+altogether, use the `--no-legacy-plugins` option. If you only want to install a specific
+plugin, use `php cli/setup.php install --legacy-plugin <plugin name>`. A configuration
+file is only required when that plugin's agent has configuration.
+
+A legacy plugin may contribute its own setup agent by implementing `ILIAS\Setup\Agent`.
+The contributed agent is added to the default agent of that legacy plugin, unless it
+already extends `ilPluginDefaultAgent`. It can supply further objectives. Installation,
+update and activation stay with the default agent. Activation runs during installation
+only. `update` does not activate a legacy plugin again that an administrator has
+deactivated.
 
 The install command also offers the option to import a zip file during setup. The 
 zip file must have been previously exported from another instance via export
