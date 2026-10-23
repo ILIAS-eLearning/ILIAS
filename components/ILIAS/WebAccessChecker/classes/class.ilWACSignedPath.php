@@ -18,7 +18,6 @@
 
 // declare(strict_types=1);
 use ILIAS\HTTP\Cookies\CookieFactory;
-use ILIAS\HTTP\Cookies\CookieFactoryImpl;
 use ILIAS\WebAccessChecker\PathType;
 use ILIAS\HTTP\GlobalHttpState;
 
@@ -219,7 +218,7 @@ class ilWACSignedPath
         if ($ilWACPath->getClient() === '' || $ilWACPath->getClient() === '0') {
             return $path_to_file;
         }
-        $obj = new self($ilWACPath, $DIC->http(), new CookieFactoryImpl());
+        $obj = new self($ilWACPath, $DIC->http(), $DIC->http()->cookies());
         $obj->setType(PathType::FILE);
         $obj->buildAndSetTokenInstance(time(), self::getTokenMaxLifetimeInSeconds());
 
@@ -229,7 +228,7 @@ class ilWACSignedPath
     public static function signFolderOfStartFile(string $start_file_path): void
     {
         global $DIC;
-        $obj = new self(new ilWACPath($start_file_path), $DIC->http(), new CookieFactoryImpl());
+        $obj = new self(new ilWACPath($start_file_path), $DIC->http(), $DIC->http()->cookies());
         $obj->setType(PathType::FOLDER);
         $obj->buildAndSetTokenInstance(time(), self::getCookieMaxLifetimeInSeconds());
         $obj->saveFolderToken();
