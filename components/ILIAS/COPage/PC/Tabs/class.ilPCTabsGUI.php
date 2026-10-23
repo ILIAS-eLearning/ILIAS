@@ -53,6 +53,8 @@ class ilPCTabsGUI extends ilPageContentGUI
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
 
+        $this->tpl->addCss(ilObjStyleSheet::getBaseContentStylePath());
+        $this->tpl->addCss(ilObjStyleSheet::getContentStylePath($this->getStyleId()));
         // get current command
         $cmd = $this->ctrl->getCmd();
 
@@ -122,13 +124,36 @@ class ilPCTabsGUI extends ilPageContentGUI
         $op1 = new ilRadioOption($lng->txt("cont_tabs_acc_ver"), ilPCTabs::ACCORDION_VER);
         $templ = $this->getTemplateOptions("vaccordion");
         if (count($templ) > 0) {
-
-            $options = [];
-            foreach ($templ as $k => $te) {
-                $options[$k] = $te;
+            if (
+                $a_mode === "edit"
+                && is_object($this->content_obj)
+                && $this->content_obj->getTabType() === ilPCTabs::ACCORDION_VER
+            ) {
+                $selected_template = "t:" .
+                    ilObjStyleSheet::_lookupTemplateIdByName($this->getStyleId(), $this->content_obj->getTemplate()) . ":" .
+                    $this->content_obj->getTemplate();
+                if (isset($templ[$selected_template])) {
+                    $templ = array_merge(
+                        [$selected_template => $templ[$selected_template]],
+                        $templ
+                    );
+                }
             }
-            $vchar_prop = new ilSelectInputGUI($this->lng->txt("cont_characteristic"), "vaccord_templ");
-            $vchar_prop->setOptions($options);
+            $style = $this->getStyle();
+            $vchar_prop = new ilRadioGroupInputGUI($this->lng->txt("cont_characteristic"), "vaccord_templ");
+            $vchar_prop->setValue((string) array_key_first($templ));
+            foreach ($templ as $k => $te) {
+                $t = explode(":", $k);
+                $preview = $style === null ? "" : ilObjStyleSheetGUI::_getTemplatePreview(
+                    $style,
+                    "vaccordion",
+                    (int) ($t[1] ?? 0),
+                    true
+                );
+                $title = $preview . '<div style="clear:both;" class="small">' .
+                    ilLegacyFormElementsUtil::prepareFormOutput($te) . "</div>";
+                $vchar_prop->addOption(new ilRadioOption($title, $k));
+            }
             $op1->addSubItem($vchar_prop);
 
 
