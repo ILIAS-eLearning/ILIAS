@@ -25,7 +25,7 @@ use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\Filesystem\Util\Archive\UnzipOptions;
 use ILIAS\Language\Language;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportStage;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportContext;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportSession;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\StageResult;
 use Psr\Log\LoggerInterface;
 
@@ -60,22 +60,22 @@ class UploadValidationStage implements ImportStage
         return '';
     }
 
-    public function process(ImportContext $context): StageResult
+    public function process(ImportSession $session): StageResult
     {
         if (
-            !$context->hasFileToImport()
-            || !is_file($context->fileToImport())
-            || !str_ends_with(strtolower($context->fileToImport()), '.zip')
+            !$session->hasFileToImport()
+            || !is_file($session->fileToImport())
+            || !str_ends_with(strtolower($session->fileToImport()), '.zip')
         ) {
-            $this->log->error("Invalid import file: {$context->fileToImport()}");
-            return StageResult::error($context, $this->lng->txt('obj_import_file_error'));
+            $this->log->error("Invalid import file: {$session->fileToImport()}");
+            return StageResult::error($session, $this->lng->txt('obj_import_file_error'));
         }
 
-        $subdir = basename($context->fileToImport(), '.zip');
+        $subdir = basename($session->fileToImport(), '.zip');
         $import_base_dir = self::IMPORT_TEMP_DIR . DIRECTORY_SEPARATOR . $subdir;
 
         $options = (new UnzipOptions())->withZipOutputPath(self::IMPORT_TEMP_DIR);
-        $handle = fopen($context->fileToImport(), 'r');
+        $handle = fopen($session->fileToImport(), 'r');
         $unzip = $this->archives->unzip(Streams::ofResource($handle), $options);
         $unzip->extract();
 
@@ -87,13 +87,13 @@ class UploadValidationStage implements ImportStage
 
         if ($export_file === null) {
             $this->log->error("No export file found for component: {$this->component}");
-            return StageResult::error($context, $this->lng->txt('obj_import_file_error'));
+            return StageResult::error($session, $this->lng->txt('obj_import_file_error'));
         }
 
         $component_import_file = $import_base_dir . DIRECTORY_SEPARATOR . $export_file['path'];
 
-        return StageResult::advance(
-            $context
+        return StageResult::completedSuccessfully(
+            $session
                 ->withComponentImportFile($component_import_file)
                 ->withImportBaseDir($import_base_dir)
                 ->withInstallId((int) $manifest->getInstallId())

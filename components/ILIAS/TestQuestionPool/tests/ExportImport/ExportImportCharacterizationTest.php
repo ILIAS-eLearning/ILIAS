@@ -25,7 +25,7 @@ use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\Test\ExportImport\TransformationsBuilder as TestTransformationsBuilder;
 use ILIAS\Test\TestDIC;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Serialize\Deserializer;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportContext;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportSession;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportSessionRepository;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Queue\Processor;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Processors\DenormalizeCarry;
@@ -317,8 +317,8 @@ class ExportImportCharacterizationTest extends assBaseTestCase
     public function testImportSessionRepositoryPersistsNamedContextAsJson(): void
     {
         $repository = new ImportSessionRepository('characterization');
-        $original = new ImportContext();
-        $context = $original
+        $original = new ImportSession();
+        $session = $original
             ->withFileToImport('/tmp/import.zip')
             ->withComponentImportFile('/tmp/import/qpl_data.xml')
             ->withImportBaseDir('/tmp/import')
@@ -347,10 +347,10 @@ class ExportImportCharacterizationTest extends assBaseTestCase
             ]);
 
         $repository->setCurrentStageIndex(3);
-        $repository->setContext($context);
+        $repository->setSession($session);
 
         $this->assertFalse($original->hasFileToImport());
-        $this->assertSame('/tmp/import.zip', $context->fileToImport());
+        $this->assertSame('/tmp/import.zip', $session->fileToImport());
 
         $payload = ilSession::get('import_stage_characterization_context');
         $this->assertIsString($payload);
@@ -359,7 +359,7 @@ class ExportImportCharacterizationTest extends assBaseTestCase
         $this->assertSame('/tmp/import.zip', $decoded['file_to_import']);
         $this->assertSame(123, $decoded['install_id']);
 
-        $restored = $repository->getContext();
+        $restored = $repository->getSession();
         $this->assertSame(3, $repository->getCurrentStageIndex());
         $this->assertSame('/tmp/import.zip', $restored->fileToImport());
         $this->assertSame('/tmp/import/qpl_data.xml', $restored->componentImportFile());
@@ -404,7 +404,7 @@ class ExportImportCharacterizationTest extends assBaseTestCase
         $repository->clear();
 
         $this->assertSame(0, $repository->getCurrentStageIndex());
-        $empty = $repository->getContext();
+        $empty = $repository->getSession();
         $this->assertFalse($empty->hasFileToImport());
         $this->assertSame([], $empty->selectedQuestionIds());
         $this->assertFalse($empty->isLegacyImport());
@@ -421,7 +421,7 @@ class ExportImportCharacterizationTest extends assBaseTestCase
             ], JSON_THROW_ON_ERROR)
         );
 
-        $restored = $repository->getContext();
+        $restored = $repository->getSession();
         $decoded = json_decode($restored->toJson(), true);
 
         $this->assertSame('/tmp/import.zip', $restored->fileToImport());
@@ -429,22 +429,22 @@ class ExportImportCharacterizationTest extends assBaseTestCase
         $this->assertArrayNotHasKey('bridge_tmp', $decoded);
     }
 
-    public function testImportContextIsLegacyImportOnlyWhenBothLegacyPathsAreSet(): void
+    public function testImportSessionIsLegacyImportOnlyWhenBothLegacyPathsAreSet(): void
     {
         $repository = new ImportSessionRepository('characterization');
-        $repository->setContext(
-            (new ImportContext())->withLegacyQtiFile('/tmp/qti.xml')
+        $repository->setSession(
+            (new ImportSession())->withLegacyQtiFile('/tmp/qti.xml')
         );
 
-        $this->assertFalse($repository->getContext()->isLegacyImport());
+        $this->assertFalse($repository->getSession()->isLegacyImport());
 
-        $repository->setContext(
-            (new ImportContext())
+        $repository->setSession(
+            (new ImportSession())
                 ->withLegacyQtiFile('/tmp/qti.xml')
                 ->withLegacyXmlFile('/tmp/qpl.xml')
         );
 
-        $this->assertTrue($repository->getContext()->isLegacyImport());
+        $this->assertTrue($repository->getSession()->isLegacyImport());
     }
 
     private function deserializeGroup(Deserializer $deserializer, string $group): array

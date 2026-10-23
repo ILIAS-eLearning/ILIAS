@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\Export\ExportHandler\Factory as ExportHandler;
 use ILIAS\Test\ExportImport\Types;
 use ILIAS\Test\TestDIC;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\ExportStep;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\ExportPhase;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\XmlExporterBridge;
 
 class ilTestExporter extends ilXmlExporter
@@ -33,7 +33,7 @@ class ilTestExporter extends ilXmlExporter
         $local_dic = TestDIC::dic();
 
         $this->export_handler = new ExportHandler();
-        $this->state_holder = $local_dic['exportimport.state_holder'];
+        $this->context_holder = $local_dic['exportimport.export_context_holder'];
         $this->exporter = $local_dic['exportimport.exporter'];
         $this->logger = $local_dic['exportimport.logging']();
     }
@@ -57,7 +57,7 @@ class ilTestExporter extends ilXmlExporter
      * Collects export tail dependencies for the test.
      *
      * The export framework calls this method before `getXmlRepresentation()`. Therefore this method only prepares and
-     * processes the export in memory using the export state. The export state is created if it does not exist yet.
+     * processes the export in memory using the export context. The export context is created if it does not exist yet.
      */
     public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
@@ -65,12 +65,12 @@ class ilTestExporter extends ilXmlExporter
             throw new InvalidArgumentException("Invalid entity for test export: {$a_entity}");
         }
 
-        // If the default export option was used, the state is not initialized yet.
+        // If the default export option was used, the context is not initialized yet.
         if (
-            !$this->state_holder->exists()
-            || $this->state_holder->get()->getStep() !== ExportStep::INIT
+            !$this->context_holder->exists()
+            || $this->context_holder->get()->getPhase() !== ExportPhase::Init
         ) {
-            $this->initExportState(
+            $this->initExportContext(
                 'components/ILIAS/Test',
                 $a_target_release,
                 $a_entity,

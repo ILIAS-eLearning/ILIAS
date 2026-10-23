@@ -20,13 +20,13 @@ declare(strict_types=1);
 
 use ILIAS\Export\ExportHandler\I\Consumer\ExportConfig\CollectionInterface as ExportConfig;
 use ILIAS\Export\ExportHandler\I\Target\HandlerInterface as ExportTarget;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\StateHolder;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\ExportContextHolder;
 
-class StateHolderTest extends assBaseTestCase
+class ExportContextHolderTest extends assBaseTestCase
 {
-    public function testCreateReplacesExistingState(): void
+    public function testCreateReplacesExistingContext(): void
     {
-        $holder = new StateHolder();
+        $holder = new ExportContextHolder();
         $config = $this->createMock(ExportConfig::class);
         $first_target = $this->createMock(ExportTarget::class);
         $second_target = $this->createMock(ExportTarget::class);
@@ -40,9 +40,9 @@ class StateHolderTest extends assBaseTestCase
         $this->assertSame('second', $second->getOption());
     }
 
-    public function testClearRemovesExistingState(): void
+    public function testClearRemovesExistingContext(): void
     {
-        $holder = new StateHolder();
+        $holder = new ExportContextHolder();
         $holder->create(
             $this->createMock(ExportTarget::class),
             $this->createMock(ExportConfig::class)

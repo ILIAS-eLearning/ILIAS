@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\TestQuestionPool\ExportImport\Import;
 
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportStage;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportContext;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportSession;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\StageResult;
 use Psr\Log\LoggerInterface;
 
@@ -50,19 +50,19 @@ class DetectLegacyImportStage implements ImportStage
         return null;
     }
 
-    public function process(ImportContext $context): StageResult
+    public function process(ImportSession $session): StageResult
     {
-        $import_name = basename($context->importBaseDir());
+        $import_name = basename($session->importBaseDir());
 
-        $xml_file = $context->importBaseDir() . DIRECTORY_SEPARATOR . "{$import_name}.xml";
-        $qti_file = $context->importBaseDir() . DIRECTORY_SEPARATOR . str_replace(['_qpl_', '_tst_'], '_qti_', $import_name) . '.xml';
+        $xml_file = $session->importBaseDir() . DIRECTORY_SEPARATOR . "{$import_name}.xml";
+        $qti_file = $session->importBaseDir() . DIRECTORY_SEPARATOR . str_replace(['_qpl_', '_tst_'], '_qti_', $import_name) . '.xml';
 
         if (!file_exists($qti_file) || !file_exists($xml_file)) {
-            return StageResult::advance($context);
+            return StageResult::completedSuccessfully($session);
         }
 
-        return StageResult::advance(
-            $context->withLegacyQtiFile($qti_file)->withLegacyXmlFile($xml_file)
+        return StageResult::completedSuccessfully(
+            $session->withLegacyQtiFile($qti_file)->withLegacyXmlFile($xml_file)
         );
     }
 }

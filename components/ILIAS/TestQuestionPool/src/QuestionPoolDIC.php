@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\TestQuestionPool;
 
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\StateHolder;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\ExportContextHolder;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportSessionRepository;
 use ILIAS\TestQuestionPool\ExportImport\Export\QuestionPoolExporter;
 use ILIAS\TestQuestionPool\ExportImport\Import\QuestionPoolImporter;
@@ -80,8 +80,8 @@ class QuestionPoolDIC extends PimpleContainer
             new LoggingProvider();
         $dic['exportimport.transformations_builder'] = static fn($c): TransformationsBuilder =>
             new TransformationsBuilder($DIC);
-        $dic['exportimport.state_holder'] = static fn($c): StateHolder =>
-            new StateHolder();
+        $dic['exportimport.export_context_holder'] = static fn($c): ExportContextHolder =>
+            new ExportContextHolder();
         $dic['exportimport.exporter'] = static fn($c): QuestionPoolExporter =>
             new QuestionPoolExporter(
                 $c['exportimport.transformations_builder'],

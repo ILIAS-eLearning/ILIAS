@@ -28,9 +28,9 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Serialize\Serializer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
 use Psr\Log\LoggerInterface as Logger;
 
-class ExportState
+class ExportContext
 {
-    private ExportStep $step = ExportStep::INIT;
+    private ExportPhase $phase = ExportPhase::Init;
     private ?Logger $logger = null;
     private ?ExportPath $path_info = null;
     private ?Transformations $transformations = null;
@@ -65,23 +65,23 @@ class ExportState
         return $this->option;
     }
 
-    public function getStep(): ExportStep
+    public function getPhase(): ExportPhase
     {
-        return $this->step;
+        return $this->phase;
     }
 
-    public function setStep(ExportStep $step): void
+    public function setPhase(ExportPhase $phase): void
     {
-        $this->step = $step;
+        $this->phase = $phase;
     }
 
-    public function assertStep(ExportStep $step): void
+    public function assertPhase(ExportPhase $phase): void
     {
-        if ($this->step->value < $step->value) {
-            throw new \RuntimeException("Expected step {$step->name}, but got {$this->step->name} instead");
+        if ($this->phase->value < $phase->value) {
+            throw new \RuntimeException("Expected phase {$phase->name}, but got {$this->phase->name} instead");
         }
 
-        $this->step = $step;
+        $this->phase = $phase;
     }
 
     public function logger(): Logger
@@ -188,7 +188,7 @@ class ExportState
     {
         if ($value === null) {
             throw new \RuntimeException(
-                "{$property} not set. This may happen if the exporter steps are not executed in the correct order."
+                "{$property} not set. This may happen if the exporter phases are not executed in the correct order."
             );
         }
     }

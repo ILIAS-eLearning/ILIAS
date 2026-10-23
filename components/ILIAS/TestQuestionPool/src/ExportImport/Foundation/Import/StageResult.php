@@ -23,9 +23,7 @@ namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Import;
 use ILIAS\UI\Component\Component;
 
 /**
- * Represents the outcome of processing a single import stage. The GUI controller inspects the type to decide whether
- * to render UI components (INTERACT), redirect for the next stage (ADVANCE), display an error (ERROR), or finalize the
- * import (COMPLETE).
+ * Outcome of one import stage. The wizard decides whether another stage follows.
  */
 class StageResult
 {
@@ -34,43 +32,27 @@ class StageResult
      */
     private function __construct(
         public readonly StageResultType $type,
-        public readonly ImportContext $context,
+        public readonly ImportSession $session,
         public readonly array $components = [],
         public readonly ?string $error_message = null,
     ) {
     }
 
     /**
-     * Create a result that indicates the process should interrupt to display the given UI components.
-     *
-     *  @param list<Component> $components
+     * @param list<Component> $components
      */
-    public static function interact(ImportContext $context, array $components): self
+    public static function requiresUserInteraction(ImportSession $session, array $components): self
     {
-        return new self(StageResultType::INTERACT, $context, $components);
+        return new self(StageResultType::RequiresUserInteraction, $session, $components);
     }
 
-    /**
-     * Create a result that indicates the process should advance to the next stage.
-     */
-    public static function advance(ImportContext $context): self
+    public static function error(ImportSession $session, string $message): self
     {
-        return new self(StageResultType::ADVANCE, $context);
+        return new self(StageResultType::Error, $session, [], $message);
     }
 
-    /**
-     * Create a result that indicates the process should fail with the given error message.
-     */
-    public static function error(ImportContext $context, string $message): self
+    public static function completedSuccessfully(ImportSession $session): self
     {
-        return new self(StageResultType::ERROR, $context, [], $message);
-    }
-
-    /**
-     * Create a result that indicates the process should complete successfully.
-     */
-    public static function complete(ImportContext $context): self
-    {
-        return new self(StageResultType::COMPLETE, $context);
+        return new self(StageResultType::CompletedSuccessfully, $session);
     }
 }
