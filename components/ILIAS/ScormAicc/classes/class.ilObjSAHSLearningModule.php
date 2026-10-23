@@ -1217,6 +1217,60 @@ class ilObjSAHSLearningModule extends ilObject
     }
 
     /**
+     * Adopt compatible SCORM runtime/settings from another SCORM module.
+     * Returns false if source and target are not compatible.
+     */
+    public function adoptSettingsFrom(ilObjSAHSLearningModule $source): bool
+    {
+        if ($source->getId() === $this->getId()) {
+            return false;
+        }
+
+        $sub_type = $this->getSubType();
+        if ($sub_type !== "scorm" && $sub_type !== "scorm2004") {
+            return false;
+        }
+
+        if ($source->getSubType() !== $sub_type) {
+            return false;
+        }
+
+        $this->setOpenMode($source->getOpenMode());
+        $this->setWidth($source->getWidth());
+        $this->setHeight($source->getHeight());
+        $this->setAuto_last_visited($source->getAuto_last_visited());
+        $this->setDefaultLessonMode($source->getDefaultLessonMode());
+        $this->setAutoReviewChar($source->getAutoReviewChar());
+        $this->setMasteryScore($source->getMasteryScore());
+        $this->setSession($source->getSession());
+        $this->setInteractions($source->getInteractions());
+        $this->setObjectives($source->getObjectives());
+        $this->setTime_from_lms($source->getTime_from_lms());
+        $this->setCheck_values($source->getCheck_values());
+        $this->setAutoSuspend($source->getAutoSuspend());
+        $this->setDebug($source->getDebug());
+        $this->setIdSetting($source->getIdSetting());
+        $this->setNameSetting($source->getNameSetting());
+
+        if ($sub_type === "scorm") {
+            $this->setAutoContinue($source->getAutoContinue());
+            return true;
+        }
+
+        if ($sub_type === "scorm2004") {
+            $this->setIe_force_render($source->getIe_force_render());
+            $this->setNoMenu($source->getNoMenu());
+            $this->setHideNavig($source->getHideNavig());
+            $this->setFourth_edition($source->getFourth_Edition());
+            $this->setSequencing($source->getSequencing());
+            $this->setComments($source->getComments());
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
     * delete SCORM learning module and all related data
     *
     * this method has been tested on may 9th 2004

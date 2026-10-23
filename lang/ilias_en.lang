@@ -15235,6 +15235,17 @@ rwik#:#rwik_call#:#Call ECS Wiki
 sahs#:#cont_insert_after_chap#:#Insert items after chapter
 sahs#:#cont_insert_into_chap#:#Insert items inside chapter
 sahs#:#sahs_add#:#Create SCORM Learning Module
+sahs#:#sahs_adopt_settings#:#Adopt Settings
+sahs#:#sahs_adopt_settings_apply#:#Adopt Settings
+sahs#:#sahs_adopt_settings_description#:#Select another SCORM object to adopt compatible SCORM settings.
+sahs#:#sahs_adopt_settings_invalid_source#:#Please select a different SCORM object as source.
+sahs#:#sahs_adopt_settings_source#:#Source SCORM Object
+sahs#:#sahs_adopt_settings_source_info#:#Only SCORM objects of the same subtype are selectable.
+sahs#:#sahs_adopt_settings_source_no_write#:#You need Edit Settings permission on the selected source object.
+sahs#:#sahs_adopt_settings_source_required#:#Please select a source SCORM object.
+sahs#:#sahs_adopt_settings_subtype_mismatch#:#Settings can only be adopted between SCORM objects of the same subtype.
+sahs#:#sahs_adopt_settings_success#:#SCORM settings were adopted successfully.
+sahs#:#sahs_adopt_settings_title#:#Adopt Settings
 sahs#:#sahs_authoring_mode#:#Authoring Mode
 sahs#:#sahs_authoring_mode_info#:#The SCORM ZIP package must have been created with the ILIAS SCORM editor and it must have been exported as SCORM 1.2/2004 package.
 sahs#:#sahs_chapter#:#Chapter
