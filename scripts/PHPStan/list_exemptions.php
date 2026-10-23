@@ -41,10 +41,11 @@ require_once __DIR__ . '/IliasVersion.php';
 const CONVENIENCE_ATTRIBUTES = [
     'AllowSuperglobalWrite' => 'ilias.superglobalWrite',
     'AllowDeliveryWithoutIsolation' => 'ilias.deliveryWithoutIsolation',
+    'AllowWrappedLibraryUsage' => 'ilias.wrappedLibraryUsage',
 ];
 
 /** Attribute short names that grant an exemption. */
-const EXEMPTION_ATTRIBUTES = ['AllowRuleViolation', 'AllowSuperglobalWrite', 'AllowDeliveryWithoutIsolation'];
+const EXEMPTION_ATTRIBUTES = ['AllowRuleViolation', 'AllowSuperglobalWrite', 'AllowDeliveryWithoutIsolation', 'AllowWrappedLibraryUsage'];
 
 $target = 'components/ILIAS';
 $against = IliasVersion::major();
