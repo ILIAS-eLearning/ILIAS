@@ -1031,7 +1031,7 @@ class ilTrQuery
                 if ($subtype == "scorm2004") {
                     // based on cmi_node/cp_node, used for scorm tracking data views
                     $mod = new ilObjSCORM2004LearningModule($obj_id, false);
-                    $all = $mod->getTrackedUsers("");
+                    $all = $mod->getTrackedUsers();
                     if ($all) {
                         $a_users = array();
                         foreach ($all as $item) {
