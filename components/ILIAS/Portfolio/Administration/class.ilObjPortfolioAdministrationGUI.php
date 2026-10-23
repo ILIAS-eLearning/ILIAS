@@ -26,7 +26,7 @@
 class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 {
     protected \ILIAS\DI\UIServices $ui;
-    protected ilPortfolioDeclarationOfAuthorship$declaration_authorship;
+    protected ilPortfolioDeclarationOfAuthorship $declaration_authorship;
 
     public function __construct(
         $a_data,
@@ -263,13 +263,15 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
             if ($request->getMethod() === "POST") {
                 $form = $form->withRequest($request);
                 $data = $form->getData();
-                if (is_array($data["sec"])) {
-                    foreach ($lng->getInstalledLanguages() as $l) {
-                        $this->declaration_authorship->setForLanguage($l, $data["sec"]["decl_" . $l]);
-                    }
-
-                    $this->tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
+                $section_data = is_array($data["sec"] ?? null) ? $data["sec"] : [];
+                foreach ($lng->getInstalledLanguages() as $l) {
+                    $this->declaration_authorship->setForLanguage(
+                        $l,
+                        $section_data["decl_" . $l] ?? ""
+                    );
                 }
+
+                $this->tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
             }
         } else {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("msg_no_perm_write"), true);
