@@ -18,6 +18,7 @@
 	RedirectMatch 404 /\.git
 	RedirectMatch 404 /patches
 	RedirectMatch 404 /\.github
+	RedirectMatch 404 /libs(/|$)
 </IfModule>
 <IfModule mod_xsendfile.c>
 	XSendFile On
