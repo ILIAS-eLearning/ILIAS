@@ -253,7 +253,9 @@ only the host that the embed URLs point to differs.
 * `Services::getBaseURI()` generates all IRSS embed URLs against the content
   domain instead of the request host — consumers need no changes.
 * `deliver.php` (`StreamDelivery::deliverFromToken()`) serves assets **only** when
-  reached via the content host; a request on the ILIAS host returns `404`.
+  reached via the content host; a request on the ILIAS host returns `404`. The
+  only exception are tokens signed for the ILIAS domain, see
+  [Delivering on the ILIAS domain](#delivering-on-the-ilias-domain).
 * `LegacyDelivery` refuses to serve on the content host (`404`) — the content
   domain is reserved for signed token delivery.
 * `HttpPathBuilder` rejects any attempt to load the regular ILIAS application via
@@ -263,6 +265,43 @@ only the host that the embed URLs point to differs.
   and a CORS `Access-Control-Allow-Origin` restricted to the ILIAS domain (with
   `Vary: Origin`). No credentials are allowed, so session cookies are never used
   for asset requests.
+
+## Delivering on the ILIAS domain
+
+**Deprecated, removed with ILIAS 13.** We do not want content outside of the
+isolation. Some content cannot run on another origin than ILIAS yet, e.g. SCORM
+packages, whose SCOs call the API of the player in the parent window synchronously.
+Until they do, a component may have single URLs delivered from the ILIAS domain:
+
+```php
+use ILIAS\Scripts\PHPStan\Attributes\AllowDeliveryWithoutIsolation;
+
+#[AllowDeliveryWithoutIsolation('SCORM must run without isolation in ILIAS 12 despite the IRSS; with ILIAS 13 SCORM implements a postMessage proxy', 12)]
+public function getPackageURL(): string
+{
+    // IRSS container (e.g. an unzipped SCORM package)
+    return (string) $this->irss->consume()
+                               ->containerURI($this->rid, 'index.html')
+                               ->withoutIsolation()
+                               ->getURI();
+}
+```
+
+* Every call is reported by the code rule `ilias.deliveryWithoutIsolation`, which
+  fails the pull request. The caller has to be allowed explicitly with
+  `#[AllowDeliveryWithoutIsolation(reason, 12)]`, see `scripts/PHPStan/README.md`.
+  The allowance only holds for ILIAS 12.
+
+* The decision is part of the **signed** token (`ni` in the payload), it cannot
+  be added to a token afterwards. A token signed for the content domain is still
+  refused on the ILIAS host and vice versa.
+* Such responses do not carry the cross-origin headers (CORP, CORS), the content
+  is same-origin with ILIAS.
+* Without active isolation the flag changes nothing.
+
+Content delivered this way does **not** profit from the isolation: it runs with
+the session of the user on the ILIAS origin, as all content did before. Use it
+only where the content cannot work otherwise.
 
 ## Configuration (Setup only — no GUI)
 

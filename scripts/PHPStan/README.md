@@ -16,6 +16,7 @@ matching namespace) per topic, and are autoloaded via composer PSR-4
 ```
 Rules/
   SuperGlobals/   ILIAS\Scripts\PHPStan\Rules\SuperGlobals   — no-superglobal-write rule
+  ContentIsolation/ ILIAS\Scripts\PHPStan\Rules\ContentIsolation — delivery-without-isolation rule
   LegacyUI/       ILIAS\Scripts\PHPStan\Rules\LegacyUI       — legacy UI component rules
 Attributes/       ILIAS\Scripts\PHPStan\Attributes           — the AllowRuleViolation exemption attribute + checker
 IliasVersion.php  ILIAS\Scripts\PHPStan\IliasVersion         — the ILIAS major the exemptions are checked against
@@ -54,6 +55,7 @@ appends to the GitHub step summary.
 | Rule classes | Identifier | Policy |
 |---|---|---|
 | `SuperglobalAssignRule`, `SuperglobalAssignOpRule`, `SuperglobalAssignRefRule` | `ilias.superglobalWrite` | No writing to request-input superglobals (`$_GET`, `$_POST`, `$_REQUEST`, `$_COOKIE`, `$_FILES`). The request is immutable — use the HTTP service / request wrapper instead. |
+| `DeliveryWithoutIsolationRule` | `ilias.deliveryWithoutIsolation` | No delivery of user content past the User Content Isolation. The deprecated `ContainerURIConsumer::withoutIsolation()` only exists for content that cannot run on the content domain yet (SCORM) and is removed with ILIAS 13. Allow a caller with `#[AllowDeliveryWithoutIsolation(reason, 12)]`. |
 
 ### Adding a policy rule
 
@@ -99,7 +101,8 @@ current major is read from `ilias_version.php` (see
   ```
 
   Some rule sets additionally ship a convenience subclass of `AllowRuleViolation`
-  that already carries the identifier, so only the reason and the version are needed.
+  that already carries the identifier, so only the reason and the version are needed
+  (`AllowSuperglobalWrite`, `AllowDeliveryWithoutIsolation`).
   The checker matches those via `ReflectionAttribute::IS_INSTANCEOF`.
 
 - **On a single free-standing statement** (e.g. in a resource script without an

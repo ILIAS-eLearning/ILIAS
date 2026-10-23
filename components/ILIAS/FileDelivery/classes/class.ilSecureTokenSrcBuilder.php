@@ -55,6 +55,23 @@ class ilSecureTokenSrcBuilder implements SrcBuilder
         );
     }
 
+    /**
+     * @deprecated see {@see SrcBuilder::getRevisionURLWithoutIsolation()}
+     */
+    public function getRevisionURLWithoutIsolation(
+        Revision $revision,
+        float $valid_for_at_least_minutes = 60.0,
+        ?string $filename = null
+    ): string {
+        return (string) $this->file_delivery->buildTokenURLWithoutIsolation(
+            $revision->maybeStreamResolver()?->getStream(),
+            $filename ?? $revision->getTitle(),
+            Disposition::INLINE,
+            $GLOBALS['ilUser']->getId() ?? 0,
+            (int) (ceil($valid_for_at_least_minutes / 60))
+        );
+    }
+
     public function getFlavourURLs(Flavour $flavour, bool $signed = true): \Generator
     {
         try {

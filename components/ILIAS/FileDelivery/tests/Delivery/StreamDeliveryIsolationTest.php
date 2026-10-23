@@ -66,14 +66,13 @@ final class StreamDeliveryIsolationTest extends TestCase
         }
     }
 
-    private function validToken(): string
+    private function validToken(bool $isolated = true): string
     {
-        return $this->data_signer->getSignedStreamToken(
-            Streams::ofResource(fopen($this->file, 'rb')),
-            basename($this->file),
-            Disposition::INLINE,
-            0
-        );
+        $stream = Streams::ofResource(fopen($this->file, 'rb'));
+
+        return $isolated
+            ? $this->data_signer->getSignedStreamToken($stream, basename($this->file), Disposition::INLINE, 0)
+            : $this->data_signer->getSignedStreamTokenWithoutIsolation($stream, basename($this->file), Disposition::INLINE, 0);
     }
 
     private function http(string $request_host): HttpServices
@@ -110,7 +109,8 @@ final class StreamDeliveryIsolationTest extends TestCase
     private function deliverFromToken(
         IsolationConfig $isolation,
         string $request_host,
-        ResponseBuilder $response_builder
+        ResponseBuilder $response_builder,
+        bool $isolated_token = true
     ): void {
         $delivery = new StreamDelivery(
             $this->data_signer,
@@ -121,7 +121,7 @@ final class StreamDeliveryIsolationTest extends TestCase
         );
 
         try {
-            $delivery->deliverFromToken($this->validToken());
+            $delivery->deliverFromToken($this->validToken($isolated_token));
             $this->fail('delivery did not terminate');
         } catch (DeliveryTerminated) {
             // expected: the delivery ran to its end and closed the request
@@ -187,5 +187,31 @@ final class StreamDeliveryIsolationTest extends TestCase
         $this->assertSame(200, $this->saved->getStatusCode());
         $this->assertFalse($this->saved->hasHeader('X-Content-Type-Options'));
         $this->assertFalse($this->saved->hasHeader('Access-Control-Allow-Origin'));
+    }
+
+    public function testTokenWithoutIsolationIsServedOnTheIliasHostWithoutIsolationHeaders(): void
+    {
+        $this->deliverFromToken($this->activeConfig(), 'app.example.org', $this->building(), false);
+
+        $this->assertNotNull($this->saved);
+        $this->assertSame(200, $this->saved->getStatusCode());
+        $this->assertFalse($this->saved->hasHeader('Cross-Origin-Resource-Policy'));
+        $this->assertFalse($this->saved->hasHeader('Access-Control-Allow-Origin'));
+    }
+
+    public function testTokenWithoutIsolationIsRefusedOnTheContentHost(): void
+    {
+        $this->deliverFromToken($this->activeConfig(), 'content.example.org', $this->neverBuilding(), false);
+
+        $this->assertNotNull($this->saved);
+        $this->assertSame(404, $this->saved->getStatusCode());
+    }
+
+    public function testTokenWithoutIsolationIsServedOnAnyHostWhenIsolationIsDisabled(): void
+    {
+        $this->deliverFromToken(IsolationConfig::disabled(), 'app.example.org', $this->building(), false);
+
+        $this->assertNotNull($this->saved);
+        $this->assertSame(200, $this->saved->getStatusCode());
     }
 }

@@ -37,6 +37,24 @@ interface DataSigning
         ?\DateTimeImmutable $until = null
     ): string;
 
+    /**
+     * Signs the token for delivery on the ILIAS domain instead of the content domain
+     * of User Content Isolation.
+     *
+     * @deprecated We do not want content outside of the User Content Isolation; this only exists
+     *             until the remaining consumers (e.g. SCORM) run on the content domain and
+     *             will be removed with ILIAS 13.
+     * @internal Only for {@see \ILIAS\ResourceStorage\Consumer\ContainerURIConsumer::withoutIsolation()},
+     *           which is the one way for consumers to deliver without isolation.
+     */
+    public function getSignedStreamTokenWithoutIsolation(
+        FileStream $stream,
+        string $filename,
+        Disposition $disposition,
+        int $user_id,
+        ?\DateTimeImmutable $until = null
+    ): string;
+
     public function verifyStreamToken(string $token): ?Payload;
 
     public function sign(array $data, string $salt, ?\DateTimeImmutable $until = null): string;
