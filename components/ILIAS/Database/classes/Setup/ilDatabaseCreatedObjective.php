@@ -59,7 +59,8 @@ class ilDatabaseCreatedObjective extends ilDatabaseObjective
         $db = \ilDBWrapperFactory::getWrapper($this->config->getType());
         $db->initFromIniFile($c->toMockIniFile());
 
-        if (!$db->createDatabase($c->getDatabase(), "utf8", $c->getCollation())) {
+        $charset = ilDBConstants::isUTF8MB4Collation($c->getCollation()) ? 'utf8mb4' : 'utf8';
+        if (!$db->createDatabase($c->getDatabase(), $charset, $c->getCollation())) {
             throw new UnachievableException(
                 "Database cannot be created."
             );
