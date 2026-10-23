@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\HTTP\Message\MessageFactory;
+use ILIAS\HTTP\Message\MessageFactoryImpl;
 use ILIAS\DI\Container;
 use ILIAS\HTTP\Request\RequestFactoryImpl;
 use ILIAS\HTTP\Response\ResponseFactoryImpl;
@@ -49,6 +51,8 @@ class InitHttpServices
 
         $container[ResponseFactory::class] = static fn($c): ResponseFactoryImpl => new ResponseFactoryImpl();
 
+        $container[MessageFactory::class] = static fn($c): MessageFactoryImpl => new MessageFactoryImpl();
+
         $container[CookieJarFactory::class] = static fn($c): CookieJarFactoryImpl => new CookieJarFactoryImpl();
 
         $container[ResponseSenderStrategy::class] = static fn(
@@ -69,6 +73,7 @@ class InitHttpServices
             $c[CookieJarFactory::class],
             $c[ResponseSenderStrategy::class],
             $c[DurationFactory::class],
+            $c[MessageFactory::class],
         );
         $container['http'] = static fn($c): Services => $c[GlobalHttpState::class];
     }
