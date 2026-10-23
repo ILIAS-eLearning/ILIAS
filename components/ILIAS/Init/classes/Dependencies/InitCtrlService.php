@@ -73,6 +73,7 @@ final class InitCtrlService
             $dic["component.factory"],
             new ilCtrlSubject(),
             new ilCtrlQueryRegexParser(),
+            $dic->http()->messages(),
         );
 
         // add helper function to DI container that

@@ -93,7 +93,7 @@ class LegacyGotoHandlerTest extends Base
     #[DataProvider('urlProvider')]
     public function testBase(string $called_url, string $target): void
     {
-        $this->http_mock->request()->method('getUri')->willReturn(new \GuzzleHttp\Psr7\Uri($called_url));
+        $this->http_mock->request()->method('getUri')->willReturn((new \ILIAS\HTTP\Message\MessageFactoryImpl())->uri($called_url));
         $this->assertEquals($called_url, $this->http_mock->request()->getUri());
 
         $uri = new URI($called_url);

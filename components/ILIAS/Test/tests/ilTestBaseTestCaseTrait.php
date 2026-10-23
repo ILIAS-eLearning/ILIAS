@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\HTTP\Message\MessageFactoryImpl;
 use ILIAS\Administration\Setting;
 use ILIAS\Test\RequestDataCollector;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -37,7 +38,6 @@ use ILIAS\UI\Implementation\DefaultRenderer as ImplementationDefaultRenderer;
 use ILIAS\UI\Implementation\FactoryInternal;
 use ILIAS\UI\Implementation\Factory as ImplementationFactory;
 use ILIAS\User\PublicInterface;
-use GuzzleHttp\Psr7\Uri as GuzzleURI;
 use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
 
 trait ilTestBaseTestCaseTrait
@@ -335,7 +335,7 @@ trait ilTestBaseTestCaseTrait
             ->disableOriginalConstructor()
             ->getMock();
         $request_mock->method('getUri')
-            ->willReturn(new GuzzleURI('http://wwww.ilias.de'));
+            ->willReturn((new MessageFactoryImpl())->uri('http://wwww.ilias.de'));
         $http_mock = $this->getMockBuilder(HTTPServices::class)->disableOriginalConstructor()
             ->getMock();
         $http_mock->method('request')

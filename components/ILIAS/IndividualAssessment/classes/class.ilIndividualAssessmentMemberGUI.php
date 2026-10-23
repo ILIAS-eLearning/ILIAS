@@ -24,7 +24,7 @@ use ILIAS\FileUpload\Handler\BasicFileInfoResult;
 use ILIAS\FileUpload\Handler\BasicHandlerResult;
 use ILIAS\FileUpload\Handler\FileInfoResult;
 use ILIAS\FileUpload\Handler\HandlerResult;
-use GuzzleHttp\Psr7\ServerRequest;
+use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Component\Input;
 use ILIAS\UI\Component\MessageBox;
 use ILIAS\UI\Component\Button;
@@ -59,7 +59,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         protected Refinery\Factory $refinery_factory,
         protected Data\Factory $data_factory,
         protected Renderer $renderer,
-        protected ServerRequest $request,
+        protected ServerRequestInterface $request,
         protected ilIndividualAssessmentPrimitiveInternalNotificator $notificator,
         protected ilToolbarGUI $toolbar,
         protected ilObjIndividualAssessment $object,

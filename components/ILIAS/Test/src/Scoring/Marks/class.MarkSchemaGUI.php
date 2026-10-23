@@ -24,7 +24,7 @@ use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\ResponseHandler;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
-use GuzzleHttp\Psr7\Request;
+use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\URLBuilder;
@@ -58,7 +58,7 @@ class MarkSchemaGUI
         private RequestWrapper $post_wrapper,
         private RequestWrapper $request_wrapper,
         private ResponseHandler $response_handler,
-        private Request $request,
+        private ServerRequestInterface $request,
         private Refinery $refinery,
         private UIFactory $ui_factory,
         private UIRenderer $ui_renderer,

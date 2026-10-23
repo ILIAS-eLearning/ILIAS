@@ -24,7 +24,7 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Filesystem\Stream\Streams;
 use Psr\Http\Message\ServerRequestInterface;
-use GuzzleHttp\Psr7\Response;
+use ILIAS\HTTP\Message\MessageFactory;
 
 /**
  * Class ilCtrl provides processing control methods. A global
@@ -59,6 +59,7 @@ class ilCtrl implements ilCtrlInterface
         protected ilComponentFactory $component_factory,
         protected ilCtrlSubject $subject,
         protected ilCtrlQueryParserInterface $query_parser,
+        protected MessageFactory $message_factory,
     ) {
     }
 
@@ -437,7 +438,7 @@ class ilCtrl implements ilCtrlInterface
         $target_url = $this->modifyUrlWithPluginHooks($target_url);
 
         // initialize http response object
-        $response = new Response();
+        $response = $this->message_factory->response();
 
         // there's an exceptional case for asynchronous file uploads
         // where a json response is delivered.

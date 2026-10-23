@@ -20,8 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Tests\FileDelivery\Delivery;
 
-use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Psr7\ServerRequest;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use ILIAS\HTTP\Message\MessageFactoryImpl;
 use ILIAS\FileDelivery\Delivery\ResponseBuilder\ResponseBuilder;
 use ILIAS\FileDelivery\Delivery\StreamDelivery;
 use ILIAS\FileDelivery\Token\DataSigner;
@@ -77,10 +78,10 @@ class StreamDeliveryTest extends TestCase
 
     private function assertDeliveredBy(string $expected, FileStream $stream): void
     {
-        $response = new Response();
+        $response = (new MessageFactoryImpl())->response();
 
         $http = $this->createStub(\ILIAS\HTTP\Services::class);
-        $http->method('request')->willReturn(new ServerRequest('GET', 'https://ilias.example.org/'));
+        $http->method('request')->willReturn($this->requestTo('https://ilias.example.org/'));
         $http->method('response')->willReturn($response);
         // close() is never, the test leaves deliver() by an exception instead
         $http->method('close')->willThrowException(new \RuntimeException('closed'));
@@ -99,7 +100,7 @@ class StreamDeliveryTest extends TestCase
         $delivery->attached($stream, 'file.zip', 'application/zip');
     }
 
-    private function builder(string $name, bool $used, Response $response): ResponseBuilder&MockObject
+    private function builder(string $name, bool $used, ResponseInterface $response): ResponseBuilder&MockObject
     {
         $builder = $this->createMock(ResponseBuilder::class);
         $builder->method('getName')->willReturn($name);
@@ -108,5 +109,13 @@ class StreamDeliveryTest extends TestCase
                 ->willReturn($response);
 
         return $builder;
+    }
+
+    private function requestTo(string $uri): ServerRequestInterface
+    {
+        $request = $this->createStub(ServerRequestInterface::class);
+        $request->method('getUri')->willReturn((new MessageFactoryImpl())->uri($uri));
+
+        return $request;
     }
 }

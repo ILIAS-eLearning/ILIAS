@@ -79,7 +79,7 @@ try {
     $xapiproxy->log()->error($e->getMessage());
 }
 $req = new XapiProxyRequest($xapiproxy);
-$resp = new XapiProxyResponse($xapiproxy);
+$resp = new XapiProxyResponse($xapiproxy, $dic->http()->messages());
 
 $xapiproxy->setXapiProxyRequest($req);
 $xapiproxy->setXapiProxyResponse($resp);

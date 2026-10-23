@@ -77,7 +77,7 @@ class ilObjStudyProgrammeMembersGUI
         protected ILIAS\Refinery\Factory $refinery,
         protected ILIAS\UI\Factory $ui_factory,
         protected ILIAS\UI\Renderer $ui_renderer,
-        protected GuzzleHttp\Psr7\ServerRequest $request,
+        protected Psr\Http\Message\ServerRequestInterface $request,
     ) {
         $this->object = null;
         $this->permissions = null;
