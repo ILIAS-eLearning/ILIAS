@@ -35,7 +35,7 @@ class ilLTIRouterGUI implements ilCtrlBaseClassInterface
         global $DIC;
 
         if ($DIC->ctrl()->getNextClass($this) === strtolower(ilLTIViewGUI::class)) {
-            $DIC->ctrl()->forwardCommand(ilLTIViewGUI::getInstance());
+            $DIC->ctrl()->forwardCommand($DIC['lti']);
         }
     }
 }

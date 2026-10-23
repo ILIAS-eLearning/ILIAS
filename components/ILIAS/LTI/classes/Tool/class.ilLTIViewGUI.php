@@ -18,16 +18,24 @@
 
 declare(strict_types=1);
 
+use ILIAS\DI\UIServices;
+use ILIAS\GlobalScreen\Services as GlobalScreen;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /**
  * The LTI view of a user who came from a platform: ILIAS shows the launched object without its own
  * navigation, with the styles of the platform and a button that ends the LTI session and returns to the
  * platform. ilLTIViewLayoutProvider shapes the page.
  *
- * ilInitialisation keeps the instance as $DIC['lti'], which ilFrameTargetInfo asks whether the view is active.
+ * The LTI component provides the view as ILIAS\LTI\View, see LTI.php; the legacy environment knows it as
+ * $DIC['lti'], which ilFrameTargetInfo and ilLocatorGUI ask whether the view is active.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-class ilLTIViewGUI
+class ilLTIViewGUI implements ILIAS\LTI\View
 {
     private const string SESSION_CONTEXT_IDS = 'lti_context_ids';
     public const string CMD_EXIT = 'exit';
@@ -36,35 +44,30 @@ class ilLTIViewGUI
 
     private const string CONTEXT_PARAM = 'lti_context_id';
 
-    private readonly ILIAS\DI\Container $dic;
-
-    public function __construct()
-    {
-        global $DIC;
-
-        $this->dic = $DIC;
+    public function __construct(
+        private readonly GlobalHttpState $http,
+        private readonly Refinery $refinery,
+        private readonly UIFactory $ui_factory,
+        private readonly UIRenderer $ui_renderer,
+        private readonly UIServices $ui,
+        private readonly ilCtrlInterface $ctrl,
+        private readonly ilObjUser $user,
+        private readonly ilLanguage $lng,
+        private readonly GlobalScreen $global_screen,
+        private readonly ilAuthSession $auth_session,
+    ) {
     }
 
-    public static function getInstance(): self
-    {
-        global $DIC;
-
-        return $DIC['lti'];
-    }
-
-    /**
-     * Switches the page to the LTI view for a user who came from a platform.
-     */
     public function init(): void
     {
         if (!$this->isActive()) {
             return;
         }
 
-        $this->dic->language()->loadLanguageModule('lti');
-        $this->dic->globalScreen()->tool()->context()->claim()->lti();
+        $this->lng->loadLanguageModule('lti');
+        $this->global_screen->tool()->context()->claim()->lti();
 
-        $meta = $this->dic->globalScreen()->layout()->meta();
+        $meta = $this->global_screen->layout()->meta();
         $meta->addCss('./assets/css/lti_view.css');
         $css = $this->getPostData()['launch_presentation_css_url'] ?? '';
         if ($css !== '') {
@@ -78,24 +81,24 @@ class ilLTIViewGUI
 
     public function isActive(): bool
     {
-        $user = $this->dic->user();
+        // without a user, as in the cron job or the SOAP server, there is no view
+        if (!ilContext::hasUser()) {
+            return false;
+        }
 
-        return str_starts_with((string) $user->getAuthMode(), ilAuthProviderLTI::AUTH_MODE_PREFIX);
+        return str_starts_with((string) $this->user->getAuthMode(), ilAuthProviderLTI::AUTH_MODE_PREFIX);
     }
 
     public function executeCommand(): void
     {
-        if ($this->dic->ctrl()->getCmd() === self::CMD_EXIT) {
+        if ($this->ctrl->getCmd() === self::CMD_EXIT) {
             $this->exit();
         }
     }
 
     /**
-     * The object the platform launched, as the link tells or as the last launch of the session left it.
-     */
-    /**
-     * What the LTI view needs of a launch, for the object the platform launched. ilStartUpGUI goes on to the
-     * object as the target of the login.
+     * What the LTI view needs of a launch, for the object the platform launched. After the login the user
+     * goes on to the object, see getLaunchTarget().
      *
      * @param array $parameters
      */
@@ -115,11 +118,25 @@ class ilLTIViewGUI
         return 'lti_' . $ref_id . '_post_data';
     }
 
+    public function getLaunchTarget(): string
+    {
+        $ref_id = (int) (((array) ilSession::get(self::SESSION_CONTEXT_IDS))[0] ?? 0);
+        if ($ref_id === 0) {
+            return '';
+        }
+
+        return 'goto.php?target=' . ilObject::_lookupType($ref_id, true) . '_' . $ref_id
+            . '&' . self::CONTEXT_PARAM . '=' . $ref_id;
+    }
+
+    /**
+     * The object the platform launched, as the link tells or as the last launch of the session left it.
+     */
     public function getContextId(): int
     {
-        $query = $this->dic->http()->wrapper()->query();
+        $query = $this->http->wrapper()->query();
         if ($query->has(self::CONTEXT_PARAM)) {
-            $context_id = $query->retrieve(self::CONTEXT_PARAM, $this->dic->refinery()->kindlyTo()->int());
+            $context_id = $query->retrieve(self::CONTEXT_PARAM, $this->refinery->kindlyTo()->int());
             if ($context_id > 0) {
                 return $context_id;
             }
@@ -145,7 +162,7 @@ class ilLTIViewGUI
 
     public function getTitleForExitPage(): string
     {
-        return $this->dic->language()->txt('lti_exited');
+        return $this->lng->txt('lti_exited');
     }
 
     /**
@@ -153,9 +170,9 @@ class ilLTIViewGUI
      */
     public function getExitLink(): string
     {
-        $this->dic->ctrl()->setParameterByClass(self::class, self::CONTEXT_PARAM, $this->getContextId());
+        $this->ctrl->setParameterByClass(self::class, self::CONTEXT_PARAM, $this->getContextId());
 
-        return $this->dic->ctrl()->getLinkTargetByClass([ilLTIRouterGUI::class, self::class], self::CMD_EXIT);
+        return $this->ctrl->getLinkTargetByClass([ilLTIRouterGUI::class, self::class], self::CMD_EXIT);
     }
 
     /**
@@ -175,10 +192,10 @@ class ilLTIViewGUI
 
         if ($return_url !== '') {
             $this->logout();
-            $this->dic->ctrl()->redirectToURL($return_url);
+            $this->ctrl->redirectToURL($return_url);
         }
 
-        $content = $this->dic->ui()->factory()->messageBox()->info($this->dic->language()->txt('lti_exited_info'));
+        $content = $this->ui_factory->messageBox()->info($this->lng->txt('lti_exited_info'));
         $this->logout();
         $this->printPage($this->getTitleForExitPage(), [$content]);
     }
@@ -191,16 +208,16 @@ class ilLTIViewGUI
      */
     public function printPage(string $title, array $content): void
     {
-        $context = $this->dic->globalScreen()->tool()->context();
+        $context = $this->global_screen->tool()->context();
         if (!$this->isActive()) {
             $context->claim()->lti();
         }
         $context->current()->addAdditionalData(self::GS_EXIT_MODE, true);
         $context->current()->addAdditionalData(self::GS_PAGE_TITLE, $title);
 
-        $tpl = $this->dic->ui()->mainTemplate();
+        $tpl = $this->ui->mainTemplate();
         $tpl->setTitle($title, true);
-        $tpl->setContent($this->dic->ui()->renderer()->render($content));
+        $tpl->setContent($this->ui_renderer->render($content));
         $tpl->printToStdout();
     }
 
@@ -213,7 +230,7 @@ class ilLTIViewGUI
             return;
         }
 
-        $this->dic['ilAuthSession']->setExpired(true);
+        $this->auth_session->setExpired(true);
         session_destroy();
         ilLTISessionCookie::remove();
     }

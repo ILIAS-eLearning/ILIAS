@@ -212,7 +212,7 @@ final class ilLTIAdvantageToolDeepLinking extends Tool
         global $DIC;
 
         $DIC->language()->loadLanguageModule('lti');
-        new ilLTIViewGUI()->printPage($DIC->language()->txt('lti_deep_linking_select'), [
+        $DIC['lti']->printPage($DIC->language()->txt('lti_deep_linking_select'), [
             $DIC->ui()->factory()->messageBox()->info($DIC->language()->txt('lti_deep_linking_select_info')),
             $form,
         ]);
@@ -224,7 +224,7 @@ final class ilLTIAdvantageToolDeepLinking extends Tool
         /** @var ILIAS\DI\Container $DIC */
 
         $DIC->language()->loadLanguageModule('lti');
-        new ilLTIViewGUI()->printPage($DIC->language()->txt('lti_deep_linking_select'), [
+        $DIC['lti']->printPage($DIC->language()->txt('lti_deep_linking_select'), [
             $DIC->ui()->factory()->messageBox()->failure($DIC->language()->txt($lang_var)),
         ]);
         $DIC->http()->close();

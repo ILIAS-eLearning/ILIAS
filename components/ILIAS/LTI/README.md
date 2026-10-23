@@ -45,6 +45,7 @@ LTI/
 │   │   └── Tool/             Platforms launch ILIAS: DynamicRegistration, DeepLinking, NRPS
 │   └── Setup/                Setup agent and database update steps
 ├── resources/                Endpoints
+├── src/                      What the component provides to the others through the bootstrap (ILIAS\LTI\View)
 └── templates/default/        Templates of LTI 1.1 are prefixed with tpl.lti1p1_
 ```
 
@@ -59,7 +60,8 @@ LTI/
 * **Administration**: the administration node (`ilObjLTIAdministration*`). Its screens serve LTI 1.1 and LTI Advantage.
 * **Tool**: ILIAS as the tool a platform launches. celtic/lti checks a launch of either version by its
   data, so the launch (`ilLTILaunchReceiver`, `ilLTIDataConnector`), the login (`ilAuthProviderLTI`), the
-  LTI view (`ilLTIViewGUI`), the releases of objects (`ilLTIProviderObjectSettingGUI`, `ilLTIRelease`) and
+  LTI view (`ilLTIViewGUI`, which `LTI.php` provides as `ILIAS\LTI\View` and Init passes to the legacy
+  environment as `$DIC['lti']`), the releases of objects (`ilLTIProviderObjectSettingGUI`, `ilLTIRelease`) and
   the learning progress sent back (`ilLTIAppEventListener`, `ilLTICronOutcomeService`) are shared. Only
   what a version adds on top goes to LTI1p1 or LTIAdvantage. Several of these names are fixed by the core:
   `ilAuthProviderLTI`, `ilAuthFrontendCredentialsLTI`, `ilLTIProviderObjectSettingGUI`,

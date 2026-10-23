@@ -86,7 +86,7 @@ class ilLTIViewLayoutProvider extends AbstractModificationProvider
                 return $metabar->withAdditionalEntry('exit', $factory->button()->bulky(
                     $factory->symbol()->glyph()->close(),
                     $this->dic->language()->txt('lti_exit'),
-                    ilLTIViewGUI::getInstance()->getExitLink()
+                    $this->getView()->getExitLink()
                 ));
             }
         )->withPriority(self::PRIORITY);
@@ -98,7 +98,7 @@ class ilLTIViewLayoutProvider extends AbstractModificationProvider
         $page_title = $data->exists(ilLTIViewGUI::GS_PAGE_TITLE) ? (string) $data->get(ilLTIViewGUI::GS_PAGE_TITLE) : null;
 
         return $this->globalScreen()->layout()->factory()->title()->withModification(
-            static fn(?string $title): string => $page_title ?? ilLTIViewGUI::getInstance()->getTitle()
+            fn(?string $title): string => $page_title ?? $this->getView()->getTitle()
         )->withPriority(self::PRIORITY);
     }
 
@@ -107,7 +107,7 @@ class ilLTIViewLayoutProvider extends AbstractModificationProvider
      */
     public function getBreadCrumbsModification(CalledContexts $screen_context_stack): ?BreadCrumbsModification
     {
-        $context_id = ilLTIViewGUI::getInstance()->getContextId();
+        $context_id = $this->getView()->getContextId();
 
         return $this->globalScreen()->layout()->factory()->breadcrumbs()->withModification(
             function (?Breadcrumbs $breadcrumbs) use ($context_id): ?Breadcrumbs {
@@ -135,5 +135,10 @@ class ilLTIViewLayoutProvider extends AbstractModificationProvider
     private function isExitMode(CalledContexts $screen_context_stack): bool
     {
         return $screen_context_stack->current()->getAdditionalData()->is(ilLTIViewGUI::GS_EXIT_MODE, true);
+    }
+
+    private function getView(): ILIAS\LTI\View
+    {
+        return $this->dic['lti'];
     }
 }

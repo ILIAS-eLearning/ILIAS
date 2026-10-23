@@ -172,7 +172,8 @@ class Init implements Component\Component
                 $use[Access::class],
                 $use[Logging\Logger\LoggerFactoryInterface::class],
                 $use[Logging\Logger\DefaultConfigLoggerFactoryInterface::class],
-                $use[Logging\Config\ConfigInterface::class]
+                $use[Logging\Config\ConfigInterface::class],
+                $use[\ILIAS\LTI\View::class]
             );
     }
 }

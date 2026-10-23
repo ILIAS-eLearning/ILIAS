@@ -138,6 +138,19 @@ class ilAuthProviderLTI extends ilAuthProvider
     }
 
     /**
+     * The reasons of LTI are in the language module of LTI.
+     */
+    protected function handleAuthenticationFail(ilAuthStatus $status, string $a_reason): bool
+    {
+        global $DIC;
+
+        $DIC->language()->loadLanguageModule('lti');
+        $status->setTranslatedReason($DIC->language()->txt($a_reason));
+
+        return parent::handleAuthenticationFail($status, $a_reason);
+    }
+
+    /**
      * The platform and the object a launch is for, as long as the object is released to the platform. A
      * registration of lti2_consumer for a single object (ref_id > 0) is for that object. The registration of
      * an LTI Advantage platform (ref_id 0) is for the object its target link names; the target links of
