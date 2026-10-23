@@ -182,7 +182,7 @@ class LanguageMock extends ilLanguage
     public function txt($a_topic, $a_default_lang_fallback_mod = ""): string
     {
         $this->requested[] = $a_topic;
-        return $a_topic;
+        return $a_topic === 'actions_for' ? 'Actions for %s' : $a_topic;
     }
 
     public function toJS($a_lang_key, ?ilGlobalTemplateInterface $a_tpl = null): void
