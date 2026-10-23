@@ -57,6 +57,30 @@ class UuidTest extends TestCase
         $this->assertMatchesRegularExpression(self::VALID_UUID4, $uuid);
     }
 
+    /**
+     * Name-based UUIDs must never change: they are stored and compared, e.g. as cmi5 registrations.
+     * Expected values cross-checked with Python's uuid.uuid3().
+     */
+    #[\PHPUnit\Framework\Attributes\Depends('test_init')]
+    public function test_uuid3_is_stable(): void
+    {
+        $factory = new Factory();
+
+        $this->assertSame(
+            'cdefba47-4fc6-3904-99e9-989195f87f2c',
+            $factory->uuid3AsString('6ba7b810-9dad-11d1-80b4-00c04fd430c8', 'www.ilias.de')
+        );
+        // namespace without hyphens, as stored by CmiXapi
+        $this->assertSame(
+            'd60304bc-9cb8-3988-9fa1-e6953cc506e7',
+            $factory->uuid3AsString('0123456789abcdef0123456789abcdef', '12-34')
+        );
+        $this->assertSame(
+            'cdefba47-4fc6-3904-99e9-989195f87f2c',
+            $factory->uuid3($factory->fromString('6ba7b810-9dad-11d1-80b4-00c04fd430c8'), 'www.ilias.de')->toString()
+        );
+    }
+
     #[\PHPUnit\Framework\Attributes\Depends('test_init')]
     public function test_from_string(): void
     {

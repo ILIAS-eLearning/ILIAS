@@ -48,6 +48,23 @@ class Factory
         return $this->uuid4()->toString();
     }
 
+    /**
+     * Name-based UUID (version 3, MD5): the same namespace and name always result in the same UUID.
+     *
+     * @param Uuid|string $namespace a UUID, with or without hyphens
+     */
+    public function uuid3(Uuid|string $namespace, string $name): Uuid
+    {
+        return new RamseyUuidWrapper(
+            $this->uuid_factory->uuid3($namespace instanceof Uuid ? $namespace->toString() : $namespace, $name)
+        );
+    }
+
+    public function uuid3AsString(Uuid|string $namespace, string $name): string
+    {
+        return $this->uuid3($namespace, $name)->toString();
+    }
+
     public function fromString(string $uuid): Uuid
     {
         return new RamseyUuidWrapper($this->uuid_factory->fromString($uuid));
