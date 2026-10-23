@@ -4460,8 +4460,6 @@ common#:#ip_address#:#IP-cím
 common#:#is_already_your#:#már az Ön
 common#:#italic_action#:#Dőlt beillesztése - Kattintson dőlt szöveg beillesztéséhez.
 common#:#item#:#Elem
-common#:#itgr_add#:#Objektumcsoport létrehozása
-common#:#itgr_new#:#Új objektumcsoport
 common#:#java_server_host#:#Kiszolgáló
 common#:#java_server_info#:#Keresés PDF-fájok, HTML-fájlok és HTML-tananyagok tartalmában is.
 common#:#java_server_port#:#Port
@@ -4895,6 +4893,8 @@ common#:#nr_following_sessions#:#%1d alábbi munkamenet(ek)…
 common#:#num_of_selected_files#:#%s fájlt választott ki
 common#:#num_users#:#Felhasználók száma
 common#:#numberedlist_action#:#Számozott lista beillesztése - Kattintson számozott lista beillesztéséhez.
+common#:#obgr_add#:#Objektumcsoport létrehozása
+common#:#obgr_new#:#Új objektumcsoport
 common#:#obj#:#Objektum
 common#:#obj_accs#:#Könnyű kezelés
 common#:#obj_accs_desc#:#Könnyű kezelés beállításai
@@ -4997,7 +4997,6 @@ common#:#obj_htlm_duplicate#:#HTML tananyag másolása
 common#:#obj_iass#:#Személyes értékelés
 common#:#obj_iass_duplicate#:#Személyes értékelés másolása
 common#:#obj_iass_select#:#-- Válasszon egy személyes értékelést --
-common#:#obj_itgr#:#Objektumcsoport
 common#:#obj_ldap_desc#:#Itt módosíthatja a globális LDAP-beállításokat.
 common#:#obj_lhts#:#Tanulási történelem
 common#:#obj_lhts_desc#:#Tanulási történelem beállításai
@@ -5039,6 +5038,7 @@ common#:#obj_nots#:#Jegyzetek
 common#:#obj_nots_desc#:#Jegyzetek beállításai
 common#:#obj_nwss#:#Hírek és webhírforrások
 common#:#obj_nwss_desc#:#Beállítások belső hírekhez és külső hírforrásokhoz
+common#:#obj_obgr#:#Objektumcsoport
 common#:#obj_objf#:#Objektumdefiníciók
 common#:#obj_orgu#:#Szervezeti egység
 common#:#obj_orgu_description#:#Szervezeti felépítés létrehozása és módosítása
@@ -5205,7 +5205,6 @@ common#:#objs_grp#:#Csoportok
 common#:#objs_grpr#:#Csoportlinkek
 common#:#objs_htlm#:#HTML-tananyagok
 common#:#objs_iass#:#Személyes értékelések
-common#:#objs_itgr#:#Objektumcsoportok
 common#:#objs_lm#:#ILIAS-tananyagok
 common#:#objs_lres#:#Tananyagok
 common#:#objs_lso#:#Tanulási sorok
@@ -5213,6 +5212,7 @@ common#:#objs_lti#:#LTI-Fogyasztók
 common#:#objs_mail#:#Levelek
 common#:#objs_mcst#:#Médiasugárzások
 common#:#objs_mep#:#Médiagyűjtemény
+common#:#objs_obgr#:#Objektumcsoportok
 common#:#objs_orgu#:#Szervezeti egységek
 common#:#objs_poll#:#Szavazások
 common#:#objs_prg#:#Képzési programok
@@ -6766,7 +6766,6 @@ content#:#cont_lrs_settings#:#Beállítások
 content#:#cont_lvalue#:#Adatelem
 content#:#cont_maintenance#:#Karbantartás
 content#:#cont_manifest#:#Manifest
-content#:#cont_manual_item_group#:#Manuálisan létrehozott elemcsoport
 content#:#cont_map_file_not_generated#:#Sajnos nem lehet térképfájlt generálni a szerkesztéshez.
 content#:#cont_marker#:#Jelölő
 content#:#cont_master_language_only#:#Fordításhoz főnyelv
@@ -10767,29 +10766,6 @@ irss#:#title_manage_container#:#Fájlok és mappák kezelése
 irss#:#type#:#Fájl típusa
 irss#:#upload_field_title#:#Kiválasztott fájlok
 irss#:#upload_modal_title#:#Fájlok hozzáadása
-itgr#:#itgr_always_open#:#Mindig nyitva
-itgr#:#itgr_assign_materials#:#Objektumok hozzárendelése
-itgr#:#itgr_assigned_materials#:#Hozzárendelt objektumok
-itgr#:#itgr_assignment#:#Hozzárendelve
-itgr#:#itgr_desc_info#:#Az objektumcsoport leírása nem jelenik meg az objektumcsoport tárolójában.
-itgr#:#itgr_display#:#Display###07 07 2026 new variable
-itgr#:#itgr_display_with_title#:#With Title###07 07 2026 new variable
-itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible###07 07 2026 new variable
-itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state###07 07 2026 new variable
-itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed###07 07 2026 new variable
-itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened###07 07 2026 new variable
-itgr#:#itgr_display_without_title#:#Without Title###07 07 2026 new variable
-itgr#:#itgr_edit#:#Objektumcsoportok módosítása
-itgr#:#itgr_expandable_closed#:#Kibontható (kezdetben zárt)
-itgr#:#itgr_expandable_open#:#Kibontható (kezdetben nyitott)
-itgr#:#itgr_item#:#Objektum
-itgr#:#itgr_list#:#Felsorolás
-itgr#:#itgr_list_default#:#Alapértelmezett
-itgr#:#itgr_list_default_info#:#Értékek örökítése a feljebbi tárolókból.
-itgr#:#itgr_list_presentation#:#Elemmegjelenítés
-itgr#:#itgr_materials#:#Objektumok
-itgr#:#itgr_tile#:#Csempe
-itgr#:#itgr_tile_size#:#Csempe mérete
 jscalendar#:#about_calendar#:#Súgó
 jscalendar#:#about_calendar_long#:#Dátumválasztók: - Év léptetése: « » - Hónap léptetése: < > - Tartsa nyomva a gombot a gyorsabb kiválasztáshoz. DHTML dátum/időpont választó (c) dynarch.com 2002-2003 Legfrissebb verzió: http://dynarch.com/mishoo/calendar.epl Terjeszti a GNU LGPL. Lásd http://gnu.org/licenses/lgpl.html a részletekért.
 jscalendar#:#about_time#:#Időválasztó: - Kattintson a megfelelő időrészen megnöveléséhez - vagy Shift-kattintással csökkentéséhez - vagy kattintás-húzás a gyorsabb kiválasztáshoz.
@@ -13145,6 +13121,29 @@ notifications_adm#:#push_settings#:#Push értesítések
 notifications_adm#:#push_subscription_successfull#:#A push értesítéseket sikeresen bekapcsolta.
 notifications_adm#:#push_subscription_successfull_desc#:#Ez egy próbaértesítés, hogy ellenőrizze a push értesítések bekapcsolását.
 notifications_adm#:#user_settings#:#Felhasználó beállítások
+obgr#:#obgr_always_open#:#Mindig nyitva
+obgr#:#obgr_assign_materials#:#Objektumok hozzárendelése
+obgr#:#obgr_assigned_materials#:#Hozzárendelt objektumok
+obgr#:#obgr_assignment#:#Hozzárendelve
+obgr#:#obgr_desc_info#:#Az objektumcsoport leírása nem jelenik meg az objektumcsoport tárolójában.
+obgr#:#obgr_display#:#Display###07 07 2026 new variable
+obgr#:#obgr_display_with_title#:#With Title###07 07 2026 new variable
+obgr#:#obgr_display_with_title_and_toggleable#:#With Title, Object Group collapsible###07 07 2026 new variable
+obgr#:#obgr_display_with_title_and_toggleable_initially#:#Initial state###07 07 2026 new variable
+obgr#:#obgr_display_with_title_and_toggleable_initially_closed#:#initially closed###07 07 2026 new variable
+obgr#:#obgr_display_with_title_and_toggleable_initially_open#:#initially opened###07 07 2026 new variable
+obgr#:#obgr_display_without_title#:#Without Title###07 07 2026 new variable
+obgr#:#obgr_edit#:#Objektumcsoportok módosítása
+obgr#:#obgr_expandable_closed#:#Kibontható (kezdetben zárt)
+obgr#:#obgr_expandable_open#:#Kibontható (kezdetben nyitott)
+obgr#:#obgr_item#:#Objektum
+obgr#:#obgr_list#:#Felsorolás
+obgr#:#obgr_list_default#:#Alapértelmezett
+obgr#:#obgr_list_default_info#:#Értékek örökítése a feljebbi tárolókból.
+obgr#:#obgr_list_presentation#:#Elemmegjelenítés
+obgr#:#obgr_materials#:#Objektumok
+obgr#:#obgr_tile#:#Csempe
+obgr#:#obgr_tile_size#:#Csempe mérete
 obj#:#activation_visible_when_disabled#:#Láthatóság
 obj#:#activation_visible_when_disabled_info#:#Az objektum a megadott időszakon kívül is látható, de nem nyitható meg.
 obj#:#availability_period_changed#:#A kiválasztott objektumok elérhetőségi időszakát sikeresen módosította.
@@ -14422,12 +14421,6 @@ rbac#:#impr_write#:#UA felhasználó módosíthatja a Rendszerbeállítások » 
 rbac#:#info_user_view_changed#:#A felhasználói nézet megváltozott
 rbac#:#internal_mail#:#Belső levelezés
 rbac#:#invite#:#Meghívás kérdőívhez
-rbac#:#itgr_copy#:#A felhasználó másolhat objektumcsoportot
-rbac#:#itgr_delete#:#A felhasználó áthelyezhet vagy törölhet objektumcsoportot
-rbac#:#itgr_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
-rbac#:#itgr_read#:#A felhasználó olvashat objektumcsoportot
-rbac#:#itgr_visible#:#Elem csoport látható
-rbac#:#itgr_write#:#A felhasználó szerkesztheti objektumcsoport tartalmát és beállításait
 rbac#:#leave#:#Kilépés
 rbac#:#lhts_edit_permissions#:#A felhasználó módosíthatja a Rendszerbeállítások » Tanulási történelem jogosultsági beállításait
 rbac#:#lhts_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Tanulási történelem beállításaihoz
@@ -14542,6 +14535,12 @@ rbac#:#nwss_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállít
 rbac#:#nwss_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Hírek és webhírforrások beállításaihoz
 rbac#:#nwss_visible#:#A felhasználó láthatja a Rendszerbeállítások » Hírek és webhírforrások menüpontot
 rbac#:#nwss_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Hírek és webhírforrások beállításait
+rbac#:#obgr_copy#:#A felhasználó másolhat objektumcsoportot
+rbac#:#obgr_delete#:#A felhasználó áthelyezhet vagy törölhet objektumcsoportot
+rbac#:#obgr_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
+rbac#:#obgr_read#:#A felhasználó olvashat objektumcsoportot
+rbac#:#obgr_visible#:#Elem csoport látható
+rbac#:#obgr_write#:#A felhasználó szerkesztheti objektumcsoport tartalmát és beállításait
 rbac#:#obj_skee#:#Kompetencia-fa
 rbac#:#org_op_access_results#:#Hozzáférés az alárendelt felhasználók eredményeihez
 rbac#:#org_op_edit_submissions_grades#:#Más felhasználók beküldésének módosítása
@@ -14683,12 +14682,12 @@ rbac#:#rbac_create_grp#:#Csoport létrehozása
 rbac#:#rbac_create_grpr#:#Csoportlink létrehozása
 rbac#:#rbac_create_htlm#:#HTML-tananyag létrehozása
 rbac#:#rbac_create_iass#:#Személyes értékelés létrehozása
-rbac#:#rbac_create_itgr#:#Objektumcsoport létrehozása
 rbac#:#rbac_create_lm#:#ILIAS-tananyag létrehozása
 rbac#:#rbac_create_lso#:#Tanulási sor létrehozása
 rbac#:#rbac_create_lti#:#LTI-Fogyasztó létrehozása
 rbac#:#rbac_create_mcst#:#Médiasugárzás létrehozása
 rbac#:#rbac_create_mep#:#Médiagyűjtemény létrehozása
+rbac#:#rbac_create_obgr#:#Objektumcsoport létrehozása
 rbac#:#rbac_create_orgu#:#Szervezeti egységek létrehozása
 rbac#:#rbac_create_poll#:#Szavazás létrehozása
 rbac#:#rbac_create_prg#:#Képzési program létrehozása

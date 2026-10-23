@@ -4442,8 +4442,6 @@ common#:#ip_address#:#Não pode adotar definições de permissões da próprio f
 common#:#is_already_your#:#Objeto(s) removido(s) do sistema.
 common#:#italic_action#:#Insert Italic - Click to insert italic text.###03 09 2026 new variable
 common#:#item#:#Item
-common#:#itgr_add#:#Adicionar item grupo
-common#:#itgr_new#:#Novo item grupo
 common#:#java_server#:#PDF Configuration###03 09 2026 new variable
 common#:#java_server_host#:#Host
 common#:#java_server_info#:#Se estiver ativado, é possível pesquisar em ficheiros PDF, HTML e módulos de aprendizagem HTML
@@ -4878,6 +4876,8 @@ common#:#nr_following_sessions#:#%1d seguinte(s) sessão(sessões)...
 common#:#num_of_selected_files#:#%s ficheiro(s) selecionado(s)
 common#:#num_users#:#Número de utilizadores
 common#:#numberedlist_action#:#Insert Numbered List - Click to insert a numbered list.###03 09 2026 new variable
+common#:#obgr_add#:#Adicionar item grupo
+common#:#obgr_new#:#Novo item grupo
 common#:#obj#:#Posição
 common#:#obj_accs#:#Acessibilidade
 common#:#obj_accs_desc#:#Definições para funcionalidade de acessibilidade.
@@ -4980,7 +4980,6 @@ common#:#obj_htlm_duplicate#:#Copiar módulo de aprendizagem HTML
 common#:#obj_iass#:#Avaliação individual
 common#:#obj_iass_duplicate#:#Copiar avaliação individual
 common#:#obj_iass_select#:#-- Selecione uma avaliação individual --
-common#:#obj_itgr#:#Grupo de itens
 common#:#obj_ldap_desc#:#Direitos
 common#:#obj_lhts#:#Learning History###07 02 2020 new variable
 common#:#obj_lhts_desc#:#Learning history settings###07 02 2020 new variable
@@ -5022,6 +5021,7 @@ common#:#obj_nots#:#Notes###07 02 2020 new variable
 common#:#obj_nots_desc#:#Notes settings###07 02 2020 new variable
 common#:#obj_nwss#:#Mudar atribuição de funções ao utilizador
 common#:#obj_nwss_desc#:#Definições para notícias internas e web feeds externos.
+common#:#obj_obgr#:#Grupo de itens
 common#:#obj_objf#:#Acesso de leitura a funções/modelos de funções
 common#:#obj_orgu#:#Unidade organizacional
 common#:#obj_orgu_description#:#Criar e editar estrutura organizacional
@@ -5188,7 +5188,6 @@ common#:#objs_grp#:#Servidor Proxy
 common#:#objs_grpr#:#Para usar um proxy em ILIAS (p. ex. para web feeds ou para verificar links da web) ative a caixa de seleção em cima.
 common#:#objs_htlm#:#Perfil
 common#:#objs_iass#:#Avaliações individuais
-common#:#objs_itgr#:#Grupos de item
 common#:#objs_lm#:#Acesso anónimo
 common#:#objs_lres#:#Se estiver ativado, algumas partes do sistema (p. ex. repositório, espaço de trabalho, perfis de utilizador) podem ficar disponíveis na internet sem autenticação. As permissões da função ‘Anónimo’ controlarão o acesso aos recursos do repositório.
 common#:#objs_lso#:#Teste banco de perguntas
@@ -5196,6 +5195,7 @@ common#:#objs_lti#:#LTI Consumers###07 02 2020 new variable
 common#:#objs_mail#:#Correio
 common#:#objs_mcst#:#Adicionar teste banco de perguntas
 common#:#objs_mep#:#Novo teste banco de perguntas
+common#:#objs_obgr#:#Grupos de item
 common#:#objs_orgu#:#Pergunta
 common#:#objs_poll#:#Sondagens
 common#:#objs_prg#:#Programas de estudo
@@ -6753,7 +6753,6 @@ content#:#cont_lrs_settings#:#Importar curso
 content#:#cont_lvalue#:#Elemento de dados
 content#:#cont_maintenance#:#Manutenção
 content#:#cont_manifest#:#Informação importante
-content#:#cont_manual_item_group#:#Manually Created Item Group###03 09 2026 new variable
 content#:#cont_map_file_not_generated#:#Lamentamos. Incapaz de criar ficheiro de mapeamento para editar.
 content#:#cont_marker#:#Marcador
 content#:#cont_master_language_only#:#Idioma principal para tradução
@@ -10756,32 +10755,6 @@ irss#:#title_manage_container#:#Manage files and folders###03 09 2026 new variab
 irss#:#type#:#File Type###03 09 2026 new variable
 irss#:#upload_field_title#:#Selected Files###03 09 2026 new variable
 irss#:#upload_modal_title#:#Add Files###03 09 2026 new variable
-itgr#:#itgr_always_open#:#Sempre aberto
-itgr#:#itgr_assign_materials#:#Assign Materials###03 09 2026 new variable
-itgr#:#itgr_assigned_materials#:#Materiais atribuídos
-itgr#:#itgr_assignment#:#Atribuição
-itgr#:#itgr_assignment_to_other_itgr#:#Already assigned to another Item Group###03 09 2026 new variable
-itgr#:#itgr_behaviour#:#Block Behaviour###03 09 2026 new variable
-itgr#:#itgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.###03 09 2026 new variable
-itgr#:#itgr_desc_info#:#A descrição não fará parte da apresentação do grupos de itens no seu recipiente.
-itgr#:#itgr_display#:#Display###03 09 2026 new variable
-itgr#:#itgr_display_with_title#:#With Title###03 09 2026 new variable
-itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible###03 09 2026 new variable
-itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state###03 09 2026 new variable
-itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed###03 09 2026 new variable
-itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened###03 09 2026 new variable
-itgr#:#itgr_display_without_title#:#Without Title###03 09 2026 new variable
-itgr#:#itgr_edit#:#Editar grupos de itens
-itgr#:#itgr_expandable_closed#:#Expansível (inicialmente fechado)
-itgr#:#itgr_expandable_open#:#Expansível (inicialmente aberto)
-itgr#:#itgr_item#:#Item
-itgr#:#itgr_list#:#List###03 09 2026 new variable
-itgr#:#itgr_list_default#:#Default###03 09 2026 new variable
-itgr#:#itgr_list_default_info#:#Inherits value from upper container.###03 09 2026 new variable
-itgr#:#itgr_list_presentation#:#Item Presentation###03 09 2026 new variable
-itgr#:#itgr_materials#:#Materiais
-itgr#:#itgr_tile#:#Tiles###03 09 2026 new variable
-itgr#:#itgr_tile_size#:#Tile Size###03 09 2026 new variable
 jscalendar#:#about_calendar#:#Suazilândia
 jscalendar#:#about_calendar_long#:#Ilhas Turcas e Caicos
 jscalendar#:#about_time#:#Terras Austrais e Antárticas Francesas
@@ -13175,6 +13148,32 @@ notifications_adm#:#push_settings#:#Push Notifications###03 09 2026 new variable
 notifications_adm#:#push_subscription_successfull#:#Push Notifications activation successful###03 09 2026 new variable
 notifications_adm#:#push_subscription_successfull_desc#:#This is a dummy notification to verify the successful activation of push notifications.###03 09 2026 new variable
 notifications_adm#:#user_settings#:#User Settings###03 09 2026 new variable
+obgr#:#obgr_always_open#:#Sempre aberto
+obgr#:#obgr_assign_materials#:#Assign Materials###03 09 2026 new variable
+obgr#:#obgr_assigned_materials#:#Materiais atribuídos
+obgr#:#obgr_assignment#:#Atribuição
+obgr#:#obgr_assignment_to_other_obgr#:#Already assigned to another Object Group###03 09 2026 new variable
+obgr#:#obgr_behaviour#:#Block Behaviour###03 09 2026 new variable
+obgr#:#obgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.###03 09 2026 new variable
+obgr#:#obgr_desc_info#:#A descrição não fará parte da apresentação do grupos de itens no seu recipiente.
+obgr#:#obgr_display#:#Display###03 09 2026 new variable
+obgr#:#obgr_display_with_title#:#With Title###03 09 2026 new variable
+obgr#:#obgr_display_with_title_and_toggleable#:#With Title, Object Group collapsible###03 09 2026 new variable
+obgr#:#obgr_display_with_title_and_toggleable_initially#:#Initial state###03 09 2026 new variable
+obgr#:#obgr_display_with_title_and_toggleable_initially_closed#:#initially closed###03 09 2026 new variable
+obgr#:#obgr_display_with_title_and_toggleable_initially_open#:#initially opened###03 09 2026 new variable
+obgr#:#obgr_display_without_title#:#Without Title###03 09 2026 new variable
+obgr#:#obgr_edit#:#Editar grupos de itens
+obgr#:#obgr_expandable_closed#:#Expansível (inicialmente fechado)
+obgr#:#obgr_expandable_open#:#Expansível (inicialmente aberto)
+obgr#:#obgr_item#:#Item
+obgr#:#obgr_list#:#List###03 09 2026 new variable
+obgr#:#obgr_list_default#:#Default###03 09 2026 new variable
+obgr#:#obgr_list_default_info#:#Inherits value from upper container.###03 09 2026 new variable
+obgr#:#obgr_list_presentation#:#Item Presentation###03 09 2026 new variable
+obgr#:#obgr_materials#:#Materiais
+obgr#:#obgr_tile#:#Tiles###03 09 2026 new variable
+obgr#:#obgr_tile_size#:#Tile Size###03 09 2026 new variable
 obj#:#activation_visible_when_disabled#:#Visibility###03 09 2026 new variable
 obj#:#activation_visible_when_disabled_info#:#The item is visible outside of the selected availability period, but it cannot be opened.###03 09 2026 new variable
 obj#:#availability_period_changed#:#The availability period for the selected objects has been changed successfully.###03 09 2026 new variable
@@ -14451,12 +14450,6 @@ rbac#:#impr_write#:#User can edit content and settings of Legal Notice###03 09 2
 rbac#:#info_user_view_changed#:#A vista do utilizador mudou
 rbac#:#internal_mail#:#Mail interno
 rbac#:#invite#:#Convidar para inquérito
-rbac#:#itgr_copy#:#O utilizador pode copiar grupo de itens
-rbac#:#itgr_delete#:#O utilizador pode mover ou apagar grupo de itens
-rbac#:#itgr_edit_permission#:#O utilizador pode mudar as definições de permissões
-rbac#:#itgr_read#:#Selecionar os itens que determinam o estado geral do progresso de aprendizagem.
-rbac#:#itgr_visible#:#O grupo de itens está visível
-rbac#:#itgr_write#:#O utilizador pode editar conteúdo e definições do grupo de itens
 rbac#:#leave#:#Progresso de aprendizagem dos objetos de recipiente Atop
 rbac#:#lhts_edit_permissions#:#User can change permission settings of Learning History administration.###30 04 2021 new variable
 rbac#:#lhts_read#:#User has read access to Learning History administration.###30 04 2021 new variable
@@ -14571,6 +14564,12 @@ rbac#:#nwss_edit_permission#:#Um clique conta como uma nova visita apenas após 
 rbac#:#nwss_read#:#Criar certificado de teste
 rbac#:#nwss_visible#:#Selecionar um teste concluído para criar um certificado para ele.
 rbac#:#nwss_write#:#Frequência com que a eliminação e a distribuição de e-mail será testada.
+rbac#:#obgr_copy#:#O utilizador pode copiar grupo de itens
+rbac#:#obgr_delete#:#O utilizador pode mover ou apagar grupo de itens
+rbac#:#obgr_edit_permission#:#O utilizador pode mudar as definições de permissões
+rbac#:#obgr_read#:#Selecionar os itens que determinam o estado geral do progresso de aprendizagem.
+rbac#:#obgr_visible#:#O grupo de itens está visível
+rbac#:#obgr_write#:#O utilizador pode editar conteúdo e definições do grupo de itens
 rbac#:#obj_skee#:#Competence Tree###03 09 2026 new variable
 rbac#:#org_op_access_results#:#Olá %1$s, %2$s não entra há muito tempo em %3$s. A sua conta será, por isso, provavelmente apagada a %4$s. Terá de entrar novamente para evitar que a sua conta seja apagada.
 rbac#:#org_op_edit_submissions_grades#:#Editar submissões de outros utilizadores
@@ -14712,12 +14711,12 @@ rbac#:#rbac_create_grp#:#Criar grupo
 rbac#:#rbac_create_grpr#:#Selecione um curso ou um grupo.
 rbac#:#rbac_create_htlm#:#Criar módulo de aprendizagem HTML
 rbac#:#rbac_create_iass#:#Criar avaliação individual
-rbac#:#rbac_create_itgr#:#Criar grupo de itens
 rbac#:#rbac_create_lm#:#Criar módulo de aprendizagem ILIAS
 rbac#:#rbac_create_lso#:#Portefólios
 rbac#:#rbac_create_lti#:#Create LTI Consumer###07 02 2020 new variable
 rbac#:#rbac_create_mcst#:#Criar Mediacast
 rbac#:#rbac_create_mep#:#Criar banco de media
+rbac#:#rbac_create_obgr#:#Criar grupo de itens
 rbac#:#rbac_create_orgu#:#Criar unidades organizacionais
 rbac#:#rbac_create_poll#:#Criar sondagem
 rbac#:#rbac_create_prg#:#Criar programa de estudo

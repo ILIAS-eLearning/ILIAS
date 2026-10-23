@@ -4,8 +4,8 @@ This file documents the main internal technical concepts. There is currently no 
 
 ## Data
 
-- **Block**: An abstract block (no items) in the container: TypeBlock, SessionBlock, OtherBlock, ItemGroupBlock
-- **BlockSequencePart**: Abstract, partial sequence of blocks: TypeBlocks (all "by type" blocks), ItemGroupBlocks, ObjectivesBlocks
+- **Block**: An abstract block (no items) in the container: TypeBlock, SessionBlock, OtherBlock, ObjectGroupBlock
+- **BlockSequencePart**: Abstract, partial sequence of blocks: TypeBlocks (all "by type" blocks), ObjectGroupBlocks, ObjectivesBlocks
 - **BlockSequence**: An abstract (no items) sequence of all blocks in a container view.
 - **ItemBlock**: A concrete block filled with items (ref IDs). Holds information on items (ref id), block ID, embedded in page status, position, block limit exhausted status.
 - **ItemBlockSequence**: The concrete sequence of blocks in a container view, filled with items.
@@ -25,7 +25,7 @@ This manager needs to be implemented by each container view that provides a sepa
 - determines ItemBlocks sequence incl. page embedded blocks and items per block
   - checks visible permission for items
   - in the case of sessions this still holds hidden "previous" and "next" sessions
-- determines block sorting, item sorting is mostly done in ItemSetManager, except for item group subitems (is done also here)
+- determines block sorting, item sorting is mostly done in ItemSetManager, except for object group subitems (is done also here)
 - collects items of all blocks (except "other") to filter them out of the "other" block (see accumulateRefIds() in code), to avoid redundant rendering in the "other" block
 - api
   - getSequence() : ItemBlockSequence
@@ -47,7 +47,7 @@ This manager needs to be implemented by each container view that provides a sepa
 - gets complete descriptions
 - applies classification filter
 - groups items (by grouped repo type)
-- applies sorting for all items (note that this does not work for item group subitems, these are sorted in ItemBlockSequenceGenerator)
+- applies sorting for all items (note that this does not work for object group subitems, these are sorted in ItemBlockSequenceGenerator)
 - api
   - getRefIdsOfType()
   - getAllRefIds()

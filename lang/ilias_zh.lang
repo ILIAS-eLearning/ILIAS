@@ -4400,8 +4400,6 @@ common#:#ip_address#:#IP地址
 common#:#is_already_your#:#已是您的
 common#:#italic_action#:#Insert Italic - Click to insert italic text.###26 08 2024 new variable
 common#:#item#:#条目
-common#:#itgr_add#:#添加项目(item)组
-common#:#itgr_new#:#新项目(item)组
 common#:#java_server#:#Java-服务器
 common#:#java_server_host#:#主机
 common#:#java_server_info#:#如果激活，它可以搜索PDF、HTML文件和HTML学习模块
@@ -4833,6 +4831,8 @@ common#:#nr_following_sessions#:#%1d 以下会话...
 common#:#num_of_selected_files#:#%s file(s) selected###24 10 2013 new variable
 common#:#num_users#:#用户数
 common#:#numberedlist_action#:#Insert Numbered List - Click to insert a numbered list.###26 08 2024 new variable
+common#:#obgr_add#:#添加项目(item)组
+common#:#obgr_new#:#新项目(item)组
 common#:#obj#:#对象
 common#:#obj_accs#:#可访问性
 common#:#obj_accs_desc#:#设置可访问特性。
@@ -4937,7 +4937,6 @@ common#:#obj_htlm_duplicate#:#复制HTML学习模块
 common#:#obj_iass#:#Individual Assessment###07 02 2017 new variable
 common#:#obj_iass_duplicate#:#Copy Individual Assessment###07 02 2017 new variable
 common#:#obj_iass_select#:#-- Please select one individual assessment --###07 02 2017 new variable
-common#:#obj_itgr#:#项目(Item)组
 common#:#obj_ldap_desc#:#在此配置LDAP
 common#:#obj_lhts#:#Learning History###07 02 2020 new variable
 common#:#obj_lhts_desc#:#Learning history settings###07 02 2020 new variable
@@ -4979,6 +4978,7 @@ common#:#obj_nots#:#Notes###07 02 2020 new variable
 common#:#obj_nots_desc#:#Notes settings###07 02 2020 new variable
 common#:#obj_nwss#:#新闻和Web Feeds设置
 common#:#obj_nwss_desc#:#内部新闻和外部web Feeds设置。
+common#:#obj_obgr#:#项目(Item)组
 common#:#obj_objf#:#对象定义
 common#:#obj_objf_desc#:#管理ILIAS对象类型和对象权限。（只适用于专家！）
 common#:#obj_orgu#:#Organisational Unit###24 10 2013 new variable
@@ -5147,7 +5147,6 @@ common#:#objs_grp#:#组
 common#:#objs_grpr#:#Group References###25 10 2016 new variable
 common#:#objs_htlm#:#HTML 学习模块
 common#:#objs_iass#:#Individual Assessments###07 02 2017 new variable
-common#:#objs_itgr#:#项目(Item)组
 common#:#objs_lm#:#学习模块
 common#:#objs_lres#:#学习资源
 common#:#objs_lso#:#Learning Sequences###10 11 2018 new variable
@@ -5155,6 +5154,7 @@ common#:#objs_lti#:#LTI Consumers###07 02 2020 new variable
 common#:#objs_mail#:#邮件
 common#:#objs_mcst#:#媒介画面
 common#:#objs_mep#:#媒介工具
+common#:#objs_obgr#:#项目(Item)组
 common#:#objs_orgu#:#Organisational Unit###24 10 2013 new variable
 common#:#objs_poll#:#投票
 common#:#objs_prg#:#Study Programmes###30 08 2015 new variable
@@ -6704,7 +6704,6 @@ content#:#cont_lrs_settings#:#设置
 content#:#cont_lvalue#:#数据元素
 content#:#cont_maintenance#:#维护
 content#:#cont_manifest#:#声明
-content#:#cont_manual_item_group#:#Manually Create Item Group###26 08 2024 new variable
 content#:#cont_map_file_not_generated#:#对不起。不能生成地图文件并编辑它。
 content#:#cont_marker#:#标记
 content#:#cont_master_language_only#:#Master Language for Translation###30 08 2015 new variable
@@ -10696,26 +10695,6 @@ irss#:#title_manage_container#:#Manage files and folders###26 08 2024 new variab
 irss#:#type#:#File Type###26 08 2024 new variable
 irss#:#upload_field_title#:#Selected Files###26 08 2024 new variable
 irss#:#upload_modal_title#:#Add Files###26 08 2024 new variable
-itgr#:#itgr_always_open#:#Always Open###31 08 2017 new variable
-itgr#:#itgr_assign_materials#:#Assign Materials###29 07 2022 new variable
-itgr#:#itgr_assigned_materials#:#已分配资料
-itgr#:#itgr_assignment#:#分配
-itgr#:#itgr_behaviour#:#Block Behaviour###31 08 2017 new variable
-itgr#:#itgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.###31 08 2017 new variable
-itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###25 10 2016 new variable
-itgr#:#itgr_edit#:#编辑项目(Item)组织
-itgr#:#itgr_expandable_closed#:#Expandable (initially closed)###31 08 2017 new variable
-itgr#:#itgr_expandable_open#:#Expandable (initially opened)###31 08 2017 new variable
-itgr#:#itgr_item#:#项目
-itgr#:#itgr_list#:#List###29 07 2022 new variable
-itgr#:#itgr_list_default#:#Default###29 07 2022 new variable
-itgr#:#itgr_list_default_info#:#Inherits value from upper container.###29 07 2022 new variable
-itgr#:#itgr_list_presentation#:#Item Presentation###29 07 2022 new variable
-itgr#:#itgr_materials#:#资料
-itgr#:#itgr_show_title#:#Show Title###31 08 2017 new variable
-itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.###31 08 2017 new variable
-itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
-itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
 jscalendar#:#about_calendar#:#关于这个日历
 jscalendar#:#about_calendar_long#:#DHTML 日期/时间选择器\n(c) dynarch.com 2002-2003\n 最新版本请访问：http://dynarch.com/mishoo/calendar.epl\n在GNU LGPL协议下发布。详情请看http://gnu.org/licenses/lgpl.html \n\n日期选择：\n- 使用 «、»按钮选择年份\n- 使用<、>按钮选择月份\n-在以上任意一个按钮上保持住鼠标按下状态来实现更快速的选择。
 jscalendar#:#about_time#:#\n\n时间选择：\n- 点击时间的任意部分递增\n- 或按住Shift键再点击递减\n- 或点击并拖动来更快速的选择。
@@ -13057,6 +13036,24 @@ notifications_adm#:#push_client_ios_case#:#If you are using IOS (Iphone, Ipad, I
 notifications_adm#:#push_settings#:#Push Notifications###29 10 2025 new variable
 notifications_adm#:#push_subscription_successfull#:#Push Notifications activation successful###29 10 2025 new variable
 notifications_adm#:#push_subscription_successfull_desc#:#This is a dummy notification to verify the successful activation of push notifications.###29 10 2025 new variable
+obgr#:#obgr_always_open#:#Always Open###31 08 2017 new variable
+obgr#:#obgr_assign_materials#:#Assign Materials###29 07 2022 new variable
+obgr#:#obgr_assigned_materials#:#已分配资料
+obgr#:#obgr_assignment#:#分配
+obgr#:#obgr_behaviour#:#Block Behaviour###31 08 2017 new variable
+obgr#:#obgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.###31 08 2017 new variable
+obgr#:#obgr_desc_info#:#The description will not be a part of the object group's presentation in its container.###25 10 2016 new variable
+obgr#:#obgr_edit#:#编辑项目(Item)组织
+obgr#:#obgr_expandable_closed#:#Expandable (initially closed)###31 08 2017 new variable
+obgr#:#obgr_expandable_open#:#Expandable (initially opened)###31 08 2017 new variable
+obgr#:#obgr_item#:#项目
+obgr#:#obgr_list#:#List###29 07 2022 new variable
+obgr#:#obgr_list_default#:#Default###29 07 2022 new variable
+obgr#:#obgr_list_default_info#:#Inherits value from upper container.###29 07 2022 new variable
+obgr#:#obgr_list_presentation#:#Item Presentation###29 07 2022 new variable
+obgr#:#obgr_materials#:#资料
+obgr#:#obgr_tile#:#Tiles###29 07 2022 new variable
+obgr#:#obgr_tile_size#:#Tile Size###29 07 2022 new variable
 obj#:#activation_visible_when_disabled#:#能见度
 obj#:#activation_visible_when_disabled_info#:#能见度
 obj#:#availability_period_changed#:#The availability period for the selected objects has been changed successfully.###26 08 2024 new variable
@@ -14344,12 +14341,6 @@ rbac#:#impr_write#:#User can edit content and settings of Legal Notice###29 10 2
 rbac#:#info_user_view_changed#:#用户视图已更改
 rbac#:#internal_mail#:#内部邮件
 rbac#:#invite#:#邀请调查
-rbac#:#itgr_copy#:#用户能复制项目(item)组
-rbac#:#itgr_delete#:#用户能移动或删除项目(item)组
-rbac#:#itgr_edit_permission#:#用户能更改权限设置
-rbac#:#itgr_read#:#用户可以读项目(Item)组
-rbac#:#itgr_visible#:#项目(item)组是可见的
-rbac#:#itgr_write#:#用户可以编辑内容和项目(item)组的设置
 rbac#:#leave#:#离开
 rbac#:#lhts_edit_permissions#:#User can change permission settings of Learning History administration.###29 07 2022 new variable
 rbac#:#lhts_read#:#User has read access to Learning History administration.###29 07 2022 new variable
@@ -14464,6 +14455,12 @@ rbac#:#nwss_edit_permission#:#改变权限设置
 rbac#:#nwss_read#:#新闻和Web Feeds设置为读访问
 rbac#:#nwss_visible#:#新闻和Web Feeds 设置可见
 rbac#:#nwss_write#:#编辑新闻和Web Feeds 设置
+rbac#:#obgr_copy#:#用户能复制项目(item)组
+rbac#:#obgr_delete#:#用户能移动或删除项目(item)组
+rbac#:#obgr_edit_permission#:#用户能更改权限设置
+rbac#:#obgr_read#:#用户可以读项目(Item)组
+rbac#:#obgr_visible#:#项目(item)组是可见的
+rbac#:#obgr_write#:#用户可以编辑内容和项目(item)组的设置
 rbac#:#obj_skee#:#Competence Tree###29 07 2022 new variable
 rbac#:#org_op_access_results#:#Access Results of Subordinated Users###10 11 2018 new variable
 rbac#:#org_op_edit_submissions_grades#:#Edit submissions of other users###22 11 2017 new variable
@@ -14602,12 +14599,12 @@ rbac#:#rbac_create_grp#:#创建组
 rbac#:#rbac_create_grpr#:#Create Group Reference###25 10 2016 new variable
 rbac#:#rbac_create_htlm#:#创建HTML学习模块
 rbac#:#rbac_create_iass#:#Create Individual Assessment###07 02 2017 new variable
-rbac#:#rbac_create_itgr#:#创建项目(Item)组
 rbac#:#rbac_create_lm#:#创建ILIAS学习模块
 rbac#:#rbac_create_lso#:#Create Learning Sequence###10 11 2018 new variable
 rbac#:#rbac_create_lti#:#Create LTI Consumer###07 02 2020 new variable
 rbac#:#rbac_create_mcst#:#创建媒体广播
 rbac#:#rbac_create_mep#:#创建媒体池
+rbac#:#rbac_create_obgr#:#创建项目(Item)组
 rbac#:#rbac_create_orgu#:#Create Organisational Units###11 03 2014 new variable
 rbac#:#rbac_create_poll#:#创建投票
 rbac#:#rbac_create_prg#:#Create Study Programme###08 10 2015 new variable

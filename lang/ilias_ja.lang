@@ -4413,8 +4413,6 @@ common#:#ip_address#:#IPアドレス
 common#:#is_already_your#:#既に
 common#:#italic_action#:#イタリックを挿入- クリックしてイタリック文字を挿入
 common#:#item#:#アイテム
-common#:#itgr_add#:#アイテムグループを追加
-common#:#itgr_new#:#新規アイテムグループ
 common#:#java_server#:#PDF Configuration###15 06 2026 new variable
 common#:#java_server_host#:#ホスト
 common#:#java_server_info#:#オンするとPDFやHTML ファイルとHTML-ラーニングモジュールの検索が可能です。
@@ -4847,6 +4845,8 @@ common#:#nr_following_sessions#:#%1d に続くセッション...
 common#:#num_of_selected_files#:#%sファイルが選択されました
 common#:#num_users#:#ユーザ数
 common#:#numberedlist_action#:#番号リストを挿入 - クリックして番号リストを挿入
+common#:#obgr_add#:#アイテムグループを追加
+common#:#obgr_new#:#新規アイテムグループ
 common#:#obj#:#オブジェクト
 common#:#obj_accs#:#アクセシビリティ
 common#:#obj_accs_desc#:#アクセシビリティー機能の設定
@@ -4949,7 +4949,6 @@ common#:#obj_htlm_duplicate#:#HTMLラーニングモジュールをコピー
 common#:#obj_iass#:#個別アセスメント
 common#:#obj_iass_duplicate#:#個別アセスメントをコピー
 common#:#obj_iass_select#:#-- 個別アセスメントを一つ選択してください --
-common#:#obj_itgr#:#アイテムグループ
 common#:#obj_ldap_desc#:#グローバルLDAP設定をここで構成します。
 common#:#obj_lhts#:#学習履歴
 common#:#obj_lhts_desc#:#学習履歴設定
@@ -4991,6 +4990,7 @@ common#:#obj_nots#:#Notes
 common#:#obj_nots_desc#:#Notes設定
 common#:#obj_nwss#:#ニュースとWebフィード
 common#:#obj_nwss_desc#:#内部ニュースとWebフィードの設定
+common#:#obj_obgr#:#アイテムグループ
 common#:#obj_objf#:#オブジェクト定義
 common#:#obj_orgu#:#組織単位
 common#:#obj_orgu_description#:#組織構造の作成と編集
@@ -5157,7 +5157,6 @@ common#:#objs_grp#:#グループ
 common#:#objs_grpr#:#Group Link
 common#:#objs_htlm#:#HTMLラーニングモジュール
 common#:#objs_iass#:#個別アセスメント
-common#:#objs_itgr#:#アイテムグループ
 common#:#objs_lm#:#ILIAS ラーニングモジュール
 common#:#objs_lres#:#学習リソース
 common#:#objs_lso#:#Learning Sequences
@@ -5165,6 +5164,7 @@ common#:#objs_lti#:#LTI Consumers
 common#:#objs_mail#:#メール
 common#:#objs_mcst#:#メディアキャスト
 common#:#objs_mep#:#メディア集
+common#:#objs_obgr#:#アイテムグループ
 common#:#objs_orgu#:#組織単位
 common#:#objs_poll#:#投票
 common#:#objs_prg#:#学習プログラム
@@ -6720,7 +6720,6 @@ content#:#cont_lrs_settings#:#設定
 content#:#cont_lvalue#:#データ要素
 content#:#cont_maintenance#:#メンテナンス
 content#:#cont_manifest#:#マニフェスト
-content#:#cont_manual_item_group#:#アイテムグループを手動作成
 content#:#cont_map_file_not_generated#:#申し訳ありませんが編集用のマップファイルを生成できません。
 content#:#cont_marker#:#マーカー
 content#:#cont_master_language_only#:#翻訳用のマスター言語
@@ -10720,27 +10719,6 @@ irss#:#title_manage_container#:#ファイルとフォルダを管理
 irss#:#type#:#ファイルタイプ
 irss#:#upload_field_title#:#選択されたファイル
 irss#:#upload_modal_title#:#ファイルを追加
-itgr#:#itgr_always_open#:#常時オープン
-itgr#:#itgr_assign_materials#:#教材を割当てる
-itgr#:#itgr_assigned_materials#:#割り当てる教材
-itgr#:#itgr_assignment#:#割り当て
-itgr#:#itgr_assignment_to_other_itgr#:#Already assigned to another Item Group###15 06 2026 new variable
-itgr#:#itgr_behaviour#:#ブロックの動作
-itgr#:#itgr_behaviour_info#:#現在のユーザがログアウトするまでの間システムは開いたもの/閉じたものを保存します。
-itgr#:#itgr_desc_info#:#説明はコンテナ内のグループプレゼンテーションの部分アイテムにはなりません。
-itgr#:#itgr_edit#:#アイテムグループを編集
-itgr#:#itgr_expandable_closed#:#拡張可(初期値は閉じている)
-itgr#:#itgr_expandable_open#:#拡張可(初期値は開いている)
-itgr#:#itgr_item#:#アイテム
-itgr#:#itgr_list#:#List
-itgr#:#itgr_list_default#:#Default
-itgr#:#itgr_list_default_info#:#上位コンテナからボリュームを引き継ぐ
-itgr#:#itgr_list_presentation#:#アイテムプレゼンテーション
-itgr#:#itgr_materials#:#材料
-itgr#:#itgr_show_title#:#タイトルを表示
-itgr#:#itgr_show_title_info#:#学習者用のプレゼンテーション内にアイテムグループのタイトルを表示します。
-itgr#:#itgr_tile#:#Tiles
-itgr#:#itgr_tile_size#:#Tile Size
 jscalendar#:#about_calendar#:#カレンダーについて
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector(c) dynarch.com 2002-2003。最新版のURL：http://dynarch.com/mishoo/calendar.epl GNU LGPLの下に配布。詳細はhttp://gnu.org/licenses/lgpl.html を参照の事。日付選択:-年を選択するには^A<と^A>ボタンを使用-月を選択するには<
 jscalendar#:#about_time#:#タイムセッション：- 増やすにはどこかをクリック- 減らすにはShiftをクリック- すばやく選択するにはクリックしてドラッグ
@@ -13143,6 +13121,25 @@ notifications_adm#:#push_settings#:#プッシュ通知
 notifications_adm#:#push_subscription_successfull#:#プッシュ通知有効化に成功
 notifications_adm#:#push_subscription_successfull_desc#:#これは、プッシュ通知の有効化が成功したことを確認するためのダミー通知です。
 notifications_adm#:#user_settings#:#ユーザ設定
+obgr#:#obgr_always_open#:#常時オープン
+obgr#:#obgr_assign_materials#:#教材を割当てる
+obgr#:#obgr_assigned_materials#:#割り当てる教材
+obgr#:#obgr_assignment#:#割り当て
+obgr#:#obgr_assignment_to_other_obgr#:#Already assigned to another Object Group###15 06 2026 new variable
+obgr#:#obgr_behaviour#:#ブロックの動作
+obgr#:#obgr_behaviour_info#:#現在のユーザがログアウトするまでの間システムは開いたもの/閉じたものを保存します。
+obgr#:#obgr_desc_info#:#説明はコンテナ内のグループプレゼンテーションの部分アイテムにはなりません。
+obgr#:#obgr_edit#:#アイテムグループを編集
+obgr#:#obgr_expandable_closed#:#拡張可(初期値は閉じている)
+obgr#:#obgr_expandable_open#:#拡張可(初期値は開いている)
+obgr#:#obgr_item#:#アイテム
+obgr#:#obgr_list#:#List
+obgr#:#obgr_list_default#:#Default
+obgr#:#obgr_list_default_info#:#上位コンテナからボリュームを引き継ぐ
+obgr#:#obgr_list_presentation#:#アイテムプレゼンテーション
+obgr#:#obgr_materials#:#材料
+obgr#:#obgr_tile#:#Tiles
+obgr#:#obgr_tile_size#:#Tile Size
 obj#:#activation_visible_when_disabled#:#表示
 obj#:#activation_visible_when_disabled_info#:#アイテムは、選択されたアベイラビリティ期間外に表示されますが、開くことはできません。
 obj#:#availability_period_changed#:#選択されたオブジェクトのアベイラビリティ期間は正しく変更されました。
@@ -14419,12 +14416,6 @@ rbac#:#impr_write#:#ユーザはコンテンツと法的管理設定を変更で
 rbac#:#info_user_view_changed#:#ユーザ表示の変更
 rbac#:#internal_mail#:#内部メール
 rbac#:#invite#:#サーベイへ招待
-rbac#:#itgr_copy#:#ユーザはアイテムグループをコピーできます
-rbac#:#itgr_delete#:#ユーザはアイテムグループをコピーできます
-rbac#:#itgr_edit_permission#:#ユーザはアクセス権設定を変更できます
-rbac#:#itgr_read#:#ユーザはアイテムグループを読み込みできます
-rbac#:#itgr_visible#:#アイテムグループを表示
-rbac#:#itgr_write#:#ユーザは内容とアイテムグループ編集ができます
 rbac#:#leave#:#退室
 rbac#:#lhts_edit_permissions#:#ユーザは学習履歴管理のアクセス権設定変更ができます。
 rbac#:#lhts_read#:#ユーザは学習履歴管理の読込みアクセス権があります。
@@ -14539,6 +14530,12 @@ rbac#:#nwss_edit_permission#:#ユーザはニュースとWebフィード管理�
 rbac#:#nwss_read#:#ユーザはニュースとWebフィード管理の読込アクセス権があります
 rbac#:#nwss_visible#:#ニュースとWebフィード管理を表示
 rbac#:#nwss_write#:#ユーザはニュースとWebフィード管理設定を変更できます
+rbac#:#obgr_copy#:#ユーザはアイテムグループをコピーできます
+rbac#:#obgr_delete#:#ユーザはアイテムグループをコピーできます
+rbac#:#obgr_edit_permission#:#ユーザはアクセス権設定を変更できます
+rbac#:#obgr_read#:#ユーザはアイテムグループを読み込みできます
+rbac#:#obgr_visible#:#アイテムグループを表示
+rbac#:#obgr_write#:#ユーザは内容とアイテムグループ編集ができます
 rbac#:#obj_skee#:#Competenceツリー
 rbac#:#org_op_access_results#:#配下のユーザのアクセス結果
 rbac#:#org_op_edit_submissions_grades#:#他のユーザの提出を編集
@@ -14680,12 +14677,12 @@ rbac#:#rbac_create_grp#:#グループを作成
 rbac#:#rbac_create_grpr#:#グループレファレンスを作成
 rbac#:#rbac_create_htlm#:#HTMLラーニングモジュールを作成
 rbac#:#rbac_create_iass#:#個別アセスメントを作成
-rbac#:#rbac_create_itgr#:#アイテムグループ作成
 rbac#:#rbac_create_lm#:#ILIASラーニングモジュールを作成
 rbac#:#rbac_create_lso#:#Create Learning Sequence
 rbac#:#rbac_create_lti#:#LTI Consumeを作成
 rbac#:#rbac_create_mcst#:#メディアキャストを作成
 rbac#:#rbac_create_mep#:#メディア集を作成
+rbac#:#rbac_create_obgr#:#アイテムグループ作成
 rbac#:#rbac_create_orgu#:#組織ユニットを作成
 rbac#:#rbac_create_poll#:#投票を作成
 rbac#:#rbac_create_prg#:#学習プログラムを作成

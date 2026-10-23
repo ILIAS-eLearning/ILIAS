@@ -1,0 +1,538 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\ILIASObject\Creation\AddNewItemGUI;
+use ILIAS\ObjectGroup\Objects\Table\ObjectsTable;
+use ILIAS\ObjectGroup\StandardGUIRequest;
+use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
+use ILIAS\UI\URLBuilder;
+
+/**
+ * User Interface class for object groups
+ * @author Alexander Killing <killing@leifos.de>
+ * @ilCtrl_Calls ilObjObjectGroupGUI: ilPermissionGUI, ilDidacticTemplateGUI
+ * @ilCtrl_Calls ilObjObjectGroupGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI,
+ * @ilCtrl_Calls ilObjObjectGroupGUI: ILIAS\ILIASObject\Properties\Translations\TranslationGUI,
+ * @ilCtrl_isCalledBy ilObjObjectGroupGUI: ilRepositoryGUI, ilAdministrationGUI
+ */
+class ilObjObjectGroupGUI extends ilObject2GUI
+{
+    protected \ILIAS\ObjectGroup\InternalGUIService $gui;
+    protected StandardGUIRequest $og_request;
+    protected ilTabsGUI $tabs;
+    protected ilHelpGUI $help;
+    private readonly DataFactory $data_factory;
+
+    public function __construct(
+        int $a_id = 0,
+        int $a_id_type = self::REPOSITORY_NODE_ID,
+        int $a_parent_node_id = 0
+    ) {
+        global $DIC;
+        parent::__construct($a_id, $a_id_type, $a_parent_node_id);
+
+        $this->lng = $DIC->language();
+        $this->tabs = $DIC->tabs();
+        $this->access = $DIC->access();
+        $this->tpl = $DIC["tpl"];
+        $this->ctrl = $DIC->ctrl();
+        $this->locator = $DIC["ilLocator"];
+        $this->tree = $DIC->repositoryTree();
+        $this->help = $DIC["ilHelp"];
+        $this->gui = $DIC->objectGroup()->internal()->gui();
+        $this->og_request = $this->gui
+            ->standardRequest();
+        $this->data_factory = new DataFactory();
+    }
+
+    protected function afterConstructor(): void
+    {
+        $lng = $this->lng;
+
+        $lng->loadLanguageModule("obgr");
+        $this->ctrl->saveParameter($this, array("ref_id"));
+    }
+
+    final public function getType(): string
+    {
+        return "obgr";
+    }
+
+    public function executeCommand(): void
+    {
+        $ilTabs = $this->tabs;
+        $next_class = $this->ctrl->getNextClass($this);
+
+        switch ($next_class) {
+            case 'ilpermissiongui':
+                $this->prepareOutput();
+                $ilTabs->activateTab("perm_settings");
+                $this->addHeaderAction();
+                $perm_gui = new ilPermissionGUI($this);
+                $this->ctrl->forwardCommand($perm_gui);
+                break;
+
+            case "ilcommonactiondispatchergui":
+                $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+                $this->ctrl->forwardCommand($gui);
+                break;
+
+            case strtolower(TranslationGUI::class):
+                $this->checkPermissionBool("write");
+                $this->prepareOutput();
+                $this->setSettingsSubTabs("settings_trans");
+                $transgui = new TranslationGUI(
+                    $this->getObject(),
+                    $this->lng,
+                    $this->access,
+                    $this->user,
+                    $this->ctrl,
+                    $this->tpl,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->http,
+                    $this->refinery,
+                    $this->toolbar
+                );
+                $transgui->supportContentTranslation(false);
+                $this->ctrl->forwardCommand($transgui);
+                break;
+
+            case 'ildidactictemplategui':
+                $this->checkPermissionBool("write");
+                $this->prepareOutput();
+                $this->ctrl->setReturn($this, 'edit');
+                $did = new ilDidacticTemplateGUI($this, $this->og_request->getDidactivTemplateId());
+                $this->ctrl->forwardCommand($did);
+                break;
+
+            default:
+                $cmd = $this->ctrl->getCmd("listMaterials");
+                $this->prepareOutput();
+                $this->addHeaderAction();
+                $this->$cmd();
+                break;
+        }
+    }
+
+    public function addLocatorItems(): void
+    {
+        $ilLocator = $this->locator;
+        $ilAccess = $this->access;
+
+        if (is_object($this->object) && $ilAccess->checkAccess("write", "", $this->object->getRefId())) {
+            $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "listMaterials"), "", $this->requested_ref_id);
+        }
+    }
+
+    protected function initEditCustomForm(ilPropertyFormGUI $form): void
+    {
+        $form->removeItemByPostVar("desc");
+
+        // Show didactic template type
+        $this->initDidacticTemplate($form);
+
+        // presentation
+        $pres = new ilFormSectionHeaderGUI();
+        $pres->setTitle($this->lng->txt('obj_presentation'));
+        $form->addItem($pres);
+
+        // display
+        $display_radio_group = new ilRadioGroupInputGUI($this->lng->txt('obgr_display'), ilObjectGroupAR::DISPLAY);
+        $display_radio_group->setRequired(true);
+        $form->addItem($display_radio_group);
+
+        $no_title_option = new ilRadioOption(
+            $this->lng->txt('obgr_display_without_title'),
+            ilObjectGroupAR::DISPLAY_WITHOUT_TITLE
+        );
+        $display_radio_group->addOption($no_title_option);
+
+        $with_title_option = new ilRadioOption(
+            $this->lng->txt('obgr_display_with_title'),
+            ilObjectGroupAR::DISPLAY_WITH_TITLE
+        );
+        $display_radio_group->addOption($with_title_option);
+
+        $with_title_and_toggleable_option = new ilRadioOption(
+            $this->lng->txt('obgr_display_with_title_and_toggleable'),
+            ilObjectGroupAR::DISPLAY_WITH_TITLE_AND_TOGGLEABLE
+        );
+        $with_title_and_toggleable_option_radio_group = new ilRadioGroupInputGUI(
+            $this->lng->txt('obgr_display_with_title_and_toggleable'),
+            ilObjectGroupAR::DISPLAY_WITH_TITLE_AND_TOGGLEABLE_INITIALLY
+        );
+        $with_title_and_toggleable_option_radio_group->setRequired(true);
+        $with_title_and_toggleable_option_radio_group->addOption(
+            new ilRadioOption(
+                $this->lng->txt('obgr_display_with_title_and_toggleable_initially_closed'),
+                ilObjectGroupAR::DISPLAY_WITH_TITLE_AND_TOGGLEABLE_INITIALLY_CLOSED
+            )
+        );
+        $with_title_and_toggleable_option_radio_group->addOption(
+            new ilRadioOption(
+                $this->lng->txt('obgr_display_with_title_and_toggleable_initially_open'),
+                ilObjectGroupAR::DISPLAY_WITH_TITLE_AND_TOGGLEABLE_INITIALLY_OPEN
+            )
+        );
+        $with_title_and_toggleable_option->addSubItem($with_title_and_toggleable_option_radio_group);
+        $display_radio_group->addOption($with_title_and_toggleable_option);
+
+        // tile/list
+        $lpres = new ilRadioGroupInputGUI($this->lng->txt('obgr_list_presentation'), "list_presentation");
+
+        $std_list = new ilRadioOption($this->lng->txt('obgr_list_default'), "");
+        $std_list->setInfo($this->lng->txt('obgr_list_default_info'));
+        $lpres->addOption($std_list);
+
+        $item_list = new ilRadioOption($this->lng->txt('obgr_list'), "list");
+        $lpres->addOption($item_list);
+
+        $tile_view = new ilRadioOption($this->lng->txt('obgr_tile'), "tile");
+        $lpres->addOption($tile_view);
+
+        // tile size
+        $si = new ilRadioGroupInputGUI($this->lng->txt("obgr_tile_size"), "tile_size");
+        $dummy_container = new ilContainer();
+        $this->lng->loadLanguageModule("cont");
+        foreach ($dummy_container->getTileSizes() as $key => $txt) {
+            $op = new ilRadioOption($txt, $key);
+            $si->addOption($op);
+        }
+        $tile_view->addSubItem($si);
+        $si->setValue($this->object->getTileSize());
+
+        $lpres->setValue($this->object->getListPresentation());
+        $form->addItem($lpres);
+    }
+
+    public function edit(): void
+    {
+        if (!$this->checkPermissionBool("write")) {
+            $this->error->raiseError($this->lng->txt("msg_no_perm_write"), $this->error->MESSAGE);
+        }
+
+        $this->tabs_gui->activateTab("settings");
+
+        $form = $this->initEditForm();
+        $values = $this->getEditFormValues();
+        if ($values) {
+            $form->setValuesByArray($values, true);
+        }
+
+        $this->addExternalEditFormCustom($form);
+
+        $this->tpl->setContent($form->getHTML());
+        $this->setSettingsSubTabs("general");
+    }
+
+    protected function afterUpdate(): void
+    {
+        // check if template is changed
+        $current_tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId(
+            $this->object->getRefId()
+        );
+        $new_tpl_id = $this->getDidacticTemplateVar('dtpl');
+
+        if ($new_tpl_id !== $current_tpl_id) {
+            $this->ctrl->setParameterByClass(ilDidacticTemplateGUI::class, "didactic_type", $new_tpl_id);
+            $this->ctrl->redirectByClass(ilDidacticTemplateGUI::class, "confirmTemplateSwitch");
+            return;
+        }
+        parent::afterUpdate();
+    }
+
+    public function listMaterials(): void
+    {
+        $this->checkPermission("write");
+
+        $this->tabs->activateTab("materials");
+
+        $parent_ref_id = $this->tree->getParentId($this->object->getRefId());
+        $parent_type = ilObject::_lookupType($parent_ref_id, true);
+        $parent_gui_class = "ilObj{$this->obj_definition->getClassName($parent_type)}GUI";
+        $this->ctrl->setParameterByClass($parent_gui_class, 'ref_id', $parent_ref_id);
+        $add_new_item_gui = $this->resolveAddNewItemGUI();
+        $add_new_item_gui->renderToolbarAction();
+        $this->ctrl->clearParameterByClass($parent_gui_class, 'ref_id');
+
+
+        $this->tpl->setContent(
+            $this->ui_renderer->render(
+                $this->configureObjectsTable()->getComponents($this->getTableActionUrlBuilder())
+            )
+        );
+    }
+
+    public function resolveAddNewItemGUI(): AddNewItemGUI
+    {
+        $parent_ref_id = $this->tree->getParentId($this->object->getRefId());
+        $parent_type = ilObject::_lookupType($parent_ref_id, true);
+        $parent_gui_class = "ilObj{$this->obj_definition->getClassName($parent_type)}GUI";
+
+        return new AddNewItemGUI(
+            $this->buildAddNewItemElements(
+                $this->getCreatableObjectTypes(),
+                $parent_gui_class,
+                $this->object->getRefId()
+            )
+        );
+    }
+
+    public function executeTableAction(): void
+    {
+        $this->checkPermission('write');
+        $this->configureObjectsTable()->execute($this->getTableActionUrlBuilder());
+    }
+
+    private function configureObjectsTable(): ObjectsTable
+    {
+        return new ObjectsTable(
+            $this->ctrl,
+            $this->lng,
+            $this->tpl,
+            $this->ui_factory,
+            $this->ui_renderer,
+            $this->http,
+            $this->refinery,
+            $this->object->getRefId(),
+            $this->object->getId()
+        );
+    }
+
+    private function getTableActionUrlBuilder(): URLBuilder
+    {
+        return new URLBuilder($this->data_factory->uri(
+            ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget($this, 'executeTableAction')
+        ));
+    }
+
+    public function getCreatableObjectTypes(): array
+    {
+        $parent_ref_id = $this->tree->getParentId($this->object->getRefId());
+        $parent_type = ilObject::_lookupType($parent_ref_id, true);
+        $parent_gui_class = 'ilObj' . $this->obj_definition->getClassName($parent_type) . 'GUI';
+        $parent_gui = new $parent_gui_class('', $parent_ref_id, true, false);
+        $types = $parent_gui->getCreatableObjectTypes();
+        foreach (array_merge(['obgr', 'sess' ], $this->obj_definition->getSideBlockTypes()) as $type_to_remove) {
+            unset($types[$type_to_remove]);
+        }
+        return $types;
+    }
+
+    public function getTemplate(): void
+    {
+        $this->tpl->loadStandardTemplate();
+    }
+
+    protected function setTabs(): void
+    {
+        $ilAccess = $this->access;
+        $ilTabs = $this->tabs;
+        $ilHelp = $this->help;
+        $lng = $this->lng;
+        $tree = $this->tree;
+
+        $ilHelp->setScreenIdComponent("obgr");
+
+        $parent_ref_id = $tree->getParentId($this->object->getRefId());
+        $parent_obj_id = ilObject::_lookupObjId($parent_ref_id);
+        $parent_type = ilObject::_lookupType($parent_obj_id);
+
+        $ilTabs->setBackTarget(
+            $lng->txt('obj_' . $parent_type),
+            ilLink::_getLink($parent_ref_id),
+            "_top"
+        );
+
+        if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
+            $ilTabs->addTab(
+                'materials',
+                $lng->txt('obgr_materials'),
+                $this->ctrl->getLinkTarget($this, 'listMaterials')
+            );
+
+            $ilTabs->addTab(
+                'settings',
+                $lng->txt('settings'),
+                $this->ctrl->getLinkTarget($this, 'edit')
+            );
+        }
+
+        if ($ilAccess->checkAccess("edit_permission", "", $this->object->getRefId())) {
+            $ilTabs->addTab(
+                "perm_settings",
+                $lng->txt('perm_settings'),
+                $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm")
+            );
+        }
+    }
+
+    protected function setSettingsSubTabs(string $active_tab = "general"): void
+    {
+        $this->tabs_gui->addSubTab(
+            "general",
+            $this->lng->txt("settings"),
+            $this->ctrl->getLinkTarget($this, "edit")
+        );
+
+        $this->tabs_gui->addSubTab(
+            "settings_trans",
+            $this->lng->txt("obj_multilinguality"),
+            $this->ctrl->getLinkTargetByClass(TranslationGUI::class, "")
+        );
+        $this->tabs_gui->activateTab("settings");
+        $this->tabs_gui->activateSubTab($active_tab);
+    }
+
+    public static function _goto(string $a_target): void
+    {
+        global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
+
+        $ilAccess = $DIC->access();
+        $lng = $DIC->language();
+        $tree = $DIC->repositoryTree();
+
+        $targets = explode('_', $a_target);
+        $ref_id = $targets[0];
+        $par_id = $tree->getParentId($ref_id);
+
+        if ($ilAccess->checkAccess("read", "", $par_id)) {
+            ilUtil::redirect(ilLink::_getLink($par_id));
+            exit;
+        } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
+            $main_tpl->setOnScreenMessage('failure', sprintf(
+                $lng->txt("msg_no_perm_read_item"),
+                ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+            ), true);
+            ilObjectGUI::_gotoRepositoryRoot();
+        }
+
+        throw new ilPermissionException($lng->txt("msg_no_perm_read"));
+    }
+
+    public function gotoParent(): void
+    {
+        $ilAccess = $this->access;
+        $tree = $this->tree;
+
+        $ref_id = $this->object->getRefId();
+        $par_id = $tree->getParentId($ref_id);
+
+        if ($ilAccess->checkAccess("read", "", $par_id)) {
+            ilUtil::redirect(ilLink::_getLink($par_id));
+            exit;
+        }
+    }
+
+    /**
+     * Custom callback after object is created (in parent container)
+     */
+    public function afterSaveCallback(ilObject $a_obj): void
+    {
+        // add new object to materials
+        $items = new ilObjectGroupItems($this->object->getRefId());
+        $items->addItem($a_obj->getRefId());
+        $items->update();
+    }
+
+    /**
+     * Get edit form values (custom part)
+     */
+    protected function getEditFormCustomValues(array &$a_values): void
+    {
+        /** @var ilObjObjectGroup $object */
+        $object = $this->getObject();
+        $a_values[ilObjectGroupAR::DISPLAY] = $object->getDisplay();
+        $a_values[ilObjectGroupAR::DISPLAY_WITH_TITLE_AND_TOGGLEABLE_INITIALLY] = $object->getDisplayWithTitleAndToggleableInitially();
+        $a_values['list_presentation'] = $object->getListPresentation();
+        $a_values['tile_size'] = $object->getTileSize();
+    }
+
+    protected function updateCustom(ilPropertyFormGUI $form): void
+    {
+        /** @var ilObjObjectGroup $object */
+        $object = $this->getObject();
+        $object->setDisplay($form->getInput(ilObjectGroupAR::DISPLAY));
+        $object->setDisplayWithTitleAndToggleableInitially($form->getInput(ilObjectGroupAR::DISPLAY_WITH_TITLE_AND_TOGGLEABLE_INITIALLY));
+        $object->setListPresentation($form->getInput('list_presentation'));
+        $object->setTileSize($form->getInput('tile_size'));
+    }
+
+    protected function initCreateForm(string $new_type): \ILIAS\UI\Component\Input\Container\Form\Standard
+    {
+        $object = $this->getObject();
+        if ($object === null) {
+            $object = new ilObject();
+        }
+        $form_fields['title'] = $this->ui_factory->input()->field()->text($this->lng->txt('title'))
+            ->withMaxLength(ilObject::TITLE_LENGTH)
+            ->withRequired(true);
+
+        $didactic_templates = $this->didacticTemplatesToForm();
+
+        if ($didactic_templates !== null) {
+            $form_fields['didactic_templates'] = $didactic_templates;
+        }
+
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'save'),
+            $form_fields
+        )->withSubmitLabel($this->lng->txt($new_type . '_add'));
+    }
+
+    public function save(): void
+    {
+        // create permission is already checked in createObject. This check here is done to prevent hacking attempts
+        if (!$this->checkPermissionBool("create", "", $this->requested_new_type)) {
+            $this->error->raiseError($this->lng->txt("no_create_permission"), $this->error->MESSAGE);
+        }
+
+        $this->lng->loadLanguageModule($this->requested_new_type);
+        $this->ctrl->setParameter($this, "new_type", $this->requested_new_type);
+
+        $form = $this->initCreateForm($this->requested_new_type);
+        $data = $form->withRequest($this->request)->getData();
+        if ($data === null) {
+            $this->tpl->setContent($this->getCreationFormsHTML($form));
+            return;
+        }
+
+        $this->ctrl->setParameter($this, 'new_type', '');
+
+        $new_obj = new ilObjObjectGroup();
+        $new_obj->setType($this->requested_new_type);
+        $new_obj->processAutoRating();
+        $new_obj->setTitle($data['title']);
+        $new_obj->create();
+
+        $this->putObjectInTree($new_obj);
+
+        $dtpl = $data['didactic_templates'] ?? null;
+        if ($dtpl !== null) {
+            $dtpl_id = $this->parseDidacticTemplateVar($dtpl, 'dtpl');
+            $new_obj->applyDidacticTemplate($dtpl_id);
+        }
+
+        $this->ctrl->setParameterByClass(self::class, 'ref_id', $new_obj->getRefId());
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
+        $this->ctrl->redirectByClass(self::class, "listMaterials");
+    }
+}

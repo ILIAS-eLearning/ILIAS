@@ -4400,8 +4400,6 @@ common#:#ip_address#:#Indirizzo IP
 common#:#is_already_your#:#è già suo
 common#:#italic_action#:#Insert Italic - Click to insert italic text.###30 04 2024 new variable
 common#:#item#:#voce
-common#:#itgr_add#:#Aggiungi gruppo di elementi
-common#:#itgr_new#:#Nuovo gruppo di elementi
 common#:#java_server#:#Server Java
 common#:#java_server_host#:#Host
 common#:#java_server_info#:#Se attivato, è possibile cercare nei file PDF, HTML e nelle unita' didattiche HTML.
@@ -4834,6 +4832,8 @@ common#:#nr_following_sessions#:#%1sessione/i seguente/i...
 common#:#num_of_selected_files#:#%s file selezionato/i
 common#:#num_users#:#Numero di utenti
 common#:#numberedlist_action#:#Insert Numbered List - Click to insert a numbered list.###30 04 2024 new variable
+common#:#obgr_add#:#Aggiungi gruppo di elementi
+common#:#obgr_new#:#Nuovo gruppo di elementi
 common#:#obj#:#Oggetto
 common#:#obj_accs#:#Accessibilità
 common#:#obj_accs_desc#:#Impostazioni per le funzioni di accessibilità.
@@ -4938,7 +4938,6 @@ common#:#obj_htlm_duplicate#:#Copia modulo di apprendimento HTML
 common#:#obj_iass#:#Assegnazione individuale
 common#:#obj_iass_duplicate#:#Copia assegnazione individuale
 common#:#obj_iass_select#:#-- Si prega di selezionare un’assegnazione individuale --
-common#:#obj_itgr#:#Voce gruppo
 common#:#obj_ldap_desc#:#Configura le impostazioni globali LDAP.
 common#:#obj_lhts#:#Storia del percorso di apprendimento
 common#:#obj_lhts_desc#:#Impostazioni
@@ -4980,6 +4979,7 @@ common#:#obj_nots#:#Note
 common#:#obj_nots_desc#:#Impostazioni Note
 common#:#obj_nwss#:#Impostazioni notizie e feed Web
 common#:#obj_nwss_desc#:#Impostazioni per novità interne e feed web esterni.
+common#:#obj_obgr#:#Voce gruppo
 common#:#obj_objf#:#Gestione oggetti
 common#:#obj_objf_desc#:#Per configurare i tipi di oggetto ed i permessi sugli stessi (solo per utenti esperti!).
 common#:#obj_orgu#:#Unità organizzativa
@@ -5148,7 +5148,6 @@ common#:#objs_grp#:#Gruppi
 common#:#objs_grpr#:#Riferimenti di gruppo
 common#:#objs_htlm#:#Moduli HTML
 common#:#objs_iass#:#Assegnazioni individuali
-common#:#objs_itgr#:#Voce gruppi
 common#:#objs_lm#:#Moduli ILIAS
 common#:#objs_lres#:#Risorse di apprendimento
 common#:#objs_lso#:#Sequenze di apprendimento
@@ -5156,6 +5155,7 @@ common#:#objs_lti#:#Consumer LTI
 common#:#objs_mail#:#Mail
 common#:#objs_mcst#:#Mediacast
 common#:#objs_mep#:#Librerie multimediali
+common#:#objs_obgr#:#Voce gruppi
 common#:#objs_orgu#:#Unità organizzative
 common#:#objs_poll#:#Gruppi
 common#:#objs_prg#:#Programmi di studio
@@ -6706,7 +6706,6 @@ content#:#cont_lrs_settings#:#Impostazioni
 content#:#cont_lvalue#:#Elemento dati
 content#:#cont_maintenance#:#Manutenzione
 content#:#cont_manifest#:#Manifesto
-content#:#cont_manual_item_group#:#Manually Create Item Group###30 04 2024 new variable
 content#:#cont_map_file_not_generated#:#Non è possibile generare la map file per l'editing.
 content#:#cont_marker#:#Indicatore
 content#:#cont_master_language_only#:#Lingua principale per traduzione
@@ -10699,26 +10698,6 @@ irss#:#title_manage_container#:#Manage files and folders###28 11 2025 new variab
 irss#:#type#:#File Type###30 04 2024 new variable
 irss#:#upload_field_title#:#Selected Files###30 04 2024 new variable
 irss#:#upload_modal_title#:#Add Files###30 04 2024 new variable
-itgr#:#itgr_always_open#:#Sempre aperto
-itgr#:#itgr_assign_materials#:#Assign Materials###31 03 2023 new variable
-itgr#:#itgr_assigned_materials#:#materiali assegnati
-itgr#:#itgr_assignment#:#assegnazione
-itgr#:#itgr_behaviour#:#Comportamento del blocco
-itgr#:#itgr_behaviour_info#:#Il sistema memorizzerà lo stato aperto/chiuso per l'utente attuale fino alla disconnessione.
-itgr#:#itgr_desc_info#:#La descrizione non sarà una parte della voce del gruppo di articoli nel relativo contenitore.
-itgr#:#itgr_edit#:#modifica gruppi di oggetti
-itgr#:#itgr_expandable_closed#:#Espandibile (inizialmente chiuso)
-itgr#:#itgr_expandable_open#:#Espandibile (inizialmente aperto)
-itgr#:#itgr_item#:#oggetto
-itgr#:#itgr_list#:#List###31 03 2023 new variable
-itgr#:#itgr_list_default#:#Default###31 03 2023 new variable
-itgr#:#itgr_list_default_info#:#Inherits value from upper container.###31 03 2023 new variable
-itgr#:#itgr_list_presentation#:#Item Presentation###31 03 2023 new variable
-itgr#:#itgr_materials#:#Materiali
-itgr#:#itgr_show_title#:#Mostra titolo
-itgr#:#itgr_show_title_info#:#Mostra il titolo del gruppo di articoli nella presentazione per l’allievo.
-itgr#:#itgr_tile#:#Tiles###31 03 2023 new variable
-itgr#:#itgr_tile_size#:#Tile Size###31 03 2023 new variable
 jscalendar#:#about_calendar#:#Informazioni sul calendario
 jscalendar#:#about_calendar_long#:#Selettore data / ora DHTML   (c) dynarch.com 2002-2003  Per l'ultima versione visitare: http://dynarch.com/mishoo/calendar.epl  Distribuito sotto GNU LGPL. Vedi http://gnu.org/licenses/lgpl.html per i dettagli.    Data selezione:  - Usa i pulsanti Â «, Â» per selezionare l'anno  - Usa i pulsanti <,> per selezionare il mese  - Tieni premuto il pulsante del mouse su uno dei pulsanti sopra per una selezione più rapida.
 jscalendar#:#about_time#:#   Tempo di tempo:  - Fai clic su una delle parti del tempo per aumentarlo  - o Maiusc + clic per ridurlo  - oppure fai clic e trascina per una selezione più rapida.
@@ -13064,6 +13043,24 @@ notifications_adm#:#push_settings#:#Push Notifications###28 11 2025 new variable
 notifications_adm#:#push_subscription_successfull#:#Push Notifications activation successful###28 11 2025 new variable
 notifications_adm#:#push_subscription_successfull_desc#:#This is a dummy notification to verify the successful activation of push notifications.###28 11 2025 new variable
 notifications_adm#:#user_settings#:#User Settings###28 11 2025 new variable
+obgr#:#obgr_always_open#:#Sempre aperto
+obgr#:#obgr_assign_materials#:#Assign Materials###31 03 2023 new variable
+obgr#:#obgr_assigned_materials#:#materiali assegnati
+obgr#:#obgr_assignment#:#assegnazione
+obgr#:#obgr_behaviour#:#Comportamento del blocco
+obgr#:#obgr_behaviour_info#:#Il sistema memorizzerà lo stato aperto/chiuso per l'utente attuale fino alla disconnessione.
+obgr#:#obgr_desc_info#:#La descrizione non sarà una parte della voce del gruppo di articoli nel relativo contenitore.
+obgr#:#obgr_edit#:#modifica gruppi di oggetti
+obgr#:#obgr_expandable_closed#:#Espandibile (inizialmente chiuso)
+obgr#:#obgr_expandable_open#:#Espandibile (inizialmente aperto)
+obgr#:#obgr_item#:#oggetto
+obgr#:#obgr_list#:#List###31 03 2023 new variable
+obgr#:#obgr_list_default#:#Default###31 03 2023 new variable
+obgr#:#obgr_list_default_info#:#Inherits value from upper container.###31 03 2023 new variable
+obgr#:#obgr_list_presentation#:#Item Presentation###31 03 2023 new variable
+obgr#:#obgr_materials#:#Materiali
+obgr#:#obgr_tile#:#Tiles###31 03 2023 new variable
+obgr#:#obgr_tile_size#:#Tile Size###31 03 2023 new variable
 obj#:#activation_visible_when_disabled#:#Visibility###30 04 2024 new variable
 obj#:#activation_visible_when_disabled_info#:#The item is visible outside of the selected availability period, but it cannot be opened.###30 04 2024 new variable
 obj#:#availability_period_changed#:#The availability period for the selected objects has been changed successfully.###30 04 2024 new variable
@@ -14351,12 +14348,6 @@ rbac#:#impr_write#:#User can edit content and settings of Legal Notice###01 04 2
 rbac#:#info_user_view_changed#:#Vista dell'utente modificata
 rbac#:#internal_mail#:#Mail interna
 rbac#:#invite#:#Invita per il sondaggio
-rbac#:#itgr_copy#:#L’utente può copiare il gruppo di elementi
-rbac#:#itgr_delete#:#L’utente può spostare o eliminare il gruppo di elementi
-rbac#:#itgr_edit_permission#:#L’utente può modificare le impostazioni di autorizzazione
-rbac#:#itgr_read#:#L'utente può leggere il gruppo di articoli
-rbac#:#itgr_visible#:#Il gruppo di articoli è visibile
-rbac#:#itgr_write#:#L’utente può modificare il contenuto e le impostazioni del gruppo di elementi
 rbac#:#leave#:#Abbandona
 rbac#:#lhts_edit_permissions#:#L'utente può cambiare le impostazioni di autorizzazione dell'amministrazione di Learning History.
 rbac#:#lhts_read#:#L'utente ha accesso in lettura all'amministrazione di Learning History.
@@ -14471,6 +14462,12 @@ rbac#:#nwss_edit_permission#:#Modifica impostazioni dei permessi
 rbac#:#nwss_read#:#Accesso in lettura alle impostazioni Notizie e feed Web
 rbac#:#nwss_visible#:#Le impostazioni delle notizie e dei feed web sono visibili
 rbac#:#nwss_write#:#Modifica le impostazioni alle News ed ai Web Feeds
+rbac#:#obgr_copy#:#L’utente può copiare il gruppo di elementi
+rbac#:#obgr_delete#:#L’utente può spostare o eliminare il gruppo di elementi
+rbac#:#obgr_edit_permission#:#L’utente può modificare le impostazioni di autorizzazione
+rbac#:#obgr_read#:#L'utente può leggere il gruppo di articoli
+rbac#:#obgr_visible#:#Il gruppo di articoli è visibile
+rbac#:#obgr_write#:#L’utente può modificare il contenuto e le impostazioni del gruppo di elementi
 rbac#:#obj_skee#:#Competence Tree###31 03 2023 new variable
 rbac#:#org_op_access_results#:#Risultati di accesso degli utenti subordinati
 rbac#:#org_op_edit_submissions_grades#:#Modifica le presentazioni degli altri utenti
@@ -14609,12 +14606,12 @@ rbac#:#rbac_create_grp#:#Crea gruppo
 rbac#:#rbac_create_grpr#:#Crea un riferimento di gruppo
 rbac#:#rbac_create_htlm#:#Crea modulo di apprendimento HTML
 rbac#:#rbac_create_iass#:#Crea assegnazione individuale
-rbac#:#rbac_create_itgr#:#Crea gruppo di elementi
 rbac#:#rbac_create_lm#:#Crea modulo di apprendimento ILIAS
 rbac#:#rbac_create_lso#:#Crea una sequenza di apprendimento
 rbac#:#rbac_create_lti#:#Crea LTI Consumer
 rbac#:#rbac_create_mcst#:#Crea Mediacast
 rbac#:#rbac_create_mep#:#Crea gruppo di supporto
+rbac#:#rbac_create_obgr#:#Crea gruppo di elementi
 rbac#:#rbac_create_orgu#:#Crea unità organizzative
 rbac#:#rbac_create_poll#:#Crea gruppo
 rbac#:#rbac_create_prg#:#Crea programma di studio

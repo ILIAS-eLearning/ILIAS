@@ -4459,8 +4459,6 @@ common#:#ip_address#:#IP-Adresse
 common#:#is_already_your#:#ist bereits Ihre
 common#:#italic_action#:#Kursiv einfügen - Klicken Sie um kursiven Text einzufügen.
 common#:#item#:#Begriff
-common#:#itgr_add#:#Objekteblock anlegen
-common#:#itgr_new#:#Neuen Objekteblock anlegen
 common#:#java_server#:#PDF-Konfiguration
 common#:#java_server_host#:#Host
 common#:#java_server_info#:#Es wird ein Suchindex der ILIAS-Datenbank samt enthaltener Dateien und Objekte erstellt. Um die Lucene-Suche verwenden zu können, muss der JAVA-basierte ilServer installiert und konfiguriert sein: siehe Reiter „Lucene“.
@@ -4894,6 +4892,8 @@ common#:#nr_following_sessions#:#%1d folgende Sitzung(en)...
 common#:#num_of_selected_files#:#%s Datei(en) ausgewählt
 common#:#num_users#:#Anzahl Benutzer
 common#:#numberedlist_action#:#Nummerierte Liste List - Klicken Sie um eine nummerierte liste einzufügen.
+common#:#obgr_add#:#Objekteblock anlegen
+common#:#obgr_new#:#Neuen Objekteblock anlegen
 common#:#obj#:#Objekt
 common#:#obj_accs#:#Barrierefreiheit
 common#:#obj_accs_desc#:#Einstellungen zur Barrierefreiheit
@@ -4995,7 +4995,6 @@ common#:#obj_htlm_duplicate#:#HTML Lernmodul kopieren
 common#:#obj_iass#:#Individuelle Bewertung
 common#:#obj_iass_duplicate#:#Individuelle Bewertung kopieren
 common#:#obj_iass_select#:#-- Wählen Sie eine Individuelle Bewertung aus --
-common#:#obj_itgr#:#Objekteblock
 common#:#obj_ldap_desc#:#Globale LDAP-Konfiguration
 common#:#obj_lhts#:#Lernverlauf
 common#:#obj_lhts_desc#:#Lernverlauf administrieren
@@ -5037,6 +5036,7 @@ common#:#obj_nots#:#Notizen
 common#:#obj_nots_desc#:#Notizfunktion administrieren
 common#:#obj_nwss#:#Neuigkeiten und Webfeeds
 common#:#obj_nwss_desc#:#Einstellungen für interne Neuigkeiten und externe Webfeeds
+common#:#obj_obgr#:#Objekteblock
 common#:#obj_objf#:#Objektdefinitionen
 common#:#obj_orgu#:#Organisationseinheit
 common#:#obj_orgu_description#:#Anlage und Verwaltung der Organisationsstruktur
@@ -5204,7 +5204,6 @@ common#:#objs_grp#:#Gruppen
 common#:#objs_grpr#:#Gruppenlinks
 common#:#objs_htlm#:#HTML-Lernmodule
 common#:#objs_iass#:#Individuelle Bewertungen
-common#:#objs_itgr#:#Objekteblöcke
 common#:#objs_lm#:#ILIAS-Lernmodule
 common#:#objs_lres#:#Lernmaterialien
 common#:#objs_lso#:#Lernsequenzen
@@ -5212,6 +5211,7 @@ common#:#objs_lti#:#LTI-Konsumenten
 common#:#objs_mail#:#Mail
 common#:#objs_mcst#:#Mediacasts
 common#:#objs_mep#:#Medienpools
+common#:#objs_obgr#:#Objekteblöcke
 common#:#objs_orgu#:#Organisationseinheiten
 common#:#objs_poll#:#Abstimmungen
 common#:#objs_prg#:#Studienprogramme
@@ -6769,7 +6769,7 @@ content#:#cont_lrs_settings#:#Einstellungen
 content#:#cont_lvalue#:#Datenelement
 content#:#cont_maintenance#:#Wartung
 content#:#cont_manifest#:#Manifest
-content#:#cont_manual_item_group#:#Manuell erstellter Objekteblock
+content#:#cont_manual_object_group#:#Manuell erstellter Objekteblock
 content#:#cont_map_file_not_generated#:#Die Imagemap-Datei konnte leider nicht generiert werden.
 content#:#cont_marker#:#Markierungspunkt
 content#:#cont_master_language_only#:#Basissprache für Übersetzung - Master
@@ -10807,40 +10807,6 @@ irss#:#title_manage_container#:#Dateien und Ordner verwalten
 irss#:#type#:#Dateityp
 irss#:#upload_field_title#:#Ausgewählte Dateien
 irss#:#upload_modal_title#:#Dateien hinzufügen
-itgr#:#itgr_always_open#:#Immer offen
-itgr#:#itgr_assign#:#Zuordnen
-itgr#:#itgr_assign_materials#:#Objekte auswählen
-itgr#:#itgr_assigned_first#:#Zugewiesene zuerst
-itgr#:#itgr_assigned_materials#:#Objekte im Objekteblock
-itgr#:#itgr_assignment#:#Eingebunden in diesem Objekteblock
-itgr#:#itgr_assignment_to_other_itgr#:#Bereits einem anderen Objekteblock zugeordnet
-itgr#:#itgr_behaviour#:#Verhalten
-itgr#:#itgr_behaviour_info#:#Das System merkt sich den Zustand (geöffnet/geschlossen) je Benutzer bis zur Abmeldung (Logout).
-itgr#:#itgr_create_and_assign_object#:#Objekt erstellen und zuweisen
-itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben.
-itgr#:#itgr_display#:#Anzeige
-itgr#:#itgr_display_with_title#:#Mit Titel
-itgr#:#itgr_display_with_title_and_toggleable#:#Mit Titel, Objekteblock ein- und ausklappbar
-itgr#:#itgr_display_with_title_and_toggleable_initially#:#Ausgangszustand
-itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#zunächst geschlossen
-itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#zunächst geöffnet
-itgr#:#itgr_display_without_title#:#Ohne Titel
-itgr#:#itgr_edit#:#Einstellungen des Objekteblocks
-itgr#:#itgr_expandable_closed#:#Ausklappbar (zunächst geschlossen)
-itgr#:#itgr_expandable_open#:#Ausklappbar (zunächst geöffnet)
-itgr#:#itgr_item#:#Objekte, die eingebunden werden können
-itgr#:#itgr_list#:#Liste
-itgr#:#itgr_list_default#:#Standard
-itgr#:#itgr_list_default_info#:#Übernimmt die Einstellung des übergeordneten Containers.
-itgr#:#itgr_list_presentation#:#Präsentationsansicht für Inhalte
-itgr#:#itgr_materials#:#Objekte
-itgr#:#itgr_organise_objects#:#Objekte verwalten
-itgr#:#itgr_show_title#:#Titel anzeigen
-itgr#:#itgr_show_title_info#:#Der Titel des Objekteblocks wird angezeigt.
-itgr#:#itgr_tile#:#Kacheln
-itgr#:#itgr_tile_size#:#Kachelgröße
-itgr#:#itgr_unassign#:#Zuordnung aufheben
-itgr#:#itgr_unassigned_first#:#Nicht zugewiesene zuerst
 jscalendar#:#about_calendar#:#Über den Kalender
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector © dynarch.com 2002-2003 For latest version visit: http://dynarch.com/mishoo/calendar.epl Distributed under GNU LGPL. See http://gnu.org/licenses/lgpl.html for details.  Auswahl des Datums: - Verwenden Sie die Schaltflächen « und » , um das Jahr auszuwählen - Verwenden Sie die Schaltflächen < und > , um den Monat auszuwählen - Lassen Sie die Maustaste über jeder der oberen Schaltflächen gedrückt, um eine Schnellauswahl zu erhalten.
 jscalendar#:#about_time#:#Auswahl der Zeit: Auf die Zeitfelder klicken, um den Wert zu erhöhen oder Umschalten und Klicken, um den Wert zu verringern oder Klicken und Ziehen für eine Schnellauswahl.
@@ -13236,6 +13202,38 @@ notifications_adm#:#push_settings#:#Push-Benachrichtigungen
 notifications_adm#:#push_subscription_successfull#:#Aktivierung der Push-Benachrichtigungen erfolgreich
 notifications_adm#:#push_subscription_successfull_desc#:#Dies ist eine Test Benachrichtigungen um die erfolgreiche Aktivierung der Push Benachrichtigungen zu bestätigen.
 notifications_adm#:#user_settings#:#Benutzereinstellungen
+obgr#:#obgr_always_open#:#Immer offen
+obgr#:#obgr_assign#:#Zuordnen
+obgr#:#obgr_assign_materials#:#Objekte auswählen
+obgr#:#obgr_assigned_first#:#Zugewiesene zuerst
+obgr#:#obgr_assigned_materials#:#Objekte im Objekteblock
+obgr#:#obgr_assignment#:#Eingebunden in diesem Objekteblock
+obgr#:#obgr_assignment_to_other_obgr#:#Bereits einem anderen Objekteblock zugeordnet
+obgr#:#obgr_behaviour#:#Verhalten
+obgr#:#obgr_behaviour_info#:#Das System merkt sich den Zustand (geöffnet/geschlossen) je Benutzer bis zur Abmeldung (Logout).
+obgr#:#obgr_create_and_assign_object#:#Objekt erstellen und zuweisen
+obgr#:#obgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben.
+obgr#:#obgr_display#:#Anzeige
+obgr#:#obgr_display_with_title#:#Mit Titel
+obgr#:#obgr_display_with_title_and_toggleable#:#Mit Titel, Objekteblock ein- und ausklappbar
+obgr#:#obgr_display_with_title_and_toggleable_initially#:#Ausgangszustand
+obgr#:#obgr_display_with_title_and_toggleable_initially_closed#:#zunächst geschlossen
+obgr#:#obgr_display_with_title_and_toggleable_initially_open#:#zunächst geöffnet
+obgr#:#obgr_display_without_title#:#Ohne Titel
+obgr#:#obgr_edit#:#Einstellungen des Objekteblocks
+obgr#:#obgr_expandable_closed#:#Ausklappbar (zunächst geschlossen)
+obgr#:#obgr_expandable_open#:#Ausklappbar (zunächst geöffnet)
+obgr#:#obgr_item#:#Objekte, die eingebunden werden können
+obgr#:#obgr_list#:#Liste
+obgr#:#obgr_list_default#:#Standard
+obgr#:#obgr_list_default_info#:#Übernimmt die Einstellung des übergeordneten Containers.
+obgr#:#obgr_list_presentation#:#Präsentationsansicht für Inhalte
+obgr#:#obgr_materials#:#Objekte
+obgr#:#obgr_organise_objects#:#Objekte verwalten
+obgr#:#obgr_tile#:#Kacheln
+obgr#:#obgr_tile_size#:#Kachelgröße
+obgr#:#obgr_unassign#:#Zuordnung aufheben
+obgr#:#obgr_unassigned_first#:#Nicht zugewiesene zuerst
 obj#:#activation_visible_when_disabled#:#Sichtbarkeit
 obj#:#activation_visible_when_disabled_info#:#Die gewählten Objekte sind auch außerhalb des gewählten Zeitraums sichtbar, können aber nicht geöffnet werden.
 obj#:#availability_period_changed#:#Die zeitliche Verfügbarkeit wurde für die ausgewählten Objekte erfolgreich angepasst.
@@ -14514,12 +14512,6 @@ rbac#:#impr_write#:#Inhalt und Einstellungen des Impressums bearbeiten
 rbac#:#info_user_view_changed#:#Benutzersicht gewechselt
 rbac#:#internal_mail#:#Internes Mail-System
 rbac#:#invite#:#Zu Umfrage einladen
-rbac#:#itgr_copy#:#Objekteblock kopieren
-rbac#:#itgr_delete#:#Objekteblock löschen oder verschieben
-rbac#:#itgr_edit_permission#:#Rechteeinstellungen des Objekteblocks ändern
-rbac#:#itgr_read#:#Lesezugriff auf Objekteblock
-rbac#:#itgr_visible#:#Objekteblock ist sichtbar
-rbac#:#itgr_write#:#Inhalt und Einstellungen eines Objekteblocks bearbeiten
 rbac#:#leave#:#Mitgliedschaft beenden
 rbac#:#lhts_edit_permissions#:#Rechteeinstellungen der Administration für Lernverlauf ändern
 rbac#:#lhts_read#:#Lesezugriff auf Administration für Lernverlauf
@@ -14634,6 +14626,12 @@ rbac#:#nwss_edit_permission#:#Rechteeinstellungen in der News- und Webfeeds-Admi
 rbac#:#nwss_read#:#Lesezugriff auf News- und Webfeeds-Administration
 rbac#:#nwss_visible#:#News- und Webfeeds-Administration ist sichtbar
 rbac#:#nwss_write#:#Einstellungen in der News- und Webfeeds-Administration bearbeiten
+rbac#:#obgr_copy#:#Objekteblock kopieren
+rbac#:#obgr_delete#:#Objekteblock löschen oder verschieben
+rbac#:#obgr_edit_permission#:#Rechteeinstellungen des Objekteblocks ändern
+rbac#:#obgr_read#:#Lesezugriff auf Objekteblock
+rbac#:#obgr_visible#:#Objekteblock ist sichtbar
+rbac#:#obgr_write#:#Inhalt und Einstellungen eines Objekteblocks bearbeiten
 rbac#:#obj_skee#:#Kompetenzbaum
 rbac#:#org_op_access_results#:#Zugriff auf Ergebnisse untergeordneter Benutzer
 rbac#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten
@@ -14775,12 +14773,12 @@ rbac#:#rbac_create_grp#:#Gruppe anlegen
 rbac#:#rbac_create_grpr#:#Gruppenlink anlegen
 rbac#:#rbac_create_htlm#:#HTML-Lernmodul anlegen
 rbac#:#rbac_create_iass#:#Individuelle Bewertung anlegen
-rbac#:#rbac_create_itgr#:#Objekteblock anlegen
 rbac#:#rbac_create_lm#:#ILIAS-Lernmodul anlegen
 rbac#:#rbac_create_lso#:#Lernsequenz anlegen
 rbac#:#rbac_create_lti#:#LTI-Konsumenten anlegen
 rbac#:#rbac_create_mcst#:#Mediacast anlegen
 rbac#:#rbac_create_mep#:#Medienpool anlegen
+rbac#:#rbac_create_obgr#:#Objekteblock anlegen
 rbac#:#rbac_create_orgu#:#Organisationseinheiten anlegen
 rbac#:#rbac_create_poll#:#Abstimmung anlegen
 rbac#:#rbac_create_prg#:#Studienprogramm anlegen

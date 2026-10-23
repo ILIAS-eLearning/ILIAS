@@ -4401,8 +4401,6 @@ common#:#ip_address#:#IP Adresi
 common#:#is_already_your#:#zaten sizin
 common#:#italic_action#:#Insert Italic - Click to insert italic text.###26 08 2024 new variable
 common#:#item#:#Ürün
-common#:#itgr_add#:#Öğe Ekle Grubu
-common#:#itgr_new#:#Yeni Ürün Grubu
 common#:#java_server#:#Java Sunucu
 common#:#java_server_host#:#Sunucu
 common#:#java_server_info#:#Aktif ise, PDF, HTML dosyaları ve HTML-Öğrenme modülleri arama yapmak mümkündür
@@ -4834,6 +4832,8 @@ common#:#nr_following_sessions#:#%1d aşağıdaki oturum(lar) ...
 common#:#num_of_selected_files#:#%s file(s) selected###24 10 2013 new variable
 common#:#num_users#:#Kullanıcı sayısı
 common#:#numberedlist_action#:#Insert Numbered List - Click to insert a numbered list.###26 08 2024 new variable
+common#:#obgr_add#:#Öğe Ekle Grubu
+common#:#obgr_new#:#Yeni Ürün Grubu
 common#:#obj#:#Nesne
 common#:#obj_accs#:#Erişilebilirlik
 common#:#obj_accs_desc#:#Erişilebilirlik özellikleri için ayarlar.
@@ -4938,7 +4938,6 @@ common#:#obj_htlm_duplicate#:#Kopya HTML Öğrenme Modülü
 common#:#obj_iass#:#Individual Assessment###07 02 2017 new variable
 common#:#obj_iass_duplicate#:#Copy Individual Assessment###07 02 2017 new variable
 common#:#obj_iass_select#:#-- Please select one individual assessment --###07 02 2017 new variable
-common#:#obj_itgr#:#Ürün Grubu
 common#:#obj_ldap_desc#:#Burada küresel LDAP Ayarlarını Yapılandırma.
 common#:#obj_lhts#:#Learning History###07 02 2020 new variable
 common#:#obj_lhts_desc#:#Learning history settings###07 02 2020 new variable
@@ -4980,6 +4979,7 @@ common#:#obj_nots#:#Notes###07 02 2020 new variable
 common#:#obj_nots_desc#:#Notes settings###07 02 2020 new variable
 common#:#obj_nwss#:#Haber ve Web Beslemeleri
 common#:#obj_nwss_desc#:#İç haber ve dış web yayınları için ayarlar.
+common#:#obj_obgr#:#Ürün Grubu
 common#:#obj_objf#:#Nesne Tanımlar
 common#:#obj_objf_desc#:#ILIAS nesne türleri ve nesne izinleri yönet. (Sadece uzmanlar için!)
 common#:#obj_orgu#:#Organisational Unit###24 10 2013 new variable
@@ -5148,7 +5148,6 @@ common#:#objs_grp#:#Gruplar
 common#:#objs_grpr#:#Group References###25 10 2016 new variable
 common#:#objs_htlm#:#HTML Öğrenme Modülleri
 common#:#objs_iass#:#Individual Assessments###07 02 2017 new variable
-common#:#objs_itgr#:#Ürün Grupları
 common#:#objs_lm#:#ILIAS Öğrenme Modülleri
 common#:#objs_lres#:#Öğrenim Kaynakları
 common#:#objs_lso#:#Learning Sequences###10 11 2018 new variable
@@ -5156,6 +5155,7 @@ common#:#objs_lti#:#LTI Consumers###07 02 2020 new variable
 common#:#objs_mail#:#Posta
 common#:#objs_mcst#:#Mediacasts
 common#:#objs_mep#:#Medya Havuzları
+common#:#objs_obgr#:#Ürün Grupları
 common#:#objs_orgu#:#Organisational Unit###24 10 2013 new variable
 common#:#objs_poll#:#Anketler
 common#:#objs_prg#:#Study Programmes###30 08 2015 new variable
@@ -6705,7 +6705,6 @@ content#:#cont_lrs_settings#:#Ayarlar
 content#:#cont_lvalue#:#Veri elemanı
 content#:#cont_maintenance#:#Bakım
 content#:#cont_manifest#:#Manifesto
-content#:#cont_manual_item_group#:#Manually Create Item Group###26 08 2024 new variable
 content#:#cont_map_file_not_generated#:#Üzgünüm. Düzenleme için harita dosyası oluşturulamıyor.
 content#:#cont_marker#:#İşaretçi
 content#:#cont_master_language_only#:#Master Language for Translation###30 08 2015 new variable
@@ -10697,26 +10696,6 @@ irss#:#title_manage_container#:#Manage files and folders###26 08 2024 new variab
 irss#:#type#:#File Type###26 08 2024 new variable
 irss#:#upload_field_title#:#Selected Files###26 08 2024 new variable
 irss#:#upload_modal_title#:#Add Files###26 08 2024 new variable
-itgr#:#itgr_always_open#:#Always Open###31 08 2017 new variable
-itgr#:#itgr_assign_materials#:#Assign Materials###29 07 2022 new variable
-itgr#:#itgr_assigned_materials#:#Atanan Malzemeleri
-itgr#:#itgr_assignment#:#Atama
-itgr#:#itgr_behaviour#:#Block Behaviour###31 08 2017 new variable
-itgr#:#itgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.###31 08 2017 new variable
-itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###25 10 2016 new variable
-itgr#:#itgr_edit#:#Öğe Düzenleme Grupları
-itgr#:#itgr_expandable_closed#:#Expandable (initially closed)###31 08 2017 new variable
-itgr#:#itgr_expandable_open#:#Expandable (initially opened)###31 08 2017 new variable
-itgr#:#itgr_item#:#Ürün
-itgr#:#itgr_list#:#List###29 07 2022 new variable
-itgr#:#itgr_list_default#:#Default###29 07 2022 new variable
-itgr#:#itgr_list_default_info#:#Inherits value from upper container.###29 07 2022 new variable
-itgr#:#itgr_list_presentation#:#Item Presentation###29 07 2022 new variable
-itgr#:#itgr_materials#:#Malzemeler
-itgr#:#itgr_show_title#:#Show Title###31 08 2017 new variable
-itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.###31 08 2017 new variable
-itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
-itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
 jscalendar#:#about_calendar#:#Takvim hakkında
 jscalendar#:#about_calendar_long#:#DHTML Tarih / Saat Seçici \ n (c) dynarch.com 2002-2003 \ nDaha son sürümünü ziyaretiniz: http://dynarch.com/mishoo/calendar.epl \ GNU LGPL altında nDistributed. Ayrıntılar için http://gnu.org/licenses/lgpl.html bakınız \ n \ nTarih seçimi:. \ Seçmek için «Â» düğmeleri Â n kullan yıl \ n kullan <,> düğmelerini ayı seçmek için \ Daha hızlı seçim için yukarıdaki düğmelerden birine üzerinde fare düğmesi n-tutun.
 jscalendar#:#about_time#:#\ n \ nTime seçimi: \ arttırmak için zaman parçalarının üzerinde n-tıklayın \ n-veya azaltmak \ n-veya daha hızlı seçimi için tıklayın ve sürükleyin Shift-tıklatın.
@@ -13058,6 +13037,24 @@ notifications_adm#:#push_client_ios_case#:#If you are using IOS (Iphone, Ipad, I
 notifications_adm#:#push_settings#:#Push Notifications###29 10 2025 new variable
 notifications_adm#:#push_subscription_successfull#:#Push Notifications activation successful###29 10 2025 new variable
 notifications_adm#:#push_subscription_successfull_desc#:#This is a dummy notification to verify the successful activation of push notifications.###29 10 2025 new variable
+obgr#:#obgr_always_open#:#Always Open###31 08 2017 new variable
+obgr#:#obgr_assign_materials#:#Assign Materials###29 07 2022 new variable
+obgr#:#obgr_assigned_materials#:#Atanan Malzemeleri
+obgr#:#obgr_assignment#:#Atama
+obgr#:#obgr_behaviour#:#Block Behaviour###31 08 2017 new variable
+obgr#:#obgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.###31 08 2017 new variable
+obgr#:#obgr_desc_info#:#The description will not be a part of the object group's presentation in its container.###25 10 2016 new variable
+obgr#:#obgr_edit#:#Öğe Düzenleme Grupları
+obgr#:#obgr_expandable_closed#:#Expandable (initially closed)###31 08 2017 new variable
+obgr#:#obgr_expandable_open#:#Expandable (initially opened)###31 08 2017 new variable
+obgr#:#obgr_item#:#Ürün
+obgr#:#obgr_list#:#List###29 07 2022 new variable
+obgr#:#obgr_list_default#:#Default###29 07 2022 new variable
+obgr#:#obgr_list_default_info#:#Inherits value from upper container.###29 07 2022 new variable
+obgr#:#obgr_list_presentation#:#Item Presentation###29 07 2022 new variable
+obgr#:#obgr_materials#:#Malzemeler
+obgr#:#obgr_tile#:#Tiles###29 07 2022 new variable
+obgr#:#obgr_tile_size#:#Tile Size###29 07 2022 new variable
 obj#:#activation_visible_when_disabled#:#Görüş
 obj#:#activation_visible_when_disabled_info#:#Eğer seçilmiş , malzeme bile belirli durumu dışında görülebilir.
 obj#:#availability_period_changed#:#The availability period for the selected objects has been changed successfully.###26 08 2024 new variable
@@ -14345,12 +14342,6 @@ rbac#:#impr_write#:#User can edit content and settings of Legal Notice###29 10 2
 rbac#:#info_user_view_changed#:#Kullanıcı görünümü Değiştirildi
 rbac#:#internal_mail#:#Dahili Posta
 rbac#:#invite#:#Ankete davet
-rbac#:#itgr_copy#:#Kullanıcı madde grubu kopyalayabilirsiniz
-rbac#:#itgr_delete#:#Kullanıcı madde grubu taşıyabilir veya silebilirsiniz
-rbac#:#itgr_edit_permission#:#Kullanıcı izin ayarlarını değiştirebilir
-rbac#:#itgr_read#:#Kullanıcı madde grubu okuyabilir
-rbac#:#itgr_visible#:#Item group is visible###14 01 2013 new variable
-rbac#:#itgr_write#:#Kullanıcı içeriği ve ürün grubu ayarlarını düzenleyebilirsiniz
 rbac#:#leave#:#bırakın
 rbac#:#lhts_edit_permissions#:#User can change permission settings of Learning History administration.###29 07 2022 new variable
 rbac#:#lhts_read#:#User has read access to Learning History administration.###29 07 2022 new variable
@@ -14465,6 +14456,12 @@ rbac#:#nwss_edit_permission#:#Kullanıcı Haber ve Web Beslemeleri yönetiminde 
 rbac#:#nwss_read#:#Kullanıcı ews ve Web Feeds yönetimi için okuma erişimi vardır
 rbac#:#nwss_visible#:#Haber ve Web Beslemeleri yönetim görülebilir
 rbac#:#nwss_write#:#Kullanıcı Haber ve Web Beslemeleri yönetiminde ayarlarını düzenleyebilirsiniz
+rbac#:#obgr_copy#:#Kullanıcı madde grubu kopyalayabilirsiniz
+rbac#:#obgr_delete#:#Kullanıcı madde grubu taşıyabilir veya silebilirsiniz
+rbac#:#obgr_edit_permission#:#Kullanıcı izin ayarlarını değiştirebilir
+rbac#:#obgr_read#:#Kullanıcı madde grubu okuyabilir
+rbac#:#obgr_visible#:#Object group is visible###14 01 2013 new variable
+rbac#:#obgr_write#:#Kullanıcı içeriği ve ürün grubu ayarlarını düzenleyebilirsiniz
 rbac#:#obj_skee#:#Competence Tree###29 07 2022 new variable
 rbac#:#org_op_access_results#:#Access Results of Subordinated Users###10 11 2018 new variable
 rbac#:#org_op_edit_submissions_grades#:#Edit submissions of other users###22 11 2017 new variable
@@ -14603,12 +14600,12 @@ rbac#:#rbac_create_grp#:#Create Group###11 03 2014 new variable
 rbac#:#rbac_create_grpr#:#Create Group Reference###25 10 2016 new variable
 rbac#:#rbac_create_htlm#:#Create HTML Learning Module###11 03 2014 new variable
 rbac#:#rbac_create_iass#:#Create Individual Assessment###07 02 2017 new variable
-rbac#:#rbac_create_itgr#:#Create Item Group###11 03 2014 new variable
 rbac#:#rbac_create_lm#:#Create ILIAS Learning Module###11 03 2014 new variable
 rbac#:#rbac_create_lso#:#Create Learning Sequence###10 11 2018 new variable
 rbac#:#rbac_create_lti#:#Create LTI Consumer###07 02 2020 new variable
 rbac#:#rbac_create_mcst#:#Create Mediacast###11 03 2014 new variable
 rbac#:#rbac_create_mep#:#Create Media Pool###11 03 2014 new variable
+rbac#:#rbac_create_obgr#:#Create Object Group###11 03 2014 new variable
 rbac#:#rbac_create_orgu#:#Create Organisational Units###11 03 2014 new variable
 rbac#:#rbac_create_poll#:#Create Poll###11 03 2014 new variable
 rbac#:#rbac_create_prg#:#Create Study Programme###08 10 2015 new variable

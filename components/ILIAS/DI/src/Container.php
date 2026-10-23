@@ -367,9 +367,9 @@ class Container extends \Pimple\Container
         return new \ILIAS\MediaCast\Service($this);
     }
 
-    public function itemGroup(): \ILIAS\ItemGroup\Service
+    public function objectGroup(): \ILIAS\ObjectGroup\Service
     {
-        return new \ILIAS\ItemGroup\Service($this);
+        return new \ILIAS\ObjectGroup\Service($this);
     }
 
     public function htmlLearningModule(): \ILIAS\HTMLLearningModule\Service

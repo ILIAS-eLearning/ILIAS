@@ -4401,8 +4401,6 @@ common#:#ip_address#:#IP-adress
 common#:#is_already_your#:#är redan din
 common#:#italic_action#:#Insert Italic - Click to insert italic text.###21 11 2023 new variable
 common#:#item#:#Term
-common#:#itgr_add#:#Skapa objektblock
-common#:#itgr_new#:#Skapa nytt objektblock
 common#:#java_server#:#Java-server
 common#:#java_server_host#:#Host
 common#:#java_server_info#:#Denna indexbaserade söktyp söker både i ILIAS-databasen och i filer. Den rekommenderas för större ILIAS-installationer. För att använda Lucene-sökningen i ILIAS måste den JAVA-baserade ilServer installeras och konfigureras (se fliken "Lucene").
@@ -4834,6 +4832,8 @@ common#:#nr_following_sessions#:#%1d följande session(er)....
 common#:#num_of_selected_files#:#%s fil(er) vald(a)
 common#:#num_users#:#Antal användare
 common#:#numberedlist_action#:#Insert Numbered List - Click to insert a numbered list.###21 11 2023 new variable
+common#:#obgr_add#:#Skapa objektblock
+common#:#obgr_new#:#Skapa nytt objektblock
 common#:#obj#:#Objekt
 common#:#obj_accs#:#Tillgänglighet
 common#:#obj_accs_desc#:#Inställningar för tillgänglighet
@@ -4938,7 +4938,6 @@ common#:#obj_htlm_duplicate#:#Kopiera HTML utbildningsmodul
 common#:#obj_iass#:#Individuell bedömning
 common#:#obj_iass_duplicate#:#Kopiera individuell utvärdering
 common#:#obj_iass_select#:#-- Välj ett individuellt betyg --.
-common#:#obj_itgr#:#Objektblock
 common#:#obj_ldap_desc#:#Global LDAP-konfiguration
 common#:#obj_lhts#:#Framsteg inom lärande
 common#:#obj_lhts_desc#:#Administrera lärande
@@ -4980,6 +4979,7 @@ common#:#obj_nots#:#Noter
 common#:#obj_nots_desc#:#Administrera notfunktion
 common#:#obj_nwss#:#Nyheter och webbflöden
 common#:#obj_nwss_desc#:#Inställningar för interna nyheter och externa webbflöden
+common#:#obj_obgr#:#Objektblock
 common#:#obj_objf#:#Definitioner av objekt
 common#:#obj_objf_desc#:#ILIAS objekttyper och rättigheter. (Endast för experter!)
 common#:#obj_orgu#:#Organisatorisk enhet
@@ -5148,7 +5148,6 @@ common#:#objs_grp#:#Grupper
 common#:#objs_grpr#:#Grupplänkar
 common#:#objs_htlm#:#HTML utbildningsmoduler
 common#:#objs_iass#:#Individuella bedömningar
-common#:#objs_itgr#:#Objektblock
 common#:#objs_lm#:#ILIAS utbildningsmoduler
 common#:#objs_lres#:#läromedel
 common#:#objs_lso#:#Lärande sekvenser
@@ -5156,6 +5155,7 @@ common#:#objs_lti#:#LTI konsumenter
 common#:#objs_mail#:#E-post
 common#:#objs_mcst#:#Mediakaster
 common#:#objs_mep#:#mediepooler
+common#:#objs_obgr#:#Objektblock
 common#:#objs_orgu#:#Organisatoriska enheter
 common#:#objs_poll#:#Omröstningar
 common#:#objs_prg#:#Studieprogram
@@ -6705,7 +6705,6 @@ content#:#cont_lrs_settings#:#Inställningar
 content#:#cont_lvalue#:#Data element
 content#:#cont_maintenance#:#Underhåll
 content#:#cont_manifest#:#Manifest
-content#:#cont_manual_item_group#:#Manually Create Item Group###21 11 2023 new variable
 content#:#cont_map_file_not_generated#:#Tyvärr kunde bildkartfilen inte genereras.
 content#:#cont_marker#:#Markeringspunkt
 content#:#cont_master_language_only#:#Basspråk för översättning - Master
@@ -10697,26 +10696,6 @@ irss#:#title_manage_container#:#Manage files and folders###26 08 2024 new variab
 irss#:#type#:#File Type###21 11 2023 new variable
 irss#:#upload_field_title#:#Selected Files###21 11 2023 new variable
 irss#:#upload_modal_title#:#Add Files###21 11 2023 new variable
-itgr#:#itgr_always_open#:#Alltid öppen
-itgr#:#itgr_assign_materials#:#Välj objekt
-itgr#:#itgr_assigned_materials#:#Objekt i objektblocket
-itgr#:#itgr_assignment#:#Integrerad
-itgr#:#itgr_behaviour#:#Beteende
-itgr#:#itgr_behaviour_info#:#Systemet kommer ihåg status (öppen/stängd) för varje användare fram till utloggningen.
-itgr#:#itgr_desc_info#:#Beskrivningen visas inte när objektblocket visas.
-itgr#:#itgr_edit#:#Inställningar för objektblocket
-itgr#:#itgr_expandable_closed#:#Fold-out (ursprungligen stängd)
-itgr#:#itgr_expandable_open#:#Fold-out (inledningsvis öppen)
-itgr#:#itgr_item#:#Objekt som kan inkluderas
-itgr#:#itgr_list#:#Lista
-itgr#:#itgr_list_default#:#Standard
-itgr#:#itgr_list_default_info#:#Tar över inställningarna för den överordnade behållaren.
-itgr#:#itgr_list_presentation#:#Presentationsvy för innehåll
-itgr#:#itgr_materials#:#Objekt
-itgr#:#itgr_show_title#:#Visa titel
-itgr#:#itgr_show_title_info#:#Objektblockets titel visas.###Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
-itgr#:#itgr_tile#:#Kakelplattor
-itgr#:#itgr_tile_size#:#Storlek på kakel
 jscalendar#:#about_calendar#:#Om kalendern
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector © dynarch.com 2002-2003 För senaste versionen besök
 jscalendar#:#about_time#:#Välja tid
@@ -13058,6 +13037,24 @@ notifications_adm#:#push_client_ios_case#:#If you are using IOS (Iphone, Ipad, I
 notifications_adm#:#push_settings#:#Push Notifications###29 10 2025 new variable
 notifications_adm#:#push_subscription_successfull#:#Push Notifications activation successful###29 10 2025 new variable
 notifications_adm#:#push_subscription_successfull_desc#:#This is a dummy notification to verify the successful activation of push notifications.###29 10 2025 new variable
+obgr#:#obgr_always_open#:#Alltid öppen
+obgr#:#obgr_assign_materials#:#Välj objekt
+obgr#:#obgr_assigned_materials#:#Objekt i objektblocket
+obgr#:#obgr_assignment#:#Integrerad
+obgr#:#obgr_behaviour#:#Beteende
+obgr#:#obgr_behaviour_info#:#Systemet kommer ihåg status (öppen/stängd) för varje användare fram till utloggningen.
+obgr#:#obgr_desc_info#:#Beskrivningen visas inte när objektblocket visas.
+obgr#:#obgr_edit#:#Inställningar för objektblocket
+obgr#:#obgr_expandable_closed#:#Fold-out (ursprungligen stängd)
+obgr#:#obgr_expandable_open#:#Fold-out (inledningsvis öppen)
+obgr#:#obgr_item#:#Objekt som kan inkluderas
+obgr#:#obgr_list#:#Lista
+obgr#:#obgr_list_default#:#Standard
+obgr#:#obgr_list_default_info#:#Tar över inställningarna för den överordnade behållaren.
+obgr#:#obgr_list_presentation#:#Presentationsvy för innehåll
+obgr#:#obgr_materials#:#Objekt
+obgr#:#obgr_tile#:#Kakelplattor
+obgr#:#obgr_tile_size#:#Storlek på kakel
 obj#:#activation_visible_when_disabled#:#Visibility###21 11 2023 new variable
 obj#:#activation_visible_when_disabled_info#:#If chosen, the material is visible even outside of the given availability.###21 11 2023 new variable
 obj#:#availability_period_changed#:#The availability period for the selected objects has been changed successfully.###21 11 2023 new variable
@@ -14345,12 +14342,6 @@ rbac#:#impr_write#:#User can edit content and settings of Legal Notice###29 10 2
 rbac#:#info_user_view_changed#:#Användarvy ändrad
 rbac#:#internal_mail#:#Internt postsystem
 rbac#:#invite#:#Inbjudan till undersökning
-rbac#:#itgr_copy#:#Kopiera objektblock
-rbac#:#itgr_delete#:#Ta bort eller flytta objektblock
-rbac#:#itgr_edit_permission#:#Ändra rättighetsinställningarna för objektblocket
-rbac#:#itgr_read#:#Läsa åtkomst till objektblock
-rbac#:#itgr_visible#:#Objektblocket är synligt
-rbac#:#itgr_write#:#Redigera innehåll och inställningar för ett objektblock
 rbac#:#leave#:#Avbryt medlemskap
 rbac#:#lhts_edit_permissions#:#Ändra inställningar för administrationsrättigheter för inlärningshistorik
 rbac#:#lhts_read#:#Läs tillgång till administration för inlärningshistoria
@@ -14465,6 +14456,12 @@ rbac#:#nwss_edit_permission#:#Ändra rättighetsinställningar i nyhets- och web
 rbac#:#nwss_read#:#Läsa tillgång till nyheter och webbflöden administration
 rbac#:#nwss_visible#:#Administration av nyheter och webbflöden är synlig
 rbac#:#nwss_write#:#Ändra inställningar i administrationen för nyheter och webbflöden
+rbac#:#obgr_copy#:#Kopiera objektblock
+rbac#:#obgr_delete#:#Ta bort eller flytta objektblock
+rbac#:#obgr_edit_permission#:#Ändra rättighetsinställningarna för objektblocket
+rbac#:#obgr_read#:#Läsa åtkomst till objektblock
+rbac#:#obgr_visible#:#Objektblocket är synligt
+rbac#:#obgr_write#:#Redigera innehåll och inställningar för ett objektblock
 rbac#:#obj_skee#:#Kompetens träd
 rbac#:#org_op_access_results#:#Tillgång till resultat från underordnade användare
 rbac#:#org_op_edit_submissions_grades#:#Redigera inlägg från andra användare
@@ -14603,12 +14600,12 @@ rbac#:#rbac_create_grp#:#Skapa grupp
 rbac#:#rbac_create_grpr#:#Skapa grupplänk
 rbac#:#rbac_create_htlm#:#Skapa HTML utbildningsmodul
 rbac#:#rbac_create_iass#:#Skapa individuell utvärdering
-rbac#:#rbac_create_itgr#:#Skapa objektblock
 rbac#:#rbac_create_lm#:#Skapa utbildningsmodul för ILIAS
 rbac#:#rbac_create_lso#:#Skapa en inlärningssekvens
 rbac#:#rbac_create_lti#:#Skapa LTI-konsumenter
 rbac#:#rbac_create_mcst#:#Skapa Mediacast
 rbac#:#rbac_create_mep#:#Skapa en mediapool
+rbac#:#rbac_create_obgr#:#Skapa objektblock
 rbac#:#rbac_create_orgu#:#Skapa organisatoriska enheter
 rbac#:#rbac_create_poll#:#Skapa omröstning
 rbac#:#rbac_create_prg#:#Skapa studieprogram

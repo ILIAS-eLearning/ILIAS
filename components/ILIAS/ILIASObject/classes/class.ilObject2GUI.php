@@ -700,7 +700,7 @@ abstract class ilObject2GUI extends ilObjectGUI
         if ($callback_ref_id) {
             $callback_type = ilObject::_lookupType($callback_ref_id, true);
             $class_name = "ilObj" . $objDefinition->getClassName($callback_type) . "GUI";
-            if (strtolower($class_name) == "ilobjitemgroupgui") {
+            if (strtolower($class_name) === strtolower(ilObjObjectGroupGUI::class)) {
                 $callback_obj = new $class_name($callback_ref_id);
             } else {
                 $callback_obj = new $class_name(null, $callback_ref_id, true, false);
