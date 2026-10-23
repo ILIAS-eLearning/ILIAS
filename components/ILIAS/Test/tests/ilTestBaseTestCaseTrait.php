@@ -489,43 +489,43 @@ trait ilTestBaseTestCaseTrait
     {
         $local_dic_mock = $this->getMockBuilder(ILIAS\Test\TestDIC::class)
             ->onlyMethods([])->getMock();
-        $local_dic_mock['question.general_properties.repository'] = fn(Pimple\Container $c)
+        $local_dic_mock['question.general_properties.repository'] = fn(\ILIAS\DI\ServiceContainer $c)
             => $this->createMock(
                 ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class
             );
-        $local_dic_mock['request_data_collector'] = fn(Pimple\Container $c)
+        $local_dic_mock['request_data_collector'] = fn(\ILIAS\DI\ServiceContainer $c)
             => $this->createMock(
                 \ILIAS\Test\RequestDataCollector::class
             );
-        $local_dic_mock['participant.access_filter.factory'] = fn(Pimple\Container $c)
+        $local_dic_mock['participant.access_filter.factory'] = fn(\ILIAS\DI\ServiceContainer $c)
             => $this->createMock(
                 \ilTestParticipantAccessFilterFactory::class
             );
-        $local_dic_mock['logging.logger'] = fn(Pimple\Container $c)
+        $local_dic_mock['logging.logger'] = fn(\ILIAS\DI\ServiceContainer $c)
             => $this->createMock(
                 \ILIAS\Test\Logging\TestLogger::class
             );
-        $local_dic_mock['logging.viewer'] = fn(Pimple\Container $c)
+        $local_dic_mock['logging.viewer'] = fn(\ILIAS\DI\ServiceContainer $c)
             => $this->createMock(
                 \ILIAS\Test\Logging\TestLogViewer::class
             );
-        $local_dic_mock['shuffler'] = fn(Pimple\Container $c)
+        $local_dic_mock['shuffler'] = fn(\ILIAS\DI\ServiceContainer $c)
             => $this->createMock(
                 \ilTestShuffler::class
             );
-        $local_dic_mock['results.presentation.factory'] = fn(Pimple\Container $c)
+        $local_dic_mock['results.presentation.factory'] = fn(\ILIAS\DI\ServiceContainer $c)
             => $this->createMock(
                 ILIAS\Test\Results\Presentation\Factory::class
             );
-        $local_dic_mock['results.data.factory'] = fn(Pimple\Container $c)
+        $local_dic_mock['results.data.factory'] = fn(\ILIAS\DI\ServiceContainer $c)
             => $this->createMock(
                 ILIAS\Test\Results\Data\Factory::class
             );
-        $local_dic_mock['results.data.repository'] = fn(Pimple\Container $c)
+        $local_dic_mock['results.data.repository'] = fn(\ILIAS\DI\ServiceContainer $c)
             => $this->createMock(
                 \ILIAS\Test\Results\Data\Repository::class
             );
-        $local_dic_mock['questions.properties.repository'] = fn(Pimple\Container $c)
+        $local_dic_mock['questions.properties.repository'] = fn(\ILIAS\DI\ServiceContainer $c)
             => $this->createMock(
                 ILIAS\Test\Questions\Properties\Repository::class
             );

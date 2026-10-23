@@ -36,7 +36,7 @@ class ilObjIndividualAssessment extends ilObject
     protected ilIndividualAssessmentMembersStorageDB $members_storage;
     protected ilIndividualAssessmentAccessHandler $access_handler;
     protected ilAccessHandler $il_access_handler;
-    protected ?Pimple\Container $dic = null;
+    protected ?ILIAS\DI\ServiceContainer $dic = null;
 
     protected ?ilIndividualAssessmentInfoSettings $info_settings = null;
     protected ?ilIndividualAssessmentFileStorage $file_storage = null;
@@ -286,7 +286,7 @@ class ilObjIndividualAssessment extends ilObject
         return 0;
     }
 
-    protected function getDic(): Pimple\Container
+    protected function getDic(): ILIAS\DI\ServiceContainer
     {
         if (is_null($this->dic)) {
             global $DIC;

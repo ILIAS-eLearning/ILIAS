@@ -161,7 +161,7 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
      * using their legacy offset, since it cannot be service-located by legacy components
      * otherwise.
      */
-    protected function populateComponentsInLegacyEnvironment(\Pimple\Container $DIC): void
+    protected function populateComponentsInLegacyEnvironment(\ILIAS\DI\Container $DIC): void
     {
         $DIC[\ILIAS\Data\Factory::class] = fn(): \ILIAS\Data\Factory => $this->data_factory;
 
