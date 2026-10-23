@@ -10902,8 +10902,6 @@ lti#:#use_xapi#:#xAPI-Unterstützung verwenden
 lti#:#use_xapi_info#:#Dieses LTI-Tool unterstützt die Abfrage von xAPI-Statements.
 lti#:#user_lng#:#Sprache
 lti#:#user_provider_subtab#:#Lokal definierte Provider bzw. Tools
-ltiv#:#ltiv_create#:#Zertifikat für LTI-Konsument-Objekt erstellen
-ltiv#:#ltiv_create_info#:#Wählen Sie ein abgeschlossenes LTI-Konsument-Objekt aus, um ein Zertifikat dafür zu generieren.
 mail#:#back_to_folder#:#Zurück zum Ordner
 mail#:#chat_users_have_been_invited#:#Die Benutzer wurden eingeladen:
 mail#:#chat_users_without_login#:#Die folgenden Benutzer haben kein ILIAS-Konto und können nicht eingeladen werden:

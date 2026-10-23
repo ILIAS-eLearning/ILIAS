@@ -10647,8 +10647,6 @@ lti#:#use_xapi#:#Använd xAPI-stöd
 lti#:#use_xapi_info#:#LTI-verktyget stöder förfrågan av xAPI-uttalanden.
 lti#:#user_lng#:#Användarspråk
 lti#:#user_provider_subtab#:#Leverantörer eller verktyg definieras av användarna
-ltiv#:#ltiv_create#:#Skapa certifikat för LTI-konsumentobjekt
-ltiv#:#ltiv_create_info#:#Välj ett slutfört LTI-konsumentobjekt för att generera ett certifikat för det.
 mail#:#back_to_folder#:#Tillbaka till mappen
 mail#:#chat_users_have_been_invited#:#The following users have been invited:###26 08 2024 new variable
 mail#:#chat_users_without_login#:#The following users don't have an ILIAS account and can't be invited to a chat room:###26 08 2024 new variable

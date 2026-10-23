@@ -10710,8 +10710,6 @@ lti#:#use_xapi#:#Use xAPI-Support
 lti#:#use_xapi_info#:#Ez az LTI-Eszköz támogatja az xAPI-Nyilatkozatokat.
 lti#:#user_lng#:#Felhasználó nyelve
 lti#:#user_provider_subtab#:#Felhasználó által definiált Kiszolgálók
-ltiv#:#ltiv_create#:#Az LTI-Fogyasztóobjektumoknak tanúsítvány létrehozása
-ltiv#:#ltiv_create_info#:#Válassza ki a teljesített LTI-Fogyasztóobjektumot, melyhez tanúsítványt kíván generálni
 mail#:#back_to_folder#:#Vissza a mappához
 mail#:#chat_users_have_been_invited#:#Az alábbi felhasználókat hívta meg
 mail#:#chat_users_without_login#:#Az alábbi felhasználóknak nincs ILIAS-fiókja, nem lehetnek meghívva csevegőszobába.
