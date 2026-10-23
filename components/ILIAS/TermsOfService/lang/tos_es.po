@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: tos\n"
+
+msgid "tos_accept_usr_agreement_anonymous"
+msgstr "Condiciones del servicio"
+
+msgid "tos_accept_usr_agreement_anonymous_intro"
+msgstr "Antes de continuar a ILIAS, debe aceptar las siguientes Condiciones del servicio."
+
+msgid "tos_account_reg_not_possible"
+msgstr "El registro autónomo no es posible actualmente porque no hay un acuerdo de Condiciones del servicio disponible. Por favor, contacte con su <a href=\"%1$s\">administrador del sistema</a> para más información."
+
+msgid "tos_agree_date"
+msgstr "Condiciones aceptadas el"
+
+msgid "tos_agreement"
+msgstr "Condiciones del servicio"
+
+msgid "tos_disabled_no_docs_left"
+msgstr "Los documentos de Condiciones del servicio ya no pueden mostrarse porque todos han sido eliminados. Ya no se requerirá a los usuarios aceptar un documento de Condiciones al registrar una cuenta. Por favor, cree al menos un documento antes de volver a marcar la casilla 'Mostrar Condiciones del servicio'."
+
+msgid "tos_last_reset_date"
+msgstr "Las Condiciones del Servicio se restablecieron el %s. Solo restablezca las Condiciones del Servicio si se han realizado cambios en los documentos de los TyC y requiere que todos los usuarios acepten los nuevos términos."
+
+msgid "tos_never_reset"
+msgstr "Las Condiciones del Servicio aún no se han restablecido. Solo restablezca las Condiciones del Servicio si se han realizado cambios en los documentos de los TyC y requiere que todos los usuarios acepten los nuevos términos."
+
+msgid "tos_no_documents_exist"
+msgstr "Actualmente no hay documentos de Condiciones del Servicio disponibles."
+
+msgid "tos_no_documents_exist_cant_save"
+msgstr "Actualmente no hay documentos de Condiciones del Servicio disponibles. Por favor, añada al menos un documento para activar este servicio."
+
+msgid "tos_reset_for_all_users"
+msgstr "Restablecer Condiciones del Servicio"
+
+msgid "tos_reset_successful"
+msgstr "Condiciones del Servicio restablecidas con éxito."
+
+msgid "tos_status_desc"
+msgstr "Muestra los documentos de Condiciones del Servicio pertinentes basados en el idioma al final del formulario de registro para nuevos usuarios y, si procede, en el primer inicio de sesión del usuario. Los usuarios deben aceptar las Condiciones del Servicio antes de poder entrar en ILIAS."
+
+msgid "tos_status_enable"
+msgstr "Mostrar Condiciones del Servicio"
+
+msgid "tos_sure_reset_tos"
+msgstr "¿Está seguro de que desea restablecer las Condiciones del Servicio para todos los usuarios del sistema? Esto también se aplica, por ejemplo, a aquellas cuentas que se utilizan para los servicios web SOAP."
+
+msgid "tos_withdrawal_usr_deletion"
+msgstr "Eliminación de la cuenta al retirar los TyC"
+
+msgid "tos_withdrawal_usr_deletion_desc"
+msgstr "Si un usuario retira su aceptación de un documento de Condiciones del Servicio aceptado previamente, esto resultará en la eliminación de la cuenta del usuario."

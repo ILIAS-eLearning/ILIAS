@@ -1,0 +1,283 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: vi\n"
+"Language-Team: Vietnamese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: poll\n"
+
+#, fuzzy
+msgid "poll_absolute"
+msgstr "Current Votes"
+
+#, fuzzy
+msgid "poll_activation_online_info"
+msgstr "If offline, only administrators can see and edit the poll."
+
+#, fuzzy
+msgid "poll_add"
+msgstr "Add Poll"
+
+#, fuzzy
+msgid "poll_anonymous_warning"
+msgstr "Your name is not visible in the poll results."
+
+#, fuzzy
+msgid "poll_answer"
+msgstr "Answer"
+
+#, fuzzy
+msgid "poll_answer_selected_alt_text"
+msgstr "Selected"
+
+#, fuzzy
+msgid "poll_answers"
+msgstr "Possible Answers"
+
+#, fuzzy
+msgid "poll_barchart"
+msgstr "Bar Chart"
+
+#, fuzzy
+msgid "poll_block_message_already_voted"
+msgstr "You already voted in this poll."
+
+#, fuzzy
+msgid "poll_block_message_no_answers"
+msgstr "This poll is incomplete."
+
+#, fuzzy
+msgid "poll_block_results_available_on"
+msgstr "The results will be available on %s."
+
+#, fuzzy
+msgid "poll_cannot_set_online_no_answers"
+msgstr "The status cannot be changed to &quot;online&quot; because this poll has no question!"
+
+#, fuzzy
+msgid "poll_chart_votes"
+msgstr "Votes"
+
+#, fuzzy
+msgid "poll_comments"
+msgstr "Comments"
+
+#, fuzzy
+msgid "poll_copy"
+msgstr "Copy Poll"
+
+#, fuzzy
+msgid "poll_delete_votes"
+msgstr "Delete All Votes"
+
+#, fuzzy
+msgid "poll_delete_votes_sure"
+msgstr "Are you sure you want to delete all votes?"
+
+#, fuzzy
+msgid "poll_edit"
+msgstr "Edit Poll"
+
+#, fuzzy
+msgid "poll_edit_question"
+msgstr "Edit Question"
+
+#, fuzzy
+msgid "poll_image"
+msgstr "Image"
+
+#, fuzzy
+msgid "poll_limit_not_below_answer_count"
+msgstr "The answer limit must be below the number of possible answers."
+
+#, fuzzy
+msgid "poll_limit_number_of_answers"
+msgstr "Limit Number of Answers per Participant"
+
+#, fuzzy
+msgid "poll_max_number_of_answers"
+msgstr "Maximum Number Of Answers per Participant"
+
+#, fuzzy
+msgid "poll_max_number_of_answers_info"
+msgstr "You may choose up to %s answers."
+
+#, fuzzy
+msgid "poll_mode"
+msgstr "Mode"
+
+#, fuzzy
+msgid "poll_mode_anonymous"
+msgstr "Anonymous"
+
+#, fuzzy
+msgid "poll_mode_anonymous_info"
+msgstr "Votes cannot be traced back to participants."
+
+#, fuzzy
+msgid "poll_mode_personal"
+msgstr "Personal"
+
+#, fuzzy
+msgid "poll_mode_personal_info"
+msgstr "A list of participants with their respective votes is available when having sufficient permission."
+
+#, fuzzy
+msgid "poll_new"
+msgstr "Add New Poll"
+
+#, fuzzy
+msgid "poll_non_anonymous_warning"
+msgstr "Your name and vote are visible for administrators in the results."
+
+#, fuzzy
+msgid "poll_notification_activated"
+msgstr "Notification Activated"
+
+#, fuzzy
+msgid "poll_notification_deactivated"
+msgstr "Notification Deactivated"
+
+#, fuzzy
+msgid "poll_notification_subscribe"
+msgstr "Activate Notification"
+
+#, fuzzy
+msgid "poll_notification_unsubscribe"
+msgstr "Deactivate Notification"
+
+#, fuzzy
+msgid "poll_percentage"
+msgstr "Current Percentage"
+
+#, fuzzy
+msgid "poll_population"
+msgid_plural "poll_population_plural"
+msgstr[0] "%s Votes"
+
+#, fuzzy
+msgid "poll_population_singular"
+msgstr "1 Participant"
+
+#, fuzzy
+msgid "poll_question"
+msgstr "Question"
+
+#, fuzzy
+msgid "poll_result"
+msgstr "Voting Result"
+
+#, fuzzy
+msgid "poll_result_answers"
+msgstr "Votes"
+
+#, fuzzy
+msgid "poll_result_sorting"
+msgstr "Sorting"
+
+#, fuzzy
+msgid "poll_result_sorting_answers"
+msgstr "In the order of the answers"
+
+#, fuzzy
+msgid "poll_result_sorting_votes"
+msgstr "By number of votes (descending)"
+
+#, fuzzy
+msgid "poll_result_users"
+msgstr "Participants"
+
+#, fuzzy
+msgid "poll_show_results_as"
+msgstr "Show Results as"
+
+#, fuzzy
+msgid "poll_sortorder"
+msgstr "Order"
+
+#, fuzzy
+msgid "poll_stacked_chart"
+msgstr "Stacked Chart"
+
+#, fuzzy
+msgid "poll_view_results"
+msgstr "Display Results"
+
+#, fuzzy
+msgid "poll_view_results_after_period"
+msgstr "After Voting Period "
+
+#, fuzzy
+msgid "poll_view_results_after_period_impossible"
+msgstr "The voting period is not limited."
+
+#, fuzzy
+msgid "poll_view_results_after_vote"
+msgstr "After Vote"
+
+#, fuzzy
+msgid "poll_view_results_always"
+msgstr "Always"
+
+#, fuzzy
+msgid "poll_view_results_never"
+msgstr "Never"
+
+#, fuzzy
+msgid "poll_vote"
+msgstr "Vote"
+
+#, fuzzy
+msgid "poll_vote_error_multi"
+msgid_plural "poll_vote_error_multi_plural"
+msgstr[0] "Please select no more than %s answers."
+
+#, fuzzy
+msgid "poll_vote_error_multi_no_answer"
+msgstr "Please select at least 1 answer."
+
+#, fuzzy
+msgid "poll_vote_error_single"
+msgstr "Please select 1 answer."
+
+#, fuzzy
+msgid "poll_vote_notification_body"
+msgstr "the following poll has received a vote."
+
+#, fuzzy
+msgid "poll_vote_notification_link"
+msgstr "Link to Poll"
+
+#, fuzzy
+msgid "poll_vote_notification_reason"
+msgstr "You are receiving this email because you activated notifications for the poll mentioned above."
+
+#, fuzzy
+msgid "poll_vote_notification_subject"
+msgstr "Poll \"%s\": new vote"
+
+#, fuzzy
+msgid "poll_votes_no_edit"
+msgstr "This poll cannot be edited because of existing votes."
+
+#, fuzzy
+msgid "poll_voting_period_and_results"
+msgstr "Voting Period and Results"
+
+#, fuzzy
+msgid "poll_voting_period_ended_info"
+msgstr "The voting period ended %s."
+
+#, fuzzy
+msgid "poll_voting_period_full_info"
+msgstr "Voting period from %s to %s"
+
+#, fuzzy
+msgid "poll_voting_period_info"
+msgstr "Deadline for Voting: %s"
+
+#, fuzzy
+msgid "poll_voting_period_limited"
+msgstr "Limited"

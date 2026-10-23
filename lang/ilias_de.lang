@@ -3371,80 +3371,6 @@ cmix#:#use_fetch_info#:#Solange die Ressource diese Option unterstützt, sollten
 cmix#:#xapi_statements_fetched_successfully#:#Ergebnisse aus dem Learning Record Store wurden erfolgreich abgerufen.
 cmix#:#xapi_statements_last_fetch_date#:#Letzter Abruf von Ergebnissen:
 cmix#:#xapi_statements_not_fetched_yet#:#Ergebnisse aus dem Learning Record Store wurden noch nicht abgerufen.
-cmps#:#cmps_activate#:#Aktivieren
-cmps#:#cmps_active#:#Aktiv
-cmps#:#cmps_add_new_rank#:#Position in der Auswahlliste für hinzuzufügende Objekte
-cmps#:#cmps_available#:#Verfügbar
-cmps#:#cmps_available_version#:#Verfügbare Version
-cmps#:#cmps_basic_files#:#Basis-Dateien
-cmps#:#cmps_class_file#:#Klassen-Datei
-cmps#:#cmps_component#:#Komponente
-cmps#:#cmps_configure#:#Konfigurieren
-cmps#:#cmps_current_db_version#:#Aktuelle DB-Version
-cmps#:#cmps_current_version#:#Aktuelle Version
-cmps#:#cmps_database#:#Datenbank
-cmps#:#cmps_db_update#:#Skript für Datenbankaktualisierung
-cmps#:#cmps_deactivate#:#Deaktivieren
-cmps#:#cmps_detailed_information#:#Detaillierte Informationen
-cmps#:#cmps_dir#:#Verzeichnis
-cmps#:#cmps_disable_creation#:#Erstellung ausschalten
-cmps#:#cmps_enable_creation#:#Erstellung einschalten
-cmps#:#cmps_file_version#:#Dateiversion aktualisieren
-cmps#:#cmps_group#:#Gruppe
-cmps#:#cmps_id#:#ID
-cmps#:#cmps_ilias_max_version#:#Maximale ILIAS-Version
-cmps#:#cmps_ilias_min_version#:#Minimale ILIAS-Version
-cmps#:#cmps_inactive#:#Inaktiv
-cmps#:#cmps_install#:#Installieren
-cmps#:#cmps_is_active#:#Aktiviert
-cmps#:#cmps_is_installed#:#Installiert
-cmps#:#cmps_lang_files#:#Sprachdatei
-cmps#:#cmps_lang_prefix#:#Präfix Sprachvariable
-cmps#:#cmps_languages#:#Sprachen
-cmps#:#cmps_main_dir#:#Hauptverzeichnis
-cmps#:#cmps_missing#:#Fehlt
-cmps#:#cmps_module#:#Modul
-cmps#:#cmps_must_installed#:#Die Komponente muss installiert werden.
-cmps#:#cmps_name#:#Name
-cmps#:#cmps_needs_matching_ilias_version#:#Dieses Plugin kann nicht mit der aktuellen Version dieser ILIAS-Installation verwendet werden.
-cmps#:#cmps_needs_newer_ilias_version#:#Dieses Plugin kann nur mit einer neueren ILIAS-Version verwendet werden. Bitte aktualisieren Sie Ihre ILIAS-Version.
-cmps#:#cmps_needs_newer_plugin_version#:#Diese ILIAS-Version benötigt eine neuere Plugin-Version. Bitte aktualisieren Sie das Plugin.
-cmps#:#cmps_needs_update#:#Aktualisierung notwendig
-cmps#:#cmps_needs_upgrade#:#Die aktuell installierte Plugin-Version ist älter als die zuvor installierte. Bitte installieren Sie das aktuelle Plugin.
-cmps#:#cmps_no_db_update_file_available#:#Kein Datenbank-Update-Skript verfügbar
-cmps#:#cmps_no_language_file_available#:#Keine Sprachdatei verfügbar
-cmps#:#cmps_plugin#:#Plugin
-cmps#:#cmps_plugin_activated#:#Das Plugin wurde aktiviert.
-cmps#:#cmps_plugin_db_prefixes#:#Präfixe Datenbanktabelle
-cmps#:#cmps_plugin_deactivated#:#Das Plugin wurde deaktiviert.
-cmps#:#cmps_plugin_deinstalled#:#Das Plugin wurde deinstalliert.
-cmps#:#cmps_plugin_file#:#Plugin-Datei
-cmps#:#cmps_plugin_lang_prefixes#:#Plugin-Sprachpräfixe
-cmps#:#cmps_plugin_slot#:#Plugin-Slot
-cmps#:#cmps_plugin_uninstalled#:#Alle Sprach- und Datenbankeinträge, die sich auf das Plugin beziehen, wurden gelöscht und das Plugin deaktiviert. Sie können jetzt das Verzeichnis und den Quellcode des Plugins aus dem ‘Customizing’-Verzeichnis entfernen, um das Plugin endgültig zu deinstallieren.
-cmps#:#cmps_plugin_updated#:#Das Plugin wurde aktualisiert.
-cmps#:#cmps_plugins#:#Plugins
-cmps#:#cmps_refresh#:#Sprachen neu laden
-cmps#:#cmps_refresh_lng#:#Sprache aktualisiert
-cmps#:#cmps_rep_object#:#Objekttyp im Magazin
-cmps#:#cmps_repository_object_types#:#Objekttypen im Magazin
-cmps#:#cmps_responsible#:#Verantwortlich
-cmps#:#cmps_responsible_mail#:#Mail (Verantwortlicher)
-cmps#:#cmps_save_options#:#Speichern
-cmps#:#cmps_service#:#Dienst
-cmps#:#cmps_show_details#:#Details anzeigen
-cmps#:#cmps_slots#:#Slots
-cmps#:#cmps_status#:#Status
-cmps#:#cmps_supports_cli_setup#:#Unterstützt CLI-Setup
-cmps#:#cmps_supports_export#:#Unterstützt Export
-cmps#:#cmps_supports_learning_progress#:#Unterstützt Lernfortschritt
-cmps#:#cmps_uninstall#:#Deinstallieren
-cmps#:#cmps_uninstall_confirm#:#Wollen Sie wirklich das Plugin „%s“ deinstallieren und alle zugehörigen Datenbankeinträge löschen?
-cmps#:#cmps_uninstall_inactive_confirm#:#Das Plugin "%1$s" ist aktuell nicht aktivierbar ("%2$s"). In diesem Status können Plugins nicht komplett deinstalliert werden. Da nur die Systemintegration entfernt wird, könnten Plugin-eigene Daten zurückbleiben. Möchten Sie mit der teilweisen Deinstallation fortfahren?
-cmps#:#cmps_update#:#Aktualisieren
-cmps#:#cmps_version#:#Version
-cmps#:#database_is_uptodate#:#Die Datenbank ist aktuell.
-cmps#:#no_changes#:#Keine Änderungen
 cmxv#:#cmxv_create#:#Zertifikat für xAPI/cmi5-Objekt erstellen
 cmxv#:#cmxv_create_info#:#Wählen Sie ein abgeschlossenes xAPI/cmi5-Objekt aus, um ein Zertifikat dafür zu generieren.
 cntr#:#cntr_add_new_item#:#Neues Objekt hinzufügen
@@ -11144,11 +11070,6 @@ lm#:#lm_page_added#:#Eine Seite wurde hinzugefügt.
 lm#:#lm_page_type_lm#:#Lernmodulseite
 lm#:#lm_pages_added#:#Die Seiten wurden hinzugefügt.
 lm#:#lm_save_titles#:#Titel wurden gespeichert.
-lng#:#language_detection#:#Automatische Spracherkennung
-lng#:#lng_disable_language_detection#:#Automatische Spracherkennung deaktivieren
-lng#:#lng_download_deprecated#:#Veraltete Einträge herunterladen
-lng#:#lng_enable_language_detection#:#Automatische Spracherkennung aktivieren
-lng#:#lng_switch_language_detection#:#Automatische Spracherkennung umschalten
 log#:#log_component_btn_reset#:#Einstellungen zurücksetzen
 log#:#log_component_col_component#:#Komponente
 log#:#log_component_col_level#:#Log-Level
@@ -13453,75 +13374,6 @@ pd#:#pd_upcoming#:#Bevorstehend
 pd#:#pd_view_select_at_least_one#:#Bitte wählen Sie mindestens eine Sicht, entweder 'Ausgewählte Angebote' und/oder 'Kurse und Gruppen'.
 pdesk#:#bookmark_moved_ok#:#Bookmark wurde verschoben.
 pdesk#:#bookmark_select_target#:#Bitte wählen Sie das Ziel.
-poll#:#poll_absolute#:#Aktuelle Stimmen
-poll#:#poll_activation_online_info#:#Diese Abstimmung verfügbar machen.
-poll#:#poll_add#:#Abstimmung anlegen
-poll#:#poll_anonymous_warning#:#Dies ist eine anonyme Abstimmung. Ihre Stimme wird gespeichert, Ihr Name aber nicht in den Abstimmungsergebnissen angezeigt.
-poll#:#poll_answer#:#Antwort
-poll#:#poll_answer_selected_alt_text#:#Ausgewählt
-poll#:#poll_answers#:#Mögliche Antworten
-poll#:#poll_barchart#:#Balkendiagramm
-poll#:#poll_block_message_already_voted#:#Sie haben bereits abgestimmt.
-poll#:#poll_block_message_no_answers#:#Diese Abstimmung ist nicht komplett.
-poll#:#poll_block_results_available_on#:#Die Ergebnisse werden %s veröffentlicht.
-poll#:#poll_cannot_set_online_no_answers#:#Der Status kann nicht auf &quot;online (aktiviert)&quot; geändert werden, da der Abstimmung noch keine Frage hinzugefügt wurde!
-poll#:#poll_chart_votes#:#Stimmen
-poll#:#poll_comments#:#Kommentare
-poll#:#poll_copy#:#Abstimmung kopieren
-poll#:#poll_delete_votes#:#Alle Stimmabgaben löschen
-poll#:#poll_delete_votes_sure#:#Sind Sie sicher, dass Sie alle Stimmabgaben löschen möchten?
-poll#:#poll_edit#:#Abstimmung bearbeiten
-poll#:#poll_edit_question#:#Frage bearbeiten
-poll#:#poll_image#:#Bild
-poll#:#poll_import#:#Abstimmung importieren
-poll#:#poll_limit_not_below_answer_count#:#Die maximale Anzahl der auswählbaren Antworten muss geringer sein als die Gesamtzahl der möglichen Antworten.
-poll#:#poll_limit_number_of_answers#:#Anzahl der auswählbaren Antworten begrenzen
-poll#:#poll_max_number_of_answers#:#Maximale Anzahl pro Person
-poll#:#poll_max_number_of_answers_info#:#Sie dürfen bis zu %s Antworten auswählen.
-poll#:#poll_mode#:#Modus
-poll#:#poll_mode_anonymous#:#Ohne Namen / Anonym
-poll#:#poll_mode_anonymous_info#:#Im Reiter „Abstimmungsergebnisse“ werden keine Namen aufgeführt. Systeminterne IDs der teilnehmenden Personen werden in der Datenbank gespeichert.
-poll#:#poll_mode_personal#:#Mit Namen
-poll#:#poll_mode_personal_info#:#Im Reiter „Abstimmungsergebnisse“ werden die Namen der teilnehmenden Personen mit ihren Antworten aufgeführt. Personen, die Zugriff auf diesen Reiter haben, können sehen, wer welche Antwort gegeben hat.
-poll#:#poll_new#:#Neue Abstimmung anlegen
-poll#:#poll_non_anonymous_warning#:#Ihr Name und Votum sind für die Administration in den Ergebnissen sichtbar.
-poll#:#poll_notification_activated#:#Benachrichtigungen aktiviert.
-poll#:#poll_notification_deactivated#:#Benachrichtigungen deaktiviert.
-poll#:#poll_notification_subscribe#:#Benachrichtigungen aktivieren
-poll#:#poll_notification_unsubscribe#:#Benachrichtigungen deaktivieren
-poll#:#poll_percentage#:#Aktueller Anteil
-poll#:#poll_population#:#%s Stimmabgaben
-poll#:#poll_population_singular#:#Eine Stimmabgabe
-poll#:#poll_question#:#Frage
-poll#:#poll_result#:#Abstimmungsergebnisse
-poll#:#poll_result_answers#:#Stimmen
-poll#:#poll_result_sorting#:#Sortierung
-poll#:#poll_result_sorting_answers#:#In der Reihenfolge der Antworten
-poll#:#poll_result_sorting_votes#:#Nach Anzahl der Stimmen (absteigend)
-poll#:#poll_result_users#:#Pro Person
-poll#:#poll_show_results_as#:#Ergebnisse anzeigen als
-poll#:#poll_sortorder#:#Sortierung
-poll#:#poll_stacked_chart#:#Stapeldiagramm
-poll#:#poll_view_results#:#Ergebnisse anzeigen
-poll#:#poll_view_results_after_period#:#Nach Stimmperiode
-poll#:#poll_view_results_after_period_impossible#:#Damit die Abstimmungsergebnisse erst nach Ende der Stimmperiode gezeigt werden können, müssen Sie oben eine zeitlich begrenzte Stimmperiode einrichten.
-poll#:#poll_view_results_after_vote#:#Nach Stimmabgabe
-poll#:#poll_view_results_always#:#Immer
-poll#:#poll_view_results_never#:#Niemals
-poll#:#poll_vote#:#Abstimmen
-poll#:#poll_vote_error_multi#:#Wählen Sie maximal %s Antworten aus.
-poll#:#poll_vote_error_multi_no_answer#:#Wählen Sie mindestens eine Antwort aus.
-poll#:#poll_vote_error_single#:#Wählen Sie eine Antwort aus.
-poll#:#poll_vote_notification_body#:#die folgende Abstimmung hat eine Stimme erhalten
-poll#:#poll_vote_notification_link#:#Link zur Abstimmung
-poll#:#poll_vote_notification_reason#:#Sie erhalten diese Nachricht, da Sie die Benachrichtigungsfunktion für die oben genannte Abstimmung aktiviert haben.
-poll#:#poll_vote_notification_subject#:#Abstimmung „%s“ – neue Stimmabgabe
-poll#:#poll_votes_no_edit#:#Diese Abstimmung beinhaltet bereits Stimmen. Sie kann nicht bearbeitet werden so lange Sie die Stimmen nicht löschen.
-poll#:#poll_voting_period_and_results#:#Stimmperiode und Ergebnisse
-poll#:#poll_voting_period_ended_info#:#Das Ende der Abstimmung war %s.
-poll#:#poll_voting_period_full_info#:#Die Abstimmung in dieser Umfrage ist vom %s bis zum %s möglich
-poll#:#poll_voting_period_info#:#Die Frist für die Abstimmung endet am %s.
-poll#:#poll_voting_period_limited#:#Zeitlich begrenzte Stimmperiode
 prg#:#access_ctr_by_orgu_position#:#Berechtigungen anhand Positionen in Organisationseinheiten
 prg#:#active_only#:#nur aktive
 prg#:#add_automembership_source#:#Automatismus hinzufügen
@@ -17269,23 +17121,6 @@ tbl#:#tbl_template_created#:#Die aktuelle Ansicht wurde gespeichert.
 tbl#:#tbl_template_delete#:#Gespeicherte Ansicht löschen
 tbl#:#tbl_template_deleted#:#Die gespeicherte Ansicht wurde gelöscht.
 tbl#:#tbl_templates#:#Ansicht
-tos#:#tos_accept_usr_agreement_anonymous#:#Nutzungsvereinbarung
-tos#:#tos_accept_usr_agreement_anonymous_intro#:#Bevor Sie zu ILIAS wechseln, akzeptieren Sie die folgende Nutzungsvereinbarung.
-tos#:#tos_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht möglich, da keine Nutzungsvereinbarung angeboten wird. Bitte kontaktieren Sie die <a href="%1$s">technische Betreuung</a> für weitere Informationen.
-tos#:#tos_agree_date#:#Nutzungsvereinbarung zugestimmt am
-tos#:#tos_agreement#:#Nutzungsvereinbarung
-tos#:#tos_disabled_no_docs_left#:#Die Nutzungsvereinbarung wurde deaktiviert, da alle Dokumente gelöscht wurden. Erstellen Sie mindestens ein Dokument, bevor Sie die Nutzungsvereinbarung wieder aktivieren.
-tos#:#tos_last_reset_date#:#Die Nutzungsvereinbarung wurde zuletzt am %s zurückgesetzt. Setzen Sie die Nutzungsvereinbarung nur zurück, wenn sich die Dokumente in der Zwischenzeit geändert haben und eine Zustimmung zu dieser geänderten Vereinbarung gewünscht ist.
-tos#:#tos_never_reset#:#Die Nutzungsvereinbarung wurde bisher noch nicht zurückgesetzt. Setzen Sie die Nutzungsvereinbarung nur zurück, wenn sich die Dokumente in der Zwischenzeit geändert haben und eine Zustimmung zu dieser geänderten Vereinbarung gewünscht ist.
-tos#:#tos_no_documents_exist#:#Aktuell liegen keine Dokumente für die Nutzungsvereinbarung vor.
-tos#:#tos_no_documents_exist_cant_save#:#Aktuell liegt keine Nutzungsvereinbarung vor. Bitte erstellen Sie mindestens ein Dokument um den Service zu aktivieren.
-tos#:#tos_reset_for_all_users#:#Nutzungsvereinbarung zurücksetzen
-tos#:#tos_reset_successful#:#Die Nutzungsvereinbarung wurde erfolgreich zurückgesetzt.
-tos#:#tos_status_desc#:#Benutzer werden zum Unterzeichnen der Nutzungsvereinbarung aufgefordert, bevor sie ILIAS nutzen können.
-tos#:#tos_status_enable#:#Nutzungsvereinbarung aktivieren
-tos#:#tos_sure_reset_tos#:#Sind Sie sicher, dass die Nutzungsvereinbarung für alle Benutzer im System zurückgesetzt werden soll? Dies betrifft auch jene Anmeldekonten, die z.B. für die SOAP-Web-Services genutzt werden.
-tos#:#tos_withdrawal_usr_deletion#:#Löschung des ILIAS-Kontos beim Widerruf der Nutzungsvereinbarung
-tos#:#tos_withdrawal_usr_deletion_desc#:#Wird die Zustimmung zur Nutzungsvereinbarung widerrufen, erfolgt automatisch die Löschung des ILIAS-Kontos.
 trac#:#cmix_lp_mode_deactivated#:#Lernfortschritt wird deaktiviert
 trac#:#cmix_lp_mode_deactivated_info#:#Der Lernfortschrittsstatus wird nicht angezeigt und hat keinen Einfluss auf übergeordnete Objekte.
 trac#:#cmix_lp_mode_when_completed#:#Abgeschlossen, wenn "completed".

@@ -63,22 +63,44 @@ Adding new entries into language files will not make them available in the user 
 refresh the languages by executing the `Refresh Languages` action in the global ILIAS language administration
 (`Administration » Languages`).
 
+## Modules Maintained in PO Files
+A few modules are no longer maintained in the `.lang` files but in gettext `.po` files shipped by
+their component (currently `tos` in `components/ILIAS/TermsOfService/lang/` and `poll` in
+`components/ILIAS/Poll/lang/`). For such a module the shipped `<module>_<lang>.po` is the only source
+of its translations: its lines in `lang/ilias_<lang>.lang` are ignored when installing or updating
+languages, and changes to its entries MUST be made in its `.po` files (a new key also in the module's
+`.pot`). A comment of a `.lang` entry corresponds to an extracted comment (`#.`) in the `.po` file.
+The initial files are generated with `components/ILIAS/Language/tools/po-migration/convert_module_to_po.php`;
+afterwards they are maintained directly, and `php cli/setup.php build` MUST be run after every change
+of a shipped `.po`. The developer mode action
+that merges local changes into the global language file writes the local changes of these modules
+into their shipped `.po` files. Each installation
+keeps its local changes of these modules in the client data directory, which is why the ILIAS setup
+MUST be run as the web server user. Plural forms are available for these modules through
+`txt($a_topic, $n)`. See
+[the Language component](../../components/ILIAS/Language/README.md#translations-maintained-in-po-files)
+for details.
+
 ## Supported HTML Tags in Language Files
-Only a defined set of HTML tags are allowed to be used within the `text_content` of a language entry:
+Only a defined set of HTML tags and attributes is allowed within the `text_content` of a language
+entry. The rules are defined by `TranslationMarkupPolicy` and listed in
+[the Language component](../../components/ILIAS/Language/README.md#markup-policy). Values that
+break them are rejected when entered in the language administration and removed when the `.po` files
+are compiled.
 
-* All tags allowed by `getSecureTags` from `ilUtil`: `a`, `b`, `bdo`, `code`, `div`, `em`, `gap`, `i`, `img`, `li`, `ol`, `p`, `pre`, `strike`, `strong`, `sub`, `sup`, `u` and `ul`
-* In addition: `span` and `br`
+## Using the Language Service
+New component-revision code should depend on `ILIAS\Language\Language`. During the legacy bootstrap this interface is
+provided through a lazy bridge and delegates to the active `ilLanguage` runtime instance after the legacy container has
+been initialised.
 
-All other HTML tags are unsupported and will be removed by `ilUtil::stripSlashes`.
+Legacy components may continue to use `$DIC['lng']` or `$DIC->language()` during the transition. These access paths
+are compatibility provisions for non-migrated code and are not the preferred API for new components.
 
-## Using the Global Language Object
-The global language object can be retrieved from the dependency injection container by using/calling `$DIC['lng']` or
-`$DIC->language()`. This is an instance of class `ilLanguage` and provides methods to access these strings in the 
-language of the user within the current authentication process. This is done by using the functions
- `loadLanguageModule()` and `txt()`.
+Setup code uses the separate `ilSetupLanguage` implementation. It is intentionally independent of runtime user,
+session, and container state and must not be selected for normal runtime initialisation.
 
-        $lng->loadLanguageModule("frm");
-        $tpl->setVariable("TEXT", $lng->txt("frm_new_posting"));    
+        $language->loadLanguageModule("frm");
+        $tpl->setVariable("TEXT", $language->txt("frm_new_posting"));
 
 # Roles
 The language handling process in ILIAS knows four distinct roles:

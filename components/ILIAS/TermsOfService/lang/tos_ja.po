@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: tos\n"
+
+msgid "tos_accept_usr_agreement_anonymous"
+msgstr "利用規約"
+
+msgid "tos_accept_usr_agreement_anonymous_intro"
+msgstr "ILIASを利用する前に次の利用規約を承諾するものとします。"
+
+msgid "tos_account_reg_not_possible"
+msgstr "ユーザ許諾が無いので自己登録はできません。詳細に関しては<a href=\"%1$s\">システム管理者</a>へコンタクトしてください。"
+
+msgid "tos_agree_date"
+msgstr "使用許諾 承諾日"
+
+msgid "tos_agreement"
+msgstr "サービス使用許諾"
+
+msgid "tos_disabled_no_docs_left"
+msgstr "全てのドキュメントが削除されたのでユーザ許諾書は現在無効です。ユーザ許諾書を再度有効にする前に一つはドキュメントを作成してください。"
+
+msgid "tos_last_reset_date"
+msgstr "サービス使用許諾は%sにリセットされました。"
+
+msgid "tos_never_reset"
+msgstr "サービス規約はまだリセットされていません。"
+
+msgid "tos_no_documents_exist"
+msgstr "現在インストール済言語のサービス使用許諾書はありません"
+
+msgid "tos_no_documents_exist_cant_save"
+msgstr "インストール済の言語にはサービス用語が現在何もありません。どれかインストール済の言語用に一つはドキュメントを追加してください。"
+
+msgid "tos_reset_for_all_users"
+msgstr "サービス使用許諾をリセット"
+
+msgid "tos_reset_successful"
+msgstr "サービス規約は正しくリセットされました。"
+
+msgid "tos_status_desc"
+msgstr "アクティブにするとユーザはILIASログイン前にサービス使用許諾への承諾を要求されます。"
+
+msgid "tos_status_enable"
+msgstr "有効"
+
+msgid "tos_sure_reset_tos"
+msgstr "本当にシステム内の全ユーザのサービス使用許諾をリセットしますか?SOAP webサービス、chatサービス、クローンjobを使用しているユーザアカウントに対しても適用される事になります。"
+
+msgid "tos_withdrawal_usr_deletion"
+msgstr "利用許諾撤回の削除"
+
+msgid "tos_withdrawal_usr_deletion_desc"
+msgstr "ユーザが事前に承諾したサービス使用許諾ドキュメントの承諾を破棄すると、ユーザのアカウント削除につながります。"

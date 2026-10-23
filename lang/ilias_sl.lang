@@ -3314,79 +3314,6 @@ cmix#:#use_fetch_info#:#As long as the resource supports this option, you should
 cmix#:#xapi_statements_fetched_successfully#:#Results from Learning Record Store were fetched successfully
 cmix#:#xapi_statements_last_fetch_date#:#Last fetch of Results
 cmix#:#xapi_statements_not_fetched_yet#:#Results from Learning Record Store are not fetched yet
-cmps#:#cmps_activate#:#Aktiviraj
-cmps#:#cmps_active#:#Aktivno
-cmps#:#cmps_add_new_rank#:#Položaj na izbirnem seznamu objektov za dodajanje
-cmps#:#cmps_available#:#Razpoložljivo
-cmps#:#cmps_available_version#:#Available Version###19 08 2022 new variable
-cmps#:#cmps_basic_files#:#Osnovne datoteke
-cmps#:#cmps_class_file#:#Razredna datoteka
-cmps#:#cmps_component#:#Komponenta
-cmps#:#cmps_configure#:#Konfiguriraj
-cmps#:#cmps_current_db_version#:#Current DB-Version###19 08 2022 new variable
-cmps#:#cmps_current_version#:#Aktualna različica
-cmps#:#cmps_database#:#Baza podatkov
-cmps#:#cmps_db_update#:#Skripta za posodobitev baze podatkov
-cmps#:#cmps_deactivate#:#Onemogoči
-cmps#:#cmps_detailed_information#:#Detailed Informationen###19 08 2022 new variable
-cmps#:#cmps_dir#:#Seznam
-cmps#:#cmps_enable_creation#:#Vključi ustvarjanje
-cmps#:#cmps_file_version#:#Posodobi različico datoteke
-cmps#:#cmps_group#:#Skupina
-cmps#:#cmps_id#:#ID
-cmps#:#cmps_ilias_max_version#:#Maksimalna različica ILIAS
-cmps#:#cmps_ilias_min_version#:#Minimalna različica ILIAS
-cmps#:#cmps_inactive#:#Neaktiven
-cmps#:#cmps_install#:#Namesti
-cmps#:#cmps_is_active#:#Activated###19 08 2022 new variable
-cmps#:#cmps_is_installed#:#Installed###19 08 2022 new variable
-cmps#:#cmps_lang_files#:#Jezikovna datoteka
-cmps#:#cmps_lang_prefix#:#Predpona jezikovnih spremenljivk
-cmps#:#cmps_languages#:#Jeziki
-cmps#:#cmps_main_dir#:#Glavni seznam
-cmps#:#cmps_missing#:#Manjka
-cmps#:#cmps_module#:#Module
-cmps#:#cmps_must_installed#:#Komponenta mora biti nameščena.
-cmps#:#cmps_name#:#Ime
-cmps#:#cmps_needs_matching_ilias_version#:#This plugin does not work with your current ILIAS version.###19 08 2022 new variable
-cmps#:#cmps_needs_newer_ilias_version#:#Ta vtičnik se lahko uporablja samo z novejšo različico ILIAS. Posodobite različico ILIAS.
-cmps#:#cmps_needs_newer_plugin_version#:#Ta različica ILIAS potrebuje novejšo različico vtičnika. Posodobite vtičnik.
-cmps#:#cmps_needs_update#:#Potrebna je posodobitev
-cmps#:#cmps_needs_upgrade#:#Trenutno nameščena različica vtičnika je starejša od predhodno nameščene. Namestite aktualen vtičnik.
-cmps#:#cmps_no_db_update_file_available#:#Skripte za posodobitev baze podatkov ni na voljo
-cmps#:#cmps_no_language_file_available#:#Nobena jezikovna datoteka ni na voljo
-cmps#:#cmps_plugin#:#Vtičnik
-cmps#:#cmps_plugin_activated#:#Vtičnik je bil aktiviran.
-cmps#:#cmps_plugin_db_prefixes#:#Predpone tabele baze podatkov
-cmps#:#cmps_plugin_deactivated#:#Vtičnik je bil onemogočen.
-cmps#:#cmps_plugin_deinstalled#:#The plugin has been uninstalled###19 08 2022 new variable
-cmps#:#cmps_plugin_file#:#Datoteka vtičnika
-cmps#:#cmps_plugin_lang_prefixes#:#Jezikovne predpone vtičnika
-cmps#:#cmps_plugin_slot#:#Reža vtičnika
-cmps#:#cmps_plugin_uninstalled#:#Vsi jezikovni vnosi in vnosi v bazo podatkov, ki se nanašajo na vtičnik, so bili izbrisani in vtičnik je onemogočen. Zdaj lahko s seznama ’Prilagajanje’ odstranite seznam in izvorno kodo vtičnika, da vtičnik dokončno odstranite.
-cmps#:#cmps_plugin_updated#:#The plugin has been updated###19 08 2022 new variable
-cmps#:#cmps_plugins#:#Vtičniki
-cmps#:#cmps_refresh#:#Na novo naloži jezike
-cmps#:#cmps_refresh_lng#:#Refresh language###19 08 2022 new variable
-cmps#:#cmps_rep_object#:#Tip objekta v magazinu
-cmps#:#cmps_repository_object_types#:#Tipi objektov v magazinu
-cmps#:#cmps_responsible#:#Odgovoren
-cmps#:#cmps_responsible_mail#:#Mail (Responsible)###19 08 2022 new variable
-cmps#:#cmps_save_options#:#Shrani
-cmps#:#cmps_service#:#Storitev
-cmps#:#cmps_show_details#:#Prikaži podrobnosti
-cmps#:#cmps_slots#:#Dodeljeni čas
-cmps#:#cmps_status#:#Status
-cmps#:#cmps_supports_cli_setup#:#Supports CLI-Setup###19 08 2022 new variable
-cmps#:#cmps_supports_export#:#Supports export###19 08 2022 new variable
-cmps#:#cmps_supports_learning_progress#:#Supports learning progress###19 08 2022 new variable
-cmps#:#cmps_uninstall#:#Odstrani
-cmps#:#cmps_uninstall_confirm#:#Ali res želite odstraniti vtičnik "%s" in izbrisati vse povezane vnose v bazi podatkov?
-cmps#:#cmps_uninstall_inactive_confirm#:#Vtičnika "%1$s" se trenutno ne da aktivirati ("%2$s"). V tem statusu ni mogoče v celoti odstraniti vtičnikov. Ker je izbrisana samo sistemska integracija, lahko lastne datoteke vtičnika ostanejo. Ali želite nadaljevati z delno odstranitvijo?
-cmps#:#cmps_update#:#Posodobi
-cmps#:#cmps_version#:#Različica
-cmps#:#database_is_uptodate#:#Baza podatkov je posodobljena.
-cmps#:#no_changes#:#Brez sprememb
 cmxv#:#cmxv_create#:#Create Certificate for xAPI/cmi5 Object
 cmxv#:#cmxv_create_info#:#Select a completed xAPI/cmi5 object to generate a certificate for it
 cntr#:#cntr_add_new_item#:#Dodaj nov objekt
@@ -11014,11 +10941,6 @@ lm#:#lm_page_added#:#Page has been added.###26 08 2024 new variable
 lm#:#lm_page_type_lm#:#LM Page
 lm#:#lm_pages_added#:#Pages have been added.###26 08 2024 new variable
 lm#:#lm_save_titles#:#Naslovi so bili shranjeni.
-lng#:#language_detection#:#Language Detection###19 08 2022 new variable
-lng#:#lng_disable_language_detection#:#Onemogoči samodejno zaznavanje jezika
-lng#:#lng_download_deprecated#:#Prenesi zastarele vnose
-lng#:#lng_enable_language_detection#:#Aktiviraj samodejno zaznavanje jezika
-lng#:#lng_switch_language_detection#:#Switch Language Detection###26 08 2024 new variable
 log#:#log_browser#:#Browser Console Log
 log#:#log_browser_users#:#Usernames Using Console Log
 log#:#log_cache_#:#Caching
@@ -13281,75 +13203,6 @@ pd#:#pd_upcoming#:#Predhodno
 pd#:#pd_view_select_at_least_one#:#Izberite vsaj en pogled, ali 'Izbrane ponudbe' in/ali 'Tečaji in skupine'.
 pdesk#:#bookmark_moved_ok#:#Zaznamek je bil premaknjen.
 pdesk#:#bookmark_select_target#:#Izberite cilj.
-poll#:#poll_absolute#:#Aktualni glasovi
-poll#:#poll_activation_online_info#:#Izberite to nastavitev, da bo glasovanje na voljo uporabnikom.
-poll#:#poll_add#:#Ustvari glasovanje
-poll#:#poll_anonymous_warning#:#Vaše ime ne bo prikazano v rezultatih glasovanja.
-poll#:#poll_answer#:#Odgovor
-poll#:#poll_answer_selected_alt_text#:#Selected###26 08 2024 new variable
-poll#:#poll_answers#:#Možni odgovori
-poll#:#poll_barchart#:#Palični diagram
-poll#:#poll_block_message_already_voted#:#Svoj glas ste že oddali.
-poll#:#poll_block_message_no_answers#:#To glasovanje ni popolno.
-poll#:#poll_block_results_available_on#:#Rezultati bodo objavljeni dne %s.
-poll#:#poll_cannot_set_online_no_answers#:#The status cannot be changed to &quot;online&quot; because this poll has no question!###26 08 2024 new variable
-poll#:#poll_chart_votes#:#Votes###28 10 2024 new variable
-poll#:#poll_comments#:#Komentarji
-poll#:#poll_copy#:#Kopiraj glasovanje
-poll#:#poll_delete_votes#:#Izbriši vse glasove
-poll#:#poll_delete_votes_sure#:#Ali ste prepričani, da želite izbrisati vse glasove?
-poll#:#poll_edit#:#Uredi glasovanje
-poll#:#poll_edit_question#:#Edit Question###26 08 2024 new variable
-poll#:#poll_image#:#Slika
-poll#:#poll_import#:#Uvozi glasovanje
-poll#:#poll_limit_not_below_answer_count#:#The answer limit must be below the number of possible answers.###26 08 2024 new variable
-poll#:#poll_limit_number_of_answers#:#Limit Number of Answers per Participant###26 08 2024 new variable
-poll#:#poll_max_number_of_answers#:#Maksimalno število odgovorov na udeleženca
-poll#:#poll_max_number_of_answers_info#:#You may choose up to %s answers.###26 08 2024 new variable
-poll#:#poll_mode#:#Način
-poll#:#poll_mode_anonymous#:#Anonimno
-poll#:#poll_mode_anonymous_info#:#Oddanih glasov ni mogoče dodeliti udeležencem.
-poll#:#poll_mode_personal#:#Personalizirano
-poll#:#poll_mode_personal_info#:#Seznam udeležencev z oddanimi glasovi je na voljo z ustreznimi pravicami.
-poll#:#poll_new#:#Ustvari novo glasovanje
-poll#:#poll_non_anonymous_warning#:#Vaše ime in glas sta v rezultatih glasovanja vidna administratorjem.
-poll#:#poll_notification_activated#:#Notification Activated###26 08 2024 new variable
-poll#:#poll_notification_deactivated#:#Notification Deactivated###26 08 2024 new variable
-poll#:#poll_notification_subscribe#:#Aktiviraj obveščanje
-poll#:#poll_notification_unsubscribe#:#Onemogoči obveščanje
-poll#:#poll_percentage#:#Aktualni delež
-poll#:#poll_population#:#%s udeleženec
-poll#:#poll_population_singular#:#1 Participant###26 08 2024 new variable
-poll#:#poll_question#:#Vprašanje
-poll#:#poll_result#:#Rezultati glasovanja
-poll#:#poll_result_answers#:#Glasovi
-poll#:#poll_result_sorting#:#Razvrstitev
-poll#:#poll_result_sorting_answers#:#Po vrstnem redu odgovorov
-poll#:#poll_result_sorting_votes#:#Po številu glasov (padajoče)
-poll#:#poll_result_users#:#Udeleženec
-poll#:#poll_show_results_as#:#Prikaži rezultate kot
-poll#:#poll_sortorder#:#Razvrstitev
-poll#:#poll_stacked_chart#:#Stacked Chart###28 10 2024 new variable
-poll#:#poll_view_results#:#Prikaži rezultate
-poll#:#poll_view_results_after_period#:#Po obdobju glasovanja
-poll#:#poll_view_results_after_period_impossible#:#Obdobje glasovanja ni časovno omejeno.
-poll#:#poll_view_results_after_vote#:#Po oddanem glasu
-poll#:#poll_view_results_always#:#Vedno
-poll#:#poll_view_results_never#:#Nikoli
-poll#:#poll_vote#:#Glasuj
-poll#:#poll_vote_error_multi#:#Izberite maksimalno %s odgovorov.
-poll#:#poll_vote_error_multi_no_answer#:#Please select at least 1 answer.###26 08 2024 new variable
-poll#:#poll_vote_error_single#:#Izberite en odgovor.
-poll#:#poll_vote_notification_body#:#naslednje glasovanje je prejelo en glas
-poll#:#poll_vote_notification_link#:#Povezava do glasovanja
-poll#:#poll_vote_notification_reason#:#To sporočilo ste prejeli, ker ste aktivirali obveščanje za zgoraj navedeno glasovanje.
-poll#:#poll_vote_notification_subject#:#Glasovanje "%s": nov glas
-poll#:#poll_votes_no_edit#:#To glasovanje že vsebuje glasove. Glasovanja ne morete urejati, dokler ne izbrišete teh glasov.
-poll#:#poll_voting_period_and_results#:#Obdobje glasovanja in rezultati
-poll#:#poll_voting_period_ended_info#:#The voting period ended %s.###26 08 2024 new variable
-poll#:#poll_voting_period_full_info#:#Glasovanje od %s do %s
-poll#:#poll_voting_period_info#:#Konec glasovanja: %s
-poll#:#poll_voting_period_limited#:#Časovno omejeno obdobje glasovanja
 prg#:#access_ctr_by_orgu_position#:#Access control according to Organisational Unit Positions
 prg#:#active_only#:#active users only###26 08 2024 new variable
 prg#:#add_automembership_source#:#Add Source
@@ -17083,23 +16936,6 @@ tax#:#tax_tax_settings#:#Taxonomy Settings
 tax#:#tax_taxonomy#:#Taxonomy
 tbl#:#tbl_export_csv#:#Izvoz .CSV
 tbl#:#tbl_export_excel#:#Izvoz Excel
-tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###26 08 2024 new variable
-tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###26 08 2024 new variable
-tos#:#tos_account_reg_not_possible#:#Samoregistracija trenutno ni mogoča zaradi pomanjkanja uporabniške pogodbe. Za nadaljnje informacije se obrnite na svojega <a href="%1$s">Sistemskega administratorja>.
-tos#:#tos_agree_date#:#ToS agreed on###26 08 2024 new variable
-tos#:#tos_agreement#:#Pogoji uporabe
-tos#:#tos_disabled_no_docs_left#:#Pogoji uporabe so bili deaktivirani, ker so bili vsi dokumenti izbrisani. Ustvarite vsaj en dokument, preden ponovno aktivirate pogoje uporabe.
-tos#:#tos_last_reset_date#:#Pogoji uporabe se bili nazadnje ponastavljeni dne %s. Pogoje uporabe ponastavite samo takrat, ko so se ti v vmesnem času spremenili in je zaželeno soglasje za te spremenjene pogoje.
-tos#:#tos_never_reset#:#Pogoji uporabe do sedaj še niso bili ponastavljeni. Pogoje uporabe ponastavite samo takrat, ko so se ti v vmesnem času spremenili in je zaželeno soglasje za te spremenjene pogoje.
-tos#:#tos_no_documents_exist#:#Trenutno ni na voljo nobenih dokumentov o pogojih uporabe.
-tos#:#tos_no_documents_exist_cant_save#:#Trenutno ni na voljo nobenih pogojev uporabe. Ustvarite vsaj en dokument, da aktivirate storitev.
-tos#:#tos_reset_for_all_users#:#Reset Terms of Service###26 08 2024 new variable
-tos#:#tos_reset_successful#:#Pogoji uporabe so bili uspešno ponastavljeni.
-tos#:#tos_status_desc#:#Uporabniki morajo podpisati pogoje uporabe, preden lahko začnejo uporabljati ILIAS.
-tos#:#tos_status_enable#:#Aktiviraj pogoje uporabe
-tos#:#tos_sure_reset_tos#:#Ali ste prepričani, da želite ponastaviti pogoje uporabe za vse uporabnike v sistemu? To velja tudi za tiste uporabniške račune, ki se npr. uporabljajo za internetno storitev SOAP.
-tos#:#tos_withdrawal_usr_deletion#:#Account Deletion on Terms Of Service Withdrawal###19 08 2022 new variable
-tos#:#tos_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from  a previously accepted Terms of Service document, this will result in the deletion of the user’s account.###26 08 2024 new variable
 trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated
 trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.
 trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'

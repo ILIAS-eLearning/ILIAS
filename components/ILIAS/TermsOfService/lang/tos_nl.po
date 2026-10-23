@@ -1,0 +1,70 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: tos\n"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement_anonymous"
+msgstr "Terms of Service"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement_anonymous_intro"
+msgstr "Before you proceed to ILIAS you accept the following Terms of Service."
+
+#, fuzzy
+msgid "tos_account_reg_not_possible"
+msgstr "A self registration is not possible because of a missing user agreement. Please contact your <a href=\"%1$s\">system administrator</a> for further information."
+
+#, fuzzy
+msgid "tos_agree_date"
+msgstr "ToS agreed on"
+
+msgid "tos_agreement"
+msgstr "Gebruikersovereenkomst"
+
+#, fuzzy
+msgid "tos_disabled_no_docs_left"
+msgstr "The user agreements are now disabled, because all documents have been deleted. Please create at least one document before enabling the user agreements again."
+
+msgid "tos_last_reset_date"
+msgstr "De gebruikersovereenkomst is gereset op %s."
+
+#, fuzzy
+msgid "tos_never_reset"
+msgstr "The terms of service have not been reset, yet."
+
+msgid "tos_no_documents_exist"
+msgstr "Er zijn momenteel geen gebruikersvoorwaarden voor de geïnstalleerde talen."
+
+msgid "tos_no_documents_exist_cant_save"
+msgstr "Momenteel zijn er geen gebruikersovereenkomsten voor enige geïnstalleerde taal. Voeg tenminste een overeenkomst toe voor een van deze talen."
+
+#, fuzzy
+msgid "tos_reset_for_all_users"
+msgstr "Reset Terms of Service"
+
+#, fuzzy
+msgid "tos_reset_successful"
+msgstr "The terms of service have been reset successfully."
+
+msgid "tos_status_desc"
+msgstr "Indien ingeschakeld zijn gebruikers verplicht de gebruikersovereenkomst te accepteren voor ze ILIAS kunnen gebruiken."
+
+msgid "tos_status_enable"
+msgstr "Inschakelen"
+
+msgid "tos_sure_reset_tos"
+msgstr "Weet je zeker dat je de gebruikersovereenkomst wilt resetten voor alle gebruikers in het systeem? Dit geldt zan ook voor die accounts doe worden gebruikt voor de SOAP web services, de chat server. en de cron job."
+
+#, fuzzy
+msgid "tos_withdrawal_usr_deletion"
+msgstr "Account Deletion Upon Withdrawal From Terms of Service"
+
+#, fuzzy
+msgid "tos_withdrawal_usr_deletion_desc"
+msgstr "If a user withdraws their acceptance from  a previously accepted Terms of Service document, this will result in the deletion of the user’s account."

@@ -1,0 +1,234 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: poll\n"
+
+msgid "poll_absolute"
+msgstr "Votos atuais"
+
+msgid "poll_activation_online_info"
+msgstr "A transferir dados de rastreio para ILIAS. Aguarde um momento."
+
+msgid "poll_add"
+msgstr "Adicionar sondagem"
+
+msgid "poll_anonymous_warning"
+msgstr "O seu nome não está visível nos resultados da sondagem."
+
+msgid "poll_answer"
+msgstr "Resposta"
+
+#, fuzzy
+msgid "poll_answer_selected_alt_text"
+msgstr "Selected"
+
+msgid "poll_answers"
+msgstr "Possíveis respostas"
+
+msgid "poll_barchart"
+msgstr "Gráfico de barras"
+
+msgid "poll_block_message_already_voted"
+msgstr "Já votou nesta sondagem."
+
+msgid "poll_block_message_no_answers"
+msgstr "Esta sondagem está incompleta."
+
+msgid "poll_block_results_available_on"
+msgstr "Os resultados estão disponíveis em %s."
+
+#, fuzzy
+msgid "poll_cannot_set_online_no_answers"
+msgstr "The status cannot be changed to &quot;online&quot; because this poll has no question!"
+
+#, fuzzy
+msgid "poll_chart_votes"
+msgstr "Votes"
+
+msgid "poll_comments"
+msgstr "Comentários"
+
+msgid "poll_copy"
+msgstr "Copiar sondagem"
+
+msgid "poll_delete_votes"
+msgstr "Apagar todos os votos"
+
+msgid "poll_delete_votes_sure"
+msgstr "Tem a certeza que quer apagar todos os votos?"
+
+msgid "poll_edit"
+msgstr "Editar sondagem"
+
+#, fuzzy
+msgid "poll_edit_question"
+msgstr "Edit Question"
+
+msgid "poll_image"
+msgstr "Imagem"
+
+#, fuzzy
+msgid "poll_limit_not_below_answer_count"
+msgstr "The answer limit must be below the number of possible answers."
+
+#, fuzzy
+msgid "poll_limit_number_of_answers"
+msgstr "Limit Number of Answers per Participant"
+
+msgid "poll_max_number_of_answers"
+msgstr "Número máximo de respostas por participante"
+
+#, fuzzy
+msgid "poll_max_number_of_answers_info"
+msgstr "You may choose up to %s answers."
+
+msgid "poll_mode"
+msgstr "Modo"
+
+msgid "poll_mode_anonymous"
+msgstr "Anónimo"
+
+msgid "poll_mode_anonymous_info"
+msgstr "Os votos não podem ser associados aos participantes."
+
+msgid "poll_mode_personal"
+msgstr "Pessoal"
+
+msgid "poll_mode_personal_info"
+msgstr "Uma lista de participantes com os respetivos votos está disponível se tiver autorização suficiente."
+
+msgid "poll_new"
+msgstr "Adicionar nova sondagem"
+
+msgid "poll_non_anonymous_warning"
+msgstr "O seu nome e voto estão visíveis aos administradores nos resultados."
+
+#, fuzzy
+msgid "poll_notification_activated"
+msgstr "Notification Activated"
+
+#, fuzzy
+msgid "poll_notification_deactivated"
+msgstr "Notification Deactivated"
+
+msgid "poll_notification_subscribe"
+msgstr "Ativar notificação"
+
+msgid "poll_notification_unsubscribe"
+msgstr "Desativar notificação"
+
+msgid "poll_percentage"
+msgstr "Percentagem atual"
+
+#, fuzzy
+msgid "poll_population"
+msgid_plural "poll_population_plural"
+msgstr[0] "A transferência dados de rastreio foi bem-sucedida."
+msgstr[1] "A transferência dados de rastreio foi bem-sucedida."
+msgstr[2] "A transferência dados de rastreio foi bem-sucedida."
+
+#, fuzzy
+msgid "poll_population_singular"
+msgstr "1 Participant"
+
+msgid "poll_question"
+msgstr "Pergunta"
+
+msgid "poll_result"
+msgstr "Importar dados de rastreio"
+
+msgid "poll_result_answers"
+msgstr "Votos"
+
+msgid "poll_result_sorting"
+msgstr "Ordenar"
+
+msgid "poll_result_sorting_answers"
+msgstr "Pela ordem das respostas"
+
+msgid "poll_result_sorting_votes"
+msgstr "Por número de votos (descendente)"
+
+msgid "poll_result_users"
+msgstr "Participantes"
+
+msgid "poll_show_results_as"
+msgstr "Mostrar resultados como"
+
+msgid "poll_sortorder"
+msgstr "Ordem"
+
+#, fuzzy
+msgid "poll_stacked_chart"
+msgstr "Stacked Chart"
+
+msgid "poll_view_results"
+msgstr "Exibir resultados"
+
+msgid "poll_view_results_after_period"
+msgstr "Exportar módulos de aprendizagem SCORM para uso offline"
+
+msgid "poll_view_results_after_period_impossible"
+msgstr "O período de votação não está limitado."
+
+msgid "poll_view_results_after_vote"
+msgstr "Após o voto"
+
+msgid "poll_view_results_always"
+msgstr "Sempre"
+
+msgid "poll_view_results_never"
+msgstr "Nunca"
+
+msgid "poll_vote"
+msgstr "Votar"
+
+#, fuzzy
+msgid "poll_vote_error_multi"
+msgid_plural "poll_vote_error_multi_plural"
+msgstr[0] "Não selecione mais do que %s respostas."
+msgstr[1] "Não selecione mais do que %s respostas."
+msgstr[2] "Não selecione mais do que %s respostas."
+
+#, fuzzy
+msgid "poll_vote_error_multi_no_answer"
+msgstr "Please select at least 1 answer."
+
+msgid "poll_vote_error_single"
+msgstr "Selecione 1 resposta."
+
+msgid "poll_vote_notification_body"
+msgstr "a seguinte sondagem recebeu um voto."
+
+msgid "poll_vote_notification_link"
+msgstr "Link para sondagem"
+
+msgid "poll_vote_notification_reason"
+msgstr "As variáveis less foram atualizadas. Importante: Note que o caching pode impedir que as suas alterações sejam exibidas. Pode precisar de limpar o cache do seu navegador."
+
+msgid "poll_vote_notification_subject"
+msgstr "Sondagem \"%s\": novo voto"
+
+msgid "poll_votes_no_edit"
+msgstr "Iniciar gestor offline SCORM"
+
+msgid "poll_voting_period_and_results"
+msgstr "Período de votação e resultados"
+
+#, fuzzy
+msgid "poll_voting_period_ended_info"
+msgstr "The voting period ended %s."
+
+msgid "poll_voting_period_full_info"
+msgstr "Período de votação de %s até %s"
+
+msgid "poll_voting_period_info"
+msgstr "Prazo para votar: %s"
+
+msgid "poll_voting_period_limited"
+msgstr "Todos os estilos selecionados são obrigatórios e não podem ser apagados."

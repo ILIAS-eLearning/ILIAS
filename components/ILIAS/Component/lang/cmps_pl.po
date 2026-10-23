@@ -1,0 +1,245 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: cmps\n"
+
+msgid "cmps_activate"
+msgstr "Aktywuj"
+
+msgid "cmps_active"
+msgstr "Aktywny"
+
+msgid "cmps_add_new_rank"
+msgstr "Jesteś w liście wyboru dla obiektów, które należy dodać"
+
+msgid "cmps_available"
+msgstr "Dostępne"
+
+#, fuzzy
+msgid "cmps_available_version"
+msgstr "Available Version"
+
+msgid "cmps_basic_files"
+msgstr "Pliki podstawowe"
+
+msgid "cmps_class_file"
+msgstr "Pliki klas"
+
+msgid "cmps_component"
+msgstr "Elementy"
+
+msgid "cmps_configure"
+msgstr "Konfiguruj"
+
+#, fuzzy
+msgid "cmps_current_db_version"
+msgstr "Current DB-Version"
+
+msgid "cmps_current_version"
+msgstr "Aktualna wersja"
+
+msgid "cmps_database"
+msgstr "Baza danych"
+
+msgid "cmps_db_update"
+msgstr "Skrypt do aktualizacji bazy danych"
+
+msgid "cmps_deactivate"
+msgstr "Deaktywuj"
+
+#, fuzzy
+msgid "cmps_detailed_information"
+msgstr "Detailed Informationen"
+
+msgid "cmps_dir"
+msgstr "Indeks"
+
+#, fuzzy
+msgid "cmps_disable_creation"
+msgstr "Disable Creation"
+
+msgid "cmps_enable_creation"
+msgstr "Włącz tworzenie"
+
+msgid "cmps_file_version"
+msgstr "Zaktualizuj wersję pliku"
+
+msgid "cmps_group"
+msgstr "Grupa"
+
+msgid "cmps_id"
+msgstr "ID"
+
+msgid "cmps_ilias_max_version"
+msgstr "Maksymalna wersja ILIAS"
+
+msgid "cmps_ilias_min_version"
+msgstr "Minimalna wersja ILIAS"
+
+msgid "cmps_inactive"
+msgstr "Nieaktywny"
+
+msgid "cmps_install"
+msgstr "Instaluj"
+
+#, fuzzy
+msgid "cmps_is_active"
+msgstr "Activated"
+
+#, fuzzy
+msgid "cmps_is_installed"
+msgstr "Installed"
+
+msgid "cmps_lang_files"
+msgstr "Plik językowy"
+
+msgid "cmps_lang_prefix"
+msgstr "Prefiks dla zmiennej języków"
+
+msgid "cmps_languages"
+msgstr "Języki"
+
+msgid "cmps_main_dir"
+msgstr "Indeks główny"
+
+msgid "cmps_missing"
+msgstr "Brak"
+
+msgid "cmps_module"
+msgstr "Moduł"
+
+msgid "cmps_must_installed"
+msgstr "Należy zainstalować element."
+
+msgid "cmps_name"
+msgstr "Nazwa"
+
+#, fuzzy
+msgid "cmps_needs_matching_ilias_version"
+msgstr "This plugin does not work with your current ILIAS version."
+
+msgid "cmps_needs_newer_ilias_version"
+msgstr "Tej wtyczki można używać wyłącznie z nowszą wersją ILIAS. Zaktualizuj swoją wersję ILIAS."
+
+msgid "cmps_needs_newer_plugin_version"
+msgstr "Ta wersja ILIAS potrzebują nowszą wersję wtyczki. Zaktualizuj wtyczkę."
+
+msgid "cmps_needs_update"
+msgstr "Konieczna jest aktualizacja"
+
+msgid "cmps_needs_upgrade"
+msgstr "Aktualnie zainstalowana wtyczka jest starsza niż poprzednia wersja. Zainstaluj aktualną wersję wtyczki."
+
+msgid "cmps_no_db_update_file_available"
+msgstr "Skrypt dla aktualizacji bazy danych nie jest dostępny"
+
+msgid "cmps_no_language_file_available"
+msgstr "Brak dostępnego pliku językowego"
+
+msgid "cmps_plugin"
+msgstr "Wtyczka"
+
+msgid "cmps_plugin_activated"
+msgstr "Włączono wtyczkę."
+
+msgid "cmps_plugin_db_prefixes"
+msgstr "Prefiksy dla tabeli bazy danych"
+
+msgid "cmps_plugin_deactivated"
+msgstr "Wyłączono wtyczkę."
+
+#, fuzzy
+msgid "cmps_plugin_deinstalled"
+msgstr "The plugin has been uninstalled"
+
+msgid "cmps_plugin_file"
+msgstr "Plik wtyczki"
+
+msgid "cmps_plugin_lang_prefixes"
+msgstr "Prefiksy językowe wtyczki"
+
+msgid "cmps_plugin_slot"
+msgstr "Interfejs wtyczki"
+
+msgid "cmps_plugin_uninstalled"
+msgstr "Wszystkie wpisy językowe i w bazie danych, które odnoszą się do wtyczki, zostały usunięte, a wtyczka odinstalowana. Teraz możesz usunąć indeks i kod źródłowy wtyczki z indeksu ‘Customizing’, aby ostatecznie odinstalować wtyczkę."
+
+#, fuzzy
+msgid "cmps_plugin_updated"
+msgstr "The plugin has been updated"
+
+msgid "cmps_plugins"
+msgstr "Wtyczki"
+
+msgid "cmps_refresh"
+msgstr "Ponownie załaduj język"
+
+#, fuzzy
+msgid "cmps_refresh_lng"
+msgstr "Refresh language"
+
+msgid "cmps_rep_object"
+msgstr "Typ obiektu w dostępnych zasobach"
+
+msgid "cmps_repository_object_types"
+msgstr "Typy obiektów w dostępnych zasobach"
+
+msgid "cmps_responsible"
+msgstr "Odpowiedzialny"
+
+#, fuzzy
+msgid "cmps_responsible_mail"
+msgstr "Mail (Responsible)"
+
+msgid "cmps_save_options"
+msgstr "Zapisz"
+
+msgid "cmps_service"
+msgstr "Serwis"
+
+msgid "cmps_show_details"
+msgstr "Pokaż szczegóły"
+
+msgid "cmps_slots"
+msgstr "Sloty"
+
+msgid "cmps_status"
+msgstr "Status"
+
+#, fuzzy
+msgid "cmps_supports_cli_setup"
+msgstr "Supports CLI-Setup"
+
+#, fuzzy
+msgid "cmps_supports_export"
+msgstr "Supports export"
+
+#, fuzzy
+msgid "cmps_supports_learning_progress"
+msgstr "Supports learning progress"
+
+msgid "cmps_uninstall"
+msgstr "Odinstaluj"
+
+msgid "cmps_uninstall_confirm"
+msgstr "Czy naprawdę chcesz odinstalować wtyczkę \"%s\" i usunąć wszystkie przydzielone wpisy w bazie danych?"
+
+msgid "cmps_uninstall_inactive_confirm"
+msgstr "Aktualnie nie można aktywować wtyczki \"%1$s\" (\"%2$s\"). Ten status nie pozwala na całkowite odinstalowanie wtyczek. Ponieważ usuwana jest wyłącznie integracja systemowa, istnieje możliwość, że zostaną zachowane niektóre dane wtyczek. Czy chcesz kontynuować częściowe odinstalowanie?"
+
+msgid "cmps_update"
+msgstr "Zaktualizuj"
+
+msgid "cmps_version"
+msgstr "Wersja"
+
+msgid "database_is_uptodate"
+msgstr "Baza danych jest aktualna."
+
+msgid "no_changes"
+msgstr "Brak zmian"

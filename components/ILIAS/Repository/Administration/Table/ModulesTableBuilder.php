@@ -36,6 +36,7 @@ class ModulesTableBuilder extends CommonTableBuilder
         object $parent_gui,
         string $parent_cmd
     ) {
+        $this->domain->lng()->loadLanguageModule('cmps');
         parent::__construct($parent_gui, $parent_cmd, false);
     }
 
@@ -92,7 +93,7 @@ class ModulesTableBuilder extends CommonTableBuilder
         if ($this->has_write_permission) {
             $table = $table
                 ->singleAction('enableModuleCreation', $lng->txt('cmps_enable_creation'))
-                ->singleAction('disableModuleCreation', $lng->txt('cmps_disable_creation', 'cmps'))
+                ->singleAction('disableModuleCreation', $lng->txt('cmps_disable_creation'))
                 ->singleAction('moveModuleToGroup', $lng->txt('move'), true);
         }
 

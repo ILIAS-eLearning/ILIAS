@@ -3372,80 +3372,6 @@ cmix#:#use_fetch_info#:#As long as the resource supports this option, you should
 cmix#:#xapi_statements_fetched_successfully#:#Results from Learning Record Store were fetched successfully
 cmix#:#xapi_statements_last_fetch_date#:#Last fetch of Results:
 cmix#:#xapi_statements_not_fetched_yet#:#Results from Learning Record Store are not fetched yet
-cmps#:#cmps_activate#:#Activate
-cmps#:#cmps_active#:#Active
-cmps#:#cmps_add_new_rank#:#Position in Add-New-Object List
-cmps#:#cmps_available#:#Available
-cmps#:#cmps_available_version#:#Available Version
-cmps#:#cmps_basic_files#:#Basic Files
-cmps#:#cmps_class_file#:#Class File
-cmps#:#cmps_component#:#Component
-cmps#:#cmps_configure#:#Configure
-cmps#:#cmps_current_db_version#:#Current DB-Version
-cmps#:#cmps_current_version#:#Current Version
-cmps#:#cmps_database#:#Database
-cmps#:#cmps_db_update#:#DB Update Script
-cmps#:#cmps_deactivate#:#Deactivate
-cmps#:#cmps_detailed_information#:#Detailed Informationen
-cmps#:#cmps_dir#:#Directory
-cmps#:#cmps_disable_creation#:#Disable Creation
-cmps#:#cmps_enable_creation#:#Enable Creation
-cmps#:#cmps_file_version#:#Update File Version
-cmps#:#cmps_group#:#Group
-cmps#:#cmps_id#:#ID
-cmps#:#cmps_ilias_max_version#:#Max. ILIAS Version
-cmps#:#cmps_ilias_min_version#:#Min. ILIAS Version
-cmps#:#cmps_inactive#:#Inactive
-cmps#:#cmps_install#:#Install
-cmps#:#cmps_is_active#:#Activated
-cmps#:#cmps_is_installed#:#Installed
-cmps#:#cmps_lang_files#:#Language Files
-cmps#:#cmps_lang_prefix#:#Language Variables Prefix
-cmps#:#cmps_languages#:#Languages
-cmps#:#cmps_main_dir#:#Main Directory
-cmps#:#cmps_missing#:#Missing
-cmps#:#cmps_module#:#Module
-cmps#:#cmps_must_installed#:#The component must be installed.
-cmps#:#cmps_name#:#Name
-cmps#:#cmps_needs_matching_ilias_version#:#This plugin does not work with your current ILIAS version.
-cmps#:#cmps_needs_newer_ilias_version#:#This plugin version only runs on newer ILIAS versions. Please upgrade ILIAS.
-cmps#:#cmps_needs_newer_plugin_version#:#This ILIAS version needs a newer plugin version. Please upgrade the plugin.
-cmps#:#cmps_needs_update#:#Needs update.
-cmps#:#cmps_needs_upgrade#:#The plugin version currently installed is older than a previously installed version. Please upgrade the plugin.
-cmps#:#cmps_no_db_update_file_available#:#No DB update script available.
-cmps#:#cmps_no_language_file_available#:#No language file available.
-cmps#:#cmps_plugin#:#Plugin
-cmps#:#cmps_plugin_activated#:#The plugin has been activated.
-cmps#:#cmps_plugin_db_prefixes#:#DB Table Prefixes
-cmps#:#cmps_plugin_deactivated#:#The plugin has been deactivated.
-cmps#:#cmps_plugin_deinstalled#:#The plugin has been uninstalled
-cmps#:#cmps_plugin_file#:#Plugin File
-cmps#:#cmps_plugin_lang_prefixes#:#Plugin Language Prefixes
-cmps#:#cmps_plugin_slot#:#Plugin Slot
-cmps#:#cmps_plugin_uninstalled#:#All language and database related entries have been deleted and the plugin has been set inactive. Now you can remove the plugin's directory and source code in the ‘Customizing’ directory to uninstall the plugin definitely.
-cmps#:#cmps_plugin_updated#:#The plugin has been updated
-cmps#:#cmps_plugins#:#Plugins
-cmps#:#cmps_refresh#:#Refresh Languages
-cmps#:#cmps_refresh_lng#:#Refresh language
-cmps#:#cmps_rep_object#:#Repository Object Type
-cmps#:#cmps_repository_object_types#:#Repository Object Types
-cmps#:#cmps_responsible#:#Responsible
-cmps#:#cmps_responsible_mail#:#Mail (Responsible)
-cmps#:#cmps_save_options#:#Save
-cmps#:#cmps_service#:#Service
-cmps#:#cmps_show_details#:#Show Details
-cmps#:#cmps_slots#:#Slots
-cmps#:#cmps_status#:#Status
-cmps#:#cmps_supports_cli_setup#:#Supports CLI-Setup
-cmps#:#cmps_supports_export#:#Supports export
-cmps#:#cmps_supports_learning_progress#:#Supports learning progress
-cmps#:#cmps_uninstall#:#Uninstall
-cmps#:#cmps_uninstall_confirm#:#Are you sure you want to uninstall the plugin "%s" and remove all related database entries?
-cmps#:#cmps_uninstall_inactive_confirm#:#The plugin "%1$s" can currently not be activated ("%2$s"). In this state plugins cannot be uninstalled completely. As only the core integration is reverted, plugin custom data may remain. Would you like to continue with the partial uninstall?
-cmps#:#cmps_update#:#Update
-cmps#:#cmps_version#:#Version
-cmps#:#database_is_uptodate#:#The database is up to date.
-cmps#:#no_changes#:#No changes
 cmxv#:#cmxv_create#:#Create Certificate for xAPI/cmi5 Object
 cmxv#:#cmxv_create_info#:#Select a completed xAPI/cmi5 object to generate a certificate for it
 cntr#:#cntr_add_new_item#:#Add New Object
@@ -11117,11 +11043,6 @@ lm#:#lm_page_added#:#Page has been added.
 lm#:#lm_page_type_lm#:#LM Page
 lm#:#lm_pages_added#:#Pages have been added.
 lm#:#lm_save_titles#:#Titles saved.
-lng#:#language_detection#:#Language Detection
-lng#:#lng_disable_language_detection#:#Disable Language Detection
-lng#:#lng_download_deprecated#:#Download Deprecated List
-lng#:#lng_enable_language_detection#:#Enable Language Detection
-lng#:#lng_switch_language_detection#:#Switch Language Detection
 log#:#log_component_btn_reset#:#Reset Settings
 log#:#log_component_col_component#:#Component
 log#:#log_component_col_level#:#Log-Level
@@ -13418,74 +13339,6 @@ pd#:#pd_upcoming#:#Upcoming
 pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either ‘Selected Items’ and/or ‘My Memberships’.
 pdesk#:#bookmark_moved_ok#:#Bookmark has been moved.
 pdesk#:#bookmark_select_target#:#Please select target.
-poll#:#poll_absolute#:#Current Votes
-poll#:#poll_activation_online_info#:#Make this poll accessible to users.
-poll#:#poll_add#:#Add Poll
-poll#:#poll_anonymous_warning#:#This is an anonymous poll. Individual votes are recorded, but your name will not be shown in the poll results.
-poll#:#poll_answer#:#Answer
-poll#:#poll_answer_selected_alt_text#:#Selected
-poll#:#poll_answers#:#Possible Answers
-poll#:#poll_barchart#:#Bar chart
-poll#:#poll_block_message_already_voted#:#You have already voted in this poll.
-poll#:#poll_block_message_no_answers#:#This poll is incomplete.
-poll#:#poll_block_results_available_on#:#The results will be available: %s.
-poll#:#poll_cannot_set_online_no_answers#:#This poll cannot be set to &quot;Online&quot; because it doesn’t have a question!
-poll#:#poll_chart_votes#:#Votes
-poll#:#poll_comments#:#Comments
-poll#:#poll_copy#:#Copy Poll
-poll#:#poll_delete_votes#:#Delete All Votes Cast
-poll#:#poll_delete_votes_sure#:#Are you sure you want to delete the votes of all users who have taken part in this poll?
-poll#:#poll_edit#:#Edit Poll
-poll#:#poll_edit_question#:#Edit Question
-poll#:#poll_image#:#Image
-poll#:#poll_limit_not_below_answer_count#:#The maximum number of selectable answer options must be smaller than the total number of possible answers.
-poll#:#poll_limit_number_of_answers#:#Limit Number of Answers Selectable
-poll#:#poll_max_number_of_answers#:#Maximum Selectable per Participant
-poll#:#poll_max_number_of_answers_info#:#You may choose up to %s answers.
-poll#:#poll_mode#:#Mode
-poll#:#poll_mode_anonymous#:#Without names / anonymous
-poll#:#poll_mode_anonymous_info#:#The names of poll participants are not shown in the 'Results' tab. Please note: participant user IDs are, however, recorded in the database.
-poll#:#poll_mode_personal#:#With names
-poll#:#poll_mode_personal_info#:#The names of poll participants and their respective answers are listed in the ‘Results’ tab. Users with access to this tab can inspect who has given which answer.
-poll#:#poll_new#:#Add New Poll
-poll#:#poll_non_anonymous_warning#:#Your name and how you have voted will be visible to anyone with administration permissions for this poll.
-poll#:#poll_notification_activated#:#Notifications activated.
-poll#:#poll_notification_deactivated#:#Notifications deactivated
-poll#:#poll_notification_subscribe#:#Activate Notifications
-poll#:#poll_notification_unsubscribe#:#Deactivate Notifications
-poll#:#poll_percentage#:#Current Percentage
-poll#:#poll_population#:#%s votes cast
-poll#:#poll_population_singular#:#One vote cast
-poll#:#poll_question#:#Question
-poll#:#poll_result#:#Results
-poll#:#poll_result_answers#:#Votes
-poll#:#poll_result_sorting#:#Presentation Order
-poll#:#poll_result_sorting_answers#:#In the same order as the possible answers
-poll#:#poll_result_sorting_votes#:#By number of votes (descending)
-poll#:#poll_result_users#:#Participants
-poll#:#poll_show_results_as#:#Results Format
-poll#:#poll_sortorder#:#Order
-poll#:#poll_stacked_chart#:#Stacked chart
-poll#:#poll_view_results#:#Show Results
-poll#:#poll_view_results_after_period#:#When voting period has ended
-poll#:#poll_view_results_after_period_impossible#:#In order for the results to be first shown when the voting period has ended, you need to establish a limited voting period by entering dates above.
-poll#:#poll_view_results_after_vote#:#After participant has voted
-poll#:#poll_view_results_always#:#Always
-poll#:#poll_view_results_never#:#Never
-poll#:#poll_vote#:#Vote
-poll#:#poll_vote_error_multi#:#Please select no more than %s answers.
-poll#:#poll_vote_error_multi_no_answer#:#Please select at least one of the answers.
-poll#:#poll_vote_error_single#:#Please select one of the answers.
-poll#:#poll_vote_notification_body#:#A vote has been cast in the following poll:
-poll#:#poll_vote_notification_link#:#Link to Poll
-poll#:#poll_vote_notification_reason#:#You have received this e-mail because you activated notifications for the poll mentioned above.
-poll#:#poll_vote_notification_subject#:#Poll "%s" – new vote cast
-poll#:#poll_votes_no_edit#:#This poll has already received votes. You cannot edit the poll unless you delete these votes.
-poll#:#poll_voting_period_and_results#:#Voting Period and Results
-poll#:#poll_voting_period_ended_info#:#The voting period ended %s.
-poll#:#poll_voting_period_full_info#:#Voting in this poll will be possible from %s until %s
-poll#:#poll_voting_period_info#:#The deadline for voting is %s.
-poll#:#poll_voting_period_limited#:#Limited Voting Period
 prg#:#access_ctr_by_orgu_position#:#Access control according to Organisational Unit Positions
 prg#:#active_only#:#active users only
 prg#:#add_automembership_source#:#Add Source
@@ -17222,23 +17075,6 @@ tbl#:#tbl_template_created#:#The current view has been saved.
 tbl#:#tbl_template_delete#:#Delete Saved View
 tbl#:#tbl_template_deleted#:#The saved view has been deleted.
 tbl#:#tbl_templates#:#View
-tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service
-tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.
-tos#:#tos_account_reg_not_possible#:#Self-registration is currently not possible because there is no Terms of Service agreement available. Please contact your <a href="%1$s">system administrator</a> for further information.
-tos#:#tos_agree_date#:#ToS agreed on
-tos#:#tos_agreement#:#Terms of Service
-tos#:#tos_disabled_no_docs_left#:#Terms of Service documents can no longer be displayed, because all ToS documents have been deleted. Users will no longer be required to agree to a ToS document when registering an account. Please create at least one document before re-checking the ‘Display Terms of Service’ box.
-tos#:#tos_last_reset_date#:#The Terms of Service were reset on %s. Only reset the Terms of Service if changes have been made to the ToS document(s) and you require all users to agree to the new ToS.
-tos#:#tos_never_reset#:#The Terms of Service have not yet been reset. Only reset the Terms of Service if changes have been made to the ToS document(s) and you require all users to agree to the new ToS.
-tos#:#tos_no_documents_exist#:#There are currently no Terms of Service documents available.
-tos#:#tos_no_documents_exist_cant_save#:#There are currently no Terms of Service documents available. Please add at least one document in order to activate this service.
-tos#:#tos_reset_for_all_users#:#Reset Terms of Service
-tos#:#tos_reset_successful#:#Terms of Service successfully reset.
-tos#:#tos_status_desc#:#Display relevant language-based Terms of Service documents at the end of the registration form for new users and, if applicable, upon the user’s first login. Users are required to accept the Terms of Service before they can enter ILIAS.
-tos#:#tos_status_enable#:#Display Terms of Service
-tos#:#tos_sure_reset_tos#:#Are you sure you want to reset the Terms of Service for all users in the system? This also applies, for example, to those accounts that are used for the SOAP web services.
-tos#:#tos_withdrawal_usr_deletion#:#Account deletion upon ToS withdrawal
-tos#:#tos_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from  a previously accepted Terms of Service document, this will result in the deletion of the user’s account.
 trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated
 trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.
 trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'

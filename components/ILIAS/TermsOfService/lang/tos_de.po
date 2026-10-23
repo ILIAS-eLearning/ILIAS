@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: tos\n"
+
+msgid "tos_accept_usr_agreement_anonymous"
+msgstr "Nutzungsvereinbarung"
+
+msgid "tos_accept_usr_agreement_anonymous_intro"
+msgstr "Bevor Sie zu ILIAS wechseln, akzeptieren Sie die folgende Nutzungsvereinbarung."
+
+msgid "tos_account_reg_not_possible"
+msgstr "Eine Selbstregistrierung ist aktuell nicht möglich, da keine Nutzungsvereinbarung angeboten wird. Bitte kontaktieren Sie die <a href=\"%1$s\">technische Betreuung</a> für weitere Informationen."
+
+msgid "tos_agree_date"
+msgstr "Nutzungsvereinbarung zugestimmt am"
+
+msgid "tos_agreement"
+msgstr "Nutzungsvereinbarung"
+
+msgid "tos_disabled_no_docs_left"
+msgstr "Die Nutzungsvereinbarung wurde deaktiviert, da alle Dokumente gelöscht wurden. Erstellen Sie mindestens ein Dokument, bevor Sie die Nutzungsvereinbarung wieder aktivieren."
+
+msgid "tos_last_reset_date"
+msgstr "Die Nutzungsvereinbarung wurde zuletzt am %s zurückgesetzt. Setzen Sie die Nutzungsvereinbarung nur zurück, wenn sich die Dokumente in der Zwischenzeit geändert haben und eine Zustimmung zu dieser geänderten Vereinbarung gewünscht ist."
+
+msgid "tos_never_reset"
+msgstr "Die Nutzungsvereinbarung wurde bisher noch nicht zurückgesetzt. Setzen Sie die Nutzungsvereinbarung nur zurück, wenn sich die Dokumente in der Zwischenzeit geändert haben und eine Zustimmung zu dieser geänderten Vereinbarung gewünscht ist."
+
+msgid "tos_no_documents_exist"
+msgstr "Aktuell liegen keine Dokumente für die Nutzungsvereinbarung vor."
+
+msgid "tos_no_documents_exist_cant_save"
+msgstr "Aktuell liegt keine Nutzungsvereinbarung vor. Bitte erstellen Sie mindestens ein Dokument um den Service zu aktivieren."
+
+msgid "tos_reset_for_all_users"
+msgstr "Nutzungsvereinbarung zurücksetzen"
+
+msgid "tos_reset_successful"
+msgstr "Die Nutzungsvereinbarung wurde erfolgreich zurückgesetzt."
+
+msgid "tos_status_desc"
+msgstr "Benutzer werden zum Unterzeichnen der Nutzungsvereinbarung aufgefordert, bevor sie ILIAS nutzen können."
+
+msgid "tos_status_enable"
+msgstr "Nutzungsvereinbarung aktivieren"
+
+msgid "tos_sure_reset_tos"
+msgstr "Sind Sie sicher, dass die Nutzungsvereinbarung für alle Benutzer im System zurückgesetzt werden soll? Dies betrifft auch jene Anmeldekonten, die z.B. für die SOAP-Web-Services genutzt werden."
+
+msgid "tos_withdrawal_usr_deletion"
+msgstr "Löschung des ILIAS-Kontos beim Widerruf der Nutzungsvereinbarung"
+
+msgid "tos_withdrawal_usr_deletion_desc"
+msgstr "Wird die Zustimmung zur Nutzungsvereinbarung widerrufen, erfolgt automatisch die Löschung des ILIAS-Kontos."

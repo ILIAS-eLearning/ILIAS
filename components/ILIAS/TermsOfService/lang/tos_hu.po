@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: tos\n"
+
+msgid "tos_accept_usr_agreement_anonymous"
+msgstr "Szolgáltatási feltételek"
+
+msgid "tos_accept_usr_agreement_anonymous_intro"
+msgstr "Mielőtt továbblép az ILIAS-hoz, elfogadja az alábbi Szolgáltatási feltételeket"
+
+msgid "tos_account_reg_not_possible"
+msgstr "Nem regisztrálhatja saját magát, mert hiányzik a Szolgáltatási feltételek. További információkért vegye fel a kapcsolatot a <a href=\"%1$s\">rendszerüzemeltetőkkel</a>."
+
+msgid "tos_agree_date"
+msgstr "Elfogadás időpontja"
+
+msgid "tos_agreement"
+msgstr "Szolgáltatási feltételek"
+
+msgid "tos_disabled_no_docs_left"
+msgstr "A felhasználási feltételeket kikapcsoltuk, mert az összes dokumentumot letörölték. Legalább egy dokumentumot hozzon létre a felhasználási feltételek újbóli bekapcsolása előtt."
+
+msgid "tos_last_reset_date"
+msgstr "A szolgáltatási feltételek alapértékre állítva: %s."
+
+msgid "tos_never_reset"
+msgstr "A Szolgáltatási feltételeket még sosem állították még alapértékre."
+
+msgid "tos_no_documents_exist"
+msgstr "Jelenleg egy telepített nyelvhez sincs szolgáltatási feltétel."
+
+msgid "tos_no_documents_exist_cant_save"
+msgstr "Jelenleg egy telepített nyelvhez sincs szolgáltatási feltétel. Kérem, legalább egy nyelvhez hozzon létre."
+
+msgid "tos_reset_for_all_users"
+msgstr "Szolgáltatási feltételek elfogadásainak törlése"
+
+msgid "tos_reset_successful"
+msgstr "Szolgáltatási feltételek elfogadásait sikeresen törölte."
+
+msgid "tos_status_desc"
+msgstr "A felhasználóknak az ILAS-ba belépés előtt el kell fogadniuk a Szolgáltatási feltételeket."
+
+msgid "tos_status_enable"
+msgstr "Engedélyezés"
+
+msgid "tos_sure_reset_tos"
+msgstr "Biztos, hogy törli az összes felhasználó Szolgáltatási feltételeit? Ez azokra a fiókokra is hatással van, melyeket SOAP webszolgáltatások, a csevegőszerver, vagy az ütemezett feladatok használnak."
+
+msgid "tos_withdrawal_usr_deletion"
+msgstr "ILIAS-fiók törlése a Szolgáltatási feltételek elutasítás esetén"
+
+msgid "tos_withdrawal_usr_deletion_desc"
+msgstr "Ha egy felhasználó visszavonja egy korábbi Szolgáltatási feltételek elfogadását, az ILIAS-fiókja törlését vonja maga után."

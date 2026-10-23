@@ -3313,79 +3313,6 @@ cmix#:#use_fetch_info#:#As long as the resource supports this option, you should
 cmix#:#xapi_statements_fetched_successfully#:#Results from Learning Record Store were fetched successfully###07 02 2020 new variable
 cmix#:#xapi_statements_last_fetch_date#:#Last fetch of Results:###07 02 2020 new variable
 cmix#:#xapi_statements_not_fetched_yet#:#Results from Learning Record Store are not fetched yet###07 02 2020 new variable
-cmps#:#cmps_activate#:#激活
-cmps#:#cmps_active#:#激活
-cmps#:#cmps_add_new_rank#:#在“添加新对象”列表中的位置
-cmps#:#cmps_available#:#有效的
-cmps#:#cmps_available_version#:#Available Version###29 07 2022 new variable
-cmps#:#cmps_basic_files#:#基本文件
-cmps#:#cmps_class_file#:#类文件
-cmps#:#cmps_component#:#组件
-cmps#:#cmps_configure#:#配置
-cmps#:#cmps_current_db_version#:#Current DB-Version###29 07 2022 new variable
-cmps#:#cmps_current_version#:#当前版本
-cmps#:#cmps_database#:#数据库
-cmps#:#cmps_db_update#:#数据库更新脚本
-cmps#:#cmps_deactivate#:#停用
-cmps#:#cmps_detailed_information#:#Detailed Informationen###29 07 2022 new variable
-cmps#:#cmps_dir#:#目录
-cmps#:#cmps_enable_creation#:#Enable Creation###24 10 2013 new variable
-cmps#:#cmps_file_version#:#更新文件版本
-cmps#:#cmps_group#:#用户组
-cmps#:#cmps_id#:#ID
-cmps#:#cmps_ilias_max_version#:#Max. ILIAS 版本
-cmps#:#cmps_ilias_min_version#:#Min. ILIAS 版本
-cmps#:#cmps_inactive#:#不活跃的
-cmps#:#cmps_install#:#Install###10 11 2018 new variable
-cmps#:#cmps_is_active#:#Activated###29 07 2022 new variable
-cmps#:#cmps_is_installed#:#Installed###29 07 2022 new variable
-cmps#:#cmps_lang_files#:#语言文件
-cmps#:#cmps_lang_prefix#:#语言变量前缀
-cmps#:#cmps_languages#:#语言
-cmps#:#cmps_main_dir#:#主目录
-cmps#:#cmps_missing#:#缺失
-cmps#:#cmps_module#:#模块
-cmps#:#cmps_must_installed#:#The component must be installed.###10 11 2018 new variable
-cmps#:#cmps_name#:#名字
-cmps#:#cmps_needs_matching_ilias_version#:#This plugin does not work with your current ILIAS version.###29 07 2022 new variable
-cmps#:#cmps_needs_newer_ilias_version#:#这个插件版本仅运行在更新的ILIAS版本上。请升级ILIAS。
-cmps#:#cmps_needs_newer_plugin_version#:#这个ILIAS版本需要一个更新的插件版本。请升级插件。
-cmps#:#cmps_needs_update#:#需要更新。
-cmps#:#cmps_needs_upgrade#:#当前已安装的插件版本比先前安装的版本更老，请升级插件。
-cmps#:#cmps_no_db_update_file_available#:#没有可用的数据库升级脚本。
-cmps#:#cmps_no_language_file_available#:#没有可用的语言文件。
-cmps#:#cmps_plugin#:#插件
-cmps#:#cmps_plugin_activated#:#插件已激活
-cmps#:#cmps_plugin_db_prefixes#:#数据库表前缀
-cmps#:#cmps_plugin_deactivated#:#插件已停用
-cmps#:#cmps_plugin_deinstalled#:#The plugin has been uninstalled###29 07 2022 new variable
-cmps#:#cmps_plugin_file#:#插件文件
-cmps#:#cmps_plugin_lang_prefixes#:#插件语言前缀
-cmps#:#cmps_plugin_slot#:#插件插槽(Slot)
-cmps#:#cmps_plugin_uninstalled#:#The plugin has been uninstalled.###30 08 2015 new variable
-cmps#:#cmps_plugin_updated#:#The plugin has been updated###29 07 2022 new variable
-cmps#:#cmps_plugins#:#插件
-cmps#:#cmps_refresh#:#刷新
-cmps#:#cmps_refresh_lng#:#Refresh language###29 07 2022 new variable
-cmps#:#cmps_rep_object#:#库对象类型
-cmps#:#cmps_repository_object_types#:#Repository Object Types###30 12 2013 new variable
-cmps#:#cmps_responsible#:#Responsible
-cmps#:#cmps_responsible_mail#:#Mail (Responsible)###29 07 2022 new variable
-cmps#:#cmps_save_options#:#保存选项
-cmps#:#cmps_service#:#服务
-cmps#:#cmps_show_details#:#细节展示
-cmps#:#cmps_slots#:#Slots###24 10 2013 new variable
-cmps#:#cmps_status#:#状态
-cmps#:#cmps_supports_cli_setup#:#Supports CLI-Setup###29 07 2022 new variable
-cmps#:#cmps_supports_export#:#Supports export###29 07 2022 new variable
-cmps#:#cmps_supports_learning_progress#:#Supports learning progress###29 07 2022 new variable
-cmps#:#cmps_uninstall#:#Uninstall###30 08 2015 new variable
-cmps#:#cmps_uninstall_confirm#:#Are you sure you want to uninstall the plugin "%s"?###30 08 2015 new variable
-cmps#:#cmps_uninstall_inactive_confirm#:#The plugin "%1$s" can currently not be activated ("%2$s"). In this state plugins cannot be uninstalled completely. As only the core integration is reverted, plugin custom data may remain. Would you like to continue with the partial uninstall?###23 12 2015 new variable
-cmps#:#cmps_update#:#更新
-cmps#:#cmps_version#:#版本
-cmps#:#database_is_uptodate#:#该数据库是当前数据库
-cmps#:#no_changes#:#没有变化
 cmxv#:#cmxv_create#:#Create Certificate for xAPI/cmi5 Object###07 02 2020 new variable
 cmxv#:#cmxv_create_info#:#Select a completed xAPI/cmi5 object to generate a certificate for it###07 02 2020 new variable
 cntr#:#cntr_add_new_item#:#加入新条目
@@ -11013,11 +10940,6 @@ lm#:#lm_page_added#:#Page has been added.###26 08 2024 new variable
 lm#:#lm_page_type_lm#:#LM Page###29 07 2022 new variable
 lm#:#lm_pages_added#:#Pages have been added.###26 08 2024 new variable
 lm#:#lm_save_titles#:#Titles saved.###23 10 2017 new variable
-lng#:#language_detection#:#Language Detection###29 07 2022 new variable
-lng#:#lng_disable_language_detection#:#Disable Language Detection###30 08 2015 new variable
-lng#:#lng_download_deprecated#:#Download Deprecated List###07 02 2017 new variable
-lng#:#lng_enable_language_detection#:#Enable Language Detection###30 08 2015 new variable
-lng#:#lng_switch_language_detection#:#Switch Language Detection###26 08 2024 new variable
 log#:#log_browser#:#Browser Console Log###30 08 2015 new variable
 log#:#log_browser_users#:#Usernames Using Console Log###30 08 2015 new variable
 log#:#log_cache_#:#Caching###30 08 2015 new variable
@@ -13280,75 +13202,6 @@ pd#:#pd_upcoming#:#Upcoming###31 08 2017 new variable
 pd#:#pd_view_select_at_least_one#:#您必须至少选择一个视图，“已选项目”和/或“我的会员资格”。
 pdesk#:#bookmark_moved_ok#:#书签已被移动
 pdesk#:#bookmark_select_target#:#请选择目标
-poll#:#poll_absolute#:#当前投票
-poll#:#poll_activation_online_info#:#如果离线，仅管理员能看和编辑投票。
-poll#:#poll_add#:#添加投票
-poll#:#poll_anonymous_warning#:#Your name is not visible in the poll results.###26 09 2014 new variable
-poll#:#poll_answer#:#答案
-poll#:#poll_answer_selected_alt_text#:#Selected###26 08 2024 new variable
-poll#:#poll_answers#:#可能的答案
-poll#:#poll_barchart#:#Bar Chart###26 09 2014 new variable
-poll#:#poll_block_message_already_voted#:#您已经在这个调查中投票。
-poll#:#poll_block_message_no_answers#:#这个投票是不完整的。
-poll#:#poll_block_results_available_on#:#这个结果将在 %s 可用。
-poll#:#poll_cannot_set_online_no_answers#:#The status cannot be changed to &quot;online&quot; because this poll has no question!###26 08 2024 new variable
-poll#:#poll_chart_votes#:#Votes###28 10 2024 new variable
-poll#:#poll_comments#:#Comments###26 09 2014 new variable
-poll#:#poll_copy#:#复制投票
-poll#:#poll_delete_votes#:#删除所有投票
-poll#:#poll_delete_votes_sure#:#您确定想删除所有投票吗？
-poll#:#poll_edit#:#编辑投票
-poll#:#poll_edit_question#:#Edit Question###26 08 2024 new variable
-poll#:#poll_image#:#图像
-poll#:#poll_import#:#导入调查投票
-poll#:#poll_limit_not_below_answer_count#:#The answer limit must be below the number of possible answers.###26 08 2024 new variable
-poll#:#poll_limit_number_of_answers#:#Limit Number of Answers per Participant###26 08 2024 new variable
-poll#:#poll_max_number_of_answers#:#Maximum Number Of Answers per Participant###26 09 2014 new variable
-poll#:#poll_max_number_of_answers_info#:#You may choose up to %s answers.###26 08 2024 new variable
-poll#:#poll_mode#:#Mode###26 09 2014 new variable
-poll#:#poll_mode_anonymous#:#Anonymous###26 09 2014 new variable
-poll#:#poll_mode_anonymous_info#:#Votes cannot be traced back to participants.###26 09 2014 new variable
-poll#:#poll_mode_personal#:#Personal###26 09 2014 new variable
-poll#:#poll_mode_personal_info#:#A list of participants with their respective votes is available when having sufficient permission.###26 09 2014 new variable
-poll#:#poll_new#:#添加新投票
-poll#:#poll_non_anonymous_warning#:#Your name and vote are visible for administrators in the results.###26 09 2014 new variable
-poll#:#poll_notification_activated#:#Notification Activated###26 08 2024 new variable
-poll#:#poll_notification_deactivated#:#Notification Deactivated###26 08 2024 new variable
-poll#:#poll_notification_subscribe#:#Activate Notification###26 09 2014 new variable
-poll#:#poll_notification_unsubscribe#:#Deactivate Notification###26 09 2014 new variable
-poll#:#poll_percentage#:#当前百分比
-poll#:#poll_population#:#%s 投票
-poll#:#poll_population_singular#:#1 Participant###26 08 2024 new variable
-poll#:#poll_question#:#题目
-poll#:#poll_result#:#投票结果
-poll#:#poll_result_answers#:#Votes###26 09 2014 new variable
-poll#:#poll_result_sorting#:#Sorting###26 09 2014 new variable
-poll#:#poll_result_sorting_answers#:#In the order of the answers###26 09 2014 new variable
-poll#:#poll_result_sorting_votes#:#By number of votes (descending)###26 09 2014 new variable
-poll#:#poll_result_users#:#Participants###26 09 2014 new variable
-poll#:#poll_show_results_as#:#Show Results as###26 09 2014 new variable
-poll#:#poll_sortorder#:#排序
-poll#:#poll_stacked_chart#:#Stacked Chart###28 10 2024 new variable
-poll#:#poll_view_results#:#显示结果
-poll#:#poll_view_results_after_period#:#投票时间段之后
-poll#:#poll_view_results_after_period_impossible#:#The voting period is not limited.###27 01 2015 new variable
-poll#:#poll_view_results_after_vote#:#投票后
-poll#:#poll_view_results_always#:#总是
-poll#:#poll_view_results_never#:#从不
-poll#:#poll_vote#:#投票
-poll#:#poll_vote_error_multi#:#Please select no more than %s answers.###26 09 2014 new variable
-poll#:#poll_vote_error_multi_no_answer#:#Please select at least 1 answer.###26 08 2024 new variable
-poll#:#poll_vote_error_single#:#Please select 1 answer.###26 09 2014 new variable
-poll#:#poll_vote_notification_body#:#the following poll has received a vote.###26 09 2014 new variable
-poll#:#poll_vote_notification_link#:#Link to Poll###26 09 2014 new variable
-poll#:#poll_vote_notification_reason#:#You are receiving this email because you activated notifications for the poll mentioned above.###26 09 2014 new variable
-poll#:#poll_vote_notification_subject#:#Poll "%s": new vote###26 09 2014 new variable
-poll#:#poll_votes_no_edit#:#这个调查投票不能被编辑，因为已经有投票了。
-poll#:#poll_voting_period_and_results#:#投票期和结果
-poll#:#poll_voting_period_ended_info#:#The voting period ended %s.###26 08 2024 new variable
-poll#:#poll_voting_period_full_info#:#Voting period from %s to %s###10 11 2018 new variable
-poll#:#poll_voting_period_info#:#Deadline for Voting: %s###24 10 2013 new variable
-poll#:#poll_voting_period_limited#:#已限制的
 prg#:#access_ctr_by_orgu_position#:#Access control according to Organisational Unit Positions###07 02 2020 new variable
 prg#:#active_only#:#active users only###26 08 2024 new variable
 prg#:#add_automembership_source#:#Add Source###07 02 2020 new variable
@@ -17082,23 +16935,6 @@ tax#:#tax_tax_settings#:#Taxonomy Settings###31 08 2017 new variable
 tax#:#tax_taxonomy#:#分类学
 tbl#:#tbl_export_csv#:#导出 .csv
 tbl#:#tbl_export_excel#:#导出 .xls
-tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###26 08 2024 new variable
-tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###26 08 2024 new variable
-tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.###10 11 2018 new variable
-tos#:#tos_agree_date#:#ToS agreed on###26 08 2024 new variable
-tos#:#tos_agreement#:#Terms of Service###24 10 2013 new variable
-tos#:#tos_disabled_no_docs_left#:#The user agreements are now disabled, because all documents have been deleted. Please create at least one document before enabling the user agreements again.###10 11 2018 new variable
-tos#:#tos_last_reset_date#:#The terms of service have been reset on %s.###24 10 2013 new variable
-tos#:#tos_never_reset#:#The terms of service have not been reset, yet.###10 11 2018 new variable
-tos#:#tos_no_documents_exist#:#Currently there are no terms of service for any of the installed languages.###10 02 2014 new variable
-tos#:#tos_no_documents_exist_cant_save#:#Currently there are no terms of service for any of the installed languages. Please add at least one document for any of the installed languages.###20 07 2014 new variable
-tos#:#tos_reset_for_all_users#:#Reset Terms of Service###26 08 2024 new variable
-tos#:#tos_reset_successful#:#The terms of service have been reset successfully.###10 11 2018 new variable
-tos#:#tos_status_desc#:#If activated, users are forced to accept the terms of service before they can enter ILIAS.###24 10 2013 new variable
-tos#:#tos_status_enable#:#Enable###24 10 2013 new variable
-tos#:#tos_sure_reset_tos#:#Are you sure you want to reset the terms of service for all users in system? This also applies to those accounts that are used for the SOAP webservices, the chat server, or the cron job.###24 10 2013 new variable
-tos#:#tos_withdrawal_usr_deletion#:#Account Deletion Upon Withdrawal From Terms of Service###29 07 2022 new variable
-tos#:#tos_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from  a previously accepted Terms of Service document, this will result in the deletion of the user’s account.###26 08 2024 new variable
 trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated###07 02 2020 new variable
 trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.###07 02 2020 new variable
 trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'###07 02 2020 new variable

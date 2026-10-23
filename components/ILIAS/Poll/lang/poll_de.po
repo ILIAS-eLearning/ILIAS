@@ -1,0 +1,217 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: poll\n"
+
+msgid "poll_absolute"
+msgstr "Aktuelle Stimmen"
+
+msgid "poll_activation_online_info"
+msgstr "Diese Abstimmung verfügbar machen."
+
+msgid "poll_add"
+msgstr "Abstimmung anlegen"
+
+msgid "poll_anonymous_warning"
+msgstr "Dies ist eine anonyme Abstimmung. Ihre Stimme wird gespeichert, Ihr Name aber nicht in den Abstimmungsergebnissen angezeigt."
+
+msgid "poll_answer"
+msgstr "Antwort"
+
+msgid "poll_answer_selected_alt_text"
+msgstr "Ausgewählt"
+
+msgid "poll_answers"
+msgstr "Mögliche Antworten"
+
+msgid "poll_barchart"
+msgstr "Balkendiagramm"
+
+msgid "poll_block_message_already_voted"
+msgstr "Sie haben bereits abgestimmt."
+
+msgid "poll_block_message_no_answers"
+msgstr "Diese Abstimmung ist nicht komplett."
+
+msgid "poll_block_results_available_on"
+msgstr "Die Ergebnisse werden %s veröffentlicht."
+
+msgid "poll_cannot_set_online_no_answers"
+msgstr "Der Status kann nicht auf &quot;online (aktiviert)&quot; geändert werden, da der Abstimmung noch keine Frage hinzugefügt wurde!"
+
+msgid "poll_chart_votes"
+msgstr "Stimmen"
+
+msgid "poll_comments"
+msgstr "Kommentare"
+
+msgid "poll_copy"
+msgstr "Abstimmung kopieren"
+
+msgid "poll_delete_votes"
+msgstr "Alle Stimmabgaben löschen"
+
+msgid "poll_delete_votes_sure"
+msgstr "Sind Sie sicher, dass Sie alle Stimmabgaben löschen möchten?"
+
+msgid "poll_edit"
+msgstr "Abstimmung bearbeiten"
+
+msgid "poll_edit_question"
+msgstr "Frage bearbeiten"
+
+msgid "poll_image"
+msgstr "Bild"
+
+msgid "poll_limit_not_below_answer_count"
+msgstr "Die maximale Anzahl der auswählbaren Antworten muss geringer sein als die Gesamtzahl der möglichen Antworten."
+
+msgid "poll_limit_number_of_answers"
+msgstr "Anzahl der auswählbaren Antworten begrenzen"
+
+msgid "poll_max_number_of_answers"
+msgstr "Maximale Anzahl pro Person"
+
+msgid "poll_max_number_of_answers_info"
+msgstr "Sie dürfen bis zu %s Antworten auswählen."
+
+msgid "poll_mode"
+msgstr "Modus"
+
+msgid "poll_mode_anonymous"
+msgstr "Ohne Namen / Anonym"
+
+msgid "poll_mode_anonymous_info"
+msgstr "Im Reiter „Abstimmungsergebnisse“ werden keine Namen aufgeführt. Systeminterne IDs der teilnehmenden Personen werden in der Datenbank gespeichert."
+
+msgid "poll_mode_personal"
+msgstr "Mit Namen"
+
+msgid "poll_mode_personal_info"
+msgstr "Im Reiter „Abstimmungsergebnisse“ werden die Namen der teilnehmenden Personen mit ihren Antworten aufgeführt. Personen, die Zugriff auf diesen Reiter haben, können sehen, wer welche Antwort gegeben hat."
+
+msgid "poll_new"
+msgstr "Neue Abstimmung anlegen"
+
+msgid "poll_non_anonymous_warning"
+msgstr "Ihr Name und Votum sind für die Administration in den Ergebnissen sichtbar."
+
+msgid "poll_notification_activated"
+msgstr "Benachrichtigungen aktiviert."
+
+msgid "poll_notification_deactivated"
+msgstr "Benachrichtigungen deaktiviert."
+
+msgid "poll_notification_subscribe"
+msgstr "Benachrichtigungen aktivieren"
+
+msgid "poll_notification_unsubscribe"
+msgstr "Benachrichtigungen deaktivieren"
+
+msgid "poll_percentage"
+msgstr "Aktueller Anteil"
+
+msgid "poll_population"
+msgid_plural "poll_population_plural"
+msgstr[0] "Eine Stimmabgabe"
+msgstr[1] "%s Stimmabgaben"
+
+msgid "poll_population_singular"
+msgstr "Eine Stimmabgabe"
+
+msgid "poll_question"
+msgstr "Frage"
+
+msgid "poll_result"
+msgstr "Abstimmungsergebnisse"
+
+msgid "poll_result_answers"
+msgstr "Stimmen"
+
+msgid "poll_result_sorting"
+msgstr "Sortierung"
+
+msgid "poll_result_sorting_answers"
+msgstr "In der Reihenfolge der Antworten"
+
+msgid "poll_result_sorting_votes"
+msgstr "Nach Anzahl der Stimmen (absteigend)"
+
+msgid "poll_result_users"
+msgstr "Pro Person"
+
+msgid "poll_show_results_as"
+msgstr "Ergebnisse anzeigen als"
+
+msgid "poll_sortorder"
+msgstr "Sortierung"
+
+msgid "poll_stacked_chart"
+msgstr "Stapeldiagramm"
+
+msgid "poll_view_results"
+msgstr "Ergebnisse anzeigen"
+
+msgid "poll_view_results_after_period"
+msgstr "Nach Stimmperiode"
+
+msgid "poll_view_results_after_period_impossible"
+msgstr "Damit die Abstimmungsergebnisse erst nach Ende der Stimmperiode gezeigt werden können, müssen Sie oben eine zeitlich begrenzte Stimmperiode einrichten."
+
+msgid "poll_view_results_after_vote"
+msgstr "Nach Stimmabgabe"
+
+msgid "poll_view_results_always"
+msgstr "Immer"
+
+msgid "poll_view_results_never"
+msgstr "Niemals"
+
+msgid "poll_vote"
+msgstr "Abstimmen"
+
+msgid "poll_vote_error_multi"
+msgid_plural "poll_vote_error_multi_plural"
+msgstr[0] "Wählen Sie maximal %s Antworten aus."
+msgstr[1] "Wählen Sie maximal %s Antworten aus."
+
+msgid "poll_vote_error_multi_no_answer"
+msgstr "Wählen Sie mindestens eine Antwort aus."
+
+msgid "poll_vote_error_single"
+msgstr "Wählen Sie eine Antwort aus."
+
+msgid "poll_vote_notification_body"
+msgstr "die folgende Abstimmung hat eine Stimme erhalten"
+
+msgid "poll_vote_notification_link"
+msgstr "Link zur Abstimmung"
+
+msgid "poll_vote_notification_reason"
+msgstr "Sie erhalten diese Nachricht, da Sie die Benachrichtigungsfunktion für die oben genannte Abstimmung aktiviert haben."
+
+msgid "poll_vote_notification_subject"
+msgstr "Abstimmung „%s“ – neue Stimmabgabe"
+
+msgid "poll_votes_no_edit"
+msgstr "Diese Abstimmung beinhaltet bereits Stimmen. Sie kann nicht bearbeitet werden so lange Sie die Stimmen nicht löschen."
+
+msgid "poll_voting_period_and_results"
+msgstr "Stimmperiode und Ergebnisse"
+
+msgid "poll_voting_period_ended_info"
+msgstr "Das Ende der Abstimmung war %s."
+
+msgid "poll_voting_period_full_info"
+msgstr "Die Abstimmung in dieser Umfrage ist vom %s bis zum %s möglich"
+
+msgid "poll_voting_period_info"
+msgstr "Die Frist für die Abstimmung endet am %s."
+
+msgid "poll_voting_period_limited"
+msgstr "Zeitlich begrenzte Stimmperiode"
