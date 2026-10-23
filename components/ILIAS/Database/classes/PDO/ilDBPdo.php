@@ -38,7 +38,7 @@ class ilDBPdo implements Internal
 
     private string $host = '';
     private string $dbname = '';
-    private string $charset = 'utf8';
+    private string $charset = 'utf8mb4';
     private string $username = '';
     private string $password = '';
     private int $port = 3306;
@@ -52,6 +52,7 @@ class ilDBPdo implements Internal
     private string $db_type = '';
     private int $error_code = 0;
     private ?FieldDefinition $field_definition = null;
+    private ?bool $mb4_supported = null;
 
     private const SESSION_MODES = [
         'STRICT_TRANS_TABLES',
@@ -1475,16 +1476,11 @@ class ilDBPdo implements Internal
     #[\Override]
     public function doesCollationSupportMB4Strings(): bool
     {
-        // Currently ILIAS does not support utf8mb4, after that ilDB could check like this:
-        //		static $supported;
-        //		if (!isset($supported)) {
-        //			$q = "SELECT default_character_set_name FROM information_schema.SCHEMATA WHERE schema_name = %s;";
-        //			$res = $this->queryF($q, ['text'], [$this->getDbname()]);
-        //			$data = $this->fetchObject($res);
-        //			$supported = ($data->default_character_set_name === 'utf8mb4');
-        //		}
-
-        return false;
+        return $this->mb4_supported ??= ($this->fetchAssoc($this->queryF(
+            'SELECT default_character_set_name as charset FROM information_schema.SCHEMATA WHERE schema_name = %s',
+            [ilDBConstants::T_TEXT],
+            [$this->getDbname()]
+        ))['charset'] ?? '') === 'utf8mb4';
     }
 
     public function groupConcat(string $a_field_name, string $a_seperator = ",", ?string $a_order = null): string

@@ -29,4 +29,5 @@ interface Internal extends Connection, ilDBPdoInterface
 {
     public function getFieldDefinition(): ?FieldDefinition;
     public function getIndexName(string $index_name_base): string;
+    public function getDbName(): string;
 }
