@@ -18,32 +18,34 @@
 
 declare(strict_types=1);
 
+use ILIAS\DI\Container;
+use ILIAS\DI\LoggingServices;
+use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\Notes\InternalDataService as NotesInternalDataService;
+use ILIAS\Notes\Note;
+use ILIAS\Notes\NoteDBRepository as NotesRepo;
+use ILIAS\Notes\NotesManager;
+use ILIAS\Notes\Service as NotesService;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\Transformation;
+use ILIAS\Skill\Service\SkillUsageService;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use ILIAS\Test\Logging\TestParticipantInteraction;
+use ILIAS\Test\Logging\TestParticipantInteractionTypes;
+use ILIAS\Test\Logging\TestQuestionAdministrationInteraction;
+use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
 use ILIAS\Test\Results\Data\Repository as TestResultRepository;
 use ILIAS\Test\TestDIC;
-use ILIAS\TestQuestionPool\Questions\QuestionPartiallySaveable;
-use ILIAS\TestQuestionPool\Questions\Question;
-use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolution;
-use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Envelopes\Id;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\Questions\Files\QuestionFiles;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\TestQuestionPool\Questions\Question;
+use ILIAS\TestQuestionPool\Questions\QuestionPartiallySaveable;
+use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolution;
+use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
 use ILIAS\TestQuestionPool\RequestDataCollector;
-use ILIAS\Test\Logging\TestParticipantInteraction;
-use ILIAS\Test\Logging\TestQuestionAdministrationInteraction;
-use ILIAS\Test\Logging\TestParticipantInteractionTypes;
-use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
-use ILIAS\Test\Logging\AdditionalInformationGenerator;
-use ILIAS\Refinery\Transformation;
-use ILIAS\DI\Container;
-use ILIAS\Skill\Service\SkillUsageService;
-use ILIAS\Notes\Service as NotesService;
-use ILIAS\Notes\InternalDataService as NotesInternalDataService;
-use ILIAS\Notes\NoteDBRepository as NotesRepo;
-use ILIAS\Notes\NotesManager;
-use ILIAS\Notes\Note;
-use ILIAS\DI\LoggingServices;
-use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\HTTP\Services as HTTPServices;
 
 /**
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
@@ -162,7 +164,7 @@ abstract class assQuestion implements Question
         $this->questionActionCmd = 'handleQuestionAction';
         $this->export_image_path = '';
         $this->shuffler = $DIC->refinery()->random()->dontShuffle();
-        $this->lifecycle = ilAssQuestionLifecycle::getDraftInstance();
+        $this->lifecycle = new ilAssQuestionLifecycle();
         $this->skillUsageService = $DIC->skills()->usage();
 
         $this->test_result_repository = TestDIC::dic()['results.data.repository'];
@@ -259,6 +261,9 @@ abstract class assQuestion implements Question
         return $this->processLocker;
     }
 
+    /**
+     * @deprecated 12: Use ILIAS\TestQuestionPool\ExportImport\Import\QuestionsImporter instead
+     */
     final public function fromXML(
         string $importdirectory,
         int $user_id,
@@ -285,10 +290,8 @@ abstract class assQuestion implements Question
     }
 
     /**
-    * Returns a QTI xml representation of the question
-    *
-    * @return string The QTI xml representation of the question
-    */
+     * @deprecated 12: use question normalizing and serialization instead
+     */
     final public function toXML(
         bool $a_include_header = true,
         bool $a_include_binary = true,
@@ -2959,5 +2962,71 @@ abstract class assQuestion implements Question
         int $pass
     ): array {
         return [];
+    }
+
+    /**
+     * @param array<string, mixed> $context
+     * @return array<array-key, mixed>|float|bool|int|string|null
+     */
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
+    {
+        return [
+            'id' => $transformations->normalize(new Id($this->id, 'question')),
+            'parent_id' => $transformations->normalize(new Id($this->obj_id, 'object')),
+            'original_id' => $this->original_id,
+            'external_id' => $this->external_id,
+            'type' => $this->getQuestionType(),
+            'owner' => $this->owner,
+            'title' => $this->title,
+            'description' => $this->comment,
+            'question_text' => $this->question,
+            'available_points' => $this->points,
+            'nr_of_tries' => $this->nr_of_tries,
+            'lifecycle' => $transformations->normalize($this->lifecycle),
+            'author' => $this->author,
+            'updated_timestamp' => $this->lastChange,
+            'additional_content_editing_mode' => $this->additionalContentEditingMode,
+            'thumb_size' => $this->thumb_size,
+            'shuffle' => $this->shuffle,
+            'suggested_solutions' => $transformations->normalize($this->suggested_solutions),
+        ];
+    }
+
+    /** @param array<array-key, mixed> $normalized */
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
+    {
+        $clone = clone $this;
+        $clone->id = $transformations->denormalize($normalized['id'], Id::class)->getId();
+        $clone->obj_id = $transformations->denormalize($normalized['parent_id'], Id::class)->getId();
+        $clone->original_id = $transformations->nullableInt($normalized['original_id']);
+        $clone->external_id = $transformations->nullableString($normalized['external_id']);
+        $clone->owner = $transformations->int($normalized['owner']);
+        $clone->title = $transformations->string($normalized['title']);
+        $clone->comment = $transformations->string($normalized['description']);
+        $clone->question = $transformations->string($normalized['question_text']);
+        $clone->points = $transformations->float($normalized['available_points']);
+        $clone->nr_of_tries = $transformations->int($normalized['nr_of_tries']);
+        $clone->lifecycle = $transformations->denormalize($normalized['lifecycle'], $clone->lifecycle);
+        $clone->author = $transformations->string($normalized['author']);
+        $clone->lastChange = $transformations->nullableInt($normalized['updated_timestamp']);
+        $clone->additionalContentEditingMode = $transformations->string($normalized['additional_content_editing_mode']);
+        $clone->thumb_size = $transformations->int($normalized['thumb_size']);
+        $clone->shuffle = $transformations->bool($normalized['shuffle']);
+
+        $clone->suggested_solutions = array_map(
+            static fn(array $suggested_solution): SuggestedSolution => $transformations->denormalize(
+                $suggested_solution,
+                SuggestedSolution::class
+            ),
+            $normalized['suggested_solutions']
+        );
+
+        return $clone;
     }
 }

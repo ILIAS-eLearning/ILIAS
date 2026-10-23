@@ -90,4 +90,9 @@ class QuestionFiles
     {
         return CLIENT_WEB_DIR . '/assessment/' . $parentObjectId . '/' . $questionId . '/images/';
     }
+
+    public function buildSolutionPath($questionId, $parentObjectId): string
+    {
+        return CLIENT_WEB_DIR . '/assessment/' . $parentObjectId . '/' . $questionId . '/solution/';
+    }
 }

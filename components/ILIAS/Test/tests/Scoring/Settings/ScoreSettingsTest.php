@@ -49,6 +49,31 @@ class ScoreSettingsTest extends ilTestBaseTestCase
         $this->assertInstanceOf(SettingsResultDetails::class, $s->getResultDetailsSettings());
     }
 
+    public function testScoreSettingsExportRoundtripWithoutGamification(): void
+    {
+        $s = new ScoreSettings(
+            42,
+            (new SettingsScoring())->withCountSystem(1)->withScoreCutting(0)->withPassScoring(0),
+            (new SettingsResultSummary())->withShowGradingStatusEnabled(true),
+            (new SettingsResultDetails())->withResultsPresentation(1)->withExportSettings(2)
+        );
+
+        $export = $s->toExport();
+
+        $this->assertSame(
+            [
+                'settings_scoring',
+                'settings_result_summary',
+                'settings_result_details',
+            ],
+            array_keys($export)
+        );
+
+        $restored = ScoreSettings::fromExport(['id' => 42] + $export);
+        $this->assertSame(42, $restored->getId());
+        $this->assertEquals($export, $restored->toExport());
+    }
+
     public function testScoreSettingsScoring(): void
     {
         $s = new SettingsScoring();

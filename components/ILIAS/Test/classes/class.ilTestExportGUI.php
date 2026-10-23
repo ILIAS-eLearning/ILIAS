@@ -19,14 +19,10 @@
 declare(strict_types=1);
 
 use ILIAS\Test\Scoring\Manual\TestScoring;
-use ILIAS\Test\ExportImport\DBRepository;
-use ILIAS\Test\ExportImport\ResultsExportStakeholder;
 use ILIAS\Test\Results\Data\Repository as TestResultsRepository;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\ResourceStorage\Services as IRSS;
-use ILIAS\Filesystem\Filesystem;
-use ILIAS\Test\ExportImport\Types as ExportImportTypes;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -47,69 +43,11 @@ class ilTestExportGUI extends ilExportGUI
         private readonly UIRenderer $ui_renderer,
         private readonly IRSS $irss,
         private readonly ServerRequestInterface $request,
-        private readonly DBRepository $export_repository,
-        private readonly Filesystem $temp_file_system,
         private readonly ilTestParticipantAccessFilterFactory $participant_access_filter_factory,
         private readonly TestResultsRepository $test_results_repository,
         private readonly ilTestHTMLGenerator $html_generator
     ) {
         parent::__construct($parent_gui, null);
-    }
-
-    /**
-     * Create test export file
-     */
-    public function createTestExportWithResults()
-    {
-        $this->ctrl->setParameterByClass(self::class, 'export_results', 1);
-        $manager = $this->export_handler->manager()->handler();
-        $export_info = $manager->getExportInfoWithObject(
-            $this->obj,
-            time(),
-            $this->export_handler->consumer()->exportConfig()->allExportConfigs()
-        );
-        $element = $manager->createExport(
-            $this->il_user->getId(),
-            $export_info,
-            ''
-        );
-
-        $file_name = $element->getIRSSInfo()->getFileName();
-        $this->temp_file_system->writeStream(
-            $file_name,
-            $this->irss->consume()->stream($element->getIRSSInfo()->getResourceId())->getStream()
-        );
-        $temp_stream = $this->temp_file_system->readStream($file_name);
-        $rid = $this->irss->manage()->stream(
-            $temp_stream,
-            new ResultsExportStakeholder(),
-            $element->getIRSSInfo()->getFileName()
-        );
-
-        $temp_stream->close();
-
-        $this->temp_file_system->delete($file_name);
-
-        $this->export_repository->store(
-            $this->obj->getId(),
-            ExportImportTypes::XML_WITH_RESULTS,
-            $rid
-        );
-        $this->export_options->getById('expxml')->onDeleteFiles(
-            $this->context,
-            $this->export_handler->consumer()->file()->identifier()->collection()->withElement(
-                $this->export_handler->consumer()->file()->identifier()->handler()->withIdentifier(
-                    $element->getIRSSInfo()->getResourceIdSerialized()
-                )
-            )
-        );
-
-        $this->tpl->setOnScreenMessage(
-            ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
-            $this->lng->txt("exp_file_created"),
-            true
-        );
-        $this->ctrl->redirect($this, self::CMD_LIST_EXPORT_FILES);
     }
 
     public function createTestArchiveExport()

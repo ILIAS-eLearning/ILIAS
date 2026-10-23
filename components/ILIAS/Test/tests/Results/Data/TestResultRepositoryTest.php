@@ -163,7 +163,7 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
         $this->mockGetTestPassResultQuery($query_result);
         $repository = $this->createInstance();
 
-        $actual = $repository->getTestAttemptResult($query_result['active_fi']);
+        $actual = $repository->getTestAttemptResult($query_result['active_fi'], $query_result['pass']);
 
         $this->assertNotNull($actual);
         $this->assertInstanceOf(AttemptResult::class, $actual);
@@ -177,7 +177,7 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
         $this->mockGetTestPassResultQuery(null);
         $repository = $this->createInstance();
 
-        $actual = $repository->getTestAttemptResult(1000);
+        $actual = $repository->getTestAttemptResult(1000, 0);
 
         $this->assertNull($actual);
     }

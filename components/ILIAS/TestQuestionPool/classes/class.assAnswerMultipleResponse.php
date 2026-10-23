@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
+
 /**
 * Class for true/false or yes/no answers
 *
@@ -96,5 +98,28 @@ class ASS_AnswerMultipleResponse extends ASS_AnswerSimple
     public function getPointsChecked(): float
     {
         return $this->getPoints();
+    }
+
+    #[\Override]
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
+    {
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
+            'points_unchecked' => $this->points_unchecked,
+        ];
+    }
+
+    #[\Override]
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
+    {
+        $clone = parent::fromNormalized($normalized, $transformations);
+        $clone->points_unchecked = $transformations->nullableFloat($normalized['points_unchecked']);
+        return $clone;
     }
 }
