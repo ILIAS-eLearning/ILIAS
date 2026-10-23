@@ -1,0 +1,307 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations;
+
+use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
+use ILIAS\Questions\AnswerForm\TypeGenericProperties;
+use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gap;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gaps;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
+use ILIAS\Questions\Definitions\Range;
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
+use ILIAS\Questions\Persistence\Query;
+use ILIAS\Questions\Persistence\TableSubNameSpace;
+use ILIAS\Data\UUID\Factory as UuidFactory;
+use ILIAS\Data\UUID\Uuid;
+
+class Factory
+{
+    public function __construct(
+        private readonly UuidFactory $uuid_factory,
+        private readonly PersistenceFactory $persistence_factory,
+        private readonly TableDefinitions $table_definitions
+    ) {
+    }
+
+    public function getCombinations(
+        TypeGenericProperties $type_generic_properties,
+        bool $combinations_enabled,
+        ?Gaps $gaps = null,
+        ?Query $query = null
+    ): Combinations {
+        return new Combinations(
+            $this,
+            $this->persistence_factory,
+            $type_generic_properties->getAnswerFormId(),
+            $combinations_enabled,
+            !$combinations_enabled || $gaps === null || $query === null
+                ? []
+                : $this->retrieveCombinationsFromQuery(
+                    $type_generic_properties
+                        ->getDefinition()
+                        ->getTableDefinitions()
+                        ->getTableSubNameSpace(),
+                    $this->retrieveMatchingValuesFromQuery(
+                        $gaps,
+                        $query
+                    ),
+                    $query
+                )
+        );
+    }
+
+    /**
+     * @param array<string> $gap_ids
+     */
+    public function buildNewCombination(
+        Gaps $gaps,
+        array $gap_ids,
+    ): Combination {
+        $combination_id = $this->uuid_factory->uuid4();
+        return $this->buildCombination(
+            $combination_id,
+            null,
+            array_map(
+                fn(string $v): MatchingValue => new MatchingValue(
+                    $combination_id,
+                    $gaps->getGapById(
+                        $this->uuid_factory->fromString($v)
+                    )
+                ),
+                $gap_ids
+            )
+        );
+    }
+
+    /**
+     * @param array<\ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations\MatchingValue> $matching_values
+     */
+    public function buildCombination(
+        Uuid $combination_id,
+        ?float $points,
+        array $matching_values
+    ): Combination {
+        return new Combination(
+            $combination_id,
+            $points,
+            $matching_values
+        );
+    }
+
+    /**
+     * @param array<string, mixed> $values_array
+     */
+    public function buildMatchingValuesFromForm(
+        Properties $properties,
+        Uuid $combination_id,
+        array $values_array
+    ): array {
+        return array_reduce(
+            array_keys($values_array),
+            function (array $c, string $v) use (
+                $properties,
+                $values_array,
+                $combination_id
+            ): array {
+                $gap = $properties->getGaps()->getGapById(
+                    $this->uuid_factory->fromString($v)
+                );
+
+                $range = Range::tryFrom($values_array[$v]);
+                $answer_option = $this->retrieveAnswerOptionForFormValues(
+                    $gap,
+                    $values_array[$v],
+                    $range
+                );
+
+                if ($answer_option === null) {
+                    return $c;
+                }
+
+                $c[] = new MatchingValue(
+                    $combination_id,
+                    $gap,
+                    $answer_option,
+                    $range
+                );
+                return $c;
+            },
+            []
+        );
+    }
+
+    public function buildCombinationFromCarryValue(
+        string $carry,
+        Properties $properties
+    ): Combination {
+        $values_array = json_decode($carry, true);
+        $combination_id = $this->uuid_factory->fromString(
+            array_key_first($values_array)
+        );
+
+        return new Combination(
+            $combination_id,
+            null,
+            array_map(
+                fn(string $v): MatchingValue => new MatchingValue(
+                    $combination_id,
+                    $properties->getGaps()->getGapById(
+                        $this->uuid_factory->fromString($v)
+                    )
+                ),
+                $values_array[$combination_id->toString()]
+            )
+        );
+    }
+
+    private function retrieveCombinationsFromQuery(
+        TableSubNameSpace $table_sub_name_space,
+        array $matching_values,
+        Query $query
+    ): array {
+        return $query->retrieveCurrentRecord(
+            $this->persistence_factory->table(
+                $query->getTableNameBuilder(
+                    $table_sub_name_space
+                ),
+                AnswerFormSpecificTableTypes::Additional,
+                $this->table_definitions->getCombinationsTableIdentifier()
+            ),
+            $query->getRefinery()->custom()->transformation(
+                fn(array $vs): array => $this->buildCombinationsFromQuery(
+                    array_filter(
+                        $vs,
+                        fn(array $v): bool => $v['answer_form_id'] !== null
+                    ),
+                    $matching_values
+                )
+            )
+        );
+    }
+
+    private function buildCombinationsFromQuery(
+        array $values,
+        array $matching_values
+    ): array {
+        if ($values === []) {
+            return [];
+        }
+
+        return array_reduce(
+            $values,
+            function (array $c, array $v) use ($matching_values): array {
+                if (array_key_exists($v['id'], $c)) {
+                    return $c;
+                }
+
+                $c[$v['id']] = new Combination(
+                    $this->uuid_factory->fromString($v['id']),
+                    $v['points'],
+                    isset($matching_values[$v['id']])
+                        ? array_values($matching_values[$v['id']])
+                        : null
+                );
+
+                return $c;
+            },
+            []
+        );
+    }
+
+    private function retrieveMatchingValuesFromQuery(
+        Gaps $gaps,
+        Query $query
+    ): array {
+        return $query->retrieveCurrentRecord(
+            $this->persistence_factory->table(
+                $query->getTableNameBuilder(
+                    $this->table_definitions->getTableSubNameSpace(),
+                ),
+                AnswerFormSpecificTableTypes::Additional,
+                $this->table_definitions->getCombinationToAnswerOptionsTableIdentifier()
+            ),
+            $query->getRefinery()->custom()->transformation(
+                function (array $vs) use ($gaps): array {
+                    return $this->buildMatchingValuesArray(
+                        $gaps,
+                        $vs
+                    );
+                }
+            )
+        );
+    }
+
+    private function retrieveAnswerOptionForFormValues(
+        Gap $gap,
+        string $value,
+        ?Range $range
+    ): AnswerOption {
+        if ($range === null) {
+            return $gap->getAnswerOptions()
+                ->getAnswerOptionById(
+                    $this->uuid_factory->fromString($value)
+                );
+        }
+
+        $answer_options_awarding_points = $gap
+            ->getAnswerOptions()
+            ->getAnswerOptionsAwardingPoints();
+
+        return array_shift($answer_options_awarding_points);
+    }
+
+    private function buildMatchingValuesArray(
+        Gaps $gaps,
+        array $values
+    ): array {
+        return array_reduce(
+            $values,
+            function (array $c, array $v) use ($gaps): array {
+                if (isset($c[$v['combination_id']][$v['gap_id']])) {
+                    return $c;
+                }
+
+                if (!array_key_exists($v['combination_id'], $c)) {
+                    $c[$v['combination_id']] = [];
+                }
+
+                $gap = $gaps->getGapById(
+                    $this->uuid_factory->fromString($v['gap_id'])
+                );
+
+                $c[$v['combination_id']][$v['gap_id']] = new MatchingValue(
+                    $this->uuid_factory->fromString($v['combination_id']),
+                    $gap,
+                    $gap->getAnswerOptions()
+                        ->getAnswerOptionById(
+                            $this->uuid_factory->fromString($v['answer_option_id'])
+                        ),
+                    Range::tryFrom($v['in_range'] ?? '')
+                );
+
+                return $c;
+            },
+            []
+        );
+    }
+}

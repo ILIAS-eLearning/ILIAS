@@ -1,0 +1,19 @@
+@use "../../../010-settings/" as *;
+@use "../../../050-layout/basics" as *;
+
+$il-questions-solution-value-background: $il-highlight-bg;
+$il-questions-solution-value-padding: $il-padding-base-vertical;
+$il-questions-async-answerform-padding: $il-padding-large-vertical;
+
+.c-questions__solution-value {
+   background: $il-questions-solution-value-background;
+   padding: $il-questions-solution-value-padding;
+}
+
+.c-questions__async-answerform {
+    padding-bottom: $il-questions-async-answerform-padding;
+}
+
+.c-questions_async-answerform-feedback {
+    padding-top: $il-questions-async-answerform-padding;
+}
