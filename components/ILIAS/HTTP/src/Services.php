@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\HTTP;
 
 use ILIAS\HTTP\Cookies\CookieFactory;
+use ILIAS\HTTP\Message\MessageFactory;
 use ILIAS\HTTP\Cookies\CookieJar;
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use Psr\Http\Message\ResponseInterface;
@@ -54,6 +55,7 @@ class Services implements GlobalHttpState
         ResponseSenderStrategy $response_sender_strategy,
         DurationFactory $duration_factory,
         CookieFactory $cookie_factory,
+        MessageFactory $message_factory,
     ) {
         $this->raw = new RawHTTPServices(
             $response_sender_strategy,
@@ -61,7 +63,8 @@ class Services implements GlobalHttpState
             $request_factory,
             $response_factory,
             $duration_factory,
-            $cookie_factory
+            $cookie_factory,
+            $message_factory
         );
         $this->agent = new AgentDetermination();
     }
@@ -74,6 +77,11 @@ class Services implements GlobalHttpState
     public function durations(): DurationFactory
     {
         return $this->raw->durations();
+    }
+
+    public function messages(): MessageFactory
+    {
+        return $this->raw->messages();
     }
 
     public function wrapper(): WrapperFactory

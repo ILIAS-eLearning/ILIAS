@@ -114,6 +114,37 @@ $response->withBody($body);
 $dic->http()->saveResponse($response);
 ```
 
+## Messages
+### Description
+Components which need further PSR-7 messages, e.g. to proxy a request to another server
+or to emit a response of their own, create them with the `MessageFactory`. Components
+MUST NOT instantiate classes of the underlying PSR-7 library (`GuzzleHttp\Psr7\*`)
+directly and MUST only type against the `Psr\Http\Message\*` interfaces, so the library
+stays an implementation detail of this component.
+
+### Usage
+In a component bootstrap, use the service:
+```php
+$use[\ILIAS\HTTP\Message\MessageFactory::class]
+```
+
+In legacy code, it is available through the HTTP services:
+```php
+<?php
+$dic = $GLOBALS["DIC"];
+
+$messages = $dic->http()->messages();
+
+//create a request
+$request = $messages->request('POST', 'https://lrs.example.org/statements', ['Content-Type' => 'application/json'], $body);
+
+//create a response
+$response = $messages->response(200, ['Content-Type' => 'application/json'], $body);
+
+//create an uri
+$uri = $messages->uri('https://www.ilias.de');
+```
+
 
 ## Cookie Handling
 ### Description

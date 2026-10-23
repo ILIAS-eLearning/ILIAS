@@ -23,6 +23,7 @@ use ILIAS\HTTP\Cookies\CookieJarFactory;
 use ILIAS\HTTP\Services;
 use ILIAS\HTTP\Request\RequestFactory;
 use ILIAS\HTTP\Response\ResponseFactory;
+use ILIAS\HTTP\Message\MessageFactory;
 use ILIAS\HTTP\Response\Sender\ResponseSenderStrategy;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
@@ -81,7 +82,7 @@ class HTTPServicesTest extends PHPUnitTestCase
 
         $this->mockDurationFactory = $this->createMock(DurationFactory::class);
 
-        $this->httpState = new RawHTTPServices($this->mockSenderStrategy, $this->mockCookieJarFactory, $this->mockRequestFactory, $this->mockResponseFactory, $this->mockDurationFactory, $this->createMock(CookieFactory::class));
+        $this->httpState = new RawHTTPServices($this->mockSenderStrategy, $this->mockCookieJarFactory, $this->mockRequestFactory, $this->mockResponseFactory, $this->mockDurationFactory, $this->createMock(CookieFactory::class), $this->createMock(MessageFactory::class));
     }
 
 

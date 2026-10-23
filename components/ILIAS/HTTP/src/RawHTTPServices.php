@@ -26,6 +26,7 @@ use ILIAS\HTTP\Response\ResponseFactory;
 use ILIAS\HTTP\Response\Sender\ResponseSenderStrategy;
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\HTTP\Duration\DurationFactory;
+use ILIAS\HTTP\Message\MessageFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -46,7 +47,8 @@ class RawHTTPServices implements GlobalHttpState
         private RequestFactory $requestFactory,
         private ResponseFactory $responseFactory,
         private DurationFactory $durationFactory,
-        private CookieFactory $cookieFactory
+        private CookieFactory $cookieFactory,
+        private MessageFactory $messageFactory
     ) {
     }
 
@@ -58,6 +60,11 @@ class RawHTTPServices implements GlobalHttpState
     public function durations(): DurationFactory
     {
         return $this->durationFactory;
+    }
+
+    public function messages(): MessageFactory
+    {
+        return $this->messageFactory;
     }
 
     public function wrapper(): WrapperFactory
