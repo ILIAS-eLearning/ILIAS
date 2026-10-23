@@ -1,0 +1,125 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: fils\n"
+
+#, fuzzy
+msgid "add_upload_policy"
+msgstr "Add Policy"
+
+#, fuzzy
+msgid "edit_upload_policy"
+msgstr "Edit Policy"
+
+msgid "file_services"
+msgstr "File Services"
+
+msgid "file_services_description"
+msgstr "Configuration of File Service Settings."
+
+msgid "file_suffix_custom_expl_negative"
+msgstr "Prohibited File Suffixes"
+
+msgid "file_suffix_custom_expl_negative_info"
+msgstr "Files with these suffixes won't be accepted for upload."
+
+msgid "file_suffix_custom_negative"
+msgstr "File Suffixes: Negative List (Adaptations)"
+
+msgid "file_suffix_custom_negative_info"
+msgstr "These file suffixes will be removed from the positive list."
+
+msgid "file_suffix_custom_positive"
+msgstr "File Suffixes: Positive List (Adaptations)"
+
+msgid "file_suffix_custom_positive_info"
+msgstr "These file suffixes will be added to the positive list."
+
+msgid "file_suffix_default_positive"
+msgstr "File Suffixes: Positive List (Default List)"
+
+msgid "file_suffix_default_positive_info"
+msgstr "Preset default list of accepted file suffixes."
+
+msgid "file_suffix_overall_positive"
+msgstr "Overall Positive List"
+
+msgid "file_suffix_overall_positive_info"
+msgstr "This is the final list of accepted file suffixes."
+
+#, fuzzy
+msgid "policy_audience"
+msgstr "Audience"
+
+#, fuzzy
+msgid "policy_audience_all_users_option_desc"
+msgstr "Apply policy for all users."
+
+#, fuzzy
+msgid "policy_audience_global_roles_option_desc"
+msgstr "Apply policy for users with specific global roles."
+
+#, fuzzy
+msgid "policy_confirm_deletion"
+msgstr "Are you sure you want to delete the policy with the following properties?:"
+
+#, fuzzy
+msgid "policy_deletion_failure_not_found"
+msgstr "Error: Deletion failed due to policy not being found."
+
+#, fuzzy
+msgid "policy_deletion_successful"
+msgstr "Deletion of policy was successful."
+
+#, fuzzy
+msgid "policy_filter"
+msgstr "Policy Filter"
+
+#, fuzzy
+msgid "policy_no_validity_limitation_set"
+msgstr "Valid indefinitely"
+
+#, fuzzy
+msgid "policy_scope"
+msgstr "Scope"
+
+#, fuzzy
+msgid "policy_table_info_no_policies"
+msgstr "No upload policies have been created yet."
+
+#, fuzzy
+msgid "policy_title_desc"
+msgstr "Descriptive title for the policy."
+
+#, fuzzy
+msgid "policy_upload_limit"
+msgstr "Upload Limit"
+
+#, fuzzy
+msgid "policy_upload_limit_desc"
+msgstr "Upload limit which is set by this policy in MB."
+
+#, fuzzy
+msgid "policy_valid_until"
+msgstr "Valid Until"
+
+#, fuzzy
+msgid "policy_valid_until_desc"
+msgstr "Set an optional 'valid until' date after which the policy expires."
+
+#, fuzzy
+msgid "policy_validity"
+msgstr "Validity"
+
+#, fuzzy
+msgid "upload_limits"
+msgstr "Upload Limits"
+
+#, fuzzy
+msgid "upload_policies"
+msgstr "Upload Policies"

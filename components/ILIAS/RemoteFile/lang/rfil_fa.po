@@ -1,0 +1,17 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fa\n"
+"Language-Team: Persian (Farsi)\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Domain: rfil\n"
+
+#, fuzzy
+msgid "rfil_call"
+msgstr "Call ECS File "
+
+#, fuzzy
+msgid "rfil_version_tstamp"
+msgstr "Upload Date"

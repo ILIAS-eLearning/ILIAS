@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: buddysystem\n"
+
+msgid "buddy_allow_to_contact_me"
+msgstr "Ismerősnek jelölhetnek"
+
+msgid "buddy_allow_to_contact_me_default_info"
+msgstr "Meghatározza, hogy a felhasználók alapértelmezés szerint küldhetnek-e egymásnak kapcsolatfelvételi kéréseket."
+
+msgid "buddy_allow_to_contact_me_info"
+msgstr "A többi felhasználó kérést küldhet felém, hogy ismerősnek kíván megjelölni."
+
+msgid "buddy_bs_act_btn_txt_ignored_request_to_linked"
+msgstr "Jelölés elfogadása"
+
+msgid "buddy_bs_act_btn_txt_ignored_request_to_unlinked"
+msgstr "Jelölés visszavonása"
+
+msgid "buddy_bs_act_btn_txt_linked_to_unlinked"
+msgstr "Jelölés visszavonása"
+
+msgid "buddy_bs_act_btn_txt_requested_to_ignored_request"
+msgstr "Jelölés elutasítása"
+
+msgid "buddy_bs_act_btn_txt_requested_to_linked"
+msgstr "Jelölés elfogadása"
+
+msgid "buddy_bs_act_btn_txt_requested_to_unlinked"
+msgstr "Jelölés visszavonása"
+
+msgid "buddy_bs_action_already_ignored"
+msgstr "Ezt a műveletet nem lehet végrehajtani. ‘%s’ felhasználót már elutasította."
+
+msgid "buddy_bs_action_already_linked"
+msgstr "Ezt a műveletet nem lehet végrehajtani. ‘%s’ felhasználótól már elfogadta a jelölést."
+
+msgid "buddy_bs_action_already_requested"
+msgstr "Ezt a műveletet nem lehet végrehajtani. ‘%s’ felhasználónak már küldött jelölést."
+
+msgid "buddy_bs_action_already_unlinked"
+msgstr "Ezt a műveletet nem lehet végrehajtani. ‘%s’ felhasználótól már visszavonta a jelölést."
+
+msgid "buddy_bs_action_not_possible"
+msgstr "Ezt a műveletet nem lehet végrehajtani"
+
+msgid "buddy_bs_btn_txt_ignored_request_a"
+msgstr "Elutasított"
+
+msgid "buddy_bs_btn_txt_ignored_request_p"
+msgstr "Elutasított"
+
+msgid "buddy_bs_btn_txt_linked_a"
+msgstr "Visszaigazolt"
+
+msgid "buddy_bs_btn_txt_linked_p"
+msgstr "Visszaigazolt"
+
+msgid "buddy_bs_btn_txt_requested_a"
+msgstr "Jelölés kezelése"
+
+msgid "buddy_bs_btn_txt_requested_p"
+msgstr "Jelölés kezelése"
+
+msgid "buddy_bs_btn_txt_unlinked_a"
+msgstr "Ismerősnek jelölés"
+
+msgid "buddy_bs_state_ignored_request_a"
+msgstr "Ismerősnek jelölés elküldve"
+
+msgid "buddy_bs_state_ignored_request_p"
+msgstr "Ismerősnek jelölés elutasítva"
+
+msgid "buddy_bs_state_ignoredrequest"
+msgstr "Ismerősnek jelölés elutasítva"
+
+msgid "buddy_bs_state_linked"
+msgstr "Ismerős"
+
+msgid "buddy_bs_state_linked_a"
+msgstr "Ismerős"
+
+msgid "buddy_bs_state_linked_p"
+msgstr "Összekötve"
+
+msgid "buddy_bs_state_requested"
+msgstr "Ismerősnek jelölés elküldve"
+
+msgid "buddy_bs_state_requested_a"
+msgstr "Ismerősnek jelölés elküldve"
+
+msgid "buddy_bs_state_requested_filter_a"
+msgstr "Várakozás a válaszra"
+
+msgid "buddy_bs_state_requested_filter_p"
+msgstr "Művelet szükséges"
+
+msgid "buddy_bs_state_requested_p"
+msgstr "Ismerősnek jelölés elküldve"
+
+msgid "buddy_bs_state_unlinked"
+msgstr "Nincs összekötve"
+
+msgid "buddy_bs_state_unlinked_a"
+msgstr "Ismeretlen"
+
+msgid "buddy_bs_state_unlinked_p"
+msgstr "Nincs összekötve"
+
+msgid "buddy_confirm_unlink"
+msgstr "Biztos, hogy bontja a kapcsolatot ezzel az ismerőssel?"
+
+msgid "buddy_enable"
+msgstr "‘Kapcsolatok’ aktiválása"
+
+msgid "buddy_enable_info"
+msgstr "Felhasználók kérések küldésével/elfogadásával ismerősnek jelölhetik meg egymást. Az összes felhasználó egyéni beállításában engedélyezheti/tilthatja, hogy őt ismerősnek jelöljék."
+
+msgid "buddy_handle_contact_request"
+msgstr "Kapcsolat kérése"
+
+msgid "buddy_noti_cr_profile_not_published"
+msgstr "A profil nincs közzétéve."
+
+msgid "buddy_notification_contact_request"
+msgstr "Ismerősnek jelölés"
+
+msgid "buddy_notification_contact_request_ignore"
+msgstr "Ismerősnek jelölés elutasítása"
+
+msgid "buddy_notification_contact_request_ignore_osd"
+msgstr "Ismerősnek jelölés elutasítása"
+
+msgid "buddy_notification_contact_request_link"
+msgstr "Ismerősnek jelölés elfogadása"
+
+msgid "buddy_notification_contact_request_link_osd"
+msgstr "Ismerősnek jelölés elfogadása"
+
+msgid "buddy_notification_contact_request_long"
+msgstr "[SALUTATION][BR][BR]‘[REQUESTING_USER]’ ismerősnek jelölt.[BR][BR]Személyes profilja: [PERSONAL_PROFILE_LINK][BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]"
+
+msgid "buddy_notification_contact_request_short"
+msgstr "‘[REQUESTING_USER]’ ismerősnek jelölt.[BR][BR][APPROVE_REQUEST][BR][IGNORE_REQUEST]"
+
+msgid "buddy_relation_requested"
+msgstr "A felhasználónak sikeresen elküldte a kérést."
+
+msgid "buddy_request_approved"
+msgstr "Sikeresen elfogadta a jelölést."
+
+msgid "buddy_request_ignored"
+msgstr "Figyelmen kívül hagyta a felhasználót."
+
+msgid "buddy_tbl_filter_state"
+msgstr "Állapot"
+
+msgid "buddy_tbl_state_actions_col_label"
+msgstr "Állapot / Művelet"
+
+msgid "buddy_tbl_title_relations"
+msgstr "Kapcsolat a többi felhasználóval"
+
+msgid "buddy_use_osd"
+msgstr "Ismerősnek jelölések felugró ablakban"
+
+msgid "buddy_use_osd_info"
+msgstr "Felugró ablakban jelzi a rendszer, hogy valaki a ismerősei közé szeretné felvenni."
+
+msgid "buddy_view_gallery"
+msgstr "Képtár"
+
+msgid "buddy_view_table"
+msgstr "Felsorolás"

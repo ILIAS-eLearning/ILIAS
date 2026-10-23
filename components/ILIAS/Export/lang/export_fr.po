@@ -1,0 +1,80 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: export\n"
+
+#, fuzzy
+msgid "exp_file"
+msgstr "File Name"
+
+#, fuzzy
+msgid "exp_public_access"
+msgstr "Public Access"
+
+#, fuzzy
+msgid "exp_size"
+msgstr "File Size (MB)"
+
+#, fuzzy
+msgid "exp_timestamp"
+msgstr "Creation Date"
+
+#, fuzzy
+msgid "exp_toggle_public_access"
+msgstr "Toggle Public Access"
+
+#, fuzzy
+msgid "exp_type"
+msgstr "Type"
+
+msgid "export_create"
+msgstr "Créer"
+
+msgid "export_create_new_file"
+msgstr "Créer nouveau fichier d'export"
+
+msgid "export_existing"
+msgstr "Réutiliser"
+
+msgid "export_export_date"
+msgstr "Exporter date"
+
+#, fuzzy
+msgid "export_info_public_access"
+msgstr "Public Access Export"
+
+#, fuzzy
+msgid "export_info_public_access_download"
+msgstr "Download"
+
+msgid "export_last_export"
+msgstr "Dernier export"
+
+msgid "export_last_export_file"
+msgstr "Utiliser dernier fichier d'export"
+
+msgid "export_last_file"
+msgstr "Dernier fichier"
+
+msgid "export_omit"
+msgstr "Omettre"
+
+msgid "export_omit_resource"
+msgstr "Omettre objet"
+
+msgid "export_resource"
+msgstr "Objet"
+
+msgid "export_save_selection"
+msgstr "Exporter"
+
+msgid "export_select_resources"
+msgstr "Sélectionner objets"
+
+msgid "no_file"
+msgstr "Pas de fichier"

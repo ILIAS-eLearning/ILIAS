@@ -1,0 +1,12 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: cpad\n"
+
+msgid "cpad_reading_time_status"
+msgstr ""
+
+msgid "cpad_reading_time_status_desc"
+msgstr ""

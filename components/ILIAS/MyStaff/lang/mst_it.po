@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: mst\n"
+
+msgid "mst_cert_issued_on"
+msgstr "Rilasciato il"
+
+msgid "mst_courses_of"
+msgstr "Iscrizioni di %s"
+
+msgid "mst_download_certificate"
+msgstr "Scarica il certificato"
+
+msgid "mst_list_certificates"
+msgstr "Certificati"
+
+msgid "mst_list_competences"
+msgstr "Competenze"
+
+msgid "mst_list_courses"
+msgstr "Iscrizioni"
+
+msgid "mst_list_users"
+msgstr "Lista staff"
+
+msgid "mst_memb_status_registered"
+msgstr "Registrati"
+
+msgid "mst_memb_status_requested"
+msgstr "Richiesti"
+
+msgid "mst_memb_status_waitinglist"
+msgstr "Lista di attesa"
+
+msgid "mst_my_staff"
+msgstr "Staff"
+
+msgid "mst_opt_all"
+msgstr "Tutte"
+
+msgid "mst_please_select_course"
+msgstr "Si prega di selezionare un corso."
+
+msgid "mst_profile_fulfilled"
+msgstr "Profilo non ancora completo"
+
+msgid "mst_profile_not_fulfilled"
+msgstr "Realizzato"
+
+msgid "mst_select_course"
+msgstr "Seleziona corso"
+
+msgid "mst_show_courses"
+msgstr "Iscrizioni"

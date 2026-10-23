@@ -1,0 +1,94 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: awrn\n"
+
+msgid "awareness_now_online"
+msgstr "Online agora"
+
+msgid "awareness_settings"
+msgstr "Definições"
+
+msgid "awrn_caching_period"
+msgstr "Período Caching"
+
+msgid "awrn_caching_period_info"
+msgstr "Tempo que se espera antes do número de utilizadores na barra superior ser atualizado e de serem determinados novos utilizadores online."
+
+msgid "awrn_enable"
+msgstr "Ativar ferramenta ‘Who is online?’ (Quem está online?)"
+
+#, fuzzy
+msgid "awrn_filter"
+msgstr "User Filter"
+
+msgid "awrn_hide_from_awareness"
+msgstr "Ocultar-me da ferramenta ‘Who is online?’ (Quem está online?)"
+
+msgid "awrn_hide_from_awareness_info"
+msgstr "A ferramenta ‘Who is online?’ está na barra superior e enumera os utilizadores selecionados (p. ex. contactos ou membros dos seus cursos)."
+
+msgid "awrn_inactive"
+msgstr "Não constam da lista"
+
+msgid "awrn_incl_offline"
+msgstr "Online e offline"
+
+msgid "awrn_max_inactivity"
+msgstr "Período máximo de inatividade"
+
+msgid "awrn_max_inactivity_info"
+msgstr "Depois deste período, os utilizadores são considerados offline. Se não estiver nada definido, será usado o tempo da sessão."
+
+msgid "awrn_max_nr_entries"
+msgstr "Número máx. de itens"
+
+msgid "awrn_max_nr_entries_info"
+msgstr "Aqui pode procurar utilizadores que gostaria de adicionar a uma conversação. Se a caixa de diálogo de procura tiver sido aberta dentro de um chat de grupo, o novo utilizador será adicionado a este chat. Se começou a procura dentro de um chat 1:1, abre-se uma nova janela de chat de grupo."
+
+msgid "awrn_minutes"
+msgstr "min"
+
+msgid "awrn_online"
+msgstr "Online"
+
+msgid "awrn_online_only"
+msgstr "Online apenas"
+
+msgid "awrn_seconds"
+msgstr "seg"
+
+msgid "awrn_use_osd"
+msgstr "Popup utilizadores online"
+
+msgid "awrn_use_osd_info"
+msgstr "Mostra um popup para indicar novos utilizadores online na lista ‘Who is online?’."
+
+#, fuzzy
+msgid "awrn_user_show"
+msgstr "Show your account in \"Who-is-online?\""
+
+#, fuzzy
+msgid "awrn_user_show_default"
+msgstr "Default Value for  the Visibility in \"Who-Is-Online?\""
+
+#, fuzzy
+msgid "awrn_user_show_default_info"
+msgstr "Defines the default value for the visibility of the status of a user in \"Who-Is-Online?\"."
+
+#, fuzzy
+msgid "user_awrn_default"
+msgstr "Default"
+
+#, fuzzy
+msgid "user_awrn_hide"
+msgstr "Hide my status"
+
+#, fuzzy
+msgid "user_awrn_show"
+msgstr "Show my status"

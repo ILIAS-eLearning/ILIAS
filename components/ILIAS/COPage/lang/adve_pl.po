@@ -1,0 +1,97 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: adve\n"
+
+msgid "advanced_editing_excass_settings"
+msgstr "Ustawienia dotyczące zadań"
+
+msgid "advanced_editing_tst_editing"
+msgstr "Edytor stron dla dodatkowych treści w pytaniach"
+
+msgid "advanced_editing_tst_editing_desc"
+msgstr "Włącza edytor stron ILIAS dla feedbacków i wskazówek."
+
+msgid "adve_activation"
+msgstr "Aktywacja"
+
+msgid "adve_auto_url_linking"
+msgstr "Automatyczne linkowanie URL"
+
+msgid "adve_auto_url_linking_info"
+msgstr "ILIAS szuka w tekstach adresów URLs (np. \"http://..\") i automatycznie odpowiednio je linkuje."
+
+#, fuzzy
+msgid "adve_autosave"
+msgstr "Automatic Saving Intervall"
+
+#, fuzzy
+msgid "adve_autosave_info"
+msgstr "Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases."
+
+#, fuzzy
+msgid "adve_autosave_info_min_10"
+msgstr "Please choose a value of minimal 10 seconds if you activated this feature."
+
+msgid "adve_blocking_mode"
+msgstr "Blokada edycji"
+
+msgid "adve_excass_settings"
+msgstr "Zadania"
+
+msgid "adve_grp_copa"
+msgstr "Content Pages"
+
+#, fuzzy
+msgid "adve_grp_frm"
+msgstr "Forums"
+
+msgid "adve_grp_glo"
+msgstr "Słowniki"
+
+msgid "adve_grp_lm"
+msgstr "Moduły nauczania ILIAS"
+
+msgid "adve_grp_rep"
+msgstr "Strony dostępnych zasobów"
+
+msgid "adve_grp_scorm"
+msgstr "Moduł SCORM"
+
+msgid "adve_grp_test"
+msgstr "Test i ocena"
+
+msgid "adve_grp_wiki"
+msgstr "Wikis"
+
+msgid "adve_minutes"
+msgstr "Minuty"
+
+msgid "adve_minutes_info"
+msgstr "Okres czasu w minutach do momentu, w którym strona z powodu brakującej aktywności zostanie udostępniona i może być edytowana przez innego użytkownika."
+
+msgid "adve_page_editor_settings"
+msgstr "Edytor stron ILIAS"
+
+msgid "adve_pe_general"
+msgstr "Ustawienia"
+
+msgid "adve_rte_settings"
+msgstr "Edytor TinyMCE"
+
+msgid "adve_text_content_features"
+msgstr "Tekst menu zawartości"
+
+msgid "adve_use_physical"
+msgstr "W miejsce str|emp|imp wstaw pr<b>B</b>|<i>I</i>|<u>U</u>"
+
+msgid "adve_use_physical_info"
+msgstr "To ustawienie zastępuje przyciski semantycznych klas stylów odnoszących się do opcji strong, emphatic oraz important  na stałe określonymi wartościami <b>B</b> (bold), <i>I</i> (italic) oraz <u>U</u> (underline). Uwaga: w takiej sytuacji może dojść do niespójności, jeśli poprzez edytorów stylów klasom strong, emphatic i important zostaną przyporządkowane inne wartości."
+
+msgid "adve_use_tiny_mce"
+msgstr "Aktywuj TinyMCE do edytowania WYSIWYG"

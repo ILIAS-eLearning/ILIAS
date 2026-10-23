@@ -1,0 +1,810 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: ecs\n"
+
+msgid "cert_serial"
+msgstr ""
+
+msgid "ecs_abr"
+msgstr ""
+
+msgid "ecs_account_duration"
+msgstr ""
+
+msgid "ecs_account_duration_info"
+msgstr ""
+
+msgid "ecs_activate"
+msgstr ""
+
+msgid "ecs_active"
+msgstr ""
+
+msgid "ecs_active_header"
+msgstr ""
+
+msgid "ecs_add_new_ecs"
+msgstr ""
+
+msgid "ecs_apache_pass"
+msgstr ""
+
+msgid "ecs_apache_user"
+msgstr ""
+
+msgid "ecs_approval_rcp"
+msgstr ""
+
+msgid "ecs_approval_rcp_info"
+msgstr ""
+
+msgid "ecs_attribute_name"
+msgstr ""
+
+msgid "ecs_auth_type"
+msgstr ""
+
+msgid "ecs_auth_type_apache"
+msgstr ""
+
+msgid "ecs_auth_type_cert"
+msgstr ""
+
+msgid "ecs_availability"
+msgstr ""
+
+msgid "ecs_available_ecs"
+msgstr ""
+
+msgid "ecs_back_settings"
+msgstr ""
+
+msgid "ecs_ca_cert"
+msgstr ""
+
+msgid "ecs_campus_connect_title"
+msgstr ""
+
+msgid "ecs_cat_export"
+msgstr ""
+
+msgid "ecs_cat_export_disabled"
+msgstr ""
+
+msgid "ecs_cat_export_enabled"
+msgstr ""
+
+msgid "ecs_cat_export_obj_settings"
+msgstr ""
+
+msgid "ecs_cat_mapping_by_type"
+msgstr ""
+
+msgid "ecs_cat_mapping_by_type_info"
+msgstr ""
+
+msgid "ecs_cat_mapping_duration"
+msgstr ""
+
+msgid "ecs_cat_mapping_duration_info"
+msgstr ""
+
+msgid "ecs_cat_mapping_fixed"
+msgstr ""
+
+msgid "ecs_cat_mapping_fixed_info"
+msgstr ""
+
+msgid "ecs_cat_mapping_type"
+msgstr ""
+
+msgid "ecs_cat_mapping_values"
+msgstr ""
+
+msgid "ecs_category_mapping"
+msgstr ""
+
+msgid "ecs_cc_mapping_overview"
+msgstr ""
+
+msgid "ecs_cert_key"
+msgstr ""
+
+msgid "ecs_cert_valid_until"
+msgstr ""
+
+msgid "ecs_check_import_id"
+msgstr ""
+
+msgid "ecs_client_cert"
+msgstr ""
+
+msgid "ecs_cmap_add_attribute_btn"
+msgstr ""
+
+msgid "ecs_cmap_all_in_one"
+msgstr ""
+
+msgid "ecs_cmap_all_in_one_cat"
+msgstr ""
+
+msgid "ecs_cmap_all_in_one_info"
+msgstr ""
+
+msgid "ecs_cmap_att_courseType"
+msgstr ""
+
+msgid "ecs_cmap_att_degreeProgramme"
+msgstr ""
+
+msgid "ecs_cmap_att_lecturer"
+msgstr ""
+
+msgid "ecs_cmap_att_module"
+msgstr ""
+
+msgid "ecs_cmap_att_organisation"
+msgstr ""
+
+msgid "ecs_cmap_att_orgunit"
+msgstr ""
+
+msgid "ecs_cmap_att_term"
+msgstr ""
+
+msgid "ecs_cmap_att_title"
+msgstr ""
+
+msgid "ecs_cmap_att_venue"
+msgstr ""
+
+msgid "ecs_cmap_attributes"
+msgstr ""
+
+msgid "ecs_cmap_atts_table"
+msgstr ""
+
+msgid "ecs_cmap_def_cat"
+msgstr ""
+
+msgid "ecs_cmap_def_cat_info"
+msgstr ""
+
+msgid "ecs_cmap_delete_attribute_btn"
+msgstr ""
+
+msgid "ecs_cmap_delete_rule"
+msgstr ""
+
+msgid "ecs_cmap_enable"
+msgstr ""
+
+msgid "ecs_cmap_form_all_values"
+msgstr ""
+
+msgid "ecs_cmap_form_create_subdirs"
+msgstr ""
+
+msgid "ecs_cmap_form_current_dir"
+msgstr ""
+
+msgid "ecs_cmap_form_dir_relation"
+msgstr ""
+
+msgid "ecs_cmap_form_filter"
+msgstr ""
+
+msgid "ecs_cmap_form_filter_by_values"
+msgstr ""
+
+msgid "ecs_cmap_form_filter_info"
+msgstr ""
+
+msgid "ecs_cmap_form_subdir_name"
+msgstr ""
+
+msgid "ecs_cmap_form_subdir_type"
+msgstr ""
+
+msgid "ecs_cmap_form_subdir_value"
+msgstr ""
+
+msgid "ecs_cmap_mapping_form_title"
+msgstr ""
+
+msgid "ecs_cmap_multiple_atts"
+msgstr ""
+
+msgid "ecs_cmap_overview"
+msgstr ""
+
+msgid "ecs_cms_dir_tree"
+msgstr ""
+
+msgid "ecs_cms_directory_trees_tbl"
+msgstr ""
+
+msgid "ecs_cms_id"
+msgstr ""
+
+msgid "ecs_cms_tree_deleted"
+msgstr ""
+
+msgid "ecs_cms_tree_synchronize"
+msgstr ""
+
+msgid "ecs_cms_tree_synchronized"
+msgstr ""
+
+msgid "ecs_communities"
+msgstr ""
+
+msgid "ecs_confirm_delete_tree"
+msgstr ""
+
+msgid "ecs_connection_settings"
+msgstr ""
+
+msgid "ecs_consent_modal_btn_accept"
+msgstr ""
+
+msgid "ecs_consent_modal_title"
+msgstr ""
+
+msgid "ecs_consent_reset_confirm_title"
+msgstr ""
+
+msgid "ecs_cron_task_scheduler"
+msgstr ""
+
+msgid "ecs_cron_task_scheduler_info"
+msgstr ""
+
+msgid "ecs_crs_alloc"
+msgstr ""
+
+msgid "ecs_crs_alloc_set"
+msgstr ""
+
+msgid "ecs_crs_export"
+msgstr ""
+
+msgid "ecs_crs_export_disabled"
+msgstr ""
+
+msgid "ecs_crs_export_enabled"
+msgstr ""
+
+msgid "ecs_crs_export_obj_settings"
+msgstr ""
+
+msgid "ecs_deactivate"
+msgstr ""
+
+msgid "ecs_delete_setting"
+msgstr ""
+
+msgid "ecs_deprecated_token"
+msgstr ""
+
+msgid "ecs_deprecated_token_info"
+msgstr ""
+
+msgid "ecs_dir_alloc"
+msgstr ""
+
+msgid "ecs_dir_alloc_set"
+msgstr ""
+
+msgid "ecs_dns"
+msgstr ""
+
+msgid "ecs_duration"
+msgstr ""
+
+msgid "ecs_econ_rcp"
+msgstr ""
+
+msgid "ecs_econ_rcp_info"
+msgstr ""
+
+msgid "ecs_edit_category_mapping"
+msgstr ""
+
+msgid "ecs_email"
+msgstr ""
+
+msgid "ecs_enable_participant"
+msgstr ""
+
+msgid "ecs_err_invalid_by_type"
+msgstr ""
+
+msgid "ecs_err_invalid_dates"
+msgstr ""
+
+msgid "ecs_err_invalid_type"
+msgstr ""
+
+msgid "ecs_err_missing_value"
+msgstr ""
+
+msgid "ecs_error_extract_serial"
+msgstr ""
+
+msgid "ecs_event_appointment"
+msgstr ""
+
+msgid "ecs_export"
+msgstr ""
+
+msgid "ecs_export_auth_type"
+msgstr ""
+
+msgid "ecs_export_auth_type_ilias"
+msgstr ""
+
+msgid "ecs_export_auth_type_info"
+msgstr ""
+
+msgid "ecs_export_auth_type_none"
+msgstr ""
+
+msgid "ecs_export_auth_type_oidc"
+msgstr ""
+
+msgid "ecs_export_auth_type_shib"
+msgstr ""
+
+msgid "ecs_export_created_body_a"
+msgstr ""
+
+msgid "ecs_export_disabled"
+msgstr ""
+
+msgid "ecs_export_enabled"
+msgstr ""
+
+msgid "ecs_export_local_account"
+msgstr ""
+
+msgid "ecs_export_local_account_info"
+msgstr ""
+
+msgid "ecs_export_obj_settings"
+msgstr ""
+
+msgid "ecs_export_types"
+msgstr ""
+
+msgid "ecs_field_begin"
+msgstr ""
+
+msgid "ecs_field_community"
+msgstr ""
+
+msgid "ecs_field_courseID"
+msgstr ""
+
+msgid "ecs_field_courseType"
+msgstr ""
+
+msgid "ecs_field_credits"
+msgstr ""
+
+msgid "ecs_field_cycle"
+msgstr ""
+
+msgid "ecs_field_day"
+msgstr ""
+
+msgid "ecs_field_end"
+msgstr ""
+
+msgid "ecs_field_lecturer"
+msgstr ""
+
+msgid "ecs_field_part_id"
+msgstr ""
+
+msgid "ecs_field_room"
+msgstr ""
+
+msgid "ecs_field_semester_hours"
+msgstr ""
+
+msgid "ecs_field_start"
+msgstr ""
+
+msgid "ecs_field_study_courses"
+msgstr ""
+
+msgid "ecs_field_term"
+msgstr ""
+
+msgid "ecs_field_time"
+msgstr ""
+
+msgid "ecs_file_export"
+msgstr ""
+
+msgid "ecs_file_export_disabled"
+msgstr ""
+
+msgid "ecs_file_export_enabled"
+msgstr ""
+
+msgid "ecs_file_export_obj_settings"
+msgstr ""
+
+msgid "ecs_firstname"
+msgstr ""
+
+msgid "ecs_form_consent"
+msgstr ""
+
+msgid "ecs_form_consent_option_title"
+msgstr ""
+
+msgid "ecs_form_target_platform"
+msgstr ""
+
+msgid "ecs_general_info"
+msgstr ""
+
+msgid "ecs_glo_export"
+msgstr ""
+
+msgid "ecs_glo_export_disabled"
+msgstr ""
+
+msgid "ecs_glo_export_enabled"
+msgstr ""
+
+msgid "ecs_glo_export_obj_settings"
+msgstr ""
+
+msgid "ecs_global_role_info"
+msgstr ""
+
+msgid "ecs_grp_export"
+msgstr ""
+
+msgid "ecs_grp_export_disabled"
+msgstr ""
+
+msgid "ecs_grp_export_enabled"
+msgstr ""
+
+msgid "ecs_grp_export_obj_settings"
+msgstr ""
+
+msgid "ecs_ignore_field"
+msgstr ""
+
+msgid "ecs_import"
+msgstr ""
+
+msgid "ecs_import_auth_mode"
+msgstr ""
+
+msgid "ecs_import_auth_type_default"
+msgstr ""
+
+msgid "ecs_import_cms"
+msgstr ""
+
+msgid "ecs_import_id"
+msgstr ""
+
+msgid "ecs_import_id_info"
+msgstr ""
+
+msgid "ecs_import_types"
+msgstr ""
+
+msgid "ecs_import_user_credentials_by_auth_mode"
+msgstr ""
+
+msgid "ecs_import_user_credentials_by_auth_mode_info"
+msgstr ""
+
+msgid "ecs_imported_content"
+msgstr ""
+
+msgid "ecs_imported_from"
+msgstr ""
+
+msgid "ecs_institution"
+msgstr ""
+
+msgid "ecs_invalid_import_type_cms"
+msgstr ""
+
+msgid "ecs_key_password"
+msgstr ""
+
+msgid "ecs_lastname"
+msgstr ""
+
+msgid "ecs_lm_export"
+msgstr ""
+
+msgid "ecs_lm_export_disabled"
+msgstr ""
+
+msgid "ecs_lm_export_enabled"
+msgstr ""
+
+msgid "ecs_lm_export_obj_settings"
+msgstr ""
+
+msgid "ecs_local_information"
+msgstr ""
+
+msgid "ecs_local_settings"
+msgstr ""
+
+msgid "ecs_login"
+msgstr ""
+
+msgid "ecs_mapping_crs"
+msgstr ""
+
+msgid "ecs_mapping_exp_tbl"
+msgstr ""
+
+msgid "ecs_mapping_rcrs"
+msgstr ""
+
+msgid "ecs_mapping_tbl"
+msgstr ""
+
+msgid "ecs_mappings"
+msgstr ""
+
+msgid "ecs_member_auth_type"
+msgstr ""
+
+msgid "ecs_meta_data"
+msgstr ""
+
+msgid "ecs_new_approval_subject"
+msgstr ""
+
+msgid "ecs_new_category_mapping"
+msgstr ""
+
+msgid "ecs_new_econtent_subject"
+msgstr ""
+
+msgid "ecs_new_user_body"
+msgstr ""
+
+msgid "ecs_new_user_profile"
+msgstr ""
+
+msgid "ecs_new_user_subject"
+msgstr ""
+
+msgid "ecs_no_adv_md"
+msgstr ""
+
+msgid "ecs_no_owner"
+msgstr ""
+
+msgid "ecs_no_value"
+msgstr ""
+
+msgid "ecs_node_mapping_activate"
+msgstr ""
+
+msgid "ecs_node_mapping_create_empty"
+msgstr ""
+
+msgid "ecs_node_mapping_create_empty_info"
+msgstr ""
+
+msgid "ecs_node_mapping_status_1"
+msgstr ""
+
+msgid "ecs_node_mapping_status_2"
+msgstr ""
+
+msgid "ecs_node_mapping_status_3"
+msgstr ""
+
+msgid "ecs_not_configured"
+msgstr ""
+
+msgid "ecs_not_published"
+msgstr ""
+
+msgid "ecs_notifications"
+msgstr ""
+
+msgid "ecs_outgoing_user_credentials"
+msgstr ""
+
+msgid "ecs_outgoing_user_credentials_info"
+msgstr ""
+
+msgid "ecs_part_settings"
+msgstr ""
+
+msgid "ecs_participants"
+msgstr ""
+
+msgid "ecs_participants_infos"
+msgstr ""
+
+msgid "ecs_polling"
+msgstr ""
+
+msgid "ecs_polling_info"
+msgstr ""
+
+msgid "ecs_port"
+msgstr ""
+
+msgid "ecs_position_updates"
+msgstr ""
+
+msgid "ecs_protocol"
+msgstr ""
+
+msgid "ecs_publish_as"
+msgstr ""
+
+msgid "ecs_publish_for"
+msgstr ""
+
+msgid "ecs_published_for"
+msgstr ""
+
+msgid "ecs_rcat_created_body_a"
+msgstr ""
+
+msgid "ecs_rcrs_created_body_a"
+msgstr ""
+
+msgid "ecs_read_remote_links"
+msgstr ""
+
+msgid "ecs_refresh_participants"
+msgstr ""
+
+msgid "ecs_released"
+msgstr ""
+
+msgid "ecs_released_content"
+msgstr ""
+
+msgid "ecs_remote_imported"
+msgstr ""
+
+msgid "ecs_remote_user_settings"
+msgstr ""
+
+msgid "ecs_role"
+msgstr ""
+
+msgid "ecs_role_mapping_value"
+msgstr ""
+
+msgid "ecs_role_mappings"
+msgstr ""
+
+msgid "ecs_server_addr"
+msgstr ""
+
+msgid "ecs_server_deleted"
+msgstr ""
+
+msgid "ecs_server_settings"
+msgstr ""
+
+msgid "ecs_server_title"
+msgstr ""
+
+msgid "ecs_server_url"
+msgstr ""
+
+msgid "ecs_setting_deleted"
+msgstr ""
+
+msgid "ecs_settings"
+msgstr ""
+
+msgid "ecs_status_deleted"
+msgstr ""
+
+msgid "ecs_status_legend"
+msgstr ""
+
+msgid "ecs_status_mapped"
+msgstr ""
+
+msgid "ecs_status_pending_unmapped"
+msgstr ""
+
+msgid "ecs_status_pending_unmapped_discon"
+msgstr ""
+
+msgid "ecs_status_pending_unmapped_nondiscon"
+msgstr ""
+
+msgid "ecs_sync_trees"
+msgstr ""
+
+msgid "ecs_tab_export"
+msgstr ""
+
+msgid "ecs_tab_import"
+msgstr ""
+
+msgid "ecs_tbl_active"
+msgstr ""
+
+msgid "ecs_tbl_active_rules"
+msgstr ""
+
+msgid "ecs_tbl_export"
+msgstr ""
+
+msgid "ecs_tbl_import"
+msgstr ""
+
+msgid "ecs_tbl_import_type"
+msgstr ""
+
+msgid "ecs_tbl_settings_for_server"
+msgstr ""
+
+msgid "ecs_title_updates"
+msgstr ""
+
+msgid "ecs_token_mechanism"
+msgstr ""
+
+msgid "ecs_token_mechanism_info"
+msgstr ""
+
+msgid "ecs_tree_updates"
+msgstr ""
+
+msgid "ecs_tst_export"
+msgstr ""
+
+msgid "ecs_tst_export_disabled"
+msgstr ""
+
+msgid "ecs_tst_export_enabled"
+msgstr ""
+
+msgid "ecs_tst_export_obj_settings"
+msgstr ""
+
+msgid "ecs_unique_id"
+msgstr ""
+
+msgid "ecs_user_rcp"
+msgstr ""
+
+msgid "ecs_user_rcp_info"
+msgstr ""
+
+msgid "ecs_wiki_export"
+msgstr ""
+
+msgid "ecs_wiki_export_disabled"
+msgstr ""
+
+msgid "ecs_wiki_export_enabled"
+msgstr ""
+
+msgid "ecs_wiki_export_obj_settings"
+msgstr ""

@@ -1,0 +1,142 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: mob\n"
+
+msgid "mob_choose_from_pool"
+msgstr "Choose from Media Pool"
+
+#, fuzzy
+msgid "mob_copyright"
+msgstr "Copyright"
+
+#, fuzzy
+msgid "mob_copyright_icon"
+msgstr "Copyright Icon"
+
+msgid "mob_external_url"
+msgstr "External URL"
+
+#, fuzzy
+msgid "mob_extract_preview_image"
+msgstr "Extract Preview Image"
+
+msgid "mob_file"
+msgstr "Fichier"
+
+msgid "mob_file_could_not_be_uploaded"
+msgstr "Le fichier n’a pas pu être téléchargé."
+
+msgid "mob_general"
+msgstr "Général"
+
+#, fuzzy
+msgid "mob_image_extracted"
+msgstr "Image has been extracted."
+
+#, fuzzy
+msgid "mob_internal_usages_in_object"
+msgstr "Page Usages"
+
+msgid "mob_language"
+msgstr "Langage"
+
+#, fuzzy
+msgid "mob_last_update"
+msgstr "Last Update"
+
+#, fuzzy
+msgid "mob_media"
+msgstr "Media"
+
+#, fuzzy
+msgid "mob_media_objects_overview"
+msgstr "Media Objects on Pages"
+
+#, fuzzy
+msgid "mob_mime_type_not_allowed"
+msgstr "The following mime types are not allowed at the destination."
+
+msgid "mob_multi_srt_files"
+msgstr "Fichiers SRT"
+
+#, fuzzy
+msgid "mob_no_extraction_possible"
+msgstr "Sorry, it was not able to extract an image from the file."
+
+msgid "mob_no_fixed_size_map_editing"
+msgstr "Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore."
+
+msgid "mob_object"
+msgstr "Objet"
+
+#, fuzzy
+msgid "mob_please_select_pool"
+msgstr "Bitte wählen Sie einen Medienpool aus."
+
+#, fuzzy
+msgid "mob_preview_picture"
+msgstr "Preview Picture"
+
+msgid "mob_really_delete_srt"
+msgstr "Souhaitez-vous vraiment supprimer les fichiers suivants ?"
+
+#, fuzzy
+msgid "mob_second"
+msgstr "Second"
+
+msgid "mob_srt_files_deleted"
+msgstr "Les fichiers de sous-titre ont été supprimés"
+
+#, fuzzy
+msgid "mob_srt_not_allowed"
+msgstr "Files with a .srt suffix are currently not allowed to be uploaded. If you would like to use srt files, contact your system administrator."
+
+msgid "mob_subtitle_file"
+msgstr "Fichier de Sous-Titre"
+
+msgid "mob_subtitle_files"
+msgstr "Fichiers de Sous-Titre"
+
+msgid "mob_subtitles"
+msgstr "Sous-Titres"
+
+#, fuzzy
+msgid "mob_type_not_supported"
+msgstr "Mime type not supported:"
+
+msgid "mob_upload_file"
+msgstr "Upload File"
+
+msgid "mob_upload_multi_srt"
+msgstr "Télécharger comme ZIP"
+
+msgid "mob_upload_multi_srt_howto"
+msgstr "Le fichier .zip ne doit pas contenir de sous-répertoires, tous les fichiers .srt devraient être situés au niveau le plus haut. Les nom de fichier devraient se terminer par «_&lt;lang code&gt;.srt», tandis que le code long est par ex. «en», «it», «de»."
+
+msgid "mob_url"
+msgstr "URL"
+
+msgid "mob_url_info"
+msgstr "External resource URL, e.g. Youtube or Vimeo URL."
+
+#, fuzzy
+msgid "mob_url_info1"
+msgstr "External resource URL, allowed suffixes are:"
+
+#, fuzzy
+msgid "mob_url_info_video"
+msgstr "You may also refer to a Youtube or Vimeo URL."
+
+#, fuzzy
+msgid "mob_usages_in_media_pools"
+msgstr "Media Pool Usages"
+
+#, fuzzy
+msgid "mob_usages_in_other_objects"
+msgstr "Other Usages"

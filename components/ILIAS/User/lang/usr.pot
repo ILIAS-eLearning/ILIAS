@@ -1,0 +1,15 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: usr\n"
+
+msgid "user_action"
+msgstr ""
+
+msgid "user_actions"
+msgstr ""
+
+msgid "user_actions_activation_info"
+msgstr ""

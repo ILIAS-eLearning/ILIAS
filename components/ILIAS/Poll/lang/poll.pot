@@ -1,0 +1,214 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: poll\n"
+
+msgid "poll_absolute"
+msgstr ""
+
+msgid "poll_activation_online_info"
+msgstr ""
+
+msgid "poll_add"
+msgstr ""
+
+msgid "poll_anonymous_warning"
+msgstr ""
+
+msgid "poll_answer"
+msgstr ""
+
+msgid "poll_answer_selected_alt_text"
+msgstr ""
+
+msgid "poll_answers"
+msgstr ""
+
+msgid "poll_barchart"
+msgstr ""
+
+msgid "poll_block_message_already_voted"
+msgstr ""
+
+msgid "poll_block_message_no_answers"
+msgstr ""
+
+msgid "poll_block_results_available_on"
+msgstr ""
+
+msgid "poll_cannot_set_online_no_answers"
+msgstr ""
+
+msgid "poll_chart_votes"
+msgstr ""
+
+msgid "poll_comments"
+msgstr ""
+
+msgid "poll_copy"
+msgstr ""
+
+msgid "poll_delete_votes"
+msgstr ""
+
+msgid "poll_delete_votes_sure"
+msgstr ""
+
+msgid "poll_edit"
+msgstr ""
+
+msgid "poll_edit_question"
+msgstr ""
+
+msgid "poll_image"
+msgstr ""
+
+msgid "poll_limit_not_below_answer_count"
+msgstr ""
+
+msgid "poll_limit_number_of_answers"
+msgstr ""
+
+msgid "poll_max_number_of_answers"
+msgstr ""
+
+msgid "poll_max_number_of_answers_info"
+msgstr ""
+
+msgid "poll_mode"
+msgstr ""
+
+msgid "poll_mode_anonymous"
+msgstr ""
+
+msgid "poll_mode_anonymous_info"
+msgstr ""
+
+msgid "poll_mode_personal"
+msgstr ""
+
+msgid "poll_mode_personal_info"
+msgstr ""
+
+msgid "poll_new"
+msgstr ""
+
+msgid "poll_non_anonymous_warning"
+msgstr ""
+
+msgid "poll_notification_activated"
+msgstr ""
+
+msgid "poll_notification_deactivated"
+msgstr ""
+
+msgid "poll_notification_subscribe"
+msgstr ""
+
+msgid "poll_notification_unsubscribe"
+msgstr ""
+
+msgid "poll_percentage"
+msgstr ""
+
+msgid "poll_population"
+msgid_plural "poll_population_plural"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "poll_population_singular"
+msgstr ""
+
+msgid "poll_question"
+msgstr ""
+
+msgid "poll_result"
+msgstr ""
+
+msgid "poll_result_answers"
+msgstr ""
+
+msgid "poll_result_sorting"
+msgstr ""
+
+msgid "poll_result_sorting_answers"
+msgstr ""
+
+msgid "poll_result_sorting_votes"
+msgstr ""
+
+msgid "poll_result_users"
+msgstr ""
+
+msgid "poll_show_results_as"
+msgstr ""
+
+msgid "poll_sortorder"
+msgstr ""
+
+msgid "poll_stacked_chart"
+msgstr ""
+
+msgid "poll_view_results"
+msgstr ""
+
+msgid "poll_view_results_after_period"
+msgstr ""
+
+msgid "poll_view_results_after_period_impossible"
+msgstr ""
+
+msgid "poll_view_results_after_vote"
+msgstr ""
+
+msgid "poll_view_results_always"
+msgstr ""
+
+msgid "poll_view_results_never"
+msgstr ""
+
+msgid "poll_vote"
+msgstr ""
+
+msgid "poll_vote_error_multi"
+msgid_plural "poll_vote_error_multi_plural"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "poll_vote_error_multi_no_answer"
+msgstr ""
+
+msgid "poll_vote_error_single"
+msgstr ""
+
+msgid "poll_vote_notification_body"
+msgstr ""
+
+msgid "poll_vote_notification_link"
+msgstr ""
+
+msgid "poll_vote_notification_reason"
+msgstr ""
+
+msgid "poll_vote_notification_subject"
+msgstr ""
+
+msgid "poll_votes_no_edit"
+msgstr ""
+
+msgid "poll_voting_period_and_results"
+msgstr ""
+
+msgid "poll_voting_period_ended_info"
+msgstr ""
+
+msgid "poll_voting_period_full_info"
+msgstr ""
+
+msgid "poll_voting_period_info"
+msgstr ""
+
+msgid "poll_voting_period_limited"
+msgstr ""

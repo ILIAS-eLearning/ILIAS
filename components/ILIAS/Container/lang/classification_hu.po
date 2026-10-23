@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: classification\n"
+
+msgid "clsfct_back_to_cat"
+msgstr "Vissza a kategóriához"
+
+msgid "clsfct_block_info"
+msgstr "Tartalom szűréséhez kattintson egy címkére"
+
+msgid "clsfct_block_title"
+msgstr "Címkefelhő"
+
+msgid "clsfct_content_no_match"
+msgstr "Nincs találat"
+
+msgid "clsfct_content_title"
+msgstr "Címke alapján szűrt tartalom"
+
+msgid "clsfct_selected_objects"
+msgstr "Kiválasztott objektumok"

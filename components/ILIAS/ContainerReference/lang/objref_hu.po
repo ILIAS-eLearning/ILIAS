@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: objref\n"
+
+msgid "objref_custom_title"
+msgstr "Egyéni cím"
+
+msgid "objref_edit_ref"
+msgstr "Forrás"
+
+msgid "objref_edit_title"
+msgstr "Címbeállítások"
+
+msgid "objref_failure_target_type"
+msgstr "A link céljának a következő típusúnak kell lennie:"
+
+msgid "objref_reuse_title"
+msgstr "Forráskurzus címe"
+
+msgid "objref_title_settings"
+msgstr "A linkelt objektum címe"

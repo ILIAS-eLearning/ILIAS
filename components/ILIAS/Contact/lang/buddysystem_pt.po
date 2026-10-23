@@ -1,0 +1,189 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: buddysystem\n"
+
+msgid "buddy_allow_to_contact_me"
+msgstr "Autorizar o contacto comigo"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_default_info"
+msgstr "Defines if users can send each other requests for getting into contact by default."
+
+msgid "buddy_allow_to_contact_me_info"
+msgstr "Se estiver ativado, outros utilizadores podem enviar-me um pedido para entrar em contacto."
+
+msgid "buddy_bs_act_btn_txt_ignored_request_to_linked"
+msgstr "Confirmar pedido"
+
+msgid "buddy_bs_act_btn_txt_ignored_request_to_unlinked"
+msgstr "Cancelar pedido"
+
+msgid "buddy_bs_act_btn_txt_linked_to_unlinked"
+msgstr "Desconectar"
+
+msgid "buddy_bs_act_btn_txt_requested_to_ignored_request"
+msgstr "Ação abortada"
+
+msgid "buddy_bs_act_btn_txt_requested_to_linked"
+msgstr "Ativar avaliação de teste e logging"
+
+msgid "buddy_bs_act_btn_txt_requested_to_unlinked"
+msgstr "Cancelar pedido"
+
+msgid "buddy_bs_action_already_ignored"
+msgstr "Válido até"
+
+msgid "buddy_bs_action_already_linked"
+msgstr "A sua conta expira"
+
+msgid "buddy_bs_action_already_requested"
+msgstr "Ação"
+
+msgid "buddy_bs_action_already_unlinked"
+msgstr "Ações"
+
+msgid "buddy_bs_action_not_possible"
+msgstr "Ação impossível"
+
+msgid "buddy_bs_btn_txt_ignored_request_a"
+msgstr "Contacto pedido"
+
+msgid "buddy_bs_btn_txt_ignored_request_p"
+msgstr "Pedido ignorado"
+
+msgid "buddy_bs_btn_txt_linked_a"
+msgstr "Conectado"
+
+msgid "buddy_bs_btn_txt_linked_p"
+msgstr "Conectado"
+
+msgid "buddy_bs_btn_txt_requested_a"
+msgstr "Contacto pedido"
+
+msgid "buddy_bs_btn_txt_requested_p"
+msgstr "Pedir"
+
+msgid "buddy_bs_btn_txt_unlinked_a"
+msgstr "Pedir contacto"
+
+msgid "buddy_bs_state_ignored_request_a"
+msgstr "Pedido"
+
+msgid "buddy_bs_state_ignored_request_p"
+msgstr "Ignorado"
+
+msgid "buddy_bs_state_ignoredrequest"
+msgstr "Ignorado"
+
+msgid "buddy_bs_state_linked"
+msgstr "Conectado"
+
+msgid "buddy_bs_state_linked_a"
+msgstr "Conectado"
+
+#, fuzzy
+msgid "buddy_bs_state_linked_p"
+msgstr "Linked"
+
+msgid "buddy_bs_state_requested"
+msgstr "Pedido"
+
+msgid "buddy_bs_state_requested_a"
+msgstr "Pedido"
+
+#, fuzzy
+msgid "buddy_bs_state_requested_filter_a"
+msgstr "Waiting for Reaction"
+
+#, fuzzy
+msgid "buddy_bs_state_requested_filter_p"
+msgstr "Action Required"
+
+msgid "buddy_bs_state_requested_p"
+msgstr "Pedido"
+
+#, fuzzy
+msgid "buddy_bs_state_unlinked"
+msgstr "Unlinked"
+
+msgid "buddy_bs_state_unlinked_a"
+msgstr "Desconectado"
+
+#, fuzzy
+msgid "buddy_bs_state_unlinked_p"
+msgstr "Unlinked"
+
+#, fuzzy
+msgid "buddy_confirm_unlink"
+msgstr "Do you really want to disconnect from this contact?"
+
+msgid "buddy_enable"
+msgstr "Ativar ‘Contactos’"
+
+msgid "buddy_enable_info"
+msgstr "Se estiver ativado, os utilizadores podem entrar em contactar uns com os outros iniciando pedidos de contacto. Além disso, existe uma definição de utilizadores pessoal para autorizar ou impedir que possa ser contactado."
+
+msgid "buddy_handle_contact_request"
+msgstr "Pedido de contacto"
+
+#, fuzzy
+msgid "buddy_noti_cr_profile_not_published"
+msgstr "Profile not published"
+
+msgid "buddy_notification_contact_request"
+msgstr "Pedido de contacto"
+
+msgid "buddy_notification_contact_request_ignore"
+msgstr "Ignorar pedido:"
+
+msgid "buddy_notification_contact_request_ignore_osd"
+msgstr "Ignorar pedido"
+
+msgid "buddy_notification_contact_request_link"
+msgstr "Aprovar pedido:"
+
+msgid "buddy_notification_contact_request_link_osd"
+msgstr "Aprovar pedido"
+
+msgid "buddy_notification_contact_request_long"
+msgstr "[SALUTATION][BR][BR]o utilizador \"[REQUESTING_USER]\" quer adicioná-lo à sua lista de amigos.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]"
+
+msgid "buddy_notification_contact_request_short"
+msgstr "O utilizador \"[REQUESTING_USER]\" quer adicioná-lo à sua lista de amigos.[BR][BR][APPROVE_REQUEST][BR][IGNORE_REQUEST]"
+
+msgid "buddy_relation_requested"
+msgstr "O pedido foi enviado ao utilizador."
+
+msgid "buddy_request_approved"
+msgstr "Aprovou com sucesso o contacto."
+
+msgid "buddy_request_ignored"
+msgstr "Ignorou o utilizador."
+
+msgid "buddy_tbl_filter_state"
+msgstr "Estado"
+
+#, fuzzy
+msgid "buddy_tbl_state_actions_col_label"
+msgstr "State / Action"
+
+msgid "buddy_tbl_title_relations"
+msgstr "Relações com outros utilizadores"
+
+msgid "buddy_use_osd"
+msgstr "Popup pedidos de contacto"
+
+msgid "buddy_use_osd_info"
+msgstr "Apresentar um popup para indicar que um utilizador quer adicioná-lo à sua lista de amigos."
+
+msgid "buddy_view_gallery"
+msgstr "Galeria"
+
+msgid "buddy_view_table"
+msgstr "Lista"

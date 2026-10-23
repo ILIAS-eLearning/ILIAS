@@ -1,0 +1,66 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: tos\n"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement_anonymous"
+msgstr "Terms of Service"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement_anonymous_intro"
+msgstr "Before you proceed to ILIAS you accept the following Terms of Service."
+
+msgid "tos_account_reg_not_possible"
+msgstr "Não é possível registar-se a si próprio porque falta um acordo do utilizador. Entre em contacto com o administrador <a href=\"%1$s\">do seu sistema</a> para mais informação."
+
+#, fuzzy
+msgid "tos_agree_date"
+msgstr "ToS agreed on"
+
+msgid "tos_agreement"
+msgstr "Termos de serviço"
+
+msgid "tos_disabled_no_docs_left"
+msgstr "Os acordos do utilizador estão agora desativados porque todos os documentos foram apagados. Crie pelo menos um documento antes de ativar novamente os acordos do utilizador."
+
+msgid "tos_last_reset_date"
+msgstr "Os termos de serviço foram repostos em %s."
+
+msgid "tos_never_reset"
+msgstr "Os termos de serviço ainda não foram repostos."
+
+msgid "tos_no_documents_exist"
+msgstr "Atualmente não há termos de serviço para qualquer idioma instalado."
+
+msgid "tos_no_documents_exist_cant_save"
+msgstr "Atualmente não há termos de serviço para qualquer idioma instalado. Adicione pelo menos um documento para qualquer idioma instalado."
+
+#, fuzzy
+msgid "tos_reset_for_all_users"
+msgstr "Reset Terms of Service"
+
+msgid "tos_reset_successful"
+msgstr "Os termos de serviço foram repostos com sucesso."
+
+msgid "tos_status_desc"
+msgstr "Se estiver ativado, os utilizadores são forçados a aceitar os termos de serviço antes de poderem entrar em ILIAS."
+
+msgid "tos_status_enable"
+msgstr "Ativar"
+
+msgid "tos_sure_reset_tos"
+msgstr "Are you sure you want to reset the terms of service for all users in system? This also applies to those accounts that are used for the SOAP webservices, the chat server, or the cron job."
+
+#, fuzzy
+msgid "tos_withdrawal_usr_deletion"
+msgstr "Account Deletion on Terms Of Service Withdrawal"
+
+#, fuzzy
+msgid "tos_withdrawal_usr_deletion_desc"
+msgstr "If a user withdraws their acceptance from  a previously accepted Terms of Service document, this will result in the deletion of the user’s account."

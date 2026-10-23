@@ -1,0 +1,123 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: mob\n"
+
+msgid "mob_choose_from_pool"
+msgstr "Elegir del Pool de Medios"
+
+msgid "mob_copyright"
+msgstr "Copyright"
+
+msgid "mob_copyright_icon"
+msgstr "Copyright Icon"
+
+msgid "mob_external_url"
+msgstr "URL externa"
+
+msgid "mob_extract_preview_image"
+msgstr "Extraer imagen de vista previa"
+
+msgid "mob_file"
+msgstr "Archivo"
+
+msgid "mob_file_could_not_be_uploaded"
+msgstr "El archivo no se pudo cargar."
+
+msgid "mob_general"
+msgstr "General"
+
+msgid "mob_image_extracted"
+msgstr "La imagen ha sido extraída."
+
+msgid "mob_internal_usages_in_object"
+msgstr "Page Usages"
+
+msgid "mob_language"
+msgstr "Idioma"
+
+msgid "mob_last_update"
+msgstr "Last Update"
+
+msgid "mob_media"
+msgstr "Media"
+
+msgid "mob_media_objects_overview"
+msgstr "Media Objects on Pages"
+
+msgid "mob_mime_type_not_allowed"
+msgstr "Los siguientes tipos MIME no están permitidos en el destino."
+
+msgid "mob_multi_srt_files"
+msgstr "Archivos de subtítulos"
+
+msgid "mob_no_extraction_possible"
+msgstr "Lo sentimos, no fue posible extraer una imagen del archivo."
+
+msgid "mob_no_fixed_size_map_editing"
+msgstr "Por favor, defina un tamaño fijo para su imagen antes de usar áreas de mapa. Si su imagen es escalada por el estilo de contenido u otras reglas CSS, sus áreas de mapa ya no encajarán."
+
+msgid "mob_object"
+msgstr "Objeto"
+
+msgid "mob_please_select_pool"
+msgstr "Por favor, seleccione un pool de medios."
+
+msgid "mob_preview_picture"
+msgstr "Imagen de vista previa"
+
+msgid "mob_really_delete_srt"
+msgstr "¿Realmente desea eliminar los siguientes archivos de subtítulos?"
+
+msgid "mob_second"
+msgstr "Segundo"
+
+msgid "mob_srt_files_deleted"
+msgstr "Los archivos de subtítulos han sido eliminados."
+
+msgid "mob_srt_not_allowed"
+msgstr "Actualmente no está permitido subir archivos con la extensión .vtt. Si desea utilizar archivos vtt, póngase en contacto con el administrador del sistema."
+
+msgid "mob_subtitle_file"
+msgstr "Archivo de subtítulos"
+
+msgid "mob_subtitle_files"
+msgstr "Archivos de subtítulos"
+
+msgid "mob_subtitles"
+msgstr "Subtítulos"
+
+msgid "mob_type_not_supported"
+msgstr "Tipo Mime no soportado:"
+
+msgid "mob_upload_file"
+msgstr "Subir archivo"
+
+msgid "mob_upload_multi_srt"
+msgstr "Subir como ZIP"
+
+msgid "mob_upload_multi_srt_howto"
+msgstr "El archivo .zip no debe contener subdirectorios; todos los archivos .vtt deben estar situados en el nivel superior. Los nombres de los archivos deben terminar en \"_&lt;lang code&gt;.vtt\", donde lang code es, por ejemplo, \"en\", \"it\", \"de\"."
+
+msgid "mob_url"
+msgstr "URL"
+
+msgid "mob_url_info"
+msgstr "URL del recurso externo, ej. URL de Youtube o Vimeo."
+
+msgid "mob_url_info1"
+msgstr "URL del recurso externo, las extensiones permitidas son:"
+
+msgid "mob_url_info_video"
+msgstr "También puede hacer referencia a una URL de Youtube o Vimeo."
+
+msgid "mob_usages_in_media_pools"
+msgstr "Media Pool Usages"
+
+msgid "mob_usages_in_other_objects"
+msgstr "Other Usages"

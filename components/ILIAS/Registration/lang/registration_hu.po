@@ -1,0 +1,318 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: registration\n"
+
+msgid "reg_access_limitation_limited_time"
+msgstr "Regisztráció után elérés ehhez:"
+
+msgid "reg_access_limitation_limited_until"
+msgstr "A hozzáférés korlátozása eddig:"
+
+msgid "reg_access_limitation_missing_mode"
+msgstr "Válasszon minden szerepkörhöz hozzáférési korlátozás módot!"
+
+msgid "reg_access_limitation_mode"
+msgstr "Hozzáférés-korlátozás módja"
+
+msgid "reg_access_limitation_mode_absolute"
+msgstr "Hozzáférés korlátozása megadott dátumig"
+
+msgid "reg_access_limitation_mode_absolute_target"
+msgstr "Érvényes eddig:"
+
+msgid "reg_access_limitation_mode_relative"
+msgstr "Korlátozott hozzáférés meghatározott időre (regisztrációtól)"
+
+msgid "reg_access_limitation_mode_relative_target"
+msgstr "Érvényes"
+
+msgid "reg_access_limitation_mode_unlimited"
+msgstr "Nincs a hozzáférésnek lejárati dátuma"
+
+msgid "reg_access_limitation_none"
+msgstr "Korlátlan elérés"
+
+msgid "reg_access_limitation_out_of_date"
+msgstr "Egy vagy több szerepnek lejárt a hozzáférési korlátozása!"
+
+msgid "reg_access_limitations"
+msgstr "Hozzáférés lejárati dátuma"
+
+msgid "reg_add_assignment"
+msgstr "Új összerendelés"
+
+msgid "reg_added_assignment"
+msgstr "Új összerendelés létrehozása"
+
+msgid "reg_allow_codes"
+msgstr "Kódok engedélyezése"
+
+msgid "reg_allow_codes_info"
+msgstr "A felhasználók kód segítségével is regisztrálhatják magukat."
+
+msgid "reg_allowed_domains"
+msgstr "Engedélyezett e-mail cím domain-ek"
+
+msgid "reg_allowed_domains_info"
+msgstr "Használjon helyettesítőnek *-ot, elválasztónak ;-t, például ‘*@cegem.hu;*@egyetem.hu’. A regisztrációs kódok felülírják ezt a szabályt."
+
+msgid "reg_approve"
+msgstr "Regisztráció jóváhagyással"
+
+msgid "reg_approve_info"
+msgstr "Az új felhasználói regisztrációhoz üzemeltetői jóváhagyás szükséges."
+
+msgid "reg_approve_needs_recipient"
+msgstr "Legalább egy felhasználót meg kell adnia, aki értesítve lesz azokról az új regisztrációkról, amelyek típusa ‘Regisztráció jóváhagyással’."
+
+msgid "reg_available_roles"
+msgstr "Elérhető szerepkörök:"
+
+msgid "reg_confirmation_already_confirmed"
+msgstr "A regisztráció már nincs függőben, azt már visszaigazolták."
+
+msgid "reg_confirmation_hash_life_time"
+msgstr "Élettartam"
+
+msgid "reg_confirmation_hash_life_time_expired"
+msgstr "A visszaigazoló link nem érvényes a továbbiakban. Regisztráljon újra!"
+
+msgid "reg_confirmation_hash_life_time_info"
+msgstr "Visszaigazoló linkek élettartamának megadása (másodpercben). Az ajánlott érték 1800 másodperc."
+
+msgid "reg_confirmation_hash_not_found"
+msgstr "Ehhez a visszaigazoló linkhez nem tartozik ILIAS-fiók."
+
+msgid "reg_confirmation_hash_not_passed"
+msgstr "A visszaigazoló link nem teljes."
+
+msgid "reg_confirmation_link_successful"
+msgstr "Sikeresen elküldött egy ILIAS-fiók igényt az ILIAS-hoz. A következő néhány percben kap egy visszaigazoló e-mailt."
+
+msgid "reg_default"
+msgstr "Alapértelmezett"
+
+msgid "reg_deleted_assignment"
+msgstr "Törölt összerendelés(ek)"
+
+msgid "reg_direct"
+msgstr "Közvetlen regisztráció"
+
+msgid "reg_direct_info"
+msgstr "Új felhasználó regisztrációkérése automatikusan jóváhagyásra kerül."
+
+msgid "reg_disabled"
+msgstr "Regisztráció nem lehetséges"
+
+msgid "reg_domain"
+msgstr "Tartomány"
+
+msgid "reg_domain_already_assigned_p"
+msgstr "‘%s’ domainek már másik szerepkörhöz hozzá vannak rendelve."
+
+msgid "reg_domain_already_assigned_s"
+msgstr "‘%s’ domain már másik szerepkörhöz hozzá van rendelve."
+
+msgid "reg_email"
+msgstr "Automatikus szerep-összerendelés"
+
+msgid "reg_email_domains"
+msgstr "Az alábbi e-mail cím domain-ek érvényesek: %s"
+
+msgid "reg_email_domains_code"
+msgstr "Regisztrációs kóddal bármely e-mail cím érvényes."
+
+msgid "reg_email_role_assignment"
+msgstr "Szerep-összerendelés tartománnyal"
+
+msgid "reg_fixed"
+msgstr "Megadott listából szabad választás"
+
+msgid "reg_info_pwd"
+msgstr "A véletlengenerált jelszót e-mailben automatikusan elküldjük az újonan regisztrált felhasználónak."
+
+msgid "reg_mail_body_activation"
+msgstr "ILIAS-fiókja aktiváláshoz és e-mail címének igazolásához kattintson ide:"
+
+msgid "reg_mail_body_approve"
+msgstr "Regisztrált az ILIAS e-learning keretrendszerbe és kapott egy levelet felhasználói adataival. Most ILIAS-fiókját bekapcsolta egy rendszergazda."
+
+msgid "reg_mail_body_confirmation"
+msgstr "A regisztráció jóváhagyásához lépjen be az ILIAS-rendszerbeállításaiba, és aktiválja az ILIAS-fiókot."
+
+msgid "reg_mail_body_profile"
+msgstr "Személyes adatok:"
+
+msgid "reg_mail_body_profile_changed"
+msgstr "ezúton tájékoztatjuk, hogy az ILIAS-ban tárolt személyes adatai megváltoztak."
+
+msgid "reg_mail_body_pwd_generation"
+msgstr "ILIAS-fiók iránti igényét át fogja tekinteni egy rendszergazda, és 48 órán belül aktiválja azt. A jóváhagyásról e-mailben fogjuk értesíteni."
+
+msgid "reg_mail_body_reason"
+msgstr "Azért kapta ezt a levelet az ILIAS-ból, mert a Rendszerbeállítások ILIAS-fiókok kezelésénél engedélyezve van értesítés küldése az új regisztrációkról."
+
+msgid "reg_mail_body_timelimit"
+msgstr "Fiókja korlátozott érvényességi ideje: %s."
+
+msgid "reg_mail_new_user"
+msgstr "Új felhasználói regisztráció"
+
+msgid "reg_mail_new_user_body"
+msgstr "ezúton értesítjük, hogy egy új felhasználó regisztrált."
+
+msgid "reg_mail_new_user_confirmation"
+msgstr "Hozzáférési kérelem jóváhagyása"
+
+msgid "reg_missing_domain"
+msgstr "Töltsön ki minden mezőt."
+
+msgid "reg_missing_role"
+msgstr "Töltsön ki minden mezőt."
+
+msgid "reg_notification"
+msgstr "Értesítések"
+
+msgid "reg_notification_info"
+msgstr "Adjon meg egy vagy több felhasználónevet (vesszővel elválasztva), akik e-mailben értesítést kapnak új felhasználó regisztrációjáról."
+
+msgid "reg_role_access_limitations"
+msgstr "Definiálja a szerepkörök elérési korlátozásait az újonnan regisztrált felhasználókhoz."
+
+msgid "reg_role_assignment"
+msgstr "Szerep-összerendelés"
+
+msgid "reg_role_info"
+msgstr "Hozzárendelt szerepkörök"
+
+msgid "reg_select_one"
+msgstr "Válasszon ki egy bejegyzést."
+
+msgid "reg_selectable_roles"
+msgstr "Kiválasztható szerepkörök"
+
+msgid "reg_settings_header"
+msgstr "Új regisztrációs beállítások"
+
+msgid "reg_type"
+msgstr "Regisztrációtípus"
+
+msgid "reg_type_confirmation"
+msgstr "Regisztráció e-mail visszaigazolással"
+
+msgid "reg_type_confirmation_info"
+msgstr "A felhasználók saját magukat regisztrálhatják, de az ILIAS-fiók igénylését e-mailben vissza kell igazolni. Ezzel elkerülhető az ILIAS-ba rossz vagy nem létező e-mail címmel történő önregisztráció."
+
+msgid "reg_unknown_recipients"
+msgstr "Az alábbi felhasználói fiókok nem érvényesek:"
+
+msgid "registration_code"
+msgstr "Kód"
+
+msgid "registration_code_not_valid"
+msgstr "Az adott regisztrációs kód nem érvényes, vagy már felhasználták."
+
+msgid "registration_code_optional_info"
+msgstr "Ha kapott regisztrációs kódot, itt adja meg."
+
+msgid "registration_code_required_info"
+msgstr "Egy előre definiált kód szükséges a regisztrációs folyamathoz."
+
+msgid "registration_code_role_info"
+msgstr "Ha regisztrációs kódot használ, lehet hogy a kód végzi a szerepkiválasztást."
+
+msgid "registration_codes_access_limitation_all"
+msgstr "Összes"
+
+msgid "registration_codes_add"
+msgstr "Kódok létrehozása"
+
+msgid "registration_codes_edit_header"
+msgstr "Kódok létrehozása"
+
+msgid "registration_codes_export"
+msgstr "Kódok exportálása"
+
+msgid "registration_codes_no_assigned_role"
+msgstr "Nincs előredefiniált hozzárendelendő szerepkör"
+
+msgid "registration_codes_number"
+msgstr "Kódok száma"
+
+msgid "registration_codes_override_global_info"
+msgstr "Ezek a beállítások regisztrációs kódokkal felülírhatók."
+
+msgid "registration_codes_override_info"
+msgstr "Ez a beállítás felülírja a ‘Regisztráció beállítások’ alatt lévő bármely értékét."
+
+msgid "registration_codes_roles"
+msgstr "Szerepkörök új bejelentkezésekhez"
+
+msgid "registration_codes_roles_limitation_none"
+msgstr "Nincs előredefiniált hozzáférési korlátozás"
+
+msgid "registration_codes_roles_local"
+msgstr "Helyi szabály(ok)"
+
+msgid "registration_codes_roles_title"
+msgstr "Új ILIAS-fiókokhoz rendelt szerepkör"
+
+msgid "registration_codes_type"
+msgstr "Kód típusa"
+
+msgid "registration_codes_type_ext"
+msgstr "Korlátozott felhasználói fiókok kiterjesztése"
+
+msgid "registration_codes_type_ext_info"
+msgstr "A kódot korlátozott felhasználói fiókok kiterjesztésére lehet felhasználni"
+
+msgid "registration_codes_type_reg"
+msgstr "Regisztrációs kód"
+
+msgid "registration_codes_type_reg_info"
+msgstr "A kódot új felhasználó regisztrációjakor lehet felhasználni"
+
+msgid "registration_disabled_no_access"
+msgstr "A regisztrációs lehetőség nincs bekapcsolva. További információért keresse az üzemeltetőt: %s"
+
+msgid "registration_export_codes_no_data"
+msgstr "Nincs kiválasztott kód az exportáláshoz."
+
+msgid "registration_generated"
+msgstr "Generálás dátuma"
+
+msgid "registration_generated_all"
+msgstr "Összes dátum"
+
+msgid "registration_no_valid_role"
+msgstr "Jelenleg nincs érvényes szerepkör új ILIAS-fiókhoz. Vegye fel a kapcsolatot egy rendszergazdával!"
+
+msgid "registration_reg_type_codes"
+msgstr "Regisztráció kódokkal"
+
+msgid "registration_reg_type_codes_info"
+msgstr "A felhasználók regisztrálhatják saját magukat, de ehhez érvényes kód szükséges."
+
+msgid "registration_roles_all"
+msgstr "Összes szerepkör"
+
+msgid "registration_settings"
+msgstr "ILIAS-hitelesítés / Regisztráció"
+
+msgid "registration_tab_codes"
+msgstr "Regisztrációs kódok"
+
+msgid "registration_tab_settings"
+msgstr "Regisztrációs beállítások"
+
+msgid "registration_used"
+msgstr "Használat dátuma"
+
+msgid "registration_user_new_account_mail"
+msgstr "Új bejelentkezési e-mail módosítása"

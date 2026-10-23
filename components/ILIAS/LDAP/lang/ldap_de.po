@@ -1,0 +1,390 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: ldap\n"
+
+msgid "add_ldap_server"
+msgstr "Server hinzufügen"
+
+msgid "ldap_add_missing"
+msgstr "Fehlende Rollen zuweisen"
+
+msgid "ldap_add_role_ass_rule"
+msgstr "Neue Regel für die ILIAS-Rollenzuordnung"
+
+msgid "ldap_add_roles"
+msgstr "Rollen hinzufügen"
+
+msgid "ldap_as_ds"
+msgstr "Als Datenquelle verwenden"
+
+msgid "ldap_as_ds_info"
+msgstr "In Kombination mit anderen Authentifizierungsarten (z. B. SAML) wird die LDAP-Konfiguration nur für die Synchronisierung der Angaben in den ILIAS-Konten genutzt. Eine direkte Authentifizierung über LDAP ist nicht möglich."
+
+msgid "ldap_assignment_type"
+msgstr "Art der Zuordnung"
+
+msgid "ldap_authentication_settings"
+msgstr "Einstellungen zur Authentifizierung"
+
+msgid "ldap_bind_anonymous"
+msgstr "Anonym verbinden"
+
+msgid "ldap_bind_user"
+msgstr "Als Benutzer verbinden:"
+
+msgid "ldap_btn_add_role_ass"
+msgstr "Neue Regel anlegen"
+
+msgid "ldap_check_role_assignment"
+msgstr "Rollenzuweisung nach späteren Logins"
+
+msgid "ldap_choose_role"
+msgstr "Rolle auswählen"
+
+msgid "ldap_confirm_del_role_ass"
+msgstr "Rollenzuordnung löschen"
+
+msgid "ldap_deleted_role_mapping"
+msgstr "Die Zuordnung wurde entfernt"
+
+msgid "ldap_deleted_rule"
+msgstr "Ausgewählte Rollenzuordnung gelöscht"
+
+msgid "ldap_dn_info"
+msgstr "Wählen Sie hier den kompletten DN der LDAP-Gruppe."
+
+msgid "ldap_edit_role_ass_rule"
+msgstr "Regel zur Rollenzuordnung bearbeiten"
+
+msgid "ldap_edit_role_assignment"
+msgstr "Zuordnung bearbeiten"
+
+msgid "ldap_err_missing_plugin_id"
+msgstr "Bitte geben Sie eine gültige Plugin-ID ein."
+
+msgid "ldap_escapedn"
+msgstr "DN maskieren"
+
+msgid "ldap_escapedn_info"
+msgstr "Wenn aktiviert, werden reservierte Zeichen im \"Distinguished Name (DN)\" für Abfragen von Gruppenzugehörigkeiten maskiert."
+
+msgid "ldap_filter_info"
+msgstr "Filter, der dem Suchfilter folgendermaßen hinzugefügt wird: (&(userattr=username)<strong>(userfilter)</strong>)"
+
+msgid "ldap_global_role"
+msgstr "Globale Rolle"
+
+msgid "ldap_global_role_assignment"
+msgstr "Rollenzuordnung"
+
+msgid "ldap_global_role_info"
+msgstr "Bitte wählen Sie eine globale Rolle für neu anzulegende ILIAS-Benutzer. <span class=\"asterisk\">*</span> Die Rolle ist <b>erforderlich</b>, sobald Sie eine Synchronisierungsart gewählt haben."
+
+msgid "ldap_group_attribute"
+msgstr "Attributname der Gruppe"
+
+msgid "ldap_group_attribute_info"
+msgstr "Geben Sie hier den Attributnamen der Gruppe ein."
+
+msgid "ldap_group_dn"
+msgstr "Gruppen DN"
+
+msgid "ldap_group_dn_info"
+msgstr "Suchbasis für die Gruppensuche. Wird der \"BaseDN\" vorangestellt. Z.B.: ou=Groups"
+
+msgid "ldap_group_dn_short"
+msgstr "Group DN:"
+
+msgid "ldap_group_filter"
+msgstr "LDAP Filter"
+
+msgid "ldap_group_filter_info"
+msgstr "Filter, der dem Suchfilter folgendermassen hinzugefügt wird: (&(groupattr=group)(memberattr=username)<strong>(groupfilter)</strong>)"
+
+msgid "ldap_group_member"
+msgstr "Attributname der Gruppenmitglieder"
+
+msgid "ldap_group_member_info"
+msgstr "Geben Sie hier den Attributnamen ein, dem die Gruppenmitglieder zugeordnet sind. Wählen Sie 'Attributwert ist DN', wenn die Mitgliedernamen als DN angelegt werden."
+
+msgid "ldap_group_member_optional"
+msgstr "Optionale Gruppenmitgliedschaft"
+
+msgid "ldap_group_member_short"
+msgstr "Attribut:"
+
+msgid "ldap_group_membership"
+msgstr "Gruppenmitgliedschaft"
+
+msgid "ldap_group_name"
+msgstr "Gruppenname"
+
+msgid "ldap_group_name_info"
+msgstr "Name der Gruppe"
+
+msgid "ldap_group_optional_info"
+msgstr "Wenn aktiviert ist die Gruppenmitgliedschaft für eine erfolgreiche Authentifizierung nicht erforderlich. Bitte geben Sie einen Benutzerfilter für diese Gruppenmitglieder an:<br />(&(userattr=username)<strong>(userfilter)</strong>)"
+
+msgid "ldap_group_restrictions"
+msgstr "Gruppenbeschränkungen"
+
+msgid "ldap_group_scope"
+msgstr "Suchbereich"
+
+msgid "ldap_group_scope_info"
+msgstr "Bereich für die Gruppensuche. Wählen Sie im Zweifelsfall \"Sub\"."
+
+msgid "ldap_group_search_base"
+msgstr "Suchbasis"
+
+msgid "ldap_group_user_filter"
+msgstr "Benutzerfilter"
+
+msgid "ldap_ilias_role"
+msgstr "ILIAS-Rollenname"
+
+msgid "ldap_info_text"
+msgstr "Informationstext"
+
+msgid "ldap_info_text_info"
+msgstr "Sie können hier einen Informationstext angeben, der auf dem Reiter „Info“ des der Rolle zugehörigen Objektes angezeigt wird. Optional kann dieser Text auch im Magazin und auf dem Dashboard eingeblendet werden."
+
+msgid "ldap_local_role"
+msgstr "Lokale Rolle"
+
+msgid "ldap_mapping_info_type"
+msgstr "Auch im Magazin anzeigen."
+
+msgid "ldap_mapping_table"
+msgstr "Zuordnung von Datenfeldern der ILIAS-Konten zu LDAP-Attributen"
+
+msgid "ldap_mapping_template"
+msgstr "Vorlage benutzen für Objektklasse:"
+
+msgid "ldap_member_info"
+msgstr "Geben Sie hier den Attributnamen ein, dem die Gruppenmitglieder zugeordnet sind. Wählen Sie 'Attributwert ist DN', wenn die Mitgliedernamen als DN angelegt werden."
+
+msgid "ldap_memberisdn"
+msgstr "Attributwert ist DN"
+
+msgid "ldap_missing_bind_user"
+msgstr "Sie haben als Verbindungsart 'Als Benutzer verbinden ausgewählt': Bitte tragen Sie einen Anmeldenamen und das Passwort ein."
+
+msgid "ldap_missing_role_assignment"
+msgstr "Bitte wählen Sie eine globale Rolle aus, der neu anzulegende Benutzer zugeordnet werden sollen."
+
+msgid "ldap_moment_sync"
+msgstr "Synchronisierungsart"
+
+msgid "ldap_new_role_assignment"
+msgstr "Neue Zuordnung anlegen"
+
+msgid "ldap_plugin"
+msgstr "Zuweisung über Plugin"
+
+msgid "ldap_plugin_id"
+msgstr "Plugin-ID"
+
+msgid "ldap_plugin_info"
+msgstr "Überprüfung der Rollenzuordnung per Plugin. Bitte geben Sie dazu eine gültige Plugin-ID ein."
+
+msgid "ldap_referrals"
+msgstr "Weiterleitungen"
+
+msgid "ldap_referrals_info"
+msgstr "Legt fest, ob Weiterleitungen des LDAP-Servers automatisch gefolgt wird oder nicht."
+
+msgid "ldap_remove_deprecated"
+msgstr "Unberechtigte Rollen entfernen"
+
+msgid "ldap_remove_roles"
+msgstr "Rollen entfernen"
+
+msgid "ldap_role_active"
+msgstr "Gruppenaktualisierung eingeschaltet"
+
+msgid "ldap_role_assignments"
+msgstr "Rollenzuordnung"
+
+msgid "ldap_role_at_info"
+msgstr "Die Zuordnung erfolgt anhand eines bestimmten Attributs des LDAP-Kontos."
+
+msgid "ldap_role_at_name"
+msgstr "Attributname"
+
+msgid "ldap_role_at_value"
+msgstr "Attributwert"
+
+msgid "ldap_role_bind_pass"
+msgstr "Passwort"
+
+msgid "ldap_role_bind_pass_info"
+msgstr "Passwort des LDAP-Benutzers."
+
+msgid "ldap_role_bind_user"
+msgstr "Anmeldename"
+
+msgid "ldap_role_bind_user_info"
+msgstr "Bitte geben einen LDAP-Anmeldenamen ein. Dieser Benutzer muss Schreibzugriff auf die zu aktualisierenden Gruppen besitzen."
+
+msgid "ldap_role_by_attribute"
+msgstr "Benutzerattribut"
+
+msgid "ldap_role_by_group"
+msgstr "Gruppenzugehörigkeit"
+
+msgid "ldap_role_by_plugin"
+msgstr "Per Plugin"
+
+msgid "ldap_role_group_assignments"
+msgstr "Vorhandene Zuordnungen"
+
+msgid "ldap_role_grp_at"
+msgstr "Attribut"
+
+msgid "ldap_role_grp_dn_info"
+msgstr "Bitte geben Sie den vollständigen \"Distinguished Name\" der Gruppe an."
+
+msgid "ldap_role_grp_info"
+msgstr "Mitglieder einer bestimmten LDAP Gruppe werden der angegebenen ILIAS-Rolle zugeordnet."
+
+msgid "ldap_role_grp_isdn"
+msgstr "Attributwert ist DN"
+
+msgid "ldap_role_info"
+msgstr "Bitte geben Sie den Namen der ILIAS-Rolle ein, die die LDAP-Gruppenzugehörigkeit steuern soll."
+
+msgid "ldap_role_mapping"
+msgstr "Zuordnung ILIAS-Rollen ➜ LDAP-Gruppen"
+
+msgid "ldap_role_name_info"
+msgstr "Bitte wählen Sie entweder eine globale Rolle oder geben Sie den Namen einer lokalen Rolle ein."
+
+msgid "ldap_role_not_exists"
+msgstr "Eine ILIAS-Rolle mit dem folgenden Namen existiert nicht:"
+
+msgid "ldap_role_selection"
+msgstr "Auswahl der Rollen"
+
+msgid "ldap_role_selection_info"
+msgstr "Ihre Auswahl ist nicht eindeutig. Bitte wählen Sie eine der nachfolgenden Rollen."
+
+msgid "ldap_role_settings"
+msgstr "Einstellungen zur LDAP-Gruppen Aktualisierung"
+
+msgid "ldap_rule_condition"
+msgstr "Bedingung"
+
+msgid "ldap_rule_type"
+msgstr "Art der Zuordnung"
+
+msgid "ldap_scope_one"
+msgstr "One"
+
+msgid "ldap_scope_sub"
+msgstr "Sub"
+
+msgid "ldap_search_base_info"
+msgstr "Suchbasis für die Benutzersuche. Wird der \"BaseDN\" vorangestellt. Z.B.: ou=People"
+
+msgid "ldap_search_filter"
+msgstr "LDAP Filter"
+
+msgid "ldap_server_bind_dn"
+msgstr "DN des Benutzers"
+
+msgid "ldap_server_bind_pass"
+msgstr "Passwort"
+
+msgid "ldap_server_binding"
+msgstr "Verbindungsart"
+
+msgid "ldap_server_name"
+msgstr "Name der LDAP-Konfiguration"
+
+msgid "ldap_server_name_info"
+msgstr "Bitte wählen Sie einen Namen für diese Server-Konfiguration!"
+
+msgid "ldap_server_security_settings"
+msgstr "Sicherheitseinstellungen"
+
+msgid "ldap_server_short"
+msgstr "Server URL:"
+
+msgid "ldap_server_url_info"
+msgstr "Bitte tragen Sie die komplette URL für die Verbindung zum LDAP-Server ein, z.B. \"ldap://ldaps.ilias.de:636\". Mehrere URLs können kommagetrennt für Failover-Unterstützung angegeben werden. Bei Verbindungsfehlern rotiert ILIAS automatisch durch die verfügbaren Server. Hinweis: Während der Authentifizierung erfolgt die URL-Rotation nur im Arbeitsspeicher (nicht persistiert). In anderen Kontexten (z.B. im asynchronen Import von Konten via Cron-Job) wird eine erfolgreiche Rotation in der Datenbank gespeichert."
+
+msgid "ldap_server_url_invalid_parts"
+msgstr "Die folgenden Server-URL(s) konnten nicht als gültige URIs erkannt werden und funktionieren ggf. erst nach Korrektur:"
+
+msgid "ldap_server_url_invalid_uris"
+msgstr "Jeder kommagetrennte Eintrag muss eine gültige URI sein (z. B. ldap://host:389). Ungültig:"
+
+msgid "ldap_server_url_required"
+msgstr "Die Server-URL ist erforderlich."
+
+msgid "ldap_server_version_info"
+msgstr "Protokollversion des LDAP-Server (in den meisten Fällen \"LDAPv3\")."
+
+msgid "ldap_servers"
+msgstr "LDAP Server"
+
+msgid "ldap_settings"
+msgstr "Server-Einstellungen"
+
+msgid "ldap_sync_cron"
+msgstr "Per Cron-Job"
+
+msgid "ldap_sync_login"
+msgstr "Bei Anmeldung der Benutzer"
+
+msgid "ldap_tbl_role_ass"
+msgstr "Aktive Regeln für die Rollenzuordnung"
+
+msgid "ldap_tls_conflict"
+msgstr "LDAP-TLS kann nicht in Kombination mit Protokollversion 2 genutzt werden."
+
+msgid "ldap_update_field_info"
+msgstr "Automatisch aktualisieren"
+
+msgid "ldap_update_roles"
+msgstr "Rollenzuordnungen"
+
+msgid "ldap_user_attribute"
+msgstr "Attributname der Anmeldekonten"
+
+msgid "ldap_user_dn"
+msgstr "Suchbasis"
+
+msgid "ldap_user_mapping"
+msgstr "Zuordnung der Profildaten"
+
+msgid "ldap_user_scope"
+msgstr "Suchbereich"
+
+msgid "ldap_user_scope_info"
+msgstr "Bereich für die Benutzersuche. Wählen Sie im Zweifelsfall \"Sub\"."
+
+msgid "ldap_user_sync"
+msgstr "Einstellungen zur Benutzersynchronisierung"
+
+msgid "ldap_user_sync_cron"
+msgstr "LDAP-Benutzersynchronisierung"
+
+msgid "ldap_user_sync_cron_info"
+msgstr "Wenn aktiviert, werden Anmeldekonten aus dem LDAP-Verzeichnis importiert und optional laufend synchronisiert."
+
+msgid "ldap_user_sync_info"
+msgstr "Legt fest, ob noch nicht in ILIAS vorhandene Benutzer automatisch beim ersten Login oder aber regelmäßig per Cron-Job angelegt werden."
+
+msgid "ldap_username_filter"
+msgstr "Anmeldenamen-Filter"
+
+msgid "ldap_username_filter_info"
+msgstr "Der Anmeldenamen-Filter kann optional verwendet werden, um diese LDAP-Serverkonfiguration anhand des auf der Anmeldeseite eingegebenen Anmeldenamen automatisch zu bestimmen. Das Zeichen „*“ kann als Platzhalter verwendet werden. Zum Beispiel entspricht „*example\\.com“ allen Anmeldenamen, die mit „example.com“ enden. Wenn der konfigurierte Filter mit dem eingegebenen Anmeldenamen übereinstimmt, wird diese LDAP-Serverkonfiguration bevorzugt, falls eine feste Authentifizierungsreihenfolge festgelegt ist."

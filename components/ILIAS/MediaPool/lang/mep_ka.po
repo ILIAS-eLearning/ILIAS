@@ -1,0 +1,178 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ka\n"
+"Language-Team: Georgian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mep\n"
+
+msgid "mep_all"
+msgstr "ყველა"
+
+msgid "mep_all_mobs"
+msgstr "ყველა მედია ობიექტი"
+
+#, fuzzy
+msgid "mep_bulk_upload"
+msgstr "Bulk Upload"
+
+msgid "mep_choose_from_folder"
+msgstr "ფოლდერიდან არჩევა"
+
+msgid "mep_choose_from_mep"
+msgstr "ნაკადიდან არჩევა"
+
+#, fuzzy
+msgid "mep_clipboard_info"
+msgstr "Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users."
+
+#, fuzzy
+msgid "mep_content"
+msgstr "Content"
+
+msgid "mep_content_snippet_in_use"
+msgstr "შინაარსის ნაწყვეტი \"%s\" გამოყენებაშია და მისი წაშლა შეუძლებელია"
+
+msgid "mep_content_snippet_used_in_older_versions"
+msgstr "გთხოვთ გაითვალისწინოთ: ეს ნაწილი გამოიყენება გვერდების უფრო ძველ ვერსიებში. თუ ეს გვერდები გადავა უფრო ძველ ვერსიაში რომელიც შეიცავს ამ ნაწილს, ნაწილი დაიკარგება"
+
+msgid "mep_copy_to_mep"
+msgstr "მედია ნაკადის ასლის გაკეთება"
+
+msgid "mep_create_content_snippet"
+msgstr "შინაარსის ნაწყვეტის შექმნა"
+
+msgid "mep_create_folder"
+msgstr "ფოლდერის შექმნა"
+
+msgid "mep_create_media_files"
+msgstr "მედია ობიექტების შექმნა"
+
+msgid "mep_create_mob"
+msgstr "მედია ობიექტიეს შექმნა"
+
+msgid "mep_default_height"
+msgstr "სტანდარტული სიმაღლე"
+
+msgid "mep_default_width"
+msgstr "სტანდარტული სიგანე"
+
+msgid "mep_default_width_height_info"
+msgstr "სტანდარტული სიმაღლე და სიგანე გაკმოიყენება ახალი მედია ობიექტების შესაქმნელად"
+
+msgid "mep_edit_content_snippet"
+msgstr "შინაარსის ნაწყვეტის რედაქტირება"
+
+msgid "mep_edit_folder"
+msgstr "ფოლდერის რედაქტირება"
+
+msgid "mep_file"
+msgstr "ფაილი"
+
+msgid "mep_folder"
+msgstr "ფოლდერი"
+
+msgid "mep_format"
+msgstr "ფორმატი"
+
+msgid "mep_import"
+msgstr "მედია ნაკადის იმპორტი"
+
+#, fuzzy
+msgid "mep_import_lang"
+msgstr "Target Language"
+
+#, fuzzy
+msgid "mep_import_trans"
+msgstr "Import Translation"
+
+#, fuzzy
+msgid "mep_master_language_only"
+msgstr "Master Language for Translation"
+
+#, fuzzy
+msgid "mep_master_language_only_no_media"
+msgstr "Master Language without Media"
+
+#, fuzzy
+msgid "mep_media_files"
+msgstr "Media Files"
+
+#, fuzzy
+msgid "mep_media_subtitles"
+msgstr "Media Subtitles"
+
+#, fuzzy
+msgid "mep_mob"
+msgstr "Media Object"
+
+#, fuzzy
+msgid "mep_move_select_insert"
+msgstr "Navigate to target folder and click \"Insert\""
+
+#, fuzzy
+msgid "mep_mpg"
+msgstr "Content Snippet"
+
+msgid "mep_new_content_snippet"
+msgstr "ახალი შინაარსის ნაწყვეტი"
+
+msgid "mep_new_folder"
+msgstr "ახალი ფოლდერი"
+
+msgid "mep_page_properties"
+msgstr "გვერდის პარამეტრები"
+
+#, fuzzy
+msgid "mep_page_type_mep"
+msgstr "Content Snippet"
+
+msgid "mep_thumbnail"
+msgstr "ესკიზი"
+
+msgid "mep_title_and_description"
+msgstr "დასახელება და აღწერა"
+
+#, fuzzy
+msgid "mep_trans_import_info"
+msgstr "If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here."
+
+msgid "mep_unknown"
+msgstr "უცნობი"
+
+msgid "mep_up_dir_copy"
+msgstr "ფაილების ასლის გაკეთება ატვირთვის დირექტორიიდან (ინახავს ფაილებს ატვირთვის დირექტორიაში)"
+
+msgid "mep_up_dir_move"
+msgstr "გადააქვს ფაილები ატვირთვის დირექტორიიდან ( უფრო სწრაფად)"
+
+msgid "mep_upload_dir_files"
+msgstr "ფაილები ატვირთვის დირექტორიიდან"
+
+msgid "mobs_activate_pages"
+msgstr "შინაარსის ნაწყვეტების მართვის გააქტიურება"
+
+msgid "mobs_activate_pages_info"
+msgstr "მედია ნაკადებში შინაარსის ნაწყვეტების დაშვება. Eეს ნაწყვეტები შეიძლება ხელახლა გამოიყენოთ ( რედაქტირების გარეშე) სასწავლო მოდულებში"
+
+msgid "mobs_always_show_file_manager"
+msgstr "ყოველთვის აჩვენე ფაილის მენეჯერი"
+
+msgid "mobs_always_show_file_manager_info"
+msgstr "თუ დეაქტივირებულია მედია ობიექტების ფაილის მენეჯერი დამალული იქნება მარტივი MIME-ის სახეობებისთვის (მაგალითად სურათები)"
+
+#, fuzzy
+msgid "mobs_black_list_file_types"
+msgstr "Forbidden File Types"
+
+#, fuzzy
+msgid "mobs_black_list_file_types_and_allowed_info"
+msgstr "Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:"
+
+msgid "mobs_restrict_file_types"
+msgstr "ფაილის სახეობების შეზღუდვა"
+
+msgid "mobs_restrict_file_types_info"
+msgstr "შეიყვანეთ მძიმეთი გამოყოფილი სუფიქსების ფაილების სია ( მაგალითად jpg, gif) რომლის მედია ობიექტებში ატვირთვა დაშვებულია."

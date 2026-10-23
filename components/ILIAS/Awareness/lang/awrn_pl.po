@@ -1,0 +1,94 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: awrn\n"
+
+msgid "awareness_now_online"
+msgstr "Teraz w trybie online"
+
+msgid "awareness_settings"
+msgstr "Ustawienia"
+
+msgid "awrn_caching_period"
+msgstr "Okres, pamięć podręczna"
+
+msgid "awrn_caching_period_info"
+msgstr "Ten okres musi upłynąć, zanim zostanie zaktualizowana liczba top-użytkowników i ustalona liczna nowych użytkowników online."
+
+msgid "awrn_enable"
+msgstr "Aktywuj informację „Kto jest online?”"
+
+#, fuzzy
+msgid "awrn_filter"
+msgstr "User Filter"
+
+msgid "awrn_hide_from_awareness"
+msgstr "Nie ujmować mnie w liście „Kto jest online?”"
+
+msgid "awrn_hide_from_awareness_info"
+msgstr "Informacja „Kto jest online?” pojawia się u góry w nagłówku aplikacji i zawiera listę wybranych użytkowników (np. kontakty lub członkowie Twoich kursów)."
+
+msgid "awrn_inactive"
+msgstr "Brak informacji"
+
+msgid "awrn_incl_offline"
+msgstr "Online i offline"
+
+msgid "awrn_max_inactivity"
+msgstr "Maks. nieaktywność"
+
+msgid "awrn_max_inactivity_info"
+msgstr "Użytkownicy, którzy w określonym okresie nie wykonują żadnych czynności, oznaczeni są jako \"offline\". Jeśli nie zostanie podana żadna wartość, obowiązuje ważność sesji."
+
+msgid "awrn_max_nr_entries"
+msgstr "Liczba maks. wpisów"
+
+msgid "awrn_max_nr_entries_info"
+msgstr "Ta liczba wpisów jest pokazywana w liście Kto jest online?”. To ustawienie nie wpływa zbytnio na moc obliczeniową wyświetlanych top-wartości."
+
+msgid "awrn_minutes"
+msgstr "min"
+
+msgid "awrn_online"
+msgstr "Online"
+
+msgid "awrn_online_only"
+msgstr "Tylko online"
+
+msgid "awrn_seconds"
+msgstr "Sek."
+
+msgid "awrn_use_osd"
+msgstr "Wyskakujące okienko z użytkownikami w trybie online"
+
+msgid "awrn_use_osd_info"
+msgstr "Wyświetla wyskakujące okienko, gdy w oknie „Kto jest online?” pojawią się nowi użytkownicy w trybie online."
+
+#, fuzzy
+msgid "awrn_user_show"
+msgstr "Show Your Account in \"Who-Is-Online?\""
+
+#, fuzzy
+msgid "awrn_user_show_default"
+msgstr "Default Value for  the Visibility in \"Who-Is-Online?\""
+
+#, fuzzy
+msgid "awrn_user_show_default_info"
+msgstr "Defines the default value for the visibility of the status of a user in \"Who-Is-Online?\"."
+
+#, fuzzy
+msgid "user_awrn_default"
+msgstr "Default"
+
+#, fuzzy
+msgid "user_awrn_hide"
+msgstr "Hide my status"
+
+#, fuzzy
+msgid "user_awrn_show"
+msgstr "Show my status"

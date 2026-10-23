@@ -1,0 +1,54 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: lhist\n"
+
+msgid "cont_create_lhist"
+msgstr "Create element för inlärningshistorik"
+
+msgid "cont_update_lhist"
+msgstr "Redigera element för inlärningshistorik"
+
+msgid "lhist_all"
+msgstr "Alla"
+
+msgid "lhist_cont_placeholder_text"
+msgstr "Detta element visar lärandets framsteg i portföljens presentationsvy."
+
+msgid "lhist_enable_learning_history"
+msgstr "Framsteg inom lärande"
+
+msgid "lhist_enable_learning_history_info"
+msgstr "Aktiverar en översikt över alla inlärningsresultat för en användare."
+
+msgid "lhist_first_login"
+msgstr "Första inloggning"
+
+msgid "lhist_learning_history"
+msgstr "Framsteg inom lärande"
+
+msgid "lhist_lhist"
+msgstr "Framsteg inom lärande"
+
+msgid "lhist_manual"
+msgstr "Handbok"
+
+msgid "lhist_no_entries"
+msgstr "Fortsätt att sträva efter dina mål! Lär dig något idag för att förlänga din inlärning."
+
+msgid "lhist_period"
+msgstr "Period"
+
+msgid "lhist_selected"
+msgstr "Vald"
+
+msgid "lhist_show_more"
+msgstr "Visa mer"
+
+msgid "lhist_type_of_achievement"
+msgstr "Typ av framgångsrikt lärande"

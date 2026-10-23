@@ -1,0 +1,234 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: poll\n"
+
+msgid "poll_absolute"
+msgstr "Aktuální hlasy"
+
+msgid "poll_activation_online_info"
+msgstr "Aktivujte toto nastavení ke zpřístupnění hlasování uživatelům."
+
+msgid "poll_add"
+msgstr "Přidat anketu"
+
+msgid "poll_anonymous_warning"
+msgstr "Vaše jméno není ve výsledcích ankety viditelné."
+
+msgid "poll_answer"
+msgstr "Odpověď"
+
+#, fuzzy
+msgid "poll_answer_selected_alt_text"
+msgstr "Selected"
+
+msgid "poll_answers"
+msgstr "Možné odpovědi"
+
+msgid "poll_barchart"
+msgstr "Sloupcový graf"
+
+msgid "poll_block_message_already_voted"
+msgstr "V této anketě jste již hlasoval(a)."
+
+msgid "poll_block_message_no_answers"
+msgstr "Tato anketa není kompletní."
+
+msgid "poll_block_results_available_on"
+msgstr "Tyto výsledky budou dostupné na %s."
+
+#, fuzzy
+msgid "poll_cannot_set_online_no_answers"
+msgstr "The status cannot be changed to &quot;online&quot; because this poll has no question!"
+
+#, fuzzy
+msgid "poll_chart_votes"
+msgstr "Votes"
+
+msgid "poll_comments"
+msgstr "Komentáře"
+
+msgid "poll_copy"
+msgstr "Kopírovat anketu"
+
+msgid "poll_delete_votes"
+msgstr "Smazat všechny hlasy"
+
+msgid "poll_delete_votes_sure"
+msgstr "Skutečně chcete smazat všechny hlasy?"
+
+msgid "poll_edit"
+msgstr "Upravit anketu"
+
+#, fuzzy
+msgid "poll_edit_question"
+msgstr "Edit Question"
+
+msgid "poll_image"
+msgstr "Obrázek"
+
+#, fuzzy
+msgid "poll_limit_not_below_answer_count"
+msgstr "The answer limit must be below the number of possible answers."
+
+#, fuzzy
+msgid "poll_limit_number_of_answers"
+msgstr "Limit Number of Answers per Participant"
+
+msgid "poll_max_number_of_answers"
+msgstr "Maximální počet odpovědí na účastníka"
+
+#, fuzzy
+msgid "poll_max_number_of_answers_info"
+msgstr "You may choose up to %s answers."
+
+msgid "poll_mode"
+msgstr "Režim"
+
+msgid "poll_mode_anonymous"
+msgstr "Anonymní"
+
+msgid "poll_mode_anonymous_info"
+msgstr "Nelze zpětně vysledovat, jak účastníci hlasovali."
+
+msgid "poll_mode_personal"
+msgstr "Osobní"
+
+msgid "poll_mode_personal_info"
+msgstr "Seznam účastníků s jejich příslušnými hlasy je k dispozici při dostatečném povolení."
+
+msgid "poll_new"
+msgstr "Přidat novou anketu"
+
+msgid "poll_non_anonymous_warning"
+msgstr "Vaše jméno a hlas jsou viditelné správcům ve výsledcích."
+
+#, fuzzy
+msgid "poll_notification_activated"
+msgstr "Notification Activated"
+
+#, fuzzy
+msgid "poll_notification_deactivated"
+msgstr "Notification Deactivated"
+
+msgid "poll_notification_subscribe"
+msgstr "Aktivovat oznámení"
+
+msgid "poll_notification_unsubscribe"
+msgstr "Deaktivovat oznámení"
+
+msgid "poll_percentage"
+msgstr "Aktuální procento"
+
+#, fuzzy
+msgid "poll_population"
+msgid_plural "poll_population_plural"
+msgstr[0] "%s Hlasů"
+msgstr[1] "%s Hlasů"
+msgstr[2] "%s Hlasů"
+
+#, fuzzy
+msgid "poll_population_singular"
+msgstr "1 Participant"
+
+msgid "poll_question"
+msgstr "Otázka"
+
+msgid "poll_result"
+msgstr "Výsledky hlasování"
+
+msgid "poll_result_answers"
+msgstr "Hlasy"
+
+msgid "poll_result_sorting"
+msgstr "Třídění"
+
+msgid "poll_result_sorting_answers"
+msgstr "V pořadí odpovědí"
+
+msgid "poll_result_sorting_votes"
+msgstr "Podle počtu hlasů (sestupně)"
+
+msgid "poll_result_users"
+msgstr "Účastníci"
+
+msgid "poll_show_results_as"
+msgstr "Zobrazit výsledky jako"
+
+msgid "poll_sortorder"
+msgstr "Pořadí"
+
+#, fuzzy
+msgid "poll_stacked_chart"
+msgstr "Stacked Chart"
+
+msgid "poll_view_results"
+msgstr "Zobrazit výsledky"
+
+msgid "poll_view_results_after_period"
+msgstr "Po době určené k hlasování"
+
+msgid "poll_view_results_after_period_impossible"
+msgstr "Doba hlasování není omezena."
+
+msgid "poll_view_results_after_vote"
+msgstr "Po hlasování"
+
+msgid "poll_view_results_always"
+msgstr "Vždy"
+
+msgid "poll_view_results_never"
+msgstr "Nikdy"
+
+msgid "poll_vote"
+msgstr "Hlas"
+
+#, fuzzy
+msgid "poll_vote_error_multi"
+msgid_plural "poll_vote_error_multi_plural"
+msgstr[0] "Vyberte více než %s odpovědí."
+msgstr[1] "Vyberte více než %s odpovědí."
+msgstr[2] "Vyberte více než %s odpovědí."
+
+#, fuzzy
+msgid "poll_vote_error_multi_no_answer"
+msgstr "Please select at least 1 answer."
+
+msgid "poll_vote_error_single"
+msgstr "Vyberte prosím 1 odpověď."
+
+msgid "poll_vote_notification_body"
+msgstr "součástí následující ankety bylo hlasování."
+
+msgid "poll_vote_notification_link"
+msgstr "Odkaz na Anketu"
+
+msgid "poll_vote_notification_reason"
+msgstr "Dostáváte tento e-mail, protože jste aktivovali upozornění na výše uvedenou anketu."
+
+msgid "poll_vote_notification_subject"
+msgstr "Anketa \"%s\": nové hlasování"
+
+msgid "poll_votes_no_edit"
+msgstr "Tato anketa již obsahuje hlasy. Nemůžete tuto anketu upravovat, dokud tyto hlasy nesmažete."
+
+msgid "poll_voting_period_and_results"
+msgstr "Období hlasování a výsledky"
+
+#, fuzzy
+msgid "poll_voting_period_ended_info"
+msgstr "The voting period ended %s."
+
+msgid "poll_voting_period_full_info"
+msgstr "Doba hlasování od %s do %s"
+
+msgid "poll_voting_period_info"
+msgstr "Termín pro hlasování: %s"
+
+msgid "poll_voting_period_limited"
+msgstr "Omezeno"

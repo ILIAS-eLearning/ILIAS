@@ -1,0 +1,185 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: buddysystem\n"
+
+msgid "buddy_allow_to_contact_me"
+msgstr "Dovoli zahteve za stik"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_default_info"
+msgstr "Defines if users can send each other requests for getting into contact by default."
+
+msgid "buddy_allow_to_contact_me_info"
+msgstr "Če je aktivirano, mi lahko drugi uporabniki pošljejo zahtevo za v stik."
+
+msgid "buddy_bs_act_btn_txt_ignored_request_to_linked"
+msgstr "Potrdi zahtevo"
+
+msgid "buddy_bs_act_btn_txt_ignored_request_to_unlinked"
+msgstr "Prekliči zahtevo"
+
+msgid "buddy_bs_act_btn_txt_linked_to_unlinked"
+msgstr "Prekini stik"
+
+msgid "buddy_bs_act_btn_txt_requested_to_ignored_request"
+msgstr "Prezri stik"
+
+msgid "buddy_bs_act_btn_txt_requested_to_linked"
+msgstr "Potrdi stik"
+
+msgid "buddy_bs_act_btn_txt_requested_to_unlinked"
+msgstr "Prekliči zahtevo"
+
+msgid "buddy_bs_action_already_ignored"
+msgstr "Dejanje ni mogoče, ker je bila zahteva za stik uporabnika '%s' že prezrta."
+
+msgid "buddy_bs_action_already_linked"
+msgstr "Dejanje ni mogoče, ker je bila zahteva za stik za uporabnika '%s' že potrjena."
+
+msgid "buddy_bs_action_already_requested"
+msgstr "Dejanje ni mogoče, ker je bila zahteva za stik že poslana uporabniku '%s'."
+
+msgid "buddy_bs_action_already_unlinked"
+msgstr "Dejanje ni mogoče. Vsi stiki z uporabnikom '%s' so že bili prekinjeni."
+
+msgid "buddy_bs_action_not_possible"
+msgstr "Dejanje ni mogoče"
+
+msgid "buddy_bs_btn_txt_ignored_request_a"
+msgstr "Stik je zahtevan"
+
+msgid "buddy_bs_btn_txt_ignored_request_p"
+msgstr "Zahteva je prezrta"
+
+msgid "buddy_bs_btn_txt_linked_a"
+msgstr "Povezano"
+
+msgid "buddy_bs_btn_txt_linked_p"
+msgstr "Povezano"
+
+msgid "buddy_bs_btn_txt_requested_a"
+msgstr "Stik je zahtevan"
+
+msgid "buddy_bs_btn_txt_requested_p"
+msgstr "Zahteva za stik"
+
+msgid "buddy_bs_btn_txt_unlinked_a"
+msgstr "Zahtevaj stik"
+
+msgid "buddy_bs_state_ignored_request_a"
+msgstr "Zahtevano"
+
+msgid "buddy_bs_state_ignored_request_p"
+msgstr "Prezrto"
+
+msgid "buddy_bs_state_ignoredrequest"
+msgstr "Prezrto"
+
+msgid "buddy_bs_state_linked"
+msgstr "Povezano"
+
+msgid "buddy_bs_state_linked_a"
+msgstr "Povezano"
+
+msgid "buddy_bs_state_linked_p"
+msgstr "Linked"
+
+msgid "buddy_bs_state_requested"
+msgstr "Zahtevano"
+
+msgid "buddy_bs_state_requested_a"
+msgstr "Zahtevano"
+
+msgid "buddy_bs_state_requested_filter_a"
+msgstr "Waiting for Reaction"
+
+msgid "buddy_bs_state_requested_filter_p"
+msgstr "Action Required"
+
+msgid "buddy_bs_state_requested_p"
+msgstr "Zahtevano"
+
+msgid "buddy_bs_state_unlinked"
+msgstr "Unlinked"
+
+msgid "buddy_bs_state_unlinked_a"
+msgstr "Ni povezano"
+
+msgid "buddy_bs_state_unlinked_p"
+msgstr "Unlinked"
+
+#, fuzzy
+msgid "buddy_confirm_unlink"
+msgstr "Do you really want to disconnect from this contact?"
+
+msgid "buddy_enable"
+msgstr "Aktiviraj „Stiki uporabnika“"
+
+msgid "buddy_enable_info"
+msgstr "Če je aktivirano, se lahko uporabniki povežejo tako, da preko sistema pošljejo zahtevo za stik. Dodatna osebna nastavitev vsakemu uporabniku omogoča, da dovoli ali prepreči vzpostavljanje stikov."
+
+msgid "buddy_handle_contact_request"
+msgstr "Zahteva za stik"
+
+msgid "buddy_noti_cr_profile_not_published"
+msgstr "Profil ni objavljen"
+
+msgid "buddy_notification_contact_request"
+msgstr "Zahteva za stik"
+
+#, fuzzy
+msgid "buddy_notification_contact_request_ignore"
+msgstr "Ignore Request"
+
+msgid "buddy_notification_contact_request_ignore_osd"
+msgstr "Prezri zahtevo"
+
+#, fuzzy
+msgid "buddy_notification_contact_request_link"
+msgstr "Approve Request"
+
+msgid "buddy_notification_contact_request_link_osd"
+msgstr "Potrdi zahtevo"
+
+msgid "buddy_notification_contact_request_long"
+msgstr "[SALUTATION][BR][BR]\"[REQUESTING_USER]\" želi stopiti v stik z vami.[BR][BR]Povezava do osebnega profila: [PERSONAL_PROFILE_LINK][BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]"
+
+msgid "buddy_notification_contact_request_short"
+msgstr "Uporabnik \"[REQUESTING_USER]\" želi stopiti v stik z vami.[BR][BR][APPROVE_REQUEST][BR][IGNORE_REQUEST]"
+
+msgid "buddy_relation_requested"
+msgstr "Uporabniku je bila poslana zahteva za stik."
+
+msgid "buddy_request_approved"
+msgstr "Stik je bil uspešno vzpostavljen."
+
+msgid "buddy_request_ignored"
+msgstr "Uporabnika ste prezrli."
+
+msgid "buddy_tbl_filter_state"
+msgstr "Status"
+
+#, fuzzy
+msgid "buddy_tbl_state_actions_col_label"
+msgstr "State / Action"
+
+msgid "buddy_tbl_title_relations"
+msgstr "Razmerja do drugih uporabnikov"
+
+msgid "buddy_use_osd"
+msgstr "Pojavno okno zahteve za stik"
+
+msgid "buddy_use_osd_info"
+msgstr "Pokaže pojavno okno, če želi uporabnik stopiti v stik z mano."
+
+msgid "buddy_view_gallery"
+msgstr "Galerija"
+
+msgid "buddy_view_table"
+msgstr "Seznam"

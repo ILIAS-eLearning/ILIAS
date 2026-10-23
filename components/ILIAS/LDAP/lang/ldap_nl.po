@@ -1,0 +1,401 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: ldap\n"
+
+#, fuzzy
+msgid "add_ldap_server"
+msgstr "Add Server"
+
+msgid "ldap_add_missing"
+msgstr "Assign Missing Roles"
+
+msgid "ldap_add_role_ass_rule"
+msgstr "New Rule for Role Assignments"
+
+#, fuzzy
+msgid "ldap_add_roles"
+msgstr "Add Roles"
+
+msgid "ldap_as_ds"
+msgstr "Use as Data Source"
+
+msgid "ldap_as_ds_info"
+msgstr "If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods."
+
+msgid "ldap_assignment_type"
+msgstr "Assignment Type"
+
+msgid "ldap_authentication_settings"
+msgstr "Authenticatie instellingen"
+
+msgid "ldap_bind_anonymous"
+msgstr "Anonieme band"
+
+msgid "ldap_bind_user"
+msgstr "Bind alas gebruiker:"
+
+msgid "ldap_btn_add_role_ass"
+msgstr "Add New Rule"
+
+msgid "ldap_check_role_assignment"
+msgstr "Assignment of Roles After Later Logins"
+
+msgid "ldap_choose_role"
+msgstr "Choose Role"
+
+msgid "ldap_confirm_del_role_ass"
+msgstr "Delete Role Assignmen"
+
+msgid "ldap_deleted_role_mapping"
+msgstr "Taak verwijderd"
+
+msgid "ldap_deleted_rule"
+msgstr "Deleted selected role assignments."
+
+msgid "ldap_dn_info"
+msgstr "Geef de naam in van de LDAP-groep."
+
+msgid "ldap_edit_role_ass_rule"
+msgstr "Edit Role Assignment Rule"
+
+msgid "ldap_edit_role_assignment"
+msgstr "Wijzigen rol -> Groepstoekenning"
+
+msgid "ldap_err_missing_plugin_id"
+msgstr "Please enter a valid plugin id."
+
+#, fuzzy
+msgid "ldap_escapedn"
+msgstr "Escape DN"
+
+#, fuzzy
+msgid "ldap_escapedn_info"
+msgstr "If enabled, special characters in the \"Distinguished Name (DN)\" of user accounts are escaped in queries for group membership."
+
+msgid "ldap_filter_info"
+msgstr "Filter die aan de zoekfilter zal worden toegevoegd op deze manier : (& (userattr=username) <strong> (userfilter) </strong>)."
+
+msgid "ldap_global_role"
+msgstr "Globale Rol"
+
+msgid "ldap_global_role_assignment"
+msgstr "ILIAS-Rol taak"
+
+msgid "ldap_global_role_info"
+msgstr "Gelieve een globale rol te kiezen die aan de nieuwe gebruikers zal worden toegewezen."
+
+msgid "ldap_group_attribute"
+msgstr "Attributen voor groepen"
+
+msgid "ldap_group_attribute_info"
+msgstr "De groepsattributen om te zoeken naar."
+
+msgid "ldap_group_dn"
+msgstr "Groep zoeken Base"
+
+msgid "ldap_group_dn_info"
+msgstr "Gets prepended to \"BaseDN\" when searching for groups."
+
+msgid "ldap_group_dn_short"
+msgstr "Groep DN:"
+
+msgid "ldap_group_filter"
+msgstr "LDAP Filter"
+
+msgid "ldap_group_filter_info"
+msgstr "Filter die aan de zoeksfilter zal worden toegevoegd wanneer je op een groep gaan zoeken: (&(groupattr=group)(memberattr=username)<strong>(groupfilter)</strong>)."
+
+msgid "ldap_group_member"
+msgstr "Groepsdeelnemer attribuut"
+
+msgid "ldap_group_member_info"
+msgstr "De attributen van de groep hebben bezwaar waar de gebruiker dn kan worden gevonden. Kies de „Waarde van Attributen DN“ als het lidattribuut de naam van de gebruiker is."
+
+msgid "ldap_group_member_optional"
+msgstr "Groepsdeelname is optioneel"
+
+msgid "ldap_group_member_short"
+msgstr "Attribuut:"
+
+msgid "ldap_group_membership"
+msgstr "Groepsdeelname"
+
+msgid "ldap_group_name"
+msgstr "Groepsnaam"
+
+msgid "ldap_group_name_info"
+msgstr "De naam van de groepsgebruikers moet een authentieke deelnemer zijn om toegevoegd te worden."
+
+msgid "ldap_group_optional_info"
+msgstr "Indien ingeschakeld, is de groepsdeelname niet nodig voor een geslaagde authenticatie. Gelieve een gebruikersfilter in te geven voor de deelnemers van deze groep:<br />(&(userattr=username)<strong>(userfilter)</strong>)"
+
+msgid "ldap_group_restrictions"
+msgstr "Groepbeperkingen"
+
+msgid "ldap_group_scope"
+msgstr "Werkingsgebied zoeken"
+
+msgid "ldap_group_scope_info"
+msgstr "Bereik voor zoeken naar groep. Als onzeker kies „Sub“"
+
+msgid "ldap_group_search_base"
+msgstr "Groep zoekopdracht"
+
+msgid "ldap_group_user_filter"
+msgstr "Filter gebruiker"
+
+msgid "ldap_ilias_role"
+msgstr "ILIAS Rol"
+
+msgid "ldap_info_text"
+msgstr "Informatie tekst"
+
+msgid "ldap_info_text_info"
+msgstr "Indien ingegeven, zal deze tekst getoond worden in het Persoonlijk scherm en op het info venster van het object"
+
+msgid "ldap_local_role"
+msgstr "Local Role"
+
+msgid "ldap_mapping_info_type"
+msgstr "Toon informatie ook in het Persoonlijk Scherm"
+
+msgid "ldap_mapping_table"
+msgstr "Taak van LDAP attributen aan het profiel van de gebruiker"
+
+msgid "ldap_mapping_template"
+msgstr "Sjabloon voor objectClass:"
+
+msgid "ldap_member_info"
+msgstr "De attributen van de groep hebben bezwaar waar de gebruiker dn kan worden gevonden."
+
+msgid "ldap_memberisdn"
+msgstr "Attribuut waarde is DN"
+
+msgid "ldap_missing_bind_user"
+msgstr "Je hebt gekozen „ bind als Gebruiker“: gelieve een geldig LDAP-gebruikersnaam en een wachtwoord in te geven."
+
+msgid "ldap_missing_role_assignment"
+msgstr "Gelieve een globale rol te kiezen die aan nieuwe gebruikers zal worden toegewezen."
+
+msgid "ldap_moment_sync"
+msgstr "Type synchronisatie"
+
+msgid "ldap_new_role_assignment"
+msgstr "Nieuwe rol toevoegen -> Groepstaak"
+
+msgid "ldap_plugin"
+msgstr "Assignment by Plugin"
+
+msgid "ldap_plugin_id"
+msgstr "Plugin Id"
+
+msgid "ldap_plugin_info"
+msgstr "Validate the role assignment with a plugin. Please enter a valid plugin id."
+
+msgid "ldap_referrals"
+msgstr "Verwijzingen"
+
+msgid "ldap_referrals_info"
+msgstr "Indien ingesteld, dan volgt de LDAP library automatisch verwijzingen die het terugkrijgt van LDAP servers. Dit zou uitgeschakeld moeten worden gemaakt als je een actieve folderserver gebruikt."
+
+msgid "ldap_remove_deprecated"
+msgstr "Deassign Deprecated Roles"
+
+#, fuzzy
+msgid "ldap_remove_roles"
+msgstr "Remove Roles"
+
+msgid "ldap_role_active"
+msgstr "Groep synchronisatie uitschakelen"
+
+msgid "ldap_role_assignments"
+msgstr "Role Assignment"
+
+msgid "ldap_role_at_info"
+msgstr "The assignment is based on a specific attribute in the LDAP user profile."
+
+msgid "ldap_role_at_name"
+msgstr "Attribute Name"
+
+msgid "ldap_role_at_value"
+msgstr "Attribute Value"
+
+msgid "ldap_role_bind_pass"
+msgstr "Wachtwoord"
+
+msgid "ldap_role_bind_pass_info"
+msgstr "Wachtwoord"
+
+msgid "ldap_role_bind_user"
+msgstr "Usern DN"
+
+msgid "ldap_role_bind_user_info"
+msgstr "Gelieve een naam van een Ldap- gebruikersrekening in te geven. Deze gebruikers hebben schrijftoegang nodig voor de LDAP groepen."
+
+msgid "ldap_role_by_attribute"
+msgstr "LDAP Attribute"
+
+msgid "ldap_role_by_group"
+msgstr "Groepslidmaatschap"
+
+msgid "ldap_role_by_plugin"
+msgstr "By Plugin"
+
+msgid "ldap_role_group_assignments"
+msgstr "Bestaande rollen -> Groep taken"
+
+msgid "ldap_role_grp_at"
+msgstr "Attribute"
+
+msgid "ldap_role_grp_dn_info"
+msgstr "Please enter the \"Distinguished Name\" of the LDAP Group."
+
+msgid "ldap_role_grp_info"
+msgstr "Members of a specific LDAP Group will be assigned to the given ILIAS role."
+
+msgid "ldap_role_grp_isdn"
+msgstr "Attribute value is DN"
+
+msgid "ldap_role_info"
+msgstr "Ingeven naam van een ILIAS-rol die het lidmaatschap aan de LDAP-groep zal controleren."
+
+msgid "ldap_role_mapping"
+msgstr "LDAP-Group -> Role Mapping"
+
+msgid "ldap_role_name_info"
+msgstr "Kies of een globale rol of type de naam van een lokale rol"
+
+msgid "ldap_role_not_exists"
+msgstr "Een rol met deze naam bestaat nog niet."
+
+msgid "ldap_role_selection"
+msgstr "Role Selection"
+
+msgid "ldap_role_selection_info"
+msgstr "Je selectie is niet eenduidig. Kies één van de volgende rollen."
+
+msgid "ldap_role_settings"
+msgstr "LDAP groep synchronisatie instellingen"
+
+msgid "ldap_rule_condition"
+msgstr "condition"
+
+msgid "ldap_rule_type"
+msgstr "Type of Assignment"
+
+msgid "ldap_scope_one"
+msgstr "Eén"
+
+msgid "ldap_scope_sub"
+msgstr "Sub"
+
+msgid "ldap_search_base_info"
+msgstr "Gets prepended to based when searching for users."
+
+msgid "ldap_search_filter"
+msgstr "LDAP Filter"
+
+msgid "ldap_server_bind_dn"
+msgstr "Gebruikerszoeken base"
+
+msgid "ldap_server_bind_pass"
+msgstr "Wachtwoord"
+
+msgid "ldap_server_binding"
+msgstr "Band"
+
+msgid "ldap_server_name"
+msgstr "Naam van LDAP Configuratie"
+
+msgid "ldap_server_name_info"
+msgstr "Gelieve een naam te kiezen  voor deze LDAP serverconfiguratie."
+
+msgid "ldap_server_security_settings"
+msgstr "Veiligheidsinstellingen"
+
+msgid "ldap_server_short"
+msgstr "Server URL:"
+
+msgid "ldap_server_url_info"
+msgstr "Een volledig gekwalificeerde URL voor het specificeren van het protocol, url en de poort om te verbinden met bv. \"ldap://ldap.ilias.de:389\""
+
+#, fuzzy
+msgid "ldap_server_url_invalid_parts"
+msgstr "The following server URL(s) could not be parsed as valid URIs and may not work until corrected:"
+
+#, fuzzy
+msgid "ldap_server_url_invalid_uris"
+msgstr "Every comma-separated entry must be a valid URI (e.g. ldap://host:389). Invalid:"
+
+#, fuzzy
+msgid "ldap_server_url_required"
+msgstr "Server URL is required."
+
+msgid "ldap_server_version_info"
+msgstr "LDAP versie gebruiken, meestal 3."
+
+#, fuzzy
+msgid "ldap_servers"
+msgstr "LDAP Server"
+
+msgid "ldap_settings"
+msgstr "Server instellingen"
+
+msgid "ldap_sync_cron"
+msgstr "Per Cron-Job"
+
+msgid "ldap_sync_login"
+msgstr "Bij aanmelden"
+
+msgid "ldap_tbl_role_ass"
+msgstr "Avtive Rules"
+
+msgid "ldap_tls_conflict"
+msgstr "LDAP-TLS kan niet gebruikt worden in combinatie met LDAPv2. Gelieve een ander LDAP versie te kiezen \"3\" of zet TLS hulp uit."
+
+msgid "ldap_update_field_info"
+msgstr "Automatische update"
+
+msgid "ldap_update_roles"
+msgstr "Role Assignments"
+
+msgid "ldap_user_attribute"
+msgstr "Attributen voor aanmeldingsnaam"
+
+msgid "ldap_user_dn"
+msgstr "Gebruikerszoeken Base"
+
+msgid "ldap_user_mapping"
+msgstr "User Profile Mapping"
+
+msgid "ldap_user_scope"
+msgstr "Werkingsgebied zoeken"
+
+msgid "ldap_user_scope_info"
+msgstr "Bereik voor het zoeken gebruiker. Als onzeker kies „Sub“."
+
+msgid "ldap_user_sync"
+msgstr "Gebruikers synchronisatie instelling"
+
+msgid "ldap_user_sync_cron"
+msgstr "LDAP User Synchronization"
+
+msgid "ldap_user_sync_cron_info"
+msgstr "If activated, user accounts will be imported from the LDAP directory and synchronised continuously as an option."
+
+msgid "ldap_user_sync_info"
+msgstr "Bepaalt of de nieuwe gebruikers automatisch bij login of regelmatig per cron-job worden gecreërd."
+
+#, fuzzy
+msgid "ldap_username_filter"
+msgstr "Username Filter"
+
+#, fuzzy
+msgid "ldap_username_filter_info"
+msgstr "Use * as wildcard."

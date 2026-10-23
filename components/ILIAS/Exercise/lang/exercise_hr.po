@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: exercise\n"
+
+msgid "exc_admin_settings"
+msgstr "Administracija vježbi"
+
+msgid "exc_comment"
+msgstr "Evaluacija"
+
+msgid "exc_comment_for_learner"
+msgstr "Evaluacija"
+
+msgid "exc_failed"
+msgstr "Nije položio"
+
+msgid "exc_feedback_from_tutor"
+msgstr "Evaluacija od strane mentora"
+
+msgid "exc_grading"
+msgstr "Ocjenjivanje"
+
+msgid "exc_mark"
+msgstr "Ocjena"
+
+msgid "exc_notgraded"
+msgstr "Nije ocjenjeno"
+
+msgid "exc_passed"
+msgstr "Položio"
+
+msgid "exc_send_mail"
+msgstr "Pošalji kao e-poštu"
+
+msgid "exc_start_date_should_be_before_end_date"
+msgstr "Vrijeme početka treba biti prije krajnjeg roka."
+
+msgid "exc_your_submission"
+msgstr "Vaš predani zadatak"

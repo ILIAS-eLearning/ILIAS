@@ -1,0 +1,89 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: awrn\n"
+
+msgid "awareness_now_online"
+msgstr "Adesso online"
+
+msgid "awareness_settings"
+msgstr "Impostazioni"
+
+msgid "awrn_caching_period"
+msgstr "Periodo di memorizzazione nella cache"
+
+msgid "awrn_caching_period_info"
+msgstr "Il tempo di attesa prima che il numero degli utenti nella barra superiore venga aggiornato e i nuovi utenti online siano determinati."
+
+msgid "awrn_enable"
+msgstr "Consenti strumento “Chi è online?”"
+
+msgid "awrn_filter"
+msgstr "Filtro Utente"
+
+msgid "awrn_hide_from_awareness"
+msgstr "Nascondimi dallo strumento “Chi è online?”"
+
+msgid "awrn_hide_from_awareness_info"
+msgstr "Lo strumento “Chi è online?” si trova nella barra superiore ed elenca tutti gli utenti selezionati (per esempio, contatti dei membri dei tuoi corsi)."
+
+msgid "awrn_inactive"
+msgstr "Non elencato"
+
+msgid "awrn_incl_offline"
+msgstr "Online e Offline"
+
+msgid "awrn_max_inactivity"
+msgstr "Periodo massimo di inattività"
+
+msgid "awrn_max_inactivity_info"
+msgstr "Dopo questo periodo gli utenti sono considerati offline. Se nulla è impostato, verrà utilizzato il tempo di sessione."
+
+msgid "awrn_max_nr_entries"
+msgstr "Numero massimo di voci"
+
+msgid "awrn_max_nr_entries_info"
+msgstr "Numero massimo di elementi nell'elenco \"Chi è online?\"."
+
+msgid "awrn_minutes"
+msgstr "min"
+
+msgid "awrn_online"
+msgstr "Online"
+
+msgid "awrn_online_only"
+msgstr "Solo online"
+
+msgid "awrn_seconds"
+msgstr "sec."
+
+msgid "awrn_use_osd"
+msgstr "Popup utenti online"
+
+msgid "awrn_use_osd_info"
+msgstr "Mostra a popup per indicare nuovi utenti online nell’elenco “Chi è online?”."
+
+msgid "awrn_user_show"
+msgstr "Mostra il tuo stato in \"Chi è online?\""
+
+#, fuzzy
+msgid "awrn_user_show_default"
+msgstr "Default Value for  the Visibility in \"Who-Is-Online?\""
+
+#, fuzzy
+msgid "awrn_user_show_default_info"
+msgstr "Defines the default value for the visibility of the status of a user in \"Who-Is-Online?\"."
+
+msgid "user_awrn_default"
+msgstr "Predefinito"
+
+msgid "user_awrn_hide"
+msgstr "Nascondi"
+
+msgid "user_awrn_show"
+msgstr "Mostra"

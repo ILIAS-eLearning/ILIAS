@@ -1,0 +1,397 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: ldap\n"
+
+msgid "add_ldap_server"
+msgstr "Dodaj server"
+
+msgid "ldap_add_missing"
+msgstr "Dodijeli nedostajuće uloge"
+
+msgid "ldap_add_role_ass_rule"
+msgstr "Novo pravilo za dodjelu uloga"
+
+#, fuzzy
+msgid "ldap_add_roles"
+msgstr "Add Roles"
+
+msgid "ldap_as_ds"
+msgstr "Koristite kao izvor podataka"
+
+msgid "ldap_as_ds_info"
+msgstr "Ako se aktivira, ova konfiguracija LDAP-a koristi se samo za sinkronizaciju korisničkih računa u kombinaciji s drugim metodama provjere autentičnosti."
+
+msgid "ldap_assignment_type"
+msgstr "Vrsta dodjele"
+
+msgid "ldap_authentication_settings"
+msgstr "Postavke provjere autentičnosti"
+
+msgid "ldap_bind_anonymous"
+msgstr "Poveži anonimno"
+
+msgid "ldap_bind_user"
+msgstr "Poveži kao korisnika:"
+
+msgid "ldap_btn_add_role_ass"
+msgstr "Dodaj novo pravilo"
+
+msgid "ldap_check_role_assignment"
+msgstr "Dodjela uloga nakon kasnijih prijava"
+
+msgid "ldap_choose_role"
+msgstr "Odaberi ulogu"
+
+msgid "ldap_confirm_del_role_ass"
+msgstr "Izbriši dodjelu uloge"
+
+msgid "ldap_deleted_role_mapping"
+msgstr "Dodjela je izbrisana."
+
+msgid "ldap_deleted_rule"
+msgstr "Odabrane dodjele uloga su izbrisane."
+
+msgid "ldap_dn_info"
+msgstr "Unesite razlikovno ime LDAP grupe."
+
+msgid "ldap_edit_role_ass_rule"
+msgstr "Uredi pravilo za dodjelu uloga"
+
+msgid "ldap_edit_role_assignment"
+msgstr "Uredi ulogu -> Dodjela grupe"
+
+msgid "ldap_err_missing_plugin_id"
+msgstr "Unesite valjani ID dodatka."
+
+#, fuzzy
+msgid "ldap_escapedn"
+msgstr "Escape DN"
+
+#, fuzzy
+msgid "ldap_escapedn_info"
+msgstr "If enabled, special characters in the \"Distinguished Name (DN)\" of user accounts are escaped in queries for group membership."
+
+msgid "ldap_filter_info"
+msgstr "Filtar koji će se dodati filtru za pretraživanje na ovaj način: (&(userattr=username)<strong>(userfilter)</strong>)."
+
+msgid "ldap_global_role"
+msgstr "Globalna uloga"
+
+msgid "ldap_global_role_assignment"
+msgstr "Dodjela uloga ILIAS-a"
+
+msgid "ldap_global_role_info"
+msgstr "Molimo odaberite ulogu ILIAS-a kojoj će biti dodijeljeni novi korisnici.  <span class=\"asterisk\">*</span> Odabir uloge je <b>potreban</b> u slučaju da ste odabrali vrstu sinkronizacije."
+
+msgid "ldap_group_attribute"
+msgstr "Atribut za grupu"
+
+msgid "ldap_group_attribute_info"
+msgstr "Atribut grupe za pretraživanje."
+
+msgid "ldap_group_dn"
+msgstr "DN grupe"
+
+msgid "ldap_group_dn_info"
+msgstr "Osnova prilikom pretraživanja grupa. Stavlja se ispred \"BaseDN\""
+
+msgid "ldap_group_dn_short"
+msgstr "DN grupe:"
+
+msgid "ldap_group_filter"
+msgstr "Filtar LDAP-a"
+
+msgid "ldap_group_filter_info"
+msgstr "Filtar koji će se dodati filtru za pretraživanje prilikom pretraživanja grupe: (&(groupattr=group)(memberattr=username)<strong>(groupfilter)</strong>)."
+
+msgid "ldap_group_member"
+msgstr "Atribut člana grupe"
+
+msgid "ldap_group_member_info"
+msgstr "Atribut objekta grupe u kojem se može naći korisnik dn. Odaberite 'Vrijednost atributa je DN' ako je atribut člana istaknuto ime korisnika."
+
+msgid "ldap_group_member_optional"
+msgstr "Članstvo u grupi nije obavezno"
+
+msgid "ldap_group_member_short"
+msgstr "Atribut:"
+
+msgid "ldap_group_membership"
+msgstr "Članstvo u grupi"
+
+msgid "ldap_group_name"
+msgstr "Ime grupe"
+
+msgid "ldap_group_name_info"
+msgstr "Kako bi se uspješno provjerila autentičnost, korisnici grupe moraju biti članovi."
+
+msgid "ldap_group_optional_info"
+msgstr "Ako je omogućeno, članstvo u grupi nije potrebno za uspješnu provjeru autentičnosti. Unesite korisnički filtar za članove ovih grupa:<br />(&(userattr=username)<strong>(userfilter)</strong>)"
+
+msgid "ldap_group_restrictions"
+msgstr "Ograničenja za članstvo u grupi"
+
+msgid "ldap_group_scope"
+msgstr "Opseg pretraživanja"
+
+msgid "ldap_group_scope_info"
+msgstr "Opseg za grupno pretraživanje. Ako niste sigurni, odaberite 'Sub'"
+
+msgid "ldap_group_search_base"
+msgstr "Baza pretraživanja grupa"
+
+msgid "ldap_group_user_filter"
+msgstr "Korisnički filtar"
+
+msgid "ldap_ilias_role"
+msgstr "Ime uloge ILIAS-a"
+
+msgid "ldap_info_text"
+msgstr "Tekst informacije"
+
+msgid "ldap_info_text_info"
+msgstr "Ako se unese, ovaj će se tekst prikazati na stranici s informacijama za objekt kojem je dodijeljena ova uloga. Po želji je ovaj tekst dostupan u Repozitoriju i na Osobnoj radnoj površini."
+
+msgid "ldap_local_role"
+msgstr "Lokalna uloga"
+
+msgid "ldap_mapping_info_type"
+msgstr "Prikažite informacije i u repozitoriju/na osobnoj radnoj površini"
+
+msgid "ldap_mapping_table"
+msgstr "Dodjela LDAP atributa korisničkom profilu ILIAS-a"
+
+msgid "ldap_mapping_template"
+msgstr "Predložak za objectClass:"
+
+msgid "ldap_member_info"
+msgstr "Atribut objekta grupe gdje se može naći korisnički dn."
+
+msgid "ldap_memberisdn"
+msgstr "Vrijednost atributa je DN"
+
+msgid "ldap_missing_bind_user"
+msgstr "Odabrali ste ‘Poveži kao korisnika’: Unesite važeće korisničko ime LDAP- ai lozinku."
+
+msgid "ldap_missing_role_assignment"
+msgstr "Odaberite globalnu ulogu kojoj će se dodijeliti novi korisnici."
+
+msgid "ldap_moment_sync"
+msgstr "Vrsta sinkronizacije"
+
+msgid "ldap_new_role_assignment"
+msgstr "Dodaj novu ulogu -> Dodjela grupe"
+
+msgid "ldap_plugin"
+msgstr "Dodjela pomoću dodatka"
+
+msgid "ldap_plugin_id"
+msgstr "Id dodatka"
+
+msgid "ldap_plugin_info"
+msgstr "Potvrdite dodjelu uloge dodatkom. Unesite valjani ID dodatka."
+
+msgid "ldap_referrals"
+msgstr "Prosljeđivanja"
+
+msgid "ldap_referrals_info"
+msgstr "Ako je postavljeno, određuje slijedi li LDAP knjižnica automatski prosljeđivanja koje vraćaju LDAP serveri ili ne. Ovo treba onemogućiti ako koristite aktivni server direktorija."
+
+msgid "ldap_remove_deprecated"
+msgstr "Ukloni neovlaštene uloge"
+
+#, fuzzy
+msgid "ldap_remove_roles"
+msgstr "Remove Roles"
+
+msgid "ldap_role_active"
+msgstr "Omogući sinkronizaciju grupe"
+
+msgid "ldap_role_assignments"
+msgstr "Dodjela uloga"
+
+msgid "ldap_role_at_info"
+msgstr "Dodjela se temelji na određenom atributu u korisničkom profilu LDAP-a."
+
+msgid "ldap_role_at_name"
+msgstr "Naziv atributa"
+
+msgid "ldap_role_at_value"
+msgstr "Vrijednost atributa"
+
+msgid "ldap_role_bind_pass"
+msgstr "Lozinka"
+
+msgid "ldap_role_bind_pass_info"
+msgstr "Lozinka"
+
+msgid "ldap_role_bind_user"
+msgstr "DN korisnika"
+
+msgid "ldap_role_bind_user_info"
+msgstr "Unesite prepoznatljivo ime korisničkog računa LDAP-a. Ovaj korisnik treba pristup pisanju za LDAP grupe."
+
+msgid "ldap_role_by_attribute"
+msgstr "Atribut LDAP-a"
+
+msgid "ldap_role_by_group"
+msgstr "Članstvo u grupi"
+
+msgid "ldap_role_by_plugin"
+msgstr "Dodatkom"
+
+msgid "ldap_role_group_assignments"
+msgstr "Postojeća uloga -> Grupne dodjele"
+
+msgid "ldap_role_grp_at"
+msgstr "Atribut"
+
+msgid "ldap_role_grp_dn_info"
+msgstr "Molimo unesite ‘Razlikovno ime’ LDAP grupe."
+
+msgid "ldap_role_grp_info"
+msgstr "Članovi određene LDAP grupe bit će dodijeljeni zadanoj ulozi ILIAS-a."
+
+msgid "ldap_role_grp_isdn"
+msgstr "Vrijednost atributa je DN"
+
+msgid "ldap_role_info"
+msgstr "Unesite ime uloge ILIAS-a koja će kontrolirati članstvo u LDAP grupi."
+
+msgid "ldap_role_mapping"
+msgstr "Uloga ILIAS-a -> Mapiranje grupe LDAP-a"
+
+msgid "ldap_role_name_info"
+msgstr "Odaberite globalnu ulogu ili unesite naziv lokalne uloge."
+
+msgid "ldap_role_not_exists"
+msgstr "Uloga tog naziva ne postoji"
+
+msgid "ldap_role_selection"
+msgstr "Odabir uloga"
+
+msgid "ldap_role_selection_info"
+msgstr "Vaš je izbor dvosmislen. Odaberite jednu od sljedećih uloga."
+
+msgid "ldap_role_settings"
+msgstr "Postavke sinkronizacije grupe LDAP-a"
+
+msgid "ldap_rule_condition"
+msgstr "Stanje"
+
+msgid "ldap_rule_type"
+msgstr "Vrsta dodjele"
+
+msgid "ldap_scope_one"
+msgstr "Jedan"
+
+msgid "ldap_scope_sub"
+msgstr "Pod"
+
+msgid "ldap_search_base_info"
+msgstr "Osnova za pretraživanje korisnika. Stavlja se ispred \"BaseDN\""
+
+msgid "ldap_search_filter"
+msgstr "Filtar LDAP-a"
+
+msgid "ldap_server_bind_dn"
+msgstr "DN korisnika"
+
+msgid "ldap_server_bind_pass"
+msgstr "Lozinka"
+
+msgid "ldap_server_binding"
+msgstr "Povezivanje"
+
+msgid "ldap_server_name"
+msgstr "Naziv konfiguracije LDAP-a"
+
+msgid "ldap_server_name_info"
+msgstr "Molimo odaberite ime za ovu konfiguraciju servera LDAP-a."
+
+msgid "ldap_server_security_settings"
+msgstr "Sigurnosne postavke"
+
+msgid "ldap_server_short"
+msgstr "URL servera:"
+
+msgid "ldap_server_url_info"
+msgstr "Potpuno kvalificirani URL za specificiranje protokola, URL-a i porta za povezivanje. Npr. \"ldap://ldap.ilias.de:389\". Možete dodati više servera odvojenih zarezima."
+
+#, fuzzy
+msgid "ldap_server_url_invalid_parts"
+msgstr "The following server URL(s) could not be parsed as valid URIs and may not work until corrected:"
+
+#, fuzzy
+msgid "ldap_server_url_invalid_uris"
+msgstr "Every comma-separated entry must be a valid URI (e.g. ldap://host:389). Invalid:"
+
+#, fuzzy
+msgid "ldap_server_url_required"
+msgstr "Server URL is required."
+
+msgid "ldap_server_version_info"
+msgstr "Verzija LDAP-a koju treba koristiti, obično 3."
+
+msgid "ldap_servers"
+msgstr "Server LDAP-a"
+
+msgid "ldap_settings"
+msgstr "Postavke servera"
+
+msgid "ldap_sync_cron"
+msgstr "Po Cron-Jobu"
+
+msgid "ldap_sync_login"
+msgstr "Na prijavi"
+
+msgid "ldap_tbl_role_ass"
+msgstr "Aktivna pravila"
+
+msgid "ldap_tls_conflict"
+msgstr "LDAP-TLS se ne može koristiti u kombinaciji s LDAPv2. Odaberite LDAP verziju ‘3’ ili onemogućite TLS podršku."
+
+msgid "ldap_update_field_info"
+msgstr "Ažurirajte automatski"
+
+msgid "ldap_update_roles"
+msgstr "Dodjeljivanje uloga"
+
+msgid "ldap_user_attribute"
+msgstr "Atribut za ime za prijavu"
+
+msgid "ldap_user_dn"
+msgstr "Baza pretraživanja korisnika"
+
+msgid "ldap_user_mapping"
+msgstr "Mapiranje korisničkog profila"
+
+msgid "ldap_user_scope"
+msgstr "Opseg pretraživanja"
+
+msgid "ldap_user_scope_info"
+msgstr "Opseg pretraživanja korisnika. Ako niste sigurni, odaberite 'Sub'."
+
+msgid "ldap_user_sync"
+msgstr "Postavke sinkronizacije korisnika"
+
+msgid "ldap_user_sync_cron"
+msgstr "Sinkronizacija korisnika LDAP-a"
+
+msgid "ldap_user_sync_cron_info"
+msgstr "Ako se aktiviraju, korisnički računi bit će uvezeni iz direktorija LDAP-a i kontinuirano sinkronizirani kao opcija."
+
+msgid "ldap_user_sync_info"
+msgstr "Definira hoće li se novi korisnici automatski stvarati prilikom prijave ili redovito po Cron-Jobu."
+
+msgid "ldap_username_filter"
+msgstr "Filtar korisničkog imena"
+
+msgid "ldap_username_filter_info"
+msgstr "Upotrijebite * kao zamjenski znak."

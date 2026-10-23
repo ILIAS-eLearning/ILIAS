@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace ILIAS;
 
 use ILIAS\components\Table\Setup\LegacyTableSetupAgent;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 
 class Table implements Component\Component
 {
@@ -38,5 +40,9 @@ class Table implements Component\Component
             new Component\Resource\ComponentJS($this, "ServiceTable.js");
 
         $contribute[\ILIAS\Setup\Agent::class] = static fn() => new LegacyTableSetupAgent();
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'tbl'
+        );
     }
 }

@@ -1,0 +1,100 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ru\n"
+"Language-Team: Russian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: adve\n"
+
+msgid "advanced_editing_excass_settings"
+msgstr "Exercise Assignments Settings"
+
+msgid "advanced_editing_tst_editing"
+msgstr "Page Editor for additional question content"
+
+msgid "advanced_editing_tst_editing_desc"
+msgstr "Aktivates ILIAS Page Eidotr for feedback and hint text editing."
+
+msgid "adve_activation"
+msgstr "Activation"
+
+#, fuzzy
+msgid "adve_auto_url_linking"
+msgstr "URL Auto-Linking"
+
+#, fuzzy
+msgid "adve_auto_url_linking_info"
+msgstr "Tries to identify URLs like \"http://..\" in text paragraphs and automatically creates links around them."
+
+#, fuzzy
+msgid "adve_autosave"
+msgstr "Automatic Saving Intervall"
+
+#, fuzzy
+msgid "adve_autosave_info"
+msgstr "Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases."
+
+#, fuzzy
+msgid "adve_autosave_info_min_10"
+msgstr "Please choose a value of minimal 10 seconds if you activated this feature."
+
+msgid "adve_blocking_mode"
+msgstr "Edit Lock"
+
+msgid "adve_excass_settings"
+msgstr "Exercise Assignments"
+
+#, fuzzy
+msgid "adve_grp_copa"
+msgstr "Content Pages"
+
+#, fuzzy
+msgid "adve_grp_frm"
+msgstr "Forums"
+
+msgid "adve_grp_glo"
+msgstr "Глоссарии"
+
+msgid "adve_grp_lm"
+msgstr "Обучающие модули ILIAS"
+
+msgid "adve_grp_rep"
+msgstr "Страницы репозитория"
+
+msgid "adve_grp_scorm"
+msgstr "Правка SCORM"
+
+msgid "adve_grp_test"
+msgstr "Тесты и оценки"
+
+msgid "adve_grp_wiki"
+msgstr "Вики"
+
+msgid "adve_minutes"
+msgstr "Minutes"
+
+msgid "adve_minutes_info"
+msgstr "Minutes of inactivity before an edit lock expires and a page can be edited by another user."
+
+msgid "adve_page_editor_settings"
+msgstr "Редактор страниц ILIAS"
+
+msgid "adve_pe_general"
+msgstr "Основное"
+
+msgid "adve_rte_settings"
+msgstr "Редактор TinyMCE"
+
+msgid "adve_text_content_features"
+msgstr "Text Content Menu"
+
+msgid "adve_use_physical"
+msgstr "Использовать b/i/u вместо str/emp/imp"
+
+msgid "adve_use_physical_info"
+msgstr "This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other phyiscal attributes are assigned to the strong/emphatic/important style classes."
+
+msgid "adve_use_tiny_mce"
+msgstr "Enable TinyMCE for WYSIWYG Editing"

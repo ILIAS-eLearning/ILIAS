@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: classification\n"
+
+msgid "clsfct_back_to_cat"
+msgstr "Voltar à categoria"
+
+msgid "clsfct_block_info"
+msgstr "A sua seleção filtra os objetos."
+
+msgid "clsfct_block_title"
+msgstr "Seleção por tópicos"
+
+msgid "clsfct_content_no_match"
+msgstr "Possível alterar dados pessoas e perfis"
+
+msgid "clsfct_content_title"
+msgstr "Objetos que correspondem à sua seleção"
+
+msgid "clsfct_selected_objects"
+msgstr "Objetos selecionados"

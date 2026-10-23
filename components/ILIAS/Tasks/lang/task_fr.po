@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: task\n"
+
+msgid "task_deadline"
+msgstr "Fin"
+
+msgid "task_derived_tasks"
+msgstr "Tâches"
+
+msgid "task_details"
+msgstr "Details"
+
+msgid "task_no_task_items"
+msgstr "Es sind keine To-Dos für Sie vorhanden."
+
+msgid "task_no_tasks"
+msgstr "You do not have any open tasks."
+
+msgid "task_start"
+msgstr "Début"
+
+msgid "task_task"
+msgstr "Task"
+
+msgid "task_tasks_with_deadline"
+msgstr "Avec date de fin"
+
+msgid "task_tasks_without_deadline"
+msgstr "Sans date de fin"

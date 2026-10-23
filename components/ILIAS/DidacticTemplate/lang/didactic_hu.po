@@ -1,0 +1,153 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: didactic\n"
+
+msgid "activate_exclusive_template"
+msgstr "Alapértelmezetten őszülő"
+
+msgid "activate_exclusive_template_info"
+msgstr "A standard sablon nem lesz elérhető ahol ez a sablon aktív."
+
+msgid "activate_local_didactic_template"
+msgstr "Alkalmazás hatásköre"
+
+msgid "activate_local_didactic_template_info"
+msgstr "Ennek a didaktikai sablonnak a használata ezen alterületekre korlátozódik."
+
+msgid "didactic_activated_msg"
+msgstr "Bekapcsolt didaktikai sablonok"
+
+msgid "didactic_adm_tab"
+msgstr "Didaktikai sablonok"
+
+msgid "didactic_applicable_for"
+msgstr "Alkalmazható ehhez:"
+
+msgid "didactic_auto_generated"
+msgstr "Automatikusan létrehozott"
+
+msgid "didactic_available_templates"
+msgstr "Elérhető didaktikai sablonok"
+
+msgid "didactic_back_to_overview"
+msgstr "Vissza az áttekintéshez"
+
+msgid "didactic_cannot_delete_auto_generated"
+msgstr "Automatikusan létrehozott didaktikai sablon nem törölhető."
+
+msgid "didactic_cannot_delete_auto_generated_confirmation"
+msgstr "Legalább egy didaktikai sablont automatikusan hoztak létre, így nem törölhető."
+
+msgid "didactic_confirm_apply_new_template"
+msgstr "Biztos, hogy alkalmazza a kiválasztott oktatási sablont? Így minden jelenlegi jogosultsági beállítás el fog veszni!"
+
+msgid "didactic_confirm_delete_msg"
+msgstr "Biztos, hogy törli az alábbi didaktikai sablonokat?"
+
+msgid "didactic_copy_suc_message"
+msgstr "Didaktikai sablon másolása"
+
+msgid "didactic_deactivated_msg"
+msgstr "Kikapcsolt didaktikai sablonok"
+
+msgid "didactic_default_type"
+msgstr "Alapértelmezett"
+
+msgid "didactic_default_type_info"
+msgstr "Alapértelmezett beállítások használata."
+
+msgid "didactic_delete_msg"
+msgstr "Törölt didaktikai sablon."
+
+msgid "didactic_do_export"
+msgstr "Export"
+
+msgid "didactic_edit_tpl"
+msgstr "Oktatási sablon módosítása"
+
+msgid "didactic_filter_with_icon"
+msgstr "Ikonnak"
+
+msgid "didactic_filter_without_icon"
+msgstr "Ikon nélkü"
+
+msgid "didactic_global"
+msgstr "Globális"
+
+msgid "didactic_icon"
+msgstr "Ikon"
+
+msgid "didactic_icon_error"
+msgstr "Ikon csak tárolóobjektumokhoz rendelhető."
+
+msgid "didactic_icon_info"
+msgstr "Ez az ikon jelenik meg az összes, ezt a sablont használó objektumnál. Az ‘Egyedi ikon’-nal ez felülírható. Ikon csak tárolóobjektumokhoz rendelhető (például kurzus, kategória)."
+
+msgid "didactic_import_btn"
+msgstr "Didaktikai sablonok importálása"
+
+msgid "didactic_import_failed"
+msgstr "Didaktikai sablon importálása sikertelen, hibaüzenete:"
+
+msgid "didactic_import_success"
+msgstr "Sikeresen importált didaktikai sablon"
+
+msgid "didactic_import_table_title"
+msgstr "Didaktikai sablon importálása"
+
+msgid "didactic_install_info"
+msgstr "Általános információk"
+
+msgid "didactic_local"
+msgstr "Helyi"
+
+msgid "didactic_not_changed"
+msgstr "Az oktatási sablon beállítása változatlan."
+
+msgid "didactic_scope"
+msgstr "Hatókör"
+
+msgid "didactic_scope_list_header"
+msgstr "Korlátozva erre:"
+
+msgid "didactic_selected_tpl_option"
+msgstr "Alkalmazott oktatási sablon:"
+
+msgid "didactic_template_applied"
+msgstr "Alkalmazott oktatási sablon."
+
+msgid "didactic_template_update_import"
+msgstr "Didaktikai sablon frissítése"
+
+msgid "didactic_template_update_import_info"
+msgstr "Tulajdonságok ettől az importtól függően módosulnak. A már ezt a sablon használó objektumok nem módosulnak."
+
+msgid "didactic_translation_add_languages"
+msgstr "Nyelv hozzáadása"
+
+msgid "dtpl_obj_type_info"
+msgstr "Az a didaktikai sablon nem alkalmazható erre az objektumtípusra."
+
+msgid "effective_form"
+msgstr "Sablon hatályos innentől:"
+
+msgid "grp_closed"
+msgstr "Zárt csoport"
+
+msgid "grp_closed_info"
+msgstr "A csoportot csak tagjaik láthatják."
+
+msgid "more_translations"
+msgstr "További fordítások"
+
+msgid "sess_closed"
+msgstr "Zárt esemény"
+
+msgid "sess_closed_info"
+msgstr "Az eseményt csak a résztvevőik láthatják."

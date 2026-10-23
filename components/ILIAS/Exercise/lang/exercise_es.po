@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: exercise\n"
+
+msgid "exc_admin_settings"
+msgstr "Administración de ejercicios"
+
+msgid "exc_comment"
+msgstr "Comentario de evaluación"
+
+msgid "exc_comment_for_learner"
+msgstr "Comentario de evaluación"
+
+msgid "exc_failed"
+msgstr "Suspenso"
+
+msgid "exc_feedback_from_tutor"
+msgstr "Evaluación del tutor"
+
+msgid "exc_grading"
+msgstr "Calificación"
+
+msgid "exc_mark"
+msgstr "Nota"
+
+msgid "exc_notgraded"
+msgstr "No calificado"
+
+msgid "exc_passed"
+msgstr "Aprobado"
+
+msgid "exc_send_mail"
+msgstr "Enviar como correo"
+
+msgid "exc_start_date_should_be_before_end_date"
+msgstr "La hora de inicio debe ser anterior a la fecha límite."
+
+msgid "exc_your_submission"
+msgstr "Su entrega"

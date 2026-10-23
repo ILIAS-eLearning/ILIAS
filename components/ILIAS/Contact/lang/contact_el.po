@@ -1,0 +1,25 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: el\n"
+"Language-Team: Greek\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: contact\n"
+
+#, fuzzy
+msgid "contact_awrn_ap_contacts"
+msgstr "Approved Contacts"
+
+#, fuzzy
+msgid "contact_awrn_ap_contacts_info"
+msgstr "All contacts approved by the user are listed."
+
+#, fuzzy
+msgid "contact_awrn_req_contacts"
+msgstr "Contact Requests"
+
+#, fuzzy
+msgid "contact_awrn_req_contacts_info"
+msgstr "All contact requests are listed."

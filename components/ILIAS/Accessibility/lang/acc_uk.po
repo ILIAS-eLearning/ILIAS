@@ -1,0 +1,177 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: uk\n"
+"Language-Team: Ukrainian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: acc\n"
+
+#, fuzzy
+msgid "acc_add_document_btn_label"
+msgstr "Add Document"
+
+#, fuzzy
+msgid "acc_crit_type_usr_language"
+msgstr "Profile Language"
+
+#, fuzzy
+msgid "acc_criterion_assignment_must_be_unique_insert"
+msgstr "You cannot attach this criterion with this value. There is already an identical criterion attached."
+
+#, fuzzy
+msgid "acc_criterion_assignment_must_be_unique_update"
+msgstr "You cannot change the criterion as desired. There is already an identical criterion attached."
+
+#, fuzzy
+msgid "acc_ctrl_cpt_txt"
+msgstr "Accessibility Control Concept"
+
+#, fuzzy
+msgid "acc_deleted_documents_p"
+msgstr "The documents have been deleted."
+
+#, fuzzy
+msgid "acc_deleted_documents_s"
+msgstr "The document has been deleted."
+
+#, fuzzy
+msgid "acc_doc_crit_attached"
+msgstr "The criterion has been attached."
+
+#, fuzzy
+msgid "acc_doc_crit_changed"
+msgstr "The criterion has been changed."
+
+#, fuzzy
+msgid "acc_doc_crit_detached"
+msgstr "The criterion has been detached."
+
+#, fuzzy
+msgid "acc_doc_delete"
+msgstr "Delete Document"
+
+#, fuzzy
+msgid "acc_doc_detach_crit_confirm_title"
+msgstr "Detach Criterion"
+
+#, fuzzy
+msgid "acc_doc_sure_detach_crit"
+msgstr "Are your sure you want to detach the criterion?"
+
+#, fuzzy
+msgid "acc_document"
+msgstr "Document"
+
+#, fuzzy
+msgid "acc_form_attach_criterion_head"
+msgstr "Attach Criterion"
+
+#, fuzzy
+msgid "acc_form_criterion"
+msgstr "Criterion"
+
+#, fuzzy
+msgid "acc_form_document"
+msgstr "Document"
+
+#, fuzzy
+msgid "acc_form_document_content_changed"
+msgstr "The contents of the uploaded file was purified by ILIAS. Please check the result and upload a new file, if necessary."
+
+#, fuzzy
+msgid "acc_form_document_info"
+msgstr "Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used."
+
+#, fuzzy
+msgid "acc_form_document_new"
+msgstr "Change Content"
+
+#, fuzzy
+msgid "acc_form_document_new_info"
+msgstr "Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used. The existing contents will be replaced."
+
+#, fuzzy
+msgid "acc_form_document_title"
+msgstr "Title"
+
+#, fuzzy
+msgid "acc_form_document_title_info"
+msgstr "Please enter a title for the document."
+
+#, fuzzy
+msgid "acc_form_edit_criterion_head"
+msgstr "Edit Criterion Assignment"
+
+#, fuzzy
+msgid "acc_form_edit_doc_head"
+msgstr "Edit Document"
+
+#, fuzzy
+msgid "acc_form_new_doc_head"
+msgstr "Create Document"
+
+#, fuzzy
+msgid "acc_forward_mail"
+msgstr "Forward Mail"
+
+#, fuzzy
+msgid "acc_function"
+msgstr "Function"
+
+#, fuzzy
+msgid "acc_last_rep_visited"
+msgstr "Repository/Last Visited"
+
+#, fuzzy
+msgid "acc_saved_sorting"
+msgstr "The sorting has been saved."
+
+#, fuzzy
+msgid "acc_sure_delete_documents_p"
+msgstr "Are you sure you want to delete the selected documents?"
+
+#, fuzzy
+msgid "acc_sure_delete_documents_s"
+msgstr "Are you sure you want to delete the document?"
+
+#, fuzzy
+msgid "acc_tbl_docs_action_add_criterion"
+msgstr "Add Criterion"
+
+#, fuzzy
+msgid "acc_tbl_docs_cell_not_criterion"
+msgstr "No criterion assigned"
+
+#, fuzzy
+msgid "acc_tbl_docs_head_created"
+msgstr "Creation Date"
+
+#, fuzzy
+msgid "acc_tbl_docs_head_criteria"
+msgstr "Criteria"
+
+#, fuzzy
+msgid "acc_tbl_docs_head_last_change"
+msgstr "Last Change"
+
+#, fuzzy
+msgid "acc_tbl_docs_head_sorting"
+msgstr "Sorting"
+
+#, fuzzy
+msgid "acc_tbl_docs_head_title"
+msgstr "Title"
+
+#, fuzzy
+msgid "acc_tbl_docs_title"
+msgstr "Documents"
+
+#, fuzzy
+msgid "acc_tree_off"
+msgstr "Tree Off"
+
+#, fuzzy
+msgid "acc_tree_on"
+msgstr "Tree On"

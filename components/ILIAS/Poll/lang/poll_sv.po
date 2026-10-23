@@ -1,0 +1,232 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: poll\n"
+
+msgid "poll_absolute"
+msgstr "Aktuella röster"
+
+msgid "poll_activation_online_info"
+msgstr "Välj denna inställning för att göra röstning tillgänglig för användare."
+
+msgid "poll_add"
+msgstr "Skapa omröstning"
+
+msgid "poll_anonymous_warning"
+msgstr "Ditt namn visas inte i röstningsresultaten."
+
+msgid "poll_answer"
+msgstr "Svar"
+
+#, fuzzy
+msgid "poll_answer_selected_alt_text"
+msgstr "Selected"
+
+msgid "poll_answers"
+msgstr "Möjliga svar"
+
+msgid "poll_barchart"
+msgstr "Balkdiagram"
+
+msgid "poll_block_message_already_voted"
+msgstr "Du har redan röstat."
+
+msgid "poll_block_message_no_answers"
+msgstr "Denna omröstning är inte slutförd."
+
+msgid "poll_block_results_available_on"
+msgstr "Resultaten kommer att publiceras på %s."
+
+#, fuzzy
+msgid "poll_cannot_set_online_no_answers"
+msgstr "The status cannot be changed to &quot;online&quot; because this poll has no question!"
+
+#, fuzzy
+msgid "poll_chart_votes"
+msgstr "Votes"
+
+msgid "poll_comments"
+msgstr "Kommentarer"
+
+msgid "poll_copy"
+msgstr "Kopiera omröstning"
+
+msgid "poll_delete_votes"
+msgstr "Radera alla röster"
+
+msgid "poll_delete_votes_sure"
+msgstr "Är du säker på att du vill radera alla röster?"
+
+msgid "poll_edit"
+msgstr "Redigera omröstning"
+
+#, fuzzy
+msgid "poll_edit_question"
+msgstr "Edit Question"
+
+msgid "poll_image"
+msgstr "Image"
+
+#, fuzzy
+msgid "poll_limit_not_below_answer_count"
+msgstr "The answer limit must be below the number of possible answers."
+
+#, fuzzy
+msgid "poll_limit_number_of_answers"
+msgstr "Limit Number of Answers per Participant"
+
+msgid "poll_max_number_of_answers"
+msgstr "Maximalt antal svar per deltagare"
+
+#, fuzzy
+msgid "poll_max_number_of_answers_info"
+msgstr "You may choose up to %s answers."
+
+msgid "poll_mode"
+msgstr "Mode"
+
+msgid "poll_mode_anonymous"
+msgstr "Anonym"
+
+msgid "poll_mode_anonymous_info"
+msgstr "Avgivna Votes kan inte tilldelas deltagare."
+
+msgid "poll_mode_personal"
+msgstr "Personligt anpassad"
+
+msgid "poll_mode_personal_info"
+msgstr "En lista över deltagare med avgivna röster är tillgänglig med tillräckliga rättigheter."
+
+msgid "poll_new"
+msgstr "Skapa ny omröstning"
+
+msgid "poll_non_anonymous_warning"
+msgstr "Ditt namn och din röst syns i omröstningsresultaten för administratörer."
+
+#, fuzzy
+msgid "poll_notification_activated"
+msgstr "Notification Activated"
+
+#, fuzzy
+msgid "poll_notification_deactivated"
+msgstr "Notification Deactivated"
+
+msgid "poll_notification_subscribe"
+msgstr " Aktivera avisering"
+
+msgid "poll_notification_unsubscribe"
+msgstr "Avaktivera avisering"
+
+msgid "poll_percentage"
+msgstr "Aktuell andel"
+
+#, fuzzy
+msgid "poll_population"
+msgid_plural "poll_population_plural"
+msgstr[0] "%s deltagare"
+msgstr[1] "%s deltagare"
+
+#, fuzzy
+msgid "poll_population_singular"
+msgstr "1 Participant"
+
+msgid "poll_question"
+msgstr "Fråga"
+
+msgid "poll_result"
+msgstr "Röstningsresultat"
+
+msgid "poll_result_answers"
+msgstr "Voices"
+
+msgid "poll_result_sorting"
+msgstr "Sortering"
+
+msgid "poll_result_sorting_answers"
+msgstr "I den ordning som svaren kommer"
+
+msgid "poll_result_sorting_votes"
+msgstr "Efter antal röster (fallande)"
+
+msgid "poll_result_users"
+msgstr "Deltagare"
+
+msgid "poll_show_results_as"
+msgstr "Visa resultat som"
+
+msgid "poll_sortorder"
+msgstr "Sortering"
+
+#, fuzzy
+msgid "poll_stacked_chart"
+msgstr "Stacked Chart"
+
+msgid "poll_view_results"
+msgstr "Visa resultat"
+
+msgid "poll_view_results_after_period"
+msgstr "Efter omröstningsperiod"
+
+msgid "poll_view_results_after_period_impossible"
+msgstr "Omröstningsperioden är inte tidsbegränsad."
+
+msgid "poll_view_results_after_vote"
+msgstr "Efter omröstning"
+
+msgid "poll_view_results_always"
+msgstr "Alltid"
+
+msgid "poll_view_results_never"
+msgstr "Aldrig"
+
+msgid "poll_vote"
+msgstr "Rösta"
+
+#, fuzzy
+msgid "poll_vote_error_multi"
+msgid_plural "poll_vote_error_multi_plural"
+msgstr[0] " Välj högst %s svar."
+msgstr[1] " Välj högst %s svar."
+
+#, fuzzy
+msgid "poll_vote_error_multi_no_answer"
+msgstr "Please select at least 1 answer."
+
+msgid "poll_vote_error_single"
+msgstr "Välj ett svar."
+
+msgid "poll_vote_notification_body"
+msgstr "Följande omröstning har fått en röst"
+
+msgid "poll_vote_notification_link"
+msgstr "Länk till omröstningen"
+
+msgid "poll_vote_notification_reason"
+msgstr "Du får detta meddelande eftersom du har aktiverat meddelandefunktionen för ovanstående omröstning."
+
+msgid "poll_vote_notification_subject"
+msgstr "Röstning \"%s\""
+
+msgid "poll_votes_no_edit"
+msgstr "Denna omröstning innehåller redan röster. Den kan inte redigeras så länge du inte tar bort rösterna."
+
+msgid "poll_voting_period_and_results"
+msgstr "Röstningsperiod och resultat"
+
+#, fuzzy
+msgid "poll_voting_period_ended_info"
+msgstr "The voting period ended %s."
+
+msgid "poll_voting_period_full_info"
+msgstr "Röstning från %s till %s"
+
+msgid "poll_voting_period_info"
+msgstr "Slut på omröstningen"
+
+msgid "poll_voting_period_limited"
+msgstr "Tidsbegränsad omröstningsperiod"

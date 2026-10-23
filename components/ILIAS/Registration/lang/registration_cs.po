@@ -1,0 +1,322 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: registration\n"
+
+msgid "reg_access_limitation_limited_time"
+msgstr "Po registraci přístup pro"
+
+msgid "reg_access_limitation_limited_until"
+msgstr "Přístup je omezen do"
+
+msgid "reg_access_limitation_missing_mode"
+msgstr "Zvolte prosím mód omezeného přístupu pro všechny role"
+
+msgid "reg_access_limitation_mode"
+msgstr "Mód omezeného přístupu"
+
+msgid "reg_access_limitation_mode_absolute"
+msgstr "Přístup je omezen pevným datem"
+
+msgid "reg_access_limitation_mode_absolute_target"
+msgstr "V platnosti do"
+
+msgid "reg_access_limitation_mode_relative"
+msgstr "Omezený přístup na pevné časové období po registraci"
+
+msgid "reg_access_limitation_mode_relative_target"
+msgstr "Platný pro"
+
+msgid "reg_access_limitation_mode_unlimited"
+msgstr "Bez omezení přístupu"
+
+msgid "reg_access_limitation_none"
+msgstr "Neomezený přístup"
+
+msgid "reg_access_limitation_out_of_date"
+msgstr "Jedna nebo více rolí má prošlé omezení přístupu!"
+
+msgid "reg_access_limitations"
+msgstr "Omezení přístupu"
+
+msgid "reg_add_assignment"
+msgstr "Nové přiřazení"
+
+msgid "reg_added_assignment"
+msgstr "Přidáno nové přiřazení."
+
+msgid "reg_allow_codes"
+msgstr "Povolit kódy"
+
+msgid "reg_allow_codes_info"
+msgstr "Uživatelům je také umožněna registrace pomocí kódů."
+
+msgid "reg_allowed_domains"
+msgstr "Povolené domény emailových adres"
+
+msgid "reg_allowed_domains_info"
+msgstr "Použít * jako zástupný znak a ; jako oddělovač."
+
+msgid "reg_approve"
+msgstr "Registrace se schválením"
+
+msgid "reg_approve_info"
+msgstr "Je-li vybráno, každý nový uživatel musí být  odsouhlasen správcem."
+
+msgid "reg_approve_needs_recipient"
+msgstr "Měl(a) by jste definovat nejméně jednoho uživatele, který bude uvědomován o nových registracích, pokud bude vybrán typ registrace \"Registrace se schválením\"."
+
+msgid "reg_available_roles"
+msgstr "Dostupné role:"
+
+#, fuzzy
+msgid "reg_confirmation_already_confirmed"
+msgstr "The registration is no longer pending, it has already been confirmed."
+
+msgid "reg_confirmation_hash_life_time"
+msgstr "Doba trvání"
+
+msgid "reg_confirmation_hash_life_time_expired"
+msgstr "Potvrzovaní odkaz již není dále platný."
+
+msgid "reg_confirmation_hash_life_time_info"
+msgstr "Vložit dobu trvání (sekundy) potvrzení odkazu."
+
+msgid "reg_confirmation_hash_not_found"
+msgstr "Žádný uživatelský účet nemůže souhlasit potvrzovacímu odkazu."
+
+#, fuzzy
+msgid "reg_confirmation_hash_not_passed"
+msgstr "The confirmation link is incomplete."
+
+msgid "reg_confirmation_link_successful"
+msgstr "Úspěšně jste odeslali požadavek na účet ILIAS. Registraci musíte potvrdit kliknutím na potvrzovací odkaz."
+
+msgid "reg_default"
+msgstr "Výchozí"
+
+msgid "reg_deleted_assignment"
+msgstr "Smazaná přidělení."
+
+msgid "reg_direct"
+msgstr "Přímá registrace"
+
+msgid "reg_direct_info"
+msgstr "Je-li vybráno, každý požadavek registrace nového uživatele je automaticky schválen."
+
+msgid "reg_disabled"
+msgstr "Registrace není možná"
+
+msgid "reg_domain"
+msgstr "Doména"
+
+#, fuzzy
+msgid "reg_domain_already_assigned_p"
+msgstr "The domains '%s' were already entered for another role."
+
+#, fuzzy
+msgid "reg_domain_already_assigned_s"
+msgstr "The domain '%s' was already entered for another role. "
+
+msgid "reg_email"
+msgstr "Automatické přidělení role"
+
+msgid "reg_email_domains"
+msgstr "Platí následující domény e-mailové adresy: %s"
+
+msgid "reg_email_domains_code"
+msgstr "S registračním kódem je platná každá E-mailová adresa."
+
+msgid "reg_email_role_assignment"
+msgstr "Přidělení role doménou"
+
+msgid "reg_fixed"
+msgstr "Výber ze specifikovaného seznamu"
+
+msgid "reg_info_pwd"
+msgstr "Je-li zapnuto, heslo bude zasláno automaticky novým uživatelům E-mailem."
+
+msgid "reg_mail_body_activation"
+msgstr "chcete-li aktivovat účet a potvrdit vlastnictví této e-mailové adresy klikněte na odkaz níže:"
+
+msgid "reg_mail_body_approve"
+msgstr "Již jste zaregistrován(a) v systému eLearning ILIAS a byl přijat e-mail s údaji Vašeho účtu. Nyní Váš účet byl aktivován správcem."
+
+msgid "reg_mail_body_confirmation"
+msgstr "K potvrzení této registrace vložte uživatelskou správu ILIAS a aktivujte účet."
+
+msgid "reg_mail_body_profile"
+msgstr "Údaje profilu:"
+
+msgid "reg_mail_body_profile_changed"
+msgstr "Váš profil byl změněn!"
+
+msgid "reg_mail_body_pwd_generation"
+msgstr "Váš požadavek registrace bude zkontrolován správcem, a měl by být aktivován do 48 hodin. O odsouhlasení registrace budete informován(a) e-mailem."
+
+msgid "reg_mail_body_reason"
+msgstr "Tento e-mail jste obdržel(a), protože je zapnuto oznamování nových registrací na Váš účet ve správě ILIAS."
+
+msgid "reg_mail_body_timelimit"
+msgstr "Váš účet má omezenou dobu platnosti: %s."
+
+msgid "reg_mail_new_user"
+msgstr "Registrace nového uživatele"
+
+msgid "reg_mail_new_user_body"
+msgstr "Nový uživatel byl registrován."
+
+msgid "reg_mail_new_user_confirmation"
+msgstr "Žádost o potvrzení účtu"
+
+msgid "reg_missing_domain"
+msgstr "Vyplňte prosím všechna pole."
+
+msgid "reg_missing_role"
+msgstr "Vyplňte prosím všechna pole."
+
+msgid "reg_notification"
+msgstr "Oznámení"
+
+msgid "reg_notification_info"
+msgstr "Vložte jedno, nebo více přihlašovacích ID uživatelů (oddělených čárkou), kteří budou informováni o registracích nových uživatelů e-mailem."
+
+msgid "reg_role_access_limitations"
+msgstr "Definovat omezení přístupu rolí pro nově registrované uživatele"
+
+msgid "reg_role_assignment"
+msgstr "Přidělení role"
+
+msgid "reg_role_info"
+msgstr "Přidělené role"
+
+msgid "reg_select_one"
+msgstr "Vyberte prosím jeden údaj."
+
+msgid "reg_selectable_roles"
+msgstr "Zvolitelné role"
+
+msgid "reg_settings_header"
+msgstr "Nastavení nové registrace"
+
+msgid "reg_type"
+msgstr "Typ registrace"
+
+msgid "reg_type_confirmation"
+msgstr "Registrace s potvrzením e-mailem."
+
+msgid "reg_type_confirmation_info"
+msgstr "Tento typ umožňuje autoregistraci uživatelů ale vyžaduje potvrzení aktivace uživatelského účtu emailem. To zabrání autoregistraci do ILIAS s chybnou, nebo neexistující emailovou adresou."
+
+msgid "reg_unknown_recipients"
+msgstr "Následující přihlášení uživatelů nejsou platné:"
+
+msgid "registration_code"
+msgstr "Kód"
+
+msgid "registration_code_not_valid"
+msgstr "Daný registrační kód je neplatný, nebo již byl použit."
+
+msgid "registration_code_optional_info"
+msgstr "Pokud máte registrační kód ILIAS, můžete jej nyní vložit."
+
+msgid "registration_code_required_info"
+msgstr "Pro proces registrace je předdefinovaný kód povinný."
+
+msgid "registration_code_role_info"
+msgstr "Pokud použijete registrační kód, výběr role může být nahrazen kódem."
+
+msgid "registration_codes_access_limitation_all"
+msgstr "Všechno"
+
+msgid "registration_codes_add"
+msgstr "Přidat kódy"
+
+msgid "registration_codes_edit_header"
+msgstr "Přidat kódy"
+
+msgid "registration_codes_export"
+msgstr "Exportovat kódy"
+
+msgid "registration_codes_no_assigned_role"
+msgstr "Žádná předdefinovaná přiřazená role"
+
+msgid "registration_codes_number"
+msgstr "Počet kódů"
+
+msgid "registration_codes_override_global_info"
+msgstr "Tato nastavení mohou být přepsána registračními kódy."
+
+msgid "registration_codes_override_info"
+msgstr "Toto nastavení přepíše všechny hodnoty definované v \"Nastavení registrace\"."
+
+msgid "registration_codes_roles"
+msgstr "Role pro nové účty"
+
+msgid "registration_codes_roles_limitation_none"
+msgstr "Žádné předdefinované omezení přístupu"
+
+msgid "registration_codes_roles_local"
+msgstr "Místní role"
+
+msgid "registration_codes_roles_title"
+msgstr "Role pro nové účty"
+
+msgid "registration_codes_type"
+msgstr "Typ kódu"
+
+msgid "registration_codes_type_ext"
+msgstr "Rozšíření omezených uživatelských účtů"
+
+msgid "registration_codes_type_ext_info"
+msgstr "Kód lze použít pro rozšíření omezených účtů."
+
+msgid "registration_codes_type_reg"
+msgstr "Registrační kód"
+
+msgid "registration_codes_type_reg_info"
+msgstr "Kód může být použit pro registraci, pokud se jedná o nový uživatelský účet"
+
+msgid "registration_disabled_no_access"
+msgstr "Vlastní registrace není povolena. Pokud potřebujete další pomoc, obraťte se správce systému: %s"
+
+msgid "registration_export_codes_no_data"
+msgstr "K exportu nebyly vybrány žádné kódy."
+
+msgid "registration_generated"
+msgstr "Datum vytvoření"
+
+msgid "registration_generated_all"
+msgstr "Všechna data"
+
+msgid "registration_no_valid_role"
+msgstr "Zde není aktuálně žádná platná role pro nové účty. Kontaktuje prosím svého správce."
+
+msgid "registration_reg_type_codes"
+msgstr "Registrace s kódem"
+
+msgid "registration_reg_type_codes_info"
+msgstr "Tento typ umožňuje autoregistraci uživatelů, avšak vyžaduje platný kód."
+
+msgid "registration_roles_all"
+msgstr "Všechny role"
+
+msgid "registration_settings"
+msgstr "Nové registrace"
+
+msgid "registration_tab_codes"
+msgstr "Registrační kódy"
+
+msgid "registration_tab_settings"
+msgstr "Nastavení registrace"
+
+msgid "registration_used"
+msgstr "Datum použití"
+
+msgid "registration_user_new_account_mail"
+msgstr "Upravit e-mail nového účtu"

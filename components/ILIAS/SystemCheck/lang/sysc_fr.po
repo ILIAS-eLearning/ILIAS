@@ -1,0 +1,153 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: sysc\n"
+
+msgid "sysc_action_list_tree"
+msgstr "Créer un dépôt pour l’arborescence du répertoire"
+
+msgid "sysc_action_repair"
+msgstr "Réparer"
+
+msgid "sysc_action_show_tree"
+msgstr "Montrer le dépôt de l’arborescence du répertoire"
+
+msgid "sysc_action_validate"
+msgstr "Valider"
+
+msgid "sysc_administrate_deleted"
+msgstr "Administrer les Objets Supprimés"
+
+msgid "sysc_btn_tree_missing"
+msgstr "Restaurer les entrées manquantes"
+
+msgid "sysc_btn_tree_structure"
+msgstr "Recréer structure arborescente"
+
+msgid "sysc_completed_num"
+msgstr "Tâches Accomplies"
+
+msgid "sysc_cron_empty_trash"
+msgstr "Supprimer la Corbeille"
+
+msgid "sysc_cron_empty_trash_desc"
+msgstr "Si activé, la poubelle référentiel sera purgé par des critères donnés (âge, type d'objet ou le nombre maximum d'objets)."
+
+msgid "sysc_failed_num"
+msgstr "Tâches Non Accomplies"
+
+msgid "sysc_groups"
+msgstr "Groupes de Contrôle du Système"
+
+msgid "sysc_grp_tree"
+msgstr "Arborescence du Catalogue"
+
+msgid "sysc_grp_tree_desc"
+msgstr "Effectue une analyse de l'arborescence et imprime tous les nÅ“uds de l'arborescence ainsi que les données d'analyse."
+
+msgid "sysc_message_success"
+msgstr "Aucune erreur trouvée"
+
+msgid "sysc_message_tree_missing_confirm"
+msgstr "Voulez-vous vraiment restaurer les entrées manquantes dans la structure arborescente de répertoires?"
+
+msgid "sysc_message_tree_structure_confirm"
+msgstr "Voulez-vous vraiment réparer la structure arborescente? Veuillez créer une sauvegarde de la base de données avant de continuer."
+
+msgid "sysc_overview"
+msgstr "Aperçu"
+
+msgid "sysc_status_completed"
+msgstr "Complété"
+
+msgid "sysc_status_failed"
+msgstr "Échec"
+
+msgid "sysc_status_na"
+msgstr "Non Exécuté"
+
+msgid "sysc_status_running"
+msgstr "En cours"
+
+msgid "sysc_tab_trash"
+msgstr "Objets Supprimés"
+
+msgid "sysc_task_overview"
+msgstr "Tâches"
+
+msgid "sysc_task_structure"
+msgstr "Structure arborescente"
+
+msgid "sysc_task_structure_desc"
+msgstr "Analyse et corrige la structure arborescente des répertoires."
+
+msgid "sysc_task_tree_dump"
+msgstr "Arborescence de listes"
+
+msgid "sysc_task_tree_dump_desc"
+msgstr "Analyse et imprime la structure arborescente des répertoires"
+
+msgid "sysc_task_tree_duplicates"
+msgstr "Dupliquer les entrées dans l’arborescence de répertoires"
+
+msgid "sysc_task_tree_duplicates_desc"
+msgstr "Rechercher des entrées dupliquées dans la structure arborescente de répertoires."
+
+msgid "sysc_task_tree_missing"
+msgstr "Entrées manquantes dans l’arborescence de répertoires"
+
+msgid "sysc_task_tree_missing_desc"
+msgstr "Recherche et répare les entrées manquantes dans l’arborescence de répertoires."
+
+msgid "sysc_task_tree_missing_reference"
+msgstr "Références des objets manquants"
+
+msgid "sysc_task_tree_missing_reference_desc"
+msgstr "Recherche et répare les références d’objets manquants dans l’arborescence de répertoires."
+
+msgid "sysc_task_tree_missing_tree"
+msgstr "Entrées manquantes dans l’arborescence de répertoires"
+
+msgid "sysc_task_tree_missing_tree_desc"
+msgstr "Recherche et répare les entrées manquantes dans l’arborescence de répertoires."
+
+msgid "sysc_trash_action"
+msgstr "Action"
+
+msgid "sysc_trash_limit_age"
+msgstr "Âge limite"
+
+msgid "sysc_trash_limit_num"
+msgstr "Nombre limite"
+
+msgid "sysc_trash_limit_type"
+msgstr "Limite par type"
+
+msgid "sysc_trash_remove"
+msgstr "Retirer les Objets Supprimés du système"
+
+msgid "sysc_trash_remove_info"
+msgstr "Retire les objets supprimés (poubelle bin) du système"
+
+msgid "sysc_trash_restore"
+msgstr "Restaurer des Objets Supprimés"
+
+msgid "sysc_trash_restore_info"
+msgstr "Restaure des objets supprimés de la poubelle et les déplace le vers le dossier 'Objets Restaurés'"
+
+msgid "sysc_tree_duplicate_failures"
+msgstr "Found duplicate entries in tree structure. Number of duoplicate entries"
+
+msgid "sysc_tree_list_failures"
+msgstr "Un dépôt de l’arborescence du répertoire a été créé. Nombre d’erreurs dans la structure arborescente:"
+
+msgid "sysc_tree_missing_failures"
+msgstr "Entrées manquantes trouvées dans la structure arborescente. Nombre d’entrées manquantes:"
+
+msgid "sysc_tree_structure_failures"
+msgstr "Nombre d’échecs dans la structure arborescente (relation parent):"

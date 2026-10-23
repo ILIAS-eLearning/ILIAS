@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: classification\n"
+
+msgid "clsfct_back_to_cat"
+msgstr "Zurück zur Kategorie"
+
+msgid "clsfct_block_info"
+msgstr "Ihre Auswahl filtert die Objekte."
+
+msgid "clsfct_block_title"
+msgstr "Auswahl nach Themen"
+
+msgid "clsfct_content_no_match"
+msgstr "Es wurden keine Objekte für die ausgewählten Kriterien gefunden."
+
+msgid "clsfct_content_title"
+msgstr "Zu Ihrer Auswahl passende Objekte."
+
+msgid "clsfct_selected_objects"
+msgstr "Ausgewählte Objekte"

@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: init\n"
+
+msgid "init_error_authentication_fail"
+msgstr "Identyfikacja nie udała się."
+
+msgid "init_error_maintenance"
+msgstr "Ze względu na prace konserwacyjne serwer jest niedostępny. Prosimy o wyrozumiałość."
+
+msgid "init_error_redirect_click"
+msgstr "Kliknij, aby kontynuować."
+
+msgid "init_error_redirect_info"
+msgstr "Przekierowania nie są obsługiwane przez kontekst."

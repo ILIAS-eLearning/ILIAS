@@ -1,0 +1,54 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr\n"
+"Language-Team: Turkish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: pwassist\n"
+
+msgid "password_assistance"
+msgstr "Şifre Yardımı"
+
+#, fuzzy
+msgid "pwassist_disabled_no_access"
+msgstr "Password assistance is not enabled. Please contact the system administration for further assistance: %s"
+
+msgid "pwassist_enter_email"
+msgstr "e-posta adresinizi girin ve. \\ Nilias bu adrese bir e-posta göndereceğiz formu doldurarak gönderiniz. E-posta Bu e-posta adresi kayıtlı tüm kullanıcı adlarını içerir. \\ NChoose uygun bir kullanıcı adı ve yeni bir şifre almak için şifre servisini kullanmak. Bu hizmet ile herhangi bir e-posta almak istemiyorsanız kurs yöneticisi veya% 1 $ s ile iletişim kurunuz."
+
+msgid "pwassist_enter_username_and_email"
+msgstr "aşağıda gösterilen alanlara bir kullanıcı adı ve ilişkili e-posta adresini girin. \\ Nilias bu e-posta adresine bir mesaj gönderecektir. Mesaj bir web sayfası için bir adres içerir, nereye kullanıcı hesabı için yeni bir parola girebilirsiniz. \\ Nin durumunda bu formu kullanarak kullanıcı hesabı için bir parola atamak mümkün değildir, kurs yönetimi ile temas ya da bir e-posta göndermek % 1 $ s için."
+
+msgid "pwassist_enter_username_and_new_password"
+msgstr "kullanıcı adınızı ve aşağıda alanlarına yeni parolayı girin."
+
+msgid "pwassist_login_not_match"
+msgstr "başka bir kullanıcı adı giriniz. Girdiğiniz \\ nBu kullanıcı adı şifre yardımı için sormuştu hangi kullanıcı adı eşleşmiyor."
+
+msgid "pwassist_mail_body"
+msgstr "$ S \\ n \\ nBu mesaj ILIAS sunucu tarafından otomatik olarak oluşturuldu \\ n \\ t% 2 $ s \\ n \\ nBu (veya% 3 birisiyle $ \\ n \\ t% 1: kullanıcı hesabınız için yeni bir şifre Kayıt s) \"% 4 $ s\" kullanıcı hesabı için parola yardım istedi \\ n \\ nLütfen aşağıda sıralanan koşulları dikkatle kontrol edin ve buna göre hareket edin:. Eğer ILIAS sunucudaki şifre yardımı formu kullanılmıştır \\ n \\ n-varsa kaza: \\ nDelete bu mail \\ n \\ n-Eğer bu ILIAS sunucuda şifre yardım istedi asla, kesin:.. şifre yardım istedi $ s \\ n \\ n-Eğer \\ nLütfen iletişim% 5, şu şekilde hareket edin: \\ n \\ n1. Tarayıcınızı açın. \\ N \\ n2. Tarayıcınızda aşağıdaki adresi girin: \\ n \\ t% 6 $ s \\ n \\ nImportant: adresi tek bir çizgidir. Eğer birden fazla satır içine bu adresi bölünmüş görürseniz, ardından e-posta programı bu satır sonlarını eklemiştir. \\ N \\ n3. Tarayıcınız tarafından gösterilen web sayfasında, kullanıcı hesabınız için yeni bir şifre güvenlik nedenleriyle, sadece tam bir kez ve yalnızca sınırlı bir süre için yukarıdaki üç adımı gerçekleştirebilirsiniz. \\ N \\ nLütfen not girin. Daha sonra adres geçersiz olur ve tekrar ILIAS sunucuda şifre yardımı sayfasını kullanmak zorunda."
+
+msgid "pwassist_mail_sent"
+msgstr "Bir mesaj% 1 $ s gönderildi. \\ NLütfen posta kutusunu işaretleyin."
+
+#, fuzzy
+msgid "pwassist_mail_sent_generic"
+msgstr "A message has been sent to the email address defined in ILIAS.\\nPlease check your mail box."
+
+msgid "pwassist_mail_subject"
+msgstr "ILIAS Şifre Yardımı"
+
+msgid "pwassist_password_assigned"
+msgstr "parola başarıyla kullanıcı \"% 1 $ s\" atanmıştır."
+
+msgid "pwassist_session_expired"
+msgstr "yine bu formu doldurunuz. \\ NDışa şifre yardım oturumunuzun süresi doldu. Eğer birden fazla kez size e-posta ile gönderilen linki kullanmaya çalıştım, çünkü bu olmuş olabilir, veya bağlantıyı size gönderilen beri çok zaman geçti çünkü."
+
+msgid "pwassist_username_mail_body"
+msgstr "Bu verilen e-posta adresi için bulunan aktif kullanıcı adı: \\ n% s \\ n \\ nBu mesajı şu ILIAS Server tarafından otomatik olarak oluşturulmuştur \\ n \\ t% s \\ n \\ nBu (veya IP% olan biri ler) e-posta adresi '% s' için unutulmuş kullanıcı için destek talep etmiş önerdiği gibi \\ n \\ nLütfen aşağıdaki ve hareket kontrol :: \\ n \\ n-İstemeden Bu e-posta istedi:. \\ nDelete bu E-posta \\ n \\ n-Sen bu e-posta talep asla, eminiz:.. \\ nLütfen temas% s aşağıdaki gibi \\ n \\ n-Eğer bu e-posta talep, lütfen devam :: \\ n \\ n1. Internet tarayıcınızı açın. \\ N \\ n2. Aşağıdaki url girin: \\ n \\ t% s \\ n \\ nImportant: adresi tek bir çizgidir. Eğer birden fazla satır içine bu adresi bölünmüş görürseniz, ardından e-posta programı bu satır sonlarını eklemiştir. \\ N \\ n3. Tarayıcınız artık Şifre-Servis gösterir. Adlarını biri ve yeni bir şifre almak için uygun e-posta adresi ile birlikte bu sayfayı kullanın."
+
+#, fuzzy
+msgid "unassist_disabled_no_access"
+msgstr "Username assistance is not enabled. Please contact the system administration for further assistance: %s"

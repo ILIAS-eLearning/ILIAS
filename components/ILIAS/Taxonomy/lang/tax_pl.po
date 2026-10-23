@@ -1,0 +1,78 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: tax\n"
+
+msgid "obj_taxn"
+msgstr "Węzły"
+
+msgid "tax_add_taxonomy"
+msgstr "Dodaj klasyfikację"
+
+msgid "tax_added"
+msgstr "Utworzono klasyfikację."
+
+msgid "tax_admin_settings_repository"
+msgstr "Klasyfikacje dostępnych zasobów"
+
+msgid "tax_alphabetical"
+msgstr "Alfabetycznie"
+
+msgid "tax_assigned_items"
+msgstr "Przydzielone wpisy"
+
+msgid "tax_confirm_deletion"
+msgstr "Czy naprawdę chcesz usunąć całą klasyfikację ze wszystkimi powiązaniami?"
+
+msgid "tax_create_node"
+msgstr "Utwórz węzeł"
+
+msgid "tax_item_sorting"
+msgstr "Wspieraj sortowanie przydzielonych wpisów"
+
+msgid "tax_manual"
+msgstr "Ręcznie"
+
+msgid "tax_max_one_tax"
+msgstr "Tutaj możesz użyć tylko jednej klasyfikacji."
+
+msgid "tax_new_tax_node"
+msgstr "Nowy węzeł"
+
+msgid "tax_node"
+msgstr "Węzły"
+
+msgid "tax_node_sorting"
+msgstr "Sortowanie węzłów"
+
+msgid "tax_nodes"
+msgstr "Węzły"
+
+msgid "tax_order"
+msgstr "Kolejność"
+
+msgid "tax_order_nr"
+msgstr "Numer porządkowy"
+
+msgid "tax_please_select_target"
+msgstr "Wybierz element docelowy!"
+
+msgid "tax_target_within_nodes"
+msgstr "Element docelowy nie może być podwęzłem wybranego elementu."
+
+msgid "tax_tax_assignment"
+msgstr "Przydział klasyfikacji"
+
+msgid "tax_tax_deleted"
+msgstr "Usunięto klasyfikację."
+
+msgid "tax_tax_settings"
+msgstr "Ustawienia dotyczące klasyfikacji"
+
+msgid "tax_taxonomy"
+msgstr "Klasyfikacja"

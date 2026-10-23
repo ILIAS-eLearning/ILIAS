@@ -1,0 +1,18 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: usr\n"
+
+msgid "user_action"
+msgstr "ユーザアクション"
+
+msgid "user_actions"
+msgstr "ユーザアクション"
+
+msgid "user_actions_activation_info"
+msgstr "応答サービスが有効で全ての前提条件(例 アクセス要件)が与えられている場合はユーザへアクションがリストされるだけです。"

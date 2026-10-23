@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: init\n"
+
+msgid "init_error_authentication_fail"
+msgstr "Authenticatie mislukt."
+
+msgid "init_error_maintenance"
+msgstr "De server is niet beschikbaar vanwege onderhoud. Onze excuses voor het ongemak."
+
+msgid "init_error_redirect_click"
+msgstr "Klik hier om door te gaan."
+
+msgid "init_error_redirect_info"
+msgstr "Omleiding wordt niet ondersteund door context."

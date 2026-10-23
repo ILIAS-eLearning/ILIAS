@@ -1,0 +1,81 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: exp\n"
+
+msgid "exp_create_file"
+msgstr "エクスポートファイルを作成"
+
+msgid "exp_error_disabled"
+msgstr "コンテナのエクスポート機能は使用できません。システム管理者へ相談できます。"
+
+msgid "exp_error_too_many_objects"
+msgstr "エクスポートは許容オブジェクト最大数 (%1)を超えています。もっと少ないオブジェクト数を選択して下さい。"
+
+msgid "exp_export_dropdown"
+msgstr "エクスポート"
+
+msgid "exp_export_files"
+msgstr "エクスポートファイル"
+
+msgid "exp_export_single_option"
+msgstr "エクスポート %"
+
+msgid "exp_file_created"
+msgstr "エクスポートファイルが作成されました。"
+
+msgid "exp_format_dropdown-csv"
+msgstr "HTML形式"
+
+msgid "exp_format_dropdown-html"
+msgstr "XLS形式"
+
+msgid "exp_format_dropdown-xls"
+msgstr "XML形式"
+
+msgid "exp_format_dropdown-xml"
+msgstr "HTML"
+
+msgid "exp_html"
+msgstr "HTML"
+
+msgid "exp_import_validation_err_no_matching_xsd"
+msgstr "バージョン %s には有効なスキーマファイルがありません。"
+
+msgid "exp_not_public_access_status"
+msgstr "未公開"
+
+msgid "exp_print_pdf"
+msgstr "印刷/PDF"
+
+msgid "exp_print_pdf_info"
+msgstr "PDFを作成するには印刷ビューが表示されている間に\"PDFで印刷\" のターゲットを使用してください。"
+
+msgid "exp_public_access_status"
+msgstr "'Info'-タブの属性"
+
+msgid "exp_really_delete"
+msgstr "本当にこのエクスポートファイルを削除しますか?"
+
+msgid "exp_show_print_view"
+msgstr "印刷View表示"
+
+msgid "exp_xml"
+msgstr "XML"
+
+msgid "export_created"
+msgstr "新しいエクスポートファイルが作成されました。"
+
+msgid "export_files_deleted"
+msgstr "選択のエクスポートファイルは削除されました。"
+
+msgid "export_options"
+msgstr "エクスポートオプション"
+
+msgid "export_type"
+msgstr "エクスポートタイプ"

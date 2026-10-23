@@ -1,0 +1,93 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: adve\n"
+
+msgid "advanced_editing_excass_settings"
+msgstr "演習割り当て設定"
+
+msgid "advanced_editing_tst_editing"
+msgstr "追加問題コンテンツ用のページエディタ"
+
+msgid "advanced_editing_tst_editing_desc"
+msgstr "フィードバックとヒントテキスト編集用のILIASページエディタをアクティブにする。"
+
+msgid "adve_activation"
+msgstr "アクティベーション"
+
+msgid "adve_auto_url_linking"
+msgstr "URL自動リンク"
+
+msgid "adve_auto_url_linking_info"
+msgstr "テキスト段落内に\"http://..\"のようなURLを識別させて自動的にその周りにリンクを作成します。"
+
+msgid "adve_autosave"
+msgstr "自動保存期間"
+
+msgid "adve_autosave_info"
+msgstr "コンテンツの自動保存。期間を短くするとサーバの負荷が増えてシステムのパフォマンスが低下します。"
+
+msgid "adve_autosave_info_min_10"
+msgstr "この機能を有効にする際は最短10秒の値を選択して下さい。"
+
+msgid "adve_blocking_mode"
+msgstr "ロックを編集"
+
+msgid "adve_excass_settings"
+msgstr "演習割り当て"
+
+msgid "adve_grp_copa"
+msgstr "Content Pages"
+
+msgid "adve_grp_frm"
+msgstr "Forum"
+
+msgid "adve_grp_glo"
+msgstr "用語集"
+
+msgid "adve_grp_lm"
+msgstr "ILIAS学習モジュール"
+
+msgid "adve_grp_rep"
+msgstr "リポジトリーページ"
+
+msgid "adve_grp_scorm"
+msgstr "SCORM編集"
+
+msgid "adve_grp_test"
+msgstr "テストとアセスメント"
+
+msgid "adve_grp_wiki"
+msgstr "Wikis"
+
+msgid "adve_minutes"
+msgstr "分"
+
+msgid "adve_minutes_info"
+msgstr "編集ロックが切れてページが別のユーザにより編集ができる前のアイドル分数"
+
+msgid "adve_page_editor_settings"
+msgstr "ILIASページエディター設定"
+
+msgid "adve_pe_general"
+msgstr "一般"
+
+msgid "adve_rte_settings"
+msgstr "Richテキストエディター設定"
+
+msgid "adve_text_content_features"
+msgstr "テキストコンテンツメニュー"
+
+msgid "adve_use_physical"
+msgstr "str/emp/impに代えてb/i/uを使用"
+
+msgid "adve_use_physical_info"
+msgstr "この設定はセマンティックスタイルクラスボタンのストロング、強調、重要を、物理的な属性ボタンb(ボールド)、i(イタリック）、u(下線)で置き換えます。スタイルエディタが使用されていて他の物理的な属性がストロング/強調/重要スタイルクラスに割り当てられていると矛盾する結果となる事に注意願います。"
+
+msgid "adve_use_tiny_mce"
+msgstr "WYSIWYG編集用にTinyMCEを有効にする"

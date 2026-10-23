@@ -1,0 +1,77 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ar\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=6; plural=(n == 0) ? 0 : ((n == 1) ? 1 : ((n == 2) ? 2 : ((n % 100 >= 3 && n % 100 <= 10) ? 3 : ((n % 100 >= 11 && n % 100 <= 99) ? 4 : 5))));\n"
+"X-Domain: lng\n"
+
+#, fuzzy
+msgid "language_detection"
+msgstr "Language Detection"
+
+#, fuzzy
+msgid "lng_disable_language_detection"
+msgstr "Disable Language Detection"
+
+#, fuzzy
+msgid "lng_download_deprecated"
+msgstr "Download Deprecated List"
+
+#, fuzzy
+msgid "lng_enable_language_detection"
+msgstr "Enable Language Detection"
+
+#, fuzzy
+msgid "lng_error_clear_shipped_po_unreadable"
+msgstr "The local changes were not cleared: the shipped PO files of the following modules cannot be read: %s. See the log for details."
+
+#, fuzzy
+msgid "lng_identifier_not_unique"
+msgstr "The identifiers of the following entries already exist in another module or in another spelling: %s"
+
+#, fuzzy
+msgid "lng_invalid_language_files"
+msgstr "The language files of the following languages are invalid: %s"
+
+#, fuzzy
+msgid "lng_markup_not_allowed"
+msgstr "Markup that is not allowed in the following entries: %s"
+
+#, fuzzy
+msgid "lng_merge_database_not_updated"
+msgstr "The shipped PO files of the following modules were written, but their database entries could not be updated (see the log): %s"
+
+#, fuzzy
+msgid "lng_merge_nothing_to_merge"
+msgstr "There are no local changes to merge."
+
+#, fuzzy
+msgid "lng_merge_po_not_written"
+msgstr "The local changes of the following modules could not be merged into their shipped PO files (see the log): %s"
+
+#, fuzzy
+msgid "lng_merged_po_modules"
+msgstr "The local changes of the following modules were merged into their shipped PO files: %s"
+
+#, fuzzy
+msgid "lng_not_translated"
+msgstr "Not translated"
+
+#, fuzzy
+msgid "lng_po_overlay_not_written"
+msgstr "The changes were saved in the database, but the PO/MO files of the following modules maintained in PO files could not be written: %s. The previous texts are still shown for these modules. Please check whether the web server user may write to the directory \"lang\" in the client data directory. See the log for details."
+
+#, fuzzy
+msgid "lng_po_overlay_not_written_languages"
+msgstr "The language data was saved in the database, but the PO/MO files of the modules maintained in PO files could not be written for the following languages: %s. The previous texts are still shown for these modules. Please check whether the web server user may write to the directory \"lang\" in the client data directory. See the log for details."
+
+#, fuzzy
+msgid "lng_shipped_po_unreadable_fallback"
+msgstr "The shipped PO files of the following modules cannot be read: %s. The possibly outdated entries of the language file (.lang) are shown as default values for these modules instead. See the log for details."
+
+#, fuzzy
+msgid "lng_switch_language_detection"
+msgstr "Switch Language Detection"

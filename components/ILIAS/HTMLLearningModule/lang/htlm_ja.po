@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: htlm\n"
+
+msgid "file_import_from_upload_dir_failed"
+msgstr "アップロードディレクトリからファイルはインポートされませんでした"
+
+msgid "file_imported_from_upload_dir"
+msgstr "アップロードディレクトリからファイルをインポート"
+
+msgid "import_from_upload_dir"
+msgstr "アップロードディレクイトリからインポート"
+
+msgid "import_from_upload_dir_file_name"
+msgstr "ファイル名"
+
+msgid "import_from_upload_dir_info"
+msgstr "インポート用のファイルを選択してください。"

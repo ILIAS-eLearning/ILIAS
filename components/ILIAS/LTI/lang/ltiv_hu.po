@@ -1,0 +1,15 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: ltiv\n"
+
+msgid "ltiv_create"
+msgstr "Az LTI-Fogyasztóobjektumoknak tanúsítvány létrehozása"
+
+msgid "ltiv_create_info"
+msgstr "Válassza ki a teljesített LTI-Fogyasztóobjektumot, melyhez tanúsítványt kíván generálni"

@@ -52,6 +52,7 @@ class DocumentFormGUI extends ilPropertyFormGUI
         protected bool $is_editable
     ) {
         parent::__construct();
+        $this->lng->loadLanguageModule('meta');
 
         $this->initForm();
     }
@@ -86,7 +87,7 @@ class DocumentFormGUI extends ilPropertyFormGUI
 
         $options = [];
         foreach ($this->lng->getInstalledLanguages() as $lng) {
-            $options[$lng] = $this->lng->txt('meta_l_' . $lng, 'meta');
+            $options[$lng] = $this->lng->txt('meta_l_' . $lng);
         }
 
         asort($options);

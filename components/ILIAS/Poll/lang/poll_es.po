@@ -1,0 +1,221 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: poll\n"
+
+msgid "poll_absolute"
+msgstr "Votos actuales"
+
+msgid "poll_activation_online_info"
+msgstr "Active esta configuración para que la encuesta sea accesible a los usuarios."
+
+msgid "poll_add"
+msgstr "Añadir encuesta"
+
+msgid "poll_anonymous_warning"
+msgstr "Los votos individuales se registran, pero su nombre no se mostrará en los resultados de la encuesta."
+
+msgid "poll_answer"
+msgstr "Respuesta"
+
+msgid "poll_answer_selected_alt_text"
+msgstr "Seleccionado"
+
+msgid "poll_answers"
+msgstr "Respuestas posibles"
+
+msgid "poll_barchart"
+msgstr "Gráfico de barras"
+
+msgid "poll_block_message_already_voted"
+msgstr "Ya ha votado en esta encuesta."
+
+msgid "poll_block_message_no_answers"
+msgstr "Esta encuesta está incompleta."
+
+msgid "poll_block_results_available_on"
+msgstr "Los resultados estarán disponibles el %s."
+
+msgid "poll_cannot_set_online_no_answers"
+msgstr "¡El estado no se puede cambiar a &quot;en línea&quot; porque esta encuesta no tiene pregunta!"
+
+msgid "poll_chart_votes"
+msgstr "Votos"
+
+msgid "poll_comments"
+msgstr "Comentarios"
+
+msgid "poll_copy"
+msgstr "Copiar Encuesta"
+
+msgid "poll_delete_votes"
+msgstr "Eliminar Votos de Todos los Usuarios"
+
+msgid "poll_delete_votes_sure"
+msgstr "¿Está seguro de que desea eliminar los votos de todos los usuarios que participaron en esta encuesta?"
+
+msgid "poll_edit"
+msgstr "Editar Encuesta"
+
+msgid "poll_edit_question"
+msgstr "Editar Pregunta"
+
+msgid "poll_image"
+msgstr "Imagen"
+
+msgid "poll_limit_not_below_answer_count"
+msgstr "El límite de respuestas debe ser inferior al número de respuestas posibles."
+
+msgid "poll_limit_number_of_answers"
+msgstr "Limitar Número de Respuestas por Participante"
+
+msgid "poll_max_number_of_answers"
+msgstr "Máx. Respuestas"
+
+msgid "poll_max_number_of_answers_info"
+msgstr "Puede elegir hasta %s respuestas."
+
+msgid "poll_mode"
+msgstr "Modo"
+
+msgid "poll_mode_anonymous"
+msgstr "Sin Nombres / Anónimo"
+
+msgid "poll_mode_anonymous_info"
+msgstr "Los nombres de los participantes de la encuesta no se muestran en la pestaña 'Resultados'. Tenga en cuenta: los ID de usuario de los participantes, sin embargo, se registran en la base de datos."
+
+msgid "poll_mode_personal"
+msgstr "Con Nombres"
+
+msgid "poll_mode_personal_info"
+msgstr "En la pestaña 'Resultados' se enumeran los nombres de los participantes y sus respectivas respuestas. Los usuarios con acceso a esta pestaña pueden inspeccionar quién ha dado cada respuesta."
+
+msgid "poll_new"
+msgstr "Añadir Nueva Encuesta"
+
+msgid "poll_non_anonymous_warning"
+msgstr "Su nombre y voto son visibles para los administradores en los resultados."
+
+msgid "poll_notification_activated"
+msgstr "Notificación Activada"
+
+msgid "poll_notification_deactivated"
+msgstr "Notificación Desactivada"
+
+msgid "poll_notification_subscribe"
+msgstr "Activar Notificación"
+
+msgid "poll_notification_unsubscribe"
+msgstr "Desactivar Notificación"
+
+msgid "poll_percentage"
+msgstr "Porcentaje Actual"
+
+#, fuzzy
+msgid "poll_population"
+msgid_plural "poll_population_plural"
+msgstr[0] "1 Participante"
+msgstr[1] "%s Participantes"
+msgstr[2] "%s Participantes"
+
+msgid "poll_population_singular"
+msgstr "1 Participante"
+
+msgid "poll_question"
+msgstr "Pregunta"
+
+msgid "poll_result"
+msgstr "Resultados"
+
+msgid "poll_result_answers"
+msgstr "Votos"
+
+msgid "poll_result_sorting"
+msgstr "Ordenación"
+
+msgid "poll_result_sorting_answers"
+msgstr "En el orden de las respuestas"
+
+msgid "poll_result_sorting_votes"
+msgstr "Por número de votos (descendente)"
+
+msgid "poll_result_users"
+msgstr "Participantes"
+
+msgid "poll_show_results_as"
+msgstr "Mostrar resultados como"
+
+msgid "poll_sortorder"
+msgstr "Orden"
+
+msgid "poll_stacked_chart"
+msgstr "Gráfico apilado"
+
+msgid "poll_view_results"
+msgstr "Mostrar resultados"
+
+msgid "poll_view_results_after_period"
+msgstr "Después del periodo de votación"
+
+msgid "poll_view_results_after_period_impossible"
+msgstr "El periodo de votación no está limitado."
+
+msgid "poll_view_results_after_vote"
+msgstr "Después de votar"
+
+msgid "poll_view_results_always"
+msgstr "Siempre"
+
+msgid "poll_view_results_never"
+msgstr "Nunca"
+
+msgid "poll_vote"
+msgstr "Votar"
+
+#, fuzzy
+msgid "poll_vote_error_multi"
+msgid_plural "poll_vote_error_multi_plural"
+msgstr[0] "Por favor, seleccione no más de %s respuestas."
+msgstr[1] "Por favor, seleccione no más de %s respuestas."
+msgstr[2] "Por favor, seleccione no más de %s respuestas."
+
+msgid "poll_vote_error_multi_no_answer"
+msgstr "Por favor, seleccione al menos 1 respuesta."
+
+msgid "poll_vote_error_single"
+msgstr "Por favor, seleccione 1 respuesta."
+
+msgid "poll_vote_notification_body"
+msgstr "la siguiente encuesta ha recibido un voto."
+
+msgid "poll_vote_notification_link"
+msgstr "Enlace a la encuesta"
+
+msgid "poll_vote_notification_reason"
+msgstr "Usted recibe este correo electrónico porque activó las notificaciones para la encuesta mencionada anteriormente."
+
+msgid "poll_vote_notification_subject"
+msgstr "Encuesta \"%s\": nuevo voto"
+
+msgid "poll_votes_no_edit"
+msgstr "Esta encuesta ya contiene votos. No puede editar la encuesta hasta que elimine estos votos."
+
+msgid "poll_voting_period_and_results"
+msgstr "Periodo de votación y resultados"
+
+msgid "poll_voting_period_ended_info"
+msgstr "El periodo de votación terminó el %s."
+
+msgid "poll_voting_period_full_info"
+msgstr "Periodo de votación del %s al %s"
+
+msgid "poll_voting_period_info"
+msgstr "La fecha límite para votar es el %s."
+
+msgid "poll_voting_period_limited"
+msgstr "Periodo de votación limitado"

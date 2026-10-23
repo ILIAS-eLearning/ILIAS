@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: classification\n"
+
+msgid "clsfct_back_to_cat"
+msgstr "カテゴリーへ戻る"
+
+msgid "clsfct_block_info"
+msgstr "選択がオブジェクトをフィルターします。"
+
+msgid "clsfct_block_title"
+msgstr "トピックで選択"
+
+msgid "clsfct_content_no_match"
+msgstr "ヒットなし"
+
+msgid "clsfct_content_title"
+msgstr "選択のオブジェクト整合"
+
+msgid "clsfct_selected_objects"
+msgstr "オブジェクトを選択しました"

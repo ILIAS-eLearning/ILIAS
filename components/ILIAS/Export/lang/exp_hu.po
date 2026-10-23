@@ -1,0 +1,81 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: exp\n"
+
+msgid "exp_create_file"
+msgstr "Exportfájl létrehozása"
+
+msgid "exp_error_disabled"
+msgstr "A tárolók exportálása le van tilta. Vegye fel a kapcsolatot az üzemeltetővel."
+
+msgid "exp_error_too_many_objects"
+msgstr "Az exportálás túllépi a maximálisan megngedett objektumszámot (%1). Kérem, kevesebb objektumot jelöljön ki."
+
+msgid "exp_export_dropdown"
+msgstr "Exportálás"
+
+msgid "exp_export_files"
+msgstr "Exportfájlok"
+
+msgid "exp_export_single_option"
+msgstr "Exportálás %s"
+
+msgid "exp_file_created"
+msgstr "Elkészült az exportfájl."
+
+msgid "exp_format_dropdown-csv"
+msgstr "mint CSV"
+
+msgid "exp_format_dropdown-html"
+msgstr "mint HTML"
+
+msgid "exp_format_dropdown-xls"
+msgstr "mint XLS"
+
+msgid "exp_format_dropdown-xml"
+msgstr "mint XML"
+
+msgid "exp_html"
+msgstr "HTML"
+
+msgid "exp_import_validation_err_no_matching_xsd"
+msgstr "%s verzióhoz nincs érvényes sémafájl."
+
+msgid "exp_not_public_access_status"
+msgstr "Nem publikált"
+
+msgid "exp_print_pdf"
+msgstr "Nyomtatás/PDF"
+
+msgid "exp_print_pdf_info"
+msgstr "PDF létrehozásához válassza a ‘Nyomtatás PDF-be’ lehetőséget a ‘Nyomtatási nézet’ megjelenése után."
+
+msgid "exp_public_access_status"
+msgstr "Elérhető az ‘Információ’ lapon"
+
+msgid "exp_really_delete"
+msgstr "Biztos, hogy törli a következő az exportfájlokat?"
+
+msgid "exp_show_print_view"
+msgstr "Nyomtatási nézet megjelenítése"
+
+msgid "exp_xml"
+msgstr "XML"
+
+msgid "export_created"
+msgstr "Új exportfájl jött létre."
+
+msgid "export_files_deleted"
+msgstr "A kijelölt exportfájlokat sikeresen törölte."
+
+msgid "export_options"
+msgstr "Exportálás beállításai"
+
+msgid "export_type"
+msgstr "Exportálás típusa"

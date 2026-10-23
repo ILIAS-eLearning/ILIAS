@@ -1,0 +1,54 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: lt\n"
+"Language-Team: Lithuanian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 1 : 2);\n"
+"X-Domain: pwassist\n"
+
+msgid "password_assistance"
+msgstr "Slaptažodžio Pagalba"
+
+#, fuzzy
+msgid "pwassist_disabled_no_access"
+msgstr "Password assistance is not enabled. Please contact the system administration for further assistance: %s"
+
+msgid "pwassist_enter_email"
+msgstr "Įveskite el.pašto adresą ir nusiųskite formą.\\nILIAS nurodytu el.paštu išsiųs laišką. Jame bus nurodyti visi vartotojų vardai susiję su šiuo el. pašto adresu.\\nPasirinkite tinkamą vartotojo vardą ir pasinaudokite Slaptažodžio Pagalba norėdami gauti naują slaptažodį. Jei negausite jokio laiško iš šios pagalbinės tarnybos, susisiekite su savo kursų administratoriumi arba %1$s."
+
+msgid "pwassist_enter_username_and_email"
+msgstr "Įveskite vartotojo vardą ir el.pašto adresą nurodytuose laukuose žemiau..\\nILIAS nurodytu el.pašto adresu išiųs laišką. Jame bus nurodytas puslpaio adresas, kuriame galėsite įvesti naują savo paskyros slaptažodį.\\nJei nepavyktų priskirti naujo slaptažodžio paskyrai naudojant šią formą, susisiekite su savo kursų administracija aba siųskite laišką %1$s."
+
+msgid "pwassist_enter_username_and_new_password"
+msgstr "Įveskite vartotojo vardą ir naują slaptažodį laukuose žemiau."
+
+msgid "pwassist_login_not_match"
+msgstr "Įveskite kitą vartotojo vardą.\\nJūsų įvestas vartotojo vardas neatitinka vardo, nurodyto kurio prašėte Slaptažodžio Pagalboje."
+
+msgid "pwassist_mail_body"
+msgstr "Registruoti naują slaptažodį savo vartotojo paskyrai:\\n\\t%1$s\\n\\nŠis pranešimas buvo automatiškai sugeneruotas ILIAS serveryje\\n\\t%2$s\\n\\nJūs (ar kažkas %3$s) paprašė pagalbos su slaptažodžiu vartotojo paskyrai \"%4$s\".\\n\\nPatikrinkite atidžiai žemiau nurodytas sąlygas ir elkitės atitinkamai:\\n\\n- Jei pasinaudojote Slaptažodžio Pagalbos forma ILIAS serveryje netyčia:\\nIštrinkite šį laišką.\\n\\n- Jei tikrai niekada neprašėte pagalbos su slaptažodžiu šiame ILIAS serveryje:\\nSusisiekite su %5$s.\\n\\n- Jei jums buvo reikalinga pagalba su slaptažodžiu, veikite atitinkamai:\\n\\n1. Atverkite naršyklę.\\n\\n2. Įveskite šį adresą naršyklėje:\\n\\t%1$s\\n\\nSvarbu: Adresas yra kaip viena eilutė. Jei matote šį adresą išskaidytą į kelias eilutes, tai jūsų el.pašto programa įterpė eilutės perkėlimus.\\n\\n3. Atsidariusiame naršyklės lange, įveskite naują slaptažodį savo vartotojo paskyrai.\\n\\nAtminkite, kad saugumo sumetimais, šiuo atveju jūs galite tai daryti tik kartą ir tik ribotą laiko tarpą. Po kurio laiko, šis adresas nebetenka galios, o jūs turite naudotis Slaptažodžio Pagalba ILIAS serveryje iš naujo."
+
+msgid "pwassist_mail_sent"
+msgstr "Pranešimas buvo išsiųstas %1$s.\\nPasitikrinkite savo pašto dėžutę."
+
+#, fuzzy
+msgid "pwassist_mail_sent_generic"
+msgstr "A message has been sent to the email address defined in ILIAS.\\nPlease check your mail box."
+
+msgid "pwassist_mail_subject"
+msgstr "ILIAS Slaptažodžio Pagalba"
+
+msgid "pwassist_password_assigned"
+msgstr "Slaptažodis buvo sękmingai priskirtas vartotojui \"%1$s\"."
+
+msgid "pwassist_session_expired"
+msgstr "Užpildykite šią formą dar kartą.\\nJūsų pagalbos su slaptažodžiu seansas baigėsi. Tai nutiko dėl bandymo pasinaudoti laiške buvusia nuorodą daugiau nei kartą arba todėl, kad prabėgo pernelyg daug laiko po laiško su nuoroda gavimo."
+
+msgid "pwassist_username_mail_body"
+msgstr "Nurodyto el.pašto adresu rastas aktyvus vartotojas:\\n%s\\n\\nŠis pranešimas buvo sukurtas automatiškai ILIAS Serveryje:\\n\\t%s\\n\\nJūs (ar kažkas su IP  %s) paprašė pagalbos dėl pamirštų vartotojo vardų el.pašto adresu '%s'.\\n\\nPAtikrinkite tai ir elkitės atitinkamai::\\n\\n-Prašėte šio laiško atsitiktinai:\\nIštrinkite šį laišką.\\n\\n-Jūs įsitikinę, kad niekad neprašėte šio laiško:\\nSusisiekite su %s.\\n\\n- Jei prašėte šio laiško, elkitės sekančiai::\\n\\n1. Paleiskite interneto naršyklę.\\n\\n2. Įveskite šį url:\\n\\t%s\\n\\nSvarbu: Adresas yra kaip viena eilutė. Jei matote šį adresą išskaidytą į kelias eilutes, tai jūsų el.pašto programa įterpė eilutės perkėlimus.\\n\\n3. Jūsų Naršyklė dabar rodo Slaptažodžio Pagalbą. Pasinaudokite šiuo puslapiu, kartu su vartotojo vardu ir atitinkamu el.pašto adresu, norėdami gauti naują slaptažodį."
+
+#, fuzzy
+msgid "unassist_disabled_no_access"
+msgstr "Username assistance is not enabled. Please contact the system administration for further assistance: %s"

@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: vi\n"
+"Language-Team: Vietnamese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: logging\n"
+
+#, fuzzy
+msgid "error_settings_saved"
+msgstr "Saved settings"
+
+#, fuzzy
+msgid "frm_clear_older_then"
+msgstr "Deletes files older then"
+
+#, fuzzy
+msgid "frm_clear_older_then_info"
+msgstr "Please enter duration in days."
+
+#, fuzzy
+msgid "log_error_file_cleanup_info"
+msgstr "Deletes old or orphand files of error log."
+
+#, fuzzy
+msgid "log_error_file_cleanup_title"
+msgstr "Delete old or orphaned error log files"
+
+#, fuzzy
+msgid "log_error_folder"
+msgstr "Path"
+
+#, fuzzy
+msgid "log_error_mail"
+msgstr "Mail recipient"
+
+#, fuzzy
+msgid "log_error_message"
+msgstr "Error %s occurred."
+
+#, fuzzy
+msgid "log_error_message_send_mail"
+msgstr "Please send a mail to <a href=\"mailto:%s?subject=code: %s\">%s</a>"
+
+#, fuzzy
+msgid "log_error_path_not_configured_or_wrong"
+msgstr "Path to errors (error_path) is not configured or unreachable."
+
+#, fuzzy
+msgid "log_error_settings"
+msgstr "Error logging settings"
+
+#, fuzzy
+msgid "logs_settings"
+msgstr "Logging Settings"

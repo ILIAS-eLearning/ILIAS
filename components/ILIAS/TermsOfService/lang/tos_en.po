@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: tos\n"
+
+msgid "tos_accept_usr_agreement_anonymous"
+msgstr "Terms of Service"
+
+msgid "tos_accept_usr_agreement_anonymous_intro"
+msgstr "Before you proceed to ILIAS you accept the following Terms of Service."
+
+msgid "tos_account_reg_not_possible"
+msgstr "Self-registration is currently not possible because there is no Terms of Service agreement available. Please contact your <a href=\"%1$s\">system administrator</a> for further information."
+
+msgid "tos_agree_date"
+msgstr "ToS agreed on"
+
+msgid "tos_agreement"
+msgstr "Terms of Service"
+
+msgid "tos_disabled_no_docs_left"
+msgstr "Terms of Service documents can no longer be displayed, because all ToS documents have been deleted. Users will no longer be required to agree to a ToS document when registering an account. Please create at least one document before re-checking the ‘Display Terms of Service’ box."
+
+msgid "tos_last_reset_date"
+msgstr "The Terms of Service were reset on %s. Only reset the Terms of Service if changes have been made to the ToS document(s) and you require all users to agree to the new ToS."
+
+msgid "tos_never_reset"
+msgstr "The Terms of Service have not yet been reset. Only reset the Terms of Service if changes have been made to the ToS document(s) and you require all users to agree to the new ToS."
+
+msgid "tos_no_documents_exist"
+msgstr "There are currently no Terms of Service documents available."
+
+msgid "tos_no_documents_exist_cant_save"
+msgstr "There are currently no Terms of Service documents available. Please add at least one document in order to activate this service."
+
+msgid "tos_reset_for_all_users"
+msgstr "Reset Terms of Service"
+
+msgid "tos_reset_successful"
+msgstr "Terms of Service successfully reset."
+
+msgid "tos_status_desc"
+msgstr "Display relevant language-based Terms of Service documents at the end of the registration form for new users and, if applicable, upon the user’s first login. Users are required to accept the Terms of Service before they can enter ILIAS."
+
+msgid "tos_status_enable"
+msgstr "Display Terms of Service"
+
+msgid "tos_sure_reset_tos"
+msgstr "Are you sure you want to reset the Terms of Service for all users in the system? This also applies, for example, to those accounts that are used for the SOAP web services."
+
+msgid "tos_withdrawal_usr_deletion"
+msgstr "Account deletion upon ToS withdrawal"
+
+msgid "tos_withdrawal_usr_deletion_desc"
+msgstr "If a user withdraws their acceptance from  a previously accepted Terms of Service document, this will result in the deletion of the user’s account."

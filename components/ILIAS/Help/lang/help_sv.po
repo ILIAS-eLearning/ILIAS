@@ -1,0 +1,307 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: help\n"
+
+#, fuzzy
+msgid "gdtr_active"
+msgstr "Active"
+
+#, fuzzy
+msgid "gdtr_add_step"
+msgstr "Add Step"
+
+#, fuzzy
+msgid "gdtr_add_tour"
+msgstr "Add Tour"
+
+#, fuzzy
+msgid "gdtr_close"
+msgstr "End Tour"
+
+#, fuzzy
+msgid "gdtr_delete_step"
+msgstr "Delete Step"
+
+#, fuzzy
+msgid "gdtr_delete_step_mess"
+msgstr "Are you sure you want to delete this step?"
+
+#, fuzzy
+msgid "gdtr_delete_tour"
+msgstr "Delete Tour"
+
+#, fuzzy
+msgid "gdtr_delete_tour_mess"
+msgstr "Are you sure you want to delete this tour?"
+
+#, fuzzy
+msgid "gdtr_deleted_step"
+msgstr "Step has been deleted."
+
+#, fuzzy
+msgid "gdtr_deleted_tour"
+msgstr "Tour has been deleted."
+
+#, fuzzy
+msgid "gdtr_edit_content"
+msgstr "Edit Content"
+
+#, fuzzy
+msgid "gdtr_edit_page_info"
+msgstr "Edit the content that should be presented to explain the selected UI element."
+
+#, fuzzy
+msgid "gdtr_edit_properties"
+msgstr "Edit Properties"
+
+#, fuzzy
+msgid "gdtr_edit_step_info"
+msgstr "On this screen you define, which element on the screen should be explained in this step of the tour. A popover with the explanation text you define will be presented pointing to this element."
+
+#, fuzzy
+msgid "gdtr_edit_steps"
+msgstr "Edit Steps"
+
+#, fuzzy
+msgid "gdtr_element_id"
+msgstr "Element ID"
+
+#, fuzzy
+msgid "gdtr_form"
+msgstr "Form"
+
+#, fuzzy
+msgid "gdtr_form_info"
+msgstr "The first form of the main content area. Usually views should only contain one form."
+
+#, fuzzy
+msgid "gdtr_guided_tours"
+msgstr "Guided Tours"
+
+#, fuzzy
+msgid "gdtr_id_pres_users"
+msgstr "Show IDs for User Accounts"
+
+#, fuzzy
+msgid "gdtr_id_pres_users_info"
+msgstr "Login names of user that should get element IDs presented. Separate multiple entries by comma."
+
+#, fuzzy
+msgid "gdtr_id_settings"
+msgstr "ID Settings"
+
+#, fuzzy
+msgid "gdtr_import_tour"
+msgstr "Import Tour"
+
+#, fuzzy
+msgid "gdtr_language"
+msgstr "Language"
+
+#, fuzzy
+msgid "gdtr_language_info"
+msgstr "Activates a guided tour only for users with the selected language."
+
+#, fuzzy
+msgid "gdtr_list_tours_mess"
+msgstr "To activate the presentation of screen and element IDs as tooltips, switch to ID Settings and enter your account name."
+
+#, fuzzy
+msgid "gdtr_mainbar"
+msgstr "Mainbar"
+
+#, fuzzy
+msgid "gdtr_mainbar_ID_info"
+msgstr "ID of the desired entry in the main menu. Move the mouse over the entry to see the ID as a tooltip."
+
+#, fuzzy
+msgid "gdtr_mainbar_info"
+msgstr "The mainbar ist the main menu on the left side. If element-ID presentation is activated, the IDs will be shown in tooltips for the distinct items."
+
+#, fuzzy
+msgid "gdtr_metabar"
+msgstr "Metabar"
+
+#, fuzzy
+msgid "gdtr_metabar_ID_info"
+msgstr "ID of the desired element in the metabar. Move your mouse over the element to see the ID as a tooltip."
+
+#, fuzzy
+msgid "gdtr_metabar_info"
+msgstr "The metabar is the menu on the top, right. If element-ID presentation is activated, the IDs will be shown in tooltips for the distinct items."
+
+#, fuzzy
+msgid "gdtr_next_step"
+msgstr "Next Step"
+
+#, fuzzy
+msgid "gdtr_permission"
+msgstr "Permission"
+
+#, fuzzy
+msgid "gdtr_permission_info"
+msgstr "Activates a guided tour only for users with a certain permission on the current repository object, e.g. only for users with \"edit settings\" permission for a course. If you \"Create\" is selected, the tour is active, if the user has any creation permission."
+
+#, fuzzy
+msgid "gdtr_presentation_limitation"
+msgstr "Presentation Limitation"
+
+#, fuzzy
+msgid "gdtr_primary_button"
+msgstr "Primary Button"
+
+#, fuzzy
+msgid "gdtr_primary_button_info"
+msgstr "The first primary button of the main content area. Primary buttons are presented emphasised compared to standard buttons. Usually views should only contain one primary button."
+
+#, fuzzy
+msgid "gdtr_reset_tour"
+msgstr "Reset Tour"
+
+#, fuzzy
+msgid "gdtr_reset_tour_mess"
+msgstr "If you reset the tour, all users that previously ended the tour, will get the tour presented again. Are you sure to proceed?"
+
+#, fuzzy
+msgid "gdtr_screen_ids"
+msgstr "Screen IDs"
+
+#, fuzzy
+msgid "gdtr_screen_ids_info"
+msgstr "Enable a guided tour only for distinct views of the system. If element IDs are activated, you find the Screen ID of a current view on top in the header. Multiple IDs must be separated by comma."
+
+#, fuzzy
+msgid "gdtr_step"
+msgstr "Step"
+
+#, fuzzy
+msgid "gdtr_step_type"
+msgstr "User Interface Element"
+
+#, fuzzy
+msgid "gdtr_table"
+msgstr "Table"
+
+#, fuzzy
+msgid "gdtr_table_info"
+msgstr "The first table of the main content area. Usually views should only contain one table."
+
+#, fuzzy
+msgid "gdtr_tabs"
+msgstr "Tabs"
+
+#, fuzzy
+msgid "gdtr_tabs_ID_info"
+msgstr "ID of the desired tab. Move your mouse over a tab to see the ID as a tooltip."
+
+#, fuzzy
+msgid "gdtr_tabs_info"
+msgstr "The tabs are displayed below the main header of the screen. If element-ID presentation is activated, the IDs will be shown in tooltips for the distinct items."
+
+#, fuzzy
+msgid "gdtr_toolbar"
+msgstr "Toolbar"
+
+#, fuzzy
+msgid "gdtr_toolbar_info"
+msgstr "The first toolbar of the main content area, usually presented below the tabs. Views should only contain one toolbar."
+
+#, fuzzy
+msgid "gdtr_tour_has_been_reset"
+msgstr "Tour has been reset."
+
+#, fuzzy
+msgid "gdtr_tour_settings"
+msgstr "Edit Settings"
+
+#, fuzzy
+msgid "gdtr_tour_steps"
+msgstr "Tour Steps"
+
+#, fuzzy
+msgid "gdtr_tours"
+msgstr "Tours"
+
+#, fuzzy
+msgid "gdtr_type"
+msgstr "Type"
+
+#, fuzzy
+msgid "guided_tour"
+msgstr "Guided Tour"
+
+msgid "help_all"
+msgstr "Alla"
+
+msgid "help_component"
+msgstr "Komponent"
+
+msgid "help_filter"
+msgstr "Filter"
+
+msgid "help_help_file"
+msgstr "Hjälp på nätet"
+
+msgid "help_help_only"
+msgstr "Endast instruktioner för åtgärder"
+
+msgid "help_imported_on"
+msgstr "Importerad på"
+
+msgid "help_module_uploaded"
+msgstr "Hjälppaket uppladdat"
+
+msgid "help_modules"
+msgstr "Hjälp paket"
+
+msgid "help_no_content"
+msgstr "Tyvärr finns ingen hjälp tillgänglig för den aktuella vyn. Du kan använda sökningen för att hitta hjälpinnehåll."
+
+msgid "help_open_online_help"
+msgstr "Öppen hjälp online"
+
+#, fuzzy
+msgid "help_order"
+msgstr "Order"
+
+msgid "help_search_label"
+msgstr "Sökning i Help"
+
+msgid "help_select_a_file"
+msgstr "Välj en fil."
+
+msgid "help_set_mode"
+msgstr "Ställ in hjälpläge"
+
+msgid "help_sure_delete_help_modules"
+msgstr "Vill du verkligen ta bort dessa paket?"
+
+msgid "help_toggle_tooltips"
+msgstr "Hjälp Verktygstips"
+
+msgid "help_toggle_tooltips_info"
+msgstr "Visa hjälpverktygstips för menyer och flikar."
+
+msgid "help_tooltip_id"
+msgstr "Tooltip ID"
+
+msgid "help_tooltips"
+msgstr "Hjälp Verktygstips"
+
+msgid "help_tooltips_and_help"
+msgstr "Tooltips och instruktioner för åtgärder"
+
+msgid "help_tooltips_only"
+msgstr "Endast verktygstips"
+
+msgid "help_topcis"
+msgstr "Ämnen"
+
+msgid "help_tt_text"
+msgstr "Text"

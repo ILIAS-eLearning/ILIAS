@@ -1,0 +1,69 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ro\n"
+"Language-Team: Romanian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n == 0 || n != 1 && n % 100 >= 1 && n % 100 <= 19) ? 1 : 2);\n"
+"X-Domain: lhist\n"
+
+#, fuzzy
+msgid "cont_create_lhist"
+msgstr "Create Learning History Element"
+
+#, fuzzy
+msgid "cont_update_lhist"
+msgstr "Edit Learning History Element"
+
+#, fuzzy
+msgid "lhist_all"
+msgstr "All"
+
+#, fuzzy
+msgid "lhist_cont_placeholder_text"
+msgstr "This element will show the learning history in the presentation mode of the portfolio."
+
+#, fuzzy
+msgid "lhist_enable_learning_history"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "lhist_enable_learning_history_info"
+msgstr "Enables an overview of all achievements of a user."
+
+#, fuzzy
+msgid "lhist_first_login"
+msgstr "First Login"
+
+#, fuzzy
+msgid "lhist_learning_history"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "lhist_lhist"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "lhist_manual"
+msgstr "Manual"
+
+#, fuzzy
+msgid "lhist_no_entries"
+msgstr "Achieve your goals! Learn something today to further your learning history."
+
+#, fuzzy
+msgid "lhist_period"
+msgstr "Period"
+
+#, fuzzy
+msgid "lhist_selected"
+msgstr "Selected"
+
+#, fuzzy
+msgid "lhist_show_more"
+msgstr "Show More"
+
+#, fuzzy
+msgid "lhist_type_of_achievement"
+msgstr "Type of Achievement"

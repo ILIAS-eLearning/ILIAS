@@ -1,0 +1,159 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: mep\n"
+
+msgid "mep_all"
+msgstr ""
+
+msgid "mep_all_mobs"
+msgstr ""
+
+msgid "mep_bulk_upload"
+msgstr ""
+
+msgid "mep_choose_from_folder"
+msgstr ""
+
+msgid "mep_choose_from_mep"
+msgstr ""
+
+msgid "mep_clipboard_info"
+msgstr ""
+
+msgid "mep_content"
+msgstr ""
+
+msgid "mep_content_snippet_in_use"
+msgstr ""
+
+msgid "mep_content_snippet_used_in_older_versions"
+msgstr ""
+
+msgid "mep_copy_to_mep"
+msgstr ""
+
+msgid "mep_create_content_snippet"
+msgstr ""
+
+msgid "mep_create_folder"
+msgstr ""
+
+msgid "mep_create_media_files"
+msgstr ""
+
+msgid "mep_create_mob"
+msgstr ""
+
+msgid "mep_default_height"
+msgstr ""
+
+msgid "mep_default_width"
+msgstr ""
+
+msgid "mep_default_width_height_info"
+msgstr ""
+
+msgid "mep_edit_content_snippet"
+msgstr ""
+
+msgid "mep_edit_folder"
+msgstr ""
+
+msgid "mep_file"
+msgstr ""
+
+msgid "mep_folder"
+msgstr ""
+
+msgid "mep_format"
+msgstr ""
+
+msgid "mep_import"
+msgstr ""
+
+msgid "mep_import_lang"
+msgstr ""
+
+msgid "mep_import_trans"
+msgstr ""
+
+msgid "mep_master_language_only"
+msgstr ""
+
+msgid "mep_master_language_only_no_media"
+msgstr ""
+
+msgid "mep_media_files"
+msgstr ""
+
+msgid "mep_media_subtitles"
+msgstr ""
+
+msgid "mep_mob"
+msgstr ""
+
+msgid "mep_move_select_insert"
+msgstr ""
+
+msgid "mep_mpg"
+msgstr ""
+
+msgid "mep_new_content_snippet"
+msgstr ""
+
+msgid "mep_new_folder"
+msgstr ""
+
+msgid "mep_page_properties"
+msgstr ""
+
+msgid "mep_page_type_mep"
+msgstr ""
+
+msgid "mep_thumbnail"
+msgstr ""
+
+msgid "mep_title_and_description"
+msgstr ""
+
+msgid "mep_trans_import_info"
+msgstr ""
+
+msgid "mep_unknown"
+msgstr ""
+
+msgid "mep_up_dir_copy"
+msgstr ""
+
+msgid "mep_up_dir_move"
+msgstr ""
+
+msgid "mep_upload_dir_files"
+msgstr ""
+
+msgid "mobs_activate_pages"
+msgstr ""
+
+msgid "mobs_activate_pages_info"
+msgstr ""
+
+msgid "mobs_always_show_file_manager"
+msgstr ""
+
+msgid "mobs_always_show_file_manager_info"
+msgstr ""
+
+msgid "mobs_black_list_file_types"
+msgstr ""
+
+msgid "mobs_black_list_file_types_and_allowed_info"
+msgstr ""
+
+msgid "mobs_restrict_file_types"
+msgstr ""
+
+msgid "mobs_restrict_file_types_info"
+msgstr ""

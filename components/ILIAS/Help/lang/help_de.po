@@ -1,0 +1,249 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: help\n"
+
+msgid "gdtr_active"
+msgstr "Aktiv"
+
+msgid "gdtr_add_step"
+msgstr "Schritt hinzufügen"
+
+msgid "gdtr_add_tour"
+msgstr "Tour hinzufügen"
+
+msgid "gdtr_close"
+msgstr "Tour beenden"
+
+msgid "gdtr_delete_step"
+msgstr "Schritt löschen"
+
+msgid "gdtr_delete_step_mess"
+msgstr "Sind Sie sicher, dass dieser Schritt gelöscht werden soll?"
+
+msgid "gdtr_delete_tour"
+msgstr "Tour löschen"
+
+msgid "gdtr_delete_tour_mess"
+msgstr "Sind Sie sicher, dass diese Tour gelöscht werden soll?"
+
+msgid "gdtr_deleted_step"
+msgstr "Der Schritt wurde gelöscht."
+
+msgid "gdtr_deleted_tour"
+msgstr "Die Tour wurde gelöscht."
+
+msgid "gdtr_edit_content"
+msgstr "Inhalt bearbeiten"
+
+msgid "gdtr_edit_page_info"
+msgstr "Bearbeiten Sie den Inhalt, der erscheinen soll um das ausgewählte Bedienelement zu beschreiben."
+
+msgid "gdtr_edit_properties"
+msgstr "Bedienelemente bearbeiten"
+
+msgid "gdtr_edit_step_info"
+msgstr "Wählen Sie das Bedienelement aus, das mit einem Erklärungstext versehen werden soll."
+
+msgid "gdtr_edit_steps"
+msgstr "Schritte bearbeiten"
+
+msgid "gdtr_element_id"
+msgstr "Element-ID"
+
+msgid "gdtr_form"
+msgstr "Formular"
+
+msgid "gdtr_form_info"
+msgstr "Das erste Formular einer Seite"
+
+msgid "gdtr_guided_tours"
+msgstr "Touren"
+
+msgid "gdtr_id_pres_users"
+msgstr "IDs anzeigen für"
+
+msgid "gdtr_id_pres_users_info"
+msgstr "Tragen Sie einen oder mehrere Anmeldenamen ein. Diesen Personen werden auf der Bedienoberfläche Tooltipps mit den IDs der einzelnen Elemente angezeigt. Fahren Sie mit der Maus über die Elemente, um die Tooltipps zu sehen."
+
+msgid "gdtr_id_settings"
+msgstr "Einstellungen"
+
+msgid "gdtr_import_tour"
+msgstr "Tour importieren"
+
+msgid "gdtr_language"
+msgstr "Nach Sprache"
+
+msgid "gdtr_language_info"
+msgstr "Nur Personen mit der ausgewählten Sprache sehen die Tour."
+
+msgid "gdtr_list_tours_mess"
+msgstr "Mit einer interaktiven Tour können Sie die Bedienelemente auf einer Seite in ILIAS erklären. Um Touren überhaupt ausarbeiten zu können, müssen Sie zunächst Ihren Anmeldenamen im Unterreiter „Einstellungen“ eintragen."
+
+msgid "gdtr_mainbar"
+msgstr "Mainbar"
+
+msgid "gdtr_mainbar_ID_info"
+msgstr "ID des gewünschten Eintrags im Hauptmenü. Fahren Sie mit der Maus über den Eintrag, um die ID als Tooltipp zu sehen."
+
+msgid "gdtr_mainbar_info"
+msgstr "Die Mainbar ist das Hauptmenü, das auf großen Bildschirmen auf der linken Seite angezeigt wird."
+
+msgid "gdtr_metabar"
+msgstr "Metabar"
+
+msgid "gdtr_metabar_ID_info"
+msgstr "ID des gewünschten Elements in der Metabar. Fahren Sie mit der Maus über das Element, um die ID als Tooltipp zu sehen."
+
+msgid "gdtr_metabar_info"
+msgstr "Die Metabar ist das Menü im rechten, oberen Bildrand."
+
+msgid "gdtr_next_step"
+msgstr "Nächster Schritt"
+
+msgid "gdtr_permission"
+msgstr "Nach Rechten"
+
+msgid "gdtr_permission_info"
+msgstr "Nur Personen mit den ausgewählten Rechten sehen die Tour. Diese Einstellung sollte nur zusammen mit der Einstellung „Nach Screen-ID“ genutzt werden."
+
+msgid "gdtr_presentation_limitation"
+msgstr "Anzeige einschränken"
+
+msgid "gdtr_primary_button"
+msgstr "Primary Button"
+
+msgid "gdtr_primary_button_info"
+msgstr "Diese besonderen Buttons gibt es nur auf wenigen Seiten in ILIAS. Sie sind farblich besonders hervorgehoben und kennzeichnen die wichtigste Aktion, die auf der Seite vorgenommen werden kann."
+
+msgid "gdtr_reset_tour"
+msgstr "Tour zurücksetzen"
+
+msgid "gdtr_reset_tour_mess"
+msgstr "Wenn Sie die Tour zurücksetzen, werden alle diejenigen, die zuvor die Tour abgeschlossen haben, die Tour erneut präsentiert bekommen. Möchten Sie fortfahren?"
+
+msgid "gdtr_screen_ids"
+msgstr "Nach Screen-IDs"
+
+msgid "gdtr_screen_ids_info"
+msgstr "Tragen Sie hier die Screen-IDs der Seiten ein, auf denen die Tour angezeigt wird – falls diese nicht überall gezeigt werden soll. Mehrere Screen-IDs müssen durch Kommas getrennt werden."
+
+msgid "gdtr_step"
+msgstr "Schritt"
+
+msgid "gdtr_step_type"
+msgstr "Bedienelement"
+
+msgid "gdtr_table"
+msgstr "Tabelle"
+
+msgid "gdtr_table_info"
+msgstr "Die erste Tabelle einer Seite"
+
+msgid "gdtr_tabs"
+msgstr "Reiter"
+
+msgid "gdtr_tabs_ID_info"
+msgstr "ID des gewünschten Reiters. Fahren Sie mit der Maus über einen Reiter, um die ID als Tooltipp zu sehen."
+
+msgid "gdtr_tabs_info"
+msgstr "Reiter werden unter dem Titel einer Seite dargestellt."
+
+msgid "gdtr_toolbar"
+msgstr "Toolbar"
+
+msgid "gdtr_toolbar_info"
+msgstr "Die Toolbar wird auf einigen Seiten unterhalb der Reiter dargestellt und enthält meistens mehrere Buttons."
+
+msgid "gdtr_tour_has_been_reset"
+msgstr "Die Tour wurde zurückgesetzt."
+
+msgid "gdtr_tour_settings"
+msgstr "Einstellungen bearbeiten"
+
+msgid "gdtr_tour_steps"
+msgstr "Schritte"
+
+msgid "gdtr_tours"
+msgstr "Touren"
+
+msgid "gdtr_type"
+msgstr "Bedienelemente"
+
+msgid "guided_tour"
+msgstr "Interaktive Touren"
+
+msgid "help_all"
+msgstr "Alle"
+
+msgid "help_component"
+msgstr "Komponente"
+
+msgid "help_filter"
+msgstr "Filter"
+
+msgid "help_help_file"
+msgstr "Online-Hilfe-Paket"
+
+msgid "help_help_only"
+msgstr "Nur Handlungsanweisungen"
+
+msgid "help_imported_on"
+msgstr "Importiert am"
+
+msgid "help_module_uploaded"
+msgstr "Hilfe-Paket hochgeladen"
+
+msgid "help_modules"
+msgstr "Hilfe-Pakete"
+
+msgid "help_no_content"
+msgstr "Zur aktuellen Ansicht steht leider keine Hilfe zur Verfügung. Sie können die Suche nutzen um Hilfeinhalte zu finden."
+
+msgid "help_open_online_help"
+msgstr "Online-Hilfe öffnen"
+
+msgid "help_order"
+msgstr "Order"
+
+msgid "help_search_label"
+msgstr "Suche in Hilfe"
+
+msgid "help_select_a_file"
+msgstr "Bitte wählen Sie eine Datei."
+
+msgid "help_set_mode"
+msgstr "Hilfemodus setzen"
+
+msgid "help_sure_delete_help_modules"
+msgstr "Wollen Sie diese Pakete wirklich löschen?"
+
+msgid "help_toggle_tooltips"
+msgstr "Hilfe-Tooltipps"
+
+msgid "help_toggle_tooltips_info"
+msgstr "Hilfe-Tooltipps zu Menüs und Reitern anzeigen."
+
+msgid "help_tooltip_id"
+msgstr "Tooltipp-ID"
+
+msgid "help_tooltips"
+msgstr "Hilfe-Tooltipps"
+
+msgid "help_tooltips_and_help"
+msgstr "Tooltipps und Handlungsanweisungen"
+
+msgid "help_tooltips_only"
+msgstr "Nur Tooltipps"
+
+msgid "help_topcis"
+msgstr "Themen"
+
+msgid "help_tt_text"
+msgstr "Text"

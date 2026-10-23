@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: skll\n"
+
+msgid "skll_competence_achievements"
+msgstr "Nové dosažené způsobilosti a ocenění"
+
+msgid "skll_intro_skill_notification_for"
+msgstr "toto je přehled vašich nejnovějších úspěchů v oblasti způsobilosti."
+
+msgid "skll_lhist_skill_achieved"
+msgstr "Status $4$ z $3$ byl přiřazen v $1$."
+
+#, fuzzy
+msgid "skll_lhist_skill_profile_fulfilled"
+msgstr "Competence Profile $3$ was fulfilled."
+
+msgid "skll_lhist_skill_self_eval"
+msgstr "Status $4$ z $3$ byl přidělen samostatně."
+
+msgid "skll_lhist_skill_self_eval_in"
+msgstr "Status $4$ z $3$ byl přiřazen samostatně v $1$."
+
+msgid "skll_new_skill_achievements"
+msgstr "Dosáhli jste nových úrovní způsobilosti v období od %1$s do %2$s:"
+
+msgid "skll_skill_notification"
+msgstr "Oznámení o způsobilosti"
+
+msgid "skll_skill_notification_desc"
+msgstr "Informuje uživatele o nově nastavených úrovních způsobilosti."

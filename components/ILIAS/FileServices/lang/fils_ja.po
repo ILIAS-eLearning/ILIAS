@@ -1,0 +1,105 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: fils\n"
+
+msgid "add_upload_policy"
+msgstr "ポリシーを追加"
+
+msgid "edit_upload_policy"
+msgstr "ポリシーを編集"
+
+msgid "file_services"
+msgstr "ファイルサービス"
+
+msgid "file_services_description"
+msgstr "ファイルサービス設定の構成"
+
+msgid "file_suffix_custom_expl_negative"
+msgstr "禁止のファイル拡張子"
+
+msgid "file_suffix_custom_expl_negative_info"
+msgstr "これらの拡張子ファイルはuploadできません。"
+
+msgid "file_suffix_custom_negative"
+msgstr "ファイル拡張子: Negative List (Adaptations)"
+
+msgid "file_suffix_custom_negative_info"
+msgstr "これらの拡張子はpositiveリストから削除されます。"
+
+msgid "file_suffix_custom_positive"
+msgstr "ファイル拡張子: Positive List (Adaptations)"
+
+msgid "file_suffix_custom_positive_info"
+msgstr "これらの拡張子はpositiveリストへ追加されます。"
+
+msgid "file_suffix_default_positive"
+msgstr "ファイル拡張子: Positive List (Default List)"
+
+msgid "file_suffix_default_positive_info"
+msgstr "承認済ファイル拡張子既定のプリセットリスト"
+
+msgid "file_suffix_overall_positive"
+msgstr "Positive List全体"
+
+msgid "file_suffix_overall_positive_info"
+msgstr "これは最終の承認済ファイルリストです。"
+
+msgid "policy_audience"
+msgstr "視聴者"
+
+msgid "policy_audience_all_users_option_desc"
+msgstr "全ユーザへポリシーを適用"
+
+msgid "policy_audience_global_roles_option_desc"
+msgstr "特殊グローバル役割を持つユーザ用のポリシーを適用"
+
+msgid "policy_confirm_deletion"
+msgstr "次のプロパティのポリシーを本当に削除しますか?"
+
+msgid "policy_deletion_failure_not_found"
+msgstr "エラー: ポリシーが見つからないので削除失敗"
+
+msgid "policy_deletion_successful"
+msgstr "ポリシーを正しく削除しました。"
+
+msgid "policy_filter"
+msgstr "ポリシーフィルター"
+
+msgid "policy_no_validity_limitation_set"
+msgstr "無期限有効"
+
+msgid "policy_scope"
+msgstr "範囲"
+
+msgid "policy_table_info_no_policies"
+msgstr "アップロードされたポリシーがまだ作成されていません。"
+
+msgid "policy_title_desc"
+msgstr "ポリシーの説明タイトル"
+
+msgid "policy_upload_limit"
+msgstr "アップロード制限"
+
+msgid "policy_upload_limit_desc"
+msgstr "このポリシーで設定されたアップロード制限(MB表示)"
+
+msgid "policy_valid_until"
+msgstr "有効期限"
+
+msgid "policy_valid_until_desc"
+msgstr "ポリシーが切れた後の'有効期限'オプション設定"
+
+msgid "policy_validity"
+msgstr "有効性"
+
+msgid "upload_limits"
+msgstr "アップロード制限"
+
+msgid "upload_policies"
+msgstr "アップロードポリシー"

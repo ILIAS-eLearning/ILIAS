@@ -1,0 +1,161 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: didactic\n"
+
+msgid "activate_exclusive_template"
+msgstr "Zasivi zadano"
+
+msgid "activate_exclusive_template_info"
+msgstr "Standardni predložak neće biti dostupan svugdje gdje je ovaj predložak aktivan."
+
+msgid "activate_local_didactic_template"
+msgstr "Opseg primjene"
+
+msgid "activate_local_didactic_template_info"
+msgstr "Upotreba ovog didaktičkog predloška bit će ograničena na ova podpodručja."
+
+msgid "didactic_activated_msg"
+msgstr "Aktivirani didaktički predlošci"
+
+msgid "didactic_adm_tab"
+msgstr "Didaktički predlošci"
+
+msgid "didactic_applicable_for"
+msgstr "Primjenjivo za"
+
+msgid "didactic_auto_generated"
+msgstr "Automatski generirano"
+
+msgid "didactic_available_templates"
+msgstr "Dostupni didaktički predlošci"
+
+msgid "didactic_back_to_overview"
+msgstr "Povratak na Pregled"
+
+msgid "didactic_cannot_delete_auto_generated"
+msgstr "Nije dopušteno brisati automatski generirane didaktičke predloške."
+
+msgid "didactic_cannot_delete_auto_generated_confirmation"
+msgstr "Barem jedan od odabranih didaktičkih predložaka generira se automatski i ne može se izbrisati."
+
+msgid "didactic_confirm_apply_new_template"
+msgstr "Želite li zaista primijeniti odabrani didaktički predložak? Izgubit će se sve trenutne postavke dozvola!"
+
+msgid "didactic_confirm_delete_msg"
+msgstr "Želite li zaista izbrisati sljedeće didaktičke predloške?"
+
+msgid "didactic_copy_suc_message"
+msgstr "Kopirani didaktički predložak"
+
+msgid "didactic_deactivated_msg"
+msgstr "Deaktivirani didaktički predlošci"
+
+msgid "didactic_default_type"
+msgstr "Zadano"
+
+msgid "didactic_default_type_info"
+msgstr "Primijenit će se zadani skup dozvola."
+
+msgid "didactic_delete_msg"
+msgstr "Izbrisani didaktički predlošci."
+
+msgid "didactic_do_export"
+msgstr "Izvoz"
+
+msgid "didactic_edit_tpl"
+msgstr "Uredi didaktički predložak"
+
+#, fuzzy
+msgid "didactic_filter_with_icon"
+msgstr "with Icon"
+
+#, fuzzy
+msgid "didactic_filter_without_icon"
+msgstr "without Icon"
+
+#, fuzzy
+msgid "didactic_global"
+msgstr "Global"
+
+#, fuzzy
+msgid "didactic_icon"
+msgstr "Icon"
+
+#, fuzzy
+msgid "didactic_icon_error"
+msgstr "Icons cannot be assigned to non-container objects."
+
+#, fuzzy
+msgid "didactic_icon_info"
+msgstr "The Icon is shown for all objects, which use this object template. \"Custom Icons\" of objects overwrite the didactic template icons. Icons can only be used for didactic templates assigned to container objects."
+
+msgid "didactic_import_btn"
+msgstr "Uvezi didaktički predložak"
+
+msgid "didactic_import_failed"
+msgstr "Uvoz didaktičkog predloška nije uspio s porukom:"
+
+msgid "didactic_import_success"
+msgstr "Uspješno uvežen didaktički predložak"
+
+msgid "didactic_import_table_title"
+msgstr "Uvoz didaktičkog predloška"
+
+msgid "didactic_install_info"
+msgstr "Opće informacije"
+
+#, fuzzy
+msgid "didactic_local"
+msgstr "Local"
+
+msgid "didactic_not_changed"
+msgstr "Postavka didaktičkog predloška je nepromijenjena."
+
+msgid "didactic_scope"
+msgstr "Opseg"
+
+msgid "didactic_scope_list_header"
+msgstr "Ograničeno na:"
+
+msgid "didactic_selected_tpl_option"
+msgstr "Primijenjeni didaktički predložak:"
+
+msgid "didactic_template_applied"
+msgstr "Primijenjeni didaktički predložak."
+
+msgid "didactic_template_update_import"
+msgstr "Ažuriraj didaktički predložak"
+
+msgid "didactic_template_update_import_info"
+msgstr "Svojstva će se mijenjati prema ovom uvozu. Objekti koji su već primijenili ovaj predložak neće se mijenjati."
+
+#, fuzzy
+msgid "didactic_translation_add_languages"
+msgstr "Add Languages"
+
+msgid "dtpl_obj_type_info"
+msgstr "Ovaj se didaktički predložak može primijeniti na ovu vrstu objekta."
+
+msgid "effective_form"
+msgstr "Predložak na snazi od"
+
+msgid "grp_closed"
+msgstr "Zatvorena grupa"
+
+msgid "grp_closed_info"
+msgstr "Grupa nije vidljiva za nečlanove."
+
+msgid "more_translations"
+msgstr "Još prijevoda"
+
+msgid "sess_closed"
+msgstr "Zatvorena sesija"
+
+msgid "sess_closed_info"
+msgstr "Sesija nije vidljiva za one koji nisu sudionici."

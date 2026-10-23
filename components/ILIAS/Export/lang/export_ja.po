@@ -1,0 +1,72 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: export\n"
+
+msgid "exp_file"
+msgstr "ファイル名"
+
+msgid "exp_public_access"
+msgstr "公開アクセス"
+
+msgid "exp_size"
+msgstr "ファイルサイズ(MB)"
+
+msgid "exp_timestamp"
+msgstr "作成日"
+
+msgid "exp_toggle_public_access"
+msgstr "公開アクセスを切り替え"
+
+msgid "exp_type"
+msgstr "タイプ"
+
+msgid "export_create"
+msgstr "作成"
+
+msgid "export_create_new_file"
+msgstr "新規エクスポート ファイルを作成"
+
+msgid "export_existing"
+msgstr "再利用"
+
+msgid "export_export_date"
+msgstr "エクスポート日"
+
+msgid "export_info_public_access"
+msgstr "公開アクセスエクスポート"
+
+msgid "export_info_public_access_download"
+msgstr "ダウンロード"
+
+msgid "export_last_export"
+msgstr "最終エクスポート"
+
+msgid "export_last_export_file"
+msgstr "最終のエクスポート ファイルを使用"
+
+msgid "export_last_file"
+msgstr "最終ファイル"
+
+msgid "export_omit"
+msgstr "省略"
+
+msgid "export_omit_resource"
+msgstr "リソースを省略"
+
+msgid "export_resource"
+msgstr "リソース"
+
+msgid "export_save_selection"
+msgstr "エクスポート開始"
+
+msgid "export_select_resources"
+msgstr "リソースを選択"
+
+msgid "no_file"
+msgstr "No file"

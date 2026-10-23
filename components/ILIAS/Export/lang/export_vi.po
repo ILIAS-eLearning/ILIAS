@@ -1,0 +1,93 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: vi\n"
+"Language-Team: Vietnamese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: export\n"
+
+#, fuzzy
+msgid "exp_file"
+msgstr "File Name"
+
+#, fuzzy
+msgid "exp_public_access"
+msgstr "Public Access"
+
+#, fuzzy
+msgid "exp_size"
+msgstr "File Size (MB)"
+
+#, fuzzy
+msgid "exp_timestamp"
+msgstr "Creation Date"
+
+#, fuzzy
+msgid "exp_toggle_public_access"
+msgstr "Toggle Public Access"
+
+#, fuzzy
+msgid "exp_type"
+msgstr "Type"
+
+#, fuzzy
+msgid "export_create"
+msgstr "Create"
+
+#, fuzzy
+msgid "export_create_new_file"
+msgstr "Create New Export File"
+
+#, fuzzy
+msgid "export_existing"
+msgstr "Reuse"
+
+#, fuzzy
+msgid "export_export_date"
+msgstr "Export Date"
+
+#, fuzzy
+msgid "export_info_public_access"
+msgstr "Public Access Export"
+
+#, fuzzy
+msgid "export_info_public_access_download"
+msgstr "Download"
+
+#, fuzzy
+msgid "export_last_export"
+msgstr "Last Export"
+
+#, fuzzy
+msgid "export_last_export_file"
+msgstr "Use Last Export File"
+
+#, fuzzy
+msgid "export_last_file"
+msgstr "Last File"
+
+#, fuzzy
+msgid "export_omit"
+msgstr "Omit"
+
+#, fuzzy
+msgid "export_omit_resource"
+msgstr "Omit Resource"
+
+#, fuzzy
+msgid "export_resource"
+msgstr "Resource"
+
+#, fuzzy
+msgid "export_save_selection"
+msgstr "Start Export"
+
+#, fuzzy
+msgid "export_select_resources"
+msgstr "Select Resources"
+
+#, fuzzy
+msgid "no_file"
+msgstr "No file"

@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: objref\n"
+
+msgid "objref_custom_title"
+msgstr "Eigenen Titel eingeben"
+
+msgid "objref_edit_ref"
+msgstr "Ziel des Links"
+
+msgid "objref_edit_title"
+msgstr "Titel"
+
+msgid "objref_failure_target_type"
+msgstr "Das Ziel des Links muss vom folgendem Typ sein:"
+
+msgid "objref_reuse_title"
+msgstr "Titel des verlinkten Objekts übernehmen"
+
+msgid "objref_title_settings"
+msgstr "Titel des verlinkten Objekts"

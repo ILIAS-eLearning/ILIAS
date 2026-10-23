@@ -1,0 +1,164 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mep\n"
+
+msgid "mep_all"
+msgstr "Alla"
+
+msgid "mep_all_mobs"
+msgstr "Alla mediaobjekt"
+
+msgid "mep_bulk_upload"
+msgstr "Massuppladdning"
+
+msgid "mep_choose_from_folder"
+msgstr "Välj från mapp"
+
+msgid "mep_choose_from_mep"
+msgstr "Välj från pool"
+
+#, fuzzy
+msgid "mep_clipboard_info"
+msgstr "Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users."
+
+msgid "mep_content"
+msgstr "Medieobjekt"
+
+msgid "mep_content_snippet_in_use"
+msgstr "Innehållsblocket '%s' används och kan därför inte tas bort."
+
+msgid "mep_content_snippet_used_in_older_versions"
+msgstr "Attention"
+
+msgid "mep_copy_to_mep"
+msgstr "Kopiera till mediapool"
+
+msgid "mep_create_content_snippet"
+msgstr "Skapa innehållsmodul"
+
+msgid "mep_create_folder"
+msgstr " Skapa mapp"
+
+msgid "mep_create_media_files"
+msgstr "Skapa mediaobjekt"
+
+msgid "mep_create_mob"
+msgstr "Skapa mediaobjekt"
+
+msgid "mep_default_height"
+msgstr "Standardhöjd"
+
+msgid "mep_default_width"
+msgstr "Standardbredd"
+
+msgid "mep_default_width_height_info"
+msgstr "Default width och height används som standard för nya mediaobjekt."
+
+msgid "mep_edit_content_snippet"
+msgstr "Redigera innehållsmodul"
+
+msgid "mep_edit_folder"
+msgstr "Redigera mapp"
+
+msgid "mep_file"
+msgstr "Fil"
+
+msgid "mep_folder"
+msgstr "Folder"
+
+msgid "mep_format"
+msgstr "Format"
+
+msgid "mep_import"
+msgstr "Importera media pool"
+
+msgid "mep_import_lang"
+msgstr "Målspråk"
+
+msgid "mep_import_trans"
+msgstr "Import översättning"
+
+msgid "mep_master_language_only"
+msgstr "Basspråk för översättning - Master"
+
+msgid "mep_master_language_only_no_media"
+msgstr "Basspråk för översättning - utan mediaobjekt"
+
+msgid "mep_media_files"
+msgstr "Mediefiler"
+
+msgid "mep_media_subtitles"
+msgstr "Underrubrik"
+
+msgid "mep_mob"
+msgstr "media objekt"
+
+msgid "mep_move_select_insert"
+msgstr "Navigera till målmappen och välj \"Klistra in\"."
+
+msgid "mep_mpg"
+msgstr "Innehållsmodul"
+
+msgid "mep_new_content_snippet"
+msgstr "Ny innehållsmodul"
+
+msgid "mep_new_folder"
+msgstr "Ny mapp"
+
+msgid "mep_page_properties"
+msgstr "Egenskaper hos byggstenen"
+
+msgid "mep_page_type_mep"
+msgstr "Innehållsmodul"
+
+msgid "mep_thumbnail"
+msgstr "Miniatyrbild"
+
+msgid "mep_title_and_description"
+msgstr "Titel och beskrivning"
+
+msgid "mep_trans_import_info"
+msgstr "Om du har exporterat denna modul som \"XML (basic language for translation - master)\" till en annan installation, kan du återimportera de översatta exportfilerna från denna installation här."
+
+msgid "mep_unknown"
+msgstr "Okänd"
+
+msgid "mep_up_dir_copy"
+msgstr "Kopiera filer från uppladdningskatalogen (tar emot filer i uppladdningskatalogen)"
+
+msgid "mep_up_dir_move"
+msgstr " Flytta filer från uppladdningskatalogen (snabbare)"
+
+msgid "mep_upload_dir_files"
+msgstr "Filer från uppladdningskatalogen"
+
+msgid "mobs_activate_pages"
+msgstr "Använd innehållsmoduler"
+
+msgid "mobs_activate_pages_info"
+msgstr "Gör det möjligt att skapa sidinnehåll som byggstenar i mediapooler. Dessa innehållsmoduler kan återanvändas i ILIAS inlärningsmoduler, men kan inte redigeras där."
+
+msgid "mobs_always_show_file_manager"
+msgstr "Visa alltid filstrukturen"
+
+msgid "mobs_always_show_file_manager_info"
+msgstr "Om inaktiverat visas inte filstrukturen för enkla datatyper, t.ex. bilder."
+
+msgid "mobs_black_list_file_types"
+msgstr "Förbjudna filtyper"
+
+#, fuzzy
+msgid "mobs_black_list_file_types_and_allowed_info"
+msgstr "Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:"
+
+msgid "mobs_restrict_file_types"
+msgstr "Tillåtna filtyper"
+
+msgid "mobs_restrict_file_types_info"
+msgstr "Ange alla filtyper som får laddas upp i mediaobjekt. För att göra detta anger du respektive filändelser separerade med kommatecken (t.ex. jpg,gif). Om inget anges är alla typer tillåtna."

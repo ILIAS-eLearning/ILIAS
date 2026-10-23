@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: awrn\n"
+
+msgid "awareness_now_online"
+msgstr "現在オンライン中"
+
+msgid "awareness_settings"
+msgstr "設定"
+
+msgid "awrn_caching_period"
+msgstr "キャッシュ期間"
+
+msgid "awrn_caching_period_info"
+msgstr "トップバー内のユーザ数が更新されて新規オンラインユーザが確定される前の待ち時間"
+
+msgid "awrn_enable"
+msgstr "`誰がオンラインですか？'ツールを有効化"
+
+msgid "awrn_filter"
+msgstr "ユーザフィルター"
+
+msgid "awrn_hide_from_awareness"
+msgstr "`誰がオンラインですか？' - ツールへ自分を表示しない"
+
+msgid "awrn_hide_from_awareness_info"
+msgstr "‘誰がオンラインですか？’-ツールはトップバーにあり選択したユーザを表示します。(例. コンタクトまたはコースメンバー)"
+
+msgid "awrn_inactive"
+msgstr "表示しない"
+
+msgid "awrn_incl_offline"
+msgstr "オンラインとオフライン"
+
+msgid "awrn_max_inactivity"
+msgstr "最大アクティビティのない期間"
+
+msgid "awrn_max_inactivity_info"
+msgstr "この期間の後ユーザはオフラインになるよう考慮されます。何も設定していない場合はセッションタイムを使用します。"
+
+msgid "awrn_max_nr_entries"
+msgstr "最大アイテム数"
+
+msgid "awrn_max_nr_entries_info"
+msgstr "`誰がオンラインですか？'リストの最大アイテム数"
+
+msgid "awrn_minutes"
+msgstr "min"
+
+msgid "awrn_online"
+msgstr "Online"
+
+msgid "awrn_online_only"
+msgstr "オンラインのみ"
+
+msgid "awrn_seconds"
+msgstr "sec"
+
+msgid "awrn_use_osd"
+msgstr "ポップアップオンラインユーザ"
+
+msgid "awrn_use_osd_info"
+msgstr "オンラインはだれ?'リスト上へ新しいオンラインユーザを示すポップアップを表示する。"
+
+msgid "awrn_user_show"
+msgstr "アカウントを\"オンラインはだれ?\"へ表示する"
+
+msgid "awrn_user_show_default"
+msgstr "「オンラインはだれ?」の表示用デフォルト値"
+
+msgid "awrn_user_show_default_info"
+msgstr "\"オンラインはだれ?\"のユーザーのステータス表示のデフォルト値を定義します。"
+
+msgid "user_awrn_default"
+msgstr "Default"
+
+msgid "user_awrn_hide"
+msgstr "ステータスを表示しない"
+
+msgid "user_awrn_show"
+msgstr "ステータスを表示する"

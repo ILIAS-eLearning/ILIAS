@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: pwsp\n"
+
+msgid "pwsp_enable_personal_resources"
+msgstr "Persönliche Ressourcen aktivieren"
+
+msgid "pwsp_enable_wsp_blogs"
+msgstr "Blogs aktivieren"
+
+msgid "pwsp_enable_wsp_files"
+msgstr "Dateien aktivieren"
+
+msgid "pwsp_enable_wsp_links"
+msgstr "Links aktivieren"
+
+msgid "pwsp_type_cannot_be_copied"
+msgstr "Objects of type '%s' cannot be copied."

@@ -1,0 +1,81 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: exp\n"
+
+msgid "exp_create_file"
+msgstr "Crear archivo de exportación"
+
+msgid "exp_error_disabled"
+msgstr "La función de exportación está desactivada para contenedores. Puede ponerse en contacto con su administrador del sistema."
+
+msgid "exp_error_too_many_objects"
+msgstr "La exportación supera el número máximo de objetos permitidos (%1). Por favor, seleccione un número menor de objetos."
+
+msgid "exp_export_dropdown"
+msgstr "Exportar"
+
+msgid "exp_export_files"
+msgstr "Exportar archivos"
+
+msgid "exp_export_single_option"
+msgstr "Exportar %s"
+
+msgid "exp_file_created"
+msgstr "Se ha creado el archivo de exportación."
+
+msgid "exp_format_dropdown-csv"
+msgstr "como CSV"
+
+msgid "exp_format_dropdown-html"
+msgstr "como HTML"
+
+msgid "exp_format_dropdown-xls"
+msgstr "como XLS"
+
+msgid "exp_format_dropdown-xml"
+msgstr "como XML"
+
+msgid "exp_html"
+msgstr "HTML"
+
+msgid "exp_import_validation_err_no_matching_xsd"
+msgstr "No existe un archivo de esquema válido para la versión %s."
+
+msgid "exp_not_public_access_status"
+msgstr "No publicado"
+
+msgid "exp_print_pdf"
+msgstr "Imprimir/PDF"
+
+msgid "exp_print_pdf_info"
+msgstr "Para crear un PDF, seleccione \"Guardar como PDF\" en la ventana de impresión que aparece tras hacer clic en 'Vista de impresión'."
+
+msgid "exp_public_access_status"
+msgstr "Disponible en la pestaña 'Información'"
+
+msgid "exp_really_delete"
+msgstr "¿Está seguro de que desea eliminar los siguientes archivos de exportación?"
+
+msgid "exp_show_print_view"
+msgstr "Mostrar vista de impresión"
+
+msgid "exp_xml"
+msgstr "XML"
+
+msgid "export_created"
+msgstr "Se ha creado un nuevo archivo de exportación."
+
+msgid "export_files_deleted"
+msgstr "Los archivos de exportación seleccionados han sido eliminados."
+
+msgid "export_options"
+msgstr "Opciones de exportación"
+
+msgid "export_type"
+msgstr "Tipo de exportación"

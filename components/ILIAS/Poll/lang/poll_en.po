@@ -1,0 +1,217 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: poll\n"
+
+msgid "poll_absolute"
+msgstr "Current Votes"
+
+msgid "poll_activation_online_info"
+msgstr "Make this poll accessible to users."
+
+msgid "poll_add"
+msgstr "Add Poll"
+
+msgid "poll_anonymous_warning"
+msgstr "This is an anonymous poll. Individual votes are recorded, but your name will not be shown in the poll results."
+
+msgid "poll_answer"
+msgstr "Answer"
+
+msgid "poll_answer_selected_alt_text"
+msgstr "Selected"
+
+msgid "poll_answers"
+msgstr "Possible Answers"
+
+msgid "poll_barchart"
+msgstr "Bar chart"
+
+msgid "poll_block_message_already_voted"
+msgstr "You have already voted in this poll."
+
+msgid "poll_block_message_no_answers"
+msgstr "This poll is incomplete."
+
+msgid "poll_block_results_available_on"
+msgstr "The results will be available: %s."
+
+msgid "poll_cannot_set_online_no_answers"
+msgstr "This poll cannot be set to &quot;Online&quot; because it doesn’t have a question!"
+
+msgid "poll_chart_votes"
+msgstr "Votes"
+
+msgid "poll_comments"
+msgstr "Comments"
+
+msgid "poll_copy"
+msgstr "Copy Poll"
+
+msgid "poll_delete_votes"
+msgstr "Delete All Votes Cast"
+
+msgid "poll_delete_votes_sure"
+msgstr "Are you sure you want to delete the votes of all users who have taken part in this poll?"
+
+msgid "poll_edit"
+msgstr "Edit Poll"
+
+msgid "poll_edit_question"
+msgstr "Edit Question"
+
+msgid "poll_image"
+msgstr "Image"
+
+msgid "poll_limit_not_below_answer_count"
+msgstr "The maximum number of selectable answer options must be smaller than the total number of possible answers."
+
+msgid "poll_limit_number_of_answers"
+msgstr "Limit Number of Answers Selectable"
+
+msgid "poll_max_number_of_answers"
+msgstr "Maximum Selectable per Participant"
+
+msgid "poll_max_number_of_answers_info"
+msgstr "You may choose up to %s answers."
+
+msgid "poll_mode"
+msgstr "Mode"
+
+msgid "poll_mode_anonymous"
+msgstr "Without names / anonymous"
+
+msgid "poll_mode_anonymous_info"
+msgstr "The names of poll participants are not shown in the 'Results' tab. Please note: participant user IDs are, however, recorded in the database."
+
+msgid "poll_mode_personal"
+msgstr "With names"
+
+msgid "poll_mode_personal_info"
+msgstr "The names of poll participants and their respective answers are listed in the ‘Results’ tab. Users with access to this tab can inspect who has given which answer."
+
+msgid "poll_new"
+msgstr "Add New Poll"
+
+msgid "poll_non_anonymous_warning"
+msgstr "Your name and how you have voted will be visible to anyone with administration permissions for this poll."
+
+msgid "poll_notification_activated"
+msgstr "Notifications activated."
+
+msgid "poll_notification_deactivated"
+msgstr "Notifications deactivated"
+
+msgid "poll_notification_subscribe"
+msgstr "Activate Notifications"
+
+msgid "poll_notification_unsubscribe"
+msgstr "Deactivate Notifications"
+
+msgid "poll_percentage"
+msgstr "Current Percentage"
+
+msgid "poll_population"
+msgid_plural "poll_population_plural"
+msgstr[0] "One vote cast"
+msgstr[1] "%s votes cast"
+
+msgid "poll_population_singular"
+msgstr "One vote cast"
+
+msgid "poll_question"
+msgstr "Question"
+
+msgid "poll_result"
+msgstr "Results"
+
+msgid "poll_result_answers"
+msgstr "Votes"
+
+msgid "poll_result_sorting"
+msgstr "Presentation Order"
+
+msgid "poll_result_sorting_answers"
+msgstr "In the same order as the possible answers"
+
+msgid "poll_result_sorting_votes"
+msgstr "By number of votes (descending)"
+
+msgid "poll_result_users"
+msgstr "Participants"
+
+msgid "poll_show_results_as"
+msgstr "Results Format"
+
+msgid "poll_sortorder"
+msgstr "Order"
+
+msgid "poll_stacked_chart"
+msgstr "Stacked chart"
+
+msgid "poll_view_results"
+msgstr "Show Results"
+
+msgid "poll_view_results_after_period"
+msgstr "When voting period has ended"
+
+msgid "poll_view_results_after_period_impossible"
+msgstr "In order for the results to be first shown when the voting period has ended, you need to establish a limited voting period by entering dates above."
+
+msgid "poll_view_results_after_vote"
+msgstr "After participant has voted"
+
+msgid "poll_view_results_always"
+msgstr "Always"
+
+msgid "poll_view_results_never"
+msgstr "Never"
+
+msgid "poll_vote"
+msgstr "Vote"
+
+msgid "poll_vote_error_multi"
+msgid_plural "poll_vote_error_multi_plural"
+msgstr[0] "Please select no more than %s answers."
+msgstr[1] "Please select no more than %s answers."
+
+msgid "poll_vote_error_multi_no_answer"
+msgstr "Please select at least one of the answers."
+
+msgid "poll_vote_error_single"
+msgstr "Please select one of the answers."
+
+msgid "poll_vote_notification_body"
+msgstr "A vote has been cast in the following poll:"
+
+msgid "poll_vote_notification_link"
+msgstr "Link to Poll"
+
+msgid "poll_vote_notification_reason"
+msgstr "You have received this e-mail because you activated notifications for the poll mentioned above."
+
+msgid "poll_vote_notification_subject"
+msgstr "Poll \"%s\" – new vote cast"
+
+msgid "poll_votes_no_edit"
+msgstr "This poll has already received votes. You cannot edit the poll unless you delete these votes."
+
+msgid "poll_voting_period_and_results"
+msgstr "Voting Period and Results"
+
+msgid "poll_voting_period_ended_info"
+msgstr "The voting period ended %s."
+
+msgid "poll_voting_period_full_info"
+msgstr "Voting in this poll will be possible from %s until %s"
+
+msgid "poll_voting_period_info"
+msgstr "The deadline for voting is %s."
+
+msgid "poll_voting_period_limited"
+msgstr "Limited Voting Period"

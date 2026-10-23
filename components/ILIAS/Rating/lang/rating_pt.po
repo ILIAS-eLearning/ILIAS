@@ -1,0 +1,100 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: rating\n"
+
+msgid "rat_not_rated_yet"
+msgstr "Não classificado ainda"
+
+msgid "rat_nr_ratings"
+msgstr "%s Classificações"
+
+msgid "rat_one_rating"
+msgstr "Uma classificação"
+
+msgid "rating_activate_rating"
+msgstr "Ativar classificação"
+
+msgid "rating_activate_rating_info"
+msgstr "se estiver ativada, os utilizadores podem classificar este objeto."
+
+msgid "rating_add_category"
+msgstr "Adicionar categoria"
+
+#, fuzzy
+msgid "rating_avg_rating"
+msgstr "Average Rating"
+
+msgid "rating_categories"
+msgstr "Categorias de classificação"
+
+msgid "rating_category_add"
+msgstr "Adicionar"
+
+msgid "rating_category_create"
+msgstr "Criar categoria"
+
+msgid "rating_category_created"
+msgstr "Categoria criada."
+
+msgid "rating_category_delete_sure"
+msgstr "Tem a certeza que quer apagar as seguintes categorias de classificação?  Perder-se-ão todas as classificações para essa categoria."
+
+msgid "rating_category_deleted"
+msgstr "Categoria apagada."
+
+msgid "rating_category_edit"
+msgstr "Editar categoria"
+
+msgid "rating_category_update"
+msgstr "Guardar"
+
+msgid "rating_category_updated"
+msgstr "Categoria guardada."
+
+msgid "rating_export_category"
+msgstr "Categoria"
+
+msgid "rating_export_date"
+msgstr "Data"
+
+msgid "rating_export_rating"
+msgstr "Classificação"
+
+msgid "rating_new_objects_auto"
+msgstr "Acesso dos participantes aos resultados"
+
+msgid "rating_new_objects_auto_info"
+msgstr "Todos os utilizadores registados podem aceder aos resultados"
+
+msgid "rating_number_votes"
+msgstr "%s Classificações"
+
+#, fuzzy
+msgid "rating_open_dialog"
+msgstr "Open rating dialog"
+
+msgid "rating_overlay_submit"
+msgstr "Submeter classificação"
+
+#, fuzzy
+msgid "rating_personal_rating"
+msgstr "Your Rating"
+
+#, fuzzy
+msgid "rating_rate_x_of_5"
+msgstr "Rate with %s of 5 stars"
+
+msgid "rating_remove"
+msgstr "Remover classificação"
+
+msgid "rating_update_positions"
+msgstr "Guardar ordem"
+
+msgid "rating_your_rating"
+msgstr "A sua classificação"

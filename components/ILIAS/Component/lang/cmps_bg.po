@@ -1,0 +1,245 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: bg\n"
+"Language-Team: Bulgarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cmps\n"
+
+msgid "cmps_activate"
+msgstr "Активиране"
+
+msgid "cmps_active"
+msgstr "Активиран"
+
+msgid "cmps_add_new_rank"
+msgstr "Позиция в списъка за добавяне на нови обекти"
+
+msgid "cmps_available"
+msgstr "Available"
+
+#, fuzzy
+msgid "cmps_available_version"
+msgstr "Available Version"
+
+msgid "cmps_basic_files"
+msgstr "Основни файлове"
+
+msgid "cmps_class_file"
+msgstr "Файл на класа"
+
+msgid "cmps_component"
+msgstr "Component"
+
+msgid "cmps_configure"
+msgstr "Конфигуриране"
+
+#, fuzzy
+msgid "cmps_current_db_version"
+msgstr "Current DB-Version"
+
+msgid "cmps_current_version"
+msgstr " Текуща версия"
+
+msgid "cmps_database"
+msgstr "База данни"
+
+msgid "cmps_db_update"
+msgstr "Скрипт за обновяване на базата данни"
+
+msgid "cmps_deactivate"
+msgstr "Деактивиране"
+
+#, fuzzy
+msgid "cmps_detailed_information"
+msgstr "Detailed Informationen"
+
+msgid "cmps_dir"
+msgstr "Директория"
+
+#, fuzzy
+msgid "cmps_disable_creation"
+msgstr "Disable Creation"
+
+msgid "cmps_enable_creation"
+msgstr "Активиране на създаването"
+
+msgid "cmps_file_version"
+msgstr "Актуализиране на версията на файла"
+
+msgid "cmps_group"
+msgstr "Група"
+
+msgid "cmps_id"
+msgstr "ID"
+
+msgid "cmps_ilias_max_version"
+msgstr "Max. Версия на ILIAS"
+
+msgid "cmps_ilias_min_version"
+msgstr "Min. Версия на ILIAS"
+
+msgid "cmps_inactive"
+msgstr "Inactive"
+
+msgid "cmps_install"
+msgstr "Инсталиране"
+
+#, fuzzy
+msgid "cmps_is_active"
+msgstr "Activated"
+
+#, fuzzy
+msgid "cmps_is_installed"
+msgstr "Installed"
+
+msgid "cmps_lang_files"
+msgstr "Езикови файлове"
+
+msgid "cmps_lang_prefix"
+msgstr " Префикс на езиковите променливи"
+
+msgid "cmps_languages"
+msgstr "Езици"
+
+msgid "cmps_main_dir"
+msgstr "Основна директория"
+
+msgid "cmps_missing"
+msgstr "Пропускане"
+
+msgid "cmps_module"
+msgstr "Module"
+
+msgid "cmps_must_installed"
+msgstr "Компонентът трябва да е инсталиран."
+
+msgid "cmps_name"
+msgstr "Име"
+
+#, fuzzy
+msgid "cmps_needs_matching_ilias_version"
+msgstr "This plugin does not work with your current ILIAS version."
+
+msgid "cmps_needs_newer_ilias_version"
+msgstr "Тази версия на плъгина работи само с по-нови версии на ILIAS. Моля, надградете ILIAS."
+
+msgid "cmps_needs_newer_plugin_version"
+msgstr "Тази версия на ILIAS се нуждае от по-нова версия на плъгина. Моля, актуализирайте плъгина."
+
+msgid "cmps_needs_update"
+msgstr "Необходима е актуализация."
+
+msgid "cmps_needs_upgrade"
+msgstr "Инсталираната в момента версия на плъгина е по-стара от предишната. Моля, актуализирайте плъгина."
+
+msgid "cmps_no_db_update_file_available"
+msgstr "Няма наличен скрипт за актуализация на БД."
+
+msgid "cmps_no_language_file_available"
+msgstr "Няма наличен езиков файл."
+
+msgid "cmps_plugin"
+msgstr "Plugin"
+
+msgid "cmps_plugin_activated"
+msgstr "Плъгинът е активиран."
+
+msgid "cmps_plugin_db_prefixes"
+msgstr " Префикси на таблици за БД"
+
+msgid "cmps_plugin_deactivated"
+msgstr "Плъгинът е деактивиран."
+
+#, fuzzy
+msgid "cmps_plugin_deinstalled"
+msgstr "The plugin has been uninstalled"
+
+msgid "cmps_plugin_file"
+msgstr "Файл на приставка"
+
+msgid "cmps_plugin_lang_prefixes"
+msgstr "Префикси на езика на приставката"
+
+msgid "cmps_plugin_slot"
+msgstr "Плъгин слот"
+
+msgid "cmps_plugin_uninstalled"
+msgstr "Плъгинът е деинсталиран."
+
+#, fuzzy
+msgid "cmps_plugin_updated"
+msgstr "The plugin has been updated"
+
+msgid "cmps_plugins"
+msgstr "Plugins"
+
+msgid "cmps_refresh"
+msgstr "Refresh"
+
+#, fuzzy
+msgid "cmps_refresh_lng"
+msgstr "Refresh language"
+
+msgid "cmps_rep_object"
+msgstr " Тип на обекта на хранилището"
+
+msgid "cmps_repository_object_types"
+msgstr "Типове обекти на хранилището"
+
+msgid "cmps_responsible"
+msgstr "Responsible"
+
+#, fuzzy
+msgid "cmps_responsible_mail"
+msgstr "Mail (Responsible)"
+
+msgid "cmps_save_options"
+msgstr "Запазване на опции"
+
+msgid "cmps_service"
+msgstr "Service"
+
+msgid "cmps_show_details"
+msgstr "Покажи подробности"
+
+msgid "cmps_slots"
+msgstr "Места"
+
+msgid "cmps_status"
+msgstr "Статус"
+
+#, fuzzy
+msgid "cmps_supports_cli_setup"
+msgstr "Supports CLI-Setup"
+
+#, fuzzy
+msgid "cmps_supports_export"
+msgstr "Supports export"
+
+#, fuzzy
+msgid "cmps_supports_learning_progress"
+msgstr "Supports learning progress"
+
+msgid "cmps_uninstall"
+msgstr "Деинсталиране"
+
+msgid "cmps_uninstall_confirm"
+msgstr "Със сигурност ли искате да деинсталирате приставката \"%s\"?"
+
+msgid "cmps_uninstall_inactive_confirm"
+msgstr "Плъгинът \"%1$s\" понастоящем не може да бъде активиран (\"%2$s\"). В това състояние плъгините не могат да бъдат деинсталирани напълно. Тъй като се възстановява само интеграцията на ядрото, потребителските данни на плъгина могат да останат. Искате ли да продължите с частичното деинсталиране?"
+
+msgid "cmps_update"
+msgstr "Актуализация"
+
+msgid "cmps_version"
+msgstr "Версия"
+
+msgid "database_is_uptodate"
+msgstr "Базата данни е актуална"
+
+msgid "no_changes"
+msgstr "Няма промени"

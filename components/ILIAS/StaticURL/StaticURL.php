@@ -47,6 +47,8 @@ use ILIAS\StaticURL\Legacy\RepositoryTreeProxy;
 use ILIAS\StaticURL\Legacy\SettingsProxy;
 use ILIAS\StaticURL\Legacy\UserProxy;
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 
 class StaticURL implements Component
 {
@@ -120,5 +122,9 @@ class StaticURL implements Component
                 $use[URIBuilder::class],
                 $internal[Context::class]
             );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'stus'
+        );
     }
 }

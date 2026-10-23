@@ -1,0 +1,25 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: pwsp\n"
+
+msgid "pwsp_enable_personal_resources"
+msgstr "Aktivera personliga resurser"
+
+msgid "pwsp_enable_wsp_blogs"
+msgstr "Aktivera bloggar"
+
+msgid "pwsp_enable_wsp_files"
+msgstr " Aktivera filer"
+
+msgid "pwsp_enable_wsp_links"
+msgstr " Aktivera länkar"
+
+#, fuzzy
+msgid "pwsp_type_cannot_be_copied"
+msgstr "Objects of type '%s' cannot be copied."

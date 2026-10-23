@@ -1,0 +1,245 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: cmps\n"
+
+msgid "cmps_activate"
+msgstr "Aktivovat"
+
+msgid "cmps_active"
+msgstr "Aktivní"
+
+msgid "cmps_add_new_rank"
+msgstr "Pozice v seznamu \"Přidat nový objekt\""
+
+msgid "cmps_available"
+msgstr "Dostupné"
+
+#, fuzzy
+msgid "cmps_available_version"
+msgstr "Available Version"
+
+msgid "cmps_basic_files"
+msgstr "Základní soubory"
+
+msgid "cmps_class_file"
+msgstr "Soubor třídy"
+
+msgid "cmps_component"
+msgstr "Komponenta"
+
+msgid "cmps_configure"
+msgstr "Konfigurovat"
+
+#, fuzzy
+msgid "cmps_current_db_version"
+msgstr "Current DB-Version"
+
+msgid "cmps_current_version"
+msgstr "Aktuální verze"
+
+msgid "cmps_database"
+msgstr "Databáze"
+
+msgid "cmps_db_update"
+msgstr "Skript aktualizace DB"
+
+msgid "cmps_deactivate"
+msgstr "Deaktivovat"
+
+#, fuzzy
+msgid "cmps_detailed_information"
+msgstr "Detailed Informationen"
+
+msgid "cmps_dir"
+msgstr "Adresář"
+
+#, fuzzy
+msgid "cmps_disable_creation"
+msgstr "Disable Creation"
+
+msgid "cmps_enable_creation"
+msgstr "Zapnout tvorbu"
+
+msgid "cmps_file_version"
+msgstr "Verze akualizačního souboru"
+
+msgid "cmps_group"
+msgstr "Skupina"
+
+msgid "cmps_id"
+msgstr "ID"
+
+msgid "cmps_ilias_max_version"
+msgstr "Max. verze ILIAS"
+
+msgid "cmps_ilias_min_version"
+msgstr "Min. verze ILIAS"
+
+msgid "cmps_inactive"
+msgstr "Neaktivní"
+
+msgid "cmps_install"
+msgstr "Install"
+
+#, fuzzy
+msgid "cmps_is_active"
+msgstr "Activated"
+
+#, fuzzy
+msgid "cmps_is_installed"
+msgstr "Installed"
+
+msgid "cmps_lang_files"
+msgstr "Soubory jazyků"
+
+msgid "cmps_lang_prefix"
+msgstr "Označení jazykových proměnných"
+
+msgid "cmps_languages"
+msgstr "Jazyky"
+
+msgid "cmps_main_dir"
+msgstr "Hlavní adresář"
+
+msgid "cmps_missing"
+msgstr "Chybí"
+
+msgid "cmps_module"
+msgstr "Modul"
+
+msgid "cmps_must_installed"
+msgstr "Komponenta musí být instalována."
+
+msgid "cmps_name"
+msgstr "Název"
+
+#, fuzzy
+msgid "cmps_needs_matching_ilias_version"
+msgstr "This plugin does not work with your current ILIAS version."
+
+msgid "cmps_needs_newer_ilias_version"
+msgstr "Tato verze pluginu běží jen na novější verzi ILIAS. Aktualizujte prosím ILIAS."
+
+msgid "cmps_needs_newer_plugin_version"
+msgstr "Tato verze ILIAS vyžaduje novější verzi zásuvného souboru. Aktualizujte prosím plugin."
+
+msgid "cmps_needs_update"
+msgstr "Vyžaduje aktualizaci."
+
+msgid "cmps_needs_upgrade"
+msgstr "Verze pluginu, kterou instalujete, je starší než nainstalovaná verze. Aktualizujte prosím plugin."
+
+msgid "cmps_no_db_update_file_available"
+msgstr "Není dostupný žádný skript aktualizace DB."
+
+msgid "cmps_no_language_file_available"
+msgstr "Žádný jazykový soubor není dostupný."
+
+msgid "cmps_plugin"
+msgstr "Plugin"
+
+msgid "cmps_plugin_activated"
+msgstr "Plugin byl aktivován."
+
+msgid "cmps_plugin_db_prefixes"
+msgstr "Označení tabulek DB"
+
+msgid "cmps_plugin_deactivated"
+msgstr "Plugin byl deaktivován."
+
+#, fuzzy
+msgid "cmps_plugin_deinstalled"
+msgstr "The plugin has been uninstalled"
+
+msgid "cmps_plugin_file"
+msgstr "Soubor pluginu"
+
+msgid "cmps_plugin_lang_prefixes"
+msgstr "Označení jazykových pluginů"
+
+msgid "cmps_plugin_slot"
+msgstr "Slot pluginu"
+
+msgid "cmps_plugin_uninstalled"
+msgstr "Plugin byl odinstalován."
+
+#, fuzzy
+msgid "cmps_plugin_updated"
+msgstr "The plugin has been updated"
+
+msgid "cmps_plugins"
+msgstr "Pluginy"
+
+msgid "cmps_refresh"
+msgstr "Obnovení"
+
+#, fuzzy
+msgid "cmps_refresh_lng"
+msgstr "Refresh language"
+
+msgid "cmps_rep_object"
+msgstr "Typ objektu úložiště"
+
+msgid "cmps_repository_object_types"
+msgstr "Typy objektů úložiště"
+
+msgid "cmps_responsible"
+msgstr "Zodpovědný"
+
+#, fuzzy
+msgid "cmps_responsible_mail"
+msgstr "Mail (Responsible)"
+
+msgid "cmps_save_options"
+msgstr "Uložit nastavení"
+
+msgid "cmps_service"
+msgstr "Služba"
+
+msgid "cmps_show_details"
+msgstr "Zobrazit detaily"
+
+msgid "cmps_slots"
+msgstr "Sloty"
+
+msgid "cmps_status"
+msgstr "Status"
+
+#, fuzzy
+msgid "cmps_supports_cli_setup"
+msgstr "Supports CLI-Setup"
+
+#, fuzzy
+msgid "cmps_supports_export"
+msgstr "Supports export"
+
+#, fuzzy
+msgid "cmps_supports_learning_progress"
+msgstr "Supports learning progress"
+
+msgid "cmps_uninstall"
+msgstr "Odinstalovat"
+
+msgid "cmps_uninstall_confirm"
+msgstr "Opravdu chcete odinstalovat plugin „%s“?"
+
+msgid "cmps_uninstall_inactive_confirm"
+msgstr "Plugin „%1$s“ nelze v současné době aktivovat („%2$s“). V tomto stavu nelze pluginy zcela odinstalovat. Vzhledem k tomu, že je vrácena pouze integrace jádra, mohou zůstat zachována vlastní data pluginu. Chcete pokračovat v částečném odinstalování?"
+
+msgid "cmps_update"
+msgstr "Akualizovat"
+
+msgid "cmps_version"
+msgstr "Verze"
+
+msgid "database_is_uptodate"
+msgstr "Tato databáze je aktuální."
+
+msgid "no_changes"
+msgstr "Žádné změny"

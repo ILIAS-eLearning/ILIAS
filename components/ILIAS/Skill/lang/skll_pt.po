@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: skll\n"
+
+msgid "skll_competence_achievements"
+msgstr "Novos resultados e considerações de competências"
+
+msgid "skll_intro_skill_notification_for"
+msgstr "isto é uma vista geral dos seus últimos resultados de competência."
+
+msgid "skll_lhist_skill_achieved"
+msgstr "Estado $4$ de $3$ foi atribuído em $1$."
+
+#, fuzzy
+msgid "skll_lhist_skill_profile_fulfilled"
+msgstr "Competence Profile $3$ was fulfilled."
+
+msgid "skll_lhist_skill_self_eval"
+msgstr "Estado $4$ de $3$ foi autoatribuído."
+
+msgid "skll_lhist_skill_self_eval_in"
+msgstr "Estado $4$ de $3$ foi autoatribuído em $1$."
+
+msgid "skll_new_skill_achievements"
+msgstr "Alcançou novos níveis de competência no período de %1$s a %2$s:"
+
+msgid "skll_skill_notification"
+msgstr "Notificação de competência"
+
+msgid "skll_skill_notification_desc"
+msgstr "Informa o utilizador sobre níveis de competência recentemente definidos."

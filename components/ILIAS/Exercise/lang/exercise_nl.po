@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: exercise\n"
+
+msgid "exc_admin_settings"
+msgstr "Oefeningbeheer"
+
+msgid "exc_comment"
+msgstr "Informatie"
+
+msgid "exc_comment_for_learner"
+msgstr "Informatie voor de leerling"
+
+msgid "exc_failed"
+msgstr "Niet geslaagd"
+
+msgid "exc_feedback_from_tutor"
+msgstr "Feedback van de leerkracht"
+
+msgid "exc_grading"
+msgstr "Graad"
+
+msgid "exc_mark"
+msgstr "Punt"
+
+msgid "exc_notgraded"
+msgstr "Geen graad"
+
+msgid "exc_passed"
+msgstr "Geslaagd"
+
+msgid "exc_send_mail"
+msgstr "Stuur e-mail"
+
+msgid "exc_start_date_should_be_before_end_date"
+msgstr "Start time should be before deadline."
+
+msgid "exc_your_submission"
+msgstr "Uw voorlegging"

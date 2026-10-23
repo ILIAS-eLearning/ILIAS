@@ -1,0 +1,42 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: benchmark\n"
+
+msgid "adm_activate_db_benchmark"
+msgstr "Messung aktivieren"
+
+msgid "adm_activate_db_benchmark_desc"
+msgstr "Die Messung wird automatisch nach einem Server-Request beendet."
+
+msgid "adm_db_bench_by_first_table"
+msgstr "Aggregiert nach dem ersten Tabellennamen"
+
+msgid "adm_db_bench_chronological"
+msgstr "Chronologisch"
+
+msgid "adm_db_bench_slowest_first"
+msgstr "Langsamste zuerst"
+
+msgid "adm_db_bench_sorted_by_sql"
+msgstr "Nach SQL sortieren"
+
+msgid "adm_db_benchmark"
+msgstr "Datenbank Benchmark"
+
+msgid "adm_db_benchmark_user"
+msgstr "Anmeldename"
+
+msgid "adm_db_benchmark_user_desc"
+msgstr "Für dieses ILIAS-Konto wird die Messung durchgeführt. Aktivieren Sie diese Funktion nicht für Ihr eigenes Konto."
+
+msgid "adm_sql"
+msgstr "SQL"
+
+msgid "adm_time"
+msgstr "Zeit"

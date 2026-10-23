@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: copg\n"
+
+msgid "copg_active_to_small"
+msgstr "This date must be higher than the starting date."
+
+msgid "copg_add_content"
+msgstr "Add Content"
+
+msgid "copg_allow_html"
+msgstr "Enable HTML/Javascript"
+
+msgid "copg_allow_html_info"
+msgstr "User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version."
+
+msgid "copg_an_error_occured"
+msgstr "An error occured."
+
+msgid "copg_confirm_el_deletion"
+msgstr "Do you really want to delete the selected elements?"
+
+msgid "copg_cron_days"
+msgstr "Delete pages older than"
+
+msgid "copg_cron_days_info"
+msgstr "Page history entries older than this period will be deleted."
+
+msgid "copg_cron_keep_entries"
+msgstr "Keep Minimum"
+
+msgid "copg_cron_keep_entries_info"
+msgstr "This number is the minimum of entries that will be kept, even if they are older than the deletion period."
+
+msgid "copg_days"
+msgstr "Days"
+
+msgid "copg_details"
+msgstr "Details"
+
+msgid "copg_edit_iframe_title"
+msgstr "Text Editing of Page Editor"
+
+msgid "copg_edit_style_class"
+msgstr "Edit Style Class"
+
+msgid "copg_entries"
+msgstr "Entries"
+
+msgid "copg_error"
+msgstr "Error"
+
+msgid "copg_error_occured_modal"
+msgstr "An error occured while processing the page. Hit \"Reload Page\" to return to the previously saved state."
+
+msgid "copg_est_reading_time"
+msgstr "Estimated Reading Time"
+
+msgid "copg_history_cleanup_cron"
+msgstr "Page Editor History Cleanup"
+
+msgid "copg_history_cleanup_cron_info"
+msgstr "Removes older entries from the page history."
+
+msgid "copg_list_item_style"
+msgstr "List Item"
+
+msgid "copg_list_style"
+msgstr "List"
+
+msgid "copg_list_styles"
+msgstr "List Formats"
+
+msgid "copg_more_character_formats"
+msgstr "More Styles for Characters"
+
+msgid "copg_obj_types"
+msgstr "Object Types"
+
+msgid "copg_page_element_not_found"
+msgstr "Page element not found."
+
+msgid "copg_page_type_stys"
+msgstr "Layout Page"
+
+msgid "copg_pages"
+msgstr "Pages"
+
+msgid "copg_par_format_selection"
+msgstr "Paragraph Format Selection"
+
+msgid "copg_pc_mob_does_not_exist"
+msgstr "This media object does not exist."
+
+msgid "copg_plugin"
+msgstr "Plugin"
+
+msgid "copg_plugin_not_avail"
+msgstr "Plugin %s not available."
+
+msgid "copg_questions_not_supported_here"
+msgstr "Questions are not supported in this context."
+
+msgid "copg_reload_page"
+msgstr "Reload Page"
+
+msgid "copg_remove_formats"
+msgstr "Remove Formatting"
+
+msgid "copg_sec_link_info"
+msgstr "Select a target for linking the block. Attention: In this case, the content of the block must not contain any further links itself!"
+
+msgid "copg_select_two_versions"
+msgstr "Select exactly two versions of the page to compare."
+
+msgid "copg_snippet_cannot_be_edited"
+msgstr "This is a predefined content snippet and cannot be edited here."
+
+msgid "copg_templates"
+msgstr "Templates"
+
+msgid "copg_unsupported_media_type"
+msgstr "This media object has an unsupported media type."
+
+msgid "copg_use_template"
+msgstr "Use Template"
+
+msgid "copg_x_minutes"
+msgstr "%s minute(s)"

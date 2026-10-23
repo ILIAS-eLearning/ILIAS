@@ -1,0 +1,42 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: benchmark\n"
+
+msgid "adm_activate_db_benchmark"
+msgstr "Activate Benchmarking"
+
+msgid "adm_activate_db_benchmark_desc"
+msgstr "Benchmarking will be automatically disabled after one request."
+
+msgid "adm_db_bench_by_first_table"
+msgstr "Aggregated by First Table in SQL"
+
+msgid "adm_db_bench_chronological"
+msgstr "Chronological"
+
+msgid "adm_db_bench_slowest_first"
+msgstr "Slowest First"
+
+msgid "adm_db_bench_sorted_by_sql"
+msgstr "Sorted by SQL"
+
+msgid "adm_db_benchmark"
+msgstr "DB Benchmark"
+
+msgid "adm_db_benchmark_user"
+msgstr "User Account Name"
+
+msgid "adm_db_benchmark_user_desc"
+msgstr "Measurements will be made for this user only. The username entered should not belong to the user initiating the benchmarking."
+
+msgid "adm_sql"
+msgstr "SQL"
+
+msgid "adm_time"
+msgstr "Time"

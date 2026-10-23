@@ -61,11 +61,8 @@ class ilLanguageMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
         if (!($db instanceof \ilDBInterface)) {
             return;
         }
-        $this->il_setup_language->setDbHandler($db);
 
-        // TODO: Remove this once ilSetupLanguage (or a successor) supports proper
-        // DI for all methods.
-        $GLOBALS["ilDB"] = $db;
+        $this->il_setup_language->setDbHandler($db);
 
         $installed_languages = [];
         $local_languages = $this->il_setup_language->getLocalLanguages();

@@ -1,0 +1,51 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: pwassist\n"
+
+msgid "password_assistance"
+msgstr "Assistance pour les Mots de Passe"
+
+msgid "pwassist_disabled_no_access"
+msgstr "L’assistance pour les mots de passe n’est pas activée. Veuillez contacter l’administration du système pour obtenir de l’aide supplémentaire: %s"
+
+msgid "pwassist_enter_email"
+msgstr "Saisir une adresse mail et envoyez le formulaire.n Ilias va envoyer un mail à  cette adresse. Le mail contient tous les noms d'utilisateurs  qui ont déjà  cette adresse mail. \\nChoisissez le nom d'utilisateur correspondant et utilisez le service 'mot de passe' pour obtenir un nouveau mot de passe. Si vous n'obtenez aucun mail par ce moyen, prenez contact avec votre administrateur ou %1$s."
+
+msgid "pwassist_enter_username_and_email"
+msgstr "Saisir un nom d'utilisateur et l'adresse mail associée dans les champs ci-dessous.\\nILIAS enverra un message à  cette adresse. Le mail contiendra l'adresse d'une page web sur laquelle vous pourrez saisir un nouveau mot de passe pour votre compte utilisateur. Si vous ne parvenez à  obtenir un mot de passe pour votre compte par ce moyen, contacter l'administrateur de votre établissement ou envoyez un mail à  %1$s"
+
+msgid "pwassist_enter_username_and_new_password"
+msgstr "Saisir le nom d'utilisateur et le nouveau mot de passe dans les champs ci-dessous."
+
+msgid "pwassist_login_not_match"
+msgstr "Veuillez saisir un autre nom d'utilisateur.\\nLe nom d'utilisateur que vous avez saisi ne correspond pas au nom d'utilisateur pour lequel vous avez demandé une assistance."
+
+msgid "pwassist_mail_body"
+msgstr "Enregistrer un nouveau mot de passe pour votre compte utilisateur: \\t%1$s\\n\\nCe message a été généré automatiquement par le serveur ILIAS\\n\\t%2$s\\n\\nVous (ou quelqu'un sur %3$s) avez demandé une assistance de mot de passe pour le compte utilisateur \"%4$s\".\\n\\nVeuillez vérifier soigneusement les conditions listées ci-dessous et agir comme indiqué :\\n\\n- Si vous avez utilisé le formulaire d'assistance de mot de passe du serveur ILIAS par accident :\\n détruisez ce message\\n\\n- Si vous êtes certain(e) que vous n'avez jamais demandé d'assistance de mot de passe sur ce serveur ILIAS :veuillez contacter %5$s.\\n\\n- Si vous avez demandé une assistance de mot de passe, veuillez suivre la procédure suivante :\\n\\n1. Ouvrez votre navigateur web.\\n\\n2. Saisissez l'adresse suivante dans le navigateur :\\n\\t%1$s\\n\\nImportant : L'adresse est sur une seule ligne. Si vous la voyez sur plusieurs lignes, c'est votre programme de mail qui a ajouté ces retours à  la ligne.\\n\\n3.Sur la page web qui s'affichera dans le navigateur, saisissez un nouveau mot de passe pour votre compte utilisateur.\\n\\nAttention : pour des raisons de sécurité, vous ne pouvez réaliser ces trois étapes qu'une seule fois et pendant un temps limité. Par la suite, l'adresse deviendra invalide et vous devrez utiliser le formulaire d'assistance de mot de passe du serveur ILIAS à  nouveau."
+
+msgid "pwassist_mail_sent"
+msgstr "Un email a été envoyé à  l'adresse %1$s.\\nVeuillez regarder votre boîte aux lettres."
+
+msgid "pwassist_mail_sent_generic"
+msgstr "A message has been sent to the email address defined in ILIAS.\\nPlease check your mail box."
+
+msgid "pwassist_mail_subject"
+msgstr "Assistance de Mot de Passe ILIAS"
+
+msgid "pwassist_password_assigned"
+msgstr "Le mot de passe a été assigné avec succès à l'utilisateur %1$s."
+
+msgid "pwassist_session_expired"
+msgstr "Veuillez remplir à nouveau le formulaire.\\nVotre session d'assistance de mot de passe a expiré. Cela peut être dû au fait que vous avez essayé d'utiliser plusieurs fois le lien que vous avez reçu, ou bien parce que trop de temps s'est écoulé depuis que le message vous a été envoyé."
+
+msgid "pwassist_username_mail_body"
+msgstr "Ce sont les noms d'utilisateur correspondant à  l'adresse mail donnée :\\n%s\\n\\n. Ce message a été créé automatiquement par le serveur ILIAS suivant : \\n\\t%s\\n\\n Vous (ou quelqu'un avec le numéro IP %s) a demandé le support d'aide 'nom d'utilisateur oublié' pour l'adresse mail '%s'.\\n\\nVérifier les informations contenues dans ce message et suivre les indications ::\\n\\n-Vous avez fait cette demande par erreur :\\nSupprimer ce message.\\n\\nVous êtes certain de n'avoir jamais fait une telle demande :\\nContactez %s.\\n\\n-Si vous avez fait cette demande, procédez comme suit ::\\n\\n1. Ouvrer votre navigateur internet.\\n\\n2. Saisir l'adresse internet (URL) suivante :\\n\\t%s\\n\\nImportant : l'adresse est d'une seule ligne. Si vous voyez cette adresse tronquée en plusieurs lignes, c'est que votre programme logiciel de mail a ajouté des retours chariot.\\n\\n3. Votre navigateur internet affiche maintenant le service 'mot de passe'. Utiliser cette page avec l'un des nom d'utilisateur et l'adresse mail correspondante pour obtenir un nouveau mot de passe."
+
+msgid "unassist_disabled_no_access"
+msgstr "L’assistance pour les noms d’utilisateur n’est pas activée. Veuillez contacter l’administration du système pour obtenir de l’aide supplémentaire: %s"

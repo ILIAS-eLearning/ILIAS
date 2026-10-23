@@ -1,0 +1,98 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\Language\Activities;
+
+use ILIAS\AccessControl\PublicInterface\RBAC;
+use ILIAS\Data\Description;
+use ILIAS\Data\Text;
+use ILIAS\Language\LanguageFolder;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+
+class SetLanguageDetectionEnabled extends LanguageActivity
+{
+    public function __construct(
+        RBAC $rbac,
+        LanguageFolder $language_folder,
+        private readonly RepositoryProvider $repository,
+    ) {
+        parent::__construct($rbac, $language_folder);
+    }
+
+    public function getDescription(): Text\SimpleDocumentMarkdown
+    {
+        return $this->data->text()->markdown()->simpleDocument(
+            <<<'MARKDOWN'
+Enables or disables the system-wide automatic language detection from the
+browser's Accept-Language header. This is a single on/off flag for the
+whole installation, not a per-language or per-user setting.
+MARKDOWN
+        );
+    }
+
+    public function getInputDescription(FieldFactory $f): FormInput
+    {
+        $enabled = $f->checkbox(
+            'Enabled',
+            'Whether automatic language detection from the browser should be enabled.'
+        )->withDedicatedName('enabled');
+
+        return $f->section([
+            'enabled' => $enabled,
+        ], 'Enable or disable language detection');
+    }
+
+    public function getOutputDescription(Description\Factory $f): Description\Description
+    {
+        $text = $this->data->text()->markdown();
+
+        return $f->object(
+            $text->simpleDocument('Result of changing the language detection setting.'),
+            [
+                'enabled' => $f->bool(
+                    $text->simpleDocument('The language detection setting after this change.')
+                ),
+            ]
+        );
+    }
+
+    public function perform(mixed $parameters): array
+    {
+        if (!is_array($parameters) || !array_key_exists('enabled', $parameters) || !is_bool($parameters['enabled'])) {
+            throw new InvalidInputException('The enabled parameter (bool) is required.');
+        }
+
+        $enabled = $parameters['enabled'];
+
+        $this->repository->setLanguageDetectionEnabled($enabled);
+
+        return ['enabled' => $enabled];
+    }
+
+    /**
+     * @param array{enabled: bool} $grind_result
+     * @return array{enabled: bool}
+     */
+    protected function normalizeParameters(array $grind_result): array
+    {
+        return ['enabled' => $grind_result['enabled']];
+    }
+}

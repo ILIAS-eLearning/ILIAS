@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: qpl\n"
+
+msgid "qpl_filter_commented_exclude"
+msgstr "Megjegyzések nélküli kérdések"
+
+msgid "qpl_filter_commented_only"
+msgstr "Megjegyzéssel ellátott kérdések"
+
+msgid "qpl_page_type_qfbg"
+msgstr "Általános visszajelzés"
+
+msgid "qpl_page_type_qfbs"
+msgstr "Speciális visszajelzés"
+
+msgid "qpl_page_type_qht"
+msgstr "Tipp"
+
+msgid "qpl_page_type_qpl"
+msgstr "Kérdésoldala"

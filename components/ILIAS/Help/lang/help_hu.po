@@ -1,0 +1,249 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: help\n"
+
+msgid "gdtr_active"
+msgstr "Aktív"
+
+msgid "gdtr_add_step"
+msgstr "Lépés hozzáadása"
+
+msgid "gdtr_add_tour"
+msgstr "Túra hozzáadása"
+
+msgid "gdtr_close"
+msgstr "Túra vége"
+
+msgid "gdtr_delete_step"
+msgstr "Lépés törlése"
+
+msgid "gdtr_delete_step_mess"
+msgstr "Biztos, hogy törli ezt a lépést?"
+
+msgid "gdtr_delete_tour"
+msgstr "Túra törlése"
+
+msgid "gdtr_delete_tour_mess"
+msgstr "Biztos, hogy törli ezt a túrát?"
+
+msgid "gdtr_deleted_step"
+msgstr "A lépést sikeresen törölte."
+
+msgid "gdtr_deleted_tour"
+msgstr "A túrát sikeresen törölte."
+
+msgid "gdtr_edit_content"
+msgstr "Tartalom módosítása"
+
+msgid "gdtr_edit_page_info"
+msgstr "A kiválasztott felhasználói felület elemét elmagyarázó tartalom szerkesztése."
+
+msgid "gdtr_edit_properties"
+msgstr "Tulajdonságok módosítása"
+
+msgid "gdtr_edit_step_info"
+msgstr "Itt azt határozhatja meg, hogy a képernyőn melyik elemét magyarázzuk a túra következő lépésében. Egy erre az elemre mutató felugró ablak az Ön által meghatározott magyarázó szöveggel jelenik meg."
+
+msgid "gdtr_edit_steps"
+msgstr "Lépések módosítása"
+
+msgid "gdtr_element_id"
+msgstr "Elem ID"
+
+msgid "gdtr_form"
+msgstr "Űrlap"
+
+msgid "gdtr_form_info"
+msgstr "A fő tartalomterület első űrlapja. Minden nézet általában egy ilyen űrlapot tartalmaz."
+
+msgid "gdtr_guided_tours"
+msgstr "Vezetett túrák"
+
+msgid "gdtr_id_pres_users"
+msgstr "Felhasználók, akiknek az ID-k megjelenítések"
+
+msgid "gdtr_id_pres_users_info"
+msgstr "Felhasználónevek, akiknek a SCREEN-ID és túra lépésihez megadandó elem-ID-k megjelenjenek. Ha többet ad meg, azokat vesszővel válassza el."
+
+msgid "gdtr_id_settings"
+msgstr "ID beállítások"
+
+msgid "gdtr_import_tour"
+msgstr "Túra importálása"
+
+msgid "gdtr_language"
+msgstr "Nyelv"
+
+msgid "gdtr_language_info"
+msgstr "Túra aktiválása csak a kiválasztott nyelvet használó felhasználók számára."
+
+msgid "gdtr_list_tours_mess"
+msgstr "A képernyő- és az elem-ID-k megjelenítéséhez, menjen az ID-beállításokhoz és adja meg felhasználónevét."
+
+msgid "gdtr_mainbar"
+msgstr "Fősáv"
+
+msgid "gdtr_mainbar_ID_info"
+msgstr "A fősáv adott elemének ID-je. Húzza az egeret az elem fölé, hogy az ID buboréksúgóban megjelenjen."
+
+msgid "gdtr_mainbar_info"
+msgstr "A bal oldali menű a Fősáv. Ha az elem-ID megjelenítése aktív, az ID-k ez elemek buboréksúgójában jelennek meg."
+
+msgid "gdtr_metabar"
+msgstr "Metasáv"
+
+msgid "gdtr_metabar_ID_info"
+msgstr "A metasáv adott elemének ID-je. Húzza az egeret az elem fölé, hogy az ID a buboréksúgóban megjelenjen."
+
+msgid "gdtr_metabar_info"
+msgstr "A metasáv a felül, jobb oldalon található menü. Ha az elem-ID megjelenítése be van kapcsolva, az ID-k az adott elem buboréksúgójában jelennek meg."
+
+msgid "gdtr_next_step"
+msgstr "Következő lépés"
+
+msgid "gdtr_permission"
+msgstr "Jogosultság"
+
+msgid "gdtr_permission_info"
+msgstr "A vezetett túrát csak az objektumhoz adott jogosultsággal rendelkező felhasználóknak kapcsoljuk be, például egy kurzuhoz csak ‘beállítások módosítása’ jogosultságggal rendelkezőknek. Amennyiben a ‘Létrehozás’-t választja, a vezetett túra csak a létrehozási jogosultsággal rendelkezőknek jelenik meg."
+
+msgid "gdtr_presentation_limitation"
+msgstr "A megjelenítés korlátja"
+
+msgid "gdtr_primary_button"
+msgstr "Elsődleges gomb"
+
+msgid "gdtr_primary_button_info"
+msgstr "A fő tartalomterület első elsődleges gombja. Az elsődleges gombok kiemelten jelennek meg a standard gombokhoz képest. Minden nézet általában egy ilyen gombot tartalmaz."
+
+msgid "gdtr_reset_tour"
+msgstr "Túra visszaállítása"
+
+msgid "gdtr_reset_tour_mess"
+msgstr "Ha visszaállítja a túrát, akkor minden felhasználó, aki korábban befejezte a túrát, újra látni fogja azt. Biztos, hogy folytatja?"
+
+msgid "gdtr_screen_ids"
+msgstr "Screen-ID-k"
+
+msgid "gdtr_screen_ids_info"
+msgstr "Csak a rendszer különböző nézeteihez engedélyezzen vezetett túrát. Ha az elem-ID-k aktiválva vannak, az aktuális nézet Screen-ID a fejléc tetején található. Több ID-t vesszővel válasszon el."
+
+msgid "gdtr_step"
+msgstr "Lépés"
+
+msgid "gdtr_step_type"
+msgstr "Felhasználói interfész elem"
+
+msgid "gdtr_table"
+msgstr "Tábla"
+
+msgid "gdtr_table_info"
+msgstr "A fő tartalomterület első táblázata. Minden nézet általában egy ilyen eszköztárat tartalmaz."
+
+msgid "gdtr_tabs"
+msgstr "Fülek"
+
+msgid "gdtr_tabs_ID_info"
+msgstr "A fül azonosítója. Vigye az egérmutatót egy fül fölé, hogy az azonosító jelenjen meg."
+
+msgid "gdtr_tabs_info"
+msgstr "A fülek a képernyő fő fejléce alatt jelennek meg. Amennyiben az elem-ID megjelenítése be van kapcsolva, az ID-k az adott elem buboréksúgójában jelennek meg."
+
+msgid "gdtr_toolbar"
+msgstr "Eszköztár"
+
+msgid "gdtr_toolbar_info"
+msgstr "A fő tartalomterület első eszköztára, amely általában a fülek alatt jelenik meg. Minden nézet csak egy ilyen eszköztárat tartalmaz."
+
+msgid "gdtr_tour_has_been_reset"
+msgstr "A túrát sikeresen reszetelte."
+
+msgid "gdtr_tour_settings"
+msgstr "Beállítások módosítása"
+
+msgid "gdtr_tour_steps"
+msgstr "Túra lépései"
+
+msgid "gdtr_tours"
+msgstr "Túrák"
+
+msgid "gdtr_type"
+msgstr "Típus"
+
+msgid "guided_tour"
+msgstr "Vezetett túra"
+
+msgid "help_all"
+msgstr "Összes"
+
+msgid "help_component"
+msgstr "Komponens"
+
+msgid "help_filter"
+msgstr "Szűrő"
+
+msgid "help_help_file"
+msgstr "Súgó csomagfájl"
+
+msgid "help_help_only"
+msgstr "Csak munkamenet súgó"
+
+msgid "help_imported_on"
+msgstr "Importálva itt:"
+
+msgid "help_module_uploaded"
+msgstr "Súgócsomag feltöltve."
+
+msgid "help_modules"
+msgstr "Súgócsomagok"
+
+msgid "help_no_content"
+msgstr "Nincs segítő tartalom ehhez a képernyőhöz. Megpróbálhatja a keresővel."
+
+msgid "help_open_online_help"
+msgstr "Online súgó megnyitása"
+
+msgid "help_order"
+msgstr "Rendezés"
+
+msgid "help_search_label"
+msgstr "Súgó keresése"
+
+msgid "help_select_a_file"
+msgstr "Válasszon egy fájlt."
+
+msgid "help_set_mode"
+msgstr "Mód beállítása"
+
+msgid "help_sure_delete_help_modules"
+msgstr "Biztos, hogy törli ezeket a csomagokat?"
+
+msgid "help_toggle_tooltips"
+msgstr "Buboréksúgók"
+
+msgid "help_toggle_tooltips_info"
+msgstr "Menüpontok és lapok buboréksúgójának megjelenítése."
+
+msgid "help_tooltip_id"
+msgstr "Buboréksúgó-ID"
+
+msgid "help_tooltips"
+msgstr "Buboréksúgó"
+
+msgid "help_tooltips_and_help"
+msgstr "Buboréksúgók és munkamenet súgó"
+
+msgid "help_tooltips_only"
+msgstr "Csak buboréksúgók"
+
+msgid "help_topcis"
+msgstr "Témasúgó"
+
+msgid "help_tt_text"
+msgstr "Szöveg"

@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: objref\n"
+
+msgid "objref_custom_title"
+msgstr "Ange din egen titel"
+
+msgid "objref_edit_ref"
+msgstr "Länkens mål"
+
+msgid "objref_edit_title"
+msgstr "Titel"
+
+msgid "objref_failure_target_type"
+msgstr "Målet för länken måste vara av följande typ"
+
+msgid "objref_reuse_title"
+msgstr "Ta över titeln på det länkade objektet"
+
+msgid "objref_title_settings"
+msgstr "Titel på det länkade objektet"

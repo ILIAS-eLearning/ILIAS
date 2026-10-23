@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: exercise\n"
+
+msgid "exc_admin_settings"
+msgstr "Administration av övningar"
+
+msgid "exc_comment"
+msgstr "opinion"
+
+msgid "exc_comment_for_learner"
+msgstr "Feedback för deltagare"
+
+msgid "exc_failed"
+msgstr "Misslyckad"
+
+msgid "exc_feedback_from_tutor"
+msgstr "Utvärdering av handledaren"
+
+msgid "exc_grading"
+msgstr "Rating"
+
+msgid "exc_mark"
+msgstr "Note"
+
+msgid "exc_notgraded"
+msgstr "Ej betygsatt"
+
+msgid "exc_passed"
+msgstr "Bekräftad"
+
+msgid "exc_send_mail"
+msgstr "Sänd som post"
+
+msgid "exc_start_date_should_be_before_end_date"
+msgstr "Starttiden bör vara före tidsfristen."
+
+msgid "exc_your_submission"
+msgstr "Din ansökan"

@@ -1,0 +1,78 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: tax\n"
+
+msgid "obj_taxn"
+msgstr "Nod"
+
+msgid "tax_add_taxonomy"
+msgstr "Lägg till taxonomi"
+
+msgid "tax_added"
+msgstr "Taxonomin har skapats."
+
+msgid "tax_admin_settings_repository"
+msgstr " Taxonomier för tidskrifter"
+
+msgid "tax_alphabetical"
+msgstr "Alfabetisk"
+
+msgid "tax_assigned_items"
+msgstr " Tilldelade poster"
+
+msgid "tax_confirm_deletion"
+msgstr "Vill du verkligen radera hela taxonomin med alla relationer?"
+
+msgid "tax_create_node"
+msgstr "Skapa nod"
+
+msgid "tax_item_sorting"
+msgstr "Support sortering av de tilldelade posterna"
+
+msgid "tax_manual"
+msgstr "Handbok"
+
+msgid "tax_max_one_tax"
+msgstr "Du kan bara använda en taxonomi här."
+
+msgid "tax_new_tax_node"
+msgstr "Ny nod"
+
+msgid "tax_node"
+msgstr "Nod"
+
+msgid "tax_node_sorting"
+msgstr "Sortering av noderna"
+
+msgid "tax_nodes"
+msgstr "Nod"
+
+msgid "tax_order"
+msgstr "Beställ"
+
+msgid "tax_order_nr"
+msgstr " Beställningsnummer"
+
+msgid "tax_please_select_target"
+msgstr "Vänligen välj en destination!"
+
+msgid "tax_target_within_nodes"
+msgstr "Målet får inte vara en undernod till det valda elementet."
+
+msgid "tax_tax_assignment"
+msgstr "Taxonomiuppdrag"
+
+msgid "tax_tax_deleted"
+msgstr "Taxonomin har tagits bort."
+
+msgid "tax_tax_settings"
+msgstr "Taxonomiska inställningar"
+
+msgid "tax_taxonomy"
+msgstr "Taxonomi"

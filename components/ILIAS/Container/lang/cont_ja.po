@@ -1,0 +1,249 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: cont\n"
+
+msgid "cont_add_global_profile"
+msgstr "グローバルプロファイルを追加"
+
+msgid "cont_add_local_profile"
+msgstr "ローカルプロファイルを追加"
+
+msgid "cont_add_skill"
+msgstr "能力を追加"
+
+msgid "cont_assign_competence"
+msgstr "メンバーへ能力を割り当てる"
+
+msgid "cont_assign_skills"
+msgstr "能力を割り当てる"
+
+msgid "cont_block_limit"
+msgstr "ブロック当たりのアイテムを制限"
+
+msgid "cont_block_limit_info"
+msgstr "ブロックがさらにアイテムを含む場合は\"詳しく見る\"ボタンが表示されます。"
+
+msgid "cont_cont_skills"
+msgstr "メンバーの能力を割り当てました"
+
+msgid "cont_deassign_competence"
+msgstr "能力を解除"
+
+msgid "cont_filter"
+msgstr "フィルター"
+
+msgid "cont_filter_field"
+msgstr "フィールド"
+
+msgid "cont_filter_fields"
+msgstr "フィルタ－フィールド"
+
+msgid "cont_filter_record"
+msgstr "記録"
+
+msgid "cont_found_objects"
+msgstr "見つかったオブジェクト"
+
+msgid "cont_item_list"
+msgstr "List"
+
+msgid "cont_item_list_info"
+msgstr "リスト内のコンテンツオブジェクトを表示"
+
+msgid "cont_list_presentation"
+msgstr "アイテム表示形式"
+
+msgid "cont_mem_skills"
+msgstr "能力"
+
+msgid "cont_news_edited"
+msgstr "編集済"
+
+msgid "cont_news_settings"
+msgstr "ニュース設定"
+
+msgid "cont_news_timeline"
+msgstr "ニュースタイムライン"
+
+msgid "cont_news_timeline_auto_entries"
+msgstr "自動エントリを含める"
+
+msgid "cont_news_timeline_auto_entries_info"
+msgstr "自動的に生成される掲示板投稿や新規ファイルなどの全てのニュースを含みます。"
+
+msgid "cont_news_timeline_info"
+msgstr "ニュースタイムラインタブを有効にする"
+
+msgid "cont_news_timeline_landing_page"
+msgstr "ランディングページ"
+
+msgid "cont_news_timeline_landing_page_info"
+msgstr "タイムラインページはランディングページになります。"
+
+msgid "cont_news_timeline_tab"
+msgstr "タイムライン"
+
+msgid "cont_no_title"
+msgstr "空のタイトル"
+
+msgid "cont_only_crs_grp_fold_download"
+msgstr "ダウンロードできるのは、コース、グループ、フォルダー、またはファイルのみです。"
+
+msgid "cont_page_type_cont"
+msgstr "リポジトリ；ページ(Cours, Group, ...)"
+
+msgid "cont_page_type_cstr"
+msgstr "コース開始ページ(学習オブジェクトビュー)"
+
+msgid "cont_path"
+msgstr "Path"
+
+msgid "cont_publish_assignment"
+msgstr "割当を発行"
+
+msgid "cont_published"
+msgstr "発行しました"
+
+msgid "cont_really_deassign_skills"
+msgstr "ユーザから全ての能力を本当に解除しますか?"
+
+msgid "cont_really_remove_skill_from_course"
+msgstr "そのリストからそれらの能力を本当に削除しますか?"
+
+msgid "cont_select_fields"
+msgstr "フィールドを選択"
+
+msgid "cont_show_more"
+msgstr "詳しく見る"
+
+msgid "cont_skill"
+msgstr "能力"
+
+msgid "cont_skill_ass_profiles"
+msgstr "メンバーの割り当てプロファイル"
+
+msgid "cont_skill_assigned_comp"
+msgstr "能力選択"
+
+msgid "cont_skill_assigned_profiles"
+msgstr "プロファイル選択"
+
+msgid "cont_skill_deletion_not_possible"
+msgstr "グローバル能力プロファイルの削除できません。ローカル能力プロファイルのみを選択して下さい。"
+
+msgid "cont_skill_do_not_set"
+msgstr "セットしてはいけません"
+
+msgid "cont_skill_members"
+msgstr "メンバー"
+
+msgid "cont_skill_no_profile_selected"
+msgstr "プロファイルを選択してください。"
+
+msgid "cont_skill_no_skill"
+msgstr "値がありません(リセット)"
+
+msgid "cont_skill_no_skills_selected"
+msgstr "まだ能力が何も選択されていません。\"能力セクション\"下の能力を一つは追加してください。"
+
+msgid "cont_skill_profile"
+msgstr "プロファイル"
+
+msgid "cont_skill_profiles"
+msgstr "メンバーの割当てプロファイル"
+
+msgid "cont_skill_publish"
+msgstr "公開"
+
+msgid "cont_skill_publish_auto"
+msgstr "自動的に"
+
+msgid "cont_skill_publish_auto_info"
+msgstr "メンバーの能力割当はすぐにメンバーへ表示されます。"
+
+msgid "cont_skill_publish_manual"
+msgstr "手動"
+
+msgid "cont_skill_publish_manual_info"
+msgstr "メンバーの能力割当はメンバーへ表示されるようになる前に公開される必要があります。"
+
+msgid "cont_skill_really_delete_profile_from_list"
+msgstr "リストからこのプロファイルを本当に削除しますか?"
+
+msgid "cont_skill_really_delete_profiles_from_list"
+msgstr "リストからこれらのプロファイルを本当に削除しますか?"
+
+msgid "cont_skill_really_remove_profile_from_list"
+msgstr "リストからこのプロファイルを本当に削除しますか?"
+
+msgid "cont_skill_really_remove_profiles_from_list"
+msgstr "リストからこれらのプロファイルを本当に削除しますか?"
+
+msgid "cont_skill_records"
+msgstr "Competence記録"
+
+msgid "cont_skill_removal_not_possible"
+msgstr "ローカル能力プロファイルの削除できません。グローバル能力プロファイルのみを選択して下さい。"
+
+msgid "cont_std_filter_title_1"
+msgstr "タイトル"
+
+msgid "cont_std_filter_title_2"
+msgstr "説明"
+
+msgid "cont_std_filter_title_3"
+msgstr "タイトル/説明"
+
+msgid "cont_std_filter_title_4"
+msgstr "キーワード"
+
+msgid "cont_std_filter_title_5"
+msgstr "著者"
+
+msgid "cont_std_filter_title_6"
+msgstr "Copyright"
+
+msgid "cont_std_filter_title_7"
+msgstr "チュトリアルサポート"
+
+msgid "cont_std_filter_title_8"
+msgstr "オブジェクトタイプ"
+
+msgid "cont_std_filter_title_9"
+msgstr "Online/Offline"
+
+msgid "cont_std_record_title"
+msgstr "標準"
+
+msgid "cont_tile_size"
+msgstr "タイルサイズ"
+
+msgid "cont_tile_size_0"
+msgstr "normal (1行当たり４タイルまで)"
+
+msgid "cont_tile_size_1"
+msgstr "small (1行当たり6タイルまで)"
+
+msgid "cont_tile_size_2"
+msgstr "large (1行当たり3タイルまで)"
+
+msgid "cont_tile_size_3"
+msgstr "extra large (1行当たり2タイルまで)"
+
+msgid "cont_tile_size_4"
+msgstr "full (1行当たり1タイル)"
+
+msgid "cont_tile_view"
+msgstr "タイル"
+
+msgid "cont_tile_view_info"
+msgstr "サムネイルスタイルタイルでコンテンツオブジェクトを表示。このタイルのイメージは個別オブジェクト別の設定でuploadできます。"
+
+msgid "cont_trash_general_usage"
+msgstr "システムから削除された大量の古いオブジェクトを削除したい時は、コンテナなしオブジェクト (例　ファイル、カテゴリ、用語集、テスト。。。) で開始する事を強く推奨し、その結果コンテナ(カテゴリ、コース、グループ、ラーニングシーケンス。。。)から全オブジェクトが全て削除されます。”タイプ\"と\"削除日\"フィルタを使用するとこの処理に役立ちます。最終的にコンテナを削除します。"

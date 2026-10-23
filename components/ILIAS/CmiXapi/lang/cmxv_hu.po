@@ -1,0 +1,15 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cmxv\n"
+
+msgid "cmxv_create"
+msgstr "Tanúsítvány létrehozása a xAPI/cmi5-objektumhoz"
+
+msgid "cmxv_create_info"
+msgstr "Válassza ki a teljesített xAPI/cmi5-objektumot, melyhez tanúsítványt kíván generálni"

@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+
 class Component implements Component\Component
 {
     public function init(
@@ -53,5 +56,9 @@ class Component implements Component\Component
 
         $internal[Component\Resource\PublicAssetManager::class] = static fn() =>
             new Component\Resource\PublicAssetManager();
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'cmps'
+        );
     }
 }

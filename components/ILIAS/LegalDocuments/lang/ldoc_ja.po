@@ -1,0 +1,213 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: ldoc\n"
+
+msgid "deleteDocument"
+msgstr "削除する"
+
+msgid "detachCriterionAssignment"
+msgstr "削除"
+
+msgid "ldoc_acceptance_history"
+msgstr "承諾履歴"
+
+msgid "ldoc_account_reg_not_possible"
+msgstr "自己登録は現在利用できません。 <a href=\"%1$s\">システム管理者</a> へ以降の情報は尋ねてください。"
+
+msgid "ldoc_add_document_btn_label"
+msgstr "ドキュメントを追加"
+
+msgid "ldoc_agreement_document"
+msgstr "ドキュメント"
+
+msgid "ldoc_agreement_document_missing"
+msgstr "不明"
+
+msgid "ldoc_agreement_documents_tab_label"
+msgstr "ドキュメント"
+
+msgid "ldoc_agreement_exists"
+msgstr "存在"
+
+msgid "ldoc_agreement_missing"
+msgstr "不明"
+
+msgid "ldoc_crit_type_usr_country"
+msgstr "プロファイル国"
+
+msgid "ldoc_crit_type_usr_country_info"
+msgstr "ユーザプロファイルが以下のリストから選択された国判定基準と一致すると、ドキュメントが表示(かつ初回ユーザログイン時に承諾が必要)されます。 ユーザプロファイル内の国を後で変更しても、新しいドキュメントへ自動的に継承されません。複数ドキュメントに対して表示する判定基準として同一国を使用する事はできません。"
+
+msgid "ldoc_crit_type_usr_global_role"
+msgstr "ユーザがグローバル役割があります"
+
+msgid "ldoc_crit_type_usr_global_role_info"
+msgstr "グローバル役割のユーザが以下のリストから選択したグルーバル役割を一致するとドキュメントが表示(初回ユーサログイン承諾必須)されます。ユーザのグルーバル役割のその後の変更は、表示される新しいToSドキュメントへ自動的に先導されません。"
+
+msgid "ldoc_crit_type_usr_language"
+msgstr "プロファイル国言語"
+
+msgid "ldoc_crit_type_usr_language_info"
+msgstr "ユーザ言語(以下のリストから選択)は登録中に使用された言語と一致する; あるいは、ユーザの好みのこの言語への切り替えに続いて、ドキュメントが表示(かつ承諾が必要)されます。シングルドキュメントの表示判定基準として、言語は一つしか設定できない事に注意願います。"
+
+msgid "ldoc_criterion_assignment_cannot_match"
+msgstr "ドキュメント表示用としてこの特定の基準に使用する事はできません。別の基準にこのドキュメントが一致することがないためす。"
+
+msgid "ldoc_criterion_assignment_must_be_unique"
+msgstr "ドキュメント表示用としてこの特定の基準に使用する事はできません。基準がすでに存在します。"
+
+msgid "ldoc_deleted_documents_p"
+msgstr "ドキュメントは削除されました。"
+
+msgid "ldoc_deleted_documents_s"
+msgstr "ドキュメントは削除されました。"
+
+msgid "ldoc_disabled"
+msgstr "無効化"
+
+msgid "ldoc_doc_crit_attached"
+msgstr "ドキュメント表示用の基準は正しく設定されました。"
+
+msgid "ldoc_doc_crit_changed"
+msgstr "ドキュメント表示用の基準が変更されました。"
+
+msgid "ldoc_doc_crit_detached"
+msgstr "基準は削除されました。"
+
+msgid "ldoc_doc_delete"
+msgstr "ドキュメントを削除"
+
+msgid "ldoc_doc_detach_crit_confirm_title"
+msgstr "基準を削除"
+
+msgid "ldoc_doc_sure_detach_crit"
+msgstr "ドキュメント表示用の基準として本当にこれを削除しますか?"
+
+msgid "ldoc_document"
+msgstr "ドキュメント"
+
+msgid "ldoc_enabled"
+msgstr "有効化"
+
+msgid "ldoc_form_attach_criterion_head"
+msgstr "ドキュメント表示用の基準を選択"
+
+msgid "ldoc_form_criterion"
+msgstr "基準"
+
+msgid "ldoc_form_criterion_standard_fields_info_text"
+msgstr "基準を定義する前に、標準フィールドの設定を確認してください。"
+
+msgid "ldoc_form_document"
+msgstr "ドキュメント"
+
+msgid "ldoc_form_document_content_changed"
+msgstr "アップロードされたファイルの持っていた削除された html &lt;head&gt;  informationがありす。 結果を確認して必要に応じて新しいファイルをアップロードしてください。"
+
+msgid "ldoc_form_document_info"
+msgstr "ローカルファイルシステムから1個ファイルを選択してください。通常のテキストファイルまたはシンプルHTMLファイルが選択できます。HTMLファイルには削除された &lt;head/gt; information があります – ボディー要素コンテンツのみに使用"
+
+msgid "ldoc_form_document_new"
+msgstr "コンテンツを変更"
+
+msgid "ldoc_form_document_new_info"
+msgstr "ドキュメントのコンテンツを変更するためのローカルファイルシステムからファイルを選択できます。通常のテキストファイルまたはシンプルHTMLファイルをアップロードできます。HTMLファイルは &lt;head&gt; information 削除済があります。- ボディー要素のコンテンツのみが使用されます。トキュメント上の既存のコンテンツは置き換えられます。 承諾履歴は反映されます。"
+
+msgid "ldoc_form_document_title"
+msgstr "タイトル"
+
+msgid "ldoc_form_document_title_info"
+msgstr "ドキュメント用のタイトルを入力してください。"
+
+msgid "ldoc_form_edit_criterion_head"
+msgstr "ドキュメント表示用の基準を編集"
+
+msgid "ldoc_form_edit_doc_head"
+msgstr "ドキュメントを編集"
+
+msgid "ldoc_form_new_doc_head"
+msgstr "ドキュメントを作成"
+
+msgid "ldoc_last_modified"
+msgstr "最終変更"
+
+msgid "ldoc_ldoc_settings"
+msgstr "設定"
+
+msgid "ldoc_period"
+msgstr "期間"
+
+msgid "ldoc_period_from"
+msgstr "From"
+
+msgid "ldoc_period_until"
+msgstr "いつまで"
+
+msgid "ldoc_reevaluate_on_login"
+msgstr "成功ログインの再評価"
+
+msgid "ldoc_reevaluate_on_login_desc"
+msgstr "成功ログイン後自動的に事前承諾されたドキュメントの有効性を確認します。例として、ユーザが表示用の特定ドキュメント(言語設定あるいは国など)の基準が変更されると、ILIASは基準のドキュメントを見つけることができるのでユーザは新しい承諾書を承認する必要があります。"
+
+msgid "ldoc_saved_sorting"
+msgstr "新しい順番が保存されました。"
+
+msgid "ldoc_sure_delete_documents_p"
+msgstr "選択のドキュメントを本当に削除しますか?"
+
+msgid "ldoc_sure_delete_documents_s"
+msgstr "このドキュメントを本当に削除しますか?"
+
+msgid "ldoc_tbl_docs_action_add_criterion"
+msgstr "基準を追加"
+
+msgid "ldoc_tbl_docs_cell_not_criterion"
+msgstr "基準の割り当てがありません"
+
+msgid "ldoc_tbl_docs_head_created"
+msgstr "基準日"
+
+msgid "ldoc_tbl_docs_head_criteria"
+msgstr "基準"
+
+msgid "ldoc_tbl_docs_head_last_change"
+msgstr "最終変更"
+
+msgid "ldoc_tbl_docs_head_sorting"
+msgstr "順番"
+
+msgid "ldoc_tbl_docs_head_title"
+msgstr "タイトル"
+
+msgid "ldoc_tbl_docs_title"
+msgstr "ドキュメント"
+
+msgid "ldoc_tbl_hist_cell_not_criterion"
+msgstr "基準の割り当てがありません"
+
+msgid "ldoc_tbl_hist_head_acceptance_date"
+msgstr "Date"
+
+msgid "ldoc_tbl_hist_head_criteria"
+msgstr "基準"
+
+msgid "ldoc_tbl_hist_head_document"
+msgstr "ドキュメント"
+
+msgid "ldoc_tbl_hist_head_firstname"
+msgstr "First Name"
+
+msgid "ldoc_tbl_hist_head_lastname"
+msgstr "Last Name"
+
+msgid "ldoc_tbl_hist_head_login"
+msgstr "ユーザ名 (Login)"
+
+msgid "ldoc_updated_document"
+msgstr "ドキュメントがアップロードされました"

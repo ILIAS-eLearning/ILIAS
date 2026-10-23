@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: link\n"
+
+msgid "link_chapters"
+msgstr "Poglavje"
+
+msgid "link_link"
+msgstr "Povezava"
+
+msgid "link_mobs"
+msgstr "Medijski objekti"
+
+msgid "link_terms"
+msgstr "Pojmi"
+
+msgid "link_wpages"
+msgstr "Strani Wiki"

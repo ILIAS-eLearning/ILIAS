@@ -1,0 +1,54 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ka\n"
+"Language-Team: Georgian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: pwassist\n"
+
+msgid "password_assistance"
+msgstr "პაროლის დახმარება"
+
+#, fuzzy
+msgid "pwassist_disabled_no_access"
+msgstr "Password assistance is not enabled. Please contact the system administration for further assistance: %s"
+
+msgid "pwassist_enter_email"
+msgstr "გთხოვთ შეიყვანოთ ემაილის მისამართი და ჩააბაროთ ფორმა.\\ნილიასი გააგზავნის ემაილს ამ მისამართზე. ემაილი შეიცავს ყველა მომხმარებლის სახელს რომელმაც დაარეგისტრირა ამ ემაილის მისამართი. \\ნ აირჩიეთ შესაფერისი მომხმარებლის სახელი და გამოიყენეთ პაროლის დახმარება იმისათვის რომ მიიღოთ ახალი პაროლი. თუ ვერ მიიღებთ ემაილს ამ სერვისით გთხოვთ დაუკავშირდეთ თქვენი კურსის ადმინისტრატორს ან %s 1$"
+
+msgid "pwassist_enter_username_and_email"
+msgstr "შეიყვანეთ ამ ემაილთან დაკავშირებული მომხმარებლის სახელი ქვემოთ მოცემულ ველში. ნილიასი გააგზავნის შეტყობინებას ამ ემაილის მისამართზე. შეტყობინება შეიცავს ვებ გვერდის მისამართს სადაც თქვენ შეძლებთ თქვენი პაროლის აღდგენას. \\ნ იმ შემთხვევაში თუ თქვენ ვერ შეძლებთ ამ ფორმიტ პაროლი აღდგენას დაუკავშირდით თქვენი კურსის ადმინისტრატორს ან გააგზავნეთ ემაილი %s1$"
+
+msgid "pwassist_enter_username_and_new_password"
+msgstr "შეიყვანეთ მომხმარებლის სახელი და ახალი პაროლი ქვემოტ მოცემულ ველში"
+
+msgid "pwassist_login_not_match"
+msgstr "გთხოვთ შეიყვანოთ მომხმარებლის სახელი. \\ნ მომხმარებლის სახელი რომელიც თქვენ შეიყვანეთ არ შეესატყვისება იმ მომხმარებლის სახელს რომლისთვისაც თქვენ პაროლის აღდგენა მოითხოვეთ."
+
+msgid "pwassist_mail_body"
+msgstr "\\n\\n- If you have used the password assistance form on the ILIAS server by accident"
+
+msgid "pwassist_mail_sent"
+msgstr "შეტყობინება გაგზავნილია %s1$. \\ნ გთხოვთ შეამოწმოთ თქვენი შეტყობინების ყუთი"
+
+#, fuzzy
+msgid "pwassist_mail_sent_generic"
+msgstr "A message has been sent to the email address defined in ILIAS.\\nPlease check your mail box."
+
+msgid "pwassist_mail_subject"
+msgstr "ილიასის პაროლის დახმარება"
+
+msgid "pwassist_password_assigned"
+msgstr "პაროლი წარმატებით დაინიშნა მომხარებელზე \"%s1$\"."
+
+msgid "pwassist_session_expired"
+msgstr "გთხოვთ ხელახლა შეავსოთ ეს ფორმა. \\ნ თქვენი პაროლის დახმარების სესია ამოიწურა. Eეს იმის გამო მოხდა რომ თქვენ გამოგზავნილი ლინკი რამდენიმეჯერ გამოიყენეთ ან დიდი დრო მოანდომეთ პაროლის აღდგენას"
+
+msgid "pwassist_username_mail_body"
+msgstr "\\n\\t%s\\n\\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the e-mail address '%s'.\\n\\nPlease check the following and act as suggested"
+
+#, fuzzy
+msgid "unassist_disabled_no_access"
+msgstr "Username assistance is not enabled. Please contact the system administration for further assistance: %s"

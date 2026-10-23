@@ -1,0 +1,54 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ru\n"
+"Language-Team: Russian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: pwassist\n"
+
+msgid "password_assistance"
+msgstr "Ассистент паролей"
+
+#, fuzzy
+msgid "pwassist_disabled_no_access"
+msgstr "Password assistance is not enabled. Please contact the system administration for further assistance: %s"
+
+msgid "pwassist_enter_email"
+msgstr "Please enter an email address and submit the form.\\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s."
+
+msgid "pwassist_enter_username_and_email"
+msgstr "Введите имя пользователя и связанный с ним email адрес в поля, представленные ниже.\\nСистема Илиас отошлет сообщение по этому адресу. Сообщение будет содержать адрес веб-страницы, где вы сможете задать новой пароль для учетных записей пользователя.\\nВ случае неудачи, свяжитесь с администратором курса или пошлите сообщение по адресу %1$s."
+
+msgid "pwassist_enter_username_and_new_password"
+msgstr "Задайте имя пользователя и новый пароль в поля ниже."
+
+msgid "pwassist_login_not_match"
+msgstr "Пожалуйста, введите другое имя пользователя.\\nВы задали имя пользователя, отличающееся от имени, заданного в ассистене паролей."
+
+msgid "pwassist_mail_body"
+msgstr "Зарегистрирован новый пароль для вашего учетные записи:\\n\\t%1$s\\n\\nЭто сообщение было создано автоматически на сервере Илиас \\n\\t%2$s\\n\\nВы (или кто-то с именем %3$s) использовали ассистент паролей для учетной записи \"%4$s\".\\n\\nПожалуйста, внимательно проверьте условия, приведенные ниже, и поступите соответственно:\\n\\n- Если вы пользовались ассистентом паролей Илиас-сервера:\\nУдалите это письмо.\\n\\n- Если случилось так, что вы никогда не использовали ассистента паролей: Пожалуйста, свяжитесь с %5$s.\\n\\n- Если вы запрашивали ассистента паролей, пожалуйста, выполните следующее:\\n\\n1. Откройте ваш браузер.\\n\\n2. Введите следующий адрес:\\n\\t%1$s\\n\\nВажно: адрес должен быть в одну строку. Если он представлен в виде двух и более строк, ваша почтовая программа разделила его.\\n\\n3. На появившейся веб-странице задайте новый пароль.\\n\\nЗаметьте, что из соображений секретности, вы должны в точности выполнить три шага при лимитированном времени. Потом адрес будет недействителен, и, вы не сможете возпользоваться ассистентом паролей снова."
+
+msgid "pwassist_mail_sent"
+msgstr "Сообщение было отослано в %1$s.\\nПожалуйста, проверьте ваш почтовый ящик."
+
+#, fuzzy
+msgid "pwassist_mail_sent_generic"
+msgstr "A message has been sent to the email address defined in ILIAS.\\nPlease check your mail box."
+
+msgid "pwassist_mail_subject"
+msgstr "Ассистент паролей Илиас"
+
+msgid "pwassist_password_assigned"
+msgstr "Для пользователя \"%1$s\" пароль был успешно изменен."
+
+msgid "pwassist_session_expired"
+msgstr "Пожалуйста, заполните форму снова.\\nСессия вашего ассистента паролей закончилась. Это могло случиться из-за того, что вы пытались воспользоваться полученным по почте адресом не один раз или из-за того, что прошло слишком много времени с момента получения письма."
+
+msgid "pwassist_username_mail_body"
+msgstr "These are the active username found for the given email address:\\n%s\\n\\nThis message has been created automatically by the following ILIAS Server:\\n\\t%s\\n\\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\\n\\nPlease check the following and act as suggested::\\n\\n-You have requested this mail by accident:\\nDelete this email.\\n\\n-You are sure, that you never requested this email:\\nPlease contact %s.\\n\\n- If you requested this email, please proceed as follows::\\n\\n1. Start your internet browser.\\n\\n2. Enter the following url:\\n\\t%s\\n\\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\\n\\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password."
+
+#, fuzzy
+msgid "unassist_disabled_no_access"
+msgstr "Username assistance is not enabled. Please contact the system administration for further assistance: %s"

@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: skll\n"
+
+msgid "skll_competence_achievements"
+msgstr "Nova postignuća i ocjene kompetencija"
+
+msgid "skll_intro_skill_notification_for"
+msgstr "Ovo je pregled vaših najnovijih dostignuća u kompetenciji."
+
+msgid "skll_lhist_skill_achieved"
+msgstr "Status $4$ od $3$ dodijeljen je u $1$."
+
+#, fuzzy
+msgid "skll_lhist_skill_profile_fulfilled"
+msgstr "Competence Profile $3$ was fulfilled."
+
+msgid "skll_lhist_skill_self_eval"
+msgstr "Status $4$ od $3$ dodijeljen je sam sebi."
+
+msgid "skll_lhist_skill_self_eval_in"
+msgstr "Status $4$ od $3$ dodijeljen je sam sebi u $1$."
+
+msgid "skll_new_skill_achievements"
+msgstr "Postigli ste nove razine kompetencija u razdoblju od %1$s do %2$s:"
+
+msgid "skll_skill_notification"
+msgstr "Obavijest o kompetenciji"
+
+msgid "skll_skill_notification_desc"
+msgstr "Obavještava korisnika o novopostavljenim razinama kompetencije."
