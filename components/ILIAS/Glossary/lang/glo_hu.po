@@ -1,0 +1,226 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: glo\n"
+
+msgid "glo_add_from_other"
+msgstr "Fogalmak gyűjtése"
+
+msgid "glo_add_glossary"
+msgstr "Fogalomtár létrehozása"
+
+msgid "glo_add_to_collection"
+msgstr "A fogalomtárat hozzáadása a gyűjtő fogalomtárhoz"
+
+msgid "glo_added_to_collection_info"
+msgstr "A kiválasztott fogalomtárat sikeresen hozzáadta a gyűjtő fogalomtárhoz"
+
+msgid "glo_answered_correctly"
+msgstr "Eltaláltam"
+
+msgid "glo_answered_not_correctly"
+msgstr "Nem tudtam"
+
+msgid "glo_box"
+msgstr "Doboz"
+
+msgid "glo_box_completed"
+msgstr "A dobozt sikeresen teljesítette."
+
+msgid "glo_box_last_presented"
+msgstr "A doboz utolsó megjelenítése"
+
+msgid "glo_boxes"
+msgstr "Dobozok"
+
+msgid "glo_boxes_really_reset"
+msgstr "Biztos, hogy alaphelyzetbe állítja vissza a dobozokat? Az összes kártya az első dobozba került."
+
+msgid "glo_boxes_reset"
+msgstr "A dobozokat sikeresen alaphelyzetbe állította."
+
+msgid "glo_bulk_confirmation"
+msgstr "Kérjük, ellenőrizze, hogy az összes fogalom és meghatározás helyesen szerepel-e."
+
+msgid "glo_bulk_creation"
+msgstr "Beillesztés Excelből"
+
+msgid "glo_change_to_collection_unavailable_info"
+msgstr "Ha a tartalom-összeállítás típusát ‘Gyűjtő fogalomtár’-ra módosítja, először törölnie kell az összes létező fogalmat a fogalomtárból a ‘Tartalom’ lapon."
+
+msgid "glo_change_to_standard_unavailable_info"
+msgstr "Ha a tartalom-összeállítás típusát ‘Szokásos fogalomtár’-ra módosítja, először el kell távolítania a kiválasztott fogalomtárat a ‘Tartalom’ lapon."
+
+msgid "glo_check"
+msgstr "Ellenőrzés"
+
+msgid "glo_collection"
+msgstr "Gyűjtő fogalomtár"
+
+msgid "glo_collection_empty_info"
+msgstr "Ez a gyűjtő fogalomtár jelenleg üres. Kérem, adjon hozzá legalább egy fogalmat."
+
+msgid "glo_collection_info"
+msgstr "A gyűjtő fogalomtár más fogalomtárak tartalmát jeleníti meg."
+
+msgid "glo_content_assembly"
+msgstr "Tartalom összeállítása"
+
+msgid "glo_copy"
+msgstr "Fogalomtár másolása"
+
+msgid "glo_copy_terms"
+msgstr "Fogalmak másolása"
+
+msgid "glo_create_term_definition_pairs"
+msgstr "Fogalom létrehozása/Meghatározások párosítása"
+
+msgid "glo_days_ago"
+msgstr "%s nappal ezelőtt"
+
+msgid "glo_def_vs_term"
+msgstr "Meghatározások vs. fogalmak"
+
+msgid "glo_def_vs_term_info"
+msgstr "Először a meghatározást mutatjuk, a fogalmat ez alapján kell kitalálni"
+
+msgid "glo_flashcard_training"
+msgstr "Gyakorlás kártyával"
+
+msgid "glo_flashcard_training_info"
+msgstr "Játékos lehetőség a fogalmak és meghatározások megtanulásához."
+
+msgid "glo_flashcards"
+msgstr "Kártyák"
+
+msgid "glo_flashcards_from_today_confirmation"
+msgstr "A dobozból ma már megjelenítettünk %s kártyát. Csak a hátralévő %s vagy az összes %s kártyát jelenítsük meg?"
+
+msgid "glo_flashcards_from_today_only_info"
+msgstr "A dobozban lévő összes kártyát ma már megjelenítettük. Kérem, erősítse meg, hogy ezt a(z) %s kártyát még egyszer jelenítsük meg."
+
+msgid "glo_flashcards_intro"
+msgstr "A cél az, hogy mindegyik kártyára egymás után négyszer helyesen emlékezzen.<br />Kezdésnek az összes kártya az 1. dobozban található.<br />Ha egy kártyát ‘Eltaláltam’-mal jelöl meg, az átkerül a következő dobozba.<br />Ha egy kártyát ‘Tévedtem’-mel jelöl meg, akkor a kártya visszakerül az 1. dobozba.<br />A kezdéshez jelöljön ki egy dobozt. Ez felfedi a kártyákat."
+
+msgid "glo_flashcards_progress"
+msgstr "%s / %s"
+
+msgid "glo_introduction"
+msgstr "Bemutatkozás"
+
+msgid "glo_link_glo_in_glo"
+msgstr "Biztos, hogy a célfogalomtár összes fogalmát linkeli a jelenlegi fogalomtárban?"
+
+msgid "glo_link_to_usages"
+msgstr "Link"
+
+msgid "glo_md_advanced"
+msgstr "További részletek"
+
+msgid "glo_page_type_gdf"
+msgstr "Fogalommeghatározás"
+
+msgid "glo_please_select_other_glo"
+msgstr "Válasszon másik fogalomtárat."
+
+msgid "glo_quit_box"
+msgstr "Doboz bezárása"
+
+msgid "glo_really_remove_from_collection"
+msgstr "Biztos, hogy eltávolítja a következő fogalomtárat a gyűjtő fogalomtárból?"
+
+msgid "glo_reference"
+msgstr "Hivatkozás"
+
+msgid "glo_reference_terms"
+msgstr "Kifejezéshivatkozások"
+
+msgid "glo_referenced_term"
+msgstr "Hivatkozott fogalom"
+
+#, fuzzy
+msgid "glo_remove_glossary"
+msgstr "#Are you sure you want to remove the following glossary from the list of auto-linked glossaries?"
+
+msgid "glo_removed_from_collection_info"
+msgstr "A fogalomtárat sikeresen eltávolította a gyűjtő fogalomtárból."
+
+msgid "glo_reset_all_boxes"
+msgstr "Az összes doboz alaphelyzetbe állítása."
+
+msgid "glo_save_and_continue"
+msgstr "Mentés és folytatás"
+
+msgid "glo_select_source_glo"
+msgstr "Válasszon forrás fogalomtárat."
+
+msgid "glo_select_terms"
+msgstr "Fogalmak kiválasztása"
+
+msgid "glo_selected_glossaries"
+msgstr "Fogalomtárak kiválasztása"
+
+msgid "glo_selected_glossaries_info"
+msgstr "A következő fogalomtárakból gyűjtöttük össze a kifejezeéseket:"
+
+msgid "glo_selected_glossary_is_current_info"
+msgstr "A jelenlegi a kiválasztott fogalomtár. Kérjük, válasszon másikat."
+
+msgid "glo_selected_terms_have_been_copied"
+msgstr "A kiválasztott fogalmakat a vágólapra másoltuk. Nyissa meg a cél fogalomtárat, majd nyomja meg a ‘Beillesztés’ gombot."
+
+msgid "glo_show_in_presentation"
+msgstr "Látszódjon megjelenítési nézetben"
+
+msgid "glo_show_in_presentation_off"
+msgstr "Ne látszódjon megjelenítési nézetben"
+
+msgid "glo_show_in_presentation_on"
+msgstr "Látszódjon megjelenítési nézetben"
+
+msgid "glo_tax_info"
+msgstr "A taxonomia használatával osztályokba rendezheti és szűrheti a foglmakat. Szerkesztő nézetben mindig elérhető. Megjelenítési módban be kell kapcsolni. A fogalomtárban csak egy taxonómia használható."
+
+msgid "glo_term"
+msgstr "Fogalom a fogalomtárban"
+
+msgid "glo_term_definition_pairs"
+msgstr "Excelből másolt adatok"
+
+msgid "glo_term_definition_pairs_info"
+msgstr "Adjon meg minden sorban egy fogalmat és a hozzá tartozó meghatározást, pontosveszővel vagy tabulátorral elválasztva (általában egy táblázatkezelőből másolt két oszlop ilyen)."
+
+msgid "glo_term_letter"
+msgstr "Betű"
+
+msgid "glo_term_reference"
+msgstr "Fogalomhivatkozás"
+
+msgid "glo_term_vs_def"
+msgstr "Fogalom vs. meghatározás"
+
+msgid "glo_term_vs_def_info"
+msgstr "Először megjelenik a fogalom, ami alapján a meghatározást kell kitalálni."
+
+msgid "glo_terms_per_page"
+msgstr "Fogalmak száma oldalanként"
+
+msgid "glo_usage_link"
+msgstr "Használati link"
+
+msgid "glo_use_all_flashcards"
+msgstr "Az összes kártya használata (%s)"
+
+msgid "glo_use_remaining_flashcards"
+msgstr "A hártalévő kártyák használata (%s)"
+
+msgid "glo_what_means_definition"
+msgstr "Mit jelent  következő?"
+
+msgid "glo_what_means_term"
+msgstr "‘%s’ mit jelent?"

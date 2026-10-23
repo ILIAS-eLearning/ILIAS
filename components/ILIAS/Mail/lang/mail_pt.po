@@ -1,0 +1,1000 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: mail\n"
+
+msgid "back_to_folder"
+msgstr "Voltar à pasta"
+
+msgid "chat_users_have_been_invited"
+msgstr "Estrutura"
+
+msgid "chat_users_without_login"
+msgstr "Perito(s) no assunto"
+
+msgid "chat_users_without_permission"
+msgstr "Tabela"
+
+msgid "current_folder"
+msgstr "Pasta atual: %s"
+
+#, fuzzy
+msgid "deleteTemplate"
+msgstr "Delete"
+
+#, fuzzy
+msgid "edit_attachments"
+msgstr "Edit Attachments"
+
+msgid "first_email_missing_info"
+msgstr "Caminho Taxon"
+
+msgid "forward"
+msgstr "Professor"
+
+msgid "goto_invitation_chat"
+msgstr "Abrir sala de chat"
+
+msgid "invite_to_chat"
+msgstr "Convidar para chat"
+
+msgid "link_check_affected_links"
+msgstr "Links afetados"
+
+msgid "link_check_introduction"
+msgstr "os seguintes weblinks são inválidos:"
+
+msgid "link_check_perma_link"
+msgstr "Link permanente"
+
+msgid "link_check_reason"
+msgstr "Recebe este mail porque ativou a notificação para links inválidos."
+
+#, fuzzy
+msgid "mail_1"
+msgstr "1 Mail"
+
+#, fuzzy
+msgid "mail_absence_auto_responder_body"
+msgstr "Message"
+
+#, fuzzy
+msgid "mail_absence_auto_responder_body_hint"
+msgstr "This is an automatically generated message. If you send further messages to this user during their absence, you will not receive another automatic reply until [NEXT_AUTO_RESPONDER_DATETIME]."
+
+#, fuzzy
+msgid "mail_absence_auto_responder_body_info"
+msgstr "This message will be sent automatically during your absence if users send you a Mail from within ILIAS. <br>Users will be notified of your absence every %1$s days if they send further messages."
+
+#, fuzzy
+msgid "mail_absence_auto_responder_body_info_single_day"
+msgstr "This message will be sent automatically during your absence if users send you a Mail from within ILIAS. <br>Users will be notified again of your absence the next day if they send further messages."
+
+#, fuzzy
+msgid "mail_absence_auto_responder_subject"
+msgstr "Subject"
+
+#, fuzzy
+msgid "mail_absence_duration"
+msgstr "Duration"
+
+#, fuzzy
+msgid "mail_absence_status"
+msgstr "Enable Autoresponder"
+
+#, fuzzy
+msgid "mail_absence_status_info"
+msgstr "Activate an automatic out-of-office message."
+
+#, fuzzy
+msgid "mail_absent_from"
+msgstr "Absent from"
+
+#, fuzzy
+msgid "mail_absent_until"
+msgstr "Absent until"
+
+msgid "mail_account_mail"
+msgstr "Título"
+
+msgid "mail_add_folder"
+msgstr "Formação"
+
+msgid "mail_add_recipient"
+msgstr "Tipo"
+
+msgid "mail_add_subfolder"
+msgstr "Idade habitual"
+
+msgid "mail_add_subject"
+msgstr "Tempo normal de aprendizagem"
+
+#, fuzzy
+msgid "mail_adopt_selected_attachements"
+msgstr "Adopt selected Attachments"
+
+#, fuzzy
+msgid "mail_all_in_trash"
+msgstr "All in Trash"
+
+msgid "mail_allow_external"
+msgstr "Indisponível"
+
+msgid "mail_allow_external_info"
+msgstr "Valor"
+
+msgid "mail_assign_entry_to_mailing_list"
+msgstr "Versão"
+
+#, fuzzy
+msgid "mail_assign_to_mailing_list"
+msgstr "Assign"
+
+msgid "mail_attachment_file_not_exist"
+msgstr "Pelo menos um dos seguintes anexos não existe: %1$s"
+
+msgid "mail_attachments"
+msgstr "Muito difícil"
+
+msgid "mail_auto_generated_info"
+msgstr "Este mail foi enviado automaticamente para si pela instalação ILIAS %s, %s"
+
+#, fuzzy
+msgid "mail_auto_responder"
+msgstr "Autoresponder"
+
+#, fuzzy
+msgid "mail_auto_responder_idle_time"
+msgstr "Resend"
+
+#, fuzzy
+msgid "mail_auto_responder_idle_time_info"
+msgstr "Specify here how many days should elapse before your out-of-office reply is resent to a mail correspondent who has sent you further mails."
+
+#, fuzzy
+msgid "mail_bcc"
+msgstr "BCC"
+
+#, fuzzy
+msgid "mail_bg_task_desc"
+msgstr "Subject: %s"
+
+#, fuzzy
+msgid "mail_bg_task_title"
+msgstr "E-mail Delivery"
+
+msgid "mail_both_email"
+msgstr "Muito fácil"
+
+#, fuzzy
+msgid "mail_cc"
+msgstr "CC"
+
+msgid "mail_change_to_folder"
+msgstr "Muito alto"
+
+msgid "mail_create_tpl"
+msgstr "Criar modelos de texto"
+
+msgid "mail_cronjob_notification_info"
+msgstr "Pode ativar uma notificação periódica sobre o novo mail aqui."
+
+msgid "mail_crs_list_members_not_available"
+msgstr "Não é possível listar os membros dos cursos marcados."
+
+msgid "mail_crs_list_members_not_available_for_at_least_one_crs"
+msgstr "Os membros de pelo menos um curso selecionado não podem ser listados."
+
+msgid "mail_crs_roles"
+msgstr "Enviar mail para funções de curso"
+
+msgid "mail_deleted"
+msgstr "Muito baixo"
+
+msgid "mail_deleted_entry"
+msgstr "Sim"
+
+#, fuzzy
+msgid "mail_download_attachment"
+msgstr "Download Attachment"
+
+msgid "mail_download_zip_no_attachments"
+msgstr "Lista de seleção (escolha múltipla)"
+
+msgid "mail_edit_tpl"
+msgstr "Editar modelos de texto"
+
+#, fuzzy
+msgid "mail_email_sys_body"
+msgstr "This is a test e-mail to test the delivery of system mails to the external mail account."
+
+#, fuzzy
+msgid "mail_email_sys_subject"
+msgstr "Test E-Mail System Mail"
+
+#, fuzzy
+msgid "mail_email_usr_body"
+msgstr "This is a test e-mail to test the delivery of user mails to the external mail account."
+
+#, fuzzy
+msgid "mail_email_usr_subject"
+msgstr "Test E-Mail User Mail"
+
+msgid "mail_empty_trash"
+msgstr "Defina um tamanho fixo para a sua imagem antes de usar áreas de mapa. Se a sua imagem estiver dimensionada por estilos de conteúdo ou outras regras CSS, as suas áreas de mapa já não servem."
+
+msgid "mail_empty_trash_confirmation"
+msgstr "Tem a certeza que quer apagar todos os mails para o lixo?"
+
+msgid "mail_enable_crs_admin_notification"
+msgstr "Notificar administradores de curso"
+
+msgid "mail_enable_crs_admin_notification_info"
+msgstr "Nos novos cursos, a definição ‘Notificação sobre novos membros’ será ativada por defeito. Está definido no separador de cursos ‘Membro’. Os administradores de curso recebem um e-mail quando um membro adere ao curso ou quando o abandona, ou se o número mínimo exigido de participantes não é alcançado, o curso tem de ser realizado."
+
+msgid "mail_enable_crs_member_notification"
+msgstr "Um ficheiro foi adicionado."
+
+msgid "mail_enable_crs_member_notification_info"
+msgstr "Um ficheiro foi atualizado."
+
+msgid "mail_enable_grp_admin_notification"
+msgstr "Notificar administradores de grupo"
+
+msgid "mail_enable_grp_admin_notification_info"
+msgstr "Nos novos grupos, a definição ‘Notificação’ será ativada por defeito. Está definido no separador de grupos ‘Membro’. Os administradores de curso recebem um e-mail quando um membro adere ao grupo ou quando o abandona, ou se o número mínimo exigido de participantes não é alcançado, o grupo tem de ser realizado."
+
+msgid "mail_enable_grp_member_notification"
+msgstr "Um posting foi adicionado."
+
+msgid "mail_enable_grp_member_notification_info"
+msgstr "Notícias para todos os itens no computador pessoal"
+
+#, fuzzy
+msgid "mail_enable_lso_admin_notification"
+msgstr "Notify Learning Sequence Administrators"
+
+#, fuzzy
+msgid "mail_enable_lso_admin_notification_info"
+msgstr "In new Learning Sequences the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of Learning Sequences. Administrators will receive an e-mail when a member joins the Learning Sequence or leaves it."
+
+#, fuzzy
+msgid "mail_enable_lso_member_notification"
+msgstr "Notify Learning Sequence Members"
+
+#, fuzzy
+msgid "mail_enable_lso_member_notification_info"
+msgstr "ILIAS will automatically send an e-mail to every member if his or her membership status is changed. This setting applies to all Learning Sequences on the platform."
+
+msgid "mail_entry_of_contacts"
+msgstr "Entrada de contactos"
+
+msgid "mail_error_reading_attachment"
+msgstr "O bloco <b>Notícias</b> mostra todas as notícias relacionadas com os <b>itens Pessoais</b>  associados no computador pessoal."
+
+msgid "mail_external_send_test_sys"
+msgstr "Atualizar blocos de notícias a cada x minutos. ‘0’ significa a cada hora. Os valores mais altos melhoram o desempenho, mas as notícias podem ligar a itens não acessíveis."
+
+msgid "mail_external_send_test_usr"
+msgstr "Permite publicar novos itens via RSS. Estes itens estarão acessíveis fora do sistema sem autenticação."
+
+msgid "mail_external_test_sent"
+msgstr "Permite RSS privado"
+
+msgid "mail_file_name"
+msgstr "Obter URL feed"
+
+msgid "mail_file_size"
+msgstr "Este é um URL de feed de notícias privado pessoa. O feed inclui notícias que são declaradas como públicas e privadas pelo autor. Este feed está protegido por uma palavra-passe, que pode ser mudada em ‘Definições’. Não partilhe este URL com outras pessoas. Substitua a palavra-passe neste URL pela sua palavra-passe Feed."
+
+msgid "mail_files_deleted"
+msgstr "Se esta opção estiver ativada, as notícias públicas e privadas podem ser obtidas por RSS feeds pessoais fora do ILIAS. A autenticação é fornecida por palavra-passe."
+
+msgid "mail_filter"
+msgstr "Filtrar"
+
+msgid "mail_filter_attach"
+msgstr "Anexos"
+
+msgid "mail_filter_body"
+msgstr "Corpo"
+
+#, fuzzy
+msgid "mail_filter_display"
+msgstr "Display"
+
+msgid "mail_filter_field_placeholder"
+msgstr "A filtrar essas mensagens..."
+
+msgid "mail_filter_period"
+msgstr "Número de itens mais antigos disponíveis, independentemente do período RSS definido para todo o sistema."
+
+msgid "mail_filter_recipients"
+msgstr "Destinatários"
+
+msgid "mail_filter_sender"
+msgstr "Remetente"
+
+#, fuzzy
+msgid "mail_filter_show_read"
+msgstr "Show Read"
+
+#, fuzzy
+msgid "mail_filter_show_system_mails"
+msgstr "Show System Notifications"
+
+#, fuzzy
+msgid "mail_filter_show_unread"
+msgstr "Show Unread"
+
+#, fuzzy
+msgid "mail_filter_show_user_mails"
+msgstr "Show User Mails"
+
+#, fuzzy
+msgid "mail_filter_show_with_attachments"
+msgstr "Show With Attachments"
+
+#, fuzzy
+msgid "mail_filter_show_without_attachment"
+msgstr "Show Without Attachment"
+
+msgid "mail_filter_subject"
+msgstr "Assunto"
+
+msgid "mail_filter_txt"
+msgstr "Filtrar mensagens por"
+
+msgid "mail_first_email"
+msgstr "Se esta opção estiver ativada, as notificações podem ser obtidas por feeds RSS pessoais de ILIAS. Note que isto torna as notificações acessíveis sem autenticação."
+
+#, fuzzy
+msgid "mail_firstname_last_name_superior"
+msgstr "Eine kommaseparierte Liste von Vor- und Nachname des/der jeweiligen Vorgesetzten."
+
+msgid "mail_folder_created"
+msgstr "Se as notícias não forem exibidas, clique aqui."
+
+msgid "mail_folder_deleted"
+msgstr "Nenhumas notícias disponíveis."
+
+msgid "mail_folder_exists"
+msgstr "Número de itens de notícias que são mantidas para um objeto (p. ex. um ficheiro ou um módulo de aprendizagem) na base de dados. Note que os objetos de recipiente (p. ex. categorias, cursos) podem listar mais itens porque eles agregam notícias de sub-objetos."
+
+msgid "mail_folder_name_changed"
+msgstr "Último mês"
+
+msgid "mail_following_rcp_not_valid"
+msgstr "Última semana"
+
+#, fuzzy
+msgid "mail_form_placeholders_label"
+msgstr "Available Placeholders"
+
+msgid "mail_generic_rcp_error"
+msgstr "Ocorreu um erro enquanto validava os destinatários: %1$s"
+
+#, fuzzy
+msgid "mail_global_reply_to_addr"
+msgstr "Reply-To"
+
+#, fuzzy
+msgid "mail_global_reply_to_addr_info"
+msgstr "Please enter the desired 'Reply-To' address."
+
+msgid "mail_grp_roles"
+msgstr "Enviar mail para funções de grupo"
+
+#, fuzzy
+msgid "mail_hint_add_placeholder_x"
+msgstr "Add the placeholder '%s' to the message body."
+
+#, fuzzy
+msgid "mail_inbox_external_delivery_only_info"
+msgstr "Your account is configured to receive messages at an external email address.<br>You can only see mails in this inbox if your account is configured to (also) receive them locally."
+
+msgid "mail_incoming"
+msgstr "Último ano"
+
+msgid "mail_incoming_both"
+msgstr "Últimos %s dias"
+
+msgid "mail_incoming_local"
+msgstr "Últimos %s meses"
+
+msgid "mail_incoming_mail"
+msgstr "Últimas %s semanas"
+
+msgid "mail_incoming_smtp"
+msgstr "RSS Feed extra"
+
+msgid "mail_insert_folder_name"
+msgstr "Se esta opção estiver ativada, é fornecido um RSS feed à parte para este Mediacast."
+
+msgid "mail_insert_query"
+msgstr "Período de tempo"
+
+msgid "mail_invite_users_to_chat"
+msgstr "Convidar utilizadores para chat"
+
+#, fuzzy
+msgid "mail_is_read"
+msgstr "gelesen"
+
+#, fuzzy
+msgid "mail_is_unread"
+msgstr "ungelesen"
+
+msgid "mail_list_members"
+msgstr "Utilizadores autenticados"
+
+msgid "mail_mailing_list"
+msgstr "Definições de Newsfeed privado"
+
+msgid "mail_mailing_lists"
+msgstr "A funcionalidade de comentários públicos não está atualmente ativa para este recurso."
+
+msgid "mail_mailing_lists_all_contact_entries_assigned"
+msgstr "Já atribuiu todos os seus contactos a esta lista de mailing."
+
+msgid "mail_mailing_lists_no_contact_entries"
+msgstr "Não tem entradas nos seus contactos para adicionar a uma lista."
+
+#, fuzzy
+msgid "mail_main_folder"
+msgstr "Main Folder"
+
+#, fuzzy
+msgid "mail_manage_attachments"
+msgstr "Manage Attachments"
+
+#, fuzzy
+msgid "mail_manage_attachments_back_to_compose"
+msgstr "Back to Compose"
+
+#, fuzzy
+msgid "mail_manage_attachments_drop_files_msg"
+msgstr "Drop file to upload"
+
+msgid "mail_mark_read"
+msgstr "Comentário"
+
+msgid "mail_mark_unread"
+msgstr "Comentários"
+
+msgid "mail_max_size_attachments_total"
+msgstr "Adicionar comentário"
+
+msgid "mail_max_size_attachments_total_error"
+msgstr "O tamanho permitido do anexo é:"
+
+msgid "mail_maxsize_attachment_error"
+msgstr "Comentários públicos"
+
+msgid "mail_member_notification"
+msgstr "Adicionar nota"
+
+msgid "mail_members_of_mailing_list"
+msgstr "Membros da lista de mailing"
+
+msgid "mail_members_search_continue"
+msgstr "Continuar"
+
+msgid "mail_message_send"
+msgstr "Ativar multilinguismo"
+
+#, fuzzy
+msgid "mail_mode_switch_label"
+msgstr "Switch between „Personal Mail” and „Serial Letter” mode"
+
+#, fuzzy
+msgid "mail_mode_switch_locked"
+msgstr "You cannot switch to „%s” mode."
+
+msgid "mail_move_error"
+msgstr "Funcionalidades adicionais"
+
+msgid "mail_move_to"
+msgstr "O multilinguismo foi desativado."
+
+#, fuzzy
+msgid "mail_move_to_folder_btn_label"
+msgstr "Move Mail"
+
+#, fuzzy
+msgid "mail_move_to_folder_x"
+msgstr "to \"%s\""
+
+msgid "mail_moved"
+msgstr "Desativar multilinguismo"
+
+msgid "mail_moved_to_trash"
+msgstr "Tem a certeza que quer desativar o multilinguismo? Apenas os conteúdos do idioma principal é que serão mantidos."
+
+msgid "mail_multiple_role_recipients_found"
+msgstr "%1$s (Encontrou múltiplas funções para o destinatário: %2$s)"
+
+msgid "mail_my_courses"
+msgstr "A tradução está ativada para o título e descrição apenas. O suporte de tradução para a edição de páginas (‘Personalizar página’) tem de ser adicionalmente ativado."
+
+msgid "mail_my_groups"
+msgstr "Multilingualismo"
+
+msgid "mail_my_mailing_lists"
+msgstr "Ativa a gestão e atribuição de badges aos membros."
+
+msgid "mail_nacc_admin_mail"
+msgstr "Separador de informação"
+
+msgid "mail_nacc_if_timelimit"
+msgstr "Este texto está apenas incluído, se o utilizador tiver um período de acesso limitado."
+
+msgid "mail_nacc_ilias_url"
+msgstr "O bloco \"Tag Cloud\" aparece dentro do separador \"Conteúdo\"."
+
+#, fuzzy
+msgid "mail_nacc_installation_desc"
+msgstr "Installation Description"
+
+#, fuzzy
+msgid "mail_nacc_installation_name"
+msgstr "Installation Name"
+
+msgid "mail_nacc_login"
+msgstr "Os utilizadores deixaram de estar atribuídos a esta função."
+
+msgid "mail_nacc_no_pw_block"
+msgstr "Este bloco de texto está apenas incluído, se a nova conta de utilizador tiver sido criada sem uma palavra-passe."
+
+msgid "mail_nacc_pw_block"
+msgstr "Este bloco de texto está apenas incluído, se a nova conta de utilizador tiver sido criada com uma palavra-passe."
+
+msgid "mail_nacc_salutation"
+msgstr "A importação falhou. Certifique-se que o seu ficheiro está no formato xml e que tem uma estrutura válida."
+
+msgid "mail_nacc_target"
+msgstr "URL do item de destino, p. ex. um curso associado que é passado para ILIAS a partir de fora."
+
+msgid "mail_nacc_target_block"
+msgstr "Este texto está incluído apenas, se for fornecido um item de destino."
+
+msgid "mail_nacc_target_title"
+msgstr "Título do item de destino, p. ex. título do curso."
+
+msgid "mail_nacc_target_type"
+msgstr "A importação terminou com erros."
+
+msgid "mail_nacc_timelimit"
+msgstr "Período de acesso do utilizador"
+
+msgid "mail_nacc_title"
+msgstr "Título"
+
+msgid "mail_nacc_use_placeholder"
+msgstr "Importar ficheiro"
+
+#, fuzzy
+msgid "mail_nacc_user_fullname"
+msgstr "User Full Name"
+
+#, fuzzy
+msgid "mail_nacc_user_login"
+msgstr "User Login"
+
+#, fuzzy
+msgid "mail_new"
+msgstr "New Mail"
+
+msgid "mail_new_template"
+msgstr "Novo modelo de texto"
+
+#, fuzzy
+msgid "mail_no_mail_items"
+msgstr "No unread mails."
+
+msgid "mail_no_permissions_write_smtp"
+msgstr "Posições em"
+
+#, fuzzy
+msgid "mail_no_subject"
+msgstr "No Subject available"
+
+msgid "mail_no_valid_mailing_list"
+msgstr "Já existe uma unidade com o ID externo neste sistema."
+
+msgid "mail_notification_membership_section"
+msgstr "Adesão"
+
+msgid "mail_notification_subject"
+msgstr "Funções locais adicionais %s"
+
+msgid "mail_notify_orphaned"
+msgstr "Mail de notificação"
+
+msgid "mail_notify_orphaned_info"
+msgstr "Tem a certeza que quer apagar a seguinte posição?"
+
+#, fuzzy
+msgid "mail_operation_on_invalid_folder"
+msgstr "It was not possible to carry out the requested operation. The folder given in the server request is invalid. Please contact an administrator."
+
+#, fuzzy
+msgid "mail_options"
+msgstr "Mail Options"
+
+msgid "mail_options_saved"
+msgstr "Não foi possível encontrar ou_parent_id."
+
+msgid "mail_orphaned_mails"
+msgstr "Apagar mails antigos ou órfãos"
+
+msgid "mail_orphaned_mails_desc"
+msgstr "Apagar mails antigos ou órfãos"
+
+msgid "mail_recipient_not_found"
+msgstr "%1$s (não encontrou um destinatário válido)"
+
+msgid "mail_rename_folder"
+msgstr "Mudar nome da pasta"
+
+#, fuzzy
+msgid "mail_roles"
+msgstr "All users with one or more of the following local roles"
+
+msgid "mail_s"
+msgstr "Funcionários %s incl. subunidades"
+
+msgid "mail_salutation_anonymous"
+msgstr "Ver progresso de aprendizagem da unidade incl. subunidades"
+
+msgid "mail_salutation_f"
+msgstr "Adicionar novo webfeed"
+
+msgid "mail_salutation_female"
+msgstr "Mostrar Chat viewer"
+
+msgid "mail_salutation_general"
+msgstr "Mostrar favoritos"
+
+msgid "mail_salutation_m"
+msgstr "Mostrar calendário"
+
+msgid "mail_salutation_male"
+msgstr "Mostrar mail"
+
+msgid "mail_salutation_n"
+msgstr "Mostrar notícias"
+
+msgid "mail_saved"
+msgstr "Mostrar notas"
+
+msgid "mail_second_email"
+msgstr "Mostrar Os meus tags"
+
+#, fuzzy
+msgid "mail_sel_label"
+msgstr "Choose the Recipients"
+
+msgid "mail_sel_users"
+msgstr "Enviar mail para utilizadores selecionados"
+
+msgid "mail_select_attachment"
+msgstr "Selecione um anexo para carregar."
+
+#, fuzzy
+msgid "mail_select_crs"
+msgstr "Please select at least one course."
+
+#, fuzzy
+msgid "mail_select_grp"
+msgstr "Please select at least one group."
+
+msgid "mail_select_one_entry"
+msgstr "Mostrar %s"
+
+msgid "mail_select_one_file"
+msgstr "Ativar ‘Cursos e grupos’"
+
+msgid "mail_send_html"
+msgstr "‘Cursos e grupos’ contém todos os cursos e grupos, aos quais o utilizador está atribuído como membro."
+
+msgid "mail_send_html_info"
+msgstr "Se estiver ativado, o corpo dos e-mails externos será incorporado numa moldura HTML. O modelo correspondente pode ser personalizado criando uma cópia de './Services/Mail/templates/default/tpl.html_mail_template.html' em './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' ."
+
+#, fuzzy
+msgid "mail_sent_datetime"
+msgstr "Date"
+
+msgid "mail_serial_letter_placeholders"
+msgstr "Variáveis de letras em série"
+
+msgid "mail_settings_external_frm_head"
+msgstr "Ativar ‘Itens selecionados’"
+
+msgid "mail_settings_external_tab"
+msgstr "Externo"
+
+msgid "mail_settings_general_tab"
+msgstr "Geral"
+
+msgid "mail_settings_incoming_type_see_also"
+msgstr "A vista ‘Itens selecionados’ contém todos os objetos que estão no computador pessoal do utilizador."
+
+msgid "mail_settings_system_frm_head"
+msgstr "As minhas adesões"
+
+msgid "mail_settings_user_frm_head"
+msgstr "Bem-vindo a As minhas adesões"
+
+msgid "mail_smtp_encryption"
+msgstr "Encriptação"
+
+msgid "mail_smtp_encryption_ssl"
+msgstr "SSL"
+
+msgid "mail_smtp_encryption_tls"
+msgstr "TLS"
+
+msgid "mail_smtp_host"
+msgstr "Host"
+
+msgid "mail_smtp_host_info"
+msgstr "Insira o hostname ou IP do servidor de mail pretendido."
+
+msgid "mail_smtp_password"
+msgstr "Palavra-passe"
+
+msgid "mail_smtp_password_req"
+msgstr "Se definiu um utilizador para efeitos de autenticação, tem de ser definida uma palavra-passe."
+
+msgid "mail_smtp_port"
+msgstr "Porta"
+
+msgid "mail_smtp_port_info"
+msgstr "Insira um valor numérico para a porta do servidor de mail (e.g. 25)."
+
+msgid "mail_smtp_status"
+msgstr "Enviar via SMTP"
+
+msgid "mail_smtp_status_info"
+msgstr "Este é o seu espaço pessoal para todos os cursos e grupos nos quais participa. Atualmente, não há adesões atribuídas a si. Tem duas formas para se tornar um membro de um curso ou grupo:<br /><ol><li>Pode aderir a cursos ou grupos desde que os respetivos administradores o autorizaram.</li><li>Um administrador de um curso ou grupo pode atribuir-lhe uma adesão.</li></ol><br />Em qualquer caso, os respetivos objetos aparecem automaticamente neste local."
+
+msgid "mail_smtp_user"
+msgstr "Utilizador"
+
+msgid "mail_subject_prefix"
+msgstr "Itens selecionados"
+
+msgid "mail_subject_prefix_info"
+msgstr "Escolha a vista preferida dos itens pessoais."
+
+#, fuzzy
+msgid "mail_subject_too_long"
+msgstr "The subject is too long."
+
+#, fuzzy
+msgid "mail_success_removed_user"
+msgstr "User(s) successfully removed from mailing list."
+
+msgid "mail_sure_delete_entry"
+msgstr "Tem de selecionar pelo menos uma vista, seja ‘Itens selecionados’ e/ou ‘As minhas adesões’."
+
+msgid "mail_sure_delete_file"
+msgstr "Favorito(s)"
+
+msgid "mail_sure_delete_folder"
+msgstr "Pasta(s)"
+
+#, fuzzy
+msgid "mail_sure_delete_p"
+msgstr "Are you sure you want to delete the following mails?"
+
+#, fuzzy
+msgid "mail_sure_delete_s"
+msgstr "Are you sure you want to delete the following mail?"
+
+#, fuzzy
+msgid "mail_sure_remove_user"
+msgstr "Are you sure you want to remove the following user(s) from the members list?"
+
+msgid "mail_system_sys_env_from_addr"
+msgstr "Remetente técnico"
+
+msgid "mail_system_sys_env_from_addr_info"
+msgstr "Bem-vindo ao seu computador pessoal!"
+
+msgid "mail_system_sys_from_addr"
+msgstr "Este é o seu espaço pessoal para organizar o seu trabalho e aprendizagem. Pode colocar recursos de outras áreas no seu computador pessoal. Para fazer isso tem de realizar dois passos:"
+
+msgid "mail_system_sys_from_addr_info"
+msgstr "Clique em '%s' e navegue pelos existentes recursos de trabalho e de aprendizagem."
+
+msgid "mail_system_sys_from_name"
+msgstr "Nome completo do remetente (De)"
+
+#, fuzzy
+msgid "mail_system_sys_general_signature"
+msgstr "Signature"
+
+msgid "mail_system_sys_reply_to_addr"
+msgstr "Responder a"
+
+msgid "mail_system_usr_env_from_addr"
+msgstr "Remetente técnico"
+
+msgid "mail_system_usr_env_from_addr_info"
+msgstr "Se encontrar algo interessante, coloque-o no seu desktop clicando em <i>Adicionar ao desktop</i> no menu <i>Ações</i> do objeto."
+
+msgid "mail_system_usr_from_addr"
+msgstr "Margem 345"
+
+msgid "mail_system_usr_from_addr_info"
+msgstr "Ative esta definição para tornar a sondagem acessível aos utilizadores."
+
+msgid "mail_system_usr_from_name"
+msgstr "Nome completo do remetente (De)"
+
+msgid "mail_system_usr_from_name_info"
+msgstr "%s Participantes"
+
+#, fuzzy
+msgid "mail_system_usr_general_signature"
+msgstr "User Signature"
+
+msgid "mail_tbl_head_attachments"
+msgstr "Resultados"
+
+msgid "mail_template_client"
+msgstr "Modelo de texto"
+
+msgid "mail_template_client_info"
+msgstr "Escolha um dos modelos de texto disponíveis e use os respetivos variáveis. Se escolher um modelo de texto, o corpo e o assunto deste formulário (se definido no modelo de texto) serão substituídos."
+
+msgid "mail_template_context"
+msgstr "Contexto"
+
+msgid "mail_template_default"
+msgstr "Após o período de voto"
+
+#, fuzzy
+msgid "mail_template_invalid_tpl_syntax"
+msgstr "An invalid syntax has been detected. Please ensure a valid input, especially regarding the placeholder syntax."
+
+msgid "mail_template_missing_id"
+msgstr "Não pode executar a ação porque falta o id do modelo do texto."
+
+msgid "mail_template_no_context_available"
+msgstr "Não existe nenhum contexto fornecido por qualquer serviço ou módulo ILIAS. Por conseguinte, não é possível criar ou editar um modelo de texto."
+
+msgid "mail_template_no_valid_context"
+msgstr "O contexto fornecido não é válido."
+
+msgid "mail_template_orphaned_context"
+msgstr "Contexto de órfão"
+
+msgid "mail_template_set_as_default"
+msgstr "Esta sondagem já contém votos. Não pode editar a sondagem até apagar esses votos."
+
+msgid "mail_template_title"
+msgstr "Nome"
+
+msgid "mail_template_unset_as_default"
+msgstr "Está a receber este e-mail porque ativou as notificações para a sondagem mencionada acima."
+
+msgid "mail_templates"
+msgstr "Modelos de texto"
+
+msgid "mail_threshold"
+msgstr "Limite"
+
+msgid "mail_threshold_info"
+msgstr "As mensagens internas mais antigas do que o valor limite definido aqui serão apagadas (incluindo anexos possivelmente existentes). <br> Lembre-se que na primeira execução deste cronjob, muitas mensagens serão apagadas e, por causa disso, não é possível enviar um mail como aviso."
+
+msgid "mail_to"
+msgstr "Período de voto limitado"
+
+msgid "mail_tpl_deleted_p"
+msgstr "Os modelos de texto foram apagados com sucesso."
+
+msgid "mail_tpl_deleted_s"
+msgstr "O modelo de texto foi apagado com sucesso."
+
+msgid "mail_tpl_sure_delete_entries"
+msgstr "O novo link do curso foi adicionado com sucesso"
+
+msgid "mail_tpl_sure_delete_entry"
+msgstr "Escolha um curso para criar um ramo do link do curso."
+
+#, fuzzy
+msgid "mail_use_global_reply_to_addr"
+msgstr "Use Global Reply-To"
+
+#, fuzzy
+msgid "mail_use_global_reply_to_addr_info"
+msgstr "If enabled, the email address entered below is used as value for the 'Reply-To' header. The sender's email address will be not disclosed to recipients. A direct reply is not possible anymore."
+
+#, fuzzy
+msgid "nc_mail_noti_item_title"
+msgstr "Inbox"
+
+#, fuzzy
+msgid "nc_mail_prop_time"
+msgstr "Time"
+
+#, fuzzy
+msgid "nc_mail_unread_messages"
+msgstr "You have %s in your inbox."
+
+#, fuzzy
+msgid "nc_mail_unread_messages_number_p"
+msgstr "%s Unread Mails"
+
+#, fuzzy
+msgid "nc_mail_unread_messages_number_s"
+msgstr "1 Unread Mail"
+
+msgid "only_inbox_trash"
+msgstr "Apenas considere caixa de entrada/lixo"
+
+msgid "only_inbox_trash_info"
+msgstr " %1$d de possíveis %2$d pontos"
+
+msgid "orphaned_mail_body"
+msgstr "Elemento da página ‘Os meus cursos’"
+
+msgid "orphaned_mail_subject"
+msgstr "Notificação sobre mails órfãos"
+
+msgid "placeholders_advise"
+msgstr "Este portefólio faz parte da atribuição \"%s\" do exercício \"%s\"."
+
+#, fuzzy
+msgid "regular_mail"
+msgstr "Personal Mail"
+
+msgid "search_content"
+msgstr "Resultado da pesquisa"
+
+msgid "search_recipients"
+msgstr "Entregou o seu portefólio em %s. Adicionalmente pode querer guardar uma cópia dos seus próprios ficheiros: %s"
+
+msgid "second_email_missing_info"
+msgstr "Tipo da primeira página"
+
+#, fuzzy
+msgid "select_mail_with_subject_x"
+msgstr "Select mail with subject „%s“"
+
+msgid "send_mail_admins"
+msgstr "Todos os administradores"
+
+msgid "send_mail_members"
+msgstr "Todos os membros"
+
+msgid "send_mail_to"
+msgstr "O seu \"%s\" não contém quaisquer blogs. Criar blogs para usá-los como parte dos seus portefólios."
+
+msgid "send_mail_tutors"
+msgstr "Todos os tutores"
+
+#, fuzzy
+msgid "serial_letter"
+msgstr "Serial Letter"
+
+msgid "show_mail_settings"
+msgstr "Adesões ao curso"
+
+msgid "show_mail_settings_info"
+msgstr "Páginas do portefólio e/ou do blog apagadas."
+
+msgid "system_notification_installation_changed_by"
+msgstr "Alterado por"
+
+#, fuzzy
+msgid "usrFieldChange_second_mail_visible_in_personal_data"
+msgstr "You have changed the attribute \"%s\" of the field \"%s\".<br>This leads to all accounts settings being reset to \"receive on primary address\" for external delivery,<br>not only for all new accounts but also dismissing the currently active settings made by users."

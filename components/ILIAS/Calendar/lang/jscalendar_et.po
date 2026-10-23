@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: et\n"
+"Language-Team: Estonian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: jscalendar\n"
+
+msgid "about_calendar"
+msgstr "Kalendrist"
+
+msgid "about_calendar_long"
+msgstr "DHTML Kuupäeva/aja valmisvahend\\n(c) dynarch.com 2002-2003\\nViimast versiooni vt: http://dynarch.com/mishoo/calendar.epl\\nLevitatakse GNU LGPL litsensti all. Vaata rohkem http://gnu.org/licenses/lgpl.html.\\n\\nKuupäeva valik:\\n- Kasuta aasta valimiseks nuppe <<, >> \\n- Kasuta kuu valimiseks nuppe <, > \\n- Hoides all hiire klahvi eelpool mainitud nuppudel, avaneb rippmenüü, kust saab teha rohkem valikuid. \\n- Kiiremaks valikuks tehke hiireklõps vastaval kuupäeval."
+
+msgid "about_time"
+msgstr "\\n\\nAja valik:\\n- Kliki suurendamiseks ükskõik millisel osal \\n- or Shift-klikk vähendamiseks\\n- või lohista kiiremini valiku tegemiseks."
+
+msgid "day_first"
+msgstr "Kuva %s esimesena"
+
+msgid "def_date_format"
+msgstr "%Y-%m-%d"
+
+msgid "drag_to_move"
+msgstr "Lohista"
+
+msgid "go_today"
+msgstr "Mine tänasesse"
+
+msgid "l_01"
+msgstr " jaanuar"
+
+msgid "l_02"
+msgstr " veebruar"
+
+msgid "l_03"
+msgstr " märts"
+
+msgid "l_04"
+msgstr " aprill"
+
+msgid "l_05"
+msgstr " mai"
+
+msgid "l_06"
+msgstr " juuni"
+
+msgid "l_07"
+msgstr " juuli"
+
+msgid "l_08"
+msgstr "august"
+
+msgid "l_09"
+msgstr "september"
+
+msgid "l_10"
+msgstr " oktoober"
+
+msgid "l_11"
+msgstr "november"
+
+msgid "l_12"
+msgstr "Detsember"
+
+msgid "l_fr"
+msgstr "Neljapäev"
+
+msgid "l_mo"
+msgstr "Esmaspäev"
+
+msgid "l_sa"
+msgstr "Laupäev"
+
+msgid "l_su"
+msgstr "Pühapäev"
+
+msgid "l_th"
+msgstr "Neljapäev"
+
+msgid "l_tu"
+msgstr "Teisipäev"
+
+msgid "l_we"
+msgstr "Kolmapäev"
+
+msgid "next_month"
+msgstr "Järgmine kuu (hoia menüü jaoks)"
+
+msgid "next_year"
+msgstr "Järgmine aasta (hoia menüü jaoks)"
+
+msgid "open_calendar"
+msgstr "Klikka siin, et avada kalender päeva valimiseks (vajalik JavaScript!)"
+
+msgid "part_today"
+msgstr " (täna)"
+
+msgid "prev_month"
+msgstr "Eelm. kuu (hoia menüü jaoks)"
+
+msgid "prev_year"
+msgstr "Eelm. aasta (hoia menüü jaoks)"
+
+msgid "s_01"
+msgstr "Jaan."
+
+msgid "s_02"
+msgstr "Veeb."
+
+msgid "s_03"
+msgstr "Märts"
+
+msgid "s_04"
+msgstr "Apr"
+
+msgid "s_05"
+msgstr "Mai"
+
+msgid "s_06"
+msgstr "Juuni"
+
+msgid "s_07"
+msgstr "Jul"
+
+msgid "s_08"
+msgstr "Aug"
+
+msgid "s_09"
+msgstr "Sept."
+
+msgid "s_10"
+msgstr "Okt."
+
+msgid "s_11"
+msgstr "Nov"
+
+msgid "s_12"
+msgstr "Dets."
+
+msgid "s_fr"
+msgstr "R"
+
+msgid "s_mo"
+msgstr "E"
+
+msgid "s_sa"
+msgstr "L"
+
+msgid "s_su"
+msgstr "P"
+
+msgid "s_th"
+msgstr "N"
+
+msgid "s_tu"
+msgstr "T"
+
+msgid "s_we"
+msgstr "K"
+
+msgid "select_date"
+msgstr "vali päev"
+
+msgid "time"
+msgstr "Kellaaeg"
+
+msgid "time_part"
+msgstr "(Shift-)väärtuse muutmiseks kliki või lohista"
+
+msgid "today"
+msgstr "Täna"
+
+msgid "tt_date_format"
+msgstr "%a, %b %e"
+
+msgid "wk"
+msgstr "ndl"

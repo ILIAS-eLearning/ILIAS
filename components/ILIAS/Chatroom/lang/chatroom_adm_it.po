@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: chatroom_adm\n"
+
+msgid "chat_cannot_connect_to_server"
+msgstr "ILIAS non è in grado di creare una connessione socket al server chats."
+
+msgid "chat_enabled"
+msgstr "Chat attivata"
+
+msgid "chatserver_settings_title"
+msgstr "Impostazioni server chat"
+
+msgid "client_settings"
+msgstr "Impostazioni generali"
+
+msgid "general_settings_title"
+msgstr "Impostazioni generali di chat"
+
+msgid "https"
+msgstr "HTTPS"
+
+msgid "osc_adm_browser_noti_info"
+msgstr "Se abilitato, gli utenti possono decidere individualmente se vogliono o meno ricevere le notifiche del browser per le nuove conversazioni e messaggi. Le notifiche vengono attivate se l'utente lavora in diverse schede del browser o se il browser è nascosto e ILIAS è stato messo in secondo piano. Gli utenti riceveranno anche le notifiche del browser dopo un certo tempo di inattività in una conversazione se ILIAS è in primo piano."
+
+msgid "osc_adm_browser_noti_label"
+msgstr "Notifiche del browser"
+
+msgid "osc_adm_conv_idle_state_threshold_info"
+msgstr "Tagliare le notifiche dando un intervallo minimo in cui le notifiche del browser vengono attivate per i messaggi di chat in arrivo."
+
+msgid "osc_adm_conv_idle_state_threshold_label"
+msgstr "Tempo tra le notifiche del browser"
+
+msgid "port_info"
+msgstr "Le porte utilizzate raramente sono spesso bloccate da firewall o server proxy. Il browser dell'utente non sarà in grado di stabilire una connessione al server di chat se la porta definita è bloccata."
+
+msgid "protocol"
+msgstr "Protocollo"
+
+msgid "public_chat_permissions"
+msgstr "Autorizzazioni per chat pubblica"
+
+msgid "public_chat_settings"
+msgstr "Impostazioni chat pubblica"
+
+msgid "server_settings"
+msgstr "Impostazioni server chat"
+
+msgid "settings_has_been_saved"
+msgstr "Le impostazioni sono state salvate"

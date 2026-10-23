@@ -1,0 +1,337 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sq\n"
+"Language-Team: Albanian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: ui\n"
+
+#, fuzzy
+msgid "1stars"
+msgstr "one of five stars"
+
+#, fuzzy
+msgid "2stars"
+msgstr "two of five stars"
+
+#, fuzzy
+msgid "3stars"
+msgstr "three of five stars"
+
+#, fuzzy
+msgid "4stars"
+msgstr "four of five stars"
+
+#, fuzzy
+msgid "5stars"
+msgstr "five of five stars"
+
+#, fuzzy
+msgid "datatable_close_warning"
+msgstr "OK"
+
+#, fuzzy
+msgid "datatable_multiaction_label"
+msgstr "Bulk Actions"
+
+#, fuzzy
+msgid "datatable_multiactionmodal_actionlabel"
+msgstr "Action for All Entries"
+
+#, fuzzy
+msgid "datatable_multiactionmodal_apply"
+msgstr "Apply"
+
+#, fuzzy
+msgid "datatable_multiactionmodal_listentry"
+msgstr "Actions for Entire Table"
+
+#, fuzzy
+msgid "datatable_multiactionmodal_msg"
+msgstr "Selected action will affect all entries in this table."
+
+#, fuzzy
+msgid "datatable_multiactionmodal_title"
+msgstr "Actions for Entire Table"
+
+#, fuzzy
+msgid "drilldown_no_items"
+msgstr "No Matching Elements"
+
+#, fuzzy
+msgid "duration_default_label_end"
+msgstr "end"
+
+#, fuzzy
+msgid "duration_default_label_start"
+msgstr "start"
+
+#, fuzzy
+msgid "duration_end_must_not_be_earlier_than_start"
+msgstr "Start must not be later than end."
+
+#, fuzzy
+msgid "filter_nodes_in"
+msgstr "Filter Nodes in %s"
+
+#, fuzzy
+msgid "footer_icons"
+msgstr "Footer Icons"
+
+#, fuzzy
+msgid "footer_link_groups"
+msgstr "Footer Link-Groups"
+
+#, fuzzy
+msgid "footer_links"
+msgstr "Footer Links"
+
+#, fuzzy
+msgid "footer_permanent_link"
+msgstr "Footer Permanent Link"
+
+#, fuzzy
+msgid "footer_texts"
+msgstr "Footer Texts"
+
+#, fuzzy
+msgid "image_alt_text"
+msgstr "Alternate Text"
+
+#, fuzzy
+msgid "image_purpose_decorative"
+msgstr "Decorative Image"
+
+#, fuzzy
+msgid "image_purpose_informative"
+msgstr "Informative Image"
+
+#, fuzzy
+msgid "image_purpose_user_defined"
+msgstr "Image Purpose"
+
+#, fuzzy
+msgid "label_fieldselection"
+msgstr "Field Selection"
+
+#, fuzzy
+msgid "label_fieldselection_refresh"
+msgstr "Apply"
+
+#, fuzzy
+msgid "label_modeviewcontrol"
+msgstr "view mode"
+
+#, fuzzy
+msgid "label_pagination_limit"
+msgstr "Pagination Number of Rows"
+
+#, fuzzy
+msgid "label_pagination_offset"
+msgstr "Pagination Offset"
+
+#, fuzzy
+msgid "label_sortation"
+msgstr "Sortation"
+
+#, fuzzy
+msgid "order_option_alphabetical_ascending"
+msgstr "A to Z"
+
+#, fuzzy
+msgid "order_option_alphabetical_descending"
+msgstr "Z to A"
+
+#, fuzzy
+msgid "order_option_chronological_ascending"
+msgstr "Earliest first"
+
+#, fuzzy
+msgid "order_option_chronological_descending"
+msgstr "Most Recent first"
+
+#, fuzzy
+msgid "order_option_first"
+msgstr "first"
+
+#, fuzzy
+msgid "order_option_generic_ascending"
+msgstr "ascending"
+
+#, fuzzy
+msgid "order_option_generic_descending"
+msgstr "descending"
+
+#, fuzzy
+msgid "order_option_numerical_ascending"
+msgstr "0 to 9"
+
+#, fuzzy
+msgid "order_option_numerical_descending"
+msgstr "9 to 0"
+
+#, fuzzy
+msgid "presentation_table_collapse"
+msgstr "collapse all"
+
+#, fuzzy
+msgid "presentation_table_expand"
+msgstr "expand all"
+
+#, fuzzy
+msgid "rating_average"
+msgstr "others rated %s of 5"
+
+#, fuzzy
+msgid "reset_stars"
+msgstr "neutral"
+
+#, fuzzy
+msgid "select_node"
+msgstr "Add node %s to selection"
+
+#, fuzzy
+msgid "table_posinput_col_title"
+msgstr "Position"
+
+#, fuzzy
+msgid "ui_chars_max"
+msgstr "Maximum:"
+
+#, fuzzy
+msgid "ui_chars_min"
+msgstr "Minimum:"
+
+#, fuzzy
+msgid "ui_chars_remaining"
+msgstr "Characters remaining:"
+
+#, fuzzy
+msgid "ui_error"
+msgstr "Error"
+
+#, fuzzy
+msgid "ui_error_in_group"
+msgstr "There is some error in this part."
+
+#, fuzzy
+msgid "ui_error_switchable_group_required"
+msgstr "Please select an option."
+
+#, fuzzy
+msgid "ui_field_option_filter_clear_search"
+msgstr "Clear search"
+
+#, fuzzy
+msgid "ui_field_option_filter_filtered_results_aria_label"
+msgstr "List of options - collapsible and filterable"
+
+#, fuzzy
+msgid "ui_field_option_filter_no_match"
+msgstr "There was no match for the search term you entered."
+
+#, fuzzy
+msgid "ui_field_option_filter_no_selection"
+msgstr "Nothing selected."
+
+#, fuzzy
+msgid "ui_field_option_filter_options_shown"
+msgstr "Currently showing %s options."
+
+#, fuzzy
+msgid "ui_field_option_filter_screen_reader_hint"
+msgstr "Start typing and the field options below will be filtered accordingly."
+
+#, fuzzy
+msgid "ui_field_option_filter_search_in"
+msgstr "Find"
+
+#, fuzzy
+msgid "ui_field_option_filter_show_all_options"
+msgstr "Show all options"
+
+#, fuzzy
+msgid "ui_field_option_filter_show_less"
+msgstr "Show less"
+
+#, fuzzy
+msgid "ui_file_input_general_error"
+msgstr "An error occurred! You can check the JavaScript console of your browser for more information and/or contact your ILIAS system administration about this incident."
+
+#, fuzzy
+msgid "ui_file_input_invalid_amount"
+msgstr "You cannot upload this many files, please remove some in order to continue."
+
+#, fuzzy
+msgid "ui_file_input_invalid_mime"
+msgstr "Files of type '%s' are not allowed"
+
+#, fuzzy
+msgid "ui_file_input_invalid_size"
+msgstr "File exceeds the maximum size of %s."
+
+#, fuzzy
+msgid "ui_file_upload_max_nr"
+msgstr "Max Number of Files:"
+
+#, fuzzy
+msgid "ui_invalid_url"
+msgstr "Invalid URL-format"
+
+#, fuzzy
+msgid "ui_link_label"
+msgstr "Label"
+
+#, fuzzy
+msgid "ui_link_url"
+msgstr "URL"
+
+#, fuzzy
+msgid "ui_md_input_edit"
+msgstr "Edit"
+
+#, fuzzy
+msgid "ui_md_input_view"
+msgstr "View"
+
+#, fuzzy
+msgid "ui_nav_sequence_control_label"
+msgstr "Sequence control for contents below"
+
+#, fuzzy
+msgid "ui_nav_sequence_description"
+msgstr "Used to navigate through this content or trigger actions and filters on the entire sequence."
+
+#, fuzzy
+msgid "ui_pagination_unlimited"
+msgstr "Unlimited"
+
+#, fuzzy
+msgid "ui_select_dropdown_label"
+msgstr "Please select"
+
+#, fuzzy
+msgid "ui_table_no_records"
+msgstr "No records"
+
+#, fuzzy
+msgid "ui_table_order"
+msgstr "Order"
+
+#, fuzzy
+msgid "ui_transcription"
+msgstr "Transcript"
+
+#, fuzzy
+msgid "unselect_node"
+msgstr "Remove node %s from selection"
+
+#, fuzzy
+msgid "vc_sort"
+msgstr "Sort by:"
+
+#, fuzzy
+msgid "warning_url_too_long_msg"
+msgstr "The amount of selected rows will result in a very large URL; the Server will probably block this request.<br>Please select less rows or perform the action on all entries."

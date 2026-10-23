@@ -1,0 +1,166 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: mep\n"
+
+msgid "mep_all"
+msgstr "Tous"
+
+msgid "mep_all_mobs"
+msgstr "Tous objets multimédias"
+
+msgid "mep_bulk_upload"
+msgstr "Bulk Upload"
+
+msgid "mep_choose_from_folder"
+msgstr "Choisir dans le Dossier"
+
+msgid "mep_choose_from_mep"
+msgstr "Choisir dans la Galerie"
+
+#, fuzzy
+msgid "mep_clipboard_info"
+msgstr "Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users."
+
+msgid "mep_content"
+msgstr "Contenu"
+
+msgid "mep_content_snippet_in_use"
+msgstr "Le texte/média '%s' est utilisé et ne peut être supprimé."
+
+msgid "mep_content_snippet_used_in_older_versions"
+msgstr "Veuillez noter que cette portion de contenu est utilisée dans des versions anciennes de certaines pages. Si ces anciennes versions doivent être restaurées, la portion de contenu sera manquante dans la page."
+
+msgid "mep_copy_to_mep"
+msgstr "Copier dans la galerie multimédia"
+
+msgid "mep_create_content_snippet"
+msgstr "Créer texte/média"
+
+msgid "mep_create_folder"
+msgstr "Créer Dossier"
+
+msgid "mep_create_media_files"
+msgstr "Créer des Médias"
+
+msgid "mep_create_mob"
+msgstr "Créer Média"
+
+msgid "mep_default_height"
+msgstr "Hauteur par Défaut"
+
+msgid "mep_default_width"
+msgstr "Largeur par Défaut"
+
+msgid "mep_default_width_height_info"
+msgstr "Les largeur et hauteur par défaut sont utilisées comme choix par défaut lors de l'ajout de nouveaux médias."
+
+msgid "mep_edit_content_snippet"
+msgstr "Modifier texte/média"
+
+msgid "mep_edit_folder"
+msgstr "Modifier dossier"
+
+msgid "mep_file"
+msgstr "Fichier"
+
+msgid "mep_folder"
+msgstr "Dossier"
+
+msgid "mep_format"
+msgstr "Format"
+
+msgid "mep_import"
+msgstr "Importer une galerie multimédia"
+
+msgid "mep_import_lang"
+msgstr "Langue cible"
+
+msgid "mep_import_trans"
+msgstr "Importer traduction"
+
+msgid "mep_master_language_only"
+msgstr "Langue de gestion pour la traduction"
+
+msgid "mep_master_language_only_no_media"
+msgstr "Langue de gestion sans média"
+
+msgid "mep_media_files"
+msgstr "Media Files"
+
+msgid "mep_media_subtitles"
+msgstr "Sous-titres média"
+
+msgid "mep_mob"
+msgstr "Media Object"
+
+#, fuzzy
+msgid "mep_move_select_insert"
+msgstr "Navigate to target folder and click \"Insert\""
+
+#, fuzzy
+msgid "mep_mpg"
+msgstr "Content Snippet"
+
+msgid "mep_new_content_snippet"
+msgstr "Nouveau texte/média"
+
+msgid "mep_new_folder"
+msgstr "Nouveau dossier"
+
+msgid "mep_page_properties"
+msgstr "Paramètres page"
+
+msgid "mep_page_type_mep"
+msgstr "Content Snippet"
+
+msgid "mep_thumbnail"
+msgstr "Vignette"
+
+msgid "mep_title_and_description"
+msgstr "Titre et Description"
+
+msgid "mep_trans_import_info"
+msgstr "Si vous avez exporté ce module sous forme de XML/langue de gestion pour la traduction vers une autre installation, vous pouvez maintenant réimporter des fichiers d’exportation traduit depuis cette deuxième installation ici."
+
+msgid "mep_unknown"
+msgstr "Inconnu"
+
+msgid "mep_up_dir_copy"
+msgstr "Copier les Fichiers du Dossier de Dépôt (préserve les fichiers du dossier de dépôt)"
+
+msgid "mep_up_dir_move"
+msgstr "Déplacer les Fichiers du Dossier de Dépôt (plus rapide)"
+
+msgid "mep_upload_dir_files"
+msgstr "Fichiers du Dossier de Dépôt"
+
+msgid "mobs_activate_pages"
+msgstr "Activer l'administration des contenus de page"
+
+msgid "mobs_activate_pages_info"
+msgstr "Autorise l'ajout de pages aux galeries multimédias. Ces pages peuvent être réutilisées (et non modfiées) dans les documents d'apprentissage etc."
+
+msgid "mobs_always_show_file_manager"
+msgstr "Toujours afficher le gestionnaire de fichiers"
+
+msgid "mobs_always_show_file_manager_info"
+msgstr "Si désactivé, le gestionnaire de fichiers pour les objets multimédias sera masqué pour les types MIME simples (e.g. images)."
+
+msgid "mobs_black_list_file_types"
+msgstr "Types de fichier interdits"
+
+#, fuzzy
+msgid "mobs_black_list_file_types_and_allowed_info"
+msgstr "Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:"
+
+msgid "mobs_restrict_file_types"
+msgstr "Restreindre les Types de Fichier"
+
+msgid "mobs_restrict_file_types_info"
+msgstr "Entez une liste d'extensions séparées par des virgules (ex. jpg,gif) autorisées pour le dépôt de médias. Si aucune valeur n'est entrée, tous les types sont autorisés."

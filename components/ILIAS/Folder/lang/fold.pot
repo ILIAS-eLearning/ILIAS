@@ -1,0 +1,18 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: fold\n"
+
+msgid "fold_copy"
+msgstr ""
+
+msgid "fold_import"
+msgstr ""
+
+msgid "fold_presentation"
+msgstr ""
+
+msgid "fold_settings"
+msgstr ""

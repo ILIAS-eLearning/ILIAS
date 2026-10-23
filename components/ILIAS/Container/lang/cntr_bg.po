@@ -1,0 +1,118 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: bg\n"
+"Language-Team: Bulgarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cntr\n"
+
+msgid "cntr_add_new_item"
+msgstr "Добавяне на нов артикул"
+
+msgid "cntr_adopt_content"
+msgstr "Приемане на съдържание"
+
+msgid "cntr_container_only_on_their_own"
+msgstr "Категориите, курсовете, групите, папките или учебните програми могат да се копират само като единични обекти. Моля, изберете само един елемент."
+
+msgid "cntr_copy_crs_grp"
+msgstr "Моите курсове и групи"
+
+msgid "cntr_copy_repo_tree"
+msgstr "Дърво на хранилището"
+
+msgid "cntr_hide_title_and_icon"
+msgstr "Скриване на заглавието и иконата"
+
+msgid "cntr_manage"
+msgstr "Управление"
+
+msgid "cntr_ordering"
+msgstr "Sorting"
+
+msgid "cntr_saved_sorting"
+msgstr "Спазено сортиране."
+
+msgid "cntr_switch_to_new_editor_cmd"
+msgstr " Превключване към тази страница за представяне"
+
+msgid "cntr_switch_to_new_editor_message"
+msgstr "Това е поддържаният стандартен редактор. Използвайте го, за да настроите страницата със съдържание. Ако щракнете върху следната връзка, представянето на съдържанието в хранилището ще премине от съдържанието на стария редактор към тази страница."
+
+msgid "cntr_switched_editor"
+msgstr "Преминаване към ново съдържание."
+
+msgid "cntr_tax_none_available"
+msgstr "Няма налични таксономии."
+
+#, fuzzy
+msgid "cntr_tax_settings_info"
+msgstr "Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the \"Metadata\" tabs and the \"Taxonomy Assignment\" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's \"Contents\" tab to enable direct filtering of the assigned objects."
+
+msgid "cntr_taxonomy_definitions"
+msgstr "Определение на таксономия"
+
+msgid "cntr_taxonomy_show_sideblock"
+msgstr "Показване на таксономията в страничен блок"
+
+msgid "cntr_taxonomy_sideblock_settings"
+msgstr "Настройки на блока за таксономия"
+
+msgid "cntr_text_media_editor"
+msgstr "Редактор на текст/медия"
+
+msgid "cntr_view_by_type"
+msgstr "Групиран по тип изглед"
+
+msgid "cntr_view_info_by_type"
+msgstr "Тази презентация на съдържанието групира всички елементи по тип ресурс."
+
+msgid "cntr_view_info_sessions"
+msgstr "Тази презентация на съдържанието първо групира всички сесии. След това се изброява другото съдържание на курса."
+
+msgid "cntr_view_info_simple"
+msgstr "Тази презентация на съдържанието изброява всички елементи в един блок."
+
+msgid "cntr_view_sessions"
+msgstr " Преглед на сесиите"
+
+msgid "cntr_view_simple"
+msgstr "Опростен изглед"
+
+msgid "container_import_zip_file_invalid"
+msgstr "Представеният файл не е валиден експортен файл на ILIAS. За да качите структура на директория, използвайте файлов обект."
+
+msgid "edit_questions"
+msgstr "Изправяне на въпроси"
+
+msgid "exc_next_deadline_single"
+msgstr "Deadline"
+
+msgid "msg_no_downloadable_objects"
+msgstr "Не са открити обекти за изтегляне."
+
+msgid "objects_duplicated"
+msgstr "Копирани обекти"
+
+msgid "prtf_create_portfolio_from_template"
+msgstr "Създаване на портфолио от шаблон"
+
+msgid "sorting_new_items_at_bottom"
+msgstr "Bottom"
+
+msgid "sorting_new_items_at_top"
+msgstr "Top"
+
+msgid "sorting_new_items_direction"
+msgstr "Направление на сортиране за нови обекти"
+
+msgid "sorting_new_items_order"
+msgstr "Поредба за нови обекти"
+
+msgid "sorting_new_items_position"
+msgstr "Позиция за нови обекти"
+
+msgid "tab_back_to_repository"
+msgstr "Връщане към хранилището"

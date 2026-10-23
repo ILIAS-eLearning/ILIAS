@@ -1,0 +1,324 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: registration\n"
+
+msgid "reg_access_limitation_limited_time"
+msgstr "Na registratie toegang tot"
+
+msgid "reg_access_limitation_limited_until"
+msgstr "Toegang is beperkt tot"
+
+msgid "reg_access_limitation_missing_mode"
+msgstr "Gelieve voor alle rollen een toegansbeperking te kiezen."
+
+msgid "reg_access_limitation_mode"
+msgstr "Toegangsbeperking mode"
+
+msgid "reg_access_limitation_mode_absolute"
+msgstr "Toegang is beperkt voor een vaste tijdspanne."
+
+msgid "reg_access_limitation_mode_absolute_target"
+msgstr "Geldig tot"
+
+msgid "reg_access_limitation_mode_relative"
+msgstr "Beperkte toegang voor een vaste tijdspanne na aanmelding"
+
+msgid "reg_access_limitation_mode_relative_target"
+msgstr "Geldig voor"
+
+msgid "reg_access_limitation_mode_unlimited"
+msgstr "Geen toegangsbeperking"
+
+msgid "reg_access_limitation_none"
+msgstr "Onbeperkte toegang"
+
+msgid "reg_access_limitation_out_of_date"
+msgstr "Één of meerdere rollen hebben een verouderde toegangsbeperking!"
+
+msgid "reg_access_limitations"
+msgstr "Toegangsbeperking"
+
+msgid "reg_add_assignment"
+msgstr "Nieuwe inschrijving"
+
+msgid "reg_added_assignment"
+msgstr "Nieuwe inschrijving toegevoegd"
+
+msgid "reg_allow_codes"
+msgstr "Codes toestaan"
+
+msgid "reg_allow_codes_info"
+msgstr "Gebruikers wordt het tevens toegestaan om te registreren via codes."
+
+msgid "reg_allowed_domains"
+msgstr "Toegestane domeinen voor e-mailadressen"
+
+msgid "reg_allowed_domains_info"
+msgstr "Gebruik * as wildcard en ; als scheidingsteken"
+
+msgid "reg_approve"
+msgstr "Registratie met bevestiging"
+
+msgid "reg_approve_info"
+msgstr "Als dit gekozen is, moet iedere nieuwe registratie bevestigd worden door een beheerder."
+
+msgid "reg_approve_needs_recipient"
+msgstr "Je moet tenminste één gebruiker definiëren die zal worden bericht over nieuwe registraties wanneer \"registratie met toestemming\" gekozen is."
+
+msgid "reg_available_roles"
+msgstr "Beschikbare rollen:"
+
+#, fuzzy
+msgid "reg_confirmation_already_confirmed"
+msgstr "The registration is no longer pending, it has already been confirmed."
+
+msgid "reg_confirmation_hash_life_time"
+msgstr "Maximale wachttijd"
+
+msgid "reg_confirmation_hash_life_time_expired"
+msgstr "De bevestigingslink is niet meer geldig"
+
+msgid "reg_confirmation_hash_life_time_info"
+msgstr "Voeg de levensduur (seconden) van de bevestigings link in."
+
+msgid "reg_confirmation_hash_not_found"
+msgstr "Geen gebruikersaccount kon gekoppeld worden aan deze bevestigings link."
+
+#, fuzzy
+msgid "reg_confirmation_hash_not_passed"
+msgstr "The confirmation link is incomplete."
+
+msgid "reg_confirmation_link_successful"
+msgstr "Je account aanvraag voor ILIAS is ontvangen. Binnenkort ontvang je een mail. je moet de aanvraag bevestigen door op de ingesloten link te klikken."
+
+msgid "reg_default"
+msgstr "Algemeen"
+
+msgid "reg_deleted_assignment"
+msgstr "Verwijder inschrijving(en)"
+
+msgid "reg_direct"
+msgstr "Onmiddellijke registratie"
+
+msgid "reg_direct_info"
+msgstr "Als dit gekozen is, worden alle nieuwe registraties automatisch bevestigd."
+
+msgid "reg_disabled"
+msgstr "Registratie niet mogelijk"
+
+msgid "reg_domain"
+msgstr "Domein"
+
+#, fuzzy
+msgid "reg_domain_already_assigned_p"
+msgstr "The domains '%s' were already entered for another role."
+
+#, fuzzy
+msgid "reg_domain_already_assigned_s"
+msgstr "The domain '%s' was already entered for another role. "
+
+msgid "reg_email"
+msgstr "Automatische roltoewijzing"
+
+msgid "reg_email_domains"
+msgstr "The following e-mail address domains are valid: %s"
+
+msgid "reg_email_domains_code"
+msgstr "Met een registratiecode is ieder e-mailadres geldig."
+
+msgid "reg_email_role_assignment"
+msgstr "Rol toewijzing volgens domein"
+
+msgid "reg_fixed"
+msgstr "Selectie volgens gespecificeerde lijst"
+
+msgid "reg_info_pwd"
+msgstr "Indien ingeschakeld wachtwoorden zullen automatische verzonden worden via e-mail."
+
+#, fuzzy
+msgid "reg_mail_body_activation"
+msgstr "to activate your account and confirm ownership of this email address, click the link below:"
+
+msgid "reg_mail_body_approve"
+msgstr "Je bent reeds geregistreerd op ILIAS en je hebt een e-mail ontvangen. Je account is ingeschakeld door de beheerder."
+
+msgid "reg_mail_body_confirmation"
+msgstr "Om deze registratie te bevestigen: ga naar ILIAS gebruikersbeheer en activeer dit account."
+
+msgid "reg_mail_body_profile"
+msgstr "Profilel gegevens:"
+
+msgid "reg_mail_body_profile_changed"
+msgstr "Je profiel is aangepast"
+
+msgid "reg_mail_body_pwd_generation"
+msgstr "Je accountaanvraag zal bekeken worden door de beheerder, en zal binnen de 48 uur ingeschakeld worden. Je zult geïnformeerd worden als je account ingeschakeld is."
+
+msgid "reg_mail_body_reason"
+msgstr "Je ontvangt deze mail omdat notificaties over nieuwe registraties aanstaat voor je account"
+
+msgid "reg_mail_body_timelimit"
+msgstr "Je account heeft een beperkte geldigheidsperiode: %s."
+
+msgid "reg_mail_new_user"
+msgstr "Nieuwe aanmelding van gebruiker"
+
+msgid "reg_mail_new_user_body"
+msgstr "Een nieuwe gebruiker is geregistreerd"
+
+msgid "reg_mail_new_user_confirmation"
+msgstr "Verzoek voor accountbevestiging"
+
+msgid "reg_missing_domain"
+msgstr "Gelieve alle velden in te vullen"
+
+msgid "reg_missing_role"
+msgstr "Gelieve alle velden in te vullen"
+
+msgid "reg_notification"
+msgstr "Opmerkingen"
+
+msgid "reg_notification_info"
+msgstr "Geef een of meer user-ID's(met komma gescheiden) deze zullen geïnformeerd worden over de gebruikersregistratie."
+
+msgid "reg_role_access_limitations"
+msgstr "Bepaal toegangsbeperkingen van rollen voor nieuwe geregistreerde gebruikers"
+
+msgid "reg_role_assignment"
+msgstr "Rol toewijzing"
+
+msgid "reg_role_info"
+msgstr "Toegewezen rollen"
+
+msgid "reg_select_one"
+msgstr "Gelieve één ingave te selecteren"
+
+msgid "reg_selectable_roles"
+msgstr "Selecteerbare rolen"
+
+msgid "reg_settings_header"
+msgstr "Nieuwe registratieinstellingen"
+
+msgid "reg_type"
+msgstr "Registratie procedure"
+
+msgid "reg_type_confirmation"
+msgstr "Registratie met e-mail bevestiging"
+
+msgid "reg_type_confirmation_info"
+msgstr "Dit type staat Registratie procedure van gebruikers toe, maar er is een e-mail bevestiging nodig om het account te activeren. Dit voorkomt registraties met foute of niet bestaande e-mail adressen."
+
+msgid "reg_unknown_recipients"
+msgstr "De volgende logins zijn niet geldig:"
+
+msgid "registration_code"
+msgstr "Code"
+
+msgid "registration_code_not_valid"
+msgstr "De opgegeven registratiecode is ongeldig of al gebruikt."
+
+msgid "registration_code_optional_info"
+msgstr "If you have an ILIAS registration code, you can enter it now."
+
+msgid "registration_code_required_info"
+msgstr "A pre-defined code is mandatory for the registration process."
+
+msgid "registration_code_role_info"
+msgstr "If you use a registration code, the role selection may be superseded by the code."
+
+msgid "registration_codes_access_limitation_all"
+msgstr "Alle"
+
+msgid "registration_codes_add"
+msgstr "Codes toevoegen"
+
+msgid "registration_codes_edit_header"
+msgstr "Codes toevoegen"
+
+msgid "registration_codes_export"
+msgstr "Exporteer Codes"
+
+msgid "registration_codes_no_assigned_role"
+msgstr "Geen voor-gedefinieerde toegekende rol"
+
+msgid "registration_codes_number"
+msgstr "Aantal codes"
+
+msgid "registration_codes_override_global_info"
+msgstr "Deze instellingen kunnen worden overschreven door registratiecodes."
+
+msgid "registration_codes_override_info"
+msgstr "Deze instelling overschrijft de waarden in \"Registratieinstellingen\"."
+
+msgid "registration_codes_roles"
+msgstr "Rol voor nieuwe accounts"
+
+msgid "registration_codes_roles_limitation_none"
+msgstr "Geen voor-gedefinieerde toegangsbeperking"
+
+msgid "registration_codes_roles_local"
+msgstr "Lokale Rol(len)"
+
+msgid "registration_codes_roles_title"
+msgstr "Rol voor nieuwe account"
+
+msgid "registration_codes_type"
+msgstr "Code Type"
+
+msgid "registration_codes_type_ext"
+msgstr "Uitbreiding van beperkt aantal gebruikersaccounts"
+
+msgid "registration_codes_type_ext_info"
+msgstr "Uitbreiding van beperkt aantal gebruikersaccounts"
+
+msgid "registration_codes_type_reg"
+msgstr "Registratie Code"
+
+msgid "registration_codes_type_reg_info"
+msgstr "Code kan worden gebruikt voor de registratie van een nieuw gebruikersaccount"
+
+#, fuzzy
+msgid "registration_disabled_no_access"
+msgstr "The self-registration is not enabled. Please contact the system administration for further assistance: %s"
+
+msgid "registration_export_codes_no_data"
+msgstr "Er zijn geen codes geselecteerd"
+
+msgid "registration_generated"
+msgstr "Datum van genereren"
+
+msgid "registration_generated_all"
+msgstr "Alle datums"
+
+msgid "registration_no_valid_role"
+msgstr "Er is momenteel geen geldige rol voor nieuwe accounts. Neem contact op met de beheerder."
+
+msgid "registration_reg_type_codes"
+msgstr "Registratie  met codes"
+
+msgid "registration_reg_type_codes_info"
+msgstr "Dit type staat zelfregistratie toe, maar een geldige registratiecode is nodig."
+
+msgid "registration_roles_all"
+msgstr "Alle rollen"
+
+msgid "registration_settings"
+msgstr "Nieuwe registratie"
+
+msgid "registration_tab_codes"
+msgstr "Toegangscodes"
+
+msgid "registration_tab_settings"
+msgstr "Registratie instellingen"
+
+msgid "registration_used"
+msgstr "Datum van gebruik"
+
+msgid "registration_user_new_account_mail"
+msgstr "Nieuw account e-mail wijzigen"

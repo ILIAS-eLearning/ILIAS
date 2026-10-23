@@ -1,0 +1,90 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: webr\n"
+
+msgid "invalid_links_tbl"
+msgstr "Érvénytelen linkek"
+
+msgid "webr_active"
+msgstr "Aktív"
+
+msgid "webr_container_info"
+msgstr "Adjon meg címet és esetleg leírást ennek a Tartalomtárban levő weblink-gyűjteményének a bemutatásához."
+
+msgid "webr_copy"
+msgstr "Weblink másolása"
+
+msgid "webr_deactivate"
+msgstr "Weblink kikapcsolása"
+
+msgid "webr_edit_links"
+msgstr "Weblink módosítása"
+
+msgid "webr_edit_list"
+msgstr "Weblinkek módosítása"
+
+msgid "webr_edit_settings"
+msgstr "Beállítások módosítása"
+
+msgid "webr_import"
+msgstr "Weblink importálása"
+
+msgid "webr_inactive_success"
+msgstr "A kiválasztott linket sikeresen kikapcsolta."
+
+msgid "webr_link_added"
+msgstr "Új link jött létre."
+
+msgid "webr_link_target"
+msgstr "Weblink célja"
+
+msgid "webr_link_title"
+msgstr "Weblink / weblink-gyűjtemény címe"
+
+msgid "webr_link_type_list"
+msgstr "Weblink-gyűjtemény"
+
+msgid "webr_link_type_single"
+msgstr "Weblink"
+
+msgid "webr_list_added"
+msgstr "Az új weblink-gyűjtemányt sikeresen létrehozta."
+
+msgid "webr_list_desc"
+msgstr "Weblink-gyűjtemény leírása"
+
+msgid "webr_list_set"
+msgstr "A weblinket sikeresen weblink-gyűjteménnyé alakította."
+
+msgid "webr_list_title"
+msgstr "Weblink-gyűjtemény címe"
+
+msgid "webr_new"
+msgstr "Weblink létrehozása"
+
+msgid "webr_new_link"
+msgstr "Új weblink létrehozása"
+
+msgid "webr_new_list"
+msgstr "Új weblink-gyűjteménye létrehozása"
+
+msgid "webr_new_list_info"
+msgstr "A weblink-gyűjtemény megjelenítéshez a Tartalomtárban, adjon meg címet és esetleg leírást."
+
+msgid "webr_set_to_list"
+msgstr "Weblink-gyűjteménnyé alakítás"
+
+msgid "webr_sort_manual"
+msgstr "Kézi sorba rendezés"
+
+msgid "webr_sort_title"
+msgstr "Cím szerinti rendezés"
+
+msgid "webr_sorting"
+msgstr "Weblinkek sorba rendezése"

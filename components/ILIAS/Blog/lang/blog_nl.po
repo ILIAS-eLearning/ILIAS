@@ -1,0 +1,370 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: blog\n"
+
+msgid "blog_abstract_image"
+msgstr "Toevoegen afbeelding aan samenvatting"
+
+msgid "blog_abstract_image_height"
+msgstr "Hoogte"
+
+msgid "blog_abstract_image_info"
+msgstr "Afbeeldingen die kleiner zijn worden niet gebruikt."
+
+msgid "blog_abstract_image_pixels"
+msgstr "Px"
+
+msgid "blog_abstract_image_width"
+msgstr "Breedte"
+
+msgid "blog_abstract_shorten"
+msgstr "Inkorten van samenvatting"
+
+msgid "blog_abstract_shorten_characters"
+msgstr "Karakters"
+
+msgid "blog_abstract_shorten_length"
+msgstr "Maximale lengte"
+
+msgid "blog_add"
+msgstr "Aanmaken Blog"
+
+msgid "blog_add_contributor"
+msgstr "Toevoegen bijdrager"
+
+msgid "blog_add_posting"
+msgstr "Toevoegen bericht"
+
+msgid "blog_admin_inactive_info"
+msgstr "Je kunt deze blog functie inschakelen in Persoonlijk Scherm Beheer."
+
+msgid "blog_admin_toggle_info"
+msgstr "Je kunt deze blog functie volledig uitschakelen in Persoonlijk Scherm Beheer."
+
+msgid "blog_approve"
+msgstr "Goedkeuren"
+
+msgid "blog_author"
+msgstr "Auteur"
+
+msgid "blog_authors"
+msgstr "Auteurs"
+
+#, fuzzy
+msgid "blog_back_to_blog_owner"
+msgstr "Edit Blog"
+
+msgid "blog_change_notification_body_approve"
+msgstr "de volgende blogartikelen moet worden goedgekeurd"
+
+#, fuzzy
+msgid "blog_change_notification_body_comment"
+msgstr "the following blog posting has been commented."
+
+msgid "blog_change_notification_body_new"
+msgstr "het volgende blogbericht is aangemaakt"
+
+msgid "blog_change_notification_body_update"
+msgstr "het volgende blogbericht is gewijzigd"
+
+msgid "blog_change_notification_link"
+msgstr "URL"
+
+msgid "blog_change_notification_reason"
+msgstr "Je ontvangt deze e-mail omdat je berichtgeving voor deze blog hebt ingeschakeld."
+
+msgid "blog_change_notification_subject"
+msgstr "Blog \"%s\" is gewijzigd."
+
+msgid "blog_comments"
+msgstr "Opmerkingen"
+
+#, fuzzy
+msgid "blog_confirm_delete_contributors"
+msgstr "Are you sure you want to delete the following contributors?"
+
+msgid "blog_contribute_other_roles"
+msgstr "De volgende rol leidt tot het recht om \"bijdragen te leveren\"  %s."
+
+msgid "blog_contributors"
+msgstr "Bijgedragen door"
+
+msgid "blog_copy"
+msgstr "Kopieer Blog"
+
+#, fuzzy
+msgid "blog_download_submission"
+msgstr "Download Submission"
+
+msgid "blog_draft"
+msgstr "Klad"
+
+msgid "blog_draft_info"
+msgstr "De kladversie van een bericht is alleen zichtbaar voor de auteur"
+
+msgid "blog_draft_info_contributors"
+msgstr "This posting draft is only visible for the contributors."
+
+#, fuzzy
+msgid "blog_draft_text"
+msgstr "Unpublished Post"
+
+msgid "blog_edit"
+msgstr "Wijzig Blog"
+
+msgid "blog_edit_date"
+msgstr "Wijzigen datum"
+
+msgid "blog_edit_date_info"
+msgstr "Publicatie status is niet afhankelijk van deze datum."
+
+msgid "blog_edit_keywords"
+msgstr "Wijzigen sleutelwoorden"
+
+msgid "blog_edit_posting"
+msgstr "Wijzigen bericht"
+
+msgid "blog_enable_approval"
+msgstr "Goedkeuring"
+
+msgid "blog_enable_approval_info"
+msgstr "Alle berichten moeten eerst worden goedgekeurd door  een gebruikers met \"Wijzigen Instellingen\" toegang voor deze blog."
+
+msgid "blog_enable_keywords"
+msgstr "Sleutelwoorden"
+
+msgid "blog_enable_keywords_info"
+msgstr "Je kunt sleutelwoorden instellen per artikel. Als je op een sleutelwoord klikt, worden alle artikelen met dit sleutelwoord getoond."
+
+msgid "blog_enable_nav_authors"
+msgstr "Auteurs"
+
+msgid "blog_enable_nav_authors_info"
+msgstr "Een lijst met blogauteurs wordt getoond. Als je op een auteur klikt, zie je al zijn of haar artikelen."
+
+msgid "blog_enable_notes"
+msgstr "Openbare opmerkingen"
+
+msgid "blog_enable_rss"
+msgstr "Inschakelen RSS"
+
+msgid "blog_enable_rss_info"
+msgstr "De RSS feed is openbaar en onafhankelijk van blog instellingen en gebruikersrechten."
+
+#, fuzzy
+msgid "blog_est_reading_time"
+msgstr "Estimated Reading Time"
+
+#, fuzzy
+msgid "blog_est_reading_time_info"
+msgstr "For Blogs in the repository reading time can be determined and displayed."
+
+msgid "blog_exercise_info"
+msgstr "\"Deze blog is onderdeel van opdracht \"\"%s\"\" van oefening \"\"%s\"\".\""
+
+msgid "blog_exercise_submitted_info"
+msgstr "Je laatste bijdrage was op %s, Controleer het export bestand: %s."
+
+msgid "blog_finalize_blog"
+msgstr "Afronden en verzenden Blog"
+
+msgid "blog_finalized"
+msgstr "De Blog is verzonden."
+
+msgid "blog_import"
+msgstr "Import Blog"
+
+#, fuzzy
+msgid "blog_incl_comments"
+msgstr "including comments"
+
+msgid "blog_keyword"
+msgstr "Sleutelwoord"
+
+#, fuzzy
+msgid "blog_keyword_enter"
+msgstr "Write a keyword and press Enter."
+
+msgid "blog_keywords"
+msgstr "Sleutelwoorden"
+
+#, fuzzy
+msgid "blog_latest_posting"
+msgstr "Latest Posting"
+
+#, fuzzy
+msgid "blog_link"
+msgstr "Link"
+
+msgid "blog_list_more"
+msgstr "meer"
+
+msgid "blog_list_num_postings"
+msgstr "Aantal artikelen"
+
+msgid "blog_list_num_postings_info"
+msgstr "Deze instelling wordt alleen gebruikt als geen specifieke maand is geselecteerd."
+
+msgid "blog_nav_mode"
+msgstr "Artikelen"
+
+msgid "blog_nav_mode_month_list"
+msgstr "Toon lijst met maanden"
+
+msgid "blog_nav_mode_month_list_info"
+msgstr "Alle maanden met artikelen worden getoond in het 'Artikelen' blok."
+
+msgid "blog_nav_mode_month_list_num_month"
+msgstr "Aantal getoonde maanden"
+
+msgid "blog_nav_mode_month_list_num_month_info"
+msgstr "Maanden boven de limiet zullen niet worden getoond en de gerelateerde artikelen zijn niet toegankelijk."
+
+#, fuzzy
+msgid "blog_nav_mode_month_list_num_month_with_post"
+msgstr "Number of month with listed postings"
+
+#, fuzzy
+msgid "blog_nav_mode_month_list_num_month_with_post_info"
+msgstr "These months will be displayed with all their postings in the navigation block."
+
+msgid "blog_nav_mode_month_single"
+msgstr "Toon geselecteerde maand"
+
+msgid "blog_nav_mode_month_single_info"
+msgstr "Alleen artikelen van de geselecteerde maand worden getoond in het 'Artikelen' blok. De maand kan worden veranderd via de dropdown."
+
+msgid "blog_nav_sortorder"
+msgstr "Volgorde blog"
+
+msgid "blog_navigation"
+msgstr "Post"
+
+msgid "blog_needs_approval"
+msgstr "Goedkeuring is nodig"
+
+msgid "blog_new"
+msgstr "Maak Nieuwe Blog"
+
+msgid "blog_new_posting_info"
+msgstr "De tekst in de eerste alinea zal worden gebruikt voor het abstract in de berichtenlijst"
+
+#, fuzzy
+msgid "blog_news_posting_authors"
+msgstr "Contributing authors: %s"
+
+#, fuzzy
+msgid "blog_news_posting_published"
+msgstr "A blog posting has been published by %s."
+
+#, fuzzy
+msgid "blog_news_posting_updated"
+msgstr "A blog posting has been updated by %s. "
+
+msgid "blog_no_keywords"
+msgstr "Er zijn nog geen sleutelwoorden toegevoegd"
+
+msgid "blog_notification_activated"
+msgstr "Berichtgeving ingeschakeld"
+
+msgid "blog_notification_deactivated"
+msgstr "Berichtgeving niet actief"
+
+msgid "blog_notification_toggle_off"
+msgstr "Berichtgeving uitschakelen"
+
+msgid "blog_notification_toggle_on"
+msgstr "Inschakelen berichtgeving"
+
+msgid "blog_number_users_notes_or_comments"
+msgstr "Aantal gebruikers dat commentaar heeft opgenomen bij deze invoer"
+
+msgid "blog_posting"
+msgstr "Blog bericht"
+
+msgid "blog_posting_deleted"
+msgstr "Het artikel is verwijderd."
+
+msgid "blog_posting_deletion_confirmation"
+msgstr "Ben je zeker dat je de volgende invoer wilt verwijderen?"
+
+msgid "blog_posting_edit_approval_info"
+msgstr "Bericht moet worden goedgekeurd door een instructeur voordat het wordt gepubliceerd."
+
+msgid "blog_posting_not_found"
+msgstr "This blog posting is not available."
+
+#, fuzzy
+msgid "blog_postings"
+msgstr "Postings"
+
+msgid "blog_presentation_frame"
+msgstr "Blog Presentatie"
+
+msgid "blog_presentation_overview"
+msgstr "Initieel Overzicht"
+
+msgid "blog_preview"
+msgstr "Voorvertoning"
+
+msgid "blog_profile_picture"
+msgstr "Toon Profielfoto"
+
+#, fuzzy
+msgid "blog_profile_picture_repository_info"
+msgstr "Profile pictures of the authors are only shown on the postings pages, not on overview pages."
+
+msgid "blog_properties"
+msgstr "Blog Eigenschappen"
+
+msgid "blog_rename_posting"
+msgstr "Hernoem post"
+
+#, fuzzy
+msgid "blog_selected_pages"
+msgstr "Selected Postings"
+
+msgid "blog_settings"
+msgstr "Blog Beheer"
+
+msgid "blog_settings_navigation"
+msgstr "Navigatie kolom"
+
+#, fuzzy
+msgid "blog_show_latest"
+msgstr "Show latest postings/drafts"
+
+#, fuzzy
+msgid "blog_show_print_view"
+msgstr "Show Print View"
+
+#, fuzzy
+msgid "blog_side_blocks"
+msgstr "Side Blocks"
+
+#, fuzzy
+msgid "blog_starting_page"
+msgstr "Starting Page"
+
+#, fuzzy
+msgid "blog_task_publishing_draft_title"
+msgstr "Publishing of Draft \"%s\""
+
+msgid "blog_toggle_draft"
+msgstr "Opslaan als concept"
+
+msgid "blog_toggle_draft_admin"
+msgstr "Uitschakelen blogartikel"
+
+msgid "blog_toggle_final"
+msgstr "Publiceren"
+
+#, fuzzy
+msgid "blog_whole_blog"
+msgstr "Whole Blog"

@@ -1,0 +1,97 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: exp\n"
+
+msgid "exp_create_file"
+msgstr "Ustvari datoteko za izvoz"
+
+msgid "exp_error_disabled"
+msgstr "The export feature is disabled for containers. You may contact your system administrator."
+
+msgid "exp_error_too_many_objects"
+msgstr "The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects."
+
+#, fuzzy
+msgid "exp_export_dropdown"
+msgstr "Export"
+
+msgid "exp_export_files"
+msgstr "Datoteke za izvoz"
+
+#, fuzzy
+msgid "exp_export_single_option"
+msgstr "Export %s"
+
+msgid "exp_file_created"
+msgstr "Datoteka za izvoz je bila ustvarjena."
+
+#, fuzzy
+msgid "exp_format_dropdown-csv"
+msgstr "as CSV"
+
+#, fuzzy
+msgid "exp_format_dropdown-html"
+msgstr "as HTML"
+
+#, fuzzy
+msgid "exp_format_dropdown-xls"
+msgstr "as XLS"
+
+#, fuzzy
+msgid "exp_format_dropdown-xml"
+msgstr "as XML"
+
+#, fuzzy
+msgid "exp_html"
+msgstr "HTML"
+
+#, fuzzy
+msgid "exp_import_validation_err_no_matching_xsd"
+msgstr "No valid schema file for version %s exists."
+
+#, fuzzy
+msgid "exp_not_public_access_status"
+msgstr "Not published"
+
+#, fuzzy
+msgid "exp_print_pdf"
+msgstr "Print/PDF"
+
+#, fuzzy
+msgid "exp_print_pdf_info"
+msgstr "To create a PDF please use the \"Print to PDF\" target as soon as the print view is presented."
+
+#, fuzzy
+msgid "exp_public_access_status"
+msgstr "Available in ‘Info’-tab"
+
+msgid "exp_really_delete"
+msgstr "Ali res želite izbrisati te datoteke za izvoz?"
+
+#, fuzzy
+msgid "exp_show_print_view"
+msgstr "Show Print View"
+
+msgid "exp_xml"
+msgstr "XML"
+
+msgid "export_created"
+msgstr "Ustvarjena je bila nova datoteka za izvoz."
+
+#, fuzzy
+msgid "export_files_deleted"
+msgstr "The selected export files have been deleted."
+
+#, fuzzy
+msgid "export_options"
+msgstr "Export Options"
+
+#, fuzzy
+msgid "export_type"
+msgstr "Export Type"

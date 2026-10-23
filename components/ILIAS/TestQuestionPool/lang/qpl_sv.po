@@ -1,0 +1,29 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: qpl\n"
+
+#, fuzzy
+msgid "qpl_filter_commented_exclude"
+msgstr "Questions without comments"
+
+#, fuzzy
+msgid "qpl_filter_commented_only"
+msgstr "Questions with comments"
+
+msgid "qpl_page_type_qfbg"
+msgstr "Allmän feedback"
+
+msgid "qpl_page_type_qfbs"
+msgstr "Särskild feedback"
+
+msgid "qpl_page_type_qht"
+msgstr "Note"
+
+msgid "qpl_page_type_qpl"
+msgstr "Frågesida"

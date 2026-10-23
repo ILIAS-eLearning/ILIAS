@@ -1,0 +1,1404 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: style\n"
+
+msgid "adapt_icon"
+msgstr "アイコンを適合"
+
+msgid "adapt_icon_description"
+msgstr "アイコンを適合またはアイコン自体を変更します。"
+
+msgid "adapt_icons"
+msgstr "アイコンカラーを適合"
+
+msgid "adapt_icons_description"
+msgstr "スキンイメージフォルダ内のSVGアイコン内に見つからない全てのアイコンはここにリストされます。一つカラーを変更するとこのカラーに含まれる全てのアイコンが一度変更されます。"
+
+msgid "adapt_scss"
+msgstr "scssを採用"
+
+msgid "adapt_scss_description"
+msgstr "これは選択されたskinで使用の設定ファイルから全scss変数のダイレクト表示です。変数名と説明はそれらのファイルから直接描かれるのでオリジナル言語内に限り利用可能です。選択のスタイルは変数の更新/再設定により完全に再コンパイルされます。再設定変数はデフォルトのDelosスタイルのコピーを作成します。"
+
+msgid "add_substyle"
+msgstr "サブスタイルを追加"
+
+msgid "add_system_style"
+msgstr "システムスタイルを追加"
+
+msgid "assignment"
+msgstr "割当て"
+
+msgid "blue_color"
+msgstr "ブルーカラー"
+
+msgid "blue_colors"
+msgstr "ブルーカラー"
+
+msgid "blue_colors_description"
+msgstr "ブルーカラー説明"
+
+msgid "can_not_read_scss_file"
+msgstr "scss file. Path: を読込できません"
+
+msgid "cant_deactivate_default_style"
+msgstr "Defaultのスタイルを解除できません。"
+
+msgid "cant_delete_activated_style"
+msgstr "アクティブスタイルを解除できません。"
+
+msgid "cant_delete_if_users_assigned"
+msgstr "ユーザがまだ割当てられているとスタイルを削除できません。"
+
+msgid "cant_delete_style_with_substyles"
+msgstr "サブスタイル付きのスタイルは削除できません。"
+
+msgid "change_icon"
+msgstr "アイコンを変更"
+
+msgid "color"
+msgstr "カラー"
+
+msgid "color_changed_from"
+msgstr "変更前のカラー:"
+
+msgid "color_changed_to"
+msgstr "to:"
+
+msgid "color_reset"
+msgstr "アイコンの色はリセットされました。キャッシング表示されてから変更になるかもしれない事に要注意。ブラウザーキャッシュをクリアする必要があるかもしれません"
+
+msgid "color_update"
+msgstr "アイコンの色は更新されました。キャッシング表示されてから変更になるかもしれない事に要注意。ブラウザーキャッシュをクリアする必要があるかもしれません。"
+
+msgid "default_style_set_to"
+msgstr "Defaultのシステムスタイルが設定されました:"
+
+msgid "dir_changed_to"
+msgstr "デイレクトリは移動されました:"
+
+msgid "dir_copied_from"
+msgstr "ディレクトリのコピー元:"
+
+msgid "dir_created"
+msgstr "次のディレクトリが作成されました:"
+
+msgid "dir_deleted"
+msgstr "次のディレクトリは削除されました:"
+
+msgid "dir_preserved_backup"
+msgstr "保存されたバックアップフォルダ:"
+
+msgid "dir_preserved_linked"
+msgstr "保存したリンク:"
+
+msgid "directory_created"
+msgstr "作成したディレクトリ:"
+
+msgid "documentation"
+msgstr "ドキュメンテーション"
+
+msgid "edit_by_color"
+msgstr "カラーで編集"
+
+msgid "edit_by_icon"
+msgstr "アイコンで編集"
+
+msgid "enable_system_styles_management_no_write_perm"
+msgstr "システムスタイル管理は有効ですがILIASはCustomizing/global/skinフォルダの書込みアクセス権がありません。よって新しいスタイルは作成・編集できません。"
+
+msgid "entries_reloaded"
+msgstr "すべてのエントリーが再読込みされました。"
+
+msgid "file_deleted"
+msgstr "次のファイルは削除されました:"
+
+msgid "font_dir"
+msgstr "フォントディレクトリ"
+
+msgid "font_dir_description"
+msgstr "スキンのフォントを保存するフォルダ。このディレクトリは他のスタイルやこのスキンのサブスタイルと共有できます。"
+
+msgid "from_skin"
+msgstr "スキン:"
+
+msgid "green_color"
+msgstr "グリーンカラー"
+
+msgid "green_colors"
+msgstr "グリーンカラー"
+
+msgid "green_colors_description"
+msgstr "グリンーカラー説明"
+
+msgid "grey_color"
+msgstr "グレイカラー"
+
+msgid "grey_colors"
+msgstr "グレーカラー"
+
+msgid "grey_colors_description"
+msgstr "グレイカラー説明"
+
+msgid "icons"
+msgstr "アイコン"
+
+msgid "icons_gallery"
+msgstr "アイコンギャラリー"
+
+msgid "image_dir"
+msgstr "イメージディレクトリ"
+
+msgid "image_dir_description"
+msgstr "スキンのイメージ(多くはアイコン)を保存するフォルダ。このディレクトリはスタイルとこのスキンのサブスタイルと共有できます。"
+
+msgid "in_main_scss_file"
+msgstr "インポートされた内部システムスタイルメインscssファイルではありません:"
+
+msgid "invalid_scss_path"
+msgstr "提供の sass/scss path は有効でないかWebサーバがsass/scssの読込と実行の正しい権限がありません。Sass/scss (またはscss pathによりポイントされたファイルへリンクされた) はWebサーバーに対して読込権と実行権限が必須です。"
+
+msgid "ks_documentation_of_style"
+msgstr "スタイルの一切合切(Kitchen Sink)ドキュメント"
+
+msgid "ks_documentation_of_substyle"
+msgstr "サブスタイルの一切合切(Kitchen Sink)ドキュメント"
+
+msgid "main_scss_created"
+msgstr "メインSCSSが作成されました:"
+
+msgid "manage_system_styles"
+msgstr "システムスタイルを管理"
+
+msgid "msg_sub_style_created"
+msgstr "サブスタイルが作成されました。"
+
+msgid "msg_sys_style_created"
+msgstr "新しいシステムスタイルは正しく作成されました。"
+
+msgid "msg_sys_style_update"
+msgstr "システムスタイルが更新されました"
+
+msgid "no_scss_path_set"
+msgstr "Scss Path が設定ありません"
+
+msgid "no_style_selected"
+msgstr "サブスタイルの選択がありません。"
+
+msgid "of_parent"
+msgstr "of parent:"
+
+msgid "open_documentation"
+msgstr "ドキュメントを開く"
+
+msgid "parent"
+msgstr "Parentスタイル"
+
+msgid "personal"
+msgstr "パーソナル"
+
+msgid "personal_style_set_to"
+msgstr "パーソナルスタイルが設定されました:"
+
+msgid "provided_scss_path"
+msgstr "提供の scss path:"
+
+msgid "red_color"
+msgstr "レッドカラー"
+
+msgid "red_colors"
+msgstr "レッドカラー"
+
+msgid "red_colors_description"
+msgstr "レッドカラー説明"
+
+msgid "refresh_entries"
+msgstr "エントリーをリフレッシュ"
+
+msgid "remove_assignment"
+msgstr "割当てを削除"
+
+msgid "reset_icons"
+msgstr "アイコンをリセット"
+
+msgid "reset_variables"
+msgstr "変数をリセット"
+
+msgid "scope"
+msgstr "範囲"
+
+msgid "scss"
+msgstr "Scss"
+
+msgid "scss_can_not_be_modified"
+msgstr "Scssは変更不可能です。"
+
+msgid "scss_compile_failed"
+msgstr "scssファイル編集中にどこか間違いがありました。scssのインストールとpath設定はILIASセットアップ内で正しいですか? Original error:"
+
+msgid "scss_file_reset"
+msgstr "scss変数がリセットされました。キャッシュにより現在の表示変更がされないことに注意してください。ブラウザキャッシュのクリヤが必要になることがあります。"
+
+msgid "scss_file_updated"
+msgstr "scss変数が更新されました。 重要: キャッシュにより現在の表示変更がされないことに注意してください。ブラウザキャッシュのクリヤが必要になることがあります。"
+
+msgid "scss_folder_reset"
+msgstr "Scss フォルダをリセット"
+
+msgid "scss_folder_updated"
+msgstr "Scss フォルダが更新されました"
+
+msgid "scss_scss_installation_detected"
+msgstr "Scss/sass インストールが検出されました:"
+
+msgid "scss_variable_empty"
+msgstr "この変数は空です。設定ファイルからデフォルトが設定されました。コンパイル前にこれが正しい事を確認してください。"
+
+msgid "scss_variables_empty_might_have_changed"
+msgstr "フォームには空の変数があります。このフォームをロードされてから設定ファイルを変更した可能性があります。設定ファイルのデフォルトは空フィールドが設定されます。コンパイル前にそれらの空フィールドにマークを確認して設定ファイルへ値を保存してください。"
+
+msgid "scss_variables_file_not_included"
+msgstr "scss 変数ファイル:"
+
+msgid "select_icon"
+msgstr "アイコンを選択"
+
+msgid "settings_of_style"
+msgstr "スタイルを管理"
+
+msgid "settings_of_substyle"
+msgstr "サブスタイルを管理"
+
+msgid "skin"
+msgstr "スキン"
+
+msgid "skin_deleted"
+msgstr "次のスキンを削除しました:"
+
+msgid "skin_id"
+msgstr "スキンID"
+
+msgid "skin_id_description"
+msgstr "スキンはスタイルとサブスタイル用のコンテナです。スキンIDは全てのスタイルとサブスタイル情報の入ったフォルダ名を設定します。文字、数字、ハイフン並びに下線文字に限りスキンIDに使用する事ができます。"
+
+msgid "skin_id_exists"
+msgstr "このIDのスキンが既に存在します。"
+
+msgid "skin_name"
+msgstr "スキン名"
+
+msgid "skin_name_description"
+msgstr "スキン名は可読形式でスキンのアプリケーションエリアへ説明するために使用することができます。スキンの選択許容全UIエレメント内に表示されます。"
+
+msgid "skin_version"
+msgstr "スキンバージョン"
+
+msgid "skin_version_description"
+msgstr "変更後スキンバージョンはスタイルをリキャッシュするために使用されます。自動的に更新されます。"
+
+msgid "sound_dir"
+msgstr "サウンドディレクトリ"
+
+msgid "sound_dir_description"
+msgstr "スキンの中へ入れるサウンドを保存するフォルダ。このディレクトリはこのスキンのスタイルとサブスタイルを共有できます。"
+
+msgid "sty_acopy"
+msgstr "コピー"
+
+msgid "sty_add_assignment"
+msgstr "割り当て追加"
+
+msgid "sty_add_characteristic"
+msgstr "スタイルクラスを追加"
+
+msgid "sty_add_color"
+msgstr "カラーを追加"
+
+msgid "sty_add_content_style"
+msgstr "コンテンツスタイルを追加"
+
+msgid "sty_add_image"
+msgstr "イメージを追加"
+
+msgid "sty_add_media_query"
+msgstr "メディアクエリーを追加"
+
+msgid "sty_add_media_query_info"
+msgstr "例:ブラウザーウインドウが600px以下または印刷機器の\"印刷\"が \"スクリーンのみで(max-width: 600px)\""
+
+msgid "sty_add_pgl"
+msgstr "ページレイアウトを追加"
+
+msgid "sty_add_template"
+msgstr "テンプレートを追加"
+
+msgid "sty_added_characteristic"
+msgstr "スタイルクラスを追加しました。"
+
+msgid "sty_all"
+msgstr "全て"
+
+msgid "sty_all_styles_obligatory"
+msgstr "全ての選択スタイルが強制されれているため削除できません。"
+
+msgid "sty_assign_categories"
+msgstr "カテゴリ割り当て"
+
+msgid "sty_background"
+msgstr "Background"
+
+msgid "sty_background_attachment"
+msgstr "Background Attachment"
+
+msgid "sty_background_color"
+msgstr "Background Color"
+
+msgid "sty_background_image"
+msgstr "Background Image"
+
+msgid "sty_background_position"
+msgstr "Background Position"
+
+msgid "sty_background_repeat"
+msgstr "Background Repeat"
+
+msgid "sty_base_color"
+msgstr "ベースカラー"
+
+msgid "sty_based_on"
+msgstr "基本"
+
+msgid "sty_bg_img_info"
+msgstr "ドロップダウンセクションへイメージを追加するには、スタイルの'イメージ'セクションへ先にそれをアップロードして下さい。"
+
+msgid "sty_border"
+msgstr "枠"
+
+msgid "sty_border_color"
+msgstr "枠線の色"
+
+msgid "sty_border_style"
+msgstr "枠線のスタイル"
+
+msgid "sty_border_width"
+msgstr "枠線の幅"
+
+msgid "sty_bottom"
+msgstr "Bottom"
+
+msgid "sty_ca_cntr_class"
+msgstr "カルーセルコンテナ"
+
+msgid "sty_ca_icntr_class"
+msgstr "カルーセルアイテムコンテナ"
+
+msgid "sty_ca_icont_class"
+msgstr "カルーセルアイテムコンテンツ"
+
+msgid "sty_ca_ihead_class"
+msgstr "カルーセルアイテムヘッダー"
+
+msgid "sty_cannot_be_copied"
+msgstr "ユーザは次のスタイルタイプをコピーできません。"
+
+msgid "sty_caption"
+msgstr "見出し"
+
+msgid "sty_caption_class"
+msgstr "見出し"
+
+msgid "sty_carousel_templates"
+msgstr "カルーセルテンプレート"
+
+msgid "sty_cat_assignments"
+msgstr "スタイル・カテゴリ割り当て"
+
+msgid "sty_change_user_assignment"
+msgstr "ユーザ割り当てを変更"
+
+msgid "sty_characteristic_already_exists"
+msgstr "このタイトルのスタイルクラスは、既にこのスタイルの中に存在します。"
+
+msgid "sty_class"
+msgstr "スライルクラス"
+
+msgid "sty_class_name"
+msgstr "クラス名"
+
+msgid "sty_clear"
+msgstr "Clear"
+
+msgid "sty_col_foot_class"
+msgstr "Column Footer"
+
+msgid "sty_col_head_class"
+msgstr "Column Header"
+
+msgid "sty_color"
+msgstr "カラー"
+
+msgid "sty_color_already_exists"
+msgstr "この名前のカラーは、既にこのスタイルの中に存在します。"
+
+msgid "sty_color_code"
+msgstr "カラーコード"
+
+msgid "sty_color_flavors"
+msgstr "Color Flavors"
+
+msgid "sty_color_info"
+msgstr "事前定義済みの色は、別の目的で簡単に再利用できます。\"!\"で始まるスタイルクラスのカラー属性の名前を使って、事前定義済みの色を参照します。色合い(flavor)を使用するには、括弧内の明度色の名前に例えば MyColor(20)と追加します。"
+
+msgid "sty_color_name"
+msgstr "カラー名"
+
+msgid "sty_colors"
+msgstr "カラー"
+
+msgid "sty_commands"
+msgstr "コマンド"
+
+msgid "sty_confirm_char_deletion"
+msgstr "本当に、次のスタイルクラスを削除しますか?"
+
+msgid "sty_confirm_color_deletion"
+msgstr "カラー削除の確認"
+
+msgid "sty_confirm_del_ind_styles"
+msgstr "個別コンテンツスタイルの削除確認"
+
+msgid "sty_confirm_del_ind_styles_desc"
+msgstr "個別スタイル付の全てのラーニングモジュールはスタイル '%s'へ割当てられます。これは、全ての個別コンテンツのスタイルも合わせて削除します。本当に続行しますか?"
+
+msgid "sty_confirm_template_deletion"
+msgstr "テンプレート削除を確認"
+
+msgid "sty_copied_please_select_target"
+msgstr "スタイルクラスがコピーされました。ターゲットのスタイルを開いて\"スタイルクラスを貼り付け\"をクリックしてください。"
+
+msgid "sty_copy_other_stylesheet"
+msgstr "ローカルソースからスタイルをコピー"
+
+msgid "sty_copy_other_system_style"
+msgstr "現状のシステムスタイルをクローン。"
+
+msgid "sty_copy_to"
+msgstr "to:"
+
+msgid "sty_create_ind_style"
+msgstr "個別スタイルを作成"
+
+msgid "sty_create_new_class"
+msgstr "新しいスタイルクラスを作成"
+
+msgid "sty_create_new_stylesheet"
+msgstr "新しいスタイルを作成"
+
+msgid "sty_create_new_system_style"
+msgstr "新しいシステムスタイルを作成します。"
+
+msgid "sty_create_new_system_sub_style"
+msgstr "新しいシステムサブスタイルを作成します。"
+
+msgid "sty_create_pgl"
+msgstr "ページレイアウトを作成"
+
+msgid "sty_cursor"
+msgstr "カーソル"
+
+msgid "sty_custom"
+msgstr "カスタム"
+
+msgid "sty_custom_par"
+msgstr "カスタムパラメータ"
+
+msgid "sty_custom_par_info"
+msgstr " \"パラメータ値\"フォーマットを使いカスタムCSSパラメータを追加します。"
+
+msgid "sty_default"
+msgstr "Default"
+
+msgid "sty_default_style"
+msgstr "Defaultスタイル"
+
+msgid "sty_del_template"
+msgstr "テンプレートとクラスを削除"
+
+msgid "sty_del_template_keep_classes"
+msgstr "削除し、スタイルのクラスを維持"
+
+msgid "sty_delete_other_selected"
+msgstr "続ける"
+
+msgid "sty_disable_auto_margins"
+msgstr "自動マージンを無効にする"
+
+msgid "sty_disable_auto_margins_info"
+msgstr "メディア オブジェクトまたは表が左/右に整列の場合は、0px左/右の自動設定を無効にします。"
+
+msgid "sty_edit_template"
+msgstr "テンプレートを編集"
+
+msgid "sty_even_col_class"
+msgstr "偶数列"
+
+msgid "sty_even_row_class"
+msgstr "偶数行"
+
+msgid "sty_example"
+msgstr "例"
+
+msgid "sty_flist_char"
+msgstr "ファイルリスト"
+
+msgid "sty_float"
+msgstr "フロート"
+
+msgid "sty_font_family"
+msgstr "フォントファミリー"
+
+msgid "sty_font_size"
+msgstr "フォントサイズ"
+
+msgid "sty_font_style"
+msgstr "フォントスタイル"
+
+msgid "sty_font_variant"
+msgstr "Font Variant"
+
+msgid "sty_font_weight"
+msgstr "Font Weight"
+
+msgid "sty_from"
+msgstr "From"
+
+msgid "sty_generate_template"
+msgstr "テンプレートを生成"
+
+msgid "sty_glo_char"
+msgstr "用語集"
+
+msgid "sty_ha_cntr_class"
+msgstr "Hor. Accordionコンテナ"
+
+msgid "sty_ha_icntr_class"
+msgstr "Hor. Accordion アイテムコンテナ"
+
+msgid "sty_ha_icont_class"
+msgstr "Hor. Accordion アイテムコンテンツ"
+
+msgid "sty_ha_ihcap_class"
+msgstr "Hor. Accordion キャプション"
+
+msgid "sty_ha_ihead_class"
+msgstr "Hor. Accordion アイテムヘッダー"
+
+msgid "sty_ha_iheada_class"
+msgstr "Hor. Accordion Header (active)"
+
+msgid "sty_haccordion_templates"
+msgstr "Hor. Accordion テンプレート"
+
+msgid "sty_height"
+msgstr "Height"
+
+msgid "sty_hide"
+msgstr "表示しない"
+
+msgid "sty_horizontal"
+msgstr "Horizontal"
+
+msgid "sty_if_style_class_already_exists"
+msgstr "既にスタイルクラスが存在する場合は..."
+
+msgid "sty_image_file"
+msgstr "イメージファイル"
+
+msgid "sty_images"
+msgstr "イメージ"
+
+msgid "sty_import_page_layout"
+msgstr "ページレイアウトをインポート"
+
+msgid "sty_import_stylesheet"
+msgstr "インポートスタイル"
+
+msgid "sty_import_system_style"
+msgstr "システムスタイルをインポート"
+
+msgid "sty_imported_layout"
+msgstr "ページレイアウトをインポートしました"
+
+msgid "sty_individual_styles"
+msgstr "個別スタイル"
+
+msgid "sty_keep_existing"
+msgstr "現状を維持"
+
+msgid "sty_left"
+msgstr "左"
+
+msgid "sty_left_right_padding"
+msgstr "左右のセルパディング"
+
+msgid "sty_legacy_image_directory_found"
+msgstr "レガシー画像ディレクトリが見つかりました。「画像を移行」をクリックして、ILIAS 9からディレクトリを移行できます。"
+
+msgid "sty_letter_spacing"
+msgstr "文字の間隔"
+
+msgid "sty_lightness_border"
+msgstr "Lightnessのボーダー"
+
+msgid "sty_lightness_cell1_bg"
+msgstr "Lightness セル1背景"
+
+msgid "sty_lightness_cell1_text"
+msgstr "Lightness セル1テキスト"
+
+msgid "sty_lightness_cell2_bg"
+msgstr "Lightness セル2背景"
+
+msgid "sty_lightness_cell2_text"
+msgstr "Lightness セル2テキスト"
+
+msgid "sty_lightness_header_bg"
+msgstr "Lightness ヘッダー背景"
+
+msgid "sty_lightness_header_text"
+msgstr "Lightness ヘッダーテキスト"
+
+msgid "sty_line_height"
+msgstr "Line Height"
+
+msgid "sty_link_char"
+msgstr "リンク"
+
+msgid "sty_list_char"
+msgstr "リスト"
+
+msgid "sty_list_style_position"
+msgstr "リストスタイル位置"
+
+msgid "sty_list_style_type"
+msgstr "リストスタイルタイプ"
+
+msgid "sty_make_global_default"
+msgstr "グローバル初期値にする"
+
+msgid "sty_make_global_fixed"
+msgstr "グローバル固定にする"
+
+msgid "sty_margin"
+msgstr "マージン"
+
+msgid "sty_margin_and_padding"
+msgstr "マージンとパディング"
+
+msgid "sty_media_char"
+msgstr "メディア"
+
+msgid "sty_media_queries"
+msgstr "メディアクエリー"
+
+msgid "sty_media_query_info"
+msgstr "既定の(特別なメディアクエリーなし)ブロックの後に個々のCSSブロックは各メディアクエリー用に追加されます。"
+
+msgid "sty_migrate_images"
+msgstr "画像を移行"
+
+msgid "sty_min_height"
+msgstr "最少高"
+
+msgid "sty_move_lm_styles"
+msgstr "ラーニングモジュールのスタイルを変更"
+
+msgid "sty_move_obj_styles"
+msgstr "オブジェクトのスタイルを変更"
+
+msgid "sty_move_style"
+msgstr "スタイルを変更"
+
+msgid "sty_move_user_styles"
+msgstr "ユーザスタイルを変更"
+
+msgid "sty_move_user_styles_saved"
+msgstr "skind-id %s に割り当てられたユーザーの割り当てが、skin-id %s に変更されました。"
+
+msgid "sty_msg_characteristic_must_only_include"
+msgstr "スタイルクラスのタイトルは文字で始める必要があり、スペースを使用せず、次の文字のみを含めることができます："
+
+msgid "sty_msg_color_must_only_include"
+msgstr "色の名前には、次の文字のみを含めることができます。"
+
+msgid "sty_msg_input_must_be_numeric"
+msgstr "入力は数値にする必要があります。"
+
+msgid "sty_name"
+msgstr "名前"
+
+msgid "sty_nr_learning_modules"
+msgstr "ラーニングモジュール数"
+
+msgid "sty_nr_objects"
+msgstr "オブジェクト数"
+
+msgid "sty_odd_col_class"
+msgstr "奇数列"
+
+msgid "sty_odd_row_class"
+msgstr "奇数行"
+
+msgid "sty_ol"
+msgstr "順番リスト"
+
+msgid "sty_opacity"
+msgstr "不透明度"
+
+msgid "sty_opt_saved"
+msgstr "オプションが保存されました"
+
+msgid "sty_order"
+msgstr "順"
+
+msgid "sty_outdated"
+msgstr "古い"
+
+msgid "sty_overflow"
+msgstr "オーバーフロー"
+
+msgid "sty_overwrite"
+msgstr "上書き"
+
+msgid "sty_overwrite_existing_class"
+msgstr "既存のスタイルクラスで上書き"
+
+msgid "sty_padding"
+msgstr "パディング"
+
+msgid "sty_page_char"
+msgstr "ページ"
+
+msgid "sty_parameters"
+msgstr "パラメータ"
+
+msgid "sty_paste_characteristics"
+msgstr "スタイルクラスを貼り付け"
+
+msgid "sty_paste_chars"
+msgstr "クラスを貼り付け"
+
+msgid "sty_paste_style_classes"
+msgstr "スタイルクラスを貼り付け"
+
+msgid "sty_position"
+msgstr "ポジション"
+
+msgid "sty_positioning"
+msgstr "位置決め"
+
+msgid "sty_preview"
+msgstr "プレビュー"
+
+msgid "sty_query"
+msgstr "クエリー"
+
+msgid "sty_question_char"
+msgstr "問題"
+
+msgid "sty_remove_global_default_state"
+msgstr "グローバル初期値状態を削除"
+
+msgid "sty_remove_global_fixed_state"
+msgstr "グローバル固定状態を削除"
+
+msgid "sty_remove_outdated"
+msgstr "古いステータスを削除"
+
+msgid "sty_resize"
+msgstr "リサイズ"
+
+msgid "sty_resize_image"
+msgstr "イメージをリサイズ"
+
+msgid "sty_right"
+msgstr "右"
+
+msgid "sty_row_foot_class"
+msgstr "フッター行"
+
+msgid "sty_row_head_class"
+msgstr "ヘッダー行"
+
+msgid "sty_rte_char"
+msgstr "SCORM RTE"
+
+msgid "sty_save_active_styles"
+msgstr "アクティブスタイルを保存"
+
+msgid "sty_save_hide_order_status"
+msgstr "順番を保存してステータスを非表示"
+
+msgid "sty_save_hide_status"
+msgstr "非表示状態を保存"
+
+msgid "sty_save_order"
+msgstr "順番を保存"
+
+msgid "sty_save_order_status"
+msgstr "順番を保存"
+
+msgid "sty_sco_char"
+msgstr "SCO と目標"
+
+msgid "sty_scope"
+msgstr "範囲"
+
+msgid "sty_section_char"
+msgstr "セクション"
+
+msgid "sty_set_outdated"
+msgstr "旧を設定"
+
+msgid "sty_set_scope"
+msgstr "範囲を設定"
+
+msgid "sty_some_styles_obligatory_delete_rest"
+msgstr "次のスタイルクラスは強制されているため削除できません。続けて残りの選択したスタイルのクラスを削除しますか?"
+
+msgid "sty_source"
+msgstr "ソース"
+
+msgid "sty_special"
+msgstr "特殊"
+
+msgid "sty_style_chars"
+msgstr "スタイルクラス"
+
+msgid "sty_style_class"
+msgstr "スタイルクラス"
+
+msgid "sty_style_classes_copied"
+msgstr "スタイルクラスがコピーされました。"
+
+msgid "sty_style_not_migrated"
+msgstr "このコンテンツスタイルはまだ ILIAS 10 のデータ構造に移行されていません。変更は適用されません。"
+
+msgid "sty_substyle"
+msgstr "サブスタイル"
+
+msgid "sty_substyle_of"
+msgstr "サブスタイル"
+
+msgid "sty_substyles"
+msgstr "サブスタイル"
+
+msgid "sty_sure_del_mqueries"
+msgstr "本当にこのメディアクエリーと全ての関連するCSSルールを削除しますか?"
+
+msgid "sty_switch"
+msgstr "切替"
+
+msgid "sty_table_char"
+msgstr "表"
+
+msgid "sty_table_class"
+msgstr "テーブルスタイルクラス"
+
+msgid "sty_table_template_bw_zebra"
+msgstr "灰色のシマウマ模様"
+
+msgid "sty_table_template_colored_zebra"
+msgstr "有色のシマウマ模様"
+
+msgid "sty_table_template_no_zebra"
+msgstr "シマウマなし"
+
+msgid "sty_table_templates"
+msgstr "表のテンプレート"
+
+msgid "sty_tabs_char"
+msgstr "アコーディオンとパネル"
+
+msgid "sty_tag_hover"
+msgstr "hover"
+
+msgid "sty_tag_normal"
+msgstr "ノーマル"
+
+msgid "sty_template_layout"
+msgstr "テンプレートのレイアウト"
+
+msgid "sty_template_name"
+msgstr "名前"
+
+msgid "sty_templates"
+msgstr "テンプレート"
+
+msgid "sty_text"
+msgstr "Text"
+
+msgid "sty_text_align"
+msgstr "Text Alignment"
+
+msgid "sty_text_block_char"
+msgstr "Text (Block)"
+
+msgid "sty_text_decoration"
+msgstr "Text Decoration"
+
+msgid "sty_text_indent"
+msgstr "Text Indentation"
+
+msgid "sty_text_inline_char"
+msgstr "Text (Character)"
+
+msgid "sty_text_transform"
+msgstr "Text Transform"
+
+msgid "sty_titles"
+msgstr "Titles"
+
+msgid "sty_to"
+msgstr "To"
+
+msgid "sty_top"
+msgstr "Top"
+
+msgid "sty_top_bottom_padding"
+msgstr "Cell Padding Top/Bottom"
+
+msgid "sty_transform"
+msgstr "変換"
+
+msgid "sty_transform_origin"
+msgstr "変換-オリジナル"
+
+msgid "sty_type"
+msgstr "タイプ"
+
+msgid "sty_type_ca_cntr"
+msgstr "カルーセルコンテナ"
+
+msgid "sty_type_ca_icntr"
+msgstr "カルーセルアイテムコンテナ"
+
+msgid "sty_type_ca_icont"
+msgstr "カルーセルアイテム内容"
+
+msgid "sty_type_ca_ihead"
+msgstr "カルーセルアイテムヘッダー"
+
+msgid "sty_type_code_block"
+msgstr "Code (Block)"
+
+msgid "sty_type_code_inline"
+msgstr "Code (Inline)"
+
+msgid "sty_type_em"
+msgstr "強調"
+
+msgid "sty_type_flist"
+msgstr "File List"
+
+msgid "sty_type_flist_a"
+msgstr "File List Item Link"
+
+msgid "sty_type_flist_cont"
+msgstr "File List Container"
+
+msgid "sty_type_flist_head"
+msgstr "File List Heading"
+
+msgid "sty_type_flist_li"
+msgstr "File List Item"
+
+msgid "sty_type_glo_ovclink"
+msgstr "用語集オーバーレイクローズリンク"
+
+msgid "sty_type_glo_overlay"
+msgstr "用語集のオーバーレイ"
+
+msgid "sty_type_glo_ovtitle"
+msgstr "用語/タイトル(オーバーレイ)"
+
+msgid "sty_type_glo_ovuglink"
+msgstr "ユニット用語集リンク"
+
+msgid "sty_type_glo_ovuglistlink"
+msgstr "ユニット用語集リストリンク"
+
+msgid "sty_type_ha_cntr"
+msgstr "Hor. Accordion Container"
+
+msgid "sty_type_ha_icntr"
+msgstr "Hor. Accordion Item Container"
+
+msgid "sty_type_ha_icont"
+msgstr "Hor. Accordion Item Content"
+
+msgid "sty_type_ha_ihcap"
+msgstr "Hor. Accordionキャプション"
+
+msgid "sty_type_ha_ihead"
+msgstr "Hor. Accordion Item Header"
+
+msgid "sty_type_ha_iheada"
+msgstr "Hor. Accordion Header (active)"
+
+msgid "sty_type_heading1"
+msgstr "Heading 1"
+
+msgid "sty_type_heading2"
+msgstr "Heading 2"
+
+msgid "sty_type_heading3"
+msgstr "Heading 3"
+
+msgid "sty_type_iim"
+msgstr "インタラクティブイメージコンテンツをポップアップ"
+
+msgid "sty_type_link"
+msgstr "リンク"
+
+msgid "sty_type_list_item"
+msgstr "リストアイテム"
+
+msgid "sty_type_list_o"
+msgstr "段落番号"
+
+msgid "sty_type_list_u"
+msgstr "箇条書き"
+
+msgid "sty_type_marker"
+msgstr "インタラクティブイメージマーカー"
+
+msgid "sty_type_media_caption"
+msgstr "メディア見出し"
+
+msgid "sty_type_media_cont"
+msgstr "メディアコンテナ"
+
+msgid "sty_type_page_bnav"
+msgstr "下部ネビゲーション"
+
+msgid "sty_type_page_cont"
+msgstr "ページコンテナ"
+
+msgid "sty_type_page_fn"
+msgstr "脚注"
+
+msgid "sty_type_page_frame"
+msgstr "Page Frame"
+
+msgid "sty_type_page_lnav"
+msgstr "Left Navigation"
+
+msgid "sty_type_page_lnavimage"
+msgstr "Left Navigation Image"
+
+msgid "sty_type_page_lnavlink"
+msgstr "Left Navigation Link"
+
+msgid "sty_type_page_rnav"
+msgstr "Right Navigation"
+
+msgid "sty_type_page_rnavimage"
+msgstr "Right Navigation Image"
+
+msgid "sty_type_page_rnavlink"
+msgstr "Right Navigation Link"
+
+msgid "sty_type_page_title"
+msgstr "ページタイトル"
+
+msgid "sty_type_page_tnav"
+msgstr "トップナビゲーション"
+
+msgid "sty_type_qanswer"
+msgstr "回答"
+
+msgid "sty_type_qetcorr"
+msgstr "エラーテキストを訂正しました"
+
+msgid "sty_type_qetitem"
+msgstr "エラーテキストアイテム"
+
+msgid "sty_type_qfeedr"
+msgstr "フィードバック、正解"
+
+msgid "sty_type_qfeedw"
+msgstr "フィードバック、間違い"
+
+msgid "sty_type_qimg"
+msgstr "問題イメージ"
+
+msgid "sty_type_qimgd"
+msgstr "イメージ詳細リンク"
+
+msgid "sty_type_qinput"
+msgstr "テキスト入力"
+
+msgid "sty_type_qlinput"
+msgstr "ロングテキスト入力"
+
+msgid "sty_type_qordli"
+msgstr "注文リストアイテム"
+
+msgid "sty_type_qordul"
+msgstr "注文リスト"
+
+msgid "sty_type_qover"
+msgstr "問題概要"
+
+msgid "sty_type_qsubmit"
+msgstr "問題提出ボタン"
+
+msgid "sty_type_qtitle"
+msgstr "問題のタイトル"
+
+msgid "sty_type_question"
+msgstr "問題"
+
+msgid "sty_type_rte_drag"
+msgstr "ドラッグバー"
+
+msgid "sty_type_rte_menu"
+msgstr "RTE メニュー"
+
+msgid "sty_type_rte_mlink"
+msgstr "RTE メニューリンク"
+
+msgid "sty_type_rte_node"
+msgstr "RTE ツリーノード"
+
+msgid "sty_type_rte_status"
+msgstr "RTE ステータス"
+
+msgid "sty_type_rte_tclink"
+msgstr "ツリー制御リンク"
+
+msgid "sty_type_rte_texp"
+msgstr "ツリーアイコン"
+
+msgid "sty_type_rte_tli"
+msgstr "ツリーリストアイテム"
+
+msgid "sty_type_rte_tlink"
+msgstr "RTE ツリーノードリンク"
+
+msgid "sty_type_rte_tree"
+msgstr "RTE ツリーセクション"
+
+msgid "sty_type_rte_tul"
+msgstr "ツリーリストアイテム"
+
+msgid "sty_type_sco_desc"
+msgstr "SCO 説明"
+
+msgid "sty_type_sco_fmess"
+msgstr "SCORM 最終メッセージ"
+
+msgid "sty_type_sco_keyw"
+msgstr "SCO キーワード"
+
+msgid "sty_type_sco_obj"
+msgstr "SCO 目標"
+
+msgid "sty_type_sco_title"
+msgstr "SCO タイトル"
+
+msgid "sty_type_section"
+msgstr "セクション"
+
+msgid "sty_type_strong"
+msgstr "ストロング"
+
+msgid "sty_type_sub"
+msgstr "下付き"
+
+msgid "sty_type_sup"
+msgstr "上付き"
+
+msgid "sty_type_table"
+msgstr "Table"
+
+msgid "sty_type_table_cell"
+msgstr "Table Cell"
+
+msgid "sty_type_text_block"
+msgstr "Text Block"
+
+msgid "sty_type_text_inline"
+msgstr "文字"
+
+msgid "sty_type_va_cntr"
+msgstr "Vert. Accordion Container"
+
+msgid "sty_type_va_icntr"
+msgstr "Vert. Accordion Item Container"
+
+msgid "sty_type_va_icont"
+msgstr "Vert. Accordion Item Content"
+
+msgid "sty_type_va_ihcap"
+msgstr "Vert. Accordionキャプション"
+
+msgid "sty_type_va_ihead"
+msgstr "Vert. Accordion Item Header"
+
+msgid "sty_type_va_iheada"
+msgstr "Vert. Accordion Header (active)"
+
+msgid "sty_ul"
+msgstr "Unordered List"
+
+msgid "sty_va_cntr_class"
+msgstr "Vert. Accordion Container"
+
+msgid "sty_va_icntr_class"
+msgstr "Vert. Accordion Item Container"
+
+msgid "sty_va_icont_class"
+msgstr "Vert. Accordion Item Content"
+
+msgid "sty_va_ihcap_class"
+msgstr "Vert. Accordionキャプション"
+
+msgid "sty_va_ihead_class"
+msgstr "Vert. Accordion Item Header"
+
+msgid "sty_va_iheada_class"
+msgstr "Vert. Accordion Header (active)"
+
+msgid "sty_vaccordion_templates"
+msgstr "Vert. Accordion Templates"
+
+msgid "sty_vertical"
+msgstr "Vertical"
+
+msgid "sty_vertical_align"
+msgstr "Vertical Alignment"
+
+msgid "sty_white_space"
+msgstr "空白"
+
+msgid "sty_width"
+msgstr "幅"
+
+msgid "sty_width_height"
+msgstr "幅 x 高さ"
+
+msgid "sty_word_spacing"
+msgstr "文字の間隔"
+
+msgid "style"
+msgstr "スタイル"
+
+msgid "style_assignments_deleted"
+msgstr "次のサブスタイルのスタイル割当ては削除されました:"
+
+msgid "style_copied"
+msgstr "スタイルは正しくコピーされました。"
+
+msgid "style_current_style"
+msgstr "現在のスタイル"
+
+msgid "style_delete_style"
+msgstr "スタイルを削除"
+
+msgid "style_deleted"
+msgstr "スタイルを削除しました:"
+
+msgid "style_edit_style"
+msgstr "スタイルを編集"
+
+msgid "style_id"
+msgstr "スタイルID"
+
+msgid "style_id_description"
+msgstr "スタイルIDはcssやスキンフォルダ内部に位置するlessのようなスタイル特定ファイル用の名前として使用されます。文字、数値、ハイフォンまたは下線文字に限りスタイルIDに使用されます。"
+
+msgid "style_imported"
+msgstr "スタイルは正しくインポートされました:"
+
+msgid "style_name"
+msgstr "スタイル名"
+
+msgid "style_name_description"
+msgstr "スタイル名は可読形式でスタイルのアプリケーションエリアの説明に使用することができます。スタイルの許容選択全UIエレメント内に表示されます。"
+
+msgid "style_not_deleted"
+msgstr "スタイルは地祇の理由により削除できませんでした:"
+
+msgid "style_page_layout_module_learning_module"
+msgstr "ILIAS学習モジュール"
+
+msgid "style_page_layout_module_portfolio"
+msgstr "ポートフォリオ"
+
+msgid "style_page_layout_module_scorm"
+msgstr "Scorm"
+
+msgid "style_support_reuse"
+msgstr "Re-Use"
+
+msgid "style_support_reuse_info"
+msgstr "このコンテンツスタイルを再利用するために、既存のコンテナのサブオブジェクトを許可"
+
+msgid "styles_not_deleted"
+msgstr "スタイルは次の理由により削除できませんでした:"
+
+msgid "sub_style"
+msgstr "サブスタイル"
+
+msgid "sub_style_id"
+msgstr "サブスタイルID"
+
+msgid "sub_style_id_description"
+msgstr "サブスタイルIDはcussやスキンフォルダ内部に位置するlessのようなサブスタイル特定ファイル用の名前として使用されます。文字、数値、ハイフォンまたは下線文字に限りスタイルIDに使用されます。"
+
+msgid "sub_style_name"
+msgstr "サブスタイル名"
+
+msgid "sub_style_name_description"
+msgstr "サブスタイル名は可読形式でスタイルのアプリケーションエリアの説明に使用することができます。スキンの許容選択全UIエレメント内に表示されます。"
+
+msgid "sub_style_parent_style_description"
+msgstr "サブスタイルは一つの親スタイルだけに割当てられます。親スタイルがこのユーザに限り割当てられていると特定のユーザのみにしか表示されません。サブスタイルの親スタイルはこのサブスタイルが作成された後は変更できません。"
+
+msgid "system_style_activation"
+msgstr "システムスタイルの有効化"
+
+msgid "system_style_activation_description"
+msgstr "この設定(ユーザ管理/設定/標準フィールド/Default Skinを参照)が有効の場合、有効なシステムスタイルはユーザまたはユーザの選択したものへ割当てることができます。"
+
+msgid "system_style_default_description"
+msgstr "既定のシステムスタイルとしてこのスタイルを設定します。現在のユーザがスタイルを割当てていないあるいはユーザがログインしていなくても既定のシステムスタイルを使用します。"
+
+msgid "system_style_personal_description"
+msgstr "パーソナルシステムスタイルとしてこのスタイルを設定します。これは現在実行されているものの変化の確認に便利です。"
+
+msgid "update_colors"
+msgstr "カラーを更新"
+
+msgid "update_icon"
+msgstr "アイコンを更新"
+
+msgid "update_variables"
+msgstr "変数を更新"
+
+msgid "usages"
+msgstr "Usages:"
+
+msgid "used_colors"
+msgstr "使用カラー:"
+
+msgid "zip_export_failed"
+msgstr "ZIPエクスポートに失敗しました。次のエラーが発生しました:"

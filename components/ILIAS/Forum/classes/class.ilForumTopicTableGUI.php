@@ -94,7 +94,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('visits'), 'num_visit');
 
         if ($this->is_post_draft_allowed) {
-            $this->addColumn($this->lng->txt('drafts', ''));
+            $this->addColumn($this->lng->txt('drafts'));
         }
 
         $this->addColumn($this->lng->txt('forums_last_post'), 'post_date');
@@ -135,7 +135,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('forums_articles'), 'num_posts');
         $this->addColumn($this->lng->txt('visits'), 'num_visit');
         if ($this->is_post_draft_allowed) {
-            $this->addColumn($this->lng->txt('drafts', ''));
+            $this->addColumn($this->lng->txt('drafts'));
         }
         $this->addColumn($this->lng->txt('forums_last_post'), 'lp_date');
 

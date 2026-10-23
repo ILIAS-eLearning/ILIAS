@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: chatroom_adm\n"
+
+msgid "chat_cannot_connect_to_server"
+msgstr "ILIAS kan inte upprätta en socket-anslutning till chatt-servern."
+
+msgid "chat_enabled"
+msgstr "Aktivera chatt"
+
+msgid "chatserver_settings_title"
+msgstr "Chat-server"
+
+msgid "client_settings"
+msgstr "Allmänna inställningar"
+
+msgid "general_settings_title"
+msgstr "Generella chattinställningar"
+
+msgid "https"
+msgstr "HTTPS"
+
+msgid "osc_adm_browser_noti_info"
+msgstr "Om den är aktiverad kan användarna bestämma om de vill få en webbläsarnotifiering för nya konversationer och meddelanden. Dessa levereras sedan när a) användaren är aktiv i andra webbläsarflikar eller webbläsaren är dold och ILIAS är i bakgrunden, eller"
+
+msgid "osc_adm_browser_noti_label"
+msgstr "Meddelanden från webbläsaren"
+
+msgid "osc_adm_conv_idle_state_threshold_info"
+msgstr "Definiera här den minsta tid mellan två inkommande chattmeddelanden som måste förflyta för att en webbläsarmeddelande om ett nytt chattmeddelande ska levereras när ILIAS är i förgrunden."
+
+msgid "osc_adm_conv_idle_state_threshold_label"
+msgstr "Tid mellan meddelanden"
+
+msgid "port_info"
+msgstr "Sällan använda portar blockeras ofta av brandväggar eller proxyservrar. Användare kan inte ansluta till chatt-servern med sin webbläsare om den angivna porten inte är öppen."
+
+msgid "protocol"
+msgstr "Protokoll"
+
+msgid "public_chat_permissions"
+msgstr "Publikt chattrum"
+
+msgid "public_chat_settings"
+msgstr "Publikt chattrum"
+
+msgid "server_settings"
+msgstr "Inställningar för chatt-server"
+
+msgid "settings_has_been_saved"
+msgstr "Inställningarna har sparats."

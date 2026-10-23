@@ -1,0 +1,28 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: objref\n"
+
+msgid "objref_custom_title"
+msgstr "Usar título personalizado"
+
+msgid "objref_edit_ref"
+msgstr "Definições de destino"
+
+msgid "objref_edit_title"
+msgstr "Definições de título"
+
+#, fuzzy
+msgid "objref_failure_target_type"
+msgstr "Das Ziel des Links muss vom folgendem Typ sein:"
+
+msgid "objref_reuse_title"
+msgstr "Reutilizar título de referência"
+
+msgid "objref_title_settings"
+msgstr "Editar título do referência"

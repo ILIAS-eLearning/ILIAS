@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: pwsp\n"
+
+msgid "pwsp_enable_personal_resources"
+msgstr "Személyes erőforrások bekapcsolása"
+
+msgid "pwsp_enable_wsp_blogs"
+msgstr "Blogok bekapcsolása"
+
+msgid "pwsp_enable_wsp_files"
+msgstr "Fájlok bekapcsolása"
+
+msgid "pwsp_enable_wsp_links"
+msgstr "Linkek bekapcsolása"
+
+msgid "pwsp_type_cannot_be_copied"
+msgstr "‘%s’ típusú objektumok nem másolhatók."

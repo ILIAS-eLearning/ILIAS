@@ -1,0 +1,105 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: fils\n"
+
+msgid "add_upload_policy"
+msgstr "Szabály hozzáadása"
+
+msgid "edit_upload_policy"
+msgstr "Szabály módosítása"
+
+msgid "file_services"
+msgstr "Fájlszolgáltatás"
+
+msgid "file_services_description"
+msgstr "A Fájlszolgáltatás beállításai."
+
+msgid "file_suffix_custom_expl_negative"
+msgstr "Tiltott kiterjesztések"
+
+msgid "file_suffix_custom_expl_negative_info"
+msgstr "Ezeket a fájlnévkiterjesztéseket nem fogadjuk el feltöltéskor."
+
+msgid "file_suffix_custom_negative"
+msgstr "Negatív kiterjesztések (kiegészítés)"
+
+msgid "file_suffix_custom_negative_info"
+msgstr "Ezek a fájlnévkiterjesztések kikerülnek a pozitív listából."
+
+msgid "file_suffix_custom_positive"
+msgstr "Pozitív kiterjesztések (kiegészítés)"
+
+msgid "file_suffix_custom_positive_info"
+msgstr "Ezek a fájlnévkiterjesztések bekerülnek a pozitív listába."
+
+msgid "file_suffix_default_positive"
+msgstr "Pozitív kiterjesztések (alapértelmezett lista)"
+
+msgid "file_suffix_default_positive_info"
+msgstr "Az alapértelmezetten elfogadott fájlnévkiterjesztések."
+
+msgid "file_suffix_overall_positive"
+msgstr "Összesített pozitív lista"
+
+msgid "file_suffix_overall_positive_info"
+msgstr "Ez az elfogadott fájlnévkiterjesztések végleges listája."
+
+msgid "policy_audience"
+msgstr "Felhasználói kör"
+
+msgid "policy_audience_all_users_option_desc"
+msgstr "Szabály alkalmazása az összes felhasználóra."
+
+msgid "policy_audience_global_roles_option_desc"
+msgstr "Szabály alkalmazása meghatározott szerepkörrel rendelkező felhasználókra."
+
+msgid "policy_confirm_deletion"
+msgstr "Biztos, hogy törli a következő szabályt?"
+
+msgid "policy_deletion_failure_not_found"
+msgstr "HIBA: A szabály nem található."
+
+msgid "policy_deletion_successful"
+msgstr "A szabályt sikeresen törölte."
+
+msgid "policy_filter"
+msgstr "Szűrő"
+
+msgid "policy_no_validity_limitation_set"
+msgstr "Korlátlan ideig érvényes"
+
+msgid "policy_scope"
+msgstr "Hatókör"
+
+msgid "policy_table_info_no_policies"
+msgstr "Még egy feltöltési szabály sincs."
+
+msgid "policy_title_desc"
+msgstr "A szabály leíró címe"
+
+msgid "policy_upload_limit"
+msgstr "Feltöltési korlát"
+
+msgid "policy_upload_limit_desc"
+msgstr "A szabályban beállított felöltési korlát MB-ban."
+
+msgid "policy_valid_until"
+msgstr "Érvényességi idő"
+
+msgid "policy_valid_until_desc"
+msgstr "Az ‘Érvényességi idő’ után a szabály lejár."
+
+msgid "policy_validity"
+msgstr "Érvényesség"
+
+msgid "upload_limits"
+msgstr "Feltöltési korlátok"
+
+msgid "upload_policies"
+msgstr "Feltöltési szabályok"

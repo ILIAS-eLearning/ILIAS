@@ -1,0 +1,96 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: rating\n"
+
+msgid "rat_not_rated_yet"
+msgstr "Még nincs értékelve"
+
+msgid "rat_nr_ratings"
+msgstr "%s értékelés"
+
+msgid "rat_one_rating"
+msgstr "Egy értékelés"
+
+msgid "rating_activate_rating"
+msgstr "Értékelések engedélyezése"
+
+msgid "rating_activate_rating_info"
+msgstr "A felhasználók értékelhetik ezt az objektumot."
+
+msgid "rating_add_category"
+msgstr "Kategória létrehozása"
+
+msgid "rating_avg_rating"
+msgstr "Értékelések átlaga"
+
+msgid "rating_categories"
+msgstr "Értékelési kategóriák"
+
+msgid "rating_category_add"
+msgstr "Hozzáadás"
+
+msgid "rating_category_create"
+msgstr "Kategória létrehozása"
+
+msgid "rating_category_created"
+msgstr "Sikeresen létrehozott egy kategóriát."
+
+msgid "rating_category_delete_sure"
+msgstr "Biztos, hogy törli az alábbi értékelési kategóriákat? A kategóriához tartozó összes értékelés el fog veszni."
+
+msgid "rating_category_deleted"
+msgstr "A kategóriákat sikeresen törölte"
+
+msgid "rating_category_edit"
+msgstr "Kategória módosítása"
+
+msgid "rating_category_update"
+msgstr "Mentés"
+
+msgid "rating_category_updated"
+msgstr "Kategória mentése sikerült"
+
+msgid "rating_export_category"
+msgstr "Kategória"
+
+msgid "rating_export_date"
+msgstr "Dátum"
+
+msgid "rating_export_rating"
+msgstr "Értékelés"
+
+msgid "rating_new_objects_auto"
+msgstr "Alapértelmezett objektum-értékelhetőség"
+
+msgid "rating_new_objects_auto_info"
+msgstr "Alapértelmezetten az értékelhetőség aktív új fájlokra, tananyagokra és wikikre."
+
+msgid "rating_number_votes"
+msgstr "%s értékelés"
+
+msgid "rating_open_dialog"
+msgstr "Értékelő dialógus megnyitása"
+
+msgid "rating_overlay_submit"
+msgstr "Értékelés elküldése"
+
+msgid "rating_personal_rating"
+msgstr "Az Ön értékelése"
+
+msgid "rating_rate_x_of_5"
+msgstr "5-ből %s csillagos értékelés"
+
+msgid "rating_remove"
+msgstr "Értékelés eltávolítása"
+
+msgid "rating_update_positions"
+msgstr "Kategória mentése"
+
+msgid "rating_your_rating"
+msgstr "Az Ön értékelése"

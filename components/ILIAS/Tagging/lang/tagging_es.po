@@ -1,0 +1,78 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: tagging\n"
+
+msgid "no_tag_text_1"
+msgstr "Todavía no ha utilizado ninguna etiqueta. Para hacerlo, debe seguir dos pasos:"
+
+msgid "no_tag_text_2"
+msgstr "Haga clic en '%s' y seleccione un objeto de aprendizaje de la oferta disponible, p. ej., un módulo de aprendizaje o un foro."
+
+msgid "no_tag_text_3"
+msgstr "Para adjuntar etiquetas al objeto, seleccione 'Establecer Etiquetas' en el menú de acciones."
+
+msgid "tag_remove_tags_of_obj_without_access"
+msgstr "Eliminar Etiqueta"
+
+msgid "tag_some_obj_tagged_without_access"
+msgstr "Ya no tiene permisos para acceder a algunos de los objetos etiquetados. ¿Debería eliminarse la etiqueta para estos objetos?"
+
+msgid "tag_tags_deleted"
+msgstr "La etiqueta ha sido eliminada de los objetos inaccesibles."
+
+msgid "tagging_all_users"
+msgstr "Todos los Usuarios"
+
+msgid "tagging_edit_settings"
+msgstr "Editar Ajustes"
+
+msgid "tagging_enable_all_users"
+msgstr "Mostrar etiquetas de todos los usuarios"
+
+msgid "tagging_enable_all_users_info"
+msgstr "Añade una sección «Todos los usuarios» a las pantallas de información que enumera todas las etiquetas de todos los usuarios vinculadas a un recurso."
+
+msgid "tagging_enable_tagging"
+msgstr "Habilitar etiquetado"
+
+msgid "tagging_forbidden_tags"
+msgstr "Etiquetas prohibidas"
+
+msgid "tagging_no_obj_for_tag"
+msgstr "No hay recursos etiquetados con %s."
+
+msgid "tagging_no_perm_write"
+msgstr "No tiene permiso para cambiar estos datos."
+
+msgid "tagging_other_users"
+msgstr "Etiquetas de otros usuarios"
+
+msgid "tagging_resources_for_tag"
+msgstr "Recursos etiquetados con %s"
+
+msgid "tagging_search_users"
+msgstr "Buscar usuarios"
+
+msgid "tagging_set_tag"
+msgstr "Establecer etiquetas"
+
+msgid "tagging_settings"
+msgstr "Configuración"
+
+msgid "tagging_tag"
+msgstr "Etiqueta"
+
+msgid "tagging_tag_info"
+msgstr "Para añadir etiquetas a un recurso, abra la pantalla de información del recurso e introduzca sus etiquetas."
+
+msgid "tagging_tags"
+msgstr "Etiquetas"
+
+msgid "tagging_users_using_tag"
+msgstr "Usuarios que usan la etiqueta"

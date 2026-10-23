@@ -1,0 +1,141 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: shib\n"
+
+msgid "shib_account_creation"
+msgstr "ILIAS-fiók létrehozása"
+
+msgid "shib_account_creation_disabled"
+msgstr "Kikapcsolva"
+
+msgid "shib_account_creation_disabled_info"
+msgstr "Egy új ILIAS-fiókot sem hoztunk létre"
+
+msgid "shib_account_creation_enabled"
+msgstr "Bekapcsolva"
+
+msgid "shib_account_creation_enabled_info"
+msgstr "Egy új ILIAS-fiókot hoztunk létre."
+
+msgid "shib_account_creation_info"
+msgstr "Az ILIAS-fiók akkor jön létre, amikor egy felhasználó még nem létező ILIAS-fiókba próbál bejelentkezni Shibboleth-en keresztül."
+
+msgid "shib_account_creation_with_approval"
+msgstr "Jóváhagyással"
+
+msgid "shib_account_creation_with_approval_info"
+msgstr "Egy új, inkatív ILIAS-fiókot hoztunk létre. A felhasználót megfelelő jogosultsággal lehet aktiválni."
+
+msgid "shib_add_missing"
+msgstr "Hiányzó szerepkörök összerendelése"
+
+msgid "shib_add_remove"
+msgstr "Szerepkörök létrehozása/eltávolítása"
+
+msgid "shib_assignment_type"
+msgstr "Összerendelés fajtája"
+
+msgid "shib_attr_info"
+msgstr "A Shibboleth felhasználói profilban egy adott tulajdonsággal összerendelve."
+
+msgid "shib_attribute"
+msgstr "Felhasználói tulajdonság"
+
+msgid "shib_attribute_name"
+msgstr "Tulajdonságnév"
+
+msgid "shib_attribute_value"
+msgstr "Tulajdonságérték"
+
+msgid "shib_check_role_assignment"
+msgstr "Későbbi bejelentkezések utáni szerepkörök összerendelése"
+
+msgid "shib_choose_role"
+msgstr "Szerepkör választása"
+
+msgid "shib_confirm_del_role_ass"
+msgstr "Biztos, hogy törli az alábbi szabályokat?"
+
+msgid "shib_deleted_rule"
+msgstr "Szerep-összerendeléseket sikeresen törölte."
+
+msgid "shib_global_role"
+msgstr "Globális szerepkör"
+
+msgid "shib_ilias_role"
+msgstr "ILIAS-szerepnév"
+
+msgid "shib_local_role"
+msgstr "Lokális szerepkör"
+
+msgid "shib_missing_attr_name"
+msgstr "Adja meg a tulajdonság nevét!"
+
+msgid "shib_missing_attr_value"
+msgstr "Adja meg a tulajdonság értékét!"
+
+msgid "shib_missing_plugin_id"
+msgstr "Érvényes bővítmény-azonosítót adjon meg!"
+
+msgid "shib_missing_role"
+msgstr "Válasszon egy szerepkört!"
+
+msgid "shib_new_rule"
+msgstr "Új szabály létrehozása"
+
+msgid "shib_plugin"
+msgstr "Összerendelés bővítménnyel"
+
+msgid "shib_plugin_id"
+msgstr "Bővítmény-azonosító"
+
+msgid "shib_plugin_info"
+msgstr "Szerep-összerendelés érvényesítése bővítménnyel. Adjon meg egy valós bővítmény-azonosítót."
+
+msgid "shib_remove_deprecated"
+msgstr "Érvénytelen szerepkörök összerendelésének megszüntetése"
+
+msgid "shib_role_ass_table"
+msgstr "Új szabály a szerep-összerendelésekhez"
+
+msgid "shib_role_assignment"
+msgstr "Szerep-összerendelés"
+
+msgid "shib_role_by_attribute"
+msgstr "Shibboleth-tulajdonság"
+
+msgid "shib_role_by_plugin"
+msgstr "Bővítménnyel"
+
+msgid "shib_role_name"
+msgstr "ILIAS-szerepkör néve"
+
+msgid "shib_role_name_info"
+msgstr "Válasszon egy globális szerepkört, vagy adja meg egy helyi szerepkör nevét!"
+
+msgid "shib_role_selection"
+msgstr "Szerepkör kiválasztása"
+
+msgid "shib_rule_condition"
+msgstr "Feltétel"
+
+msgid "shib_rule_type"
+msgstr "Összerendelés típusa"
+
+msgid "shib_rules_tables"
+msgstr "Aktív szerep-összerendelés szabályai"
+
+msgid "shib_settings"
+msgstr "Shibboleth beállítások"
+
+msgid "shib_update_role_ass_table"
+msgstr "Szerep-összerendelés szabályainak módosítása"
+
+msgid "shib_update_roles"
+msgstr "Szerep-összerendelések"

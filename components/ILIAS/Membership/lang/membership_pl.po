@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: membership\n"
+
+msgid "mem_error_preconditions"
+msgstr "Przyjęcie nie udało się, ponieważ co najmniej jedno ustawienie na to nie pozwala."
+
+msgid "mem_force_notification"
+msgstr "Powiadomienie mailowe"
+
+msgid "mem_force_notification_mode_all_sub_blocked"
+msgstr "Członkowie mogą wyłączać powiadomienia"
+
+msgid "mem_force_notification_mode_blocked"
+msgstr "Członkowie są automatycznie powiadamiani"
+
+msgid "mem_force_notification_mode_self"
+msgstr "Członkowie muszą aktywować powiadomienia"

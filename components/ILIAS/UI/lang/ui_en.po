@@ -1,0 +1,255 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: ui\n"
+
+msgid "1stars"
+msgstr "one of five stars"
+
+msgid "2stars"
+msgstr "two of five stars"
+
+msgid "3stars"
+msgstr "three of five stars"
+
+msgid "4stars"
+msgstr "four of five stars"
+
+msgid "5stars"
+msgstr "five of five stars"
+
+msgid "datatable_close_warning"
+msgstr "OK"
+
+msgid "datatable_multiaction_label"
+msgstr "Bulk Actions"
+
+msgid "datatable_multiactionmodal_actionlabel"
+msgstr "Action for All Entries"
+
+msgid "datatable_multiactionmodal_apply"
+msgstr "Apply"
+
+msgid "datatable_multiactionmodal_listentry"
+msgstr "Actions for Entire Table"
+
+msgid "datatable_multiactionmodal_msg"
+msgstr "Selected action will affect all entries in this table."
+
+msgid "datatable_multiactionmodal_title"
+msgstr "Actions for Entire Table"
+
+msgid "drilldown_no_items"
+msgstr "No Matching Elements"
+
+msgid "duration_default_label_end"
+msgstr "end"
+
+msgid "duration_default_label_start"
+msgstr "start"
+
+msgid "duration_end_must_not_be_earlier_than_start"
+msgstr "Start must not be later than end."
+
+msgid "filter_nodes_in"
+msgstr "Filter Nodes in %s"
+
+msgid "footer_icons"
+msgstr "Footer Icons"
+
+msgid "footer_link_groups"
+msgstr "Footer Link-Groups"
+
+msgid "footer_links"
+msgstr "Footer Links"
+
+msgid "footer_permanent_link"
+msgstr "Footer Permanent Link"
+
+msgid "footer_texts"
+msgstr "Footer Texts"
+
+msgid "image_alt_text"
+msgstr "Alternate Text"
+
+msgid "image_purpose_decorative"
+msgstr "Decorative Image"
+
+msgid "image_purpose_informative"
+msgstr "Informative Image"
+
+msgid "image_purpose_user_defined"
+msgstr "Image Purpose"
+
+msgid "label_fieldselection"
+msgstr "Field Selection"
+
+msgid "label_fieldselection_refresh"
+msgstr "Apply"
+
+msgid "label_modeviewcontrol"
+msgstr "view mode"
+
+msgid "label_pagination_limit"
+msgstr "Pagination Number of Rows"
+
+msgid "label_pagination_offset"
+msgstr "Pagination Offset"
+
+msgid "label_sortation"
+msgstr "Sortation"
+
+msgid "order_option_alphabetical_ascending"
+msgstr "A to Z"
+
+msgid "order_option_alphabetical_descending"
+msgstr "Z to A"
+
+msgid "order_option_chronological_ascending"
+msgstr "Earliest First"
+
+msgid "order_option_chronological_descending"
+msgstr "Most Recent First"
+
+msgid "order_option_first"
+msgstr "First"
+
+msgid "order_option_generic_ascending"
+msgstr "Ascending"
+
+msgid "order_option_generic_descending"
+msgstr "Descending"
+
+msgid "order_option_numerical_ascending"
+msgstr "0 to 9"
+
+msgid "order_option_numerical_descending"
+msgstr "9 to 0"
+
+msgid "presentation_table_collapse"
+msgstr "Collapse All"
+
+msgid "presentation_table_expand"
+msgstr "Expand All"
+
+msgid "rating_average"
+msgstr "Others rated %s of 5"
+
+msgid "reset_stars"
+msgstr "neutral"
+
+msgid "select_node"
+msgstr "Add node %s to selection"
+
+msgid "table_posinput_col_title"
+msgstr "Position"
+
+msgid "ui_chars_max"
+msgstr "Maximum:"
+
+msgid "ui_chars_min"
+msgstr "Minimum:"
+
+msgid "ui_chars_remaining"
+msgstr "Characters remaining:"
+
+msgid "ui_error"
+msgstr "Error"
+
+msgid "ui_error_in_group"
+msgstr "There is some error in this part."
+
+msgid "ui_error_switchable_group_required"
+msgstr "Please select an option."
+
+msgid "ui_field_option_filter_clear_search"
+msgstr "Clear search"
+
+msgid "ui_field_option_filter_filtered_results_aria_label"
+msgstr "List of options - collapsible and filterable"
+
+msgid "ui_field_option_filter_no_match"
+msgstr "There was no match for the search term you entered."
+
+msgid "ui_field_option_filter_no_selection"
+msgstr "Nothing selected."
+
+msgid "ui_field_option_filter_options_shown"
+msgstr "Currently showing %s options."
+
+msgid "ui_field_option_filter_screen_reader_hint"
+msgstr "Start typing and the field options below will be filtered accordingly."
+
+msgid "ui_field_option_filter_search_in"
+msgstr "Find"
+
+msgid "ui_field_option_filter_show_all_options"
+msgstr "Show all options"
+
+msgid "ui_field_option_filter_show_less"
+msgstr "Show less"
+
+msgid "ui_file_input_general_error"
+msgstr "An error occurred! You can check the JavaScript console of your browser for more information and/or contact your ILIAS system administration about this incident."
+
+msgid "ui_file_input_invalid_amount"
+msgstr "You cannot upload this many files, please remove some in order to continue."
+
+msgid "ui_file_input_invalid_mime"
+msgstr "Files of type '%s' are not allowed"
+
+msgid "ui_file_input_invalid_size"
+msgstr "File exceeds the maximum size of %s."
+
+msgid "ui_file_upload_max_nr"
+msgstr "Max Number of Files:"
+
+msgid "ui_invalid_url"
+msgstr "Invalid URL-format"
+
+msgid "ui_link_label"
+msgstr "Label"
+
+msgid "ui_link_url"
+msgstr "URL"
+
+msgid "ui_md_input_edit"
+msgstr "Edit"
+
+msgid "ui_md_input_view"
+msgstr "View"
+
+msgid "ui_nav_sequence_control_label"
+msgstr "Sequence control for contents below"
+
+msgid "ui_nav_sequence_description"
+msgstr "Used to navigate through this content or trigger actions and filters on the entire sequence."
+
+msgid "ui_pagination_unlimited"
+msgstr "Unlimited"
+
+msgid "ui_select_dropdown_label"
+msgstr "Please select"
+
+msgid "ui_table_no_records"
+msgstr "No records"
+
+msgid "ui_table_order"
+msgstr "Order"
+
+msgid "ui_transcription"
+msgstr "Transcript"
+
+msgid "unselect_node"
+msgstr "Remove node %s from selection"
+
+msgid "vc_sort"
+msgstr "Sort by:"
+
+msgid "warning_url_too_long_msg"
+msgstr "The amount of selected rows will result in a very large URL; the Server will probably block this request.<br>Please select less rows or perform the action on all entries."

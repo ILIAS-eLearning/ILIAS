@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: membership\n"
+
+msgid "mem_error_preconditions"
+msgstr "Registracija nije moguća jer to sprečava minimalno jedna postavka."
+
+msgid "mem_force_notification"
+msgstr "Obavijest poštom"
+
+msgid "mem_force_notification_mode_all_sub_blocked"
+msgstr "Članovi mogu deaktivirati obavijesti"
+
+msgid "mem_force_notification_mode_blocked"
+msgstr "Članovi će biti automatski obaviješteni"
+
+msgid "mem_force_notification_mode_self"
+msgstr "Članovi moraju ručno aktivirati obavijest"

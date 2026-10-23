@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fa\n"
+"Language-Team: Persian (Farsi)\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Domain: jscalendar\n"
+
+msgid "about_calendar"
+msgstr "در مورد تقویم"
+
+msgid "about_calendar_long"
+msgstr "DHTML Date/Time Selector\\n(c) dynarch.com 2002-2003\\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\\n\\nDate selection:\\n- Use the Â«, Â» buttons to select year\\n- Use the <, > buttons to select month\\n- Hold mouse button on any of the above buttons for faster selection."
+
+msgid "about_time"
+msgstr "\\n\\nTime selection:\\n- Click on any of the time parts to increase it\\n- or Shift-click to decrease it\\n- or click and drag for faster selection."
+
+msgid "day_first"
+msgstr "%s را اول نمایش بده"
+
+msgid "def_date_format"
+msgstr "%Y-%m-%d"
+
+msgid "drag_to_move"
+msgstr "برای جابجا کردن بکشید"
+
+msgid "go_today"
+msgstr "برو به امروز"
+
+msgid "l_01"
+msgstr "ژانویه"
+
+msgid "l_02"
+msgstr "فوریه"
+
+msgid "l_03"
+msgstr "مارچ"
+
+msgid "l_04"
+msgstr "آپریل"
+
+msgid "l_05"
+msgstr "مِی"
+
+msgid "l_06"
+msgstr "ژوئن"
+
+msgid "l_07"
+msgstr "جولای"
+
+msgid "l_08"
+msgstr "آگوست"
+
+msgid "l_09"
+msgstr "سپتامبر"
+
+msgid "l_10"
+msgstr "اکتبر"
+
+msgid "l_11"
+msgstr "نوامبر"
+
+msgid "l_12"
+msgstr "دسامبر"
+
+msgid "l_fr"
+msgstr "جمعه"
+
+msgid "l_mo"
+msgstr "دوشنبه"
+
+msgid "l_sa"
+msgstr "شنبه"
+
+msgid "l_su"
+msgstr "یکشنبه"
+
+msgid "l_th"
+msgstr "پبج شنبه"
+
+msgid "l_tu"
+msgstr "سه شنبه"
+
+msgid "l_we"
+msgstr "چهارشنبه"
+
+msgid "next_month"
+msgstr "ماه بعد"
+
+msgid "next_year"
+msgstr "سال بعد"
+
+msgid "open_calendar"
+msgstr "اینجا را کلیک کنید تا یک تقویم برای انتخاب تاریخ باز شود (نیاز به javascrip دارد)"
+
+msgid "part_today"
+msgstr " (امروز)"
+
+msgid "prev_month"
+msgstr "ماه قبل"
+
+msgid "prev_year"
+msgstr "سال قبل"
+
+msgid "s_01"
+msgstr "ژانویه"
+
+msgid "s_02"
+msgstr "Feb"
+
+msgid "s_03"
+msgstr "Mar"
+
+msgid "s_04"
+msgstr "Apr"
+
+msgid "s_05"
+msgstr "May"
+
+msgid "s_06"
+msgstr "Jun"
+
+msgid "s_07"
+msgstr "Jul"
+
+msgid "s_08"
+msgstr "Aug"
+
+msgid "s_09"
+msgstr "Sep"
+
+msgid "s_10"
+msgstr "Oct"
+
+msgid "s_11"
+msgstr "نوامبر"
+
+msgid "s_12"
+msgstr "Dec"
+
+msgid "s_fr"
+msgstr "Fr"
+
+msgid "s_mo"
+msgstr "Mo"
+
+msgid "s_sa"
+msgstr "Sa"
+
+msgid "s_su"
+msgstr "Su"
+
+msgid "s_th"
+msgstr "Th"
+
+msgid "s_tu"
+msgstr "Tu"
+
+msgid "s_we"
+msgstr "We"
+
+msgid "select_date"
+msgstr "تاریخ را انتخاب کنید"
+
+msgid "time"
+msgstr "زمان"
+
+msgid "time_part"
+msgstr "(Shift-)Click or drag to change value"
+
+msgid "today"
+msgstr "امروز"
+
+msgid "tt_date_format"
+msgstr "%a, %b %e"
+
+msgid "wk"
+msgstr "wk"

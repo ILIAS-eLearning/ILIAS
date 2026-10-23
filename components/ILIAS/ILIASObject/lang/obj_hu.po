@@ -1,0 +1,282 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: obj\n"
+
+msgid "activation_visible_when_disabled"
+msgstr "Láthatóság"
+
+msgid "activation_visible_when_disabled_info"
+msgstr "Az objektum a megadott időszakon kívül is látható, de nem nyitható meg."
+
+msgid "availability_period_changed"
+msgstr "A kiválasztott objektumok elérhetőségi időszakát sikeresen módosította."
+
+msgid "available_languages"
+msgstr "Elérhető nyelvek"
+
+msgid "cont_filter_empty"
+msgstr "Az objektumok megtekintéséhez használja a szűrőt."
+
+msgid "cont_skll_published"
+msgstr "Az összes hozzárendelést sikeresen közzétette."
+
+msgid "cont_skll_published_some_not"
+msgstr "Az összes megadott hozzárendelést sikeresen közzétette. Néhány felhasználóhoz nincs kompetencia rendelve, náluk nincs mit közzétenni."
+
+msgid "copy_container_page_no_label"
+msgstr "A tartalomoldalt nem másolja"
+
+msgid "copy_container_page_yes_byline"
+msgstr "A tartalomoldal és a forrásobjektum megfelelő stílusbeállításai átmásolódnak ebbe az objektumba. A már meglévő oldalelemek felülíródnak."
+
+msgid "copy_container_page_yes_label"
+msgstr "Tartalomoldal másolása"
+
+msgid "custom_icon"
+msgstr "Egyéni ikon"
+
+msgid "default_base_lang_not_deletable"
+msgstr "Sem az alapnyelv, sem az alapértelmezett nyelv nem törölhető."
+
+msgid "edit_availability_period"
+msgstr "Elérhetőségi időszak"
+
+msgid "edit_language"
+msgstr "Nyelv módosítása"
+
+msgid "edit_questions"
+msgstr "Kérdések módosítása"
+
+msgid "make_default_language"
+msgstr "Beállítás alapértelmezett nyelvként"
+
+msgid "missing_migration"
+msgstr "Az ezen az oldalon található információkat csak az összes migráció futtatása után szerkesztheti. Kérjük, vegye fel a kapcsolatot a rendszergazdával."
+
+msgid "multiple_reference_deletion_info"
+msgstr "További hivatkozások léteznek a következő objektumokhoz."
+
+msgid "multiple_selection"
+msgstr "Többszörös kiválasztás"
+
+msgid "no_objects_selected"
+msgstr "Legalább egy objektumot ki kell választania"
+
+msgid "obj_activate_content_lang"
+msgstr "Lapszerkesztés fordításának bekapcsolása"
+
+msgid "obj_activate_multilang"
+msgstr "Többnyelvűség bekapcsolása"
+
+msgid "obj_activation"
+msgstr "Aktiválás"
+
+msgid "obj_activation_list_gui"
+msgstr "Elérhetőség"
+
+msgid "obj_add_language"
+msgstr "Nyelv hozzáadása"
+
+msgid "obj_additional_langs"
+msgstr "További nyelvek"
+
+msgid "obj_base_lang"
+msgstr "Elsődleges nyelv"
+
+msgid "obj_conf_delete_lang"
+msgstr "Biztos, hogy megszünteti, hogy a cím és a leírás ezeken a nyelveken jelenljen meg?"
+
+msgid "obj_cont_transl_deactivated"
+msgstr "Lapszerkesztés fordítása ki van kapcsolva van."
+
+msgid "obj_copy_progress"
+msgstr "Másolási folyamat"
+
+msgid "obj_copy_progress_estimate"
+msgstr "Becsült időtartam…"
+
+msgid "obj_copy_progress_failure"
+msgstr "A másolás sikertelen."
+
+msgid "obj_copy_progress_success"
+msgstr "A másolást sikeresen végrehajtotta."
+
+msgid "obj_copy_progress_to"
+msgstr "Másolás ide: %s"
+
+msgid "obj_deactivate_content_lang"
+msgstr "Többnyelvűség kikapcsolása"
+
+msgid "obj_deactivate_content_transl_conf"
+msgstr "Biztos, hogy kikapcsolja a többnyelvűséget? Csak a fő nyelv tartalma marad meg."
+
+msgid "obj_deactivate_multilang"
+msgstr "Többnyelvűség kikapcsolása"
+
+msgid "obj_deactivate_multilang_conf"
+msgstr "Biztos, hogy kikapcsolja a többnyelvűséget? Csak a fő nyelv tartalma marad meg."
+
+msgid "obj_fallback_lang"
+msgstr "Alapértelmezett nyelv"
+
+msgid "obj_features"
+msgstr "További tulajdonságok"
+
+msgid "obj_import_file_error"
+msgstr "Ez a fájl nem importálható. Ellenőrizze, hogy ez tényleg egy ugyanolyan objektum ILIAS exportfájlja (XML export). A fájl nevét exportálás után nem szabad módosítani. Hibaüzenet:"
+
+msgid "obj_insert_into_clipboard"
+msgstr "Tegyük a vágólapra"
+
+msgid "obj_inserted_clipboard"
+msgstr "Az objektumo(ka)t sikeresen a vágólapra tette."
+
+msgid "obj_master_lang"
+msgstr "Elsődleges nyelv"
+
+msgid "obj_more_translations"
+msgstr "További fordítások"
+
+msgid "obj_multilang_deactivated"
+msgstr "Többnyelvűség kikapcsolva."
+
+msgid "obj_multilang_title_descr_only"
+msgstr "A fordítás csak a címre és a leírásra van bekapcsolva. A lapszerkesztés (‘Tartalom/Oldal testreszabása’) fordításához további aktiválásokra van szükség."
+
+msgid "obj_multilinguality"
+msgstr "Többnyelvűség"
+
+msgid "obj_orgunit_positions"
+msgstr "Jogosultságkezelés a szervezeti egység pozíciói alapján"
+
+msgid "obj_orgunit_positions_info"
+msgstr "További hozzáférési szabályok hozhatók létre a szervezeti egységek pozíciói alapján."
+
+msgid "obj_permission_settings"
+msgstr "Jogosultságok beállítása"
+
+msgid "obj_presentation"
+msgstr "Megjelenítés"
+
+msgid "obj_select_base_lang"
+msgstr "Válasszon elsődleges nyelvet. A jelenlegi tartalom a elsődleges nyelvhez lesz hozzárendelve."
+
+msgid "obj_select_one_language"
+msgstr "Válasszon egy nyelvet"
+
+msgid "obj_set_fallback_lang"
+msgstr "Alapértelmezett nyelv beállítása"
+
+msgid "obj_settings_for_all_members"
+msgstr "A tagokat automatikusan értesítjük"
+
+msgid "obj_show_header_actions"
+msgstr "Fejlécműveletek megjelenítése"
+
+msgid "obj_show_title_and_icon"
+msgstr "A cím és az ikon is jelenjen meg"
+
+msgid "obj_target_location"
+msgstr "Célhely"
+
+msgid "obj_tile_image"
+msgstr "Csempekép"
+
+msgid "obj_tile_image_info"
+msgstr "Ez a kép az objektum miniatűr-stílusú képe (csempeképe), az objektumot abban a tárolóban ábrázolja (például kategória, mappacsoport stb.), amelyben az megtalálható, és a tároló tartalmának megjelenítése nem felsorolásra, hanem csempére van állítva. (A teljesítménnyel kapcsolatos problémák elkerülése érdekében csak 72 dpi felbontású és 1000 px-nél kisebb szélességű fájlokat töltsön fel.)"
+
+msgid "obj_tool_booking"
+msgstr "Erőforrásfoglalás"
+
+msgid "obj_tool_booking_info"
+msgstr "Foglalásgyűjtemények használata (például termek foglalásához)."
+
+msgid "obj_tool_ext_mail_subject_prefix"
+msgstr "E-mail tárgyának előtagja"
+
+msgid "obj_tool_ext_mail_subject_prefix_info"
+msgstr "Ez a rövid szöveg jelenik meg az e-mail tárgyának elején a könnyebb beazonosíthatóság kedvéért."
+
+msgid "obj_tool_setting_badges"
+msgstr "Érdemérmek"
+
+msgid "obj_tool_setting_badges_info"
+msgstr "Az érdemérmek kezelésének, valamint megszerzésének vagy odaítélésének engedélyezése ezen az objektumon belül."
+
+msgid "obj_tool_setting_booking"
+msgstr "Erőforrásfoglalás"
+
+msgid "obj_tool_setting_filter"
+msgstr "Szűrés"
+
+msgid "obj_tool_setting_filter_empty"
+msgstr "Üres szűrő"
+
+msgid "obj_tool_setting_filter_empty_info"
+msgstr "Az összes elem jelenjen meg, amikor a szűrő üres."
+
+msgid "obj_tool_setting_filter_info"
+msgstr "A szűrés a tartalom lapon fog megjelenni."
+
+msgid "obj_tool_setting_info_tab"
+msgstr "Információ lap"
+
+msgid "obj_tool_setting_info_tab_info"
+msgstr "Az ‘Információ’ lap látszódjon."
+
+msgid "obj_tool_setting_skills"
+msgstr "Kompetenciák"
+
+msgid "obj_tool_setting_skills_info"
+msgstr "Aktiválja a kompetenciamenedzsmentet és a kompetenciák tagokhoz rendelését."
+
+msgid "obj_tool_setting_tag_cloud"
+msgstr "Címkefelhő"
+
+msgid "obj_tool_setting_tag_cloud_info"
+msgstr "‘Címkefelhő’ blokk megjelenik a ‘Tartalom’ lapon."
+
+msgid "obj_tool_setting_taxonomies"
+msgstr "Taxonómiák"
+
+msgid "obj_tool_setting_taxonomies_info"
+msgstr "A taxonómiák objektumok szűrését teszik lehetővé. A ‘Beállítások’ lap ‘Taxonómia’ allapján találhatók."
+
+msgid "obj_tool_setting_use_news"
+msgstr "Hírek"
+
+msgid "obj_tool_setting_use_news_info"
+msgstr "Hírblokk, illetve idővonal nézet bekapcsolása. Amennyiben aktív, a felhasználók értesítést kérhetnek a módosulásról."
+
+msgid "obj_tool_setting_use_news_open_settings"
+msgstr "Beállítások megnyitása"
+
+msgid "obj_user_decides_notification"
+msgstr "A tagoknak saját maguknak kell aktiválniuk az értesítéseket"
+
+msgid "obj_user_not_disable_not"
+msgstr "A tagok nem kapcsolhatják ki az értesítéseket"
+
+msgid "online_input_byline"
+msgstr "Az objektumot közzétették, így akinek olvasási joga van hozzá, hozzáféhet. Más elérhetőségi feltételek vagy időalapú hozzáférési korlátozások továbbra is érvényesek. Ez a beállítás az objektumra vonatkozik, függetlenül attól, hogy hol található meg a Tartalomtáron belül"
+
+msgid "select_import_type_info"
+msgstr "A fájlból nem állapítható meg automatikusan az importálandó objektum típusa. Lehet, hogy a fájlt átnevezték. Kérem, válassza ki a megfelelő típust."
+
+msgid "select_object_type"
+msgstr "Kiválasztott objektumtípusok"
+
+msgid "svy_results"
+msgstr "Végeredmények"
+
+msgid "unequal_items_for_availability_period_message"
+msgstr "Különböző elérhetőségi időszakú elemeket választott ki. Vagy írja felül lejjebb a meglévő beállításokat, vagy törölje a műveletet a jelenlegi elérhetőségi időszakok megtartásához."
+
+msgid "user_owns_no_objects"
+msgstr "Egy objektum sincs"

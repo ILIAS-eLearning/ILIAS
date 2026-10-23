@@ -1,0 +1,327 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: lso\n"
+
+msgid "abstract"
+msgstr "Absztrakt"
+
+msgid "abstract_img"
+msgstr "Absztrakt képe"
+
+msgid "avail_time_period"
+msgstr "Időköz"
+
+msgid "completed_steps"
+msgstr "Megtett lépések"
+
+msgid "condition_always"
+msgstr "Mindig"
+
+msgid "cont_ed_insert_lsocurriculum"
+msgstr "Tanulási sor tantervének beillesztése"
+
+msgid "cont_ed_insert_lsostartbutton"
+msgstr "Tanulási sor indító gombjának beillesztése"
+
+msgid "curriculum"
+msgstr "Tanterv"
+
+msgid "delete_confirmation"
+msgstr "Biztos, hogy törli ezeket az objektumokat?"
+
+msgid "entries_deleted"
+msgstr "Az objektumokat sikeresen törölte."
+
+msgid "entries_updated"
+msgstr "A bejegyzéseket sikeresen mentette"
+
+msgid "extro"
+msgstr "Kilépőoldal"
+
+msgid "extro_img"
+msgstr "Kilépőoldal képe"
+
+msgid "failed"
+msgstr "Sikertelen"
+
+msgid "finished"
+msgstr "Befejezett"
+
+msgid "first_access"
+msgstr "Első hozzáférés"
+
+msgid "last_visited_step"
+msgstr "Utoljára meglátogatott lépés"
+
+msgid "learner_view"
+msgstr "Áttekintés"
+
+msgid "lp_not_relevant_post_cond"
+msgstr "jelenleg nem releváns a folytatás szempontjából"
+
+msgid "lso_activation_online_info"
+msgstr "Állítsa a tanulási haladást online-ra, hogy az látható és elérhető legyen a tanulás sor tagjai számára. A nem aktív sort csak a vezetők és a tutorok érhetik el."
+
+msgid "lso_at_least_one_admin"
+msgstr "Legalább egy vezetője kell, hogy legyen a tanulási sornak."
+
+msgid "lso_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "lso_header_delete_members"
+msgstr "Biztos, hogy eltávolítja az alábbi tagokat a tanulási sorról?"
+
+msgid "lso_header_edit_members"
+msgstr "Tagok módosítása"
+
+msgid "lso_intropages_deprecationhint"
+msgstr "Az absztraktot és a kilépőoldalt a ‘Tartalom’ lapon szerkesztheti."
+
+msgid "lso_legacy_info"
+msgstr "Az objektum a böngésző egy új lapján fog megnyílni. Kérem, térjen vissza erre a lapra a tartalom feldolgozása/szerkesztése után. Töltse be újra az oldalt, ha szerkesztette a tartalmat, de a ‘Tovább’ gomb le van tiltva."
+
+msgid "lso_mail_admission_new_bod"
+msgstr "ezúton tájékoztatjuk, hogy ‘%s’ tanulási sorra sikeresen regisztrált."
+
+msgid "lso_mail_admission_new_sub"
+msgstr "‘%s’ tanulási sorra regisztráció"
+
+msgid "lso_mail_dismiss_bod"
+msgstr "ezúton tájékoztatjuk, hogy ‘%s’ tanulási soron tagsága megszűnt."
+
+msgid "lso_mail_dismiss_sub"
+msgstr "‘%s’ tanulási soron tagság megszűnése"
+
+msgid "lso_mail_notification_reg_bod"
+msgstr "%s regisztrált ‘%s’ tanulási sorra."
+
+msgid "lso_mail_notification_reg_req_bod"
+msgstr "ezúton tájékoztatjuk, hogy %s tagságot kér ‘%s’ tanulási sorhoz."
+
+msgid "lso_mail_notification_reg_req_bod2"
+msgstr "A regisztráció jóváhagyásához kattintson ide:"
+
+msgid "lso_mail_notification_reg_req_sub"
+msgstr "‘%s’ tanulási sorhoz csatlakozás kérése"
+
+msgid "lso_mail_notification_reg_sub"
+msgstr "Felhasználó regisztrált ‘%s’ tanulási sorra"
+
+msgid "lso_mail_notification_unsub_bod"
+msgstr "ezúton értesítjük, hogy %s lemondta tagságát ‘%s’ tanulási sorban."
+
+msgid "lso_mail_notification_unsub_bod2"
+msgstr "Elképzelhető, hogy további tagok vannak a tanulási sor várólistáján. Kérjük, mihamarabb ellenőrizze a várólistát. A tanulási sor tagjainak megtekintéséhez kattintson ide:"
+
+msgid "lso_mail_notification_unsub_sub"
+msgstr "‘%s’ tanulási sort egy felhasználó elhagyta"
+
+msgid "lso_mail_permanent_link"
+msgstr "Kattintson az alábbi linkre a tanulási sorra kapcsolatos információkért:"
+
+msgid "lso_mail_status_bod"
+msgstr "ezúton tájékoztatjuk, hogy az Ön állapota módosult ‘%s’ tanulási sorban."
+
+msgid "lso_mail_status_sub"
+msgstr "‘%s’ tanulási sorban állapotváltozás"
+
+msgid "lso_mail_sub_acc_bod"
+msgstr "ezúton tájékoztatjuk, hogy ‘%s’ tanulási sorhoz tagságát jóváhagyták."
+
+msgid "lso_mail_sub_acc_sub"
+msgstr "‘%s’ tanulási sorhoz regisztrációját jóváhagyták"
+
+msgid "lso_mail_sub_dec_bod"
+msgstr "ezúton tájékoztatjuk, hogy ‘%s’ tanulási sorhoz tagságát elutasították."
+
+msgid "lso_mail_sub_dec_sub"
+msgstr "‘%s’ tanulási sorhoz regisztrációját visszautasították"
+
+msgid "lso_mail_subscribe_member_bod"
+msgstr "ezúton tájékoztatjuk, hogy ‘%s’ tanulási sorra sikeresen regisztrált."
+
+msgid "lso_mail_subscribe_member_sub"
+msgstr "‘%s’ tanulási sorra regisztrált"
+
+msgid "lso_mail_unsubscribe_member_bod"
+msgstr "ezúton megerősítjük, hogy ‘%s’ tanulási sori tagsága megszűnt. Reméljük, hogy egy másik tanulási sorban hamarosan viszontlátjuk."
+
+msgid "lso_mail_unsubscribe_member_sub"
+msgstr "‘%s’ tanulási sorra tagság lemondása"
+
+msgid "lso_mail_wl_bod"
+msgstr "ezúton tájékoztatjuk, hogy ‘%s’ tanulási sor várólistájára felkerült. Jelenleg %s. helyet foglalja el a listán. Levélben értesítjük, amikor csatlakozási kérését elfogadják vagy elutasítják."
+
+msgid "lso_mail_wl_sub"
+msgstr "‘%s’ tanulási sorhoz regisztrációja"
+
+msgid "lso_mainbar_button_label_curriculum"
+msgstr "Tanulási sor"
+
+msgid "lso_mainbar_button_label_toc"
+msgstr "Tartalom"
+
+msgid "lso_mem_tbl_header"
+msgstr "Tanulási sor tagja"
+
+msgid "lso_member_administration"
+msgstr "Résztvevők módosítása"
+
+msgid "lso_members_deleted"
+msgstr "A kiválasztott tagokat sikeresen eltávolította a Tanulási sorból."
+
+msgid "lso_members_gallery"
+msgstr "Tanulási sor tagképgalériája"
+
+msgid "lso_members_print_title"
+msgstr "Tanulási sor tagjai"
+
+msgid "lso_min_one_admin"
+msgstr "Legalább egy vezetője kell, hogy legyen a tanulási sornak."
+
+msgid "lso_msg_member_assigned"
+msgstr "A felhasználó(ka)t sikeresen hozzárendelte a tanulási sorhoz."
+
+msgid "lso_multidownload_not_available"
+msgstr "Több objektum egyszerre letöltése nem lehetséges ebben a tanulási sorban."
+
+msgid "lso_new_status"
+msgstr "Az Ön új állapota:"
+
+msgid "lso_notification"
+msgstr "Értesítés"
+
+msgid "lso_notification_explanation_admin"
+msgstr "Ezt az e-mail azért küldtük, mert Ön a tanulási sor vezetője és az értesítés be van kapcsolva."
+
+msgid "lso_notify_off"
+msgstr "Új regisztrációról értesítés kikapcsolása"
+
+msgid "lso_notify_on"
+msgstr "Új regisztrációról értesítés bekapcsolása"
+
+msgid "lso_player_abstract"
+msgstr "Absztrakt megjelenítése"
+
+msgid "lso_player_extro"
+msgstr "Befejező oldal megjelenítése"
+
+msgid "lso_player_finish"
+msgstr "Befejezés"
+
+msgid "lso_player_next"
+msgstr "Következő"
+
+msgid "lso_player_noitems"
+msgstr "Egy elérhető elem sincs ebben a Tanulási sorban."
+
+msgid "lso_player_previous"
+msgstr "Előző"
+
+msgid "lso_player_resume"
+msgstr "Tanulási sor szüneteltetése"
+
+msgid "lso_player_review"
+msgstr "Tanulási sor áttekintése"
+
+msgid "lso_player_start"
+msgstr "Tanulási sor indítása"
+
+msgid "lso_player_suspend"
+msgstr "Felfüggesztés"
+
+msgid "lso_player_viewmodelabel"
+msgstr "Tanulási sor"
+
+msgid "lso_print_list"
+msgstr "Lista nyomtatása"
+
+msgid "lso_read"
+msgstr "A felhasználónak hozzáférés van a tanulási sorhoz"
+
+msgid "lso_search_users"
+msgstr "Felhasználók keresése"
+
+msgid "lso_settings_availability"
+msgstr "Elérhetőség"
+
+msgid "lso_settings_extro"
+msgstr "Kilépőoldal beállításai"
+
+msgid "lso_settings_intro"
+msgstr "Bemutatkozó-oldal beállításai"
+
+msgid "lso_settings_old_extro"
+msgstr "Korábbi Kilépőoldal megjelenítése"
+
+msgid "lso_settings_old_intro"
+msgstr "Korábbi Bemutatkozó-oldal megjelenítése"
+
+msgid "lso_show_members_info"
+msgstr "Tagok megtekinthetik a tanulási sor tagjainak képgalériáját"
+
+msgid "lso_start_item"
+msgstr "%s indítása"
+
+msgid "lso_toast_completed_desc"
+msgstr "Sikeresen teljesítette ezt a tanulási sort. Továbbra is megtekintheti a tartalmát."
+
+msgid "lso_toast_completed_title"
+msgstr "Gratulálunk"
+
+msgid "lso_users_already_assigned"
+msgstr "A felhasználó már hozzá van rendelve ehhez a tanulási sorhoz"
+
+msgid "mail_lso_roles"
+msgstr "Levelek küldése a tanulási sor szerepeinek."
+
+msgid "manage"
+msgstr "Kezelés"
+
+msgid "manage_content_maintab"
+msgstr "Tartalom"
+
+msgid "members_gallery"
+msgstr "Tagok képgalériája"
+
+msgid "no_entries_selected_for_delete"
+msgstr "Legalább egy bejegyzést ki kell választania."
+
+msgid "not_finished"
+msgstr "Nem befejezett"
+
+msgid "notification_lso_completed_title"
+msgstr "Sikeresen teljesített a ‘%s’ ranulási sort."
+
+msgid "show_summary"
+msgstr "Információ"
+
+msgid "table_actions"
+msgstr "Műveletek"
+
+msgid "table_lp_settings"
+msgstr "Tanulási haladás"
+
+msgid "table_may_proceed"
+msgstr "Tovább haladhat"
+
+msgid "table_online"
+msgstr "Online"
+
+msgid "table_position"
+msgstr "Pozíció"
+
+msgid "table_sequence_content"
+msgstr "Tartalomkezelés"
+
+msgid "table_title"
+msgstr "Cím"
+
+msgid "unparticipate"
+msgstr "Leiratkozás"

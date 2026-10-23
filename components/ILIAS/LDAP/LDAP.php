@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+
 class LDAP implements Component\Component
 {
     public function init(
@@ -34,5 +37,9 @@ class LDAP implements Component\Component
     ): void {
         $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
         new \ILIAS\LDAP\Setup\Agent();
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'ldap'
+        );
     }
 }

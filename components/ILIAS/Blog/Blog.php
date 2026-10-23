@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+
 class Blog implements Component\Component
 {
     public function init(
@@ -48,5 +51,9 @@ class Blog implements Component\Component
         };
         $contribute[\ILIAS\StaticURL\Handler\Handler::class] = static fn() =>
             new \ILIAS\PermanentLink\StaticURLHandler();
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'blog'
+        );
     }
 }

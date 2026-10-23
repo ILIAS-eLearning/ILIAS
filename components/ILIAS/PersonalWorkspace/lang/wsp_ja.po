@@ -1,0 +1,204 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: wsp\n"
+
+msgid "element_already_shared"
+msgstr "このオブジェクトはこのユーザをすでに共有されています。"
+
+msgid "element_shared"
+msgstr "オブジェクトを共有しました。"
+
+msgid "error_creating_certificate_pdf"
+msgstr "証明書は作成できませんでした。証明書サーバーを確認するように管理者へコンタクトしてください。"
+
+msgid "share"
+msgstr "共有"
+
+msgid "share_content"
+msgstr "共有オブジェクト"
+
+msgid "share_with"
+msgstr "ユーザ名"
+
+msgid "wsp_copy_to_repository"
+msgstr "リポジトリへコピ"
+
+msgid "wsp_invalid_password"
+msgstr "そのパスワードは無効です。"
+
+msgid "wsp_list_cmxv"
+msgstr "xAPI/cmi5 オブジェクトの証明書"
+
+msgid "wsp_list_crsv"
+msgstr "コース証明書"
+
+msgid "wsp_list_excv"
+msgstr "演習問題証明書"
+
+msgid "wsp_list_ltiv"
+msgstr "LTI Consumer オブジェクトの証明書"
+
+msgid "wsp_list_scov"
+msgstr "SCORM証明書"
+
+msgid "wsp_list_tstv"
+msgstr "試験問題証明書"
+
+msgid "wsp_move_to_repository"
+msgstr "リポジトリへ移動"
+
+msgid "wsp_password_for"
+msgstr "パスワード"
+
+msgid "wsp_password_protected_resource"
+msgstr "パスワード保護リソース"
+
+msgid "wsp_password_protected_resource_info"
+msgstr "このリソースにアクセスするにはパスワードの入力が必要です。"
+
+msgid "wsp_permission_all_info"
+msgstr "オブジェクトは発行されました。"
+
+msgid "wsp_permission_all_pw_info"
+msgstr "パスワード提供後このオブジェクトはインターネットの全ユーザへ表示されます。"
+
+msgid "wsp_permission_registered_info"
+msgstr "このオブジェクトは全ての登録済みユーザと共有されます。"
+
+msgid "wsp_permission_removed"
+msgstr "アイテムは削除されました。"
+
+msgid "wsp_permissions"
+msgstr "共有"
+
+msgid "wsp_personal_resources_description"
+msgstr "プライベートファイル, ブログ, 作品をここで管理できます。"
+
+msgid "wsp_search_no_match"
+msgstr "あなたの検索では一致する結果が見つかりませんでした。"
+
+msgid "wsp_send_mail"
+msgstr "メールを送信"
+
+msgid "wsp_set_permission_all"
+msgstr "World Wide Web"
+
+msgid "wsp_set_permission_all_password"
+msgstr "パスワードありWorld Wide Web"
+
+msgid "wsp_set_permission_course"
+msgstr "コース"
+
+msgid "wsp_set_permission_group"
+msgstr "グループ"
+
+msgid "wsp_set_permission_registered"
+msgstr "全ての登録済みユーザ"
+
+msgid "wsp_set_permission_single_user"
+msgstr "シングルユーザ"
+
+msgid "wsp_share_search_users"
+msgstr "ユーザを検索"
+
+msgid "wsp_share_success"
+msgstr "新しいエントリーが追加せれました。"
+
+msgid "wsp_share_with_members"
+msgstr "メンバーと共有"
+
+msgid "wsp_share_with_users"
+msgstr "ユーザを共有"
+
+msgid "wsp_shared_date"
+msgstr "共有日"
+
+msgid "wsp_shared_date_filter"
+msgstr "共有開始日"
+
+msgid "wsp_shared_filter_button"
+msgstr "検索"
+
+msgid "wsp_shared_filter_reset_button"
+msgstr "検索をリセット"
+
+msgid "wsp_shared_mandatory_filter_info"
+msgstr "最低1個のフィルタ属性を設定してください。テキストフィルタは最小4文字長である必要があります。"
+
+msgid "wsp_shared_member_filter"
+msgstr "コース/グループメンバ"
+
+msgid "wsp_shared_object_type"
+msgstr "リソースタイプ"
+
+msgid "wsp_shared_resources"
+msgstr "リソースを共有"
+
+msgid "wsp_shared_table_title"
+msgstr "共有する"
+
+msgid "wsp_shared_title"
+msgstr "リソースタイトル"
+
+msgid "wsp_shared_type"
+msgstr "共有者"
+
+msgid "wsp_shared_user_filter"
+msgstr "Login/Name"
+
+msgid "wsp_shared_with"
+msgstr "共有者"
+
+msgid "wsp_status_shared"
+msgstr "共有しました"
+
+msgid "wsp_switch_to_repo_tree"
+msgstr "リポジトリへ切り替える"
+
+msgid "wsp_switch_to_wsp_tree"
+msgstr "パーソナルリソースへ切り替える"
+
+msgid "wsp_tab_ownership"
+msgstr "マイリポジトリオブジェクト"
+
+msgid "wsp_tab_personal"
+msgstr "マイリソース"
+
+msgid "wsp_tab_shared"
+msgstr "他のユーザのリソース"
+
+msgid "wsp_type_blog"
+msgstr "ブログ"
+
+msgid "wsp_type_cmxv"
+msgstr "証明書: xAPI/cmi5"
+
+msgid "wsp_type_crsv"
+msgstr "証明書: コース"
+
+msgid "wsp_type_excv"
+msgstr "証明書: 演習問題"
+
+msgid "wsp_type_file"
+msgstr "File"
+
+msgid "wsp_type_ltiv"
+msgstr "証明書: LTI Consumer"
+
+msgid "wsp_type_scov"
+msgstr "証明書: SCORM"
+
+msgid "wsp_type_tstv"
+msgstr "Weblink"
+
+msgid "wsp_type_webr"
+msgstr "証明書: Test"
+
+msgid "wsp_type_wfld"
+msgstr "Folder"

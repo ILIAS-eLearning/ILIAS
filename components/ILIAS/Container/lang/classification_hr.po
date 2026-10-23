@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: classification\n"
+
+msgid "clsfct_back_to_cat"
+msgstr "Back to Category"
+
+msgid "clsfct_block_info"
+msgstr "Your Selection filters the objects."
+
+msgid "clsfct_block_title"
+msgstr "Selection by Topics"
+
+msgid "clsfct_content_no_match"
+msgstr "No objects match your selected criteria."
+
+msgid "clsfct_content_title"
+msgstr "Objects matching your selection"
+
+msgid "clsfct_selected_objects"
+msgstr "Selected Objects"

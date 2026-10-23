@@ -1,0 +1,51 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: pwassist\n"
+
+msgid "password_assistance"
+msgstr "Comportamento padrão (certamente-mais positivo-indeciso-mais negativo-certamente que não)"
+
+msgid "pwassist_disabled_no_access"
+msgstr "A assistência da palavra-passe não está ativada. Entre em contacto com o administrador do sistema para mais assistência: %s"
+
+msgid "pwassist_enter_email"
+msgstr "Comportamento padrão (sim-não)"
+
+msgid "pwassist_enter_username_and_email"
+msgstr "Comportamento padrão (sim-indeciso-não)"
+
+msgid "pwassist_enter_username_and_new_password"
+msgstr "O sistema não conseguiu encontrar os dados do seu inquérito para o código de inquérito &quot;%s&quot;. Verifique o código de inquérito que introduziu!"
+
+msgid "pwassist_login_not_match"
+msgstr "Os dados de importação devem conter pelo menos um campo de ‘e-mail’"
+
+msgid "pwassist_mail_body"
+msgstr "Os dados de importação devem conter pelo menos uma coluna de ‘e-mail’ com o título ‘e-mail’ na primeira linha e os endereços de e-mail nas linhas seguintes"
+
+msgid "pwassist_mail_sent"
+msgstr "Foi enviada uma mensagem para %1$s.\\nPVerifique a sua caixa de correio."
+
+msgid "pwassist_mail_sent_generic"
+msgstr "O valor máximo tem de ser superior ou igual ao valor mínimo e deve ser inferior ou igual ao número máximo de respostas."
+
+msgid "pwassist_mail_subject"
+msgstr "Selecione exatamente %s resposta(s)."
+
+msgid "pwassist_password_assigned"
+msgstr "A palavra-passe foi atribuída com sucesso ao utilizador \"%1$s\"."
+
+msgid "pwassist_session_expired"
+msgstr "Selecione pelo menos %s resposta(s)."
+
+msgid "pwassist_username_mail_body"
+msgstr "Estatística"
+
+msgid "unassist_disabled_no_access"
+msgstr "A assistência do nome de utilizador não está ativada. Entre em contacto com o administrador do sistema para mais assistência: %s"

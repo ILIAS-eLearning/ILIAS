@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: exercise\n"
+
+msgid "exc_admin_settings"
+msgstr "Amministrazione servizio"
+
+msgid "exc_comment"
+msgstr "Commenti"
+
+msgid "exc_comment_for_learner"
+msgstr "Commenti per il discente"
+
+msgid "exc_failed"
+msgstr "Fallito"
+
+msgid "exc_feedback_from_tutor"
+msgstr "Feedback dal Tutor"
+
+msgid "exc_grading"
+msgstr "Classificazione"
+
+msgid "exc_mark"
+msgstr "Voto"
+
+msgid "exc_notgraded"
+msgstr "Non classificato"
+
+msgid "exc_passed"
+msgstr "Superato"
+
+msgid "exc_send_mail"
+msgstr "Invia mail"
+
+msgid "exc_start_date_should_be_before_end_date"
+msgstr "Il momento dell'inizio dovrebbe essere prima della scadenza."
+
+msgid "exc_your_submission"
+msgstr "La tua richiesta"

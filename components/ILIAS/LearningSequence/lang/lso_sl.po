@@ -1,0 +1,341 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: lso\n"
+
+msgid "abstract"
+msgstr "Uvod"
+
+msgid "abstract_img"
+msgstr "Slika za uvodno stran"
+
+msgid "avail_time_period"
+msgstr "Obdobje"
+
+msgid "completed_steps"
+msgstr "Opravljeni koraki"
+
+msgid "condition_always"
+msgstr "Vedno"
+
+#, fuzzy
+msgid "cont_ed_insert_lsocurriculum"
+msgstr "Insert Learning Sequence Curriculum"
+
+#, fuzzy
+msgid "cont_ed_insert_lsostartbutton"
+msgstr "Insert Learning Sequence Start Button"
+
+msgid "curriculum"
+msgstr "Kurikulum"
+
+msgid "delete_confirmation"
+msgstr "Ali res želite izbrisati naslednje objekte?"
+
+msgid "entries_deleted"
+msgstr "Vnosi so bili uspešno izbrisani."
+
+msgid "entries_updated"
+msgstr "Vnosi so shranjeni"
+
+msgid "extro"
+msgstr "Zaključna stran"
+
+msgid "extro_img"
+msgstr "Slika za zaključno stran"
+
+msgid "failed"
+msgstr "Ni opravil"
+
+msgid "finished"
+msgstr "Zaključeno"
+
+msgid "first_access"
+msgstr "Prvi dostop"
+
+msgid "last_visited_step"
+msgstr "Nazadnje obiskan korak"
+
+msgid "learner_view"
+msgstr "Pregled"
+
+#, fuzzy
+msgid "lp_not_relevant_post_cond"
+msgstr "currently not relevant for continuation"
+
+msgid "lso_activation_online_info"
+msgstr "Samo če je učno zaporedje vklopljeno na spletu, se lahko uporabniki pridružijo in imajo člani dostop do učnega zaporedja. V nasprotnem primeru je učno zaporedje na voljo samo administratorjem in mentorjem."
+
+msgid "lso_at_least_one_admin"
+msgstr "Temu učnemu zaporedju mora biti dodeljen vsaj en administrator."
+
+msgid "lso_edit_permission"
+msgstr "Spremeni nastavitve pravic"
+
+msgid "lso_header_delete_members"
+msgstr "Ali želite naslednje člane odstraniti iz učnega zaporedja?"
+
+msgid "lso_header_edit_members"
+msgstr "Uredi člane"
+
+#, fuzzy
+msgid "lso_intropages_deprecationhint"
+msgstr "You can edit the abstract and extro page in the tab \"Content\"."
+
+#, fuzzy
+msgid "lso_legacy_info"
+msgstr "The object will open in a new tab in your browser. Please return to this tab after processing/editing the contents. Reload the page if you have edited the content but the \"Next\" button remains disabled."
+
+msgid "lso_mail_admission_new_bod"
+msgstr "V učno zaporedje \"%s\" ste bili sprejeti kot član."
+
+msgid "lso_mail_admission_new_sub"
+msgstr "Članstvo v učnem zaporedju \"%s\""
+
+msgid "lso_mail_dismiss_bod"
+msgstr "Vaše članstvo v učnem zaporedju \"%s\" je bilo prekinjeno."
+
+msgid "lso_mail_dismiss_sub"
+msgstr "Članstvo v učnem zaporedje \"%s\" je prekinjeno"
+
+msgid "lso_mail_notification_reg_bod"
+msgstr "%s je oddal prošnjo za sprejem v učno zaporedje \"%s\"."
+
+msgid "lso_mail_notification_reg_req_bod"
+msgstr "%s je oddal prošnjo za sprejem v učno zaporedje \"%s\"."
+
+msgid "lso_mail_notification_reg_req_bod2"
+msgstr "Za dodajanje uporabnika v učno zaporedje ali zavrnitev prošnje morate dostopati do upravljanja članov. Za to kliknite na naslednjo povezavo:"
+
+msgid "lso_mail_notification_reg_req_sub"
+msgstr "Prošnja za sprejem v učno zaporedje \"%s\""
+
+msgid "lso_mail_notification_reg_sub"
+msgstr "Novo članstvo v učnem zaporedju \"%s\""
+
+msgid "lso_mail_notification_unsub_bod"
+msgstr "udeleženka / udeleženec \"%s\" je prekinil/-a članstvo v učnem zaporedju \"%s\"."
+
+msgid "lso_mail_notification_unsub_bod2"
+msgstr "Morda so udeleženci dodani na čakalni seznam tega učnega zaporedja. Za prikaz seznama udeležencev kliknite na naslednjo povezavo:"
+
+msgid "lso_mail_notification_unsub_sub"
+msgstr "Izstop iz učnega zaporedja \"%s\""
+
+msgid "lso_mail_permanent_link"
+msgstr "Kliknite na naslednjo povezavo za dostop do vsebine učnega zaporedja:"
+
+msgid "lso_mail_status_bod"
+msgstr "Vaš status v učnem zaporedju \"%s\" je bil spremenjen."
+
+msgid "lso_mail_status_sub"
+msgstr "Status v učnem zaporedju \"%s\""
+
+msgid "lso_mail_sub_acc_bod"
+msgstr "Sprejeti ste bili v učno zaporedje \"%s\"."
+
+msgid "lso_mail_sub_acc_sub"
+msgstr "Sprejem v učno zaporedje \"%s\""
+
+msgid "lso_mail_sub_dec_bod"
+msgstr "Vaša prošnja za sprejem v učno zaporedje \"%s\" je bila zavrnjena."
+
+msgid "lso_mail_sub_dec_sub"
+msgstr "Zavrnitev prošnje za sprejem v učno zaporedje \"%s\""
+
+msgid "lso_mail_subscribe_member_bod"
+msgstr "z veseljem vam sporočamo, da ste bili sprejeti v učno zaporedje \"%s\"."
+
+msgid "lso_mail_subscribe_member_sub"
+msgstr "Vaša prijava v učno zaporedje \"%s\""
+
+msgid "lso_mail_unsubscribe_member_bod"
+msgstr "potrjujemo vašo odjavo iz učnega zaporedja \"%s\"."
+
+msgid "lso_mail_unsubscribe_member_sub"
+msgstr "Vaša odjava iz učnega zaporedja \"%s\""
+
+msgid "lso_mail_wl_bod"
+msgstr "Uvrščeni ste bili na čakalni seznam za učno zaporedje \"%s\" in ste na mestu %s na čakalnem seznamu.  Ko bo vaša prošnja za sprejem odobrena oz. zavrnjena, boste obveščeni po e-pošti."
+
+msgid "lso_mail_wl_sub"
+msgstr "Vaša prijava v učno zaporedje \"%s\""
+
+msgid "lso_mainbar_button_label_curriculum"
+msgstr "Curriculum"
+
+msgid "lso_mainbar_button_label_toc"
+msgstr "Content"
+
+msgid "lso_mem_tbl_header"
+msgstr "Udeleženec učnega zaporedja"
+
+msgid "lso_member_administration"
+msgstr "Upravljanje udeleženca"
+
+msgid "lso_members_deleted"
+msgstr "Član/-i je bil/so bili odstranjen/-i iz učnega zaporedja"
+
+msgid "lso_members_gallery"
+msgstr "Galerija članov"
+
+msgid "lso_members_print_title"
+msgstr "Člani učnega zaporedja"
+
+msgid "lso_min_one_admin"
+msgstr "Temu učnemu zaporedju mora biti dodeljen vsaj en administrator."
+
+msgid "lso_msg_member_assigned"
+msgstr "Uporabnik/-i je bil/so bili sprejet/-i v učno zaporedje"
+
+#, fuzzy
+msgid "lso_multidownload_not_available"
+msgstr "Downloading multiple objects is currently not available for Learning Sequence Objects."
+
+msgid "lso_new_status"
+msgstr "Vaš novi status:"
+
+msgid "lso_notification"
+msgstr "Obveščanje"
+
+msgid "lso_notification_explanation_admin"
+msgstr "To e-pošto ste prejeli, ker je bilo za vas kot skrbnika učnega zaporedja aktivirano obveščanje."
+
+msgid "lso_notify_off"
+msgstr "Obveščanje o novih prijavah je onemogočeno"
+
+msgid "lso_notify_on"
+msgstr "Obveščanje o novih prijavah je aktivirano"
+
+msgid "lso_player_abstract"
+msgstr "Na uvod"
+
+msgid "lso_player_extro"
+msgstr "Na zaključno stran"
+
+msgid "lso_player_finish"
+msgstr "Zaključi"
+
+msgid "lso_player_next"
+msgstr "Naprej"
+
+#, fuzzy
+msgid "lso_player_noitems"
+msgstr "There are no available items in this Learning Sequence."
+
+msgid "lso_player_previous"
+msgstr "Nazaj"
+
+msgid "lso_player_resume"
+msgstr "Nadaljuj z učnim zaporedjem"
+
+msgid "lso_player_review"
+msgstr "Predelaj učno zaporedje"
+
+msgid "lso_player_start"
+msgstr "Začni učno zaporedje"
+
+msgid "lso_player_suspend"
+msgstr "Prekini"
+
+#, fuzzy
+msgid "lso_player_viewmodelabel"
+msgstr "Learning Sequence"
+
+msgid "lso_print_list"
+msgstr "Ustvari seznam"
+
+msgid "lso_read"
+msgstr "Bralni dostop do učnega zaporedja"
+
+msgid "lso_search_users"
+msgstr "Išči uporabnika"
+
+msgid "lso_settings_availability"
+msgstr "Razpoložljivost"
+
+msgid "lso_settings_extro"
+msgstr "Uredi zaključno stran"
+
+msgid "lso_settings_intro"
+msgstr "Uredi uvodno stran"
+
+#, fuzzy
+msgid "lso_settings_old_extro"
+msgstr "View Old Exitpage"
+
+#, fuzzy
+msgid "lso_settings_old_intro"
+msgstr "View Old Intropage"
+
+msgid "lso_show_members_info"
+msgstr "Galerija članov je vidna uporabnikom"
+
+msgid "lso_start_item"
+msgstr "Odpri %s"
+
+#, fuzzy
+msgid "lso_toast_completed_desc"
+msgstr "You have completed this Learning Sequence. You might still keep looking through the content."
+
+#, fuzzy
+msgid "lso_toast_completed_title"
+msgstr "Congratulations"
+
+msgid "lso_users_already_assigned"
+msgstr "Uporabnik je že član tega učnega zaporedja"
+
+msgid "mail_lso_roles"
+msgstr "Pošlji e-pošto naslednjim vlogam v učnem zaporedju"
+
+msgid "manage"
+msgstr "Upravljaj"
+
+msgid "manage_content_maintab"
+msgstr "Vsebina"
+
+msgid "members_gallery"
+msgstr "Galerija članov"
+
+msgid "no_entries_selected_for_delete"
+msgstr "Izbrati morate vsaj en vnos s seznama."
+
+msgid "not_finished"
+msgstr "Ni zaključeno"
+
+#, fuzzy
+msgid "notification_lso_completed_title"
+msgstr "You completed the Learning Sequence %s."
+
+msgid "show_summary"
+msgstr "Informacije"
+
+msgid "table_actions"
+msgstr "Dejanja"
+
+#, fuzzy
+msgid "table_lp_settings"
+msgstr "Learning Progress Settings"
+
+msgid "table_may_proceed"
+msgstr "Uporabnik lahko nadaljuje"
+
+msgid "table_online"
+msgstr "Online"
+
+msgid "table_position"
+msgstr "Položaj"
+
+msgid "table_sequence_content"
+msgstr "Upravljanje vsebine"
+
+msgid "table_title"
+msgstr "Naslov"
+
+msgid "unparticipate"
+msgstr "Zapusti učno zaporedje"

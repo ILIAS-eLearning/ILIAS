@@ -1,0 +1,153 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: sysc\n"
+
+msgid "sysc_action_list_tree"
+msgstr "Criar depósito de árvore do repositório"
+
+msgid "sysc_action_repair"
+msgstr "Reparar"
+
+msgid "sysc_action_show_tree"
+msgstr "Mostrar depósito de árvore do repositório"
+
+msgid "sysc_action_validate"
+msgstr "Validar"
+
+msgid "sysc_administrate_deleted"
+msgstr "Administrar objetos apagados"
+
+msgid "sysc_btn_tree_missing"
+msgstr "Restaurar o que falta"
+
+msgid "sysc_btn_tree_structure"
+msgstr "Recriar estrutura de árvore"
+
+msgid "sysc_completed_num"
+msgstr "Fullfilled Tasks"
+
+msgid "sysc_cron_empty_trash"
+msgstr "Apagar lixo"
+
+msgid "sysc_cron_empty_trash_desc"
+msgstr "Se estiver ativado, o lixo do repositório será purgado pelos critérios fornecidos (idade, tipo de objeto ou número máximo de objetos)."
+
+msgid "sysc_failed_num"
+msgstr "Not Fullfilled Tasks"
+
+msgid "sysc_groups"
+msgstr "Grupos de verificação do sistema"
+
+msgid "sysc_grp_tree"
+msgstr "Árvore do repositório"
+
+msgid "sysc_grp_tree_desc"
+msgstr "Faz uma análise da árvore e imprime todos os três nós juntamente com os dados de análise."
+
+msgid "sysc_message_success"
+msgstr "Nenhum erro encontrado"
+
+msgid "sysc_message_tree_missing_confirm"
+msgstr "Tem a certeza que quer restaurar as entradas em falta na estrutura de árvore do repositório?"
+
+msgid "sysc_message_tree_structure_confirm"
+msgstr "Tem a certeza que quer reparar a estrutura de árvore? Crie um backup da base de dados antes de continuar."
+
+msgid "sysc_overview"
+msgstr "Vista geral"
+
+msgid "sysc_status_completed"
+msgstr "Completado"
+
+msgid "sysc_status_failed"
+msgstr "Falhou"
+
+msgid "sysc_status_na"
+msgstr "Não executado"
+
+msgid "sysc_status_running"
+msgstr "Funcionar"
+
+msgid "sysc_tab_trash"
+msgstr "Objetos apagados"
+
+msgid "sysc_task_overview"
+msgstr "Tarefas"
+
+msgid "sysc_task_structure"
+msgstr "Estrutura de árvore"
+
+msgid "sysc_task_structure_desc"
+msgstr "Analisa e corrige a estrutura de árvore do repositório."
+
+msgid "sysc_task_tree_dump"
+msgstr "Lista árvore"
+
+msgid "sysc_task_tree_dump_desc"
+msgstr "Analisa e imprime a estrutura de árvore do repositório"
+
+msgid "sysc_task_tree_duplicates"
+msgstr "Entradas duplicadas na árvore do repositório"
+
+msgid "sysc_task_tree_duplicates_desc"
+msgstr "Procurar entradas duplicadas na estrutura de árvore do repositório."
+
+msgid "sysc_task_tree_missing"
+msgstr "Faltam entradas na árvore do repositório"
+
+msgid "sysc_task_tree_missing_desc"
+msgstr "Procura e repara entradas em falta na árvore do repositório."
+
+msgid "sysc_task_tree_missing_reference"
+msgstr "Faltam referências do objeto"
+
+msgid "sysc_task_tree_missing_reference_desc"
+msgstr "Procura e repara referências de objetos em falta na árvore do repositório."
+
+msgid "sysc_task_tree_missing_tree"
+msgstr "Faltam entradas na árvore do repositório"
+
+msgid "sysc_task_tree_missing_tree_desc"
+msgstr "Procura e repara entradas em falta na árvore do repositório."
+
+msgid "sysc_trash_action"
+msgstr "Ação"
+
+msgid "sysc_trash_limit_age"
+msgstr "Limitar idade"
+
+msgid "sysc_trash_limit_num"
+msgstr "Limitar número"
+
+msgid "sysc_trash_limit_type"
+msgstr "Limitar por tipo"
+
+msgid "sysc_trash_remove"
+msgstr "Remover objetos apagados do sistema"
+
+msgid "sysc_trash_remove_info"
+msgstr "Remover objetos apagados (lixo) do sistema"
+
+msgid "sysc_trash_restore"
+msgstr "Restaurar objetos apagados"
+
+msgid "sysc_trash_restore_info"
+msgstr "Restore deleted objects from trash bin and move the to the \"Recovery Folder\""
+
+msgid "sysc_tree_duplicate_failures"
+msgstr "Found duplicate entries in tree structure. Number of duoplicate entries"
+
+msgid "sysc_tree_list_failures"
+msgstr "Foi criado um depósito da árvore do repositório. Número de erros na estrutura de árvore:"
+
+msgid "sysc_tree_missing_failures"
+msgstr "Encontrou entradas em falta na estrutura de árvore. Número de entradas em falta:"
+
+msgid "sysc_tree_structure_failures"
+msgstr "Número de falhas na estrutura de árvore (relação familiar):"

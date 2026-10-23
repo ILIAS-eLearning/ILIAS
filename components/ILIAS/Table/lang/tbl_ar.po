@@ -1,0 +1,39 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ar\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=6; plural=(n == 0) ? 0 : ((n == 1) ? 1 : ((n == 2) ? 2 : ((n % 100 >= 3 && n % 100 <= 10) ? 3 : ((n % 100 >= 11 && n % 100 <= 99) ? 4 : 5))));\n"
+"X-Domain: tbl\n"
+
+msgid "tbl_export_csv"
+msgstr "تصدير .csv"
+
+msgid "tbl_export_excel"
+msgstr "تصدير .xls"
+
+#, fuzzy
+msgid "tbl_selection"
+msgstr "Selection"
+
+#, fuzzy
+msgid "tbl_template_create"
+msgstr "Save Current View"
+
+#, fuzzy
+msgid "tbl_template_created"
+msgstr "The current view has been saved."
+
+#, fuzzy
+msgid "tbl_template_delete"
+msgstr "Delete Saved View"
+
+#, fuzzy
+msgid "tbl_template_deleted"
+msgstr "The saved view has been deleted."
+
+#, fuzzy
+msgid "tbl_templates"
+msgstr "View"

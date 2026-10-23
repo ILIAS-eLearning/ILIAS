@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: exercise\n"
+
+msgid "exc_admin_settings"
+msgstr "ステートメントの演習"
+
+msgid "exc_comment"
+msgstr "ステートメントの評価"
+
+msgid "exc_comment_for_learner"
+msgstr "ステートメントの評価"
+
+msgid "exc_failed"
+msgstr "不合格"
+
+msgid "exc_feedback_from_tutor"
+msgstr "指導教員からのフィードバック"
+
+msgid "exc_grading"
+msgstr "評価"
+
+msgid "exc_mark"
+msgstr "マ－ク"
+
+msgid "exc_notgraded"
+msgstr "未評価"
+
+msgid "exc_passed"
+msgstr "合格"
+
+msgid "exc_send_mail"
+msgstr "メールで送る"
+
+msgid "exc_start_date_should_be_before_end_date"
+msgstr "開始時間は終了前にならなければなりません。"
+
+msgid "exc_your_submission"
+msgstr "Submission"

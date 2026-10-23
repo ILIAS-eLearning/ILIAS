@@ -1,0 +1,153 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: didactic\n"
+
+msgid "activate_exclusive_template"
+msgstr "グレイアウトの既定値"
+
+msgid "activate_exclusive_template_info"
+msgstr "標準テンプレートはこのテンプレートを有効にしていると利用できません。"
+
+msgid "activate_local_didactic_template"
+msgstr "アプリケーションの範囲"
+
+msgid "activate_local_didactic_template_info"
+msgstr "この教則テンプレートの使用はこれらのサブエリアに対しては制限されます。"
+
+msgid "didactic_activated_msg"
+msgstr "教則テンプレートが起動されました。"
+
+msgid "didactic_adm_tab"
+msgstr "教則テンプレート"
+
+msgid "didactic_applicable_for"
+msgstr "適用"
+
+msgid "didactic_auto_generated"
+msgstr "自動作成されました"
+
+msgid "didactic_available_templates"
+msgstr "利用可能な教則テンプレート"
+
+msgid "didactic_back_to_overview"
+msgstr "全体へ戻る"
+
+msgid "didactic_cannot_delete_auto_generated"
+msgstr "教則テンプレートの自動作成の削除はできません。"
+
+msgid "didactic_cannot_delete_auto_generated_confirmation"
+msgstr "選択された教則テンプレートの一つは自動作成されたものであり削除することはできません。"
+
+msgid "didactic_confirm_apply_new_template"
+msgstr "選択した教則テンプレートを本当に適用しますか? 全ての現在のアクセス権設定は消去されます!"
+
+msgid "didactic_confirm_delete_msg"
+msgstr "次の教則テンプレートを本当に削除しますか?"
+
+msgid "didactic_copy_suc_message"
+msgstr "教則テンプレートをコピーしました"
+
+msgid "didactic_deactivated_msg"
+msgstr "教則テンプレートを無効にしました"
+
+msgid "didactic_default_type"
+msgstr "初期設定"
+
+msgid "didactic_default_type_info"
+msgstr "%sの初期アクセス権を使用"
+
+msgid "didactic_delete_msg"
+msgstr "教則テンプレートを削除しました。"
+
+msgid "didactic_do_export"
+msgstr "エクスポート"
+
+msgid "didactic_edit_tpl"
+msgstr "教則テンプレートを編集"
+
+msgid "didactic_filter_with_icon"
+msgstr "Iconあり"
+
+msgid "didactic_filter_without_icon"
+msgstr "Iconなし"
+
+msgid "didactic_global"
+msgstr "Global"
+
+msgid "didactic_icon"
+msgstr "Icon"
+
+msgid "didactic_icon_error"
+msgstr "アイコンは非コンテナオブジェクトへワイ充てる事はできません。"
+
+msgid "didactic_icon_info"
+msgstr "このオブジェクトテンプレートを使用する全てのオブジェクト用にこのアイコンは表示されます。オブジェクトの\"Custom Icons\"はdidacticアイコンを上書きします。アイコンはコンテナオブジェクトへ割当てられたdidacticテンプレート用にのみ使用できます。"
+
+msgid "didactic_import_btn"
+msgstr "教則テンプレートをインポート"
+
+msgid "didactic_import_failed"
+msgstr "教則テンプレートのインポート中に失敗したメッセージ:"
+
+msgid "didactic_import_success"
+msgstr "教則テンプレートは正しくインポートされました"
+
+msgid "didactic_import_table_title"
+msgstr "教則テンプレートをインポート"
+
+msgid "didactic_install_info"
+msgstr "全般情報"
+
+msgid "didactic_local"
+msgstr "Local"
+
+msgid "didactic_not_changed"
+msgstr "教則テンプレート設定は変更されません。"
+
+msgid "didactic_scope"
+msgstr "範囲"
+
+msgid "didactic_scope_list_header"
+msgstr "限定:"
+
+msgid "didactic_selected_tpl_option"
+msgstr "教則テンプレートを適用しました:"
+
+msgid "didactic_template_applied"
+msgstr "教則テンプレートを適用しました。"
+
+msgid "didactic_template_update_import"
+msgstr "教則テンプレートを更新"
+
+msgid "didactic_template_update_import_info"
+msgstr "このインポートに沿ってプロパティは変更されます。このテンプレートへ既に適用済みのオブジェクトは変更されません。"
+
+msgid "didactic_translation_add_languages"
+msgstr "言語を追加"
+
+msgid "dtpl_obj_type_info"
+msgstr "この教則テンプレートはこのオブジェクトタイプへ適用することができます。"
+
+msgid "effective_form"
+msgstr "テンプレートの有効開始"
+
+msgid "grp_closed"
+msgstr "限定グループ"
+
+msgid "grp_closed_info"
+msgstr "グループは非メンバーには表示されません。"
+
+msgid "more_translations"
+msgstr "もっと翻訳"
+
+msgid "sess_closed"
+msgstr "非公開セッション"
+
+msgid "sess_closed_info"
+msgstr "非参加者にはセッションは表示されません。"

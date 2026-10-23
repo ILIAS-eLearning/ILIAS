@@ -1,0 +1,259 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: badge\n"
+
+#, fuzzy
+msgid "awarded_by"
+msgstr "Awarded by"
+
+msgid "badge_activity_badges"
+msgstr "Odznaky aktivity"
+
+msgid "badge_add_template"
+msgstr "Přidat šablonu"
+
+msgid "badge_add_to_profile"
+msgstr "Přidat do profilu"
+
+msgid "badge_assignment_deletion_confirmation"
+msgstr "Opravdu chcete odebrat následující přiřazení odznaku pro „%s“?"
+
+msgid "badge_award_badge"
+msgstr "Udělit odznak"
+
+#, fuzzy
+msgid "badge_award_revoke"
+msgstr "Award/Revoke Badge"
+
+msgid "badge_badge"
+msgstr "Odznak"
+
+msgid "badge_course_lp"
+msgstr "Kurz LP"
+
+msgid "badge_course_lp_invalid"
+msgstr "Následující objekty mají režim LP, který není podporován: %s."
+
+#, fuzzy
+msgid "badge_create"
+msgstr "Create Badge"
+
+#, fuzzy
+msgid "badge_create_image_processing_failed"
+msgstr "The badge could not be created, an error occurred while processing the image."
+
+msgid "badge_criteria"
+msgstr "Kritéria"
+
+msgid "badge_crs_merit"
+msgstr "Zásluha"
+
+#, fuzzy
+msgid "badge_deletion"
+msgstr "Badge successfully deleted."
+
+msgid "badge_deletion_confirmation"
+msgstr "Opravdu chcete odstranit následující odznaky a všechna jejich přiřazení?"
+
+msgid "badge_image_from_template"
+msgstr "Použít šablonu"
+
+msgid "badge_image_from_upload"
+msgstr "Nahrát obrázek"
+
+msgid "badge_image_template_form"
+msgstr "Šablona obrázku"
+
+msgid "badge_image_templates"
+msgstr "Šablony obrázků"
+
+msgid "badge_in_profile"
+msgstr "V profilu"
+
+msgid "badge_issued_on"
+msgstr "Vydáno dne"
+
+msgid "badge_lhist_badge_completed"
+msgstr "Byl udělen odznak $3$."
+
+msgid "badge_lhist_badge_completed_in"
+msgstr "V $1$ byl udělen odznak $3$."
+
+msgid "badge_manual"
+msgstr "Manuální udělení"
+
+#, fuzzy
+msgid "badge_new_badges"
+msgstr "You have %1 new badge(s)."
+
+msgid "badge_no_valid_types_for_obj"
+msgstr "V současné době nejsou žádné aktivní typy odznaků. Nemůžete vytvořit nové odznaky. Obraťte se na svého správce."
+
+msgid "badge_notification_badges"
+msgstr "Nové odznaky"
+
+msgid "badge_notification_badges_goto"
+msgstr "K vašim odznakům"
+
+msgid "badge_notification_body"
+msgstr "právě jste dostali nové odznaky."
+
+msgid "badge_notification_osd"
+msgstr "Právě jste dostali nové odznaky: [BADGE_LIST]"
+
+msgid "badge_notification_parent_goto"
+msgstr "Na úložiště"
+
+msgid "badge_notification_reason"
+msgstr "Dostáváte tuto zprávu, abyste mohli přidat odznaky do svého profilu."
+
+msgid "badge_notification_subject"
+msgstr "Získané odznaky"
+
+msgid "badge_object_badges"
+msgstr "Odznaky objektu"
+
+msgid "badge_personal_badges"
+msgstr "Moje odznaky"
+
+msgid "badge_profile_less"
+msgstr "Zobrazit méně"
+
+msgid "badge_profile_more"
+msgstr "Zobrazit vše"
+
+msgid "badge_remove_badge"
+msgstr "Zrušit odznak"
+
+msgid "badge_remove_from_profile"
+msgstr "Odstranit z profilu"
+
+#, fuzzy
+msgid "badge_select_one"
+msgstr "You have to select at least one badge"
+
+msgid "badge_service_activate"
+msgstr "Aktivovat službu"
+
+msgid "badge_service_activate_info"
+msgstr "Aktivujte službu a zpřístupněte odznaky"
+
+msgid "badge_settings"
+msgstr "Nastavení odznaku"
+
+#, fuzzy
+msgid "badge_sort_active_badges_first"
+msgstr "Active Badges First"
+
+#, fuzzy
+msgid "badge_sort_active_badges_last"
+msgstr "Active Badges Last"
+
+#, fuzzy
+msgid "badge_sort_activity_badges_first"
+msgstr "Activity Badges First"
+
+#, fuzzy
+msgid "badge_sort_activity_badges_last"
+msgstr "Activity Badges Last"
+
+#, fuzzy
+msgid "badge_sort_added_to_profile_last"
+msgstr "Added To Profile First"
+
+#, fuzzy
+msgid "badge_sort_excluded_from_profile_first"
+msgstr "Excluded From Profile First"
+
+#, fuzzy
+msgid "badge_sort_manual_awarding_first"
+msgstr "Badges mit manueller Vergabe zuerst"
+
+#, fuzzy
+msgid "badge_sort_manual_awarding_last"
+msgstr "Badges mit manueller Vergabe zuletzt"
+
+msgid "badge_subtype_auto"
+msgstr "automatické"
+
+msgid "badge_subtype_manual"
+msgstr "manuální"
+
+msgid "badge_template_deletion_confirmation"
+msgstr "Opravdu chcete odstranit následující šablony obrázků?"
+
+msgid "badge_template_types"
+msgstr "Platné typy"
+
+msgid "badge_template_types_all"
+msgstr "Vše"
+
+msgid "badge_template_types_specific"
+msgstr "Charakteristické"
+
+msgid "badge_types"
+msgstr "Typy"
+
+#, fuzzy
+msgid "badge_update_image_processing_failed"
+msgstr "The badge could not be updated, an error occurred while processing the image."
+
+#, fuzzy
+msgid "badge_uploaded_image_file_not_found"
+msgstr "No uploaded image for the badge could be found."
+
+msgid "badge_user_profile"
+msgstr "Profil uživatele"
+
+msgid "badge_valid"
+msgstr "V platnosti do"
+
+#, fuzzy
+msgid "criteria"
+msgstr "Criteria"
+
+#, fuzzy
+msgid "endless"
+msgstr "Always"
+
+#, fuzzy
+msgid "issued_on"
+msgstr "Issued on"
+
+#, fuzzy
+msgid "position_updated"
+msgstr "Profil assignment updated."
+
+#, fuzzy
+msgid "sort_by_date_asc"
+msgstr "Sort by Date Ascending"
+
+#, fuzzy
+msgid "sort_by_date_desc"
+msgstr "Sort by Date Descending"
+
+#, fuzzy
+msgid "sort_by_title_asc"
+msgstr "Sort by Title Ascending"
+
+#, fuzzy
+msgid "sort_by_title_desc"
+msgstr "Sort by Title Descending"
+
+#, fuzzy
+msgid "table_view"
+msgstr "Table View"
+
+#, fuzzy
+msgid "tile_view"
+msgstr "Tile View"
+
+#, fuzzy
+msgid "valid_until"
+msgstr "Valid until"

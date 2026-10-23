@@ -26,6 +26,8 @@ use ILIAS\DI\Container;
 use ILIAS\DI\UIServices;
 use ILIAS\GlobalScreen\Services as GlobalScreen;
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\LTI\View as LTIView;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Setup\Agent;
@@ -106,6 +108,11 @@ class LTI implements Component\Component
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentCSS($this, "lti_view.css");
+
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'ltiv'
+        );
     }
 
     /**

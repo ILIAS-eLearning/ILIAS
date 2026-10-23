@@ -1,0 +1,216 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: dash\n"
+
+msgid "add_to_favourites"
+msgstr "Add to Favourites"
+
+msgid "added_to_favourites"
+msgstr "The item has been added to your favourites."
+
+msgid "dash_activation"
+msgstr "activation"
+
+msgid "dash_added_to_favs"
+msgstr "Recommendation has been added to personal favourites."
+
+msgid "dash_avail_presentation"
+msgstr "Available Presentations"
+
+msgid "dash_avail_sortation"
+msgstr "Available Sortations"
+
+msgid "dash_click_here"
+msgstr "Click here"
+
+msgid "dash_co_delete"
+msgstr "Delete Dashboard style"
+
+msgid "dash_co_lang"
+msgstr "Dashboard style by languages"
+
+msgid "dash_customization"
+msgstr "Customize Dashboard Content"
+
+msgid "dash_dash_fav_remove"
+msgstr "Remove"
+
+msgid "dash_dash_fav_remove_info"
+msgstr "Are you sure you want to remove the following objects from your Favourites?"
+
+msgid "dash_dash_fav_remove_multiple"
+msgstr "Remove Multiple Favorites"
+
+msgid "dash_dash_ls_remove"
+msgstr "Unsubscribe"
+
+msgid "dash_dash_ls_remove_info"
+msgstr "Are you sure you want to unsubscribe from the following learning sequences?"
+
+msgid "dash_dash_ls_remove_multiple"
+msgstr "Unsubscribe Multiple Learning Sequences"
+
+msgid "dash_dash_mem_remove"
+msgstr "Unsubscribe"
+
+msgid "dash_dash_mem_remove_info"
+msgstr "Are you sure you want to unsubscribe from the following courses and groups?"
+
+msgid "dash_dash_mem_remove_multiple"
+msgstr "Unsubscribe Multiple Courses and Groups"
+
+msgid "dash_dash_rc_remove"
+msgstr "Remove"
+
+msgid "dash_dash_rc_remove_info"
+msgstr "Are you sure you want to remove the following objects from your recommended content?"
+
+msgid "dash_dash_rc_remove_multiple"
+msgstr "Remove Multiple Contents"
+
+msgid "dash_dashboard"
+msgstr "Dashboard"
+
+msgid "dash_default_presentation"
+msgstr "Default Presentation"
+
+msgid "dash_default_sortation"
+msgstr "Default Sortation"
+
+msgid "dash_enable_cal"
+msgstr "Calendar"
+
+msgid "dash_enable_favourites"
+msgstr "Favourites"
+
+msgid "dash_enable_learning_sequences"
+msgstr "Learning Sequences"
+
+msgid "dash_enable_mail"
+msgstr "Mail"
+
+msgid "dash_enable_memberships"
+msgstr "My Courses and Groups"
+
+msgid "dash_enable_news"
+msgstr "News"
+
+msgid "dash_enable_recommended_content"
+msgstr "Recommended Content"
+
+msgid "dash_enable_study_programmes"
+msgstr "Study Programmes"
+
+msgid "dash_enable_task"
+msgstr "Tasks"
+
+msgid "dash_favourites"
+msgstr "Favourites"
+
+msgid "dash_item_removed"
+msgstr "Recommendation has been removed from the list."
+
+msgid "dash_learning_sequences"
+msgstr "My Learning Sequences"
+
+msgid "dash_list"
+msgstr "List"
+
+msgid "dash_main_panel"
+msgstr "Main Panel"
+
+msgid "dash_manual_new_item_pos"
+msgstr "Position of New Objects"
+
+msgid "dash_manual_new_item_pos_bot"
+msgstr "Bottom"
+
+msgid "dash_manual_new_item_pos_top"
+msgstr "Top"
+
+msgid "dash_manual_sorting_title"
+msgstr "Manual Sorting of Favorites"
+
+msgid "dash_member_main_alt"
+msgstr "Courses and groups can also be configured as a separate main menu entry."
+
+msgid "dash_memberships"
+msgstr "My Courses and Groups"
+
+msgid "dash_no_items_to_manage"
+msgstr "No items available for removal."
+
+msgid "dash_page_edit_info"
+msgstr "The content of this page is displayed to all users on their dashboard. The contents of the various blocks of the dashboard are presented below."
+
+msgid "dash_presentation"
+msgstr "Presentation"
+
+msgid "dash_recommended_content"
+msgstr "Recommended Content"
+
+msgid "dash_remove_from_list"
+msgstr "Remove from List"
+
+msgid "dash_side_panel"
+msgstr "Side Panel"
+
+msgid "dash_sort_by_alphabet"
+msgstr "Alphabet"
+
+msgid "dash_sort_by_location"
+msgstr "Location"
+
+msgid "dash_sort_by_manually"
+msgstr "Manually"
+
+msgid "dash_sort_by_start_date"
+msgstr "Period of Event"
+
+msgid "dash_sort_by_type"
+msgstr "Type"
+
+msgid "dash_sort_option_bot"
+msgstr "Bottom"
+
+msgid "dash_sort_option_top"
+msgstr "Top"
+
+msgid "dash_sort_options"
+msgstr "Postition of new Objects"
+
+msgid "dash_sortation"
+msgstr "Sortation"
+
+msgid "dash_study_programmes"
+msgstr "My Study Programmes"
+
+msgid "dash_tile"
+msgstr "Tile"
+
+msgid "dash_view_courses_groups"
+msgstr "Section ‘My Courses and Groups’"
+
+msgid "dash_view_favourites"
+msgstr "Section ‘Favourites’"
+
+msgid "favourites_disabled_info"
+msgstr "Add to favorites is deactivated. You may change this inside the repository settings."
+
+msgid "memberships_disabled_info"
+msgstr "Subscriptions are deactivated. You may change this inside the course settings."
+
+msgid "remove_from_favourites"
+msgstr "Remove from Favourites"
+
+msgid "removed_from_favourites"
+msgstr "The item has been removed from your favourites."
+
+msgid "topitem_block"
+msgstr "Block"

@@ -1,0 +1,149 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: shib\n"
+
+#, fuzzy
+msgid "shib_account_creation"
+msgstr "Account Creation"
+
+#, fuzzy
+msgid "shib_account_creation_disabled"
+msgstr "Disabled"
+
+#, fuzzy
+msgid "shib_account_creation_disabled_info"
+msgstr "No new account is created."
+
+#, fuzzy
+msgid "shib_account_creation_enabled"
+msgstr "Enabled"
+
+#, fuzzy
+msgid "shib_account_creation_enabled_info"
+msgstr "An active new account is created."
+
+#, fuzzy
+msgid "shib_account_creation_info"
+msgstr "Account creation is triggered, when a user without a pre-existing ILIAS Account tries to log in via Shibboleth."
+
+#, fuzzy
+msgid "shib_account_creation_with_approval"
+msgstr "With approval"
+
+#, fuzzy
+msgid "shib_account_creation_with_approval_info"
+msgstr "An inactive new account is created. The account remains inactive until activated by an administrator."
+
+msgid "shib_add_missing"
+msgstr "Atribuir funções em falta"
+
+msgid "shib_add_remove"
+msgstr "Adicionar/Remover funções"
+
+msgid "shib_assignment_type"
+msgstr "Tipo de atribuição"
+
+msgid "shib_attr_info"
+msgstr "Atribuir por um tributo específico no perfil de utilizador Shibboleth."
+
+msgid "shib_attribute"
+msgstr "Atributo de utilizador"
+
+msgid "shib_attribute_name"
+msgstr "Nome do atributo"
+
+msgid "shib_attribute_value"
+msgstr "Valor do atributo"
+
+msgid "shib_check_role_assignment"
+msgstr "Atribuição de funções após logins posteriores"
+
+msgid "shib_choose_role"
+msgstr "Escolher função"
+
+msgid "shib_confirm_del_role_ass"
+msgstr "Tem a certeza que quer apagar as seguintes regras?"
+
+msgid "shib_deleted_rule"
+msgstr "Atribuições de funções apagadas."
+
+msgid "shib_global_role"
+msgstr "Função global"
+
+msgid "shib_ilias_role"
+msgstr "Nome de função ILIAS"
+
+msgid "shib_local_role"
+msgstr "Função local"
+
+msgid "shib_missing_attr_name"
+msgstr "Introduza um nome de atributo."
+
+msgid "shib_missing_attr_value"
+msgstr "Insira um valor de atributo."
+
+msgid "shib_missing_plugin_id"
+msgstr "Introduza um id de plugin válido."
+
+msgid "shib_missing_role"
+msgstr "Selecione uma função."
+
+msgid "shib_new_rule"
+msgstr "Adicionar novo regra"
+
+msgid "shib_plugin"
+msgstr "Atribuição por plugin"
+
+msgid "shib_plugin_id"
+msgstr "ID de plugin"
+
+msgid "shib_plugin_info"
+msgstr "Validar a atribuição de funções com um plugin. Introduza um id de plugin válido."
+
+msgid "shib_remove_deprecated"
+msgstr "Retirar a atribuição das funções obsoletas"
+
+msgid "shib_role_ass_table"
+msgstr "Nova regra para atribuições de funções"
+
+msgid "shib_role_assignment"
+msgstr "Atribuição de funções"
+
+msgid "shib_role_by_attribute"
+msgstr "Atributo Shibboleth"
+
+msgid "shib_role_by_plugin"
+msgstr "Por plugin"
+
+msgid "shib_role_name"
+msgstr "Nome de função ILIAS"
+
+msgid "shib_role_name_info"
+msgstr "Escolha uma função global ou insira o nome de uma função global."
+
+msgid "shib_role_selection"
+msgstr "Seleção de função"
+
+msgid "shib_rule_condition"
+msgstr "Condição"
+
+msgid "shib_rule_type"
+msgstr "Tipo de atribuição"
+
+msgid "shib_rules_tables"
+msgstr "Ativar regras de atribuição de funções"
+
+msgid "shib_settings"
+msgstr "Definições Shibboleth"
+
+msgid "shib_update_role_ass_table"
+msgstr "Editar regra de atribuição de funções"
+
+msgid "shib_update_roles"
+msgstr "Atribuição de funções"

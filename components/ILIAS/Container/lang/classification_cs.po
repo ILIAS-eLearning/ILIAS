@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: classification\n"
+
+msgid "clsfct_back_to_cat"
+msgstr "Zpět do kategorie"
+
+msgid "clsfct_block_info"
+msgstr "Váš výběr filtruje objekty."
+
+msgid "clsfct_block_title"
+msgstr "Výběr podle témat"
+
+msgid "clsfct_content_no_match"
+msgstr "Žádné zásahy"
+
+msgid "clsfct_content_title"
+msgstr "Objekty odpovídající vašemu výběru"
+
+msgid "clsfct_selected_objects"
+msgstr "Vybrané objekty"

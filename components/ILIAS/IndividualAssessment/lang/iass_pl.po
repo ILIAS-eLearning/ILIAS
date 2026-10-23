@@ -1,0 +1,278 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: iass\n"
+
+#, fuzzy
+msgid "download_assessment_paper"
+msgstr "Download Record file"
+
+msgid "grading"
+msgstr "Klasyfikacja"
+
+msgid "grading_info"
+msgstr "Informacje dotyczące oceny"
+
+msgid "grading_record"
+msgstr "Podsumowanie oceny"
+
+msgid "iass_add"
+msgstr "Utwórz indywidualną ocenę"
+
+msgid "iass_add_user_failure"
+msgstr "Nie udało się dodać jednego bądź kilku użytkowników."
+
+msgid "iass_add_user_success"
+msgstr "Dodano użytkownika jako uczestnika."
+
+msgid "iass_added"
+msgstr "Dodano indywidualną ocenę"
+
+msgid "iass_amend_saved"
+msgstr "Zapisano zmienione dane dotyczące egzaminu."
+
+msgid "iass_assessment_not_completed"
+msgstr "Jeszcze nie ukończony"
+
+#, fuzzy
+msgid "iass_cancel"
+msgstr "Cancel"
+
+msgid "iass_changed_by"
+msgstr "Zmienione po ukończeniu"
+
+#, fuzzy
+msgid "iass_confirm_finalize"
+msgstr "Finalize"
+
+msgid "iass_consultation_hours"
+msgstr "Konsultacje"
+
+msgid "iass_contact"
+msgstr "Nazwa"
+
+msgid "iass_contact_info"
+msgstr "Informacje kontaktowe"
+
+msgid "iass_content"
+msgstr "Zawartość"
+
+msgid "iass_content_explanation"
+msgstr "Treści egzaminu."
+
+msgid "iass_copy"
+msgstr "Kopiuj indywidualne oceny"
+
+msgid "iass_download"
+msgstr "Download"
+
+msgid "iass_edit"
+msgstr "Ustawienia"
+
+msgid "iass_edit_info"
+msgstr "Ustawienia dotyczące punktu kontaktowego"
+
+msgid "iass_edit_record"
+msgstr "Dane dotyczące egzaminu"
+
+msgid "iass_event_time"
+msgstr "Data egzaminu"
+
+msgid "iass_event_time_place_required"
+msgstr "Dane obowiązkowe Data i miejscowość"
+
+msgid "iass_event_time_place_required_info"
+msgstr "Dla egzaminu należy wpisać datę i miejscowość."
+
+msgid "iass_file"
+msgstr "File"
+
+#, fuzzy
+msgid "iass_file_dropzone"
+msgstr "you can drop your files here"
+
+msgid "iass_file_required"
+msgstr "Dane obowiązkowe w arkuszu egzaminacyjnym"
+
+msgid "iass_file_required_info"
+msgstr "Należy wysłać arkusz egzaminacyjny"
+
+msgid "iass_file_visible_examinee"
+msgstr "Plik jest widoczny dla użytkownika"
+
+#, fuzzy
+msgid "iass_file_visible_examinee_info"
+msgstr "Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled."
+
+msgid "iass_filter_all"
+msgstr "All"
+
+msgid "iass_filter_failed"
+msgstr "Failed only"
+
+msgid "iass_filter_finalized"
+msgstr "Completed only"
+
+msgid "iass_filter_not_finalized"
+msgstr "Not completed only"
+
+msgid "iass_filter_not_started"
+msgstr "Not started only"
+
+msgid "iass_finalize"
+msgstr "Zakończ"
+
+#, fuzzy
+msgid "iass_finalize_info"
+msgstr "Individual Assessment will be finalized."
+
+msgid "iass_finalize_user_qst"
+msgstr "Czy ocena uczestnika ma zostać sfinalizowana? Po tej czynności zmiany oceny nie będą możliwe."
+
+msgid "iass_further_field_headline"
+msgstr "Detailed Information"
+
+msgid "iass_graded_by"
+msgstr "Ocenione przez"
+
+msgid "iass_info_emails_expl"
+msgstr "Możesz podać kilka adresów przedzielonych przecinkiem."
+
+msgid "iass_internal_note"
+msgstr "Wewnętrzna uwaga dotycząca egzaminu"
+
+msgid "iass_internal_note_info"
+msgstr "Ta notatka jest widoczna tylko dla opiekunów, którzy mają wgląd w dane dotyczące egzaminów uczestników. Uczestnicy natomiast nie widzą notatki."
+
+msgid "iass_location"
+msgstr "Location"
+
+msgid "iass_mails"
+msgstr "E-mail"
+
+msgid "iass_may_not_finalize"
+msgstr "Nie można jeszcze ostatecznie ocenić egzaminu."
+
+msgid "iass_membership_finalized"
+msgstr "Ocena zakończona."
+
+msgid "iass_membership_saved"
+msgstr "Ocena została zapisana, ale jeszcze nie jest ukończona."
+
+msgid "iass_mess_notification_completed"
+msgstr "Zdałeś egzamin „%s“. Zapoznaj się z poniższą notatką dotyczącą egzaminu."
+
+msgid "iass_mess_notification_failed"
+msgstr "Niestety nie zdałeś egzaminu „%s“. Zapoznaj się z poniższą notatką dotyczącą egzaminu."
+
+msgid "iass_notify"
+msgstr "Powiadom uczestnika po zakończonej ocenie"
+
+msgid "iass_notify_explanation"
+msgstr "Po zakończeniu oceny uczestnik jest powiadamiany mailem i ma wgląd w notatkę dotyczącą egzaminu znajdującą się na stronie informacyjnej."
+
+msgid "iass_phone"
+msgstr "Telefon"
+
+msgid "iass_place"
+msgstr "Miejsce przeprowadzenia egzaminu"
+
+msgid "iass_record"
+msgstr "Notatka dotycząca egzaminu"
+
+msgid "iass_record_info"
+msgstr "Użytkownik ma wgląd w notatkę dotyczącą egzaminu po zakończeniu oceny. Jeśli na dole aktywna jest opcja powiadomień, uczestnik otrzyma notatkę dotyczącą egzaminu również mailem."
+
+msgid "iass_record_template"
+msgstr "Szablon notatki dotyczącej egzaminu"
+
+msgid "iass_record_template_explanation"
+msgstr "Szablon dla notatki dotyczącej egzaminu. Używany jest dla każdego nowego uczestnika."
+
+msgid "iass_remove_user_qst"
+msgstr "Czy naprawdę chcesz usunąć uczestnika?"
+
+msgid "iass_responsibility"
+msgstr "Odpowiedzialność"
+
+msgid "iass_save_amend"
+msgstr "Zapisz zmienione daty dotyczące egzaminu"
+
+#, fuzzy
+msgid "iass_settings_availability"
+msgstr "Availability"
+
+msgid "iass_settings_saved"
+msgstr "Ustawienia zapisane."
+
+#, fuzzy
+msgid "iass_sort_changetime_asc"
+msgstr "Last Change ascending"
+
+#, fuzzy
+msgid "iass_sort_changetime_desc"
+msgstr "Last Change descending"
+
+msgid "iass_sort_examiner_login_asc"
+msgstr "Examiner ascending"
+
+msgid "iass_sort_examiner_login_desc"
+msgstr "Examiner descending"
+
+msgid "iass_sort_name_asc"
+msgstr "Username ascending"
+
+msgid "iass_sort_name_desc"
+msgstr "Username descending"
+
+msgid "iass_status_completed"
+msgstr "Zaliczone"
+
+msgid "iass_status_failed"
+msgstr "Nie zaliczono"
+
+msgid "iass_status_pending"
+msgstr "Jeszcze nie oceniono"
+
+msgid "iass_subj_notification_completed"
+msgstr "%s: Udało się zakończyć indywidualną ocenę."
+
+msgid "iass_subj_notification_failed"
+msgstr "%s: Nie udało się zakończyć indywidualnej oceny."
+
+msgid "iass_upload_file"
+msgstr "Arkusz egzaminacyjny"
+
+#, fuzzy
+msgid "iass_user_removed"
+msgstr "User successfully removed."
+
+msgid "iass_usr_amend"
+msgstr "Zmień dane dotyczące egzaminu w późniejszym terminie"
+
+msgid "iass_usr_download_attachment"
+msgstr "Pobierz plik"
+
+msgid "iass_usr_edit"
+msgstr "Oceń użytkowników i edytuj postęp w nauce"
+
+msgid "iass_usr_remove"
+msgstr "Usuń uczestników"
+
+msgid "iass_usr_view"
+msgstr "Dane dotyczące egzaminu"
+
+msgid "il_iass_members"
+msgstr "Uczestnicy"
+
+msgid "lp_inactive"
+msgstr "Pamiętaj: dla tego obiektu opcja ustalania postępu w nauce jest wyłączona. Dlatego nie można sfinalizować udziału."
+
+#, fuzzy
+msgid "save_amend"
+msgstr "Save Amended Record"

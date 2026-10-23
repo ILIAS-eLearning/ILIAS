@@ -1,0 +1,138 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: etal\n"
+
+msgid "appointments"
+msgstr "アポイント"
+
+msgid "cal_type_tals"
+msgstr "トーク"
+
+msgid "change_date_of_series"
+msgstr "トークシリーズの日付を変更"
+
+msgid "change_date_of_talk"
+msgstr "トークの日付を変更"
+
+msgid "date_of_talk"
+msgstr "開始日"
+
+msgid "etal_add"
+msgstr "トークを追加"
+
+msgid "etal_add_new_item"
+msgstr "新しいトークを追加"
+
+msgid "etal_create_invalid_template_ref"
+msgstr "無効なトークテンプレートID"
+
+msgid "etal_date_appointment_edit"
+msgstr "トーク日付"
+
+msgid "etal_date_series_edit"
+msgstr "トークシリーズの日付"
+
+msgid "etal_delete_confirmation_msg"
+msgstr "次のトークを本当に削除しますか?"
+
+msgid "etal_edit"
+msgstr "全般"
+
+msgid "etal_invalid_user"
+msgstr "このユーザは存在しないかまたは招待されていません。"
+
+msgid "etal_location"
+msgstr "ロケーション"
+
+msgid "etal_new"
+msgstr "新しいトーク"
+
+msgid "etal_open"
+msgstr "Employeeトークを開く"
+
+msgid "etal_recurrence"
+msgstr "再発"
+
+msgid "etal_status_all"
+msgstr "All"
+
+msgid "etal_status_completed"
+msgstr "完了"
+
+msgid "etal_status_pending"
+msgstr "保留"
+
+msgid "etal_unknown_username"
+msgstr "不明ユーザ"
+
+msgid "lock_edititng_for_others"
+msgstr "他で編集中のためロック"
+
+msgid "meta_adv_records"
+msgstr "Metadata"
+
+msgid "mm_org_etal"
+msgstr "Talks"
+
+msgid "mm_talk_template"
+msgstr "Talkテンプレート"
+
+msgid "notification_talks_created"
+msgstr "次のemployeeトークへ招待されています。"
+
+msgid "notification_talks_date_list_header"
+msgstr "日付"
+
+msgid "notification_talks_removed"
+msgstr "次のアポイントはキャンセルされました。"
+
+msgid "notification_talks_subject"
+msgstr "招待: %s"
+
+msgid "notification_talks_subject_update"
+msgstr "更新: %s"
+
+msgid "notification_talks_updated"
+msgstr "次のアポイントはキャンセルされました。"
+
+msgid "pending_talks_warning"
+msgstr "次の保留中のトーク予定は変更されます:"
+
+msgid "tala_no_content_without_admin_info"
+msgstr "管理者役割がトークテンプレート用には必須です。"
+
+msgid "talk_serial"
+msgstr "Talk Serial"
+
+msgid "tals_add"
+msgstr "Talksを追加"
+
+msgid "tals_new"
+msgstr "新しいトーク"
+
+msgid "talt_activation_online_info"
+msgstr "トークテンプレートをオンラインに定してenployeeへ見えるように設定します。そうしないと管理者のみしかアクセスできなくなります。"
+
+msgid "talt_add"
+msgstr "テンプレートを追加"
+
+msgid "talt_edit"
+msgstr "全般"
+
+msgid "talt_etal"
+msgstr "Employeeトーク"
+
+msgid "talt_new"
+msgstr "新しいTalkテンプレート"
+
+msgid "will_update_series_info_lock"
+msgstr "このシーズ内の全アポイントの編集をロック"
+
+msgid "will_update_series_info_title"
+msgstr "このシリーズ内の全てのアポイントになるようにタイトルを変更する。"

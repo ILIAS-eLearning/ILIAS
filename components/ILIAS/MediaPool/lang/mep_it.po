@@ -1,0 +1,166 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: mep\n"
+
+msgid "mep_all"
+msgstr "Tutti"
+
+msgid "mep_all_mobs"
+msgstr "Tutti gli oggetti Media"
+
+msgid "mep_bulk_upload"
+msgstr "Caricamento collettivo"
+
+msgid "mep_choose_from_folder"
+msgstr "Scegli dalla cartella"
+
+msgid "mep_choose_from_mep"
+msgstr "Scegli dal pool"
+
+#, fuzzy
+msgid "mep_clipboard_info"
+msgstr "Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users."
+
+msgid "mep_content"
+msgstr "Contenuto"
+
+msgid "mep_content_snippet_in_use"
+msgstr "Frammento di contenuto '%s' è in uso e non può essere eliminato."
+
+msgid "mep_content_snippet_used_in_older_versions"
+msgstr "Si prega di notare: Questo frammento di codice viene utilizzato nelle versioni precedenti di alcune pagine. Se queste pagine sono ripristinate ad una versione che include questo frammento, il frammento di codice mancherà nella pagina."
+
+msgid "mep_copy_to_mep"
+msgstr "Copia nella libreria multimediale"
+
+msgid "mep_create_content_snippet"
+msgstr "Crea frammento Contenuto"
+
+msgid "mep_create_folder"
+msgstr "Crea Contesto"
+
+msgid "mep_create_media_files"
+msgstr "Creazione di oggetti multimediali"
+
+msgid "mep_create_mob"
+msgstr "Crea oggetto multimediale"
+
+msgid "mep_default_height"
+msgstr "Altezza predefinita"
+
+msgid "mep_default_width"
+msgstr "Larghezza Predefinita"
+
+msgid "mep_default_width_height_info"
+msgstr "La Larghezza e l'altezza di default vengono utilizzate come impostazioni predefinite per la creazione di nuovi oggetti media."
+
+msgid "mep_edit_content_snippet"
+msgstr "Modifica frammento di Contenuto"
+
+msgid "mep_edit_folder"
+msgstr "Modifica cartella"
+
+msgid "mep_file"
+msgstr "File"
+
+msgid "mep_folder"
+msgstr "Cartella"
+
+msgid "mep_format"
+msgstr "Formato"
+
+msgid "mep_import"
+msgstr "Importazione di un pool di supporti"
+
+msgid "mep_import_lang"
+msgstr "Lingua di destinazione"
+
+msgid "mep_import_trans"
+msgstr "Importa traduzione"
+
+msgid "mep_master_language_only"
+msgstr "Lingua principale per traduzione"
+
+msgid "mep_master_language_only_no_media"
+msgstr "Lingua principale senza media"
+
+msgid "mep_media_files"
+msgstr "File multimediali"
+
+msgid "mep_media_subtitles"
+msgstr "Sottotitoli multimediali"
+
+msgid "mep_mob"
+msgstr "Oggetto multimediale"
+
+#, fuzzy
+msgid "mep_move_select_insert"
+msgstr "Navigate to target folder and click \"Insert\""
+
+#, fuzzy
+msgid "mep_mpg"
+msgstr "Content Snippet"
+
+msgid "mep_new_content_snippet"
+msgstr "Nuovo frammento di contenuto"
+
+msgid "mep_new_folder"
+msgstr "Nuova cartella"
+
+msgid "mep_page_properties"
+msgstr "Proprieà della pagina"
+
+msgid "mep_page_type_mep"
+msgstr "Frammento di contenuto"
+
+msgid "mep_thumbnail"
+msgstr "Miniatura"
+
+msgid "mep_title_and_description"
+msgstr "Titolo e descrizione"
+
+msgid "mep_trans_import_info"
+msgstr "Se hai esportato questo modulo come XML/Lingua principale per traduzione in un’altra installazione, adesso puoi importare nuovamente i file di traduzione esportati da questa seconda installazione."
+
+msgid "mep_unknown"
+msgstr "Sconosciuto"
+
+msgid "mep_up_dir_copy"
+msgstr "Copia files dalla directory di Upload (Mantiene i files nella directory di upload)"
+
+msgid "mep_up_dir_move"
+msgstr "Spostare files da directory di Upload (più veloce)"
+
+msgid "mep_upload_dir_files"
+msgstr "Files dalla directory di Upload"
+
+msgid "mobs_activate_pages"
+msgstr "Attivare la gestione Pagine dei contenuti"
+
+msgid "mobs_activate_pages_info"
+msgstr "Permette di aggiungere pagine di contenuto al pool dei Media. Queste pagine possono essere riutilizzate (non modificabili) in moduli di apprendimento."
+
+msgid "mobs_always_show_file_manager"
+msgstr "Mostra sempre File Manager"
+
+msgid "mobs_always_show_file_manager_info"
+msgstr "Se disattivato il file manager per gli oggetti multimediali sarà nascosto per tipi semplici di mime (es. immagini)."
+
+msgid "mobs_black_list_file_types"
+msgstr "Tipi di file vietati"
+
+#, fuzzy
+msgid "mobs_black_list_file_types_and_allowed_info"
+msgstr "Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:"
+
+msgid "mobs_restrict_file_types"
+msgstr "Limitare i tipi di file"
+
+msgid "mobs_restrict_file_types_info"
+msgstr "Inserire un elenco separato da virgole di suffissi di file (ad esempio jpg, gif), che possono essere caricati in oggetti multimediali. Se nessun valore viene immesso, tutti i tipi di file sono ammessi."

@@ -1,0 +1,320 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: obj\n"
+
+msgid "activation_visible_when_disabled"
+msgstr "Widzialność"
+
+msgid "activation_visible_when_disabled_info"
+msgstr "Jeśli ta opcja jest aktywna, materiał nauczania widoczny jest również poza przewidzianym zakresem dostępności."
+
+#, fuzzy
+msgid "availability_period_changed"
+msgstr "The availability period for the selected objects has been changed successfully."
+
+#, fuzzy
+msgid "available_languages"
+msgstr "Available Languages"
+
+#, fuzzy
+msgid "cont_filter_empty"
+msgstr "Please use the filter to see any objects."
+
+msgid "cont_skll_published"
+msgstr "Przydziały kompetencji zostały opublikowane."
+
+msgid "cont_skll_published_some_not"
+msgstr "Wszystkie przydzielone kompetencje zostały opublikowane. Dla niektórych użytkowników nie udało się opublikować kompetencji, ponieważ nie zostały przydzielone."
+
+#, fuzzy
+msgid "copy_container_page_no_label"
+msgstr "Don't Copy Content Page"
+
+#, fuzzy
+msgid "copy_container_page_yes_byline"
+msgstr "The content page and corresponding style settings of the source object will be copied to this object. Pre-existing page elements will be overwritten."
+
+#, fuzzy
+msgid "copy_container_page_yes_label"
+msgstr "Copy Content Page"
+
+msgid "custom_icon"
+msgstr "Custom Icon"
+
+#, fuzzy
+msgid "default_base_lang_not_deletable"
+msgstr "Neither the base language nor the default language can be deleted."
+
+#, fuzzy
+msgid "edit_availability_period"
+msgstr "Availability Period"
+
+#, fuzzy
+msgid "edit_language"
+msgstr "Edit Language"
+
+msgid "edit_questions"
+msgstr "Edytuj pytania"
+
+#, fuzzy
+msgid "make_default_language"
+msgstr "Make Default Language"
+
+#, fuzzy
+msgid "missing_migration"
+msgstr "You cannot edit information on this page until all migrations have been run. Please contact your system administrator."
+
+#, fuzzy
+msgid "multiple_reference_deletion_info"
+msgstr "Further references exist for the following objects."
+
+msgid "multiple_selection"
+msgstr "Wybór wielokrotny"
+
+#, fuzzy
+msgid "no_objects_selected"
+msgstr "At least one object needs to be selected."
+
+msgid "obj_activate_content_lang"
+msgstr "Aktywuj opcję treści w wielu językach dla edytora stron"
+
+msgid "obj_activate_multilang"
+msgstr "Aktywuj opcję treści w wielu językach"
+
+msgid "obj_activation"
+msgstr "Aktywacja"
+
+msgid "obj_activation_list_gui"
+msgstr "Dostępność"
+
+#, fuzzy
+msgid "obj_add_language"
+msgstr "Add Language"
+
+msgid "obj_additional_langs"
+msgstr "Dodatkowe języki"
+
+msgid "obj_base_lang"
+msgstr "Język domyślny"
+
+#, fuzzy
+msgid "obj_conf_delete_lang"
+msgstr "Do you really want to stop the presentation of title and description in these languages?"
+
+msgid "obj_cont_transl_deactivated"
+msgstr "Wyłączono opcję treści w wielu językach w edytorze stron."
+
+msgid "obj_copy_progress"
+msgstr "Postęp kopiowania"
+
+#, fuzzy
+msgid "obj_copy_progress_estimate"
+msgstr "Estimating duration..."
+
+#, fuzzy
+msgid "obj_copy_progress_failure"
+msgstr "Copying failed."
+
+#, fuzzy
+msgid "obj_copy_progress_success"
+msgstr "Copied successfully."
+
+#, fuzzy
+msgid "obj_copy_progress_to"
+msgstr "Copying to %s"
+
+msgid "obj_deactivate_content_lang"
+msgstr "Wyłącz opcję treści w wielu językach dla edytora stron."
+
+msgid "obj_deactivate_content_transl_conf"
+msgstr "Czy naprawdę chcesz wyłączyć opcję treści w wielu językach w edytorze stron? Dostępne będą tylko treści w języku domyślnym."
+
+msgid "obj_deactivate_multilang"
+msgstr "Wyłącz opcję treści w wielu językach"
+
+msgid "obj_deactivate_multilang_conf"
+msgstr "Czy naprawdę chcesz wyłączyć opcję treści w wielu językach? Dostępne będą tylko treści w języku domyślnym."
+
+#, fuzzy
+msgid "obj_fallback_lang"
+msgstr "Default Language"
+
+msgid "obj_features"
+msgstr "Dodatkowe funkcje"
+
+msgid "obj_import_file_error"
+msgstr "Nie udało się zaimportować pliku. Upewnij się, że plik jest plikiem eksportowym ILIAS (eksport XML) tego samego typu obiektu i że nazwa pliku nie została zmieniona. Komunikat błędu:"
+
+msgid "obj_insert_into_clipboard"
+msgstr "Wstaw do schowka"
+
+msgid "obj_inserted_clipboard"
+msgstr "Obiekty zostały wstawione do schowka"
+
+#, fuzzy
+msgid "obj_master_lang"
+msgstr "Master Language"
+
+msgid "obj_more_translations"
+msgstr "More Translations"
+
+msgid "obj_multilang_deactivated"
+msgstr "Wyłączono opcję treści w wielu językach."
+
+msgid "obj_multilang_title_descr_only"
+msgstr "Opcja treści w wielu językach jest aktywna tylko dla tytułu i opisu. Obsługa treści w edytorze stron (\"Projektuj stronę\") może być aktywowana oddzielnie."
+
+msgid "obj_multilinguality"
+msgstr "Opcja treści w wielu językach"
+
+msgid "obj_orgunit_positions"
+msgstr "Regulacje dotyczące dostępu wg jednostek organizacyjnych"
+
+msgid "obj_orgunit_positions_info"
+msgstr "Jeśli ta funkcja jest aktywna, istnieje możliwość nadawania dodatkowych regulacji dotyczących dostępy na podstawie pozycji w jednostkach organizacyjnych."
+
+msgid "obj_permission_settings"
+msgstr "Ustawienia uprawnień dostępu"
+
+msgid "obj_presentation"
+msgstr "Prezentacja"
+
+msgid "obj_select_base_lang"
+msgstr "Wybierz język domyślny. Istniejące treści zostaną przydzielone do tego języka. Po tej czynności nie będzie można zmienić języka domyślnego."
+
+#, fuzzy
+msgid "obj_select_one_language"
+msgstr "Please select one language"
+
+#, fuzzy
+msgid "obj_set_fallback_lang"
+msgstr "Set default language"
+
+msgid "obj_settings_for_all_members"
+msgstr "Członkowie są automatycznie powiadamiani"
+
+msgid "obj_show_header_actions"
+msgstr "Show Header Actions"
+
+msgid "obj_show_title_and_icon"
+msgstr "Show Title and Icon"
+
+msgid "obj_target_location"
+msgstr "Folder docelowy"
+
+msgid "obj_tile_image"
+msgstr "Tile Image"
+
+msgid "obj_tile_image_info"
+msgstr "The tile image will be used, if the container (course, folder, group, ...) activates the tile view presentation."
+
+#, fuzzy
+msgid "obj_tool_booking"
+msgstr "Resources"
+
+#, fuzzy
+msgid "obj_tool_booking_info"
+msgstr "Use the booking pools to book resources."
+
+#, fuzzy
+msgid "obj_tool_ext_mail_subject_prefix"
+msgstr "Mail Subject Prefix"
+
+#, fuzzy
+msgid "obj_tool_ext_mail_subject_prefix_info"
+msgstr "Enter a short text that is added to the subject line of external mails send to members to make identifying these mails easier."
+
+msgid "obj_tool_setting_badges"
+msgstr "Odznaki"
+
+msgid "obj_tool_setting_badges_info"
+msgstr "Jeśli ta opcja jest aktywna, można konfigurować odznaki."
+
+#, fuzzy
+msgid "obj_tool_setting_booking"
+msgstr "Resources"
+
+#, fuzzy
+msgid "obj_tool_setting_filter"
+msgstr "Filter"
+
+#, fuzzy
+msgid "obj_tool_setting_filter_empty"
+msgstr "Show on Empty Filter"
+
+#, fuzzy
+msgid "obj_tool_setting_filter_empty_info"
+msgstr "Show all items while filter is empty."
+
+#, fuzzy
+msgid "obj_tool_setting_filter_info"
+msgstr "A filter will be displayed in the content tab."
+
+msgid "obj_tool_setting_info_tab"
+msgstr "Zakłada Informacje"
+
+msgid "obj_tool_setting_info_tab_info"
+msgstr "Wyświetla się zakładka \"Informacje\"."
+
+msgid "obj_tool_setting_skills"
+msgstr "Kompetencje"
+
+msgid "obj_tool_setting_skills_info"
+msgstr "Dzięki tej funkcji można wybrać kompetencje i przydzielić członkom poziomy kompetencji."
+
+msgid "obj_tool_setting_tag_cloud"
+msgstr "Chmura znaczników"
+
+msgid "obj_tool_setting_tag_cloud_info"
+msgstr "W sekcji \"Wybór wg wątków\" w zakładce \"Treść\" wyświetlana jest chmura znaczników."
+
+msgid "obj_tool_setting_taxonomies"
+msgstr "Klasyfikacje"
+
+#, fuzzy
+msgid "obj_tool_setting_taxonomies_info"
+msgstr "Taxonomies allow the filtering of objects. They are created in the \"Taxonomy\" sub-tab in the \"Settings\" tab."
+
+msgid "obj_tool_setting_use_news"
+msgstr "Wewnętrzne wiadomości"
+
+msgid "obj_tool_setting_use_news_info"
+msgstr "Użycie sekcji \"Nowości\" lub linii czasu dla nowości."
+
+msgid "obj_tool_setting_use_news_open_settings"
+msgstr "Otwórz ustawienia"
+
+msgid "obj_user_decides_notification"
+msgstr "Członkowie muszą samodzielnie aktywować powiadomienia"
+
+msgid "obj_user_not_disable_not"
+msgstr "Członkowie nie mogą wyłączyć powiadomień"
+
+#, fuzzy
+msgid "online_input_byline"
+msgstr "The object has been published and can be accessed by anyone with read access. Other access prerequisites or time-based access restrictions may still apply. This settings applies to the object wherever it is used in the repository."
+
+#, fuzzy
+msgid "select_import_type_info"
+msgstr "The type of the object in the file to be imported cannot be determined automatically. The file was probably renamed. Please select the type of object in the file."
+
+#, fuzzy
+msgid "select_object_type"
+msgstr "Select Object Type"
+
+msgid "svy_results"
+msgstr "Wyniki"
+
+#, fuzzy
+msgid "unequal_items_for_availability_period_message"
+msgstr "You have selected items with different availability periods. Overwrite existing settings below or cancel action to keep current availability periods."
+
+#, fuzzy
+msgid "user_owns_no_objects"
+msgstr "No Repository Objects Available"

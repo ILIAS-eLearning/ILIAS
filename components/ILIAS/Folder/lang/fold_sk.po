@@ -1,0 +1,25 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sk\n"
+"Language-Team: Slovak\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: fold\n"
+
+#, fuzzy
+msgid "fold_copy"
+msgstr "Copy Folder"
+
+#, fuzzy
+msgid "fold_import"
+msgstr "Import Folder"
+
+#, fuzzy
+msgid "fold_presentation"
+msgstr "Folder Presentation"
+
+#, fuzzy
+msgid "fold_settings"
+msgstr "Folder Settings"

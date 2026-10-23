@@ -1,0 +1,86 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: tax\n"
+
+msgid "obj_taxn"
+msgstr "节点"
+
+msgid "tax_add_taxonomy"
+msgstr "添加分类"
+
+#, fuzzy
+msgid "tax_added"
+msgstr "Taxonomy has been created."
+
+#, fuzzy
+msgid "tax_admin_settings_repository"
+msgstr "Repository Taxonomies"
+
+msgid "tax_alphabetical"
+msgstr "按字母顺序"
+
+#, fuzzy
+msgid "tax_assigned_items"
+msgstr "Assigned Items"
+
+msgid "tax_confirm_deletion"
+msgstr "您真的要删除整个分类及其所有的关联？"
+
+msgid "tax_create_node"
+msgstr "创造节点"
+
+#, fuzzy
+msgid "tax_item_sorting"
+msgstr "Support Sorting of Assigned Items"
+
+msgid "tax_manual"
+msgstr "手动"
+
+#, fuzzy
+msgid "tax_max_one_tax"
+msgstr "You can use maximum one taxonomy in this context."
+
+msgid "tax_new_tax_node"
+msgstr "新节点"
+
+msgid "tax_node"
+msgstr "节点"
+
+#, fuzzy
+msgid "tax_node_sorting"
+msgstr "Sorting of Nodes"
+
+msgid "tax_nodes"
+msgstr "节点"
+
+msgid "tax_order"
+msgstr "Order"
+
+msgid "tax_order_nr"
+msgstr "Order Nr"
+
+msgid "tax_please_select_target"
+msgstr "请选择目标"
+
+msgid "tax_target_within_nodes"
+msgstr "目标必需不是一个所选项目的子节点。"
+
+#, fuzzy
+msgid "tax_tax_assignment"
+msgstr "Taxonomy Assignment"
+
+msgid "tax_tax_deleted"
+msgstr "分类已被删除"
+
+#, fuzzy
+msgid "tax_tax_settings"
+msgstr "Taxonomy Settings"
+
+msgid "tax_taxonomy"
+msgstr "分类学"

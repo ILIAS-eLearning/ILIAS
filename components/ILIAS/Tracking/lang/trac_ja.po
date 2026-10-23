@@ -1,0 +1,798 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: trac\n"
+
+msgid "cmix_lp_mode_deactivated"
+msgstr "学習進捗は解除されます"
+
+msgid "cmix_lp_mode_deactivated_info"
+msgstr "学習進捗ステータスは表示されないで親オブジェクトへの影響はありません。"
+
+msgid "cmix_lp_mode_when_completed"
+msgstr "'完了'時に完了しました"
+
+msgid "cmix_lp_mode_when_completed_info"
+msgstr "最終xAPI-Statement 関連の動詞が '完了しました'になるとILIASステータス'完了しました' が設定されます。"
+
+msgid "cmix_lp_mode_when_passed"
+msgstr "'合格'した時に完了"
+
+msgid "cmix_lp_mode_when_passed_info"
+msgstr "最終xAPI-Statement 関連の動詞が''合格'または'満足'になるとILIASステータスは'完了が設定されます。"
+
+msgid "cmix_lp_mode_when_passed_or_completed"
+msgstr "合格又は完了する都完了"
+
+msgid "cmix_lp_mode_when_passed_or_completed_info"
+msgstr "最終xAPI-Statement 関連の動詞が'\"完了\"または'合格'または'満足'になるとILIASステータスは'完了が設定されます。"
+
+msgid "cmix_lp_mode_with_failed"
+msgstr "考慮も失敗"
+
+msgid "cmix_lp_mode_with_failed_info"
+msgstr "ステータスは'進行中'ではなく'不合格' の可能性"
+
+msgid "create_date_max"
+msgstr "一番遅い登録"
+
+msgid "create_date_min"
+msgstr "一番早い登録"
+
+msgid "info_valid_request"
+msgstr "1ユーザによる二つのリクエスト間の最大有効時間"
+
+msgid "meta_typical_learning_time"
+msgstr "標準学習時間"
+
+msgid "obj_types"
+msgstr "オブジェクトタイプ"
+
+msgid "personal_learning_progress_view_description"
+msgstr "メンバーシップ付きの進行中コース"
+
+msgid "personal_learning_progress_view_title"
+msgstr "学習進捗"
+
+msgid "read_count_avg"
+msgstr "平均ページ表示"
+
+msgid "registration_filter"
+msgstr "登録日"
+
+msgid "search_area_info"
+msgstr "オブジェクトを一つ選択してください。"
+
+msgid "search_terms"
+msgstr "用語を検索"
+
+msgid "session_statistics"
+msgstr "セッション統計"
+
+msgid "trac_aggregation"
+msgstr "累積"
+
+msgid "trac_all"
+msgstr "全て"
+
+msgid "trac_anonymized"
+msgstr "匿名化"
+
+msgid "trac_anonymized_info"
+msgstr "有効にすると全ての統計は匿名化されます。"
+
+msgid "trac_anonymized_info_short"
+msgstr "(匿名化)"
+
+msgid "trac_assigned"
+msgstr "割当てる"
+
+msgid "trac_average"
+msgstr "平均"
+
+msgid "trac_begin_at"
+msgstr "開始日"
+
+msgid "trac_closed_expire"
+msgstr "タイムアウト"
+
+msgid "trac_closed_login"
+msgstr "匿名でログイン"
+
+msgid "trac_closed_manual"
+msgstr "ログアウト"
+
+msgid "trac_closed_misc"
+msgstr "その他"
+
+msgid "trac_collection_assign"
+msgstr "学習進捗決定を選択"
+
+msgid "trac_collection_deassign"
+msgstr "学習進捗決定を解除"
+
+msgid "trac_collection_manual_learner_changed_ts"
+msgstr "修正日"
+
+msgid "trac_collection_manual_learner_info"
+msgstr "このオブジェクトの学習進捗は手動設定する必要があります。"
+
+msgid "trac_collection_manual_learner_lm_info"
+msgstr "完了した全ての章をアクティブにします。"
+
+msgid "trac_collection_tlt_learner_info"
+msgstr "このオブジェクトの学習進捗は標準学習時間を基準としています。"
+
+msgid "trac_collection_tlt_learner_subitem"
+msgstr "(%s%s)完了に必要な%sの%sを使用しました。"
+
+msgid "trac_comment"
+msgstr "コメント"
+
+msgid "trac_completed"
+msgstr "完了"
+
+msgid "trac_cron_info"
+msgstr "収集データへの\"オブジェクト統計\"クローンジョブを有効にしてください。"
+
+msgid "trac_crs_objects"
+msgstr "コース受講者の学習進捗"
+
+msgid "trac_current"
+msgstr "現在"
+
+msgid "trac_current_system_load"
+msgstr "現在のシステム負荷"
+
+msgid "trac_data_deleted"
+msgstr "データーは削除されました。"
+
+msgid "trac_defaults"
+msgstr "完了ステータス"
+
+msgid "trac_defaults_inactive"
+msgstr "非アクティブ"
+
+msgid "trac_defaults_info"
+msgstr "サポートされているオブジェクトタイプの完了ステータス確定モードを設定します。特定のバッジタイプが利用されます。"
+
+msgid "trac_delete_data"
+msgstr "データを削除します"
+
+msgid "trac_determines_learning_progress"
+msgstr "学習進捗を決定"
+
+msgid "trac_edit_collection"
+msgstr "教材を割当ててください。全ての割当て済のアイテムが'完了'の場合は全体のステータスはユーザによって完了となります。"
+
+msgid "trac_end_at"
+msgstr "終了日"
+
+msgid "trac_failed"
+msgstr "不合格"
+
+msgid "trac_figure"
+msgstr "キー計算"
+
+msgid "trac_filter_area"
+msgstr "範囲"
+
+msgid "trac_filter_has_status"
+msgstr "未試行のオブジェクトを表示"
+
+msgid "trac_filter_hidden"
+msgstr "非表示"
+
+msgid "trac_first_access"
+msgstr "初回アクセス日時"
+
+msgid "trac_first_and_last_access"
+msgstr "初回と最終アクセス"
+
+msgid "trac_frm_contribution_num_postings"
+msgstr "投稿最小数"
+
+msgid "trac_frm_contribution_num_postings_info_p"
+msgstr "%s: %s 投稿"
+
+msgid "trac_frm_contribution_num_postings_info_s"
+msgstr "%s: %s 投稿"
+
+msgid "trac_group_materials"
+msgstr "オプション教材でグループを作成"
+
+msgid "trac_group_materials_save"
+msgstr "必須教材数を保存"
+
+msgid "trac_grouped_material_obligatory_err"
+msgstr "教材数はゼロ以上でかつグループの教材数よりも小さくする必要があります。"
+
+msgid "trac_hide"
+msgstr "非表示"
+
+msgid "trac_hide_selected"
+msgstr "選択アイテムを非表示"
+
+msgid "trac_in_progress"
+msgstr "学習中"
+
+msgid "trac_info_edited"
+msgstr "すべてのコンテンツを処理したと思う場合はステータスを「完了」に設定します。"
+
+msgid "trac_last_access"
+msgstr "最終アクセス"
+
+msgid "trac_last_aggregation"
+msgstr "前回集計"
+
+msgid "trac_learning_progress"
+msgstr "学習8進捗"
+
+msgid "trac_learning_progress_of"
+msgstr "%sの学習進捗"
+
+msgid "trac_learning_progress_settings_info"
+msgstr "拡張データをアクティブ"
+
+msgid "trac_lhist_obj_completed"
+msgstr "$1$ を完了しました。"
+
+msgid "trac_lhist_obj_completed_in"
+msgstr "$2$中の$1$を完了しました。"
+
+msgid "trac_log_info"
+msgstr "最終集計: %s (未処理項目: %s)"
+
+msgid "trac_log_info_link"
+msgstr "更新"
+
+msgid "trac_long_system_load"
+msgstr "長期間"
+
+msgid "trac_lp_determination"
+msgstr "学習進捗の決定"
+
+msgid "trac_lp_determination_info_crs"
+msgstr "全体的な学習進捗ステータスを決定するアイテムを選択します。"
+
+msgid "trac_lp_determination_info_crs_tutor"
+msgstr "この選択では学習進捗状況へ接続されません。"
+
+msgid "trac_lp_determination_info_mob"
+msgstr "メディアキャストの全体学習進捗状況を決定するアイテムを選択します。"
+
+msgid "trac_lp_determination_info_sco"
+msgstr "SCORMラーニングモジュールの全体学習進捗を決定するアイテムを選択します。"
+
+msgid "trac_lp_determination_tutor"
+msgstr "学習進捗のオブジェクト表示"
+
+msgid "trac_lp_learner_access"
+msgstr "自分自身の学習進捗を表示"
+
+msgid "trac_lp_learner_access_info"
+msgstr "有効にするとユーザは自分の学習進捗へアクセスすることができます。"
+
+msgid "trac_lp_list_gui"
+msgstr "パーソナルデスクトップ、リポジトリ、検索"
+
+msgid "trac_lp_list_gui_info"
+msgstr "アクティブにすると学習進捗状況はオブジェクト一覧に含まれます。"
+
+msgid "trac_lp_settings_info_parent_container"
+msgstr "トップコンテナオブジェクトの学習進捗"
+
+msgid "trac_lp_settings_info_parent_legend"
+msgstr "このオブジェクトの学習進捗状況は\"%s\"へ影響します。"
+
+msgid "trac_manual_display"
+msgstr "学習進捗を表示"
+
+msgid "trac_manual_is_displayed"
+msgstr "表示する"
+
+msgid "trac_manual_no_display"
+msgstr "学習進捗を表示しない"
+
+msgid "trac_mark"
+msgstr "マ－ク"
+
+msgid "trac_matrix"
+msgstr "マトリックス表示"
+
+msgid "trac_measure"
+msgstr "図"
+
+msgid "trac_members_short"
+msgstr "メンバ"
+
+msgid "trac_min_passed"
+msgstr "合格した教材の最小数:"
+
+msgid "trac_mode"
+msgstr "モード"
+
+msgid "trac_mode_cmix_compl_or_passed_with_failed"
+msgstr "動詞'合格'または'良好!が送られたら終了。動詞 '失敗'はILIASのステータスを'失敗'へセット。"
+
+msgid "trac_mode_cmix_compl_or_passed_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_compl_with_failed"
+msgstr "動詞'完了'が送られたら終了。動詞 '失敗'はILIASのステータスを'失敗'へセット。"
+
+msgid "trac_mode_cmix_compl_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_completed"
+msgstr "動詞'完了'が送られたら終了。動詞 '失敗'はILIASのステータスを'進行中'へセット。"
+
+msgid "trac_mode_cmix_completed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_completed_or_passed"
+msgstr "動詞'合格'または'良好!が送られたら終了。動詞 '失敗'はILIASのステータスを'進行中'へセット。"
+
+msgid "trac_mode_cmix_completed_or_passed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_passed"
+msgstr "動詞'合格'または'良好!が送られたら終了。動詞 '失敗'はILIASのステータスを'進行中'へセット。"
+
+msgid "trac_mode_cmix_passed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_passed_with_failed"
+msgstr "動詞'合格'または'良好!が送られたら終了。動詞 '失敗'はILIASのステータスを'失敗'へセット。"
+
+msgid "trac_mode_cmix_passed_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_collection"
+msgstr "ステータスはアイテムの収集により決定されます"
+
+msgid "trac_mode_collection_info"
+msgstr "ユーザの学習進捗ステータスはアイテムの収集する学習進捗により決定されます。収集する全てのアイテムが'完了'の場合は、全般ステータスは'完了'となります。<br/>この設定を保存するとアイテムはこの画面上で収集を割り当てることができます。"
+
+msgid "trac_mode_collection_manual"
+msgstr "ユーザをモニターして章単位で自身のステータスを設定"
+
+msgid "trac_mode_collection_manual_info"
+msgstr "学習モジュールの章を完了するとユーザは自身で決定します。章を完了するとユーザは'Info'タブの'完了'をステータスに設定しなければなりません。<br/>この設定を保存した後で章はこの画面上で進捗関連として選択することができます。"
+
+msgid "trac_mode_collection_mobs"
+msgstr "メディアオブジェクトの収集"
+
+msgid "trac_mode_collection_mobs_info"
+msgstr "学習進捗状況は選択されたメディアオブジェクトの表示ステータスにより決定されます。"
+
+msgid "trac_mode_collection_tlt"
+msgstr "章単位の必要最小滞在時間"
+
+msgid "trac_mode_collection_tlt_info"
+msgstr "ステータスはユーザの章の所用時間に沿って自動的に設定されます。'完了'ステータスはユーザが全ての進捗関連する章の必要最小限な標準学習時間を一旦越えると割り当てられます。<br />この設定を保存すると、章あたりの標準学習時間はこの画面上で設定できます。"
+
+msgid "trac_mode_content_visited"
+msgstr "訪問"
+
+msgid "trac_mode_content_visited_info"
+msgstr "オブジェクトがユーザへ表示されてしまうと学習進捗ステータスは'完了'に設定されます。"
+
+msgid "trac_mode_contribution_to_discussion"
+msgstr "討論への貢献"
+
+msgid "trac_mode_contribution_to_discussion_info"
+msgstr "学習進捗ステータスは投稿掲載数で確定されます。"
+
+msgid "trac_mode_course_reference"
+msgstr "コースから採用しました"
+
+msgid "trac_mode_course_reference_info"
+msgstr "モードはこのコースがリンクするポイントへココースから自動的に採用しました。"
+
+msgid "trac_mode_deactivated"
+msgstr "学習進捗を解除します"
+
+msgid "trac_mode_deactivated_info_new"
+msgstr "学習進捗ステータスは表示されません。"
+
+msgid "trac_mode_event"
+msgstr "指導教員モニタと受験者記録"
+
+msgid "trac_mode_event_info"
+msgstr "セッションに参加いかんに関わらず指導教員はモニタします。指導教員は'受験者を編集'タブ内で手動で受講者を記録します。"
+
+msgid "trac_mode_exercise_returned"
+msgstr "指導教員モニタとステータス設定"
+
+msgid "trac_mode_exercise_returned_info"
+msgstr "ユーザが演習を完了すると指導教員は決定します。指導教員は'完了'や'不合格'のような全体ステータスを手動にて設定します。"
+
+msgid "trac_mode_individual_assessment"
+msgstr "指導教員またはトレーナにより手動で評価されました"
+
+msgid "trac_mode_individual_assessment_info"
+msgstr "ユーザの記録は個別のアセスメントを完了するために指導教員により終了される必要があります。"
+
+msgid "trac_mode_lti_outcome"
+msgstr "マスタースコアに達する必要があります。"
+
+msgid "trac_mode_lti_outcome_info"
+msgstr "学習進捗はLTI consumerと習熟度スコアスレッショールドで評価されます。"
+
+msgid "trac_mode_manual"
+msgstr "ユーザモニタと自身のステータス設定(全モジュール)"
+
+msgid "trac_mode_manual_by_tutor"
+msgstr "指導教員モニタとステータス設定"
+
+msgid "trac_mode_manual_by_tutor_info"
+msgstr "ユーザがオブジェクトを完了すると指導教員は決定します。指導教員は'完了'や'不合格'のような全体ステータスを手動にて設定します。"
+
+msgid "trac_mode_manual_info"
+msgstr "学習モジュールを完了するとユーザは自身で決定します。一旦完了すると'Info'タブのステータスを'完了'にする必要があります。"
+
+msgid "trac_mode_objectives"
+msgstr "ステータスは学習目標により決定されます"
+
+msgid "trac_mode_objectives_info"
+msgstr "学習進捗は学習目標の達成数に沿って自動的に計算されます。"
+
+msgid "trac_mode_plugin"
+msgstr "プラグイン"
+
+msgid "trac_mode_questions"
+msgstr "全問題に正しく回答"
+
+msgid "trac_mode_questions_info"
+msgstr "全ての問題へ正しく解答したユーザは\"完了\"ステータスに変わります。この設定は学習モジュール内に問題が実在する場合に限り使用してください。"
+
+msgid "trac_mode_scorm"
+msgstr "ステータスはSCORM アイテム収集により決定されます"
+
+msgid "trac_mode_scorm_info"
+msgstr "学習進捗進捗は選択したSCOのステータスにより自動的に決定されます。<br/>ユーザの学習進捗ステータスは収集SCOの学習進捗ステータスにより決定されます:SCOはこの設定を保存した後の画面上で収集を割り当てできます。"
+
+msgid "trac_mode_scorm_package"
+msgstr "ステータスは全SCORMパッケージにより決定されます"
+
+msgid "trac_mode_scorm_package_info"
+msgstr "学習進捗ステータスは全SCORMパッケージのステータスにより自動的に決定されます。構成される全てのSCOが学習進捗に関係します。"
+
+msgid "trac_mode_study_programme"
+msgstr "学習プログラムを完了しました"
+
+msgid "trac_mode_survey_finished"
+msgstr "サーベイ終了"
+
+msgid "trac_mode_survey_finished_info"
+msgstr "'完了'ステータスを受領するにはユーザがサーベイを終了させる必要があります。"
+
+msgid "trac_mode_test_finished"
+msgstr "テストは終了しなければなりません。"
+
+msgid "trac_mode_test_finished_info"
+msgstr "ユーザの学習進捗ステータスは'テストを終了'をユーザがクリックすると'完了'になります。テストに合格したかどうかに関わらず学習進捗は'完了'となります。"
+
+msgid "trac_mode_test_passed"
+msgstr "テストに合格しなければなりません"
+
+msgid "trac_mode_test_passed_info"
+msgstr "ユーザの学習進捗はユーザがテストに合格した後で'完了'に設定されます。テスト合格のスレッショールドは'スキームをマーク'セクションの'設定'タブで設定できます。"
+
+msgid "trac_mode_tlt"
+msgstr "学習モジュールに必要な最小滞在時間数"
+
+msgid "trac_mode_tlt_info"
+msgstr "ステータスは学習モジュールのユーザが所要した時間に沿って自動的に設定されます。'完了'ステータスは最低限必要な標準学習時間を一度越えると割り当てれらます。<br/>標準学習時間は'メタデータ'タブで定義できます。"
+
+msgid "trac_mode_visited_pages"
+msgstr "すべてのページを訪問"
+
+msgid "trac_mode_visited_pages_info"
+msgstr "一旦このユーザが学習モジュールの全ページを訪問するとユーザは自動的に'完了'ステータスになります。"
+
+msgid "trac_mode_visits"
+msgstr "ステータスは訪問回数で決定されます"
+
+msgid "trac_mode_visits_info"
+msgstr "ユーザのステータスは設定した回数以上このユーザが学習モジュールを訪問すると自動的に'完了'に設定されます。ユーザは学習モジュールの訪問回数と何パーセントが必須であるかについて案内されます。"
+
+msgid "trac_name_of_installation"
+msgstr "システム名称"
+
+msgid "trac_no_attempted"
+msgstr "未着手"
+
+msgid "trac_not_accessed"
+msgstr "未アクセス"
+
+msgid "trac_not_assigned"
+msgstr "未割当"
+
+msgid "trac_not_attempted"
+msgstr "未着手"
+
+msgid "trac_not_completed"
+msgstr "未完了"
+
+msgid "trac_not_participated"
+msgstr "不参加"
+
+msgid "trac_not_registered"
+msgstr "未登録"
+
+msgid "trac_object_link"
+msgstr "オブジェクトへのリンク"
+
+msgid "trac_object_name"
+msgstr "オブジェクト名称"
+
+msgid "trac_object_owner"
+msgstr "オブジェクトのオーナー"
+
+msgid "trac_object_stat_access"
+msgstr "利用集中度"
+
+msgid "trac_object_stat_admin"
+msgstr "データ管理"
+
+msgid "trac_object_stat_daily"
+msgstr "日々の利用"
+
+msgid "trac_object_stat_lp"
+msgstr "コース学習進捗統計"
+
+msgid "trac_object_stat_lp_max"
+msgstr "Max."
+
+msgid "trac_object_stat_lp_min"
+msgstr "Min."
+
+msgid "trac_object_stat_types"
+msgstr "オブジェクト数"
+
+msgid "trac_object_statistics"
+msgstr "オブジェクト統計"
+
+msgid "trac_object_statistics_info"
+msgstr "有効にすると使用統計用の基本データが収集、処理されます。"
+
+msgid "trac_objects"
+msgstr "ユーザ全体"
+
+msgid "trac_others"
+msgstr "その他"
+
+msgid "trac_participants"
+msgstr "参加者を表示"
+
+msgid "trac_participated"
+msgstr "参加"
+
+msgid "trac_paths"
+msgstr "Path"
+
+msgid "trac_percentage"
+msgstr "パーセント"
+
+msgid "trac_periodic_system_load"
+msgstr "周期性"
+
+msgid "trac_progress"
+msgstr "パーソナル学習進捗"
+
+msgid "trac_progress_block_details"
+msgstr "詳細を表示"
+
+msgid "trac_progress_block_title"
+msgstr "学習進捗"
+
+msgid "trac_read_count"
+msgstr "アクセス数"
+
+msgid "trac_read_count_spent_seconds"
+msgstr "滞在時間・アクセス"
+
+msgid "trac_reference"
+msgstr "レファレンス"
+
+msgid "trac_reference_ids_column"
+msgstr "Reference-ID"
+
+msgid "trac_registered"
+msgstr "登録"
+
+msgid "trac_release_materials"
+msgstr "運用教材のグループ分類"
+
+msgid "trac_report_date"
+msgstr "報告日"
+
+msgid "trac_report_owner"
+msgstr "報告者"
+
+msgid "trac_required_visits"
+msgstr "必須訪問回数"
+
+msgid "trac_sahs_relevant_items"
+msgstr "コンテンツアイテム"
+
+msgid "trac_scale"
+msgstr "スケール"
+
+msgid "trac_select_area"
+msgstr "選択範囲"
+
+msgid "trac_session_active_avg"
+msgstr "アクティブセッション(平均)"
+
+msgid "trac_session_active_max"
+msgstr "アクティブセッション(最大)"
+
+msgid "trac_session_active_min"
+msgstr "アクティブセッション(最小)"
+
+msgid "trac_session_statistics_mode_day"
+msgstr "日"
+
+msgid "trac_session_statistics_mode_last_day"
+msgstr "過去24時間"
+
+msgid "trac_session_statistics_mode_last_month"
+msgstr "過去30日間"
+
+msgid "trac_session_statistics_mode_last_week"
+msgstr "過去7日間"
+
+msgid "trac_session_statistics_mode_month"
+msgstr "月"
+
+msgid "trac_session_statistics_mode_today"
+msgstr "今日"
+
+msgid "trac_session_statistics_mode_week"
+msgstr "週"
+
+msgid "trac_session_statistics_mode_year"
+msgstr "年"
+
+msgid "trac_session_statistics_no_data"
+msgstr "この統計にはデータがありません。"
+
+msgid "trac_sessions_closed"
+msgstr "退室"
+
+msgid "trac_sessions_opened"
+msgstr "入室"
+
+msgid "trac_settings"
+msgstr "設定"
+
+msgid "trac_settings_saved"
+msgstr "設定が保存されました。"
+
+msgid "trac_short_system_load"
+msgstr "短期間"
+
+msgid "trac_show_graph"
+msgstr "グラフを表示"
+
+msgid "trac_show_progress_block"
+msgstr "「コンテンツ」タブで個人の進捗チャートを表示"
+
+msgid "trac_show_repository_views"
+msgstr "リポジトリの変更"
+
+msgid "trac_show_repository_views_info"
+msgstr "Infoページ上のリポジトリオブジェクト用に追跡情報を表示します。"
+
+msgid "trac_spent_seconds"
+msgstr "滞在時間"
+
+msgid "trac_spent_time"
+msgstr "経過時間"
+
+msgid "trac_status"
+msgstr "ステータス"
+
+msgid "trac_status_changed"
+msgstr "前回ステータス更新"
+
+msgid "trac_subitems"
+msgstr "サブアイテムを表示"
+
+msgid "trac_sum"
+msgstr "合計"
+
+msgid "trac_summary"
+msgstr "サマリー"
+
+msgid "trac_sure_delete_data"
+msgstr "本当に以降の月のデータを完全に削除しますか?"
+
+msgid "trac_sync_obj_stats"
+msgstr "データ更新"
+
+msgid "trac_sync_obj_stats_success"
+msgstr "データは更新されました。"
+
+msgid "trac_sync_session_stats"
+msgstr "データ集計"
+
+msgid "trac_sync_session_stats_success"
+msgstr "データ集計は成功しました。"
+
+msgid "trac_time_passed"
+msgstr "時間延長を編集"
+
+msgid "trac_title"
+msgstr "タイトル"
+
+msgid "trac_title_description"
+msgstr "タイトル / 説明"
+
+msgid "trac_total_online"
+msgstr "合計オンライン時間"
+
+msgid "trac_trash"
+msgstr "ゴミ箱へ移動"
+
+msgid "trac_update_edit_user"
+msgstr "設定が保存されました"
+
+msgid "trac_updated_status"
+msgstr "学習進捗ステータスを保存しました。"
+
+msgid "trac_user_data"
+msgstr "ユーザデータ"
+
+msgid "trac_valid_request"
+msgstr "リクエスト間の最大時間"
+
+msgid "trac_view_crs"
+msgstr "コースへ戻る"
+
+msgid "trac_view_list"
+msgstr "リストへ戻る"
+
+msgid "trac_view_mode"
+msgstr "表示モード"
+
+msgid "trac_view_mode_all"
+msgstr "全オブジェクト"
+
+msgid "trac_view_mode_collection"
+msgstr "全体状況確認オブジェクトのみ"
+
+msgid "trac_visits"
+msgstr "訪問回数"
+
+msgid "trac_visits_info"
+msgstr "1回の訪問としてページ毎の訪問を数えます。"
+
+msgid "trac_visits_nr"
+msgstr "訪問者数"
+
+msgid "user_total"
+msgstr "ユーザ合計"
+
+msgid "view_mode"
+msgstr "表示モード"
+
+msgid "view_mode_all"
+msgstr "All"
+
+msgid "view_mode_current"
+msgstr "Current"
+
+msgid "view_mode_future"
+msgstr "今後"
+
+msgid "view_mode_past"
+msgstr "過去"

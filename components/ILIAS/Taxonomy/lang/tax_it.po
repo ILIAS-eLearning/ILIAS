@@ -1,0 +1,78 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: tax\n"
+
+msgid "obj_taxn"
+msgstr "Nodo"
+
+msgid "tax_add_taxonomy"
+msgstr "Aggiungi tassonomia"
+
+msgid "tax_added"
+msgstr "La tassonomia è stata creata."
+
+msgid "tax_admin_settings_repository"
+msgstr "Repository delle tassonomie"
+
+msgid "tax_alphabetical"
+msgstr "Alfabetico"
+
+msgid "tax_assigned_items"
+msgstr "Voci assegnate"
+
+msgid "tax_confirm_deletion"
+msgstr "Vuoi davvero eliminare l’intera tassonomia e tutte le sue relazioni?"
+
+msgid "tax_create_node"
+msgstr "Crea nodo"
+
+msgid "tax_item_sorting"
+msgstr "Supportare l'ordinamento degli elementi assegnati"
+
+msgid "tax_manual"
+msgstr "Manuale"
+
+msgid "tax_max_one_tax"
+msgstr "Puoi utilizzare solo una tassonomia in questo contesto."
+
+msgid "tax_new_tax_node"
+msgstr "Nuovo nodo"
+
+msgid "tax_node"
+msgstr "Nodo"
+
+msgid "tax_node_sorting"
+msgstr "Ordinamento dei nodi"
+
+msgid "tax_nodes"
+msgstr "Nodi"
+
+msgid "tax_order"
+msgstr "Ordine"
+
+msgid "tax_order_nr"
+msgstr "Numero dell ordine"
+
+msgid "tax_please_select_target"
+msgstr "Si prega di selezionare la destinazione!"
+
+msgid "tax_target_within_nodes"
+msgstr "Il target non può essere un nodo secondario degli elementi selezionati."
+
+msgid "tax_tax_assignment"
+msgstr "Assegnazione della tassonomia"
+
+msgid "tax_tax_deleted"
+msgstr "La tassonomia è stata eliminata."
+
+msgid "tax_tax_settings"
+msgstr "Impostazioni tassonomia"
+
+msgid "tax_taxonomy"
+msgstr "Tassonomia"

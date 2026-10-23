@@ -1,0 +1,517 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: bg\n"
+"Language-Team: Bulgarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: ldap\n"
+
+#, fuzzy
+msgid "add_ldap_server"
+msgstr "Add Server"
+
+#, fuzzy
+msgid "ldap_add_missing"
+msgstr "Assign Missing Roles"
+
+#, fuzzy
+msgid "ldap_add_role_ass_rule"
+msgstr "New Rule for Role Assignments"
+
+#, fuzzy
+msgid "ldap_add_roles"
+msgstr "Add Roles"
+
+#, fuzzy
+msgid "ldap_as_ds"
+msgstr "Use as Data Source"
+
+#, fuzzy
+msgid "ldap_as_ds_info"
+msgstr "If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods ()."
+
+#, fuzzy
+msgid "ldap_assignment_type"
+msgstr "Assignment Type"
+
+#, fuzzy
+msgid "ldap_authentication_settings"
+msgstr "Authentication Settings"
+
+#, fuzzy
+msgid "ldap_bind_anonymous"
+msgstr "Bind Anonymously"
+
+#, fuzzy
+msgid "ldap_bind_user"
+msgstr "Bind as User:"
+
+#, fuzzy
+msgid "ldap_btn_add_role_ass"
+msgstr "Add New Rule"
+
+#, fuzzy
+msgid "ldap_check_role_assignment"
+msgstr "Assignment of Roles After Later Logins"
+
+#, fuzzy
+msgid "ldap_choose_role"
+msgstr "Choose Role"
+
+#, fuzzy
+msgid "ldap_confirm_del_role_ass"
+msgstr "Delete Role Assignmen"
+
+#, fuzzy
+msgid "ldap_deleted_role_mapping"
+msgstr "Deleted assignment."
+
+#, fuzzy
+msgid "ldap_deleted_rule"
+msgstr "Deleted selected role assignments."
+
+#, fuzzy
+msgid "ldap_dn_info"
+msgstr "Enter the distinguished name of the LDAP group."
+
+#, fuzzy
+msgid "ldap_edit_role_ass_rule"
+msgstr "Edit Role Assignment Rule"
+
+#, fuzzy
+msgid "ldap_edit_role_assignment"
+msgstr "Edit Role -> Group Assignment"
+
+#, fuzzy
+msgid "ldap_err_missing_plugin_id"
+msgstr "Please enter a valid plugin id."
+
+#, fuzzy
+msgid "ldap_escapedn"
+msgstr "Escape DN"
+
+#, fuzzy
+msgid "ldap_escapedn_info"
+msgstr "If enabled, special characters in the \"Distinguished Name (DN)\" of user accounts are escaped in queries for group membership."
+
+#, fuzzy
+msgid "ldap_filter_info"
+msgstr "Filter that will be added to the search filter this way: (&(userattr=username)<strong>(userfilter)</strong>)."
+
+#, fuzzy
+msgid "ldap_global_role"
+msgstr "Global Role"
+
+#, fuzzy
+msgid "ldap_global_role_assignment"
+msgstr "ILIAS-Role Assignment"
+
+#, fuzzy
+msgid "ldap_global_role_info"
+msgstr "Please choose an ILIAS Role new users will be assigned to."
+
+#, fuzzy
+msgid "ldap_group_attribute"
+msgstr "Attribute for Group"
+
+#, fuzzy
+msgid "ldap_group_attribute_info"
+msgstr "The group attribute to search for."
+
+#, fuzzy
+msgid "ldap_group_dn"
+msgstr "Group Search Base"
+
+#, fuzzy
+msgid "ldap_group_dn_info"
+msgstr "Gets prepended to \"BaseDN\" when searching for groups."
+
+#, fuzzy
+msgid "ldap_group_dn_short"
+msgstr "Group DN:"
+
+#, fuzzy
+msgid "ldap_group_filter"
+msgstr "LDAP Filter"
+
+#, fuzzy
+msgid "ldap_group_filter_info"
+msgstr "Filter that will be added to the search filter when searching for a group: (&(groupattr=group)(memberattr=username)<strong>(groupfilter)</strong>)."
+
+#, fuzzy
+msgid "ldap_group_member"
+msgstr "Group Member Attribute"
+
+#, fuzzy
+msgid "ldap_group_member_info"
+msgstr "The attribute of the group object where the user dn may be found. Choose \"Attribute Value is DN\" if the member attribute is the distinguished name of the users."
+
+#, fuzzy
+msgid "ldap_group_member_optional"
+msgstr "Group Membership is Optional"
+
+#, fuzzy
+msgid "ldap_group_member_short"
+msgstr "Attribute:"
+
+#, fuzzy
+msgid "ldap_group_membership"
+msgstr "Group Membership"
+
+#, fuzzy
+msgid "ldap_group_name"
+msgstr "Group Name"
+
+#, fuzzy
+msgid "ldap_group_name_info"
+msgstr "The name of the group users have to be a member of to authenticate successfully."
+
+#, fuzzy
+msgid "ldap_group_optional_info"
+msgstr "If enabled, the group membership is not required for a successful authentication. Please enter a user filter for the members of these groups:<br />(&(userattr=username)<strong>(userfilter)</strong>)"
+
+#, fuzzy
+msgid "ldap_group_restrictions"
+msgstr "Group Restrictions"
+
+#, fuzzy
+msgid "ldap_group_scope"
+msgstr "Search Scope"
+
+#, fuzzy
+msgid "ldap_group_scope_info"
+msgstr "Scope for group searching. If unsure choose \"Sub\""
+
+#, fuzzy
+msgid "ldap_group_search_base"
+msgstr "Group Search Base"
+
+#, fuzzy
+msgid "ldap_group_user_filter"
+msgstr "User Filter"
+
+#, fuzzy
+msgid "ldap_ilias_role"
+msgstr "ILIAS Role"
+
+#, fuzzy
+msgid "ldap_info_text"
+msgstr "Information Text"
+
+#, fuzzy
+msgid "ldap_info_text_info"
+msgstr "If entered, this text will be shown in the repository and on the info screen for the object this role is assigned to."
+
+#, fuzzy
+msgid "ldap_local_role"
+msgstr "Local Role"
+
+#, fuzzy
+msgid "ldap_mapping_info_type"
+msgstr "Show Information also in the Repository/Personal Desktop"
+
+#, fuzzy
+msgid "ldap_mapping_table"
+msgstr "Assignment of LDAP Attributes to ILIAS User Profile"
+
+#, fuzzy
+msgid "ldap_mapping_template"
+msgstr "Template for objectClass:"
+
+#, fuzzy
+msgid "ldap_member_info"
+msgstr "The attribute of the group object where the user dn may be found."
+
+#, fuzzy
+msgid "ldap_memberisdn"
+msgstr "Attribute Value is DN"
+
+#, fuzzy
+msgid "ldap_missing_bind_user"
+msgstr "You have chosen \"Bind as User\": Please enter a valid LDAP username and password."
+
+#, fuzzy
+msgid "ldap_missing_role_assignment"
+msgstr "Please choose a global role new users will be assigned to."
+
+#, fuzzy
+msgid "ldap_moment_sync"
+msgstr "Type of Sychronization"
+
+#, fuzzy
+msgid "ldap_new_role_assignment"
+msgstr "Add New Role -> Group Assignment"
+
+#, fuzzy
+msgid "ldap_plugin"
+msgstr "Assignment by Plugin"
+
+#, fuzzy
+msgid "ldap_plugin_id"
+msgstr "Plugin Id"
+
+#, fuzzy
+msgid "ldap_plugin_info"
+msgstr "Validate the role assignment with a plugin. Please enter a valid plugin id."
+
+#, fuzzy
+msgid "ldap_referrals"
+msgstr "Referrals"
+
+#, fuzzy
+msgid "ldap_referrals_info"
+msgstr "If set, determines whether the LDAP library automatically follows referrals returned by LDAP servers or not. This should be disabled if you are using an active directory server."
+
+#, fuzzy
+msgid "ldap_remove_deprecated"
+msgstr "Deassign Deprecated Roles"
+
+#, fuzzy
+msgid "ldap_remove_roles"
+msgstr "Remove Roles"
+
+#, fuzzy
+msgid "ldap_role_active"
+msgstr "Enable Group Synchronization"
+
+#, fuzzy
+msgid "ldap_role_assignments"
+msgstr "Role Assignment"
+
+#, fuzzy
+msgid "ldap_role_at_info"
+msgstr "The assignment is based on a specific attribute in the LDAP user profile."
+
+#, fuzzy
+msgid "ldap_role_at_name"
+msgstr "Attribute Name"
+
+#, fuzzy
+msgid "ldap_role_at_value"
+msgstr "Attribute Value"
+
+#, fuzzy
+msgid "ldap_role_bind_pass"
+msgstr "Password"
+
+#, fuzzy
+msgid "ldap_role_bind_pass_info"
+msgstr "Password"
+
+#, fuzzy
+msgid "ldap_role_bind_user"
+msgstr "Usern DN"
+
+#, fuzzy
+msgid "ldap_role_bind_user_info"
+msgstr "Please enter a distinguished name of a LDAP user account. This user needs write access for the LDAP groups."
+
+#, fuzzy
+msgid "ldap_role_by_attribute"
+msgstr "LDAP Attribute"
+
+#, fuzzy
+msgid "ldap_role_by_group"
+msgstr "Groupmembership"
+
+#, fuzzy
+msgid "ldap_role_by_plugin"
+msgstr "By Plugin"
+
+#, fuzzy
+msgid "ldap_role_group_assignments"
+msgstr "Existing Role -> Group Assignments"
+
+#, fuzzy
+msgid "ldap_role_grp_at"
+msgstr "Attribute"
+
+#, fuzzy
+msgid "ldap_role_grp_dn_info"
+msgstr "Please enter the \"Distinguished Name\" of the LDAP Group."
+
+#, fuzzy
+msgid "ldap_role_grp_info"
+msgstr "Members of a specific LDAP Group will be assigned to the given ILIAS role."
+
+#, fuzzy
+msgid "ldap_role_grp_isdn"
+msgstr "Attribute value is DN"
+
+#, fuzzy
+msgid "ldap_role_info"
+msgstr "Enter the name of an ILIAS Role that will control the membership to the LDAP group."
+
+#, fuzzy
+msgid "ldap_role_mapping"
+msgstr "LDAP-Group -> Role Mapping"
+
+#, fuzzy
+msgid "ldap_role_name_info"
+msgstr "Please choose either a global role or enter the name of a local role."
+
+#, fuzzy
+msgid "ldap_role_not_exists"
+msgstr "A role with that name does not exist"
+
+#, fuzzy
+msgid "ldap_role_selection"
+msgstr "Role Selection"
+
+#, fuzzy
+msgid "ldap_role_selection_info"
+msgstr "Your selection is ambiguous. Please choose one of the following roles."
+
+#, fuzzy
+msgid "ldap_role_settings"
+msgstr "LDAP Group Synchronization Settings"
+
+#, fuzzy
+msgid "ldap_rule_condition"
+msgstr "condition"
+
+#, fuzzy
+msgid "ldap_rule_type"
+msgstr "Type of Assignment"
+
+#, fuzzy
+msgid "ldap_scope_one"
+msgstr "One"
+
+#, fuzzy
+msgid "ldap_scope_sub"
+msgstr "Sub"
+
+#, fuzzy
+msgid "ldap_search_base_info"
+msgstr "Gets prepended to basedn when searching for users."
+
+#, fuzzy
+msgid "ldap_search_filter"
+msgstr "LDAP Filter"
+
+#, fuzzy
+msgid "ldap_server_bind_dn"
+msgstr "User Search Base"
+
+#, fuzzy
+msgid "ldap_server_bind_pass"
+msgstr "Password"
+
+#, fuzzy
+msgid "ldap_server_binding"
+msgstr "Binding"
+
+#, fuzzy
+msgid "ldap_server_name"
+msgstr "Name of LDAP Configuration"
+
+#, fuzzy
+msgid "ldap_server_name_info"
+msgstr "Please choose a name for this LDAP server configuration."
+
+#, fuzzy
+msgid "ldap_server_security_settings"
+msgstr "Security Settings"
+
+#, fuzzy
+msgid "ldap_server_short"
+msgstr "Server URL:"
+
+#, fuzzy
+msgid "ldap_server_url_info"
+msgstr "A fully qualified URL for specifying the protocol, url and port to connect to. E.g \"ldap://ldap.ilias.de:389\""
+
+#, fuzzy
+msgid "ldap_server_url_invalid_parts"
+msgstr "The following server URL(s) could not be parsed as valid URIs and may not work until corrected:"
+
+#, fuzzy
+msgid "ldap_server_url_invalid_uris"
+msgstr "Every comma-separated entry must be a valid URI (e.g. ldap://host:389). Invalid:"
+
+#, fuzzy
+msgid "ldap_server_url_required"
+msgstr "Server URL is required."
+
+#, fuzzy
+msgid "ldap_server_version_info"
+msgstr "LDAP version to use, ususally 3."
+
+#, fuzzy
+msgid "ldap_servers"
+msgstr "LDAP Server"
+
+#, fuzzy
+msgid "ldap_settings"
+msgstr "Server Settings"
+
+#, fuzzy
+msgid "ldap_sync_cron"
+msgstr "Per Cron-Job"
+
+#, fuzzy
+msgid "ldap_sync_login"
+msgstr "On Login"
+
+#, fuzzy
+msgid "ldap_tbl_role_ass"
+msgstr "Avtive Rules"
+
+#, fuzzy
+msgid "ldap_tls_conflict"
+msgstr "LDAP-TLS can not be used in combination with LDAPv2. Please choose LDAP version \"3\" or disable TLS support."
+
+#, fuzzy
+msgid "ldap_update_field_info"
+msgstr "Update automatically"
+
+#, fuzzy
+msgid "ldap_update_roles"
+msgstr "Role Assignments"
+
+#, fuzzy
+msgid "ldap_user_attribute"
+msgstr "Attribute for Login Name"
+
+#, fuzzy
+msgid "ldap_user_dn"
+msgstr "User Search Base"
+
+#, fuzzy
+msgid "ldap_user_mapping"
+msgstr "User Profile Mapping"
+
+#, fuzzy
+msgid "ldap_user_scope"
+msgstr "Search Scope"
+
+#, fuzzy
+msgid "ldap_user_scope_info"
+msgstr "Scope for user searching. If unsure choose \"Sub\"."
+
+#, fuzzy
+msgid "ldap_user_sync"
+msgstr "User Synchronization Settings"
+
+#, fuzzy
+msgid "ldap_user_sync_cron"
+msgstr "LDAP User Synchronization "
+
+#, fuzzy
+msgid "ldap_user_sync_cron_info"
+msgstr "If activated, user accounts will be imported from the LDAP directory and synchronised continuously as an option."
+
+#, fuzzy
+msgid "ldap_user_sync_info"
+msgstr "Defines whether new users are automatically created on login or regularly per Cron-Job."
+
+#, fuzzy
+msgid "ldap_username_filter"
+msgstr "Username Filter"
+
+#, fuzzy
+msgid "ldap_username_filter_info"
+msgstr "Use * as wildcard."

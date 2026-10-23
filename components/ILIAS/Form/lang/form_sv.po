@@ -1,0 +1,156 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: form\n"
+
+msgid "email_not_match"
+msgstr "Dina uppgifter för e-postadressen matchar inte! Ange e-postadressen igen."
+
+msgid "form_alphabet_all"
+msgstr "Alla"
+
+msgid "form_chars_remaining"
+msgstr " Återstående tecken"
+
+msgid "form_date_duration_end"
+msgstr "Slut"
+
+msgid "form_date_duration_start"
+msgstr "Start"
+
+msgid "form_days"
+msgstr "dagar"
+
+msgid "form_file_input"
+msgstr "Välj fil"
+
+msgid "form_format"
+msgstr "Format"
+
+msgid "form_get_link"
+msgstr "Välj målobjekt"
+
+msgid "form_hier_click_to_add"
+msgstr "Klicka här för att lägga till nya element."
+
+msgid "form_hierarchy_add_elements"
+msgstr "För att lägga till nya element, klicka på platshållarna."
+
+msgid "form_hierarchy_drag_drop_help"
+msgstr "Dra ikonerna på platshållarna med musen för att flytta element."
+
+msgid "form_hours"
+msgstr "Timmar"
+
+msgid "form_image_file_input"
+msgstr "Välj bildfil"
+
+msgid "form_invalid_uri"
+msgstr " Ogiltigt URI-format."
+
+msgid "form_link_external"
+msgstr "WWW / Internet"
+
+msgid "form_link_internal"
+msgstr "Insidan av ILIAS"
+
+msgid "form_location_radius"
+msgstr "Surroundings"
+
+msgid "form_location_radius_km"
+msgstr "km"
+
+msgid "form_max_value"
+msgstr "Maximalt värde"
+
+msgid "form_min_value"
+msgstr "Minsta värde"
+
+msgid "form_minutes"
+msgstr "minuter"
+
+msgid "form_months"
+msgstr "Månader"
+
+msgid "form_msg_file_cannot_write_to_disk"
+msgstr "Ingen skrivåtkomst till hårddisken"
+
+msgid "form_msg_file_missing_file_ext"
+msgstr "Den uppladdade filen har inget filnamnstillägg."
+
+msgid "form_msg_file_missing_tmp_dir"
+msgstr "Ingen tillfällig katalog tillgänglig för uppladdning av filer"
+
+msgid "form_msg_file_no_upload"
+msgstr "Den här inmatningen är obligatorisk. Välj en fil för uppladdning!"
+
+msgid "form_msg_file_partially_uploaded"
+msgstr "Filen kunde inte laddas upp fullständigt."
+
+msgid "form_msg_file_size_exceeds"
+msgstr "Filen som ska laddas upp överskrider den maximala filstorleken."
+
+msgid "form_msg_file_type_is_not_allowed"
+msgstr "Den här filtypen är inte tillåten."
+
+msgid "form_msg_file_upload_stopped_ext"
+msgstr "Uppladdningen avbröts av PHP-tillägg."
+
+msgid "form_msg_file_virus_found"
+msgstr "Ett virus har hittats i filen som ska laddas upp!"
+
+msgid "form_msg_file_wrong_file_type"
+msgstr "Fel filtyp"
+
+msgid "form_msg_formula_is_required"
+msgstr "Vänligen ange en korrekt formel."
+
+msgid "form_msg_max_upload"
+msgstr "Maximalt antal filer som kan laddas upp samtidigt"
+
+msgid "form_msg_numeric_value_required"
+msgstr "Var god ange ett numeriskt värde."
+
+msgid "form_msg_value_too_high"
+msgstr "Värdet är för högt. Ange ett lägre värde."
+
+msgid "form_msg_value_too_low"
+msgstr "Värdet är för lågt. Ange ett högre värde."
+
+msgid "form_msg_wrong_date"
+msgstr "Fel datum. Vänligen ange ett giltigt datum."
+
+msgid "form_no_link"
+msgstr "Ingen länk"
+
+msgid "form_open_answer"
+msgstr "Freitext"
+
+msgid "form_password_not_allowed_for_auth"
+msgstr "Du kan inte ändra lösenordet för den valda autentiseringsmetoden."
+
+msgid "form_password_required_for_auth"
+msgstr "Ett lösenord krävs för den valda autentiseringsmetoden."
+
+msgid "form_please_select"
+msgstr "Vänligen välj"
+
+msgid "form_retype_email"
+msgstr "Ange e-post igen"
+
+msgid "form_retype_password"
+msgstr "Ange lösenord igen"
+
+msgid "form_seconds"
+msgstr "Sekunder"
+
+msgid "form_take_snapshot"
+msgstr "Ta en ögonblicksbild"
+
+msgid "form_use_camera"
+msgstr "Använd kamera"

@@ -1,0 +1,329 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: cont\n"
+
+#, fuzzy
+msgid "cont_add_global_profile"
+msgstr "Add Global Profile"
+
+#, fuzzy
+msgid "cont_add_local_profile"
+msgstr "Add Local Profile"
+
+#, fuzzy
+msgid "cont_add_skill"
+msgstr "Add Competence"
+
+#, fuzzy
+msgid "cont_assign_competence"
+msgstr "Assign Competences to Members"
+
+#, fuzzy
+msgid "cont_assign_skills"
+msgstr "Assign Competences"
+
+#, fuzzy
+msgid "cont_block_limit"
+msgstr "Limit Items per Block"
+
+#, fuzzy
+msgid "cont_block_limit_info"
+msgstr "If a block contains more items, a \"Show more\" button will appear."
+
+#, fuzzy
+msgid "cont_cont_skills"
+msgstr "Assigned Competences of Members"
+
+#, fuzzy
+msgid "cont_deassign_competence"
+msgstr "Deassign Competences"
+
+#, fuzzy
+msgid "cont_filter"
+msgstr "Filter"
+
+#, fuzzy
+msgid "cont_filter_field"
+msgstr "Field"
+
+#, fuzzy
+msgid "cont_filter_fields"
+msgstr "Filter Fields"
+
+#, fuzzy
+msgid "cont_filter_record"
+msgstr "Record"
+
+#, fuzzy
+msgid "cont_found_objects"
+msgstr "Found Objects"
+
+#, fuzzy
+msgid "cont_item_list"
+msgstr "List"
+
+#, fuzzy
+msgid "cont_item_list_info"
+msgstr "Objects located within this container are displayed in the form of a list."
+
+#, fuzzy
+msgid "cont_list_presentation"
+msgstr "Item Presentation"
+
+#, fuzzy
+msgid "cont_mem_skills"
+msgstr "Competences"
+
+#, fuzzy
+msgid "cont_news_edited"
+msgstr "Bearbeitet"
+
+#, fuzzy
+msgid "cont_news_settings"
+msgstr "News Settings"
+
+#, fuzzy
+msgid "cont_news_timeline"
+msgstr "News Timeline"
+
+#, fuzzy
+msgid "cont_news_timeline_auto_entries"
+msgstr "Include Automatic Entries"
+
+#, fuzzy
+msgid "cont_news_timeline_auto_entries_info"
+msgstr "Include all news that are created automatically, e.g. forum posts, new files, etc."
+
+#, fuzzy
+msgid "cont_news_timeline_info"
+msgstr "Activates News Timeline Tab"
+
+#, fuzzy
+msgid "cont_news_timeline_landing_page"
+msgstr "Landing Page"
+
+#, fuzzy
+msgid "cont_news_timeline_landing_page_info"
+msgstr "Timeline page will be the landing page."
+
+#, fuzzy
+msgid "cont_news_timeline_tab"
+msgstr "Timeline"
+
+#, fuzzy
+msgid "cont_no_title"
+msgstr "Empty Title"
+
+#, fuzzy
+msgid "cont_only_crs_grp_fold_download"
+msgstr "Only courses, groups, folders or files can be downloaded."
+
+#, fuzzy
+msgid "cont_page_type_cont"
+msgstr "Repository Page (Cours, Group, ...)"
+
+#, fuzzy
+msgid "cont_page_type_cstr"
+msgstr "Course Start Page (Learning Objectives View)"
+
+#, fuzzy
+msgid "cont_path"
+msgstr "Path"
+
+#, fuzzy
+msgid "cont_publish_assignment"
+msgstr "Publish Assignments"
+
+#, fuzzy
+msgid "cont_published"
+msgstr "Published"
+
+#, fuzzy
+msgid "cont_really_deassign_skills"
+msgstr "Do you really want to deassign all competences from the users?"
+
+#, fuzzy
+msgid "cont_really_remove_skill_from_course"
+msgstr "Do you really want to remove these competences from the list?"
+
+#, fuzzy
+msgid "cont_select_fields"
+msgstr "Select Fields"
+
+#, fuzzy
+msgid "cont_show_more"
+msgstr "Show More"
+
+#, fuzzy
+msgid "cont_skill"
+msgstr "Competence"
+
+#, fuzzy
+msgid "cont_skill_ass_profiles"
+msgstr "Assigned Profiles of Members"
+
+#, fuzzy
+msgid "cont_skill_assigned_comp"
+msgstr "Competence Selection"
+
+#, fuzzy
+msgid "cont_skill_assigned_profiles"
+msgstr "Profile Selection"
+
+#, fuzzy
+msgid "cont_skill_deletion_not_possible"
+msgstr "Deletion of global competence profiles is not possible. Please select only local competence profiles."
+
+#, fuzzy
+msgid "cont_skill_do_not_set"
+msgstr "Do not set"
+
+#, fuzzy
+msgid "cont_skill_members"
+msgstr "Members"
+
+#, fuzzy
+msgid "cont_skill_no_profile_selected"
+msgstr "Please select a profile."
+
+#, fuzzy
+msgid "cont_skill_no_skill"
+msgstr "No value (Reset)"
+
+#, fuzzy
+msgid "cont_skill_no_skills_selected"
+msgstr "No competences have been selected yet. Please add at least one competence first under \"Competence Selection\"."
+
+#, fuzzy
+msgid "cont_skill_profile"
+msgstr "Profile"
+
+#, fuzzy
+msgid "cont_skill_profiles"
+msgstr "Assigned Profiles of Members"
+
+#, fuzzy
+msgid "cont_skill_publish"
+msgstr "Publish"
+
+#, fuzzy
+msgid "cont_skill_publish_auto"
+msgstr "Automatic"
+
+#, fuzzy
+msgid "cont_skill_publish_auto_info"
+msgstr "Competence assignments for members are immediately visible for members."
+
+#, fuzzy
+msgid "cont_skill_publish_manual"
+msgstr "Manual"
+
+#, fuzzy
+msgid "cont_skill_publish_manual_info"
+msgstr "Competence assignments for members must be published before they become visible for members."
+
+#, fuzzy
+msgid "cont_skill_really_delete_profile_from_list"
+msgstr "Do you really want to delete this profile?"
+
+#, fuzzy
+msgid "cont_skill_really_delete_profiles_from_list"
+msgstr "Do you really want to delete these profiles?"
+
+#, fuzzy
+msgid "cont_skill_really_remove_profile_from_list"
+msgstr "Do you really want to remove this profile from the list?"
+
+#, fuzzy
+msgid "cont_skill_really_remove_profiles_from_list"
+msgstr "Do you really want to remove these profiles from the list?"
+
+#, fuzzy
+msgid "cont_skill_records"
+msgstr "Competence Records"
+
+#, fuzzy
+msgid "cont_skill_removal_not_possible"
+msgstr "Removing of local competence profiles is not possible. Please select only global competence profiles."
+
+#, fuzzy
+msgid "cont_std_filter_title_1"
+msgstr "Title"
+
+#, fuzzy
+msgid "cont_std_filter_title_2"
+msgstr "Description"
+
+#, fuzzy
+msgid "cont_std_filter_title_3"
+msgstr "Title/Description"
+
+#, fuzzy
+msgid "cont_std_filter_title_4"
+msgstr "Keyword"
+
+#, fuzzy
+msgid "cont_std_filter_title_5"
+msgstr "Author"
+
+#, fuzzy
+msgid "cont_std_filter_title_6"
+msgstr "Copyright"
+
+#, fuzzy
+msgid "cont_std_filter_title_7"
+msgstr "Tutorial Support"
+
+#, fuzzy
+msgid "cont_std_filter_title_8"
+msgstr "Object Type"
+
+#, fuzzy
+msgid "cont_std_filter_title_9"
+msgstr "Online/Offline"
+
+#, fuzzy
+msgid "cont_std_record_title"
+msgstr "Standard"
+
+#, fuzzy
+msgid "cont_tile_size"
+msgstr "Tile Size"
+
+#, fuzzy
+msgid "cont_tile_size_0"
+msgstr "normal (up to four tiles in a row)"
+
+#, fuzzy
+msgid "cont_tile_size_1"
+msgstr "small (up to six tiles in a row)"
+
+#, fuzzy
+msgid "cont_tile_size_2"
+msgstr "large (up to three tiles in a row)"
+
+#, fuzzy
+msgid "cont_tile_size_3"
+msgstr "extra large (up to two tiles in a row)"
+
+#, fuzzy
+msgid "cont_tile_size_4"
+msgstr "full (one tile in a row)"
+
+#, fuzzy
+msgid "cont_tile_view"
+msgstr "Tiles"
+
+#, fuzzy
+msgid "cont_tile_view_info"
+msgstr "Objects located within this container are displayed in the form of thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object."
+
+#, fuzzy
+msgid "cont_trash_general_usage"
+msgstr "If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters \"Type\" and \"Deleted on\" helps this process. Then finally remove the containers."

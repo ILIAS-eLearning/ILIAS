@@ -1,0 +1,73 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ro\n"
+"Language-Team: Romanian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n == 0 || n != 1 && n % 100 >= 1 && n % 100 <= 19) ? 1 : 2);\n"
+"X-Domain: chatroom_adm\n"
+
+#, fuzzy
+msgid "chat_cannot_connect_to_server"
+msgstr "ILIAS cannot build a socket connection to the chatserver."
+
+#, fuzzy
+msgid "chat_enabled"
+msgstr "Enable chat"
+
+#, fuzzy
+msgid "chatserver_settings_title"
+msgstr "Chatserver Settings"
+
+#, fuzzy
+msgid "client_settings"
+msgstr "Client settings"
+
+#, fuzzy
+msgid "general_settings_title"
+msgstr "General Chat Settings"
+
+#, fuzzy
+msgid "https"
+msgstr "HTTPS"
+
+#, fuzzy
+msgid "osc_adm_browser_noti_info"
+msgstr "If enabled, users may individually decide whether or not they want to receive browser notifications for new conversations and messages. Notifications are triggered if the user works in different browser tabs or the browser is hidden and ILIAS was put into the background. Users will also receive browser notifications after a certain idle time in a conversation if ILIAS is in the foreground."
+
+#, fuzzy
+msgid "osc_adm_browser_noti_label"
+msgstr "Browser Notifications"
+
+#, fuzzy
+msgid "osc_adm_conv_idle_state_threshold_info"
+msgstr "Cut off notifications by given a minimum interval at which browser notifications are triggered for incoming chat messages.."
+
+#, fuzzy
+msgid "osc_adm_conv_idle_state_threshold_label"
+msgstr "Time between Browser Notifications"
+
+#, fuzzy
+msgid "port_info"
+msgstr "Rarely used ports are often blocked by firewalls or proxy servers. The user's browser will not be able to establish a connection to the chat server if the defined port is blocked. "
+
+#, fuzzy
+msgid "protocol"
+msgstr "Protocol"
+
+#, fuzzy
+msgid "public_chat_permissions"
+msgstr "Public Chatroom Permissions"
+
+#, fuzzy
+msgid "public_chat_settings"
+msgstr "Public Chatroom Settings"
+
+#, fuzzy
+msgid "server_settings"
+msgstr "Server settings"
+
+#, fuzzy
+msgid "settings_has_been_saved"
+msgstr "Settings has been saved"

@@ -23,6 +23,8 @@ namespace ILIAS;
 use ILIAS\Refinery\Factory;
 use ILIAS\Setup\Agent;
 use ilRegistrationAgent;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 
 class Registration implements Component\Component
 {
@@ -46,5 +48,9 @@ class Registration implements Component\Component
 
         $contribute[\ILIAS\StaticURL\Handler\Handler::class] = static fn() =>
             new \ILIAS\Registration\URL\StaticUrlHandler();
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'registration'
+        );
     }
 }

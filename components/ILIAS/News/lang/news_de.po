@@ -1,0 +1,288 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: news\n"
+
+msgid "lso_news_online_title"
+msgstr "Neues Lernsequenz-Objekt ist online!"
+
+msgid "lso_news_online_txt"
+msgstr "Soeben wurde ein neues Objekt für Ihre Lernsequenz online gestellt."
+
+msgid "new_test_online"
+msgstr "Der Test wurde online geschaltet."
+
+msgid "news_1_file_created"
+msgstr "Es wurde eine Datei hinzugefügt."
+
+msgid "news_1_file_updated"
+msgstr "Es wurde eine Datei aktualisiert."
+
+msgid "news_1_postings"
+msgstr "One post has been added."
+
+msgid "news_add_news"
+msgstr "Beitrag hinzufügen"
+
+msgid "news_all_items"
+msgstr "Neuigkeiten zu allen Favoriten"
+
+msgid "news_allow_longer_periods"
+msgstr "Längere Zeiträume zulassen"
+
+msgid "news_allow_longer_periods_info"
+msgstr "Benutzer können längere Zeiträume für Neuigkeiten ihrer Favoriten auswählen."
+
+msgid "news_allow_shorter_periods"
+msgstr "Kürzere Zeiträume zulassen"
+
+msgid "news_allow_shorter_periods_info"
+msgstr "Benutzer können kürzere Zeiträume für Neuigkeiten ihrer Favoriten auswählen."
+
+msgid "news_attached_to"
+msgstr "Zugeordnet zu"
+
+msgid "news_block_information"
+msgstr "Der Block \"Neuigkeiten\" zeigt chronologisch alle <b>Neuigkeiten</b> zu Ihren Favoriten an."
+
+msgid "news_cache"
+msgstr "Neuigkeiten-Cache (Minuten)"
+
+msgid "news_cache_info"
+msgstr "Aktualisierung des Blocks \"Neuigkeiten\" alle x-Minuten. '0' bedeutet jederzeit. Werte größer Null erhöhen die Performanz entsprechend. Allerdings können Links in Einzelfällen auf nicht mehr zugängliche Objekte verweisen."
+
+msgid "news_default_visibility"
+msgstr "Voreinstellung Zugriff"
+
+msgid "news_edit_news_settings"
+msgstr "Einstellungen"
+
+msgid "news_enable_internal_news"
+msgstr "Interne Neuigkeiten aktivieren"
+
+msgid "news_enable_internal_news_info"
+msgstr "Aktiviert Blöcke \"Neuigkeiten\" für Kategorien, Kurse, Gruppen und andere Objekte. Benutzer können diese Neuigkeiten abonnieren und erhalten diese auf ihrem Dashboard."
+
+msgid "news_enable_internal_rss"
+msgstr "RSS für interne Neuigkeiten aktivieren"
+
+msgid "news_enable_internal_rss_info"
+msgstr "Erlaube Veröffentlichung von Neuigkeiten über RSS. Auf diese Beiträge kann von außen ohne Authentifizierung zugegriffen werden."
+
+msgid "news_enable_private_feed"
+msgstr "Privaten RSS-Feed aktivieren"
+
+msgid "news_enable_private_feed_info"
+msgstr "Erlaubt den Zugriff auf private und öffentliche Neuigkeiten über RSS. Authentifizierung erfolgt mittels speziellem Feed-Passwort."
+
+msgid "news_feed_url"
+msgstr "Feed-URL"
+
+msgid "news_feed_url_for"
+msgstr "Feed-URL für „%s“"
+
+msgid "news_first_letter_of_word_notification"
+msgstr "B"
+
+msgid "news_get_feed_info"
+msgstr "Kopieren Sie diese Adresse in Ihren RSS-Reader. Alle öffentlich zugänglichen Neuigkeiten werden eingesammelt. Der Newsfeed wird durch keinerlei Authentifzierungsmaßnahme geschützt."
+
+msgid "news_get_feed_title"
+msgstr "URL Ihres persönlichen Newsfeeds"
+
+msgid "news_get_feed_url"
+msgstr "Newsfeed-URL bekommen"
+
+msgid "news_get_priv_feed_info"
+msgstr "Sie haben ein Passwort für Ihren privaten Newsfeed vergeben. Dieser Newsfeed enthält neben öffentlich zugänglichen auch private Neuigkeiten. Ersetzen Sie in der folgenden Feed-URL –password– durch Ihr Newsfeed-Passwort und kopieren Sie diese Adresse in Ihren RSS-Reader. Teilen Sie die Feed-URL nicht mit anderen."
+
+msgid "news_get_priv_feed_title"
+msgstr "URL Ihres privaten Newsfeeds"
+
+msgid "news_hide_news_block"
+msgstr "Block \"Neuigkeiten\" verbergen"
+
+msgid "news_hide_news_block_info"
+msgstr "Verberge Block in der Lerneransicht. Der Block \"Neuigkeiten\" wird nur für Benutzer mit Schreibberechtigung sichtbar sein."
+
+msgid "news_hide_news_date"
+msgstr "Startdatum"
+
+msgid "news_hide_news_per_date"
+msgstr "Neuigkeiten ab Datum anzeigen"
+
+msgid "news_hide_news_per_date_info"
+msgstr "Es werden nur Neuigkeiten ab einem bestimmten Datum angezeigt."
+
+msgid "news_inactive_private_feed_info"
+msgstr "Ihr privater Newsfeed ist deaktiviert. Vergeben Sie ein Passwort in den Einstellungen."
+
+msgid "news_internal_news"
+msgstr "Neuigkeiten"
+
+msgid "news_keep_minimal_x_items"
+msgstr "Ältere Einträge vorhalten"
+
+msgid "news_keep_minimal_x_items_info"
+msgstr "Anzahl an Einträgen, die auch über den systemweit eingestellten RSS-Zeitraum hinaus im Webfeed bereit gestellt werden."
+
+msgid "news_loading_news"
+msgstr "Neuigkeiten werden geladen ..."
+
+msgid "news_media"
+msgstr "Mediendatei"
+
+msgid "news_new_comments"
+msgstr "Neue Kommentare"
+
+msgid "news_new_reactions"
+msgstr "Neue Reaktionen"
+
+msgid "news_news_block"
+msgstr "Block „Neuigkeiten“"
+
+msgid "news_news_item_content"
+msgstr "Text"
+
+msgid "news_news_item_content_long"
+msgstr "Langfassung"
+
+msgid "news_news_item_content_long_info"
+msgstr "Dieser Text wird nicht über RSS veröffentlicht."
+
+msgid "news_news_item_def_visibility_public_info"
+msgstr "Neuigkeiten sind in einem öffentlichen RSS-Webfeed zugänglich. Sie sollten keine vertraulichen Informationen enthalten."
+
+msgid "news_news_item_def_visibility_users_info"
+msgstr "Neuigkeiten sind nur authentifizierten Benutzern zugänglich."
+
+msgid "news_news_item_head"
+msgstr "Beitrag"
+
+msgid "news_news_item_title"
+msgstr "Schlagzeile"
+
+msgid "news_news_item_visibility"
+msgstr "Zugriff"
+
+msgid "news_news_item_visibility_info"
+msgstr "Öffentliche Neuigkeiten können von außerhalb und ohne Anmeldung gelesen werden. Sie sollten keine vertraulichen Informationen enthalten."
+
+msgid "news_news_items"
+msgstr "Neuigkeit(en)"
+
+msgid "news_no_js_click_here"
+msgstr "Werden die Neuigkeiten nicht angezeigt, klicken Sie bitte hier."
+
+msgid "news_no_news_items"
+msgstr "Es sind keine Neuigkeiten für Sie vorhanden."
+
+msgid "news_not_available"
+msgstr "Neuigkeit nicht verfügbar"
+
+msgid "news_notifications"
+msgstr "Benachrichtigungen"
+
+msgid "news_notifications_public"
+msgstr "Öffentliche Benachrichtigungen"
+
+msgid "news_notifications_public_info"
+msgstr "Wenn diese Option gewählt wird, können Benachrichtigungen auch außerhalb von ILIAS über den persönlichen Newsfeed empfangen werden. Beachten Sie bitte, dass diese Benachrichtigungen ohne Authentifizierung zugänglich sind."
+
+msgid "news_nr_of_items"
+msgstr "Anzahl der maximalen Neuigkeiten pro Objekt"
+
+msgid "news_nr_of_items_info"
+msgstr "Anzahl der Neuigkeiten, die für ein Objekt (z. B. eine Datei oder ein Lernmodul) in der Datenbank vorgehalten werden. Beachten Sie bitte, dass Containerobjekte wie Kategorien oder Kurse mehr Neuigkeiten enthalten können, da Sie auch die Neuigkeiten ihrer Unterobjekte anzeigen."
+
+msgid "news_pd_period"
+msgstr "Zeitraum für Neuigkeitenanzeige auf dem Dashboard"
+
+msgid "news_pd_period_info"
+msgstr "Zeitraum, der für Neuigkeiten auf dem Dashboard berücksichtigt wird. Bei Performanzproblemen sollten niedrigere Werte gewählt werden."
+
+msgid "news_period_1_month"
+msgstr "Letzter Monat"
+
+msgid "news_period_1_week"
+msgstr "Letzte Woche"
+
+msgid "news_period_1_year"
+msgstr "Letztes Jahr"
+
+msgid "news_period_x_days"
+msgstr "Letzte %s Tage"
+
+msgid "news_period_x_months"
+msgstr "Letzte %s Monate"
+
+msgid "news_period_x_weeks"
+msgstr "Letzte %s Wochen"
+
+msgid "news_public_feed"
+msgstr "Eigener Webfeed"
+
+msgid "news_public_feed_info"
+msgstr "Es wird ein RSS-Icon mit einer separaten Webfeed-URL angezeigt."
+
+msgid "news_really_delete_news"
+msgstr "Soll dieser Beitrag wirklich gelöscht werden?"
+
+msgid "news_rss"
+msgstr "RSS"
+
+msgid "news_rss_period"
+msgstr "RSS-Zeitraum"
+
+msgid "news_rss_title_format"
+msgstr "RSS-Titelformat"
+
+msgid "news_rss_title_format_news_obj"
+msgstr "Nachrichtentitel (Objekttitel)"
+
+msgid "news_rss_title_format_obj_news"
+msgstr "Objekttitel - Nachrichtentitel"
+
+msgid "news_settings"
+msgstr "Einstellungen für interne Neuigkeiten"
+
+msgid "news_sorry_not_accessible_anymore"
+msgstr "Entschuldigung, dieses Objekt befindet sich nicht mehr in Ihrem Zugriff."
+
+msgid "news_time_period"
+msgstr "Zeitspanne"
+
+msgid "news_timline_add_entries_info"
+msgstr "Zurzeit sind noch keine Neuigkeiten vorhanden. Klicken Sie auf \"Beitrag hinzufügen\" um Neuigkeiten anzulegen."
+
+msgid "news_timline_no_entries"
+msgstr "Es wurden keine Neuigkeiten gefunden."
+
+msgid "news_visibility_public"
+msgstr "Öffentlich"
+
+msgid "news_visibility_users"
+msgstr "Authentifizierte Benutzer"
+
+msgid "news_x_files_created"
+msgstr "Es wurden %s Dateien hinzugefügt."
+
+msgid "news_x_files_updated"
+msgstr "Es wurden %s Dateien aktualisiert."
+
+msgid "news_x_postings"
+msgstr "%s Beiträge hinzugefügt."
+
+msgid "passwd_equals_ilpasswd"
+msgstr "Bitte geben Sie aus Sicherheitsgründen ein anderes Passwort als Ihr ILIAS-Passwort ein"
+
+msgid "priv_feed_disabled"
+msgstr "Privater Newsfeed wurde deaktiviert."
+
+msgid "priv_feed_settings"
+msgstr "Einstellungen für privaten Newsfeed"

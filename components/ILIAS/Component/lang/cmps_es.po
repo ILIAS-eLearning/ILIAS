@@ -1,0 +1,232 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: cmps\n"
+
+msgid "cmps_activate"
+msgstr "Activar"
+
+msgid "cmps_active"
+msgstr "Activo"
+
+msgid "cmps_add_new_rank"
+msgstr "Posición en la lista de Añadir-Nuevo-Objeto"
+
+msgid "cmps_available"
+msgstr "Disponible"
+
+msgid "cmps_available_version"
+msgstr "Versión disponible"
+
+msgid "cmps_basic_files"
+msgstr "Archivos básicos"
+
+msgid "cmps_class_file"
+msgstr "Archivo de clase"
+
+msgid "cmps_component"
+msgstr "Componente"
+
+msgid "cmps_configure"
+msgstr "Configurar"
+
+msgid "cmps_current_db_version"
+msgstr "Versión actual de BD"
+
+msgid "cmps_current_version"
+msgstr "Versión actual"
+
+msgid "cmps_database"
+msgstr "Base de datos"
+
+msgid "cmps_db_update"
+msgstr "Script de actualización de BD"
+
+msgid "cmps_deactivate"
+msgstr "Desactivar"
+
+msgid "cmps_detailed_information"
+msgstr "Información detallada"
+
+msgid "cmps_dir"
+msgstr "Directorio"
+
+#, fuzzy
+msgid "cmps_disable_creation"
+msgstr "Disable Creation"
+
+msgid "cmps_enable_creation"
+msgstr "Habilitar creación"
+
+msgid "cmps_file_version"
+msgstr "Actualizar versión de archivo"
+
+msgid "cmps_group"
+msgstr "Grupo"
+
+msgid "cmps_id"
+msgstr "ID"
+
+msgid "cmps_ilias_max_version"
+msgstr "Versión máx. de ILIAS"
+
+msgid "cmps_ilias_min_version"
+msgstr "Versión mín. de ILIAS"
+
+msgid "cmps_inactive"
+msgstr "Inactivo"
+
+msgid "cmps_install"
+msgstr "Instalar"
+
+msgid "cmps_is_active"
+msgstr "Activado"
+
+msgid "cmps_is_installed"
+msgstr "Instalado"
+
+msgid "cmps_lang_files"
+msgstr "Archivos de idioma"
+
+msgid "cmps_lang_prefix"
+msgstr "Prefijo de variables de idioma"
+
+msgid "cmps_languages"
+msgstr "Idiomas"
+
+msgid "cmps_main_dir"
+msgstr "Directorio principal"
+
+msgid "cmps_missing"
+msgstr "Faltante"
+
+msgid "cmps_module"
+msgstr "Módulo"
+
+msgid "cmps_must_installed"
+msgstr "El componente debe estar instalado."
+
+msgid "cmps_name"
+msgstr "Nombre"
+
+msgid "cmps_needs_matching_ilias_version"
+msgstr "Este complemento no funciona con su versión actual de ILIAS."
+
+msgid "cmps_needs_newer_ilias_version"
+msgstr "Esta versión del complemento solo funciona en versiones más recientes de ILIAS. Por favor, actualice ILIAS."
+
+msgid "cmps_needs_newer_plugin_version"
+msgstr "Esta versión de ILIAS necesita una versión más reciente del complemento. Por favor, actualice el complemento."
+
+msgid "cmps_needs_update"
+msgstr "Necesita actualización."
+
+msgid "cmps_needs_upgrade"
+msgstr "La versión del complemento instalada actualmente es más antigua que una versión instalada previamente. Por favor, actualice el complemento."
+
+msgid "cmps_no_db_update_file_available"
+msgstr "No hay ningún script de actualización de base de datos disponible."
+
+msgid "cmps_no_language_file_available"
+msgstr "No hay ningún archivo de idioma disponible."
+
+msgid "cmps_plugin"
+msgstr "Complemento (Plugin)"
+
+msgid "cmps_plugin_activated"
+msgstr "El complemento ha sido activado."
+
+msgid "cmps_plugin_db_prefixes"
+msgstr "Prefijos de tablas de BD"
+
+msgid "cmps_plugin_deactivated"
+msgstr "El complemento ha sido desactivado."
+
+msgid "cmps_plugin_deinstalled"
+msgstr "El complemento ha sido desinstalado"
+
+msgid "cmps_plugin_file"
+msgstr "Archivo del complemento"
+
+msgid "cmps_plugin_lang_prefixes"
+msgstr "Prefijos de idioma del complemento"
+
+msgid "cmps_plugin_slot"
+msgstr "Ubicación (Slot) del complemento"
+
+msgid "cmps_plugin_uninstalled"
+msgstr "Todas las entradas relacionadas con el idioma y la base de datos han sido eliminadas y el complemento se ha configurado como inactivo. Ahora puede eliminar el directorio y el código fuente del complemento en el directorio 'Customizing' para desinstalar el complemento definitivamente."
+
+msgid "cmps_plugin_updated"
+msgstr "El complemento ha sido actualizado"
+
+msgid "cmps_plugins"
+msgstr "Complementos (Plugins)"
+
+msgid "cmps_refresh"
+msgstr "Actualizar idiomas"
+
+msgid "cmps_refresh_lng"
+msgstr "Actualizar idioma"
+
+msgid "cmps_rep_object"
+msgstr "Tipo de objeto de repositorio"
+
+msgid "cmps_repository_object_types"
+msgstr "Tipos de objetos de repositorio"
+
+msgid "cmps_responsible"
+msgstr "Responsable"
+
+msgid "cmps_responsible_mail"
+msgstr "Correo electrónico (Responsable)"
+
+msgid "cmps_save_options"
+msgstr "Guardar"
+
+msgid "cmps_service"
+msgstr "Servicio"
+
+msgid "cmps_show_details"
+msgstr "Mostrar detalles"
+
+msgid "cmps_slots"
+msgstr "Ubicaciones (Slots)"
+
+msgid "cmps_status"
+msgstr "Estado"
+
+msgid "cmps_supports_cli_setup"
+msgstr "Soporta configuración por CLI"
+
+msgid "cmps_supports_export"
+msgstr "Soporta exportación"
+
+msgid "cmps_supports_learning_progress"
+msgstr "Soporta progreso de aprendizaje"
+
+msgid "cmps_uninstall"
+msgstr "Desinstalar"
+
+msgid "cmps_uninstall_confirm"
+msgstr "¿Está seguro de que desea desinstalar el complemento \"%s\" y eliminar todas las entradas de la base de datos relacionadas?"
+
+msgid "cmps_uninstall_inactive_confirm"
+msgstr "El complemento \"%1$s\" actualmente no puede activarse (\"%2$s\"). En este estado, los complementos no pueden desinstalarse completamente. Dado que solo se revierte la integración del núcleo, los datos personalizados del complemento pueden permanecer. ¿Desea continuar con la desinstalación parcial?"
+
+msgid "cmps_update"
+msgstr "Actualizar"
+
+msgid "cmps_version"
+msgstr "Versión"
+
+msgid "database_is_uptodate"
+msgstr "La base de datos está actualizada."
+
+msgid "no_changes"
+msgstr "Sin cambios"

@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: classification\n"
+
+msgid "clsfct_back_to_cat"
+msgstr "Torna alla categoria"
+
+msgid "clsfct_block_info"
+msgstr "La selezione filtra gli oggetti."
+
+msgid "clsfct_block_title"
+msgstr "Selezione per argomenti"
+
+msgid "clsfct_content_no_match"
+msgstr "Nessuna selezione"
+
+msgid "clsfct_content_title"
+msgstr "Oggetti che corrispondono alla selezione"
+
+msgid "clsfct_selected_objects"
+msgstr "Oggetti selezionati"

@@ -1,0 +1,273 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: iass\n"
+
+msgid "download_assessment_paper"
+msgstr "Ladda ner tentamensblad"
+
+msgid "grading"
+msgstr "Rating"
+
+msgid "grading_info"
+msgstr "Information om utvärdering"
+
+msgid "grading_record"
+msgstr "Sammanfattning av bedömningen"
+
+msgid "iass_add"
+msgstr "Skapa individuell utvärdering"
+
+msgid "iass_add_user_failure"
+msgstr "En eller flera användare kunde inte läggas till."
+
+msgid "iass_add_user_success"
+msgstr "User tillagd som deltagare."
+
+msgid "iass_added"
+msgstr "Individuell rating tillagd"
+
+msgid "iass_amend_saved"
+msgstr "Ändrade provdata har sparats."
+
+msgid "iass_assessment_not_completed"
+msgstr "Not yet completed"
+
+msgid "iass_cancel"
+msgstr "Avbryt"
+
+msgid "iass_changed_by"
+msgstr "Retrospektivt förändrad"
+
+msgid "iass_confirm_finalize"
+msgstr "Stäng"
+
+msgid "iass_consultation_hours"
+msgstr "Talande timmar"
+
+msgid "iass_contact"
+msgstr "Namn"
+
+msgid "iass_contact_info"
+msgstr "Kontaktuppgifter"
+
+msgid "iass_content"
+msgstr "Innehåll"
+
+msgid "iass_content_explanation"
+msgstr "Ange innehållet i provet här."
+
+msgid "iass_copy"
+msgstr "Kopiera individuell utvärdering"
+
+msgid "iass_download"
+msgstr "Ladda ner"
+
+msgid "iass_edit"
+msgstr "Inställningar"
+
+msgid "iass_edit_info"
+msgstr "Inställningar Kontakt"
+
+msgid "iass_edit_record"
+msgstr "Datum för tentamen"
+
+msgid "iass_event_time"
+msgstr "Tidpunkt för undersökningen"
+
+msgid "iass_event_time_place_required"
+msgstr "Obligatorisk tid och plats"
+
+msgid "iass_event_time_place_required_info"
+msgstr "Tid och plats för undersökningen måste anges."
+
+msgid "iass_file"
+msgstr "Fil"
+
+msgid "iass_file_dropzone"
+msgstr "Dra din fil hit"
+
+msgid "iass_file_required"
+msgstr "Obligatoriskt angivande av examinationsformulär"
+
+msgid "iass_file_required_info"
+msgstr "Ett provformulär måste laddas upp."
+
+msgid "iass_file_visible_examinee"
+msgstr "Filen synlig för deltagarna"
+
+#, fuzzy
+msgid "iass_file_visible_examinee_info"
+msgstr "Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled."
+
+msgid "iass_filter_all"
+msgstr "Alla"
+
+msgid "iass_filter_failed"
+msgstr "Endast misslyckad"
+
+msgid "iass_filter_finalized"
+msgstr "Endast godkänd"
+
+msgid "iass_filter_not_finalized"
+msgstr "Endast ej avslutad"
+
+msgid "iass_filter_not_started"
+msgstr "Endast oklassificerad"
+
+msgid "iass_finalize"
+msgstr "Stäng"
+
+msgid "iass_finalize_info"
+msgstr "Den individuella bedömningen är slutförd."
+
+msgid "iass_finalize_user_qst"
+msgstr "Bör bedömningen av deltagaren verkligen vara klar? Ändringar av bedömningen är inte längre möjliga i efterhand."
+
+msgid "iass_further_field_headline"
+msgstr "Detaljerad information"
+
+msgid "iass_graded_by"
+msgstr "Rated by"
+
+msgid "iass_info_emails_expl"
+msgstr "Du kan ange flera adresser åtskilda av ett kommatecken."
+
+msgid "iass_internal_note"
+msgstr "Interna anteckningar om undersökningen"
+
+msgid "iass_internal_note_info"
+msgstr "Den här anteckningen är endast synlig för handledare som kan se deltagarnas examinationsdata. Deltagarna själva ser inte tentamensanteckningen."
+
+msgid "iass_location"
+msgstr "Plats"
+
+msgid "iass_mails"
+msgstr "E-post"
+
+msgid "iass_may_not_finalize"
+msgstr "Exam kan inte betygsättas slutgiltigt ännu. Vänligen ge ett betyg."
+
+msgid "iass_membership_finalized"
+msgstr "Utvärderingen slutförd."
+
+msgid "iass_membership_saved"
+msgstr "Utvärderingen har sparats men ännu inte slutförts."
+
+msgid "iass_mess_notification_completed"
+msgstr "Du har klarat provet \"%s\". Vänligen notera även följande notering på tentan."
+
+msgid "iass_mess_notification_failed"
+msgstr "Du har tyvärr inte klarat provet \"%s\". Vänligen notera även följande information om provet."
+
+msgid "iass_notify"
+msgstr "Göra resultatet tillgängligt för deltagaren"
+
+msgid "iass_notify_explanation"
+msgstr "Deltagaren kommer att meddelas via e-post när bedömningen är klar och kan se bedömningsanteckningen på Info-sidan."
+
+msgid "iass_phone"
+msgstr "Telefon"
+
+msgid "iass_place"
+msgstr "Plats för undersökningen"
+
+msgid "iass_record"
+msgstr "Examensanteckning"
+
+msgid "iass_record_info"
+msgstr "Examinationsanteckningen kan ses av deltagaren efter den slutliga bedömningen. Om meddelandet nedan är aktiverat får deltagaren även examinationsanteckningen via e-post."
+
+msgid "iass_record_template"
+msgstr "Template Examination Note"
+
+msgid "iass_record_template_explanation"
+msgstr "Text som skrivs in här fungerar som en mall för examensanteckningen och används för varje ny deltagare."
+
+msgid "iass_remove_user_qst"
+msgstr "Ska deltagaren verkligen tas bort?"
+
+msgid "iass_responsibility"
+msgstr "Kompetens"
+
+msgid "iass_save_amend"
+msgstr "Spara ändrade tentamensdata"
+
+#, fuzzy
+msgid "iass_settings_availability"
+msgstr "Availability"
+
+msgid "iass_settings_saved"
+msgstr "Sparade inställningar."
+
+msgid "iass_sort_changetime_asc"
+msgstr "Sista ändring ? stigande"
+
+msgid "iass_sort_changetime_desc"
+msgstr "Sista ändring ? fallande"
+
+# Modifierad som en del av jämställdhetsintegreringen för ILIAS 8
+msgid "iass_sort_examiner_login_asc"
+msgstr "Rated from ? ascending"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "iass_sort_examiner_login_desc"
+msgstr "Rated from ? descending"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "iass_sort_name_asc"
+msgstr "Login name ? ascending"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "iass_sort_name_desc"
+msgstr "Login name ? descending"
+
+msgid "iass_status_completed"
+msgstr "Bekräftad"
+
+msgid "iass_status_failed"
+msgstr "Misslyckad"
+
+msgid "iass_status_pending"
+msgstr "Not yet rated"
+
+msgid "iass_subj_notification_completed"
+msgstr "%s"
+
+msgid "iass_subj_notification_failed"
+msgstr "%s"
+
+msgid "iass_upload_file"
+msgstr "Examensblad"
+
+msgid "iass_user_removed"
+msgstr "User har framgångsrikt tagits bort."
+
+msgid "iass_usr_amend"
+msgstr "Ändra provdata retrospektivt"
+
+msgid "iass_usr_download_attachment"
+msgstr "Ladda ner fil"
+
+msgid "iass_usr_edit"
+msgstr "Rating"
+
+msgid "iass_usr_remove"
+msgstr "Remove"
+
+msgid "iass_usr_view"
+msgstr "Datum för tentamen"
+
+msgid "il_iass_members"
+msgstr "Deltagare"
+
+msgid "lp_inactive"
+msgstr "Titta på"
+
+msgid "save_amend"
+msgstr "Spara ändrade tentamensdata"

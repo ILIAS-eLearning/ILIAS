@@ -1,0 +1,17 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sr\n"
+"Language-Team: Serbian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: cmxv\n"
+
+#, fuzzy
+msgid "cmxv_create"
+msgstr "Create Certificate for xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmxv_create_info"
+msgstr "Select a completed xAPI/cmi5 object to generate a certificate for it"

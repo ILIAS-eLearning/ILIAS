@@ -1,0 +1,288 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: sess\n"
+
+msgid "il_sess_participant"
+msgstr "Esemény résztvevői"
+
+msgid "il_sess_status_open"
+msgstr "Esemény megnyitása"
+
+msgid "mail_sess_roles"
+msgstr "Levél küldése az esemény szerepeinek"
+
+msgid "notification"
+msgstr "Értesítés"
+
+msgid "objs_crs_role"
+msgstr "Kurzusszabályok"
+
+msgid "objs_grp_role"
+msgstr "Csoportszabályok"
+
+msgid "send_mail_participants"
+msgstr "Az esemény összes résztvevője"
+
+msgid "sess_accept_request"
+msgstr "Részvétel elfogadása"
+
+msgid "sess_assign"
+msgstr "Hozzárendelés"
+
+msgid "sess_bt_refuse"
+msgstr "Részvétel lemondása"
+
+msgid "sess_change_type"
+msgstr "Munkamenettípus módosítása"
+
+msgid "sess_contact"
+msgstr "Kapcsolat"
+
+msgid "sess_copy"
+msgstr "Esemény másolása"
+
+msgid "sess_filter_all_types"
+msgstr "Összes típus"
+
+msgid "sess_filter_not_assigned"
+msgstr "Nincs hozzárendelve"
+
+msgid "sess_import"
+msgstr "Esemény importálása"
+
+msgid "sess_info_new_sess_type"
+msgstr "Új munkamenettípus"
+
+msgid "sess_is_assigned"
+msgstr "hozzá van rendelve"
+
+msgid "sess_list_reg_limit_places"
+msgstr "Szabad helyek"
+
+msgid "sess_lp_preset"
+msgstr "Tanulási haladás bekapcsolása"
+
+msgid "sess_lp_preset_info"
+msgstr "Tanulási haladás bekapcsolása az összes létrehozandó eseményre."
+
+msgid "sess_mail_admins_only"
+msgstr "Csak a vezetők"
+
+msgid "sess_mail_admins_only_info"
+msgstr "Csak a vezetők használhatják a ‘Résztvevők’ lapon lévő ‘Levél a résztvevőknek’ funkciót."
+
+msgid "sess_mail_all"
+msgstr "Az összes résztvevő"
+
+msgid "sess_mail_all_info"
+msgstr "Az összes résztvevő használhatja a ‘Résztvevők’ lapon lévő ‘Levél a résztvevőknek’ funkciót."
+
+msgid "sess_mail_context_participant_info"
+msgstr "Levél a résztvevőknek az esemény résztvevőiről és a tanulási haladásuk állásáról"
+
+msgid "sess_mail_context_participant_title"
+msgstr "Esemény: levél a résztvevőknek"
+
+msgid "sess_mail_permanent_link"
+msgstr "Az alábbi linkre kattintva talál információkat az eseményről:"
+
+msgid "sess_mail_permanent_link_participants"
+msgstr "Az alábbi linkre kattintva módosíthatja az esemény résztvevőit:"
+
+msgid "sess_mail_sub_acc_bod"
+msgstr "‘%s’ eseményre sikerrel regisztrált."
+
+msgid "sess_mail_sub_acc_sub"
+msgstr "‘%s’ eseményre regisztráció"
+
+msgid "sess_mail_sub_dec_bod"
+msgstr "‘%s’ eseményre regisztrációját elutasították."
+
+msgid "sess_mail_sub_dec_sub"
+msgstr "‘%s’ eseményre sikertelen regisztráció"
+
+msgid "sess_mail_type"
+msgstr "Levél a résztvevőknek"
+
+msgid "sess_material_assigned"
+msgstr "Hozzárendelve"
+
+msgid "sess_material_not_assigned"
+msgstr "Nincs hozzárendelve"
+
+msgid "sess_max_members_needed"
+msgstr "A várólista bekapcsolásához maximális tagszám beállítása szükséges."
+
+msgid "sess_mem_contacts"
+msgstr "Tutori támogatás"
+
+msgid "sess_mem_send_mail"
+msgstr "E-mail küldése"
+
+msgid "sess_mem_tbl_header"
+msgstr "Esemény résztvevői"
+
+msgid "sess_member_administration"
+msgstr "Résztvevők módosítása"
+
+msgid "sess_members"
+msgstr "Résztvevők"
+
+msgid "sess_members_gallery"
+msgstr "Esemény résztvevőinek képgalériája"
+
+msgid "sess_members_print_title"
+msgstr "Esemény résztvevői"
+
+msgid "sess_msg_applicants_assigned"
+msgstr "Az eseményre sikeresen regisztrált jelentkező(ke)t."
+
+msgid "sess_msg_applicants_removed"
+msgstr "Sikeresen eltávolított jelentkező(ke)t."
+
+msgid "sess_new"
+msgstr "Esemény létrehozása"
+
+msgid "sess_new_registrations"
+msgstr "Csatlakozási kérés"
+
+msgid "sess_notification_option"
+msgstr "Lehetőség"
+
+msgid "sess_notification_option_inherit"
+msgstr "Öröklés a szülőtől"
+
+msgid "sess_notification_option_inherit_info"
+msgstr "Az esemény tagjainál a szülőobjektum értesítési beállításainak használata (például kurzus vagy csoport értesítési beállításai)"
+
+msgid "sess_notification_option_manual"
+msgstr "Kézi beállítás"
+
+msgid "sess_notification_option_manual_info"
+msgstr "A ‘Résztvevők’ lapon a résztvevők értesítései beállításait kézzel kell megadni"
+
+msgid "sess_open"
+msgstr "Időpont megnyitása"
+
+msgid "sess_part_filter_participated"
+msgstr "Csak résztvettek"
+
+msgid "sess_part_filter_registered"
+msgstr "Csak regisztráltak"
+
+msgid "sess_part_table_excused"
+msgstr "Elutasítva"
+
+msgid "sess_participation_refused_info"
+msgstr "A jelentkezését elutasították erre az eseményre."
+
+msgid "sess_print_list"
+msgstr "Lista létrehozása"
+
+msgid "sess_reg_added_to_wl"
+msgstr "Várólistára került."
+
+msgid "sess_reg_cannot_participate"
+msgstr "Részvétel lemondása"
+
+msgid "sess_reg_cannot_participate_info"
+msgstr "A felhasználók lemondhatják részvételüket."
+
+msgid "sess_reg_direct"
+msgstr "Közvetlen jelentkezés"
+
+msgid "sess_reg_direct_info"
+msgstr "A felhasználó a ‘Feljelentkezés’ gombra kattintva jelentkezhet az eseményre"
+
+msgid "sess_reg_disabled"
+msgstr "Regisztráció nélküli"
+
+msgid "sess_reg_disabled_info"
+msgstr "A részvétel regisztrációmentes ezen az eseményen."
+
+msgid "sess_reg_max_members"
+msgstr "Tagok számának korlátozása"
+
+msgid "sess_reg_max_members_info"
+msgstr "Ezen az eseményen résztvevők maximális számnak meghatározása."
+
+msgid "sess_reg_max_members_short"
+msgstr "Tagok száma"
+
+msgid "sess_reg_max_users_exceeded"
+msgstr "Regisztráció nem lehetséges, mert elérte a maximális felhasználószámot."
+
+msgid "sess_reg_max_users_exceeded_wl"
+msgstr "A találkozó elérte a maximálisan megengedett létszámot."
+
+msgid "sess_reg_request"
+msgstr "Jelentkezés jóváhagyása"
+
+msgid "sess_reg_request_info"
+msgstr "A részvételhez egy vezetőnek jóvá kell hagynia minden érdeklődő felhasználó jelentkezését."
+
+msgid "sess_reg_tutor"
+msgstr "Nincs felhasználói regisztráció"
+
+msgid "sess_reg_tutor_info"
+msgstr "Csak vezetők regisztálhatják a felhasználókat erre az eseményre, a felhasználók saját magukat nem."
+
+msgid "sess_reg_type"
+msgstr "Regisztráció módja"
+
+msgid "sess_reg_waiting_list"
+msgstr "Várólista"
+
+msgid "sess_reg_waiting_list_autofill"
+msgstr "Automatikus feltöltéssel"
+
+msgid "sess_reg_waiting_list_autofill_info"
+msgstr "A résztvevőket automatikusan felvesszük a várólistáról lemondás esetén. Ez nem alkalmazható együtt a ‘Jelentkezés jóváhagyása’ regisztrációs eljárással, mert az automatikus felvétel kizárja a jóváhagyást."
+
+msgid "sess_reg_waiting_list_no_autofill"
+msgstr "Automatikus feltöltés nélkül"
+
+msgid "sess_reg_waiting_list_no_autofill_info"
+msgstr "A maximális szám elérése után a jelentkezők várólistára kerülnek."
+
+msgid "sess_reg_waiting_list_none"
+msgstr "Egyik sem"
+
+msgid "sess_registered_confirm"
+msgstr "A regisztrációhoz vezetői jóváhagyás szükséges. A regisztrációs folyamat eredményéről értesítést fog kapni."
+
+msgid "sess_registration_notification"
+msgstr "Értesítés"
+
+msgid "sess_registration_notification_info"
+msgstr "Egy oszlop megjelenítése a ‘Résztvevők’ lap alatt, ahol az új vagy távozó résztvevőkről értesítendő személyeket ki lehet választani"
+
+msgid "sess_section_reg"
+msgstr "Regisztrációs beállítások"
+
+msgid "sess_setting_header_presentation"
+msgstr "Megjelenítés"
+
+msgid "sess_show_participants_info"
+msgstr "Az esemény résztvevői megtekinthetik a résztvevők képgalériáját"
+
+msgid "sess_title"
+msgstr "Esemény címe"
+
+msgid "sess_users_added"
+msgstr "Az eseményre a kiválasztott felhasználót regisztrálta."
+
+msgid "sess_users_already_assigned"
+msgstr "A felhasználó már regisztrált erre az eseményre."
+
+msgid "sess_users_removed_from_list"
+msgstr "A kiválasztott jelentkező(ke)t sikeresen eltávolított a várólistáról."
+
+msgid "sess_warn_sess_type_changed"
+msgstr "Biztos, hogy megváltoztatja a munkamenet típusát? Az összes jogosultságot alapértelmezettre állítjuk."

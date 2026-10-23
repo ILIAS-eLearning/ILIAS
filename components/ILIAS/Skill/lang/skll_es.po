@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: skll\n"
+
+msgid "skll_competence_achievements"
+msgstr "Nuevos logros y evaluaciones de competencias"
+
+msgid "skll_intro_skill_notification_for"
+msgstr "esta es una vista general de sus últimos logros de competencias."
+
+msgid "skll_lhist_skill_achieved"
+msgstr "El estado $4$ de $3$ fue asignado en $1$."
+
+msgid "skll_lhist_skill_profile_fulfilled"
+msgstr "El perfil de competencia $3$ ha sido completado."
+
+msgid "skll_lhist_skill_self_eval"
+msgstr "El estado $4$ de $3$ fue autoasignado."
+
+msgid "skll_lhist_skill_self_eval_in"
+msgstr "El estado $4$ de $3$ fue autoasignado en $1$."
+
+msgid "skll_new_skill_achievements"
+msgstr "Usted ha alcanzado nuevos niveles de competencia en el periodo de %1$s a %2$s:"
+
+msgid "skll_skill_notification"
+msgstr "Notificación de Competencias"
+
+msgid "skll_skill_notification_desc"
+msgstr "Informa al usuario sobre los niveles de competencia recién establecidos."

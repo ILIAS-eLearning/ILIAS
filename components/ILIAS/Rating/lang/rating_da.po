@@ -1,0 +1,112 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: da\n"
+"Language-Team: Danish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: rating\n"
+
+#, fuzzy
+msgid "rat_not_rated_yet"
+msgstr "Not Rated Yet"
+
+#, fuzzy
+msgid "rat_nr_ratings"
+msgstr "%s Ratings"
+
+#, fuzzy
+msgid "rat_one_rating"
+msgstr "One Rating"
+
+#, fuzzy
+msgid "rating_activate_rating"
+msgstr "Enable Rating"
+
+#, fuzzy
+msgid "rating_activate_rating_info"
+msgstr "if enabled, users can rate this object."
+
+msgid "rating_add_category"
+msgstr "Tilføj kategori"
+
+#, fuzzy
+msgid "rating_avg_rating"
+msgstr "Average Rating"
+
+msgid "rating_categories"
+msgstr "Vurderingskategorier"
+
+msgid "rating_category_add"
+msgstr "Tilføj"
+
+msgid "rating_category_create"
+msgstr "Lav kategori"
+
+msgid "rating_category_created"
+msgstr "Kategori oprettet."
+
+#, fuzzy
+msgid "rating_category_delete_sure"
+msgstr "Are you sure you want to delete the following rating categories?  All ratings for that category will be lost."
+
+#, fuzzy
+msgid "rating_category_deleted"
+msgstr "Category deleted."
+
+#, fuzzy
+msgid "rating_category_edit"
+msgstr "Edit Category"
+
+msgid "rating_category_update"
+msgstr "Gem"
+
+msgid "rating_category_updated"
+msgstr "Kategori gemt."
+
+msgid "rating_export_category"
+msgstr "Kategori"
+
+msgid "rating_export_date"
+msgstr "Dato"
+
+#, fuzzy
+msgid "rating_export_rating"
+msgstr "Rating"
+
+#, fuzzy
+msgid "rating_new_objects_auto"
+msgstr "Enable Rating for new Objects"
+
+#, fuzzy
+msgid "rating_new_objects_auto_info"
+msgstr "If enabled, new files, learning modules and wikis can be rated."
+
+msgid "rating_number_votes"
+msgstr "%s vurderinger"
+
+#, fuzzy
+msgid "rating_open_dialog"
+msgstr "Open rating dialog"
+
+msgid "rating_overlay_submit"
+msgstr "Send score"
+
+#, fuzzy
+msgid "rating_personal_rating"
+msgstr "Your Rating"
+
+#, fuzzy
+msgid "rating_rate_x_of_5"
+msgstr "Rate with %s of 5 stars"
+
+#, fuzzy
+msgid "rating_remove"
+msgstr "Remove Rating"
+
+msgid "rating_update_positions"
+msgstr "Gem rækkefølge"
+
+msgid "rating_your_rating"
+msgstr "Din rating"

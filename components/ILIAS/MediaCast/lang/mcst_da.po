@@ -1,0 +1,318 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: da\n"
+"Language-Team: Danish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mcst\n"
+
+msgid "mcst_add_new_item"
+msgstr "Tilføj nyt Media Cast"
+
+#, fuzzy
+msgid "mcst_audio_files"
+msgstr "Audio Files"
+
+msgid "mcst_audioportable_settings_info"
+msgstr "Kommasepareret liste af filendelser"
+
+msgid "mcst_audioportable_settings_title"
+msgstr "Filendelser til lydformater"
+
+msgid "mcst_audioportable_title"
+msgstr "Yderligere lydfil til transportable enheder"
+
+msgid "mcst_automatic_detection"
+msgstr "Find automatisk"
+
+#, fuzzy
+msgid "mcst_autoplay"
+msgstr "Autoplay"
+
+#, fuzzy
+msgid "mcst_autoplay_active"
+msgstr "Autoplay (Default on)"
+
+#, fuzzy
+msgid "mcst_autoplay_inactive"
+msgstr "Autoplay (Default off)"
+
+#, fuzzy
+msgid "mcst_autoplay_info"
+msgstr "Starts automatically the next video when reaching the end of the previous one. This feature is not supported by youtube videos."
+
+msgid "mcst_clear_purpose_title"
+msgstr "Slet"
+
+#, fuzzy
+msgid "mcst_confirm_deletion"
+msgstr "Confirm Deletion"
+
+msgid "mcst_converted_file"
+msgstr "Filen blev konverteret"
+
+#, fuzzy
+msgid "mcst_copy"
+msgstr "Copy Mediacast"
+
+#, fuzzy
+msgid "mcst_current_value_info"
+msgstr "Shows the current value of this format."
+
+msgid "mcst_default_visibility"
+msgstr "Standardadgang"
+
+msgid "mcst_det_playtime"
+msgstr "Beregn spilletid"
+
+#, fuzzy
+msgid "mcst_download_all"
+msgstr "Download All"
+
+msgid "mcst_download_audioportable"
+msgstr "Download transportabel lyd"
+
+#, fuzzy
+msgid "mcst_download_cnt"
+msgstr "Downloaded"
+
+msgid "mcst_download_standard"
+msgstr "Download"
+
+#, fuzzy
+msgid "mcst_download_started_bg"
+msgstr "Download of files has started. Please check your background tasks in the top right corner."
+
+#, fuzzy
+msgid "mcst_download_videoalternative"
+msgstr "Download Alternative File"
+
+msgid "mcst_download_videoportable"
+msgstr "Download transportabel video"
+
+msgid "mcst_downloadable"
+msgstr "Download links"
+
+msgid "mcst_downloadable_info"
+msgstr "Giver brugerne mulighed for at downloade fra et link."
+
+msgid "mcst_duration"
+msgstr "Spilletid"
+
+msgid "mcst_duration_info"
+msgstr "Hvis du ikke indtaster en værdi forsøger automatisk opdagelse af spilletiden."
+
+msgid "mcst_edit_item"
+msgstr "Ret mediacast element"
+
+msgid "mcst_edit_settings"
+msgstr "MediaCast indstillinger"
+
+msgid "mcst_gallery"
+msgstr "Galleri"
+
+#, fuzzy
+msgid "mcst_img_gallery"
+msgstr "Image Gallery"
+
+msgid "mcst_import"
+msgstr "Importer Mediacast"
+
+msgid "mcst_incl_files_in_rss"
+msgstr "Inkluder mediefiler i feed"
+
+msgid "mcst_incl_files_in_rss_info"
+msgstr "Hvis aktiveret inkluderes mediefiler som vedhæftninger i RSS feed. Hvis deaktiveret adviseres abonnenter blot om filen."
+
+#, fuzzy
+msgid "mcst_input_either_file_or_url"
+msgstr "Please specify a file or an URL. If you provide a file, please note the maximum allowed upload file size."
+
+#, fuzzy
+msgid "mcst_items"
+msgstr "Items"
+
+msgid "mcst_last_submission"
+msgstr "Sidste bidrag"
+
+msgid "mcst_list"
+msgstr "Liste"
+
+msgid "mcst_manage"
+msgstr "Administrer"
+
+msgid "mcst_media_cast"
+msgstr "Media Cast"
+
+msgid "mcst_media_cast_not_online"
+msgstr "Mediacast er ikke online"
+
+msgid "mcst_media_cast_not_online_text"
+msgstr "Mediac ast er ikke online eller er blevet deaktiveret"
+
+msgid "mcst_mimetype"
+msgstr "Mime type"
+
+#, fuzzy
+msgid "mcst_mimetype_info"
+msgstr "Select mime type to control plugin used for playback.<br>Please note: Be aware that not every browser contains the plugin you intend to use."
+
+msgid "mcst_mimetypes"
+msgstr "Mime typer"
+
+#, fuzzy
+msgid "mcst_mimetypes_info"
+msgstr "Comma separated list of mime types"
+
+#, fuzzy
+msgid "mcst_new_items_det_lp"
+msgstr "Add new items to learning progress"
+
+#, fuzzy
+msgid "mcst_new_items_det_lp_info"
+msgstr "New items are automatically added to determine the overall learning progress."
+
+msgid "mcst_news_item_visibility_info"
+msgstr "Offentlige nyheder kan tilgås uden login uden for ILIAS gennem RSS. Undlad derfor at skrive fortrolige informationer."
+
+#, fuzzy
+msgid "mcst_next_items"
+msgstr "Next Items"
+
+#, fuzzy
+msgid "mcst_no_autoplay"
+msgstr "No Autoplay"
+
+msgid "mcst_nr_items"
+msgstr "Antal elementer"
+
+#, fuzzy
+msgid "mcst_nr_videos"
+msgstr "Number of Initial Videos"
+
+msgid "mcst_ordering"
+msgstr "Sorteing"
+
+#, fuzzy
+msgid "mcst_ordering_creation_date_asc"
+msgstr "By Creation Date (Ascending)"
+
+#, fuzzy
+msgid "mcst_ordering_creation_date_desc"
+msgstr "By Creation Date (Descending)"
+
+msgid "mcst_ordering_manual"
+msgstr "Manuelt"
+
+msgid "mcst_ordering_title"
+msgstr "Efter titel"
+
+msgid "mcst_play"
+msgstr "Afspil"
+
+#, fuzzy
+msgid "mcst_play_cnt"
+msgstr "Played"
+
+msgid "mcst_play_time"
+msgstr "Spilletid"
+
+#, fuzzy
+msgid "mcst_podcast"
+msgstr "Podcast"
+
+#, fuzzy
+msgid "mcst_prev_items"
+msgstr "Previous Items"
+
+#, fuzzy
+msgid "mcst_preview"
+msgstr "Preview"
+
+#, fuzzy
+msgid "mcst_preview_picture"
+msgstr "Preview Picture"
+
+#, fuzzy
+msgid "mcst_preview_picture_info"
+msgstr "Only supported by the following main media types:"
+
+#, fuzzy
+msgid "mcst_reference_info"
+msgstr "Provide URL pointing to resource"
+
+msgid "mcst_save_order"
+msgstr "Gem rækkefølge"
+
+msgid "mcst_set_playtime"
+msgstr "Afspilningstid sat."
+
+msgid "mcst_settings"
+msgstr "MediaCast indstillinger"
+
+#, fuzzy
+msgid "mcst_show_description"
+msgstr "Show Description"
+
+msgid "mcst_standard_settings_info"
+msgstr "Kommasepareret liste af filendelser"
+
+#, fuzzy
+msgid "mcst_standard_settings_title"
+msgstr "File Extensions for Standard Format"
+
+msgid "mcst_standard_title"
+msgstr "Normal mediefil"
+
+msgid "mcst_unable_to_determin_playtime"
+msgstr "Kunne ikke opdate spillelængden. Du kan sætte den manuelt ved at trykke på ret."
+
+#, fuzzy
+msgid "mcst_video_cast"
+msgstr "Videocast"
+
+#, fuzzy
+msgid "mcst_video_completion_threshold"
+msgstr "Video Completion Threshold"
+
+#, fuzzy
+msgid "mcst_video_completion_threshold_info"
+msgstr "Amount of video that triggers the completion status. Please note that the user may skip forward to reach this point."
+
+msgid "mcst_videoalternative_title"
+msgstr "Alternativ videofil (brug i browser)"
+
+msgid "mcst_videoportable_settings_info"
+msgstr "Kommasepareret liste af filendelser"
+
+msgid "mcst_videoportable_settings_title"
+msgstr "Filendelser til videoformater"
+
+msgid "mcst_videoportable_title"
+msgstr "Yderligere videofil til transportable enheder"
+
+#, fuzzy
+msgid "mcst_view_abandoned"
+msgstr "The current presentation mode has been abandoned. Please open the settings and switch to another mode."
+
+msgid "mcst_viewmode"
+msgstr "Præsentationsvisning"
+
+msgid "mcst_visibility_info"
+msgstr "Offentlige objekter kan tilgås via RSS uden nogen form for autentificering."
+
+msgid "mcst_visibility_public"
+msgstr "Offentlig"
+
+msgid "mcst_visibility_users"
+msgstr "Påloggede brugere"
+
+#, fuzzy
+msgid "mcst_watched"
+msgstr "watched"
+
+#, fuzzy
+msgid "mcst_webfeed"
+msgstr "RSS Web Feed"

@@ -1,0 +1,163 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: cron\n"
+
+msgid "cro_job_rc_job_auto_deactivation_time_limit"
+msgstr "PROBABLY CRASHED"
+
+msgid "cro_job_rc_job_manual_reset"
+msgstr "RESET MANUALLY"
+
+msgid "cro_job_rc_job_no_result"
+msgstr "NO RESULT"
+
+msgid "cron_action_activate"
+msgstr "Activer"
+
+msgid "cron_action_activate_success"
+msgstr "Tâche Cron activée."
+
+msgid "cron_action_activate_sure"
+msgstr "Etes-vous sûr de vouloir activer la tâche Cron \"%s\"?"
+
+msgid "cron_action_activate_sure_multi"
+msgstr "Etes-vous sûr de vouloir activer les tâches CRON suivantes ?"
+
+msgid "cron_action_deactivate"
+msgstr "Désactiver"
+
+msgid "cron_action_deactivate_success"
+msgstr "Tâche Cron désactivée."
+
+msgid "cron_action_deactivate_sure"
+msgstr "Etes-vous sûr de vouloir désactiver la tâche Cron \"%s\"?"
+
+msgid "cron_action_deactivate_sure_multi"
+msgstr "Etes-vous sûr de vouloir désactiver les tâches CRON suivantes ?"
+
+msgid "cron_action_edit"
+msgstr "Editer"
+
+msgid "cron_action_edit_success"
+msgstr "Planification mise à jour."
+
+msgid "cron_action_reset"
+msgstr "Réinitialisation"
+
+msgid "cron_action_reset_success"
+msgstr "Tâche Cron réinitialisée."
+
+msgid "cron_action_reset_sure"
+msgstr "Etes-vous sûr de vouloir réinitialiser la tâche Cron \"%s\"?"
+
+msgid "cron_action_reset_sure_multi"
+msgstr "Êtes-vous sûr de vouloir réinitialiser les tâches cron suivantes?"
+
+msgid "cron_action_run"
+msgstr "Exécuter"
+
+msgid "cron_action_run_fail"
+msgstr "Tâche Cron échouée."
+
+msgid "cron_action_run_success"
+msgstr "Tâche Cron effectuée avec succès."
+
+msgid "cron_action_run_sure"
+msgstr "Etes-vous sûr de vouloir exécuter la tâche Cron \"%s\"?"
+
+msgid "cron_changed_by_crontab"
+msgstr "SYSTEME"
+
+msgid "cron_component"
+msgstr "Composant"
+
+msgid "cron_job_id"
+msgstr "Id"
+
+#, fuzzy
+msgid "cron_jobs_with_required_intervention"
+msgstr "The following jobs may require an intervention."
+
+msgid "cron_last_run"
+msgstr "Dernière Exécution"
+
+msgid "cron_no_executable_job_selected"
+msgstr "Veuillez sélectionner au moins une tache cron."
+
+msgid "cron_result"
+msgstr "Resultat"
+
+msgid "cron_result_info"
+msgstr "Info de Résultat"
+
+msgid "cron_result_status_crashed"
+msgstr "Crashé"
+
+msgid "cron_result_status_fail"
+msgstr "Échec"
+
+msgid "cron_result_status_invalid_configuration"
+msgstr "Configuration non Valide"
+
+msgid "cron_result_status_no_action"
+msgstr "Ok, pas de traitement"
+
+msgid "cron_result_status_ok"
+msgstr "Ok"
+
+msgid "cron_result_status_reset"
+msgstr "Réinitialisation"
+
+msgid "cron_running_since"
+msgstr "Exécuté depuis"
+
+msgid "cron_schedule"
+msgstr "Planification"
+
+msgid "cron_schedule_daily"
+msgstr "Quotidien"
+
+msgid "cron_schedule_in_days"
+msgstr "Tous les %s jours"
+
+msgid "cron_schedule_in_hours"
+msgstr "Toutes les %s heures"
+
+msgid "cron_schedule_in_minutes"
+msgstr "Toutes les %s minutes"
+
+msgid "cron_schedule_monthly"
+msgstr "Mensuel"
+
+msgid "cron_schedule_quarterly"
+msgstr "Par Trimestre"
+
+msgid "cron_schedule_type"
+msgstr "Planification"
+
+msgid "cron_schedule_value"
+msgstr "Intervalle"
+
+msgid "cron_schedule_weekly"
+msgstr "Hebdomadaire"
+
+msgid "cron_schedule_yearly"
+msgstr "Annuel"
+
+msgid "cron_status"
+msgstr "Statut"
+
+msgid "cron_status_active"
+msgstr "Actif"
+
+msgid "cron_status_inactive"
+msgstr "Désactivé"
+
+msgid "cron_status_info"
+msgstr "Info de Statut"

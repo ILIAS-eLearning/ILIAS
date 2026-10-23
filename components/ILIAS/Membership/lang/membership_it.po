@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: membership\n"
+
+msgid "mem_error_preconditions"
+msgstr "Una registrazione non è possibile, in quanto non è soddisfatta una precondizione minima."
+
+msgid "mem_force_notification"
+msgstr "Notifica tramite mail"
+
+msgid "mem_force_notification_mode_all_sub_blocked"
+msgstr "I membri possono disattivare le notifiche"
+
+msgid "mem_force_notification_mode_blocked"
+msgstr "I membri riceveranno automaticamente la notifica"
+
+msgid "mem_force_notification_mode_self"
+msgstr "I membri devono attivare manualmente la notifica"

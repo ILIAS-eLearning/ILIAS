@@ -1,0 +1,279 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: mcst\n"
+
+msgid "mcst_add_new_item"
+msgstr "Añadir nuevo elemento de Mediacast"
+
+msgid "mcst_audio_files"
+msgstr "Archivos de Audio"
+
+msgid "mcst_audioportable_settings_info"
+msgstr "Lista de extensiones de archivo separadas por comas"
+
+msgid "mcst_audioportable_settings_title"
+msgstr "Extensiones de archivo para formato de audio"
+
+msgid "mcst_audioportable_title"
+msgstr "Archivo de audio adicional para dispositivos portátiles"
+
+msgid "mcst_automatic_detection"
+msgstr "Detección automática"
+
+msgid "mcst_autoplay"
+msgstr "Reproducción automática"
+
+msgid "mcst_autoplay_active"
+msgstr "Reproducción automática (activada por defecto)"
+
+msgid "mcst_autoplay_inactive"
+msgstr "Reproducción automática (desactivada por defecto)"
+
+msgid "mcst_autoplay_info"
+msgstr "Inicia automáticamente el siguiente vídeo al llegar al final del anterior. Esta función no es compatible con vídeos de YouTube."
+
+msgid "mcst_clear_purpose_title"
+msgstr "Eliminar"
+
+msgid "mcst_confirm_deletion"
+msgstr "Confirmar eliminación"
+
+msgid "mcst_converted_file"
+msgstr "El archivo ha sido convertido."
+
+msgid "mcst_copy"
+msgstr "Copiar Mediacast"
+
+msgid "mcst_current_value_info"
+msgstr "Muestra el valor actual de este formato."
+
+msgid "mcst_default_visibility"
+msgstr "Acceso por defecto"
+
+msgid "mcst_det_playtime"
+msgstr "Determinar tiempo de reproducción"
+
+msgid "mcst_download_all"
+msgstr "Descargar todo"
+
+msgid "mcst_download_audioportable"
+msgstr "Descargar audio portátil"
+
+msgid "mcst_download_cnt"
+msgstr "Descargado"
+
+msgid "mcst_download_standard"
+msgstr "Descargar"
+
+msgid "mcst_download_started_bg"
+msgstr "La descarga de archivos ha comenzado. Por favor, compruebe sus tareas en segundo plano en la esquina superior derecha."
+
+msgid "mcst_download_videoalternative"
+msgstr "Descargar archivo alternativo"
+
+msgid "mcst_download_videoportable"
+msgstr "Descargar vídeo portátil"
+
+msgid "mcst_downloadable"
+msgstr "Enlaces de descarga"
+
+msgid "mcst_downloadable_info"
+msgstr "Si esta opción está activada, se proporcionan enlaces para descargar los elementos del mediacast."
+
+msgid "mcst_duration"
+msgstr "Tiempo de reproducción"
+
+msgid "mcst_duration_info"
+msgstr "Si este valor es 00:00:00, ILIAS no pudo determinar el tiempo de reproducción automáticamente. En este caso, introduzca el valor correcto manualmente."
+
+msgid "mcst_edit_item"
+msgstr "Editar elemento de Mediacast"
+
+msgid "mcst_edit_settings"
+msgstr "Configuración de MediaCast"
+
+msgid "mcst_gallery"
+msgstr "Mosaico"
+
+msgid "mcst_img_gallery"
+msgstr "Galería de imágenes"
+
+msgid "mcst_import"
+msgstr "Importar Mediacast"
+
+msgid "mcst_incl_files_in_rss"
+msgstr "Incluir archivos multimedia como adjunto"
+
+msgid "mcst_incl_files_in_rss_info"
+msgstr "Si está habilitado, los archivos multimedia se incluyen como archivos adjuntos en el canal RSS. De lo contrario, el canal solo notifica a los suscriptores sobre los nuevos elementos."
+
+msgid "mcst_input_either_file_or_url"
+msgstr "Por favor, especifique un archivo o una URL. Si proporciona un archivo, tenga en cuenta el tamaño máximo de archivo de carga permitido."
+
+msgid "mcst_items"
+msgstr "Elementos"
+
+msgid "mcst_last_submission"
+msgstr "Última entrega"
+
+msgid "mcst_list"
+msgstr "Lista"
+
+msgid "mcst_manage"
+msgstr "Gestionar"
+
+msgid "mcst_media_cast"
+msgstr "Mediacast"
+
+msgid "mcst_media_cast_not_online"
+msgstr "El Mediacast no está en línea"
+
+msgid "mcst_media_cast_not_online_text"
+msgstr "El Mediacast no está en línea o ha sido desactivado"
+
+msgid "mcst_mimetype"
+msgstr "Tipo MIME"
+
+msgid "mcst_mimetype_info"
+msgstr "Seleccione el tipo MIME para controlar el complemento utilizado para la reproducción.<br>Tenga en cuenta: Sea consciente de que no todos los navegadores contienen el complemento que pretende utilizar."
+
+msgid "mcst_mimetypes"
+msgstr "Tipos MIME"
+
+msgid "mcst_mimetypes_info"
+msgstr "Lista de tipos MIME separados por comas"
+
+msgid "mcst_new_items_det_lp"
+msgstr "Añadir nuevos elementos al progreso de aprendizaje"
+
+msgid "mcst_new_items_det_lp_info"
+msgstr "Los nuevos elementos se añaden automáticamente para determinar el progreso de aprendizaje global."
+
+msgid "mcst_news_item_visibility_info"
+msgstr "Se puede acceder a las noticias públicas sin autenticación fuera de ILIAS a través de RSS. Por favor, no incluya ninguna información confidencial."
+
+msgid "mcst_next_items"
+msgstr "Siguientes elementos"
+
+msgid "mcst_no_autoplay"
+msgstr "Sin reproducción automática"
+
+msgid "mcst_nr_items"
+msgstr "Número de elementos"
+
+msgid "mcst_nr_videos"
+msgstr "Número de vídeos iniciales"
+
+msgid "mcst_ordering"
+msgstr "Ordenación"
+
+msgid "mcst_ordering_creation_date_asc"
+msgstr "Por fecha de creación, el elemento más antiguo primero"
+
+msgid "mcst_ordering_creation_date_desc"
+msgstr "Por fecha de creación, el elemento más reciente primero"
+
+msgid "mcst_ordering_manual"
+msgstr "Manual"
+
+msgid "mcst_ordering_title"
+msgstr "Títulos en orden alfabético"
+
+msgid "mcst_play"
+msgstr "Reproducir"
+
+msgid "mcst_play_cnt"
+msgstr "Reproducido"
+
+msgid "mcst_play_time"
+msgstr "Tiempo de reproducción"
+
+msgid "mcst_podcast"
+msgstr "Pódcast"
+
+msgid "mcst_prev_items"
+msgstr "Elementos anteriores"
+
+msgid "mcst_preview"
+msgstr "Vista previa"
+
+msgid "mcst_preview_picture"
+msgstr "Imagen de vista previa"
+
+msgid "mcst_preview_picture_info"
+msgstr "Solo soportado por los siguientes tipos principales de medios:"
+
+msgid "mcst_reference_info"
+msgstr "Proporcione la URL que apunta al recurso"
+
+msgid "mcst_save_order"
+msgstr "Guardar orden"
+
+msgid "mcst_set_playtime"
+msgstr "El tiempo de reproducción ha sido establecido."
+
+msgid "mcst_settings"
+msgstr "Configuración de Mediacast"
+
+msgid "mcst_show_description"
+msgstr "Mostrar descripción"
+
+msgid "mcst_standard_settings_info"
+msgstr "Lista de extensiones de archivo separadas por comas"
+
+msgid "mcst_standard_settings_title"
+msgstr "Extensiones de archivo para formato estándar"
+
+msgid "mcst_standard_title"
+msgstr "Archivo multimedia estándar"
+
+msgid "mcst_unable_to_determin_playtime"
+msgstr "No se puede determinar el tiempo de reproducción. Por favor, establézcalo manualmente haciendo clic en Editar."
+
+msgid "mcst_video_cast"
+msgstr "Videocast"
+
+msgid "mcst_video_completion_threshold"
+msgstr "Umbral de finalización de vídeo"
+
+msgid "mcst_video_completion_threshold_info"
+msgstr "Cantidad de vídeo que activa el estado de finalizado. Tenga en cuenta que el usuario puede saltar hacia adelante para alcanzar este punto."
+
+msgid "mcst_videoalternative_title"
+msgstr "Archivo de vídeo alternativo (uso en navegador)"
+
+msgid "mcst_videoportable_settings_info"
+msgstr "Lista de extensiones de archivo separadas por comas"
+
+msgid "mcst_videoportable_settings_title"
+msgstr "Extensiones de archivo para formato de vídeo"
+
+msgid "mcst_videoportable_title"
+msgstr "Archivo de vídeo adicional para dispositivos portátiles"
+
+msgid "mcst_view_abandoned"
+msgstr "El modo de presentación actual ha sido abandonado. Por favor, abra la configuración y cambie a otro modo."
+
+msgid "mcst_viewmode"
+msgstr "Modo de presentación"
+
+msgid "mcst_visibility_info"
+msgstr "Los elementos públicos se pueden consultar vía RSS sin ninguna autenticación."
+
+msgid "mcst_visibility_public"
+msgstr "Público"
+
+msgid "mcst_visibility_users"
+msgstr "Usuarios conectados"
+
+msgid "mcst_watched"
+msgstr "visto"
+
+msgid "mcst_webfeed"
+msgstr "Canal web RSS"

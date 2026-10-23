@@ -1,0 +1,46 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: exercise\n"
+
+#, fuzzy
+msgid "exc_admin_settings"
+msgstr "Exercise Administration"
+
+msgid "exc_comment"
+msgstr "评论"
+
+msgid "exc_comment_for_learner"
+msgstr "评论学习者"
+
+msgid "exc_failed"
+msgstr "失败"
+
+msgid "exc_feedback_from_tutor"
+msgstr "来自导师的反馈"
+
+msgid "exc_grading"
+msgstr "分级"
+
+msgid "exc_mark"
+msgstr "标记"
+
+msgid "exc_notgraded"
+msgstr "未分级的"
+
+msgid "exc_passed"
+msgstr "已经通过的"
+
+msgid "exc_send_mail"
+msgstr "发送邮件"
+
+msgid "exc_start_date_should_be_before_end_date"
+msgstr "开始时间应在截止时间之前。"
+
+msgid "exc_your_submission"
+msgstr "您提交"

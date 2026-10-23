@@ -1,0 +1,489 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: user\n"
+
+msgid "account_not_flagged_for_deletion"
+msgstr ""
+
+msgid "activate_in_profile_fields"
+msgstr ""
+
+msgid "administrative_settings"
+msgstr ""
+
+msgid "all_roles_has_starting_point"
+msgstr ""
+
+msgid "back_to_starting_points_list"
+msgstr ""
+
+msgid "change_email_email_confirmation_body"
+msgstr ""
+
+msgid "change_email_email_confirmation_subject"
+msgstr ""
+
+msgid "change_email_email_information_body"
+msgstr ""
+
+msgid "change_email_email_information_subject"
+msgstr ""
+
+msgid "change_email_email_sent"
+msgstr ""
+
+msgid "change_email_info_message"
+msgstr ""
+
+msgid "clipboard_add_btn"
+msgstr ""
+
+msgid "clipboard_add_from_btn"
+msgstr ""
+
+msgid "clipboard_empty_btn"
+msgstr ""
+
+msgid "clipboard_remove_btn"
+msgstr ""
+
+msgid "clipboard_table_title"
+msgstr ""
+
+msgid "clipboard_user_added"
+msgstr ""
+
+msgid "confirm_delete_starting_point"
+msgstr ""
+
+msgid "confirm_logout_for_email_change"
+msgstr ""
+
+msgid "confirm_logout_for_email_change_with_confirmation"
+msgstr ""
+
+msgid "create_starting_point"
+msgstr ""
+
+msgid "criteria"
+msgstr ""
+
+msgid "del_mail_body"
+msgstr ""
+
+msgid "del_mail_subject"
+msgstr ""
+
+msgid "delete_inactive_user_accounts_frequency"
+msgstr ""
+
+msgid "delete_inactive_user_accounts_frequency_desc"
+msgstr ""
+
+msgid "edit_field"
+msgstr ""
+
+msgid "edit_setting"
+msgstr ""
+
+msgid "editing_this_role"
+msgstr ""
+
+msgid "email_could_not_be_changed"
+msgstr ""
+
+msgid "enable_local_user_administration"
+msgstr ""
+
+msgid "enable_local_user_administration_info"
+msgstr ""
+
+msgid "feedhash"
+msgstr ""
+
+msgid "field_type_custom"
+msgstr ""
+
+msgid "has_role"
+msgstr ""
+
+msgid "info_accessFree_sure"
+msgstr ""
+
+msgid "inform_user_mail_info"
+msgstr ""
+
+msgid "interests"
+msgstr ""
+
+msgid "interests_general"
+msgstr ""
+
+msgid "interests_help_looking"
+msgstr ""
+
+msgid "interests_help_offered"
+msgstr ""
+
+msgid "ldoc_accepted_content"
+msgstr ""
+
+msgid "ldoc_not_accepted_yet"
+msgstr ""
+
+msgid "msg_spoint_not_modified"
+msgstr ""
+
+msgid "no_deactivate_yourself"
+msgstr ""
+
+msgid "obj_ref_id_not_exist"
+msgstr ""
+
+msgid "personalise_additional"
+msgstr ""
+
+msgid "personalise_communication"
+msgstr ""
+
+msgid "personalise_privacy"
+msgstr ""
+
+msgid "profile_fields"
+msgstr ""
+
+msgid "profile_section"
+msgstr ""
+
+msgid "restrict_user_access"
+msgstr ""
+
+msgid "restrict_user_access_info"
+msgstr ""
+
+msgid "roles_without_starting_point"
+msgstr ""
+
+msgid "save_order"
+msgstr ""
+
+msgid "send_mail_reminder_window_too_small"
+msgstr ""
+
+msgid "send_mail_to_inactive_users"
+msgstr ""
+
+msgid "send_mail_to_inactive_users_desc"
+msgstr ""
+
+msgid "send_mail_to_inactive_users_must_be_smaller_than"
+msgstr ""
+
+msgid "send_mail_to_inactive_users_numbers_only"
+msgstr ""
+
+msgid "send_mail_to_inactive_users_suffix"
+msgstr ""
+
+msgid "show_own_online_status"
+msgstr ""
+
+msgid "starting_page"
+msgstr ""
+
+msgid "starting_point"
+msgstr ""
+
+msgid "starting_point_settings"
+msgstr ""
+
+msgid "starting_points"
+msgstr ""
+
+msgid "udf_select_options"
+msgstr ""
+
+msgid "user_access_limited"
+msgstr ""
+
+msgid "user_access_unlimited"
+msgstr ""
+
+msgid "user_account_code"
+msgstr ""
+
+msgid "user_account_code_generated"
+msgstr ""
+
+msgid "user_account_code_generated_all"
+msgstr ""
+
+msgid "user_account_code_not_valid"
+msgstr ""
+
+msgid "user_account_code_setting"
+msgstr ""
+
+msgid "user_account_code_setting_info"
+msgstr ""
+
+msgid "user_account_code_used"
+msgstr ""
+
+msgid "user_account_code_valid_until"
+msgstr ""
+
+msgid "user_account_code_valid_until_dynamic"
+msgstr ""
+
+msgid "user_account_code_valid_until_static"
+msgstr ""
+
+msgid "user_account_code_valid_until_unlimited"
+msgstr ""
+
+msgid "user_account_codes_add"
+msgstr ""
+
+msgid "user_account_codes_edit_header"
+msgstr ""
+
+msgid "user_account_codes_export"
+msgstr ""
+
+msgid "user_account_codes_number"
+msgstr ""
+
+msgid "user_account_deleted_confirmation"
+msgstr ""
+
+msgid "user_activate_public_profile"
+msgstr ""
+
+msgid "user_activate_public_profile_info"
+msgstr ""
+
+msgid "user_activation"
+msgstr ""
+
+msgid "user_admin_options"
+msgstr ""
+
+msgid "user_all"
+msgstr ""
+
+msgid "user_allow_delete_own_account"
+msgstr ""
+
+msgid "user_any"
+msgstr ""
+
+msgid "user_awrn_all_users"
+msgstr ""
+
+msgid "user_awrn_all_users_info"
+msgstr ""
+
+msgid "user_check_profile_data"
+msgstr ""
+
+msgid "user_chooses_starting_page"
+msgstr ""
+
+msgid "user_delete_own_account"
+msgstr ""
+
+msgid "user_delete_own_account_aborted"
+msgstr ""
+
+msgid "user_delete_own_account_email_body"
+msgstr ""
+
+msgid "user_delete_own_account_email_subject"
+msgstr ""
+
+msgid "user_delete_own_account_final_confirmation"
+msgstr ""
+
+msgid "user_delete_own_account_info"
+msgstr ""
+
+msgid "user_delete_own_account_logout_button"
+msgstr ""
+
+msgid "user_delete_own_account_logout_confirmation"
+msgstr ""
+
+msgid "user_delete_own_account_notification_email"
+msgstr ""
+
+msgid "user_field"
+msgstr ""
+
+msgid "user_global_role"
+msgstr ""
+
+msgid "user_last_login_before"
+msgstr ""
+
+msgid "user_limited_access"
+msgstr ""
+
+msgid "user_local_role"
+msgstr ""
+
+msgid "user_lv_do_not_store"
+msgstr ""
+
+msgid "user_lv_keep_entries"
+msgstr ""
+
+msgid "user_lv_keep_only_for_session"
+msgstr ""
+
+msgid "user_make_profile_public"
+msgstr ""
+
+msgid "user_member_of_course_group"
+msgstr ""
+
+msgid "user_no_courses"
+msgstr ""
+
+msgid "user_no_groups"
+msgstr ""
+
+msgid "user_order"
+msgstr ""
+
+msgid "user_ownership"
+msgstr ""
+
+msgid "user_please_select_course_group"
+msgstr ""
+
+msgid "user_portfolios"
+msgstr ""
+
+msgid "user_portfolios_desc"
+msgstr ""
+
+msgid "user_privacy_checklist"
+msgstr ""
+
+msgid "user_profile_data"
+msgstr ""
+
+msgid "user_profile_data_checked"
+msgstr ""
+
+msgid "user_profile_info"
+msgstr ""
+
+msgid "user_profile_info_std"
+msgstr ""
+
+msgid "user_profile_info_text_info"
+msgstr ""
+
+msgid "user_profile_portfolio"
+msgstr ""
+
+msgid "user_profile_portfolio_selected"
+msgstr ""
+
+msgid "user_profile_preview"
+msgstr ""
+
+msgid "user_profile_prompt_text"
+msgstr ""
+
+msgid "user_profile_prompt_text_info"
+msgstr ""
+
+msgid "user_prompt_incomplete"
+msgstr ""
+
+msgid "user_prompt_incomplete_info"
+msgstr ""
+
+msgid "user_prompt_once_after_login"
+msgstr ""
+
+msgid "user_prompt_once_after_login_info"
+msgstr ""
+
+msgid "user_prompt_repeat"
+msgstr ""
+
+msgid "user_prompt_repeat_info"
+msgstr ""
+
+msgid "user_prompting_recurrence"
+msgstr ""
+
+msgid "user_prompting_settings"
+msgstr ""
+
+msgid "user_public_profile_info"
+msgstr ""
+
+msgid "user_publish_options"
+msgstr ""
+
+msgid "user_role_selection"
+msgstr ""
+
+msgid "user_role_starting_point"
+msgstr ""
+
+msgid "user_save_continue"
+msgstr ""
+
+msgid "user_save_ordering_and_titles"
+msgstr ""
+
+msgid "user_select_course_group"
+msgstr ""
+
+msgid "user_set_publishing_options"
+msgstr ""
+
+msgid "user_set_visibilty_options"
+msgstr ""
+
+msgid "user_settings"
+msgstr ""
+
+msgid "user_store_last_visited"
+msgstr ""
+
+msgid "user_visibility_settings"
+msgstr ""
+
+msgid "user_visible_in_profile"
+msgstr ""
+
+msgid "usr_id"
+msgstr ""
+
+msgid "usr_letter_avatars"
+msgstr ""
+
+msgid "usr_letter_avatars_info"
+msgstr ""
+
+msgid "usr_public_profile_disabled"
+msgstr ""
+
+msgid "usr_public_profile_disabled_info"
+msgstr ""
+
+msgid "usr_public_profile_global"
+msgstr ""
+
+msgid "usr_public_profile_logged_in"
+msgstr ""

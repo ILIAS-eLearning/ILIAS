@@ -1,0 +1,288 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: sess\n"
+
+msgid "il_sess_participant"
+msgstr "セッション参加者"
+
+msgid "il_sess_status_open"
+msgstr "セッションを開く"
+
+msgid "mail_sess_roles"
+msgstr "セッション役割へメールを送信"
+
+msgid "notification"
+msgstr "通知"
+
+msgid "objs_crs_role"
+msgstr "コース役割"
+
+msgid "objs_grp_role"
+msgstr "グループ役割"
+
+msgid "send_mail_participants"
+msgstr "セッション全参加者"
+
+msgid "sess_accept_request"
+msgstr "受講者を承認"
+
+msgid "sess_assign"
+msgstr "割当てる"
+
+msgid "sess_bt_refuse"
+msgstr "参加不可"
+
+msgid "sess_change_type"
+msgstr "セッションタイプを変更"
+
+msgid "sess_contact"
+msgstr "連絡する"
+
+msgid "sess_copy"
+msgstr "セッションをコピー"
+
+msgid "sess_filter_all_types"
+msgstr "全タイプ"
+
+msgid "sess_filter_not_assigned"
+msgstr "割当て無し"
+
+msgid "sess_import"
+msgstr "インポートセッション"
+
+msgid "sess_info_new_sess_type"
+msgstr "新しいセッションタイプ"
+
+msgid "sess_is_assigned"
+msgstr "割当済"
+
+msgid "sess_list_reg_limit_places"
+msgstr "フリーな場所"
+
+msgid "sess_lp_preset"
+msgstr "学習進捗を有効化"
+
+msgid "sess_lp_preset_info"
+msgstr "全てのセッションイベント用の学習進捗を解除する"
+
+msgid "sess_mail_admins_only"
+msgstr "管理者のみ"
+
+msgid "sess_mail_admins_only_info"
+msgstr "管理者のみが ‘参加者’ タブの‘参加者へメール’機能を利用できます。"
+
+msgid "sess_mail_all"
+msgstr "全参加者"
+
+msgid "sess_mail_all_info"
+msgstr "ユーザは ‘参加者’ タブの‘参加者へメール’機能を利用できます。"
+
+msgid "sess_mail_context_participant_info"
+msgstr "参加者に対する参加者のe-mailとセッションの学習進捗画面"
+
+msgid "sess_mail_context_participant_title"
+msgstr "設定: 参加者へメール"
+
+msgid "sess_mail_permanent_link"
+msgstr "セッションに関する必要なすべての情報見つけるには次のリンクをクリック:"
+
+msgid "sess_mail_permanent_link_participants"
+msgstr "セッションの参加者を編集するための次のリンクをクリック:"
+
+msgid "sess_mail_sub_acc_bod"
+msgstr "セッション \"%s\"に登録済みです"
+
+msgid "sess_mail_sub_acc_sub"
+msgstr "セッション\"%s\"の登録"
+
+msgid "sess_mail_sub_dec_bod"
+msgstr "申し訳ありませんがセッション\"%s\"への登録が拒否されました。"
+
+msgid "sess_mail_sub_dec_sub"
+msgstr "セッション\"%s\"の登録拒否"
+
+msgid "sess_mail_type"
+msgstr "参加者へメール"
+
+msgid "sess_material_assigned"
+msgstr "割当て済"
+
+msgid "sess_material_not_assigned"
+msgstr "未割当て"
+
+msgid "sess_max_members_needed"
+msgstr "最大メンバー数が待ちリスト機能用に必要です。"
+
+msgid "sess_mem_contacts"
+msgstr "チュートリアルサポート"
+
+msgid "sess_mem_send_mail"
+msgstr "メールを送信"
+
+msgid "sess_mem_tbl_header"
+msgstr "セッション参加者"
+
+msgid "sess_member_administration"
+msgstr "参加者を編集"
+
+msgid "sess_members"
+msgstr "参加者"
+
+msgid "sess_members_gallery"
+msgstr "セッションギャラリー"
+
+msgid "sess_members_print_title"
+msgstr "セッション参加者"
+
+msgid "sess_msg_applicants_assigned"
+msgstr "応募者はセッションを登録しました。"
+
+msgid "sess_msg_applicants_removed"
+msgstr "応募者はリストから削除しました。"
+
+msgid "sess_new"
+msgstr "セッションを作成"
+
+msgid "sess_new_registrations"
+msgstr "リクエストへ参加"
+
+msgid "sess_notification_option"
+msgstr "オプション"
+
+msgid "sess_notification_option_inherit"
+msgstr "親から引き継ぐ"
+
+msgid "sess_notification_option_inherit_info"
+msgstr "このセッションのメンバー用の親数値設定(例: コースまたはグループからの通知設定等)を使用"
+
+msgid "sess_notification_option_manual"
+msgstr "手動で設定"
+
+msgid "sess_notification_option_manual_info"
+msgstr "'受講者'タブのユーザが手動で設定しなければならない通知設定"
+
+msgid "sess_open"
+msgstr "セッションを開く"
+
+msgid "sess_part_filter_participated"
+msgstr "出席者のみ"
+
+msgid "sess_part_filter_registered"
+msgstr "登録者のみ"
+
+msgid "sess_part_table_excused"
+msgstr "免除"
+
+msgid "sess_participation_refused_info"
+msgstr "このイベント参加はキャンセルされました。"
+
+msgid "sess_print_list"
+msgstr "リストを作成"
+
+msgid "sess_reg_added_to_wl"
+msgstr "あなたは待ちリストへ追加されました。"
+
+msgid "sess_reg_cannot_participate"
+msgstr "参加不可"
+
+msgid "sess_reg_cannot_participate_info"
+msgstr "セッションへ参加できない事をユーザは表示できます。"
+
+msgid "sess_reg_direct"
+msgstr "ダイレクト登録"
+
+msgid "sess_reg_direct_info"
+msgstr "ユーザがセッションへ参加するには'参加'をクリックする必要があります。"
+
+msgid "sess_reg_disabled"
+msgstr "自己登録不要"
+
+msgid "sess_reg_disabled_info"
+msgstr "このセッションのアポイントには登録不要です。"
+
+msgid "sess_reg_max_members"
+msgstr "メンバー制限数"
+
+msgid "sess_reg_max_members_info"
+msgstr "このセッションへ参加できる最大ユーザー数を定義"
+
+msgid "sess_reg_max_members_short"
+msgstr "メンバー数"
+
+msgid "sess_reg_max_users_exceeded"
+msgstr "最大ユーザ数を超えましたので登録できません。"
+
+msgid "sess_reg_max_users_exceeded_wl"
+msgstr "このセッションアポイントの最大ユーザ数を超えました。"
+
+msgid "sess_reg_request"
+msgstr "メンバーシップを要求"
+
+msgid "sess_reg_request_info"
+msgstr "興味のあるユーザは管理者へ要求メッセージを送ることができます。"
+
+msgid "sess_reg_tutor"
+msgstr "登録不可"
+
+msgid "sess_reg_tutor_info"
+msgstr "自身のこのセッション用としてユーザは登録できません。管理者のみがユーザを登録できます。"
+
+msgid "sess_reg_type"
+msgstr "登録手順"
+
+msgid "sess_reg_waiting_list"
+msgstr "待ちリスト"
+
+msgid "sess_reg_waiting_list_autofill"
+msgstr "自動挿入あり"
+
+msgid "sess_reg_waiting_list_autofill_info"
+msgstr "キャンセル時には受講者は自動的に待ちリストから採用されます。これは、オートフィルがバイパスするので\"参加申請\"登録手順で使用すべきではありません。"
+
+msgid "sess_reg_waiting_list_no_autofill"
+msgstr "自動挿入なし"
+
+msgid "sess_reg_waiting_list_no_autofill_info"
+msgstr "最大ユーザ数を超えている場合は新規登録は待ちリストへ入ります。"
+
+msgid "sess_reg_waiting_list_none"
+msgstr "なし"
+
+msgid "sess_registered_confirm"
+msgstr "登録には管理者の確認が要求されます登録処理が完了すると通知が届きます"
+
+msgid "sess_registration_notification"
+msgstr "通知"
+
+msgid "sess_registration_notification_info"
+msgstr "新規または退出者に関する通知されるべきユーザを選択するための'参加者'タブ内に列を表示"
+
+msgid "sess_section_reg"
+msgstr "登録設定"
+
+msgid "sess_setting_header_presentation"
+msgstr "プレゼンテーション"
+
+msgid "sess_show_participants_info"
+msgstr "有効にするとセッション参加者は参加者ギャラリーへアクセスできます。"
+
+msgid "sess_title"
+msgstr "セッションのタイトル"
+
+msgid "sess_users_added"
+msgstr "セッションの選択したユーザを登録しました。"
+
+msgid "sess_users_already_assigned"
+msgstr "ユーザはこのセッションへすでに登録済です。"
+
+msgid "sess_users_removed_from_list"
+msgstr "選択のユーザは待ちリストから削除されました。"
+
+msgid "sess_warn_sess_type_changed"
+msgstr "本当にセッションタイプを変更しますか? 全ての権限設定はリセットされます。"

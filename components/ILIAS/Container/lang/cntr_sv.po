@@ -1,0 +1,118 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cntr\n"
+
+msgid "cntr_add_new_item"
+msgstr "Lägg till nytt objekt"
+
+msgid "cntr_adopt_content"
+msgstr "Ta över innehåll"
+
+msgid "cntr_container_only_on_their_own"
+msgstr "Kategorier, kurser, grupper, mappar, inlärningssekvenser och studieprogram kan endast kopieras individuellt. Välj endast ett sådant objekt."
+
+msgid "cntr_copy_crs_grp"
+msgstr "Val av medlemskap"
+
+msgid "cntr_copy_repo_tree"
+msgstr "Urval magasin träd"
+
+msgid "cntr_hide_title_and_icon"
+msgstr " Visa inte titel och ikon"
+
+msgid "cntr_manage"
+msgstr "Hantering"
+
+msgid "cntr_ordering"
+msgstr "Sortera"
+
+msgid "cntr_saved_sorting"
+msgstr "Sortering sparad"
+
+msgid "cntr_switch_to_new_editor_cmd"
+msgstr "Byt till innehållet nedan. Gammalt innehåll kommer att raderas."
+
+msgid "cntr_switch_to_new_editor_message"
+msgstr "Detta är standardredigeraren för sidor. Om du vill använda den måste du lägga till innehållet genom att klicka på platshållarna nedan. Om du klickar på länken nedan kommer innehållet nedan att användas för att visa sidan."
+
+msgid "cntr_switched_editor"
+msgstr "Konverterad till ny representation"
+
+msgid "cntr_tax_none_available"
+msgstr "Det finns inga tillgängliga taxonomier."
+
+#, fuzzy
+msgid "cntr_tax_settings_info"
+msgstr "Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the \"Metadata\" tabs and the \"Taxonomy Assignment\" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's \"Contents\" tab to enable direct filtering of the assigned objects."
+
+msgid "cntr_taxonomy_definitions"
+msgstr "Definition av taxonomi"
+
+msgid "cntr_taxonomy_show_sideblock"
+msgstr "Visa taxonomi i sidblocket"
+
+msgid "cntr_taxonomy_sideblock_settings"
+msgstr "Inställningar för presentation"
+
+msgid "cntr_text_media_editor"
+msgstr "Design sida"
+
+msgid "cntr_view_by_type"
+msgstr "Grupperade efter typ"
+
+msgid "cntr_view_info_by_type"
+msgstr "Alla objekt av en viss typ visas i en separat lista."
+
+msgid "cntr_view_info_sessions"
+msgstr "Sessioner visas i sin egen lista. Objekt som inte är tilldelade sessioner listas nedan."
+
+msgid "cntr_view_info_simple"
+msgstr "Alla objekt visas i en enda lista."
+
+msgid "cntr_view_sessions"
+msgstr "Session vy"
+
+msgid "cntr_view_simple"
+msgstr "Enkel lista"
+
+msgid "container_import_zip_file_invalid"
+msgstr "Den uppladdade filen är inte en giltig ILIAS exportfil. För att ladda upp katalogstrukturer, använd ett filobjekt."
+
+msgid "edit_questions"
+msgstr "Redigera frågor"
+
+msgid "exc_next_deadline_single"
+msgstr "Tidsfrist för leverans"
+
+msgid "msg_no_downloadable_objects"
+msgstr "Inga nedladdningsbara objekt hittades."
+
+msgid "objects_duplicated"
+msgstr "Objekten har kopierats."
+
+msgid "prtf_create_portfolio_from_template"
+msgstr "Skapa portfölj från mall"
+
+msgid "sorting_new_items_at_bottom"
+msgstr "Botten"
+
+msgid "sorting_new_items_at_top"
+msgstr "Topp"
+
+msgid "sorting_new_items_direction"
+msgstr "Inriktning"
+
+msgid "sorting_new_items_order"
+msgstr "Beställ"
+
+msgid "sorting_new_items_position"
+msgstr "Insätt nya objekt"
+
+msgid "tab_back_to_repository"
+msgstr "Tillbaka till tidningen"

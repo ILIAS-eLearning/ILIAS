@@ -1,0 +1,305 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ka\n"
+"Language-Team: Georgian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: news\n"
+
+#, fuzzy
+msgid "lso_news_online_title"
+msgstr "A new learning sequence object is online!"
+
+#, fuzzy
+msgid "lso_news_online_txt"
+msgstr "A new object for your learning sequence was just published."
+
+#, fuzzy
+msgid "new_test_online"
+msgstr "The Test was set online."
+
+msgid "news_1_file_created"
+msgstr "1 ფაილი დამატებულია"
+
+msgid "news_1_file_updated"
+msgstr "1 ფაილი განახლებულია"
+
+#, fuzzy
+msgid "news_1_postings"
+msgstr "One post has been added."
+
+msgid "news_add_news"
+msgstr "სიახლეების დამატება"
+
+msgid "news_all_items"
+msgstr "სიახლეების ახალი ნივთების შესახებ პირად მაგიდაზე"
+
+msgid "news_allow_longer_periods"
+msgstr "უფრო გრძელი პერიოდების დაშვება"
+
+msgid "news_allow_longer_periods_info"
+msgstr "მომხმარებლებს შეუძლიათ აირჩიონ უფრო გრძელი პერიოდები პირად მაგიდაზე"
+
+msgid "news_allow_shorter_periods"
+msgstr "მოკლე პერიოდების დაშვება"
+
+msgid "news_allow_shorter_periods_info"
+msgstr "მომხმარებლებს შეუძლიათ უფრო მოკლე პერიოდების არჩევა პირად მაგიდაზე"
+
+msgid "news_attached_to"
+msgstr "თანდართულია"
+
+msgid "news_block_information"
+msgstr "<b>Nეწს</b> ბლოკი ჩამოთვლის ყველა სიახლეს რომელიც დაკავშირებულია  <b>Pერსონალ Iტემს</b> რომელიც თქვენ მონიშნეთ პირად მაგიდაზე"
+
+msgid "news_cache"
+msgstr "ახალი ფარული მარაგები ( წუთები)"
+
+msgid "news_cache_info"
+msgstr "სიახლეების ყუთის ყოველ X წუთში განახლება. \"0\" ნიშნავს ყოველთვის. Uუფრო მაღალი ღირებულებები აუმჯობესებენ შედეგს მაგრამ სიახლეები შეიძლება იყოს დაკავშირებული არა ხელმისაწვდომ ნივთებთან"
+
+msgid "news_default_visibility"
+msgstr "სტანდარტული შესვლა"
+
+msgid "news_edit_news_settings"
+msgstr "პარამეტრების რედაქტირება"
+
+msgid "news_enable_internal_news"
+msgstr "შიდა სიაახლეების გააქტიურება"
+
+msgid "news_enable_internal_news_info"
+msgstr "ააქტიურებს ახალ ბლოკებს კატეგორიებისთვის, კურსებისთვის, ჯგუფებისთვის და სხვა ობიექტებისთვის. Mმომხმარებლებს შეუძლიათ სიახლეებზე ხელის მოწერა და სიახლეები არის პირად მაგიდაზე"
+
+msgid "news_enable_internal_rss"
+msgstr "RSS-ის გააქტიურება შიდა სიახლეებისთვის"
+
+msgid "news_enable_internal_rss_info"
+msgstr "შესაძლებელს ხდის სიახლეების RSS-ის მეშვეობით გამოცემას. Eეს ნივთები იქნება ხელმისაწვდომი სისტემის გარეთ ავტორიზების გარეშე"
+
+msgid "news_enable_private_feed"
+msgstr "პირადი სიახლეები გააქტიურება"
+
+msgid "news_enable_private_feed_info"
+msgstr "თუ ეს პარამეტრი გააქტიურებულია, საჯარო და პირადი სიახლები შესაძლებელი იყოს არჩევითი პირადი RSS სიახლეებიდან მოპოვებული ილიასის გარეთ. Aავტორიზება ხდება პაროლის Mმეშვეობით"
+
+msgid "news_feed_url"
+msgstr "URL სიახლე"
+
+msgid "news_feed_url_for"
+msgstr "URL სიახლეები \"%s\""
+
+msgid "news_first_letter_of_word_notification"
+msgstr "N"
+
+msgid "news_get_feed_info"
+msgstr "ეს არის პირადი სიახლეებიs URL. Eეს სიახლეები შეიცავს მხოლოდ იმ ახალ ამბებს რომლებიც გამოცხადებულია ავტორის მიერ. სიახლე არ არის დაცული რომელიმე ავტორიზების პროცედურით. გთხოვთ არ გაუზიაროთ ეს URL სხვა ხალხს"
+
+msgid "news_get_feed_title"
+msgstr "პირადი სიახლეების URL"
+
+msgid "news_get_feed_url"
+msgstr "სიახლეების URL-ს მიღება"
+
+msgid "news_get_priv_feed_info"
+msgstr "ეს არის პირადი პირადის სიახლეების URL. შიახლეები შეიცავს ახალ ამბებს რომლებიც გამოცხადებულია საჯაროდ და პირადულად ავტორის მიერ. შიახლეები დაცულია პაროლით, რომელიც შეიძლება შეიცვალოს \"პარამეტრები\" -ის ღილაკით. გთხოვთ არ გააზიაროთ ეს URL სხვა ხალხთან. გთხოვთ შეცვალოთ პაროლს ადგილი ამ URL-ში თქვენი სიაახლეების პაროლით"
+
+msgid "news_get_priv_feed_title"
+msgstr "პირადი სიახლეების URL"
+
+msgid "news_hide_news_block"
+msgstr "სიახლეების ბლოკის დამალვა"
+
+msgid "news_hide_news_block_info"
+msgstr "ბლოკის დამალვა მოსწავლისის ხედვიდან. სიახლეების ბლოკი ხილვადი იქნება მომხმარებლებისთვის წერილობითიი დაშვებით"
+
+msgid "news_hide_news_date"
+msgstr "დაწყების თარიღი"
+
+msgid "news_hide_news_per_date"
+msgstr "აჩვენეთ სიახლეები შემდეგ"
+
+msgid "news_hide_news_per_date_info"
+msgstr "მხოლოდ ის სიახლეები გამოჩნდება რომლებიც უფრო ახალია ვიდრე გარკვეული თარიღი"
+
+#, fuzzy
+msgid "news_inactive_private_feed_info"
+msgstr "Your private news feed is deactivated. Please set a password in the settings."
+
+msgid "news_internal_news"
+msgstr "სიახლეები"
+
+msgid "news_keep_minimal_x_items"
+msgstr "Keep at least x items"
+
+msgid "news_keep_minimal_x_items_info"
+msgstr "If set to a value > 0, this is the number of items that are kept in the feed, even if they are older than the default lifetime."
+
+msgid "news_loading_news"
+msgstr "სიახლეების ჩატვირთვა"
+
+#, fuzzy
+msgid "news_media"
+msgstr "Media File"
+
+#, fuzzy
+msgid "news_new_comments"
+msgstr "New comments"
+
+#, fuzzy
+msgid "news_new_reactions"
+msgstr "New reactions"
+
+#, fuzzy
+msgid "news_news_block"
+msgstr "News Block"
+
+msgid "news_news_item_content"
+msgstr "ტექსტი"
+
+msgid "news_news_item_content_long"
+msgstr "გრძელი ტექსტი"
+
+msgid "news_news_item_content_long_info"
+msgstr "ეს ტექსტი არ გამოიცემა RSS-ით"
+
+#, fuzzy
+msgid "news_news_item_def_visibility_public_info"
+msgstr "Current news are accessible in a public RSS webfeed. They should not contain confidential information."
+
+#, fuzzy
+msgid "news_news_item_def_visibility_users_info"
+msgstr "Only authenticated users have access to current news."
+
+msgid "news_news_item_head"
+msgstr "სიაახლეების ნივთი"
+
+msgid "news_news_item_title"
+msgstr "სათაური"
+
+msgid "news_news_item_visibility"
+msgstr "შესვლა"
+
+msgid "news_news_item_visibility_info"
+msgstr "საჯარო სიახლეების ნახვა შესაძლებელია ავტორიზების გარეშე ილიასის გარეთ RRS-ის მეშვეობით"
+
+msgid "news_news_items"
+msgstr "სიახლების ნივთები"
+
+msgid "news_no_js_click_here"
+msgstr "სიახლეები არ არის გამოტანილი, დაააკლიკეთ აქ"
+
+msgid "news_no_news_items"
+msgstr "სიახლეები არ არის ხელმისაწვდომი"
+
+#, fuzzy
+msgid "news_not_available"
+msgstr "Unavailable News"
+
+msgid "news_notifications"
+msgstr "შეტყობინებები"
+
+msgid "news_notifications_public"
+msgstr "საჯარო შეტყობინებები"
+
+msgid "news_notifications_public_info"
+msgstr "თუ ეს პარამეტრი გააქტიურებულია, შეტყობინებების მიღება შეიძლება პირადი RSS სიახლეებით ილიასის გარეთ. გთხოვთ გაითვალისწინოთ რომ ეს გახდის შეტყობინებებს ხელმისაწვდომს ავტორიზების გარეშე"
+
+msgid "news_nr_of_items"
+msgstr "ობიექტზე მაქსიმალური სიახლეების ნივთების რაოდენობა"
+
+msgid "news_nr_of_items_info"
+msgstr "სიახლეების ნივთების რაოდენობა რომელიც ინახება ობიექტისთვის (მაგალითად ფაილი ან სასწავლო მოდული) მონაცემთა ბაზაში. გთხოვთ გაითვალისწინოთ რომ კონტეინერის ობიექტებმა (მაგალითად კატეგორიები, კურსები) შეიძლება ჩამოთვალოს მეტი ნივთი, იმიტომ რომ ისინი განავრცობენ ქვე ობიექტების სიახლეებს"
+
+msgid "news_pd_period"
+msgstr "პირადი მაგიდის სიახლეების პერიოდი"
+
+msgid "news_pd_period_info"
+msgstr "განსაზღვრავს  დროის პერიოდს რომელიც პირად მაგიდაზე სიახლეებისთვის გამოიყენება. აირჩიეთ უფრო დაბალი ღირებულებები თუ გაქვთ რამე პრობლემა შედეგთან დაკავშირებით"
+
+msgid "news_period_1_month"
+msgstr "ბოლო თვე"
+
+msgid "news_period_1_week"
+msgstr "ბოლო კვირა"
+
+msgid "news_period_1_year"
+msgstr "ბოლო წელიწადი"
+
+msgid "news_period_x_days"
+msgstr "ბოლო %s დღეები"
+
+msgid "news_period_x_months"
+msgstr "ბოლო %s თვე"
+
+msgid "news_period_x_weeks"
+msgstr "ბოლო %s კვირები"
+
+msgid "news_public_feed"
+msgstr "ექსტრა RSS სიახლე"
+
+msgid "news_public_feed_info"
+msgstr "თუ ეს პარამეტრები გააქტიურებულია, ცალკე RSS სიახლე იქნება გამოყოფილი ამ მედია ქასთისთვის"
+
+#, fuzzy
+msgid "news_really_delete_news"
+msgstr "Do you really want to delete this news item?"
+
+#, fuzzy
+msgid "news_rss"
+msgstr "RSS"
+
+msgid "news_rss_period"
+msgstr "RSS პერიოდი"
+
+msgid "news_rss_title_format"
+msgstr "RSS შენატანების დასახელების ფორმატი"
+
+msgid "news_rss_title_format_news_obj"
+msgstr "ახალი სათაური ( ობიექტის დასახელება)"
+
+msgid "news_rss_title_format_obj_news"
+msgstr "ობიექტის დასახელება-ახალი სათაური"
+
+msgid "news_settings"
+msgstr "სიახლეების პარამეტრები"
+
+#, fuzzy
+msgid "news_sorry_not_accessible_anymore"
+msgstr "Sorry, this item is not accessible anymore."
+
+msgid "news_time_period"
+msgstr "დროის პერიოდი"
+
+#, fuzzy
+msgid "news_timline_add_entries_info"
+msgstr "No news available yet. Click \"Add\" to create news entries."
+
+#, fuzzy
+msgid "news_timline_no_entries"
+msgstr "No news have been found."
+
+msgid "news_visibility_public"
+msgstr "საჯარო"
+
+msgid "news_visibility_users"
+msgstr "შესული მომხმარებლები"
+
+msgid "news_x_files_created"
+msgstr "%s ფაილები დამატებულია"
+
+msgid "news_x_files_updated"
+msgstr "%s ფაილები განახლებულია"
+
+msgid "news_x_postings"
+msgstr "%s პოსტები დამატებულია"
+
+msgid "passwd_equals_ilpasswd"
+msgstr "გთხოვთ შეიყვანოთ ილიასის პაროლისაგან განსხვავებული პაროლი"
+
+msgid "priv_feed_disabled"
+msgstr "პირადი სიახლეები გაჩერებულია"
+
+msgid "priv_feed_settings"
+msgstr "პირადი სიახლეების პარამეტრები"

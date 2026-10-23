@@ -1,0 +1,912 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mail\n"
+
+msgid "back_to_folder"
+msgstr "Zurück zum Ordner"
+
+msgid "chat_users_have_been_invited"
+msgstr "Die Benutzer wurden eingeladen:"
+
+msgid "chat_users_without_login"
+msgstr "Die folgenden Benutzer haben kein ILIAS-Konto und können nicht eingeladen werden:"
+
+msgid "chat_users_without_permission"
+msgstr "Die folgenden Benutzer haben keinen Zugriff zum ausgewählten Raum:"
+
+msgid "current_folder"
+msgstr "Aktueller Ordner: %s"
+
+msgid "deleteTemplate"
+msgstr "Löschen"
+
+msgid "edit_attachments"
+msgstr "Anhänge bearbeiten"
+
+msgid "first_email_missing_info"
+msgstr "Auswahl nicht möglich, da keine E-Mail-Adresse eingetragen wurde"
+
+msgid "forward"
+msgstr "Weiterleiten"
+
+msgid "goto_invitation_chat"
+msgstr "Chatraum öffnen"
+
+msgid "invite_to_chat"
+msgstr "in Chat einladen"
+
+msgid "link_check_affected_links"
+msgstr "Betroffene Links"
+
+msgid "link_check_introduction"
+msgstr "die folgenden Externen Links sind ungültig:"
+
+msgid "link_check_perma_link"
+msgstr "Permanent Link"
+
+msgid "link_check_reason"
+msgstr "Sie erhalten diese Benachrichtigung, da Sie die Benachrichtigung über ungültige Externe Links aktiviert haben."
+
+msgid "mail_1"
+msgstr "1 Mail"
+
+msgid "mail_absence_auto_responder_body"
+msgstr "Nachricht"
+
+msgid "mail_absence_auto_responder_body_hint"
+msgstr "Dies ist eine automatisch generierte Nachricht. Wenn Sie weitere Mails an diese Adresse schicken, bekommen Sie frühestens [NEXT_AUTO_RESPONDER_DATETIME] eine weitere automatische Antwort."
+
+msgid "mail_absence_auto_responder_body_info"
+msgstr "Diese Nachricht wird während Ihrer Abwesenheit automatisch versendet, wenn Benutzer Ihnen eine ILIAS-interne Nachricht schicken.<br>Benutzer werden bei weiteren Nachrichten alle %1$s Tage über Ihre Abwesenheit informiert."
+
+msgid "mail_absence_auto_responder_body_info_single_day"
+msgstr "Diese Nachricht wird während Ihrer Abwesenheit automatisch versendet, wenn Benutzer Ihnen eine ILIAS-interne Nachricht schicken.<br>Benutzer werden bei weiteren Nachrichten am nächsten Tag wieder über Ihre Abwesenheit informiert."
+
+msgid "mail_absence_auto_responder_subject"
+msgstr "Betreff"
+
+msgid "mail_absence_duration"
+msgstr "Zeitraum"
+
+msgid "mail_absence_status"
+msgstr "Abwesenheit konfigurieren"
+
+msgid "mail_absence_status_info"
+msgstr "Aktivierung des automatischen Versands einer Abwesenheitsnachricht."
+
+msgid "mail_absent_from"
+msgstr "Abwesend von"
+
+msgid "mail_absent_until"
+msgstr "Abwesend bis einschließlich"
+
+msgid "mail_account_mail"
+msgstr "Über neues Konto informieren"
+
+msgid "mail_add_folder"
+msgstr "Neuen Ordner erstellen"
+
+msgid "mail_add_recipient"
+msgstr "Bitte geben Sie an, wer die Mail erhalten soll. Geben Sie ILIAS-Anmeldenamen oder gültige E-Mail-Adressen an."
+
+msgid "mail_add_subfolder"
+msgstr "Unterordner hinzufügen"
+
+msgid "mail_add_subject"
+msgstr "Bitte geben Sie einen Betreff ein"
+
+msgid "mail_adopt_selected_attachements"
+msgstr "Ausgewählte Anhänge übernehmen"
+
+msgid "mail_all_in_trash"
+msgstr "Alle im Papierkorb"
+
+msgid "mail_allow_external"
+msgstr "Externe E-Mails"
+
+msgid "mail_allow_external_info"
+msgstr "Die Zustellung von externen E-Mails (via SMTP) zulassen. Falls nicht aktiviert, wird der Versand von externen E-Mails (via SMTP) global unterdrückt."
+
+msgid "mail_assign_entry_to_mailing_list"
+msgstr "Zuordnung eines Kontakts zum Verteiler „%s“"
+
+msgid "mail_assign_to_mailing_list"
+msgstr "Zuweisen"
+
+msgid "mail_attachment_file_not_exist"
+msgstr "Mindestens einer der folgenden Anhänge konnte nicht gefunden werden: %1$s"
+
+msgid "mail_attachments"
+msgstr "Anhänge"
+
+msgid "mail_auto_generated_info"
+msgstr "Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt."
+
+msgid "mail_auto_responder"
+msgstr "Abwesenheitsnotiz"
+
+msgid "mail_auto_responder_idle_time"
+msgstr "Erneuter Versand"
+
+msgid "mail_auto_responder_idle_time_info"
+msgstr "Geben Sie hier an, wie viele Tage vergehen sollen, bevor erneut eine Abwesenheitsnotiz an die Person gesandt wird, die Ihnen wiederholt Mails schickt."
+
+msgid "mail_bcc"
+msgstr "BCC"
+
+msgid "mail_bg_task_desc"
+msgstr "Betreff: %s"
+
+msgid "mail_bg_task_title"
+msgstr "Mailversand"
+
+msgid "mail_both_email"
+msgstr "Beide E-Mail-Adressen"
+
+msgid "mail_cc"
+msgstr "CC"
+
+msgid "mail_change_to_folder"
+msgstr "Wechseln zu Ordner: %s"
+
+msgid "mail_create_tpl"
+msgstr "Textvorlage erstellen"
+
+msgid "mail_cronjob_notification_info"
+msgstr "Aktivierung regelmäßiger Benachrichtigungen über neue Mails."
+
+msgid "mail_crs_list_members_not_available"
+msgstr "Die Mitglieder der markierten Kurse können nicht aufgelistet werden."
+
+msgid "mail_crs_list_members_not_available_for_at_least_one_crs"
+msgstr "Die Mitglieder von mindestens einem gewählten Kurs können nicht aufgelistet werden."
+
+msgid "mail_crs_roles"
+msgstr "alle Personen mit folgenden lokalen Rollen. Label is now generalised for all components that support ‘mail to members‘"
+
+msgid "mail_deleted"
+msgstr "Die Mail(s) wurden gelöscht"
+
+msgid "mail_deleted_entry"
+msgstr "Die Einträge wurden gelöscht"
+
+msgid "mail_download_attachment"
+msgstr "Anhang herunterladen"
+
+msgid "mail_download_zip_no_attachments"
+msgstr "Es wurden keine Anhänge gefunden."
+
+msgid "mail_edit_tpl"
+msgstr "Textvorlage bearbeiten"
+
+msgid "mail_email_sys_body"
+msgstr "Dies ist eine Test-E-Mail um den Versand einer automatisch vom System initiierten E-Mail an externe E-Mail-Adressen zu testen."
+
+msgid "mail_email_sys_subject"
+msgstr "Test-E-Mail „System-Mail”"
+
+msgid "mail_email_usr_body"
+msgstr "Dies ist eine Test-E-Mail um den Versand einer von einem Benutzer initiierten E-Mail an externe E-Mail-Adressen zu testen."
+
+msgid "mail_email_usr_subject"
+msgstr "Test-E-Mail „Benutzer-Mail”"
+
+msgid "mail_empty_trash"
+msgstr "Papierkorb leeren"
+
+msgid "mail_empty_trash_confirmation"
+msgstr "Sind Sie sicher, dass alle Mails im Papierkorb gelöscht werden sollen?"
+
+msgid "mail_enable_crs_admin_notification"
+msgstr "Kursadministration benachrichtigen"
+
+msgid "mail_enable_crs_admin_notification_info"
+msgstr "Kursbetreuung und Kursadministration erhalten in neuen Kursen Mails, wenn ein Mitglied beitritt, den Kurs verlässt oder die Mindestanzahl an Mitgliedern zur Durchführung des Kurses nicht erreicht wird. Diese Einstellung kann für einzelne Kurse lokal im Reiter „Mitglieder“ geändert werden."
+
+msgid "mail_enable_crs_member_notification"
+msgstr "Mitglieder benachrichtigen"
+
+msgid "mail_enable_crs_member_notification_info"
+msgstr "Mitglieder erhalten automatisch eine E-Mail, wenn sich ihr Mitgliedsstatus ändert. Diese Einstellung betrifft alle Kurse der Plattform."
+
+msgid "mail_enable_grp_admin_notification"
+msgstr "Gruppenadministration benachrichtigen"
+
+msgid "mail_enable_grp_admin_notification_info"
+msgstr "Die Gruppenadministration erhält in neuen Gruppen Mails, wenn ein Mitglied beitritt, die Gruppe verlässt oder die Mindestanzahl an Mitgliedern zur Durchführung der Gruppe nicht erreicht wird. Diese Einstellung kann für einzelne Gruppe lokal im Reiter „Mitglieder“ geändert werden."
+
+msgid "mail_enable_grp_member_notification"
+msgstr "Mitglieder benachrichtigen"
+
+msgid "mail_enable_grp_member_notification_info"
+msgstr "Mitglieder erhalten automatisch eine E-Mail, wenn sich ihr Mitgliedsstatus ändert. Diese Einstellung betrifft alle Gruppen der Plattform."
+
+msgid "mail_enable_lso_admin_notification"
+msgstr "Administration der Lernsequenz benachrichtigen"
+
+msgid "mail_enable_lso_admin_notification_info"
+msgstr "In neuen Lernsequenzen ist im Reiter „Mitglieder“ für die Lernsequenzadministration die Einstellung „Benachrichtigungen“ standardmäßig aktiviert: Sie erhalten Mails, wenn ein Mitglied beitritt oder die Lernsequenz verlässt."
+
+msgid "mail_enable_lso_member_notification"
+msgstr "Mitglieder benachrichtigen"
+
+msgid "mail_enable_lso_member_notification_info"
+msgstr "Mitglieder erhalten automatisch eine E-Mail, wenn sich ihr Mitgliedsstatus ändert. Diese Einstellung betrifft alle Lernsequenzen der Plattform."
+
+msgid "mail_entry_of_contacts"
+msgstr "Eintrag aus den Kontakten"
+
+msgid "mail_error_reading_attachment"
+msgstr "Es konnte kein Anhang ermittelt werden."
+
+msgid "mail_external_send_test_sys"
+msgstr "Test-E-Mail für Systemnachricht schicken"
+
+msgid "mail_external_send_test_usr"
+msgstr "Test-E-Mail für Benutzernachricht schicken"
+
+msgid "mail_external_test_sent"
+msgstr "An die in Ihrem Profil hinterlegte E-Mail-Adresse wurde eine Test-E-Mail gesendet."
+
+msgid "mail_file_name"
+msgstr "Dateiname"
+
+msgid "mail_file_size"
+msgstr "Dateigröße"
+
+msgid "mail_files_deleted"
+msgstr "Die Datei(en) wurde(n) gelöscht"
+
+msgid "mail_filter"
+msgstr "Filter"
+
+msgid "mail_filter_attach"
+msgstr "Anhänge"
+
+msgid "mail_filter_body"
+msgstr "Nachricht"
+
+msgid "mail_filter_display"
+msgstr "Anzeige"
+
+msgid "mail_filter_field_placeholder"
+msgstr "Nachrichten durchsuchen ..."
+
+msgid "mail_filter_period"
+msgstr "Zeitraum"
+
+msgid "mail_filter_recipients"
+msgstr "An"
+
+msgid "mail_filter_sender"
+msgstr "Von"
+
+msgid "mail_filter_show_read"
+msgstr "Gelesene"
+
+msgid "mail_filter_show_system_mails"
+msgstr "System-Meldungen"
+
+msgid "mail_filter_show_unread"
+msgstr "Ungelesene"
+
+msgid "mail_filter_show_user_mails"
+msgstr "Persönliche Mails"
+
+msgid "mail_filter_show_with_attachments"
+msgstr "Mails mit Anhängen"
+
+msgid "mail_filter_show_without_attachment"
+msgstr "Mails ohne Anhang"
+
+msgid "mail_filter_subject"
+msgstr "Betreff"
+
+msgid "mail_filter_txt"
+msgstr "Suchen in"
+
+msgid "mail_first_email"
+msgstr "Erste E-Mail-Adresse"
+
+msgid "mail_firstname_last_name_superior"
+msgstr "Kommagetrennte Liste mit den Vor- und Nachnamen der vorgesetzten Führungskraft oder Führungskräfte einer Person"
+
+msgid "mail_folder_created"
+msgstr "Ein neuer Ordner wurde angelegt"
+
+msgid "mail_folder_deleted"
+msgstr "Der Ordner wurde gelöscht"
+
+msgid "mail_folder_exists"
+msgstr "Ein Ordner mit diesem Namen existiert bereits"
+
+msgid "mail_folder_name_changed"
+msgstr "Der Ordner wurde umbenannt"
+
+msgid "mail_following_rcp_not_valid"
+msgstr "Die folgenden Angaben sind nicht gültig:"
+
+msgid "mail_form_placeholders_label"
+msgstr "Verfügbare Platzhalter"
+
+msgid "mail_generic_rcp_error"
+msgstr "Beim Validieren des „An”-Feldes ist ein Fehler aufgetreten: %1$s"
+
+msgid "mail_global_reply_to_addr"
+msgstr "Reply-To"
+
+msgid "mail_global_reply_to_addr_info"
+msgstr "Bitte tragen Sie hier die gewünschte 'Reply-To'-E-Mail-Adresse ein."
+
+msgid "mail_grp_roles"
+msgstr "alle Personen mit folgenden lokalen Rollen. Label is now generalised for all components that support ‘mail to members‘"
+
+msgid "mail_hint_add_placeholder_x"
+msgstr "Füge Platzhalter „%s“ in den Textkörper der Nachricht ein."
+
+msgid "mail_inbox_external_delivery_only_info"
+msgstr "Ihr Konto ist so konfiguriert, dass E-Mails an Ihre E-Mail-Adresse gesendet werden. <br>Sie können E-Mails in diesem Posteingang nur sehen, wenn Ihr Konto so konfiguriert ist, dass diese (auch) lokal empfangen werden."
+
+msgid "mail_incoming"
+msgstr "Maileingang"
+
+msgid "mail_incoming_both"
+msgstr "Lokal und Weiterleitung an E-Mail"
+
+msgid "mail_incoming_local"
+msgstr "Nur lokal empfangen"
+
+msgid "mail_incoming_mail"
+msgstr "Maileingang"
+
+msgid "mail_incoming_smtp"
+msgstr "An eingetragene E-Mail-Adresse weiterleiten"
+
+msgid "mail_insert_folder_name"
+msgstr "Bitte geben Sie einen Ordnernamen ein"
+
+msgid "mail_insert_query"
+msgstr "Bitte geben Sie einen Suchbegriff ein"
+
+msgid "mail_invite_users_to_chat"
+msgstr "Benutzer in Chat einladen"
+
+msgid "mail_is_read"
+msgstr "gelesen"
+
+msgid "mail_is_unread"
+msgstr "ungelesen"
+
+msgid "mail_list_members"
+msgstr "Mitglieder auflisten"
+
+msgid "mail_mailing_list"
+msgstr "Verteilerliste"
+
+msgid "mail_mailing_lists"
+msgstr "Verteilerlisten"
+
+msgid "mail_mailing_lists_all_contact_entries_assigned"
+msgstr "Sie haben bereits all Ihre Kontakte diesem Verteiler zugeordnet."
+
+msgid "mail_mailing_lists_no_contact_entries"
+msgstr "Sie haben keine Einträge in den Kontakten die Sie zur Verteilerliste hinzufügen können."
+
+msgid "mail_main_folder"
+msgstr "Hauptordner"
+
+msgid "mail_manage_attachments"
+msgstr "Anhänge verwalten"
+
+msgid "mail_manage_attachments_back_to_compose"
+msgstr "Zurück zum Erstellen"
+
+msgid "mail_manage_attachments_drop_files_msg"
+msgstr "Datei zum Hinzufügen hier ablegen"
+
+msgid "mail_mark_read"
+msgstr "Als gelesen markieren"
+
+msgid "mail_mark_unread"
+msgstr "Als ungelesen markieren"
+
+msgid "mail_max_size_attachments_total"
+msgstr "Bitte geben Sie die maximal zulässige Gesamtgröße aller Anhänge pro E-Mail an. Diese Einstellung hat keinen Einfluss auf das Hochladen von Dateien (hier gelten die Serverlimitierungen, z.B. upload_max_filesize), sondern lediglich auf die Gesamtdatenmenge der als Anhang einer Mail ausgewählten Dateien."
+
+msgid "mail_max_size_attachments_total_error"
+msgstr "Die maximal zulässige Gesamtgröße aller Anhänge beträgt:"
+
+msgid "mail_maxsize_attachment_error"
+msgstr "Die maximale Dateigröße beträgt:"
+
+msgid "mail_member_notification"
+msgstr "Benachrichtigungen"
+
+msgid "mail_members_of_mailing_list"
+msgstr "Mitglieder der Verteilerliste „%s“"
+
+msgid "mail_members_search_continue"
+msgstr "Weiter"
+
+msgid "mail_message_send"
+msgstr "Die Mail wurde versandt."
+
+msgid "mail_mode_switch_label"
+msgstr "Zwischen „Persönliche Mail” und „Serienbrief” umschalten"
+
+msgid "mail_mode_switch_locked"
+msgstr "Sie können nicht zu „%s” wechseln."
+
+msgid "mail_move_error"
+msgstr "Beim Versuch, Ihre E-Mail zu verschieben, ist ein Fehler aufgetreten."
+
+msgid "mail_move_to"
+msgstr "Verschieben nach:"
+
+msgid "mail_move_to_folder_btn_label"
+msgstr "Mail verschieben"
+
+msgid "mail_move_to_folder_x"
+msgstr "nach „%s“"
+
+msgid "mail_moved"
+msgstr "Ihre Mail(s) wurden verschoben"
+
+msgid "mail_moved_to_trash"
+msgstr "Die Mail(s) wurde(n) in den Papierkorb verschoben"
+
+msgid "mail_multiple_role_recipients_found"
+msgstr "Die Angabe %1$s im „An”-Feld ist nicht eindeutig: Versenden Sie diese Mail bitte direkt aus dem Mitglieder-Reiter des gewünschten Kurses bzw. der gewünschten Gruppe."
+
+msgid "mail_my_courses"
+msgstr "Meine Kurse"
+
+msgid "mail_my_groups"
+msgstr "Meine Gruppen"
+
+msgid "mail_my_mailing_lists"
+msgstr "Meine Verteilerlisten"
+
+msgid "mail_nacc_admin_mail"
+msgstr "E-Mail-Adresse der ILIAS-Administration"
+
+msgid "mail_nacc_if_timelimit"
+msgstr "Dieser Textblock wird nur eingefügt, wenn der Benutzer einen begrenzten Zugangszeitraum hat."
+
+msgid "mail_nacc_ilias_url"
+msgstr "URL des ILIAS-Systems"
+
+msgid "mail_nacc_installation_desc"
+msgstr "Beschreibung der Installation"
+
+msgid "mail_nacc_installation_name"
+msgstr "Name der Installation"
+
+msgid "mail_nacc_login"
+msgstr "Anmeldenamen"
+
+msgid "mail_nacc_no_pw_block"
+msgstr "Dieser Textblock wird nur eingefügt, wenn der neue Benutzer ohne Passwort angelegt wurde."
+
+msgid "mail_nacc_pw_block"
+msgstr "Dieser Textblock wird nur eingefügt, wenn der neue Benutzer mit Passwort angelegt wurde."
+
+msgid "mail_nacc_salutation"
+msgstr "Begrüßung"
+
+msgid "mail_nacc_target"
+msgstr "URL des Zielobjekts, z. B. ein Kurs, auf den von außerhalb von ILIAS verlinkt wird."
+
+msgid "mail_nacc_target_block"
+msgstr "Dieser Textblock wird nur eingefügt, wenn ein Zielobjekt angeboten wird."
+
+msgid "mail_nacc_target_title"
+msgstr "Titel des Zielobjekts, z. B. der Kurstitel"
+
+msgid "mail_nacc_target_type"
+msgstr "Typ des Zielobjekts, z. B. \"Kurs\" für ein Kursobjekt"
+
+msgid "mail_nacc_timelimit"
+msgstr "Zugangszeitraum des Benutzers"
+
+msgid "mail_nacc_title"
+msgstr "Titel"
+
+msgid "mail_nacc_use_placeholder"
+msgstr "Im Feld 'Inhalt' können folgende Platzhalter verwendet werden"
+
+msgid "mail_nacc_user_fullname"
+msgstr "Nachname, Vorname [Anmeldename]"
+
+msgid "mail_nacc_user_login"
+msgstr "Anmeldename"
+
+msgid "mail_new"
+msgstr "Neue Nachricht"
+
+msgid "mail_new_template"
+msgstr "Neue Textvorlage"
+
+msgid "mail_no_mail_items"
+msgstr "Keine ungelesenen Mails."
+
+msgid "mail_no_permissions_write_smtp"
+msgstr "Sie haben keine Berechtigung externe E-Mails zu versenden."
+
+msgid "mail_no_subject"
+msgstr "Kein Betreff vorhanden"
+
+msgid "mail_no_valid_mailing_list"
+msgstr "%1$s (kein gültiger Verteiler)"
+
+msgid "mail_notification_membership_section"
+msgstr "Mitgliedschaften"
+
+msgid "mail_notification_subject"
+msgstr "Neue Mails im Posteingang"
+
+msgid "mail_notify_orphaned"
+msgstr "Benachrichtigungsmail"
+
+msgid "mail_notify_orphaned_info"
+msgstr "Wenn Sie hier einen Wert größer oder gleich 1 eintragen, sendet ILIAS eine E-Mail an alle betroffenen Mail-Konten so viele Tage vor dem Löschen von etwaigen internen Mails. Bitte stellen Sie sicher, dass ein externer E-Mail-Empfang möglich ist."
+
+msgid "mail_operation_on_invalid_folder"
+msgstr "Die Aktion konnte nicht ausgeführt werden, der aus der Serveranfrage bestimmte Ordner ist ungültig. Bitte wenden Sie sich an die Administration."
+
+msgid "mail_options"
+msgstr "E-Mail Optionen"
+
+msgid "mail_options_saved"
+msgstr "Die Einstellungen wurden gespeichert"
+
+msgid "mail_orphaned_mails"
+msgstr "Löschen alter oder verwaister Mails"
+
+msgid "mail_orphaned_mails_desc"
+msgstr "Löscht verwaiste Mails und Mails die älter sind als der eingestellte Schwellenwert (einstellbar über den „Bearbeiten“-Link in der „Aktionen“-Spalte dieses Cron-Jobs)."
+
+msgid "mail_recipient_not_found"
+msgstr "%1$s – Bitte korrigieren Sie die Angaben im „An”-Feld."
+
+msgid "mail_rename_folder"
+msgstr "Ordner umbenennen"
+
+msgid "mail_roles"
+msgstr "Alle Personen mit folgenden lokalen Rollen"
+
+msgid "mail_s"
+msgstr "%s Mails"
+
+msgid "mail_salutation_anonymous"
+msgstr "Hallo"
+
+msgid "mail_salutation_f"
+msgstr "Sehr geehrte Frau"
+
+msgid "mail_salutation_female"
+msgstr "Ausgabe für Platzhalter &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, wenn Anrede „Frau”"
+
+msgid "mail_salutation_general"
+msgstr "Ausgabe für Platzhalter&lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, wenn keine Anrede angegeben oder gewünscht"
+
+msgid "mail_salutation_m"
+msgstr "Sehr geehrter Herr"
+
+msgid "mail_salutation_male"
+msgstr "Ausgabe für Platzhalter &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, wenn Anrede „Herr”"
+
+msgid "mail_salutation_n"
+msgstr "Hallo"
+
+msgid "mail_saved"
+msgstr "Ihre Mail wurde gespeichert"
+
+msgid "mail_second_email"
+msgstr "Zweite E-Mail-Adresse"
+
+msgid "mail_sel_label"
+msgstr "Mail senden an"
+
+msgid "mail_sel_users"
+msgstr "Ausgewählte Personen"
+
+msgid "mail_select_attachment"
+msgstr "Bitte einen Anhang zum Herunterladen auswählen."
+
+msgid "mail_select_crs"
+msgstr "Bitte mindestens einen Kurs auswählen."
+
+msgid "mail_select_grp"
+msgstr "Bitte mindestens eine Gruppe auswählen."
+
+msgid "mail_select_one_entry"
+msgstr "Sie müssen mindestens einen Eintrag auswählen"
+
+msgid "mail_select_one_file"
+msgstr "Sie müssen mindestens eine Datei auswählen"
+
+msgid "mail_send_html"
+msgstr "HTML-Rahmen"
+
+msgid "mail_send_html_info"
+msgstr "Wenn diese Option aktiviert ist, wird der Nachrichtentext von externen E-Mails in einen HTML-Frame eingebettet. Im aktiviertem Zustand werden die Werte des Standard-System Style verwendet, z. B. das Logo, die Kopfzeile sowie die Farben für Kopf-, Hintergrund- und Fußzeile."
+
+msgid "mail_sent_datetime"
+msgstr "Datum"
+
+msgid "mail_serial_letter_placeholders"
+msgstr "Platzhalter für Serienbrief"
+
+msgid "mail_settings_external_frm_head"
+msgstr "Externe E-Mails"
+
+msgid "mail_settings_external_tab"
+msgstr "Extern"
+
+msgid "mail_settings_general_tab"
+msgstr "Allgemein"
+
+msgid "mail_settings_incoming_type_see_also"
+msgstr "Eine weitere Möglichkeit, die Empfangsart für die Benutzer zu ändern, haben Sie <a href=„%s“>hier</a>."
+
+msgid "mail_settings_system_frm_head"
+msgstr "System E-Mails"
+
+msgid "mail_settings_user_frm_head"
+msgstr "Benutzer E-Mails"
+
+msgid "mail_smtp_encryption"
+msgstr "Verschlüsselung"
+
+msgid "mail_smtp_encryption_ssl"
+msgstr "SSL"
+
+msgid "mail_smtp_encryption_tls"
+msgstr "TLS"
+
+msgid "mail_smtp_host"
+msgstr "Host"
+
+msgid "mail_smtp_host_info"
+msgstr "Bitte tragen Sie hier den Hostsnamen oder die IP des Mail-Servers ein."
+
+msgid "mail_smtp_password"
+msgstr "Passwort"
+
+msgid "mail_smtp_password_req"
+msgstr "Sofern Sie einen Benutzer angeben, ist das Passwort obligatorisch."
+
+msgid "mail_smtp_port"
+msgstr "Port"
+
+msgid "mail_smtp_port_info"
+msgstr "Bitte tragen Sie einen numerischen SMTP-Port ein (z.B. 25)."
+
+msgid "mail_smtp_status"
+msgstr "SMTP-Versand aktivieren"
+
+msgid "mail_smtp_status_info"
+msgstr "Falls aktiviert, delegiert ILIAS den Versand externer E-Mails an den hier konfigurierten Mail-Server, statt die von der PHP-Runtime bereitgestellte Funktionalität für den Versand zu nutzen (mail()-Funktion, sendmail)."
+
+msgid "mail_smtp_user"
+msgstr "Benutzer"
+
+msgid "mail_subject_prefix"
+msgstr "Mail-Betreff"
+
+msgid "mail_subject_prefix_info"
+msgstr "Sie können hier einen Text eingeben, der der Betreffzeile ausgehender, automatisch generierter E-Mails vorangestellt wird. Es wird empfohlen einen Präfix anzugeben, um Nutzern das Filtern der Nachrichten zu vereinfachen."
+
+msgid "mail_subject_too_long"
+msgstr "Der Betreff ist zu lang."
+
+msgid "mail_success_removed_user"
+msgstr "Benutzer/innen aus der Liste entfernt."
+
+msgid "mail_sure_delete_entry"
+msgstr "Sind Sie sicher, dass die markierten Einträge gelöscht werden sollen?"
+
+msgid "mail_sure_delete_file"
+msgstr "Sind Sie sicher, dass die ausgewählten Dateien gelöscht werden sollen?"
+
+msgid "mail_sure_delete_folder"
+msgstr "Der Ordner und sein Inhalt werden unwiderruflich gelöscht!"
+
+msgid "mail_sure_delete_p"
+msgstr "Sind Sie sicher, dass die folgenden Mails gelöscht werden sollen?"
+
+msgid "mail_sure_delete_s"
+msgstr "Sind Sie sicher, dass die folgende Mail gelöscht werden soll?"
+
+msgid "mail_sure_remove_user"
+msgstr "Möchten Sie die folgenden Benutzer/innen aus der Liste entfernen?"
+
+msgid "mail_system_sys_env_from_addr"
+msgstr "Technische Absendeadresse („SENDER“)"
+
+msgid "mail_system_sys_env_from_addr_info"
+msgstr "Tragen Sie hier die technische Absendeadresse („SENDER”-Header) ein. Lassen Sie das Feld leer, wird bei externem Versand die E-Mail-Adresse der absendenden Person („FROM“-Header) genutzt. Andernfalls ist es die Aufgabe der Server-Administration, den Header zu konfigurieren."
+
+msgid "mail_system_sys_from_addr"
+msgstr "„FROM”-Adresse für automatisch versendete E-Mails"
+
+msgid "mail_system_sys_from_addr_info"
+msgstr "Damit die automatisch aus ILIAS versendeten E-Mails nicht als Spam abgelehnt werden, muss hier eine absendende Adresse (technisch: „FROM”-Header) eingetragen werden. <br /><br />Beispiele: <span style=\"font-style: italic\">info@institution.de</span> oder <span style=\"font-style: italic\">no-reply@institution.de</span>"
+
+msgid "mail_system_sys_from_name"
+msgstr "„FROM”-Name"
+
+msgid "mail_system_sys_general_signature"
+msgstr "Signatur"
+
+msgid "mail_system_sys_reply_to_addr"
+msgstr "Reply-To"
+
+msgid "mail_system_usr_env_from_addr"
+msgstr "Technische Absendeadresse („SENDER“)"
+
+msgid "mail_system_usr_env_from_addr_info"
+msgstr "Tragen Sie hier die technische Absendeadresse („SENDER”-Header) ein. Lassen Sie das Feld leer, wird bei externem Versand die E-Mail-Adresse der absendenden Person („FROM“-Header) genutzt. Andernfalls ist es die Aufgabe der Server-Administration, den Header zu konfigurieren."
+
+msgid "mail_system_usr_from_addr"
+msgstr "„FROM”-Adresse für manuell versendete E-Mails"
+
+msgid "mail_system_usr_from_addr_info"
+msgstr "Damit die manuell aus ILIAS versendeten E-Mails nicht als Spam abgelehnt werden, muss hier eine absendende Adresse (technisch: „FROM”-Header) eingetragen werden. Bei manuell verschickten E-Mails wird die zu einem ILIAS-Konto gehörige Adresse als Antwortadresse (technisch: „REPLY-TO”-Header) übernommen. <br /><br />Beispiele: <span style=\"font-style: italic\">info@institution.de</span> oder <span style=\"font-style: italic\">no-reply@institution.de</span>"
+
+msgid "mail_system_usr_from_name"
+msgstr "„FROM”-Name und Format"
+
+msgid "mail_system_usr_from_name_info"
+msgstr "Dieser Name wird üblicherweise im E-Mail-Client in der Spalte „Von“ angezeigt. Als Platzhalter können &lbrace;&lbrace;FULLNAME&rbrace;&rbrace;, &lbrace;&lbrace;FIRSTNAME&rbrace;&rbrace; und &lbrace;&lbrace;LASTNAME&rbrace;&rbrace; genutzt werden. Diese werden dann durch die jeweiligen Daten der Person ersetzt, die eine manuelle E-Mail versendet hat."
+
+msgid "mail_system_usr_general_signature"
+msgstr "Signatur"
+
+msgid "mail_tbl_head_attachments"
+msgstr "Anhang"
+
+msgid "mail_template_client"
+msgstr "Textvorlage"
+
+msgid "mail_template_client_info"
+msgstr "Wählen Sie zwischen einer der verfügbaren Textvorlagen. Sie haben die Möglichkeit, die durch die Textvorlage angebotenen Platzhalter zu nutzen. Bei der Wahl einer Textvorlage wird der Inhalt dieser Nachricht ersetzt und etwaige Änderungen die schon vorgenommen wurden, gehen verloren. Der Betreff ändert sich nicht und muss manuell angepasst werden."
+
+msgid "mail_template_context"
+msgstr "Kontext"
+
+msgid "mail_template_default"
+msgstr " (Standard)"
+
+msgid "mail_template_invalid_tpl_syntax"
+msgstr "Es wurde eine ungültige Syntax festgestellt. Bitte prüfen Sie Ihre Eingaben, vor allem hinsichtlich der Platzhalter-Syntax."
+
+msgid "mail_template_missing_id"
+msgstr "Die Aktion kann nicht ausgeführt werden, da die ID der Textvorlage nicht korrekt übertragen wurde."
+
+msgid "mail_template_no_context_available"
+msgstr "Aktuell wird von keinem ILIAS-Service oder -Modul ein Kontext bereitgestellt. Das Anlegen oder Bearbeiten von Textvorlagen ist daher nicht möglich."
+
+msgid "mail_template_no_valid_context"
+msgstr "Der gewählte Kontext ist nicht gültig."
+
+msgid "mail_template_orphaned_context"
+msgstr "Kontext verwaist"
+
+msgid "mail_template_set_as_default"
+msgstr "Als Standard setzen"
+
+msgid "mail_template_title"
+msgstr "Name der Textvorlage"
+
+msgid "mail_template_unset_as_default"
+msgstr "Als Standard entfernen"
+
+msgid "mail_templates"
+msgstr "Textvorlagen"
+
+msgid "mail_threshold"
+msgstr "Schwellenwert"
+
+msgid "mail_threshold_info"
+msgstr "Interne Mails, die älter als der hier definierte Schwellenwert sind, werden unwiderruflich gelöscht (inklusive evtl vorhandener Anhänge).<br> Bitte bedenken Sie, dass bei erstmaliger Ausführung dieses Cron-Jobs je nach Schwellenwert sehr viele Nachrichten gelöscht werden und eine E-Mail als Warnung nicht mehr versendet werden kann."
+
+msgid "mail_to"
+msgstr "An"
+
+msgid "mail_tpl_deleted_p"
+msgstr "Die Textvorlagen wurden erfolgreich gelöscht."
+
+msgid "mail_tpl_deleted_s"
+msgstr "Die Textvorlage wurde erfolgreich gelöscht."
+
+msgid "mail_tpl_sure_delete_entries"
+msgstr "Sind Sie sicher, dass die markierten Textvorlagen gelöscht werden sollen?"
+
+msgid "mail_tpl_sure_delete_entry"
+msgstr "Sind Sie sicher, dass die Textvorlage gelöscht werden sollen?"
+
+msgid "mail_use_global_reply_to_addr"
+msgstr "Globale Reply-To-Adresse nutzen"
+
+msgid "mail_use_global_reply_to_addr_info"
+msgstr "Tragen Sie eine E-Mail-Adresse ein, die plattformweit als Antwortadresse (technisch: „REPLY-TO“) verwendet wird. Sie verhindern damit die Offenlegung der E-Mail-Adressen der absendenden Personen. Eine direkte Antwort auf eine E-Mail ist dann nicht mehr möglich."
+
+msgid "nc_mail_noti_item_title"
+msgstr "Posteingang"
+
+msgid "nc_mail_prop_time"
+msgstr "Zeit"
+
+msgid "nc_mail_unread_messages"
+msgstr "Sie haben %s im Posteingang."
+
+msgid "nc_mail_unread_messages_number_p"
+msgstr "%s ungelesene Mails"
+
+msgid "nc_mail_unread_messages_number_s"
+msgstr "eine ungelesene Mail"
+
+msgid "only_inbox_trash"
+msgstr "Nur Posteingang/Papierkorb berücksichtigen"
+
+msgid "only_inbox_trash_info"
+msgstr "Falls aktiviert, werden ausschließlich Mails gelöscht, die sich zum Zeitpunkt der Cron-Job-Ausführung im Posteingang und Papierkorb der jeweiligen Person befinden. Ansonsten werden alle Mails unabhängig vom Ordner gelöscht."
+
+msgid "orphaned_mail_body"
+msgstr "Es existieren alte oder verwaiste Mails in den folgenden Ordnern. Beachten Sie, dass diese Mails in kürze automatisch gelöscht werden."
+
+msgid "orphaned_mail_subject"
+msgstr "Benachrichtigung über alte Mails"
+
+msgid "placeholders_advise"
+msgstr "Persönliche Platzhalter werden nur für Personen im „An”-Feld ersetzt. Personen im „CC”-Feld und „BCC”-Feld erhalten die Mail mit nicht-ersetzten Platzhaltern."
+
+msgid "regular_mail"
+msgstr "Persönliche Mail"
+
+msgid "search_content"
+msgstr "Suchergebnis"
+
+msgid "search_recipients"
+msgstr "Personen suchen"
+
+msgid "second_email_missing_info"
+msgstr "Auswahl nicht möglich, da keine zweite E-Mail-Adresse eingetragen wurde"
+
+msgid "select_mail_with_subject_x"
+msgstr "Wähle Mail mit Betreff „%s“"
+
+msgid "send_mail_admins"
+msgstr "Administration"
+
+msgid "send_mail_members"
+msgstr "Mitglied"
+
+msgid "send_mail_to"
+msgstr "Mail an"
+
+msgid "send_mail_tutors"
+msgstr "Kursbetreuung"
+
+msgid "serial_letter"
+msgstr "Serienbrief"
+
+msgid "show_mail_settings"
+msgstr "Einstellungen anzeigen"
+
+msgid "show_mail_settings_info"
+msgstr "Aktiviert die Anzeige der Mail-Einstellungen im Bereich 'Mail'. Benutzer können die Mail-Einstellungen nur ändern, wenn die Konfiguration des Benutzer-Profils dies erlaubt. Wenn Benutzer nicht berechtigt sind, die Mail-Einstellung ihrer Profils zu ändern, dann gelten die globalen Einstellungen. Dies gilt auch dann, wenn Benutzer in der Vergangenheit die Berechtigung zum Ändern der Mail-Einstellungen hatten und persönliche Einstellungen vorgenommen haben."
+
+msgid "system_notification_installation_changed_by"
+msgstr "Geändert durch"
+
+msgid "usrFieldChange_second_mail_visible_in_personal_data"
+msgstr "Sie haben das Attribut „%s“ im Feld „%s“ verändert.<br>Dies führt dazu, dass, für alle bestehenden und künftig angelegten Konten,<br>die bei den Benutzern gewählte Empfangsart und der Standard für neue Anmeldekonten bei externer Zustellung auf die primäre E-Mail-Adresse geändert wird,<br>unter Inkaufnahme der Rücksetzung von bestehenden Benutzer-Einstellungen."

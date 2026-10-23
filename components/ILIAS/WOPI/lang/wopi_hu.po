@@ -1,0 +1,72 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: wopi\n"
+
+msgid "action_edit"
+msgstr "Szerkesztés"
+
+msgid "action_view"
+msgstr "Megjelenítése"
+
+msgid "activate_saving_interval"
+msgstr "Automatikus mentés"
+
+msgid "activate_wopi"
+msgstr "WOPI bekapcsolása"
+
+msgid "close_wopi_editor"
+msgstr "Szerkesztő bezárása"
+
+msgid "close_wopi_editor_info"
+msgstr "Több percig is eltarthat, amíg a külső szerkesztő átviszi a változtatásokat az ILIAS-ba. Látogassa meg újra ezt az oldalt egy későbbi időpontban, ha a végrehajtott módosítások még nem láthatók."
+
+msgid "currently_supported"
+msgstr "Jelenleg támogatott utótagok: %s"
+
+msgid "msg_error_wopi_invalid_discorvery_url"
+msgstr "A Discovery URL nem valós vagy nem érhető el."
+
+msgid "msg_wopi_settings_modified"
+msgstr "A beállításokat sikeresen mentette"
+
+msgid "open_external_editor"
+msgstr "Megnyitás külső szerkesztőben"
+
+msgid "open_external_viewer"
+msgstr "Tartalom megjelenítése"
+
+msgid "saving_interval"
+msgstr "Mentési időköz"
+
+msgid "saving_interval_byline"
+msgstr "Az ILIAS alapértelmezetten az összes külső szerkesztő módosítását hozzáadja a piszkozathoz, amíg azt manuálisan közzé nem teszik. A mentési időközben megadott másodperc után új verzió jelenik meg. Kérjük, vegye figyelembe, hogy az alacsony érték sok verziót jelent, aminek nagy lehet a tárhelyigénye."
+
+msgid "wopi_crawler_cronjob_description"
+msgstr "A csatlakoztatott WOPI szolgáltatás információinak frissítése."
+
+msgid "wopi_crawler_cronjob_no_apps"
+msgstr "Egy WOPI app-ot sem találtunk a discovery-ben."
+
+msgid "wopi_crawler_cronjob_not_activated"
+msgstr "WOPI nincs bekapcsolva."
+
+msgid "wopi_crawler_cronjob_success"
+msgstr "A WOPI információt sikeresen módosította."
+
+msgid "wopi_crawler_cronjob_title"
+msgstr "WOPI Discovery frissítése"
+
+msgid "wopi_settings"
+msgstr "WOPI"
+
+msgid "wopi_url"
+msgstr "WOPI Discovery URL"
+
+msgid "wopi_url_byline"
+msgstr "A WOPI Discovery teljes URL-je, ennek elérhetőnek kell lennie az ILIAS szerveren keresztül. A Discover XML-adatait az ILIAS olvassa be és tárolja, az információkat rendszeresen frissíti a ‘WOPI Discovery frissítése’ ütemezett feladat. Például: https://example.org/hosting/discovery"

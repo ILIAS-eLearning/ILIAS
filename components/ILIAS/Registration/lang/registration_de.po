@@ -1,0 +1,318 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: registration\n"
+
+msgid "reg_access_limitation_limited_time"
+msgstr "Zugang ab Anmeldedatum für"
+
+msgid "reg_access_limitation_limited_until"
+msgstr "Zugang ist befristet bis zum"
+
+msgid "reg_access_limitation_missing_mode"
+msgstr "Bitte für alle Rollen die Art der Zugangsbefristung auswählen"
+
+msgid "reg_access_limitation_mode"
+msgstr "Art der Zugangsbefristung"
+
+msgid "reg_access_limitation_mode_absolute"
+msgstr "Befristeter Zugang mit festem Ablaufdatum"
+
+msgid "reg_access_limitation_mode_absolute_target"
+msgstr "Gültig bis"
+
+msgid "reg_access_limitation_mode_relative"
+msgstr "Befristete Zugriffsdauer ab Anmeldedatum"
+
+msgid "reg_access_limitation_mode_relative_target"
+msgstr "Gültig für"
+
+msgid "reg_access_limitation_mode_unlimited"
+msgstr "Ohne Zugangsbefristung"
+
+msgid "reg_access_limitation_none"
+msgstr "unbefristeter Zugang"
+
+msgid "reg_access_limitation_out_of_date"
+msgstr "Für eine oder mehrere Rollen ist die Zugangsfrist bereits abgelaufen!"
+
+msgid "reg_access_limitations"
+msgstr "Zugangsbefristung"
+
+msgid "reg_add_assignment"
+msgstr "Neue Zuordnung"
+
+msgid "reg_added_assignment"
+msgstr "Eine neue Zuordung wurde angelegt."
+
+msgid "reg_allow_codes"
+msgstr "Codes erlauben"
+
+msgid "reg_allow_codes_info"
+msgstr "Benutzer können sich zusätzlich mit Codes registrieren."
+
+msgid "reg_allowed_domains"
+msgstr "Erlaubte E-Mail-Adressdomänen"
+
+msgid "reg_allowed_domains_info"
+msgstr "Benutzen Sie * als Wildcard und ; als Trennzeichen. Zum Beispiel \"*@ilias.de\".  Registrierungscodes heben diese Prüfung auf."
+
+msgid "reg_approve"
+msgstr "Neuanmeldung mit Überprüfung"
+
+msgid "reg_approve_info"
+msgstr "Alle neuen ILIAS-Konten müssen von der ILIAS-Administration freigeschaltet werden."
+
+msgid "reg_approve_needs_recipient"
+msgstr "Für die Registrierungsart \"Anmeldung mit Überprüfung\" sollte mindestens ein Benutzer festgelegt werden, der bei Neuanmeldungen benachrichtigt wird."
+
+msgid "reg_available_roles"
+msgstr "Verfügbare Rollen:"
+
+msgid "reg_confirmation_already_confirmed"
+msgstr "Die Registrierung wurde bereits bestätigt."
+
+msgid "reg_confirmation_hash_life_time"
+msgstr "Gültigkeitsdauer"
+
+msgid "reg_confirmation_hash_life_time_expired"
+msgstr "Der Bestätigungslink ist nicht mehr gültig. Bitte registrieren Sie sich erneut!"
+
+msgid "reg_confirmation_hash_life_time_info"
+msgstr "Geben Sie die Gültigkeitsdauer des Bestätigungslinks (in Sekunden) an. Empfohlener Wert sind 1800 Sekunden."
+
+msgid "reg_confirmation_hash_not_found"
+msgstr "Dieser Bestätigungslink passt zu keinem ILIAS-Konto."
+
+msgid "reg_confirmation_hash_not_passed"
+msgstr "Der Bestätigungslink ist unvollständig."
+
+msgid "reg_confirmation_link_successful"
+msgstr "Sie haben sich erfolgreich bei ILIAS registriert. Jetzt müssen Sie noch Ihr ILIAS-Konto aktivieren. Dazu wurde Ihnen soeben eine E-Mail mit einem Bestätigungslink geschickt. Bitte klicken Sie innerhalb der nächsten Minuten auf den Bestätigungslink, um Ihr ILIAS-Konto zu aktivieren. Danach können Sie sich in ILIAS einloggen."
+
+msgid "reg_default"
+msgstr "Standard"
+
+msgid "reg_deleted_assignment"
+msgstr "Die Zuordnungen wurde(n) gelöscht."
+
+msgid "reg_direct"
+msgstr "Direkte Anmeldung"
+
+msgid "reg_direct_info"
+msgstr "Wenn eingeschaltet, werden alle neu angemeldeten Benutzer automatisch freigeschaltet."
+
+msgid "reg_disabled"
+msgstr "Keine Registrierung möglich"
+
+msgid "reg_domain"
+msgstr "Domäne (z.B. '@your_domain.de')"
+
+msgid "reg_domain_already_assigned_p"
+msgstr "Die Domänen '%s' wurdem bereits für die Zuweisung einer anderen Rolle gewählt."
+
+msgid "reg_domain_already_assigned_s"
+msgstr "Die Domäne '%s' wurde bereits für die Zuweisung einer anderen Rolle gewählt."
+
+msgid "reg_email"
+msgstr "Automatische Rollenzuweisung"
+
+msgid "reg_email_domains"
+msgstr "Die folgenden E-Mail-Adressdomains sind gültig: %s"
+
+msgid "reg_email_domains_code"
+msgstr "Bei Verwendung eines Codes sind beliebige E-Mail-Adressen möglich."
+
+msgid "reg_email_role_assignment"
+msgstr "Rollenzuweisung über E-Mail-Adresse"
+
+msgid "reg_fixed"
+msgstr "Auswahl aus vorgegebener Liste"
+
+msgid "reg_info_pwd"
+msgstr "Wenn eingeschaltet, wird neu angemeldeten Benutzern ein automatisch generiertes Passwort vergeben und zugesandt."
+
+msgid "reg_mail_body_activation"
+msgstr "um Ihr Konto freizuschalten, klicken Sie bitte den folgenden Link an:"
+
+msgid "reg_mail_body_approve"
+msgstr "Sie haben sich bereits bei der Lernplattform angemeldet und eine E-Mail mit Ihren Zugangsdaten erhalten. Jetzt ist Ihr ILIAS-Konto freigeschaltet worden. Bei Fragen und Problemen wenden Sie sich an die technische Betreuung."
+
+msgid "reg_mail_body_confirmation"
+msgstr "Um das ILIAS-Konto zu aktivieren, müssen Sie es freischalten in: „Administration » Konten und Rollen » ILIAS-Konten“"
+
+msgid "reg_mail_body_profile"
+msgstr "Profildaten:"
+
+msgid "reg_mail_body_profile_changed"
+msgstr "Ihre Profildaten wurden geändert."
+
+msgid "reg_mail_body_pwd_generation"
+msgstr "Allerdings muss Ihr ILIAS-Konto noch freigeschaltet werden. Sie erhalten eine Bestätigung per E-Mail, sobald dies erfolgt ist."
+
+msgid "reg_mail_body_reason"
+msgstr "Sie erhalten diese Mail, da die Benachrichtigung über neue Anmeldekonten für Sie in der Administration aktiviert ist."
+
+msgid "reg_mail_body_timelimit"
+msgstr "Ihr Zugang ist zeitlich limitiert: %s."
+
+msgid "reg_mail_new_user"
+msgstr "Anmeldung eines neuen Benutzers"
+
+msgid "reg_mail_new_user_body"
+msgstr "Ein neuer Benutzer hat sich angemeldet."
+
+msgid "reg_mail_new_user_confirmation"
+msgstr "Anfrage zur Überprüfung der Anmeldung"
+
+msgid "reg_missing_domain"
+msgstr "Bitte füllen Sie alle notwendigen Felder aus."
+
+msgid "reg_missing_role"
+msgstr "Bitte füllen Sie alle notwendigen Felder aus."
+
+msgid "reg_notification"
+msgstr "Benachrichtigungen"
+
+msgid "reg_notification_info"
+msgstr "Geben Sie hier einen oder mehrere Anmeldenamen (durch Komma getrennt) ein, die bei Neuanmeldungen per E-Mail benachrichtigt werden sollen."
+
+msgid "reg_role_access_limitations"
+msgstr "Zugangsfristen für Rollen festlegen"
+
+msgid "reg_role_assignment"
+msgstr "Rollenzuordnung"
+
+msgid "reg_role_info"
+msgstr "Rollen"
+
+msgid "reg_select_one"
+msgstr "Bitte treffen Sie eine Auswahl."
+
+msgid "reg_selectable_roles"
+msgstr "Auswählbare Rollen"
+
+msgid "reg_settings_header"
+msgstr "Einstellungen"
+
+msgid "reg_type"
+msgstr "Registrierungsart"
+
+msgid "reg_type_confirmation"
+msgstr "Registrieren mit E-Mail-Bestätigung"
+
+msgid "reg_type_confirmation_info"
+msgstr "Bei dieser Registrierungsmethode erhält der neue Benutzer zunächst per E-Mail-Adresse einen Bestätigungslink zugesandt. Wird dieser bestätigt, erfolgt die automatische Freischaltung des ILIAS-Kontos."
+
+msgid "reg_unknown_recipients"
+msgstr "Die folgenden Benutzer sind nicht gültig:"
+
+msgid "registration_code"
+msgstr "Code"
+
+msgid "registration_code_not_valid"
+msgstr "Der gegebene Registrierungscode ist ungültig oder wurde bereits benutzt."
+
+msgid "registration_code_optional_info"
+msgstr "Einen evtl. vorhandenen ILIAS-Registrierungs-Code können Sie hier eingeben."
+
+msgid "registration_code_required_info"
+msgstr "Ein ILIAS-Registrierungs-Code ist Voraussetzung für die erfolgreiche Registrierung."
+
+msgid "registration_code_role_info"
+msgstr "Bei Benutzung eines Registrierungscodes kann diese Auswahl überschrieben werden."
+
+msgid "registration_codes_access_limitation_all"
+msgstr "Alle"
+
+msgid "registration_codes_add"
+msgstr "Codes erzeugen"
+
+msgid "registration_codes_edit_header"
+msgstr "Neue Codes erzeugen"
+
+msgid "registration_codes_export"
+msgstr "Codes exportieren"
+
+msgid "registration_codes_no_assigned_role"
+msgstr "Keine vorgegebene zugewiesene Rolle"
+
+msgid "registration_codes_number"
+msgstr "Anzahl Codes"
+
+msgid "registration_codes_override_global_info"
+msgstr "Diese Einstellungen werden evtl. durch Registrierungscodes aufgehoben."
+
+msgid "registration_codes_override_info"
+msgstr "Diese Einstellung hat Vorrang vor allen anderen entsprechenden Registrierungs-Einstellungen."
+
+msgid "registration_codes_roles"
+msgstr "Globale Rolle"
+
+msgid "registration_codes_roles_limitation_none"
+msgstr "Keine vorgegebene Zugangsbefristung"
+
+msgid "registration_codes_roles_local"
+msgstr "Lokale Rolle(n)"
+
+msgid "registration_codes_roles_title"
+msgstr "Rolle für neue ILIAS-Konten"
+
+msgid "registration_codes_type"
+msgstr "Codetyp"
+
+msgid "registration_codes_type_ext"
+msgstr "Verlängerung zeitlich begrenzter Anmeldekonten"
+
+msgid "registration_codes_type_ext_info"
+msgstr "Der Code kann für die Verlängerung zeitlich befristeter Anmeldekonten verwendet werden."
+
+msgid "registration_codes_type_reg"
+msgstr "Registrierungscode"
+
+msgid "registration_codes_type_reg_info"
+msgstr "Der Code kann für die Registrierung neuer Anmeldekonten verwendet werden."
+
+msgid "registration_disabled_no_access"
+msgstr "Die Selbstregistrierung ist nicht aktiviert. Bitte kontaktieren Sie die technische Betreuung für weitere Unterstützung: %s"
+
+msgid "registration_export_codes_no_data"
+msgstr "Keine Codes wurden für den Export ausgewählt."
+
+msgid "registration_generated"
+msgstr "Erzeugt am"
+
+msgid "registration_generated_all"
+msgstr "Alle Daten"
+
+msgid "registration_no_valid_role"
+msgstr "Es ist momentan keine Rolle für Registrierungen definiert. Bitte kontaktieren Sie die technische Betreuung."
+
+msgid "registration_reg_type_codes"
+msgstr "Registrieren mit Codes"
+
+msgid "registration_reg_type_codes_info"
+msgstr "Bei dieser Registrierungsmethode benötigt der neue Benutzer einen gültigen Code."
+
+msgid "registration_roles_all"
+msgstr "Alle Rollen"
+
+msgid "registration_settings"
+msgstr "ILIAS-Auth / Selbstregistrierung"
+
+msgid "registration_tab_codes"
+msgstr "Registrierungscodes"
+
+msgid "registration_tab_settings"
+msgstr "Einstellungen"
+
+msgid "registration_used"
+msgstr "Verbraucht am"
+
+msgid "registration_user_new_account_mail"
+msgstr "Benachrichtigung über Neuanmeldung"

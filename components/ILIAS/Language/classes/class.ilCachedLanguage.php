@@ -64,6 +64,9 @@ class ilCachedLanguage implements Request
 
     /**
      * Return whether the global cache is active
+     *
+     * Always true, so cached_modules is always filled: ilLanguage::loadLanguageModule() must check the
+     * PO/MO overlay of a migrated module before cached_modules, or the DB cache hides the overlay.
      */
     public function isActive(): bool
     {

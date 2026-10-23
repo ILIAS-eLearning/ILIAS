@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: bg\n"
+"Language-Team: Bulgarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: chatroom_adm\n"
+
+msgid "chat_cannot_connect_to_server"
+msgstr "ILIAS не може да изгради сокет връзка към чатсървъра."
+
+msgid "chat_enabled"
+msgstr "Активиране на чата"
+
+msgid "chatserver_settings_title"
+msgstr "Настройки на чатсървъра"
+
+msgid "client_settings"
+msgstr "Настройки на клиента"
+
+msgid "general_settings_title"
+msgstr "Общи настройки на чата"
+
+msgid "https"
+msgstr "HTTPS"
+
+msgid "osc_adm_browser_noti_info"
+msgstr "Ако е разрешено, потребителите могат индивидуално да решат дали искат да получават известия от браузъра за нови разговори и съобщения. Известията се задействат, ако потребителят работи в различни раздели на браузъра или браузърът е скрит и ILIAS е поставен във фонов режим. Потребителите ще получават и известия от браузъра след определено време на престой в разговор, ако ILIAS е на преден план."
+
+msgid "osc_adm_browser_noti_label"
+msgstr "Известия за браузъра"
+
+msgid "osc_adm_conv_idle_state_threshold_info"
+msgstr "Отрязване на известията чрез задаване на минимален интервал, при който се задействат известията на браузъра за входящи съобщения в чата."
+
+msgid "osc_adm_conv_idle_state_threshold_label"
+msgstr "Време между известията от браузъра"
+
+msgid "port_info"
+msgstr "Редко използваните портове често се блокират от защитни стени или прокси сървъри. Браузърът на потребителя няма да може да установи връзка със сървъра за чат, ако определеният порт е блокиран."
+
+msgid "protocol"
+msgstr "Protocol"
+
+msgid "public_chat_permissions"
+msgstr "Публични разрешения за чата"
+
+msgid "public_chat_settings"
+msgstr "Настройки на публичната чат стая"
+
+msgid "server_settings"
+msgstr "Настройки на сървъра"
+
+msgid "settings_has_been_saved"
+msgstr "Настройките са запазени"

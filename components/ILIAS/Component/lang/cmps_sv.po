@@ -1,0 +1,232 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cmps\n"
+
+msgid "cmps_activate"
+msgstr "Aktivera"
+
+msgid "cmps_active"
+msgstr "Aktiv"
+
+msgid "cmps_add_new_rank"
+msgstr "Position i urvalslistan för objekt som ska läggas till"
+
+msgid "cmps_available"
+msgstr "Tillgänglig"
+
+msgid "cmps_available_version"
+msgstr "Tillgänglig version"
+
+msgid "cmps_basic_files"
+msgstr "Basisfiler"
+
+msgid "cmps_class_file"
+msgstr " Klassfil"
+
+msgid "cmps_component"
+msgstr "Komponent"
+
+msgid "cmps_configure"
+msgstr "Konfigurera"
+
+msgid "cmps_current_db_version"
+msgstr "Aktuell DB-version"
+
+msgid "cmps_current_version"
+msgstr "Aktuell version"
+
+msgid "cmps_database"
+msgstr "Databas"
+
+msgid "cmps_db_update"
+msgstr "Script för uppdatering av databas"
+
+msgid "cmps_deactivate"
+msgstr "Avaktivera"
+
+msgid "cmps_detailed_information"
+msgstr "Detaljerad information"
+
+msgid "cmps_dir"
+msgstr "Directory"
+
+#, fuzzy
+msgid "cmps_disable_creation"
+msgstr "Disable Creation"
+
+msgid "cmps_enable_creation"
+msgstr "Starta skapandet"
+
+msgid "cmps_file_version"
+msgstr "Uppdatera filversion"
+
+msgid "cmps_group"
+msgstr "Grupp"
+
+msgid "cmps_id"
+msgstr "ID"
+
+msgid "cmps_ilias_max_version"
+msgstr "Maximal ILIAS-version"
+
+msgid "cmps_ilias_min_version"
+msgstr "Minsta ILIAS-version"
+
+msgid "cmps_inactive"
+msgstr "Inaktiv"
+
+msgid "cmps_install"
+msgstr "Installera"
+
+msgid "cmps_is_active"
+msgstr "Aktiverad"
+
+msgid "cmps_is_installed"
+msgstr "Installerad"
+
+msgid "cmps_lang_files"
+msgstr "Språkfil"
+
+msgid "cmps_lang_prefix"
+msgstr "Prefix språkvariabel"
+
+msgid "cmps_languages"
+msgstr "Språk"
+
+msgid "cmps_main_dir"
+msgstr "Huvudkatalog"
+
+msgid "cmps_missing"
+msgstr "Saknad"
+
+msgid "cmps_module"
+msgstr "Modul"
+
+msgid "cmps_must_installed"
+msgstr "Komponenten måste vara installerad."
+
+msgid "cmps_name"
+msgstr "Namn"
+
+msgid "cmps_needs_matching_ilias_version"
+msgstr "Detta plugin kan inte användas med den aktuella versionen av denna ILIAS-installation."
+
+msgid "cmps_needs_newer_ilias_version"
+msgstr "Detta plugin kan endast användas med en nyare ILIAS-version. Vänligen uppdatera din ILIAS-version."
+
+msgid "cmps_needs_newer_plugin_version"
+msgstr "Den här ILIAS-versionen kräver en nyare plugin-version. Vänligen uppdatera pluginet."
+
+msgid "cmps_needs_update"
+msgstr "Uppdatering nödvändig"
+
+msgid "cmps_needs_upgrade"
+msgstr "Den nuvarande installerade plugin-versionen är äldre än den tidigare installerade. Vänligen installera det senaste pluginet."
+
+msgid "cmps_no_db_update_file_available"
+msgstr "Inget skript för uppdatering av databas tillgängligt"
+
+msgid "cmps_no_language_file_available"
+msgstr "Ingen språkfil tillgänglig"
+
+msgid "cmps_plugin"
+msgstr "Plugin"
+
+msgid "cmps_plugin_activated"
+msgstr "Insticksprogrammet har aktiverats."
+
+msgid "cmps_plugin_db_prefixes"
+msgstr "Prefixar databastabell"
+
+msgid "cmps_plugin_deactivated"
+msgstr "Insticksprogrammet har avaktiverats."
+
+msgid "cmps_plugin_deinstalled"
+msgstr "Insticksprogrammet har avinstallerats"
+
+msgid "cmps_plugin_file"
+msgstr "Plugin-fil"
+
+msgid "cmps_plugin_lang_prefixes"
+msgstr "Plugin språk prefix"
+
+msgid "cmps_plugin_slot"
+msgstr "Plugin-plats"
+
+msgid "cmps_plugin_uninstalled"
+msgstr "Alla språk och databasposter relaterade till pluginet har tagits bort och pluginet har avaktiverats. Du kan nu ta bort katalogen och källkoden för insticksprogrammet från katalogen \"Customizing\" för att slutligen avinstallera insticksprogrammet."
+
+msgid "cmps_plugin_updated"
+msgstr "Insticksprogrammet har uppdaterats"
+
+msgid "cmps_plugins"
+msgstr "Plugins"
+
+msgid "cmps_refresh"
+msgstr "Reload språk"
+
+msgid "cmps_refresh_lng"
+msgstr "Språk uppdaterat"
+
+msgid "cmps_rep_object"
+msgstr "Objekttyp i tidningen"
+
+msgid "cmps_repository_object_types"
+msgstr "Objekttyper i tidningen"
+
+msgid "cmps_responsible"
+msgstr "Ansvarsfull"
+
+msgid "cmps_responsible_mail"
+msgstr "Mail (ansvarig person)"
+
+msgid "cmps_save_options"
+msgstr "Spara"
+
+msgid "cmps_service"
+msgstr "Tjänst"
+
+msgid "cmps_show_details"
+msgstr "Visa detaljer"
+
+msgid "cmps_slots"
+msgstr "Slots"
+
+msgid "cmps_status"
+msgstr "Status"
+
+msgid "cmps_supports_cli_setup"
+msgstr "Stödjer CLI-installation"
+
+msgid "cmps_supports_export"
+msgstr "Stödd export"
+
+msgid "cmps_supports_learning_progress"
+msgstr "Stödjer framsteg i inlärningen"
+
+msgid "cmps_uninstall"
+msgstr "Avinstallera"
+
+msgid "cmps_uninstall_confirm"
+msgstr "Vill du verkligen avinstallera insticksprogrammet \"%s\" och ta bort alla tillhörande databasposter?"
+
+msgid "cmps_uninstall_inactive_confirm"
+msgstr "Insticksprogrammet \"%1$s\" kan för närvarande inte aktiveras (\"%2$s\"). I denna status kan plugins inte avinstalleras helt. Eftersom endast systemintegrationen tas bort kan data som ägs av plugin finnas kvar. Vill du fortsätta med den partiella avinstallat"
+
+msgid "cmps_update"
+msgstr "Uppdatera"
+
+msgid "cmps_version"
+msgstr "Version"
+
+msgid "database_is_uptodate"
+msgstr "Databasen är uppdaterad."
+
+msgid "no_changes"
+msgstr "Inga förändringar"

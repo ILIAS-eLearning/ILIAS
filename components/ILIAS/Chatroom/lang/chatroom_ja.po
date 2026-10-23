@@ -1,0 +1,548 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: chatroom\n"
+
+msgid "allow_anonymous"
+msgstr "匿名ログインを許可"
+
+msgid "allow_custom_usernames"
+msgstr "カスタムユーザ名を許可"
+
+#, fuzzy
+msgid "allow_custom_usernames_info"
+msgstr "Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room."
+
+msgid "anonymous_hint"
+msgstr "アクセス許可タブに対して匿名ユーザをこのリポジトリ項目へアクセス許可するための適切な設定がされている事を確認します。"
+
+msgid "auto_scroll"
+msgstr "ページの最後までスクロール"
+
+msgid "autogen_usernames"
+msgstr "自動ユーザ名の作成A"
+
+msgid "autogen_usernames_info"
+msgstr "自動生成ユーザ名用のパターン。'#'は自動的に数字で置き換えられます。"
+
+msgid "ban_question"
+msgstr "現在の部屋からユーザを本当に禁止しますか?"
+
+msgid "ban_table_title"
+msgstr "禁止ユーザ"
+
+msgid "banned"
+msgstr "このチャットから禁止されています"
+
+msgid "bans"
+msgstr "禁止"
+
+msgid "chat_address"
+msgstr "アドレス"
+
+msgid "chat_anonymous_not_allowed"
+msgstr "チャットを使いログインしてください。"
+
+msgid "chat_auth_token_info"
+msgstr "チャットサーバへリクエストを送信する際に認証目的用でiliasが使用するユニークなストリングを定義してください。対応するボタンをクリックすると自動的にこれらのストリングを生成することができます。各クライアントIDが <b>unique</b>であってもチャットサーバは複数のiliasクライアントと通信が可能であることに注意願います。"
+
+msgid "chat_ban"
+msgstr "禁止する"
+
+msgid "chat_broadcast_typing"
+msgstr "タイプのブロードキャスト"
+
+msgid "chat_broadcast_typing_default_info"
+msgstr "有効にすると、入力内容はデフォルトで会話やチャットルームの他の参加者に送信されます"
+
+msgid "chat_broadcast_typing_info"
+msgstr "会話中またはチャットルーム内のユーザへメッセージタイプ中に見る事を許容する。"
+
+msgid "chat_connection_disconnected"
+msgstr "--- <b>#username#</b>は チャットルームを退室 ---"
+
+msgid "chat_connection_established"
+msgstr "+++ <b>#username#</b> はチャットルームへ参加 +++"
+
+msgid "chat_deletion_disabled"
+msgstr "無効"
+
+msgid "chat_deletion_interval"
+msgstr "インターバル"
+
+msgid "chat_deletion_interval_info"
+msgstr "選択するとリポジトリ内メッセージのチャットとオンスクリーンチャット会話は定義されたスレッショールド以降は削除されます。"
+
+msgid "chat_deletion_interval_run_at"
+msgstr "Time"
+
+msgid "chat_deletion_interval_run_at_info"
+msgstr "サーバがメッセージ削除を実行すべき時間(形式: HH:MM)を定義してください。"
+
+msgid "chat_deletion_interval_unit"
+msgstr "Unit"
+
+msgid "chat_deletion_interval_value"
+msgstr "Value"
+
+msgid "chat_deletion_ival_max_val"
+msgstr "選択のunit '%s' の最大値は: %sです。"
+
+msgid "chat_deletion_section_head"
+msgstr "古いメッセージの削除"
+
+msgid "chat_enable_history"
+msgstr "履歴を有効化"
+
+msgid "chat_enable_history_info"
+msgstr "履歴タブ内の過去のパブリックチャットメッセージの読込みとエクスポートを誰でもできます。プライベートルーム内のメッセージは招待ユーザに限りアクセス可能です。"
+
+msgid "chat_error_log_info"
+msgstr "チャットサーバのエラーログファイルの絶対チャットサーバパスを定義してください。(例: /var/www/ilias/data/chat_error.log). パスが定義されていない場合は、チャットサーバはチャットサーバディレクトリ内にファイルを作成します。"
+
+msgid "chat_functions"
+msgstr "Chat 機能"
+
+msgid "chat_https_cert_info"
+msgstr "SSL認定ファイルへの絶対サーバパスを定義してください(例: /etc/ssl/certs/server.pem)"
+
+msgid "chat_https_dhparam_info"
+msgstr "Diffie Hellmanパラメータの(例 生成経路: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 )のネゴシエーション用に使用されるファイル (例: /etc/ssl/private/dhparam.pem)への,絶対サーバパスを定義してください。"
+
+msgid "chat_https_key_info"
+msgstr "プライベートキーへの絶対サーバパスを定義してください。(例: /etc/ssl/private/server.key)."
+
+msgid "chat_invitation"
+msgstr "[INVITER_NAME] はチャットルーム[ROOM_NAME]\"へ相対しています。"
+
+msgid "chat_invitation_long"
+msgstr "[SALUTATION][BR][BR]チャットルーム[BR]Chat Room Title: [ROOM_NAME][BR]Invited by: [INVITER_NAME][BR]URL: [LINK][BR][BR]へ招待されました。[LINK][BR][BR]へ参加するには次のURLをフォローしてください。URL: [LINK]チャットルームへ参加するには次のURLをフォローしてください。"
+
+msgid "chat_invitation_modal_headline"
+msgstr "Chat Roomへの招待"
+
+msgid "chat_invitation_modal_section"
+msgstr "招待ユーザ"
+
+msgid "chat_invitation_nc_inv_x"
+msgstr "%s チャット招待があります。"
+
+msgid "chat_invitation_nc_no_inv"
+msgstr "チャット招待はありません。"
+
+msgid "chat_invitation_short"
+msgstr "タイトルリンクをクリックしてチャットルームへ入室してください。"
+
+msgid "chat_invitation_username_input_label"
+msgstr "ユーザ名を入力"
+
+msgid "chat_invitations"
+msgstr "チャット"
+
+msgid "chat_invite"
+msgstr "招待"
+
+msgid "chat_join"
+msgstr "参加"
+
+msgid "chat_kick"
+msgstr "キック"
+
+msgid "chat_log_info"
+msgstr "サーバのログファイルの絶対サーバパスを定義してください。(例: /var/www/ilias/data/chat.log) パスが定義されていない場合は、チャットサーバはサーバディレクトリ内に自動的にファイルを作成します。"
+
+msgid "chat_log_level"
+msgstr "Log Level"
+
+msgid "chat_mainroom"
+msgstr "メインルーム"
+
+msgid "chat_message"
+msgstr "メッセージ"
+
+msgid "chat_message_display"
+msgstr "オプション"
+
+msgid "chat_message_options"
+msgstr "表示"
+
+msgid "chat_no_use_typing_broadcast"
+msgstr "タイプ入力はブロードキャストされません"
+
+msgid "chat_not_use_osc"
+msgstr "On-Screen-Chatを使用しない"
+
+msgid "chat_osc_accept_msg"
+msgstr "オンスクリーンチャット会話を許可"
+
+msgid "chat_osc_accept_msg_default_info"
+msgstr "有効にすると、ユーザーはデフォルトで画面上のチャットシステムを使用してお互いにメッセージを送信できるようになります。"
+
+msgid "chat_osc_accept_msg_info"
+msgstr "有効にすると他のユーザは自分との会話開始ができるようになります。"
+
+msgid "chat_osc_accept_msg_info_slate"
+msgstr "プライベート会話をするには、\"オンスクリーンチャット会話を許可”設定を有効にする必要があります。"
+
+msgid "chat_osc_accept_msg_info_slate_link_txt"
+msgstr "表示 (プロファイルとプライバシー内)"
+
+msgid "chat_osc_accept_no_conv_info_slate"
+msgstr "最小化している会話はありません。"
+
+msgid "chat_osc_accepts_messages_no"
+msgstr "チャットメッセージを受信しません。"
+
+msgid "chat_osc_accepts_messages_yes"
+msgstr "チャットメッセージを受信"
+
+msgid "chat_osc_add_user"
+msgstr "以降のユーザを追加"
+
+msgid "chat_osc_conversations"
+msgstr "会話"
+
+msgid "chat_osc_doesnt_accept_msg"
+msgstr "会話不可能"
+
+msgid "chat_osc_head_grp_x_persons"
+msgstr "%s Users"
+
+msgid "chat_osc_invite_to_conversation"
+msgstr "会話へ追加"
+
+msgid "chat_osc_leave_grp_conv"
+msgstr "会話を外れる"
+
+msgid "chat_osc_minimize"
+msgstr "最小化"
+
+msgid "chat_osc_nc_conv_x_p"
+msgstr "%s 隠された会話があります。"
+
+msgid "chat_osc_nc_conv_x_s"
+msgstr "一つ隠された会話があります。"
+
+msgid "chat_osc_nc_no_conv"
+msgstr "利用可能な会話はありません。"
+
+msgid "chat_osc_nc_prop_time"
+msgstr "Time"
+
+msgid "chat_osc_no_conv"
+msgstr "会話がありません"
+
+msgid "chat_osc_no_sub_directory"
+msgstr "Sub-Directory"
+
+msgid "chat_osc_no_sub_directory_info"
+msgstr "チャットサーバは\"http(s)://[IP/Domain]/[PATH]\"のようなURL付きのサブディレクトリ経由でしかつながらない場合、このチャットサーバには[PATH]の挿入が必要です。"
+
+msgid "chat_osc_no_usr_found"
+msgstr "検索に合致するユーザを見つけることができませんでした。"
+
+msgid "chat_osc_search_modal_info"
+msgstr "会話を追加したいユーザを検索できます。検索ダイアログがグループチャット内に開いていると新しいユーザはこのチャットへ追加されます。1:1チャットで検索を開始していると、新しいグループチャットウィンドウが開きます。"
+
+msgid "chat_osc_self_rej_msgs"
+msgstr "設定で受信メッセージを抑制しているのでこの会話の部分を現在受け取りできません。"
+
+msgid "chat_osc_send"
+msgstr "Send"
+
+msgid "chat_osc_start_conversation"
+msgstr "会話を開始"
+
+msgid "chat_osc_subs_rej_msgs"
+msgstr "現在この会話を継続できません。チャットのパートナーがチャット設定内のチャットを有効にする必要があります。"
+
+msgid "chat_osc_subs_rej_msgs_p"
+msgstr "会話中の次のチャットパートナーはこれ以上のメッセージの受信を希望しません: %s"
+
+msgid "chat_osc_sure_to_leave_grp_conv"
+msgstr "グループ会話から本当に外れますか?"
+
+msgid "chat_osc_user"
+msgstr "User"
+
+msgid "chat_osc_user_left_grp_conv"
+msgstr "ユーザ '%s'はグループ会話から外れました。"
+
+msgid "chat_osc_write_a_msg"
+msgstr "メッセージを書く ..."
+
+msgid "chat_select_room"
+msgstr "チャットルームを選択"
+
+msgid "chat_settings"
+msgstr "チャット設定"
+
+msgid "chat_settings_functions_header"
+msgstr "チャットルーム機能"
+
+msgid "chat_show_auto_messages"
+msgstr "メッセージのステータスを表示"
+
+msgid "chat_to_mainroom"
+msgstr "メインルームへ"
+
+msgid "chat_use_osc"
+msgstr "On-Screen-Chat使用"
+
+msgid "chat_use_typing_broadcast"
+msgstr "タイプ入力はブロードキャストされます。"
+
+msgid "chat_user_action_invite_osd"
+msgstr "オンスクリーンチャットへ招待"
+
+msgid "chat_user_action_invite_public_room"
+msgstr "パブリックチャットルームへ招待"
+
+msgid "chat_user_x_is_typing"
+msgstr "ユーザ %s が入力中 ..."
+
+msgid "chat_users_are_typing"
+msgstr "複数のユーザが入力中 ..."
+
+msgid "chat_whisper"
+msgstr "ささやく"
+
+#, fuzzy
+msgid "chatroom_anonymous_default"
+msgstr "Anonymous "
+
+msgid "chatroom_auth"
+msgstr "Authentication"
+
+msgid "chatroom_auth_btn_txt"
+msgstr "Keyを生成"
+
+msgid "chatroom_auth_key"
+msgstr "Authentication-Key"
+
+msgid "chatroom_auth_secret"
+msgstr "Authentication-Secret"
+
+msgid "chatroom_client_name"
+msgstr "氏名"
+
+msgid "chatroom_client_name_info"
+msgstr "ILIASクライアントの氏名を入力してください。入力のストリングはグローバルでユニークである必要があります。当初この値はILIASクライアントのクライアントIDに設定されます。変更するとチャットサーバは再起動しなければなりません。"
+
+msgid "chatroom_enable_osc"
+msgstr "オンスクリーンチャットを有効にする"
+
+msgid "chatroom_enable_osc_info"
+msgstr "有効にするとオンスクリーンチャットは各ユーザが利用可能になります。しかしながら、全てのユーザは他のユーザとの連絡をしたいかどうかを決めることができます。会話は'オンラインはだれ?ツール'内に表示開始されます。"
+
+msgid "chatroom_log"
+msgstr "Chatserver Log"
+
+msgid "chatserver_address"
+msgstr "チャットサーバーのIPアドレス"
+
+msgid "chatserver_port"
+msgstr "チャットサーバーのポート"
+
+msgid "chtr_activation_limited_visibility_info"
+msgstr "チェックするとチャットのタイトルは所定の時間外でも表示されます。ただし、チャットのアクセスはできません。"
+
+msgid "chtr_activation_online_info"
+msgstr "オンラインを表示して参加者へ状態を表示するようにチャットを設定します。そうしないと’編集設定'権限のユーザはそれにアクセスするようになります。"
+
+msgid "chtr_add"
+msgstr "チャットルームを追加"
+
+msgid "chtr_ban_actor_tbl_head"
+msgstr "アクター"
+
+msgid "chtr_ban_ts_tbl_head"
+msgstr "タイムスタンプ"
+
+msgid "chtr_new"
+msgstr "新規チャットルーム"
+
+msgid "chtr_server_status"
+msgstr "サーバーステータス"
+
+msgid "clear_room_history"
+msgstr "メッセージ履歴を削除"
+
+msgid "clear_room_history_question"
+msgstr "現在の部屋の全メッセージを本当に削除しますか?"
+
+msgid "client_chatserver_connection"
+msgstr "サーバ接続へのクライアント"
+
+msgid "client_proxy_info"
+msgstr "IPアドレスとポートの既定値でサーバがアクセスできない場合はサーバ接続へのクライアント用カスタムURL構成が可能になります。"
+
+msgid "connection_url_info"
+msgstr "サーバ接続用のURLを挿入してください。"
+
+msgid "custom_username"
+msgstr "カスタムユーザ名"
+
+msgid "dhparam"
+msgstr "Diffie-Hellmanパラメータ"
+
+msgid "display_past_msgs"
+msgstr "過去のメッセージ数"
+
+msgid "duration_from"
+msgstr "From"
+
+msgid "duration_to"
+msgstr "To"
+
+msgid "end_whisper"
+msgstr "キャンセル"
+
+msgid "enter"
+msgstr "チャットルームを入力"
+
+msgid "error_log"
+msgstr "チャットサーバError-Log"
+
+msgid "hint_display_past_msgs"
+msgstr "ルーム入室した際に表示する過去のメッセージ数。値を\"0\"にすると機能しません。"
+
+msgid "history_byday_title"
+msgstr "日ごとの会話を表示"
+
+msgid "history_cleared"
+msgstr "メッセージ履歴がモデレータによって削除されました。"
+
+msgid "history_title_general"
+msgstr "チャットルーム\"%s\"の会話"
+
+msgid "ilias_chatserver_connection"
+msgstr "ILIASサーバ接続"
+
+msgid "ilias_proxy_info"
+msgstr "IPアドレスとポートの既定値でサーバがアクセスできない場合はILIASサーバ接続用のカスタムURL構成が可能になります。"
+
+msgid "invite_to_private_room"
+msgstr "現在の部屋へ招待"
+
+msgid "invite_username"
+msgstr "ユーザ名"
+
+msgid "key"
+msgstr "Key"
+
+msgid "kick_question"
+msgstr "現在の部屋からユーザを本当に退室させますか?"
+
+msgid "kicked"
+msgstr "このチャットルームからキックされました。"
+
+msgid "lost_connection"
+msgstr "チャットサーバーへのコネクションは中断されました。"
+
+msgid "main"
+msgstr "メインルーム"
+
+msgid "messages"
+msgstr "メッセージ"
+
+msgid "no_further_users"
+msgstr "他にユーザはいません"
+
+msgid "no_messages"
+msgstr "特定期間内に何もメッセージは保存されていません。"
+
+msgid "no_username_given"
+msgstr "ユーザ名を選択してください"
+
+msgid "osc_browser_noti_no_permission_error"
+msgstr "ブラウザあるいはOSの通知設定にあるブロックするドメインリストからこのドメインを解除してください。 そうしないとブラウザ通知を受信できなくなります。"
+
+msgid "osc_browser_noti_no_support_error"
+msgstr "ブラウザ通知がこのブラウザではサポートされていません。HTTPS <a href=\"https://caniuse.com/#feat=notifications\" target=\"_blank\" rel=\"noopener noreferrer\">サポートブラウザ</a>経由で要求するILIASを確認してください。"
+
+msgid "osc_browser_noti_req_permission_error"
+msgstr "アクセス承認しなかったのでブラウザ通知は有効にされませんでした。ブラウザあるいはOSの通知設定にあるブロックするドメインリストからこのドメインを解除してください。"
+
+msgid "osc_enable_browser_notifications_info"
+msgstr "有効にすると、ILIASブラウザタブがバックグラウンドあるいはブラウザが非表示の時に新規メッセージと会話を受信するとブラウザ通知は表示されます。ILIASタブがForegroundの場合に %s 分アイドル後に新規メッセージをブラウザ通知でも受け取ります。"
+
+msgid "osc_enable_browser_notifications_label"
+msgstr "ブウラウザ通知"
+
+msgid "osc_noti_title"
+msgstr "新しいチャットメッセージ"
+
+msgid "period"
+msgstr "期間"
+
+msgid "permissions"
+msgstr "アクセス権"
+
+msgid "preferred_chatname"
+msgstr "通称"
+
+msgid "public_chat_created"
+msgstr "パブリックチャットルームがリポジトリへ追加されました。"
+
+msgid "scope"
+msgstr "部屋/プライベートルーム"
+
+msgid "select_custom_username"
+msgstr "カスタムユーザ名を選択"
+
+msgid "server_further_information"
+msgstr "<a href=\"%1$s\" target=\"_blank\">readmeファイル</a>を参照してサーバー設定に関する追加情報を見る事ができます。"
+
+msgid "server_readme_file_btn_label"
+msgstr "Readmeファイル"
+
+msgid "session"
+msgstr "セッション"
+
+msgid "settings_general"
+msgstr "全般"
+
+msgid "settings_title"
+msgstr "設定"
+
+msgid "start_private_chat"
+msgstr "プライベートチャットを開始"
+
+msgid "unable_to_connect"
+msgstr "チャットサーバーへのコネクションは確立されませんでした。"
+
+msgid "unban"
+msgstr "禁止を外す"
+
+msgid "user_banned"
+msgstr "ユーザ #user# は禁止されました。"
+
+msgid "user_in_ilias"
+msgstr "検索してILIASからユーザを招待"
+
+msgid "user_in_room"
+msgstr "現在のチャットルームからユーザを招待"
+
+msgid "user_invited"
+msgstr "ユーザ<b>#user#</b>は招待されています。"
+
+msgid "user_invited_self"
+msgstr "<b>#user#</b>はチャットルーム<b>#room#</b>へ招待されました。"
+
+msgid "user_kicked"
+msgstr "ユーザ<b>#user#</b>はキックされました。"
+
+msgid "users"
+msgstr "ユーザ"
+
+msgid "welcome_to_chat"
+msgstr "チャットルームへようこそ"
+
+msgid "write_message"
+msgstr "新規メッセージ"

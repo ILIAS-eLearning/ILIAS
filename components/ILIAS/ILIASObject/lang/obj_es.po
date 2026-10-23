@@ -1,0 +1,282 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: obj\n"
+
+msgid "activation_visible_when_disabled"
+msgstr "Visibilidad"
+
+msgid "activation_visible_when_disabled_info"
+msgstr "El elemento es visible fuera del periodo de disponibilidad seleccionado, pero no se puede abrir."
+
+msgid "availability_period_changed"
+msgstr "El periodo de disponibilidad para los objetos seleccionados se ha cambiado correctamente."
+
+msgid "available_languages"
+msgstr "Available Languages"
+
+msgid "cont_filter_empty"
+msgstr "Por favor, utilice el filtro para ver los objetos."
+
+msgid "cont_skll_published"
+msgstr "Todas las asignaciones han sido publicadas."
+
+msgid "cont_skll_published_some_not"
+msgstr "Se han publicado todas las asignaciones posibles. Algunos usuarios carecían de asignaciones de competencias, por lo que no se pudieron publicar asignaciones para ellos."
+
+msgid "copy_container_page_no_label"
+msgstr "No copiar página de contenido"
+
+msgid "copy_container_page_yes_byline"
+msgstr "La página de contenido y los ajustes de estilo correspondientes del objeto de origen se copiarán en este objeto. Los elementos de página preexistentes se sobrescribirán."
+
+msgid "copy_container_page_yes_label"
+msgstr "Copiar página de contenido"
+
+msgid "custom_icon"
+msgstr "Icono personalizado"
+
+msgid "default_base_lang_not_deletable"
+msgstr "Neither the base language nor the default language can be deleted."
+
+msgid "edit_availability_period"
+msgstr "Periodo de disponibilidad"
+
+msgid "edit_language"
+msgstr "Edit Language"
+
+msgid "edit_questions"
+msgstr "Editar preguntas"
+
+msgid "make_default_language"
+msgstr "Make Default Language"
+
+msgid "missing_migration"
+msgstr "You cannot edit information on this page until all migrations have been run. Please contact your system administrator."
+
+msgid "multiple_reference_deletion_info"
+msgstr "Existen más referencias para los siguientes objetos."
+
+msgid "multiple_selection"
+msgstr "Multiple Selection"
+
+msgid "no_objects_selected"
+msgstr "Se debe seleccionar al menos un objeto."
+
+msgid "obj_activate_content_lang"
+msgstr "Activar traducción para la edición de páginas"
+
+msgid "obj_activate_multilang"
+msgstr "Activar multilingüismo"
+
+msgid "obj_activation"
+msgstr "Activación"
+
+msgid "obj_activation_list_gui"
+msgstr "Disponibilidad"
+
+msgid "obj_add_language"
+msgstr "Add Language"
+
+msgid "obj_additional_langs"
+msgstr "Idiomas adicionales"
+
+msgid "obj_base_lang"
+msgstr "Master Language"
+
+msgid "obj_conf_delete_lang"
+msgstr "¿Realmente desea detener la presentación de título y descripción en estos idiomas?"
+
+msgid "obj_cont_transl_deactivated"
+msgstr "La traducción para la edición de páginas ha sido desactivada."
+
+msgid "obj_copy_progress"
+msgstr "Progreso de la copia"
+
+msgid "obj_copy_progress_estimate"
+msgstr "Estimating duration..."
+
+msgid "obj_copy_progress_failure"
+msgstr "Copying failed."
+
+msgid "obj_copy_progress_success"
+msgstr "Copied successfully."
+
+msgid "obj_copy_progress_to"
+msgstr "Copying to %s"
+
+msgid "obj_deactivate_content_lang"
+msgstr "Desactivar traducción para la edición de páginas"
+
+msgid "obj_deactivate_content_transl_conf"
+msgstr "¿Realmente desea desactivar la traducción para la edición de páginas? Solo se conservarán los contenidos del idioma maestro."
+
+msgid "obj_deactivate_multilang"
+msgstr "Desactivar multilingüismo"
+
+msgid "obj_deactivate_multilang_conf"
+msgstr "¿Realmente desea desactivar el multilingüismo? Solo se conservarán los contenidos del idioma maestro."
+
+msgid "obj_fallback_lang"
+msgstr "Idioma predeterminado"
+
+msgid "obj_features"
+msgstr "Características adicionales"
+
+msgid "obj_import_file_error"
+msgstr "Este archivo no pudo ser importado. Por favor, asegúrese de que es un archivo de exportación de ILIAS válido (exportación XML) del mismo tipo de objeto."
+
+msgid "obj_insert_into_clipboard"
+msgstr "Añadir al portapapeles"
+
+msgid "obj_inserted_clipboard"
+msgstr "Objeto(s) seleccionado(s) añadido(s) con éxito al portapapeles."
+
+msgid "obj_master_lang"
+msgstr "Idioma maestro"
+
+msgid "obj_more_translations"
+msgstr "Más traducciones"
+
+msgid "obj_multilang_deactivated"
+msgstr "El multilingüismo ha sido desactivado."
+
+msgid "obj_multilang_title_descr_only"
+msgstr "La traducción está activada solo para el título y la descripción. El soporte de traducción para la edición de páginas ('Personalizar página') requiere una activación adicional."
+
+msgid "obj_multilinguality"
+msgstr "Multilingüismo"
+
+msgid "obj_orgunit_positions"
+msgstr "Control de acceso por puestos de unidades organizativas"
+
+msgid "obj_orgunit_positions_info"
+msgstr "Si se activa, se pueden definir reglas de control de acceso adicionales mediante puestos en unidades organizativas."
+
+msgid "obj_permission_settings"
+msgstr "Ajustes de permisos"
+
+msgid "obj_presentation"
+msgstr "Presentación"
+
+msgid "obj_select_base_lang"
+msgstr "Please select the base language. The current content will be assigned to the base language. The base language cannot be changed afterwards."
+
+msgid "obj_select_one_language"
+msgstr "Por favor, seleccione un idioma"
+
+msgid "obj_set_fallback_lang"
+msgstr "Establecer idioma predeterminado"
+
+msgid "obj_settings_for_all_members"
+msgstr "Los miembros serán notificados automáticamente"
+
+msgid "obj_show_header_actions"
+msgstr "Mostrar acciones de cabecera"
+
+msgid "obj_show_title_and_icon"
+msgstr "Mostrar título e icono"
+
+msgid "obj_target_location"
+msgstr "Ubicación de destino"
+
+msgid "obj_tile_image"
+msgstr "Imagen de mosaico"
+
+msgid "obj_tile_image_info"
+msgstr "Esta imagen se utilizará como una miniatura (llamada mosaico) para representar este objeto en el contenedor (p. ej., la categoría, grupo de carpetas, etc.) en el que se encuentra. El mosaico sólo se utiliza si el contenedor padre establece sus 'Opciones de visualización de contenido' en 'Mosaicos' (en lugar de 'Lista')."
+
+msgid "obj_tool_booking"
+msgstr "Recursos"
+
+msgid "obj_tool_booking_info"
+msgstr "Utilice los grupos de reserva para reservar recursos."
+
+msgid "obj_tool_ext_mail_subject_prefix"
+msgstr "Prefijo del asunto del correo"
+
+msgid "obj_tool_ext_mail_subject_prefix_info"
+msgstr "Introduzca un texto corto que se añadirá a la línea de asunto de los correos externos enviados a los miembros para facilitar la identificación de estos correos."
+
+msgid "obj_tool_setting_badges"
+msgstr "Insignias"
+
+msgid "obj_tool_setting_badges_info"
+msgstr "Permitir la gestión de insignias y que las insignias se ganen o se otorguen dentro de este objeto."
+
+msgid "obj_tool_setting_booking"
+msgstr "Recursos"
+
+msgid "obj_tool_setting_filter"
+msgstr "Filtro"
+
+msgid "obj_tool_setting_filter_empty"
+msgstr "Mostrar con filtro vacío"
+
+msgid "obj_tool_setting_filter_empty_info"
+msgstr "Mostrar todos los elementos mientras el filtro esté vacío."
+
+msgid "obj_tool_setting_filter_info"
+msgstr "Se mostrará un filtro en la pestaña de contenido."
+
+msgid "obj_tool_setting_info_tab"
+msgstr "Pestaña de información"
+
+msgid "obj_tool_setting_info_tab_info"
+msgstr "Se mostrará la pestaña 'Información'."
+
+msgid "obj_tool_setting_skills"
+msgstr "Competencias"
+
+msgid "obj_tool_setting_skills_info"
+msgstr "Activa la gestión de competencias y la asignación de competencias a los miembros."
+
+msgid "obj_tool_setting_tag_cloud"
+msgstr "Nube de etiquetas"
+
+msgid "obj_tool_setting_tag_cloud_info"
+msgstr "El bloque 'Nube de etiquetas' se mostrará dentro de la pestaña 'Contenido'."
+
+msgid "obj_tool_setting_taxonomies"
+msgstr "Taxonomías"
+
+msgid "obj_tool_setting_taxonomies_info"
+msgstr "Las taxonomías permiten el filtrado de objetos. Se crean en la subpestaña \"Taxonomía\" dentro de la pestaña \"Ajustes\"."
+
+msgid "obj_tool_setting_use_news"
+msgstr "Noticias"
+
+msgid "obj_tool_setting_use_news_info"
+msgstr "Uso del bloque de noticias y/o de la vista de línea de tiempo. Los usuarios pueden suscribirse para recibir notificaciones si el bloque de noticias o la línea de tiempo están activados."
+
+msgid "obj_tool_setting_use_news_open_settings"
+msgstr "Abrir configuración del bloque de noticias y la línea de tiempo"
+
+msgid "obj_user_decides_notification"
+msgstr "Los miembros deben activar manualmente las notificaciones"
+
+msgid "obj_user_not_disable_not"
+msgstr "Los miembros no tienen permitido desactivar las notificaciones"
+
+msgid "online_input_byline"
+msgstr "El objeto ha sido publicado y puede ser accedido por cualquier persona con acceso de lectura. Otros prerrequisitos de acceso o restricciones basadas en el tiempo aún pueden aplicar. Este ajuste se aplica al objeto en cualquier lugar donde sea utilizado en el repositorio."
+
+msgid "select_import_type_info"
+msgstr "El tipo de objeto en el archivo a importar no puede ser determinado automáticamente. Probablemente se cambió el nombre del archivo. Por favor, seleccione el tipo de objeto que contiene el archivo."
+
+msgid "select_object_type"
+msgstr "Seleccionar tipo de objeto"
+
+msgid "svy_results"
+msgstr "Resultados"
+
+msgid "unequal_items_for_availability_period_message"
+msgstr "Ha seleccionado elementos con diferentes periodos de disponibilidad. Sobrescriba los ajustes existentes a continuación o cancele la acción para mantener los periodos de disponibilidad actuales."
+
+msgid "user_owns_no_objects"
+msgstr "No hay objetos del repositorio disponibles"

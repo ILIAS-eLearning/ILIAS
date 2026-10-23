@@ -1,0 +1,624 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: book\n"
+
+msgid "X_reservations_of"
+msgstr ""
+
+msgid "book_add"
+msgstr ""
+
+msgid "book_add_object"
+msgstr ""
+
+msgid "book_add_participant"
+msgstr ""
+
+msgid "book_add_schedule"
+msgstr ""
+
+msgid "book_additional_info_file"
+msgstr ""
+
+msgid "book_all"
+msgstr ""
+
+msgid "book_all_day"
+msgstr ""
+
+msgid "book_all_pools_need_schedules"
+msgstr ""
+
+msgid "book_all_users"
+msgstr ""
+
+msgid "book_assign"
+msgstr ""
+
+msgid "book_assign_object"
+msgstr ""
+
+msgid "book_assign_participant"
+msgstr ""
+
+msgid "book_assign_participants"
+msgstr ""
+
+msgid "book_back_to_list"
+msgstr ""
+
+msgid "book_bobj"
+msgstr ""
+
+msgid "book_book"
+msgstr ""
+
+msgid "book_book_available"
+msgstr ""
+
+msgid "book_book_recurrence"
+msgstr ""
+
+msgid "book_booked_in"
+msgstr ""
+
+msgid "book_booking"
+msgstr ""
+
+msgid "book_booking_information"
+msgstr ""
+
+msgid "book_booking_objects"
+msgstr ""
+
+msgid "book_booking_reminders"
+msgstr ""
+
+msgid "book_bulk_confirmation"
+msgstr ""
+
+msgid "book_bulk_creation"
+msgstr ""
+
+msgid "book_bulk_data"
+msgstr ""
+
+msgid "book_cal_entry"
+msgstr ""
+
+msgid "book_confirm_booking"
+msgstr ""
+
+msgid "book_confirm_booking_for_users"
+msgstr ""
+
+msgid "book_confirm_booking_no_schedule"
+msgstr ""
+
+msgid "book_confirm_booking_schedule_number_of_objects"
+msgstr ""
+
+msgid "book_confirm_booking_schedule_number_of_objects_info"
+msgstr ""
+
+msgid "book_confirm_cancel"
+msgstr ""
+
+msgid "book_confirm_cancel_aggregation"
+msgstr ""
+
+msgid "book_confirm_cancel_info"
+msgstr ""
+
+msgid "book_confirm_delete"
+msgstr ""
+
+msgid "book_confirm_remove_participant"
+msgstr ""
+
+msgid "book_copy"
+msgstr ""
+
+msgid "book_create_objects"
+msgstr ""
+
+msgid "book_date_from"
+msgstr ""
+
+msgid "book_date_to"
+msgstr ""
+
+msgid "book_deadline"
+msgstr ""
+
+msgid "book_deadline_hours"
+msgstr ""
+
+msgid "book_deadline_info"
+msgstr ""
+
+msgid "book_deadline_options"
+msgstr ""
+
+msgid "book_deadline_slot_end"
+msgstr ""
+
+msgid "book_deadline_slot_start"
+msgstr ""
+
+msgid "book_deassign"
+msgstr ""
+
+msgid "book_delete_object"
+msgstr ""
+
+msgid "book_deleted_booking"
+msgstr ""
+
+msgid "book_deleted_object"
+msgstr ""
+
+msgid "book_download_info"
+msgstr ""
+
+msgid "book_edit"
+msgstr ""
+
+msgid "book_edit_object"
+msgstr ""
+
+msgid "book_edit_schedule"
+msgstr ""
+
+msgid "book_filter_end_date"
+msgstr ""
+
+msgid "book_filter_objects"
+msgstr ""
+
+msgid "book_filter_past_reservations"
+msgstr ""
+
+msgid "book_filter_period"
+msgstr ""
+
+msgid "book_filter_start_date"
+msgstr ""
+
+msgid "book_fromto"
+msgstr ""
+
+msgid "book_hours"
+msgstr ""
+
+msgid "book_is_used"
+msgstr ""
+
+msgid "book_limit_objects_available"
+msgstr ""
+
+msgid "book_list"
+msgstr ""
+
+msgid "book_log"
+msgstr ""
+
+msgid "book_mail_permanent_link"
+msgstr ""
+
+msgid "book_mail_to_booker"
+msgstr ""
+
+msgid "book_message"
+msgstr ""
+
+msgid "book_message_info"
+msgstr ""
+
+msgid "book_messages"
+msgstr ""
+
+msgid "book_messages_info"
+msgstr ""
+
+msgid "book_missing_availability"
+msgstr ""
+
+msgid "book_missing_items"
+msgstr ""
+
+msgid "book_modal_booking_confirmation"
+msgstr ""
+
+msgid "book_modal_enter_quantity_intro"
+msgstr ""
+
+msgid "book_modal_recurrence"
+msgstr ""
+
+msgid "book_modal_recurrence_multiple"
+msgstr ""
+
+msgid "book_modal_recurrence_single"
+msgstr ""
+
+msgid "book_modal_skipped_unknown_item"
+msgstr ""
+
+msgid "book_modal_warning_skipped_selections"
+msgstr ""
+
+msgid "book_new"
+msgstr ""
+
+msgid "book_no_bookings_for_you"
+msgstr ""
+
+msgid "book_no_objects"
+msgstr ""
+
+msgid "book_no_objects_available"
+msgstr ""
+
+msgid "book_no_of_objects"
+msgstr ""
+
+msgid "book_no_pools_selected"
+msgstr ""
+
+msgid "book_no_preferences_for_you"
+msgstr ""
+
+msgid "book_no_recurrence"
+msgstr ""
+
+msgid "book_not"
+msgstr ""
+
+msgid "book_not_cancelled"
+msgstr ""
+
+msgid "book_not_enough_preferences"
+msgstr ""
+
+msgid "book_notification"
+msgstr ""
+
+msgid "book_notification_cron_not_active"
+msgstr ""
+
+msgid "book_notification_info"
+msgstr ""
+
+msgid "book_nr_of_preferences"
+msgstr ""
+
+msgid "book_nr_of_preferences_info"
+msgstr ""
+
+msgid "book_nr_preferences"
+msgstr ""
+
+msgid "book_obj_select"
+msgstr ""
+
+msgid "book_object_added"
+msgstr ""
+
+msgid "book_object_deleted"
+msgstr ""
+
+msgid "book_object_selection"
+msgstr ""
+
+msgid "book_object_title_or_description"
+msgstr ""
+
+msgid "book_object_updated"
+msgstr ""
+
+msgid "book_objects_available"
+msgstr ""
+
+msgid "book_open"
+msgstr ""
+
+msgid "book_overall_limit"
+msgstr ""
+
+msgid "book_overall_limit_warning"
+msgstr ""
+
+msgid "book_overall_limit_would_be_exceeded"
+msgstr ""
+
+msgid "book_participant"
+msgstr ""
+
+msgid "book_participant_already_assigned"
+msgstr ""
+
+msgid "book_participant_assigned"
+msgstr ""
+
+msgid "book_participant_removed"
+msgstr ""
+
+msgid "book_past_bookings"
+msgstr ""
+
+msgid "book_period"
+msgstr ""
+
+msgid "book_pool_added"
+msgstr ""
+
+msgid "book_pool_selection"
+msgstr ""
+
+msgid "book_post_booking_file"
+msgstr ""
+
+msgid "book_post_booking_information"
+msgstr ""
+
+msgid "book_post_booking_information_for"
+msgstr ""
+
+msgid "book_post_booking_text"
+msgstr ""
+
+msgid "book_post_booking_text_info"
+msgstr ""
+
+msgid "book_pref_book_cron"
+msgstr ""
+
+msgid "book_pref_book_cron_info"
+msgstr ""
+
+msgid "book_pref_deadline"
+msgstr ""
+
+msgid "book_pref_deadline_info"
+msgstr ""
+
+msgid "book_pref_overview"
+msgstr ""
+
+msgid "book_preference_info"
+msgstr ""
+
+msgid "book_preferences"
+msgstr ""
+
+msgid "book_preferences_saved"
+msgstr ""
+
+msgid "book_present_bookings"
+msgstr ""
+
+msgid "book_public_log"
+msgstr ""
+
+msgid "book_public_log_info"
+msgstr ""
+
+msgid "book_recurrence"
+msgstr ""
+
+msgid "book_refresh"
+msgstr ""
+
+msgid "book_rem_intro"
+msgstr ""
+
+msgid "book_rem_reason"
+msgstr ""
+
+msgid "book_reminder_day"
+msgstr ""
+
+msgid "book_reminder_day_info"
+msgstr ""
+
+msgid "book_reminder_days"
+msgstr ""
+
+msgid "book_reminder_setting"
+msgstr ""
+
+msgid "book_remove_participants"
+msgstr ""
+
+msgid "book_rerun_assignments"
+msgstr ""
+
+msgid "book_rerun_confirmation"
+msgstr ""
+
+msgid "book_reservation_available"
+msgstr ""
+
+msgid "book_reservation_cancelled"
+msgstr ""
+
+msgid "book_reservation_confirmed"
+msgstr ""
+
+msgid "book_reservation_failed"
+msgstr ""
+
+msgid "book_reservation_failed_overbooked"
+msgstr ""
+
+msgid "book_reservation_filter_period"
+msgstr ""
+
+msgid "book_reservation_filter_period_info"
+msgstr ""
+
+msgid "book_reservation_fix_info"
+msgstr ""
+
+msgid "book_reservation_overview"
+msgstr ""
+
+msgid "book_reservation_status_5"
+msgstr ""
+
+msgid "book_reservation_title"
+msgstr ""
+
+msgid "book_reservations_list"
+msgstr ""
+
+msgid "book_schedule"
+msgstr ""
+
+msgid "book_schedule_added"
+msgstr ""
+
+msgid "book_schedule_all_day"
+msgstr ""
+
+msgid "book_schedule_days"
+msgstr ""
+
+msgid "book_schedule_days_info"
+msgstr ""
+
+msgid "book_schedule_deleted"
+msgstr ""
+
+msgid "book_schedule_slot"
+msgstr ""
+
+msgid "book_schedule_type"
+msgstr ""
+
+msgid "book_schedule_type_fixed"
+msgstr ""
+
+msgid "book_schedule_type_fixed_info"
+msgstr ""
+
+msgid "book_schedule_type_none"
+msgstr ""
+
+msgid "book_schedule_type_none_direct"
+msgstr ""
+
+msgid "book_schedule_type_none_direct_info"
+msgstr ""
+
+msgid "book_schedule_type_none_info"
+msgstr ""
+
+msgid "book_schedule_type_none_preference"
+msgstr ""
+
+msgid "book_schedule_type_none_preference_info"
+msgstr ""
+
+msgid "book_schedule_updated"
+msgstr ""
+
+msgid "book_schedule_warning_edit"
+msgstr ""
+
+msgid "book_schedules"
+msgstr ""
+
+msgid "book_select_pool"
+msgstr ""
+
+msgid "book_set_cancel"
+msgstr ""
+
+msgid "book_set_delete"
+msgstr ""
+
+msgid "book_show_message"
+msgstr ""
+
+msgid "book_show_past_bookings"
+msgstr ""
+
+msgid "book_some_reservations_unavailable"
+msgstr ""
+
+msgid "book_table"
+msgstr ""
+
+msgid "book_table_col_availability"
+msgstr ""
+
+msgid "book_table_col_datetime"
+msgstr ""
+
+msgid "book_title_description_nr"
+msgstr ""
+
+msgid "book_title_description_nr_info"
+msgstr ""
+
+msgid "book_too_many_preferences"
+msgstr ""
+
+msgid "book_total_individual_bookings_limit"
+msgstr ""
+
+msgid "book_type_warning"
+msgstr ""
+
+msgid "book_view"
+msgstr ""
+
+msgid "book_week"
+msgstr ""
+
+msgid "book_week_no_objects_selected"
+msgstr ""
+
+msgid "book_your_bookings"
+msgstr ""
+
+msgid "book_your_preferences"
+msgstr ""
+
+msgid "book_your_reservations"
+msgstr ""
+
+msgid "booking_multiple_succesfully"
+msgstr ""
+
+msgid "booking_nr_of_items"
+msgstr ""
+
+msgid "booking_process_error"
+msgstr ""
+
+msgid "bookings_log"
+msgstr ""
+
+msgid "delete_bookable_item"
+msgstr ""
+
+msgid "no_valid_selection"
+msgstr ""
+
+msgid "obj_book_duplicate"
+msgstr ""
+
+msgid "participants"
+msgstr ""
+
+msgid "reservation_deleted"
+msgstr ""
+
+msgid "schedule_type"
+msgstr ""

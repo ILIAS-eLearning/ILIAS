@@ -1,0 +1,671 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: book\n"
+
+msgid "X_reservations_of"
+msgstr "%s foglalás /"
+
+msgid "book_add"
+msgstr "Foglalásgyűjtemény létrehozása"
+
+msgid "book_add_object"
+msgstr "Objektum létrehozása"
+
+msgid "book_add_participant"
+msgstr "Résztvevő hozzáadása"
+
+msgid "book_add_schedule"
+msgstr "Időterv létrehozása"
+
+msgid "book_additional_info_file"
+msgstr "További leírás"
+
+msgid "book_all"
+msgstr "Összes megjelenítése"
+
+#, fuzzy
+msgid "book_all_day"
+msgstr "All-Day"
+
+msgid "book_all_pools_need_schedules"
+msgstr "A beállításokat nem mentettük. Az összes hozzárendelt gyűjteménynek kell, hogy legyen legalább egy időterve."
+
+msgid "book_all_users"
+msgstr "Összes résztvevő"
+
+msgid "book_assign"
+msgstr "Lefoglalás"
+
+msgid "book_assign_object"
+msgstr "Foglalható objektum lefoglalása"
+
+msgid "book_assign_participant"
+msgstr "Résztvevőnek lefoglalás"
+
+#, fuzzy
+msgid "book_assign_participants"
+msgstr "Book for other Participant(s)"
+
+msgid "book_back_to_list"
+msgstr "Vissza a listához"
+
+msgid "book_bobj"
+msgstr "Foglalható objektumok"
+
+msgid "book_book"
+msgstr "Lefoglalom"
+
+msgid "book_book_available"
+msgstr "Elérhető dátumok"
+
+msgid "book_book_recurrence"
+msgstr "Ismétlődő dátumok"
+
+msgid "book_booked_in"
+msgstr "Lefoglalt"
+
+msgid "book_booking"
+msgstr "Foglalás"
+
+msgid "book_booking_information"
+msgstr "Információ"
+
+msgid "book_booking_objects"
+msgstr "Foglalható objektumok"
+
+msgid "book_booking_reminders"
+msgstr "Jövőbeni foglalások"
+
+msgid "book_bulk_confirmation"
+msgstr "Kérem, ellenőrizze, hogy az összes érték helyesen jelenik-e meg."
+
+msgid "book_bulk_creation"
+msgstr "Üres létrehozása"
+
+msgid "book_bulk_data"
+msgstr "Objektum adata"
+
+msgid "book_cal_entry"
+msgstr "Ennek a foglalása:"
+
+msgid "book_confirm_booking"
+msgstr "Foglalás megerősítése"
+
+msgid "book_confirm_booking_for_users"
+msgstr "Biztos, hogy lefoglalja ezt az objektumot az alábbi felhaszáló(k)nak?"
+
+msgid "book_confirm_booking_no_schedule"
+msgstr "Biztos, hogy lefoglalja az alábbi objektumot?"
+
+msgid "book_confirm_booking_schedule_number_of_objects"
+msgstr "Foglalás visszaigazolása"
+
+msgid "book_confirm_booking_schedule_number_of_objects_info"
+msgstr "Adja meg a lefoglalandó objektumok számát."
+
+msgid "book_confirm_cancel"
+msgstr "Biztos, hogy lemondja az alábbi foglalásokat?"
+
+msgid "book_confirm_cancel_aggregation"
+msgstr "Lemondandó foglalások száma"
+
+#, fuzzy
+msgid "book_confirm_cancel_info"
+msgstr "The selected bookings will be cancelled."
+
+msgid "book_confirm_delete"
+msgstr "Biztos, hogy törli az alábbi tételeket?"
+
+#, fuzzy
+msgid "book_confirm_remove_participant"
+msgstr "Are you sure you want to remove the following Participant(s)? This will delete all related Bookings."
+
+msgid "book_copy"
+msgstr "Foglalásgyűjtemény másolása"
+
+msgid "book_create_objects"
+msgstr "Objektumok létrehozása"
+
+#, fuzzy
+msgid "book_date_from"
+msgstr "From date"
+
+#, fuzzy
+msgid "book_date_to"
+msgstr "To date"
+
+msgid "book_deadline"
+msgstr "Határidő"
+
+msgid "book_deadline_hours"
+msgstr "X órával a foglalási időszak előttig"
+
+msgid "book_deadline_info"
+msgstr "Minimális idő a foglalás és a foglalt időszakok között"
+
+msgid "book_deadline_options"
+msgstr "Foglalási határidő"
+
+msgid "book_deadline_slot_end"
+msgstr "Foglalási időszak végéig"
+
+msgid "book_deadline_slot_start"
+msgstr "Foglalási időszak elejéig"
+
+msgid "book_deassign"
+msgstr "Foglalás megszüntetése"
+
+#, fuzzy
+msgid "book_delete_object"
+msgstr "Delete"
+
+#, fuzzy
+msgid "book_deleted_booking"
+msgstr "Deleted Booking(s)"
+
+#, fuzzy
+msgid "book_deleted_object"
+msgstr "Deleted Bookable Item"
+
+msgid "book_download_info"
+msgstr "További leírás letöltése"
+
+msgid "book_edit"
+msgstr "Foglalásgyűjtemény módosítása"
+
+msgid "book_edit_object"
+msgstr "Objektum módosítása"
+
+msgid "book_edit_schedule"
+msgstr "Időterv módosítása"
+
+#, fuzzy
+msgid "book_filter_end_date"
+msgstr "End Date"
+
+#, fuzzy
+msgid "book_filter_objects"
+msgstr "Bookable Items"
+
+msgid "book_filter_past_reservations"
+msgstr "Múltbéli foglalások megjelenítése"
+
+#, fuzzy
+msgid "book_filter_period"
+msgstr "Period"
+
+#, fuzzy
+msgid "book_filter_start_date"
+msgstr "Start Date"
+
+msgid "book_fromto"
+msgstr "Dátumtartomány"
+
+msgid "book_hours"
+msgstr "Óra"
+
+msgid "book_is_used"
+msgstr "Használja"
+
+msgid "book_limit_objects_available"
+msgstr "Nem rendelhet hozzá %s résztvevőt (‘%s’), mert csak %s elem érhető el."
+
+msgid "book_list"
+msgstr "Felsorolás"
+
+msgid "book_log"
+msgstr "Foglalások"
+
+msgid "book_mail_permanent_link"
+msgstr "Link a foglalásgyűjteményhez"
+
+msgid "book_mail_to_booker"
+msgstr "Levél a felhasználónak"
+
+msgid "book_message"
+msgstr "Üzenet"
+
+msgid "book_message_info"
+msgstr "Itt írhat üzenetet a foglalás szervezőjének."
+
+msgid "book_messages"
+msgstr "Üzenetek"
+
+msgid "book_messages_info"
+msgstr "A felhasználók üzenetet írhatnak a foglaláskor."
+
+msgid "book_missing_availability"
+msgstr "Nem lehetséges az összes időpont összes elemét lefoglalni."
+
+msgid "book_missing_items"
+msgstr "$1 elem hiányzik."
+
+#, fuzzy
+msgid "book_modal_booking_confirmation"
+msgstr "Booking Confirmation"
+
+#, fuzzy
+msgid "book_modal_enter_quantity_intro"
+msgstr "Please enter the number of items that you would like to book."
+
+#, fuzzy
+msgid "book_modal_recurrence"
+msgstr "Recurrence"
+
+#, fuzzy
+msgid "book_modal_recurrence_multiple"
+msgstr "Book multiple dates"
+
+#, fuzzy
+msgid "book_modal_recurrence_single"
+msgstr "Book only this date"
+
+#, fuzzy
+msgid "book_modal_skipped_unknown_item"
+msgstr "Unknown or invalid selection (%s)."
+
+#, fuzzy
+msgid "book_modal_warning_skipped_selections"
+msgstr "Some selected items or periods are not available for booking and are excluded from this confirmation."
+
+msgid "book_new"
+msgstr "Új foglalásgyűjtemény"
+
+msgid "book_no_bookings_for_you"
+msgstr "Nem foglaltunk le semmi az Ön számára."
+
+msgid "book_no_objects"
+msgstr "Nincs hozzárendelés"
+
+#, fuzzy
+msgid "book_no_objects_available"
+msgstr "None of the selected items are currently available for booking."
+
+msgid "book_no_of_objects"
+msgstr "Objektumok száma"
+
+msgid "book_no_pools_selected"
+msgstr "Ehhez a kurzushoz nincsenek hozzárendelve foglalási csoportok. A foglalási csoportokat a kurzus ‘Erőforrások’ lapján tud hozzárendelni."
+
+msgid "book_no_preferences_for_you"
+msgstr "Egy előzetes választását sem tároltunk el."
+
+msgid "book_no_recurrence"
+msgstr "Foglalás csak erre a dátumra"
+
+msgid "book_not"
+msgstr "Nem"
+
+#, fuzzy
+msgid "book_not_cancelled"
+msgstr "Not cancelled"
+
+msgid "book_not_enough_preferences"
+msgstr "Az előzetes választása túl kevés, azokat nem mentettük."
+
+msgid "book_notification"
+msgstr "Foglalási értesítők küldése"
+
+msgid "book_notification_cron_not_active"
+msgstr "Megjegyzés: A ‘Foglalási értesítők küldése’ ütemezett feladat nem aktív."
+
+msgid "book_notification_info"
+msgstr "A következő napon a foglalások listáját elküldjük a felhasználóknak (saját foglalásaikat) és az üzemeltetőknek (ha be van kapcsolva)."
+
+msgid "book_nr_of_preferences"
+msgstr "Választási lehetőségek száma"
+
+msgid "book_nr_of_preferences_info"
+msgstr "A felhasználók által előzetes választható elemek száma."
+
+msgid "book_nr_preferences"
+msgstr "Prefenciák"
+
+msgid "book_obj_select"
+msgstr "Kiválasztás"
+
+msgid "book_object_added"
+msgstr "Sikeresen létrehozott egy foglalástípust."
+
+msgid "book_object_deleted"
+msgstr "A foglalható objektumot sikeresen törölte."
+
+msgid "book_object_selection"
+msgstr "Objektumválasztás"
+
+#, fuzzy
+msgid "book_object_title_or_description"
+msgstr "Title/Description"
+
+msgid "book_object_updated"
+msgstr "A foglalható objektumot sikeresen frissítette."
+
+msgid "book_objects_available"
+msgstr "%s elérhető objektum"
+
+msgid "book_open"
+msgstr "Foglalásgyűjtemény megnyitása"
+
+msgid "book_overall_limit"
+msgstr "Felhasználonkénti összes foglalás maximális száma"
+
+msgid "book_overall_limit_warning"
+msgstr "Foglalásai elérték a maximális megengedett számot."
+
+#, fuzzy
+msgid "book_overall_limit_would_be_exceeded"
+msgstr "Invalid selection. The overall limit would be exceeded."
+
+#, fuzzy
+msgid "book_participant"
+msgstr "Participant"
+
+msgid "book_participant_already_assigned"
+msgstr "Egy vagy több résztvevőt már korábban hozzárendeltek."
+
+msgid "book_participant_assigned"
+msgstr "A résztvevő(k)nek sikeresen lefoglalta."
+
+#, fuzzy
+msgid "book_participant_removed"
+msgstr "The participants and all related bookings have been removed successfully."
+
+#, fuzzy
+msgid "book_past_bookings"
+msgstr "Past bookings"
+
+msgid "book_period"
+msgstr "Időszak"
+
+msgid "book_pool_added"
+msgstr "Sikeresen létrehozott egy foglalásgyűjteményt."
+
+msgid "book_pool_selection"
+msgstr "Foglalásgyűjtemény kiválasztása"
+
+msgid "book_post_booking_file"
+msgstr "Fájl"
+
+msgid "book_post_booking_information"
+msgstr "Információ a foglalásról"
+
+#, fuzzy
+msgid "book_post_booking_information_for"
+msgstr "Booking Information for \"%s\""
+
+msgid "book_post_booking_text"
+msgstr "Szöveg"
+
+msgid "book_post_booking_text_info"
+msgstr "Használhatja a foglalások adatainak helyőrzőit. <br />[OBJECT] = a foglalási objektum.<br />[PERIOD] = a foglalás időterve."
+
+msgid "book_pref_book_cron"
+msgstr "Foglalás előzetes választási lehetőségekkel"
+
+msgid "book_pref_book_cron_info"
+msgstr "Automatikus foglalások az előzetes választások alapján a határidő után"
+
+msgid "book_pref_deadline"
+msgstr "Határidő"
+
+msgid "book_pref_deadline_info"
+msgstr "A preferenciák idáig adhatók."
+
+msgid "book_pref_overview"
+msgstr "Áttekintés"
+
+msgid "book_preference_info"
+msgstr "Kérem, válasszon %1 lehetőséget %2-ig. A foglalásokat automatikusan megtesszük a határidő után az összes felhasználó előzetes választása alapján."
+
+msgid "book_preferences"
+msgstr "Előzetes választások"
+
+msgid "book_preferences_saved"
+msgstr "Az előzetes választásait sikeresen mentette."
+
+#, fuzzy
+msgid "book_present_bookings"
+msgstr "Present bookings"
+
+msgid "book_public_log"
+msgstr "A foglalások nyilvánosak"
+
+msgid "book_public_log_info"
+msgstr "Az olvasási jogosultsággal rendelkezők a többi felhasználó foglalását is megtekinthetik."
+
+msgid "book_recurrence"
+msgstr "Ismétlődés"
+
+msgid "book_refresh"
+msgstr "Frissítése"
+
+msgid "book_rem_intro"
+msgstr "A jövőbeni foglalások áttekintése:"
+
+msgid "book_rem_reason"
+msgstr "Ezt az e-mail azért küldtük, mert Ön értesítéseket kér az érintett foglalásokról."
+
+msgid "book_reminder_day"
+msgstr "Emlékeztető küldése"
+
+msgid "book_reminder_day_info"
+msgstr "A felhasználóknak saját foglalásuk, a vezetőknek az összes foglalás megküldése."
+
+msgid "book_reminder_days"
+msgstr "nappal a foglalás előtt"
+
+msgid "book_reminder_setting"
+msgstr "Emlékeztető"
+
+#, fuzzy
+msgid "book_remove_participants"
+msgstr "Remove Participant(s)"
+
+msgid "book_rerun_assignments"
+msgstr "Hozzárendelési folyamat futtatása"
+
+msgid "book_rerun_confirmation"
+msgstr "Figyelem. A preferencián keresztüli hozzárendelések már lefutottak. A folyamatot újraindíthatja, ha bármilyen hiba történt, például nem sikerült menteni az összes hozzárendelést. A többszöri hozzárendelés elkerülése érdekében törölje az összes foglalást a folyamat újraindítása előtt."
+
+msgid "book_reservation_available"
+msgstr "%s elérhető"
+
+#, fuzzy
+msgid "book_reservation_cancelled"
+msgstr "Reservation(s) cancelled."
+
+msgid "book_reservation_confirmed"
+msgstr "Foglalását megerősítette."
+
+msgid "book_reservation_failed"
+msgstr "Foglalása sikertelen."
+
+msgid "book_reservation_failed_overbooked"
+msgstr "Foglalás sikertelen, mert az objektum már nem elérhető."
+
+msgid "book_reservation_filter_period"
+msgstr "Foglalási lista időköze"
+
+msgid "book_reservation_filter_period_info"
+msgstr "Az alapértelmezett időszakszűrő értéke napokban a mai dátumtól számítva."
+
+msgid "book_reservation_fix_info"
+msgstr "A foglalás csak adott időpontokra lehetséges."
+
+msgid "book_reservation_overview"
+msgstr "Foglalás áttekintése"
+
+msgid "book_reservation_status_5"
+msgstr "Törölve"
+
+msgid "book_reservation_title"
+msgstr "Foglalás ehhez:"
+
+msgid "book_reservations_list"
+msgstr "Foglalások"
+
+msgid "book_schedule"
+msgstr "Időterv"
+
+msgid "book_schedule_added"
+msgstr "Sikeresen létrehozta a foglalás időtervét."
+
+#, fuzzy
+msgid "book_schedule_all_day"
+msgstr "All-Day Schedule"
+
+msgid "book_schedule_days"
+msgstr "Hétköznap"
+
+msgid "book_schedule_days_info"
+msgstr "Érvényes foglalási idők az egyes napokra (ÓÓ:PP-ÓÓ:PP)"
+
+msgid "book_schedule_deleted"
+msgstr "A foglalási időtervet sikeresen törölte."
+
+msgid "book_schedule_slot"
+msgstr "Időtartam"
+
+msgid "book_schedule_type"
+msgstr "#Foglalási mód"
+
+msgid "book_schedule_type_fixed"
+msgstr "Ismétlődő, rögzített időterv"
+
+msgid "book_schedule_type_fixed_info"
+msgstr "Termek, kivetítők, stb. foglalásánál használható."
+
+msgid "book_schedule_type_none"
+msgstr "Nincs időterv"
+
+msgid "book_schedule_type_none_direct"
+msgstr "Nincs ismétlődés, közvetlen a foglalás"
+
+msgid "book_schedule_type_none_direct_info"
+msgstr "Előadástéma, feladatkiosztás, stb. választásához használható. A résztvevők közvetlenül foglalhatnak elemeket. Minden elemet résztvevőnként csak egyszer lehet lefoglalni."
+
+msgid "book_schedule_type_none_info"
+msgstr "Szemináriumi dolgozatokhoz, beszámolókhoz és hasonlókhoz használható"
+
+msgid "book_schedule_type_none_preference"
+msgstr "Nincs ismétlődés, az előzetes választásokat használjuk"
+
+msgid "book_schedule_type_none_preference_info"
+msgstr "Előadástéma, feladatkiosztás, stb. választásához használható. A résztvevők előzetesen választhatnak, majd a tényleges foglalások az előzetes választások határideje után történik meg."
+
+msgid "book_schedule_updated"
+msgstr "A foglalási időtervet sikeresen frissítette."
+
+msgid "book_schedule_warning_edit"
+msgstr "Jelenleg nem érhető el időterv. A foglalásgyűjtemény használatához időtervet is létre kell, hoznia (vagy válasszon másik típust)."
+
+msgid "book_schedules"
+msgstr "Időtervek"
+
+msgid "book_select_pool"
+msgstr "Válasszon gyűjteményt"
+
+msgid "book_set_cancel"
+msgstr "Foglalás törlése"
+
+msgid "book_set_delete"
+msgstr "Törlése"
+
+msgid "book_show_message"
+msgstr "Üzenet megjelenítése"
+
+#, fuzzy
+msgid "book_show_past_bookings"
+msgstr "Show past bookings"
+
+#, fuzzy
+msgid "book_some_reservations_unavailable"
+msgstr "Some of the selected items could not be booked because they are no longer available."
+
+#, fuzzy
+msgid "book_table"
+msgstr "Table"
+
+#, fuzzy
+msgid "book_table_col_availability"
+msgstr "Availability"
+
+#, fuzzy
+msgid "book_table_col_datetime"
+msgstr "Date/Time"
+
+msgid "book_title_description_nr"
+msgstr "Cím; Leírás; Objektumok száma"
+
+msgid "book_title_description_nr_info"
+msgstr "Adja meg a címet, a leírást és az objektumok számát pontosvesszővel vagy TAB karakterrel elválasztva (ha táblázatkezelőből importálja). Minden objektum új sorba kerüljön."
+
+msgid "book_too_many_preferences"
+msgstr "Az előzetes választása túl sok, azokat nem mentettük."
+
+msgid "book_total_individual_bookings_limit"
+msgstr "Az egyes résztvevők által/az egyes résztvevők számára az összes foglalás számának korlátozása. Mindegyik elem továbbra is csak egyszer foglalható résztvevőnként."
+
+msgid "book_type_warning"
+msgstr "Jelenleg nem érhető el foglalható objektum. A foglalásgyűjtemény használatához foglalható objektumot is létre kell hoznia."
+
+#, fuzzy
+msgid "book_view"
+msgstr "View"
+
+msgid "book_week"
+msgstr "hét"
+
+#, fuzzy
+msgid "book_week_no_objects_selected"
+msgstr "Select at least one Bookable Item at the ‘Item Selection’ section on the right and click the ‘Refresh’ button."
+
+msgid "book_your_bookings"
+msgstr "Foglalásaim"
+
+msgid "book_your_preferences"
+msgstr "Előzetes választásaim"
+
+msgid "book_your_reservations"
+msgstr "Foglalásaim"
+
+msgid "booking_multiple_succesfully"
+msgstr "A foglalásokat sikeresen létrehozta."
+
+msgid "booking_nr_of_items"
+msgstr "Darabszám"
+
+#, fuzzy
+msgid "booking_process_error"
+msgstr "There was an error while processing your booking(s). Please try again."
+
+#, fuzzy
+msgid "bookings_log"
+msgstr "Bookings"
+
+#, fuzzy
+msgid "delete_bookable_item"
+msgstr "Delete Bookable Item"
+
+#, fuzzy
+msgid "no_valid_selection"
+msgstr "No valid selection"
+
+msgid "obj_book_duplicate"
+msgstr "Foglalásgyűjtemény másolása"
+
+msgid "participants"
+msgstr "Résztvevők"
+
+msgid "reservation_deleted"
+msgstr "A foglalást sikeresen törölte"
+
+#, fuzzy
+msgid "schedule_type"
+msgstr "Schedule Type"

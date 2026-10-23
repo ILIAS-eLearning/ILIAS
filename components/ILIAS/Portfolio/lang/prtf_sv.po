@@ -1,0 +1,329 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: prtf\n"
+
+msgid "pdf_export"
+msgstr "PDF-export"
+
+msgid "prtf_add_assignment"
+msgstr "Lägg till uppdrag"
+
+msgid "prtf_add_page"
+msgstr "Lägg till sida"
+
+msgid "prtf_add_portfolio"
+msgstr "Lägg till portfölj"
+
+#, fuzzy
+msgid "prtf_add_portfolio_from_template"
+msgstr "Add Portfolio From Template"
+
+msgid "prtf_all_pages"
+msgstr "Övergripande portfölj"
+
+msgid "prtf_allow_html"
+msgstr "Tillåt HTML/Javascript"
+
+msgid "prtf_allow_html_info"
+msgstr "Användare kan använda HTML eller Javascript på dina portfoliosidor. Detta kan leda till säkerhetsproblem."
+
+msgid "prtf_allow_my_courses"
+msgstr "Page element \"Mina kurser"
+
+msgid "prtf_allow_my_courses_info"
+msgstr "Tillåter att en lista över nuvarande kursmedlemskap inkluderas i en portfolio."
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "prtf_author"
+msgstr "Created by"
+
+msgid "prtf_back_to_portfolio_owner"
+msgstr "Redigera portfölj"
+
+msgid "prtf_blog_page_created"
+msgstr "Blog lades till."
+
+msgid "prtf_copy_blog_pg"
+msgstr "Kopiera bloggsida"
+
+msgid "prtf_copy_page"
+msgstr "Kopia Portfoliosida(r)"
+
+msgid "prtf_copy_pg"
+msgstr "Kopiera sida"
+
+msgid "prtf_copy_tab"
+msgstr "Kopiera fliken"
+
+msgid "prtf_create_portfolio"
+msgstr "Lägg till portfölj"
+
+msgid "prtf_create_template_from_portfolio"
+msgstr "Portfölj"
+
+msgid "prtf_create_template_from_portfolio_info"
+msgstr "Välj en portfölj för att tillämpa dess innehåll och inställningar på mallen."
+
+msgid "prtf_creation_mode"
+msgstr "Ny portfölj"
+
+msgid "prtf_creation_mode_scratch"
+msgstr "Skapa utan portföljmall"
+
+msgid "prtf_creation_mode_template"
+msgstr "Skapa från en portföljmall"
+
+msgid "prtf_date_of_print"
+msgstr "Datum för utskriften"
+
+msgid "prtf_decl_authorship"
+msgstr "Självständighetsförklaring"
+
+msgid "prtf_default_portfolio"
+msgstr "Min profil"
+
+msgid "prtf_delete_assignment"
+msgstr "Radera uppdrag"
+
+msgid "prtf_delete_assignment_sure"
+msgstr "Vill du verkligen ta bort följande uppgift(er)?"
+
+msgid "prtf_download_submission"
+msgstr "Ladda ner kopia av avgiften"
+
+msgid "prtf_edit_content"
+msgstr "Redigera innehåll"
+
+msgid "prtf_edit_data"
+msgstr "Fyll i fält"
+
+msgid "prtf_edit_embedded_blog"
+msgstr "Redigera Blogg \"%s"
+
+msgid "prtf_edit_portfolio"
+msgstr "Redigera portfölj"
+
+#, fuzzy
+msgid "prtf_edit_title"
+msgstr "Edit Title"
+
+msgid "prtf_exercise_info"
+msgstr "Denna portfölj är tilldelad övningsenheten \"%s\" i övningen \"%s\"."
+
+msgid "prtf_exercise_submitted_info"
+msgstr "Du skickade in din portfölj den %s. Om du vill kan du spara en kopia för din personliga arkivering."
+
+msgid "prtf_existing_portfolio"
+msgstr "Befintlig portfölj"
+
+msgid "prtf_finalize_portfolio"
+msgstr "Färdigställa och lämna in portfölj"
+
+msgid "prtf_finalized"
+msgstr "Portföljen lämnades in."
+
+msgid "prtf_first_page_title"
+msgstr "Startar med"
+
+msgid "prtf_has_been_set_online"
+msgstr "Portföljen har lagts online."
+
+msgid "prtf_link"
+msgstr "Länk"
+
+msgid "prtf_manage_portfolios"
+msgstr "Hantera portföljer"
+
+msgid "prtf_new_portfolio"
+msgstr "Ny portfölj"
+
+msgid "prtf_no_blogs_info"
+msgstr "Om du skapar en blogg i %s-sektionen kan du också använda den som en del av din portfölj."
+
+msgid "prtf_no_offline_share_info"
+msgstr "Portföljen måste först läggas online innan den kan släppas för vissa användare."
+
+msgid "prtf_no_submission"
+msgstr "Ingen avgift"
+
+msgid "prtf_page_created"
+msgstr "Sida har lagts till"
+
+msgid "prtf_page_element_my_courses_info"
+msgstr "Det här är en lista över alla kurser som jag är medlem i och som för närvarande är online."
+
+msgid "prtf_page_element_my_courses_title"
+msgstr "Kursmedlemskap"
+
+msgid "prtf_page_element_teaser_blog_template"
+msgstr "Inside the portfolio, en blogg från dina personliga resurser visas på denna punkt."
+
+msgid "prtf_page_element_teaser_consultation_hours"
+msgstr "Inuti portföljen visas en kalender över dina kontorstider vid denna tidpunkt."
+
+msgid "prtf_page_element_teaser_my_courses"
+msgstr "I portfolion visas en lista över dina kurser vid denna punkt."
+
+msgid "prtf_page_element_teaser_settings"
+msgstr "Inställningar"
+
+msgid "prtf_page_element_teaser_skills"
+msgstr "I portföljen visas din kompetensnivå vid denna punkt."
+
+msgid "prtf_page_type_prtf"
+msgstr "Portföljsida"
+
+msgid "prtf_page_type_prtt"
+msgstr "Portfolio mall sida"
+
+msgid "prtf_pages_copied"
+msgstr "Sidorna har kopierats."
+
+msgid "prtf_pdf"
+msgstr "Exportera som PDF"
+
+#, fuzzy
+msgid "prtf_permanent_link"
+msgstr "Link to Portfolio:"
+
+msgid "prtf_portfolio_created"
+msgstr "Portfolio har lagts till"
+
+msgid "prtf_portfolio_created_from_template"
+msgstr "Detta är en förhandsvisning av din nya portfölj. För att lägga till nya sidor och innehåll, klicka på \"Redigera\" högst upp i denna vy."
+
+msgid "prtf_portfolio_deleted"
+msgstr "Portföljen raderades"
+
+msgid "prtf_portfolio_page_deleted"
+msgstr "Sidan Portfolio eller blogg har tagits bort."
+
+msgid "prtf_portfolios"
+msgstr "Portföljer"
+
+msgid "prtf_print_options"
+msgstr "Välj till PDF"
+
+msgid "prtf_print_selection"
+msgstr "Urval"
+
+msgid "prtf_profile_picture"
+msgstr "Visa profilbild"
+
+msgid "prtf_properties"
+msgstr "Portföljens egenskaper"
+
+msgid "prtf_public_comments"
+msgstr "Offentliga kommentarer"
+
+msgid "prtf_role_assignment"
+msgstr "Rolltilldelning"
+
+msgid "prtf_role_title"
+msgstr "Roll"
+
+msgid "prtf_save_status_and_titles"
+msgstr "Spara status och titel"
+
+msgid "prtf_sec_protected_info"
+msgstr "Skyddade block kan inte redigeras i portföljen."
+
+msgid "prtf_selected_pages"
+msgstr "Utvalda delar av portföljen"
+
+msgid "prtf_set_default_publish_global"
+msgstr "Dela även för oregistrerade användare"
+
+msgid "prtf_set_default_publish_registered"
+msgstr "Dela endast för registrerade användare"
+
+msgid "prtf_set_offline"
+msgstr "Ställ in Offline"
+
+msgid "prtf_set_online"
+msgstr "Ställ in online"
+
+msgid "prtf_settings"
+msgstr "Administration av portföljer"
+
+msgid "prtf_shared_offline_info"
+msgstr "En portfölj måste vara online för att vara tillgänglig för delade användare."
+
+msgid "prtf_signature"
+msgstr "Fält för signatur"
+
+msgid "prtf_signature_date"
+msgstr "Datum, underskrift"
+
+msgid "prtf_signature_info"
+msgstr "PDF-filen innehåller ett fält där användarna kan skriva under."
+
+msgid "prtf_style"
+msgstr "portfolio stil"
+
+msgid "prtf_submission_on"
+msgstr "Leverans på $1"
+
+#, fuzzy
+msgid "prtf_successfully_shared_prtf"
+msgstr "Confirmation Shared Portfolio '%s'"
+
+#, fuzzy
+msgid "prtf_successfully_shared_prtf_body"
+msgstr "You have shared your portfolio '%s' with:"
+
+msgid "prtf_sure_delete_portfolio_pages"
+msgstr "Vill du verkligen ta bort följande portfölj eller bloggsida?"
+
+msgid "prtf_sure_delete_portfolios"
+msgstr "Vill du verkligen ta bort följande portfölj?"
+
+msgid "prtf_tab_other_users"
+msgstr "Portföljer från andra användare"
+
+msgid "prtf_tab_portfolios"
+msgstr "Mina portföljer"
+
+#, fuzzy
+msgid "prtf_table_of_contents"
+msgstr "Table of Contents"
+
+msgid "prtf_template_editor_placeholder_info"
+msgstr "Den här platshållaren ersätts i portföljen."
+
+msgid "prtf_template_import_blog_create"
+msgstr "Skapa en ny blogg"
+
+msgid "prtf_template_import_blog_ignore"
+msgstr "Ta bort bloggsida"
+
+msgid "prtf_template_import_blog_reuse"
+msgstr "Använd befintlig blogg"
+
+msgid "prtf_template_import_new_skills"
+msgstr "När de aktiveras läggs dessa kompetenser till dina personliga kompetenser."
+
+msgid "prtf_template_title"
+msgstr "Mall för portfölj"
+
+msgid "prtf_unset_as_default"
+msgstr "Använd inte som Min profil"
+
+msgid "prtf_unset_default_share_info"
+msgstr "Ändringarna har sparats. Vänligen kontrollera de aktuella utgåvorna för portföljen."
+
+msgid "prtf_use_page_layout"
+msgstr "Använd sidlayout"
+
+#, fuzzy
+msgid "prtf_visible_for_tutor"
+msgstr "Visible For Tutor"
+
+msgid "prtt_title_info"
+msgstr "Observera att denna titel också används för de portföljer som skapas från mallen."

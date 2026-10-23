@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: jscalendar\n"
+
+msgid "about_calendar"
+msgstr "Informazioni sul calendario"
+
+msgid "about_calendar_long"
+msgstr "Selettore data / ora DHTML   (c) dynarch.com 2002-2003  Per l'ultima versione visitare: http://dynarch.com/mishoo/calendar.epl  Distribuito sotto GNU LGPL. Vedi http://gnu.org/licenses/lgpl.html per i dettagli.    Data selezione:  - Usa i pulsanti Â «, Â» per selezionare l'anno  - Usa i pulsanti <,> per selezionare il mese  - Tieni premuto il pulsante del mouse su uno dei pulsanti sopra per una selezione più rapida."
+
+msgid "about_time"
+msgstr "   Tempo di tempo:  - Fai clic su una delle parti del tempo per aumentarlo  - o Maiusc + clic per ridurlo  - oppure fai clic e trascina per una selezione più rapida."
+
+msgid "day_first"
+msgstr "Mostra prima %s"
+
+msgid "def_date_format"
+msgstr "%A-%m-%g"
+
+msgid "drag_to_move"
+msgstr "Trascina per spostare"
+
+msgid "go_today"
+msgstr "Vai a Oggi"
+
+msgid "l_01"
+msgstr "Gennaio"
+
+msgid "l_02"
+msgstr "Febbraio"
+
+msgid "l_03"
+msgstr "Marzo"
+
+msgid "l_04"
+msgstr "Aprile"
+
+msgid "l_05"
+msgstr "Maggio"
+
+msgid "l_06"
+msgstr "Giugno"
+
+msgid "l_07"
+msgstr "Luglio"
+
+msgid "l_08"
+msgstr "Agosto"
+
+msgid "l_09"
+msgstr "Settembre"
+
+msgid "l_10"
+msgstr "Ottobre"
+
+msgid "l_11"
+msgstr "Novembre"
+
+msgid "l_12"
+msgstr "Dicembre"
+
+msgid "l_fr"
+msgstr "Venerdi"
+
+msgid "l_mo"
+msgstr "Lunedi"
+
+msgid "l_sa"
+msgstr "Sabato"
+
+msgid "l_su"
+msgstr "Domenica"
+
+msgid "l_th"
+msgstr "Giovedi"
+
+msgid "l_tu"
+msgstr "Martedi"
+
+msgid "l_we"
+msgstr "Mercoledi"
+
+msgid "next_month"
+msgstr "Mese successivo (tieni premuto per il menu)"
+
+msgid "next_year"
+msgstr "Anno successivo (tieni premuto per il menu)"
+
+msgid "open_calendar"
+msgstr "Clicca qui se vuoi aprire il calendario e selezionare un giorno (devono essere abilitati i JavaScript!)"
+
+msgid "part_today"
+msgstr " (oggi)"
+
+msgid "prev_month"
+msgstr "Mese precedente (tieni premuto per il menu)"
+
+msgid "prev_year"
+msgstr "Anno precedente (tieni premuto per il menu)"
+
+msgid "s_01"
+msgstr "Gen"
+
+msgid "s_02"
+msgstr "Febbraio"
+
+msgid "s_03"
+msgstr "Marzo"
+
+msgid "s_04"
+msgstr "Aprile"
+
+msgid "s_05"
+msgstr "Mag"
+
+msgid "s_06"
+msgstr "Giu"
+
+msgid "s_07"
+msgstr "Lug"
+
+msgid "s_08"
+msgstr "Ago"
+
+msgid "s_09"
+msgstr "Set"
+
+msgid "s_10"
+msgstr "Ott"
+
+msgid "s_11"
+msgstr "Novembre"
+
+msgid "s_12"
+msgstr "Dic"
+
+msgid "s_fr"
+msgstr "Ve"
+
+msgid "s_mo"
+msgstr "Lu"
+
+msgid "s_sa"
+msgstr "Sa"
+
+msgid "s_su"
+msgstr "Do"
+
+msgid "s_th"
+msgstr "Gi"
+
+msgid "s_tu"
+msgstr "Ma"
+
+msgid "s_we"
+msgstr "Me"
+
+msgid "select_date"
+msgstr "Seleziona una data"
+
+msgid "time"
+msgstr "Ora"
+
+msgid "time_part"
+msgstr "(Cambiare-)Clicca o trascina per cambiare il valore"
+
+msgid "today"
+msgstr "Oggi"
+
+msgid "tt_date_format"
+msgstr "%a, %b %e"
+
+msgid "wk"
+msgstr "wk"

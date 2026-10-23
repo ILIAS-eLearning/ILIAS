@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: skll\n"
+
+msgid "skll_competence_achievements"
+msgstr "Új kompetenciaeredmények és -értékelések."
+
+msgid "skll_intro_skill_notification_for"
+msgstr "Ez az Ön utolsó kompetenciaeredményeinek áttekintése."
+
+msgid "skll_lhist_skill_achieved"
+msgstr "$4$ / $3$ állapot ért el $1$ alatt."
+
+msgid "skll_lhist_skill_profile_fulfilled"
+msgstr "$3$ kompetenciaprofil teljesült."
+
+msgid "skll_lhist_skill_self_eval"
+msgstr "$3$ önértékelés, összesen $4$."
+
+msgid "skll_lhist_skill_self_eval_in"
+msgstr "$3$ önértékelés, összesen $4$, itt: $1$."
+
+msgid "skll_new_skill_achievements"
+msgstr "Új kompetenciaszinteket ért el %1$s - %2$s időszakban:"
+
+msgid "skll_skill_notification"
+msgstr "Kompetenciaértesítések"
+
+msgid "skll_skill_notification_desc"
+msgstr "Felhasználó értesítése új kompetenciaszint beállításáról."

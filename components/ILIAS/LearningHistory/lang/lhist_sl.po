@@ -1,0 +1,54 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: lhist\n"
+
+msgid "cont_create_lhist"
+msgstr "Ustvari element za potek učenja"
+
+msgid "cont_update_lhist"
+msgstr "Uredi element za potek učenja"
+
+msgid "lhist_all"
+msgstr "Vsi"
+
+msgid "lhist_cont_placeholder_text"
+msgstr "Ta element bo prikazal potek učenja v pogledu predstavitve portfelja."
+
+msgid "lhist_enable_learning_history"
+msgstr "Learning History"
+
+msgid "lhist_enable_learning_history_info"
+msgstr "Enables an overview of all achievements of a user."
+
+msgid "lhist_first_login"
+msgstr "Prva prijava"
+
+msgid "lhist_learning_history"
+msgstr "Potek učenja"
+
+msgid "lhist_lhist"
+msgstr "Potek učenja"
+
+msgid "lhist_manual"
+msgstr "Priročnik"
+
+msgid "lhist_no_entries"
+msgstr "Sledite svojim ciljem! Danes se nekaj naučite, da razširite potek svojega učenja."
+
+msgid "lhist_period"
+msgstr "Obdobje"
+
+msgid "lhist_selected"
+msgstr "Izbrano"
+
+msgid "lhist_show_more"
+msgstr "Prikaži več"
+
+msgid "lhist_type_of_achievement"
+msgstr "Tip učnega dosežka"

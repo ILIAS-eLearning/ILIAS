@@ -1,0 +1,79 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: tagging\n"
+
+msgid "no_tag_text_1"
+msgstr "You have not yet used any tags. To do this, you must take two steps:"
+
+msgid "no_tag_text_2"
+msgstr "Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum."
+
+msgid "no_tag_text_3"
+msgstr "To attach any tags to the object select 'Set Tags' from the actions menu."
+
+msgid "tag_remove_tags_of_obj_without_access"
+msgstr "Supprimer le marquage"
+
+msgid "tag_some_obj_tagged_without_access"
+msgstr "Vous n’avez plus la permission d’accéder à certains objets marqués. Le marquage doit-il être supprimé de ces objets?"
+
+msgid "tag_tags_deleted"
+msgstr "Le marquage a été supprimé des objets inaccessibles."
+
+msgid "tagging_all_users"
+msgstr "Tous les utilisateurs"
+
+msgid "tagging_edit_settings"
+msgstr "Modifier paramètres"
+
+msgid "tagging_enable_all_users"
+msgstr "Afficher tags de chaque utilisateurs"
+
+msgid "tagging_enable_all_users_info"
+msgstr "Ajouter une section \"Tous utilisateurs\" aux écrans d'infos qui liste tous les tags de tous les utilisateurs attaché à  une ressource."
+
+msgid "tagging_enable_tagging"
+msgstr "Activer Tagging"
+
+msgid "tagging_forbidden_tags"
+msgstr "Tags interdits"
+
+msgid "tagging_no_obj_for_tag"
+msgstr "No Resources tagged with %s."
+
+#, fuzzy
+msgid "tagging_no_perm_write"
+msgstr "You have no permission to change this data."
+
+msgid "tagging_other_users"
+msgstr "Other Users"
+
+msgid "tagging_resources_for_tag"
+msgstr "Ressources taggées avec %s"
+
+msgid "tagging_search_users"
+msgstr "Rechercher utilisateurs"
+
+msgid "tagging_set_tag"
+msgstr "Définir les mots-clés"
+
+msgid "tagging_settings"
+msgstr "Paramètres"
+
+msgid "tagging_tag"
+msgstr "Mot-Clé"
+
+msgid "tagging_tag_info"
+msgstr "Pour ajouter des mots clés à  un objet, cliquez sur sa page <b>\"info\"</b> et saisir vos mots clés."
+
+msgid "tagging_tags"
+msgstr "Mots-clés"
+
+msgid "tagging_users_using_tag"
+msgstr "Utilisateurs utilisant Tag"

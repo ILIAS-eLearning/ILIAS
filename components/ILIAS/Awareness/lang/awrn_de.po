@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: awrn\n"
+
+msgid "awareness_now_online"
+msgstr "Jetzt online"
+
+msgid "awareness_settings"
+msgstr "Einstellungen"
+
+msgid "awrn_caching_period"
+msgstr "Caching-Zeitraum"
+
+msgid "awrn_caching_period_info"
+msgstr "Dieser Zeitraum wird abgewartet, bevor die Anzahl der Benutzer in der Top-Anzeige aktualisiert und neue Online-Benutzer ermittelt werden."
+
+msgid "awrn_enable"
+msgstr "„Wer ist online?“-Anzeige aktivieren"
+
+msgid "awrn_filter"
+msgstr "Benutzerfilter"
+
+msgid "awrn_hide_from_awareness"
+msgstr "Mich nicht in „Wer ist online?“-Anzeige auflisten"
+
+msgid "awrn_hide_from_awareness_info"
+msgstr "Die „Wer ist online?“-Anzeige erscheint oben im Kopf der Anwendung und listet ausgewählte Benutzer auf (z.B. Kontakte oder Mitglieder Ihrer Kurse)."
+
+msgid "awrn_inactive"
+msgstr "Keine Anzeige"
+
+msgid "awrn_incl_offline"
+msgstr "Online und offline"
+
+msgid "awrn_max_inactivity"
+msgstr "Maximale Inaktivität"
+
+msgid "awrn_max_inactivity_info"
+msgstr "Benutzer ohne Aktion in der angegebenen Zeitspanne werden als \"offline\" geführt. Wird kein Wert angegeben, so gilt die Gültigkeit der Session."
+
+msgid "awrn_max_nr_entries"
+msgstr "Anzahl maximaler Einträge"
+
+msgid "awrn_max_nr_entries_info"
+msgstr "Diese Anzahl an Einträgen wird maximal in der „Wer ist online?“-Liste angezeigt. Diese Einstellung beeinflusst die Performanz der Anzeige in der Top-Bar nicht wesentlich."
+
+msgid "awrn_minutes"
+msgstr "min"
+
+msgid "awrn_online"
+msgstr "Online"
+
+msgid "awrn_online_only"
+msgstr "Nur Online"
+
+msgid "awrn_seconds"
+msgstr "Sek."
+
+msgid "awrn_use_osd"
+msgstr "Pop-up Online-Benutzer"
+
+msgid "awrn_use_osd_info"
+msgstr "Zeigt ein Pop-up an, wenn neue Benutzer in der „Wer ist online?“-Anzeige mit dem Online-Status erscheinen."
+
+msgid "awrn_user_show"
+msgstr "Mein Status in \"Wer ist online?\" anzeigen"
+
+msgid "awrn_user_show_default"
+msgstr "Standardwert für die Anzeige in \"Wer ist online?\""
+
+msgid "awrn_user_show_default_info"
+msgstr "Definiert den Standardwert für die Anzeige in \"Wer ist online?\"."
+
+msgid "user_awrn_default"
+msgstr "Standard"
+
+msgid "user_awrn_hide"
+msgstr "Nicht anzeigen"
+
+msgid "user_awrn_show"
+msgstr "Anzeigen"

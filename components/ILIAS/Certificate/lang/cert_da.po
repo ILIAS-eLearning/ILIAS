@@ -1,0 +1,73 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: da\n"
+"Language-Team: Danish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cert\n"
+
+#, fuzzy
+msgid "cert_currently_no_certs"
+msgstr "Currently you did not achieve any certificate, yet."
+
+#, fuzzy
+msgid "cert_description_label"
+msgstr "Description"
+
+#, fuzzy
+msgid "cert_download_label"
+msgstr "Download"
+
+#, fuzzy
+msgid "cert_error_no_access"
+msgstr "You have no access to this certificate."
+
+#, fuzzy
+msgid "cert_issued_on_label"
+msgstr "Issued On"
+
+#, fuzzy
+msgid "cert_object_label"
+msgstr "Object"
+
+#, fuzzy
+msgid "cert_sortable_by_issue_date_asc"
+msgstr "Nach Ausstellungsdatum aufsteigend"
+
+#, fuzzy
+msgid "cert_sortable_by_issue_date_desc"
+msgstr "Nach Ausstellungsdatum absteigend"
+
+#, fuzzy
+msgid "cert_sortable_by_title_asc"
+msgstr "Nach Titel aufsteigend"
+
+#, fuzzy
+msgid "cert_sortable_by_title_desc"
+msgstr "Nach Titel absteigend"
+
+#, fuzzy
+msgid "certificate_achievement"
+msgstr "%1$s achieved."
+
+#, fuzzy
+msgid "certificate_achievement_sub_obj"
+msgstr "Certificate for %1$s"
+
+#, fuzzy
+msgid "certificate_no_object_title"
+msgstr "No object title available"
+
+#, fuzzy
+msgid "certificate_same_not_saved"
+msgstr "No new version of certificate template was saved, because the values didn't change."
+
+#, fuzzy
+msgid "error_creating_certificate_pdf"
+msgstr "The certificate could not be created. Please contact the administrator to check the certificate server."
+
+#, fuzzy
+msgid "user_certificates"
+msgstr "Certificates"

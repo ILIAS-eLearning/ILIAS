@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
+use ILIAS\AccessControl\PublicInterface\RBAC;
+use ILIAS\Language\LanguageFolder;
 
 /**
  * Class ilLanguageBaseTest
@@ -29,6 +31,8 @@ abstract class ilLanguageBaseTestCase extends TestCase
 {
     protected function setUp(): void
     {
+        // never the build of the installation, see MigratedPoFixture::resetRuntime()
+        MigratedPoFixture::resetRuntime();
         $GLOBALS['DIC'] = new Container();
 
         parent::setUp();
@@ -44,5 +48,21 @@ abstract class ilLanguageBaseTestCase extends TestCase
         $DIC[$name] = static function (Container $c) use ($name) {
             return $GLOBALS[$name];
         };
+    }
+
+    protected function rbacOf(\ilRbacSystem $system): RBAC
+    {
+        $rbac = $this->createStub(RBAC::class);
+        $rbac->method('system')->willReturn($system);
+
+        return $rbac;
+    }
+
+    protected function languageFolder(int $ref_id = 0): LanguageFolder
+    {
+        $language_folder = $this->createStub(LanguageFolder::class);
+        $language_folder->method('getRefId')->willReturn($ref_id);
+
+        return $language_folder;
     }
 }

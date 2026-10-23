@@ -1,0 +1,121 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: bg\n"
+"Language-Team: Bulgarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: adve\n"
+
+#, fuzzy
+msgid "advanced_editing_excass_settings"
+msgstr "Exercise Assignments Settings"
+
+#, fuzzy
+msgid "advanced_editing_tst_editing"
+msgstr "Page Editor for additional question content"
+
+#, fuzzy
+msgid "advanced_editing_tst_editing_desc"
+msgstr "Aktivates ILIAS Page Eidotr for feedback and hint text editing."
+
+#, fuzzy
+msgid "adve_activation"
+msgstr "Activation"
+
+#, fuzzy
+msgid "adve_auto_url_linking"
+msgstr "URL Auto-Linking"
+
+#, fuzzy
+msgid "adve_auto_url_linking_info"
+msgstr "Tries to identify URLs like \"http://..\" in text paragraphs and automatically creates links around them."
+
+#, fuzzy
+msgid "adve_autosave"
+msgstr "Automatic Saving Intervall"
+
+#, fuzzy
+msgid "adve_autosave_info"
+msgstr "Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases."
+
+#, fuzzy
+msgid "adve_autosave_info_min_10"
+msgstr "Please choose a value of minimal 10 seconds if you activated this feature."
+
+#, fuzzy
+msgid "adve_blocking_mode"
+msgstr "Edit Lock"
+
+#, fuzzy
+msgid "adve_excass_settings"
+msgstr "Exercise Assignments"
+
+#, fuzzy
+msgid "adve_grp_copa"
+msgstr "Content Pages"
+
+#, fuzzy
+msgid "adve_grp_frm"
+msgstr "Forums"
+
+#, fuzzy
+msgid "adve_grp_glo"
+msgstr "Glossaries"
+
+#, fuzzy
+msgid "adve_grp_lm"
+msgstr "ILIAS Learning Modules"
+
+#, fuzzy
+msgid "adve_grp_rep"
+msgstr "Repository Pages"
+
+#, fuzzy
+msgid "adve_grp_scorm"
+msgstr "SCORM Editing"
+
+#, fuzzy
+msgid "adve_grp_test"
+msgstr "Test & Assessment"
+
+#, fuzzy
+msgid "adve_grp_wiki"
+msgstr "Wikis"
+
+#, fuzzy
+msgid "adve_minutes"
+msgstr "Minutes"
+
+#, fuzzy
+msgid "adve_minutes_info"
+msgstr "Minutes of inactivity before an edit lock expires and a page can be edited by another user."
+
+#, fuzzy
+msgid "adve_page_editor_settings"
+msgstr "ILIAS Page Editor Settings"
+
+#, fuzzy
+msgid "adve_pe_general"
+msgstr "General"
+
+#, fuzzy
+msgid "adve_rte_settings"
+msgstr "Rich Text Editor Settings"
+
+#, fuzzy
+msgid "adve_text_content_features"
+msgstr "Text Content Menu"
+
+#, fuzzy
+msgid "adve_use_physical"
+msgstr "Use b/i/u instead of str/emp/imp"
+
+#, fuzzy
+msgid "adve_use_physical_info"
+msgstr "This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other phyiscal attributes are assigned to the strong/emphatic/important style classes."
+
+#, fuzzy
+msgid "adve_use_tiny_mce"
+msgstr "Enable TinyMCE for WYSIWYG Editing"

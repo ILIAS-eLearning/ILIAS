@@ -1,0 +1,1595 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: exc\n"
+
+msgid "exc_add_assignment"
+msgstr "Přidat úlohu"
+
+msgid "exc_add_criteria"
+msgstr "Přidat kritéria"
+
+msgid "exc_add_criteria_catalogue"
+msgstr "Přidat katalog"
+
+msgid "exc_add_feedback_file"
+msgstr "Všechny odevzdané soubory"
+
+msgid "exc_add_participant"
+msgstr "Přidat účastníka"
+
+msgid "exc_adopt_group_teams"
+msgstr "Převzít týmy ze skupin"
+
+msgid "exc_adopt_group_teams_added"
+msgstr "%s Uživatelé byli přidáni."
+
+msgid "exc_adopt_group_teams_blocked"
+msgstr "%s Uživatel již byl přiřazen."
+
+msgid "exc_adopt_group_teams_conflict"
+msgstr "Uživatel „%1$s“ je již vybrán pro skupinu „%2$s“."
+
+msgid "exc_adopt_group_teams_no_members"
+msgstr "Žádní členové"
+
+msgid "exc_after_submission"
+msgstr "Po odevzdání"
+
+#, fuzzy
+msgid "exc_all"
+msgstr "All"
+
+msgid "exc_all_new_files_offered_already"
+msgstr "Všechny nové soubory již byly nabídnuty ke stažení. Pro další stažení klikněte na níže uvedené akční odkazy."
+
+msgid "exc_ass_submission_zip"
+msgstr "Odeslání"
+
+msgid "exc_ass_team_wiki"
+msgstr "Přiřazení tým Wiki"
+
+msgid "exc_assignment"
+msgstr "Úloha"
+
+#, fuzzy
+msgid "exc_assignment_list"
+msgstr "Assignments List"
+
+msgid "exc_assignment_type"
+msgstr "Typ odeslání"
+
+msgid "exc_assignment_view"
+msgstr "Zobrazení úlohy"
+
+msgid "exc_assignments"
+msgstr "Úlohy"
+
+msgid "exc_assignments_deleted"
+msgstr "Úlohy byly smazány."
+
+#, fuzzy
+msgid "exc_auto_last_save"
+msgstr "Last saved:"
+
+#, fuzzy
+msgid "exc_auto_save_info"
+msgstr "The text will be saved every 30 seconds, if changes are made."
+
+#, fuzzy
+msgid "exc_auto_saved_minutes_p"
+msgstr "%s minute ago"
+
+#, fuzzy
+msgid "exc_auto_saved_minutes_s"
+msgstr "%s minutes ago"
+
+msgid "exc_blog_created"
+msgstr "Blog byl vytvořen."
+
+msgid "exc_blog_returned"
+msgstr "Blog úlohy"
+
+msgid "exc_blog_selected"
+msgstr "Blog byl přidělen."
+
+#, fuzzy
+msgid "exc_cannot_submit_any_files"
+msgstr "You cannot submit any files anymore."
+
+msgid "exc_chars_remaining"
+msgstr "Zbývající znaky:"
+
+msgid "exc_comment_for_learner_edit"
+msgstr "Upravit komentář pro žáka"
+
+msgid "exc_comment_for_learner_info"
+msgstr "Uživateli je zasláno oznámení a zpětná vazba bude uvedena v zobrazení přiřazení uživatele."
+
+#, fuzzy
+msgid "exc_compare_selected_submissions"
+msgstr "Compare selected submissions"
+
+#, fuzzy
+msgid "exc_compare_submissions"
+msgstr "Compare submissions"
+
+msgid "exc_completion_by_submission"
+msgstr "Ukončeno odevzdáním"
+
+msgid "exc_completion_by_submission_info"
+msgstr "Je-li zapnuto, odevzdání alespoň jednoho souboru způsobí ukončení odevzdání. Hodnocení může být změněno později manuálně. Přepnutí této volby nemá žádný vliv na již odevzdaná řešení."
+
+msgid "exc_completion_by_tutor"
+msgstr "Pouze manuálně lektorem"
+
+msgid "exc_conf_del_assignments"
+msgstr "Skutečně chcete smazat následující úlohy?"
+
+msgid "exc_copy"
+msgstr "Kopírovat cvičení"
+
+#, fuzzy
+msgid "exc_copy_zip_error"
+msgstr "The submission can not be opened. An error occurred when copying the files."
+
+msgid "exc_create_blog"
+msgstr "Vytvořit blog"
+
+msgid "exc_create_blog_select_info"
+msgstr "Vyberte prosím zdrojový adresář pro přidání blogu."
+
+msgid "exc_create_portfolio"
+msgstr "Vytvořit Portfolio"
+
+msgid "exc_create_portfolio_no_template"
+msgstr "Nepoužívejte šablonu"
+
+msgid "exc_create_team"
+msgstr "Vytvořit tým"
+
+msgid "exc_create_team_times_up_warning"
+msgstr "Již nemůžete vytvořit tým - kontaktujte svého lektora."
+
+msgid "exc_create_wiki"
+msgstr "Vytvořit Wiki"
+
+msgid "exc_crit_cat_protected_assignment"
+msgstr "Aktivní vzájemná zpětná vazba"
+
+msgid "exc_crit_cat_protected_assignment_info"
+msgstr "Katalogy kritérií úloh s aktivní vzájemnou zpětnou vazbou již nelze upravovat."
+
+msgid "exc_criteria_catalogue_create_form"
+msgstr "Přidat nový katalog kritérií"
+
+msgid "exc_criteria_catalogue_default"
+msgstr "Žádný katalog"
+
+msgid "exc_criteria_catalogue_deletion_confirmation"
+msgstr "Opravdu chcete odstranit následující katalogy kritérií?"
+
+msgid "exc_criteria_catalogue_update_form"
+msgstr "Upravit katalog kritérií"
+
+msgid "exc_criteria_catalogues"
+msgstr "Katalogy kritérií"
+
+msgid "exc_criteria_create_form"
+msgstr "Přidat nová kritéria"
+
+msgid "exc_criteria_deletion_confirmation"
+msgstr "Opravdu chcete odstranit následující kritéria?"
+
+msgid "exc_criteria_type_bool"
+msgstr "Splněno Ano/Ne"
+
+msgid "exc_criteria_type_file"
+msgstr "Nahrávání souboru"
+
+msgid "exc_criteria_type_rating"
+msgstr "Hodnocení 5 hvězdiček"
+
+msgid "exc_criteria_type_text"
+msgstr "Text"
+
+msgid "exc_criteria_update_form"
+msgstr "Upravit kritéria"
+
+msgid "exc_criterias"
+msgstr "Kritéria"
+
+msgid "exc_deadline"
+msgstr "Konečný termín"
+
+msgid "exc_deadline_ext_mismatch"
+msgstr "Období tolerance musí skončit po konečném termínu."
+
+msgid "exc_deadline_extended"
+msgstr "Období tolerance"
+
+msgid "exc_deadline_extended_info"
+msgstr "Opožděné odeslání je možné mezi konečným termínem a koncem období tolerance."
+
+#, fuzzy
+msgid "exc_deadline_not_set_yet"
+msgstr "Not Set Yet"
+
+#, fuzzy
+msgid "exc_deadline_requested"
+msgstr "Requested"
+
+msgid "exc_delete_team"
+msgstr "Smazat tým"
+
+#, fuzzy
+msgid "exc_deleted_user"
+msgstr "Deleted User"
+
+#, fuzzy
+msgid "exc_denied_has_peer_reviews"
+msgstr "Reason: Some assignments have peer reviewing activated."
+
+#, fuzzy
+msgid "exc_denied_has_submissions"
+msgstr "Reason: Users have already submitted to assignments."
+
+#, fuzzy
+msgid "exc_denied_has_team_assignments"
+msgstr "Reason: There are team assignments in this exercise."
+
+msgid "exc_direct_no_submit"
+msgstr "Neodeslat"
+
+msgid "exc_direct_submit"
+msgstr "Odevzdat"
+
+msgid "exc_direct_submit_blog"
+msgstr "Chcete odevzdat aktuální verzi blogu právě nyní? To můžete udělat kdykoli z editoru blogu později."
+
+msgid "exc_direct_submit_portfolio"
+msgstr "Chcete odevzdat aktuální verzi portfolia právě nyní? To můžete udělat kdykoli z editoru portfolia později."
+
+msgid "exc_down_files_started_bg"
+msgstr "Bylo zahájeno stahování souborů odeslání. Zkontrolujte své úlohy na pozadí v pravém horním rohu."
+
+#, fuzzy
+msgid "exc_download_selected"
+msgstr "Download Selected Submission"
+
+msgid "exc_download_zip_structure"
+msgstr "Stáhnout strukturu ZIP"
+
+msgid "exc_earliest_start_time"
+msgstr "Nejdřívější čas zahájení"
+
+msgid "exc_edit_assignment"
+msgstr "Upravit úlohu"
+
+msgid "exc_edit_assignments"
+msgstr "Upravit úlohy"
+
+#, fuzzy
+msgid "exc_edit_blog"
+msgstr "Edit Blog"
+
+msgid "exc_edit_criterias"
+msgstr "Upravit kritéria"
+
+#, fuzzy
+msgid "exc_edit_portfolio"
+msgstr "Edit Portfolio"
+
+msgid "exc_edit_submission"
+msgstr "Upravit odevzdání"
+
+#, fuzzy
+msgid "exc_edit_wiki"
+msgstr "Edit Wiki"
+
+#, fuzzy
+msgid "exc_ended"
+msgstr "Ended"
+
+msgid "exc_ended_on"
+msgstr "Končí"
+
+msgid "exc_export_excel"
+msgstr "Exportovat (Excel)"
+
+msgid "exc_fb_files"
+msgstr "Odevzdané soubory"
+
+msgid "exc_fb_tutor_info"
+msgstr "Když je nahrán soubor zpětné vazby, uživateli je zasláno oznámení a soubor zpětné vazby bude uveden v zobrazení úlohy uživatele."
+
+msgid "exc_feedback"
+msgstr "Zpětná vazba"
+
+msgid "exc_feedback_notification_body"
+msgstr "Zpětná vazba je nyní k dispozici pro následující úlohu."
+
+msgid "exc_feedback_notification_link"
+msgstr "Odkaz na cvičení"
+
+msgid "exc_feedback_notification_reason"
+msgstr "Dostáváte tento e-mail, protože jste účastníkem výše uvedeného cvičení."
+
+msgid "exc_feedback_notification_subject"
+msgstr "Zpětná vazba je k dispozici pro úlohu cvičení „%s“"
+
+msgid "exc_files_returned_text"
+msgstr "Text úlohy"
+
+#, fuzzy
+msgid "exc_find_zip_error"
+msgstr "The submission can not be opened. The original files are not found."
+
+msgid "exc_fixed_date"
+msgstr "Pevné datum"
+
+#, fuzzy
+msgid "exc_fixed_date_individual"
+msgstr "Individual Deadlines Only"
+
+#, fuzzy
+msgid "exc_fixed_date_individual_info"
+msgstr "There is no common deadline. Tutors must set individual deadlines for each participant individually."
+
+msgid "exc_fixed_date_info"
+msgstr "Zpočátku mají všichni uživatelé stejný pevný konečný termín."
+
+#, fuzzy
+msgid "exc_fullscreen"
+msgstr "Fullscreen"
+
+#, fuzzy
+msgid "exc_future"
+msgstr "Upcoming"
+
+#, fuzzy
+msgid "exc_given_feedback"
+msgstr "Given Feedback"
+
+msgid "exc_global_feedback_file"
+msgstr "Soubor zpětné vazby pro všechny žáky"
+
+msgid "exc_global_feedback_file_after_date"
+msgstr "Po nastaveném datu"
+
+msgid "exc_global_feedback_file_cron"
+msgstr "Oznámení"
+
+msgid "exc_global_feedback_file_cron_info"
+msgstr "Všichni žáci budou informováni prostřednictvím cronové úlohy, jakmile bude k dispozici soubor zpětné vazby."
+
+msgid "exc_global_feedback_file_date"
+msgstr "Dostupnost"
+
+msgid "exc_global_feedback_file_date_deadline"
+msgstr "Po konečném termínu"
+
+msgid "exc_global_feedback_file_date_upload"
+msgstr "Po odevzdání"
+
+msgid "exc_go_to_exercise"
+msgstr "Přejít na cvičení"
+
+#, fuzzy
+msgid "exc_graded_mem_notified"
+msgstr "All graded participants have been notified."
+
+msgid "exc_grades"
+msgstr "Přehled stupňů"
+
+msgid "exc_grades_overview"
+msgstr "Zobrazení stupňů"
+
+msgid "exc_hand_in"
+msgstr "Odevzdat"
+
+#, fuzzy
+msgid "exc_hand_in_lead_text"
+msgstr "%s to Submit"
+
+#, fuzzy
+msgid "exc_idl_request_and_tutor_needed"
+msgstr "Please send a request to your tutor for setting an individual deadline for you."
+
+#, fuzzy
+msgid "exc_idl_tutor_needed"
+msgstr "You already requested a deadline. The request is still pending. You will be notified once the individual deadline is set."
+
+msgid "exc_import"
+msgstr "Importovat cvičení"
+
+msgid "exc_individual_deadline"
+msgstr "Individuální konečný termín"
+
+msgid "exc_individual_deadline_action"
+msgstr "Nastavit individuální konečný termín"
+
+msgid "exc_individual_deadline_before_global"
+msgstr "Datum musí být po (posledním) konečném termínu: %s."
+
+msgid "exc_instruction_files"
+msgstr "Soubory s pokyny"
+
+#, fuzzy
+msgid "exc_instruction_migration_not_run"
+msgstr "The instruction file migration has not been finished yet. Please contact your system administrator."
+
+msgid "exc_late_submission"
+msgstr "Pozdní odevzdání"
+
+msgid "exc_late_submission_warning"
+msgstr "Odevzdání po %s jsou označena jako pozdní."
+
+#, fuzzy
+msgid "exc_lead_request_idl"
+msgstr "Request Deadline"
+
+#, fuzzy
+msgid "exc_lead_wait_for_idl"
+msgstr "Waiting For Individual Deadline"
+
+msgid "exc_limit_characters"
+msgstr "Limit znaků"
+
+#, fuzzy
+msgid "exc_link_to_assignment"
+msgstr "Link to assignment"
+
+msgid "exc_list_submission"
+msgstr "Seznam všech odevzdání"
+
+msgid "exc_list_text_assignment"
+msgstr "Seznam všech příspěvků"
+
+msgid "exc_mail_context_grade_reminder_info"
+msgstr "Připomenutí lektorům/učitelům k hodnocení úlohy"
+
+msgid "exc_mail_context_grade_reminder_title"
+msgstr "Připomenutí hodnocení cvičení"
+
+msgid "exc_mail_context_peer_reminder_info"
+msgstr "Připomenutí uživatelům k poskytnutí zpětné vazby v úloze"
+
+msgid "exc_mail_context_peer_reminder_title"
+msgstr "Cvičení zpětná vazba/vzájemné připomenutí"
+
+msgid "exc_mail_context_reminder_assignment_title"
+msgstr "Název úlohy"
+
+msgid "exc_mail_context_reminder_exercise_title"
+msgstr "Název cvičení"
+
+msgid "exc_mail_context_submit_reminder_info"
+msgstr "Připomenutí uživatelům k odevzdání úlohy"
+
+msgid "exc_mail_context_submit_reminder_title"
+msgstr "Připomenutí odevzdání cvičení"
+
+msgid "exc_mail_permanent_link"
+msgstr "Klepněte na následující odkaz ke vstupu do cvičení:"
+
+msgid "exc_manage_team"
+msgstr "Spravovat tým"
+
+msgid "exc_mandatory"
+msgstr "Povinné"
+
+msgid "exc_mandatory_info"
+msgstr "Povinné úlohy musí být splněny ke splnění celého cvičení."
+
+#, fuzzy
+msgid "exc_mandatory_rand_determined"
+msgstr "Randomly determined"
+
+msgid "exc_max_char_limit"
+msgstr "Maximální počet znaků"
+
+msgid "exc_max_file"
+msgstr "Max. počet souborů"
+
+msgid "exc_max_file_info"
+msgstr "Po dosažení limitu účastníci nebudou moci nahrát více souborů."
+
+msgid "exc_max_file_reached"
+msgstr "Nemůžete nahrát více než %s souborů."
+
+msgid "exc_max_file_tgl"
+msgstr "Omezit nahrávání"
+
+msgid "exc_max_team_participants"
+msgstr "Maximální počet"
+
+#, fuzzy
+msgid "exc_members_already_assigned_team"
+msgstr "This user is already assigned to a team."
+
+msgid "exc_min_char_limit"
+msgstr "Minimální počet znaků"
+
+msgid "exc_min_nr"
+msgstr "Počet úloh"
+
+msgid "exc_min_nr_info"
+msgstr "Tato hodnota musí být rovna nebo vyšší než počet povinných úloh."
+
+msgid "exc_min_team_participants"
+msgstr "Minimální počet"
+
+msgid "exc_msg_all_mandatory_ass"
+msgstr "Musíte splnit všechny povinné úlohy ke splnění tohoto cvičení."
+
+#, fuzzy
+msgid "exc_msg_deadline_request_body"
+msgstr "the following user requested an individual deadline."
+
+#, fuzzy
+msgid "exc_msg_deadline_request_subject"
+msgstr "A deadline has been requested in exercise \"%s\"."
+
+msgid "exc_msg_failed_mandatory"
+msgstr "Nesplnil(a) jste nejméně jednu povinnou úlohu."
+
+#, fuzzy
+msgid "exc_msg_grading_done"
+msgstr "An assignment has been graded in exercise \"%s\"."
+
+#, fuzzy
+msgid "exc_msg_grading_done_body"
+msgstr "a tutor has graded your submission in exercise \"%s\"."
+
+#, fuzzy
+msgid "exc_msg_idl_set_body"
+msgstr "a new individual deadline has been set."
+
+#, fuzzy
+msgid "exc_msg_idl_set_subject"
+msgstr "A new deadline has been set in exercise \"%s\"."
+
+msgid "exc_msg_min_number_ass"
+msgstr "Musíte splnit nejméně %s úloh ke splnění tohoto cvičení."
+
+msgid "exc_msg_missed_minimum_number"
+msgstr "Nesplnil(a) jste minimální počet úloh."
+
+msgid "exc_msg_new_feedback_file_uploaded"
+msgstr "Do cvičení \"%s\" byl vložen nový ohlas."
+
+msgid "exc_msg_new_feedback_file_uploaded2"
+msgstr "Lektor pro Vás vložil nový soubor s odezvou."
+
+msgid "exc_msg_new_feedback_text_uploaded"
+msgstr "Byl přidán nový komentář ke cvičení „%s“."
+
+msgid "exc_msg_new_feedback_text_uploaded2"
+msgstr "lektor pro vás přidal nový komentář."
+
+#, fuzzy
+msgid "exc_msg_new_message_from_pf_giver"
+msgstr "A new message from a peer feedback giver has been added to exercise \"%s\"."
+
+#, fuzzy
+msgid "exc_msg_new_message_from_pf_giver2"
+msgstr "a peer feedback giver has added a new message for you:"
+
+#, fuzzy
+msgid "exc_msg_new_message_from_pf_recipient"
+msgstr "A new message from a peer feedback recipient has been added to exercise \"%s\"."
+
+#, fuzzy
+msgid "exc_msg_new_message_from_pf_recipient2"
+msgstr "a peer feedback recipient has added a new message for you:"
+
+msgid "exc_msg_participants_removed"
+msgstr "Účastníci byli odstraněni z tohoto cvičení."
+
+msgid "exc_msg_public_submission"
+msgstr "Všechny předložené práce budou zveřejněny po konečném termínu!"
+
+msgid "exc_msg_saved_grades"
+msgstr "Stupně byly uloženy."
+
+msgid "exc_msg_sure_to_deassign_participant"
+msgstr "Určitě chcete odstranit účastníky všech úloh tohoto cvičení? Tím budou také smazány všechny jejich předané práce ve zdrojích!"
+
+msgid "exc_multi_feedb_info"
+msgstr "Na této obrazovce můžete nahrát vícenásobné zpětné vazby do jednoho souboru. Nejprve klikněte na „Stáhnout strukturu ZIP“, uložte soubor ZIP soubor a extrahujte ho na lokálním počítači. Vložte soubory zpětné vazby do odpovídajících uživatelských adresářů. Nyní znovu komprimujte celý adresář jako jeden soubor ZIP. Vyhledejte soubor v lokálním systému souborů a vyberte ho jako „Soubor vícenásobné zpětné vazby“ ve formuláři níže. Poté klikněte na tlačítko „Nahrát“. Na obrazovce s potvrzením se zobrazí seznam souborů. Nepoužívejte žádné speciální znaky v názvech souborů."
+
+msgid "exc_multi_feedback"
+msgstr "Vícenásobná zpětná vazba"
+
+msgid "exc_multi_feedback_file"
+msgstr "Soubor vícenásobné zpětné vazby"
+
+msgid "exc_multi_feedback_files"
+msgstr "Soubory vícenásobné zpětné vazby"
+
+msgid "exc_needs_deadline"
+msgstr "Tato funkce funguje pouze s konečným termínem úlohy."
+
+msgid "exc_needs_fixed_deadline"
+msgstr "Tato funkce funguje pouze s pevným konečným termínem."
+
+msgid "exc_new_assignment"
+msgstr "Nová úloha"
+
+#, fuzzy
+msgid "exc_no_assignments"
+msgstr "No assignments available."
+
+msgid "exc_no_assignments_available"
+msgstr "Žádná úloha dosud nebyla vytvořena. Otevřete prosím \"Úlohy\" a \"Upravit\" k vytvoření první úlohy."
+
+#, fuzzy
+msgid "exc_no_deadline"
+msgstr "No Deadline"
+
+#, fuzzy
+msgid "exc_no_deadline_info"
+msgstr "There is no submission deadline for participants."
+
+msgid "exc_no_deadline_specified"
+msgstr "Není stanoven žádný konečný termín."
+
+msgid "exc_no_feedback_dir_found_in_zip"
+msgstr "Nelze zpracovat adresářovou strukturu nahraného archivu zip."
+
+msgid "exc_no_get_target"
+msgstr "Nebyl odeslán platný cíl."
+
+#, fuzzy
+msgid "exc_no_graded_mem_selected"
+msgstr "Please select at least one graded participant."
+
+msgid "exc_no_participants"
+msgstr "Zde nyní není žádný účastník."
+
+#, fuzzy
+msgid "exc_no_peer_feedback_deadline"
+msgstr "No Deadline for Giving Feedback"
+
+msgid "exc_no_portfolio_templates"
+msgstr "Nejsou k dispozici žádné šablony portfolia."
+
+#, fuzzy
+msgid "exc_no_submission_yet"
+msgstr "No submission yet."
+
+msgid "exc_no_team_yet"
+msgstr "Dosud žádný tým"
+
+msgid "exc_no_team_yet_info"
+msgstr "Můžete sami vytvořit tým nebo být přidáni k existujícímu týmu jeho členy."
+
+msgid "exc_no_team_yet_info_tutor"
+msgstr "Týmy jsou spravovány lektory cvičení."
+
+msgid "exc_no_team_yet_notice"
+msgstr "Dosud nejste přiřazeni k týmu!"
+
+msgid "exc_note_for_tutor"
+msgstr "Poznámka pro lektory"
+
+msgid "exc_notification"
+msgstr "Osobní oznámení"
+
+#, fuzzy
+msgid "exc_nr_random_mand"
+msgstr "Number of Mandatory Assignments"
+
+msgid "exc_num_teams"
+msgstr "Číslo"
+
+#, fuzzy
+msgid "exc_ongoing"
+msgstr "Ongoing"
+
+#, fuzzy
+msgid "exc_optional"
+msgstr "Optional"
+
+msgid "exc_order_by_deadline"
+msgstr "Řadit dle konečného termínu"
+
+msgid "exc_overview"
+msgstr "Přehled"
+
+msgid "exc_participant"
+msgstr "Účastník"
+
+msgid "exc_participant_view"
+msgstr "Zobrazení účastníků"
+
+msgid "exc_participants"
+msgstr "Účastníci"
+
+msgid "exc_pass_all"
+msgstr "Všechny povinné úlohy"
+
+msgid "exc_pass_all_info"
+msgstr "Všechny povinné úlohy musí být splněny ke splnění tohoto cvičení."
+
+msgid "exc_pass_minimum_nr"
+msgstr "Minimální počet úloh"
+
+msgid "exc_pass_minimum_nr_info"
+msgstr "Minimální počet úloh musí být splněn pro splnění tohoto cvičení. Tato hodnota musí být rovna, nebo vyšší, než počet stanovených úloh."
+
+msgid "exc_pass_mode"
+msgstr "Mód průchodu"
+
+#, fuzzy
+msgid "exc_pass_mode_not_changeable_info"
+msgstr "The pass mode cannot be changed anymore."
+
+msgid "exc_passed_status_determination"
+msgstr "Stanovení stavu „splněno“"
+
+msgid "exc_passing_exc"
+msgstr "Splnění cvičení"
+
+#, fuzzy
+msgid "exc_past"
+msgstr "Past"
+
+msgid "exc_peer_deadline_mismatch"
+msgstr "Vzhledem k tomu, že zpětná vazba je dána po uplynutí konečného termínu, nesmí být konečný termín pro zpětnou vazbu kratší než konečný termín úlohy."
+
+#, fuzzy
+msgid "exc_peer_feedback_status"
+msgstr "Feedback Status"
+
+msgid "exc_peer_review"
+msgstr "Vzájemná zpětná vazba"
+
+msgid "exc_peer_review_ass_setting_info"
+msgstr "Pokud je povolena, uživatelé mohou partnery hodnotit po uplynutí lhůty."
+
+msgid "exc_peer_review_chars_invalid"
+msgstr "Nejméně jedna z vašich zpětných vazeb nemá požadovanou minimální délku %s znaků."
+
+msgid "exc_peer_review_completion"
+msgstr "Stanovení stavu „splněno“"
+
+msgid "exc_peer_review_completion_all"
+msgstr "Všechny požadované zpětné vazby"
+
+msgid "exc_peer_review_completion_all_info"
+msgstr "Úloha bude automaticky nastavena na „splněno“ až po odevzdání řešení a všech požadovaných zpětných vazbách."
+
+msgid "exc_peer_review_completion_none"
+msgstr "Vzájemná zpětná vazba je volitelná"
+
+msgid "exc_peer_review_completion_none_info"
+msgstr "Úloha bude automaticky nastavena na „splněno“ po odevzdání řešení bez ohledu na to, zda byla poskytnuta zpětná vazba."
+
+msgid "exc_peer_review_completion_one"
+msgstr "Nejméně jedna zpětná vazba"
+
+msgid "exc_peer_review_completion_one_info"
+msgstr "Úloha bude automaticky nastavena na „splněno“ až po odevzdání řešení a alespoň jedné zpětné vazbě."
+
+msgid "exc_peer_review_deadline"
+msgstr "Konečný termín zpětné vazby"
+
+msgid "exc_peer_review_deadline_info"
+msgstr "Zpětná vazba může být poskytnuta až do tohoto data a obdržená zpětná vazba je přístupná pouze od té doby."
+
+msgid "exc_peer_review_deadline_info_button"
+msgstr "Konečný termín: %s"
+
+msgid "exc_peer_review_deadline_reached"
+msgstr "Vypršel čas zpětné vazby."
+
+msgid "exc_peer_review_file"
+msgstr "Nahrávání souboru"
+
+msgid "exc_peer_review_file_info"
+msgstr "Povolit ostatním uživatelům nahrát 1 soubor na recenzi"
+
+msgid "exc_peer_review_give"
+msgstr "Poskytnout zpětnou vazbu"
+
+msgid "exc_peer_review_given"
+msgstr "Zobrazit poskytnutou zpětnou vazbu"
+
+msgid "exc_peer_review_giver"
+msgstr "Poskytovatel zpětné vazby"
+
+msgid "exc_peer_review_invalid_giver_ids"
+msgstr "Partnerští poskytovatelé, kteří již nejsou členy cvičení nebo nemají podání"
+
+msgid "exc_peer_review_invalid_peer_ids"
+msgstr "Partnerští příjemci, kteří již nejsou členy cvičení nebo nemají podání"
+
+msgid "exc_peer_review_min_chars"
+msgstr "Minimální počet znaků"
+
+msgid "exc_peer_review_min_chars_info"
+msgstr "Požadovaný počet znaků pro platnou zpětnou vazbu."
+
+msgid "exc_peer_review_min_chars_tgl"
+msgstr "Minimální délka"
+
+msgid "exc_peer_review_min_number"
+msgstr "Počet zaslaných příspěvků zpětné vazby je vyžadován pro zobrazení osobní zpětné vazby"
+
+msgid "exc_peer_review_min_number_info"
+msgstr "Toto množství práce ostatních uživatelů musí být hodnoceno účastníkem před tím, než bude viditelná jeho/její vlastní práce."
+
+msgid "exc_peer_review_missing_info"
+msgstr "Pokud chcete vidět obdrženou zpětnou vazbu, musíte ještě poskytnout %s zpětných vazeb."
+
+msgid "exc_peer_review_missing_info_deadline"
+msgstr "Pokud chcete vidět obdrženou zpětnou vazbu, musíte ještě poskytnout %1$s zpětných vazeb. Přístup bude udělen na: %2$s."
+
+msgid "exc_peer_review_missing_users"
+msgstr "Uživatelé s podáními, kteří nejsou součástí vzájemné zpětné vazby"
+
+msgid "exc_peer_review_no_peers"
+msgstr "Nejsou žádní partneři, kteří by poskytli zpětnou vazbu."
+
+msgid "exc_peer_review_no_peers_reviewed_yet"
+msgstr "Zatím nebyla poskytnuta žádná zpětná vazba."
+
+msgid "exc_peer_review_not_returned_users"
+msgstr "Uživatelé bez podání, kteří nejsou součástí vzájemné zpětné vazby"
+
+msgid "exc_peer_review_overview"
+msgstr "Zobrazit partnerské skupiny"
+
+msgid "exc_peer_review_overview_invalid_users"
+msgstr "Neplatní uživatelé"
+
+msgid "exc_peer_review_personal"
+msgstr "Personalizovaná vzájemná zpětná vazba"
+
+msgid "exc_peer_review_personal_info"
+msgstr "Partneři jsou zobrazeni plným jménem"
+
+msgid "exc_peer_review_rating"
+msgstr "Hodnocení"
+
+msgid "exc_peer_review_recipient"
+msgstr "Příjemce zpětné vazby"
+
+msgid "exc_peer_review_reset"
+msgstr "Smazat a obnovit vzájemnou zpětnou vazbu"
+
+msgid "exc_peer_review_reset_done"
+msgstr "Všechna data týkající se vzájemné zpětné vazby byla smazána pro úlohu."
+
+msgid "exc_peer_review_reset_sure"
+msgstr "Opravdu chcete odstranit kompletní vzájemnou zpětnou vazbu pro úlohu „%s“?"
+
+msgid "exc_peer_review_show"
+msgstr "Zobrazit přijatou zpětnou vazbu"
+
+msgid "exc_peer_review_show_missing"
+msgstr "Nemůžete zobrazit přijaté zpětné vazby, protože jste neposkytli dostatečnou zpětnou vazbu."
+
+msgid "exc_peer_review_show_received_none"
+msgstr "Nedostali jste žádnou zpětnou vazbu."
+
+msgid "exc_peer_review_simple_unlock"
+msgstr "Přístup k přijaté zpětné vazbě"
+
+msgid "exc_peer_review_simple_unlock_active"
+msgstr "Po poskytnutí alespoň 1 platné zpětné vazby"
+
+#, fuzzy
+msgid "exc_peer_review_simple_unlock_immed"
+msgstr "Always show received peer feedback"
+
+msgid "exc_peer_review_simple_unlock_inactive"
+msgstr "Po poskytnutí všech požadovaných zpětných vazeb"
+
+msgid "exc_peer_review_text"
+msgstr "Textový vstup"
+
+msgid "exc_peer_review_updated"
+msgstr "Vaše zpětná vazba byla uložena."
+
+#, fuzzy
+msgid "exc_peer_reviews_in_lead_text"
+msgstr "%s to Give Feedback"
+
+msgid "exc_peer_reviews_invalid_warning"
+msgstr "Neplatné partnerské skupiny"
+
+msgid "exc_portfolio_created"
+msgstr "Portfolio bylo vytvořeno."
+
+msgid "exc_portfolio_returned"
+msgstr "Portfolio úlohy"
+
+msgid "exc_portfolio_selected"
+msgstr "Portfolio bulo přideleno."
+
+msgid "exc_portfolio_template"
+msgstr "Šablona portfolia"
+
+msgid "exc_portfolio_unlinked_from_assignment"
+msgstr "Portfolio odstraněné z této úlohy"
+
+msgid "exc_presentation_order"
+msgstr "Řazení prezentace"
+
+#, fuzzy
+msgid "exc_print_pdf"
+msgstr "Print/PDF"
+
+msgid "exc_public_submission"
+msgstr "Zveřejnit odevzdané úkoly"
+
+msgid "exc_publishing"
+msgstr "Zveřejnění"
+
+#, fuzzy
+msgid "exc_rand_nr_mandatory"
+msgstr "Number of Mandatory Assignments"
+
+#, fuzzy
+msgid "exc_rand_overall_ass"
+msgstr "Overall Number of Assignments"
+
+#, fuzzy
+msgid "exc_random"
+msgstr "Random"
+
+#, fuzzy
+msgid "exc_random_assignment"
+msgstr "Random Assignment"
+
+#, fuzzy
+msgid "exc_random_assignment_info"
+msgstr "When starting the exercise some assignments will be randomly selected being mandatory for you."
+
+#, fuzzy
+msgid "exc_random_selection"
+msgstr "Random Selection"
+
+#, fuzzy
+msgid "exc_random_selection_info"
+msgstr "Each user gets assigned a random selection of mandatory assignments."
+
+#, fuzzy
+msgid "exc_random_selection_not_changeable_info"
+msgstr "This mode cannot be activated."
+
+#, fuzzy
+msgid "exc_received_feedback"
+msgstr "Received Feedbacks"
+
+#, fuzzy
+msgid "exc_rel_last_submission"
+msgstr "Last Possible Submission"
+
+#, fuzzy
+msgid "exc_rel_last_submission_info"
+msgstr "If this optional date is set, all user have to submit until this deadline is reached."
+
+#, fuzzy
+msgid "exc_rel_start_latest_lead_text"
+msgstr "%s the Latest"
+
+#, fuzzy
+msgid "exc_rel_start_lead_text"
+msgstr "Submit %s Days After Start"
+
+msgid "exc_relative_date"
+msgstr "Relativní datum"
+
+msgid "exc_relative_date_info"
+msgstr "Konečný termín je stanoven individuálně ve vztahu k době, kdy uživatel začal s úlohou."
+
+#, fuzzy
+msgid "exc_relative_date_period"
+msgstr "Working Time"
+
+msgid "exc_rem_time_after_start"
+msgstr "Zbývající čas po zahájení"
+
+msgid "exc_reminder_cron_ok"
+msgstr "Připomenutí odeslána:"
+
+msgid "exc_reminder_end"
+msgstr "Připomenutí končí"
+
+msgid "exc_reminder_feedback_setting"
+msgstr "Připomeňte účastníkům zpětnou vazbu"
+
+msgid "exc_reminder_feedback_start"
+msgstr "Spuštění připomenutí před konečným termínem zpětné vazby"
+
+msgid "exc_reminder_frequency"
+msgstr "Frekvence"
+
+msgid "exc_reminder_grade_body"
+msgstr "následující úlohu jste ještě nehodnotili"
+
+msgid "exc_reminder_grade_setting"
+msgstr "Připomeňte lektorům hodnocení"
+
+msgid "exc_reminder_grade_subject"
+msgstr "Úloha „%s“ nebyla hodnocena"
+
+msgid "exc_reminder_link"
+msgstr "URL"
+
+msgid "exc_reminder_mail_no_tpl"
+msgstr "Nepoužívejte šablonu pošty"
+
+msgid "exc_reminder_mail_template"
+msgstr "Šablona pošty"
+
+msgid "exc_reminder_peer_body"
+msgstr "k následující úloze jste ještě neposkytli zpětnou vazbu"
+
+msgid "exc_reminder_peer_subject"
+msgstr "Úloha „%s“ nemá žádnou zpětnou vazbu"
+
+msgid "exc_reminder_salutation"
+msgstr "Dobrý den %s,"
+
+msgid "exc_reminder_start"
+msgstr "Spuštění připomenutí před konečným termínem"
+
+msgid "exc_reminder_start_info"
+msgstr "Všem členům nadřazeného kurzu/skupiny budou zaslána připomenutí. <br>Neuveden žádný nadřazený kurz/skupina - nebude odesláno žádné připomenutí!"
+
+msgid "exc_reminder_submit_body"
+msgstr "následující úlohu jste dosud nedokončili"
+
+msgid "exc_reminder_submit_setting"
+msgstr "Připomeňte uživatelům odevzdání"
+
+msgid "exc_reminder_submit_subject"
+msgstr "Úloha „%s“ nebyla dokončena"
+
+msgid "exc_reminders_cron"
+msgstr "Připomenutí pro úlohy"
+
+msgid "exc_reminders_cron_info"
+msgstr "Pokud jsou povoleny, budou aktivní 3 připomenutí: Uživatelům k odevzdání, lektorům k hodnocení a účastníkům pro zpětnou vazbu."
+
+#, fuzzy
+msgid "exc_reminders_cron_not_active"
+msgstr "Note: Notifications will not be sent until the 'Reminders for Assignments' cron job is activated. Currently the cron job is deactivated."
+
+#, fuzzy
+msgid "exc_request_deadline"
+msgstr "Request Deadline"
+
+#, fuzzy
+msgid "exc_requirement"
+msgstr "Requirement"
+
+#, fuzzy
+msgid "exc_review_anytime"
+msgstr "Give Feedback Anytime"
+
+msgid "exc_save_all"
+msgstr "Uložit vše"
+
+msgid "exc_save_order"
+msgstr "Uložit řazení"
+
+msgid "exc_save_selected"
+msgstr "Uložit vybrané"
+
+msgid "exc_saved_order"
+msgstr "Řazení prezentace uloženo."
+
+msgid "exc_select_ass"
+msgstr "Vybrat úlohu"
+
+msgid "exc_select_blog"
+msgstr "Použít existující blog"
+
+msgid "exc_select_blog_change"
+msgstr "Použít jiný blog"
+
+msgid "exc_select_blog_info"
+msgstr "Vyberte prosím jeden z Vašich blogů k použití s touto úlohou."
+
+#, fuzzy
+msgid "exc_select_blog_unlink"
+msgstr "Remove Blog"
+
+msgid "exc_select_portfolio"
+msgstr "Použít existující Portfolio"
+
+msgid "exc_select_portfolio_change"
+msgstr "Použít jiné Portfolio"
+
+msgid "exc_select_portfolio_info"
+msgstr "Vyberte prosím jedno z Vašich Portfolií k použití s touto úlohou."
+
+msgid "exc_select_portfolio_unlink"
+msgstr "Odstranit portfolio"
+
+msgid "exc_send_assignment"
+msgstr "Poslat schůzku e-mailem"
+
+#, fuzzy
+msgid "exc_send_grading_notification"
+msgstr "Send Grading Notification"
+
+#, fuzzy
+msgid "exc_set_failed"
+msgstr "Set as Failed"
+
+#, fuzzy
+msgid "exc_set_passed"
+msgstr "Set as Passed"
+
+msgid "exc_settings_feedback"
+msgstr "Zpětná vazba lektora"
+
+msgid "exc_settings_feedback_file"
+msgstr "V souboru"
+
+msgid "exc_settings_feedback_file_info"
+msgstr "Lektoři nahrají soubor. Účastník o něm dostane oznámení a může přistoupit k souboru v přehledu úloh."
+
+msgid "exc_settings_feedback_mail"
+msgstr "E-mailem"
+
+msgid "exc_settings_feedback_mail_info"
+msgstr "Lektoři zadají své hodnocení do poštovního formuláře. Hodnocení je odesláno účastníkům."
+
+msgid "exc_settings_feedback_text"
+msgstr "Textový vstup"
+
+msgid "exc_settings_feedback_text_info"
+msgstr "Lektoři zadají své hodnocení do textového pole. Účastník o něm dostane oznámení a text se zobrazí v přehledu úloh."
+
+#, fuzzy
+msgid "exc_show_instructions"
+msgstr "Show Work Instructions"
+
+#, fuzzy
+msgid "exc_show_more"
+msgstr "Show More"
+
+msgid "exc_show_peer_review"
+msgstr "Zobrazit vzájemnou zpětnou vazbu"
+
+msgid "exc_show_submissions"
+msgstr "Zveřejnit všechny úkoly po konečném termínu."
+
+msgid "exc_show_submissions_info"
+msgstr "Zveřejnit všechny úkoly všem studentům po konečném termínu."
+
+msgid "exc_start_assignment"
+msgstr "Zahájit úlohu"
+
+#, fuzzy
+msgid "exc_start_exercise"
+msgstr "Start Exercise"
+
+msgid "exc_start_time"
+msgstr "Počáteční čas"
+
+msgid "exc_starting_on"
+msgstr "Začíná"
+
+msgid "exc_submission_and_grades_notification_link"
+msgstr "Odkaz na cvičení (příspěvky a hodnocení): %s"
+
+msgid "exc_submission_downloads_notification_link"
+msgstr "Stáhnout nové příspěvky: %s"
+
+msgid "exc_submission_file"
+msgstr "Soubor příspěvku"
+
+msgid "exc_submission_no_new_files"
+msgstr "Žádné nové příspěvky nejsou k dispozici."
+
+msgid "exc_submission_notification"
+msgstr "Vyrozumění odevzdání úkolu e-mailem"
+
+msgid "exc_submission_notification_body"
+msgstr "Do cvičení \"%s\" bylo vložen nový odevzdaný úkol."
+
+msgid "exc_submission_notification_info"
+msgstr "Když budou odevzdané úkoly vloženy, budete vyrozuměn(a) e-mailem."
+
+msgid "exc_submission_notification_link"
+msgstr "Odkaz na cvičení: %s"
+
+msgid "exc_submission_notification_subject"
+msgstr "Do cvičení \"%s\" byl vložen odevzdaný úkol."
+
+#, fuzzy
+msgid "exc_submission_open_notification_link"
+msgstr "Open submission: %s"
+
+msgid "exc_submission_text"
+msgstr "Text příspěvku"
+
+msgid "exc_submissions_and_grades"
+msgstr "Úkoly & hodnocení"
+
+#, fuzzy
+msgid "exc_submit_anytime"
+msgstr "Submit Anytime"
+
+msgid "exc_submit_convenience_no_deadline"
+msgstr "Odevzdejte v pohodlí. Není žádný konkrétní konečný termín."
+
+msgid "exc_submitted_files_deleted"
+msgstr "Vybrané soubory byly smazány."
+
+#, fuzzy
+msgid "exc_sure_unlink_blog"
+msgstr "Are you sure to remove this blog form this assignment?"
+
+msgid "exc_sure_unlink_portfolio"
+msgstr "Opravdu chcete odstranit toto portfolio z této úlohy?"
+
+msgid "exc_target_not_valid"
+msgstr "Požadovaný cíl není platný nebo je neúplný."
+
+#, fuzzy
+msgid "exc_task_grading"
+msgstr "Grading of Assignment \"%1\""
+
+#, fuzzy
+msgid "exc_task_peer_feedback"
+msgstr "Give Peer Feedback in Assignment \"%1\""
+
+#, fuzzy
+msgid "exc_task_submission"
+msgstr "Submission of Assignment \"%1\""
+
+msgid "exc_tbl_action_download_all_files"
+msgstr "Stáhnout všechny příspěvky"
+
+msgid "exc_tbl_action_download_files"
+msgstr "Stáhnout příspěvky"
+
+msgid "exc_tbl_action_download_new_files"
+msgstr "Stáhnout nové příspěvky"
+
+msgid "exc_tbl_action_feedback_file"
+msgstr "Poskytnout zpětnou vazbu jako soubor"
+
+msgid "exc_tbl_action_feedback_mail"
+msgstr "Poskytnout zpětnou vazbu jako e-mail"
+
+msgid "exc_tbl_action_feedback_text"
+msgstr "Poskytnout zpětnou vazbu jako text"
+
+#, fuzzy
+msgid "exc_tbl_action_open_submission"
+msgstr "Open Submission"
+
+msgid "exc_tbl_action_peer_review_given"
+msgstr "Zobrazit poskytnutou vzájemnou zpětnou vazbu"
+
+msgid "exc_tbl_action_peer_review_received"
+msgstr "Zobrazit přijatou vzájemnou zpětnou vazbu"
+
+msgid "exc_tbl_action_team_log"
+msgstr "Zobrazit protokol týmu"
+
+msgid "exc_tbl_action_text_assignment_show"
+msgstr "Zobrazit příspěvek"
+
+msgid "exc_tbl_calculated_deadline"
+msgstr "Vypočtený konečný termín"
+
+msgid "exc_tbl_comment"
+msgstr "Textová zpětná vazba"
+
+msgid "exc_tbl_feedback_time"
+msgstr "Zpětná vazba dne"
+
+msgid "exc_tbl_filter_has_no_submission"
+msgstr "Ještě neodevzdáno"
+
+msgid "exc_tbl_filter_has_submission"
+msgstr "Odevzdáno"
+
+msgid "exc_tbl_filter_submission"
+msgstr "Odevzdání"
+
+#, fuzzy
+msgid "exc_tbl_filter_submission_after"
+msgstr "Submission After"
+
+#, fuzzy
+msgid "exc_tbl_filter_submission_before"
+msgstr "Submission Before"
+
+msgid "exc_tbl_individual_deadline"
+msgstr "Individuální konečný termín"
+
+msgid "exc_tbl_mark"
+msgstr "Známka"
+
+msgid "exc_tbl_notice"
+msgstr "Poznámka pro lektory"
+
+msgid "exc_tbl_sent_time"
+msgstr "Úloha odeslána"
+
+msgid "exc_tbl_status"
+msgstr "Stupeň"
+
+msgid "exc_tbl_status_time"
+msgstr "Známkováno"
+
+msgid "exc_tbl_submission_date"
+msgstr "Odevzdáno dne"
+
+msgid "exc_tbl_team"
+msgstr "Tým"
+
+msgid "exc_team"
+msgstr "Tým"
+
+msgid "exc_team_assignment_adopt"
+msgstr "Převzít týmy ze stávající úlohy"
+
+msgid "exc_team_assignment_adopt_already_assigned"
+msgstr "již přiřazeno"
+
+msgid "exc_team_assignment_adopt_none"
+msgstr "Nepřebírejte žádné týmy"
+
+msgid "exc_team_assignment_adopt_none_user"
+msgstr "Vytvořit nový tým"
+
+msgid "exc_team_assignment_adopt_teams"
+msgstr "Týmy"
+
+msgid "exc_team_assignment_adopt_user"
+msgstr "Převzít tým z úlohy"
+
+msgid "exc_team_at_least_one"
+msgstr "Musí být nejméně 1 člen týmu."
+
+msgid "exc_team_by_assignment"
+msgstr "Převzít týmy z úlohy"
+
+msgid "exc_team_by_assignment_info"
+msgstr "Pro tuto úlohu budou použity i týmy vytvořené v jiných úlohách."
+
+msgid "exc_team_by_participants"
+msgstr "Účastníci sami organizují tvoření týmů"
+
+msgid "exc_team_by_participants_info"
+msgstr "Účastníci se rozhodnou pro týmy."
+
+msgid "exc_team_by_random"
+msgstr "Týmy jsou tvořeny náhodně a automaticky."
+
+#, fuzzy
+msgid "exc_team_by_random_add_info"
+msgstr "Please note that you have to assign all participants first before using this mode."
+
+msgid "exc_team_by_random_info"
+msgstr "Systém ILIAS přidělí účastníky do stanoveného počtu týmů."
+
+msgid "exc_team_by_tutors"
+msgstr "Týmy jsou tvořeny lektory."
+
+msgid "exc_team_by_tutors_info"
+msgstr "Lektoři přidělují účastníky do týmů, účastníci se nemohou organizovat sami."
+
+msgid "exc_team_by_tutors_manual"
+msgstr "Manuálně"
+
+msgid "exc_team_by_tutors_manual_info"
+msgstr "Lektoři manuálně přidělují účastníky do týmů."
+
+msgid "exc_team_creation"
+msgstr "Vytvoření"
+
+msgid "exc_team_formation"
+msgstr "Formování týmu"
+
+msgid "exc_team_log"
+msgstr "Protokol týmu"
+
+msgid "exc_team_log_add_file"
+msgstr "Přidán soubor %s."
+
+msgid "exc_team_log_add_member"
+msgstr "Přidán člen %s."
+
+msgid "exc_team_log_create_team"
+msgstr "Tým vytvořen."
+
+#, fuzzy
+msgid "exc_team_log_remove_file"
+msgstr "Removed file %s."
+
+msgid "exc_team_log_remove_member"
+msgstr "Odebraný člen %s."
+
+msgid "exc_team_max_small_than_members"
+msgstr "Nelze nastavit maximální počet účastníků jako %s, protože některé týmy musí být nastaveny s %s účastníky."
+
+msgid "exc_team_member_add"
+msgstr "Přidat členy týmu (Hledat)"
+
+msgid "exc_team_member_container_add"
+msgstr "Přidat členy týmu pro kurz/skupinu"
+
+msgid "exc_team_member_remove_sure"
+msgstr "Opravdu chcete odstranit následující členy z vašeho týmu? Uvědomte si, že všechny soubory, které jste nahráli, budou také odstraněny z vašeho týmu."
+
+msgid "exc_team_members"
+msgstr "Členové týmu"
+
+msgid "exc_team_min_big_than_max"
+msgstr "Maximální počet účastníků týmu nesmí být menší než minimální počet účastníků týmu."
+
+msgid "exc_team_min_small_than_members"
+msgstr "Nelze nastavit minimální počet účastníků jako %s, protože týmy jsou nastaveny s %s účastníky."
+
+msgid "exc_team_minimal_too_big"
+msgstr "Minimální počet účastníků týmu %s je příliš velký, snižte hodnotu."
+
+msgid "exc_team_multi_create"
+msgstr "Vytvořit tým"
+
+msgid "exc_team_multi_dissolve"
+msgstr "Rozpustit tým(y)"
+
+msgid "exc_team_notification_body_add"
+msgstr "byli jste přidáni do týmu přiřazení pro nahrávání."
+
+msgid "exc_team_notification_body_rmv"
+msgstr "byli jste odstraněni z týmu přiřazení pro nahrávání."
+
+msgid "exc_team_notification_link"
+msgstr "Odkaz na cvičení"
+
+msgid "exc_team_notification_reason"
+msgstr "Dostáváte tento e-mail, protože jste účastníkem výše uvedeného cvičení."
+
+msgid "exc_team_notification_subject_add"
+msgstr "Přidán jako člen týmu do přiřazení pro upload"
+
+msgid "exc_team_notification_subject_rmv"
+msgstr "Odstraněn z týmu přiřazení pro nahrávání"
+
+msgid "exc_teams_assignment_adopted"
+msgstr "Týmy převzaté ze stávající úlohy"
+
+msgid "exc_template"
+msgstr "Šablona"
+
+msgid "exc_text_assignment_edit"
+msgstr "Upravit text"
+
+msgid "exc_text_assignment_show"
+msgstr "Zobrazit text"
+
+#, fuzzy
+msgid "exc_text_saved"
+msgstr "Text has been saved."
+
+#, fuzzy
+msgid "exc_too_many_files"
+msgstr "The upload contains too many files."
+
+msgid "exc_total_exc"
+msgstr "Cvičení celkem"
+
+msgid "exc_total_members"
+msgstr "Celkový počet členů cvičení"
+
+#, fuzzy
+msgid "exc_type"
+msgstr "Type"
+
+msgid "exc_type_blog"
+msgstr "Blog"
+
+msgid "exc_type_portfolio"
+msgstr "Portfolio"
+
+msgid "exc_type_text"
+msgstr "Text"
+
+msgid "exc_type_upload"
+msgstr "Odeslat<br />"
+
+msgid "exc_type_upload_team"
+msgstr "Nahrávání týmu"
+
+msgid "exc_value_can_not_set"
+msgstr "Tuto hodnotu nelze nastavit."
+
+#, fuzzy
+msgid "exc_view_portfolio"
+msgstr "View Portfolio"
+
+#, fuzzy
+msgid "exc_view_wiki"
+msgstr "View Wiki"
+
+msgid "exc_wait_for_files"
+msgstr "Vaše stahování by mělo začít automaticky. Pokud stahování nezačne do 5 sekund, klikněte sem"
+
+msgid "exc_wiki_container"
+msgstr "Wiki kontejner"
+
+msgid "exc_wiki_container_info"
+msgstr "Místo, kde budou vytvořeny wiki účastníků."
+
+msgid "exc_with_template"
+msgstr "S portfoliem - šablona"
+
+msgid "exc_with_template_info"
+msgstr "Prázdné portfolio bude automaticky odvozeno z konkrétní šablony portfolia."
+
+msgid "exc_with_wiki_template"
+msgstr "Se šablonou Wiki"
+
+msgid "exc_with_wiki_template_info"
+msgstr "Šablona wiki bude zkopírována pro vytvoření wiki účastníků."
+
+msgid "exc_without_template"
+msgstr "Bez portfolia - šablona"
+
+msgid "exc_without_template_info"
+msgstr "Účastníci si vytvoří portfolio od nuly"
+
+msgid "exc_without_wiki_template"
+msgstr "Bez šablony Wiki"
+
+msgid "exc_without_wiki_template_info"
+msgstr "Účastníci vytvoří svou wiki od nuly."
+
+msgid "exc_work_instructions"
+msgstr "Pracovní pokyny"
+
+#, fuzzy
+msgid "exc_x_of_y"
+msgstr "of"
+
+msgid "exc_your_text"
+msgstr "Váš text"
+
+msgid "feedback_from"
+msgstr "Zpětná vazba od"
+
+msgid "feedback_given"
+msgstr "Poskytnutá zpětná vazba"
+
+msgid "feedback_received"
+msgstr "Přijatá zpětná vazba"
+
+msgid "fiter_no_results"
+msgstr "Aktuální filtr neodpovídá žádné úloze."
+
+msgid "grade_evaluate"
+msgstr "Známka a hodnocení"
+
+msgid "not_yet"
+msgstr "zatím ne"
+
+msgid "submissions_feedback"
+msgstr "Příspěvky a zpětná vazba"
+
+msgid "submissions_only"
+msgstr "Pouze příspěvky"
+
+msgid "text_assignment"
+msgstr "Přiřazení textu"

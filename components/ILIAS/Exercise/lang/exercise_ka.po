@@ -1,0 +1,46 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ka\n"
+"Language-Team: Georgian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: exercise\n"
+
+#, fuzzy
+msgid "exc_admin_settings"
+msgstr "Exercise Administration"
+
+msgid "exc_comment"
+msgstr "კომენტარი"
+
+msgid "exc_comment_for_learner"
+msgstr "კომენტარი მოსწავლეს"
+
+msgid "exc_failed"
+msgstr "ჩაშლილია"
+
+msgid "exc_feedback_from_tutor"
+msgstr "უკუკავშირი მასწავლებლისაგან"
+
+msgid "exc_grading"
+msgstr "ქულების დაწერა"
+
+msgid "exc_mark"
+msgstr "ნიშანი"
+
+msgid "exc_notgraded"
+msgstr "არ არის შეფასებული"
+
+msgid "exc_passed"
+msgstr "ჩაბარებულია"
+
+msgid "exc_send_mail"
+msgstr "ემაილის გაგზავნა"
+
+msgid "exc_start_date_should_be_before_end_date"
+msgstr "Start time should be before deadline."
+
+msgid "exc_your_submission"
+msgstr "თქვენი ჩაბარება"

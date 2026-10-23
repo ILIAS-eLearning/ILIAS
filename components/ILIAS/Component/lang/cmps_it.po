@@ -1,0 +1,245 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: cmps\n"
+
+msgid "cmps_activate"
+msgstr "Attivare"
+
+msgid "cmps_active"
+msgstr "Attivo"
+
+msgid "cmps_add_new_rank"
+msgstr "Posizione nel menù per Aggiungi-Nuovo-Oggetto"
+
+msgid "cmps_available"
+msgstr "Disponibile"
+
+#, fuzzy
+msgid "cmps_available_version"
+msgstr "Available Version"
+
+msgid "cmps_basic_files"
+msgstr "File di base"
+
+msgid "cmps_class_file"
+msgstr "File classe"
+
+msgid "cmps_component"
+msgstr "Componenti"
+
+msgid "cmps_configure"
+msgstr "Configura"
+
+#, fuzzy
+msgid "cmps_current_db_version"
+msgstr "Current DB-Version"
+
+msgid "cmps_current_version"
+msgstr "Versione attuale"
+
+msgid "cmps_database"
+msgstr "Database"
+
+msgid "cmps_db_update"
+msgstr "Script per l'attualizzazione della banca dati"
+
+msgid "cmps_deactivate"
+msgstr "Disattivato"
+
+#, fuzzy
+msgid "cmps_detailed_information"
+msgstr "Detailed Informationen"
+
+msgid "cmps_dir"
+msgstr "Directory"
+
+#, fuzzy
+msgid "cmps_disable_creation"
+msgstr "Disable Creation"
+
+msgid "cmps_enable_creation"
+msgstr "Consenti creazione"
+
+msgid "cmps_file_version"
+msgstr "Aggiornamento del file"
+
+msgid "cmps_group"
+msgstr "Gruppo"
+
+msgid "cmps_id"
+msgstr "ID"
+
+msgid "cmps_ilias_max_version"
+msgstr "Versione max. di ILIAS"
+
+msgid "cmps_ilias_min_version"
+msgstr "Versione min. di ILIAS"
+
+msgid "cmps_inactive"
+msgstr "Inattivo"
+
+msgid "cmps_install"
+msgstr "Installa"
+
+#, fuzzy
+msgid "cmps_is_active"
+msgstr "Activated"
+
+#, fuzzy
+msgid "cmps_is_installed"
+msgstr "Installed"
+
+msgid "cmps_lang_files"
+msgstr "File di lingua"
+
+msgid "cmps_lang_prefix"
+msgstr "Prefisso della variabile di testo"
+
+msgid "cmps_languages"
+msgstr "Lingue"
+
+msgid "cmps_main_dir"
+msgstr "Directory principale"
+
+msgid "cmps_missing"
+msgstr "Mancante"
+
+msgid "cmps_module"
+msgstr "Modulo"
+
+msgid "cmps_must_installed"
+msgstr "Il componente deve essere installato."
+
+msgid "cmps_name"
+msgstr "Nome"
+
+#, fuzzy
+msgid "cmps_needs_matching_ilias_version"
+msgstr "This plugin does not work with your current ILIAS version."
+
+msgid "cmps_needs_newer_ilias_version"
+msgstr "Questa versione del plugin funziona solo su una versione recente di ILIAS. Aggiornalo per favore."
+
+msgid "cmps_needs_newer_plugin_version"
+msgstr "Questa versione di ILIAS necessita di un'aggiornamento del plugin. Procedi per favore."
+
+msgid "cmps_needs_update"
+msgstr "Aggiornamento necessario"
+
+msgid "cmps_needs_upgrade"
+msgstr "Il plugin che hai installato è di una versione precedente. Scarica la versione recente."
+
+msgid "cmps_no_db_update_file_available"
+msgstr "Non è disponibile nessuno script per il DB"
+
+msgid "cmps_no_language_file_available"
+msgstr "Nessun file di lingua disponibile"
+
+msgid "cmps_plugin"
+msgstr "Plug-in"
+
+msgid "cmps_plugin_activated"
+msgstr "Il plugin è stato attivato."
+
+msgid "cmps_plugin_db_prefixes"
+msgstr "Prefissi delle tabelle del DB"
+
+msgid "cmps_plugin_deactivated"
+msgstr "Il plugin è stato disattivato."
+
+#, fuzzy
+msgid "cmps_plugin_deinstalled"
+msgstr "The plugin has been uninstalled"
+
+msgid "cmps_plugin_file"
+msgstr "File Plugin"
+
+msgid "cmps_plugin_lang_prefixes"
+msgstr "Plugin dei prefissi di lingua"
+
+msgid "cmps_plugin_slot"
+msgstr "Plug-in fascia oraria"
+
+msgid "cmps_plugin_uninstalled"
+msgstr "Il plugin è stato disinstallato."
+
+#, fuzzy
+msgid "cmps_plugin_updated"
+msgstr "The plugin has been updated"
+
+msgid "cmps_plugins"
+msgstr "Plug-in"
+
+msgid "cmps_refresh"
+msgstr "Aggiorna"
+
+#, fuzzy
+msgid "cmps_refresh_lng"
+msgstr "Refresh language"
+
+msgid "cmps_rep_object"
+msgstr "Oggetto del repository"
+
+msgid "cmps_repository_object_types"
+msgstr "Tipi di oggetto repository"
+
+msgid "cmps_responsible"
+msgstr "Responsabile"
+
+#, fuzzy
+msgid "cmps_responsible_mail"
+msgstr "Mail (Responsible)"
+
+msgid "cmps_save_options"
+msgstr "Salva le opzioni"
+
+msgid "cmps_service"
+msgstr "Servizio"
+
+msgid "cmps_show_details"
+msgstr "Mostra i dettagli"
+
+msgid "cmps_slots"
+msgstr "Fasce orarie"
+
+msgid "cmps_status"
+msgstr "Stato"
+
+#, fuzzy
+msgid "cmps_supports_cli_setup"
+msgstr "Supports CLI-Setup"
+
+#, fuzzy
+msgid "cmps_supports_export"
+msgstr "Supports export"
+
+#, fuzzy
+msgid "cmps_supports_learning_progress"
+msgstr "Supports learning progress"
+
+msgid "cmps_uninstall"
+msgstr "Disinstalla"
+
+msgid "cmps_uninstall_confirm"
+msgstr "Sei sicuro di voler disinstallare il plugin \"%s\"?"
+
+msgid "cmps_uninstall_inactive_confirm"
+msgstr "Il plug-in \"%1$s\" attualmente non può essere attivato (\"%2$s\"). In questo stato i plug-in non possono essere disinstallati completamente. Poiché solo l'integrazione di base viene ripristinata, i dati personalizzati del plug-in possono rimanere. Vuoi continuare con la disinstallazione parziale?"
+
+msgid "cmps_update"
+msgstr "Aggiornamento"
+
+msgid "cmps_version"
+msgstr "Versione"
+
+msgid "database_is_uptodate"
+msgstr "Il database è aggiornato."
+
+msgid "no_changes"
+msgstr "Nessuna modifica"

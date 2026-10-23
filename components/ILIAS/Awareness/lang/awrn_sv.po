@@ -1,0 +1,89 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: awrn\n"
+
+msgid "awareness_now_online"
+msgstr "Nu online"
+
+msgid "awareness_settings"
+msgstr "Inställningar"
+
+msgid "awrn_caching_period"
+msgstr "Caching-period"
+
+msgid "awrn_caching_period_info"
+msgstr "Denna period inväntas innan antalet användare i toppdisplayen uppdateras och nya online-användare identifieras."
+
+msgid "awrn_enable"
+msgstr "Aktivera displayen \"Vem är online?\""
+
+msgid "awrn_filter"
+msgstr "Användarfilter"
+
+msgid "awrn_hide_from_awareness"
+msgstr "Lista inte upp mig i \"Vem är online?\"-visningen"
+
+msgid "awrn_hide_from_awareness_info"
+msgstr "Indikatorn \"Vem är online?\" visas högst upp i applikationen och listar valda användare (t.ex. kontakter eller medlemmar i dina kurser)."
+
+msgid "awrn_inactive"
+msgstr "Ingen display"
+
+msgid "awrn_incl_offline"
+msgstr "Online och offline"
+
+msgid "awrn_max_inactivity"
+msgstr "Max. Inaktivitet"
+
+msgid "awrn_max_inactivity_info"
+msgstr "Användare som inte har agerat under den angivna tidsperioden listas som \"offline\". Om inget värde anges gäller sessionens giltighet."
+
+msgid "awrn_max_nr_entries"
+msgstr "Antal max. inmatningar"
+
+msgid "awrn_max_nr_entries_info"
+msgstr "Detta är det maximala antalet poster som visas i listan \"Vem är online?\". Den här inställningen har ingen större inverkan på visningen i det övre fältet."
+
+msgid "awrn_minutes"
+msgstr "min"
+
+msgid "awrn_online"
+msgstr "Online"
+
+msgid "awrn_online_only"
+msgstr "Endast online"
+
+msgid "awrn_seconds"
+msgstr "Sec."
+
+msgid "awrn_use_osd"
+msgstr "Popup online-användare"
+
+msgid "awrn_use_osd_info"
+msgstr "Visar en popup när nya användare visas i \"Vem är online?\"-displayen med online-status."
+
+msgid "awrn_user_show"
+msgstr "Visa min status i \"Vem är online?"
+
+#, fuzzy
+msgid "awrn_user_show_default"
+msgstr "Default Value for  the Visibility in \"Who-Is-Online?\""
+
+#, fuzzy
+msgid "awrn_user_show_default_info"
+msgstr "Defines the default value for the visibility of the status of a user in \"Who-Is-Online?\"."
+
+msgid "user_awrn_default"
+msgstr "Standard"
+
+msgid "user_awrn_hide"
+msgstr "Visa inte"
+
+msgid "user_awrn_show"
+msgstr "Display"

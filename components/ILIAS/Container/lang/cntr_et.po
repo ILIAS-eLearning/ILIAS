@@ -1,0 +1,123 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: et\n"
+"Language-Team: Estonian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cntr\n"
+
+msgid "cntr_add_new_item"
+msgstr "Lisa uus üksus"
+
+msgid "cntr_adopt_content"
+msgstr "Sisu laenamine"
+
+msgid "cntr_container_only_on_their_own"
+msgstr "Categories, courses, groups, folders or study programmes can only be copied as single objects. Please select one item only."
+
+#, fuzzy
+msgid "cntr_copy_crs_grp"
+msgstr "My Courses and Groups"
+
+#, fuzzy
+msgid "cntr_copy_repo_tree"
+msgstr "Repository Tree"
+
+msgid "cntr_hide_title_and_icon"
+msgstr "Peida tiitel ja ikoon"
+
+msgid "cntr_manage"
+msgstr "Halda"
+
+msgid "cntr_ordering"
+msgstr "Sorteerimine"
+
+msgid "cntr_saved_sorting"
+msgstr "Sorteerimine salvestatud."
+
+msgid "cntr_switch_to_new_editor_cmd"
+msgstr "Lülita sellele lehele esitluse jaoks"
+
+msgid "cntr_switch_to_new_editor_message"
+msgstr "See on toetatud standardiga redaktor. Palun kasuta seda sisulehe häälestamisel. Kui klikkad järgmisel lingil, lülitub sisu esitus vanalt redaktorilt ümber siia lehele."
+
+msgid "cntr_switched_editor"
+msgstr "Lülitatud uude sisusse."
+
+msgid "cntr_tax_none_available"
+msgstr "There are no taxonomies available."
+
+#, fuzzy
+msgid "cntr_tax_settings_info"
+msgstr "Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the \"Metadata\" tabs and the \"Taxonomy Assignment\" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's \"Contents\" tab to enable direct filtering of the assigned objects."
+
+msgid "cntr_taxonomy_definitions"
+msgstr "Taxonomy Definition"
+
+msgid "cntr_taxonomy_show_sideblock"
+msgstr "Show taxonomy in side block"
+
+msgid "cntr_taxonomy_sideblock_settings"
+msgstr "Taxonomy Block Settings"
+
+msgid "cntr_text_media_editor"
+msgstr "Teksti/meedia muutja"
+
+msgid "cntr_view_by_type"
+msgstr "Grupeeritud-tüüpide-järgi vaade"
+
+msgid "cntr_view_info_by_type"
+msgstr "See vaade kuvab kõiki üksuseid tüübi järgi."
+
+msgid "cntr_view_info_sessions"
+msgstr "See vaade kuvab kõigepealt kohtumised, seejärel kõik ülejäänud kursuseosad."
+
+msgid "cntr_view_info_simple"
+msgstr "See vaade esitab kõik üksused ühes plokis."
+
+msgid "cntr_view_sessions"
+msgstr "Kohtumiste vaade"
+
+msgid "cntr_view_simple"
+msgstr "Lihtne vaade"
+
+msgid "container_import_zip_file_invalid"
+msgstr "Üleslaetud fail ei ole õige ILIASe ekspordi fail. Lisage fail faili üksusena, et laadida üles failikataloog koos selle struktuuriga."
+
+msgid "edit_questions"
+msgstr "Muuda küsimusi"
+
+msgid "exc_next_deadline_single"
+msgstr "Deadline"
+
+#, fuzzy
+msgid "msg_no_downloadable_objects"
+msgstr "No downloadable objects found."
+
+msgid "objects_duplicated"
+msgstr "Objects copied"
+
+msgid "prtf_create_portfolio_from_template"
+msgstr "Create Portfolio From Template"
+
+msgid "sorting_new_items_at_bottom"
+msgstr "Bottom"
+
+msgid "sorting_new_items_at_top"
+msgstr "Top"
+
+#, fuzzy
+msgid "sorting_new_items_direction"
+msgstr "Sorting Direction for New Objects"
+
+msgid "sorting_new_items_order"
+msgstr "Order For New Objects"
+
+msgid "sorting_new_items_position"
+msgstr "Position For New Objects"
+
+#, fuzzy
+msgid "tab_back_to_repository"
+msgstr "Back to Repository"

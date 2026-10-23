@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: error\n"
+
+msgid "error_back_to_repository"
+msgstr "Zurück zum Magazin"
+
+msgid "error_sry_error"
+msgstr "Es ist leider ein Fehler aufgetreten."
+
+msgid "http_404_not_found"
+msgstr "Die angeforderte Seite wurde nicht gefunden."
+
+msgid "http_500_internal_server_error"
+msgstr "Es ist ein interner Serverfehler aufgetreten."

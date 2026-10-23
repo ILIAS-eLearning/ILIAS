@@ -1,0 +1,54 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: note\n"
+
+msgid "note_comment_notification_link"
+msgstr ""
+
+msgid "note_comment_notification_reason"
+msgstr ""
+
+msgid "note_comment_notification_salutation"
+msgstr ""
+
+msgid "note_comment_notification_subject"
+msgstr ""
+
+msgid "note_comment_notification_subjectc"
+msgstr ""
+
+msgid "note_comment_notification_user_has_written"
+msgstr ""
+
+msgid "note_comments_notification"
+msgstr ""
+
+msgid "note_comments_notification_info"
+msgstr ""
+
+msgid "note_enable_comments"
+msgstr ""
+
+msgid "note_enable_comments_del_tutor"
+msgstr ""
+
+msgid "note_enable_comments_del_tutor_info"
+msgstr ""
+
+msgid "note_enable_comments_del_user"
+msgstr ""
+
+msgid "note_enable_comments_del_user_info"
+msgstr ""
+
+msgid "note_enable_comments_export_info"
+msgstr ""
+
+msgid "note_enable_notes"
+msgstr ""
+
+msgid "note_html_export_include_comments"
+msgstr ""

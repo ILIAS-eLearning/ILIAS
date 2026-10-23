@@ -1,0 +1,90 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: lm\n"
+
+msgid "lm_btn_lp_toggle_state_completed"
+msgstr "Nem teljesítettre állítás"
+
+msgid "lm_btn_lp_toggle_state_not_completed"
+msgstr "Sikeresen teljesítettre állítás"
+
+msgid "lm_copy"
+msgstr "Tananyag másolása"
+
+msgid "lm_edit_chapters"
+msgstr "Fejezetek módosítása"
+
+msgid "lm_edit_content"
+msgstr "Tartalom módosítás"
+
+msgid "lm_edit_lm_settings"
+msgstr "Tananyag beállításainak módosítása"
+
+msgid "lm_est_reading_time"
+msgstr "Becsült olvasási idő"
+
+msgid "lm_est_reading_time_info"
+msgstr "A tananyagokban a becsült olvasási idő megállapítható és megjeleníthető."
+
+msgid "lm_insert_chapter"
+msgstr "Új fejezet"
+
+msgid "lm_insert_chapter_after"
+msgstr "Új fejezet beszúrása mögé"
+
+msgid "lm_insert_chapter_before"
+msgstr "Új fejezet beszúrása elé"
+
+msgid "lm_insert_chapter_clip"
+msgstr "Fejezet beszúrás a vágólapról"
+
+msgid "lm_insert_chapter_clip_after"
+msgstr "Fejezet beszúrás a vágólapról mögé"
+
+msgid "lm_insert_chapter_clip_before"
+msgstr "Fejezet beszúrás a vágólapról elé"
+
+msgid "lm_insert_layout_after"
+msgstr "Új sablon beszúrása mögé"
+
+msgid "lm_insert_layout_before"
+msgstr "Új sablon beszúrása elé"
+
+msgid "lm_insert_page"
+msgstr "Új lap"
+
+msgid "lm_insert_page_after"
+msgstr "Új lap beszúrása mögé"
+
+msgid "lm_insert_page_before"
+msgstr "Új lap beszúrása elé"
+
+msgid "lm_insert_page_clip"
+msgstr "Új lap beszúrása a vágólapről"
+
+msgid "lm_insert_page_clip_after"
+msgstr "Új lap beszúrása a vágólapről mögé"
+
+msgid "lm_insert_page_clip_before"
+msgstr "Új lap beszúrása a vágólapről elé"
+
+msgid "lm_list_pages"
+msgstr "Oldalak módosítása"
+
+msgid "lm_page_added"
+msgstr "Az oldalt sikeresen hozzáadta."
+
+msgid "lm_page_type_lm"
+msgstr "Tananyagoldal"
+
+msgid "lm_pages_added"
+msgstr "Az oldalakat sikeresen hozzáadta."
+
+msgid "lm_save_titles"
+msgstr "A címeket sikeresen mentette."

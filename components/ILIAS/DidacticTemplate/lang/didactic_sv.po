@@ -1,0 +1,154 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: didactic\n"
+
+msgid "activate_exclusive_template"
+msgstr "Grå ut standard"
+
+msgid "activate_exclusive_template_info"
+msgstr "Standardmallen är gråmarkerad när denna didaktiska mall är aktiv."
+
+msgid "activate_local_didactic_template"
+msgstr "Validitetsintervall"
+
+msgid "activate_local_didactic_template_info"
+msgstr "Användningen av de didaktiska mallarna kommer att begränsas till underavsnitt i tidningen."
+
+msgid "didactic_activated_msg"
+msgstr "De valda didaktiska mallarna har aktiverats."
+
+msgid "didactic_adm_tab"
+msgstr "Didaktiska mallar"
+
+msgid "didactic_applicable_for"
+msgstr "Tillämplig på"
+
+msgid "didactic_auto_generated"
+msgstr "Automatiskt genererad"
+
+msgid "didactic_available_templates"
+msgstr "Tillgängliga didaktiska mallar"
+
+msgid "didactic_back_to_overview"
+msgstr "Tillbaka till översikten"
+
+msgid "didactic_cannot_delete_auto_generated"
+msgstr "Att radera automatiskt genererade didaktiska mallar är inte tillåtet."
+
+msgid "didactic_cannot_delete_auto_generated_confirmation"
+msgstr "Minst en av de valda didaktiska mallarna är automatiskt genererad och kan därför inte tas bort."
+
+msgid "didactic_confirm_apply_new_template"
+msgstr "Är du säker på att du vill använda den här didaktiska mallen? Alla rättighetsjusteringar kommer att skrivas över och anpassas till den nya didaktiska mallen."
+
+msgid "didactic_confirm_delete_msg"
+msgstr "Är du säker på att följande didaktiska mallar bör tas bort?"
+
+msgid "didactic_copy_suc_message"
+msgstr "Den didaktiska mallen kopierades"
+
+msgid "didactic_deactivated_msg"
+msgstr "De valda didaktiska mallarna har avaktiverats."
+
+msgid "didactic_default_type"
+msgstr "Standard"
+
+msgid "didactic_default_type_info"
+msgstr "Rättsspecifikationerna för respektive roll tillämpas."
+
+msgid "didactic_delete_msg"
+msgstr "De valda didaktiska mallarna har tagits bort."
+
+msgid "didactic_do_export"
+msgstr "Export"
+
+msgid "didactic_edit_tpl"
+msgstr "Redigera didaktisk mall"
+
+msgid "didactic_filter_with_icon"
+msgstr "med symbol"
+
+msgid "didactic_filter_without_icon"
+msgstr "Utan symbol"
+
+msgid "didactic_global"
+msgstr "Global"
+
+msgid "didactic_icon"
+msgstr "Icon"
+
+msgid "didactic_icon_error"
+msgstr "Ikoner kan endast användas för containerobjekt."
+
+msgid "didactic_icon_info"
+msgstr "Ikonen visas för alla objekt som tillämpar dessa mallar. \"Anpassade ikoner\" för objekten skriver över ikonen för mallen. Ikoner kan endast konfigureras för behållarobjekt (t.ex. kurs och kategorier)."
+
+msgid "didactic_import_btn"
+msgstr "Importera didaktisk mall"
+
+msgid "didactic_import_failed"
+msgstr "Den didaktiska mallen kunde inte importeras"
+
+msgid "didactic_import_success"
+msgstr "Den didaktiska mallen importerades framgångsrikt"
+
+msgid "didactic_import_table_title"
+msgstr "Import av en didaktisk mall"
+
+msgid "didactic_install_info"
+msgstr "Allmän information"
+
+msgid "didactic_local"
+msgstr "Lokalt"
+
+msgid "didactic_not_changed"
+msgstr "Den aktiva didaktiska mallen ändrades inte."
+
+msgid "didactic_scope"
+msgstr "Validitetsintervall"
+
+msgid "didactic_scope_list_header"
+msgstr "Begränsad till"
+
+msgid "didactic_selected_tpl_option"
+msgstr "Tillämpad didaktisk mall"
+
+msgid "didactic_template_applied"
+msgstr "Den didaktiska mallen tillämpades."
+
+msgid "didactic_template_update_import"
+msgstr "Uppdatering av didaktiska mallar"
+
+msgid "didactic_template_update_import_info"
+msgstr "Alla egenskaper justeras enligt importfilen. Objekt som redan använder inställningarna i denna mall ändras inte."
+
+#, fuzzy
+msgid "didactic_translation_add_languages"
+msgstr "Add Languages"
+
+msgid "dtpl_obj_type_info"
+msgstr "Anger den objekttyp som denna didaktiska mall kan tillämpas på."
+
+msgid "effective_form"
+msgstr "Template effektiv från"
+
+msgid "grp_closed"
+msgstr "Sluten grupp"
+
+msgid "grp_closed_info"
+msgstr "Gruppen är osynlig för icke-medlemmar."
+
+msgid "more_translations"
+msgstr "Andra översättningar"
+
+msgid "sess_closed"
+msgstr "Avslutad session"
+
+msgid "sess_closed_info"
+msgstr "Sessionen är osynlig för icke-deltagare."

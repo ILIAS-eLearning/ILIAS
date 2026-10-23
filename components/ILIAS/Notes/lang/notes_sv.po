@@ -1,0 +1,143 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: notes\n"
+
+msgid "comments_feature_currently_not_activated_for_object"
+msgstr "Den offentliga kommentarsfunktionen är för närvarande inte aktiverad för detta objekt."
+
+msgid "note_add_comment"
+msgstr "Lägg till kommentar"
+
+#, fuzzy
+msgid "note_add_message"
+msgstr "Add Message"
+
+msgid "note_add_note"
+msgstr "Lägg till anteckning"
+
+msgid "note_content_removed"
+msgstr "Innehållet har tagits bort."
+
+msgid "note_text"
+msgstr "Text"
+
+msgid "note_update_comment"
+msgstr "Redigera kommentar"
+
+#, fuzzy
+msgid "note_update_message"
+msgstr "Update Message"
+
+msgid "note_update_note"
+msgstr "Redigera anteckning"
+
+msgid "note_without_object"
+msgstr "Utan objektreferens"
+
+msgid "notes_activate_comments"
+msgstr "Öppna för offentliga kommentarer"
+
+msgid "notes_add_comment"
+msgstr "Lägg till kommentar"
+
+msgid "notes_add_edit_comment"
+msgstr "Lägg till/redigera kommentar"
+
+#, fuzzy
+msgid "notes_add_edit_message"
+msgstr "Add/Edit Message"
+
+#, fuzzy
+msgid "notes_add_edit_note"
+msgstr "Add/Edit Note"
+
+msgid "notes_comment_deleted"
+msgstr "Kommentaren raderades"
+
+msgid "notes_comments"
+msgstr "Kommentarer"
+
+msgid "notes_comments_deleted"
+msgstr "Kommentarerna har tagits bort."
+
+msgid "notes_deactivate_comments"
+msgstr "Stäng av offentliga kommentarer"
+
+msgid "notes_delete_comment"
+msgstr "Ska följande kommentar verkligen raderas?"
+
+#, fuzzy
+msgid "notes_delete_message"
+msgstr "Do you really want to delete this message?"
+
+msgid "notes_delete_note"
+msgstr "Bör följande meddelande verkligen tas bort?"
+
+msgid "notes_html_export"
+msgstr "HTML-export"
+
+msgid "notes_latest_comment"
+msgstr "Sista kommentaren"
+
+#, fuzzy
+msgid "notes_latest_message"
+msgstr "Latest Message"
+
+#, fuzzy
+msgid "notes_message_author_you"
+msgstr "You"
+
+#, fuzzy
+msgid "notes_message_deleted"
+msgstr "Message deleted."
+
+#, fuzzy
+msgid "notes_messages"
+msgstr "Messages"
+
+msgid "notes_no_comments"
+msgstr "Ingen kommentar har gjorts ännu."
+
+msgid "notes_no_comments_found"
+msgstr "Inga kommentarer hittades som matchar sökkriterierna."
+
+#, fuzzy
+msgid "notes_no_messages"
+msgstr "No messages have been attached yet."
+
+#, fuzzy
+msgid "notes_no_messages_found"
+msgstr "No messages found that match your seach criteria."
+
+msgid "notes_no_notes"
+msgstr "Ingen notering har lagts till ännu."
+
+msgid "notes_no_notes_found"
+msgstr "Inga anteckningar hittades som matchar sökkriterierna."
+
+msgid "notes_note_deleted"
+msgstr "Anteckningen har tagits bort"
+
+msgid "notes_notes_deleted"
+msgstr "Anteckningarna har tagits bort."
+
+msgid "notes_origin"
+msgstr "Ursprung"
+
+msgid "notes_public_comments"
+msgstr "Offentliga kommentarer"
+
+msgid "notes_sort_asc"
+msgstr "Sortera stigande"
+
+msgid "notes_sort_desc"
+msgstr "Sortera fallande"
+
+msgid "notes_text"
+msgstr "Text"

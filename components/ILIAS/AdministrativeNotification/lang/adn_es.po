@@ -1,0 +1,168 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: adn\n"
+
+msgid "action_confirm_delete"
+msgstr "Eliminar notificaciones"
+
+msgid "action_confirm_delete_msg"
+msgstr "¿Desea eliminar la(s) siguiente(s) notificación(es)?"
+
+msgid "administrative_notification"
+msgstr "Notificaciones administrativas"
+
+msgid "administrative_notification_description"
+msgstr "Proporcionar notificaciones a nivel del sistema en la barra superior de ILIAS"
+
+msgid "btn_cancel"
+msgstr "Cancelar"
+
+msgid "btn_delete"
+msgstr "Eliminar"
+
+msgid "btn_delete_confirm"
+msgstr "¿Desea eliminar esta notificación?"
+
+msgid "btn_duplicate"
+msgstr "Duplicar"
+
+msgid "btn_edit"
+msgstr "Editar"
+
+msgid "btn_reset"
+msgstr "Restablecer"
+
+msgid "btn_reset_confirm"
+msgstr "¿Desea restablecer esta notificación para todos los usuarios?"
+
+msgid "common_actions"
+msgstr "Acciones"
+
+msgid "common_add_msg"
+msgstr "Agregar Notificación"
+
+msgid "main"
+msgstr "Notificaciones"
+
+msgid "msg_body"
+msgstr "Cuerpo"
+
+msgid "msg_body_info"
+msgstr "Cuerpo de la notificación"
+
+msgid "msg_dismissable"
+msgstr "Descartable"
+
+msgid "msg_dismissable_info"
+msgstr "Las notificaciones pueden cerrarse por el usuario. El usuario no volverá a ver esta notificación."
+
+msgid "msg_display_date_end"
+msgstr "Mostrado hasta"
+
+msgid "msg_display_date_start"
+msgstr "Mostrado desde"
+
+msgid "msg_error_false_date_configuration"
+msgstr "No se puede crear una notificación con esta configuración de fechas. El evento debe estar dentro del período de visualización."
+
+msgid "msg_event_date_end"
+msgstr "Fin del evento"
+
+msgid "msg_event_date_start"
+msgstr "Inicio del evento"
+
+msgid "msg_form_title"
+msgstr "Notificación"
+
+msgid "msg_has_language_limitation"
+msgstr "Limitado a los idiomas seleccionados"
+
+msgid "msg_has_language_limitation_info"
+msgstr "Solo los idiomas seleccionados verán la notificación."
+
+msgid "msg_languages"
+msgstr "Idiomas"
+
+msgid "msg_limit_to_roles"
+msgstr "Limitado a los roles seleccionados"
+
+msgid "msg_limit_to_roles_info"
+msgstr "Solo los roles seleccionados verán la notificación."
+
+msgid "msg_limited_to_role_ids"
+msgstr "Presentación"
+
+msgid "msg_permanent"
+msgstr "Mostrar"
+
+msgid "msg_permanent_info"
+msgstr "Mostrar las notificaciones de forma permanente o temporal"
+
+msgid "msg_permanent_no"
+msgstr "Mostrar temporalmente"
+
+msgid "msg_permanent_yes"
+msgstr "Mostrar permanentemente"
+
+msgid "msg_presentation"
+msgstr "Presentación"
+
+msgid "msg_show_to_all_languages"
+msgstr "Mostrar en todos los idiomas"
+
+msgid "msg_show_to_all_roles"
+msgstr "Mostrar a todos los roles"
+
+msgid "msg_show_to_all_roles_info"
+msgstr "Todos los usuarios, incluso si no han iniciado sesión, verán la notificación."
+
+msgid "msg_success_created"
+msgstr "Notificación creada"
+
+msgid "msg_success_deleted"
+msgstr "Notificación(es) eliminada(s) correctamente"
+
+msgid "msg_success_duplicated"
+msgstr "Notificación duplicada correctamente"
+
+msgid "msg_success_reset"
+msgstr "Notificación restablecida"
+
+msgid "msg_success_updated"
+msgstr "Notificación actualizada"
+
+msgid "msg_table_title"
+msgstr "Notificaciones"
+
+msgid "msg_title"
+msgstr "Título"
+
+msgid "msg_title_info"
+msgstr "Breve título de la notificación"
+
+msgid "msg_type"
+msgstr "Importancia"
+
+msgid "msg_type_0"
+msgstr "Aviso"
+
+msgid "msg_type_1"
+msgstr "Aviso"
+
+msgid "msg_type_2"
+msgstr "Importante"
+
+msgid "msg_type_3"
+msgstr "Última hora"
+
+msgid "msg_type_during_event"
+msgstr "Durante el evento"
+
+msgid "msg_type_info"
+msgstr "la importancia influye en la representación del color de la notificación"

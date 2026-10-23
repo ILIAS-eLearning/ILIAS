@@ -1,0 +1,267 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: iass\n"
+
+msgid "download_assessment_paper"
+msgstr "Prüfungsblatt herunterladen"
+
+msgid "grading"
+msgstr "Bewertung"
+
+msgid "grading_info"
+msgstr "Bewertungsinformationen"
+
+msgid "grading_record"
+msgstr "Bewertungszusammenfassung"
+
+msgid "iass_add"
+msgstr "Individuelle Bewertung anlegen"
+
+msgid "iass_add_user_failure"
+msgstr "Eine oder mehrere Personen konnten nicht hinzugefügt werden."
+
+msgid "iass_add_user_success"
+msgstr "Die Person wurde hinzugefügt."
+
+msgid "iass_added"
+msgstr "Individuelle Bewertung hinzugefügt"
+
+msgid "iass_amend_saved"
+msgstr "Geänderte Prüfungsdaten wurden gespeichert."
+
+msgid "iass_assessment_not_completed"
+msgstr "Noch nicht abgeschlossen"
+
+msgid "iass_cancel"
+msgstr "Abbrechen"
+
+msgid "iass_changed_by"
+msgstr "Nachträglich geändert"
+
+msgid "iass_confirm_finalize"
+msgstr "Abschließen"
+
+msgid "iass_consultation_hours"
+msgstr "Sprechstunden"
+
+msgid "iass_contact"
+msgstr "Name"
+
+msgid "iass_contact_info"
+msgstr "Kontaktinformationen"
+
+msgid "iass_content"
+msgstr "Inhalt"
+
+msgid "iass_content_explanation"
+msgstr "Geben Sie hier die Inhalte der Prüfung ein."
+
+msgid "iass_copy"
+msgstr "Individuelle Bewertung kopieren"
+
+msgid "iass_download"
+msgstr "Download"
+
+msgid "iass_edit"
+msgstr "Einstellungen"
+
+msgid "iass_edit_info"
+msgstr "Einstellungen Kontakt"
+
+msgid "iass_edit_record"
+msgstr "Prüfungsdaten"
+
+msgid "iass_event_time"
+msgstr "Zeitpunkt der Prüfung"
+
+msgid "iass_event_time_place_required"
+msgstr "Pflichtangabe „Zeitpunkt“ und „Ort“"
+
+msgid "iass_event_time_place_required_info"
+msgstr "Zeitpunkt und Ort der Prüfung müssen eingetragen werden."
+
+msgid "iass_file"
+msgstr "Prüfungsblatt"
+
+msgid "iass_file_dropzone"
+msgstr "Ziehen Sie die Datei hierhin."
+
+msgid "iass_file_required"
+msgstr "Pflichtangabe Prüfungsblatt"
+
+msgid "iass_file_required_info"
+msgstr "Ein Prüfungsblatt muss hochgeladen werden."
+
+msgid "iass_file_visible_examinee"
+msgstr "Prüfungsblatt für bewertete Person sichtbar"
+
+msgid "iass_file_visible_examinee_info"
+msgstr "Nach abgeschlossener Bewertung kann das Prüfungsblatt von der bewerteten Person eingesehen werden. Dazu muss die Funktion „Ergebnis zugänglich machen“ aktiviert sein."
+
+msgid "iass_filter_all"
+msgstr "Alle"
+
+msgid "iass_filter_failed"
+msgstr "Nur nicht bestandene"
+
+msgid "iass_filter_finalized"
+msgstr "Nur bestandene"
+
+msgid "iass_filter_not_finalized"
+msgstr "Nur nicht abgeschlossene"
+
+msgid "iass_filter_not_started"
+msgstr "Nur nicht bewertete"
+
+msgid "iass_finalize"
+msgstr "Abschließen"
+
+msgid "iass_finalize_info"
+msgstr "Die Individuelle Bewertung wird abgeschlossen."
+
+msgid "iass_finalize_user_qst"
+msgstr "Soll diese Bewertung wirklich abgeschlossen werden?"
+
+msgid "iass_further_field_headline"
+msgstr "Detaillierte Informationen"
+
+msgid "iass_graded_by"
+msgstr "Bewertet von"
+
+msgid "iass_info_emails_expl"
+msgstr "Sie können mehrere Adressen mit einem Komma getrennt angeben."
+
+msgid "iass_internal_note"
+msgstr "Interne Anmerkungen zur Prüfung"
+
+msgid "iass_internal_note_info"
+msgstr "Dieser Text ist nur für Personen sichtbar, die Prüfungsdaten einsehen können. Bewertete Personen sehen die interne Anmerkung zur Prüfung nicht."
+
+msgid "iass_location"
+msgstr "Ort"
+
+msgid "iass_mails"
+msgstr "E-Mail"
+
+msgid "iass_may_not_finalize"
+msgstr "Prüfung kann noch nicht abschließend bewertet werden. Bitte geben Sie eine Bewertung ab."
+
+msgid "iass_membership_finalized"
+msgstr "Bewertung abgeschlossen."
+
+msgid "iass_membership_saved"
+msgstr "Bewertung wurde gespeichert, aber noch nicht final abgeschlossen."
+
+msgid "iass_mess_notification_completed"
+msgstr "Sie haben die Prüfung „%s“ bestanden. Beachten Sie bitte auch die folgende Notiz zur Prüfung."
+
+msgid "iass_mess_notification_failed"
+msgstr "Sie haben die Prüfung „%s“ leider nicht bestanden. Beachten Sie bitte auch die folgende Notiz zur Prüfung."
+
+msgid "iass_notify"
+msgstr "Ergebnis zugänglich machen"
+
+msgid "iass_notify_explanation"
+msgstr "Die bewertete Person wird nach Abschluss der Bewertung per E-Mail benachrichtigt und kann die Prüfungsnotiz auf dem Reiter „Info“ und in der E-Mail einsehen."
+
+msgid "iass_phone"
+msgstr "Telefon"
+
+msgid "iass_place"
+msgstr "Ort der Prüfung"
+
+msgid "iass_record"
+msgstr "Prüfungsnotiz"
+
+msgid "iass_record_info"
+msgstr "Nach abgeschlossener Bewertung kann die Prüfungsnotiz von der bewerteten Person eingesehen werden. Dazu muss die Funktion „Ergebnis zugänglich machen“ aktiviert sein."
+
+msgid "iass_record_template"
+msgstr "Vorlage Prüfungsnotiz"
+
+msgid "iass_record_template_explanation"
+msgstr "Dieser Text dient als Vorlage für die Prüfungsnotiz und wird für jede neue Bewertung angezeigt."
+
+msgid "iass_remove_user_qst"
+msgstr "Soll die Person wirklich aus der Individuellen Bewertung ausgetragen werden?"
+
+msgid "iass_responsibility"
+msgstr "Zuständigkeit"
+
+msgid "iass_save_amend"
+msgstr "Geänderte Prüfungsdaten speichern"
+
+msgid "iass_settings_availability"
+msgstr "Verfügbarkeit"
+
+msgid "iass_settings_saved"
+msgstr "Einstellungen gespeichert."
+
+msgid "iass_sort_changetime_asc"
+msgstr "Letzte Änderung → aufsteigend"
+
+msgid "iass_sort_changetime_desc"
+msgstr "Letzte Änderung → absteigend"
+
+msgid "iass_sort_examiner_login_asc"
+msgstr "Bewertet von → aufsteigend"
+
+msgid "iass_sort_examiner_login_desc"
+msgstr "Bewertet von → absteigend"
+
+msgid "iass_sort_name_asc"
+msgstr "Anmeldename → aufsteigend"
+
+msgid "iass_sort_name_desc"
+msgstr "Anmeldename → absteigend"
+
+msgid "iass_status_completed"
+msgstr "Bestanden"
+
+msgid "iass_status_failed"
+msgstr "Nicht bestanden"
+
+msgid "iass_status_pending"
+msgstr "Noch nicht bewertet"
+
+msgid "iass_subj_notification_completed"
+msgstr "%s: Individuelle Bewertung wurde erfolgreich abgeschlossen."
+
+msgid "iass_subj_notification_failed"
+msgstr "%s: Individuelle Bewertung wurde nicht erfolgreich abgeschlossen."
+
+msgid "iass_upload_file"
+msgstr "Prüfungsblatt"
+
+msgid "iass_user_removed"
+msgstr "Person wurde erfolgreich ausgetragen."
+
+msgid "iass_usr_amend"
+msgstr "Prüfungsdaten nachträglich ändern"
+
+msgid "iass_usr_download_attachment"
+msgstr "Prüfungsblatt herunterladen"
+
+msgid "iass_usr_edit"
+msgstr "Prüfungsdaten bearbeiten"
+
+msgid "iass_usr_remove"
+msgstr "Austragen"
+
+msgid "iass_usr_view"
+msgstr "Prüfungsdaten"
+
+msgid "il_iass_members"
+msgstr "Bewertungen"
+
+msgid "lp_inactive"
+msgstr "Beachten Sie: die Bestimmung des Lernfortschritts ist für dieses Objekt deaktiviert. Daher können Teilnahmen nicht finalisiert werden."
+
+msgid "save_amend"
+msgstr "Geänderte Prüfungsdaten speichern"

@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: prtt\n"
+
+msgid "prtt_activation_limited_visibility_info"
+msgstr "選択された場合、ポートフォリオのテンプレートは指定された利用可能期間外でも表示されます。"
+
+msgid "prtt_activation_online_info"
+msgstr "ポートフォリオテンプレートをユーザへアクセス可能にするにはこの設定をアクティブにします。"
+
+msgid "prtt_add"
+msgstr "ポートフォリオテンプレート作成"
+
+msgid "prtt_copy"
+msgstr "ポートフォリオテンプレートのコピー"
+
+msgid "prtt_edit"
+msgstr "ポートフォリオテンプレートの編集"
+
+msgid "prtt_import"
+msgstr "ポートフォリオテンプレートのインポート"
+
+msgid "prtt_new"
+msgstr "新規ポートフォリオテンプレート"
+
+msgid "prtt_pfpg"
+msgstr "ポートフォリオページ"
+
+msgid "prtt_portfolio_created"
+msgstr "ポートフォリオテンプレートが追加されました"
+
+msgid "prtt_properties"
+msgstr "ポートフォリオテンプレートプロパティ"
+
+msgid "prtt_select_datasets"
+msgstr "テータセットを選択"
+
+msgid "prtt_style"
+msgstr "ポートフォリオテンプレートスタイル"

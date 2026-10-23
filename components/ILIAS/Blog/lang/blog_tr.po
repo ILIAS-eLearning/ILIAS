@@ -1,0 +1,403 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr\n"
+"Language-Team: Turkish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: blog\n"
+
+#, fuzzy
+msgid "blog_abstract_image"
+msgstr "Add Image To Abstract"
+
+#, fuzzy
+msgid "blog_abstract_image_height"
+msgstr "Height"
+
+#, fuzzy
+msgid "blog_abstract_image_info"
+msgstr "Images which are smaller will not be used."
+
+#, fuzzy
+msgid "blog_abstract_image_pixels"
+msgstr "Px"
+
+#, fuzzy
+msgid "blog_abstract_image_width"
+msgstr "Width"
+
+#, fuzzy
+msgid "blog_abstract_shorten"
+msgstr "Shorten Abstract"
+
+#, fuzzy
+msgid "blog_abstract_shorten_characters"
+msgstr "Characters"
+
+#, fuzzy
+msgid "blog_abstract_shorten_length"
+msgstr "Maximum Length"
+
+msgid "blog_add"
+msgstr "Blog oluştur"
+
+msgid "blog_add_contributor"
+msgstr "Ekleme Katılımcı"
+
+msgid "blog_add_posting"
+msgstr "Gönderme ekle"
+
+msgid "blog_admin_inactive_info"
+msgstr "Sen Personal Desktop İdaresi günlüğü özelliğini etkinleştirebilirsiniz."
+
+msgid "blog_admin_toggle_info"
+msgstr "Sen Kişisel Masaüstü İdaresi tamamen günlüğü özelliğini devre dışı bırakabilirsiniz."
+
+msgid "blog_approve"
+msgstr "Onayla"
+
+msgid "blog_author"
+msgstr "Yazar"
+
+msgid "blog_authors"
+msgstr "Yazarlar"
+
+#, fuzzy
+msgid "blog_back_to_blog_owner"
+msgstr "Edit Blog"
+
+#, fuzzy
+msgid "blog_change_notification_body_approve"
+msgstr "the following blog posting needs approval."
+
+#, fuzzy
+msgid "blog_change_notification_body_comment"
+msgstr "the following blog posting has been commented."
+
+msgid "blog_change_notification_body_new"
+msgstr "Vancouver aşağıdaki blog oluşturuldu"
+
+msgid "blog_change_notification_body_update"
+msgstr "Vancouver aşağıdaki blog güncellendi"
+
+msgid "blog_change_notification_link"
+msgstr "URL"
+
+#, fuzzy
+msgid "blog_change_notification_reason"
+msgstr "You are receiving this email because you activated notifications for the blog mentioned above."
+
+msgid "blog_change_notification_subject"
+msgstr "Blog \"% s\" güncellendi"
+
+msgid "blog_comments"
+msgstr "Yorumlar"
+
+#, fuzzy
+msgid "blog_confirm_delete_contributors"
+msgstr "Are you sure you want to delete the following contributors?"
+
+msgid "blog_contribute_other_roles"
+msgstr "%S: Aşağıdaki roller aktif bir \"katkı\" izni verin."
+
+msgid "blog_contributors"
+msgstr "Katkıda"
+
+msgid "blog_copy"
+msgstr "Kopya Blog"
+
+#, fuzzy
+msgid "blog_download_submission"
+msgstr "Download Submission"
+
+msgid "blog_draft"
+msgstr "Taslak"
+
+msgid "blog_draft_info"
+msgstr "Bu gönderme taslağı yazar için sadece görülebilir."
+
+#, fuzzy
+msgid "blog_draft_info_contributors"
+msgstr "This posting draft is only visible for the contributors."
+
+#, fuzzy
+msgid "blog_draft_text"
+msgstr "Unpublished Post"
+
+msgid "blog_edit"
+msgstr "Edit Blog"
+
+msgid "blog_edit_date"
+msgstr "Değiştirilme zamanı"
+
+msgid "blog_edit_date_info"
+msgstr "Yayın durum bu tarihe bağlı değildir."
+
+msgid "blog_edit_keywords"
+msgstr "Anahtar Kelimeleri Düzenle"
+
+#, fuzzy
+msgid "blog_edit_posting"
+msgstr "Edit Posting"
+
+msgid "blog_enable_approval"
+msgstr "Onay"
+
+msgid "blog_enable_approval_info"
+msgstr "tüm ilanları bu blog için izin \"Ayarları Düzenle\" ile bir kullanıcı tarafından onaylanması gerekiyor yayımlanarak önce."
+
+#, fuzzy
+msgid "blog_enable_keywords"
+msgstr "Keywords"
+
+#, fuzzy
+msgid "blog_enable_keywords_info"
+msgstr "Keywords can be set for postings. Clicking a keyword shows all postings tagged with this keyword."
+
+#, fuzzy
+msgid "blog_enable_nav_authors"
+msgstr "Authors"
+
+#, fuzzy
+msgid "blog_enable_nav_authors_info"
+msgstr "List of blog authors is displayed. Clicking a username shows all postings of this author."
+
+msgid "blog_enable_notes"
+msgstr "Kamu Yorumlar"
+
+msgid "blog_enable_rss"
+msgstr "Etkinleştir RSS"
+
+msgid "blog_enable_rss_info"
+msgstr "RSS beslemesi kamu ve blog paylaşımı veya kullanıcı izinlerini bağımsızdır."
+
+#, fuzzy
+msgid "blog_est_reading_time"
+msgstr "Estimated Reading Time"
+
+#, fuzzy
+msgid "blog_est_reading_time_info"
+msgstr "For Blogs in the repository reading time can be determined and displayed."
+
+msgid "blog_exercise_info"
+msgstr "Bu blog atama \"% s\" egzersiz \"% s\" bir parçasıdır."
+
+msgid "blog_exercise_submitted_info"
+msgstr "Son gönderiniz %s, lütfen dışa aktarım dosyası %s kontrol ediniz."
+
+msgid "blog_finalize_blog"
+msgstr "Finalize ve Blog Gönder"
+
+msgid "blog_finalized"
+msgstr "Blog sunulmuştur."
+
+msgid "blog_import"
+msgstr "Blog İçe Aktarma"
+
+#, fuzzy
+msgid "blog_incl_comments"
+msgstr "including comments"
+
+msgid "blog_keyword"
+msgstr "Kelime"
+
+#, fuzzy
+msgid "blog_keyword_enter"
+msgstr "Write a keyword and press Enter."
+
+msgid "blog_keywords"
+msgstr "Anahtar Kelimeler"
+
+#, fuzzy
+msgid "blog_latest_posting"
+msgstr "Latest Posting"
+
+#, fuzzy
+msgid "blog_link"
+msgstr "Link"
+
+msgid "blog_list_more"
+msgstr "daha fazla"
+
+#, fuzzy
+msgid "blog_list_num_postings"
+msgstr "Number of postings"
+
+#, fuzzy
+msgid "blog_list_num_postings_info"
+msgstr "This setting is only used if no specific month is selected."
+
+#, fuzzy
+msgid "blog_nav_mode"
+msgstr "Postings"
+
+#, fuzzy
+msgid "blog_nav_mode_month_list"
+msgstr "Show List of Months"
+
+#, fuzzy
+msgid "blog_nav_mode_month_list_info"
+msgstr "All months with postings are listed in the 'Postings' block."
+
+#, fuzzy
+msgid "blog_nav_mode_month_list_num_month"
+msgstr "Number of listed months"
+
+#, fuzzy
+msgid "blog_nav_mode_month_list_num_month_info"
+msgstr "Months above the limit will not be listed and related postings are not accessible."
+
+#, fuzzy
+msgid "blog_nav_mode_month_list_num_month_with_post"
+msgstr "Number of month with listed postings"
+
+#, fuzzy
+msgid "blog_nav_mode_month_list_num_month_with_post_info"
+msgstr "These months will be displayed with all their postings in the navigation block."
+
+#, fuzzy
+msgid "blog_nav_mode_month_single"
+msgstr "Show Selected Month"
+
+#, fuzzy
+msgid "blog_nav_mode_month_single_info"
+msgstr "Only postings of the selected month are listed in the 'Postings' block. Month can be changed by dropdown. "
+
+#, fuzzy
+msgid "blog_nav_sortorder"
+msgstr "Order of Blocks"
+
+msgid "blog_navigation"
+msgstr "İlanları"
+
+msgid "blog_needs_approval"
+msgstr "İhtiyaçları Onay"
+
+msgid "blog_new"
+msgstr "Yeni Blog Oluştur"
+
+msgid "blog_new_posting_info"
+msgstr "ilk metin bloğunun kayıt liste halinde özet olarak kullanılır."
+
+#, fuzzy
+msgid "blog_news_posting_authors"
+msgstr "Contributing authors: %s"
+
+#, fuzzy
+msgid "blog_news_posting_published"
+msgstr "A blog posting has been published by %s."
+
+#, fuzzy
+msgid "blog_news_posting_updated"
+msgstr "A blog posting has been updated by %s. "
+
+msgid "blog_no_keywords"
+msgstr "anahtar kelime yok henüz girilmedi edilmiştir."
+
+msgid "blog_notification_activated"
+msgstr "Bildirim Aktif"
+
+msgid "blog_notification_deactivated"
+msgstr "Etkisiz Bildirim"
+
+msgid "blog_notification_toggle_off"
+msgstr "Bildirim Deactivate"
+
+msgid "blog_notification_toggle_on"
+msgstr "Etkinleştir Bildirim"
+
+msgid "blog_number_users_notes_or_comments"
+msgstr "Kullanıcılar sayısı o Ekteki dipnotlar veya bu girişe yorumlar"
+
+msgid "blog_posting"
+msgstr "Gönderme Blog"
+
+msgid "blog_posting_deleted"
+msgstr "entry silinmiştir."
+
+msgid "blog_posting_deletion_confirmation"
+msgstr "aşağıdaki girdiyi silmek istediğinizden emin misiniz?"
+
+#, fuzzy
+msgid "blog_posting_edit_approval_info"
+msgstr "Posting remains to be approved by a tutor before being published."
+
+#, fuzzy
+msgid "blog_posting_not_found"
+msgstr "This blog posting is not available."
+
+#, fuzzy
+msgid "blog_postings"
+msgstr "Postings"
+
+#, fuzzy
+msgid "blog_presentation_frame"
+msgstr "Blog Presentation"
+
+#, fuzzy
+msgid "blog_presentation_overview"
+msgstr "Initial Overview"
+
+msgid "blog_preview"
+msgstr "Öncesi"
+
+msgid "blog_profile_picture"
+msgstr "Ekran Profil Resmi"
+
+#, fuzzy
+msgid "blog_profile_picture_repository_info"
+msgstr "Profile pictures of the authors are only shown on the postings pages, not on overview pages."
+
+#, fuzzy
+msgid "blog_properties"
+msgstr "Blog Properties"
+
+msgid "blog_rename_posting"
+msgstr "Gönderme Adlandır"
+
+#, fuzzy
+msgid "blog_selected_pages"
+msgstr "Selected Postings"
+
+msgid "blog_settings"
+msgstr "Blog İdaresi"
+
+#, fuzzy
+msgid "blog_settings_navigation"
+msgstr "Navigation Column"
+
+#, fuzzy
+msgid "blog_show_latest"
+msgstr "Show latest postings/drafts"
+
+#, fuzzy
+msgid "blog_show_print_view"
+msgstr "Show Print View"
+
+#, fuzzy
+msgid "blog_side_blocks"
+msgstr "Side Blocks"
+
+#, fuzzy
+msgid "blog_starting_page"
+msgstr "Starting Page"
+
+#, fuzzy
+msgid "blog_task_publishing_draft_title"
+msgstr "Publishing of Draft \"%s\""
+
+msgid "blog_toggle_draft"
+msgstr "Taslak olarak Kaydet"
+
+#, fuzzy
+msgid "blog_toggle_draft_admin"
+msgstr "Deactivate Blog Posting"
+
+msgid "blog_toggle_final"
+msgstr "Gönderme Yayınlama"
+
+#, fuzzy
+msgid "blog_whole_blog"
+msgstr "Whole Blog"

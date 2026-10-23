@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: membership\n"
+
+msgid "mem_error_preconditions"
+msgstr "Obrigar a caracteres especiais"
+
+msgid "mem_force_notification"
+msgstr "Notificação por mail"
+
+msgid "mem_force_notification_mode_all_sub_blocked"
+msgstr "Os membros podem desativar notificações"
+
+msgid "mem_force_notification_mode_blocked"
+msgstr "Os membros serão notificados automaticamente"
+
+msgid "mem_force_notification_mode_self"
+msgstr "Privacidade"

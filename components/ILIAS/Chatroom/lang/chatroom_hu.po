@@ -1,0 +1,548 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: chatroom\n"
+
+msgid "allow_anonymous"
+msgstr "Anonymous bejelentkezés engedélyezett"
+
+msgid "allow_custom_usernames"
+msgstr "Egyéni felhasználónevek megengedettek"
+
+#, fuzzy
+msgid "allow_custom_usernames_info"
+msgstr "Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room."
+
+msgid "anonymous_hint"
+msgstr "Bizonyosodjon meg arról, hogy a megfelelő jogosultságokat állította be a ‘Jogosultságok’ lapon az anonymous felhasználók számára ehhez a Tartalomtárbeli objektumokhoz."
+
+msgid "auto_scroll"
+msgstr "Görgetés az aljára"
+
+msgid "autogen_usernames"
+msgstr "Automatikusan generált felhasználónevek"
+
+msgid "autogen_usernames_info"
+msgstr "Az anonymous felhasználói fiókokhoz rendelt automatikusan generált felhasználónév minta. A ‘#’ lecserélődik majd egy számmal."
+
+msgid "ban_question"
+msgstr "Biztos, hogy kitiltja a felhasználót ebből a szobából?"
+
+msgid "ban_table_title"
+msgstr "Kitiltott felhasználók"
+
+msgid "banned"
+msgstr "Kitiltották ebből a csevegőszobából"
+
+msgid "bans"
+msgstr "Kizártak"
+
+msgid "chat_address"
+msgstr "Címzés"
+
+msgid "chat_anonymous_not_allowed"
+msgstr "A csevegés használatához jelentkezzen be."
+
+msgid "chat_auth_token_info"
+msgstr "Kérem, egyedi sztringeket hozzon létre. Ezeket a sztringeket az ILIAS hitelesítési célokra használja, amikor kéréseket küld a chatszervernek. A megfelelő gombra kattintva automatikusan létrehozhatja ezeket a sztringeket. Kérem, figyeljen arra, hogy a chatszerver több ILIAS klienssel képes kommunikálni, ezért az összes kliensnévnek <b>egyedinek</b> kell lennie."
+
+msgid "chat_ban"
+msgstr "Kizárás"
+
+msgid "chat_broadcast_typing"
+msgstr "Gépelés műsorszórása"
+
+msgid "chat_broadcast_typing_default_info"
+msgstr "Ha be van kapcsolva, alapértelmezetten a gépelést továbbítjuk a beszélgetés vagy a csevegőszoba többi résztvevőjének."
+
+msgid "chat_broadcast_typing_info"
+msgstr "A gépelési folyamat megjelenítése a beszélgetés, illetve a csevegőszoba résztvevőnél."
+
+msgid "chat_connection_disconnected"
+msgstr "--- <b>#username#</b> elhagyta a csevegőszobát ---"
+
+msgid "chat_connection_established"
+msgstr "+++ <b>#username#</b> belépett a csevegőszobába +++"
+
+msgid "chat_deletion_disabled"
+msgstr "Kikapcsolva"
+
+msgid "chat_deletion_interval"
+msgstr "Időköz"
+
+msgid "chat_deletion_interval_info"
+msgstr "A Képernyőcsevegések és a Tartalomtárban lévő beszélgetéseket a megadott küszöbérték elérés után töröljük."
+
+msgid "chat_deletion_interval_run_at"
+msgstr "Idő"
+
+msgid "chat_deletion_interval_run_at_info"
+msgstr "Adja meg az időpontot (ÓÓ:PP formátumban), amikor a szerver az üzenettörlési folyamatot végrehajthatja."
+
+msgid "chat_deletion_interval_unit"
+msgstr "Mértékegység"
+
+msgid "chat_deletion_interval_value"
+msgstr "Érték"
+
+msgid "chat_deletion_ival_max_val"
+msgstr "A kiválasztott ‘%s’ mértékegység legnagyobb értéke:"
+
+msgid "chat_deletion_section_head"
+msgstr "Régi üzenetek törlése"
+
+msgid "chat_enable_history"
+msgstr "Előzmények bekapcsolása"
+
+msgid "chat_enable_history_info"
+msgstr "Az ‘Előzmények’ lapon bárki elolvashatja és exportálhatja a korábbi csevegéseket."
+
+msgid "chat_error_log_info"
+msgstr "Kérem, adja meg a chatszerver hibanapló-fájljának abszolút útvonalát (pl.: /var/www/ilias/data/chat_error.log). Amennyiben üresen hagyja, a naplófájl a chatszerver mappájába kerül."
+
+msgid "chat_functions"
+msgstr "Chat-funktiók"
+
+msgid "chat_https_cert_info"
+msgstr "Kérem, adja meg az SSL tanúsítványfájl abszolút útvonalát (pl.: /etc/ssl/certs/server.pem)."
+
+msgid "chat_https_dhparam_info"
+msgstr "Kérem, adja meg a fájl abszolút útvonalát (pl: /etc/ssl/private/dhparam.pem), amit a Diffie-Hellman paraméterek átadására használunk (például így generálták: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 )."
+
+msgid "chat_https_key_info"
+msgstr "Kérem, adja meg a privátkulcs-fájl abszolút útvonalát (pl: /etc/ssl/private/server.key)."
+
+msgid "chat_invitation"
+msgstr "‘[INVITER_NAME]’ meghívja Ön ‘[ROOM_NAME]’ csevegőszobába"
+
+msgid "chat_invitation_long"
+msgstr "[SALUTATION][BR][BR]Meghívtak ebbe a csevegőszobába:[BR]Csevegőszoba neve: [ROOM_NAME][BR]A meghívó: [INVITER_NAME][BR]URL: [LINK][BR]Ha csatlakozni szeretne a csevegőszobához, kattintson a megadott URL-re!"
+
+msgid "chat_invitation_modal_headline"
+msgstr "Meghívás csevegőszobába"
+
+msgid "chat_invitation_modal_section"
+msgstr "Felhasználó meghívása"
+
+msgid "chat_invitation_nc_inv_x"
+msgstr "%s meghívás van."
+
+msgid "chat_invitation_nc_no_inv"
+msgstr "Egy meghívása sincs."
+
+msgid "chat_invitation_short"
+msgstr "A csevegőszobába belépéshez kattintson a linkre."
+
+msgid "chat_invitation_username_input_label"
+msgstr "Felhasználónév:"
+
+msgid "chat_invitations"
+msgstr "Meghívások"
+
+msgid "chat_invite"
+msgstr "Meghívás"
+
+msgid "chat_join"
+msgstr "Csatlakozás"
+
+msgid "chat_kick"
+msgstr "Kirúgás"
+
+msgid "chat_log_info"
+msgstr "Kérem, adja meg a chatszerver naplófájljának abszolút útvonalát (pl.: /var/www/ilias/data/chat.log). Amennyiben üresen hagyja, a naplófájl a chatszerver mappájába kerül."
+
+msgid "chat_log_level"
+msgstr "Naplózás szintje"
+
+msgid "chat_mainroom"
+msgstr "Főszoba"
+
+msgid "chat_message"
+msgstr "Üzenet"
+
+msgid "chat_message_display"
+msgstr "Lehetőségek"
+
+msgid "chat_message_options"
+msgstr "Megjelenítés"
+
+msgid "chat_no_use_typing_broadcast"
+msgstr "A gépelést nem broadcastoljuk."
+
+msgid "chat_not_use_osc"
+msgstr "Képernyőbeszélgetések használatának kikapcsolása"
+
+msgid "chat_osc_accept_msg"
+msgstr "Képernyőbeszélgetések bekapcsolása"
+
+msgid "chat_osc_accept_msg_default_info"
+msgstr "Ha be van kapcsolva van, a felhasználók alapértelmezés szerint üzeneteket küldhetnek egymásnak a képernyőn megjelenő csevegőrendszeren keresztül."
+
+msgid "chat_osc_accept_msg_info"
+msgstr "Mások beszélgetést kezdeményezhetnek Önnel."
+
+msgid "chat_osc_accept_msg_info_slate"
+msgstr "A privát beszélgetésekhez kapcsolja be a beállításokban a \"Képernyőbeszélgetések bekapcsolása\" lehetőséget."
+
+msgid "chat_osc_accept_msg_info_slate_link_txt"
+msgstr "Láthatóság (a Profilban és az Adatvédelemben)"
+
+msgid "chat_osc_accept_no_conv_info_slate"
+msgstr "Nincsenek kis méretűre állított beszélgetések."
+
+msgid "chat_osc_accepts_messages_no"
+msgstr "Nem fogad üzeneteket"
+
+msgid "chat_osc_accepts_messages_yes"
+msgstr "Fogad üzeneteket"
+
+msgid "chat_osc_add_user"
+msgstr "További felhasználók hozzáadása"
+
+msgid "chat_osc_conversations"
+msgstr "Beszélgetések"
+
+msgid "chat_osc_doesnt_accept_msg"
+msgstr "Beszélgetés nem lehetséges"
+
+msgid "chat_osc_head_grp_x_persons"
+msgstr "%s felhasználó"
+
+msgid "chat_osc_invite_to_conversation"
+msgstr "Beszélgetéshez hozzáadás"
+
+msgid "chat_osc_leave_grp_conv"
+msgstr "Kilépés a beszélgetésből"
+
+msgid "chat_osc_minimize"
+msgstr "Kis méret"
+
+msgid "chat_osc_nc_conv_x_p"
+msgstr "%s rejtett beszélgetése van."
+
+msgid "chat_osc_nc_conv_x_s"
+msgstr "Egy rejtett beszélgetése van."
+
+msgid "chat_osc_nc_no_conv"
+msgstr "Egy beszélgetés sem érhető el"
+
+msgid "chat_osc_nc_prop_time"
+msgstr "Idő"
+
+msgid "chat_osc_no_conv"
+msgstr "Jelenleg nem zajlik beszélgetés."
+
+msgid "chat_osc_no_sub_directory"
+msgstr "Almappa"
+
+msgid "chat_osc_no_sub_directory_info"
+msgstr "Ha a Chatszerver egy almappán keresztül érhető el, mint például ‘http(s)://[IP/Domain]/[SUB_DIRECTORY]’, akkor itt adja meg az almappát, az előbbi példából a [SUB_DIRECTORY] részt. A legtöbb esetben nincs almappa, azaz ez a rész üresen hagyható."
+
+msgid "chat_osc_no_usr_found"
+msgstr "Nincs a keresési feltételnek megfelelő felhasználó."
+
+msgid "chat_osc_search_modal_info"
+msgstr "Itt keresheti meg a beszélgetéshez hozzáadni kívánt felhasználókat. Ha a keresési ablakot egy csoportos csevegésből nyitották meg, az új felhasználót ahhoz a csoportos csevegéshez adjuk hozzá. Ha keresést egy 1:1 csevegésből indította, egy új csevegőcsoport-ablakot fogunk nyitni."
+
+msgid "chat_osc_self_rej_msgs"
+msgstr "Jelenleg nem vehet részt ebben a beszélgetésben, mert beállításaiban kikapcsolta, hogy üzeneteket küldhessenek Önnek."
+
+msgid "chat_osc_send"
+msgstr "Küldés"
+
+msgid "chat_osc_start_conversation"
+msgstr "Beszélgetés indítása"
+
+msgid "chat_osc_subs_rej_msgs"
+msgstr "Ez a beszélgetés jelenleg nem folytatható. Chat-partnere chat beállításaiban engedélyezni kell a chateket."
+
+msgid "chat_osc_subs_rej_msgs_p"
+msgstr "Beszélgetésnek alábbi chat-partnerei nem kívánnak több üzenetet kapni: %s"
+
+msgid "chat_osc_sure_to_leave_grp_conv"
+msgstr "Biztos, hogy kilép a csoportbeszélgetésből?"
+
+msgid "chat_osc_user"
+msgstr "Felhasználó"
+
+msgid "chat_osc_user_left_grp_conv"
+msgstr "‘%s’ kilépett a csoportbeszélgetésből."
+
+msgid "chat_osc_write_a_msg"
+msgstr "Éppen üzenetet ír …"
+
+msgid "chat_select_room"
+msgstr "Csevegőszoba kiválasztása"
+
+msgid "chat_settings"
+msgstr "Csevegésbeállítások"
+
+msgid "chat_settings_functions_header"
+msgstr "Csevegőszoba beállításai"
+
+msgid "chat_show_auto_messages"
+msgstr "Üzenetállapotok megjelenítése"
+
+msgid "chat_to_mainroom"
+msgstr "A főszobába"
+
+msgid "chat_use_osc"
+msgstr "Képernyőbeszélgetések használata"
+
+msgid "chat_use_typing_broadcast"
+msgstr "A gépelés broadcastoljuk"
+
+msgid "chat_user_action_invite_osd"
+msgstr "Meghívás képernyőbeszélgetésbe"
+
+msgid "chat_user_action_invite_public_room"
+msgstr "Meghívás nyilvános csevegőszobába"
+
+msgid "chat_user_x_is_typing"
+msgstr "%s ír…"
+
+msgid "chat_users_are_typing"
+msgstr "Több felhasználó ír…"
+
+msgid "chat_whisper"
+msgstr "Suttogás"
+
+#, fuzzy
+msgid "chatroom_anonymous_default"
+msgstr "Anonymous "
+
+msgid "chatroom_auth"
+msgstr "Hitelesítés"
+
+msgid "chatroom_auth_btn_txt"
+msgstr "Kulcsok generálása"
+
+msgid "chatroom_auth_key"
+msgstr "Hitelesítés-kulcs"
+
+msgid "chatroom_auth_secret"
+msgstr "Hitelesítés-titok"
+
+msgid "chatroom_client_name"
+msgstr "Név"
+
+msgid "chatroom_client_name_info"
+msgstr "Kérem, adjon meg egy nevet ehhez az ILIAS-klienshez. A megadott névnek ezen az ILIAS telepítésen egyedinek kell lennie. Kezdeti értéke az ILIAS-kliens azonosítója. Módosítás után a chatszervert újra kell indítani."
+
+msgid "chatroom_enable_osc"
+msgstr "Képernyőbeszélgetések bekapcsolása"
+
+msgid "chatroom_enable_osc_info"
+msgstr "Az összes felhasználó számára elérhetővé válik a képernyőbeszélgetés, de mindenki beállíthatja, hogy engedélyezi-e a többieknek, hogy beszélgethessenek vele. Beszélgetés a ‘Ki van online’-eszközből indítható."
+
+msgid "chatroom_log"
+msgstr "Csevegőszerver napló"
+
+msgid "chatserver_address"
+msgstr "Csevegőszerver IP címe/teljes neve"
+
+msgid "chatserver_port"
+msgstr "Csevegőszerver portja"
+
+msgid "chtr_activation_limited_visibility_info"
+msgstr "A csevegés címe a láthatósági időszakon kívül is látszódik, még akkor is, ha csevegés nem érhető el."
+
+msgid "chtr_activation_online_info"
+msgstr "A csevegés bekapcsolása, a résztvevők számára elérhetővé tétele. A nem online csevegést csak a ‘Beállítások módosítása’ jogosultsággal rendelkezők érhetik el."
+
+msgid "chtr_add"
+msgstr "Csevegőszoba létrehozása"
+
+msgid "chtr_ban_actor_tbl_head"
+msgstr "zárolta"
+
+msgid "chtr_ban_ts_tbl_head"
+msgstr "Időbélyeg"
+
+msgid "chtr_new"
+msgstr "Új csevegőszoba"
+
+msgid "chtr_server_status"
+msgstr "Szerverállapot"
+
+msgid "clear_room_history"
+msgstr "Üzenetelőzmények törlése"
+
+msgid "clear_room_history_question"
+msgstr "Biztos, hogy törli az jelenlegi szoba minden üzenetét?"
+
+msgid "client_chatserver_connection"
+msgstr "Kliens kapcsolata a szerverhez"
+
+msgid "client_proxy_info"
+msgstr "Ha a szerver az alapértelmezett IP címen és porton nem érhető el, lehetősége van a kliens számára a szerverhez kapcsolódásához egyéni URL-t beállítani."
+
+msgid "connection_url_info"
+msgstr "Adja meg a szerverhez kapcsolódás URL-jét."
+
+msgid "custom_username"
+msgstr "Egyéni felhasználónév"
+
+msgid "dhparam"
+msgstr "Diffie-Hellman paraméter"
+
+msgid "display_past_msgs"
+msgstr "Elküldött üzenetek száma"
+
+msgid "duration_from"
+msgstr "Innen:"
+
+msgid "duration_to"
+msgstr "Ide:"
+
+msgid "end_whisper"
+msgstr "Mégsem"
+
+msgid "enter"
+msgstr "Csevegőszobába belépés"
+
+msgid "error_log"
+msgstr "Csevegőszerver hibanapló"
+
+msgid "hint_display_past_msgs"
+msgstr "A szobába belépéskor megjelenítendő korábbi üzenetek száma. A ‘0’ érték kikapcsolja ezt a funkciót."
+
+msgid "history_byday_title"
+msgstr "Beszélgetés megjelenítése naponként"
+
+msgid "history_cleared"
+msgstr "Az üzenettörténelmet törölte a moderátor."
+
+msgid "history_title_general"
+msgstr "Beszélgetés a(z) ‘%s’ csevegőszobában"
+
+msgid "ilias_chatserver_connection"
+msgstr "ILIAS kapcsolata a szerverhez"
+
+msgid "ilias_proxy_info"
+msgstr "Ha a szerver az alapértelmezett IP címen és porton nem érhető el, lehetősége van az ILIAS számára a szerverhez kapcsolódásához egyéni URL-t beállítani."
+
+msgid "invite_to_private_room"
+msgstr "Jelenlegi szobába meghívás"
+
+msgid "invite_username"
+msgstr "Felhasználónév"
+
+msgid "key"
+msgstr "Kulcs"
+
+msgid "kick_question"
+msgstr "Biztos, hogy kirúgja a felhasználót ebből a szobából?"
+
+msgid "kicked"
+msgstr "Kitiltották ebből a csevegőszobából"
+
+msgid "lost_connection"
+msgstr "A csevegőszerverrel megszakadt a kapcsolat."
+
+msgid "main"
+msgstr "Főszoba"
+
+msgid "messages"
+msgstr "Üzenetek"
+
+msgid "no_further_users"
+msgstr "Nincs jelen más felhasználó"
+
+msgid "no_messages"
+msgstr "Nincsenek mentett üzenetek a megadott időszakhoz."
+
+msgid "no_username_given"
+msgstr "Válasszon felhasználónevet"
+
+msgid "osc_browser_noti_no_permission_error"
+msgstr "Kérem, távolítsa el ezt a domaint böngészője vagy operációs rendszere értesítési tiltólistájáról. Amíg ezt nem teszi meg, nem kap értesítéseket."
+
+msgid "osc_browser_noti_no_support_error"
+msgstr "A böngésző-értesítés nem támogatott a böngészőjében. Kérem, ellenőrizze, hogy HTTPS a kapcsolata és <a href=\"https://caniuse.com/#feat=notifications\" target=\"_blank\" rel=\"noopener noreferrer\">támogatott böngészők</a> valamelyikét használja."
+
+msgid "osc_browser_noti_req_permission_error"
+msgstr "A böngésző-értesítések nem kapcsolhatók be, mert nem adott hozzáférést. Kérem, távolítsa el ezt a domaint böngészője vagy operációs rendszere értesítési tiltólistájáról."
+
+msgid "osc_enable_browser_notifications_info"
+msgstr "Értesítést kap a böngészőjében az új beszélgetésekről és üzenetekről amikor az ILIAS másik böngészőlapon vagy a háttérben van, illetve az előtérben %s percnyi tétlenségi idő után is."
+
+msgid "osc_enable_browser_notifications_label"
+msgstr "Böngésző-értesítések"
+
+msgid "osc_noti_title"
+msgstr "Új üzenet"
+
+msgid "period"
+msgstr "Időszak"
+
+msgid "permissions"
+msgstr "Jogosultságok"
+
+msgid "preferred_chatname"
+msgstr "Preferált név"
+
+msgid "public_chat_created"
+msgstr "A nyilvános csevegést sikeresen létrehozta a Tartalomtárban."
+
+msgid "scope"
+msgstr "Szoba"
+
+msgid "select_custom_username"
+msgstr "Egyéni felhasználónév kiválasztása"
+
+msgid "server_further_information"
+msgstr "További információkat a szerver-konfigurációról a Readme fájlban talál."
+
+msgid "server_readme_file_btn_label"
+msgstr "Readme fájl"
+
+msgid "session"
+msgstr "Munkamenet"
+
+msgid "settings_general"
+msgstr "Általános"
+
+msgid "settings_title"
+msgstr "Beállítások"
+
+msgid "start_private_chat"
+msgstr "Privát csevegés indítása"
+
+msgid "unable_to_connect"
+msgstr "A csevegőszerverhez kapcsolódás nem lehetséges."
+
+msgid "unban"
+msgstr "Kitiltás feloldása"
+
+msgid "user_banned"
+msgstr " #user# felhasználót kitiltotta"
+
+msgid "user_in_ilias"
+msgstr "Felhasználó keresése és meghívása az ILIAS-ból"
+
+msgid "user_in_room"
+msgstr "Felhasználó meghívása ebből a csevegőszobából"
+
+msgid "user_invited"
+msgstr "A felhasználót meghívta."
+
+msgid "user_invited_self"
+msgstr "<b>#user#</b> meghívta Önt a(z) <b>#room#</b> csevegőszobába."
+
+msgid "user_kicked"
+msgstr "A(z) <b>#user#</b> felhasználót kirúgta."
+
+msgid "users"
+msgstr "Felhasználók"
+
+msgid "welcome_to_chat"
+msgstr "Üdvözöljük a csevegőszobában"
+
+msgid "write_message"
+msgstr "Új üzenet"

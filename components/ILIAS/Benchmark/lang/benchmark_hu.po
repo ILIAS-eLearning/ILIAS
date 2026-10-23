@@ -1,0 +1,42 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: benchmark\n"
+
+msgid "adm_activate_db_benchmark"
+msgstr "Teljesítménymérés bekapcsolása"
+
+msgid "adm_activate_db_benchmark_desc"
+msgstr "A teljesítménymérést automatikusan leállítjuk egy kérelem után."
+
+msgid "adm_db_bench_by_first_table"
+msgstr "Első SQL tábla alapján összesítve"
+
+msgid "adm_db_bench_chronological"
+msgstr "Időrendi"
+
+msgid "adm_db_bench_slowest_first"
+msgstr "Leglassabbak előre"
+
+msgid "adm_db_bench_sorted_by_sql"
+msgstr "Rendezés SQL szerint"
+
+msgid "adm_db_benchmark"
+msgstr "Adatbázis teljesítménymérés"
+
+msgid "adm_db_benchmark_user"
+msgstr "Felhasználónév"
+
+msgid "adm_db_benchmark_user_desc"
+msgstr "Csak ehhez a felhasználóhoz készítünk méréseket. A megadott felhasználónév nem tartozhat a teljesítménymérést kezdeményező felhasználóhoz."
+
+msgid "adm_sql"
+msgstr "SQL"
+
+msgid "adm_time"
+msgstr "Idő"

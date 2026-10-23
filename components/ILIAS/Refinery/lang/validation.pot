@@ -1,0 +1,63 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: validation\n"
+
+msgid "datetime_required"
+msgstr ""
+
+msgid "no_array"
+msgstr ""
+
+msgid "not_a_null"
+msgstr ""
+
+msgid "not_a_string"
+msgstr ""
+
+msgid "not_an_array"
+msgstr ""
+
+msgid "not_an_array_of"
+msgstr ""
+
+msgid "not_an_int"
+msgstr ""
+
+msgid "not_generic"
+msgstr ""
+
+msgid "not_greater_than"
+msgstr ""
+
+msgid "not_greater_than_or_equal"
+msgstr ""
+
+msgid "not_less_than"
+msgstr ""
+
+msgid "not_less_than_or_equal"
+msgstr ""
+
+msgid "not_max_length"
+msgstr ""
+
+msgid "not_min_length"
+msgstr ""
+
+msgid "not_numeric"
+msgstr ""
+
+msgid "not_numeric_empty_string"
+msgstr ""
+
+msgid "numeric_only"
+msgstr ""
+
+msgid "required"
+msgstr ""
+
+msgid "tag_required"
+msgstr ""

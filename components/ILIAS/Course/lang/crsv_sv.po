@@ -1,0 +1,15 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: crsv\n"
+
+msgid "crsv_create"
+msgstr "Skapa kursintyg"
+
+msgid "crsv_create_info"
+msgstr "Välj en kurs för vilken du behöver ett intyg"

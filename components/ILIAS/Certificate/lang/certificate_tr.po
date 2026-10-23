@@ -1,0 +1,372 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr\n"
+"Language-Team: Turkish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: certificate\n"
+
+#, fuzzy
+msgid "cert_cron_task_desc"
+msgstr "This job's responsibility is the creation of persisting certificate data based on learning achievements of users."
+
+#, fuzzy
+msgid "cert_cron_task_title"
+msgstr "Certificates"
+
+#, fuzzy
+msgid "cert_form_sec_add_features"
+msgstr "Additional Features"
+
+#, fuzzy
+msgid "cert_form_sec_availability"
+msgstr "Availability"
+
+#, fuzzy
+msgid "cert_form_sec_layout"
+msgstr "Layout and Text"
+
+msgid "certificate_a4"
+msgstr "A4 (297 mm x 210 mm)"
+
+msgid "certificate_a4_landscape"
+msgstr "A4 Yatay (210 mm x 297 mm)"
+
+msgid "certificate_a5"
+msgstr "A5 (210 mm x 148 mm)"
+
+msgid "certificate_a5_landscape"
+msgstr "A5 Manzara (148 mm x 210 mm)"
+
+msgid "certificate_background_image"
+msgstr "Arka Plan Resmi"
+
+#, fuzzy
+msgid "certificate_card_tile_image"
+msgstr "Thumbnail Image"
+
+#, fuzzy
+msgid "certificate_change_active_status"
+msgstr "The active state of the certificate has been changed"
+
+msgid "certificate_confirm_deletion_text"
+msgstr "gerçekten sertifika ve tüm ilgili verileri silmek istediğinize emin misiniz?"
+
+msgid "certificate_custom"
+msgstr "Özel ..."
+
+msgid "certificate_edit"
+msgstr "Sertifika Şablonu Oluştur / Düzenle"
+
+msgid "certificate_error_import"
+msgstr "Sertifika içe aktarma sırasında bir hata oluştu!"
+
+msgid "certificate_error_upload_bgimage"
+msgstr "arka plan görüntü yükleme sırasında bir hata oluştu!"
+
+msgid "certificate_export"
+msgstr "Sertifika Dışa Aktar"
+
+msgid "certificate_failed"
+msgstr "başarısız"
+
+msgid "certificate_file_basename"
+msgstr "Sertifika"
+
+#, fuzzy
+msgid "certificate_id"
+msgstr "Certificate ID"
+
+#, fuzzy
+msgid "certificate_issue_date"
+msgstr "Issue Date"
+
+#, fuzzy
+msgid "certificate_learning_progress_must_be_active"
+msgstr "Only objects with an active Learning Progress can be selected. The Learning Progress is deactivated on the following objects: %s"
+
+msgid "certificate_letter"
+msgstr "Letter (11 inç x 8,5 inç)"
+
+msgid "certificate_letter_landscape"
+msgstr "Letter Manzarası (8,5 inç x 11 inç)"
+
+msgid "certificate_margin_body"
+msgstr "Vücut Marjı"
+
+msgid "certificate_not_well_formed"
+msgstr "Sertifika metin de oluşmuş değildir. Sertifika metin için geçerli XHTML giriniz!"
+
+msgid "certificate_page_format"
+msgstr "Sayfa Biçimi"
+
+msgid "certificate_page_format_info"
+msgstr "yeni sertifikalar için varsayılan sayfa biçimi seçin."
+
+msgid "certificate_pageheight"
+msgstr "Sayfa Yükseklik"
+
+msgid "certificate_pagewidth"
+msgstr "Sayfa Genişliği"
+
+msgid "certificate_passed"
+msgstr "geçti"
+
+msgid "certificate_ph_birthday"
+msgstr "Kullanıcı Günü"
+
+#, fuzzy
+msgid "certificate_ph_cert_id"
+msgstr "Unique Certificate ID"
+
+msgid "certificate_ph_city"
+msgstr "Kullanıcı adresinin Şehir"
+
+msgid "certificate_ph_country"
+msgstr "Kullanıcı adres ülke"
+
+msgid "certificate_ph_date"
+msgstr "Güncel tarih"
+
+msgid "certificate_ph_date_completed"
+msgstr "Tamamlanma tarihi"
+
+msgid "certificate_ph_datetime"
+msgstr "Güncel tarihi ve saati"
+
+msgid "certificate_ph_datetime_completed"
+msgstr "Tarih ve tamamlanma zamanı"
+
+msgid "certificate_ph_department"
+msgstr "Kullanıcı Bölümü"
+
+msgid "certificate_ph_exercisetitle"
+msgstr "Egzersiz Başlık"
+
+msgid "certificate_ph_firstname"
+msgstr "Kullanıcının Soyadı"
+
+msgid "certificate_ph_fullname"
+msgstr "Kullanıcının tam adı (başlık, ad ve soyad)"
+
+msgid "certificate_ph_institution"
+msgstr "Kullanıcının verilenler"
+
+msgid "certificate_ph_introduction"
+msgstr "Aşağıdaki yer tutucuları kullanılabilir"
+
+msgid "certificate_ph_lastaccess"
+msgstr "son kullanıcının erişim tarih ve saati"
+
+msgid "certificate_ph_lastname"
+msgstr "Kullanıcı Soyadı"
+
+msgid "certificate_ph_login"
+msgstr "Giriş"
+
+msgid "certificate_ph_mark"
+msgstr "Kullanıcılar işareti"
+
+msgid "certificate_ph_marklong"
+msgstr "Kullanıcılar işareti (resmi sürüm)"
+
+msgid "certificate_ph_markshort"
+msgstr "Kullanıcılar işareti (kısa versiyon)"
+
+#, fuzzy
+msgid "certificate_ph_matriculation"
+msgstr "Matriculation number of the user"
+
+msgid "certificate_ph_no_sco"
+msgstr "Ürün bu öğeler için genel öğrenme ilerleme durumu, unvan ve noktaları belirlemek için seçilirse sertifikası görüntülenir olabilir."
+
+msgid "certificate_ph_salutation"
+msgstr "Selamlama"
+
+msgid "certificate_ph_sco_points_max"
+msgstr "Noktası ile max <br/> tutucudur <br/>"
+
+msgid "certificate_ph_sco_points_raw"
+msgstr "tutucu noktaları için <br/>"
+
+msgid "certificate_ph_sco_points_scaled"
+msgstr "tutucu noktaları için <br/> yüzde olarak <br/>"
+
+msgid "certificate_ph_sco_title"
+msgstr "tutucu başlık için <br/>"
+
+msgid "certificate_ph_scormmaxpoints"
+msgstr "(Bir final sınavı için en uygun) son alakalı sco arasında ham puan için aralık Maksimum değer"
+
+msgid "certificate_ph_scormpoints"
+msgstr "Yüzde olarak SCORM öğrenme modülü Nokta"
+
+msgid "certificate_ph_scormtitle"
+msgstr "SCORM öğrenme modülü Başlık"
+
+msgid "certificate_ph_scos"
+msgstr "Aşağıdaki öğeler genel öğrenme ilerleme durumunu belirlemek için seçilmiş ve sertifika ifadeleri için kullanılabilir edildi:"
+
+msgid "certificate_ph_street"
+msgstr "Kullanıcının adres Sokak"
+
+msgid "certificate_ph_testtitle"
+msgstr "Test, Başlık"
+
+msgid "certificate_ph_title"
+msgstr "Kullanıcının Adı"
+
+msgid "certificate_ph_title_sco"
+msgstr "Başlık"
+
+msgid "certificate_ph_zipcode"
+msgstr "Kullanıcı adresinin Posta kodu"
+
+msgid "certificate_points_notavailable"
+msgstr "Bu değeri hesaplanan olamaz"
+
+msgid "certificate_preview"
+msgstr "Göster Sertifika Öncesi"
+
+msgid "certificate_settings"
+msgstr "Sertifika Ayarları"
+
+msgid "certificate_short_name"
+msgstr "Sertifika dosyası kısa bir başlık"
+
+msgid "certificate_short_name_description"
+msgstr "Sertifika adı için kısa bir başlık giriniz. Kısa başlık sertifika adının bir parçası olacaktır: YYMMDD_ [soyadı] _ [SHORT_TITLE] _certificate.pdf."
+
+msgid "certificate_text"
+msgstr "Sertifika Metin"
+
+#, fuzzy
+msgid "certificate_text_info"
+msgstr "Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text."
+
+msgid "certificate_unit_description"
+msgstr "ölçü birimleri girin DEĞER olarak [cm | aa | Giriş | pt | pc | px | em], örneğin 10mm veya 3in"
+
+msgid "certificate_usage"
+msgstr "ILIAS Java Server çalıştırıyorsa, sertifikaların kullanımı mevcut olduğunu lütfen unutmayınız. Java Server için yapılandırma bölümünde Webservices yılında ILIAS yönetiminin ana sayfasında mevcuttur."
+
+msgid "certificate_var_max_points"
+msgstr "46"
+
+msgid "certificate_var_result_mark_long"
+msgstr "İyi"
+
+msgid "certificate_var_result_mark_short"
+msgstr "B"
+
+msgid "certificate_var_result_passed"
+msgstr "geçti"
+
+msgid "certificate_var_result_percent"
+msgstr "83%"
+
+msgid "certificate_var_result_points"
+msgstr "38"
+
+msgid "certificate_var_user_birthday"
+msgstr "1977-05-08"
+
+msgid "certificate_var_user_city"
+msgstr "Anytown, NY"
+
+msgid "certificate_var_user_country"
+msgstr "ABD"
+
+msgid "certificate_var_user_department"
+msgstr "Müşteri Destek"
+
+msgid "certificate_var_user_firstname"
+msgstr "Jane"
+
+msgid "certificate_var_user_fullname"
+msgstr "Dr Jane Doe"
+
+msgid "certificate_var_user_institution"
+msgstr "ILIAS Açık Kaynak"
+
+msgid "certificate_var_user_lastname"
+msgstr "Doe"
+
+msgid "certificate_var_user_login"
+msgstr "jdoe"
+
+#, fuzzy
+msgid "certificate_var_user_matriculation"
+msgstr "12345"
+
+msgid "certificate_var_user_salutation"
+msgstr "Bayan"
+
+msgid "certificate_var_user_street"
+msgstr "100 Main Street"
+
+msgid "certificate_var_user_title"
+msgstr "Dr"
+
+msgid "certificate_var_user_zipcode"
+msgstr "12345"
+
+#, fuzzy
+msgid "cmix_cert_ph_object_description"
+msgstr "Description"
+
+#, fuzzy
+msgid "cmix_cert_ph_object_title"
+msgstr "Title of the xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_cert_ph_reached_score"
+msgstr "Reached score as percentage"
+
+msgid "default_background_info"
+msgstr "Bu arka plan görüntüsü tüm sertifikalar için varsayılan arka plan olarak seçilecektir. Bir certficiate başka bir arka plan görüntüsü gerekiyorsa, sertifika editörü birini yüklemek zorunda."
+
+msgid "download_certificate"
+msgstr "İndir Belgesi"
+
+#, fuzzy
+msgid "learning_progress_deactivated"
+msgstr "The Learning Progress for this object is deactivated. To edit the certificate template and achieve user certificates the learning progress for this object must be activated."
+
+#, fuzzy
+msgid "lti_cert_ph_mastery_score"
+msgstr "Mastery score as percentage"
+
+#, fuzzy
+msgid "lti_cert_ph_object_description"
+msgstr "Description"
+
+#, fuzzy
+msgid "lti_cert_ph_object_title"
+msgstr "Title of the LTI Consumer Object"
+
+#, fuzzy
+msgid "lti_cert_ph_reached_score"
+msgstr "Reached score as percentage"
+
+#, fuzzy
+msgid "persistent_certificate_mode"
+msgstr "User Certificate Creation"
+
+#, fuzzy
+msgid "persistent_certificate_mode_cron"
+msgstr "Cron Job"
+
+#, fuzzy
+msgid "persistent_certificate_mode_cron_info"
+msgstr "This option is recommended for systems with high user interaction."
+
+#, fuzzy
+msgid "persistent_certificate_mode_instant"
+msgstr "Instant"
+
+#, fuzzy
+msgid "persistent_certificate_mode_instant_info"
+msgstr "This option is recommended for systems with low up to mediocre user interactions. Systems that tend to big loading times during creation for multiple user certificates should switch to the \"Cron Job\" option."

@@ -1,0 +1,283 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mcst\n"
+
+msgid "mcst_add_new_item"
+msgstr "Lägg till ny Mediacast-post"
+
+msgid "mcst_audio_files"
+msgstr "Ljudfiler"
+
+msgid "mcst_audioportable_settings_info"
+msgstr " Kommaseparerad lista över filtillägg"
+
+msgid "mcst_audioportable_settings_title"
+msgstr "Filnamnstillägg för ljudformatet"
+
+msgid "mcst_audioportable_title"
+msgstr "Ytterligare ljudfil för bärbara enheter"
+
+msgid "mcst_automatic_detection"
+msgstr "Automatisk"
+
+msgid "mcst_autoplay"
+msgstr "Autoplay"
+
+msgid "mcst_autoplay_active"
+msgstr "Autoplay (standard 'på')"
+
+msgid "mcst_autoplay_inactive"
+msgstr "Autoplay (standard 'av')"
+
+#, fuzzy
+msgid "mcst_autoplay_info"
+msgstr "Starts automatically the next video when reaching the end of the previous one. This feature is not supported by youtube videos."
+
+msgid "mcst_clear_purpose_title"
+msgstr "Radera"
+
+#, fuzzy
+msgid "mcst_confirm_deletion"
+msgstr "Confirm Deletion"
+
+msgid "mcst_converted_file"
+msgstr "Filen har konverterats."
+
+msgid "mcst_copy"
+msgstr "Kopiera Mediacast"
+
+msgid "mcst_current_value_info"
+msgstr "Nuvärde av formatet"
+
+msgid "mcst_default_visibility"
+msgstr "Standard tillgång"
+
+msgid "mcst_det_playtime"
+msgstr "Bestäm körtid"
+
+msgid "mcst_download_all"
+msgstr "Ladda ner alla"
+
+msgid "mcst_download_audioportable"
+msgstr "Ladda ner ljudfil"
+
+msgid "mcst_download_cnt"
+msgstr "Nedladdad"
+
+msgid "mcst_download_standard"
+msgstr "Ladda ner"
+
+msgid "mcst_download_started_bg"
+msgstr "Nedladdningspaketet håller på att skapas. Kontrollera dina bakgrundsprocesser längst upp till höger i det övre fältet."
+
+msgid "mcst_download_videoalternative"
+msgstr "Ladda ner alternativt format"
+
+msgid "mcst_download_videoportable"
+msgstr "Ladda ner videofil"
+
+msgid "mcst_downloadable"
+msgstr "Länk för nedladdning"
+
+msgid "mcst_downloadable_info"
+msgstr "Användare kan ladda ner bidrag direkt."
+
+msgid "mcst_duration"
+msgstr "runtime"
+
+msgid "mcst_duration_info"
+msgstr "Om inget värde anges, bestämmer ILIAS körtiden automatiskt"
+
+msgid "mcst_edit_item"
+msgstr "Redigera inlägg från Mediacast"
+
+msgid "mcst_edit_settings"
+msgstr "Inställningar"
+
+msgid "mcst_gallery"
+msgstr "Kakelplattor"
+
+msgid "mcst_img_gallery"
+msgstr "bildgalleri"
+
+msgid "mcst_import"
+msgstr "Importera Mediacast"
+
+msgid "mcst_incl_files_in_rss"
+msgstr "Filbilagor"
+
+msgid "mcst_incl_files_in_rss_info"
+msgstr "Filerna med Mediacast-bidragen tillhandahålls som en bilaga i webbflödet."
+
+msgid "mcst_input_either_file_or_url"
+msgstr "Ange antingen en fil eller en URL. När du anger en fil, var uppmärksam på den maximala tillåtna uppladdningsstorleken."
+
+#, fuzzy
+msgid "mcst_items"
+msgstr "Items"
+
+msgid "mcst_last_submission"
+msgstr "Sista inlägget"
+
+msgid "mcst_list"
+msgstr "Lista"
+
+msgid "mcst_manage"
+msgstr "Hantering"
+
+msgid "mcst_media_cast"
+msgstr "Mediacast"
+
+msgid "mcst_media_cast_not_online"
+msgstr "Mediacast är inte online"
+
+msgid "mcst_media_cast_not_online_text"
+msgstr "Mediakasten är inte online eller har avaktiverats"
+
+msgid "mcst_mimetype"
+msgstr "MIME-Typ"
+
+msgid "mcst_mimetype_info"
+msgstr "Välj en MIME-typ för att definiera rätt plugin. <br />Notera"
+
+msgid "mcst_mimetypes"
+msgstr "MIME-Typer"
+
+msgid "mcst_mimetypes_info"
+msgstr "Kommaseparerad lista över MIME-typer"
+
+msgid "mcst_new_items_det_lp"
+msgstr " Tilldela nya poster till inlärningsförloppet"
+
+msgid "mcst_new_items_det_lp_info"
+msgstr "Nya poster läggs automatiskt till i bedömningen av inlärningsframsteg."
+
+msgid "mcst_news_item_visibility_info"
+msgstr "Publika meddelanden kan läsas från utsidan och utan inloggning. De bör inte innehålla konfidentiell information."
+
+msgid "mcst_next_items"
+msgstr "Visa fler videor"
+
+msgid "mcst_no_autoplay"
+msgstr "Ingen autoplay"
+
+msgid "mcst_nr_items"
+msgstr "Antal objekt"
+
+msgid "mcst_nr_videos"
+msgstr "Antal videor som visas initialt"
+
+msgid "mcst_ordering"
+msgstr "Sortering"
+
+msgid "mcst_ordering_creation_date_asc"
+msgstr "Efter skapelsedatum, äldsta inlägget ovan"
+
+msgid "mcst_ordering_creation_date_desc"
+msgstr "Efter skapelsedatum, senaste inlägget ovan"
+
+msgid "mcst_ordering_manual"
+msgstr "Handbok"
+
+msgid "mcst_ordering_title"
+msgstr "Alfabetiskt efter titel"
+
+msgid "mcst_play"
+msgstr "Spela"
+
+msgid "mcst_play_cnt"
+msgstr "Spelade ut"
+
+msgid "mcst_play_time"
+msgstr "runtime"
+
+msgid "mcst_podcast"
+msgstr "Podcast"
+
+msgid "mcst_prev_items"
+msgstr "Visa tidigare videor"
+
+#, fuzzy
+msgid "mcst_preview"
+msgstr "Preview"
+
+msgid "mcst_preview_picture"
+msgstr "Förhandsgranskning"
+
+msgid "mcst_preview_picture_info"
+msgstr "Stöds endast av följande filtyper"
+
+msgid "mcst_reference_info"
+msgstr "URL till resursen, t.ex. HTTP-adress."
+
+msgid "mcst_save_order"
+msgstr "Spara sortering"
+
+msgid "mcst_set_playtime"
+msgstr "Körtiden har fastställts."
+
+msgid "mcst_settings"
+msgstr "Inställningar för mediasändningar"
+
+msgid "mcst_show_description"
+msgstr " Visa beskrivning"
+
+msgid "mcst_standard_settings_info"
+msgstr " Kommaseparerad lista över filtillägg"
+
+msgid "mcst_standard_settings_title"
+msgstr "Filtillägg för standardformatet"
+
+msgid "mcst_standard_title"
+msgstr "Standard mediafil"
+
+msgid "mcst_unable_to_determin_playtime"
+msgstr "Löptiden kunde tyvärr inte fastställas automatiskt. Du kan ställa in körtiden manuellt under \"Redigera\"."
+
+msgid "mcst_video_cast"
+msgstr "Video lista"
+
+msgid "mcst_video_completion_threshold"
+msgstr "\"Bearbetad\" Tröskelvärde"
+
+msgid "mcst_video_completion_threshold_info"
+msgstr "Från och med detta steg sparas en video som \"visad\". Observera att ILIAS inte kontrollerar om hela perioden faktiskt visades eller om användaren hoppade över delar."
+
+msgid "mcst_videoalternative_title"
+msgstr "Alternativt videoformat för användning i webbläsaren"
+
+msgid "mcst_videoportable_settings_info"
+msgstr " Kommaseparerad lista över filtillägg"
+
+msgid "mcst_videoportable_settings_title"
+msgstr "Filtillägg för videoformatet"
+
+msgid "mcst_videoportable_title"
+msgstr "Ytterligare videofil för bärbara enheter"
+
+msgid "mcst_view_abandoned"
+msgstr "Den för närvarande valda vyn stöds inte längre. Välj en annan vy i inställningarna."
+
+msgid "mcst_viewmode"
+msgstr "Visa"
+
+msgid "mcst_visibility_info"
+msgstr "Publika objekt är tillgängliga via RSS utan någon autentisering."
+
+msgid "mcst_visibility_public"
+msgstr "Registrerade användare"
+
+msgid "mcst_visibility_users"
+msgstr "Offentlig"
+
+msgid "mcst_watched"
+msgstr "se"
+
+msgid "mcst_webfeed"
+msgstr "RSS webbflöde"

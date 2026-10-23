@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: error\n"
+
+msgid "error_back_to_repository"
+msgstr "Vissza a Tartalomtárba"
+
+msgid "error_sry_error"
+msgstr "Sajnáljuk, hiba történt."
+
+msgid "http_404_not_found"
+msgstr "A kért oldal nem található."
+
+msgid "http_500_internal_server_error"
+msgstr "Belső szerverhiba történt."

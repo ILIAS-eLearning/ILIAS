@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: qpl\n"
+
+msgid "qpl_filter_commented_exclude"
+msgstr "コメントなしの問題"
+
+msgid "qpl_filter_commented_only"
+msgstr "コメント有の問題"
+
+msgid "qpl_page_type_qfbg"
+msgstr "全般フィードバック"
+
+msgid "qpl_page_type_qfbs"
+msgstr "特別フィードバック"
+
+msgid "qpl_page_type_qht"
+msgstr "ヒント"
+
+msgid "qpl_page_type_qpl"
+msgstr "質問ページ"

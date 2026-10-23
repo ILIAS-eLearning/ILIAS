@@ -1,0 +1,267 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: iass\n"
+
+msgid "download_assessment_paper"
+msgstr "Download Record file"
+
+msgid "grading"
+msgstr "Grading"
+
+msgid "grading_info"
+msgstr "Grading info"
+
+msgid "grading_record"
+msgstr "Grading record"
+
+msgid "iass_add"
+msgstr "Create Individual Assessment"
+
+msgid "iass_add_user_failure"
+msgstr "One or more user could not be added."
+
+msgid "iass_add_user_success"
+msgstr "User added as participant."
+
+msgid "iass_added"
+msgstr "Individual Assessment added"
+
+msgid "iass_amend_saved"
+msgstr "Amended record has been saved."
+
+msgid "iass_assessment_not_completed"
+msgstr "Not completed yet"
+
+msgid "iass_cancel"
+msgstr "Cancel"
+
+msgid "iass_changed_by"
+msgstr "Changed after finalization"
+
+msgid "iass_confirm_finalize"
+msgstr "Finalize"
+
+msgid "iass_consultation_hours"
+msgstr "Consultation hours"
+
+msgid "iass_contact"
+msgstr "Name"
+
+msgid "iass_contact_info"
+msgstr "Contact information"
+
+msgid "iass_content"
+msgstr "Assessment content description"
+
+msgid "iass_content_explanation"
+msgstr "Contents of the assessment, e.g., relevant topics."
+
+msgid "iass_copy"
+msgstr "Copy Individual Assessment"
+
+msgid "iass_download"
+msgstr "Download"
+
+msgid "iass_edit"
+msgstr "Settings"
+
+msgid "iass_edit_info"
+msgstr "Info Settings"
+
+msgid "iass_edit_record"
+msgstr "Participant Record"
+
+msgid "iass_event_time"
+msgstr "Date of assessment"
+
+msgid "iass_event_time_place_required"
+msgstr "Date and place required"
+
+msgid "iass_event_time_place_required_info"
+msgstr "Date and place of assessment have to be added to each participant record."
+
+msgid "iass_file"
+msgstr "File"
+
+msgid "iass_file_dropzone"
+msgstr "you can drop your files here"
+
+msgid "iass_file_required"
+msgstr "Record file required"
+
+msgid "iass_file_required_info"
+msgstr "A record file has to be uploaded to each participant record."
+
+msgid "iass_file_visible_examinee"
+msgstr "File visible for participant"
+
+msgid "iass_file_visible_examinee_info"
+msgstr "Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled."
+
+msgid "iass_filter_all"
+msgstr "All"
+
+msgid "iass_filter_failed"
+msgstr "Failed only"
+
+msgid "iass_filter_finalized"
+msgstr "Completed only"
+
+msgid "iass_filter_not_finalized"
+msgstr "Drafts only"
+
+msgid "iass_filter_not_started"
+msgstr "Not started only"
+
+msgid "iass_finalize"
+msgstr "Finalize"
+
+msgid "iass_finalize_info"
+msgstr "Individual Assessment will be finalized."
+
+msgid "iass_finalize_user_qst"
+msgstr "Should the participant's status really be finalised? No changes possible thereafter."
+
+msgid "iass_further_field_headline"
+msgstr "Detailed Information"
+
+msgid "iass_graded_by"
+msgstr "Graded by"
+
+msgid "iass_info_emails_expl"
+msgstr "You may provide several addresses separated by comma."
+
+msgid "iass_internal_note"
+msgstr "Internal record note"
+
+msgid "iass_internal_note_info"
+msgstr "Internal notes are only visible for tutors but not for participants."
+
+msgid "iass_location"
+msgstr "Location"
+
+msgid "iass_mails"
+msgstr "E-Mail"
+
+msgid "iass_may_not_finalize"
+msgstr "Examinee may not be finalised. Please grade the user first."
+
+msgid "iass_membership_finalized"
+msgstr "Record finalised"
+
+msgid "iass_membership_saved"
+msgstr "Record saved, not yet finalised"
+
+msgid "iass_mess_notification_completed"
+msgstr "You passed the assessment <i>%s</i>. Please check the following grading record for details:"
+
+msgid "iass_mess_notification_failed"
+msgstr "You failed the assessment <i>%s</i>. Please check the following grading record for details:"
+
+msgid "iass_notify"
+msgstr "Make Result Available to Participant"
+
+msgid "iass_notify_explanation"
+msgstr "The participant will be notified via e-mail after finalisation and will get access to her or his record on the Info screen."
+
+msgid "iass_phone"
+msgstr "Phone"
+
+msgid "iass_place"
+msgstr "Place of assessment"
+
+msgid "iass_record"
+msgstr "Record note"
+
+msgid "iass_record_info"
+msgstr "Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the participant by e-mail, too."
+
+msgid "iass_record_template"
+msgstr "Record template"
+
+msgid "iass_record_template_explanation"
+msgstr "Template for participant grading record. Will be used automatically for any new participant."
+
+msgid "iass_remove_user_qst"
+msgstr "Should the participant really be removed?"
+
+msgid "iass_responsibility"
+msgstr "Responsibility"
+
+msgid "iass_save_amend"
+msgstr "Save Amended Record"
+
+msgid "iass_settings_availability"
+msgstr "Availability"
+
+msgid "iass_settings_saved"
+msgstr "Settings saved."
+
+msgid "iass_sort_changetime_asc"
+msgstr "Last Change ascending"
+
+msgid "iass_sort_changetime_desc"
+msgstr "Last Change descending"
+
+msgid "iass_sort_examiner_login_asc"
+msgstr "Examiner ascending"
+
+msgid "iass_sort_examiner_login_desc"
+msgstr "Examiner descending"
+
+msgid "iass_sort_name_asc"
+msgstr "Username ascending"
+
+msgid "iass_sort_name_desc"
+msgstr "Username descending"
+
+msgid "iass_status_completed"
+msgstr "Completed"
+
+msgid "iass_status_failed"
+msgstr "Failed"
+
+msgid "iass_status_pending"
+msgstr "Status pending"
+
+msgid "iass_subj_notification_completed"
+msgstr "%s: Individual Assessment is completed."
+
+msgid "iass_subj_notification_failed"
+msgstr "%s: Individual Assessment is failed."
+
+msgid "iass_upload_file"
+msgstr "Record file"
+
+msgid "iass_user_removed"
+msgstr "Participant has successfully been removed."
+
+msgid "iass_usr_amend"
+msgstr "Amend Grading"
+
+msgid "iass_usr_download_attachment"
+msgstr "Download Attachment"
+
+msgid "iass_usr_edit"
+msgstr "Edit Participant Record"
+
+msgid "iass_usr_remove"
+msgstr "Remove Participant from Assessment"
+
+msgid "iass_usr_view"
+msgstr "Participant Record"
+
+msgid "il_iass_members"
+msgstr "Participants"
+
+msgid "lp_inactive"
+msgstr "Note: the learning progress for this object is inactive. Thus memberships may not be finalised."
+
+msgid "save_amend"
+msgstr "Save Amended Record"

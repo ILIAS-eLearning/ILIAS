@@ -1,0 +1,90 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: lm\n"
+
+msgid "lm_btn_lp_toggle_state_completed"
+msgstr "Establecer como No completado"
+
+msgid "lm_btn_lp_toggle_state_not_completed"
+msgstr "Establecer como Completado"
+
+msgid "lm_copy"
+msgstr "Copiar módulo de aprendizaje"
+
+msgid "lm_edit_chapters"
+msgstr "Editar capítulos"
+
+msgid "lm_edit_content"
+msgstr "Editar contenido"
+
+msgid "lm_edit_lm_settings"
+msgstr "Editar ajustes del módulo de aprendizaje"
+
+msgid "lm_est_reading_time"
+msgstr "Tiempo estimado de lectura"
+
+msgid "lm_est_reading_time_info"
+msgstr "En los módulos de aprendizaje del repositorio se puede determinar y mostrar el tiempo estimado de lectura."
+
+msgid "lm_insert_chapter"
+msgstr "Insertar capítulo"
+
+msgid "lm_insert_chapter_after"
+msgstr "Insertar capítulo después"
+
+msgid "lm_insert_chapter_before"
+msgstr "Insertar capítulo antes"
+
+msgid "lm_insert_chapter_clip"
+msgstr "Insertar capítulo desde el portapapeles"
+
+msgid "lm_insert_chapter_clip_after"
+msgstr "Insertar capítulo desde el portapapeles después"
+
+msgid "lm_insert_chapter_clip_before"
+msgstr "Insertar capítulo desde el portapapeles antes"
+
+msgid "lm_insert_layout_after"
+msgstr "Insertar plantilla después"
+
+msgid "lm_insert_layout_before"
+msgstr "Insertar plantilla antes"
+
+msgid "lm_insert_page"
+msgstr "Insertar página"
+
+msgid "lm_insert_page_after"
+msgstr "Insertar página después"
+
+msgid "lm_insert_page_before"
+msgstr "Insertar página antes"
+
+msgid "lm_insert_page_clip"
+msgstr "Insertar página desde el portapapeles"
+
+msgid "lm_insert_page_clip_after"
+msgstr "Insertar página desde el portapapeles después"
+
+msgid "lm_insert_page_clip_before"
+msgstr "Insertar página desde el portapapeles antes"
+
+msgid "lm_list_pages"
+msgstr "Editar páginas"
+
+msgid "lm_page_added"
+msgstr "La página ha sido añadida."
+
+msgid "lm_page_type_lm"
+msgstr "Página de ML"
+
+msgid "lm_pages_added"
+msgstr "Las páginas han sido añadidas."
+
+msgid "lm_save_titles"
+msgstr "Títulos guardados."

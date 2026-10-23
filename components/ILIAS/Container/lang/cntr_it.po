@@ -1,0 +1,118 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: cntr\n"
+
+msgid "cntr_add_new_item"
+msgstr "Aggiungi nuovo elemento"
+
+msgid "cntr_adopt_content"
+msgstr "Adotta il contenuto"
+
+msgid "cntr_container_only_on_their_own"
+msgstr "Categorie, corsi, gruppi o cartelle possono essere copiati come singoli oggetti. Si prega di selezionare una sola voce."
+
+msgid "cntr_copy_crs_grp"
+msgstr "I miei corsi e gruppi"
+
+msgid "cntr_copy_repo_tree"
+msgstr "Albero archivio"
+
+msgid "cntr_hide_title_and_icon"
+msgstr "Nascondi titolo ed icona"
+
+msgid "cntr_manage"
+msgstr "Gestisci"
+
+msgid "cntr_ordering"
+msgstr "Ordinamento"
+
+msgid "cntr_saved_sorting"
+msgstr "Ordinamento salvato."
+
+msgid "cntr_switch_to_new_editor_cmd"
+msgstr "Visualizza il nuovo contenuto della pagina. Il vecchio contenuto sarà rimosso"
+
+msgid "cntr_switch_to_new_editor_message"
+msgstr "Questo è l'editor standard di ILIAS. Non è possibile trasferire contenuti dal vecchio editor. Inizia aggiungendo nuovi contenuti in basso. Se clicchi sul link che segue i nuovi contenuti saranno in uso."
+
+msgid "cntr_switched_editor"
+msgstr "Nuovo contenuto visualizzato"
+
+msgid "cntr_tax_none_available"
+msgstr "Non ci sono tassonomie disponibili."
+
+#, fuzzy
+msgid "cntr_tax_settings_info"
+msgstr "Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the \"Metadata\" tabs and the \"Taxonomy Assignment\" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's \"Contents\" tab to enable direct filtering of the assigned objects."
+
+msgid "cntr_taxonomy_definitions"
+msgstr "Definizione tassonomia"
+
+msgid "cntr_taxonomy_show_sideblock"
+msgstr "Mostra tassonomie nel blocco laterale"
+
+msgid "cntr_taxonomy_sideblock_settings"
+msgstr "Impostazioni blocco tassonomia"
+
+msgid "cntr_text_media_editor"
+msgstr "Text/Media Editor"
+
+msgid "cntr_view_by_type"
+msgstr "Visualizzazione per tipo"
+
+msgid "cntr_view_info_by_type"
+msgstr "Questa visualizzazione ordina tutti gli elementi a seconda del tipo."
+
+msgid "cntr_view_info_sessions"
+msgstr "Questa visualizzazione mostra tutte le sessioni disponibili. Elementi, che non si riferiscono ad una sessione, verranno mostrati di seguito."
+
+msgid "cntr_view_info_simple"
+msgstr "Questa visualizzazione mostra tutti gli elementi in una lista."
+
+msgid "cntr_view_sessions"
+msgstr "Visualizzazione della sessione"
+
+msgid "cntr_view_simple"
+msgstr "Visualizzazione semplice"
+
+msgid "container_import_zip_file_invalid"
+msgstr "Il file caricato non è un file di esportazione ILIAS valido. Per caricare la struttura di directory si prega di utilizzare un oggetto file."
+
+msgid "edit_questions"
+msgstr "Modifica domande"
+
+msgid "exc_next_deadline_single"
+msgstr "Scadenza"
+
+msgid "msg_no_downloadable_objects"
+msgstr "Nessun oggetto scaricabile trovato."
+
+msgid "objects_duplicated"
+msgstr "Oggetti copiati"
+
+msgid "prtf_create_portfolio_from_template"
+msgstr "Crea portfolio dal modello"
+
+msgid "sorting_new_items_at_bottom"
+msgstr "Pulsante"
+
+msgid "sorting_new_items_at_top"
+msgstr "In alto"
+
+msgid "sorting_new_items_direction"
+msgstr "Direzione di ordinamento per i nuovi oggetti"
+
+msgid "sorting_new_items_order"
+msgstr "Ordine per i nuovi oggetti"
+
+msgid "sorting_new_items_position"
+msgstr "Posizione per i nuovi oggetti"
+
+msgid "tab_back_to_repository"
+msgstr "Torna al repository"

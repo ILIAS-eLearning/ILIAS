@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: wfld\n"
+
+msgid "wfld_add"
+msgstr "フォルダ作成"
+
+msgid "wfld_alphabetically_asc"
+msgstr "アルファベット, asc."
+
+msgid "wfld_alphabetically_desc"
+msgstr "アルファベット, desc."
+
+msgid "wfld_creation_asc"
+msgstr "作成日付, asc."
+
+msgid "wfld_creation_desc"
+msgstr "作成日付, desc."
+
+msgid "wfld_derive"
+msgstr "親から採用"
+
+msgid "wfld_edit"
+msgstr "フォルダ編集"
+
+msgid "wfld_new"
+msgstr "新規フォルダ作成"
+
+msgid "wfld_sortation"
+msgstr "並べ替え"

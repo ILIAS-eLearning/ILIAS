@@ -1,0 +1,189 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: da\n"
+"Language-Team: Danish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mep\n"
+
+msgid "mep_all"
+msgstr "Alle"
+
+msgid "mep_all_mobs"
+msgstr "Alle medieobjekter"
+
+#, fuzzy
+msgid "mep_bulk_upload"
+msgstr "Bulk Upload"
+
+msgid "mep_choose_from_folder"
+msgstr "Vælg fra mappe"
+
+msgid "mep_choose_from_mep"
+msgstr "Vælg fra samling"
+
+#, fuzzy
+msgid "mep_clipboard_info"
+msgstr "Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users."
+
+#, fuzzy
+msgid "mep_content"
+msgstr "Content"
+
+#, fuzzy
+msgid "mep_content_snippet_in_use"
+msgstr "Content snippet '%s' is in use and cannot be deleted."
+
+#, fuzzy
+msgid "mep_content_snippet_used_in_older_versions"
+msgstr "Please note: This snippet is used in older versions of some pages. If these pages are rolled back to a version that includes this snippet, the snippet will be missing in the page."
+
+msgid "mep_copy_to_mep"
+msgstr "Kopier til mediebibliotek"
+
+#, fuzzy
+msgid "mep_create_content_snippet"
+msgstr "Create Content Snippet"
+
+msgid "mep_create_folder"
+msgstr "Opret mappe"
+
+msgid "mep_create_media_files"
+msgstr "Lav medieobjekter"
+
+msgid "mep_create_mob"
+msgstr "Opret medieobjekt"
+
+msgid "mep_default_height"
+msgstr "Standard højde"
+
+msgid "mep_default_width"
+msgstr "Standard bredde"
+
+msgid "mep_default_width_height_info"
+msgstr "Standard bredde og højde bruges som startindstillinger til nye medieobjekter."
+
+#, fuzzy
+msgid "mep_edit_content_snippet"
+msgstr "Edit Content Snippet"
+
+msgid "mep_edit_folder"
+msgstr "Ret mappe"
+
+msgid "mep_file"
+msgstr "Fil"
+
+msgid "mep_folder"
+msgstr "mappe"
+
+msgid "mep_format"
+msgstr "Format"
+
+#, fuzzy
+msgid "mep_import"
+msgstr "Import a media pool"
+
+#, fuzzy
+msgid "mep_import_lang"
+msgstr "Target Language"
+
+#, fuzzy
+msgid "mep_import_trans"
+msgstr "Import Translation"
+
+#, fuzzy
+msgid "mep_master_language_only"
+msgstr "Master Language for Translation"
+
+#, fuzzy
+msgid "mep_master_language_only_no_media"
+msgstr "Master Language without Media"
+
+#, fuzzy
+msgid "mep_media_files"
+msgstr "Media Files"
+
+#, fuzzy
+msgid "mep_media_subtitles"
+msgstr "Media Subtitles"
+
+#, fuzzy
+msgid "mep_mob"
+msgstr "Media Object"
+
+#, fuzzy
+msgid "mep_move_select_insert"
+msgstr "Navigate to target folder and click \"Insert\""
+
+#, fuzzy
+msgid "mep_mpg"
+msgstr "Content Snippet"
+
+#, fuzzy
+msgid "mep_new_content_snippet"
+msgstr "New Content Snippet"
+
+msgid "mep_new_folder"
+msgstr "Ny mappe"
+
+#, fuzzy
+msgid "mep_page_properties"
+msgstr "Page Properties"
+
+#, fuzzy
+msgid "mep_page_type_mep"
+msgstr "Content Snippet"
+
+msgid "mep_thumbnail"
+msgstr "Miniature"
+
+msgid "mep_title_and_description"
+msgstr "Titel og beskrivelse"
+
+#, fuzzy
+msgid "mep_trans_import_info"
+msgstr "If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here."
+
+msgid "mep_unknown"
+msgstr "Ukendt"
+
+msgid "mep_up_dir_copy"
+msgstr "Kopier filer fra upload mappe (filer forbliver i mappen)"
+
+msgid "mep_up_dir_move"
+msgstr "Flyt filer fra upload mappe (hurtigere)"
+
+msgid "mep_upload_dir_files"
+msgstr "Filer fra upload mappe"
+
+#, fuzzy
+msgid "mobs_activate_pages"
+msgstr "Activate Content Pages Management"
+
+#, fuzzy
+msgid "mobs_activate_pages_info"
+msgstr "Allow to add content pages to media pools. These pages can be re-used (not edited) in learning modules etc."
+
+msgid "mobs_always_show_file_manager"
+msgstr "Vis altid filhåndtering"
+
+#, fuzzy
+msgid "mobs_always_show_file_manager_info"
+msgstr "If deactivated the file manager for media objects will be hidden for simple mime types (e.g. images)."
+
+#, fuzzy
+msgid "mobs_black_list_file_types"
+msgstr "Forbidden File Types"
+
+#, fuzzy
+msgid "mobs_black_list_file_types_and_allowed_info"
+msgstr "Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:"
+
+msgid "mobs_restrict_file_types"
+msgstr "Begræns filtyper"
+
+#, fuzzy
+msgid "mobs_restrict_file_types_info"
+msgstr "Enter a comma separated list of file suffixes (e.g. jpg,gif) that are allowed to be uploaded into media objects. If no value is entered, all file types are allowed."

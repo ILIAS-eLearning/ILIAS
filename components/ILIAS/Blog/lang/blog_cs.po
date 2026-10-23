@@ -1,0 +1,356 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: blog\n"
+
+msgid "blog_abstract_image"
+msgstr "Přidat obrázek do abstraktu"
+
+msgid "blog_abstract_image_height"
+msgstr "Výška"
+
+msgid "blog_abstract_image_info"
+msgstr "Nebudou použity obrázky, které jsou menší."
+
+msgid "blog_abstract_image_pixels"
+msgstr "Px"
+
+msgid "blog_abstract_image_width"
+msgstr "Šířka"
+
+msgid "blog_abstract_shorten"
+msgstr "Zkrátit abstrakt"
+
+msgid "blog_abstract_shorten_characters"
+msgstr "Znaky"
+
+msgid "blog_abstract_shorten_length"
+msgstr "Maximální délka"
+
+msgid "blog_add"
+msgstr "Vytvořit blog"
+
+msgid "blog_add_contributor"
+msgstr "Přidat přispěvatele"
+
+msgid "blog_add_posting"
+msgstr "Přidat aktualizování"
+
+msgid "blog_admin_inactive_info"
+msgstr "Můžete aktivovat rysy blogu ve správě Osobní pracovní plochy."
+
+msgid "blog_admin_toggle_info"
+msgstr "Můžete deaktivovat rysy blogu úplně ve správě Osobní pracovní plochy."
+
+msgid "blog_approve"
+msgstr "Schválit"
+
+msgid "blog_author"
+msgstr "Autor"
+
+msgid "blog_authors"
+msgstr "Autoři"
+
+msgid "blog_back_to_blog_owner"
+msgstr "Upravit blog"
+
+msgid "blog_change_notification_body_approve"
+msgstr "následující příspěvek na blogu vyžaduje schválení."
+
+msgid "blog_change_notification_body_comment"
+msgstr "následující příspěvek na blogu byl komentován."
+
+msgid "blog_change_notification_body_new"
+msgstr "následující aktualizování blogu bylo vytvořeno"
+
+msgid "blog_change_notification_body_update"
+msgstr "následující aktualizování blogu byl obnoveno"
+
+msgid "blog_change_notification_link"
+msgstr "URL"
+
+msgid "blog_change_notification_reason"
+msgstr "Tento email jste obdržel(a) neboť jste aktivoval(a) upozorňování na výše zmíněný blog."
+
+msgid "blog_change_notification_subject"
+msgstr "Blog \"%s\" byl aktualizován"
+
+msgid "blog_comments"
+msgstr "Komentáře"
+
+msgid "blog_confirm_delete_contributors"
+msgstr "Opravdu chcete smazat následující přispěvatele?"
+
+msgid "blog_contribute_other_roles"
+msgstr "Následující role poskytují aktivní oprávnění \"přispívat\": %s."
+
+msgid "blog_contributors"
+msgstr "Přispěvatelé"
+
+msgid "blog_copy"
+msgstr "Kopírovat Blog"
+
+msgid "blog_download_submission"
+msgstr "Stáhnout žádost"
+
+msgid "blog_draft"
+msgstr "Koncept"
+
+msgid "blog_draft_info"
+msgstr "Tento draft aktualizace je viditelný pouze pro autora."
+
+msgid "blog_draft_info_contributors"
+msgstr "Tento draft aktualizace je viditelný pouze pro přispěvatele."
+
+msgid "blog_draft_text"
+msgstr "Nepublikovaný příspěvek"
+
+msgid "blog_edit"
+msgstr "Upravit Blog"
+
+msgid "blog_edit_date"
+msgstr "Upravit datum"
+
+msgid "blog_edit_date_info"
+msgstr "Publikační status nezávisí na tomto datu."
+
+msgid "blog_edit_keywords"
+msgstr "Upravit klíčová slova"
+
+msgid "blog_edit_posting"
+msgstr "Upravit aktualizaci"
+
+msgid "blog_enable_approval"
+msgstr "Schválení"
+
+msgid "blog_enable_approval_info"
+msgstr "Než budou všechny příspěvky publikovány je nutné je schválit uživatelem s oprávněním \"Upravit nastavení\" pro tento blog."
+
+msgid "blog_enable_keywords"
+msgstr "Klíčová slova"
+
+msgid "blog_enable_keywords_info"
+msgstr "Klíčová slova mohou být nastavena pro příspěvky. Kliknutím na klíčové slovo zobrazíte všechny příspěvky označené tímto klíčovým slovem."
+
+msgid "blog_enable_nav_authors"
+msgstr "Authors"
+
+msgid "blog_enable_nav_authors_info"
+msgstr "Zobrazí se seznam autorů blogů. Kliknutím na uživatelské jméno se zobrazí všechny příspěvky tohoto autora."
+
+msgid "blog_enable_notes"
+msgstr "Veřejné komentáře"
+
+msgid "blog_enable_rss"
+msgstr "Aktivovat RSS"
+
+msgid "blog_enable_rss_info"
+msgstr "Tento RSS zásobník je veřejný a nezávislýna sdílení blogu nebo oprávnění uživateele."
+
+#, fuzzy
+msgid "blog_est_reading_time"
+msgstr "Estimated Reading Time"
+
+#, fuzzy
+msgid "blog_est_reading_time_info"
+msgstr "For Blogs in the repository reading time can be determined and displayed."
+
+msgid "blog_exercise_info"
+msgstr "Tento blog je částí přiřazení \"%s\" cvičení \"%s\"."
+
+msgid "blog_exercise_submitted_info"
+msgstr "Vaše poslední předložení bylo %s, zkontrolujte prosím exportní soubor: %s."
+
+msgid "blog_finalize_blog"
+msgstr "Finalizovat a předložit blog"
+
+msgid "blog_finalized"
+msgstr "Blog byl předložen."
+
+msgid "blog_import"
+msgstr "Importovat blog"
+
+#, fuzzy
+msgid "blog_incl_comments"
+msgstr "including comments"
+
+msgid "blog_keyword"
+msgstr "Klíčové slovo"
+
+msgid "blog_keyword_enter"
+msgstr "Napište klíčové slovo a stiskněte tlačítko Enter."
+
+msgid "blog_keywords"
+msgstr "Klíčová slova"
+
+msgid "blog_latest_posting"
+msgstr "Nejnovější příspěvek"
+
+#, fuzzy
+msgid "blog_link"
+msgstr "Link"
+
+msgid "blog_list_more"
+msgstr "další"
+
+msgid "blog_list_num_postings"
+msgstr "Počet příspěvků"
+
+msgid "blog_list_num_postings_info"
+msgstr "Toto nastavení se používá pouze v případě, že není vybrán konkrétní měsíc."
+
+msgid "blog_nav_mode"
+msgstr "Příspěvky"
+
+msgid "blog_nav_mode_month_list"
+msgstr "Zobrazit seznam měsíců"
+
+msgid "blog_nav_mode_month_list_info"
+msgstr "Všechny měsíce s příspěvky jsou uvedeny v bloku „Příspěvky“."
+
+msgid "blog_nav_mode_month_list_num_month"
+msgstr "Počet uvedených měsíců"
+
+msgid "blog_nav_mode_month_list_num_month_info"
+msgstr "Měsíce nad limitem nebudou uvedeny a související příspěvky nejsou přístupné."
+
+msgid "blog_nav_mode_month_list_num_month_with_post"
+msgstr "Počet měsíců s uvedenými příspěvky"
+
+msgid "blog_nav_mode_month_list_num_month_with_post_info"
+msgstr "Tyto měsíce se zobrazí se všemi příspěvky v navigačním bloku."
+
+msgid "blog_nav_mode_month_single"
+msgstr "Zobrazit vybraný měsíc"
+
+msgid "blog_nav_mode_month_single_info"
+msgstr "V bloku „Příspěvky“ jsou uvedeny pouze příspěvky vybraného měsíce. Měsíc lze změnit v rozevíracím seznamu."
+
+msgid "blog_nav_sortorder"
+msgstr "Pořadí bloků"
+
+msgid "blog_navigation"
+msgstr "Zápisy"
+
+msgid "blog_needs_approval"
+msgstr "Potřebuje schválení"
+
+msgid "blog_new"
+msgstr "Vytvořit nový blog"
+
+msgid "blog_new_posting_info"
+msgstr "První blok textu je použit jako abstrakt v seznamu zápisů."
+
+msgid "blog_news_posting_authors"
+msgstr "Přispívající autoři: %s"
+
+msgid "blog_news_posting_published"
+msgstr "Příspěvek na blogu byl publikován uživatelem %s."
+
+msgid "blog_news_posting_updated"
+msgstr "Příspěvek na blogu byl aktualizován uživatelem %s."
+
+msgid "blog_no_keywords"
+msgstr "Žádné klíčové slovo dosud nebylo vloženo."
+
+msgid "blog_notification_activated"
+msgstr "Oznamování aktivováno"
+
+msgid "blog_notification_deactivated"
+msgstr "Oznamování deaktivováno"
+
+msgid "blog_notification_toggle_off"
+msgstr "Deaktivovat oznamování"
+
+msgid "blog_notification_toggle_on"
+msgstr "Aktivovat oznamování"
+
+msgid "blog_number_users_notes_or_comments"
+msgstr "Počet uživatelů, kteří připojili poznámky nebo komentáře k tomuto záznamu"
+
+msgid "blog_posting"
+msgstr "Aktualizace blogu"
+
+msgid "blog_posting_deleted"
+msgstr "Položka byla smazána."
+
+msgid "blog_posting_deletion_confirmation"
+msgstr "Skutečně chcete smazat následující položku?"
+
+msgid "blog_posting_edit_approval_info"
+msgstr "Aktualizování zůstane schvalováno lektorem dříve než bude zveřejněno."
+
+msgid "blog_posting_not_found"
+msgstr "Tento příspěvek na blogu není dostupný."
+
+#, fuzzy
+msgid "blog_postings"
+msgstr "Postings"
+
+msgid "blog_presentation_frame"
+msgstr "Prezentace blogu"
+
+msgid "blog_presentation_overview"
+msgstr "Úvodní přehled"
+
+msgid "blog_preview"
+msgstr "Náhled"
+
+msgid "blog_profile_picture"
+msgstr "Zobrazit obrázek profilu"
+
+msgid "blog_profile_picture_repository_info"
+msgstr "Profilové obrázky autorů jsou zobrazeny pouze na stránkách příspěvků, nikoli na stránkách přehledu."
+
+msgid "blog_properties"
+msgstr "Vlastnosti blogu"
+
+msgid "blog_rename_posting"
+msgstr "Přejmenovat zápis"
+
+#, fuzzy
+msgid "blog_selected_pages"
+msgstr "Selected Postings"
+
+msgid "blog_settings"
+msgstr "Správa blogu"
+
+msgid "blog_settings_navigation"
+msgstr "Sloupec navigace"
+
+msgid "blog_show_latest"
+msgstr "Zobrazit nejnovější příspěvky/koncepty"
+
+#, fuzzy
+msgid "blog_show_print_view"
+msgstr "Show Print View"
+
+#, fuzzy
+msgid "blog_side_blocks"
+msgstr "Side Blocks"
+
+#, fuzzy
+msgid "blog_starting_page"
+msgstr "Starting Page"
+
+#, fuzzy
+msgid "blog_task_publishing_draft_title"
+msgstr "Publishing of Draft \"%s\""
+
+msgid "blog_toggle_draft"
+msgstr "Uložit jako Draft"
+
+msgid "blog_toggle_draft_admin"
+msgstr "Deaktivovat aktualizování blogu"
+
+msgid "blog_toggle_final"
+msgstr "Zveřejnit záznam"
+
+#, fuzzy
+msgid "blog_whole_blog"
+msgstr "Whole Blog"

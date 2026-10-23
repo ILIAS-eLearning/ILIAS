@@ -1,0 +1,100 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: rating\n"
+
+msgid "rat_not_rated_yet"
+msgstr "Non valutato"
+
+msgid "rat_nr_ratings"
+msgstr "%s Valutazioni"
+
+msgid "rat_one_rating"
+msgstr "Una valutazione"
+
+msgid "rating_activate_rating"
+msgstr "Consenti valutazione"
+
+msgid "rating_activate_rating_info"
+msgstr "Se abilitata, gli utenti possono valutare quest’oggetto."
+
+msgid "rating_add_category"
+msgstr "Aggiungi categoria"
+
+#, fuzzy
+msgid "rating_avg_rating"
+msgstr "Average Rating"
+
+msgid "rating_categories"
+msgstr "Rating delle categorie"
+
+msgid "rating_category_add"
+msgstr "Aggiungi"
+
+msgid "rating_category_create"
+msgstr "Crea categoria"
+
+msgid "rating_category_created"
+msgstr "Categoria creata."
+
+msgid "rating_category_delete_sure"
+msgstr "Sei sicuro di voler cancellare le seguenti categorie? Tutte le valutazioni in questa categoria saranno cancellate."
+
+msgid "rating_category_deleted"
+msgstr "Categoria cancellata."
+
+msgid "rating_category_edit"
+msgstr "Modifica categoria"
+
+msgid "rating_category_update"
+msgstr "Salva"
+
+msgid "rating_category_updated"
+msgstr "Categoria salvata."
+
+msgid "rating_export_category"
+msgstr "Categoria"
+
+msgid "rating_export_date"
+msgstr "Data"
+
+msgid "rating_export_rating"
+msgstr "Classificazione"
+
+msgid "rating_new_objects_auto"
+msgstr "Abilita la valutazione per i nuovi oggetti"
+
+msgid "rating_new_objects_auto_info"
+msgstr "Se abilitato i nuovi file, i moduli di apprendimento e wiki possono essere valutati."
+
+msgid "rating_number_votes"
+msgstr "%s Classificazioni"
+
+#, fuzzy
+msgid "rating_open_dialog"
+msgstr "Open rating dialog"
+
+msgid "rating_overlay_submit"
+msgstr "Invia voto"
+
+#, fuzzy
+msgid "rating_personal_rating"
+msgstr "Your Rating"
+
+#, fuzzy
+msgid "rating_rate_x_of_5"
+msgstr "Rate with %s of 5 stars"
+
+msgid "rating_remove"
+msgstr "Rimuovi valutazione"
+
+msgid "rating_update_positions"
+msgstr "Salva l'ordine"
+
+msgid "rating_your_rating"
+msgstr "La Tua Qualificazione."

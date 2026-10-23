@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: error\n"
+
+msgid "error_back_to_repository"
+msgstr "リポジトリへ戻る"
+
+msgid "error_sry_error"
+msgstr "エラーが発生しました。"
+
+msgid "http_404_not_found"
+msgstr "リクエストされたページは見つかりませんでした。"
+
+msgid "http_500_internal_server_error"
+msgstr "内部サーバーエラーが発生しました。"

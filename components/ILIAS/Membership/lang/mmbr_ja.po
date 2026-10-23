@@ -1,0 +1,30 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: mmbr\n"
+
+msgid "info_refuse_sure"
+msgstr "次のユーザを本当に拒否しますか?"
+
+msgid "mmbr_awrn_my_groups_courses"
+msgstr "マイグループとコース"
+
+msgid "mmbr_awrn_my_groups_courses_info"
+msgstr "全てのグループメンバーまたは現在のユーザのコースが表示されます。"
+
+msgid "mmbr_btn_mail_selected_users"
+msgstr "メールを送る"
+
+msgid "mmbr_memberships"
+msgstr "メンバーシップ"
+
+msgid "mmbr_role_error"
+msgstr "メンバーは少なくとも1つのロールを割り当てられている必要があります。"
+
+msgid "mmbr_unsubscribed_from_objs"
+msgstr "選択したオブジェクトからユーザ登録削除されました。"

@@ -1,0 +1,30 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: bg\n"
+"Language-Team: Bulgarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: classification\n"
+
+#, fuzzy
+msgid "clsfct_back_to_cat"
+msgstr "Назад към категорията"
+
+msgid "clsfct_block_info"
+msgstr "Вашата селекция филтрира обектите."
+
+#, fuzzy
+msgid "clsfct_block_title"
+msgstr "Селекция по теми"
+
+#, fuzzy
+msgid "clsfct_content_no_match"
+msgstr "Няма обекти, които да отговарят на избраните от вас критерии."
+
+msgid "clsfct_content_title"
+msgstr "Облекти, отговарящи на вашия избор"
+
+msgid "clsfct_selected_objects"
+msgstr "Избрани обекти"

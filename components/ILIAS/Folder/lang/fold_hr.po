@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: fold\n"
+
+msgid "fold_copy"
+msgstr "Kopiraj mapu"
+
+msgid "fold_import"
+msgstr "Uvezi mapu"
+
+msgid "fold_presentation"
+msgstr "Prezentacija mape"
+
+msgid "fold_settings"
+msgstr "Postavke mape"

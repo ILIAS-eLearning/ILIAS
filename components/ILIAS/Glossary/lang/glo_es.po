@@ -1,0 +1,226 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: glo\n"
+
+msgid "glo_add_from_other"
+msgstr "Recopilar términos"
+
+msgid "glo_add_glossary"
+msgstr "Añadir glosario"
+
+msgid "glo_add_to_collection"
+msgstr "Añadir glosario al glosario de colección"
+
+msgid "glo_added_to_collection_info"
+msgstr "El glosario seleccionado ha sido añadido al glosario de colección."
+
+msgid "glo_answered_correctly"
+msgstr "Lo acerté"
+
+msgid "glo_answered_not_correctly"
+msgstr "No lo sabía"
+
+msgid "glo_box"
+msgstr "Caja"
+
+msgid "glo_box_completed"
+msgstr "Ha completado la caja."
+
+msgid "glo_box_last_presented"
+msgstr "Última caja presentada"
+
+msgid "glo_boxes"
+msgstr "Cajas"
+
+msgid "glo_boxes_really_reset"
+msgstr "¿Realmente desea reiniciar todas las cajas? Todas las fichas se moverán a la primera caja."
+
+msgid "glo_boxes_reset"
+msgstr "Las cajas se han reiniciado correctamente."
+
+msgid "glo_bulk_confirmation"
+msgstr "Por favor, compruebe si todos los términos y definiciones aparecen correctamente listados."
+
+msgid "glo_bulk_creation"
+msgstr "Pegar desde Excel"
+
+msgid "glo_change_to_collection_unavailable_info"
+msgstr "Para cambiar el tipo de ensamblaje de contenido a \"Glosario de colección\", primero debe eliminar todos los términos existentes dentro de este glosario en la pestaña \"Contenido\"."
+
+msgid "glo_change_to_standard_unavailable_info"
+msgstr "Para cambiar el tipo de ensamblaje de contenido a \"Glosario estándar\", primero debe eliminar los glosarios seleccionados en la pestaña \"Contenido\"."
+
+msgid "glo_check"
+msgstr "Comprobar"
+
+msgid "glo_collection"
+msgstr "Glosario de colección"
+
+msgid "glo_collection_empty_info"
+msgstr "Este glosario de colección está actualmente vacío. Por favor, añada al menos un glosario."
+
+msgid "glo_collection_info"
+msgstr "El glosario recopila automáticamente todos los términos de los glosarios seleccionados."
+
+msgid "glo_content_assembly"
+msgstr "Ensamblaje de contenido"
+
+msgid "glo_copy"
+msgstr "Copiar glosario"
+
+msgid "glo_copy_terms"
+msgstr "Copiar términos"
+
+msgid "glo_create_term_definition_pairs"
+msgstr "Crear finalmente"
+
+msgid "glo_days_ago"
+msgstr "hace %s días"
+
+msgid "glo_def_vs_term"
+msgstr "Definición frente a Término"
+
+msgid "glo_def_vs_term_info"
+msgstr "Muestra primero una definición, el alumno tiene que adivinar el término."
+
+msgid "glo_flashcard_training"
+msgstr "Entrenamiento con fichas de memoria"
+
+msgid "glo_flashcard_training_info"
+msgstr "Ofrece una presentación en forma de fichas de memoria que permite al usuario entrenar los términos/definiciones uno a uno."
+
+msgid "glo_flashcards"
+msgstr "Fichas de memoria"
+
+msgid "glo_flashcards_from_today_confirmation"
+msgstr "La caja contiene %s fichas que ya han sido presentadas hoy. ¿Desea incluir solo las %s fichas restantes o las %s fichas en total?"
+
+msgid "glo_flashcards_from_today_only_info"
+msgstr "La caja contiene solamente fichas que ya han sido presentadas hoy. Por favor, confirme que estas %s fichas se le mostrarán de nuevo."
+
+msgid "glo_flashcards_intro"
+msgstr "Su objetivo es recordar correctamente cada ficha cuatro veces seguidas.<br />Para empezar, todas las fichas están en la caja 1.<br />Marcar una ficha como \"Lo he acertado\" la hará avanzar a la siguiente caja.<br />Marcar una ficha como \"Me he equivocado\" devolverá la ficha a la primera caja.<br />Para comenzar, seleccione una caja. Esto mostrará las fichas."
+
+msgid "glo_flashcards_progress"
+msgstr "%s de %s"
+
+msgid "glo_introduction"
+msgstr "Introducción"
+
+msgid "glo_link_glo_in_glo"
+msgstr "¿Deben enlazarse ahora todos los términos del glosario de destino en el glosario actual?"
+
+msgid "glo_link_to_usages"
+msgstr "Enlace"
+
+msgid "glo_md_advanced"
+msgstr "Más detalles"
+
+msgid "glo_page_type_gdf"
+msgstr "Definición de término"
+
+msgid "glo_please_select_other_glo"
+msgstr "Por favor, seleccione otro glosario."
+
+msgid "glo_quit_box"
+msgstr "Salir de la caja"
+
+msgid "glo_really_remove_from_collection"
+msgstr "¿Está seguro de que desea eliminar el siguiente glosario de la colección de glosarios?"
+
+msgid "glo_reference"
+msgstr "Referencia"
+
+msgid "glo_reference_terms"
+msgstr "Términos de referencia"
+
+msgid "glo_referenced_term"
+msgstr "Término referenciado"
+
+#, fuzzy
+msgid "glo_remove_glossary"
+msgstr "#Are you sure you want to remove the following glossary from the list of auto-linked glossaries?"
+
+msgid "glo_removed_from_collection_info"
+msgstr "El glosario ha sido eliminado de la colección de glosarios."
+
+msgid "glo_reset_all_boxes"
+msgstr "Reiniciar todas las cajas"
+
+msgid "glo_save_and_continue"
+msgstr "Guardar y continuar"
+
+msgid "glo_select_source_glo"
+msgstr "Por favor, seleccione un glosario de origen."
+
+msgid "glo_select_terms"
+msgstr "Seleccionar términos"
+
+msgid "glo_selected_glossaries"
+msgstr "Glosarios seleccionados"
+
+msgid "glo_selected_glossaries_info"
+msgstr "Los términos se recopilan de los siguientes glosarios:"
+
+msgid "glo_selected_glossary_is_current_info"
+msgstr "El glosario seleccionado corresponde al glosario actual. Por favor, seleccione otro glosario."
+
+msgid "glo_selected_terms_have_been_copied"
+msgstr "Los términos seleccionados se han copiado al portapapeles. Por favor, abra el glosario de destino y haga clic en \"Pegar\"."
+
+msgid "glo_show_in_presentation"
+msgstr "Mostrado en vista de presentación"
+
+msgid "glo_show_in_presentation_off"
+msgstr "Ocultar en vista de presentación"
+
+msgid "glo_show_in_presentation_on"
+msgstr "Mostrar en vista de presentación"
+
+msgid "glo_tax_info"
+msgstr "Una taxonomía en un Glosario clasifica y filtra los términos. Siempre está disponible en la vista de edición. Para la vista de presentación, la taxonomía debe activarse primero. En los glosarios, solo se puede utilizar una taxonomía."
+
+msgid "glo_term"
+msgstr "Término del glosario"
+
+msgid "glo_term_definition_pairs"
+msgstr "Datos copiados de Excel"
+
+msgid "glo_term_definition_pairs_info"
+msgstr "Copie y pegue los datos de su hoja de cálculo Excel en este campo de entrada. Por lo general, debería poder utilizar el portapapeles de su hoja de cálculo para esto.<br />De lo contrario, separe manualmente el término y la definición utilizando un punto y coma (;) o la tecla TAB (↹)."
+
+msgid "glo_term_letter"
+msgstr "Letra"
+
+msgid "glo_term_reference"
+msgstr "Referencia de término"
+
+msgid "glo_term_vs_def"
+msgstr "Término vs. Definición"
+
+msgid "glo_term_vs_def_info"
+msgstr "Muestra primero un término, el alumno tiene que adivinar la definición."
+
+msgid "glo_terms_per_page"
+msgstr "Términos por página"
+
+msgid "glo_usage_link"
+msgstr "Enlace de uso"
+
+msgid "glo_use_all_flashcards"
+msgstr "Usar todas las tarjetas de memoria (%s)"
+
+msgid "glo_use_remaining_flashcards"
+msgstr "Usar las tarjetas de memoria restantes (%s)"
+
+msgid "glo_what_means_definition"
+msgstr "¿Qué significa lo siguiente?"
+
+msgid "glo_what_means_term"
+msgstr "¿Qué significa \"%s\"?"

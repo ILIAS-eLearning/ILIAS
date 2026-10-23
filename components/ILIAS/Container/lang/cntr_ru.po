@@ -1,0 +1,131 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ru\n"
+"Language-Team: Russian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: cntr\n"
+
+msgid "cntr_add_new_item"
+msgstr "Добавить"
+
+msgid "cntr_adopt_content"
+msgstr "Адаптировать содержимое"
+
+msgid "cntr_container_only_on_their_own"
+msgstr "Categories, courses, groups, folders or study programmes can only be copied as single objects. Please select one item only."
+
+#, fuzzy
+msgid "cntr_copy_crs_grp"
+msgstr "My Courses and Groups"
+
+#, fuzzy
+msgid "cntr_copy_repo_tree"
+msgstr "Repository Tree"
+
+msgid "cntr_hide_title_and_icon"
+msgstr "Hide Title and Icon"
+
+msgid "cntr_manage"
+msgstr "Управление"
+
+msgid "cntr_ordering"
+msgstr "Сортировка"
+
+msgid "cntr_saved_sorting"
+msgstr "Saved Sorting."
+
+msgid "cntr_switch_to_new_editor_cmd"
+msgstr "Switch to this page for presentation"
+
+msgid "cntr_switch_to_new_editor_message"
+msgstr "This is the supported standard editor. Please use it to setup the content page. If you click the following link, the content presentation in the repository will switch from the old editor's content to this page."
+
+msgid "cntr_switched_editor"
+msgstr "Switched to new content."
+
+#, fuzzy
+msgid "cntr_tax_none_available"
+msgstr "There are no taxonomies available."
+
+#, fuzzy
+msgid "cntr_tax_settings_info"
+msgstr "Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the \"Metadata\" tabs and the \"Taxonomy Assignment\" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's \"Contents\" tab to enable direct filtering of the assigned objects."
+
+#, fuzzy
+msgid "cntr_taxonomy_definitions"
+msgstr "Taxonomy Definition"
+
+#, fuzzy
+msgid "cntr_taxonomy_show_sideblock"
+msgstr "Show taxonomy in side block"
+
+#, fuzzy
+msgid "cntr_taxonomy_sideblock_settings"
+msgstr "Taxonomy Block Settings"
+
+msgid "cntr_text_media_editor"
+msgstr "Text/Media Editor"
+
+msgid "cntr_view_by_type"
+msgstr "Отображение по типу"
+
+msgid "cntr_view_info_by_type"
+msgstr "Группирует все элементы по типу ресурса."
+
+msgid "cntr_view_info_sessions"
+msgstr "Сначала группирует все сессии. После этого отображается содержимое курса."
+
+msgid "cntr_view_info_simple"
+msgstr "Отображает все элементы в виде одного блока."
+
+msgid "cntr_view_sessions"
+msgstr "Вид сессий"
+
+msgid "cntr_view_simple"
+msgstr "Простой вид"
+
+msgid "container_import_zip_file_invalid"
+msgstr "The uploaded file is not a valid ILIAS export file. To upload a directory structure please use a file object."
+
+msgid "edit_questions"
+msgstr "Edit Questions"
+
+msgid "exc_next_deadline_single"
+msgstr "Deadline"
+
+#, fuzzy
+msgid "msg_no_downloadable_objects"
+msgstr "No downloadable objects found."
+
+msgid "objects_duplicated"
+msgstr "Objects copied"
+
+msgid "prtf_create_portfolio_from_template"
+msgstr "Create Portfolio From Template"
+
+#, fuzzy
+msgid "sorting_new_items_at_bottom"
+msgstr "Bottom"
+
+#, fuzzy
+msgid "sorting_new_items_at_top"
+msgstr "Top"
+
+#, fuzzy
+msgid "sorting_new_items_direction"
+msgstr "Sorting Direction for New Objects"
+
+#, fuzzy
+msgid "sorting_new_items_order"
+msgstr "Order For New Objects"
+
+#, fuzzy
+msgid "sorting_new_items_position"
+msgstr "Position For New Objects"
+
+#, fuzzy
+msgid "tab_back_to_repository"
+msgstr "Back to Repository"

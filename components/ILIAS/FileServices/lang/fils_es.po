@@ -1,0 +1,105 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: fils\n"
+
+msgid "add_upload_policy"
+msgstr "Añadir política"
+
+msgid "edit_upload_policy"
+msgstr "Editar política"
+
+msgid "file_services"
+msgstr "Servicios de archivos"
+
+msgid "file_services_description"
+msgstr "Configuración de los ajustes del servicio de archivos."
+
+msgid "file_suffix_custom_expl_negative"
+msgstr "Sufijos de archivo prohibidos"
+
+msgid "file_suffix_custom_expl_negative_info"
+msgstr "Los archivos con estos sufijos no se aceptarán para la subida."
+
+msgid "file_suffix_custom_negative"
+msgstr "Sufijos de archivo: Lista negativa (adaptaciones)"
+
+msgid "file_suffix_custom_negative_info"
+msgstr "Estos sufijos de archivo se eliminarán de la lista positiva."
+
+msgid "file_suffix_custom_positive"
+msgstr "Sufijos de archivo: Lista positiva (adiciones)"
+
+msgid "file_suffix_custom_positive_info"
+msgstr "Estos sufijos de archivo se añadirán a la lista positiva."
+
+msgid "file_suffix_default_positive"
+msgstr "Sufijos de archivo: Lista positiva (lista por defecto)"
+
+msgid "file_suffix_default_positive_info"
+msgstr "Lista predeterminada de sufijos de archivo aceptados."
+
+msgid "file_suffix_overall_positive"
+msgstr "Lista positiva global"
+
+msgid "file_suffix_overall_positive_info"
+msgstr "Esta es la lista final de sufijos de archivo aceptados."
+
+msgid "policy_audience"
+msgstr "Grupo objetivo"
+
+msgid "policy_audience_all_users_option_desc"
+msgstr "Aplicar política a todos los usuarios."
+
+msgid "policy_audience_global_roles_option_desc"
+msgstr "Aplicar política a usuarios con roles globales específicos."
+
+msgid "policy_confirm_deletion"
+msgstr "¿Está seguro de que desea eliminar la política con las siguientes propiedades?:"
+
+msgid "policy_deletion_failure_not_found"
+msgstr "Error: La eliminación falló porque no se pudo encontrar la política."
+
+msgid "policy_deletion_successful"
+msgstr "Política eliminada con éxito."
+
+msgid "policy_filter"
+msgstr "Filtro de políticas"
+
+msgid "policy_no_validity_limitation_set"
+msgstr "Válido indefinidamente"
+
+msgid "policy_scope"
+msgstr "Alcance"
+
+msgid "policy_table_info_no_policies"
+msgstr "Aún no se han creado políticas de carga."
+
+msgid "policy_title_desc"
+msgstr "Título descriptivo para esta política."
+
+msgid "policy_upload_limit"
+msgstr "Límite de carga"
+
+msgid "policy_upload_limit_desc"
+msgstr "Límite de carga (en MB) impuesto por esta política."
+
+msgid "policy_valid_until"
+msgstr "Válido hasta"
+
+msgid "policy_valid_until_desc"
+msgstr "Establezca una fecha opcional de 'válido hasta', después de la cual la política expira."
+
+msgid "policy_validity"
+msgstr "Validez"
+
+msgid "upload_limits"
+msgstr "Límites de carga"
+
+msgid "upload_policies"
+msgstr "Políticas de carga"

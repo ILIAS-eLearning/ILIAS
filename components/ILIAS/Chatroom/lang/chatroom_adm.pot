@@ -1,0 +1,54 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: chatroom_adm\n"
+
+msgid "chat_cannot_connect_to_server"
+msgstr ""
+
+msgid "chat_enabled"
+msgstr ""
+
+msgid "chatserver_settings_title"
+msgstr ""
+
+msgid "client_settings"
+msgstr ""
+
+msgid "general_settings_title"
+msgstr ""
+
+msgid "https"
+msgstr ""
+
+msgid "osc_adm_browser_noti_info"
+msgstr ""
+
+msgid "osc_adm_browser_noti_label"
+msgstr ""
+
+msgid "osc_adm_conv_idle_state_threshold_info"
+msgstr ""
+
+msgid "osc_adm_conv_idle_state_threshold_label"
+msgstr ""
+
+msgid "port_info"
+msgstr ""
+
+msgid "protocol"
+msgstr ""
+
+msgid "public_chat_permissions"
+msgstr ""
+
+msgid "public_chat_settings"
+msgstr ""
+
+msgid "server_settings"
+msgstr ""
+
+msgid "settings_has_been_saved"
+msgstr ""

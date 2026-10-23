@@ -1,0 +1,305 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: news\n"
+
+#, fuzzy
+msgid "lso_news_online_title"
+msgstr "A new learning sequence object is online!"
+
+#, fuzzy
+msgid "lso_news_online_txt"
+msgstr "A new object for your learning sequence was just published."
+
+#, fuzzy
+msgid "new_test_online"
+msgstr "The Test was set online."
+
+msgid "news_1_file_created"
+msgstr "1个文件已经添加。"
+
+msgid "news_1_file_updated"
+msgstr "1个文件已经更新。"
+
+#, fuzzy
+msgid "news_1_postings"
+msgstr "One post has been added."
+
+msgid "news_add_news"
+msgstr "添加新闻"
+
+msgid "news_all_items"
+msgstr "所有物品"
+
+msgid "news_allow_longer_periods"
+msgstr "允许更长的时间段"
+
+msgid "news_allow_longer_periods_info"
+msgstr "用户能在个人桌面上选择更长的新闻时间区间。"
+
+msgid "news_allow_shorter_periods"
+msgstr "允许更短的时间区间"
+
+msgid "news_allow_shorter_periods_info"
+msgstr "用户能在个人桌面上选择更短的新闻时间区间。"
+
+msgid "news_attached_to"
+msgstr "已附加到"
+
+msgid "news_block_information"
+msgstr "在个人桌面上，<b>新闻</b>区块列出所有已关联到<b>个人项目</b>的您已选择的新闻。"
+
+msgid "news_cache"
+msgstr "新闻缓存"
+
+msgid "news_cache_info"
+msgstr "更新新闻块x分钟。'0'表示每次。更高的值将提高性能，但新闻可能链接到不可访问项。"
+
+msgid "news_default_visibility"
+msgstr "默认访问"
+
+msgid "news_edit_news_settings"
+msgstr "编辑设置"
+
+msgid "news_enable_internal_news"
+msgstr "启用内部新闻"
+
+msgid "news_enable_internal_news_info"
+msgstr "激活类目、课程、组和其他对象的新闻区块。用户可以订阅新闻，并且展现在个人桌面上。"
+
+msgid "news_enable_internal_rss"
+msgstr "为内部新闻启用RSS"
+
+msgid "news_enable_internal_rss_info"
+msgstr "允许通过RSS发布新闻项。这些项将无需身份验证，可由系统外访问。"
+
+msgid "news_enable_private_feed"
+msgstr "启用私有新闻feed"
+
+msgid "news_enable_private_feed_info"
+msgstr "如果启用此选项，公有的和私有的新闻可以通过ILIAS之外的个人RSS feeds来获取。通过密码来进行身份验证。"
+
+msgid "news_feed_url"
+msgstr "Feed URL"
+
+msgid "news_feed_url_for"
+msgstr "'%s' 的Feed URL"
+
+msgid "news_first_letter_of_word_notification"
+msgstr "N"
+
+msgid "news_get_feed_info"
+msgstr "这是一个个人新闻feed URL。此feed仅包含由作者声明为公有的新闻。此feed没有任何身份验证过程保护。请不要与别人分享这个URL。"
+
+msgid "news_get_feed_title"
+msgstr "个人feed URL"
+
+msgid "news_get_feed_url"
+msgstr "获得feed URL"
+
+msgid "news_get_priv_feed_info"
+msgstr "这是一个个人私有的新闻feed URL。此feed包含由作者声明的公有的和私有的新闻。此feed由一个密码所保护，可以由下面的“设置”所更改。请不要与别人分享这个URL。请在这个URL中置换 -密码- 为您的Feed密码。"
+
+msgid "news_get_priv_feed_title"
+msgstr "个人私有 Feed-URL"
+
+msgid "news_hide_news_block"
+msgstr "隐藏新闻区块"
+
+msgid "news_hide_news_block_info"
+msgstr "在学习者的视图中隐藏区块。新闻区域将仅有具备写权限的用户才可见"
+
+msgid "news_hide_news_date"
+msgstr "开始时间"
+
+msgid "news_hide_news_per_date"
+msgstr "Show News After"
+
+msgid "news_hide_news_per_date_info"
+msgstr "只有比一个确定日期更新的新闻才会被显示。"
+
+#, fuzzy
+msgid "news_inactive_private_feed_info"
+msgstr "Your private news feed is deactivated. Please set a password in the settings."
+
+msgid "news_internal_news"
+msgstr "内部新闻"
+
+msgid "news_keep_minimal_x_items"
+msgstr "保持至少x项目"
+
+msgid "news_keep_minimal_x_items_info"
+msgstr "如果设置到一个大于0的值，这是保持在feed中的条目数量，即使它们比默认生命期更老。"
+
+msgid "news_loading_news"
+msgstr "正在加载新闻……"
+
+#, fuzzy
+msgid "news_media"
+msgstr "Media File"
+
+#, fuzzy
+msgid "news_new_comments"
+msgstr "New comments"
+
+#, fuzzy
+msgid "news_new_reactions"
+msgstr "New reactions"
+
+#, fuzzy
+msgid "news_news_block"
+msgstr "News Block"
+
+msgid "news_news_item_content"
+msgstr "文本；"
+
+msgid "news_news_item_content_long"
+msgstr "长文本"
+
+msgid "news_news_item_content_long_info"
+msgstr "此文本将不会通过RSS发布。"
+
+#, fuzzy
+msgid "news_news_item_def_visibility_public_info"
+msgstr "Current news are accessible in a public RSS webfeed. They should not contain confidential information."
+
+#, fuzzy
+msgid "news_news_item_def_visibility_users_info"
+msgstr "Only authenticated users have access to current news."
+
+msgid "news_news_item_head"
+msgstr "新闻项"
+
+msgid "news_news_item_title"
+msgstr "头条"
+
+msgid "news_news_item_visibility"
+msgstr "访问"
+
+msgid "news_news_item_visibility_info"
+msgstr "公共新闻可以无需ILIAS身份验证，通过RSS来访问。请不要包含任何机密信息。"
+
+msgid "news_news_items"
+msgstr "新闻项"
+
+msgid "news_no_js_click_here"
+msgstr "如果新闻没有显示，请点击这里"
+
+msgid "news_no_news_items"
+msgstr "没有新闻可用。"
+
+#, fuzzy
+msgid "news_not_available"
+msgstr "Unavailable News"
+
+msgid "news_notifications"
+msgstr "通知"
+
+msgid "news_notifications_public"
+msgstr "公共通知"
+
+msgid "news_notifications_public_info"
+msgstr "如果这个选项已启用，可以由ILIAS以外的个人RSS feeds获得通知。请注意，这个通知无需身份验证就可访问。"
+
+msgid "news_nr_of_items"
+msgstr "每个对象的最大新闻项数"
+
+msgid "news_nr_of_items_info"
+msgstr "保持数据库中一个对象（例如，一个文件或一个学习模块）的新闻项的数量。请注意，窗口对象（例如类目、课程）可能列出更多项，因为它们聚合了子对象的新闻。"
+
+msgid "news_pd_period"
+msgstr "个人桌面新闻周期"
+
+msgid "news_pd_period_info"
+msgstr "定义个人桌面上新闻的时间周期。如果您遇到任何性能问题，请选择更小的值。"
+
+msgid "news_period_1_month"
+msgstr "Last Month上个月"
+
+msgid "news_period_1_week"
+msgstr "Last Week上周"
+
+msgid "news_period_1_year"
+msgstr "Last Year去年"
+
+msgid "news_period_x_days"
+msgstr "前 %s 天"
+
+msgid "news_period_x_months"
+msgstr "前 %s 月"
+
+msgid "news_period_x_weeks"
+msgstr "前 %s 周"
+
+msgid "news_public_feed"
+msgstr "额外的 Feed URL"
+
+msgid "news_public_feed_info"
+msgstr "如果启用此选项，一个已分离的此项的新闻feed url已被提供。"
+
+#, fuzzy
+msgid "news_really_delete_news"
+msgstr "Do you really want to delete this news item?"
+
+#, fuzzy
+msgid "news_rss"
+msgstr "RSS"
+
+msgid "news_rss_period"
+msgstr "RSS 周期"
+
+msgid "news_rss_title_format"
+msgstr "RSS条目的标题格式"
+
+msgid "news_rss_title_format_news_obj"
+msgstr "新闻头条(对象标题)"
+
+msgid "news_rss_title_format_obj_news"
+msgstr "对象标题"
+
+msgid "news_settings"
+msgstr "新闻设置"
+
+#, fuzzy
+msgid "news_sorry_not_accessible_anymore"
+msgstr "Sorry, this item is not accessible anymore."
+
+msgid "news_time_period"
+msgstr "时间周期"
+
+#, fuzzy
+msgid "news_timline_add_entries_info"
+msgstr "No news available yet. Click \"Add\" to create news entries."
+
+#, fuzzy
+msgid "news_timline_no_entries"
+msgstr "No news have been found."
+
+msgid "news_visibility_public"
+msgstr "公共："
+
+msgid "news_visibility_users"
+msgstr "已登录用户"
+
+msgid "news_x_files_created"
+msgstr "%s 文件已添加。"
+
+msgid "news_x_files_updated"
+msgstr "%s 文件已经更新。"
+
+msgid "news_x_postings"
+msgstr "%s 帖子已添加。"
+
+msgid "passwd_equals_ilpasswd"
+msgstr "请输入一个密码，不同于您的ILIAS密码。"
+
+msgid "priv_feed_disabled"
+msgstr "禁止私有新闻feed。"
+
+msgid "priv_feed_settings"
+msgstr "私有新闻设置"

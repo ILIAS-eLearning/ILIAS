@@ -1,0 +1,105 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: stus\n"
+
+msgid "stus_action_delete"
+msgstr "削除"
+
+msgid "stus_action_edit"
+msgstr "編集"
+
+msgid "stus_action_toggle"
+msgstr "有効/無効"
+
+msgid "stus_active"
+msgstr "有効"
+
+msgid "stus_alias"
+msgstr "ショートリンク"
+
+msgid "stus_alias_already_exists"
+msgstr "ショートリンクはすでに使用されています。別のものを選んでください。"
+
+msgid "stus_alias_invalid"
+msgstr "ショートリンクには無効な文字が含まれています。許可されている文字: A-Z、a-z、0-9、- および _。"
+
+msgid "stus_confirm_delete"
+msgstr "エントリーを削除"
+
+msgid "stus_create_shortlink"
+msgstr "ショートリンクを作成"
+
+msgid "stus_delete"
+msgstr "削除"
+
+msgid "stus_delete_shortlink"
+msgstr "削除"
+
+msgid "stus_delete_shortlink_msg"
+msgstr "ショートリンクを削除しました"
+
+msgid "stus_index"
+msgstr "管理"
+
+msgid "stus_info"
+msgstr "インフォメーション"
+
+msgid "stus_info_active"
+msgstr "非アクティブなショートリンクは呼び出してもリダイレクトされません。"
+
+msgid "stus_info_alias"
+msgstr "次の文字のみを含めることができます: A-Z、a-z、0-9、- および _。"
+
+msgid "stus_info_target_ref_id"
+msgstr "ターゲットオブジェクト"
+
+msgid "stus_order_saved"
+msgstr "順番を保存しました"
+
+msgid "stus_prefix"
+msgstr "プレフィックス"
+
+msgid "stus_rbac_permissions"
+msgstr "権限"
+
+msgid "stus_shortlink"
+msgstr "ショートリンク"
+
+msgid "stus_shortlinks"
+msgstr "ショートリンク"
+
+msgid "stus_shortlinks_deleted"
+msgstr "ショートリンクは削除されました"
+
+msgid "stus_shortlinks_toggled"
+msgstr "ショートリンクは無効化/有効化されました"
+
+msgid "stus_stus_stored_sucessfully"
+msgstr "ショートリンクは正しく保存されました。"
+
+msgid "stus_stus_toggle"
+msgstr "無効化/有効化"
+
+msgid "stus_target_link"
+msgstr "ターゲットオブジェクト"
+
+msgid "stus_target_ref_id"
+msgstr "ターゲットオブジェクト"
+
+msgid "stus_target_ref_id_required"
+msgstr "ターゲットオブジェクトを選択"
+
+msgid "stus_toggle"
+msgstr "無効化/有効化"
+
+msgid "stus_toggle_shortlink"
+msgstr "ステータスを変更"
+
+msgid "stus_toggle_shortlink_msg"
+msgstr "以下のエントリのアクティブ状態を変更しますか？"

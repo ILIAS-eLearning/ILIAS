@@ -1,0 +1,15 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: cmxv\n"
+
+msgid "cmxv_create"
+msgstr "xAPI/cmi5 Objectの証明書を作成"
+
+msgid "cmxv_create_info"
+msgstr "そのための証明書を作成するには、完了済xAPI/cmi5 objectを選択"

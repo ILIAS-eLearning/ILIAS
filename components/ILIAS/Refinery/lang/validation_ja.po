@@ -1,0 +1,66 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: validation\n"
+
+msgid "datetime_required"
+msgstr "Time/Date 必須"
+
+msgid "no_array"
+msgstr "入力の値はアレイではありません"
+
+msgid "not_a_null"
+msgstr "タイプ'%s'の値は null ではありあせん。"
+
+msgid "not_a_string"
+msgstr "タイプ'%s'の値はストリングではありません。"
+
+msgid "not_an_array"
+msgstr "%s'は行列ではりません。"
+
+msgid "not_an_array_of"
+msgstr "行列失敗強制の要素: %s"
+
+msgid "not_an_int"
+msgstr "タイプ'%s'の値は整数ではありません。"
+
+msgid "not_generic"
+msgstr "そのようなケースではありません: %s"
+
+msgid "not_greater_than"
+msgstr "%s' は'%s'以上です。"
+
+msgid "not_greater_than_or_equal"
+msgstr "値が '%s' 以上ではありません。"
+
+msgid "not_less_than"
+msgstr "%s'は'%s'以下です。"
+
+msgid "not_less_than_or_equal"
+msgstr "値が '%s' 以下ではありません。"
+
+msgid "not_max_length"
+msgstr "入力のテキスト長は'%s'以上あります。"
+
+msgid "not_min_length"
+msgstr "入力の長さはf %dで最小長%dなので失敗します。"
+
+msgid "not_numeric"
+msgstr "%s' は数字ではありません。"
+
+msgid "not_numeric_empty_string"
+msgstr "入力が数字ではありません。"
+
+msgid "numeric_only"
+msgstr "全ての番号を挿入してください。"
+
+msgid "required"
+msgstr "この入力は必須です。"
+
+msgid "tag_required"
+msgstr "tagを一つは挿入してください。"

@@ -1,0 +1,93 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: et\n"
+"Language-Team: Estonian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: notifications_adm\n"
+
+#, fuzzy
+msgid "available_providers"
+msgstr "Available Providers"
+
+#, fuzzy
+msgid "client_settings"
+msgstr "Client Settings"
+
+#, fuzzy
+msgid "enable_osd"
+msgstr "Enable Toasts"
+
+#, fuzzy
+msgid "enable_osd_desc"
+msgstr "If enabled, users are notified by a pop-up about new notifications."
+
+#, fuzzy
+msgid "enable_push"
+msgstr "Enable Push Notifications"
+
+#, fuzzy
+msgid "enable_push_desc"
+msgstr "If enabled, users are notified by push notifications. User can change this behaviour within their user settings."
+
+#, fuzzy
+msgid "notification_settings"
+msgstr "Notification Settings"
+
+#, fuzzy
+msgid "osd_error_refresh_interval_too_small"
+msgstr "The Refresh Interval has to be at least than 3000 miliseconds."
+
+#, fuzzy
+msgid "osd_interval"
+msgstr "Refreshinterval"
+
+#, fuzzy
+msgid "osd_interval_desc"
+msgstr "Polling interval for checking of new notifications in miliseconds. A lower number will notify the user more quickly but increases the number of requests the web server must handle."
+
+#, fuzzy
+msgid "osd_play_sound"
+msgstr "Play a Sound"
+
+#, fuzzy
+msgid "osd_play_sound_desc"
+msgstr "Play a sound when receiving a new notficiation."
+
+#, fuzzy
+msgid "osd_settings"
+msgstr "Toasts"
+
+#, fuzzy
+msgid "push_client_already_used"
+msgstr "Push notifications are already used by another user for this client."
+
+#, fuzzy
+msgid "push_client_edge_case"
+msgstr "The Edge Browser might have deactivated notifications without your consent. Enter your browser settings to reactivate them."
+
+#, fuzzy
+msgid "push_client_inactive"
+msgstr "Push notifications are disabled for this website. Open your browser settings to activate them."
+
+#, fuzzy
+msgid "push_client_ios_case"
+msgstr "If you are using IOS (Iphone, Ipad, Ipod) push notifications for websites are not supported. Create an access via web app to enable them."
+
+#, fuzzy
+msgid "push_settings"
+msgstr "Push Notifications"
+
+#, fuzzy
+msgid "push_subscription_successfull"
+msgstr "Push Notifications activation successful"
+
+#, fuzzy
+msgid "push_subscription_successfull_desc"
+msgstr "This is a dummy notification to verify the successful activation of push notifications."
+
+#, fuzzy
+msgid "user_settings"
+msgstr "User Settings"

@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: wfld\n"
+
+msgid "wfld_add"
+msgstr "Créer Dossier"
+
+msgid "wfld_alphabetically_asc"
+msgstr "Alphabétique, ordre croissant"
+
+msgid "wfld_alphabetically_desc"
+msgstr "Alphabétique, ordre décroissant"
+
+msgid "wfld_creation_asc"
+msgstr "Date de création, ordre croissant"
+
+msgid "wfld_creation_desc"
+msgstr "Date de création, ordre décroissant"
+
+msgid "wfld_derive"
+msgstr "Adopt from parent"
+
+msgid "wfld_edit"
+msgstr "Editer Dossier"
+
+msgid "wfld_new"
+msgstr "Créer Nouveau Dossier"
+
+msgid "wfld_sortation"
+msgstr "Tri"

@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: link\n"
+
+msgid "link_chapters"
+msgstr "Capitoli"
+
+msgid "link_link"
+msgstr "Collegamento"
+
+msgid "link_mobs"
+msgstr "Oggetti multimediali"
+
+msgid "link_terms"
+msgstr "Termini"
+
+msgid "link_wpages"
+msgstr "Pagine Wiki"

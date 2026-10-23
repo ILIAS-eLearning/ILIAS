@@ -1,0 +1,331 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: lt\n"
+"Language-Team: Lithuanian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 1 : 2);\n"
+"X-Domain: news\n"
+
+#, fuzzy
+msgid "lso_news_online_title"
+msgstr "A new learning sequence object is online!"
+
+#, fuzzy
+msgid "lso_news_online_txt"
+msgstr "A new object for your learning sequence was just published."
+
+#, fuzzy
+msgid "new_test_online"
+msgstr "The Test was set online."
+
+msgid "news_1_file_created"
+msgstr "Įkeltas 1 Failas"
+
+msgid "news_1_file_updated"
+msgstr "Atnaujintas 1 Failas"
+
+#, fuzzy
+msgid "news_1_postings"
+msgstr "One post has been added."
+
+#, fuzzy
+msgid "news_add_news"
+msgstr "Add News"
+
+#, fuzzy
+msgid "news_all_items"
+msgstr "All Items"
+
+msgid "news_allow_longer_periods"
+msgstr "Leisti Ilgesnius Periodus"
+
+msgid "news_allow_longer_periods_info"
+msgstr "Vartotojai asmeniniame darbastalyje gali pasirinkti ilgesnius naujienų periodus."
+
+msgid "news_allow_shorter_periods"
+msgstr "Leisti Trumpesnius Periodus"
+
+msgid "news_allow_shorter_periods_info"
+msgstr "artotojai asmeniniame darbastalyje gali pasirinkti trumpesnius naujienų periodus."
+
+#, fuzzy
+msgid "news_attached_to"
+msgstr "Attached to"
+
+msgid "news_block_information"
+msgstr "<b>Naujienų</b> bloke talpinamos visos naujienos, susijusios su <b>Asmeninais Objektais</b>, kuriuos pasirinkote asmeniniame darbastalyje."
+
+#, fuzzy
+msgid "news_cache"
+msgstr "News Cache (Minutes)"
+
+#, fuzzy
+msgid "news_cache_info"
+msgstr "Update news blocks all x minutes. '0' means everytime. Higher values improve performance, but news may link to non-accessible items."
+
+#, fuzzy
+msgid "news_default_visibility"
+msgstr "Default Access"
+
+msgid "news_edit_news_settings"
+msgstr "Redaguoti Nuostatas"
+
+msgid "news_enable_internal_news"
+msgstr "Įjungti Vidines Naujienas"
+
+msgid "news_enable_internal_news_info"
+msgstr "Įjungti naujienų blokus kategorijoms, kursams, grupėms ir kitiems objektams. Naudotojai gali užsisakyti naujienas ir naujienos pateikiamos asmeniniuose darbastaliuose."
+
+msgid "news_enable_internal_rss"
+msgstr "Įjungti Vidinių Naujienų RSS"
+
+msgid "news_enable_internal_rss_info"
+msgstr "Įgalina skelbti naujienas RSS formatu. Šie objektai bus prienami ne sistemoje be autorizacijos."
+
+#, fuzzy
+msgid "news_enable_private_feed"
+msgstr "Enable private Newsfeed"
+
+#, fuzzy
+msgid "news_enable_private_feed_info"
+msgstr "If this option is enabled, public and private news can be obtained by personal RSS feeds outside of ILIAS. Authentification is provided by password."
+
+msgid "news_feed_url"
+msgstr "Šaltinio URL"
+
+msgid "news_feed_url_for"
+msgstr "'%s' šaltinio URL"
+
+msgid "news_first_letter_of_word_notification"
+msgstr "N"
+
+msgid "news_get_feed_info"
+msgstr "Tai asmeninio naujienų šaltinio URL. Šaltiniyje yra tik autoriaus viešai skelbiamos naujienos. Šaltinis neapsaugotas, todėl prašome nesidalinti šia nuoroda su kitais žmonėmis."
+
+msgid "news_get_feed_title"
+msgstr "Asmeninio Šaltinio URL"
+
+msgid "news_get_feed_url"
+msgstr "Gauti Šaltinio URL"
+
+#, fuzzy
+msgid "news_get_priv_feed_info"
+msgstr "This is a personal private news feed URL. The feed includes news that are declared as public and private by the author. This feed is protected by a password, which can be changed under \"Settings\". Please do not share this URL with other people. Please replace -password- in this URL with your Feed-Password."
+
+#, fuzzy
+msgid "news_get_priv_feed_title"
+msgstr "Personal private Feed-URL"
+
+#, fuzzy
+msgid "news_hide_news_block"
+msgstr "Hide News Block"
+
+#, fuzzy
+msgid "news_hide_news_block_info"
+msgstr "Hide block in learner's view. The news block will only be visible for users with write permission."
+
+msgid "news_hide_news_date"
+msgstr "Pradinė Data"
+
+msgid "news_hide_news_per_date"
+msgstr "Rodyti Naujienas Po"
+
+msgid "news_hide_news_per_date_info"
+msgstr "Bus rodomos naujesnės už nurodytą datą naujienos."
+
+#, fuzzy
+msgid "news_inactive_private_feed_info"
+msgstr "Your private news feed is deactivated. Please set a password in the settings."
+
+msgid "news_internal_news"
+msgstr "Vidinės Naujienos"
+
+#, fuzzy
+msgid "news_keep_minimal_x_items"
+msgstr "Keep at least x items"
+
+#, fuzzy
+msgid "news_keep_minimal_x_items_info"
+msgstr "If set to a value > 0, this is the number of items that are kept in the feed, even if they are older than the default lifetime."
+
+#, fuzzy
+msgid "news_loading_news"
+msgstr "Loading News..."
+
+#, fuzzy
+msgid "news_media"
+msgstr "Media File"
+
+#, fuzzy
+msgid "news_new_comments"
+msgstr "New comments"
+
+#, fuzzy
+msgid "news_new_reactions"
+msgstr "New reactions"
+
+#, fuzzy
+msgid "news_news_block"
+msgstr "News Block"
+
+msgid "news_news_item_content"
+msgstr "Tekstas"
+
+msgid "news_news_item_content_long"
+msgstr "Visas Tekstas"
+
+msgid "news_news_item_content_long_info"
+msgstr "Šis tekstas nebus skelbiamas RSS formatu."
+
+#, fuzzy
+msgid "news_news_item_def_visibility_public_info"
+msgstr "Current news are accessible in a public RSS webfeed. They should not contain confidential information."
+
+#, fuzzy
+msgid "news_news_item_def_visibility_users_info"
+msgstr "Only authenticated users have access to current news."
+
+msgid "news_news_item_head"
+msgstr "Naujiena"
+
+msgid "news_news_item_title"
+msgstr "Antraštė"
+
+msgid "news_news_item_visibility"
+msgstr "Prieiga"
+
+msgid "news_news_item_visibility_info"
+msgstr "Viešos naujienos gali būti gaunamos RSS formatu be aprobojimų už ILAIS ribų. Prašome neskelbti jokios konfidencialios informacijos."
+
+msgid "news_news_items"
+msgstr "Naujienų Objektas(-ai)"
+
+#, fuzzy
+msgid "news_no_js_click_here"
+msgstr "If news are not displayed, click here."
+
+msgid "news_no_news_items"
+msgstr "Naujienų nėra"
+
+#, fuzzy
+msgid "news_not_available"
+msgstr "Unavailable News"
+
+#, fuzzy
+msgid "news_notifications"
+msgstr "Notifications"
+
+msgid "news_notifications_public"
+msgstr "Vieši Perspėjimai"
+
+msgid "news_notifications_public_info"
+msgstr "Jei ši parinktis aktyvuota, perspėjimus galima gauti už ILIAS sistemos ribų RSS šaltinio pagalba. Atkreipkite dėmesį, kad tuomet perspėjimai taps vieši, neapsaugoti."
+
+#, fuzzy
+msgid "news_nr_of_items"
+msgstr "Number of Maximum News Items per Object"
+
+#, fuzzy
+msgid "news_nr_of_items_info"
+msgstr "Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of subobjects."
+
+msgid "news_pd_period"
+msgstr "Asmeninio Darbastalio Naujienų Periodiškumas"
+
+msgid "news_pd_period_info"
+msgstr "Apibrėžia naujienų periodiškumą asmeniniame darbastalyje. Jei susiduriate su sparos probemoma, rinkitės mažesnes reikšmes."
+
+msgid "news_period_1_month"
+msgstr "Praėjusį Mėnesį"
+
+msgid "news_period_1_week"
+msgstr "Praėjusią Savaitę"
+
+msgid "news_period_1_year"
+msgstr "Praeitais Metais"
+
+msgid "news_period_x_days"
+msgstr "Praėjusias %s Deinas"
+
+msgid "news_period_x_months"
+msgstr "Praėjusius %s Mėnesius"
+
+msgid "news_period_x_weeks"
+msgstr "Praėjusias %s Savaites"
+
+msgid "news_public_feed"
+msgstr "Papildoma Šaltinio URL"
+
+msgid "news_public_feed_info"
+msgstr "Jei ši parinktis aktyvuota, šiam objektui pateikiama papildoma naujienų šaltinio nuoroda."
+
+#, fuzzy
+msgid "news_really_delete_news"
+msgstr "Do you really want to delete this news item?"
+
+#, fuzzy
+msgid "news_rss"
+msgstr "RSS"
+
+msgid "news_rss_period"
+msgstr "RSS Periodas"
+
+#, fuzzy
+msgid "news_rss_title_format"
+msgstr "Title Format of RSS Entries"
+
+#, fuzzy
+msgid "news_rss_title_format_news_obj"
+msgstr "News Headline (Object Title)"
+
+#, fuzzy
+msgid "news_rss_title_format_obj_news"
+msgstr "Object Title - News Headline"
+
+msgid "news_settings"
+msgstr "Naujienų Nuostatos"
+
+#, fuzzy
+msgid "news_sorry_not_accessible_anymore"
+msgstr "Sorry, this item is not accessible anymore."
+
+#, fuzzy
+msgid "news_time_period"
+msgstr "Time Period"
+
+#, fuzzy
+msgid "news_timline_add_entries_info"
+msgstr "No news available yet. Click \"Add\" to create news entries."
+
+#, fuzzy
+msgid "news_timline_no_entries"
+msgstr "No news have been found."
+
+msgid "news_visibility_public"
+msgstr "Viešai"
+
+msgid "news_visibility_users"
+msgstr "Prisijungusiems Vartotojams"
+
+msgid "news_x_files_created"
+msgstr "Įkelta Failų: %s"
+
+msgid "news_x_files_updated"
+msgstr "Atnaujinta Failų: %s"
+
+msgid "news_x_postings"
+msgstr "Paskelbta pranešimų: %s"
+
+#, fuzzy
+msgid "passwd_equals_ilpasswd"
+msgstr "Please enter a password different from your ILIAS-password."
+
+#, fuzzy
+msgid "priv_feed_disabled"
+msgstr "Private Newsfeed disabled."
+
+#, fuzzy
+msgid "priv_feed_settings"
+msgstr "Private Newsfeed settings"

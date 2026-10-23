@@ -1,0 +1,61 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: maps\n"
+
+msgid "configure_geolocation"
+msgstr "Dokončete konfiguraci geolokace v menu správy \"Software třetích stran\" a povolte vyhledávání adres."
+
+msgid "maps_custom_geolocation_server_info"
+msgstr "Server URL pro poskytování geolokačních údajů pomocí Nominatim. Položka by měla obsahovat zástupný symbol [QUERY] pro definování pozice pro informace o požadavku. Příklad: nominatim.example.com/search/[QUERY]?format=json."
+
+msgid "maps_custom_tile_server_info"
+msgstr "Adresa URL serveru k poskytnutí dat o rastru. Více vstupů by mělo být odděleno mezerami. Výchozí nastavení je \"%s\"."
+
+msgid "maps_enable_maps"
+msgstr "Povolit Mapy"
+
+msgid "maps_enable_maps_info"
+msgstr "Aktivuje Mapy v uživatelských profilech, skupinách a kurzech."
+
+msgid "maps_geolocation_server"
+msgstr "Server pro zpětnou geolokaci"
+
+#, fuzzy
+msgid "maps_https_for_reverse_lookup"
+msgstr "Https for Reverse Lookup"
+
+msgid "maps_latitude"
+msgstr "Zeměpisná šířka"
+
+msgid "maps_longitude"
+msgstr "Zeměpisná délka"
+
+msgid "maps_lookup_address"
+msgstr "Vyhledávací adresa"
+
+msgid "maps_map_type"
+msgstr "Typ"
+
+msgid "maps_open_layers_maps"
+msgstr "Mapy otevřených vrstev"
+
+msgid "maps_settings"
+msgstr "Nastavení map"
+
+msgid "maps_std_location"
+msgstr "Výchozí umístění"
+
+msgid "maps_std_location_desc"
+msgstr "Kliknutím na mapu nastavíte umístění."
+
+msgid "maps_tile_server"
+msgstr "Server pro rastry"
+
+msgid "maps_zoom_level"
+msgstr "Úroveň přiblížení"

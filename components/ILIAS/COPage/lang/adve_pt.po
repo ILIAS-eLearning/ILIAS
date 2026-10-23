@@ -1,0 +1,97 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: adve\n"
+
+msgid "advanced_editing_excass_settings"
+msgstr "Definições de atribuições do exercício"
+
+msgid "advanced_editing_tst_editing"
+msgstr "Editor de páginas para conteúdo de questão adicional"
+
+msgid "advanced_editing_tst_editing_desc"
+msgstr "Ativa o Editor de Página ILIAS para feedback e edição de texto oculto."
+
+msgid "adve_activation"
+msgstr "Ativação"
+
+msgid "adve_auto_url_linking"
+msgstr "Auto-ligação URL"
+
+msgid "adve_auto_url_linking_info"
+msgstr "Tenta identificar URLs como \"http://..\" em parágrafos de texto e cria automaticamente links à sua volta."
+
+#, fuzzy
+msgid "adve_autosave"
+msgstr "Automatic Saving Intervall"
+
+#, fuzzy
+msgid "adve_autosave_info"
+msgstr "Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases."
+
+#, fuzzy
+msgid "adve_autosave_info_min_10"
+msgstr "Please choose a value of minimal 10 seconds if you activated this feature."
+
+msgid "adve_blocking_mode"
+msgstr "Bloqueio de edição"
+
+msgid "adve_excass_settings"
+msgstr "Atribuições do exercício"
+
+msgid "adve_grp_copa"
+msgstr "Conteúdo páginas"
+
+#, fuzzy
+msgid "adve_grp_frm"
+msgstr "Forums"
+
+msgid "adve_grp_glo"
+msgstr "Glossários"
+
+msgid "adve_grp_lm"
+msgstr "Módulos de aprendizagem ILIAS"
+
+msgid "adve_grp_rep"
+msgstr "Páginas de repositório"
+
+msgid "adve_grp_scorm"
+msgstr "Editar SCORM"
+
+msgid "adve_grp_test"
+msgstr "Teste e avaliação"
+
+msgid "adve_grp_wiki"
+msgstr "Wikis"
+
+msgid "adve_minutes"
+msgstr "Minutos"
+
+msgid "adve_minutes_info"
+msgstr "Minutos de inatividade antes de um bloqueio de edição expirar e uma página possa ser editada por outro utilizador."
+
+msgid "adve_page_editor_settings"
+msgstr "Editor de Página ILIAS"
+
+msgid "adve_pe_general"
+msgstr "Geral"
+
+msgid "adve_rte_settings"
+msgstr "Editor TinyMCE"
+
+msgid "adve_text_content_features"
+msgstr "Menu conteúdo de texto"
+
+msgid "adve_use_physical"
+msgstr "Usar b/i/u em vez de str/emp/imp"
+
+msgid "adve_use_physical_info"
+msgstr "Esta definição substitui os botões da classe de estilo semântico sobre intensidade, enfatizar e importante por botões de atributos físicos n (negrito), i (itálico) e s (sublinhado). Note que isso pode resultar em inconsistências, se o editor de estilo for usado e se forem atribuídos outros atributos físicos às classes de estilo intensidade/enfatizar/importante."
+
+msgid "adve_use_tiny_mce"
+msgstr "Ativar TinyMCE para a edição WYSIWYG"

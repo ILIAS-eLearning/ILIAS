@@ -1,0 +1,73 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: validation\n"
+
+#, fuzzy
+msgid "datetime_required"
+msgstr "Time/Date required"
+
+#, fuzzy
+msgid "no_array"
+msgstr "Given value is not an array"
+
+msgid "not_a_null"
+msgstr "Value of type '%s' non è un null."
+
+msgid "not_a_string"
+msgstr "Value of type '%s' non è una stringa."
+
+msgid "not_an_array"
+msgstr "'%s' non è un array."
+
+msgid "not_an_array_of"
+msgstr "Gli elementi della matrice non vincolano i vincoli: %s"
+
+msgid "not_an_int"
+msgstr "Il valore di tipo '%s' non è un numero intero."
+
+msgid "not_generic"
+msgstr "Non è il caso che:%s"
+
+msgid "not_greater_than"
+msgstr "'%s' non è maggiore di '%s'."
+
+#, fuzzy
+msgid "not_greater_than_or_equal"
+msgstr "The value is not greater than or equal '%s'."
+
+msgid "not_less_than"
+msgstr "'%s' non è inferiore a '%s'."
+
+#, fuzzy
+msgid "not_less_than_or_equal"
+msgstr "The value is not less than or equal '%s'."
+
+msgid "not_max_length"
+msgstr "Il testo inserito ha una lunghezza superiore a '%s'."
+
+msgid "not_min_length"
+msgstr "L'input ha una lunghezza di %d e scende al di sotto della lunghezza minima %d."
+
+msgid "not_numeric"
+msgstr " '%s' non è numerico."
+
+msgid "not_numeric_empty_string"
+msgstr "Your input is not numeric."
+
+#, fuzzy
+msgid "numeric_only"
+msgstr "Please insert a whole number."
+
+#, fuzzy
+msgid "required"
+msgstr "This input is required."
+
+#, fuzzy
+msgid "tag_required"
+msgstr "Please insert at least one tag."

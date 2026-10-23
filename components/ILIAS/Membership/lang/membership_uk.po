@@ -1,0 +1,29 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: uk\n"
+"Language-Team: Ukrainian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: membership\n"
+
+#, fuzzy
+msgid "mem_error_preconditions"
+msgstr "A registration is not possible, since minimum one precondition is not fullfilled."
+
+#, fuzzy
+msgid "mem_force_notification"
+msgstr "Notification per Mail"
+
+#, fuzzy
+msgid "mem_force_notification_mode_all_sub_blocked"
+msgstr "Members can deactivate notifications"
+
+#, fuzzy
+msgid "mem_force_notification_mode_blocked"
+msgstr "Members will be notified automatically "
+
+#, fuzzy
+msgid "mem_force_notification_mode_self"
+msgstr "Members have to manually activate notifcation"

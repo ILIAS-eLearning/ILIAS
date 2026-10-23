@@ -1,0 +1,47 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: lt\n"
+"Language-Team: Lithuanian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 1 : 2);\n"
+"X-Domain: exercise\n"
+
+#, fuzzy
+msgid "exc_admin_settings"
+msgstr "Exercise Administration"
+
+msgid "exc_comment"
+msgstr "Komentaras"
+
+msgid "exc_comment_for_learner"
+msgstr "Studento komentarai"
+
+msgid "exc_failed"
+msgstr "Nepavyko"
+
+msgid "exc_feedback_from_tutor"
+msgstr "Atsiliepimai iš Dėstytojo"
+
+msgid "exc_grading"
+msgstr "Baigimas"
+
+msgid "exc_mark"
+msgstr "Pažymys"
+
+msgid "exc_notgraded"
+msgstr "Neišlaikė"
+
+msgid "exc_passed"
+msgstr "Išlaikė"
+
+msgid "exc_send_mail"
+msgstr "Siųsti Laišką"
+
+#, fuzzy
+msgid "exc_start_date_should_be_before_end_date"
+msgstr "Start time should be before deadline."
+
+msgid "exc_your_submission"
+msgstr "Jūsų siuntimas"

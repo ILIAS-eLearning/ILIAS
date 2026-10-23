@@ -1,0 +1,47 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: prtt\n"
+
+msgid "prtt_activation_limited_visibility_info"
+msgstr "Pokud je zvolena, je šablona portfolia viditelná i mimo danou dostupnost."
+
+msgid "prtt_activation_online_info"
+msgstr "Aktivujte toto nastavení a zpřístupněte šablonu portfolia uživatelům."
+
+msgid "prtt_add"
+msgstr "Vytvořit šablonu portfolia"
+
+msgid "prtt_copy"
+msgstr "Kopírovat šablonu portfolia"
+
+msgid "prtt_edit"
+msgstr "Upravit šablonu portfolia"
+
+msgid "prtt_import"
+msgstr "Importovat šablonu portfolia"
+
+msgid "prtt_new"
+msgstr "Nová šablona portfolia"
+
+#, fuzzy
+msgid "prtt_pfpg"
+msgstr "Portfolio Page"
+
+msgid "prtt_portfolio_created"
+msgstr "Přidána šablona portfolia"
+
+msgid "prtt_properties"
+msgstr "Vlastnosti šablony portfolia"
+
+#, fuzzy
+msgid "prtt_select_datasets"
+msgstr "Select Datasets"
+
+msgid "prtt_style"
+msgstr "Styl šablony portfolia"

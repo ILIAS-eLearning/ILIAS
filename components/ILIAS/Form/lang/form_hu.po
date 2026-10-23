@@ -1,0 +1,156 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: form\n"
+
+msgid "email_not_match"
+msgstr "A beírt e-mail címek nem egyeznek! Írd be újra az e-mail címed."
+
+msgid "form_alphabet_all"
+msgstr "Összes"
+
+msgid "form_chars_remaining"
+msgstr "Fennmaradó karakterszám:"
+
+msgid "form_date_duration_end"
+msgstr "Záró időpont"
+
+msgid "form_date_duration_start"
+msgstr "Kezdő időpont"
+
+msgid "form_days"
+msgstr "Nap"
+
+msgid "form_file_input"
+msgstr "Fájlbemenet"
+
+msgid "form_format"
+msgstr "Formátum"
+
+msgid "form_get_link"
+msgstr "Válasszon célobjektumot"
+
+msgid "form_hier_click_to_add"
+msgstr "Új elemek hozzáadásához kattintson ide."
+
+msgid "form_hierarchy_add_elements"
+msgstr "Kattintson a helyőrzőkre új oldal vagy fejezet létrehozásához."
+
+msgid "form_hierarchy_drag_drop_help"
+msgstr "Fogd-és-vidd az ikonokat a helyőrzőkre az oldal vagy fejezet mozgatásához."
+
+msgid "form_hours"
+msgstr "Óra"
+
+msgid "form_image_file_input"
+msgstr "Képfájl-input"
+
+msgid "form_invalid_uri"
+msgstr "Érvénytelen URI formátum."
+
+msgid "form_link_external"
+msgstr "Külső link"
+
+msgid "form_link_internal"
+msgstr "Belső link"
+
+msgid "form_location_radius"
+msgstr "rádiusz"
+
+msgid "form_location_radius_km"
+msgstr "km"
+
+msgid "form_max_value"
+msgstr "Maximális érték"
+
+msgid "form_min_value"
+msgstr "Minimális érték"
+
+msgid "form_minutes"
+msgstr "Perc"
+
+msgid "form_months"
+msgstr "Hónap"
+
+msgid "form_msg_file_cannot_write_to_disk"
+msgstr "Nem írható a merevlemez."
+
+msgid "form_msg_file_missing_file_ext"
+msgstr "A feltöltött fájlnak nincs fájlkiterjesztése."
+
+msgid "form_msg_file_missing_tmp_dir"
+msgstr "Hiányzik az ideiglenes mappa a fájlfeltöltéshez."
+
+msgid "form_msg_file_no_upload"
+msgstr "Ez a beviteli adat kötelező. Válasszon ki egy feltöltendő fájlt."
+
+msgid "form_msg_file_partially_uploaded"
+msgstr "A fájlt nem sikerült teljesen feltölteni."
+
+msgid "form_msg_file_size_exceeds"
+msgstr "A feltöltött fájl mérete elérte a maximálisan engedélyezettet."
+
+msgid "form_msg_file_type_is_not_allowed"
+msgstr "Ez a fájltípus nem engedélyezett."
+
+msgid "form_msg_file_upload_stopped_ext"
+msgstr "A kiterjesztés miatt megszakítottuk a fájl felöltését."
+
+msgid "form_msg_file_virus_found"
+msgstr "A feltöltendő fájlban vírus található."
+
+msgid "form_msg_file_wrong_file_type"
+msgstr "Rossz fájltípus."
+
+msgid "form_msg_formula_is_required"
+msgstr "Helyes képletet adjon meg!"
+
+msgid "form_msg_max_upload"
+msgstr "Egyidőben feltölthető fájlok maximális száma:"
+
+msgid "form_msg_numeric_value_required"
+msgstr "Számértéket adjon meg!"
+
+msgid "form_msg_value_too_high"
+msgstr "Az érték túl magas. Adjon meg alacsonyabb értéket!"
+
+msgid "form_msg_value_too_low"
+msgstr "Az érték túl alacsony. Adjon meg magasabb értéket!"
+
+msgid "form_msg_wrong_date"
+msgstr "Kérjük, ellenőrizze a dátumokat. Mind a kezdő, mind a záró dátum megadása kötelező, és a kezdő dátum nem lehet későbbi a záró dátumnál."
+
+msgid "form_no_link"
+msgstr "Nincs link"
+
+msgid "form_open_answer"
+msgstr "Szabadszöveges"
+
+msgid "form_password_not_allowed_for_auth"
+msgstr "A választott hitelesítési módhoz nem lehet megváltoztatni a jelszót."
+
+msgid "form_password_required_for_auth"
+msgstr "Jelszó szükséges a hitelesítési mód választásához."
+
+msgid "form_please_select"
+msgstr "Válasszon"
+
+msgid "form_retype_email"
+msgstr "E-mail újragépelése"
+
+msgid "form_retype_password"
+msgstr "Új jelszó megerősítése"
+
+msgid "form_seconds"
+msgstr "Másodperc"
+
+msgid "form_take_snapshot"
+msgstr "Pillanatkép készítése"
+
+msgid "form_use_camera"
+msgstr "Kamera használata"

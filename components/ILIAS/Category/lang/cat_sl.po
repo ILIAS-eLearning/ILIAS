@@ -1,0 +1,26 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: cat\n"
+
+msgid "cat_copy"
+msgstr "Kopiraj kategorijo"
+
+#, fuzzy
+msgid "cat_hide_tax_in_side_block"
+msgstr "Don't Present in Side Panel"
+
+msgid "cat_import"
+msgstr "Uvozi kategorijo"
+
+msgid "cat_more_translations"
+msgstr "Nadaljnji prevodi"
+
+#, fuzzy
+msgid "cat_show_tax_in_side_block"
+msgstr "Present in Side Panel"

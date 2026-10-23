@@ -1,0 +1,345 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: blog\n"
+
+msgid "blog_abstract_image"
+msgstr "要約へイメージを追加"
+
+msgid "blog_abstract_image_height"
+msgstr "高さ"
+
+msgid "blog_abstract_image_info"
+msgstr "小さすぎるイメージは使用されません。"
+
+msgid "blog_abstract_image_pixels"
+msgstr "Px"
+
+msgid "blog_abstract_image_width"
+msgstr "幅"
+
+msgid "blog_abstract_shorten"
+msgstr "短絡要約"
+
+msgid "blog_abstract_shorten_characters"
+msgstr "文字"
+
+msgid "blog_abstract_shorten_length"
+msgstr "最大長"
+
+msgid "blog_add"
+msgstr "ブログを作成"
+
+msgid "blog_add_contributor"
+msgstr "投稿者を追加"
+
+msgid "blog_add_posting"
+msgstr "投稿を追加"
+
+msgid "blog_admin_inactive_info"
+msgstr "パーソナルデスクトップ管理の中のブログ機能をアクティブにできます。"
+
+msgid "blog_admin_toggle_info"
+msgstr "パーソナルデスクトップ管理のブログ機能を完全にオフする事ができます。"
+
+msgid "blog_approve"
+msgstr "承認"
+
+msgid "blog_author"
+msgstr "著者"
+
+msgid "blog_authors"
+msgstr "著者"
+
+msgid "blog_back_to_blog_owner"
+msgstr "ブログを編集"
+
+msgid "blog_change_notification_body_approve"
+msgstr "次のブログは承認が必要です。"
+
+msgid "blog_change_notification_body_comment"
+msgstr "次のブログ投稿へコメントがありました。"
+
+msgid "blog_change_notification_body_new"
+msgstr "次のブログ投稿が作成されました"
+
+msgid "blog_change_notification_body_update"
+msgstr "次のブログ投稿が更新されました"
+
+msgid "blog_change_notification_link"
+msgstr "URL"
+
+msgid "blog_change_notification_reason"
+msgstr "後述のブログ通知を有効にしているのでこのメールを受信します。"
+
+msgid "blog_change_notification_subject"
+msgstr "ブログ\"%\"が更新されました。"
+
+msgid "blog_comments"
+msgstr "コメント"
+
+msgid "blog_confirm_delete_contributors"
+msgstr "本当に次の投稿者を削除しますか?"
+
+msgid "blog_contribute_other_roles"
+msgstr "次の割り当てには\"投稿者\"のアクセス権を設定:%s"
+
+msgid "blog_contributors"
+msgstr "ブログ投稿者"
+
+msgid "blog_copy"
+msgstr "ブログをコピー"
+
+msgid "blog_download_submission"
+msgstr "提出をダウンロード"
+
+msgid "blog_draft"
+msgstr "Draft"
+
+msgid "blog_draft_info"
+msgstr "この投稿ドラフトは作者のみしか表示されません。"
+
+msgid "blog_draft_info_contributors"
+msgstr "この投稿ドラフトは投稿者にのみ表示されます。"
+
+msgid "blog_draft_text"
+msgstr "未公表投稿"
+
+msgid "blog_edit"
+msgstr "ブログ設定"
+
+msgid "blog_edit_date"
+msgstr "日数を編集"
+
+msgid "blog_edit_date_info"
+msgstr "公開状況はこの日に影響しません。"
+
+msgid "blog_edit_keywords"
+msgstr "キーワードを編集"
+
+msgid "blog_edit_posting"
+msgstr "投稿編集"
+
+msgid "blog_enable_approval"
+msgstr "投稿を承認"
+
+msgid "blog_enable_approval_info"
+msgstr "投稿はこのブログの\"編集設定\"のアクセス権のユーザにより承認後に限り告知されます。"
+
+msgid "blog_enable_keywords"
+msgstr "キーワード"
+
+msgid "blog_enable_keywords_info"
+msgstr "投稿にキーワードを設定できます。キーワードをクリックしてこのキーワードにタグ化された全ての投稿を表示します。"
+
+msgid "blog_enable_nav_authors"
+msgstr "著者"
+
+msgid "blog_enable_nav_authors_info"
+msgstr "ブログ著者が表示されます。ユーザ名をクリックしてこの著者の全ての投稿を表示します。"
+
+msgid "blog_enable_notes"
+msgstr "パブリックコメント"
+
+msgid "blog_enable_rss"
+msgstr "RSSを有効にする"
+
+msgid "blog_enable_rss_info"
+msgstr "RSSフィードはパブリックでありブログ共有もしくはユーザ権限とは無関係です。"
+
+msgid "blog_est_reading_time"
+msgstr "予想読込み時間"
+
+msgid "blog_est_reading_time_info"
+msgstr "リポジトリ内のBlog用の読込み時間が確定して表示されます。"
+
+msgid "blog_exercise_info"
+msgstr "このブログは演習問題\"%s\"の割当て \"%s\"の一部です。"
+
+msgid "blog_exercise_submitted_info"
+msgstr "最後の送信は%sでした。エクスポートファイル: %sをチェックしてください。"
+
+msgid "blog_finalize_blog"
+msgstr "完了してブログを提出"
+
+msgid "blog_finalized"
+msgstr "ブログが提出されました。"
+
+msgid "blog_import"
+msgstr "ブログをインポート"
+
+msgid "blog_incl_comments"
+msgstr "コメントを含む"
+
+msgid "blog_keyword"
+msgstr "キーワード"
+
+msgid "blog_keyword_enter"
+msgstr "キーワードを書いて入力を押します。"
+
+msgid "blog_keywords"
+msgstr "キーワード"
+
+msgid "blog_latest_posting"
+msgstr "最終投稿"
+
+msgid "blog_link"
+msgstr "Link"
+
+msgid "blog_list_more"
+msgstr "続きを読む"
+
+msgid "blog_list_num_postings"
+msgstr "投稿数"
+
+msgid "blog_list_num_postings_info"
+msgstr "この設定は月が特定されなかった場合のみに使用されます。"
+
+msgid "blog_nav_mode"
+msgstr "投稿"
+
+msgid "blog_nav_mode_month_list"
+msgstr "月のリストを表示"
+
+msgid "blog_nav_mode_month_list_info"
+msgstr "投稿のある全ての月は'投稿'ブロック内に一覧表示されます。"
+
+msgid "blog_nav_mode_month_list_num_month"
+msgstr "一覧表示月数"
+
+msgid "blog_nav_mode_month_list_num_month_info"
+msgstr "上記の月は制限一覧がなく関連の投稿へはアクセスできません。"
+
+msgid "blog_nav_mode_month_list_num_month_with_post"
+msgstr "リストされた投稿月数"
+
+msgid "blog_nav_mode_month_list_num_month_with_post_info"
+msgstr "当該の月はナビゲーションブロック内のすべての投稿で表示されます。"
+
+msgid "blog_nav_mode_month_single"
+msgstr "選択月を表示"
+
+msgid "blog_nav_mode_month_single_info"
+msgstr "選択された月の投稿のみに'投稿'ブロックが一覧表示されます。月はドロップダウンで変更できます。"
+
+msgid "blog_nav_sortorder"
+msgstr "ブロックの順"
+
+msgid "blog_navigation"
+msgstr "投稿"
+
+msgid "blog_needs_approval"
+msgstr "要承認"
+
+msgid "blog_new"
+msgstr "新規ブログを作成"
+
+msgid "blog_new_posting_info"
+msgstr "最初のテキストブロックは投稿リストの要約として使用されます。"
+
+msgid "blog_news_posting_authors"
+msgstr "貢献著者: %s"
+
+msgid "blog_news_posting_published"
+msgstr "ブログ投稿は%sさんにより公開されました。"
+
+msgid "blog_news_posting_updated"
+msgstr "ブログ投稿は%sさんにより更新されました。"
+
+msgid "blog_no_keywords"
+msgstr "まだキーワードが入力されていません。"
+
+msgid "blog_notification_activated"
+msgstr "通知設定済み"
+
+msgid "blog_notification_deactivated"
+msgstr "通知解除済み"
+
+msgid "blog_notification_toggle_off"
+msgstr "通知を解除"
+
+msgid "blog_notification_toggle_on"
+msgstr "通知を有効化"
+
+msgid "blog_number_users_notes_or_comments"
+msgstr "メモもしくはこのエントリーへのコメントを添付したユーザ数"
+
+msgid "blog_posting"
+msgstr "ブログ投稿"
+
+msgid "blog_posting_deleted"
+msgstr "エントリーが削除されました。"
+
+msgid "blog_posting_deletion_confirmation"
+msgstr "次のエントリーを本当に削除しますか?"
+
+msgid "blog_posting_edit_approval_info"
+msgstr "投稿は発刊前に指導教員による承認が残っています。"
+
+msgid "blog_posting_not_found"
+msgstr "このブログ投稿は利用できません。"
+
+msgid "blog_postings"
+msgstr "投稿"
+
+msgid "blog_presentation_frame"
+msgstr "ブログプレゼンテーション"
+
+msgid "blog_presentation_overview"
+msgstr "初期概要"
+
+msgid "blog_preview"
+msgstr "プレビュー"
+
+msgid "blog_profile_picture"
+msgstr "プロファイル写真を表示"
+
+msgid "blog_profile_picture_repository_info"
+msgstr "著者のプロファイル写真は投稿ページだけで概要ページには表示されません。"
+
+msgid "blog_properties"
+msgstr "ブログプロパティ"
+
+msgid "blog_rename_posting"
+msgstr "投稿名を変更"
+
+msgid "blog_selected_pages"
+msgstr "投稿を選択"
+
+msgid "blog_settings"
+msgstr "ブログ管理"
+
+msgid "blog_settings_navigation"
+msgstr "ナビゲーション列"
+
+msgid "blog_show_latest"
+msgstr "最終投稿/ドラフトを表示"
+
+msgid "blog_show_print_view"
+msgstr "印刷ビューを表示"
+
+msgid "blog_side_blocks"
+msgstr "サイドブロック"
+
+msgid "blog_starting_page"
+msgstr "開始ページ"
+
+msgid "blog_task_publishing_draft_title"
+msgstr "ドラフト \"%s\" の公開"
+
+msgid "blog_toggle_draft"
+msgstr "告知を取り消す"
+
+msgid "blog_toggle_draft_admin"
+msgstr "ブログ投稿を解除"
+
+msgid "blog_toggle_final"
+msgstr "投稿を公開"
+
+msgid "blog_whole_blog"
+msgstr "全Blog"

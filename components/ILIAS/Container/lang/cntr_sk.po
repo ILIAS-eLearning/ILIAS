@@ -1,0 +1,137 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sk\n"
+"Language-Team: Slovak\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: cntr\n"
+
+msgid "cntr_add_new_item"
+msgstr "Přidat novou položku"
+
+#, fuzzy
+msgid "cntr_adopt_content"
+msgstr "Adopt Content"
+
+msgid "cntr_container_only_on_their_own"
+msgstr "Categories, courses, groups, folders or study programmes can only be copied as single objects. Please select one item only."
+
+#, fuzzy
+msgid "cntr_copy_crs_grp"
+msgstr "My Courses and Groups"
+
+#, fuzzy
+msgid "cntr_copy_repo_tree"
+msgstr "Repository Tree"
+
+msgid "cntr_hide_title_and_icon"
+msgstr "Skrýt název a ikonu"
+
+msgid "cntr_manage"
+msgstr "Spravovat"
+
+msgid "cntr_ordering"
+msgstr "Řazení"
+
+msgid "cntr_saved_sorting"
+msgstr "Řazení uloženo."
+
+msgid "cntr_switch_to_new_editor_cmd"
+msgstr "Přepnout zobrazení na tuto stránku"
+
+msgid "cntr_switch_to_new_editor_message"
+msgstr "To je podporovaný standardní editor. Použijte jej prosím k nastavení obsahu stránky. Pokud klepnete na následující odkaz, obsah zobrazení úložiště bude přepnut ze starého editoru obsahu na tuto stránku."
+
+msgid "cntr_switched_editor"
+msgstr "Přepnuto na nový obsah."
+
+#, fuzzy
+msgid "cntr_tax_none_available"
+msgstr "There are no taxonomies available."
+
+#, fuzzy
+msgid "cntr_tax_settings_info"
+msgstr "Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the \"Metadata\" tabs and the \"Taxonomy Assignment\" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's \"Contents\" tab to enable direct filtering of the assigned objects."
+
+#, fuzzy
+msgid "cntr_taxonomy_definitions"
+msgstr "Taxonomy Definition"
+
+#, fuzzy
+msgid "cntr_taxonomy_show_sideblock"
+msgstr "Show taxonomy in side block"
+
+#, fuzzy
+msgid "cntr_taxonomy_sideblock_settings"
+msgstr "Taxonomy Block Settings"
+
+msgid "cntr_text_media_editor"
+msgstr "Editor Text/Media"
+
+msgid "cntr_view_by_type"
+msgstr "Zobrazit sekupení podle typu"
+
+msgid "cntr_view_info_by_type"
+msgstr "Toto zobrazení obsahu seskupuje všechny položky podle zdrojového typu."
+
+msgid "cntr_view_info_sessions"
+msgstr "Toto zobrazení obsahu nejprve seskupuje všechny lekce. Pak vypisuje ostatní obsah kurzu."
+
+msgid "cntr_view_info_simple"
+msgstr "Toto zobrazení obsahu vypisuje všechny položky v jediném bloku."
+
+msgid "cntr_view_sessions"
+msgstr "Zobrazit sezení"
+
+msgid "cntr_view_simple"
+msgstr "Jednoduché zobrazení"
+
+#, fuzzy
+msgid "container_import_zip_file_invalid"
+msgstr "The uploaded file is not a valid ILIAS export file. To upload a directory structure please use a file object."
+
+#, fuzzy
+msgid "edit_questions"
+msgstr "Edit Questions"
+
+#, fuzzy
+msgid "exc_next_deadline_single"
+msgstr "Deadline"
+
+#, fuzzy
+msgid "msg_no_downloadable_objects"
+msgstr "No downloadable objects found."
+
+#, fuzzy
+msgid "objects_duplicated"
+msgstr "Objects copied"
+
+#, fuzzy
+msgid "prtf_create_portfolio_from_template"
+msgstr "Create Portfolio From Template"
+
+#, fuzzy
+msgid "sorting_new_items_at_bottom"
+msgstr "Bottom"
+
+#, fuzzy
+msgid "sorting_new_items_at_top"
+msgstr "Top"
+
+#, fuzzy
+msgid "sorting_new_items_direction"
+msgstr "Sorting Direction for New Objects"
+
+#, fuzzy
+msgid "sorting_new_items_order"
+msgstr "Order For New Objects"
+
+#, fuzzy
+msgid "sorting_new_items_position"
+msgstr "Position For New Objects"
+
+#, fuzzy
+msgid "tab_back_to_repository"
+msgstr "Back to Repository"

@@ -1,0 +1,397 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: ldap\n"
+
+msgid "add_ldap_server"
+msgstr "Adicionar servidor"
+
+msgid "ldap_add_missing"
+msgstr "Atribuir funções em falta"
+
+msgid "ldap_add_role_ass_rule"
+msgstr "Nova regra para atribuições de funções"
+
+#, fuzzy
+msgid "ldap_add_roles"
+msgstr "Add Roles"
+
+msgid "ldap_as_ds"
+msgstr "Usar como fonte de dados"
+
+msgid "ldap_as_ds_info"
+msgstr "Se estiver ativado, esta configuração LDAP é usada apenas para a sincronização das contas de utilizador juntamente com outros métodos de autenticação (p. ex. CAS ou Radius)."
+
+msgid "ldap_assignment_type"
+msgstr "Tipo de atribuição"
+
+msgid "ldap_authentication_settings"
+msgstr "Definições de autenticação"
+
+msgid "ldap_bind_anonymous"
+msgstr "Vincular anonimamente"
+
+msgid "ldap_bind_user"
+msgstr "Vincular como utilizador:"
+
+msgid "ldap_btn_add_role_ass"
+msgstr "Adicionar novo regra"
+
+msgid "ldap_check_role_assignment"
+msgstr "Atribuição de funções após logins posteriores"
+
+msgid "ldap_choose_role"
+msgstr "Escolher função"
+
+msgid "ldap_confirm_del_role_ass"
+msgstr "Educação Superior"
+
+msgid "ldap_deleted_role_mapping"
+msgstr "Atribuição apagada."
+
+msgid "ldap_deleted_rule"
+msgstr "Atribuição de funções selecionadas apagadas."
+
+msgid "ldap_dn_info"
+msgstr "Insira o nome distinto do grupo LDAP."
+
+msgid "ldap_edit_role_ass_rule"
+msgstr "Editar regra de atribuição de funções"
+
+msgid "ldap_edit_role_assignment"
+msgstr "Editar função -> Atribuição de grupo"
+
+msgid "ldap_err_missing_plugin_id"
+msgstr "Introduza um id de plugin válido."
+
+#, fuzzy
+msgid "ldap_escapedn"
+msgstr "Escape DN"
+
+#, fuzzy
+msgid "ldap_escapedn_info"
+msgstr "If enabled, special characters in the \"Distinguished Name (DN)\" of user accounts are escaped in queries for group membership."
+
+msgid "ldap_filter_info"
+msgstr "Filtro que será adicionado ao filtro de pesquisa desta maneira: (&(userattr=username)<strong>(userfilter)</strong>)."
+
+msgid "ldap_global_role"
+msgstr "Função global"
+
+msgid "ldap_global_role_assignment"
+msgstr "Atribuição de funções ILIAS"
+
+msgid "ldap_global_role_info"
+msgstr "Ideia"
+
+msgid "ldap_group_attribute"
+msgstr "Atributo para grupo"
+
+msgid "ldap_group_attribute_info"
+msgstr "O atributo de grupo a pesquisar."
+
+msgid "ldap_group_dn"
+msgstr "Identificador"
+
+msgid "ldap_group_dn_info"
+msgstr "Índice"
+
+msgid "ldap_group_dn_short"
+msgstr "DN de grupo:"
+
+msgid "ldap_group_filter"
+msgstr "Filtro LDAP"
+
+msgid "ldap_group_filter_info"
+msgstr "Filtro que será adicionado ao filtro de pesquisa quando pesquisar um grupo: (&(groupattr=group)(memberattr=username)<strong>(groupfilter)</strong>)."
+
+msgid "ldap_group_member"
+msgstr "Atributo de membro do grupo"
+
+msgid "ldap_group_member_info"
+msgstr "Observações da instalação"
+
+msgid "ldap_group_member_optional"
+msgstr "A adesão ao grupo é opcional"
+
+msgid "ldap_group_member_short"
+msgstr "Atributo:"
+
+msgid "ldap_group_membership"
+msgstr "Adesão ao grupo"
+
+msgid "ldap_group_name"
+msgstr "Nome do grupo"
+
+msgid "ldap_group_name_info"
+msgstr "O nome do grupo, do qual os utilizadores têm de fazer parte, para poderem autenticar com sucesso."
+
+msgid "ldap_group_optional_info"
+msgstr "Se estiver ativado, a adesão ao grupo não é necessária para uma autenticação bem-sucedida. Insira um filtro de utilizador para os membros destes grupos:<br />(&(userattr=username)<strong>(userfilter)</strong>)"
+
+msgid "ldap_group_restrictions"
+msgstr "Função do utilizador final previsto"
+
+msgid "ldap_group_scope"
+msgstr "Âmbito de pesquisa"
+
+msgid "ldap_group_scope_info"
+msgstr "Nível de interatividade"
+
+msgid "ldap_group_search_base"
+msgstr "Base de pesquisa de grupo"
+
+msgid "ldap_group_user_filter"
+msgstr "Usar filtro"
+
+msgid "ldap_ilias_role"
+msgstr "Tipo de interatividade"
+
+msgid "ldap_info_text"
+msgstr "Texto de informação"
+
+msgid "ldap_info_text_info"
+msgstr "É baseado em"
+
+msgid "ldap_local_role"
+msgstr "Função local"
+
+msgid "ldap_mapping_info_type"
+msgstr "Mostrar informação também no repositório/computador pessoal"
+
+msgid "ldap_mapping_table"
+msgstr "Atribuição de atributos LDAP para perfil de utilizador ILIAS"
+
+msgid "ldap_mapping_template"
+msgstr "Modelo para objectClass:"
+
+msgid "ldap_member_info"
+msgstr "O atributo do objeto de grupo onde o utilizador dn pode ser encontrado."
+
+msgid "ldap_memberisdn"
+msgstr "Valor do atributo é DN"
+
+msgid "ldap_missing_bind_user"
+msgstr "É base para"
+
+msgid "ldap_missing_role_assignment"
+msgstr "Escolha uma função global, à qual os utilizadores novos serão atribuídos."
+
+msgid "ldap_moment_sync"
+msgstr "É formato de"
+
+msgid "ldap_new_role_assignment"
+msgstr "Adicionar nova função -> Atribuição de grupo"
+
+msgid "ldap_plugin"
+msgstr "Atribuição por plugin"
+
+msgid "ldap_plugin_id"
+msgstr "ID de plugin"
+
+msgid "ldap_plugin_info"
+msgstr "Validar a atribuição de funções com um plugin. Introduza um id de plugin válido."
+
+msgid "ldap_referrals"
+msgstr "Recomendações"
+
+msgid "ldap_referrals_info"
+msgstr "Se estiver definido, determina se a biblioteca LDAP segue automaticamente recomendações dadas pelos servidores LDAP ou não. Isso deve ser desativado se estiver a usar um servidor de diretório ativo."
+
+msgid "ldap_remove_deprecated"
+msgstr "Retirar a atribuição das funções obsoletas"
+
+#, fuzzy
+msgid "ldap_remove_roles"
+msgstr "Remove Roles"
+
+msgid "ldap_role_active"
+msgstr "Ativar sincronização do grupo"
+
+msgid "ldap_role_assignments"
+msgstr "Atribuição de funções"
+
+msgid "ldap_role_at_info"
+msgstr "A atribuição baseia-se num atributo específico no perfil de utilizador LDAP."
+
+msgid "ldap_role_at_name"
+msgstr "Nome do atributo"
+
+msgid "ldap_role_at_value"
+msgstr "Valor do atributo"
+
+msgid "ldap_role_bind_pass"
+msgstr "Palavra-passe"
+
+msgid "ldap_role_bind_pass_info"
+msgstr "Palavra-passe"
+
+msgid "ldap_role_bind_user"
+msgstr "Faz parte de"
+
+msgid "ldap_role_bind_user_info"
+msgstr "Insira um nome distinto de uma contas de utilizador LDAP. Este utilizador precisa de acesso de escrita para os grupos LDAP."
+
+msgid "ldap_role_by_attribute"
+msgstr "Atributo LDAP"
+
+msgid "ldap_role_by_group"
+msgstr "Adesão ao grupo"
+
+msgid "ldap_role_by_plugin"
+msgstr "Por plugin"
+
+msgid "ldap_role_group_assignments"
+msgstr "Função existente -> Atribuições de grupo"
+
+msgid "ldap_role_grp_at"
+msgstr "Atributo"
+
+msgid "ldap_role_grp_dn_info"
+msgstr "É referenciado por"
+
+msgid "ldap_role_grp_info"
+msgstr "Os membros de um grupo LDAP específico serão atribuídos à função ILIAS fornecida."
+
+msgid "ldap_role_grp_isdn"
+msgstr "Valor do atributo é DN"
+
+msgid "ldap_role_info"
+msgstr "Insira o nome de uma função ILIAS que controlará a adesão ao grupo LDAP."
+
+msgid "ldap_role_mapping"
+msgstr "É requerido por"
+
+msgid "ldap_role_name_info"
+msgstr "Escolha uma função global ou insira o nome de uma função global."
+
+msgid "ldap_role_not_exists"
+msgstr "Não existe uma função com esse nome"
+
+msgid "ldap_role_selection"
+msgstr "Seleção de função"
+
+msgid "ldap_role_selection_info"
+msgstr "A sua seleção é ambígua. Escolha uma das seguintes funções."
+
+msgid "ldap_role_settings"
+msgstr "Definições de sincronização de grupo LDAP"
+
+msgid "ldap_rule_condition"
+msgstr "condição"
+
+msgid "ldap_rule_type"
+msgstr "Tipo de atribuição"
+
+msgid "ldap_scope_one"
+msgstr "Um"
+
+msgid "ldap_scope_sub"
+msgstr "Sub"
+
+msgid "ldap_search_base_info"
+msgstr "Fica pré-anexado a basedn quando pesquisa utilizadores."
+
+msgid "ldap_search_filter"
+msgstr "Filtro LDAP"
+
+msgid "ldap_server_bind_dn"
+msgstr "É versão de"
+
+msgid "ldap_server_bind_pass"
+msgstr "Palavra-passe"
+
+msgid "ldap_server_binding"
+msgstr "Vinculativo"
+
+msgid "ldap_server_name"
+msgstr "Nome da configuração LDAP"
+
+msgid "ldap_server_name_info"
+msgstr "Escolha um nome para esta configuração de servidor LDAP."
+
+msgid "ldap_server_security_settings"
+msgstr "Definições de segurança"
+
+msgid "ldap_server_short"
+msgstr "URL do servidor:"
+
+msgid "ldap_server_url_info"
+msgstr "Palavra-chave"
+
+#, fuzzy
+msgid "ldap_server_url_invalid_parts"
+msgstr "The following server URL(s) could not be parsed as valid URIs and may not work until corrected:"
+
+#, fuzzy
+msgid "ldap_server_url_invalid_uris"
+msgstr "Every comma-separated entry must be a valid URI (e.g. ldap://host:389). Invalid:"
+
+#, fuzzy
+msgid "ldap_server_url_required"
+msgstr "Server URL is required."
+
+msgid "ldap_server_version_info"
+msgstr "Tipo"
+
+msgid "ldap_servers"
+msgstr "Servidor LDAP"
+
+msgid "ldap_settings"
+msgstr "Definições do servidor"
+
+msgid "ldap_sync_cron"
+msgstr "Por Cron-Job"
+
+msgid "ldap_sync_login"
+msgstr "Aquando login"
+
+msgid "ldap_tbl_role_ass"
+msgstr "Idioma"
+
+msgid "ldap_tls_conflict"
+msgstr "Aprendiz"
+
+msgid "ldap_update_field_info"
+msgstr "Atualizar automaticamente"
+
+msgid "ldap_update_roles"
+msgstr "Atribuição de funções"
+
+msgid "ldap_user_attribute"
+msgstr "Atributo para nome login"
+
+msgid "ldap_user_dn"
+msgstr "Base de pesquisa de utilizador"
+
+msgid "ldap_user_mapping"
+msgstr "Mapeamento do perfil do utilizador"
+
+msgid "ldap_user_scope"
+msgstr "Âmbito de pesquisa"
+
+msgid "ldap_user_scope_info"
+msgstr "Tipo de recurso de aprendizagem"
+
+msgid "ldap_user_sync"
+msgstr "Definições da sincronização de utilizador"
+
+msgid "ldap_user_sync_cron"
+msgstr "Sincronização de utilizador LDAP"
+
+msgid "ldap_user_sync_cron_info"
+msgstr "Se estiver ativado, as contas de utilizador serão importadas do diretório LDAP e sincronizadas continuamente como uma opção."
+
+msgid "ldap_user_sync_info"
+msgstr "Define se são criados automaticamente novos utilizadores aquando login ou regularmente por cron job."
+
+msgid "ldap_username_filter"
+msgstr "Filtro nome de utilizador"
+
+msgid "ldap_username_filter_info"
+msgstr "Usar * como asterisco."

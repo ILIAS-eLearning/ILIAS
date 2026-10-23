@@ -1,0 +1,66 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: validation\n"
+
+msgid "datetime_required"
+msgstr "Idő/Dátum kötelező"
+
+msgid "no_array"
+msgstr "A megadott érték nem halmaz"
+
+msgid "not_a_null"
+msgstr "‘%s’ típus értéke nem üres."
+
+msgid "not_a_string"
+msgstr "‘%s’ típus értéke nem sztring."
+
+msgid "not_an_array"
+msgstr "‘%s’ nem egy halmaz."
+
+msgid "not_an_array_of"
+msgstr "A halmaza elemszáma nem %s."
+
+msgid "not_an_int"
+msgstr "‘%s’ típus értéke nem egész szám."
+
+msgid "not_generic"
+msgstr "Ez nem ilyen: %s"
+
+msgid "not_greater_than"
+msgstr "‘%s’ nem nagyobb, mint ‘%s’."
+
+msgid "not_greater_than_or_equal"
+msgstr "‘%s’ nem nagyobb vagy egyenlő, mint ‘%s’."
+
+msgid "not_less_than"
+msgstr "‘%s’ nem kisebb, mint ‘%s’."
+
+msgid "not_less_than_or_equal"
+msgstr "A megadott szöveg nem kisebb vagy egyenlő, mint ‘%s’."
+
+msgid "not_max_length"
+msgstr "A megadott szöveg hossza több, mint ‘%s’."
+
+msgid "not_min_length"
+msgstr "A megadott érték hossza %d, ami a minimumnál (%d) kevesebb."
+
+msgid "not_numeric"
+msgstr "‘%s’ nem szám."
+
+msgid "not_numeric_empty_string"
+msgstr "A megadott adat nem szám."
+
+msgid "numeric_only"
+msgstr "Egész számot adjon meg."
+
+msgid "required"
+msgstr "Ezt kötelező megadni."
+
+msgid "tag_required"
+msgstr "Legalább egy címkét adjon meg."

@@ -1,0 +1,288 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: news\n"
+
+msgid "lso_news_online_title"
+msgstr "¡Un nuevo objeto de secuencia de aprendizaje está en línea!"
+
+msgid "lso_news_online_txt"
+msgstr "Se acaba de publicar un nuevo objeto para su secuencia de aprendizaje."
+
+msgid "new_test_online"
+msgstr "El examen se ha puesto en línea."
+
+msgid "news_1_file_created"
+msgstr "Se ha añadido un archivo."
+
+msgid "news_1_file_updated"
+msgstr "Se ha actualizado un archivo."
+
+msgid "news_1_postings"
+msgstr "Se ha añadido una publicación."
+
+msgid "news_add_news"
+msgstr "Añadir noticia"
+
+msgid "news_all_items"
+msgstr "Noticias de todos los elementos favoritos"
+
+msgid "news_allow_longer_periods"
+msgstr "Permitir periodos más largos"
+
+msgid "news_allow_longer_periods_info"
+msgstr "Los usuarios pueden seleccionar periodos de noticias más largos en el tablero."
+
+msgid "news_allow_shorter_periods"
+msgstr "Permitir periodos más cortos"
+
+msgid "news_allow_shorter_periods_info"
+msgstr "Los usuarios pueden seleccionar periodos de noticias más cortos en el tablero."
+
+msgid "news_attached_to"
+msgstr "Adjunto a"
+
+msgid "news_block_information"
+msgstr "El bloque de <b>Noticias</b> enumera todas las noticias relacionadas con sus <b>Favoritos</b>."
+
+msgid "news_cache"
+msgstr "Caché de noticias (minutos)"
+
+msgid "news_cache_info"
+msgstr "Actualizar los bloques de noticias cada x minutos. '0' significa cada vez. Valores más altos mejoran el rendimiento, pero las noticias pueden enlazar a elementos no accesibles."
+
+msgid "news_default_visibility"
+msgstr "Acceso predeterminado"
+
+msgid "news_edit_news_settings"
+msgstr "Editar ajustes"
+
+msgid "news_enable_internal_news"
+msgstr "Habilitar noticias internas"
+
+msgid "news_enable_internal_news_info"
+msgstr "Activa bloques de noticias para categorías, cursos, grupos y otros objetos. Los usuarios pueden suscribirse a las noticias y estas se presentan en el tablero."
+
+msgid "news_enable_internal_rss"
+msgstr "Habilitar RSS para noticias internas"
+
+msgid "news_enable_internal_rss_info"
+msgstr "Permite publicar noticias a través de RSS. Estos elementos serán accesibles fuera del sistema sin autenticación."
+
+msgid "news_enable_private_feed"
+msgstr "Habilitar canal RSS privado"
+
+msgid "news_enable_private_feed_info"
+msgstr "Si esta opción está habilitada, las noticias públicas y privadas pueden obtenerse mediante canales RSS personales fuera de ILIAS. La autenticación se realiza mediante contraseña."
+
+msgid "news_feed_url"
+msgstr "URL del canal"
+
+msgid "news_feed_url_for"
+msgstr "URL del canal para '%s'"
+
+msgid "news_first_letter_of_word_notification"
+msgstr "N"
+
+msgid "news_get_feed_info"
+msgstr "Esta es una URL de canal de noticias personal. El canal incluye solo las noticias que el autor ha declarado como públicas. El canal no está protegido por ningún procedimiento de autenticación. Por favor, no comparta esta URL con otras personas."
+
+msgid "news_get_feed_title"
+msgstr "URL del canal personal"
+
+msgid "news_get_feed_url"
+msgstr "Obtener URL del canal"
+
+msgid "news_get_priv_feed_info"
+msgstr "Esta es una URL de canal de noticias privado personal. El canal incluye noticias que el autor ha declarado como públicas y privadas. Este canal está protegido por una contraseña, que se puede cambiar en 'Configuración'. Por favor, no comparta esta URL con otras personas. Por favor, reemplace -password- en esta URL con su contraseña del canal."
+
+msgid "news_get_priv_feed_title"
+msgstr "URL del canal privado personal"
+
+msgid "news_hide_news_block"
+msgstr "Ocultar bloque de noticias"
+
+msgid "news_hide_news_block_info"
+msgstr "Ocultar el bloque en la vista del alumno. El bloque de noticias sólo será visible para los usuarios con permiso de escritura."
+
+msgid "news_hide_news_date"
+msgstr "Fecha de inicio"
+
+msgid "news_hide_news_per_date"
+msgstr "Mostrar noticias después de"
+
+msgid "news_hide_news_per_date_info"
+msgstr "Sólo se mostrarán las noticias posteriores a una fecha determinada."
+
+msgid "news_inactive_private_feed_info"
+msgstr "Su canal de noticias privado está desactivado. Por favor, establezca una contraseña en la configuración."
+
+msgid "news_internal_news"
+msgstr "Noticias"
+
+msgid "news_keep_minimal_x_items"
+msgstr "Mantener elementos antiguos"
+
+msgid "news_keep_minimal_x_items_info"
+msgstr "Número de elementos antiguos que se mantienen disponibles independientemente del periodo RSS definido para todo el sistema."
+
+msgid "news_loading_news"
+msgstr "Cargando noticias..."
+
+msgid "news_media"
+msgstr "Archivo multimedia"
+
+msgid "news_new_comments"
+msgstr "Nuevos comentarios"
+
+msgid "news_new_reactions"
+msgstr "Nuevas reacciones"
+
+msgid "news_news_block"
+msgstr "Bloque de noticias"
+
+msgid "news_news_item_content"
+msgstr "Texto"
+
+msgid "news_news_item_content_long"
+msgstr "Texto largo"
+
+msgid "news_news_item_content_long_info"
+msgstr "Este texto no se publicará vía RSS."
+
+msgid "news_news_item_def_visibility_public_info"
+msgstr "Las noticias actuales son accesibles en un canal web RSS público. No deben contener información confidencial."
+
+msgid "news_news_item_def_visibility_users_info"
+msgstr "Sólo los usuarios autenticados tienen acceso a las noticias actuales."
+
+msgid "news_news_item_head"
+msgstr "Elemento de noticia"
+
+msgid "news_news_item_title"
+msgstr "Titular"
+
+msgid "news_news_item_visibility"
+msgstr "Acceso"
+
+msgid "news_news_item_visibility_info"
+msgstr "Las noticias públicas pueden consultarse sin autenticación fuera de ILIAS mediante RSS. Por favor, no incluya ninguna información confidencial."
+
+msgid "news_news_items"
+msgstr "Elemento(s) de noticia"
+
+msgid "news_no_js_click_here"
+msgstr "Si no se muestran las noticias, haga clic aquí."
+
+msgid "news_no_news_items"
+msgstr "No hay noticias disponibles."
+
+msgid "news_not_available"
+msgstr "Noticias no disponibles"
+
+msgid "news_notifications"
+msgstr "Notificaciones"
+
+msgid "news_notifications_public"
+msgstr "Notificaciones públicas"
+
+msgid "news_notifications_public_info"
+msgstr "Si esta opción está habilitada, las notificaciones se pueden obtener mediante canales RSS personales fuera de ILIAS. Tenga en cuenta que esto hace que las notificaciones sean accesibles sin autenticación."
+
+msgid "news_nr_of_items"
+msgstr "Número máximo de noticias por objeto"
+
+msgid "news_nr_of_items_info"
+msgstr "Número de noticias que se mantienen en la base de datos para un objeto (por ejemplo, un archivo o un módulo de aprendizaje). Tenga en cuenta que los objetos contenedores (por ejemplo, categorías, cursos) pueden listar más elementos, ya que agregan noticias de los subobjetos."
+
+msgid "news_pd_period"
+msgstr "Periodo de noticias del panel de control"
+
+msgid "news_pd_period_info"
+msgstr "Define el periodo de tiempo utilizado para las noticias en el panel de control. Seleccione valores más bajos si experimenta problemas de rendimiento."
+
+msgid "news_period_1_month"
+msgstr "Último mes"
+
+msgid "news_period_1_week"
+msgstr "Última semana"
+
+msgid "news_period_1_year"
+msgstr "Último año"
+
+msgid "news_period_x_days"
+msgstr "Últimos %s días"
+
+msgid "news_period_x_months"
+msgstr "Últimos %s meses"
+
+msgid "news_period_x_weeks"
+msgstr "Últimas %s semanas"
+
+msgid "news_public_feed"
+msgstr "Canal RSS adicional"
+
+msgid "news_public_feed_info"
+msgstr "Si esta opción está activada, se proporcionará un botón de canal RSS independiente."
+
+msgid "news_really_delete_news"
+msgstr "¿Realmente desea eliminar esta noticia?"
+
+msgid "news_rss"
+msgstr "RSS"
+
+msgid "news_rss_period"
+msgstr "Periodo de RSS"
+
+msgid "news_rss_title_format"
+msgstr "Formato del título de las entradas RSS"
+
+msgid "news_rss_title_format_news_obj"
+msgstr "Titular de noticia (Título del objeto)"
+
+msgid "news_rss_title_format_obj_news"
+msgstr "Título del objeto - Titular de noticia"
+
+msgid "news_settings"
+msgstr "Ajustes de noticias"
+
+msgid "news_sorry_not_accessible_anymore"
+msgstr "Lo sentimos, este elemento ya no está accesible."
+
+msgid "news_time_period"
+msgstr "Periodo de tiempo"
+
+msgid "news_timline_add_entries_info"
+msgstr "Todavía no hay noticias disponibles. Haga clic en \"Añadir\" para crear entradas de noticias."
+
+msgid "news_timline_no_entries"
+msgstr "No se han encontrado noticias."
+
+msgid "news_visibility_public"
+msgstr "Público"
+
+msgid "news_visibility_users"
+msgstr "Usuarios autenticados"
+
+msgid "news_x_files_created"
+msgstr "Se han añadido %s archivos."
+
+msgid "news_x_files_updated"
+msgstr "Se han actualizado %s archivos."
+
+msgid "news_x_postings"
+msgstr "Se han añadido %s publicaciones."
+
+msgid "passwd_equals_ilpasswd"
+msgstr "Por favor, introduzca una contraseña diferente a su contraseña de ILIAS."
+
+msgid "priv_feed_disabled"
+msgstr "Canal de noticias privado desactivado."
+
+msgid "priv_feed_settings"
+msgstr "Ajustes del canal de noticias privado"

@@ -1,0 +1,322 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: prtf\n"
+
+msgid "pdf_export"
+msgstr "Exportación PDF"
+
+msgid "prtf_add_assignment"
+msgstr "Añadir tarea"
+
+msgid "prtf_add_page"
+msgstr "Añadir página"
+
+msgid "prtf_add_portfolio"
+msgstr "Añadir portafolio"
+
+msgid "prtf_add_portfolio_from_template"
+msgstr "Añadir portafolio desde plantilla"
+
+msgid "prtf_all_pages"
+msgstr "Todas las páginas"
+
+msgid "prtf_allow_html"
+msgstr "Permitir HTML/Javascript"
+
+msgid "prtf_allow_html_info"
+msgstr "Permite a los usuarios incluir HTML y/o Javascript en sus páginas de portafolio. Esto puede provocar problemas de seguridad."
+
+msgid "prtf_allow_my_courses"
+msgstr "Elemento de página «Mis cursos»"
+
+msgid "prtf_allow_my_courses_info"
+msgstr "Los portafolios pueden incluir una lista que muestra los cursos de los que el usuario es actualmente miembro."
+
+msgid "prtf_author"
+msgstr "Autor"
+
+msgid "prtf_back_to_portfolio_owner"
+msgstr "Editar portafolio"
+
+msgid "prtf_blog_page_created"
+msgstr "Se ha añadido el blog."
+
+msgid "prtf_copy_blog_pg"
+msgstr "Copiar página del blog"
+
+msgid "prtf_copy_page"
+msgstr "Copiar página(s)"
+
+msgid "prtf_copy_pg"
+msgstr "Copiar página"
+
+msgid "prtf_copy_tab"
+msgstr "Copiar pestaña"
+
+msgid "prtf_create_portfolio"
+msgstr "Añadir portafolio"
+
+msgid "prtf_create_template_from_portfolio"
+msgstr "Portafolio"
+
+msgid "prtf_create_template_from_portfolio_info"
+msgstr "Seleccione un portafolio para utilizar su contenido y configuración para la plantilla."
+
+msgid "prtf_creation_mode"
+msgstr "Nuevo portafolio"
+
+msgid "prtf_creation_mode_scratch"
+msgstr "Crear sin plantilla"
+
+msgid "prtf_creation_mode_template"
+msgstr "Crear desde plantilla"
+
+msgid "prtf_date_of_print"
+msgstr "Fecha de impresión"
+
+msgid "prtf_decl_authorship"
+msgstr "Declaración de autoría"
+
+msgid "prtf_default_portfolio"
+msgstr "Mi perfil"
+
+msgid "prtf_delete_assignment"
+msgstr "Eliminar asignaciones"
+
+msgid "prtf_delete_assignment_sure"
+msgstr "¿Realmente desea eliminar la(s) siguiente(s) asignación(es)?"
+
+msgid "prtf_download_submission"
+msgstr "Descargar entrega"
+
+msgid "prtf_edit_content"
+msgstr "Editar contenido"
+
+msgid "prtf_edit_data"
+msgstr "Editar datos"
+
+msgid "prtf_edit_embedded_blog"
+msgstr "Editar blog \"%s\""
+
+msgid "prtf_edit_portfolio"
+msgstr "Editar portafolio"
+
+#, fuzzy
+msgid "prtf_edit_title"
+msgstr "Edit Title"
+
+msgid "prtf_exercise_info"
+msgstr "Este portafolio es parte de la asignación \"%s\" del ejercicio \"%s\"."
+
+msgid "prtf_exercise_submitted_info"
+msgstr "Usted entregó su portafolio el %s. Adicionalmente, es posible que desee guardar una copia para sus propios archivos."
+
+msgid "prtf_existing_portfolio"
+msgstr "Portafolio existente"
+
+msgid "prtf_finalize_portfolio"
+msgstr "Finalizar y entregar portafolio"
+
+msgid "prtf_finalized"
+msgstr "El portafolio ha sido entregado."
+
+msgid "prtf_first_page_title"
+msgstr "Tipo de primera página"
+
+msgid "prtf_has_been_set_online"
+msgstr "El portafolio se ha puesto en línea."
+
+msgid "prtf_link"
+msgstr "Enlace"
+
+msgid "prtf_manage_portfolios"
+msgstr "Gestionar portafolios"
+
+msgid "prtf_new_portfolio"
+msgstr "Nuevo portafolio"
+
+msgid "prtf_no_blogs_info"
+msgstr "Tu \"%s\" no contiene ningún blog. Crea blogs para usarlos como parte de tus portafolios."
+
+msgid "prtf_no_offline_share_info"
+msgstr "Un portafolio debe estar en línea para ser compartido por otros usuarios."
+
+msgid "prtf_no_submission"
+msgstr "Sin entrega"
+
+msgid "prtf_page_created"
+msgstr "Página creada"
+
+msgid "prtf_page_element_my_courses_info"
+msgstr "Esta es una lista de todos mis cursos que están actualmente en línea y en los que tengo una membresía."
+
+msgid "prtf_page_element_my_courses_title"
+msgstr "Membresías de cursos"
+
+msgid "prtf_page_element_teaser_blog_template"
+msgstr "El portafolio mostrará un blog de tus recursos personales aquí."
+
+msgid "prtf_page_element_teaser_consultation_hours"
+msgstr "El portafolio mostrará un calendario de horas de consulta aquí."
+
+msgid "prtf_page_element_teaser_my_courses"
+msgstr "El portafolio mostrará una lista de tus cursos actuales aquí."
+
+msgid "prtf_page_element_teaser_settings"
+msgstr "Configuración"
+
+msgid "prtf_page_element_teaser_skills"
+msgstr "El portafolio mostrará tu nivel de competencia aquí."
+
+msgid "prtf_page_type_prtf"
+msgstr "Página del portafolio"
+
+msgid "prtf_page_type_prtt"
+msgstr "Página de plantilla de portafolio"
+
+msgid "prtf_pages_copied"
+msgstr "Las páginas han sido copiadas."
+
+msgid "prtf_pdf"
+msgstr "Exportar como PDF"
+
+msgid "prtf_permanent_link"
+msgstr "Enlace al Portafolio:"
+
+msgid "prtf_portfolio_created"
+msgstr "Portafolio añadido"
+
+msgid "prtf_portfolio_created_from_template"
+msgstr "Esta es la vista previa de tu nuevo portafolio. Para añadir nuevas páginas, haz clic en \"Editar portafolio\". Para editar esta página, haz clic en \"Editar página\"."
+
+msgid "prtf_portfolio_deleted"
+msgstr "Portafolio eliminado"
+
+msgid "prtf_portfolio_page_deleted"
+msgstr "Página de portafolio / blog eliminada."
+
+msgid "prtf_portfolios"
+msgstr "Portafolios"
+
+msgid "prtf_print_options"
+msgstr "Opciones"
+
+msgid "prtf_print_selection"
+msgstr "Selección de página"
+
+msgid "prtf_profile_picture"
+msgstr "Mostrar foto de perfil"
+
+msgid "prtf_properties"
+msgstr "Propiedades del portafolio"
+
+msgid "prtf_public_comments"
+msgstr "Comentarios públicos"
+
+msgid "prtf_role_assignment"
+msgstr "Asignación de roles"
+
+msgid "prtf_role_title"
+msgstr "Rol"
+
+msgid "prtf_save_status_and_titles"
+msgstr "Guardar estado y títulos"
+
+msgid "prtf_sec_protected_info"
+msgstr "Las secciones protegidas no pueden ser editadas por los propietarios del portafolio."
+
+msgid "prtf_selected_pages"
+msgstr "Páginas Seleccionadas"
+
+msgid "prtf_set_default_publish_global"
+msgstr "Compartir también con usuarios no registrados"
+
+msgid "prtf_set_default_publish_registered"
+msgstr "Compartir solo con usuarios registrados"
+
+msgid "prtf_set_offline"
+msgstr "Desactivar (Offline)"
+
+msgid "prtf_set_online"
+msgstr "Activar (Online)"
+
+msgid "prtf_settings"
+msgstr "Administración del Portafolio"
+
+msgid "prtf_shared_offline_info"
+msgstr "Un portafolio debe estar online para que los usuarios con los que se ha compartido puedan acceder a él."
+
+msgid "prtf_signature"
+msgstr "Campo de Firma"
+
+msgid "prtf_signature_date"
+msgstr "Fecha, Firma"
+
+msgid "prtf_signature_info"
+msgstr "Añade un campo a la impresión donde el autor puede firmar el portafolio."
+
+msgid "prtf_style"
+msgstr "Estilo del Portafolio"
+
+msgid "prtf_submission_on"
+msgstr "Entregado el $1"
+
+msgid "prtf_successfully_shared_prtf"
+msgstr "Confirmación de portafolio compartido '%s'"
+
+msgid "prtf_successfully_shared_prtf_body"
+msgstr "Ha compartido su portafolio '%s' con:"
+
+msgid "prtf_sure_delete_portfolio_pages"
+msgstr "¿Está seguro de que desea eliminar la siguiente página del portafolio / página del blog?"
+
+msgid "prtf_sure_delete_portfolios"
+msgstr "¿Está seguro de que desea eliminar el siguiente portafolio?"
+
+msgid "prtf_tab_other_users"
+msgstr "Portafolios de otros usuarios"
+
+msgid "prtf_tab_portfolios"
+msgstr "Mis Portafolios"
+
+msgid "prtf_table_of_contents"
+msgstr "Tabla de contenidos"
+
+msgid "prtf_template_editor_placeholder_info"
+msgstr "Este marcador de posición será reemplazado en el portafolio."
+
+msgid "prtf_template_import_blog_create"
+msgstr "Crear nuevo blog"
+
+msgid "prtf_template_import_blog_ignore"
+msgstr "Eliminar página de blog"
+
+msgid "prtf_template_import_blog_reuse"
+msgstr "Usar blog existente"
+
+msgid "prtf_template_import_new_skills"
+msgstr "Si se activa, estos elementos se añadirán a sus competencias personales."
+
+msgid "prtf_template_title"
+msgstr "Plantilla de Portafolio"
+
+msgid "prtf_unset_as_default"
+msgstr "Desmarcar como mi perfil"
+
+msgid "prtf_unset_default_share_info"
+msgstr "Se han guardado sus cambios. Por favor, compruebe los ajustes actuales de 'compartir' para su portafolio."
+
+msgid "prtf_use_page_layout"
+msgstr "Usar diseño de página"
+
+msgid "prtf_visible_for_tutor"
+msgstr "Visible para el tutor"
+
+msgid "prtt_title_info"
+msgstr "Tenga en cuenta que este será también el título por defecto de todos los portafolios que se creen a partir de esta plantilla."

@@ -1,0 +1,309 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ka\n"
+"Language-Team: Georgian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mcst\n"
+
+msgid "mcst_add_new_item"
+msgstr "ახალი მედიაქასთის ნივთის დამატება"
+
+#, fuzzy
+msgid "mcst_audio_files"
+msgstr "Audio Files"
+
+msgid "mcst_audioportable_settings_info"
+msgstr "მძიმეთი გამოყოფილი სუფიქსების სია"
+
+msgid "mcst_audioportable_settings_title"
+msgstr "ფაილის გაგრძელება აუდიო ფორმატისთვის"
+
+msgid "mcst_audioportable_title"
+msgstr "დამატებითი აუდიო ფაილი პორტაბელური სისტემებისთვუს"
+
+msgid "mcst_automatic_detection"
+msgstr "ავტომატური დაჭერა"
+
+#, fuzzy
+msgid "mcst_autoplay"
+msgstr "Autoplay"
+
+#, fuzzy
+msgid "mcst_autoplay_active"
+msgstr "Autoplay (Default on)"
+
+#, fuzzy
+msgid "mcst_autoplay_inactive"
+msgstr "Autoplay (Default off)"
+
+#, fuzzy
+msgid "mcst_autoplay_info"
+msgstr "Starts automatically the next video when reaching the end of the previous one. This feature is not supported by youtube videos."
+
+msgid "mcst_clear_purpose_title"
+msgstr "წაშლა"
+
+#, fuzzy
+msgid "mcst_confirm_deletion"
+msgstr "Confirm Deletion"
+
+msgid "mcst_converted_file"
+msgstr "File has been converted."
+
+#, fuzzy
+msgid "mcst_copy"
+msgstr "Copy Mediacast"
+
+msgid "mcst_current_value_info"
+msgstr "ამ ფორმატის მიმდინარე ღირებულებას აჩვენებს"
+
+msgid "mcst_default_visibility"
+msgstr "სტქანდარტული შესვლა"
+
+msgid "mcst_det_playtime"
+msgstr "თამაშის დროის განსაზღვრა"
+
+#, fuzzy
+msgid "mcst_download_all"
+msgstr "Download All"
+
+msgid "mcst_download_audioportable"
+msgstr "პორტატული აუდიოს გადმოტვირთვა"
+
+#, fuzzy
+msgid "mcst_download_cnt"
+msgstr "Downloaded"
+
+msgid "mcst_download_standard"
+msgstr "გადმოტვირთვა"
+
+#, fuzzy
+msgid "mcst_download_started_bg"
+msgstr "Download of files has started. Please check your background tasks in the top right corner."
+
+#, fuzzy
+msgid "mcst_download_videoalternative"
+msgstr "Download Alternative File"
+
+msgid "mcst_download_videoportable"
+msgstr "პორტატული ვიდეოს გადმოტვირთვა"
+
+msgid "mcst_downloadable"
+msgstr "გადმოსატვირთი ლინკები"
+
+msgid "mcst_downloadable_info"
+msgstr "თუ ეს პარამეტრი გააქტიურებულია, გადმოსატვირთი ლინკები გამოჩნდება"
+
+msgid "mcst_duration"
+msgstr "თამაშის დრო"
+
+msgid "mcst_duration_info"
+msgstr "თუ ღირებულება არ არის შეყვანილი, ილიასი ცდილობს განსაზღვროს თამაშის დრო ავტომატურად"
+
+msgid "mcst_edit_item"
+msgstr "მედია ქასთის ნივთის რედაქტირება"
+
+msgid "mcst_edit_settings"
+msgstr "მედია ქასთის პარამეტრები"
+
+msgid "mcst_gallery"
+msgstr "Gallery"
+
+#, fuzzy
+msgid "mcst_img_gallery"
+msgstr "Image Gallery"
+
+msgid "mcst_import"
+msgstr "მედია ქასტითის იმპორტი"
+
+msgid "mcst_incl_files_in_rss"
+msgstr "მედია ფაილების ჩართვა სიახლეებში"
+
+msgid "mcst_incl_files_in_rss_info"
+msgstr "თუ გააქტიურებულია, მედია ფაილები იქნება დანართის სახით RSS სიახლეებში. შხვა შემთხვევაში სიახლეები ხელიმომწერებს მხოლოდ ახალი ნივთების შესახებ აცნობენ"
+
+#, fuzzy
+msgid "mcst_input_either_file_or_url"
+msgstr "Please specify a file or an URL. If you provide a file, please note the maximum allowed upload file size."
+
+#, fuzzy
+msgid "mcst_items"
+msgstr "Items"
+
+msgid "mcst_last_submission"
+msgstr "ბოლო ხელის მოწერა"
+
+msgid "mcst_list"
+msgstr "List"
+
+msgid "mcst_manage"
+msgstr "Manage"
+
+msgid "mcst_media_cast"
+msgstr "მედია ქასთი"
+
+msgid "mcst_media_cast_not_online"
+msgstr "მედია ქასთი არ არის ონლაინ"
+
+msgid "mcst_media_cast_not_online_text"
+msgstr "მედია ქასთი არ არის ონლაინ ან გაუქმებულია"
+
+msgid "mcst_mimetype"
+msgstr "MIME-ის სახეობა"
+
+msgid "mcst_mimetype_info"
+msgstr "მონიშნეთ MIME-ის სახეობა რომ აკონტროლოთ პროგრამული გაფართოვება ხელახლა ჩართვისთვის. გახსოვდეთ რომ ყველა ბრაუზერი არ შეიცავს იმ პროგრამულ გაფართოვებას რომელსაც თქვენ იყენებთ"
+
+msgid "mcst_mimetypes"
+msgstr "MIME-ის სახეობები"
+
+msgid "mcst_mimetypes_info"
+msgstr "მძიმეთი გამოყოფილი MIME-ის სახეობების სია"
+
+#, fuzzy
+msgid "mcst_new_items_det_lp"
+msgstr "Add new items to learning progress"
+
+#, fuzzy
+msgid "mcst_new_items_det_lp_info"
+msgstr "New items are automatically added to determine the overall learning progress."
+
+msgid "mcst_news_item_visibility_info"
+msgstr "საზოგადოებრივი სიახლეების ნახვა შესაძლებელია გარედან ავტორიზების გარეშე RSS-ს მეშევეობით. გთხოვთ არ შეიტანოთ კონფიდენციალური ინფორმაცია"
+
+#, fuzzy
+msgid "mcst_next_items"
+msgstr "Next Items"
+
+#, fuzzy
+msgid "mcst_no_autoplay"
+msgstr "No Autoplay"
+
+msgid "mcst_nr_items"
+msgstr "ნივთების რაოდენობა"
+
+#, fuzzy
+msgid "mcst_nr_videos"
+msgstr "Number of Initial Videos"
+
+msgid "mcst_ordering"
+msgstr "Sorting"
+
+msgid "mcst_ordering_creation_date_asc"
+msgstr "By Creation Date (Ascending)"
+
+msgid "mcst_ordering_creation_date_desc"
+msgstr "By Creation Date (Descending)"
+
+msgid "mcst_ordering_manual"
+msgstr "Manual"
+
+msgid "mcst_ordering_title"
+msgstr "By Title"
+
+msgid "mcst_play"
+msgstr "Play"
+
+#, fuzzy
+msgid "mcst_play_cnt"
+msgstr "Played"
+
+msgid "mcst_play_time"
+msgstr "თამაშის დრო"
+
+#, fuzzy
+msgid "mcst_podcast"
+msgstr "Podcast"
+
+#, fuzzy
+msgid "mcst_prev_items"
+msgstr "Previous Items"
+
+#, fuzzy
+msgid "mcst_preview"
+msgstr "Preview"
+
+msgid "mcst_preview_picture"
+msgstr "Preview Picture"
+
+msgid "mcst_preview_picture_info"
+msgstr "Only supported by the following main media types:"
+
+msgid "mcst_reference_info"
+msgstr "URL მითითების ჩართვა რესურსებში"
+
+msgid "mcst_save_order"
+msgstr "Save Order"
+
+msgid "mcst_set_playtime"
+msgstr "თამაშის დრო დაყენებულია"
+
+msgid "mcst_settings"
+msgstr "მედიაქასთის პარამეტრები"
+
+#, fuzzy
+msgid "mcst_show_description"
+msgstr "Show Description"
+
+msgid "mcst_standard_settings_info"
+msgstr "მძიმეთი გამოყოფილი სუფიქსების ფაილების სია"
+
+msgid "mcst_standard_settings_title"
+msgstr "ფაილის გაგრძელებები სტანდარტული ფორმატისთვის"
+
+msgid "mcst_standard_title"
+msgstr "ნორმალური მედია ფაილი"
+
+msgid "mcst_unable_to_determin_playtime"
+msgstr "შეუძლებელია თამაში დროის განსაზღვრა. გთხოვთ დააყენოთ ის ხელით რედაქტირების ღილაკზე დაკლიკებით"
+
+#, fuzzy
+msgid "mcst_video_cast"
+msgstr "Videocast"
+
+#, fuzzy
+msgid "mcst_video_completion_threshold"
+msgstr "Video Completion Threshold"
+
+#, fuzzy
+msgid "mcst_video_completion_threshold_info"
+msgstr "Amount of video that triggers the completion status. Please note that the user may skip forward to reach this point."
+
+msgid "mcst_videoalternative_title"
+msgstr "Alternative Video File (Use in Browser)"
+
+msgid "mcst_videoportable_settings_info"
+msgstr "მძიმეთი გამოყოფილი სუფიქსების ფაილების სია"
+
+msgid "mcst_videoportable_settings_title"
+msgstr "ფაილის გაგრძელებები ვიდეო ფორმატისთვის"
+
+msgid "mcst_videoportable_title"
+msgstr "დამატებიტი ვიდეო ფაილი პორტატული მოწყობილობებისთვის"
+
+#, fuzzy
+msgid "mcst_view_abandoned"
+msgstr "The current presentation mode has been abandoned. Please open the settings and switch to another mode."
+
+msgid "mcst_viewmode"
+msgstr "Presentation Mode"
+
+msgid "mcst_visibility_info"
+msgstr "საზოგადოებრივი ნივთების ნახვა შესაძლებებლია RSS-ის მეშვეობით ავტორიზების გარეშე"
+
+msgid "mcst_visibility_public"
+msgstr "საზოგადოებრივი"
+
+msgid "mcst_visibility_users"
+msgstr "შესული მომხმარებლები"
+
+#, fuzzy
+msgid "mcst_watched"
+msgstr "watched"
+
+#, fuzzy
+msgid "mcst_webfeed"
+msgstr "RSS Web Feed"

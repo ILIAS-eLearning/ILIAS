@@ -1,0 +1,522 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: user\n"
+
+#, fuzzy
+msgid "account_not_flagged_for_deletion"
+msgstr "The account is not flagged for deletion."
+
+#, fuzzy
+msgid "activate_in_profile_fields"
+msgstr "To change this setting, the user must first be allowed to change their login name under Profile > Profile Fields"
+
+#, fuzzy
+msgid "administrative_settings"
+msgstr "Administrative Settings"
+
+msgid "all_roles_has_starting_point"
+msgstr "Tutti i ruoli hanno dei punti di inizio"
+
+msgid "back_to_starting_points_list"
+msgstr "Torna ai punti di inizio"
+
+#, fuzzy
+msgid "change_email_email_confirmation_body"
+msgstr "The email address for the account %s was changed. To confirm this change, please click on this link %s. The link is valid for %s minutes."
+
+#, fuzzy
+msgid "change_email_email_confirmation_subject"
+msgstr "Confirm Email Address"
+
+#, fuzzy
+msgid "change_email_email_information_body"
+msgstr "The process to change the email address for the account %s to %s was started. An email with a link to confirm the change was sent to the new address. The link is valid for %s minutes."
+
+#, fuzzy
+msgid "change_email_email_information_subject"
+msgstr "Information about Change of Email Address"
+
+#, fuzzy
+msgid "change_email_email_sent"
+msgstr "An email with a link to confirm your change has been sent. Please check your inbox and make sure to also look in the spam-folder if the email doesn't arrive within the next minutes."
+
+#, fuzzy
+msgid "change_email_info_message"
+msgstr "There is a pending request to change the email address for this account."
+
+msgid "clipboard_add_btn"
+msgstr "Aggiungi agli Appunti"
+
+msgid "clipboard_add_from_btn"
+msgstr "Aggiungi da Appunti"
+
+msgid "clipboard_empty_btn"
+msgstr "Svuota Appunti"
+
+msgid "clipboard_remove_btn"
+msgstr "Rimuovi da Appunti"
+
+msgid "clipboard_table_title"
+msgstr "Appunti (account utente)"
+
+msgid "clipboard_user_added"
+msgstr "Aggiunti gli utenti selezionati agli Appunti."
+
+msgid "confirm_delete_starting_point"
+msgstr "Sei sicuro di voler eliminare questa regola?"
+
+#, fuzzy
+msgid "confirm_logout_for_email_change"
+msgstr "You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out."
+
+#, fuzzy
+msgid "confirm_logout_for_email_change_with_confirmation"
+msgstr "Additionally, a confirmation that you control the new email address will be required. After you have logged in again, an email will be sent to you. Please click on the link in the email to confirm that you contoll the address. The change of the email address will only take effect once this second step is also finalized."
+
+msgid "create_starting_point"
+msgstr "Crea ruolo"
+
+msgid "criteria"
+msgstr "Criteri"
+
+msgid "del_mail_body"
+msgstr "Ciao %1$s, %2$s non hai effettuato l'accesso per un lungo periodo di tempo, su %3$s. Quindi il tuo account verrà eliminato tra %4$ s giorni. Devi accedere di nuovo per impedire la cancellazione del tuo account."
+
+msgid "del_mail_subject"
+msgstr "[ILIAS] - Il tuo account verrà eliminato"
+
+msgid "delete_inactive_user_accounts_frequency"
+msgstr "Frequenza"
+
+msgid "delete_inactive_user_accounts_frequency_desc"
+msgstr "Frequenza, in cui verranno testati la cancellazione e la distribuzione della posta elettronica."
+
+#, fuzzy
+msgid "edit_field"
+msgstr "Edit Field"
+
+#, fuzzy
+msgid "edit_setting"
+msgstr "Edit Setting"
+
+msgid "editing_this_role"
+msgstr "Ruolo"
+
+#, fuzzy
+msgid "email_could_not_be_changed"
+msgstr "The request to change your email could not be finalized."
+
+msgid "enable_local_user_administration"
+msgstr "Abilita l'amministrazione di utenti locali"
+
+msgid "enable_local_user_administration_info"
+msgstr "Se abilitato, gli account degli utenti locali possono essere categorizzati."
+
+msgid "feedhash"
+msgstr "News feed hash"
+
+#, fuzzy
+msgid "field_type_custom"
+msgstr "Custom"
+
+msgid "has_role"
+msgstr "Ruolo"
+
+#, fuzzy
+msgid "info_accessFree_sure"
+msgstr "Are you sure you want to remove the valid until date from the following accounts?"
+
+msgid "inform_user_mail_info"
+msgstr "Se attivato, verrà inviata un'email all'utente. Il suo contenuto può essere definito in Amministrazione> Gestione utenti> Impostazioni> Nuova posta account."
+
+msgid "interests"
+msgstr "Interessi"
+
+msgid "interests_general"
+msgstr "Interessi generali"
+
+msgid "interests_help_looking"
+msgstr "Cercare aiuto"
+
+msgid "interests_help_offered"
+msgstr "Offrire aiuto"
+
+#, fuzzy
+msgid "ldoc_accepted_content"
+msgstr "Accepted Content"
+
+#, fuzzy
+msgid "ldoc_not_accepted_yet"
+msgstr "Not accepted yet"
+
+msgid "msg_spoint_not_modified"
+msgstr "Punto di partenza non modificato"
+
+#, fuzzy
+msgid "no_deactivate_yourself"
+msgstr "You cannot deactivate your own user account."
+
+msgid "obj_ref_id_not_exist"
+msgstr "L'ID di riferimento inserito non esiste"
+
+#, fuzzy
+msgid "personalise_additional"
+msgstr "Personalise Additional Settings"
+
+#, fuzzy
+msgid "personalise_communication"
+msgstr "Personalise Communication Settings"
+
+#, fuzzy
+msgid "personalise_privacy"
+msgstr "Personalise Privacy Settings"
+
+#, fuzzy
+msgid "profile_fields"
+msgstr "Profile Fields"
+
+#, fuzzy
+msgid "profile_section"
+msgstr "Section"
+
+msgid "restrict_user_access"
+msgstr "Accesso Ristretto agli Account Utenti"
+
+msgid "restrict_user_access_info"
+msgstr "Se abilitato, l'accesso agli utenti è ristretto. L'accesso dipende dal \"Permesso di Lettura agli utenti locali\" in \"Account Utente\" e \"Categorie\"."
+
+msgid "roles_without_starting_point"
+msgstr "Ruoli senza un punto di inizio definito:"
+
+msgid "save_order"
+msgstr "Salva ordine"
+
+msgid "send_mail_reminder_window_too_small"
+msgstr "L’impostazione di frequenza è troppo grande per questo valore di promemoria."
+
+msgid "send_mail_to_inactive_users"
+msgstr "Mail di avviso"
+
+msgid "send_mail_to_inactive_users_desc"
+msgstr "Se impostato, un messaggio di avviso verrà inviato all'utente prima che il suo account venga eliminato a causa di inattività. Assicurati che sia possibile inviare mail esterne. All'attivazione con posta promemoria, può accadere che il lasso di tempo tra la posta promemoria e cancellazione sia inferiore al periodo di tempo configurato."
+
+msgid "send_mail_to_inactive_users_must_be_smaller_than"
+msgstr "Questo valore deve essere inferiore al valore \"Giorni trascorsi dall'ultimo accesso\"."
+
+msgid "send_mail_to_inactive_users_numbers_only"
+msgstr "Vengono accettati solo numeri non decimali positivi."
+
+msgid "send_mail_to_inactive_users_suffix"
+msgstr "Giorni precedenti alla cancellazione."
+
+msgid "show_own_online_status"
+msgstr "Mostra il mio stato in linea"
+
+msgid "starting_page"
+msgstr "Pagina di inizio"
+
+msgid "starting_point"
+msgstr "Punto di inizio"
+
+msgid "starting_point_settings"
+msgstr "Impostazione punto di inizio"
+
+msgid "starting_points"
+msgstr "Punti di inizio"
+
+#, fuzzy
+msgid "udf_select_options"
+msgstr "Options"
+
+msgid "user_access_limited"
+msgstr "Limitato"
+
+msgid "user_access_unlimited"
+msgstr "Illimitato"
+
+msgid "user_account_code"
+msgstr "Codice"
+
+msgid "user_account_code_generated"
+msgstr "Data di generazione"
+
+msgid "user_account_code_generated_all"
+msgstr "Tutte le date"
+
+msgid "user_account_code_not_valid"
+msgstr "Il codice di registrazione fornito non è valido o è già stato utilizzato."
+
+msgid "user_account_code_setting"
+msgstr "Abilita riattivazione account per codice"
+
+msgid "user_account_code_setting_info"
+msgstr "Gli account inattivi possono essere riattivati dagli utenti tramite codici predefiniti."
+
+msgid "user_account_code_used"
+msgstr "Data di utilizzo"
+
+msgid "user_account_code_valid_until"
+msgstr "Valida fino a"
+
+msgid "user_account_code_valid_until_dynamic"
+msgstr "Numero dei giorni"
+
+msgid "user_account_code_valid_until_static"
+msgstr "Data di fine"
+
+msgid "user_account_code_valid_until_unlimited"
+msgstr "Illimitato"
+
+msgid "user_account_codes_add"
+msgstr "Aggiungi codici"
+
+msgid "user_account_codes_edit_header"
+msgstr "Aggiungi codici"
+
+msgid "user_account_codes_export"
+msgstr "Esporta codici"
+
+msgid "user_account_codes_number"
+msgstr "Numero dei codici"
+
+msgid "user_account_deleted_confirmation"
+msgstr "Il tuo account è stato cancellato Ti è stata inviata un'e-mail con informazioni dettagliate."
+
+msgid "user_activate_public_profile"
+msgstr "Attiva un profilo pubblico"
+
+msgid "user_activate_public_profile_info"
+msgstr "Attivazione globale del tuo profilo utente. Se attivato il tuo nome e cognome sarà visibile agli altri utenti."
+
+msgid "user_activation"
+msgstr "Attivazione"
+
+#, fuzzy
+msgid "user_admin_options"
+msgstr "Options"
+
+msgid "user_all"
+msgstr "Tutti"
+
+msgid "user_allow_delete_own_account"
+msgstr "Consente agli utenti di eliminare il proprio account"
+
+msgid "user_any"
+msgstr "Qualsiasi"
+
+msgid "user_awrn_all_users"
+msgstr "Tutti gli utenti"
+
+msgid "user_awrn_all_users_info"
+msgstr "Tutti gli utenti della piattaforma sono elencati. Si prega di notare che l'impostazione \"Online e Offline\" può ridurre notevolmente le prestazioni su installazioni con un numero elevato di utenti."
+
+msgid "user_check_profile_data"
+msgstr "Controlla i dati del profilo"
+
+msgid "user_chooses_starting_page"
+msgstr "L’utente sceglie il punto di inizio"
+
+msgid "user_delete_own_account"
+msgstr "Elimina account"
+
+msgid "user_delete_own_account_aborted"
+msgstr "Eliminazione interrotta, l'account non è stato modificato."
+
+msgid "user_delete_own_account_email_body"
+msgstr "Il tuo account utente \"%s\" è stato eliminato da %s."
+
+msgid "user_delete_own_account_email_subject"
+msgstr "Account utente eliminato"
+
+msgid "user_delete_own_account_final_confirmation"
+msgstr "Si prega di confermare l’ultima volta per rimuovere l’account utente da ILIAS!"
+
+msgid "user_delete_own_account_info"
+msgstr "Qui è possibile eliminare l’attuale account. Tieni a mente che la cancellazione del tuo account è irreversibile!"
+
+msgid "user_delete_own_account_logout_button"
+msgstr "Procedi con l’autenticazione"
+
+msgid "user_delete_own_account_logout_confirmation"
+msgstr "Il tuo account è stato contrassegnato per l'eliminazione. Si prega di autenticare per continuare il processo."
+
+msgid "user_delete_own_account_notification_email"
+msgstr "Email di notifica"
+
+msgid "user_field"
+msgstr "Campo"
+
+msgid "user_global_role"
+msgstr "Ruolo Globale"
+
+msgid "user_last_login_before"
+msgstr "Ultimo login"
+
+msgid "user_limited_access"
+msgstr "Accesso Limitato"
+
+#, fuzzy
+msgid "user_local_role"
+msgstr "Local Role"
+
+msgid "user_lv_do_not_store"
+msgstr "Non ricordare mai l'ultima visita"
+
+msgid "user_lv_keep_entries"
+msgstr "Ricorda ultima visita"
+
+msgid "user_lv_keep_only_for_session"
+msgstr "Ricorda solo durante la sessione attuale"
+
+msgid "user_make_profile_public"
+msgstr "Pubblica profilo"
+
+msgid "user_member_of_course_group"
+msgstr "Membro del Corso/Gruppo"
+
+msgid "user_no_courses"
+msgstr "Nessun corso assegnato"
+
+msgid "user_no_groups"
+msgstr "Nessun gruppo assegnato"
+
+msgid "user_order"
+msgstr "Ordinamento"
+
+msgid "user_ownership"
+msgstr "Oggetti repository"
+
+msgid "user_please_select_course_group"
+msgstr "Per favore seleziona un corso o un gruppo"
+
+msgid "user_portfolios"
+msgstr "Portfolio"
+
+msgid "user_portfolios_desc"
+msgstr "Gli utenti possono creare un portfolio e utilizzarlo come profilo."
+
+msgid "user_privacy_checklist"
+msgstr "Lista di controllo sulla privacy"
+
+msgid "user_profile_data"
+msgstr "Dati del Profilo"
+
+msgid "user_profile_data_checked"
+msgstr "Dati del profilo controllati"
+
+msgid "user_profile_info"
+msgstr "Informazioni Utente"
+
+msgid "user_profile_info_std"
+msgstr "Informazioni Utente Default"
+
+msgid "user_profile_info_text_info"
+msgstr "Questo testo è presentato in cima al modulo per l'inserimento dei dati personali."
+
+msgid "user_profile_portfolio"
+msgstr "Se vuoi utilizzare un portfolio come profilo, vai nella sezione \"Portfolio\" e seleziona \"Mio profilo\" per quel portfolio."
+
+msgid "user_profile_portfolio_selected"
+msgstr "Attualmente stai utilizzando un portfolio come profilo."
+
+msgid "user_profile_preview"
+msgstr "Anteprima"
+
+#, fuzzy
+msgid "user_profile_prompt_text"
+msgstr "Prompt Text"
+
+msgid "user_profile_prompt_text_info"
+msgstr "Questo testo sostituirà il testo informativo predefinito, se al profilo è stato richiesto un utente."
+
+msgid "user_prompt_incomplete"
+msgstr "Solo se il profilo è incompleto"
+
+msgid "user_prompt_incomplete_info"
+msgstr "Se l'utente deve inserire i campi richiesti, il profilo verrà mostrato dopo il login."
+
+msgid "user_prompt_once_after_login"
+msgstr "Una volta dopo il numero specifico di giorni dopo il primo accesso"
+
+msgid "user_prompt_once_after_login_info"
+msgstr "Dopo questo periodo verrà richiesto all'utente con il profilo, se l'utente non ha ancora pubblicato il profilo."
+
+msgid "user_prompt_repeat"
+msgstr "Ripeti ogni numero specifico di giorni"
+
+msgid "user_prompt_repeat_info"
+msgstr "All'utente verrà richiesto periodicamente il profilo, se l'utente non ha ancora pubblicato il profilo."
+
+msgid "user_prompting_recurrence"
+msgstr "Richiesta di ricorrenza"
+
+msgid "user_prompting_settings"
+msgstr "Impostazioni di richiesta"
+
+msgid "user_public_profile_info"
+msgstr "Seleziona quali dati personali saranno visibili agli altri utenti."
+
+msgid "user_publish_options"
+msgstr "Pubblica Profilo"
+
+#, fuzzy
+msgid "user_role_selection"
+msgstr "Role Selection"
+
+msgid "user_role_starting_point"
+msgstr "Utente - Punto di inizio"
+
+msgid "user_save_continue"
+msgstr "Salva e Continua"
+
+msgid "user_save_ordering_and_titles"
+msgstr "Salva ordine e titoli"
+
+msgid "user_select_course_group"
+msgstr "Seleziona Corso/Gruppo"
+
+msgid "user_set_publishing_options"
+msgstr "Imposta le opzioni di pubblicazione"
+
+msgid "user_set_visibilty_options"
+msgstr "Imposta le opzioni di visibilità"
+
+#, fuzzy
+msgid "user_settings"
+msgstr "User Settings"
+
+msgid "user_store_last_visited"
+msgstr "Ultima visita"
+
+msgid "user_visibility_settings"
+msgstr "Visibilità"
+
+msgid "user_visible_in_profile"
+msgstr "Visibile nel Profilo"
+
+msgid "usr_id"
+msgstr "ID Utente"
+
+msgid "usr_letter_avatars"
+msgstr "Lettera avatar"
+
+msgid "usr_letter_avatars_info"
+msgstr "Mostra l'iniziale del nome utente o l'accesso come immagine del profilo, se non viene fornita alcuna immagine pubblica."
+
+msgid "usr_public_profile_disabled"
+msgstr "Profilo Pubblico disabilitato"
+
+msgid "usr_public_profile_disabled_info"
+msgstr "Le tue informazioni sono visibile solo agli amministratori"
+
+msgid "usr_public_profile_global"
+msgstr "Visibilità Globale"
+
+msgid "usr_public_profile_logged_in"
+msgstr "Utenti connessi"

@@ -1,0 +1,311 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: da\n"
+"Language-Team: Danish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: news\n"
+
+#, fuzzy
+msgid "lso_news_online_title"
+msgstr "A new learning sequence object is online!"
+
+#, fuzzy
+msgid "lso_news_online_txt"
+msgstr "A new object for your learning sequence was just published."
+
+#, fuzzy
+msgid "new_test_online"
+msgstr "The Test was set online."
+
+msgid "news_1_file_created"
+msgstr "1 fil tilføjet"
+
+msgid "news_1_file_updated"
+msgstr "1 fil opdateret"
+
+#, fuzzy
+msgid "news_1_postings"
+msgstr "One post has been added."
+
+#, fuzzy
+msgid "news_add_news"
+msgstr "Add News"
+
+msgid "news_all_items"
+msgstr "Alt"
+
+msgid "news_allow_longer_periods"
+msgstr "Tillad længere perioder"
+
+msgid "news_allow_longer_periods_info"
+msgstr "Brugere må vælge længere nyhedsperioder på skrivebordet."
+
+msgid "news_allow_shorter_periods"
+msgstr "Tillad kortere perioder"
+
+msgid "news_allow_shorter_periods_info"
+msgstr "Brugere må vælge kortere nyhedsperioder på skrivebordet."
+
+#, fuzzy
+msgid "news_attached_to"
+msgstr "Attached to"
+
+msgid "news_block_information"
+msgstr "<b>Nyhedsblokken</b> viser alle de nyheder som er relateret til dine <i>personlige</i> ting som du har valgt på dit skrivebord."
+
+msgid "news_cache"
+msgstr "Nyhedscache (minutter)"
+
+msgid "news_cache_info"
+msgstr "Opdater nyhedsblok alle x minutter '0' er hver gang. Højere værdier forbedrer systemets ydelse, men kan vise utilgængelige emner på listen."
+
+msgid "news_default_visibility"
+msgstr "Standard adgang"
+
+msgid "news_edit_news_settings"
+msgstr "Ret indstillinger"
+
+msgid "news_enable_internal_news"
+msgstr "Aktiver interne nyheder"
+
+msgid "news_enable_internal_news_info"
+msgstr "Aktiverer nyheds blokke i kategotier, kurser, grupper og andre objekter. Brugere kan abonnere på nyheder og nyheder præsenteres på det personlige skrivebord."
+
+msgid "news_enable_internal_rss"
+msgstr "Aktiver RSS til interne nyheder"
+
+msgid "news_enable_internal_rss_info"
+msgstr "Tillader publicering af nyheder via RSS. Disse nyheder vil være tilgængelige uden for systemet uden autentifikation (logon)."
+
+msgid "news_enable_private_feed"
+msgstr "Aktiver privat nyhedsfeed"
+
+#, fuzzy
+msgid "news_enable_private_feed_info"
+msgstr "If this option is enabled, public and private news can be obtained by personal RSS feeds outside of ILIAS. Authentification is provided by password."
+
+msgid "news_feed_url"
+msgstr "Feed URL"
+
+msgid "news_feed_url_for"
+msgstr "Feed URL for '%s'"
+
+#, fuzzy
+msgid "news_first_letter_of_word_notification"
+msgstr "N"
+
+msgid "news_get_feed_info"
+msgstr "Dette er en personlig nyhedsfeed URL. Feedet inkluderer kun nyheder som er angivet som offentlige af skribenten. Feeded er ikke beskyttet af autentificeringsprocedurer. Undlad venligst at dele denne URL med andre."
+
+msgid "news_get_feed_title"
+msgstr "Personlig feed URL"
+
+msgid "news_get_feed_url"
+msgstr "Hent feed URL"
+
+#, fuzzy
+msgid "news_get_priv_feed_info"
+msgstr "This is a personal private news feed URL. The feed includes news that are declared as public and private by the author. This feed is protected by a password, which can be changed under \"Settings\". Please do not share this URL with other people. Please replace -password- in this URL with your Feed-Password."
+
+msgid "news_get_priv_feed_title"
+msgstr "Privat Feed-URL"
+
+msgid "news_hide_news_block"
+msgstr "Skjul nyhedsbolk"
+
+msgid "news_hide_news_block_info"
+msgstr "Skjul blokken i den studerende/brugerens visning. Nyhedsblokken er kun synlig for brugere med skriverettigheder."
+
+msgid "news_hide_news_date"
+msgstr "Startdato"
+
+msgid "news_hide_news_per_date"
+msgstr "Vis nyheder efter"
+
+msgid "news_hide_news_per_date_info"
+msgstr "Kun nyheder fra en bestemt dato vises."
+
+#, fuzzy
+msgid "news_inactive_private_feed_info"
+msgstr "Your private news feed is deactivated. Please set a password in the settings."
+
+msgid "news_internal_news"
+msgstr "Interne nyheder"
+
+msgid "news_keep_minimal_x_items"
+msgstr "Behold mindst x nyheder"
+
+msgid "news_keep_minimal_x_items_info"
+msgstr "Hvis værdien er større end 0 angiver det antallet af elementer der beholdes i strømmen, selv hvis de er ældre end standard levetiden."
+
+msgid "news_loading_news"
+msgstr "Henter nyheder"
+
+#, fuzzy
+msgid "news_media"
+msgstr "Media File"
+
+#, fuzzy
+msgid "news_new_comments"
+msgstr "New comments"
+
+#, fuzzy
+msgid "news_new_reactions"
+msgstr "New reactions"
+
+#, fuzzy
+msgid "news_news_block"
+msgstr "News Block"
+
+msgid "news_news_item_content"
+msgstr "Tekst"
+
+msgid "news_news_item_content_long"
+msgstr "Lang tekst"
+
+msgid "news_news_item_content_long_info"
+msgstr "Denne tekst publiceres ikke med RSS"
+
+#, fuzzy
+msgid "news_news_item_def_visibility_public_info"
+msgstr "Current news are accessible in a public RSS webfeed. They should not contain confidential information."
+
+#, fuzzy
+msgid "news_news_item_def_visibility_users_info"
+msgstr "Only authenticated users have access to current news."
+
+msgid "news_news_item_head"
+msgstr "Nyhed"
+
+msgid "news_news_item_title"
+msgstr "Overskrift"
+
+msgid "news_news_item_visibility"
+msgstr "Adgang"
+
+msgid "news_news_item_visibility_info"
+msgstr "Offentlige nyheder kan via RSS tilgås uden autentificering udenfor ILIAS. Udelad venligst enhver fortrolig eller privat information."
+
+msgid "news_news_items"
+msgstr "Nyhed(er)"
+
+msgid "news_no_js_click_here"
+msgstr "Klik her hvis ingen nyheder vises."
+
+msgid "news_no_news_items"
+msgstr "Ingen nyheder"
+
+#, fuzzy
+msgid "news_not_available"
+msgstr "Unavailable News"
+
+msgid "news_notifications"
+msgstr "Adviseringer"
+
+msgid "news_notifications_public"
+msgstr "Offentlige adviseringer"
+
+msgid "news_notifications_public_info"
+msgstr "Hvis dette er aktiveret kan offentlige og private nyheder tilgås via personlige RSS feeds udefra ILIAS. Autentificering gøres via kodeord."
+
+msgid "news_nr_of_items"
+msgstr "Maksimalt antal nyheder pr. objekt"
+
+msgid "news_nr_of_items_info"
+msgstr "Antal nyhedselementer som gemmes for hvert objekt (f.eks. en fil eller læremodul) i databasen. Bemærk, at samleobjekter (f.eks. kategorier og kurser) kan indeholde flere, da de samler nyheder for de objekter i dem."
+
+msgid "news_pd_period"
+msgstr "Mit Skrivebord nyhedsperiode"
+
+msgid "news_pd_period_info"
+msgstr "Bestemmer den tidsperiode nyheder findes på Mit Skrivebord. Vælg lave værdier hvis du oplever problemer med ydelsen af systemet."
+
+msgid "news_period_1_month"
+msgstr "Sidste måned"
+
+msgid "news_period_1_week"
+msgstr "Sidste uge"
+
+msgid "news_period_1_year"
+msgstr "Sidste år"
+
+msgid "news_period_x_days"
+msgstr "Sidste %s dage"
+
+msgid "news_period_x_months"
+msgstr "Sidste %s måneder"
+
+msgid "news_period_x_weeks"
+msgstr "Sidste %s uger"
+
+msgid "news_public_feed"
+msgstr "Ekstra feed URL"
+
+msgid "news_public_feed_info"
+msgstr "Hvis denne mulighed er aktiveret leveres en separat feed url til objektet."
+
+#, fuzzy
+msgid "news_really_delete_news"
+msgstr "Do you really want to delete this news item?"
+
+#, fuzzy
+msgid "news_rss"
+msgstr "RSS"
+
+msgid "news_rss_period"
+msgstr "RSS periode"
+
+msgid "news_rss_title_format"
+msgstr "Titelformat for RSS nyheder"
+
+#, fuzzy
+msgid "news_rss_title_format_news_obj"
+msgstr "Nyhedsoverskrift (objekttitel)"
+
+msgid "news_rss_title_format_obj_news"
+msgstr "Objekttitel - Nyhedsoverskrift"
+
+msgid "news_settings"
+msgstr "Nyhedsindstillinger"
+
+#, fuzzy
+msgid "news_sorry_not_accessible_anymore"
+msgstr "Sorry, this item is not accessible anymore."
+
+msgid "news_time_period"
+msgstr "Tidsperiode"
+
+#, fuzzy
+msgid "news_timline_add_entries_info"
+msgstr "No news available yet. Click \"Add\" to create news entries."
+
+#, fuzzy
+msgid "news_timline_no_entries"
+msgstr "No news have been found."
+
+msgid "news_visibility_public"
+msgstr "Offentlig"
+
+msgid "news_visibility_users"
+msgstr "Brugere logged ind"
+
+msgid "news_x_files_created"
+msgstr "%s filer er blevet tilføjet"
+
+msgid "news_x_files_updated"
+msgstr "%s filer er blevet opdateret"
+
+msgid "news_x_postings"
+msgstr "%s indlæg er blevet tilføjet"
+
+msgid "passwd_equals_ilpasswd"
+msgstr "Vælg et andet password end dit ILIAS password"
+
+msgid "priv_feed_disabled"
+msgstr "Privat newsfeed deaktiveret."
+
+msgid "priv_feed_settings"
+msgstr "Privat newsfeed indstillinger"

@@ -1,0 +1,93 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: adve\n"
+
+msgid "advanced_editing_excass_settings"
+msgstr "Exercise Text Assignments"
+
+msgid "advanced_editing_tst_editing"
+msgstr "ILIAS Page Editor for additional question content"
+
+msgid "advanced_editing_tst_editing_desc"
+msgstr "Activates ILIAS Page Editor for feedback and hint text editing."
+
+msgid "adve_activation"
+msgstr "Activation"
+
+msgid "adve_auto_url_linking"
+msgstr "URL Auto-Linking"
+
+msgid "adve_auto_url_linking_info"
+msgstr "Tries to identify URLs like \"http://..\" in text paragraphs and automatically creates links around them."
+
+msgid "adve_autosave"
+msgstr "Automatic Saving Intervall"
+
+msgid "adve_autosave_info"
+msgstr "Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases."
+
+msgid "adve_autosave_info_min_10"
+msgstr "Please choose a value of minimal 10 seconds if you activated this feature."
+
+msgid "adve_blocking_mode"
+msgstr "Edit Lock"
+
+msgid "adve_excass_settings"
+msgstr "Exercise Assignments"
+
+msgid "adve_grp_copa"
+msgstr "Content Pages"
+
+msgid "adve_grp_frm"
+msgstr "Forums"
+
+msgid "adve_grp_glo"
+msgstr "Glossaries"
+
+msgid "adve_grp_lm"
+msgstr "ILIAS Learning Modules"
+
+msgid "adve_grp_rep"
+msgstr "Repository Pages"
+
+msgid "adve_grp_scorm"
+msgstr "SCORM Editing"
+
+msgid "adve_grp_test"
+msgstr "Test and Assessment"
+
+msgid "adve_grp_wiki"
+msgstr "Wikis"
+
+msgid "adve_minutes"
+msgstr "Minutes"
+
+msgid "adve_minutes_info"
+msgstr "Minutes of inactivity before an edit lock expires and a page can be edited by another user."
+
+msgid "adve_page_editor_settings"
+msgstr "ILIAS Page Editor"
+
+msgid "adve_pe_general"
+msgstr "General"
+
+msgid "adve_rte_settings"
+msgstr "TinyMCE Editor"
+
+msgid "adve_text_content_features"
+msgstr "Supported Characters"
+
+msgid "adve_use_physical"
+msgstr "Use b/i/u instead of str/emp/imp"
+
+msgid "adve_use_physical_info"
+msgstr "This setting replaces the semantic style class buttons for ‘strong’, ‘emphatic’ and ‘important’ with physical attribute buttons ‘b’ (bold), ‘i’ (italic) and ‘u’ (underline). Please note, that this may result in inconsistencies if the style editor is used and other physical attributes are assigned to the strong/emphatic/important style classes."
+
+msgid "adve_use_tiny_mce"
+msgstr "Enable TinyMCE Editor for WYSIWYG Editing"

@@ -1,0 +1,15 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: bg\n"
+"Language-Team: Bulgarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cmxv\n"
+
+msgid "cmxv_create"
+msgstr "Създаване на сертификат за обект xAPI/cmi5"
+
+msgid "cmxv_create_info"
+msgstr "Изберете завършен обект xAPI/cmi5, за да генерирате сертификат за него"

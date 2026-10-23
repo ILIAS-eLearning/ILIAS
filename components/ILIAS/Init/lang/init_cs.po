@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: init\n"
+
+msgid "init_error_authentication_fail"
+msgstr "Ověření se nezdařilo."
+
+msgid "init_error_maintenance"
+msgstr "Server není k dispozici z důvodu údržby. Omlouváme se za případné nepříjemnosti."
+
+msgid "init_error_redirect_click"
+msgstr "Klikněte na tlačítko pokračovat."
+
+msgid "init_error_redirect_info"
+msgstr "Přesměrování není podporováno kontextem."

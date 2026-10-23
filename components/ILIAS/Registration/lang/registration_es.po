@@ -1,0 +1,318 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: registration\n"
+
+msgid "reg_access_limitation_limited_time"
+msgstr "Después del registro, acceso por"
+
+msgid "reg_access_limitation_limited_until"
+msgstr "Acceso hasta"
+
+msgid "reg_access_limitation_missing_mode"
+msgstr "Por favor, elija un modo de limitación de acceso para todos los roles"
+
+msgid "reg_access_limitation_mode"
+msgstr "Modo de limitación de acceso"
+
+msgid "reg_access_limitation_mode_absolute"
+msgstr "El acceso expira en una fecha fija"
+
+msgid "reg_access_limitation_mode_absolute_target"
+msgstr "Válido hasta"
+
+msgid "reg_access_limitation_mode_relative"
+msgstr "Acceso concedido por un período de tiempo fijo después del registro"
+
+msgid "reg_access_limitation_mode_relative_target"
+msgstr "Válido por"
+
+msgid "reg_access_limitation_mode_unlimited"
+msgstr "Sin fecha de caducidad de acceso"
+
+msgid "reg_access_limitation_none"
+msgstr "Acceso ilimitado"
+
+msgid "reg_access_limitation_out_of_date"
+msgstr "¡Uno o más roles tienen una limitación de acceso desactualizada!"
+
+msgid "reg_access_limitations"
+msgstr "Fecha de expiración del acceso"
+
+msgid "reg_add_assignment"
+msgstr "Nueva asignación"
+
+msgid "reg_added_assignment"
+msgstr "Nueva asignación añadida."
+
+msgid "reg_allow_codes"
+msgstr "Permitir códigos"
+
+msgid "reg_allow_codes_info"
+msgstr "Los usuarios también pueden registrarse mediante códigos."
+
+msgid "reg_allowed_domains"
+msgstr "Dominios de correo electrónico permitidos"
+
+msgid "reg_allowed_domains_info"
+msgstr "Use * como comodín y ; como separador, p. ej. \"*@ilias.de\". Los códigos de registro anulan estas reglas."
+
+msgid "reg_approve"
+msgstr "Registro con aprobación"
+
+msgid "reg_approve_info"
+msgstr "Los usuarios recién registrados deben ser aprobados por un administrador."
+
+msgid "reg_approve_needs_recipient"
+msgstr "Para el tipo de registro 'Registro con aprobación' debe designar al menos a un usuario que será notificado sobre los nuevos registros."
+
+msgid "reg_available_roles"
+msgstr "Roles disponibles:"
+
+msgid "reg_confirmation_already_confirmed"
+msgstr "The registration is no longer pending, it has already been confirmed."
+
+msgid "reg_confirmation_hash_life_time"
+msgstr "Válido por"
+
+msgid "reg_confirmation_hash_life_time_expired"
+msgstr "Este enlace de confirmación ya no es válido. Por favor, regístrese de nuevo y haga clic en el enlace del nuevo correo electrónico de confirmación a los pocos minutos de recibirlo."
+
+msgid "reg_confirmation_hash_life_time_info"
+msgstr "Introduzca durante cuánto tiempo (en segundos) debe ser válido el enlace de confirmación. El valor recomendado es 1800 segundos."
+
+msgid "reg_confirmation_hash_not_found"
+msgstr "No se ha podido asociar ninguna cuenta de usuario a este enlace de confirmación."
+
+msgid "reg_confirmation_hash_not_passed"
+msgstr "El enlace de confirmación está incompleto."
+
+msgid "reg_confirmation_link_successful"
+msgstr "Se ha registrado correctamente en ILIAS. Para activar su cuenta, haga clic en el enlace del correo electrónico de confirmación que recibirá en breve. El enlace de confirmación sólo es válido durante un periodo de tiempo determinado, por lo que, para evitar tener que volver a registrarse, le recomendamos que haga clic en el enlace en los próximos minutos."
+
+msgid "reg_default"
+msgstr "Predeterminado"
+
+msgid "reg_deleted_assignment"
+msgstr "Asignación(es) eliminada(s)."
+
+msgid "reg_direct"
+msgstr "Registro directo"
+
+msgid "reg_direct_info"
+msgstr "Las solicitudes de registro de nuevos usuarios se aprueban automáticamente."
+
+msgid "reg_disabled"
+msgstr "No es posible el registro"
+
+msgid "reg_domain"
+msgstr "Dominio"
+
+msgid "reg_domain_already_assigned_p"
+msgstr "Los dominios '%s' ya han sido introducidos para otro rol."
+
+msgid "reg_domain_already_assigned_s"
+msgstr "El dominio '%s' ya ha sido introducido para otro rol."
+
+msgid "reg_email"
+msgstr "Asignación automática de roles"
+
+msgid "reg_email_domains"
+msgstr "Los siguientes dominios de correo electrónico son válidos: %s"
+
+msgid "reg_email_domains_code"
+msgstr "Con un código de registro cualquier dirección de correo electrónico es válida."
+
+msgid "reg_email_role_assignment"
+msgstr "Asignación de roles por dominio"
+
+msgid "reg_fixed"
+msgstr "Selección libre de la lista predefinida"
+
+msgid "reg_info_pwd"
+msgstr "Los usuarios recién registrados reciben automáticamente por correo electrónico una contraseña generada aleatoriamente."
+
+msgid "reg_mail_body_activation"
+msgstr "para activar su cuenta y confirmar la propiedad de esta dirección de correo electrónico, haga clic en el siguiente enlace:"
+
+msgid "reg_mail_body_approve"
+msgstr "Usted ya se ha registrado en ILIAS eLearning y ha recibido un correo electrónico con los datos de su cuenta. Ahora su cuenta ha sido activada por un administrador."
+
+msgid "reg_mail_body_confirmation"
+msgstr "Para confirmar este registro, acceda a la administración de usuarios de ILIAS y active la cuenta."
+
+msgid "reg_mail_body_profile"
+msgstr "Datos del perfil:"
+
+msgid "reg_mail_body_profile_changed"
+msgstr "¡su perfil ha cambiado!"
+
+msgid "reg_mail_body_pwd_generation"
+msgstr "Su solicitud de cuenta será revisada por un administrador y debería ser activada en un plazo de 48 horas. Se le informará por correo electrónico cuando se haya obtenido la aprobación."
+
+msgid "reg_mail_body_reason"
+msgstr "Recibe este correo de ILIAS porque las notificaciones sobre nuevos registros están activadas para su cuenta en la administración de ILIAS."
+
+msgid "reg_mail_body_timelimit"
+msgstr "Su cuenta tiene un periodo de validez limitado: %s."
+
+msgid "reg_mail_new_user"
+msgstr "Registro de nuevo usuario"
+
+msgid "reg_mail_new_user_body"
+msgstr "se ha registrado un nuevo usuario."
+
+msgid "reg_mail_new_user_confirmation"
+msgstr "Solicitud de confirmación de cuenta"
+
+msgid "reg_missing_domain"
+msgstr "Por favor, complete todos los campos."
+
+msgid "reg_missing_role"
+msgstr "Por favor, complete todos los campos."
+
+msgid "reg_notification"
+msgstr "Notificaciones"
+
+msgid "reg_notification_info"
+msgstr "Introduzca uno o más nombres de usuario (ID de inicio de sesión) de aquellos usuarios (separados por comas) que serán informados por correo electrónico sobre los nuevos registros de usuarios."
+
+msgid "reg_role_access_limitations"
+msgstr "Definir limitaciones de acceso de los Roles para los nuevos usuarios registrados"
+
+msgid "reg_role_assignment"
+msgstr "Asignación de Roles"
+
+msgid "reg_role_info"
+msgstr "Roles asignados"
+
+msgid "reg_select_one"
+msgstr "Por favor, seleccione una entrada."
+
+msgid "reg_selectable_roles"
+msgstr "Roles seleccionables"
+
+msgid "reg_settings_header"
+msgstr "Ajustes de nuevo registro"
+
+msgid "reg_type"
+msgstr "Tipo de registro"
+
+msgid "reg_type_confirmation"
+msgstr "Registro con confirmación por correo electrónico"
+
+msgid "reg_type_confirmation_info"
+msgstr "Los usuarios pueden registrarse por sí mismos, pero deben hacer clic en un enlace que se les envía por correo electrónico para activar su cuenta. Esto evita el autorregistro en ILIAS con direcciones de correo electrónico incorrectas o inexistentes."
+
+msgid "reg_unknown_recipients"
+msgstr "Las siguientes cuentas no son válidas:"
+
+msgid "registration_code"
+msgstr "Código"
+
+msgid "registration_code_not_valid"
+msgstr "El código de registro proporcionado no es válido o ya ha sido utilizado."
+
+msgid "registration_code_optional_info"
+msgstr "Si tiene un código de registro, por favor introdúzcalo aquí."
+
+msgid "registration_code_required_info"
+msgstr "Un código predefinido es obligatorio para el proceso de registro."
+
+msgid "registration_code_role_info"
+msgstr "Si utiliza un código de registro, la selección de roles puede ser sustituida por el código."
+
+msgid "registration_codes_access_limitation_all"
+msgstr "Todo"
+
+msgid "registration_codes_add"
+msgstr "Añadir códigos"
+
+msgid "registration_codes_edit_header"
+msgstr "Añadir códigos"
+
+msgid "registration_codes_export"
+msgstr "Exportar códigos"
+
+msgid "registration_codes_no_assigned_role"
+msgstr "Sin rol asignado predefinido"
+
+msgid "registration_codes_number"
+msgstr "Número de códigos"
+
+msgid "registration_codes_override_global_info"
+msgstr "Estos ajustes pueden ser anulados por los códigos de registro."
+
+msgid "registration_codes_override_info"
+msgstr "Este ajuste anula cualquier valor definido en 'Ajustes de registro'."
+
+msgid "registration_codes_roles"
+msgstr "Rol global"
+
+msgid "registration_codes_roles_limitation_none"
+msgstr "Sin limitación de acceso predefinida"
+
+msgid "registration_codes_roles_local"
+msgstr "Rol(es) local(es)"
+
+msgid "registration_codes_roles_title"
+msgstr "Rol para cuentas nuevas"
+
+msgid "registration_codes_type"
+msgstr "Tipo de código"
+
+msgid "registration_codes_type_ext"
+msgstr "Extensión de cuentas de usuario limitadas"
+
+msgid "registration_codes_type_ext_info"
+msgstr "El código puede utilizarse para la extensión de cuentas limitadas."
+
+msgid "registration_codes_type_reg"
+msgstr "Código de registro"
+
+msgid "registration_codes_type_reg_info"
+msgstr "El código puede utilizarse para el registro de una nueva cuenta de usuario"
+
+msgid "registration_disabled_no_access"
+msgstr "El autorregistro no está habilitado. Por favor, póngase en contacto con la administración del sistema para obtener más ayuda: %s"
+
+msgid "registration_export_codes_no_data"
+msgstr "No se han seleccionado códigos para exportar."
+
+msgid "registration_generated"
+msgstr "Fecha de generación"
+
+msgid "registration_generated_all"
+msgstr "Todas las fechas"
+
+msgid "registration_no_valid_role"
+msgstr "Actualmente no existe un rol válido para cuentas nuevas. Por favor, póngase en contacto con su administrador."
+
+msgid "registration_reg_type_codes"
+msgstr "Registro con códigos"
+
+msgid "registration_reg_type_codes_info"
+msgstr "Los usuarios pueden autorregistrarse, pero deben disponer de un código válido para ello."
+
+msgid "registration_roles_all"
+msgstr "Todos los roles"
+
+msgid "registration_settings"
+msgstr "Autenticación ILIAS / Autorregistro"
+
+msgid "registration_tab_codes"
+msgstr "Códigos de registro"
+
+msgid "registration_tab_settings"
+msgstr "Ajustes de registro"
+
+msgid "registration_used"
+msgstr "Fecha de uso"
+
+msgid "registration_user_new_account_mail"
+msgstr "Editar correo de cuenta nueva"

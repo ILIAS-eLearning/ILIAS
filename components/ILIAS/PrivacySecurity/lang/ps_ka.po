@@ -1,0 +1,319 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ka\n"
+"Language-Team: Georgian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: ps\n"
+
+#, fuzzy
+msgid "cdf_edited_by_self"
+msgstr "by the User"
+
+msgid "crs_ps_cdf_info"
+msgstr "დამატებითი კურსის სპეციფიკური მონაცემები"
+
+msgid "crs_ps_required_info"
+msgstr "კურსის შინაარსში შესასვლელად საჭიროა დამატებით კურსის სპეციფიკური ველები"
+
+msgid "grp_ps_cdf_info"
+msgstr "დამატებითი ჯგუფის სპეციფიკური მონაცემები"
+
+msgid "grp_ps_required_info"
+msgstr "ჯგუფის შინაარსში შესასვლელად საჭიროა დამატებით ჯგუფის სპეციფიკური ველები"
+
+msgid "ps_agreement_accepted"
+msgstr "მომხმარებლის ხელშეკრულება მიღებულია"
+
+msgid "ps_auto_https"
+msgstr "HTTPs ავტომატური განსაზღვრა"
+
+msgid "ps_auto_https_description"
+msgstr "თუ გააქტიურებულია, ილიასი ცდილობს განსაზღვროს HTTPs სტატუსი ქვემოთ მოცემული ზედა კოლონტიტულის ღირებულების გაანალიზებით"
+
+msgid "ps_auto_https_header_name"
+msgstr "ზედა კოლონტიტულის სახელი"
+
+msgid "ps_auto_https_header_value"
+msgstr "ზედა კოლონტიტულის ღირებულება"
+
+msgid "ps_btn_add_value"
+msgstr "ახალი ღირებულება"
+
+msgid "ps_cdf_add_field"
+msgstr "მომხმარებლის ველი დამატებულია"
+
+msgid "ps_cdf_added_field"
+msgstr "ახალი მონიშვნის ყუთი დამატებულია"
+
+msgid "ps_cdf_data_fields"
+msgstr "ხელმისაწვდომი მომხმარებლის ველები"
+
+msgid "ps_cdf_delete_sure"
+msgstr "ნამდვილად გსურთ ამ ველების წაშლა?"
+
+msgid "ps_cdf_deleted"
+msgstr "წაშლილი მომხმარებლის ველები"
+
+msgid "ps_cdf_deleted_field"
+msgstr "წაშლილი ღირებულება"
+
+msgid "ps_cdf_edit_field"
+msgstr "ველების მონაცემების რედაქტირება"
+
+msgid "ps_cdf_name"
+msgstr "სახელი"
+
+msgid "ps_cdf_no_fields"
+msgstr "ველები არ არის განსაზღვრული"
+
+msgid "ps_cdf_no_name_given"
+msgstr "გთხოვთ შეიყვანოთ სახელი"
+
+msgid "ps_cdf_required"
+msgstr "მოთხოვნილი ველი"
+
+msgid "ps_cdf_select_one"
+msgstr "გთხოვთ აირჩიოთ ერთი"
+
+msgid "ps_cdf_type"
+msgstr "სახეობა"
+
+msgid "ps_cdf_value"
+msgstr "ღირებულება"
+
+msgid "ps_cdf_warning_modify"
+msgstr "ყურადღება: სულ მცირე ერთმა მომხმარებელმა მიიღო მომხმარებლის ხელშეკრულება, კურსის სპეციფიკური ველების შეცვლა გადააყენებს მომხმარებლის ყველა ხელშეკრულებას"
+
+msgid "ps_crs_user_fields"
+msgstr "კურსის სპეციფიკური მომხმარებლის ველები"
+
+msgid "ps_error_message_https_header_missing"
+msgstr "თუ გსურთ https ავტომატური განსაზღვრის გააქტიურება თქვენ უნდა შეიყვანოთ ზედა კოლონტიტულის სახელი და ღირებულება"
+
+msgid "ps_error_message_invalid_login_max_attempts"
+msgstr "შესვლის მცდელობების მაქსიმალური რაოდენობა არ უნდა იყოს 0ზე ნაკლები"
+
+msgid "ps_error_message_invalid_password_max_age"
+msgstr "პაროლის მაქსიმალური ასაკი არ უნდა იყოს 0ზე ნაკლები"
+
+msgid "ps_error_message_invalid_password_max_length"
+msgstr "პაროლის მაქსიმალური ზომა არ უნდა იყოს 0ზე ნაკლები"
+
+msgid "ps_error_message_invalid_password_min_length"
+msgstr "პაროლის მინიმალური ზომა არ უნდა იყოს 0ზე ნაკლები"
+
+msgid "ps_error_message_password_max_less_min"
+msgstr "პაროლის მაქსიმალური ზომა არ უნდა იყოს პაროლის მინიმალურ ზომაზე ნაკლები"
+
+#, fuzzy
+msgid "ps_error_message_password_min1_because_chars"
+msgstr "Minimum password size may not be less than %s."
+
+msgid "ps_error_message_password_min2_because_chars_numbers"
+msgstr "პაროლის მინიმალური ზომა არ უნდა იყოს 2ზე ნაკლები თუ პაროლი შეიცავს ასოებსა და ციფრებს"
+
+msgid "ps_error_message_password_min3_because_chars_numbers_sc"
+msgstr "პაროლის მინიმალური ზომა არ უნდა იყოს 3ზე ნაკლები თუ პაროლი შეიცავს ასოებს, ციფრებსა და განსაკუთრებულ ნიშნებს"
+
+msgid "ps_export_admin"
+msgstr "ადმინისტრატორები"
+
+#. Needs improvement!
+msgid "ps_export_confirm"
+msgstr "მომხმარებლის დასტური კურსებში შესვლისას"
+
+#. Needs improvement!
+msgid "ps_export_confirm_group"
+msgstr "მომხმარებლის დასტური ჯგუფებში შესვლისას"
+
+#, fuzzy
+msgid "ps_export_confirm_group_info"
+msgstr "When joining a group, users are required to accept that their personal data can be viewed by the group admins."
+
+#, fuzzy
+msgid "ps_export_confirm_info"
+msgstr "When joining a course, users are required to accept that their personal data can be viewed by the course admins."
+
+msgid "ps_export_course"
+msgstr "მომხმარებლის პროფილის მონაცემების ხილვადობა კურსებში"
+
+msgid "ps_export_data"
+msgstr "პირადი პროფილის მონაცემების სახეობები"
+
+msgid "ps_export_excel"
+msgstr "Excel Export-ის დაწყება"
+
+msgid "ps_export_files"
+msgstr "საექსპორტო ფაილები"
+
+msgid "ps_export_groups"
+msgstr "მომხმარებლის პროფილის მონაცემების ხილვადობა ჯგუფებში"
+
+msgid "ps_export_member"
+msgstr "წევრები"
+
+#, fuzzy
+msgid "ps_export_prgs"
+msgstr "Allow export of user profile data in Study Programmes"
+
+msgid "ps_export_settings"
+msgstr "ექსპორტის პარამეტრები"
+
+msgid "ps_export_sub"
+msgstr "ხელის მომწერები"
+
+msgid "ps_export_tutor"
+msgstr "მასწავლებლები"
+
+msgid "ps_export_user_data"
+msgstr "მონაცემების სახეობები"
+
+msgid "ps_export_wait"
+msgstr "მომხმარებლები მოლოდინის სიაში"
+
+msgid "ps_field_type"
+msgstr "ველის სახეობა"
+
+msgid "ps_files_deleted"
+msgstr "საექსპორტი ფაილები წაშლილია"
+
+msgid "ps_grp_user_fields"
+msgstr "ჯგუფის სპეციფიკური მომხმარებლის ველები"
+
+msgid "ps_login_max_attempts"
+msgstr "შესვლის მცდელობების მაქსიმალური რაოდენობა"
+
+msgid "ps_login_max_attempts_info"
+msgstr "აყენებს მცდარი შესვლის მცდელობეის მაქსიმალურ რაოდენობას. დააყენეთ 0ზე ამ პარამეტრის გასაუქმებლად"
+
+msgid "ps_not_accepted"
+msgstr "არ არის მიღებული"
+
+#, fuzzy
+msgid "ps_participants_list_courses"
+msgstr "Allow Activation of Participant Lists in the Member Gallery of Courses"
+
+#, fuzzy
+msgid "ps_passwd_policy_change_force_user_reset_succ"
+msgstr "The changes have been successfully applied."
+
+#, fuzzy
+msgid "ps_passwd_policy_changed_force_user_reset"
+msgstr "The changes were saved successfully. You just modified at least one password policy setting. Should local users be forced to change their password after the next successful login?"
+
+msgid "ps_password_change_on_first_login_enabled"
+msgstr "შეცვალეთ პაროლი პირველი შესვლისას"
+
+msgid "ps_password_change_on_first_login_enabled_info"
+msgstr "თუ გააქტიურებულია, მომხმარებლებმა უნდა შეცვალონ თავიანთი პაროლი პრველი შესვლისას (გარდა თვით დარეგისტრირებული მომხმარებლებისა)"
+
+msgid "ps_password_chars_and_numbers_enabled"
+msgstr "ნიშნები და ციფრები"
+
+msgid "ps_password_chars_and_numbers_enabled_info"
+msgstr "თუ გააქტიურებულია, პაროლები უნდა შედგებოდეს ასოებისა და ციფრებისაგან"
+
+#, fuzzy
+msgid "ps_password_force_user_reset"
+msgstr "Force Password Reset"
+
+msgid "ps_password_max_age"
+msgstr "პაროლის მაქსიმალური ასაკი"
+
+msgid "ps_password_max_age_info"
+msgstr "აყენებს პაროლის მაქსიმალურ ასაკს დღეებში. დააყენეთ 0ზე რომ გააუქმოთ ეს ფუნქცია"
+
+msgid "ps_password_max_length"
+msgstr "პაროლის მაქსიმალური ზომა"
+
+msgid "ps_password_max_length_info"
+msgstr "აყენებს ანგარიშების პაროლების მაქსიმალურ ზომას. დააყენეთ 0ზე რომ გააუქმოთ ეს ფუნქცია"
+
+msgid "ps_password_min_length"
+msgstr "პაროლის მინიმალური ზომა"
+
+msgid "ps_password_min_length_info"
+msgstr "აყენებს ანგარიშების პაროლების მინიმალურ ზომას. თუ 0ზეა დაყენებული პაროლის მინიმალური ზომა მაინც 1 უნდა იყოს"
+
+#, fuzzy
+msgid "ps_password_settings"
+msgstr "Password Settings"
+
+msgid "ps_password_special_chars_enabled"
+msgstr "განსხვავებული ნიშნები"
+
+msgid "ps_password_special_chars_enabled_info"
+msgstr "თუ გააქტიურებულია, პაროლი უნდა შედგებოდეს განსხვავებული ნიშნებისაგან"
+
+msgid "ps_perform_export"
+msgstr "CSV-ექსპორტის დაწყება"
+
+msgid "ps_prevent_simultaneous_logins"
+msgstr "ერთდროული შესვლების შეჩერება"
+
+msgid "ps_prevent_simultaneous_logins_info"
+msgstr "თუ გააქტიურებულია, ერთდროული შესვლები ერთსა და იმავე ანგარიშზე სხვადასხვა კომპიუტერიდან შეუძლებელია"
+
+msgid "ps_privacy_protection"
+msgstr "საიდუმლო პარამეტრები"
+
+msgid "ps_profile_export"
+msgstr "მომხმარებლის პროფილის მონაცემების დაცვა"
+
+msgid "ps_security_protection"
+msgstr "უსაფრთხოების პარამეტრები"
+
+msgid "ps_select_one"
+msgstr "გთხოვთ აირჩიოთ ერთი საექსორტო ფაილი"
+
+msgid "ps_show_crs_access"
+msgstr "აჩვენე კურსის მონაწილეთა ბოლო შესვლების დროები"
+
+msgid "ps_show_grp_access"
+msgstr "აჩვენე ჯგუფის მონაწილეთა ბოლო შესვლების დროები"
+
+#, fuzzy
+msgid "ps_show_lso_access"
+msgstr "Show last access time of learning sequence participants"
+
+msgid "ps_size"
+msgstr "ფაილების ზომები"
+
+msgid "ps_type_select"
+msgstr "მონიშვნის ველი"
+
+msgid "ps_type_select_long"
+msgstr "მონიშვნის ყუთი (ფიქსირებული ღირებულებები)"
+
+msgid "ps_type_text"
+msgstr "ტექსტის ველი"
+
+msgid "ps_type_txt_long"
+msgstr "ტექსტის ველი (არჩევითი ღირებულებები)"
+
+msgid "ps_user_selection"
+msgstr "მონაწილეების მონიშვნა"
+
+msgid "ps_warning_modify"
+msgstr "ყურადღება: მინიმუმ ერთმა მომხმარებელმა მიიღო მომხმარებლის ხელშეკრულება. ამ პარამეტრების შეცვლა გადააყენებს ყველა ხელშეკრულებას)"
+
+msgid "rbac_log"
+msgstr "ჩატვირთვის დაშვება"
+
+msgid "rbac_log_age"
+msgstr "შევინახოთ ჩატვირთული შენატანები"
+
+msgid "rbac_log_age_info"
+msgstr "თვის ჩატვირთული შენატანების მაქსიმალური ასაკი"
+
+msgid "rbac_log_info"
+msgstr "ყველა ცვლილების ობიექტის დაშვებებში ჩატვირთვის გააქტიურება"
+
+msgid "show_privacy"
+msgstr "საიდუმლო"
+
+msgid "show_security"
+msgstr "უსაფრთხოება"

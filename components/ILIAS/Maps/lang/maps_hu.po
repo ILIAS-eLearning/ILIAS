@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: maps\n"
+
+msgid "configure_geolocation"
+msgstr "A címkeresés bekapcsolásához fejezze be a helymeghatározó beállítását a ‘Rendszerbeállítások’ » ‘Harmadik fél szoftvere’ alatt."
+
+msgid "maps_custom_geolocation_server_info"
+msgstr "Szerver URL helymeghatározási adatok Nominatim használatával történő meghatározásához. Az URL-ben a kért hely információjának helyőrzője a [QUERY]. Például: https://nominatim.example.com/search/[QUERY]?format=json."
+
+msgid "maps_custom_tile_server_info"
+msgstr "Szerver URL csempeadatok meghatározásához. Több URL-t szóközzel válasszon el. Alapértelmezett értéke ‘%s’."
+
+msgid "maps_enable_maps"
+msgstr "Térképek engedélyezése"
+
+msgid "maps_enable_maps_info"
+msgstr "Térképek engedélyezése felhasználói adatokban, csoportokban és kurzusokban."
+
+msgid "maps_geolocation_server"
+msgstr "Fordított helymeghatározáshoz szerver"
+
+msgid "maps_https_for_reverse_lookup"
+msgstr "Https a Reverse Lookup-hoz"
+
+msgid "maps_latitude"
+msgstr "Földrajzi szélesség"
+
+msgid "maps_longitude"
+msgstr "Földrajzi hosszúság"
+
+msgid "maps_lookup_address"
+msgstr "Címkeresés"
+
+msgid "maps_map_type"
+msgstr "Típus"
+
+msgid "maps_open_layers_maps"
+msgstr "OpenLayers térképek"
+
+msgid "maps_settings"
+msgstr "Térképek beállításai"
+
+msgid "maps_std_location"
+msgstr "Alapértelmezett hely"
+
+msgid "maps_std_location_desc"
+msgstr "Kattintson a térképre a hely beállításához."
+
+msgid "maps_tile_server"
+msgstr "Csempékhez szerver"
+
+msgid "maps_zoom_level"
+msgstr "Nagyítás szintje"

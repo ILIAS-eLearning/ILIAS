@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+
 class Notifications implements Component\Component
 {
     public function init(
@@ -49,5 +52,9 @@ class Notifications implements Component\Component
             new Component\Resource\OfComponent($this, "receive.mp3", "assets/sounds");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\OfComponent($this, "receive.ogg", "assets/sounds");
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'notifications_adm'
+        );
     }
 }

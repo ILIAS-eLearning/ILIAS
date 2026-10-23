@@ -1,0 +1,18 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: error\n"
+
+msgid "error_back_to_repository"
+msgstr ""
+
+msgid "error_sry_error"
+msgstr ""
+
+msgid "http_404_not_found"
+msgstr ""
+
+msgid "http_500_internal_server_error"
+msgstr ""
