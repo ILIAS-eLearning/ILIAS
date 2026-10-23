@@ -113,6 +113,10 @@ class LTI implements Component\Component
             $this,
             'ltiv'
         );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'lti'
+        );
     }
 
     /**
