@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 /**
  * Endpoint a platform launches ILIAS objects at, with any LTI version: the launch logs the user in through
- * ilStartUpGUI::doLTIAuthentication() and ilAuthProviderLTI. Its URL must not change: platforms keep it.
+ * ilLTILoginGUI and ilAuthProviderLTI. Its URL must not change: platforms keep it.
  */
 
 // ilCtrl takes the command from the request, and a platform cannot send it: it is set before ILIAS starts.
@@ -45,4 +45,4 @@ ilContext::init(ilContext::CONTEXT_LTI_PROVIDER);
 global $DIC;
 
 $DIC->ctrl()->setTargetScript('ilias.php');
-$DIC->ctrl()->callBaseClass(ilStartUpGUI::class);
+$DIC->ctrl()->callBaseClass(ilLTILoginGUI::class);
