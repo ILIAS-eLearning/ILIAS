@@ -7957,7 +7957,7 @@ crs#:#crs_timings_optional_on#:#Az önkéntes mód aktív.
 crs#:#crs_timings_optional_on_and_passed#:#Az önkéntes mód aktív, nem módosítható, mert a felhasználó állapota ‘Elmúlt’.
 crs#:#crs_timings_optional_unchecked#:#Az önkéntes módot kikapcsoltuk ennél a felhasználónál
 crs#:#crs_timings_planed_info#:#Tervezett tanulási idő
-crs#:#crs_timings_planed_start#:#Tervezett
+crs#:#crs_timings_planned_start#:#Tervezett
 crs#:#crs_timings_presetting#:#Javasolt tanulási időszak beállítása
 crs#:#crs_timings_short_active#:#Engedélyezett
 crs#:#crs_timings_short_active_tt#:#Időzítés aktiválása

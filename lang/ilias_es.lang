@@ -7913,7 +7913,7 @@ crs#:#crs_timings_optional_on#:#El modo opcional está activo.
 crs#:#crs_timings_optional_on_and_passed#:#El modo opcional está activo y no se puede cambiar porque el usuario ha aprobado.
 crs#:#crs_timings_optional_unchecked#:#El modo opcional fue desactivado para este usuario
 crs#:#crs_timings_planed_info#:#Tiempo de edición planificado
-crs#:#crs_timings_planed_start#:#Planificado
+crs#:#crs_timings_planned_start#:#Planificado
 crs#:#crs_timings_presetting#:#Objetivo de tiempo activado
 crs#:#crs_timings_short_active#:#Activado
 crs#:#crs_timings_short_active_tt#:#Activar tiempos
