@@ -57,6 +57,11 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
         $this->question_title = $question_title;
     }
 
+    protected function getQuestionTitleForHTMLOutput(): string
+    {
+        return htmlspecialchars($this->getQuestionTitle(), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    }
+
     public function getQuestionPoints(): float
     {
         return $this->question_points;
@@ -227,7 +232,7 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
 
         switch ($this->getHeaderMode()) {
             case 1:
-                $header_block .= " - " . $this->getQuestionTitle();
+                $header_block .= " - " . $this->getQuestionTitleForHTMLOutput();
                 $header_block .= $this->buildQuestionPostponedString();
                 break;
 
@@ -238,7 +243,7 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
             case 0:
             default:
 
-                $header_block .= " - " . $this->getQuestionTitle();
+                $header_block .= " - " . $this->getQuestionTitleForHTMLOutput();
                 $header_block .= $this->buildQuestionPostponedString();
                 $header_block .= ' (' . $this->buildQuestionPointsString() . ')';
         }
