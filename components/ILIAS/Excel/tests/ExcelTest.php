@@ -63,4 +63,26 @@ class ExcelTest extends TestCase
             $excel->getCoordByColumnAndRow(2, 2)
         );
     }
+
+    public function testExceptionsOfTheLibraryAreTranslated(): void
+    {
+        $excel = new ilExcel();
+        $excel->addSheet('first');
+
+        try {
+            $excel->setActiveSheet(5);
+            $this->fail('No exception thrown for a missing sheet.');
+        } catch (\ILIAS\Excel\ExcelException $e) {
+            $this->assertInstanceOf(\PhpOffice\PhpSpreadsheet\Exception::class, $e->getPrevious());
+        }
+    }
+
+    public function testExplicitStringDataTypeKeepsNumericText(): void
+    {
+        $excel = new ilExcel();
+        $excel->addSheet('first');
+        $excel->setCell(1, 0, '007', \ILIAS\Excel\CellType::STRING);
+
+        $this->assertSame('007', $excel->getCell(1, 0));
+    }
 }

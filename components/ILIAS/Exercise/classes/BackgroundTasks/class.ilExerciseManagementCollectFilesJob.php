@@ -113,7 +113,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
     /**
      * run the job
      * @throws \ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \ILIAS\Excel\ExcelException
      * @throws ilDatabaseException
      * @throws ilExerciseException
      * @throws ilObjectNotFoundException
@@ -186,7 +186,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 
     /**
      * Set the Excel column titles.
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \ILIAS\Excel\ExcelException
      */
     protected function addColumnTitles(): void
     {
@@ -282,7 +282,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 
     /**
      * Add criteria data to the excel.
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \ILIAS\Excel\ExcelException
      */
     protected function addCriteriaToExcel(
         int $feedback_giver,
@@ -442,7 +442,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
      * write assignment data to excel file
      * @todo Refactoring needed, long method...
      * @param int $assignment_id
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \ILIAS\Excel\ExcelException
      * @throws ilDatabaseException
      * @throws ilExerciseException
      * @throws ilObjectNotFoundException
@@ -483,7 +483,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
         }
 
         if ($this->isExcelNeeded($assignment_type, $ass_has_feedback)) {
-            // PhpSpreadsheet object
+            // spreadsheet
             $this->excel = new ilExcel();
 
             //Excel sheet title
