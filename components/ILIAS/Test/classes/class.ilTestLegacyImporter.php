@@ -72,15 +72,15 @@ class ilTestLegacyImporter extends ilXmlImporter
 
         $a_mapping->addMapping('components/ILIAS/Test', 'tst', 'new_id', (string) $new_obj->getId());
 
-        $context = $this->session->getContext();
+        $session = $this->session->getSession();
 
         // start parsing of QTI files
         $qti_parser = new ilQTIParser(
-            $context->importBaseDir(),
-            $context->legacyQtiFile(),
+            $session->importBaseDir(),
+            $session->legacyQtiFile(),
             ilQTIParser::IL_MO_PARSE_QTI,
             $new_obj->getId(),
-            $context->selectedQuestionIds(),
+            $session->selectedQuestionIds(),
             $a_mapping->getAllMappings()
         );
         $qti_parser->setTestObject($new_obj);
@@ -90,8 +90,8 @@ class ilTestLegacyImporter extends ilXmlImporter
         // import page data
         $question_page_parser = new ilQuestionPageParser(
             $new_obj,
-            $context->legacyXmlFile(),
-            $context->importBaseDir()
+            $session->legacyXmlFile(),
+            $session->importBaseDir()
         );
         $question_page_parser->setQuestionMapping($qti_parser->getImportMapping());
         $question_page_parser->startParsing();
@@ -99,10 +99,10 @@ class ilTestLegacyImporter extends ilXmlImporter
         $a_mapping = $this->addTaxonomyAndQuestionsMapping($qti_parser->getQuestionIdMapping(), $new_obj->getId(), $a_mapping);
 
         if ($new_obj->isRandomTest()) {
-            $this->importRandomQuestionSetConfig($new_obj, $context->legacyXmlFile(), $a_mapping);
+            $this->importRandomQuestionSetConfig($new_obj, $session->legacyXmlFile(), $a_mapping);
         }
 
-        $results_file_path = str_replace('__tst', '__results', $context->legacyXmlFile());
+        $results_file_path = str_replace('__tst', '__results', $session->legacyXmlFile());
         if (file_exists($results_file_path)) {
             $results = new ilTestResultsImportParser($results_file_path, $new_obj, $this->db, $this->logger, $this->irss);
             $results->setQuestionIdMapping($a_mapping->getMappingsOfEntity('components/ILIAS/Test', 'quest'));
@@ -115,9 +115,9 @@ class ilTestLegacyImporter extends ilXmlImporter
 
         $this->importSkillLevelThresholds(
             $a_mapping,
-            $this->importQuestionSkillAssignments($a_mapping, $new_obj, $context->legacyXmlFile()),
+            $this->importQuestionSkillAssignments($a_mapping, $new_obj, $session->legacyXmlFile()),
             $new_obj,
-            $context->legacyXmlFile()
+            $session->legacyXmlFile()
         );
 
         $a_mapping->addMapping(
@@ -127,8 +127,8 @@ class ilTestLegacyImporter extends ilXmlImporter
             "{$new_obj->getId()}:0:tst"
         );
 
-        $context = $context->withTestObjId($new_obj->getId())->withTestRefId($new_obj->getRefId());
-        $this->session->setContext($context);
+        $session = $session->withTestObjId($new_obj->getId())->withTestRefId($new_obj->getRefId());
+        $this->session->setSession($session);
     }
 
     public function addTaxonomyAndQuestionsMapping(

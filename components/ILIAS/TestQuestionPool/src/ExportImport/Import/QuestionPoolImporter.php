@@ -25,7 +25,7 @@ use ILIAS\Data\ReferenceId;
 use ILIAS\Data\UUID\Factory;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Serialize\Deserializer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportContext;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportSession;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Processors\IdMappingProcessor;
 use ILIAS\TestQuestionPool\ExportImport\TransformationsBuilder;
 use TestQuestionPool\ExportImport\Normalize\Processors\CollectQuestionImages;
@@ -53,8 +53,8 @@ class QuestionPoolImporter
         Deserializer $deserializer,
         \ilImportMapping $mapping,
         ReferenceId $parent_id,
-        ImportContext $context
-    ): ImportContext {
+        ImportSession $session
+    ): ImportSession {
         $images_collector = new CollectQuestionImages(new Factory(), $this->data_factory->objId(0));
         $transformations = $this->builder->forImport(
             null,
@@ -64,26 +64,26 @@ class QuestionPoolImporter
 
         $deserializer->addHandler(
             'general',
-            function (array $objects) use ($transformations, $mapping, $parent_id, &$context): void {
+            function (array $objects) use ($transformations, $mapping, $parent_id, &$session): void {
                 $new_pool_id = $this->importQuestionPool(
                     array_pop($objects),
                     $transformations,
                     $mapping,
                     $parent_id
                 );
-                $context = $context->withPoolObjId($new_pool_id);
+                $session = $session->withPoolObjId($new_pool_id);
             }
         );
 
         $deserializer->addHandler(
             'questions',
-            function (array $questions) use ($transformations, $mapping, $context): void {
+            function (array $questions) use ($transformations, $mapping, $session): void {
                 foreach ($questions as $question) {
                     $this->questions_importer->importQuestion(
                         $question,
                         $transformations,
                         $mapping,
-                        $context->selectedQuestionIds()
+                        $session->selectedQuestionIds()
                     );
                 }
             }
@@ -91,27 +91,27 @@ class QuestionPoolImporter
 
         $deserializer->addHandler(
             'skill_assignments',
-            function (array $assignments) use ($transformations, $mapping, &$context): void {
+            function (array $assignments) use ($transformations, $mapping, &$session): void {
                 $result = $this->skill_importer->import(
                     $assignments,
-                    $context->installId(),
+                    $session->installId(),
                     $transformations,
                     $mapping,
                 );
-                $context = $context->withSkillAssignments($result);
+                $session = $session->withSkillAssignments($result);
             }
         );
 
         $deserializer->process();
 
         $this->questions_importer->importQuestionImages(
-            $context->poolObjId(),
+            $session->poolObjId(),
             $mapping,
-            $context,
+            $session,
             $images_collector
         );
 
-        return $context;
+        return $session;
     }
 
     /**

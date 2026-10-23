@@ -24,42 +24,42 @@ use ILIAS\Export\ExportHandler\I\Target\HandlerInterface as ExportTarget;
 use ILIAS\Export\ExportHandler\I\Consumer\ExportConfig\CollectionInterface as ExportConfig;
 
 /**
- * State management for the export process. It is used to pass the export target, config and tools between the ILIAS
- * export component and the local exporter classes, as the legacy `ilExport` and `ilXmlExporter` do not provide access
- * to the core export functionality.
+ * Holds the export context for one request. It passes the export target, config and tools between the ILIAS export
+ * component and the local exporter classes, as the legacy `ilExport` and `ilXmlExporter` do not provide access to the
+ * core export functionality.
  */
-class StateHolder
+class ExportContextHolder
 {
-    private ?ExportState $export_state = null;
+    private ?ExportContext $export_context = null;
 
     public function create(
         ExportTarget $target,
         ExportConfig $config,
         string $option = ''
-    ): ExportState {
-        return $this->export_state = new ExportState($target, $config, $option);
+    ): ExportContext {
+        return $this->export_context = new ExportContext($target, $config, $option);
     }
 
     public function exists(): bool
     {
-        return $this->export_state !== null;
+        return $this->export_context !== null;
     }
 
-    public function get(): ExportState
+    public function get(): ExportContext
     {
-        if ($this->export_state === null) {
-            throw new \RuntimeException('Export state not found. You need to create the state first.');
+        if ($this->export_context === null) {
+            throw new \RuntimeException('Export context not found. You need to create the context first.');
         }
-        return $this->export_state;
+        return $this->export_context;
     }
 
-    public function set(ExportState $export_state): void
+    public function set(ExportContext $export_context): void
     {
-        $this->export_state = $export_state;
+        $this->export_context = $export_context;
     }
 
     public function clear(): void
     {
-        $this->export_state = null;
+        $this->export_context = null;
     }
 }

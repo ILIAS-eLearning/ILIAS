@@ -21,12 +21,12 @@ declare(strict_types=1);
 namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Import;
 
 /**
- * Immutable JSON-capable import context shared by question pool and test wizards.
+ * Immutable JSON-capable import session shared by question pool and test wizards.
  *
  * @phpstan-type SkillAssignmentResult array{failed: list<array{skill_id: int, tref_id: int, title: string, path: string}>, success: list<array{skill_id: int, tref_id: int, title: string, path: string}>}
  * @phpstan-type SkillThresholdResult array{failed: list<array{skill_base_id: int, skill_tref_id: int, skill_level_id: int, threshold: int}>, success: list<array{skill_base_id: int, skill_tref_id: int, skill_level_id: int, threshold: int}>}
  */
-final class ImportContext
+final class ImportSession
 {
     private ?string $file_to_import = null;
     private ?string $component_import_file = null;
@@ -64,7 +64,7 @@ final class ImportContext
 
     public function fileToImport(): string
     {
-        if($this->file_to_import === null) {
+        if ($this->file_to_import === null) {
             throw new \LogicException('File to import is not set');
         }
 
@@ -80,7 +80,7 @@ final class ImportContext
 
     public function componentImportFile(): string
     {
-        if($this->component_import_file === null) {
+        if ($this->component_import_file === null) {
             throw new \LogicException('Component import file is not set');
         }
 
@@ -101,7 +101,7 @@ final class ImportContext
 
     public function importBaseDir(): string
     {
-        if($this->import_base_dir === null) {
+        if ($this->import_base_dir === null) {
             throw new \LogicException('Import base dir is not set');
         }
 
@@ -117,7 +117,7 @@ final class ImportContext
 
     public function installId(): int
     {
-        if($this->install_id === null) {
+        if ($this->install_id === null) {
             throw new \LogicException('Install id is not set');
         }
 
@@ -133,7 +133,7 @@ final class ImportContext
 
     public function legacyQtiFile(): string
     {
-        if($this->legacy_qti_file === null) {
+        if ($this->legacy_qti_file === null) {
             throw new \LogicException('Legacy QTI file is not set');
         }
 
@@ -149,7 +149,7 @@ final class ImportContext
 
     public function legacyXmlFile(): string
     {
-        if($this->legacy_xml_file === null) {
+        if ($this->legacy_xml_file === null) {
             throw new \LogicException('Legacy XML file is not set');
         }
 
@@ -201,7 +201,7 @@ final class ImportContext
 
     public function poolObjId(): int
     {
-        if($this->pool_obj_id === null) {
+        if ($this->pool_obj_id === null) {
             throw new \LogicException('Pool object id is not set');
         }
 
@@ -217,7 +217,7 @@ final class ImportContext
 
     public function testObjId(): ?int
     {
-        if($this->test_obj_id === null) {
+        if ($this->test_obj_id === null) {
             throw new \LogicException('Test object id is not set');
         }
 
@@ -233,7 +233,7 @@ final class ImportContext
 
     public function testRefId(): int
     {
-        if($this->test_ref_id === null) {
+        if ($this->test_ref_id === null) {
             throw new \LogicException('Test reference id is not set');
         }
 
@@ -255,7 +255,7 @@ final class ImportContext
      */
     public function userMappings(): array
     {
-        if($this->user_mappings === null) {
+        if ($this->user_mappings === null) {
             throw new \LogicException('User mappings are not set');
         }
 
@@ -295,7 +295,7 @@ final class ImportContext
      */
     public function skillAssignments(): array
     {
-        if($this->skill_assignments === null) {
+        if ($this->skill_assignments === null) {
             throw new \LogicException('Skill assignments are not set');
         }
 
@@ -317,7 +317,7 @@ final class ImportContext
      */
     public function skillThresholds(): array
     {
-        if($this->skill_thresholds === null) {
+        if ($this->skill_thresholds === null) {
             throw new \LogicException('Skill thresholds are not set');
         }
 
@@ -333,23 +333,23 @@ final class ImportContext
     {
         $data = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
 
-        $context = new self();
-        $context->file_to_import = $data['file_to_import'] ?? null;
-        $context->component_import_file = $data['component_import_file'] ?? null;
-        $context->import_base_dir = $data['import_base_dir'] ?? null;
-        $context->install_id = $data['install_id'] ?? null;
-        $context->legacy_qti_file = $data['legacy_qti_file'] ?? null;
-        $context->legacy_xml_file = $data['legacy_xml_file'] ?? null;
-        $context->selectable_question_ids = $data['selectable_question_ids'] ?? [];
-        $context->selected_question_ids = $data['selected_question_ids'] ?? [];
-        $context->pool_obj_id = $data['pool_obj_id'] ?? null;
-        $context->test_obj_id = $data['test_obj_id'] ?? null;
-        $context->test_ref_id = $data['test_ref_id'] ?? null;
-        $context->user_mappings = $data['user_mappings'] ?? null;
-        $context->resource_mappings = $data['resource_mappings'] ?? [];
-        $context->skill_assignments = $data['skill_assignments'] ?? null;
-        $context->skill_thresholds = $data['skill_thresholds'] ?? null;
-        return $context;
+        $session = new self();
+        $session->file_to_import = $data['file_to_import'] ?? null;
+        $session->component_import_file = $data['component_import_file'] ?? null;
+        $session->import_base_dir = $data['import_base_dir'] ?? null;
+        $session->install_id = $data['install_id'] ?? null;
+        $session->legacy_qti_file = $data['legacy_qti_file'] ?? null;
+        $session->legacy_xml_file = $data['legacy_xml_file'] ?? null;
+        $session->selectable_question_ids = $data['selectable_question_ids'] ?? [];
+        $session->selected_question_ids = $data['selected_question_ids'] ?? [];
+        $session->pool_obj_id = $data['pool_obj_id'] ?? null;
+        $session->test_obj_id = $data['test_obj_id'] ?? null;
+        $session->test_ref_id = $data['test_ref_id'] ?? null;
+        $session->user_mappings = $data['user_mappings'] ?? null;
+        $session->resource_mappings = $data['resource_mappings'] ?? [];
+        $session->skill_assignments = $data['skill_assignments'] ?? null;
+        $session->skill_thresholds = $data['skill_thresholds'] ?? null;
+        return $session;
     }
 
     public function toJson(): string

@@ -59,8 +59,8 @@ class ilTestImporter extends ilXmlImporter
         ilImportMapping $a_mapping
     ): void {
         // Check if forward to legacy importer is needed
-        $context = $this->session->getContext();
-        if ($context->isLegacyImport()) {
+        $session = $this->session->getSession();
+        if ($session->isLegacyImport()) {
             $this->legacy_importer->setInstallId($this->getInstallId());
             $this->legacy_importer->setInstallUrl($this->getInstallUrl());
             $this->legacy_importer->setSchemaVersion($this->getSchemaVersion());
@@ -73,16 +73,16 @@ class ilTestImporter extends ilXmlImporter
             XmlDeserializer::fromString($a_xml),
             $a_mapping,
             new ReferenceId($a_mapping->getTargetId()),
-            $context,
+            $session,
         );
-        $this->session->setContext($result);
+        $this->session->setSession($result);
     }
 
     public function finalProcessing(ilImportMapping $a_mapping): void
     {
         // Check if forward to legacy importer is needed
-        $context = $this->session->getContext();
-        if ($context->isLegacyImport()) {
+        $session = $this->session->getSession();
+        if ($session->isLegacyImport()) {
             $this->legacy_importer->finalProcessing($a_mapping);
             return;
         }

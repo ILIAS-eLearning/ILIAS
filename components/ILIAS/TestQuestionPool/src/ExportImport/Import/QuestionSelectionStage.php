@@ -22,7 +22,7 @@ namespace ILIAS\TestQuestionPool\ExportImport\Import;
 
 use ILIAS\Language\Language;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportStage;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportContext;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportSession;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\StageResult;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Serialize\XmlDeserializer;
 use ILIAS\UI\Component\Input\Container\Form\Form;
@@ -76,11 +76,11 @@ class QuestionSelectionStage implements ImportStage
         return '';
     }
 
-    public function process(ImportContext $context): StageResult
+    public function process(ImportSession $session): StageResult
     {
-        if ($context->selectableQuestionIds() !== []) {
+        if ($session->selectableQuestionIds() !== []) {
             $options = [];
-            foreach ($context->selectableQuestionIds() as $question) {
+            foreach ($session->selectableQuestionIds() as $question) {
                 $options[$question] = (string) $question;
             }
 
@@ -90,19 +90,19 @@ class QuestionSelectionStage implements ImportStage
 
             if (is_array($data) && is_array($data['selected_questions'])) {
                 $selected_questions = array_map('intval', $data['selected_questions']);
-                return StageResult::advance(
-                    $context->withSelectedQuestionIds($selected_questions)
+                return StageResult::completedSuccessfully(
+                    $session->withSelectedQuestionIds($selected_questions)
                 );
             }
         }
 
-        $options = $context->isLegacyImport()
-            ? $this->readQuestionsFromQTI($context)
-            : $this->readQuestions($context);
+        $options = $session->isLegacyImport()
+            ? $this->readQuestionsFromQTI($session)
+            : $this->readQuestions($session);
 
         if ($options === []) {
             $this->log->error('No questions found in import file');
-            return StageResult::error($context, $this->lng->txt('qpl_import_no_items'));
+            return StageResult::error($session, $this->lng->txt('qpl_import_no_items'));
         }
 
         $panel = $this->ui_factory->panel()->standard(
@@ -113,17 +113,17 @@ class QuestionSelectionStage implements ImportStage
             ]
         );
 
-        return StageResult::interact(
-            $context->withSelectableQuestionIds(array_keys($options)),
+        return StageResult::requiresUserInteraction(
+            $session->withSelectableQuestionIds(array_keys($options)),
             [$panel]
         );
     }
 
-    private function readQuestions(ImportContext $context): array
+    private function readQuestions(ImportSession $session): array
     {
         $options = [];
 
-        $deserializer = XmlDeserializer::fromFile($context->componentImportFile());
+        $deserializer = XmlDeserializer::fromFile($session->componentImportFile());
 
         $deserializer->addHandler(
             'questions',
@@ -149,11 +149,11 @@ class QuestionSelectionStage implements ImportStage
     /**
      * @deprecated This method is only used for legacy imports and will be removed with further ILIAS versions.
      */
-    private function readQuestionsFromQTI(ImportContext $context): array
+    private function readQuestionsFromQTI(ImportSession $session): array
     {
         $parser = new \ilQTIParser(
-            $context->importBaseDir(),
-            $context->legacyQtiFile(),
+            $session->importBaseDir(),
+            $session->legacyQtiFile(),
             \ilQTIParser::IL_MO_VERIFY_QTI,
             0
         );
