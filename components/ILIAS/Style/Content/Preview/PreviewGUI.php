@@ -98,7 +98,7 @@ class PreviewGUI
                 $h = 'head';
             }
             if ($a_type == "vaccordion") {
-                $p_content = '<PageContent><Tabs HorizontalAlign="Left" Type="VerticalAccordion" ';
+                $p_content = '<PageContent><Tabs HorizontalAlign="Left" Type="VerticalAccordion" Behavior="ForceAllOpen" ';
                 if ($a_small_mode) {
                     $p_content .= ' ContentWidth="70"';
                 }

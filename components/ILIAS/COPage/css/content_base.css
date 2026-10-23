@@ -36,13 +36,18 @@
 }
 
 /* workaround for style selection */
-#copg-editor-slate-content .form-group div#characteristic {
+#copg-editor-slate-content .form-group div#characteristic,
+#copg-editor-slate-content .form-group div#style,
+#copg-editor-slate-content .form-group div#vaccord_templ {
 	max-height: 200px;
 	overflow: auto;
 	border: 1px solid #f0f0f0;
 	padding: 10px;
+	background-color: #fff;
 }
-#copg-editor-slate-content .form-group div#characteristic label.radio-inline {
+#copg-editor-slate-content .form-group div#characteristic label.radio-inline,
+#copg-editor-slate-content .form-group div#style label.radio-inline,
+#copg-editor-slate-content .form-group div#vaccord_templ label.radio-inline {
 	display: flex;
 	flex-direction: row;
 	gap: 5px;
