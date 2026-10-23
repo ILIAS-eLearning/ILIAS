@@ -26,7 +26,7 @@ use ILIAS\UI\Component\Modal\Interruptive;
 /**
  * @ilCtrl_Calls ilObjLearningSequenceLearnerGUI: ilCommonActionDispatcherGUI
  */
-class ilObjLearningSequenceLearnerGUI
+class ilObjLearningSequenceLearnerGUI implements ilCtrlSecurityInterface
 {
     public const CMD_SAVE_RATING = 'saveRating';
     public const CMD_REDRAW_LIST_ITEM = 'redrawListItem';
@@ -52,8 +52,8 @@ class ilObjLearningSequenceLearnerGUI
         protected ILIAS\UI\Renderer $renderer,
         protected ilLearningSequenceRoles $roles,
         protected ilLearningSequenceSettings $settings,
-        protected ilLSCurriculumBuilder $curriculum_builder,
         protected ilLSLaunchlinksBuilder $launchlinks_builder,
+        protected ilLSLearnerItemsQueries $ls_items,
         protected ilLSPlayer $player,
         protected string $intro,
         protected string $extro,
@@ -61,9 +61,34 @@ class ilObjLearningSequenceLearnerGUI
     ) {
     }
 
+    /**
+     * Joining and leaving the learning sequence are triggered by links
+     * (launch button, interruptive modal action) and therefore need to be
+     * protected by an ilCtrl CSRF token.
+     *
+     * @inheritDoc
+     */
+    public function getUnsafeGetCommands(): array
+    {
+        return [
+            self::CMD_START,
+            self::CMD_UNSUBSCRIBE,
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSafePostCommands(): array
+    {
+        return [];
+    }
+
     public function executeCommand(): void
     {
-        $cmd = $this->ctrl->getCmd();
+        // ilCtrl returns no command if the CSRF validation fails, fall back
+        // to the learner view in this case.
+        $cmd = $this->ctrl->getCmd(self::CMD_STANDARD);
         $next_class = $this->ctrl->getNextClass($this);
         switch ($next_class) {
             case strtolower(ilCommonActionDispatcherGUI::class):
@@ -227,11 +252,11 @@ class ilObjLearningSequenceLearnerGUI
 
     protected function isRatingListItemInCurrentLearningSequence(int $child_ref_id, int $parent_ref_id): bool
     {
-        if ($parent_ref_id !== $this->curriculum_builder->getLearningSequenceRefId()) {
+        if ($parent_ref_id !== $this->ls_items->getLearningSequenceRefId()) {
             return false;
         }
 
-        foreach ($this->curriculum_builder->getLearnerItems() as $item) {
+        foreach ($this->ls_items->getItems() as $item) {
             if ($item->getRefId() === $child_ref_id) {
                 return true;
             }
@@ -262,14 +287,6 @@ class ilObjLearningSequenceLearnerGUI
         $element = '<' . ilPCLauncher::PCELEMENT . '>';
         if (!str_contains($content, $element)) {
             $this->initToolbar($cmd, $modal);
-        }
-
-        $element = '<' . ilPCCurriculum::PCELEMENT . '>';
-        if (!str_contains($content, $element)) {
-            $curriculum = $this->curriculum_builder->getLearnerCurriculum();
-            $this->tpl->setRightContent(
-                $this->getWrappedHTML([$curriculum])
-            );
         }
     }
 
@@ -345,6 +362,10 @@ class ilObjLearningSequenceLearnerGUI
     protected function play(): void
     {
         $response = $this->player->play($this->get);
+
+        if ($response !== null && str_starts_with($response, $this->player::REDIRECT_PREFIX)) {
+            $this->ctrl->redirectToURL(substr($response, strlen($this->player::REDIRECT_PREFIX)));
+        }
 
         switch ($response) {
             case null:

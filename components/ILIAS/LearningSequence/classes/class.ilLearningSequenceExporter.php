@@ -63,6 +63,13 @@ class ilLearningSequenceExporter extends ilXmlExporter
     public function getValidSchemaVersions(string $a_entity): array
     {
         return [
+            "11.0.0" => [
+                "namespace" => "http://www.ilias.de/Modules/LearningSequence/lso/11_0",
+                "xsd_file" => "ilias_lso_11_0.xsd",
+                "uses_dataset" => false,
+                "min" => "12.0",
+                "max" => ""
+            ],
             "9.0.0" => [
                 "namespace" => "http://www.ilias.de/Modules/LearningSequence/lso/9_0",
                 "xsd_file" => "ilias_lso_9_0.xsd",

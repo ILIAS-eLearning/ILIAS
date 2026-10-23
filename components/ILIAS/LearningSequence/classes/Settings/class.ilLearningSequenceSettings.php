@@ -23,11 +23,15 @@ declare(strict_types=1);
  */
 class ilLearningSequenceSettings
 {
+    public const MODE_LINEAR = 0;
+    public const MODE_ADAPTIVE = 1;
+
     protected int $obj_id;
     protected string $abstract;
     protected string $extro;
     protected ?string $abstract_image;
     protected ?string $extro_image;
+    protected int $lso_mod;
 
     /**
      * @return array<string, array>
@@ -46,7 +50,8 @@ class ilLearningSequenceSettings
         string $extro = '',
         ?string $abstract_image = null,
         ?string $extro_image = null,
-        bool $members_gallery = false
+        bool $members_gallery = false,
+        int $lso_mod = self::MODE_LINEAR
     ) {
         $this->obj_id = $obj_id;
         $this->abstract = $abstract;
@@ -54,6 +59,7 @@ class ilLearningSequenceSettings
         $this->abstract_image = $abstract_image;
         $this->extro_image = $extro_image;
         $this->members_gallery = $members_gallery;
+        $this->lso_mod = $lso_mod;
     }
 
     public function getObjId(): int
@@ -149,5 +155,27 @@ class ilLearningSequenceSettings
         $clone = clone $this;
         $clone->members_gallery = $members_gallery;
         return $clone;
+    }
+
+    public function getLSOMod(): int
+    {
+        return $this->lso_mod;
+    }
+
+    public function getMode(): int
+    {
+        return $this->lso_mod;
+    }
+
+    public function withLSOMod(int $lso_mod): ilLearningSequenceSettings
+    {
+        $clone = clone $this;
+        $clone->lso_mod = $lso_mod;
+        return $clone;
+    }
+
+    public function withMode(int $lso_mod): ilLearningSequenceSettings
+    {
+        return $this->withLSOMod($lso_mod);
     }
 }

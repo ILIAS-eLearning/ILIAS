@@ -37,6 +37,7 @@ use ILIAS\FileUpload\FileUpload as FileUploadInterface;
 use ILIAS\Environment\Configuration\Installation\IliasIni;
 use ILIAS\Environment\Configuration\Installation\ClientIni;
 use ILIAS\StaticURL\StaticURLServices;
+use ILIAS\LearningSequence\Content\Condition\ConditionTypes;
 use ILIAS\Logging;
 use ILIAS\AccessControl\PublicInterface\Access;
 use ILIAS\AccessControl\PublicInterface\RBAC;
@@ -172,7 +173,8 @@ class Init implements Component\Component
                 $use[Access::class],
                 $use[Logging\Logger\LoggerFactoryInterface::class],
                 $use[Logging\Logger\DefaultConfigLoggerFactoryInterface::class],
-                $use[Logging\Config\ConfigInterface::class]
+                $use[Logging\Config\ConfigInterface::class],
+                $use[ConditionTypes::class]
             );
     }
 }

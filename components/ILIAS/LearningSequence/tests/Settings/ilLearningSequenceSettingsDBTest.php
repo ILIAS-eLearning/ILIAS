@@ -62,7 +62,8 @@ class ilLearningSequenceSettingsDBTest extends TestCase
             'extro' => ['text', ''],
             'abstract_image' => ['text', ''],
             'extro_image' => ['text', ''],
-            'gallery' => ['integer', false]
+            'gallery' => ['integer', false],
+            'lso_mod' => ['integer', ilLearningSequenceSettings::MODE_LINEAR]
         ];
 
         $this->db
@@ -95,7 +96,8 @@ class ilLearningSequenceSettingsDBTest extends TestCase
             'extro' => ['text', 'extro'],
             'abstract_image' => ['text', 'abstract/path'],
             'extro_image' => ['text', 'extro_path'],
-            'gallery' => ['integer', true]
+            'gallery' => ['integer', true],
+            'lso_mod' => ['integer', ilLearningSequenceSettings::MODE_LINEAR]
         ];
 
         $this->db
@@ -136,7 +138,8 @@ class ilLearningSequenceSettingsDBTest extends TestCase
             'extro' => ['text', 'extro'],
             'abstract_image' => ['text', 'abstract/path'],
             'extro_image' => ['text', 'extro_path'],
-            'gallery' => ['integer', true]
+            'gallery' => ['integer', true],
+            'lso_mod' => ['integer', ilLearningSequenceSettings::MODE_LINEAR]
         ];
 
         $this->db
@@ -177,7 +180,8 @@ class ilLearningSequenceSettingsDBTest extends TestCase
             'extro' => ['text', 'extro'],
             'abstract_image' => ['text', 'abstract/path'],
             'extro_image' => ['text', 'extro_path'],
-            'gallery' => ['integer', true]
+            'gallery' => ['integer', true],
+            'lso_mod' => ['integer', ilLearningSequenceSettings::MODE_LINEAR]
         ];
 
         $this->db
@@ -193,7 +197,7 @@ class ilLearningSequenceSettingsDBTest extends TestCase
     public function testGetSettingsForWithNewObject(): void
     {
         $sql =
-            'SELECT abstract, extro, abstract_image, extro_image, gallery' . PHP_EOL
+            'SELECT abstract, extro, abstract_image, extro_image, gallery, lso_mod' . PHP_EOL
             . 'FROM lso_settings' . PHP_EOL
             . 'WHERE obj_id = 333' . PHP_EOL
         ;
@@ -202,7 +206,8 @@ class ilLearningSequenceSettingsDBTest extends TestCase
             'obj_id' => ['integer', 333],
             'abstract' => ['text', ''],
             'extro' => ['text', ''],
-            'gallery' => ['integer', false]
+            'gallery' => ['integer', false],
+            'lso_mod' => ['integer', ilLearningSequenceSettings::MODE_LINEAR]
         ];
 
         $this->db
@@ -238,12 +243,13 @@ class ilLearningSequenceSettingsDBTest extends TestCase
         $this->assertEquals('', $result->getAbstractImage());
         $this->assertEquals('', $result->getExtroImage());
         $this->assertEquals(false, $result->getMembersGallery());
+        $this->assertEquals(ilLearningSequenceSettings::MODE_LINEAR, $result->getMode());
     }
 
     public function testGetSettingsForWithExistingData(): void
     {
         $sql =
-              'SELECT abstract, extro, abstract_image, extro_image, gallery' . PHP_EOL
+              'SELECT abstract, extro, abstract_image, extro_image, gallery, lso_mod' . PHP_EOL
             . 'FROM lso_settings' . PHP_EOL
             . 'WHERE obj_id = 333' . PHP_EOL
         ;
@@ -254,7 +260,8 @@ class ilLearningSequenceSettingsDBTest extends TestCase
             'extro' => 'extro',
             'abstract_image' => 'abstract_image',
             'extro_image' => 'extro_image',
-            'gallery' => true
+            'gallery' => true,
+            'lso_mod' => ilLearningSequenceSettings::MODE_ADAPTIVE
         ];
 
         $this->db
@@ -291,5 +298,6 @@ class ilLearningSequenceSettingsDBTest extends TestCase
         $this->assertEquals('abstract_image', $result->getAbstractImage());
         $this->assertEquals('extro_image', $result->getExtroImage());
         $this->assertEquals(true, $result->getMembersGallery());
+        $this->assertEquals(ilLearningSequenceSettings::MODE_ADAPTIVE, $result->getMode());
     }
 }

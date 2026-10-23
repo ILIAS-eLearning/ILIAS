@@ -46,6 +46,14 @@ class ilLearningSequenceXMLParser extends ilSaxParser
     protected string $cdata = '';
     protected string $current_container_setting = '';
 
+    // State for ItemConditions parsing
+    protected bool $in_item_conditions = false;
+    protected ?array $current_condition = null;
+    protected ?array $current_table = null;
+    protected ?array $current_row = null;
+    protected string $current_col_name = '';
+    protected bool $in_col = false;
+
     public function __construct(
         protected ilObjLearningSequence $obj,
         string $xml
@@ -94,6 +102,9 @@ class ilLearningSequenceXMLParser extends ilSaxParser
             case Writer::TAG_LSO:
                 $this->object["ref_id"] = $attributes["ref_id"];
                 $this->settings["members_gallery"] = $attributes['members_gallery'];
+                $this->settings["mode"] = $attributes['mode'];
+                $this->settings["start_ref_id"] = $attributes['start_ref_id'];
+                $this->settings["end_ref_id"] = $attributes['end_ref_id'];
                 break;
             case Writer::TAG_LPSETTING:
                 $this->lp_settings["lp_type"] = $attributes['type'];
@@ -114,6 +125,55 @@ class ilLearningSequenceXMLParser extends ilSaxParser
                 $this->ls_item_data[$this->counter]["condition_value"] = '';
                 break;
 
+            case Writer::TAG_ITEM_CONDITIONS:
+                $this->in_item_conditions = true;
+                if (!isset($this->ls_item_data[$this->counter]["conditions"])) {
+                    $this->ls_item_data[$this->counter]["conditions"] = [];
+                }
+                break;
+
+            case Writer::TAG_ITEM_CONDITION:
+                if ($this->in_item_conditions) {
+                    $this->current_condition = [
+                        'type' => $attributes['type'] ?? '',
+                        'subtype' => $attributes['subtype'] ?? null,
+                        'data' => [],
+                    ];
+                }
+                break;
+
+            case 'Table':
+                if ($this->current_condition !== null) {
+                    $this->current_table = [
+                        'table' => $attributes['name'] ?? '',
+                        'fields' => [],
+                        'rows' => [],
+                    ];
+                }
+                break;
+
+            case 'Field':
+                if ($this->current_table !== null) {
+                    $field_name = $attributes['name'] ?? '';
+                    $meta = $attributes;
+                    unset($meta['name']);
+                    $this->current_table['fields'][$field_name] = $meta;
+                }
+                break;
+
+            case 'Row':
+                if ($this->current_table !== null) {
+                    $this->current_row = [];
+                }
+                break;
+
+            case 'Col':
+                if ($this->current_row !== null) {
+                    $this->current_col_name = $attributes['name'] ?? '';
+                    $this->in_col = true;
+                }
+                break;
+
             case Writer::TAG_CONTAINERSETTING:
                 $this->current_container_setting = $attributes['id'];
                 break;
@@ -131,6 +191,7 @@ class ilLearningSequenceXMLParser extends ilSaxParser
             case Writer::TAG_LPREFID:
                 $this->lp_settings["lp_item_ref_ids"][] = trim($this->cdata);
                 break;
+
             case Writer::TAG_CONTAINERSETTING:
                 if ($this->current_container_setting) {
                     ilContainer::_writeContainerSetting(
@@ -147,6 +208,39 @@ class ilLearningSequenceXMLParser extends ilSaxParser
 
             case Writer::TAG_DESCRIPTION:
                 $this->obj->setDescription(trim($this->cdata));
+                break;
+
+            case 'Col':
+                if ($this->current_row !== null && $this->in_col) {
+                    $this->current_row[$this->current_col_name] = $this->cdata;
+                }
+                $this->in_col = false;
+                $this->current_col_name = '';
+                break;
+
+            case 'Row':
+                if ($this->current_table !== null && $this->current_row !== null) {
+                    $this->current_table['rows'][] = $this->current_row;
+                }
+                $this->current_row = null;
+                break;
+
+            case 'Table':
+                if ($this->current_condition !== null && $this->current_table !== null) {
+                    $this->current_condition['data'][] = $this->current_table;
+                }
+                $this->current_table = null;
+                break;
+
+            case Writer::TAG_ITEM_CONDITION:
+                if ($this->in_item_conditions && $this->current_condition !== null) {
+                    $this->ls_item_data[$this->counter]["conditions"][] = $this->current_condition;
+                }
+                $this->current_condition = null;
+                break;
+
+            case Writer::TAG_ITEM_CONDITIONS:
+                $this->in_item_conditions = false;
                 break;
 
             default:
