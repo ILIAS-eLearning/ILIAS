@@ -25,8 +25,5 @@
 		<cron id="user_check_accounts" class="ilUserCronCheckAccounts" />
 		<cron id="user_never_logged_in" class="ilCronDeleteNeverLoggedInUserAccounts" />
 	</crons>
-	<web_access_checker>
-		<secure_path path="usr_images" checking-class="ilObjUserAccess" />
-	</web_access_checker>
 	<badges />
 </service>
