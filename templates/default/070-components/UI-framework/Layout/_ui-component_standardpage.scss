@@ -82,6 +82,10 @@ header {
 	box-shadow: $il-standard-page-header-shadow-bottom;
 }
 
+:target {
+	scroll-margin-top: $il-standard-page-breadcrumbs-height;
+}
+
 // system-infos
 div.il-system-infos {
 	grid-column-start: 1;
