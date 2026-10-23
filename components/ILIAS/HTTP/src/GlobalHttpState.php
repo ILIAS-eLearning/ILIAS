@@ -19,6 +19,7 @@
 namespace ILIAS\HTTP;
 
 use ILIAS\HTTP\Cookies\CookieJar;
+use ILIAS\HTTP\Cookies\CookieFactory;
 use ILIAS\HTTP\Response\Sender\ResponseSendingException;
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use Psr\Http\Message\RequestInterface;
@@ -66,6 +67,11 @@ interface GlobalHttpState
      * object.
      */
     public function cookieJar(): CookieJar;
+
+    /**
+     * Creates cookies, which are added to the response with {@see self::cookieJar()}.
+     */
+    public function cookies(): CookieFactory;
 
 
     /**

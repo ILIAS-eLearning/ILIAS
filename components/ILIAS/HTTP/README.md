@@ -124,13 +124,20 @@ and can render the newly set cookies back.
 Be aware that the cookie jar reads the cookies at creation time of the jar.
 After the new cookie header is rendered into the response the response must be saved.
 See the caveats section of the response for further information.
+
+Cookies and cookie jars are immutable as well: every `with*()` returns a new instance, which
+has to be used further on.
+
+Cookies are created with the `CookieFactory` of the HTTP services (`$dic->http()->cookies()`,
+or `$use[\ILIAS\HTTP\Cookies\CookieFactory::class]` in a component bootstrap). Components
+MUST NOT instantiate the implementations (`CookieFactoryImpl`, `CookieWrapper`, ...) or use the
+underlying library (`Dflydev\FigCookies\*`) directly.
  
 ### Usage
 
 #### Add new Cookie 
 ```php
 <?php
-use \ILIAS\HTTP\Cookies\CookieFactoryImpl;
 use \ILIAS\HTTP\Cookies\CookieJar;
 
 //get the cookie jar
@@ -141,14 +148,14 @@ $dic = $GLOBALS["DIC"];
  */
 $cookieJar = $dic->http()->cookieJar();
 
-//create a new cookie factory
-$cookieFactory = new CookieFactoryImpl();
+//get the cookie factory
+$cookieFactory = $dic->http()->cookies();
 
 //create a cookie
 $cookie = $cookieFactory->create("CookieName", "CookieValue");
 
 //set the cookie path
-$cookie->withPath('/');
+$cookie = $cookie->withPath('/');
 
 //render the cookies back into the response.
 $response = $cookieJar
@@ -163,7 +170,6 @@ $dic->http()->saveResponse($response);
 
 ```php
 <?php
-use \ILIAS\HTTP\Cookies\CookieFactoryImpl;
 use \ILIAS\HTTP\Cookies\CookieJar;
 
 //get the cookie jar
@@ -174,15 +180,14 @@ $dic = $GLOBALS["DIC"];
  */
 $cookieJar = $dic->http()->cookieJar();
 
-//create a new cookie factory
-$cookieFactory = new CookieFactoryImpl();
+//get the cookie factory
+$cookieFactory = $dic->http()->cookies();
 
 //create an expired cookie
 $cookie = $cookieFactory->createExpired("CookieName");
 
 //set the cookie path
-$cookie
-    ->withPath('/');
+$cookie = $cookie->withPath('/');
 
 //render the cookies back into the response.
 $response = $cookieJar

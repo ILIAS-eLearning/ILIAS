@@ -34,6 +34,8 @@ use ILIAS\HTTP\Duration\DurationFactory;
 use ILIAS\HTTP\Duration\Increment\IncrementFactory;
 use ILIAS\HTTP\Response\ResponseFactory;
 use ILIAS\HTTP\Cookies\CookieJarFactory;
+use ILIAS\HTTP\Cookies\CookieFactory;
+use ILIAS\HTTP\Cookies\CookieFactoryImpl;
 use ILIAS\HTTP\Response\Sender\ResponseSenderStrategy;
 use ILIAS\HTTP\Request\HeaderSettings;
 use ILIAS\HTTP\Request\HeaderSettingsFromIni;
@@ -59,6 +61,7 @@ class HTTP implements Component
         $define[] = RequestFactory::class;
         $define[] = ResponseFactory::class;
         $define[] = CookieJarFactory::class;
+        $define[] = CookieFactory::class;
         $define[] = GlobalHttpState::class;
         $define[] = HeaderSettings::class;
         $define[] = HttpPathProvider::class;
@@ -83,6 +86,9 @@ class HTTP implements Component
         // RESPONSE FACTORY
         $implement[ResponseFactory::class] = static fn() => new ResponseFactoryImpl();
 
+        // COOKIE FACTORY
+        $implement[CookieFactory::class] = static fn() => new CookieFactoryImpl();
+
         // COOKIE JAR FACTORY
         $implement[CookieJarFactory::class] = static fn() => new CookieJarFactoryImpl();
 
@@ -100,7 +106,8 @@ class HTTP implements Component
             $use[ResponseFactory::class],
             $use[CookieJarFactory::class],
             $internal[ResponseSenderStrategy::class],
-            $internal[DurationFactory::class]
+            $internal[DurationFactory::class],
+            $use[CookieFactory::class]
         );
 
         // postMessage channel for pages talking to content of another origin, see README
