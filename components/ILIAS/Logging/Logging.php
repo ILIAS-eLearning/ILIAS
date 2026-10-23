@@ -54,7 +54,8 @@ class Logging implements Component\Component
         $internal[Logging\Logger\LazyInternalFactoryInterface::class] = static fn() =>
             new Logging\Logger\LazyInternalFactory(
                 new Logging\Logger\Monolog\Factory(),
-                $internal[Logging\Config\Basic\ConfigInterface::class]
+                $internal[Logging\Config\Basic\ConfigInterface::class],
+                $seek[Logging\Logger\Monolog\Handler\ProviderInterface::class]
             );
 
         $implement[Logging\Logger\LoggerFactoryInterface::class] = static fn() =>
@@ -74,6 +75,11 @@ class Logging implements Component\Component
                 $internal[Logging\Config\Basic\ConfigInterface::class],
                 $internal[Logging\Config\ByComponent\ConfigInterface::class]
             );
+
+        $contribute[Logging\Logger\Monolog\Handler\ProviderInterface::class] = static fn() =>
+        new Logging\Logger\Monolog\Handler\StandardFileHandlerProvider(
+            $internal[Logging\Config\Basic\ConfigInterface::class]
+        );
 
         $contribute[Setup\Agent::class] = static fn() =>
             new Logging\Setup\Agent(
