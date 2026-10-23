@@ -21,6 +21,8 @@ declare(strict_types=1);
 use ILIAS\Setup;
 use ILIAS\Refinery;
 use ILIAS\UI;
+use ILIAS\Language\Activities\InstallLanguage;
+use ILIAS\Language\Activities\UpdateLanguage;
 
 class ilLanguageSetupAgent implements Setup\Agent
 {
@@ -28,13 +30,19 @@ class ilLanguageSetupAgent implements Setup\Agent
 
     protected Refinery\Factory $refinery;
     protected \ilSetupLanguage $il_setup_language;
+    protected InstallLanguage $install_language;
+    protected UpdateLanguage $update_language;
 
     public function __construct(
         Refinery\Factory $refinery,
-        \ilSetupLanguage $il_setup_language
+        \ilSetupLanguage $il_setup_language,
+        InstallLanguage $install_language,
+        UpdateLanguage $update_language
     ) {
         $this->refinery = $refinery;
         $this->il_setup_language = $il_setup_language;
+        $this->install_language = $install_language;
+        $this->update_language = $update_language;
     }
 
     /**
@@ -61,7 +69,11 @@ class ilLanguageSetupAgent implements Setup\Agent
         return new Setup\ObjectiveCollection(
             "Complete objectives from components/ILIAS/Language",
             false,
-            new ilLanguagesInstalledAndUpdatedObjective($this->il_setup_language),
+            new ilLanguagesInstalledAndUpdatedObjective(
+                $this->il_setup_language,
+                $this->install_language,
+                $this->update_language
+            ),
             new ilDefaultLanguageSetObjective()
         );
     }
@@ -74,7 +86,11 @@ class ilLanguageSetupAgent implements Setup\Agent
         return new Setup\ObjectiveCollection(
             "Complete objectives from components/ILIAS/Language",
             false,
-            new ilLanguagesInstalledAndUpdatedObjective($this->il_setup_language),
+            new ilLanguagesInstalledAndUpdatedObjective(
+                $this->il_setup_language,
+                $this->install_language,
+                $this->update_language
+            ),
         );
     }
 

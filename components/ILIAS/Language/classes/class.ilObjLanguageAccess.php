@@ -186,8 +186,10 @@ class ilObjLanguageAccess
         $lng = $DIC->language();
 
         if (self::_checkTranslate() and !self::_isPageTranslation()) {
-            ilSession::set("lang_ext_maintenance", array("used_modules" => array_keys($lng->getUsedModules())));
-            ilSession::set("lang_ext_maintenance", array("used_topics" => array_keys($lng->getUsedTopics())));
+            ilSession::set("lang_ext_maintenance", array(
+                "used_modules" => array_keys($lng->getUsedModules()),
+                "used_topics" => array_keys($lng->getUsedTopics())
+            ));
         }
     }
 
