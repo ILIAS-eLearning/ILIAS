@@ -53,6 +53,12 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         $this->ctrl->saveParameter($this, "exc_back_ref_id");
         $this->notes_gui = $DIC->notes()->gui();
         $this->skill_personal_service = $DIC->skills()->personal();
+        $this->cmd_perm = $this->gui->cmdPerm(
+            $this->access_handler,
+            $DIC->access(),
+            $this->obj_id,
+            $this->port_request
+        );
     }
 
     public function getType(): string
@@ -67,7 +73,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         ?int $node_id = null
     ): bool {
         if ($perm === "create") {
-            return true;
+            return $this->access_handler->canCreatePortfolio();
         }
         if (!$node_id) {
             $node_id = $this->obj_id;
@@ -108,7 +114,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
                     $wspacc = new ilWorkspaceAccessGUI($this->object->getId(), $this->access_handler, true);
                     $wspacc->setBlockingMessage($this->getOfflineMessage());
-                    $this->ctrl->forwardCommand($wspacc);
+                    $this->cmd_perm->forwardPermitted($this, $wspacc);
                 }
                 break;
 
@@ -127,7 +133,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
             case "ilcommonactiondispatchergui":
                 //$this->prepareOutput();
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
-                $this->ctrl->forwardCommand($gui);
+                $this->cmd_perm->forwardPermitted($this, $gui);
                 break;
 
                 /*
@@ -166,17 +172,21 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
                         null,
                         $this->object->getId()
                     );
-                $this->ctrl->forwardCommand($settings_gui);
+                $this->cmd_perm->forwardPermitted($this, $settings_gui);
                 break;
 
             case "ilportfolioexercisegui":
                 $this->ctrl->setReturn($this, "view");
                 $gui = new ilPortfolioExerciseGUI($this->user_id, $this->object->getId());
-                $this->ctrl->forwardCommand($gui);
+                $this->cmd_perm->forwardPermitted($this, $gui);
                 break;
 
             default:
 
+                $cmd = $this->cmd_perm->getPermittedCommand();
+                if ($cmd === "") {
+                    throw new ilPermissionException($this->lng->txt("permission_denied"));
+                }
                 if ($cmd !== "preview") {
                     $this->addLocator();
                     $this->setTabs();

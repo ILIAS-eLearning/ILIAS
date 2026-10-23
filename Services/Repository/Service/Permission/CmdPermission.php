@@ -106,13 +106,12 @@ abstract class CmdPermission implements CmdPermissionInterface
     public function forwardPermitted(
         object $from_gui,
         object $to_gui
-    ): void {
+    ): mixed {
         if (is_null($this->ctrl)) {
-            return;
+            return null;
         }
         if ($this->isForwardPermitted(get_class($from_gui), get_class($to_gui))) {
-            $this->ctrl->forwardCommand($to_gui);
-            return;
+            return $this->ctrl->forwardCommand($to_gui);
         }
         if ($this->access->checkAccess("read", "", ROOT_FOLDER_ID)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);

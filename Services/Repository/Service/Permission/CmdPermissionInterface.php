@@ -66,7 +66,7 @@ interface CmdPermissionInterface
     public function forwardPermitted(
         object $from_gui,
         object $to_gui
-    ): void;
+    ): mixed;
 
 
 }

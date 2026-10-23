@@ -58,4 +58,32 @@ class InternalGUIService
             $this->domain_service->refinery()
         );
     }
+
+    public function cmdPerm(
+        ?\ilPortfolioAccessHandler $portfolio_access,
+        ?\ilAccessHandler $repo_access,
+        int $node_id,
+        ?StandardGUIRequest $request = null
+    ): \Portfolio\Permission\PortfolioCmdPermission {
+        return new \Portfolio\Permission\PortfolioCmdPermission(
+            $this->domain_service->lng(),
+            $portfolio_access,
+            $repo_access,
+            $this->mainTemplate(),
+            $this->ctrl(),
+            $request ?? $this->standardRequest(),
+            $node_id
+        );
+    }
+
+
+    public function settings(
+    ): Settings\GUIService {
+        return self::$instance["settings"] ??= new Settings\GUIService(
+            $this->data_service,
+            $this->domain_service,
+            $this
+        );
+    }
+
 }

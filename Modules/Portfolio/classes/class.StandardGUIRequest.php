@@ -52,6 +52,11 @@ class StandardGUIRequest
         return $prt_id;
     }
 
+    public function getPortfolioTargetId(): int
+    {
+        return $this->int("prtf");
+    }
+
     public function getPortfolioIds(): array
     {
         $ids = $this->intArray("prtfs");

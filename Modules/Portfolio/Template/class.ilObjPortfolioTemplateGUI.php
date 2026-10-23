@@ -46,6 +46,12 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         $this->tabs = $DIC->tabs();
         $this->toolbar = $DIC->toolbar();
         $this->user = $DIC->user();
+        $this->cmd_perm = $this->gui->cmdPerm(
+            null,
+            $DIC->access(),
+            $this->node_id,
+            $this->port_request
+        );
     }
 
     public function getType(): string
@@ -74,6 +80,9 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
                 break;
 
             case "ilcommentgui":
+                if (!$this->cmd_perm->isForwardPermitted(get_class($this), ilCommentGUI::class)) {
+                    throw new ilPermissionException($this->lng->txt("permission_denied"));
+                }
                 $this->preview();
                 break;
 
@@ -86,21 +95,21 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
             case "ilcommonactiondispatchergui":
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->prepareOutput();
-                $this->ctrl->forwardCommand($gui);
+                $this->cmd_perm->forwardPermitted($this, $gui);
                 break;
 
             case "ilpermissiongui":
                 $this->prepareOutput();
                 $this->tabs_gui->activateTab("id_permissions");
                 $perm_gui = new ilPermissionGUI($this);
-                $this->ctrl->forwardCommand($perm_gui);
+                $this->cmd_perm->forwardPermitted($this, $perm_gui);
                 break;
 
             case "ilobjectcopygui":
                 $this->prepareOutput();
                 $cp = new ilObjectCopyGUI($this);
                 $cp->setType("prtt");
-                $this->ctrl->forwardCommand($cp);
+                $this->cmd_perm->forwardPermitted($this, $cp);
                 break;
 
             case 'ilexportgui':
@@ -108,7 +117,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
                 $this->tabs_gui->activateTab("export");
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
-                $this->ctrl->forwardCommand($exp_gui);
+                $this->cmd_perm->forwardPermitted($this, $exp_gui);
                 break;
 
             case "ilobjectcontentstylesettingsgui":
@@ -122,7 +131,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
                         null,
                         $this->object->getRefId()
                     );
-                $this->ctrl->forwardCommand($settings_gui);
+                $this->cmd_perm->forwardPermitted($this, $settings_gui);
                 break;
 
             case "ilobjectmetadatagui":
@@ -131,11 +140,14 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
                 $this->addHeaderAction();
                 $this->tabs_gui->activateTab("advmd");
                 $md_gui = new ilObjectMetaDataGUI($this->object, "pfpg");
-                $this->ctrl->forwardCommand($md_gui);
+                $this->cmd_perm->forwardPermitted($this, $md_gui);
                 break;
 
             default:
                 $this->addHeaderAction();
+                if ($this->cmd_perm->getPermittedCommand() === "") {
+                    throw new ilPermissionException($this->lng->txt("permission_denied"));
+                }
                 ilObject2GUI::executeCommand();
         }
     }
@@ -222,7 +234,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 
             $this->gui->button(
                 $this->lng->txt("prtf_create_portfolio_from_template"),
-                $this->ctrl->getLinkTarget($this, "createfromtemplate")
+                $this->ctrl->getLinkTarget($this, "createFromTemplate")
             )->primary()->toToolbar();
         }
 
@@ -249,7 +261,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         // standard meta data
         $info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
 
-        $this->ctrl->forwardCommand($info);
+        $this->cmd_perm->forwardPermitted($this, $info);
     }
 
 
@@ -517,7 +529,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
             $this->lng->loadLanguageModule("cntr");
             $button = $this->gui->button(
                 $this->lng->txt("prtf_create_portfolio_from_template"),
-                $this->ctrl->getLinkTarget($this, "createfromtemplate")
+                $this->ctrl->getLinkTarget($this, "createFromTemplate")
             )->primary();
             $this->tpl->setHeaderActionMenu($button->render());
         }
