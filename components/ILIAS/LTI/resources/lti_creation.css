@@ -1,0 +1,16 @@
+/*
+ * Creation screen of an lti object.
+ *
+ * Its ways of creating the object are the sections of an accordion, and neither the table, the form
+ * nor the message box of the deprecated LTI version brings a gutter of its own, so without this they
+ * sit against the border of their section.
+ */
+
+.il-lti-creation {
+	padding: 10px;
+}
+
+/* the control that picks the LTI version would otherwise stick to the form it belongs to */
+.il-lti-creation > .il-viewcontrol-mode {
+	margin-bottom: 10px;
+}

@@ -624,25 +624,18 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         );
         $frontend->authenticate();
 
-        setcookie(session_name(), session_id(), [
-            'expires' => 0,
-            'path' => rtrim(IL_COOKIE_PATH, '/'),
-            'domain' => IL_COOKIE_DOMAIN,
-            'secure' => true,
-            'httponly' => true,
-            'samesite' => 'None'
-        ]);
-
-        $lti_context_ids = ilSession::get("lti_context_ids");
-
-        if (is_array($lti_context_ids) && isset($lti_context_ids[0])) {
-            $ref_id = $lti_context_ids[0];
-            $obj_type = ilObject::_lookupType($ref_id, true);
-            ilSession::set('orig_request_target', "goto.php?target=" . $obj_type . "_" . $ref_id . "&lti_context_id=" . $ref_id);
+        $lti_target = $this->dic['lti']->getLaunchTarget();
+        if ($lti_target !== '') {
+            ilSession::set('orig_request_target', $lti_target);
         }
 
         switch ($status->getStatus()) {
             case ilAuthStatus::STATUS_AUTHENTICATED:
+                ilLTISessionCookie::allowCrossSite();
+                // the user of a launch goes to the object the platform launched
+                if ($lti_target !== '') {
+                    $this->ctrl->redirectToURL($lti_target);
+                }
                 ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
                 ilInitialisation::redirectToStartingPage();
 
@@ -652,7 +645,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
                 // no break
             case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
-                $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt($status->getReason()), true);
+                $this->mainTemplate->setOnScreenMessage('failure', $status->getTranslatedReason(), true);
                 $this->ctrl->redirect($this, 'showLoginPage');
         }
 

@@ -51,7 +51,7 @@
 		"ext-zip": "*",
 		"ext-imagick": "*",
 		"bacon/bacon-qr-code": "^3.0",
-		"celtic/lti": "^5.3.2",
+		"celtic/lti": "^5.4.7",
 		"dflydev/fig-cookies": "^3.1.0",
 		"ezyang/htmlpurifier": "^4.19",
 		"filp/whoops": "^2.18",

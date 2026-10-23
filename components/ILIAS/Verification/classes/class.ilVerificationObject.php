@@ -75,7 +75,7 @@ abstract class ilVerificationObject extends ilObject2
     public function getProperty(string $a_name)
     {
         if ($this->hasProperty($a_name)) {
-            return $this->properties[$a_name];
+            return $this->properties[$a_name] ?? null;
         }
         return null;
     }

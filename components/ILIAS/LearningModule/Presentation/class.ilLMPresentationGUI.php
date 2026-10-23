@@ -1000,8 +1000,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
     public function ilLocator(): void
     {
-        global $DIC;
-        $ltiview = $DIC["lti"];
         $ilLocator = $this->locator;
 
         $a_id = $this->getLocatorObjectId();

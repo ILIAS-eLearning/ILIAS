@@ -413,7 +413,7 @@ class ilCOPageHTMLExport
                                             break;
 
                                         case "ltiv":
-                                            $obj = new ilObjLTIConsumerVerification($obj_id, false);
+                                            $obj = new ilObjLTIToolVerification($obj_id, false);
                                             $this->files_direct[$obj_id] = array($obj->getFilePath(),
                                                                                  $obj->getOfflineFilename());
                                             break;

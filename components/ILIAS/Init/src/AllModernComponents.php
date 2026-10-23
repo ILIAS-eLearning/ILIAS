@@ -143,7 +143,8 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         protected Access $access_control,
         protected Logging\Logger\LoggerFactoryInterface $logger_factory,
         protected Logging\Logger\DefaultConfigLoggerFactoryInterface $default_config_logger_factory,
-        protected Logging\Config\ConfigInterface $logging_config
+        protected Logging\Config\ConfigInterface $logging_config,
+        protected \ILIAS\LTI\View $lti_view
     ) {
     }
 
@@ -255,6 +256,7 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         $DIC['logging.factory'] = fn(): Logging\Logger\LoggerFactoryInterface => $this->logger_factory;
         $DIC['logging.defaultConfigFactory'] = fn(): Logging\Logger\DefaultConfigLoggerFactoryInterface => $this->default_config_logger_factory;
         $DIC['logging.config'] = fn(): Logging\Config\ConfigInterface => $this->logging_config;
+        $DIC['lti'] = fn(): \ILIAS\LTI\View => $this->lti_view;
     }
 
     public function getName(): string

@@ -1,0 +1,184 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+/**
+ * Renders the three ways of launching an LTI 1.1 object: the launch page, the embedded iframe and the
+ * start button that submits the launch form.
+ *
+ * @author Saúl Díaz <sdiaz@surlabs.com>
+ */
+final class ilLTI1p1ConsumerLaunchRenderer
+{
+    /**
+     * @throws ilCtrlException
+     * @throws ilTemplateException
+     * @throws ilWACException
+     */
+    public static function renderLaunch(
+        ilObjLTITool $object,
+        ilLTIToolLaunchGUI $gui_object,
+        ILIAS\DI\Container $dic,
+        ilLanguage $lng
+    ): void {
+        if ($object->isLaunchMethodEmbedded()) {
+            $tpl = new ilTemplate('tpl.lti1p1_content.html', true, true, 'components/ILIAS/LTI');
+            $tpl->setVariable("EMBEDDED_IFRAME_SRC", $dic->ctrl()->getLinkTarget(
+                $gui_object,
+                ilLTIToolLaunchGUI::CMD_SHOW_EMBEDDED
+            ));
+            $tpl->setVariable("EMBEDDED_IFRAME_TITLE", htmlspecialchars($object->getTitle()));
+            $dic->ui()->mainTemplate()->setContent($tpl->get());
+        } else {
+            $dic->toolbar()->addText(self::renderStartButton($object, $gui_object, $dic, $lng));
+        }
+    }
+
+    /**
+     * Sends the auto-submitting launch page for the iframe and ends the request.
+     * @throws ilTemplateException
+     * @throws ilWACException
+     */
+    public static function renderEmbeddedLaunch(
+        ilObjLTITool $object,
+        ilCmiXapiUser $cmix_user,
+        ILIAS\DI\Container $dic
+    ): never {
+        $tpl = new ilTemplate('tpl.lti1p1_embedded.html', true, true, 'components/ILIAS/LTI');
+        $tpl->setVariable('LANG', $dic->language()->getLangKey());
+        $tpl->setVariable('TITLE', htmlspecialchars($object->getTitle(), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
+        foreach (self::resolveLaunchParameters($object, $cmix_user, $dic) as $field => $value) {
+            $tpl->setCurrentBlock('launch_parameter');
+            $tpl->setVariable('LAUNCH_PARAMETER', htmlspecialchars((string) $field, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
+            $tpl->setVariable('LAUNCH_PARAM_VALUE', htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
+            $tpl->parseCurrentBlock();
+        }
+
+        $v = DEVMODE ? '?vers=' . time() : '?vers=' . ILIAS_VERSION_NUMERIC;
+        $tpl->setVariable("DELOS_CSS_HREF", 'assets/css/delos.css' . $v);
+        $tpl->setVariable("JQUERY_SRC", 'assets/js/jquery.js' . $v);
+
+        $tpl->setVariable("LOADER_ICON_SRC", ilUtil::getImagePath("media/loader.svg"));
+        $tpl->setVariable('LAUNCH_URL', $object->getTool()->getUrl());
+
+        ilLTIResponse::html($tpl->get());
+    }
+
+    /**
+     * @throws ilCtrlException
+     * @throws ilWACException
+     */
+    public static function renderStartButton(
+        ilObjLTITool $object,
+        ilLTIToolLaunchGUI $gui_object,
+        ILIAS\DI\Container $dic,
+        ilLanguage $lng
+    ): string {
+        if (
+            $object->getOfflineStatus() ||
+            $object->isLaunchMethodEmbedded() ||
+            $object->getTool()->getAvailability() === ilLTITool::AVAILABILITY_NONE
+        ) {
+            return "";
+        }
+
+        $cmix_user = new ilCmiXapiUser(
+            $object->getId(),
+            $dic->user()->getId(),
+            $object->getTool()->getPrivacyIdent()
+        );
+        $user_ident = $cmix_user->getUsrIdent();
+        if ($user_ident === '') {
+            $user_ident = ilCmiXapiUser::getIdent($object->getTool()->getPrivacyIdent(), $dic->user());
+            $cmix_user->setUsrIdent($user_ident);
+            $cmix_user->save();
+        }
+
+        $return_url = !$object->isLaunchMethodOwnWin() ? '' : str_replace(
+            '&amp;',
+            '&',
+            ilLTIEndpoint::getBaseUrl() . "/" . $dic->ctrl()->getLinkTarget($gui_object, "", "")
+        );
+
+        $launch_parameters = self::resolveLaunchParameters($object, $cmix_user, $dic, $return_url);
+
+        $target = $object->getLaunchMethod() === ilObjLTITool::LAUNCH_METHOD_NEW_WIN ? "_blank" : "_self";
+        $button = '<input class="btn btn-default ilPre" type="button" onClick="ltilaunch()" value = "' . $lng->txt("show_content") . '" />';
+        $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $object->getTool()->getUrl() . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
+        foreach ($launch_parameters as $field => $value) {
+            $output .= sprintf(
+                '<input type="hidden" name="%s" value="%s" />',
+                htmlspecialchars((string) $field, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'),
+                htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')
+            ) . "\n";
+        }
+        $output .= $button;
+        $output .= '</form>';
+        $output .= '<span id ="lti_launched" style="display:none">' . $lng->txt("launched") . '</span>';
+        $output .= '<script type="text/javascript">
+        function ltilaunch() {
+            document.lti_launch_form.submit();
+            document.getElementById("lti_launch_form").style.display = "none";
+            document.getElementById("lti_launched").style.display = "inline";
+        }</script>';
+        return $output;
+    }
+
+    /**
+     * @throws ilWACException
+     */
+    public static function resolveLaunchParameters(
+        ilObjLTITool $object,
+        ilCmiXapiUser $cmix_user,
+        ILIAS\DI\Container $dic,
+        string $return_url = ''
+    ): array {
+        $lti_consumer_launch = new ilLTI1p1ConsumerLaunchContext($object->getRefId());
+        $launch_context = $lti_consumer_launch->getContext();
+
+        $launch_context_type = $lti_consumer_launch::getLTIContextType($launch_context["type"]);
+        $launch_context_id = (string) $launch_context["id"];
+        $launch_context_title = $launch_context["title"];
+
+        $token = ilCmiXapiAuthToken::fillToken(
+            $dic->user()->getId(),
+            $object->getRefId(),
+            $object->getId()
+        );
+
+        $params = ilLTI1p1ConsumerLaunchParameterBuilder::build(
+            $object,
+            $cmix_user,
+            $token,
+            $launch_context_type,
+            $launch_context_id,
+            $launch_context_title,
+            $return_url
+        );
+
+        // the launch itself is a form the browser posts to the tool, ILIAS does not see it
+        $dic->logger()->forComponent('lti')->debug('LTI 1.1 launch of the object {ref_id} for the user {usr_id} to the tool {tool_id}', [
+            'ref_id' => $object->getRefId(),
+            'usr_id' => $dic->user()->getId(),
+            'tool_id' => $object->getToolId(),
+        ]);
+
+        return $params;
+    }
+}

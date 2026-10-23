@@ -120,7 +120,7 @@ class ilObjectLP
                 case 'cmix':
                     return ilCmiXapiLP::class;
                 case 'lti':
-                    return ilLTIConsumerLP::class;
+                    return ilLTIToolLP::class;
                 case 'frm':
                     return ilForumLP::class;
             }

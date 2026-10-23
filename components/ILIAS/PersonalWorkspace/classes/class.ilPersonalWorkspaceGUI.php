@@ -30,7 +30,7 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
  * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjLinkResourceGUI, ilObjCourseVerificationGUI
  * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjSCORMVerificationGUI
  * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjCmiXapiVerificationGUI
- * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjLTIConsumerVerificationGUI
+ * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjLTIToolVerificationGUI
  */
 class ilPersonalWorkspaceGUI
 {
