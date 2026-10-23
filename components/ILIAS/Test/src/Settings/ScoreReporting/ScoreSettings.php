@@ -88,8 +88,7 @@ class ScoreSettings implements Exportable
     {
         return $this->settings_scoring->toLog($additional_info)
             + $this->settings_result_summary->toLog($additional_info)
-            + $this->settings_result_details->toLog($additional_info)
-            + $this->settings_gamification->toLog($additional_info);
+            + $this->settings_result_details->toLog($additional_info);
     }
 
     public function toExport(): array
@@ -97,8 +96,7 @@ class ScoreSettings implements Exportable
         return [
             'settings_scoring' => $this->settings_scoring->toExport(),
             'settings_result_summary' => $this->settings_result_summary->toExport(),
-            'settings_result_details' => $this->settings_result_details->toExport(),
-            'settings_gamification' => $this->settings_gamification->toExport()
+            'settings_result_details' => $this->settings_result_details->toExport()
         ];
     }
 
@@ -108,8 +106,7 @@ class ScoreSettings implements Exportable
             $data['id'] ?? -1,
             SettingsScoring::fromExport($data['settings_scoring']),
             SettingsResultSummary::fromExport($data['settings_result_summary']),
-            SettingsResultDetails::fromExport($data['settings_result_details']),
-            SettingsGamification::fromExport($data['settings_gamification'])
+            SettingsResultDetails::fromExport($data['settings_result_details'])
         );
     }
 }
