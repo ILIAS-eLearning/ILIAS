@@ -58,6 +58,7 @@ $container['http'] = static fn($c): Services => new Services(
     $c['http.cookie_jar_factory'],
     $c['http.response_sender_strategy'],
     $c['http.duration_factory'],
+    new CookieFactoryImpl(),
 );
 
 $GLOBALS["DIC"] = $container;

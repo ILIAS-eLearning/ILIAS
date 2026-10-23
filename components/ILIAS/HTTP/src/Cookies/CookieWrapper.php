@@ -24,6 +24,7 @@ use Dflydev\FigCookies\Modifier\SameSite;
 /**
  * Class CookieWrapper
  * Facade class for the FigCookies SetCookie class.
+ * @internal Create cookies with {@see CookieFactory} and cookie jars with {@see CookieJarFactory}.
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  * @package ILIAS\HTTP\Cookies
  * @since   5.3

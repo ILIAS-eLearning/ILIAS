@@ -18,6 +18,7 @@
 
 namespace ILIAS\HTTP;
 
+use ILIAS\HTTP\Cookies\CookieFactory;
 use ILIAS\HTTP\Cookies\CookieJar;
 use ILIAS\HTTP\Cookies\CookieJarFactory;
 use ILIAS\HTTP\Request\RequestFactory;
@@ -44,7 +45,8 @@ class RawHTTPServices implements GlobalHttpState
         private CookieJarFactory $cookieJarFactory,
         private RequestFactory $requestFactory,
         private ResponseFactory $responseFactory,
-        private DurationFactory $durationFactory
+        private DurationFactory $durationFactory,
+        private CookieFactory $cookieFactory
     ) {
     }
 
@@ -67,6 +69,11 @@ class RawHTTPServices implements GlobalHttpState
     /**
      * @inheritDoc
      */
+    public function cookies(): CookieFactory
+    {
+        return $this->cookieFactory;
+    }
+
     public function cookieJar(): CookieJar
     {
         return $this->cookieJarFactory->fromResponse($this->response());
