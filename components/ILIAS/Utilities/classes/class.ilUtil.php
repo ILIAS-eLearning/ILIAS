@@ -18,7 +18,6 @@
 
 use ILIAS\FileDelivery\Delivery;
 use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\HTTP\Cookies\CookieFactoryImpl;
 use ILIAS\HTTP\Cookies\Cookie;
 
 /**
@@ -1289,7 +1288,7 @@ class ilUtil
         $http = $DIC->http();
         $cookie_jar = $http->cookieJar();
 
-        $cookie_factory = new CookieFactoryImpl();
+        $cookie_factory = $http->cookies();
 
         $cookie_expire = null;
         if (defined('IL_COOKIE_EXPIRE') && is_numeric(IL_COOKIE_EXPIRE) && IL_COOKIE_EXPIRE > 0) {

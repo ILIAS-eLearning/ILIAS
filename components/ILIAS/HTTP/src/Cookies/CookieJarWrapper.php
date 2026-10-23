@@ -26,6 +26,7 @@ use Psr\Http\Message\ResponseInterface;
  *
  * Wrapper class for the FigCookies SetCookies class.
  *
+ * @internal Create cookies with {@see CookieFactory} and cookie jars with {@see CookieJarFactory}.
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  * @package ILIAS\HTTP\Cookies
  * @since   5.3

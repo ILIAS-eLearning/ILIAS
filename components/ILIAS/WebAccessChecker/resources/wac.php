@@ -58,6 +58,7 @@ $container['http'] = static fn($c): Services => new Services(
     $c['http.cookie_jar_factory'],
     $c['http.response_sender_strategy'],
     $c['http.duration_factory'],
+    new CookieFactoryImpl(),
 );
 
 $GLOBALS["DIC"] = $container;
@@ -68,7 +69,7 @@ $GLOBALS["DIC"] = $container;
 $Services = $container['http'];
 
 //TODO: fix tests and mod_xsendfile which refuses to work
-ilWebAccessCheckerDelivery::run($Services, new CookieFactoryImpl());
+ilWebAccessCheckerDelivery::run($Services, $Services->cookies());
 
 //send response
 $Services->sendResponse();

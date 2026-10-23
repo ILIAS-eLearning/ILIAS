@@ -18,6 +18,7 @@
 
 namespace ILIAS\DI;
 
+use ILIAS\HTTP\Cookies\CookieFactory;
 use ILIAS\HTTP\Cookies\CookieJarFactory;
 use ILIAS\HTTP\Services;
 use ILIAS\HTTP\Request\RequestFactory;
@@ -80,7 +81,7 @@ class HTTPServicesTest extends PHPUnitTestCase
 
         $this->mockDurationFactory = $this->createMock(DurationFactory::class);
 
-        $this->httpState = new RawHTTPServices($this->mockSenderStrategy, $this->mockCookieJarFactory, $this->mockRequestFactory, $this->mockResponseFactory, $this->mockDurationFactory);
+        $this->httpState = new RawHTTPServices($this->mockSenderStrategy, $this->mockCookieJarFactory, $this->mockRequestFactory, $this->mockResponseFactory, $this->mockDurationFactory, $this->createMock(CookieFactory::class));
     }
 
 
