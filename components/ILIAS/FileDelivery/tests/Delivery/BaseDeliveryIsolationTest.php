@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Tests\FileDelivery\Delivery;
 
-use GuzzleHttp\Psr7\Response;
+use ILIAS\HTTP\Message\MessageFactoryImpl;
 use ILIAS\FileDelivery\Delivery\BaseDelivery;
 use ILIAS\FileDelivery\Delivery\Disposition;
 use ILIAS\FileDelivery\Delivery\ResponseBuilder\ResponseBuilder;
@@ -138,7 +138,7 @@ final class BaseDeliveryIsolationTest extends TestCase
     public function testNoIsolationHeadersWhenDisabled(): void
     {
         $delivery = $this->delivery(IsolationConfig::disabled());
-        $r = $delivery->exposedIsolationHeaders(new Response());
+        $r = $delivery->exposedIsolationHeaders((new MessageFactoryImpl())->response());
 
         $this->assertFalse($r->hasHeader('X-Content-Type-Options'));
         $this->assertFalse($r->hasHeader('Cross-Origin-Resource-Policy'));
@@ -149,7 +149,7 @@ final class BaseDeliveryIsolationTest extends TestCase
     public function testIsolationHeadersWhenActive(): void
     {
         $delivery = $this->delivery($this->activeConfig());
-        $r = $delivery->exposedIsolationHeaders(new Response());
+        $r = $delivery->exposedIsolationHeaders((new MessageFactoryImpl())->response());
 
         $this->assertSame('nosniff', $r->getHeaderLine('X-Content-Type-Options'));
         $this->assertSame('cross-origin', $r->getHeaderLine('Cross-Origin-Resource-Policy'));
@@ -161,7 +161,7 @@ final class BaseDeliveryIsolationTest extends TestCase
     public function testGeneralHeadersCarryIsolationHeadersWhenActive(): void
     {
         $delivery = $this->delivery($this->activeConfig());
-        $r = $delivery->exposedGeneralHeaders(new Response());
+        $r = $delivery->exposedGeneralHeaders((new MessageFactoryImpl())->response());
 
         $this->assertSame('nosniff', $r->getHeaderLine('X-Content-Type-Options'));
         $this->assertSame('cross-origin', $r->getHeaderLine('Cross-Origin-Resource-Policy'));
@@ -173,7 +173,7 @@ final class BaseDeliveryIsolationTest extends TestCase
     public function testGeneralHeadersKeepTheirRegularContentHeaders(): void
     {
         $delivery = $this->delivery($this->activeConfig());
-        $r = $delivery->exposedGeneralHeaders(new Response());
+        $r = $delivery->exposedGeneralHeaders((new MessageFactoryImpl())->response());
 
         $this->assertSame('text/plain', $r->getHeaderLine('Content-Type'));
         $this->assertSame(
@@ -185,7 +185,7 @@ final class BaseDeliveryIsolationTest extends TestCase
     public function testGeneralHeadersCarryNoIsolationHeadersWhenDisabled(): void
     {
         $delivery = $this->delivery(IsolationConfig::disabled());
-        $r = $delivery->exposedGeneralHeaders(new Response());
+        $r = $delivery->exposedGeneralHeaders((new MessageFactoryImpl())->response());
 
         $this->assertSame('text/plain', $r->getHeaderLine('Content-Type'));
         $this->assertFalse($r->hasHeader('X-Content-Type-Options'));

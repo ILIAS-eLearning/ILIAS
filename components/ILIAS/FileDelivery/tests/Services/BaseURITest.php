@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Tests\FileDelivery\Services;
 
-use GuzzleHttp\Psr7\ServerRequest;
+use ILIAS\HTTP\Message\MessageFactoryImpl;
 use ILIAS\FileDelivery\Delivery\LegacyDelivery;
 use ILIAS\FileDelivery\Delivery\ResponseBuilder\ResponseBuilder;
 use ILIAS\FileDelivery\Delivery\StreamDelivery;
@@ -42,7 +42,7 @@ class BaseURITest extends TestCase
     public function testHostIsTakenFromTheRequestAndPathFromTheHttpPath(): void
     {
         $services = $this->servicesFor(
-            new ServerRequest('GET', 'https://alias.example.org/ilias/index.php'),
+            $this->requestTo('https://alias.example.org/ilias/index.php'),
             'https://ilias.example.org/ilias'
         );
 
@@ -52,7 +52,7 @@ class BaseURITest extends TestCase
     public function testPortOfTheRequestIsKept(): void
     {
         $services = $this->servicesFor(
-            new ServerRequest('GET', 'http://localhost:8080/ilias/index.php'),
+            $this->requestTo('http://localhost:8080/ilias/index.php'),
             'http://localhost/ilias'
         );
 
@@ -65,7 +65,7 @@ class BaseURITest extends TestCase
     public function testHttpPathIsUsedWithoutARequest(): void
     {
         $services = $this->servicesFor(
-            new ServerRequest('GET', ''),
+            $this->requestTo(''),
             'https://ilias.example.org/ilias/'
         );
 
@@ -79,7 +79,7 @@ class BaseURITest extends TestCase
     public function testPathIsTakenFromTheHttpPathOnARequestWithoutScript(): void
     {
         $services = $this->servicesFor(
-            new ServerRequest('GET', 'https://ilias.example.org/ilias/'),
+            $this->requestTo('https://ilias.example.org/ilias/'),
             'https://ilias.example.org/ilias'
         );
 
@@ -89,7 +89,7 @@ class BaseURITest extends TestCase
     public function testPathIsTakenFromTheHttpPathOnARequestToASubdirectory(): void
     {
         $services = $this->servicesFor(
-            new ServerRequest('GET', 'https://ilias.example.org/ilias/Customizing/global/plugins/run.php'),
+            $this->requestTo('https://ilias.example.org/ilias/Customizing/global/plugins/run.php'),
             'https://ilias.example.org/ilias'
         );
 
@@ -99,7 +99,7 @@ class BaseURITest extends TestCase
     public function testHttpPathWithoutPathPointsToTheRoot(): void
     {
         $services = $this->servicesFor(
-            new ServerRequest('GET', 'https://ilias.example.org/'),
+            $this->requestTo('https://ilias.example.org/'),
             'https://ilias.example.org'
         );
 
@@ -112,7 +112,7 @@ class BaseURITest extends TestCase
     public function testPathIsTakenFromTheRequestWithoutHttpPath(): void
     {
         $services = $this->servicesFor(
-            new ServerRequest('GET', 'https://ilias.example.org/ilias/index.php'),
+            $this->requestTo('https://ilias.example.org/ilias/index.php'),
             null
         );
 
@@ -122,7 +122,7 @@ class BaseURITest extends TestCase
     public function testContentDomainIsUsedWithThePathOfTheHttpPath(): void
     {
         $services = $this->servicesFor(
-            new ServerRequest('GET', 'https://ilias.example.org/ilias/'),
+            $this->requestTo('https://ilias.example.org/ilias/'),
             'https://ilias.example.org/ilias',
             $this->isolation()
         );
@@ -133,7 +133,7 @@ class BaseURITest extends TestCase
     public function testContentDomainIsUsedWithoutARequest(): void
     {
         $services = $this->servicesFor(
-            new ServerRequest('GET', ''),
+            $this->requestTo(''),
             'https://ilias.example.org/ilias/',
             $this->isolation()
         );
@@ -144,7 +144,7 @@ class BaseURITest extends TestCase
     public function testContentDomainTakesThePathFromTheRequestWithoutHttpPath(): void
     {
         $services = $this->servicesFor(
-            new ServerRequest('GET', 'https://ilias.example.org/ilias/index.php'),
+            $this->requestTo('https://ilias.example.org/ilias/index.php'),
             null,
             $this->isolation()
         );
@@ -190,5 +190,13 @@ class BaseURITest extends TestCase
     private function baseURIOf(Services $services): string
     {
         return (new \ReflectionMethod($services, 'getBaseURI'))->invoke($services);
+    }
+
+    private function requestTo(string $uri): ServerRequestInterface
+    {
+        $request = $this->createStub(ServerRequestInterface::class);
+        $request->method('getUri')->willReturn((new MessageFactoryImpl())->uri($uri));
+
+        return $request;
     }
 }

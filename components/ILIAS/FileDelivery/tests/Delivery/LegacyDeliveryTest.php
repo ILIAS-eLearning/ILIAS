@@ -20,8 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Tests\FileDelivery\Delivery;
 
-use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Psr7\ServerRequest;
+use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\Message\MessageFactoryImpl;
+use Psr\Http\Message\ResponseInterface;
 use ILIAS\FileDelivery\Delivery\LegacyDelivery;
 use ILIAS\FileDelivery\Delivery\ResponseBuilder\ResponseBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -66,10 +67,10 @@ class LegacyDeliveryTest extends TestCase
 
     private function assertDeliveredBy(string $expected, bool $supports_deletion, bool $delete_file): void
     {
-        $response = new Response();
+        $response = (new MessageFactoryImpl())->response();
 
         $http = $this->createStub(\ILIAS\HTTP\Services::class);
-        $http->method('request')->willReturn(new ServerRequest('GET', 'https://ilias.example.org/'));
+        $http->method('request')->willReturn($this->requestTo('https://ilias.example.org/'));
         $http->method('response')->willReturn($response);
         // close() is never, the test leaves deliver() by an exception instead
         $http->method('close')->willThrowException(new \RuntimeException('closed'));
@@ -86,7 +87,7 @@ class LegacyDeliveryTest extends TestCase
     private function builder(
         string $name,
         bool $used,
-        Response $response,
+        ResponseInterface $response,
         bool $supports_deletion
     ): ResponseBuilder&MockObject {
         $builder = $this->createMock(ResponseBuilder::class);
@@ -97,5 +98,13 @@ class LegacyDeliveryTest extends TestCase
                 ->willReturn($response);
 
         return $builder;
+    }
+
+    private function requestTo(string $uri): ServerRequestInterface
+    {
+        $request = $this->createStub(ServerRequestInterface::class);
+        $request->method('getUri')->willReturn((new MessageFactoryImpl())->uri($uri));
+
+        return $request;
     }
 }

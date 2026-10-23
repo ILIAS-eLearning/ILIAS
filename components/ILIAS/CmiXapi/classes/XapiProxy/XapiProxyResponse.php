@@ -22,8 +22,7 @@ namespace XapiProxy;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Psr7\Request;
+use ILIAS\HTTP\Message\MessageFactory;
 
 class XapiProxyResponse
 {
@@ -31,13 +30,15 @@ class XapiProxyResponse
     private XapiProxy $xapiproxy;
     //private $xapiProxyRequest;
 
-    public function __construct(XapiProxy $xapiproxy)
-    {
+    public function __construct(
+        XapiProxy $xapiproxy,
+        private MessageFactory $messages
+    ) {
         //            $this->dic = $GLOBALS['DIC'];
         $this->xapiproxy = $xapiproxy;
     }
 
-    public function checkResponse(\GuzzleHttp\Psr7\Response $response, string $endpoint): bool
+    public function checkResponse(ResponseInterface $response, string $endpoint): bool
     {
         $status = $response->getStatusCode();
         if ($status === 200 || $status === 204 || $status === 404) {
@@ -48,7 +49,7 @@ class XapiProxyResponse
         }
     }
 
-    public function handleResponse(\Psr\Http\Message\RequestInterface $request, Response $response, array|string|null $fakePostBody = null): void
+    public function handleResponse(\Psr\Http\Message\RequestInterface $request, ResponseInterface $response, array|string|null $fakePostBody = null): void
     {
         // check transfer encoding bug
         if ($fakePostBody !== null) {
@@ -66,7 +67,7 @@ class XapiProxyResponse
             $body = (string) $response->getBody();
             unset($headers['Transfer-Encoding']);
             $headers['Content-Length'] = array(strlen($body));
-            $response2 = new \GuzzleHttp\Psr7\Response($status, $headers, $body);
+            $response2 = $this->messages->response($status, $headers, $body);
             $this->emit($response2);
         } else {
             $this->emit($response);
@@ -198,7 +199,7 @@ class XapiProxyResponse
         exit;
     }
 
-    public function emit(\GuzzleHttp\Psr7\Response $response): void
+    public function emit(ResponseInterface $response): void
     {
         $this->xapiproxy->log()->debug($this->msg('emitting response'));
         if (headers_sent()) {
