@@ -72,7 +72,7 @@ class ilRbacSystem
             return self::$instance;
         }
         global $DIC;
-        if ($DIC instanceof \Pimple\Container && isset($DIC['rbacsystem'])) {
+        if ($DIC instanceof \ILIAS\DI\Container && isset($DIC['rbacsystem'])) {
             return self::$instance = $DIC['rbacsystem'];
         }
         throw new \LogicException(

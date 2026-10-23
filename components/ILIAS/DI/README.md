@@ -51,3 +51,25 @@ $tree = $DIC->logger()->tree();
 $objDefinition = $DIC["objDefinition"];
 
 ```
+
+## Local Containers
+
+Components which need a container of their own (a "local DIC") extend or instantiate
+`ILIAS\DI\ServiceContainer`, which is also the base of the global `ILIAS\DI\Container`.
+They MUST NOT use the classes of pimple directly, so the library stays an
+implementation detail of this component.
+
+```php
+use ILIAS\DI\ServiceContainer;
+
+class MyComponentDIC extends ServiceContainer
+{
+    public function __construct()
+    {
+        parent::__construct();
+        $this['repository'] = static fn(ServiceContainer $c): Repository => new DBRepository();
+    }
+}
+```
+
+Code which expects the global `$DIC` types against `ILIAS\DI\Container`.

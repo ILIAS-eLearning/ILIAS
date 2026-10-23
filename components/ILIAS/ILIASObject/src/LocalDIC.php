@@ -33,10 +33,10 @@ use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\AvailabilityPeriod\Ca
 use ILIAS\ILIASObject\Properties\Aggregator;
 use ILIAS\ILIASObject\Properties\MultiPropertiesManipulator;
 use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
-use Pimple\Container as PimpleContainer;
+use ILIAS\DI\ServiceContainer;
 use ILIAS\DI\Container as ILIASContainer;
 
-class LocalDIC extends PimpleContainer
+class LocalDIC extends ServiceContainer
 {
     private static ?LocalDIC $dic = null;
 

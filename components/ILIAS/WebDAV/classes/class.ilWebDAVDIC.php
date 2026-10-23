@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use Pimple\Container;
+use ILIAS\DI\ServiceContainer as Container;
 use ILIAS\DI\Container as ILIASContainer;
 use ILIAS\WebDAV\Mount\Repository as MountRepository;
 use ILIAS\WebDAV\Mount\RepositoryDB as MountRepositoryDB;

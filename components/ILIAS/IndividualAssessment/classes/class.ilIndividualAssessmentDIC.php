@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Data;
-use Pimple\Container;
+use ILIAS\DI\ServiceContainer as Container;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
 trait ilIndividualAssessmentDIC
