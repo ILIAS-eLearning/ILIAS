@@ -22,7 +22,6 @@ namespace ILIAS\Test\ExportImport;
 
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Data\DateFormat\DateFormat;
-use PhpOffice\PhpSpreadsheet\Cell\DataType;
 
 /**
  * @author Fabian Helfer <fhelfer@databay.de>
@@ -130,7 +129,7 @@ class ResultsExportExcel implements Exporter
     }
 
     /**
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     * @throws \ILIAS\Excel\ExcelException
      */
     public function deliver(): void
     {

@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use ILIAS\Excel\CellType;
 
 class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
 {
@@ -50,7 +50,7 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
                 $col += 2;
             }
         } else {
-            $worksheet->setCell($row, $col, $value, DataType::TYPE_STRING);
+            $worksheet->setCell($row, $col, $value, CellType::STRING);
             $col++;
         }
     }
