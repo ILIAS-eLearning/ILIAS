@@ -26,6 +26,8 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use ILIAS\FileUpload\MimeType;
+use ILIAS\Excel\CellType;
+use ILIAS\Excel\ExcelException;
 
 /*
  * Wrapper for Microsoft Excel Import/Export (based on PHPSpreadsheet, formerPHPExcel which is deprecated)
@@ -63,7 +65,7 @@ class ilExcel
     protected string $type;
 
     /**
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws ExcelException
      */
     public function __construct()
     {
@@ -72,7 +74,24 @@ class ilExcel
         $this->lng = $DIC->language();
         $this->setFormat(self::FORMAT_XML);
         $this->workbook = new Spreadsheet();
-        $this->workbook->removeSheetByIndex(0);
+        $this->wrapped(fn() => $this->workbook->removeSheetByIndex(0));
+    }
+
+    /**
+     * Runs a call to the library and translates its exceptions, so they do not leave this wrapper.
+     *
+     * @template T
+     * @param callable(): T $call
+     * @return T
+     * @throws ExcelException
+     */
+    private function wrapped(callable $call): mixed
+    {
+        try {
+            return $call();
+        } catch (\PhpOffice\PhpSpreadsheet\Exception $e) {
+            throw new ExcelException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     //
@@ -81,10 +100,12 @@ class ilExcel
 
     /**
      * Loads a spreadsheet from file
+     *
+     * @throws ExcelException
      */
     public function loadFromFile(string $filename): void
     {
-        $this->workbook = IOFactory::load($filename);
+        $this->workbook = $this->wrapped(fn(): Spreadsheet => IOFactory::load($filename));
     }
 
     //
@@ -117,7 +138,7 @@ class ilExcel
     /**
      * Add sheet
      *
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws ExcelException
      */
     public function addSheet(
         string $a_name,
@@ -133,8 +154,7 @@ class ilExcel
         // see https://github.com/PHPOffice/PHPExcel/issues/79
         $a_name = ilStr::shortenTextExtended($a_name, 31);
 
-        $sheet = new Worksheet($this->workbook, $a_name);
-        $this->workbook->addSheet($sheet);
+        $this->wrapped(fn() => $this->workbook->addSheet(new Worksheet($this->workbook, $a_name)));
         $new_index = $this->workbook->getSheetCount() - 1;
 
         if ($a_activate) {
@@ -145,11 +165,11 @@ class ilExcel
     }
 
     /**
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws ExcelException
      */
     public function setActiveSheet(int $a_index): void
     {
-        $this->workbook->setActiveSheetIndex($a_index);
+        $this->wrapped(fn() => $this->workbook->setActiveSheetIndex($a_index));
     }
 
 
@@ -283,15 +303,18 @@ class ilExcel
      * @param int   $a_row
      * @param int   $col
      * @param mixed $value
-     * @param ?string  $datatype Explicit data type, see DataType::TYPE_*
+     * @param CellType|string|null $datatype Explicit data type; strings are deprecated, use {@see CellType}
      */
     public function setCell(
         int $a_row,
         int $col,
         $value,
-        ?string $datatype = null
+        CellType|string|null $datatype = null
     ): void {
         $coordinate = $this->getCoordByColumnAndRow($col, $a_row);
+        if ($datatype instanceof CellType) {
+            $datatype = $datatype->value;
+        }
 
         if ($datatype === DataType::TYPE_STRING) {
             $this->workbook->getActiveSheet()->setCellValueExplicit(
@@ -437,7 +460,7 @@ class ilExcel
 
     /**
      * Send workbook to client
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     * @throws ExcelException
      */
     public function sendToClient(string $a_file_name): void
     {
@@ -456,8 +479,7 @@ class ilExcel
         }
         $tmp_name = ilFileUtils::ilTempnam();
 
-        $writer = IOFactory::createWriter($this->workbook, $this->format);
-        $writer->save($tmp_name);
+        $this->wrapped(fn() => IOFactory::createWriter($this->workbook, $this->format)->save($tmp_name));
 
         ilFileDelivery::deliverFileAttached($tmp_name, $a_file_name, $a_mime_type, true);
     }
@@ -465,24 +487,22 @@ class ilExcel
     /**
      * Save workbook to file
      *
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     * @throws ExcelException
      */
     public function writeToFile(string $a_file): void
     {
         $a_file = $this->prepareStorage($a_file);
 
-        $writer = IOFactory::createWriter($this->workbook, $this->format);
-        $writer->save($a_file);
+        $this->wrapped(fn() => IOFactory::createWriter($this->workbook, $this->format)->save($a_file));
     }
 
     /**
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     * @throws ExcelException
      */
     public function writeToTmpFile(): string
     {
-        $writer = IOFactory::createWriter($this->workbook, $this->format);
         $filename = ilFileUtils::ilTempnam();
-        $writer->save($filename);
+        $this->wrapped(fn() => IOFactory::createWriter($this->workbook, $this->format)->save($filename));
 
         return $filename;
     }
@@ -560,7 +580,7 @@ class ilExcel
     }
 
     /**
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws ExcelException
      */
     public function addLink(
         int $a_row,
@@ -568,7 +588,9 @@ class ilExcel
         string $a_path
     ): void {
         $coordinate = $this->getCoordByColumnAndRow($a_column, $a_row);
-        $this->workbook->getActiveSheet()->getCell($coordinate)->getHyperlink()->setUrl($a_path);
+        $this->wrapped(
+            fn() => $this->workbook->getActiveSheet()->getCell($coordinate)->getHyperlink()->setUrl($a_path)
+        );
     }
 
     /**
@@ -582,11 +604,11 @@ class ilExcel
 
     /**
      * @param string $coordinatesRange A coordinates range string like 'A1:B5'
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws ExcelException
      */
     public function mergeCells(string $coordinatesRange): void
     {
-        $this->workbook->getActiveSheet()->mergeCells($coordinatesRange);
+        $this->wrapped(fn() => $this->workbook->getActiveSheet()->mergeCells($coordinatesRange));
     }
 
     private function cleanupNonCharachters(string $string): string
