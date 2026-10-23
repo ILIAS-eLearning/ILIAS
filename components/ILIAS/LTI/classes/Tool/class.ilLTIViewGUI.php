@@ -70,6 +70,8 @@ class ilLTIViewGUI implements ILIAS\LTI\View
 
     public function executeCommand(): void
     {
+        $this->lng->loadLanguageModule('lti');
+
         if ($this->navigation->getCommand() === self::CMD_EXIT) {
             $this->exit();
         }
