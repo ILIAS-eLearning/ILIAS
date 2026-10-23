@@ -49,7 +49,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
         $news_period = ilNewsItem::_lookupUserPDPeriod($this->user->getId());
         $collection = $this->domain->collection()->getNewsForUser(
             $this->user,
-            new NewsCriteria(period: $news_period, only_public: false),
+            new NewsCriteria(period: $news_period, only_public: false, no_auto_generated: true),
             true
         );
         $this->initData($collection->groupFiles()->groupForums(false));
