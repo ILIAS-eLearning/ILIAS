@@ -51,6 +51,17 @@ final class ilLTIViewGUITest extends TestCase
         $this->assertSame($active, $this->getView($user)->isActive());
     }
 
+    public function testCommandsLoadTheLanguageOfTheView(): void
+    {
+        $lng = $this->createMock(ILIAS\Language\Language::class);
+        $lng->expects($this->once())->method('loadLanguageModule')->with('lti');
+
+        $navigation = $this->createStub(Navigation::class);
+        $navigation->method('getCommand')->willReturn('');
+
+        $this->getView($this->createStub(CurrentUser::class), lng: $lng, navigation: $navigation)->executeCommand();
+    }
+
     public function testExitPageIsShownWithoutNavigation(): void
     {
         $screen_context = $this->createMock(ScreenContext::class);
@@ -84,6 +95,8 @@ final class ilLTIViewGUITest extends TestCase
         ?ScreenContext $screen_context = null,
         ?ILIAS\UICore\GlobalTemplate $tpl = null,
         ?ILIAS\UI\Renderer $renderer = null,
+        ?ILIAS\Language\Language $lng = null,
+        ?Navigation $navigation = null,
     ): ilLTIViewGUI {
         return new ilLTIViewGUI(
             $this->createStub(ILIAS\HTTP\GlobalHttpState::class),
@@ -91,9 +104,9 @@ final class ilLTIViewGUITest extends TestCase
             $this->createStub(ILIAS\UI\Factory::class),
             $renderer ?? $this->createStub(ILIAS\UI\Renderer::class),
             $tpl ?? $this->createStub(ILIAS\UICore\GlobalTemplate::class),
-            $this->createStub(ILIAS\Language\Language::class),
+            $lng ?? $this->createStub(ILIAS\Language\Language::class),
             $user,
-            $this->createStub(Navigation::class),
+            $navigation ?? $this->createStub(Navigation::class),
             $screen_context ?? $this->createStub(ScreenContext::class),
             $this->createStub(AuthSession::class),
         );
