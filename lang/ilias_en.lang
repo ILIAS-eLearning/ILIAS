@@ -674,7 +674,7 @@ assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring
 assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.
 assessment#:#eval_all_users#:#Evaluation for All Users
 assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.
-assessment#:#evaluated_users#:#Evaluated Users
+assessment#:#evaluated_users#:#Show only users set to 'Scoring Finalised'
 assessment#:#exam_id#:#Test ID:
 assessment#:#exam_id_label#:#Test ID
 assessment#:#exam_id_of_attempt#:#ID of Attempt
@@ -727,7 +727,7 @@ assessment#:#filter_show_questionpools#:#Show Question Pools
 assessment#:#final_statement#:#Concluding Remarks
 assessment#:#final_statement_show_desc#:#Show concluding remarks after the test has been submitted. It is not possible to return to the test from this page. Concluding remarks can be edited in the ‘Settings’ subtab ‘Edit Concluding Remarks’.
 assessment#:#finalized_by#:#Completed by
-assessment#:#finalized_evaluation#:#Scoring Completed
+assessment#:#finalized_evaluation#:#Scoring Finalised
 assessment#:#finalized_on#:#Completed at
 assessment#:#finish_all_user_passes#:#Finish all Test Attempts
 assessment#:#finish_pass_for_all_users#:#Are you sure you want to finish the test attempts for all users?
@@ -894,6 +894,8 @@ assessment#:#mainbar_button_label_questionlist#:#Question List
 assessment#:#maintenance#:#Maintenance
 assessment#:#manscoring#:#Scoring
 assessment#:#manscoring_done#:#Scored Participants
+assessment#:#manscoring_finalized#:#The user's status has been set to 'Scoring Finalised'.
+assessment#:#manscoring_finalized_removed#:#The user's 'Scoring Finalised' status has been removed.
 assessment#:#manscoring_hint#:#You have added at least one question which may require manual scoring. To avoid participants getting access to the test results before you have finished manual scoring, please set a suitable date before which the results cannot be accessed.
 assessment#:#manscoring_none#:#Unscored Participants
 assessment#:#manscoring_not_allowed#:#The Scoring wasn‘t activated for a question type. You are not allowed to use this tab.
@@ -949,7 +951,7 @@ assessment#:#no_selection_for_move#:#No question selected for moving
 assessment#:#no_target_selected_for_move#:#You must select a target position!
 assessment#:#no_user_or_group_selected#:#Please check an option what are you searching for (users, groups, roles)!
 assessment#:#no_valid_participant_selection#:#No valid Participants selected.
-assessment#:#not_evaluated_users#:#Not Yet Evaluated User
+assessment#:#not_evaluated_users#:#Hide users set to 'Scoring Finalised'
 assessment#:#not_started#:#Not started yet
 assessment#:#not_yet_accessed#:#Not yet accessed
 assessment#:#nr_of_correct_answers#:#Number of Requested Answers
@@ -1265,8 +1267,8 @@ assessment#:#selected_category#:#Selected Category: %s
 assessment#:#selection#:#Selection
 assessment#:#set_edit_mode#:#Set Edit Mode
 assessment#:#set_filter#:#Set Filter
-assessment#:#set_manscoring_done#:#Mark as ‘Scored Participant’
-assessment#:#set_manscoring_open#:#Remove 'scoring complete' flag
+assessment#:#set_manscoring_done#:#Set User to 'Scoring Finalised'
+assessment#:#set_manscoring_open#:#Remove 'Scoring Finalised' Status
 assessment#:#set_manual_feedback#:#Manual Feedback
 assessment#:#shape#:#Shape
 assessment#:#showSuggestedSolution#:#Type
@@ -1587,11 +1589,12 @@ assessment#:#tst_man_scoring_answered_hide#:#Hide answered questions
 assessment#:#tst_man_scoring_answered_only#:#Show only answered questions
 assessment#:#tst_man_scoring_by_part#:#Scoring by Participant
 assessment#:#tst_man_scoring_by_qst#:#Scoring by Question
-assessment#:#tst_man_scoring_finalized#:#Show finalized gradings
-assessment#:#tst_man_scoring_finalized_hide#:#Hide finalized gradings
-assessment#:#tst_man_scoring_finalized_only#:#Show only finalized gradings
-assessment#:#tst_man_scoring_only_answered#:#Only answered
+assessment#:#tst_man_scoring_finalized#:#Questions Scored
+assessment#:#tst_man_scoring_finalized_hide#:#Hide 'Scoring Finalised' questions
+assessment#:#tst_man_scoring_finalized_only#:#Show only 'Scoring Finalised' questions
+assessment#:#tst_man_scoring_only_answered#:#Answered / Unanswered
 assessment#:#tst_man_scoring_questionselection#:#Questions
+assessment#:#tst_man_scoring_users_scored#:#Users Scored
 assessment#:#tst_man_scoring_userselection#:#Participants
 assessment#:#tst_manage_competence_assigns#:#Manage Competence Assignments
 assessment#:#tst_manage_competence_select_skills#:#Select Competences
@@ -1996,7 +1999,7 @@ assessment#:#use_previous_solution_advice#:#The solution shown is your solution 
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.
 assessment#:#user_ip_outside_range#:#You are not allowed to start the test from this IP address.
 assessment#:#user_not_invited#:#You are not supposed to take this test.
-assessment#:#usr_manscoring_complete#:#Marked as 'scored'
+assessment#:#usr_manscoring_complete#:#Scoring Finalised
 assessment#:#value_between_x_and_y#:#The value should be between %s and %s
 assessment#:#values#:#Values
 assessment#:#variable#:#Variable

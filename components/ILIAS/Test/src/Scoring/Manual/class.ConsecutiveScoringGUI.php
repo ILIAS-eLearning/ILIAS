@@ -317,7 +317,7 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
                 ]
             )->withValue(null),
             self::FILTER_USER_FINAL => $this->ui_factory->input()->field()->select(
-                $this->lng->txt('finalized_evaluation'),
+                $this->lng->txt('tst_man_scoring_users_scored'),
                 [
                     self::FILTER_ONLY => $this->lng->txt('evaluated_users'),
                     self::FILTER_HIDE => $this->lng->txt('not_evaluated_users')
