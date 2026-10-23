@@ -1,0 +1,953 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: lti\n"
+
+msgid "act_lti_for_obj_type"
+msgstr "Attiva LTI per tipo di oggetto"
+
+msgid "activity_id"
+msgstr "ID attività"
+
+msgid "activity_id_info"
+msgstr "Questo ID attività viene utilizzato dallo strumento LTI per identificare gli statements."
+
+msgid "auth_lti"
+msgstr "Auth LTI"
+
+#, fuzzy
+msgid "conf_privacy_ident"
+msgstr "User identification"
+
+#, fuzzy
+msgid "conf_privacy_ident_il_uuid_SHA256"
+msgstr "Hash combined with a unique ILIAS platform id formatted as an E-Mail address"
+
+#, fuzzy
+msgid "conf_privacy_ident_il_uuid_SHA256_info"
+msgstr "This is identical to each call, but does not permit any direct conclusions about the ILIAS user."
+
+#, fuzzy
+msgid "conf_privacy_ident_il_uuid_ext_account"
+msgstr "External User ID combined with a unique ILIAS platform id formatted as an E-Mail address"
+
+#, fuzzy
+msgid "conf_privacy_ident_il_uuid_ext_account_info"
+msgstr "This is identical to each call, but may allow a direct conclusion about the user."
+
+#, fuzzy
+msgid "conf_privacy_ident_il_uuid_login"
+msgstr "ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail address"
+
+#, fuzzy
+msgid "conf_privacy_ident_il_uuid_login_info"
+msgstr "Sends the login name. This is identical to each call, but may allow a direct conclusion about the ILIAS user."
+
+#, fuzzy
+msgid "conf_privacy_ident_il_uuid_random"
+msgstr "Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address"
+
+#, fuzzy
+msgid "conf_privacy_ident_il_uuid_random_info"
+msgstr "For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects."
+
+#, fuzzy
+msgid "conf_privacy_ident_il_uuid_sha256url"
+msgstr "Hash combined with the ILIAS Domain formatted as an E-Mail address."
+
+#, fuzzy
+msgid "conf_privacy_ident_il_uuid_sha256url_info"
+msgstr "This is identical to each call, with with a maximum of 80 characters significantly shorter than the variant with the ILIAS platform ID and allows only very limited conclusions about the ILIAS user."
+
+#, fuzzy
+msgid "conf_privacy_ident_il_uuid_user_id"
+msgstr "ILIAS user id combined with a unique ILIAS platform id formatted as an E-Mail address"
+
+#, fuzzy
+msgid "conf_privacy_ident_il_uuid_user_id_info"
+msgstr "Sends the internal numeric user id. This is identical to each call, but may allow conclusions about the ILIAS user."
+
+#, fuzzy
+msgid "conf_privacy_ident_info"
+msgstr "Standard is frequently the email address. The unique ILIAS platform id is:"
+
+#, fuzzy
+msgid "conf_privacy_ident_real_email"
+msgstr "E-Mail Address"
+
+#, fuzzy
+msgid "conf_privacy_ident_real_email_info"
+msgstr "Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)"
+
+#, fuzzy
+msgid "conf_privacy_name"
+msgstr "User name"
+
+#, fuzzy
+msgid "conf_privacy_name_firstname"
+msgstr "First name"
+
+#, fuzzy
+msgid "conf_privacy_name_firstname_info"
+msgstr "Sends the first name of the user name from ILIAS"
+
+#, fuzzy
+msgid "conf_privacy_name_fullname"
+msgstr "Entire name"
+
+#, fuzzy
+msgid "conf_privacy_name_fullname_info"
+msgstr "Sends title, first name and last name"
+
+#, fuzzy
+msgid "conf_privacy_name_info"
+msgstr "Sending an user name is usually not required."
+
+#, fuzzy
+msgid "conf_privacy_name_lastname"
+msgstr "Title and last name"
+
+#, fuzzy
+msgid "conf_privacy_name_lastname_info"
+msgstr "Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name"
+
+#, fuzzy
+msgid "conf_privacy_name_none"
+msgstr "No one"
+
+#, fuzzy
+msgid "conf_privacy_name_none_info"
+msgstr "Sends '-' instead of a name"
+
+#, fuzzy
+msgid "conf_user_name"
+msgstr "User name"
+
+msgid "consumers"
+msgstr "Consumatori"
+
+msgid "description_info"
+msgstr "La descrizione verrà mostrata sotto il titolo."
+
+msgid "gbl_roles_to_users"
+msgstr "Ruolo globale assegnato agli utenti LTI"
+
+msgid "global_provider_subtab"
+msgstr "Fornitori globali per tutti gli utenti"
+
+#, fuzzy
+msgid "grade_activity_progress_all"
+msgstr "All Information on Activity Progress"
+
+#, fuzzy
+msgid "grade_activity_progress_completed"
+msgstr "Completed"
+
+#, fuzzy
+msgid "grade_activity_progress_initialized"
+msgstr "Initialized"
+
+#, fuzzy
+msgid "grade_activity_progress_inprogress"
+msgstr "In Progress"
+
+#, fuzzy
+msgid "grade_activity_progress_started"
+msgstr "Started"
+
+#, fuzzy
+msgid "grade_activity_progress_submitted"
+msgstr "Submitted"
+
+#, fuzzy
+msgid "grade_grading_progress_all"
+msgstr "All Information on Grading Progress"
+
+#, fuzzy
+msgid "grade_grading_progress_failed"
+msgstr "The Grading could not complete (Failed)"
+
+#, fuzzy
+msgid "grade_grading_progress_fullygraded"
+msgstr "The Grading Process is completed"
+
+#, fuzzy
+msgid "grade_grading_progress_notready"
+msgstr "No Grading Process is occurring (NotReady)"
+
+#, fuzzy
+msgid "grade_grading_progress_pending"
+msgstr "Final Grade is pending"
+
+#, fuzzy
+msgid "grade_grading_progress_pendingmanual"
+msgstr "Final Grade is pending; requires Human Intervention"
+
+msgid "highscore_achieved_ts"
+msgstr "Data"
+
+msgid "highscore_achieved_ts_description"
+msgstr "Una colonna contenente la data sarà inclusa nella classifica."
+
+msgid "highscore_all_tables"
+msgstr "Classifica personale e Migliori risultati"
+
+msgid "highscore_all_tables_description"
+msgstr "I partecipanti visualizzano la classifica dei migliori risultati e la propria posizione nella classifica."
+
+msgid "highscore_description"
+msgstr "I nomi degli utenti che possono essere visualizzati se 'Visualizza progressi didattici degli altri utenti' è impostata."
+
+msgid "highscore_enabled"
+msgstr "Classifica"
+
+msgid "highscore_mode"
+msgstr "Modalità"
+
+msgid "highscore_own_table"
+msgstr "Classifica personale"
+
+msgid "highscore_own_table_description"
+msgstr "I partecipanti visualizzano la propria posizione nella classifica."
+
+msgid "highscore_percentage"
+msgstr "Percentuale"
+
+msgid "highscore_percentage_description"
+msgstr "Una colonna contenente il punteggio come percentuale sarà inclusa nella classifica."
+
+msgid "highscore_score"
+msgstr "Punteggio"
+
+msgid "highscore_top_num"
+msgstr "Numero di voci dei migliori risultati"
+
+msgid "highscore_top_num_description"
+msgstr "Specifica quanti punteggi devono essere inclusi nella classifica dei migliori risultati."
+
+msgid "highscore_top_num_unit"
+msgstr "voci"
+
+msgid "highscore_top_table"
+msgstr "Classifica dei migliori risultati"
+
+msgid "highscore_top_table_description"
+msgstr "Ai partecipanti sarà mostrata una tabella contenente la classifica dei migliori risultati."
+
+msgid "highscore_wtime"
+msgstr "Durata"
+
+msgid "highscore_wtime_description"
+msgstr "Una colonna contenente la durata sarà inclusa nella classifica."
+
+msgid "launch_method"
+msgstr "Opzioni di avvio"
+
+msgid "launch_method_embedded"
+msgstr "Contenuto integrato"
+
+msgid "launch_method_embedded_info"
+msgstr "Il contenuto viene aperto nel contesto ILIAS. Viene presentato come contenuto integrato nella tab \"Contenuti\""
+
+msgid "launch_method_new_win"
+msgstr "Nuova finestra"
+
+msgid "launch_method_new_win_info"
+msgstr "Il contenuto si apre in una nuova finestra. Quando si abbandona il contenuto, la finestra viene chiusa."
+
+msgid "launch_method_own_win"
+msgstr "Propria finestra"
+
+msgid "launch_method_own_win_info"
+msgstr "Il contenuto viene aperto nella stessa finestra e rimpiazza la schermata di ILIAS. Quando viene abbandonato il contenuto si ritornerà alla schermata ILIAS."
+
+msgid "launched"
+msgstr "La risorsa è stata già avviata."
+
+msgid "learning_progress_options"
+msgstr "Opzioni per i progressi didattici"
+
+#, fuzzy
+msgid "lti13_hints"
+msgstr "Hints"
+
+#, fuzzy
+msgid "lti_13_authentication_url"
+msgstr "Authentication Request URL"
+
+#, fuzzy
+msgid "lti_13_client_id"
+msgstr "Client-ID"
+
+#, fuzzy
+msgid "lti_13_deployment_id"
+msgstr "Deployment-ID"
+
+#, fuzzy
+msgid "lti_13_keyset_url"
+msgstr "Public Keyset URL"
+
+#, fuzzy
+msgid "lti_13_platform_id"
+msgstr "Platform-ID"
+
+#, fuzzy
+msgid "lti_13_token_url"
+msgstr "Access Token URL"
+
+#, fuzzy
+msgid "lti_1p1_deprecated_info"
+msgstr "LTI 1.1 is deprecated: 1EdTech ended all support for it on 30 June 2022 and it will be removed from ILIAS in a future version. Please use LTI 1.3 (LTI Advantage) whenever the other system supports it."
+
+#, fuzzy
+msgid "lti_1p1_deprecated_link"
+msgstr "1EdTech: Security Update and Deprecation Schedule for Early Versions of LTI"
+
+msgid "lti_action_accept_provider_as_global"
+msgstr "Accetta fornitori come globali per tutti gli utenti"
+
+msgid "lti_action_reset_provider_to_user_scope"
+msgstr "Resetta il fornitore come fornitore definito dall'utente"
+
+msgid "lti_add_global_provider"
+msgstr "Aggiungi fornitore globale per tutti gli utenti"
+
+msgid "lti_add_own_provider"
+msgstr "Aggiungi strumento personale (non per tutti gli utenti)"
+
+msgid "lti_admin"
+msgstr "Amministratore LTI"
+
+#, fuzzy
+msgid "lti_at_least_one_not_acceptable_as_global"
+msgstr "At least one of the selected tools cannot be accepted as global tool, because it has no creator or is already global."
+
+#, fuzzy
+msgid "lti_at_least_one_not_resetable_to_usr_def"
+msgstr "At least one of the selected tools cannot be reset to user defined tool, because it has no creator or is already user defined."
+
+msgid "lti_at_least_one_prov_has_usages"
+msgstr "Almeno uno dei provider non può essere cancellato perchè sono utilizzati (potrebbero essere nel cestino)"
+
+msgid "lti_auth_failed_invalid_key"
+msgstr "Autenticazione fallita, nessuna chiave del consumatore valida fornita."
+
+#, fuzzy
+msgid "lti_con_content_item"
+msgstr "Support for Deep Linking"
+
+#, fuzzy
+msgid "lti_con_content_item_url"
+msgstr "Content URL"
+
+#, fuzzy
+msgid "lti_con_grade_synchronization"
+msgstr "Assignment and Grade Services"
+
+#, fuzzy
+msgid "lti_con_grade_synchronization_info"
+msgstr "Lo strumento LTI deve offrire 'Assignment and Grade Services'."
+
+#, fuzzy
+msgid "lti_con_initiate_login_url"
+msgstr "Initiate Login URL"
+
+#, fuzzy
+msgid "lti_con_key_type"
+msgstr "Public Key Type"
+
+#, fuzzy
+msgid "lti_con_key_type_jwk"
+msgstr "URL (Json Web Token)"
+
+#, fuzzy
+msgid "lti_con_key_type_jwk_url"
+msgstr "URL"
+
+#, fuzzy
+msgid "lti_con_key_type_rsa"
+msgstr "RSA-Key"
+
+#, fuzzy
+msgid "lti_con_key_type_rsa_public_key"
+msgstr "Public Key"
+
+#, fuzzy
+msgid "lti_con_key_type_rsa_public_key_info"
+msgstr "Insert the key provided by the tool (provider) in PEM format here."
+
+#, fuzzy
+msgid "lti_con_names_roles"
+msgstr "Names and Role Provisioning Services"
+
+#, fuzzy
+msgid "lti_con_names_roles_info"
+msgstr "The tool may read the members of the course or group of its objects and their roles, as far as the privacy settings of the tool allow."
+
+msgid "lti_con_prov_always_learner"
+msgstr "L'utente LTI è sempre il Learner"
+
+msgid "lti_con_prov_always_learner_info"
+msgstr "Di solito il ruolo in ILIAS è mappato a un ruolo LTI. Gli amministratori del corso possono ottenere più diritti (esempio: manipolazione degli oggetti). Attiva questa opzione per evitare il mapping dei ruoli."
+
+msgid "lti_con_prov_authentication"
+msgstr "Autenticazione"
+
+msgid "lti_con_prov_availability"
+msgstr "Disponibilità"
+
+msgid "lti_con_prov_availability_create"
+msgstr "Per la creazione di Oggetti"
+
+msgid "lti_con_prov_availability_existing"
+msgstr "Solo per Oggetti esistenti"
+
+msgid "lti_con_prov_availability_non"
+msgstr "Non disponibile"
+
+msgid "lti_con_prov_category"
+msgstr "Categoria"
+
+msgid "lti_con_prov_category_info"
+msgstr "Categoria da cui filtrare quando l'oggetto viene creato"
+
+msgid "lti_con_prov_custom_params"
+msgstr "Parametri personalizzati per questo fornitore"
+
+msgid "lti_con_prov_custom_params_info"
+msgstr "Per favore inseriscili con il formato: param1=value1; param2=value2"
+
+msgid "lti_con_prov_description"
+msgstr "Descrizione"
+
+#, fuzzy
+msgid "lti_con_prov_dyn_reg_params"
+msgstr "Optional Parameters"
+
+#, fuzzy
+msgid "lti_con_prov_dyn_reg_params_info"
+msgstr "Here, for example, references to target objects in the tool can be specified."
+
+#, fuzzy
+msgid "lti_con_prov_dyn_reg_url"
+msgstr "Registration URL of the Tool"
+
+#, fuzzy
+msgid "lti_con_prov_dyn_reg_url_info"
+msgstr "Note: Not every tool supports dynamic registration."
+
+msgid "lti_con_prov_external_provider"
+msgstr "Fornitore esterno"
+
+msgid "lti_con_prov_external_provider_info"
+msgstr "Un suggerimento che verrà mostrato a tutti gli utenti che stanno lavorando con un fornitore esterno. Un fornitore esterno è caratterizzato da una insufficiente gestione del fornitore da parte del gestore della piattaforma ILIAS.<br />Questo è il caso in cui non ci sono diritti da rimuovere."
+
+msgid "lti_con_prov_group_options"
+msgstr "Opzione per raggruppare e filtrare i fornitori"
+
+msgid "lti_con_prov_has_outcome_service"
+msgstr "Il fornitore supporta l'esito"
+
+msgid "lti_con_prov_has_outcome_service_info"
+msgstr "Se il protocollo LTI dell'esito è supportato, l'avanzamento del progresso può essere attivato.<br />Il fornitore produrrà un valore tra 0 e 1 per indicare il progresso."
+
+msgid "lti_con_prov_hints"
+msgstr "Suggerimenti"
+
+msgid "lti_con_prov_inc_usr_pic"
+msgstr "Invia immagine utente"
+
+msgid "lti_con_prov_inc_usr_pic_info"
+msgstr "I link alle Immagini utente ILIAS sono incluse all'avvio del'oggetto consumatore LTI."
+
+#, fuzzy
+msgid "lti_con_prov_instructor_email"
+msgstr "Instructor E-Mail"
+
+#, fuzzy
+msgid "lti_con_prov_instructor_email_info"
+msgstr "In difference to the previously selected settings, the e-mail address can be transferred for instructors. To do this, they must be course or group administrators."
+
+#, fuzzy
+msgid "lti_con_prov_instructor_name"
+msgstr "Instructor Name"
+
+#, fuzzy
+msgid "lti_con_prov_instructor_name_info"
+msgstr "In difference to the previously selected settings, the name can be transferred for instructors."
+
+msgid "lti_con_prov_key"
+msgstr "Chiave"
+
+msgid "lti_con_prov_keywords"
+msgstr "Parole chiave"
+
+msgid "lti_con_prov_keywords_info"
+msgstr "Le parole chiave devono essere separate da un punto e virgola (;). Le parole chiave vengono automaticamente trasformate in Metadati."
+
+msgid "lti_con_prov_launch_options"
+msgstr "Opzioni di avvio"
+
+msgid "lti_con_prov_learning_progress_options"
+msgstr "Opzioni per l'avanzamento del progresso"
+
+msgid "lti_con_prov_mastery_score_default"
+msgstr "Soglia di punteggio predefinita"
+
+msgid "lti_con_prov_mastery_score_default_info"
+msgstr "Il progresso dell'apprendimento sarà valutato dal servizio di esito del fornitore e dal punteggio di soglia."
+
+msgid "lti_con_prov_privacy_settings"
+msgstr "Opzioni di privacy"
+
+msgid "lti_con_prov_provider_key_global"
+msgstr "Chiave e segreto predefiniti"
+
+msgid "lti_con_prov_provider_key_global_info"
+msgstr "Se non impostata, gli utenti dovranno impostare la chiave e il segreto per utilizzare il fornitore."
+
+msgid "lti_con_prov_remarks"
+msgstr "Note interne"
+
+msgid "lti_con_prov_secret"
+msgstr "Segreto"
+
+msgid "lti_con_prov_title"
+msgstr "Titolo"
+
+msgid "lti_con_prov_url"
+msgstr "URL del fornitore"
+
+msgid "lti_con_prov_use_provider_id"
+msgstr "Utilizza ID del fornitore"
+
+msgid "lti_con_prov_use_provider_id_info"
+msgstr "Solitamente il Ref-Id del consumatore LTI è inviato al fornitore. Alcuni fornitori mappano questo Ref-Id con la risorsa del fornitore. Per ottenere la stessa risorsa da questi fornitori questa opzione deve essere attivata."
+
+msgid "lti_con_prov_use_xapi"
+msgstr "Il fornitore supporta la richiesta di statements xAPI"
+
+msgid "lti_con_prov_use_xapi_info"
+msgstr "Il fornitore supporta gli statements xAPI"
+
+msgid "lti_con_prov_xapi_activity_id"
+msgstr "ID Attività"
+
+msgid "lti_con_prov_xapi_activity_id_info"
+msgstr "L'ID Attività è necessario per richiedere dati dal Learning Record Store. Compila questo campo solo se l'assegnazione della risorsa del fornitore all'ID Attività è unica! Se viene lasciato vuoto, l'ID Attività può essere inserito dal consumatore LTI. L'ID attività può essere richiesto dal fornitore LTI."
+
+msgid "lti_con_prov_xapi_launch_key"
+msgstr "Chiave dell'Endpoint LRS"
+
+msgid "lti_con_prov_xapi_launch_secret"
+msgstr "Segreto dell'Endpoint LRS"
+
+msgid "lti_con_prov_xapi_launch_url"
+msgstr "URL dell'Endpoint LRS"
+
+msgid "lti_con_prov_xapi_launch_url_info"
+msgstr "Per favore inserisci l'URL completo con https://"
+
+#, fuzzy
+msgid "lti_con_redirection_uris"
+msgstr "Redirection URI"
+
+#, fuzzy
+msgid "lti_con_tool_url"
+msgstr "Launch URL"
+
+#, fuzzy
+msgid "lti_con_version"
+msgstr "LTI Version"
+
+#, fuzzy
+msgid "lti_con_version_1.3"
+msgstr "Version 1.3"
+
+#, fuzzy
+msgid "lti_con_version_1.3_before_id"
+msgstr "If dynamic registration is not used, after entering the data provided by the tool, additional data will appear that must be entered with the tool."
+
+msgid "lti_confirm_delete_providers"
+msgstr "Sei sicuro di voler eliminare i seguenti fornitori?"
+
+msgid "lti_consumer"
+msgstr "Approvazione per"
+
+msgid "lti_consumer_created"
+msgstr "Consumatore creato"
+
+msgid "lti_consumer_deleted"
+msgstr "Consumatore eliminato"
+
+msgid "lti_consumer_set_active"
+msgstr "Consumatore attivato"
+
+msgid "lti_consumer_set_inactive"
+msgstr "Consumatore disattivato"
+
+msgid "lti_consumer_updated"
+msgstr "Consumatore aggiornato"
+
+msgid "lti_consuming_tab"
+msgstr "ILIAS come Consumatore LTI"
+
+msgid "lti_create_consumer"
+msgstr "Crea consumatore"
+
+msgid "lti_create_lti_user_role"
+msgstr "Crea un ruolo globale raccomandato per gli utenti LTI"
+
+# 06 10 2026 changed variable
+msgid "lti_cron_title"
+msgstr "LTI Grade Service"
+
+# 06 10 2026 changed variable
+msgid "lti_cron_title_desc"
+msgstr "Sends the learning progress of LTI users that changed since the last run to their platform again, so that a score the platform could not take at the time, e.g. because it was not reachable, still reaches it. Scores the platform has already are not sent again."
+
+msgid "lti_custom_new"
+msgstr "Crea impostazioni dello strumento personale"
+
+#, fuzzy
+msgid "lti_deep_linking_expired"
+msgstr "This selection has expired. Start the content selection in the platform again."
+
+#, fuzzy
+msgid "lti_deep_linking_failed"
+msgstr "The content selected in the tool could not be added. Please try again."
+
+#, fuzzy
+msgid "lti_deep_linking_no_content"
+msgstr "The tool did not send any content that can be added as an LTI object."
+
+#, fuzzy
+msgid "lti_deep_linking_running"
+msgstr "Select the content in the tool. An object is created for each content item the tool sends back."
+
+#, fuzzy
+msgid "lti_deep_linking_select"
+msgstr "Select Content"
+
+#, fuzzy
+msgid "lti_deep_linking_select_info"
+msgstr "Select the ILIAS objects to add to the platform."
+
+#, fuzzy
+msgid "lti_deep_linking_submit"
+msgstr "Add"
+
+#, fuzzy
+msgid "lti_deep_linking_url"
+msgstr "Deep Linking URL"
+
+msgid "lti_delete_provider"
+msgstr "Elimina fornitore"
+
+#, fuzzy
+msgid "lti_dyn_reg_failed"
+msgstr "The tool could not be registered. Check the registration URL and try again."
+
+#, fuzzy
+msgid "lti_dyn_reg_finish"
+msgstr "Finish Registration"
+
+#, fuzzy
+msgid "lti_dyn_reg_running"
+msgstr "Complete the registration in the tool below. The object is created as soon as the tool reports that it is done. If the tool does not report it, click “Finish Registration” once you are done."
+
+#, fuzzy
+msgid "lti_dyn_reg_tool_done"
+msgstr "ILIAS has been registered with the platform."
+
+#, fuzzy
+msgid "lti_dyn_reg_tool_failed"
+msgstr "ILIAS could not be registered with the platform."
+
+#, fuzzy
+msgid "lti_dyn_reg_tool_url"
+msgstr "Dynamic Registration URL"
+
+#, fuzzy
+msgid "lti_dyn_reg_tool_url_after_save"
+msgstr "Save the platform to get a URL for LTI Advantage Dynamic Registration."
+
+#, fuzzy
+msgid "lti_dyn_reg_tool_url_info"
+msgstr "Enter this URL in the platform to register ILIAS through LTI Advantage Dynamic Registration. It is valid for 24 hours and for one registration. Each time this form opens, it shows a new URL."
+
+#. 04 12 2025
+msgid "lti_dynamic_registration"
+msgstr "Create Own Settings for Tool with Dynamic Registration (LTI 1.3)"
+
+msgid "lti_edit_consumer"
+msgstr "Modifica consumatore LTI"
+
+msgid "lti_exit"
+msgstr "Chiudi sessione LTI"
+
+msgid "lti_exited"
+msgstr "Sessione LTI chiusa"
+
+msgid "lti_exited_info"
+msgstr "Sessione LTI chiusa con successo"
+
+msgid "lti_form_provider_create"
+msgstr "Impostazioni di creazione fornitore"
+
+msgid "lti_form_provider_edit"
+msgstr "Modifica impostazioni del fornitore"
+
+msgid "lti_form_section_appearance"
+msgstr "Opzioni di avvio"
+
+msgid "lti_info_external_provider_info"
+msgstr "Lo strumento utilizzato è uno strumento esterno. Uno strumento esterno è caratterizzato da una scarsa influenza sullo strumento da parte di ILIAS. Questo è il caso se non ci sono ad esempio i permessi di cancellare i dati."
+
+msgid "lti_info_external_provider_label"
+msgstr "Informazioni aggiuntive su questo strumento"
+
+msgid "lti_info_learning_progress_section"
+msgstr "Informazioni sulla determinazione dei progressi didattici"
+
+msgid "lti_info_privacy_section"
+msgstr "Informazioni sui dati personali trasmessi all'avvio al fornitore"
+
+msgid "lti_launch_url"
+msgstr "Url"
+
+msgid "lti_member"
+msgstr "Membro LTI"
+
+msgid "lti_no_provider_selected"
+msgstr "Nessun fornitore selezionato"
+
+msgid "lti_object_consumer"
+msgstr "Consumatori LTI"
+
+msgid "lti_object_release_settings_form"
+msgstr "Modifica versioni LTI"
+
+#, fuzzy
+msgid "lti_platform_names_roles_info"
+msgstr "When an instructor or administrator of the platform launches an object, ILIAS reads the members of the course at the platform. Members without an account get one with the roles of the release, also those who never launch ILIAS."
+
+#, fuzzy
+msgid "lti_platform_registration"
+msgstr "LTI Advantage Registration"
+
+#, fuzzy
+msgid "lti_platform_registration_incomplete"
+msgstr "Fill in all fields of the registration or leave them all empty."
+
+#, fuzzy
+msgid "lti_platform_registration_info"
+msgstr "Filled in when the platform registers ILIAS through Dynamic Registration. Otherwise, enter the data the platform gives for ILIAS."
+
+#, fuzzy
+msgid "lti_platform_registration_taken"
+msgstr "Another platform is already registered with this platform ID, client ID and deployment ID."
+
+msgid "lti_provider"
+msgstr "Versioni LTI"
+
+msgid "lti_provider_not_avail_msg"
+msgstr "Lo strumento è impostato come 'Non disponibile'"
+
+#, fuzzy
+msgid "lti_provider_not_set_msg"
+msgstr "La configurazione dello strumento LTI non è completa."
+
+msgid "lti_providing_tab"
+msgstr "ILIAS come fornitore LTI"
+
+msgid "lti_released_objects"
+msgstr "Versioni degli Oggetti"
+
+msgid "lti_select_provider"
+msgstr "Seleziona uno strumento"
+
+msgid "lti_settings"
+msgstr "Impostazioni LTI"
+
+msgid "lti_settings_form"
+msgstr "Impostazioni oggetto"
+
+msgid "lti_success_accept_as_global"
+msgstr "Accettato con successo come fornitore globale per tutti gli utenti"
+
+msgid "lti_success_delete_provider"
+msgstr "Eliminato correttamente"
+
+msgid "lti_success_reset_to_usr_def"
+msgstr "Reimpostato con successo come fornitore definito dall'utente"
+
+msgid "lti_tutor"
+msgstr "Istruttore LTI"
+
+msgid "lti_user_role_created"
+msgstr "Il ruolo globale raccomandato per gli utenti LTI è stato creato."
+
+msgid "lti_user_role_info"
+msgstr "Il ruolo globale raccomandato per gli utenti LTI non è ancora stato creato in questa installazione. Questo ruolo globale speciale contiene solo il permesso 'lettura' per il repository e per le categorie."
+
+#, fuzzy
+msgid "lti_version_1p1_deprecated"
+msgstr "LTI 1.1 (Deprecated)"
+
+#, fuzzy
+msgid "lti_version_advantage"
+msgstr "LTI 1.3 (LTI Advantage)"
+
+msgid "mastery_score"
+msgstr "Punteggio di padronanza"
+
+msgid "mastery_score_info"
+msgstr "Il progresso dell'apprendimento sarà valutato in base al servizio di risultato dello strumento e alla soglia del punteggio di padronanza."
+
+msgid "obj_tile_image_info"
+msgstr "Utilizzare un'immagine quadrata"
+
+msgid "online_info"
+msgstr "Questo rende l'oggetto visibile e utilizzabile per gli utenti."
+
+msgid "prefix"
+msgstr "Prefisso"
+
+msgid "provider_info"
+msgstr "Strumento utilizzato"
+
+msgid "settings_subtab"
+msgstr "Impostazioni"
+
+msgid "show_statements"
+msgstr "Mostra esperienze di apprendimento"
+
+msgid "show_statements_info"
+msgstr "Le esperienze di apprendimento di altri utenti potrebbero essere visualizzate se è impostata correttamente \"Visualizza esperienze di apprendimento di altri utenti\"."
+
+msgid "subtab_object_settings"
+msgstr "Impostazioni oggetto"
+
+msgid "subtab_provider_settings"
+msgstr "Impostazioni strumento LTI"
+
+msgid "tab_content"
+msgstr "Contenuto"
+
+msgid "tab_grade_synchronization"
+msgstr "Gradebook"
+
+msgid "tab_info"
+msgstr "Info"
+
+msgid "tab_scoring"
+msgstr "Classifica"
+
+msgid "tab_settings"
+msgstr "Impostazioni"
+
+msgid "tab_statements"
+msgstr "Esperienze di apprendimento"
+
+#, fuzzy
+msgid "tbl_grade_activity_progress"
+msgstr "Activity Progress"
+
+#, fuzzy
+msgid "tbl_grade_actor"
+msgstr "User"
+
+#, fuzzy
+msgid "tbl_grade_date"
+msgstr "Date"
+
+#, fuzzy
+msgid "tbl_grade_grading_progress"
+msgstr "Grading Progress"
+
+#, fuzzy
+msgid "tbl_grade_period"
+msgstr "Period"
+
+#, fuzzy
+msgid "tbl_grade_score"
+msgstr "Score"
+
+#, fuzzy
+msgid "tbl_grade_stored"
+msgstr "Transmitted to ILIAS"
+
+msgid "tbl_lti_prov_availability"
+msgstr "Disponibilità"
+
+msgid "tbl_lti_prov_category"
+msgstr "Categoria"
+
+msgid "tbl_lti_prov_description"
+msgstr "Descrizione"
+
+msgid "tbl_lti_prov_internal"
+msgstr "Fornitore interno"
+
+msgid "tbl_lti_prov_keyword"
+msgstr "Parola chiave"
+
+msgid "tbl_lti_prov_keywords"
+msgstr "Parole chiave"
+
+msgid "tbl_lti_prov_outcome"
+msgstr "Servizio degli esiti"
+
+msgid "tbl_lti_prov_own_provider"
+msgstr "Fornitore personale"
+
+msgid "tbl_lti_prov_provider_creator"
+msgstr "Creatore"
+
+msgid "tbl_lti_prov_title"
+msgstr "Titolo del fornitore"
+
+msgid "tbl_lti_prov_usages"
+msgstr "Uso"
+
+msgid "tbl_lti_prov_usages_trashed"
+msgstr "Nel cestino"
+
+msgid "tbl_lti_prov_usages_untrashed"
+msgstr "Non nel cestino"
+
+msgid "tbl_lti_prov_used_by"
+msgstr "Fornitore utilizzato per gli oggetti nell'albero"
+
+msgid "tbl_lti_prov_with_key"
+msgstr "Predefinito con Chiave / Segreto"
+
+msgid "tbl_provider_header"
+msgstr "Fornitore LTI"
+
+msgid "tbl_provider_usage_header"
+msgstr "Fornitore LTI"
+
+msgid "title_info"
+msgstr "Dai un titolo all'oggetto."
+
+msgid "usage_subtab"
+msgstr "Utilizzi"
+
+msgid "use_xapi"
+msgstr "Utilizza il supporto alle xAPI"
+
+msgid "use_xapi_info"
+msgstr "Questo strumento LTI supporta gli statements xAPI."
+
+msgid "user_lng"
+msgstr "Lingua utente"
+
+msgid "user_provider_subtab"
+msgstr "Fornitori definiti dagli utenti"

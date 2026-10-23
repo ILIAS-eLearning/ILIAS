@@ -1,0 +1,875 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: lti\n"
+
+msgid "act_lti_for_obj_type"
+msgstr "オブジェクトタイプ用のLTIをアクティブにする。"
+
+msgid "activity_id"
+msgstr "アクティビティID"
+
+msgid "activity_id_info"
+msgstr "このアクティビティIDはステートメント識別用にLTIツールが使用します。"
+
+msgid "auth_lti"
+msgstr "LTI Auth"
+
+msgid "conf_privacy_ident"
+msgstr "ユーザID"
+
+msgid "conf_privacy_ident_il_uuid_SHA256"
+msgstr "ハッシュは、Eメールアドレス形式でフォーマットされたユニークなILIASプラットフォームIDと組み合わされます"
+
+msgid "conf_privacy_ident_il_uuid_SHA256_info"
+msgstr "これは各呼び出しと同一ですが、ILIASユーザーについての直接的な結論を許しません。"
+
+msgid "conf_privacy_ident_il_uuid_ext_account"
+msgstr "Eメールアドレス用にユニークなILIASプラットフォームでフォーマットされて組み合された外部ユーザID"
+
+msgid "conf_privacy_ident_il_uuid_ext_account_info"
+msgstr "これはコール毎に同じですが、ユーザに関してはダイレクトに終結する事があります。"
+
+msgid "conf_privacy_ident_il_uuid_login"
+msgstr "EメールアドレスでユニークなILIASプラットフォームでフォーマットされて組み合されたILIASログイン"
+
+msgid "conf_privacy_ident_il_uuid_login_info"
+msgstr "ログイン名を送信。これはコール毎に同じですが、ILIASユーザに関してはダイレクトに終結することがあります。"
+
+msgid "conf_privacy_ident_il_uuid_random"
+msgstr "EメールアドレスでユニークなILIASプラットフォームでフォーマットされて組み合されたランダムID"
+
+msgid "conf_privacy_ident_il_uuid_random_info"
+msgstr "それぞれILIASオブジェクトとILIASユーザランダムIDは、コール毎に同一のままのランダムIDを生成します。オブジェクトを超えたユーザプロファイル生成がほぼ不可能でる事によりユーザに関する結論は、極めて限定的です。"
+
+msgid "conf_privacy_ident_il_uuid_sha256url"
+msgstr "EメールアドレスのILIASドメインでフォーマットされたハッシュ"
+
+msgid "conf_privacy_ident_il_uuid_sha256url_info"
+msgstr "これはコール毎に同じILIASプラットホームIDで可変の最高80文字よりかなり短く、ILIASユーザーに関して非常に限定された結果のみを許容。"
+
+msgid "conf_privacy_ident_il_uuid_user_id"
+msgstr "EメールアドレスでユニークなILIASプラットフォームでフォーマットされて組み合されたILIASユーザ"
+
+msgid "conf_privacy_ident_il_uuid_user_id_info"
+msgstr "内部数字ユーザIDを送信。これはコール毎に同じですが、ILIASユーザに関してはダイレクトに終結することがあります。"
+
+msgid "conf_privacy_ident_info"
+msgstr "標準は通常emailアドレスです。ユニークなILIASプラットフォームIDは:"
+
+msgid "conf_privacy_ident_real_email"
+msgstr "E-Mail Address"
+
+msgid "conf_privacy_ident_real_email_info"
+msgstr "IDとしてユーザのE-Mail Addressを送信(警告: E-Mail Addressは複数のユーザで使用されている可能性があります!)"
+
+msgid "conf_privacy_name"
+msgstr "ユーザ名"
+
+msgid "conf_privacy_name_firstname"
+msgstr "First name"
+
+msgid "conf_privacy_name_firstname_info"
+msgstr "ILIASからユーザ名の氏名を送信"
+
+msgid "conf_privacy_name_fullname"
+msgstr "氏名"
+
+msgid "conf_privacy_name_fullname_info"
+msgstr "肩書、氏名、姓名を送信"
+
+msgid "conf_privacy_name_info"
+msgstr "ユーザ名送信は通常不要です。"
+
+msgid "conf_privacy_name_lastname"
+msgstr "タイトルと姓"
+
+msgid "conf_privacy_name_lastname_info"
+msgstr "MrまたはMs/Mrs.（別途指定がない限り）と姓を送信"
+
+msgid "conf_privacy_name_none"
+msgstr "だれもない"
+
+msgid "conf_privacy_name_none_info"
+msgstr "名前の代わりに '-' を送信"
+
+msgid "conf_user_name"
+msgstr "ユーザ名"
+
+msgid "consumers"
+msgstr "Consumer"
+
+msgid "description_info"
+msgstr "説明はタイトルの下へ表示されます。"
+
+msgid "gbl_roles_to_users"
+msgstr "LTIユーザへ割当るグローバル役割"
+
+msgid "global_provider_subtab"
+msgstr "全ユーザのGlobal Providers/tools"
+
+msgid "grade_activity_progress_all"
+msgstr "アクティビティ進捗上の全てのインフォーメーション"
+
+msgid "grade_activity_progress_completed"
+msgstr "完了しました"
+
+msgid "grade_activity_progress_initialized"
+msgstr "初期化しました"
+
+msgid "grade_activity_progress_inprogress"
+msgstr "進行中"
+
+msgid "grade_activity_progress_started"
+msgstr "開始しました"
+
+msgid "grade_activity_progress_submitted"
+msgstr "提出しました"
+
+msgid "grade_grading_progress_all"
+msgstr "評価中の全情報"
+
+msgid "grade_grading_progress_failed"
+msgstr "評価は未完了の可能性あり(失敗)"
+
+msgid "grade_grading_progress_fullygraded"
+msgstr "評価処理は完了されます"
+
+msgid "grade_grading_progress_notready"
+msgstr "進行中の評価処理なし(準備未完了)"
+
+msgid "grade_grading_progress_pending"
+msgstr "最終評価は保留中"
+
+msgid "grade_grading_progress_pendingmanual"
+msgstr "最終評価保留中; 人的介在が必要"
+
+msgid "highscore_achieved_ts"
+msgstr "Date"
+
+msgid "highscore_achieved_ts_description"
+msgstr "日付の入った列はランキングに含まれます。"
+
+msgid "highscore_all_tables"
+msgstr "受講者指針のランクとトップランク"
+
+msgid "highscore_all_tables_description"
+msgstr "トップランクとランキング中の自分の位置に関する情報を受講者は得ます。"
+
+msgid "highscore_description"
+msgstr "'他のユーザの学習経験を表示'権利が設定されると他のユーザの名前が表示される可能性があります。"
+
+msgid "highscore_enabled"
+msgstr "ランキング"
+
+msgid "highscore_mode"
+msgstr "Mode"
+
+msgid "highscore_own_table"
+msgstr "受講者自身のランク"
+
+msgid "highscore_own_table_description"
+msgstr "受講者はランキング中の自分の位置をアドバイスされます。"
+
+msgid "highscore_percentage"
+msgstr "パーセンテージ"
+
+msgid "highscore_percentage_description"
+msgstr "パーセントの点数の入った列がランキング内に含まれます。"
+
+msgid "highscore_score"
+msgstr "点数"
+
+msgid "highscore_top_num"
+msgstr "トップランキングの長さ"
+
+msgid "highscore_top_num_description"
+msgstr "トップランキングリスト内に含めるべきランク数を指定する"
+
+msgid "highscore_top_num_unit"
+msgstr "エントリー"
+
+msgid "highscore_top_table"
+msgstr "トップランキング"
+
+msgid "highscore_top_table_description"
+msgstr "受講者はトップランキングの入った表で表示されます。"
+
+msgid "highscore_wtime"
+msgstr "期間"
+
+msgid "highscore_wtime_description"
+msgstr "期間の入った列はランキング内に含まれます。"
+
+msgid "launch_method"
+msgstr "起動オプション"
+
+msgid "launch_method_embedded"
+msgstr "エンベデッドコンテンツ"
+
+msgid "launch_method_embedded_info"
+msgstr "コンテンツはILIASコンテンキスト内で開かれます。コンテンツタブ内でエンベデッドコンテンツとして表示されます。"
+
+msgid "launch_method_new_win"
+msgstr "新しいWindow"
+
+msgid "launch_method_new_win_info"
+msgstr "コンテンツは新しいWindow内に開かれます。コンテンツを離れるとこのWindowは閉じます。"
+
+msgid "launch_method_own_win"
+msgstr "自分のWindow"
+
+msgid "launch_method_own_win_info"
+msgstr "コンテンツは同じWindowでILIAS画面を置き換えて開きます。コンテンツを離れるとユーザはILIASへ戻ります。"
+
+msgid "launched"
+msgstr "リソースは既に起動しています。"
+
+msgid "learning_progress_options"
+msgstr "学習進捗オプション"
+
+msgid "lti13_hints"
+msgstr "ヒント"
+
+msgid "lti_13_authentication_url"
+msgstr "認証要求URL"
+
+msgid "lti_13_client_id"
+msgstr "Client-ID"
+
+msgid "lti_13_deployment_id"
+msgstr "Deployment-ID"
+
+msgid "lti_13_keyset_url"
+msgstr "Public Keyset URL"
+
+msgid "lti_13_platform_id"
+msgstr "Platform-ID"
+
+msgid "lti_13_token_url"
+msgstr "アクセストークンURL"
+
+#, fuzzy
+msgid "lti_1p1_deprecated_info"
+msgstr "LTI 1.1 is deprecated: 1EdTech ended all support for it on 30 June 2022 and it will be removed from ILIAS in a future version. Please use LTI 1.3 (LTI Advantage) whenever the other system supports it."
+
+#, fuzzy
+msgid "lti_1p1_deprecated_link"
+msgstr "1EdTech: Security Update and Deprecation Schedule for Early Versions of LTI"
+
+msgid "lti_action_accept_provider_as_global"
+msgstr "全ユーザ用のグローバルプロバイダーとしてプロバイダを承認"
+
+msgid "lti_action_reset_provider_to_user_scope"
+msgstr "ユーザ定義のプロバイダーとしてプロバイダーをリセット"
+
+msgid "lti_add_global_provider"
+msgstr "全ユーザ用のグローバルプロバイダーを追加"
+
+msgid "lti_add_own_provider"
+msgstr "自身のツール(全ユーザ用ではない)を追加"
+
+msgid "lti_admin"
+msgstr "LTI管理者"
+
+#, fuzzy
+msgid "lti_at_least_one_not_acceptable_as_global"
+msgstr "At least one of the selected tools cannot be accepted as global tool, because it has no creator or is already global."
+
+#, fuzzy
+msgid "lti_at_least_one_not_resetable_to_usr_def"
+msgstr "At least one of the selected tools cannot be reset to user defined tool, because it has no creator or is already user defined."
+
+msgid "lti_at_least_one_prov_has_usages"
+msgstr " 一つ以上にこのプロバイダーの使用歴(ゴミ箱内の可能性)があるので削除できませんでした。"
+
+msgid "lti_auth_failed_invalid_key"
+msgstr "有効なconsumer keyがないので認証を失敗しました。"
+
+msgid "lti_con_content_item"
+msgstr "ディープリンクのサポート"
+
+msgid "lti_con_content_item_url"
+msgstr "Content URL"
+
+msgid "lti_con_grade_synchronization"
+msgstr "Assignment and Grade Services"
+
+msgid "lti_con_grade_synchronization_info"
+msgstr "LTIツールは'Assignment and Grade Services'を提供する必要があります。"
+
+msgid "lti_con_initiate_login_url"
+msgstr "Login URLを起動"
+
+msgid "lti_con_key_type"
+msgstr "Public Key Type"
+
+msgid "lti_con_key_type_jwk"
+msgstr "URL (Json Web Token)"
+
+msgid "lti_con_key_type_jwk_url"
+msgstr "URL"
+
+msgid "lti_con_key_type_rsa"
+msgstr "RSA-Key"
+
+msgid "lti_con_key_type_rsa_public_key"
+msgstr "Public Key"
+
+msgid "lti_con_key_type_rsa_public_key_info"
+msgstr "PEMフォーマットのツール(provider)の提供するキーをここへ挿入"
+
+#, fuzzy
+msgid "lti_con_names_roles"
+msgstr "Names and Role Provisioning Services"
+
+#, fuzzy
+msgid "lti_con_names_roles_info"
+msgstr "The tool may read the members of the course or group of its objects and their roles, as far as the privacy settings of the tool allow."
+
+msgid "lti_con_prov_always_learner"
+msgstr "LTI ユーザは常時学習者です。"
+
+msgid "lti_con_prov_always_learner_info"
+msgstr "通常ILIAS内の役割はLTI役割へマップされます。コース管理者はプロバイダー内にもっと権利(例、複数オブジェクト)がある可能性があります。役割マッピングを避けるにはこのオプションを有効にします。"
+
+msgid "lti_con_prov_authentication"
+msgstr "認証"
+
+msgid "lti_con_prov_availability"
+msgstr "Availability(空き状況)"
+
+msgid "lti_con_prov_availability_create"
+msgstr "オブジェクト作成用"
+
+msgid "lti_con_prov_availability_existing"
+msgstr "既存オブジェクト限定用"
+
+msgid "lti_con_prov_availability_non"
+msgstr "利用不可"
+
+msgid "lti_con_prov_category"
+msgstr "カテゴリ"
+
+msgid "lti_con_prov_category_info"
+msgstr "LTI Consumerオブジェクトが作成された時のエントリーをフィルタするカテゴリー"
+
+msgid "lti_con_prov_custom_params"
+msgstr "この特定のプロバイダー用のカスタムパラメータ"
+
+msgid "lti_con_prov_custom_params_info"
+msgstr "フォームへ入力してください。 param1=value1; param2=value2"
+
+msgid "lti_con_prov_description"
+msgstr "説明"
+
+msgid "lti_con_prov_dyn_reg_params"
+msgstr "オプションのパラメーター"
+
+msgid "lti_con_prov_dyn_reg_params_info"
+msgstr "例として、ツール内のターゲットオブジェクトにレファレンスはここで定義できます。"
+
+msgid "lti_con_prov_dyn_reg_url"
+msgstr "ツールの登録URL"
+
+msgid "lti_con_prov_dyn_reg_url_info"
+msgstr "注意: どのツールもダイナミック登録をサポートしているわけではありません。"
+
+msgid "lti_con_prov_external_provider"
+msgstr "External Provider"
+
+msgid "lti_con_prov_external_provider_info"
+msgstr "External Providerと通信中ユーザへヒントが表示されます。External ProviderはILIASシステムのオペレータによりプロバイダに対しては不十分な影響として特徴づけられます。これは削除する権利がない時の場合です。"
+
+msgid "lti_con_prov_group_options"
+msgstr "グループオプションとプロバイダフィルター"
+
+msgid "lti_con_prov_has_outcome_service"
+msgstr "Providerは 成果サービスをサポート"
+
+msgid "lti_con_prov_has_outcome_service_info"
+msgstr "LTI Outcome Serviceがサポートされていると学習進捗をアクティブ化できるかもしれません。プロバイダーは学習進捗を示すために0と1の間の値を返します。"
+
+msgid "lti_con_prov_hints"
+msgstr "ヒント"
+
+msgid "lti_con_prov_inc_usr_pic"
+msgstr "ユーザ写真を送る。"
+
+msgid "lti_con_prov_inc_usr_pic_info"
+msgstr "ILIASユーザ写真へのリンクはLTI consumerオブジェクト起動時に含まれます。"
+
+msgid "lti_con_prov_instructor_email"
+msgstr "インストラクターE-Mail"
+
+msgid "lti_con_prov_instructor_email_info"
+msgstr "その前に選択された設定との違いはメールアドレスがインストラクター用に転送可能です。それを行うにはコース又はグループ管理者である必要があります。"
+
+msgid "lti_con_prov_instructor_name"
+msgstr "インストラクター名"
+
+msgid "lti_con_prov_instructor_name_info"
+msgstr "その前に選択された設定との違いは、名前がインストラクター用に転送可能です。"
+
+msgid "lti_con_prov_key"
+msgstr "Key"
+
+msgid "lti_con_prov_keywords"
+msgstr "キーワード"
+
+msgid "lti_con_prov_keywords_info"
+msgstr "キーワードはセミコロン(:)で区切る必要があります。キーワードはキーワードとしてメタデータへ自動的に使われます。"
+
+msgid "lti_con_prov_launch_options"
+msgstr "起動オプション"
+
+msgid "lti_con_prov_learning_progress_options"
+msgstr "学習進捗のオプション"
+
+msgid "lti_con_prov_mastery_score_default"
+msgstr "デフォルト習熟度スコア"
+
+msgid "lti_con_prov_mastery_score_default_info"
+msgstr "学習進捗はProvider Outcome Serviceから評価されて習熟度スコアスレッショールドになります。"
+
+msgid "lti_con_prov_privacy_settings"
+msgstr "プライバシー設定"
+
+msgid "lti_con_prov_provider_key_global"
+msgstr "事前定義済みのキーとシークレット"
+
+msgid "lti_con_prov_provider_key_global_info"
+msgstr "設定していないとユーザはプロバイダを使用するためにキーとシークレットを追加しなければなりません。"
+
+msgid "lti_con_prov_remarks"
+msgstr "内部の備考"
+
+msgid "lti_con_prov_secret"
+msgstr "シークレット"
+
+msgid "lti_con_prov_title"
+msgstr "Title"
+
+msgid "lti_con_prov_url"
+msgstr "プロバイダーのURL"
+
+msgid "lti_con_prov_use_provider_id"
+msgstr "Provider IDを使用"
+
+msgid "lti_con_prov_use_provider_id_info"
+msgstr "通常LTI ConsumerのRef-IDはプロバイダーへ送信されます。Providersのマップにはプロバイダーのリソース付きRef-IDとなります。そのプロバイダー用に常時同じリソースとするにはこのオプションを有効にしなければなりません。"
+
+msgid "lti_con_prov_use_xapi"
+msgstr "プロバイダーはxAPI-Statementsの要求をサポートします。"
+
+msgid "lti_con_prov_use_xapi_info"
+msgstr "プロバイダーはxAPI-Statementsをサポート"
+
+msgid "lti_con_prov_xapi_activity_id"
+msgstr "アクティビティID"
+
+msgid "lti_con_prov_xapi_activity_id_info"
+msgstr "Learning Record Storeからデータを要求するにはActivity IDが必要です。Activity IDへプロバイダーのリソース割当てがユニークであるならば、ここに何かを入力するだけです。ここに何も入力しないと、Activity IDは LTI Consumer内に入力できます。"
+
+msgid "lti_con_prov_xapi_launch_key"
+msgstr "LRS Endpointのキー"
+
+msgid "lti_con_prov_xapi_launch_secret"
+msgstr "LRS EndpointのSecret"
+
+msgid "lti_con_prov_xapi_launch_url"
+msgstr "LRS エンドポイントのURL"
+
+msgid "lti_con_prov_xapi_launch_url_info"
+msgstr "https://ありの完全URLを追加してください。"
+
+msgid "lti_con_redirection_uris"
+msgstr "リダイレクトURI"
+
+msgid "lti_con_tool_url"
+msgstr "Launch URL"
+
+msgid "lti_con_version"
+msgstr "LTI Version"
+
+msgid "lti_con_version_1.3"
+msgstr "Version 1.3"
+
+msgid "lti_con_version_1.3_before_id"
+msgstr "ツールによる提供されるデータ入入力後にダイナミック登録がサポートされていない場合は、ツールで入力すべき追加データが表示されます。"
+
+msgid "lti_confirm_delete_providers"
+msgstr "本当に次のプロバイダーを削除しますか?"
+
+msgid "lti_consumer"
+msgstr "リリース対象"
+
+msgid "lti_consumer_created"
+msgstr "Consumer作成"
+
+msgid "lti_consumer_deleted"
+msgstr "Consumerを削除"
+
+msgid "lti_consumer_set_active"
+msgstr "Consumerを有効にしました"
+
+msgid "lti_consumer_set_inactive"
+msgstr "Consumerを解除しました"
+
+msgid "lti_consumer_updated"
+msgstr "Consumerを更新しました"
+
+msgid "lti_consuming_tab"
+msgstr "LTI ConsumerとしてのILIAS"
+
+msgid "lti_create_consumer"
+msgstr "Consumerを作成"
+
+msgid "lti_create_lti_user_role"
+msgstr "LTI ユーザ用の推奨グローバル役割を作成"
+
+# 06 10 2026 changed variable
+msgid "lti_cron_title"
+msgstr "LTI Grade Service"
+
+# 06 10 2026 changed variable
+msgid "lti_cron_title_desc"
+msgstr "Sends the learning progress of LTI users that changed since the last run to their platform again, so that a score the platform could not take at the time, e.g. because it was not reachable, still reaches it. Scores the platform has already are not sent again."
+
+msgid "lti_custom_new"
+msgstr "自身のツール設定を作成"
+
+#, fuzzy
+msgid "lti_deep_linking_expired"
+msgstr "This selection has expired. Start the content selection in the platform again."
+
+#, fuzzy
+msgid "lti_deep_linking_failed"
+msgstr "The content selected in the tool could not be added. Please try again."
+
+#, fuzzy
+msgid "lti_deep_linking_no_content"
+msgstr "The tool did not send any content that can be added as an LTI object."
+
+#, fuzzy
+msgid "lti_deep_linking_running"
+msgstr "Select the content in the tool. An object is created for each content item the tool sends back."
+
+#, fuzzy
+msgid "lti_deep_linking_select"
+msgstr "Select Content"
+
+#, fuzzy
+msgid "lti_deep_linking_select_info"
+msgstr "Select the ILIAS objects to add to the platform."
+
+#, fuzzy
+msgid "lti_deep_linking_submit"
+msgstr "Add"
+
+#, fuzzy
+msgid "lti_deep_linking_url"
+msgstr "Deep Linking URL"
+
+msgid "lti_delete_provider"
+msgstr "プロバイダーを削除"
+
+#, fuzzy
+msgid "lti_dyn_reg_failed"
+msgstr "The tool could not be registered. Check the registration URL and try again."
+
+#, fuzzy
+msgid "lti_dyn_reg_finish"
+msgstr "Finish Registration"
+
+#, fuzzy
+msgid "lti_dyn_reg_running"
+msgstr "Complete the registration in the tool below. The object is created as soon as the tool reports that it is done. If the tool does not report it, click “Finish Registration” once you are done."
+
+#, fuzzy
+msgid "lti_dyn_reg_tool_done"
+msgstr "ILIAS has been registered with the platform."
+
+#, fuzzy
+msgid "lti_dyn_reg_tool_failed"
+msgstr "ILIAS could not be registered with the platform."
+
+#, fuzzy
+msgid "lti_dyn_reg_tool_url"
+msgstr "Dynamic Registration URL"
+
+#, fuzzy
+msgid "lti_dyn_reg_tool_url_after_save"
+msgstr "Save the platform to get a URL for LTI Advantage Dynamic Registration."
+
+#, fuzzy
+msgid "lti_dyn_reg_tool_url_info"
+msgstr "Enter this URL in the platform to register ILIAS through LTI Advantage Dynamic Registration. It is valid for 24 hours and for one registration. Each time this form opens, it shows a new URL."
+
+#. 04 12 2025
+msgid "lti_dynamic_registration"
+msgstr "ダイナミック登録(LTI 1.3)ありのツール用の自身の設定を作成。"
+
+msgid "lti_edit_consumer"
+msgstr "LTI Consumerを編集"
+
+msgid "lti_exit"
+msgstr "LTI Sessionをクローズ"
+
+msgid "lti_exited"
+msgstr "LTI セッションをクローズしました"
+
+msgid "lti_exited_info"
+msgstr "LTIセッションは正しくクローズしました"
+
+msgid "lti_form_provider_create"
+msgstr "プロバイダー設定を作成"
+
+msgid "lti_form_provider_edit"
+msgstr "プロバイダー設定を編集"
+
+msgid "lti_form_section_appearance"
+msgstr "起動のオプション"
+
+msgid "lti_info_external_provider_info"
+msgstr "使用されたツールは外部ツールです。外部ツールはILIASシステムのオペレータによりツールへの不十分な影響と特徴化されます。これは、削除するデータの権利がないような場合です。"
+
+msgid "lti_info_external_provider_label"
+msgstr "このツールに関する追加情報"
+
+msgid "lti_info_learning_progress_section"
+msgstr "学習進捗の確定に関するInfo"
+
+msgid "lti_info_privacy_section"
+msgstr "起動時にプロバイダーへ送信されるパーソナルデータに関する情報"
+
+msgid "lti_launch_url"
+msgstr "Url"
+
+msgid "lti_member"
+msgstr "LTIメンバー"
+
+msgid "lti_no_provider_selected"
+msgstr "プロバイダーが選択せれていません"
+
+msgid "lti_object_consumer"
+msgstr "LTI Consumers"
+
+msgid "lti_object_release_settings_form"
+msgstr "LTI Releasesを編集"
+
+#, fuzzy
+msgid "lti_platform_names_roles_info"
+msgstr "When an instructor or administrator of the platform launches an object, ILIAS reads the members of the course at the platform. Members without an account get one with the roles of the release, also those who never launch ILIAS."
+
+#, fuzzy
+msgid "lti_platform_registration"
+msgstr "LTI Advantage Registration"
+
+#, fuzzy
+msgid "lti_platform_registration_incomplete"
+msgstr "Fill in all fields of the registration or leave them all empty."
+
+#, fuzzy
+msgid "lti_platform_registration_info"
+msgstr "Filled in when the platform registers ILIAS through Dynamic Registration. Otherwise, enter the data the platform gives for ILIAS."
+
+#, fuzzy
+msgid "lti_platform_registration_taken"
+msgstr "Another platform is already registered with this platform ID, client ID and deployment ID."
+
+msgid "lti_provider"
+msgstr "LTI Releases"
+
+msgid "lti_provider_not_avail_msg"
+msgstr "LTIツールを'利用不可'に設定する"
+
+msgid "lti_provider_not_set_msg"
+msgstr "LTIツール構成が完全に終了していません。"
+
+msgid "lti_providing_tab"
+msgstr "LTI ProviderとしてのILIAS"
+
+msgid "lti_released_objects"
+msgstr "Object Releases"
+
+msgid "lti_select_provider"
+msgstr "ツールを選択"
+
+msgid "lti_settings"
+msgstr "LTI設定"
+
+msgid "lti_settings_form"
+msgstr "オブジェクト設定"
+
+msgid "lti_success_accept_as_global"
+msgstr "全ユーザへグローバルプロバイダーとして正しく承認されました。"
+
+msgid "lti_success_delete_provider"
+msgstr "正しく削除されました。"
+
+msgid "lti_success_reset_to_usr_def"
+msgstr "ユーザ定義のプロバイダーとして正しくリセットされました。"
+
+msgid "lti_tutor"
+msgstr "LTIインストラクター"
+
+msgid "lti_user_role_created"
+msgstr "LTIユーザの推奨グローバル役割が作成されました。"
+
+msgid "lti_user_role_info"
+msgstr "LTIユーザの推奨グローバル役割がこのシステムではまだ作成されていません。この特別グローバル役割は、リポジトリとカテゴリのアクセス権'読み込み' が入っているのみです。"
+
+#, fuzzy
+msgid "lti_version_1p1_deprecated"
+msgstr "LTI 1.1 (Deprecated)"
+
+#, fuzzy
+msgid "lti_version_advantage"
+msgstr "LTI 1.3 (LTI Advantage)"
+
+msgid "mastery_score"
+msgstr "習熟度スコア"
+
+msgid "mastery_score_info"
+msgstr "学習進捗はTool Outcome Serviceと習熟度スコアスレッショールドから評価されます。"
+
+msgid "obj_tile_image_info"
+msgstr "四角形のイメージを使用"
+
+msgid "online_info"
+msgstr "これはユーザーへオブジェクトを表示して利用可能にします。"
+
+msgid "prefix"
+msgstr "Prefix"
+
+msgid "provider_info"
+msgstr "使用したツール"
+
+msgid "settings_subtab"
+msgstr "設定"
+
+msgid "show_statements"
+msgstr "学習履歴を表示"
+
+msgid "show_statements_info"
+msgstr "'他のユーザの学習履歴を表示'権利が設定されていると他のユーザの学習履歴が表示される可能性があります。"
+
+msgid "subtab_object_settings"
+msgstr "オブジェクト設定"
+
+msgid "subtab_provider_settings"
+msgstr "LTIツール設定"
+
+msgid "tab_content"
+msgstr "コンテンツ"
+
+msgid "tab_grade_synchronization"
+msgstr "Gradebook"
+
+msgid "tab_info"
+msgstr "Info"
+
+msgid "tab_scoring"
+msgstr "ランキング"
+
+msgid "tab_settings"
+msgstr "設定"
+
+msgid "tab_statements"
+msgstr "学習履歴"
+
+msgid "tbl_grade_activity_progress"
+msgstr "アクティビティ進捗"
+
+msgid "tbl_grade_actor"
+msgstr "User"
+
+msgid "tbl_grade_date"
+msgstr "Date"
+
+msgid "tbl_grade_grading_progress"
+msgstr "評価進捗"
+
+msgid "tbl_grade_period"
+msgstr "期間"
+
+msgid "tbl_grade_score"
+msgstr "点数"
+
+msgid "tbl_grade_stored"
+msgstr "ILIASへ送信済"
+
+msgid "tbl_lti_prov_availability"
+msgstr "Availability(空き状況)"
+
+msgid "tbl_lti_prov_category"
+msgstr "カテゴリー"
+
+msgid "tbl_lti_prov_description"
+msgstr "説明"
+
+msgid "tbl_lti_prov_internal"
+msgstr "Internal Provider"
+
+msgid "tbl_lti_prov_keyword"
+msgstr "キーワード"
+
+msgid "tbl_lti_prov_keywords"
+msgstr "キーワード"
+
+msgid "tbl_lti_prov_outcome"
+msgstr "Outcome Service"
+
+msgid "tbl_lti_prov_own_provider"
+msgstr "Own Provider"
+
+msgid "tbl_lti_prov_provider_creator"
+msgstr "作成者"
+
+msgid "tbl_lti_prov_title"
+msgstr "プロバイダーのタイトル"
+
+msgid "tbl_lti_prov_usages"
+msgstr "用法"
+
+msgid "tbl_lti_prov_usages_trashed"
+msgstr "用法を破棄"
+
+msgid "tbl_lti_prov_usages_untrashed"
+msgstr "リポジトリ用法"
+
+msgid "tbl_lti_prov_used_by"
+msgstr "ツリー構造のオブジェクト別利用のプロバイダー"
+
+msgid "tbl_lti_prov_with_key"
+msgstr "Key / Secretで事前定義済み"
+
+msgid "tbl_provider_header"
+msgstr "LTI Provider"
+
+msgid "tbl_provider_usage_header"
+msgstr "LTI Provider"
+
+msgid "title_info"
+msgstr "タイトルをオブジェクトにする"
+
+msgid "usage_subtab"
+msgstr "用法"
+
+msgid "use_xapi"
+msgstr "xAPI-Supportを使用"
+
+msgid "use_xapi_info"
+msgstr "このLTIツールはxAPI-Statementsをサポートします。"
+
+msgid "user_lng"
+msgstr "User言語"
+
+msgid "user_provider_subtab"
+msgstr "ユーザ別プロバイダー定義"

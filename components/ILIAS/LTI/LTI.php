@@ -86,6 +86,10 @@ class LTI implements Component\Component
             $this,
             'ltiv'
         );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'lti'
+        );
 
         $internal[\ilLTIViewGUI::class] = static fn(): \ilLTIViewGUI =>
             new \ilLTIViewGUI(
