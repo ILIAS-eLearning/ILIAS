@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Mail\Attachments\MailAttachments;
+
 /**
  * Wiki link / page title handling:
  *
@@ -638,7 +640,7 @@ class ilWikiUtil
                     '',
                     $subject,
                     $message,
-                    [],
+                    MailAttachments::empty(),
                     false,
                     false
                 );

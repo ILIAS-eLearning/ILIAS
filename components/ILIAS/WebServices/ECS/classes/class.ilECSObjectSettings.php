@@ -22,6 +22,7 @@ use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
+use ILIAS\Mail\Attachments\MailAttachments;
 
 /**
 * Handles object exports to ECS
@@ -658,7 +659,7 @@ abstract class ilECSObjectSettings
             '',
             $lang->txt('ecs_new_approval_subject'),
             $message,
-            array()
+            MailAttachments::empty(),
         );
 
         return true;

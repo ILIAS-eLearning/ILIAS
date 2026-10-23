@@ -26,7 +26,7 @@ use DateTimeImmutable;
 use DateTimeZone;
 use ILIAS\Data\Order;
 use ilUserSearchOptions;
-use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
+use ILIAS\Mail\Attachments\MailAttachments;
 
 class MailBoxQuery
 {
@@ -287,11 +287,8 @@ class MailBoxQuery
 
         $set = [];
         while ($row = $this->db->fetchAssoc($res)) {
-            if (isset($row['attachments']) && \is_string($row['attachments']) && str_contains($row['attachments'], '{')) {
-                $unserialized_attachments = unserialize($row['attachments'], ['allowed_classes' => false]);
-                $row['attachments'] = \is_array($unserialized_attachments) ? $unserialized_attachments : null;
-            } elseif (isset($row['attachments']) && \is_string($row['attachments']) && $row['attachments'] !== '') {
-                $row['attachments'] = new ResourceCollectionIdentification($row['attachments']);
+            if (isset($row['attachments']) && is_string($row['attachments'])) {
+                $row['attachments'] = MailAttachments::fromDb($row['attachments']);
             } else {
                 $row['attachments'] = null;
             }

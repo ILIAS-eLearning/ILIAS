@@ -22,6 +22,7 @@ namespace ILIAS\Wiki\Notification;
 
 use ILIAS\Wiki\InternalGUIService;
 use ILIAS\Wiki\InternalDomainService;
+use ILIAS\Mail\Attachments\MailAttachments;
 
 /**
  * This class is only in GUI layer, since it
@@ -225,7 +226,7 @@ class NotificationGUI
                     '',
                     $subject,
                     $message,
-                    [],
+                    MailAttachments::empty(),
                     false,
                     false
                 );

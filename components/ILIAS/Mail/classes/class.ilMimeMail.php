@@ -21,6 +21,8 @@ declare(strict_types=1);
 use ILIAS\Mail\Mime\Presentation\MailBodyComposer;
 use ILIAS\Mail\Mime\Presentation\MailBodySource;
 use ILIAS\Mail\Mime\Presentation\Asset\InlineImages;
+use ILIAS\Mail\Mime\MailMimeAttachment;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 class ilMimeMail
 {
@@ -42,14 +44,8 @@ class ilMimeMail
     /** @var string[] */
     protected array $abcc = [];
     protected InlineImages $images;
-    /** @var string[] */
-    protected array $aattach = [];
-    /** @var string[] */
-    protected array $actype = [];
-    /** @var string[] */
-    protected array $adispo = [];
-    /** @var string[] */
-    protected array $adisplay = [];
+    /** @var list<MailMimeAttachment> */
+    protected array $mime_attachments = [];
     private ?MailBodyComposer $body_composer;
     /** @var Closure(string): string|null */
     private ?Closure $to_html_transformation = null;
@@ -204,35 +200,53 @@ class ilMimeMail
         string $disposition = 'inline',
         ?string $display_name = null
     ): void {
-        if ($file_type === '') {
-            $file_type = 'application/octet-stream';
-        }
+        $this->mime_attachments[] = MailMimeAttachment::fromPath(
+            $filename,
+            $file_type,
+            $disposition,
+            $display_name
+        );
+    }
 
-        $this->aattach[] = $filename;
-        $this->actype[] = $file_type;
-        $this->adispo[] = $disposition;
-        $this->adisplay[] = $display_name;
+    public function AttachResource(
+        ResourceIdentification $resource_identification,
+        string $display_name,
+        string $file_type = '',
+        string $disposition = 'inline'
+    ): void {
+        $this->mime_attachments[] = MailMimeAttachment::fromResource(
+            $resource_identification,
+            $display_name,
+            $file_type,
+            $disposition
+        );
+    }
+
+    /**
+     * @return list<MailMimeAttachment>
+     */
+    public function getMimeAttachments(): array
+    {
+        return $this->mime_attachments;
     }
 
     /**
      * @return array{path: string, name: string}[]
+     * @deprecated Use getMimeAttachments() for path and IRSS attachments.
      */
     public function getAttachments(): array
     {
         $attachments = [];
 
-        $i = 0;
-        foreach ($this->aattach as $attachment) {
-            $name = '';
-            if (isset($this->adisplay[$i]) && is_string($this->adisplay[$i]) && $this->adisplay[$i] !== '') {
-                $name = $this->adisplay[$i];
+        foreach ($this->mime_attachments as $attachment) {
+            if ($attachment->isResource() || $attachment->getPath() === null) {
+                continue;
             }
 
             $attachments[] = [
-                'path' => $attachment,
-                'name' => $name
+                'path' => $attachment->getPath(),
+                'name' => $attachment->getDisplayName(),
             ];
-            ++$i;
         }
 
         return $attachments;

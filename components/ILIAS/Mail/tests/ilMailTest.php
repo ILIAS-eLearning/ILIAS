@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Refinery\Factory;
 use PHPUnit\Framework\MockObject\MockObject;
 use ILIAS\Mail\Autoresponder\AutoresponderService;
+use ILIAS\Mail\Attachments\MailAttachments;
 use ILIAS\LegalDocuments\Conductor;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Result\Ok;
@@ -28,6 +29,7 @@ use ILIAS\Mail\Service\MailSignatureService;
 use PHPUnit\Framework\Attributes\DataProvider;
 use ILIAS\Mail\TemplateEngine\TemplateEngineFactoryInterface;
 use ILIAS\Mail\TemplateEngine\Mustache\MustacheTemplateEngineFactory;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 
 class ilMailTest extends ilMailBaseTestCase
 {
@@ -36,6 +38,7 @@ class ilMailTest extends ilMailBaseTestCase
     private MockObject&ilLogger $mock_log;
     private MockObject&ilMailRfc822AddressParserFactory $mock_parser_factory;
     private MockObject&ilLanguage $mock_language;
+    private MockObject&ilFileDataMail $mock_mail_file_data;
 
     public function testExternalMailDeliveryWorksAsExpected(): void
     {
@@ -264,7 +267,7 @@ class ilMailTest extends ilMailBaseTestCase
             implode(',', array_slice(array_keys($active_users_login_to_id_map), 5, 2)),
             'Subject',
             'Message',
-            [],
+            MailAttachments::empty(),
             false
         );
         $mail_service->sendMail($mail_data);
@@ -459,9 +462,11 @@ class ilMailTest extends ilMailBaseTestCase
         $params = [];
         $draft_id = 78;
 
+        $this->mock_database->method('queryF')->willReturn($this->createStub(ilDBStatement::class));
+        $this->mock_database->method('numRows')->willReturn(1);
         $this->mock_database->expects($this->once())->method('update')->with('mail', [
             'folder_id' => ['integer', $folder_id],
-            'attachments' => ['clob', serialize([])],
+            'attachments' => [ilDBConstants::T_CLOB, serialize([])],
             'send_time' => ['timestamp', date('Y-m-d H:i:s')],
             'rcp_to' => ['clob', $to],
             'rcp_cc' => ['clob', $cc],
@@ -482,7 +487,7 @@ class ilMailTest extends ilMailBaseTestCase
             $draft_id,
             $instance->updateDraft(
                 $folder_id,
-                [],
+                MailAttachments::empty(),
                 $to,
                 $cc,
                 $bcc,
@@ -494,6 +499,20 @@ class ilMailTest extends ilMailBaseTestCase
                 $context_id,
                 $params,
             )
+        );
+    }
+
+    public function testUpdateDraftLeavesMailsOfOtherUsersUntouched(): void
+    {
+        $instance = $this->create();
+        $this->mock_database->method('queryF')->willReturn($this->createStub(ilDBStatement::class));
+        $this->mock_database->method('numRows')->willReturn(0);
+        $this->mock_database->expects($this->never())->method('update');
+        $this->mock_mail_file_data->expects($this->never())->method('replaceMailAttachmentCollection');
+
+        $this->assertSame(
+            4711,
+            $instance->updateDraft(7890, MailAttachments::empty(), 'abc', '', '', 'subject', 'message', 4711)
         );
     }
 
@@ -527,8 +546,9 @@ class ilMailTest extends ilMailBaseTestCase
         ]);
 
         $mock_statement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
-        $this->mock_database->expects($this->once())->method('queryF')->willReturnCallback($this->queryCallback($mock_statement, ['integer'], [$usr_id]));
-        $this->mock_database->expects($this->once())->method('fetchAssoc')->with($mock_statement)->willReturn([
+        // Previous stage lookup (to release its collection) and re-reading the stage
+        $this->mock_database->expects($this->exactly(2))->method('queryF')->willReturnCallback($this->queryCallback($mock_statement, ['integer'], [$usr_id]));
+        $this->mock_database->expects($this->exactly(2))->method('fetchAssoc')->with($mock_statement)->willReturn([
             'rcp_to' => 'phpunit'
         ]);
 
@@ -627,20 +647,87 @@ class ilMailTest extends ilMailBaseTestCase
         $this->assertSame($expected, ilMail::_getIliasMailerName());
     }
 
+    public function testPersistingToStageReleasesReplacedStageCollection(): void
+    {
+        $usr_id = 897;
+        $instance = $this->create(789, $usr_id);
+        $mock_statement = $this->createStub(ilDBStatement::class);
+        $this->mock_database->method('queryF')->willReturn($mock_statement);
+        $this->mock_database->method('fetchAssoc')->willReturnOnConsecutiveCalls(
+            ['attachments' => '11111111-1111-4111-8111-111111111111'],
+            ['attachments' => '22222222-2222-4222-8222-222222222222', 'rcp_to' => '']
+        );
+
+        $this->mock_mail_file_data
+            ->expects($this->once())
+            ->method('releaseCollectionIfUnreferenced')
+            ->with($this->callback(
+                static fn(ResourceCollectionIdentification $rcid): bool => $rcid->serialize() === '11111111-1111-4111-8111-111111111111'
+            ));
+
+        $instance->persistToStage(
+            $usr_id,
+            '',
+            '',
+            '',
+            '',
+            '',
+            MailAttachments::fromIrss(new ResourceCollectionIdentification('22222222-2222-4222-8222-222222222222'))
+        );
+    }
+
+    public function testPersistingSameStageCollectionKeepsIt(): void
+    {
+        $usr_id = 897;
+        $instance = $this->create(789, $usr_id);
+        $mock_statement = $this->createStub(ilDBStatement::class);
+        $this->mock_database->method('queryF')->willReturn($mock_statement);
+        $this->mock_database->method('fetchAssoc')->willReturn(['attachments' => '33333333-3333-4333-8333-333333333333', 'rcp_to' => '']);
+
+        $this->mock_mail_file_data->expects($this->never())->method('releaseCollectionIfUnreferenced');
+
+        $instance->persistToStage(
+            $usr_id,
+            '',
+            '',
+            '',
+            '',
+            '',
+            MailAttachments::fromIrss(new ResourceCollectionIdentification('33333333-3333-4333-8333-333333333333'))
+        );
+    }
+
     public function testSaveAttachments(): void
     {
         $usr_id = 89;
-        $attachments = new \ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification('657497dc-5079-4f95-b19d-aecdaf81ff1a');
+        $attachments = MailAttachments::fromIrss(
+            new ResourceCollectionIdentification('657497dc-5079-4f95-b19d-aecdaf81ff1a')
+        );
         $instance = $this->create(789, $usr_id);
+        $mock_statement = $this->createStub(ilDBStatement::class);
 
-        $this->mock_database->expects($this->once())->method('update')->with(
+        $this->mock_database->expects($this->exactly(3))->method('queryF')->willReturnCallback(
+            $this->queryCallback($mock_statement, ['integer'], [$usr_id])
+        );
+        $this->mock_database->expects($this->exactly(3))->method('fetchAssoc')->with($mock_statement)->willReturn([
+            'attachments' => null,
+            'rcp_to' => '',
+            'rcp_cc' => '',
+            'rcp_bcc' => '',
+            'm_subject' => '',
+            'm_message' => '',
+            'use_placeholders' => 0,
+            'tpl_ctx_id' => null,
+            'tpl_ctx_params' => '[]',
+        ]);
+        $this->mock_database->expects($this->once())->method('replace')->with(
             'mail_saved',
             [
-                'attachments' => ['text', $attachments->serialize()],
-            ],
-            [
                 'user_id' => ['integer', $usr_id],
-            ]
+            ],
+            $this->callback(static function (array $fields) use ($attachments): bool {
+                return ($fields['attachments'][1] ?? null) === $attachments->rcid()->serialize();
+            })
         );
 
         $instance->saveAttachments($attachments);
@@ -680,7 +767,7 @@ class ilMailTest extends ilMailBaseTestCase
             ($this->mock_log = $this->getMockBuilder(ilLogger::class)->disableOriginalConstructor()->getMock()),
             ($this->mock_database = $this->createMock(ilDBInterface::class)),
             ($this->mock_language = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock()),
-            $this->getMockBuilder(ilFileDataMail::class)->disableOriginalConstructor()->getMock(),
+            ($this->mock_mail_file_data = $this->getMockBuilder(ilFileDataMail::class)->disableOriginalConstructor()->getMock()),
             $this->getMockBuilder(ilMailOptions::class)->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder(ilMailbox::class)->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder(ilMailMimeSenderFactory::class)->disableOriginalConstructor()->getMock(),
