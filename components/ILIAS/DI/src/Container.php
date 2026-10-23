@@ -34,7 +34,7 @@ use ILIAS\Filesystem\Configuration\FilesystemConfig;
  * This just exposes some services in the container as plain methods
  * to help IDEs when using ILIAS.
  */
-class Container extends \Pimple\Container
+class Container extends ServiceContainer
 {
     /**
      * Get interface to the Database.
