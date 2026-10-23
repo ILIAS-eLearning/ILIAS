@@ -40,7 +40,8 @@ function with_string_action()
     $image = $f->image()->standard(
         "assets/ui-examples/images/Image/HeaderIconLarge.svg",
         "Thumbnail Example"
-    )->withAction("https://www.ilias.de");
+    )->withAction("https://www.ilias.de")
+        ->withOpenInNewViewport(true);
 
     $html = $renderer->render($image);
 
