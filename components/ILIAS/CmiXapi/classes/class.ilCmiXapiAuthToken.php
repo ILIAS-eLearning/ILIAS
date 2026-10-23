@@ -248,7 +248,7 @@ class ilCmiXapiAuthToken
 
     public static function createToken(): string
     {
-        return (new \Ramsey\Uuid\UuidFactory())->uuid4()->toString();
+        return (new \ILIAS\Data\UUID\Factory())->uuid4AsString();
     }
 
     public static function fillToken(int $usrId, int $refId, int $objId, int $lrsTypeId = 0): string

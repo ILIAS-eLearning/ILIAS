@@ -460,6 +460,6 @@ class ilCmiXapiContentUploadImporter
     {
         global $DIC;
         $objId = $this->object->getId();
-        return "https://ilias.de/cmi5/activityid/" . (new \Ramsey\Uuid\UuidFactory())->uuid3(ilCmiXapiUser::getIliasUuid(), $objId . '-' . $publisherId);
+        return "https://ilias.de/cmi5/activityid/" . (new \ILIAS\Data\UUID\Factory())->uuid3AsString(ilCmiXapiUser::getIliasUuid(), $objId . '-' . $publisherId);
     }
 }
