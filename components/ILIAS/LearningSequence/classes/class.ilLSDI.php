@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use Pimple\Container;
+use ILIAS\DI\ServiceContainer as Container;
 use ILIAS\GlobalScreen\ScreenContext\ScreenContext;
 
 class ilLSDI extends Container

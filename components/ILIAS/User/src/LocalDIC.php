@@ -40,12 +40,12 @@ use ILIAS\User\Profile\DatabaseDataRepository as DatabaseProfileDataRepository;
 use ILIAS\User\Profile\Fields\Custom\CollectTypesObjective;
 use ILIAS\User\Profile\Fields\Standard;
 use ILIAS\User\Profile\ChangeListeners\CollectListenersObjective;
-use Pimple\Container as PimpleContainer;
+use ILIAS\DI\ServiceContainer;
 use ILIAS\DI\Container as ILIASContainer;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\UUID\Factory as UUIDFactory;
 
-class LocalDIC extends PimpleContainer
+class LocalDIC extends ServiceContainer
 {
     private static ?LocalDIC $dic = null;
 

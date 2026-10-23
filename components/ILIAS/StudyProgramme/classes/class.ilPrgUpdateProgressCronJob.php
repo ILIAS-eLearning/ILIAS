@@ -30,7 +30,7 @@ class ilPrgUpdateProgressCronJob extends CronJob
 {
     private const ID = 'prg_update_progress';
 
-    protected Pimple\Container $dic;
+    protected ILIAS\DI\ServiceContainer $dic;
     protected ilLanguage $lng;
     protected ilStudyProgrammeSettingsDBRepository $settings_repo;
     protected ilPRGAssignmentDBRepository $assignment_repo;

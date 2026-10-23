@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use Pimple\Container;
+use ILIAS\DI\ServiceContainer as Container;
 use ILIAS\Test\TestDIC;
 
 class TestDICTest extends ilTestBaseTestCase

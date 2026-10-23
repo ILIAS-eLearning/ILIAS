@@ -40,7 +40,7 @@ class ilLoggingErrorSettings
     public static function getInstance(): self
     {
         global $DIC;
-        if ($DIC instanceof \Pimple\Container && isset($DIC['logging.services'])) {
+        if ($DIC instanceof \ILIAS\DI\Container && isset($DIC['logging.services'])) {
             return new self($DIC['logging.services']->getConfig());
         }
         return new self(new \ILIAS\Logging\Configuration\NullLoggingConfig());

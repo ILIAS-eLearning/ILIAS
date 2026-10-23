@@ -53,12 +53,12 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\TestQuestionPool\RequestDataCollector as QPLRequestDataCollector;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\DI\Container as ILIASContainer;
-use Pimple\Container as PimpleContainer;
+use ILIAS\DI\ServiceContainer;
 
-class TestDIC extends PimpleContainer
+class TestDIC extends ServiceContainer
 {
     protected static ?self $dic = null;
-    protected static ?PimpleContainer $specific_dic = null;
+    protected static ?ServiceContainer $specific_dic = null;
 
     public static function dic(): self
     {

@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test;
 
-use Pimple\Container as PimpleContainer;
+use ILIAS\DI\Container as GlobalContainer;
 use ILIAS\Test\Scoring\Manual\ConsecutiveScoringGUI;
 use ILIAS\Test\Scoring\Manual\TestScoring;
 use ILIAS\Test\Scoring\Manual\ConsecutiveScoring;
@@ -43,7 +43,7 @@ class GUIFactory
     }
 
     public function __construct(
-        private PimpleContainer $global_dic,
+        private GlobalContainer $global_dic,
         private TestDIC $test_dic
     ) {
         $this->definitions['ILIAS\Test\Scoring\Manual\ConsecutiveScoringGUI'] = fn(\ilObjTest $test_obj): ConsecutiveScoringGUI =>

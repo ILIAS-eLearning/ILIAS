@@ -23,9 +23,9 @@ declare(strict_types=1);
  */
 class ilStudyProgrammeMembershipSourceReaderFactory
 {
-    protected Pimple\Container $dic;
+    protected ILIAS\DI\Container $dic;
 
-    public function __construct(Pimple\Container $dic)
+    public function __construct(ILIAS\DI\Container $dic)
     {
         $this->dic = $dic;
     }
