@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Import;
 
 /**
- * Persists the import stage index and context across HTTP requests using `\ilSession`. Each instance is scoped by a
+ * Persists the import stage index and session across HTTP requests using `\ilSession`. Each instance is scoped by a
  * namespace string so that multiple concurrent import workflows do not interfere with each other.
  */
 class ImportSessionRepository
@@ -49,23 +49,23 @@ class ImportSessionRepository
         \ilSession::set($this->key_index, $index);
     }
 
-    public function getContext(): ImportContext
+    public function getSession(): ImportSession
     {
         if (!\ilSession::has($this->key_context)) {
-            return new ImportContext();
+            return new ImportSession();
         }
 
         $payload = \ilSession::get($this->key_context);
         if (!is_string($payload)) {
-            return new ImportContext();
+            return new ImportSession();
         }
 
-        return ImportContext::fromJson($payload);
+        return ImportSession::fromJson($payload);
     }
 
-    public function setContext(ImportContext $context): void
+    public function setSession(ImportSession $session): void
     {
-        \ilSession::set($this->key_context, $context->toJson());
+        \ilSession::set($this->key_context, $session->toJson());
     }
 
     public function clear(): void

@@ -54,11 +54,11 @@ class ilTestQuestionPoolLegacyImporter extends ilXmlImporter
 
         $a_mapping->addMapping('components/ILIAS/TestQuestionPool', 'qpl', $a_id, (string) $this->pool_obj->getId());
 
-        $context = $this->session->getContext();
-        $context = $context->withPoolObjId($this->pool_obj->getId());
-        $this->session->setContext($context);
+        $session = $this->session->getSession();
+        $session = $session->withPoolObjId($this->pool_obj->getId());
+        $this->session->setSession($session);
 
-        $qpl_parser = new ilObjQuestionPoolXMLParser($this->pool_obj, $context->legacyXmlFile());
+        $qpl_parser = new ilObjQuestionPoolXMLParser($this->pool_obj, $session->legacyXmlFile());
         $qpl_parser->startParsing();
 
         // set another question pool name (if possible)
@@ -71,19 +71,19 @@ class ilTestQuestionPoolLegacyImporter extends ilXmlImporter
         $this->pool_obj->saveToDb();
 
         $qti_parser = new ilQTIParser(
-            $context->importBaseDir(),
-            $context->legacyQtiFile(),
+            $session->importBaseDir(),
+            $session->legacyQtiFile(),
             ilQTIParser::IL_MO_PARSE_QTI,
             $this->pool_obj->getId(),
-            $context->selectedQuestionIds()
+            $session->selectedQuestionIds()
         );
         $qti_parser->startParsing();
 
         $page_parser = new ilQuestionPageParser(
-            $this->pool_obj, 
-            $context->legacyXmlFile(), 
-            $context->importBaseDir()
-            );
+            $this->pool_obj,
+            $session->legacyXmlFile(),
+            $session->importBaseDir()
+        );
         $page_parser->setQuestionMapping($qti_parser->getImportMapping());
         $page_parser->startParsing();
 
@@ -113,7 +113,7 @@ class ilTestQuestionPoolLegacyImporter extends ilXmlImporter
             );
         }
 
-        $this->importQuestionSkillAssignments($context->legacyXmlFile(), $a_mapping, $this->pool_obj->getId());
+        $this->importQuestionSkillAssignments($session->legacyXmlFile(), $a_mapping, $this->pool_obj->getId());
 
         $a_mapping->addMapping(
             'components/ILIAS/MetaData',

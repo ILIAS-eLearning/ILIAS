@@ -53,7 +53,7 @@ use ILIAS\Test\Questions\Properties\Repository as TestQuestionsRepository;
 use ILIAS\Test\Questions\Properties\DatabaseRepository as TestQuestionsDatabaseRepository;
 use ILIAS\Test\Results\Data\Factory as ResultsDataFactory;
 use ILIAS\Test\Results\Presentation\Factory as ResultsPresentationFactory;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\StateHolder;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\ExportContextHolder;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportSessionRepository;
 use ILIAS\TestQuestionPool\ExportImport\Import\QuestionsImporter;
 use ILIAS\TestQuestionPool\ExportImport\Import\SkillAssignmentsImporter;
@@ -244,8 +244,8 @@ class TestDIC extends ServiceContainer
         $dic['exportimport.logging'] = static fn($c): LoggingProvider =>
             new LoggingProvider();
 
-        $dic['exportimport.state_holder'] = static fn($c): StateHolder =>
-            new StateHolder();
+        $dic['exportimport.export_context_holder'] = static fn($c): ExportContextHolder =>
+            new ExportContextHolder();
 
         $dic['exportimport.session'] = static fn($c): ImportSessionRepository =>
             new ImportSessionRepository('tst');

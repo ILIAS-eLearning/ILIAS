@@ -69,9 +69,9 @@ use ILIAS\Test\Settings\Templates\PersonalSettingsTableExportAction;
 use ILIAS\Test\Settings\Templates\PersonalSettingsTableShowAction;
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\Utilities\TitleColumnsBuilder;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportContext;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportSession;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportSessionRepository;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportStageRunner;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportWizard;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\StageResultType;
 use ILIAS\TestQuestionPool\ExportImport\Import\CleanupStage;
 use ILIAS\TestQuestionPool\ExportImport\Import\DetectLegacyImportStage;
@@ -1394,8 +1394,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     {
         $this->import_session_repository->clear();
 
-        $context = (new ImportContext())->withFileToImport($file_to_import);
-        $this->import_session_repository->setContext($context);
+        $session = (new ImportSession())->withFileToImport($file_to_import);
+        $this->import_session_repository->setSession($session);
         $this->import_session_repository->setCurrentStageIndex(0);
 
         $this->ctrl->redirectByClass(self::class, 'processImport');
@@ -1408,20 +1408,16 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             return;
         }
 
-        $result = $this->buildImportStageRunner()->run();
+        $result = $this->buildImportWizard()->run();
 
         switch ($result->type) {
-            case StageResultType::INTERACT:
+            case StageResultType::RequiresUserInteraction:
                 $this->tpl->setContent(
                     $this->ui_renderer->render($result->components)
                 );
                 break;
 
-            case StageResultType::ADVANCE:
-                $this->ctrl->redirectByClass(self::class, 'processImport');
-                break;
-
-            case StageResultType::ERROR:
+            case StageResultType::Error:
                 $this->tpl->setOnScreenMessage(
                     GlobalTemplate::MESSAGE_TYPE_FAILURE,
                     $result->error_message,
@@ -1429,17 +1425,17 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 );
                 break;
 
-            case StageResultType::COMPLETE:
-                $this->afterImportCompleted($result->context);
+            case StageResultType::CompletedSuccessfully:
+                $this->afterImportCompleted($result->session);
                 break;
         }
     }
 
-    private function afterImportCompleted(ImportContext $context): void
+    private function afterImportCompleted(ImportSession $session): void
     {
         $new_obj = new ilObjTest(0, false);
-        $new_obj->setId($context->testObjId() ?? 0);
-        $new_obj->setRefId($context->testRefId() ?? 0);
+        $new_obj->setId($session->testObjId() ?? 0);
+        $new_obj->setRefId($session->testRefId() ?? 0);
 
         if ($new_obj->getTestLogger()->isLoggingEnabled()) {
             $new_obj->getTestLogger()->logTestAdministrationInteraction(
@@ -1470,9 +1466,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->ctrl->redirectByClass(self::class, self::SHOW_QUESTIONS_CMD);
     }
 
-    private function buildImportStageRunner(): ImportStageRunner
+    private function buildImportWizard(): ImportWizard
     {
-        return new ImportStageRunner(
+        return new ImportWizard(
             [
                 new UploadValidationStage(
                     $this->archives,

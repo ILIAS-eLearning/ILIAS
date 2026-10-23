@@ -22,7 +22,7 @@ namespace ILIAS\Test\ExportImport\Import;
 
 use ILIAS\Language\Language;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportStage;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportContext;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportSession;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportSessionRepository;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\StageResult;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Serialize\XmlDeserializer;
@@ -58,10 +58,10 @@ class PersistStage implements ImportStage
         return '';
     }
 
-    public function process(ImportContext $context): StageResult
+    public function process(ImportSession $session): StageResult
     {
-        if (!$context->isLegacyImport()) {
-            $result = $this->importMappingsFile($context);
+        if (!$session->isLegacyImport()) {
+            $result = $this->importMappingsFile($session);
             if ($result !== null) {
                 return $result;
             }
@@ -69,42 +69,42 @@ class PersistStage implements ImportStage
 
         (new \ilImport($this->requested_ref_id))->importObject(
             null,
-            $context->fileToImport(),
-            basename($context->fileToImport()),
+            $session->fileToImport(),
+            basename($session->fileToImport()),
             'tst',
             'components/ILIAS/Test',
             true,
         );
 
         // Context is updated by the TestImporter so we need to reload it
-        return StageResult::complete($this->session->getContext());
+        return StageResult::completedSuccessfully($this->session->getSession());
     }
 
-    private function importMappingsFile(ImportContext $context): ?StageResult
+    private function importMappingsFile(ImportSession $session): ?StageResult
     {
-        $component_import_dir = dirname($context->componentImportFile());
+        $component_import_dir = dirname($session->componentImportFile());
         $mappings_file = "{$component_import_dir}/mappings.xml";
         if (!is_file($mappings_file)) {
             $this->log->error("Mappings file not found: {$mappings_file}");
-            return StageResult::error($context, $this->lng->txt('obj_import_file_error'));
+            return StageResult::error($session, $this->lng->txt('obj_import_file_error'));
         }
 
         $deserializer = XmlDeserializer::fromFile($mappings_file);
-        $deserializer->addHandler('mappings', function (array $mappings) use (&$context): void {
+        $deserializer->addHandler('mappings', function (array $mappings) use (&$session): void {
             $user_mappings = $mappings[0] ?? null;
             $resource_mappings = $mappings[1] ?? [];
             if (!is_array($user_mappings) || !is_array($resource_mappings)) {
                 return;
             }
 
-            $context = $context
+            $session = $session
                 ->withUserMappings($user_mappings)
                 ->withResourceMappings($resource_mappings);
         });
 
         $deserializer->process();
 
-        $this->session->setContext($context);
+        $this->session->setSession($session);
         return null;
     }
 }

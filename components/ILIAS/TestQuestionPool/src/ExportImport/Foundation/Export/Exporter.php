@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Export;
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\ExportState;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\ExportContext;
 
 /**
  * An Exporter is responsible for orchestrating the export process. It prepares the dependencies, collects the data to
@@ -36,7 +36,7 @@ interface Exporter
      *  - Config
      *  - Logger
      */
-    public function prepare(ExportState $state): void;
+    public function prepare(ExportContext $context): void;
 
     /**
      * Processes the export by collecting the data to export, transforming the data and writing the data to the
@@ -48,7 +48,7 @@ interface Exporter
      *  - Logger
      *  - Serializer
      */
-    public function process(ExportState $state): void;
+    public function process(ExportContext $context): void;
 
     /**
      * Finalizes the export by persisting additional data (which cannot be provided by the serializer) to the file
@@ -62,5 +62,5 @@ interface Exporter
      *  - Writer
      *  - Path
      */
-    public function write(ExportState $state): void;
+    public function write(ExportContext $context): void;
 }

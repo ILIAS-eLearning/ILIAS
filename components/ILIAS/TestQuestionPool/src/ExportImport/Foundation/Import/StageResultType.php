@@ -20,28 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Import;
 
-/**
- * Represents the type of result of a single import stage.
- */
 enum StageResultType
 {
-    /**
-     * The stage has encountered an error and the workflow should display an error message.
-     */
-    case ERROR;
-
-    /**
-     * The stage has returned UI components to be rendered.
-     */
-    case INTERACT;
-
-    /**
-     * The stage has completed successfully and the workflow should advance to the next stage.
-     */
-    case ADVANCE;
-
-    /**
-     * The stage has completed successfully and the workflow should complete.
-     */
-    case COMPLETE;
+    case Error;
+    case RequiresUserInteraction;
+    case CompletedSuccessfully;
 }

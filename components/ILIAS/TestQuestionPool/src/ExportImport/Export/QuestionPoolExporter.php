@@ -24,8 +24,8 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\ObjectId;
 use ILIAS\Data\UUID\Factory as UUIDFactory;
 use ILIAS\Taxonomy\DomainService as Taxonomy;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\ExportStep;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\ExportState;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\ExportPhase;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\ExportContext;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\Exporter;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Serialize\Serializer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
@@ -50,15 +50,15 @@ class QuestionPoolExporter implements Exporter
     /**
      * Prepares the export transformations and question image collector.
      */
-    public function prepare(ExportState $state): void
+    public function prepare(ExportContext $context): void
     {
-        $state->logger()->info('Preparing question pool export (1/3)...');
-        $state->assertStep(ExportStep::INIT);
-        $state->setStep(ExportStep::PREPARE);
+        $context->logger()->info('Preparing question pool export (1/3)...');
+        $context->assertPhase(ExportPhase::Init);
+        $context->setPhase(ExportPhase::Prepare);
 
-        $pool_id = $this->extractObjectId($state);
+        $pool_id = $this->extractObjectId($context);
         if ($pool_id === null) {
-            $state->logger()->warning('No question pool object ID found for export');
+            $context->logger()->warning('No question pool object ID found for export');
             return;
         }
 
@@ -67,94 +67,94 @@ class QuestionPoolExporter implements Exporter
             $this->db,
             $pool_id
         );
-        $state->setCollector($collector);
+        $context->setCollector($collector);
 
         $question_image_collector = new CollectQuestionImages(new UUIDFactory(), $pool_id);
 
         $transformations = $this->builder->forExport($question_image_collector);
-        $state->setTransformations($transformations);
+        $context->setTransformations($transformations);
 
-        $state->logger()->info('...Finished preparing question pool export (1/3)');
+        $context->logger()->info('...Finished preparing question pool export (1/3)');
     }
 
     /**
      * Normalizes the question pool object and its questions and writes them to the serializer. It also collects the
      * dependencies of the export.
      */
-    public function process(ExportState $state): void
+    public function process(ExportContext $context): void
     {
-        $state->logger()->info('Processing question pool export (2/3)...');
-        $state->assertStep(ExportStep::PREPARE);
-        $state->setStep(ExportStep::PROCESS);
+        $context->logger()->info('Processing question pool export (2/3)...');
+        $context->assertPhase(ExportPhase::Prepare);
+        $context->setPhase(ExportPhase::Process);
 
-        $state->serializer()->group(
+        $context->serializer()->group(
             'general',
             fn() => $this->exportObject(
-                $this->collector($state),
-                $state->transformations(),
-                $state->serializer(),
-                $state
+                $this->collector($context),
+                $context->transformations(),
+                $context->serializer(),
+                $context
             )
         );
-        $state->serializer()->group(
+        $context->serializer()->group(
             'questions',
             fn() => $this->exportQuestions(
-                $this->collector($state),
-                $state->transformations(),
-                $state->serializer(),
-                $state
+                $this->collector($context),
+                $context->transformations(),
+                $context->serializer(),
+                $context
             )
         );
-        $state->serializer()->group(
+        $context->serializer()->group(
             'skill_assignments',
             fn() => $this->exportSkillAssignments(
-                $this->collector($state),
-                $state->transformations(),
-                $state->serializer(),
+                $this->collector($context),
+                $context->transformations(),
+                $context->serializer(),
             )
         );
 
-        $state->logger()->info('...Finished processing question pool export (2/3)');
+        $context->logger()->info('...Finished processing question pool export (2/3)');
     }
 
     /**
      * Finalizes the export by copying the question images to the export directory and returning the export context.
      */
-    public function write(ExportState $state): void
+    public function write(ExportContext $context): void
     {
-        $state->logger()->info('Writing question pool export (3/3)...');
-        $state->assertStep(ExportStep::PROCESS);
-        $state->setStep(ExportStep::WRITE);
+        $context->logger()->info('Writing question pool export (3/3)...');
+        $context->assertPhase(ExportPhase::Process);
+        $context->setPhase(ExportPhase::Write);
 
-        $export_dir = $state->path()->getPathToComponentExpDirInContainer();
-        $question_image_collector = $state->transformations()
+        $export_dir = $context->path()->getPathToComponentExpDirInContainer();
+        $question_image_collector = $context->transformations()
             ->normalizationProcessor(CollectQuestionImages::class);
         if (!($question_image_collector instanceof CollectQuestionImages)) {
             throw new \LogicException('Unexpected question image processor');
         }
 
         foreach ($question_image_collector->getFiles() as $file) {
-            $state->writer()->writeFileByFilePath(
+            $context->writer()->writeFileByFilePath(
                 $file['from'],
                 "{$export_dir}/" . $file['to']
             );
         }
 
-        $state->logger()->info('...Finished writing question pool export (3/3)');
+        $context->logger()->info('...Finished writing question pool export (3/3)');
     }
 
 
-    private function extractObjectId(ExportState $state): ?ObjectId
+    private function extractObjectId(ExportContext $context): ?ObjectId
     {
-        $target_ids = $state->target()->getObjectIds();
+        $target_ids = $context->target()->getObjectIds();
 
         if ($target_ids === []) {
-            $state->logger()->warning('No target object IDs found for question pool export');
+            $context->logger()->warning('No target object IDs found for question pool export');
             return null;
         }
 
         if (count($target_ids) > 1) {
-            $state->logger()->warning(
+            $context->logger()->warning(
                 'Multiple target object IDs found for question pool export. Only the first one will be used.'
             );
         }
@@ -162,9 +162,9 @@ class QuestionPoolExporter implements Exporter
         return $this->data_factory->objId(array_shift($target_ids));
     }
 
-    private function collector(ExportState $state): QuestionPoolCollector
+    private function collector(ExportContext $context): QuestionPoolCollector
     {
-        $collector = $state->collector();
+        $collector = $context->collector();
         if (!($collector instanceof QuestionPoolCollector)) {
             throw new \LogicException('Unexpected question pool collector');
         }
@@ -176,15 +176,15 @@ class QuestionPoolExporter implements Exporter
         QuestionPoolCollector $collector,
         Transformations $transformations,
         Serializer $serializer,
-        ExportState $state
+        ExportContext $context
     ): void {
         $serializer->append('object', $transformations->normalize($collector->getObject()));
 
         $obj_id = $collector->getObjectId()->toInt();
 
-        $state->addDependency('components/ILIAS/ILIASObject', 'common', [$obj_id]);
-        $state->addDependency('components/ILIAS/MetaData', 'qpl', ["{$obj_id}:0:qpl"]);
-        $state->addDependency(
+        $context->addDependency('components/ILIAS/ILIASObject', 'common', [$obj_id]);
+        $context->addDependency('components/ILIAS/MetaData', 'qpl', ["{$obj_id}:0:qpl"]);
+        $context->addDependency(
             'components/ILIAS/Taxonomy',
             'tax',
             $this->taxonomy->getUsageOfObject($obj_id)
@@ -195,7 +195,7 @@ class QuestionPoolExporter implements Exporter
         QuestionPoolCollector $collector,
         Transformations $transformations,
         Serializer $serializer,
-        ExportState $state
+        ExportContext $context
     ): void {
         foreach ($collector->getQuestionObjects() as $question) {
             $normalized = [
@@ -210,7 +210,7 @@ class QuestionPoolExporter implements Exporter
             }
 
             $serializer->append('question', $normalized);
-            $state->addDependency('components/ILIAS/COPage', 'pg', ["qpl:{$question->getId()}"]);
+            $context->addDependency('components/ILIAS/COPage', 'pg', ["qpl:{$question->getId()}"]);
         }
     }
 

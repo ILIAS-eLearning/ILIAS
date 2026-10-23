@@ -26,9 +26,9 @@ use ILIAS\Skill\Service\SkillUsageService;
 use ILIAS\Style\Content\Service as ContentStyle;
 use ILIAS\Taxonomy\Service;
 use ILIAS\Test\Settings\GlobalSettings\GlobalTestSettings;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportContext;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportSession;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportSessionRepository;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportStageRunner;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportWizard;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\StageResult;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\StageResultType;
 use ILIAS\TestQuestionPool\ExportImport\Import\CleanupStage;
@@ -1120,8 +1120,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     {
         $this->import_session_repository->clear();
 
-        $context = (new ImportContext())->withFileToImport($file_to_import);
-        $this->import_session_repository->setContext($context);
+        $session = (new ImportSession())->withFileToImport($file_to_import);
+        $this->import_session_repository->setSession($session);
         $this->import_session_repository->setCurrentStageIndex(0);
 
         $this->ctrl->redirectByClass(self::class, 'processImport');
@@ -1135,22 +1135,20 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             return;
         }
 
-        $runner = $this->buildImportStageRunner();
-        $result = $runner->run();
+        $result = $this->buildImportWizard()->run();
 
         match ($result->type) {
-            StageResultType::INTERACT => $this->renderImportStage($runner, $result),
-            StageResultType::ADVANCE => $this->ctrl->redirectByClass(self::class, 'processImport'),
-            StageResultType::ERROR => $this->renderImportError($result),
-            StageResultType::COMPLETE => $this->renderImportSuccess($result),
+            StageResultType::RequiresUserInteraction => $this->renderImportStage($result),
+            StageResultType::Error => $this->renderImportError($result),
+            StageResultType::CompletedSuccessfully => $this->renderImportSuccess($result),
         };
     }
 
-    private function buildImportStageRunner(): ImportStageRunner
+    private function buildImportWizard(): ImportWizard
     {
         $form_action = $this->ctrl->getFormActionByClass(self::class, 'processImport');
 
-        return new ImportStageRunner(
+        return new ImportWizard(
             [
                 new UploadValidationStage(
                     $this->archives,
@@ -1179,11 +1177,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         );
     }
 
-    private function renderImportStage(ImportStageRunner $runner, StageResult $result): void
+    private function renderImportStage(StageResult $result): void
     {
-        $workflow = $runner->buildWorkflow($this->ui_factory, $this->lng->txt('import'));
         $this->tpl->setContent(
-            $this->ui_renderer->render([$workflow, ...$result->components])
+            $this->ui_renderer->render($result->components)
         );
     }
 
@@ -1198,7 +1195,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
     private function renderImportSuccess(StageResult $result): void
     {
-        $pool_obj_id = $this->data_factory->objId($result->context->poolObjId());
+        $pool_obj_id = $this->data_factory->objId($result->session->poolObjId());
         $pool_ref_id = $pool_obj_id->toReferenceIds()[0]->toInt();
 
         $this->tpl->setOnScreenMessage(

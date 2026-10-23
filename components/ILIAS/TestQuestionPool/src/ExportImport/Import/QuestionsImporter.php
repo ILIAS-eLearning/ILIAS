@@ -29,7 +29,7 @@ use ILIAS\Filesystem\Util\Convert\Images;
 use ILIAS\Language\Language;
 use ILIAS\TestQuestionPool\ExportImport\Normalize\Envelopes\QuestionImage;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportContext;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportSession;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Envelopes\Id;
 use ILIAS\TestQuestionPool\ExportImport\Normalize\Envelopes\Feedback;
 use TestQuestionPool\ExportImport\Normalize\Processors\CollectQuestionImages;
@@ -95,10 +95,10 @@ class QuestionsImporter
     public function importQuestionImages(
         int $parent_obj_id,
         \ilImportMapping $mapping,
-        ImportContext $context,
+        ImportSession $session,
         CollectQuestionImages $collector,
     ): void {
-        $import_dir = dirname($context->componentImportFile()) . '/expDir_1';
+        $import_dir = dirname($session->componentImportFile()) . '/expDir_1';
 
         foreach ($collector->getEnvelopes() as $filename => $envelope) {
             $source_path = $import_dir . DIRECTORY_SEPARATOR . $filename;

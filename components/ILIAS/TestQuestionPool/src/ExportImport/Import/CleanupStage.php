@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\TestQuestionPool\ExportImport\Import;
 
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportStage;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportContext;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportSession;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\StageResult;
 use Psr\Log\LoggerInterface;
 
@@ -50,10 +50,10 @@ class CleanupStage implements ImportStage
         return null;
     }
 
-    public function process(ImportContext $context): StageResult
+    public function process(ImportSession $session): StageResult
     {
-        if ($context->hasFileToImport()) {
-            $temp_dir = dirname($context->fileToImport());
+        if ($session->hasFileToImport()) {
+            $temp_dir = dirname($session->fileToImport());
             if ($temp_dir !== '' && file_exists($temp_dir) && is_dir($temp_dir)) {
                 $this->removeDirectory($temp_dir);
             } else {
@@ -61,13 +61,13 @@ class CleanupStage implements ImportStage
             }
         }
 
-        if ($context->hasImportBaseDir() && is_dir($context->importBaseDir())) {
-            $this->removeDirectory($context->importBaseDir());
+        if ($session->hasImportBaseDir() && is_dir($session->importBaseDir())) {
+            $this->removeDirectory($session->importBaseDir());
         } else {
-            $this->log->warning("Import target base directory does not exist: {$context->importBaseDir()}");
+            $this->log->warning("Import target base directory does not exist: {$session->importBaseDir()}");
         }
 
-        return StageResult::complete($context);
+        return StageResult::completedSuccessfully($session);
     }
 
     private function removeDirectory(string $path): void

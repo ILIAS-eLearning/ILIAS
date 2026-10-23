@@ -27,12 +27,12 @@ use ILIAS\DI\Container;
 use ILIAS\Language\Language;
 use ILIAS\Test\ExportImport\Types;
 use ILIAS\Test\TestDIC;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\StateHolder;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\ExportContextHolder;
 
 class XMLWithResultsOption extends BasicLegacyExportOption
 {
     private readonly Language $lng;
-    private readonly StateHolder $state_holder;
+    private readonly ExportContextHolder $context_holder;
 
     public function init(
         Container $DIC
@@ -40,7 +40,7 @@ class XMLWithResultsOption extends BasicLegacyExportOption
         parent::init($DIC);
 
         $this->lng = $DIC->language();
-        $this->state_holder = TestDIC::dic()['exportimport.state_holder'];
+        $this->context_holder = TestDIC::dic()['exportimport.export_context_holder'];
     }
 
     public function getExportType(): string
@@ -77,8 +77,8 @@ class XMLWithResultsOption extends BasicLegacyExportOption
             $handler->consumer()->exportConfig()->allExportConfigs()
         );
 
-        // Prepare export state to bridge between export option and the xml exporter
-        $this->state_holder->create(
+        // Prepare export context to bridge between export option and the xml exporter
+        $this->context_holder->create(
             $export_info->getTarget(),
             $handler->consumer()->exportConfig()->allExportConfigs(),
             Types::XML_WITH_RESULTS->value

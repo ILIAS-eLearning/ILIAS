@@ -20,10 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Export;
 
-enum ExportStep: int
+enum ExportPhase: int
 {
-    case INIT = 1;
-    case PREPARE = 2;
-    case PROCESS = 3;
-    case WRITE = 4;
+    case Init = 1;
+    case Prepare = 2;
+    case Process = 3;
+    case Write = 4;
 }

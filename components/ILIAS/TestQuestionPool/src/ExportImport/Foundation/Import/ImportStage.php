@@ -20,12 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Import;
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportContext;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportSession;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\StageResult;
 
 /**
- * A single step in a multi-stage import workflow. Each stage is called by the ImportStageRunner and returns a
- * StageResult that determines the next action (render UI, advance, report error, or complete).
+ * One step of an import wizard. The wizard calls the stage and continues, stops for the UI, or reports an error
+ * based on the returned StageResult.
  */
 interface ImportStage
 {
@@ -47,9 +47,8 @@ interface ImportStage
     public function getDescription(): ?string;
 
     /**
-     * Process the current stage. On the first invocation the stage should return `StageResult::interact()` with the UI
-     * components to display. On form submission it should validate the input and return `StageResult::advance()` or
-     * `StageResult::error()`.
+     * Process the current stage. A stage that needs input returns `StageResult::requiresUserInteraction()`. A finished
+     * stage returns `StageResult::completedSuccessfully()`. A failed stage returns `StageResult::error()`.
      */
-    public function process(ImportContext $context): StageResult;
+    public function process(ImportSession $session): StageResult;
 }
