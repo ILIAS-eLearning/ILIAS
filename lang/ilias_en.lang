@@ -8699,6 +8699,7 @@ dcl#:#dcl_detailed_view#:#Detailed View
 dcl#:#dcl_display_action_menu#:#Copy
 dcl#:#dcl_display_action_menu_desc#:#The object can be copied from the entry.
 dcl#:#dcl_display_record_alt#:#Display this entry
+dcl#:#dcl_download_import_template#:#Download Import Template
 dcl#:#dcl_duplicate_non_unique_entries_exist#:#Some of the existing values for this field are identical. Please make sure that all existing entries are unique in order to change this setting.
 dcl#:#dcl_edit#:#Settings for This Data Collection
 dcl#:#dcl_edit_entry_rules#:#Entry Editing
@@ -8737,6 +8738,7 @@ dcl#:#dcl_ilias_reference_link#:#Link to Selected Object
 dcl#:#dcl_import_enabled#:#Import Data Into Table
 dcl#:#dcl_import_enabled_desc#:#Data can be imported into the table via an Excel file.
 dcl#:#dcl_import_records .xls#:#Excel Import
+dcl#:#dcl_import_template_no_fields#:#Create fields with titles for this table before you can download an import template.
 dcl#:#dcl_import_terminated#:#Import completed. Entries added
 dcl#:#dcl_in_export#:#Exportable
 dcl#:#dcl_invalid_regex_config#:#The regular expression configured for this field is invalid. Check the settings of the field to solve the problem.
@@ -8837,7 +8839,7 @@ dcl#:#dcl_selection_type_combobox#:#Single selection from drop-down menu
 dcl#:#dcl_selection_type_multi#:#Multiple selections from list
 dcl#:#dcl_selection_type_single#:#Single selection from list
 dcl#:#dcl_simulate_import#:#Simulate Import
-dcl#:#dcl_simulate_info#:#Simulating the import will not make any entries into the data collection, but rather give you feedback regarding any problems with the import file, thus helping you to avoid corrupted entries.
+dcl#:#dcl_simulate_import_info#:#Simulating the import will not make any entries into the data collection, but rather give you feedback regarding any problems with the import file, thus helping you to avoid corrupted entries.
 dcl#:#dcl_skipped_delete_records#:#%s Entries were not deleted due to permission settings.
 dcl#:#dcl_status#:#Your Status
 dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.
