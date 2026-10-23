@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\UUID\Factory as UuidFactory;
+use ILIAS\Data\UUID\Uuid;
+
 /**
  * Class ilCmiXapiUser
  *
@@ -123,7 +126,6 @@ class ilCmiXapiUser
         $setting = new ilSetting('cmix');
         // Fallback
         if (null == $setting->get('ilias_uuid', null)) {
-            // $uuid = (new \Ramsey\Uuid\UuidFactory())->uuid4()->toString();
             $uuid = self::getUUID(32);
             $setting->set('ilias_uuid', $uuid);
         }
@@ -583,24 +585,24 @@ class ilCmiXapiUser
         return $result->numRows() != 0;
     }
 
-    public static function generateCMI5Registration(int $objId, int $usrId): \Ramsey\Uuid\UuidInterface
+    public static function generateCMI5Registration(int $objId, int $usrId): Uuid
     {
-        return (new \Ramsey\Uuid\UuidFactory())->uuid3(self::getIliasUuid(), $objId . '-' . $usrId);
+        return (new UuidFactory())->uuid3(self::getIliasUuid(), $objId . '-' . $usrId);
     }
 
-    public static function generateRegistration(ilObjCmiXapi $obj, ilObjUser $user): \Ramsey\Uuid\UuidInterface
+    public static function generateRegistration(ilObjCmiXapi $obj, ilObjUser $user): Uuid
     {
-        return (new \Ramsey\Uuid\UuidFactory())->uuid3(self::getIliasUuid(), $obj->getRefId() . '-' . $user->getId());
+        return (new UuidFactory())->uuid3(self::getIliasUuid(), $obj->getRefId() . '-' . $user->getId());
     }
 
-    public static function getCMI5RegistrationFromAuthToken(ilCmiXapiAuthToken $authToken): \Ramsey\Uuid\UuidInterface
+    public static function getCMI5RegistrationFromAuthToken(ilCmiXapiAuthToken $authToken): Uuid
     {
-        return (new \Ramsey\Uuid\UuidFactory())->uuid3(self::getIliasUuid(), $authToken->getObjId() . '-' . $authToken->getUsrId());
+        return (new UuidFactory())->uuid3(self::getIliasUuid(), $authToken->getObjId() . '-' . $authToken->getUsrId());
     }
 
-    public static function getRegistrationFromAuthToken(ilCmiXapiAuthToken $authToken): \Ramsey\Uuid\UuidInterface
+    public static function getRegistrationFromAuthToken(ilCmiXapiAuthToken $authToken): Uuid
     {
-        return (new \Ramsey\Uuid\UuidFactory())->uuid3(self::getIliasUuid(), $authToken->getRefId() . '-' . $authToken->getUsrId());
+        return (new UuidFactory())->uuid3(self::getIliasUuid(), $authToken->getRefId() . '-' . $authToken->getUsrId());
     }
 
     public static function getUsrIdForObjectAndUsrIdent(int $objId, string $userIdent): ?int
