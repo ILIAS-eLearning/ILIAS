@@ -57,7 +57,7 @@ class SequenceTest extends ILIAS_UI_TestBase
 
         $this->request = $this->createMock(ServerRequestInterface::class);
         $this->request->method("getUri")
-            ->willReturn(new \GuzzleHttp\Psr7\Uri('http://localhost:80/doil'));
+            ->willReturn((new \ILIAS\HTTP\Message\MessageFactoryImpl())->uri('http://localhost:80/doil'));
 
         parent::setUp();
     }

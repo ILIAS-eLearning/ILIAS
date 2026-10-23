@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Tests\FileDelivery\Delivery;
 
-use GuzzleHttp\Psr7\Response;
+use ILIAS\HTTP\Message\MessageFactoryImpl;
 use ILIAS\FileDelivery\Delivery\LegacyDelivery;
 use ILIAS\FileDelivery\Delivery\ResponseBuilder\ResponseBuilder;
 use ILIAS\FileDelivery\Isolation\IsolationConfig;
@@ -65,7 +65,7 @@ final class LegacyDeliveryIsolationTest extends TestCase
 
         $http = $this->createStub(HttpServices::class);
         $http->method('request')->willReturn($request);
-        $http->method('response')->willReturn(new Response());
+        $http->method('response')->willReturn((new MessageFactoryImpl())->response());
         $http->method('saveResponse')->willReturnCallback(
             function (ResponseInterface $r): void {
                 $this->saved = $r;

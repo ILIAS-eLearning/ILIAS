@@ -20,16 +20,17 @@ declare(strict_types=1);
 
 namespace XapiProxy;
 
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Uri;
 use ILIAS\DI\Container;
-use GuzzleHttp\Psr7\Response;
+use ILIAS\HTTP\Message\MessageFactory;
+use Psr\Http\Message\ResponseInterface;
 
 class XapiProxyRequest
 {
     private Container $dic;
 
     private XapiProxy $xapiproxy;
+
+    private MessageFactory $messages;
 
     private XapiProxyResponse $xapiProxyResponse;
 
@@ -40,6 +41,7 @@ class XapiProxyRequest
     {
         $this->dic = $GLOBALS['DIC'];
         $this->xapiproxy = $xapiproxy;
+        $this->messages = $this->dic->http()->messages();
         $this->cmdPart2plus = "";
     }
 
@@ -178,7 +180,7 @@ class XapiProxyRequest
             }
             try {
                 $body = $this->xapiproxy->modifyBody($body);
-                $req = new Request($request->getMethod(), $request->getUri(), $request->getHeaders(), $body);
+                $req = $this->messages->request($request->getMethod(), $request->getUri(), $request->getHeaders(), $body);
                 $this->handleProxy($req, $fakePostBody);
             } catch (\Exception $e) {
                 $this->xapiproxy->log()->error($this->msg($e->getMessage()));
@@ -281,7 +283,7 @@ class XapiProxyRequest
         }
     }
 
-    private function sendCurlRequest(string $url, string $authHeader, \Psr\Http\Message\RequestInterface $request, string $body = ''): \GuzzleHttp\Psr7\Response
+    private function sendCurlRequest(string $url, string $authHeader, \Psr\Http\Message\RequestInterface $request, string $body = ''): ResponseInterface
     {
         $method = strtoupper($request->getMethod());
         $ch = curl_init($url);
@@ -386,50 +388,6 @@ class XapiProxyRequest
 
 
 
-        return new \GuzzleHttp\Psr7\Response($statusCode, $headers, $rawBody);
+        return $this->messages->response($statusCode, $headers, $rawBody);
     }
-
-//    private function createProxyRequest(\Psr\Http\Message\RequestInterface $request, \GuzzleHttp\Psr7\Uri $uri, string $auth, string $body): \GuzzleHttp\Psr7\Request
-//    {
-//        $headers = array(
-//            'Cache-Control' => 'no-cache, no-store, must-revalidate',
-//            'Authorization' => $auth
-//        );
-//
-//        if ($request->hasHeader('X-Experience-API-Version')) {
-//            $headers['X-Experience-API-Version'] = $request->getHeader('X-Experience-API-Version');
-//        }
-//
-//        if ($request->hasHeader('Referrer')) {
-//            $headers['Referrer'] = $request->getHeader('Referrer');
-//        }
-//
-//        if ($request->hasHeader('Content-Type')) {
-//            $headers['Content-Type'] = $request->getHeader('Content-Type');
-//        }
-//
-//        if ($request->hasHeader('Origin')) {
-//            $headers['Origin'] = $request->getHeader('Origin');
-//        }
-//
-//        if ($request->hasHeader('Content-Length')) {
-//            $contentLength = $request->getHeader('Content-Length');
-//            if (is_array($contentLength) && $contentLength[0] === '') {
-//                $contentLength = array(0);
-//            } elseif ($contentLength === '') {
-//                $contentLength = array(0);
-//            }
-//            $headers['Content-Length'] = $contentLength;
-//        }
-//
-//        if ($request->hasHeader('Connection')) {
-//            $headers['Connection'] = $request->getHeader('Connection');
-//        }
-//
-//        //$this->xapiproxy->log()->debug($this->msg($body));
-//
-//        $req = new Request(strtoupper($request->getMethod()), $uri, $headers, $body);
-//
-//        return $req;
-//    }
 }
